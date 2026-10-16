@@ -529,7 +529,8 @@ Workspace.
   or not it uses OneAI. What needs a model (a scan, a photo, a recording) is
   read only where somebody switched OneAI on, and is charged as OneAI credits.
 - A reading that needs a model waits for credits rather than failing
-  (`Waiting for Credits`). One that failed for a passing reason is tried
+  (`Waiting for Credits`), and whoever added the file is told either way
+  (Couldn't Read). One that failed for a passing reason is tried
   again every quarter hour, five times. The same job catches up files and
   mail that were there before Intake was, forty at a time, as history.
 - `search.py` keeps a FULLTEXT index on the Reading's title and text, and

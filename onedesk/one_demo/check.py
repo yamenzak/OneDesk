@@ -7336,6 +7336,80 @@ def work_and_mail_tell_what_the_second_pass_found():
 
 
 @check
+def the_workspace_tells_what_the_second_pass_found():
+	"""An administrator taken away and the sign-in rules changed reach every
+	other administrator; a file refused for room reaches them once a day; a
+	record moved on from an approval step reaches whoever made it and whoever
+	sent it there; an agreement at a new revision reaches the administrators
+	once; automations that failed yesterday reach them in the morning."""
+	import copy
+	from unittest.mock import patch
+
+	from onedesk.one import approvals, settings, tell
+	from onedesk.one_legal import gate
+
+	told = []
+
+	def heard(name, users, **said):
+		told.append((name, [users] if isinstance(users, str) else list(users), said))
+
+	def said(name):
+		found = [one for one in told if one[0] == name]
+		assert found, (name, [one[0] for one in told])
+		return found[-1]
+
+	with patch("onedesk.one.notify.notify", side_effect=heard):
+		with as_user(OWNER):
+			settings._told_of_access(frappe.get_doc("User", "mariam@one.test"), {"Workspace Administrator"}, set())
+		assert OWNER not in said("Administrator Removed")[1]
+
+		with as_user(OWNER):
+			settings.save("general", {"allow_consecutive_login_attempts": 7})
+		assert "allow_consecutive_login_attempts" not in str(said("Sign-in Rules Changed")[2]["what"]), said("Sign-in Rules Changed")
+
+		frappe.cache.delete_value("one_storage_full_told")
+		tell.storage_full()
+		tell.storage_full()
+		assert len([one for one in told if one[0] == "Storage Full"]) == 1
+
+		task = frappe.get_doc("Task", frappe.db.get_value("Task", {"owner": "samir@one.test", "status": "Open"}))
+		before = copy.deepcopy(task)
+		before.status, task.status = "Open", "Working"
+		task._doc_before_save = before
+		frappe.get_doc({"doctype": "Workflow Action", "reference_doctype": "Task", "reference_name": task.name, "status": "Completed", "completed_by": "mariam@one.test", "workflow_state": "Working"}).insert(ignore_permissions=True)
+		frappe.db.set_value("Workflow Action", {"reference_name": task.name}, "owner", "rania@one.test")
+		with as_user("mariam@one.test"), patch("frappe.model.workflow.get_workflow_name", return_value="Task Approval"), patch("frappe.get_cached_value", return_value="status"):
+			approvals.answered(task)
+		_name, users, values = said("Approval Answered")
+		assert users == ["rania@one.test", "samir@one.test"] and str(values["state"]) == "Working", (users, values)
+
+		key = gate.keys_for(gate.WORKSPACE)[0]
+		frappe.db.set_default(f"one_legal_told_{key}", None)
+		with patch.object(gate, "_accepted", return_value="0.abc"):
+			gate.told_of_changes()
+			gate.told_of_changes()
+		assert len([one for one in told if one[0] == "Agreements Changed"]) == 1
+
+		run = frappe.get_doc({"doctype": "Automation Run", "automation_title": "Chase overdue invoices", "status": "Failed"}).insert(ignore_permissions=True, ignore_links=True, ignore_mandatory=True)
+		frappe.db.set_value("Automation Run", run.name, "creation", add_days(now_datetime(), -1))
+		tell.automations_failing()
+		assert "Chase overdue invoices (1)" in said("Automations Failing")[2]["automations"]
+
+		from onedesk.one_admin import home
+		from onedesk.one_admin import tell as admin
+
+		slow = [{"name": "PJ-X", "title": "Building Sahara is taking hours", "why": "At: Making the site"}]
+		filling = [{"title": "f1-dubai is filling up", "why": "41 of 50 workspaces", "badge": "Filling Up"}]
+		frappe.db.set_default("one_admin_filling_f1-dubai is filling up", None)
+		with patch("onedesk.one_admin.site.is_admin", return_value=True), patch.object(home, "_slow_builds", return_value=slow), patch.object(home, "_filling", return_value=filling), patch.object(admin, "operators", return_value=["wsadmin@one.test"]), patch("frappe.sendmail"):
+			admin.builds_slow()
+			admin.servers_filling()
+			admin.servers_filling()
+		assert said("Build Slow")[2]["title"] == "Building Sahara is taking hours"
+		assert len([one for one in told if one[0] == "Server Filling Up"]) == 1
+
+
+@check
 def sales_books_and_stock_tell_what_waits_on_somebody():
 	"""Layla makes Samir the owner of a lead, and Samir is told; a lead nobody
 	owns reaches sales; a quotation three days from its last day reaches

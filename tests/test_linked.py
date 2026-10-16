@@ -104,7 +104,7 @@ def test_the_linked_record_is_saved_in_the_same_save_or_not_at_all():
 	# In the record's own save, after it and before the request commits, on
 	# a draft and on a submitted record's Update alike.
 	assert '"onedesk.one.linked.save",' in HOOKS
-	assert '"on_update_after_submit": "onedesk.one.linked.save"' in HOOKS
+	assert re.search(r'"on_update_after_submit": \[?"onedesk\.one\.linked\.save"', HOOKS)
 	body = SOURCE.split("def save(", 1)[1]
 	assert 'linked.check_permission("write")' in body, "the linked record's own permission"
 	assert (

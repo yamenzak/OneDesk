@@ -664,3 +664,120 @@ class Reminder(_FrappeReminder):
 			)
 		except Exception:
 			self.log_error("Failed to send reminder")
+
+
+# ------------------------------------------------------------------ the second pass
+
+
+def administrator_removed(doc) -> None:
+	"""An administrator no more, told to every other one, and always mailed."""
+	from onedesk.one.settings import NOT_PEOPLE
+
+	admins = [
+		one for one in roles.administrators() if one not in (doc.name, frappe.session.user, *NOT_PEOPLE)
+	]
+	notify.notify(
+		"Administrator Removed",
+		admins,
+		link="/desk/workspace-settings?section=people",
+		sender="Administrator",
+		person=doc.full_name or doc.name,
+		by=frappe.utils.get_fullname(),
+	)
+
+
+def sign_in_rules_changed(said: list[str]) -> None:
+	"""Two-factor, the password policy, lockouts or sharing changed, told to
+	every other administrator, and always mailed."""
+	from onedesk.one.settings import NOT_PEOPLE
+
+	admins = [one for one in roles.administrators() if one not in (frappe.session.user, *NOT_PEOPLE)]
+	notify.notify(
+		"Sign-in Rules Changed",
+		admins,
+		link="/desk/workspace-settings?section=signing_in",
+		sender="Administrator",
+		by=frappe.utils.get_fullname(),
+		what=", ".join(said),
+	)
+
+
+def automations_failing() -> None:
+	"""Each morning: automations whose runs failed yesterday, told to the
+	administrators, as Webhooks Failing is."""
+	from collections import Counter
+
+	from frappe.utils import add_days, getdate
+
+	from onedesk.one.account import _administrators
+
+	rows = Counter(
+		frappe.get_all(
+			"Automation Run",
+			filters=[
+				["status", "in", ["Failed", "Partially Failed"]],
+				["creation", ">=", add_days(getdate(), -1)],
+				["creation", "<", getdate()],
+			],
+			pluck="automation_title",
+		)
+	)
+	people = _administrators()
+	if rows and people:
+		notify.notify(
+			"Automations Failing",
+			people,
+			link="/desk/automation",
+			sender="Administrator",
+			automations=", ".join(_("{0} ({1})").format(title, runs) for title, runs in rows.most_common(10)),
+		)
+
+
+def storage_full() -> None:
+	"""A file refused because storage is full, told to the administrators once
+	a day: the person refused may be a guest on a link."""
+	from onedesk.one import account
+
+	key = "one_storage_full_told"
+	if frappe.cache.get_value(key):
+		return
+	frappe.cache.set_value(key, 1, expires_in_sec=24 * 60 * 60)
+	people = account._administrators()
+	if people:
+		notify.notify("Storage Full", people, link=account.PAGE, sender="Administrator")
+
+
+def approval_answered(action, record, state: str) -> None:
+	"""A record moved on from a step: whoever made it and whoever sent it to
+	the step hear where it went, but whoever moved it."""
+	people = [
+		one
+		for one in (record.owner, action.owner)
+		if one not in ("Administrator", "Guest", frappe.session.user)
+	]
+	if people:
+		notify.notify(
+			"Approval Answered",
+			sorted(set(people)),
+			record=(record.doctype, record.name),
+			who=frappe.utils.get_fullname(frappe.session.user),
+			title=record.get_title() or record.name,
+			state=_lt(state),
+		)
+
+
+def agreements_changed(titles: list[str]) -> None:
+	"""A workspace agreement's new revision, told to every administrator, and
+	always mailed: the Data Processing Agreement gives a month to object to a
+	new subprocessor, which assumes they were told."""
+	from onedesk.one.account import _administrators
+
+	people = _administrators()
+	if people:
+		notify.notify(
+			"Agreements Changed",
+			people,
+			link="/legal",
+			sender="Administrator",
+			documents=", ".join(titles),
+		)

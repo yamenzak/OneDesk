@@ -11,6 +11,7 @@ after_sync = [
 	"onedesk.one.roles.ensure",
 	# What after_migrate settles, settled on a new site as well.
 	"onedesk.one.notify.install",
+	"onedesk.one_legal.gate.told_of_changes",
 	# What One's roles are given on frappe's doctypes. See one/access.py.
 	"onedesk.one.access.settle",
 	# Calendar Links stored as on, so a System Settings save keeps it on. See one_calendar/feed.py.
@@ -76,6 +77,8 @@ after_sync = [
 after_migrate = [
 	"onedesk.one.roles.ensure",
 	"onedesk.one.notify.install",
+	# A workspace agreement at a new revision, told once. See one_legal/gate.py.
+	"onedesk.one_legal.gate.told_of_changes",
 	# What One's roles are given on frappe's doctypes. See one/access.py.
 	"onedesk.one.access.settle",
 	# Calendar Links stored as on, so a System Settings save keeps it on. See one_calendar/feed.py.
@@ -194,6 +197,8 @@ scheduler_events = {
 	},
 	"daily": [
 		"onedesk.one_admin.tell.trials_ending",
+		"onedesk.one_admin.tell.servers_filling",
+		"onedesk.one.tell.automations_failing",
 		# Goods past their date on an order, told to whoever ordered them. See one_inventory/tell.py.
 		"onedesk.one_inventory.tell.orders_late",
 		# A lot that expires within a month, told to whoever keeps the stores. See one_inventory/tell.py.
@@ -258,6 +263,7 @@ scheduler_events = {
 		# Reordering that failed, and a repeat switched off. See one_inventory/tell.py, one/tell.py.
 		"onedesk.one_inventory.tell.reorder_failed",
 		"onedesk.one.tell.repeats_failed",
+		"onedesk.one_admin.tell.builds_slow",
 	],
 	# What OneAI read for each person this week. See one_intake/digest.py.
 	"weekly": ["onedesk.one_intake.digest.weekly", "onedesk.one_hr.tell.holidays_weekly"],
@@ -514,6 +520,7 @@ doc_events = {
 			"onedesk.one.linked.save",
 			# A project's money changed: its open page redraws. See one_project/money.py.
 			"onedesk.one_project.money.moved",
+			"onedesk.one.approvals.answered",
 		],
 		"after_insert": [
 			"onedesk.one.quiet.milestone",
@@ -536,9 +543,12 @@ doc_events = {
 			# The linked record's fields edited on this form, in the same save.
 			# See one/linked.py.
 			"onedesk.one.linked.save",
+			# A step of a workspace approval answered. See one/approvals.py.
+			"onedesk.one.approvals.answered",
 		],
-		"on_update_after_submit": "onedesk.one.linked.save",
+		"on_update_after_submit": ["onedesk.one.linked.save", "onedesk.one.approvals.answered"],
 		"on_cancel": [
+			"onedesk.one.approvals.answered",
 			"onedesk.one_intake.mark.looked_at",
 			"onedesk.one_intake.steps.record_changed",
 			"onedesk.one_project.money.moved",

@@ -94,6 +94,11 @@ Every answer uses OneAI credits. The plan gives some each month, and more can
 be bought under Workspace › **Plan and Credits**. When the workspace has none
 left, OneAI can't answer until credits are added.
 
+OneAI has no notifications of its own. Its notices live where they are about:
+the credits (Credits Running Low, Credits Ran Out, sent the moment OneAI is
+refused, Credits Added, Credits Expiring) and OneAI Changed in One; Extension
+Fixed in OneStudio; Couldn't Read in OneIntake.
+
 **Credits**, under OneAI in the sidebar, shows what was used by model, action,
 person or day. Only administrators see it.
 

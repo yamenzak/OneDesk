@@ -244,3 +244,22 @@ def require(where: str = "") -> None:
 		return
 	said = _("This workspace has agreements outstanding. Agree to them, then try again.")
 	frappe.throw(said + (f" ({where})" if where else ""), frappe.PermissionError)
+
+
+def told_of_changes() -> None:
+	"""after_migrate: a workspace agreement the workspace accepted, now at a
+	new revision, told to every administrator once per revision. The gate
+	still asks again at their next sign-in."""
+	from onedesk.one import tell
+
+	titles = []
+	for key in keys_for(WORKSPACE):
+		now = revision(assemble.version_of(key))
+		was = _accepted(key, WORKSPACE)
+		told = f"one_legal_told_{key}"
+		if not was or not now or revision(was) == now or frappe.db.get_default(told) == now:
+			continue
+		frappe.db.set_default(told, now)
+		titles.append(str(DOCUMENTS[key]["title"]))
+	if titles:
+		tell.agreements_changed(titles)

@@ -53,6 +53,13 @@ If your workspace's own agreements are still waiting for an administrator, One
 tells you so and opens once they have agreed. You cannot agree to those for
 them.
 
+When One publishes a new version of an agreement the workspace accepted (the
+Terms, the Data Processing Agreement, the subprocessors, the AI addendum),
+every administrator is told and mailed once, the day it arrives (**Agreements
+Changed**, `gate.told_of_changes` after a migrate), since the Data Processing
+Agreement gives a month to object to a new subprocessor. Your own documents
+(privacy, cookies) are only asked again at sign-in.
+
 What is recorded is not just "yes": it is the document, its exact version, the
 time, the account, and the network address it came from.
 

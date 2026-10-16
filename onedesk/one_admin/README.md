@@ -108,8 +108,8 @@ Below the fields are its **Jobs**, **Log** and **Domains**, its **Customer**
 in the books and the **Signup** that paid for it.
 
 The owner is emailed when the workspace is suspended, archived (with the
-deletion date) and restored. Overdue notices show on their own workspace,
-which still works then.
+deletion date) and restored, and when a payment fails (Payment Failed).
+Overdue notices also show on their own workspace, which still works then.
 
 ### Closing on request
 
@@ -588,6 +588,11 @@ Operators are notified of:
 - **Paid While Archived**: a payment arrived for a workspace that's already
   archived or dropped. The payment is kept. Rebuild it from its backup or
   refund it in Stripe.
+- **Build Slow**: a build has waited on Frappe Cloud for hours. Waiting never
+  fails a job, so this is the only notice; its payer is mailed Workspace
+  Delayed at the same time.
+- **Server Filling Up**: a server new workspaces go on is near its limit, or
+  full, once for each.
 
 Customers are emailed:
 
@@ -597,15 +602,20 @@ Customers are emailed:
   address): when an account holder changes their email.
 - **Workspace Moved to You** and **Workspace Moved Away**: when billing moves
   to another account.
-- **Workspace Delayed**: once, if a paid workspace couldn't be built, so a
-  payment is never followed by silence.
+- **Workspace Delayed**: once, if a paid workspace couldn't be built or its
+  build is taking hours, so a payment is never followed by silence.
+- **Payment Failed**: when their card is declined, with the date the
+  workspace is suspended.
+- **Trial Ending**: three days before a free trial ends and the card is
+  first charged.
 - **Finish Signing Up**: once, a day later, if they never paid.
 - **Workspace Ready**: when it's built (see Jobs).
 - **Workspace Suspended**, **Workspace Archived**, **Workspace Closed** and
   **Workspace Restored** (see Workspaces).
 
-Each can be turned off or reworded under **Settings › Notifications**. Only
-operators are offered them.
+Each can be reworded under **Settings › Notifications**, and turned off
+except the Sign-in Link, which nobody could sign in without. Only operators
+are offered them.
 
 ## Asking OneAI
 

@@ -945,6 +945,8 @@ def _save_general(values: dict) -> None:
 			company.save(ignore_permissions=True)
 		_save_company_address(company, values)
 	system = _as_opened(frappe.get_single("System Settings"))
+	guarded = (*SIGNING_IN, "enable_two_factor_auth", "enable_password_policy", "minimum_password_score", "disable_document_sharing")
+	was = {name: system.get(name) for name in guarded}
 	system.update({name: values[name] for name in ("language", "time_zone", *SYSTEM, *SIGNING_IN, *FOOTER) if name in values})
 	if "one_record_sharing" in values:
 		system.disable_document_sharing = 0 if frappe.utils.cint(values["one_record_sharing"]) else 1
@@ -955,6 +957,10 @@ def _save_general(values: dict) -> None:
 	if "one_two_factor" in values:
 		system.enable_two_factor_auth = 0 if wanted == "off" else 1
 	system.save(ignore_permissions=True)
+	changed = [name for name in guarded if str(was[name] or "") != str(system.get(name) or "")]
+	if changed:
+		meta = frappe.get_meta("System Settings")
+		tell.sign_in_rules_changed([_(meta.get_label(name)) for name in changed])
 	# After the save, which flags All whenever two-factor is switched on.
 	if "one_two_factor" in values and wanted != "off":
 		frappe.db.set_value("Role", roles.ADMINISTRATOR, "two_factor_auth", 1)
@@ -1175,6 +1181,8 @@ def _told_of_access(doc, before: set, after: set) -> None:
 		tell.access_changed(doc.name, ", ".join(said))
 	if roles.ADMINISTRATOR in after and roles.ADMINISTRATOR not in before:
 		tell.administrator_added(doc)
+	if roles.ADMINISTRATOR in before and roles.ADMINISTRATOR not in after:
+		tell.administrator_removed(doc)
 
 
 @frappe.whitelist(methods=["POST"])

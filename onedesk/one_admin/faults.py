@@ -62,6 +62,16 @@ def raised(endpoint: str, status: int, detail: str, said: str | None = None) -> 
 		kind = Again if said == "Again" else Refused
 	else:
 		kind = Again if worth_retrying(status) else Refused
+	if said == "NotEnough" or "NotEnough" in (detail or ""):
+		# The credits are gone: said now, not at the next refresh.
+		try:
+			from onedesk.one import account
+
+			account.ran_out()
+		except Exception:
+			import frappe
+
+			frappe.log_error(title="telling the credits ran out")
 	return kind(f"{endpoint}: {detail}", status, detail, said)
 
 

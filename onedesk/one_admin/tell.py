@@ -360,3 +360,60 @@ def trials_ending() -> None:
 			reference_doctype="Tenant",
 			reference_name=tenant.name,
 		)
+
+
+@_quietly
+def builds_slow() -> None:
+	"""Hourly: a build still waiting on Frappe Cloud after hours, told once to
+	the operators, and its payer mailed that it is delayed. Waiting never
+	fails a job, so Job Failed never comes."""
+	from onedesk.one_admin import home
+
+	for one in home._slow_builds():
+		notify.notify(
+			"Build Slow",
+			operators(),
+			link=HOME,
+			sender="Administrator",
+			record=("Provisioning Job", one["name"]),
+			dedupe_on=["document_type", "document_name"],
+			title=one["title"],
+			at=one["why"],
+		)
+		tenant = frappe.db.get_value("Provisioning Job", one["name"], "tenant")
+		to = tenant and frappe.db.get_value(
+			"Tenant", tenant, ["account", "owner_email", "workspace_name"], as_dict=True
+		)
+		if (
+			to
+			and (to.account or to.owner_email)
+			and not frappe.db.exists("Email Queue", {"reference_doctype": "Tenant", "reference_name": tenant})
+		):
+			notify.mail(
+				"Workspace Delayed",
+				to.account or to.owner_email,
+				workspace=to.workspace_name or tenant,
+				reference_doctype="Tenant",
+				reference_name=tenant,
+			)
+
+
+@_quietly
+def servers_filling() -> None:
+	"""Each morning: a server near or at its limit, told to the operators once
+	for each step it reaches. A full server fails the next build."""
+	from onedesk.one_admin import home
+
+	for one in home._filling():
+		told = f"one_admin_filling_{one['title']}"
+		if frappe.db.get_default(told) == str(one["badge"]):
+			continue
+		frappe.db.set_default(told, str(one["badge"]))
+		notify.notify(
+			"Server Filling Up",
+			operators(),
+			link=HOME,
+			sender="Administrator",
+			title=one["title"],
+			held=one["why"],
+		)

@@ -212,6 +212,8 @@ off in their notifications:
   turn on email.
 - **Form Customized**: when another administrator changes a form or resets
   it, in One only unless you turn on email.
+- **Extension Fixed**: when Fix With OneAI has mended an extension, to
+  whoever asked.
 
 No one is notified of their own change.
 

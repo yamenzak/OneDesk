@@ -117,8 +117,9 @@ Arabic reads right to left. docs/NOTIFICATIONS.md, The mail.
 
 ## Stage 6: the second pass
 
-Four more reads of the code, one per group, asked only what still tells
-nobody. Every registered type is sent from somewhere; what was missing:
+Done. Four more reads of the code, one per group, asked only what still
+tells nobody. Every registered type is sent from somewhere; what was missing,
+each now a type of its own or a fix to one:
 
 - **OneHR**: a leave or expense request with no approver set (hrms's default)
   told nobody, and an approver set later was never told; Grievance Answered;
@@ -136,8 +137,10 @@ nobody. Every registered type is sent from somewhere; what was missing:
 - **OneTask**: Task Reopened; Task Cancelled.
 - **OneProject**: Removed from Project; Project Resumed; Comment on Project;
   Milestone Late; "Administrator added you".
-- **OneCalendar**: a guest's reply never read; Starting Soon to people who
-  said no.
+- **OneCalendar**: a change mailed to a guest as a second invitation;
+  Starting Soon to people who said no. A guest's reply goes to the
+  organizer's own mailbox, which their calendar asks for, so that is said
+  rather than changed.
 - **OneMail**: Mail Not Sent; Mailbox Shared With You; Mailbox Not Reachable
   to administrators when nobody holds it.
 - **One**: Approval Answered; Sign-in Rules Changed; Administrator Removed;
@@ -147,3 +150,8 @@ nobody. Every registered type is sent from somewhere; what was missing:
 - **OneLegal**: Agreements Changed, to every administrator, once per version.
 - Frappe's Remind Me reminder never pushed or mailed; Google Calendar's own
   invitations unlisted.
+
+Two things the pass found were left: Employee Details Changed and Quote
+Received are sent from one/tell.py while registered under OneHR and
+OneInventory. The guard asks only that a type be sent from a tell.py, and
+moving them changes nothing anybody receives.

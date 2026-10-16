@@ -1207,7 +1207,9 @@ open. Frappe's and One's own record types can't have approvals.
 People with the role see the action on the record. Each step waiting on their
 role counts in **Approvals Waiting** on their Home. They're also notified in
 One, and by email if they chose (**Approval Waiting** in Automation ›
-Workspace Notifications), when a record reaches their step.
+Workspace Notifications), when a record reaches their step. Whoever made the
+record, and whoever sent it to the step, hear where it went next (**Approval
+Answered**).
 
 **Conditions**
 
@@ -1384,13 +1386,24 @@ Every administrator is notified:
 
 - when credits are running low, with about three days left at the last 30
   days' rate (also by email)
-- when storage or the database is nearly full (also by email)
+- when credits run out, the moment OneAI is refused (**Credits Ran Out**)
+- when storage or the database is nearly full (also by email), and when
+  storage is full and files are being refused, once a day (**Storage Full**)
 - a week before credits expire
 - when credits arrive
 - when another administrator changes the plan
 
 When a payment is overdue, they get an email with the date the workspace will
 be suspended.
+
+Every other administrator is also mailed, whatever they chose, when somebody
+signs in from a device they have not used (**New Sign-in**, to that person),
+when an administrator is added or removed (**Administrator Added**,
+**Administrator Removed**), and when two-factor, the password policy, the
+lockouts or record sharing change (**Sign-in Rules Changed**). Automations
+that failed the day before are told each morning (**Automations Failing**),
+as webhooks are. A **Remind Me** on any record comes as a **Reminder**, by
+mail and push as you chose, not only on the bell.
 
 **Closing the Workspace**
 

@@ -406,3 +406,35 @@ def unchanged(name: str, states: list[dict], transitions: list[dict], on: bool) 
 		rows(transitions, step_keys),
 		bool(on),
 	)
+
+
+def answered(doc, method=None) -> None:
+	"""Any record's save, submit or cancel: one on a workspace approval moved
+	on from a step is told to whoever made it and whoever sent it to the step
+	(Approval Answered). frappe completes the step's Workflow Action with a
+	query, which runs no hook of its own."""
+	from frappe.model.workflow import get_workflow_name
+
+	from onedesk.one import tell
+
+	workflow = get_workflow_name(doc.doctype)
+	before = doc.get_doc_before_save() if workflow else None
+	if not before:
+		return
+	field = frappe.get_cached_value("Workflow", workflow, "workflow_state_field") or "workflow_state"
+	if before.get(field) == doc.get(field):
+		return
+	step = frappe.get_all(
+		"Workflow Action",
+		filters={
+			"reference_doctype": doc.doctype,
+			"reference_name": doc.name,
+			"status": "Completed",
+			"completed_by": frappe.session.user,
+		},
+		fields=["owner"],
+		order_by="modified desc",
+		limit=1,
+	)
+	if step:
+		tell.approval_answered(step[0], doc, doc.get(field))

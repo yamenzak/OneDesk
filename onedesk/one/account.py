@@ -204,6 +204,19 @@ def _tell(before, after, gift: dict | None = None) -> None:
 			tell.payment_overdue(people, on)
 
 
+def ran_out() -> None:
+	"""OneAI refused for want of credits: the administrators hear it then,
+	once a day, rather than at the next refresh of the account."""
+	from onedesk.one import tell
+	from onedesk.one_admin import site
+
+	if site.is_admin() or not _once("ran_out", today()):
+		return
+	people = _administrators()
+	if people:
+		tell.credits_ran_out(people)
+
+
 def _once(what: str, value: str) -> bool:
 	"""Whether `what` has not yet been told for `value`, and remember it has."""
 	key = f"one_account_told_{what}"

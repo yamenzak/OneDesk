@@ -72,6 +72,9 @@ def put(key: str, content: bytes) -> None:
 		signed = account.put_url(key, len(content))
 	except faults.Refused as refused:
 		if refused.said == "NoRoom":
+			from onedesk.one import tell
+
+			tell.storage_full()
 			raise NoRoom(_("Storage is full. This file wasn't saved.")) from refused
 		raise
 	kind = mimetypes.guess_type(key)[0] or "application/octet-stream"
