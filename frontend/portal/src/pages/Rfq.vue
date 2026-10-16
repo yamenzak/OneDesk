@@ -14,12 +14,14 @@
     <template v-else>
       <div v-if="doc.message" class="prose prose-sm mb-6 max-w-none text-ink-gray-7" v-html="doc.message" />
       <Facts :facts="doc.facts" />
-      <List :columns="phone ? ['minmax(0,1fr)'] : ['minmax(0,1fr)', '7rem', '8rem', '9rem']" class="mt-6 list-row-px-0">
+      <List :columns="phone || !open ? ['minmax(0,1fr)'] : ['minmax(0,1fr)', '7rem', '8rem', '9rem']" class="mt-6 list-row-px-0">
         <ListHeader v-if="!phone">
           <ListHeaderCell>{{ __("Item") }}</ListHeaderCell>
-          <ListHeaderCell class="justify-end">{{ __("Quantity") }}</ListHeaderCell>
-          <ListHeaderCell class="justify-end">{{ __("Rate") }}</ListHeaderCell>
-          <ListHeaderCell class="justify-end">{{ __("Amount") }}</ListHeaderCell>
+          <template v-if="open">
+            <ListHeaderCell class="justify-end">{{ __("Quantity") }}</ListHeaderCell>
+            <ListHeaderCell class="justify-end">{{ __("Rate") }}</ListHeaderCell>
+            <ListHeaderCell class="justify-end">{{ __("Amount") }}</ListHeaderCell>
+          </template>
         </ListHeader>
         <ListRows :items="doc.rows" row-key="name" v-slot="{ item }">
           <ListRow>
@@ -34,14 +36,14 @@
                 <TextInput v-model="answer[item.name].rate" type="number" min="0" :placeholder="__('Rate')" />
               </div>
             </ListCell>
-            <template v-if="!phone">
+            <template v-if="!phone && open">
               <ListCell class="justify-end">
-                <TextInput v-if="open" v-model="answer[item.name].qty" type="number" min="0" class="w-24 text-end" :aria-label="__('Quantity')" />
+                <TextInput v-model="answer[item.name].qty" type="number" min="0" class="w-24 text-end" :aria-label="__('Quantity')" />
               </ListCell>
               <ListCell class="justify-end">
-                <TextInput v-if="open" v-model="answer[item.name].rate" type="number" min="0" class="w-28 text-end" :aria-label="__('Rate')" />
+                <TextInput v-model="answer[item.name].rate" type="number" min="0" class="w-28 text-end" :aria-label="__('Rate')" />
               </ListCell>
-              <ListCell class="justify-end tabular-nums text-base text-ink-gray-8">{{ open ? money(amount(item.name), doc.money) : "" }}</ListCell>
+              <ListCell class="justify-end tabular-nums text-base text-ink-gray-8">{{ money(amount(item.name), doc.money) }}</ListCell>
             </template>
           </ListRow>
         </ListRows>

@@ -453,7 +453,7 @@ def record(kind: str, name: str) -> dict:
 		facts.append({"label": str(label), "value": doc.get_formatted(field)})
 	address = doc.get("shipping_address") or doc.get("address_display")
 	if address and doctype in ("Sales Order", "Delivery Note", "Quotation"):
-		lines = re.sub(r"<br\s*/?>", "\n", address)
+		lines = re.sub(r"\s*<br\s*/?>\s*", "\n", address)
 		facts.append({"label": _("Ship to"), "value": strip_html(lines).strip(), "lines": True})
 
 	totals = []
@@ -585,7 +585,7 @@ def rfq(name: str) -> dict:
 	if doc.get("schedule_date"):
 		facts.append({"label": _("Needed by"), "value": _date(doc.schedule_date)})
 	if doc.get("shipping_address_display"):
-		lines = re.sub(r"<br\s*/?>", "\n", doc.shipping_address_display)
+		lines = re.sub(r"\s*<br\s*/?>\s*", "\n", doc.shipping_address_display)
 		facts.append({"label": _("Ship to"), "value": strip_html(lines).strip(), "lines": True})
 	currency = doc.get("currency") or frappe.db.get_default("currency")
 	said = get_number_format()

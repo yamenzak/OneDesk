@@ -9,8 +9,10 @@
       <Button
         v-for="one in doc?.actions || []"
         :key="one.href"
-        :label="one.label"
-        :icon-left="one.icon ? `lucide-${one.icon}` : undefined"
+        :label="phone && one.icon ? undefined : one.label"
+        :aria-label="one.label"
+        :icon="phone && one.icon ? `lucide-${one.icon}` : undefined"
+        :icon-left="!phone && one.icon ? `lucide-${one.icon}` : undefined"
         :variant="one.solid ? 'solid' : 'subtle'"
         :href="one.href"
       />
