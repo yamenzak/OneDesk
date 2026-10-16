@@ -117,14 +117,15 @@ def facts(user: str | None = None) -> dict:
 		"passkey": bool(keys.held(user)),
 		# Where it is: their own device's, and a company machine's.
 		"passkeys": [
-			{"label": frappe.db.get_value("Device", one.device, "device_name") if one.device else one.label}
+			{"label": frappe.db.get_value("Device", one.device, "device_name") or one.label}
 			for one in keys.every({"user": user})
 		],
 		"passkey_signs_in": passkey_signin.offered(),
 		# Their passkey checks them in too, so a new one is HR's to allow.
 		"passkey_clocks": bool(employee) and policy.self_service(),
-		# The company machines assigned to them (one/devices.py).
-		"devices": devices.mine(user),
+		# This browser is a machine assigned to them that has no passkey of theirs
+		# yet, so it may take one beside their phone's (one/devices.py).
+		"add_here": _adds_here(devices.here(), user),
 		"two_factor": bool(two_factor_is_enabled(user)),
 		"two_factor_method": frappe.get_system_settings("two_factor_method")
 		if two_factor_is_enabled(user)
@@ -166,6 +167,15 @@ def update_password(
 		if not invite.spend(frappe.session.user):
 			tell.password_changed(frappe.session.user)
 	return said
+
+
+def _adds_here(at, user: str) -> bool:
+	return bool(
+		at
+		and at.use == "Assigned"
+		and at.user == user
+		and not frappe.db.exists("Clock Device", {"device": at.name, "user": user, "status": "Active"})
+	)
 
 
 def arrived(login_manager) -> None:

@@ -91,12 +91,12 @@ employee whether or not the clock is on: one made on the office computer would
 check them in the day the clock is turned on. At the office computer, *Sign in with a Passkey* shows a code to
 scan with that phone, and the password still works.
 
-**A computer that is yours at work.** The workspace administrator adds it in
-Settings → Workspace → Devices as assigned to you (or picks the asset you hold),
-and you press **This Is My …** on Settings → Sign-in at that computer. It may
-then hold a second passkey, which signs you in and checks you in there without
-the phone; Reset Passkey retires it with the phone's. A device marked
-**Shared**, such as the reception computer, never holds anybody's. Each employee has one
+**A computer that is yours at work.** Once you've signed in on it, the
+workspace administrator sets it to **Assigned** to you in Settings → Workspace
+→ Devices. Then Register This Device on your Sign-in page makes a second
+passkey there, which signs you in and checks you in without the phone; Reset
+Passkey retires it with the phone's. A **Shared** browser, like the reception
+computer, never holds anybody's. Each employee has one
 passkey; after that it works on your other devices too, because iCloud and
 Google sync it. Every clock-in asks for your face or PIN again. Clocking in
 from your laptop with the synced passkey is not flagged for that; a passkey

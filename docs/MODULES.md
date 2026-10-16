@@ -7,7 +7,7 @@
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Device | 12 | document |
+| Device | 13 | document |
 | Portal Link | 16 | document |
 | Push Device | 7 | document |
 | Record Head | 15 | document |
@@ -224,11 +224,9 @@ No doctypes yet.
 * `onedesk.one.customize.load`
 * `onedesk.one.customize.reset`
 * `onedesk.one.customize.save`
-* `onedesk.one.devices.add`
 * `onedesk.one.devices.lost`
-* `onedesk.one.devices.mark`
 * `onedesk.one.devices.retire`
-* `onedesk.one.devices.retire_passkey`
+* `onedesk.one.devices.save`
 * `onedesk.one.head.offer`
 * `onedesk.one.head.preview`
 * `onedesk.one.head.run`

@@ -12,10 +12,11 @@
   "column_break_who",
   "asset",
   "status",
-  "browser_section",
-  "marked_on",
-  "marked_by",
-  "column_break_browser",
+  "seen_section",
+  "last_user",
+  "last_seen",
+  "column_break_seen",
+  "last_address",
   "user_agent",
   "token_hash"
  ],
@@ -28,14 +29,12 @@
    "reqd": 1
   },
   {
-   "default": "Assigned",
    "fieldname": "use",
    "fieldtype": "Select",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Used By",
-   "options": "Assigned\nShared",
-   "reqd": 1,
+   "options": "\nAssigned\nShared",
    "description": "A shared device can't hold a passkey."
   },
   {
@@ -67,26 +66,32 @@
    "options": "Active\nLost\nRetired"
   },
   {
-   "fieldname": "browser_section",
+   "fieldname": "seen_section",
    "fieldtype": "Section Break",
-   "label": "Browser"
+   "label": "Last Seen"
   },
   {
-   "fieldname": "marked_on",
-   "fieldtype": "Datetime",
-   "label": "Marked On",
-   "read_only": 1
-  },
-  {
-   "fieldname": "marked_by",
+   "fieldname": "last_user",
    "fieldtype": "Link",
-   "label": "Marked By",
+   "label": "Signed In By",
    "options": "User",
    "read_only": 1
   },
   {
-   "fieldname": "column_break_browser",
+   "fieldname": "last_seen",
+   "fieldtype": "Datetime",
+   "label": "Last Seen",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_seen",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_address",
+   "fieldtype": "Data",
+   "label": "Address",
+   "read_only": 1
   },
   {
    "fieldname": "user_agent",
@@ -105,7 +110,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-17 00:00:00.000000",
+ "modified": "2026-10-17 01:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "Device",

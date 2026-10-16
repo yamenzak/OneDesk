@@ -196,6 +196,7 @@ scheduler_events = {
 		],
 	},
 	"daily": [
+		"onedesk.one.devices.forget",
 		"onedesk.one_admin.tell.trials_ending",
 		"onedesk.one_admin.tell.servers_filling",
 		"onedesk.one.tell.automations_failing",

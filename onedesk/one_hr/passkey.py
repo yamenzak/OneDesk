@@ -53,9 +53,9 @@ def start_registration() -> dict:
 def _may_register(user: str, employee: str) -> str | None:
 	"""One passkey a person; for somebody the clock checks, one HR resets.
 
-	A company machine marked as a Device decides first (one/devices.py): a
-	shared one holds nobody's, and an assigned one may hold its person's
-	alongside their phone's. The Device's name when this is that one.
+	A browser the administrator sorted decides first (one/devices.py): a
+	shared one holds nobody's, an assigned one its person's beside their
+	phone's. Answers the browser's Device, which the passkey records.
 	"""
 	from onedesk.one import devices
 
@@ -65,12 +65,12 @@ def _may_register(user: str, employee: str) -> str | None:
 		frappe.throw(
 			_("This employee's passkey is blocked. HR must reset it before another can be registered.")
 		)
-	at = devices.here()
-	if at and at.use == "Shared":
+	at = devices.here() or frappe._dict()
+	if at.use == "Shared":
 		frappe.throw(
 			_("You can't make a passkey on {0} because it's shared. Use your phone.").format(at.device_name)
 		)
-	if at:
+	if at.use == "Assigned":
 		if at.user != user:
 			frappe.throw(_("{0} is assigned to somebody else.").format(at.device_name))
 		if frappe.db.exists("Clock Device", {"device": at.name, "user": user, "status": "Active"}):
@@ -91,7 +91,7 @@ def _may_register(user: str, employee: str) -> str | None:
 		frappe.throw(
 			_("Make your passkey on your phone.")
 		)
-	return None
+	return at.name
 
 
 @frappe.whitelist()
@@ -215,9 +215,8 @@ def held(user: str):
 
 
 def _active(whose: dict):
-	"""The person's own passkey before one on a company machine."""
 	found = every(whose)
-	return next((one for one in found if not one.device), found[0] if found else None)
+	return found[0] if found else None
 
 
 def every(whose: dict) -> list:
@@ -292,10 +291,10 @@ def ask() -> bool:
 
 	if user in ("Guest", "Administrator") or not signin.offered():
 		return False
-	at = devices.here()
-	if at:
-		# Their own company machine, until it holds their passkey; nobody's on
-		# a shared one.
+	at = devices.here() or frappe._dict()
+	if at.use:
+		# Their own assigned machine, until it holds their passkey; nobody's
+		# on a shared one.
 		return at.use == "Assigned" and at.user == user and not frappe.db.exists(
 			"Clock Device", {"device": at.name, "user": user, "status": "Active"}
 		)
