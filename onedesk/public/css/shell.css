@@ -57,6 +57,12 @@
 	margin: calc(var(--spacing) * 1) 0 calc(var(--spacing) * 3);
 }
 
+/* Whatever follows a section's heading stands off it the same way, a table
+   with no search box above it as much as one with. A note sits closer. */
+.one-shell-section-title + :not(.one-shell-note) {
+	margin-top: calc(var(--spacing) * 3);
+}
+
 .one-shell-quiet {
 	color: var(--ink-gray-5);
 }
