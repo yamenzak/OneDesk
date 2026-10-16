@@ -1,6 +1,7 @@
 ---
 name: Deletion Asked
 app: One
+roles: Workspace Administrator
 about: When someone asks for their account to be deleted.
 to: Every administrator
 email: no

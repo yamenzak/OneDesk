@@ -53,7 +53,7 @@ the bell directly, with text fixed in code:
 
 | | Direct `frappe.sendmail` | Bell written directly | Standard Notification rules | Uses Email Template |
 |---|---|---|---|---|
-| frappe | 25 files | 12 | 2 (both off) | 9 |
+| frappe | 25 files | 12 | 0 | 9 |
 | erpnext | 12 | 2 | 2 | 6 |
 | hrms | 7 | 1 | 4 | 5 |
 | OneDesk | 3 | 16 (every one typed Alert or Share) | 1 (off) | 0 |
@@ -171,7 +171,8 @@ on nothing but the browsers.
 
 - **Twenty-five types, declared by the modules that send them**, each in its
   `notifications.py` and named in `hooks.py` under `one_notification_types`:
-  eight in OneHR, six in Intake, ten in OneCloud, one in OneProject.
+  eight in OneHR, six in Intake, ten in OneCloud, one in OneProject (there
+  are many more now: every file in onedesk/notifications/ is one).
   `notify.install()` makes them Notification Types after every migrate.
 - **A type's text has named slots**, `_lt("<b>{who}</b> shared <b>{file}</b>
   with you")`. Sent as it came, it is translated for each reader. An
@@ -321,16 +322,25 @@ place without patching their code, or the mail is the point:
   switch are one (`switch`);
 - the exit questionnaire, a campaign's mails and statements of accounts, all
   to addresses outside the workspace, in templates set on their own records;
-- the reports five nightly jobs mail when they fail: earned leave not
-  allocated, depreciation not posted, reposting failed, a stock account
-  wrong, and reordering failed. None has a switch, and each is mailed from
-  inside a function that does the real work, so standing in would mean
-  patching it. They stay mail, and say so.
+- the reports jobs mail when they fail: earned leave not allocated,
+  depreciation not posted, and reordering failed. None has a switch, and
+  each is mailed from inside a function that does the real work, so
+  standing in would mean patching it. They stay mail, and say so.
 
-Not listed, because One does not show what sends them: HRMS's Daily Work
-Summary, and ERPNext's appointments, delivery trips, proforma invoices,
-payment requests and email digests. The project invitation ERPNext mails a
-project's users is already not sent (`one_project/members.py`).
+Reposting failed and a stock account wrong were in that list; both are told
+by One now (Reposting Failed, Stock Account Wrong), and ERPNext still mails
+the first as well, whenever the workspace sends mail (Reposting Error Mail).
+Not listed, because One does not show what sends them: ERPNext's proforma
+invoices and email digests. The project invitation ERPNext mails a project's
+users is already not sent (`one_project/members.py`).
+
+docs/MAIL.md's audit found more that One does show, and they are listed
+now: appointment confirmations, payment requests, the delivery trip notice,
+the supplier scorecard's standing mail, deferred posting failures, Auto
+Repeat's mails, frappe's email sign-in link, authenticator setup, a report
+exported in the background, and followed records. Reordering failed and
+deferred posting failed go to System Managers, the operators' role, so they
+reach nobody in a workspace, and their entries say so.
 
 ## In one folder
 

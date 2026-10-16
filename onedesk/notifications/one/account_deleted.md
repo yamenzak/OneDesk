@@ -11,5 +11,5 @@ always_mailed: yes
 
 Your request was approved. You are signed out, and your account and what only
 you used are being deleted now. What the workspace has to keep, such as
-invoices you raised, stays without your name and address. Your employee
-record, if you have one, is HR's.
+invoices you raised, stays without your name and address. HR keeps your
+employee record, if you have one.

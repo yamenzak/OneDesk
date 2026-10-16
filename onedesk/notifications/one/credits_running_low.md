@@ -1,6 +1,7 @@
 ---
 name: Credits Running Low
 app: One
+roles: Workspace Administrator
 about: When OneAI credits will run out in about three days.
 to: Every administrator
 email: no

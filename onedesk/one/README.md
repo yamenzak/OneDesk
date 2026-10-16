@@ -183,9 +183,12 @@ appears in One. Here you choose which ones you also get by **email** and by
 **Choosing what you get**
 
 - **Notifications** is the main switch. When it's off, you get no
-  notifications and no emails.
+  notifications and no emails, except the few that are always mailed.
 - **Also by Email** turns off all emails at once, whatever is switched on
-  below.
+  below, except the few that are always mailed.
+- **Always mailed** are security notices (a new sign-in, a changed password,
+  a new administrator), privacy requests, and what the workspace's money and
+  storage need from its administrators. Each says so at its foot.
 - Below them is every notification you can get, grouped by app, each with a
   line on when it's sent. Switch on **Email** or **Push** for the ones you
   also want that way.

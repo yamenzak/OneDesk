@@ -1,6 +1,7 @@
 ---
 name: Plan Changed
 app: One
+roles: Workspace Administrator
 about: When another administrator changes the workspace's plan or its add-ons.
 to: Every other administrator
 email: no

@@ -1,6 +1,7 @@
 ---
 name: Database Nearly Full
 app: One
+roles: Workspace Administrator
 about: When the database uses 90% of the plan's limit.
 to: Every administrator
 email: no

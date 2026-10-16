@@ -122,7 +122,7 @@ def paid_while_archived(tenant) -> None:
 		sender="Administrator",
 		record=("Tenant", tenant.name),
 		workspace=tenant.workspace_name or tenant.name,
-		state=_(tenant.status),
+		state=_(tenant.status).lower(),
 	)
 
 
@@ -146,9 +146,9 @@ def owing(tenant, rung: str, why: str) -> None:
 
 @_quietly
 def owner(tenant, rung: str, was: str | None) -> None:
-	"""Whoever pays for the workspace, mailed when it is suspended, archived or
-	restored (steps._arrive). Overdue is told on their own site
-	(one/account.py); a suspended one cannot tell them anything."""
+	"""Whoever pays for the workspace, mailed when its payment fails, and when
+	it is suspended, archived or restored (steps._arrive): the payer need not
+	be anybody on the site, and a suspended one cannot tell them anything."""
 	# Whoever holds it in their One account is who pays, so who is told; the
 	# address it was bought with only if nobody holds it yet.
 	to = tenant.get("account") or tenant.get("owner_email")
@@ -164,7 +164,10 @@ def owner(tenant, rung: str, was: str | None) -> None:
 		"reference_doctype": "Tenant",
 		"reference_name": tenant.name,
 	}
-	if rung == "Suspended":
+	if rung == "Overdue":
+		on = formatdate(add_days(today(), days["Overdue"]))
+		notify.mail("Payment Failed", to, date=on, account=frappe.utils.get_url("/account"), **said)
+	elif rung == "Suspended":
 		on = formatdate(add_days(today(), days["Suspended"]))
 		notify.mail("Workspace Suspended", to, date=on, **said)
 	elif rung == "Archived":
@@ -324,3 +327,36 @@ def finish_signing_up(asked) -> None:
 		reference_doctype="Account Request",
 		reference_name=asked.name,
 	)
+
+
+@_quietly
+def trials_ending() -> None:
+	"""Each night: a workspace whose free trial has three days left, mailed
+	to whoever pays for it, before their card is first charged."""
+	from frappe.utils import add_days, fmt_money, formatdate, getdate, today
+
+	for tenant in frappe.get_all(
+		"Tenant",
+		filters={"status": "Live", "offering": ["is", "set"]},
+		fields=["name", "workspace_name", "offering", "live_on", "creation", "account", "owner_email"],
+	):
+		plan = frappe.db.get_value(
+			"Offering", tenant.offering, ["label", "trial_days", "amount", "currency"], as_dict=True
+		)
+		if not plan or not plan.trial_days:
+			continue
+		ends = add_days(getdate(tenant.live_on or tenant.creation), plan.trial_days)
+		to = tenant.account or tenant.owner_email
+		if not to or ends != add_days(getdate(today()), 3):
+			continue
+		notify.mail(
+			"Trial Ending",
+			to,
+			workspace=tenant.workspace_name or tenant.name,
+			date=formatdate(ends),
+			plan=plan.label,
+			price=fmt_money(plan.amount, currency=plan.currency),
+			account=frappe.utils.get_url("/account"),
+			reference_doctype="Tenant",
+			reference_name=tenant.name,
+		)

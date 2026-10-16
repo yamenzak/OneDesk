@@ -7,4 +7,4 @@ to: People with the step's role who can open the record
 
 # {kind} {record_name} is waiting for you
 
-The {kind} {record_name} is {state}. Open it to {actions}.
+It is {state}. Open it to {actions}.

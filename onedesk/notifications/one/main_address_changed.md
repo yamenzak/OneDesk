@@ -1,6 +1,7 @@
 ---
 name: Main Address Changed
 app: One
+roles: Workspace Administrator
 about: When another administrator changes the workspace's main address.
 to: Every other administrator
 email: no

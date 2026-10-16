@@ -5,4 +5,6 @@ about: When a document arrives for a task you already closed. The task stays clo
 to: Whoever closed the task
 ---
 
-# {title} arrived after you closed this task.
+# {title} arrived after you closed its task
+
+The task stays closed. Open it if the document changes anything.

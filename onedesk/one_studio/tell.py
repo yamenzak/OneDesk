@@ -19,6 +19,18 @@ def extension_deleted(told: dict) -> None:
 	notify.notify("Extension Deleted", roles.administrators(), **told)
 
 
+def extension_fixed(person: str, extension: str, title: str, said: str) -> None:
+	"""Fix With OneAI finished, told to whoever pressed it, who may have left."""
+	notify.notify(
+		"Extension Fixed",
+		person,
+		link=f"/desk/extension/{extension}",
+		sender=notify.ONEAI,
+		extension=title,
+		said=said,
+	)
+
+
 def extensions_failing(people: list, extensions: str) -> None:
 	"""The extensions that tripped yesterday, told to the administrators."""
 	notify.notify(

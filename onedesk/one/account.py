@@ -175,6 +175,8 @@ def _tell(before, after, gift: dict | None = None) -> None:
 	month = flt(after.credits_month)
 	if month and now < month * LOW <= was:
 		tell.credits_running_low(people, _number(now), max(0, int(now / (month / 30))))
+	if now <= 0 < was:
+		tell.credits_ran_out(people)
 	if given:
 		tell.credits_added(people, _number(now), gift)
 	elif now > was + 0.5:

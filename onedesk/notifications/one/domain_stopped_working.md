@@ -1,6 +1,7 @@
 ---
 name: Domain Stopped Working
 app: One
+roles: Workspace Administrator
 about: When one of the workspace's own domains stops working.
 to: Every administrator
 email: no

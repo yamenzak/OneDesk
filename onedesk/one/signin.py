@@ -156,3 +156,20 @@ def update_password(
 		if not invite.spend(frappe.session.user):
 			tell.password_changed(frappe.session.user)
 	return said
+
+
+def arrived(login_manager) -> None:
+	"""on_session_creation: a sign-in from a device the person has not used
+	before is told to them, always mailed. The first sign-in is where they
+	start, not a change."""
+	user = login_manager.user
+	if user in ("Administrator", "Guest") or not getattr(frappe.local, "request", None):
+		return
+	said = device(frappe.request.headers.get("User-Agent"))
+	known = json.loads(frappe.defaults.get_user_default("one_devices", user) or "null")
+	if known is not None and said not in known:
+		from onedesk.one import tell
+
+		tell.new_sign_in(user)
+	if known is None or said not in known:
+		frappe.defaults.set_user_default("one_devices", json.dumps([*(known or []), said][-20:]), user)

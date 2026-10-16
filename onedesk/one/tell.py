@@ -17,6 +17,13 @@ def credits_running_low(people: list[str], balance: str, days: int) -> None:
 	notify.notify("Credits Running Low", people, link=account.PAGE, sender="Administrator", **slots)
 
 
+def credits_ran_out(people: list[str]) -> None:
+	"""The credits are gone: OneAI and Intake stop until more come."""
+	from onedesk.one import account
+
+	notify.notify("Credits Ran Out", people, link=account.PAGE, sender="Administrator")
+
+
 def credits_added(people: list[str], balance: str, gift: dict | None = None) -> None:
 	"""Credits came in: bought, or given by One with the operator's note."""
 	from onedesk.one import account
@@ -278,6 +285,13 @@ def _said() -> dict:
 	}
 
 
+def new_sign_in(user: str) -> None:
+	"""A person signed in from a device they had not used before."""
+	notify.notify(
+		"New Sign-in", user, link="/desk/settings?section=signin", sender="Administrator", **_said()
+	)
+
+
 def password_changed(user: str) -> None:
 	"""A person's password changed."""
 	slots = _said()
@@ -455,7 +469,7 @@ def approval_waiting(record, state: str | None, held_by: list[str], actions: lis
 			if (record.get_title() or record.name) == record.name
 			else f"{record.name} ({record.get_title()})",
 			state=_(state or ""),
-			actions=", ".join(dict.fromkeys(_(one) for one in actions)) or _("move it on"),
+			actions=_or([_(one) for one in dict.fromkeys(actions)]) or _("move it on"),
 		)
 
 
@@ -572,3 +586,10 @@ def webhooks_failing(rows: list) -> None:
 		sender="Administrator",
 		webhooks=said,
 	)
+
+
+def _or(said: list[str]) -> str:
+	"""Approve, Reject or Send Back."""
+	if len(said) < 2:
+		return "".join(said)
+	return _("{0} or {1}").format(", ".join(said[:-1]), said[-1])

@@ -186,6 +186,7 @@ scheduler_events = {
 		],
 	},
 	"daily": [
+		"onedesk.one_admin.tell.trials_ending",
 		# Goods past their date on an order, told to whoever ordered them. See one_inventory/tell.py.
 		"onedesk.one_inventory.tell.orders_late",
 		# A lot that expires within a month, told to whoever keeps the stores. See one_inventory/tell.py.
@@ -1787,3 +1788,6 @@ user_data_fields = [
 	# address stays: their invoices are kept by law.
 	{"doctype": "Job Applicant", "filter_by": "email_id", "redact_fields": ["applicant_name", "email_id", "phone_number"]},
 ]
+
+# A sign-in from a device the person has not used before. See one/signin.py.
+on_session_creation = ["onedesk.one.signin.arrived"]

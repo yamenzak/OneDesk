@@ -6,4 +6,4 @@ to: The person it reads for
 push_default: yes
 ---
 
-# {count} items in {title} need review.
+# {count} items in {title} need review

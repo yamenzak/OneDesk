@@ -3,8 +3,9 @@ name: Workspace Closing
 app: One
 about: When the person who pays for the workspace asks for it to be closed. It cannot be turned off.
 to: Everyone in the workspace
-email_default: yes
+email: no
 required: yes
+always_mailed: yes
 ---
 
 # The workspace closes on {date}

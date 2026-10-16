@@ -175,3 +175,7 @@ def in_background(extension: str, told: str, problem: str | None = None) -> None
 		user=told,
 		after_commit=True,
 	)
+	# The page may be closed by now: "you will be told" is kept on the bell.
+	from onedesk.one_studio import tell
+
+	tell.extension_fixed(told, extension, title, message)

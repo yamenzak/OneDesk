@@ -7307,3 +7307,54 @@ def tasks_and_the_calendar_tell_what_changed_for_somebody():
 
 	frappe.share.add("Event", event.name, "nadia@one.test")
 	assert "nadia@one.test" in calendar.people(frappe.get_doc("Event", event.name)).values()
+
+
+@check
+def the_workspace_tells_what_it_promised_to():
+	"""Credits that run out are told to the administrators, always mailed; a
+	sign-in from a new device is told to the person and their first is not;
+	Fix With OneAI's result is kept on the bell; a document OneAI could not
+	read is told to whoever it reads for; an approval offers "Approve or
+	Reject"; the owner of a workspace whose payment failed is mailed."""
+	from types import SimpleNamespace
+	from unittest.mock import patch
+
+	from onedesk.one import account, signin, tell
+	from onedesk.one_admin import tell as admin
+	from onedesk.one_intake import tell as intake
+	from onedesk.one_studio import tell as studio
+
+	told, mailed = [], []
+
+	def heard(name, users, **said):
+		told.append((name, [users] if isinstance(users, str) else list(users), said))
+
+	def sent(name, to, **said):
+		mailed.append((name, to, said))
+
+	with patch("onedesk.one.notify.notify", side_effect=heard), patch("onedesk.one.notify.mail", side_effect=sent):
+		with patch.object(account, "_administrators", return_value=["wsadmin@one.test"]):
+			account._tell({"last_heard": 1, "credits_balance": 40}, frappe._dict(credits_balance=0, credits_month=0, domains=[], storage_limit=0, database_limit=0))
+		assert ("Credits Ran Out", ["wsadmin@one.test"]) in [(one[0], one[1]) for one in told], told
+
+		frappe.defaults.clear_user_default("one_devices", "rania@one.test")
+		request = SimpleNamespace(headers={"User-Agent": "Mozilla/5.0 (Macintosh; Mac OS X) Chrome/120"})
+		with patch.object(frappe, "request", request, create=True), patch.object(frappe.local, "request", request, create=True):
+			signin.arrived(SimpleNamespace(user="rania@one.test"))
+			assert not [one for one in told if one[0] == "New Sign-in"], "the first sign-in is where they start"
+			request.headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0) Firefox/121"
+			signin.arrived(SimpleNamespace(user="rania@one.test"))
+		assert [one[1] for one in told if one[0] == "New Sign-in"] == [["rania@one.test"]], told
+
+		studio.extension_fixed("wsadmin@one.test", "EXT-1", "Late fee", "Fixed the date check.")
+		assert told[-1][0] == "Extension Fixed" and told[-1][2]["said"] == "Fixed the date check."
+
+		intake.couldnt_read(frappe._dict(name="RD-1", title="Invoice 44", on_behalf_of="karim@one.test"), waiting=True)
+		assert told[-1][0] == "Couldn't Read" and "credits" in told[-1][2]["why"]
+
+		assert tell._or(["Approve", "Reject"]) == "Approve or Reject"
+		assert tell._or(["Approve", "Reject", "Send Back"]) == "Approve, Reject or Send Back"
+
+		with patch("onedesk.one_admin.site.is_admin", return_value=True):
+			admin.owner(frappe._dict(name="T-1", workspace_name="Acme", account="owner@acme.example"), "Overdue", "Live")
+			assert mailed and mailed[-1][0] == "Payment Failed" and mailed[-1][1] == "owner@acme.example", mailed

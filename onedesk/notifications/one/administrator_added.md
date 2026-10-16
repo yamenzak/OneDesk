@@ -1,6 +1,7 @@
 ---
 name: Administrator Added
 app: One
+roles: Workspace Administrator
 about: When someone is made a workspace administrator.
 to: Every other administrator
 email: no

@@ -1,6 +1,7 @@
 ---
 name: Holidays Run Out Soon
 app: One
+roles: Workspace Administrator
 about: When the holiday list ends in 60, 30 or 7 days with no list after it.
 to: Every administrator
 email_default: yes

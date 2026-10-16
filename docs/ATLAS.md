@@ -955,7 +955,7 @@ Reports: Attendance by Shift (on a rail or a home); Hiring Pipeline (on a rail o
 | Intake Action | opened by our screens | everybody | untouched | yes | general |  | yes |  |  |  |  |
 | Intake Lesson | engine: what OneIntake learnt from a correction | the administrator | untouched | yes | general |  | **none** |  |  |  |  |
 | Intake Settings | inside: Workspace Settings › OneIntake | the administrator | untouched | no | general |  |  |  |  |  |  |
-| Reading | inside: a OneIntake document's Reading | the administrator | untouched | yes | taught |  | yes |  |  |  | Phishing |
+| Reading | inside: a OneIntake document's Reading | the administrator | untouched | yes | taught |  | yes |  |  |  | Couldn't Read, Phishing |
 
 Reports: Deadlines (on a rail or a home); Spending (on a rail or a home).
 

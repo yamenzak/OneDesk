@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-16 11:01+0000\n"
-"PO-Revision-Date: 2026-10-16 11:01+0000\n"
+"POT-Creation-Date: 2026-10-16 11:12+0000\n"
+"PO-Revision-Date: 2026-10-16 11:12+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -169,7 +169,7 @@ msgstr ""
 
 #. Subject of a notification
 #: onedesk/notifications/one_intake/intake_waiting_one_thing.md
-msgid "1 item in {title} needs review."
+msgid "1 item in {title} needs review"
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:628
@@ -921,7 +921,12 @@ msgstr ""
 msgid "A new record starts with this series."
 msgstr ""
 
-#: onedesk/one/tell.py:29
+#. Subject of a notification
+#: onedesk/notifications/one/new_sign_in.md
+msgid "A new sign-in to your account"
+msgstr ""
+
+#: onedesk/one/tell.py:36
 msgid "A note from One: {0}"
 msgstr ""
 
@@ -2163,7 +2168,7 @@ msgid "Add-ons"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Workspace Field'
-#: onedesk/one/account.py:256
+#: onedesk/one/account.py:258
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:11
 #: onedesk/public/js/settings.js:749
@@ -2794,7 +2799,7 @@ msgstr ""
 msgid "An address template can name a field of the address, as {{ city }}, and nothing else."
 msgstr ""
 
-#: onedesk/one_admin/tell.py:296
+#: onedesk/one_admin/tell.py:299
 msgid "An administrator"
 msgstr ""
 
@@ -3225,6 +3230,11 @@ msgstr ""
 
 #: onedesk/one_crm/home.py:139
 msgid "Appointment Booking Settings"
+msgstr ""
+
+#. Name of a notification
+#: onedesk/notifications/one_crm/appointment_confirmation.md
+msgid "Appointment Confirmation"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -4089,6 +4099,11 @@ msgstr ""
 msgid "Authenticator App"
 msgstr ""
 
+#. Name of a notification
+#: onedesk/notifications/one/authenticator_setup.md
+msgid "Authenticator Setup"
+msgstr ""
+
 #. Option for the 'Role' (Select) field in DocType 'Project Contact'
 #: onedesk/one_project/doctype/project_contact/project_contact.json
 msgid "Authority"
@@ -4878,7 +4893,7 @@ msgstr ""
 msgid "Bought in a Year"
 msgstr ""
 
-#: onedesk/one/account.py:243
+#: onedesk/one/account.py:245
 msgid "Bought {0}"
 msgstr ""
 
@@ -6935,6 +6950,11 @@ msgstr ""
 msgid "Could not reach {0}: {1}"
 msgstr ""
 
+#. Name of a notification
+#: onedesk/notifications/one_intake/couldn_t_read.md
+msgid "Couldn't Read"
+msgstr ""
+
 #: onedesk/public/js/settings.js:1645
 msgid "Couldn't create the download. Try again, or reply to any email from One."
 msgstr ""
@@ -7248,6 +7268,11 @@ msgstr ""
 #: onedesk/one_admin/heads.py:172
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:133
 msgid "Credits Left"
+msgstr ""
+
+#. Name of a notification
+#: onedesk/notifications/one/credits_ran_out.md
+msgid "Credits Ran Out"
 msgstr ""
 
 #. Name of a notification
@@ -7910,6 +7935,11 @@ msgstr ""
 msgid "Default: {0}"
 msgstr ""
 
+#. Name of a notification
+#: onedesk/notifications/one_book/deferred_posting_failed.md
+msgid "Deferred Posting Failed"
+msgstr ""
+
 #: onedesk/one_inventory/home.py:175
 msgid "Delayed Order Report"
 msgstr ""
@@ -8169,6 +8199,11 @@ msgstr ""
 
 #: onedesk/one_inventory/heads.py:1600 onedesk/one_inventory/home.py:118
 msgid "Delivery Trip"
+msgstr ""
+
+#. Name of a notification
+#: onedesk/notifications/one_inventory/delivery_trip_notice.md
+msgid "Delivery Trip Notice"
 msgstr ""
 
 #: onedesk/one/portal.py:461 onedesk/one/portal.py:821
@@ -8597,7 +8632,7 @@ msgstr ""
 
 #. Label of the domains (Table) field in DocType 'Workspace Account'
 #. Label of a Sidebar Item
-#: onedesk/one/account.py:522
+#: onedesk/one/account.py:524
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one/settings.py:33 onedesk/one/sidebar/one/one.json
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
@@ -9133,6 +9168,11 @@ msgstr ""
 msgid "Each step of a work order, with who did it and how long it took."
 msgstr ""
 
+#. Who a notification is sent to
+#: onedesk/notifications/one_inventory/delivery_trip_notice.md
+msgid "Each stop's contact"
+msgstr ""
+
 #: onedesk/one_book/home.py:298
 msgid "Each supplier's bills, payments and balance."
 msgstr ""
@@ -9313,6 +9353,11 @@ msgstr ""
 
 #: onedesk/one/settings.py:831
 msgid "Email Link Sign-in"
+msgstr ""
+
+#. Name of a notification
+#: onedesk/notifications/one/email_sign_in_link.md
+msgid "Email Sign-in Link"
 msgstr ""
 
 #: onedesk/public/js/portal_share.js:72
@@ -9841,6 +9886,7 @@ msgstr ""
 #: onedesk/notifications/one/copy_asked.md
 #: onedesk/notifications/one/credits_added.md
 #: onedesk/notifications/one/credits_expiring.md
+#: onedesk/notifications/one/credits_ran_out.md
 #: onedesk/notifications/one/credits_running_low.md
 #: onedesk/notifications/one/database_nearly_full.md
 #: onedesk/notifications/one/deletion_asked.md
@@ -9927,6 +9973,11 @@ msgstr ""
 
 #: onedesk/one_studio/doctype/extension/extension.js:43
 msgid "Every hour"
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/notifications/one/followed_records.md
+msgid "Every hour, day or week, as the person chose, when records they follow change."
 msgstr ""
 
 #: onedesk/www/account_invoices.html:18
@@ -10461,6 +10512,11 @@ msgstr ""
 #. Name of a notification
 #: onedesk/notifications/one_studio/extension_deleted.md
 msgid "Extension Deleted"
+msgstr ""
+
+#. Name of a notification
+#: onedesk/notifications/one_studio/extension_fixed.md
+msgid "Extension Fixed"
 msgstr ""
 
 #. Name of a notification
@@ -11197,6 +11253,11 @@ msgstr ""
 msgid "Follow my system"
 msgstr ""
 
+#. Name of a notification
+#: onedesk/notifications/one/followed_records.md
+msgid "Followed Records"
+msgstr ""
+
 #. Label of the one_foot (Code) field in DocType 'Letter Head'
 #: onedesk/one/custom/letter_head.json
 msgid "Foot Preset"
@@ -11568,6 +11629,11 @@ msgid "From {0}, for {1}"
 msgstr ""
 
 #. Message of a notification
+#: onedesk/notifications/one/new_sign_in.md
+msgid "From {device}, at {address}, on {when}. If it was you, nothing needs doing. If it was not, change your password and sign out everywhere else in You › Sign-in."
+msgstr ""
+
+#. Message of a notification
 #: onedesk/notifications/one_hr/leave_asked.md
 msgid "From {from_date} to {to_date}. Approve or reject it."
 msgstr ""
@@ -11732,7 +11798,7 @@ msgstr ""
 msgid "Given"
 msgstr ""
 
-#: onedesk/one/account.py:249
+#: onedesk/one/account.py:251
 msgid "Given by One"
 msgstr ""
 
@@ -13855,6 +13921,10 @@ msgstr ""
 msgid "It expired on {0} with {1} of {2} credits unused."
 msgstr ""
 
+#: onedesk/one_intake/tell.py:108
+msgid "It failed more than once. Open it to read it yourself, or try again later."
+msgstr ""
+
 #: onedesk/one_inventory/assets.py:60
 msgid "It has no asset category."
 msgstr ""
@@ -13885,6 +13955,11 @@ msgstr ""
 #. Subject of a notification
 #: onedesk/notifications/one_hr/work_anniversary.md
 msgid "It is {employee}'s work anniversary"
+msgstr ""
+
+#. Message of a notification
+#: onedesk/notifications/one/approval_waiting.md
+msgid "It is {state}. Open it to {actions}."
 msgstr ""
 
 #: onedesk/www/s.html:36
@@ -17376,6 +17451,11 @@ msgid "New Series"
 msgstr ""
 
 #. Name of a notification
+#: onedesk/notifications/one/new_sign_in.md
+msgid "New Sign-in"
+msgstr ""
+
+#. Name of a notification
 #: onedesk/notifications/one_admin/new_signup.md
 msgid "New Signup"
 msgstr ""
@@ -19731,6 +19811,11 @@ msgid "OneAI could not work out what went wrong with {0}. Try again later."
 msgstr ""
 
 #. Subject of a notification
+#: onedesk/notifications/one_intake/couldn_t_read.md
+msgid "OneAI couldn't read {title}"
+msgstr ""
+
+#. Subject of a notification
 #: onedesk/notifications/one/credits_running_low.md onedesk/one/home.py:145
 msgid "OneAI credits are running low"
 msgstr ""
@@ -19738,11 +19823,6 @@ msgstr ""
 #. Subject of a notification
 #: onedesk/notifications/one/credits_added.md
 msgid "OneAI credits were added"
-msgstr ""
-
-#. Message of a notification
-#: onedesk/notifications/one/credits_added.md
-msgid "OneAI credits were added. The workspace now has {balance}.{note}"
 msgstr ""
 
 #: onedesk/public/js/intake.js:46
@@ -19760,8 +19840,18 @@ msgstr ""
 msgid "OneAI does here only what this person may do."
 msgstr ""
 
+#. Message of a notification
+#: onedesk/notifications/one/credits_ran_out.md
+msgid "OneAI does nothing more, and documents wait unread, until credits are added. Buy a pack or move to a bigger plan on Workspace › Plan and Credits."
+msgstr ""
+
 #: onedesk/one_intake/digest.py:43
 msgid "OneAI handled {0} of {1} documents this month. {2} needed review."
+msgstr ""
+
+#. Subject of a notification
+#: onedesk/notifications/one/credits_ran_out.md
+msgid "OneAI has run out of credits"
 msgstr ""
 
 #: onedesk/one_studio/mend.py:152
@@ -19774,6 +19864,11 @@ msgstr ""
 
 #: onedesk/public/js/onecloud.js:1871
 msgid "OneAI is reading {0}."
+msgstr ""
+
+#. Subject of a notification
+#: onedesk/notifications/one_studio/extension_fixed.md
+msgid "OneAI looked at {extension}"
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:1851
@@ -21605,6 +21700,11 @@ msgstr ""
 msgid "Payment Entry · Draft"
 msgstr ""
 
+#. Name of a notification
+#: onedesk/notifications/one_admin/payment_failed.md
+msgid "Payment Failed"
+msgstr ""
+
 #: onedesk/one_intake/panel.py:139 onedesk/public/js/settings.js:1498
 msgid "Payment Method"
 msgstr ""
@@ -21638,6 +21738,8 @@ msgstr ""
 msgid "Payment Reminder"
 msgstr ""
 
+#. Name of a notification
+#: onedesk/notifications/one_book/payment_request.md
 #: onedesk/one_book/home.py:284
 msgid "Payment Request"
 msgstr ""
@@ -21670,13 +21772,13 @@ msgid "Payment for the workspace is overdue"
 msgstr ""
 
 #. Message of a notification
-#: onedesk/notifications/one/payment_overdue.md
-msgid "Payment for the workspace is overdue. Unless it is paid, the workspace is suspended on {date}."
-msgstr ""
-
-#. Message of a notification
 #: onedesk/notifications/one_admin/workspace_suspended.md
 msgid "Payment for {workspace} didn't arrive, so it's suspended. No one can sign in, and nothing in it is changed.<br><br>Pay the invoice we sent you and it's back right away. If it isn't paid, it will be archived on {date}. If something is wrong, reply to this email."
+msgstr ""
+
+#. Subject of a notification
+#: onedesk/notifications/one_admin/payment_failed.md
+msgid "Payment for {workspace} failed"
 msgstr ""
 
 #: onedesk/www/start.py:64
@@ -22700,6 +22802,11 @@ msgstr ""
 #. Name of a notification
 #: onedesk/notifications/one/privacy_requests_waiting.md
 msgid "Privacy Requests Waiting"
+msgstr ""
+
+#. Subject of a notification
+#: onedesk/notifications/one/privacy_requests_waiting.md
+msgid "Privacy requests are waiting: {count}"
 msgstr ""
 
 #. Label of the private_key (Password) field in DocType 'Cloud Mount'
@@ -24179,7 +24286,7 @@ msgstr ""
 msgid "Refund"
 msgstr ""
 
-#: onedesk/one/account.py:254 onedesk/public/js/credit_ledger_entry_list.js:22
+#: onedesk/one/account.py:256 onedesk/public/js/credit_ledger_entry_list.js:22
 msgid "Refunded"
 msgstr ""
 
@@ -24562,6 +24669,11 @@ msgstr ""
 msgid "Repeat"
 msgstr ""
 
+#. Name of a notification
+#: onedesk/notifications/one_book/repeated_by_mail.md
+msgid "Repeated by Mail"
+msgstr ""
+
 #: frontend/src/project/TaskPanel.vue:68 frontend/src/task/TaskPage.vue:36
 msgid "Repeats"
 msgstr ""
@@ -24615,6 +24727,11 @@ msgid "Report"
 msgstr ""
 
 #. Name of a notification
+#: onedesk/notifications/one/report_export_ready.md
+msgid "Report Export Ready"
+msgstr ""
+
+#. Name of a notification
 #: onedesk/notifications/one/report_by_mail.md
 msgid "Report by Mail"
 msgstr ""
@@ -24638,6 +24755,11 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json
 msgid "Reports by Mail"
+msgstr ""
+
+#. Name of a notification
+#: onedesk/notifications/one_inventory/reposting_error_mail.md
+msgid "Reposting Error Mail"
 msgstr ""
 
 #. Name of a notification
@@ -27924,6 +28046,11 @@ msgstr ""
 msgid "Stock is valued in the books"
 msgstr ""
 
+#. Who a notification is sent to
+#: onedesk/notifications/one_inventory/reposting_error_mail.md
+msgid "Stock managers"
+msgstr ""
+
 #: onedesk/one_inventory/home.py:111
 msgid "Stock moved between warehouses, used up or added."
 msgstr ""
@@ -28434,6 +28561,11 @@ msgstr ""
 
 #: onedesk/one_inventory/home.py:133
 msgid "Supplier Scorecard"
+msgstr ""
+
+#. Name of a notification
+#: onedesk/notifications/one_inventory/supplier_scorecard_standing.md
+msgid "Supplier Scorecard Standing"
 msgstr ""
 
 #: onedesk/one_inventory/home.py:197
@@ -29350,6 +29482,11 @@ msgstr ""
 msgid "The address this workspace was given. It cannot be removed."
 msgstr ""
 
+#. Who a notification is sent to
+#: onedesk/notifications/one_book/repeated_by_mail.md
+msgid "The addresses on the repeat, and its maker when it fails"
+msgstr ""
+
 #: onedesk/one_legal/gate.py:17
 msgid "The agreement between your organisation and Four Degree Labs for the use of One."
 msgstr ""
@@ -29509,6 +29646,11 @@ msgid "The customer from their own workspace, an operator here, or One on its ow
 msgstr ""
 
 #. Who a notification is sent to
+#: onedesk/notifications/one_book/payment_request.md
+msgid "The customer's contact on it"
+msgstr ""
+
+#. Who a notification is sent to
 #: onedesk/notifications/one_book/payment_reminder.md
 msgid "The customer's contact on the invoice"
 msgstr ""
@@ -29618,6 +29760,11 @@ msgstr ""
 #: onedesk/notifications/one_hr/exit_interview_scheduled.md
 #: onedesk/notifications/one_hr/exit_questionnaire.md
 msgid "The employee leaving"
+msgstr ""
+
+#. Who a notification is sent to
+#: onedesk/notifications/one_inventory/supplier_scorecard_standing.md
+msgid "The employee the standing names, and the supplier"
 msgstr ""
 
 #: onedesk/one_hr/heads.py:576
@@ -30017,6 +30164,7 @@ msgid "The person invited"
 msgstr ""
 
 #. Who a notification is sent to
+#: onedesk/notifications/one_intake/couldn_t_read.md
 #: onedesk/notifications/one_intake/intake_waiting.md
 #: onedesk/notifications/one_intake/intake_waiting_one_thing.md
 #: onedesk/notifications/one_intake/intake_weekly.md
@@ -30034,6 +30182,7 @@ msgid "The person it's shared with"
 msgstr ""
 
 #. Who a notification is sent to
+#: onedesk/notifications/one/authenticator_setup.md
 #: onedesk/notifications/one/sign_in_code.md
 msgid "The person signing in"
 msgstr ""
@@ -30041,6 +30190,7 @@ msgstr ""
 #. Who a notification is sent to
 #: onedesk/notifications/one/confirm_deletion.md
 #: onedesk/notifications/one/deletion_on_hold.md
+#: onedesk/notifications/one/email_sign_in_link.md
 #: onedesk/notifications/one/password_reset_link.md
 #: onedesk/notifications/one/your_data_is_being_deleted.md
 #: onedesk/notifications/one/your_data_is_ready.md
@@ -30058,6 +30208,11 @@ msgstr ""
 #. Who a notification is sent to
 #: onedesk/notifications/one/full_download_ready.md
 msgid "The person who pays for the workspace"
+msgstr ""
+
+#. Who a notification is sent to
+#: onedesk/notifications/one/new_sign_in.md
+msgid "The person who signed in"
 msgstr ""
 
 #. Who a notification is sent to
@@ -30111,7 +30266,7 @@ msgstr ""
 msgid "The plan and its add-ons."
 msgstr ""
 
-#: onedesk/one/account.py:429
+#: onedesk/one/account.py:431
 msgid "The plan was not changed"
 msgstr ""
 
@@ -30120,11 +30275,11 @@ msgstr ""
 msgid "The plan's and the add-ons'. Zero means no limit."
 msgstr ""
 
-#: onedesk/one/account.py:247
+#: onedesk/one/account.py:249
 msgid "The plan's monthly credits"
 msgstr ""
 
-#: onedesk/one/account.py:245
+#: onedesk/one/account.py:247
 msgid "The plan's monthly credits, until {0}"
 msgstr ""
 
@@ -30314,14 +30469,15 @@ msgstr ""
 msgid "The site stops serving. Data is retained."
 msgstr ""
 
-#. Who a notification is sent to
-#: onedesk/notifications/one_inventory/reordering_failed.md
-msgid "The site's administrators"
-msgstr ""
-
 #. Description of the 'Database (GB)' (Int) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "The site's database and its backups. Zero means unlimited on a plan."
+msgstr ""
+
+#. Who a notification is sent to
+#: onedesk/notifications/one_book/deferred_posting_failed.md
+#: onedesk/notifications/one_inventory/reordering_failed.md
+msgid "The site's operators, so nobody in the workspace"
 msgstr ""
 
 #: onedesk/one_legal/gate.py:31
@@ -30368,6 +30524,11 @@ msgstr ""
 
 #: onedesk/one/ai.py:2899
 msgid "The table {0} needs its columns."
+msgstr ""
+
+#. Message of a notification
+#: onedesk/notifications/one_intake/arrived_after_closing.md
+msgid "The task stays closed. Open it if the document changes anything."
 msgstr ""
 
 #: onedesk/one_book/home.py:329
@@ -30458,6 +30619,10 @@ msgstr ""
 msgid "The workspace does not open at it yet."
 msgstr ""
 
+#: onedesk/one_intake/tell.py:106
+msgid "The workspace has run out of OneAI credits. It is read as soon as more are added."
+msgstr ""
+
 #. Message of a notification
 #: onedesk/notifications/one/credits_running_low.md
 msgid "The workspace has {balance} OneAI credits left, about {days} days at the rate of the last thirty. Buy more on Workspace › Plan and Credits."
@@ -30494,6 +30659,11 @@ msgid "The workspace no longer opens at {domain}. Check that its DNS still point
 msgstr ""
 
 #. Message of a notification
+#: onedesk/notifications/one/credits_added.md
+msgid "The workspace now has {balance} credits.{note}"
+msgstr ""
+
+#. Message of a notification
 #: onedesk/notifications/one/domain_working.md
 msgid "The workspace now opens at {domain}. To have sign-in and links in mail use it, make it the main address on Workspace › Domains."
 msgstr ""
@@ -30505,7 +30675,7 @@ msgstr ""
 
 #. Message of a notification
 #: onedesk/notifications/one/storage_nearly_full.md
-msgid "The workspace's files take {used} of the {limit} its plan allows. Once it is full, nothing new can be uploaded."
+msgid "The workspace's files take {used} of the {limit} its plan allows. Once it is full, nothing new can be uploaded. Add storage or move to a bigger plan on Workspace › Plan and Credits."
 msgstr ""
 
 #: onedesk/one_admin/heads.py:443
@@ -30543,11 +30713,6 @@ msgstr ""
 #. Description of the 'Zone ID' (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "The zone the workspace domain is in. Customers' own domains are added to it as custom hostnames."
-msgstr ""
-
-#. Message of a notification
-#: onedesk/notifications/one/approval_waiting.md
-msgid "The {kind} {record_name} is {state}. Open it to {actions}."
 msgstr ""
 
 #: onedesk/one/print_blocks.py:72
@@ -30741,15 +30906,25 @@ msgstr ""
 msgid "These webhooks could not deliver after every try: {webhooks}. Open each call to see what the other system answered."
 msgstr ""
 
+#. Message of a notification
+#: onedesk/notifications/one/credits_expiring.md
+msgid "They are used before any others, so nothing needs doing unless you want them used."
+msgstr ""
+
 #: onedesk/public/js/portal_share.js:65
 msgid "They can answer through it once."
+msgstr ""
+
+#. Message of a notification
+#: onedesk/notifications/one/oneai_changed.md
+msgid "They changed {what}. This applies to everyone and may change its cost. See OneAI › Actions."
 msgstr ""
 
 #: onedesk/one_hr/heads.py:272
 msgid "They claimed {0} and {1} was sanctioned."
 msgstr ""
 
-#: onedesk/one/tell.py:31
+#: onedesk/one/tell.py:38
 msgid "They expire on {0}."
 msgstr ""
 
@@ -30759,6 +30934,11 @@ msgstr ""
 
 #: onedesk/one/portal_invite.py:137
 msgid "They have already signed in."
+msgstr ""
+
+#. Message of a notification
+#: onedesk/notifications/one/privacy_requests_waiting.md
+msgid "They have waited more than a week, and the law allows one month to respond. Decide them in Data Copies and Account Deletions."
 msgstr ""
 
 #. Message of a notification
@@ -31815,6 +31995,11 @@ msgstr ""
 msgid "Trial Balance for Party"
 msgstr ""
 
+#. Name of a notification
+#: onedesk/notifications/one_admin/trial_ending.md
+msgid "Trial Ending"
+msgstr ""
+
 #. Task in the Year-End Audit project template
 #: onedesk/one_project/library/year_end_audit.json
 msgid "Trial balance ready"
@@ -32118,6 +32303,11 @@ msgstr ""
 msgid "Unknown sender"
 msgstr ""
 
+#. Message of a notification
+#: onedesk/notifications/one/payment_overdue.md
+msgid "Unless it is paid, the workspace is suspended on {date}. Pay it on Workspace › Plan and Credits."
+msgstr ""
+
 #: onedesk/public/js/settings.js:1828 onedesk/public/js/settings.js:1835
 msgid "Unlimited"
 msgstr ""
@@ -32366,11 +32556,11 @@ msgstr ""
 msgid "Used by 1 project"
 msgstr ""
 
-#: onedesk/one/account.py:264
+#: onedesk/one/account.py:266
 msgid "Used by OneAI, one call"
 msgstr ""
 
-#: onedesk/one/account.py:266
+#: onedesk/one/account.py:268
 msgid "Used by OneAI, {0} calls"
 msgstr ""
 
@@ -33955,6 +34145,11 @@ msgid "When One adds a network or place people check in from, because they keep 
 msgstr ""
 
 #. When a notification is sent
+#: onedesk/notifications/one_intake/couldn_t_read.md
+msgid "When OneAI cannot read a document for you, or waits for credits to read it."
+msgstr ""
+
+#. When a notification is sent
 #: onedesk/notifications/one/credits_added.md
 msgid "When OneAI credits are added, from a pack, the monthly plan or One."
 msgstr ""
@@ -33962,6 +34157,11 @@ msgstr ""
 #. When a notification is sent
 #: onedesk/notifications/one/credits_running_low.md
 msgid "When OneAI credits will run out in about three days."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/notifications/one_studio/extension_fixed.md
+msgid "When OneAI finishes fixing an extension you asked it to fix."
 msgstr ""
 
 #. Description of the 'Written On' (Datetime) field in DocType 'Extension'
@@ -34100,6 +34300,16 @@ msgid "When a payment arrives for a workspace whose site has already been archiv
 msgstr ""
 
 #. When a notification is sent
+#: onedesk/notifications/one_admin/payment_failed.md
+msgid "When a payment for a workspace fails, with the day it will be suspended."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/notifications/one_book/payment_request.md
+msgid "When a payment request is submitted, with its link to pay, unless it is set to stay quiet."
+msgstr ""
+
+#. When a notification is sent
 #: onedesk/notifications/one_hr/payslip_by_email.md
 msgid "When a payslip is submitted, with the payslip as a PDF."
 msgstr ""
@@ -34135,6 +34345,16 @@ msgid "When a record reaches an approval step for one of your roles."
 msgstr ""
 
 #. When a notification is sent
+#: onedesk/notifications/one_book/repeated_by_mail.md
+msgid "When a repeated invoice or bill is made and its repeat is set to mail it, or when a repeat fails."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/notifications/one/report_export_ready.md
+msgid "When a report exported in the background is ready to download."
+msgstr ""
+
+#. When a notification is sent
 #: onedesk/notifications/one_inventory/service_due.md
 msgid "When a service on a piece of equipment is due within a week."
 msgstr ""
@@ -34152,6 +34372,11 @@ msgstr ""
 #. When a notification is sent
 #: onedesk/notifications/one_inventory/quote_received.md
 msgid "When a supplier sends a quote for your request."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/notifications/one_inventory/supplier_scorecard_standing.md
+msgid "When a supplier's scorecard standing changes, where the standing is set to mail."
 msgstr ""
 
 #. When a notification is sent
@@ -34207,6 +34432,11 @@ msgstr ""
 #. When a notification is sent
 #: onedesk/notifications/one_admin/workspace_moved_away.md
 msgid "When a workspace's administrator moves it to someone else's account."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/notifications/one_admin/trial_ending.md
+msgid "When a workspace's free trial has three days left."
 msgstr ""
 
 #: onedesk/one_inventory/home.py:144
@@ -34532,7 +34762,7 @@ msgstr ""
 
 #. When a notification is sent
 #: onedesk/notifications/one/password_reset_link.md
-msgid "When somebody asks for a new password on the sign-in page."
+msgid "When somebody asks for a new password on the sign-in page, or an administrator sends them a reset."
 msgstr ""
 
 #. When a notification is sent
@@ -34548,6 +34778,16 @@ msgstr ""
 #. When a notification is sent
 #: onedesk/notifications/one_hr/attendance_request_asked.md
 msgid "When somebody asks to be marked present for days they worked away or from home."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/notifications/one/email_sign_in_link.md
+msgid "When somebody asks to sign in by a link in their mail, where Email Link Sign-in is on."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/notifications/one_crm/appointment_confirmation.md
+msgid "When somebody books an appointment, and again once it is confirmed, in Appointment Booking Settings' words."
 msgstr ""
 
 #. When a notification is sent
@@ -34611,6 +34851,11 @@ msgid "When somebody outside the workspace is invited to an event, or it changes
 msgstr ""
 
 #. When a notification is sent
+#: onedesk/notifications/one_inventory/delivery_trip_notice.md
+msgid "When somebody presses Notify Customers on a delivery trip, in Delivery Settings' words."
+msgstr ""
+
+#. When a notification is sent
 #: onedesk/notifications/one_project/progress_bill_drafted.md
 msgid "When somebody saves a bill or invoice for a share of the work done."
 msgstr ""
@@ -34618,6 +34863,11 @@ msgstr ""
 #. When a notification is sent
 #: onedesk/notifications/one/sign_in_code.md
 msgid "When somebody signs in and the workspace asks for a code by email."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/notifications/one/authenticator_setup.md
+msgid "When somebody signs in for the first time where two-factor sign-in uses an authenticator app."
 msgstr ""
 
 #. When a notification is sent
@@ -34717,6 +34967,11 @@ msgstr ""
 msgid "When stock values cannot be recalculated after a back-dated entry, so the books are behind."
 msgstr ""
 
+#. When a notification is sent
+#: onedesk/notifications/one_inventory/reposting_error_mail.md
+msgid "When stock values cannot be recalculated, mailed by ERPNext besides Reposting Failed, whenever the workspace sends mail."
+msgstr ""
+
 #. Description of the 'Last Heard' (Datetime) field in DocType 'Workspace
 #. Account'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
@@ -34775,6 +35030,11 @@ msgid "When the nightly job cannot post depreciation."
 msgstr ""
 
 #. When a notification is sent
+#: onedesk/notifications/one_book/deferred_posting_failed.md
+msgid "When the nightly posting of deferred income or expense fails."
+msgstr ""
+
+#. When a notification is sent
 #: onedesk/notifications/one_admin/model_withdrawn.md
 msgid "When the nightly sync takes an offered model off sale."
 msgstr ""
@@ -34810,6 +35070,11 @@ msgstr ""
 msgid "When the time or the place of an event you are on changes."
 msgstr ""
 
+#. When a notification is sent
+#: onedesk/notifications/one/credits_ran_out.md
+msgid "When the workspace's OneAI credits run out, and OneAI stops until more are added."
+msgstr ""
+
 #. Description of the 'Hours' (Data) field in DocType 'Shift Request'
 #: onedesk/one_hr/custom/shift_request.json
 msgid "When this shift runs, read from the Shift Type."
@@ -34842,6 +35107,11 @@ msgstr ""
 #. When a notification is sent
 #: onedesk/notifications/one_hr/check_in_closed_for_you.md
 msgid "When you checked in, never checked out, and One checked you out at the end of the shift."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/notifications/one/new_sign_in.md
+msgid "When you sign in from a device or browser you have not used before."
 msgstr ""
 
 #. When a notification is sent
@@ -35396,7 +35666,7 @@ msgstr ""
 msgid "Who owes you, and how late."
 msgstr ""
 
-#: onedesk/one/account.py:446
+#: onedesk/one/account.py:448
 msgid "Who pays was not changed"
 msgstr ""
 
@@ -35464,6 +35734,11 @@ msgid "Whoever asked for it, and the project's manager"
 msgstr ""
 
 #. Who a notification is sent to
+#: onedesk/notifications/one_crm/appointment_confirmation.md
+msgid "Whoever booked it"
+msgstr ""
+
+#. Who a notification is sent to
 #: onedesk/notifications/one_intake/arrived_after_closing.md
 msgid "Whoever closed the task"
 msgstr ""
@@ -35476,6 +35751,16 @@ msgstr ""
 #. Who a notification is sent to
 #: onedesk/notifications/one_inventory/service_late.md
 msgid "Whoever does the service, and the maintenance team's manager"
+msgstr ""
+
+#. Who a notification is sent to
+#: onedesk/notifications/one/report_export_ready.md
+msgid "Whoever exported it"
+msgstr ""
+
+#. Who a notification is sent to
+#: onedesk/notifications/one/followed_records.md
+msgid "Whoever follows them"
 msgstr ""
 
 #. Who a notification is sent to
@@ -35539,6 +35824,17 @@ msgstr ""
 #. Who a notification is sent to
 #: onedesk/notifications/one_inventory/quote_received.md
 msgid "Whoever made the request, or purchasing when they cannot sign in"
+msgstr ""
+
+#. Who a notification is sent to
+#: onedesk/notifications/one_admin/payment_failed.md
+#: onedesk/notifications/one_admin/trial_ending.md
+msgid "Whoever pays for the workspace"
+msgstr ""
+
+#. Who a notification is sent to
+#: onedesk/notifications/one_studio/extension_fixed.md
+msgid "Whoever pressed Fix With OneAI"
 msgstr ""
 
 #. Who a notification is sent to
@@ -36503,7 +36799,7 @@ msgstr ""
 msgid "You can only ask for a letter about yourself."
 msgstr ""
 
-#: onedesk/one/tell.py:199
+#: onedesk/one/tell.py:206
 msgid "You can use {0}."
 msgstr ""
 
@@ -36769,6 +37065,11 @@ msgstr ""
 msgid "Your bank statement matched to what is in the books."
 msgstr ""
 
+#. Message of a notification
+#: onedesk/notifications/one_admin/payment_failed.md
+msgid "Your card was not charged. Unless it is paid, {workspace} is suspended on {date}. Pay it, or change your card, on your account: {account}"
+msgstr ""
+
 #. Subject of a notification
 #: onedesk/notifications/one_hr/check_in_closed_for_you.md
 msgid "Your check-in was closed at the end of your shift"
@@ -36839,6 +37140,11 @@ msgid "Your feedback on {applicant}'s interview is due"
 msgstr ""
 
 #. Subject of a notification
+#: onedesk/notifications/one_admin/trial_ending.md
+msgid "Your free trial of {workspace} ends on {date}"
+msgstr ""
+
+#. Subject of a notification
 #: onedesk/notifications/one_hr/interview_moved_to_the_applicant.md
 msgid "Your interview has moved to {when}"
 msgstr ""
@@ -36901,7 +37207,7 @@ msgstr ""
 
 #. Message of a notification
 #: onedesk/notifications/one/account_deleted.md
-msgid "Your request was approved. You are signed out, and your account and what only you used are being deleted now. What the workspace has to keep, such as invoices you raised, stays without your name and address. Your employee record, if you have one, is HR's."
+msgid "Your request was approved. You are signed out, and your account and what only you used are being deleted now. What the workspace has to keep, such as invoices you raised, stays without your name and address. HR keeps your employee record, if you have one."
 msgstr ""
 
 #. Message of a notification
@@ -37026,7 +37332,7 @@ msgstr ""
 msgid "a column"
 msgstr ""
 
-#: onedesk/one/tell.py:362
+#: onedesk/one/tell.py:376
 msgid "a copy of your data"
 msgstr ""
 
@@ -37218,7 +37524,7 @@ msgstr ""
 msgid "created the project"
 msgstr ""
 
-#: onedesk/one/account.py:243
+#: onedesk/one/account.py:245
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:26
 msgid "credits"
 msgstr ""
@@ -37388,7 +37694,7 @@ msgstr ""
 msgid "its payer"
 msgstr ""
 
-#: onedesk/one_admin/tell.py:224
+#: onedesk/one_admin/tell.py:227
 msgid "its price can no longer be read"
 msgstr ""
 
@@ -37412,7 +37718,7 @@ msgstr ""
 msgid "late"
 msgstr ""
 
-#: onedesk/one/tell.py:177
+#: onedesk/one/tell.py:184
 msgid "later"
 msgstr ""
 
@@ -37458,7 +37764,7 @@ msgstr ""
 msgid "may now {0}"
 msgstr ""
 
-#: onedesk/one/tell.py:458
+#: onedesk/one/tell.py:472
 msgid "move it on"
 msgstr ""
 
@@ -37470,7 +37776,7 @@ msgstr ""
 msgid "needed {0}"
 msgstr ""
 
-#: onedesk/one_admin/tell.py:281
+#: onedesk/one_admin/tell.py:284
 msgid "never"
 msgstr ""
 
@@ -37547,7 +37853,7 @@ msgstr ""
 msgid "nothing"
 msgstr ""
 
-#: onedesk/one_admin/tell.py:233
+#: onedesk/one_admin/tell.py:236
 msgid "nothing can do {0} now"
 msgstr ""
 
@@ -37884,7 +38190,7 @@ msgstr ""
 msgid "the days off each week are now {0}"
 msgstr ""
 
-#: onedesk/one_admin/tell.py:231
+#: onedesk/one_admin/tell.py:234
 msgid "the default for {0} is now {1}"
 msgstr ""
 
@@ -37904,7 +38210,7 @@ msgstr ""
 msgid "the month"
 msgstr ""
 
-#: onedesk/one_admin/tell.py:224
+#: onedesk/one_admin/tell.py:227
 msgid "the provider withdrew it"
 msgstr ""
 
@@ -38060,7 +38366,7 @@ msgstr ""
 msgid "yesterday"
 msgstr ""
 
-#: onedesk/one/tell.py:362
+#: onedesk/one/tell.py:376
 msgid "your data to be deleted"
 msgstr ""
 
@@ -38105,7 +38411,7 @@ msgstr ""
 msgid "{0} (was {1})"
 msgstr ""
 
-#: onedesk/one/tell.py:567 onedesk/one_studio/extensions.py:457
+#: onedesk/one/tell.py:581 onedesk/one_studio/extensions.py:457
 #: onedesk/public/js/privacy_copy.js:27
 msgid "{0} ({1})"
 msgstr ""
@@ -38287,7 +38593,7 @@ msgstr ""
 msgid "{0} always works."
 msgstr ""
 
-#: onedesk/one/tell.py:249
+#: onedesk/one/tell.py:256
 msgid "{0} and {1}"
 msgstr ""
 
@@ -38665,7 +38971,7 @@ msgstr ""
 msgid "{0} files are on the disk, which is where this workspace keeps them."
 msgstr ""
 
-#: onedesk/one/tell.py:158
+#: onedesk/one/tell.py:165
 msgid "{0} files could not be read and are listed in it."
 msgstr ""
 
@@ -39681,11 +39987,11 @@ msgstr ""
 msgid "{0} of {1}'s time; none of it is billed to the customer."
 msgstr ""
 
-#: onedesk/one/tell.py:506
+#: onedesk/one/tell.py:520
 msgid "{0} off"
 msgstr ""
 
-#: onedesk/one/tell.py:506
+#: onedesk/one/tell.py:520
 msgid "{0} on"
 msgstr ""
 
@@ -39746,6 +40052,10 @@ msgstr ""
 
 #: frontend/src/plant/PlantFloor.vue:55
 msgid "{0} operations waiting"
+msgstr ""
+
+#: onedesk/one/tell.py:595
+msgid "{0} or {1}"
 msgstr ""
 
 #: frontend/src/project/Facts.vue:16 frontend/src/supplier/SupplierItems.vue:50
@@ -40063,7 +40373,7 @@ msgstr ""
 msgid "{0} to {1}"
 msgstr ""
 
-#: onedesk/one/tell.py:504
+#: onedesk/one/tell.py:518
 msgid "{0} to {1}%"
 msgstr ""
 
@@ -40583,11 +40893,6 @@ msgid "{big} costs more per unit than {small}."
 msgstr ""
 
 #. Message of a notification
-#: onedesk/notifications/one/announcement.md
-msgid "{by} announced: {text}"
-msgstr ""
-
-#. Message of a notification
 #: onedesk/notifications/one/person_deleted.md
 msgid "{by} approved deleting {person}'s account. It is turned off and being erased now."
 msgstr ""
@@ -40595,6 +40900,11 @@ msgstr ""
 #. Message of a notification
 #: onedesk/notifications/one/workspace_closing.md
 msgid "{by} asked for the workspace to be closed. It works as usual until {date}. After that no one can sign in, and on {deleted} everything in it is permanently deleted. Download anything you need before then."
+msgstr ""
+
+#. Subject of a notification
+#: onedesk/notifications/one/oneai_changed.md
+msgid "{by} changed OneAI's {action}"
 msgstr ""
 
 #. Message of a notification
@@ -40643,16 +40953,6 @@ msgid "{by} changed who pays for the workspace"
 msgstr ""
 
 #. Subject of a notification
-#: onedesk/notifications/one/oneai_changed.md
-msgid "{by} changed {action}"
-msgstr ""
-
-#. Message of a notification
-#: onedesk/notifications/one/oneai_changed.md
-msgid "{by} changed {what} for {action}. This applies to everyone and may change its cost. See OneAI › Actions."
-msgstr ""
-
-#. Subject of a notification
 #: onedesk/notifications/one/person_deleted.md
 msgid "{by} deleted {person}'s account"
 msgstr ""
@@ -40697,6 +40997,11 @@ msgstr ""
 msgid "{by} moved billing for {workspace} to someone else. You won't get any more invoices for it. If this is a mistake, reply to this email."
 msgstr ""
 
+#. Subject of a notification
+#: onedesk/notifications/one/announcement.md
+msgid "{by} posted {title}"
+msgstr ""
+
 #. Message of a notification
 #: onedesk/notifications/one_hr/passkey_reset_done.md
 msgid "{by} reset your passkey. Open One on the new phone and check in once to register it."
@@ -40739,22 +41044,12 @@ msgstr ""
 
 #. Subject of a notification
 #: onedesk/notifications/one_intake/intake_waiting.md
-msgid "{count} items in {title} need review."
+msgid "{count} items in {title} need review"
 msgstr ""
 
 #. Subject of a notification
 #: onedesk/notifications/one_calendar/today_s_events.md
 msgid "{count} on your calendar today"
-msgstr ""
-
-#. Subject of a notification
-#: onedesk/notifications/one/privacy_requests_waiting.md
-msgid "{count} privacy requests are waiting"
-msgstr ""
-
-#. Message of a notification
-#: onedesk/notifications/one/privacy_requests_waiting.md
-msgid "{count} privacy requests have waited more than a week. The law allows one month to respond."
 msgstr ""
 
 #. Subject of a notification
@@ -40765,11 +41060,6 @@ msgstr ""
 #. Subject of a notification
 #: onedesk/notifications/one/credits_expiring.md
 msgid "{credits} OneAI credits expire on {date}"
-msgstr ""
-
-#. Message of a notification
-#: onedesk/notifications/one/credits_expiring.md
-msgid "{credits} of the workspace's OneAI credits expire on {date}. They are used before any others, so nothing needs doing unless you want them used."
 msgstr ""
 
 #. Subject of a notification
@@ -40996,6 +41286,11 @@ msgstr ""
 msgid "{place} was added to where people check in"
 msgstr ""
 
+#. Message of a notification
+#: onedesk/notifications/one_admin/trial_ending.md
+msgid "{plan} then costs {price}, charged to your card on that day. Change your plan or cancel on your account: {account}"
+msgstr ""
+
 #. Subject of a notification
 #: onedesk/notifications/one_project/retainer_hours_used.md
 msgid "{project} has used its {allowance} h for this month"
@@ -41079,7 +41374,7 @@ msgstr ""
 
 #. Subject of a notification
 #: onedesk/notifications/one_intake/arrived_after_closing.md
-msgid "{title} arrived after you closed this task."
+msgid "{title} arrived after you closed its task"
 msgstr ""
 
 #. Subject of a notification

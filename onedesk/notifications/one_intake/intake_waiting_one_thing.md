@@ -7,4 +7,4 @@ push_default: yes
 follows: Intake Waiting
 ---
 
-# 1 item in {title} needs review.
+# 1 item in {title} needs review

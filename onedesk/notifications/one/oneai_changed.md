@@ -1,12 +1,13 @@
 ---
 name: OneAI Changed
 app: One
+roles: Workspace Administrator
 about: When another administrator changes the model or the added instructions of one of OneAI's actions.
 to: Every other administrator
 email: no
 ---
 
-# {by} changed {action}
+# {by} changed OneAI's {action}
 
-{by} changed {what} for {action}. This applies to everyone and may change its
-cost. See OneAI › Actions.
+They changed {what}. This applies to everyone and may change its cost. See
+OneAI › Actions.

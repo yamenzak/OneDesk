@@ -1,6 +1,7 @@
 ---
 name: Copy Asked
 app: One
+roles: Workspace Administrator
 about: When someone asks for a copy of their data.
 to: Every administrator
 email: no

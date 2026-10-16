@@ -6,6 +6,6 @@ to: Everyone in the workspace
 email_default: yes
 ---
 
-# {title}
+# {by} posted {title}
 
-{by} announced: {text}
+{text}

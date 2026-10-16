@@ -87,3 +87,23 @@ def weekly(email: str, week: dict, waiting: list, said: str) -> None:
 		# Built and escaped by body(), in the reader's language.
 		week=Markup(said),
 	)
+
+
+def couldnt_read(reading, waiting: bool) -> None:
+	"""A document OneAI could not read, or waits for credits to read, told once
+	to the person it reads for."""
+	from frappe import _
+
+	if not reading.on_behalf_of:
+		return
+	notify.notify(
+		"Couldn't Read",
+		reading.on_behalf_of,
+		record=("Reading", reading.name),
+		sender=notify.ONEAI,
+		dedupe_on=["document_type", "document_name"],
+		title=reading.title or reading.name,
+		why=_("The workspace has run out of OneAI credits. It is read as soon as more are added.")
+		if waiting
+		else _("It failed more than once. Open it to read it yourself, or try again later."),
+	)

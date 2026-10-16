@@ -1,6 +1,7 @@
 ---
 name: Payer Changed
 app: One
+roles: Workspace Administrator
 about: When another administrator changes who pays for the workspace.
 to: Every other administrator
 email: no

@@ -10,7 +10,7 @@ import json
 import frappe
 from frappe.utils import cint, now_datetime
 
-from onedesk.one_intake import read, split, switches, vision
+from onedesk.one_intake import read, split, switches, tell, vision
 
 #: Frappe's own bookkeeping and our own pictures: files nobody sent.
 SKIPPED = frozenset(
@@ -404,12 +404,15 @@ def _failed(reading, raised: Exception) -> None:
 	from onedesk.one_admin import faults
 
 	if vision.credits_gone(raised):
+		if reading.state != "Waiting for Credits":
+			tell.couldnt_read(reading, waiting=True)
 		_set(reading, state="Waiting for Credits", error=str(raised)[:500])
 	elif isinstance(raised, faults.Again) and cint(reading.tries) < TRIES:
 		_set(reading, state="Queued", tries=cint(reading.tries) + 1, error=str(raised)[:500])
 	else:
 		frappe.log_error(title=f"Intake could not read {reading.name}")
 		_set(reading, state="Failed", tries=cint(reading.tries) + 1, error=str(raised)[:500])
+		tell.couldnt_read(reading, waiting=False)
 
 
 def again() -> None:
