@@ -23,6 +23,9 @@ def reject(attempt: str, note: str | None = None) -> dict:
 	if checkin:
 		frappe.db.set_value("Employee Checkin", checkin, "skip_auto_attendance", 1)
 	settled["checkin"] = checkin
+	from onedesk.one_hr import tell
+
+	tell.checkin_rejected(frappe.db.get_value("Clock Attempt", attempt, "employee"), checkin, note)
 	return settled
 
 

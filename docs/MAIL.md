@@ -82,8 +82,7 @@ By module, each a type of its own:
   Expiring (passport, visa, permit); Passkey Reset Done; Interview Scheduled.
 - **OneCRM**: Given to You (a lead or opportunity whose owner is set to
   somebody else); New Lead Waiting (nobody owns it); Quotation Running Out.
-- **OneBook**: Invoice Overdue, to the team; Bills Due This Week; Paid Online;
-  Repeat Failed.
+- **OneBook**: Invoice Overdue, to the team; Bills Due This Week; Paid Online.
 - **OneInventory**: Material Request Asked, to buying; Delivery Late.
 - **OneTask**: Comment on Your Task; Sent Back, for a review answered no.
 - **OneCalendar**: a guest taken off an event is sent its cancellation; an
@@ -115,3 +114,36 @@ One's mark on nothing, because the mark is an SVG. The button is now the
 company's colour; One's own mails (the admin site's, and the fifteen types
 marked `from_one`) wear One's mark as a PNG; and a mail to a reader of
 Arabic reads right to left. docs/NOTIFICATIONS.md, The mail.
+
+## Stage 6: the second pass
+
+Four more reads of the code, one per group, asked only what still tells
+nobody. Every registered type is sent from somewhere; what was missing:
+
+- **OneHR**: a leave or expense request with no approver set (hrms's default)
+  told nobody, and an approver set later was never told; Grievance Answered;
+  Contract Ending and Probation Ending; a cancelled leave to its approver;
+  Check-in Rejected; Marked Absent; Leave Expiring; Appraisal Started; an
+  interviewer added later, and the applicant on scheduling; Job Requisition
+  and Employee Referral, asked and answered; Expense Claim Paid.
+- **OneBook**: Repeat Failed, which Stage 3 claimed and never built; Paid
+  Online for an order's deposit.
+- **OneInventory**: a transfer, issue or manufacture request told nobody;
+  Material Request Done and Stopped, to whoever asked; Reordering Failed;
+  subcontracted goods late back.
+- **OneCRM**: They Replied, mail in on a lead or opportunity; Contract
+  Ending; erpnext's proforma mail unlisted.
+- **OneTask**: Task Reopened; Task Cancelled.
+- **OneProject**: Removed from Project; Project Resumed; Comment on Project;
+  Milestone Late; "Administrator added you".
+- **OneCalendar**: a guest's reply never read; Starting Soon to people who
+  said no.
+- **OneMail**: Mail Not Sent; Mailbox Shared With You; Mailbox Not Reachable
+  to administrators when nobody holds it.
+- **One**: Approval Answered; Sign-in Rules Changed; Administrator Removed;
+  Automations Failing; Storage Full; Credits Ran Out when they run out.
+- **OneAdmin**: Build Slow, and Workspace Delayed to a payer whose build
+  waits; Server Filling Up.
+- **OneLegal**: Agreements Changed, to every administrator, once per version.
+- Frappe's Remind Me reminder never pushed or mailed; Google Calendar's own
+  invitations unlisted.

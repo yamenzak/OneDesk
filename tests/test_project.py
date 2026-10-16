@@ -2075,7 +2075,7 @@ def test_a_day_on_site_is_a_day_on_the_project():
 	assert worked(0, "Present", 8.5) == 8.5 and worked(0, "Half Day", 8.5) == 4.25
 	assert worked(0, "Absent", 8.5) == 0
 	hooks = (tree.APP / "hooks.py").read_text()
-	assert '"on_submit": "onedesk.one_project.site_time.attended"' in hooks
+	assert '"onedesk.one_project.site_time.attended"' in hooks
 	assert '"on_cancel": "onedesk.one_project.site_time.cancelled"' in hooks
 	timesheet = json.loads((PROJECT / "custom" / "timesheet.json").read_text())
 	assert timesheet["custom_fields"][0]["fieldname"] == "one_attendance"

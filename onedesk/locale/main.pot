@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-16 11:18+0000\n"
-"PO-Revision-Date: 2026-10-16 11:18+0000\n"
+"POT-Creation-Date: 2026-10-16 13:06+0000\n"
+"PO-Revision-Date: 2026-10-16 13:06+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -3164,6 +3164,11 @@ msgstr ""
 msgid "Appraisal Overview"
 msgstr ""
 
+#. Name of a notification
+#: onedesk/notifications/one_hr/appraisal_started.md
+msgid "Appraisal Started"
+msgstr ""
+
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Appraisal Template"
@@ -3208,6 +3213,11 @@ msgstr ""
 
 #: onedesk/one/ai.py:183
 msgid "Approve bills by amount"
+msgstr ""
+
+#. Message of a notification
+#: onedesk/notifications/one_hr/job_requisition_asked.md
+msgid "Approve or reject the requisition."
 msgstr ""
 
 #. Task in the Aluminium & Glazing project template
@@ -3843,7 +3853,7 @@ msgstr ""
 #: onedesk/one_hr/custom/employee.json onedesk/one_hr/custom/hr_settings.json
 #: onedesk/one_hr/heads.py:124
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:152
-#: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/one_hr/tell.py:157
+#: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/one_hr/tell.py:181
 #: onedesk/one_project/custom/timesheet.json
 msgid "Attendance"
 msgstr ""
@@ -5429,7 +5439,7 @@ msgstr ""
 msgid "Change this task…"
 msgstr ""
 
-#: onedesk/one/notify.py:678
+#: onedesk/one/notify.py:736
 msgid "Change what you get by mail"
 msgstr ""
 
@@ -5638,6 +5648,11 @@ msgstr ""
 #. Name of a notification
 #: onedesk/notifications/one_hr/check_in_place_proposed.md
 msgid "Check-in Place Proposed"
+msgstr ""
+
+#. Name of a notification
+#: onedesk/notifications/one_hr/check_in_rejected.md
+msgid "Check-in Rejected"
 msgstr ""
 
 #. Label of the attempts (Int) field in DocType 'Clock Network'
@@ -6450,6 +6465,11 @@ msgstr ""
 msgid "Confirm the candidate's consent to start recording."
 msgstr ""
 
+#. Message of a notification
+#: onedesk/notifications/one_hr/probation_ending.md
+msgid "Confirm them, extend it, or let them go before then."
+msgstr ""
+
 #. Subject of a notification
 #: onedesk/notifications/one_admin/confirm_your_new_email.md
 msgid "Confirm your new address for One"
@@ -6653,6 +6673,11 @@ msgstr ""
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 #: onedesk/one_project/ai.py:990
 msgid "Contract"
+msgstr ""
+
+#. Name of a notification
+#: onedesk/notifications/one_hr/contract_ending.md
+msgid "Contract Ending"
 msgstr ""
 
 #: onedesk/one/print_blocks.py:35
@@ -7655,6 +7680,11 @@ msgstr ""
 #. Message of a notification
 #: onedesk/notifications/one_hr/interview_moved_to_the_applicant.md
 msgid "Dear {applicant}, your interview has moved from {was} to {when}."
+msgstr ""
+
+#. Message of a notification
+#: onedesk/notifications/one_hr/interview_scheduled_to_the_applicant.md
+msgid "Dear {applicant}, your interview is on {when}. Reply to this email if that time does not suit you."
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -10271,6 +10301,11 @@ msgstr ""
 msgid "Expense Claim Asked"
 msgstr ""
 
+#. Name of a notification
+#: onedesk/notifications/one_hr/expense_claim_paid.md
+msgid "Expense Claim Paid"
+msgstr ""
+
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Expense Claim Type"
@@ -10566,7 +10601,8 @@ msgstr ""
 msgid "Failed to render template: {0}"
 msgstr ""
 
-#: onedesk/one/notify.py:555 onedesk/one/notify.py:709
+#: onedesk/one/notify.py:555 onedesk/one/notify.py:767
+#: onedesk/one_hr/tell.py:252
 msgid "Failed to send notification email"
 msgstr ""
 
@@ -10847,6 +10883,11 @@ msgstr ""
 
 #: onedesk/public/js/settings.js:2808
 msgid "Filing"
+msgstr ""
+
+#. Message of a notification
+#: onedesk/notifications/one_hr/appraisal_started.md
+msgid "Fill in your self-appraisal by {date}."
 msgstr ""
 
 #: onedesk/one_intake/panel.py:214
@@ -11942,6 +11983,11 @@ msgid "Grievance"
 msgstr ""
 
 #. Name of a notification
+#: onedesk/notifications/one_hr/grievance_answered.md
+msgid "Grievance Answered"
+msgstr ""
+
+#. Name of a notification
 #: onedesk/notifications/one_hr/grievance_raised.md
 msgid "Grievance Raised"
 msgstr ""
@@ -12028,7 +12074,9 @@ msgstr ""
 #. Who a notification is sent to
 #: onedesk/notifications/one_hr/attendance_request_asked.md
 #: onedesk/notifications/one_hr/could_not_mark_left.md
+#: onedesk/notifications/one_hr/job_requisition_asked.md
 #: onedesk/notifications/one_hr/passkey_reset_asked.md
+#: onedesk/notifications/one_hr/referral_received.md
 msgid "HR"
 msgstr ""
 
@@ -12060,6 +12108,12 @@ msgstr ""
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.json
 msgid "HR User"
+msgstr ""
+
+#. Who a notification is sent to
+#: onedesk/notifications/one_hr/contract_ending.md
+#: onedesk/notifications/one_hr/probation_ending.md
+msgid "HR and the employee's manager"
 msgstr ""
 
 #. Who a notification is sent to
@@ -13475,7 +13529,7 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:190
-#: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/one_hr/tell.py:225
+#: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/one_hr/tell.py:280
 msgid "Interview"
 msgstr ""
 
@@ -13494,7 +13548,7 @@ msgstr ""
 msgid "Interview Moved, to the Applicant"
 msgstr ""
 
-#: onedesk/one_hr/tell.py:197
+#: onedesk/one_hr/tell.py:221
 msgid "Interview Not Rescheduled"
 msgstr ""
 
@@ -13516,6 +13570,11 @@ msgstr ""
 #. Name of a notification
 #: onedesk/notifications/one_hr/interview_scheduled.md
 msgid "Interview Scheduled"
+msgstr ""
+
+#. Name of a notification
+#: onedesk/notifications/one_hr/interview_scheduled_to_the_applicant.md
+msgid "Interview Scheduled, to the Applicant"
 msgstr ""
 
 #. Name of a notification
@@ -13921,6 +13980,11 @@ msgid "It needs more work before it is done. {facts}"
 msgstr ""
 
 #. Message of a notification
+#: onedesk/notifications/one_hr/check_in_rejected.md
+msgid "It no longer counts toward your attendance. If you were there, ask for the day with an attendance request. {note}"
+msgstr ""
+
+#. Message of a notification
 #: onedesk/notifications/one_studio/extension_deleted.md
 #: onedesk/notifications/one_studio/extension_turned_off.md
 msgid "It no longer runs on {kind}. {explanation}"
@@ -13952,6 +14016,11 @@ msgstr ""
 #. Message of a notification
 #: onedesk/notifications/one_inventory/service_late.md
 msgid "It was due {due} and is not recorded done. Do it, then record it done on the service."
+msgstr ""
+
+#. Message of a notification
+#: onedesk/notifications/one_hr/leave_cancelled.md
+msgid "It was from {from_date} to {to_date}. They are working those days now."
 msgstr ""
 
 #. Message of a notification
@@ -14220,6 +14289,16 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Job Requisition"
+msgstr ""
+
+#. Name of a notification
+#: onedesk/notifications/one_hr/job_requisition_answered.md
+msgid "Job Requisition Answered"
+msgstr ""
+
+#. Name of a notification
+#: onedesk/notifications/one_hr/job_requisition_asked.md
+msgid "Job Requisition Asked"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -14956,6 +15035,11 @@ msgstr ""
 msgid "Leave Block List"
 msgstr ""
 
+#. Name of a notification
+#: onedesk/notifications/one_hr/leave_cancelled.md
+msgid "Leave Cancelled"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Leave Control Panel"
@@ -14964,6 +15048,11 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Leave Encashment"
+msgstr ""
+
+#. Name of a notification
+#: onedesk/notifications/one_hr/leave_expiring.md
+msgid "Leave Expiring"
 msgstr ""
 
 #. Label of a Link in the OneHR Setup Workspace
@@ -15954,7 +16043,7 @@ msgstr ""
 msgid "Mailed to addresses outside the workspace, so nobody chooses channels for it."
 msgstr ""
 
-#: onedesk/one/notify.py:675
+#: onedesk/one/notify.py:733
 msgid "Mailed to everybody it concerns, whatever they chose."
 msgstr ""
 
@@ -16234,6 +16323,11 @@ msgstr ""
 
 #: onedesk/one_project/ai.py:585
 msgid "Mark {0} {1}"
+msgstr ""
+
+#. Name of a notification
+#: onedesk/notifications/one_hr/marked_absent.md
+msgid "Marked Absent"
 msgstr ""
 
 #: onedesk/one_inventory/ready.py:289
@@ -17805,8 +17899,13 @@ msgstr ""
 msgid "No calendar link"
 msgstr ""
 
-#: onedesk/one_hr/tell.py:195
+#: onedesk/one_hr/tell.py:219
 msgid "No changes found in timings."
+msgstr ""
+
+#. Message of a notification
+#: onedesk/notifications/one_hr/marked_absent.md
+msgid "No check-in was found for that day. If you were working, ask for it with an attendance request."
 msgstr ""
 
 #: frontend/src/project/Team.vue:67
@@ -18238,7 +18337,7 @@ msgstr ""
 msgid "No subcontracts"
 msgstr ""
 
-#: onedesk/one_hr/review.py:37
+#: onedesk/one_hr/review.py:40
 msgid "No such check-in attempt."
 msgstr ""
 
@@ -20012,7 +20111,7 @@ msgstr ""
 msgid "Only HR can reset a passkey."
 msgstr ""
 
-#: onedesk/one_hr/review.py:31
+#: onedesk/one_hr/review.py:34
 msgid "Only HR can review a check-in."
 msgstr ""
 
@@ -20044,7 +20143,7 @@ msgstr ""
 msgid "Only a connected mailbox has a password to update."
 msgstr ""
 
-#: onedesk/one_hr/review.py:41
+#: onedesk/one_hr/review.py:44
 msgid "Only a flagged attempt needs reviewing."
 msgstr ""
 
@@ -20334,7 +20433,7 @@ msgstr ""
 msgid "Open"
 msgstr ""
 
-#: onedesk/one/notify.py:665
+#: onedesk/one/notify.py:723
 msgctxt "Go to it"
 msgid "Open"
 msgstr ""
@@ -20563,7 +20662,7 @@ msgstr ""
 msgid "Open your One account"
 msgstr ""
 
-#: onedesk/one/notify.py:668 onedesk/one/portal_share.py:316
+#: onedesk/one/notify.py:726 onedesk/one/portal_share.py:316
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:377
 #: onedesk/public/js/audit_list.js:11 onedesk/www/s.html:120
 msgid "Open {0}"
@@ -22890,6 +22989,11 @@ msgstr ""
 msgid "Probability (%)"
 msgstr ""
 
+#. Name of a notification
+#: onedesk/notifications/one_hr/probation_ending.md
+msgid "Probation Ending"
+msgstr ""
+
 #. Label of the problem (Small Text) field in DocType 'Workspace Domain'
 #. Label of the problem (Small Text) field in DocType 'Tenant Domain'
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
@@ -24345,6 +24449,16 @@ msgstr ""
 msgid "References"
 msgstr ""
 
+#. Name of a notification
+#: onedesk/notifications/one_hr/referral_answered.md
+msgid "Referral Answered"
+msgstr ""
+
+#. Name of a notification
+#: onedesk/notifications/one_hr/referral_received.md
+msgid "Referral Received"
+msgstr ""
+
 #: onedesk/one_admin/heads.py:620 onedesk/one_admin/heads.py:627
 #: onedesk/public/js/onecloud.js:120 onedesk/public/js/onecloud.js:1958
 #: onedesk/public/js/onecloud.js:1959 onedesk/public/js/onecloud.js:1979
@@ -24673,6 +24787,11 @@ msgstr ""
 
 #: onedesk/one_intake/panel.py:223
 msgid "Renamed to {0}"
+msgstr ""
+
+#. Message of a notification
+#: onedesk/notifications/one_hr/contract_ending.md
+msgid "Renew it, or plan their last day."
 msgstr ""
 
 #: onedesk/one_project/agreement.py:182
@@ -25233,6 +25352,11 @@ msgstr ""
 
 #: onedesk/one/portal_share.py:21
 msgid "Review the quotation"
+msgstr ""
+
+#. Message of a notification
+#: onedesk/notifications/one_hr/referral_received.md
+msgid "Review the referral."
 msgstr ""
 
 #: onedesk/one_hr/heads.py:609 onedesk/one_hr/heads.py:619
@@ -29599,6 +29723,7 @@ msgstr ""
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_hr/interview_moved_to_the_applicant.md
+#: onedesk/notifications/one_hr/interview_scheduled_to_the_applicant.md
 #: onedesk/notifications/one_hr/interview_soon_to_the_applicant.md
 msgid "The applicant"
 msgstr ""
@@ -29827,11 +29952,16 @@ msgid "The document's key, such as terms or privacy."
 msgstr ""
 
 #. Who a notification is sent to
+#: onedesk/notifications/one_hr/appraisal_started.md
 #: onedesk/notifications/one_hr/attendance_request_answered.md
 #: onedesk/notifications/one_hr/check_in_closed_for_you.md
+#: onedesk/notifications/one_hr/check_in_rejected.md
 #: onedesk/notifications/one_hr/expense_claim_answered.md
+#: onedesk/notifications/one_hr/expense_claim_paid.md
 #: onedesk/notifications/one_hr/leave_answered.md
+#: onedesk/notifications/one_hr/leave_expiring.md
 #: onedesk/notifications/one_hr/letter_issued.md
+#: onedesk/notifications/one_hr/marked_absent.md
 #: onedesk/notifications/one_hr/passkey_reset_done.md
 #: onedesk/notifications/one_hr/shift_answered.md
 msgid "The employee"
@@ -29856,6 +29986,11 @@ msgstr ""
 #. Who a notification is sent to
 #: onedesk/notifications/one_inventory/supplier_scorecard_standing.md
 msgid "The employee the standing names, and the supplier"
+msgstr ""
+
+#. Who a notification is sent to
+#: onedesk/notifications/one_hr/grievance_answered.md
+msgid "The employee who raised it"
 msgstr ""
 
 #: onedesk/one_hr/heads.py:576
@@ -30841,7 +30976,7 @@ msgstr ""
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_hr/expense_claim_asked.md
-msgid "Their expense approver"
+msgid "Their expense approver, or HR when none is set"
 msgstr ""
 
 #. Task in the New Client Onboarding project template
@@ -30851,7 +30986,8 @@ msgstr ""
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_hr/leave_asked.md
-msgid "Their leave approver"
+#: onedesk/notifications/one_hr/leave_cancelled.md
+msgid "Their leave approver, or HR when none is set"
 msgstr ""
 
 #. Message of a notification
@@ -30861,7 +30997,7 @@ msgstr ""
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_hr/shift_asked.md
-msgid "Their shift approver"
+msgid "Their shift approver, or HR when none is set"
 msgstr ""
 
 #: onedesk/public/js/outside.js:110
@@ -31050,6 +31186,11 @@ msgstr ""
 msgid "They claimed {0} and {1} was sanctioned."
 msgstr ""
 
+#. Message of a notification
+#: onedesk/notifications/one_hr/leave_expiring.md
+msgid "They do not carry forward. Apply for them before then if you want them."
+msgstr ""
+
 #: onedesk/one/tell.py:38
 msgid "They expire on {0}."
 msgstr ""
@@ -31111,7 +31252,7 @@ msgstr ""
 msgid "This account is not a person's."
 msgstr ""
 
-#: onedesk/one_hr/review.py:39
+#: onedesk/one_hr/review.py:42
 msgid "This attempt was already reviewed."
 msgstr ""
 
@@ -32504,7 +32645,7 @@ msgid "Until then, {0} applies."
 msgstr ""
 
 #: frontend/src/item/ItemBuying.vue:80 frontend/src/item/ItemPriceRow.vue:47
-#: frontend/src/item/ItemSelling.vue:89 onedesk/one_hr/tell.py:108
+#: frontend/src/item/ItemSelling.vue:89 onedesk/one_hr/tell.py:132
 msgid "Until {0}"
 msgstr ""
 
@@ -34282,6 +34423,16 @@ msgid "When HR resets your passkey after you changed phones."
 msgstr ""
 
 #. When a notification is sent
+#: onedesk/notifications/one_hr/grievance_answered.md
+msgid "When HR resolves a grievance you raised, or finds it invalid."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/notifications/one_hr/check_in_rejected.md
+msgid "When HR turns down a check-in of yours that was flagged."
+msgstr ""
+
+#. When a notification is sent
 #: onedesk/notifications/one_hr/check_in_place_proposed.md
 msgid "When One adds a network or place people check in from, because they keep using it."
 msgstr ""
@@ -34645,6 +34796,11 @@ msgid "When an administrator posts an announcement."
 msgstr ""
 
 #. When a notification is sent
+#: onedesk/notifications/one_hr/appraisal_started.md
+msgid "When an appraisal cycle starts your appraisal."
+msgstr ""
+
+#. When a notification is sent
 #: onedesk/notifications/one/automation_notice.md
 msgid "When an automation sends a notification."
 msgstr ""
@@ -34669,13 +34825,28 @@ msgid "When an employee raises a grievance."
 msgstr ""
 
 #. When a notification is sent
+#: onedesk/notifications/one_hr/referral_received.md
+msgid "When an employee refers somebody for a job."
+msgstr ""
+
+#. When a notification is sent
 #: onedesk/notifications/one_hr/passkey_reset_asked.md
 msgid "When an employee who changed phones asks for their passkey to be reset."
 msgstr ""
 
 #. When a notification is sent
+#: onedesk/notifications/one_hr/contract_ending.md
+msgid "When an employee's contract ends in a month, and again in a week."
+msgstr ""
+
+#. When a notification is sent
 #: onedesk/notifications/one_hr/could_not_mark_left.md
 msgid "When an employee's leaving date passes and their status could not be set to Left."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/notifications/one_hr/probation_ending.md
+msgid "When an employee's probation ends in a month, and again in a week."
 msgstr ""
 
 #. When a notification is sent
@@ -34686,6 +34857,11 @@ msgstr ""
 #. When a notification is sent
 #: onedesk/notifications/one_calendar/starting_soon.md
 msgid "When an event you are on starts soon, as its reminders say, or ten minutes before."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/notifications/one_hr/interview_scheduled_to_the_applicant.md
+msgid "When an interview is scheduled with an applicant."
 msgstr ""
 
 #. When a notification is sent
@@ -34837,6 +35013,11 @@ msgid "When items fall to their reorder level and a material request is raised f
 msgstr ""
 
 #. When a notification is sent
+#: onedesk/notifications/one_hr/leave_expiring.md
+msgid "When leave you have not used lapses in two weeks."
+msgstr ""
+
+#. When a notification is sent
 #: onedesk/notifications/one_mail/attachments_not_saved.md
 msgid "When mail arrives with attachments and the workspace's storage is full. Once a day at most."
 msgstr ""
@@ -34923,6 +35104,11 @@ msgid "When somebody asks to be marked present for days they worked away or from
 msgstr ""
 
 #. When a notification is sent
+#: onedesk/notifications/one_hr/job_requisition_asked.md
+msgid "When somebody asks to hire for a role."
+msgstr ""
+
+#. When a notification is sent
 #: onedesk/notifications/one/email_sign_in_link.md
 msgid "When somebody asks to sign in by a link in their mail, where Email Link Sign-in is on."
 msgstr ""
@@ -34935,6 +35121,11 @@ msgstr ""
 #. When a notification is sent
 #: onedesk/notifications/one_crm/appointment_confirmation.md
 msgid "When somebody books an appointment, and again once it is confirmed, in Appointment Booking Settings' words."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/notifications/one_hr/leave_cancelled.md
+msgid "When somebody cancels leave that was already decided."
 msgstr ""
 
 #. When a notification is sent
@@ -35015,6 +35206,11 @@ msgstr ""
 #. When a notification is sent
 #: onedesk/notifications/one_calendar/taken_off_an_event.md
 msgid "When somebody takes you off an event you were on."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/notifications/one_hr/referral_answered.md
+msgid "When somebody you referred is accepted or rejected."
 msgstr ""
 
 #. When a notification is sent
@@ -35267,6 +35463,16 @@ msgid "When your expense claim is approved or rejected."
 msgstr ""
 
 #. When a notification is sent
+#: onedesk/notifications/one_hr/expense_claim_paid.md
+msgid "When your expense claim is paid in full."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/notifications/one_hr/job_requisition_answered.md
+msgid "When your job requisition is approved or rejected."
+msgstr ""
+
+#. When a notification is sent
 #: onedesk/notifications/one_hr/leave_answered.md
 msgid "When your leave application is approved, rejected or cancelled."
 msgstr ""
@@ -35274,6 +35480,11 @@ msgstr ""
 #. When a notification is sent
 #: onedesk/notifications/one/password_changed.md
 msgid "When your password is changed, here or through a reset link."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/notifications/one_hr/marked_absent.md
+msgid "When your shift marks a working day absent because it found no check-in."
 msgstr ""
 
 #. When a notification is sent
@@ -35865,6 +36076,7 @@ msgid "Who's Off"
 msgstr ""
 
 #. Who a notification is sent to
+#: onedesk/notifications/one_hr/job_requisition_answered.md
 #: onedesk/notifications/one_storage/file_request_answered.md
 #: onedesk/notifications/one_storage/file_request_complete.md
 msgid "Whoever asked"
@@ -35977,6 +36189,11 @@ msgstr ""
 #. Who a notification is sent to
 #: onedesk/notifications/one_studio/extension_fixed.md
 msgid "Whoever pressed Fix With OneAI"
+msgstr ""
+
+#. Who a notification is sent to
+#: onedesk/notifications/one_hr/referral_answered.md
+msgid "Whoever referred them"
 msgstr ""
 
 #. Who a notification is sent to
@@ -36207,7 +36424,7 @@ msgstr ""
 msgid "With Suppliers"
 msgstr ""
 
-#: onedesk/one_hr/tell.py:110
+#: onedesk/one_hr/tell.py:134
 msgid "With no end date"
 msgstr ""
 
@@ -37075,6 +37292,11 @@ msgstr ""
 msgid "You started setting up {workspace} on One but didn't finish paying. The name is held for you for a week.<br><br>If you changed your mind, there's nothing to do. If something went wrong, reply to this email."
 msgstr ""
 
+#. Subject of a notification
+#: onedesk/notifications/one_hr/marked_absent.md
+msgid "You were marked absent on {date}"
+msgstr ""
+
 #. Message of a notification
 #: onedesk/notifications/one_storage/link_shared.md
 msgid "You'll get a sign-in code at this address when you open it."
@@ -37208,6 +37430,11 @@ msgstr ""
 msgid "Your address: {0}"
 msgstr ""
 
+#. Subject of a notification
+#: onedesk/notifications/one_hr/appraisal_started.md
+msgid "Your appraisal for {cycle} has started"
+msgstr ""
+
 #: onedesk/one_book/home.py:286
 msgid "Your bank statement matched to what is in the books."
 msgstr ""
@@ -37215,6 +37442,11 @@ msgstr ""
 #. Message of a notification
 #: onedesk/notifications/one_admin/payment_failed.md
 msgid "Your card was not charged. Unless it is paid, {workspace} is suspended on {date}. Pay it, or change your card, on your One account."
+msgstr ""
+
+#. Subject of a notification
+#: onedesk/notifications/one_hr/check_in_rejected.md
+msgid "Your check-in at {when} was turned down"
 msgstr ""
 
 #. Subject of a notification
@@ -37282,6 +37514,11 @@ msgid "Your expense claim for {amount} was {status}"
 msgstr ""
 
 #. Subject of a notification
+#: onedesk/notifications/one_hr/expense_claim_paid.md
+msgid "Your expense claim was paid"
+msgstr ""
+
+#. Subject of a notification
 #: onedesk/notifications/one_hr/interview_feedback_due.md
 msgid "Your feedback on {applicant}'s interview is due"
 msgstr ""
@@ -37292,6 +37529,11 @@ msgid "Your free trial of {workspace} ends on {date}"
 msgstr ""
 
 #. Subject of a notification
+#: onedesk/notifications/one_hr/grievance_answered.md
+msgid "Your grievance \"{subject}\" was {status}"
+msgstr ""
+
+#. Subject of a notification
 #: onedesk/notifications/one_hr/interview_moved_to_the_applicant.md
 msgid "Your interview has moved to {when}"
 msgstr ""
@@ -37299,6 +37541,11 @@ msgstr ""
 #. Subject of a notification
 #: onedesk/notifications/one_hr/interview_soon_to_the_applicant.md
 msgid "Your interview is at {when}"
+msgstr ""
+
+#. Subject of a notification
+#: onedesk/notifications/one_hr/interview_scheduled_to_the_applicant.md
+msgid "Your interview is on {when}"
 msgstr ""
 
 #: frontend/portal/src/pages/Record.vue:120
@@ -37355,6 +37602,11 @@ msgstr ""
 #. Message of a notification
 #: onedesk/notifications/one/your_data_is_being_deleted.md
 msgid "Your request was approved. Your name and address are being removed from the workspace's records. Records the law requires it to keep, such as invoices, stay without them."
+msgstr ""
+
+#. Subject of a notification
+#: onedesk/notifications/one_hr/job_requisition_answered.md
+msgid "Your requisition for {designation} was {status}"
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:364
@@ -37568,6 +37820,10 @@ msgstr ""
 msgid "an hour"
 msgstr ""
 
+#: onedesk/one_hr/tell.py:808
+msgid "an opening"
+msgstr ""
+
 #: onedesk/one_admin/heads.py:334
 msgid "an operator"
 msgstr ""
@@ -37575,6 +37831,10 @@ msgstr ""
 #: onedesk/one/settings.py:1637 onedesk/one_admin/heads.py:566
 #: onedesk/public/js/oneai/Panel.vue:114 onedesk/public/js/onecloud.js:2157
 msgid "and {0} more"
+msgstr ""
+
+#: onedesk/one_hr/tell.py:792
+msgid "approved"
 msgstr ""
 
 #. Option for the 'Modality' (Select) field in DocType 'AI Model Rate'
@@ -38153,6 +38413,10 @@ msgstr ""
 
 #: onedesk/public/js/crm_record.js:42
 msgid "register number"
+msgstr ""
+
+#: onedesk/one_hr/tell.py:792
+msgid "rejected"
 msgstr ""
 
 #: frontend/src/project/ProjectActivity.vue:125
@@ -41020,6 +41284,11 @@ msgstr ""
 msgid "{addon} costs {price} a month, as much as moving from {lower} to {upper}."
 msgstr ""
 
+#. Message of a notification
+#: onedesk/notifications/one_hr/expense_claim_paid.md
+msgid "{amount} is on its way to you."
+msgstr ""
+
 #. Subject of a notification
 #: onedesk/notifications/one_intake/intake_weekly.md
 msgid "{arrived} documents this week, {handled} handled, {waiting} waiting"
@@ -41135,6 +41404,11 @@ msgid "{by} was stopped from going ahead with a sale to them. They owe {outstand
 msgstr ""
 
 #. Subject of a notification
+#: onedesk/notifications/one_hr/referral_answered.md
+msgid "{candidate}, whom you referred, was {status}"
+msgstr ""
+
+#. Subject of a notification
 #: onedesk/notifications/one_project/over_budget.md
 msgid "{cost_type} is over budget on {project}"
 msgstr ""
@@ -41199,6 +41473,11 @@ msgstr ""
 msgid "{customer} paid {amount} online"
 msgstr ""
 
+#. Subject of a notification
+#: onedesk/notifications/one_hr/leave_expiring.md
+msgid "{days} days of your {leave_type} lapse on {date}"
+msgstr ""
+
 #. Message of a notification
 #: onedesk/notifications/one_studio/collection_added.md
 msgid "{description} Its fields are {fields}. Its records are in {app} › Your Records."
@@ -41250,8 +41529,18 @@ msgid "{employee} asked for {shift} from {from_date}"
 msgstr ""
 
 #. Subject of a notification
+#: onedesk/notifications/one_hr/job_requisition_asked.md
+msgid "{employee} asked to hire {positions} {designation}"
+msgstr ""
+
+#. Subject of a notification
 #: onedesk/notifications/one_hr/passkey_reset_asked.md
 msgid "{employee} can't check in: their phone changed"
+msgstr ""
+
+#. Subject of a notification
+#: onedesk/notifications/one_hr/leave_cancelled.md
+msgid "{employee} cancelled their {leave_type}"
 msgstr ""
 
 #. Subject of a notification
@@ -41275,8 +41564,23 @@ msgid "{employee} raised a grievance"
 msgstr ""
 
 #. Subject of a notification
+#: onedesk/notifications/one_hr/referral_received.md
+msgid "{employee} referred {candidate} for {designation}"
+msgstr ""
+
+#. Subject of a notification
 #: onedesk/notifications/one_hr/check_in_flagged.md
 msgid "{employee}'s check-in needs a look"
+msgstr ""
+
+#. Subject of a notification
+#: onedesk/notifications/one_hr/contract_ending.md
+msgid "{employee}'s contract ends on {date}"
+msgstr ""
+
+#. Subject of a notification
+#: onedesk/notifications/one_hr/probation_ending.md
+msgid "{employee}'s probation ends on {date}"
 msgstr ""
 
 #. Subject of a notification

@@ -1659,14 +1659,34 @@ OneHR's own moments, besides HRMS's:
   answer, with the note, to the employee (`attendance_asked`,
   `attendance_answered`).
 - **Letter Requested and Letter Issued**: asked of HR, issued to the employee.
-- **Grievance Raised**: to the people trusted with grievances, whenever OneAI
-  is not reading them, cannot, or reads nothing urgent or sensitive; a
-  Sensitive or Urgent Grievance stands in for it when it does.
+- **Grievance Raised**: to the people trusted with grievances, for every
+  grievance; a Sensitive or Urgent Grievance follows when OneAI reads one as
+  that. **Grievance Answered**: resolved or found invalid, to whoever raised it.
 - **Document Expiring**: a passport, visa or permit a month and a week from
   expiring, to the employee and HR, each morning.
 - **Passkey Reset Asked and Done**: an employee who changed phones asks HR,
   with what the phone said, and is told when they can register the new one.
-- **Interview Scheduled**: to its interviewers, the day it is made.
+- **Interview Scheduled**: to its interviewers, the day it is made, and to
+  an interviewer added later; the applicant is mailed the time.
+- **An approval with no approver**: hrms lets leave, an expense or a shift go
+  without one, and does by default, so the Asked type then goes to HR. An
+  approver named or changed while it waits is told then. Leave the employee
+  cancels after it was decided is told to the approver (Leave Cancelled).
+- **Contract Ending and Probation Ending**: a month and a week before, to HR
+  and the employee's manager, each morning.
+- **Check-in Rejected**: a flagged check-in HR turned down, to the employee.
+- **Marked Absent**: a working day the shift marked absent on its own, to the
+  employee, who may have forgotten to clock in.
+- **Leave Expiring**: leave that does not carry forward, two weeks before it
+  lapses unused.
+- **Appraisal Started**: to the employee, when a cycle makes their appraisal.
+- **Job Requisition Asked and Answered; Referral Received and Answered**: to
+  HR, then back to whoever asked or referred. A referral's answer comes from
+  its Job Applicant, since hrms sets the referral's status there by db_set.
+- **Expense Claim Paid**: a payment that settles a claim, to the employee.
+- **Employee Details Changed**, sent from one/tell.py: an employee's own
+  change to their record, to HR. Exit Interview Scheduled and Training
+  Scheduled are hrms's rules, carried (one/rules.py).
 
 `place_proposed` is one notification, to the people who can undo it. Told rather than asked: the row is already Confirmed and already working, on
 the reasoning that a Monday morning where nobody can clock in is worse than

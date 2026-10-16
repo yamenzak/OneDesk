@@ -183,6 +183,8 @@ scheduler_events = {
 			"onedesk.one_hr.tell.anniversaries",
 			"onedesk.one_hr.tell.feedback_due",
 			"onedesk.one_hr.tell.documents_expiring",
+			"onedesk.one_hr.tell.endings",
+			"onedesk.one_hr.tell.leave_expiring",
 		],
 	},
 	"daily": [
@@ -415,7 +417,11 @@ doc_events = {
 	# waiting for it is checked from the payment. See one_intake/steps.py.
 	"Payment Entry": {
 		# A payment made through a payment link is told. See one_book/tell.py.
-		"on_submit": ["onedesk.one_intake.steps.paid", "onedesk.one_book.tell.paid_online"],
+		"on_submit": [
+			"onedesk.one_intake.steps.paid",
+			"onedesk.one_book.tell.paid_online",
+			"onedesk.one_hr.tell.claims_paid",
+		],
 		"on_cancel": "onedesk.one_intake.steps.paid",
 		# A payment takes the project its invoices name (one_project/chain.py),
 		# and is titled by the party's name (one_book/paid.py).
@@ -592,13 +598,16 @@ doc_events = {
 	# somebody can be a list column. See one_hr/growth.py.
 	"Appraisal": {
 		"before_validate": "onedesk.one_hr.growth.appraisal_period",
-		"after_insert": "onedesk.one_hr.growth.cycle_under_way",
+		"after_insert": ["onedesk.one_hr.growth.cycle_under_way", "onedesk.one_hr.tell.appraisal_started"],
 	},
+	# Asked, to HR; answered, to whoever asked. See one_hr/tell.py.
+	"Job Requisition": {"after_insert": "onedesk.one_hr.tell.requisition", "on_update": "onedesk.one_hr.tell.requisition"},
+	"Employee Referral": {"after_insert": "onedesk.one_hr.tell.referral"},
 	"Employee Promotion": {"before_validate": "onedesk.one_hr.growth.promotion"},
 	# Every applicant read, rated and placed by OneAI. See one_hr/hiring.py.
 	# An application OneAI made from a mail steps aside for the form's. See
 	# one_intake/planning.py.
-	"Job Applicant": {"after_insert": ["onedesk.one_hr.hiring.arrived", "onedesk.one_intake.planning.applicant_arrived"]},
+	"Job Applicant": {"after_insert": ["onedesk.one_hr.hiring.arrived", "onedesk.one_intake.planning.applicant_arrived"], "on_update": "onedesk.one_hr.tell.referral_answered"},
 	"Interview": {
 		"after_insert": "onedesk.one_hr.hiring.scheduled",
 		# Whoever holds an interview may open it. See one_hr/hiring.py.
@@ -614,6 +623,7 @@ doc_events = {
 	"Employee Grievance": {
 		"after_insert": "onedesk.one_hr.ai_grievance.raised",
 		"validate": "onedesk.one_hr.ai_grievance.unmarked",
+		"on_update": "onedesk.one_hr.tell.grievance_answered",
 	},
 	# A recording's sound goes by its retention or an HR Manager's hand; a
 	# file's OneCloud links and versions go with it.
@@ -766,7 +776,7 @@ doc_events = {
 	# The reason is a record and submitting is an approval. See one_hr/request.py.
 	# A day at a project's site is a day on the project. See one_project/site_time.py.
 	"Attendance": {
-		"on_submit": "onedesk.one_project.site_time.attended",
+		"on_submit": ["onedesk.one_project.site_time.attended", "onedesk.one_hr.tell.marked_absent"],
 		"on_cancel": "onedesk.one_project.site_time.cancelled",
 	},
 	"Attendance Request": {

@@ -29,12 +29,25 @@ class Approvals:
 	ANSWERED = ""
 
 	def notify_approver(self):
+		"""The approver, or HR when nobody is named: hrms lets a request go
+		without an approver, and does by default."""
 		approver, employee = self._get_doc_approver(), self._get_employee_user()
-		if not approver or approver == employee:
+		people = [one for one in ([approver] if approver else _hr()) if one != employee]
+		if not people:
 			return
 		notify.notify(
-			self.ASKED, approver, record=(self.doctype, self.name), sender=employee or None, **self.said()
+			self.ASKED, people, record=(self.doctype, self.name), sender=employee or None, **self.said()
 		)
+
+	def on_update(self):
+		"""An approver named, or changed, while it still waits is told then."""
+		super().on_update()
+		field = {"Leave Application": "leave_approver", "Expense Claim": "expense_approver"}.get(
+			self.doctype, "approver"
+		)
+		waiting = self.get(self._get_doc_status_field()) in ("Open", "Draft")
+		if waiting and self.get_doc_before_save() and self.get(field) and self.has_value_changed(field):
+			self.notify_approver()
 
 	def notify_approval_status(self):
 		field = self._get_doc_status_field()
@@ -78,6 +91,17 @@ class LeaveApplication(Approvals, HRMSLeaveApplication):
 	def on_cancel(self):
 		super().on_cancel()
 		self.answered("Cancelled")
+		# Cancelled by the employee: whoever approved it plans around it.
+		employee = self._get_employee_user()
+		if frappe.session.user == employee:
+			approver = self.leave_approver
+			notify.notify(
+				"Leave Cancelled",
+				[approver] if approver else [one for one in _hr() if one != employee],
+				record=(self.doctype, self.name),
+				sender=employee,
+				**self.said(),
+			)
 
 
 class ExpenseClaim(Approvals, HRMSExpenseClaim):
@@ -203,11 +227,42 @@ class Interview(HRMSInterview):
 		_tell_interview(self, moved=True, was=was)
 
 	def after_insert(self):
-		"""Its interviewers are told they are on it, the day it is made."""
+		"""Its interviewers are told they are on it, the day it is made, and
+		the applicant is mailed when and where."""
 		if hasattr(super(), "after_insert"):
 			super().after_insert()
-		interviewers = [row.interviewer for row in self.interview_details if row.interviewer]
-		people = [one for one in interviewers if one != frappe.session.user]
+		self._scheduled([row.interviewer for row in self.interview_details if row.interviewer])
+		applicant, email = frappe.db.get_value(
+			"Job Applicant", self.job_applicant, ["applicant_name", "email_id"]
+		) or (self.job_applicant, None)
+		if not email:
+			return
+		try:
+			notify.mail(
+				"Interview Scheduled, to the Applicant",
+				email,
+				sender=frappe.db.get_single_value("HR Settings", "hiring_sender_email") or None,
+				reference_doctype="Interview",
+				reference_name=self.name,
+				applicant=applicant,
+				when=_when(self),
+			)
+		except frappe.OutgoingEmailError:
+			# No mail account yet: the interview still stands.
+			frappe.log_error(title=frappe._("Failed to send notification email"))
+
+	def on_update(self):
+		"""An interviewer added later is told then."""
+		if hasattr(super(), "on_update"):
+			super().on_update()
+		before = self.get_doc_before_save()
+		if not before:
+			return
+		had = {row.interviewer for row in before.interview_details}
+		self._scheduled([row.interviewer for row in self.interview_details if row.interviewer not in had])
+
+	def _scheduled(self, interviewers: list[str]) -> None:
+		people = [one for one in interviewers if one and one != frappe.session.user]
 		if not people:
 			return
 		applicant = frappe.db.get_value("Job Applicant", self.job_applicant, "applicant_name")
@@ -260,7 +315,10 @@ def _tell_interview(interview, moved: bool = False, **context) -> None:
 def interviews_soon() -> None:
 	"""Every few minutes: an interview starting within HR Settings' Remind
 	Before, once. HRMS's `send_interview_reminder`, told in One."""
-	if not frappe.db.get_value("Notification Type", "Interview Soon", "enabled"):
+	if not any(
+		frappe.db.get_value("Notification Type", one, "enabled")
+		for one in ("Interview Soon", "Interview Soon, to the Applicant")
+	):
 		return
 	before = cstr(frappe.db.get_single_value("HR Settings", "remind_before")) or "01:00:00"
 	before = datetime.datetime.strptime(before, "%H:%M:%S")
@@ -595,3 +653,207 @@ def shift_not_reading(shift: str) -> None:
 		ignore_permissions=True,
 	)
 	notify.notify("Shift Not Reading Check-ins", people, record=("Shift Type", shift), shift=shift)
+
+
+# ------------------------------------------------------------------ the second pass
+
+
+def grievance_answered(doc, method=None) -> None:
+	"""Employee Grievance on_update: resolved or found invalid, to whoever
+	raised it."""
+	if not doc.has_value_changed("status") or doc.status not in ("Resolved", "Invalid"):
+		return
+	user = frappe.db.get_value("Employee", doc.raised_by, "user_id")
+	if not user or user == frappe.session.user:
+		return
+	notify.notify(
+		"Grievance Answered",
+		user,
+		record=(doc.doctype, doc.name),
+		subject=doc.subject or "",
+		status=_lt(doc.status),
+		note=frappe.utils.strip_html(cstr(doc.get("resolution_detail"))),
+	)
+
+
+def endings() -> None:
+	"""Each morning: a contract or a probation ending in a month, or a week,
+	to HR and the employee's manager."""
+	hr = _hr()
+	for kind, field in (
+		("Contract Ending", "contract_end_date"),
+		("Probation Ending", "scheduled_confirmation_date"),
+	):
+		if not frappe.db.get_value("Notification Type", kind, "enabled"):
+			continue
+		for days in (30, 7):
+			for one in frappe.get_all(
+				"Employee",
+				filters={"status": "Active", field: add_days(getdate(), days)},
+				fields=["name", "employee_name", "reports_to", field],
+			):
+				manager = one.reports_to and frappe.db.get_value("Employee", one.reports_to, "user_id")
+				notify.notify(
+					"Contract Ending" if field == "contract_end_date" else "Probation Ending",
+					[*hr, manager],
+					record=("Employee", one.name),
+					sender="Administrator",
+					employee=one.employee_name,
+					date=formatdate(one[field]),
+				)
+
+
+def checkin_rejected(employee: str, checkin: str | None, note: str | None) -> None:
+	"""A flagged check-in HR turned down, to the employee: it no longer counts."""
+	user = frappe.db.get_value("Employee", employee, "user_id")
+	if not user or user == frappe.session.user:
+		return
+	when = checkin and frappe.db.get_value("Employee Checkin", checkin, "time")
+	notify.notify(
+		"Check-in Rejected",
+		user,
+		record=("Employee Checkin", checkin) if checkin else None,
+		when=frappe.utils.format_datetime(when, "d MMM, HH:mm") if when else "",
+		note=f"{frappe.utils.get_fullname(frappe.session.user)}: {note}" if note else "",
+	)
+
+
+def marked_absent(doc, method=None) -> None:
+	"""Attendance on_submit: a working day the shift marked Absent on its
+	own, to the employee, who may have forgotten to clock in."""
+	if doc.status != "Absent" or frappe.session.user != "Administrator" or not doc.get("shift"):
+		return
+	user = frappe.db.get_value("Employee", doc.employee, "user_id")
+	if user:
+		notify.notify(
+			"Marked Absent",
+			user,
+			record=(doc.doctype, doc.name),
+			sender="Administrator",
+			dedupe_on=["document_name"],
+			date=formatdate(doc.attendance_date),
+		)
+
+
+def leave_expiring() -> None:
+	"""Each morning: leave that lapses in two weeks with days still unused,
+	to the employee."""
+	from hrms.hr.doctype.leave_application.leave_application import get_leave_balance_on
+
+	if not frappe.db.get_value("Notification Type", "Leave Expiring", "enabled"):
+		return
+	for one in frappe.get_all(
+		"Leave Allocation",
+		filters={"docstatus": 1, "to_date": add_days(getdate(), 14)},
+		fields=["name", "employee", "leave_type", "to_date"],
+	):
+		if frappe.db.get_value("Leave Type", one.leave_type, "is_carry_forward"):
+			continue
+		left = get_leave_balance_on(one.employee, one.leave_type, getdate(), one.to_date)
+		user = frappe.db.get_value("Employee", one.employee, "user_id")
+		if left > 0 and user:
+			notify.notify(
+				"Leave Expiring",
+				user,
+				record=("Leave Allocation", one.name),
+				sender="Administrator",
+				days=f"{frappe.utils.flt(left):g}",
+				leave_type=_lt(one.leave_type),
+				date=formatdate(one.to_date),
+			)
+
+
+def appraisal_started(doc, method=None) -> None:
+	"""Appraisal after_insert: the employee's self-appraisal is open."""
+	user = frappe.db.get_value("Employee", doc.employee, "user_id")
+	if not user or user == frappe.session.user:
+		return
+	notify.notify(
+		"Appraisal Started",
+		user,
+		record=(doc.doctype, doc.name),
+		cycle=doc.appraisal_cycle,
+		date=formatdate(doc.end_date) if doc.end_date else "",
+	)
+
+
+def requisition(doc, method=None) -> None:
+	"""Job Requisition after_insert and on_update: asked, to HR; approved or
+	rejected, to whoever asked."""
+	asker = frappe.db.get_value("Employee", doc.requested_by, "user_id") if doc.requested_by else None
+	said = {
+		"employee": frappe.db.get_value("Employee", doc.requested_by, "employee_name") or "",
+		"designation": _lt(doc.designation),
+		"positions": cint(doc.no_of_positions) or 1,
+	}
+	if method == "after_insert":
+		people = [one for one in _hr() if one != asker]
+		if people:
+			notify.notify(
+				"Job Requisition Asked", people, record=(doc.doctype, doc.name), sender=asker, **said
+			)
+	elif doc.has_value_changed("status") and doc.status in ("Open & Approved", "Rejected"):
+		if asker and asker != frappe.session.user:
+			status = _lt("approved") if doc.status == "Open & Approved" else _lt("rejected")
+			notify.notify(
+				"Job Requisition Answered", asker, record=(doc.doctype, doc.name), status=status, **said
+			)
+
+
+def referral(doc, method=None) -> None:
+	"""Employee Referral after_insert: received, to HR."""
+	referrer = frappe.db.get_value("Employee", doc.referrer, "user_id") if doc.referrer else None
+	people = [one for one in _hr() if one != referrer]
+	if people:
+		notify.notify(
+			"Referral Received",
+			people,
+			record=(doc.doctype, doc.name),
+			sender=referrer,
+			candidate=doc.full_name or f"{doc.first_name or ''} {doc.last_name or ''}".strip(),
+			employee=frappe.db.get_value("Employee", doc.referrer, "employee_name") or "",
+			designation=_lt(doc.for_designation) if doc.get("for_designation") else _lt("an opening"),
+		)
+
+
+def referral_answered(doc, method=None) -> None:
+	"""Job Applicant on_update: a referred applicant accepted or rejected, to
+	whoever referred them. hrms sets the referral's status from here, by
+	db_set, so the referral itself never hears it."""
+	if not doc.get("employee_referral") or not doc.has_value_changed("status"):
+		return
+	if doc.status not in ("Accepted", "Rejected"):
+		return
+	referrer = frappe.db.get_value(
+		"Employee", frappe.db.get_value("Employee Referral", doc.employee_referral, "referrer"), "user_id"
+	)
+	if referrer and referrer != frappe.session.user:
+		notify.notify(
+			"Referral Answered",
+			referrer,
+			record=("Employee Referral", doc.employee_referral),
+			candidate=doc.applicant_name,
+			status=_lt(doc.status.lower()),
+		)
+
+
+def claims_paid(doc, method=None) -> None:
+	"""Payment Entry on_submit: each expense claim it pays in full, to its
+	employee."""
+	for row in doc.references:
+		if row.reference_doctype != "Expense Claim":
+			continue
+		claim = frappe.db.get_value(
+			"Expense Claim",
+			row.reference_name,
+			["employee", "status", "total_sanctioned_amount", "currency"],
+			as_dict=True,
+		)
+		user = claim and frappe.db.get_value("Employee", claim.employee, "user_id")
+		if user and claim.status == "Paid" and user != frappe.session.user:
+			notify.notify(
+				"Expense Claim Paid",
+				user,
+				record=("Expense Claim", row.reference_name),
+				amount=frappe.utils.fmt_money(claim.total_sanctioned_amount, currency=claim.currency),
+			)

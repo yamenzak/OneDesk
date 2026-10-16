@@ -768,14 +768,14 @@ Pages: workflow-builder (**waiting**).
 | Employee Onboarding Template | through a form's connections (Employee Grade's Connections) | OneHR | untouched | yes | general |  | **none** |  |  | ar 1 |  |
 | Employee Performance Feedback | on a rail or a home | everybody | untouched | yes | taught |  | **none** |  |  | ar 5, de 1 |  |
 | Employee Promotion | on a rail or a home | everybody | a head, events, 1 fields, 2 settings | yes | general |  | **none** |  |  | ar 2, de 1 |  |
-| Employee Referral | on a rail or a home | everybody | untouched | yes | general |  | **none** |  |  | ar 13 |  |
+| Employee Referral | on a rail or a home | everybody | events | yes | general |  | **none** |  |  | ar 13 | Referral Answered |
 | Employee Separation | on a rail or a home | OneHR | events, 2 settings | yes | taught |  | yes |  |  | ar 4 |  |
 | Employee Separation Template | through a form's connections (Employee Grade's Connections) | OneHR | untouched | yes | general |  | **none** |  |  | ar 1 |  |
 | Employee Skill Map | on a rail or a home | OneHR | untouched | yes | general |  | **none** |  |  |  |  |
 | Employee Transfer | **waiting** | everybody | untouched | yes | general |  | **none** |  |  |  |  |
 | Employment Type | through a form's link (Job Opening Template: employment_type) | OneHR, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Exit Interview | **waiting** | OneHR | untouched | yes | taught |  | **none** |  |  | ar 9 | Exit Interview Scheduled (theirs) |
-| Expense Claim | on a rail or a home | everybody | a head, class, events, 5 fields, 6 settings | yes | taught | makes it | yes |  |  | ar 11, de 5 |  |
+| Expense Claim | on a rail or a home | everybody | a head, class, events, 5 fields, 6 settings | yes | taught | makes it | yes |  |  | ar 11, de 5 | Expense Claim Paid |
 | Expense Claim Type | on a rail or a home | everybody | untouched | yes | taught |  | yes |  |  | ar 1 |  |
 | Full and Final Statement | **waiting** | OneHR | untouched | yes | general |  | **none** |  |  | ar 5, de 1 |  |
 | Goal | on a rail or a home | everybody | 2 settings | yes | taught |  | **none** |  |  | ar 3 |  |
@@ -794,10 +794,10 @@ Pages: workflow-builder (**waiting**).
 | Job Offer Term Template | on a rail or a home | OneHR | untouched | yes | general |  | **none** |  |  | ar 1 |  |
 | Job Opening | on a rail or a home | OneHR | 1 fields, 1 settings | yes | taught |  | yes |  |  | ar 13, de 3 |  |
 | Job Opening Template | on a rail or a home | OneHR | untouched | yes | general |  | **none** |  |  | ar 5, de 1 |  |
-| Job Requisition | on a rail or a home | OneHR | untouched | yes | taught |  | **none** |  |  | ar 7 |  |
+| Job Requisition | on a rail or a home | OneHR | events | yes | taught |  | **none** |  |  | ar 7 |  |
 | KRA | through a form's link (Appraisal Template: key_result_area) | OneHR, the administrator | untouched | yes | taught |  | yes |  |  | ar 1 |  |
 | Leave Adjustment | through a form's connections (Leave Allocation's Connections) | OneHR | untouched | yes | general |  | **none** |  |  | ar 7, de 7 |  |
-| Leave Allocation | on a rail or a home | OneHR | 10 settings | yes | general |  | yes |  |  | ar 1, de 1 |  |
+| Leave Allocation | on a rail or a home | OneHR | 10 settings | yes | general |  | yes |  |  | ar 1, de 1 | Leave Expiring |
 | Leave Application | on a rail or a home | everybody | a head, class, events, 5 fields, 7 settings | yes | taught | makes it | yes |  |  | ar 3 |  |
 | Leave Block List | on a rail or a home | OneHR | untouched | yes | general |  | **none** |  |  | ar 1 |  |
 | Leave Control Panel | on a rail or a home | OneHR | form script | no | general |  |  |  |  | ar 5 |  |

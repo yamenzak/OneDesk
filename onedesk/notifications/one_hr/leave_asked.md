@@ -3,7 +3,7 @@ name: Leave Asked
 app: OneHR
 roles: Leave Approver, HR User, HR Manager
 about: When somebody applies for leave.
-to: Their leave approver
+to: Their leave approver, or HR when none is set
 email_default: yes
 push_default: yes
 replaces: HR Settings.send_leave_notification

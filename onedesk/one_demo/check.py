@@ -7187,6 +7187,83 @@ def onehr_tells_each_moment_somebody_waits_on():
 
 
 @check
+def onehr_tells_what_the_second_pass_found():
+	"""Nadia's leave with no approver reaches HR, and the approver named later
+	hears then; her grievance resolved reaches her; a contract a month from
+	its end reaches HR; a requisition and a referral reach HR and their
+	answers reach whoever asked; a day the shift marked absent reaches her; an
+	interview's applicant is mailed when it is."""
+	from unittest.mock import patch
+
+	from onedesk.one_hr import tell
+
+	told = []
+
+	def heard(name, users, **said):
+		told.append((name, [users] if isinstance(users, str) else list(users), said))
+
+	def said(name):
+		found = [one for one in told if one[0] == name]
+		assert found, (name, [one[0] for one in told])
+		return found[-1]
+
+	nadia = frappe.db.get_value("Employee", {"user_id": "nadia@one.test"})
+	with patch("onedesk.one.notify.notify", side_effect=heard):
+		leave = frappe.get_doc("Leave Application", frappe.db.get_value("Leave Application", {"employee": nadia}))
+		leave = frappe.copy_doc(leave)
+		leave.leave_approver, leave.status = None, "Open"
+		leave.from_date = leave.to_date = add_days(today(), 40)
+		leave.half_day = 0
+		leave.flags.ignore_validate = True
+		leave.insert(ignore_permissions=True, ignore_mandatory=True)
+		assert "mariam@one.test" in said("Leave Asked")[1], said("Leave Asked")
+		told.clear()
+		leave.leave_approver = "samir@one.test"
+		leave.save(ignore_permissions=True)
+		assert said("Leave Asked")[1] == ["samir@one.test"]
+
+		frappe.db.set_single_value("HR Settings", "one_ai_grievances", 0)
+		with as_user("nadia@one.test"):
+			grievance = frappe.get_doc({"doctype": "Employee Grievance", "subject": "Parking", "raised_by": nadia, "grievance_against_party": "Department", "grievance_against": frappe.db.get_value("Department", {}), "grievance_type": frappe.db.get_value("Grievance Type", {}), "description": "Nowhere to park."}).insert(ignore_mandatory=True)
+		grievance.status, grievance.resolution_detail = "Resolved", "Two bays are yours now."
+		with as_user("mariam@one.test"):
+			grievance.save(ignore_permissions=True)
+		_name, users, values = said("Grievance Answered")
+		assert users == ["nadia@one.test"] and values["note"] == "Two bays are yours now.", values
+
+		frappe.db.set_value("Employee", nadia, "contract_end_date", add_days(today(), 30))
+		tell.endings()
+		assert "mariam@one.test" in said("Contract Ending")[1]
+
+		with as_user("nadia@one.test"):
+			wanted = frappe.get_doc({"doctype": "Job Requisition", "designation": frappe.db.get_value("Designation", {}), "requested_by": nadia, "no_of_positions": 2, "expected_compensation": 1, "posting_date": today(), "description": "Two fitters."}).insert(ignore_permissions=True, ignore_mandatory=True)
+		assert "mariam@one.test" in said("Job Requisition Asked")[1]
+		with as_user("mariam@one.test"):
+			wanted.status = "Open & Approved"
+			wanted.save(ignore_permissions=True)
+		assert said("Job Requisition Answered")[1] == ["nadia@one.test"]
+
+		with as_user("nadia@one.test"):
+			referred = frappe.get_doc({"doctype": "Employee Referral", "first_name": "Rami", "last_name": "Aziz", "email": "rami@example.com", "referrer": nadia, "date": today()}).insert(ignore_permissions=True, ignore_mandatory=True)
+		assert "mariam@one.test" in said("Referral Received")[1]
+		applicant = frappe.get_doc("Job Applicant", frappe.db.get_value("Job Applicant", {}))
+		applicant.employee_referral, applicant.status = referred.name, "Accepted"
+		with as_user("mariam@one.test"):
+			applicant.save(ignore_permissions=True)
+		assert said("Referral Answered")[1] == ["nadia@one.test"]
+
+		absent = frappe._dict(doctype="Attendance", name="ATT-X", status="Absent", employee=nadia, shift="Day", attendance_date=today())
+		tell.marked_absent(absent)
+		assert said("Marked Absent")[1] == ["nadia@one.test"]
+
+	with patch("frappe.sendmail") as sent:
+		interview = frappe.copy_doc(frappe.get_doc("Interview", frappe.db.get_value("Interview", {})))
+		interview.scheduled_on = add_days(today(), 3)
+		interview.insert(ignore_permissions=True)
+	assert any("interview" in call.kwargs["subject"].lower() for call in sent.call_args_list), "the applicant is mailed"
+
+
+@check
 def sales_books_and_stock_tell_what_waits_on_somebody():
 	"""Layla makes Samir the owner of a lead, and Samir is told; a lead nobody
 	owns reaches sales; a quotation three days from its last day reaches
