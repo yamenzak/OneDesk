@@ -1,21 +1,26 @@
 <template>
-  <!-- A quote request sent to the reader's supplier (one/portal.py `rfq`):
-       the buyer's message and facts, each row priced in place, notes, and
-       Send Quote (`send_quote`). Once answered, the quotes sent instead.
-       Modelled on Ariba's supplier quote: price each row in place, send. -->
+  <!-- A quote request sent to the reader's supplier (one/portal.py `rfq`).
+       Modelled on Ariba's supplier quote: the buyer's message, each row
+       priced in place in one card with its total, notes, and beside them what
+       the quote comes to and Send Quote (`send_quote`). Once answered, the
+       quotes sent take the button's place. -->
   <Head :title="name" :crumbs="[{ label: tab, route: '/rfq' }]" :badge="doc">
-    <template #actions>
-      <Button v-if="open" variant="solid" :label="__('Send Quote')" :loading="sending" :disabled="!priced" @click="send" />
+    <template v-if="phone && open" #actions>
+      <Button variant="solid" :label="__('Send')" :loading="sending" :disabled="!priced" @click="send" />
     </template>
   </Head>
-  <div class="mx-auto w-full max-w-4xl px-4 py-6 sm:px-6">
+  <div class="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
     <Loading v-if="!doc && !failed" />
     <Empty v-else-if="failed" :title="__('No access')" :line="__('This request was not sent to you, or it is closed.')" />
-    <template v-else>
-      <div v-if="doc.message" class="prose prose-sm mb-6 max-w-none text-ink-gray-7" v-html="doc.message" />
-      <Facts :facts="doc.facts" />
-      <List :columns="phone || !open ? ['minmax(0,1fr)'] : ['minmax(0,1fr)', '7rem', '8rem', '9rem']" class="mt-6 list-row-px-0">
-        <ListHeader v-if="!phone">
+    <div v-else class="grid gap-5 lg:grid-cols-[minmax(0,1fr)_20rem]">
+      <!-- On a phone the two columns are one, what it comes to first. -->
+      <div class="contents lg:flex lg:min-w-0 lg:flex-col lg:gap-5">
+        <Card v-if="doc.message" :title="__('From the buyer')" icon="lucide-message-square">
+          <div class="prose prose-sm max-w-none text-ink-gray-7" v-html="doc.message" />
+        </Card>
+        <Card :title="__('Items')" :count="doc.rows.length" flush>
+      <List :columns="phone || !open ? ['minmax(0,1fr)'] : ['minmax(0,1fr)', '7rem', '8rem', '9rem']" class="list-row-px-4">
+        <ListHeader v-if="!phone && open">
           <ListHeaderCell>{{ __("Item") }}</ListHeaderCell>
           <template v-if="open">
             <ListHeaderCell class="justify-end">{{ __("Quantity") }}</ListHeaderCell>
@@ -48,20 +53,49 @@
           </ListRow>
         </ListRows>
       </List>
-      <template v-if="open">
-        <div class="mt-4 flex justify-end gap-6 border-t border-outline-gray-1 pt-4 text-base">
-          <span class="font-medium text-ink-gray-9">{{ __("Total") }}</span>
-          <span class="font-semibold tabular-nums text-ink-gray-9">{{ money(total, doc.money) }}</span>
-        </div>
-        <Textarea v-model="notes" class="mt-6" :label="__('Notes')" :placeholder="__('When you can deliver, and anything the buyer should know.')" :rows="3" />
-      </template>
-      <Section v-if="doc.quotes.length" :title="__('Your Quotes')">
-        <Rows :rows="doc.quotes.map((one) => ({ title: one.name, line: one.date, tone: one.tone, status: one.status, figure: one.total, to: `/supplier-quotations/${one.name}` }))" />
-      </Section>
-      <Section v-if="doc.terms" :title="__('Terms')">
-        <div class="prose prose-sm max-w-none text-ink-gray-7" v-html="doc.terms" />
-      </Section>
-    </template>
+          <template v-if="open" #foot>
+            <div class="flex justify-end gap-6 text-base">
+              <span class="font-medium text-ink-gray-9">{{ __("Total") }}</span>
+              <span class="font-semibold tabular-nums text-ink-gray-9">{{ money(total, doc.money) }}</span>
+            </div>
+          </template>
+        </Card>
+        <Card v-if="open" :title="__('Notes')">
+          <Textarea v-model="notes" :placeholder="__('When you can deliver, and anything the buyer should know.')" :rows="3" />
+        </Card>
+        <Card v-if="doc.terms" :title="__('Terms')">
+          <div class="prose prose-sm max-w-none text-ink-gray-7" v-html="doc.terms" />
+        </Card>
+      </div>
+
+      <aside class="contents lg:flex lg:flex-col lg:gap-5">
+        <Card v-if="open" class="order-first lg:order-none">
+          <p class="text-sm text-ink-gray-6">{{ __("Your quote") }}</p>
+          <p class="mt-1 text-3xl font-semibold tabular-nums text-ink-gray-9">{{ money(total, doc.money) }}</p>
+          <p class="mt-1 text-sm text-ink-gray-6">{{ priced ? __("{0} of {1} items priced", [pricedRows, doc.rows.length]) : __("Set a rate for each item you can supply.") }}</p>
+          <Button class="mt-4 w-full" variant="solid" size="md" :label="__('Send Quote')" :loading="sending" :disabled="!priced" @click="send" />
+        </Card>
+        <Card v-if="doc.quotes.length" :title="__('Your Quotes')" flush>
+          <LinkRow
+            v-for="one in doc.quotes"
+            :key="one.name"
+            :to="`/supplier-quotations/${one.name}`"
+            :name="one.name"
+            :line="`${one.date} · ${one.total}`"
+            :status="one.status"
+            :tone="one.tone"
+          />
+        </Card>
+        <Card :title="__('Details')">
+          <dl class="flex flex-col gap-3">
+            <div v-for="one in doc.facts" :key="one.label" class="flex justify-between gap-4">
+              <dt class="shrink-0 text-sm text-ink-gray-5">{{ one.label }}</dt>
+              <dd :class="['text-end text-sm text-ink-gray-8', one.lines && 'whitespace-pre-line']">{{ one.value }}</dd>
+            </div>
+          </dl>
+        </Card>
+      </aside>
+    </div>
   </div>
 </template>
 
@@ -73,12 +107,11 @@ import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "f
 
 import { call } from "../call";
 import { money } from "../money";
+import Card from "../parts/Card.vue";
 import Empty from "../parts/Empty.vue";
-import Facts from "../parts/Facts.vue";
 import Head from "../parts/Head.vue";
 import Loading from "../parts/Loading.vue";
-import Rows from "../parts/Rows.vue";
-import Section from "../parts/Section.vue";
+import LinkRow from "../parts/LinkRow.vue";
 import { phone } from "../phone";
 import { __, boot } from "../words";
 
@@ -97,6 +130,7 @@ const open = computed(() => Boolean(doc.value && doc.value.open && !doc.value.qu
 const amount = (row) => (Number(answer[row]?.qty) || 0) * (Number(answer[row]?.rate) || 0);
 const total = computed(() => Object.keys(answer).reduce((sum, row) => sum + amount(row), 0));
 const priced = computed(() => total.value > 0);
+const pricedRows = computed(() => Object.keys(answer).filter((row) => amount(row) > 0).length);
 
 async function send() {
   sending.value = true;

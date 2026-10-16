@@ -24,9 +24,16 @@ def _entries() -> dict:
 	return dict(re.findall(r'"([\w.]+)":\s*"([^"]+)"', block))
 
 
+PORTAL = FRONTEND / "portal" / "src"
+
+
+def _name(path: Path) -> Path:
+	return path.relative_to(SRC if path.is_relative_to(SRC) else FRONTEND)
+
+
 def _vue() -> list[Path]:
 	"""Every screen: the islands, and the portal, a frappe-ui app of its own."""
-	return sorted([*SRC.rglob("*.vue"), *(FRONTEND / "portal" / "src").rglob("*.vue")])
+	return sorted([*SRC.rglob("*.vue"), *PORTAL.rglob("*.vue")])
 
 
 def test_every_island_is_declared_built_and_mounted():
@@ -100,9 +107,9 @@ def test_an_island_uses_frappe_ui_tokens():
 	scale builds without complaint and draws nothing: corners stay square and
 	panels see-through. And `@framework/ui` is imported by its part, because
 	the whole of it needs a newer frappe-ui than the one we pin."""
-	for path in [*SRC.rglob("*.vue"), *SRC.rglob("*.js")]:
+	for path in [*_vue(), *SRC.rglob("*.js"), *PORTAL.rglob("*.js")]:
 		source = path.read_text(encoding="utf-8")
-		name = path.relative_to(SRC)
+		name = _name(path)
 		assert not re.search(r"(?<![\w-])rounded(-(sm|md|lg|xl|2xl))?(?![\w-])", source), f"{name} uses Tailwind's corners; use rounded-1 to rounded-7"
 		assert not re.search(r"\b(bg|ring|border)-surface-white\b", source), f"{name} uses surface-white; use surface-base or surface-elevation-1"
 		assert 'from "@framework/ui"' not in source, f"{name} imports all of @framework/ui; import the part"
@@ -142,7 +149,7 @@ def test_a_setting_is_a_switch():
 	"""Something on or off, a field's Check or a filter, is frappe-ui's Switch
 	(set by the user on 2026-10-12). A Checkbox is only a step ticked off."""
 	for path in _vue():
-		name = str(path.relative_to(SRC if path.is_relative_to(SRC) else FRONTEND))
+		name = str(_name(path))
 		if name in TICKED:
 			continue
 		assert "<Checkbox" not in path.read_text(encoding="utf-8"), f"{name} draws a checkbox; use frappe-ui's Switch"
@@ -180,11 +187,12 @@ def test_a_badge_is_a_colour_frappe_ui_has():
 	wrong = []
 	for path in _vue():
 		text = path.read_text(encoding="utf-8")
-		for colour in re.findall(r'theme="(\w+)"', text) + re.findall(r'\btheme: "(\w+)"', text):
+		# A bound `:theme="tone"` names a variable, not a colour.
+		for colour in re.findall(r'(?<!:)theme="(\w+)"', text) + re.findall(r'\btheme: "(\w+)"', text):
 			if colour not in BADGE_THEMES:
-				wrong.append(f"{path.relative_to(SRC)}: {colour}")
+				wrong.append(f"{_name(path)}: {colour}")
 		if '"orange"' in text and path.name != "PlaceSpot.vue":
-			wrong.append(f"{path.relative_to(SRC)}: orange")
+			wrong.append(f"{_name(path)}: orange")
 	assert not wrong, wrong
 
 

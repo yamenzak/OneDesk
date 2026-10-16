@@ -6,8 +6,8 @@
   <Head :title="__('Your Data')" />
   <div class="mx-auto w-full max-w-3xl px-4 py-6 sm:px-6">
     <Loading v-if="!state" />
-    <template v-else>
-      <Section :title="__('Copy of Your Data')">
+    <div v-else class="flex flex-col gap-5">
+      <Card :title="__('Copy of Your Data')" icon="lucide-file-down">
         <p v-if="copy && copy.status === 'Waiting'" class="mb-3 text-p-base text-ink-gray-6">{{ __("You requested a copy {0}. It's waiting for approval.", [copy.on]) }}</p>
         <p v-else-if="copy && copy.status === 'Gathering'" class="mb-3 text-p-base text-ink-gray-6">{{ __("Your copy is being prepared. You'll be notified when it's ready.") }}</p>
         <p v-else-if="copy && copy.ready" class="mb-3 text-p-base text-ink-gray-6">
@@ -18,16 +18,16 @@
           <Button v-if="copy && copy.ready" :label="__('Download My Data')" icon-left="lucide-download" :href="copy.url" download />
           <Button v-if="!asking" :label="copy && copy.ready ? __('Request New Copy') : __('Request My Data')" icon-left="lucide-file-down" :loading="busy" @click="ask" />
         </div>
-      </Section>
-      <Section :title="__('Delete Account')">
+      </Card>
+      <Card :title="__('Delete Account')" icon="lucide-user-x">
         <p v-if="deletion && deletion.status === 'On Hold'" class="mb-3 text-p-base text-ink-gray-6">{{ __("Account deletion is on hold. {0}", [deletion.why || ""]) }}</p>
         <p v-else-if="deletion && deletion.status === 'Pending Verification'" class="mb-3 text-p-base text-ink-gray-6">{{ __("Check your email to confirm deleting your account.") }}</p>
         <p v-else-if="deletion" class="mb-3 text-p-base text-ink-gray-6">{{ __("You requested account deletion {0}. It's waiting for approval.", [deletion.on]) }}</p>
         <p v-else class="mb-3 text-p-base text-ink-gray-6">{{ __("Turn off your account and remove your name and address from the records the workspace keeps.") }}</p>
         <Button v-if="deletion" :label="__('Cancel Deletion')" icon-left="lucide-undo-2" :loading="busy" @click="withdraw" />
         <Button v-else theme="red" :label="__('Delete My Account')" icon-left="lucide-user-x" @click="asked = true" />
-      </Section>
-    </template>
+      </Card>
+    </div>
     <Dialog v-model="asked" :options="{ title: __('Delete My Account') }">
       <template #body-content>
         <div class="flex flex-col gap-3 text-p-base text-ink-gray-7">
@@ -51,7 +51,7 @@ import { Button, Dialog, FormControl, toast } from "frappe-ui";
 import { call } from "../call";
 import Head from "../parts/Head.vue";
 import Loading from "../parts/Loading.vue";
-import Section from "../parts/Section.vue";
+import Card from "../parts/Card.vue";
 import { realtime } from "../socket";
 import { __ } from "../words";
 

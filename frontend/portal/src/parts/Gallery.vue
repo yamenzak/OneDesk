@@ -4,7 +4,7 @@
        The arrows and thumbnails turn it by hand, the pointer over it holds it,
        and someone who asked for less motion turns it themselves. -->
   <div class="flex flex-col gap-2">
-    <div class="relative aspect-video overflow-hidden rounded-lg bg-surface-gray-2" @mouseenter="hold(true)" @mouseleave="hold(false)">
+    <div class="relative aspect-video overflow-hidden rounded-5 bg-surface-gray-2" @mouseenter="hold(true)" @mouseleave="hold(false)">
       <a :href="shown.url" target="_blank" rel="noopener" class="block size-full" :aria-label="shown.title">
         <video v-if="shown.kind === 'video'" ref="clip" :key="shown.url" :src="shown.url" class="size-full object-cover" muted playsinline :autoplay="!still" :loop="media.length === 1" @ended="on(1)" />
         <img v-else :src="shown.url" :alt="shown.title" class="size-full object-cover" />
@@ -21,7 +21,7 @@
         :key="one.url"
         type="button"
         :aria-label="one.title"
-        :class="['size-14 shrink-0 overflow-hidden rounded', index === at ? 'outline outline-2 outline-outline-gray-5' : 'opacity-70 hover:opacity-100']"
+        :class="['size-14 shrink-0 overflow-hidden rounded-3', index === at ? 'ring-2 ring-outline-gray-5' : 'opacity-70 hover:opacity-100']"
         @click="at = index"
       >
         <video v-if="one.kind === 'video'" :src="`${one.url}#t=0.1`" class="size-full object-cover" muted preload="metadata" />

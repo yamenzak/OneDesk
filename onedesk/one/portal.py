@@ -265,23 +265,23 @@ def _row(path: str, doctype: str, doc) -> dict | None:
 	Badge, the figure at its end and where it opens."""
 	if doctype in TRANSACTIONS:
 		when = doc.get("transaction_date") or doc.get("posting_date") or doc.modified
-		line = " · ".join(one for one in (_date(when), doc.get("items_preview")) if one)
+		names = list(dict.fromkeys(row.item_name or row.item_code for row in doc.get("items") or []))
 		if doctype == "Request for Quotation":
 			quoted = _quoted(doc.name)
 			tone, word = ("green", _("Quoted")) if quoted else ("amber", _("To quote"))
-			figure = _date(doc.get("schedule_date"))
+			figure = ""
 		else:
 			tone, word = status(doctype, doc.status, doc.docstatus, doc.get("indicator_color"))
-			total = (
-				"rounded_total"
-				if doc.get("rounded_total") and not doc.get("disable_rounded_total")
-				else "grand_total"
-			)
+			total = _total_field(doc)
 			figure = doc.get_formatted(total) if doc.get(total) else ""
 		return {
 			"name": doc.name,
 			"title": doc.name,
-			"line": line,
+			"date": _date(when),
+			"item": names[0] if names else "",
+			"others": len(names) - 1 if names else 0,
+			"line": " · ".join(one for one in (_date(when), doc.get("items_preview")) if one),
+			"when": _next(doctype, doc, tone == "green"),
 			"tone": tone,
 			"status": word,
 			"figure": figure,
@@ -344,6 +344,42 @@ def _row(path: str, doctype: str, doc) -> dict | None:
 	}
 
 
+def _next(doctype: str, doc, done: bool) -> dict:
+	"""The date a row of a list looks ahead to, and whether it has passed: a
+	bill's due date, a quotation's last day, an order's delivery."""
+	from frappe.utils import date_diff, today
+
+	if done or doc.docstatus != 1:
+		return {}
+	if doctype in OWED:
+		if (doc.get("outstanding_amount") or 0) <= 0 or not doc.get("due_date"):
+			return {}
+		owed = [row.due_date for row in doc.get("payment_schedule") or [] if (row.outstanding or 0) > 0]
+		due = min(owed) if owed else doc.due_date
+		late = date_diff(today(), due)
+		if late > 0:
+			return {
+				"text": _("{0} days overdue").format(late) if late != 1 else _("1 day overdue"),
+				"late": True,
+			}
+		return {"text": _("Due {0}").format(_date(due))}
+	field = {
+		"Quotation": "valid_till",
+		"Supplier Quotation": "valid_till",
+		"Request for Quotation": "schedule_date",
+	}.get(doctype, "delivery_date" if doctype == "Sales Order" else "schedule_date")
+	if not doc.get(field):
+		return {}
+	label = (
+		_("Valid until {0}")
+		if field == "valid_till"
+		else _("Needed by {0}")
+		if doctype == "Request for Quotation"
+		else _("Delivery {0}")
+	)
+	return {"text": label.format(_date(doc.get(field))), "late": date_diff(today(), doc.get(field)) > 0}
+
+
 def _timesheet(name: str) -> dict:
 	"""A timesheet as the portal lists it: the projects it is for, what was
 	done, and its hours."""
@@ -368,36 +404,63 @@ def _timesheet(name: str) -> dict:
 
 
 @frappe.whitelist()
-def rows(kind: str, txt: str | None = None, start: int = 0) -> dict:
+def rows(kind: str, txt: str | None = None, start: int = 0, state: str | None = None) -> dict:
 	"""A tab's list, a page at a time, as its kind's own list context gives it
-	to the reader, searched by `txt`: its column heads, its rows, whether there
-	are more, and its Add button where it has one."""
+	to the reader, searched by `txt` and narrowed to one `state`: its column
+	heads, its rows, how many are in each state, whether there are more, and
+	its Add button where it has one."""
 	from frappe.www.list import get_list_data_for_context
 
 	doctype = _kind(kind)
 	start = frappe.utils.cint(start)
-	found = get_list_data_for_context(None, doctype, txt=txt or None, limit_start=start, limit=PAGE + 1)
-	more = len(found) > PAGE
+	found = get_list_data_for_context(None, doctype, txt=txt or None, limit=COUNTED)
 	# erpnext lists a timesheet once per time entry: each record once.
-	found = list({_field(one, "name"): one for one in found[:PAGE]}.values())
+	found = list({_field(one, "name"): one for one in found}.values())
+	drawn = [row for row in (_row(kind, doctype, one) for one in found) if row]
+	states = {}
+	for row in drawn:
+		if row["status"]:
+			states.setdefault(row["status"], {"label": row["status"], "tone": row["tone"], "count": 0})[
+				"count"
+			] += 1
+	if state:
+		drawn = [row for row in drawn if row["status"] == state]
 	add = ADD.get(doctype)
 	return {
 		"doctype": doctype,
 		"columns": [str(one) for one in COLUMNS.get(doctype) or COLUMNS[None]],
-		"rows": [row for row in (_row(kind, doctype, one) for one in found) if row],
-		"more": more,
+		"rows": drawn[start : start + PAGE],
+		"states": list(states.values()) if len(states) > 1 else [],
+		"total": len(found),
+		"more": len(drawn) > start + PAGE,
 		"add": {"to": add[0], "label": str(add[1])} if add else None,
 	}
 
 
+#: What on Home asks something of the reader, by kind: whether a record does,
+#: and the button it offers.
+ASKS = {
+	"Sales Invoice": (lambda doc: (doc.get("outstanding_amount") or 0) > 0, _lt("View and Pay")),
+	"Purchase Invoice": (lambda doc: False, None),
+	"Quotation": (lambda doc: doc.status == "Open", _lt("Review")),
+	"Request for Quotation": (lambda doc: not _quoted(doc.name), _lt("Answer")),
+	"Purchase Order": (lambda doc: doc.status in ("To Receive and Bill", "To Receive"), _lt("View")),
+}
+
+#: How many records Home lists under Needs You and Recent.
+SHOWN = 5
+
+
 @frappe.whitelist()
-def home() -> list[dict]:
-	"""What the reader has, a row a tab with anything in it: how many of each
-	kind are theirs, read the way the tab's own list reads them, and how many
-	wait on them (WAITING)."""
+def home() -> dict:
+	"""Home: a tile a tab with anything in it (how many, and what is left to
+	pay on bills), the records that ask something of the reader (a bill to
+	pay, a quotation to review, a request to answer), and the latest records,
+	each read the way the tab's own list reads them."""
+	from frappe.utils import flt, fmt_money
 	from frappe.www.list import get_list_data_for_context
 
-	out = []
+	tiles, asks, recent = [], [], []
 	for path, item in _kinds().items():
 		doctype = item["reference_doctype"]
 		try:
@@ -409,16 +472,40 @@ def home() -> list[dict]:
 		found = list({_field(one, "name"): one for one in found}.values())
 		states, say = WAITING.get(doctype, ((), None))
 		waiting = sum(1 for one in found if _field(one, "status") in states)
-		out.append(
-			{
-				"path": path,
-				"title": _(item.get("title")),
-				"icon": ICONS.get(path, "file-text"),
-				"count": f"{COUNTED}+" if len(found) > COUNTED else str(len(found)),
-				"waiting": say(waiting) if waiting else "",
-			}
-		)
-	return out
+		tile = {
+			"path": path,
+			"title": _(item.get("title")),
+			"icon": ICONS.get(path, "file-text"),
+			"count": f"{COUNTED}+" if len(found) > COUNTED else str(len(found)),
+			"waiting": say(waiting) if waiting else "",
+		}
+		if doctype in OWED:
+			owed = {}
+			for one in found:
+				if one.docstatus == 1 and flt(one.outstanding_amount) > 0:
+					owed[one.currency] = owed.get(one.currency, 0) + flt(one.outstanding_amount)
+			tile["figure"] = " + ".join(
+				fmt_money(value, currency=currency) for currency, value in owed.items()
+			)
+			tile["figure_label"] = _("to pay") if owed else ""
+		tiles.append(tile)
+		if doctype not in TRANSACTIONS:
+			continue
+		ask, button = ASKS.get(doctype, (lambda doc: False, None))
+		for one in found:
+			row = None
+			if one.docstatus == 1 and ask(one):
+				row = _row(path, doctype, one)
+				asks.append({**row, "kind": _(doctype), "icon": tile["icon"], "button": str(button)})
+			recent.append((one.modified, path, doctype, one, tile["icon"], row))
+	recent.sort(key=lambda one: one[0], reverse=True)
+	latest = []
+	for _when, path, doctype, one, icon, row in recent[:SHOWN]:
+		row = row or _row(path, doctype, one)
+		latest.append({**row, "kind": _(doctype), "icon": icon})
+	# What is late first.
+	asks.sort(key=lambda row: not row.get("when", {}).get("late"))
+	return {"tiles": tiles, "asks": asks[:SHOWN], "more_asks": max(len(asks) - SHOWN, 0), "recent": latest}
 
 
 def _opened(doctype: str, name: str, page) -> frappe._dict:
@@ -520,10 +607,14 @@ def record(kind: str, name: str) -> dict:
 		"name": doc.name,
 		"tone": tone,
 		"status": word,
+		"summary": _summary(doctype, doc, total),
+		"steps": _steps(doctype, doc),
+		"related": _related(doctype, doc),
 		"facts": facts,
 		"items": [
 			{
 				"item": row.item_name or row.item_code,
+				"image": row.get("image") or "",
 				"about": _about(row),
 				"qty": number(row.qty),
 				"uom": _(row.get("uom") or row.get("stock_uom") or ""),
@@ -540,6 +631,174 @@ def record(kind: str, name: str) -> dict:
 		],
 		"actions": actions,
 	}
+
+
+#: What follows from what, by kind: the item row's field naming the record
+#: before, and the kinds after it with the field on their item rows that names
+#: this one.
+CHAIN = {
+	"Quotation": ((), (("Sales Order", "Sales Order Item", "prevdoc_docname"),)),
+	"Sales Order": (
+		(("Quotation", "prevdoc_docname"),),
+		(
+			("Delivery Note", "Delivery Note Item", "against_sales_order"),
+			("Sales Invoice", "Sales Invoice Item", "sales_order"),
+		),
+	),
+	"Delivery Note": (
+		(("Sales Order", "against_sales_order"),),
+		(("Sales Invoice", "Sales Invoice Item", "delivery_note"),),
+	),
+	"Sales Invoice": ((("Sales Order", "sales_order"), ("Delivery Note", "delivery_note")), ()),
+	"Supplier Quotation": ((), (("Purchase Order", "Purchase Order Item", "supplier_quotation"),)),
+	"Purchase Order": (
+		(("Supplier Quotation", "supplier_quotation"),),
+		(("Purchase Invoice", "Purchase Invoice Item", "purchase_order"),),
+	),
+	"Purchase Invoice": ((("Purchase Order", "purchase_order"),), ()),
+}
+
+#: The party a kind belongs to, so a linked record is shown only when it is
+#: the same customer's or supplier's.
+PARTY = {
+	"Quotation": "party_name",
+	"Sales Order": "customer",
+	"Delivery Note": "customer",
+	"Sales Invoice": "customer",
+	"Supplier Quotation": "supplier",
+	"Purchase Order": "supplier",
+	"Purchase Invoice": "supplier",
+}
+
+
+def _total_field(doc) -> str:
+	return (
+		"rounded_total"
+		if doc.get("rounded_total") and not doc.get("disable_rounded_total")
+		else "grand_total"
+	)
+
+
+def _summary(doctype: str, doc, total: str) -> dict:
+	"""The figure a record's page leads with: what is left to pay on a bill,
+	and when; otherwise its total, and the date that matters next."""
+	from frappe.utils import date_diff, getdate, today
+
+	if doctype in OWED and doc.docstatus == 1:
+		left = doc.get("outstanding_amount") or 0
+		if left <= 0:
+			return {"label": _("Paid"), "value": doc.get_formatted(total), "line": _("Paid in full")}
+		said = {"label": _("Amount due"), "value": doc.get_formatted("outstanding_amount")}
+		# The first instalment still owed, as erpnext's Overdue reads it, else
+		# the bill's own due date.
+		owed = [row.due_date for row in doc.get("payment_schedule") or [] if (row.outstanding or 0) > 0]
+		due = min(owed) if owed else doc.get("due_date")
+		if due:
+			late = date_diff(today(), due)
+			if late > 0:
+				said |= {
+					"line": _("{0} days overdue").format(late) if late != 1 else _("1 day overdue"),
+					"late": True,
+				}
+			else:
+				said["line"] = _("Due {0}").format(_date(due))
+		return said
+	line = ""
+	if doctype in ("Quotation", "Supplier Quotation") and doc.get("valid_till"):
+		line = _("Valid until {0}").format(_date(doc.valid_till))
+	elif doc.get("delivery_date") or doc.get("schedule_date"):
+		line = _("Delivery {0}").format(_date(doc.get("delivery_date") or doc.get("schedule_date")))
+	elif doc.get("posting_date") and getdate(doc.posting_date):
+		line = _date(doc.posting_date)
+	return {"label": _("Total"), "value": doc.get_formatted(total), "line": line}
+
+
+def _steps(doctype: str, doc) -> list[dict]:
+	"""Where a record is on its way, as a row of steps, each done or not: an
+	order is confirmed, delivered, invoiced and paid."""
+	from frappe.utils import flt
+
+	paid = (doc.get("outstanding_amount") or 0) <= 0
+	if doctype == "Quotation":
+		steps = [(_("Sent"), True), (_("Ordered"), doc.status == "Ordered")]
+	elif doctype == "Supplier Quotation":
+		steps = [(_("Sent"), True), (_("Ordered"), doc.status == "Ordered")]
+	elif doctype == "Sales Order":
+		billed = flt(doc.per_billed) >= 100
+		steps = [
+			(_("Confirmed"), True),
+			(_("Delivered"), flt(doc.per_delivered) >= 100),
+			(_("Invoiced"), billed),
+			(_("Paid"), billed and not _owed("Sales Invoice", "sales_order", doc.name)),
+		]
+	elif doctype == "Delivery Note":
+		steps = [(_("Shipped"), True), (_("Invoiced"), flt(doc.get("per_billed")) >= 100)]
+	elif doctype == "Purchase Order":
+		billed = flt(doc.per_billed) >= 100
+		steps = [
+			(_("Ordered"), True),
+			(_("Delivered"), flt(doc.per_received) >= 100),
+			(_("Invoiced"), billed),
+			(_("Paid"), billed and not _owed("Purchase Invoice", "purchase_order", doc.name)),
+		]
+	elif doctype == "Sales Invoice":
+		steps = [(_("Issued"), True), (_("Paid"), paid)]
+	elif doctype == "Purchase Invoice":
+		steps = [(_("Received"), True), (_("Paid"), paid)]
+	else:
+		return []
+	if doc.docstatus != 1:
+		return []
+	current = next((i for i, (_label, done) in enumerate(steps) if not done), None)
+	return [{"label": label, "done": done, "current": i == current} for i, (label, done) in enumerate(steps)]
+
+
+def _owed(doctype: str, field: str, name: str) -> bool:
+	"""Whether any bill made from a record still has something to pay."""
+	bills = frappe.get_all(
+		f"{doctype} Item", filters={field: name, "docstatus": 1}, pluck="parent", distinct=True
+	)
+	return bool(bills) and bool(
+		frappe.db.exists(doctype, {"name": ("in", bills), "outstanding_amount": (">", 0), "docstatus": 1})
+	)
+
+
+def _related(doctype: str, doc) -> list[dict]:
+	"""The records before and after this one that the reader has a tab for and
+	that are the same customer's or supplier's: the quotation an order came
+	from, its shipments and its invoices."""
+	before, after = CHAIN.get(doctype, ((), ()))
+	found = []
+	for kind, field in before:
+		found += [(kind, name) for name in dict.fromkeys(row.get(field) for row in doc.items) if name]
+	for kind, child, field in after:
+		names = frappe.get_all(
+			child, filters={field: doc.name, "docstatus": 1}, pluck="parent", distinct=True
+		)
+		found += [(kind, name) for name in names]
+	paths = {item["reference_doctype"]: path for path, item in _kinds().items()}
+	party = doc.get(PARTY.get(doctype))
+	out = []
+	for kind, name in dict.fromkeys(found):
+		path = paths.get(kind)
+		if not path or not frappe.db.exists(kind, {"name": name, "docstatus": 1, PARTY[kind]: party}):
+			continue
+		other = frappe.get_doc(kind, name)
+		if hasattr(other, "set_indicator"):
+			other.set_indicator()
+		tone, word = status(kind, other.status, other.docstatus, other.get("indicator_color"))
+		out.append(
+			{
+				"kind": _(kind),
+				"name": name,
+				"tone": tone,
+				"status": word,
+				"figure": other.get_formatted(_total_field(other)),
+				"to": f"{path}/{name}",
+				"icon": ICONS.get(path, "file-text"),
+			}
+		)
+	return out
 
 
 def _about(row) -> str:

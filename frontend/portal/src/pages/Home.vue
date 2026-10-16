@@ -1,36 +1,89 @@
 <template>
-  <!-- What the reader has: a row a tab with anything in it, how many, and
-       how many wait on them (one/portal.py `home`).
-       Modelled on Helpdesk's customer portal: a line a thing they have. -->
+  <!-- What the reader has with the workspace (one/portal.py `home`).
+       Modelled on Shopify's customer account and Stripe's customer portal: a
+       tile a kind they have, with what is left to pay on bills; then what
+       asks something of them, each with its button, beside what came last. -->
   <Head :title="__('Home')" />
-  <div class="mx-auto w-full max-w-3xl px-4 py-6 sm:px-6">
-    <p class="mb-5 text-p-base text-ink-gray-6">{{ __("Hello, {0}. Everything you have with us, in one place.", [first]) }}</p>
+  <div class="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
+    <div class="mb-6">
+      <h1 class="text-2xl font-semibold text-ink-gray-9">{{ __("Hello, {0}", [first]) }}</h1>
+      <p v-if="party" class="mt-1 text-base text-ink-gray-6">{{ party }}</p>
+    </div>
     <Loading v-if="said.loading && !said.data" />
-    <List v-else-if="said.data?.length" :row-height="40" class="-mx-3 list-row-px-3">
-      <ListRows :items="said.data" row-key="path" v-slot="{ item }">
-        <ListRow :route="`/${item.path}`">
-          <ListCell><span :class="`lucide-${item.icon} size-4 text-ink-gray-5`" aria-hidden="true" /></ListCell>
-          <ListCell class="text-base text-ink-gray-8">{{ item.title }}</ListCell>
-          <ListCell class="gap-3">
-            <Badge v-if="item.waiting" theme="amber" :label="item.waiting" />
-            <span class="text-base tabular-nums text-ink-gray-6">{{ item.count }}</span>
-          </ListCell>
-        </ListRow>
-      </ListRows>
-    </List>
+    <template v-else-if="said.data?.tiles.length">
+      <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <RouterLink
+          v-for="tile in said.data.tiles"
+          :key="tile.path"
+          :to="`/${tile.path}`"
+          class="flex flex-col gap-2 rounded-5 border border-outline-gray-2 bg-surface-base px-4 py-3 hover:border-outline-gray-3 hover:bg-surface-gray-1"
+        >
+          <span class="flex items-center gap-2 text-sm text-ink-gray-6">
+            <span :class="`lucide-${tile.icon} size-4 text-ink-gray-5`" aria-hidden="true" />
+            <span class="truncate">{{ tile.title }}</span>
+          </span>
+          <span v-if="tile.figure" class="truncate text-xl font-semibold tabular-nums text-ink-gray-9">{{ tile.figure }}</span>
+          <span v-else class="text-xl font-semibold tabular-nums text-ink-gray-9">{{ tile.count }}</span>
+          <span class="flex min-h-5 items-center gap-2 text-sm text-ink-gray-5">
+            <template v-if="tile.figure">{{ tile.figure_label }} · {{ __("{0} in all", [tile.count]) }}</template>
+            <Badge v-else-if="tile.waiting" theme="amber" :label="tile.waiting" />
+          </span>
+        </RouterLink>
+      </div>
+
+      <div class="mt-6 grid gap-5 lg:grid-cols-2">
+        <Card :title="__('Needs You')" icon="lucide-bell" :count="said.data.asks.length + said.data.more_asks || ''" flush>
+          <div v-if="!said.data.asks.length" class="flex items-center gap-3 px-4 py-6 text-base text-ink-gray-6">
+            <span class="lucide-circle-check size-5 text-ink-green-6" aria-hidden="true" />{{ __("You're all caught up.") }}
+          </div>
+          <div v-for="one in said.data.asks" :key="one.to" class="flex items-center gap-3 border-b border-outline-gray-1 px-4 py-3 last:border-b-0">
+            <Thumb :icon="one.icon" />
+            <div class="min-w-0 flex-1">
+              <p class="truncate text-base font-medium text-ink-gray-9">{{ one.title }}</p>
+              <p class="truncate text-sm text-ink-gray-5">
+                {{ one.kind }}<template v-if="one.figure"> · {{ one.figure }}</template>
+              </p>
+              <p v-if="one.when?.text" :class="['text-sm', one.when.late ? 'text-ink-red-6' : 'text-ink-gray-6']">{{ one.when.text }}</p>
+            </div>
+            <Button :label="one.button" :route="`/${one.to}`" />
+          </div>
+        </Card>
+
+        <Card :title="__('Recent')" icon="lucide-history" flush>
+          <RouterLink
+            v-for="one in said.data.recent"
+            :key="one.to"
+            :to="`/${one.to}`"
+            class="flex items-center gap-3 border-b border-outline-gray-1 px-4 py-3 last:border-b-0 hover:bg-surface-gray-1"
+          >
+            <Thumb :icon="one.icon" />
+            <div class="min-w-0 flex-1">
+              <p class="truncate text-base font-medium text-ink-gray-9">{{ one.title }}</p>
+              <p class="truncate text-sm text-ink-gray-5">{{ one.kind }} · {{ one.date }}</p>
+            </div>
+            <div class="flex shrink-0 flex-col items-end gap-1">
+              <span class="text-base tabular-nums text-ink-gray-8">{{ one.figure }}</span>
+              <Badge v-if="one.status" :theme="one.tone" :label="one.status" />
+            </div>
+          </RouterLink>
+        </Card>
+      </div>
+    </template>
     <Empty v-else :title="__('Nothing here yet')" :line="__('What we send you will be here.')" />
   </div>
 </template>
 
 <script setup>
-import { Badge, createResource } from "frappe-ui";
-import { List, ListCell, ListRow, ListRows } from "frappe-ui/list";
+import { Badge, Button, createResource } from "frappe-ui";
 
+import Card from "../parts/Card.vue";
 import Empty from "../parts/Empty.vue";
 import Head from "../parts/Head.vue";
 import Loading from "../parts/Loading.vue";
+import Thumb from "../parts/Thumb.vue";
 import { boot } from "../words";
 
 const first = (boot().me?.name || "").split(" ")[0];
+const party = boot().me?.party || "";
 const said = createResource({ url: "onedesk.one.portal.home", auto: true });
 </script>

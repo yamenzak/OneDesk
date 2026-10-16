@@ -14,9 +14,8 @@
   <div class="mx-auto w-full max-w-3xl px-4 py-6 sm:px-6">
     <Loading v-if="!said && !failed" />
     <Empty v-else-if="failed" :title="__('No access')" :line="__('This is not one of yours, or it was taken away.')" />
-    <form v-else class="flex flex-col gap-8" @submit.prevent="save">
-      <section v-for="(section, s) in sections" :key="s" class="flex flex-col gap-4">
-        <h2 v-if="section.label" class="text-base font-medium text-ink-gray-9">{{ section.label }}</h2>
+    <form v-else class="flex flex-col gap-5" @submit.prevent="save">
+      <Card v-for="(section, s) in sections" :key="s" :title="section.label || ''">
         <div class="grid gap-x-6 gap-y-4" :class="section.columns.length > 1 && 'sm:grid-cols-2'">
           <div v-for="(column, c) in section.columns" :key="c" class="flex flex-col gap-4">
             <template v-for="field in column" :key="field.fieldname">
@@ -43,7 +42,7 @@
             </template>
           </div>
         </div>
-      </section>
+      </Card>
     </form>
   </div>
 </template>
@@ -55,6 +54,7 @@ import { Avatar, Button, FileUploader, FormControl, toast } from "frappe-ui";
 
 import { call } from "../call";
 import { __, boot } from "../words";
+import Card from "./Card.vue";
 import Empty from "./Empty.vue";
 import Head from "./Head.vue";
 import Loading from "./Loading.vue";

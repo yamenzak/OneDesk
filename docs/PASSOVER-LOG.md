@@ -13789,3 +13789,36 @@ portal is no doctype, and sends what it sent.
 Not walked: `/start`, `/welcome` and `/account*`, which run on the admin
 site only, and no admin site exists on this bench. They use none of what was
 removed.
+
+## The portal, redrawn in cards
+
+*Asked:* the pages were "a wall of text": every page a list of lines,
+nothing grouped, nothing leading.
+
+*Done,* after Shopify's customer account and Stripe's invoice page:
+
+- **A record** says where it is on its way across the top (an order:
+  Confirmed, Delivered, Invoiced, Paid; a bill: Issued, Paid), its items in
+  one card with a tile each and its totals in the card's foot, and beside
+  them a card with what it comes to: the amount due in large type with how
+  many days overdue in red, or the total with until when it holds. Then its
+  details and the records before and after it (`_related`, only the same
+  party's). On a phone that card comes first.
+- **A list** is a table in a card: its states as tabs with their counts,
+  each row its number and date, its first item with "+3", its Badge, the date
+  it looks ahead to (red once passed) and its total. A project's row has its
+  progress bar.
+- **Home** is tiles (with what is left to pay on bills), Needs You (each
+  with its button: View and Pay, Review, Answer) and Recent.
+- **A project** has its photos beside a progress card, milestones as a line
+  of dates, tasks with a tick each, and its order, invoices, time and files
+  on the side. **A quote request** prices its rows in a card, with what the
+  quote comes to and Send Quote beside it. The account pages are cards too.
+- **Found on the way:** frappe-ui 1.0 has no `rounded-lg` or `rounded-md`
+  (its radii are numbered) and no `bg-outline-*`, so corners were square and
+  the steps' line was missing; the island guard for Tailwind's corners now
+  reads the portal too. The badge guard read a bound `:theme="tone"` as a
+  colour named tone. An invoice said Overdue while its card said "Due
+  10-02-2027": erpnext judges by the instalment, and so does the card now.
+  The portal's demo check found its quote request through a test record of
+  mine; it finds one by the supplier now.

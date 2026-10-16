@@ -8,12 +8,14 @@
     </template>
   </Head>
   <div class="mx-auto w-full max-w-md px-4 py-6 sm:px-6">
+    <Card>
     <form class="flex flex-col gap-4" @submit.prevent="save">
       <FormControl v-model="old" type="password" :label="__('Current Password')" autocomplete="current-password" required />
       <FormControl v-model="fresh" type="password" :label="__('New Password')" autocomplete="new-password" required :description="strength" />
       <FormControl v-model="again" type="password" :label="__('Confirm Password')" autocomplete="new-password" required :error="again && again !== fresh ? __('The two passwords are not the same.') : ''" />
       <FormControl v-model="everywhere" type="checkbox" :label="__('Sign out of every other device')" />
     </form>
+    </Card>
   </div>
 </template>
 
@@ -22,6 +24,7 @@ import { computed, ref, watch } from "vue";
 import { Button, FormControl, debounce, toast } from "frappe-ui";
 
 import { call } from "../call";
+import Card from "../parts/Card.vue";
 import Head from "../parts/Head.vue";
 import { __ } from "../words";
 

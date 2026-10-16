@@ -1697,16 +1697,26 @@ choose their password, which works for a week, and land on the portal.
 - **A supplier** sees the quote requests sent to them, their quotes, and
   their purchase orders and purchase invoices.
 
-Each sees only the records of their own customer or supplier. Home says how
-many of each they have, and how many invoices are waiting to be paid. On a
+Each sees only the records of their own customer or supplier. Home has a
+tile for each kind they have, with what is left to pay on invoices; **Needs
+You**, the records that ask something of them (an invoice to pay, a quotation
+to review, a quote request to answer), late ones first; and **Recent**, the
+last five. A list has its states as tabs with their counts (All, Overdue,
+Partly Paid), and each row says what it is for and the date it looks ahead
+to: when an invoice is due or how many days overdue, until when a quotation
+holds, when an order is delivered. On a
 computer the tabs are in a sidebar under their company's name; on a phone
 Home and the first three tabs are a bar along the bottom, and **More** has
 the rest. Which tabs show is set in frappe's Portal Settings. Each list has a
 search, and **Load More** under it once there are more than twenty.
 
-Opening a record shows its dates, items and totals, and **Download PDF**
-gives the printed copy. An invoice that is partly paid also shows what is
-paid and what is left to pay. Each sees only their own records.
+Opening a record shows where it is on its way (an order: Confirmed,
+Delivered, Invoiced, Paid), its items and totals, and beside them what it
+comes to: what is left to pay on an invoice and when it is due, or a
+quotation's total and until when it holds. Under that are its details and
+the records before and after it (the quotation an order came from, its
+shipments and invoices). **Download PDF** gives the printed copy. Each sees
+only their own records.
 
 A supplier answers a quote request on the portal: they set a rate for each
 item they can supply, change the quantity if they need to, add notes, and
@@ -2603,7 +2613,10 @@ frappe's. Portal Settings lists what each role sees (`get_portal_sidebar_items`)
 the kind's own `get_list_context`, `record` and `rfq` read erpnext's own page
 contexts (`templates/pages/order` and `rfq`), which check the reader may see
 the record, and `form` reads a web form through frappe's `get_form_data`. Each
-answers with every value as frappe formats it.
+answers with every value as frappe formats it. A record's steps, the figure
+it leads with and its linked records (`_steps`, `_summary`, `_related`)
+read only the record and the items rows that name it (`CHAIN`), and a linked
+record shows only when it is the same customer's or supplier's (`PARTY`).
 
 The Jinja portal this replaces (a page and a row template for each kind,
 under the site's navbar) is gone; website_redirects in hooks.py send its

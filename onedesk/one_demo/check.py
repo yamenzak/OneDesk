@@ -3936,12 +3936,20 @@ def a_customer_and_a_supplier_find_their_own_on_the_portal():
 	others = frappe.db.get_value("Sales Invoice", {"customer": ("!=", "Mansour & Sons"), "docstatus": 1}, "name")
 	with as_user(khalid):
 		assert portal.reads()
-		home = {one["path"]: one for one in portal.home()}
+		said = portal.home()
+		home = {one["path"]: one for one in said["tiles"]}
 		assert "invoices" in home and int(home["invoices"]["count"]) >= 1, home
+		# An unpaid bill asks to be paid on Home, and says what is left.
+		assert any(one["to"].startswith("invoices/") for one in said["asks"]), said["asks"]
+		assert home["invoices"]["figure"], home["invoices"]
 		listed = portal.rows("invoices")
 		assert listed["doctype"] == "Sales Invoice" and theirs in {one["name"] for one in listed["rows"]}, listed
 		said = portal.record("invoices", theirs)
 		assert said["name"] == theirs and said["totals"], said
+		assert said["summary"]["value"] and [one["label"] for one in said["steps"]] == ["Issued", "Paid"], said["steps"]
+		assert any(one["to"].startswith("orders/") for one in said["related"]), "the order the bill came from"
+		paid = portal.rows("invoices", state=listed["rows"][0]["status"])
+		assert paid["rows"] and {one["status"] for one in paid["rows"]} == {listed["rows"][0]["status"]}
 		assert any("download_pdf" in (one["href"] or "") for one in said["actions"]), said["actions"]
 		try:
 			portal.record("invoices", others)
@@ -3960,13 +3968,12 @@ def a_customer_and_a_supplier_find_their_own_on_the_portal():
 		assert form["doc"]["name"] == khalid and form["fields"], form
 		assert set(portal.your_data()) == {"copy", "deletion", "password"}
 		assert isinstance(portal.apps(), list)
-	sent = frappe.db.get_value(
-		"Request for Quotation Supplier", {"email_id": rami, "docstatus": 1}, "parent"
-	) or frappe.db.get_value("Request for Quotation Supplier", {"docstatus": 1}, "parent")
+	supplier = frappe.db.get_value("Portal User", {"user": rami, "parenttype": "Supplier"}, "parent")
+	sent = frappe.db.get_value("Request for Quotation Supplier", {"supplier": supplier, "docstatus": 1}, "parent")
 	with as_user(rami):
 		said = portal.rfq(sent)
 		assert said["rows"] and said["money"]["symbol"], said
-		assert "rfq" in {one["path"] for one in portal.home()}
+		assert "rfq" in {one["path"] for one in portal.home()["tiles"]}
 
 
 @check
