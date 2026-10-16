@@ -6205,6 +6205,7 @@ def onecrm_a_next_step_come_due_is_told_once():
 	with patch("onedesk.one.notify.notify", side_effect=lambda name, users, **said: told.append((name, users, said))):
 		tell.due()
 		tell.due()
+	told = [one for one in told if one[2]["record"] == ("Opportunity", deal)]
 	assert [(name, users) for name, users, _said in told] == [("Next Step Due", "omar@one.test")], told
 	assert told[0][2]["step"] == "Send the workshop agenda" and told[0][2]["title"] == "Nordlicht second showroom", told
 
@@ -7100,3 +7101,78 @@ def onehr_an_expense_claim_paid_is_what_the_books_and_project_carry():
 			project,
 		)[0][0]
 		assert abs(flt(frappe.db.get_value("Project", project, "total_expense_claim")) - flt(approved)) <= CENTS, (project, approved)
+
+
+@check
+def onehr_tells_each_moment_somebody_waits_on():
+	"""Nadia's attendance request reaches HR, and Mariam's answer reaches her
+	with Mariam's note. A letter issued reaches the employee it is about; a
+	grievance reaches HR when OneAI is not reading them; a passkey reset is
+	asked of HR and its doing told back; an interview's interviewers hear the
+	day it is made; a permit a month from expiring reaches the employee and
+	HR. Leave answered carries the approver's note."""
+	from unittest.mock import patch
+
+	from onedesk.one_hr import request, tell
+
+	told = []
+
+	def heard(name, users, **said):
+		told.append((name, [users] if isinstance(users, str) else list(users), said))
+
+	def said(name):
+		found = [one for one in told if one[0] == name]
+		assert found, (name, [one[0] for one in told])
+		return found[-1]
+
+	nadia = frappe.db.get_value("Employee", {"user_id": "nadia@one.test"})
+	with patch("onedesk.one.notify.notify", side_effect=heard):
+		with as_user("nadia@one.test"):
+			asked = frappe.get_doc(
+				{"doctype": "Attendance Request", "employee": nadia, "from_date": today(), "to_date": today(), "one_reason": frappe.db.get_value("Attendance Reason", {}), "explanation": "Waiting in for the glazier."}
+			).insert()
+		_name, users, values = said("Attendance Request Asked")
+		assert "mariam@one.test" in users and "nadia@one.test" not in users and values["explanation"] == "Waiting in for the glazier."
+		with as_user("mariam@one.test"):
+			request.reject(asked.name, "Come in on Thursday instead.")
+		_name, users, values = said("Attendance Request Answered")
+		assert users == ["nadia@one.test"] and values["note"] == "Mariam Saleh: Come in on Thursday instead.", values
+
+		letter = frappe.get_doc({"doctype": "Employee Letter", "employee": nadia, "kind": frappe.get_meta("Employee Letter").get_field("kind").options.split("\n")[0]})
+		letter.flags.ignore_mandatory = True
+		with as_user("mariam@one.test"):
+			letter.insert()
+			letter.submit()
+		assert said("Letter Issued")[1] == ["nadia@one.test"]
+
+		frappe.db.set_single_value("HR Settings", "one_ai_grievances", 0)
+		with as_user("nadia@one.test"):
+			frappe.get_doc({"doctype": "Employee Grievance", "subject": "Parking", "raised_by": nadia, "grievance_against_party": "Department", "grievance_against": frappe.db.get_value("Department", {}), "grievance_type": frappe.db.get_value("Grievance Type", {}), "description": "Nowhere to park."}).insert(ignore_mandatory=True)
+		assert "mariam@one.test" in said("Grievance Raised")[1]
+
+		tell.passkey_reset_asked(nadia, registered="iPhone", asking="Pixel", address="10.0.0.1", why="Dropped it")
+		assert "mariam@one.test" in said("Passkey Reset Asked")[1]
+		with as_user("mariam@one.test"):
+			tell.passkey_reset_done(nadia)
+		assert said("Passkey Reset Done")[1] == ["nadia@one.test"]
+
+		interview = frappe.copy_doc(frappe.get_doc("Interview", frappe.db.get_value("Interview", {})))
+		interview.scheduled_on = add_days(today(), 3)
+		interview.insert(ignore_permissions=True)
+		_name, users, values = said("Interview Scheduled")
+		assert users and values["applicant"], values
+
+		employee = frappe.get_doc("Employee", nadia)
+		kind = frappe.get_meta("Employee Document").get_field("document_type").options
+		permit = frappe.db.get_value(kind, {}) or frappe.get_doc({"doctype": kind, "identification_document_type": "Work Permit"}).insert(ignore_permissions=True).name
+		employee.append("one_documents", {"document_type": permit, "number": "WP-1", "expires_on": add_days(today(), 30)})
+		employee.save(ignore_permissions=True)
+		tell.documents_expiring()
+		_name, users, values = said("Document Expiring")
+		assert "nadia@one.test" in users and "mariam@one.test" in users and values["number"] == "WP-1", values
+
+		leave = frappe.get_doc("Leave Application", frappe.db.get_value("Leave Application", {"docstatus": 1}))
+		leave.one_note, leave.one_decided_by = "Enjoy it.", "mariam@one.test"
+		with as_user("mariam@one.test"):
+			leave.answered("Approved")
+		assert said("Leave Answered")[2]["note"] == "Mariam Saleh: Enjoy it.", said("Leave Answered")

@@ -359,7 +359,12 @@ def update_asked(doc, people: list[str], update) -> None:
 	# The project's own question, where it has one, over the type's text.
 	words = (doc.subject, doc.message)
 	notify.notify(
-		"Project Update Asked", people, record=("Project", doc.name), words=words, project=doc.project_name
+		"Project Update Asked",
+		people,
+		record=("Project", doc.name),
+		words=words,
+		mailed=False,
+		project=doc.project_name,
 	)
 	if _mail():
 		notify.mail(

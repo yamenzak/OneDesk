@@ -3,7 +3,7 @@
 import frappe
 from frappe import _
 
-from onedesk.one_hr import decision
+from onedesk.one_hr import decision, tell
 
 #: The two strings HRMS's own Select holds, and the only two its status mapping
 #: can tell apart. Every Attendance Reason lands on one of them.
@@ -51,6 +51,7 @@ def approve(name: str, note: str | None = None) -> None:
 	doc.one_decision = ""
 	doc.one_note = note or ""
 	doc.submit()
+	tell.attendance_answered(doc, "Approved")
 
 
 @frappe.whitelist(methods=["POST"])
@@ -71,6 +72,7 @@ def reject(name: str, note: str | None = None) -> None:
 	doc.db_set({"one_decision": REJECTED, **decision.signed(note)})
 	doc.add_comment("Workflow", _("Turned down.") + (f" {note}" if note else ""))
 	doc.notify_update()
+	tell.attendance_answered(doc, "Rejected")
 
 
 def _company(doc) -> None:

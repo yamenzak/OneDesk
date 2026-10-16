@@ -10,4 +10,5 @@ email_default: yes
 # {employee} could not be marked Left
 
 Their passkey and shift assignments have been ended, but the status is still
-Active: {why}
+Active: {why}<br>
+Fix that, then set their status to Left.

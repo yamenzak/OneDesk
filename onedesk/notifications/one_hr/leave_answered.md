@@ -9,3 +9,5 @@ push_default: yes
 ---
 
 # Your {leave_type} from {from_date} to {to_date} was {status}
+
+{note}

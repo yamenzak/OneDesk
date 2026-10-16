@@ -198,30 +198,15 @@ def ask_for_a_reset(why: str | None = None) -> dict:
 		frappe.throw(_("Only an employee can ask for their own passkey to be reset."))
 
 	device = held_by(employee)
-	name = frappe.db.get_value("Employee", employee, "employee_name") or employee
-	told = _(
-		"{0} cannot check in and reports that their phone has changed.\n\n"
-		"Registered on: {1}\nAsking from: {2}\nAddress: {3}\n\n{4}"
-	).format(
-		name,
-		(device or {}).get("user_agent") or _("no passkey registered"),
-		_agent(),
-		frappe.local.request_ip,
-		why or "",
+	from onedesk.one_hr import tell
+
+	tell.passkey_reset_asked(
+		employee,
+		registered=(device or {}).get("user_agent") or _("no passkey registered"),
+		asking=_agent(),
+		address=frappe.local.request_ip,
+		why=why or "",
 	)
-
-	from frappe.desk.form.assign_to import add
-
-	for user in _hr_users():
-		add(
-			{
-				"assign_to": [user],
-				"doctype": "Employee",
-				"name": employee,
-				"description": told,
-				"priority": "High",
-			}
-		)
 	return {"told": len(_hr_users())}
 
 
@@ -243,6 +228,10 @@ def reset(employee: str) -> dict:
 	)
 	for name in found:
 		frappe.db.set_value("Clock Device", name, "status", "Reset")
+	if found:
+		from onedesk.one_hr import tell
+
+		tell.passkey_reset_done(employee)
 	return {"reset": len(found)}
 
 

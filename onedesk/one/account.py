@@ -221,15 +221,6 @@ def _administrators() -> list[str]:
 	return [one for one in roles.administrators() if one not in NOT_PEOPLE]
 
 
-def _addresses(people) -> list[tuple[str, str]]:
-	"""Each person's address and language, for what is always mailed."""
-	return [
-		(one.email, one.language)
-		for one in frappe.get_all("User", filters={"name": ["in", people]}, fields=["email", "language"])
-		if one.email
-	]
-
-
 #: How far back the ledger on Plan and Credits goes.
 LEDGER_DAYS = 90
 

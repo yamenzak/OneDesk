@@ -8,3 +8,5 @@ push_default: yes
 ---
 
 # Your request for {shift} from {from_date} was {status}
+
+{note}

@@ -27,9 +27,12 @@ TRUSTED = "HR Manager"
 
 
 def raised(doc, method=None) -> None:
-	"""A new grievance: read it once the insert is committed."""
+	"""A new grievance: read it once the insert is committed, or, with OneAI's
+	reading off, told to HR as it is."""
 	if cint(frappe.db.get_single_value("HR Settings", "one_ai_grievances")):
 		hiring._later("onedesk.one_hr.ai_grievance.triage", f"grievance::{doc.name}", grievance=doc.name)
+	else:
+		tell.grievance_raised(doc)
 
 
 def triage(grievance: str) -> None:
@@ -45,6 +48,8 @@ def triage(grievance: str) -> None:
 	)
 	answer = hiring._read("grievance", hiring._ask("grievance", asked, None, grievance), grievance)
 	if not answer:
+		# OneAI could not read it: HR still hears of it.
+		tell.grievance_raised(doc)
 		return
 
 	category = answer.get("category") if answer.get("category") in CATEGORIES else "Other"
@@ -84,6 +89,8 @@ def triage(grievance: str) -> None:
 
 	if sensitive or urgency == "High":
 		tell.grievance_flagged(doc, sensitive)
+	else:
+		tell.grievance_raised(doc)
 	hiring._refresh("Employee Grievance", grievance)
 
 

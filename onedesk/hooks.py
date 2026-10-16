@@ -169,6 +169,13 @@ scheduler_events = {
 		"45 6 * * *": ["onedesk.one_calendar.tell.today_events"],
 		# Each person's tasks due today and late. See one_task/tell.py.
 		"40 6 * * *": ["onedesk.one_task.tell.today"],
+		# HRMS's morning reminders, told through the hub. See one_hr/tell.py.
+		"35 6 * * *": [
+			"onedesk.one_hr.tell.birthdays",
+			"onedesk.one_hr.tell.anniversaries",
+			"onedesk.one_hr.tell.feedback_due",
+			"onedesk.one_hr.tell.documents_expiring",
+		],
 	},
 	"daily": [
 		# Goods past their date on an order, told to whoever ordered them. See one_inventory/tell.py.
@@ -221,10 +228,6 @@ scheduler_events = {
 		"onedesk.one_hr.setup.nightly",
 		# Yesterday's project updates, to the project's people. See one_project/updates.py.
 		"onedesk.one_project.updates.sum_up",
-		# HRMS's reminders, told through the hub. See one_hr/tell.py.
-		"onedesk.one_hr.tell.birthdays",
-		"onedesk.one_hr.tell.anniversaries",
-		"onedesk.one_hr.tell.feedback_due",
 	],
 	"hourly": [
 		"onedesk.one_hr.closing.hourly",
@@ -757,6 +760,8 @@ doc_events = {
 	"Attendance Request": {
 		"before_validate": "onedesk.one_hr.request.before_validate",
 		"before_submit": "onedesk.one_hr.request.before_submit",
+		# A request waiting, told to HR. See one_hr/tell.py.
+		"after_insert": "onedesk.one_hr.tell.attendance_asked",
 	},
 	# A stage has an outcome, and the status follows it; ERPNext's own verbs
 	# move the stage back. See one_crm/stages.py.

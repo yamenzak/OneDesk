@@ -12,6 +12,8 @@ def given(doc, method=None) -> None:
 	"""Notification Log before_insert: frappe's line for a task given, in ours."""
 	if doc.type != "Assignment" or doc.document_type != "Task" or not doc.document_name:
 		return
+	if _completed(doc):
+		return
 	# Only a task given: its assignment is open. Taking one away is frappe's to say.
 	if not frappe.db.exists(
 		"ToDo",
@@ -36,7 +38,44 @@ def given(doc, method=None) -> None:
 	subject, message = notify.render(
 		"Task Given", {"who": get_fullname(doc.from_user), "task": task.subject, **_facts(task)}, lang
 	)
-	doc.update({"type": "Task Given", "subject": subject, "email_content": message or None})
+	_say(doc, "Task Given", subject, message)
+
+
+def _say(doc, kind: str, subject: str, message: str) -> None:
+	# frappe's before_insert has already copied its own line into the title the
+	# bell shows (title, description), so ours goes there too.
+	doc.update(
+		{
+			"type": kind,
+			"subject": subject,
+			"title": subject,
+			"email_content": message or None,
+			"description": message or None,
+		}
+	)
+
+
+def _completed(doc) -> bool:
+	"""A task completed closes every assignment on it (erpnext's
+	close_all_assignments), and frappe tells each other assignee theirs was
+	"removed". Said as what happened: Task Done."""
+	task = frappe.db.get_value(
+		"Task", doc.document_name, ["subject", "status", "project", "exp_end_date"], as_dict=True
+	)
+	if not task or task.status != "Completed" or doc.for_user == doc.from_user:
+		return False
+	if not frappe.db.get_value("Notification Type", "Task Done", "enabled"):
+		return False
+	lang = frappe.db.get_value("User", doc.for_user, "language") or frappe.db.get_single_value(
+		"System Settings", "language"
+	)
+	subject, message = notify.render(
+		"Task Done",
+		{"who": get_fullname(doc.from_user), "task": task.subject, "project": _facts(task)["project"]},
+		lang,
+	)
+	_say(doc, "Task Done", subject, message)
+	return True
 
 
 def done(doc, method=None) -> None:

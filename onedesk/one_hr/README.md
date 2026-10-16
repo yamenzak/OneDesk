@@ -1627,15 +1627,18 @@ HRMS tells people things four ways, and none of them is the bell:
 - **Approvals** go to its own phone app, as PWA Notification rows nobody here
   reads (`PWANotificationsMixin`): somebody asks for leave, an expense or a
   shift, and the approver is told; it is answered, and the employee is told.
-  The classes in `tell.py` keep HRMS's own and tell the same moments through the
-  hub, one type per request and per answer. Leave also mailed both moments
+  The classes in `tell.py` tell the same moments through the hub instead,
+  one type per request and per answer, so HRMS's phone app gets none of them.
+  An answer carries the approver's note (`note`). Leave also mailed both moments
   from Email Templates set in HR Settings (`send_leave_notification`); that
   switch is off, and hidden, because this tells them now.
 - **Reminders** are mailed by its scheduler: birthdays, work anniversaries,
   upcoming holidays, an interview soon, feedback not given. Each has a switch
   in HR Settings; those are off and hidden (`replaces` in notifications/one_hr/),
-  and the jobs here tell the same people the same things. A type starts on
-  only if its switch was on.
+  and the jobs here tell the same people the same things, in the morning. A
+  type starts on only if its switch was on. HRMS compared an interview's date
+  as though it held the time, so its reminder fired at midnight and its
+  feedback reminder almost never; ours compare the interview's start and end.
 - **A rescheduled interview** is mailed to interviewers and applicant alike,
   in fixed words, with no switch. `Interview.reschedule_interview` is
   HRMS's, written again here (HRMS is GPL-3.0, this repository AGPL-3.0) so
@@ -1645,9 +1648,25 @@ HRMS tells people things four ways, and none of them is the bell:
   questionnaire, and the report of earned leave that failed to allocate. They
   are listed as types with `mailed_by`, so the administrator sees them.
 
-A person with no user here cannot be told in One. Where HRMS would have mailed
-them, they are mailed in the type's words; a birthday is only told to people
-with a user.
+A person with no user here cannot be told in One; only an interview's
+applicant is mailed, in the type's words. A birthday is only told to people
+with a user, and opens nothing, since most colleagues may not open somebody
+else's employee record.
+
+OneHR's own moments, besides HRMS's:
+
+- **Attendance Request Asked and Answered**: a request waits, to HR; its
+  answer, with the note, to the employee (`attendance_asked`,
+  `attendance_answered`).
+- **Letter Requested and Letter Issued**: asked of HR, issued to the employee.
+- **Grievance Raised**: to the people trusted with grievances, whenever OneAI
+  is not reading them, cannot, or reads nothing urgent or sensitive; a
+  Sensitive or Urgent Grievance stands in for it when it does.
+- **Document Expiring**: a passport, visa or permit a month and a week from
+  expiring, to the employee and HR, each morning.
+- **Passkey Reset Asked and Done**: an employee who changed phones asks HR,
+  with what the phone said, and is told when they can register the new one.
+- **Interview Scheduled**: to its interviewers, the day it is made.
 
 `place_proposed` is one notification, to the people who can undo it. Told rather than asked: the row is already Confirmed and already working, on
 the reasoning that a Monday morning where nobody can clock in is worse than

@@ -9,3 +9,5 @@ push_default: yes
 ---
 
 # {employee} claimed {amount}
+
+For {what}. Approve or reject it.

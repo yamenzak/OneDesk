@@ -6,4 +6,7 @@ about: When One adds a network or place people check in from, because they keep 
 to: HR managers
 ---
 
-# A new check-in network or location was proposed
+# {place} was added to where people check in
+
+One added it because people kept checking in from it. Reject it if it is
+wrong.

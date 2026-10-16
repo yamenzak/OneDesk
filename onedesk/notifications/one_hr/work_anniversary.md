@@ -10,4 +10,4 @@ starts_as: HR Settings.send_work_anniversary_reminders
 
 # It is {employee}'s work anniversary
 
-They joined on {joined}, {years} years ago today.
+They joined on {joined}.

@@ -9,7 +9,7 @@ import datetime
 
 import frappe
 from frappe import _lt
-from frappe.utils import add_days, add_months, cint, cstr, formatdate, getdate, nowtime
+from frappe.utils import add_days, add_months, cint, cstr, formatdate, getdate, to_timedelta
 from hrms.hr.doctype.expense_claim.expense_claim import ExpenseClaim as HRMSExpenseClaim
 from hrms.hr.doctype.interview.interview import Interview as HRMSInterview
 from hrms.hr.doctype.interview.interview import get_recipients
@@ -47,7 +47,12 @@ class Approvals:
 		if not employee or employee == frappe.session.user:
 			return
 		notify.notify(
-			self.ANSWERED, employee, record=(self.doctype, self.name), status=_lt(status), **self.said()
+			self.ANSWERED,
+			employee,
+			record=(self.doctype, self.name),
+			status=_lt(status),
+			note=note(self),
+			**self.said(),
 		)
 
 
@@ -58,7 +63,8 @@ class LeaveApplication(Approvals, HRMSLeaveApplication):
 		return {
 			"employee": self.employee_name,
 			"leave_type": _lt(self.leave_type),
-			"days": self.total_leave_days,
+			"days": frappe.utils.flt(self.total_leave_days)
+			and f"{frappe.utils.flt(self.total_leave_days):g}",
 			"from_date": formatdate(self.from_date),
 			"to_date": formatdate(self.to_date),
 		}
@@ -81,6 +87,13 @@ class ExpenseClaim(Approvals, HRMSExpenseClaim):
 		return {
 			"employee": self.employee_name,
 			"amount": frappe.utils.fmt_money(self.total_claimed_amount, currency=self.currency),
+			# Several types joined: said in the asker's language, not the reader's.
+			"what": ", ".join(
+				frappe._(one)
+				for one in dict.fromkeys(row.expense_type for row in self.expenses if row.expense_type)
+			)
+			or self.get("remark")
+			or "",
 		}
 
 
@@ -92,8 +105,75 @@ class ShiftRequest(Approvals, HRMSShiftRequest):
 			"employee": self.employee_name,
 			"shift": self.shift_type,
 			"from_date": formatdate(self.from_date),
-			"to_date": formatdate(self.to_date or self.from_date),
+			"until": frappe._("Until {0}").format(formatdate(self.to_date))
+			if self.to_date
+			else _lt("With no end date"),
 		}
+
+
+def note(doc) -> str:
+	"""Whoever answered, and what they wrote, when they wrote anything."""
+	said = (doc.get("one_note") or "").strip()
+	if not said:
+		return ""
+	by = frappe.utils.get_fullname(doc.get("one_decided_by") or frappe.session.user)
+	return f"{by}: {said}"
+
+
+# ------------------------------------------------------------------ attendance requests
+
+
+def attendance_asked(doc, method=None) -> None:
+	"""Attendance Request after_insert: HR is told a request waits."""
+	employee = frappe.db.get_value("Employee", doc.employee, "user_id")
+	notify.notify(
+		"Attendance Request Asked",
+		[one for one in _hr() if one != employee],
+		record=(doc.doctype, doc.name),
+		sender=employee or None,
+		**_attendance(doc),
+		explanation=doc.get("explanation") or "",
+	)
+
+
+def attendance_answered(doc, status: str) -> None:
+	"""The employee hears the answer, with the note."""
+	employee = frappe.db.get_value("Employee", doc.employee, "user_id")
+	if not employee or employee == frappe.session.user:
+		return
+	notify.notify(
+		"Attendance Request Answered",
+		employee,
+		record=(doc.doctype, doc.name),
+		status=_lt(status),
+		note=note(doc),
+		**_attendance(doc),
+	)
+
+
+def _attendance(doc) -> dict:
+	return {
+		"employee": doc.employee_name or doc.employee,
+		"reason": _lt(doc.get("one_reason") or doc.get("reason") or "Attendance"),
+		"from_date": formatdate(doc.from_date),
+		"to_date": formatdate(doc.to_date),
+	}
+
+
+def _hr() -> list[str]:
+	from onedesk.one.settings import NOT_PEOPLE
+
+	found = frappe.get_all(
+		"Has Role",
+		filters={"role": ["in", ["HR User", "HR Manager"]], "parenttype": "User"},
+		pluck="parent",
+		distinct=True,
+	)
+	return frappe.get_all(
+		"User",
+		filters={"name": ["in", [one for one in found if one not in NOT_PEOPLE]], "enabled": 1},
+		pluck="name",
+	)
 
 
 # ------------------------------------------------------------------ interviews
@@ -121,6 +201,29 @@ class Interview(HRMSInterview):
 		self.db_set({"scheduled_on": scheduled_on, "from_time": from_time, "to_time": to_time})
 		self.notify_update()
 		_tell_interview(self, moved=True, was=was)
+
+	def after_insert(self):
+		"""Its interviewers are told they are on it, the day it is made."""
+		if hasattr(super(), "after_insert"):
+			super().after_insert()
+		interviewers = [row.interviewer for row in self.interview_details if row.interviewer]
+		people = [one for one in interviewers if one != frappe.session.user]
+		if not people:
+			return
+		applicant = frappe.db.get_value("Job Applicant", self.job_applicant, "applicant_name")
+		opening = (
+			frappe.db.get_value("Job Opening", self.job_opening, "job_title")
+			if self.get("job_opening")
+			else None
+		)
+		notify.notify(
+			"Interview Scheduled",
+			people,
+			record=("Interview", self.name),
+			applicant=applicant or self.job_applicant,
+			when=_when(self),
+			opening=opening or self.get("designation") or _lt(self.get("interview_type") or "Interview"),
+		)
 
 
 def _when(interview) -> str:
@@ -163,40 +266,50 @@ def interviews_soon() -> None:
 	before = datetime.datetime.strptime(before, "%H:%M:%S")
 	now = datetime.datetime.now()
 	until = now + datetime.timedelta(hours=before.hour, minutes=before.minute, seconds=before.second)
-	for name in frappe.get_all(
+	# HRMS filters the date as though it held the time, so every interview
+	# that day matched just after midnight. The date and its start, together.
+	for one in frappe.get_all(
 		"Interview",
 		filters=[
-			["scheduled_on", "between", [now, until]],
+			["scheduled_on", "between", [now.date(), until.date()]],
 			["status", "=", "Pending"],
 			["reminded", "=", 0],
 			["docstatus", "!=", 2],
 		],
-		pluck="name",
+		fields=["name", "scheduled_on", "from_time"],
 	):
-		interview = frappe.get_doc("Interview", name)
+		if not now <= _at(one.scheduled_on, one.from_time) <= until:
+			continue
+		interview = frappe.get_doc("Interview", one.name)
 		_tell_interview(interview)
 		interview.db_set("reminded", 1)
 
 
+def _at(day, time) -> datetime.datetime:
+	return datetime.datetime.combine(getdate(day), datetime.datetime.min.time()) + to_timedelta(
+		time or "0:00"
+	)
+
+
 def feedback_due() -> None:
-	"""Daily: an interview held and under review, to each interviewer who has
-	not given feedback. HRMS's `send_daily_feedback_reminder`, told in One."""
-	for name in frappe.get_all(
+	"""Each morning: an interview held and under review, to each interviewer
+	who has not given feedback. HRMS's `send_daily_feedback_reminder`, told
+	in One, for every interview that has ended rather than only those ending
+	before the time the job runs."""
+	now = datetime.datetime.now()
+	for one in frappe.get_all(
 		"Interview",
-		filters={
-			"status": "Under Review",
-			"docstatus": ["!=", 2],
-			"scheduled_on": ["<=", getdate()],
-			"to_time": ["<=", nowtime()],
-		},
-		pluck="name",
+		filters={"status": "Under Review", "docstatus": ["!=", 2], "scheduled_on": ["<=", getdate()]},
+		fields=["name", "scheduled_on", "to_time"],
 	):
-		interview = frappe.get_doc("Interview", name)
+		if _at(one.scheduled_on, one.to_time) > now:
+			continue
+		interview = frappe.get_doc("Interview", one.name)
 		applicant = frappe.db.get_value("Job Applicant", interview.job_applicant, "applicant_name")
 		notify.notify(
 			"Interview Feedback Due",
-			get_recipients(name, for_feedback=1),
-			record=("Interview", name),
+			get_recipients(one.name, for_feedback=1),
+			record=("Interview", one.name),
 			applicant=applicant or interview.job_applicant,
 			when=_when(interview),
 		)
@@ -236,12 +349,8 @@ def _today(field: str) -> list[dict]:
 def birthdays() -> None:
 	"""Daily: each birthday, to everybody else at the company."""
 	for one in _today("date_of_birth"):
-		notify.notify(
-			"Birthday",
-			_colleagues(one.company, but=one.user_id),
-			record=("Employee", one.name),
-			employee=one.employee_name,
-		)
+		# No record: most colleagues may not open somebody else's.
+		notify.notify("Birthday", _colleagues(one.company, but=one.user_id), employee=one.employee_name)
 
 
 def anniversaries() -> None:
@@ -250,10 +359,8 @@ def anniversaries() -> None:
 		notify.notify(
 			"Work Anniversary",
 			_colleagues(one.company, but=one.user_id),
-			record=("Employee", one.name),
 			employee=one.employee_name,
 			joined=formatdate(one.date_of_joining),
-			years=getdate().year - one.date_of_joining.year,
 		)
 
 
@@ -283,6 +390,7 @@ def _holidays(frequency: str) -> None:
 		notify.notify(
 			"Holidays Coming Up",
 			one.user_id,
+			link="/desk/onecalendar",
 			holidays="; ".join(
 				f"{formatdate(day.holiday_date)}: {frappe.utils.strip_html(cstr(day.description))}"
 				for day in days
@@ -336,8 +444,95 @@ def letter_requested(doc) -> None:
 		enabled,
 		record=(doc.doctype, doc.name),
 		employee=doc.employee_name,
-		kind=frappe._(doc.kind).lower(),
+		kind=_lt(doc.kind),
 	)
+
+
+def letter_issued(doc) -> None:
+	"""A letter issued, to the employee it is about, unless they issued it."""
+	user = frappe.db.get_value("Employee", doc.employee, "user_id")
+	if not user or user == frappe.session.user:
+		return
+	notify.notify(
+		"Letter Issued",
+		user,
+		record=(doc.doctype, doc.name),
+		kind=_lt(doc.kind),
+		by=frappe.utils.get_fullname(frappe.session.user),
+	)
+
+
+def grievance_raised(doc) -> None:
+	"""A grievance, to the people trusted with them, whatever OneAI made of it."""
+	from onedesk.one_hr import ai_grievance
+
+	users = [one for one in ai_grievance.trusted_users() if one != doc.owner]
+	if users:
+		notify.notify(
+			"Grievance Raised",
+			users,
+			record=("Employee Grievance", doc.name),
+			employee=frappe.db.get_value("Employee", doc.raised_by, "employee_name") or doc.raised_by,
+		)
+
+
+def documents_expiring() -> None:
+	"""Each morning: a passport, visa or permit expiring in a month, or a
+	week, to the employee and HR."""
+	if not frappe.db.get_value("Notification Type", "Document Expiring", "enabled"):
+		return
+	hr = _hr()
+	for days in (30, 7):
+		for one in frappe.get_all(
+			"Employee Document",
+			filters={"parenttype": "Employee", "expires_on": add_days(getdate(), days)},
+			fields=["parent", "document_type", "number", "expires_on"],
+		):
+			employee = frappe.db.get_value(
+				"Employee", one.parent, ["employee_name", "user_id", "status"], as_dict=True
+			)
+			if not employee or employee.status != "Active":
+				continue
+			notify.notify(
+				"Document Expiring",
+				[*hr, employee.user_id],
+				record=("Employee", one.parent),
+				sender="Administrator",
+				employee=employee.employee_name,
+				document=_lt(one.document_type),
+				date=formatdate(one.expires_on),
+				number=one.number or "",
+			)
+
+
+def passkey_reset_asked(employee: str, registered: str, asking: str, address: str, why: str) -> None:
+	"""An employee who changed phones asks HR for a reset."""
+	from markupsafe import Markup, escape
+
+	user = frappe.db.get_value("Employee", employee, "user_id")
+	notify.notify(
+		"Passkey Reset Asked",
+		[one for one in _hr() if one != user],
+		record=("Employee", employee),
+		sender=user or None,
+		employee=frappe.db.get_value("Employee", employee, "employee_name") or employee,
+		registered=registered,
+		asking=asking,
+		address=address or "",
+		why=Markup("<br>") + escape(why) if why else "",
+	)
+
+
+def passkey_reset_done(employee: str) -> None:
+	"""HR reset the passkey: the employee can register the new phone."""
+	user = frappe.db.get_value("Employee", employee, "user_id")
+	if user and user != frappe.session.user:
+		notify.notify(
+			"Passkey Reset Done",
+			user,
+			link="/desk/settings?section=signin",
+			by=frappe.utils.get_fullname(frappe.session.user),
+		)
 
 
 def place_proposed(doc) -> None:
@@ -348,7 +543,8 @@ def place_proposed(doc) -> None:
 		pluck="parent",
 		distinct=True,
 	)
-	notify.notify("Check-in Place Proposed", managers, record=(doc.doctype, doc.name))
+	place = doc.get(frappe.get_meta(doc.doctype).title_field or "name") or doc.get("label") or doc.name
+	notify.notify("Check-in Place Proposed", managers, record=(doc.doctype, doc.name), place=place)
 
 
 def could_not_mark_left(employee: str, why: str) -> None:
@@ -374,7 +570,11 @@ def check_in_flagged(attempt: str, employee: str, signals: list[str]) -> None:
 	from onedesk.one_hr import review, rules
 
 	name = frappe.db.get_value("Employee", employee, "employee_name") or employee
-	told = "\n".join(f"• {frappe._(rules.says(signal))}" for signal in dict.fromkeys(signals))
+	from markupsafe import Markup, escape
+
+	told = Markup("<br>").join(
+		Markup("• ") + escape(frappe._(rules.says(signal))) for signal in dict.fromkeys(signals)
+	)
 	reviewers = frappe.get_all(
 		"Has Role",
 		filters={"role": ["in", list(review.REVIEWERS)], "parenttype": "User"},

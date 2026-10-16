@@ -504,17 +504,22 @@ def notify(
 	sender: str | None = None,
 	dedupe_on: list[str] | None = None,
 	words: tuple[str | None, str | None] | None = None,
+	mailed: bool = True,
 	**context,
 ) -> None:
 	"""Tell people in the workspace, through the hub: each in their own language,
 	on the bell, and by email or push as they chose. `users` are user names or
 	emails; the sender is not told about their own action. `context` fills the
-	type's slots."""
+	type's slots. An `always_mailed` type is mailed here too, unless the
+	sender mails it its own way (`mailed=False`)."""
 	from frappe.desk.doctype.notification_log.notification_log import enqueue_create_notification
 
 	row = _type(name)
 	if not row.enabled or row.one_outside:
 		return
+	# Once per type: an assignment or a mention on the same record is not this.
+	if dedupe_on and "type" not in dedupe_on:
+		dedupe_on = ["type", *dedupe_on]
 	people = [users] if isinstance(users, str) else list(filter(None, users or []))
 	found = (
 		frappe.get_all(
@@ -523,6 +528,7 @@ def notify(
 		if people
 		else []
 	)
+	always = mailed and bool((declared().get(name) or {}).get("always_mailed"))
 	fallback = frappe.db.get_single_value("System Settings", "language") or "en"
 	by_language: dict[str, list[str]] = {}
 	for person in found:
@@ -540,6 +546,13 @@ def notify(
 		if record:
 			doc["document_type"], doc["document_name"] = record
 		enqueue_create_notification(emails, doc, dedupe_on=dedupe_on)
+		if always:
+			for email in emails:
+				try:
+					_send(email, lang, name, subject, message, link, record, always=True)
+				except frappe.OutgoingEmailError:
+					# As frappe does for a notification's mail: the bell has it.
+					frappe.log_error(title=_("Failed to send notification email"))
 
 
 def mail(name: str, recipients, lang: str | None = None, words=None, **kwargs) -> None:
@@ -624,27 +637,38 @@ def mail_log(log) -> None:
 	"""A notification mailed to its person, as frappe's send_notification_email
 	does, but drawn as One draws a mail: its own heading rather than "New
 	Notification", a button named for what it opens, and which notification
-	it is with where to change that."""
-	from frappe.utils import get_url_to_form
-
+	it is with where to change that. An `always_mailed` type was mailed when
+	it was sent."""
+	if (declared().get(log.type) or {}).get("always_mailed"):
+		return
 	user = frappe.db.get_value("User", log.for_user, ["email", "language"], as_dict=True)
 	if not user or not user.email:
 		return
-	lang = user.language or frappe.db.get_single_value("System Settings", "language")
-	link, button = log.link, _("Open", lang=lang, context="Go to it")
-	if log.document_type and log.document_name:
-		link = link or get_url_to_form(log.document_type, log.document_name)
-		button = _("Open {0}", lang=lang).format(_(log.document_type, lang=lang))
-	one = declared().get(log.type) or {}
-	said = f"<b>{frappe.utils.escape_html(_(log.type, lang=lang))}</b>" if log.type else ""
+	record = (log.document_type, log.document_name) if log.document_type and log.document_name else None
+	_send(user.email, user.language, log.type, log.subject, log.email_content, log.link, record)
+
+
+def _send(email, lang, kind, subject, message, link=None, record=None, always=False) -> None:
+	from frappe.utils import get_url_to_form
+
+	lang = lang or frappe.db.get_single_value("System Settings", "language")
+	button = _("Open", lang=lang, context="Go to it")
+	if record:
+		link = link or get_url_to_form(*record)
+		button = _("Open {0}", lang=lang).format(_(record[0], lang=lang))
+	one = declared().get(kind) or {}
+	said = f"<b>{frappe.utils.escape_html(_(kind, lang=lang))}</b>" if kind else ""
 	if one.get("about"):
 		said += f" · {frappe.utils.escape_html(_(raw(one['about']), lang=lang))}"
-	change = frappe.utils.get_url("/desk/settings?section=notifications")
-	reason = f'{said}<br><a href="{change}">{_("Change what you get by mail", lang=lang)}</a>'
+	if always:
+		reason = f"{said}<br>{_('Mailed to everybody it concerns, whatever they chose.', lang=lang)}"
+	else:
+		change = frappe.utils.get_url("/desk/settings?section=notifications")
+		reason = f'{said}<br><a href="{change}">{_("Change what you get by mail", lang=lang)}</a>'
 	frappe.sendmail(
-		recipients=user.email,
-		subject=plain(log.subject),
-		message=compose(log.subject, log.email_content, link, button, reason),
+		recipients=email,
+		subject=plain(subject),
+		message=compose(subject, message, link, button, reason),
 		with_container=True,
 		now=frappe.in_test,
 	)

@@ -15,8 +15,6 @@ def credits_running_low(people: list[str], balance: str, days: int) -> None:
 
 	slots = {"balance": balance, "days": days}
 	notify.notify("Credits Running Low", people, link=account.PAGE, sender="Administrator", **slots)
-	for email, lang in account._addresses(people):
-		notify.mail("Credits Running Low", email, lang=lang, **slots)
 
 
 def credits_added(people: list[str], balance: str, gift: dict | None = None) -> None:
@@ -58,8 +56,6 @@ def storage_nearly_full(people: list[str], used, limit) -> None:
 
 	slots = {"used": size(used), "limit": size(limit)}
 	notify.notify("Storage Nearly Full", people, link=account.PAGE, sender="Administrator", **slots)
-	for email, lang in account._addresses(people):
-		notify.mail("Storage Nearly Full", email, lang=lang, **slots)
 
 
 def database_nearly_full(people: list[str], used, limit) -> None:
@@ -69,8 +65,6 @@ def database_nearly_full(people: list[str], used, limit) -> None:
 
 	slots = {"used": size(used), "limit": size(limit)}
 	notify.notify("Database Nearly Full", people, link=account.PAGE, sender="Administrator", **slots)
-	for email, lang in account._addresses(people):
-		notify.mail("Database Nearly Full", email, lang=lang, **slots)
 
 
 def payment_overdue(people: list[str], date: str) -> None:
@@ -78,8 +72,6 @@ def payment_overdue(people: list[str], date: str) -> None:
 	from onedesk.one import account
 
 	notify.notify("Payment Overdue", people, link=account.PAGE, sender="Administrator", date=date)
-	for email, lang in account._addresses(people):
-		notify.mail("Payment Overdue", email, lang=lang, date=date)
 
 
 def plan_changed(plan: str, said: dict) -> None:
@@ -121,8 +113,6 @@ def main_address_changed(domain: str) -> None:
 	if people:
 		slots = {"by": frappe.utils.get_fullname(), "domain": domain}
 		notify.notify("Main Address Changed", people, link=account.DOMAINS, **slots)
-		for email, lang in account._addresses(people):
-			notify.mail("Main Address Changed", email, lang=lang, **slots)
 
 
 def domain_working(people: list[str], domain: str) -> None:
@@ -131,8 +121,6 @@ def domain_working(people: list[str], domain: str) -> None:
 
 	slots = {"domain": domain}
 	notify.notify("Domain Working", people, link=account.DOMAINS, sender="Administrator", **slots)
-	for email, lang in account._addresses(people):
-		notify.mail("Domain Working", email, lang=lang, **slots)
 
 
 def domain_stopped_working(people: list[str], domain: str, target: str | None) -> None:
@@ -141,8 +129,6 @@ def domain_stopped_working(people: list[str], domain: str, target: str | None) -
 
 	slots = {"domain": domain, "target": target or ""}
 	notify.notify("Domain Stopped Working", people, link=account.DOMAINS, sender="Administrator", **slots)
-	for email, lang in account._addresses(people):
-		notify.mail("Domain Stopped Working", email, lang=lang, **slots)
 
 
 # ------------------------------------------------------------------ closing
@@ -233,7 +219,9 @@ def administrator_added(doc) -> None:
 	"""A new administrator, told to every other one, and always mailed."""
 	from onedesk.one.settings import NOT_PEOPLE
 
-	admins = [one for one in roles.administrators() if one not in (doc.name, *NOT_PEOPLE)]
+	admins = [
+		one for one in roles.administrators() if one not in (doc.name, frappe.session.user, *NOT_PEOPLE)
+	]
 	slots = {"person": doc.full_name or doc.name, "by": frappe.utils.get_fullname()}
 	notify.notify(
 		"Administrator Added",
@@ -242,10 +230,6 @@ def administrator_added(doc) -> None:
 		sender="Administrator",
 		**slots,
 	)
-	for one in admins:
-		email, lang = frappe.db.get_value("User", one, ["email", "language"])
-		if email:
-			notify.mail("Administrator Added", email, lang=lang, **slots)
 
 
 def employee_details_changed(employee, said: list[str]) -> None:
@@ -294,28 +278,20 @@ def _said() -> dict:
 	}
 
 
-def _mailed(user: str) -> tuple[str | None, str | None]:
-	return frappe.db.get_value("User", user, ["email", "language"]) or (None, None)
-
-
 def password_changed(user: str) -> None:
 	"""A person's password changed."""
-	slots, (email, lang) = _said(), _mailed(user)
+	slots = _said()
 	notify.notify(
 		"Password Changed", user, link="/desk/settings?section=signin", sender="Administrator", **slots
 	)
-	if email:
-		notify.mail("Password Changed", email, lang=lang, **slots)
 
 
 def passkey_added(user: str) -> None:
 	"""A passkey was added to a person's account."""
-	slots, (email, lang) = _said(), _mailed(user)
+	slots = _said()
 	notify.notify(
 		"Passkey Added", user, link="/desk/settings?section=signin", sender="Administrator", **slots
 	)
-	if email:
-		notify.mail("Passkey Added", email, lang=lang, **slots)
 
 
 # ------------------------------------------------------------------ privacy

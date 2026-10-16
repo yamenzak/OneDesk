@@ -216,3 +216,20 @@ def test_what_erpnext_and_hrms_mail_is_brought_in():
 		assert f'"onedesk.one_hr.tell.{job}"' in HOOKS, job
 	rules = (tree.APP / "one" / "rules.py").read_text(encoding="utf-8")
 	assert "flags.one_outside_only" in rules.split("def get_list_of_recipients", 1)[1]
+
+
+def test_no_slot_is_one_of_notifys_own_words():
+	"""A slot named for one of `notify()`'s own arguments (`sender`, `link`)
+	is taken by the argument and never reaches the text. An outside type is
+	only mailed, by `mail()`, which has no such words."""
+	tree_ = ast.parse(NOTIFY.read_text(encoding="utf-8"))
+	fn = next(node for node in tree_.body if isinstance(node, ast.FunctionDef) and node.name == "notify")
+	own = {arg.arg for arg in fn.args.args + fn.args.kwonlyargs}
+	wrong = {}
+	for name, one in tree.notifications().items():
+		if one.get("outside"):
+			continue
+		found = set(re.findall(r"\{(\w+)\}", f"{one.get('subject', '')} {one.get('message', '')}")) & own
+		if found:
+			wrong[name] = sorted(found)
+	assert not wrong, wrong

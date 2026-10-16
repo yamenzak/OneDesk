@@ -362,7 +362,7 @@ Pages: point-of-sale (**waiting**); sales-funnel (**waiting**).
 | Designation | through a form's link (Job Opening Template: designation) | OneCRM, OneHR, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Driver | on a rail or a home | **nobody** | 1 settings | yes | general |  | yes |  |  |  |  |
 | Email Digest | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 1 |  |
-| Employee | on a rail or a home | everybody | a head, events, form script, 11 fields, 26 settings | yes | taught | makes it | yes |  |  | ar 10 | Birthday, Could Not Mark Left, Employee Details Changed, Work Anniversary |
+| Employee | on a rail or a home | everybody | a head, events, form script, 11 fields, 26 settings | yes | taught | makes it | yes |  |  | ar 10 | Could Not Mark Left, Document Expiring, Employee Details Changed, Passkey Reset Asked |
 | Employee Group | on a rail or a home | OneHR | untouched | yes | general |  | **none** |  |  |  |  |
 | Global Defaults | **waiting** | **nobody** | untouched | no | general |  |  |  |  | ar 3, de 3 |  |
 | Holiday List | on a rail or a home | everybody | untouched | yes | taught |  | yes |  |  | ar 2 |  |
@@ -762,7 +762,7 @@ Pages: workflow-builder (**waiting**).
 | Employee Checkin | on a rail or a home | everybody | class, list script, 5 fields, 2 settings | yes | general |  | yes |  |  | ar 2 | Check-in Closed for You |
 | Employee Feedback Criteria | on a rail or a home | OneHR | untouched | yes | general |  | **none** |  |  | ar 1 |  |
 | Employee Grade | on a rail or a home | OneHR | untouched | yes | general |  | **none** |  |  | ar 1 |  |
-| Employee Grievance | on a rail or a home | everybody | events, 6 fields, 3 settings | yes | taught |  | **none** |  |  | ar 14 |  |
+| Employee Grievance | on a rail or a home | everybody | events, 6 fields, 3 settings | yes | taught |  | **none** |  |  | ar 14 | Grievance Raised |
 | Employee Health Insurance | **waiting** | OneHR | untouched | yes | general |  | **none** |  |  |  |  |
 | Employee Onboarding | on a rail or a home | OneHR | events, 1 settings | yes | taught |  | yes |  |  | ar 4 |  |
 | Employee Onboarding Template | through a form's connections (Employee Grade's Connections) | OneHR | untouched | yes | general |  | **none** |  |  | ar 1 |  |
@@ -785,7 +785,7 @@ Pages: workflow-builder (**waiting**).
 | Holiday List Assignment | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  | ar 3, de 3 |  |
 | Identification Document Type | through a form's link (Travel Request: personal_id_type) | OneHR, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Interest | **waiting** | everybody | untouched | yes | general |  | **none** |  |  |  |  |
-| Interview | on a rail or a home | OneHR | class, events, form script, 3 fields, 3 settings | yes | taught |  | yes |  |  | ar 8 | Interview Feedback Due |
+| Interview | on a rail or a home | OneHR | class, events, form script, 3 fields, 3 settings | yes | taught |  | yes |  |  | ar 8 | Interview Feedback Due, Interview Scheduled |
 | Interview Feedback | **waiting** | OneHR | untouched | yes | taught |  | **none** |  |  | ar 3 |  |
 | Interview Type | on a rail or a home | OneHR | untouched | yes | taught |  | yes |  |  | ar 4, de 1 |  |
 | Job Applicant | on a rail or a home | OneHR | events, 6 fields, 3 settings | yes | taught | makes it | yes |  |  | ar 4 |  |

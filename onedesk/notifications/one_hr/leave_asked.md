@@ -11,4 +11,4 @@ replaces: HR Settings.send_leave_notification
 
 # {employee} asked for {days} days of {leave_type}
 
-From {from_date} to {to_date}.
+From {from_date} to {to_date}. Approve or reject it.

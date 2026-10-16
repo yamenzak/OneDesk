@@ -26,6 +26,11 @@ class EmployeeLetter(Document):
 		self.issued_by = frappe.session.user
 		self.issued_on = now_datetime()
 
+	def on_submit(self):
+		from onedesk.one_hr import tell
+
+		tell.letter_issued(self)
+
 	def after_insert(self):
 		"""An employee's request reaches HR as a notification, not a search."""
 		if set(HR) & set(frappe.get_roles()):

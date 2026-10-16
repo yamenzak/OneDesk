@@ -117,7 +117,10 @@ def request_answered(doc, person, item, finished: bool) -> None:
 		doc.owner,
 		record=("Cloud File Request", doc.name),
 		link=f"/desk/onecloud?node={quote(node_id(doc.name), safe='')}",
-		sender=person.email,
+		# From nobody in the workspace: it runs as the owner, whom frappe
+		# would otherwise leave off as telling themselves.
+		sender="Guest",
+		who=person.email,
 		request=doc.title,
 		item=item.label,
 	)

@@ -12,20 +12,21 @@ from frappe.utils import now_datetime
 from onedesk.one import notify
 from onedesk.one_crm.next import OPEN, OWNER
 
-#: How often the scheduler looks for steps come due (hooks.py).
-EVERY = timedelta(minutes=5)
+#: How far back a step come due is still told: a day, so a scheduler that
+#: stalled for a while misses nothing, and each step is told once by its key.
+BACK = timedelta(days=1)
 
 
 def due() -> None:
 	"""Every five minutes: tell each owner of an open lead or opportunity whose
-	next step has come due since the last look, once."""
+	next step has come due in the last day, once."""
 	now = now_datetime()
 	for doctype, owner in OWNER.items():
 		for one in frappe.get_all(
 			doctype,
 			filters=[
 				["status", "in", OPEN[doctype]],
-				["one_next_on", ">", now - EVERY * 2],
+				["one_next_on", ">", now - BACK],
 				["one_next_on", "<=", now],
 				[owner, "is", "set"],
 			],
@@ -40,7 +41,7 @@ def due() -> None:
 			key = f"one_crm:due:{doctype}:{one.name}:{one.one_next_on}"
 			if frappe.cache.get_value(key):
 				continue
-			frappe.cache.set_value(key, 1, expires_in_sec=86400)
+			frappe.cache.set_value(key, 1, expires_in_sec=int(BACK.total_seconds()) * 2)
 			notify.notify(
 				"Next Step Due",
 				one.get(owner),

@@ -198,9 +198,9 @@ assigned to several people.
 ## Notifications
 
 - **Task Given**: someone assigns you a task. Shows who, the task, its due
-  date and project. Also sent by email if you turned that on.
-- **Task Done**: someone completes a task you assigned to them, or one you
-  created.
+  date and project. Also sent by email unless you turned that off.
+- **Task Done**: someone completes a task you assigned to them, one you
+  created, or one you were given with them.
 - **Task Ready**: the last task yours waits on is done, so it can go ahead.
   To whoever the task is assigned to, or whoever created it if nobody is. A
   parent task is ready when its sub-tasks are done.
@@ -416,8 +416,11 @@ is:
   is left alone.
 
   **A task done.** ERPNext closes a task's assignments when it is completed,
-  and frappe tells nobody. `done` tells whoever gave the task, and whoever
-  made it, unless they completed it themselves.
+  and frappe tells each other assignee their assignment was "removed".
+  `given` says that as Task Done instead, and `done` tells whoever gave the
+  task, and whoever made it, unless they completed it themselves. Both write
+  the bell's title as well, which frappe has already filled with its own
+  line before our hook runs.
 
   **A task changed** (`changed`). Three things about a task are told to its
   people:

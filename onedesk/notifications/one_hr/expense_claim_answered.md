@@ -9,3 +9,5 @@ push_default: yes
 ---
 
 # Your expense claim for {amount} was {status}
+
+{note}

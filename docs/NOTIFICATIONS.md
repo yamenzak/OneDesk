@@ -383,3 +383,11 @@ sent, and a link to change what the person gets by mail.
   no CSS variable, so the templates write frappe-ui's own values
   (espresso/colors.css), and the token guard leaves `templates/emails` alone.
 - **The subject line is plain text**: no tags, and `&amp;` as `&` (`plain`).
+- **Always mailed means mailed.** `notify.notify` mails an `always_mailed`
+  type (a security notice, a privacy request, the account's money and
+  storage) to each person itself, whatever they chose, rather than leaving
+  it to their mail settings. That reaches somebody just switched off (a
+  deleted account) and somebody told of their own act, whom frappe leaves
+  off the bell. A sender that mails it its own way (a project's update,
+  answered by replying) passes `mailed=False`. The mail says it goes to
+  everybody it concerns, rather than offering a setting that does nothing.

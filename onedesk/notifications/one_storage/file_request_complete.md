@@ -6,4 +6,4 @@ to: Whoever asked
 email_default: yes
 ---
 
-# {sender} sent everything for {request}
+# {who} sent everything for {request}

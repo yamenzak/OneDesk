@@ -1,9 +1,12 @@
 ---
 name: Shift Asked
 app: OneHR
+roles: Employee, HR User, HR Manager
 about: When somebody asks for a shift.
 to: Their shift approver
 push_default: yes
 ---
 
-# {employee} asked for {shift} from {from_date} to {to_date}
+# {employee} asked for {shift} from {from_date}
+
+{until}. Approve or reject it.

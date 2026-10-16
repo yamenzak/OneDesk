@@ -7,4 +7,6 @@ to: HR managers
 email_default: yes
 ---
 
-# {employee} asked for a {kind}
+# {employee} asked for a letter: {kind}
+
+Write and issue it from the request.
