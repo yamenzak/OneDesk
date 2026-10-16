@@ -10,4 +10,4 @@ push_default: yes
 
 # A bill on {project} is due today
 
-{owed}
+{owed}. Pay it today.

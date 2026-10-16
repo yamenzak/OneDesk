@@ -95,8 +95,11 @@ page.
 - **Invited to an Event**: someone adds you to an event.
 - **Event Changed**: the time or location of an event you're on changes.
 - **Event Cancelled**: an event you're on is cancelled or deleted.
+- **Taken Off an Event**: someone takes you off an event. A guest outside the
+  workspace is sent its cancellation, so it leaves their calendar.
 - **Starting Soon**: at the event's reminder times, or 10 minutes before if
-  it has none.
+  it has none, with the day when it is not today. An event shared with you
+  counts you as on it.
 - **Today's Events**: each morning, your events for the day. Not sent on a
   day with no events.
 

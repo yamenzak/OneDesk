@@ -7,6 +7,6 @@ email_default: yes
 push_default: yes
 ---
 
-# {event} is now {when}
+# {who} changed {event}
 
-{who} changed <b>{event}</b>. It is now {when}{where}.
+Now {when}{where}.

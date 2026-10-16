@@ -45,6 +45,9 @@ def saved(doc, method=None) -> None:
 	added = {email: user for email, user in now.items() if email not in was}
 	if added:
 		_invited(doc, added)
+	gone = {email: user for email, user in was.items() if email not in now}
+	if gone:
+		_taken_off(doc, gone)
 	if before and moved(before, doc):
 		stayed = {email: user for email, user in now.items() if email not in added}
 		_changed(doc, stayed)
@@ -65,6 +68,16 @@ def people(doc) -> dict[str, str | None]:
 	owner = frappe.db.get_value("User", doc.owner, "email") if doc.owner else None
 	if owner:
 		out[owner.lower()] = doc.owner
+	# Shared with somebody (OneIntake's events are made by OneAI and shared
+	# with whoever they are for): they are on it too.
+	for user in (
+		frappe.get_all("DocShare", filters={"share_doctype": "Event", "share_name": doc.name}, pluck="user")
+		if doc.get("name") and not doc.is_new()
+		else []
+	):
+		email = frappe.db.get_value("User", {"name": user, "enabled": 1}, "email")
+		if email:
+			out[email.lower()] = user
 	for row in doc.get("event_participants") or []:
 		email = (row.email or "").lower()
 		if not email:
@@ -100,6 +113,16 @@ def _changed(doc, stayed: dict) -> None:
 	if users:
 		notify.notify("Event Changed", users, record=("Event", doc.name), link=_link(doc), **facts)
 	_mail(doc, [email for email, user in stayed.items() if not user], "REQUEST", facts)
+
+
+def _taken_off(doc, gone: dict) -> None:
+	"""People taken off an event: told in One, and a guest outside sent its
+	cancellation, so it leaves their calendar."""
+	facts = _facts(doc)
+	users = [user for user in gone.values() if user and user != frappe.session.user]
+	if users:
+		notify.notify("Taken Off an Event", users, link="/desk/onecalendar", **facts)
+	_mail(doc, [email for email, user in gone.items() if not user], "CANCEL", facts)
 
 
 def cancelled(doc) -> None:
@@ -302,7 +325,10 @@ def _starting(event, starts: datetime) -> None:
 		link=_link(doc),
 		sender="Administrator",
 		event=doc.subject,
-		time=format_datetime(starts, "HH:mm"),
+		# The day too when it is not today, or tomorrow's reads as today's.
+		time=format_datetime(starts, "HH:mm")
+		if getdate(starts) == getdate(now_datetime())
+		else format_datetime(starts, "EEE d MMM, HH:mm"),
 		where=f", {doc.location}" if doc.location else "",
 	)
 

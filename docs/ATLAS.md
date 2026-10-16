@@ -294,7 +294,7 @@ Pages: bom-comparison-tool (on a rail or a home); production-plan-visualizer (on
 | Project Type | through a form's link (Project Template: project_type) | OneProject, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Project Update | **waiting** | OneProject | untouched | yes | taught | makes it | yes |  |  |  |  |
 | Projects Settings | opened by our screens | OneProject | 5 fields, 3 settings | no | general |  |  |  |  |  |  |
-| Task | on a rail or a home | everybody | a page of our own | yes | taught | makes it | yes |  |  | ar 1 | Arrived After Closing, Due Date Changed, Hours Over Plan, Pending Review, Task Done, Task Ready |
+| Task | on a rail or a home | everybody | a page of our own | yes | taught | makes it | yes |  |  | ar 1 | Arrived After Closing, Comment on Your Task, Due Date Changed, Hours Over Plan, Pending Review, Sent Back, Task Done, Task Ready |
 | Task Type | on a rail or a home | OneHR, OneProject | 1 settings | yes | general |  | **none** |  |  |  |  |
 | Timesheet | on a rail or a home | everybody | a head, class, events, form script, list script, 2 fields, 34 settings | yes | taught |  | yes | ours |  | ar 2 |  |
 
@@ -513,7 +513,7 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | Activity Log | on a rail or a home | the administrator | list script, 4 settings | no | taught |  | yes |  |  |  |  |
 | Audit Trail | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Background Task | **waiting** | everybody | untouched | no | general |  | **none** |  |  | ar 6, de 1 |  |
-| Comment | **waiting** | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
+| Comment | **waiting** | **nobody** | events | no | taught |  | yes |  |  |  |  |
 | Communication | **waiting** | everybody | events, 7 fields | no | taught |  | yes |  |  |  |  |
 | Custom DocPerm | **waiting** | **nobody** | untouched | no | general |  | yes |  |  | ar 1, de 1 |  |
 | Custom Icon | **waiting** | **nobody** | untouched | no | general |  | yes |  |  | ar 3, de 3 |  |

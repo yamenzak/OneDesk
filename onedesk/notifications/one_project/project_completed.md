@@ -9,4 +9,4 @@ push_default: yes
 
 # {project} is completed
 
-<b>{project}</b>{customer}{owed}
+{who} completed it{customer}{owed}.

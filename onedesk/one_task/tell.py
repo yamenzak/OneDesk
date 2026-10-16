@@ -128,6 +128,22 @@ def changed(doc, method=None) -> None:
 				**_facts(doc),
 			)
 	before = doc.get_doc_before_save()
+	if (
+		before
+		and before.status == "Pending Review"
+		and doc.status not in DONE
+		and doc.status != "Pending Review"
+	):
+		people = _others(_given(doc.name))
+		if people:
+			notify.notify(
+				"Sent Back",
+				people,
+				record=("Task", doc.name),
+				who=get_fullname(frappe.session.user),
+				task=doc.subject,
+				project=_facts(doc)["project"],
+			)
 	if before and doc.exp_end_date and _day(before.exp_end_date) != _day(doc.exp_end_date):
 		people = _others(_given(doc.name))
 		if people:
@@ -198,7 +214,7 @@ def _facts(task) -> dict:
 	day = due(task)
 	title = frappe.db.get_value("Project", task.project, "project_name") if task.get("project") else None
 	return {
-		"due": f" · {formatdate(day)}" if day else "",
+		"due": " · " + _("Due {0}").format(formatdate(day)) if day else "",
 		"project": f" · {title or task.project}" if task.get("project") else "",
 	}
 
@@ -253,3 +269,30 @@ def _lines(lines: list[str]):
 	from markupsafe import Markup
 
 	return Markup("<br>").join(lines)
+
+
+def commented(doc, method=None) -> None:
+	"""Comment after_insert: a comment on a task, told to its people, but the
+	commenter and whoever it mentions (frappe tells them as a Mention)."""
+	if doc.comment_type != "Comment" or doc.reference_doctype != "Task" or not doc.reference_name:
+		return
+	from frappe.desk.notifications import extract_mentions
+
+	task = frappe.db.get_value("Task", doc.reference_name, ["subject", "owner"], as_dict=True)
+	if not task:
+		return
+	mentioned = set(extract_mentions(doc.content) or [])
+	people = [
+		one
+		for one in _others({*_given(doc.reference_name), *_gave(doc.reference_name), task.owner})
+		if one not in mentioned and one != doc.comment_email
+	]
+	if people:
+		notify.notify(
+			"Comment on Your Task",
+			people,
+			record=("Task", doc.reference_name),
+			who=doc.comment_by or get_fullname(frappe.session.user),
+			task=task.subject,
+			comment=frappe.utils.strip_html(doc.content or "")[:400],
+		)

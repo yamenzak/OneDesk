@@ -7257,3 +7257,53 @@ def sales_books_and_stock_tell_what_waits_on_somebody():
 			frappe.db.set_value("Sales Order", order, "delivery_date", add_days(today(), -1))
 			stock.deliveries_late()
 			assert said("Delivery Late", ("Sales Order", order))[1]
+
+
+@check
+def tasks_and_the_calendar_tell_what_changed_for_somebody():
+	"""Karim comments on a task given to Rania and she is told, but not when
+	he mentions her, which frappe tells; sent back from review, it is told to
+	whoever it is given to; taken off an event, Rania is told, and an event
+	only shared with somebody counts them as on it."""
+	from unittest.mock import patch
+
+	from frappe.desk.form.assign_to import add
+
+	from onedesk.one_calendar import tell as calendar
+
+	told = []
+
+	def heard(name, users, **said):
+		told.append((name, [users] if isinstance(users, str) else list(users), said))
+
+	task = frappe.get_doc({"doctype": "Task", "subject": "Measure the stair glass", "status": "Open"}).insert(ignore_permissions=True)
+	add({"assign_to": ["rania@one.test"], "doctype": "Task", "name": task.name, "description": task.subject})
+	with patch("onedesk.one.notify.notify", side_effect=heard):
+		with as_user("karim@one.test"):
+			task.add_comment("Comment", "The landing is 1.2 m wide.")
+			task.add_comment("Comment", '<span class="mention" data-id="rania@one.test">@Rania</span> can you check?')
+		comments = [one for one in told if one[0] == "Comment on Your Task"]
+		assert len(comments) == 1 and "rania@one.test" in comments[0][1] and "karim@one.test" not in comments[0][1], comments
+		assert comments[0][2]["comment"] == "The landing is 1.2 m wide.", comments
+
+		task.reload()
+		task.status = "Pending Review"
+		task.save(ignore_permissions=True)
+		with as_user("karim@one.test"):
+			task.reload()
+			task.status = "Working"
+			task.save(ignore_permissions=True)
+		back = [one for one in told if one[0] == "Sent Back"]
+		assert back and back[-1][1] == ["rania@one.test"], told
+
+		event = frappe.get_doc({"doctype": "Event", "subject": "Site walk", "starts_on": add_to_date(now_datetime(), days=2), "event_type": "Private",
+			"event_participants": [{"reference_doctype": "User", "reference_docname": "rania@one.test", "email": "rania@one.test"}]}).insert(ignore_permissions=True)
+		with as_user("karim@one.test"):
+			event.reload()
+			event.event_participants = []
+			event.save(ignore_permissions=True)
+		off = [one for one in told if one[0] == "Taken Off an Event"]
+		assert off and off[-1][1] == ["rania@one.test"], told
+
+	frappe.share.add("Event", event.name, "nadia@one.test")
+	assert "nadia@one.test" in calendar.people(frappe.get_doc("Event", event.name)).values()

@@ -6,6 +6,6 @@ to: Each person, for the tasks given to them
 email_default: yes
 ---
 
-# {count} to do today
+# {count} tasks due today or late
 
 {tasks}

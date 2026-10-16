@@ -49,7 +49,7 @@ def health(doc, before) -> None:
 		return
 	people = _people(doc)
 	if people:
-		notify.notify("Project Health", people, record=("Project", doc.name), health=said, **_facts(doc))
+		notify.notify("Project Health", people, record=("Project", doc.name), health=_lt(said), **_facts(doc))
 
 
 def stopped(doc, before) -> None:
@@ -114,7 +114,7 @@ def _facts(doc) -> dict:
 		"who": get_fullname(frappe.session.user),
 		"project": doc.project_name,
 		"customer": f" · {doc.customer}" if doc.get("customer") else "",
-		"due": f" · {formatdate(doc.expected_end_date)}" if doc.get("expected_end_date") else "",
+		"due": " · " + _("Ends {0}").format(formatdate(doc.expected_end_date)) if doc.get("expected_end_date") else "",
 	}
 
 

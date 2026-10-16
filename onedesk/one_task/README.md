@@ -209,6 +209,10 @@ assigned to several people.
   Approvals**.
 - **Due Date Changed**: someone moves the due date of a task assigned to
   you.
+- **Sent Back**: a task you sent for review comes back out of Pending Review
+  without being completed.
+- **Comment on Your Task**: someone comments on a task you were given, gave
+  or made. Someone the comment mentions is told by frappe's Mention instead.
 - **Today's Tasks**: each morning, what's due today and what's overdue, if
   anything.
 

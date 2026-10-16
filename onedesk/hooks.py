@@ -649,6 +649,8 @@ doc_events = {
 		"before_submit": "onedesk.one_inventory.custody.leaving",
 		"on_submit": "onedesk.one_hr.lifecycle.typed",
 	},
+	# A comment on a task, told to its people. See one_task/tell.py.
+	"Comment": {"after_insert": "onedesk.one_task.tell.commented"},
 	# A task of nobody's is its maker's. See one_task/capture.py.
 	# A sub-task's parent is a group and its project is the parent's, and a
 	# checklist is the progress. See one_task/task.py.

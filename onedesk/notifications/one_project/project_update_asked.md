@@ -10,4 +10,4 @@ always_mailed: yes
 
 # How is {project} going?
 
-Post your update on the project's page, or reply to the email.
+Post your update on the project's page, or reply if this came by mail.

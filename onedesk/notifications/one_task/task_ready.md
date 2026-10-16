@@ -6,7 +6,6 @@ to: Each person given the task, or whoever made it, but whoever completed the la
 push_default: yes
 ---
 
-# {task} is ready
+# {task} can start
 
-<b>{task}</b>{due}{project}<br>
-{done} is done.
+{done} is done{due}{project}.

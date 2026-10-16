@@ -7,6 +7,7 @@ to: The project's manager, unless they saved it
 push_default: yes
 ---
 
-# {who} drafted a bill for {order} at {share}% done
+# {who} drafted a progress bill for {order}
 
-<b>{project}</b> · {party} · {amount}
+{project} · {party} · {amount} · {share}% done. Check it before it is
+submitted.

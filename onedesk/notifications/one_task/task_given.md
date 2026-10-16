@@ -7,6 +7,6 @@ email_default: yes
 push_default: yes
 ---
 
-# {who} gave you {task}
+# {who} assigned you {task}
 
 <b>{task}</b>{due}{project}

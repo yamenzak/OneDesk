@@ -7,6 +7,6 @@ to: The manager of the project with the order, unless they marked it done
 push_default: yes
 ---
 
-# {milestone} is done
+# {who} completed {milestone} on {project}
 
-<b>{project}</b> · Bill {share}
+Bill {share}.

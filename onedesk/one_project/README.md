@@ -1144,8 +1144,8 @@ and One asks in its own words.
 Anyone who can see a project can post an update on it. Asking the team is for
 whoever can change the project.
 
-If the workspace sends mail, everyone on the project also gets the day's
-updates by email the next morning.
+Everyone on the project also gets the day's updates the next morning (Project
+Summary), on the bell, and by email if they chose it.
 
 ## Being told
 
