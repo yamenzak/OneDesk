@@ -75,12 +75,23 @@ def signed_in(login_manager) -> None:
 
 
 @frappe.whitelist(methods=["POST"])
-def save(device: str, device_name: str, use: str | None = None, user: str | None = None, asset: str | None = None):
-	"""What the administrator says a browser is."""
+def save(device: str, device_name: str, use: str | None = None, user: str | None = None, asset: str | None = None) -> dict:
+	"""What the administrator says a browser is. Passkeys already on it that
+	no longer belong there stop working: everybody's on a shared one, and
+	everybody's but its person's on an assigned one."""
 	roles.require()
 	doc = frappe.get_doc("Device", device)
 	doc.update({"device_name": device_name, "use": use or "", "user": user, "asset": asset})
 	doc.save()
+	if not doc.use:
+		return {"retired": 0}
+	filters = {"device": device, "status": "Active"}
+	if doc.use == "Assigned":
+		filters["user"] = ["!=", doc.user]
+	keys = frappe.get_all("Clock Device", filters=filters, pluck="name")
+	for name in keys:
+		frappe.db.set_value("Clock Device", name, "status", "Reset")
+	return {"retired": len(keys)}
 
 
 @frappe.whitelist(methods=["POST"])

@@ -3346,7 +3346,13 @@ def one_devices_decide_where_a_passkey_lives():
 		laptop = devices.here().name
 		listed = {one["name"]: one for one in devices.for_settings()["devices"]}
 		assert listed[laptop]["seen_by"] and not listed[laptop]["use"]
-		devices.save(reception, "Reception Computer", "Shared")
+		# The builder made a passkey there before anybody said it was shared.
+		_asked(headers={"User-Agent": DESKTOP}, cookies=reception_browser)
+		frappe.db.delete("Clock Device", {"user": BUILDER})
+		builder = _Phone(b"builder")
+		passkey.finish_registration(json.dumps(builder.make(passkey.start_registration())), {"user_agent": DESKTOP})
+		assert devices.save(reception, "Reception Computer", "Shared")["retired"] == 1
+		assert not passkey.held(BUILDER), "a passkey still works on the shared computer"
 		devices.save(laptop, "Tariq's Laptop", "Assigned", "tariq@one.test")
 
 	with as_user("tariq@one.test"):

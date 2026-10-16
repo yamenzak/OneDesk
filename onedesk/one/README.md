@@ -1452,6 +1452,8 @@ administrators see it.
   reception computer, or **One person** (Assigned) for somebody's laptop, with
   the asset if it has one.
 - A **Shared** browser never holds a passkey, and nobody is offered one there.
+  Setting a browser to Shared stops every passkey already on it; setting it to
+  Assigned stops everybody's but that person's.
 - An **Assigned** browser can hold its person's passkey beside their phone's,
   even an employee's that would otherwise have to be made on a phone.
 - **Lost** signs out everyone on it and retires its passkeys. **Retire** only

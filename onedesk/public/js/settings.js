@@ -2510,8 +2510,9 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			],
 			primary_action_label: __("Save"),
 			primary_action: async (values) => {
-				await frappe.xcall("onedesk.one.devices.save", { device: one.name, ...values });
+				const said = await frappe.xcall("onedesk.one.devices.save", { device: one.name, ...values });
 				dialog.hide();
+				if (said.retired) frappe.show_alert({ message: __("{0} passkeys on it stopped working", [said.retired]), indicator: "orange" });
 				this.refresh();
 			},
 		});
