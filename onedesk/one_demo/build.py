@@ -28,6 +28,7 @@ STEPS = (
 	"assets",
 	"books",
 	"hr",
+	"career",
 	"calendar",
 	"studio",
 	"storage",

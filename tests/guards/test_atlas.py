@@ -39,8 +39,8 @@ WAITING = {
 	"frappe / Printing": 7,
 	"frappe / Website": 18,
 	"frappe / Workflow": 2,
-	"hrms / HR": 12,
-	"hrms / Payroll": 7,
+	"hrms / HR": 0,
+	"hrms / Payroll": 0,
 }
 
 #: What an answer may say a thing is (onedesk/one/atlas.py).
@@ -241,13 +241,13 @@ EMPTY = {
 	"frappe / Integrations": 5,
 	"frappe / Website": 4,
 	"frappe / Workflow": 2,
-	"hrms / HR": 32,
+	"hrms / HR": 0,
 	"hrms / Payroll": 9,
 	"onedesk / One": 1,
 	"onedesk / One AI": 2,
 	"onedesk / One Admin": 9,
 	"onedesk / One Calendar": 1,
-	"onedesk / One HR": 5,
+	"onedesk / One HR": 0,
 	"onedesk / One Mail": 1,
 	"onedesk / One Storage": 1,
 	"onedesk / One Studio": 1,
@@ -269,17 +269,17 @@ ONLY_AN_ID = {
 #: Point 12. Labels on a reached form still English in Arabic or German,
 #: counted once for each language.
 ENGLISH = {
-	"erpnext / Accounts": 72,
+	"erpnext / Accounts": 54,
 	"erpnext / Assets": 3,
-	"erpnext / Buying": 23,
-	"erpnext / CRM": 13,
-	"erpnext / Manufacturing": 35,
-	"erpnext / Projects": 41,
+	"erpnext / Buying": 21,
+	"erpnext / CRM": 8,
+	"erpnext / Manufacturing": 32,
+	"erpnext / Projects": 40,
 	"erpnext / Selling": 34,
-	"erpnext / Setup": 44,
+	"erpnext / Setup": 34,
 	"erpnext / Stock": 21,
 	"erpnext / Subcontracting": 3,
-	"erpnext / Support": 6,
+	"erpnext / Support": 0,
 	"frappe / Automation": 32,
 	"frappe / Core": 26,
 	"frappe / Desk": 33,
@@ -287,8 +287,8 @@ ENGLISH = {
 	"frappe / Integrations": 6,
 	"frappe / Printing": 6,
 	"frappe / Website": 2,
-	"hrms / HR": 250,
-	"hrms / Payroll": 110,
+	"hrms / HR": 0,
+	"hrms / Payroll": 0,
 }
 
 

@@ -7049,21 +7049,25 @@ def onehr_each_payslip_adds_up_and_the_payroll_posts_it():
 
 @check
 def onehr_leave_taken_comes_off_what_is_left():
-	"""What each person has left of a kind of leave is what they were given
-	less the days approved, as the leave form reads it."""
+	"""What each person has left of a kind of leave is what they were given,
+	less the days approved, and as adjusted, as the leave form reads it."""
 	from hrms.hr.doctype.leave_application.leave_application import get_leave_balance_on
 
 	year_end = getdate(f"{getdate(today()).year}-12-31")
 	checked = 0
-	for allocation in frappe.get_all("Leave Allocation", filters={"docstatus": 1}, fields=["employee", "leave_type", "total_leaves_allocated", "from_date", "to_date"]):
+	for allocation in frappe.get_all("Leave Allocation", filters={"docstatus": 1}, fields=["name", "employee", "leave_type", "total_leaves_allocated", "from_date", "to_date"]):
 		taken = frappe.db.sql(
 			"""select ifnull(sum(total_leave_days), 0) from `tabLeave Application`
 			where employee = %s and leave_type = %s and status = 'Approved' and docstatus = 1
 				and from_date between %s and %s""",
 			(allocation.employee, allocation.leave_type, allocation.from_date, allocation.to_date),
 		)[0][0]
+		adjusted = sum(
+			flt(one.leaves_to_adjust) * (-1 if one.adjustment_type == "Reduce" else 1)
+			for one in frappe.get_all("Leave Adjustment", filters={"leave_allocation": allocation.name, "docstatus": 1}, fields=["leaves_to_adjust", "adjustment_type"])
+		)
 		left = get_leave_balance_on(allocation.employee, allocation.leave_type, min(year_end, getdate(allocation.to_date)))
-		assert abs(flt(left) - (flt(allocation.total_leaves_allocated) - flt(taken))) <= 0.01, (allocation, taken, left)
+		assert abs(flt(left) - (flt(allocation.total_leaves_allocated) - flt(taken) + adjusted)) <= 0.01, (allocation, taken, adjusted, left)
 		checked += bool(taken)
 	assert checked >= 2, "nobody has taken leave"
 

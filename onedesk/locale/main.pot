@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-16 13:28+0000\n"
-"PO-Revision-Date: 2026-10-16 13:28+0000\n"
+"POT-Creation-Date: 2026-10-16 14:56+0000\n"
+"PO-Revision-Date: 2026-10-16 14:56+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2075,7 +2075,7 @@ msgid "Add-ons"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Workspace Field'
-#: onedesk/one/account.py:270
+#: onedesk/one/account.py:271
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:11
 #: onedesk/public/js/settings.js:749
@@ -3368,6 +3368,11 @@ msgstr ""
 #. Option for the 'Sold by Size' (Select) field in DocType 'Item'
 #: onedesk/one_inventory/custom/item.json onedesk/public/js/item_new.js:57
 msgid "Area"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Arrear"
 msgstr ""
 
 #. Name of a notification
@@ -4840,7 +4845,7 @@ msgstr ""
 msgid "Bought in a Year"
 msgstr ""
 
-#: onedesk/one/account.py:257
+#: onedesk/one/account.py:258
 msgid "Bought {0}"
 msgstr ""
 
@@ -4994,6 +4999,11 @@ msgstr ""
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:15
 #: onedesk/one_admin/heads.py:42
 msgid "Built"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Bulk Salary Structure Assignment"
 msgstr ""
 
 #: onedesk/public/js/crm_record.js:92
@@ -8637,7 +8647,7 @@ msgstr ""
 
 #. Label of the domains (Table) field in DocType 'Workspace Account'
 #. Label of a Sidebar Item
-#: onedesk/one/account.py:536
+#: onedesk/one/account.py:537
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one/settings.py:33 onedesk/one/sidebar/one/one.json
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
@@ -9529,6 +9539,11 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Employee Incentive"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Employee Information"
 msgstr ""
 
@@ -10301,6 +10316,11 @@ msgstr ""
 
 #: onedesk/public/js/admin_settings.js:55
 msgid "Exists"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Exit Interview"
 msgstr ""
 
 #. Name of a notification
@@ -11715,6 +11735,11 @@ msgstr ""
 msgid "Full Download Ready"
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Full and Final Statement"
+msgstr ""
+
 #: frontend/src/home/CrmStory.vue:19
 msgid "Funnel Conversion"
 msgstr ""
@@ -11855,7 +11880,7 @@ msgstr ""
 msgid "Given"
 msgstr ""
 
-#: onedesk/one/account.py:263
+#: onedesk/one/account.py:264
 msgid "Given by One"
 msgstr ""
 
@@ -15169,6 +15194,11 @@ msgstr ""
 #. Name of a notification
 #: onedesk/notifications/one_hr/leave_expiring.md
 msgid "Leave Expiring"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Leave Ledger"
 msgstr ""
 
 #. Label of a Link in the OneHR Setup Workspace
@@ -21246,6 +21276,11 @@ msgstr ""
 msgid "Other Forms"
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Other Income"
+msgstr ""
+
 #. Description of the 'Also Allow Check-in From' (Table) field in DocType
 #. 'Shift Location'
 #: onedesk/one_hr/custom/shift_location.json
@@ -22167,6 +22202,11 @@ msgstr ""
 
 #: onedesk/one_book/home.py:285
 msgid "Payments matched to the invoices they settle."
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Payroll Correction"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -24655,7 +24695,7 @@ msgstr ""
 msgid "Refund"
 msgstr ""
 
-#: onedesk/one/account.py:268 onedesk/public/js/credit_ledger_entry_list.js:22
+#: onedesk/one/account.py:269 onedesk/public/js/credit_ledger_entry_list.js:22
 msgid "Refunded"
 msgstr ""
 
@@ -25454,6 +25494,11 @@ msgstr ""
 #: onedesk/public/js/project_actions.js:228
 #: onedesk/public/js/project_new.js:150
 msgid "Retention"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Retention Bonus"
 msgstr ""
 
 #. Name of a notification
@@ -27014,6 +27059,11 @@ msgstr ""
 #. Name of a notification
 #: onedesk/notifications/one_hr/shift_asked.md
 msgid "Shift Asked"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Shift Assignment Tool"
 msgstr ""
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:137
@@ -30781,7 +30831,7 @@ msgstr ""
 msgid "The plan and its add-ons."
 msgstr ""
 
-#: onedesk/one/account.py:443
+#: onedesk/one/account.py:444
 msgid "The plan was not changed"
 msgstr ""
 
@@ -30790,11 +30840,11 @@ msgstr ""
 msgid "The plan's and the add-ons'. Zero means no limit."
 msgstr ""
 
-#: onedesk/one/account.py:261
+#: onedesk/one/account.py:262
 msgid "The plan's monthly credits"
 msgstr ""
 
-#: onedesk/one/account.py:259
+#: onedesk/one/account.py:260
 msgid "The plan's monthly credits, until {0}"
 msgstr ""
 
@@ -32492,8 +32542,9 @@ msgstr ""
 msgid "Transcripts are kept. Set to 0 to keep audio indefinitely."
 msgstr ""
 
+#. Label of a Sidebar Item
 #. Option for the 'Paid How' (Select) field in DocType 'Reading'
-#: onedesk/one/print_blocks.py:269
+#: onedesk/one/print_blocks.py:269 onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Transfer"
 msgstr ""
@@ -33139,11 +33190,11 @@ msgstr ""
 msgid "Used by 1 project"
 msgstr ""
 
-#: onedesk/one/account.py:278
+#: onedesk/one/account.py:279
 msgid "Used by OneAI, one call"
 msgstr ""
 
-#: onedesk/one/account.py:280
+#: onedesk/one/account.py:281
 msgid "Used by OneAI, {0} calls"
 msgstr ""
 
@@ -36434,7 +36485,7 @@ msgstr ""
 msgid "Who owes you, and how late."
 msgstr ""
 
-#: onedesk/one/account.py:460
+#: onedesk/one/account.py:461
 msgid "Who pays was not changed"
 msgstr ""
 
@@ -38411,7 +38462,7 @@ msgstr ""
 msgid "created the project"
 msgstr ""
 
-#: onedesk/one/account.py:257
+#: onedesk/one/account.py:258
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:26
 msgid "credits"
 msgstr ""
@@ -39302,7 +39353,7 @@ msgstr ""
 msgid "{0} (was {1})"
 msgstr ""
 
-#: onedesk/one/tell.py:582 onedesk/one/tell.py:730
+#: onedesk/one/tell.py:582 onedesk/one/tell.py:732
 #: onedesk/one_studio/extensions.py:457 onedesk/public/js/privacy_copy.js:27
 msgid "{0} ({1})"
 msgstr ""

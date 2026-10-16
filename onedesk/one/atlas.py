@@ -72,6 +72,18 @@ ANSWERS = {
 	("Report", "Stock Ledger Variance"): (LEFT_OUT, CHECK),
 	("Report", "Stock Valuation Comparison"): (LEFT_OUT, CHECK),
 	("Report", "Stock Ledger Entries of Cancelled Vouchers"): (LEFT_OUT, CHECK),
+	# OneHR
+	("DocType", "Employee Health Insurance"): (INSIDE, "an employee's Health Insurance Provider, on their record"),
+	("DocType", "Interview Feedback"): (INSIDE, "an interview's Submit Feedback"),
+	("DocType", "Shift Schedule Assignment"): (INSIDE, "the Shift Assignment Tool, assigning a Shift Schedule"),
+	("DocType", "Leave Ledger Entry"): (
+		ENGINE,
+		"one line per leave allocated, taken, encashed or lapsed; Leave Balance reads it",
+	),
+	("DocType", "Employee Benefit Ledger"): (ENGINE, "what each benefit paid out; Benefit Claim and the slip read it"),
+	("DocType", "HR Telemetry Milestone"): (ENGINE, "HRMS counting its own setup steps"),
+	("DocType", "PWA Notification"): (REPLACED, "One's notifications, on the bell, by mail and by push"),
+	("DocType", "Interest"): (LEFT_OUT, "a list HRMS keeps that no form of its own asks for"),
 }
 
 #: Names kept wherever upstream says them: an outside product a workspace meets,

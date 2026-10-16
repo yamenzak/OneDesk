@@ -7,7 +7,7 @@ USER, MANAGER = "HR User", "HR Manager"
 GIVEN = {
 	doctype: {USER: roles.WORK, MANAGER: roles.MANAGE}
 	for doctype in ("Travel Request", "Employee Advance", "Vehicle Log")
-} | {"Purpose of Travel": {USER: roles.USE, MANAGER: roles.MANAGE}}
+} | {one: {USER: roles.USE, MANAGER: roles.MANAGE} for one in ("Purpose of Travel", "Vehicle Service Item")}
 
 #: For a role that reads already: once, so a change in Access stands. HRMS
 #: lets HR make an End of Service (Gratuity), a joining or a leaving checklist
