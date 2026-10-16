@@ -261,15 +261,21 @@ right away, so there's nothing to save.
   your password.
 - **Two-Factor Authentication** shows whether you're asked for a code after
   your password. Your workspace sets this.
-- **Passkey** (employees only) is your fingerprint or face on this phone or
-  laptop. You use it to check in, and to sign in if your workspace allows
-  passkey sign-in. **Register This Device** creates one.
+- **Passkey** is your face, fingerprint or screen lock on this phone or
+  laptop. It signs you in without a password, and checks you in if you are an
+  employee. **Register This Device** creates one; **Remove** retires it. If it
+  also checks you in, HR resets it instead, so a new phone is theirs to allow.
 - **Active Sessions** lists each device, such as "Chrome on Mac", with
   its IP address and when it was last used. The current device is marked.
   **Sign Out** ends one session. **Sign Out Other Sessions** ends all the
   others.
 - **Recent Sign-ins** shows your last six, with failed ones in red. A failed
   sign-in you didn't make means someone is trying your password. Change it.
+
+**Signing in.** The login page leads with **Sign in with a Passkey**, and
+the password is under it. Once you've signed in with your password, One offers
+to make you a passkey. **Not Now** asks again in a week, and it stops asking
+after the third time; Settings still has it.
 
 When your password changes or a passkey is added, you're notified in One and
 always by email, with the time and the device. If it wasn't you, reset your
@@ -385,6 +391,8 @@ administrators see it. Save from the top right.
     wrong passwords in a row, sign-in is blocked for that long.
   - **Passkey Sign-in** and **Email Link Sign-in** let people sign in without
     a password, with a passkey on their own device or a link sent by email.
+    Passkey sign-in is on to begin with, and turning it off takes the button
+    off the login page and stops the offer after signing in.
   - **One Device at a Time** signs a person out everywhere else when they sign
     in on a new device.
 - **Sharing**

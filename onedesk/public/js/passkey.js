@@ -132,3 +132,44 @@ onedesk.passkey.renderer = () => {
 		return "";
 	}
 };
+
+// Offered once after signing in to anybody without a passkey, while sign-in by
+// passkey is on: the server decides when (one_hr/passkey.py, `ask`), and
+// "Not now" asks again in a week, three times at most. Behind whatever dialog
+// is already up, such as the agreements a first sign-in asks for.
+$(document).on("app_ready", () => {
+	if (!frappe.boot.one_passkey_ask || !onedesk.passkey.supported()) return;
+	const offer = () => {
+		if ($(".modal:visible").length) return setTimeout(offer, 4000);
+		let chose = false;
+		const declined = () => frappe.xcall("onedesk.one_hr.passkey.not_now");
+		const dialog = new frappe.ui.Dialog({
+			title: __("Sign In with a Passkey"),
+			fields: [
+				{
+					fieldtype: "HTML",
+					options: `<p class="text-ink-gray-7">${__(
+						"Next time, sign in with your face, fingerprint or screen lock instead of typing your password. It takes a few seconds to set up."
+					)}</p>`,
+				},
+			],
+			primary_action_label: __("Create Passkey"),
+			primary_action: async () => {
+				chose = true;
+				dialog.hide();
+				try {
+					await onedesk.passkey.register();
+					frappe.boot.one_passkey_ask = false;
+					frappe.show_alert({ message: __("Passkey created. Use it next time you sign in."), indicator: "green" });
+				} catch (e) {
+					declined();
+				}
+			},
+			secondary_action_label: __("Not Now"),
+			secondary_action: () => dialog.hide(),
+		});
+		dialog.onhide = () => chose || declined();
+		dialog.show();
+	};
+	setTimeout(offer, 2500);
+});

@@ -7,6 +7,7 @@
  "editable_grid": 0,
  "engine": "InnoDB",
  "field_order": [
+  "user",
   "employee",
   "employee_name",
   "label",
@@ -33,14 +34,24 @@
  ],
  "fields": [
   {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User",
+   "in_standard_filter": 1,
+   "read_only": 1,
+   "search_index": 1,
+   "description": "Whose passkey this is. It signs them in, and checks them in when they are an employee."
+  },
+  {
    "fieldname": "employee",
    "fieldtype": "Link",
    "in_standard_filter": 1,
    "label": "Employee",
    "options": "Employee",
    "read_only": 1,
-   "reqd": 1,
-   "search_index": 1
+   "search_index": 1,
+   "description": "Set when the person is an employee, for the clock and for HR."
   },
   {
    "fetch_from": "employee.employee_name",
@@ -187,7 +198,7 @@
  "in_create": 1,
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-21 22:00:00.000000",
+ "modified": "2026-10-16 22:00:00.000000",
  "modified_by": "Administrator",
  "module": "One HR",
  "name": "Clock Device",

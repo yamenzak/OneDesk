@@ -29,7 +29,7 @@
 |---|--:|---|
 | Attendance Reason | 5 | document |
 | Clock Attempt | 41 | document |
-| Clock Device | 23 | document |
+| Clock Device | 24 | document |
 | Clock Network | 15 | document |
 | Clock Place | 20 | document |
 | Clock Reason | 5 | document |
@@ -476,6 +476,8 @@ No doctypes yet.
 * `onedesk.one_hr.overtime.record`
 * `onedesk.one_hr.passkey.ask_for_a_reset`
 * `onedesk.one_hr.passkey.finish_registration`
+* `onedesk.one_hr.passkey.not_now`
+* `onedesk.one_hr.passkey.remove`
 * `onedesk.one_hr.passkey.reset`
 * `onedesk.one_hr.passkey.retire`
 * `onedesk.one_hr.passkey.start_assertion`

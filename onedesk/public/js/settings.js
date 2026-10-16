@@ -594,19 +594,28 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				)
 		);
 
-		const passkey = data.employee
-			? onedesk.shell.section(
-					__("Passkey"),
-					row(
-						frappe.ui.badge.html({ label: data.passkey ? __("Registered") : __("Not registered"), theme: data.passkey ? "green" : "gray" }),
-						"",
-						data.passkey ? "" : onedesk.shell.button(__("Register This Device"), { "data-passkey": "1" }, "subtle", "fingerprint")
-					),
-					data.passkey_signs_in
-						? __("Used to check in and sign in.")
-						: __("Used to check in.")
-			  )
-			: "";
+		// Anybody's: it signs them in, and checks an employee in. One a person
+		// removes themselves, unless it checks them in, when a new one is HR's.
+		const passkey =
+			data.passkey || data.passkey_signs_in || data.passkey_clocks
+				? onedesk.shell.section(
+						__("Passkey"),
+						row(
+							frappe.ui.badge.html({ label: data.passkey ? __("Registered") : __("Not registered"), theme: data.passkey ? "green" : "gray" }),
+							"",
+							!data.passkey
+								? onedesk.shell.button(__("Register This Device"), { "data-passkey": "1" }, "subtle", "fingerprint")
+								: data.passkey_clocks
+								? ""
+								: onedesk.shell.button(__("Remove"), { "data-passkey-remove": "1" }, "ghost", "trash-2")
+						),
+						data.passkey_clocks
+							? data.passkey_signs_in
+								? __("Signs you in without a password, and checks you in.")
+								: __("Used to check in.")
+							: __("Signs you in with your face, fingerprint or screen lock instead of a password.")
+				  )
+				: "";
 
 		this.$content.html(
 			intro + password + passkey + `<div class="one-shell-section" data-list="places"></div><div class="one-shell-section" data-list="recent"></div>`
@@ -663,6 +672,13 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			await onedesk.passkey.register();
 			this.open("signin");
 		});
+		this.$content.find("[data-passkey-remove]").on("click", () =>
+			frappe.confirm(__("Remove your passkey? You'll sign in with your password until you register another."), async () => {
+				await frappe.xcall("onedesk.one_hr.passkey.remove");
+				frappe.show_alert({ message: __("Passkey removed"), indicator: "green" });
+				this.open("signin");
+			})
+		);
 		this.$content.on("click", "[data-sign-out]", async (event) => {
 			await frappe.xcall("onedesk.one.signin.sign_out", { key_of: $(event.currentTarget).attr("data-sign-out") });
 			frappe.show_alert({ message: __("Signed out"), indicator: "green" });

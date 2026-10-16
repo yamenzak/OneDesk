@@ -3312,6 +3312,50 @@ def onehr_tariq_clocks_in_with_his_phone():
 	_unasked()
 
 
+@check
+def one_anybody_signs_in_with_a_passkey():
+	"""Not only employees: the workspace's builder, who is none, is offered a
+	passkey after signing in, makes one on a computer, signs in with it, and
+	removes it themselves. An employee the clock checks cannot remove theirs."""
+	import json
+	from unittest import mock
+
+	from onedesk.one_demo.setup import BUILDER
+	from onedesk.one_hr import passkey, signin
+
+	frappe.db.set_single_value("System Settings", signin.SWITCH, 1)
+	frappe.db.set_single_value("HR Settings", "one_self_checkin", 1)
+	frappe.db.delete("Clock Device", {"user": BUILDER})
+	laptop = _Phone(BUILDER.encode())
+	with as_user(BUILDER):
+		frappe.defaults.clear_user_default("one_passkey_asked", BUILDER)
+		_asked(headers={"User-Agent": DESKTOP})
+		assert passkey.ask()
+		passkey.not_now()
+		assert not passkey.ask(), "asked again the same week"
+		made = passkey.finish_registration(json.dumps(laptop.make(passkey.start_registration())), {"user_agent": DESKTOP})
+		assert frappe.db.get_value("Clock Device", made["device"], ["user", "employee"]) == (BUILDER, None)
+
+	frappe.set_user("Guest")
+	_asked(headers={"User-Agent": DESKTOP})
+	options = signin.begin()
+	_asked(headers={"User-Agent": DESKTOP}, cookies=_cookies())
+	frappe.local.login_manager = mock.Mock()
+	assert signin.finish(json.dumps(laptop.sign(options)))["user"] == BUILDER
+
+	with as_user(BUILDER):
+		_asked(headers={"User-Agent": DESKTOP})
+		assert passkey.remove()["removed"] == 1 and not passkey.held(BUILDER)
+	with as_user("tariq@one.test"):
+		_asked(headers={"User-Agent": PHONE})
+		try:
+			passkey.remove()
+			raise AssertionError("an employee the clock checks removed their own passkey")
+		except frappe.ValidationError:
+			pass
+	_unasked()
+
+
 def _card(said: dict) -> str:
 	assert said.get("proposal"), said
 	assert frappe.db.get_value("AI Proposal", said["proposal"], "state") == "Proposed"

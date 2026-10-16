@@ -104,7 +104,7 @@ def facts(user: str | None = None) -> dict:
 	whether the account is safe."""
 	from frappe.twofactor import two_factor_is_enabled
 
-	from onedesk.one_hr import own
+	from onedesk.one_hr import own, policy
 	from onedesk.one_hr import passkey as keys
 	from onedesk.one_hr import signin as passkey_signin
 
@@ -113,8 +113,10 @@ def facts(user: str | None = None) -> dict:
 	return {
 		"password_changed": frappe.db.get_value("User", user, "last_password_reset_date"),
 		"employee": employee,
-		"passkey": bool(keys.held_by(employee)) if employee else None,
-		"passkey_signs_in": bool(employee) and passkey_signin.offered(),
+		"passkey": bool(keys.held(user)),
+		"passkey_signs_in": passkey_signin.offered(),
+		# Their passkey checks them in too, so a new one is HR's to allow.
+		"passkey_clocks": bool(employee) and policy.self_service(),
 		"two_factor": bool(two_factor_is_enabled(user)),
 		"two_factor_method": frappe.get_system_settings("two_factor_method")
 		if two_factor_is_enabled(user)

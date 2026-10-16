@@ -1,9 +1,9 @@
-// The passkey button on the login page.
+// The passkey button on the login page, ahead of the password.
 //
 // `web_include_js` reaches here — `templates/base.html` renders those includes
 // and `login.html` extends it — so the button is added to frappe's own card
-// rather than by replacing their template. Nothing else on the page changes,
-// and with the switch off nothing is added at all.
+// rather than by replacing their template. With the switch off nothing is
+// added at all.
 //
 // No account is named before the signature is verified. Asking the server
 // whether it holds a passkey for an address would turn the login page into a
@@ -65,16 +65,22 @@ const draw = () => {
 
 	call("onedesk.one_hr.signin.offered").then((yes) => {
 		if (!yes) return;
+		// The way in the page leads with: first and solid, with the password
+		// under an "or" and its button stepped down to match. Enter in the
+		// password box still submits it.
 		const $button = document.createElement("button");
 		$button.type = "button";
-		$button.className = "es-button w-full btn-login-option one-passkey-login";
+		$button.className = "es-button w-full one-passkey-login";
+		$button.dataset.variant = "solid";
 		$button.textContent = __("Sign in with a Passkey");
 		$button.addEventListener("click", () => signIn($button));
-		// After frappe's own alternative sign-in, not between the password box and
-		// the button that uses it.
-		const $email = $card.querySelector(".btn-login-with-email-link");
-		if ($email) $email.insertAdjacentElement("afterend", $button);
-		else $card.appendChild($button);
+		const $or = document.createElement("div");
+		$or.className = "one-login-or text-p-sm text-ink-gray-5";
+		$or.textContent = __("or use your password");
+		$card.insertAdjacentElement("beforebegin", $or);
+		$or.insertAdjacentElement("beforebegin", $button);
+		const $password = $card.parentElement.querySelector('.page-card-actions button[type="submit"]');
+		if ($password) $password.dataset.variant = "subtle";
 	});
 };
 

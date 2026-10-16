@@ -972,3 +972,16 @@ body {
 	flex: 1;
 }
 
+
+/* The "or" between the passkey and the password on the login page (js/login.js). */
+.one-login-or {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+}
+.one-login-or::before,
+.one-login-or::after {
+	content: "";
+	flex: 1;
+	border-top: 1px solid var(--outline-gray-2);
+}

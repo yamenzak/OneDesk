@@ -54,6 +54,11 @@ def boot_session(bootinfo) -> None:
 
 	bootinfo["one_homes"] = homes.for_boot()
 
+	# Whether to offer a passkey after signing in. See one_hr/passkey.py, `ask`.
+	from onedesk.one_hr import passkey
+
+	bootinfo["one_passkey_ask"] = passkey.ask()
+
 	# The doctypes that hold a record OneAI made and nobody checked, so a list
 	# of anything else never asks. See one_intake/mark.py.
 	from onedesk.one_intake import mark

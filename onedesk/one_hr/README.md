@@ -96,9 +96,11 @@ that stays on one phone turning up in another browser is (`passkey-elsewhere`).
 for a reset. HR sees what your new phone looks like next to your old one, and
 resets it in one click.
 
-**Signing in with your passkey.** When the workspace turns it on (System
-Settings → Login with Passkey), the login page offers *Sign in with passkey*,
-and no password is needed.
+**Signing in with your passkey.** The same passkey signs you in: the login
+page leads with *Sign in with a Passkey*, and no password is needed. A passkey
+belongs to the login rather than the employee (`Clock Device.user`), so
+anybody can have one; an employee's is also the one the clock reads, which is
+why only HR resets it.
 
 **What a clock-in checks**, in this order:
 
@@ -1433,8 +1435,10 @@ keychain. Registering one is a prompt; using one is Face ID, a fingerprint or
 the device PIN, and every call here asks for `user_verification="required"` so
 that happens on every clock-in rather than only the first.
 
-**One credential per employee**, and a second needs HR to reset the first. That
-rule is the gate. A colleague who knows your password and signs in as you on
+**One credential per person**, kept on their login (`user`) so somebody with no
+employee record can sign in with one too. For an employee the clock checks, a
+second needs HR to reset the first, and `remove` refuses them; anybody else
+removes their own. That rule is the gate. A colleague who knows your password and signs in as you on
 their own phone finds no passkey there and cannot make one, so they cannot clock
 in as you; the only way through is your actual phone with your face or PIN.
 

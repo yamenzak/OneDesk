@@ -931,6 +931,8 @@ override_whitelisted_methods = {
 ignore_links_on_delete = ["Intake Action", "Intake Lesson", "Reading", "Reading Party"]
 
 has_permission = {
+	# A passkey is its person's; HR reads employees' (one_hr/passkey.py).
+	"Clock Device": "onedesk.one_hr.passkey.has_permission",
 	# The Recycle Bin: one's own deletions, and an administrator's readable kinds.
 	# See one/recycle.py.
 	"Deleted Document": "onedesk.one.recycle.has_permission",
@@ -978,6 +980,7 @@ has_permission = {
 # only called when there is a document, so on its own it guarded the form and
 # left get_list wide open — measured, not assumed.
 permission_query_conditions = {
+	"Clock Device": "onedesk.one_hr.passkey.query",
 	"Deleted Document": "onedesk.one.recycle.query",
 	"Version": "onedesk.one.audit.version_query",
 	"Activity Log": "onedesk.one.audit.activity_query",

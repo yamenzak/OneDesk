@@ -1,8 +1,8 @@
 {
  "custom_fields": [
   {
-   "default": "0",
-   "description": "Allow users to log in without a password, using a passkey registered on their own device.",
+   "default": "1",
+   "description": "Let people sign in with a passkey on their own device instead of a password. The login page leads with it.",
    "dt": "System Settings",
    "fieldname": "one_login_with_passkey",
    "fieldtype": "Check",

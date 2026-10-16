@@ -1,4 +1,5 @@
-"""Signing in with the same passkey somebody clocks in with."""
+"""Signing in with a passkey: anybody's, and for an employee the same one they
+check in with."""
 
 import frappe
 import webauthn
@@ -51,9 +52,9 @@ def finish(credential: str) -> dict:
 	except Exception:
 		frappe.throw(_("That passkey could not be verified."), frappe.AuthenticationError)
 
-	user = frappe.db.get_value("Employee", device.employee, "user_id")
+	user = device.user or frappe.db.get_value("Employee", device.employee, "user_id")
 	if not user or not frappe.db.get_value("User", user, "enabled"):
-		frappe.throw(_("That passkey belongs to an employee with no user account on this site."), frappe.AuthenticationError)
+		frappe.throw(_("That passkey belongs to nobody who may sign in here."), frappe.AuthenticationError)
 
 	frappe.db.set_value(
 		"Clock Device",
@@ -75,7 +76,7 @@ def _device_for(credential_id: str):
 	found = frappe.get_all(
 		"Clock Device",
 		filters={"credential_id": credential_id, "status": "Active"},
-		fields=["name", "employee", "public_key", "sign_count"],
+		fields=["name", "user", "employee", "public_key", "sign_count"],
 		limit=1,
 		ignore_permissions=True,
 	)

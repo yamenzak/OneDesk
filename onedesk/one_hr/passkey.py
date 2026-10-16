@@ -1,6 +1,7 @@
 """Who pressed the button, proved by the phone that holds their passkey."""
 
 import base64
+import hashlib
 
 import frappe
 import webauthn
@@ -13,6 +14,7 @@ from webauthn.helpers.structs import (
 	UserVerificationRequirement,
 )
 
+from onedesk.one.roles import ADMINISTRATOR
 from onedesk.one_hr import own, policy, rules
 
 #: How long a challenge is good for. Long enough to find your glasses, short
@@ -22,38 +24,21 @@ CHALLENGE_SECONDS = 300
 
 @frappe.whitelist()
 def start_registration() -> dict:
-	"""Options for a phone to make a passkey with. Refuses a second one."""
+	"""Options for a device to make a passkey with. Refuses a second one."""
+	user = frappe.session.user
+	if user == "Guest":
+		frappe.throw(_("Sign in before registering a passkey."), frappe.PermissionError)
 	employee = own.employee_of()
-	if not employee:
-		frappe.throw(_("Only an employee can register a passkey."), frappe.PermissionError)
+	_may_register(user, employee)
 
-	if held_by(employee):
-		frappe.throw(
-			_("This employee already has a passkey. HR must reset it before another can be registered.")
-		)
-
-	# `held_by` asks for an Active credential, so without this a blocked
-	# employee would simply register a new passkey and carry on.
-	if is_blocked(employee):
-		frappe.throw(
-			_("This employee's passkey is blocked. HR must reset it before another can be registered.")
-		)
-
-	if policy.on("one_passkey_phone_only") and not rules.is_phone(_agent()):
-		frappe.throw(
-			_(
-				"Register your passkey on your phone rather than on this computer. "
-				"A passkey registered on a shared machine can be used by anyone sitting at it."
-			)
-		)
-
-	name = frappe.db.get_value("Employee", employee, "employee_name") or employee
 	options = webauthn.generate_registration_options(
 		rp_id=rp_id(),
 		rp_name=frappe.get_website_settings("app_name") or "One",
-		user_id=employee.encode(),
-		user_name=frappe.session.user,
-		user_display_name=name,
+		# A hash rather than the address, which the authenticator would keep and
+		# show to anybody who lists the passkeys on it.
+		user_id=hashlib.sha256(user.encode()).digest()[:32],
+		user_name=user,
+		user_display_name=frappe.utils.get_fullname(user),
 		# Discoverable, so the same credential can sign them in later without
 		# anybody typing an address.
 		authenticator_selection=AuthenticatorSelectionCriteria(
@@ -65,14 +50,40 @@ def start_registration() -> dict:
 	return frappe.parse_json(webauthn.options_to_json(options))
 
 
+def _may_register(user: str, employee: str) -> None:
+	"""One passkey a person; for somebody the clock checks, one HR resets."""
+	clocked = bool(employee) and policy.self_service()
+	if held(user):
+		frappe.throw(
+			_("This employee already has a passkey. HR must reset it before another can be registered.")
+			if clocked
+			else _("You already have a passkey. Remove it before registering another.")
+		)
+
+	# `held` asks for an Active credential, so without this a blocked
+	# employee would simply register a new passkey and carry on.
+	if employee and is_blocked(employee):
+		frappe.throw(
+			_("This employee's passkey is blocked. HR must reset it before another can be registered.")
+		)
+
+	if clocked and policy.on("one_passkey_phone_only") and not rules.is_phone(_agent()):
+		frappe.throw(
+			_(
+				"Register your passkey on your phone rather than on this computer. "
+				"A passkey registered on a shared machine can be used by anyone sitting at it."
+			)
+		)
+
+
 @frappe.whitelist()
 def finish_registration(credential: str, seen: str | dict | None = None) -> dict:
-	"""Verify what the phone made, and keep it."""
+	"""Verify what the device made, and keep it."""
+	user = frappe.session.user
+	if user == "Guest":
+		frappe.throw(_("Sign in before registering a passkey."), frappe.PermissionError)
 	employee = own.employee_of()
-	if not employee:
-		frappe.throw(_("Only an employee can register a passkey."), frappe.PermissionError)
-	if held_by(employee):
-		frappe.throw(_("This employee already has a passkey."))
+	_may_register(user, employee)
 
 	try:
 		done = webauthn.verify_registration_response(
@@ -89,7 +100,8 @@ def finish_registration(credential: str, seen: str | dict | None = None) -> dict
 	device = frappe.new_doc("Clock Device")
 	device.update(
 		{
-			"employee": employee,
+			"user": user,
+			"employee": employee or None,
 			"label": rules.device_label(seen),
 			"status": "Active",
 			"registered_on": now_datetime(),
@@ -171,22 +183,123 @@ def check(credential, employee: str) -> dict:
 
 
 def held_by(employee: str):
-	"""The one Active credential this employee has, or nothing.
-
-	A row with no key in it is not a passkey: it cannot sign, and taking it for
-	one sends the phone a challenge for a credential that does not exist.
-	"""
+	"""The one Active credential this employee has, or nothing."""
 	if not employee:
 		return None
+	return _active(_whose(employee))
+
+
+def held(user: str):
+	"""The one Active credential this person has, or nothing."""
+	if not user or user == "Guest":
+		return None
+	return _active({"user": user})
+
+
+def _active(whose: dict):
+	"""A row with no key in it is not a passkey: it cannot sign, and taking it
+	for one sends the phone a challenge for a credential that does not exist."""
 	found = frappe.get_all(
 		"Clock Device",
-		filters={"employee": employee, "status": "Active", "credential_id": ["is", "set"]},
-		fields=["name", "credential_id", "public_key", "sign_count", "label", "user_agent", "backed_up"],
+		filters={**whose, "status": "Active", "credential_id": ["is", "set"]},
+		fields=["name", "user", "credential_id", "public_key", "sign_count", "label", "user_agent", "backed_up"],
 		order_by="creation desc",
 		limit=1,
 		ignore_permissions=True,
 	)
 	return frappe._dict(found[0]) if found else None
+
+
+def _whose(employee: str) -> dict:
+	"""An employee's passkeys are their login's: one registered before they
+	were an employee is theirs too."""
+	user = frappe.db.get_value("Employee", employee, "user_id")
+	return {"user": user} if user else {"employee": employee}
+
+
+@frappe.whitelist(methods=["POST"])
+def remove() -> dict:
+	"""The person's own passkey, retired so they can register another.
+
+	Not for somebody the clock checks: their new phone is HR's to allow, which
+	is the point of a reset, so they ask for one instead.
+	"""
+	user = frappe.session.user
+	if user == "Guest":
+		frappe.throw(_("Sign in first."), frappe.PermissionError)
+	if own.employee_of() and policy.self_service():
+		frappe.throw(_("Your passkey also checks you in, so HR resets it. Ask HR for a reset."))
+	found = frappe.get_all(
+		"Clock Device", filters={"user": user, "status": "Active"}, pluck="name", ignore_permissions=True
+	)
+	for name in found:
+		frappe.db.set_value("Clock Device", name, "status", "Reset")
+	return {"removed": len(found)}
+
+
+#: How often somebody without a passkey is offered one after signing in, and
+#: how many "Not now"s it takes to stop asking. Settings still offers it.
+ASK_EVERY_DAYS = 7
+ASK_TIMES = 3
+
+
+def ask() -> bool:
+	"""Whether to offer this person a passkey now: sign-in by passkey is on,
+	they have none, they have not said "Not now" too often or too lately, and
+	this device is one they could make it on."""
+	from frappe.utils import date_diff, today
+
+	from onedesk.one_hr import signin
+
+	user = frappe.session.user
+	if user in ("Guest", "Administrator") or not signin.offered() or held(user):
+		return False
+	employee = own.employee_of()
+	if employee and is_blocked(employee):
+		return False
+	times, last = _asked(user)
+	if times >= ASK_TIMES or (last and date_diff(today(), last) < ASK_EVERY_DAYS):
+		return False
+	clocked = bool(employee) and policy.self_service()
+	return not (clocked and policy.on("one_passkey_phone_only") and not rules.is_phone(_agent()))
+
+
+@frappe.whitelist(methods=["POST"])
+def not_now() -> None:
+	"""The offer was turned down: asked again in a week, and not after three."""
+	from frappe.utils import today
+
+	times, _last = _asked(frappe.session.user)
+	frappe.defaults.set_user_default("one_passkey_asked", f"{times + 1},{today()}")
+
+
+def _asked(user: str) -> tuple[int, str]:
+	said = frappe.defaults.get_user_default("one_passkey_asked", user) or ""
+	times, _, last = said.partition(",")
+	return (int(times) if times.isdigit() else 0), last
+
+
+def query(user: str | None = None) -> str:
+	"""HR reads employees' passkeys, everybody their own, and the workspace's
+	administrator all of them. An administrator's passkey is not HR's business."""
+	user = user or frappe.session.user
+	roles = frappe.get_roles(user)
+	if ADMINISTRATOR in roles or user == "Administrator":
+		return ""
+	mine = f"`tabClock Device`.user = {frappe.db.escape(user)}"
+	if {"HR User", "HR Manager"} & set(roles):
+		return f"(ifnull(`tabClock Device`.employee, '') != '' or {mine})"
+	return mine
+
+
+def has_permission(doc, ptype=None, user=None) -> bool | None:
+	user = user or frappe.session.user
+	roles = frappe.get_roles(user)
+	if ADMINISTRATOR in roles or user == "Administrator" or doc.user == user:
+		return None
+	if {"HR User", "HR Manager"} & set(roles) and doc.employee:
+		return None
+	return False
 
 
 @frappe.whitelist()
@@ -228,7 +341,10 @@ def reset(employee: str) -> dict:
 		frappe.throw(_("Only HR can reset a passkey."), frappe.PermissionError)
 
 	found = frappe.get_all(
-		"Clock Device", filters={"employee": employee, "status": ["!=", "Reset"]}, pluck="name"
+		"Clock Device",
+		filters={**_whose(employee), "status": ["!=", "Reset"]},
+		pluck="name",
+		ignore_permissions=True,
 	)
 	for name in found:
 		frappe.db.set_value("Clock Device", name, "status", "Reset")
@@ -245,7 +361,7 @@ def is_blocked(employee: str) -> bool:
 	A block is lifted by a reset and by nothing else, which is why `reset`
 	retires a blocked credential as well as an active one.
 	"""
-	return bool(frappe.db.exists("Clock Device", {"employee": employee, "status": "Blocked"}))
+	return bool(frappe.db.exists("Clock Device", {**_whose(employee), "status": "Blocked"}))
 
 
 def block(employee: str) -> int:
@@ -257,7 +373,7 @@ def block(employee: str) -> int:
 	"""
 	found = frappe.get_all(
 		"Clock Device",
-		filters={"employee": employee, "status": ["!=", "Blocked"]},
+		filters={**_whose(employee), "status": ["!=", "Blocked"]},
 		pluck="name",
 		ignore_permissions=True,
 	)
@@ -280,7 +396,7 @@ def retire(employee: str) -> int:
 
 def resets_since(employee: str, since) -> int:
 	return frappe.db.count(
-		"Clock Device", {"employee": employee, "status": "Reset", "modified": [">=", since]}
+		"Clock Device", {**_whose(employee), "status": "Reset", "modified": [">=", since]}
 	)
 
 

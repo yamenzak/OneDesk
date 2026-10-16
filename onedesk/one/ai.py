@@ -2179,8 +2179,9 @@ def my_sign_in() -> dict:
 		"password_last_changed": str(said["password_changed"])
 		if said["password_changed"]
 		else "never recorded",
-		"passkey": None if said["employee"] is None else bool(said["passkey"]),
-		"passkey_also_signs_in": said["passkey_signs_in"],
+		"passkey": bool(said["passkey"]),
+		"passkey_signs_in": said["passkey_signs_in"],
+		"passkey_checks_in": said["passkey_clocks"],
 		"two_factor": said["two_factor"],
 		"signed_in_on": [
 			{
