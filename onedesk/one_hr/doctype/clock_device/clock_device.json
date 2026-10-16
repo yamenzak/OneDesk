@@ -41,8 +41,7 @@
    "options": "User",
    "in_standard_filter": 1,
    "read_only": 1,
-   "search_index": 1,
-   "description": "Whose passkey this is. It signs them in, and checks them in when they are an employee."
+   "search_index": 1
   },
   {
    "fieldname": "employee",
@@ -51,8 +50,7 @@
    "label": "Employee",
    "options": "Employee",
    "read_only": 1,
-   "search_index": 1,
-   "description": "Set when the person is an employee, for the clock and for HR."
+   "search_index": 1
   },
   {
    "fetch_from": "employee.employee_name",
@@ -149,8 +147,7 @@
    "fieldtype": "Link",
    "label": "Device",
    "options": "Device",
-   "read_only": 1,
-   "description": "The company machine it was made on. Empty when it is on the person's own phone or computer."
+   "read_only": 1
   },
   {
    "fieldname": "seen_section",

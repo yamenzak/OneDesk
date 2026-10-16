@@ -618,7 +618,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 								.map((one) =>
 									row(
 										esc(one.device_name),
-										esc(__("Assigned to you. On it, mark it and make your passkey there.")),
+										esc(__("Press this on that computer.")),
 										onedesk.shell.button(__("This Is My {0}", [one.device_name]), { "data-mark": one.name }, "subtle", "monitor")
 									)
 								)
@@ -697,7 +697,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			this.open("signin");
 		});
 		this.$content.find("[data-passkey-remove]").on("click", () =>
-			frappe.confirm(__("Remove your passkey? You'll sign in with your password until you register another."), async () => {
+			frappe.confirm(__("Remove your passkey?"), async () => {
 				await frappe.xcall("onedesk.one_hr.passkey.remove");
 				frappe.show_alert({ message: __("Passkey removed"), indicator: "green" });
 				this.open("signin");
@@ -2457,16 +2457,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const when = (value) => (value ? frappe.datetime.prettyDate(value) : "");
 		this.page.set_primary_action(__("Add Device"), () => this.add_device(), "plus");
 		this.$content.html(
-			onedesk.shell.section(
-				__("Company Devices"),
-				'<div data-list="company"></div>',
-				__("Mark each machine from a browser on it. Shared machines never hold a passkey, and an assigned one can hold its person's.")
-			) +
-				onedesk.shell.section(
-					__("Personal Devices"),
-					'<div data-list="personal"></div>',
-					__("Passkeys on people's own phones and computers.")
-				)
+			onedesk.shell.section(__("Company Devices"), '<div data-list="company"></div>') +
+				onedesk.shell.section(__("Personal Devices"), '<div data-list="personal"></div>')
 		);
 		const states = { Active: "green", Lost: "red", Retired: "gray" };
 		onedesk.shell.table(this.$content.find('[data-list="company"]'), {
@@ -2532,29 +2524,29 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const named = (device) => (data.company || []).find((one) => one.name === device)?.device_name || device;
 		this.$content.on("click", "[data-mark]", (event) => {
 			const device = of(event);
-			frappe.confirm(__("Mark this browser as {0}? Do this on that machine.", [esc(named(device))]), async () => {
+			frappe.confirm(__("Is this computer {0}?", [esc(named(device))]), async () => {
 				await frappe.xcall("onedesk.one.devices.mark", { device });
 				this.refresh();
 			});
 		});
 		this.$content.on("click", "[data-lost]", (event) => {
 			const device = of(event);
-			frappe.confirm(__("Mark {0} as lost? Everybody signed in on it is signed out, and its passkeys stop working.", [esc(named(device))]), async () => {
+			frappe.confirm(__("Mark {0} as lost? Everyone on it is signed out.", [esc(named(device))]), async () => {
 				const said = await frappe.xcall("onedesk.one.devices.lost", { device });
-				frappe.show_alert({ message: __("{0} signed out, {1} passkeys retired", [said.sessions, said.passkeys]), indicator: "green" });
+				frappe.show_alert({ message: __("Marked as lost"), indicator: "green" });
 				this.refresh();
 			});
 		});
 		this.$content.on("click", "[data-retire]", (event) => {
 			const device = of(event);
-			frappe.confirm(__("Retire {0}? It is no longer the company's, and its passkeys stop working.", [esc(named(device))]), async () => {
+			frappe.confirm(__("Retire {0}?", [esc(named(device))]), async () => {
 				await frappe.xcall("onedesk.one.devices.retire", { device });
 				this.refresh();
 			});
 		});
 		this.$content.on("click", "[data-retire-passkey]", (event) => {
 			const passkey = $(event.currentTarget).closest("[data-passkey]").attr("data-passkey");
-			frappe.confirm(__("Retire this passkey? Its owner signs in with their password until they make another."), async () => {
+			frappe.confirm(__("Retire this passkey?"), async () => {
 				await frappe.xcall("onedesk.one.devices.retire_passkey", { passkey });
 				this.refresh();
 			});
@@ -2565,7 +2557,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const dialog = new frappe.ui.Dialog({
 			title: __("Add Device"),
 			fields: [
-				{ fieldname: "device_name", fieldtype: "Data", label: __("Name"), reqd: 1, description: __("Such as Reception Computer or Yousef's Laptop.") },
+				{ fieldname: "device_name", fieldtype: "Data", label: __("Name"), reqd: 1, placeholder: __("Reception Computer") },
 				{ fieldname: "use", fieldtype: "Select", label: __("Used By"), options: [{ value: "Assigned", label: __("One person") }, { value: "Shared", label: __("Several people") }], default: "Assigned", reqd: 1 },
 				{ fieldname: "user", fieldtype: "Link", options: "User", label: __("Assigned To"), depends_on: "eval:doc.use==='Assigned'", mandatory_depends_on: "eval:doc.use==='Assigned'" },
 				{ fieldname: "asset", fieldtype: "Link", options: "Asset", label: __("Asset") },

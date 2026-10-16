@@ -2,7 +2,7 @@
  "custom_fields": [
   {
    "default": "1",
-   "description": "Let people sign in with a passkey on their own device instead of a password. The login page leads with it.",
+   "description": "Show Sign in with a Passkey on the login page.",
    "dt": "System Settings",
    "fieldname": "one_login_with_passkey",
    "fieldtype": "Check",

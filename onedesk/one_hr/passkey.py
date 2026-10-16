@@ -68,7 +68,7 @@ def _may_register(user: str, employee: str) -> str | None:
 	at = devices.here()
 	if at and at.use == "Shared":
 		frappe.throw(
-			_("{0} is shared, so nobody's passkey is made on it. Use your phone.").format(at.device_name)
+			_("You can't make a passkey on {0} because it's shared. Use your phone.").format(at.device_name)
 		)
 	if at:
 		if at.user != user:
@@ -89,10 +89,7 @@ def _may_register(user: str, employee: str) -> str | None:
 	# office computer while it is off would check them in once it is turned on.
 	if _phone_first(employee) and not rules.is_phone(_agent()):
 		frappe.throw(
-			_(
-				"Register your passkey on your phone rather than on this computer. "
-				"A passkey registered on a shared machine can be used by anyone sitting at it."
-			)
+			_("Make your passkey on your phone.")
 		)
 	return None
 
@@ -267,7 +264,7 @@ def remove() -> dict:
 	if user == "Guest":
 		frappe.throw(_("Sign in first."), frappe.PermissionError)
 	if own.employee_of() and policy.self_service():
-		frappe.throw(_("Your passkey also checks you in, so HR resets it. Ask HR for a reset."))
+		frappe.throw(_("Ask HR to reset your passkey."))
 	found = frappe.get_all(
 		"Clock Device", filters={"user": user, "status": "Active"}, pluck="name", ignore_permissions=True
 	)
