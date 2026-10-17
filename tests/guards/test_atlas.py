@@ -25,10 +25,10 @@ WAITING = {
 	"erpnext / Quality Management": 0,
 	"erpnext / Regional": 0,
 	"erpnext / Selling": 0,
-	"erpnext / Setup": 1,
+	"erpnext / Setup": 0,
 	"erpnext / Support": 0,
 	"erpnext / Telephony": 0,
-	"erpnext / Utilities": 1,
+	"erpnext / Utilities": 0,
 	"frappe / Automation": 7,
 	"frappe / Contacts": 1,
 	"frappe / Core": 55,
@@ -232,7 +232,8 @@ EMPTY = {
 	"erpnext / Manufacturing": 4,
 	"erpnext / Projects": 1,
 	"erpnext / Selling": 4,
-	"erpnext / Setup": 3,
+	# A Transaction Deletion Record of the demo's would delete the demo.
+	"erpnext / Setup": 4,
 	# Placed with none on purpose: a stock dimension adds a field to every stock
 	# form, and a closing refuses the history the demo writes behind it.
 	"erpnext / Stock": 6,

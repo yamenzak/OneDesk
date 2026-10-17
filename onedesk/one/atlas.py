@@ -76,6 +76,7 @@ ANSWERS = {
 	("DocType", "Authorization Control"): (ENGINE, "what an Authorization Rule checks when a record is submitted"),
 	("DocType", "Bulk Transaction Log"): (ENGINE, "what creating or submitting many records at once from a list did"),
 	("DocType", "Bulk Transaction Log Detail"): (ENGINE, "one record of a Bulk Transaction Log"),
+	("DocType", "Rename Tool"): (LEFT_OUT, "renaming many records from a spreadsheet, which waits with Import (docs/BACKLOG.md); a record is renamed from its own form"),
 	("DocType", "Video"): (LEFT_OUT, VIDEO),
 	("DocType", "Video Settings"): (LEFT_OUT, VIDEO),
 	("Report", "YouTube Interactions"): (LEFT_OUT, VIDEO),

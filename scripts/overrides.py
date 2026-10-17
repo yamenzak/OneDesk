@@ -130,6 +130,13 @@ OVERRIDES = [
 		'"fieldname": "outstanding_amount"',
 	),
 	(
+		"Start Again is the workspace administrator's",
+		"ERPNext's Transaction Deletion Record asks for the System Manager, the operator's role, and fills the setup it keeps only when its form opens; one/start_again.py fills that list, adds a company's setup through company_data_to_be_ignored, and submits it as Administrator once the administrator is checked",
+		"onedesk/one/start_again.py",
+		"erpnext/erpnext/setup/doctype/transaction_deletion_record/transaction_deletion_record.py",
+		'frappe.only_for("System Manager")',
+	),
+	(
 		"HR sees what a person holds",
 		"ERPNext gives assets to stock, accounts and quality roles only, so an employee's page said nothing of their equipment to HR; one_inventory/access.py lets the HR roles read assets and their movements",
 		"onedesk/one_inventory/access.py",

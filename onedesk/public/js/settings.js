@@ -910,8 +910,22 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			{ stack: ["one_login_with_passkey", "login_with_email_link", "deny_multiple_sessions"] },
 			{ heading: __("Sharing") },
 			{ stack: ["one_calendar_links", "one_record_sharing"] },
+			// ERPNext's Transaction Deletion Record, for a workspace that tried
+			// One with made-up records and starts for real.
+			{
+				heading: __("Start Again"),
+				note: __("Customers, items, people and settings stay."),
+			},
+			{ html: onedesk.shell.button(__("Delete All Transactions"), { "data-start-again": "1" }, "subtle", "trash-2") },
 		];
 		const $card = this.form(data, { rows });
+		$card.on("click", "[data-start-again]", () =>
+			frappe.confirm(__("Every sale, purchase, stock move, project, payslip, lead and asset is deleted. This can't be undone."), () =>
+				frappe
+					.call({ method: "onedesk.one.start_again.start", type: "POST", freeze: true })
+					.then((r) => frappe.set_route("Form", "Transaction Deletion Record", r.message))
+			)
+		);
 		// How a date, a time and a number will read, as they are chosen.
 		const reads = () => {
 			const values = this.values();

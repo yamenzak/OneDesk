@@ -7888,3 +7888,27 @@ def the_workspace_tells_what_it_promised_to():
 		with patch("onedesk.one_admin.site.is_admin", return_value=True):
 			admin.owner(frappe._dict(name="T-1", workspace_name="Acme", account="owner@acme.example"), "Overdue", "Live")
 			assert mailed and mailed[-1][0] == "Payment Failed" and mailed[-1][1] == "owner@acme.example", mailed
+
+
+@check
+def starting_again_keeps_the_setup_and_is_the_administrators():
+	"""Start Again deletes transactions, not the customers, accounts, people
+	or settings they were made with; and only an administrator may start it.
+	The plan is drawn and thrown away: submitting it would delete the demo."""
+	from onedesk.one import start_again
+
+	with as_user("rania@one.test"):
+		try:
+			start_again.start()
+			raise AssertionError("somebody who is not an administrator started again")
+		except frappe.PermissionError:
+			pass
+	with as_user("Administrator"):
+		plan = start_again.planned(COMPANY)
+	try:
+		going = {one.doctype_name for one in plan.doctypes_to_delete if one.document_count}
+		assert {"Sales Invoice", "Stock Entry", "Lead"} <= going, going
+		kept = {"Customer", "Supplier", "Account", "Employee", "Item", "UAE VAT Settings", "Tax Rule", "Pricing Rule"}
+		assert not kept & going, kept & going
+	finally:
+		frappe.delete_doc(start_again.DOCTYPE, plan.name, force=True, ignore_permissions=True)

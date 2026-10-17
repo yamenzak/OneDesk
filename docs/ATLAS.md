@@ -27,7 +27,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 |---|---|---|---|---|
 | onedesk | 74 | 4 | 22 | 0 |
 | frappe | 35 | 38 | 0 | 141 |
-| erpnext | 304 | 130 | 49 | 2 |
+| erpnext | 305 | 130 | 50 | 0 |
 | hrms | 103 | 19 | 8 | 0 |
 
 ## Our screens
@@ -376,7 +376,7 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Supplier Group | on a rail or a home | OneBook, OneInventory, the administrator | events | yes | general |  | yes |  |  |  |  |
 | Terms and Conditions | on a rail or a home | OneBook, OneCRM, OneHR, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Territory | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events | yes | general |  | yes |  |  |  |  |
-| Transaction Deletion Record | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 1 |  |
+| Transaction Deletion Record | opened by our screens | the administrator | untouched | yes | general |  | **none** |  |  |  |  |
 | UOM | on a rail or a home | OneCRM, OneInventory, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | UOM Conversion Factor | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Vehicle | on a rail or a home | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
@@ -472,7 +472,7 @@ Reports: First Response Time for Issues (on a rail or a home); Issue Analytics (
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Rename Tool | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Rename Tool | left out: renaming many records from a spreadsheet, which waits with Import (docs/BACKLOG.md); a record is renamed from its own form | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Video | left out: ERPNext's library of YouTube help videos; One's help is OneAI, on every page | everybody | untouched | yes | general |  | **none** |  |  |  |  |
 | Video Settings | left out: ERPNext's library of YouTube help videos; One's help is OneAI, on every page | **nobody** | untouched | no | general |  |  |  |  |  |  |
 
@@ -524,7 +524,7 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | Data Import Log | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  | ar 1, de 1 |  |
 | Deleted Document | on a rail or a home | everybody | form script, list script, 1 fields, 2 settings | no | taught |  | yes |  |  |  |  |
 | DocShare | **waiting** | **nobody** | events | no | taught |  | yes |  |  |  |  |
-| DocType | through a form's link (Customize Form: doc_type) | **nobody** | untouched | no | taught |  | yes |  |  | ar 1 |  |
+| DocType | through a form's link (Transaction Deletion Record: doctype_name) | **nobody** | untouched | no | taught |  | yes |  |  | ar 1 |  |
 | DocType Layout | through a form's link (Workspace: doctype_layout) | everybody | untouched | no | general |  | **none** |  |  | ar 3, de 2 |  |
 | DocType Settings Map | **waiting** | **nobody** | untouched | no | general |  | yes |  |  | ar 3, de 3 |  |
 | Document Naming Rule | opened by our screens | the administrator | events | no | taught |  | **none** |  |  |  |  |
@@ -653,7 +653,7 @@ Pages: backups (**waiting**); desktop (**waiting**); setup-wizard (**waiting**);
 | Email Group Member | **waiting** | OneCRM | untouched | no | general |  | yes |  |  |  |  |
 | Email Queue | **waiting** | **nobody** | untouched | no | general |  | yes |  | **only an ID** | ar 1, de 1 |  |
 | Email Rule | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Email Template | through a form's link (Customize Form: default_email_template) | everybody | events | no | taught |  | yes |  |  |  |  |
+| Email Template | through a form's link (DocType: default_email_template) | everybody | events | no | taught |  | yes |  |  |  |  |
 | Email Unsubscribe | **waiting** | **nobody** | 1 fields | no | general |  | yes |  |  |  |  |
 | Notification | opened by our screens | the administrator | class, events, 1 fields | no | taught |  | yes |  |  | ar 1, de 1 |  |
 | Unhandled Email | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |

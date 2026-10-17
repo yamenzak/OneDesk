@@ -384,6 +384,12 @@ administrators see it. Save from the top right.
   ERPNext's Global Defaults: whether amounts show their currency's symbol,
   and whether sales and purchases have a rounded total and their total in
   words.
+- **Start Again**, at the foot: **Delete All Transactions** deletes every
+  sale, purchase, stock move, project, payslip, lead and asset, for a
+  workspace that tried One with made-up records. Customers, suppliers,
+  items, employees, accounts and settings stay. It is ERPNext's Transaction
+  Deletion Record, which runs in the background; the page it opens shows how
+  far it has got.
 - **Sign-in**: sign-in rules for everyone.
   - **Two-Factor Sign-in** asks for a code after the password, for
     administrators only or for everyone. Each person sets it up at their next

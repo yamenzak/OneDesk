@@ -808,6 +808,8 @@ ADMINISTRATOR = {
 	# Privacy Requests.
 	"Personal Data Deletion Request": ("read", "report"),
 	"Personal Data Download Request": ("read", "report"),
+	# General's Start Again, to follow it: one/start_again.py makes it.
+	"Transaction Deletion Record": ("read",),
 	# Recycle Bin.
 	"Deleted Document": ("read", "delete"),
 	# Reports and Dashboards.

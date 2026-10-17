@@ -1309,6 +1309,23 @@ app_include_js = [
 	"/assets/onedesk/js/legal.js",
 ]
 
+# What Start Again keeps (one/start_again.py): a company's setup, which ERPNext's
+# Transaction Deletion Record would delete with its transactions.
+company_data_to_be_ignored = [
+	"UAE VAT Settings",
+	"Tax Rule",
+	"Pricing Rule",
+	"Promotional Scheme",
+	"Bank Transaction Rule",
+	"Dunning Type",
+	"Putaway Rule",
+	"Plant Floor",
+	"Asset Maintenance Team",
+	"Leave Block List",
+	"Email Digest",
+	"Vehicle",
+]
+
 # Modules with no place of their own, and where their navigation went.
 code_only_modules = {"One AI": ["One"], "One Legal": ["One"]}
 
