@@ -24,12 +24,14 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	// letter, at `scale` of its width. The markup is frappe's, shown in a sandbox,
 	// which runs nothing.
 	static SHEET = 794;
+	// An A4 page's height at that width.
+	static PAGE = 1123;
 	// `whole` draws the whole page, the letter filling it and the foot at the bottom.
 	static sheet = (top, foot, scale, whole = false) =>
 		`<!doctype html><html><head><style>html,body{margin:0;background:#fff;color:#111;font-family:sans-serif}` +
 		`body{padding:24px;width:746px;transform:scale(${scale});transform-origin:0 0}img{max-width:100%}` +
 		`.lines{height:48px;margin:16px 0;background:repeating-linear-gradient(to bottom,#e5e7eb 0,#e5e7eb 6px,transparent 6px,transparent 14px)}` +
-		(whole ? `body{box-sizing:border-box;height:1123px;display:flex;flex-direction:column}.lines{flex:1;height:auto;margin:32px 0;background:repeating-linear-gradient(to bottom,#f3f4f6 0,#f3f4f6 4px,transparent 4px,transparent 22px)}` : "") +
+		(whole ? `html{overflow:hidden}body{box-sizing:border-box;width:794px;height:1123px;padding:45px 53px;display:flex;flex-direction:column}.lines{flex:1;height:auto;margin:32px 0;background:repeating-linear-gradient(to bottom,#f3f4f6 0,#f3f4f6 4px,transparent 4px,transparent 22px)}` : "") +
 		`</style></head><body>${top || ""}${foot === null ? "" : `<div class="lines"></div>${foot || ""}`}</body></html>`;
 	static frame = (html, className) => {
 		const it = document.createElement("iframe");
@@ -2350,8 +2352,13 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const show_preview = (top, bottom = foot_html()) => {
 			const $stage = theirs ? dialog.get_field("preview").$wrapper : dialog.get_field("preview").$wrapper.find(".one-lh-stage");
 			// As wide as the room it has, so the page reads at nearly its printed size.
-			const scale = Math.min(1, (($stage.width() || 600) - 2) / Settings.SHEET);
-			$stage.empty().append(frame(page(top, bottom, scale), "one-letter-head-sheet"));
+			// The whole page, the footer at its foot, as it prints, small enough
+			// that all of it is in sight at once.
+			const scale = Math.min(1, (($stage.width() || 600) - 2) / Settings.SHEET, (window.innerHeight - 320) / Settings.PAGE);
+			const sheet = frame(page(top, bottom, scale, true), "one-letter-head-sheet");
+			sheet.style.height = `${Math.ceil(Settings.PAGE * scale) + 2}px`;
+			sheet.style.width = `${Math.ceil(Settings.SHEET * scale) + 2}px`;
+			$stage.empty().append(sheet);
 		};
 		// Every preset as it prints with the company's details, the chosen one
 		// marked; a top written by hand is shown as it is until one is chosen.
