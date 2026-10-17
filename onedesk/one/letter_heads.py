@@ -14,10 +14,17 @@ from frappe.utils import cint, escape_html
 #: The ways a top is laid out, in the order they are offered.
 PRESETS = {
 	"classic": _lt("Classic"),
+	"details": _lt("Columns"),
+	"ledger": _lt("Ledger"),
+	"strip": _lt("Strip"),
+	"masthead": _lt("Masthead"),
 	"centred": _lt("Centred"),
-	"banner": _lt("Banner"),
+	"window": _lt("Window"),
+	"accent": _lt("Accent"),
+	"wordmark": _lt("Wordmark"),
 	"minimal": _lt("Minimal"),
-	"details": _lt("Logo and Details"),
+	"banner": _lt("Tinted"),
+	"band": _lt("Band"),
 	"logo": _lt("Logo Only"),
 }
 
@@ -25,16 +32,20 @@ PRESETS = {
 FEET = {
 	"centred": _lt("Centred"),
 	"split": _lt("Two Sides"),
-	"band": _lt("Band"),
-	"above": _lt("Logo Above"),
+	"strip": _lt("Fact Strip"),
+	"legal": _lt("Legal"),
+	"accent": _lt("Accent"),
+	"corner": _lt("Corner"),
 	"spread": _lt("Spread"),
+	"above": _lt("Logo Above"),
+	"band": _lt("Tinted"),
 }
 
 #: What a foot may show: what a top may, and a small logo before it.
 FOOT_SHOWN = {"logo": _lt("Logo")}
 
 #: What a new foot shows: a quiet line, since the top already says the rest.
-FOOT_FIRST = ("website", "tax_id")
+FOOT_FIRST = ("phone", "website", "tax_id")
 
 #: How tall the logo in a foot is, in pixels.
 FOOT_LOGO = 20
@@ -55,8 +66,9 @@ SHOWN = {
 	"tax_id": _lt("Tax ID"),
 }
 
-#: What a new top shows.
-SHOWN_FIRST = ("name", "address", "phone", "email", "website")
+#: What a new top shows. The name only when ticked: a logo usually says it, and
+#: with no logo the name is the top's headline whatever is ticked.
+SHOWN_FIRST = ("address", "phone", "email", "website")
 
 #: How the company is reached, and the icon each is shown with.
 CONTACTS = (("phone", "phone"), ("email", "mail"), ("website", "globe"))
@@ -81,8 +93,9 @@ def settings(raw) -> dict:
 		"preset": preset,
 		"show": shown,
 		"logo_height": min(max(cint(said.get("logo_height")) or 60, 24), 160),
-		# The line in the Brand Colour under the top, which every preset may leave out.
-		"line": 1 if cint(said.get("line", 1)) else 0,
+		# The line in the Brand Colour under the top: off unless asked for, since
+		# the room under the top already sets it apart.
+		"line": 1 if cint(said.get("line", 0)) else 0,
 		"align": (said.get("align") or "left").lower()
 		if (said.get("align") or "").lower() in ("left", "center", "right")
 		else "left",
@@ -97,7 +110,7 @@ def foot_settings(raw) -> dict:
 		"show": [one for one in (said.get("show") or FOOT_FIRST) if one in SHOWN or one in FOOT_SHOWN],
 		# A line of the workspace's own, such as "Thank you for your business."
 		"note": " ".join(str(said.get("note") or "").split())[:NOTE],
-		"line": 1 if cint(said.get("line", 1)) else 0,
+		"line": 1 if cint(said.get("line", 0)) else 0,
 	}
 
 
@@ -107,339 +120,561 @@ def company() -> dict:
 
 	held = workspace._company()
 	if not held:
-		return {"name": "", "colour": INK, "address": []}
+		return {"name": "", "colour": INK, "address": [], "street": "", "locality": ""}
 	address = workspace._company_address(held)
-	place = []
+	street = locality = ""
 	if address:
-		place = [
-			address.address_line1,
-			address.address_line2,
-			", ".join(one for one in (address.city, address.state, address.pincode) if one),
-			address.country,
-		]
+		street = ", ".join(one for one in (address.address_line1, address.address_line2) if one)
+		locality = ", ".join(
+			one
+			for one in (" ".join(one for one in (address.city, address.pincode) if one), address.state, address.country)
+			if one
+		)
 	colour = held.get("one_brand_colour") or ""
 	return {
 		"name": held.company_name,
 		"logo": held.company_logo,
-		"address": [one for one in place if one],
+		"address": [one for one in (street, locality) if one],
+		"street": street,
+		"locality": locality,
 		"phone": held.phone_no,
 		"email": held.email,
 		"website": held.website,
 		"tax_id": held.tax_id,
+		# A UAE company's tax number is its TRN, and its papers call it that.
+		"tax_label": "TRN" if held.country == "United Arab Emirates" else "Tax ID",
 		"colour": colour if COLOUR.match(colour) else INK,
 	}
 
 
+#: What a company's tax number is called on its papers (company), for translation.
+TAX_LABELS = (_lt("TRN"), _lt("Tax ID"))
+
+#: The company's details in the order a reader looks for them, after the name.
+REACH = ("phone", "email", "website")
+
+#: Between details on one line.
+DOT = '<span style="color:#d1d5db;padding:0 6px">·</span>'
+
+#: How light a tint of the Brand Colour a band is, out of one.
+TINT = 0.07
+
+#: A detail's size and colour, and a faint rule's.
+SMALL = f"font-size:9.5px;line-height:1.6;color:{MUTED};"
+FAINT = "#eef0f3"
+
+
+def _rgb(colour: str) -> tuple[int, int, int]:
+	hexed = colour.lstrip("#")
+	if len(hexed) in (3, 4):
+		hexed = "".join(one * 2 for one in hexed[:3])
+	return tuple(int(hexed[i : i + 2], 16) for i in (0, 2, 4))
+
+
+def _luminance(rgb) -> float:
+	def channel(value: int) -> float:
+		value /= 255
+		return value / 12.92 if value <= 0.03928 else ((value + 0.055) / 1.055) ** 2.4
+
+	r, g, b = (channel(one) for one in rgb)
+	return 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+
+def _contrast(rgb) -> float:
+	"""Against white."""
+	return 1.05 / (_luminance(rgb) + 0.05)
+
+
+def readable(colour: str) -> str:
+	"""The Brand Colour as text on white: itself, or darkened until it reads
+	(WCAG's 4.5 to 1), so a yellow brand still prints a name that can be read.
+	A line or a band keeps the colour as it is. Pure."""
+	try:
+		rgb = _rgb(colour)
+	except ValueError:
+		return INK
+	for _step in range(40):
+		if _contrast(rgb) >= 4.5:
+			break
+		rgb = tuple(int(one * 0.9) for one in rgb)
+	return "#{:02x}{:02x}{:02x}".format(*rgb)
+
+
+def on(colour: str) -> str:
+	"""Text on the Brand Colour: white, or ink on a light one. Pure."""
+	try:
+		return "#ffffff" if _contrast(_rgb(colour)) >= 3 else INK
+	except ValueError:
+		return "#ffffff"
+
+
+def tint(colour: str, share: float = TINT) -> str:
+	"""The Brand Colour mixed into white, for a band text sits on. Pure."""
+	try:
+		rgb = _rgb(colour)
+	except ValueError:
+		return "#f9fafb"
+	return "#{:02x}{:02x}{:02x}".format(*(round(255 - (255 - one) * share) for one in rgb))
+
+
+def initials(name: str) -> str:
+	"""Two letters for a company with no logo: Sahara Glass & Aluminium is SG. Pure."""
+	words = [one for one in (name or "").replace("&", " ").split() if one[:1].isalnum()]
+	return "".join(one[0] for one in words[:2]).upper()
+
+
+def _cell(content: str, style: str = "") -> str:
+	return f'<div style="display:table-cell;{style}">{content}</div>'
+
+
+def _row(*cells: str, style: str = "") -> str:
+	return f'<div style="display:table;width:100%;{style}">{"".join(cells)}</div>'
+
+
+def _lines(*rows: str) -> str:
+	return "".join(f"<div>{one}</div>" for one in rows if one)
+
+
+def _label(text: str, colour: str | None = None) -> str:
+	"""A fact's small capital label, grey or in the colour."""
+	return (
+		'<div style="font-size:7.5px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;'
+		f'color:{colour or "#9ca3af"};margin-bottom:3px">{text}</div>'
+	)
+
+
+def _facts(details: dict, shown: set) -> dict:
+	"""What the company says, escaped, each only when ticked and kept."""
+	e = lambda value: escape_html(str(value or ""))  # noqa: E731
+	address = "address" in shown
+	return {
+		"street": e(details.get("street")) if address else "",
+		"locality": e(details.get("locality")) if address else "",
+		"where": e(", ".join(details.get("address") or [])) if address else "",
+		**{key: e(details.get(key)) if key in shown and details.get(key) else "" for key in REACH},
+		"tax_label": e(_(details.get("tax_label") or "Tax ID")),
+		"tax_id": e(details.get("tax_id")) if "tax_id" in shown and details.get("tax_id") else "",
+	}
+
+
 def draw(raw, details: dict | None = None) -> str:
-	"""A top's HTML: its preset, from the company, showing what was ticked."""
+	"""A top's HTML: its preset, from the company, showing what was ticked.
+
+	The Brand Colour is a line, a label, the name or a band, and every detail
+	quiet grey. A company with no logo is its initials in the colour beside its
+	name. Laid out in display:table, since frappe's print style stretches a
+	picture across a table cell."""
 	said = settings(raw)
 	details = details or company()
 	shown = set(said["show"])
 	colour = details.get("colour") or INK
+	ink = readable(colour)
 	e = lambda value: escape_html(str(value or ""))  # noqa: E731
+	f = _facts(details, shown)
+	has_logo = bool(details.get("logo"))
+	# The name beside the logo only when ticked: a logo usually says it.
+	name = e(details.get("name")) if "name" in shown or not has_logo else ""
+	reach = [f[key] for key in REACH if f[key]]
+	tax = f"{f['tax_label']} {f['tax_id']}" if f["tax_id"] else ""
+	rule = (
+		f'<div style="height:2px;background:{colour};margin-top:16px;{EXACT}"></div>'
+		if said["line"]
+		else '<div style="height:20px"></div>'
+	)
 
-	def logo(align: str = "left") -> str:
-		if not details.get("logo"):
+	def logo(height: int | None = None) -> str:
+		if not has_logo:
 			return ""
-		height = said["logo_height"]
-		# Its width said outright: a printed page sizes a picture in a table cell
-		# to the cell, not to the picture.
+		height = height or said["logo_height"]
+		# Its width said outright: a printed page sizes a picture to its box.
 		ratio = _ratio(details["logo"])
 		width = f"width:{round(height * ratio)}px;" if ratio else "width:auto;"
 		return (
 			f'<img src="{e(details["logo"])}" alt="{e(details.get("name"))}" '
-			f'style="height:{height}px;{width}max-width:100%;display:inline-block">'
+			f'style="height:{height}px;{width}max-width:100%;display:inline-block;vertical-align:middle">'
 		)
 
-	name = e(details.get("name")) if "name" in shown else ""
-	address = [e(one) for one in details.get("address") or []] if "address" in shown else []
-	# The tax ID on a line of its own: beside the contacts it wraps.
-	tax = f"{e(_('Tax ID'))} {e(details['tax_id'])}" if "tax_id" in shown and details.get("tax_id") else ""
-	small = f"font-size:11px;line-height:1.5;color:{MUTED};"
-	rule = (
-		f'<div style="height:2px;background:{colour};margin-top:12px;{EXACT}"></div>' if said["line"] else ""
-	)
-
-	# Each detail after its icon in the colour: the contacts on one line, kept
-	# whole each, the address and the tax ID each on theirs.
-	def icon(name: str, tint: str | None = None) -> str:
+	def monogram(box: int = 44) -> str:
+		"""The company's initials on its colour, and its name beside them."""
 		return (
-			f'<img src="{_icon(name, tint or colour)}" alt="" '
-			'style="width:11px;height:11px;display:inline-block;vertical-align:-1px;margin-right:4px">'
-		)
-
-	# The room between contacts is before each one after the first, not after
-	# it: a line that wraps then ends on a contact rather than on a gap, so a
-	# right-aligned column keeps one edge.
-	contacts = [
-		f'<span style="white-space:nowrap;display:inline-block;{"margin-left:12px" if n else ""}">'
-		f"{icon(glyph)}{e(details.get(key))}</span>"
-		for n, (key, glyph) in enumerate(
-			(key, glyph) for key, glyph in CONTACTS if key in shown and details.get(key)
-		)
-	]
-	reach = "".join(contacts)
-	taxed = f"{icon('receipt')}{tax}" if tax else ""
-	where = f"{icon('map-pin')}{', '.join(address)}" if address else ""
-
-	preset = said["preset"]
-	if preset == "logo":
-		return f'<div style="text-align:{said["align"]}">{logo()}</div>{rule}'
-
-	if preset == "centred":
-		return (
-			'<div style="text-align:center">'
-			+ (f"<div>{logo()}</div>" if details.get("logo") else "")
+			'<div style="display:inline-table">'
+			+ _cell(
+				f'<div style="width:{box}px;height:{box}px;border-radius:{round(box * 0.22)}px;background:{colour};'
+				f"color:{on(colour)};font-size:{round(box * 0.38)}px;font-weight:700;line-height:{box}px;"
+				f'text-align:center;{EXACT}">{e(initials(details.get("name")))}</div>',
+				"vertical-align:middle",
+			)
 			+ (
-				f'<div style="font-size:18px;font-weight:700;color:{colour};margin-top:8px">{name}</div>'
+				_cell(
+					name,
+					f"vertical-align:middle;padding-left:12px;font-size:{15 if box > 32 else 13}px;"
+					"font-weight:600;letter-spacing:-0.01em;color:#111827;text-align:left",
+				)
 				if name
 				else ""
 			)
-			+ (f'<div style="{small}">{where}</div>' if where else "")
-			+ (f'<div style="{small}">{reach}</div>' if reach else "")
-			+ (f'<div style="{small}">{taxed}</div>' if taxed else "")
 			+ "</div>"
+		)
+
+	def identity(box: int = 44, height: int | None = None) -> str:
+		"""The logo, with the name under it when ticked, or the monogram."""
+		if not has_logo:
+			return monogram(box)
+		return logo(height) + (
+			f'<div style="font-size:11px;font-weight:600;color:#111827;margin-top:8px">{name}</div>' if name else ""
+		)
+
+	def fact(label: str, body: str, tinted: bool = False, style: str = "") -> str:
+		return (
+			_cell(_label(label, ink if tinted else None) + f'<div style="{SMALL}color:#374151">{body}</div>', style)
+			if body
+			else ""
+		)
+
+	where = _lines(f["street"], f["locality"])
+	preset = said["preset"]
+
+	if preset == "logo":
+		return f'<div style="text-align:{said["align"]}">{identity()}</div>{rule}'
+
+	if preset == "details":
+		# Columns: the identity left; the address and how to reach the company
+		# in columns at right, each under a quiet label.
+		columns = fact(_("Address"), where, style="vertical-align:top;padding-left:26px") + fact(
+			_("Contact"), _lines(*reach), style="vertical-align:top;padding-left:26px;white-space:nowrap"
+		) + fact(f["tax_label"], f["tax_id"], style="vertical-align:top;padding-left:26px;white-space:nowrap")
+		return (
+			_row(
+				_cell(identity(), "vertical-align:top"),
+				_cell(f'<div style="display:inline-table;text-align:left">{columns}</div>', "vertical-align:top;text-align:right"),
+			)
 			+ rule
 		)
 
-	if preset == "banner":
+	if preset == "ledger":
+		# The identity left; the facts two by two at right, under labels in the colour.
+		cells = [
+			one
+			for one in (
+				fact(_("Address"), where, True, "vertical-align:top;padding:0 0 8px 24px"),
+				fact(_("Phone"), f["phone"], True, "vertical-align:top;padding:0 0 8px 24px;white-space:nowrap"),
+				fact(_("Email"), f["email"], True, "vertical-align:top;padding:0 0 8px 24px;white-space:nowrap"),
+				fact(f["tax_label"], f["tax_id"], True, "vertical-align:top;padding:0 0 8px 24px;white-space:nowrap"),
+			)
+			if one
+		]
+		grid = "".join(
+			f'<div style="display:table-row">{"".join(cells[n : n + 2])}</div>' for n in range(0, len(cells), 2)
+		)
 		return (
-			f'<div style="background:{colour};color:#ffffff;padding:16px 20px;border-radius:6px;{EXACT}">'
-			'<div style="display:table;width:100%">'
-			f'<div style="display:table-cell;vertical-align:middle;text-align:left">{logo()}</div>'
-			'<div style="display:table-cell;vertical-align:middle;text-align:right">'
-			+ (f'<div style="font-size:20px;font-weight:700">{name}</div>' if name else "")
+			_row(
+				_cell(identity(), "vertical-align:middle"),
+				_cell(f'<div style="display:inline-table;text-align:left">{grid}</div>', "vertical-align:middle;text-align:right"),
+			)
+			+ rule
+		)
+
+	if preset == "strip":
+		# The identity on its own, then every fact in a strip across the page.
+		strip = (
+			fact(_("Address"), where, style="vertical-align:top;padding-right:14px;width:34%")
+			+ fact(_("Phone"), f["phone"], style="vertical-align:top;padding-right:14px;white-space:nowrap")
+			+ fact(_("Email"), f["email"], style="vertical-align:top;padding-right:14px;white-space:nowrap")
+			+ fact(_("Web"), f["website"], style="vertical-align:top;padding-right:14px;white-space:nowrap")
+			+ fact(f["tax_label"], f["tax_id"], style="vertical-align:top;white-space:nowrap")
+		)
+		return (
+			f"<div>{identity()}</div>"
 			+ (
-				f'<div style="font-size:11px;opacity:0.85">{icon("map-pin", "#ffffff")}{", ".join(address)}</div>'
-				if address
+				f'<div style="margin-top:18px;padding:10px 0;border-top:1px solid {FAINT};border-bottom:1px solid {FAINT}">'
+				f"{_row(strip)}</div>"
+				if strip
 				else ""
 			)
-			+ "</div></div></div>"
+			+ rule
+		)
+
+	if preset == "masthead":
+		# The identity centred over three equal columns of facts.
+		columns = [
+			(_("Address"), where),
+			(_("Contact"), _lines(f["phone"], f["email"])),
+			(f["tax_label"] if f["tax_id"] else _("Web"), _lines(f["tax_id"], f["website"])),
+		]
+		cells = "".join(
+			_cell(_label(label, ink) + f'<div style="{SMALL}">{body}</div>', "vertical-align:top;text-align:center")
+			for label, body in columns
+			if body
+		)
+		return (
+			f'<div style="text-align:center;margin-bottom:16px">{identity()}</div>'
 			+ (
-				f'<div style="{small}text-align:right;margin-top:6px">'
-				+ "<br>".join(one for one in (reach, taxed) if one)
-				+ "</div>"
-				if reach or taxed
+				f'<div style="border-top:1px solid {FAINT};padding-top:12px">{_row(cells, style="table-layout:fixed")}</div>'
+				if cells
 				else ""
 			)
+			+ rule
+		)
+
+	if preset == "centred":
+		return (
+			f'<div style="text-align:center"><div>{identity()}</div>'
+			f'<div style="{SMALL}margin-top:10px">{_lines(DOT.join(one for one in (f["street"], f["locality"]) if one), DOT.join([*reach, tax] if tax else reach))}</div>'
+			"</div>" + rule
+		)
+
+	if preset == "window":
+		# Everything at top right, the left free for the address a letter goes to.
+		return (
+			f'<div style="text-align:right"><div>{identity(36, 40)}</div>'
+			f'<div style="{SMALL}margin-top:10px">{_lines(f["street"], f["locality"], DOT.join(reach), tax)}</div>'
+			"</div>" + rule
+		)
+
+	if preset == "accent":
+		# A short bar in the colour over the identity; the facts in two columns at right.
+		bar = f'<div style="width:36px;height:4px;border-radius:2px;background:{colour};margin-bottom:14px;{EXACT}"></div>'
+		right = (
+			_cell(f'<div style="{SMALL}">{where}</div>', "vertical-align:bottom;text-align:right")
+			+ _cell(
+				f'<div style="{SMALL}">{_lines(*reach, tax)}</div>',
+				"vertical-align:bottom;text-align:right;padding-left:24px;white-space:nowrap;width:1%",
+			)
+		)
+		return (
+			_row(
+				_cell(bar + identity(), "vertical-align:bottom"),
+				_cell(_row(right), "vertical-align:bottom;width:62%"),
+			)
+			+ rule
+		)
+
+	if preset == "wordmark":
+		# The name set large and spaced, or the logo; every fact on one line under it.
+		mark = (
+			logo()
+			if has_logo
+			else f'<div style="font-size:20px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:{ink}">{e(details.get("name"))}</div>'
+		)
+		return (
+			f"<div>{mark}</div>"
+			+ f'<div style="{SMALL}margin-top:10px">{DOT.join(one for one in (f["where"], *reach, tax) if one)}</div>'
 			+ rule
 		)
 
 	if preset == "minimal":
-		# The logo, when there is one, beside the name, both over a line in the colour.
-		mark = (
-			f'<span style="display:inline-block;vertical-align:middle;margin-right:10px">{logo()}</span>'
-			if details.get("logo")
-			else ""
-		)
+		# One quiet line: the name or a small logo, and how to reach the company.
+		left = logo(36) if has_logo and not name else f'<span style="font-size:12px;font-weight:600;color:{ink}">{name}</span>'
 		return (
-			f'<div style="display:table;width:100%;{f"border-bottom:2px solid {colour}" if said["line"] else ""}">'
-			'<div style="display:table-cell;vertical-align:bottom;text-align:left;padding-bottom:8px">'
-			+ mark
-			+ (
-				f'<span style="display:inline-block;vertical-align:middle;font-size:18px;font-weight:700;color:{colour}">{name}</span>'
-				if name
-				else ""
+			f'<div style="padding-bottom:10px;{f"border-bottom:1px solid {colour};" if said["line"] else ""}">'
+			+ _row(
+				_cell(left, "vertical-align:baseline"),
+				_cell(f'<span style="{SMALL}">{DOT.join([*reach, tax] if tax else reach)}</span>', "vertical-align:baseline;text-align:right"),
 			)
 			+ "</div>"
-			f'<div style="display:table-cell;vertical-align:bottom;padding-bottom:8px;text-align:right;{small}">'
-			+ "<br>".join(one for one in (where, reach, taxed) if one)
-			+ "</div></div>"
 		)
 
-	if preset == "details":
-		# The logo, and beside it the name with the address under it; how to reach
-		# the company on the right, each line after its icon.
-		def line(glyph: str, text: str) -> str:
-			return (
-				'<div style="display:table;margin-bottom:3px">'
-				'<div style="display:table-cell;width:17px;vertical-align:top;padding-top:2px">'
-				f'<img src="{_icon(glyph, colour)}" alt="" style="width:11px;height:11px;display:block">'
-				f'</div><div style="display:table-cell;vertical-align:top;white-space:nowrap">{text}</div></div>'
-			)
-
-		reached = "".join(
-			line(glyph, e(details.get(key))) for key, glyph in CONTACTS if key in shown and details.get(key)
-		) + (line("receipt", tax) if tax else "")
-		held = (
-			f'<div style="font-size:18px;font-weight:700;color:{colour}">{name}</div>' if name else ""
-		) + (f'<div style="{small}color:#374151;margin-top:2px">{where}</div>' if where else "")
+	if preset == "banner":
+		# Tinted: the company on its Brand Colour's faintest tint.
 		return (
-			'<div style="display:table;width:100%">'
-			'<div style="display:table-cell;vertical-align:middle;text-align:left">'
-			'<div style="display:table">'
-			+ (
-				f'<div style="display:table-cell;vertical-align:middle;padding-right:12px">{logo()}</div>'
-				if details.get("logo")
-				else ""
-			)
-			+ f'<div style="display:table-cell;vertical-align:middle">{held}</div>'
-			"</div></div>"
-			+ (
-				'<div style="display:table-cell;vertical-align:middle;text-align:right">'
-				f'<div style="display:inline-table;text-align:left;{small}color:#374151">{reached}</div></div>'
-				if reached
-				else ""
+			f'<div style="background:{tint(colour)};border-radius:6px;padding:20px 24px;{EXACT}">'
+			+ _row(
+				_cell(identity(), "vertical-align:middle"),
+				_cell(f'<div style="{SMALL}">{_lines(f["street"], f["locality"], DOT.join(reach), tax)}</div>', "vertical-align:middle;text-align:right"),
 			)
 			+ "</div>"
 			+ rule
 		)
 
-	# Classic: the logo on the left, the company on the right, a line under both.
-	left = logo() or (
-		f'<div style="font-size:20px;font-weight:700;color:{colour}">{name}</div>' if name else ""
-	)
-	right = (
-		(
-			f'<div style="font-size:15px;font-weight:700;color:{colour}">{name}</div>'
-			if name and details.get("logo")
-			else ""
+	if preset == "band":
+		# A band in the colour, the name or the logo on it, the facts under it.
+		text = on(colour)
+		mark = (
+			f'<span style="display:inline-block;background:#ffffff;border-radius:6px;padding:6px 10px">{logo(32)}</span>'
+			if has_logo
+			else f'<span style="font-size:16px;font-weight:600;color:{text}">{e(details.get("name"))}</span>'
 		)
-		+ (f"<div>{where}</div>" if where else "")
-		+ (f"<div>{reach}</div>" if reach else "")
-		+ (f"<div>{taxed}</div>" if taxed else "")
-	)
-	# The logo's cell as wide as the logo, in pixels, since frappe holds a letter head
-	# picture to its cell; the company's lines then each stay one line.
-	ratio = _ratio(details["logo"]) if details.get("logo") else None
-	held = (
-		f"width:{round(said['logo_height'] * (ratio or 1)) + 24}px;padding-right:24px;"
-		if details.get("logo")
-		else "width:50%;"
-	)
+		return (
+			f'<div style="background:{colour};border-radius:6px;padding:16px 20px;{EXACT}">'
+			+ _row(
+				_cell(mark, "vertical-align:middle"),
+				_cell(
+					f'<div style="font-size:9.5px;line-height:1.6;color:{text}">{_lines(f["phone"], f["email"])}</div>',
+					"vertical-align:middle;text-align:right",
+				),
+			)
+			+ "</div>"
+			+ f'<div style="{SMALL}margin-top:8px">{DOT.join(one for one in (f["where"], f["website"], tax) if one)}</div>'
+			+ rule
+		)
+
+	# Classic: the identity on the left, the company stacked on the right.
 	return (
-		'<div style="display:table;width:100%">'
-		f'<div style="display:table-cell;vertical-align:middle;text-align:left;{held}">{left}</div>'
-		f'<div style="display:table-cell;vertical-align:middle;text-align:right;{small}color:#374151">{right}</div>'
-		"</div>" + rule
+		_row(
+			_cell(identity(), "vertical-align:middle"),
+			_cell(f'<div style="{SMALL}">{_lines(f["street"], f["locality"], DOT.join(reach), tax)}</div>', "vertical-align:middle;text-align:right"),
+		)
+		+ rule
 	)
 
 
 def draw_foot(raw, details: dict | None = None) -> str:
-	"""A foot's HTML: its preset, from the company, showing what was ticked on one
-	line, with the note under it when there is one."""
+	"""A foot's HTML: its preset, from the company, showing what was ticked,
+	with the note under it when there is one."""
 	said = foot_settings(raw)
 	details = details or company()
 	shown = set(said["show"])
 	colour = details.get("colour") or INK
 	e = lambda value: escape_html(str(value or ""))  # noqa: E731
-	small = f"font-size:10px;line-height:1.6;color:{MUTED};"
-	gap = '<span style="display:inline-block;width:14px"></span>'
+	f = _facts(details, shown)
+	small = f"font-size:8.5px;line-height:1.6;color:{MUTED};"
 
-	def icon(name: str, tint: str | None = None) -> str:
-		return (
-			f'<img src="{_icon(name, tint or colour)}" alt="" '
-			'style="width:10px;height:10px;display:inline-block;vertical-align:-1px;margin-right:4px">'
-		)
-
-	def item(glyph: str, text: str, tint: str | None = None) -> str:
-		return f'<span style="white-space:nowrap">{icon(glyph, tint)}{text}</span>'
-
-	def mark() -> str:
-		if "logo" not in shown or not details.get("logo"):
+	def mark(always: bool = False, height: int = FOOT_LOGO) -> str:
+		if not details.get("logo") or not (always or "logo" in shown):
 			return ""
 		ratio = _ratio(details["logo"])
-		width = f"width:{round(FOOT_LOGO * ratio)}px;" if ratio else "width:auto;"
+		width = f"width:{round(height * ratio)}px;" if ratio else "width:auto;"
 		return (
 			f'<img src="{e(details["logo"])}" alt="{e(details.get("name"))}" '
-			f'style="height:{FOOT_LOGO}px;{width}display:inline-block;vertical-align:middle;margin-right:8px">'
+			f'style="height:{height}px;{width}display:inline-block;vertical-align:middle;margin-right:8px">'
 		)
 
-	def parts(tint: str | None = None) -> tuple[str, list[str]]:
-		"""The name, and everything else in the order it is read."""
-		name = (
-			f'<span style="font-weight:700;color:{tint or INK}">{e(details.get("name"))}</span>'
-			if "name" in shown and details.get("name")
-			else ""
-		)
-		address = details.get("address") or []
-		rest = [item("map-pin", e(", ".join(address)), tint)] if "address" in shown and address else []
-		rest += [
-			item(glyph, e(details.get(key)), tint)
-			for key, glyph in CONTACTS
-			if key in shown and details.get(key)
-		]
-		if "tax_id" in shown and details.get("tax_id"):
-			rest.append(item("receipt", f"{e(_('Tax ID'))} {e(details['tax_id'])}", tint))
-		return name, rest
+	name = (
+		f'<span style="font-weight:600;color:#374151">{e(details.get("name"))}</span>'
+		if "name" in shown and details.get("name")
+		else ""
+	)
+	reach = [f[key] for key in REACH if f[key]]
+	tax = f"{f['tax_label']} {f['tax_id']}" if f["tax_id"] else ""
+	everything = [one for one in (name, f["where"], *reach, tax) if one]
 
 	def note(align: str) -> str:
 		if not said["note"]:
 			return ""
-		return (
-			f'<div style="margin-top:4px;text-align:{align};{small}font-style:italic">{e(said["note"])}</div>'
-		)
+		return f'<div style="margin-top:3px;text-align:{align};{small}color:#9ca3af">{e(said["note"])}</div>'
 
 	rule = (
-		f'<div style="height:2px;background:{colour};margin-bottom:8px;{EXACT}"></div>'
+		f'<div style="height:1px;background:{colour};margin-bottom:8px;{EXACT}"></div>'
 		if said["line"]
 		else ""
 	)
-	middle = '<span style="display:inline-block;vertical-align:middle">'
 
 	preset = said["preset"]
 	if preset == "band":
-		name, rest = parts("#ffffff")
-		line = gap.join(one for one in (name, *rest) if one)
-		band = (mark() + f"{middle}{line}</span>") if (line or mark()) else ""
+		# Tinted: the line on the Brand Colour's faintest tint.
 		return (
-			rule
-			+ (
-				f'<div style="background:{colour};color:#ffffff;padding:8px 16px;border-radius:4px;'
-				f'text-align:center;font-size:10px;line-height:1.6;{EXACT}">{band}</div>'
-				if band
-				else ""
-			)
+			f'<div style="background:{tint(colour)};border-radius:4px;padding:8px 14px;text-align:center;{small}{EXACT}">'
+			f"{DOT.join(everything)}</div>"
+			+ (f'<div style="height:2px;background:{colour};margin-top:6px;{EXACT}"></div>' if said["line"] else "")
 			+ note("center")
 		)
 
-	name, rest = parts()
 	if preset == "split":
-		# The logo and the name on the left; the rest on one line on the right.
+		# Who the company is on the left; how to reach it on the right.
+		left = [one for one in (name, f["where"]) if one] or everything[:1]
+		right = [one for one in everything if one not in left]
 		return (
-			rule + f'<div style="display:table;width:100%;{small}color:#374151">'
-			f'<div style="display:table-cell;vertical-align:middle;text-align:left;white-space:nowrap">'
-			f"{mark()}{middle}{name}</span></div>"
-			f'<div style="display:table-cell;vertical-align:middle;text-align:right">{gap.join(rest)}</div>'
-			"</div>" + note("left")
+			rule
+			+ _row(
+				_cell(mark() + DOT.join(left), "vertical-align:middle;text-align:left"),
+				_cell(DOT.join(right), "vertical-align:middle;text-align:right"),
+				style=small,
+			)
+			+ note("left")
 		)
 
 	if preset == "above":
-		# The logo centred on its own, and the line under it.
-		line = gap.join(one for one in (name, *rest) if one)
+		# The logo centred on its own over the line, whether or not it was ticked.
 		return (
-			rule
-			+ (f'<div style="text-align:center;margin-bottom:4px">{mark()}</div>' if mark() else "")
-			+ f'<div style="text-align:center;{small}color:#374151">{line}</div>'
+			(f'<div style="text-align:center;margin-bottom:6px">{mark(always=True)}</div>' if details.get("logo") else "")
+			+ rule
+			+ f'<div style="text-align:center;{small}">{DOT.join(everything)}</div>'
 			+ note("center")
 		)
 
 	if preset == "spread":
-		# The logo and name, then each detail, each in an equal share of the width:
-		# the first against the left edge, the last against the right, and the
-		# rest centred in theirs, so with three the middle one is the page's centre.
-		items = [one for one in (f"{mark()}{middle}{name}</span>" if (mark() or name) else "", *rest) if one]
+		# Each detail in an equal share of the width: the first against the left
+		# edge, the last against the right, the rest centred in theirs. The name,
+		# with the logo, takes two shares, so it stays on one line.
+		named = (mark() + name) if (mark() or name) else ""
+		items = [one for one in (named, f["where"], *reach, tax) if one]
 		last = len(items) - 1
-		share = f"{100 / len(items):.4f}%" if items else "100%"
+		shares = len(items) + (1 if named else 0)
+		share = lambda n: f"{100 * (2 if named and n == 0 else 1) / shares:.4f}%"  # noqa: E731
 		return (
 			rule
-			+ f'<div style="display:table;table-layout:fixed;width:100%;{small}color:#374151">'
-			+ "".join(
-				f'<div style="display:table-cell;width:{share};vertical-align:middle;'
-				f'text-align:{"left" if n == 0 else "right" if n == last else "center"}">{one}</div>'
-				for n, one in enumerate(items)
+			+ _row(
+				*(
+					_cell(
+						one,
+						f"width:{share(n)};vertical-align:middle;white-space:nowrap;"
+						f"text-align:{'left' if n == 0 else 'right' if n == last else 'center'}",
+					)
+					for n, one in enumerate(items)
+				),
+				style=f"table-layout:fixed;{small}",
 			)
+			+ note("center")
+		)
+
+	if preset == "strip":
+		# Fact Strip: each fact in a column under its quiet label.
+		def fact(label: str, body: str, keep: bool = True) -> str:
+			return (
+				_cell(_label(label) + f"<div>{body}</div>", "vertical-align:top;padding-right:18px;" + ("white-space:nowrap;width:1%" if keep else ""))
+				if body
+				else ""
+			)
+
+		cells = (
+			fact(_("Company"), e(details.get("name")) if "name" in shown else "")
+			+ fact(_("Address"), _lines(f["street"], f["locality"]), keep=False)
+			+ fact(_("Contact"), _lines(*reach))
+			+ fact(f["tax_label"], f["tax_id"])
+		)
+		return (
+			f'<div style="border-top:1px solid {colour if said["line"] else FAINT};padding-top:10px;{EXACT}">'
+			+ _row(cells, style=small)
+			+ "</div>"
+			+ note("left")
+		)
+
+	if preset == "legal":
+		# Who the company is, where it is registered and its tax number, centred.
+		return (
+			rule
+			+ f'<div style="text-align:center;{small}">'
+			+ (f"<div>{name}</div>" if name else "")
+			+ _lines(DOT.join(one for one in (f["where"], tax) if one), DOT.join(reach))
 			+ "</div>"
 			+ note("center")
 		)
 
-	# Centred: the logo, the name and the rest on one line.
-	line = gap.join(one for one in (name, *rest) if one)
-	return (
-		rule
-		+ f'<div style="text-align:center;{small}color:#374151">{mark()}{middle}{line}</span></div>'
-		+ note("center")
-	)
+	if preset == "accent":
+		# A short bar in the colour over one centred line.
+		return (
+			f'<div style="width:28px;height:3px;border-radius:2px;background:{colour};margin:0 auto 8px;{EXACT}"></div>'
+			+ f'<div style="text-align:center;{small}">{DOT.join(everything)}</div>'
+			+ note("center")
+		)
+
+	if preset == "corner":
+		# The logo or the name in the left corner, the rest on the right.
+		left = mark(always=True, height=22) or (
+			f'<span style="font-weight:600;color:#374151">{e(details.get("name"))}</span>'
+		)
+		return (
+			rule
+			+ _row(
+				_cell(left, "vertical-align:middle"),
+				_cell(DOT.join(one for one in (f["where"], *reach, tax) if one), "vertical-align:middle;text-align:right"),
+				style=small,
+			)
+			+ note("left")
+		)
+
+	# Centred: everything ticked on one line, joined by dots.
+	return rule + f'<div style="text-align:center;{small}">{mark()}{DOT.join(everything)}</div>' + note("center")
 
 
 #: Lucide, as frappe ships it to the desk.

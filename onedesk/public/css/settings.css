@@ -547,47 +547,53 @@
 	margin-bottom: calc(var(--spacing) * 2);
 }
 
-/* The letter head window's presets: each top as it prints, the chosen one marked. */
-.one-lh-presets {
+/* The letter head window: the ways to lay it out and their options on the
+   left, the page on the right at the size it reads. */
+.one-lh-studio {
 	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
-	gap: calc(var(--spacing) * 3);
+	grid-template-columns: 260px minmax(0, 1fr);
+	gap: calc(var(--spacing) * 5);
+	align-items: start;
+}
+
+.one-lh-stage {
+	position: sticky;
+	top: 0;
+}
+
+.one-lh-stage .one-letter-head-sheet {
+	height: 460px;
+	margin-bottom: 0;
+}
+
+/* Each way by name, the chosen one marked. */
+.one-lh-presets {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
 	margin-bottom: calc(var(--spacing) * 3);
 }
 
 .one-lh-preset {
-	display: flex;
-	flex-direction: column;
-	gap: calc(var(--spacing) * 1.5);
-	padding: calc(var(--spacing) * 2);
-	border: 1px solid var(--outline-gray-2);
-	border-radius: var(--radius-lg);
-	background: var(--surface-base);
+	padding: calc(var(--spacing) * 1.5) calc(var(--spacing) * 2.5);
+	border: 0;
+	border-radius: var(--radius);
+	background: transparent;
+	font-size: var(--text-base);
+	color: var(--ink-gray-8);
 	text-align: left;
 	cursor: pointer;
 }
 
 .one-lh-preset:hover {
-	border-color: var(--outline-gray-3);
+	background: var(--surface-gray-2);
 }
 
-.one-lh-preset--chosen {
-	border-color: var(--outline-gray-5);
-	outline: 1px solid var(--outline-gray-5);
-}
-
-.one-lh-preset__page {
-	width: 100%;
-	height: 48px;
-	border: 0;
-	border-radius: var(--radius);
-	background: var(--surface-base);
-	pointer-events: none;
-}
-
-.one-lh-preset__label {
-	font-size: var(--text-sm);
-	color: var(--ink-gray-8);
+.one-lh-preset--chosen,
+.one-lh-preset--chosen:hover {
+	background: var(--surface-gray-3);
+	color: var(--ink-gray-9);
+	font-weight: 500;
 }
 
 /* Workspace › Printing: the Settings dialog's Print Formats cards on the page. A

@@ -29,15 +29,32 @@ def _body(name: str) -> str:
 def test_every_preset_is_drawn():
 	draw = _body("draw")
 	presets = _keys("PRESETS")
-	assert presets == ["classic", "centred", "banner", "minimal", "details", "logo"]
+	assert presets == [
+		"classic",
+		"details",
+		"ledger",
+		"strip",
+		"masthead",
+		"centred",
+		"window",
+		"accent",
+		"wordmark",
+		"minimal",
+		"banner",
+		"band",
+		"logo",
+	]
 	for preset in presets[1:]:
 		assert f'preset == "{preset}"' in draw, preset
 
 
 def test_what_the_company_says_is_escaped():
 	draw = _body("draw")
-	for key in ("name", "logo", "tax_id"):
-		assert f'details.get("{key}")' in draw or f'details["{key}"]' in draw, key
+	for key in ("name", "logo"):
+		assert f'e(details.get("{key}"))' in draw or f'e(details["{key}"])' in draw, key
+	# Every other fact is escaped once, in _facts.
+	facts = _body("_facts")
+	assert "escape_html" in facts and 'e(details.get("tax_id"))' in facts and "e(details.get(key))" in facts
 	assert "COLOUR.match" in _body("company")
 
 
@@ -86,7 +103,7 @@ def test_every_foot_is_drawn_and_carries_no_page_number():
 	"""The page number is the print format's own (Print Format's page_number),
 	which frappe draws on every page; a foot that drew one too would print it twice."""
 	feet = _keys("FEET")
-	assert feet == ["centred", "split", "band", "above", "spread"]
+	assert feet == ["centred", "split", "strip", "legal", "accent", "corner", "spread", "above", "band"]
 	draw_foot = _body("draw_foot")
 	for preset in feet[1:]:
 		assert f'preset == "{preset}"' in draw_foot, preset
@@ -112,7 +129,7 @@ def test_the_foot_is_drawn_kept_and_filtered_as_the_top_is():
 
 def test_a_foot_is_one_quiet_line_that_may_carry_the_logo():
 	source = SOURCE.split("FOOT_FIRST = ", 1)[1].split("\n", 1)[0]
-	assert source == '("website", "tax_id")'
+	assert source == '("phone", "website", "tax_id")'
 	assert '"logo"' in SOURCE.split("FOOT_SHOWN = ", 1)[1].split("\n", 1)[0]
 	assert "_ratio(" in _body("draw_foot")
 
@@ -149,17 +166,26 @@ def test_icons_by_name_in_html_written_by_hand():
 	assert "_known(name)" in _body("icons_in")
 
 
-def test_the_company_reads_as_three_lines_with_one_edge():
-	"""The address on one line and the contacts on one line, in every preset;
-	the room between contacts before each, so a wrapped line ends on a contact
-	and a right-aligned column keeps one edge."""
-	draw = SOURCE.split("def draw(", 1)[1].split("\ndef ", 1)[0]
-	assert "enumerate(address)" not in draw, "Classic printed the address a line at a time"
-	assert '"margin-left:12px" if n else ""' in draw
-	assert "gap.join(contacts)" not in draw
-	# Classic's logo cell is as wide as the logo, in pixels: frappe's print style
-	# holds letter head pictures to their cell.
-	assert "* (ratio or 1)) + 24}px" in draw
+def test_the_company_reads_quietly():
+	"""The address on two lines, how to reach the company joined by dots, the
+	logo as wide as it is drawn; the Brand Colour as text only where it still
+	reads, and the name beside a logo only when ticked."""
+	draw = _body("draw")
+	assert '_lines(f["street"], f["locality"]' in draw and "DOT.join(reach)" in draw
+	assert "ratio = _ratio(" in draw
+	assert "ink = readable(colour)" in draw
+	assert '"name" in shown or not has_logo' in draw
+	assert '"name"' not in SOURCE.split("SHOWN_FIRST = ", 1)[1].split("\n", 1)[0]
+
+
+def test_a_company_with_no_logo_has_a_mark():
+	assert "initials(" in _body("draw") and "def monogram(" in _body("draw")
+
+
+def test_the_line_is_asked_for():
+	"""Off unless ticked: the room under a top sets it apart."""
+	assert 'cint(said.get("line", 0))' in _body("settings")
+	assert 'cint(said.get("line", 0))' in _body("foot_settings")
 
 
 def test_one_that_came_with_an_app_is_never_saved():

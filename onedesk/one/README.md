@@ -952,29 +952,42 @@ and only formats for record types they can open.
 
 A letter head is the header and footer of every printed page. Each letter head
 shows as a card with a full page, as it prints. The star makes one the
-default. Click a card to open it. The letter head window shows the whole page
-at the top, with **Header** and **Footer** tabs below.
+default. Click a card to open it. The letter head window has **Header** and
+**Footer** tabs on the left, each a list of presets with its options under
+it, and the page on the right. Pointing at a preset shows it on the page;
+clicking keeps it.
 
-The header uses one of six presets, filled in from Workspace › General:
+The header uses one of thirteen presets, filled in from Workspace › General:
 
-- **Classic**: the logo on the left, the company on the right.
+- **Classic**: the logo on the left, the company stacked on the right.
+- **Columns**: the logo on the left; the address and contacts in columns
+  under small grey labels.
+- **Ledger**: the logo on the left; address, phone, email and tax number two
+  by two under labels in the Brand Colour.
+- **Strip**: the logo on its own, then every detail in a labelled row across
+  the page.
+- **Masthead**: the logo centred over three columns.
 - **Centred**
-- **Banner**: a band in the Brand Colour.
-- **Minimal**: the logo and name above a line.
-- **Logo and Details**: the logo with the name and address beside it, and the
-  contacts on the right.
+- **Window**: everything top right, leaving the left free for the address a
+  letter goes to.
+- **Accent**: a short bar in the Brand Colour over the logo.
+- **Wordmark**: with no logo, the name in large spaced capitals.
+- **Minimal**: the name and contacts on one line.
+- **Tinted**: the company on a faint tint of the Brand Colour.
+- **Band**: a band in the Brand Colour, the name or the logo on it.
 - **Logo Only**
 
-Presets that show company details put a small icon in the Brand Colour before
-each one. The tax ID always prints on its own line.
+A company with no logo shows its initials on the Brand Colour beside its
+name. The name isn't repeated beside a logo unless **Name** is ticked, for a
+logo that is only a symbol. A light Brand Colour is darkened wherever it is
+text, so it still reads; lines and bands keep it as it is. A UAE company's
+tax number is its **TRN**.
 
-The Header tab previews each preset with the company's own name, logo,
-address, contacts and colour. Pick one, then:
+Under the presets:
 
 - tick what it should **Show** (name, address, phone, email, website, tax ID)
 - set the **Logo Height**
-- turn off the **Brand Line**, the line in the Brand Colour under the header,
-  if you like
+- turn on the **Brand Line**, a line in the Brand Colour under the header
 
 When you change any of these details in General, including the Brand Colour,
 every preset header and footer updates.
@@ -983,21 +996,23 @@ every preset header and footer updates.
 instead, where the header and footer are each an image or HTML. A header or
 footer edited there stays as written. Choosing a preset again replaces it.
 
-The footer uses one of five presets. Each is a single line, since the header
-already shows the rest:
+The footer uses one of nine presets:
 
-- **Centred**
-- **Two Sides**: the logo and name on the left, the rest on the right.
-- **Band**: the line in a band of the Brand Colour.
+- **Centred**: one line.
+- **Two Sides**: the name and address on the left, the rest on the right.
+- **Fact Strip**: each detail in a column under a small label.
+- **Legal**: the name, address and tax number centred, contacts under them.
+- **Accent**: a short bar in the Brand Colour over one line.
+- **Corner**: the logo or the name on the left, the rest on the right.
+- **Spread**: each detail in an equal share of the width.
 - **Logo Above**: the logo centred above the line.
-- **Spread**: each detail in an equal share of the width, from the left edge
-  to the right edge.
+- **Tinted**: the line on a faint tint of the Brand Colour.
 - **None**
 
-Each footer can have a Brand Line or not. A new footer shows the website and
-tax ID. Tick what else to **Show**, including the **Logo** (a small mark at
-the start of the line), and add a **Note** of your own, such as "Thank you for
-your business." A new letter head starts with the Centred footer.
+A new footer shows the phone, website and tax number. Tick what else to
+**Show**, including the **Logo**, add a **Note** of your own, such as "Thank
+you for your business.", and turn on its **Brand Line** if you like. A new
+letter head starts with the Centred footer.
 
 The page number isn't part of the footer. It's part of the print format (Page
 Number, in the builder), and frappe prints it on every page.

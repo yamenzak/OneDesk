@@ -2219,12 +2219,12 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		// The top's preset, or null when it was written by hand.
 		const kept = one && one.one_top ? frappe.utils.parse_json(one.one_top) : null;
 		let preset = one ? (kept && kept.preset) || null : "classic";
-		const shows = (kept && kept.show) || ["name", "address", "phone", "email", "website"];
+		const shows = (kept && kept.show) || ["address", "phone", "email", "website"];
 		// The foot's preset; null when it was written by hand, "none" when there is none.
 		const kept_foot = one && one.one_foot ? frappe.utils.parse_json(one.one_foot) : null;
 		let foot = one ? (kept_foot && kept_foot.preset) || (one.footer ? null : "none") : "centred";
 		// A foot is one quiet line: the top already says the rest.
-		const foot_shows = (kept_foot && kept_foot.show) || ["website", "tax_id"];
+		const foot_shows = (kept_foot && kept_foot.show) || ["phone", "website", "tax_id"];
 		const SHOWN = [
 			["name", __("Name")],
 			["address", __("Address")],
@@ -2237,12 +2237,13 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const frame = Settings.frame;
 		const dialog = new frappe.ui.Dialog({
 			title: one ? one.name : __("New Letter Head"),
-			size: theirs ? "" : "large",
+			size: theirs ? "" : "extra-large",
 			fields: [
 				...(theirs ? [{ fieldtype: "HTML", fieldname: "theirs", options: frappe.ui.alert.html({ title: __("A standard letter head can only be set as default or disabled."), theme: "gray" }) }] : []),
 				{ fieldtype: "Data", fieldname: "letter_head_name", label: __("Name"), reqd: 1, hidden: one ? 1 : 0 },
+				// The ways to lay it out and their options on the left, the page on the right.
 				{ fieldtype: "HTML", fieldname: "preview" },
-				...(theirs ? [] : [{ fieldtype: "HTML", fieldname: "parts" }, { fieldtype: "Section Break" }]),
+				{ fieldtype: "Section Break" },
 				{ fieldtype: "Check", fieldname: "is_default", label: __("Default"), description: __("Printed on a document unless another is chosen.") },
 				{ fieldtype: "Check", fieldname: "disabled", label: __("Disabled") },
 			],
@@ -2281,14 +2282,13 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 						fieldtype: "MultiCheck",
 						fieldname: "show",
 						label: __("Show"),
-						columns: 3,
+						columns: 2,
 						sort_options: false,
 						options: SHOWN.map(([value, label]) => ({ value, label, checked: shows.includes(value) ? 1 : 0 })),
 						on_change: () => drawn(),
 					},
 					{ fieldtype: "Int", fieldname: "logo_height", label: __("Logo Height"), description: __("In pixels."), default: (kept && kept.logo_height) || 60, change: () => drawn() },
-					{ fieldtype: "Column Break" },
-					{ fieldtype: "Check", fieldname: "line", label: __("Brand Line"), description: __("A line in the Brand Colour under the header."), default: kept && kept.line === 0 ? 0 : 1, change: () => drawn() },
+					{ fieldtype: "Check", fieldname: "line", label: __("Brand Line"), description: __("A line in the Brand Colour under the header."), default: kept && kept.line ? 1 : 0, change: () => drawn() },
 					{ fieldtype: "Select", fieldname: "align", label: __("Logo Alignment"), options: [{ value: "left", label: __("Left") }, { value: "center", label: __("Centre") }, { value: "right", label: __("Right") }], default: (kept && kept.align) || "left", change: () => drawn() },
 					{ fieldtype: "HTML", fieldname: "from_general", options: `<p class="text-muted small">${esc(__("The name, logo, address, contacts and colour come from Workspace › General."))}</p>` },
 				]);
@@ -2301,14 +2301,13 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 						fieldtype: "MultiCheck",
 						fieldname: "foot_show",
 						label: __("Show"),
-						columns: 3,
+						columns: 2,
 						sort_options: false,
 						options: [["logo", __("Logo")], ...SHOWN].map(([value, label]) => ({ value, label, checked: foot_shows.includes(value) ? 1 : 0 })),
 						on_change: () => drawn(),
 					},
 					{ fieldtype: "Data", fieldname: "foot_note", label: __("Note"), description: __("For example, a thank-you line."), default: (kept_foot && kept_foot.note) || "", change: () => drawn() },
-					{ fieldtype: "Column Break" },
-					{ fieldtype: "Check", fieldname: "foot_line", label: __("Brand Line"), description: __("A line in the Brand Colour over the footer."), default: kept_foot && kept_foot.line === 0 ? 0 : 1, change: () => drawn() },
+					{ fieldtype: "Check", fieldname: "foot_line", label: __("Brand Line"), description: __("A line in the Brand Colour over the footer."), default: kept_foot && kept_foot.line ? 1 : 0, change: () => drawn() },
 				]);
 		const part = (fieldname) => (top_part.fields_dict[fieldname] ? top_part : foot_part);
 		const parts = theirs
@@ -2325,7 +2324,9 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					{ label: __("Footer"), content: $(foot_part.body)[0] },
 				],
 			});
-			dialog.get_field("parts").$wrapper.empty().append(tabs.$el);
+			const $studio = $(`<div class="one-lh-studio"><div class="one-lh-side"></div><div class="one-lh-stage"></div></div>`);
+			$studio.find(".one-lh-side").append(tabs.$el);
+			dialog.get_field("preview").$wrapper.empty().append($studio);
 		}
 		const settings = () => ({
 			preset,
@@ -2345,9 +2346,12 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			const chosen = drawn_feet.find((d) => d.preset === foot);
 			return chosen ? chosen.html : (one && one.drawn_foot) || "";
 		};
-		const show_preview = (top) => {
-			const field = dialog.get_field("preview");
-			field.$wrapper.empty().append(frame(page(top, foot_html(), 0.95), "one-letter-head-sheet"));
+		// The page, at the size it reads: under the list, or beside it.
+		const show_preview = (top, bottom = foot_html()) => {
+			const $stage = theirs ? dialog.get_field("preview").$wrapper : dialog.get_field("preview").$wrapper.find(".one-lh-stage");
+			// As wide as the room it has, so the page reads at nearly its printed size.
+			const scale = Math.min(1, (($stage.width() || 600) - 2) / Settings.SHEET);
+			$stage.empty().append(frame(page(top, bottom, scale), "one-letter-head-sheet"));
 		};
 		// Every preset as it prints with the company's details, the chosen one
 		// marked; a top written by hand is shown as it is until one is chosen.
@@ -2356,12 +2360,14 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const cards = () => {
 			const field = parts.get_field("presets");
 			if (!field) return;
+			// Each by name; pointing at one shows it on the page, a click keeps it.
 			const $grid = $(`<div class="one-lh-presets"></div>`);
 			for (const one_preset of drawn_with) {
 				const $card = $(`<button type="button" class="one-lh-preset"></button>`)
 					.toggleClass("one-lh-preset--chosen", one_preset.preset === preset)
-					.append(frame(page(one_preset.html, null, 0.29), "one-lh-preset__page"))
-					.append(`<span class="one-lh-preset__label">${esc(one_preset.label)}</span>`)
+					.text(one_preset.label)
+					.on("mouseenter", () => show_preview(one_preset.html))
+					.on("mouseleave", () => shown())
 					.on("click", () => {
 						preset = one_preset.preset;
 						cards();
@@ -2379,11 +2385,13 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			const field = parts.get_field("feet");
 			if (!field) return;
 			const $grid = $(`<div class="one-lh-presets one-lh-presets--feet"></div>`);
+			const top_now = () => (drawn_with.find((d) => d.preset === preset) || {}).html || (one && one.drawn_top);
 			for (const one_foot of [...drawn_feet, { preset: "none", label: __("None"), html: "" }]) {
 				const $card = $(`<button type="button" class="one-lh-preset"></button>`)
 					.toggleClass("one-lh-preset--chosen", one_foot.preset === foot)
-					.append(frame(page(one_foot.html, null, 0.29), "one-lh-preset__page"))
-					.append(`<span class="one-lh-preset__label">${esc(one_foot.label)}</span>`)
+					.text(one_foot.label)
+					.on("mouseenter", () => show_preview(top_now(), one_foot.html))
+					.on("mouseleave", () => shown())
 					.on("click", () => {
 						foot = one_foot.preset;
 						feet();
