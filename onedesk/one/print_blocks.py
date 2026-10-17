@@ -231,25 +231,27 @@ def _sync_blocks() -> None:
 	folder = Path(frappe.get_app_path("onedesk", "one", "print_format_field_template"))
 	for path in sorted(folder.glob("*/*.json")):
 		import_file_by_path(str(path))
+	# A block a format no longer uses leaves with its file.
+	shipped = {path.parent.name for path in folder.glob("*/*.json")}
+	for name in frappe.get_all("Print Format Field Template", filters={"module": "One", "standard": 1}, pluck="name"):
+		if frappe.scrub(name) not in shipped:
+			frappe.delete_doc("Print Format Field Template", name, ignore_permissions=True, force=True)
 
 
 def one_print_block(doc, block: str) -> dict:
 	"""What one of One's blocks shows for this record, for its template."""
 	shown = {
 		"title": title,
-		"lines": lines,
 		"party": party,
 		"details": details,
 		"totals": totals,
 		"schedule": schedule,
 		"bank": bank,
-		"terms": terms,
 		"payslip": payslip,
 		"payment": payment,
 		"overdue": overdue,
 		"signatures": signatures,
 		"progress": progress,
-		"time": time_billed,
 	}[block](doc)
 	if not shown:
 		return {}
@@ -442,14 +444,6 @@ def _trimmed(html: str | None) -> str | None:
 	return re.sub(r"(\s*<br\s*/?>\s*)+$", "", html or "").strip() or None
 
 
-def terms(doc) -> dict:
-	"""The record's terms, under a heading as the other blocks have."""
-	said = doc.get("terms")
-	if not said or not frappe.utils.strip_html(said).strip():
-		return {}
-	return {"heading": _("Terms"), "text": said}
-
-
 def _moved_to(doc, heading) -> dict:
 	"""Where moved goods are going: the one warehouse its lines go to, with
 	its address when it has one. Goods used up or going several ways have no
@@ -532,60 +526,6 @@ def number(doc, value, currency: str | None = None) -> str:
 
 def _number_format(currency: str | None) -> str | None:
 	return (currency and frappe.get_cached_value("Currency", currency, "number_format")) or None
-
-
-#: What each line of a record that sells or buys says, its columns in order.
-LINE_HEADINGS = {
-	"no": _lt("No"),
-	"item": _lt("Item"),
-	"qty": _lt("Qty"),
-	"rate": _lt("Unit Price"),
-	"net": _lt("Taxable"),
-	"vat": _lt("VAT"),
-	"total": _lt("Amount"),
-}
-
-
-def lines(doc) -> dict:
-	"""Each line: what it is, how many at what price, and, on a taxed record,
-	what it is taxed on, at what rate, the tax, and the line with its tax, as
-	the FTA asks a tax invoice to say each supply (Article 59). The tax is
-	ERPNext's own per line (Item Wise Tax Detail), not worked out again."""
-	items = doc.get("items") or []
-	if not items:
-		return {}
-	taxes: dict = {}
-	for one in doc.get("item_wise_tax_details") or []:
-		rate, amount = taxes.get(one.item_row, (0.0, 0.0))
-		taxes[one.item_row] = (rate + flt(one.rate), amount + flt(one.amount))
-	taxed = any(amount for _rate, amount in taxes.values())
-	rows = []
-	for row in items:
-		rate, tax = taxes.get(row.name, (0.0, 0.0))
-		net = flt(row.get("net_amount")) or flt(row.get("amount"))
-		said = frappe.utils.strip_html(row.get("description") or "").strip()
-		notes = [one for one in (row.get("one_size"), said if said != (row.get("item_name") or "").strip() else "") if one]
-		rows.append(
-			{
-				"no": row.idx,
-				"item": row.get("item_name") or row.get("item_code"),
-				"notes": notes,
-				"qty": frappe.format_value(row.get("qty"), {"fieldtype": "Float"}),
-				"uom": row.get("uom") or "",
-				"rate": number(doc, row.get("rate")),
-				"net": number(doc, net),
-				"vat_rate": f"{rate:g}%" if taxed else "",
-				"vat": number(doc, tax) if taxed else "",
-				"total": number(doc, net + tax if taxed else row.get("amount")),
-			}
-		)
-	return {
-		"taxed": taxed,
-		"rows": rows,
-		"headings": {key: str(label) for key, label in LINE_HEADINGS.items()},
-		"total_heading": str(_("Amount incl. VAT")) if taxed else str(LINE_HEADINGS["total"]),
-		"in": _("Amounts in {0}").format(doc.get("currency")) if doc.get("currency") else "",
-	}
 
 
 def totals(doc) -> dict:
@@ -842,40 +782,4 @@ def progress(doc) -> dict:
 			for one in said["invoices"]
 		],
 		"columns": (_("Invoice"), _("Date"), _("Total"), _("Outstanding")),
-	}
-
-
-def time_billed(doc) -> dict:
-	"""The hours an invoice bills, from ERPNext's own Time Sheets table on
-	it: the day, the activity, who did it, the hours and what they come to.
-	A retainer's month is billed as its fee, so its hours show without what
-	they would come to. Nothing for an invoice that bills no time."""
-	if doc.doctype != "Sales Invoice" or not doc.get("timesheets"):
-		return {}
-	sheets = {one.time_sheet for one in doc.timesheets if one.time_sheet}
-	who = dict(
-		frappe.get_all("Timesheet", filters={"name": ["in", list(sheets)]}, fields=["name", "employee_name"], as_list=True)
-	)
-	details = [one.timesheet_detail for one in doc.timesheets if one.timesheet_detail]
-	projects = set(frappe.get_all("Timesheet Detail", filters={"name": ["in", details]}, pluck="project")) | {doc.get("project")}
-	kinds = set(frappe.get_all("Project", filters={"name": ["in", list(projects - {None})]}, pluck="one_kind"))
-	priced = "Retainer" not in kinds
-	rows = [
-		(
-			frappe.format_value(one.from_time, {"fieldtype": "Date"}) if one.from_time else "",
-			one.activity_type or "",
-			who.get(one.time_sheet) or "",
-			f"{flt(one.billing_hours):g}",
-			money(doc, one.billing_amount) if priced else "",
-		)
-		for one in sorted(doc.timesheets, key=lambda one: str(one.from_time or ""))
-	]
-	return {
-		"heading": _("Time Billed") if priced else _("Time Spent"),
-		"columns": (_("Date"), _("Activity"), _("Employee"), _("Hours"), *((_("Amount"),) if priced else ())),
-		"rows": rows,
-		"priced": priced,
-		"total_label": _("Total"),
-		"hours": f"{sum(flt(one.billing_hours) for one in doc.timesheets):g}",
-		"amount": money(doc, sum(flt(one.billing_amount) for one in doc.timesheets)) if priced else "",
 	}

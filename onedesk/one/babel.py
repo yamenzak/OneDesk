@@ -32,9 +32,12 @@ def print_format(fileobj, *args, **kwargs):
 
 
 def _labels(data):
-	"""Every label a builder layout prints: its blocks' and their columns'."""
+	"""Every label a builder layout prints: its blocks' and their columns',
+	and each line of its static text, which frappe translates line by line."""
 	if isinstance(data, dict):
-		if data.get("fieldtype") and data.get("label") and data.get("fieldtype") != "Field Template":
+		if data.get("fieldtype") == "Static Text":
+			yield from (line for line in (data.get("text") or "").split("\n") if line.strip())
+		elif data.get("fieldtype") and data.get("label") and data.get("fieldtype") != "Field Template":
 			yield data["label"]
 		for value in data.values():
 			yield from _labels(value)

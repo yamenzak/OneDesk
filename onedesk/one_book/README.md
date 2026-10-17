@@ -312,6 +312,20 @@ fails a small business on first use or leaves a question unanswered.
   Executive Regulation, Article 59). ERPNext heads every return "Credit Note"
   by itself; that automatic heading gives way, and one somebody chose is
   kept. A tax line says its rate once ("VAT 5%", not "VAT 5% @ 5.0").
+- `print_format/one_sales_invoice` — the first format made only of the
+  builder's own pieces: fields, ERPNext's tables, linked fields and static
+  text, each shown or hidden by a condition, so a workspace changes any of it
+  in the builder rather than in a template. The title reads Tax Invoice, Tax
+  Credit Note, Invoice or Credit Note by the company's TRN and the return
+  flag; the standing is a pill per status. What the builder could not reach
+  became fields on the record, filled on save by `paper.py`: each line's
+  **VAT Rate**, **VAT** and **Amount incl. VAT**, from ERPNext's own Item
+  Wise Tax Detail (Article 59 asks for the tax per supply), and **Pay Into**,
+  the company's default bank account, which the Pay To block reads through.
+  The dirham prints as AED, not its symbol, which reads differently on every
+  printer (`paper.settle`). A retainer's invoice shows its hours without what
+  they would come to: the amounts show only when the time is what the
+  invoice bills. `patches/invoices_say_their_vat` fills the old invoices.
 - `paid.py` `titled` and `journal.py` — what a payment and a journal entry
   are called. ERPNext titles a payment by the party's ID (an employee's
   reads HR-EMP-00013) and a journal entry by its first account (forty read

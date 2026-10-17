@@ -17,6 +17,7 @@ after_sync = [
 	# Calendar Links stored as on, so a System Settings save keeps it on. See one_calendar/feed.py.
 	"onedesk.one_calendar.feed.settle",
 	"onedesk.one.print_blocks.settle",
+	"onedesk.one_book.paper.settle",
 	"onedesk.one.mail_templates.settle",
 	"onedesk.one.recycle.settle",
 	"onedesk.one_calendar.tell.install",
@@ -84,6 +85,7 @@ after_migrate = [
 	# Calendar Links stored as on, so a System Settings save keeps it on. See one_calendar/feed.py.
 	"onedesk.one_calendar.feed.settle",
 	"onedesk.one.print_blocks.settle",
+	"onedesk.one_book.paper.settle",
 	"onedesk.one.mail_templates.settle",
 	# The Recycle Bin's titles for what was deleted before. See one/recycle.py.
 	"onedesk.one.recycle.settle",
@@ -423,6 +425,9 @@ doc_events = {
 		# The emirate a sale is reported under. See one_book/vat.py.
 		"validate": [
 			"onedesk.one_book.vat.emirate",
+			# Each line's VAT and the account to pay into, for the print. See one_book/paper.py.
+			"onedesk.one_book.paper.lines",
+			"onedesk.one_book.paper.pay_into",
 			"onedesk.one_project.chain.agree",
 			# Retention is the share of the work billed. See one_project/progress.py.
 			"onedesk.one_project.progress.retained",

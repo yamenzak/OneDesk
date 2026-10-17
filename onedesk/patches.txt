@@ -69,3 +69,4 @@ onedesk.one_book.patches.journals_titled #2
 onedesk.one.patches.portal_own_by_record
 onedesk.one_hr.patches.home_is_a_page
 onedesk.one_hr.patches.passkeys_are_users
+onedesk.one_book.patches.invoices_say_their_vat

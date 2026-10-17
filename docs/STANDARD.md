@@ -238,10 +238,13 @@ amounts in the site's currency instead of the company's, a notice sent to
 whoever did it, and a notice told during an install, a migrate or an import.
 
 **11 Printed.** Every record that leaves the company has a print format we
-ship, built from the print blocks (`one/print_blocks.py`,
-`templates/one_print/`) and checked by `tests/guards/test_print.py`. For
-OneProject that is One Project Status, One Timesheet, OneCRM's One Contract,
-and the hours a time and materials invoice bills on One Sales Invoice. A print
+ship, laid out in frappe's print format builder and checked by
+`tests/guards/test_print.py`. A format is drawn from the builder's own pieces
+(One Sales Invoice is the first), or, until it is redrawn, from the print
+blocks (`one/print_blocks.py`, `templates/one_print/`). What a native format
+cannot reach becomes a field on the record, never a block. For OneProject
+that is One Project Status, One Timesheet, OneCRM's One Contract, and the
+hours a time and materials invoice bills on One Sales Invoice. A print
 format's `modified` moves with every change to it, or a migrate leaves the
 site's copy as it was.
 

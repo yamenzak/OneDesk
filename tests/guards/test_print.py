@@ -1,14 +1,18 @@
 """Point 11: a record that leaves the company prints from a format we ship,
-laid out in frappe's print format builder from One's print blocks. These
-read the code."""
+laid out in frappe's print format builder. A format is native, made of the
+builder's own pieces, or not yet, opening with One's title block. These read
+the code."""
 
 import ast
 import json
 import re
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "onedesk"
+APPS = Path("/home/frappe/bench1/apps")
 BLOCKS = APP / "one" / "print_blocks.py"
 TEMPLATES = APP / "one" / "print_format_field_template"
 
@@ -75,7 +79,85 @@ def test_every_record_that_leaves_has_a_format_we_ship():
 		assert shipped["doc_type"] == doctype and shipped["standard"] == "Yes" and not shipped["disabled"], name
 		assert shipped["print_format_builder_beta"] and not shipped.get("custom_format"), f"{name} is not laid out in the builder"
 		used = {one["field_template"] for one in _blocks(json.loads(shipped["format_data"]))}
-		assert "One Title" in used, f"{name} does not open with One Title"
+		assert not used or "One Title" in used, f"{name} does not open with One Title"
+
+
+def _native() -> dict:
+	"""The formats drawn only from the builder's own pieces."""
+	found = {}
+	for doctype, (name, module) in _formats().items():
+		layout = json.loads(_format(name, module)["format_data"])
+		if not _blocks(layout):
+			found[doctype] = layout
+	return found
+
+
+def _pieces(data):
+	if isinstance(data, dict):
+		if data.get("fieldtype") == "Table":
+			return [data]  # its columns are its rows' fields, read by the test
+		found = [data] if data.get("fieldtype") or data.get("columns") else []
+		return found + [one for value in data.values() for one in _pieces(value)]
+	if isinstance(data, list):
+		return [one for value in data for one in _pieces(value)]
+	return []
+
+
+#: What frappe's sandbox for a print condition does not have.
+NO_BUILTINS = re.compile(r"\b(len|sum|abs|min|max|any|all|sorted|round|str)\(")
+
+
+def test_a_native_format_asks_only_what_frappe_can_answer():
+	"""A condition frappe cannot evaluate prints the thing anyway and logs
+	an error on every print, so one that calls a builtin never ships."""
+	assert _native(), "no format is native yet"
+	for doctype, layout in _native().items():
+		for one in _pieces(layout):
+			for key in ("visible_if", "column_condition", "row_condition"):
+				said = one.get(key) or ""
+				assert not NO_BUILTINS.search(said), f"{doctype}: {said}"
+			for column in one.get("table_columns") or []:
+				said = column.get("column_condition") or ""
+				assert not NO_BUILTINS.search(said), f"{doctype}: {said}"
+
+
+def _fields(doctype: str) -> set:
+	scrub = _scrub(doctype)
+	found = {"name", "idx"}
+	for path in APPS.glob(f"*/*/*/doctype/{scrub}/{scrub}.json"):
+		found |= {one["fieldname"] for one in json.loads(path.read_text())["fields"]}
+	for path in APP.glob(f"*/custom/{scrub}.json"):
+		found |= {one["fieldname"] for one in json.loads(path.read_text()).get("custom_fields") or []}
+	return found
+
+
+def _child(doctype: str, table: str) -> str:
+	scrub = _scrub(doctype)
+	for path in APPS.glob(f"*/*/*/doctype/{scrub}/{scrub}.json"):
+		for one in json.loads(path.read_text())["fields"]:
+			if one["fieldname"] == table:
+				return one["options"]
+	raise AssertionError(f"{doctype} has no table {table}")
+
+
+def test_a_native_format_prints_fields_the_record_has():
+	"""A misspelt field prints nothing and says nothing, so each is read back
+	against the doctype, its custom fields, and its tables' own."""
+	if not (APPS / "erpnext").exists():
+		pytest.skip("erpnext is not checked out beside this app")
+	for doctype, layout in _native().items():
+		has = _fields(doctype)
+		for one in _pieces(layout):
+			if one.get("fieldtype") == "Table":
+				assert one["fieldname"] in has, f"{doctype}: {one['fieldname']}"
+				rows = _fields(_child(doctype, one["fieldname"]))
+				for column in one.get("table_columns") or []:
+					for shown in [column, *(column.get("merged_fields") or [])]:
+						assert shown["fieldname"] in rows, f"{doctype} {one['fieldname']}: {shown['fieldname']}"
+			elif one.get("fieldtype") == "Linked Field":
+				assert one["link_path"].split(".")[0] in has, f"{doctype}: {one['link_path']}"
+			elif one.get("fieldtype") and not one.get("custom") and one.get("fieldname"):
+				assert one["fieldname"] in has, f"{doctype}: {one['fieldname']}"
 
 
 def test_every_block_is_a_field_template_with_its_template():
