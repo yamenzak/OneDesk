@@ -248,7 +248,12 @@ def withhold(doc, said, share: float) -> None:
 	work = [row for row in doc.items if not row.get("one_held")]
 	had = {row.one_held: row for row in doc.items if row.get("one_held")}
 	doc.set("payment_schedule", [row for row in doc.get("payment_schedule") or [] if row.payment_term not in HELD])
-	held = withheld(sum(flt(row.net_amount or row.amount) for row in work), share, said.handover)
+	# A credit note's Retention lines name no item, or ERPNext would hold all
+	# its credit notes together to the 1 of the line each returns.
+	sign = -1 if doc.get("is_return") else 1
+	if sign < 0:
+		had = {}
+	held = withheld(sign * sum(flt(row.net_amount or row.amount) for row in work), share, said.handover)
 	due = getdate(doc.get("due_date") or doc.get("posting_date") or doc.get("bill_date") or nowdate())
 	dates = released_on(due, said, [term for term, _amount in held])
 	first = work[0] if work else frappe._dict()
@@ -257,10 +262,10 @@ def withhold(doc, said, share: float) -> None:
 	for term, amount in held:
 		# Kept, not made again, so a line keeps its name and a date moved by hand.
 		row = had.get(term) or frappe._dict(
-			item_code=retention.ITEM,
+			item_code=retention.ITEM if sign > 0 else None,
 			item_name=retention.ITEM,
 			description=_("Retention at Handover") if term == HANDOVER else _("Retention"),
-			qty=1,
+			qty=sign,
 			uom=unit,
 			stock_uom=unit,
 			conversion_factor=1,
@@ -269,19 +274,33 @@ def withhold(doc, said, share: float) -> None:
 			project=first.get("project") or doc.get("project"),
 			cost_center=first.get("cost_center") or doc.get("cost_center"),
 		)
-		row.update({"rate": -amount, "price_list_rate": -amount, "discount_percentage": 0, "discount_amount": 0})
+		row.update({"qty": sign, "rate": -amount, "price_list_rate": -amount, "discount_percentage": 0, "discount_amount": 0})
 		lines.append(row)
 	doc.set("items", work + lines)
 	for idx, row in enumerate(doc.items, start=1):
 		row.idx = idx
 	retention.book(doc)
 	doc.run_method("calculate_taxes_and_totals")
-	_said(doc, work=sum(flt(row.net_amount) for row in work) if lines else 0, held=sum(amount for _term, amount in held))
-	if doc.docstatus == 0 and not doc.get("is_pos"):
+	_said(doc, work=sum(flt(row.net_amount) for row in work) if lines else 0, held=sign * sum(amount for _term, amount in held))
+	if doc.docstatus == 0 and not doc.get("is_pos") and not doc.get("is_return"):
 		from erpnext.accounts.services.payment_schedule import PaymentScheduleService
 
 		doc.set("payment_schedule", [])
 		PaymentScheduleService(doc).set_payment_schedule()
+
+
+def returned(doc) -> None:
+	"""A credit note against an invoice holding Retention lines gives back
+	the retention on the work it takes back, at the invoice's rate, so what's
+	still held, and what Retention Receivable says, come down with it. One
+	against an invoice holding retention in its payment terms needs nothing:
+	ERPNext sets it against what the invoice owes."""
+	against = doc.get("return_against")
+	if not against or not frappe.db.exists(f"{doc.doctype} Item", {"parent": against, "one_held": ["is", "set"]}):
+		return
+	share = flt(frappe.db.get_value(doc.doctype, against, "one_retention"))
+	doc.one_retention = share
+	withhold(doc, source(doc), share)
 
 
 def _said(doc, work: float = 0, held: float = 0, now: float = 0) -> None:
@@ -318,10 +337,13 @@ def retained(doc, method=None) -> None:
 	invoice's own, and divided between handover and the rest as the order
 	says. ERPNext keeps the invoice in Debtors or Creditors whole, so what's
 	held stays owed, and a payment for it is matched to its terms."""
-	if doc.get("is_return") or doc.get("is_pos") or doc.get("is_opening") == "Yes":
+	if doc.get("is_pos") or doc.get("is_opening") == "Yes":
 		return
 	# An invoice releasing retention holds none.
 	if any(row.get("one_retention_of") for row in doc.get("items") or []):
+		return
+	if doc.get("is_return"):
+		returned(doc)
 		return
 	rows = doc.get("payment_schedule") or []
 	lines = [row for row in doc.get("items") or [] if row.get("one_held")]

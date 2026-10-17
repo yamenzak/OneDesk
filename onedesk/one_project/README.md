@@ -1083,6 +1083,15 @@ ERPNext's own.
   Selling and Buying Settings, so choosing When Released turns it on. What a
   project has billed leaves the Retention lines out, so it reads the same
   either way. Invoices made before the setting changed keep their way.
+  A credit note against such an invoice gives back the retention on the
+  work it takes back, in Retention lines of its own that name no item
+  (ERPNext would hold each to the quantity of the line it returns, which is
+  1, however many credit notes share it), so what's held comes down with it.
+  In the UAE the tax on retention falls due a year after the work is
+  certified complete even if nobody has invoiced it, so a project keeps
+  **Completed On**, the day it's marked Completed unless somebody changes
+  it, and a month before that year is out Needs You says to invoice the
+  retention (`retention.TAXED_AFTER`).
 
 ### Before the customer orders
 

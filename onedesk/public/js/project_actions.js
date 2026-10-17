@@ -713,7 +713,7 @@ onedesk.project.ask_updates = async (project, done) => {
 // progress is Manual. The page is where a project is edited, so About holds
 // every field not edited elsewhere on it, and any field a workspace adds.
 onedesk.project.ABOUT_GROUPS = [
-	[__("Work"), ["one_manager", "expected_start_date", "expected_end_date", "percent_complete_method", "percent_complete", "priority", "one_time", "one_site", "one_key", "project_type", "department", "one_parent"]],
+	[__("Work"), ["one_manager", "expected_start_date", "expected_end_date", "one_completed_on", "percent_complete_method", "percent_complete", "priority", "one_time", "one_site", "one_key", "project_type", "department", "one_parent"]],
 	[__("Customer"), ["customer", "one_kind", "one_monthly_fee", "one_monthly_hours", "one_markup", "one_payment_terms", "one_terms", "one_retention", "one_retention_due", "one_retention_handover"]],
 	[__("Accounts"), ["cost_center"]],
 ];

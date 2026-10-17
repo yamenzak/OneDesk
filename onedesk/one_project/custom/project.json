@@ -214,6 +214,16 @@
    "module": "One Project",
    "depends_on": "one_retention",
    "description": ""
+  },
+  {
+   "dt": "Project",
+   "fieldname": "one_completed_on",
+   "label": "Completed On",
+   "fieldtype": "Date",
+   "insert_after": "one_retention_handover",
+   "module": "One Project",
+   "depends_on": "eval:doc.status == 'Completed' || doc.one_completed_on",
+   "description": ""
   }
  ],
  "doctype": "Project",

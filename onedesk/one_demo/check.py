@@ -1598,6 +1598,25 @@ def oneproject_retention_is_taxed_when_released():
 	assert _close(booked.get(retention.account(COMPANY, "Sales Invoice")), held, 0.01), booked
 	kept = retention.held_on("Sales Invoice", [invoice.name])
 	assert _close(sum(amount for _due, amount in kept[invoice.name]), held, 0.01) and not retention.held_on("Sales Invoice", [invoice.name], owed=True)
+	# Completed eleven months and a half ago, its tax falls due within the month, invoiced or not.
+	frappe.db.set_value("Project", VILLA, "one_completed_on", add_days(add_months(today(), -12), 15))
+	with as_user(OWNER):
+		asked = [one for one in retention.asks([VILLA], OWNER) if one["route"].endswith(invoice.name)]
+		assert any("before its tax falls due" in one["text"] for one in asked), asked
+	frappe.db.set_value("Project", VILLA, "one_completed_on", None)
+	# A credit note for half the work gives back half its retention.
+	from erpnext.accounts.doctype.sales_invoice.mapper import make_sales_return
+
+	with as_user("huda@one.test"):
+		credit = make_sales_return(invoice.name)
+		for row in credit.items:
+			if not row.get("one_held"):
+				row.qty = row.qty / 2
+		credit.insert()
+		credit.submit()
+	kept = retention.held_on("Sales Invoice", [invoice.name])
+	assert _close(sum(amount for _due, amount in kept[invoice.name]), held / 2, 0.02), (kept, held)
+	held = held / 2
 	with as_user(OWNER):
 		releasing = retention.release(VILLA, invoice=invoice.name)
 		assert releasing.doctype == "Sales Invoice" and _close(releasing.net_total, held, 0.01), releasing.net_total

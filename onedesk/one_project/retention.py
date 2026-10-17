@@ -8,7 +8,7 @@ from typing import Annotated
 
 import frappe
 from frappe import _
-from frappe.utils import add_days, flt, getdate, nowdate
+from frappe.utils import add_days, add_months, flt, getdate, nowdate
 
 #: The payment terms retention is held under: the part released at handover,
 #: and the rest.
@@ -28,6 +28,10 @@ WHEN_RELEASED = "When Released"
 #: starts that way: the UAE (the FTA's guide) and the UK (a retention's tax
 #: point is its payment or its invoice).
 RELEASED_IN = ("United Arab Emirates", "United Kingdom")
+
+#: Where tax on retention falls due on its own, so many months after the
+#: work is certified complete, invoiced or not: the UAE (the FTA's guide).
+TAXED_AFTER = {"United Arab Emirates": 12}
 
 #: The item a Retention line is, held or released.
 ITEM = "Retention"
@@ -126,9 +130,24 @@ def withheld(doctype: str, names: list[str]) -> dict[str, list[tuple[str, float]
 		fields=["parent", "one_release_on", "base_net_amount"],
 	):
 		found.setdefault(row.parent, []).append((row.one_release_on, -flt(row.base_net_amount)))
+	# A credit note's Retention lines give back what its invoice held.
+	for name in frappe.get_all(doctype, filters={"name": ["in", list(found) or [""]], "is_return": 1}, pluck="name"):
+		del found[name]
 	if not found:
 		return {}
 	released = {}
+	head = frappe.qb.DocType(doctype)
+	line = frappe.qb.DocType(f"{doctype} Item")
+	for against, amount in (
+		frappe.qb.from_(line)
+		.join(head)
+		.on(head.name == line.parent)
+		.select(head.return_against, line.base_net_amount)
+		.where((head.docstatus == 1) & (head.is_return == 1) & head.return_against.isin(list(found)) & (line.one_held != ""))
+		.run()
+	):
+		# Below nothing on the invoice, above it on its credit note.
+		released[against] = released.get(against, 0.0) + flt(amount)
 	for row in frappe.get_all(
 		f"{doctype} Item",
 		filters={"one_retention_of": ["in", list(found)], "docstatus": 1},
@@ -198,13 +217,14 @@ def when(days: int) -> str:
 
 def asks(projects: list[str], user: str) -> list[dict]:
 	"""Needs You: each customer's retention due within a month or past due,
-	to ask them for."""
+	to ask them for, after any whose tax falls due first (`tax_asks`)."""
 	if not on() or not frappe.has_permission("Sales Invoice", "read"):
 		return []
+	taxed = tax_asks(projects, user)
 	names = invoices("Sales Invoice", projects)
 	held = held_on("Sales Invoice", names)
 	if not held:
-		return []
+		return taxed
 	heads = {
 		one.name: one
 		for one in frappe.get_all(
@@ -234,7 +254,7 @@ def asks(projects: list[str], user: str) -> list[dict]:
 	found.sort(key=lambda one: one["days"])
 	for one in found:
 		del one["days"]
-	return found
+	return taxed + found
 
 
 def ordered(doc, method=None) -> None:
@@ -256,6 +276,47 @@ def ordered(doc, method=None) -> None:
 			"one_retention_handover": found.one_retention_handover,
 		}
 	)
+
+
+def taxed_by(project: str) -> str | None:
+	"""When tax on the retention held on a project falls due whether it's
+	invoiced or not, where the law says so: so many months after the work
+	was completed."""
+	done, company = frappe.db.get_value("Project", project, ["one_completed_on", "company"]) or (None, None)
+	months = TAXED_AFTER.get(frappe.get_cached_value("Company", company, "country")) if company else None
+	return str(add_months(done, months)) if done and months else None
+
+
+def tax_asks(projects: list[str], user: str) -> list[dict]:
+	"""Needs You: retention held in Retention lines on a project whose tax
+	falls due within a month, invoiced or not, to be invoiced before then."""
+	names = invoices("Sales Invoice", projects)
+	held = withheld("Sales Invoice", names)
+	if not any(held.values()):
+		return []
+	today = getdate(nowdate())
+	found = []
+	for one in frappe.get_all(
+		"Sales Invoice",
+		filters={"name": ["in", [name for name, kept in held.items() if kept]]},
+		fields=["name", "customer_name", "owner", "project"],
+	):
+		project = one.project or frappe.db.get_value("Sales Invoice Item", {"parent": one.name, "project": ["is", "set"]}, "project")
+		by = project and taxed_by(project)
+		if not by or by > str(add_days(today, AHEAD)):
+			continue
+		days = (getdate(by) - today).days
+		found.append(
+			{
+				"tone": "red" if days < 0 else "orange",
+				"text": _("Invoice the retention from {0} before its tax falls due").format(one.customer_name),
+				"dim": " · ".join(filter(None, [when(days), _("You") if one.owner == user else None])),
+				"money": sum(amount for _due, amount in held[one.name]),
+				"route": f"/desk/sales-invoice/{one.name}",
+				"mine": one.owner == user,
+			}
+		)
+	return found
 
 
 def picked(parts: list[tuple], today: str) -> list[tuple]:
@@ -419,11 +480,14 @@ def released(doctype: str, project: str, lines: dict, key: str, party: str | Non
 
 
 def handed_over(doc, method=None) -> None:
-	"""Project on_update: marked Completed, the retention released at
-	handover falls due on every invoice made from its orders."""
+	"""Project on_update: marked Completed, the project is completed today
+	unless somebody said otherwise, and the retention released at handover
+	falls due on every invoice made from its orders."""
 	if doc.status != "Completed" or not doc.has_value_changed("status"):
 		return
 	today = getdate(nowdate())
+	if not doc.get("one_completed_on"):
+		doc.db_set("one_completed_on", today, update_modified=False)
 	for order_type, invoice_type, link in (
 		("Sales Order", "Sales Invoice", "sales_order"),
 		("Purchase Order", "Purchase Invoice", "purchase_order"),
@@ -518,7 +582,7 @@ def book(doc) -> None:
 	account, whatever the item's defaults say."""
 	field = ACCOUNTS[doc.doctype][2]
 	for row in doc.get("items") or []:
-		if row.item_code == ITEM:
+		if row.item_code == ITEM or row.get("one_held"):
 			row.set(field, account(doc.company, doc.doctype))
 
 

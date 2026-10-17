@@ -103,7 +103,7 @@ def _lines(doctype: str, projects: list[str]) -> float:
 	child = frappe.qb.DocType(LINES[doctype])
 	where = child.project.isin(projects) & (child.docstatus == 1)
 	if doctype in ("Sales Invoice", "Purchase Invoice"):
-		where &= child.item_code.isnull() | (child.item_code != ITEM)
+		where &= (child.item_code.isnull() | (child.item_code != ITEM)) & (child.one_held.isnull() | (child.one_held == ""))
 	found = frappe.qb.from_(child).select(Sum(child.base_net_amount)).where(where).run()
 	return flt(found[0][0]) if found else 0.0
 
