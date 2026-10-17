@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-17 13:45+0000\n"
-"PO-Revision-Date: 2026-10-17 13:45+0000\n"
+"POT-Creation-Date: 2026-10-17 14:50+0000\n"
+"PO-Revision-Date: 2026-10-17 14:50+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -267,7 +267,7 @@ msgstr ""
 msgid "1 workstation"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:559
+#: onedesk/one/print_blocks.py:577
 msgid "1 {0} = {1} {2}"
 msgstr ""
 
@@ -1639,11 +1639,21 @@ msgid "Access taken away"
 msgstr ""
 
 #. Label of the account (Link) field in DocType 'Tenant'
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#. Label in the One Sales Voucher print format
 #: frontend/portal/src/pages/Menu.vue:15
 #: frontend/portal/src/parts/PortalSidebar.vue:16
 #: onedesk/one_admin/doctype/tenant/tenant.json
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
 msgid "Account"
 msgstr ""
 
@@ -1673,12 +1683,12 @@ msgstr ""
 msgid "Account Moved"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:608
+#: onedesk/one/print_blocks.py:626
 #: onedesk/one_book/report/books_check/books_check.js:12
 msgid "Account Name"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:609
+#: onedesk/one/print_blocks.py:627
 msgid "Account No"
 msgstr ""
 
@@ -1856,13 +1866,21 @@ msgstr ""
 msgid "Active Sessions"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
 #. Label in the One Timesheet print format
 #: frontend/src/item/ItemPage.vue:182 frontend/src/project/ProjectPage.vue:191
 #: frontend/src/project/TaskPanel.vue:108 frontend/src/project/Time.vue:32
 #: frontend/src/project/Time.vue:100 frontend/src/task/TaskPage.vue:224
 #: frontend/src/task/TaskTime.vue:24 onedesk/one/tabs.py:15
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_project/ai.py:681
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/public/js/onecloud.js:754 onedesk/public/js/project_actions.js:407
@@ -2341,7 +2359,11 @@ msgstr ""
 #. Request'
 #. Label of the last_address (Data) field in DocType 'Device'
 #. Label of the slug (Data) field in DocType 'Account Request'
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
 #. Label of the address (Data) field in DocType 'Clock Attempt'
 #. Label of the address (Data) field in DocType 'Clock Network'
 #. Label of the address (Small Text) field in DocType 'Reading Party'
@@ -2352,7 +2374,11 @@ msgstr ""
 #: onedesk/one/letter_heads.py:380 onedesk/one/letter_heads.py:400
 #: onedesk/one/letter_heads.py:631 onedesk/one/portal.py:80
 #: onedesk/one_admin/doctype/account_request/account_request.json
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
@@ -2526,9 +2552,15 @@ msgstr ""
 msgid "After this many wrong passwords in a row, signing in is refused for a while."
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
 #: onedesk/one/print_blocks.py:52
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 msgid "Against Invoice"
 msgstr ""
 
@@ -2837,7 +2869,11 @@ msgstr ""
 
 #. Label of the amount (Currency) field in DocType 'Offering'
 #. Label of the amount (Long Int) field in DocType 'Tenant Event'
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
 #. Label in the One Quotation print format
 #. Label in the One Sales Order print format
 #. Label of the amount (Float) field in DocType 'Reading Line'
@@ -2846,7 +2882,11 @@ msgstr ""
 #: frontend/src/project/Time.vue:35 onedesk/one/automations.py:130
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
 #: onedesk/one_crm/print_format/one_sales_order/one_sales_order.json
 #: onedesk/one_intake/bundle.py:76
@@ -2856,11 +2896,11 @@ msgstr ""
 msgid "Amount"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:647
+#: onedesk/one/print_blocks.py:665
 msgid "Amount Paid"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:647
+#: onedesk/one/print_blocks.py:665
 msgid "Amount Received"
 msgstr ""
 
@@ -2869,7 +2909,9 @@ msgid "Amount due"
 msgstr ""
 
 #. Label of the one_line_total (Currency) field in DocType 'Sales Invoice Item'
+#. Label in the One Simplified Tax Invoice print format
 #: onedesk/one_book/custom/sales_invoice_item.json
+#: onedesk/one_book/print_format/one_simplified_tax_invoice/one_simplified_tax_invoice.json
 msgid "Amount incl. VAT"
 msgstr ""
 
@@ -3465,7 +3507,9 @@ msgstr ""
 msgid "Approved"
 msgstr ""
 
+#. Label in the One Sales Voucher print format
 #: onedesk/one/print_blocks.py:185
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
 msgid "Approved By"
 msgstr ""
 
@@ -4469,9 +4513,17 @@ msgstr ""
 msgid "Balance"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
-#: onedesk/one/print_blocks.py:548
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#: onedesk/one/print_blocks.py:566
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 msgid "Balance Due"
 msgstr ""
 
@@ -4491,9 +4543,17 @@ msgstr ""
 msgid "Band row {0}"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
-#: onedesk/one/print_blocks.py:607
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#: onedesk/one/print_blocks.py:625
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_book/report/books_check/books_check.js:11
 msgid "Bank"
 msgstr ""
@@ -4835,6 +4895,11 @@ msgstr ""
 msgid "Bill Due"
 msgstr ""
 
+#. Label in the One Sales Invoice Bordered print format
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+msgid "Bill From"
+msgstr ""
+
 #: frontend/src/project/Overview.vue:31
 #: frontend/src/project/ProjectPage.vue:375
 #: frontend/src/project/Suppliers.vue:77 onedesk/public/js/progress.js:35
@@ -4850,10 +4915,18 @@ msgstr ""
 msgid "Bill Progress is for purchase and sales orders."
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
 #: onedesk/one/print_blocks.py:114 onedesk/one/print_blocks.py:115
 #: onedesk/one/print_blocks.py:131
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 msgid "Bill To"
 msgstr ""
 
@@ -5105,7 +5178,7 @@ msgstr ""
 msgid "Branch"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:612
+#: onedesk/one/print_blocks.py:630
 msgid "Branch Code"
 msgstr ""
 
@@ -5613,7 +5686,7 @@ msgstr ""
 msgid "Case Number"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:501
+#: onedesk/one/print_blocks.py:519
 msgid "Cases"
 msgstr ""
 
@@ -6012,8 +6085,10 @@ msgstr ""
 msgid "Check-ins scoring between this and Refuse Below Score are written, and marked Flagged for review."
 msgstr ""
 
+#. Label in the One Sales Voucher print format
 #. Label of the checked_by (Link) field in DocType 'Intake Action'
 #: onedesk/one/print_blocks.py:177
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 msgid "Checked By"
 msgstr ""
@@ -6628,10 +6703,12 @@ msgstr ""
 msgid "Compact"
 msgstr ""
 
+#. Label in the One Sales Invoice Bordered print format
 #. Label of a Link in the OneHR Setup Workspace
 #. Option for the 'Ours' (Select) field in DocType 'Reading Party'
 #. Label of the organisation (Data) field in DocType 'Project Contact'
 #: onedesk/one/letter_heads.py:630
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
 #: onedesk/one_project/ai.py:790
@@ -7034,7 +7111,7 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
 #: frontend/src/project/Money.vue:188 frontend/src/project/Overview.vue:154
-#: onedesk/one/print_blocks.py:35 onedesk/one/print_blocks.py:773
+#: onedesk/one/print_blocks.py:35 onedesk/one/print_blocks.py:791
 #: onedesk/one_crm/home.py:123 onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
@@ -7232,7 +7309,9 @@ msgstr ""
 msgid "Cost"
 msgstr ""
 
+#. Label in the One Sales Voucher print format
 #: frontend/src/project/Overview.vue:314 onedesk/one_book/home.py:381
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
 msgid "Cost Center"
 msgstr ""
 
@@ -7524,6 +7603,11 @@ msgstr ""
 msgid "Credentials for the Frappe Cloud account that hosts customer sites."
 msgstr ""
 
+#. Label in the One Sales Voucher print format
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
+msgid "Credit"
+msgstr ""
+
 #: onedesk/public/js/tenant.js:28
 msgid "Credit Ledger"
 msgstr ""
@@ -7538,23 +7622,44 @@ msgstr ""
 msgid "Credit Limit Crossed"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
 #. Label of a Sidebar Item
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
-#: onedesk/one/print_blocks.py:278 onedesk/one_book/home.py:316
+#: onedesk/one/print_blocks.py:296 onedesk/one_book/home.py:316
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Credit Note"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 msgid "Credit Note Issued"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:300
+#: onedesk/one/print_blocks.py:318
 msgid "Credit Note No"
+msgstr ""
+
+#. Label in the One Sales Voucher print format
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
+msgid "Credit Note Voucher"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Offering'
@@ -7778,7 +7883,13 @@ msgstr ""
 
 #. Label of the customer (Link) field in DocType 'Tenant'
 #. Option for the 'By' (Select) field in DocType 'Tenant Event'
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#. Label in the One Sales Voucher print format
+#. Label in the One Simplified Tax Invoice print format
 #. Label of a Sidebar Item
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
 #: frontend/src/project/Invoices.vue:31 frontend/src/project/Money.vue:23
@@ -7786,7 +7897,13 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event_list.js:39
 #: onedesk/one_book/home.py:317
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
+#: onedesk/one_book/print_format/one_simplified_tax_invoice/one_simplified_tax_invoice.json
 #: onedesk/one_book/sidebar/onebook/onebook.json onedesk/one_crm/home.py:37
 #: onedesk/one_crm/home.py:120 onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
@@ -7975,7 +8092,13 @@ msgstr ""
 msgid "Database Used"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#. Label in the One Sales Voucher print format
+#. Label in the One Simplified Tax Invoice print format
 #. Label of the date (Date) field in DocType 'Reading Date'
 #: frontend/src/project/Invoices.vue:32 frontend/src/project/Suppliers.vue:92
 #: frontend/src/project/Suppliers.vue:147 frontend/src/project/Time.vue:30
@@ -7988,10 +8111,16 @@ msgstr ""
 #: onedesk/one/print_blocks.py:79 onedesk/one/print_blocks.py:81
 #: onedesk/one/print_blocks.py:83 onedesk/one/print_blocks.py:88
 #: onedesk/one/print_blocks.py:90 onedesk/one/print_blocks.py:99
-#: onedesk/one/print_blocks.py:101 onedesk/one/print_blocks.py:711
-#: onedesk/one/print_blocks.py:729 onedesk/one/print_blocks.py:784
+#: onedesk/one/print_blocks.py:101 onedesk/one/print_blocks.py:729
+#: onedesk/one/print_blocks.py:747 onedesk/one/print_blocks.py:802
 #: onedesk/one/settings.py:1602
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
+#: onedesk/one_book/print_format/one_simplified_tax_invoice/one_simplified_tax_invoice.json
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:129
 #: onedesk/one_intake/bundle.py:76
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
@@ -8125,13 +8254,23 @@ msgid "Dear {applicant}, your interview is on {when}. Reply to this email if tha
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one/print_blocks.py:280 onedesk/one_book/home.py:322
+#: onedesk/one/print_blocks.py:298 onedesk/one_book/home.py:322
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Debit Note"
 msgstr ""
 
+#. Label in the One Sales Voucher print format
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
+msgid "Debit To"
+msgstr ""
+
 #: frontend/src/project/Suppliers.vue:253
 msgid "Debit note"
+msgstr ""
+
+#. Label in the One Sales Voucher print format
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
+msgid "Debited"
 msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:38
@@ -8667,7 +8806,13 @@ msgid "Depreciations Booked"
 msgstr ""
 
 #. Label of the description (Small Text) field in DocType 'Offering'
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#. Label in the One Sales Voucher print format
+#. Label in the One Simplified Tax Invoice print format
 #. Label of the description (Small Text) field in DocType 'Attendance Reason'
 #. Label of the description (Small Text) field in DocType 'Clock Reason'
 #. Label of the description (Small Text) field in DocType 'Record Type'
@@ -8675,7 +8820,13 @@ msgstr ""
 #: frontend/src/project/TaskPanel.vue:75 frontend/src/task/TaskPage.vue:56
 #: onedesk/one/automations.py:132
 #: onedesk/one_admin/doctype/offering/offering.json
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
+#: onedesk/one_book/print_format/one_simplified_tax_invoice/one_simplified_tax_invoice.json
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:480
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
@@ -8877,7 +9028,7 @@ msgstr ""
 msgid "Disconnected"
 msgstr ""
 
-#: onedesk/one/portal.py:642 onedesk/one/print_blocks.py:536
+#: onedesk/one/portal.py:642 onedesk/one/print_blocks.py:554
 msgid "Discount"
 msgstr ""
 
@@ -9354,10 +9505,18 @@ msgstr ""
 msgid "Due"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
 #. Label of the due_date (Date) field in DocType 'Cloud File Request'
-#: onedesk/one/print_blocks.py:51 onedesk/one/print_blocks.py:688
+#: onedesk/one/print_blocks.py:51 onedesk/one/print_blocks.py:706
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_inventory/heads.py:1692 onedesk/one_project/ai.py:635
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/public/js/onecloud.js:1657 onedesk/public/js/project_actions.js:645
@@ -9369,9 +9528,17 @@ msgstr ""
 msgid "Due Date Changed"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
 #. Label of the one_due_now (Currency) field in DocType 'Sales Invoice'
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_project/custom/sales_invoice.json
 msgid "Due Now"
 msgstr ""
@@ -10867,6 +11034,11 @@ msgstr ""
 msgid "Excavation"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
+msgid "Exchange Rate"
+msgstr ""
+
 #: onedesk/one_book/home.py:414
 msgid "Exchange Rate Revaluation"
 msgstr ""
@@ -11332,7 +11504,7 @@ msgstr ""
 msgid "Feb"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:682
+#: onedesk/one/print_blocks.py:700
 msgid "Fee"
 msgstr ""
 
@@ -12597,7 +12769,7 @@ msgstr ""
 msgid "Goods Received Note"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:284
+#: onedesk/one/print_blocks.py:302
 msgid "Goods Returned"
 msgstr ""
 
@@ -12648,7 +12820,7 @@ msgstr ""
 msgid "Grace period ended"
 msgstr ""
 
-#: frontend/src/home/BooksStory.vue:38 onedesk/one/print_blocks.py:691
+#: frontend/src/home/BooksStory.vue:38 onedesk/one/print_blocks.py:709
 #: onedesk/one_book/heads.py:648 onedesk/one_inventory/heads.py:1535
 #: onedesk/one_inventory/heads.py:1564 onedesk/one_inventory/heads.py:1599
 msgid "Grand Total"
@@ -12724,7 +12896,7 @@ msgstr ""
 msgid "Grievance Types"
 msgstr ""
 
-#: frontend/src/home/HrStory.vue:88 onedesk/one/print_blocks.py:630
+#: frontend/src/home/HrStory.vue:88 onedesk/one/print_blocks.py:648
 msgid "Gross Pay"
 msgstr ""
 
@@ -13189,13 +13361,21 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
 #. Label of the one_when (Data) field in DocType 'Shift Request'
 #. Label in the One Timesheet print format
 #: frontend/src/home/InventoryStory.vue:81 frontend/src/project/Overview.vue:24
 #: frontend/src/project/Time.vue:34 frontend/src/task/TaskTime.vue:25
 #: onedesk/one/portal.py:79 onedesk/one/print_blocks.py:92
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_hr/custom/shift_request.json
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:141
 #: onedesk/one_project/ai.py:680
@@ -13715,7 +13895,7 @@ msgstr ""
 msgid "I have read and agree to these"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:725
+#: onedesk/one/print_blocks.py:743
 msgid "I have received the equipment above in good order. I will look after it, and give it back when I am asked."
 msgstr ""
 
@@ -13767,11 +13947,19 @@ msgstr ""
 msgid "I'm away and will reply when I'm back."
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
 #. Option for the 'Kind' (Select) field in DocType 'Identifier'
 #. Label of the iban (Data) field in DocType 'Reading Party'
-#: onedesk/one/print_blocks.py:610
+#: onedesk/one/print_blocks.py:628
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_book/report/books_check/books_check.js:13
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
@@ -13905,8 +14093,10 @@ msgid "If {0} knows this address, a link to confirm is on its way."
 msgstr ""
 
 #. Label of the reads_image (Check) field in DocType 'AI Model'
+#. Label in the One Sales Invoice with Images print format
 #. Label of the image (Attach Image) field in DocType 'Face'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_mail/doctype/face/face.json
 #: onedesk/one_project/report/workload/workload.py:174
 #: onedesk/public/js/onecloud.js:36
@@ -13933,6 +14123,11 @@ msgstr ""
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:139
 #: onedesk/public/js/settings.js:1654
 msgid "In"
+msgstr ""
+
+#. Label in the One Detailed Tax Invoice print format
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
+msgid "In Company Currency"
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:1786
@@ -13992,8 +14187,16 @@ msgstr ""
 msgid "In Stock"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 msgid "In Words"
 msgstr ""
 
@@ -14170,6 +14373,16 @@ msgstr ""
 msgid "Including {0}"
 msgstr ""
 
+#. Label in the One Sales Voucher print format
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
+msgid "Income"
+msgstr ""
+
+#. Label in the One Sales Voucher print format
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
+msgid "Income Credited"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Income Tax Computation"
@@ -14336,7 +14549,7 @@ msgstr ""
 msgid "Intake Weekly"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:684
+#: onedesk/one/print_blocks.py:702
 msgid "Interest"
 msgstr ""
 
@@ -14567,13 +14780,21 @@ msgstr ""
 msgid "Inviting the owner"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
 #: frontend/src/item/ItemSelling.vue:73 frontend/src/project/Invoices.vue:30
-#: onedesk/one/print_blocks.py:18 onedesk/one/print_blocks.py:688
-#: onedesk/one/print_blocks.py:784
+#: onedesk/one/print_blocks.py:18 onedesk/one/print_blocks.py:706
+#: onedesk/one/print_blocks.py:802
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 msgid "Invoice"
@@ -14585,7 +14806,9 @@ msgstr ""
 msgid "Invoice Month"
 msgstr ""
 
+#. Label in the One Sales Invoice Bordered print format
 #: onedesk/one/print_blocks.py:18
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
 msgid "Invoice No"
 msgstr ""
 
@@ -14598,8 +14821,16 @@ msgstr ""
 msgid "Invoice Overdue"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 msgid "Invoice Portion"
 msgstr ""
 
@@ -14639,7 +14870,7 @@ msgid "Invoiced {0}"
 msgstr ""
 
 #: frontend/src/project/Invoices.vue:12
-#: frontend/src/project/ProjectPage.vue:187 onedesk/one/print_blocks.py:774
+#: frontend/src/project/ProjectPage.vue:187 onedesk/one/print_blocks.py:792
 #: onedesk/public/js/settings.js:1584 onedesk/public/js/tenant.js:21
 #: onedesk/templates/includes/one_account_tabs.html:4
 #: onedesk/www/account_invoices.html:2 onedesk/www/account_invoices.html:17
@@ -14744,7 +14975,7 @@ msgstr ""
 msgid "Issue Analytics"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:290
+#: onedesk/one/print_blocks.py:308
 msgid "Issue Note"
 msgstr ""
 
@@ -14958,6 +15189,7 @@ msgstr ""
 msgid "It would overwrite {0}."
 msgstr ""
 
+#. Label in the One Sales Voucher print format
 #. Label in the One Quotation print format
 #. Label in the One Sales Order print format
 #. Label in the One Service Report print format
@@ -14975,6 +15207,7 @@ msgstr ""
 #: frontend/src/stock/StockOnHand.vue:29
 #: frontend/src/supplier/SupplierItems.vue:21
 #: frontend/src/to_order/ToOrderPage.vue:23
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
 #: onedesk/one_crm/print_format/one_sales_order/one_sales_order.json
 #: onedesk/one_crm/print_format/one_service_report/one_service_report.json
@@ -15005,8 +15238,12 @@ msgstr ""
 msgid "Item Attribute"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
+#. Label in the One Sales Invoice Classic print format
 #. Label of the code (Data) field in DocType 'Reading Line'
 #: frontend/src/item/ItemPage.vue:208
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
 #: onedesk/one_intake/doctype/reading_line/reading_line.json
 msgid "Item Code"
 msgstr ""
@@ -15074,12 +15311,24 @@ msgstr ""
 msgid "Item-wise Sales Register"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#. Label in the One Sales Voucher print format
+#. Label in the One Simplified Tax Invoice print format
 #: frontend/portal/src/pages/List.vue:29
 #: frontend/portal/src/pages/Record.vue:31 frontend/portal/src/pages/Rfq.vue:20
 #: frontend/src/lots/LotsPage.vue:117 frontend/src/stock/StockOnHand.vue:168
 #: frontend/src/to_order/ToOrderPage.vue:153
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
+#: onedesk/one_book/print_format/one_simplified_tax_invoice/one_simplified_tax_invoice.json
 #: onedesk/one_inventory/heads.py:1507 onedesk/one_inventory/heads.py:1719
 #: onedesk/one_inventory/home.py:72
 #: onedesk/one_inventory/page/item_view/item_view.js:9
@@ -15354,7 +15603,7 @@ msgid "Kept"
 msgstr ""
 
 #. Label in the One Equipment Handover print format
-#: onedesk/one/print_blocks.py:484 onedesk/one_inventory/heads.py:1394
+#: onedesk/one/print_blocks.py:502 onedesk/one_inventory/heads.py:1394
 #: onedesk/one_inventory/print_format/one_equipment_handover/one_equipment_handover.json
 msgid "Kept At"
 msgstr ""
@@ -15777,7 +16026,7 @@ msgstr ""
 msgid "Late"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:688
+#: onedesk/one/print_blocks.py:706
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:142
 msgid "Late By"
 msgstr ""
@@ -16251,8 +16500,16 @@ msgstr ""
 msgid "Length (mm)"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 msgid "Less Retention"
 msgstr ""
 
@@ -17767,7 +18024,7 @@ msgstr ""
 
 #: frontend/portal/src/pages/Project.vue:16
 #: frontend/src/project/Overview.vue:49 frontend/src/project/Overview.vue:70
-#: onedesk/one/print_blocks.py:758
+#: onedesk/one/print_blocks.py:776
 msgid "Milestones"
 msgstr ""
 
@@ -18338,7 +18595,7 @@ msgstr ""
 msgid "Net 45"
 msgstr ""
 
-#: frontend/src/home/HrStory.vue:88 onedesk/one/print_blocks.py:632
+#: frontend/src/home/HrStory.vue:88 onedesk/one/print_blocks.py:650
 msgid "Net Pay"
 msgstr ""
 
@@ -18707,7 +18964,7 @@ msgstr ""
 
 #: frontend/portal/src/pages/List.vue:31
 #: frontend/portal/src/parts/Gallery.vue:14 frontend/src/project/Media.vue:11
-#: onedesk/one/print_blocks.py:760
+#: onedesk/one/print_blocks.py:778
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:246
 #: onedesk/public/js/doctype_settings.js:400 onedesk/public/js/item_new.js:345
 #: onedesk/public/js/project_actions.js:619
@@ -18802,7 +19059,11 @@ msgstr ""
 msgid "Next: {0}"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
 #. Label in the One Maintenance Plan print format
 #. Label in the One Quotation print format
 #. Label in the One Sales Order print format
@@ -18820,9 +19081,13 @@ msgstr ""
 #. Label in the One Work Order print format
 #. Label in the One Timesheet print format
 #: onedesk/one/ai.py:2731 onedesk/one/ai.py:2734 onedesk/one/ai.py:3862
-#: onedesk/one/ai.py:4082 onedesk/one/print_blocks.py:276
+#: onedesk/one/ai.py:4082 onedesk/one/print_blocks.py:294
 #: onedesk/one_ai/chat.py:750
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
 #: onedesk/one_crm/print_format/one_sales_order/one_sales_order.json
@@ -20285,10 +20550,18 @@ msgstr ""
 msgid "Nudge"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#. Label in the One Simplified Tax Invoice print format
 #. Label of the number (Data) field in DocType 'Employee Document'
 #: onedesk/one/portal.py:76 onedesk/one/portal.py:77
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
+#: onedesk/one_book/print_format/one_simplified_tax_invoice/one_simplified_tax_invoice.json
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 #: onedesk/one_intake/bundle.py:76 onedesk/one_intake/panel.py:130
 #: onedesk/public/js/settings.js:1786
@@ -22263,6 +22536,11 @@ msgstr ""
 msgid "Otherwise only its maker. Only a Workspace Administrator can share one."
 msgstr ""
 
+#. Label in the One Sales Invoice Classic print format
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+msgid "Our TRN"
+msgstr ""
+
 #: onedesk/one_book/notification/payment_reminder/payment_reminder.html:3
 msgid "Our invoice {0} of {1} for {2} was due on {3}, and {4} of it is still outstanding."
 msgstr ""
@@ -22374,8 +22652,8 @@ msgid "Output Tokens"
 msgstr ""
 
 #: frontend/src/project/Invoices.vue:36 frontend/src/project/Invoices.vue:122
-#: frontend/src/project/Suppliers.vue:96 onedesk/one/print_blocks.py:680
-#: onedesk/one/print_blocks.py:688 onedesk/one/print_blocks.py:784
+#: frontend/src/project/Suppliers.vue:96 onedesk/one/print_blocks.py:698
+#: onedesk/one/print_blocks.py:706 onedesk/one/print_blocks.py:802
 msgid "Outstanding"
 msgstr ""
 
@@ -22429,14 +22707,22 @@ msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #. Option for the 'What' (Select) field in DocType 'Tenant Event'
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
 #: frontend/src/home/BooksHome.vue:120 frontend/src/home/BooksHome.vue:203
 #: frontend/src/project/Invoices.vue:123 frontend/src/task/MyTasks.vue:14
 #: frontend/src/upkeep/UpkeepPage.vue:89 frontend/src/upkeep/UpkeepRows.vue:193
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_book/heads.py:761 onedesk/one_book/heads.py:785
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_crm/report/opportunity_forecast/opportunity_forecast.py:39
 #: onedesk/one_task/mine.py:16 onedesk/one_task/tell.py:302
 msgid "Overdue"
@@ -22447,7 +22733,7 @@ msgstr ""
 msgid "Overdue For"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:687
+#: onedesk/one/print_blocks.py:705
 msgid "Overdue Invoices"
 msgstr ""
 
@@ -22573,17 +22859,25 @@ msgid "Pages"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
 #: frontend/src/project/Invoices.vue:120 frontend/src/project/Suppliers.vue:204
 #: frontend/src/project/Suppliers.vue:228 onedesk/one/portal.py:659
 #: onedesk/one/portal.py:796 onedesk/one/portal.py:853
 #: onedesk/one/portal.py:863 onedesk/one/portal.py:866
-#: onedesk/one/portal.py:868 onedesk/one/print_blocks.py:547
+#: onedesk/one/portal.py:868 onedesk/one/print_blocks.py:565
 #: onedesk/one_admin/accounts.py:216
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/log.py:15 onedesk/one_book/heads.py:103
 #: onedesk/one_book/heads.py:380
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_crm/heads.py:136 onedesk/one_inventory/heads.py:562
 #: onedesk/one_project/money.py:165 onedesk/one_project/money.py:176
 #: onedesk/one_project/portal.py:233 onedesk/one_project/view.py:437
@@ -22614,7 +22908,7 @@ msgid "Paid Online"
 msgstr ""
 
 #. Option for the 'Role' (Select) field in DocType 'Reading Party'
-#: onedesk/one/print_blocks.py:406
+#: onedesk/one/print_blocks.py:424
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
 msgid "Paid To"
 msgstr ""
@@ -22756,8 +23050,16 @@ msgstr ""
 msgid "Partitions and ceiling frames"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 msgid "Partly Paid"
 msgstr ""
 
@@ -22999,9 +23301,17 @@ msgstr ""
 msgid "Pay Retention"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
-#: onedesk/one/print_blocks.py:614
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#: onedesk/one/print_blocks.py:632
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 msgid "Pay To"
 msgstr ""
 
@@ -23067,7 +23377,7 @@ msgstr ""
 msgid "Payload"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:286 onedesk/public/js/intake.js:154
+#: onedesk/one/print_blocks.py:304 onedesk/public/js/intake.js:154
 #: onedesk/public/js/intake.js:165
 msgid "Payment"
 msgstr ""
@@ -23105,7 +23415,7 @@ msgstr ""
 msgid "Payment Method"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:286
+#: onedesk/one/print_blocks.py:304
 msgid "Payment No"
 msgstr ""
 
@@ -23140,9 +23450,17 @@ msgstr ""
 msgid "Payment Request"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
-#: onedesk/one/print_blocks.py:579
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#: onedesk/one/print_blocks.py:597
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 msgid "Payment Schedule"
 msgstr ""
 
@@ -23400,7 +23718,7 @@ msgstr ""
 msgid "Per Workspace"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:492
+#: onedesk/one/print_blocks.py:510
 msgid "Period"
 msgstr ""
 
@@ -24005,6 +24323,11 @@ msgstr ""
 msgid "Prepare this interview again"
 msgstr ""
 
+#. Label in the One Sales Voucher print format
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
+msgid "Prepared By"
+msgstr ""
+
 #: onedesk/one/print_blocks.py:113 onedesk/one/print_blocks.py:137
 #: onedesk/one/print_blocks.py:138
 msgid "Prepared For"
@@ -24373,7 +24696,7 @@ msgstr ""
 #: frontend/portal/src/pages/Project.vue:77
 #: frontend/src/project/Overview.vue:300 frontend/src/project/Tasks.vue:24
 #: frontend/src/task/TaskPage.vue:261 onedesk/one/portal.py:78
-#: onedesk/one/print_blocks.py:754 onedesk/one_book/heads.py:639
+#: onedesk/one/print_blocks.py:772 onedesk/one_book/heads.py:639
 #: onedesk/one_book/heads.py:722 onedesk/one_book/heads.py:734
 #: onedesk/one_crm/heads.py:308 onedesk/one_inventory/heads.py:1533
 #: onedesk/one_inventory/heads.py:1544 onedesk/one_inventory/heads.py:1583
@@ -24393,7 +24716,11 @@ msgstr ""
 msgid "Progress…"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#. Label in the One Sales Voucher print format
 #. Label of the project (Link) field in DocType 'Material Request'
 #. Label of the project (Link) field in DocType 'Quotation'
 #. Label of the project (Link) field in DocType 'Request for Quotation'
@@ -24401,9 +24728,13 @@ msgstr ""
 #: frontend/src/project/ProjectPage.vue:206
 #: frontend/src/project/TaskPanel.vue:48 frontend/src/project/Time.vue:100
 #: onedesk/one/portal.py:78 onedesk/one/print_blocks.py:36
-#: onedesk/one/print_blocks.py:506 onedesk/one_book/heads.py:640
+#: onedesk/one/print_blocks.py:524 onedesk/one_book/heads.py:640
 #: onedesk/one_book/heads.py:735
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
 #: onedesk/one_crm/heads.py:315 onedesk/one_crm/heads.py:325
 #: onedesk/one_crm/heads.py:345 onedesk/one_hr/heads.py:679
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:25
@@ -24823,9 +25154,19 @@ msgstr ""
 msgid "Putaway Rule"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#. Label in the One Simplified Tax Invoice print format
 #: frontend/src/to_order/ToOrderPage.vue:26
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
+#: onedesk/one_book/print_format/one_simplified_tax_invoice/one_simplified_tax_invoice.json
 msgid "Qty"
 msgstr ""
 
@@ -25100,12 +25441,16 @@ msgstr ""
 msgid "Rank the applicants again"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
+#. Label in the One Sales Voucher print format
 #. Label in the One Quotation print format
 #. Label in the One Sales Order print format
 #. Label in the One Blanket Order print format
 #. Label in the One Purchase Order print format
 #: frontend/portal/src/pages/Rfq.vue:25 frontend/portal/src/pages/Rfq.vue:41
 #: frontend/portal/src/pages/Rfq.vue:44 frontend/portal/src/pages/Rfq.vue:57
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
 #: onedesk/one_crm/print_format/one_sales_order/one_sales_order.json
 #: onedesk/one_inventory/print_format/one_blanket_order/one_blanket_order.json
@@ -25961,6 +26306,8 @@ msgstr ""
 msgid "Reload"
 msgstr ""
 
+#. Label in the One Sales Voucher print format
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
 #: onedesk/public/js/item_actions.js:239 onedesk/public/js/item_actions.js:289
 msgid "Remarks"
 msgstr ""
@@ -26638,12 +26985,20 @@ msgstr ""
 msgid "Retention Due"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
 #. Label of the one_held (Select) field in DocType 'Purchase Invoice Item'
 #. Label of the one_retention_held (Currency) field in DocType 'Sales Invoice'
 #. Label of the one_held (Select) field in DocType 'Sales Invoice Item'
 #: frontend/src/project/Suppliers.vue:206
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_project/custom/purchase_invoice_item.json
 #: onedesk/one_project/custom/sales_invoice.json
 #: onedesk/one_project/custom/sales_invoice_item.json
@@ -26695,9 +27050,17 @@ msgstr ""
 msgid "Retired"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
-#: onedesk/one/print_blocks.py:282
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#: onedesk/one/print_blocks.py:300
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 msgid "Return"
 msgstr ""
 
@@ -27017,7 +27380,7 @@ msgstr ""
 msgid "SMTP Server"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:611
+#: onedesk/one/print_blocks.py:629
 msgid "SWIFT"
 msgstr ""
 
@@ -27162,6 +27525,11 @@ msgstr ""
 
 #: frontend/src/home/CrmStory.vue:23
 msgid "Sales Trend"
+msgstr ""
+
+#. Label in the One Sales Voucher print format
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
+msgid "Sales Voucher"
 msgstr ""
 
 #: onedesk/one/settings.py:835
@@ -28129,7 +28497,7 @@ msgstr ""
 msgid "Settled by a return."
 msgstr ""
 
-#: onedesk/one/print_blocks.py:649
+#: onedesk/one/print_blocks.py:667
 msgid "Settles"
 msgstr ""
 
@@ -28339,7 +28707,7 @@ msgstr ""
 msgid "Shifts"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:437
+#: onedesk/one/print_blocks.py:455
 msgid "Ship To"
 msgstr ""
 
@@ -28730,7 +29098,7 @@ msgid "Sign-off to go live"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
-#: onedesk/one/print_blocks.py:711 onedesk/one/print_blocks.py:728
+#: onedesk/one/print_blocks.py:729 onedesk/one/print_blocks.py:746
 #: onedesk/one_ai/chat.py:373
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/public/js/onemail.js:951 onedesk/public/js/onemail.js:1049
@@ -28821,6 +29189,16 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 msgid "Signups"
+msgstr ""
+
+#. Label in the One Simplified Tax Invoice print format
+#: onedesk/one_book/print_format/one_simplified_tax_invoice/one_simplified_tax_invoice.json
+msgid "Simplified Tax Credit Note"
+msgstr ""
+
+#. Label in the One Simplified Tax Invoice print format
+#: onedesk/one_book/print_format/one_simplified_tax_invoice/one_simplified_tax_invoice.json
+msgid "Simplified Tax Invoice"
 msgstr ""
 
 #: frontend/src/project/Facts.vue:22 frontend/src/task/MyTasks.vue:64
@@ -30089,7 +30467,7 @@ msgstr ""
 
 #: frontend/portal/src/pages/Project.vue:36
 #: frontend/src/project/Overview.vue:122
-#: frontend/src/project/ProjectPage.vue:298 onedesk/one/print_blocks.py:763
+#: frontend/src/project/ProjectPage.vue:298 onedesk/one/print_blocks.py:781
 #: onedesk/one_project/heads.py:258 onedesk/one_project/tree.py:198
 msgid "Sub-projects"
 msgstr ""
@@ -30212,9 +30590,17 @@ msgstr ""
 msgid "Subscription Settings"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
-#: onedesk/one/portal.py:639 onedesk/one/print_blocks.py:534
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#: onedesk/one/portal.py:639 onedesk/one/print_blocks.py:552
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 msgid "Subtotal"
 msgstr ""
 
@@ -30530,14 +30916,24 @@ msgstr ""
 msgid "TB"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#. Label in the One Simplified Tax Invoice print format
 #: onedesk/one/letter_heads.py:151
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
+#: onedesk/one_book/print_format/one_simplified_tax_invoice/one_simplified_tax_invoice.json
 #: onedesk/one_book/report/books_check/books_check.js:22
 msgid "TRN"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:312 onedesk/one/print_blocks.py:436
+#: onedesk/one/print_blocks.py:330 onedesk/one/print_blocks.py:454
 msgid "TRN {0}"
 msgstr ""
 
@@ -30700,10 +31096,14 @@ msgstr ""
 msgid "Tasks Due or Late"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
+#. Label in the One Sales Voucher print format
 #. Label of the tax (Float) field in DocType 'Reading'
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
 #: frontend/portal/src/pages/Rfq.vue:27 onedesk/one/portal.py:647
 #: onedesk/one/portal.py:1381
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
 #: onedesk/one_book/report/vat_return/vat_return.py:39
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
@@ -30729,10 +31129,23 @@ msgstr ""
 msgid "Tax Category"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
-#: onedesk/one/print_blocks.py:298
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#: onedesk/one/print_blocks.py:316
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 msgid "Tax Credit Note"
+msgstr ""
+
+#. Label in the One Sales Voucher print format
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
+msgid "Tax Credited"
 msgstr ""
 
 #: onedesk/one/letter_heads.py:66 onedesk/one/letter_heads.py:151
@@ -30740,13 +31153,21 @@ msgstr ""
 msgid "Tax ID"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:436
+#: onedesk/one/print_blocks.py:454
 msgid "Tax ID {0}"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
-#: onedesk/one/print_blocks.py:298
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#: onedesk/one/print_blocks.py:316
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 msgid "Tax Invoice"
 msgstr ""
 
@@ -30804,8 +31225,16 @@ msgstr ""
 msgid "Tax {0}"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 msgid "Taxable"
 msgstr ""
 
@@ -30813,7 +31242,11 @@ msgstr ""
 msgid "Taxable Amount"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
+#. Label in the One Sales Voucher print format
 #: onedesk/one_book/home.py:207 onedesk/one_book/home.py:255
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
 msgid "Taxes"
 msgstr ""
 
@@ -30941,7 +31374,11 @@ msgstr ""
 msgid "Term"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
 #. Label in the One Contract print format
 #. Label in the One Quotation print format
 #. Label in the One Sales Order print format
@@ -30954,7 +31391,11 @@ msgstr ""
 #. Template'
 #: frontend/portal/src/pages/Rfq.vue:93 onedesk/one/portal.py:729
 #: onedesk/one/print_recipes.py:182
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
 #: onedesk/one_crm/print_format/one_sales_order/one_sales_order.json
@@ -33461,8 +33902,16 @@ msgstr ""
 msgid "Time"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 msgid "Time Billed"
 msgstr ""
 
@@ -33472,8 +33921,16 @@ msgstr ""
 msgid "Time Budget"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 msgid "Time Spent"
 msgstr ""
 
@@ -33824,15 +34281,23 @@ msgstr ""
 msgid "Top Preset"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
 #. Label of the gross (Float) field in DocType 'Reading'
 #: frontend/portal/src/pages/Rfq.vue:82 frontend/src/project/Invoices.vue:35
 #: frontend/src/project/Suppliers.vue:95
 #: frontend/src/quotes/QuoteCompare.vue:38 frontend/src/quotes/QuoteRows.vue:13
 #: onedesk/one/portal.py:76 onedesk/one/portal.py:654 onedesk/one/portal.py:825
-#: onedesk/one/print_blocks.py:567 onedesk/one/print_blocks.py:784
+#: onedesk/one/print_blocks.py:585 onedesk/one/print_blocks.py:802
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:51
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_crm/heads.py:326 onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:43
 #: onedesk/one_intake/panel.py:138 onedesk/one_inventory/heads.py:1657
@@ -33860,7 +34325,7 @@ msgstr ""
 msgid "Total Debit"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:631
+#: onedesk/one/print_blocks.py:649
 msgid "Total Deductions"
 msgstr ""
 
@@ -33868,8 +34333,16 @@ msgstr ""
 msgid "Total Expense"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 msgid "Total Hours"
 msgstr ""
 
@@ -33893,8 +34366,13 @@ msgstr ""
 msgid "Total charged"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:557
+#: onedesk/one/print_blocks.py:575
 msgid "Total in {0}"
+msgstr ""
+
+#. Label in the One Simplified Tax Invoice print format
+#: onedesk/one_book/print_format/one_simplified_tax_invoice/one_simplified_tax_invoice.json
+msgid "Total incl. VAT"
 msgstr ""
 
 #: onedesk/one/ai_setup.py:140
@@ -34008,7 +34486,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #. Option for the 'Paid How' (Select) field in DocType 'Reading'
-#: onedesk/one/print_blocks.py:292 onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one/print_blocks.py:310 onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Transfer"
 msgstr ""
@@ -34017,11 +34495,11 @@ msgstr ""
 msgid "Transfer Material"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:292
+#: onedesk/one/print_blocks.py:310
 msgid "Transfer No"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:288
+#: onedesk/one/print_blocks.py:306
 msgid "Transfer Note"
 msgstr ""
 
@@ -34256,8 +34734,16 @@ msgstr ""
 msgid "UIDVALIDITY"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_inventory/home.py:207
 msgid "UOM"
 msgstr ""
@@ -34368,9 +34854,17 @@ msgstr ""
 msgid "Unit Category"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
 #. Label of the unit_price (Float) field in DocType 'Reading Line'
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_intake/doctype/reading_line/reading_line.json
 msgid "Unit Price"
 msgstr ""
@@ -34418,9 +34912,17 @@ msgstr ""
 msgid "Unlock"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
 #: onedesk/one_admin/accounts.py:218
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_project/portal.py:233 onedesk/public/js/settings.js:1778
 msgid "Unpaid"
 msgstr ""
@@ -34810,9 +35312,17 @@ msgid "Utilization"
 msgstr ""
 
 #. Label of the one_vat_amount (Currency) field in DocType 'Sales Invoice Item'
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
 #: onedesk/one_book/custom/sales_invoice_item.json
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 msgid "VAT"
 msgstr ""
 
@@ -34828,10 +35338,23 @@ msgstr ""
 msgid "VAT ID"
 msgstr ""
 
+#. Label in the One Simplified Tax Invoice print format
+#: onedesk/one_book/print_format/one_simplified_tax_invoice/one_simplified_tax_invoice.json
+msgid "VAT Included"
+msgstr ""
+
 #. Label of the one_vat_rate (Percent) field in DocType 'Sales Invoice Item'
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
 #: onedesk/one_book/custom/sales_invoice_item.json
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 msgid "VAT Rate"
 msgstr ""
 
@@ -35093,6 +35616,11 @@ msgstr ""
 
 #: onedesk/public/js/settings.js:1778
 msgid "Void"
+msgstr ""
+
+#. Label in the One Sales Voucher print format
+#: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
+msgid "Voucher No"
 msgstr ""
 
 #: onedesk/one_book/home.py:370
@@ -38746,9 +39274,17 @@ msgstr ""
 msgid "Work Anniversary"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Bordered print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
 #. Label of the one_work_billed (Currency) field in DocType 'Sales Invoice'
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_project/custom/sales_invoice.json
 msgid "Work Billed"
 msgstr ""
@@ -39637,10 +40173,16 @@ msgstr ""
 msgid "Your Records"
 msgstr ""
 
+#. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
+#. Label in the One Sales Invoice Classic print format
+#. Label in the One Sales Invoice with Images print format
 #: onedesk/one/print_blocks.py:47 onedesk/one/print_blocks.py:53
 #: onedesk/one/print_blocks.py:57
+#: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 msgid "Your Reference"
 msgstr ""
 
@@ -41562,7 +42104,7 @@ msgstr ""
 #: frontend/src/home/HrStory.vue:75 frontend/src/supplier/SupplierItems.vue:62
 #: frontend/src/template/Tasks.vue:132
 #: frontend/src/template/TemplatePage.vue:90
-#: frontend/src/upkeep/UpkeepRows.vue:73 onedesk/one/print_blocks.py:675
+#: frontend/src/upkeep/UpkeepRows.vue:73 onedesk/one/print_blocks.py:693
 #: onedesk/one/stages.py:33 onedesk/one_crm/heads.py:33
 #: onedesk/one_crm/heads.py:41 onedesk/one_intake/understand.py:390
 #: onedesk/one_inventory/heads.py:1185 onedesk/one_project/ai.py:897
@@ -42702,7 +43244,7 @@ msgstr ""
 msgid "{0} of {1} tasks"
 msgstr ""
 
-#: frontend/portal/src/pages/Project.vue:80 onedesk/one/print_blocks.py:756
+#: frontend/portal/src/pages/Project.vue:80 onedesk/one/print_blocks.py:774
 msgid "{0} of {1} tasks done"
 msgstr ""
 
@@ -43314,7 +43856,7 @@ msgstr ""
 msgid "{0}% billed"
 msgstr ""
 
-#: frontend/src/project/Overview.vue:490 onedesk/one/print_blocks.py:767
+#: frontend/src/project/Overview.vue:490 onedesk/one/print_blocks.py:785
 #: onedesk/one_project/view.py:824 onedesk/public/js/project_list.js:106
 #: onedesk/public/js/project_tree.js:18
 #, python-format

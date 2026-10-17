@@ -331,6 +331,19 @@ fails a small business on first use or leaves a question unanswered.
   Retention** above the Subtotal, the Retention lines left out of the table;
   taxed with the invoice, **Retention Held** and, until anything is paid,
   **Due Now** below the Total.
+- One's version of each Sales Invoice format ERPNext ships, made the same
+  way, and ERPNext's own turned off so the print menu offers each once
+  (`one/print_blocks.py` `REPLACES`): **One Sales Invoice** for Modern, the
+  UAE's Tax Invoice and the Return; **Classic**, the details in a shaded
+  panel and the lines in a rounded table with their item codes;
+  **Bordered**, the heading facts in ruled boxes and from whom and to whom
+  side by side; **with Images**, each line led by its item's picture; **One
+  Simplified Tax Invoice**, what the FTA asks of a simplified one (Article
+  60: the seller, its TRN, the date, what, and the total with its tax);
+  **One Detailed Tax Invoice**, with each tax and the amounts in the
+  company's currency; and **One Sales Voucher** for ERPNext's auditing
+  voucher, what was posted where, from the invoice's own lines and taxes,
+  with room to sign.
 - `paid.py` `titled` and `journal.py` — what a payment and a journal entry
   are called. ERPNext titles a payment by the party's ID (an employee's
   reads HR-EMP-00013) and a journal entry by its first account (forty read

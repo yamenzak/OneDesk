@@ -192,12 +192,30 @@ SIGNED = {
 INK = "#111827"
 
 
+#: ERPNext's own formats each of One's stands in for, turned off so the print
+#: menu offers each version once. ERPNext's come back on if One's is removed.
+REPLACES = {
+	"One Sales Invoice": ("Sales Invoice Modern", "Tax Invoice", "Sales Invoice Return"),
+	"One Sales Invoice Classic": ("Sales Invoice Classic",),
+	"One Sales Invoice Bordered": ("Sales Invoice Bordered",),
+	"One Sales Invoice with Images": ("Sales Invoice Modern with Images",),
+	"One Simplified Tax Invoice": ("Simplified Tax Invoice",),
+	"One Detailed Tax Invoice": ("Detailed Tax Invoice",),
+	"One Sales Voucher": ("Sales Auditing Voucher",),
+}
+
+
 def settle() -> None:
-	"""The blocks, and One's format as each record's default where nobody has
-	chosen one or the default is the one ERPNext set when it was installed. A
-	format the workspace chose (Printing, or frappe's own Set as Default) is
-	kept."""
+	"""The blocks, ERPNext's formats One's replace turned off, and One's
+	format as each record's default where nobody has chosen one or the default
+	is the one ERPNext set when it was installed. A format the workspace
+	chose (Printing, or frappe's own Set as Default) is kept."""
 	_sync_blocks()
+	for ours, theirs in REPLACES.items():
+		ready = frappe.db.exists("Print Format", {"name": ours, "disabled": 0})
+		for one in theirs:
+			if frappe.db.exists("Print Format", one):
+				frappe.db.set_value("Print Format", one, "disabled", 0 if not ready else 1, update_modified=False)
 	for doctype, (name, _module) in FORMATS.items():
 		if not frappe.db.exists("Print Format", name):
 			continue

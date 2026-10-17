@@ -698,6 +698,13 @@ def every_paper_prints_in_the_companys_look():
 		# The number's label is printed by One Title alone, never by the letter head.
 		label = print_blocks.title(frappe.get_doc(doctype, record[0]))["label"]
 		assert label in html, f"{doctype} {record[0]} prints no blocks"
+	# Each of One's versions of ERPNext's own prints, and ERPNext's is off.
+	for name, theirs in print_blocks.REPLACES.items():
+		doctype = frappe.db.get_value("Print Format", name, "doc_type")
+		record = frappe.get_all(doctype, filters={"docstatus": 1}, order_by="creation desc", limit=1, pluck="name")[0]
+		with as_user(OWNER):
+			assert record in frappe.get_print(doctype, record, name), name
+		assert all(frappe.db.get_value("Print Format", one, "disabled") for one in theirs), theirs
 
 
 @check

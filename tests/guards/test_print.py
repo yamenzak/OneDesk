@@ -83,13 +83,28 @@ def test_every_record_that_leaves_has_a_format_we_ship():
 
 
 def _native() -> dict:
-	"""The formats drawn only from the builder's own pieces."""
+	"""Every format we ship drawn only from the builder's own pieces, by name,
+	as (its doctype, its layout)."""
 	found = {}
-	for doctype, (name, module) in _formats().items():
-		layout = json.loads(_format(name, module)["format_data"])
-		if not _blocks(layout):
-			found[doctype] = layout
+	for path in APP.glob("*/print_format/*/*.json"):
+		shipped = json.loads(path.read_text())
+		layout = json.loads(shipped.get("format_data") or "{}")
+		if shipped.get("print_format_builder_beta") and layout and not _blocks(layout):
+			found[shipped["name"]] = (shipped["doc_type"], layout)
 	return found
+
+
+def test_each_erpnext_format_has_ours():
+	"""ERPNext's formats One's replace are turned off on migrate, so each of
+	One's is shipped and each of ERPNext's it names is one ERPNext ships."""
+	replaces = ast.literal_eval(_assigned("REPLACES"))
+	native = _native()
+	assert set(replaces) <= set(native), sorted(set(replaces) - set(native))
+	if not (APPS / "erpnext").exists():
+		pytest.skip("erpnext is not checked out beside this app")
+	theirs = {json.loads(path.read_text())["name"] for path in APPS.glob("erpnext/erpnext/*/print_format/*/*.json")}
+	named = {one for names in replaces.values() for one in names}
+	assert named <= theirs, sorted(named - theirs)
 
 
 def _pieces(data):
@@ -111,7 +126,7 @@ def test_a_native_format_asks_only_what_frappe_can_answer():
 	"""A condition frappe cannot evaluate prints the thing anyway and logs
 	an error on every print, so one that calls a builtin never ships."""
 	assert _native(), "no format is native yet"
-	for doctype, layout in _native().items():
+	for doctype, layout in _native().values():
 		for one in _pieces(layout):
 			for key in ("visible_if", "column_condition", "row_condition"):
 				said = one.get(key) or ""
@@ -123,7 +138,7 @@ def test_a_native_format_asks_only_what_frappe_can_answer():
 
 def _fields(doctype: str) -> set:
 	scrub = _scrub(doctype)
-	found = {"name", "idx"}
+	found = {"name", "idx", "owner", "creation", "modified", "modified_by", "docstatus"}
 	for path in APPS.glob(f"*/*/*/doctype/{scrub}/{scrub}.json"):
 		found |= {one["fieldname"] for one in json.loads(path.read_text())["fields"]}
 	for path in APP.glob(f"*/custom/{scrub}.json"):
@@ -145,7 +160,7 @@ def test_a_native_format_prints_fields_the_record_has():
 	against the doctype, its custom fields, and its tables' own."""
 	if not (APPS / "erpnext").exists():
 		pytest.skip("erpnext is not checked out beside this app")
-	for doctype, layout in _native().items():
+	for doctype, layout in _native().values():
 		has = _fields(doctype)
 		for one in _pieces(layout):
 			if one.get("fieldtype") == "Table":
