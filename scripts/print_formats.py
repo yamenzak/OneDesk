@@ -20,7 +20,8 @@ HEAD = f"font-size:9.5px;letter-spacing:0.08em;text-transform:uppercase;color:{M
 #: the second line of a merged cell no heavier than the first.
 CSS = """.child-table td[data-fieldtype="Currency"] { white-space: nowrap; }
 .child-table td[data-fieldname="one_vat_amount"] .cell-line--primary,
-.child-table td[data-fieldname="qty"] .cell-line--primary { font-weight: 400; }
+.child-table td[data-fieldname="qty"] .cell-line--primary,
+.child-table td[data-fieldname="received_qty"] .cell-line--primary { font-weight: 400; }
 """
 
 
@@ -433,6 +434,99 @@ TRADE = {
 }
 
 
+def _rfq_party(spec):
+	"""A request goes to every supplier listed, and the goods come to us."""
+	style = "color:#374151;line-height:1.5;margin-top:2px;"
+	return [
+		heading("Requested From"),
+		table("suppliers", "Suppliers", [{"fieldname": "supplier_name", "fieldtype": "Data", "label": "Supplier", "width": 100}],
+			table_header="none", table_style="plain", table_cell_padding=2),
+		heading("Deliver To", custom_style="margin-top:14px;", visible_if="doc.shipping_address_display"),
+		field("shipping_address_display", "Small Text", "Deliver To", show_label="hide", custom_style=style, visible_if="doc.shipping_address_display"),
+	]
+
+
+TRADE.update({
+	"Purchase Order": {
+		# A buyer's own address is the one it's billed at.
+		"our_address": "billing_address_display",
+		"module": "one_inventory",
+		"titles": (("Purchase Order", ""),),
+		"number": "Order No",
+		"party": ("Supplier", "supplier_name"),
+		"tax": None,
+		"deliver": True,
+		"details": (
+			("transaction_date", "Date", "Date"),
+			("schedule_date", "Date", "Required By"),
+			("project", "Project", "Project"),
+		),
+		"schedule": True,
+		"advance": True,
+	},
+	"Purchase Invoice": {
+		# A buyer's own address is the one it's billed at.
+		"our_address": "billing_address_display",
+		"module": "one_book",
+		"titles": (("Purchase Invoice", "not doc.is_return"), ("Debit Note", "doc.is_return")),
+		"number": "Invoice No",
+		"party": ("Supplier", "supplier_name"),
+		"us": "Billed To",
+		"details": (
+			("posting_date", "Date", "Date"),
+			("bill_no", "Data", "Supplier Invoice No"),
+			("bill_date", "Date", "Supplier Invoice Date"),
+			("due_date", "Date", "Due Date"),
+			("return_against", "Link", "Against Invoice"),
+			("project", "Project", "Project"),
+		),
+		"schedule": True,
+	},
+	"Request for Quotation": {
+		# A buyer's own address is the one it's billed at.
+		"our_address": "billing_address_display",
+		"module": "one_inventory",
+		"titles": (("Request for Quotation", ""),),
+		"number": "Request No",
+		"party_fields": _rfq_party,
+		"details": (("transaction_date", "Date", "Date"), ("schedule_date", "Date", "Required By")),
+		"priced": False,
+		"columns": (
+			{"fieldname": "qty", "fieldtype": "Float", "label": "Qty", "width": 14, "align": "right",
+				"merged_fields": [{"fieldname": "uom", "fieldtype": "Link", "label": "UOM", "style": "muted-sm"}]},
+			{"fieldname": "schedule_date", "fieldtype": "Date", "label": "Required By", "width": 18, "align": "right", "date_format": DATE},
+		),
+		"message": "message_for_supplier",
+	},
+	"Purchase Receipt": {
+		# A buyer's own address is the one it's billed at.
+		"our_address": "billing_address_display",
+		"module": "one_inventory",
+		"titles": (("Goods Received Note", "not doc.is_return"), ("Goods Returned", "doc.is_return")),
+		"number": "Receipt No",
+		"party": ("Received From", "supplier_name"),
+		"tax": None,
+		"us": "Received By",
+		"details": (
+			("posting_date", "Date", "Date"),
+			("supplier_delivery_note", "Data", "Their Delivery Note"),
+			("set_warehouse", "Link", "Into"),
+			("transporter_name", "Data", "Transporter"),
+			("lr_no", "Data", "Vehicle"),
+			("project", "Project", "Project"),
+		),
+		"priced": False,
+		"columns": (
+			{"fieldname": "received_qty", "fieldtype": "Float", "label": "Received", "width": 14, "align": "right",
+				"merged_fields": [{"fieldname": "uom", "fieldtype": "Link", "label": "UOM", "style": "muted-sm"}]},
+			{"fieldname": "qty", "fieldtype": "Float", "label": "Accepted", "width": 13, "align": "right"},
+			{"fieldname": "rejected_qty", "fieldtype": "Float", "label": "Rejected", "width": 13, "align": "right"},
+		),
+		"signs": (("Delivered By", "supplier_name"), ("Received By", None)),
+	},
+})
+
+
 def _titles(spec, size=24):
 	return [text(w, visible_if=when, font_size=size, bold=1, custom_style="letter-spacing:-0.01em;line-height:1.1;") if when
 		else text(w, font_size=size, bold=1, custom_style="letter-spacing:-0.01em;line-height:1.1;") for w, when in spec["titles"]]
@@ -452,6 +546,8 @@ def trade_title(spec):
 
 
 def trade_party(spec):
+	if spec.get("party_fields"):
+		return spec["party_fields"](spec)
 	words, name = spec["party"]
 	found = [heading(words), field(name, "Data", "Customer", show_label="hide", bold=1, font_size=13)]
 	style = "color:#374151;line-height:1.5;margin-top:2px;"
@@ -465,6 +561,11 @@ def trade_party(spec):
 	if spec.get("tax", "tax_id"):
 		found.append(field(spec.get("tax", "tax_id"), "Data", "TRN", hide_colon=1, custom_style="margin-top:6px;"))
 	found.append(field("contact_display", "Data", "Contact", hide_colon=1, custom_style="margin-top:2px;"))
+	if spec.get("deliver"):
+		found += [
+			heading("Deliver To", visible_if="doc.shipping_address_display", custom_style="margin-top:14px;"),
+			field("shipping_address_display", "Small Text", "Deliver To", show_label="hide", custom_style=style, visible_if="doc.shipping_address_display"),
+		]
 	if spec.get("ship"):
 		elsewhere = "doc.shipping_address_name and doc.shipping_address_name != doc.customer_address"
 		found += [
@@ -486,6 +587,10 @@ def trade_details(spec):
 
 
 def trade_columns(spec, image=False, code=False):
+	if spec.get("columns"):
+		rest = [dict(one) for one in spec["columns"]]
+		width = 100 - 5 - sum(one["width"] for one in rest)
+		return [{"fieldname": "idx", "fieldtype": "Int", "label": "No", "width": 5}, item_column(image=image, code=code, width=width), *rest]
 	found = [
 		{"fieldname": "idx", "fieldtype": "Int", "label": "No", "width": 5},
 		item_column(image=image, code=code, width=45 if spec.get("priced", True) else 75),
@@ -539,6 +644,9 @@ def signs_section(signs):
 
 def trade_rest(spec):
 	found = [terms_section()]
+	if spec.get("message"):
+		found.insert(0, section([field(spec["message"], "Text Editor", "Message", show_label="hide", custom_style="line-height:1.55;")],
+			top=22, visible_if=f"doc.{spec['message']}"))
 	if spec.get("bank"):
 		found.insert(0, trade_bank())
 	if spec.get("signs"):
@@ -581,16 +689,16 @@ def trade_bordered(spec):
 			return linked("project.project_name", label)
 		return field(fieldname, fieldtype, label, **({"date_format": DATE} if fieldtype == "Date" else {}))
 
-	words, name = spec["party"]
+	words, name = spec.get("party") or ("Date", None)
 	facts = section(
-		[field(name, "Data", words, bold=1), fact(first)],
+		[field(name, "Data", words, bold=1) if name else fact(first), fact(first) if name else field("status", "Data", "Status")],
 		[field("name", "Data", spec["number"], bold=1), fact(second)],
 		top=20, **grid,
 	)
 	style = "color:#374151;line-height:1.5;"
 	parties = section(
-		[heading("From"), field("company", "Link", "Company", show_label="hide", bold=1),
-			field("company_address_display", "Small Text", "Address", show_label="hide", custom_style=style),
+		[heading(spec.get("us", "From")), field("company", "Link", "Company", show_label="hide", bold=1),
+			field(spec.get("our_address", "company_address_display"), "Small Text", "Address", show_label="hide", custom_style=style),
 			_company_trn(show_label="inline")],
 		trade_party(spec),
 		widths=[50, 50], gap=24, top=10, radius=6, padding={"top": 14, "right": 16, "bottom": 14, "left": 16},
@@ -620,6 +728,55 @@ def proforma():
 	return trade_master(spec)
 
 
+def purchase_voucher():
+	"""ERPNext's Purchase Auditing Voucher, for the books: the supplier's
+	account credited with the total, and each line's expense account and
+	cost center and each tax's account debited, with room to sign."""
+	head = section(
+		titles(size=20, words=(("Purchase Voucher", "not doc.is_return"), ("Debit Note Voucher", "doc.is_return"))),
+		[field("name", "Data", "Voucher No", align="right", bold=1, hide_colon=1),
+			field("posting_date", "Date", "Date", align="right", hide_colon=1, date_format=DATE, custom_style="margin-top:4px;"),
+			field("bill_no", "Data", "Supplier Invoice No", align="right", hide_colon=1, custom_style="margin-top:2px;")],
+		widths=[60, 40], top=6, field_orientation="left-right",
+	)
+	who = section(
+		[row("supplier_name", "Data", "Supplier"), row("credit_to", "Link", "Credit To"),
+			linked("project.project_name", "Project", label_justify="space-between", hide_colon=1, custom_style=f"padding:5px 0;border-bottom:1px solid {LINE};")],
+		[row("grand_total", "Currency", "Credited", bold=1), row("net_total", "Currency", "Expense Debited"), row("total_taxes_and_charges", "Currency", "Tax Debited")],
+		widths=[50, 50], gap=40, top=20, field_orientation="left-right",
+	)
+	look = {"table_bordered": True, "table_header": "styled", "table_header_bg": SOFT, "table_cell_padding": 6}
+	lines = section([heading("Expense"), table("items", "Items", [
+		{"fieldname": "item_code", "fieldtype": "Link", "label": "Item", "width": 16},
+		{"fieldname": "item_name", "fieldtype": "Data", "label": "Description", "width": 24},
+		{"fieldname": "expense_account", "fieldtype": "Link", "label": "Account", "width": 22},
+		{"fieldname": "cost_center", "fieldtype": "Link", "label": "Cost Center", "width": 16},
+		{"fieldname": "net_amount", "fieldtype": "Currency", "label": "Debit", "width": 22, "align": "right"},
+	], **look)], top=22)
+	taxes = section([heading("Tax"), table("taxes", "Taxes", [
+		{"fieldname": "account_head", "fieldtype": "Link", "label": "Account", "width": 40},
+		{"fieldname": "cost_center", "fieldtype": "Link", "label": "Cost Center", "width": 22},
+		{"fieldname": "rate", "fieldtype": "Float", "label": "Rate", "width": 16, "align": "right"},
+		{"fieldname": "tax_amount", "fieldtype": "Currency", "label": "Debit", "width": 22, "align": "right"},
+	], **look)], top=16, visible_if="doc.taxes")
+	remarks = section([heading("Remarks"), field("remarks", "Small Text", "Remarks", show_label="hide")], top=16, visible_if="doc.remarks and doc.remarks != 'No Remarks'")
+	return layout(head, who, lines, taxes, remarks, signs_section((("Prepared By", "owner"), ("Checked By", None), ("Approved By", None))))
+
+
+def receipt_with_serials():
+	"""ERPNext's Purchase Receipt Serial and Batch Bundle Print: the receipt,
+	each line with the batch and serial numbers it came in under, as the line
+	keeps them."""
+	spec = TRADE["Purchase Receipt"]
+	columns = [
+		{"fieldname": "qty", "fieldtype": "Float", "label": "Accepted", "width": 13, "align": "right",
+			"merged_fields": [{"fieldname": "uom", "fieldtype": "Link", "label": "UOM", "style": "muted-sm"}]},
+		{"fieldname": "batch_no", "fieldtype": "Link", "label": "Batch", "width": 16},
+		{"fieldname": "serial_no", "fieldtype": "Small Text", "label": "Serial Numbers", "width": 26},
+	]
+	return trade_master({**spec, "columns": columns})
+
+
 def _trade(doctype, make):
 	return lambda: make(TRADE[doctype])
 
@@ -634,9 +791,15 @@ VERSIONS = {
 	"One Detailed Tax Invoice": ("Sales Invoice", "one_book", detailed),
 	"One Sales Voucher": ("Sales Invoice", "one_book", voucher),
 	"One Proforma Invoice": ("Sales Order", "one_crm", proforma),
+	"One Purchase Voucher": ("Purchase Invoice", "one_book", purchase_voucher),
+	"One Purchase Receipt with Serial Numbers": ("Purchase Receipt", "one_inventory", receipt_with_serials),
 }
+#: ERPNext ships one look for these, so One's is its master alone.
+ONE_LOOK = ("Purchase Receipt",)
 for _doctype, _spec in TRADE.items():
 	VERSIONS[f"One {_doctype}"] = (_doctype, _spec["module"], _trade(_doctype, trade_master))
+	if _doctype in ONE_LOOK:
+		continue
 	VERSIONS[f"One {_doctype} Classic"] = (_doctype, _spec["module"], _trade(_doctype, trade_classic))
 	VERSIONS[f"One {_doctype} Bordered"] = (_doctype, _spec["module"], _trade(_doctype, trade_bordered))
 	VERSIONS[f"One {_doctype} with Images"] = (_doctype, _spec["module"], _trade(_doctype, trade_images))

@@ -343,7 +343,11 @@ fails a small business on first use or leaves a question unanswered.
   **One Detailed Tax Invoice**, with each tax and the amounts in the
   company's currency; and **One Sales Voucher** for ERPNext's auditing
   voucher, what was posted where, from the invoice's own lines and taxes,
-  with room to sign.
+  with room to sign. A purchase invoice prints the same way as **One
+  Purchase Invoice** (the supplier's own number and date, due date) with
+  ERPNext's three other looks, and **One Purchase Voucher** for ERPNext's
+  Purchase Auditing Voucher: the supplier's account credited, each line's
+  expense account and each tax's account debited.
 - `paid.py` `titled` and `journal.py` — what a payment and a journal entry
   are called. ERPNext titles a payment by the party's ID (an employee's
   reads HR-EMP-00013) and a journal entry by its first account (forty read

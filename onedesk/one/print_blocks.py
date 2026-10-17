@@ -145,6 +145,7 @@ FORMATS = {
 	"Quotation": ("One Quotation", "one_crm"),
 	"Sales Order": ("One Sales Order", "one_crm"),
 	"Sales Invoice": ("One Sales Invoice", "one_book"),
+	"Purchase Invoice": ("One Purchase Invoice", "one_book"),
 	"Payment Entry": ("One Payment Receipt", "one_book"),
 	"Dunning": ("One Payment Reminder", "one_book"),
 	"Delivery Note": ("One Delivery Note", "one_inventory"),
@@ -215,6 +216,20 @@ REPLACES = {
 	"One Delivery Note Classic": ("Delivery Note Classic",),
 	"One Delivery Note Bordered": ("Delivery Note Bordered",),
 	"One Delivery Note with Images": ("Delivery Note Modern with Images",),
+	"One Purchase Order": ("Purchase Order Modern",),
+	"One Purchase Order Classic": ("Purchase Order Classic",),
+	"One Purchase Order Bordered": ("Purchase Order Bordered",),
+	"One Purchase Order with Images": ("Purchase Order Modern with Images",),
+	"One Purchase Invoice": ("Purchase Invoice Modern",),
+	"One Purchase Invoice Classic": ("Purchase Invoice Classic",),
+	"One Purchase Invoice Bordered": ("Purchase Invoice Bordered",),
+	"One Purchase Invoice with Images": ("Purchase Invoice Modern with Images",),
+	"One Request for Quotation": ("Request for Quotation Modern",),
+	"One Request for Quotation Classic": ("Request for Quotation Classic",),
+	"One Request for Quotation Bordered": ("Request for Quotation Bordered",),
+	"One Request for Quotation with Images": ("Request for Quotation Modern with Images",),
+	"One Purchase Voucher": ("Purchase Auditing Voucher",),
+	"One Purchase Receipt with Serial Numbers": ("Purchase Receipt Serial and Batch Bundle Print",),
 }
 
 

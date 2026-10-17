@@ -1398,7 +1398,15 @@ a register and a movement form in it would be a rail with five rows.
 A delivery note prints from the builder's own pieces too
 (`scripts/print_formats.py`): where it goes, the vehicle and driver, the
 lines without prices, and both sides to sign; Classic, Bordered and with
-Images in place of ERPNext's.
+Images in place of ERPNext's. So do the buying documents: One Purchase
+Order (the supplier, where to deliver, required by, any advance), One
+Request for Quotation (every supplier it goes to, each line's required by
+date, the message to them) and One Purchase Receipt as a Goods Received
+Note (received, accepted and rejected, both sides to sign), the first two
+with ERPNext's three other looks, the receipt with each line's batch and
+serial numbers in place of ERPNext's serial and batch print. That one reads
+the numbers the line keeps; a receipt that keeps them only in a serial and
+batch bundle prints them empty.
 
 ### access.py
 
