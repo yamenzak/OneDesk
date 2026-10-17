@@ -21,6 +21,17 @@ CUSTOMERS = (
 	("Harbour Logistics", "Commercial", "Company", "GBP", "Rest Of The World", ("Tom", "Archer", "tom@harbour.example", "+442075550188"), "London"),
 )
 
+#: The VAT-registered businesses among them, with their TRN, which a tax
+#: invoice to them must carry.
+TRNS = {
+	"Mansour & Sons": "100345678900003",
+	"Bayview Developments": "100456789000003",
+	"Marina Hotels Group": "100567890100003",
+	"Gulf Properties REIT": "100678901200003",
+	"Palm Interiors": "100789012300003",
+	"Crescent Schools": "100890123400003",
+}
+
 #: name, group, currency, contact (first, last, email), what they sell
 SUPPLIERS = (
 	("Al Noor Aluminium", "Raw Material", "AED", ("Faisal", "Noor", "sales@alnoor.example")),
@@ -112,6 +123,7 @@ def run(password=None):
 				"customer_type": kind,
 				"territory": territory,
 				"default_currency": currency,
+				"tax_id": TRNS.get(name),
 			}
 		)
 		_contact(person, "Customer", customer.name)

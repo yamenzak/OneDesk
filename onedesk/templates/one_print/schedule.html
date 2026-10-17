@@ -1,12 +1,12 @@
 {%- set b = one_print_block(doc, "schedule") -%}
 {%- if b %}
-<div style="font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:#6b7280;margin-bottom:4px">{{ b.heading|e }}</div>
-<table style="width:100%;border-collapse:collapse;font-size:12px">
+<div style="font-size:8.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#6b7280;margin-bottom:5px">{{ b.heading|e }}</div>
+<table style="width:100%;border-collapse:collapse;font-size:11px">
 	{%- for due, said, amount in b.rows %}
 	<tr>
-		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;color:#111827;width:30%">{{ due|e }}</td>
-		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;color:#6b7280">{{ said|e }}</td>
-		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;text-align:right;color:#111827">{{ amount|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #f0f1f3;color:#111827;white-space:nowrap;width:28%">{{ due|e }}</td>
+		<td style="padding:5px 8px;border-bottom:1px solid #f0f1f3;color:#6b7280">{{ said|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #f0f1f3;text-align:right;color:#111827;white-space:nowrap">{{ amount|e }}</td>
 	</tr>
 	{%- endfor %}
 </table>

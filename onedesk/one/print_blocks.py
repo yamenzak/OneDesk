@@ -237,11 +237,13 @@ def one_print_block(doc, block: str) -> dict:
 	"""What one of One's blocks shows for this record, for its template."""
 	shown = {
 		"title": title,
+		"lines": lines,
 		"party": party,
 		"details": details,
 		"totals": totals,
 		"schedule": schedule,
 		"bank": bank,
+		"terms": terms,
 		"payslip": payslip,
 		"payment": payment,
 		"overdue": overdue,
@@ -249,7 +251,12 @@ def one_print_block(doc, block: str) -> dict:
 		"progress": progress,
 		"time": time_billed,
 	}[block](doc)
-	return {**shown, "colour": colour(doc)} if shown else {}
+	if not shown:
+		return {}
+	from onedesk.one.letter_heads import readable
+
+	# The Brand Colour, and the same darkened where it is text, as a letter head does.
+	return {**shown, "colour": colour(doc), "ink": readable(colour(doc))}
 
 
 def _company(doc) -> str | None:
@@ -301,7 +308,31 @@ def title(doc) -> dict:
 		"label": str(number),
 		"name": name or doc.name,
 		"tax": _("TRN {0}").format(trn) if trn else None,
+		"status": _status(doc),
 	}
+
+
+#: Where an invoice stands, as its reader is told beside its title: the
+#: words and the colours of the mark (text, ground).
+STANDING = {
+	"Paid": ("#15803d", "#dcfce7"),
+	"Partly Paid": ("#b45309", "#fef3c7"),
+	"Unpaid": ("#374151", "#f3f4f6"),
+	"Overdue": ("#b91c1c", "#fee2e2"),
+}
+
+
+def _status(doc) -> dict | None:
+	"""A submitted invoice's standing, when it is one a reader acts on."""
+	if doc.doctype not in ("Sales Invoice", "Purchase Invoice") or doc.docstatus != 1 or doc.get("is_return"):
+		return None
+	standing = doc.get("status")
+	if standing in ("Partly Paid and Discounted", "Unpaid and Discounted"):
+		standing = standing.split(" and ")[0]
+	if standing not in STANDING:
+		return None
+	ink, ground = STANDING[standing]
+	return {"text": _(standing), "ink": ink, "ground": ground}
 
 
 #: The Print Headings ERPNext sets on a return by itself, not by choice.
@@ -384,6 +415,7 @@ def party(doc) -> dict:
 	address = doc.get("address_display")
 	if doc.doctype == "Delivery Note":
 		address = doc.get("shipping_address") or address
+	address = _trimmed(address)
 	tax = doc.get("tax_id")
 	ship = None
 	if (
@@ -391,7 +423,7 @@ def party(doc) -> dict:
 		and doc.get("shipping_address_name")
 		and doc.get("shipping_address_name") != doc.get("customer_address")
 	):
-		ship = doc.get("shipping_address")
+		ship = _trimmed(doc.get("shipping_address"))
 	return {
 		"heading": str(heading),
 		"name": name,
@@ -403,6 +435,19 @@ def party(doc) -> dict:
 		"ship_heading": _("Ship To") if ship else None,
 		"ship": ship,
 	}
+
+
+def _trimmed(html: str | None) -> str | None:
+	"""An address as ERPNext keeps it, less the line breaks at its end. Pure."""
+	return re.sub(r"(\s*<br\s*/?>\s*)+$", "", html or "").strip() or None
+
+
+def terms(doc) -> dict:
+	"""The record's terms, under a heading as the other blocks have."""
+	said = doc.get("terms")
+	if not said or not frappe.utils.strip_html(said).strip():
+		return {}
+	return {"heading": _("Terms"), "text": said}
 
 
 def _moved_to(doc, heading) -> dict:
@@ -469,10 +514,78 @@ def details(doc) -> dict:
 
 
 def money(doc, value, currency: str | None = None) -> str:
-	"""A sum as frappe formats it, in the record's currency unless told."""
-	return frappe.format_value(
-		flt(value), {"fieldtype": "Currency"}, currency=currency or doc.get("currency")
-	)
+	"""A sum in the record's currency unless told, said by its code before the
+	number as frappe formats it: AED 1,234.00. A currency's own symbol, such as
+	the dirham's, reads differently on every printer and to every reader."""
+	code = currency or doc.get("currency") or ""
+	return f"{code} {number(doc, value, code)}".strip()
+
+
+def number(doc, value, currency: str | None = None) -> str:
+	"""A sum as frappe formats it, without its currency: 1,234.00."""
+	from frappe.utils import fmt_money
+
+	code = currency or doc.get("currency")
+	precision = cint(frappe.db.get_default("currency_precision")) or 2
+	return fmt_money(flt(value), precision=precision, currency=None, format=_number_format(code))
+
+
+def _number_format(currency: str | None) -> str | None:
+	return (currency and frappe.get_cached_value("Currency", currency, "number_format")) or None
+
+
+#: What each line of a record that sells or buys says, its columns in order.
+LINE_HEADINGS = {
+	"no": _lt("No"),
+	"item": _lt("Item"),
+	"qty": _lt("Qty"),
+	"rate": _lt("Unit Price"),
+	"net": _lt("Taxable"),
+	"vat": _lt("VAT"),
+	"total": _lt("Amount"),
+}
+
+
+def lines(doc) -> dict:
+	"""Each line: what it is, how many at what price, and, on a taxed record,
+	what it is taxed on, at what rate, the tax, and the line with its tax, as
+	the FTA asks a tax invoice to say each supply (Article 59). The tax is
+	ERPNext's own per line (Item Wise Tax Detail), not worked out again."""
+	items = doc.get("items") or []
+	if not items:
+		return {}
+	taxes: dict = {}
+	for one in doc.get("item_wise_tax_details") or []:
+		rate, amount = taxes.get(one.item_row, (0.0, 0.0))
+		taxes[one.item_row] = (rate + flt(one.rate), amount + flt(one.amount))
+	taxed = any(amount for _rate, amount in taxes.values())
+	rows = []
+	for row in items:
+		rate, tax = taxes.get(row.name, (0.0, 0.0))
+		net = flt(row.get("net_amount")) or flt(row.get("amount"))
+		said = frappe.utils.strip_html(row.get("description") or "").strip()
+		notes = [one for one in (row.get("one_size"), said if said != (row.get("item_name") or "").strip() else "") if one]
+		rows.append(
+			{
+				"no": row.idx,
+				"item": row.get("item_name") or row.get("item_code"),
+				"notes": notes,
+				"qty": frappe.format_value(row.get("qty"), {"fieldtype": "Float"}),
+				"uom": row.get("uom") or "",
+				"rate": number(doc, row.get("rate")),
+				"net": number(doc, net),
+				"vat_rate": f"{rate:g}%" if taxed else "",
+				"vat": number(doc, tax) if taxed else "",
+				"total": number(doc, net + tax if taxed else row.get("amount")),
+			}
+		)
+	return {
+		"taxed": taxed,
+		"rows": rows,
+		"headings": {key: str(label) for key, label in LINE_HEADINGS.items()},
+		"total_heading": str(_("Amount incl. VAT")) if taxed else str(LINE_HEADINGS["total"]),
+		"in": _("Amounts in {0}").format(doc.get("currency")) if doc.get("currency") else "",
+	}
 
 
 def totals(doc) -> dict:

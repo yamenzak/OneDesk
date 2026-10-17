@@ -112,6 +112,14 @@ LOOK = {
 }
 
 
+#: Sahara's letter head: the company with its address and contacts in columns
+#: at the top, and its name, website and TRN in the corners at the foot.
+HEAD = {
+	"one_top": {"preset": "details", "show": ["address", "phone", "email", "website"]},
+	"one_foot": {"preset": "corner", "show": ["website", "tax_id"]},
+}
+
+
 def _look():
 	"""The company's look and its letter head, set by the owner as a new
 	workspace sets them: Workspace › General, then Printing."""
@@ -120,7 +128,7 @@ def _look():
 	with _as(OWNER):
 		settings.save("general", LOOK)
 		if not frappe.db.exists("Letter Head", COMPANY):
-			printing.save_letter_head({"letter_head_name": COMPANY, "is_default": 1})
+			printing.save_letter_head({"letter_head_name": COMPANY, "is_default": 1, **HEAD})
 
 
 def _abbr():

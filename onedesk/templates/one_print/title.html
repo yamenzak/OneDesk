@@ -1,13 +1,16 @@
 {%- set b = one_print_block(doc, "title") -%}
-<table style="width:100%;border-collapse:collapse;border-bottom:2px solid {{ b.colour }};margin-bottom:6px">
+<table style="width:100%;border-collapse:collapse">
 	<tr>
-		<td style="vertical-align:bottom;padding:0 0 10px 0">
-			<span style="font-size:24px;font-weight:600;letter-spacing:-0.01em;color:{{ b.colour }}">{{ b.title|e }}</span>
+		<td style="vertical-align:middle;padding:0">
+			<span style="font-size:22px;font-weight:600;letter-spacing:-0.015em;color:#111827">{{ b.title|e }}</span>
+			{%- if b.status %}
+			<span style="display:inline-block;vertical-align:5px;margin-left:10px;padding:2px 9px;border-radius:999px;font-size:8.5px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:{{ b.status.ink|e }};background:{{ b.status.ground|e }};-webkit-print-color-adjust:exact;print-color-adjust:exact">{{ b.status.text|e }}</span>
+			{%- endif %}
 		</td>
-		<td style="vertical-align:bottom;text-align:right;padding:0 0 10px 0">
-			<div style="font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:#6b7280">{{ b.label|e }}</div>
-			<div style="font-size:14px;font-weight:600;color:#111827">{{ b.name|e }}</div>
-			{%- if b.tax %}<div style="font-size:11px;color:#6b7280;margin-top:2px">{{ b.tax|e }}</div>{% endif %}
+		<td style="vertical-align:middle;text-align:right;padding:0">
+			<div style="font-size:8.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#6b7280">{{ b.label|e }}</div>
+			<div style="font-size:13px;font-weight:600;color:#111827;margin-top:2px">{{ b.name|e }}</div>
+			{%- if b.tax %}<div style="font-size:10px;color:#6b7280;margin-top:2px">{{ b.tax|e }}</div>{% endif %}
 		</td>
 	</tr>
 </table>

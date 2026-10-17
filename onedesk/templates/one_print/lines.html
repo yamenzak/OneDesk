@@ -1,0 +1,39 @@
+{%- set b = one_print_block(doc, "lines") -%}
+{%- if b %}
+{%- set th = "padding:0 6px 8px;border-bottom:1px solid #d1d5db;font-size:8.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#6b7280;white-space:nowrap" -%}
+{%- set td = "padding:10px 6px;border-bottom:1px solid #f0f1f3;vertical-align:top" -%}
+<table style="width:100%;border-collapse:collapse;font-size:11px;color:#111827">
+	<thead>
+		<tr>
+			<th style="{{ th|e }};text-align:left;width:4%;padding-left:0">{{ b.headings.no|e }}</th>
+			<th style="{{ th|e }};text-align:left">{{ b.headings.item|e }}</th>
+			<th style="{{ th|e }};text-align:right">{{ b.headings.qty|e }}</th>
+			<th style="{{ th|e }};text-align:right">{{ b.headings.rate|e }}</th>
+			{%- if b.taxed %}
+			<th style="{{ th|e }};text-align:right">{{ b.headings.net|e }}</th>
+			<th style="{{ th|e }};text-align:right">{{ b.headings.vat|e }}</th>
+			{%- endif %}
+			<th style="{{ th|e }};text-align:right;padding-right:0">{{ b.total_heading|e }}</th>
+		</tr>
+	</thead>
+	<tbody>
+		{%- for r in b.rows %}
+		<tr style="page-break-inside:avoid">
+			<td style="{{ td|e }};padding-left:0;color:#9ca3af">{{ r.no|e }}</td>
+			<td style="{{ td|e }}">
+				<div style="font-weight:500">{{ r.item|e }}</div>
+				{%- for note in r.notes %}<div style="font-size:9.5px;color:#6b7280;margin-top:2px">{{ note|e }}</div>{% endfor %}
+			</td>
+			<td style="{{ td|e }};text-align:right;white-space:nowrap">{{ r.qty|e }} <span style="color:#6b7280">{{ r.uom|e }}</span></td>
+			<td style="{{ td|e }};text-align:right;white-space:nowrap">{{ r.rate|e }}</td>
+			{%- if b.taxed %}
+			<td style="{{ td|e }};text-align:right;white-space:nowrap">{{ r.net|e }}</td>
+			<td style="{{ td|e }};text-align:right;white-space:nowrap">{{ r.vat|e }}<div style="font-size:9px;color:#9ca3af;margin-top:2px">{{ r.vat_rate|e }}</div></td>
+			{%- endif %}
+			<td style="{{ td|e }};text-align:right;white-space:nowrap;padding-right:0;font-weight:500">{{ r.total|e }}</td>
+		</tr>
+		{%- endfor %}
+	</tbody>
+</table>
+{%- if b.in %}<div style="margin-top:6px;font-size:9px;color:#9ca3af;text-align:right">{{ b.in|e }}</div>{% endif %}
+{%- endif %}
