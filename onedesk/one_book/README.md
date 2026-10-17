@@ -326,6 +326,11 @@ fails a small business on first use or leaves a question unanswered.
   printer (`paper.settle`). A retainer's invoice shows its hours without what
   they would come to: the amounts show only when the time is what the
   invoice bills. `patches/invoices_say_their_vat` fills the old invoices.
+  Retention is said under the totals, from fields OneProject fills
+  (`progress._said`): taxed when released, **Work Billed** and **Less
+  Retention** above the Subtotal, the Retention lines left out of the table;
+  taxed with the invoice, **Retention Held** and, until anything is paid,
+  **Due Now** below the Total.
 - `paid.py` `titled` and `journal.py` — what a payment and a journal entry
   are called. ERPNext titles a payment by the party's ID (an employee's
   reads HR-EMP-00013) and a journal entry by its first account (forty read

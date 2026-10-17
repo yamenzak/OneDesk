@@ -276,11 +276,21 @@ def withhold(doc, said, share: float) -> None:
 		row.idx = idx
 	retention.book(doc)
 	doc.run_method("calculate_taxes_and_totals")
+	_said(doc, work=sum(flt(row.net_amount) for row in work) if lines else 0, held=sum(amount for _term, amount in held))
 	if doc.docstatus == 0 and not doc.get("is_pos"):
 		from erpnext.accounts.services.payment_schedule import PaymentScheduleService
 
 		doc.set("payment_schedule", [])
 		PaymentScheduleService(doc).set_payment_schedule()
+
+
+def _said(doc, work: float = 0, held: float = 0, now: float = 0) -> None:
+	"""What the printed totals say of the retention: taxed when released, the
+	work billed and the retention taken off it before tax; with the invoice,
+	the retention held and what's due now."""
+	doc.one_work_billed = work
+	doc.one_retention_held = held
+	doc.one_due_now = now
 
 
 def split(payable: float, net: float, share: float) -> tuple[float, float]:
@@ -327,6 +337,7 @@ def retained(doc, method=None) -> None:
 		return
 	held_rows = [row for row in rows if row.payment_term in HELD]
 	if not share and not held_rows:
+		_said(doc)
 		return
 	if share and not held_rows:
 		_hold(doc, said, share)
@@ -339,6 +350,7 @@ def retained(doc, method=None) -> None:
 		- flt(doc.get("total_advance"))
 	)
 	now, kept = split(payable, doc.net_total, share)
+	_said(doc, held=kept, now=now)
 	rows = doc.payment_schedule
 	own = [row for row in rows if row.payment_term not in HELD]
 	held_rows = [row for row in rows if row.payment_term in HELD]

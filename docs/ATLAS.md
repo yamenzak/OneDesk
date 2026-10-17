@@ -144,7 +144,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Purchase Taxes and Charges Template | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Repost Accounting Ledger | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Repost Payment Ledger | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
-| Sales Invoice | on a rail or a home | OneBook | a head, events, form script, 6 fields, 3 settings | yes | taught |  | yes | ours |  |  | Invoice Overdue |
+| Sales Invoice | on a rail or a home | OneBook | a head, events, form script, 9 fields, 3 settings | yes | taught |  | yes | ours |  |  | Invoice Overdue |
 | Sales Taxes and Charges Template | on a rail or a home | OneBook, OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Share Transfer | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Share Type | on a rail or a home | OneBook, OneCRM | untouched | yes | general |  | yes |  |  |  |  |

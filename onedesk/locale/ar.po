@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-17 12:42+0000\n"
+"POT-Creation-Date: 2026-10-17 13:11+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -4848,7 +4848,7 @@ msgstr "فوترة التقدم"
 msgid "Bill Progress can't bill part of a {0}. Order {1} in {2} to bill it in parts."
 msgstr "لا يمكن لفوترة التقدم فوترة جزء من {0}. اطلب {1} بوحدة {2} لفوترته على أجزاء."
 
-#: onedesk/one_project/progress.py:92 onedesk/one_project/progress.py:439
+#: onedesk/one_project/progress.py:92 onedesk/one_project/progress.py:451
 msgid "Bill Progress is for purchase and sales orders."
 msgstr "فوترة التقدم مخصصة لأوامر الشراء والبيع."
 
@@ -9369,6 +9369,13 @@ msgstr "تاريخ الاستحقاق"
 #: onedesk/notifications/one_task/due_date_changed.md
 msgid "Due Date Changed"
 msgstr "تغيّر تاريخ الاستحقاق"
+
+#. Label in the One Sales Invoice print format
+#. Label of the one_due_now (Currency) field in DocType 'Sales Invoice'
+#: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_project/custom/sales_invoice.json
+msgid "Due Now"
+msgstr "المستحق الآن"
 
 #: frontend/src/project/Overview.vue:75 frontend/src/upkeep/UpkeepRows.vue:195
 msgid "Due Soon"
@@ -16234,6 +16241,11 @@ msgstr "الطول"
 msgid "Length (mm)"
 msgstr "الطول (مم)"
 
+#. Label in the One Sales Invoice print format
+#: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+msgid "Less Retention"
+msgstr "ناقص المحتجزات"
+
 #. Task in the Marketing Campaign project template
 #: onedesk/one_project/library/marketing_campaign.json
 msgid "Lessons written up"
@@ -21320,7 +21332,7 @@ msgstr "يمكن عرض التقرير المحفوظ فقط في مكان آخ�
 msgid "Only a shared mailbox can be the workspace mailbox."
 msgstr "لا يمكن أن يكون صندوق بريد مساحة العمل إلا صندوقًا مشتركًا."
 
-#: onedesk/one_project/progress.py:443
+#: onedesk/one_project/progress.py:455
 msgid "Only a submitted order still open can be billed."
 msgstr "لا يمكن فوترة إلا أمر مُعتمد ولا يزال مفتوحًا."
 
@@ -26611,10 +26623,14 @@ msgstr "مكافأة الاستبقاء"
 msgid "Retention Due"
 msgstr "موعد استحقاق المحتجز"
 
+#. Label in the One Sales Invoice print format
 #. Label of the one_held (Select) field in DocType 'Purchase Invoice Item'
+#. Label of the one_retention_held (Currency) field in DocType 'Sales Invoice'
 #. Label of the one_held (Select) field in DocType 'Sales Invoice Item'
 #: frontend/src/project/Suppliers.vue:206
+#: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_project/custom/purchase_invoice_item.json
+#: onedesk/one_project/custom/sales_invoice.json
 #: onedesk/one_project/custom/sales_invoice_item.json
 #: onedesk/one_project/money.py:168 onedesk/one_project/view.py:650
 msgid "Retention Held"
@@ -26629,7 +26645,7 @@ msgstr "المحتجز القائم"
 msgid "Retention at Handover"
 msgstr "المحتجز عند التسليم"
 
-#: onedesk/one_project/retention.py:388
+#: onedesk/one_project/retention.py:392
 msgid "Retention held on {0}"
 msgstr "المحتجزات على {0}"
 
@@ -32562,6 +32578,11 @@ msgstr "الصياغة في صفحة المزوّد التي عجز المحلّ
 msgid "The work on the floor, step by step."
 msgstr "العمل في المصنع، خطوة بخطوة."
 
+#. Description of the 'Work Billed' (Currency) field in DocType 'Sales Invoice'
+#: onedesk/one_project/custom/sales_invoice.json
+msgid "The work this invoice bills, before its retention."
+msgstr "العمل الذي تفوتره هذه الفاتورة، قبل خصم محتجزاته."
+
 #: onedesk/one_inventory/home.py:215
 msgid "The workshop's floors and their workstations."
 msgstr "أرضيات الورشة ومحطات عملها."
@@ -36063,6 +36084,17 @@ msgstr "ما كتبوه عند تواصلهم."
 msgid "What things are counted in."
 msgstr "وحدات العدّ."
 
+#. Description of the 'Due Now' (Currency) field in DocType 'Sales Invoice'
+#: onedesk/one_project/custom/sales_invoice.json
+msgid "What this invoice asks now, its retention left for later."
+msgstr "ما تطلبه هذه الفاتورة الآن، والمحتجزات مؤجلة لوقت لاحق."
+
+#. Description of the 'Retention Held' (Currency) field in DocType 'Sales
+#. Invoice'
+#: onedesk/one_project/custom/sales_invoice.json
+msgid "What this invoice holds back, before tax."
+msgstr "ما تحتجزه هذه الفاتورة، قبل الضريبة."
+
 #. Description of a DocType
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 msgid "What this workspace last heard from its administrator."
@@ -38673,6 +38705,13 @@ msgstr "العمل"
 #: onedesk/notifications/one_hr/work_anniversary.md
 msgid "Work Anniversary"
 msgstr "ذكرى العمل"
+
+#. Label in the One Sales Invoice print format
+#. Label of the one_work_billed (Currency) field in DocType 'Sales Invoice'
+#: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
+#: onedesk/one_project/custom/sales_invoice.json
+msgid "Work Billed"
+msgstr "العمل المفوتر"
 
 #. Label in the One Service Report print format
 #. Label of the one_progress (Percent) field in DocType 'Purchase Invoice'
@@ -41719,7 +41758,7 @@ msgstr "تغيّر {0} منذ اقتراح هذا، فلم يعد ينطبق."
 msgid "{0} has ended and its profit is not yet moved to Retained Earnings."
 msgstr "انتهت {0} ولم يُنقل ربحها بعد إلى الأرباح المحتجزة."
 
-#: onedesk/one_project/retention.py:502
+#: onedesk/one_project/retention.py:506
 msgid "{0} has no account for its {1} to put {2} beside."
 msgstr "لا يوجد لدى {0} حساب {1} لوضع {2} بجانبه."
 
