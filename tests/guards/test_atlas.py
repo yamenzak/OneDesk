@@ -29,22 +29,22 @@ WAITING = {
 	"erpnext / Support": 0,
 	"erpnext / Telephony": 0,
 	"erpnext / Utilities": 0,
-	"frappe / Automation": 7,
-	"frappe / Contacts": 1,
-	"frappe / Core": 55,
-	"frappe / Custom": 4,
-	"frappe / Desk": 27,
-	"frappe / Email": 7,
-	"frappe / Integrations": 13,
-	"frappe / Printing": 7,
-	"frappe / Website": 18,
-	"frappe / Workflow": 2,
+	"frappe / Automation": 0,
+	"frappe / Contacts": 0,
+	"frappe / Core": 0,
+	"frappe / Custom": 0,
+	"frappe / Desk": 0,
+	"frappe / Email": 0,
+	"frappe / Integrations": 0,
+	"frappe / Printing": 0,
+	"frappe / Website": 0,
+	"frappe / Workflow": 0,
 	"hrms / HR": 0,
 	"hrms / Payroll": 0,
 }
 
 #: What an answer may say a thing is (onedesk/one/atlas.py).
-KINDS = {"engine", "inside", "replaced", "left out"}
+KINDS = {"engine", "inside", "replaced", "left out", "the platform's"}
 
 
 def test_nothing_waits_that_was_not_waiting():

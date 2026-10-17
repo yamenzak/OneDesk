@@ -129,7 +129,6 @@ EVERYTHING = (
 	("campaigns", _lt("Campaign"), "DocType", "Campaign", _lt("Where a lead came from, to count what each campaign brought.")),
 	("campaigns", _lt("Email Campaign"), "DocType", "Email Campaign", _lt("Mail sent to a lead or a contact on a schedule.")),
 	("campaigns", _lt("Email Group"), "DocType", "Email Group", _lt("A list of addresses a newsletter goes to.")),
-	("campaigns", _lt("SMS Center"), "DocType", "SMS Center", _lt("A text message sent to customers, suppliers or staff at once.")),
 	("support", _lt("Issue"), "DocType", "Issue", _lt("A customer's complaint or question, until it is resolved.")),
 	("support", _lt("Warranty Claim"), "DocType", "Warranty Claim", _lt("Something sold that broke, and whether the warranty covers it.")),
 	("support", _lt("Maintenance Schedule"), "DocType", "Maintenance Schedule", _lt("The visits promised to keep what a customer bought working.")),

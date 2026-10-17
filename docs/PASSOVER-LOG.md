@@ -14081,3 +14081,31 @@ are still to place.
    label of spaces, which ERPNext gives a column break, no longer counts as
    English.
 
+### Frappe's waiting screens, answered
+
+The atlas listed 141 of frappe's record types, reports and pages with no way
+in. None waits now, and none was placed: each is reached by a screen of
+One's the map cannot read, runs underneath, or is the platform's.
+
+1. **Inside One's screens.** System Settings, Notification Settings, Custom
+   DocPerm and User Permission, Print Settings and the print builder, the
+   workflow builder, Address Template, Remind Me, a record's Share and its
+   activity are Settings, Masters and the record's own.
+2. **Replaced.** The bell, OneTask, OneCalendar, the dock and each app's
+   Home, Numbering, People's Invite, Audit Log › Changes, a list's Edit,
+   One's push and OneStudio (Custom Field, Property Setter, Client and
+   Server Script) do what frappe's screens do.
+3. **The platform's.** *New answer:* the site's own workings (logs,
+   workers, the scheduler, the console, the recorder, packages, backups)
+   are the operator's, on frappe's own desk. `test_atlas.py` takes the kind.
+4. **Waiting in the backlog.** Import and Export, SMS, Translation,
+   Document Template and Follow, LDAP, OAuth, Google sign-in and Web Form
+   Request, each with BACKLOG.md's line. *Found:* ERPNext's SMS Center had
+   been placed in OneCRM with SMS Settings held back. *Done:* taken out, and
+   named in BACKLOG's SMS line.
+5. **Left out.** frappe's website builder (One's portal and forms are the
+   public pages), and printing to a network printer.
+6. **A comment that had gone stale.** `portal.py` said Issue had no place in
+   One. Issues stay off the portal: OneCRM's Support works them, raised by
+   mail or by phone.
+

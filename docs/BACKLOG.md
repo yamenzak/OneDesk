@@ -24,10 +24,11 @@ drafting a template from a description.
 ## Frappe that One does not reach yet (P3)
 
 Small, or for some customers. Every other doctype frappe ships is reached in
-One, runs underneath, or is the platform's.
+One, runs underneath, or is the platform's; `onedesk/one/atlas.py` says which.
 
-- **SMS** (SMS Settings, SMS Log): notifications by text message, which some
-  markets expect. Needs a provider and its own subprocessor line.
+- **SMS** (SMS Settings, SMS Log, ERPNext's SMS Center): notifications and
+  campaigns by text message, which some markets expect. Needs a provider and
+  its own subprocessor line.
 - **Translation**: a workspace's own words for ours, such as calling a Lead a
   Prospect. Needs to stay out of what OneAI and the READMEs say.
 - **Prefilled new records** (Document Template): a standard quote, a standard

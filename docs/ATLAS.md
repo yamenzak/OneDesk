@@ -26,8 +26,8 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
 | onedesk | 74 | 4 | 22 | 0 |
-| frappe | 35 | 38 | 0 | 141 |
-| erpnext | 305 | 130 | 50 | 0 |
+| frappe | 35 | 38 | 141 | 0 |
+| erpnext | 304 | 130 | 51 | 0 |
 | hrms | 103 | 19 | 8 | 0 |
 
 ## Our screens
@@ -339,7 +339,7 @@ Reports: Electronic Invoice Register (under a list's related reports (Sales Invo
 | Product Bundle | through a form's link (Delivery Note: product_bundle) | OneCRM, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Proforma Invoice | through a form's connections (Sales Order's Connections) | OneCRM | untouched | yes | general |  | **none** | **theirs** |  |  |  |
 | Quotation | on a rail or a home | OneCRM | events, form script, 3 fields | yes | general | makes it | yes |  |  |  | Quotation Declined, Quotation Running Out |
-| SMS Center | on a rail or a home | OneCRM | untouched | no | general |  |  |  |  |  |  |
+| SMS Center | left out: sends through SMS Settings, which waits in docs/BACKLOG.md | OneCRM | untouched | no | general |  |  |  |  |  |  |
 | Sales Order | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, 5 fields, 1 settings | yes | taught | makes it | yes | ours |  |  | Delivery Late, Quotation Accepted |
 | Sales Partner Type | through a form's link (Sales Partner: partner_type) | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
 | Selling Settings | on a rail or a home | OneBook, OneCRM, OneInventory, OneProject | untouched | no | general |  |  |  |  | ar 33, de 29 |  |
@@ -484,21 +484,21 @@ Reports: YouTube Interactions (left out: ERPNext's library of YouTube help video
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Assignment Rule | on a rail or a home | OneCRM | events | no | general |  | yes |  |  |  |  |
 | Auto Repeat | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  | Repeat Failed |
-| Automation Event Subscription | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  | ar 6, de 6 |  |
+| Automation Event Subscription | engine: what an Automation listens for | **nobody** | untouched | no | general |  | **none** |  |  | ar 6, de 6 |  |
 | Automation Flow | on a rail or a home | the administrator | events, form script | no | taught |  | **none** |  |  | ar 16, de 16 |  |
-| Automation Run | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  | ar 11, de 11 |  |
-| Automation Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  | ar 13, de 12 |  |
-| Automation Trigger Queue | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  | ar 11, de 11 |  |
-| Milestone | **waiting** | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
-| Milestone Tracker | **waiting** | **nobody** | untouched | no | general |  | yes |  |  |  |  |
-| Reminder | **waiting** | everybody | class | no | general |  | **none** |  |  |  |  |
+| Automation Run | engine: each time an Automation ran | **nobody** | untouched | no | general |  | **none** |  |  | ar 11, de 11 |  |
+| Automation Settings | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  | ar 13, de 12 |  |
+| Automation Trigger Queue | engine: Automations waiting to run | **nobody** | untouched | no | general |  | **none** |  |  | ar 11, de 11 |  |
+| Milestone | engine: when a record reached each status, for the reports that time them | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
+| Milestone Tracker | engine: which status changes are timed | **nobody** | untouched | no | general |  | yes |  |  |  |  |
+| Reminder | inside: a record's Remind Me, which tells the person on the bell | everybody | class | no | general |  | **none** |  |  |  |  |
 
 ## frappe / Contacts
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Address | on a rail or a home | everybody | events | yes | general |  | yes |  |  |  |  |
-| Address Template | **waiting** | the administrator | events | yes | general |  | yes |  |  |  |  |
+| Address Template | inside: One › Setup › Masters | the administrator | events | yes | general |  | yes |  |  |  |  |
 | Contact | on a rail or a home | everybody | events, form script, 3 fields, 6 settings | yes | taught | makes it | yes |  |  |  |  |
 | Gender | through a form's link (User: gender) | everybody | untouched | yes | general |  | yes |  |  |  |  |
 | Salutation | through a form's link (Contact: salutation) | everybody | untouched | yes | general |  | yes |  |  |  |  |
@@ -509,154 +509,154 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| API Request Log | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| API Request Log | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Access Log | on a rail or a home | the administrator | list script, 3 settings | no | taught |  | **none** |  |  |  |  |
 | Activity Log | on a rail or a home | the administrator | list script, 4 settings | no | taught |  | yes |  |  |  |  |
-| Audit Trail | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Background Task | **waiting** | everybody | untouched | no | general |  | **none** |  |  | ar 6, de 1 |  |
-| Comment | **waiting** | **nobody** | events | no | taught |  | yes |  |  |  |  |
-| Communication | **waiting** | everybody | events, 7 fields | no | taught |  | yes |  |  |  | Mail Not Sent |
-| Custom DocPerm | **waiting** | **nobody** | untouched | no | general |  | yes |  |  | ar 1, de 1 |  |
-| Custom Icon | **waiting** | **nobody** | untouched | no | general |  | yes |  |  | ar 3, de 3 |  |
+| Audit Trail | replaced: Audit Log › Changes | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Background Task | engine: work run after a click, whose result the page shows | everybody | untouched | no | general |  | **none** |  |  | ar 6, de 1 |  |
+| Comment | engine: a record's comments, written and read on the record | **nobody** | events | no | taught |  | yes |  |  |  |  |
+| Communication | inside: a record's activity, and OneMail | everybody | events, 7 fields | no | taught |  | yes |  |  |  | Mail Not Sent |
+| Custom DocPerm | inside: Workspace Settings › Access | **nobody** | untouched | no | general |  | yes |  |  | ar 1, de 1 |  |
+| Custom Icon | replaced: One's dock | **nobody** | untouched | no | general |  | yes |  |  | ar 3, de 3 |  |
 | Custom Role | opened by our screens | **nobody** | untouched | no | general |  | yes |  | **only an ID** |  |  |
-| Data Export | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Data Import | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  | ar 2, de 2 |  |
-| Data Import Log | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  | ar 1, de 1 |  |
+| Data Export | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Data Import | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  | ar 2, de 2 |  |
+| Data Import Log | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  | ar 1, de 1 |  |
 | Deleted Document | on a rail or a home | everybody | form script, list script, 1 fields, 2 settings | no | taught |  | yes |  |  |  |  |
-| DocShare | **waiting** | **nobody** | events | no | taught |  | yes |  |  |  |  |
+| DocShare | inside: a record's Share | **nobody** | events | no | taught |  | yes |  |  |  |  |
 | DocType | through a form's link (Transaction Deletion Record: doctype_name) | **nobody** | untouched | no | taught |  | yes |  |  | ar 1 |  |
 | DocType Layout | through a form's link (Workspace: doctype_layout) | everybody | untouched | no | general |  | **none** |  |  | ar 3, de 2 |  |
-| DocType Settings Map | **waiting** | **nobody** | untouched | no | general |  | yes |  |  | ar 3, de 3 |  |
+| DocType Settings Map | engine: which settings record holds a kind's settings | **nobody** | untouched | no | general |  | yes |  |  | ar 3, de 3 |  |
 | Document Naming Rule | opened by our screens | the administrator | events | no | taught |  | **none** |  |  |  |  |
-| Document Naming Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Document Share Key | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Document Naming Settings | replaced: Workspace Settings › Numbering | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Document Share Key | engine: the key a shared record's link carries | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Domain | through a form's link (DocType: restrict_to_domain) | **nobody** | untouched | no | general |  | yes |  |  |  |  |
-| Domain Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| DuckDB Sync | **waiting** | OneBook, OneCRM | untouched | no | general |  | **none** |  |  | ar 3, de 2 |  |
-| Error Log | **waiting** | **nobody** | untouched | no | taught |  | yes |  |  | ar 1, de 1 |  |
-| File | **waiting** | everybody | class, events, 10 fields | no | taught |  | yes |  |  |  | Added to a Library, Shared With You |
-| Installed Applications | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Domain Settings | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| DuckDB Sync | engine: the copy frappe's analytics reads from | OneBook, OneCRM | untouched | no | general |  | **none** |  |  | ar 3, de 2 |  |
+| Error Log | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | taught |  | yes |  |  | ar 1, de 1 |  |
+| File | inside: OneCloud, which is every file the workspace holds | everybody | class, events, 10 fields | no | taught |  | yes |  |  |  | Added to a Library, Shared With You |
+| Installed Applications | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Language | through a form's link (User: language) | everybody | untouched | no | general |  | yes |  |  |  |  |
-| Log Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| MapReduce Job | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  | ar 4, de 4 |  |
-| MapReduce Task | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  | ar 4, de 4 |  |
+| Log Settings | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| MapReduce Job | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  | ar 4, de 4 |  |
+| MapReduce Task | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  | ar 4, de 4 |  |
 | Module Def | through a form's link (DocType: module) | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Module Profile | through a form's link (User: module_profile) | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Navbar Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Navbar Settings | replaced: One's top bar | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Package | through a form's link (Module Def: package) | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Package Import | **waiting** | **nobody** | untouched | no | general |  | **none** |  | **only an ID** |  |  |
-| Package Release | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Package Import | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  | **only an ID** |  |  |
+| Package Release | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Page | through a form's link (Form Tour: page_name) | **nobody** | untouched | no | taught |  | yes |  |  | ar 2, de 2 |  |
-| Patch Log | **waiting** | **nobody** | untouched | no | general |  | yes |  |  |  |  |
-| Permission Inspector | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Permission Log | **waiting** | **nobody** | untouched | no | general |  | yes |  |  |  |  |
-| Permission Type | **waiting** | **nobody** | untouched | no | general |  | yes |  |  |  |  |
-| Prepared Report | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| RQ Job | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| RQ Worker | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Recorder | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  | ar 2, de 1 |  |
+| Patch Log | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | yes |  |  |  |  |
+| Permission Inspector | the platform's: frappe's way to see why somebody may do something, for when a right goes wrong | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Permission Log | engine: every change to who may do what, for Audit Log | **nobody** | untouched | no | general |  | yes |  |  |  |  |
+| Permission Type | engine: the kinds of right a role can be given | **nobody** | untouched | no | general |  | yes |  |  |  |  |
+| Prepared Report | engine: a long report run in the background and opened from the report | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| RQ Job | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| RQ Worker | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Recorder | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  | ar 2, de 1 |  |
 | Report | through a form's link (Number Card: report_name) | everybody | events | no | taught |  | yes |  |  | ar 4, de 3 |  |
 | Role | through a form's link (DocType: role) | OneHR | 1 fields | no | taught |  | yes |  |  | ar 1 |  |
-| Role Permission for Page and Report | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Role Permission for Page and Report | replaced: each app's own grants, which open its pages and reports (one/roles.py) | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Role Profile | opened by our screens | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
-| SMS Log | **waiting** | **nobody** | untouched | no | general |  | **none** |  | **only an ID** |  |  |
-| SMS Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Scheduled Job Log | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Scheduled Job Type | **waiting** | **nobody** | untouched | no | general |  | yes |  |  |  |  |
-| Scheduler Event | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Security Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  | ar 1 |  |
-| Server Script | **waiting** | **nobody** | events | no | general |  | yes |  |  |  |  |
-| Session Default Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Submission Queue | **waiting** | everybody | untouched | no | general |  | **none** |  |  |  |  |
-| Success Action | **waiting** | **nobody** | untouched | no | general |  | yes |  |  |  |  |
-| System Settings | **waiting** | **nobody** | events, 2 fields | no | taught |  |  |  |  | ar 8, de 5 |  |
-| Translation | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| SMS Log | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  | **only an ID** |  |  |
+| SMS Settings | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Scheduled Job Log | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Scheduled Job Type | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | yes |  |  |  |  |
+| Scheduler Event | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Security Settings | the platform's: the site's security.txt, the same for every workspace | **nobody** | untouched | no | general |  |  |  |  | ar 1 |  |
+| Server Script | replaced: OneStudio, whose changes are these underneath | **nobody** | events | no | general |  | yes |  |  |  |  |
+| Session Default Settings | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Submission Queue | engine: a large record submitted in the background | everybody | untouched | no | general |  | **none** |  |  |  |  |
+| Success Action | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | yes |  |  |  |  |
+| System Settings | inside: Workspace Settings › General | **nobody** | events, 2 fields | no | taught |  |  |  |  | ar 8, de 5 |  |
+| Translation | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | User | through a form's link (Project Update: user) | **nobody** | events, 2 fields, 1 settings | no | taught |  | yes |  |  | ar 4, de 4 |  |
 | User Group | opened by our screens | everybody | untouched | no | taught |  | **none** |  |  |  |  |
-| User Invitation | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| User Permission | **waiting** | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
+| User Invitation | replaced: Workspace Settings › People, Invite People | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| User Permission | inside: Workspace Settings › Access, holding a person to some records | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
 | User Type | through a form's link (User: user_type) | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 | Version | on a rail or a home | the administrator | events, list script, 1 settings | no | taught |  | yes |  |  |  |  |
-| View Log | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| View Log | engine: who opened a record, for Audit Log | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 
-Reports: Database Storage Usage By Tables (**waiting**); Document Share Report (**waiting**); Permitted Documents For User (under a list's related reports (User's list)); Prepared Report Analytics (**waiting**); User Doctype Permissions (under a list's related reports (User's list)).
+Reports: Database Storage Usage By Tables (the platform's: the site's own workings, which the platform keeps for every workspace); Document Share Report (inside: a record's Share, which says who it is shared with); Permitted Documents For User (under a list's related reports (User's list)); Prepared Report Analytics (the platform's: the site's own workings, which the platform keeps for every workspace); User Doctype Permissions (under a list's related reports (User's list)).
 
-Pages: component-explorer (**waiting**); dashboard-view (**waiting**); permission-manager (**waiting**).
+Pages: component-explorer (the platform's: frappe's own gallery of its components, for developers); dashboard-view (inside: One › Dashboards); permission-manager (inside: Workspace Settings › Access).
 
 ## frappe / Custom
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Client Script | **waiting** | **nobody** | events | no | general |  | yes |  |  |  |  |
-| Custom Field | **waiting** | **nobody** | events | no | taught |  | yes |  |  | ar 3, de 3 |  |
+| Client Script | replaced: OneStudio, whose changes are these underneath | **nobody** | events | no | general |  | yes |  |  |  |  |
+| Custom Field | replaced: OneStudio, whose changes are these underneath | **nobody** | events | no | taught |  | yes |  |  | ar 3, de 3 |  |
 | Customize Form | opened by our screens | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Property Setter | **waiting** | **nobody** | events | no | taught |  | yes |  |  | ar 1, de 1 |  |
+| Property Setter | replaced: OneStudio, whose changes are these underneath | **nobody** | events | no | taught |  | yes |  |  | ar 1, de 1 |  |
 
-Reports: Audit System Hooks (**waiting**).
+Reports: Audit System Hooks (the platform's: the site's own workings, which the platform keeps for every workspace).
 
 ## frappe / Desk
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Bulk Update | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Calendar View | **waiting** | everybody | untouched | no | general |  | **none** |  |  |  |  |
-| Console Log | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Bulk Update | replaced: a list's Edit, on the records chosen | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Calendar View | replaced: OneCalendar | everybody | untouched | no | general |  | **none** |  |  |  |  |
+| Console Log | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Custom HTML Block | through a form's link (Workspace: custom_block_name) | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Custom Sidebar | opened by our screens | everybody | untouched | no | taught |  | yes |  |  | ar 1, de 1 |  |
-| Custom Workspace | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  | ar 6, de 6 |  |
+| Custom Workspace | replaced: each app's Home | **nobody** | untouched | no | general |  | **none** |  |  | ar 6, de 6 |  |
 | Dashboard | on a rail or a home | everybody | events, form script | no | taught |  | yes |  |  |  |  |
 | Dashboard Chart | through a form's link (Workspace: chart_name) | everybody | events | no | taught |  | yes |  |  | ar 1, de 1 |  |
 | Dashboard Chart Source | through a form's link (Dashboard Chart: source) | **nobody** | untouched | no | general |  | yes |  |  |  |  |
-| Dashboard Settings | **waiting** | everybody | untouched | no | general |  | **none** |  |  |  |  |
-| Desktop Icon | **waiting** | everybody | untouched | no | general |  | **none** |  |  |  |  |
-| Desktop Layout | **waiting** | everybody | untouched | no | general |  | **none** |  |  | ar 1 |  |
-| Desktop Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  | ar 1, de 1 |  |
+| Dashboard Settings | engine: a person's own dashboard charts, kept from the dashboard | everybody | untouched | no | general |  | **none** |  |  |  |  |
+| Desktop Icon | replaced: One's dock | everybody | untouched | no | general |  | **none** |  |  |  |  |
+| Desktop Layout | replaced: One's dock | everybody | untouched | no | general |  | **none** |  |  | ar 1 |  |
+| Desktop Settings | replaced: One's dock | **nobody** | untouched | no | general |  |  |  |  | ar 1, de 1 |  |
 | Dock | opened by our screens | everybody | untouched | no | general |  | yes |  |  | ar 3, de 3 |  |
-| Document Template | **waiting** | everybody | untouched | no | general |  | **none** |  |  | ar 1 |  |
+| Document Template | left out: waits in docs/BACKLOG.md | everybody | untouched | no | general |  | **none** |  |  | ar 1 |  |
 | Event | on a rail or a home | everybody | events, 1 fields | no | taught | makes it | yes |  |  | ar 1 | Event Changed, Invited to an Event, Starting Soon |
 | Form Tour | through a form's link (Onboarding Step: form_tour) | everybody | untouched | no | general |  | yes |  |  |  |  |
-| Global Search Settings | **waiting** | everybody | untouched | no | general |  |  |  |  |  |  |
+| Global Search Settings | engine: which kinds of record search finds | everybody | untouched | no | general |  |  |  |  |  |  |
 | Kanban Board | opened by our screens | everybody | events | no | general |  | yes |  |  | ar 9, de 9 |  |
-| List Filter | **waiting** | everybody | untouched | no | general |  | yes |  |  | ar 2, de 2 |  |
-| List View Settings | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| List Filter | engine: a list's saved filters, kept from the list | everybody | untouched | no | general |  | yes |  |  | ar 2, de 2 |  |
+| List View Settings | engine: how a list is laid out, set from the list | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Module Onboarding | through a form's link (Workspace: module_onboarding) | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Note | on a rail or a home | everybody | events, form script | no | taught |  | **none** |  |  |  |  |
-| Notification Log | **waiting** | everybody | class, events | no | general |  | yes |  |  | ar 1, de 1 |  |
-| Notification Settings | **waiting** | everybody | events, 1 fields | no | taught |  | yes |  |  | ar 1, de 1 |  |
+| Notification Log | replaced: the bell | everybody | class, events | no | general |  | yes |  |  | ar 1, de 1 |  |
+| Notification Settings | inside: Settings › Notifications | everybody | events, 1 fields | no | taught |  | yes |  |  | ar 1, de 1 |  |
 | Notification Type | opened by our screens | the administrator | events, 15 fields | no | taught |  | yes |  |  | ar 2, de 2 |  |
 | Number Card | through a form's link (Workspace: number_card_name) | everybody | events | no | taught |  | yes |  |  |  |  |
 | Onboarding Step | through a form's link (Module Onboarding: step) | everybody | untouched | no | general |  | yes |  |  |  |  |
-| Route History | **waiting** | **nobody** | untouched | no | general |  | yes |  |  |  |  |
-| Sidebar | **waiting** | everybody | untouched | no | general |  | yes |  |  | ar 1, de 1 |  |
-| System Console | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| System Health Report | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Tag | **waiting** | everybody | untouched | no | general |  | yes |  |  |  |  |
-| Tag Link | **waiting** | everybody | untouched | no | general |  | yes |  |  |  |  |
-| ToDo | **waiting** | everybody | events | no | general |  | yes |  |  |  |  |
+| Route History | engine: where a person has been, for search and Recent | **nobody** | untouched | no | general |  | yes |  |  |  |  |
+| Sidebar | engine: One's rails, which each app ships | everybody | untouched | no | general |  | yes |  |  | ar 1, de 1 |  |
+| System Console | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| System Health Report | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Tag | engine: a record's tags, set on the record and filtered on in its list | everybody | untouched | no | general |  | yes |  |  |  |  |
+| Tag Link | engine: which record carries which tag | everybody | untouched | no | general |  | yes |  |  |  |  |
+| ToDo | replaced: OneTask | everybody | events | no | general |  | yes |  |  |  |  |
 | Workspace | through a form's link (User: default_workspace) | everybody | untouched | no | taught |  | yes |  |  |  |  |
-| Workspace Sidebar | **waiting** | everybody | untouched | no | general |  | **none** |  |  |  |  |
+| Workspace Sidebar | replaced: One's rails | everybody | untouched | no | general |  | **none** |  |  |  |  |
 
-Reports: ToDo (**waiting**).
+Reports: ToDo (replaced: OneTask).
 
-Pages: backups (**waiting**); desktop (**waiting**); setup-wizard (**waiting**); workspace-restore (**waiting**).
+Pages: backups (the platform's: backups, which the platform takes and keeps); desktop (replaced: One's dock and One › Home); setup-wizard (replaced: One's own sign-up and welcome); workspace-restore (the platform's: the site's own workings, which the platform keeps for every workspace).
 
 ## frappe / Email
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Auto Email Report | on a rail or a home | the administrator | events | no | taught |  | **none** |  |  | ar 1, de 1 |  |
-| Document Follow | **waiting** | everybody | untouched | no | general |  | **none** |  |  |  |  |
+| Document Follow | left out: waits in docs/BACKLOG.md | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | Email Account | opened by our screens | OneHR | events, 9 fields | no | taught |  | yes |  |  |  |  |
 | Email Domain | through a form's link (Email Account: domain) | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Email Flag Queue | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Email Flag Queue | engine: read and unread marks on their way to the mail server | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Email Group | on a rail or a home | OneCRM | untouched | no | general |  | yes |  |  |  |  |
-| Email Group Member | **waiting** | OneCRM | untouched | no | general |  | yes |  |  |  |  |
-| Email Queue | **waiting** | **nobody** | untouched | no | general |  | yes |  | **only an ID** | ar 1, de 1 |  |
-| Email Rule | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Email Group Member | inside: an Email Group's members, in OneCRM | OneCRM | untouched | no | general |  | yes |  |  |  |  |
+| Email Queue | engine: mail on its way out | **nobody** | untouched | no | general |  | yes |  | **only an ID** | ar 1, de 1 |  |
+| Email Rule | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Email Template | through a form's link (DocType: default_email_template) | everybody | events | no | taught |  | yes |  |  |  |  |
-| Email Unsubscribe | **waiting** | **nobody** | 1 fields | no | general |  | yes |  |  |  |  |
+| Email Unsubscribe | engine: who asked for no more mail, which OneMail's rules honour | **nobody** | 1 fields | no | general |  | yes |  |  |  |  |
 | Notification | opened by our screens | the administrator | class, events, 1 fields | no | taught |  | yes |  |  | ar 1, de 1 |  |
-| Unhandled Email | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Unhandled Email | engine: mail a mailbox could not file, kept for the platform | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 
 ## frappe / Geo
 
@@ -670,21 +670,21 @@ Pages: backups (**waiting**); desktop (**waiting**); setup-wizard (**waiting**);
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Connected App | through a form's link (Email Account: connected_app) | everybody | untouched | no | general |  | **none** |  |  |  |  |
-| Geolocation Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Geolocation Settings | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Google Calendar | on a rail or a home | everybody | untouched | no | general |  | **none** |  |  |  |  |
-| Google Contacts | **waiting** | everybody | untouched | no | general |  | **none** |  |  |  |  |
-| Google Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Integration Request | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| LDAP Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| OAuth Authorization Code | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| OAuth Bearer Token | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| OAuth Client | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| OAuth Provider Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| OAuth Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Push Notification Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Google Contacts | replaced: One's Address Book | everybody | untouched | no | general |  | **none** |  |  |  |  |
+| Google Settings | replaced: OneMail and OneCalendar | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Integration Request | engine: a call to an outside service, kept for the platform | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| LDAP Settings | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| OAuth Authorization Code | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| OAuth Bearer Token | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| OAuth Client | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| OAuth Provider Settings | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| OAuth Settings | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Push Notification Settings | replaced: One's own push, sent with the site's keys (one/push.py) | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Slack Webhook URL | through a form's link (Notification: slack_webhook_url) | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Social Login Key | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  | ar 3, de 3 |  |
-| Token Cache | **waiting** | everybody | untouched | no | general |  | **none** |  | **only an ID** |  |  |
+| Social Login Key | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  | ar 3, de 3 |  |
+| Token Cache | engine: an outside service's sign-in, kept while it lasts | everybody | untouched | no | general |  | **none** |  | **only an ID** |  |  |
 | Webhook | on a rail or a home | the administrator | events, form script | no | taught |  | **none** |  |  | ar 1, de 1 |  |
 | Webhook Request Log | on a rail or a home | the administrator | untouched | no | taught |  | **none** |  |  | ar 2, de 2 |  |
 
@@ -693,58 +693,58 @@ Pages: backups (**waiting**); desktop (**waiting**); setup-wizard (**waiting**);
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Letter Head | opened by our screens | everybody | events, 2 fields, 2 settings | no | taught |  | yes |  |  |  |  |
-| Network Printer Settings | **waiting** | everybody | untouched | no | general |  | **none** |  |  |  |  |
+| Network Printer Settings | left out: printing straight to a printer on the network; One prints from the browser | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | Print Format | opened by our screens | the administrator | events | no | taught |  | yes |  |  | ar 3, de 3 |  |
-| Print Format Field Template | **waiting** | the administrator | untouched | no | general |  | yes |  |  |  |  |
-| Print Format Snippet | **waiting** | the administrator | events | no | general |  | **none** |  |  | ar 2, de 2 |  |
+| Print Format Field Template | inside: One's print blocks, laid out in Printing's builder | the administrator | untouched | no | general |  | yes |  |  |  |  |
+| Print Format Snippet | inside: Workspace Settings › Printing | the administrator | events | no | general |  | **none** |  |  | ar 2, de 2 |  |
 | Print Heading | through a form's link (Subcontracting Order: select_print_heading) | everybody | untouched | no | general |  | yes |  |  |  |  |
-| Print Settings | **waiting** | the administrator | untouched | no | general |  |  |  |  | ar 2, de 2 |  |
-| Print Style | **waiting** | **nobody** | untouched | no | general |  | yes |  |  |  |  |
+| Print Settings | inside: Workspace Settings › Printing | the administrator | untouched | no | general |  |  |  |  | ar 2, de 2 |  |
+| Print Style | replaced: One's print formats, which carry their own look | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 
-Pages: print (**waiting**); print-format-builder (**waiting**).
+Pages: print (inside: every record's Print); print-format-builder (inside: Workspace Settings › Printing).
 
 ## frappe / Website
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| About Us Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Color | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Contact Us Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  | ar 1 |  |
-| Discussion Reply | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Discussion Topic | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Help Article | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Help Category | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| About Us Settings | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Color | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Contact Us Settings | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  |  |  |  | ar 1 |  |
+| Discussion Reply | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Discussion Topic | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Help Article | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Help Category | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Personal Data Deletion Request | on a rail or a home | the administrator | form script, list script, 3 settings | no | taught |  | **none** |  |  |  |  |
 | Personal Data Download Request | on a rail or a home | the administrator | form script, list script, 4 fields, 3 settings | no | taught |  | **none** |  |  |  |  |
-| Portal Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Portal Settings | replaced: One's portal, which reads it for its tabs | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | UTM Campaign | through a form's link (Promotional Scheme: campaign) | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 | UTM Medium | through a form's link (Delivery Note: utm_medium) | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | UTM Source | on a rail or a home | OneCRM, the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Web Form | on a rail or a home | **nobody** | untouched | no | general |  | yes |  |  | ar 1, de 1 |  |
-| Web Form Request | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  | ar 4, de 4 |  |
-| Web Page | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Web Page View | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Web Template | **waiting** | **nobody** | untouched | no | general |  | yes |  |  |  |  |
-| Website Route Meta | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Website Script | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Website Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  | ar 1, de 1 |  |
+| Web Form Request | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  | ar 4, de 4 |  |
+| Web Page | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Web Page View | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Web Template | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  | yes |  |  |  |  |
+| Website Route Meta | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Website Script | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Website Settings | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  |  |  |  | ar 1, de 1 |  |
 | Website Sidebar | through a form's link (Web Form: website_sidebar) | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Website Slideshow | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Website Theme | **waiting** | **nobody** | untouched | no | general |  | yes |  |  |  |  |
+| Website Slideshow | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Website Theme | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 
-Reports: Website Analytics (**waiting**).
+Reports: Website Analytics (left out: frappe's website builder; a workspace's public pages are One's portal and its forms).
 
 ## frappe / Workflow
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Workflow | opened by our screens | the administrator | events | no | taught |  | **none** |  |  |  |  |
-| Workflow Action | **waiting** | everybody | events | no | general |  | **none** |  |  |  |  |
+| Workflow Action | engine: an approval waiting on somebody; the bell and the record's head say it | everybody | events | no | general |  | **none** |  |  |  |  |
 | Workflow Action Master | through a form's link (Workflow: action) | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Workflow State | through a form's link (Workflow: state) | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Workflow Transition Tasks | through a form's link (Workflow: transition_tasks) | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 
-Pages: workflow-builder (**waiting**).
+Pages: workflow-builder (inside: Workspace Settings › Approvals).
 
 ## hrms / HR
 

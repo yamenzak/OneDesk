@@ -340,8 +340,8 @@ carries, among them a **Promotional Scheme** and the **Party Specific Items**
 a customer is offered. **Support** has Support Settings, the **Service Level
 Agreement**, Issue Type and Issue Priority; **Telephony** the call types and
 who answers which line when. The lists are kept in One's **Masters**.
-**Campaign** in the rail has Campaign, Email Campaign and Email Group, and
-Home's Campaign adds the SMS Center; Campaign Efficiency is under Reports.
+**Campaign** in the rail has Campaign, Email Campaign and Email Group;
+Campaign Efficiency is under Reports.
 The workspace's mailboxes are in Settings › Mail.
 
 **Support** in the rail is ERPNext's service desk. An **Issue** is a
@@ -561,8 +561,8 @@ added: contracts stay with ERPNext's roles.
   link to: Email Campaign, Email Group, Lead Source and Assignment Rule. A
   Sales Manager now runs them and a Sales User reads them (`GIVEN`).
 - ERPNext gives its service desk to a **Support Team** and a **Maintenance
-  User** People never hands out, and its telephony, SMS Center and Party
-  Specific Items to the System Manager. Sales now works issues, warranty
+  User** People never hands out, and its telephony and Party Specific
+  Items to the System Manager. Sales now works issues, warranty
   claims, maintenance schedules and visits, and the Sales Manager keeps
   their settings and lists (`SUPPORT`, `SUPPORT_LISTS`, `GIVEN`). Issue's
   four reports are opened to both through frappe's Custom Role

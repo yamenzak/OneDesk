@@ -15,8 +15,9 @@ from frappe import _, _lt
 from frappe.model.document import Document
 from frappe.website.utils import get_portal_sidebar_items
 
-#: Portal Settings rows One has no use for: Issue has no place in One, and a
-#: Material Request is the workspace's own, not something a customer raises.
+#: Portal Settings rows One has no use for: an Issue is OneCRM's Support's to
+#: work, raised by mail or by phone, and a Material Request is the workspace's
+#: own, not something a customer raises.
 OFF = ("/issues", "/material-requests")
 
 #: Portal Settings rows renamed in plain words: erpnext names a supplier's tabs

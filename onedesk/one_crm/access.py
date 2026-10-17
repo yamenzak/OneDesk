@@ -35,7 +35,6 @@ GIVEN = {
 	"Selling Settings": {role: ("read",) for role in ("Sales User", "Stock User", "Accounts User", "Projects User")},
 	"Promotional Scheme": {"Sales User": roles.USE},
 	"Party Specific Item": {"Sales User": roles.USE, "Sales Manager": roles.MANAGE},
-	"SMS Center": {"Sales Manager": ("read", "write", "create")},
 	"Support Settings": {"Sales Manager": ("read", "write")},
 	"Incoming Call Settings": {"Sales Manager": roles.MANAGE},
 	"Telephony Call Type": {"Sales User": roles.USE, "Sales Manager": roles.MANAGE},
