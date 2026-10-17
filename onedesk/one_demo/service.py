@@ -1,7 +1,7 @@
 """After the sale, in OneCRM's Support: issues in every state under a service
 level agreement, a warranty claim on the pool fence and the visit that mended
 it, a year of glazing maintenance for Bayview with its first visit done, and
-the phones, promotions and items only some customers are offered."""
+the phones, promotions and the item only one customer is offered."""
 
 import frappe
 from erpnext.maintenance.doctype.maintenance_schedule.maintenance_schedule import (
@@ -14,6 +14,9 @@ from onedesk.one_demo.base import COMPANY, as_user, make, once, save, tag, today
 
 SALES = "omar@one.test"
 TECHNICIAN = "Tariq Haidar"
+BAYVIEW = "Bayview Developments"
+#: Made to Bayview's drawings, and sold to nobody else.
+PANEL = "CW-BAYVIEW"
 
 #: Each part, in order.
 PARTS = (
@@ -253,7 +256,9 @@ def _phones():
 
 
 def _offers():
-	"""Hardware cheaper by the box, and Bayview offered the products alone."""
+	"""Hardware cheaper by the box, and the curtain wall panel made to
+	Bayview's drawings offered to Bayview alone: a Party Specific Item keeps
+	an item for its party, so no other customer can be sold it."""
 	with as_user(SALES):
 		once(
 			"Promotional Scheme",
@@ -271,8 +276,25 @@ def _offers():
 				],
 			},
 		)
+	with as_user("Administrator"):
+		# Once kept the Products for Bayview, which barred every other customer from them.
+		for wrong in frappe.get_all("Party Specific Item", filters={"party": BAYVIEW, "restrict_based_on": "Item Group"}, pluck="name"):
+			frappe.delete_doc("Party Specific Item", wrong, ignore_permissions=True)
+		if not frappe.db.exists("Item", PANEL):
+			make(
+				{
+					"doctype": "Item",
+					"item_code": PANEL,
+					"item_name": "Bayview Tower Unitised Panel",
+					"item_group": "Products",
+					"stock_uom": "Nos",
+					"is_stock_item": 0,
+					"description": "A unitised curtain wall panel made to Bayview Tower's drawings.",
+				}
+			)
+	with as_user(SALES):
 		once(
 			"Party Specific Item",
-			{"party": "Bayview Developments"},
-			{"party_type": "Customer", "party": "Bayview Developments", "restrict_based_on": "Item Group", "based_on_value": "Products"},
+			{"party": BAYVIEW},
+			{"party_type": "Customer", "party": BAYVIEW, "restrict_based_on": "Item", "based_on_value": PANEL},
 		)

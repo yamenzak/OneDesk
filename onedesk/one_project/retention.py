@@ -1,7 +1,7 @@
 """Retention: a share of each invoice held back and paid later, as contractors
-are paid. ERPNext has none of its own, so it's built of ERPNext's parts: the
-invoice is for the whole amount, and its payment schedule holds the retention
-as later payment terms (progress.py makes and keeps them).
+are paid. ERPNext has none of its own, so it's built of ERPNext's parts, held
+in the invoice's payment terms or, taxed when released, in Retention lines
+(the README's Under the hood). progress.py makes and keeps both.
 """
 
 from typing import Annotated
@@ -19,10 +19,35 @@ HELD = (HANDOVER, RETENTION)
 #: How far ahead a customer's retention is in Needs You.
 AHEAD = 30
 
+#: When tax on retention is charged: with the invoice that holds it, or by
+#: the invoice that releases it.
+WITH_INVOICE = "With the Invoice"
+WHEN_RELEASED = "When Released"
+
+#: Where retention is taxed when it's released, so a new workspace there
+#: starts that way: the UAE (the FTA's guide) and the UK (a retention's tax
+#: point is its payment or its invoice).
+RELEASED_IN = ("United Arab Emirates", "United Kingdom")
+
+#: The item a Retention line is, held or released.
+ITEM = "Retention"
+
+#: Where retention held waits when it's taxed on release: the customer's in
+#: an asset, the supplier's in a liability, each beside the party accounts.
+ACCOUNTS = {
+	"Sales Invoice": ("Retention Receivable", "Receivable", "income_account"),
+	"Purchase Invoice": ("Retention Payable", "Payable", "expense_account"),
+}
+
 
 def on() -> bool:
 	"""Whether the workspace holds retention."""
 	return bool(frappe.db.get_single_value("Projects Settings", "one_retention"))
+
+
+def when_released() -> bool:
+	"""Whether retention is taxed by the invoice that releases it."""
+	return on() and frappe.db.get_single_value("Projects Settings", "one_retention_tax") == WHEN_RELEASED
 
 
 def boot(bootinfo) -> None:
@@ -54,12 +79,23 @@ def still_held(held: list[tuple], outstanding: float) -> list[tuple[str, float]]
 	return left
 
 
-def held_on(doctype: str, names: list[str]) -> dict[str, list[tuple[str, float]]]:
-	"""Each invoice's retention still held, in the company's currency: each
-	retention term less what was paid against it (Release Retention), and
-	no more than the invoice still owes (`still_held`)."""
+def held_on(doctype: str, names: list[str], owed: bool | None = None) -> dict[str, list[tuple[str, float]]]:
+	"""Each invoice's retention still held, in the company's currency, as
+	(due, amount), soonest first. Held in its payment terms, the retention is
+	part of what the invoice owes; held in Retention lines, it isn't invoiced
+	yet. `owed` asks for only the first (True) or only the second (False)."""
 	if not names:
 		return {}
+	found = {} if owed is False else _scheduled(doctype, names)
+	if owed is not True:
+		found.update(withheld(doctype, names))
+	return found
+
+
+def _scheduled(doctype: str, names: list[str]) -> dict[str, list[tuple[str, float]]]:
+	"""Retention held in payment terms: each term less what was paid against
+	it (Release Retention), and no more than the invoice still owes
+	(`still_held`)."""
 	found = {}
 	for row in frappe.get_all(
 		"Payment Schedule",
@@ -77,6 +113,31 @@ def held_on(doctype: str, names: list[str]) -> dict[str, list[tuple[str, float]]
 			filters={"name": ["in", list(found)], "docstatus": 1},
 			fields=["name", "company", "outstanding_amount", "conversion_rate", "party_account_currency"],
 		)
+	}
+
+
+def withheld(doctype: str, names: list[str]) -> dict[str, list[tuple[str, float]]]:
+	"""Retention held in Retention lines, less what the invoices releasing it
+	have invoiced, the soonest due first (`still_held`)."""
+	found = {}
+	for row in frappe.get_all(
+		f"{doctype} Item",
+		filters={"parent": ["in", names], "one_held": ["is", "set"], "docstatus": 1},
+		fields=["parent", "one_release_on", "base_net_amount"],
+	):
+		found.setdefault(row.parent, []).append((row.one_release_on, -flt(row.base_net_amount)))
+	if not found:
+		return {}
+	released = {}
+	for row in frappe.get_all(
+		f"{doctype} Item",
+		filters={"one_retention_of": ["in", list(found)], "docstatus": 1},
+		fields=["one_retention_of", "base_net_amount"],
+	):
+		released[row.one_retention_of] = released.get(row.one_retention_of, 0.0) + flt(row.base_net_amount)
+	return {
+		name: still_held(held, sum(amount for _due, amount in held) - released.get(name, 0.0))
+		for name, held in found.items()
 	}
 
 
@@ -211,11 +272,12 @@ def release(
 	invoice: Annotated[str | None, "Only this invoice."] = None,
 	party: Annotated[str | None, "Only this customer's or supplier's."] = None,
 ):
-	"""Release Retention (Pay Retention for a supplier): a draft Payment
-	Entry for the retention still held on the project's invoices, matched to
-	each invoice's retention terms, so ERPNext marks those parts paid. It's
-	for the parts due by today, or all of it when none is due yet. Nothing
-	is saved."""
+	"""Release Retention (Pay Retention for a supplier): what releases the
+	retention still held on the project's invoices, for the parts due by
+	today, or all of it when none is due yet. Held in payment terms, that's a
+	draft Payment Entry matched to each invoice's retention terms, so ERPNext
+	marks those parts paid; held in Retention lines, it's a draft invoice for
+	the retention, with its tax (`released`). Nothing is saved."""
 	from erpnext.accounts.doctype.payment_entry.payment_entry import get_payment_entry
 
 	from onedesk.one_project import tree
@@ -223,9 +285,13 @@ def release(
 	if doctype not in ("Sales Invoice", "Purchase Invoice"):
 		frappe.throw(_("Retention is held on sales and purchase invoices."))
 	frappe.has_permission("Project", "read", project, throw=True)
-	frappe.has_permission("Payment Entry", "create", throw=True)
 	key = "customer" if doctype == "Sales Invoice" else "supplier"
 	names = [invoice] if invoice else invoices(doctype, sorted(tree.scope(project)))
+	today = str(getdate(nowdate()))
+	lines = withheld(doctype, names)
+	if any(lines.values()):
+		return released(doctype, project, lines, key, party, today)
+	frappe.has_permission("Payment Entry", "create", throw=True)
 	filters = {"name": ["in", names or [""]], "docstatus": 1, "outstanding_amount": [">", 0]}
 	if party:
 		filters[key] = party
@@ -235,7 +301,6 @@ def release(
 		fields=["name", f"{key} as party", "currency", "party_account_currency", "company", "conversion_rate", "outstanding_amount"],
 		order_by="posting_date asc, creation asc",
 	)
-	today = str(getdate(nowdate()))
 	found = {}
 	for head in heads:
 		own = head.party_account_currency == head.currency
@@ -253,12 +318,7 @@ def release(
 			found[head.name] = (head, left)
 	if not found:
 		frappe.throw(_("No retention is held here."))
-	if len({head.party for head, _left in found.values()}) > 1:
-		frappe.throw(
-			_("More than one customer holds retention here. Release it from each invoice.")
-			if doctype == "Sales Invoice"
-			else _("More than one supplier has retention held here. Pay it from each bill.")
-		)
+	_one_party(doctype, {head.party for head, _left in found.values()})
 	chosen = picked([(name, *one) for name, (_head, left) in found.items() for one in left], today)
 	total = flt(sum(amount for *_rest, amount in chosen), 2)
 	payment = get_payment_entry(doctype, chosen[0][0], party_amount=total)
@@ -281,6 +341,81 @@ def release(
 	payment.set_missing_ref_details()
 	payment.set_amounts()
 	return payment
+
+
+def _one_party(doctype: str, parties: set) -> None:
+	if len(parties) > 1:
+		frappe.throw(
+			_("More than one customer holds retention here. Release it from each invoice.")
+			if doctype == "Sales Invoice"
+			else _("More than one supplier has retention held here. Pay it from each bill.")
+		)
+
+
+def released(doctype: str, project: str, lines: dict, key: str, party: str | None, today: str):
+	"""Retention taxed when it's released: a draft invoice (or bill) for what
+	the invoices still hold, one Retention line for each, taxed as the first
+	of them was. Paying it is then an ordinary payment."""
+	frappe.has_permission(doctype, "create", throw=True)
+	heads = {
+		one.name: one
+		for one in frappe.get_list(
+			doctype,
+			filters={"name": ["in", list(lines)], "docstatus": 1, **({key: party} if party else {})},
+			fields=["name", f"{key} as party", "conversion_rate", "posting_date"],
+			order_by="posting_date asc, creation asc",
+		)
+	}
+	_one_party(doctype, {head.party for head in heads.values()})
+	chosen = picked([(name, None, due, amount) for name, held in lines.items() if name in heads for due, amount in held], today)
+	if not chosen:
+		frappe.throw(_("No retention is held here."))
+	first = frappe.get_doc(doctype, chosen[0][0])
+	made = frappe.new_doc(doctype)
+	for field in (key, "company", "currency", "conversion_rate", "taxes_and_charges", "cost_center", "project"):
+		if first.get(field) is not None:
+			made.set(field, first.get(field))
+	made.project = project
+	made.one_retention = 0
+	# One line for each invoice, its parts together.
+	owed: dict[str, float] = {}
+	for name, _term, _due, amount in chosen:
+		owed[name] = owed.get(name, 0.0) + amount
+	for name, amount in owed.items():
+		made.append(
+			"items",
+			{
+				"item_code": ITEM,
+				"qty": 1,
+				# Held in the company's currency; the invoice is in the customer's.
+				"rate": flt(amount / flt(heads[name].conversion_rate or 1), 2),
+				"description": _("Retention held on {0}").format(name),
+				"one_retention_of": name,
+				"project": project,
+			},
+		)
+	for tax in first.get("taxes") or []:
+		made.append(
+			"taxes",
+			{
+				field: tax.get(field)
+				for field in (
+					"charge_type",
+					"account_head",
+					"description",
+					"rate",
+					"cost_center",
+					"included_in_print_rate",
+					"category",
+					"add_deduct_tax",
+				)
+				if tax.get(field) is not None
+			},
+		)
+	made.run_method("set_missing_values")
+	book(made)
+	made.run_method("calculate_taxes_and_totals")
+	return made
 
 
 def handed_over(doc, method=None) -> None:
@@ -312,6 +447,12 @@ def handed_over(doc, method=None) -> None:
 			):
 				if getdate(row.due_date) > today:
 					frappe.db.set_value("Payment Schedule", row.name, "due_date", today)
+			frappe.db.set_value(
+				f"{invoice_type} Item",
+				{"parent": invoice, "one_held": HANDOVER, "one_release_on": [">", today]},
+				"one_release_on",
+				today,
+			)
 
 
 def due() -> None:
@@ -331,6 +472,13 @@ def due() -> None:
 					pluck="parent",
 				)
 			)
+			| set(
+				frappe.get_all(
+					f"{doctype} Item",
+					filters={"one_held": ["is", "set"], "one_release_on": today, "docstatus": 1},
+					pluck="parent",
+				)
+			)
 		)
 		for name, kept in held_on(doctype, names).items():
 			amount = sum(value for when_, value in kept if when_ == today)
@@ -343,3 +491,68 @@ def due() -> None:
 			if not project:
 				continue
 			tell.retention_due(doctype, name, project, amount, head.company, head.get(party))
+
+
+def account(company: str, doctype: str) -> str:
+	"""Retention Receivable (or Payable) for the company, made beside its
+	debtors' (or creditors') account the first time it's asked for. It isn't
+	a party account: what's held is owed by nobody yet."""
+	name, near, _field = ACCOUNTS[doctype]
+	found = frappe.db.get_value("Account", {"company": company, "account_name": name, "is_group": 0})
+	if found:
+		return found
+	parent = frappe.db.get_value("Account", {"company": company, "account_type": near, "is_group": 0}, "parent_account")
+	if not parent:
+		frappe.throw(_("{0} has no account for its {1} to put {2} beside.").format(company, _(near), _(name)))
+	return (
+		frappe.get_doc(
+			{"doctype": "Account", "account_name": name, "parent_account": parent, "company": company, "account_type": ""}
+		)
+		.insert(ignore_permissions=True)
+		.name
+	)
+
+
+def book(doc) -> None:
+	"""A Retention line, held or released, is booked to the retention
+	account, whatever the item's defaults say."""
+	field = ACCOUNTS[doc.doctype][2]
+	for row in doc.get("items") or []:
+		if row.item_code == ITEM:
+			row.set(field, account(doc.company, doc.doctype))
+
+
+def ready(doc=None, method=None) -> None:
+	"""Projects Settings on_update, and every migrate: Tax on Retention starts
+	as the company's country does it, and taxed when released, the Retention
+	item is there and a Retention line may be below nothing, which ERPNext
+	allows only when Selling and Buying Settings say so."""
+	settings = frappe.get_single("Projects Settings")
+	if not settings.get("one_retention_tax"):
+		company = frappe.defaults.get_global_default("company") or frappe.db.get_value("Company", {})
+		country = company and frappe.db.get_value("Company", company, "country")
+		frappe.db.set_single_value(
+			"Projects Settings", "one_retention_tax", WHEN_RELEASED if country in RELEASED_IN else WITH_INVOICE
+		)
+	if not when_released():
+		return
+	if not frappe.db.exists("Item", ITEM):
+		group = frappe.db.exists("Item Group", "Services") or frappe.db.get_value("Item Group", {"is_group": 0})
+		unit = frappe.db.exists("UOM", "Nos") or frappe.db.get_value("Stock Settings", None, "stock_uom") or "Unit"
+		frappe.get_doc(
+			{
+				"doctype": "Item",
+				"item_code": ITEM,
+				"item_name": ITEM,
+				"item_group": group,
+				"stock_uom": unit,
+				"is_stock_item": 0,
+				"is_sales_item": 1,
+				"is_purchase_item": 1,
+				"include_item_in_manufacturing": 0,
+				"description": "Held back from an invoice, and released by one of its own.",
+			}
+		).insert(ignore_permissions=True)
+	for settings_doctype in ("Selling Settings", "Buying Settings"):
+		if not frappe.db.get_single_value(settings_doctype, "allow_negative_rates_for_items"):
+			frappe.db.set_single_value(settings_doctype, "allow_negative_rates_for_items", 1)

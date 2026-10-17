@@ -1,0 +1,47 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Purchase Invoice Item",
+   "fieldname": "one_held",
+   "label": "Retention Held",
+   "fieldtype": "Select",
+   "options": "\nRetention at Handover\nRetention",
+   "insert_after": "description",
+   "module": "One Project",
+   "read_only": 1,
+   "depends_on": "one_held",
+   "print_hide": 1,
+   "description": "Held back from this invoice, and taxed when the invoice releasing it is."
+  },
+  {
+   "dt": "Purchase Invoice Item",
+   "fieldname": "one_release_on",
+   "label": "Retention Due",
+   "fieldtype": "Date",
+   "insert_after": "one_held",
+   "module": "One Project",
+   "allow_on_submit": 1,
+   "depends_on": "one_held",
+   "print_hide": 1,
+   "description": ""
+  },
+  {
+   "dt": "Purchase Invoice Item",
+   "fieldname": "one_retention_of",
+   "label": "Releases Retention Of",
+   "fieldtype": "Link",
+   "options": "Purchase Invoice",
+   "insert_after": "one_release_on",
+   "module": "One Project",
+   "read_only": 1,
+   "no_copy": 1,
+   "depends_on": "one_retention_of",
+   "print_hide": 1,
+   "description": ""
+  }
+ ],
+ "doctype": "Purchase Invoice Item",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

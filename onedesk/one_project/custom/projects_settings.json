@@ -19,10 +19,21 @@
   },
   {
    "dt": "Projects Settings",
+   "fieldname": "one_retention_tax",
+   "label": "Tax on Retention",
+   "fieldtype": "Select",
+   "options": "With the Invoice\nWhen Released",
+   "insert_after": "one_retention",
+   "module": "One Project",
+   "depends_on": "one_retention",
+   "description": "When Released taxes each invoice on the work less its retention, and the retention when an invoice releases it."
+  },
+  {
+   "dt": "Projects Settings",
    "fieldname": "one_time_section",
    "label": "Time",
    "fieldtype": "Section Break",
-   "insert_after": "one_retention",
+   "insert_after": "one_retention_tax",
    "module": "One Project"
   },
   {

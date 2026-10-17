@@ -692,9 +692,12 @@ def every_paper_prints_in_the_companys_look():
 		assert record, f"the demo has no {doctype}"
 		with as_user(OWNER):
 			html = frappe.get_print(doctype, record[0], name)
+		assert colour in html and record[0] in html, f"{doctype} {record[0]} prints without its letter head or number"
+		if "Field Template" not in (frappe.db.get_value("Print Format", name, "format_data") or ""):
+			continue  # drawn from the builder's own pieces, which say their own titles
 		# The number's label is printed by One Title alone, never by the letter head.
 		label = print_blocks.title(frappe.get_doc(doctype, record[0]))["label"]
-		assert label in html and colour in html and record[0] in html, f"{doctype} {record[0]} prints no blocks"
+		assert label in html, f"{doctype} {record[0]} prints no blocks"
 
 
 @check
@@ -1058,6 +1061,11 @@ def onebook_keeps_the_books_rules():
 			pass
 		income = company.default_income_account
 		cash = frappe.db.get_value("Account", {"account_type": "Cash", "is_group": 0, "company": COMPANY})
+		# The demo closes last year to every entry (ledger.py); reopened here,
+		# as an accountant would, to post the sale the year-end has to close.
+		with as_user("Administrator"):
+			for period in frappe.get_all("Accounting Period", filters={"company": COMPANY, "start_date": "2025-01-01"}, pluck="name"):
+				frappe.delete_doc("Accounting Period", period, ignore_permissions=True, force=True)
 		earned = frappe.get_doc({
 			"doctype": "Journal Entry", "company": COMPANY, "posting_date": "2025-06-30", "user_remark": "Last year's sale",
 			"accounts": [
@@ -1533,7 +1541,7 @@ def oneproject_the_books_invoice_time_a_month_and_progress():
 		windows = progress.progress("Sales Order", order)["lines"][0]
 		# The windows are counted whole, so they are billed to the end, the rest not yet.
 		draft = progress.bill_progress(order, "Sales Order", lines={windows["line"]: 100})
-		assert [row.item_code for row in draft.items] == ["WIN-CS12"] and draft.is_new()
+		assert [row.item_code for row in draft.items if not row.get("one_held")] == ["WIN-CS12"] and draft.is_new()
 
 
 @check
@@ -1564,6 +1572,39 @@ def oneproject_a_new_retention_date_reaches_the_receivables():
 	rows = receivable(frappe._dict(company=COMPANY, report_date=today(), party_type="Customer", party=[customer], ageing_based_on="Due Date", range="30, 60, 90, 120"))[1]
 	aged = {row.get("voucher_no"): getdate(row.get("due_date")) for row in rows if row.get("voucher_no") in held}
 	assert aged and set(aged.values()) == {getdate(moved)}, aged
+
+
+@check
+def oneproject_retention_is_taxed_when_released():
+	"""In the UAE tax on retention is due when it's released, so the villa's
+	next progress invoice is taxed on the work less its retention, which waits
+	in Retention Receivable; Release Retention is then an invoice for the
+	retention with its own VAT, after which none is held. The same bill from
+	a subcontractor holds it in Retention Payable."""
+	from onedesk.one_project import progress, retention
+
+	assert retention.when_released(), "Sahara is in the UAE"
+	order = frappe.db.get_value("Project", VILLA, "sales_order")
+	with as_user("huda@one.test"):
+		windows = progress.progress("Sales Order", order)["lines"][0]
+		invoice = progress.bill_progress(order, "Sales Order", lines={windows["line"]: 100})
+		invoice.insert()
+		work = sum(flt(row.amount) for row in invoice.items if not row.get("one_held"))
+		held = -sum(flt(row.amount) for row in invoice.items if row.get("one_held"))
+		assert _close(held, work * flt(invoice.one_retention) / 100, 0.02), (work, held)
+		assert _close(invoice.net_total, work - held, 0.01), "taxed on the work less its retention"
+		invoice.submit()
+	booked = {row.account: flt(row.debit) for row in frappe.get_all("GL Entry", {"voucher_no": invoice.name, "is_cancelled": 0}, ["account", "debit"])}
+	assert _close(booked.get(retention.account(COMPANY, "Sales Invoice")), held, 0.01), booked
+	kept = retention.held_on("Sales Invoice", [invoice.name])
+	assert _close(sum(amount for _due, amount in kept[invoice.name]), held, 0.01) and not retention.held_on("Sales Invoice", [invoice.name], owed=True)
+	with as_user(OWNER):
+		releasing = retention.release(VILLA, invoice=invoice.name)
+		assert releasing.doctype == "Sales Invoice" and _close(releasing.net_total, held, 0.01), releasing.net_total
+		assert releasing.total_taxes_and_charges > 0, "the retention is taxed when it's released"
+		releasing.insert()
+		releasing.submit()
+	assert not retention.held_on("Sales Invoice", [invoice.name])[invoice.name], "released"
 
 
 @check
@@ -1623,7 +1664,7 @@ def oneproject_its_terms_travel_from_quotation_to_invoice():
 	from erpnext.buying.doctype.purchase_order.mapper import make_purchase_invoice
 	from erpnext.selling.doctype.quotation.mapper import make_sales_order
 
-	from onedesk.one_project import billing, progress
+	from onedesk.one_project import billing, progress, retention
 	from onedesk.one_project.retention import RETENTION
 
 	villa = frappe.db.get_value("Project", VILLA, ["customer", "one_payment_terms", "one_terms"], as_dict=True)
@@ -1656,7 +1697,12 @@ def oneproject_its_terms_travel_from_quotation_to_invoice():
 		assert getdate(draft.due_date) == getdate(add_days(draft.posting_date, 30)), (draft.posting_date, draft.due_date)
 		assert draft.tc_name == "Construction Works", draft.tc_name
 		schedule = {row.payment_term: getdate(row.due_date) for row in draft.payment_schedule}
-		assert schedule.get(None) == getdate(draft.due_date) and schedule.get(RETENTION, schedule[None]) > schedule[None], schedule
+		if retention.when_released():
+			# Taxed when it's released, the retention is held in lines, due after the invoice.
+			held = {row.one_held: getdate(row.one_release_on) for row in draft.items if row.get("one_held")}
+			assert max(schedule.values()) == getdate(draft.due_date) and held.get(RETENTION) > getdate(draft.due_date), (schedule, held)
+		else:
+			assert schedule.get(None) == getdate(draft.due_date) and schedule.get(RETENTION, schedule[None]) > schedule[None], schedule
 		invoice = billing.invoice_time(SHOWROOM, item="SVC-MAINT")
 		assert (invoice.payment_terms_template, invoice.tc_name) == ("Net 15", "Professional Services"), (invoice.payment_terms_template, invoice.tc_name)
 		assert getdate(invoice.due_date) == getdate(add_days(invoice.posting_date, 15)), (invoice.posting_date, invoice.due_date)
@@ -5129,7 +5175,6 @@ def oneproject_its_tasks_time_and_money_keep_their_rules():
 	has time on it."""
 	from unittest.mock import patch
 
-	from onedesk.one.print_blocks import time_billed
 	from onedesk.one_ai import proposals
 	from onedesk.one_project import ai, hours
 
@@ -5188,8 +5233,8 @@ def oneproject_its_tasks_time_and_money_keep_their_rules():
 		over.submit()
 	assert "Hours Over Plan" in told, told
 	invoice = frappe.db.get_value("Sales Invoice Timesheet", {"parenttype": "Sales Invoice"}, "parent")
-	printed = time_billed(frappe.get_doc("Sales Invoice", invoice))
-	assert printed["rows"] and printed["heading"], printed
+	printed = frappe.get_print("Sales Invoice", invoice, print_format="One Sales Invoice")
+	assert "Time Billed" in printed or "Time Spent" in printed, "the invoice prints the hours it bills"
 	subcontract = frappe.db.get_value("Purchase Invoice Item", {"item_code": "SVC-SUB", "docstatus": 1, "project": VILLA}, "expense_account")
 	assert subcontract and frappe.db.get_value("Account", subcontract, "account_name") == "Subcontract Costs", subcontract
 	early = frappe.db.sql(

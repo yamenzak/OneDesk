@@ -4,9 +4,9 @@ from typing import Annotated
 
 import frappe
 from frappe import _
-from frappe.utils import add_days, flt, getdate, strip_html
+from frappe.utils import add_days, flt, getdate, nowdate, strip_html
 
-from onedesk.one_project import terms
+from onedesk.one_project import retention, terms
 from onedesk.one_project.retention import HANDOVER, HELD, RETENTION, parts
 
 #: How an order is billed: the invoice it makes, ERPNext's own mapper, and the
@@ -144,6 +144,9 @@ def _retain(invoice, order) -> None:
 	invoice.one_retention = flt(order.get("one_retention"))
 	if not invoice.one_retention:
 		return
+	if retention.when_released():
+		withhold(invoice, _terms_of(order), invoice.one_retention)
+		return
 	invoice.payment_terms_template = None
 	invoice.ignore_default_payment_terms_template = 1
 	total = flt(invoice.get("rounded_total") or invoice.grand_total)
@@ -200,10 +203,7 @@ def _hold(doc, said, share: float) -> None:
 	said = said or frappe._dict()
 	due = max(getdate(row.due_date) for row in doc.payment_schedule)
 	split_at = [term for term, _portion in parts(share, said.handover) if term]
-	handover = max(getdate(said.ends), add_days(due, 1)) if said.ends else add_days(due, 1)
-	after = add_days(handover, 1) if HANDOVER in split_at else add_days(due, 1)
-	release = max(getdate(said.due), after) if said.due else after
-	dates = {HANDOVER: handover, RETENTION: release}
+	dates = released_on(due, said, split_at)
 	for term in split_at:
 		doc.append(
 			"payment_schedule",
@@ -216,6 +216,71 @@ def _hold(doc, said, share: float) -> None:
 				"payment_amount": 0,
 			},
 		)
+
+
+def released_on(due, said, split_at: list[str]) -> dict:
+	"""When each part of the retention falls due: the handover part when the
+	work ends, the rest at Retention Due, each after the invoice's own
+	payments and the one before it. Pure."""
+	handover = max(getdate(said.ends), add_days(due, 1)) if said.ends else add_days(due, 1)
+	after = add_days(handover, 1) if HANDOVER in split_at else add_days(due, 1)
+	release = max(getdate(said.due), after) if said.due else after
+	return {HANDOVER: handover, RETENTION: release}
+
+
+def withheld(net: float, share: float, handover: float) -> list[tuple[str, float]]:
+	"""Retention taxed when released: what each part holds back of the work
+	billed, before tax, to the cent, the last part taking what rounding
+	leaves. Pure."""
+	kept = flt(flt(net) * flt(share) / 100, 2)
+	split_at = [(term, portion) for term, portion in parts(share, handover) if term]
+	amounts = spread(kept, [portion for _term, portion in split_at])
+	return [(term, amount) for (term, _portion), amount in zip(split_at, amounts, strict=True) if amount > 0]
+
+
+def withhold(doc, said, share: float) -> None:
+	"""Retention taxed when released: the invoice holds it as Retention lines
+	below nothing, one for each part, so its tax is on the work less the
+	retention and what's held is booked to Retention Receivable (Payable on
+	a bill) until the invoice releasing it. Its payment schedule is ERPNext's
+	own, for what the invoice asks now."""
+	said = said or frappe._dict()
+	work = [row for row in doc.items if not row.get("one_held")]
+	had = {row.one_held: row for row in doc.items if row.get("one_held")}
+	doc.set("payment_schedule", [row for row in doc.get("payment_schedule") or [] if row.payment_term not in HELD])
+	held = withheld(sum(flt(row.net_amount or row.amount) for row in work), share, said.handover)
+	due = getdate(doc.get("due_date") or doc.get("posting_date") or doc.get("bill_date") or nowdate())
+	dates = released_on(due, said, [term for term, _amount in held])
+	first = work[0] if work else frappe._dict()
+	unit = frappe.get_cached_value("Item", retention.ITEM, "stock_uom")
+	lines = []
+	for term, amount in held:
+		# Kept, not made again, so a line keeps its name and a date moved by hand.
+		row = had.get(term) or frappe._dict(
+			item_code=retention.ITEM,
+			item_name=retention.ITEM,
+			description=_("Retention at Handover") if term == HANDOVER else _("Retention"),
+			qty=1,
+			uom=unit,
+			stock_uom=unit,
+			conversion_factor=1,
+			one_held=term,
+			one_release_on=dates[term],
+			project=first.get("project") or doc.get("project"),
+			cost_center=first.get("cost_center") or doc.get("cost_center"),
+		)
+		row.update({"rate": -amount, "price_list_rate": -amount, "discount_percentage": 0, "discount_amount": 0})
+		lines.append(row)
+	doc.set("items", work + lines)
+	for idx, row in enumerate(doc.items, start=1):
+		row.idx = idx
+	retention.book(doc)
+	doc.run_method("calculate_taxes_and_totals")
+	if doc.docstatus == 0 and not doc.get("is_pos"):
+		from erpnext.accounts.services.payment_schedule import PaymentScheduleService
+
+		doc.set("payment_schedule", [])
+		PaymentScheduleService(doc).set_payment_schedule()
 
 
 def split(payable: float, net: float, share: float) -> tuple[float, float]:
@@ -245,13 +310,21 @@ def retained(doc, method=None) -> None:
 	held stays owed, and a payment for it is matched to its terms."""
 	if doc.get("is_return") or doc.get("is_pos") or doc.get("is_opening") == "Yes":
 		return
+	# An invoice releasing retention holds none.
+	if any(row.get("one_retention_of") for row in doc.get("items") or []):
+		return
 	rows = doc.get("payment_schedule") or []
-	if not rows:
+	lines = [row for row in doc.get("items") or [] if row.get("one_held")]
+	if not rows and not lines:
 		return
 	said = source(doc)
 	if doc.get("one_retention") is None:
 		doc.one_retention = said.retention if said else 0
 	share = flt(doc.one_retention)
+	# Taxed when released, or held that way before the workspace changed.
+	if lines or (share and retention.when_released()):
+		withhold(doc, said, share)
+		return
 	held_rows = [row for row in rows if row.payment_term in HELD]
 	if not share and not held_rows:
 		return
@@ -331,6 +404,12 @@ def release(doc, method=None) -> None:
 		)
 		for row in rows:
 			frappe.db.set_value("Payment Schedule", row, "due_date", doc.one_retention_due)
+		frappe.db.set_value(
+			f"{side['invoice']} Item",
+			{"parent": invoice, "one_held": RETENTION},
+			"one_release_on",
+			doc.one_retention_due,
+		)
 		if rows:
 			dates = frappe.get_all(
 				"Payment Schedule",

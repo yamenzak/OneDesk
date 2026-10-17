@@ -294,7 +294,7 @@ Pages: bom-comparison-tool (on a rail or a home); production-plan-visualizer (on
 | Project Template | on a rail or a home | OneProject | a page of our own | yes | taught |  | yes |  |  |  |  |
 | Project Type | through a form's link (Project Template: project_type) | OneProject, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Project Update | opened by our screens | OneProject | untouched | yes | taught | makes it | yes |  |  |  |  |
-| Projects Settings | opened by our screens | OneProject | 5 fields, 3 settings | no | general |  |  |  |  |  |  |
+| Projects Settings | opened by our screens | OneProject | events, 6 fields, 3 settings | no | general |  |  |  |  |  |  |
 | Task | on a rail or a home | everybody | a page of our own | yes | taught | makes it | yes |  |  | ar 1 | Arrived After Closing, Comment on Your Task, Due Date Changed, Hours Over Plan, Milestone Late, Pending Review, Sent Back, Task Cancelled, Task Done, Task Ready, Task Reopened |
 | Task Type | on a rail or a home | OneHR, OneProject | 1 settings | yes | general |  | **none** |  |  |  |  |
 | Timesheet | on a rail or a home | everybody | a head, class, events, form script, list script, 2 fields, 34 settings | yes | taught |  | yes | ours |  | ar 1 |  |

@@ -250,6 +250,8 @@ def _listed(project: str, doctype: str) -> dict:
 		order_by="idx asc",
 	)
 	held = retention.held_on(doctype, [row.name for row in rows if row.docstatus == 1])
+	# Retention taxed when released isn't invoiced yet, so it isn't owed either.
+	in_owed = retention.held_on(doctype, [row.name for row in rows if row.docstatus == 1], owed=True)
 	# When each is due, retention left out: the last of its other payments.
 	due = {}
 	for one in frappe.get_all(
@@ -295,7 +297,7 @@ def _listed(project: str, doctype: str) -> dict:
 		owed = flt(row.outstanding_amount) * flt(row.conversion_rate or 1)
 		kept = held.get(row.name) or []
 		holding = sum(amount for _due, amount in kept)
-		now = max(0.0, owed - holding)
+		now = max(0.0, owed - sum(amount for _due, amount in in_owed.get(row.name) or []))
 		held_own = flt(holding / flt(row.conversion_rate or 1), 2)
 		late = (
 			money.past_due(terms.get(row.name, []), row.outstanding_amount, today)
@@ -324,7 +326,7 @@ def _listed(project: str, doctype: str) -> dict:
 				# What's held back falls due later: the date is when the rest is
 				# due, and the retention held says its own.
 				"due": str(due.get(row.name) or row.due_date or "") or None,
-				"owed": max(0.0, flt(row.outstanding_amount) - held_own),
+				"owed": flt(now / flt(row.conversion_rate or 1), 2),
 				"held": held_own,
 				"held_due": str(kept[0][0]) if kept else None,
 				"retention_due": str(kept[0][0]) if kept and now < 0.005 else None,

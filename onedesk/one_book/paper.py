@@ -12,13 +12,17 @@ from frappe.utils import flt
 
 
 def lines(doc, method=None) -> None:
-	"""validate: each line's VAT rate, its VAT, and the line with its VAT."""
+	"""validate: each line's VAT rate, its VAT, and the line with its VAT.
+	ERPNext works the tax out as the invoice validates and writes its table
+	only once it's saved, so until then it's read from what ERPNext holds."""
 	taxes: dict = {}
-	for one in doc.get("item_wise_tax_details") or []:
-		rate, amount = taxes.get(one.item_row, (0.0, 0.0))
-		taxes[one.item_row] = (rate + flt(one.rate), amount + flt(one.amount))
+	pending = doc.get("_item_wise_tax_details")
+	for one in pending if pending is not None else doc.get("item_wise_tax_details") or []:
+		key = id(one.item) if pending is not None else one.item_row
+		rate, amount = taxes.get(key, (0.0, 0.0))
+		taxes[key] = (rate + flt(one.get("rate")), amount + flt(one.get("amount")))
 	for row in doc.get("items") or []:
-		rate, amount = taxes.get(row.name, (0.0, 0.0))
+		rate, amount = taxes.get(id(row) if pending is not None else row.name, (0.0, 0.0))
 		row.one_vat_rate = rate
 		row.one_vat_amount = amount
 		row.one_line_total = flt(row.net_amount) + amount

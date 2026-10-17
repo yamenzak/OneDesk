@@ -95,13 +95,16 @@ def _sees(doctype: str) -> bool:
 
 
 def _lines(doctype: str, projects: list[str]) -> float:
+	"""What the lines on the projects come to. On an invoice that's the work
+	billed: retention held below it and later released by an invoice of its
+	own is left out, so it reads the same however retention is taxed."""
+	from onedesk.one_project.retention import ITEM
+
 	child = frappe.qb.DocType(LINES[doctype])
-	found = (
-		frappe.qb.from_(child)
-		.select(Sum(child.base_net_amount))
-		.where(child.project.isin(projects) & (child.docstatus == 1))
-		.run()
-	)
+	where = child.project.isin(projects) & (child.docstatus == 1)
+	if doctype in ("Sales Invoice", "Purchase Invoice"):
+		where &= child.item_code.isnull() | (child.item_code != ITEM)
+	found = frappe.qb.from_(child).select(Sum(child.base_net_amount)).where(where).run()
 	return flt(found[0][0]) if found else 0.0
 
 
@@ -534,6 +537,11 @@ def _suppliers(projects: list[str]) -> list[dict]:
 		name: sum(amount for _due, amount in held)
 		for name, held in retention.held_on("Purchase Invoice", list(invoices)).items()
 	}
+	# Retention taxed when released isn't billed yet, so it isn't to pay either.
+	kept_owed = {
+		name: sum(amount for _due, amount in held)
+		for name, held in retention.held_on("Purchase Invoice", list(invoices), owed=True).items()
+	}
 	stock = _stock({one.item_code for one in lines if one.item_code})
 	terms = _terms("Purchase Invoice", list(invoices))
 	# Each supplier's logo (one_mail/faces.py dresses a supplier without one).
@@ -552,11 +560,12 @@ def _suppliers(projects: list[str]) -> list[dict]:
 		mine = {bill.parent for bill in bills if bill.purchase_order == name}
 		billed = sum(flt(bill.base_net_amount) for bill in bills if bill.purchase_order == name)
 		left = 0.0 if head.status == "Closed" else unbilled([one for one in lines if one.parent == name])
-		retained = paid = advanced = owing = overdue = 0.0
+		retained = retained_owed = paid = advanced = owing = overdue = 0.0
 		since = due = None
 		for invoice in (invoices[one] for one in mine if one in invoices):
 			owed = flt(invoice.outstanding_amount) * flt(invoice.conversion_rate or 1)
 			retained += kept.get(invoice.name, 0.0)
+			retained_owed += kept_owed.get(invoice.name, 0.0)
 			paid += flt(invoice.base_grand_total) - owed
 			advanced += flt(invoice.total_advance)
 			owing += owed
@@ -577,7 +586,7 @@ def _suppliers(projects: list[str]) -> list[dict]:
 				"for": bought(own),
 				"project": head.project or next((one.project for one in own if one.project), None),
 				# What's billed and not paid, less the retention held till later.
-				"to_pay": max(0.0, owing - retained),
+				"to_pay": max(0.0, owing - retained_owed),
 				# What of it is past its date, since when, and when the rest
 				# falls due.
 				"overdue": overdue,

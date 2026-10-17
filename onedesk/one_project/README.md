@@ -516,12 +516,14 @@ in advance on the order), **Outstanding** (with what of it is held), and
 pays, and only the project's part of an invoice that's partly another's.
 Overdue says how many invoices are late.
 
-**Release Retention** above the figures records the customer paying the
-retention: it opens ERPNext's payment, not saved yet, for the parts due by
-today (or all of it when none is due yet), each matched to its invoice's
-retention, so those parts show as paid. Check the amount, the account and
-the bank reference, and submit it. **···** on an invoice offers Release
-Retention for that invoice alone.
+**Release Retention** above the figures releases the retention, for the
+parts due by today (or all of it when none is due yet). Where tax on
+retention is charged with the invoice, it opens ERPNext's payment, not saved
+yet, each part matched to its invoice's retention, so those parts show as
+paid: check the amount, the account and the bank reference, and submit it.
+Where it's charged when released, it opens an invoice for the retention, with
+its tax, to check and submit; the customer then pays it as any other.
+**···** on an invoice offers Release Retention for that invoice alone.
 
 **···** on an invoice offers **Record Payment** (how much, when, into which
 account) and **Send**, which opens the invoice with its email ready and the
@@ -920,7 +922,11 @@ share as **Work Done**. Check it and submit it as any other bill.
 
 **Retention**: a share of each bill held back and paid later, as contractors
 are paid. It's off until **Hold Retention** is ticked in **Projects
-Settings**, since most businesses never hold it. Then set **Retention** (the
+Settings**, since most businesses never hold it. **Tax on Retention** beside
+it says when tax is charged on it: **With the Invoice**, or **When Released**,
+as the UAE and the UK ask, where each bill is taxed on the work less its
+retention and the retention is taxed by the bill that releases it. A new
+workspace starts as its country does it. Then set **Retention** (the
 share held back, often 5 or 10%) and **Retention Due** on the order's
 **Terms** tab. Each bill holds that share of the work back, due on that date.
 A subcontract keeps its own retention, whatever the project's.
@@ -1052,12 +1058,31 @@ project and those under it, each with the rate when the orders agree and when
 the first of it is due. A month before the customer's retention is due,
 Needs You says to ask for it, and a supplier's past due says to pay it. The
 project's manager is told on the day any of it falls due (**Retention Due**).
-The invoice is for the whole amount and the retention is a later part of its
-payment schedule, so the accounts are ERPNext's own: it stays in Debtors and
-Creditors until paid, and Accounts Receivable by payment terms shows it not
-yet due. **Release Retention** (and **Pay Retention** for a supplier) is
-ERPNext's Payment Entry with each line naming its retention term, so ERPNext
-marks those terms paid and Debtors or Creditors goes down by what was held.
+How it's held follows **Tax on Retention**, and either way the accounts are
+ERPNext's own.
+
+- **With the Invoice**: the invoice is for the whole amount, taxed whole, and
+  the retention is a later part of its payment schedule. It stays in Debtors
+  and Creditors until paid, and Accounts Receivable by payment terms shows it
+  not yet due. **Release Retention** (and **Pay Retention** for a supplier)
+  is ERPNext's Payment Entry with each line naming its retention term, so
+  ERPNext marks those terms paid and Debtors or Creditors goes down by what
+  was held.
+- **When Released**: the invoice holds the retention as **Retention** lines
+  below nothing, one for the part released at handover and one for the rest,
+  each with its **Retention Due**, so its tax is on the work less the
+  retention. Tax on retention is due in the UAE when it's invoiced, paid, or a
+  year after the work is certified complete, whichever comes first, and in
+  the UK when it's invoiced or paid. What's held is booked to **Retention
+  Receivable** (**Retention Payable** on a supplier's bill), made beside
+  Debtors (Creditors) the first time, and isn't owed until it's invoiced.
+  **Release Retention** is an invoice for it, one Retention line naming each
+  invoice it releases (**Releases Retention Of**), taxed as that invoice was;
+  submitted, it moves the retention into Debtors with its tax. ERPNext takes
+  a line below nothing only when **Allow Negative Rates for Items** is on in
+  Selling and Buying Settings, so choosing When Released turns it on. What a
+  project has billed leaves the Retention lines out, so it reads the same
+  either way. Invoices made before the setting changed keep their way.
 
 ### Before the customer orders
 

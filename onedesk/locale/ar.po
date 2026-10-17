@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-17 12:05+0000\n"
+"POT-Creation-Date: 2026-10-17 12:42+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -150,7 +150,7 @@ msgstr "يوم واحد"
 #: frontend/src/project/Milestones.vue:32 frontend/src/project/Overview.vue:276
 #: frontend/src/project/Overview.vue:329 frontend/src/project/Overview.vue:410
 #: frontend/src/project/Suppliers.vue:222 frontend/src/task/TaskPage.vue:240
-#: onedesk/one_project/retention.py:132 onedesk/one_project/view.py:919
+#: onedesk/one_project/retention.py:193 onedesk/one_project/view.py:919
 msgid "1 day late"
 msgstr "متأخرة يوماً واحداً"
 
@@ -3722,7 +3722,7 @@ msgstr "طلب صورة"
 msgid "Ask for a Reason on Check Out"
 msgstr "طلب سبب عند تسجيل الانصراف"
 
-#: onedesk/one_project/retention.py:165
+#: onedesk/one_project/retention.py:226
 msgid "Ask for retention from {0}"
 msgstr "اطلب المحتجز من {0}"
 
@@ -4848,7 +4848,7 @@ msgstr "فوترة التقدم"
 msgid "Bill Progress can't bill part of a {0}. Order {1} in {2} to bill it in parts."
 msgstr "لا يمكن لفوترة التقدم فوترة جزء من {0}. اطلب {1} بوحدة {2} لفوترته على أجزاء."
 
-#: onedesk/one_project/progress.py:92 onedesk/one_project/progress.py:360
+#: onedesk/one_project/progress.py:92 onedesk/one_project/progress.py:439
 msgid "Bill Progress is for purchase and sales orders."
 msgstr "فوترة التقدم مخصصة لأوامر الشراء والبيع."
 
@@ -4906,7 +4906,7 @@ msgstr "قابل للفوترة حسب المراحل"
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:214
 #: onedesk/one_inventory/heads.py:560 onedesk/one_inventory/heads.py:736
 #: onedesk/one_inventory/heads.py:762 onedesk/one_project/heads.py:206
-#: onedesk/one_project/heads.py:262 onedesk/one_project/money.py:171
+#: onedesk/one_project/heads.py:262 onedesk/one_project/money.py:174
 msgid "Billed"
 msgstr "المفوتر"
 
@@ -8535,7 +8535,7 @@ msgstr "التوريد إلى الموقع"
 #: onedesk/one/portal.py:123 onedesk/one/portal.py:851
 #: onedesk/one/portal.py:861 onedesk/one_book/heads.py:101
 #: onedesk/one_crm/heads.py:329 onedesk/one_inventory/heads.py:761
-#: onedesk/one_project/money.py:153
+#: onedesk/one_project/money.py:156
 msgid "Delivered"
 msgstr "المُسلَّم"
 
@@ -9382,7 +9382,7 @@ msgstr "مستحق هذا الأسبوع"
 msgid "Due in the next 7 days"
 msgstr "مستحق خلال الأيام السبعة القادمة"
 
-#: frontend/src/project/Overview.vue:413 onedesk/one_project/retention.py:135
+#: frontend/src/project/Overview.vue:413 onedesk/one_project/retention.py:196
 msgid "Due in {0} days"
 msgstr "مستحق خلال {0} أيام"
 
@@ -9393,11 +9393,11 @@ msgstr "مستحق عند الاستلام"
 
 #: frontend/src/home/BooksHome.vue:229 frontend/src/home/CrmHome.vue:201
 #: frontend/src/project/Overview.vue:412 frontend/src/task/TaskPage.vue:241
-#: onedesk/one_project/portal.py:266 onedesk/one_project/retention.py:134
+#: onedesk/one_project/portal.py:266 onedesk/one_project/retention.py:195
 msgid "Due today"
 msgstr "يستحق اليوم"
 
-#: frontend/src/project/Overview.vue:413 onedesk/one_project/retention.py:135
+#: frontend/src/project/Overview.vue:413 onedesk/one_project/retention.py:196
 msgid "Due tomorrow"
 msgstr "يستحق غدًا"
 
@@ -10986,7 +10986,7 @@ msgstr "دُفعت مطالبة النفقات"
 msgid "Expense Claim Type"
 msgstr ""
 
-#: onedesk/one_project/money.py:181
+#: onedesk/one_project/money.py:184
 msgid "Expense Claims"
 msgstr "مطالبات المصاريف"
 
@@ -11006,7 +11006,7 @@ msgstr "نظرة عامة على المصروفات"
 msgid "Expenses"
 msgstr "المصروفات"
 
-#: onedesk/one_project/billing.py:510
+#: onedesk/one_project/billing.py:512
 msgid "Expenses · {0}"
 msgstr "مصاريف · {0}"
 
@@ -13005,6 +13005,15 @@ msgstr "الطول والوزن والحساسيات والحالات الطبي
 msgid "Held"
 msgstr "المحجوز"
 
+#. Description of the 'Retention Held' (Select) field in DocType 'Purchase
+#. Invoice Item'
+#. Description of the 'Retention Held' (Select) field in DocType 'Sales Invoice
+#. Item'
+#: onedesk/one_project/custom/purchase_invoice_item.json
+#: onedesk/one_project/custom/sales_invoice_item.json
+msgid "Held back from this invoice, and taxed when the invoice releasing it is."
+msgstr "محتجز من هذه الفاتورة، وتُحتسب ضريبته عند الفاتورة التي تفرج عنه."
+
 #: frontend/portal/src/pages/Home.vue:9
 msgid "Hello, {0}"
 msgstr "مرحبًا {0}"
@@ -14604,7 +14613,7 @@ msgstr "أصدر فاتورة {project} عن الشهر الماضي"
 #: frontend/src/project/Overview.vue:156 frontend/src/project/Time.vue:92
 #: frontend/src/project/Time.vue:225 onedesk/one/portal.py:852
 #: onedesk/one/portal.py:856 onedesk/one/portal.py:862
-#: onedesk/one_project/money.py:154
+#: onedesk/one_project/money.py:157
 msgid "Invoiced"
 msgstr "المفوتر"
 
@@ -15255,7 +15264,7 @@ msgstr "ينضمون"
 msgid "Joining & Leaving"
 msgstr "الالتحاق وترك العمل"
 
-#: onedesk/one_project/money.py:182
+#: onedesk/one_project/money.py:185
 msgid "Journal Entries"
 msgstr "قيود اليومية"
 
@@ -17918,11 +17927,11 @@ msgstr "المزيد"
 msgid "More promised than on hand"
 msgstr "الموعود أكثر من المتوفر"
 
-#: onedesk/one_project/retention.py:258
+#: onedesk/one_project/retention.py:349
 msgid "More than one customer holds retention here. Release it from each invoice."
 msgstr "يحتجز أكثر من عميل محتجزات هنا. أفرج عنها من كل فاتورة."
 
-#: onedesk/one_project/retention.py:260
+#: onedesk/one_project/retention.py:351
 msgid "More than one supplier has retention held here. Pay it from each bill."
 msgstr "هناك محتجزات لأكثر من مورد هنا. ادفعها من كل فاتورة مورد."
 
@@ -19343,7 +19352,7 @@ msgstr "لا طلبات مطابقة"
 msgid "No results"
 msgstr "لا توجد نتائج"
 
-#: onedesk/one_project/retention.py:255
+#: onedesk/one_project/retention.py:320 onedesk/one_project/retention.py:372
 msgid "No retention is held here."
 msgstr "لا توجد محتجزات هنا."
 
@@ -19636,7 +19645,7 @@ msgid "Not Found"
 msgstr "غير موجود"
 
 #: frontend/src/project/Overview.vue:57 frontend/src/project/Overview.vue:155
-#: frontend/src/project/Overview.vue:194 onedesk/one_project/money.py:203
+#: frontend/src/project/Overview.vue:194 onedesk/one_project/money.py:206
 msgid "Not Invoiced Yet"
 msgstr "لم تُفوتر بعد"
 
@@ -21311,7 +21320,7 @@ msgstr "يمكن عرض التقرير المحفوظ فقط في مكان آخ�
 msgid "Only a shared mailbox can be the workspace mailbox."
 msgstr "لا يمكن أن يكون صندوق بريد مساحة العمل إلا صندوقًا مشتركًا."
 
-#: onedesk/one_project/progress.py:364
+#: onedesk/one_project/progress.py:443
 msgid "Only a submitted order still open can be billed."
 msgstr "لا يمكن فوترة إلا أمر مُعتمد ولا يزال مفتوحًا."
 
@@ -21693,7 +21702,7 @@ msgstr "المشاريع المفتوحة"
 msgid "Open Purchase Order"
 msgstr "افتح أمر الشراء"
 
-#: onedesk/one_project/money.py:150
+#: onedesk/one_project/money.py:153
 msgid "Open Quotes"
 msgstr "عروض أسعار مفتوحة"
 
@@ -22094,7 +22103,7 @@ msgstr "اطلب {0}"
 #: onedesk/one_book/heads.py:99 onedesk/one_inventory/heads.py:548
 #: onedesk/one_inventory/heads.py:635 onedesk/one_inventory/heads.py:734
 #: onedesk/one_inventory/heads.py:760 onedesk/one_inventory/heads.py:838
-#: onedesk/one_project/money.py:152 onedesk/one_project/money.py:167
+#: onedesk/one_project/money.py:155 onedesk/one_project/money.py:170
 #: onedesk/public/js/progress.js:83
 msgid "Ordered"
 msgstr "المطلوب"
@@ -22553,7 +22562,7 @@ msgstr "الصفحات"
 #: onedesk/one_book/heads.py:380
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_crm/heads.py:136 onedesk/one_inventory/heads.py:562
-#: onedesk/one_project/money.py:162 onedesk/one_project/money.py:173
+#: onedesk/one_project/money.py:165 onedesk/one_project/money.py:176
 #: onedesk/one_project/portal.py:233 onedesk/one_project/view.py:437
 #: onedesk/public/js/settings.js:1778
 msgid "Paid"
@@ -24997,7 +25006,7 @@ msgstr "أُرسل عرض السعر"
 #: frontend/src/project/Overview.vue:154
 #: frontend/src/supplier/SupplierItems.vue:35 onedesk/one/portal.py:346
 #: onedesk/one/portal.py:1106 onedesk/one_inventory/heads.py:631
-#: onedesk/one_inventory/heads.py:1555 onedesk/one_project/money.py:137
+#: onedesk/one_inventory/heads.py:1555 onedesk/one_project/money.py:140
 msgid "Quoted"
 msgstr "تم التسعير"
 
@@ -25369,7 +25378,7 @@ msgstr "استلام ما صنعته {0} إلى المخزون؟"
 #: onedesk/one_inventory/heads.py:648 onedesk/one_inventory/heads.py:735
 #: onedesk/one_inventory/heads.py:841
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
-#: onedesk/one_project/money.py:169 onedesk/public/js/settings.js:2955
+#: onedesk/one_project/money.py:172 onedesk/public/js/settings.js:2955
 msgid "Received"
 msgstr "المستلَم"
 
@@ -25913,6 +25922,14 @@ msgstr "مُفرج عنه"
 #: onedesk/public/js/project_new.js:161
 msgid "Released at Handover"
 msgstr "يُفرج عنه عند التسليم"
+
+#. Label of the one_retention_of (Link) field in DocType 'Purchase Invoice
+#. Item'
+#. Label of the one_retention_of (Link) field in DocType 'Sales Invoice Item'
+#: onedesk/one_project/custom/purchase_invoice_item.json
+#: onedesk/one_project/custom/sales_invoice_item.json
+msgid "Releases Retention Of"
+msgstr "تفرج عن محتجزات"
 
 #: onedesk/public/js/record.js:195
 msgid "Reload"
@@ -26550,19 +26567,24 @@ msgstr "شهر اشتراك للفوترة"
 #. Label of the one_retention (Percent) field in DocType 'Project'
 #. Label of the one_retention (Percent) field in DocType 'Project Template'
 #. Label of the one_retention (Percent) field in DocType 'Purchase Invoice'
+#. Option for the 'Retention Held' (Select) field in DocType 'Purchase Invoice
+#. Item'
 #. Label of the one_retention (Percent) field in DocType 'Purchase Order'
 #. Label of the one_retention (Percent) field in DocType 'Sales Invoice'
+#. Option for the 'Retention Held' (Select) field in DocType 'Sales Invoice
 #. Label of the one_retention (Percent) field in DocType 'Sales Order'
 #: frontend/src/project/Overview.vue:88 frontend/src/project/Overview.vue:316
 #: frontend/src/project/Suppliers.vue:232
 #: onedesk/one_project/custom/project.json
 #: onedesk/one_project/custom/project_template.json
 #: onedesk/one_project/custom/purchase_invoice.json
+#: onedesk/one_project/custom/purchase_invoice_item.json
 #: onedesk/one_project/custom/purchase_order.json
 #: onedesk/one_project/custom/sales_invoice.json
+#: onedesk/one_project/custom/sales_invoice_item.json
 #: onedesk/one_project/custom/sales_order.json
-#: onedesk/one_project/progress.py:212 onedesk/public/js/progress.js:64
-#: onedesk/public/js/project_actions.js:228
+#: onedesk/one_project/progress.py:212 onedesk/one_project/progress.py:262
+#: onedesk/public/js/progress.js:64 onedesk/public/js/project_actions.js:228
 #: onedesk/public/js/project_new.js:150
 msgid "Retention"
 msgstr "المحتجز"
@@ -26574,27 +26596,44 @@ msgstr "مكافأة الاستبقاء"
 
 #. Name of a notification
 #. Label of the one_retention_due (Date) field in DocType 'Project'
+#. Label of the one_release_on (Date) field in DocType 'Purchase Invoice Item'
 #. Label of the one_retention_due (Date) field in DocType 'Purchase Order'
+#. Label of the one_release_on (Date) field in DocType 'Sales Invoice Item'
 #. Label of the one_retention_due (Date) field in DocType 'Sales Order'
 #: onedesk/notifications/one_project/retention_due.md
 #: onedesk/one_project/custom/project.json
+#: onedesk/one_project/custom/purchase_invoice_item.json
 #: onedesk/one_project/custom/purchase_order.json
+#: onedesk/one_project/custom/sales_invoice_item.json
 #: onedesk/one_project/custom/sales_order.json
 #: onedesk/public/js/project_actions.js:235
 #: onedesk/public/js/project_new.js:154
 msgid "Retention Due"
 msgstr "موعد استحقاق المحتجز"
 
-#: frontend/src/project/Suppliers.vue:206 onedesk/one_project/money.py:165
-#: onedesk/one_project/view.py:650
+#. Label of the one_held (Select) field in DocType 'Purchase Invoice Item'
+#. Label of the one_held (Select) field in DocType 'Sales Invoice Item'
+#: frontend/src/project/Suppliers.vue:206
+#: onedesk/one_project/custom/purchase_invoice_item.json
+#: onedesk/one_project/custom/sales_invoice_item.json
+#: onedesk/one_project/money.py:168 onedesk/one_project/view.py:650
 msgid "Retention Held"
 msgstr "المحتجز القائم"
 
-#: onedesk/one_project/progress.py:212
+#. Option for the 'Retention Held' (Select) field in DocType 'Purchase Invoice
+#. Item'
+#. Option for the 'Retention Held' (Select) field in DocType 'Sales Invoice
+#: onedesk/one_project/custom/purchase_invoice_item.json
+#: onedesk/one_project/custom/sales_invoice_item.json
+#: onedesk/one_project/progress.py:212 onedesk/one_project/progress.py:262
 msgid "Retention at Handover"
 msgstr "المحتجز عند التسليم"
 
-#: onedesk/one_project/retention.py:224
+#: onedesk/one_project/retention.py:388
+msgid "Retention held on {0}"
+msgstr "المحتجزات على {0}"
+
+#: onedesk/one_project/retention.py:286
 msgid "Retention is held on sales and purchase invoices."
 msgstr "تُحتجز المحتجزات على فواتير المبيعات والمشتريات."
 
@@ -29649,7 +29688,7 @@ msgstr "إعدادات المخزون"
 msgid "Stock Summary"
 msgstr ""
 
-#: onedesk/one_project/money.py:180
+#: onedesk/one_project/money.py:183
 msgid "Stock Used"
 msgstr "المخزون المستخدم"
 
@@ -30702,6 +30741,11 @@ msgstr "الضريبة المحتسبة على المبيعات"
 #: onedesk/one_book/home.py:393
 msgid "Tax held back from what is paid to suppliers."
 msgstr "ضريبة مقتطعة مما يُدفع للموردين."
+
+#. Label of the one_retention_tax (Select) field in DocType 'Projects Settings'
+#: onedesk/one_project/custom/projects_settings.json
+msgid "Tax on Retention"
+msgstr "الضريبة على المحتجزات"
 
 #: onedesk/one_book/report/vat_return/vat_return.py:66
 msgid "Tax paid on purchases and expenses"
@@ -33354,7 +33398,7 @@ msgstr "البلاط"
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/one_project/billing.py:97 onedesk/one_project/custom/project.json
 #: onedesk/one_project/custom/projects_settings.json
-#: onedesk/one_project/money.py:179 onedesk/one_project/money.py:216
+#: onedesk/one_project/money.py:182 onedesk/one_project/money.py:219
 #: onedesk/one_project/portal.py:210 onedesk/one_project/tell.py:348
 #: onedesk/public/js/project_new.js:193
 msgid "Time"
@@ -36309,6 +36353,18 @@ msgstr "عندما يعدّ OneAI شكوى جديدة حساسة."
 msgid "When OneAI reads a new grievance as urgent."
 msgstr "عندما يعدّ OneAI شكوى جديدة عاجلة."
 
+#. Option for the 'Tax on Retention' (Select) field in DocType 'Projects
+#. Settings'
+#: onedesk/one_project/custom/projects_settings.json
+msgid "When Released"
+msgstr "عند الإفراج"
+
+#. Description of the 'Tax on Retention' (Select) field in DocType 'Projects
+#. Settings'
+#: onedesk/one_project/custom/projects_settings.json
+msgid "When Released taxes each invoice on the work less its retention, and the retention when an invoice releases it."
+msgstr "عند الإفراج: تُحتسب ضريبة كل فاتورة على العمل بعد خصم محتجزاته، وتُحتسب ضريبة المحتجزات عندما تفرج عنها فاتورة."
+
 #. When a notification is sent
 #: onedesk/notifications/one_inventory/expiring_soon.md
 msgid "When a batch with some still in stock expires within a month."
@@ -38500,6 +38556,12 @@ msgstr "لدى الموردين"
 msgid "With no end date"
 msgstr "دون تاريخ انتهاء"
 
+#. Option for the 'Tax on Retention' (Select) field in DocType 'Projects
+#. Settings'
+#: onedesk/one_project/custom/projects_settings.json
+msgid "With the Invoice"
+msgstr "مع الفاتورة"
+
 #: frontend/src/item/ItemOverview.vue:66 frontend/src/lots/SerialRows.vue:63
 msgid "With {0}"
 msgstr "مع {0}"
@@ -39204,7 +39266,7 @@ msgid "Yes, in their notifications"
 msgstr "نعم، في إشعاراتهم"
 
 #. Label of a Sidebar Item
-#: onedesk/one/sidebar/one/one.json onedesk/one_project/retention.py:166
+#: onedesk/one/sidebar/one/one.json onedesk/one_project/retention.py:227
 #: onedesk/one_project/view.py:825 onedesk/one_project/view.py:874
 #: onedesk/one_project/view.py:965 onedesk/one_project/view.py:996
 #: onedesk/public/js/oneai/Panel.vue:98
@@ -40982,7 +41044,7 @@ msgstr "{0} + إضافة واحدة"
 msgid "{0} + {1} add-ons"
 msgstr "{0} + {1} إضافات"
 
-#: onedesk/one_project/buying.py:129 onedesk/one_project/money.py:716
+#: onedesk/one_project/buying.py:129 onedesk/one_project/money.py:725
 msgid "{0} +{1}"
 msgstr "{0} +{1}"
 
@@ -41180,7 +41242,7 @@ msgid "{0} and {1} aren't in the same zone."
 msgstr "{0} و{1} ليسا في المنطقة نفسها."
 
 #: frontend/src/sent_out/OutRows.vue:105 onedesk/one_inventory/quotes.py:179
-#: onedesk/one_project/billing.py:581
+#: onedesk/one_project/billing.py:583
 msgid "{0} and {1} more"
 msgstr "{0} و{1} أخرى"
 
@@ -41454,7 +41516,7 @@ msgstr "قبل {1} بـ {0} أيام"
 #: frontend/src/project/Overview.vue:330 frontend/src/project/Overview.vue:411
 #: frontend/src/project/Suppliers.vue:222 frontend/src/task/TaskPage.vue:240
 #: onedesk/one_project/heads.py:78 onedesk/one_project/portal.py:264
-#: onedesk/one_project/retention.py:132 onedesk/one_project/view.py:621
+#: onedesk/one_project/retention.py:193 onedesk/one_project/view.py:621
 #: onedesk/one_project/view.py:919
 msgid "{0} days late"
 msgstr "متأخرة {0} أيام"
@@ -41606,7 +41668,7 @@ msgid "{0} goes up to {1} already, so it can only be moved to {1} or more."
 msgstr "يصل {0} إلى {1} فعلًا، لذا يمكن نقله إلى {1} أو أكثر فقط."
 
 #: frontend/src/kit/desk.js:32 onedesk/one/portal.py:391
-#: onedesk/one_inventory/heads.py:1068 onedesk/one_project/billing.py:443
+#: onedesk/one_inventory/heads.py:1068 onedesk/one_project/billing.py:445
 #: onedesk/one_project/heads.py:194 onedesk/one_project/view.py:512
 #: onedesk/public/js/timesheet_list.js:9
 msgid "{0} h"
@@ -41656,6 +41718,10 @@ msgstr "تغيّر {0} منذ اقتراح هذا، فلم يعد ينطبق."
 #: onedesk/one_book/ready.py:237
 msgid "{0} has ended and its profit is not yet moved to Retained Earnings."
 msgstr "انتهت {0} ولم يُنقل ربحها بعد إلى الأرباح المحتجزة."
+
+#: onedesk/one_project/retention.py:502
+msgid "{0} has no account for its {1} to put {2} beside."
+msgstr "لا يوجد لدى {0} حساب {1} لوضع {2} بجانبه."
 
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:47
 msgid "{0} has no attachment field called {1}."
@@ -41832,7 +41898,7 @@ msgstr "{0} مجلد قياسي ولا يمكن تغييره."
 msgid "{0} is a standard format. It can only be set as default or turned off."
 msgstr "{0} تنسيق قياسي. يمكن فقط تعيينه افتراضيًا أو إيقافه."
 
-#: onedesk/one_project/billing.py:554
+#: onedesk/one_project/billing.py:556
 msgid "{0} is a sub-project of {1}."
 msgstr "أصبح {0} مشروعًا فرعيًا من {1}."
 

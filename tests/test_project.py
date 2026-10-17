@@ -1045,7 +1045,7 @@ def test_subcontracts_say_what_where_how_far_and_what_to_pay():
 	assert bought([]) is None
 	money_py = (PROJECT / "money.py").read_text()
 	suppliers = money_py[money_py.index("def _suppliers(") : money_py.index("def bought(")]
-	assert '"to_pay": max(0.0, owing - retained)' in suppliers and '"for": bought(own)' in suppliers
+	assert '"to_pay": max(0.0, owing - retained_owed)' in suppliers and '"for": bought(own)' in suppliers
 	view_py = (PROJECT / "view.py").read_text()
 	subs = view_py[view_py.index("def _subcontracts(") : view_py.index("def late(")]
 	assert "milestones.where(" in subs and 'done[project] = view["share"]' in subs
@@ -2499,3 +2499,45 @@ def test_a_debit_note_is_never_late_and_the_rules_stand_in_hooks():
 	# hours be billed outside their month.
 	assert '"onedesk.one_project.members.enabled"' in HOOKS
 	assert '"onedesk.one_project.retainer.billed_by_month"' in HOOKS
+
+
+def test_retention_taxed_when_released_is_held_in_lines_below_the_work():
+	"""When Released: the invoice's Retention lines hold the share of the work
+	before tax, split at handover to the cent, each due after the invoice and
+	the one before; a new workspace starts as its country taxes retention."""
+	from datetime import date, timedelta
+
+	flt = lambda value=0, *args: round(float(value or 0), args[0]) if args else float(value or 0)  # noqa: E731
+	held = _load(PROJECT / "retention.py", ("parts", "HANDOVER", "RETENTION", "RELEASED_IN"), flt=flt)
+	space = _load(
+		PROJECT / "progress.py",
+		("withheld", "spread", "released_on"),
+		flt=flt,
+		parts=held["parts"],
+		HANDOVER=held["HANDOVER"],
+		RETENTION=held["RETENTION"],
+		getdate=lambda value: date.fromisoformat(str(value)),
+		add_days=lambda value, days: value + timedelta(days=days),
+	)
+	withheld, released_on = space["withheld"], space["released_on"]
+	assert withheld(4920, 10, 50) == [("Retention at Handover", 246.0), ("Retention", 246.0)]
+	assert withheld(1000.01, 5, 0) == [("Retention", 50.0)]
+	assert withheld(100, 0, 50) == []
+	# A third of 10.01 each way leaves the last part the cent rounding left.
+	assert sum(amount for _term, amount in withheld(100.1, 10, 33)) == 10.01
+	said = type("Said", (), {"ends": "2026-12-01", "due": "2027-06-30"})()
+	dates = released_on(date(2026, 11, 16), said, ["Retention at Handover", "Retention"])
+	assert dates == {"Retention at Handover": date(2026, 12, 1), "Retention": date(2027, 6, 30)}
+	early = type("Said", (), {"ends": "2026-10-01", "due": None})()
+	dates = released_on(date(2026, 11, 16), early, ["Retention at Handover", "Retention"])
+	assert dates["Retention at Handover"] == date(2026, 11, 17) and dates["Retention"] == date(2026, 11, 18)
+	assert {"United Arab Emirates", "United Kingdom"} <= set(held["RELEASED_IN"])
+	# The setting, beside Hold Retention, and only while it's on.
+	settings = {f["fieldname"]: f for f in json.loads((PROJECT / "custom" / "projects_settings.json").read_text())["custom_fields"]}
+	tax = settings["one_retention_tax"]
+	assert tax["options"].split("\n") == ["With the Invoice", "When Released"] and tax["depends_on"] == "one_retention"
+	assert '"onedesk.one_project.retention.ready"' in HOOKS
+	for name in ("sales_invoice_item.json", "purchase_invoice_item.json"):
+		fields = {f["fieldname"]: f for f in json.loads((PROJECT / "custom" / name).read_text())["custom_fields"]}
+		assert {"one_held", "one_release_on", "one_retention_of"} <= set(fields)
+		assert fields["one_release_on"]["allow_on_submit"] == 1

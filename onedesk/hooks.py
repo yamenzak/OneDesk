@@ -67,6 +67,8 @@ after_sync = [
 	"onedesk.one_project.board.settle",
 	# Lump Sum and the Retention payment term. See one_project/progress.py.
 	"onedesk.one_project.progress.settle",
+	# Tax on Retention as the country does it, and what it needs. See one_project/retention.py.
+	"onedesk.one_project.retention.ready",
 	# Contract Work, the item a fixed-price contract is billed as. See one_project/kinds.py.
 	"onedesk.one_project.kinds.settle",
 	"onedesk.one_project.updates.settle",
@@ -128,6 +130,8 @@ after_migrate = [
 	"onedesk.one_project.board.settle",
 	# Lump Sum and the Retention payment term. See one_project/progress.py.
 	"onedesk.one_project.progress.settle",
+	# Tax on Retention as the country does it, and what it needs. See one_project/retention.py.
+	"onedesk.one_project.retention.ready",
 	# Contract Work, the item a fixed-price contract is billed as. See one_project/kinds.py.
 	"onedesk.one_project.kinds.settle",
 	"onedesk.one_project.updates.settle",
@@ -425,14 +429,15 @@ doc_events = {
 		# The emirate a sale is reported under. See one_book/vat.py.
 		"validate": [
 			"onedesk.one_book.vat.emirate",
-			# Each line's VAT and the account to pay into, for the print. See one_book/paper.py.
-			"onedesk.one_book.paper.lines",
-			"onedesk.one_book.paper.pay_into",
 			"onedesk.one_project.chain.agree",
 			# Retention is the share of the work billed. See one_project/progress.py.
 			"onedesk.one_project.progress.retained",
 			# A retainer's hours are billed with its month. See one_project/retainer.py.
 			"onedesk.one_project.retainer.billed_by_month",
+			# Each line's VAT and the account to pay into, for the print, once
+			# the lines are final. See one_book/paper.py.
+			"onedesk.one_book.paper.lines",
+			"onedesk.one_book.paper.pay_into",
 		],
 	},
 	# A payment lowers an invoice's outstanding with db_set, so the task step
@@ -749,6 +754,8 @@ doc_events = {
 	# A project's tasks are named with its prefix. See one_project/naming.py.
 	# On a project, sharing is membership. See one_project/members.py.
 	"DocShare": {"after_insert": "onedesk.one_project.members.shared"},
+	# Taxed when released, retention needs its item and its lines below nothing. See one_project/retention.py.
+	"Projects Settings": {"on_update": "onedesk.one_project.retention.ready"},
 	"Project": {
 		"before_validate": [
 			"onedesk.one_project.members.nobody",
@@ -1363,7 +1370,7 @@ one_module_heirs = {
 # Kinds of record a module's code makes without a name or a model to ask; Numbering keeps them
 # nameable by it. Intake is not here: it asks OneAI for what is missing (one_intake/fill.py).
 one_makes_records = {
-	"Account": ["one", "one_admin", "one_book"],
+	"Account": ["one", "one_admin", "one_book", "one_project"],
 	"Activity Type": ["one_project"],
 	"Address": ["one", "one_book"],
 	"Appraisal": ["one_hr"],

@@ -1,5 +1,5 @@
 {
- "absolute_value": 1,
+ "absolute_value": 0,
  "align_labels_right": 0,
  "creation": "2026-10-07 00:37:48.413639",
  "custom_format": 0,
@@ -17,7 +17,7 @@
  "margin_left": 14.0,
  "margin_right": 14.0,
  "margin_top": 12.0,
- "modified": "2026-11-06 10:10:00.000000",
+ "modified": "2026-11-06 10:20:00.000000",
  "modified_by": "Administrator",
  "module": "One Book",
  "name": "One Sales Invoice",
