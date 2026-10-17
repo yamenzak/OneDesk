@@ -202,6 +202,19 @@ REPLACES = {
 	"One Simplified Tax Invoice": ("Simplified Tax Invoice",),
 	"One Detailed Tax Invoice": ("Detailed Tax Invoice",),
 	"One Sales Voucher": ("Sales Auditing Voucher",),
+	"One Proforma Invoice": ("Proforma Invoice",),
+	"One Quotation": ("Quotation Modern",),
+	"One Quotation Classic": ("Quotation Classic",),
+	"One Quotation Bordered": ("Quotation Bordered",),
+	"One Quotation with Images": ("Quotation Modern with Images",),
+	"One Sales Order": ("Sales Order Modern",),
+	"One Sales Order Classic": ("Sales Order Classic",),
+	"One Sales Order Bordered": ("Sales Order Bordered",),
+	"One Sales Order with Images": ("Sales Order Modern with Images",),
+	"One Delivery Note": ("Delivery Note Modern",),
+	"One Delivery Note Classic": ("Delivery Note Classic",),
+	"One Delivery Note Bordered": ("Delivery Note Bordered",),
+	"One Delivery Note with Images": ("Delivery Note Modern with Images",),
 }
 
 

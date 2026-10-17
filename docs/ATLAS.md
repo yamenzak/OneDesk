@@ -340,7 +340,7 @@ Reports: Electronic Invoice Register (under a list's related reports (Sales Invo
 | Proforma Invoice | through a form's connections (Sales Order's Connections) | OneCRM | untouched | yes | general |  | **none** | **theirs** |  |  |  |
 | Quotation | on a rail or a home | OneCRM | events, form script, 3 fields | yes | general | makes it | yes |  |  |  | Quotation Declined, Quotation Running Out |
 | SMS Center | left out: sends through SMS Settings, which waits in docs/BACKLOG.md | OneCRM | untouched | no | general |  |  |  |  |  |  |
-| Sales Order | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, 5 fields, 1 settings | yes | taught | makes it | yes | ours |  |  | Delivery Late, Quotation Accepted |
+| Sales Order | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, 6 fields, 1 settings | yes | taught | makes it | yes | ours |  |  | Delivery Late, Quotation Accepted |
 | Sales Partner Type | through a form's link (Sales Partner: partner_type) | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
 | Selling Settings | on a rail or a home | OneBook, OneCRM, OneInventory, OneProject | untouched | no | general |  |  |  |  | ar 33, de 29 |  |
 

@@ -8,7 +8,7 @@ import json
 import os
 import sys
 
-APP = os.path.join(os.path.dirname(__file__), "..", "onedesk", "one_book", "print_format")
+APP = os.path.join(os.path.dirname(__file__), "..", "onedesk")
 MUTED = "#6b7280"
 INK = "#111827"
 LINE = "#e5e7eb"
@@ -129,6 +129,7 @@ def item_column(image=False, code=False, width=31):
 		merged.append({"fieldname": "image", "fieldtype": "Attach Image", "label": "Image"})
 	if code:
 		merged.append({"fieldname": "item_code", "fieldtype": "Link", "label": "Item Code", "style": "muted-sm"})
+	merged.append({"fieldname": "one_size", "fieldtype": "Data", "label": "Size", "style": "muted-sm"})
 	merged.append({"fieldname": "description", "fieldtype": "Text Editor", "label": "Description", "style": "muted-sm"})
 	col = {"fieldname": "item_name", "fieldtype": "Data", "label": "Description", "width": width, "merged_fields": merged}
 	if image:
@@ -380,28 +381,282 @@ def voucher():
 	return layout(head, who, lines, taxes, remarks, signs)
 
 
-VERSIONS = {
-	"One Sales Invoice": master,
-	"One Sales Invoice Classic": classic,
-	"One Sales Invoice Bordered": bordered,
-	"One Sales Invoice with Images": with_images,
-	"One Simplified Tax Invoice": simplified,
-	"One Detailed Tax Invoice": detailed,
-	"One Sales Voucher": voucher,
+# -- Documents that trade: quotations, orders, deliveries -----------------------
+
+#: What each prints, as One's blocks did: its title, who it's for, its own
+#: details, whether its lines are priced, and who signs it.
+TRADE = {
+	"Quotation": {
+		"module": "one_crm",
+		"titles": (("Quotation", ""),),
+		"number": "Quotation No",
+		"party": ("Prepared For", "customer_name"),
+		# A quotation may be for a lead, so it keeps no tax ID of its own.
+		"tax": None,
+		"details": (("transaction_date", "Date", "Date"), ("valid_till", "Date", "Valid Until")),
+		"schedule": True,
+		"signs": (("For", "company"), ("Accepted By", "customer_name")),
+	},
+	"Sales Order": {
+		"module": "one_crm",
+		"titles": (("Sales Order", ""),),
+		"number": "Order No",
+		"party": ("Bill To", "customer_name"),
+		"ship": True,
+		"details": (
+			("transaction_date", "Date", "Date"),
+			("delivery_date", "Date", "Delivery Date"),
+			("po_no", "Data", "Your Reference"),
+			("project", "Project", "Project"),
+		),
+		"schedule": True,
+		"advance": True,
+		"bank": True,
+	},
+	"Delivery Note": {
+		"module": "one_inventory",
+		"titles": (("Delivery Note", "not doc.is_return"), ("Return", "doc.is_return")),
+		"number": "Delivery No",
+		"party": ("Deliver To", "customer_name"),
+		"delivered": True,
+		"details": (
+			("posting_date", "Date", "Date"),
+			("po_no", "Data", "Your Reference"),
+			("project", "Project", "Project"),
+			("transporter_name", "Data", "Transporter"),
+			("vehicle_no", "Data", "Vehicle"),
+			("driver_name", "Data", "Driver"),
+		),
+		"priced": False,
+		"signs": (("Delivered By", None), ("Received By", "customer_name")),
+	},
 }
 
 
+def _titles(spec, size=24):
+	return [text(w, visible_if=when, font_size=size, bold=1, custom_style="letter-spacing:-0.01em;line-height:1.1;") if when
+		else text(w, font_size=size, bold=1, custom_style="letter-spacing:-0.01em;line-height:1.1;") for w, when in spec["titles"]]
+
+
+def _company_trn(**kw):
+	return linked("company.tax_id", "TRN", hide_colon=1, **kw)
+
+
+def trade_title(spec):
+	return section(
+		_titles(spec),
+		[field("name", "Data", spec["number"], show_label="hide", align="right", bold=1, font_size=14),
+			_company_trn(align="right", custom_style="margin-top:4px;")],
+		widths=[60, 40], top=6, field_orientation="left-right",
+	)
+
+
+def trade_party(spec):
+	words, name = spec["party"]
+	found = [heading(words), field(name, "Data", "Customer", show_label="hide", bold=1, font_size=13)]
+	style = "color:#374151;line-height:1.5;margin-top:2px;"
+	if spec.get("delivered"):
+		found += [
+			field("shipping_address", "Small Text", "Address", show_label="hide", custom_style=style, visible_if="doc.shipping_address"),
+			field("address_display", "Small Text", "Address", show_label="hide", custom_style=style, visible_if="not doc.shipping_address"),
+		]
+	else:
+		found.append(field("address_display", "Small Text", "Address", show_label="hide", custom_style=style))
+	if spec.get("tax", "tax_id"):
+		found.append(field(spec.get("tax", "tax_id"), "Data", "TRN", hide_colon=1, custom_style="margin-top:6px;"))
+	found.append(field("contact_display", "Data", "Contact", hide_colon=1, custom_style="margin-top:2px;"))
+	if spec.get("ship"):
+		elsewhere = "doc.shipping_address_name and doc.shipping_address_name != doc.customer_address"
+		found += [
+			heading("Ship To", visible_if=elsewhere, custom_style="margin-top:14px;"),
+			field("shipping_address", "Small Text", "Ship To", show_label="hide", custom_style=style, visible_if=elsewhere),
+		]
+	return found
+
+
+def trade_details(spec):
+	found = []
+	for fieldname, fieldtype, label in spec["details"]:
+		if fieldtype == "Project":
+			found.append(linked("project.project_name", label, label_justify="space-between", hide_colon=1,
+				custom_style=f"padding:5px 0;border-bottom:1px solid {LINE};"))
+		else:
+			found.append(row(fieldname, fieldtype, label, **({"date_format": DATE} if fieldtype == "Date" else {})))
+	return found
+
+
+def trade_columns(spec, image=False, code=False):
+	found = [
+		{"fieldname": "idx", "fieldtype": "Int", "label": "No", "width": 5},
+		item_column(image=image, code=code, width=45 if spec.get("priced", True) else 75),
+		{"fieldname": "qty", "fieldtype": "Float", "label": "Qty", "width": 12 if spec.get("priced", True) else 20, "align": "right",
+			"merged_fields": [{"fieldname": "uom", "fieldtype": "Link", "label": "UOM", "style": "muted-sm"}]},
+	]
+	if spec.get("priced", True):
+		found += [
+			{"fieldname": "rate", "fieldtype": "Currency", "label": "Unit Price", "width": 18, "align": "right"},
+			{"fieldname": "amount", "fieldtype": "Currency", "label": "Amount", "width": 20, "align": "right"},
+		]
+	return found
+
+
+def trade_lines(spec, columns=None, **look):
+	return section([table("items", "Items", columns or trade_columns(spec), **look)], top=28)
+
+
+def trade_totals(spec, words=True, **look):
+	rows = [
+		row("total", "Currency", "Subtotal"),
+		row("discount_amount", "Currency", "Discount", visible_if="doc.discount_amount"),
+		row("total_taxes_and_charges", "Currency", "VAT", visible_if="doc.total_taxes_and_charges"),
+		row("grand_total", "Currency", "Total", bold=1, label_color=INK, font_size=15, custom_style=f"border-bottom:2px solid {INK};padding:8px 0;"),
+	]
+	if spec.get("advance"):
+		rows.append(row("advance_paid", "Currency", "Paid in Advance", visible_if="doc.advance_paid"))
+	if words:
+		rows.append(field("in_words", "Data", "In Words", show_label="hide", align="right", custom_style=f"color:{MUTED};font-size:10px;margin-top:6px;"))
+	left = schedule(**look) if spec.get("schedule") else []
+	return section(left, rows, widths=[52, 48], gap=48, top=14, keep_together=1, field_orientation="left-right")
+
+
+def trade_bank():
+	found = bank_section()
+	found["visible_if"] = "doc.one_pay_into"
+	return found
+
+
+def signs_section(signs):
+	line = "padding-top:44px;border-bottom:1px solid #9ca3af;margin-bottom:6px;"
+	small = f"color:{MUTED};font-size:10px;"
+	columns = []
+	for words, fieldname in signs:
+		column = [text("", custom_style=line), text(words, custom_style=small)]
+		if fieldname:
+			column.append(field(fieldname, "Data", words, show_label="hide", custom_style="font-size:10.5px;font-weight:600;"))
+		columns.append(column)
+	return section(*columns, gap=48, top=36, keep_together=1)
+
+
+def trade_rest(spec):
+	found = [terms_section()]
+	if spec.get("bank"):
+		found.insert(0, trade_bank())
+	if spec.get("signs"):
+		found.append(signs_section(spec["signs"]))
+	return found
+
+
+def trade_master(spec):
+	return layout(
+		trade_title(spec),
+		section(trade_party(spec), trade_details(spec), widths=[55, 45], gap=48, top=26, field_orientation="left-right"),
+		trade_lines(spec),
+		*([trade_totals(spec)] if spec.get("priced", True) else []),
+		*trade_rest(spec),
+	)
+
+
+def trade_classic(spec):
+	look = {"table_header": "styled", "table_header_bg": "#f3f4f6", "table_bordered": True, "table_radius": 8}
+	panel = section(
+		trade_party(spec),
+		[*_titles(spec, size=17), row("name", "Data", spec["number"], bold=1), linked("company.tax_id", "Our TRN", label_justify="space-between", hide_colon=1, custom_style=f"padding:5px 0;border-bottom:1px solid {LINE};"), *trade_details(spec)],
+		widths=[52, 48], gap=40, top=8, field_orientation="left-right",
+	)
+	found = [panel, trade_lines(spec, trade_columns(spec, code=True), **look)]
+	if spec.get("priced", True):
+		found.append(trade_totals(spec, words=False, **look))
+		found.append(section([field("in_words", "Data", "In Words", hide_colon=1, label_gap=10)], top=14, background=SOFT, radius=6,
+			padding={"top": 9, "right": 12, "bottom": 9, "left": 12}, field_orientation="left-right"))
+	return layout(*found, *trade_rest(spec))
+
+
+def trade_bordered(spec):
+	grid = {"field_borders": 1, "grid_borders": "all", "border_color": LINE, "cell_padding": 10, "radius": 6}
+	first, second = spec["details"][0], spec["details"][1]
+
+	def fact(one):
+		fieldname, fieldtype, label = one
+		if fieldtype == "Project":
+			return linked("project.project_name", label)
+		return field(fieldname, fieldtype, label, **({"date_format": DATE} if fieldtype == "Date" else {}))
+
+	words, name = spec["party"]
+	facts = section(
+		[field(name, "Data", words, bold=1), fact(first)],
+		[field("name", "Data", spec["number"], bold=1), fact(second)],
+		top=20, **grid,
+	)
+	style = "color:#374151;line-height:1.5;"
+	parties = section(
+		[heading("From"), field("company", "Link", "Company", show_label="hide", bold=1),
+			field("company_address_display", "Small Text", "Address", show_label="hide", custom_style=style),
+			_company_trn(show_label="inline")],
+		trade_party(spec),
+		widths=[50, 50], gap=24, top=10, radius=6, padding={"top": 14, "right": 16, "bottom": 14, "left": 16},
+		custom_style=f"border:1px solid {LINE};", field_orientation="left-right",
+	)
+	look = {"table_bordered": True, "table_header": "styled", "table_header_bg": SOFT, "table_radius": 6}
+	found = [section(_titles(spec), top=6), facts, parties, trade_lines(spec, **look)]
+	if spec.get("priced", True):
+		found.append(trade_totals(spec, **look))
+	return layout(*found, *trade_rest(spec))
+
+
+def trade_images(spec):
+	found = trade_master(spec)
+	for one in found["sections"]:
+		for column in one["columns"]:
+			for df in column["fields"]:
+				if df.get("fieldname") == "items" and df.get("fieldtype") == "Table":
+					df["table_columns"] = trade_columns(spec, image=True)
+	return found
+
+
+def proforma():
+	"""ERPNext's Proforma Invoice: the order as the invoice it will become,
+	to be paid ahead, with the bank to pay into."""
+	spec = {**TRADE["Sales Order"], "titles": (("Proforma Invoice", ""),), "number": "Proforma No"}
+	return trade_master(spec)
+
+
+def _trade(doctype, make):
+	return lambda: make(TRADE[doctype])
+
+
+#: Each version: its doctype, the module it ships in, and what draws it.
+VERSIONS = {
+	"One Sales Invoice": ("Sales Invoice", "one_book", master),
+	"One Sales Invoice Classic": ("Sales Invoice", "one_book", classic),
+	"One Sales Invoice Bordered": ("Sales Invoice", "one_book", bordered),
+	"One Sales Invoice with Images": ("Sales Invoice", "one_book", with_images),
+	"One Simplified Tax Invoice": ("Sales Invoice", "one_book", simplified),
+	"One Detailed Tax Invoice": ("Sales Invoice", "one_book", detailed),
+	"One Sales Voucher": ("Sales Invoice", "one_book", voucher),
+	"One Proforma Invoice": ("Sales Order", "one_crm", proforma),
+}
+for _doctype, _spec in TRADE.items():
+	VERSIONS[f"One {_doctype}"] = (_doctype, _spec["module"], _trade(_doctype, trade_master))
+	VERSIONS[f"One {_doctype} Classic"] = (_doctype, _spec["module"], _trade(_doctype, trade_classic))
+	VERSIONS[f"One {_doctype} Bordered"] = (_doctype, _spec["module"], _trade(_doctype, trade_bordered))
+	VERSIONS[f"One {_doctype} with Images"] = (_doctype, _spec["module"], _trade(_doctype, trade_images))
+
+MODULES = {"one_book": "One Book", "one_crm": "One CRM", "one_inventory": "One Inventory", "one_hr": "One HR", "one_project": "One Project"}
+
+
 def write(modified):
-	base = json.load(open(f"{APP}/one_sales_invoice/one_sales_invoice.json"))
-	for name, make in VERSIONS.items():
+	base = json.load(open(f"{APP}/one_book/print_format/one_sales_invoice/one_sales_invoice.json"))
+	for name, (doctype, module, make) in VERSIONS.items():
 		scrub = name.lower().replace(" ", "_")
-		folder = f"{APP}/{scrub}"
+		folder = f"{APP}/{module}/print_format/{scrub}"
 		os.makedirs(folder, exist_ok=True)
 		path = f"{folder}/{scrub}.json"
 		doc = json.load(open(path)) if os.path.exists(path) else {**copy.deepcopy(base), "creation": modified}
 		new = {
 			**doc,
 			"name": name,
+			"doc_type": doctype,
+			"module": MODULES[module],
 			"format_data": json.dumps(make()),
 			"font": "Inter",
 			"font_size": 11,

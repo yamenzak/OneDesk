@@ -71,3 +71,4 @@ onedesk.one_hr.patches.home_is_a_page
 onedesk.one_hr.patches.passkeys_are_users
 onedesk.one_book.patches.invoices_say_their_vat
 onedesk.one_project.patches.invoices_say_their_retention
+onedesk.one_book.patches.orders_say_where_to_pay

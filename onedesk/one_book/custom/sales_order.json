@@ -1,0 +1,19 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Sales Order",
+   "fieldname": "one_pay_into",
+   "fieldtype": "Link",
+   "options": "Bank Account",
+   "label": "Pay Into",
+   "insert_after": "payment_terms_template",
+   "module": "One Book",
+   "description": "The account a printed order asks to be paid into.",
+   "allow_on_submit": 1
+  }
+ ],
+ "doctype": "Sales Order",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

@@ -653,6 +653,18 @@ says how far one got: a submitted quotation, order and invoice, and Paid once
 every invoice is. Home's funnel counts it; Frappe CRM's own deal stops at its
 quotations, because it has no orders or invoices of its own to follow.
 
+### print_format/
+
+Quotations and sales orders print from frappe's print format builder's own
+pieces, written by `scripts/print_formats.py` from the same parts as the
+Tax Invoice: One Quotation (prepared for, valid until, both sides to sign)
+and One Sales Order (bill to, ship to when it's elsewhere, what's been paid
+ahead, the bank to pay into), each with Classic, Bordered and with Images
+versions in place of ERPNext's, and One Proforma Invoice, the order as the
+invoice it will become. ERPNext's own are turned off
+(`one/print_blocks.py` `REPLACES`). A sales order names the account to pay
+into as an invoice does (**Pay Into**, `one_book/paper.py`).
+
 ### deal.py
 
 ERPNext works out `base_opportunity_amount` only in the form's script, so an

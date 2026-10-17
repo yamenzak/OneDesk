@@ -893,7 +893,11 @@ doc_events = {
 			"onedesk.one_project.terms.carried",
 			"onedesk.one_project.retention.ordered",
 		],
-		"validate": "onedesk.one_project.chain.agree",
+		"validate": [
+			"onedesk.one_project.chain.agree",
+			# The account to pay into, for the print. See one_book/paper.py.
+			"onedesk.one_book.paper.pay_into",
+		],
 		"on_submit": [
 			"onedesk.one_crm.stages.follow",
 			# An order for extra work becomes a sub-project. See one_project/billing.py.

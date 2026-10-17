@@ -1393,6 +1393,13 @@ a register and a movement form in it would be a rail with five rows.
 7. **Assets: maintenance.** What is due for a service, on the calendar and in
    the owner's tasks. *Done.*
 
+### print_format/
+
+A delivery note prints from the builder's own pieces too
+(`scripts/print_formats.py`): where it goes, the vehicle and driver, the
+lines without prices, and both sides to sign; Classic, Bordered and with
+Images in place of ERPNext's.
+
 ### access.py
 
 ERPNext gives a company's assets to accounts, quality and manufacturing, and
