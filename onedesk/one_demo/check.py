@@ -3313,6 +3313,54 @@ def onehr_tariq_clocks_in_with_his_phone():
 
 
 @check
+def onehr_the_clock_says_when_the_shift_starts():
+	"""Tariq's shift started an hour ago and he has not checked in: the clock
+	gives its start and says he is late, and he is reminded once. He checks in
+	and the clock says he is in, late."""
+	from frappe.utils import add_to_date, now_datetime
+
+	from onedesk.one_hr import clock, tell
+
+	tariq = _employee("Tariq")
+	frappe.db.set_single_value("HR Settings", "one_self_checkin", 1)
+	frappe.db.delete("Employee Checkin", {"employee": tariq, "time": [">=", f"{today()} 00:00:00"]})
+	frappe.db.delete("Attendance", {"employee": tariq, "attendance_date": today()})
+	frappe.db.delete("Leave Application", {"employee": tariq, "from_date": ["<=", today()], "to_date": [">=", today()]})
+	off = frappe.db.get_value("Employee", tariq, "holiday_list") or frappe.db.get_value("Company", COMPANY, "default_holiday_list")
+	frappe.db.delete("Holiday", {"parent": off, "holiday_date": today()})
+	start = max(add_to_date(now_datetime(), hours=-1), frappe.utils.get_datetime(f"{today()} 00:01:00"))
+	shift = frappe.get_doc(
+		{
+			"doctype": "Shift Type",
+			"name": "Check Shift",
+			"start_time": start.strftime("%H:%M:00"),
+			"end_time": "23:59:00",
+		}
+	).insert(ignore_permissions=True)
+	frappe.get_doc(
+		{"doctype": "Shift Assignment", "employee": tariq, "company": COMPANY, "shift_type": shift.name, "start_date": today(), "status": "Active"}
+	).insert(ignore_permissions=True).submit()
+
+	with as_user("tariq@one.test"):
+		before = clock.ready()
+	assert before["due"].startswith(f"{today()} {start.strftime('%H:%M')}"), before
+	assert before["late"] and before["direction"] == "IN", before
+	with _Told() as told:
+		tell.not_checked_in()
+		tell.not_checked_in()
+	assert [users for name, users in told.said if name == "Not Checked In"].count(["tariq@one.test"]) == 1, told.said
+
+	checkin = frappe.new_doc("Employee Checkin")
+	checkin.flags.one_gated = True
+	checkin.update({"employee": tariq, "log_type": "IN", "time": now_datetime()})
+	checkin.insert(ignore_permissions=True)
+	with as_user("tariq@one.test"):
+		after = clock.ready()
+	assert after["state"] == "in" and after["late"], after
+	frappe.cache.delete_value(f"one-not-checked-in:{tariq}:{start.date()}")
+
+
+@check
 def one_devices_decide_where_a_passkey_lives():
 	"""Signing in gives a browser its id and lists it. The builder sorts two:
 	the reception computer, shared, where Tariq is neither offered nor allowed

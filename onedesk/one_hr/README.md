@@ -80,7 +80,13 @@ machine to buy.
 
 **Check In, in the bar at the top.** It sits at the bar's right end, with
 OneIntake, Timers and Notifications, and has a dot: green while you are
-clocked in, grey while you are not. On a phone it is at the top of the panel. Click it to clock in or out. It picks the right direction itself, and it does not
+clocked in, grey while you are not, and amber once your shift has started
+without you or you checked in after it. Until you check in it shows when your
+shift starts, and hovering says "Check in by 08:00" or "Your shift started at
+08:00". On OneHR's Home the button says the same: Check in by 08:00, or Check
+In (late). Ten minutes after the start, anybody not in yet is reminded once
+(Not Checked In). The shift is HRMS's: your assignment for the day, else your
+default shift. On a phone it is at the top of the panel. Click it to clock in or out. It picks the right direction itself, and it does not
 appear for somebody on leave or on a holiday, for anybody without an employee
 record, or when the workspace has not turned self check-in on.
 

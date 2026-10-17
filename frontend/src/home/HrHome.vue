@@ -100,6 +100,7 @@ const stop = [
   "Attendance Request",
   "Attendance",
   "Clock Attempt",
+  "Employee Checkin",
   "Interview",
   "Employee",
   "Salary Slip",
@@ -248,6 +249,15 @@ const parts = computed(() => {
   return out;
 });
 
+// Before they're in, the shift's start is part of the button: "Check in by 09:00",
+// or that they are late once it has gone.
+function checkLabel(direction) {
+  if (direction === "OUT") return __("Check Out");
+  const due = clock.value?.due && clock.value.state !== "in" ? onedesk().clock.time(clock.value.due) : "";
+  if (due && clock.value.late) return __("Check In (late)");
+  return due ? __("Check in by {0}", [due]) : __("Check In");
+}
+
 function report() {
   const s = said.value;
   props.onTitle?.({ title: __("OneHR") });
@@ -258,7 +268,7 @@ function report() {
   // the workspace has not switched self check-in on or there is nothing to punch.
   const direction = clock.value?.direction;
   props.onActions?.([
-    ...(direction ? [{ label: direction === "OUT" ? __("Check Out") : __("Check In"), primary: true, onClick: () => onedesk().dock.punch().then(load) }] : []),
+    ...(direction ? [{ label: checkLabel(direction), primary: true, onClick: () => onedesk().dock.punch().then(load) }] : []),
     { label: __("Request Leave"), primary: !direction, onClick: () => newDoc("Leave Application") },
     { label: __("Claim an Expense"), onClick: () => newDoc("Expense Claim") },
   ]);

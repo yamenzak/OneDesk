@@ -32,10 +32,15 @@ def ready() -> dict:
 
 	state = presence.of(employee)
 	places = gates.places_of(employee)
+	start = shift_start(employee)
 	return {
 		"direction": DIRECTIONS.get(state.get("state"), ""),
 		"state": state.get("state") or "",
 		"since": state.get("since") or "",
+		# Today's shift start, and whether they are past it: arrived after it,
+		# or not here yet and it has gone.
+		"due": str(start) if start else "",
+		"late": is_late(employee, state, start),
 		"why": "" if DIRECTIONS.get(state.get("state")) else state.get("state") or "",
 		"needs": {
 			"passkey": bool(policy.on("one_gate_passkey")),
@@ -45,6 +50,39 @@ def ready() -> dict:
 		"registered": bool(passkey.held_by(employee)),
 		"at": _at(places),
 	}
+
+
+def shift_start(employee: str):
+	"""When this person's shift starts today, from HRMS's own lookup: their
+	assignment, else their default shift. None without one."""
+	from frappe.utils import get_datetime, getdate, now_datetime
+	from hrms.hr.doctype.shift_assignment.shift_assignment import get_employee_shift
+
+	found = get_employee_shift(employee, now_datetime(), consider_default_shift=True)
+	start = found and found.get("start_datetime")
+	return get_datetime(start) if start and getdate(start) == getdate() else None
+
+
+def is_late(employee: str, state: dict, start) -> bool:
+	"""Past the shift's start by more than the grace: the first check-in today
+	came after it, or there is none yet and the time has gone."""
+	from frappe.utils import get_datetime, getdate, now_datetime, time_diff_in_seconds
+
+	if not start:
+		return False
+	if state.get("state") in ("unknown", "absent"):
+		return time_diff_in_seconds(now_datetime(), start) > presence.GRACE
+	if state.get("state") != "in":
+		return False
+	first = frappe.get_all(
+		"Employee Checkin",
+		filters={"employee": employee, "log_type": IN, "time": [">=", f"{getdate()} 00:00:00"]},
+		pluck="time",
+		order_by="time asc",
+		limit=1,
+		ignore_permissions=True,
+	)
+	return bool(first) and time_diff_in_seconds(get_datetime(first[0]), start) > presence.GRACE
 
 
 @frappe.whitelist(methods=["POST"])

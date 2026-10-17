@@ -165,6 +165,8 @@ scheduler_events = {
 		# come due. See one_hr/tell.py, one_calendar/tell.py, one_crm/tell.py.
 		"*/5 * * * *": [
 			"onedesk.one_hr.tell.interviews_soon",
+			# A shift started and nobody checked in. See one_hr/tell.py.
+			"onedesk.one_hr.tell.not_checked_in",
 			"onedesk.one_calendar.tell.soon",
 			"onedesk.one_crm.tell.due",
 			# Mail frappe gave up sending. See one_mail/tell.py.

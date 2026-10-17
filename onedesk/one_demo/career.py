@@ -806,6 +806,12 @@ def _clock():
 def _clocked():
 	# The workshop clocks itself in: the switch HR turns on in HR Settings.
 	frappe.db.set_single_value("HR Settings", "one_self_checkin", 1)
+	# Everybody works a shift, so the clock can say when it starts: the Day
+	# shift where nobody assigned another.
+	day = frappe.db.get_value("Shift Type", "Day")
+	if day:
+		for one in frappe.get_all("Employee", filters={"status": "Active", "default_shift": ["is", "not set"]}, pluck="name"):
+			frappe.db.set_value("Employee", one, "default_shift", day, update_modified=False)
 	# Two browsers people signed in on, sorted by the administrator
 	# (one/devices.py): the front desk everybody uses, and Nadia's laptop, the
 	# asset she holds.

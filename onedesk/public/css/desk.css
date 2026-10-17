@@ -664,6 +664,16 @@ a.one-stat:hover .one-stat-value {
 	background: var(--surface-green-5);
 }
 
+/* Past the shift's start: in late, or not in yet. */
+.one-clock .one-clock-dot.one-clock-late {
+	background: var(--surface-amber-5);
+}
+
+/* The shift's start, beside the clock until they check in. */
+.one-bar .one-clock .one-clock-due {
+	font-variant-numeric: tabular-nums;
+}
+
 @media (min-width: 768px) {
 	/* frappe's Notifications and Background Tasks open in the sidebar's
 	   container, which a page with a sidebar of its own hides. A panel the bar

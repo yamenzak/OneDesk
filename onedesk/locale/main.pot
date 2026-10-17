@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-16 20:24+0000\n"
-"PO-Revision-Date: 2026-10-16 20:24+0000\n"
+"POT-Creation-Date: 2026-10-17 07:23+0000\n"
+"PO-Revision-Date: 2026-10-17 07:23+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -3604,7 +3604,7 @@ msgstr ""
 msgid "Ask again under Your Data if you still want your account deleted."
 msgstr ""
 
-#: onedesk/public/js/desk.js:423 onedesk/public/js/outside.js:262
+#: onedesk/public/js/desk.js:433 onedesk/public/js/outside.js:262
 #: onedesk/www/message.html:27
 msgid "Ask an administrator for access."
 msgstr ""
@@ -5751,17 +5751,23 @@ msgstr ""
 msgid "Check Again"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:261 onedesk/public/js/desk.js:115
-#: onedesk/public/js/desk.js:182 onedesk/public/js/desk.js:296
-#: onedesk/public/js/desk.js:299
+#. The button on a notification's mail
+#: frontend/src/home/HrHome.vue:257
+#: onedesk/notifications/one_hr/not_checked_in.md onedesk/public/js/desk.js:115
+#: onedesk/public/js/desk.js:182 onedesk/public/js/desk.js:306
+#: onedesk/public/js/desk.js:309
 msgid "Check In"
+msgstr ""
+
+#: frontend/src/home/HrHome.vue:256
+msgid "Check In (late)"
 msgstr ""
 
 #: onedesk/public/js/settings.js:165
 msgid "Check My Profile"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:261 onedesk/public/js/clock.js:85
+#: frontend/src/home/HrHome.vue:254 onedesk/public/js/clock.js:85
 msgid "Check Out"
 msgstr ""
 
@@ -5775,6 +5781,11 @@ msgstr ""
 
 #: onedesk/one_project/view.py:817
 msgid "Check bill from {0}"
+msgstr ""
+
+#: frontend/src/home/HrHome.vue:257 onedesk/public/js/desk.js:304
+#: onedesk/public/js/desk.js:309
+msgid "Check in by {0}"
 msgstr ""
 
 #: onedesk/one_project/view.py:819
@@ -5895,11 +5906,11 @@ msgstr ""
 msgid "Checked By"
 msgstr ""
 
-#: onedesk/public/js/desk.js:299 onedesk/public/js/desk.js:349
+#: onedesk/public/js/desk.js:309 onedesk/public/js/desk.js:359
 msgid "Checked In"
 msgstr ""
 
-#: onedesk/public/js/desk.js:349
+#: onedesk/public/js/desk.js:359
 msgid "Checked Out"
 msgstr ""
 
@@ -5911,8 +5922,12 @@ msgstr ""
 msgid "Checked in"
 msgstr ""
 
-#: onedesk/public/js/desk.js:294
+#: onedesk/public/js/desk.js:300
 msgid "Checked in {0}"
+msgstr ""
+
+#: onedesk/public/js/desk.js:299
+msgid "Checked in {0}, late"
 msgstr ""
 
 #: onedesk/one_hr/employee.py:151 onedesk/one_hr/presence.py:176
@@ -5923,11 +5938,11 @@ msgstr ""
 msgid "Checked when someone sets or changes their password."
 msgstr ""
 
-#: onedesk/public/js/desk.js:313
+#: onedesk/public/js/desk.js:323
 msgid "Checking in…"
 msgstr ""
 
-#: onedesk/public/js/desk.js:313
+#: onedesk/public/js/desk.js:323
 msgid "Checking out…"
 msgstr ""
 
@@ -5935,7 +5950,7 @@ msgstr ""
 msgid "Checking the name is free"
 msgstr ""
 
-#: onedesk/one_hr/clock.py:62
+#: onedesk/one_hr/clock.py:100
 msgid "Checking yourself in is not enabled on this site."
 msgstr ""
 
@@ -6066,7 +6081,7 @@ msgstr ""
 msgid "Claim a receipt"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:263 onedesk/public/js/employee.js:14
+#: frontend/src/home/HrHome.vue:272 onedesk/public/js/employee.js:14
 msgid "Claim an Expense"
 msgstr ""
 
@@ -7140,7 +7155,7 @@ msgstr ""
 msgid "Couldn't reach the server."
 msgstr ""
 
-#: onedesk/public/js/desk.js:318
+#: onedesk/public/js/desk.js:328
 msgid "Couldn't record the check-in."
 msgstr ""
 
@@ -19163,7 +19178,8 @@ msgstr ""
 msgid "Not Billed"
 msgstr ""
 
-#: onedesk/public/js/desk.js:341
+#. Name of a notification
+#: onedesk/notifications/one_hr/not_checked_in.md onedesk/public/js/desk.js:351
 msgid "Not Checked In"
 msgstr ""
 
@@ -19296,7 +19312,7 @@ msgstr ""
 msgid "Not checked until the workspace is linked to an account."
 msgstr ""
 
-#: onedesk/public/js/desk.js:297
+#: onedesk/public/js/desk.js:307
 msgid "Not checking in today"
 msgstr ""
 
@@ -19582,7 +19598,7 @@ msgid "Nothing has happened yet. It is checked against your own permissions when
 msgstr ""
 
 #: frontend/portal/src/pages/Home.vue:72 frontend/portal/src/pages/List.vue:91
-#: onedesk/one/page/masters/masters.js:144 onedesk/public/js/desk.js:422
+#: onedesk/one/page/masters/masters.js:144 onedesk/public/js/desk.js:432
 msgid "Nothing here yet"
 msgstr ""
 
@@ -19651,7 +19667,7 @@ msgstr ""
 msgid "Nothing shared with you"
 msgstr ""
 
-#: onedesk/public/js/desk.js:306
+#: onedesk/public/js/desk.js:316
 msgid "Nothing to check in. You're {0} today."
 msgstr ""
 
@@ -20666,7 +20682,7 @@ msgstr ""
 #. Option for the 'Product' (Select) field in DocType 'AI Action'
 #. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
-#: frontend/src/home/HrHome.vue:253
+#: frontend/src/home/HrHome.vue:262
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_hr/page/onehr/onehr.js:10
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -20897,7 +20913,7 @@ msgstr ""
 msgid "Only an employee can ask for their own passkey to be reset."
 msgstr ""
 
-#: onedesk/one_hr/clock.py:60
+#: onedesk/one_hr/clock.py:98
 msgid "Only an employee can check in."
 msgstr ""
 
@@ -25260,7 +25276,7 @@ msgstr ""
 msgid "Register a passkey before checking in."
 msgstr ""
 
-#: onedesk/public/js/desk.js:329
+#: onedesk/public/js/desk.js:339
 msgid "Register a passkey on this phone first?"
 msgstr ""
 
@@ -25730,7 +25746,7 @@ msgstr ""
 msgid "Request For Quotation"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:262
+#: frontend/src/home/HrHome.vue:271
 msgid "Request Leave"
 msgstr ""
 
@@ -30869,6 +30885,7 @@ msgstr ""
 #: onedesk/notifications/one_hr/leave_expiring.md
 #: onedesk/notifications/one_hr/letter_issued.md
 #: onedesk/notifications/one_hr/marked_absent.md
+#: onedesk/notifications/one_hr/not_checked_in.md
 #: onedesk/notifications/one_hr/passkey_reset_done.md
 #: onedesk/notifications/one_hr/shift_answered.md
 msgid "The employee"
@@ -32095,7 +32112,7 @@ msgstr ""
 msgid "There is no {0} {1}."
 msgstr ""
 
-#: onedesk/one_hr/clock.py:74
+#: onedesk/one_hr/clock.py:112
 msgid "There is nothing to check in: you are {0} today."
 msgstr ""
 
@@ -36634,6 +36651,11 @@ msgid "When your password is changed, here or through a reset link."
 msgstr ""
 
 #. When a notification is sent
+#: onedesk/notifications/one_hr/not_checked_in.md
+msgid "When your shift has started and you haven't checked in."
+msgstr ""
+
+#. When a notification is sent
 #: onedesk/notifications/one_hr/marked_absent.md
 msgid "When your shift marks a working day absent because it found no check-in."
 msgstr ""
@@ -38495,6 +38517,11 @@ msgstr ""
 msgid "You have unsaved changes. Leave anyway?"
 msgstr ""
 
+#. Message of a notification
+#: onedesk/notifications/one_hr/not_checked_in.md
+msgid "You haven't checked in yet."
+msgstr ""
+
 #: onedesk/public/js/settings.js:1715
 msgid "You haven't downloaded the workspace."
 msgstr ""
@@ -38893,6 +38920,15 @@ msgstr ""
 msgid "Your sessions are on the Sign-in page."
 msgstr ""
 
+#: onedesk/public/js/desk.js:303
+msgid "Your shift started at {0}"
+msgstr ""
+
+#. Subject of a notification
+#: onedesk/notifications/one_hr/not_checked_in.md
+msgid "Your shift started at {start}"
+msgstr ""
+
 #. Subject of a notification
 #: onedesk/notifications/one_admin/sign_in_link.md
 msgid "Your sign-in link for One"
@@ -39096,7 +39132,7 @@ msgstr ""
 msgid "an hour"
 msgstr ""
 
-#: onedesk/one_hr/tell.py:813
+#: onedesk/one_hr/tell.py:842
 msgid "an opening"
 msgstr ""
 
@@ -39109,7 +39145,7 @@ msgstr ""
 msgid "and {0} more"
 msgstr ""
 
-#: onedesk/one_hr/tell.py:795
+#: onedesk/one_hr/tell.py:824
 msgid "approved"
 msgstr ""
 
@@ -39531,7 +39567,7 @@ msgid "not known yet"
 msgstr ""
 
 #: onedesk/one/heads.py:29 onedesk/one/notify.py:328
-#: onedesk/public/js/desk.js:369
+#: onedesk/public/js/desk.js:379
 msgid "nothing"
 msgstr ""
 
@@ -39699,7 +39735,7 @@ msgstr ""
 msgid "register number"
 msgstr ""
 
-#: onedesk/one_hr/tell.py:795
+#: onedesk/one_hr/tell.py:824
 msgid "rejected"
 msgstr ""
 

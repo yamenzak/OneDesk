@@ -733,6 +733,35 @@ def marked_absent(doc, method=None) -> None:
 		)
 
 
+def not_checked_in() -> None:
+	"""Every five minutes: somebody whose shift started over the grace ago and
+	who has not checked in, once a day, while it is still the morning of it."""
+	from frappe.utils import add_to_date, now_datetime, time_diff_in_seconds
+
+	from onedesk.one_hr import clock, policy, presence
+
+	if not policy.self_service() or not frappe.db.get_value("Notification Type", "Not Checked In", "enabled"):
+		return
+	now = now_datetime()
+	for one in frappe.get_all(
+		"Employee", filters={"status": "Active", "user_id": ["is", "set"]}, fields=["name", "user_id"]
+	):
+		start = clock.shift_start(one.name)
+		if not start or not presence.GRACE < time_diff_in_seconds(now, start) < 2 * 3600:
+			continue
+		key = f"one-not-checked-in:{one.name}:{start.date()}"
+		if frappe.cache.get_value(key) or presence.of(one.name).get("state") not in ("unknown", "absent"):
+			continue
+		frappe.cache.set_value(key, 1, expires_in_sec=int(time_diff_in_seconds(add_to_date(start, days=1), now)))
+		notify.notify(
+			"Not Checked In",
+			one.user_id,
+			link="/desk/onehr",
+			sender="Administrator",
+			start=frappe.utils.format_time(start, "HH:mm"),
+		)
+
+
 def leave_expiring() -> None:
 	"""Each morning: leave that lapses in two weeks with days still unused,
 	to the employee."""

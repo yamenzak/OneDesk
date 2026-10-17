@@ -182,7 +182,7 @@ onedesk.dock.bar = () => {
 		label: __("Check In"),
 		icon: "clock",
 		css: "one-clock hide",
-		badge: `<span class="one-clock-dot"></span>`,
+		badge: `<span class="one-clock-dot"></span><span class="one-clock-due hide"></span>`,
 		click: () => onedesk.dock.punch(),
 	});
 	add({
@@ -288,15 +288,25 @@ onedesk.dock.refresh = () =>
 		// rather than being conditional on an answer nobody had yet.
 		$item.toggleClass("hide", !ready.direction && !ready.state);
 
-		const on = ready.state === "in" || ready.state === "late";
-		$item.find(".one-clock-dot").toggleClass("one-clock-on", on);
+		// Green while in, amber when past the shift's start (arrived after it, or
+		// not here yet), and the start itself beside the clock until they are in.
+		const on = ready.state === "in";
+		const due = !on && ready.direction === "IN" && ready.due ? onedesk.clock.time(ready.due) : "";
+		$item.find(".one-clock-dot").toggleClass("one-clock-on", on && !ready.late).toggleClass("one-clock-late", !!ready.late);
+		$item.find(".one-clock-due").text(due).toggleClass("hide", !due);
 		const label = on
-			? __("Checked in {0}", [onedesk.clock.when(ready.since)])
-			: ready.direction
-				? __("Check In")
-				: __("Not checking in today");
+			? ready.late
+				? __("Checked in {0}, late", [onedesk.clock.when(ready.since)])
+				: __("Checked in {0}", [onedesk.clock.when(ready.since)])
+			: due
+				? ready.late
+					? __("Your shift started at {0}", [due])
+					: __("Check in by {0}", [due])
+				: ready.direction
+					? __("Check In")
+					: __("Not checking in today");
 		onedesk.dock.name($item, label);
-		$item.find(".sidebar-item-label").text(on ? __("Checked In") : __("Check In"));
+		$item.find(".sidebar-item-label").text(on ? __("Checked In") : due ? __("Check in by {0}", [due]) : __("Check In"));
 		return ready;
 	});
 

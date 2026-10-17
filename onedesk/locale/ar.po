@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-16 20:24+0000\n"
+"POT-Creation-Date: 2026-10-17 07:23+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -3606,7 +3606,7 @@ msgstr "اسأل عن هذه الصفحة، أو ابحث عن معلومة، أ
 msgid "Ask again under Your Data if you still want your account deleted."
 msgstr "اطلب مرة أخرى من صفحة بياناتك إذا كنت لا تزال تريد حذف حسابك."
 
-#: onedesk/public/js/desk.js:423 onedesk/public/js/outside.js:262
+#: onedesk/public/js/desk.js:433 onedesk/public/js/outside.js:262
 #: onedesk/www/message.html:27
 msgid "Ask an administrator for access."
 msgstr "اطلب الوصول من أحد المسؤولين."
@@ -5753,17 +5753,23 @@ msgstr "الفحص"
 msgid "Check Again"
 msgstr "تحقق مرة أخرى"
 
-#: frontend/src/home/HrHome.vue:261 onedesk/public/js/desk.js:115
-#: onedesk/public/js/desk.js:182 onedesk/public/js/desk.js:296
-#: onedesk/public/js/desk.js:299
+#. The button on a notification's mail
+#: frontend/src/home/HrHome.vue:257
+#: onedesk/notifications/one_hr/not_checked_in.md onedesk/public/js/desk.js:115
+#: onedesk/public/js/desk.js:182 onedesk/public/js/desk.js:306
+#: onedesk/public/js/desk.js:309
 msgid "Check In"
 msgstr "تسجيل الحضور"
+
+#: frontend/src/home/HrHome.vue:256
+msgid "Check In (late)"
+msgstr "تسجيل الحضور (متأخر)"
 
 #: onedesk/public/js/settings.js:165
 msgid "Check My Profile"
 msgstr "افحص ملفي الشخصي"
 
-#: frontend/src/home/HrHome.vue:261 onedesk/public/js/clock.js:85
+#: frontend/src/home/HrHome.vue:254 onedesk/public/js/clock.js:85
 msgid "Check Out"
 msgstr "تسجيل الانصراف"
 
@@ -5778,6 +5784,11 @@ msgstr "مراجعة عرض سعر المورد"
 #: onedesk/one_project/view.py:817
 msgid "Check bill from {0}"
 msgstr "راجع فاتورة {0}"
+
+#: frontend/src/home/HrHome.vue:257 onedesk/public/js/desk.js:304
+#: onedesk/public/js/desk.js:309
+msgid "Check in by {0}"
+msgstr "سجّل حضورك قبل {0}"
 
 #: onedesk/one_project/view.py:819
 msgid "Check invoice to {0}"
@@ -5897,11 +5908,11 @@ msgstr "تُكتب تسجيلات الحضور التي تقع درجتها بي
 msgid "Checked By"
 msgstr "راجعه"
 
-#: onedesk/public/js/desk.js:299 onedesk/public/js/desk.js:349
+#: onedesk/public/js/desk.js:309 onedesk/public/js/desk.js:359
 msgid "Checked In"
 msgstr "سجّل الحضور"
 
-#: onedesk/public/js/desk.js:349
+#: onedesk/public/js/desk.js:359
 msgid "Checked Out"
 msgstr "سجّل الانصراف"
 
@@ -5913,9 +5924,13 @@ msgstr "تمت مطابقتها مع المستند والطلب"
 msgid "Checked in"
 msgstr "سجّل الحضور"
 
-#: onedesk/public/js/desk.js:294
+#: onedesk/public/js/desk.js:300
 msgid "Checked in {0}"
 msgstr "سجّل الحضور {0}"
+
+#: onedesk/public/js/desk.js:299
+msgid "Checked in {0}, late"
+msgstr "سجّلت حضورك {0}، متأخراً"
 
 #: onedesk/one_hr/employee.py:151 onedesk/one_hr/presence.py:176
 msgid "Checked out"
@@ -5925,11 +5940,11 @@ msgstr "سجّل الانصراف"
 msgid "Checked when someone sets or changes their password."
 msgstr "يُفحص عندما يعيّن شخص كلمة مروره أو يغيّرها."
 
-#: onedesk/public/js/desk.js:313
+#: onedesk/public/js/desk.js:323
 msgid "Checking in…"
 msgstr "جارٍ تسجيل الحضور…"
 
-#: onedesk/public/js/desk.js:313
+#: onedesk/public/js/desk.js:323
 msgid "Checking out…"
 msgstr "جارٍ تسجيل الانصراف…"
 
@@ -5937,7 +5952,7 @@ msgstr "جارٍ تسجيل الانصراف…"
 msgid "Checking the name is free"
 msgstr "التحقق من توفر الاسم"
 
-#: onedesk/one_hr/clock.py:62
+#: onedesk/one_hr/clock.py:100
 msgid "Checking yourself in is not enabled on this site."
 msgstr "تسجيل الحضور الذاتي غير مفعَّل في هذا الموقع."
 
@@ -6068,7 +6083,7 @@ msgstr "المدينة"
 msgid "Claim a receipt"
 msgstr "قدّم إيصالًا للمطالبة"
 
-#: frontend/src/home/HrHome.vue:263 onedesk/public/js/employee.js:14
+#: frontend/src/home/HrHome.vue:272 onedesk/public/js/employee.js:14
 msgid "Claim an Expense"
 msgstr "المطالبة بمصروف"
 
@@ -7142,7 +7157,7 @@ msgstr "تعذّر تحميل السجل."
 msgid "Couldn't reach the server."
 msgstr "تعذّر الوصول إلى الخادم."
 
-#: onedesk/public/js/desk.js:318
+#: onedesk/public/js/desk.js:328
 msgid "Couldn't record the check-in."
 msgstr "تعذر تسجيل الحضور."
 
@@ -19157,7 +19172,8 @@ msgstr "غير قابل للفوترة"
 msgid "Not Billed"
 msgstr "غير مفوتر"
 
-#: onedesk/public/js/desk.js:341
+#. Name of a notification
+#: onedesk/notifications/one_hr/not_checked_in.md onedesk/public/js/desk.js:351
 msgid "Not Checked In"
 msgstr "لم يسجّل الحضور"
 
@@ -19290,7 +19306,7 @@ msgstr "لم يسجّل الحضور"
 msgid "Not checked until the workspace is linked to an account."
 msgstr "لا يُفحص حتى تُربط مساحة العمل بحساب."
 
-#: onedesk/public/js/desk.js:297
+#: onedesk/public/js/desk.js:307
 msgid "Not checking in today"
 msgstr "لا تسجيل حضور اليوم"
 
@@ -19576,7 +19592,7 @@ msgid "Nothing has happened yet. It is checked against your own permissions when
 msgstr "لم يحدث شيء بعد. ويُفحص مقابل صلاحياتك أنت عند تطبيقه."
 
 #: frontend/portal/src/pages/Home.vue:72 frontend/portal/src/pages/List.vue:91
-#: onedesk/one/page/masters/masters.js:144 onedesk/public/js/desk.js:422
+#: onedesk/one/page/masters/masters.js:144 onedesk/public/js/desk.js:432
 msgid "Nothing here yet"
 msgstr "لا شيء هنا بعد"
 
@@ -19645,7 +19661,7 @@ msgstr "لا شيء قيد التشغيل"
 msgid "Nothing shared with you"
 msgstr "لا شيء مُشارَك معك"
 
-#: onedesk/public/js/desk.js:306
+#: onedesk/public/js/desk.js:316
 msgid "Nothing to check in. You're {0} today."
 msgstr "لا يوجد ما تسجّل حضوره. أنت {0} اليوم."
 
@@ -20660,7 +20676,7 @@ msgstr "OneCloud"
 #. Option for the 'Product' (Select) field in DocType 'AI Action'
 #. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
-#: frontend/src/home/HrHome.vue:253
+#: frontend/src/home/HrHome.vue:262
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_hr/page/onehr/onehr.js:10
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -20891,7 +20907,7 @@ msgstr "لا يُبتّ إلا في طلب ما زال قيد الانتظار."
 msgid "Only an employee can ask for their own passkey to be reset."
 msgstr "لا يمكن طلب إعادة تعيين مفتاح المرور إلا من الموظف نفسه."
 
-#: onedesk/one_hr/clock.py:60
+#: onedesk/one_hr/clock.py:98
 msgid "Only an employee can check in."
 msgstr "لا يمكن تسجيل الحضور إلا للموظفين."
 
@@ -25251,7 +25267,7 @@ msgstr "سجّل هذا الجهاز"
 msgid "Register a passkey before checking in."
 msgstr "سجّل مفتاح مرور قبل تسجيل الحضور."
 
-#: onedesk/public/js/desk.js:329
+#: onedesk/public/js/desk.js:339
 msgid "Register a passkey on this phone first?"
 msgstr "هل تريد تسجيل مفتاح مرور على هذا الهاتف أولاً؟"
 
@@ -25721,7 +25737,7 @@ msgstr "طلب الحذف"
 msgid "Request For Quotation"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:262
+#: frontend/src/home/HrHome.vue:271
 msgid "Request Leave"
 msgstr "طلب إجازة"
 
@@ -30840,6 +30856,7 @@ msgstr "مفتاح المستند، مثل terms أو privacy."
 #: onedesk/notifications/one_hr/leave_expiring.md
 #: onedesk/notifications/one_hr/letter_issued.md
 #: onedesk/notifications/one_hr/marked_absent.md
+#: onedesk/notifications/one_hr/not_checked_in.md
 #: onedesk/notifications/one_hr/passkey_reset_done.md
 #: onedesk/notifications/one_hr/shift_answered.md
 msgid "The employee"
@@ -32066,7 +32083,7 @@ msgstr "لا يوجد {0} هنا."
 msgid "There is no {0} {1}."
 msgstr "لا يوجد {0} {1}."
 
-#: onedesk/one_hr/clock.py:74
+#: onedesk/one_hr/clock.py:112
 msgid "There is nothing to check in: you are {0} today."
 msgstr "لا يوجد ما يُسجَّل: أنت {0} اليوم."
 
@@ -36605,6 +36622,11 @@ msgid "When your password is changed, here or through a reset link."
 msgstr "عند تغيير كلمة مرورك، هنا أو عبر رابط إعادة التعيين."
 
 #. When a notification is sent
+#: onedesk/notifications/one_hr/not_checked_in.md
+msgid "When your shift has started and you haven't checked in."
+msgstr "عندما تبدأ مناوبتك ولم تسجّل حضورك بعد."
+
+#. When a notification is sent
 #: onedesk/notifications/one_hr/marked_absent.md
 msgid "When your shift marks a working day absent because it found no check-in."
 msgstr "عندما تسجّل ورديتك يوم عمل غيابًا لعدم وجود تسجيل حضور."
@@ -38462,6 +38484,11 @@ msgstr "لديك عطلات قادمة"
 msgid "You have unsaved changes. Leave anyway?"
 msgstr "لديك تغييرات غير محفوظة. هل تريد المغادرة على أي حال؟"
 
+#. Message of a notification
+#: onedesk/notifications/one_hr/not_checked_in.md
+msgid "You haven't checked in yet."
+msgstr "لم تسجّل حضورك بعد."
+
 #: onedesk/public/js/settings.js:1715
 msgid "You haven't downloaded the workspace."
 msgstr "لم تنزّل مساحة العمل."
@@ -38860,6 +38887,15 @@ msgstr "دورك"
 msgid "Your sessions are on the Sign-in page."
 msgstr "جلساتك موجودة في صفحة تسجيل الدخول."
 
+#: onedesk/public/js/desk.js:303
+msgid "Your shift started at {0}"
+msgstr "بدأت مناوبتك الساعة {0}"
+
+#. Subject of a notification
+#: onedesk/notifications/one_hr/not_checked_in.md
+msgid "Your shift started at {start}"
+msgstr "بدأت مناوبتك الساعة {start}"
+
 #. Subject of a notification
 #: onedesk/notifications/one_admin/sign_in_link.md
 msgid "Your sign-in link for One"
@@ -39063,7 +39099,7 @@ msgstr "مضبوط مسبقًا"
 msgid "an hour"
 msgstr "ساعة واحدة"
 
-#: onedesk/one_hr/tell.py:813
+#: onedesk/one_hr/tell.py:842
 msgid "an opening"
 msgstr "وظيفة شاغرة"
 
@@ -39076,7 +39112,7 @@ msgstr "مشغّل"
 msgid "and {0} more"
 msgstr "و{0} غيرها"
 
-#: onedesk/one_hr/tell.py:795
+#: onedesk/one_hr/tell.py:824
 msgid "approved"
 msgstr "تمت الموافقة"
 
@@ -39498,7 +39534,7 @@ msgid "not known yet"
 msgstr "غير معروف بعد"
 
 #: onedesk/one/heads.py:29 onedesk/one/notify.py:328
-#: onedesk/public/js/desk.js:369
+#: onedesk/public/js/desk.js:379
 msgid "nothing"
 msgstr "لا شيء"
 
@@ -39666,7 +39702,7 @@ msgstr ""
 msgid "register number"
 msgstr "رقم السجل التجاري"
 
-#: onedesk/one_hr/tell.py:795
+#: onedesk/one_hr/tell.py:824
 msgid "rejected"
 msgstr "مرفوض"
 

@@ -102,6 +102,10 @@ onedesk.clock.explain = (dialog) => {
 onedesk.clock.when = (stamp) =>
 	stamp ? $("<div>").html(frappe.datetime.comment_when(stamp, true)).text() : "";
 
+// A time of day in the reader's own format, without seconds: "09:00".
+onedesk.clock.time = (stamp) =>
+	stamp ? moment(frappe.datetime.convert_to_user_tz(stamp)).format(frappe.datetime.get_user_time_fmt().replace(":ss", "")) : "";
+
 // The optional photo. The camera opens inside the page and a frame goes
 // straight from a canvas, so there is no file input anywhere and nothing can be
 // chosen from the gallery — `<input type="file" capture>` is only a hint, and a
