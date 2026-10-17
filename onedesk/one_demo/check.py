@@ -6516,14 +6516,12 @@ def onebook_chases_what_customers_owe():
 	prints as One's Payment Reminder with each overdue invoice and the bank to
 	pay into; another has a payment request; the statements go monthly; DEWA's
 	direct debits match by a rule; and Dunning opens in OneBook's rail."""
-	from onedesk.one import print_blocks
-
 	with as_user("huda@one.test"):
 		reminder = frappe.get_doc("Dunning", frappe.get_all("Dunning", filters={"docstatus": 1}, pluck="name", limit=1)[0])
-		said = print_blocks.overdue(reminder)
-		assert said["rows"] and said["rows"][0][0] == reminder.overdue_payments[0].sales_invoice, said
-		assert print_blocks.title(reminder)["title"] == "Payment Reminder"
-		assert print_blocks.bank(reminder), "it says where to pay"
+		printed = frappe.get_print("Dunning", reminder.name, print_format="One Payment Reminder")
+		assert "Payment Reminder" in printed and reminder.overdue_payments[0].sales_invoice in printed
+		iban = frappe.db.get_value("Bank Account", reminder.one_pay_into, "iban")
+		assert iban and iban in printed, "it says where to pay"
 		assert frappe.db.get_value("Property Setter", {"doc_type": "Dunning", "property": "default_print_format"}, "value") == "One Payment Reminder"
 		assert frappe.get_all("Payment Request", filters={"reference_doctype": "Sales Invoice", "docstatus": 1})
 		assert frappe.db.get_value("Process Statement Of Accounts", "Monthly Statements", "frequency") == "Monthly"
@@ -6618,16 +6616,13 @@ def onebook_a_uae_invoice_prints_as_a_tax_invoice():
 	"""In the UAE a sales invoice prints as a Tax Invoice and a credit note as
 	a Tax Credit Note, each with the company's TRN, and the VAT line says its
 	rate once."""
-	from onedesk.one import print_blocks
-
 	trn = frappe.get_cached_value("Company", COMPANY, "tax_id")
-	invoice = frappe.get_doc("Sales Invoice", frappe.get_all("Sales Invoice", filters={"docstatus": 1, "is_return": 0}, pluck="name", limit=1)[0])
-	said = print_blocks.title(invoice)
-	assert said["title"] == "Tax Invoice" and trn in said["tax"], said
+	invoice = frappe.get_all("Sales Invoice", filters={"docstatus": 1, "is_return": 0}, pluck="name", limit=1)[0]
+	printed = frappe.get_print("Sales Invoice", invoice, print_format="One Sales Invoice")
+	assert "Tax Invoice" in printed and trn in printed
 	note = frappe.get_all("Sales Invoice", filters={"docstatus": 1, "is_return": 1}, pluck="name", limit=1)
-	assert print_blocks.title(frappe.get_doc("Sales Invoice", note[0]))["title"] == "Tax Credit Note"
-	lines = [label for label, _value in print_blocks.totals(invoice)["rows"]]
-	assert not any("@" in str(label) and "%" in str(label).split("@")[0] for label in lines), lines
+	assert "Tax Credit Note" in frappe.get_print("Sales Invoice", note[0], print_format="One Sales Invoice")
+	assert "% @" not in printed, "the VAT says its rate once"
 
 
 @check

@@ -146,6 +146,7 @@ FORMATS = {
 	"Sales Order": ("One Sales Order", "one_crm"),
 	"Sales Invoice": ("One Sales Invoice", "one_book"),
 	"Purchase Invoice": ("One Purchase Invoice", "one_book"),
+	"Journal Entry": ("One Journal Voucher", "one_book"),
 	"Payment Entry": ("One Payment Receipt", "one_book"),
 	"Dunning": ("One Payment Reminder", "one_book"),
 	"Delivery Note": ("One Delivery Note", "one_inventory"),
@@ -230,6 +231,11 @@ REPLACES = {
 	"One Request for Quotation with Images": ("Request for Quotation Modern with Images",),
 	"One Purchase Voucher": ("Purchase Auditing Voucher",),
 	"One Purchase Receipt with Serial Numbers": ("Purchase Receipt Serial and Batch Bundle Print",),
+	"One Payment Voucher": ("Bank and Cash Payment Voucher",),
+	"One Journal Voucher": ("Journal Auditing Voucher",),
+	"One Journal Credit Note": ("Credit Note",),
+	"One Payment Reminder": ("Dunning Letter",),
+	"One Pick List": ("Pick List",),
 }
 
 
@@ -290,12 +296,7 @@ def one_print_block(doc, block: str) -> dict:
 		"title": title,
 		"party": party,
 		"details": details,
-		"totals": totals,
-		"schedule": schedule,
-		"bank": bank,
 		"payslip": payslip,
-		"payment": payment,
-		"overdue": overdue,
 		"signatures": signatures,
 		"progress": progress,
 	}[block](doc)
@@ -398,19 +399,6 @@ def _trn(doc) -> str | None:
 	if not company or not vat.in_uae(company):
 		return None
 	return frappe.get_cached_value("Company", company, "tax_id") or None
-
-
-def tax_label(description: str | None, rate) -> str:
-	"""A tax line as a reader says it: ERPNext writes "VAT 5% @ 5.0", the rate
-	twice, the second as a bare number. Pure."""
-	said = (description or "").strip()
-	found = re.match(r"^(.*?)\s*@\s*([0-9.]+)\s*$", said)
-	if not found:
-		return said
-	head, number = found.group(1), flt(found.group(2))
-	if "%" in head:
-		return head
-	return f"{head} @ {number:g}%"
 
 
 def _made_for(doc, heading) -> dict:
@@ -574,92 +562,6 @@ def _number_format(currency: str | None) -> str | None:
 	return (currency and frappe.get_cached_value("Currency", currency, "number_format")) or None
 
 
-def totals(doc) -> dict:
-	if not doc.meta.has_field("grand_total"):
-		return {}
-	rows = [(_("Subtotal"), money(doc, doc.get("total")))]
-	if flt(doc.get("discount_amount")):
-		rows.append((_("Discount"), "− " + money(doc, doc.get("discount_amount"))))
-	for tax in doc.get("taxes") or []:
-		if flt(tax.tax_amount):
-			rows.append((tax_label(tax.description, tax.rate) or tax.account_head, money(doc, tax.tax_amount)))
-	rounded = flt(doc.get("rounded_total")) and not cint(doc.get("disable_rounded_total"))
-	total = doc.get("rounded_total") if rounded else doc.get("grand_total")
-	owed = []
-	if doc.doctype == "Sales Invoice" and doc.docstatus == 1 and not doc.get("is_return"):
-		outstanding = flt(doc.get("outstanding_amount"))
-		if outstanding < flt(total):
-			owed = [
-				(_("Paid"), money(doc, flt(total) - outstanding)),
-				(_("Balance Due"), money(doc, outstanding)),
-			]
-	company_currency = doc.get("company") and frappe.get_cached_value(
-		"Company", doc.company, "default_currency"
-	)
-	base = None
-	if company_currency and doc.get("currency") and doc.currency != company_currency:
-		base_total = doc.get("base_rounded_total") if rounded else doc.get("base_grand_total")
-		base = {
-			"label": _("Total in {0}").format(company_currency),
-			"value": money(doc, base_total, company_currency),
-			"rate": _("1 {0} = {1} {2}").format(
-				doc.currency,
-				frappe.format_value(doc.get("conversion_rate"), {"fieldtype": "Float"}),
-				company_currency,
-			),
-		}
-	return {
-		"rows": rows,
-		"total": (_("Total"), money(doc, total)),
-		"owed": owed,
-		"base": base,
-		"words": doc.get("in_words"),
-	}
-
-
-def schedule(doc) -> dict:
-	rows = doc.get("payment_schedule") or []
-	if len(rows) < 2:
-		return {}
-	return {
-		"heading": _("Payment Schedule"),
-		"rows": [
-			(
-				row.get_formatted("due_date"),
-				row.get("description") or row.get("payment_term") or "",
-				money(doc, row.payment_amount),
-			)
-			for row in rows
-		],
-	}
-
-
-def bank(doc) -> dict:
-	"""The company's own bank account to pay into, its default one first."""
-	if not doc.get("company"):
-		return {}
-	found = frappe.get_all(
-		"Bank Account",
-		filters={"company": doc.company, "is_company_account": 1, "disabled": 0},
-		fields=["bank", "account_name", "bank_account_no", "iban", "branch_code", "is_default"],
-		order_by="is_default desc, creation asc",
-		limit=1,
-	)
-	if not found:
-		return {}
-	one = found[0]
-	swift = frappe.get_cached_value("Bank", one.bank, "swift_number") if one.bank else None
-	rows = [
-		(_("Bank"), one.bank),
-		(_("Account Name"), one.account_name),
-		(_("Account No"), one.bank_account_no),
-		(_("IBAN"), one.iban),
-		(_("SWIFT"), swift),
-		(_("Branch Code"), one.branch_code),
-	]
-	return {"heading": _("Pay To"), "rows": [row for row in rows if row[1]]}
-
-
 def payslip(doc) -> dict:
 	if doc.doctype != "Salary Slip":
 		return {}
@@ -677,65 +579,6 @@ def payslip(doc) -> dict:
 		"deducted": (_("Total Deductions"), money(doc, doc.get("total_deduction"))),
 		"net": (_("Net Pay"), money(doc, net)),
 		"words": doc.get("total_in_words"),
-	}
-
-
-def payment(doc) -> dict:
-	if doc.doctype != "Payment Entry":
-		return {}
-	received = doc.get("payment_type") == "Receive"
-	amount, currency = (
-		(doc.get("paid_amount"), doc.get("paid_from_account_currency"))
-		if received
-		else (doc.get("received_amount"), doc.get("paid_to_account_currency"))
-	)
-	return {
-		"label": _("Amount Received") if received else _("Amount Paid"),
-		"amount": money(doc, amount, currency),
-		"heading": _("Settles"),
-		"rows": [
-			(_(row.reference_doctype), row.reference_name, money(doc, row.allocated_amount, currency))
-			for row in doc.get("references") or []
-			if flt(row.allocated_amount)
-		],
-	}
-
-
-def _lines(html: str | None) -> list[str]:
-	"""A letter ERPNext keeps as HTML, as the plain lines it says, so the paper
-	shows its words and none of its markup."""
-	from frappe.utils import strip_html
-
-	return [line for one in re.split(r"</p>|<br\s*/?>", html or "") if (line := strip_html(one).strip())]
-
-
-def overdue(doc) -> dict:
-	"""A payment reminder's letter, the invoices it is about with how late each
-	is, and what is asked for: what is owed, the fee and the interest."""
-	if doc.doctype != "Dunning":
-		return {}
-	rows = [
-		(
-			row.sales_invoice,
-			row.get_formatted("due_date"),
-			_("{0} days").format(cint(row.overdue_days)) if cint(row.overdue_days) else "",
-			money(doc, row.outstanding),
-		)
-		for row in doc.get("overdue_payments") or []
-	]
-	asked = [(_("Outstanding"), money(doc, doc.total_outstanding))]
-	if flt(doc.dunning_fee):
-		asked.append((_("Fee"), money(doc, doc.dunning_fee)))
-	if flt(doc.total_interest):
-		asked.append((_("Interest"), money(doc, doc.total_interest)))
-	return {
-		"letter": _lines(doc.body_text),
-		"heading": _("Overdue Invoices"),
-		"columns": (_("Invoice"), _("Due Date"), _("Late By"), _("Outstanding")),
-		"rows": rows,
-		"asked": asked,
-		"total": (_("Grand Total"), money(doc, doc.grand_total)),
-		"closing": _lines(doc.closing_text),
 	}
 
 

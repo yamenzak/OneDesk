@@ -96,7 +96,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Cost Center Allocation | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Coupon Code | through a form's link (Sales Order: coupon_code) | OneBook, OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
 | Currency Exchange Settings | on a rail or a home | OneBook | untouched | no | general |  |  |  |  | ar 1 |  |
-| Dunning | on a rail or a home | OneBook | untouched | yes | general |  | yes | ours |  |  |  |
+| Dunning | on a rail or a home | OneBook | events, 1 fields | yes | general |  | yes | ours |  |  |  |
 | Dunning Type | through a form's link (Dunning: dunning_type) | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Exchange Rate Revaluation | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Finance Book | on a rail or a home | OneBook, the administrator | untouched | yes | general |  | **none** |  |  |  |  |

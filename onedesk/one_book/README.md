@@ -348,6 +348,18 @@ fails a small business on first use or leaves a question unanswered.
   ERPNext's three other looks, and **One Purchase Voucher** for ERPNext's
   Purchase Auditing Voucher: the supplier's account credited, each line's
   expense account and each tax's account debited.
+- Payments, journals and reminders print the same way: **One Payment
+  Receipt** (a receipt, or a payment when it's paid out, the amount large
+  and what it settles), **One Payment Voucher** for ERPNext's Bank and
+  Cash Payment Voucher (the accounts paid from and to, deductions, room to
+  sign), **One Journal Voucher**, a journal entry's default, for ERPNext's
+  Journal Auditing Voucher (each account debited and credited with its
+  party and cost center), **One Journal Credit Note** for ERPNext's Credit
+  Note, and **One Payment Reminder** for its Dunning Letter (the letter,
+  each invoice overdue and by how long, fee and interest, and the bank to
+  pay into, which a reminder now names as an invoice does). ERPNext's six
+  POS Invoice formats have no version: One has no till, so it makes no POS
+  invoices to print.
 - `paid.py` `titled` and `journal.py` — what a payment and a journal entry
   are called. ERPNext titles a payment by the party's ID (an employee's
   reads HR-EMP-00013) and a journal entry by its first account (forty read

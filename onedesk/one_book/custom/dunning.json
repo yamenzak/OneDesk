@@ -1,0 +1,19 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Dunning",
+   "fieldname": "one_pay_into",
+   "fieldtype": "Link",
+   "options": "Bank Account",
+   "label": "Pay Into",
+   "insert_after": "income_account",
+   "module": "One Book",
+   "description": "The account a printed reminder asks to be paid into.",
+   "allow_on_submit": 1
+  }
+ ],
+ "doctype": "Dunning",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

@@ -777,6 +777,197 @@ def receipt_with_serials():
 	return trade_master({**spec, "columns": columns})
 
 
+# -- Money moved and asked for, and goods picked --------------------------------
+
+RECEIVED = 'doc.payment_type == "Receive"'
+PAID = 'doc.payment_type == "Pay"'
+
+
+def _numbered(words, number, size=24, details=()):
+	return section(
+		[text(w, visible_if=when, font_size=size, bold=1, custom_style="letter-spacing:-0.01em;line-height:1.1;") if when
+			else text(w, font_size=size, bold=1, custom_style="letter-spacing:-0.01em;line-height:1.1;") for w, when in words],
+		[field("name", "Data", number, show_label="hide", align="right", bold=1, font_size=14), *details],
+		widths=[60, 40], top=6, field_orientation="left-right",
+	)
+
+
+def _settles(**look):
+	return [
+		heading("Settles", visible_if="doc.references"),
+		table("references", "Settles", [
+			{"fieldname": "reference_doctype", "fieldtype": "Link", "label": "Document", "width": 22},
+			{"fieldname": "reference_name", "fieldtype": "Dynamic Link", "label": "Number", "width": 28},
+			{"fieldname": "due_date", "fieldtype": "Date", "label": "Due Date", "width": 16, "date_format": DATE},
+			{"fieldname": "total_amount", "fieldtype": "Currency", "label": "Total", "width": 17, "align": "right"},
+			{"fieldname": "allocated_amount", "fieldtype": "Currency", "label": "Paid", "width": 17, "align": "right"},
+		], row_condition="row.allocated_amount", visible_if="doc.references", table_cell_padding=6, **look),
+	]
+
+
+def payment_receipt():
+	"""A payment received prints as a receipt and one made as a payment: who
+	from or to, how and when, the amount large, and what it settles."""
+	head = _numbered(
+		(("Receipt", RECEIVED), ("Payment", PAID), ("Transfer", 'doc.payment_type == "Internal Transfer"')),
+		"Receipt No",
+		details=[_company_trn(align="right", custom_style="margin-top:4px;")],
+	)
+	style = "color:#374151;line-height:1.5;margin-top:2px;"
+	who = section(
+		[
+			heading("Received From", visible_if=RECEIVED),
+			heading("Paid To", visible_if=PAID),
+			field("party_name", "Data", "Party", show_label="hide", bold=1, font_size=13),
+			field("contact_email", "Data", "Email", show_label="hide", custom_style=style),
+		],
+		[
+			row("posting_date", "Date", "Date", date_format=DATE),
+			row("mode_of_payment", "Link", "Paid By"),
+			row("reference_no", "Data", "Reference"),
+			row("reference_date", "Date", "Reference Date", date_format=DATE),
+			linked("project.project_name", "Project", label_justify="space-between", hide_colon=1, custom_style=f"padding:5px 0;border-bottom:1px solid {LINE};"),
+		],
+		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
+	)
+	big = "font-size:22px;font-weight:700;letter-spacing:-0.01em;"
+	amount = section(
+		[
+			heading("Amount Received", visible_if=RECEIVED),
+			heading("Amount Paid", visible_if=f"not ({RECEIVED})"),
+			field("paid_amount", "Currency", "Amount Received", show_label="hide", visible_if=RECEIVED, custom_style=big),
+			field("received_amount", "Currency", "Amount Paid", show_label="hide", visible_if=f"not ({RECEIVED})", custom_style=big),
+			field("in_words", "Data", "In Words", show_label="hide", custom_style=f"color:{MUTED};margin-top:4px;"),
+			row("unallocated_amount", "Currency", "Kept on Account", visible_if="doc.unallocated_amount"),
+		],
+		top=24, background=SOFT, radius=8, padding={"top": 16, "right": 18, "bottom": 16, "left": 18},
+	)
+	return layout(head, who, amount, section(_settles(), top=22), signs_section((("For", "company"),)))
+
+
+def payment_voucher():
+	"""ERPNext's Bank and Cash Payment Voucher, for the books: the accounts
+	paid from and to, the amounts, what it settles and any deductions, with
+	room to sign."""
+	head = _numbered((("Payment Voucher", PAID), ("Receipt Voucher", RECEIVED), ("Transfer Voucher", 'doc.payment_type == "Internal Transfer"')), "Voucher No", size=20,
+		details=[field("posting_date", "Date", "Date", align="right", hide_colon=1, date_format=DATE, custom_style="margin-top:4px;")])
+	who = section(
+		[row("party_name", "Data", "Party"), row("mode_of_payment", "Link", "Paid By"), row("reference_no", "Data", "Reference"),
+			row("reference_date", "Date", "Reference Date", date_format=DATE)],
+		[row("paid_from", "Link", "Paid From"), row("paid_to", "Link", "Paid To"), row("paid_amount", "Currency", "Amount", bold=1),
+			row("total_taxes_and_charges", "Currency", "Tax", visible_if="doc.total_taxes_and_charges")],
+		widths=[50, 50], gap=40, top=20, field_orientation="left-right",
+	)
+	look = {"table_bordered": True, "table_header": "styled", "table_header_bg": SOFT}
+	deductions = section([heading("Deductions"), table("deductions", "Deductions", [
+		{"fieldname": "account", "fieldtype": "Link", "label": "Account", "width": 45},
+		{"fieldname": "cost_center", "fieldtype": "Link", "label": "Cost Center", "width": 30},
+		{"fieldname": "amount", "fieldtype": "Currency", "label": "Amount", "width": 25, "align": "right"},
+	], table_cell_padding=6, **look)], top=16, visible_if="doc.deductions")
+	remarks = section([heading("Remarks"), field("remarks", "Small Text", "Remarks", show_label="hide")], top=16, visible_if="doc.remarks")
+	return layout(head, who, section(_settles(**look), top=22), deductions, remarks,
+		signs_section((("Prepared By", "owner"), ("Checked By", None), ("Approved By", None))))
+
+
+def journal_voucher():
+	"""ERPNext's Journal Auditing Voucher: each account debited and credited,
+	with its party and cost center, the totals that agree, the remark, and
+	room to sign."""
+	head = _numbered((("Journal Voucher", ""),), "Voucher No", size=20,
+		details=[field("posting_date", "Date", "Date", align="right", hide_colon=1, date_format=DATE, custom_style="margin-top:4px;"),
+			field("voucher_type", "Data", "Type", align="right", hide_colon=1, custom_style="margin-top:2px;")])
+	look = {"table_bordered": True, "table_header": "styled", "table_header_bg": SOFT, "table_cell_padding": 6}
+	lines = section([table("accounts", "Accounts", [
+		{"fieldname": "account", "fieldtype": "Link", "label": "Account", "width": 30,
+			"merged_fields": [{"fieldname": "user_remark", "fieldtype": "Small Text", "label": "Remark", "style": "muted-sm"}]},
+		{"fieldname": "party", "fieldtype": "Dynamic Link", "label": "Party", "width": 20},
+		{"fieldname": "cost_center", "fieldtype": "Link", "label": "Cost Center", "width": 16},
+		{"fieldname": "debit", "fieldtype": "Currency", "label": "Debit", "width": 17, "align": "right"},
+		{"fieldname": "credit", "fieldtype": "Currency", "label": "Credit", "width": 17, "align": "right"},
+	], **look)], top=24)
+	totals = section([], [row("total_debit", "Currency", "Total Debit", bold=1), row("total_credit", "Currency", "Total Credit", bold=1)],
+		widths=[52, 48], gap=48, top=10, field_orientation="left-right")
+	refs = section([row("cheque_no", "Data", "Reference"), row("cheque_date", "Date", "Reference Date", date_format=DATE)], [],
+		widths=[52, 48], top=12, field_orientation="left-right", visible_if="doc.cheque_no")
+	remark = section([heading("Remark"), field("user_remark", "Small Text", "Remark", show_label="hide")], top=16, visible_if="doc.user_remark")
+	return layout(head, lines, totals, refs, remark, signs_section((("Prepared By", "owner"), ("Checked By", None), ("Approved By", None))))
+
+
+def journal_credit_note():
+	"""ERPNext's Credit Note on a journal entry: to whom the credit is given,
+	what for, and how much, from the entry's lines that name a party."""
+	head = _numbered((("Credit Note", ""),), "Credit Note No",
+		details=[field("posting_date", "Date", "Date", align="right", hide_colon=1, date_format=DATE, custom_style="margin-top:4px;"),
+			_company_trn(align="right", custom_style="margin-top:2px;")])
+	who = section([heading("To"), field("pay_to_recd_from", "Data", "Party", show_label="hide", bold=1, font_size=13)], [],
+		widths=[55, 45], top=26, visible_if="doc.pay_to_recd_from")
+	lines = section([table("accounts", "Accounts", [
+		{"fieldname": "party", "fieldtype": "Dynamic Link", "label": "Credited To", "width": 34},
+		{"fieldname": "reference_name", "fieldtype": "Dynamic Link", "label": "Against", "width": 26},
+		{"fieldname": "user_remark", "fieldtype": "Small Text", "label": "For", "width": 20},
+		{"fieldname": "credit_in_account_currency", "fieldtype": "Currency", "label": "Amount", "width": 20, "align": "right"},
+	], row_condition="row.party and row.credit_in_account_currency")], top=24)
+	total = section([], [row("total_amount", "Currency", "Total", bold=1, label_color=INK, font_size=15, custom_style=f"border-bottom:2px solid {INK};padding:8px 0;"),
+		field("total_amount_in_words", "Data", "In Words", show_label="hide", align="right", custom_style=f"color:{MUTED};font-size:10px;margin-top:6px;")],
+		widths=[52, 48], gap=48, top=14, field_orientation="left-right")
+	remark = section([heading("Remarks"), field("user_remark", "Small Text", "Remarks", show_label="hide", visible_if="doc.user_remark"),
+		field("remark", "Small Text", "Remarks", show_label="hide", visible_if="not doc.user_remark")], top=16, visible_if="doc.user_remark or doc.remark")
+	return layout(head, who, lines, total, remark, signs_section((("For", "company"),)))
+
+
+def payment_reminder():
+	"""A dunning, as a letter: who it's to, the letter, each invoice overdue
+	and by how long, what's owed with any fee and interest, the closing
+	words and the bank to pay into."""
+	head = _numbered((("Payment Reminder", ""),), "Reminder No", details=[_company_trn(align="right", custom_style="margin-top:4px;")])
+	who = section(
+		[heading("To"), field("customer_name", "Data", "Customer", show_label="hide", bold=1, font_size=13),
+			field("address_display", "Small Text", "Address", show_label="hide", custom_style="color:#374151;line-height:1.5;margin-top:2px;"),
+			field("contact_display", "Data", "Contact", hide_colon=1, custom_style="margin-top:6px;")],
+		[row("posting_date", "Date", "Date", date_format=DATE), row("dunning_type", "Link", "Reminder")],
+		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
+	)
+	letter = section([field("body_text", "Text Editor", "Letter", show_label="hide", custom_style="line-height:1.6;")], top=22, visible_if="doc.body_text")
+	overdue = section([table("overdue_payments", "Overdue", [
+		{"fieldname": "sales_invoice", "fieldtype": "Link", "label": "Invoice", "width": 26},
+		{"fieldname": "due_date", "fieldtype": "Date", "label": "Due Date", "width": 18, "date_format": DATE},
+		{"fieldname": "overdue_days", "fieldtype": "Data", "label": "Days Late", "width": 14, "align": "right"},
+		{"fieldname": "outstanding", "fieldtype": "Currency", "label": "Outstanding", "width": 22, "align": "right"},
+		{"fieldname": "interest", "fieldtype": "Currency", "label": "Interest", "width": 20, "align": "right"},
+	])], top=20)
+	totals = section([], [
+		row("total_outstanding", "Currency", "Outstanding"),
+		row("dunning_fee", "Currency", "Fee", visible_if="doc.dunning_fee"),
+		row("total_interest", "Currency", "Interest", visible_if="doc.total_interest"),
+		row("grand_total", "Currency", "Total Due", bold=1, label_color=INK, font_size=15, custom_style=f"border-bottom:2px solid {INK};padding:8px 0;"),
+	], widths=[52, 48], gap=48, top=14, keep_together=1, field_orientation="left-right")
+	closing = section([field("closing_text", "Text Editor", "Closing", show_label="hide", custom_style="line-height:1.6;")], top=18, visible_if="doc.closing_text")
+	pay = bank_section()
+	pay["visible_if"] = "doc.one_pay_into"
+	return layout(head, who, letter, overdue, totals, closing, pay)
+
+
+def pick_list():
+	"""What to pick, from where, for which order, and two to sign that it
+	was picked and checked."""
+	head = _numbered((("Pick List", ""),), "Pick List No")
+	who = section(
+		[heading("For", visible_if="doc.customer_name"), field("customer_name", "Data", "Customer", show_label="hide", bold=1, font_size=13, visible_if="doc.customer_name")],
+		[row("purpose", "Data", "Purpose"), row("parent_warehouse", "Link", "From"), row("work_order", "Link", "Work Order")],
+		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
+	)
+	lines = section([table("locations", "Items", [
+		{"fieldname": "idx", "fieldtype": "Int", "label": "No", "width": 5},
+		item_column(width=33),
+		{"fieldname": "warehouse", "fieldtype": "Link", "label": "From", "width": 18},
+		{"fieldname": "qty", "fieldtype": "Float", "label": "Qty", "width": 11, "align": "right",
+			"merged_fields": [{"fieldname": "uom", "fieldtype": "Link", "label": "UOM", "style": "muted-sm"}]},
+		{"fieldname": "picked_qty", "fieldtype": "Float", "label": "Picked", "width": 11, "align": "right"},
+		{"fieldname": "sales_order", "fieldtype": "Link", "label": "Order", "width": 22},
+	])], top=28)
+	return layout(head, who, lines, signs_section((("Picked By", None), ("Checked By", None))))
+
+
 def _trade(doctype, make):
 	return lambda: make(TRADE[doctype])
 
@@ -793,6 +984,12 @@ VERSIONS = {
 	"One Proforma Invoice": ("Sales Order", "one_crm", proforma),
 	"One Purchase Voucher": ("Purchase Invoice", "one_book", purchase_voucher),
 	"One Purchase Receipt with Serial Numbers": ("Purchase Receipt", "one_inventory", receipt_with_serials),
+	"One Payment Receipt": ("Payment Entry", "one_book", payment_receipt),
+	"One Payment Voucher": ("Payment Entry", "one_book", payment_voucher),
+	"One Journal Voucher": ("Journal Entry", "one_book", journal_voucher),
+	"One Journal Credit Note": ("Journal Entry", "one_book", journal_credit_note),
+	"One Payment Reminder": ("Dunning", "one_book", payment_reminder),
+	"One Pick List": ("Pick List", "one_inventory", pick_list),
 }
 #: ERPNext ships one look for these, so One's is its master alone.
 ONE_LOOK = ("Purchase Receipt",)

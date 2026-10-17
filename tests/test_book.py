@@ -237,7 +237,7 @@ def test_what_is_owed_falls_due_part_by_part():
 def test_a_tax_line_says_its_rate_once():
 	import re
 
-	tax_label = _load(tree.APP / "one" / "print_blocks.py", ("tax_label",), flt=float, re=re)["tax_label"]
+	tax_label = _load(tree.APP / "one_book" / "paper.py", ("tax_label",), flt=float, re=re)["tax_label"]
 	assert tax_label("VAT 5% @ 5.0", 5) == "VAT 5%"
 	assert tax_label("VAT @ 5.0", 5) == "VAT @ 5%"
 	assert tax_label("Customs Duty", 0) == "Customs Duty"

@@ -1406,7 +1406,8 @@ Note (received, accepted and rejected, both sides to sign), the first two
 with ERPNext's three other looks, the receipt with each line's batch and
 serial numbers in place of ERPNext's serial and batch print. That one reads
 the numbers the line keeps; a receipt that keeps them only in a serial and
-batch bundle prints them empty.
+batch bundle prints them empty. A pick list prints what to pick, from where and
+for which order, with Picked By and Checked By, in place of ERPNext's.
 
 ### access.py
 

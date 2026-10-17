@@ -754,6 +754,8 @@ doc_events = {
 	# A project's tasks are named with its prefix. See one_project/naming.py.
 	# On a project, sharing is membership. See one_project/members.py.
 	"DocShare": {"after_insert": "onedesk.one_project.members.shared"},
+	# A reminder names the account to pay into. See one_book/paper.py.
+	"Dunning": {"validate": "onedesk.one_book.paper.pay_into"},
 	# Taxed when released, retention needs its item and its lines below nothing. See one_project/retention.py.
 	"Projects Settings": {"on_update": "onedesk.one_project.retention.ready"},
 	"Project": {

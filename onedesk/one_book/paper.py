@@ -7,6 +7,8 @@ to the lines. Written onto each line as it is saved, it is three fields the
 builder places like any other.
 """
 
+import re
+
 import frappe
 from frappe.utils import flt
 
@@ -47,8 +49,33 @@ DIRHAM = ("د.إ", "AED")
 
 def settle() -> None:
 	"""after_install and after_migrate: AED said by its code, unless the
-	workspace has chosen another symbol for it."""
+	workspace has chosen another symbol for it, and each tax line saying its
+	rate once, on the templates and on what was made from them, so every
+	document prints it so."""
 	shipped, ours = DIRHAM
 	if frappe.db.get_value("Currency", "AED", "symbol") == shipped:
 		frappe.db.set_value("Currency", "AED", "symbol", ours)
 		frappe.clear_cache()
+	for doctype in ("Sales Taxes and Charges", "Purchase Taxes and Charges"):
+		for row in frappe.get_all(
+			doctype,
+			filters={"description": ["like", "%@%"]},
+			fields=["name", "description", "rate"],
+		):
+			said = tax_label(row.description, row.rate)
+			if said != row.description:
+				frappe.db.set_value(doctype, row.name, "description", said, update_modified=False)
+
+
+def tax_label(description: str | None, rate) -> str:
+	"""A tax line as a reader says it: ERPNext writes "VAT 5% @ 5.0", the rate
+	twice, the second as a bare number. Pure."""
+	said = (description or "").strip()
+	found = re.match(r"^(.*?)\s*@\s*([0-9.]+)\s*$", said)
+	if not found:
+		return said
+	head, number = found.group(1), flt(found.group(2))
+	if "%" in head:
+		return head
+	return f"{head} @ {number:g}%"
+
