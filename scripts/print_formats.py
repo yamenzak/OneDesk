@@ -968,6 +968,148 @@ def pick_list():
 	return layout(head, who, lines, signs_section((("Picked By", None), ("Checked By", None))))
 
 
+# -- People: pay and letters ----------------------------------------------------
+
+PAID_LINE = "row.amount and not row.statistical_component and not row.do_not_include_in_total"
+
+
+def _pay_lines(fieldname, words, year=False, padding=6):
+	columns = [{"fieldname": "salary_component", "fieldtype": "Link", "label": words, "width": 60 if not year else 46},
+		{"fieldname": "amount", "fieldtype": "Currency", "label": "Amount", "width": 40 if not year else 27, "align": "right"}]
+	if year:
+		columns.append({"fieldname": "year_to_date", "fieldtype": "Currency", "label": "Year to Date", "width": 27, "align": "right"})
+	return table(fieldname, words, columns, row_condition=PAID_LINE, table_cell_padding=padding)
+
+
+def _employee(size=13):
+	return [
+		heading("Employee"),
+		field("employee_name", "Data", "Employee", show_label="hide", bold=1, font_size=size),
+		field("designation", "Link", "Designation", show_label="hide", custom_style="color:#374151;margin-top:2px;"),
+		field("department", "Link", "Department", show_label="hide", custom_style="color:#374151;"),
+	]
+
+
+def _period():
+	return [
+		row("start_date", "Date", "From", date_format=DATE),
+		row("end_date", "Date", "To", date_format=DATE),
+		row("posting_date", "Date", "Paid On", date_format=DATE),
+		row("payment_days", "Float", "Days Paid"),
+		row("leave_without_pay", "Float", "Unpaid Leave", visible_if="doc.leave_without_pay"),
+	]
+
+
+def _net(words=True):
+	found = [heading("Net Pay"), field("rounded_total", "Currency", "Net Pay", show_label="hide", custom_style="font-size:22px;font-weight:700;letter-spacing:-0.01em;")]
+	if words:
+		found.append(field("total_in_words", "Data", "In Words", show_label="hide", custom_style=f"color:{MUTED};margin-top:4px;"))
+	return section(found, top=22, background=SOFT, radius=8, padding={"top": 16, "right": 18, "bottom": 16, "left": 18}, keep_together=1)
+
+
+def _paid_into():
+	return section([row("mode_of_payment", "Link", "Paid By"), row("bank_name", "Data", "Bank"), row("bank_account_no", "Data", "Account")], [],
+		widths=[52, 48], top=18, field_orientation="left-right", visible_if="doc.bank_account_no or doc.mode_of_payment")
+
+
+def payslip():
+	"""HRMS's Salary Slip Classic: who and for when, what was earned and what
+	was taken, side by side, the net pay large with its words, and where it
+	was paid."""
+	return layout(
+		_numbered((("Payslip", ""),), "Payslip No"),
+		section(_employee(), _period(), widths=[55, 45], gap=48, top=26, field_orientation="left-right"),
+		section(
+			[_pay_lines("earnings", "Earnings"), row("gross_pay", "Currency", "Gross Pay", bold=1)],
+			[_pay_lines("deductions", "Deductions"), row("total_deduction", "Currency", "Total Deductions", bold=1)],
+			widths=[50, 50], gap=32, top=24, field_orientation="left-right",
+		),
+		_net(),
+		_paid_into(),
+	)
+
+
+def payslip_compact():
+	"""HRMS's Salary Slip Compact: the same on half a page, the person and
+	the period on one line each, no words for the sum."""
+	head = section(
+		[field("employee_name", "Data", "Employee", show_label="hide", bold=1, font_size=13),
+			field("designation", "Link", "Designation", show_label="hide", custom_style="color:#374151;")],
+		[field("name", "Data", "Payslip No", show_label="hide", align="right", bold=1),
+			field("start_date", "Date", "From", align="right", hide_colon=1, date_format=DATE),
+			field("end_date", "Date", "To", align="right", hide_colon=1, date_format=DATE)],
+		widths=[60, 40], top=6, field_orientation="left-right",
+	)
+	pay = section(
+		[_pay_lines("earnings", "Earnings", padding=4), row("gross_pay", "Currency", "Gross Pay", bold=1)],
+		[_pay_lines("deductions", "Deductions", padding=4), row("total_deduction", "Currency", "Total Deductions", bold=1)],
+		widths=[50, 50], gap=28, top=16, field_orientation="left-right",
+	)
+	net = section([], [row("rounded_total", "Currency", "Net Pay", bold=1, label_color=INK, font_size=15, custom_style=f"border-bottom:2px solid {INK};padding:8px 0;")],
+		widths=[52, 48], gap=48, top=10, field_orientation="left-right")
+	return layout(head, pay, net)
+
+
+def salary_statement():
+	"""HRMS's Salary Slip Detailed, a salary statement: the payslip with
+	each line's year to date, the payroll period, any income tax worked out,
+	and the leave taken and left."""
+	tax = "doc.total_income_tax or doc.current_month_income_tax"
+	return layout(
+		_numbered((("Salary Statement", ""),), "Payslip No", details=[field("current_payroll_period", "Link", "Payroll Period", align="right", hide_colon=1, custom_style="margin-top:4px;")]),
+		section(_employee(), [*_period(), row("total_working_days", "Float", "Working Days")], widths=[55, 45], gap=48, top=26, field_orientation="left-right"),
+		section(
+			[_pay_lines("earnings", "Earnings", year=True), row("gross_pay", "Currency", "Gross Pay", bold=1), row("gross_year_to_date", "Currency", "Gross Year to Date")],
+			[_pay_lines("deductions", "Deductions", year=True), row("total_deduction", "Currency", "Total Deductions", bold=1)],
+			widths=[50, 50], gap=32, top=24, field_orientation="left-right",
+		),
+		section([heading("Income Tax"), row("annual_taxable_amount", "Currency", "Taxable This Year"), row("total_income_tax", "Currency", "Tax This Year"),
+			row("income_tax_deducted_till_date", "Currency", "Deducted So Far"), row("current_month_income_tax", "Currency", "Deducted Now")], [],
+			widths=[52, 48], top=20, field_orientation="left-right", visible_if=tax),
+		section([heading("Leave"), table("leave_details", "Leave", [
+			{"fieldname": "leave_type", "fieldtype": "Link", "label": "Leave", "width": 40},
+			{"fieldname": "total_allocated_leaves", "fieldtype": "Float", "label": "Allocated", "width": 20, "align": "right"},
+			{"fieldname": "used_leaves", "fieldtype": "Float", "label": "Taken", "width": 20, "align": "right"},
+			{"fieldname": "available_leaves", "fieldtype": "Float", "label": "Left", "width": 20, "align": "right"},
+		], table_cell_padding=5)], top=20, visible_if="doc.leave_details"),
+		_net(),
+		_paid_into(),
+	)
+
+
+def _letter_head(words, number, dated, label):
+	return _numbered(((words, ""),), number, details=[field(dated, "Date", label, align="right", hide_colon=1, date_format=DATE, custom_style="margin-top:4px;")])
+
+
+def job_offer():
+	"""HRMS's Job Offer, as a letter: to whom, the position, each term of
+	the offer, the terms and conditions, and both sides to sign."""
+	who = section([heading("To"), field("applicant_name", "Data", "Applicant", show_label="hide", bold=1, font_size=13),
+		field("applicant_email", "Data", "Email", show_label="hide", custom_style="color:#374151;")],
+		[row("designation", "Link", "Position", bold=1)], widths=[55, 45], gap=48, top=26, field_orientation="left-right")
+	offer = section([heading("The Offer"), table("offer_terms", "Offer", [
+		{"fieldname": "offer_term", "fieldtype": "Link", "label": "Term", "width": 40},
+		{"fieldname": "value", "fieldtype": "Small Text", "label": "Value", "width": 60},
+	], table_header="none", table_cell_padding=7)], top=24, visible_if="doc.offer_terms")
+	return layout(_letter_head("Job Offer", "Offer No", "offer_date", "Date"), who, offer, terms_section(),
+		signs_section((("For", "company"), ("Accepted By", "applicant_name"))))
+
+
+def appointment_letter():
+	"""HRMS's Standard Appointment Letter: to whom, the opening words, each
+	term with what it says, the closing words, and both sides to sign."""
+	who = section([heading("To"), field("applicant_name", "Data", "Applicant", show_label="hide", bold=1, font_size=13)], [],
+		widths=[55, 45], top=26)
+	opening = section([field("introduction", "Long Text", "Introduction", show_label="hide", custom_style="line-height:1.6;")], top=20, visible_if="doc.introduction")
+	terms = section([table("terms", "Terms", [
+		{"fieldname": "title", "fieldtype": "Data", "label": "Term", "width": 100,
+			"merged_fields": [{"fieldname": "description", "fieldtype": "Long Text", "label": "Description", "style": "secondary"}]},
+	], table_header="none", table_style="plain", table_cell_padding=6)], top=16, visible_if="doc.terms")
+	closing = section([field("closing_notes", "Text", "Closing", show_label="hide", custom_style="line-height:1.6;")], top=16, visible_if="doc.closing_notes")
+	return layout(_letter_head("Appointment Letter", "Letter No", "appointment_date", "Date"), who, opening, terms, closing,
+		signs_section((("For", "company"), ("Accepted By", "applicant_name"))))
+
+
 def _trade(doctype, make):
 	return lambda: make(TRADE[doctype])
 
@@ -990,6 +1132,11 @@ VERSIONS = {
 	"One Journal Credit Note": ("Journal Entry", "one_book", journal_credit_note),
 	"One Payment Reminder": ("Dunning", "one_book", payment_reminder),
 	"One Pick List": ("Pick List", "one_inventory", pick_list),
+	"One Payslip": ("Salary Slip", "one_hr", payslip),
+	"One Payslip Compact": ("Salary Slip", "one_hr", payslip_compact),
+	"One Salary Statement": ("Salary Slip", "one_hr", salary_statement),
+	"One Job Offer": ("Job Offer", "one_hr", job_offer),
+	"One Appointment Letter": ("Appointment Letter", "one_hr", appointment_letter),
 }
 #: ERPNext ships one look for these, so One's is its master alone.
 ONE_LOOK = ("Purchase Receipt",)

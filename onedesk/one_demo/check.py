@@ -701,7 +701,7 @@ def every_paper_prints_in_the_companys_look():
 	# Each of One's versions of ERPNext's own prints, and ERPNext's is off.
 	for name, theirs in print_blocks.REPLACES.items():
 		doctype = frappe.db.get_value("Print Format", name, "doc_type")
-		record = frappe.get_all(doctype, filters={"docstatus": 1}, order_by="creation desc", limit=1, pluck="name")[0]
+		record = frappe.get_all(doctype, filters={"docstatus": ["<", 2]}, order_by="docstatus desc, creation desc", limit=1, pluck="name")[0]
 		with as_user(OWNER):
 			assert record in frappe.get_print(doctype, record, name), name
 		assert all(frappe.db.get_value("Print Format", one, "disabled") for one in theirs), theirs

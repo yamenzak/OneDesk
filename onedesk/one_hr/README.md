@@ -426,6 +426,16 @@ the draft, and HR Managers are told. HR reads it and issues it by submitting.
 It prints on the letterhead, marked *Draft. Not issued.* until then. HR can
 ask for a letter about anybody from the employee's record.
 
+**Printing.** A payslip, a job offer and an appointment letter print from
+frappe's print format builder's own pieces (`scripts/print_formats.py`), in
+place of HRMS's: **One Payslip** (who, the period, earnings and deductions
+side by side, the net pay large and where it was paid), **One Payslip
+Compact** on half a page, and **One Salary Statement** for HRMS's detailed
+one (each line's year to date, the payroll period, any income tax and the
+leave taken and left); **One Job Offer** (the position, each term of the
+offer, both sides to sign) and **One Appointment Letter** (the opening
+words, each term, the closing words, both sides to sign).
+
 **Training Program**, **Training Event**, **Training Feedback** and **Training
 Result** list what each is about and when.
 

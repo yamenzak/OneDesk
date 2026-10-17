@@ -236,6 +236,11 @@ REPLACES = {
 	"One Journal Credit Note": ("Credit Note",),
 	"One Payment Reminder": ("Dunning Letter",),
 	"One Pick List": ("Pick List",),
+	"One Payslip": ("Salary Slip Classic",),
+	"One Payslip Compact": ("Salary Slip Compact",),
+	"One Salary Statement": ("Salary Slip Detailed",),
+	"One Job Offer": ("Job Offer",),
+	"One Appointment Letter": ("Standard Appointment Letter",),
 }
 
 
@@ -296,7 +301,6 @@ def one_print_block(doc, block: str) -> dict:
 		"title": title,
 		"party": party,
 		"details": details,
-		"payslip": payslip,
 		"signatures": signatures,
 		"progress": progress,
 	}[block](doc)
@@ -560,26 +564,6 @@ def number(doc, value, currency: str | None = None) -> str:
 
 def _number_format(currency: str | None) -> str | None:
 	return (currency and frappe.get_cached_value("Currency", currency, "number_format")) or None
-
-
-def payslip(doc) -> dict:
-	if doc.doctype != "Salary Slip":
-		return {}
-
-	def lines(table):
-		return [
-			(row.salary_component, money(doc, row.amount)) for row in doc.get(table) or [] if flt(row.amount)
-		]
-
-	net = doc.get("rounded_total") or doc.get("net_pay")
-	return {
-		"earnings": lines("earnings"),
-		"deductions": lines("deductions"),
-		"gross": (_("Gross Pay"), money(doc, doc.get("gross_pay"))),
-		"deducted": (_("Total Deductions"), money(doc, doc.get("total_deduction"))),
-		"net": (_("Net Pay"), money(doc, net)),
-		"words": doc.get("total_in_words"),
-	}
 
 
 def signatures(doc) -> dict:

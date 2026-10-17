@@ -359,7 +359,9 @@ fails a small business on first use or leaves a question unanswered.
   each invoice overdue and by how long, fee and interest, and the bank to
   pay into, which a reminder now names as an invoice does). ERPNext's six
   POS Invoice formats have no version: One has no till, so it makes no POS
-  invoices to print.
+  invoices to print. ERPNext's nine report formats (Accounts Receivable,
+  General Ledger, Trial Balance and the rest) stay its own: they print a
+  report rather than a record, which frappe's builder doesn't lay out.
 - `paid.py` `titled` and `journal.py` — what a payment and a journal entry
   are called. ERPNext titles a payment by the party's ID (an employee's
   reads HR-EMP-00013) and a journal entry by its first account (forty read

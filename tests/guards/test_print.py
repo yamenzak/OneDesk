@@ -102,7 +102,11 @@ def test_each_erpnext_format_has_ours():
 	assert set(replaces) <= set(native), sorted(set(replaces) - set(native))
 	if not (APPS / "erpnext").exists():
 		pytest.skip("erpnext is not checked out beside this app")
-	theirs = {json.loads(path.read_text())["name"] for path in APPS.glob("erpnext/erpnext/*/print_format/*/*.json")}
+	theirs = {
+		json.loads(path.read_text())["name"]
+		for app in ("erpnext", "hrms")
+		for path in APPS.glob(f"{app}/{app}/*/print_format/*/*.json")
+	}
 	named = {one for names in replaces.values() for one in names}
 	assert named <= theirs, sorted(named - theirs)
 
