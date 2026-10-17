@@ -16,6 +16,13 @@ GIVEN = {
 	"Purchase Taxes and Charges Template": {USER: roles.USE, MANAGER: roles.MANAGE},
 	# The books pay a leaver's End of Service, which HRMS shows HR alone.
 	"Gratuity": {USER: roles.USE, MANAGER: roles.USE},
+	# ERPNext gives these to the System Manager alone, who no workspace has.
+	"Pegged Currencies": {MANAGER: ("read", "write")},
+	"Repost Accounting Ledger": {MANAGER: roles.MANAGE},
+	"Loyalty Program": {USER: roles.USE, MANAGER: roles.MANAGE},
+	"Tax Withholding Group": {USER: roles.USE, MANAGER: roles.MANAGE},
+	# Italy's electronic bills, shown only where a company is Italian.
+	"Import Supplier Invoice": {USER: roles.WORK, MANAGER: roles.MANAGE},
 }
 
 

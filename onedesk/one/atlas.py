@@ -16,6 +16,9 @@ LEFT_OUT = "left out"
 #: What a ledger check is, said once for each of them.
 CHECK = "a check of ERPNext's own ledger, for when stock's worth looks wrong; Stock against the Books and the Inventory Check say what a workspace needs"
 
+#: Why the point of sale is not offered, said once for each of its parts.
+POS = "the point of sale, until One has a till screen of its own"
+
 ANSWERS = {
 	# One's own
 	("DocType", "AI Memory"): (INSIDE, "Workspace Settings › Privacy lists and forgets what OneAI remembers"),
@@ -40,6 +43,26 @@ ANSWERS = {
 	("Page", "project-view"): (INSIDE, "a Project opens on it"),
 	("Page", "project-template-view"): (INSIDE, "a Project Template opens on it"),
 	("Page", "task-view"): (INSIDE, "a Task opens on it"),
+	# OneBook
+	("DocType", "GL Entry"): (ENGINE, "one line per posting; the General Ledger report shows them"),
+	("DocType", "Payment Ledger Entry"): (ENGINE, "one line per payment against an invoice; the Payment Ledger report shows them"),
+	("DocType", "Advance Payment Ledger Entry"): (ENGINE, "advances against orders, kept as they are paid"),
+	("DocType", "Account Closing Balance"): (ENGINE, "each account's balance as a Period Closing Voucher closed it"),
+	("DocType", "Process Period Closing Voucher"): (ENGINE, "a Period Closing Voucher's work, run in the background"),
+	("DocType", "Process Subscription"): (ENGINE, "subscriptions billed on their dates"),
+	("DocType", "Loyalty Point Entry"): (ENGINE, "points earned and spent under a loyalty program"),
+	("DocType", "Ledger Health"): (ENGINE, "what the Ledger Health Monitor found"),
+	("DocType", "Bisect Accounting Statements"): (LEFT_OUT, "a developer's search for the day the books stopped balancing; the Ledger Health Monitor and Invalid Ledger Entries answer it for a workspace"),
+	("DocType", "Bisect Nodes"): (ENGINE, "the steps Bisect Accounting Statements takes"),
+	("DocType", "Bank Account Balance"): (INSIDE, "a statement's balance, entered in the Bank Reconciliation Tool"),
+	("DocType", "Bank Statement Import Log"): (INSIDE, "a Bank Statement Import's log"),
+	("DocType", "Unreconcile Payment"): (INSIDE, "a payment's Unreconcile"),
+	("DocType", "POS Opening Entry"): (LEFT_OUT, POS),
+	("DocType", "POS Closing Entry"): (LEFT_OUT, POS),
+	("DocType", "POS Invoice Merge Log"): (LEFT_OUT, POS),
+	("DocType", "POS Settings"): (LEFT_OUT, POS),
+	("DocType", "Cashier Closing"): (LEFT_OUT, POS),
+	("Page", "point-of-sale"): (LEFT_OUT, POS),
 	# OneInventory
 	("DocType", "Bin"): (ENGINE, "what each warehouse holds of each item; Stock Summary reads it"),
 	("DocType", "Stock Ledger Entry"): (

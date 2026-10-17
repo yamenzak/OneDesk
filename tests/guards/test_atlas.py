@@ -15,7 +15,7 @@ import atlas
 #: What each module still has with no way in and no answer. Lower it as each
 #: is placed or answered; it may never rise.
 WAITING = {
-	"erpnext / Accounts": 54,
+	"erpnext / Accounts": 1,
 	"erpnext / Bulk Transaction": 2,
 	"erpnext / Communication": 1,
 	"erpnext / EDI": 2,
@@ -23,9 +23,9 @@ WAITING = {
 	"erpnext / Maintenance": 2,
 	"erpnext / Projects": 2,
 	"erpnext / Quality Management": 9,
-	"erpnext / Regional": 4,
-	"erpnext / Selling": 4,
-	"erpnext / Setup": 7,
+	"erpnext / Regional": 0,
+	"erpnext / Selling": 3,
+	"erpnext / Setup": 6,
 	"erpnext / Support": 1,
 	"erpnext / Telephony": 4,
 	"erpnext / Utilities": 4,
@@ -94,7 +94,7 @@ OPERATOR = ("One Admin",)
 #: What each module has that a person reaches but no role a workspace gives may
 #: open. Lower it as each is opened to its people or its way in is closed.
 NOBODY = {
-	"erpnext / Accounts": 2,
+	"erpnext / Accounts": 0,
 	"erpnext / Maintenance": 1,
 	"erpnext / Selling": 1,
 	"erpnext / Setup": 2,
@@ -220,7 +220,11 @@ def test_the_screens_are_read():
 
 #: Point 1. Record types a person reaches that the demo has none of.
 EMPTY = {
-	"erpnext / Accounts": 21,
+	# India's, Italy's and South Africa's own, which a UAE company never sees.
+	"erpnext / Regional": 3,
+	# Placed with none on purpose: an accounting dimension adds a field to every
+	# accounting form, and a Process Payment Reconciliation's log is written when one runs.
+	"erpnext / Accounts": 24,
 	# Shift allocations want an asset depreciated by shift.
 	"erpnext / Assets": 2,
 	"erpnext / CRM": 1,
@@ -269,15 +273,15 @@ ONLY_AN_ID = {
 #: Point 12. Labels on a reached form still English in Arabic or German,
 #: counted once for each language.
 ENGLISH = {
-	"erpnext / Accounts": 54,
+	"erpnext / Accounts": 0,
 	"erpnext / Assets": 3,
-	"erpnext / Buying": 21,
+	"erpnext / Buying": 11,
 	"erpnext / CRM": 8,
 	"erpnext / Manufacturing": 32,
 	"erpnext / Projects": 40,
-	"erpnext / Selling": 34,
-	"erpnext / Setup": 34,
-	"erpnext / Stock": 21,
+	"erpnext / Selling": 0,
+	"erpnext / Setup": 0,
+	"erpnext / Stock": 15,
 	"erpnext / Subcontracting": 3,
 	"erpnext / Support": 0,
 	"frappe / Automation": 32,

@@ -77,7 +77,11 @@ def unopened(sidebars: dict | None) -> None:
 	person cannot read, but takes an address as it is: OneCRM's Pipeline,
 	shown to an administrator with no sales role, opened on "No permission for
 	Page" (frappe's router, not finding Opportunity among what they may read,
-	asks for a page of that name)."""
+	asks for a page of that name). Nor is a country's own screen where no
+	company is in that country (one/countries.py)."""
+	from onedesk.one import countries
+
+	here = countries.ours()
 	for sidebar in (sidebars or {}).values():
 		items = sidebar.get("items")
 		if not items:
@@ -86,6 +90,9 @@ def unopened(sidebars: dict | None) -> None:
 		for item in items:
 			kind = kind_of(item.get("url")) if item.get("link_type") == "URL" else None
 			if kind and not frappe.has_permission(kind, "read"):
+				continue
+			# A country's own screen, where no company is in that country.
+			if not countries.shown(item.get("link_to") or "", here):
 				continue
 			kept.append(item)
 		sidebar["items"] = kept

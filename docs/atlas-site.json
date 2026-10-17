@@ -1226,7 +1226,10 @@
 "Identifier": [
 "Workspace Administrator"
 ],
-"Import Supplier Invoice": [],
+"Import Supplier Invoice": [
+"Accounts Manager",
+"Accounts User"
+],
 "Income Tax Slab": [
 "HR Manager",
 "HR User",
@@ -1567,6 +1570,8 @@
 "Auditor"
 ],
 "Loyalty Program": [
+"Accounts Manager",
+"Accounts User",
 "System Manager"
 ],
 "Mail Folder": [
@@ -1872,6 +1877,7 @@
 "System Manager"
 ],
 "Pegged Currencies": [
+"Accounts Manager",
 "System Manager"
 ],
 "Period Closing Voucher": [
@@ -2185,6 +2191,7 @@
 "Workspace Administrator"
 ],
 "Repost Accounting Ledger": [
+"Accounts Manager",
 "System Manager"
 ],
 "Repost Item Valuation": [
@@ -2642,6 +2649,8 @@
 "System Manager"
 ],
 "Tax Withholding Group": [
+"Accounts Manager",
+"Accounts User",
 "System Manager"
 ],
 "Telephony Call Type": [
@@ -2948,6 +2957,7 @@
 "AI Touch",
 "Account",
 "Account Category",
+"Accounting Period",
 "Activity Log",
 "Activity Type",
 "Additional Salary",
@@ -2989,6 +2999,7 @@
 "Budget",
 "Call Log",
 "Campaign",
+"Cheque Print Template",
 "Client Script",
 "Clock Attempt",
 "Clock Device",
@@ -3008,6 +3019,7 @@
 "Contract",
 "Contract Template",
 "Cost Center",
+"Cost Center Allocation",
 "Country",
 "Currency",
 "Currency Exchange",
@@ -3065,6 +3077,7 @@
 "Employment Type",
 "Error Log",
 "Event",
+"Exchange Rate Revaluation",
 "Exit Interview",
 "Expense Claim",
 "Expense Claim Type",
@@ -3126,6 +3139,7 @@
 "Leave Policy",
 "Leave Policy Assignment",
 "Leave Type",
+"Ledger Merge",
 "Legal Acceptance",
 "Legal Document Version",
 "Letter Head",
@@ -3156,6 +3170,7 @@
 "Overtime Type",
 "Packing Slip",
 "Page",
+"Party Link",
 "Party Type",
 "Patch Log",
 "Payment Entry",
@@ -3174,6 +3189,8 @@
 "Print Format Field Template",
 "Print Heading",
 "Print Style",
+"Process Deferred Accounting",
+"Process Payment Reconciliation",
 "Process Statement Of Accounts",
 "Project",
 "Project Template",
@@ -3195,7 +3212,9 @@
 "Record Head",
 "Record Type",
 "Report",
+"Repost Accounting Ledger",
 "Repost Item Valuation",
+"Repost Payment Ledger",
 "Request for Quotation",
 "Retention Bonus",
 "Role",
@@ -3218,7 +3237,9 @@
 "Serial No",
 "Serial and Batch Bundle",
 "Server Script",
+"Share Transfer",
 "Share Type",
+"Shareholder",
 "Shift Assignment",
 "Shift Location",
 "Shift Request",

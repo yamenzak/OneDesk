@@ -27,6 +27,7 @@ STEPS = (
 	"ordering",
 	"assets",
 	"books",
+	"ledger",
 	"hr",
 	"career",
 	"calendar",

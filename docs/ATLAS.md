@@ -27,7 +27,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 |---|---|---|---|---|
 | onedesk | 74 | 4 | 22 | 0 |
 | frappe | 35 | 38 | 0 | 141 |
-| erpnext | 229 | 139 | 20 | 97 |
+| erpnext | 268 | 140 | 39 | 38 |
 | hrms | 103 | 19 | 8 | 0 |
 
 ## Our screens
@@ -68,98 +68,98 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Account | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | yes | taught |  | yes |  |  |  |  |
 | Account Category | through a form's link (Account: account_category) | OneBook | untouched | yes | general |  | yes |  |  |  |  |
-| Account Closing Balance | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  | ar 1 |  |
-| Accounting Dimension | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
-| Accounting Dimension Filter | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  | ar 1 |  |
-| Accounting Period | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
-| Accounts Settings | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | no | general |  |  |  |  | ar 61, de 51 |  |
-| Advance Payment Ledger Entry | **waiting** | OneBook | untouched | yes | general |  | yes |  | **only an ID** | ar 1 |  |
+| Account Closing Balance | engine: each account's balance as a Period Closing Voucher closed it | OneBook | untouched | yes | general |  | **none** |  |  | ar 1 |  |
+| Accounting Dimension | on a rail or a home | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
+| Accounting Dimension Filter | on a rail or a home | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
+| Accounting Period | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
+| Accounts Settings | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | no | general |  |  |  |  | ar 60, de 51 |  |
+| Advance Payment Ledger Entry | engine: advances against orders, kept as they are paid | OneBook | untouched | yes | general |  | yes |  | **only an ID** | ar 1 |  |
 | Bank | through a form's link (Payment Order: company_bank) | OneBook | events, 1 fields, 1 settings | yes | general |  | yes |  |  |  |  |
-| Bank Account | on a rail or a home | OneBook | a head, events | yes | general |  | yes |  |  | ar 2, de 2 |  |
-| Bank Account Balance | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  | ar 1, de 1 |  |
+| Bank Account | on a rail or a home | OneBook | a head, events | yes | general |  | yes |  |  |  |  |
+| Bank Account Balance | inside: a statement's balance, entered in the Bank Reconciliation Tool | OneBook | untouched | yes | general |  | **none** |  |  | ar 1, de 1 |  |
 | Bank Account Subtype | through a form's link (Bank Account: account_subtype) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Bank Account Type | through a form's link (Bank Account: account_type) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
-| Bank Clearance | **waiting** | OneBook | untouched | no | general |  |  |  |  |  |  |
+| Bank Clearance | on a rail or a home | OneBook | untouched | no | general |  |  |  |  |  |  |
 | Bank Guarantee | through a form's connections (Bank's Connections) | OneBook | untouched | yes | general |  | **none** | **theirs** |  |  |  |
 | Bank Reconciliation Tool | on a rail or a home | OneBook | form script | no | general |  |  |  |  | ar 1 |  |
-| Bank Statement Import | on a rail or a home | OneBook | form script | yes | general |  | **none** |  |  | ar 1, de 1 |  |
-| Bank Statement Import Log | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 14, de 14 |  |
-| Bank Transaction | on a rail or a home | OneBook | a head, 2 settings | yes | taught | makes it | yes |  |  | ar 2, de 2 |  |
-| Bank Transaction Rule | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  | ar 3, de 3 |  |
-| Bisect Accounting Statements | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Bisect Nodes | **waiting** | **nobody** | untouched | yes | general |  | **none** |  | **only an ID** |  |  |
-| Budget | opened by our screens | OneBook, OneProject | events | yes | taught |  | yes |  |  | de 1 | Over Budget |
-| Cashier Closing | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
-| Chart of Accounts Importer | **waiting** | OneBook | untouched | no | general |  |  |  |  |  |  |
-| Cheque Print Template | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
+| Bank Statement Import | on a rail or a home | OneBook | form script | yes | general |  | **none** |  |  |  |  |
+| Bank Statement Import Log | inside: a Bank Statement Import's log | **nobody** | untouched | yes | general |  | **none** |  |  | ar 14, de 14 |  |
+| Bank Transaction | on a rail or a home | OneBook | a head, 2 settings | yes | taught | makes it | yes |  |  |  |  |
+| Bank Transaction Rule | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
+| Bisect Accounting Statements | left out: a developer's search for the day the books stopped balancing; the Ledger Health Monitor and Invalid Ledger Entries answer it for a workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Bisect Nodes | engine: the steps Bisect Accounting Statements takes | **nobody** | untouched | yes | general |  | **none** |  | **only an ID** |  |  |
+| Budget | opened by our screens | OneBook, OneProject | events | yes | taught |  | yes |  |  |  | Over Budget |
+| Cashier Closing | left out: the point of sale, until One has a till screen of its own | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
+| Chart of Accounts Importer | on a rail or a home | OneBook | untouched | no | general |  |  |  |  |  |  |
+| Cheque Print Template | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Cost Center | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Cost Center Allocation | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
+| Cost Center Allocation | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Coupon Code | through a form's link (Sales Order: coupon_code) | OneBook, OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
-| Currency Exchange Settings | **waiting** | OneBook | untouched | no | general |  |  |  |  | ar 1 |  |
+| Currency Exchange Settings | on a rail or a home | OneBook | untouched | no | general |  |  |  |  | ar 1 |  |
 | Dunning | on a rail or a home | OneBook | untouched | yes | general |  | yes | ours |  |  |  |
 | Dunning Type | through a form's link (Dunning: dunning_type) | OneBook | untouched | yes | general |  | yes |  |  |  |  |
-| Exchange Rate Revaluation | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
+| Exchange Rate Revaluation | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Finance Book | on a rail or a home | OneBook, the administrator | untouched | yes | general |  | **none** |  |  |  |  |
-| Financial Report Template | **waiting** | OneBook | untouched | yes | general |  | yes |  |  | de 1 |  |
+| Financial Report Template | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Fiscal Year | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  | Notification for new fiscal year (theirs) |
-| GL Entry | **waiting** | OneBook | untouched | yes | taught |  | yes |  |  | ar 1 |  |
+| GL Entry | engine: one line per posting; the General Ledger report shows them | OneBook | untouched | yes | taught |  | yes |  |  | ar 1 |  |
 | Invoice Discounting | through a form's connections (Sales Invoice's Connections) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Item Tax Template | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
-| Journal Entry | on a rail or a home | OneBook | a head, events, 1 settings | yes | general |  | yes |  |  | ar 2, de 1 |  |
+| Journal Entry | on a rail or a home | OneBook | a head, events, 1 settings | yes | general |  | yes |  |  |  |  |
 | Journal Entry Template | through a form's link (Journal Entry: from_template) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
-| Ledger Health | **waiting** | **nobody** | untouched | yes | general |  | **none** |  | **only an ID** |  |  |
-| Ledger Health Monitor | **waiting** | OneBook | untouched | no | general |  |  |  |  |  |  |
-| Ledger Merge | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
-| Loyalty Point Entry | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
-| Loyalty Program | through a form's link (Customer: loyalty_program) | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
+| Ledger Health | engine: what the Ledger Health Monitor found | **nobody** | untouched | yes | general |  | **none** |  | **only an ID** |  |  |
+| Ledger Health Monitor | on a rail or a home | OneBook | untouched | no | general |  |  |  |  |  |  |
+| Ledger Merge | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
+| Loyalty Point Entry | engine: points earned and spent under a loyalty program | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
+| Loyalty Program | through a form's link (Customer: loyalty_program) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Mode of Payment | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Monthly Distribution | through a form's link (Territory: distribution_id) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Opening Invoice Creation Tool | on a rail or a home | OneBook | untouched | no | general |  |  |  |  |  |  |
-| POS Closing Entry | **waiting** | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
-| POS Invoice | through a form's link (Sales Invoice: pos_invoice) | OneBook, OneCRM | untouched | yes | general |  | **none** | **theirs** |  | ar 1 |  |
-| POS Invoice Merge Log | **waiting** | OneCRM | untouched | yes | general |  | **none** | **theirs** |  |  |  |
-| POS Opening Entry | **waiting** | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
-| POS Profile | through a form's connections (Sales Taxes and Charges Template's Connections) | OneBook | untouched | yes | general |  | **none** |  |  | ar 10, de 1 |  |
-| POS Settings | **waiting** | OneBook, OneCRM | untouched | no | general |  |  |  |  |  |  |
-| Party Link | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
-| Payment Entry | on a rail or a home | OneBook | a head, events, 3 settings | yes | general | makes it | yes |  |  | ar 3 |  |
+| POS Closing Entry | left out: the point of sale, until One has a till screen of its own | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
+| POS Invoice | through a form's link (Sales Invoice: pos_invoice) | OneBook, OneCRM | untouched | yes | general |  | **none** | **theirs** |  |  |  |
+| POS Invoice Merge Log | left out: the point of sale, until One has a till screen of its own | OneCRM | untouched | yes | general |  | **none** | **theirs** |  |  |  |
+| POS Opening Entry | left out: the point of sale, until One has a till screen of its own | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
+| POS Profile | through a form's connections (Sales Taxes and Charges Template's Connections) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
+| POS Settings | left out: the point of sale, until One has a till screen of its own | OneBook, OneCRM | untouched | no | general |  |  |  |  |  |  |
+| Party Link | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
+| Payment Entry | on a rail or a home | OneBook | a head, events, 3 settings | yes | general | makes it | yes |  |  |  |  |
 | Payment Gateway Account | through a form's link (Subscription Plan: payment_gateway) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
-| Payment Ledger Entry | **waiting** | OneBook | untouched | yes | general |  | yes |  |  | ar 1 |  |
+| Payment Ledger Entry | engine: one line per payment against an invoice; the Payment Ledger report shows them | OneBook | untouched | yes | general |  | yes |  |  | ar 1 |  |
 | Payment Order | through a form's connections (Payment Request's Connections) | OneBook | untouched | yes | general |  | **none** | **theirs** |  |  |  |
 | Payment Reconciliation | on a rail or a home | OneBook | untouched | no | general |  |  |  |  | ar 2, de 2 |  |
 | Payment Request | on a rail or a home | OneBook | 3 settings | yes | general |  | yes |  |  |  |  |
-| Payment Term | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  | ar 1 |  |
+| Payment Term | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Payment Terms Template | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Pegged Currencies | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Pegged Currencies | on a rail or a home | OneBook | untouched | no | general |  |  |  |  |  |  |
 | Period Closing Voucher | on a rail or a home | OneBook | events | yes | general |  | **none** |  |  |  |  |
 | Pricing Rule | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
-| Process Deferred Accounting | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
-| Process Payment Reconciliation | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
-| Process Payment Reconciliation Log | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
-| Process Period Closing Voucher | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  | ar 2, de 3 |  |
+| Process Deferred Accounting | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
+| Process Payment Reconciliation | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
+| Process Payment Reconciliation Log | through a form's connections (Process Payment Reconciliation's Connections) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
+| Process Period Closing Voucher | engine: a Period Closing Voucher's work, run in the background | OneBook | untouched | yes | general |  | **none** |  |  | ar 2, de 3 |  |
 | Process Statement Of Accounts | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
-| Process Subscription | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
+| Process Subscription | engine: subscriptions billed on their dates | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Promotional Scheme | **waiting** | OneBook, OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
 | Purchase Invoice | on a rail or a home | OneBook, OneInventory | a head, events, form script, 3 fields, 2 settings | yes | taught | makes it | yes |  |  |  | Bill Due |
 | Purchase Taxes and Charges Template | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Repost Accounting Ledger | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 1 |  |
-| Repost Payment Ledger | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  | ar 1 |  |
+| Repost Accounting Ledger | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
+| Repost Payment Ledger | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Sales Invoice | on a rail or a home | OneBook | a head, events, form script, 5 fields, 3 settings | yes | taught |  | yes | ours |  |  | Invoice Overdue |
 | Sales Taxes and Charges Template | on a rail or a home | OneBook, OneCRM | untouched | yes | general |  | yes |  |  |  |  |
-| Share Transfer | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
-| Share Type | **waiting** | OneBook, OneCRM | untouched | yes | general |  | yes |  |  |  |  |
-| Shareholder | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
+| Share Transfer | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
+| Share Type | on a rail or a home | OneBook, OneCRM | untouched | yes | general |  | yes |  |  |  |  |
+| Shareholder | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Shipping Rule | through a form's link (Supplier Quotation: shipping_rule) | OneBook, OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
-| Subscription | through a form's connections (Sales Taxes and Charges Template's Connections) | OneBook | untouched | yes | general |  | **none** |  |  | ar 9, de 9 |  |
+| Subscription | through a form's connections (Sales Taxes and Charges Template's Connections) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Subscription Plan | through a form's link (Subscription: plan) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
-| Subscription Settings | **waiting** | OneBook | untouched | no | general |  |  |  |  |  |  |
+| Subscription Settings | on a rail or a home | OneBook | untouched | no | general |  |  |  |  |  |  |
 | Tax Category | on a rail or a home | OneBook, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Tax Rule | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Tax Withholding Category | on a rail or a home | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
-| Tax Withholding Group | through a form's link (Tax Withholding Category: tax_withholding_group) | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
-| Unreconcile Payment | **waiting** | OneBook | untouched | yes | general |  | **none** |  | **only an ID** |  |  |
+| Tax Withholding Group | through a form's link (Tax Withholding Category: tax_withholding_group) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
+| Unreconcile Payment | inside: a payment's Unreconcile | OneBook | untouched | yes | general |  | **none** |  | **only an ID** |  |  |
 
-Reports: Account Balance (under a list's related reports (Bank Account's list)); Accounts Payable (on a rail or a home); Accounts Payable Summary (on a rail or a home); Accounts Receivable (on a rail or a home); Accounts Receivable Summary (on a rail or a home); Asset Depreciation Ledger (on a rail or a home); Asset Depreciations and Balances (on a rail or a home); Balance Sheet (on a rail or a home); Bank Clearance Summary (under a list's related reports (Journal Entry's list)); Bank Reconciliation Statement (on a rail or a home); Billed Items To Be Received (under a list's related reports (Purchase Invoice's list)); Budget Variance Report (on a rail or a home); Calculated Discount Mismatch (under a list's related reports (Version's list)); Cash Flow (on a rail or a home); Cheques and Deposits Incorrectly cleared (under a list's related reports (Payment Entry's list)); Consolidated Accounts Payable (under a list's related reports (Purchase Invoice's list)); Consolidated Accounts Payable Summary (under a list's related reports (Purchase Invoice's list)); Consolidated Accounts Receivable (under a list's related reports (Sales Invoice's list)); Consolidated Accounts Receivable Summary (under a list's related reports (Sales Invoice's list)); Consolidated Financial Statement (on a rail or a home); Consolidated Trial Balance (**waiting**); Custom Financial Statement (**waiting**); Customer Ledger Summary (on a rail or a home); Deferred Revenue and Expense (**waiting**); Delivered Items To Be Billed (under a list's related reports (Sales Invoice's list)); Dimension-wise Accounts Balance Report (**waiting**); Financial Ratios (under a list's related reports (Account's list)); General Ledger (on a rail or a home); General and Payment Ledger Comparison (**waiting**); Gross Profit (on a rail or a home); Gross and Net Profit Report (**waiting**); Inactive Sales Items (under a list's related reports (Sales Invoice's list)); Invalid Ledger Entries (**waiting**); Item-wise Purchase Register (on a rail or a home); Item-wise Sales Register (on a rail or a home); POS Register (under a list's related reports (POS Invoice's list)); Payment Ledger (**waiting**); Payment Period Based On Invoice Date (on a rail or a home); Profit and Loss Statement (on a rail or a home); Profitability Analysis (on a rail or a home); Purchase Invoice Trends (on a rail or a home); Purchase Register (on a rail or a home); Received Items To Be Billed (under a list's related reports (Purchase Invoice's list)); Sales Invoice Trends (on a rail or a home); Sales Partners Commission (under a list's related reports (Sales Invoice's list)); Sales Payment Summary (under a list's related reports (Sales Invoice's list)); Sales Register (on a rail or a home); Share Balance (**waiting**); Share Ledger (**waiting**); Supplier Ledger Summary (on a rail or a home); TDS Computation Summary (under a list's related reports (Purchase Invoice's list)); Tax Withholding Details (on a rail or a home); Trial Balance (on a rail or a home); Trial Balance (Simple) (**waiting**); Trial Balance for Party (on a rail or a home); Voucher-wise Balance (**waiting**).
+Reports: Account Balance (under a list's related reports (Bank Account's list)); Accounts Payable (on a rail or a home); Accounts Payable Summary (on a rail or a home); Accounts Receivable (on a rail or a home); Accounts Receivable Summary (on a rail or a home); Asset Depreciation Ledger (on a rail or a home); Asset Depreciations and Balances (on a rail or a home); Balance Sheet (on a rail or a home); Bank Clearance Summary (under a list's related reports (Journal Entry's list)); Bank Reconciliation Statement (on a rail or a home); Billed Items To Be Received (under a list's related reports (Purchase Invoice's list)); Budget Variance Report (on a rail or a home); Calculated Discount Mismatch (under a list's related reports (Version's list)); Cash Flow (on a rail or a home); Cheques and Deposits Incorrectly cleared (under a list's related reports (Payment Entry's list)); Consolidated Accounts Payable (under a list's related reports (Purchase Invoice's list)); Consolidated Accounts Payable Summary (under a list's related reports (Purchase Invoice's list)); Consolidated Accounts Receivable (under a list's related reports (Sales Invoice's list)); Consolidated Accounts Receivable Summary (under a list's related reports (Sales Invoice's list)); Consolidated Financial Statement (on a rail or a home); Consolidated Trial Balance (on a rail or a home); Custom Financial Statement (on a rail or a home); Customer Ledger Summary (on a rail or a home); Deferred Revenue and Expense (on a rail or a home); Delivered Items To Be Billed (under a list's related reports (Sales Invoice's list)); Dimension-wise Accounts Balance Report (on a rail or a home); Financial Ratios (under a list's related reports (Account's list)); General Ledger (on a rail or a home); General and Payment Ledger Comparison (on a rail or a home); Gross Profit (on a rail or a home); Gross and Net Profit Report (on a rail or a home); Inactive Sales Items (under a list's related reports (Sales Invoice's list)); Invalid Ledger Entries (on a rail or a home); Item-wise Purchase Register (on a rail or a home); Item-wise Sales Register (on a rail or a home); POS Register (under a list's related reports (POS Invoice's list)); Payment Ledger (on a rail or a home); Payment Period Based On Invoice Date (on a rail or a home); Profit and Loss Statement (on a rail or a home); Profitability Analysis (on a rail or a home); Purchase Invoice Trends (on a rail or a home); Purchase Register (on a rail or a home); Received Items To Be Billed (under a list's related reports (Purchase Invoice's list)); Sales Invoice Trends (on a rail or a home); Sales Partners Commission (under a list's related reports (Sales Invoice's list)); Sales Payment Summary (under a list's related reports (Sales Invoice's list)); Sales Register (on a rail or a home); Share Balance (on a rail or a home); Share Ledger (on a rail or a home); Supplier Ledger Summary (on a rail or a home); TDS Computation Summary (under a list's related reports (Purchase Invoice's list)); Tax Withholding Details (on a rail or a home); Trial Balance (on a rail or a home); Trial Balance (Simple) (on a rail or a home); Trial Balance for Party (on a rail or a home); Voucher-wise Balance (on a rail or a home).
 
 ## erpnext / Assets
 
@@ -196,7 +196,7 @@ Reports: Asset Activity (on a rail or a home); Asset Maintenance (opened by our 
 | Buying Settings | on a rail or a home | OneBook, OneInventory | untouched | no | general |  |  |  |  | ar 25, de 22 |  |
 | Purchase Order | on a rail or a home | OneInventory | a head, events, form script, list script, 4 fields, 8 settings | yes | taught |  | yes | ours |  | ar 1 | Order Late |
 | Request for Quotation | opened by our screens | OneInventory | a head, events, form script, 2 fields, 4 settings | yes | taught |  | yes | ours |  |  |  |
-| Supplier | on a rail or a home | OneBook, OneInventory | a head, events, list script, 3 fields, 2 settings | yes | taught | makes it | yes |  |  | ar 10, de 10 |  |
+| Supplier | on a rail or a home | OneBook, OneInventory | a head, events, list script, 3 fields, 2 settings | yes | taught | makes it | yes |  |  | ar 5, de 5 |  |
 | Supplier Quotation | on a rail or a home | OneInventory | a head, events, form script, 1 fields | yes | taught | makes it | yes |  |  |  | Quote Received |
 | Supplier Scorecard | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Supplier Scorecard Criteria | through a form's link (Supplier Scorecard: criteria_name) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
@@ -320,33 +320,33 @@ Reports: Review (**waiting**).
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Import Supplier Invoice | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
-| Lower Deduction Certificate | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
-| South Africa VAT Settings | **waiting** | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
+| Import Supplier Invoice | on a rail or a home | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
+| Lower Deduction Certificate | on a rail or a home | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
+| South Africa VAT Settings | on a rail or a home | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | UAE VAT Settings | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
 
-Reports: Electronic Invoice Register (under a list's related reports (Sales Invoice's list)); IRS 1099 (under a list's related reports (Supplier's list)); UAE VAT 201 (on a rail or a home); VAT Audit Report (**waiting**).
+Reports: Electronic Invoice Register (under a list's related reports (Sales Invoice's list)); IRS 1099 (under a list's related reports (Supplier's list)); UAE VAT 201 (on a rail or a home); VAT Audit Report (on a rail or a home).
 
 ## erpnext / Selling
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Customer | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, 3 fields, 7 settings | yes | taught | makes it | yes |  |  | ar 12, de 9 | Credit Limit Crossed |
+| Customer | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, 3 fields, 7 settings | yes | taught | makes it | yes |  |  |  | Credit Limit Crossed |
 | Delivery Schedule Item | through a form's connections (Sales Order's Connections) | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
 | Industry Type | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Installation Note | through a form's connections (Customer's Connections) | OneCRM | untouched | yes | general |  | **none** | **theirs** |  |  |  |
 | Party Specific Item | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
 | Product Bundle | through a form's link (Delivery Note: product_bundle) | OneCRM, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
-| Proforma Invoice | through a form's connections (Sales Order's Connections) | OneCRM | untouched | yes | general |  | **none** | **theirs** |  | ar 4, de 4 |  |
+| Proforma Invoice | through a form's connections (Sales Order's Connections) | OneCRM | untouched | yes | general |  | **none** | **theirs** |  |  |  |
 | Quotation | on a rail or a home | OneCRM | events, form script, 3 fields | yes | general | makes it | yes |  |  |  | Quotation Declined, Quotation Running Out |
 | SMS Center | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Sales Order | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, 5 fields, 1 settings | yes | taught | makes it | yes | ours |  | ar 4, de 1 | Delivery Late, Quotation Accepted |
+| Sales Order | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, 5 fields, 1 settings | yes | taught | makes it | yes | ours |  |  | Delivery Late, Quotation Accepted |
 | Sales Partner Type | through a form's link (Sales Partner: partner_type) | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
-| Selling Settings | on a rail or a home | OneBook, OneCRM, OneInventory, OneProject | untouched | no | general |  |  |  |  | ar 34, de 30 |  |
+| Selling Settings | on a rail or a home | OneBook, OneCRM, OneInventory, OneProject | untouched | no | general |  |  |  |  | ar 33, de 29 |  |
 
 Reports: Address And Contacts (on a rail or a home); Available Stock for Packing Items (under a list's related reports (Product Bundle's list)); Customer Acquisition and Loyalty (on a rail or a home); Customer Credit Balance (on a rail or a home); Customer-wise Item Price (under a list's related reports (Customer's list)); Customers Without Any Sales Transactions (on a rail or a home); Inactive Customers (on a rail or a home); Item-wise Sales History (on a rail or a home); Lost Quotations (on a rail or a home); Payment Terms Status for Sales Order (under a list's related reports (Sales Order's list)); Pending SO Items For Purchase Request (under a list's related reports (Sales Order's list)); Quotation Trends (on a rail or a home); Sales Analytics (on a rail or a home); Sales Order Analysis (on a rail or a home); Sales Order Trends (on a rail or a home); Sales Partner Commission Summary (under a list's related reports (Sales Order's list)); Sales Partner Target Variance based on Item Group (under a list's related reports (Sales Order's list)); Sales Partner Transaction Summary (under a list's related reports (Sales Order's list)); Sales Person Commission Summary (under a list's related reports (Sales Order's list)); Sales Person Target Variance Based On Item Group (under a list's related reports (Sales Order's list)); Sales Person-wise Transaction Summary (on a rail or a home); Territory Target Variance Based On Item Group (under a list's related reports (Sales Order's list)); Territory-wise Sales (on a rail or a home).
 
-Pages: point-of-sale (**waiting**); sales-funnel (**waiting**).
+Pages: point-of-sale (left out: the point of sale, until One has a till screen of its own); sales-funnel (**waiting**).
 
 ## erpnext / Setup
 
@@ -356,17 +356,17 @@ Pages: point-of-sale (**waiting**); sales-funnel (**waiting**).
 | Authorization Rule | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
 | Branch | on a rail or a home | OneHR, the administrator | untouched | yes | general |  | **none** |  |  |  |  |
 | Brand | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events, 1 fields | yes | general |  | **none** |  |  |  |  |
-| Company | on a rail or a home | everybody | events, 1 fields | yes | taught |  | yes |  |  | ar 14, de 13 |  |
-| Currency Exchange | **waiting** | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Customer Group | on a rail or a home | OneBook, OneCRM, the administrator | events | yes | general |  | yes |  |  | ar 1 |  |
+| Company | on a rail or a home | everybody | events, 1 fields | yes | taught |  | yes |  |  |  |  |
+| Currency Exchange | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
+| Customer Group | on a rail or a home | OneBook, OneCRM, the administrator | events | yes | general |  | yes |  |  |  |  |
 | Department | on a rail or a home | OneHR, the administrator | events | yes | general |  | yes |  |  |  |  |
 | Designation | on a rail or a home | OneCRM, OneHR, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Driver | on a rail or a home | **nobody** | 1 settings | yes | general |  | yes |  |  |  |  |
 | Email Digest | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 1 |  |
-| Employee | on a rail or a home | everybody | a head, events, form script, 11 fields, 26 settings | yes | taught | makes it | yes |  |  | ar 2 | Could Not Mark Left, Document Expiring, Employee Details Changed, Passkey Reset Asked |
+| Employee | on a rail or a home | everybody | a head, events, form script, 11 fields, 26 settings | yes | taught | makes it | yes |  |  |  | Could Not Mark Left, Document Expiring, Employee Details Changed, Passkey Reset Asked |
 | Employee Group | on a rail or a home | OneHR | untouched | yes | general |  | **none** |  |  |  |  |
 | Global Defaults | **waiting** | **nobody** | untouched | no | general |  |  |  |  | ar 3, de 3 |  |
-| Holiday List | on a rail or a home | everybody | untouched | yes | taught |  | yes |  |  | ar 2 |  |
+| Holiday List | on a rail or a home | everybody | untouched | yes | taught |  | yes |  |  |  |  |
 | Incoterm | through a form's link (Request for Quotation: incoterm) | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Item Group | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events | yes | taught |  | yes |  |  |  |  |
 | Party Type | through a form's link (Bank Transaction Rule: party_type) | OneBook | untouched | yes | general |  | yes |  |  |  |  |
@@ -374,7 +374,7 @@ Pages: point-of-sale (**waiting**); sales-funnel (**waiting**).
 | Sales Partner | on a rail or a home | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
 | Sales Person | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Supplier Group | on a rail or a home | OneBook, OneInventory, the administrator | events | yes | general |  | yes |  |  |  |  |
-| Terms and Conditions | on a rail or a home | OneBook, OneCRM, OneHR, OneInventory | untouched | yes | general |  | yes |  |  | ar 1, de 1 |  |
+| Terms and Conditions | on a rail or a home | OneBook, OneCRM, OneHR, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Territory | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events | yes | general |  | yes |  |  |  |  |
 | Transaction Deletion Record | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 1 |  |
 | UOM | on a rail or a home | OneCRM, OneInventory, the administrator | untouched | yes | general |  | yes |  |  |  |  |
@@ -392,7 +392,7 @@ Pages: point-of-sale (**waiting**); sales-funnel (**waiting**).
 | Delivery Settings | on a rail or a home | OneInventory | untouched | no | general |  |  |  |  |  |  |
 | Delivery Trip | on a rail or a home | OneInventory | events, form script | yes | taught |  | yes |  |  |  |  |
 | Inventory Dimension | on a rail or a home | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
-| Item | on a rail or a home | OneBook, OneCRM, OneInventory | a page of our own | yes | taught |  | yes |  |  | ar 11, de 7 |  |
+| Item | on a rail or a home | OneBook, OneCRM, OneInventory | a page of our own | yes | taught |  | yes |  |  | ar 8, de 4 |  |
 | Item Alternative | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Item Attribute | on a rail or a home | OneInventory, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Item Lead Time | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |

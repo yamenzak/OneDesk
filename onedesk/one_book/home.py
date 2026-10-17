@@ -207,6 +207,17 @@ REPORT_SECTIONS = (
 	("tax", _lt("Taxes")),
 )
 REPORT_TOPICS = {
+	"Consolidated Trial Balance": "statements",
+	"Trial Balance (Simple)": "statements",
+	"Custom Financial Statement": "statements",
+	"Deferred Revenue and Expense": "statements",
+	"Dimension-wise Accounts Balance Report": "ledgers",
+	"Voucher-wise Balance": "ledgers",
+	"Payment Ledger": "ledgers",
+	"Share Balance": "ledgers",
+	"Share Ledger": "ledgers",
+	"Gross and Net Profit Report": "profit",
+	"VAT Audit Report": "tax",
 	"Profit and Loss Statement": "statements",
 	"Balance Sheet": "statements",
 	"Cash Flow": "statements",
@@ -243,8 +254,36 @@ SETUP_SECTIONS = (
 	("accounts", _lt("Accounts")),
 	("tax", _lt("Taxes")),
 	("payments", _lt("Payments")),
+	("currency", _lt("Currencies")),
+	("shares", _lt("Shares")),
+	("corrections", _lt("Corrections")),
 )
 SETUP_TOPICS = {
+	"Accounting Dimension": "accounts",
+	"Accounting Dimension Filter": "accounts",
+	"Accounting Period": "accounts",
+	"Cost Center Allocation": "accounts",
+	"Party Link": "accounts",
+	"Chart of Accounts Importer": "accounts",
+	"Financial Report Template": "accounts",
+	"Process Deferred Accounting": "accounts",
+	"Lower Deduction Certificate": "tax",
+	"South Africa VAT Settings": "tax",
+	"Cheque Print Template": "payments",
+	"Subscription Settings": "payments",
+	"Currency Exchange": "currency",
+	"Currency Exchange Settings": "currency",
+	"Pegged Currencies": "currency",
+	"Exchange Rate Revaluation": "currency",
+	"Shareholder": "shares",
+	"Share Type": "shares",
+	"Share Transfer": "shares",
+	"Repost Accounting Ledger": "corrections",
+	"Repost Payment Ledger": "corrections",
+	"Ledger Merge": "corrections",
+	"Ledger Health Monitor": "corrections",
+	"Invalid Ledger Entries": "corrections",
+	"General and Payment Ledger Comparison": "corrections",
 	"Books Check": "settings",
 	"Accounts Settings": "settings",
 	"UAE VAT Settings": "settings",
@@ -279,14 +318,17 @@ EVERYTHING = (
 	("payables", _lt("Debit Note"), "DocType", "Purchase Invoice", _lt("Money a supplier gives back, against their invoice."), {"is_return": 1}),
 	("payables", _lt("Supplier"), "DocType", "Supplier", _lt("Who you buy from, and what you owe each.")),
 	("payables", _lt("Ready to Submit"), "Page", "ready-to-submit", _lt("Bills read from mail and scans, waiting to be submitted.")),
+	("payables", _lt("Import Supplier Invoice"), "DocType", "Import Supplier Invoice", _lt("Suppliers' electronic invoices read in from a zip file.")),
 	("payments", _lt("Payment Entry"), "DocType", "Payment Entry", _lt("Money received from customers and paid to suppliers.")),
 	("payments", _lt("Journal Entry"), "DocType", "Journal Entry", _lt("Anything that is not an invoice or a payment: corrections, accruals, opening balances.")),
 	("payments", _lt("Payment Request"), "DocType", "Payment Request", _lt("A link sent to a customer to pay online.")),
 	("payments", _lt("Payment Reconciliation"), "DocType", "Payment Reconciliation", _lt("Payments matched to the invoices they settle.")),
+	("payments", _lt("Process Payment Reconciliation"), "DocType", "Process Payment Reconciliation", _lt("Payments matched to invoices for many parties at once.")),
 	("banking", _lt("Bank Reconciliation Tool"), "DocType", "Bank Reconciliation Tool", _lt("Your bank statement matched to what is in the books.")),
 	("banking", _lt("Bank Transaction"), "DocType", "Bank Transaction", _lt("Each line of the bank statement.")),
 	("banking", _lt("Bank Statement Import"), "DocType", "Bank Statement Import", _lt("A bank statement read in from a file.")),
 	("banking", _lt("Bank Account"), "DocType", "Bank Account", _lt("The company's bank accounts.")),
+	("banking", _lt("Bank Clearance"), "DocType", "Bank Clearance", _lt("The dates payments cleared the bank, set in one go.")),
 	("reports", _lt("Profit and Loss"), "Report", "Profit and Loss Statement", _lt("Income less expenses, month by month or year by year.")),
 	("reports", _lt("Balance Sheet"), "Report", "Balance Sheet", _lt("What the company owns and owes on a day.")),
 	("reports", _lt("Cash Flow"), "Report", "Cash Flow", _lt("Where the cash came from and went.")),
@@ -316,6 +358,17 @@ EVERYTHING = (
 	("reports", _lt("VAT Return"), "Report", "VAT Return", _lt("The VAT owed for a period, ready for the tax office.")),
 	("reports", _lt("UAE VAT 201"), "Report", "UAE VAT 201", _lt("The UAE's VAT return, box by box.")),
 	("reports", _lt("Tax Withholding Details"), "Report", "Tax Withholding Details", _lt("Tax withheld from suppliers, payment by payment.")),
+	("reports", _lt("Consolidated Trial Balance"), "Report", "Consolidated Trial Balance", _lt("The trial balances of several companies as one.")),
+	("reports", _lt("Trial Balance (Simple)"), "Report", "Trial Balance (Simple)", _lt("Every account's balance, without opening and closing columns.")),
+	("reports", _lt("Custom Financial Statement"), "Report", "Custom Financial Statement", _lt("A statement laid out by a financial report template.")),
+	("reports", _lt("Deferred Revenue and Expense"), "Report", "Deferred Revenue and Expense", _lt("Income and costs spread over the months they belong to.")),
+	("reports", _lt("Dimension-wise Accounts Balance Report"), "Report", "Dimension-wise Accounts Balance Report", _lt("Each account's balance by accounting dimension.")),
+	("reports", _lt("Voucher-wise Balance"), "Report", "Voucher-wise Balance", _lt("Each voucher's debits and credits.")),
+	("reports", _lt("Payment Ledger"), "Report", "Payment Ledger", _lt("Every payment and what it settled.")),
+	("reports", _lt("Share Balance"), "Report", "Share Balance", _lt("Each shareholder's shares on a day.")),
+	("reports", _lt("Share Ledger"), "Report", "Share Ledger", _lt("Every share issued, moved and bought back.")),
+	("reports", _lt("Gross and Net Profit Report"), "Report", "Gross and Net Profit Report", _lt("Gross and net profit, period by period.")),
+	("reports", _lt("VAT Audit Report"), "Report", "VAT Audit Report", _lt("Every taxed invoice, for a VAT audit.")),
 	("setup", _lt("Books Check"), "Report", "Books Check", _lt("What is not set up yet, with the fix.")),
 	("setup", _lt("Accounts Settings"), "DocType", "Accounts Settings", _lt("How invoices, payments and the books work.")),
 	("setup", _lt("UAE VAT Settings"), "DocType", "UAE VAT Settings", _lt("The accounts the UAE VAT 201 reads.")),
@@ -335,6 +388,31 @@ EVERYTHING = (
 	("setup", _lt("Payment Term"), "DocType", "Payment Term", _lt("One part of a payment terms template.")),
 	("setup", _lt("Mode of Payment"), "DocType", "Mode of Payment", _lt("Cash, card, transfer, and the account each goes to.")),
 	("setup", _lt("Bank Transaction Rule"), "DocType", "Bank Transaction Rule", _lt("How a bank line is matched without asking.")),
+	("setup", _lt("Accounting Dimension"), "DocType", "Accounting Dimension", _lt("A way to split the books beyond cost centers, such as by branch.")),
+	("setup", _lt("Accounting Dimension Filter"), "DocType", "Accounting Dimension Filter", _lt("Which values of a dimension an account may take.")),
+	("setup", _lt("Accounting Period"), "DocType", "Accounting Period", _lt("A period closed to new entries.")),
+	("setup", _lt("Cost Center Allocation"), "DocType", "Cost Center Allocation", _lt("One cost center's costs shared among others.")),
+	("setup", _lt("Party Link"), "DocType", "Party Link", _lt("A customer and a supplier that are the same business.")),
+	("setup", _lt("Chart of Accounts Importer"), "DocType", "Chart of Accounts Importer", _lt("Your chart of accounts read in from a spreadsheet.")),
+	("setup", _lt("Financial Report Template"), "DocType", "Financial Report Template", _lt("The rows and formulas of a custom financial statement.")),
+	("setup", _lt("Process Deferred Accounting"), "DocType", "Process Deferred Accounting", _lt("Deferred income and costs booked for a period.")),
+	("setup", _lt("Lower Deduction Certificate"), "DocType", "Lower Deduction Certificate", _lt("A supplier's certificate for tax withheld at a lower rate.")),
+	("setup", _lt("South Africa VAT Settings"), "DocType", "South Africa VAT Settings", _lt("The accounts South Africa's VAT reports read.")),
+	("setup", _lt("Cheque Print Template"), "DocType", "Cheque Print Template", _lt("How a cheque is printed for each bank.")),
+	("setup", _lt("Subscription Settings"), "DocType", "Subscription Settings", _lt("How subscriptions are billed and cancelled.")),
+	("setup", _lt("Currency Exchange"), "DocType", "Currency Exchange", _lt("The rate between two currencies on a day.")),
+	("setup", _lt("Currency Exchange Settings"), "DocType", "Currency Exchange Settings", _lt("Where exchange rates are fetched from.")),
+	("setup", _lt("Pegged Currencies"), "DocType", "Pegged Currencies", _lt("Currencies fixed to another at a set rate.")),
+	("setup", _lt("Exchange Rate Revaluation"), "DocType", "Exchange Rate Revaluation", _lt("Foreign currency balances valued again at today's rate.")),
+	("setup", _lt("Shareholder"), "DocType", "Shareholder", _lt("Who owns shares in the company.")),
+	("setup", _lt("Share Type"), "DocType", "Share Type", _lt("A class of shares.")),
+	("setup", _lt("Share Transfer"), "DocType", "Share Transfer", _lt("Shares issued, moved or bought back.")),
+	("setup", _lt("Repost Accounting Ledger"), "DocType", "Repost Accounting Ledger", _lt("Chosen transactions posted to the books again.")),
+	("setup", _lt("Repost Payment Ledger"), "DocType", "Repost Payment Ledger", _lt("The payment ledger rebuilt, so what is owed is right again.")),
+	("setup", _lt("Ledger Merge"), "DocType", "Ledger Merge", _lt("Two or more accounts combined into one.")),
+	("setup", _lt("Ledger Health Monitor"), "DocType", "Ledger Health Monitor", _lt("Checks the books for entries that don't add up.")),
+	("setup", _lt("Invalid Ledger Entries"), "Report", "Invalid Ledger Entries", _lt("Entries that don't match their documents.")),
+	("setup", _lt("General and Payment Ledger Comparison"), "Report", "General and Payment Ledger Comparison", _lt("Where the general and payment ledgers disagree.")),
 )
 
 @frappe.whitelist()
@@ -450,7 +528,11 @@ def _may(kind: str, target: str) -> bool:
 
 
 def directory() -> list[dict]:
-	"""Everything in OneBook the reader may open, with what it is for."""
+	"""Everything in OneBook the reader may open, with what it is for: a
+	country's own only where a company is in it (one/countries.py)."""
+	from onedesk.one import countries
+
+	here = countries.ours()
 	return [
 		{
 			"group": group,
@@ -462,5 +544,5 @@ def directory() -> list[dict]:
 			"topic": {"reports": REPORT_TOPICS, "setup": SETUP_TOPICS}.get(group, {}).get(target),
 		}
 		for group, label, kind, target, about, *filters in EVERYTHING
-		if _may(kind, target)
+		if _may(kind, target) and countries.shown(target, here)
 	]

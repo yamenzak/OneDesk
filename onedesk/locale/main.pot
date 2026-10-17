@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-17 07:23+0000\n"
-"PO-Revision-Date: 2026-10-17 07:23+0000\n"
+"POT-Creation-Date: 2026-10-17 08:43+0000\n"
+"PO-Revision-Date: 2026-10-17 08:43+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -54,15 +54,15 @@ msgstr ""
 msgid "1 Batch Expiring Soon"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:178
+#: frontend/src/home/HrHome.vue:179
 msgid "1 Check-in Flagged"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:180
+#: frontend/src/home/HrHome.vue:181
 msgid "1 Contract or Probation Ending"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:179
+#: frontend/src/home/HrHome.vue:180
 msgid "1 Document Expiring"
 msgstr ""
 
@@ -71,7 +71,7 @@ msgstr ""
 msgid "1 Draft Left"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:181
+#: frontend/src/home/HrHome.vue:182
 msgid "1 Interview Today"
 msgstr ""
 
@@ -107,7 +107,7 @@ msgstr ""
 msgid "1 Quotation Expiring"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:177
+#: frontend/src/home/HrHome.vue:178
 msgid "1 Request Waiting for You"
 msgstr ""
 
@@ -352,7 +352,7 @@ msgstr ""
 msgid "A bank account is set up"
 msgstr ""
 
-#: onedesk/one_book/home.py:288
+#: onedesk/one_book/home.py:329
 msgid "A bank statement read in from a file."
 msgstr ""
 
@@ -429,6 +429,10 @@ msgstr ""
 msgid "A check-in from outside the radius is allowed, and the distance is recorded on Clock Attempt. If unchecked, it is refused."
 msgstr ""
 
+#: onedesk/one_book/home.py:408
+msgid "A class of shares."
+msgstr ""
+
 #: onedesk/one_hr/home.py:98
 msgid "A clock-in the clock was not sure of, waiting for HR."
 msgstr ""
@@ -502,6 +506,10 @@ msgstr ""
 #. Description of a DocType
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 msgid "A custom domain on a workspace. Created when the workspace requests one."
+msgstr ""
+
+#: onedesk/one_book/home.py:395
+msgid "A customer and a supplier that are the same business."
 msgstr ""
 
 #: onedesk/one_book/ready.py:167
@@ -779,7 +787,7 @@ msgstr ""
 msgid "A link needs an email address to go to."
 msgstr ""
 
-#: onedesk/one_book/home.py:284
+#: onedesk/one_book/home.py:324
 msgid "A link sent to a customer to pay online."
 msgstr ""
 
@@ -946,6 +954,10 @@ msgstr ""
 msgid "A payroll run's slips, earning by earning."
 msgstr ""
 
+#: onedesk/one_book/home.py:393
+msgid "A period closed to new entries."
+msgstr ""
+
 #: onedesk/one/access.py:574
 msgid "A person can be held to a territory, a customer group, a customer, a supplier, a department, a branch, a project or a warehouse."
 msgstr ""
@@ -1041,7 +1053,7 @@ msgstr ""
 msgid "A quotation the customer said yes to."
 msgstr ""
 
-#: onedesk/one_book/home.py:330
+#: onedesk/one_book/home.py:383
 msgid "A rate for items taxed differently."
 msgstr ""
 
@@ -1062,7 +1074,7 @@ msgstr ""
 msgid "A record's head is drawn on its form: each time the record is opened or saved."
 msgstr ""
 
-#: onedesk/one_book/home.py:275
+#: onedesk/one_book/home.py:314
 msgid "A reminder to a customer who is late paying, with any fee."
 msgstr ""
 
@@ -1168,7 +1180,7 @@ msgstr ""
 msgid "A second agent checks each document's actions, approves what is right and sends what is wrong to a person."
 msgstr ""
 
-#: onedesk/one_book/home.py:325
+#: onedesk/one_book/home.py:378
 msgid "A second set of books, such as for tax depreciation."
 msgstr ""
 
@@ -1224,8 +1236,16 @@ msgstr ""
 msgid "A standard letter head can only be set as default or disabled."
 msgstr ""
 
+#: onedesk/one_book/home.py:363
+msgid "A statement laid out by a financial report template."
+msgstr ""
+
 #: onedesk/one_book/ready.py:158 onedesk/one_book/ready.py:159
 msgid "A supplier's bill cannot be entered twice"
+msgstr ""
+
+#: onedesk/one_book/home.py:399
+msgid "A supplier's certificate for tax withheld at a lower rate."
 msgstr ""
 
 #: onedesk/one_inventory/ready.py:179
@@ -1302,6 +1322,10 @@ msgstr ""
 msgid "A verb a module registered by name. It says itself when it can be done and what it asks."
 msgstr ""
 
+#: onedesk/one_book/home.py:391
+msgid "A way to split the books beyond cost centers, such as by branch."
+msgstr ""
+
 #: onedesk/one/webhooks.py:70
 msgid "A webhook can only be on a record type you can open."
 msgstr ""
@@ -1338,7 +1362,7 @@ msgstr ""
 msgid "A workspace needs at least one administrator."
 msgstr ""
 
-#: onedesk/one_book/home.py:326
+#: onedesk/one_book/home.py:379
 msgid "A year closed, its profit carried into equity."
 msgstr ""
 
@@ -1649,36 +1673,48 @@ msgstr ""
 msgid "Accounting"
 msgstr ""
 
+#: onedesk/one_book/home.py:391
+msgid "Accounting Dimension"
+msgstr ""
+
+#: onedesk/one_book/home.py:392
+msgid "Accounting Dimension Filter"
+msgstr ""
+
+#: onedesk/one_book/home.py:393
+msgid "Accounting Period"
+msgstr ""
+
 #. Who a notification is sent to
 #: onedesk/notifications/one_book/bills_due_this_week.md
 #: onedesk/notifications/one_book/credit_limit_crossed.md
 #: onedesk/notifications/one_book/new_fiscal_year.md
-#: onedesk/one_book/home.py:243 onedesk/public/js/item_actions.js:21
+#: onedesk/one_book/home.py:254 onedesk/public/js/item_actions.js:21
 #: onedesk/public/js/project_actions.js:718
 msgid "Accounts"
 msgstr ""
 
 #. Label of a Sidebar Item
 #: frontend/src/home/BooksHome.vue:121 frontend/src/home/BooksStory.vue:122
-#: onedesk/one_book/home.py:303 onedesk/one_book/sidebar/onebook/onebook.json
+#: onedesk/one_book/home.py:345 onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Accounts Payable"
 msgstr ""
 
-#: onedesk/one_book/home.py:304
+#: onedesk/one_book/home.py:346
 msgid "Accounts Payable Summary"
 msgstr ""
 
 #. Label of a Sidebar Item
 #: frontend/src/home/BooksHome.vue:119 frontend/src/home/BooksStory.vue:111
-#: onedesk/one_book/home.py:301 onedesk/one_book/sidebar/onebook/onebook.json
+#: onedesk/one_book/home.py:343 onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Accounts Receivable"
 msgstr ""
 
-#: onedesk/one_book/home.py:302
+#: onedesk/one_book/home.py:344
 msgid "Accounts Receivable Summary"
 msgstr ""
 
-#: onedesk/one_book/home.py:320
+#: onedesk/one_book/home.py:373
 msgid "Accounts Settings"
 msgstr ""
 
@@ -3144,7 +3180,7 @@ msgstr ""
 msgid "Anything else worth having at hand, each written in the document as it is here."
 msgstr ""
 
-#: onedesk/one_book/home.py:283
+#: onedesk/one_book/home.py:323
 msgid "Anything that is not an invoice or a payment: corrections, accruals, opening balances."
 msgstr ""
 
@@ -3738,7 +3774,7 @@ msgstr ""
 msgid "Asked twice a day"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:221 frontend/src/quotes/QuotesPage.vue:151
+#: frontend/src/home/HrHome.vue:222 frontend/src/quotes/QuotesPage.vue:151
 msgid "Asked {0}"
 msgstr ""
 
@@ -4195,7 +4231,7 @@ msgid "Auto Close Open Check-ins at Shift End"
 msgstr ""
 
 #. Label of the auto_repeat (Link) field in DocType 'Task'
-#: onedesk/one_book/heads.py:649 onedesk/one_book/home.py:277
+#: onedesk/one_book/heads.py:649 onedesk/one_book/home.py:316
 #: onedesk/one_task/custom/task.json
 msgid "Auto Repeat"
 msgstr ""
@@ -4384,7 +4420,7 @@ msgid "Balance Due"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_book/home.py:291 onedesk/one_book/sidebar/onebook/onebook.json
+#: onedesk/one_book/home.py:333 onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Balance Sheet"
 msgstr ""
 
@@ -4405,22 +4441,26 @@ msgid "Bank"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_book/heads.py:699 onedesk/one_book/home.py:289
+#: onedesk/one_book/heads.py:699 onedesk/one_book/home.py:330
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Bank Account"
+msgstr ""
+
+#: onedesk/one_book/home.py:331
+msgid "Bank Clearance"
 msgstr ""
 
 #: onedesk/public/js/settings.js:208
 msgid "Bank Details"
 msgstr ""
 
-#: onedesk/one_book/home.py:300
+#: onedesk/one_book/home.py:342
 msgid "Bank Reconciliation Statement"
 msgstr ""
 
 #. Label of a Sidebar Item
 #: frontend/src/home/BooksHome.vue:240 onedesk/one_book/heads.py:707
-#: onedesk/one_book/home.py:286 onedesk/one_book/sidebar/onebook/onebook.json
+#: onedesk/one_book/home.py:327 onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Bank Reconciliation Tool"
 msgstr ""
 
@@ -4430,16 +4470,16 @@ msgid "Bank Statement"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_book/home.py:288 onedesk/one_book/sidebar/onebook/onebook.json
+#: onedesk/one_book/home.py:329 onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Bank Statement Import"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_book/home.py:287 onedesk/one_book/sidebar/onebook/onebook.json
+#: onedesk/one_book/home.py:328 onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Bank Transaction"
 msgstr ""
 
-#: onedesk/one_book/home.py:337
+#: onedesk/one_book/home.py:390
 msgid "Bank Transaction Rule"
 msgstr ""
 
@@ -4884,7 +4924,7 @@ msgstr ""
 msgid "Bills of Materials"
 msgstr ""
 
-#: onedesk/one_book/home.py:281
+#: onedesk/one_book/home.py:320
 msgid "Bills read from mail and scans, waiting to be submitted."
 msgstr ""
 
@@ -4951,7 +4991,7 @@ msgid "Book time off"
 msgstr ""
 
 #. Name of a report
-#: onedesk/one_book/home.py:319
+#: onedesk/one_book/home.py:372
 #: onedesk/one_book/report/books_check/books_check.json
 msgid "Books Check"
 msgstr ""
@@ -5072,7 +5112,7 @@ msgstr ""
 msgid "Budget"
 msgstr ""
 
-#: onedesk/one_book/home.py:295
+#: onedesk/one_book/home.py:337
 msgid "Budget Variance Report"
 msgstr ""
 
@@ -5514,7 +5554,7 @@ msgid "Cash"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/home/BooksStory.vue:18 onedesk/one_book/home.py:292
+#: frontend/src/home/BooksStory.vue:18 onedesk/one_book/home.py:334
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Cash Flow"
 msgstr ""
@@ -5523,7 +5563,7 @@ msgstr ""
 msgid "Cash and Profit"
 msgstr ""
 
-#: onedesk/one_book/home.py:336
+#: onedesk/one_book/home.py:389
 msgid "Cash, card, transfer, and the account each goes to."
 msgstr ""
 
@@ -5701,8 +5741,12 @@ msgstr ""
 msgid "Chart"
 msgstr ""
 
-#: onedesk/one_book/home.py:322
+#: onedesk/one_book/home.py:375
 msgid "Chart of Accounts"
+msgstr ""
+
+#: onedesk/one_book/home.py:396
+msgid "Chart of Accounts Importer"
 msgstr ""
 
 #: onedesk/one/head.py:184
@@ -5752,14 +5796,14 @@ msgid "Check Again"
 msgstr ""
 
 #. The button on a notification's mail
-#: frontend/src/home/HrHome.vue:257
+#: frontend/src/home/HrHome.vue:258
 #: onedesk/notifications/one_hr/not_checked_in.md onedesk/public/js/desk.js:115
 #: onedesk/public/js/desk.js:182 onedesk/public/js/desk.js:306
 #: onedesk/public/js/desk.js:309
 msgid "Check In"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:256
+#: frontend/src/home/HrHome.vue:257
 msgid "Check In (late)"
 msgstr ""
 
@@ -5767,7 +5811,7 @@ msgstr ""
 msgid "Check My Profile"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:254 onedesk/public/js/clock.js:85
+#: frontend/src/home/HrHome.vue:255 onedesk/public/js/clock.js:85
 msgid "Check Out"
 msgstr ""
 
@@ -5783,7 +5827,7 @@ msgstr ""
 msgid "Check bill from {0}"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:257 onedesk/public/js/desk.js:304
+#: frontend/src/home/HrHome.vue:258 onedesk/public/js/desk.js:304
 #: onedesk/public/js/desk.js:309
 msgid "Check in by {0}"
 msgstr ""
@@ -5869,7 +5913,7 @@ msgstr ""
 msgid "Check-ins"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:238
+#: frontend/src/home/HrHome.vue:239
 msgid "Check-ins Flagged"
 msgstr ""
 
@@ -5969,6 +6013,14 @@ msgstr ""
 #. Label of the gates_tab (Tab Break) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Checks"
+msgstr ""
+
+#: onedesk/one_book/home.py:413
+msgid "Checks the books for entries that don't add up."
+msgstr ""
+
+#: onedesk/one_book/home.py:401
+msgid "Cheque Print Template"
 msgstr ""
 
 #: onedesk/one_book/heads.py:616 onedesk/one_book/heads.py:750
@@ -6072,6 +6124,10 @@ msgstr ""
 msgid "Chosen Model"
 msgstr ""
 
+#: onedesk/one_book/home.py:410
+msgid "Chosen transactions posted to the books again."
+msgstr ""
+
 #: onedesk/one/portal.py:79 onedesk/one/settings.py:104
 #: onedesk/one_book/report/books_check/books_check.js:38
 msgid "City"
@@ -6081,7 +6137,7 @@ msgstr ""
 msgid "Claim a receipt"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:272 onedesk/public/js/employee.js:14
+#: frontend/src/home/HrHome.vue:273 onedesk/public/js/employee.js:14
 msgid "Claim an Expense"
 msgstr ""
 
@@ -6131,7 +6187,7 @@ msgstr ""
 #. Name of a DocType
 #. Label of a Sidebar Item
 #. Label of a Link in the OneHR Setup Workspace
-#: frontend/src/home/HrHome.vue:242 onedesk/one_hr/custom/employee_checkin.json
+#: frontend/src/home/HrHome.vue:243 onedesk/one_hr/custom/employee_checkin.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/home.py:95 onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
@@ -6788,8 +6844,12 @@ msgstr ""
 msgid "Consent Confirmed On"
 msgstr ""
 
-#: onedesk/one_book/home.py:294
+#: onedesk/one_book/home.py:336
 msgid "Consolidated Financial Statement"
+msgstr ""
+
+#: onedesk/one_book/home.py:361
+msgid "Consolidated Trial Balance"
 msgstr ""
 
 #. Task in the Architectural Design Stages project template
@@ -6965,7 +7025,7 @@ msgstr ""
 msgid "Contracts"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:245
+#: frontend/src/home/HrHome.vue:246
 msgid "Contracts and Probations Ending"
 msgstr ""
 
@@ -7067,6 +7127,10 @@ msgstr ""
 msgid "Correction"
 msgstr ""
 
+#: onedesk/one_book/home.py:259
+msgid "Corrections"
+msgstr ""
+
 #: frontend/src/project/Money.vue:26 frontend/src/project/Money.vue:130
 #: frontend/src/project/Overview.vue:154 frontend/src/project/Time.vue:35
 #: frontend/src/to_order/ToOrderPage.vue:27
@@ -7080,8 +7144,12 @@ msgstr ""
 msgid "Cost"
 msgstr ""
 
-#: frontend/src/project/Overview.vue:314 onedesk/one_book/home.py:323
+#: frontend/src/project/Overview.vue:314 onedesk/one_book/home.py:376
 msgid "Cost Center"
+msgstr ""
+
+#: onedesk/one_book/home.py:394
+msgid "Cost Center Allocation"
 msgstr ""
 
 #: frontend/src/project/Money.vue:39 onedesk/one_project/ai.py:730
@@ -7384,7 +7452,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
-#: onedesk/one/print_blocks.py:255 onedesk/one_book/home.py:273
+#: onedesk/one/print_blocks.py:255 onedesk/one_book/home.py:312
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Credit Note"
@@ -7507,6 +7575,14 @@ msgstr ""
 msgid "Credits per Dollar"
 msgstr ""
 
+#: onedesk/one_book/home.py:257
+msgid "Currencies"
+msgstr ""
+
+#: onedesk/one_book/home.py:405
+msgid "Currencies fixed to another at a set rate."
+msgstr ""
+
 #. Label of the plan_currency (Data) field in DocType 'Workspace Account'
 #. Label of the currency (Link) field in DocType 'Offering'
 #. Label of the currency (Link) field in DocType 'Reading'
@@ -7520,6 +7596,14 @@ msgstr ""
 #: onedesk/one_intake/report/spending/spending.py:33
 #: onedesk/public/js/settings.js:883
 msgid "Currency"
+msgstr ""
+
+#: onedesk/one_book/home.py:403
+msgid "Currency Exchange"
+msgstr ""
+
+#: onedesk/one_book/home.py:404
+msgid "Currency Exchange Settings"
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:755 onedesk/public/js/settings.js:1850
@@ -7580,6 +7664,10 @@ msgstr ""
 msgid "Custom Fields"
 msgstr ""
 
+#: onedesk/one_book/home.py:363
+msgid "Custom Financial Statement"
+msgstr ""
+
 #. Label of the cloudflare_id (Data) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 msgid "Custom Hostname ID"
@@ -7601,7 +7689,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event_list.js:39
-#: onedesk/one_book/home.py:274 onedesk/one_book/sidebar/onebook/onebook.json
+#: onedesk/one_book/home.py:313 onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_crm/home.py:36 onedesk/one_crm/home.py:101
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
@@ -7620,7 +7708,7 @@ msgstr ""
 msgid "Customer Addresses And Contacts"
 msgstr ""
 
-#: onedesk/one_book/home.py:310
+#: onedesk/one_book/home.py:352
 msgid "Customer Credit Balance"
 msgstr ""
 
@@ -7632,7 +7720,7 @@ msgstr ""
 msgid "Customer Groups"
 msgstr ""
 
-#: onedesk/one_book/home.py:297
+#: onedesk/one_book/home.py:339
 msgid "Customer Ledger Summary"
 msgstr ""
 
@@ -7928,7 +8016,7 @@ msgid "Dear {applicant}, your interview is on {when}. Reply to this email if tha
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one/print_blocks.py:257 onedesk/one_book/home.py:279
+#: onedesk/one/print_blocks.py:257 onedesk/one_book/home.py:318
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Debit Note"
 msgstr ""
@@ -8127,6 +8215,14 @@ msgstr ""
 #. Name of a notification
 #: onedesk/notifications/one_book/deferred_posting_failed.md
 msgid "Deferred Posting Failed"
+msgstr ""
+
+#: onedesk/one_book/home.py:364
+msgid "Deferred Revenue and Expense"
+msgstr ""
+
+#: onedesk/one_book/home.py:398
+msgid "Deferred income and costs booked for a period."
 msgstr ""
 
 #: onedesk/one_inventory/home.py:175
@@ -8606,6 +8702,10 @@ msgstr ""
 msgid "Digits"
 msgstr ""
 
+#: onedesk/one_book/home.py:365
+msgid "Dimension-wise Accounts Balance Report"
+msgstr ""
+
 #. Option for the 'Paid How' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Direct Debit"
@@ -8781,7 +8881,7 @@ msgstr ""
 msgid "Documents"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:244
+#: frontend/src/home/HrHome.vue:245
 msgid "Documents Expiring"
 msgstr ""
 
@@ -9194,7 +9294,7 @@ msgstr ""
 msgid "Due {0}."
 msgstr ""
 
-#: onedesk/one_book/home.py:275
+#: onedesk/one_book/home.py:314
 msgid "Dunning"
 msgstr ""
 
@@ -9234,6 +9334,10 @@ msgstr ""
 msgid "Each"
 msgstr ""
 
+#: onedesk/one_book/home.py:365
+msgid "Each account's balance by accounting dimension."
+msgstr ""
+
 #: onedesk/one_hr/home.py:473
 msgid "Each appraisal's scores, cycle by cycle."
 msgstr ""
@@ -9259,19 +9363,19 @@ msgstr ""
 msgid "Each customer on the run"
 msgstr ""
 
-#: onedesk/one_book/home.py:310
+#: onedesk/one_book/home.py:352
 msgid "Each customer's credit limit, and what is left of it."
 msgstr ""
 
-#: onedesk/one_book/home.py:297
+#: onedesk/one_book/home.py:339
 msgid "Each customer's invoices, payments and balance."
 msgstr ""
 
-#: onedesk/one_book/home.py:299
+#: onedesk/one_book/home.py:341
 msgid "Each customer's or supplier's opening, movement and closing."
 msgstr ""
 
-#: onedesk/one_book/home.py:276
+#: onedesk/one_book/home.py:315
 msgid "Each customer's statement, mailed on a schedule."
 msgstr ""
 
@@ -9311,7 +9415,7 @@ msgstr ""
 msgid "Each kind of leave, and its rules."
 msgstr ""
 
-#: onedesk/one_book/home.py:287
+#: onedesk/one_book/home.py:328
 msgid "Each line of the bank statement."
 msgstr ""
 
@@ -9406,6 +9510,10 @@ msgstr ""
 msgid "Each service, due and done."
 msgstr ""
 
+#: onedesk/one_book/home.py:368
+msgid "Each shareholder's shares on a day."
+msgstr ""
+
 #: onedesk/one_inventory/home.py:137
 msgid "Each step of a work order, with who did it and how long it took."
 msgstr ""
@@ -9415,7 +9523,7 @@ msgstr ""
 msgid "Each stop's contact"
 msgstr ""
 
-#: onedesk/one_book/home.py:298
+#: onedesk/one_book/home.py:340
 msgid "Each supplier's bills, payments and balance."
 msgstr ""
 
@@ -9429,6 +9537,10 @@ msgstr ""
 
 #: onedesk/public/js/settings.js:2959
 msgid "Each uses OneAI credits."
+msgstr ""
+
+#: onedesk/one_book/home.py:366
+msgid "Each voucher's debits and credits."
 msgstr ""
 
 #: onedesk/www/account_invoices.html:51
@@ -10069,6 +10181,10 @@ msgstr ""
 msgid "Enter the street address."
 msgstr ""
 
+#: onedesk/one_book/home.py:414
+msgid "Entries that don't match their documents."
+msgstr ""
+
 #. Task in the Small Building Works project template
 #: onedesk/one_project/library/small_building_works.json
 msgid "Envelope"
@@ -10192,8 +10308,12 @@ msgstr ""
 msgid "Every Week"
 msgstr ""
 
-#: onedesk/one_book/home.py:293
+#: onedesk/one_book/home.py:335
 msgid "Every account's balance, debits against credits."
+msgstr ""
+
+#: onedesk/one_book/home.py:362
+msgid "Every account's balance, without opening and closing columns."
 msgstr ""
 
 #. Who a notification is sent to
@@ -10272,7 +10392,7 @@ msgstr ""
 msgid "Every day while a privacy request has waited more than a week for a decision."
 msgstr ""
 
-#: onedesk/one_book/home.py:296
+#: onedesk/one_book/home.py:338
 msgid "Every entry in the books, one line each."
 msgstr ""
 
@@ -10313,11 +10433,11 @@ msgstr ""
 msgid "Every lead with its business, contact and status."
 msgstr ""
 
-#: onedesk/one_book/home.py:308
+#: onedesk/one_book/home.py:350
 msgid "Every line of every purchase invoice."
 msgstr ""
 
-#: onedesk/one_book/home.py:307
+#: onedesk/one_book/home.py:349
 msgid "Every line of every sales invoice."
 msgstr ""
 
@@ -10390,11 +10510,15 @@ msgstr ""
 msgid "Every part is already transcribed."
 msgstr ""
 
+#: onedesk/one_book/home.py:367
+msgid "Every payment and what it settled."
+msgstr ""
+
 #: onedesk/public/js/settings.js:1292
 msgid "Every permission includes Read."
 msgstr ""
 
-#: onedesk/one_book/home.py:306
+#: onedesk/one_book/home.py:348
 msgid "Every purchase invoice with its taxes, one line each."
 msgstr ""
 
@@ -10402,7 +10526,7 @@ msgstr ""
 msgid "Every receipt and delivery is posted to the stock accounts."
 msgstr ""
 
-#: onedesk/one_book/home.py:305
+#: onedesk/one_book/home.py:347
 msgid "Every sales invoice with its taxes, one line each."
 msgstr ""
 
@@ -10410,8 +10534,16 @@ msgstr ""
 msgid "Every serial number in stock, and where."
 msgstr ""
 
+#: onedesk/one_book/home.py:369
+msgid "Every share issued, moved and bought back."
+msgstr ""
+
 #: onedesk/one_project/status.py:108
 msgid "Every task on {0} is done. Add a task to open it again."
+msgstr ""
+
+#: onedesk/one_book/home.py:371
+msgid "Every taxed invoice, for a VAT audit."
 msgstr ""
 
 #: onedesk/one_legal/gate.py:27
@@ -10525,7 +10657,7 @@ msgid "Everyone's"
 msgstr ""
 
 #: frontend/src/home/BooksHome.vue:102 frontend/src/home/CrmHome.vue:102
-#: frontend/src/home/HrHome.vue:119 frontend/src/home/InventoryHome.vue:101
+#: frontend/src/home/HrHome.vue:120 frontend/src/home/InventoryHome.vue:101
 #: onedesk/public/js/settings.js:788
 msgid "Everything"
 msgstr ""
@@ -10581,6 +10713,10 @@ msgstr ""
 #. Task in the Small Building Works project template
 #: onedesk/one_project/library/small_building_works.json
 msgid "Excavation"
+msgstr ""
+
+#: onedesk/one_book/home.py:406
+msgid "Exchange Rate Revaluation"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -11349,12 +11485,16 @@ msgstr ""
 msgid "Final results"
 msgstr ""
 
-#: onedesk/one/masters.py:27 onedesk/one_book/home.py:325
+#: onedesk/one/masters.py:27 onedesk/one_book/home.py:378
 msgid "Finance Book"
 msgstr ""
 
 #: onedesk/one/masters.py:27
 msgid "Finance Books"
+msgstr ""
+
+#: onedesk/one_book/home.py:397
+msgid "Financial Report Template"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -11477,7 +11617,7 @@ msgstr ""
 msgid "First steps"
 msgstr ""
 
-#: onedesk/one_book/home.py:324
+#: onedesk/one_book/home.py:377
 msgid "Fiscal Year"
 msgstr ""
 
@@ -11744,6 +11884,10 @@ msgstr ""
 
 #: frontend/src/home/CrmStory.vue:26
 msgid "Forecasted Revenue"
+msgstr ""
+
+#: onedesk/one_book/home.py:406
+msgid "Foreign currency balances valued again at today's rate."
 msgstr ""
 
 #: onedesk/public/js/settings.js:770
@@ -12085,8 +12229,12 @@ msgid "General"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_book/home.py:296 onedesk/one_book/sidebar/onebook/onebook.json
+#: onedesk/one_book/home.py:338 onedesk/one_book/sidebar/onebook/onebook.json
 msgid "General Ledger"
+msgstr ""
+
+#: onedesk/one_book/home.py:415
+msgid "General and Payment Ledger Comparison"
 msgstr ""
 
 #. Title of the get-in-touch Web Form
@@ -12421,12 +12569,20 @@ msgid "Gross Pay"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_book/home.py:312 onedesk/one_book/sidebar/onebook/onebook.json
+#: onedesk/one_book/home.py:354 onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Gross Profit"
 msgstr ""
 
 #: onedesk/one/print_blocks.py:68
 msgid "Gross Weight"
+msgstr ""
+
+#: onedesk/one_book/home.py:370
+msgid "Gross and Net Profit Report"
+msgstr ""
+
+#: onedesk/one_book/home.py:370
+msgid "Gross and net profit, period by period."
 msgstr ""
 
 #. Task in the Small Building Works project template
@@ -12465,7 +12621,7 @@ msgstr ""
 msgid "Groups"
 msgstr ""
 
-#: onedesk/one_book/home.py:332
+#: onedesk/one_book/home.py:385
 msgid "Groups of customers and suppliers taxed alike."
 msgstr ""
 
@@ -12648,7 +12804,7 @@ msgstr ""
 msgid "Head Office"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:132
+#: frontend/src/home/HrHome.vue:133
 msgid "Headcount"
 msgstr ""
 
@@ -12966,8 +13122,12 @@ msgstr ""
 msgid "How Suppliers Keep to Dates"
 msgstr ""
 
-#: onedesk/one_book/home.py:337
+#: onedesk/one_book/home.py:390
 msgid "How a bank line is matched without asking."
+msgstr ""
+
+#: onedesk/one_book/home.py:401
+msgid "How a cheque is printed for each bank."
 msgstr ""
 
 #: onedesk/one_hr/home.py:532
@@ -13076,7 +13236,7 @@ msgstr ""
 msgid "How good the browser said the position was."
 msgstr ""
 
-#: onedesk/one_book/home.py:320
+#: onedesk/one_book/home.py:373
 msgid "How invoices, payments and the books work."
 msgstr ""
 
@@ -13168,7 +13328,7 @@ msgstr ""
 msgid "How long before its end it must be cancelled, as the contract says."
 msgstr ""
 
-#: onedesk/one_book/home.py:309
+#: onedesk/one_book/home.py:351
 msgid "How long each invoice took to be paid."
 msgstr ""
 
@@ -13323,6 +13483,10 @@ msgstr ""
 
 #: onedesk/one_inventory/home.py:210
 msgid "How stock is valued and moved."
+msgstr ""
+
+#: onedesk/one_book/home.py:402
+msgid "How subscriptions are billed and cancelled."
 msgstr ""
 
 #. Description of the 'Rule' (Data) field in DocType 'Reading Date'
@@ -13564,6 +13728,10 @@ msgstr ""
 msgid "Image Generation"
 msgstr ""
 
+#: onedesk/one_book/home.py:321
+msgid "Import Supplier Invoice"
+msgstr ""
+
 #: onedesk/public/js/oneai/Panel.vue:302 onedesk/public/js/oneai/Panel.vue:304
 msgid "Improve it"
 msgstr ""
@@ -13728,7 +13896,7 @@ msgstr ""
 msgid "In {0}"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:224 frontend/src/project/Milestones.vue:32
+#: frontend/src/home/HrHome.vue:225 frontend/src/project/Milestones.vue:32
 #: frontend/src/project/Overview.vue:332 onedesk/one_admin/heads.py:197
 #: onedesk/one_project/heads.py:79 onedesk/one_project/portal.py:267
 #: onedesk/one_project/view.py:410 onedesk/one_project/view.py:625
@@ -13819,11 +13987,15 @@ msgstr ""
 msgid "Income Tax Slab"
 msgstr ""
 
-#: onedesk/one_book/home.py:313
+#: onedesk/one_book/home.py:364
+msgid "Income and costs spread over the months they belong to."
+msgstr ""
+
+#: onedesk/one_book/home.py:355
 msgid "Income and expenses by cost center or project."
 msgstr ""
 
-#: onedesk/one_book/home.py:290
+#: onedesk/one_book/home.py:332
 msgid "Income less expenses, month by month or year by year."
 msgstr ""
 
@@ -14087,7 +14259,7 @@ msgstr ""
 msgid "Interviews"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:247
+#: frontend/src/home/HrHome.vue:248
 msgid "Interviews Today"
 msgstr ""
 
@@ -14099,6 +14271,10 @@ msgstr ""
 #. Description of the 'Can upload' (Check) field in DocType 'Cloud Link'
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 msgid "Into a folder, for somebody sending you files."
+msgstr ""
+
+#: onedesk/one_book/home.py:414
+msgid "Invalid Ledger Entries"
 msgstr ""
 
 #: onedesk/one_storage/mounts.py:168
@@ -14257,7 +14433,7 @@ msgstr ""
 msgid "Invoices"
 msgstr ""
 
-#: onedesk/one_book/home.py:277
+#: onedesk/one_book/home.py:316
 msgid "Invoices and bills made again every month, quarter or year."
 msgstr ""
 
@@ -14619,7 +14795,7 @@ msgstr ""
 msgid "Item Standard Cost"
 msgstr ""
 
-#: onedesk/one_book/home.py:330
+#: onedesk/one_book/home.py:383
 msgid "Item Tax Template"
 msgstr ""
 
@@ -14636,7 +14812,7 @@ msgstr ""
 msgid "Item Wise Consumption"
 msgstr ""
 
-#: onedesk/one_book/home.py:308
+#: onedesk/one_book/home.py:350
 msgid "Item-wise Purchase Register"
 msgstr ""
 
@@ -14644,7 +14820,7 @@ msgstr ""
 msgid "Item-wise Sales History"
 msgstr ""
 
-#: onedesk/one_book/home.py:307
+#: onedesk/one_book/home.py:349
 msgid "Item-wise Sales Register"
 msgstr ""
 
@@ -14827,7 +15003,7 @@ msgstr ""
 msgid "Joined"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:133
+#: frontend/src/home/HrHome.vue:134
 msgid "Joined This Month"
 msgstr ""
 
@@ -14854,7 +15030,7 @@ msgid "Journal Entries"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_book/home.py:283 onedesk/one_book/home.py:422
+#: onedesk/one_book/home.py:323 onedesk/one_book/home.py:500
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Journal Entry"
 msgstr ""
@@ -15196,7 +15372,7 @@ msgstr ""
 msgid "Last Ordered"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:136
+#: frontend/src/home/HrHome.vue:137
 msgid "Last Payroll"
 msgstr ""
 
@@ -15544,7 +15720,7 @@ msgid "Leave Answered"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/home/HrHome.vue:233 onedesk/one_hr/home.py:125
+#: frontend/src/home/HrHome.vue:234 onedesk/one_hr/home.py:125
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Leave Application"
 msgstr ""
@@ -15666,6 +15842,14 @@ msgstr ""
 
 #: onedesk/public/js/settings.js:1581
 msgid "Ledger"
+msgstr ""
+
+#: onedesk/one_book/home.py:413
+msgid "Ledger Health Monitor"
+msgstr ""
+
+#: onedesk/one_book/home.py:412
+msgid "Ledger Merge"
 msgstr ""
 
 #: onedesk/one_book/home.py:204
@@ -16380,6 +16564,10 @@ msgstr ""
 
 #: frontend/src/stock/StockOnHand.vue:149
 msgid "Low {0}"
+msgstr ""
+
+#: onedesk/one_book/home.py:399
+msgid "Lower Deduction Certificate"
 msgstr ""
 
 #. Description of the 'Order' (Int) field in DocType 'Mail Rule'
@@ -17335,7 +17523,7 @@ msgstr ""
 msgid "Modality"
 msgstr ""
 
-#: onedesk/one_book/heads.py:736 onedesk/one_book/home.py:336
+#: onedesk/one_book/heads.py:736 onedesk/one_book/home.py:389
 msgid "Mode of Payment"
 msgstr ""
 
@@ -17399,11 +17587,11 @@ msgstr ""
 msgid "Money"
 msgstr ""
 
-#: onedesk/one_book/home.py:279
+#: onedesk/one_book/home.py:318
 msgid "Money a supplier gives back, against their invoice."
 msgstr ""
 
-#: onedesk/one_book/home.py:273
+#: onedesk/one_book/home.py:312
 msgid "Money given back to a customer, against an invoice."
 msgstr ""
 
@@ -17411,7 +17599,7 @@ msgstr ""
 msgid "Money given before it is spent."
 msgstr ""
 
-#: onedesk/one_book/home.py:282
+#: onedesk/one_book/home.py:322
 msgid "Money received from customers and paid to suppliers."
 msgstr ""
 
@@ -20024,7 +20212,7 @@ msgid "On Leave"
 msgstr ""
 
 #. Label of a number card
-#: frontend/src/home/HrHome.vue:135
+#: frontend/src/home/HrHome.vue:136
 #: onedesk/one_hr/number_card/on_leave_today/on_leave_today.json
 msgid "On Leave Today"
 msgstr ""
@@ -20343,6 +20531,10 @@ msgstr ""
 msgid "One conversation with OneAI, kept so it is still there tomorrow."
 msgstr ""
 
+#: onedesk/one_book/home.py:394
+msgid "One cost center's costs shared among others."
+msgstr ""
+
 #: onedesk/public/js/settings.js:1662
 msgid "One file with the database, every record as a spreadsheet, and all files."
 msgstr ""
@@ -20370,7 +20562,7 @@ msgstr ""
 msgid "One opens once your workspace administrator agrees to {0}."
 msgstr ""
 
-#: onedesk/one_book/home.py:335
+#: onedesk/one_book/home.py:388
 msgid "One part of a payment terms template."
 msgstr ""
 
@@ -20682,7 +20874,7 @@ msgstr ""
 #. Option for the 'Product' (Select) field in DocType 'AI Action'
 #. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
-#: frontend/src/home/HrHome.vue:262
+#: frontend/src/home/HrHome.vue:263
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_hr/page/onehr/onehr.js:10
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -21220,7 +21412,7 @@ msgstr ""
 msgid "Open Plan and Credits"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:137
+#: frontend/src/home/HrHome.vue:138
 msgid "Open Positions"
 msgstr ""
 
@@ -21368,7 +21560,7 @@ msgstr ""
 msgid "Opening"
 msgstr ""
 
-#: onedesk/one_book/home.py:327
+#: onedesk/one_book/home.py:380
 msgid "Opening Invoice Creation Tool"
 msgstr ""
 
@@ -22006,7 +22198,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: frontend/src/home/BooksHome.vue:100 frontend/src/home/CrmHome.vue:100
-#: frontend/src/home/HrHome.vue:117 frontend/src/home/InventoryHome.vue:99
+#: frontend/src/home/HrHome.vue:118 frontend/src/home/InventoryHome.vue:99
 #: frontend/src/item/ItemPage.vue:176 frontend/src/project/ProjectPage.vue:182
 #: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/public/js/page_views.js:86
 #: onedesk/public/js/page_views.js:99
@@ -22303,6 +22495,10 @@ msgstr ""
 msgid "Party"
 msgstr ""
 
+#: onedesk/one_book/home.py:395
+msgid "Party Link"
+msgstr ""
+
 #. Label of the party_type (Data) field in DocType 'Portal Link'
 #. Label of the party_doctype (Link) field in DocType 'Intake Lesson'
 #. Label of the party_doctype (Link) field in DocType 'Reading'
@@ -22572,7 +22768,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_book/heads.py:496 onedesk/one_book/heads.py:706
-#: onedesk/one_book/home.py:282 onedesk/one_book/home.py:421
+#: onedesk/one_book/home.py:322 onedesk/one_book/home.py:499
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Payment Entry"
 msgstr ""
@@ -22584,6 +22780,10 @@ msgstr ""
 #. Name of a notification
 #: onedesk/notifications/one_admin/payment_failed.md
 msgid "Payment Failed"
+msgstr ""
+
+#: onedesk/one_book/home.py:367
+msgid "Payment Ledger"
 msgstr ""
 
 #: onedesk/one_intake/panel.py:139 onedesk/public/js/settings.js:1514
@@ -22599,11 +22799,11 @@ msgstr ""
 msgid "Payment Overdue"
 msgstr ""
 
-#: onedesk/one_book/home.py:309
+#: onedesk/one_book/home.py:351
 msgid "Payment Period Based On Invoice Date"
 msgstr ""
 
-#: onedesk/one_book/home.py:285
+#: onedesk/one_book/home.py:325
 msgid "Payment Reconciliation"
 msgstr ""
 
@@ -22621,7 +22821,7 @@ msgstr ""
 
 #. Name of a notification
 #: onedesk/notifications/one_book/payment_request.md
-#: onedesk/one_book/home.py:284
+#: onedesk/one_book/home.py:324
 msgid "Payment Request"
 msgstr ""
 
@@ -22629,7 +22829,7 @@ msgstr ""
 msgid "Payment Schedule"
 msgstr ""
 
-#: onedesk/one_book/home.py:335
+#: onedesk/one_book/home.py:388
 msgid "Payment Term"
 msgstr ""
 
@@ -22643,7 +22843,7 @@ msgstr ""
 msgid "Payment Terms"
 msgstr ""
 
-#: onedesk/one_book/home.py:334
+#: onedesk/one_book/home.py:387
 msgid "Payment Terms Template"
 msgstr ""
 
@@ -22699,7 +22899,7 @@ msgid "Payment {0} recorded."
 msgstr ""
 
 #. Task in the Mobile App project template
-#: onedesk/one_book/home.py:196 onedesk/one_book/home.py:245
+#: onedesk/one_book/home.py:196 onedesk/one_book/home.py:256
 #: onedesk/one_project/library/mobile_app.json onedesk/one_project/tree.py:212
 msgid "Payments"
 msgstr ""
@@ -22708,7 +22908,11 @@ msgstr ""
 msgid "Payments by transfer, cheque or card have somewhere to go."
 msgstr ""
 
-#: onedesk/one_book/home.py:285
+#: onedesk/one_book/home.py:326
+msgid "Payments matched to invoices for many parties at once."
+msgstr ""
+
+#: onedesk/one_book/home.py:325
 msgid "Payments matched to the invoices they settle."
 msgstr ""
 
@@ -22759,6 +22963,10 @@ msgstr ""
 #. Name of a notification
 #: onedesk/notifications/one_hr/payslip_by_email.md
 msgid "Payslip by Email"
+msgstr ""
+
+#: onedesk/one_book/home.py:405
+msgid "Pegged Currencies"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Provisioning Job'
@@ -22879,7 +23087,7 @@ msgstr ""
 msgid "Period"
 msgstr ""
 
-#: onedesk/one_book/home.py:326
+#: onedesk/one_book/home.py:379
 msgid "Period Closing Voucher"
 msgstr ""
 
@@ -23503,7 +23711,7 @@ msgid "Present"
 msgstr ""
 
 #. Label of a number card
-#: frontend/src/home/HrHome.vue:134
+#: frontend/src/home/HrHome.vue:135
 #: onedesk/one_hr/number_card/present_today/present_today.json
 msgid "Present Today"
 msgstr ""
@@ -23724,12 +23932,20 @@ msgstr ""
 msgid "Problems fixed"
 msgstr ""
 
+#: onedesk/one_book/home.py:398
+msgid "Process Deferred Accounting"
+msgstr ""
+
 #: onedesk/public/js/floor_actions.js:73
 msgid "Process Loss Qty"
 msgstr ""
 
+#: onedesk/one_book/home.py:326
+msgid "Process Payment Reconciliation"
+msgstr ""
+
 #. Label of a Sidebar Item
-#: onedesk/one_book/home.py:276 onedesk/one_book/sidebar/onebook/onebook.json
+#: onedesk/one_book/home.py:315 onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Process Statement Of Accounts"
 msgstr ""
 
@@ -23809,7 +24025,7 @@ msgid "Profit This Month"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/home/BooksStory.vue:21 onedesk/one_book/home.py:290
+#: frontend/src/home/BooksStory.vue:21 onedesk/one_book/home.py:332
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Profit and Loss"
 msgstr ""
@@ -23818,7 +24034,7 @@ msgstr ""
 msgid "Profitability"
 msgstr ""
 
-#: onedesk/one_book/home.py:313
+#: onedesk/one_book/home.py:355
 msgid "Profitability Analysis"
 msgstr ""
 
@@ -24157,12 +24373,12 @@ msgid "Purchase Analytics"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/home/BooksHome.vue:232 onedesk/one_book/home.py:278
-#: onedesk/one_book/home.py:420 onedesk/one_book/sidebar/onebook/onebook.json
+#: frontend/src/home/BooksHome.vue:232 onedesk/one_book/home.py:317
+#: onedesk/one_book/home.py:498 onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Purchase Invoice"
 msgstr ""
 
-#: onedesk/one_book/home.py:315
+#: onedesk/one_book/home.py:357
 msgid "Purchase Invoice Trends"
 msgstr ""
 
@@ -24197,11 +24413,11 @@ msgstr ""
 msgid "Purchase Receipt"
 msgstr ""
 
-#: onedesk/one_book/home.py:306
+#: onedesk/one_book/home.py:348
 msgid "Purchase Register"
 msgstr ""
 
-#: onedesk/one_book/home.py:329
+#: onedesk/one_book/home.py:382
 msgid "Purchase Taxes and Charges Template"
 msgstr ""
 
@@ -24728,7 +24944,7 @@ msgid "Ready"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one/sidebar/one/one.json onedesk/one_book/home.py:281
+#: onedesk/one/sidebar/one/one.json onedesk/one_book/home.py:320
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:6
 #: onedesk/public/js/settings.js:2956
@@ -25713,6 +25929,14 @@ msgstr ""
 msgid "Reports by Mail"
 msgstr ""
 
+#: onedesk/one_book/home.py:410
+msgid "Repost Accounting Ledger"
+msgstr ""
+
+#: onedesk/one_book/home.py:411
+msgid "Repost Payment Ledger"
+msgstr ""
+
 #. Name of a notification
 #: onedesk/notifications/one_inventory/reposting_error_mail.md
 msgid "Reposting Error Mail"
@@ -25746,7 +25970,7 @@ msgstr ""
 msgid "Request For Quotation"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:271
+#: frontend/src/home/HrHome.vue:272
 msgid "Request Leave"
 msgstr ""
 
@@ -26460,13 +26684,13 @@ msgid "Sales Forecast"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/home/BooksHome.vue:215 onedesk/one_book/home.py:272
-#: onedesk/one_book/home.py:419 onedesk/one_book/sidebar/onebook/onebook.json
+#: frontend/src/home/BooksHome.vue:215 onedesk/one_book/home.py:311
+#: onedesk/one_book/home.py:497 onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_crm/home.py:107
 msgid "Sales Invoice"
 msgstr ""
 
-#: onedesk/one_book/home.py:314
+#: onedesk/one_book/home.py:356
 msgid "Sales Invoice Trends"
 msgstr ""
 
@@ -26515,7 +26739,7 @@ msgstr ""
 msgid "Sales Pipeline Analytics"
 msgstr ""
 
-#: onedesk/one_book/home.py:305
+#: onedesk/one_book/home.py:347
 msgid "Sales Register"
 msgstr ""
 
@@ -26525,7 +26749,7 @@ msgstr ""
 msgid "Sales Stage"
 msgstr ""
 
-#: onedesk/one_book/home.py:328 onedesk/one_crm/home.py:156
+#: onedesk/one_book/home.py:381 onedesk/one_crm/home.py:156
 msgid "Sales Taxes and Charges Template"
 msgstr ""
 
@@ -27448,7 +27672,7 @@ msgstr ""
 #. Label of a Card Break in the OneHR Setup Workspace
 #: onedesk/one/page/settings/settings.js:5 onedesk/one/sidebar/one/one.json
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
-#: onedesk/one_book/home.py:242 onedesk/one_crm/home.py:67
+#: onedesk/one_book/home.py:253 onedesk/one_crm/home.py:67
 #: onedesk/one_hr/home.py:46
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/one_inventory/home.py:67 onedesk/public/js/doctype_settings.js:1167
@@ -27517,6 +27741,22 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
+#: onedesk/one_book/home.py:368
+msgid "Share Balance"
+msgstr ""
+
+#: onedesk/one_book/home.py:369
+msgid "Share Ledger"
+msgstr ""
+
+#: onedesk/one_book/home.py:409
+msgid "Share Transfer"
+msgstr ""
+
+#: onedesk/one_book/home.py:408
+msgid "Share Type"
+msgstr ""
+
 #. Description of the 'Bill on Completion' (Percent) field in DocType 'Task'
 #: onedesk/one_project/custom/task.json
 #: onedesk/public/js/project_actions.js:650
@@ -27572,6 +27812,18 @@ msgstr ""
 #: onedesk/one_storage/namespace.py:374 onedesk/one_storage/namespace.py:625
 #: onedesk/one_storage/namespace.py:878
 msgid "Shared with Me"
+msgstr ""
+
+#: onedesk/one_book/home.py:407
+msgid "Shareholder"
+msgstr ""
+
+#: onedesk/one_book/home.py:258
+msgid "Shares"
+msgstr ""
+
+#: onedesk/one_book/home.py:409
+msgid "Shares issued, moved or bought back."
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:1938
@@ -28593,6 +28845,10 @@ msgstr ""
 msgid "Sources"
 msgstr ""
 
+#: onedesk/one_book/home.py:400
+msgid "South Africa VAT Settings"
+msgstr ""
+
 #: onedesk/one_studio/places.py:318
 msgid "Space Home"
 msgstr ""
@@ -28628,7 +28884,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #. Name of a report
-#: onedesk/one/sidebar/one/one.json onedesk/one_book/home.py:311
+#: onedesk/one/sidebar/one/one.json onedesk/one_book/home.py:353
 #: onedesk/one_intake/report/spending/spending.json
 #: onedesk/public/js/settings.js:2956
 msgid "Spending"
@@ -29509,6 +29765,10 @@ msgstr ""
 msgid "Subscribe"
 msgstr ""
 
+#: onedesk/one_book/home.py:402
+msgid "Subscription Settings"
+msgstr ""
+
 #: onedesk/one/portal.py:638 onedesk/one/print_blocks.py:467
 msgid "Subtotal"
 msgstr ""
@@ -29609,7 +29869,7 @@ msgstr ""
 #: frontend/src/quotes/QuoteRows.vue:9 frontend/src/sent_out/OutRows.vue:10
 #: frontend/src/to_order/ToOrderPage.vue:25
 #: frontend/src/to_order/ToOrderPage.vue:176 onedesk/one/print_blocks.py:109
-#: onedesk/one_book/home.py:280 onedesk/one_book/sidebar/onebook/onebook.json
+#: onedesk/one_book/home.py:319 onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_inventory/heads.py:1665 onedesk/one_inventory/home.py:132
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/one_project/doctype/project_contact/project_contact.json
@@ -29626,7 +29886,7 @@ msgstr ""
 msgid "Supplier Groups"
 msgstr ""
 
-#: onedesk/one_book/home.py:298
+#: onedesk/one_book/home.py:340
 msgid "Supplier Ledger Summary"
 msgstr ""
 
@@ -29683,6 +29943,10 @@ msgstr ""
 
 #: frontend/src/quotes/QuotesPage.vue:116
 msgid "Suppliers still to answer"
+msgstr ""
+
+#: onedesk/one_book/home.py:321
+msgid "Suppliers' electronic invoices read in from a zip file."
 msgstr ""
 
 #: onedesk/one_inventory/home.py:129
@@ -30002,7 +30266,7 @@ msgstr ""
 msgid "Tax Categories"
 msgstr ""
 
-#: onedesk/one/masters.py:26 onedesk/one_book/home.py:332
+#: onedesk/one/masters.py:26 onedesk/one_book/home.py:385
 msgid "Tax Category"
 msgstr ""
 
@@ -30040,15 +30304,15 @@ msgstr ""
 msgid "Tax Reference"
 msgstr ""
 
-#: onedesk/one_book/home.py:331
+#: onedesk/one_book/home.py:384
 msgid "Tax Rule"
 msgstr ""
 
-#: onedesk/one_book/home.py:333
+#: onedesk/one_book/home.py:386
 msgid "Tax Withholding Category"
 msgstr ""
 
-#: onedesk/one_book/home.py:318
+#: onedesk/one_book/home.py:360
 msgid "Tax Withholding Details"
 msgstr ""
 
@@ -30056,7 +30320,7 @@ msgstr ""
 msgid "Tax charged on sales"
 msgstr ""
 
-#: onedesk/one_book/home.py:333
+#: onedesk/one_book/home.py:386
 msgid "Tax held back from what is paid to suppliers."
 msgstr ""
 
@@ -30064,7 +30328,7 @@ msgstr ""
 msgid "Tax paid on purchases and expenses"
 msgstr ""
 
-#: onedesk/one_book/home.py:318
+#: onedesk/one_book/home.py:360
 msgid "Tax withheld from suppliers, payment by payment."
 msgstr ""
 
@@ -30076,7 +30340,7 @@ msgstr ""
 msgid "Taxable Amount"
 msgstr ""
 
-#: onedesk/one_book/home.py:207 onedesk/one_book/home.py:244
+#: onedesk/one_book/home.py:207 onedesk/one_book/home.py:255
 msgid "Taxes"
 msgstr ""
 
@@ -30525,11 +30789,11 @@ msgstr ""
 msgid "The Stripe payment, run or person that caused this entry."
 msgstr ""
 
-#: onedesk/one_book/home.py:317
+#: onedesk/one_book/home.py:359
 msgid "The UAE's VAT return, box by box."
 msgstr ""
 
-#: onedesk/one_book/home.py:316
+#: onedesk/one_book/home.py:358
 msgid "The VAT owed for a period, ready for the tax office."
 msgstr ""
 
@@ -30556,11 +30820,15 @@ msgstr ""
 msgid "The account holder"
 msgstr ""
 
-#: onedesk/one_book/home.py:321
+#: onedesk/one_book/home.py:400
+msgid "The accounts South Africa's VAT reports read."
+msgstr ""
+
+#: onedesk/one_book/home.py:374
 msgid "The accounts the UAE VAT 201 reads."
 msgstr ""
 
-#: onedesk/one_book/home.py:322
+#: onedesk/one_book/home.py:375
 msgid "The accounts the books are kept in."
 msgstr ""
 
@@ -30647,7 +30915,7 @@ msgstr ""
 msgid "The books can only be locked up to today."
 msgstr ""
 
-#: onedesk/one_book/home.py:300
+#: onedesk/one_book/home.py:342
 msgid "The books' bank balance against the statement's."
 msgstr ""
 
@@ -30709,7 +30977,7 @@ msgstr ""
 msgid "The company has no default bank account."
 msgstr ""
 
-#: onedesk/one_book/home.py:289
+#: onedesk/one_book/home.py:330
 msgid "The company's bank accounts."
 msgstr ""
 
@@ -30808,6 +31076,10 @@ msgstr ""
 
 #: onedesk/one_admin/billing.py:160
 msgid "The database uses {0} GB and the plan allows {1} GB."
+msgstr ""
+
+#: onedesk/one_book/home.py:331
+msgid "The dates payments cleared the bank, set in one go."
 msgstr ""
 
 #. When a notification is sent
@@ -31320,12 +31592,16 @@ msgstr ""
 msgid "The part of the market a lead or a customer is in."
 msgstr ""
 
-#: onedesk/one_book/home.py:323
+#: onedesk/one_book/home.py:376
 msgid "The parts of the business costs and income are kept by."
 msgstr ""
 
 #: onedesk/one_hr/rules.py:19
 msgid "The passkey was not unlocked with a face, fingerprint or PIN."
+msgstr ""
+
+#: onedesk/one_book/home.py:411
+msgid "The payment ledger rebuilt, so what is owed is right again."
 msgstr ""
 
 #: onedesk/www/welcome.html:19
@@ -31601,6 +31877,10 @@ msgstr ""
 msgid "The provider's own word. Nothing converts between units."
 msgstr ""
 
+#: onedesk/one_book/home.py:403
+msgid "The rate between two currencies on a day."
+msgstr ""
+
 #: onedesk/public/js/oneai/Record.vue:180
 msgid "The record changed after this was suggested."
 msgstr ""
@@ -31650,6 +31930,10 @@ msgstr ""
 
 #: onedesk/one_hr/home.py:552
 msgid "The roles people hold."
+msgstr ""
+
+#: onedesk/one_book/home.py:397
+msgid "The rows and formulas of a custom financial statement."
 msgstr ""
 
 #: onedesk/one_book/ready.py:159
@@ -31718,7 +32002,7 @@ msgstr ""
 msgid "The start date is after the end date."
 msgstr ""
 
-#: onedesk/one_book/home.py:294
+#: onedesk/one_book/home.py:336
 msgid "The statements of several companies as one."
 msgstr ""
 
@@ -31761,11 +32045,11 @@ msgstr ""
 msgid "The task stays closed. Open it if the document changes anything."
 msgstr ""
 
-#: onedesk/one_book/home.py:329
+#: onedesk/one_book/home.py:382
 msgid "The taxes a purchase carries."
 msgstr ""
 
-#: onedesk/one_book/home.py:328 onedesk/one_crm/home.py:156
+#: onedesk/one_book/home.py:381 onedesk/one_crm/home.py:156
 msgid "The taxes a sale carries."
 msgstr ""
 
@@ -31799,6 +32083,10 @@ msgstr ""
 
 #: onedesk/one_intake/drafts.py:34
 msgid "The total is {0}, but the document says {1}."
+msgstr ""
+
+#: onedesk/one_book/home.py:361
+msgid "The trial balances of several companies as one."
 msgstr ""
 
 #: frontend/portal/src/pages/Password.vue:15
@@ -31936,7 +32224,7 @@ msgstr ""
 msgid "The year's books closed and audited, from the last invoice to the signed accounts."
 msgstr ""
 
-#: onedesk/one_book/home.py:324
+#: onedesk/one_book/home.py:377
 msgid "The years the books are kept and closed in."
 msgstr ""
 
@@ -32897,7 +33185,7 @@ msgid "To-dos given to you"
 msgstr ""
 
 #: frontend/src/home/BooksHome.vue:101 frontend/src/home/CrmHome.vue:101
-#: frontend/src/home/HrHome.vue:118 frontend/src/home/HrHome.vue:224
+#: frontend/src/home/HrHome.vue:119 frontend/src/home/HrHome.vue:225
 #: frontend/src/home/InventoryHome.vue:100
 #: frontend/src/project/MilestoneLanes.vue:22
 #: frontend/src/project/Milestones.vue:32 frontend/src/project/Overview.vue:276
@@ -32960,7 +33248,7 @@ msgstr ""
 msgid "Told to OneAI whenever somebody is on this type's list or form. Leave empty for a note it finds when it looks."
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:224 frontend/src/project/Milestones.vue:32
+#: frontend/src/home/HrHome.vue:225 frontend/src/project/Milestones.vue:32
 #: frontend/src/project/Overview.vue:332 onedesk/one_task/mine.py:18
 msgid "Tomorrow"
 msgstr ""
@@ -33258,11 +33546,15 @@ msgid "Triage Grievances"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_book/home.py:293 onedesk/one_book/sidebar/onebook/onebook.json
+#: onedesk/one_book/home.py:335 onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Trial Balance"
 msgstr ""
 
-#: onedesk/one_book/home.py:299
+#: onedesk/one_book/home.py:362
+msgid "Trial Balance (Simple)"
+msgstr ""
+
+#: onedesk/one_book/home.py:341
 msgid "Trial Balance for Party"
 msgstr ""
 
@@ -33385,6 +33677,10 @@ msgstr ""
 msgid "Two bills of materials side by side."
 msgstr ""
 
+#: onedesk/one_book/home.py:412
+msgid "Two or more accounts combined into one."
+msgstr ""
+
 #: onedesk/public/js/settings.js:587
 msgid "Two-Factor Authentication"
 msgstr ""
@@ -33411,11 +33707,11 @@ msgid "Type"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_book/home.py:317 onedesk/one_book/sidebar/onebook/onebook.json
+#: onedesk/one_book/home.py:359 onedesk/one_book/sidebar/onebook/onebook.json
 msgid "UAE VAT 201"
 msgstr ""
 
-#: onedesk/one_book/home.py:321
+#: onedesk/one_book/home.py:374
 msgid "UAE VAT Settings"
 msgstr ""
 
@@ -33980,6 +34276,10 @@ msgstr ""
 msgid "Utilization"
 msgstr ""
 
+#: onedesk/one_book/home.py:371
+msgid "VAT Audit Report"
+msgstr ""
+
 #. Option for the 'Kind' (Select) field in DocType 'Identifier'
 #. Label of the vat_id (Data) field in DocType 'Reading Party'
 #: onedesk/one_intake/doctype/identifier/identifier.json
@@ -33990,7 +34290,7 @@ msgstr ""
 
 #. Name of a report
 #. Label of a Sidebar Item
-#: onedesk/one_book/home.py:316
+#: onedesk/one_book/home.py:358
 #: onedesk/one_book/report/vat_return/vat_return.json
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "VAT Return"
@@ -34239,6 +34539,10 @@ msgstr ""
 msgid "Void"
 msgstr ""
 
+#: onedesk/one_book/home.py:366
+msgid "Voucher-wise Balance"
+msgstr ""
+
 #: onedesk/public/js/doctype_settings.js:630
 msgid "Wait"
 msgstr ""
@@ -34292,7 +34596,7 @@ msgstr ""
 msgid "Waiting for Prices"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:233 onedesk/public/js/privacy_copy_list.js:9
+#: frontend/src/home/HrHome.vue:234 onedesk/public/js/privacy_copy_list.js:9
 #: onedesk/public/js/privacy_request_list.js:10
 msgid "Waiting for You"
 msgstr ""
@@ -34733,7 +35037,7 @@ msgstr ""
 msgid "What changed today?"
 msgstr ""
 
-#: onedesk/one_book/home.py:327
+#: onedesk/one_book/home.py:380
 msgid "What customers and suppliers owed when you started."
 msgstr ""
 
@@ -34805,7 +35109,7 @@ msgstr ""
 msgid "What each check saw when this log was written."
 msgstr ""
 
-#: onedesk/one_book/home.py:302
+#: onedesk/one_book/home.py:344
 msgid "What each customer owes, by how late."
 msgstr ""
 
@@ -34829,7 +35133,7 @@ msgstr ""
 msgid "What each person costs, part by part."
 msgstr ""
 
-#: onedesk/one_book/home.py:312
+#: onedesk/one_book/home.py:354
 msgid "What each sale made over what it cost."
 msgstr ""
 
@@ -34899,7 +35203,7 @@ msgstr ""
 msgid "What is missing from my profile?"
 msgstr ""
 
-#: onedesk/one_book/home.py:319 onedesk/one_inventory/home.py:186
+#: onedesk/one_book/home.py:372 onedesk/one_inventory/home.py:186
 msgid "What is not set up yet, with the fix."
 msgstr ""
 
@@ -35074,7 +35378,7 @@ msgstr ""
 msgid "What suppliers are making for you."
 msgstr ""
 
-#: onedesk/one_book/home.py:278
+#: onedesk/one_book/home.py:317
 msgid "What suppliers have billed you."
 msgstr ""
 
@@ -35103,11 +35407,11 @@ msgstr ""
 msgid "What the company hands over up front, before anything is spent or claimed."
 msgstr ""
 
-#: onedesk/one_book/home.py:291
+#: onedesk/one_book/home.py:333
 msgid "What the company owns and owes on a day."
 msgstr ""
 
-#: onedesk/one_book/home.py:311
+#: onedesk/one_book/home.py:353
 msgid "What the company spent, by supplier and kind."
 msgstr ""
 
@@ -35298,7 +35602,7 @@ msgstr ""
 msgid "What was added to the plan. Changed from the workspace, through Stripe."
 msgstr ""
 
-#: onedesk/one_book/home.py:315
+#: onedesk/one_book/home.py:357
 msgid "What was billed, period against period."
 msgstr ""
 
@@ -35331,7 +35635,7 @@ msgstr ""
 msgid "What was exported or printed in the last week, by whom, and was any of it large?"
 msgstr ""
 
-#: onedesk/one_book/home.py:314
+#: onedesk/one_book/home.py:356
 msgid "What was invoiced, period against period."
 msgstr ""
 
@@ -35352,7 +35656,7 @@ msgstr ""
 msgid "What was said about {project} on {date}"
 msgstr ""
 
-#: onedesk/one_book/home.py:295
+#: onedesk/one_book/home.py:337
 msgid "What was spent against the budget."
 msgstr ""
 
@@ -35413,11 +35717,11 @@ msgstr ""
 msgid "What you exported or printed, without the pages"
 msgstr ""
 
-#: onedesk/one_book/home.py:272
+#: onedesk/one_book/home.py:311
 msgid "What you have billed customers."
 msgstr ""
 
-#: onedesk/one_book/home.py:304
+#: onedesk/one_book/home.py:346
 msgid "What you owe each supplier, by how late."
 msgstr ""
 
@@ -35987,7 +36291,7 @@ msgstr ""
 msgid "When an invited address opens a shared link. It can't be turned off."
 msgstr ""
 
-#: onedesk/one_book/home.py:334
+#: onedesk/one_book/home.py:387
 msgid "When an invoice falls due, in one part or several."
 msgstr ""
 
@@ -36757,6 +37061,10 @@ msgstr ""
 msgid "Where equipment is kept."
 msgstr ""
 
+#: onedesk/one_book/home.py:404
+msgid "Where exchange rates are fetched from."
+msgstr ""
+
 #: onedesk/www/start.html:45
 msgid "Where files are kept"
 msgstr ""
@@ -36786,7 +37094,7 @@ msgstr ""
 msgid "Where stock is kept."
 msgstr ""
 
-#: onedesk/one_book/home.py:292
+#: onedesk/one_book/home.py:334
 msgid "Where the cash came from and went."
 msgstr ""
 
@@ -36804,6 +37112,10 @@ msgstr ""
 #. Mount'
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 msgid "Where the folder starts. The server's top when left as /."
+msgstr ""
+
+#: onedesk/one_book/home.py:415
+msgid "Where the general and payment ledgers disagree."
 msgstr ""
 
 #. Description of the 'Original' (Data) field in DocType 'Communication'
@@ -37053,8 +37365,12 @@ msgstr ""
 msgid "Which suppliers have not answered a request for prices yet, what were they asked for and since when?"
 msgstr ""
 
-#: onedesk/one_book/home.py:331
+#: onedesk/one_book/home.py:384
 msgid "Which tax template a sale or purchase takes, by party and place."
+msgstr ""
+
+#: onedesk/one_book/home.py:392
+msgid "Which values of a dimension an account may take."
 msgstr ""
 
 #: onedesk/one/ai.py:260
@@ -37204,8 +37520,12 @@ msgstr ""
 msgid "Who owes us the most, and how late?"
 msgstr ""
 
-#: onedesk/one_book/home.py:301
+#: onedesk/one_book/home.py:343
 msgid "Who owes you, and how late."
+msgstr ""
+
+#: onedesk/one_book/home.py:407
+msgid "Who owns shares in the company."
 msgstr ""
 
 #: onedesk/one/account.py:461
@@ -37255,7 +37575,7 @@ msgstr ""
 msgid "Who worked on this?"
 msgstr ""
 
-#: onedesk/one_book/home.py:280
+#: onedesk/one_book/home.py:319
 msgid "Who you buy from, and what you owe each."
 msgstr ""
 
@@ -37268,7 +37588,7 @@ msgstr ""
 msgid "Who you invoice. OneCRM turns a lead into one of these, and Books bills them."
 msgstr ""
 
-#: onedesk/one_book/home.py:274
+#: onedesk/one_book/home.py:313
 msgid "Who you sell to, and what each owes."
 msgstr ""
 
@@ -37463,7 +37783,7 @@ msgstr ""
 msgid "Whoever was taken off"
 msgstr ""
 
-#: onedesk/one_book/home.py:303
+#: onedesk/one_book/home.py:345
 msgid "Whom you owe, and when it falls due."
 msgstr ""
 
@@ -38684,7 +39004,7 @@ msgstr ""
 msgid "Your Request Is On Hold"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:234
+#: frontend/src/home/HrHome.vue:235
 msgid "Your Requests"
 msgstr ""
 
@@ -38723,13 +39043,17 @@ msgstr ""
 msgid "Your appraisal for {cycle} has started"
 msgstr ""
 
-#: onedesk/one_book/home.py:286
+#: onedesk/one_book/home.py:327
 msgid "Your bank statement matched to what is in the books."
 msgstr ""
 
 #. Message of a notification
 #: onedesk/notifications/one_admin/payment_failed.md
 msgid "Your card was not charged. Unless it is paid, {workspace} is suspended on {date}. Pay it, or change your card, on your One account."
+msgstr ""
+
+#: onedesk/one_book/home.py:396
+msgid "Your chart of accounts read in from a spreadsheet."
 msgstr ""
 
 #. Subject of a notification
@@ -40048,7 +40372,7 @@ msgid "video"
 msgstr ""
 
 #: frontend/src/home/BooksHome.vue:144 frontend/src/home/CrmHome.vue:146
-#: frontend/src/home/HrHome.vue:166 frontend/src/home/InventoryHome.vue:143
+#: frontend/src/home/HrHome.vue:167 frontend/src/home/InventoryHome.vue:143
 msgid "vs last month"
 msgstr ""
 
@@ -40170,15 +40494,15 @@ msgstr ""
 msgid "{0} Batches Expiring Soon"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:178
+#: frontend/src/home/HrHome.vue:179
 msgid "{0} Check-ins Flagged"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:180
+#: frontend/src/home/HrHome.vue:181
 msgid "{0} Contracts or Probations Ending"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:179
+#: frontend/src/home/HrHome.vue:180
 msgid "{0} Documents Expiring"
 msgstr ""
 
@@ -40201,7 +40525,7 @@ msgstr ""
 msgid "{0} GB storage"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:181
+#: frontend/src/home/HrHome.vue:182
 msgid "{0} Interviews Today"
 msgstr ""
 
@@ -40213,7 +40537,7 @@ msgstr ""
 msgid "{0} Late Orders"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:153
+#: frontend/src/home/HrHome.vue:154
 msgid "{0} Left"
 msgstr ""
 
@@ -40245,7 +40569,7 @@ msgstr ""
 msgid "{0} Quotations Expiring"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:177
+#: frontend/src/home/HrHome.vue:178
 msgid "{0} Requests Waiting for You"
 msgstr ""
 
@@ -41557,7 +41881,7 @@ msgid "{0} months"
 msgstr ""
 
 #: frontend/src/home/BooksHome.vue:198 frontend/src/home/CrmHome.vue:218
-#: frontend/src/home/HrHome.vue:230 frontend/src/home/InventoryHome.vue:200
+#: frontend/src/home/HrHome.vue:231 frontend/src/home/InventoryHome.vue:200
 #: frontend/src/project/ProjectActivity.vue:48
 msgid "{0} more"
 msgstr ""
@@ -41668,7 +41992,7 @@ msgstr ""
 msgid "{0} of {1} credits left. No expiry."
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:153
+#: frontend/src/home/HrHome.vue:154
 msgid "{0} of {1} days"
 msgstr ""
 
