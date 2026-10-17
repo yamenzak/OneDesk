@@ -63,6 +63,10 @@ ANSWERS = {
 	("DocType", "POS Settings"): (LEFT_OUT, POS),
 	("DocType", "Cashier Closing"): (LEFT_OUT, POS),
 	("Page", "point-of-sale"): (LEFT_OUT, POS),
+	# OneCRM
+	("Page", "sales-funnel"): (REPLACED, "OneCRM's Home, whose funnel counts leads, opportunities and quotations"),
+	# OneProject
+	("DocType", "Activity Cost"): (INSIDE, "an Activity Type's Connections, one rate for each person"),
 	# OneInventory
 	("DocType", "Bin"): (ENGINE, "what each warehouse holds of each item; Stock Summary reads it"),
 	("DocType", "Stock Ledger Entry"): (

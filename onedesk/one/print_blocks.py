@@ -34,6 +34,8 @@ TITLES = {
 	"Timesheet": (_lt("Timesheet"), _lt("Timesheet No")),
 	"Contract": (_lt("Contract"), _lt("Contract No")),
 	"Project": (_lt("Project Status"), _lt("Project")),
+	"Maintenance Schedule": (_lt("Maintenance Plan"), _lt("Plan No")),
+	"Maintenance Visit": (_lt("Service Report"), _lt("Report No")),
 }
 
 #: Each record's dates and references, in the order they are printed.
@@ -94,6 +96,12 @@ DETAILS = {
 		(_lt("Signed On"), "signed_on"),
 	),
 	"Project": ((_lt("Starts On"), "expected_start_date"), (_lt("Ends On"), "expected_end_date")),
+	"Maintenance Schedule": ((_lt("Date"), "transaction_date"),),
+	"Maintenance Visit": (
+		(_lt("Date"), "mntc_date"),
+		(_lt("Type"), "maintenance_type"),
+		(_lt("Status"), "completion_status"),
+	),
 }
 
 #: The purposes that move goods from one warehouse to another, printed as a
@@ -127,6 +135,8 @@ PARTIES = {
 	"Timesheet": (_lt("Employee"), "employee_name"),
 	"Contract": (_lt("Agreed With"), "party_full_name"),
 	"Project": (_lt("Prepared For"), "customer"),
+	"Maintenance Schedule": (_lt("Prepared For"), "customer_name"),
+	"Maintenance Visit": (_lt("Customer"), "customer_name"),
 }
 
 #: The format each record that leaves the company prints with, and the module
@@ -153,6 +163,8 @@ FORMATS = {
 	"Timesheet": ("One Timesheet", "one_project"),
 	"Contract": ("One Contract", "one_crm"),
 	"Project": ("One Project Status", "one_project"),
+	"Maintenance Schedule": ("One Maintenance Plan", "one_crm"),
+	"Maintenance Visit": ("One Service Report", "one_crm"),
 }
 
 #: Who signs a paper that is signed and handed back: the company's side, then
@@ -172,6 +184,8 @@ SIGNED = {
 	# The customer billed for the time signs that the hours are theirs.
 	"Timesheet": ((_lt("For {0}"), "company"), (_lt("Approved By"), None)),
 	"Contract": ((_lt("For {0}"), "company"), (_lt("For {0}"), "party_full_name")),
+	# The customer signs that the work was done.
+	"Maintenance Visit": ((_lt("Serviced By"), None), (_lt("Accepted By"), "customer_name")),
 }
 
 #: The colour a page has when the company has no Brand Colour.

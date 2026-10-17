@@ -1327,6 +1327,11 @@ one_module_heirs = {
 	"Accounts": ["OneBook"],
 	"CRM": ["OneCRM"],
 	"Selling": ["OneCRM"],
+	# Its quality management beside OneInventory's, and its service desk and phones beside OneCRM's.
+	"Quality Management": ["OneInventory"],
+	"Support": ["OneCRM"],
+	"Maintenance": ["OneCRM"],
+	"Telephony": ["OneCRM"],
 }
 
 # Kinds of record a module's code makes without a name or a model to ask; Numbering keeps them

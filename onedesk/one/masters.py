@@ -23,6 +23,8 @@ KINDS = (
 	("OneCRM", "Market Segment", _lt("Market Segments"), _lt("Market Segment")),
 	("OneCRM", "UTM Source", _lt("Lead Sources"), _lt("Lead Source")),
 	("OneCRM", "Opportunity Lost Reason", _lt("Lost Reasons"), _lt("Lost Reason")),
+	("OneCRM", "Issue Type", _lt("Issue Types"), _lt("Issue Type")),
+	("OneCRM", "Issue Priority", _lt("Issue Priorities"), _lt("Issue Priority")),
 	("OneBook", "Tax Category", _lt("Tax Categories"), _lt("Tax Category")),
 	("OneBook", "Finance Book", _lt("Finance Books"), _lt("Finance Book")),
 	("OneInventory", "Item Group", _lt("Item Groups"), _lt("Item Group")),

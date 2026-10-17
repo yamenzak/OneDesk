@@ -23,8 +23,10 @@ The rail on the left has the whole of OneCRM in it:
 - **Customer** — somebody who has bought, or is about to.
 - **Prospect** — a business you want to sell to. Its people are contacts, in
   One's **Address Book** with every other app's.
-- **Selling** and **Campaign** — one group each, opened with the arrow.
-  Quotations, sales orders, appointments and contracts are under Selling.
+- **Selling**, **Campaign** and **Support** — one group each, opened with the
+  arrow. Quotations, sales orders, appointments and contracts are under
+  Selling. Support is what comes after the sale: issues, warranty claims,
+  maintenance schedules and the visits that keep them.
 - **Reports** and **Setup** — open their part of Home: every sales report,
   and every setting and list OneCRM keeps, each with what it is for. A sales order is what a won opportunity becomes: OneInventory
   delivers it and OneBook invoices it. At its top it says its project and
@@ -334,9 +336,22 @@ Settings**, **Get in Touch Form**, **Sales Stage**, **Sales Person**,
 **Assignment Rule**, the lists a lead and an opportunity are sorted by —
 **Lead Source**, **Opportunity Lost Reason**, **Territory**, **Customer Group**,
 **Industry Type**, **Market Segment** — and the prices and terms a quotation
-carries. The lists are kept in One's **Masters**. **Campaign** in the rail has
-Campaign, Email Campaign and Email Group; Campaign Efficiency is under
-Reports. The workspace's mailboxes are in Settings › Mail.
+carries, among them a **Promotional Scheme** and the **Party Specific Items**
+a customer is offered. **Support** has Support Settings, the **Service Level
+Agreement**, Issue Type and Issue Priority; **Telephony** the call types and
+who answers which line when. The lists are kept in One's **Masters**.
+**Campaign** in the rail has Campaign, Email Campaign and Email Group, and
+Home's Campaign adds the SMS Center; Campaign Efficiency is under Reports.
+The workspace's mailboxes are in Settings › Mail.
+
+**Support** in the rail is ERPNext's service desk. An **Issue** is a
+customer's complaint or question until it is resolved, timed against the
+service level agreement. A **Warranty Claim** is something sold that broke;
+**Make Maintenance Visit** on it sends somebody. A **Maintenance Schedule**
+promises a customer visits over a year, and each **Maintenance Visit**
+records the work done; a visit prints as a **Service Report** the customer
+signs, and a schedule as a **Maintenance Plan**. Issue's own reports are
+under Reports' Support.
 
 A Sales Manager runs Email Campaign, Email Group, Lead Source and Assignment
 Rule, and a Sales User reads them. ERPNext gives them only to its
@@ -545,6 +560,13 @@ added: contracts stay with ERPNext's roles.
 - Only a **System Manager** could open what the Campaign group and Setup
   link to: Email Campaign, Email Group, Lead Source and Assignment Rule. A
   Sales Manager now runs them and a Sales User reads them (`GIVEN`).
+- ERPNext gives its service desk to a **Support Team** and a **Maintenance
+  User** People never hands out, and its telephony, SMS Center and Party
+  Specific Items to the System Manager. Sales now works issues, warranty
+  claims, maintenance schedules and visits, and the Sales Manager keeps
+  their settings and lists (`SUPPORT`, `SUPPORT_LISTS`, `GIVEN`). Issue's
+  four reports are opened to both through frappe's Custom Role
+  (`roles.open_report`).
 - A **Sales Manager** keeps the Assignment Rules that share out leads and
   opportunities, and only those: a rule of theirs is on a lead or an opportunity, and decides
   by comparing the record's own fields with plain values, `utm_source ==

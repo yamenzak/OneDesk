@@ -802,6 +802,19 @@ ERPNext's own.
 OneAI answers **Which lots go off soon?** and **Where is each numbered
 piece?** on the page, from `lots_and_numbers`.
 
+## Quality
+
+Home's **Quality** has ERPNext's quality management beside the inspections.
+A **Quality Procedure** says how a piece of work is done, step by step. A
+**Quality Goal** says what the business means to achieve against it, and how
+often it is checked; each check is a **Quality Review**, objective by
+objective, and a failed one asks for a **Quality Action**, with who fixes what
+by when. Work that did not follow its procedure is a **Non Conformance**. The
+**Quality Meeting** keeps an agenda and minutes that point at reviews and
+actions, and **Quality Feedback** asks a customer or a colleague the
+questions of a template (Setup's Quality). The **Review** report lists every
+action with the review it came from.
+
 ## When stock and the books disagree
 
 A back-dated entry, such as a count dated last week, makes ERPNext
@@ -1394,5 +1407,12 @@ roles have them:
   people who use stock and buying read them.
 - **Quality Inspections**: a Stock User records one, a Stock Manager runs
   them.
+- **Quality management** (goals, procedures, reviews, actions, non
+  conformances, meetings and feedback), which ERPNext gives a Quality
+  Manager: a Stock User records them, a Stock Manager runs them and keeps
+  the feedback templates (`QUALITY`). The Review report is opened to both
+  through frappe's Custom Role (`roles.open_report`).
+- **UOM Conversion Factors**, the System Manager's alone: read by stock,
+  kept by its managers.
 - **Suppliers**: ERPNext lets only a Purchase Master Manager add one. Buying
   adds its suppliers, and its manager removes them (`RAISED`).

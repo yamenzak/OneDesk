@@ -25,6 +25,7 @@ GROUPS = (
 	("pipeline", _lt("Sales Pipeline")),
 	("sales", _lt("Selling")),
 	("campaigns", _lt("Campaign")),
+	("support", _lt("Support")),
 	("reports", _lt("Reports")),
 	("setup", _lt("Setup")),
 )
@@ -34,6 +35,7 @@ REPORT_SECTIONS = (
 	("leads", _lt("Lead")),
 	("sales", _lt("Selling")),
 	("customers", _lt("Customer")),
+	("support", _lt("Support")),
 )
 REPORT_TOPICS = {
 	"Opportunity Forecast": "pipeline",
@@ -61,6 +63,11 @@ REPORT_TOPICS = {
 	"Inactive Customers": "customers",
 	"Customer Acquisition and Loyalty": "customers",
 	"Customers Without Any Sales Transactions": "customers",
+	"Issue Summary": "support",
+	"Issue Analytics": "support",
+	"First Response Time for Issues": "support",
+	"Support Hour Distribution": "support",
+	"Maintenance Schedules": "support",
 }
 #: What a part of Setup is about, as Setup sets them out, the settings first.
 SETUP_SECTIONS = (
@@ -68,6 +75,8 @@ SETUP_SECTIONS = (
 	("selling", _lt("Selling")),
 	("lists", _lt("Masters")),
 	("terms", _lt("Pricing")),
+	("support", _lt("Support")),
+	("calls", _lt("Telephony")),
 )
 SETUP_TOPICS = {
 	"CRM Settings": "settings",
@@ -90,6 +99,15 @@ SETUP_TOPICS = {
 	"Pricing Rule": "terms",
 	"Terms and Conditions": "terms",
 	"Sales Taxes and Charges Template": "terms",
+	"Promotional Scheme": "terms",
+	"Party Specific Item": "terms",
+	"Support Settings": "support",
+	"Service Level Agreement": "support",
+	"Issue Type": "support",
+	"Issue Priority": "support",
+	"Telephony Call Type": "calls",
+	"Incoming Call Settings": "calls",
+	"Voice Call Settings": "calls",
 }
 
 #: Each called what ERPNext calls what it opens, a filtered list as ERPNext's
@@ -102,6 +120,7 @@ EVERYTHING = (
 	("pipeline", _lt("Contact"), "DocType", "Contact", _lt("The people at your customers and prospects.")),
 	("pipeline", _lt("Appointment"), "DocType", "Appointment", _lt("A meeting booked with a lead or a customer.")),
 	("pipeline", _lt("Contract"), "DocType", "Contract", _lt("What a customer signs, and until when.")),
+	("pipeline", _lt("Call Log"), "DocType", "Call Log", _lt("Every call made and taken, and who it was with.")),
 	("sales", _lt("Quotation"), "DocType", "Quotation", _lt("A price sent to a lead or a customer.")),
 	("sales", _lt("Sales Order"), "DocType", "Sales Order", _lt("A quotation the customer said yes to.")),
 	("sales", _lt("Sales Invoice"), "DocType", "Sales Invoice", _lt("What a sales order is billed with, in OneBook.")),
@@ -109,6 +128,11 @@ EVERYTHING = (
 	("campaigns", _lt("Campaign"), "DocType", "Campaign", _lt("Where a lead came from, to count what each campaign brought.")),
 	("campaigns", _lt("Email Campaign"), "DocType", "Email Campaign", _lt("Mail sent to a lead or a contact on a schedule.")),
 	("campaigns", _lt("Email Group"), "DocType", "Email Group", _lt("A list of addresses a newsletter goes to.")),
+	("campaigns", _lt("SMS Center"), "DocType", "SMS Center", _lt("A text message sent to customers, suppliers or staff at once.")),
+	("support", _lt("Issue"), "DocType", "Issue", _lt("A customer's complaint or question, until it is resolved.")),
+	("support", _lt("Warranty Claim"), "DocType", "Warranty Claim", _lt("Something sold that broke, and whether the warranty covers it.")),
+	("support", _lt("Maintenance Schedule"), "DocType", "Maintenance Schedule", _lt("The visits promised to keep what a customer bought working.")),
+	("support", _lt("Maintenance Visit"), "DocType", "Maintenance Visit", _lt("A visit to a customer, and the work done.")),
 	("reports", _lt("Opportunity Forecast"), "Report", "Opportunity Forecast", _lt("What the open opportunities will bring in, month by month.")),
 	("reports", _lt("Won and Lost"), "Report", "Won and Lost", _lt("Opportunities won and lost, and the win rate.")),
 	("reports", _lt("Time in Sales Stage"), "Report", "Time in Sales Stage", _lt("How long opportunities stay in each stage, and take to win.")),
@@ -134,6 +158,11 @@ EVERYTHING = (
 	("reports", _lt("Inactive Customers"), "Report", "Inactive Customers", _lt("Customers who have not ordered for a while.")),
 	("reports", _lt("Customer Acquisition and Loyalty"), "Report", "Customer Acquisition and Loyalty", _lt("New customers against returning ones, month by month.")),
 	("reports", _lt("Customers Without Any Sales Transactions"), "Report", "Customers Without Any Sales Transactions", _lt("Customers who have never been billed.")),
+	("reports", _lt("Issue Summary"), "Report", "Issue Summary", _lt("Issues opened, replied to and resolved, by who handled them.")),
+	("reports", _lt("Issue Analytics"), "Report", "Issue Analytics", _lt("Issues by customer, type or priority, month by month.")),
+	("reports", _lt("First Response Time for Issues"), "Report", "First Response Time for Issues", _lt("How fast issues were first answered.")),
+	("reports", _lt("Support Hour Distribution"), "Report", "Support Hour Distribution", _lt("The hours of the day issues come in.")),
+	("reports", _lt("Maintenance Schedules"), "Report", "Maintenance Schedules", _lt("Every visit due, by customer and item.")),
 	("setup", _lt("CRM Settings"), "DocType", "CRM Settings", _lt("How leads, opportunities and quotations work.")),
 	("setup", _lt("Selling Settings"), "DocType", "Selling Settings", _lt("How quotations, orders and prices work.")),
 	("setup", _lt("Appointment Booking Settings"), "DocType", "Appointment Booking Settings", _lt("When customers may book a meeting, and with whom.")),
@@ -154,6 +183,15 @@ EVERYTHING = (
 	("setup", _lt("Pricing Rule"), "DocType", "Pricing Rule", _lt("A discount or price for some customers, items or quantities.")),
 	("setup", _lt("Terms and Conditions"), "DocType", "Terms and Conditions", _lt("The terms a quotation and an order carry.")),
 	("setup", _lt("Sales Taxes and Charges Template"), "DocType", "Sales Taxes and Charges Template", _lt("The taxes a sale carries.")),
+	("setup", _lt("Promotional Scheme"), "DocType", "Promotional Scheme", _lt("A promotion with tiers of discount or free items.")),
+	("setup", _lt("Party Specific Item"), "DocType", "Party Specific Item", _lt("The only items a customer or supplier is offered.")),
+	("setup", _lt("Support Settings"), "DocType", "Support Settings", _lt("When issues close by themselves, and what the help page shows.")),
+	("setup", _lt("Service Level Agreement"), "DocType", "Service Level Agreement", _lt("How fast an issue must be answered and resolved, by priority.")),
+	("setup", _lt("Issue Type"), "Masters", "Issue Type", _lt("Kinds of issue, such as a fault or a question.")),
+	("setup", _lt("Issue Priority"), "Masters", "Issue Priority", _lt("How urgent an issue is.")),
+	("setup", _lt("Telephony Call Type"), "DocType", "Telephony Call Type", _lt("What a call was about.")),
+	("setup", _lt("Incoming Call Settings"), "DocType", "Incoming Call Settings", _lt("Who answers calls to a number, on which days and hours.")),
+	("setup", _lt("Voice Call Settings"), "DocType", "Voice Call Settings", _lt("Whether a person takes calls, and what callers hear.")),
 )
 
 

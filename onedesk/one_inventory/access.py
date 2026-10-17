@@ -29,8 +29,21 @@ SCORING = (
 	"Supplier Scorecard Variable",
 )
 
+#: ERPNext's quality management, which it gives a Quality Manager that People
+#: never hands out.
+QUALITY = (
+	"Quality Goal",
+	"Quality Procedure",
+	"Quality Review",
+	"Quality Action",
+	"Non Conformance",
+	"Quality Meeting",
+	"Quality Feedback",
+)
+
 GIVEN = (
 	{doctype: {STOCK_USER: roles.USE, STOCK_MANAGER: roles.MANAGE} for doctype in REGISTER}
+	| {doctype: {STOCK_USER: roles.WORK, STOCK_MANAGER: roles.MANAGE} for doctype in QUALITY}
 	| {doctype: {STOCK_USER: roles.WORK, STOCK_MANAGER: roles.MANAGE} for doctype in UPKEEP}
 	| {
 		# What an item sells and is bought for. ERPNext gives prices to the
@@ -96,6 +109,8 @@ GIVEN["Item Lead Time"] = {
 	"Purchase Manager": roles.MANAGE,
 	"Manufacturing Manager": roles.MANAGE,
 }
+GIVEN["Quality Feedback Template"] = {STOCK_USER: roles.USE, STOCK_MANAGER: roles.MANAGE}
+GIVEN["UOM Conversion Factor"] = {STOCK_USER: roles.USE, STOCK_MANAGER: roles.MANAGE, "Item Manager": roles.MANAGE}
 GIVEN["Delivery Settings"] = {"Stock Manager": ("read", "write")}
 # The crate sizes a shipment's parcels start from, the System Manager's alone.
 GIVEN["Shipment Parcel Template"] = {"Stock User": roles.USE, "Stock Manager": roles.MANAGE}
@@ -112,4 +127,5 @@ RAISED = {"Supplier": {"Purchase User": ("read", "write", "create"), "Purchase M
 
 def settle() -> None:
 	roles.give(GIVEN)
+	roles.open_report("Review", STOCK_USER, STOCK_MANAGER)
 	roles.raise_once(RAISED)

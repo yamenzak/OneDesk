@@ -47,7 +47,9 @@ places, and its reports below them.
 On a phone, tap the place's name at the top, **Project**, to go to another.
 A project's page and a template's page have no panel. There, **Project** or
 **Project Template** at the top goes to another of the four places. **Activity Type**, what an hour of each
-activity costs and is billed at, is in the ··· menu on **Project**.
+activity costs and is billed at, is in the ··· menu on **Project**, and so
+is **Project Update**, the progress notes a project's people send when its
+Collect Progress asks them.
 
 On a project's page, its name at the top opens your other open projects and
 **All Projects**. Its sub-projects are in the step after its name.

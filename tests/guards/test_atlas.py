@@ -15,19 +15,19 @@ import atlas
 #: What each module still has with no way in and no answer. Lower it as each
 #: is placed or answered; it may never rise.
 WAITING = {
-	"erpnext / Accounts": 1,
+	"erpnext / Accounts": 0,
 	"erpnext / Bulk Transaction": 2,
 	"erpnext / Communication": 1,
 	"erpnext / EDI": 2,
 	"erpnext / ERPNext Integrations": 1,
-	"erpnext / Maintenance": 2,
-	"erpnext / Projects": 2,
-	"erpnext / Quality Management": 9,
+	"erpnext / Maintenance": 0,
+	"erpnext / Projects": 0,
+	"erpnext / Quality Management": 0,
 	"erpnext / Regional": 0,
-	"erpnext / Selling": 3,
-	"erpnext / Setup": 6,
-	"erpnext / Support": 1,
-	"erpnext / Telephony": 4,
+	"erpnext / Selling": 0,
+	"erpnext / Setup": 5,
+	"erpnext / Support": 0,
+	"erpnext / Telephony": 0,
 	"erpnext / Utilities": 4,
 	"frappe / Automation": 7,
 	"frappe / Contacts": 1,
@@ -95,10 +95,10 @@ OPERATOR = ("One Admin",)
 #: open. Lower it as each is opened to its people or its way in is closed.
 NOBODY = {
 	"erpnext / Accounts": 0,
-	"erpnext / Maintenance": 1,
+	"erpnext / Maintenance": 0,
 	"erpnext / Selling": 1,
 	"erpnext / Setup": 2,
-	"erpnext / Support": 4,
+	"erpnext / Support": 0,
 	"frappe / Core": 9,
 	"frappe / Custom": 1,
 	"frappe / Desk": 1,
@@ -224,20 +224,20 @@ EMPTY = {
 	"erpnext / Regional": 3,
 	# Placed with none on purpose: an accounting dimension adds a field to every
 	# accounting form, and a Process Payment Reconciliation's log is written when one runs.
-	"erpnext / Accounts": 24,
+	"erpnext / Accounts": 23,
 	# Shift allocations want an asset depreciated by shift.
 	"erpnext / Assets": 2,
 	"erpnext / CRM": 1,
-	"erpnext / Maintenance": 1,
+	"erpnext / Maintenance": 0,
 	"erpnext / Manufacturing": 4,
 	"erpnext / Projects": 1,
 	"erpnext / Selling": 4,
-	"erpnext / Setup": 4,
+	"erpnext / Setup": 3,
 	# Placed with none on purpose: a stock dimension adds a field to every stock
 	# form, and a closing refuses the history the demo writes behind it.
 	"erpnext / Stock": 6,
 	"erpnext / Subcontracting": 1,
-	"erpnext / Support": 4,
+	"erpnext / Support": 0,
 	"frappe / Automation": 1,
 	"frappe / Core": 6,
 	"frappe / Desk": 1,
@@ -260,7 +260,7 @@ EMPTY = {
 #: Point 11. Documents sent to a customer or supplier on a print not ours.
 UNPRINTED = {
 	"erpnext / Accounts": 3,
-	"erpnext / Maintenance": 1,
+	"erpnext / Maintenance": 0,
 	"erpnext / Selling": 2,
 	"erpnext / Subcontracting": 3,
 }

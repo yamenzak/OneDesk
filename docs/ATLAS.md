@@ -27,7 +27,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 |---|---|---|---|---|
 | onedesk | 74 | 4 | 22 | 0 |
 | frappe | 35 | 38 | 0 | 141 |
-| erpnext | 268 | 140 | 39 | 38 |
+| erpnext | 299 | 130 | 41 | 15 |
 | hrms | 103 | 19 | 8 | 0 |
 
 ## Our screens
@@ -132,14 +132,14 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Payment Terms Template | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Pegged Currencies | on a rail or a home | OneBook | untouched | no | general |  |  |  |  |  |  |
 | Period Closing Voucher | on a rail or a home | OneBook | events | yes | general |  | **none** |  |  |  |  |
-| Pricing Rule | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
+| Pricing Rule | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Process Deferred Accounting | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Process Payment Reconciliation | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Process Payment Reconciliation Log | through a form's connections (Process Payment Reconciliation's Connections) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Process Period Closing Voucher | engine: a Period Closing Voucher's work, run in the background | OneBook | untouched | yes | general |  | **none** |  |  | ar 2, de 3 |  |
 | Process Statement Of Accounts | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Process Subscription | engine: subscriptions billed on their dates | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
-| Promotional Scheme | **waiting** | OneBook, OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
+| Promotional Scheme | on a rail or a home | OneBook, OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Purchase Invoice | on a rail or a home | OneBook, OneInventory | a head, events, form script, 3 fields, 2 settings | yes | taught | makes it | yes |  |  |  | Bill Due |
 | Purchase Taxes and Charges Template | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Repost Accounting Ledger | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
@@ -251,10 +251,10 @@ Reports: Campaign Efficiency (on a rail or a home); First Response Time for Oppo
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Maintenance Schedule | **waiting** | **nobody** | untouched | yes | general |  | **none** | **theirs** |  |  |  |
-| Maintenance Visit | through a form's connections (Sales Order's Connections) | **nobody** | untouched | yes | general |  | **none** | **theirs** |  |  |  |
+| Maintenance Schedule | on a rail or a home | OneCRM | untouched | yes | general |  | yes | ours |  |  |  |
+| Maintenance Visit | on a rail or a home | OneCRM | untouched | yes | general |  | yes | ours |  |  |  |
 
-Reports: Maintenance Schedules (**waiting**).
+Reports: Maintenance Schedules (on a rail or a home).
 
 ## erpnext / Manufacturing
 
@@ -288,12 +288,12 @@ Pages: bom-comparison-tool (on a rail or a home); production-plan-visualizer (on
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Activity Cost | **waiting** | OneProject | untouched | yes | general |  | **none** |  |  |  |  |
+| Activity Cost | inside: an Activity Type's Connections, one rate for each person | OneProject | untouched | yes | general |  | **none** |  |  |  |  |
 | Activity Type | on a rail or a home | everybody | form script | yes | taught |  | yes |  |  |  |  |
 | Project | on a rail or a home | OneBook, OneHR, OneProject | a page of our own | yes | taught |  | yes |  |  | ar 20, de 18 | Added to Project, Comment on Project, Hours Over Plan, Made Project Manager, Milestone Done, Over Budget, Project Completed, Project End Moved, Project Health, Project Resumed, Project Stopped, Project Summary, Project Update Asked |
 | Project Template | on a rail or a home | OneProject | a page of our own | yes | taught |  | yes |  |  |  |  |
 | Project Type | through a form's link (Project Template: project_type) | OneProject, the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Project Update | **waiting** | OneProject | untouched | yes | taught | makes it | yes |  |  |  |  |
+| Project Update | opened by our screens | OneProject | untouched | yes | taught | makes it | yes |  |  |  |  |
 | Projects Settings | opened by our screens | OneProject | 5 fields, 3 settings | no | general |  |  |  |  |  |  |
 | Task | on a rail or a home | everybody | a page of our own | yes | taught | makes it | yes |  |  | ar 1 | Arrived After Closing, Comment on Your Task, Due Date Changed, Hours Over Plan, Milestone Late, Pending Review, Sent Back, Task Cancelled, Task Done, Task Ready, Task Reopened |
 | Task Type | on a rail or a home | OneHR, OneProject | 1 settings | yes | general |  | **none** |  |  |  |  |
@@ -305,16 +305,16 @@ Reports: Daily Timesheet Summary (on a rail or a home); Delayed Tasks Summary (o
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Non Conformance | **waiting** | everybody | untouched | yes | general |  | **none** |  |  |  |  |
-| Quality Action | **waiting** | everybody | untouched | yes | general |  | **none** |  |  |  |  |
-| Quality Feedback | **waiting** | everybody | untouched | yes | general |  | **none** |  |  |  |  |
-| Quality Feedback Template | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
-| Quality Goal | **waiting** | everybody | untouched | yes | general |  | **none** |  |  |  |  |
-| Quality Meeting | **waiting** | everybody | untouched | yes | general |  | **none** |  | **only an ID** |  |  |
-| Quality Procedure | **waiting** | everybody | untouched | yes | general |  | **none** |  |  |  |  |
-| Quality Review | **waiting** | everybody | untouched | yes | general |  | **none** |  |  |  |  |
+| Non Conformance | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
+| Quality Action | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
+| Quality Feedback | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
+| Quality Feedback Template | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
+| Quality Goal | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
+| Quality Meeting | on a rail or a home | everybody | 2 settings | yes | general |  | yes |  |  |  |  |
+| Quality Procedure | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
+| Quality Review | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
 
-Reports: Review (**waiting**).
+Reports: Review (on a rail or a home).
 
 ## erpnext / Regional
 
@@ -335,18 +335,18 @@ Reports: Electronic Invoice Register (under a list's related reports (Sales Invo
 | Delivery Schedule Item | through a form's connections (Sales Order's Connections) | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
 | Industry Type | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Installation Note | through a form's connections (Customer's Connections) | OneCRM | untouched | yes | general |  | **none** | **theirs** |  |  |  |
-| Party Specific Item | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
+| Party Specific Item | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Product Bundle | through a form's link (Delivery Note: product_bundle) | OneCRM, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Proforma Invoice | through a form's connections (Sales Order's Connections) | OneCRM | untouched | yes | general |  | **none** | **theirs** |  |  |  |
 | Quotation | on a rail or a home | OneCRM | events, form script, 3 fields | yes | general | makes it | yes |  |  |  | Quotation Declined, Quotation Running Out |
-| SMS Center | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| SMS Center | on a rail or a home | OneCRM | untouched | no | general |  |  |  |  |  |  |
 | Sales Order | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, 5 fields, 1 settings | yes | taught | makes it | yes | ours |  |  | Delivery Late, Quotation Accepted |
 | Sales Partner Type | through a form's link (Sales Partner: partner_type) | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
 | Selling Settings | on a rail or a home | OneBook, OneCRM, OneInventory, OneProject | untouched | no | general |  |  |  |  | ar 33, de 29 |  |
 
 Reports: Address And Contacts (on a rail or a home); Available Stock for Packing Items (under a list's related reports (Product Bundle's list)); Customer Acquisition and Loyalty (on a rail or a home); Customer Credit Balance (on a rail or a home); Customer-wise Item Price (under a list's related reports (Customer's list)); Customers Without Any Sales Transactions (on a rail or a home); Inactive Customers (on a rail or a home); Item-wise Sales History (on a rail or a home); Lost Quotations (on a rail or a home); Payment Terms Status for Sales Order (under a list's related reports (Sales Order's list)); Pending SO Items For Purchase Request (under a list's related reports (Sales Order's list)); Quotation Trends (on a rail or a home); Sales Analytics (on a rail or a home); Sales Order Analysis (on a rail or a home); Sales Order Trends (on a rail or a home); Sales Partner Commission Summary (under a list's related reports (Sales Order's list)); Sales Partner Target Variance based on Item Group (under a list's related reports (Sales Order's list)); Sales Partner Transaction Summary (under a list's related reports (Sales Order's list)); Sales Person Commission Summary (under a list's related reports (Sales Order's list)); Sales Person Target Variance Based On Item Group (under a list's related reports (Sales Order's list)); Sales Person-wise Transaction Summary (on a rail or a home); Territory Target Variance Based On Item Group (under a list's related reports (Sales Order's list)); Territory-wise Sales (on a rail or a home).
 
-Pages: point-of-sale (left out: the point of sale, until One has a till screen of its own); sales-funnel (**waiting**).
+Pages: point-of-sale (left out: the point of sale, until One has a till screen of its own); sales-funnel (replaced: OneCRM's Home, whose funnel counts leads, opportunities and quotations).
 
 ## erpnext / Setup
 
@@ -364,7 +364,7 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Driver | on a rail or a home | **nobody** | 1 settings | yes | general |  | yes |  |  |  |  |
 | Email Digest | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 1 |  |
 | Employee | on a rail or a home | everybody | a head, events, form script, 11 fields, 26 settings | yes | taught | makes it | yes |  |  |  | Could Not Mark Left, Document Expiring, Employee Details Changed, Passkey Reset Asked |
-| Employee Group | on a rail or a home | OneHR | untouched | yes | general |  | **none** |  |  |  |  |
+| Employee Group | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Global Defaults | **waiting** | **nobody** | untouched | no | general |  |  |  |  | ar 3, de 3 |  |
 | Holiday List | on a rail or a home | everybody | untouched | yes | taught |  | yes |  |  |  |  |
 | Incoterm | through a form's link (Request for Quotation: incoterm) | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
@@ -378,7 +378,7 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Territory | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events | yes | general |  | yes |  |  |  |  |
 | Transaction Deletion Record | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 1 |  |
 | UOM | on a rail or a home | OneCRM, OneInventory, the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| UOM Conversion Factor | **waiting** | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
+| UOM Conversion Factor | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Vehicle | on a rail or a home | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
 
 ## erpnext / Stock
@@ -427,7 +427,7 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Stock Reposting Settings | left out: how ERPNext paces revaluing stock; its defaults suit every workspace | **nobody** | untouched | no | general |  |  |  |  | ar 4, de 3 |  |
 | Stock Reservation Entry | through a form's connections (Subcontracting Order's Connections) | OneCRM, OneInventory | untouched | yes | general |  | yes |  |  | de 1 |  |
 | Stock Settings | on a rail or a home | OneBook, OneCRM, OneInventory, OneProject | 1 settings | no | general |  |  |  |  | ar 45, de 44 |  |
-| UOM Category | through a form's link (UOM: category) | OneCRM, OneInventory, the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| UOM Category | through a form's link (UOM Conversion Factor: category) | OneCRM, OneInventory, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Warehouse | on a rail or a home | OneBook, OneCRM, OneInventory | a head, tree script | yes | taught |  | yes |  |  |  | Stock Account Wrong |
 | Warehouse Type | through a form's link (Warehouse: warehouse_type) | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 
@@ -450,23 +450,23 @@ Reports: Subcontracted Items To Be Delivered (under a list's related reports (Su
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Issue | through a form's connections (Company's Connections) | **nobody** | untouched | yes | taught |  | **none** |  |  |  |  |
-| Issue Priority | through a form's link (Service Level Agreement: priority) | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
-| Issue Type | through a form's link (Issue: issue_type) | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
-| Service Level Agreement | through a form's connections (Holiday List's Connections) | everybody | untouched | yes | general |  | **none** |  |  |  |  |
-| Support Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Warranty Claim | through a form's connections (Customer's Connections) | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
+| Issue | on a rail or a home | OneCRM | untouched | yes | taught |  | yes |  |  |  |  |
+| Issue Priority | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| Issue Type | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| Service Level Agreement | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
+| Support Settings | on a rail or a home | OneCRM | untouched | no | general |  |  |  |  |  |  |
+| Warranty Claim | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 
-Reports: First Response Time for Issues (under a list's related reports (Issue's list)); Issue Analytics (under a list's related reports (Issue's list)); Issue Summary (under a list's related reports (Issue's list)); Support Hour Distribution (under a list's related reports (Issue's list)).
+Reports: First Response Time for Issues (on a rail or a home); Issue Analytics (on a rail or a home); Issue Summary (on a rail or a home); Support Hour Distribution (on a rail or a home).
 
 ## erpnext / Telephony
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Call Log | **waiting** | everybody | events | yes | taught |  | yes |  |  | ar 1 |  |
-| Incoming Call Settings | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 1 |  |
-| Telephony Call Type | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
-| Voice Call Settings | **waiting** | everybody | untouched | yes | general |  | **none** |  |  | ar 1 |  |
+| Call Log | on a rail or a home | everybody | events | yes | taught |  | yes |  |  |  |  |
+| Incoming Call Settings | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
+| Telephony Call Type | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
+| Voice Call Settings | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
 
 ## erpnext / Utilities
 
@@ -571,7 +571,7 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | Success Action | **waiting** | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 | System Settings | **waiting** | **nobody** | events, 2 fields | no | taught |  |  |  |  | ar 8, de 5 |  |
 | Translation | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| User | through a form's link (Asset Maintenance: assign_to) | **nobody** | events, 2 fields, 1 settings | no | taught |  | yes |  |  | ar 4, de 4 |  |
+| User | through a form's link (Project Update: user) | **nobody** | events, 2 fields, 1 settings | no | taught |  | yes |  |  | ar 4, de 4 |  |
 | User Group | opened by our screens | everybody | untouched | no | taught |  | **none** |  |  |  |  |
 | User Invitation | **waiting** | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | User Permission | **waiting** | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
@@ -717,7 +717,7 @@ Pages: print (**waiting**); print-format-builder (**waiting**).
 | Personal Data Deletion Request | on a rail or a home | the administrator | form script, list script, 3 settings | no | taught |  | **none** |  |  |  |  |
 | Personal Data Download Request | on a rail or a home | the administrator | form script, list script, 4 fields, 3 settings | no | taught |  | **none** |  |  |  |  |
 | Portal Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| UTM Campaign | through a form's link (Pricing Rule: campaign) | **nobody** | untouched | no | general |  | yes |  |  |  |  |
+| UTM Campaign | through a form's link (Promotional Scheme: campaign) | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 | UTM Medium | through a form's link (Delivery Note: utm_medium) | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | UTM Source | on a rail or a home | OneCRM, the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Web Form | on a rail or a home | **nobody** | untouched | no | general |  | yes |  |  | ar 1, de 1 |  |

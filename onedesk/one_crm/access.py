@@ -1,7 +1,7 @@
 """Who may do what in OneCRM, where ERPNext's defaults do not fit.
 
-What sales may do with deals, Prospects, Call Logs, the Campaigns and Setup
-groups and Assignment Rules, written once per doctype.
+What sales may do with deals, Prospects, Call Logs, the Campaigns, Support
+and Setup groups and Assignment Rules, written once per doctype.
 """
 
 import ast
@@ -33,7 +33,22 @@ GIVEN = {
 	# sales_order_proforma.js), and gives them to the Sales Manager alone, so
 	# everybody else who opens an order was told they had no permission.
 	"Selling Settings": {role: ("read",) for role in ("Sales User", "Stock User", "Accounts User", "Projects User")},
+	"Promotional Scheme": {"Sales User": roles.USE},
+	"Party Specific Item": {"Sales User": roles.USE, "Sales Manager": roles.MANAGE},
+	"SMS Center": {"Sales Manager": ("read", "write", "create")},
+	"Support Settings": {"Sales Manager": ("read", "write")},
+	"Incoming Call Settings": {"Sales Manager": roles.MANAGE},
+	"Telephony Call Type": {"Sales User": roles.USE, "Sales Manager": roles.MANAGE},
 }
+
+#: After the sale: ERPNext's service desk, which it gives to a Support Team
+#: and a Maintenance User that People never hands out.
+SUPPORT = ("Issue", "Warranty Claim", "Maintenance Schedule", "Maintenance Visit")
+SUPPORT_LISTS = ("Issue Type", "Issue Priority", "Service Level Agreement")
+GIVEN |= {doctype: {"Sales User": roles.WORK, "Sales Manager": roles.MANAGE} for doctype in SUPPORT}
+GIVEN |= {doctype: {"Sales User": roles.USE, "Sales Manager": roles.MANAGE} for doctype in SUPPORT_LISTS}
+#: Issue's reports, which ERPNext opens to its Support Team alone.
+SUPPORT_REPORTS = ("Issue Summary", "Issue Analytics", "First Response Time for Issues", "Support Hour Distribution")
 
 #: The kinds of record a Sales Manager's Assignment Rule shares out.
 SHARED_OUT = ("Lead", "Opportunity")
@@ -71,6 +86,8 @@ PLAIN = (
 
 def settle() -> None:
 	roles.give(GIVEN)
+	for report in SUPPORT_REPORTS:
+		roles.open_report(report, "Sales User", "Sales Manager")
 	for doctype, changes in CHANGES.items():
 		if frappe.db.exists("Custom DocPerm", {"parent": doctype}):
 			continue

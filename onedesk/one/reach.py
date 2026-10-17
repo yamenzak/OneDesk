@@ -98,6 +98,17 @@ def unopened(sidebars: dict | None) -> None:
 		sidebar["items"] = kept
 
 
+def _allowed(field: str, name: str) -> list[str]:
+	"""Who may open a report or a page: its Custom Role, which replaces its
+	own roles, or those."""
+	from frappe.core.doctype.custom_role.custom_role import get_custom_allowed_roles
+
+	return sorted(
+		get_custom_allowed_roles(field, name)
+		or frappe.get_all("Has Role", {"parent": name, "parenttype": field.title()}, pluck="role")
+	)
+
+
 def atlas() -> dict:
 	"""Who may read each record type, report and page on this site, with every
 	grant One makes applied, and which record types it has any of, for
@@ -105,14 +116,10 @@ def atlas() -> dict:
 	doctypes = {}
 	for name in frappe.get_all("DocType", filters={"istable": 0}, pluck="name"):
 		doctypes[name] = sorted(_readers(name))
-	reports = {}
-	for name in frappe.get_all("Report", filters={"is_standard": "Yes"}, pluck="name"):
-		reports[name] = sorted(
-			frappe.get_all("Has Role", {"parent": name, "parenttype": "Report"}, pluck="role")
-		)
-	pages = {}
-	for name in frappe.get_all("Page", pluck="name"):
-		pages[name] = sorted(frappe.get_all("Has Role", {"parent": name, "parenttype": "Page"}, pluck="role"))
+	reports = {
+		name: _allowed("report", name) for name in frappe.get_all("Report", filters={"is_standard": "Yes"}, pluck="name")
+	}
+	pages = {name: _allowed("page", name) for name in frappe.get_all("Page", pluck="name")}
 	# What the demo keeps at least one of, so a walk sees each with something in it.
 	kept = sorted(
 		name

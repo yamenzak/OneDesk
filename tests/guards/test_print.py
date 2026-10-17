@@ -32,6 +32,8 @@ LEAVES = (
 	"Timesheet",
 	"Contract",
 	"Project",
+	"Maintenance Schedule",
+	"Maintenance Visit",
 )
 
 

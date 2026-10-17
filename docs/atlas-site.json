@@ -1236,6 +1236,7 @@
 "System Manager"
 ],
 "Incoming Call Settings": [
+"Sales Manager",
 "System Manager"
 ],
 "Incoterm": [
@@ -1309,14 +1310,22 @@
 "Accounts Manager"
 ],
 "Issue": [
+"Sales Manager",
+"Sales User",
 "Support Team"
 ],
 "Issue Priority": [
-"System Manager"
+"Sales Manager",
+"Sales User",
+"System Manager",
+"Workspace Administrator"
 ],
 "Issue Type": [
+"Sales Manager",
+"Sales User",
 "Support Team",
-"System Manager"
+"System Manager",
+"Workspace Administrator"
 ],
 "Item": [
 "Accounts User",
@@ -1582,11 +1591,15 @@
 ],
 "Maintenance Schedule": [
 "Maintenance Manager",
-"Maintenance User"
+"Maintenance User",
+"Sales Manager",
+"Sales User"
 ],
 "Maintenance Visit": [
 "Maintenance Manager",
-"Maintenance User"
+"Maintenance User",
+"Sales Manager",
+"Sales User"
 ],
 "Manufacturer": [
 "Stock Manager",
@@ -1654,6 +1667,8 @@
 "Non Conformance": [
 "Employee",
 "Quality Manager",
+"Stock Manager",
+"Stock User",
 "System Manager"
 ],
 "Note": [
@@ -1805,6 +1820,8 @@
 "System Manager"
 ],
 "Party Specific Item": [
+"Sales Manager",
+"Sales User",
 "System Manager"
 ],
 "Party Type": [
@@ -2033,6 +2050,7 @@
 "Accounts Manager",
 "Accounts User",
 "Sales Manager",
+"Sales User",
 "System Manager"
 ],
 "Property Setter": [
@@ -2087,20 +2105,28 @@
 "Quality Action": [
 "Desk User",
 "Quality Manager",
+"Stock Manager",
+"Stock User",
 "System Manager"
 ],
 "Quality Feedback": [
 "Desk User",
 "Quality Manager",
+"Stock Manager",
+"Stock User",
 "System Manager"
 ],
 "Quality Feedback Template": [
 "Quality Manager",
+"Stock Manager",
+"Stock User",
 "System Manager"
 ],
 "Quality Goal": [
 "Desk User",
 "Quality Manager",
+"Stock Manager",
+"Stock User",
 "System Manager"
 ],
 "Quality Inspection": [
@@ -2129,16 +2155,22 @@
 "Quality Meeting": [
 "Desk User",
 "Quality Manager",
+"Stock Manager",
+"Stock User",
 "System Manager"
 ],
 "Quality Procedure": [
 "Desk User",
 "Quality Manager",
+"Stock Manager",
+"Stock User",
 "System Manager"
 ],
 "Quality Review": [
 "Desk User",
 "Quality Manager",
+"Stock Manager",
+"Stock User",
 "System Manager"
 ],
 "Quick Stock Balance": [
@@ -2235,6 +2267,7 @@
 "Manufacturing User"
 ],
 "SMS Center": [
+"Sales Manager",
 "System Manager"
 ],
 "SMS Log": [
@@ -2357,6 +2390,8 @@
 ],
 "Service Level Agreement": [
 "Desk User",
+"Sales Manager",
+"Sales User",
 "System Manager"
 ],
 "Session Default Settings": [
@@ -2603,6 +2638,7 @@
 "System Manager"
 ],
 "Support Settings": [
+"Sales Manager",
 "System Manager"
 ],
 "System Console": [
@@ -2654,6 +2690,8 @@
 "System Manager"
 ],
 "Telephony Call Type": [
+"Sales Manager",
+"Sales User",
 "System Manager"
 ],
 "Tenant": [
@@ -2760,6 +2798,9 @@
 "Workspace Administrator"
 ],
 "UOM Conversion Factor": [
+"Item Manager",
+"Stock Manager",
+"Stock User",
 "System Manager"
 ],
 "UTM Campaign": [
@@ -2855,7 +2896,9 @@
 "System Manager"
 ],
 "Warranty Claim": [
-"Maintenance User"
+"Maintenance User",
+"Sales Manager",
+"Sales User"
 ],
 "Web Form": [
 "Website Manager"
@@ -3062,6 +3105,7 @@
 "Employee Feedback Criteria",
 "Employee Grade",
 "Employee Grievance",
+"Employee Group",
 "Employee Health Insurance",
 "Employee Incentive",
 "Employee Letter",
@@ -3099,13 +3143,16 @@
 "Holiday List Assignment",
 "Identification Document Type",
 "Identifier",
+"Incoming Call Settings",
 "Incoterm",
 "Industry Type",
 "Intake Action",
 "Interview",
 "Interview Feedback",
 "Interview Type",
+"Issue",
 "Issue Priority",
+"Issue Type",
 "Item",
 "Item Alternative",
 "Item Attribute",
@@ -3146,6 +3193,8 @@
 "List Filter",
 "Location",
 "Mail Folder",
+"Maintenance Schedule",
+"Maintenance Visit",
 "Manufacturer",
 "Market Segment",
 "Master Production Schedule",
@@ -3155,6 +3204,7 @@
 "Mode of Payment",
 "Module Def",
 "Module Onboarding",
+"Non Conformance",
 "Notification",
 "Notification Log",
 "Notification Settings",
@@ -3171,6 +3221,7 @@
 "Packing Slip",
 "Page",
 "Party Link",
+"Party Specific Item",
 "Party Type",
 "Patch Log",
 "Payment Entry",
@@ -3185,6 +3236,7 @@
 "Pick List",
 "Plant Floor",
 "Price List",
+"Pricing Rule",
 "Print Format",
 "Print Format Field Template",
 "Print Heading",
@@ -3196,6 +3248,7 @@
 "Project Template",
 "Project Type",
 "Project Update",
+"Promotional Scheme",
 "Property Setter",
 "Prospect",
 "Purchase Invoice",
@@ -3204,8 +3257,15 @@
 "Purchase Taxes and Charges Template",
 "Purpose of Travel",
 "Putaway Rule",
+"Quality Action",
+"Quality Feedback",
+"Quality Feedback Template",
+"Quality Goal",
 "Quality Inspection",
 "Quality Inspection Parameter",
+"Quality Meeting",
+"Quality Procedure",
+"Quality Review",
 "Quotation",
 "Quotation Lost Reason",
 "Reading",
@@ -3237,6 +3297,7 @@
 "Serial No",
 "Serial and Batch Bundle",
 "Server Script",
+"Service Level Agreement",
 "Share Transfer",
 "Share Type",
 "Shareholder",
@@ -3273,6 +3334,7 @@
 "Task",
 "Tax Category",
 "Tax Rule",
+"Telephony Call Type",
 "Terms and Conditions",
 "Territory",
 "Timesheet",
@@ -3295,8 +3357,10 @@
 "Vehicle Log",
 "Vehicle Service Item",
 "Version",
+"Voice Call Settings",
 "Warehouse",
 "Warehouse Type",
+"Warranty Claim",
 "Web Form",
 "Web Template",
 "Website Theme",
@@ -3414,7 +3478,8 @@
 ],
 "print": [],
 "print-format-builder": [
-"System Manager"
+"System Manager",
+"Workspace Administrator"
 ],
 "production-plan-visualizer": [
 "Manufacturing Manager",
@@ -3504,7 +3569,8 @@
 "Stock User"
 ],
 "workflow-builder": [
-"System Manager"
+"System Manager",
+"Workspace Administrator"
 ],
 "workspace-restore": [
 "Workspace Manager"
@@ -3901,7 +3967,10 @@
 "Auditor"
 ],
 "First Response Time for Issues": [
-"Support Team"
+"Sales Manager",
+"Sales User",
+"Support Team",
+"Workspace Administrator"
 ],
 "First Response Time for Opportunity": [
 "Sales Manager",
@@ -4003,10 +4072,16 @@
 "Workspace Administrator"
 ],
 "Issue Analytics": [
-"Support Team"
+"Sales Manager",
+"Sales User",
+"Support Team",
+"Workspace Administrator"
 ],
 "Issue Summary": [
-"Support Team"
+"Sales Manager",
+"Sales User",
+"Support Team",
+"Workspace Administrator"
 ],
 "Issued Items Against Work Order": [
 "Manufacturing User",
@@ -4359,7 +4434,10 @@
 ],
 "Review": [
 "Quality Manager",
-"System Manager"
+"Stock Manager",
+"Stock User",
+"System Manager",
+"Workspace Administrator"
 ],
 "Salary Payments Based On Payment Mode": [
 "Employee",
@@ -4616,8 +4694,11 @@
 "Stock User"
 ],
 "Support Hour Distribution": [
+"Sales Manager",
+"Sales User",
 "Support Team",
-"System Manager"
+"System Manager",
+"Workspace Administrator"
 ],
 "TDS Computation Summary": [
 "Accounts Manager",
@@ -4679,7 +4760,11 @@
 "Accounts User",
 "Auditor"
 ],
-"UAE VAT 201": [],
+"UAE VAT 201": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
+],
 "Unpaid Expense Claim": [
 "Expense Approver",
 "HR Manager",
