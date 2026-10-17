@@ -1332,6 +1332,10 @@ one_module_heirs = {
 	"Support": ["OneCRM"],
 	"Maintenance": ["OneCRM"],
 	"Telephony": ["OneCRM"],
+	"Communication": ["OneCRM"],
+	# The codes an electronic invoice uses, and the bank feed, beside OneBook's.
+	"EDI": ["OneBook"],
+	"ERPNext Integrations": ["OneBook"],
 }
 
 # Kinds of record a module's code makes without a name or a model to ask; Numbering keeps them

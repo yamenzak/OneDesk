@@ -77,6 +77,12 @@ tabs:
   and with a line on what it is for, with a search.
 - **Reports** and **Setup** — their part of Everything, by topic.
 
+Setup has every accounting setting ERPNext keeps, a country's own only when
+the company is there. Among them: the **Email Digest**, a mail each day, week
+or month of how the business is doing; **Plaid Settings**, for a bank Plaid
+reaches; and the **Code Lists** an electronic invoice names its units and
+taxes by.
+
 ## Getting ready
 
 **Setup › Books Check** lists what would stop the first invoice, payment or

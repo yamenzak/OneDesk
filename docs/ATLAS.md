@@ -27,7 +27,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 |---|---|---|---|---|
 | onedesk | 74 | 4 | 22 | 0 |
 | frappe | 35 | 38 | 0 | 141 |
-| erpnext | 299 | 130 | 41 | 15 |
+| erpnext | 304 | 130 | 49 | 2 |
 | hrms | 103 | 19 | 8 | 0 |
 
 ## Our screens
@@ -186,8 +186,8 @@ Reports: Asset Activity (on a rail or a home); Asset Maintenance (opened by our 
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Bulk Transaction Log | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
-| Bulk Transaction Log Detail | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
+| Bulk Transaction Log | engine: what creating or submitting many records at once from a list did | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
+| Bulk Transaction Log Detail | engine: one record of a Bulk Transaction Log | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
 
 ## erpnext / Buying
 
@@ -232,20 +232,20 @@ Reports: Campaign Efficiency (on a rail or a home); First Response Time for Oppo
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Communication Medium | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
+| Communication Medium | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 
 ## erpnext / EDI
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Code List | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
-| Common Code | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 1 |  |
+| Code List | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
+| Common Code | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 
 ## erpnext / ERPNext Integrations
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Plaid Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Plaid Settings | on a rail or a home | OneBook | untouched | no | general |  |  |  |  |  |  |
 
 ## erpnext / Maintenance
 
@@ -352,8 +352,8 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Authorization Control | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Authorization Rule | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
+| Authorization Control | engine: what an Authorization Rule checks when a record is submitted | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Authorization Rule | replaced: Approvals in Workspace Settings, where a step can ask a manager to approve above an amount | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
 | Branch | on a rail or a home | OneHR, the administrator | untouched | yes | general |  | **none** |  |  |  |  |
 | Brand | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events, 1 fields | yes | general |  | **none** |  |  |  |  |
 | Company | on a rail or a home | everybody | events, 1 fields | yes | taught |  | yes |  |  |  |  |
@@ -362,10 +362,10 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Department | on a rail or a home | OneHR, the administrator | events | yes | general |  | yes |  |  |  |  |
 | Designation | on a rail or a home | OneCRM, OneHR, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Driver | on a rail or a home | **nobody** | 1 settings | yes | general |  | yes |  |  |  |  |
-| Email Digest | **waiting** | **nobody** | untouched | yes | general |  | **none** |  |  | ar 1 |  |
+| Email Digest | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Employee | on a rail or a home | everybody | a head, events, form script, 11 fields, 26 settings | yes | taught | makes it | yes |  |  |  | Could Not Mark Left, Document Expiring, Employee Details Changed, Passkey Reset Asked |
 | Employee Group | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
-| Global Defaults | **waiting** | **nobody** | untouched | no | general |  |  |  |  | ar 3, de 3 |  |
+| Global Defaults | inside: Workspace Settings › General: the company, its country and currency, and how amounts read | **nobody** | untouched | no | general |  |  |  |  | ar 3, de 3 |  |
 | Holiday List | on a rail or a home | everybody | untouched | yes | taught |  | yes |  |  |  |  |
 | Incoterm | through a form's link (Request for Quotation: incoterm) | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Item Group | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events | yes | taught |  | yes |  |  |  |  |
@@ -473,10 +473,10 @@ Reports: First Response Time for Issues (on a rail or a home); Issue Analytics (
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Rename Tool | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Video | **waiting** | everybody | untouched | yes | general |  | **none** |  |  |  |  |
-| Video Settings | **waiting** | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Video | left out: ERPNext's library of YouTube help videos; One's help is OneAI, on every page | everybody | untouched | yes | general |  | **none** |  |  |  |  |
+| Video Settings | left out: ERPNext's library of YouTube help videos; One's help is OneAI, on every page | **nobody** | untouched | no | general |  |  |  |  |  |  |
 
-Reports: YouTube Interactions (**waiting**).
+Reports: YouTube Interactions (left out: ERPNext's library of YouTube help videos; One's help is OneAI, on every page).
 
 ## frappe / Automation
 

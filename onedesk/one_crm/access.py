@@ -39,6 +39,7 @@ GIVEN = {
 	"Support Settings": {"Sales Manager": ("read", "write")},
 	"Incoming Call Settings": {"Sales Manager": roles.MANAGE},
 	"Telephony Call Type": {"Sales User": roles.USE, "Sales Manager": roles.MANAGE},
+	"Communication Medium": {"Sales Manager": roles.MANAGE},
 }
 
 #: After the sale: ERPNext's service desk, which it gives to a Support Team

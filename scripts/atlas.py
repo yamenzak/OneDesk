@@ -760,10 +760,11 @@ def _our_words() -> dict:
 
 
 def untranslated(name: str) -> dict:
-	"""Point 12: the labels on its form still in English, by language."""
+	"""Point 12: the labels on its form still in English, by language. A
+	label of spaces, which ERPNext gives a column break, says nothing."""
 	meta = everything()["doctypes"][name]
 	return {
-		lang: [label for label in labels if label not in _our_words()[lang]]
+		lang: [label for label in labels if label.strip() and label not in _our_words()[lang]]
 		for lang, labels in (meta.get("untranslated") or {}).items()
 	}
 

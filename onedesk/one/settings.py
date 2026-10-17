@@ -698,11 +698,13 @@ def _general() -> dict:
 	company = _company()
 	system = frappe.get_single("System Settings")
 	account = frappe.get_single("Workspace Account")
+	defaults = frappe.get_single("Global Defaults")
 	address = _company_address(company)
 	fields = (
 		_fields("Company", ("company_logo", *ON_DOCUMENTS))
 		+ _fields("Address", ADDRESS)
 		+ _zones(_switches(_fields("System Settings", ("language", "time_zone", *SYSTEM, *SIGNING_IN, *FOOTER))))
+		+ _switches(_fields("Global Defaults", AMOUNTS))
 	)
 	return {
 		"name": account.workspace_name,
@@ -717,15 +719,20 @@ def _general() -> dict:
 			"language": system.language,
 			"time_zone": system.time_zone,
 			**{name: system.get(name) for name in (*SYSTEM, *SIGNING_IN, *FOOTER)},
+			**{name: defaults.get(name) for name in AMOUNTS},
 			"allow_login_after_fail": str(system.allow_login_after_fail or 60),
 			"one_record_sharing": 0 if system.disable_document_sharing else 1,
 			"one_calendar_links": 1 if feed.allowed() else 0,
 			"one_two_factor": _two_factor(system),
 			"one_password": str(system.minimum_password_score or "") if system.enable_password_policy else "",
 		},
-		"opened": _opened(company, system, address),
+		"opened": _opened(company, system, address, defaults),
 	}
 
+
+#: How amounts read on every sale and purchase, as ERPNext's Global Defaults
+#: keeps it. Its company, country and currency are the company's own, above.
+AMOUNTS = ("hide_currency_symbol", "disable_rounded_total", "disable_in_words")
 
 #: What a printed or sent document shows about the company, beside its logo, asked here
 #: once because ERPNext asks for these when an invoice is printed without them.
@@ -824,6 +831,9 @@ GENERAL_SAID = {
 	"allow_consecutive_login_attempts": _lt("After this many wrong passwords in a row, signing in is refused for a while."),
 	"allow_login_after_fail": _lt("How long signing in is refused after too many wrong passwords."),
 	"force_user_to_reset_password": _lt("Then a new one is asked for at sign-in. 0 means they never expire."),
+	"hide_currency_symbol": _lt("Amounts are shown without AED, $ or another symbol."),
+	"disable_rounded_total": _lt("Sales and purchases are not rounded to a whole amount."),
+	"disable_in_words": _lt("Sales and purchases don't say their total in words."),
 }
 
 #: Frappe's labels for those, as an administrator here would say them.
@@ -946,6 +956,7 @@ def _save_general(values: dict) -> None:
 			_as_opened(company).update(changed)
 			company.save(ignore_permissions=True)
 		_save_company_address(company, values)
+	_save_amounts(values)
 	system = _as_opened(frappe.get_single("System Settings"))
 	guarded = (*SIGNING_IN, "enable_two_factor_auth", "enable_password_policy", "minimum_password_score", "disable_document_sharing")
 	was = {name: system.get(name) for name in guarded}
@@ -967,6 +978,16 @@ def _save_general(values: dict) -> None:
 	if "one_two_factor" in values and wanted != "off":
 		frappe.db.set_value("Role", roles.ADMINISTRATOR, "two_factor_auth", 1)
 		frappe.db.set_value("Role", EVERYBODY, "two_factor_auth", 1 if wanted == "everybody" else 0)
+
+
+def _save_amounts(values: dict) -> None:
+	"""Global Defaults' on_update hides or shows the rounded total and the
+	amount in words on every sale and purchase form."""
+	defaults = frappe.get_single("Global Defaults")
+	wanted = {name: frappe.utils.cint(values[name]) for name in AMOUNTS if name in values}
+	if any(frappe.utils.cint(defaults.get(name)) != value for name, value in wanted.items()):
+		_as_opened(defaults).update(wanted)
+		defaults.save(ignore_permissions=True)
 
 
 def level_of(held: set, used: tuple, managed: tuple, levels: tuple | list = ()) -> str:

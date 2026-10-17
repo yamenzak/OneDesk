@@ -16,6 +16,9 @@ LEFT_OUT = "left out"
 #: What a ledger check is, said once for each of them.
 CHECK = "a check of ERPNext's own ledger, for when stock's worth looks wrong; Stock against the Books and the Inventory Check say what a workspace needs"
 
+#: Why ERPNext's video library is not offered.
+VIDEO = "ERPNext's library of YouTube help videos; One's help is OneAI, on every page"
+
 #: Why the point of sale is not offered, said once for each of its parts.
 POS = "the point of sale, until One has a till screen of its own"
 
@@ -67,6 +70,15 @@ ANSWERS = {
 	("Page", "sales-funnel"): (REPLACED, "OneCRM's Home, whose funnel counts leads, opportunities and quotations"),
 	# OneProject
 	("DocType", "Activity Cost"): (INSIDE, "an Activity Type's Connections, one rate for each person"),
+	# ERPNext's own
+	("DocType", "Global Defaults"): (INSIDE, "Workspace Settings › General: the company, its country and currency, and how amounts read"),
+	("DocType", "Authorization Rule"): (REPLACED, "Approvals in Workspace Settings, where a step can ask a manager to approve above an amount"),
+	("DocType", "Authorization Control"): (ENGINE, "what an Authorization Rule checks when a record is submitted"),
+	("DocType", "Bulk Transaction Log"): (ENGINE, "what creating or submitting many records at once from a list did"),
+	("DocType", "Bulk Transaction Log Detail"): (ENGINE, "one record of a Bulk Transaction Log"),
+	("DocType", "Video"): (LEFT_OUT, VIDEO),
+	("DocType", "Video Settings"): (LEFT_OUT, VIDEO),
+	("Report", "YouTube Interactions"): (LEFT_OUT, VIDEO),
 	# OneInventory
 	("DocType", "Bin"): (ENGINE, "what each warehouse holds of each item; Stock Summary reads it"),
 	("DocType", "Stock Ledger Entry"): (

@@ -108,6 +108,7 @@ SETUP_TOPICS = {
 	"Telephony Call Type": "calls",
 	"Incoming Call Settings": "calls",
 	"Voice Call Settings": "calls",
+	"Communication Medium": "calls",
 }
 
 #: Each called what ERPNext calls what it opens, a filtered list as ERPNext's
@@ -192,6 +193,7 @@ EVERYTHING = (
 	("setup", _lt("Telephony Call Type"), "DocType", "Telephony Call Type", _lt("What a call was about.")),
 	("setup", _lt("Incoming Call Settings"), "DocType", "Incoming Call Settings", _lt("Who answers calls to a number, on which days and hours.")),
 	("setup", _lt("Voice Call Settings"), "DocType", "Voice Call Settings", _lt("Whether a person takes calls, and what callers hear.")),
+	("setup", _lt("Communication Medium"), "DocType", "Communication Medium", _lt("A phone line, mailbox or chat customers reach you on, and who answers it when.")),
 )
 
 

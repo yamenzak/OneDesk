@@ -512,6 +512,8 @@
 "Workspace Administrator"
 ],
 "Code List": [
+"Accounts Manager",
+"Accounts User",
 "System Manager"
 ],
 "Color": [
@@ -522,6 +524,8 @@
 "Website Manager"
 ],
 "Common Code": [
+"Accounts Manager",
+"Accounts User",
 "System Manager"
 ],
 "Communication": [
@@ -530,6 +534,7 @@
 "System Manager"
 ],
 "Communication Medium": [
+"Sales Manager",
 "System Manager"
 ],
 "Company": [
@@ -870,6 +875,7 @@
 "System Manager"
 ],
 "Email Digest": [
+"Accounts Manager",
 "System Manager"
 ],
 "Email Domain": [
@@ -1925,6 +1931,7 @@
 "Stock User"
 ],
 "Plaid Settings": [
+"Accounts Manager",
 "System Manager"
 ],
 "Plant Floor": [
@@ -3053,8 +3060,11 @@
 "Cloud File Request",
 "Cloud File Version",
 "Cloud Link",
+"Code List",
 "Comment",
+"Common Code",
 "Communication",
+"Communication Medium",
 "Company",
 "Company Van",
 "Compensatory Leave Request",
@@ -3094,6 +3104,7 @@
 "Dunning Type",
 "Email Account",
 "Email Campaign",
+"Email Digest",
 "Email Group",
 "Email Group Member",
 "Email Queue",

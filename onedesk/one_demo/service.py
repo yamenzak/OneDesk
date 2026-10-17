@@ -223,6 +223,19 @@ def _phones():
 				],
 			},
 		)
+		once(
+			"Communication Medium",
+			{"name": "Sales Line Phone"},
+			{
+				"__newname": "Sales Line Phone",
+				"communication_medium_type": "Voice",
+				"catch_all": "Sales Desk",
+				"timeslots": [
+					{"day_of_week": day, "from_time": "08:00:00", "to_time": "17:00:00", "employee_group": "Sales Desk"}
+					for day in ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+				],
+			},
+		)
 	# Whose settings they are is the administrator's to say (ERPNext keeps the
 	# user at a level only the System Manager writes).
 	with as_user("Administrator"):

@@ -380,7 +380,10 @@ administrators see it. Save from the top right.
   own, so new invoices use it. The Company Logo doesn't replace One's own logo.
 - **Region and Formats**: the default language and time zone for people who
   haven't chosen their own in Profile, and how dates, times and numbers are
-  shown. A preview line shows how they'll look before you save.
+  shown. A preview line shows how they'll look before you save. Below it,
+  ERPNext's Global Defaults: whether amounts show their currency's symbol,
+  and whether sales and purchases have a rounded total and their total in
+  words.
 - **Sign-in**: sign-in rules for everyone.
   - **Two-Factor Sign-in** asks for a code after the password, for
     administrators only or for everyone. Each person sets it up at their next

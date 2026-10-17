@@ -872,8 +872,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	// ---------------------------------------------------------------- the workspace
 
 	// The workspace's own settings, in three parts: what it was made with and
-	// its logo, how dates, times and numbers read, and the rules for signing
-	// in. Every field is System Settings' or Company's own.
+	// its logo, how dates, times, numbers and amounts read, and the rules for
+	// signing in. Every field is System Settings', Company's or Global Defaults' own.
 	draw_general(data) {
 		const esc = frappe.utils.escape_html;
 		const facts = [
@@ -901,6 +901,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			["date_format", "time_format"],
 			["number_format", "first_day_of_the_week"],
 			{ html: `<div class="one-shell-quiet os-reads" data-reads="1"></div>` },
+			{ stack: ["hide_currency_symbol", "disable_rounded_total", "disable_in_words"] },
 			{ heading: __("Sign-in") },
 			["one_two_factor", "two_factor_method"],
 			["session_expiry", "one_password"],

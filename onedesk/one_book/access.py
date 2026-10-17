@@ -23,6 +23,12 @@ GIVEN = {
 	"Tax Withholding Group": {USER: roles.USE, MANAGER: roles.MANAGE},
 	# Italy's electronic bills, shown only where a company is Italian.
 	"Import Supplier Invoice": {USER: roles.WORK, MANAGER: roles.MANAGE},
+	# A mail of how the business is doing, the bank feed, and the codes an
+	# electronic invoice uses: ERPNext's System Manager's alone.
+	"Email Digest": {MANAGER: roles.MANAGE},
+	"Plaid Settings": {MANAGER: ("read", "write")},
+	"Code List": {USER: roles.USE, MANAGER: roles.MANAGE},
+	"Common Code": {USER: roles.USE, MANAGER: roles.MANAGE},
 }
 
 

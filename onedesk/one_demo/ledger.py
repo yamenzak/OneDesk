@@ -1,8 +1,9 @@
 """The books' second rank, after `books`: a closed year, the founders' shares,
 the dirham's peg, a customer who is also a supplier, the cheque the bank
 prints, foreign balances valued again, costs shared between cost centers,
-and the corrections an accountant keeps to hand, so no OneBook list opens
-empty. What is left empty on purpose is in the README."""
+the corrections an accountant keeps to hand, a weekly mail of the figures
+and the codes an e-invoice uses, so no OneBook list opens empty. What is left
+empty on purpose is in the README."""
 
 import frappe
 from frappe.utils import add_days, add_years, get_first_day, getdate
@@ -21,6 +22,8 @@ PARTS = (
 	"_revaluation",
 	"_allocation",
 	"_corrections",
+	"_digest",
+	"_codes",
 )
 
 
@@ -39,7 +42,7 @@ def _closed_year():
 	year = getdate(today()).year - 1
 	once(
 		"Accounting Period",
-		{"period_name": str(year)},
+		{"company": COMPANY, "start_date": f"{year}-01-01"},
 		{
 			"period_name": str(year),
 			"company": COMPANY,
@@ -184,3 +187,55 @@ def _corrections():
 				"merge_accounts": [{"account": merged, "account_name": frappe.db.get_value("Account", merged, "account_name")}],
 			},
 		)
+
+
+def _digest():
+	"""Monday's mail to the owner and the accountant: last week's income,
+	spending, bank balance and what is owed both ways."""
+	once(
+		"Email Digest",
+		{"name": "Weekly Figures"},
+		{
+			"__newname": "Weekly Figures",
+			"enabled": 1,
+			"company": COMPANY,
+			"frequency": "Weekly",
+			**{
+				one: 1
+				for one in (
+					"income",
+					"expenses_booked",
+					"bank_balance",
+					"credit_balance",
+					"invoiced_amount",
+					"payables",
+					"sales_orders_to_bill",
+					"purchase_orders_to_bill",
+				)
+			},
+			"recipients": [{"recipient": "wsadmin@one.test"}, {"recipient": ACCOUNTS}],
+		},
+	)
+
+
+#: UN/ECE Recommendation 20's codes for the units the company counts in.
+UNITS = (("H87", "Piece", "Nos"), ("MTR", "Metre", "Meter"), ("KGM", "Kilogram", "Kg"))
+
+
+def _codes():
+	"""The units an electronic invoice names, from the list every e-invoice uses."""
+	codes = once(
+		"Code List",
+		{"name": "UNECE Rec 20"},
+		{
+			"__newname": "UNECE Rec 20",
+			"title": "Codes for Units of Measure Used in International Trade",
+			"publisher": "UNECE",
+			"version": "17",
+		},
+	)
+	for code, title, unit in UNITS:
+		if frappe.db.exists("Common Code", {"code_list": codes.name, "common_code": code}):
+			continue
+		applies = [{"link_doctype": "UOM", "link_name": unit}] if frappe.db.exists("UOM", unit) else []
+		make({"doctype": "Common Code", "code_list": codes.name, "common_code": code, "title": title, "applies_to": applies})

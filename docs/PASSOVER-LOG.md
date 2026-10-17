@@ -14044,3 +14044,40 @@ signed in on for an administrator to name and sort into Shared or Assigned.
     Clock Device, and passkey sign-in is in `one_hr/`. It works, since every
     site carries OneHR, but the record belongs in One as Passkey. A rename
     across the clock, the ledger and the reviews, for its own change.
+
+### ERPNext's waiting screens, placed
+
+The atlas listed 97 of ERPNext's record types, reports and pages with no way
+in. Ninety-five now have one; Rename Tool and Transaction Deletion Record go
+with frappe's own data tools (Data Import, Data Export, Bulk Update), which
+are still to place.
+
+1. **Demo.** *Found:* none of them had a record. *Done:* three demo steps,
+   `ledger`, `quality` and `service`, and two parts in `ledger` for the digest
+   and the code list. What is left empty on purpose is in the demo README.
+2. **Placed.** OneBook's Home gains Currencies, Shares and Corrections in
+   Setup, eleven reports and the regional screens. OneInventory's Home gains
+   Quality. OneCRM's rail gains Support (Issue, Warranty Claim, Maintenance
+   Schedule and Visit) and its Setup Telephony. Project Update is in the
+   Projects list's menu. Global Defaults' switches are in Workspace › General.
+3. **Country.** *Found:* a regional screen was going to be left out. *Done:*
+   `one/countries.py` shows it while a company is in its country.
+4. **Answered.** The ledgers ERPNext writes for itself, the point of sale,
+   the video library, Authorization Rule (One's Approvals) and the sales
+   funnel page (OneCRM's Home), each with its reason in `one/atlas.py`.
+5. **Who may open it.** *Found:* most were the System Manager's, a Quality
+   Manager's, a Support Team's or a Maintenance User's, roles People never
+   hands out. *Done:* each space's own roles are given them, and a report
+   locked the same way is opened through frappe's Custom Role
+   (`roles.open_report`), which the atlas now reads.
+6. **Where it opens.** *Found:* a quality meeting opened beside OneHR's rail.
+   *Done:* `one_module_heirs` names the module's space.
+7. **Printed.** *Found:* a maintenance visit and a schedule go to the
+   customer on ERPNext's own print. *Done:* One Service Report, which the
+   customer signs, and One Maintenance Plan, which says which visits are done.
+8. **A list says more than a number.** *Found:* the quality meeting list was
+   its ID. *Done:* its status is listed.
+9. **Plain words.** Every Home line and label is in Arabic and German. A
+   label of spaces, which ERPNext gives a column break, no longer counts as
+   English.
+
