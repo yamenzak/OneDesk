@@ -6157,7 +6157,6 @@ def oneinventory_goods_arrive_as_the_receipt_says():
 	reads a receipt, says what is still to come and drafts the next one."""
 	from erpnext.stock.doctype.purchase_receipt.mapper import make_purchase_invoice
 
-	from onedesk.one import print_blocks
 	from onedesk.one_ai import proposals
 	from onedesk.one_inventory import ai, heads, ready
 
@@ -6179,7 +6178,8 @@ def oneinventory_goods_arrive_as_the_receipt_says():
 		row = arrived.items[0]
 		assert (row.received_qty, row.qty, row.rejected_qty) == (40, 34, 6) and frappe.db.get_value("Warehouse", row.rejected_warehouse, "is_rejected_warehouse")
 		assert heads.receipt_rejected(arrived)["tone"] == "alarm" and heads.receipt_rejected(doc) is None
-		assert print_blocks.title(arrived)["title"] == "Goods Received Note" and print_blocks.party(arrived)["name"]
+		printed = frappe.get_print("Purchase Receipt", arrived.name, print_format="One Purchase Receipt")
+		assert "Goods Received Note" in printed and arrived.supplier_name in printed
 		facts = ai.receipt_facts(glass)
 		assert facts["lines"][0]["rejected"] == 6 and facts["inspections"][0]["item"] == "GLS-TMP10", facts
 		assert ai.receipt_facts(euro)["freight_and_duty"], "freight and duty on the euro hardware"
@@ -6209,7 +6209,6 @@ def oneinventory_goods_go_out_as_the_order_says():
 	sell. A delivery says its order, total and trip, a packing slip and a pick
 	list print, anybody who reads an order can open it, and OneAI reads a
 	delivery, says what is still to go and drafts the next one."""
-	from onedesk.one import print_blocks
 	from onedesk.one_ai import proposals
 	from onedesk.one_inventory import ai, heads, item, ready, stock, trips
 
@@ -6227,10 +6226,10 @@ def oneinventory_goods_go_out_as_the_order_says():
 		trips.onload(trip)
 		assert trip.get_onload().maps is False, "the route buttons show with no maps key"
 		slip = frappe.get_doc("Packing Slip", {"delivery_note": note, "docstatus": 1})
-		assert print_blocks.title(slip)["title"] == "Packing Slip" and print_blocks.party(slip)["name"] == doc.customer_name
-		assert ("Cases", "1–3") in print_blocks.details(slip)["rows"], print_blocks.details(slip)
+		printed = frappe.get_print("Packing Slip", slip.name, print_format="One Packing Slip")
+		assert "Packing Slip" in printed and doc.customer_name in printed and "From Case" in printed
 		pick = frappe.get_doc("Pick List", frappe.db.get_value("Pick List Item", {"sales_order": villa}, "parent"))
-		assert print_blocks.title(pick)["title"] == "Pick List"
+		assert "Pick List" in frappe.get_print("Pick List", pick.name, print_format="One Pick List")
 		bins = frappe.get_all("Bin", filters={"item_code": "DR-SL24"}, fields=["warehouse", "actual_qty", "reserved_qty", "reserved_stock", "ordered_qty", "projected_qty", "stock_value"])
 		said = item.summary(bins, [])
 		ordered = sum(flt(one.reserved_qty) for one in bins)
@@ -6261,7 +6260,6 @@ def oneinventory_stock_moves_and_counts_reach_the_books():
 	the wrong account reach the stock and accounts managers."""
 	from erpnext.stock.utils import get_stock_balance
 
-	from onedesk.one import print_blocks
 	from onedesk.one_inventory import heads, ready, tell
 
 	site = frappe.db.get_value("Warehouse", {"warehouse_name": "Mansour Villa Site"})
@@ -6283,9 +6281,9 @@ def oneinventory_stock_moves_and_counts_reach_the_books():
 	# The movement's head and its transfer note, with the site's address.
 	assert heads.move_from(sent)["value"] == "Stores" and heads.move_to(sent)["value"] == "Mansour Villa Site"
 	assert heads.move_value(sent) and heads.move_used(sent) is None and heads.move_to(used) is None
-	assert print_blocks.title(sent)["title"] == "Transfer Note" and print_blocks.title(used)["title"] == "Issue Note"
-	going = print_blocks.party(sent)
-	assert going["name"] == "Mansour Villa Site" and "Villa 14, Al Wasl Road" in going["lines"]
+	printed = frappe.get_print("Stock Entry", sent.name, print_format="One Stock Entry")
+	assert "Transfer Note" in printed and "Issue Note" in frappe.get_print("Stock Entry", used.name, print_format="One Stock Entry")
+	assert "Mansour Villa Site" in printed and "Villa 14, Al Wasl Road" in printed, "it says where the goods go"
 	assert frappe.db.get_value("Print Format", "One Stock Entry", "doc_type") == "Stock Entry"
 
 	# The count: its difference is in the stock adjustment account, as a loss.
@@ -6664,7 +6662,6 @@ def oneinventory_buying_from_request_to_order():
 	aluminium is agreed for the year, the losing quotes expired, the glass
 	orders never made good are closed, and Gulf Glass and Al Noor are scored.
 	A request line cannot be ordered twice over on drafts."""
-	from onedesk.one import print_blocks
 	from onedesk.one_inventory import ai, heads, order, ready, supplier_items, tell
 
 	villa = frappe.db.get_value("Project", {"project_name": "Mansour Villa Windows and Doors"})
@@ -6715,7 +6712,8 @@ def oneinventory_buying_from_request_to_order():
 	assert on_it and all(flt(one.rate) == flt(agreed.items[0].rate) for one in on_it)
 	assert flt(agreed.items[0].ordered_qty) == sum(flt(one.qty) for one in on_it)
 	assert heads.blanket_ordered(agreed)["meter"]["value"] == flt(agreed.items[0].ordered_qty)
-	assert print_blocks.title(agreed)["title"] == "Blanket Order" and print_blocks.party(agreed)["name"] == "Al Noor Aluminium"
+	printed = frappe.get_print("Blanket Order", agreed.name, print_format="One Blanket Order")
+	assert "Blanket Order" in printed and "Al Noor Aluminium" in printed
 
 	# Al Noor's Items tab: the aluminium agreed for the year, and the anchors
 	# it was cheapest on, each with its last price in its own money.
@@ -6770,7 +6768,6 @@ def oneinventory_making_from_bill_to_finished_goods():
 	doors. The villa's profile went out to be powder coated and came back."""
 	from erpnext.stock.utils import get_stock_balance
 
-	from onedesk.one import print_blocks
 	from onedesk.one_demo import making
 	from onedesk.one_inventory import heads, ready, tell
 
@@ -6833,7 +6830,8 @@ def oneinventory_making_from_bill_to_finished_goods():
 	printed = frappe.get_print("Work Order", done.name, "One Work Order")
 	assert making.VILLA in printed and "Cutting" in printed and "Aluminium Profile 6063" in printed
 	for_stock = next(one.name for one in orders if not one.project)
-	assert print_blocks.party(done)["name"] == "Mansour & Sons" and print_blocks.party(frappe.get_doc("Work Order", for_stock)) == {}
+	assert "Mansour &amp; Sons" in printed or "Mansour & Sons" in printed, "made for the villa's customer"
+	assert "Made For" not in frappe.get_print("Work Order", for_stock, "One Work Order"), "goods for stock are made for nobody"
 
 	# The villa's profile went out to be coated and came back.
 	sent = frappe.get_doc("Subcontracting Order", {"supplier": making.COATER, "docstatus": 1, "project": villa})
@@ -6894,7 +6892,6 @@ def oneinventory_equipment_bought_given_serviced_and_mended():
 	by whoever does them, one truck's late and told. A truck mended on the
 	garage's bill, a laptop waiting for its screen, the CNC centre written
 	down after a crash."""
-	from onedesk.one import print_blocks
 	from onedesk.one_demo import assets as demo
 	from onedesk.one_hr import heads as hr_heads
 	from onedesk.one_inventory import heads, tell
@@ -6915,8 +6912,7 @@ def oneinventory_equipment_bought_given_serviced_and_mended():
 	# The sheet she signs: what she was given, and what she agrees to.
 	printed = frappe.get_print("Asset Movement", given.name, "One Equipment Handover")
 	assert "Laptop Mariam" in printed and "Mariam Saleh" in printed and "I have received the equipment above" in printed
-	assert print_blocks.party(given)["name"] == "Mariam Saleh"
-	assert print_blocks.signatures(given)["sides"][1]["name"] == "Mariam Saleh"
+	assert "Received By" in printed
 
 	# Mariam sees what a person holds, and changes none of it.
 	yousef = frappe.get_doc("Employee", {"user_id": "yousef@one.test"})

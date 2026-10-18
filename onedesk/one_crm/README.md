@@ -663,7 +663,11 @@ ahead, the bank to pay into), each with Classic, Bordered and with Images
 versions in place of ERPNext's, and One Proforma Invoice, the order as the
 invoice it will become. ERPNext's own are turned off
 (`one/print_blocks.py` `REPLACES`). A sales order names the account to pay
-into as an invoice does (**Pay Into**, `one_book/paper.py`).
+into as an invoice does (**Pay Into**, `one_book/paper.py`). A contract (its
+terms in full, what it requires and by when, both sides to sign), a
+maintenance plan (what's maintained, how often, each visit and who did it)
+and a service report (each item seen to and the work done, the customer's
+feedback) print the same way.
 
 ### deal.py
 

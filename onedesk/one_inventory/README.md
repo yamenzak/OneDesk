@@ -1407,7 +1407,15 @@ with ERPNext's three other looks, the receipt with each line's batch and
 serial numbers in place of ERPNext's serial and batch print. That one reads
 the numbers the line keeps; a receipt that keeps them only in a serial and
 batch bundle prints them empty. A pick list prints what to pick, from where and
-for which order, with Picked By and Checked By, in place of ERPNext's.
+for which order, with Picked By and Checked By, in place of ERPNext's. The rest of
+the stores' paper is drawn the same way: One Packing Slip (the delivery and
+who it goes to, the cases, each item's weight), One Stock Entry (a Transfer
+Note, an Issue Note, a Goods Receipt or a Production Note by what it's for,
+where the goods go with that store's address), One Blanket Order (the
+quantity and rate agreed, how much is ordered so far), One Work Order (what
+to make and for whom, the materials and where from, each step) and One
+Equipment Handover (each piece from whom or where to whom or where, and the
+pledge of whoever takes it).
 
 ### access.py
 

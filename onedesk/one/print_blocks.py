@@ -169,27 +169,6 @@ FORMATS = {
 	"Maintenance Visit": ("One Service Report", "one_crm"),
 }
 
-#: Who signs a paper that is signed and handed back: the company's side, then
-#: the party's, each with the field that names them.
-SIGNED = {
-	"Quotation": ((_lt("For {0}"), "company"), (_lt("Accepted By"), "customer_name")),
-	"Delivery Note": ((_lt("Delivered By"), None), (_lt("Received By"), "customer_name")),
-	# The supplier's driver hands the goods over, and the stores sign for them.
-	"Purchase Receipt": ((_lt("Delivered By"), "supplier_name"), (_lt("Received By"), None)),
-	"Pick List": ((_lt("Picked By"), None), (_lt("Checked By"), None)),
-	"Packing Slip": ((_lt("Packed By"), None), (_lt("Received By"), None)),
-	"Stock Entry": ((_lt("Sent By"), None), (_lt("Received By"), None)),
-	# Whoever hands the equipment over, and whoever takes it, by name.
-	"Asset Movement": ((_lt("Handed Over By"), None), (_lt("Received By"), None)),
-	"Job Offer": ((_lt("For {0}"), "company"), (_lt("Accepted By"), "applicant_name")),
-	"Appointment Letter": ((_lt("For {0}"), "company"), (_lt("Accepted By"), "applicant_name")),
-	# The customer billed for the time signs that the hours are theirs.
-	"Timesheet": ((_lt("For {0}"), "company"), (_lt("Approved By"), None)),
-	"Contract": ((_lt("For {0}"), "company"), (_lt("For {0}"), "party_full_name")),
-	# The customer signs that the work was done.
-	"Maintenance Visit": ((_lt("Serviced By"), None), (_lt("Accepted By"), "customer_name")),
-}
-
 #: The colour a page has when the company has no Brand Colour.
 INK = "#111827"
 
@@ -301,7 +280,6 @@ def one_print_block(doc, block: str) -> dict:
 		"title": title,
 		"party": party,
 		"details": details,
-		"signatures": signatures,
 		"progress": progress,
 	}[block](doc)
 	if not shown:
@@ -501,12 +479,6 @@ def _moved_to(doc, heading) -> dict:
 	}
 
 
-def _holders(doc, field: str) -> list[str]:
-	"""The employees on a handover's lines, by name."""
-	names = dict.fromkeys(row.get(field) for row in doc.assets if row.get(field))
-	return [frappe.db.get_value("Employee", one, "employee_name") or one for one in names]
-
-
 def _handed_to(doc, heading) -> dict:
 	"""Whoever the equipment goes to, with their job and department, or the
 	location it is put back at."""
@@ -564,43 +536,6 @@ def number(doc, value, currency: str | None = None) -> str:
 
 def _number_format(currency: str | None) -> str | None:
 	return (currency and frappe.get_cached_value("Currency", currency, "number_format")) or None
-
-
-def signatures(doc) -> dict:
-	if doc.doctype not in SIGNED:
-		return {}
-	if doc.doctype == "Asset Movement":
-		return _handover_signatures(doc)
-	sides = []
-	for heading, field in SIGNED[doc.doctype]:
-		if field == "company":
-			sides.append({"heading": str(heading).format(_company(doc)), "name": None})
-		elif "{0}" in str(heading):
-			sides.append(
-				{"heading": str(heading).format(doc.get(field) or doc.get("party_name")), "name": None}
-			)
-		else:
-			sides.append({"heading": str(heading), "name": doc.get(field) if field else None})
-	return {"sides": sides, "signature": _("Signature"), "date": _("Date")}
-
-
-def _handover_signatures(doc) -> dict:
-	"""Who gave the equipment and who took it, each by name when one person
-	did, and what the person taking it agrees to."""
-	(given, _given), (taken, _taken) = SIGNED["Asset Movement"]
-	gave, took = _holders(doc, "from_employee"), _holders(doc, "to_employee")
-	return {
-		"sides": [
-			# From the stores rather than a person, the company hands it over.
-			{"heading": str(given), "name": gave[0] if len(gave) == 1 else None if gave else _company(doc)},
-			{"heading": str(taken), "name": took[0] if len(took) == 1 else None},
-		],
-		"pledge": _("I have received the equipment above in good order. I will look after it, and give it back when I am asked.")
-		if took
-		else None,
-		"signature": _("Signature"),
-		"date": _("Date"),
-	}
 
 
 #: How many of a project's open tasks a status lists, soonest first.

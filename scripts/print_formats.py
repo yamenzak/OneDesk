@@ -137,14 +137,15 @@ def party_section():
 TAXED = "doc.total_taxes_and_charges"
 
 
-def item_column(image=False, code=False, width=31):
+def item_column(image=False, code=False, width=31, describe=True):
 	merged = []
 	if image:
 		merged.append({"fieldname": "image", "fieldtype": "Attach Image", "label": "Image"})
 	if code:
 		merged.append({"fieldname": "item_code", "fieldtype": "Link", "label": "Item Code", "style": "muted-sm"})
 	merged.append({"fieldname": "one_size", "fieldtype": "Data", "label": "Size", "style": "muted-sm"})
-	merged.append({"fieldname": "description", "fieldtype": "Text Editor", "label": "Description", "style": "muted-sm"})
+	if describe:
+		merged.append({"fieldname": "description", "fieldtype": "Text Editor", "label": "Description", "style": "muted-sm"})
 	col = {"fieldname": "item_name", "fieldtype": "Data", "label": "Description", "width": width, "merged_fields": merged}
 	if image:
 		col["image_size"] = 36
@@ -1151,6 +1152,259 @@ def appointment_letter():
 		signs_section((("For", "company"), ("Accepted By", "applicant_name"))))
 
 
+# -- Records that move goods, make things and do work ---------------------------
+
+ADDRESS = "color:#374151;line-height:1.5;margin-top:2px;"
+TRANSFER = 'doc.purpose in ("Material Transfer", "Material Transfer for Manufacture", "Send to Subcontractor")'
+
+
+def _who(words, name, *rest, visible_if=None, size=13):
+	"""A heading over a name and the lines under it."""
+	head = heading(words, visible_if=visible_if) if visible_if else heading(words)
+	first = name if isinstance(name, dict) else field(name, "Data", words, show_label="hide", bold=1, font_size=size)
+	if visible_if:
+		first = {**first, "visible_if": visible_if}
+	return [head, first, *rest]
+
+
+def _qty(fieldname="qty", unit="uom", label="Qty", width=12):
+	return {"fieldname": fieldname, "fieldtype": "Float", "label": label, "width": width, "align": "right",
+		"merged_fields": [{"fieldname": unit, "fieldtype": "Link", "label": "Unit", "style": "muted-sm"}]}
+
+
+def packing_slip():
+	"""What's in each case of a delivery: the delivery it belongs to and who
+	it goes to, the cases, each item with its weight, and both sides to sign."""
+	who = section(
+		_who("Deliver To", linked("delivery_note.customer_name", "Customer", show_label="hide", bold=1, font_size=13),
+			linked("delivery_note.shipping_address", "Address", show_label="hide", custom_style=ADDRESS)),
+		[row("delivery_note", "Link", "Delivery No"), row("from_case_no", "Int", "From Case"), row("to_case_no", "Int", "To Case"),
+			row("net_weight_pkg", "Float", "Net Weight"), row("gross_weight_pkg", "Float", "Gross Weight"), row("gross_weight_uom", "Link", "Weighed In")],
+		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
+	)
+	lines = section([table("items", "Items", [
+		{"fieldname": "idx", "fieldtype": "Int", "label": "No", "width": 5},
+		item_column(code=True, width=49),
+		{"fieldname": "batch_no", "fieldtype": "Link", "label": "Batch", "width": 14},
+		_qty(unit="stock_uom", width=14),
+		{"fieldname": "net_weight", "fieldtype": "Float", "label": "Net Weight", "width": 18, "align": "right",
+			"merged_fields": [{"fieldname": "weight_uom", "fieldtype": "Link", "label": "Unit", "style": "muted-sm"}]},
+	])], top=28)
+	return layout(_numbered((("Packing Slip", ""),), "Slip No"),
+		who, lines, signs_section((("Packed By", None), ("Received By", None))))
+
+
+def stock_entry():
+	"""Goods moved, used or received: a transfer note, an issue note or a
+	goods receipt by what it's for, where they go with that place's address,
+	each line from where to where, and both sides to sign."""
+	titles = (
+		("Transfer Note", TRANSFER),
+		("Issue Note", 'doc.purpose == "Material Issue"'),
+		("Goods Receipt", 'doc.purpose == "Material Receipt"'),
+		("Production Note", 'doc.purpose == "Manufacture"'),
+		("Stock Movement", f'not ({TRANSFER}) and doc.purpose not in ("Material Issue", "Material Receipt", "Manufacture")'),
+	)
+	going = "doc.to_warehouse"
+	who = section(
+		_who("Deliver To", "to_warehouse",
+			field("target_address_display", "Small Text", "Address", show_label="hide", custom_style=ADDRESS, visible_if="doc.target_address_display"),
+			# Else the store's own address, as a site keeps it.
+			linked("to_warehouse.address_line_1", "Address", show_label="hide", custom_style=ADDRESS, visible_if="not doc.target_address_display"),
+			linked("to_warehouse.address_line_2", "Address", show_label="hide", custom_style=ADDRESS, visible_if="not doc.target_address_display"),
+			linked("to_warehouse.city", "City", show_label="hide", custom_style=ADDRESS, visible_if="not doc.target_address_display"),
+			linked("to_warehouse.phone_no", "Phone", hide_colon=1, custom_style="margin-top:4px;", visible_if="not doc.target_address_display"),
+			visible_if=going),
+		[row("posting_date", "Date", "Date", date_format=DATE), row("stock_entry_type", "Link", "Type"), row("from_warehouse", "Link", "From"),
+			row("to_warehouse", "Link", "To"), row("work_order", "Link", "Work Order"),
+			linked("project.project_name", "Project", label_justify="space-between", hide_colon=1, custom_style=f"padding:5px 0;border-bottom:1px solid {LINE};")],
+		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
+	)
+	lines = section([table("items", "Items", [
+		{"fieldname": "idx", "fieldtype": "Int", "label": "No", "width": 5},
+		item_column(code=True, width=37),
+		{"fieldname": "s_warehouse", "fieldtype": "Link", "label": "From", "width": 17},
+		{"fieldname": "t_warehouse", "fieldtype": "Link", "label": "To", "width": 17},
+		{"fieldname": "batch_no", "fieldtype": "Link", "label": "Batch", "width": 12},
+		_qty(width=12),
+	])], top=28)
+	remarks = section([heading("Remarks"), field("remarks", "Small Text", "Remarks", show_label="hide")], top=16, visible_if="doc.remarks")
+	return layout(_numbered(titles, "Movement No"), who, lines, remarks, signs_section((("Sent By", None), ("Received By", None))))
+
+
+def blanket_order():
+	"""A price and a quantity agreed for a time: with whom, from when to
+	when, each item at its rate with how much is ordered so far, and the
+	terms."""
+	selling = 'doc.blanket_order_type == "Selling"'
+	who = section(
+		[heading("Agreed With"), field("customer_name", "Data", "Customer", show_label="hide", bold=1, font_size=13, visible_if=selling),
+			field("supplier_name", "Data", "Supplier", show_label="hide", bold=1, font_size=13, visible_if=f"not ({selling})")],
+		[row("order_date", "Date", "Date", date_format=DATE), row("from_date", "Date", "From", date_format=DATE), row("to_date", "Date", "To", date_format=DATE),
+			row("order_no", "Data", "Their Reference")],
+		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
+	)
+	lines = section([table("items", "Items", [
+		{"fieldname": "idx", "fieldtype": "Int", "label": "No", "width": 5},
+		item_column(code=True, width=41, describe=False),
+		{"fieldname": "party_item_code", "fieldtype": "Data", "label": "Their Code", "width": 14},
+		_qty(unit="stock_uom", label="Agreed", width=12),
+		{"fieldname": "rate", "fieldtype": "Currency", "label": "Rate", "width": 15, "align": "right"},
+		{"fieldname": "ordered_qty", "fieldtype": "Float", "label": "Ordered", "width": 13, "align": "right"},
+	])], top=28)
+	return layout(_numbered((("Blanket Order", ""),), "Agreement No", details=[_company_trn(align="right", custom_style="margin-top:4px;")]),
+		who, lines, terms_section())
+
+
+def work_order():
+	"""What to make, how many, for whom and by when, the materials it takes
+	and where from, and each step with where and how long."""
+	who = section(
+		[heading("Made For", visible_if="doc.project or doc.sales_order"),
+			linked("project.customer", "Customer", show_label="hide", bold=1, font_size=13),
+			linked("project.project_name", "Project", hide_colon=1, custom_style="margin-top:2px;"),
+			field("sales_order", "Link", "Sales Order", hide_colon=1, custom_style="margin-top:2px;")],
+		[row("planned_start_date", "Datetime", "Starts On", date_format=DATE), row("expected_delivery_date", "Date", "Wanted By", date_format=DATE),
+			row("status", "Data", "Status"), row("bom_no", "Link", "Bill of Materials")],
+		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
+	)
+	make = section(
+		[heading("Make"), field("item_name", "Data", "Item", show_label="hide", bold=1, font_size=15),
+			field("production_item", "Link", "Item Code", show_label="hide", custom_style=f"color:{MUTED};")],
+		[row("qty", "Float", "Quantity", bold=1), row("stock_uom", "Link", "Unit"), row("produced_qty", "Float", "Made So Far"), row("fg_warehouse", "Link", "Into")],
+		widths=[55, 45], gap=48, top=22, background=SOFT, radius=8, padding={"top": 14, "right": 16, "bottom": 14, "left": 16}, field_orientation="left-right",
+	)
+	materials = section([heading("Materials"), table("required_items", "Materials", [
+		{"fieldname": "idx", "fieldtype": "Int", "label": "No", "width": 5},
+		{"fieldname": "item_name", "fieldtype": "Data", "label": "Material", "width": 45,
+			"merged_fields": [{"fieldname": "item_code", "fieldtype": "Link", "label": "Item Code", "style": "muted-sm"}]},
+		{"fieldname": "source_warehouse", "fieldtype": "Link", "label": "From", "width": 22},
+		_qty(fieldname="required_qty", unit="stock_uom", label="Needed", width=14),
+		{"fieldname": "transferred_qty", "fieldtype": "Float", "label": "Sent", "width": 14, "align": "right"},
+	], table_cell_padding=6)], top=22, visible_if="doc.required_items")
+	steps = section([heading("Steps"), table("operations", "Steps", [
+		{"fieldname": "idx", "fieldtype": "Int", "label": "No", "width": 5},
+		{"fieldname": "operation", "fieldtype": "Link", "label": "Step", "width": 35},
+		{"fieldname": "workstation", "fieldtype": "Link", "label": "Where", "width": 26},
+		{"fieldname": "time_in_mins", "fieldtype": "Float", "label": "Minutes", "width": 17, "align": "right"},
+		{"fieldname": "completed_qty", "fieldtype": "Float", "label": "Done", "width": 17, "align": "right"},
+	], table_cell_padding=6)], top=18, visible_if="doc.operations")
+	notes = section([heading("Notes"), field("description", "Text Editor", "Notes", show_label="hide")], top=16, visible_if="doc.description")
+	return layout(_numbered((("Work Order", ""),), "Order No"), who, make, materials, steps, notes,
+		signs_section((("Issued By", None), ("Made By", None))))
+
+
+def equipment_handover():
+	"""Equipment handed over or put away: each piece, from whom or where to
+	whom or where, and both sides to sign."""
+	who = section([], [row("transaction_date", "Datetime", "Date", date_format=DATE), row("purpose", "Data", "Purpose")],
+		widths=[55, 45], gap=48, top=22, field_orientation="left-right")
+	lines = section([table("assets", "Equipment", [
+		{"fieldname": "idx", "fieldtype": "Int", "label": "No", "width": 5},
+		{"fieldname": "asset_name", "fieldtype": "Data", "label": "Equipment", "width": 31},
+		{"fieldname": "from_employee", "fieldtype": "Link", "label": "From", "width": 16},
+		{"fieldname": "source_location", "fieldtype": "Link", "label": "Was At", "width": 16},
+		{"fieldname": "to_employee", "fieldtype": "Link", "label": "Handed To", "width": 16},
+		{"fieldname": "target_location", "fieldtype": "Link", "label": "Kept At", "width": 16},
+	])], top=24)
+	words = section([text("I have received the equipment above in good order. I will look after it, and give it back when I am asked.",
+		custom_style="font-size:10.5px;")], top=16, visible_if="[one for one in doc.assets if one.to_employee]")
+	return layout(_numbered((("Equipment Handover", ""),), "Handover No"), who, lines, words,
+		signs_section((("Handed Over By", None), ("Received By", None))))
+
+
+def timesheet():
+	"""Whose hours, for whom and when, each day's work, the hours billable,
+	and the customer to approve them."""
+	who = section(
+		[*_who("Employee", "employee_name"), field("department", "Link", "Department", show_label="hide", custom_style=ADDRESS),
+			field("customer", "Link", "Customer", hide_colon=1, custom_style="margin-top:6px;")],
+		[row("start_date", "Date", "From", date_format=DATE), row("end_date", "Date", "To", date_format=DATE),
+			linked("parent_project.project_name", "Project", label_justify="space-between", hide_colon=1, custom_style=f"padding:5px 0;border-bottom:1px solid {LINE};"),
+			row("total_hours", "Float", "Hours"), row("total_billable_hours", "Float", "Billable Hours", bold=1)],
+		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
+	)
+	lines = section([table("time_logs", "Time", [
+		{"fieldname": "from_time", "fieldtype": "Date", "label": "Date", "width": 14, "date_format": DATE},
+		{"fieldname": "activity_type", "fieldtype": "Link", "label": "Activity", "width": 20,
+			"merged_fields": [{"fieldname": "task", "fieldtype": "Link", "label": "Task", "style": "muted-sm"}]},
+		{"fieldname": "description", "fieldtype": "Small Text", "label": "Work", "width": 40},
+		{"fieldname": "hours", "fieldtype": "Float", "label": "Hours", "width": 12, "align": "right"},
+		{"fieldname": "billing_hours", "fieldtype": "Float", "label": "Billable", "width": 14, "align": "right"},
+	], table_cell_padding=6)], top=24)
+	notes = section([heading("Notes"), field("note", "Text Editor", "Notes", show_label="hide")], top=16, visible_if="doc.note")
+	return layout(_numbered((("Timesheet", ""),), "Timesheet No"), who, lines, notes, signs_section((("For", "company"), ("Approved By", "customer"))))
+
+
+def contract():
+	"""An agreement: with whom, from when to when and what for, its terms in
+	full, what it requires and by when, and both sides to sign."""
+	who = section(
+		_who("Agreed With", "party_full_name"),
+		[row("start_date", "Date", "Starts On", date_format=DATE), row("end_date", "Date", "Ends On", date_format=DATE),
+			row("one_notice_period", "Data", "Notice"), row("document_name", "Dynamic Link", "For"), row("signed_on", "Datetime", "Signed On", date_format=DATE)],
+		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
+	)
+	body = section([field("contract_terms", "Text Editor", "Terms", show_label="hide", custom_style="line-height:1.6;")], top=24)
+	fulfil = section([heading("To Be Fulfilled"), row("fulfilment_deadline", "Date", "By", date_format=DATE),
+		table("fulfilment_terms", "Fulfilment", [
+			{"fieldname": "requirement", "fieldtype": "Data", "label": "Requirement", "width": 70},
+			{"fieldname": "fulfilled", "fieldtype": "Check", "label": "Done", "width": 30, "align": "right"},
+		], table_cell_padding=6)], top=18, visible_if="doc.requires_fulfilment", field_orientation="left-right")
+	return layout(_numbered((("Contract", ""),), "Contract No"),
+		who, body, fulfil, signs_section((("Authorised Signatory", None), ("For", "party_full_name"))))
+
+
+def maintenance_plan():
+	"""A year of visits: for whom and where, what's maintained and how often,
+	and each visit, when it's due, when it was done and by whom."""
+	who = section(
+		[*_who("Prepared For", "customer_name"), field("address_display", "Small Text", "Address", show_label="hide", custom_style=ADDRESS), *contact_lines()],
+		[row("transaction_date", "Date", "Date", date_format=DATE), row("status", "Data", "Status")],
+		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
+	)
+	what = section([heading("What's Maintained"), table("items", "Items", [
+		{"fieldname": "item_name", "fieldtype": "Data", "label": "Item", "width": 34,
+			"merged_fields": [{"fieldname": "description", "fieldtype": "Text Editor", "label": "Description", "style": "muted-sm"}]},
+		{"fieldname": "start_date", "fieldtype": "Date", "label": "From", "width": 16, "date_format": DATE},
+		{"fieldname": "end_date", "fieldtype": "Date", "label": "To", "width": 16, "date_format": DATE},
+		{"fieldname": "periodicity", "fieldtype": "Data", "label": "How Often", "width": 18},
+		{"fieldname": "no_of_visits", "fieldtype": "Int", "label": "Visits", "width": 16, "align": "right"},
+	], table_cell_padding=6)], top=24)
+	visits = section([heading("Visits"), table("schedules", "Visits", [
+		{"fieldname": "idx", "fieldtype": "Int", "label": "No", "width": 6},
+		{"fieldname": "item_name", "fieldtype": "Data", "label": "Visit", "width": 30},
+		{"fieldname": "scheduled_date", "fieldtype": "Date", "label": "Due", "width": 18, "date_format": DATE},
+		{"fieldname": "actual_date", "fieldtype": "Date", "label": "Done On", "width": 18, "date_format": DATE},
+		{"fieldname": "sales_person", "fieldtype": "Link", "label": "By", "width": 28},
+	], table_cell_padding=6)], top=18)
+	return layout(_numbered((("Maintenance Plan", ""),), "Plan No", details=[_company_trn(align="right", custom_style="margin-top:4px;")]), who, what, visits)
+
+
+def service_report():
+	"""A visit done: for whom and when, what kind and how it ended, each item
+	seen to and the work done on it, what the customer said, and both sides
+	to sign."""
+	who = section(
+		[*_who("Customer", "customer_name"), field("address_display", "Small Text", "Address", show_label="hide", custom_style=ADDRESS), *contact_lines()],
+		[row("mntc_date", "Date", "Date", date_format=DATE), row("mntc_time", "Time", "Time"), row("maintenance_type", "Data", "Type"),
+			row("completion_status", "Data", "Status", bold=1), row("maintenance_schedule", "Link", "Plan")],
+		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
+	)
+	work = section([table("purposes", "Work", [
+		{"fieldname": "idx", "fieldtype": "Int", "label": "No", "width": 5},
+		{"fieldname": "item_name", "fieldtype": "Data", "label": "Item", "width": 27,
+			"merged_fields": [{"fieldname": "serial_no", "fieldtype": "Link", "label": "Serial No", "style": "muted-sm"}]},
+		{"fieldname": "description", "fieldtype": "Text Editor", "label": "Asked For", "width": 24},
+		{"fieldname": "work_done", "fieldtype": "Small Text", "label": "Work Done", "width": 28},
+		{"fieldname": "service_person", "fieldtype": "Link", "label": "By", "width": 16},
+	], table_cell_padding=7)], top=24)
+	said = section([heading("Customer's Feedback"), field("customer_feedback", "Small Text", "Feedback", show_label="hide", custom_style="font-style:italic;")],
+		top=18, visible_if="doc.customer_feedback")
+	return layout(_numbered((("Service Report", ""),), "Report No"), who, work, said,
+		signs_section((("Serviced By", None), ("Accepted By", "customer_name"))))
+
+
 def _trade(doctype, make):
 	return lambda: make(TRADE[doctype])
 
@@ -1178,6 +1432,15 @@ VERSIONS = {
 	"One Salary Statement": ("Salary Slip", "one_hr", salary_statement),
 	"One Job Offer": ("Job Offer", "one_hr", job_offer),
 	"One Appointment Letter": ("Appointment Letter", "one_hr", appointment_letter),
+	"One Packing Slip": ("Packing Slip", "one_inventory", packing_slip),
+	"One Stock Entry": ("Stock Entry", "one_inventory", stock_entry),
+	"One Blanket Order": ("Blanket Order", "one_inventory", blanket_order),
+	"One Work Order": ("Work Order", "one_inventory", work_order),
+	"One Equipment Handover": ("Asset Movement", "one_inventory", equipment_handover),
+	"One Timesheet": ("Timesheet", "one_project", timesheet),
+	"One Contract": ("Contract", "one_crm", contract),
+	"One Maintenance Plan": ("Maintenance Schedule", "one_crm", maintenance_plan),
+	"One Service Report": ("Maintenance Visit", "one_crm", service_report),
 }
 #: ERPNext ships one look for these, so One's is its master alone.
 ONE_LOOK = ("Purchase Receipt",)

@@ -1494,11 +1494,17 @@ one field for it.
   One's `progress` block (templates/one_print/progress.html). The block reads
   the project as the customer's portal does (portal.py `view`): how much is
   done, the milestones, the next tasks due, the sub-projects, the contract and
-  the invoices with what is outstanding.
+  the invoices with what is outstanding. It's the one print still drawn from
+  blocks: what it says is gathered from other records (tasks, orders,
+  invoices), which a format made of the builder's own pieces can't reach
+  from the project.
+- **One Timesheet** is drawn from the builder's own pieces
+  (`scripts/print_formats.py`): whose hours, for whom and when, each day's
+  work with its task, the hours billable, and the customer to approve them.
 - **One Sales Invoice** shows the hours a time and materials invoice bills,
-  from ERPNext's Time Sheets table on it, through the field template **One
-  Time Billed** (one/print_blocks.py `time_billed`,
-  templates/one_print/time.html). An invoice that bills no time shows nothing.
+  from ERPNext's Time Sheets table on it, as Time Billed, or Time Spent with
+  the hours alone on a retainer, whose fee isn't the time's. An invoice that
+  bills no time shows nothing.
 - `calendar.py` — a project's **Tasks** on its own calendar, read through
   OneTask's `calendar.due`.
 - Currency: every order and invoice made here goes through one_book/currency.py
