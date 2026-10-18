@@ -37,42 +37,23 @@
         </template>
         <dt class="text-ink-gray-5">{{ __("Milestone") }}</dt>
         <dd><Switch :model-value="Boolean(task.is_milestone)" :disabled="!canWrite" :aria-label="__('Milestone')" @update:model-value="(v) => $emit('set', task.name, 'is_milestone', v ? 1 : 0)" /></dd>
-        <template v-if="task.is_milestone && task.one_bill_share">
-          <dt class="text-ink-gray-5">{{ __("Bill on Completion") }}</dt>
-          <dd class="text-ink-gray-8">{{ __("{0}% of the contract", [task.one_bill_share]) }}</dd>
-        </template>
         <dt class="text-ink-gray-5">{{ __("Project") }}</dt>
         <dd class="truncate"><button :class="LINK" @click="go(`/desk/project/${encodeURIComponent(task.project)}`)">{{ work.groups.find((g) => g.key === task.project)?.title }}</button></dd>
-        <template v-if="doc?.type">
-          <dt class="text-ink-gray-5">{{ __("Type") }}</dt>
-          <dd class="truncate text-ink-gray-8">{{ doc.type }}</dd>
+        <template v-for="one in fields" :key="one.field">
+          <dt class="text-ink-gray-5">{{ one.label }}</dt>
+          <dd class="min-w-0 text-ink-gray-8"><FieldEdit :form="form" :field="one.field" :label="one.label" start @saved="$emit('changed')" /></dd>
         </template>
-        <template v-if="task.parent_task">
-          <dt class="text-ink-gray-5">{{ __("Parent Task") }}</dt>
-          <dd class="truncate"><button :class="LINK" @click="$emit('open', task.parent_task)">{{ subject(task.parent_task) }}</button></dd>
-        </template>
-        <template v-if="waits.length">
-          <dt class="self-start text-ink-gray-5">{{ __("Depends On") }}</dt>
-          <dd class="flex min-w-0 flex-col gap-1">
-            <button v-for="one in waits" :key="one.name" class="flex min-w-0 items-center gap-2 text-start hover:underline" @click="$emit('open', one.name)">
-              <span class="lucide-circle-check size-4 shrink-0" :class="one.done ? 'text-ink-green-3' : 'text-ink-gray-4'" />
-              <span class="truncate" :class="one.done ? 'text-ink-gray-5' : 'text-ink-gray-8'">{{ one.subject }}</span>
-            </button>
-          </dd>
-        </template>
-        <template v-if="doc?.auto_repeat">
+        <dt class="self-start text-ink-gray-5">{{ __("Depends On") }}</dt>
+        <dd class="min-w-0"><TaskWaits :form="form" :about="waitsOn" @open="(name) => $emit('open', name)" @saved="$emit('changed')" /></dd>
+        <template v-if="autoRepeat">
           <dt class="text-ink-gray-5">{{ __("Repeats") }}</dt>
-          <dd class="truncate"><button :class="LINK" @click="go(`/desk/auto-repeat/${doc.auto_repeat}`)">{{ repeat?.disabled ? __("Stopped") : __(repeat?.frequency || "Repeats") }}</button></dd>
+          <dd class="truncate"><button :class="LINK" @click="go(`/desk/auto-repeat/${autoRepeat}`)">{{ repeat?.disabled ? __("Stopped") : __(repeat?.frequency || "Repeats") }}</button></dd>
         </template>
       </dl>
 
       <section>
-        <div class="mb-2 flex items-center justify-between">
-          <h3 class="text-base font-semibold text-ink-gray-9">{{ __("Description") }}</h3>
-          <Button v-if="canWrite" variant="ghost" size="sm" icon="lucide-pencil" :aria-label="__('Edit Details')" @click="details" />
-        </div>
-        <div v-if="doc?.description" class="text-base leading-relaxed text-ink-gray-7 [&_p]:mb-2" v-html="doc.description" />
-        <button v-else-if="canWrite" class="text-base text-ink-gray-5 hover:text-ink-gray-8" @click="details">{{ __("Add Description") }}</button>
+        <h3 class="mb-2 text-base font-semibold text-ink-gray-9">{{ __("Description") }}</h3>
+        <FieldEdit :form="form" field="description" start class="text-base leading-relaxed text-ink-gray-7" :label="__('Description')" :placeholder="canWrite ? __('Add Description') : __('No description')" @saved="$emit('changed')" />
       </section>
 
       <section v-if="steps.length || canWrite">
@@ -112,7 +93,8 @@
 import { computed, defineAsyncComponent, onBeforeUnmount, ref, watch } from "vue";
 import { Button, Checkbox, Dropdown, Switch, TextInput } from "frappe-ui";
 
-import { Drawer, People, Pill, __, call, can, go, hours, listen, onedesk } from "../kit";
+import { Drawer, FieldEdit, People, Pill, __, call, can, go, hours, listen, onedesk, useForm } from "../kit";
+import TaskWaits from "../task/TaskWaits.vue";
 import { PRIORITY, TASK_STATUS } from "./colors";
 import Due from "./Due.vue";
 
@@ -122,28 +104,31 @@ const props = defineProps({ task: Object, work: { type: Object, required: true }
 const emit = defineEmits(["close", "set", "give", "take", "open", "add", "changed"]);
 const LINK = "text-ink-gray-8 underline decoration-outline-gray-3 underline-offset-4 hover:decoration-ink-gray-8";
 
-const doc = ref(null);
+const form = useForm("Task", computed(() => props.task?.name));
+watch(() => props.task?.modified, (now) => form.reload(now));
+const autoRepeat = computed(() => form.value("auto_repeat"));
 const repeat = ref(null);
 async function load() {
   const name = props.task?.name;
-  if (!name) return (doc.value = null);
-  const got = await call("frappe.client.get", { doctype: "Task", name });
-  if (props.task?.name !== name) return;
-  doc.value = got;
-  repeat.value = got.auto_repeat ? await call("onedesk.one_task.task.repeat_of", { task: name }) : null;
+  const got = name && autoRepeat.value ? await call("onedesk.one_task.task.repeat_of", { task: name }) : null;
+  if (props.task?.name === name) repeat.value = got;
 }
-watch(() => [props.task?.name, props.task?.modified], load, { immediate: true });
+watch(() => [props.task?.name, autoRepeat.value], load, { immediate: true });
 
-const steps = computed(() => doc.value?.one_steps || []);
-const subTasks = computed(() => (props.task ? props.work.tasks.filter((one) => one.parent_task === props.task.name) : []));
-const subject = (name) => props.work.tasks.find((one) => one.name === name)?.subject || name;
-const waits = computed(() =>
-  (doc.value?.depends_on || []).map((row) => {
-    const known = props.work.tasks.find((one) => one.name === row.task);
-    const subject = known?.subject || row.subject || row.task;
-    return { name: row.task, subject, done: known ? ["Completed", "Cancelled"].includes(known.status) : !props.task?.waiting?.includes(subject) };
-  })
+const fields = computed(() =>
+  [
+    { label: __("Type"), field: "type" },
+    { label: __("Parent Task"), field: "parent_task" },
+    { label: __("Bill on Completion"), field: "one_bill_share" },
+  ].filter((one) => form.status(one.field) !== "None")
 );
+const steps = computed(() => form.value("one_steps") || []);
+const subTasks = computed(() => (props.task ? props.work.tasks.filter((one) => one.parent_task === props.task.name) : []));
+const waitsOn = (row) => {
+  const known = props.work.tasks.find((one) => one.name === row.task);
+  const subject = known?.subject || row.subject || row.task;
+  return { subject, done: known ? ["Completed", "Cancelled"].includes(known.status) : !props.task?.waiting?.includes(subject) };
+};
 
 const newStep = ref("");
 const newSub = ref("");
@@ -157,7 +142,6 @@ async function addStep() {
   if (!text) return;
   newStep.value = "";
   await call("onedesk.one_task.task.add_step", { task: props.task.name, step: text });
-  await load();
   emit("changed");
 }
 function addSub() {
@@ -185,12 +169,10 @@ async function time() {
   }
 }
 
-const details = () => onedesk().project.task_details(props.task.name, doc.value?.modified || props.task.modified, () => emit("changed"));
 const menu = computed(() =>
   [
-    props.canWrite && { label: __("Edit Details"), icon: "lucide-pencil", onClick: details },
-    props.canWrite && !doc.value?.auto_repeat && { label: __("Repeat"), icon: "lucide-repeat", onClick: () => onedesk().project.repeat_task(props.task.name, () => (load(), emit("changed"))) },
-    props.canWrite && doc.value?.auto_repeat && !repeat.value?.disabled && { label: __("Stop Repeating"), icon: "lucide-repeat", onClick: () => onedesk().project.stop_repeat(props.task.name, load) },
+    props.canWrite && !autoRepeat.value && { label: __("Repeat"), icon: "lucide-repeat", onClick: () => onedesk().project.repeat_task(props.task.name, () => (load(), emit("changed"))) },
+    props.canWrite && autoRepeat.value && !repeat.value?.disabled && { label: __("Stop Repeating"), icon: "lucide-repeat", onClick: () => onedesk().project.stop_repeat(props.task.name, load) },
     { label: __("Open Task"), icon: "lucide-external-link", onClick: () => go(`/desk/task/${props.task.name}`) },
   ].filter(Boolean)
 );

@@ -329,6 +329,7 @@ function actions(s) {
   const list = [];
   const main = mainAction(s);
   if (main) list.push({ ...main, primary: true });
+  if (s.can_write) list.push({ label: __("Edit About"), onClick: () => desk().project.edit_about(s.name, s.modified, load) });
   if (s.can_write) list.push({ label: __("Ask for Updates"), onClick: () => desk().project.ask_updates(s.name, load) });
   if (s.can_write) list.push({ label: __("Group Under New Project"), onClick: () => desk().project.group(frm()) });
   return list;

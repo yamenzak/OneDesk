@@ -9,17 +9,17 @@ onedesk.task.GROUPS = [
 ];
 onedesk.task.ELSEWHERE = ["subject", "status", "description", "one_steps"];
 
-onedesk.task.edit = async (task, modified, done, fieldnames = null) => {
+onedesk.task.edit = async (task, modified, done) => {
 	await frappe.model.with_doctype("Task");
 	const doc = await frappe.db.get_doc("Task", task);
 	for (const row of doc.depends_on || []) if (row.subject) frappe.utils.add_link_title("Task", row.task, row.subject);
-	const groups = fieldnames || onedesk.project.about_fields("Task", onedesk.task.GROUPS, onedesk.task.ELSEWHERE);
+	const groups = onedesk.project.about_fields("Task", onedesk.task.GROUPS, onedesk.task.ELSEWHERE);
 	const fields = groups
 		.flatMap((one) => (Array.isArray(one) ? [{ fieldtype: "Section Break", label: one[0] }, ...one[1]] : [one]))
 		.map((fieldname) => (typeof fieldname === "string" ? onedesk.task.field(doc, fieldname) : fieldname))
 		.filter(Boolean);
 	const dialog = new frappe.ui.Dialog({
-		title: fieldnames ? __("Edit {0}", [__(frappe.meta.get_label("Task", fieldnames[0]))]) : __("Edit Details"),
+		title: __("Edit Details"),
 		size: "large",
 		fields,
 		primary_action_label: __("Save"),

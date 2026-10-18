@@ -46,13 +46,8 @@
         <div v-if="view === 'details'" class="grid gap-8 pb-12 lg:grid-cols-[minmax(0,1fr)_20rem]">
           <div class="flex min-w-0 flex-col gap-8">
             <section>
-              <div class="mb-2 flex items-center justify-between">
-                <h3 class="text-base font-semibold text-ink-gray-9">{{ __("Description") }}</h3>
-                <Button v-if="said.can_write" variant="ghost" size="sm" icon="lucide-pencil" :aria-label="__('Edit Description')" @click="describe" />
-              </div>
-              <div v-if="said.description" class="text-base leading-relaxed text-ink-gray-7 [&_p]:mb-2" v-html="said.description" />
-              <button v-else-if="said.can_write" class="text-base text-ink-gray-5 hover:text-ink-gray-8" @click="describe">{{ __("Add Description") }}</button>
-              <p v-else class="text-base text-ink-gray-5">{{ __("No description") }}</p>
+              <h3 class="mb-2 text-base font-semibold text-ink-gray-9">{{ __("Description") }}</h3>
+              <FieldEdit :form="form" field="description" start class="text-base leading-relaxed text-ink-gray-7" :label="__('Description')" :placeholder="said.can_write ? __('Add Description') : __('No description')" @saved="load" />
             </section>
 
             <section v-if="said.steps.length || said.can_write">
@@ -85,17 +80,8 @@
 
           <aside class="flex min-w-0 flex-col gap-8">
             <section>
-              <div class="mb-2 flex items-center justify-between">
-                <h3 class="text-base font-semibold text-ink-gray-9">{{ __("Depends On") }}</h3>
-                <Button v-if="said.can_write" variant="ghost" size="sm" icon="lucide-pencil" :aria-label="__('Edit Details')" @click="details" />
-              </div>
-              <div v-if="said.waits.length" class="flex flex-col gap-1.5">
-                <button v-for="one in said.waits" :key="one.name" class="flex min-w-0 items-center gap-2 text-start text-base hover:underline" @click="go(`/desk/task/${encodeURIComponent(one.name)}`)">
-                  <span class="lucide-circle-check size-4 shrink-0" :class="one.done ? 'text-ink-green-3' : 'text-ink-gray-4'" aria-hidden="true" />
-                  <span class="truncate" :class="one.done ? 'text-ink-gray-5' : 'text-ink-gray-8'">{{ one.subject }}</span>
-                </button>
-              </div>
-              <p v-else class="text-base text-ink-gray-5">{{ __("Nothing") }}</p>
+              <h3 class="mb-2 text-base font-semibold text-ink-gray-9">{{ __("Depends On") }}</h3>
+              <TaskWaits :form="form" :about="waitsOn" @open="(task) => go(`/desk/task/${encodeURIComponent(task)}`)" @saved="load" />
             </section>
             <section v-if="said.blocking.length">
               <h3 class="mb-2 text-base font-semibold text-ink-gray-9">{{ __("Waiting on This") }}</h3>
@@ -107,17 +93,8 @@
               </div>
             </section>
             <section>
-              <div class="mb-2 flex items-center justify-between">
-                <h3 class="text-base font-semibold text-ink-gray-9">{{ __("Details") }}</h3>
-                <Button v-if="said.can_write" variant="ghost" size="sm" icon="lucide-pencil" :aria-label="__('Edit Details')" @click="details" />
-              </div>
-              <dl v-if="facts.length" class="grid grid-cols-[7rem_minmax(0,1fr)] gap-y-2 text-base">
-                <template v-for="one in facts" :key="one.label">
-                  <dt class="text-ink-gray-5">{{ one.label }}</dt>
-                  <dd class="truncate text-ink-gray-8">{{ one.value }}</dd>
-                </template>
-              </dl>
-              <p v-else class="text-base text-ink-gray-5">{{ __("Nothing") }}</p>
+              <h3 class="mb-2 text-base font-semibold text-ink-gray-9">{{ __("Details") }}</h3>
+              <Facts :facts="facts" :form="form" @saved="load" />
             </section>
           </aside>
         </div>
@@ -134,15 +111,16 @@
 
 <script setup>
 import { computed, defineAsyncComponent, onBeforeUnmount, reactive, ref, watch } from "vue";
-import { Badge, Button, Checkbox, TextInput } from "frappe-ui";
+import { Badge, Checkbox, TextInput } from "frappe-ui";
 
-import { Figures, Loading, Page, People, Pill, PlaceSpot, ViewTabs, __, call, date, follow, followList, go, hours, insert, isPast, listen, onedesk, setQuery, setValue, useRecord } from "../kit";
+import { Facts, FieldEdit, Figures, Loading, Page, People, Pill, PlaceSpot, ViewTabs, __, call, date, follow, followList, go, hours, insert, isPast, listen, onedesk, setQuery, setValue, useForm, useRecord } from "../kit";
 import { DONE, PRIORITY, TASK_STATUS } from "../project/colors";
 import Due from "../project/Due.vue";
 import Title from "../project/Title.vue";
 import { usePlace } from "../project/place";
 import TaskFiles from "./TaskFiles.vue";
 import TaskTime from "./TaskTime.vue";
+import TaskWaits from "./TaskWaits.vue";
 
 const Activity = defineAsyncComponent(() => import("../project/Activity.vue"));
 
@@ -162,6 +140,7 @@ const said = ref(null);
 const view = ref(props.query.view || "details");
 const fileCount = ref(null);
 const record = useRecord("Task", name);
+const form = useForm("Task", name);
 
 async function load() {
   const asked = name.value;
@@ -202,7 +181,10 @@ onBeforeUnmount(() => {
 });
 watch(view, (now) => setQuery("view", now === "details" ? null : now));
 watch(() => props.query.view, (now) => now && (view.value = now));
-watch(() => said.value?.modified, (now, before) => now && before && now !== before && record.reload());
+watch(() => said.value?.modified, (now, before) => {
+  if (now && before && now !== before) record.reload();
+  form.reload(now);
+});
 watch(record.record, () => said.value && report());
 
 const VIEWS = computed(() =>
@@ -251,15 +233,22 @@ const figures = computed(() => {
 const facts = computed(() => {
   const s = said.value;
   return [
-    s.place && { label: __(s.place.kind), value: s.place.label },
-    s.parent_task && { label: __("Parent Task"), value: s.above.at(-1)?.subject || s.parent_task },
-    s.type && { label: __("Type"), value: s.type },
-    s.is_milestone && s.one_bill_share && { label: __("Bill on Completion"), value: __("{0}% of the contract", [s.one_bill_share]) },
-    s.review_date && { label: __("Review Date"), value: date(s.review_date) },
-    s.completed_on && { label: __("Completed On"), value: date(s.completed_on) },
-    s.completed_by && { label: __("Completed By"), value: s.people[s.completed_by]?.name || s.completed_by },
+    s.place && { label: __(s.place.kind), value: s.place.label, route: s.place.route },
+    { label: __("Type"), field: "type" },
+    { label: __("Parent Task"), field: "parent_task" },
+    { label: __("Milestone"), field: "is_milestone" },
+    { label: __("Bill on Completion"), field: "one_bill_share" },
+    { label: __("Review Date"), field: "review_date" },
+    { label: __("Completed On"), field: "completed_on" },
+    { label: __("Completed By"), field: "completed_by" },
   ].filter(Boolean);
 });
+
+const waitsOn = (row) => {
+  const s = said.value;
+  if (s.sub_tasks.some((one) => one.name === row.task)) return null;
+  return s.waits.find((one) => one.name === row.task) || { subject: row.subject || row.task, done: false };
+};
 
 async function set(fieldname, value) {
   said.value[fieldname] = value;
@@ -294,7 +283,6 @@ async function addSub() {
 
 const desk = onedesk;
 const details = () => desk().task.edit(name.value, said.value.modified, load);
-const describe = () => desk().task.edit(name.value, said.value.modified, load, ["description"]);
 
 const running = ref(null);
 const timing = computed(() => running.value?.task === name.value);

@@ -140,6 +140,13 @@ export function useForm(doctype, name) {
 			version.value++;
 			return name;
 		},
+		removeRow(table, row) {
+			const f = frm.value;
+			if (!f) return;
+			f.set_value(table, (f.doc[table] || []).filter((one) => one.name !== row));
+			f.dirty();
+			version.value++;
+		},
 		async save() {
 			const f = frm.value;
 			if (f?.is_dirty()) await f.save();

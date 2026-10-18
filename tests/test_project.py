@@ -1785,10 +1785,13 @@ def test_the_task_panel_is_the_same_task_onetask_opens():
 		assert said in panel
 	assert 'emit("add", props.task.project, text, { parent_task: props.task.name })' in panel
 	assert '__("Depends On")' in panel and '__("Repeat")' in panel and '__("Stop Repeating")' in panel
+	assert 'useForm("Task", computed(() => props.task?.name))' in panel and "<TaskWaits" in panel
+	assert 'field="description"' in panel and "task_details" not in panel
 	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
-	assert "onedesk.project.task_details = async (task, modified, done) =>" in actions
+	assert "onedesk.project.task_details" not in actions
 	assert 'frappe.utils.new_auto_repeat_prompt({ doc: { doctype: "Task", name: task }' in actions
-	assert "{ doc: { ...doc, ...values, depends_on, modified } }" in actions
+	waits = (tree.ROOT / "frontend" / "src" / "task" / "TaskWaits.vue").read_text()
+	assert 'props.form.addRow("depends_on")' in waits and 'props.form.removeRow("depends_on", row)' in waits
 	steps = (tree.APP / "one_task" / "task.py").read_text()
 	assert "def tick(task: str, step: str" in steps and "def add_step(task: str, step: str)" in steps
 	task = json.loads((tree.APP / "one_task" / "custom" / "task.json").read_text())

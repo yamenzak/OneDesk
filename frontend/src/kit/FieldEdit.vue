@@ -123,6 +123,7 @@ async function tick(on) {
 onMounted(() => {
   stop = props.form.edited((fieldname, row) => {
     if (fieldname !== props.field || (row || null) !== (props.row || null)) return;
+    if (props.table) lent?.control?.set_formatted_input?.(source.value.value(props.field));
     if (editing.value && !long.value && !props.hold) setTimeout(save, 0);
   });
   if (props.hold && writable.value) start();

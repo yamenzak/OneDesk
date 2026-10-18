@@ -92,8 +92,8 @@
         <Button v-if="view.needs_all" variant="ghost" class="mt-2 -ms-2" :label="__('Show All')" @click="go(view.needs_all)" />
       </Section>
 
-      <Section :title="__('About', null, 'Project')" icon="lucide-info" :action="said.can_write ? { icon: 'lucide-pencil', label: __('Edit About'), onClick: editAbout } : null">
-        <Facts :facts="facts" />
+      <Section :title="__('About', null, 'Project')" icon="lucide-info">
+        <Facts :facts="facts" :form="form" @saved="$emit('changed')" />
         <Button v-if="!said.notes && said.can_write" variant="ghost" class="mt-3 -ms-2" icon-left="lucide-plus" :label="__('Add Brief')" @click="editBrief" />
       </Section>
       <Section :title="__('Updates')" icon="lucide-message-square" :aside="said.asking">
@@ -119,11 +119,11 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { Button } from "frappe-ui";
 import { BarChart, ChartCard, DonutChart, useChartTokens } from "frappe-ui/charts";
 
-import { Facts, Figures, PlaceSpot, Rows, Section, __, can, colors, count, date, go, hours, money, newDoc, onedesk, shortDate } from "../kit";
+import { Facts, Figures, PlaceSpot, Rows, Section, __, can, colors, count, date, go, hours, money, newDoc, onedesk, shortDate, useForm } from "../kit";
 import MilestoneLanes from "./MilestoneLanes.vue";
 import Milestones from "./Milestones.vue";
 import Months from "./Months.vue";
@@ -262,30 +262,29 @@ const unbilledTotal = computed(() => {
   return all.length ? money(all.reduce((sum, one) => sum + one.amount, 0), props.said.currency) : "";
 });
 
+const form = useForm("Project", computed(() => props.said.name));
+watch(() => props.said.modified, (now) => form.reload(now));
 const facts = computed(() => {
   const s = props.said;
   const left = s.days_left;
   const open = s.status === "Open";
+  const from = (value) => (value ? [__(value), s.terms_from && __("from {0}", [s.terms_from])].filter(Boolean).join(" · ") : __("Not set"));
   return [
-    s.progress_method && { label: __("Progress"), value: __(s.progress_method) },
-    s.kind !== "Internal" && {
-      label: __("Expected End Date"),
-      value: s.ends ? [date(s.ends), open && ends(left)].filter(Boolean).join(" · ") : __("Not set"),
-      tone: !s.ends ? "gray" : open && left < 0 ? "red" : undefined,
-    },
+    { label: __("Progress"), field: "percent_complete_method" },
+    s.kind !== "Internal" && { label: __("Expected End Date"), field: "expected_end_date", placeholder: __("Not set"), tone: s.ends && open && left < 0 ? "red" : undefined },
     s.people?.length && { label: __("Team"), value: s.people.length === 1 ? __("1 person") : __("{0} people", [s.people.length]), avatars: s.people.map((one) => ({ label: one.name, image: one.image })), onClick: () => emit("view", "team") },
-    s.priority && { label: __("Priority"), value: __(s.priority) },
-    s.time && { label: __("Time"), value: [__(s.time), s.site].filter(Boolean).join(" · ") },
-    s.kind !== "Internal" && { label: __("Payment Terms"), value: s.payment_terms ? [__(s.payment_terms), s.terms_from && __("from {0}", [s.terms_from])].filter(Boolean).join(" · ") : __("Not set"), tone: s.payment_terms ? undefined : "gray" },
-    s.terms && { label: __("Terms and Conditions"), value: s.terms },
-    s.project_type && { label: __("Project Type"), value: s.project_type },
-    s.department && { label: __("Department"), value: s.department },
-    s.task_prefix && { label: __("Task Prefix"), value: s.task_prefix },
-    s.cost_center && { label: __("Cost Center"), value: s.cost_center },
-    s.retention_terms && {
-      label: __("Retention"),
-      value: [`${s.retention_terms.percent}%`, s.retention_terms.handover && __("{0}% at handover", [s.retention_terms.handover]), s.retention_terms.due && __("Due {0}", [date(s.retention_terms.due)])].filter(Boolean).join(" · "),
-    },
+    { label: __("Priority"), field: "priority" },
+    { label: __("Time"), field: "one_time", placeholder: __(s.time) },
+    { label: __("Site"), field: "one_site" },
+    s.kind !== "Internal" && { label: __("Payment Terms"), field: "one_payment_terms", placeholder: from(s.payment_terms) },
+    { label: __("Terms and Conditions"), field: "one_terms", placeholder: s.terms ? from(s.terms) : "" },
+    { label: __("Project Type"), field: "project_type" },
+    { label: __("Department"), field: "department" },
+    { label: __("Task Prefix"), field: "one_key" },
+    { label: __("Cost Center"), field: "cost_center" },
+    { label: __("Retention"), field: "one_retention" },
+    { label: __("Released at Handover"), field: "one_retention_handover" },
+    { label: __("Retention Due"), field: "one_retention_due" },
     s.agreement && {
       label: __("Signed Contract"),
       value: s.agreement.signed ? [__("Signed"), s.agreement.ends && __("Ends {0}", [date(s.agreement.ends)])].filter(Boolean).join(" · ") : __("Not signed yet"),
@@ -293,14 +292,6 @@ const facts = computed(() => {
     },
   ].filter(Boolean);
 });
-function ends(left) {
-  if (left === null || left === undefined) return "";
-  if (left === -1) return __("1 day late");
-  if (left < 0) return __("{0} days late", [-left]);
-  if (left === 0) return __("Today");
-  return left === 1 ? __("Tomorrow") : __("In {0} days", [left]);
-}
-const editAbout = () => onedesk().project.edit_about(props.said.name, props.said.modified, () => emit("changed"));
 const editBrief = () => onedesk().project.edit_brief(props.said.name, props.said.modified, () => emit("changed"));
 const retention = computed(() =>
   [
