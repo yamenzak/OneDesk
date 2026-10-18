@@ -1,13 +1,14 @@
 """What OneAI does in OneTask: reads the reader's tasks, suggests a task as a
-card, breaks a task into the steps of its checklist, and suggests a change to
-a task (done, due another day, more pressing) as the page makes it.
+card, breaks a task into the steps of its checklist, suggests a change to a
+task (done, due another day, more pressing) as the page makes it, and gives a
+task to a colleague as the page's Assign does.
 """
 
 from typing import Annotated
 
 import frappe
-from frappe import _lt
-from frappe.utils import getdate
+from frappe import _, _lt
+from frappe.utils import get_fullname, getdate
 
 MOST_STEPS = 12
 
@@ -65,8 +66,17 @@ _CHANGE = {
 	"expects": "plan_change",
 }
 
+_GIVE = {
+	"label": _lt("Give this task to…"),
+	"ask": _lt("Give this task to "),
+	"fill": True,
+	"can": "write",
+	"doctype": "Task",
+	"expects": "assign_task",
+}
+
 SUGGESTIONS = {
-	f"page:{PAGE}": [_LEFT, _STEPS, _CHANGE],
+	f"page:{PAGE}": [_LEFT, _STEPS, _CHANGE, _GIVE],
 	f"page:{PAGE}/time": [_WHO, _LEFT],
 	"page:my-tasks": [_FIRST, _ADD],
 	"page:my-tasks/inbox": [_FIRST, _ADD],
@@ -94,8 +104,9 @@ def page(said: dict) -> str | None:
 		return (
 			f"The reader is on the page of task {name} (“{subject}”). task_facts reads it as its page shows "
 			"it: its dates, what it waits on and what waits on it, its checklist, its sub-tasks and the time "
-			"logged on it; plan_steps suggests the steps of its checklist as a card, and plan_change its "
-			"status, due date or priority, as the page sets them. Nothing is changed until "
+			"logged on it; plan_steps suggests the steps of its checklist as a card, plan_change its "
+			"status, due date or priority, as the page sets them, and assign_task gives it to a colleague "
+			"as the page's Assign does. Nothing is changed until "
 			"the reader approves. How a task's page works is in OneTask's documentation (how_to)."
 		)
 	if said.get("page") != "my-tasks":
@@ -109,7 +120,8 @@ def page(said: dict) -> str | None:
 		where + ". my_tasks reads the list as they see it, grouped by when each is due; plan_task suggests "
 		"a task as a card that adds it when the reader approves, and can give it to a colleague; "
 		"plan_steps suggests the steps of a task's checklist; plan_change suggests a task done, due "
-		"another day or more pressing. Nothing is added or changed until the "
+		"another day or more pressing; assign_task gives a task to a colleague. Nothing is added or "
+		"changed until the "
 		"reader approves. How OneTask works is in its documentation (how_to)."
 	)
 
@@ -295,6 +307,73 @@ def plan_change(
 		"proposal": proposals.propose("Edit", "Task", changes=changes, record=task, why=why),
 		"state": "Proposed",
 	}
+
+
+def assign_task(
+	task: Annotated[str, "The task's id, as the page or the list names it."],
+	to: Annotated[list[str], "The colleagues to give it to, by name or email address."],
+	why: Annotated[str, "In a sentence, why them."] | None = None,
+) -> dict:
+	"""Give a task that already exists to one or more colleagues, as a card
+	the reader approves. Approving does what the task page's Assign does:
+	they are given the task and told. Nobody is given it until then. To make
+	a new task for somebody, use plan_task."""
+	from onedesk.one_ai import proposals
+	from onedesk.one_calendar.ai import _person
+
+	if not frappe.db.exists("Task", task) or not frappe.has_permission("Task", "write", doc=task):
+		return {"error": "There is no such task the reader may change."}
+	users, unknown = [], []
+	for one in to or []:
+		user = _person(one)
+		if user and user not in ("Administrator", "Guest"):
+			users.append(user)
+		else:
+			unknown.append(one)
+	if unknown:
+		return {"error": f"No colleague found for {', '.join(unknown)}. Ask who they meant, by email."}
+	users = list(dict.fromkeys(users))
+	if not users:
+		return {"error": "Nobody was named. Ask who should have it."}
+	held = set(frappe.parse_json(frappe.db.get_value("Task", task, "_assign") or "[]") or [])
+	new = [one for one in users if one not in held]
+	if not new:
+		return {"error": "The task is already given to them. Say so."}
+	subject = frappe.db.get_value("Task", task, "subject") or task
+	names = ", ".join(get_fullname(one) for one in new)
+	changes = {
+		"what": "assign",
+		"title": _("Give {0} to {1}").format(subject, names),
+		"task": task,
+		"users": new,
+		"summary": [
+			{"label": _("Task"), "value": f"{subject} ({task})"},
+			{"label": _("Given to"), "value": ", ".join(f"{get_fullname(one)} ({one})" for one in new)},
+		],
+		"route": [PAGE, task],
+	}
+	return {
+		"proposal": proposals.propose("Setup", "Task", changes=changes, record=task, why=why),
+		"state": "Proposed",
+		"next": "Say in one sentence that approving gives them the task and tells them. Nothing changes until they approve it.",
+	}
+
+
+def assigned(changes: dict) -> str:
+	"""An assign card approved (one/ai_setup.py): the task given as the page's
+	Assign gives it, by whoever pressed Approve, checked again now."""
+	from frappe.desk.form.assign_to import add
+
+	task = changes["task"]
+	if not frappe.db.exists("Task", task) or not frappe.has_permission("Task", "write", doc=task):
+		frappe.throw(_("You may not change {0}.").format(task), frappe.PermissionError)
+	for one in changes["users"]:
+		if one in ("Administrator", "Guest") or not frappe.db.exists(
+			"User", {"name": one, "enabled": 1, "user_type": "System User"}
+		):
+			frappe.throw(_("{0} is not an enabled user of this workspace.").format(one))
+	add({"doctype": "Task", "name": task, "assign_to": changes["users"]})
+	return task
 
 
 def _project(said: str) -> str | None:

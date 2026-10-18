@@ -737,6 +737,10 @@ def apply(changes: dict) -> str:
 		from onedesk.one_project import ai as project_ai
 
 		return project_ai.approved(changes)
+	if what == "assign":
+		from onedesk.one_task import ai as task_ai
+
+		return task_ai.assigned(changes)
 	if what == "report":
 		from frappe.desk.reportview import save_report
 

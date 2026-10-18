@@ -867,6 +867,48 @@ def onetask_works_for_whoever_has_tasks():
 
 
 @check
+def onetask_oneai_gives_a_task_on_approval():
+	"""OneAI gives one of Rania's tasks to Tariq as a card: nobody has it until
+	she approves, then he has it as the page's Assign gives it. Not twice, not
+	to nobody, not a task she may not change, and not to somebody switched off
+	since the card was made."""
+	from onedesk.one_ai import proposals
+	from onedesk.one_task import ai, mine
+
+	frappe.db.savepoint("onetask_assign")
+	try:
+		with as_user("rania@one.test"):
+			one = next(
+				t.name
+				for group in mine.tasks("mine")
+				for t in group["tasks"]
+				if "tariq@one.test" not in (frappe.parse_json(frappe.db.get_value("Task", t.name, "_assign")) or [])
+			)
+			said = ai.assign_task(one, ["Tariq Haidar"], why="He is on site tomorrow.")
+			assert said.get("state") == "Proposed", said
+			assert "tariq@one.test" not in frappe.parse_json(frappe.db.get_value("Task", one, "_assign")), "not before approval"
+			proposals.apply(said["proposal"])
+			assert "tariq@one.test" in frappe.parse_json(frappe.db.get_value("Task", one, "_assign"))
+			todo = {"reference_type": "Task", "reference_name": one, "allocated_to": "tariq@one.test", "status": "Open"}
+			assert frappe.db.get_value("ToDo", todo, "assigned_by") == "rania@one.test", "given by the approver"
+			assert ai.assign_task(one, ["tariq@one.test"]).get("error"), "he has it already"
+			assert ai.assign_task(one, ["Nobody Called This"]).get("error"), "a colleague, or ask"
+			samirs = frappe.db.get_value("Task", {"subject": "Call Acme about the lobby drawings"})
+			assert ai.assign_task(samirs, ["tariq@one.test"]).get("error"), "only a task she may change"
+			later = ai.assign_task(one, ["yousef@one.test"])
+			assert later.get("state") == "Proposed", later
+		frappe.db.set_value("User", "yousef@one.test", "enabled", 0)
+		with as_user("rania@one.test"):
+			try:
+				proposals.apply(later["proposal"])
+				raise AssertionError("given to somebody switched off")
+			except frappe.ValidationError:
+				pass
+	finally:
+		frappe.db.rollback(save_point="onetask_assign")
+
+
+@check
 def onetask_a_task_is_its_peoples_and_ends_as_they_say():
 	"""A task of nobody's project is its maker's and given to them, and nobody
 	else reads it, not even a manager; a project's task is read by the

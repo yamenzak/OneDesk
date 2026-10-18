@@ -183,6 +183,23 @@ def test_oneai_only_suggests_a_task_and_its_steps():
 	assert '"one_task"' in (tree.APP / "one_legal" / "assemble.py").read_text(), "its AI Addendum line is read"
 
 
+def test_oneai_gives_a_task_only_on_approval_and_as_the_approver():
+	source = (TASK / "ai.py").read_text()
+	body = _body(source, "assign_task")
+	assert 'proposals.propose("Setup", "Task"' in body and "assign_to" not in body
+	assert '"write", doc=task' in body and "_person(" in body, "a task the reader may change, a colleague"
+	approved = _body(source, "assigned")
+	assert '"write", doc=task' in approved and '"enabled": 1' in approved, "checked again as the approver"
+	assert "from frappe.desk.form.assign_to import add" in approved and "_add(" not in approved
+	assert '"expects": "assign_task"' in source
+	assert '"onedesk.one_task.ai.assign_task",' in HOOKS
+	groups = (tree.APP / "one_ai" / "groups.py").read_text()
+	assert '"assign_task"' in groups.split('"you": {', 1)[1].split("},", 1)[0]
+	setup = (tree.APP / "one" / "ai_setup.py").read_text()
+	assert 'if what == "assign":' in setup and "task_ai.assigned(changes)" in setup
+	assert '"tools": ("assign_task",)' in (tree.APP / "one_ai" / "evals.py").read_text()
+
+
 def test_a_tasks_due_date_is_in_sight_and_the_list_has_room_for_its_subject():
 	custom = json.loads((TASK / "custom" / "task.json").read_text())
 	setters = {(one.get("field_name"), one["property"]): one["value"] for one in custom["property_setters"]}

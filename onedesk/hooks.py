@@ -1195,6 +1195,7 @@ one_ai_suggests = [
 	"onedesk.one_task.ai.plan_task",
 	"onedesk.one_task.ai.plan_steps",
 	"onedesk.one_task.ai.plan_change",
+	"onedesk.one_task.ai.assign_task",
 	"onedesk.one_inventory.ai.plan_item_change",
 	"onedesk.one_inventory.ai.plan_receipt",
 	"onedesk.one_inventory.ai.plan_delivery",

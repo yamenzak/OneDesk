@@ -227,11 +227,13 @@ Nothing is added until you approve the card, and the colleague is notified
 then.
 
 On a task's page, OneAI offers **What is left on this task?**, **Break
-this into steps** and **Change this task…**, and on its Time, **Who worked on
+this into steps**, **Change this task…** and **Give this task to…**, and on its Time, **Who worked on
 this?** It reads the task as you see it on its page. Steps it suggests come on
 a card, added after any existing ones when you approve. A change, such as
 marking the task done, moving the day it is due or raising its priority,
 comes on a card too, and is made when you approve it, as the page makes it.
+Ask it to give a task to a colleague and a card says who; approving assigns it
+to them, as **Assign** on the page does, and they are notified then.
 
 ## Who sees a task
 
@@ -466,7 +468,11 @@ is:
   colleagues it names ride on the hidden `one_for` and are given the task by
   `capture.task_made`), `plan_steps` (an Edit card on the checklist),
   `plan_change` (an Edit card on the status, due date or priority, saved as
-  the page saves them, so ERPNext's checks hold), `task_facts`
+  the page saves them, so ERPNext's checks hold), `assign_task` (a Setup
+  card, `what: assign`; approving runs `assigned` through one/ai_setup.py,
+  which checks again that the approver may change the task and that each
+  colleague is an enabled workspace user, then calls frappe's
+  `assign_to.add` as the approver, as the page's Assign does), `task_facts`
   (a task as its page shows it), and the suggestions. `legal.py` is its line in the AI Addendum. The tasks are read
   as the reader, through the page's own read (`mine.tasks`), so OneAI sees
   exactly the list they do. A task is only ever suggested; approving the card

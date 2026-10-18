@@ -121,6 +121,14 @@ CASES = [
 		"card": True,
 	},
 	{
+		"id": "assign-task",
+		"page": {},
+		"ask": "Give my task Write the condition report to Tariq.",
+		"tools": ("assign_task",),
+		"card": True,
+		"user": "rania@one.test",
+	},
+	{
 		"id": "template",
 		"page": {"page": "project-template-view", "record": "Aluminium & Glazing"},
 		"ask": "Draft a template for a bathroom refit: strip out, plumbing and tiling, then fitting and a final clean.",
