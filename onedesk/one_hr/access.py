@@ -7,7 +7,7 @@ USER, MANAGER = "HR User", "HR Manager"
 GIVEN = {
 	doctype: {USER: roles.WORK, MANAGER: roles.MANAGE}
 	for doctype in ("Travel Request", "Employee Advance", "Vehicle Log")
-} | {one: {USER: roles.USE, MANAGER: roles.MANAGE} for one in ("Purpose of Travel", "Vehicle Service Item")}
+} | {one: {USER: roles.USE, MANAGER: roles.MANAGE} for one in ("Purpose of Travel", "Vehicle Service Item", "Driver", "Vehicle")}
 
 RAISED = {
 	doctype: {USER: roles.WORK, MANAGER: roles.MANAGE}

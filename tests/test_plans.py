@@ -151,3 +151,15 @@ def test_a_limit_is_copied_onto_the_workspace_not_read_from_the_price_list():
 	signup = (tree.APP / "one_admin" / "signup.py").read_text(encoding="utf-8")
 	for field in ("storage_limit", "database_limit", "seats", "credits_a_month"):
 		assert f'"{field}":' in signup, field
+
+
+def test_a_plan_is_not_changed_under_agreements_nobody_made():
+	"""Turning an app on is a plan change, and the agreements it brings are
+	asked for first (one_legal/gate.py require)."""
+	source = (tree.APP / "one" / "account.py").read_text()
+	for node in ast.parse(source).body:
+		if isinstance(node, ast.FunctionDef) and node.name == "plans_take":
+			body = ast.unparse(node)
+			assert body.index("gate.require('plans_take')") < body.index("ask(")
+			return
+	raise AssertionError("plans_take is gone from one/account.py")

@@ -38,6 +38,22 @@ def ensure() -> None:
 		_author()
 	for contact in frappe.get_all("Contact", filters={"user": AUTHOR}, pluck="name"):
 		frappe.delete_doc("Contact", contact, ignore_permissions=True, force=True)
+	_no_placeholder_mailbox()
+
+
+PLACEHOLDER = "jobs@example.com"
+
+
+def _no_placeholder_mailbox() -> None:
+	"""HRMS installs a Jobs mailbox at jobs@example.com that reads and sends
+	nothing; it would sit in Workspace › Mail as if it were one."""
+	for account in frappe.get_all(
+		"Email Account",
+		filters={"email_id": PLACEHOLDER, "enable_incoming": 0, "enable_outgoing": 0},
+		pluck="name",
+	):
+		if not frappe.db.exists("Communication", {"email_account": account}):
+			frappe.delete_doc("Email Account", account, ignore_permissions=True, force=True)
 
 
 def _author() -> None:
@@ -711,11 +727,11 @@ def remark(recording: str) -> None:
 			applicant.name,
 			"<p>"
 			+ html.escape(
-				(
+
 					frappe._("After the {0} interview: {1}").format(interview.interview_type, _short(answer["summary"], 400))
 					if interview.interview_type
 					else frappe._("After the interview: {0}").format(_short(answer["summary"], 400))
-				)
+
 			)
 			+ "</p>",
 		)

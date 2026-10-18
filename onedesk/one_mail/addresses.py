@@ -52,6 +52,8 @@ def workspace_address() -> str | None:
 
 
 def person_address(name: str) -> str:
+	if not slug():
+		frappe.throw(_("This workspace has no mail domain yet."))
 	return f"{name}.{slug()}@{domain()}"
 
 

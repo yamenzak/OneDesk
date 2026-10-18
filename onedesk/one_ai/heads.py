@@ -82,7 +82,7 @@ MEASURES = {
 VERBS = {
 	"proposal.apply": {
 		"doctypes": ["AI Proposal"],
-		"label": lambda doc: _("Apply"),
+		"label": lambda doc: _("Approve"),
 		"when": lambda doc: not doc.is_new() and doc.state == "Proposed",
 		"fields": _asks(_lt("Do this now, as you?")),
 		"run": _applied,

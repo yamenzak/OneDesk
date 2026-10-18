@@ -90,6 +90,7 @@ GIVEN["Quality Feedback Template"] = {STOCK_USER: roles.USE, STOCK_MANAGER: role
 GIVEN["UOM Conversion Factor"] = {STOCK_USER: roles.USE, STOCK_MANAGER: roles.MANAGE, "Item Manager": roles.MANAGE}
 GIVEN["Delivery Settings"] = {"Stock Manager": ("read", "write")}
 GIVEN["Shipment Parcel Template"] = {"Stock User": roles.USE, "Stock Manager": roles.MANAGE}
+GIVEN["Driver"] = {STOCK_USER: ("read",)}
 
 for doctype in ("Asset", "Asset Movement"):
 	GIVEN.setdefault(doctype, {}).update({"HR User": ("read",), "HR Manager": ("read",)})

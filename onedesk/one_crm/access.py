@@ -34,6 +34,7 @@ GIVEN = {
 	"Incoming Call Settings": {"Sales Manager": roles.MANAGE},
 	"Telephony Call Type": {"Sales User": roles.USE, "Sales Manager": roles.MANAGE},
 	"Communication Medium": {"Sales Manager": roles.MANAGE},
+	"Sales Partner Type": {"Sales User": roles.USE, "Sales Manager": roles.MANAGE},
 }
 
 SUPPORT = ("Issue", "Warranty Claim", "Maintenance Schedule", "Maintenance Visit")

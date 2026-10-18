@@ -37,6 +37,28 @@ def test_an_address_belongs_to_the_workspace_after_its_last_dot():
 	assert not mine(".acme", "acme")
 
 
+def test_no_address_is_made_without_a_mail_domain():
+	"""A site without one_tenant once gave people `<name>.None@`."""
+
+	class Refused(Exception):
+		pass
+
+	def throw(message):
+		raise Refused(message)
+
+	conf = {"one_tenant": None}
+	frappe = type("frappe", (), {"conf": conf, "throw": staticmethod(throw)})
+	space = _load(MAIL / "addresses.py", ("domain", "slug", "person_address"), frappe=frappe, _=str)
+	try:
+		space["person_address"]("rania")
+	except Refused:
+		pass
+	else:
+		raise AssertionError("an address was made with no workspace")
+	conf["one_tenant"] = "acme"
+	assert space["person_address"]("rania") == "rania.acme@m.4dl.app"
+
+
 def test_a_notice_is_believed_only_signed_and_fresh():
 	space = _load(
 		MAIL / "inbound.py",

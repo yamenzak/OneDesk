@@ -1,5 +1,6 @@
-"""Writes the print formats One ships out of frappe's own builder pieces:
-for now the Sales Invoice's master and a version of each one ERPNext ships.
+"""Writes every print format One ships out of frappe's own builder pieces:
+each record's own format from its master, and a version of each one ERPNext
+ships.
 A change made in the builder to one of these belongs here too, or the next
 run puts it back. Run: python3 scripts/print_formats.py "<modified>"."""
 
@@ -3011,7 +3012,18 @@ TRADE["Supplier Quotation"] = {
 		("incoterm", "Link", "Delivery Terms"),
 	),
 }
-ONE_LOOK = ("Purchase Receipt", "Supplier Quotation")
+TRADE["POS Invoice"] = {
+	"module": "one_book",
+	"titles": (("Invoice", "not doc.is_return"), ("Credit Note", "doc.is_return")),
+	"number": "Invoice No",
+	"party": ("Bill To", "customer_name"),
+	"details": (
+		("posting_date", "Date", "Date"),
+		("pos_profile", "Link", "Till"),
+		("return_against", "Link", "Against Invoice"),
+	),
+}
+ONE_LOOK = ("Purchase Receipt", "Supplier Quotation", "POS Invoice")
 for _doctype, _spec in TRADE.items():
 	VERSIONS[f"One {_doctype}"] = (_doctype, _spec["module"], _trade(_doctype, trade_master))
 	if _doctype in ONE_LOOK:

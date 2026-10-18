@@ -116,7 +116,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Monthly Distribution | through a form's link (Territory: distribution_id) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Opening Invoice Creation Tool | on a rail or a home | OneBook | untouched | no | general |  |  |  |  |  |  |
 | POS Closing Entry | left out: the point of sale, until One has a till screen of its own | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
-| POS Invoice | through a form's link (Sales Invoice: pos_invoice) | OneBook, OneCRM | untouched | yes | general |  | **none** | **theirs** |  |  |  |
+| POS Invoice | through a form's link (Sales Invoice: pos_invoice) | OneBook, OneCRM | untouched | yes | general |  | **none** | ours |  |  |  |
 | POS Invoice Merge Log | left out: the point of sale, until One has a till screen of its own | OneCRM | untouched | yes | general |  | **none** | **theirs** |  |  |  |
 | POS Opening Entry | left out: the point of sale, until One has a till screen of its own | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
 | POS Profile | through a form's connections (Sales Taxes and Charges Template's Connections) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
@@ -341,7 +341,7 @@ Reports: Electronic Invoice Register (under a list's related reports (Sales Invo
 | Quotation | on a rail or a home | OneCRM | events, form script, 3 fields | yes | general | makes it | yes |  |  |  | Quotation Declined, Quotation Running Out |
 | SMS Center | left out: sends through SMS Settings, which waits in docs/BACKLOG.md | OneCRM | untouched | no | general |  |  |  |  |  |  |
 | Sales Order | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, 6 fields, 1 settings | yes | taught | makes it | yes | ours |  |  | Delivery Late, Quotation Accepted |
-| Sales Partner Type | through a form's link (Sales Partner: partner_type) | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
+| Sales Partner Type | through a form's link (Sales Partner: partner_type) | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Selling Settings | on a rail or a home | OneBook, OneCRM, OneInventory, OneProject | untouched | no | general |  |  |  |  | ar 33, de 29 |  |
 
 Reports: Address And Contacts (on a rail or a home); Available Stock for Packing Items (under a list's related reports (Product Bundle's list)); Customer Acquisition and Loyalty (on a rail or a home); Customer Credit Balance (on a rail or a home); Customer-wise Item Price (under a list's related reports (Customer's list)); Customers Without Any Sales Transactions (on a rail or a home); Inactive Customers (on a rail or a home); Item-wise Sales History (on a rail or a home); Lost Quotations (on a rail or a home); Payment Terms Status for Sales Order (under a list's related reports (Sales Order's list)); Pending SO Items For Purchase Request (under a list's related reports (Sales Order's list)); Quotation Trends (on a rail or a home); Sales Analytics (on a rail or a home); Sales Order Analysis (on a rail or a home); Sales Order Trends (on a rail or a home); Sales Partner Commission Summary (under a list's related reports (Sales Order's list)); Sales Partner Target Variance based on Item Group (under a list's related reports (Sales Order's list)); Sales Partner Transaction Summary (under a list's related reports (Sales Order's list)); Sales Person Commission Summary (under a list's related reports (Sales Order's list)); Sales Person Target Variance Based On Item Group (under a list's related reports (Sales Order's list)); Sales Person-wise Transaction Summary (on a rail or a home); Territory Target Variance Based On Item Group (under a list's related reports (Sales Order's list)); Territory-wise Sales (on a rail or a home).
@@ -361,7 +361,7 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Customer Group | on a rail or a home | OneBook, OneCRM, the administrator | events | yes | general |  | yes |  |  |  |  |
 | Department | on a rail or a home | OneHR, the administrator | events | yes | general |  | yes |  |  |  |  |
 | Designation | on a rail or a home | OneCRM, OneHR, the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Driver | on a rail or a home | **nobody** | 1 settings | yes | general |  | yes |  |  |  |  |
+| Driver | on a rail or a home | OneHR, OneInventory | 1 settings | yes | general |  | yes |  |  |  |  |
 | Email Digest | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Employee | on a rail or a home | everybody | a head, events, form script, 11 fields, 26 settings | yes | taught | makes it | yes |  |  |  | Could Not Mark Left, Document Expiring, Employee Details Changed, Passkey Reset Asked |
 | Employee Group | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
@@ -379,7 +379,7 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Transaction Deletion Record | opened by our screens | the administrator | untouched | yes | general |  | **none** |  |  |  |  |
 | UOM | on a rail or a home | OneCRM, OneInventory, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | UOM Conversion Factor | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Vehicle | on a rail or a home | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
+| Vehicle | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 
 ## erpnext / Stock
 
@@ -518,7 +518,7 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | Communication | inside: a record's activity, and OneMail | everybody | events, 7 fields | no | taught |  | yes |  |  |  | Mail Not Sent |
 | Custom DocPerm | inside: Workspace Settings › Access | **nobody** | untouched | no | general |  | yes |  |  | ar 1, de 1 |  |
 | Custom Icon | replaced: One's dock | **nobody** | untouched | no | general |  | yes |  |  | ar 3, de 3 |  |
-| Custom Role | opened by our screens | **nobody** | untouched | no | general |  | yes |  | **only an ID** |  |  |
+| Custom Role | opened by our screens | **nobody** | 2 settings | no | general |  | yes |  |  |  |  |
 | Data Export | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Data Import | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  | ar 2, de 2 |  |
 | Data Import Log | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  | ar 1, de 1 |  |

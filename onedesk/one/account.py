@@ -416,6 +416,9 @@ def plans_take(plan: str, extras: str | dict | None = None, label: str | None = 
 	again so the page draws what was bought. Every other administrator hears
 	of it: it changes what the workspace pays."""
 	roles.require()
+	from onedesk.one_legal import gate
+
+	gate.require("plans_take")
 	try:
 		said = ask(
 			"onedesk.one_admin.proxy.plans_take",

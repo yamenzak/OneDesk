@@ -357,9 +357,7 @@ saved reports. Fields are frappe's own kinds, nothing that runs.
 ### The plan
 
 Done: Extensions, the review, Custom Fields, Custom Collections. Not built: a child table in
-a record type, a record type's own numbering (Numbering does it once it
-exists), scheduled extensions (an Automation's schedule instead), and
-extensions on API calls.
+a record type, and extensions on API calls (`docs/BACKLOG.md`).
 
 ### ai.py
 

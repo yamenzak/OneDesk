@@ -129,10 +129,15 @@ PARTIES = {
 	"Maintenance Visit": (_lt("Customer"), "customer_name"),
 }
 
+SOLD = ("Sales Invoice", "POS Invoice")
+for _said in (TITLES, DETAILS, PARTIES):
+	_said["POS Invoice"] = _said["Sales Invoice"]
+
 FORMATS = {
 	"Quotation": ("One Quotation", "one_crm"),
 	"Sales Order": ("One Sales Order", "one_crm"),
 	"Sales Invoice": ("One Sales Invoice", "one_book"),
+	"POS Invoice": ("One POS Invoice", "one_book"),
 	"Purchase Invoice": ("One Purchase Invoice", "one_book"),
 	"Journal Entry": ("One Journal Voucher", "one_book"),
 	"Payment Entry": ("One Payment Receipt", "one_book"),
@@ -401,9 +406,9 @@ def colour(doc) -> str:
 
 def title(doc) -> dict:
 	said, number = TITLES.get(doc.doctype, (_(doc.doctype), _("No")))
-	if doc.doctype == "Sales Invoice" and doc.get("is_return"):
+	if doc.doctype in SOLD and doc.get("is_return"):
 		said = _("Credit Note")
-	elif doc.doctype == "Sales Invoice" and doc.get("is_debit_note"):
+	elif doc.doctype in SOLD and doc.get("is_debit_note"):
 		said = _("Debit Note")
 	elif doc.doctype == "Delivery Note" and doc.get("is_return"):
 		said = _("Return")
@@ -419,7 +424,7 @@ def title(doc) -> dict:
 		said, number = _("Transfer"), _("Transfer No")
 	trn = _trn(doc)
 	heading = doc.get("select_print_heading")
-	if trn and doc.doctype == "Sales Invoice":
+	if trn and doc.doctype in SOLD:
 		said = _("Tax Credit Note") if doc.get("is_return") else _("Tax Invoice")
 		if doc.get("is_return"):
 			number = _("Credit Note No")
@@ -445,7 +450,7 @@ STANDING = {
 
 def _status(doc) -> dict | None:
 	"""A submitted invoice's standing, when it is one a reader acts on."""
-	if doc.doctype not in ("Sales Invoice", "Purchase Invoice") or doc.docstatus != 1 or doc.get("is_return"):
+	if doc.doctype not in (*SOLD, "Purchase Invoice") or doc.docstatus != 1 or doc.get("is_return"):
 		return None
 	standing = doc.get("status")
 	if standing in ("Partly Paid and Discounted", "Unpaid and Discounted"):
@@ -462,7 +467,7 @@ AUTOMATIC = ("Credit Note", "Debit Note")
 def _trn(doc) -> str | None:
 	"""The company's TRN, where an invoice must carry it: a sales invoice of a
 	company in the UAE that has one."""
-	if doc.doctype != "Sales Invoice":
+	if doc.doctype not in SOLD:
 		return None
 	from onedesk.one_book import vat
 
@@ -526,7 +531,7 @@ def party(doc) -> dict:
 	tax = doc.get("tax_id")
 	ship = None
 	if (
-		doc.doctype in ("Sales Order", "Sales Invoice")
+		doc.doctype in ("Sales Order", *SOLD)
 		and doc.get("shipping_address_name")
 		and doc.get("shipping_address_name") != doc.get("customer_address")
 	):

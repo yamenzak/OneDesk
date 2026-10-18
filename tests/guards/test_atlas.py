@@ -87,8 +87,8 @@ OPERATOR = ("One Admin",)
 NOBODY = {
 	"erpnext / Accounts": 0,
 	"erpnext / Maintenance": 0,
-	"erpnext / Selling": 1,
-	"erpnext / Setup": 2,
+	"erpnext / Selling": 0,
+	"erpnext / Setup": 0,
 	"erpnext / Support": 0,
 	"frappe / Core": 9,
 	"frappe / Custom": 1,
@@ -231,15 +231,13 @@ EMPTY = {
 }
 
 UNPRINTED = {
-	"erpnext / Accounts": 1,
+	"erpnext / Accounts": 0,
 	"erpnext / Maintenance": 0,
 	"erpnext / Selling": 0,
 	"erpnext / Subcontracting": 0,
 }
 
-ONLY_AN_ID = {
-	"frappe / Core": 1,
-}
+ONLY_AN_ID: dict = {}
 
 ENGLISH = {
 	"erpnext / Accounts": 0,

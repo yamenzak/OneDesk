@@ -847,6 +847,9 @@
 "Delivery Manager",
 "Delivery User",
 "Fleet Manager",
+"HR Manager",
+"HR User",
+"Stock User",
 "System Manager"
 ],
 "DuckDB Sync": [
@@ -2333,6 +2336,8 @@
 "Sales User"
 ],
 "Sales Partner Type": [
+"Sales Manager",
+"Sales User",
 "System Manager"
 ],
 "Sales Person": [
@@ -2854,7 +2859,9 @@
 "Vehicle": [
 "Delivery Manager",
 "Delivery User",
-"Fleet Manager"
+"Fleet Manager",
+"HR Manager",
+"HR User"
 ],
 "Vehicle Log": [
 "Fleet Manager",
