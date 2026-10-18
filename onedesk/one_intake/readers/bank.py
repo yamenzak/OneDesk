@@ -27,7 +27,6 @@ def camt(content: bytes) -> dict | None:
 	for entry in m.children(statement, "Ntry"):
 		credit = (m.text(entry, "CdtDbtInd") or "") == "CRDT"
 		detail = m.find(entry, "NtryDtls/TxDtls")
-		# The other side: who paid us on a credit, whom we paid on a debit.
 		side = "Dbtr" if credit else "Cdtr"
 		parties = m.find(detail, "RltdPties")
 		entries.append(
@@ -57,11 +56,8 @@ def camt(content: bytes) -> dict | None:
 	}
 
 
-#: `:61:` — value date, optional entry date, C/D (R for a reversal), amount.
 LINE = re.compile(r"^(\d{6})(\d{4})?(R?[CD])[A-Z]?([\d,]+)")
 
-#: German `:86:` sub-fields: ?20–?29 the purpose, ?32/?33 the name, ?31 the
-#: account or IBAN, ?38 the IBAN.
 SUBFIELD = re.compile(r"\?(\d{2})")
 
 

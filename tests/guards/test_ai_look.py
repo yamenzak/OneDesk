@@ -31,8 +31,6 @@ def test_nothing_badges_oneai_by_hand():
 
 
 def test_no_oneai_button_is_drawn_by_hand():
-	# An "Ask OneAI" drawn as a plain button with sparkles looked like any other
-	# button; onedesk.oneai.button is the one look.
 	for path in sorted(JS.rglob("*.js")):
 		source = path.read_text(encoding="utf-8")
 		for call in re.findall(r"onedesk\.shell\.button\([^;]*?\)", source):

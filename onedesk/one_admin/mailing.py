@@ -12,10 +12,8 @@ from frappe.utils import now_datetime
 
 from onedesk.one_admin import cloudflare, faults
 
-#: Cloudflare's limit on one message, attachments included.
 LARGEST = 5 * 1024 * 1024
 
-#: Sends per workspace, unless site config says otherwise.
 HOURLY, DAILY = 200, 2000
 
 

@@ -1,5 +1,3 @@
-// No company and no currency filter: one workspace is one company, and every
-// amount is in its currency.
 frappe.query_reports["Opportunity Forecast"] = {
 	filters: [
 		{

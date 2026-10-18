@@ -9,10 +9,8 @@ from typing import Annotated
 import frappe
 from frappe import _
 
-#: What only the person it was read for sees, administrators included.
 PRIVATE = ("Medical", "Pay", "Personal")
 
-#: A page of one box.
 PAGE = 40
 
 WAITS = "(a.level = 'Proposed' or (a.level = 'Done' and a.audit = 'Wrong'))"
@@ -143,9 +141,6 @@ def _route(doc) -> str | None:
 		thread = frappe.db.get_value("Communication", doc.source_name, "one_thread") or doc.source_name
 		return f"/app/onemail?thread={frappe.utils.quote(thread)}"
 	return None
-
-
-# ------------------------------------------------------------------ after OneAI acts
 
 
 def fresh(name: str) -> None:

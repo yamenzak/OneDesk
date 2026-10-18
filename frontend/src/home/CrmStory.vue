@@ -1,11 +1,4 @@
 <template>
-  <!-- OneCRM's Overview (one_crm/story.py): what needs the reader, then
-       selling in three parts, each a row of frappe-ui charts. Modelled on
-       Frappe CRM's Dashboard (sales trend, forecasted revenue, funnel
-       conversion, by stage, lost reasons, by source, by territory, by
-       salesperson), with the funnel carried on past the deal to the
-       quotation, sales order, sales invoice and payment ERPNext makes of it.
-       A part the reader may not see is left out. -->
   <div ref="root" class="pb-12">
     <div v-if="needs.length" class="mt-5 flex flex-wrap gap-2">
       <Button v-for="one in needs" :key="one.key" variant="outline" :label="one.label" @click="$emit('today')">
@@ -14,7 +7,6 @@
     </div>
 
     <Section v-if="story.sales" :title="__('Selling')" icon="lucide-trending-up" data-cards>
-      <!-- The funnel across the page, so each paper's name is read whole. -->
       <ChartCard v-if="funnel.length" class="mb-3 h-72">
         <FunnelChart :title="__('Funnel Conversion')" :subtitle="__('Opportunities of the last 12 months')" :data="funnel" category="label" value="count" :format="count" @select="(one) => go(FUNNEL[one.row.step])" />
       </ChartCard>
@@ -65,13 +57,11 @@ import { BarChart, ChartCard, DonutChart, FunnelChart, LineChart, useChartTokens
 
 import { Section, __, count, go, money, shortMonth } from "../kit";
 
-// What needs the reader: late in red, today in amber.
 const TONE = { late: "text-ink-red-5", soon: "text-ink-amber-6", left: "text-ink-gray-5" };
 
 const props = defineProps({ story: { type: Object, required: true }, needs: { type: Array, default: () => [] } });
 defineEmits(["today"]);
 
-// The colours, as frappe-ui reads them for this island and its theme.
 const root = ref();
 const { tokens } = useChartTokens(root);
 const hue = (i) => tokens.value.categorical[i % tokens.value.categorical.length];
@@ -82,7 +72,6 @@ const ramp = (from) => {
 
 const cash = (value) => money(value, props.story.currency, 0);
 const monthName = (value) => shortMonth(typeof value === "string" ? value : new Date(value).toISOString().slice(0, 10));
-// A name on a horizontal bar wraps onto a second line rather than being cut.
 const wrap = { echartOptions: { axisLabel: { formatter: (value) => value, overflow: "break" } } };
 
 const trendSeries = computed(() => ({
@@ -103,7 +92,6 @@ const sourceSeries = computed(() => ({
   converted: { label: __("Converted"), color: hue(2) },
 }));
 
-// The funnel's steps are the papers ERPNext makes, each opening its list.
 const FUNNEL = {
   Opportunity: "/desk/opportunity",
   Quotation: '/desk/quotation?opportunity=["is","set"]',
@@ -113,7 +101,6 @@ const FUNNEL = {
 };
 const funnel = computed(() => (props.story.sales?.funnel || []).map((one) => ({ ...one, label: __(one.step) })));
 
-// Later stages darker, as the deal gets nearer; On Hold in amber, as on the board.
 const stages = computed(() => (props.story.pipeline?.stages || []).map((one) => ({ ...one, label: one.stage ? __(one.stage) : __("Not Recorded") })));
 const stageColors = computed(() => {
   const seq = [...tokens.value.sequential].reverse();

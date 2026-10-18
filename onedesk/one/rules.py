@@ -11,14 +11,11 @@ import frappe
 from frappe import _, _lt
 from frappe.email.doctype.notification.notification import Notification
 
-#: What a workspace rule may fire on.
 EVENTS = ("New", "Save", "Submit", "Cancel", "Days After", "Days Before", "Value Change")
 
-#: The app a rule's notification type is listed under, translated where shown.
 APP = "Rules"
 _lt("Rules")
 
-#: Fields every record has, besides its own.
 STANDARD = ("name", "owner", "creation", "modified", "modified_by")
 
 
@@ -74,8 +71,6 @@ class Rule(Notification):
 		recipients, cc, bcc = super().get_list_of_recipients(doc, context)
 		inside = _people(recipients + cc + bcc)
 		if inside:
-			# A standard rule's text as frappe mails it: its Email Template's,
-			# already rendered, else its own subject and message.
 			if template_content:
 				said = (Markup(template_content["subject"]), Markup(template_content["message"]))
 			else:
@@ -141,8 +136,6 @@ def _hold(doc) -> None:
 		frappe.throw(
 			_("A rule fires when a record is made, saved, submitted, cancelled or changed, or on a date.")
 		)
-	# Frappe's default condition type is Python even with nothing written: only
-	# code is refused, and the type becomes filters.
 	if (doc.condition or "").strip():
 		frappe.throw(_("A rule's condition is chosen from the record's fields, not written as code."))
 	doc.condition_type, doc.condition = "Filters", None
@@ -188,9 +181,6 @@ def _may_read(email: str, doc) -> bool:
 	return bool(user) and frappe.has_permission(doc.doctype, "read", doc, user=user)
 
 
-# ------------------------------------------------------------------ what a rule may say
-
-
 def readable(doctype: str) -> list[str]:
 	"""The fields of a record a rule's text may name: its own, at the first
 	permission level, and the ones every record has. Pure but for the meta."""
@@ -225,9 +215,6 @@ def check_text(doctype: str | None, text: str | None) -> str | None:
 			continue
 		return _("A rule's text can name a field of the record, as {{ doc.field }}, and nothing else.")
 	return None
-
-
-# ------------------------------------------------------------------ what a rule is, in words
 
 
 def person_fields(doctype: str) -> list[str]:
@@ -311,8 +298,6 @@ def watchable(
 		filters={"istable": 0, "issingle": 0, "name": ["like", f"%{txt}%"]},
 		pluck="name",
 		order_by="name asc",
-		# Frappe hands a translated doctype's query an empty search and filters
-		# by the translated name itself, so every name has to come back.
 		limit=0,
 	)
 	readable_names = [name for name in names if frappe.has_permission(name, "read")]

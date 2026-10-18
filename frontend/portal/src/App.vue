@@ -1,8 +1,4 @@
 <template>
-  <!-- The portal's frame: frappe-ui's DesktopShell with its Sidebar, or on a
-       phone its MobileShell with a tab bar (Modelled on frappe-ui's own
-       shells, as Helpdesk and Gameplan use them). A signed link's page
-       (pages/Link.vue) is the same shells with nothing to go to. -->
   <FrappeUIProvider>
     <MobileShell v-if="phone && bare"><RouterView /></MobileShell>
     <DesktopShell v-else-if="bare" class="bare"><RouterView /></DesktopShell>

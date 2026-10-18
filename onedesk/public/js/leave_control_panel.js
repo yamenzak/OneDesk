@@ -1,33 +1,10 @@
-// Allocating leave to everybody, with the dates filled in and nobody asked
-// which company.
-//
-// Three things about the panel as HRMS ships it:
-//
-//   * `set_leave_details` sets `dates_based_on: "Leave Period"` and a leave
-//     period in the same breath as `from_date: today, to_date: null`. The dates
-//     are meant to come from the period, but they arrive by `add_fetch`, which
-//     fires when somebody *changes* the period — and nobody changes a field
-//     that is already filled. So the panel opens saying it will allocate from
-//     today until nothing.
-//   * The employee table has a Company column, and it is the same company on
-//     every row. The doctype's own Company field is hidden by `one/company.py`,
-//     but this table is a datatable built in their form script, so it is not a
-//     field and the sweep does not reach it.
-//   * Leave Policy is mandatory and deliberately cleared, so the form opens
-//     with a red box before anybody has done anything wrong.
 frappe.ui.form.on("Leave Control Panel", {
 	refresh: (frm) => onedesk.leave_panel.dates(frm),
 	dates_based_on: (frm) => onedesk.leave_panel.dates(frm),
 	leave_period: (frm) => onedesk.leave_panel.dates(frm),
 	allocate_based_on_leave_policy: (frm) => onedesk.leave_panel.only_policy(frm),
-	// Their own batch ends by clearing the policy, so filling it in is answered
-	// by the clearing itself. Field handlers are a list rather than a slot, so
-	// theirs still runs and still refreshes the employee table.
 	leave_policy: (frm) => onedesk.leave_panel.only_policy(frm),
 
-	// Replaces theirs rather than wrapping it: a form script's handlers are
-	// merged onto `frm.events` and the last one registered wins, and this file
-	// loads after the doctype's own.
 	get_employees_datatable_columns() {
 		return [
 			{ name: "employee", id: "employee", content: __("Employee") },
@@ -57,11 +34,6 @@ onedesk.leave_panel.dates = (frm) => {
 	onedesk.leave_panel.only_policy(frm);
 };
 
-//: One policy is not a choice. A workspace that has written a second one is
-//: choosing between them and is left to. Deferred by a tick because their
-//: `set_leave_details` fills the whole form in one `set_value`, clearing the
-//: policy as it goes, and the triggers it fires run while that batch is still
-//: being applied.
 onedesk.leave_panel.only_policy = (frm) =>
 	setTimeout(() => onedesk.leave_panel._only_policy(frm), 0);
 

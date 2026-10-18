@@ -9,7 +9,6 @@ from frappe.utils import escape_html
 
 from onedesk.one_admin import site
 
-#: What a row may say in words. Written as the English, and shown translated.
 SAID = {
 	"owed": _lt("A payment failed"),
 	"paid": _lt("Paid"),
@@ -20,8 +19,6 @@ SAID = {
 	"dropped": _lt("Files deleted"),
 }
 
-#: Over storage is written again only when it has grown or shrunk this much,
-#: or a month has passed, rather than every night it stays over.
 AGAIN_BYTES = 10**9
 AGAIN_DAYS = 30
 

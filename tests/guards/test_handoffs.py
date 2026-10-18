@@ -7,7 +7,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "onedesk"
-#: A bullet of a Connections section: "- **From OneMail**: ..." or "- **To OneBook**: ...".
 BULLET = re.compile(r"^- \*\*(From|To) (\w+)\*\*: \S", re.M)
 
 

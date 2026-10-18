@@ -15,5 +15,4 @@ class AITouch(Document):
 
 
 def on_doctype_update() -> None:
-	# Read on every form load, by document.
 	frappe.db.add_index("AI Touch", ["for_doctype", "record"])

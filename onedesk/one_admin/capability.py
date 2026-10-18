@@ -4,8 +4,6 @@ Pure, like `prices.py` beside it: this decides which models an action is
 allowed to pick from. A model carries what it makes and what it can be fed.
 """
 
-#: Cloudflare's `task.name`, which says plainly what a model does and is the
-#: better of the two providers' signals.
 A_TASK = {
 	"text generation": ("text", {"text"}),
 	"image-to-text": ("text", {"text", "image"}),
@@ -16,15 +14,11 @@ A_TASK = {
 	"automatic speech recognition": ("text", {"audio"}),
 	"text-to-speech": ("audio", {"text"}),
 	"text embeddings": ("embedding", {"text"}),
-	# Text in, text out, and none of them can hold a conversation; told apart
-	# by what the provider calls the job.
 	"translation": ("translation", {"text"}),
 	"summarization": ("text", {"text"}),
 	"text classification": ("classification", {"text"}),
 }
 
-#: Google says what a model may be *called* with rather than what it does, so
-#: this only sets a floor and the published rates raise it.
 A_METHOD = {
 	"embedcontent": ("embedding", {"text"}),
 	"batchembedcontents": ("embedding", {"text"}),
@@ -42,8 +36,6 @@ def named(produces: str, reads: set[str]) -> str:
 	if produces == "video":
 		return "Video Generation"
 	if produces == "audio":
-		# Speech and music are both audio out, and neither provider says which.
-		# One word that is true beats two where one is guessed.
 		return "Audio Generation"
 	if produces == "translation":
 		return "Translation"
@@ -52,8 +44,6 @@ def named(produces: str, reads: set[str]) -> str:
 	if produces != "text":
 		return "Other"
 
-	# A model that reads two of pictures, sound and video is not a transcriber
-	# that happens to see.
 	others = reads - {"text"}
 	if len(others) >= 2:
 		return "Multimodal"
@@ -64,12 +54,7 @@ def named(produces: str, reads: set[str]) -> str:
 	return "Text Generation"
 
 
-#: Which capabilities cover which: a model that reads more than a job needs can
-#: still do the job; one that reads less cannot.
 COVERS = {
-	# Not Transcription: a model that reads sound and nothing else cannot answer
-	# a job that hands it text, however much text it writes back. Caught by
-	# offering whisper and watching it turn up as a candidate summariser.
 	"Text Generation": {"Text Generation", "Vision", "Multimodal"},
 	"Vision": {"Vision", "Multimodal"},
 	"Transcription": {"Transcription", "Multimodal"},
@@ -78,14 +63,10 @@ COVERS = {
 	"Video Generation": {"Video Generation"},
 	"Audio Generation": {"Audio Generation"},
 	"Embedding": {"Embedding"},
-	# On their own, and nothing covers them: a translator asked to answer a
-	# question about a workspace answers with a translation of the question.
 	"Translation": {"Translation"},
 	"Text Classification": {"Text Classification"},
 }
 
-#: Every word a model or an action may carry, so a Select option added to one
-#: and not the other fails a guard rather than a picker.
 WORDS = tuple(COVERS)
 
 
@@ -98,8 +79,6 @@ def able(model_says: str, action_needs: str) -> bool:
 	return model_says in covers(action_needs)
 
 
-#: What a model has to be able to read for a file of this kind to be sent to
-#: it, by the first half of the mime type (a PDF is read as a picture).
 READS = {
 	"image": "reads_image",
 	"audio": "reads_audio",
@@ -107,9 +86,6 @@ READS = {
 	"application/pdf": "reads_image",
 }
 
-#: PDFs go to Google and to nobody else we speak to. Measured rather than
-#: assumed: Workers AI's vision models take a picture and answer `Bad input` to
-#: a document.
 PDF_FROM = ("google-ai-studio",)
 
 

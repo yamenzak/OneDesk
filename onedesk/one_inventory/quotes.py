@@ -10,9 +10,7 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, flt, getdate, today
 
-#: How many requests or quotes a tab lists before a search narrows them.
 MOST = 40
-#: A quote expiring within this many days is said as expiring.
 SOON = 7
 
 
@@ -266,7 +264,6 @@ def compare(request: str) -> dict | None:
 		fields=["parent", "item_code", "rate", "base_rate", "lead_time_days", "ordered_qty"],
 	):
 		rates[(row.parent, row.item_code)] = row
-	# How much of each line is ordered already, from whichever quote.
 	ordered: dict = {}
 	for row in rates.values():
 		ordered[row.item_code] = ordered.get(row.item_code, 0) + flt(row.ordered_qty)
@@ -384,7 +381,6 @@ def order_cheapest(request: str) -> list[str]:
 		order.items = [row for row in order.items if flt(row.qty) > 0]
 		if not order.items:
 			continue
-		# A request wanted by a day now past is wanted as soon as it can be.
 		for row in order.items:
 			if not row.schedule_date or getdate(row.schedule_date) < getdate(today()):
 				row.schedule_date = today()

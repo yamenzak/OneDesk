@@ -9,35 +9,24 @@ from frappe import _, _lt
 from onedesk.one import roles
 
 ROOT, MY, SHARED, COMPANY, RECORDS, BIN = "@root", "@my", "@shared", "@company", "@records", "@bin"
-#: A project's Featured Media (one_project/media.py), inside its own folder.
 FEATURED = "@featured/"
-#: A project's tasks that hold files, as a folder of the project's, and the
-#: project's own files without what is under it (its page's Main).
 TASKS, OWN = "@tasks/", "@own/"
 
-#: Every record's Files tab: OneCloud on the record's own room, drawn by
-#: record_files.js. File itself has no room, and an extension (one_studio)
-#: has nothing to file. See one/tabs.py.
 TABS = [{"name": "files", "label": _lt("Files"), "order": 80, "leaves_out": ("File", "Extension", "Record Type")}]
 LIBRARIES, RECENT, STARRED, MOUNTS, REQUESTS = "@libraries", "@recent", "@starred", "@mounts", "@requests"
 MAIL = "@mail"
 HOME, ATTACHMENTS, LIBRARY_ROOT = "Home", "Home/Attachments", "Home/Libraries"
 
-#: A library member's role, as the DocShare that carries it: (write, share).
 ROLES = {"Reader": (0, 0), "Member": (1, 0), "Owner": (1, 1)}
 
-#: Frappe's own bookkeeping, which has files but no folder anybody wants.
-#: A message's files are under Mail, by mailbox, rather than Records.
 UNLISTED = frozenset(
 	(
 		"Prepared Report", "Data Import", "Data Export", "Access Log", "Error Log", "Deleted Document", "Version",
 		"Communication",
-		# A OneAI conversation's uploads and an assignment's: nobody files by them.
 		"AI Chat", "ToDo",
 	)
 )  # fmt: skip
 
-#: How deep a folder chain is walked before it is taken to be a loop.
 DEEPEST = 64
 
 FIELDS = [
@@ -46,9 +35,6 @@ FIELDS = [
 	"one_deleted_by", "one_deleted_on", "thumbnail_url", "file_type", "one_library", "_liked_by",
 	"one_intake", "one_featured",
 ]  # fmt: skip
-
-
-# ------------------------------------------------------------------ ids
 
 
 def parse(node: str) -> tuple:
@@ -99,9 +85,6 @@ def would_loop(moving: str, ancestors_of_target: list, target: str) -> bool:
 	"""Whether putting `moving` into `target` puts a folder inside itself.
 	Pure over the target's chain of parents."""
 	return moving == target or moving in ancestors_of_target
-
-
-# ------------------------------------------------------------ the folders
 
 
 def home(user: str | None = None, create: bool = True) -> str | None:
@@ -214,9 +197,6 @@ def space(item: dict) -> tuple:
 	return ("company",)
 
 
-# ------------------------------------------------------------- permission
-
-
 def inside(folder: str) -> tuple:
 	"""The space of whatever is put in `folder`, worked out once for a whole
 	listing rather than once per file."""
@@ -255,11 +235,8 @@ def may(item: dict, ptype: str = "read", user: str | None = None, where: tuple |
 		return _library_may(item, ptype, user, where)
 	if item.get("owner") == user:
 		return True
-	# Somebody signed in to a portal — a customer, a supplier — sees the files
-	# of records they may read and their own, and nothing of the staff's.
 	if not _staff(user):
 		return False
-	# Shared with them, on the item or on a folder it is in.
 	right = granted(item, user)
 	if right == "write" or (right and ptype == "read"):
 		return True
@@ -267,8 +244,6 @@ def may(item: dict, ptype: str = "read", user: str | None = None, where: tuple |
 		return where[1] == user
 	if where[0] == "attachments":
 		return False
-	# The company folder: everybody's to read and add to; an item is changed by
-	# whoever made it, or a Workspace Administrator.
 	if ptype == "read":
 		return item.get("is_folder") or not item.get("is_private") or _frappe_may(item, user)
 	if ptype == "add":
@@ -334,9 +309,6 @@ def _frappe_may(item: dict, user: str) -> bool:
 	from frappe.core.doctype.file.file import has_permission
 
 	return has_permission(frappe._dict(item), "read", user=user)
-
-
-# --------------------------------------------------------------- listing
 
 
 def node(item: dict) -> dict:
@@ -436,8 +408,6 @@ def children(node_id: str, search: str | None = None) -> list[dict]:
 	folder = folder_of(node_id)
 	filters = {"folder": folder, "one_deleted": 0}
 	found = frappe.get_all("File", filters=filters, fields=FIELDS, order_by="is_folder desc, file_name asc", limit=5000)
-	# A file attached to a record lives in Records, whatever folder Frappe
-	# filed it in.
 	found = [one for one in found if one.is_folder or not (one.attached_to_doctype and one.attached_to_name)]
 	if kind[0] == COMPANY:
 		found = [one for one in found if not one.one_home_of and one.name not in (ATTACHMENTS, LIBRARY_ROOT)]
@@ -470,7 +440,6 @@ def shared_with_me(user: str | None = None) -> list[dict]:
 	found = frappe.get_all(
 		"File", filters={"name": ["in", list(held)], "one_deleted": 0}, fields=FIELDS, order_by="is_folder desc, file_name asc"
 	)
-	# A library one is a member of is under Libraries, not here.
 	found = [one for one in found if one.owner != user and not one.one_library]
 	names = {one.name for one in found}
 	out = []
@@ -566,7 +535,7 @@ def everywhere(text: str, most: int = 200) -> list[dict]:
 			where = ("record", one.attached_to_doctype, one.attached_to_name)
 		else:
 			where = placed(one.folder, folders)
-			if not where:  # in a folder in the Recycle Bin
+			if not where:
 				continue
 		if not may(one, where=where):
 			continue
@@ -720,7 +689,6 @@ def attachments(doctype: str, name: str, below: bool = True) -> list[dict]:
 	)
 	out = [node(one) for one in found if not one.get("one_featured")]
 	if doctype == "Project":
-		# A project's photos and videos to show it with, as a folder of its own.
 		from onedesk.one_project import media
 
 		out.insert(0, virtual(media.node(name), _("Featured Media"), icon="image"))
@@ -735,8 +703,6 @@ def attachments(doctype: str, name: str, below: bool = True) -> list[dict]:
 		if _tasks_with_files(name):
 			folders.append(virtual(TASKS + name, _("Tasks"), icon="list-checks"))
 		out[1:1] = folders
-	# Files that belong here as well as where they are kept (one_intake's File
-	# Link). A link never grants read: only those the reader may open.
 	linked = frappe.get_all("File Link", filters={"for_doctype": doctype, "for_name": name}, pluck="file")
 	held = {one.name for one in found}
 	if linked:
@@ -807,9 +773,6 @@ def binned(user: str | None = None) -> list[dict]:
 	return [node(one) for one in found if one.folder not in deleted]
 
 
-# ------------------------------------------------------------ the path
-
-
 def trail(node_id: str) -> list[dict]:
 	"""The address bar: from the top to this node, each a place to go back to."""
 	kind = parse(node_id)
@@ -841,8 +804,6 @@ def trail(node_id: str) -> list[dict]:
 		if len(kind) > 1:
 			out.append({"id": record_node(kind[1]), "name": _(kind[1])})
 		if len(kind) > 2:
-			# A sub-project under the projects above it, a task under its
-			# project's Tasks, as their folders hold them.
 			if kind[1] == "Project":
 				parents, at = [], frappe.db.get_value("Project", kind[2], "one_parent")
 				while at and at not in parents and len(parents) < DEEPEST:
@@ -870,8 +831,6 @@ def trail(node_id: str) -> list[dict]:
 			crumbs += [{"id": name, "name": one.file_name}, {"id": LIBRARIES, "name": _("Libraries")}]
 			break
 		if one.one_home_of:
-			# Somebody else's: reached through what they shared, so the trail
-			# starts at the highest folder shared with the reader.
 			held = grants()
 			at = max((i for i, crumb in enumerate(crumbs) if crumb["id"] in held), default=None)
 			if at is not None:

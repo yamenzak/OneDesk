@@ -6,7 +6,6 @@ from onedesk.one_legal.registry import clause, subprocessor
 
 M = "One"
 
-# Settings › Profile
 
 clause(
 	document="privacy",
@@ -37,7 +36,6 @@ clause(
 	order=5,
 )
 
-# Settings › Notifications
 
 clause(
 	document="privacy",
@@ -69,7 +67,6 @@ clause(
 	order=7,
 )
 
-# Automation › Workspace Notifications
 
 clause(
 	document="aup",
@@ -88,8 +85,6 @@ clause(
 )
 
 
-# Workspace: People
-
 clause(
 	document="privacy",
 	section="modules",
@@ -104,7 +99,6 @@ clause(
 	order=8,
 )
 
-# Workspace: Devices and passkeys
 
 clause(
 	document="privacy",
@@ -131,7 +125,6 @@ clause(
 	""",
 )
 
-# Workspace: Domains
 
 clause(
 	document="terms",
@@ -149,7 +142,6 @@ clause(
 	""",
 )
 
-# Workspace Settings › Printing
 
 subprocessor(
 	name="Google LLC",
@@ -163,7 +155,6 @@ subprocessor(
 	url="https://developers.google.com/fonts/faq/privacy",
 )
 
-# One > Recycle Bin
 
 clause(
 	document="privacy",
@@ -177,7 +168,6 @@ clause(
 	""",
 )
 
-# One > Audit Log
 
 clause(
 	document="privacy",
@@ -194,7 +184,6 @@ clause(
 	order=9,
 )
 
-# You > Profile > Your Data, and Workspace > Privacy Requests
 
 clause(
 	document="privacy",
@@ -223,7 +212,6 @@ clause(
 	order=5,
 )
 
-# Workspace > Webhooks
 
 clause(
 	document="privacy",
@@ -253,7 +241,6 @@ clause(
 	order=30,
 )
 
-# Announcements
 
 clause(
 	document="privacy",
@@ -268,7 +255,6 @@ clause(
 	order=30,
 )
 
-# The portal
 
 clause(
 	document="dpa",

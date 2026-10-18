@@ -12,7 +12,6 @@ from frappe.utils import cint, now_datetime
 
 from onedesk.one_intake import read, split, switches, tell, vision
 
-#: Frappe's own bookkeeping and our own pictures: files nobody sent.
 SKIPPED = frozenset(
 	(
 		"Prepared Report", "Data Import", "Data Export", "Access Log", "Error Log", "Deleted Document",
@@ -21,23 +20,15 @@ SKIPPED = frozenset(
 	)
 )  # fmt: skip
 
-#: What a Reading keeps of a very long text. The rest of a four-hundred-page
-#: file is not what anybody searches for.
 MOST_TEXT = 2_000_000
 
-#: A picture smaller than this in a message is somebody's signature or logo.
 SIGNATURE = 20 * 1024
 
-#: How deep archives inside archives are opened.
 DEEPEST = 3
 
-#: How often a reading that failed for a passing reason is tried again.
 TRIES = 5
 
 DONE = ("Read", "Understood", "Unreadable", "Needs a Password")
-
-
-# ------------------------------------------------------------------ doors
 
 
 def file_added(doc, method=None) -> None:
@@ -79,9 +70,6 @@ def _readable_file(doc) -> bool:
 	if doc.attached_to_doctype in SKIPPED or doc.attached_to_doctype == "Communication":
 		return False
 	return not doc.get("one_deleted")
-
-
-# ------------------------------------------------------------------ files
 
 
 def read_file(name: str, history: int = 0, person: str | None = None) -> str | None:
@@ -126,7 +114,6 @@ def read_file(name: str, history: int = 0, person: str | None = None) -> str | N
 		return None
 	reading = _reading(key, doc.file_name, ("File", name), person, history)
 	if reading.state in DONE:
-		# Read before, but a file inside it is still waiting: only that is read.
 		for inner in said.inner:
 			_inner(reading, inner, person, 0)
 		return reading.name
@@ -292,15 +279,11 @@ def _pages_label(pages: list[int]) -> str:
 	)
 
 
-#: Pages of a scan read when Intake Settings says nothing.
 MOST_PAGES = 60
 
 
 def _most_pages() -> int:
 	return cint(frappe.db.get_single_value("Intake Settings", "most_pages")) or MOST_PAGES
-
-
-# ------------------------------------------------------------------ mail
 
 
 def read_mail(name: str, history: int = 0, automatic: int = 0) -> str | None:
@@ -390,9 +373,6 @@ def _worth_reading(file, content: str | None) -> bool:
 	return True
 
 
-# ------------------------------------------------------------------ state
-
-
 def _set(reading, **values) -> None:
 	reading.update(values)
 	reading.flags.ignore_permissions = True
@@ -426,7 +406,6 @@ def again() -> None:
 		fields=["name", "source_doctype", "source_name", "history", "read_on"],
 		limit=50,
 	):
-		# Read already and waiting at understanding: only that is tried again.
 		if held.read_on:
 			later("understood", f"understand:{held.name}", name=held.name)
 		else:
@@ -439,7 +418,6 @@ def again() -> None:
 		later("read_mail", f"mail:{name}", name=name, history=1)
 
 
-#: Files and messages caught up in one quarter hour.
 CATCH_UP = 40
 
 

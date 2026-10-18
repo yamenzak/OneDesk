@@ -54,9 +54,6 @@ def test_no_report_asks_for_a_company():
 		assert 'fieldname: "company"' not in path.read_text(encoding="utf-8"), path.name
 
 
-# ------------------------------------------------------------ time in stage
-
-
 def _time_in_stage():
 	from datetime import datetime
 	from statistics import median

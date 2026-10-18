@@ -11,16 +11,10 @@ from frappe.permissions import get_doctypes_with_read
 from onedesk.one import roles
 from onedesk.one.customize import REFUSED_MODULES
 
-#: Who acts as the system rather than as a person.
 SYSTEM = ("Administrator", "Guest", "oneai@one.invalid")
 
-#: Core's records that are the workspace's own and worth auditing: who may
-#: use the workspace and what they may do. Changes to them are the first
-#: thing an audit asks about.
 PEOPLE = ("User", "User Permission", "Role Profile", "User Group")
 
-#: A downloaded file is a `File`, which is Core's; who took which one is the
-#: point of the log.
 DOWNLOADS = ("File",)
 
 

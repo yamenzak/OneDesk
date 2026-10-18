@@ -1,11 +1,4 @@
 <template>
-  <!-- Subcontracting Order (one_inventory/page/sent_out): work a supplier does on our own
-       materials as one page. Each order says what the supplier makes, what
-       went to them and what came back, and when it is due, with Send
-       Materials and Receive Back where they fit (one_inventory/sent_out.py,
-       sent_out_actions.js). Modelled on Katana's outsourced purchase orders
-       and Odoo's subcontracting: one table of what is out, and the orders
-       not ready to send above it. -->
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
@@ -64,8 +57,6 @@ const soonLoad = () => {
   clearTimeout(timer);
   timer = setTimeout(load, 600);
 };
-// What the materials with suppliers are worth moves with their bins; a
-// project renamed shows too.
 const stop = ["Subcontracting Order", "Subcontracting Receipt", "Stock Entry", "Purchase Order", "Bin", "Project"].map((one) => followList(one, soonLoad));
 onBeforeUnmount(() => {
   stop.forEach((one) => one());
@@ -96,7 +87,6 @@ const figures = computed(() => {
   ].filter(Boolean);
 });
 
-// Subcontracted purchase orders that still need their subcontracting order.
 const toOrder = computed(() =>
   said.value.to_order.map((one) => ({
     key: one.name,
@@ -116,8 +106,6 @@ function report() {
   props.onActions?.([s.can.order && { label: __("New Subcontracting Order"), primary: true, onClick: () => onedesk().sent_out.new() }].filter(Boolean));
 }
 
-// The page is a place (one_studio/places.py): its extensions are told what
-// it shows, and may add a note or a button.
 const placed = reactive({ notes: [], actions: [] });
 let drawn = null;
 function extended(s) {

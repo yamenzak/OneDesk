@@ -5,7 +5,6 @@ import frappe
 
 from onedesk.one_demo.base import COMPANY, dated, on, once, save, wh
 
-#: code, qty in Stores, rate
 OPENING = (
 	("ALU-6063", 2200, 27),
 	("GLS-DGU", 420, 160),
@@ -66,7 +65,6 @@ def _kept():
 		frappe.db.set_value("Item", code, "allow_alternative_item", 1)
 	once("Item Alternative", {"item_code": "SIL-CLR"}, {"item_code": "SIL-CLR", "alternative_item_code": "SIL-WP", "two_way": 1})
 	once("Item Lead Time", {"item_code": "ALU-6063"}, {"item_code": "ALU-6063", "purchase_time": 14, "buffer_time": 2})
-	# Shims are kept at a standard cost, so each costs what was set for it.
 	once(
 		"Item",
 		{"item_code": "HW-SHIM"},

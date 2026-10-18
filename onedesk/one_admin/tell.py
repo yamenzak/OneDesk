@@ -57,7 +57,6 @@ def job_failed(job) -> None:
 		what=str(home.FAILED.get(job.kind, home.FAILED["Provision"])).format(home._workspace(job.tenant)),
 		number=walk.index(job.step) + 1 if job.step in walk else 1,
 		steps=len(walk),
-		# `_lt`, so each operator reads it in their own language (notify._said).
 		step=steps.SAID.get(job.step, job.step or ""),
 		error=(job.error or "").strip()[:300],
 	)
@@ -92,8 +91,6 @@ def signup_not_built(asked, error: str) -> None:
 		email=asked.email,
 		error=(error or "")[:300],
 	)
-	# They paid: they hear it is delayed rather than nothing. Once, since
-	# Build Workspace failing again is not news to them.
 	if asked.email and not _told_delayed(asked):
 		notify.mail(
 			"Workspace Delayed",
@@ -149,8 +146,6 @@ def owner(tenant, rung: str, was: str | None) -> None:
 	"""Whoever pays for the workspace, mailed when its payment fails, and when
 	it is suspended, archived or restored (steps._arrive): the payer need not
 	be anybody on the site, and a suspended one cannot tell them anything."""
-	# Whoever holds it in their One account is who pays, so who is told; the
-	# address it was bought with only if nobody holds it yet.
 	to = tenant.get("account") or tenant.get("owner_email")
 	if not to:
 		return
@@ -173,7 +168,6 @@ def owner(tenant, rung: str, was: str | None) -> None:
 	elif rung == "Archived":
 		on = formatdate(add_days(today(), days["Archived"]))
 		if tenant.get("closing_on"):
-			# Closed because they asked, not because they did not pay.
 			notify.mail("Workspace Closed", to, date=on, **said)
 		else:
 			notify.mail("Workspace Archived", to, date=on, **said)

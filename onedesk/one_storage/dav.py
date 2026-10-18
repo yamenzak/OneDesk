@@ -19,20 +19,14 @@ from onedesk.one_storage import namespace as ns
 
 MOUNT = "/api/method/onedesk.one_storage.dav.serve"
 
-#: Every method a WebDAV client sends, besides the ones Frappe answers itself.
 METHODS = [
 	"GET", "HEAD", "PUT", "DELETE", "PROPFIND", "PROPPATCH", "MKCOL", "COPY", "MOVE", "LOCK", "UNLOCK", "POST",
 ]  # fmt: skip
 
-#: Methods after which the database is kept. Frappe commits for POST, PUT,
-#: DELETE and PATCH on its own and rolls everything else back.
 CHANGES = frozenset(("MKCOL", "COPY", "MOVE", "PROPPATCH", "LOCK", "UNLOCK"))
 
-#: What a drive shows at its top: the places with files of their own, not the
-#: views over them (Recent, Starred) or the bin.
 TOP = (ns.MY, ns.SHARED, ns.LIBRARIES, ns.COMPANY, ns.RECORDS)
 
-#: What macOS and Windows write beside every file they touch.
 LITTER = (".DS_Store", "Thumbs.db", "desktop.ini")
 
 
@@ -46,9 +40,6 @@ def split(path: str) -> list[str]:
 	return [part for part in (path or "").strip("/").split("/") if part and part not in (".", "..")]
 
 
-# ------------------------------------------------------------ the entry point
-
-
 @frappe.whitelist(allow_guest=True, methods=METHODS)
 def serve():
 	if frappe.session.user in ("Guest", ""):
@@ -60,8 +51,6 @@ def serve():
 	environ = dict(request.environ)
 	environ["SCRIPT_NAME"] = MOUNT
 	environ["PATH_INFO"] = request.path[len(MOUNT) :] or "/"
-	# Frappe has read the whole body already (make_form_dict), so it is taken
-	# from werkzeug's cache rather than a stream somebody has emptied.
 	body = request.get_data(cache=True)
 	environ["wsgi.input"] = io.BytesIO(body)
 	environ["CONTENT_LENGTH"] = str(len(body))
@@ -76,7 +65,6 @@ def serve():
 		answer["status"], answer["headers"] = status, headers
 
 	body = _app()(environ, start_response)
-	# wsgidav says its status when its body is first read, not before.
 	chunks = iter(body)
 	first = next(chunks, b"")
 	if request.method in CHANGES:
@@ -102,9 +90,6 @@ def headers(response, request) -> None:
 		return
 	extra = frappe.local.response_headers
 	if request.method == "OPTIONS":
-		# Frappe cannot sign anybody in on OPTIONS, and refuses credentials it
-		# cannot use; macOS sends them anyway. OPTIONS only says what the
-		# server speaks, so it is answered for anybody.
 		if response is not None and response.status_code == 401:
 			response.status_code = 200
 			response.set_data(b"")
@@ -195,11 +180,6 @@ class FrappeSignIn(_signin_base()):
 		return False
 
 
-# ------------------------------------------------------------ the passwords
-
-
-#: How a drive password looks: four groups of four letters, typed easily into
-#: a Connect to Server box. About 75 bits.
 GROUPS, LETTERS = 4, "abcdefghijkmnopqrstuvwxyz"
 
 
@@ -248,7 +228,6 @@ def sign_in() -> None:
 	frappe.set_user(row.user)
 	frappe.local.form_dict = form
 	request.environ.pop("HTTP_AUTHORIZATION", None)
-	# A drive asks many times a minute; when it was last used is kept to ten.
 	now = frappe.utils.now_datetime()
 	if not row.last_used or (now - get_datetime(row.last_used)).total_seconds() > 600:
 		frappe.db.set_value("Cloud Drive Password", row.name, "last_used", now, update_modified=False)
@@ -293,9 +272,6 @@ def drop_password(name: str) -> None:
 	if frappe.db.get_value("Cloud Drive Password", name, "user") != frappe.session.user:
 		frappe.throw(_("This item no longer exists."), frappe.DoesNotExistError)
 	frappe.delete_doc("Cloud Drive Password", name, ignore_permissions=True)
-
-
-# ------------------------------------------------------------ the provider
 
 
 def _provider_base():
@@ -523,8 +499,6 @@ class Document(_DAVNonCollection):
 		return io.BytesIO(content if isinstance(content, bytes) else content.encode())
 
 	def begin_write(self, *, content_type=None):
-		# wsgidav closes what it wrote to before end_write, so the bytes go to
-		# a file on disk that end_write reads back and removes.
 		handle, self._spool = tempfile.mkstemp(prefix="onecloud-dav-")
 		return os.fdopen(handle, "wb")
 

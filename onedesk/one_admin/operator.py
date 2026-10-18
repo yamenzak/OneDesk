@@ -8,9 +8,6 @@ import frappe
 
 from onedesk.one_admin import lifecycle, runner, site
 
-#: The rung an operator may send a workspace to, and what to warn them about
-#: first. The client shows the warning; this list is what makes it possible to
-#: get it wrong in only one place.
 BY_HAND = {
 	"Overdue": "",
 	"Suspended": "The site stops. No one can sign in until it's restored.",
@@ -18,9 +15,6 @@ BY_HAND = {
 	"Dropped": "Every file this workspace stored is deleted permanently.",
 }
 
-#: The button for each rung. The verb for what happens, rather than the name of
-#: the rung it lands on — "Delete Files" says what a customer loses and
-#: "Send to Dropped" does not.
 CALLED = {
 	"Overdue": "Mark Overdue",
 	"Suspended": "Suspend",
@@ -45,7 +39,6 @@ def standing(tenant: str) -> dict:
 	held = frappe.get_doc("Tenant", tenant)
 	where = lifecycle.standing(held)
 	below = where["next"]
-	# An operator may only send it somewhere the buttons name.
 	where["next"] = below if below in BY_HAND else None
 	where["warning"] = BY_HAND.get(below or "", "")
 	where["verb"] = frappe._(CALLED[below]) if below in CALLED else None
@@ -195,9 +188,6 @@ def retry_signup(request: str) -> dict:
 	if asked.status not in ("Paid", "Failed"):
 		frappe.throw(frappe._("{0} hasn't been paid.").format(request))
 	if asked.tenant:
-		# `accept` hands back the workspace it already made rather than making a
-		# second one, so retrying here would report success and do nothing. The
-		# work that is left is the job's, and the job screen has Resume.
 		frappe.throw(
 			frappe._("{0} already has a workspace. Resume its job instead.").format(request)
 		)

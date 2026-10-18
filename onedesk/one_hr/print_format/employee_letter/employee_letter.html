@@ -1,5 +1,3 @@
-{#- One letter on the workspace's letterhead. The company is the employee's,
-    since One asks nobody which company. -#}
 {%- set company = frappe.db.get_value("Employee", doc.employee, "company") -%}
 <div class="one-letter">
 	<p class="text-right">{{ frappe.utils.format_date(doc.letter_date) }}</p>

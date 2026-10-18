@@ -1,8 +1,4 @@
 <template>
-  <!-- A task opened beside the page, the same task OneTask opens: its fields
-       changed in place, what it waits on, its checklist and sub-tasks, its
-       description, and its comments and history. The rest of its details are
-       one dialog away, and the full form one click. -->
   <Drawer :open="Boolean(task)" :title="task?.subject" @close="$emit('close')">
     <template #head>
       <Pill v-if="task" :value="task.status" :options="work.statuses" :colors="TASK_STATUS" :label="__('Status')" :readonly="!canWrite" @change="(v) => $emit('set', task.name, 'status', v)" />
@@ -120,16 +116,12 @@ import { Drawer, People, Pill, __, call, can, go, hours, listen, onedesk } from 
 import { PRIORITY, TASK_STATUS } from "./colors";
 import Due from "./Due.vue";
 
-// The timeline brings frappe-ui's editor, so it loads when first shown.
 const Activity = defineAsyncComponent(() => import("./Activity.vue"));
 
 const props = defineProps({ task: Object, work: { type: Object, required: true }, team: Array, canWrite: Boolean });
 const emit = defineEmits(["close", "set", "give", "take", "open", "add", "changed"]);
-// A field that opens another record reads as a link.
 const LINK = "text-ink-gray-8 underline decoration-outline-gray-3 underline-offset-4 hover:decoration-ink-gray-8";
 
-// The whole task as frappe reads it: its description, type, checklist, what
-// it waits on and whether it repeats. Read again whenever the task changes.
 const doc = ref(null);
 const repeat = ref(null);
 async function load() {
@@ -175,7 +167,6 @@ function addSub() {
   emit("add", props.task.project, text, { parent_task: props.task.name });
 }
 
-// Timing a task, as OneTask does (one_task/timer.py): one timer at a time.
 const canTime = computed(() => can("create", "Timesheet"));
 const running = ref(null);
 const timing = computed(() => running.value?.task === props.task?.name);
@@ -183,7 +174,6 @@ const timed = async () => {
   if (props.task?.name && canTime.value) running.value = await call("onedesk.one_task.timer.running");
 };
 watch(() => props.task?.name, timed, { immediate: true });
-// A timer paused, resumed or stopped anywhere, the rail's Timers included.
 onBeforeUnmount(listen("one_timers", timed));
 async function time() {
   if (timing.value) {

@@ -76,7 +76,6 @@ def test_the_portal_is_drawn_as_frappe_ui_draws_it():
 	assert "<PageHeader" in (APP / "src" / "parts" / "Head.vue").read_text()
 	assert 'from "frappe-ui/list"' in _page("List.vue")
 	assert "ICONS = {" in SOURCE and "COLUMNS = {" in SOURCE
-	# Every icon a tab names is built: the class is found where tailwind looks.
 	assert "portal.py" in (APP / "tailwind.config.js").read_text()
 
 
@@ -108,8 +107,6 @@ def test_a_supplier_answers_a_quote_request_on_the_portal():
 	assert "finally:\n\t\tfrappe.session.user = user" in send
 	assert 'quote.db_set({"owner": user, "modified_by": user}' in send
 	assert "tell.quote_received(doc, quote, user, supplier)" in send
-	# A discount is erpnext's own, taken off the supplier's rate as its list
-	# price; the taxes are the workspace's, and the page sees them first.
 	assert "row.price_list_rate = rate" in send and "row.discount_percentage = discount" in send
 	assert '"ignore_pricing_rule": 1' in send
 	assert "def quote_preview(" in SOURCE and "quote.calculate_taxes_and_totals()" in SOURCE

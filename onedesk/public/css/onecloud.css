@@ -1,8 +1,4 @@
-/* The explorer. Logical properties throughout, so Arabic mirrors it. */
-
 .oc {
-	/* Seamless with the desk: no frame of its own, straight under the page
-	 * header and down to the bottom of the window (the shell's fit()). */
 	display: flex;
 	flex-direction: column;
 	min-height: 420px;
@@ -12,7 +8,6 @@
 	position: relative;
 }
 
-/* The command bar and the address bar. */
 .oc-bar,
 .oc-address {
 	display: flex;
@@ -76,7 +71,6 @@
 	width: 240px;
 }
 
-/* The three panes, the shell's, fill what the bars leave. */
 .oc-body {
 	display: flex;
 	flex-direction: column;
@@ -156,7 +150,6 @@
 	outline-offset: -2px;
 }
 
-/* Details: a row per item, under column headings. */
 .oc-head,
 .oc[data-view="details"] .oc-item {
 	display: grid;
@@ -174,7 +167,6 @@
 	grid-template-columns: minmax(140px, 1fr) 130px 110px 72px;
 }
 
-/* A narrow contents pane drops the type, then the date, before it clips. */
 .oc-main {
 	container-type: inline-size;
 }
@@ -365,7 +357,6 @@
 	user-select: text;
 }
 
-/* Tiles: a picture and a name. */
 .oc[data-view="tiles"] .oc-items {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
@@ -373,7 +364,6 @@
 	gap: calc(var(--spacing) * 1);
 }
 
-/* Nothing in the folder spans the tiles' grid. */
 .oc[data-view="tiles"] .oc-items > :only-child:not(.oc-item) {
 	grid-column: 1 / -1;
 }
@@ -431,7 +421,6 @@
 	display: none;
 }
 
-/* The preview pane. */
 .oc-preview {
 	padding: calc(var(--spacing) * 4);
 }
@@ -505,7 +494,6 @@
 	white-space: pre;
 }
 
-/* Uploads in progress. */
 .oc-uploads {
 	position: absolute;
 	inset-inline-end: calc(var(--spacing) * 4);
@@ -579,7 +567,6 @@
 	color: var(--ink-gray-5);
 }
 
-/* A narrow screen keeps the contents and drops the side panes. */
 @media (max-width: 900px) {
 	.oc [data-pane="preview"] {
 		display: none;
@@ -608,7 +595,6 @@
 	}
 }
 
-/* The share dialog's list of people. */
 .oc-people-head {
 	margin: calc(var(--spacing) * 3) 0 calc(var(--spacing) * 2);
 	color: var(--ink-gray-5);
@@ -668,7 +654,6 @@
 	margin-top: calc(var(--spacing) * 2);
 }
 
-/* Under a preview: versions and what was done. */
 .oc-history-head {
 	margin: calc(var(--spacing) * 5) 0 calc(var(--spacing) * 2);
 	color: var(--ink-gray-5);
@@ -710,7 +695,6 @@
 	color: var(--ink-amber-3);
 }
 
-/* Connect as a drive. */
 .oc-drive-steps {
 	display: grid;
 	grid-template-columns: auto 1fr;
@@ -748,7 +732,6 @@
 	overflow-wrap: anywhere;
 }
 
-/* A file request's progress: people against files. */
 .oc-progress {
 	overflow-x: auto;
 }
@@ -776,7 +759,6 @@
 	color: var(--ink-gray-5);
 }
 
-/* While searching: where the results come from, and "Search everywhere". */
 .oc-scope {
 	display: flex;
 	align-items: center;
@@ -808,16 +790,11 @@
 	margin: 0;
 }
 
-/* A record's Files tab (record_files.js): the same explorer on one room.
- * A record has no folders of its own, so no tree and no way to walk; the
- * address bar keeps the path, which leads out to OneCloud, and the search. */
 .oc.oc-room {
 	height: clamp(420px, calc(100vh - 260px), 720px);
 	border-bottom: 1px solid var(--outline-gray-1);
 }
 
-/* Seamless with the form, as the page is with the desk: none of the section's
- * padding around it, and none of the gap under the tab strip. */
 .form-section.one-files-section,
 .form-section.one-files-section .section-body,
 .form-section.one-files-section .form-column {
@@ -836,8 +813,6 @@
 }
 
 
-/* The upload dialog's OneCloud (onecloud_picker.js): the explorer to choose
- * a file from, with the command bar gone, since nothing is changed here. */
 .oc.oc-pick {
 	height: min(560px, calc(100vh - 260px));
 	min-height: 380px;

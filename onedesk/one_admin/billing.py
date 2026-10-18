@@ -38,8 +38,6 @@ def quote(tenant: str, needs: dict, seats_used: int = 0) -> dict:
 	held = frappe.get_doc("Tenant", tenant)
 	ladder, sold, _costs = offerings.listed()
 	used = _used(held, seats_used)
-	# Never quote less than what is already used: a need below it is a need
-	# nobody can have without deleting something first.
 	wanted = {one: max(flt(needs.get(one)), used.get(one) or 0) for one in plans.RESOURCES}
 	now = monthly(held)
 	return {
@@ -71,8 +69,6 @@ def take(tenant: str, plan: str, extras: dict, seats_used: int = 0) -> dict:
 		raise Refused(_("This workspace has no subscription. Contact support to set one up."))
 
 	was = held.offering
-	# Each change is written as Stripe accepts it, so a card declined half way
-	# leaves this record saying what Stripe now bills, not what was asked.
 	try:
 		if plan != held.offering:
 			old_price = frappe.db.get_value("Offering", held.offering, "stripe_price") if held.offering else None
@@ -186,9 +182,6 @@ def _log(slug: str, kind: str, plan: str, extras: dict) -> None:
 
 	detail = " + ".join([label(plan), *(f"{count} × {label(key)}" for key, count in extras.items() if count)])
 	log.write(slug, kind, detail, by="Customer")
-
-
-# ------------------------------------------------------------------ invoices
 
 
 def invoices(tenant: str) -> dict:

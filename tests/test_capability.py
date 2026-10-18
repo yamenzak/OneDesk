@@ -45,8 +45,6 @@ def test_the_module_has_no_frappe_in_it():
 @pytest.mark.parametrize(
 	"produces,reads,word",
 	[
-		# The one that was wrong. Gemini Flash publishes input rates for all
-		# four and was filed as text generation.
 		("text", {"text", "image", "audio", "video"}, "Multimodal"),
 		("text", {"text", "image"}, "Vision"),
 		("text", {"text", "video"}, "Vision"),
@@ -92,8 +90,6 @@ def test_a_translator_is_not_a_chat_model():
 	text from text" is exactly what a chat model does too."""
 	assert capability.named(*capability.A_TASK["translation"]) == "Translation"
 	assert capability.named(*capability.A_TASK["text classification"]) == "Text Classification"
-	# And nothing covers them, so an action needing Text Generation cannot pick
-	# one — which is how they were being offered in the first place.
 	assert "Translation" not in capability.covers("Text Generation")
 	assert "Text Classification" not in capability.covers("Text Generation")
 	assert capability.covers("Translation") == {"Translation"}

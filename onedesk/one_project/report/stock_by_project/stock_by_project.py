@@ -7,8 +7,6 @@ from erpnext.projects.report.project_wise_stock_tracking import project_wise_sto
 
 from onedesk.one_hr.lifecycle import BOARDING
 
-#: Their columns kept, by place: the project, the three costs, its status,
-#: customer, value and dates; not its name again (4) or the company (6).
 KEPT = (0, 1, 2, 3, 5, 7, 8, 9, 10)
 
 

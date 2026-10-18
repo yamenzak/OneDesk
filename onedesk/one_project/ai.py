@@ -11,10 +11,8 @@ from frappe.utils import add_days, date_diff, flt, get_fullname, getdate, nowdat
 
 from onedesk.one_project import agreement, kinds, money, overview, tree
 
-#: Not a project here: an employee's onboarding or exit checklist (README).
 HR = "Employee Boarding"
 
-#: How many of each list the model is shown.
 MOST = 15
 
 GOING = {
@@ -125,11 +123,8 @@ DRAFT = {
 	"expects": "draft_update",
 }
 
-#: The project page (project-view), by its open view, from `?view=`.
 PAGE = "project-view"
-#: The kinds with a customer to bill and to write to; an Internal project has none.
 BILLED = (kinds.FIXED, kinds.TIME, kinds.RETAINER)
-#: The Tasks view's layouts are the same view.
 LAYOUTS = {"board": "tasks", "timeline": "tasks"}
 
 
@@ -145,7 +140,6 @@ def _here(*offered, kinds: tuple | None = None) -> list[dict]:
 	return said
 
 
-#: A project template's page (page/project_template_view).
 TEMPLATE_PAGE = "project-template-view"
 
 DRAFT_TEMPLATE = {
@@ -201,7 +195,6 @@ SUGGESTIONS = {
 			"expects": "draft_project",
 		},
 	],
-	# A retainer's first question is its hours, wherever it is asked.
 	f"page:{PAGE}": _here(ALLOWANCE, kinds=(kinds.RETAINER,))
 	+ _here(DRAFT, GOING, LATE)
 	+ _here(UPDATE, kinds=BILLED)
@@ -218,7 +211,6 @@ SUGGESTIONS = {
 for _layout, _view in LAYOUTS.items():
 	SUGGESTIONS[f"page:{PAGE}/{_layout}"] = SUGGESTIONS[f"page:{PAGE}/{_view}"]
 
-#: What each view is, as the model is told it.
 VIEWS = {
 	"overview": "the Overview: where it stands, what needs the reader, its numbers and milestones",
 	"tasks": "the Tasks view: its tasks as a table, a board or a timeline",
@@ -327,7 +319,6 @@ def project_facts(project: Annotated[str, "The project's id, such as PROJ-0005."
 		"members": [get_fullname(row.user) for row in doc.users],
 		"parent": doc.get("one_parent"),
 		"sub_projects": len(said["tree"]) - 1,
-		# Its own work apart from what is under it, as its Main row says it.
 		"main": _main(project) if len(said["tree"]) > 1 else None,
 		"starts": str(doc.expected_start_date) if doc.expected_start_date else None,
 		"ends": said["end"],
@@ -369,7 +360,6 @@ def project_facts(project: Annotated[str, "The project's id, such as PROJ-0005."
 		"team": _team(project),
 		"contacts": _contacts(project),
 		"months": _months(project) if doc.get("one_kind") == kinds.RETAINER else None,
-		# Agreed with the customer and carried onto its documents (terms.py, agreement.py).
 		"payment_terms": doc.get("one_payment_terms"),
 		"terms_and_conditions": doc.get("one_terms"),
 		"contracts": [
@@ -806,10 +796,8 @@ def approved(changes: dict) -> str:
 	from onedesk.one_project import contacts, team
 
 	if changes["what"] == "project":
-		# Made as the New Project dialog makes one, as whoever approved it.
 		return kinds.make(changes["values"])
 	if changes["what"] == "status":
-		# As the page's status sets it, closing its open work only when agreed.
 		from onedesk.one_project import status
 
 		status.change(changes["project"], changes["status"], changes.get("close") or 0)
@@ -976,7 +964,6 @@ def draft_project(
 		"monthly_fee": flt(monthly_fee) if kind == kinds.RETAINER else 0,
 		"monthly_hours": flt(monthly_hours) if kind == kinds.RETAINER else 0,
 	}
-	# A contract and a fee are in the customer's currency.
 	currency = kinds.defaults(client)["currency"] if client else None
 	summary = [
 		{"label": _("Kind"), "value": _(kind)},
@@ -1322,7 +1309,6 @@ def _updates(project: str) -> list[dict]:
 	]
 
 
-#: The longest update the page and the model are given.
 LONGEST = 4000
 
 

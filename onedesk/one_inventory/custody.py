@@ -6,7 +6,6 @@ import frappe
 from frappe import _
 from frappe.utils import now_datetime
 
-#: Who is asked to take an asset back when its holder leaves.
 KEEPER = "Stock Manager"
 
 

@@ -1,5 +1,3 @@
-/* The Intake panel: what OneAI read, beside a file or above a message. */
-
 .oi-panel {
 	margin-top: calc(var(--spacing) * 5);
 	padding: calc(var(--spacing) * 3);
@@ -78,7 +76,6 @@
 	cursor: pointer;
 }
 
-/* What OneAI did with the document, and the buttons to decide or undo. */
 .oi-did {
 	display: flex;
 	align-items: center;
@@ -93,8 +90,6 @@
 	vertical-align: middle;
 }
 
-/* The mark on a record OneAI made that nobody has checked: in a list, beside
-   the title; on the form, a banner. */
 .one-intake-mark {
 	width: 14px;
 	height: 14px;
@@ -124,13 +119,11 @@
 	color: var(--ink-gray-5);
 }
 
-/* The matter a later document belongs to. */
 .oi-matter {
 	margin-top: calc(var(--spacing) * 2);
 	color: var(--ink-gray-7);
 }
 
-/* Ready to submit. */
 .oi-ready-table tr[data-tone="red"] td {
 	color: var(--ink-gray-7);
 }
@@ -140,7 +133,6 @@
 	font-size: var(--text-xs);
 }
 
-/* Paying a bill from the document: each part copies, and the GiroCode. */
 .oi-pay {
 	display: flex;
 	flex-wrap: wrap;
@@ -184,7 +176,6 @@
 	font-weight: var(--font-weight-medium);
 }
 
-/* Explaining a document, and the letter it asks for. */
 .oi-explain {
 	margin-top: calc(var(--spacing) * 3);
 }
@@ -261,8 +252,6 @@
 	margin-top: calc(var(--spacing) * 2);
 }
 
-/* The slim panel beside a file or above a message: the facts a person looks
-   for first, tight enough to read at a glance. */
 .oi-panel dl.oi-quick {
 	margin-top: calc(var(--spacing) * 2);
 	gap: calc(var(--spacing) * 0.5) calc(var(--spacing) * 3);

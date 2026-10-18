@@ -1,15 +1,8 @@
-/* The shell every page of ours is built in (docs/SHELL.md, public/js/shell.js).
-   A page sits on the page like a record does, not in a box: its sections are
-   divided by a rule, and Save is in the page head. Only this file styles
-   `.one-shell-*`; a page's own stylesheet styles only what is its own. */
-
 .one-shell {
 	padding: 0 0 calc(var(--spacing) * 10);
 	min-width: 0;
 }
 
-/* The app's mark before a page's name, where the page has no panel header to
-   carry it (shell.page `mark`). */
 .one-shell-mark {
 	display: flex;
 	align-items: center;
@@ -17,14 +10,10 @@
 	margin-inline-end: calc(var(--spacing) * 1.5);
 }
 
-/* Panes run to the bottom of the window, so nothing goes under them. */
 .one-shell:has(> .one-shell-panes) {
 	padding-bottom: 0;
 }
 
-/* The body is a column in the middle of the page, as frappe-ui's settings
-   pages are, so a wide screen puts the room on both sides rather than all of
-   it on the right. The column is the form's width plus the section's padding. */
 .one-shell-body {
 	max-width: calc(760px + var(--spacing) * 8);
 	margin-inline: auto;
@@ -57,8 +46,6 @@
 	margin: calc(var(--spacing) * 1) 0 calc(var(--spacing) * 3);
 }
 
-/* Whatever follows a section's heading stands off it the same way, a table
-   with no search box above it as much as one with. A note sits closer. */
 .one-shell-section-title + :not(.one-shell-note) {
 	margin-top: calc(var(--spacing) * 3);
 }
@@ -78,13 +65,11 @@
 	max-width: 480px;
 }
 
-/* A table is as wide as the page gives it, never a field's width. */
 .one-shell-form .frappe-control[data-fieldtype="Table"],
 .one-shell-columns .one-shell-form:has(.frappe-control[data-fieldtype="Table"]) {
 	max-width: none;
 }
 
-/* Fields side by side: the columns carry the width, not the field. */
 .one-shell-columns .one-shell-form {
 	max-width: 760px;
 }
@@ -102,7 +87,6 @@
 	margin: 0;
 }
 
-/* The first column starts where the heading does. */
 .one-shell-form .form-column:first-child {
 	padding-inline-start: 0;
 }
@@ -137,8 +121,6 @@
 	margin-top: calc(var(--spacing) * 1);
 }
 
-/* A line under a row's badges: what a mailbox signs with, or why it is not
-   connecting. One line, cut short rather than wrapped. */
 .one-shell-row-note {
 	margin-top: calc(var(--spacing) * 1.5);
 	font-size: var(--text-sm);
@@ -154,21 +136,17 @@
 	gap: calc(var(--spacing) * 2);
 }
 
-/* frappe's empty state, which fills a page, sized for a section. */
 .one-shell-empty {
 	min-height: 0;
 	padding: calc(var(--spacing) * 6) 0;
 }
 
-/* A part of a form under its own heading, divided from the one above by a
-   rule the width of the page. */
 .one-shell-form .form-section.one-shell-part {
 	margin: calc(var(--spacing) * 6) 0 0;
 	padding-top: calc(var(--spacing) * 6);
 	border-top: 1px solid var(--outline-gray-1);
 }
 
-/* A form that opens on a heading has nothing above it to divide from. */
 .one-shell-form .form-section.one-shell-part:first-child {
 	margin-top: 0;
 	padding-top: 0;
@@ -190,10 +168,6 @@
 	font-size: var(--text-sm);
 }
 
-/* frappe-ui's row alert (Alert.vue, layout "row"): a title and one action on
-   one line, the action a ghost button whose label takes the alert's ink.
-   Espresso's alert puts its footer under the title, so it is moved to the
-   column the dismiss button would use. */
 .es-alert.one-shell-alert-row {
 	align-items: center;
 	padding-block: calc(var(--spacing) * 1.5);
@@ -209,8 +183,6 @@
 	color: var(--ink-amber-6);
 }
 
-/* A row that opens something is the target, with frappe-ui's list-row hover
-   rather than a button of its own. */
 .one-shell-row-link {
 	cursor: pointer;
 	margin-inline: calc(var(--spacing) * -2);
@@ -229,14 +201,10 @@
 	color: var(--ink-gray-4);
 }
 
-/* A tick and what it is for read as one line where they can: a check's
-   description is its sentence, not an input's help under a narrow field. */
 .one-shell-form .form-column .frappe-control.input-max-width:has(> .checkbox) {
 	max-width: 640px;
 }
 
-/* A row's parts beyond the title: what goes before it, and what it says in
-   passing on the right. */
 .one-shell-row-main {
 	flex: 1;
 }
@@ -273,8 +241,6 @@
 	-webkit-box-orient: vertical;
 }
 
-/* The row open beside the list, and one not opened yet, as a mailbox marks
-   them: a tint for the one, bold and a dot for the other. */
 .one-shell-row.is-active {
 	background: var(--surface-gray-2);
 }
@@ -283,7 +249,6 @@
 	background: var(--surface-blue-1);
 }
 
-/* A row that is a link reads as the rest of the list does. */
 a.one-shell-row,
 a.one-shell-row:hover {
 	color: inherit;
@@ -303,15 +268,12 @@ a.one-shell-row:hover {
 	background: var(--ink-blue-6);
 }
 
-/* Panes: side by side, divided by a rule, as tall as the window leaves them
-   (shell.js fits them). Each scrolls on its own. */
 .one-shell-panes {
 	display: flex;
 	min-height: 420px;
 	border-top: 1px solid var(--outline-gray-1);
 }
 
-/* Panes inside something that sizes itself fill it, under its own rule. */
 .one-shell-panes-inset {
 	flex: 1;
 	min-height: 0;
@@ -331,20 +293,16 @@ a.one-shell-row:hover {
 	border-inline-end: 0;
 }
 
-/* A pane its page hides takes its rule with it. */
 .one-shell-pane:has(+ .one-shell-pane[hidden]:last-child),
 .one-shell-pane[hidden] {
 	border-inline-end: 0;
 }
 
-/* A list reads at the size a section does, wherever it sits. */
 .one-shell-list {
 	font-size: var(--text-sm);
 	color: var(--ink-gray-8);
 }
 
-/* A list in a pane runs edge to edge, each row padded as a mailbox's is,
-   and what is beside a row's lines sits by its first. */
 .one-shell-pane .one-shell-list > .one-shell-row {
 	align-items: flex-start;
 	margin-inline: 0;
@@ -356,7 +314,6 @@ a.one-shell-row:hover {
 	border-bottom: 1px solid var(--outline-gray-1);
 }
 
-/* Nothing to show in a pane sits in the middle of it. */
 .one-shell-pane > .one-shell-empty {
 	flex: 1;
 }
@@ -374,7 +331,6 @@ a.one-shell-row:hover {
 	background: var(--surface-base);
 }
 
-/* What a pane reads out, with room around it. */
 .one-shell-pane-body {
 	padding: calc(var(--spacing) * 5);
 }
@@ -392,9 +348,6 @@ a.one-shell-row:hover {
 }
 
 
-/* A record in a page, drawn as a docview is (Editor.as_record): the page's
-   whole width, its fields in the main column in parts that run edge to edge
-   under full-width rules, and frappe's form sidebar on the right. */
 .one-shell-body.one-shell-record {
 	max-width: none;
 	margin: 0;
@@ -423,8 +376,6 @@ a.one-shell-row:hover {
 	border: 0;
 }
 
-/* A record nothing on the page edits (Plan and Credits) has its parts as
-   sections of their own, laid out as the form's parts above them are. */
 .one-record-main > .one-shell-section:not(:has(.one-shell-form)) {
 	padding: calc(var(--spacing) * 6) calc(var(--spacing) * 7.5);
 	border-bottom: 1px solid var(--outline-gray-1);
@@ -517,9 +468,6 @@ a.one-shell-row:hover {
 	}
 }
 
-/* A list of records (shell.table, frappe's EmbeddedList): a cell says all
-   it has to, over as many lines as it needs, rather than cutting off, and a
-   long list grows with the page rather than scrolling inside itself. */
 .one-shell .embedded-list table.embedded-list-table td {
 	white-space: normal;
 	max-width: 32rem;
@@ -529,7 +477,6 @@ a.one-shell-row:hover {
 	max-height: none;
 }
 
-/* A product's mark before a part's heading or a list's title. */
 .one-shell-part-mark {
 	display: inline-flex;
 	align-self: center;
@@ -547,8 +494,6 @@ a.one-shell-row:hover {
 	align-items: center;
 }
 
-/* A search box: frappe's own Data control with a search icon in front, as
- * frappe-ui's TextInput draws one with a prefix (shell.js `search`). */
 .one-shell-search {
 	position: relative;
 	display: flex;
@@ -572,9 +517,6 @@ a.one-shell-row:hover {
 	cursor: pointer;
 }
 
-/* An extension's Summary (extension.js): what OneAI and the review wrote, as
-   it was written, in the weight of reading rather than of a title. The form's
-   own padding is the page's, so the sections sit on it unindented. */
 .one-extension .one-shell-section {
 	padding-left: 0;
 	padding-right: 0;
@@ -597,8 +539,6 @@ a.one-shell-row:hover {
 	line-height: 1.5;
 }
 
-/* What was asked of an extension, then each fix: paragraphs, each with its
-   mark (who and when, or Fixed) after it. */
 .one-extension-asked {
 	display: flex;
 	align-items: baseline;
@@ -606,13 +546,10 @@ a.one-shell-row:hover {
 	margin-top: calc(var(--spacing) * 3);
 }
 
-/* A table's choice beside its search (shell.table `choose`), as wide as the
-   search frappe draws. */
 .one-shell-choose {
 	width: 180px;
 }
 
-/* An app's name with its mark before it (shell.app), in a table cell. */
 .one-shell-app {
 	display: inline-flex;
 	align-items: center;
@@ -630,9 +567,6 @@ a.one-shell-row:hover {
 	height: 16px;
 }
 
-/* A record's own form field, lent to a page and floated over the place it
-   is shown (onedesk.record.lend): the control alone, without its label or
-   help, which the page already shows. */
 .one-field-float {
 	position: fixed;
 	z-index: 1030;
@@ -655,8 +589,6 @@ a.one-shell-row:hover {
 	max-width: none;
 }
 
-/* OneAI's Write button stays with a lent text field, at the end of its
-   toolbar, since the label it sits beside is hidden here. */
 .one-field-float .frappe-control {
 	position: relative;
 }

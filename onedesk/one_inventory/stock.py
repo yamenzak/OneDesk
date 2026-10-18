@@ -12,7 +12,6 @@ import frappe
 from frappe import _
 from frappe.utils import flt
 
-#: The most items the page lists at once; the rest are a search away.
 MOST = 500
 
 
@@ -47,7 +46,6 @@ def rows(bins: list, levels: list, items: dict) -> list[dict]:
 		)
 		actual = flt(one.get("actual_qty"))
 		row["on_hand"] += actual
-		# Stock held for an order is part of what orders want already.
 		row["committed"] += flt(one.get("reserved_qty"))
 		row["free"] += actual - flt(one.get("reserved_qty"))
 		row["held"] += flt(one.get("reserved_stock"))
@@ -58,8 +56,6 @@ def rows(bins: list, levels: list, items: dict) -> list[dict]:
 		if reorder and flt(one.get("projected_qty")) <= reorder:
 			row["low_in"].append(one["warehouse"])
 	for row in out.values():
-		# One word for the row, the worst of what is true: more promised than
-		# there is, none at all, at or below the reorder level, or in stock.
 		row["state"] = (
 			"short" if row["free"] < 0 else "out" if row["on_hand"] <= 0 else "low" if row["low_in"] else "in"
 		)
@@ -78,7 +74,6 @@ def on_hand(
 	"""What is on hand, item by item, with what each warehouse holds and is
 	worth, as the reader may see it."""
 	frappe.has_permission("Bin", "read", throw=True)
-	# The reader's company's warehouses only, so the worth is one currency's.
 	company = erpnext.get_default_company()
 	currency = erpnext.get_company_currency(company) if company else None
 	warehouses = frappe.get_list(
@@ -112,7 +107,6 @@ def on_hand(
 			limit=0,
 		)
 	}
-	# A unit by its symbol where the workspace gave it one (m² for Square Meter).
 	symbols = dict(
 		frappe.get_all(
 			"UOM",

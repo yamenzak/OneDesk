@@ -13,7 +13,6 @@ from frappe.utils import add_days, get_datetime, get_fullname, getdate
 
 from onedesk.one_project import hours, money, tree
 
-#: The documents a project has, and on each its party and its amount.
 DOCUMENTS = {
 	"Quotation": ("customer_name", "grand_total"),
 	"Sales Order": ("customer_name", "grand_total"),
@@ -30,15 +29,10 @@ DOCUMENTS = {
 	"Expense Claim": ("employee_name", "total_claimed_amount"),
 	"Stock Entry": (None, "total_outgoing_value"),
 }
-#: Documents that may name the project on their lines only.
 ON_LINES = {**money.LINES, "Journal Entry": "Journal Entry Account"}
-#: Where an amount's currency is, when it isn't the company's.
 CURRENCY = {"Payment Entry": "paid_from_account_currency"}
-#: How many rows a page holds.
 PAGE = 60
-#: A draft submitted this soon by whoever made it is one row, not two.
 SAME_SITTING = 30 * 60
-#: A file is a photo by its name.
 PHOTO = re.compile(r"\.(jpe?g|png|gif|webp|heic|avif)$", re.I)
 
 
@@ -281,9 +275,6 @@ def _time(projects: list[str], people: _People) -> list[dict]:
 	)
 	sheets = hours.whose({one.parent for one in rows})
 	found = []
-	# The team's time is one line a week on each project, naming who logged
-	# it, most hours first: a line for each person and week buried
-	# everything else (the Time tab has every entry).
 	for group in grouped(
 		[one for one in rows if one.from_time and sheets.get(one.parent)],
 		lambda one: (week_of(one.from_time), one.project),

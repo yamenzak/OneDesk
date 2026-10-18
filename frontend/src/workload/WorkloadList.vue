@@ -1,10 +1,4 @@
 <template>
-  <!-- Workload (one_project/report/workload): who has how many hours of open
-       work in a week, against the hours they have. Modelled on Asana's
-       Workload and Float's capacity view: the team's week in one line with
-       a bar, then a row a person, their load as a bar that turns red past
-       what they have, the hours planned of the hours free, and their tasks,
-       late and not estimated, each opening the tasks it counts. -->
   <div class="mx-auto w-full px-5 pb-16 pt-4 text-ink-gray-8">
     <div class="rounded-4 border border-outline-gray-1 bg-surface-elevation-2 p-5">
       <div class="flex flex-wrap items-baseline justify-between gap-2">
@@ -79,13 +73,11 @@ const capacity = computed(() => props.rows.reduce((sum, one) => sum + (one.capac
 const planned = computed(() => props.rows.reduce((sum, one) => sum + (one.planned || 0), 0));
 const over = computed(() => props.rows.filter((one) => (one.load || 0) > 100).length);
 
-// The load is the one a phone keeps beside the person; the hours join as it widens.
 const columns = {
   base: ["minmax(0,1fr)", "9rem"],
   sm: ["minmax(0,1fr)", "minmax(9rem,16rem)", "8rem"],
   md: ["minmax(0,1fr)", "minmax(10rem,20rem)", "8rem", "6rem"],
 };
 
-// Over what they have in red, nearly full in amber, the rest in the bar's own colour.
 const tone = (one) => ((one.load || 0) > 100 ? "bg-surface-red-5" : (one.load || 0) >= 85 ? "bg-surface-amber-5" : "bg-surface-gray-7");
 </script>

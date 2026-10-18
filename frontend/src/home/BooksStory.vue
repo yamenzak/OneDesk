@@ -1,10 +1,4 @@
 <template>
-  <!-- OneBook's Overview (one_book/story.py): what needs somebody, then the
-       money in three parts, each a row of frappe-ui charts. Modelled on
-       Frappe Books' Dashboard (Cashflow, Profit and Loss, Top expenses), with
-       ERPNext's Accounts Receivable and Accounts Payable beside it. A status
-       keeps its colour, older debt is darker, and a part the reader may not
-       see is left out. -->
   <div ref="root" class="pb-12">
     <div v-if="needs.length" class="mt-5 flex flex-wrap gap-2">
       <Button v-for="one in needs" :key="one.key" variant="outline" :label="one.label" @click="$emit('today')">
@@ -49,13 +43,11 @@ import { BarChart, ChartCard, DonutChart, useChartTokens } from "frappe-ui/chart
 
 import { Section, __, go, money, shortMonth } from "../kit";
 
-// What needs somebody: late in red, soon in amber.
 const TONE = { late: "text-ink-red-5", soon: "text-ink-amber-6", left: "text-ink-gray-5" };
 
 const props = defineProps({ story: { type: Object, required: true }, needs: { type: Array, default: () => [] } });
 defineEmits(["today"]);
 
-// The colours, as frappe-ui reads them for this island and its theme.
 const root = ref();
 const { tokens } = useChartTokens(root);
 const hue = (i) => tokens.value.categorical[i % tokens.value.categorical.length];
@@ -66,10 +58,8 @@ const ramp = (from) => {
 
 const cash = (value) => money(value, props.story.currency, 0);
 const monthName = (value) => shortMonth(typeof value === "string" ? value : new Date(value).toISOString().slice(0, 10));
-// A name on a horizontal bar wraps onto a second line rather than being cut.
 const wrap = { echartOptions: { axisLabel: { formatter: (value) => value, overflow: "break" } } };
 
-// Money in green, money out in red, as Books draws its Cashflow.
 const flowSeries = computed(() => ({
   inflow: { label: __("Inflow"), color: hue(2) },
   outflow: { label: __("Outflow"), color: hue(8) },
@@ -79,20 +69,17 @@ const profitSeries = computed(() => ({
   loss: { label: __("Loss"), color: hue(8) },
 }));
 
-// An expense account opens the General Ledger on it; Others opens Profit and Loss.
 function expense(row) {
   if (!row?.account) return go("/desk/query-report/Profit and Loss Statement");
   go(`/desk/query-report/General Ledger?account=${encodeURIComponent(JSON.stringify([row.account]))}`);
 }
 
-// ERPNext's ageing ranges, not yet due first; older debt in darker red.
 const BANDS = () => ({ not_due: __("Not Yet Due") });
 const ageColors = computed(() => {
   const seq = tokens.value.sequential;
   return [seq[6], seq[5], seq[4], seq[2], seq[1], seq[0]];
 });
 
-// ERPNext's statuses, in its own words, each in the colour of what it means.
 const STATUS = { Paid: 2, "Partly Paid": 0, Unpaid: 6, Overdue: 8 };
 const statusHue = (status) => (status in STATUS ? hue(STATUS[status]) : tokens.value.axisLabel);
 

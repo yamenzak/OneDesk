@@ -11,8 +11,6 @@ from frappe.utils.caching import request_cache
 from onedesk.one_hr import employee, encashment, expense, payroll, request, review, setup, shift
 from onedesk.one_hr import leave as applications
 
-#: What a standing is worth saying about it, by its band. Only low and watch
-#: get a colour: a number that is fine is a number nobody has to look at.
 STANDING_TONE = {"low": "alarm", "watch": "waiting", "good": None}
 
 
@@ -124,8 +122,6 @@ CHARTS = {
 	"employee.quarter": {"doctypes": ["Employee"], "label": _lt("Attendance"), "figures": quarter},
 }
 
-# ------------------------------------------------------------------ answering a request
-
 
 def _may_answer(doc) -> bool:
 	return (
@@ -171,9 +167,6 @@ def _approve(doc) -> str:
 
 def _reject(doc) -> str:
 	return _("Reject")
-
-
-# ------------------------------------------------------------------ sentences
 
 
 def _on(date) -> str:
@@ -395,7 +388,6 @@ def vehicle_went(doc):
 	far = fmt_money(went, precision=0)
 	if litres <= 0:
 		return {"text": _("{0} on the odometer since the last log.").format(far), "colour": "blue"}
-	# Fuel is kept in whatever the vehicle is kept in.
 	unit = frappe.db.get_value("Vehicle", doc.license_plate, "uom") or _("units")
 	return {
 		"text": _("{0} on the odometer since the last log, on {1} {2} costing {3} — {4} per {2}.").format(
@@ -409,7 +401,6 @@ def vehicle_went(doc):
 	}
 
 
-#: Where each exemption doctype keeps what was claimed and what is allowed.
 EXEMPTION = {
 	"Employee Tax Exemption Declaration": ("total_declared_amount", "total_exemption_amount"),
 	"Employee Tax Exemption Proof Submission": ("total_actual_amount", "exemption_amount"),
@@ -489,9 +480,6 @@ def shift_deaf(doc):
 	return {"text": _("Check-ins on this shift are not becoming attendance."), "colour": "orange"}
 
 
-# ------------------------------------------------------------------ a clock attempt
-
-#: What the pill says, by verdict first and outcome second.
 ATTEMPT_COLOUR = {
 	"Accepted": "green",
 	"Rejected": "red",
@@ -516,8 +504,6 @@ def _unsettled(doc) -> bool:
 
 
 def _settle_note(required: bool):
-	# A note is asked for rather than typed afterwards: why somebody waved a
-	# flag through is the part worth having later.
 	def fields(doc):
 		return [{"fieldtype": "Small Text", "fieldname": "note", "label": _("Note"), "reqd": int(required)}]
 
@@ -525,8 +511,6 @@ def _settle_note(required: bool):
 
 
 VERBS = {
-	# Who may answer is the `submit` grant (decision.py), and what each
-	# verdict does stays in the doctype's own module.
 	"leave.approve": {
 		"doctypes": ["Leave Application"],
 		"label": _approve,

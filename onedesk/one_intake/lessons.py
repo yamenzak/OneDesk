@@ -9,10 +9,8 @@ import json
 import frappe
 from frappe import _
 
-#: How many lessons alike before OneAI asks rather than acts.
 RULE = 3
 
-#: What a model is told of a party's lessons, at most.
 MOST_TOLD = 8
 
 
@@ -75,9 +73,6 @@ def told(party_doctype: str | None, party_name: str | None) -> str:
 		return ""
 	lines = [f"- {row.what}: {row.said} (from a {row.kind or 'document'})" for row in rows]
 	return "Earlier, people corrected what OneAI did with this party's documents:\n" + "\n".join(lines)
-
-
-# ------------------------------------------------------------------ what a person does
 
 
 def deleted(doc, method=None) -> None:

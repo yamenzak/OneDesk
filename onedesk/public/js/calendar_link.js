@@ -1,18 +1,9 @@
-// A person's calendar link, drawn one way wherever it is shown: Settings ›
-// Calendar and OneCalendar's Subscribe. A button per app with that app's own
-// mark (brand/others, registered as Custom Icons), each opening the app ready
-// to add the calendar: Google and Outlook take it by its address on the web,
-// and Apple opens a webcal:// one itself. Then what it carries, whether an app
-// has read it, and the two things that end it. See one_calendar/feed.py.
 frappe.provide("onedesk.calendar_link");
 
-// `actions: false` where they live elsewhere: the page head copies it in
-// Settings, and a dialog's footer holds all three in Subscribe.
 onedesk.calendar_link.html = (link, { copy = true, ends = true } = {}) => {
 	const esc = frappe.utils.escape_html;
 	const google = `https://calendar.google.com/calendar/render?cid=${encodeURIComponent(link.webcal)}`;
 	const outlook = `https://outlook.office.com/calendar/0/addfromweb?url=${encodeURIComponent(link.https)}&name=${encodeURIComponent(link.name)}`;
-	// An espresso button drawn as a link, as frappe.ui.empty_state draws one.
 	const app = (href, icon, label) =>
 		`<a class="es-button" href="${esc(href)}" target="_blank" rel="noopener">${frappe.utils.icon(icon, "sm")}<span class="es-button__label">${esc(label)}</span></a>`;
 	const carries = (link.carries || []).map((label) => frappe.ui.badge.html({ label, theme: "gray" })).join("");
@@ -44,7 +35,6 @@ onedesk.calendar_link.html = (link, { copy = true, ends = true } = {}) => {
 
 onedesk.calendar_link.copy = (link) => frappe.utils.copy_to_clipboard(link.https);
 
-// Both ask first. `drawn` gets the new link; `stopped` runs once it is off.
 onedesk.calendar_link.renew = (drawn) =>
 	frappe.confirm(__("Create a new link? The old one stops working in every app that uses it."), async () => {
 		drawn(await frappe.xcall("onedesk.one_calendar.feed.renew"));
@@ -64,8 +54,6 @@ onedesk.calendar_link.bind = ($root, link, { drawn, stopped }) => {
 	$root.find("[data-calendar-stop]").on("click", () => onedesk.calendar_link.stop(stopped));
 };
 
-// The link in a dialog: what it is in the body, what to do with it in the
-// footer, as frappe's dialogs put their actions. Copy Link is the primary.
 onedesk.calendar_link.dialog = async () => {
 	const dialog = new frappe.ui.Dialog({ title: __("Subscribe") });
 	let link = await frappe.xcall("onedesk.one_calendar.feed.mine");

@@ -9,16 +9,10 @@ from frappe.utils import add_to_date, now_datetime
 
 from onedesk.one_admin import faults, site, steps
 
-#: Seconds before the next attempt, by attempt number. The last is the cap.
 BACKOFF = (10, 30, 60, 120, 300)
 
-#: Attempts at one step before it is somebody's problem rather than the cron's.
-#: High enough to ride out a press deploy, low enough that a genuinely stuck job
-#: surfaces the same morning.
 GIVE_UP_AFTER = 12
 
-#: Jobs per cron tick. A tick that tried to finish everything would hold one
-#: worker for as long as the slowest press call in the queue.
 AT_A_TIME = 5
 
 
@@ -125,7 +119,6 @@ def _later(job, why: str | None) -> str:
 	return "Waiting"
 
 
-#: Seconds between asks while press is still working on something.
 WAIT_SECONDS = 60
 
 
@@ -160,7 +153,6 @@ def _stop(job, tenant, why: str) -> str:
 	job.db_set({"status": "Failed", "error": why, "finished_at": now_datetime()}, notify=True)
 	if job.kind in (None, "", "Provision"):
 		tenant.db_set("status", "Failed", notify=True)
-	# The operator is told; see one_admin/tell.py.
 	from onedesk.one_admin import tell
 
 	tell.job_failed(job)

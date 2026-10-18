@@ -41,7 +41,6 @@ def execute():
 			by = "Operator"
 		else:
 			by = "One"
-		# An operator's fall was written as "the clock" by the code before.
 		if by == "Operator" and (one.detail or "") == "the clock":
 			detail = log.said("by_hand")
 		frappe.db.set_value(

@@ -2,9 +2,6 @@ import { reactive, watch } from "vue";
 
 import { onedesk } from "../kit";
 
-/** A view's place on the project page (one_studio/places.py): its
- * extensions are told what the view shows, `data()`, each time that changes,
- * and what they add is kept here for PlaceSpot to draw inside the page. */
 export function usePlace(key, data) {
   const said = reactive({ notes: [], actions: [] });
   let drawn = null;

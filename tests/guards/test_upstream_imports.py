@@ -54,7 +54,6 @@ def _defines(module: str) -> frozenset[str]:
 			elif isinstance(inner, ast.Import | ast.ImportFrom):
 				names |= {(alias.asname or alias.name).split(".")[0] for alias in inner.names}
 	for star in re.findall(r"^from (\S+) import \*", text, flags=re.M):
-		# A star from outside the bench (pypika) could bring any name.
 		names |= _defines(star) if _source(star) else {"*"}
 	return frozenset(names)
 

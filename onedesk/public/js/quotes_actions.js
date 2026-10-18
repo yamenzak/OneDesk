@@ -1,15 +1,6 @@
-// What the Quotes page (one_inventory/page/quotes) does, each through
-// ERPNext's own mappers, asked in frappe's own dialogs. `done` reads the page
-// again.
 frappe.provide("onedesk.quotes");
 
-// Asking suppliers to price what a material request still needs. Sent now,
-// the request is submitted and each supplier mailed a link, as its form's
-// Send Email does. Otherwise it opens as a draft. Asked from a project's page,
-// the requests offered are that project's.
 onedesk.quotes.ask = async (done, { project } = {}) => {
-	// The project's requests by name: filtered on their lines, a search
-	// returns a request once a line and frappe joins the repeats.
 	const mine = project
 		? [...new Set((await frappe.db.get_list("Material Request", { filters: [["Material Request Item", "project", "=", project]], fields: ["name"], limit: 0 })).map((one) => one.name))]
 		: null;
@@ -62,9 +53,6 @@ onedesk.quotes.ask = async (done, { project } = {}) => {
 	dialog.show();
 };
 
-// A supplier's quote, typed in from their mail: ERPNext's own quote from the
-// request, opened as a draft with their name on it.
-// It is called as the request's own form calls it.
 onedesk.quotes.add = async (request, supplier) => {
 	const quote = await frappe.xcall(
 		"erpnext.buying.doctype.request_for_quotation.mapper.make_supplier_quotation_from_rfq",
@@ -75,14 +63,12 @@ onedesk.quotes.add = async (request, supplier) => {
 	frappe.set_route("Form", quote.doctype, quote.name);
 };
 
-// An order from one supplier's quote, opened as a draft.
 onedesk.quotes.order = (quote) =>
 	frappe.model.open_mapped_doc({
 		method: "erpnext.buying.doctype.supplier_quotation.mapper.make_purchase_order",
 		source_name: quote,
 	});
 
-// A draft order to each supplier for the lines they are cheapest on.
 onedesk.quotes.order_cheapest = (request, done) =>
 	frappe.confirm(__("Draft an order to each supplier for the lines they are cheapest on?"), async () => {
 		const made = await frappe.xcall("onedesk.one_inventory.quotes.order_cheapest", { request });

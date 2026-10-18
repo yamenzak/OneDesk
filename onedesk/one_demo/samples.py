@@ -14,16 +14,12 @@ from frappe.utils import now_datetime
 
 ROOT = Path(frappe.get_app_path("onedesk")).parent / "tests" / "samples" / "intake"
 
-#: An auditor's answer a sample may give as a word: every action shown is
-#: right. `{"wrong": why}` says every one is wrong, and why.
 RIGHT = "right"
-#: A placing answer a sample may give as a word: the first open matter shown.
 FIRST = "first"
 
 
 class Handled(NamedTuple):
 	made: list[dict]
-	#: The model calls Intake made that the sample has no answer for.
 	unanswered: list[str]
 
 

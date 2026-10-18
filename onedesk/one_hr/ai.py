@@ -10,8 +10,6 @@ from frappe.utils import add_days, getdate, today
 from onedesk.one_ai import files, proposals
 from onedesk.one_hr import own
 
-#: What the panel offers, by doctype, when it opens on one. What each key means
-#: is in README.md.
 SUGGESTIONS = {
 	"Expense Claim": [
 		{
@@ -247,8 +245,6 @@ SUGGESTIONS = {
 			"view": "List",
 		},
 	],
-	# OneHR's home is where an employee starts their day, so the three things
-	# they come to it for are offered there too.
 	"page:onehr": [
 		{
 			"label": _lt("Ask HR for a letter"),
@@ -274,7 +270,6 @@ SUGGESTIONS = {
 	],
 }
 
-#: How far ahead "who is off" looks when no dates are given.
 AHEAD = 14
 
 
@@ -303,8 +298,6 @@ def claim_expense(
 	ours = frappe.db.get_value("Company", company, "default_currency") if company else None
 	said = (currency or "").strip().upper()
 	if said and ours and said != ours:
-		# Claimed in the company's currency or not at all. A converted amount
-		# would be a rate the model made up; the approver sees the receipt.
 		return {
 			"error": f"The receipt is in {said} and claims here are in {ours}. "
 			"Say so to the person rather than converting it."
@@ -372,14 +365,10 @@ def add_applicant(
 		}
 
 	cv = files.uploaded(cv_file, applicant_name)
-	# Status is Open by default and the designation is fetched from the
-	# opening, so neither is the model's to say — and neither crowds the card.
 	values = {
 		"applicant_name": (applicant_name or "").strip(),
 		"email_id": email,
 		"job_title": opening,
-		# A line for the person deciding, in the field HRMS gives notes. Never
-		# the rating: a number a model gave is a number someone will sort by.
 		"notes": _short(fit, NOTE),
 	}
 	if phone_number:
@@ -393,9 +382,6 @@ def add_applicant(
 		files=[cv] if cv else [],
 	)
 	return {"proposal": name, "state": "Proposed"}
-
-
-# ------------------------------------------------------------- appraisal
 
 
 def appraisal_facts(
@@ -458,8 +444,6 @@ def appraisal_facts(
 		"attendance": {a.status: a.days for a in attendance},
 		"late_arrivals": (late[0].days if late else 0) or 0,
 		"leave_taken": {one.leave_type: one.days for one in leave},
-		# Said with the facts, because a small model handed them asked the
-		# reviewer for the goals and the reflection it had just been given.
 		"next": "Write the feedback from these facts alone; leave out whatever is empty here. "
 		"Then call draft_feedback with it. Do not ask for anything above.",
 	}
@@ -491,8 +475,6 @@ def draft_feedback(
 		"name",
 	)
 	if mine:
-		# Their draft already exists: the words go into it, the ratings they
-		# gave stay as they are.
 		name = proposals.propose("Edit", "Employee Performance Feedback", record=mine, changes={"feedback": text})
 	else:
 		name = proposals.propose(
@@ -507,9 +489,6 @@ def draft_feedback(
 			},
 		)
 	return {"proposal": name, "state": "Proposed"}
-
-
-# ------------------------------------------------------------- interview
 
 
 def interview_facts(
@@ -610,9 +589,6 @@ def _plain_text(html) -> str:
 	return " ".join(frappe.utils.strip_html_tags(str(html or "")).split())
 
 
-# --------------------------------------------------------------- leaving
-
-
 def why_people_leave(
 	from_date: Annotated[str, "The first day of the period, as YYYY-MM-DD. A year ago if not said."] | None = None,
 	to_date: Annotated[str, "The last day, as YYYY-MM-DD. Today if not said."] | None = None,
@@ -632,8 +608,6 @@ def why_people_leave(
 		limit_page_length=MOST_LEAVERS,
 	)
 	heard = {one.employee for one in interviews}
-	# Somebody who left with a reason written on their record but no interview
-	# still said something; somebody interviewed is counted once.
 	leavers = frappe.get_list(
 		"Employee",
 		filters={"relieving_date": ["between", [start, end]], "reason_for_leaving": ["is", "set"]},
@@ -672,11 +646,9 @@ def why_people_leave(
 	}
 
 
-#: The most leavers read for one answer.
 MOST_LEAVERS = 200
 
 
-#: What HRMS's notes field holds.
 NOTE = 140
 
 
@@ -704,8 +676,6 @@ def _opening(said: str | None) -> str | None:
 	return None
 
 
-#: Words on a receipt, and the kind of expense they usually are. Only used when
-#: the workspace has a type of that name; a workspace's own types are the list.
 KINDS = {
 	"Travel": ("taxi", "cab", "uber", "careem", "flight", "airline", "train", "metro", "bus",
 			   "hotel", "fuel", "petrol", "parking", "toll", "travel", "transport", "trip"),
@@ -771,9 +741,6 @@ def workspace() -> str:
 		return ""
 	names = [calendar.day_name[one] for one in days]
 	return f"The weekly days off are {' and '.join(names)}."
-
-
-# ----------------------------------------------------------------- leave
 
 
 def my_leave(
@@ -902,8 +869,6 @@ def book_leave(
 	if approver:
 		values["leave_approver"] = approver
 	elif frappe.db.get_single_value("HR Settings", "leave_approver_mandatory_in_leave_application"):
-		# Said now rather than at Approve, where it is a red toast about a field
-		# the person never saw and cannot fill.
 		return {
 			"error": "Nobody approves this person's leave yet, so it cannot be applied for. Say that "
 			"HR sets a leave approver on their employee record or their department."
@@ -959,14 +924,11 @@ def _leave_type(said: str | None, offered: list[str], every: list[str] | None = 
 	near = difflib.get_close_matches(said, [one.lower() for one in names], n=1, cutoff=0.5)
 	if near:
 		return by_name.get(near[0]) or names[0]
-	# What people say instead of a type's name.
 	for words, meant in ((("ill", "unwell", "doctor", "medical"), "sick"),):
 		if any(word in said for word in words):
 			found = [one for one in names if meant in one.lower()]
 			if found:
 				return found[0]
-	# Nothing like it: "vacation", "time off", "a day off" — the annual kind
-	# first, then casual.
 	for meant in ("annual", "casual"):
 		found = [one for one in names if meant in one.lower()]
 		if found:

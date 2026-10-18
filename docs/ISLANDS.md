@@ -1,27 +1,9 @@
-# OneProject and OneBook in frappe-ui, inside desk
+# Islands: frappe-ui screens inside desk
 
-The project page built in jQuery over espresso's parts still did not look or
-feel like frappe-ui. Frappe Books (github.com/frappe/frappe-books) shows what a
-screen built from frappe-ui itself looks like. This is the plan to build
-OneProject's and OneBook's own screens the same way without leaving desk.
-
-## What Frappe Books is
-
-- A Vue app with frappe-ui 1.0.0, served as its own page at `/books` on a
-  Frappe site (Frappe v17, no ERPNext). It has its own doctypes, all named
-  `Books …`, and its own ledger. It is not a desk app.
-- Every visible part is a frappe-ui component, laid out with frappe-ui's
-  Tailwind tokens and nothing of its own:
-  - figures: `NumberCard` borderless, with `LineChart`, `BarChart` and
-    `DonutChart` from `frappe-ui/charts`;
-  - lists, child tables and reports: `List`, `ListRows`, `ListRow` and
-    `ListCell` from `frappe-ui/list`;
-  - the head: `PageHeader`, `Breadcrumbs` and `Badge`, `Dropdown` menus
-    grouped as Create and View, and one solid button;
-  - fields: `TextInput`, `Combobox`, `Select`, `DatePicker` and the other
-    inputs; tabs are `TabButtons`; side panels and sheets are `BottomSheet`
-    and `Dialog`.
-- We take its patterns, not its app.
+Every bespoke screen, in every app, is an island built from one kit. Desk keeps
+everything desk does. Each has one entry in `frontend/src/islands/`. Beside
+them is the portal (`frontend/portal`), which is a
+frappe-ui app of its own built from the same rules.
 
 ## How we stay in desk: islands
 
@@ -41,11 +23,7 @@ Frappe already has the way, in our bench's frappe: **desk islands**
 - `@framework/ui` (frappe's own Vue parts, taken from CRM) is there too: Link,
   FormLayout, Grid, ListView, Filter, ActivityTimeline and FileUpload.
 
-**Decided.** Every bespoke screen, in every app, is an island built from one
-kit. Desk keeps everything desk does. The project page was the first,
-replacing the jQuery page of stage 2.
-
-## What changes in how we build
+## The rules
 
 - **The order of parts, point 9 of the passover, for a bespoke screen:**
   1. a frappe-ui component;
@@ -61,72 +39,6 @@ replacing the jQuery page of stage 2.
 - **Desk does what desk does.** The head, the menu, Edit Details and the
   realtime room are the desk page's. The island draws the body and asks the
   page to act (Invoice Time, Bill Progress) through props.
-- **The build:**
-  - `frontend/build-islands.mjs` builds every island in one go;
-  - a root `package.json` with a `build` script, as Books has, lets `bench
-    build` and Frappe Cloud build it;
-  - `hooks.py` names each island.
-
-## OneProject and OneBook together
-
-They share most of what an island needs, so they are built together, in
-stages:
-
-1. **Foundation.**
-   - `frontend/`, the build, and the desk bridge: words, money and dates,
-     navigation, realtime and CSRF.
-   - The shared parts: figures, sections, rows, Needs You, empty states.
-   - The guards and the README.
-2. **The project page.** The spike made whole: Overview for each kind, then
-   Money and Suppliers (stage 3 of docs/PROJECT-PAGE.md), drawn from the same
-   parts.
-3. **OneBook Home**, as Books' dashboard:
-   - paid and unpaid sales and purchases as figures that open the list;
-   - Cashflow as a line chart;
-   - Profit and Loss by month as bars;
-   - Top Expenses as a donut;
-   - a period picker in the head.
-   - OneBook's own owed, owing and overdue stay.
-4. **A document's actions, as Books does them**, on invoices, bills and
-   orders:
-   - Create and View menus grouped in the head;
-   - after submit, the main button becomes the next step (Receive Payment,
-     Make Payment);
-   - the payment opens in a side panel and the invoice shows what is left;
-   - a Linked Entries panel;
-   - a hover preview of a linked record.
-5. **Reports in Books' look**: Profit and Loss, Balance Sheet and General
-   Ledger.
-   - Rows as a tree that folds, from `frappe-ui/list`.
-   - A date range with presets.
-   - Export, and print with chosen columns.
-   - ERPNext's own report data underneath.
-6. **The rest of the project tabs**, the Retainer month, and the phone
-   layout. Books' phone patterns are the reference: bottom sheets and pinned
-   footers.
-
-## From Books' features, worth adopting in OneBook
-
-In the order they'd pay off:
-
-- **Next step after submit**, **payment in a side panel**, and **Create and
-  View menus** (stage 4).
-- **Get Started that ticks itself**, as records are made: first customer,
-  first invoice, opening balances and so on.
-- **Payment history and balance on the printed invoice**, and sharing the
-  PDF from a phone.
-- **Import with column mapping**: paste or upload any CSV, map its columns,
-  edit cells, then re-import only the failed rows. It runs over frappe's own
-  Data Import.
-- **Feature switches** that hide whole areas a business doesn't use: POS,
-  batches, serial numbers, price lists.
-- **Tax counted when paid** (cash-basis VAT). Books moves an invoice's tax
-  to the tax account as it's paid. ERPNext doesn't do this, so it needs a
-  design of its own before it's promised.
-- **Already ours, Books lacks**: due dates and payment terms, ageing,
-  statements, repeating invoices, the VAT return, closing the books, bank
-  reconciliation and the cash-flow statement. They stay.
-- **Not taken**: Books' own ledger and doctypes. OneBook stays on ERPNext.
 
 ## How it is built
 
@@ -181,9 +93,50 @@ In the order they'd pay off:
   brings, loads through `defineAsyncComponent`. `@framework/ui` is imported
   by its part (`@framework/ui/ActivityTimeline`), never whole: the whole
   needs a newer frappe-ui than the one we pin.
-- **Built so far**: the project page (`onedesk.project`), with its Money and
-  Suppliers views. Next, in order: OneBook Home, then a document's actions,
-  then reports. One screen at a time, as the passover goes.
 - **Desk's dialogs stay desk's.** A field an island edits outside a row (a
   budget, a cost type, Bill Progress) opens the desk dialog the form uses,
   through `onedesk()`, so its controls, links and checks are frappe's.
+
+## What each screen follows
+
+A screen of our own is drawn after the app people already use for the same
+job, not invented. `tests/guards/test_islands.py` reads this table: every
+island screen and every portal page has a row, and every row names a file
+that exists.
+
+| Screen | Modelled on |
+|---|---|
+| `portal/src/App.vue` | frappe-ui's own shells, as Helpdesk and Gameplan use them |
+| `portal/src/pages/Address.vue` | Shopify's customer account addresses: one form, Save |
+| `portal/src/pages/Apps.vue` | GitHub's Authorized OAuth Apps: a line an app, Revoke |
+| `portal/src/pages/Home.vue` | Shopify's customer account and Stripe's customer portal: a tile a kind they have, with what is left to pay on bills; then what asks something of them, each with its button, beside what came last |
+| `portal/src/pages/Link.vue` | Stripe's hosted invoice page and DocuSign's signing page: one thing, from one sender, to one person |
+| `portal/src/pages/List.vue` | Shopify's order list in a customer account and Stripe's invoices: the states as tabs with their counts over a table in a card, each row its number and date, what it is for, its state, the date it looks ahead to and its total |
+| `portal/src/pages/Menu.vue` | Gameplan's More tab on frappe-ui's MobileShell |
+| `portal/src/pages/Password.vue` | GitHub's Change password: three fields and Update |
+| `portal/src/pages/Profile.vue` | Shopify's customer account profile: one form, Save |
+| `portal/src/pages/Project.vue` | Basecamp's client view of a project: its photos beside how far along it is and when it ends, then its milestones as a line of dates, its sub-projects and tasks, and beside them its order and invoices, the time a member is shown and its files |
+| `portal/src/pages/Record.vue` | Shopify's order page in a customer account, with Stripe's invoice summary: where it is on its way across the top, its items and totals in one card, and beside them what it comes to (what is left to pay, and Pay), its details and the records before and after it |
+| `portal/src/pages/Rfq.vue` | Ariba's supplier quote: the buyer's message, each row priced in place in one card, with a discount and the tax the workspace charges on it, and the totals; notes; and beside them what the quote comes to and Send Quote (`send_quote`) |
+| `portal/src/pages/YourData.vue` | Google Account's Data & privacy: download, or delete |
+| `src/check/CheckList.vue` | Shopify's setup guide and Stripe's account checklist: how much is ready, then what is still to do, what is suggested and what is ready, each with what it means and its Fix |
+| `src/floor/ShopFloor.vue` | Odoo's Shop Floor: a tab per workstation, the orders as a table, and each step a card with its clock, who is on it and one button for what comes next |
+| `src/home/BooksHome.vue` | Frappe Books' Dashboard: the figures that matter, then cash flow, profit and the largest expenses, then where the receivables and payables stand; laid out as OneInventory's Home |
+| `src/home/CrmHome.vue` | Frappe CRM's Dashboard: the figures that matter, then the sales trend, the forecast and the funnel, where the pipeline stands and where sales come from; laid out as OneBook's Home |
+| `src/home/HrHome.vue` | HRMS's own phone app's Home (check in, your requests, your team's requests, the leave you have left) for everybody, and laid out as OneCRM's and OneBook's Homes for HR; like them a place an extension may add to |
+| `src/home/InventoryHome.vue` | Shopify's admin Home: the figures that matter with their trend, then what needs somebody, then where everything is |
+| `src/item/ItemPage.vue` | Shopify's product page and Odoo's product form: what kind of thing it is, what it is called, the one thing worth saying, what it is and how much of it there is, then a view each for its stock, buying, selling and making |
+| `src/lots/LotsPage.vue` | Odoo's Lots and Serial Numbers and Katana's batch tracking: a table of lots with one status each, filtered by state above it |
+| `src/plant/PlantFloor.vue` | Odoo's work centres overview: a card per workstation with its status to change in place, what runs on it with its clock, and what waits |
+| `src/project/ProjectPage.vue` | Asana's project and monday's boards: a head with its health, then views that each open in place, as a form's tabs do, across the top under the head |
+| `src/quotes/QuotesPage.vue` | Odoo Purchase: Asked is its list of RFQs, Quotes its vendors' quotations, and Compare its Compare Product Lines, one request's quotes side by side with the cheapest marked |
+| `src/sent_out/SentOutPage.vue` | Katana's outsourced purchase orders and Odoo's subcontracting: one table of what is out, and the orders not ready to send above it |
+| `src/stock/StockOnHand.vue` | Shopify's Inventory and Katana's Stock screen: a picture and a name, one status, and on hand split into what is committed and what is available, with what is coming in |
+| `src/supplier/SupplierItems.vue` | Odoo's vendor price list and Zoho Inventory's items on a vendor: the item with their own code for it, the last price paid in their money, how much was bought in a year, what is on order and the lead time, then what they quoted for and were never ordered from |
+| `src/task/MyTasks.vue` | Asana's My Tasks and Todoist's Upcoming: Overdue, the next seven days and Later, each task ticked off in place, a timer on it |
+| `src/task/TaskPage.vue` | Linear's issue and Asana's task: where it stands, what it is called, the one thing worth saying, when it runs and how far along it is, then its details, time, files and activity |
+| `src/task/Timers.vue` | Toggl's and Harvest's timer: the one running with its clock, pause and stop, then the ones paused to resume |
+| `src/template/TemplatePage.vue` | TeamGantt's and Smartsheet's project templates |
+| `src/to_order/ToOrderPage.vue` | Odoo's Replenishment screen: one line per item and warehouse, why it is there, how many and from whom, ticked and ordered in one go, a draft purchase order per supplier |
+| `src/upkeep/UpkeepPage.vue` | UpKeep's and Fiix's work order lists: a table per tab, one status per row |
+| `src/workload/WorkloadList.vue` | Asana's Workload and Float's capacity view: the team's week in one line with a bar, then a row a person, their load as a bar that turns red past what they have, the hours planned of the hours free, and their tasks, late and not estimated, each opening the tasks it counts |

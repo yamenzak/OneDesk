@@ -1,6 +1,4 @@
 <template>
-  <!-- Milestones as a line: done ones filled, the next one ringed, a late one
-       red. One on a sub-project says which (milestones.where). -->
   <div class="flex overflow-x-auto pt-1">
     <button v-for="(one, i) in milestones" :key="one.name" class="relative flex min-w-32 flex-1 flex-col items-start gap-0.5 pt-5 text-start" @click="go(`/desk/task/${one.name}`)">
       <span class="absolute inset-x-0 top-[5px] h-0.5" :class="one.done ? 'bg-surface-gray-7' : 'bg-surface-gray-3'" />
@@ -24,7 +22,6 @@ const late = (one) => !one.done && one.days !== null && one.days < 0;
 const ring = (one, i) =>
   one.done ? "border-outline-gray-5 bg-surface-gray-7" : late(one) ? "border-outline-red-3 bg-surface-red-5" : i === next.value ? "border-outline-gray-5 bg-surface-base" : "border-outline-gray-3 bg-surface-base";
 
-// The date, and for one still to do how far off or how late it is.
 function when(one) {
   if (!one.due) return __("No date");
   const day = date(one.due);

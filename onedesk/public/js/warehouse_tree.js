@@ -1,6 +1,3 @@
-// Warehouses as a tree: ERPNext's (warehouse_tree.js), opened all the way
-// down, without its Company filter. A workspace is one company, so the tree
-// starts at it, and a warehouse under a group was a click away for no reason.
 (() => {
 	const tree = frappe.treeview_settings["Warehouse"] || (frappe.treeview_settings["Warehouse"] = {});
 	tree.filters = (tree.filters || []).map((one) => (one.fieldname === "company" ? { ...one, hidden: 1 } : one));

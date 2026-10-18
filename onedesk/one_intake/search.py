@@ -13,14 +13,11 @@ from onedesk.one_intake import pipeline
 
 INDEX = "one_reading_text"
 
-#: Words the index skips anyway; asking for them with `+` finds nothing.
 SKIP = frozenset(
 	"the and for are with this that from you your der die das und ist mit für von den dem ein eine les des une pour"
 	.split()
 )
 
-#: Characters shown before the first match, and in all. Little before it, so
-#: the word found is in sight even in a narrow column.
 BEFORE, WIDTH = 24, 160
 
 
@@ -83,7 +80,6 @@ def files_of(hit: dict) -> list[dict]:
 	if hit.get("source_doctype") != "File":
 		return []
 	rows = frappe.get_all("File", filters={"content_hash": hit["key"], "one_deleted": 0, "is_folder": 0}, fields=ns.FIELDS, limit=20)
-	# One letter cut from a batch scan is a file of its own, named by its reading.
 	rows += frappe.get_all("File", filters={"one_reading": hit.get("name"), "one_deleted": 0, "is_folder": 0}, fields=ns.FIELDS, limit=5) if hit.get("name") else []
 	if not rows and hit.get("source_name"):
 		rows = frappe.get_all("File", filters={"name": hit["source_name"], "one_deleted": 0}, fields=ns.FIELDS)
@@ -103,13 +99,9 @@ def messages_of(hit: dict) -> list[str]:
 	return [name for name in names if name and frappe.has_permission("Communication", "read", name)]
 
 
-# ------------------------------------------------------------------ the three places
-
-
 def awesomebar(txt: str) -> list[dict]:
 	"""The awesome bar's "In documents": files and messages whose words match."""
 	out = []
-	# A hit on the letter inside a batch scan says more than one on the whole scan.
 	for hit in sorted(found(txt, 30), key=lambda one: not one.get("part_of")):
 		top = root_of(hit)
 		where = f", {hit['part']}" if hit.get("part_of") and hit.get("part") else ""
@@ -188,9 +180,6 @@ def in_mail(account: str, text: str, most: int = 200) -> list[str]:
 			if frappe.db.get_value("Communication", name, "email_account") == account:
 				names.append(name)
 	return list(dict.fromkeys(names))
-
-
-# ------------------------------------------------------------------ for OneAI
 
 
 def about(doctype: str, name: str, most: int = 12) -> list[dict]:

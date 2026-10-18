@@ -10,8 +10,6 @@ import frappe
 
 from onedesk.one_admin import credits, site
 
-#: The doctype a head or a suggestion registers against, named here so the
-#: ledger stays the only module that spells it (tests/test_ledger.py).
 ENTRY = "Credit Ledger Entry"
 
 
@@ -19,8 +17,6 @@ class NotEnough(frappe.ValidationError):
 	"""The workspace cannot afford this call. Said before one is made."""
 
 
-#: A hold whose call never came back, let go nightly, and generously so that
-#: one still running is not released.
 STALE_MINUTES = 60
 
 
@@ -114,8 +110,6 @@ def reserve(
 	amount = _amount(amount)
 	_lock(tenant)
 
-	# Our own workspace (house.py) is never refused: its calls are our cost,
-	# and what it spends is written down all the same.
 	ours = frappe.db.get_value("Tenant", tenant, "is_house")
 	if not ours and not credits.enough(
 		_buckets(tenant, locking=True), amount, held(tenant, locking=True), _today()
@@ -162,7 +156,6 @@ def commit(reservation: str, amount: float, usd: float | None = None) -> list[st
 		return []
 
 	written = []
-	# A call's `why` is the model it ran on (gateway.call), named as one.
 	model = holding.why if holding.why and frappe.db.exists("AI Model", holding.why) else None
 	for one in credits.draw(_buckets(holding.tenant, locking=True), amount, _today()):
 		entry = frappe.get_doc(
@@ -184,8 +177,6 @@ def commit(reservation: str, amount: float, usd: float | None = None) -> list[st
 		written.append(entry.name)
 
 	if frappe.session.user == "Guest" and written:
-		# The call came through the proxy, signed by the workspace rather than
-		# signed in, and a spend "created by Guest" reads as nobody's.
 		frappe.db.set_value(
 			"Credit Ledger Entry",
 			{"name": ["in", written]},
@@ -340,7 +331,6 @@ def last_gift(tenant: str) -> dict | None:
 		limit=1,
 	)
 	if not held or taken_back(held[0].name):
-		# Taken back before the workspace heard of it: nothing to tell.
 		return None
 	one = held[0]
 	return {
@@ -371,9 +361,6 @@ def nightly() -> None:
 		"Credit Reservation", filters={"state": "Held", "creation": ["<", stale]}, pluck="name"
 	):
 		release(row)
-
-
-# ------------------------------------------------------------------ the rows
 
 
 def _buckets(tenant: str, locking: bool = False) -> list[credits.Bucket]:
@@ -457,7 +444,6 @@ def _today() -> date:
 	return frappe.utils.getdate()
 
 
-#: What usage may be grouped by, as the reservation's own columns.
 USAGE_BY = ("tenant", "why", "reference", "action")
 
 
@@ -469,7 +455,6 @@ def usage(start, end, by: list[str], tenant: str | None = None, model: str | Non
 	a call still running and a released one never happened, so neither is usage.
 	"""
 	site.require_admin()
-	# No grouping is the whole period as one row, which is what a total is.
 	by = [key for key in by if key in USAGE_BY]
 	where = ["state = 'Settled'", "creation >= %(start)s", "creation < %(end)s"]
 	if tenant:

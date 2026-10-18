@@ -12,10 +12,8 @@ import frappe
 
 from onedesk.one_studio.guard import Refused
 
-#: How long node may take to read one extension.
 PARSED_WITHIN = 10
 
-#: How node says where it failed: "/tmp/x.js:12".
 _AT = re.compile(r"\.js:(\d+)")
 
 

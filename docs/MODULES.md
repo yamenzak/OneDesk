@@ -436,6 +436,7 @@ No doctypes yet.
 * `onedesk.one_book.tell.credit_limit`
 * `onedesk.one_calendar.events.card`
 * `onedesk.one_calendar.events.make`
+* `onedesk.one_calendar.feed.ics`
 * `onedesk.one_calendar.feed.mine`
 * `onedesk.one_calendar.feed.renew`
 * `onedesk.one_calendar.feed.stop`

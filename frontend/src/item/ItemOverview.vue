@@ -1,10 +1,5 @@
 <template>
-  <!-- What the item is and how it moves: what was used and sent out month by
-       month, its description, its variants or its equipment on the left;
-       what needs the reader and the rest of what it is on the right, each
-       field changed where it is shown (FieldEdit). -->
   <div ref="root" class="pb-12">
-  <!-- Across the top, and only when there is something to do. -->
   <Section v-if="needs.length" boxed class="!mt-0" :title="__('Needs You')" icon="lucide-bell" :aside="needs.length">
     <Rows :rows="needs" />
   </Section>
@@ -44,8 +39,6 @@ import { BarChart, ChartCard } from "frappe-ui/charts";
 
 import { Facts, FieldEdit, Rows, Section, __, date, go, onedesk, quantity } from "../kit";
 
-// `form` is the item's own desk form (the kit's useForm), whose fields
-// Details and Description change in place.
 const props = defineProps({ said: { type: Object, required: true }, form: { type: Object, required: true } });
 const emit = defineEmits(["changed", "view"]);
 const root = ref();
@@ -70,9 +63,6 @@ const assets = computed(() =>
   }))
 );
 
-// What needs the reader about the item: more promised than there is, a
-// lot expired or expiring, a warehouse running low, an order late in or out, a request not yet ordered,
-// or its end of life gone by.
 const needs = computed(() => {
   const s = props.said;
   const uom = s.stock_uom;
@@ -84,8 +74,6 @@ const needs = computed(() => {
   if (s.summary?.free < 0) {
     rows.push({ key: "short", dot: "red", label: __("{0} more promised than on hand", [quantity(-s.summary.free, uom)]), onClick: () => emit("view", "selling") });
   }
-  // A lot past its date with some still in stock, or one running out of date
-  // within the month (one_inventory/batches.py), opening the lot.
   for (const one of s.stock?.batches || []) {
     if (!one.state) continue;
     const past = one.state === "Expired";
@@ -117,9 +105,6 @@ const needs = computed(() => {
   return rows;
 });
 
-// What the item is: the item's own form fields, each changed in place, and
-// shown or locked as its form shows or locks them. How it is kept, bought,
-// sold and made is on those tabs.
 const details_ = computed(() => [
   { label: __("Sold by Size"), field: "one_measured_by" },
   { label: __("Allow Purchase"), field: "is_purchase_item" },

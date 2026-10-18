@@ -8,9 +8,7 @@ import frappe
 from onedesk.one_demo.base import as_user
 from onedesk.one_demo.people import OWNER
 
-#: The owner's address on the mail domain, `layla.<workspace>@`.
 ADDRESS = "layla"
-#: Where the books' bank statements go, in Huda's own files.
 FOLDER = "Bank Statements"
 ACCOUNTS = "huda@one.test"
 
@@ -34,8 +32,6 @@ def run(password=None):
 	_samples()
 
 
-#: The workspace shares tasks out by frappe's own Assignment Rules: what
-#: Intake makes about a supplier is the books' work, whoever's mail it came in.
 RULE = "Supplier Tasks to the Books"
 DAYS = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 

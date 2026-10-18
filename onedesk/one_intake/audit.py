@@ -12,10 +12,8 @@ from frappe.utils import cint
 
 AUDIT = "intake_audit"
 
-#: What of the document the auditor is shown.
 MOST_TEXT = 12_000
 
-#: What only files a document, which is not worth a call on its own.
 FILING = ("Move", "Rename", "Tag", "Link")
 
 VERDICTS = ("right", "wrong", "unsure")

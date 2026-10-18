@@ -7,8 +7,6 @@ order a reader looks for them, and OneAI changes only what was asked.
 import frappe
 from frappe import _
 
-#: The house finish over frappe's print style, in frappe's own classes and grey scale;
-#: sizes are em, as frappe's are.
 HOUSE_CSS = """\
 .print-format-doc { line-height: 1.5; }
 .print-format-doc .document-header-content { margin: 1.25em 0 0.5em; }
@@ -59,8 +57,6 @@ HOUSE_CSS = """\
 .print-format-doc .one-right { text-align: right; }
 """
 
-#: The house's own parts for an html block, as LAYOUT_HELP names them to a
-#: model: frappe-ui's look on paper, in the same greys and colours.
 HOUSE_PARTS = (
 	"one-title (a heading), one-label and one-value (a label above its value), one-muted (small grey "
 	"text), one-figure (a large amount), one-card (a bordered box), one-note (a grey callout), one-grid "
@@ -70,21 +66,15 @@ HOUSE_PARTS = (
 	"builder's), one-center and one-right"
 )
 
-#: Who a document of trade is for, the first a kind has.
 PARTY = ("customer_name", "supplier_name", "party_name", "customer", "supplier")
 
-#: The address printed under the party.
 ADDRESS = ("address_display",)
 
-#: When it is dated, and what it is due or valid until.
 DATED = ("posting_date", "transaction_date")
 UNTIL = ("due_date", "valid_till", "delivery_date", "schedule_date")
 
-#: The party's own reference, printed beside the dates.
 REFERENCE = ("po_no", "supplier_delivery_note", "bill_no")
 
-#: An item row's columns, each with its share of the width: the description
-#: widest, the figures narrower.
 ITEM_COLUMNS = (
 	(("item_name", "item_code", "description"), 45),
 	(("qty",), 15),
@@ -92,14 +82,10 @@ ITEM_COLUMNS = (
 	(("amount",), 20),
 )
 
-#: The totals, top to bottom, those the kind has.
 TOTALS = ("net_total", "discount_amount", "total_taxes_and_charges", "grand_total", "rounded_total")
 
-#: Long text printed last, each in a section of its own.
 LONG = ("Text Editor", "Small Text", "Text", "Long Text", "Markdown Editor")
 
-#: Fields a layout never starts with: how the form is laid out, and what only
-#: the desk needs.
 SKIPPED = frozenset(
 	(
 		"Section Break",
@@ -120,10 +106,8 @@ SKIPPED = frozenset(
 	)
 )
 
-#: Fields that say how the record is kept rather than what it says.
 KEEPING = frozenset(("naming_series", "amended_from", "company"))
 
-#: How many of its tables a plain layout starts with, and how much long text.
 TABLES, LONG_TEXTS = 3, 3
 
 
@@ -160,8 +144,6 @@ def _trade(meta) -> list | None:
 			columns.append(f"{found}:{share}")
 	who = [party, *(one for one in ADDRESS if meta.has_field(one))]
 	when = [one for one in (_first(meta, DATED), _first(meta, UNTIL), _first(meta, REFERENCE)) if one]
-	# The totals read as a column of label and figure, each on its line, the
-	# label at the column's left edge and the figure at its right.
 	totals = [{"field": one, "spread": True} for one in TOTALS if meta.has_field(one)]
 	layout = [
 		[who, when],

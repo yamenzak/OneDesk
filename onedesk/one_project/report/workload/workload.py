@@ -6,7 +6,6 @@ from frappe.utils import add_days, cint, date_diff, flt, get_first_day_of_week, 
 
 from onedesk.one_project import tree
 
-#: What a working day is when HR Settings does not say.
 DAY = 8.0
 
 OPEN = ("Open", "Working", "Pending Review")
@@ -43,7 +42,6 @@ def execute(filters=None):
 			one["tasks"] += 1
 			one["late"] += getdate(due) < getdate(nowdate())
 			one["unestimated"] += not flt(task.expected_time)
-	# Everyone on an open project's team, so whoever has room shows with it.
 	for user in team(filters.get("project")):
 		people.setdefault(user, {"hours": 0.0, "tasks": 0, "late": 0, "unestimated": 0})
 	per_day = flt(frappe.db.get_single_value("HR Settings", "standard_working_hours")) or DAY
@@ -76,7 +74,6 @@ def team(project: str | None = None) -> list[str]:
 	where = {"status": "Open"}
 	if project:
 		where = {"name": ["in", list(tree.below({project}, tree.parents()))]}
-	# Only the projects the reader may open: a team is who is on a project.
 	projects = frappe.get_list("Project", filters=where, pluck="name", limit_page_length=0)
 	if not projects:
 		return []

@@ -10,7 +10,6 @@ class Device(Document):
 		if self.use != "Assigned":
 			self.user = None
 		elif not self.user and self.asset:
-			# The asset's custodian, as OneInventory records who holds it.
 			holder = frappe.db.get_value("Asset", self.asset, "custodian")
 			self.user = holder and frappe.db.get_value("Employee", holder, "user_id")
 		if self.status != "Active":

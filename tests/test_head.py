@@ -62,7 +62,6 @@ def test_a_template_names_only_the_records_fields():
 		fill("/desk/asset?item_code={{ doc.name }}", doc, url=True)
 		== "/desk/asset?item_code=Dell%20Latitude%205440"
 	)
-	# Anything else is left as it is written, never read or run.
 	for said in (
 		"{{ frappe.session.user }}",
 		"{{ doc.name.upper() }}",
@@ -150,9 +149,7 @@ def test_a_chart_is_frappes_own_and_its_figures_the_readers():
 	assert "new frappe.Chart(" in band, "drawn by the desk's own charts, as a Dashboard Chart is"
 	assert "[...chart.values]" in band, "frappe-charts works on its data in place"
 	assert "disableEntryAnimation: 1" in band
-	# The Number Card's pill for a change, and one hue checked on both themes.
 	assert "indicator-pill-round" in band and '"--blue-400" : "--blue-500"' in band
-	# Every chart's figures are read as the reader would list them.
 	for module in ("one_book", "one_inventory"):
 		source = (tree.APP / module / "heads.py").read_text(encoding="utf-8")
 		for name in re.findall(r'"figures": (\w+)', source):
@@ -185,10 +182,8 @@ def test_the_head_is_worked_out_on_the_server_and_drawn_once():
 	assert '"/assets/onedesk/js/head.js"' in HOOKS
 	source = HEAD.read_text(encoding="utf-8")
 	assert '@frappe.whitelist(methods=["POST"])\ndef run(' in source
-	# A verb is checked again when it is done, not only when it is drawn.
 	body = source.split("def run(", 1)[1]
 	assert 'found["when"](doc)' in body and "check_permission" in body
-	# A count or a sum is the reader's own list's.
 	assert re.search(r"frappe\.get_list\(\s*row\.of_doctype", source) and not re.search(
 		r"frappe\.get_all\(\s*row\.of_doctype", source
 	)

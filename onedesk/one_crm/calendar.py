@@ -25,7 +25,6 @@ LAYERS = [
 		"doctype": "Lead",
 		"rows": "onedesk.one_crm.calendar.leads",
 	},
-	# On a deal's or a lead's own calendar: its next step, whoever owns it.
 	{
 		"key": "deal-step",
 		"label": _lt("Next Step"),

@@ -38,14 +38,10 @@ REMOTE, BRANCH = "upstream", "develop"
 
 MAX_DAYS_BEHIND = 14
 
-#: How an item in a note is closed: ticked, and one of these, in bold, after a dash.
 DECISIONS = ("Kept", "Corrected", "Adopted", "Not for us", "Later")
 OPEN = re.compile(r"^- \[ \] ")
 CLOSED = re.compile(r"^- \[x\] (.*)$", re.M)
 META = re.compile(r"<!-- upstream (\{.*\}) -->")
-
-
-# --- git -------------------------------------------------------------------
 
 
 def git(app: str, *args: str) -> str:
@@ -73,9 +69,6 @@ def changed(app: str, since: str, now: str) -> list[str]:
 
 def shown(app: str, sha: str, path: str) -> str:
 	return git(app, "show", f"{sha}:{path.split('/', 1)[1]}")
-
-
-# --- what One leans on -----------------------------------------------------
 
 
 def _hooks() -> dict:
@@ -138,13 +131,11 @@ def _defined_in(symbol: str, method: str) -> str | None:
 		hits = [path for path, text in scripts.items() if pattern.search(text) and (pattern is assigned or _body(text, method))]
 		if hits:
 			return sorted(hits, key=len)[0]
-	# A registry entry, frappe.widget.widget_factory.chart = ChartWidget.
 	parent, _, key = symbol.rpartition(".")
 	for text in (t for t in scripts.values() if parent in t):
 		found = re.search(rf"\b{re.escape(key)}\s*:\s*([A-Z]\w+)", text)
 		if found:
 			return _defined_in(found.group(1), method)
-	# An object filled in elsewhere: $.extend(frappe.meta, { method() {} }).
 	hits = [path for path, text in scripts.items() if symbol in text and _body(text, method)]
 	return sorted(hits, key=len)[0] if hits else None
 
@@ -214,9 +205,6 @@ def patched() -> dict[tuple[str, str], tuple[str | None, set[str]]]:
 	return {key: (_defined_in(*key), where) for key, where in _patches().items()}
 
 
-# --- what moved, and what is new -------------------------------------------
-
-
 def _subjects(app: str, since: str, now: str, path: str, limit: int = 3) -> list[str]:
 	out = git(app, "log", "--no-merges", f"--since={dated(app, since)}", f"-{limit}", "--format=%s", now, "--", path.split("/", 1)[1])
 	return [line for line in out.splitlines() if line]
@@ -269,9 +257,6 @@ def novelties(app: str, since: str, now: str) -> list[str]:
 			lines.append(f"new frappe/ui part: `{path.parent.name}`")
 	lines += [f"new hook: `{name}`" for name in sorted(_hook_names(app, now) - _hook_names(app, since))]
 	return lines
-
-
-# --- the ledger and its notes ----------------------------------------------
 
 
 def recorded() -> dict:

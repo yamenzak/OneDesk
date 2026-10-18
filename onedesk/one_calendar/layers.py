@@ -10,10 +10,8 @@ from typing import Annotated
 import frappe
 from frappe.utils import add_to_date, get_datetime, getdate
 
-#: The most rows one layer hands over for one view.
 MOST = 500
 
-#: How long a timed thing with no end is drawn, in minutes.
 SPAN = 30
 
 

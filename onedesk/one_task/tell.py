@@ -14,7 +14,6 @@ def given(doc, method=None) -> None:
 		return
 	if _completed(doc):
 		return
-	# Only a task given: its assignment is open. Taking one away is frappe's to say.
 	if not frappe.db.exists(
 		"ToDo",
 		{
@@ -42,8 +41,6 @@ def given(doc, method=None) -> None:
 
 
 def _say(doc, kind: str, subject: str, message: str) -> None:
-	# frappe's before_insert has already copied its own line into the title the
-	# bell shows (title, description), so ours goes there too.
 	doc.update(
 		{
 			"type": kind,
@@ -135,8 +132,6 @@ def changed(doc, method=None) -> None:
 			)
 	before = doc.get_doc_before_save()
 	if before and before.status == "Completed" and doc.status not in DONE:
-		# Completing closed its assignments, so whoever held it and made it
-		# hear it is open again.
 		held = frappe.get_all(
 			"ToDo",
 			filters={"reference_type": "Task", "reference_name": doc.name, "status": "Closed"},
@@ -262,7 +257,6 @@ def _facts(task) -> dict:
 	return {
 		"due": f" · {due}" if due else "",
 		"project": f" · {project}" if project else "",
-		# Both on one line, for the mail: "Due 5 Oct 2026 · Website Relaunch".
 		"facts": " · ".join(one for one in (due, project) if one),
 	}
 
@@ -300,7 +294,6 @@ def today() -> None:
 			continue
 		lang = person.language or fallback
 		said = {"overdue": _("Overdue", lang=lang), "today": _("Today", lang=lang)}
-		# Late first, then today's, as My Tasks lists them.
 		listed = sorted(mine[person.name], key=lambda pair: (pair[0] != "overdue", due(pair[1])))
 		notify.notify(
 			"Today's Tasks",

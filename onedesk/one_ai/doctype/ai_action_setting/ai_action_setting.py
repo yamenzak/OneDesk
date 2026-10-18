@@ -6,8 +6,6 @@
 import frappe
 from frappe.model.document import Document
 
-#: How much a workspace may add. Long enough for a house style, short enough
-#: that nobody pastes a book into every call they are billed for.
 MOST = 2000
 
 

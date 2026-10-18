@@ -14,7 +14,6 @@ from onedesk.one import approvals
 
 DOCTYPES = ("Purchase Invoice", "Purchase Receipt", "Sales Order", "Supplier Quotation", "Payment Entry")
 
-#: How far a draft's total may be from the document's before it is red.
 TOLERANCE = 0.01
 
 PARTY = {"Purchase Invoice": "supplier", "Purchase Receipt": "supplier", "Supplier Quotation": "supplier", "Sales Order": "customer", "Payment Entry": "party"}
@@ -28,7 +27,6 @@ def red(doc, reading) -> list[str]:
 		why.append(_("Some values aren't in the document."))
 	if not doc.get(PARTY[doc.doctype]):
 		why.append(_("Unknown party."))
-	# A timesheet gives its hours before tax, and the bill's tax is the workspace's.
 	total, said = ("net_total", reading.net) if reading and reading.kind == "Timesheet" else (TOTAL.get(doc.doctype), reading.gross if reading else None)
 	if said and doc.doctype in ("Purchase Invoice", "Sales Order") and abs(flt(doc.get(total)) - flt(said)) > TOLERANCE:
 		why.append(_("The total is {0}, but the document says {1}.").format(frappe.format_value(doc.get(total), {"fieldtype": "Currency"}, doc), frappe.format_value(said, {"fieldtype": "Currency"}, doc)))
@@ -141,7 +139,6 @@ def submit_all(names) -> dict:
 		try:
 			doc.check_permission("submit")
 			if waits:
-				# Its approval's own step to a submitted state, as its button would take it.
 				from frappe.model.workflow import apply_workflow
 
 				apply_workflow(doc, waits["action"])
@@ -167,8 +164,6 @@ def maybe_submit(reading) -> None:
 	doc = frappe.get_doc("Purchase Invoice", made)
 	if doc.docstatus != 0 or not any(row.po_detail for row in doc.items) or red(doc, reading):
 		return
-	# A bill under an approval waits for whoever the approval names; OneAI never
-	# takes a step of one.
 	if approvals.submitting(doc):
 		return
 	from onedesk.one_intake import act

@@ -9,7 +9,6 @@ from frappe.utils import flt, getdate, nowdate
 
 from onedesk.one_project import money, tree
 
-#: What happens when an order or an expense would go over a cost type's budget.
 ACTIONS = ("Warn", "Stop")
 
 
@@ -172,7 +171,6 @@ def _spent(projects: list[str], accounts: list[str], by_project: bool = False) -
 	return found
 
 
-#: Who keeps every budget, a cost centre's as well as a project's.
 BOOKS = ("Accounts User", "Accounts Manager")
 
 
@@ -218,8 +216,6 @@ def set_budget(
 				"applicable_on_booking_actual_expenses": 1,
 				"action_if_accumulated_monthly_budget_exceeded_on_po": "Ignore",
 				"action_if_accumulated_monthly_budget_exceeded": "Ignore",
-				# Orders and spending together, which is what a cost type's
-				# budget is for; ERPNext's other checks take each alone.
 				"applicable_on_cumulative_expense": 1,
 				"action_if_accumulated_monthly_exceeded_on_cumulative_expense": "Ignore",
 				**_years(project),
@@ -230,7 +226,6 @@ def set_budget(
 	new.action_if_annual_budget_exceeded = action
 	new.action_if_annual_exceeded_on_cumulative_expense = action
 	new.insert()
-	# Submitting adds it to the project's Budget (synced).
 	new.submit()
 	return lines(project)
 
@@ -332,7 +327,6 @@ def set_time(
 	doc.one_hours_planned = flt(hours)
 	if budget is not None and not _budgets(project):
 		doc.estimated_costing = flt(budget)
-	# Project validate adds the cost types and the time up (summed).
 	doc.save()
 
 

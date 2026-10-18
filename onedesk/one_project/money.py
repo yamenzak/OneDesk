@@ -12,8 +12,6 @@ from frappe.utils import flt, getdate, nowdate
 from onedesk.one_project import tree
 from onedesk.one_project.progress import LUMP_SUM
 
-#: Documents whose lines name the project: the line table, and what a figure
-#: adds up on it.
 LINES = {
 	"Sales Order": "Sales Order Item",
 	"Delivery Note": "Delivery Note Item",
@@ -62,18 +60,12 @@ def unbilled(rows: list) -> float:
 	return left
 
 
-#: A quotation that still stands: open, or ordered. A lost or expired one
-#: doesn't, and an amended one is cancelled, so a revision counts once.
 QUOTED = ("Open", "Replied", "Partially Ordered", "Ordered")
-#: A quotation not yet ordered in full.
 OPEN = ("Open", "Replied", "Partially Ordered")
-#: A quotation the customer hasn't answered yet.
 OPEN_QUOTE = ("Open", "Replied")
 
-#: Documents whose submitting or cancelling changes a project's money.
 MOVES = {*LINES, "Quotation", "Payment Entry", "Timesheet", "Expense Claim", "Stock Entry", "Journal Entry"}
 
-#: Where a list finds the project when it isn't the document's own `project`.
 WHERE = {
 	**{doctype: f"{child}.project" for doctype, child in LINES.items()},
 	"Timesheet": "Timesheet Detail.project",
@@ -132,7 +124,6 @@ def money(project: Annotated[str, "The project."]) -> dict:
 	quoted = (
 		frappe.qb.from_(q)
 		.select(Sum(q.base_net_total))
-		# A quote revised is no longer offered (erpnext's Is Active).
 		.where(q.project.isin(projects) & (q.docstatus == 1) & (q.is_active == 1) & q.status.isin(QUOTED))
 		.run()
 	)
@@ -140,8 +131,6 @@ def money(project: Annotated[str, "The project."]) -> dict:
 		_figure(_("Quoted"), flt(quoted[0][0]), "Quotation", projects, status=["in", list(QUOTED)], is_active=1)
 	)
 	ordered = _lines("Sales Order", projects)
-	# Once there's an order, what's quoted is the quotes still open, the
-	# extra work not yet ordered.
 	if ordered:
 		q = frappe.qb.DocType("Quotation")
 		open_ = (
@@ -190,12 +179,9 @@ def money(project: Annotated[str, "The project."]) -> dict:
 	kind = frappe.db.get_value("Project", project, "one_kind")
 	invoiced = _lines("Sales Invoice", projects)
 	spent = billed + time + stock + claims + journals
-	# Time and materials earns as the work is done: what's invoiced and what's
-	# still to invoice. Everything else earns as it's invoiced.
 	to_invoice = _to_invoice(project) if kind == kinds.TIME else 0.0
 	earned = invoiced + to_invoice
 	if kind == kinds.RETAINER:
-		# The fee is what it brings in, not its hours at their rates.
 		contract = ordered
 	elif kind == kinds.TIME:
 		contract = ordered or earned
@@ -206,8 +192,6 @@ def money(project: Annotated[str, "The project."]) -> dict:
 		customer.append(_figure(_("Not Invoiced Yet"), to_invoice, None, projects))
 
 	types = budget.types(project, projects)
-	# The team's own time, which ERPNext books to no account, as a line of its
-	# own against the Time Budget, where there are cost types to stand beside.
 	time_budget = sum(
 		flt(one) for one in frappe.get_all("Project", filters={"name": ["in", projects]}, pluck="one_time_budget")
 	)
@@ -226,14 +210,10 @@ def money(project: Annotated[str, "The project."]) -> dict:
 		)
 	rest = budget.other(types, flt(kept["estimated_costing"]), spent, open_orders) if types else None
 	ahead = forecast(contract, spent, open_orders, flt(kept["estimated_costing"]), types, rest)
-	# A margin to forecast needs a price to forecast it against: a contract,
-	# or an order capping time and materials. A retainer is measured by the
-	# month, an internal project against its budget.
 	if kind in (kinds.RETAINER, kinds.INTERNAL) or (kind == kinds.TIME and not ordered):
 		ahead["margin"] = None
 	return {
 		"project": project,
-		# The company's currency, which every base amount here is in.
 		"currency": currency(project),
 		"customer": customer,
 		"cost": cost,
@@ -250,8 +230,6 @@ def money(project: Annotated[str, "The project."]) -> dict:
 		"forecast_margin": ahead["margin"],
 		"invoiced": invoiced,
 		"to_invoice": to_invoice,
-		# What the customer still owes on the invoices, and has paid ahead of
-		# them, tax included as it's paid.
 		"owed": owed,
 		"advance": advance,
 		"earned": earned,
@@ -280,7 +258,6 @@ def moved(doc, method=None) -> None:
 	from onedesk.one_project import budget
 
 	for project in named:
-		# A cost type this took over its budget is told (budget.py).
 		budget.over(project)
 	of = tree.parents()
 	for project in {one for each in named for one in tree.above(each, of)}:
@@ -289,7 +266,6 @@ def moved(doc, method=None) -> None:
 		)
 
 
-#: An invoice's order, on its lines, and the payment kind that pays it.
 PAID = {
 	"Sales Invoice": ("sales_order", "Sales Order", "Receive"),
 	"Purchase Invoice": ("purchase_order", "Purchase Order", "Pay"),
@@ -366,7 +342,6 @@ def _paid_on(projects: list[str], doctype: str) -> dict:
 	paid = paid_share(invoices, mine)
 	owed = owed_share(invoices, mine)
 	advance = 0.0
-	# An order's advance not yet set against its invoices.
 	order_lines = frappe.qb.DocType(LINES[order_type])
 	orders = [
 		one[0]
@@ -389,7 +364,6 @@ def _paid_on(projects: list[str], doctype: str) -> dict:
 		advance += max(
 			0.0, flt(one.advance_paid) * flt(one.conversion_rate or 1) - set_off.get(one.name, 0.0)
 		)
-	# Paid on account, naming the project, not matched to anything yet.
 	pe = frappe.qb.DocType("Payment Entry")
 	party = pe.paid_amount if kind == "Receive" else pe.received_amount
 	base = pe.base_paid_amount if kind == "Receive" else pe.base_received_amount
@@ -537,14 +511,12 @@ def _suppliers(projects: list[str]) -> list[dict]:
 		name: sum(amount for _due, amount in held)
 		for name, held in retention.held_on("Purchase Invoice", list(invoices)).items()
 	}
-	# Retention taxed when released isn't billed yet, so it isn't to pay either.
 	kept_owed = {
 		name: sum(amount for _due, amount in held)
 		for name, held in retention.held_on("Purchase Invoice", list(invoices), owed=True).items()
 	}
 	stock = _stock({one.item_code for one in lines if one.item_code})
 	terms = _terms("Purchase Invoice", list(invoices))
-	# Each supplier's logo (one_mail/faces.py dresses a supplier without one).
 	logos = dict(
 		frappe.get_all(
 			"Supplier",
@@ -585,10 +557,7 @@ def _suppliers(projects: list[str]) -> list[dict]:
 				"image": logos.get(head.supplier),
 				"for": bought(own),
 				"project": head.project or next((one.project for one in own if one.project), None),
-				# What's billed and not paid, less the retention held till later.
 				"to_pay": max(0.0, owing - retained_owed),
-				# What of it is past its date, since when, and when the rest
-				# falls due.
 				"overdue": overdue,
 				"late": (today - getdate(since)).days if since else None,
 				"due": due,
@@ -604,8 +573,6 @@ def _suppliers(projects: list[str]) -> list[dict]:
 				"paid": paid + advance,
 				"status": head.status,
 				"ordered_on": str(head.transaction_date) if head.transaction_date else None,
-				# Bill Progress drafts the next bill; an order closed, held or
-				# billed in full has none.
 				"can_bill": head.status not in ("Closed", "On Hold", "Completed")
 				and flt(head.per_billed) < 100,
 				"route": f"/desk/purchase-order/{quote(name, safe='')}",
@@ -641,7 +608,6 @@ def past_due(terms: list, outstanding: float, today) -> dict | None:
 	retention. ERPNext's own per-term outstanding moves only when a payment
 	names the term, so the rest is worked out here. None when nothing's due.
 	Pure."""
-	# A credit or debit note owes nothing back to its date.
 	if flt(outstanding) <= 0:
 		return None
 	terms = sorted(terms, key=lambda one: str(one["due_date"]))
@@ -671,7 +637,6 @@ def _terms(doctype: str, names: list[str]) -> dict[str, list[dict]]:
 		found.setdefault(one.parent, []).append(
 			{
 				"due_date": one.due_date,
-				# Less what a payment naming the term paid (Release Retention).
 				"amount": one.payment_amount if one.outstanding is None else one.outstanding,
 				"held": one.payment_term in retention.HELD,
 			}

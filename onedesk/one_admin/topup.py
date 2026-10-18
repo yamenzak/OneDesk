@@ -11,8 +11,6 @@ from frappe.utils import get_first_day, get_last_day, getdate
 from onedesk.one_admin import ledger, site, stripe
 from onedesk.one_admin.faults import Refused
 
-#: The rungs a workspace is granted its monthly credit on, Overdue too, for the
-#: same reason `proxy.SERVING` carries it.
 GRANTED_ON = ("Live", "Overdue")
 
 
@@ -84,8 +82,6 @@ def monthly() -> None:
 def allowance(tenant: str, offering: str, on=None) -> str | None:
 	"""One workspace's credit for the month that `on` falls in: the plan's,
 	and any monthly credits added to it (quota.py)."""
-	# What the workspace bought, copied onto it (quota.apply), and the
-	# offering's only for a workspace from before that was copied.
 	credits = frappe.db.get_value("Tenant", tenant, "credits_a_month") or frappe.db.get_value(
 		"Offering", offering, "credits_a_month"
 	)

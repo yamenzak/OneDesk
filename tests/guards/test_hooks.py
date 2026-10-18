@@ -21,7 +21,6 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 import tree
 
-#: hooks whose values are dotted paths to our own callables, however nested.
 CALLABLE_HOOKS = (
 	"scheduler_events",
 	"doc_events",
@@ -86,10 +85,6 @@ def test_the_scan_would_catch_a_typo():
 	assert "nightlyy" not in defined
 
 
-#: hooks whose values are paths to files we ship, not dotted callables. A path
-#: with a typo in it does not fail anything: the browser asks for a file that is
-#: not there, frappe answers 404, and the screen quietly loads without its
-#: script — which for `Tenant` means a workspace with no verbs on it.
 ASSET_HOOKS = (
 	"doctype_js",
 	"doctype_list_js",
@@ -99,7 +94,6 @@ ASSET_HOOKS = (
 	"web_include_css",
 )
 
-#: Where an asset path starts, once the /assets/onedesk prefix is off it.
 SERVED_FROM = APP
 
 
@@ -141,8 +135,6 @@ def test_the_asset_exists(said):
 
 
 def test_no_hook_table_names_a_doctype_twice():
-	# A second key in a dict literal silently replaces the first, so a hook
-	# added under a doctype that already had some would undo them.
 	import ast
 
 	tree_ = ast.parse((APP / "hooks.py").read_text(encoding="utf-8"))

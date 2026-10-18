@@ -9,10 +9,8 @@ import frappe
 from frappe import _lt
 from frappe.utils import get_datetime, getdate, today
 
-#: Entries of the reader's calendar given to the model at once.
 MOST = 200
 
-#: The longest stretch asked about at once, in days.
 LONGEST = 62
 
 SUGGESTIONS = {
@@ -23,7 +21,6 @@ SUGGESTIONS = {
 			"expects": "my_calendar",
 		},
 		{
-			# The reader says who; the model looks for a time everybody is free.
 			"label": _lt("Find a time to meet…"),
 			"ask": _lt("Find a time this week to meet "),
 			"fill": True,
@@ -43,7 +40,6 @@ def page(said: dict) -> str | None:
 	if said.get("page") != "onecalendar":
 		return None
 	where = "The reader is on OneCalendar, their calendar"
-	# oneai.js names a record's own calendar by its doctype and name.
 	doctype, name = said.get("box") or "", said.get("record") or ""
 	if (
 		doctype

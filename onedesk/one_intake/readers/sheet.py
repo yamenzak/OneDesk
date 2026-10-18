@@ -9,8 +9,6 @@ needs them.
 import csv
 import io
 
-#: Rows read from each sheet. A ten-thousand-row export is data to import, not
-#: a document to understand, and its first rows say what it is.
 MOST_ROWS = 2000
 
 

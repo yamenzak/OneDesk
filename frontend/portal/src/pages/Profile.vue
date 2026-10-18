@@ -1,6 +1,4 @@
 <template>
-  <!-- The reader's profile: frappe's own Edit Profile web form.
-       Modelled on Shopify's customer account profile: one form, Save. -->
   <WebForm page="profile" :heading="__('Profile')" />
 </template>
 

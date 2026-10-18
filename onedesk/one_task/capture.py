@@ -5,7 +5,6 @@ from frappe.desk.form.assign_to import add as assign
 
 from onedesk.one_calendar.layers import plain
 
-#: What a task that is still to do cannot be.
 DONE = ("Completed", "Cancelled", "Template")
 
 
@@ -48,11 +47,9 @@ def titled(doctype: str, name: str) -> str | None:
 def task_made(doc, method=None) -> None:
 	"""Task after_insert: a task of nobody's, with no project, is its maker's;
 	a repeat is given to whoever had the task it repeats (task.recurring)."""
-	# A repeat's people, or the colleagues OneAI's card named (one_task/ai.py).
 	given = doc.flags.one_assign_to or [one.strip() for one in (doc.get("one_for") or "").split(",") if one.strip()]
 	if given:
 		assign({"doctype": "Task", "name": doc.name, "assign_to": given})
-		# Said once: a repeat of this task is given to whoever has it then.
 		if doc.get("one_for"):
 			frappe.db.set_value("Task", doc.name, "one_for", None, update_modified=False)
 		return

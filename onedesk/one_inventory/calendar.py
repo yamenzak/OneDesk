@@ -25,7 +25,6 @@ LAYERS = [
 		"doctype": "Asset Maintenance Log",
 		"rows": "onedesk.one_inventory.calendar.everyone",
 	},
-	# On an asset's own calendar: its maintenance, whoever does it.
 	{
 		"key": "asset-maintenance",
 		"label": _lt("Maintenance"),

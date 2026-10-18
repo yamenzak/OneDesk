@@ -23,7 +23,6 @@ def test_nothing_on_screen_spaces_a_products_name():
 	english = _catalogue("en.po")
 	for msgid in _catalogue("main.pot"):
 		if SPACED.search(msgid):
-			# An id, named in English as the product.
 			assert msgid in english, f"{msgid!r} spaces a product's name; write it as one word"
 
 
@@ -43,7 +42,6 @@ def test_the_one_of_a_name_is_light_everywhere():
 	assert '"/assets/onedesk/js/brand.js"' in hooks
 	brand = (tree.APP / "public" / "js" / "brand.js").read_text(encoding="utf-8")
 	assert "MutationObserver" in brand and '"one-light"' in brand and '"one-name"' in brand
-	# What a person types, and what a Vue app keeps, is left alone.
 	for kept in ("input", "textarea", "[contenteditable]", "[data-v-app]"):
 		assert kept in brand
 	assert ".one-light {" in (tree.APP / "public" / "css" / "desk.css").read_text(encoding="utf-8")

@@ -12,8 +12,6 @@ from onedesk.one_hr import gates, rules
 
 class OneEmployeeCheckin(EmployeeCheckin):
 	def validate_distance_from_shift_location(self):
-		# A row from `clock.py` has been through One's own gates, whose network-or-place
-		# setting a second radius check would overrule. Every other way in is checked below.
 		if self.flags.get("one_gated"):
 			return
 
@@ -31,9 +29,6 @@ class OneEmployeeCheckin(EmployeeCheckin):
 		if rules.within(self.latitude, self.longitude, zones):
 			return
 
-		# Somewhere with no fence at all is a place people work at rather than a
-		# place they have to stand in, so the distance is recorded and that is
-		# the whole of the rule.
 		if all(zone.get("is_site") for zone in zones):
 			return
 

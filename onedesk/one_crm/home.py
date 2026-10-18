@@ -14,13 +14,10 @@ from frappe.utils import add_days, get_datetime, getdate, now_datetime, nowdate
 from onedesk.one_crm import measure
 from onedesk.one_crm import next as next_step
 
-#: How many rows of each kind Today shows before it says how many more.
 FEW = 5
 
-#: How far ahead a quotation running out counts, today included.
 WEEK = 7
 
-#: The directory's groups, in the order ERPNext's CRM sidebar sets them.
 GROUPS = (
 	("pipeline", _lt("Sales Pipeline")),
 	("sales", _lt("Selling")),
@@ -29,7 +26,6 @@ GROUPS = (
 	("reports", _lt("Reports")),
 	("setup", _lt("Setup")),
 )
-#: What a report is about, as Reports sets them out, one section to a topic.
 REPORT_SECTIONS = (
 	("pipeline", _lt("Sales Pipeline")),
 	("leads", _lt("Lead")),
@@ -69,7 +65,6 @@ REPORT_TOPICS = {
 	"Support Hour Distribution": "support",
 	"Maintenance Schedules": "support",
 }
-#: What a part of Setup is about, as Setup sets them out, the settings first.
 SETUP_SECTIONS = (
 	("settings", _lt("Settings")),
 	("selling", _lt("Selling")),
@@ -111,8 +106,6 @@ SETUP_TOPICS = {
 	"Communication Medium": "calls",
 }
 
-#: Each called what ERPNext calls what it opens, a filtered list as ERPNext's
-#: own sidebar calls it (and with its filters): the name Ctrl+K finds it by.
 EVERYTHING = (
 	("pipeline", _lt("Lead"), "DocType", "Lead", _lt("Somebody who got in touch, or somebody you want to reach.")),
 	("pipeline", _lt("Opportunity"), "DocType", "Opportunity", _lt("A sale you are working on, what it is worth and how far it has got.")),
@@ -229,7 +222,6 @@ def needs_you() -> dict:
 	}
 
 
-#: What a lead or an opportunity is called on a row, and whom it is with.
 TITLE = {"Lead": ("lead_name", "company_name"), "Opportunity": ("title", "customer_name")}
 
 
@@ -251,8 +243,6 @@ def _steps(doctype: str, due: bool) -> list[dict]:
 	first; or, with due False, the ones with none."""
 	if not frappe.has_permission(doctype, "read"):
 		return []
-	# frappe compares an empty date as the first day there is, so a due step
-	# is asked to be set as well.
 	filters = [
 		[next_step.OWNER[doctype], "=", frappe.session.user],
 		["status", "in", next_step.OPEN[doctype]],
@@ -343,7 +333,6 @@ def _expiring() -> list[dict]:
 	]
 
 
-#: The papers a draft of which is work left half done.
 DRAFTS = (
 	("Quotation", _lt("Quotation")),
 	("Sales Order", _lt("Sales Order")),

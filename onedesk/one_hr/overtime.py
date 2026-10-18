@@ -8,7 +8,6 @@ from hrms.hr.doctype.employee_checkin.employee_checkin import calculate_time_dif
 
 from onedesk.one_hr import policy
 
-# The only status Overtime Slip collects.
 COLLECTED = "Present"
 
 

@@ -1,8 +1,4 @@
 <template>
-  <!-- Serial numbers as a table, modelled on Odoo's Lots and Serial Numbers:
-       each piece, its status as ERPNext keeps it, where it is or who has it,
-       its lot, and its warranty (one_inventory/lots.py). The Batch and Serial No page
-       and an item's Stock tab both show them. -->
   <p v-if="!serials.length && empty" class="py-6 text-base text-ink-gray-5">{{ empty }}</p>
   <List v-else :columns="columns" divider="full" :row-height="56" class="-mx-3 list-gap-4 list-row-px-3">
     <ListHeader>
@@ -59,6 +55,5 @@ const columns = {
   lg: ["minmax(0,1fr)", "7rem", "minmax(0,1fr)", "8rem", "8rem"],
 };
 const THEMES = { Active: "green", Delivered: "blue", Expired: "red", Inactive: "gray", Consumed: "gray" };
-// In a warehouse, or with the customer it was delivered to.
 const where = (one) => (one.status === "Delivered" && one.customer ? __("With {0}", [one.customer]) : one.warehouse_label || one.warehouse || "");
 </script>

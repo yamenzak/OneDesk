@@ -1,8 +1,5 @@
-// The OneMail page. The client itself is public/js/onemail.js, loaded the
-// first time the page is opened.
 
 frappe.pages["onemail"].on_page_load = (wrapper) => {
-	// The mailboxes are their own navigation: no rail panel beside them.
 	const page = onedesk.shell.page(wrapper, __("OneMail"), { hide_sidebar: true, mark: "onemail" });
 	wrapper.loading = frappe.require(["/assets/onedesk/css/onemail.css", "/assets/onedesk/js/onemail.js"]).then(() => {
 		wrapper.onemail = new onedesk.OneMail(page);

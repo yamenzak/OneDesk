@@ -1,9 +1,3 @@
-// Items sold by size, on every record that lines up items: a line whose item
-// is measured by length or area (Item's Measured By) gives its pieces, length
-// and width, and its quantity follows as they are typed, shown with its unit.
-// The server works it out again on save (one_inventory/measure.py `sized`).
-// The size columns show in a table once one of its lines is measured, and on a
-// submitted record once one of them was given its size.
 
 frappe.provide("onedesk.measure");
 
@@ -11,8 +5,6 @@ onedesk.measure.SIZE = ["one_pieces", "one_length", "one_width"];
 
 onedesk.measure.measured = (row) => ["Length", "Area"].includes(row.one_measured_by);
 
-// 3.840 m² or 24 Nos, on every line of a table that has no unit column, so
-// metres, sheets and pieces don't read alike.
 onedesk.measure.formatter = (value, df, options, doc) => {
 	const shown = frappe.format(value, { ...df, formatter: null }, { ...options, inline: true }, doc);
 	const listed = ["uom", "stock_uom"].some((f) => frappe.meta.get_docfield(df.parent, f)?.in_list_view);
@@ -25,13 +17,9 @@ onedesk.measure.columns = (frm) => {
 	for (const fieldname of frappe.boot.one_measure?.records?.[frm.doctype] || []) {
 		const grid = frm.fields_dict[fieldname]?.grid;
 		if (!grid) continue;
-		// The quantity with its unit, and a receipt's rejected quantity beside it,
-		// on the table and each row it has drawn.
 		const quantities = (grid.docfields || []).filter((df) => ["qty", "rejected_qty"].includes(df.fieldname) && df.formatter !== onedesk.measure.formatter);
 		const formatted = grid.grid_rows?.length && quantities.length;
 		if (formatted) quantities.forEach((df) => grid.update_docfield_property(df.fieldname, "formatter", onedesk.measure.formatter));
-		// Once submitted, only where a line was given its size: glass bought as
-		// so many square metres has none, and its columns would only say 0.
 		const show = (frm.doc[fieldname] || []).some((row) => onedesk.measure.measured(row) && (frm.doc.docstatus === 0 || row.one_length));
 		if (grid.one_sized !== show) {
 			grid.one_sized = show;

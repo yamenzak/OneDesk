@@ -25,8 +25,6 @@ def arrive(said: dict) -> str | None:
 			"email": email,
 			"first_name": email.split("@", 1)[0],
 			"user_type": "System User",
-			# One's own invitation instead; frappe's is a reset link that
-			# lives twenty minutes.
 			"send_welcome_email": 0,
 			"roles": [{"role": "Desk User"}, {"role": roles.ADMINISTRATOR}],
 		}

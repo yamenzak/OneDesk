@@ -27,7 +27,6 @@ def mailbox_not_reachable(doc, said: str, holders: list[str]) -> None:
 	"""Whoever holds a mailbox hears that it stopped connecting, and why."""
 	notify.notify(
 		"Mailbox Not Reachable",
-		# A mailbox nobody holds breaks unseen: the administrators hear it.
 		holders or _admins(),
 		link="/desk/settings?section=mail",
 		sender="Administrator",

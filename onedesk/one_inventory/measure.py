@@ -9,10 +9,8 @@ import frappe
 from frappe import _
 from frappe.utils import cint, flt
 
-#: What an item may be measured by, and the unit its size is counted in.
 BASE = {"Length": "Meter", "Area": "Square Meter"}
 
-#: The tables that line up items and a quantity a person types.
 LINES = (
 	"Quotation Item",
 	"Sales Order Item",
@@ -46,8 +44,6 @@ LINES = (
 	"Asset Capitalization Service Item",
 )
 
-#: Records whose new lines get the buying unit, as get_item_details gives it:
-#: these and a material request to buy. Selling ones take the selling unit.
 BUYING = {
 	"Supplier Quotation",
 	"Purchase Order",

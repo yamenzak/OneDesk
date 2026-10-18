@@ -16,8 +16,6 @@ from onedesk.one_admin import site, steps
 class ProvisioningJob(Document):
 	def validate(self) -> None:
 		site.require_admin()
-		# Made by the machinery, never typed, so none of these is starred on
-		# the form; a job for nobody is still refused.
 		if not self.tenant:
 			frappe.throw(_("A job needs a workspace."))
 		self.kind = self.kind or "Provision"

@@ -16,7 +16,6 @@ from frappe.model import no_value_fields, table_fields
 from onedesk.one import layer, roles
 from onedesk.one.customize import REFUSED_MODULES
 
-#: Fields every record keeps for itself, which no state sets.
 BOOKKEEPING = (
 	"name",
 	"owner",
@@ -126,8 +125,6 @@ def approvals() -> list[dict]:
 	return [dict(row, label=_(row.document_type), steps=steps.get(row.name, 0)) for row in rows]
 
 
-#: What a condition may be made of: the record's fields, plain values, and the
-#: comparisons and words that join them.
 PLAIN = (
 	ast.Expression,
 	ast.Compare,
@@ -181,7 +178,6 @@ def plain_condition(meta, condition: str | None) -> bool:
 			if node.attr != "name" and (not df or df.permlevel or df.fieldtype in no_value_fields):
 				return False
 			attributes += 1
-	# `doc` on its own is the whole record, not one of its fields.
 	return names == attributes
 
 
@@ -215,11 +211,8 @@ def _laid_out(doc) -> None:
 	for row in doc.states:
 		depth = column[row.state]
 		place[row.state] = {"x": 100 + depth * 560, "y": 100 + rows.get(depth, 0)}
-		# The next state in the column goes below this one's stack of steps.
 		rows[depth] = rows.get(depth, 0) + max(180, steps_out[row.state] * 90 + 60)
 	nodes = [{"id": ids[row.state], "type": "state", "position": place[row.state]} for row in doc.states]
-	# A state's steps stacked beside it, one under another, so two steps out of
-	# the same state never sit on each other.
 	out_of: dict[str, int] = {}
 	for k, row in enumerate(doc.transitions or [], 1):
 		if row.state not in ids or row.next_state not in ids:
@@ -345,7 +338,6 @@ def make(doctype: str, values: dict) -> str:
 		doc.document_type = doctype
 	doc.set("states", values.get("states") or [])
 	doc.set("transitions", values.get("transitions") or [])
-	# Its steps changed, so the builder's old places for them no longer fit.
 	doc.workflow_data = ""
 	if values.get("is_active") is not None:
 		doc.is_active = 1 if values["is_active"] else 0

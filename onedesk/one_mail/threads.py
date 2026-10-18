@@ -10,7 +10,6 @@ import re
 
 import frappe
 
-#: A Message-ID as it appears in a header.
 MESSAGE_ID = re.compile(r"<([^<>\s]+)>")
 
 

@@ -1,21 +1,9 @@
-// A workspace, from the operator's side.
-//
-// The record is read-only, all of it, because every field on it is the record
-// of something that happened rather than a setting. Where it stands, its plan,
-// storage, credits and rung, and the verbs that move it are its Record Head
-// (one_admin/heads.py). What is left here is what is not a head: the storage
-// sentence on its own tab, and the Billing menu.
 frappe.ui.form.on("Tenant", {
 	refresh(frm) {
 		if (frm.is_new()) return;
 		onedesk.tenant.said(frm);
 
-		// Billing, as a menu of the toolbar where frappe keeps a record's
-		// actions: none of them changes where the workspace stands, so none of
-		// them is beside the verbs that do.
 		const billing = __("Billing");
-		// The books are the accounts people's: an operator who may not read
-		// invoices is not offered them, as the Customer connection is not drawn.
 		if (frm.doc.customer && frappe.model.can_read("Sales Invoice")) {
 			frm.add_custom_button(
 				__("Invoices"),
@@ -35,20 +23,12 @@ frappe.ui.form.on("Tenant", {
 			billing,
 		);
 
-		// Only operators read a workspace, so sharing it with anybody else
-		// gives them nothing; the role cannot share it either.
 		frm.sidebar.sidebar.find(".form-shared").addClass("hidden");
 	},
 });
 
 frappe.provide("onedesk.tenant");
 
-// Credit an operator adds by hand: goodwill, a correction, a trial extended.
-//
-// A grant rather than an edit to a balance, because there is no balance to
-// edit — it is a sum over rows and this writes one of them. The dialog shows
-// what the workspace has before and after, since the whole reason somebody
-// opens it is that a number was wrong.
 onedesk.tenant.give = (frm) => {
 	frappe.xcall("onedesk.one_admin.operator.credit_standing", { tenant: frm.doc.name }).then((now) => {
 		const asking = new frappe.ui.Dialog({
@@ -93,9 +73,6 @@ onedesk.tenant.give = (frm) => {
 	});
 };
 
-// The storage tab, in words. The two Long Ints below this say 22548578304 and
-// 26843545600, which are the right numbers to settle a bill with and the wrong
-// ones to read — so the sentence goes above them rather than replacing them.
 onedesk.tenant.said = (frm) => {
 	const field = frm.get_field("storage_said");
 	if (!field) return;

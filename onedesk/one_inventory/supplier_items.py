@@ -14,9 +14,7 @@ from frappe.utils import add_days, flt, nowdate
 
 TABS = [{"name": "items", "label": _lt("Items"), "order": 20, "doctypes": ("Supplier",)}]
 
-#: How many items the tab lists.
 MOST = 100
-#: Statuses of an order with goods still to come.
 COMING = ("To Receive and Bill", "To Receive")
 
 
@@ -93,7 +91,6 @@ def read(supplier: str) -> dict:
 					flt(row.stock_qty) - flt(row.received_qty) * flt(row.conversion_factor or 1), 0
 				)
 
-	# Their own code for an item, and the items they are the default supplier of.
 	for row in frappe.get_all(
 		"Item Supplier",
 		filters={"supplier": supplier, "parenttype": "Item"},
@@ -133,7 +130,6 @@ def read(supplier: str) -> dict:
 				"until": str(row.to_date),
 			}
 
-	# What they quoted for, newest first, kept for items never ordered from them.
 	if _readable("Supplier Quotation"):
 		for row in frappe.get_list(
 			"Supplier Quotation",
@@ -196,7 +192,6 @@ def read(supplier: str) -> dict:
 			disabled=bool(item.disabled),
 		)
 		listed.append(line)
-	# The default supplier's items first, then the latest bought, then quoted.
 	listed.sort(key=lambda line: (line["last"] or line["quoted"] or {}).get("on") or "", reverse=True)
 	listed.sort(key=lambda line: (not line["default"], not line["orders"]))
 	return {

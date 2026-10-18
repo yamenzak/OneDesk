@@ -62,7 +62,6 @@ class Rate:
 	usd: float
 
 
-#: A real model's real rates: Gemini 2.5 Flash-Lite, per million tokens.
 FLASH_LITE = [
 	Rate("input", "text", "tokens", 1_000_000, 0.10),
 	Rate("input", "image", "tokens", 1_000_000, 0.10),
@@ -70,7 +69,6 @@ FLASH_LITE = [
 	Rate("cached", "text", "tokens", 1_000_000, 0.01),
 ]
 
-#: And one that is not priced in tokens at all.
 FLUX = [
 	Rate("usage", "image", "512x512 tile", 1, 0.0000528),
 	Rate("usage", "image", "step", 1, 0.0001056),
@@ -90,9 +88,6 @@ def test_both_modules_have_no_frappe_in_them():
 					if not (isinstance(n, ast.Expr) and isinstance(n.value, ast.Constant))
 				]
 		assert "frappe" not in ast.unparse(body), name
-
-
-# ------------------------------------------------------------------- pricing
 
 
 def test_a_rate_and_a_use_meet_on_all_three_or_not_at_all():
@@ -155,9 +150,6 @@ def test_a_cap_that_does_not_apply_is_not_a_refusal():
 	assert most.credits == 0
 
 
-# -------------------------------------------------------------------- meter
-
-
 def _sample(name: str) -> dict:
 	return json.loads((SAMPLES / name).read_text(encoding="utf-8"))
 
@@ -218,9 +210,6 @@ def test_a_metered_gemini_call_prices_end_to_end():
 	assert made.whole
 	expected = (32 * 0.10 + 1258 * 0.10 + 12 * 0.40) / 1_000_000
 	assert made.credits == round(expected * 2.0 * 1000, 6)
-
-
-# ------------------------------------------------------ the catalogue's price
 
 
 @dataclass(frozen=True)

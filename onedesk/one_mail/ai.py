@@ -10,10 +10,8 @@ import frappe
 from frappe import _, _lt
 from frappe.utils import strip_html
 
-#: Characters of one message's text given to the model.
 MOST_TEXT = 4000
 
-#: The newest messages of a conversation given to the model.
 MOST_MESSAGES = 15
 
 SUGGESTIONS = {
@@ -26,9 +24,6 @@ SUGGESTIONS = {
 			"expects": "open_conversation",
 		},
 		{
-			# The reader says what the reply should say: "turn down their offer",
-			# "agree only if they deliver by the 10th". The panel puts these words
-			# in its box and waits for theirs.
 			"label": _lt("Draft a reply"),
 			"ask": _lt("Draft a reply to this conversation that says: "),
 			"fill": True,
@@ -184,8 +179,6 @@ def draft_reply(
 	}
 
 
-#: How many of the Inbox's newest messages a new rule sorts at once, when it
-#: is asked to sort what is there now as well.
 MOST_NOW = 500
 
 

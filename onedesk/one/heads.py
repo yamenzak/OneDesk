@@ -10,7 +10,6 @@ credit pack) and stay in workspace_account.js.
 from frappe import _, _lt
 from frappe.utils import flt
 
-#: The workspace's standing in a word, and its colour.
 SAYS = {
 	"Requested": ("orange", _lt("Being set up")),
 	"Provisioning": ("blue", _lt("Being set up")),
@@ -39,7 +38,6 @@ def account_state(doc):
 	if not doc.get("status"):
 		return None
 	if doc.get("closing_on"):
-		# Its payer asked for it to be closed (one/closing.py).
 		return {"label": _("Closing"), "colour": "red"}
 	colour, word = SAYS.get(doc.status, ("grey", doc.status))
 	return {"label": str(word), "colour": colour}

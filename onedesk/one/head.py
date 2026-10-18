@@ -22,9 +22,6 @@ TONES = ("", "quiet", "waiting", "alarm")
 SLOT = re.compile(r"\{\{\s*doc\.([a-z0-9_]+)\s*\}\}")
 
 
-# ------------------------------------------------------------------ what modules register
-
-
 def _merged(hook: str) -> dict:
 	found = {}
 	for path in frappe.get_hooks(hook) or []:
@@ -58,9 +55,6 @@ def declared() -> list[dict]:
 		module = path.split(".")[1]
 		found.extend({**head, "module": module} for head in frappe.get_attr(path))
 	return found
-
-
-# ------------------------------------------------------------------ pure
 
 
 def slots(template: str) -> list[str]:
@@ -100,9 +94,6 @@ def holds(doc, text: str | None) -> bool:
 def counting(text: str | None, doc) -> list:
 	"""A count's or a sum's filters, with the record's values in them."""
 	return [[*row[:-1], fill(row[-1], doc)] if isinstance(row[-1], str) else row for row in conditions(text)]
-
-
-# ------------------------------------------------------------------ the rows, checked
 
 
 def validate(head) -> None:
@@ -189,9 +180,6 @@ def validate(head) -> None:
 			frappe.throw(_("{0} is not a chart of {1}.").format(row.chart, _(head.record_doctype)))
 
 
-# ------------------------------------------------------------------ what the form is sent
-
-
 def headed() -> set[str]:
 	"""The doctypes with a head, cached until one changes."""
 	held = frappe.cache.get_value(CACHE)
@@ -266,8 +254,6 @@ def said(doc, head, saved: bool = True) -> dict:
 	return {
 		"indicator": indicator,
 		"sentence": sentence,
-		# A measure may answer several numbers (one per leave type); each is
-		# a stat of its own.
 		"band": [stat for row in head.band if holds(doc, row.shown_when) for stat in _stats(doc, row)],
 		"verbs": [verb for row in head.verbs if (verb := _verb(doc, row))] if saved else [],
 		"charts": [
@@ -322,18 +308,12 @@ def _stats(doc, row) -> list[dict]:
 
 def _stat(doc, row, measured=None) -> dict | None:
 	stat = {"label": _(row.label), "route": fill(row.route, doc, url=True) or None, "tone": row.tone or None}
-	# A field kept back when empty is empty at nought too: a currency or a
-	# number is formatted before it is shown, so its formatted text never is.
 	if row.source == "Field" and row.hide_empty and not doc.get(row.field):
 		return None
 	value = measured if row.source == "Measure" else _value(doc, row)
-	# A measure with nothing to say of this record is not shown.
 	if row.source == "Measure" and value is None:
 		return None
 	if isinstance(value, dict):
-		# A measure may say how it changed (`delta`) and how far it is to a
-		# whole (`meter`), which the band draws as a metric card does.
-		# A time since goes as the moment (`when`), for the desk to say.
 		stat.update(
 			{
 				key: value[key]
@@ -356,8 +336,6 @@ def _value(doc, row):
 	if row.source == "Field":
 		if doc.get(row.field) in (None, ""):
 			return None
-		# A share of a whole is said in whole numbers, with its bar under it:
-		# frappe would say "100.0%".
 		if doc.meta.get_field(row.field).fieldtype == "Percent":
 			share = flt(doc.get(row.field))
 			return {
@@ -392,9 +370,6 @@ def _value(doc, row):
 	return measure(doc) if measure else None
 
 
-#: How a chart may be drawn: frappe.Chart's own types, and a heat map of
-#: named days (a quarter of attendance), whose squares are frappe-charts'
-#: geometry and whose colours mean a state rather than an amount.
 KINDS = ("bar", "line", "heat")
 
 
@@ -446,7 +421,6 @@ def _verb(doc, row) -> dict | None:
 		"title": cstr(_said_of(verb.get("title"), doc) or label),
 		"action": cstr(_said_of(verb.get("action"), doc) or label),
 		"fields": verb["fields"](doc) if verb.get("fields") else [],
-		# Under a dropdown of the toolbar, as frappe groups a button.
 		"group": cstr(_said_of(verb.get("group"), doc)) or None,
 	}
 
@@ -479,9 +453,6 @@ def run(doctype: str, name: str, verb: str, values: dict | str | None = None) ->
 		frappe.throw(_("This cannot be done to {0} now.").format(name))
 	values = frappe.parse_json(values) or {}
 	return found["run"](doc, **values) or _("Done.")
-
-
-# ------------------------------------------------------------------ written on migrate
 
 
 TABLES = ("indicators", "sentences", "band", "verbs", "charts", "linked")
@@ -532,7 +503,6 @@ def _write(head: dict) -> None:
 				if not isinstance(row.get(key, ""), str):
 					row[key] = json.dumps(row[key])
 			doc.append(table, row)
-		# The workspace's own rows come after the module's.
 		for row in kept[table]:
 			doc.append(table, row)
 	doc.flags.ignore_permissions = True

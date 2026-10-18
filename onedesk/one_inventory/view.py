@@ -15,7 +15,6 @@ from onedesk.one import figures
 from onedesk.one_inventory import barcodes, heads, lots
 from onedesk.one_inventory import item as stock
 
-#: What the page reads of the item itself.
 FIELDS = (
 	"name",
 	"item_code",
@@ -48,10 +47,8 @@ FIELDS = (
 	"modified",
 )
 
-#: The most rows a list on the page shows; the rest open in its own list.
 MOST = 20
 
-#: A purchase or sales order still to be received or delivered.
 OPEN_ORDER = ("not in", ("Completed", "Closed", "Cancelled", "On Hold", "To Bill"))
 
 
@@ -121,7 +118,6 @@ def read(item: Annotated[str, "The item code."]) -> dict:
 			"files": files(item),
 			"barcodes": barcodes.listed(doc),
 			"brand_logo": frappe.db.get_value("Brand", doc.brand, "image") if doc.brand else None,
-			# Batches and serial numbers are fixed once it has moved, as its form has them.
 			"stock_exists": bool(doc.is_stock_item and doc.stock_ledger_created()),
 			"can_write": bool(frappe.has_permission("Item", "write", doc=doc)),
 			"can": {
@@ -211,7 +207,6 @@ def _stock(doc) -> dict:
 		"places": [
 			one for one in places if one["on_hand"] or one["ordered"] or one["reserved"] or one["level"]
 		],
-		# Its lots and numbered pieces as the Lots page shows them (lots.py).
 		"batches": lots.lots(item=doc.name) if doc.has_batch_no else [],
 		"numbers": lots.serials(item=doc.name) if doc.has_serial_no else [],
 		"serials": frappe.db.count("Serial No", {"item_code": doc.name, "status": "Active"})
@@ -232,8 +227,6 @@ def _trends(doc) -> dict:
 	day = getdate(nowdate())
 	starts = figures.months(day)
 	if frappe.has_permission("Stock Ledger Entry", "read"):
-		# Each warehouse's balance after its last move of the month, as the
-		# ledger keeps it: a stock count sets a balance without moving any.
 		moves = frappe.get_list(
 			"Stock Ledger Entry",
 			filters={"item_code": doc.name, "is_cancelled": 0, "posting_date": ["<=", day]},
@@ -286,7 +279,6 @@ def _place(row, level) -> dict:
 	return {
 		"warehouse": row.warehouse,
 		"called": _called(row.warehouse),
-		# The item's own reorder row for it, which the page changes in place.
 		"row": level.name if level else None,
 		"free": flt(row.get("actual_qty")) - flt(row.get("reserved_qty")),
 		"on_hand": flt(row.get("actual_qty")),
@@ -322,8 +314,6 @@ def _moves(item: str) -> list:
 		order_by="posting_datetime desc, creation desc",
 		limit=MOST,
 	)
-	# A stock entry says what kind of move it was, and what for: issued,
-	# moved, made.
 	entries = {one.voucher_no for one in moves if one.voucher_type == "Stock Entry"}
 	kinds = {
 		entry.name: entry
@@ -413,7 +403,6 @@ def _buying(doc) -> dict | None:
 				one["before"] = row.rate
 			one["qty"] += flt(row.qty)
 			one["orders"] += 1
-	# The item's own list of who supplies it, each with their part number.
 	for row in doc.get("supplier_items") or []:
 		one = suppliers.setdefault(row.supplier, _supplier(row.supplier))
 		one.update(part_no=row.supplier_part_no, row=row.name)
@@ -473,7 +462,6 @@ def _buying(doc) -> dict | None:
 		"quotes": _quotes(doc.name),
 		"prices": _prices(doc.name, "buying"),
 		"manufacturers": _manufacturers(doc.name),
-		# The last price paid, which a buying price is held against.
 		"last_paid": (
 			{
 				"rate": lines[0].rate,
@@ -633,7 +621,6 @@ def _selling(doc) -> dict | None:
 			limit=0,
 		):
 			one = customers.setdefault(row.customer, _customer(row.customer))
-			# A return's quantity and amount are less than nothing, so it comes off.
 			one["qty"] += flt(row.qty)
 			one["amount"] += flt(row.amount)
 			one["theirs"][row.currency] = one["theirs"].get(row.currency, 0) + flt(row.their_amount)
@@ -651,7 +638,6 @@ def _selling(doc) -> dict | None:
 					"on": row.posting_date,
 				}
 			)
-	# Each customer's own code for it, the item's own customer row.
 	for row in doc.get("customer_items") or []:
 		if row.customer_name:
 			customers.setdefault(row.customer_name, _customer(row.customer_name)).update(
@@ -660,7 +646,6 @@ def _selling(doc) -> dict | None:
 	images = _images("Customer", customers)
 	for one in customers.values():
 		one["image"] = images.get(one["customer"])
-		# What they paid in their own currency, when they paid in one only.
 		theirs = one.pop("theirs")
 		one["their_amount"] = (
 			theirs[one["currency"]] if len(theirs) == 1 and one["currency"] in theirs else None
@@ -697,7 +682,6 @@ def _selling(doc) -> dict | None:
 		"quotes": _quotations(doc.name),
 		"customers": sorted(customers.values(), key=lambda one: -one["amount"])[:MOST],
 		"prices": _prices(doc.name, "selling"),
-		# Its sales in the last year, newest first, which a selling price is held against.
 		"sales": sales[:MOST],
 		"can": {
 			one: bool(frappe.has_permission(one, "create"))
@@ -848,7 +832,6 @@ def _making(doc) -> dict | None:
 		)
 		free = _free({one.item_code for one in materials})
 		for one in materials:
-			# What the free stock of it would make, at what one of the item takes.
 			per_one = flt(one.stock_qty) / (flt(default.quantity) or 1)
 			one["free"] = free.get(one.item_code, 0)
 			one["covers"] = int(one["free"] // per_one) if per_one else None
@@ -898,7 +881,6 @@ def _making(doc) -> dict | None:
 				fields=["operation", "workstation", "completed_qty", "status"],
 				order_by="idx asc",
 			)
-			# What Finish would take, as the work order's own Finish button reckons it.
 			ready = flt(row.qty if row.skip_transfer else row.transferred) - flt(row.produced_qty)
 			row["can_finish"] = max(ready - flt(row.process_loss_qty), 0)
 		made = frappe.get_list(
@@ -937,7 +919,6 @@ def _making(doc) -> dict | None:
 		for row in needed:
 			row["left"] = flt(row.required) - flt(row.transferred)
 			row["project_name"] = _project_name(row.project)
-	# Something made here has its Making tab before its first bill of materials.
 	made_here = doc.default_material_request_type == "Manufacture" and not doc.is_fixed_asset
 	if not (boms or used_in or orders or made_here):
 		return None
@@ -953,7 +934,6 @@ def _making(doc) -> dict | None:
 		"needed": needed,
 		"can": {
 			"Stock Entry": bool(frappe.has_permission("Stock Entry", "create")),
-			# Shop Floor (page/floor), opened at a work order.
 			"shop_floor": bool(frappe.db.exists("Page", "floor") and frappe.get_cached_doc("Page", "floor").is_permitted()),
 		},
 	}

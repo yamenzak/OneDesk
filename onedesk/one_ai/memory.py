@@ -10,21 +10,13 @@ import frappe
 from frappe.utils import strip_html_tags
 
 
-#: How many of a person's memories ride along on every turn, newest first.
-#: Past this, `recall` finds the rest.
 TOLD = 8
 
-#: How much of one piece of knowledge rides along when its type is on screen.
 KNOWLEDGE_TOLD = 600
 
-#: How many of each kind of activity `about_record` reads.
 ACTIVITY = 8
 
-#: How much of a past conversation `search_my_chats` quotes around a match.
 AROUND = 160
-
-
-# ------------------------------------------------------------------- reads
 
 
 def about_record(
@@ -40,9 +32,7 @@ def about_record(
 	from onedesk.one_ai import tools
 
 	doctype = tools._type(doctype, name)
-	record = tools.read_record(doctype, name)  # checks read permission
-	# The sidebar's own function, which fills frappe.response rather than
-	# returning; read it off and put the response back as it was.
+	record = tools.read_record(doctype, name)
 	held = frappe.response.pop("docinfo", None)
 	load.get_docinfo(doctype=doctype, name=name)
 	info = frappe.response.pop("docinfo", None) or {}
@@ -71,8 +61,6 @@ def about_record(
 			"tags": info.get("tags") or "",
 		},
 		"links_here": tools.what_links_here(doctype, name),
-		# The letters, invoices and mail that are about it, as OneAI read them.
-		# See one_intake/search.py.
 		"documents": _documents(doctype, name),
 		"remembered": _remembered(doctype, name),
 		"knowledge": _knowledge(doctype),
@@ -128,9 +116,6 @@ def search_my_chats(
 		order_by="last_said_on desc",
 		limit_page_length=30,
 	)
-	# Ranked by how many of the words were actually said — not the page
-	# pointers and remembered facts every turn opens with, which would match
-	# every conversation — and never the conversation asking.
 	now = frappe.flags.one_ai_chat
 	scored = []
 	for one in found:
@@ -145,7 +130,6 @@ def search_my_chats(
 	]
 
 
-#: Words too common to search on.
 COMMON = {"what", "when", "where", "which", "about", "before", "with", "that", "this", "have", "said", "tell", "told", "from"}
 
 
@@ -163,9 +147,6 @@ def _words(text: str) -> list[str]:
 				break
 		words.append(one)
 	return words[:6] or [(text or "").strip().lower()]
-
-
-# ------------------------------------------------------------- suggestions
 
 
 def remember(
@@ -190,8 +171,6 @@ def remember(
 		order_by="modified desc",
 		limit_page_length=MOST_KEPT,
 	)
-	# The same fact again is not a second memory; a correction replaces the
-	# one it corrects, and a fact that says more replaces the one it grew from.
 	for one in mine:
 		if _same(said, one.fact) or (replaces and _same(replaces, one.fact)):
 			if _plain(said) == _plain(one.fact) or _plain(said) in _plain(one.fact):
@@ -203,14 +182,11 @@ def remember(
 	if about_doctype and about_name and _names(said, about_doctype, about_name):
 		values.update({"about_doctype": about_doctype, "about_name": about_name})
 	kept = frappe.get_doc(values).insert()
-	# Past the cap the oldest goes: a memory nobody has touched in two hundred
-	# newer ones is the one least likely to be missed.
 	for old in mine[MOST_KEPT - 1 :]:
 		frappe.delete_doc("AI Memory", old.name)
 	return {"memory": kept.name, "fact": said, "state": "remembered"}
 
 
-#: How many memories one person keeps.
 MOST_KEPT = 200
 
 
@@ -229,11 +205,7 @@ def _same(one: str, other: str) -> bool:
 	return a == b or a in b or b in a or difflib.SequenceMatcher(None, a, b).ratio() >= SAME
 
 
-#: How alike two facts' words have to be to count as one fact.
 SAME = 0.8
-
-
-# ---------------------------------------------------------- the context turn
 
 
 def told(doctype: str | None = None) -> str:
@@ -248,16 +220,10 @@ def told(doctype: str | None = None) -> str:
 		limit_page_length=TOLD,
 	)
 	if mine:
-		# Worded as what is already known, not as a request: "the reader asked
-		# you to remember X" read to a small model as being asked again.
 		said.append("Already remembered from earlier conversations: " + " ".join(one.fact.strip() for one in mine))
 	for one in _knowledge(doctype) if doctype else []:
 		said.append(f"This workspace's note on {doctype}, \"{one['title']}\": {one['text'][:KNOWLEDGE_TOLD]}")
 	return " ".join(said)
-
-
-# ------------------------------------------------------------------ helpers
-# Every read of AI Memory names the owner too: if-owner does not hold Administrator.
 
 
 def _names(fact: str, doctype: str, name: str) -> bool:

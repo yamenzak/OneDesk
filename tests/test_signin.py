@@ -49,6 +49,5 @@ def test_the_page_never_sees_a_session_id():
 def test_a_password_change_goes_through_ours_and_the_notices_are_always_mailed():
 	assert '"frappe.core.doctype.user.user.update_password": "onedesk.one.signin.update_password"' in HOOKS
 	notices = tree.notifications()
-	# Each security notice is always mailed: the two here, and a new administrator.
 	for name in ("Password Changed", "Passkey Added", "Administrator Added"):
 		assert notices[name].get("always_mailed"), name

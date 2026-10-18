@@ -28,9 +28,6 @@ LAUNCHER = tree.APP / "public" / "js" / "oneai.js"
 BUNDLE = tree.APP / "public" / "js" / "oneai.bundle.js"
 PANEL = tree.APP / "public" / "js" / "oneai" / "Panel.vue"
 
-#: Ways to read a record that do not check the reader's permission. `get_all` is
-#: `get_list` with the checks off and one letter different, which is why it is
-#: named rather than left to a reviewer's eye.
 BLIND = ("get_all", "ignore_permissions", "set_user")
 
 
@@ -50,9 +47,6 @@ def spoken(where: Path, name: str) -> str:
 	raise AssertionError(f"{name} is not in {where.name}")
 
 
-# ------------------------------------------------------ the page is a pointer
-
-
 def test_the_page_is_never_read_for_its_values():
 	"""`_page` turns a route into a sentence and reads no record to do it."""
 	said = spoken(CHAT, "_page")
@@ -62,7 +56,6 @@ def test_the_page_is_never_read_for_its_values():
 
 def test_the_page_names_only_what_the_browser_said_it_is():
 	said = spoken(CHAT, "_page")
-	# Single quotes: `ast.unparse` normalises them, so this is what it reads back as.
 	for key in ("'doctype'", "'name'", "'view'", "'filters'"):
 		assert key in said
 
@@ -84,9 +77,6 @@ def test_a_failure_is_said_in_words_rather_than_in_a_traceback():
 	said = spoken(CHAT, "_ran")
 	assert "faults.Again" in said and "faults.Refused" in said
 	assert "frappe.throw" in said
-
-
-# ----------------------------------------------------- the question is stored
 
 
 def test_the_question_is_stored_before_the_answer_is_asked_for():
@@ -119,7 +109,6 @@ def test_a_failed_run_is_logged_when_it_is_a_bug_and_said_when_it_is_not():
 
 def test_the_whole_conversation_is_kept_and_only_the_tail_is_sent():
 	assert "turns[-KEPT:]" in spoken(CHAT, "_ran"), "the whole conversation is sent every round"
-	# What is dropped from the sending is not dropped from the keeping.
 	assert "shown(turns)" in spoken(CHAT, "say")
 
 
@@ -135,17 +124,11 @@ def test_a_conversation_that_will_not_parse_loses_nothing():
 	assert "return []" in said
 
 
-# --------------------------------------------------------- whose chat it is
-
-
 def test_a_chat_belongs_to_whoever_started_it():
 	stored = json.loads(DOCTYPE.read_text(encoding="utf-8"))
 	everybody = [row for row in stored["permissions"] if row["role"] == "All"]
 	assert everybody, "AI Chat is not readable by the people who have them"
 	assert all(row.get("if_owner") for row in everybody), "one person's chat is readable by another"
-
-
-# ------------------------------------------------------------ the two layers
 
 
 def test_only_the_launcher_is_on_every_page():
@@ -171,9 +154,6 @@ def test_the_panel_asks_the_launcher_where_the_reader_is():
 	assert "frappe.router.on" in launcher
 	assert "panel.moved" in launcher
 	assert "frappe.get_route" not in PANEL.read_text(encoding="utf-8")
-
-
-# ------------------------------------------------------------- the composer
 
 
 def test_the_pill_names_a_model_the_way_a_person_reads_it():

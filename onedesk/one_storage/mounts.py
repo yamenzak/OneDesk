@@ -23,11 +23,7 @@ from onedesk.one_storage import namespace as ns
 
 PREFIX = "@mount"
 
-#: How long to wait on a server.
 PATIENCE = 30
-
-
-# ------------------------------------------------------------ node ids
 
 
 def node_id(mount: str, path: str = "") -> str:
@@ -51,9 +47,6 @@ def join(root: str, path: str) -> str:
 	of. Pure."""
 	clean = posixpath.normpath("/" + (path or "")).lstrip("/")
 	return posixpath.join(root or "/", clean) if clean and clean != "." else (root or "/")
-
-
-# ------------------------------------------------------------ who may
 
 
 def _mount(name: str):
@@ -94,9 +87,6 @@ def reachable(host: str) -> None:
 		ip = ipaddress.ip_address(address.split("%")[0])
 		if ip.is_private or ip.is_loopback or ip.is_link_local or ip.is_reserved or ip.is_multicast or ip.is_unspecified:
 			frappe.throw(_("{0} is on a private network. OneCloud can't connect to it.").format(host))
-
-
-# ------------------------------------------------------------ the servers
 
 
 class SFTP:
@@ -281,9 +271,6 @@ class _Open:
 		return False
 
 
-# ------------------------------------------------------------ what the explorer asks
-
-
 def visible() -> list[dict]:
 	"""Network: the servers the reader may open."""
 	user = frappe.session.user
@@ -417,9 +404,6 @@ def delete(nodes: list) -> int:
 			server.remove(path, bool(above.get(posixpath.basename(path))))
 		gone += 1
 	return gone
-
-
-# ------------------------------------------------------------ connections
 
 
 @frappe.whitelist(methods=["POST"])

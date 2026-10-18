@@ -15,34 +15,20 @@ import zipfile
 import frappe
 from frappe.utils import cint, now_datetime, strip_html
 
-#: The user every OneAI comment is written by. `.invalid` is the top-level
-#: domain that is guaranteed never to deliver a mail.
 AUTHOR = "oneai@one.invalid"
 
-#: The applicants a newcomer is compared with: the best-placed this many still
-#: in the running. Forty lines is a few thousand tokens; four hundred is a call
-#: that costs more than the CV it is about.
 POOL = 40
 
-#: An applicant still in the running. Rejected is out; Accepted is hired.
 RUNNING = ("Open", "Replied", "Hold")
 
-#: A standing that moves this far gets a line saying why. Smaller moves are
-#: the pool settling, and a comment for each is a timeline nobody reads.
 MOVED = 15
 
-#: How much of each thing the model is handed.
 MOST_CV = 12000
 MOST_LETTER = 2500
 MOST_DESCRIPTION = 4000
 MOST_BRIEF = 320
 
-#: A PDF with at least this much text in it is sent as its text: cheaper than
-#: pages, and readable by a model that cannot see. Under it, it is a scan.
 READABLE = 300
-
-
-# ------------------------------------------------------------------- setup
 
 
 def ensure() -> None:
@@ -50,8 +36,6 @@ def ensure() -> None:
 	are seeded with the rest of HR Settings' in `one_hr/policy.py`."""
 	if not frappe.db.exists("User", AUTHOR):
 		_author()
-	# frappe gives every new user a Contact, which the Email dialog offers as
-	# a recipient. OneAI is nobody to write to.
 	for contact in frappe.get_all("Contact", filters={"user": AUTHOR}, pluck="name"):
 		frappe.delete_doc("Contact", contact, ignore_permissions=True, force=True)
 
@@ -75,9 +59,6 @@ def _author() -> None:
 
 def on(key: str) -> bool:
 	return bool(cint(frappe.db.get_single_value("HR Settings", key)))
-
-
-# ------------------------------------------------------------ the applicant
 
 
 def arrived(doc, method=None) -> None:
@@ -118,8 +99,6 @@ def screen(applicant: str) -> None:
 	)
 	said = _ask("screen", asked, files, applicant)
 	if said is None and files and "cannot read" in (frappe.flags.one_ai_refused or ""):
-		# The workspace's model cannot read this kind of file. Screened from
-		# what is left, and saying so, rather than not at all.
 		said = _ask("screen", asked + UNREAD, None, applicant)
 	answer = unaliased(_read("screen", said, applicant), _aliases(pool, doc))
 	if not answer:
@@ -166,9 +145,6 @@ def rank(opening: str) -> None:
 	)
 	frappe.db.commit()
 	_refresh("Job Opening", opening, *moves)
-
-
-# ------------------------------------------------------------ what is said
 
 
 SCREEN = """Screen one job applicant, then place them among the others applying.
@@ -264,7 +240,6 @@ def _pool_said(pool: list[dict]) -> str:
 	)
 
 
-#: What the newcomer is called in a call, for the same reason.
 NEW = "NEW"
 
 
@@ -345,17 +320,12 @@ def _screened(answer: dict, rating, standing, where: tuple[int, int]) -> str:
 	return "".join(parts)
 
 
-# ------------------------------------------------------------ the interview
-
-
 def scheduled(doc, method=None) -> None:
 	"""A new interview: write what the interviewer should know before it."""
 	if doc.job_applicant and on("one_ai_prepare"):
 		_later("onedesk.one_hr.hiring.prepare", f"prepare::{doc.name}", interview=doc.name)
 
 
-#: hrms's own role for whoever holds an interview: it opens the interview and
-#: gives feedback on it.
 INTERVIEWER = "Interviewer"
 
 
@@ -516,17 +486,10 @@ def _item(kind: str, inner: str) -> str:
 	return f'<li data-list="{kind}"><span class="ql-ui" contenteditable="false"></span>{inner}</li>'
 
 
-# ------------------------------------------------------------ the recording
-
-
-#: How long one part of a recording is, so each part is a whole file to upload and
-#: transcribe. Said again in public/js/hiring.js.
 PART_SECONDS = 300
 
-#: What a part's file is, by what the browser could record it as.
 SOUND = {".ogg": "audio/ogg", ".webm": "audio/webm", ".m4a": "audio/mp4", ".mp4": "audio/mp4"}
 
-#: How much transcript the remarks read. An hour is about nine thousand words.
 MOST_TRANSCRIPT = 80000
 
 
@@ -828,8 +791,6 @@ def purge() -> None:
 	):
 		frappe.flags.one_purging_sound = True
 		try:
-			# A part names its file, and a file something still names cannot
-			# be deleted. The transcript on the part is what stays.
 			frappe.db.set_value(
 				"Interview Recording Part", {"parent": recording, "parenttype": "Interview Recording"}, "file", None
 			)
@@ -851,9 +812,6 @@ def keep_sound(doc, method=None) -> None:
 		return
 	if "HR Manager" not in frappe.get_roles():
 		frappe.throw(frappe._("Only an HR Manager can delete the sound of a recorded interview."))
-
-
-# ------------------------------------------------------------ the pool
 
 
 def _pool(opening: str, but: str | None = None) -> list:
@@ -922,9 +880,6 @@ def _where(opening: str, applicant: str) -> tuple[int, int]:
 	return (names.index(applicant) + 1, len(names)) if applicant in names else (0, 0)
 
 
-# ------------------------------------------------------------ the CV
-
-
 def _cv(doc) -> tuple[str, list[dict] | None]:
 	"""The CV as text where it has text, and as the file where it is a picture.
 
@@ -990,9 +945,6 @@ def _docx_text(content: bytes) -> str:
 		return ""
 	xml = re.sub(r"</w:p>", "\n", xml)
 	return html.unescape(re.sub(r"<[^>]+>", "", xml)).strip()
-
-
-# ------------------------------------------------------------ the answer
 
 
 def read(said: str | None) -> dict | None:
@@ -1064,9 +1016,6 @@ def _ask(action: str, text: str, files: list[dict] | None, reference: str) -> st
 		frappe.flags.one_ai_refused = str(raised)
 		frappe.log_error(title=f"OneAI could not {action} {reference}")
 		return None
-
-
-# ------------------------------------------------------------ plumbing
 
 
 def _later(method: str, job: str, **kwargs) -> None:

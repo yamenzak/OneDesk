@@ -12,22 +12,16 @@ import requests
 from onedesk.one_admin import capability, faults, gateway, prices, site
 from onedesk.one_admin.faults import Again, Refused
 
-#: Cloudflare's own API, which is not the gateway. Listing models is not a model
-#: call and does not belong behind it.
 CLOUDFLARE = "https://api.cloudflare.com/client/v4"
 TIMEOUT = 30
 
-#: Where each provider publishes what it charges.
 PAGES = {
 	"workers-ai": "https://developers.cloudflare.com/workers-ai/platform/pricing/",
 	"google-ai-studio": "https://ai.google.dev/gemini-api/docs/pricing",
 }
 
-#: The parser for each page. Kept beside PAGES rather than inside prices.py so
-#: that module stays a thing you hand text to.
 READS = {"workers-ai": prices.workers_ai, "google-ai-studio": prices.gemini}
 
-#: How many models a page of Cloudflare's listing holds.
 AT_A_TIME = 100
 
 
@@ -37,8 +31,6 @@ def nightly() -> None:
 		try:
 			sync(provider)
 		except Exception:
-			# One provider being unreachable is not a reason to leave the other
-			# a day stale, and the traceback is in the error log either way.
 			frappe.log_error(f"catalogue sync: {provider}")
 
 
@@ -156,8 +148,6 @@ def _matched(
 	for gap in read.gaps:
 		stopped.setdefault(prices.fold(gap.model), []).append(f"{gap.what}: {gap.wording}")
 
-	# Gap models as well as priced ones: the price is there and we could not
-	# read it, which is not the same as no price on the page.
 	by_fold = {prices.fold(name): name for name in read.rates}
 	for gap in read.gaps:
 		by_fold.setdefault(prices.fold(gap.model), gap.model)
@@ -186,8 +176,6 @@ def _write(
 	decisions the sync is allowed to make: selling something we cannot bill for
 	is worse than not selling it.
 	"""
-	# The name is the key: a provider's id is unique within that provider and
-	# not across them, so neither alone would do.
 	key = f"{provider}:{one['model']}"
 	held = frappe.db.exists("AI Model", key)
 	model = frappe.get_doc("AI Model", key) if held else frappe.new_doc("AI Model")
@@ -198,8 +186,6 @@ def _write(
 	model.seen_on = now
 
 	if model.priced_by_hand:
-		# A price somebody typed off the provider's page, for a model this
-		# cannot read: the sync leaves those rows alone.
 		model.status = "Priced" if model.rates else "Needs Review"
 		model.why = None if model.rates else frappe._("Priced by hand with no rates.")
 	else:
@@ -208,21 +194,15 @@ def _write(
 		if rates:
 			model.set("rates", [_row(rate) for rate in rates])
 			model.priced_on = now
-	# After the rates are settled, so a hand-typed one counts: an output rate for
-	# a song is the plainest statement there is that a model makes audio, and it
-	# is the only statement Google's API gives us for Lyria at all.
 	_what_it_does(model, one, [_rated(row) for row in model.rates or []])
 	if model.status != "Priced":
 		if model.offered or model.default_for:
-			# Off sale, with what it was, for the operators to hear of.
 			touched.setdefault("gone", []).append(
 				{"name": key, "label": model.label, "why": "unpriced", "default_for": model.default_for}
 			)
 		model.offered = 0
 		model.default_for = None
 
-	# A provider may reclassify a model; the default goes rather than the sync
-	# stopping, or the catalogue silently stops updating.
 	if model.default_for and not capability.able(model.capability, model.default_for):
 		touched.setdefault("undefaulted", []).append(f"{key} ({model.default_for})")
 		model.default_for = None
@@ -246,8 +226,6 @@ def _what_it_does(model, one: dict, rates: list[prices.Rate]) -> None:
 	makes = {rate.modality for rate in rates if rate.kind == "output"}
 
 	produces = one.get("produces") or ""
-	# An output rate for something other than text is the provider saying what
-	# this model is for more plainly than its API did.
 	louder = makes - {"text", "other"}
 	if len(louder) == 1:
 		produces = louder.pop()
@@ -296,8 +274,6 @@ def _withdraw(provider: str, still_listed: set[str], touched: dict | None = None
 			touched.setdefault("gone", []).append(
 				{"name": row.name, "label": row.label, "why": "withdrawn", "default_for": row.default_for}
 			)
-		# The default goes with it: a withdrawn default is one nothing can
-		# replace, since the old one still holds the name.
 		frappe.db.set_value(
 			"AI Model",
 			row.name,

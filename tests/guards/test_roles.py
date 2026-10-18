@@ -17,7 +17,6 @@ import tree
 
 ROLES = tree.APP / "one" / "roles.py"
 HOOKS = tree.APP / "hooks.py"
-#: Where reading System Manager is right, and why.
 READS_IT = {tree.APP / "one" / "boot.py"}
 
 

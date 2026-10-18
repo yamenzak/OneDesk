@@ -15,7 +15,6 @@ APP = ROOT / "onedesk"
 RECORD = (APP / "public" / "js" / "record.js").read_text()
 FRAPPE = Path("/home/frappe/bench1/apps/frappe/frappe/public/js/frappe")
 
-#: The island each page is drawn by, and the desk page that holds it.
 ISLANDS = {
 	"Project": ROOT / "frontend" / "src" / "project" / "ProjectPage.vue",
 	"Project Template": ROOT / "frontend" / "src" / "template" / "TemplatePage.vue",
@@ -29,10 +28,8 @@ DESK_PAGES = {
 	"Item": APP / "one_inventory" / "page" / "item_view" / "item_view.js",
 }
 
-#: The place each page fires (one_studio/places.py), told its record.
 PAGE_PLACES = {"Project": "oneproject", "Project Template": "oneproject_template", "Task": "onetask_task", "Item": "oneinventory_item"}
 
-#: frappe's form sidebar and the parts it draws, all written against a form.
 SIDEBAR = (
 	"form/sidebar/form_sidebar.js",
 	"form/sidebar/assign_to.js",
@@ -44,7 +41,6 @@ SIDEBAR = (
 	"ui/tag_editor.js",
 )
 
-#: frappe's dialogs a page opens on a record, and the form they are written against.
 DIALOGS = (
 	"form/sidebar/share.js",
 	"views/communication.js",
@@ -72,13 +68,10 @@ def test_a_page_keeps_its_forms_menu_and_sidebar(doctype):
 	(docs/PASSOVER.md, A record's page)."""
 	source = ISLANDS[doctype].read_text()
 	assert f'record: "{doctype}"' in DESK_PAGES[doctype].read_text(), "the desk page names its record, for frappe's sidebar"
-	# Its Attachments are one Files row, as on a form, opening its files.
 	assert "onedesk.record_files.side(frm, open_files)" in RECORD
 	assert f'useRecord("{doctype}"' in source
 	assert "record.menu(" in source
 	assert "follow(" in source, "the page hears the record saved, as a form does"
-	# A page drawing its own sidebar draws these together. One alone, such
-	# as a task table's Assigned To column, is a column.
 	drawn = [one for one in ("Assigned To", "Shared With", "Currently Viewing", "Last Edited By") if one in source]
 	assert len(drawn) < 2, f"the page draws its own {', '.join(drawn)}; frappe's sidebar has them"
 	for word in (
@@ -106,7 +99,6 @@ def test_the_record_handle_covers_what_frappes_dialogs_read():
 	for path in DIALOGS:
 		read |= set(re.findall(r"\b(?:this|me)\.frm\??\.(\w+)", (FRAPPE / path).read_text()))
 		read |= set(re.findall(r"\bfrm\??\.(\w+)", (FRAPPE / path).read_text()))
-	# Read only by the sidebar's Share part, which the sidebar's stand-in lends.
 	unused = {"share_doc"}
 	assert read - given - unused == set(), sorted(read - given - unused)
 
@@ -134,14 +126,12 @@ def test_a_page_declares_its_places_and_fires_them(doctype):
 	"""A Client Script reaches a form and a list, not a page of One's: the
 	page says what an extension may hear on it, and fires it."""
 	places = _places()
-	# The page and its views, each of which may fire its own place.
 	source = "".join(one.read_text() for one in sorted(ISLANDS[doctype].parent.glob("*.vue")))
 	place = PAGE_PLACES[doctype]
 	assert places.PLACES.get(place, {}).get("record") == doctype, f"no place for {doctype}'s page in one_studio/places.py"
 	for place in [place]:
 		for event in places.PLACES[place]["events"]:
 			assert f'"{place}.{event}"' in source
-	# What is written for the record's head runs on its page as well.
 	assert '"record_head.drawn"' in source
 
 
@@ -160,7 +150,6 @@ def test_each_page_fires_its_events_with_only_its_powers():
 		"onecrm.board": (public / "opportunity_list.js").read_text(),
 		"space.home": (public / "places.js").read_text(),
 		"oneproject.project": (ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text(),
-		# Each of the project page's views, by its own place (project/place.js).
 		**{
 			f"oneproject.{view}": (ROOT / "frontend" / "src" / "project" / f"{name}.vue").read_text()
 			for view, name in (
@@ -176,12 +165,10 @@ def test_each_page_fires_its_events_with_only_its_powers():
 			)
 		},
 		"oneproject_template.template": (ROOT / "frontend" / "src" / "template" / "TemplatePage.vue").read_text(),
-		# A task's page and its views (frontend/src/task).
 		"onetask_task.task": (ROOT / "frontend" / "src" / "task" / "TaskPage.vue").read_text(),
 		"onetask_task.time": (ROOT / "frontend" / "src" / "task" / "TaskTime.vue").read_text(),
 		"onetask_task.files": (ROOT / "frontend" / "src" / "task" / "TaskFiles.vue").read_text(),
 		"onetask_task.activity": (ROOT / "frontend" / "src" / "task" / "TaskPage.vue").read_text(),
-		# An item's page and its views (frontend/src/item).
 		**{
 			f"oneinventory_item.{view}": (ROOT / "frontend" / "src" / "item" / f"{name}.vue").read_text()
 			for view, name in (
@@ -218,10 +205,6 @@ def test_each_page_fires_its_events_with_only_its_powers():
 	assert "/assets/onedesk/js/places.js" in (APP / "hooks.py").read_text()
 
 
-#: Where each page edits its record's fields (public/js/project_actions.js,
-#: task_actions.js): the groups of its Edit dialog, and the fields it edits
-#: elsewhere on the page or ERPNext keeps. Anything else would only be reached
-#: on the form.
 EDITS = {
 	"Project": ("project_actions.js", "ABOUT_GROUPS", "ELSEWHERE"),
 	"Project Template": ("project_actions.js", "TEMPLATE_GROUPS", "TEMPLATE_ELSEWHERE"),
@@ -229,7 +212,6 @@ EDITS = {
 	"Item": ("item_actions.js", "GROUPS", "ELSEWHERE"),
 }
 ERPNEXT = Path("/home/frappe/bench1/apps/erpnext/erpnext")
-#: Field types that hold no value to type in.
 NO_VALUE = {"Section Break", "Column Break", "Tab Break", "HTML", "Button", "Image", "Fold", "Heading"}
 
 
@@ -271,6 +253,5 @@ def test_a_page_edits_every_field_of_its_record(doctype):
 	placed = _named(source, groups) | _named(source, elsewhere)
 	missing = sorted(_typed(doctype) - placed)
 	assert not missing, f"{doctype}: {missing} can only be changed on the form; give each a place on the page"
-	# A field a workspace adds shows under More, through the one helper.
 	assert "onedesk.project.about_fields(" in source
 	assert '[__("More"), more]' in (APP / "public" / "js" / "project_actions.js").read_text()

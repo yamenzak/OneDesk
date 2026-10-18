@@ -58,12 +58,9 @@ def suggestions_waiting(filters=None) -> dict:
 	return _card(count, ["List", "AI Proposal"], {"asked_by": frappe.session.user, "state": "Proposed"})
 
 
-#: What waits on the reader's approval: the doctype, and its filters for them.
 APPROVALS = (
 	("Leave Application", lambda user: {"leave_approver": user, "status": "Open", "docstatus": 0}),
 	("Expense Claim", lambda user: {"expense_approver": user, "approval_status": "Draft", "docstatus": 0}),
-	# A step of an approval the workspace set (one/approvals.py) that one of the
-	# reader's roles takes; frappe's own permission query keeps it to those.
 	("Workflow Action", lambda user: {"status": "Open"}),
 )
 
@@ -89,9 +86,6 @@ def approvals_waiting(filters=None) -> dict:
 		return _card(0, ["List", "Leave Application"])
 	most = max(counted, key=lambda one: one[0])
 	return _card(sum(one[0] for one in counted), ["List", most[1]], most[2])
-
-
-# ------------------------------------------------------------------ administrators
 
 
 @frappe.whitelist()
@@ -128,8 +122,6 @@ def _account() -> list[dict]:
 	held = frappe.get_single("Workspace Account")
 	said = []
 	for row in held.get("domains") or []:
-		# A name still waiting for its DNS is not a fault yet; one Cloudflare
-		# has a problem with is (one_admin/hosts.py, standing).
 		if row.get("problem") and not row.get("given"):
 			said.append(
 				{
@@ -181,7 +173,6 @@ def _account() -> list[dict]:
 	return said
 
 
-#: How close to its last day the holiday list must be for Home to say so.
 HOLIDAYS_WARN = 60
 
 
@@ -204,9 +195,6 @@ def _holidays() -> list[dict]:
 			"route": "/desk/workspace-settings?section=holidays",
 		}
 	]
-
-
-# ------------------------------------------------------------------ OneAI
 
 
 def my_day() -> dict:

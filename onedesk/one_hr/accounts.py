@@ -2,8 +2,6 @@
 
 import frappe
 
-#: (the Company field that nominates the account, the type hrms needs, the
-#: values this is allowed to overrule — empty string meaning "never written").
 WANTED = (
 	("default_payroll_payable_account", "Payable", ("",)),
 	("default_employee_advance_account", "Receivable", ("", "Payable")),

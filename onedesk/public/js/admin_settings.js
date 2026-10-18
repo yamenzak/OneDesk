@@ -1,17 +1,9 @@
-// The operator's own settings, and the one thing on them worth a button.
-//
-// Every other field here is proved by something failing later — a wrong press
-// token is a provisioning job that stops, a wrong R2 secret is an upload that
-// refuses. The gateway had no such moment until AI 4 builds the metered call,
-// so it gets one now: type a prompt, see the words back, know the token works.
 frappe.ui.form.on("One Admin Settings", {
 	refresh(frm) {
 		frm.add_custom_button(__("Test Gateway"), () => onedesk.admin.tryGateway());
-		// Only operators read these, so sharing them gives nobody anything.
 		frm.sidebar.sidebar.find(".form-shared").addClass("hidden");
 		onedesk.admin.drawSetup(frm);
 	},
-	// One token, and everything else found or made from it (one_admin/setup.py).
 	set_up_cloudflare(frm) {
 		if (frm.is_dirty()) return frappe.msgprint(__("Save before setting up Cloudflare."));
 		frappe.dom.freeze(__("Setting up Cloudflare…"));
@@ -27,8 +19,6 @@ frappe.ui.form.on("One Admin Settings", {
 
 frappe.provide("onedesk.admin");
 
-// What Set Up Cloudflare last said, as the table it showed when pressed
-// rather than the JSON it is kept as.
 onedesk.admin.drawSetup = (frm) => {
 	const field = frm.fields_dict.cloudflare_setup_said;
 	if (!field) return;

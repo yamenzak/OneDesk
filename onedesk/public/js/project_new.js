@@ -1,19 +1,9 @@
-// New Project, by kind: frappe's quick entry for Project, asking only what the
-// kind needs. Picking a kind is the first thing; its fields follow. For Fixed
-// Price, the contract is made with it (one_project/kinds.py `make`).
 frappe.provide("onedesk.project");
 
-// A project opens on its page (one_project/page/project_view), at its own
-// address: /desk/project/<name>, a template on its own
-// (page/project_template_view), a task on OneTask's (one_task/page/task_view)
-// and an item on OneInventory's (one_inventory/page/item_view).
-// The form is the same address with ?edit=1, and is still where a new one is
-// made.
 {
 	const standard = frappe.router.convert_to_standard_route.bind(frappe.router);
 	frappe.router.convert_to_standard_route = async (route) => {
 		const found = await standard(route);
-		// The address says it; carried on, it would open the next project's form too.
 		if (frappe.route_options) delete frappe.route_options.edit;
 		const [view, doctype, name] = found || [];
 		const page = { Project: "project-view", "Project Template": "project-template-view", Task: "task-view", Item: "item-view" }[doctype];
@@ -23,8 +13,6 @@ frappe.provide("onedesk.project");
 	};
 }
 
-// The library's presets as an Autocomplete's choices, each with how long it
-// runs and what it is for (one_project/library.py `presets`).
 onedesk.project.library = async (field) => {
 	const presets = await frappe.xcall("onedesk.one_project.library.presets");
 	field.set_data(
@@ -36,7 +24,6 @@ onedesk.project.library = async (field) => {
 	);
 };
 
-// The steps sit in the dialog's footer, between Previous and Next.
 onedesk.project.steps_in_footer = (dialog) => {
 	dialog.$wrapper.find(".modal-footer").addClass("one-steps-footer").append(dialog.slides.$slide_progress.removeClass("mb-6"));
 };
@@ -54,10 +41,6 @@ onedesk.project.KINDS = () => [
 	{ value: "Internal", icon: "building-2", said: __("No customer. A budget and the work.") },
 ];
 
-// A step of the New Project dialog: frappe's Slide, inside a dialog rather than
-// the setup wizard's page, so without the wizard's theme button. Its form is a
-// dialog's from the start, so an empty required field turns red only once Next
-// is pressed, as in any frappe dialog (`fulfil`).
 onedesk.project.Step = class Step extends frappe.ui.Slide {
 	attach_toggle_theme_btn() {}
 
@@ -75,16 +58,12 @@ onedesk.project.Step = class Step extends frappe.ui.Slide {
 		this.set_reqd_fields();
 	}
 
-	// The step's values, as a dialog's primary button takes them.
 	fulfil() {
 		if (this.form) this.form.primary_action_fulfilled = true;
 		return this.set_values();
 	}
 };
 
-// New Project in three steps, on frappe's Slides: the kind, what that kind
-// needs, then the dates and who runs it. The dialog's own buttons move between
-// them; Slides keeps the steps, their dots and what each one holds.
 frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frappe.ui.form.QuickEntryForm {
 	is_quick_entry() {
 		return true;
@@ -105,7 +84,6 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 			{ fieldtype: "Link", fieldname: "parent", options: "Project", hidden: 1, default: doc.one_parent },
 			{ fieldtype: "Data", fieldname: "title", label: __("Name"), reqd: 1, default: doc.project_name },
 			{ fieldtype: "Link", fieldname: "template", label: __("Template"), options: "Project Template", default: doc.project_template },
-			// A preset shipped with OneProject, copied in when it's picked (one_project/library.py).
 			{ fieldtype: "Autocomplete", fieldname: "library", label: __("From the Library"), depends_on: "eval:!doc.template" },
 			{ fieldtype: "Column Break" },
 			{
@@ -117,9 +95,6 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 				depends_on: kind(["Fixed Price", "Time and Materials", "Retainer"]),
 				mandatory_depends_on: kind(["Fixed Price", "Time and Materials", "Retainer"]),
 			},
-			// What's agreed with the customer, carried onto its quotations,
-			// orders and invoices (one_project/terms.py). A sub-project bills on
-			// the job it is part of, so it asks for neither.
 			{
 				fieldtype: "Link",
 				fieldname: "payment_terms",
@@ -134,7 +109,6 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 				options: "Terms and Conditions",
 				depends_on: `eval:!doc.parent && ${JSON.stringify(["Fixed Price", "Time and Materials", "Retainer"])}.includes(doc.kind)`,
 			},
-			// The contract and the fee are agreed in the customer's own currency.
 			{ fieldtype: "Link", fieldname: "currency", options: "Currency", hidden: 1 },
 			{ fieldtype: "Section Break", depends_on: kind(["Fixed Price"]) },
 			{ fieldtype: "Currency", fieldname: "contract", label: __("Contract Value"), options: "currency" },
@@ -165,7 +139,6 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 			{ fieldtype: "Section Break", depends_on: kind(["Time and Materials", "Internal"]) },
 			{ fieldtype: "Currency", fieldname: "budget", label: __("Estimated Cost") },
 			{ fieldtype: "Column Break" },
-			// What's bought for a Time and Materials job is billed at cost plus this (one_project/billing.py).
 			{ fieldtype: "Percent", fieldname: "markup", label: __("Markup on Costs"), depends_on: kind(["Time and Materials"]) },
 			{ fieldtype: "Section Break", depends_on: kind(["Retainer"]) },
 			{ fieldtype: "Currency", fieldname: "monthly_fee", label: __("Monthly Fee"), options: "currency" },
@@ -177,7 +150,6 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 			{ fieldtype: "Date", fieldname: "starts", label: __("Expected Start Date"), default: doc.expected_start_date },
 			{ fieldtype: "Link", fieldname: "manager", label: __("Manager"), options: "User" },
 			{ fieldtype: "Column Break" },
-			// A retainer runs month to month, so it has a start and no end.
 			{
 				fieldtype: "Date",
 				fieldname: "ends",
@@ -185,7 +157,6 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 				default: doc.expected_end_date,
 				depends_on: kind(["Fixed Price", "Time and Materials", "Internal"]),
 			},
-			// How its time is counted, apart from how it's paid for (one_project/hours.py).
 			{ fieldtype: "Section Break" },
 			{
 				fieldtype: "Select",
@@ -222,8 +193,6 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 					title: __("Details"),
 					fields: details,
 					onload: (step) => {
-						// frappe applies mandatory_depends_on in a dialog's fields only.
-						// Slide copies its fields as JSON, which drops a function.
 						step.get_field("item").get_query = () => ({
 							filters: { is_sales_item: 1, disabled: 0, is_stock_item: 0 },
 						});
@@ -233,10 +202,6 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 						});
 						step.get_field("terms").get_query = () => ({ filters: { selling: 1, disabled: 0 } });
 						onedesk.project.library(step.get_field("library"));
-						// The contract and the fee are in the currency the customer is billed
-						// in, and the terms are the customer's, the template's or the company's.
-						// Only the latest answer counts: a customer and a template picked
-						// together ask twice, and the first answer can come back last.
 						let asked = 0;
 						const agreed = () => {
 							const mine = ++asked;
@@ -253,7 +218,6 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 						};
 						step.get_field("client").df.onchange = agreed;
 						step.get_field("template").df.onchange = agreed;
-						// Picking a preset copies it into the workspace's templates, terms and all.
 						step.get_field("library").df.onchange = async () => {
 							const key = step.get_value("library");
 							if (!key) return;
@@ -292,17 +256,14 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 		if (this.init_callback) this.init_callback(this);
 	}
 
-	// Previous on every step but the first; Next, then Create Project on the last.
 	set_buttons() {
 		const at = this.slides.current_id || 0;
 		const last = at === this.slides.slides.length - 1;
 		this.get_secondary_btn().toggle(at > 0);
 		this.set_primary_action(last ? __("Create Project") : __("Next"), () => (last ? this.create() : this.go(1)));
-		// The kind is picked by its card, which moves on.
 		this.get_primary_btn().toggle(at > 0 || Boolean(this.kind));
 	}
 
-	// Forward only once this step's own fields are filled in; back any time.
 	go(by) {
 		const slides = this.slides;
 		const step = slides.current_slide;
@@ -311,7 +272,6 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 		slides.show_slide(slides.current_id + by);
 	}
 
-	// The kinds as cards. Picking one shows its fields on the next step.
 	draw_kinds(step) {
 		const esc = frappe.utils.escape_html;
 		const $kinds = step.get_field("kinds").$wrapper;
@@ -333,7 +293,6 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 			$kinds.find("[data-kind]").on("click", (e) => {
 				this.kind = e.currentTarget.dataset.kind;
 				draw();
-				// The steps after this one ask for what the kind needs.
 				for (const step of [this.slides.slide_dict[1], this.slides.slide_dict[2]]) {
 					if (step.made) step.form.set_value("kind", this.kind).then(() => step.form.refresh_dependency());
 				}
@@ -346,9 +305,7 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 	async create() {
 		const [, details, plan] = Object.values(this.slides.slide_dict);
 		if (!plan.fulfil() || this.working) return;
-		// Hidden fields are not among the values frappe's form returns.
 		const values = { ...details.values, ...plan.values, kind: this.kind, parent: details.get_value("parent") };
-		// An end typed before the kind became Retainer is not one it has.
 		if (this.kind === "Retainer") delete values.ends;
 		this.working = true;
 		try {

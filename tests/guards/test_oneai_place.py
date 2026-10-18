@@ -40,7 +40,6 @@ def test_one_ai_has_no_dock_entry_and_one_inherits_it():
 
 def test_what_a_workspace_administers_is_in_one():
 	assert {"settings", "AI Credits", "AI Chat", "AI Proposal"} <= _links(ONE)
-	# Which model each action runs on is a setting, so it is in Settings.
 	assert "\"AI Action Setting\"" in (tree.APP / "one" / "settings.py").read_text()
 
 

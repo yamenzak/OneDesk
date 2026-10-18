@@ -5,7 +5,6 @@ files are written through `write`.
 
 import re
 
-#: Every key, in the order it is written. What each means is in one/notify.py.
 KEYS = (
 	"name",
 	"app",
@@ -32,10 +31,8 @@ KEYS = (
 	"starts_as",
 )
 
-#: Translated where they are shown.
 WORDS = ("name", "about", "to", "button", "subject", "message")
 FLAGS = ("email", "push", "email_default", "push_default", "outside", "required", "always_mailed", "from_one", "oneai", "words", "mailed_by")
-#: A setting of the app's own: `HR Settings.send_birthday_reminders`.
 SETTINGS = ("switch", "starts_as")
 WIDTH = 78
 

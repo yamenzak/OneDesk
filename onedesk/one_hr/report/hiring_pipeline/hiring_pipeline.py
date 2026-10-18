@@ -4,8 +4,6 @@ import frappe
 from frappe import _
 from frappe.query_builder import Order
 
-#: The applicant statuses that mean somebody made a decision, not that the
-#: application is still sitting there. Used for the summary only.
 DECIDED = ("Accepted", "Rejected")
 
 

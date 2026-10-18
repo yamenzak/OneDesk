@@ -12,7 +12,6 @@ from functools import cache
 import frappe
 from frappe import _, _lt
 
-#: The custom fields on Notification Type (one/custom/notification_type.json).
 FIELDS = (
 	"one_app",
 	"one_about",
@@ -27,11 +26,7 @@ FIELDS = (
 	"one_outside",
 )
 
-#: Who OneAI writes as, when a notification is its own.
 ONEAI = "oneai@one.invalid"
-
-
-# ------------------------------------------------------------------ the types
 
 
 def declared() -> dict[str, dict]:
@@ -180,8 +175,6 @@ def switched(doc, method=None) -> None:
 			frappe.clear_document_cache("Notification Type", name)
 
 
-#: Where a person's push choices are kept: beside frappe's own email list on
-#: their Notification Settings, in the same child doctype.
 PUSH_FIELD = "one_push_notification_types"
 EMAIL_FIELD = "email_notification_types"
 
@@ -348,10 +341,6 @@ class _Slots(dict):
 		return ""
 
 
-# ------------------------------------------------------------------ a person's choices
-
-#: Frappe's own kinds, said as a person would. Its "Alert" never mails, and
-#: energy points left frappe with gamification, so neither is offered.
 FRAPPE_KINDS = {
 	"Mention": _lt("When someone mentions you in a comment."),
 	"Assignment": _lt("When someone assigns you something, or it changes."),
@@ -405,10 +394,8 @@ def choosable(user: str | None = None) -> list[dict]:
 				"twins": twins.get(row.name, []),
 			}
 		elif row.one_rule:
-			# The workspace's own rules: everybody they reach may choose how.
 			said = row.one_about or ""
 			kind = {
-				# "When a ToDo is made", as a sentence like every other kind's.
 				"about": said + "." if said and not said.endswith(".") else said,
 				"allowed": bool(row.one_allow_email),
 				"always": False,
@@ -420,9 +407,6 @@ def choosable(user: str | None = None) -> list[dict]:
 			continue
 		out.append({"name": row.name, "label": _(row.name), "app": row.one_app or "", **kind})
 	return sorted(out, key=lambda one: (not one["app"], one["app"], one["label"]))
-
-
-# ------------------------------------------------------------------ the text
 
 
 def _type(name: str) -> dict:
@@ -444,8 +428,6 @@ def render(name: str, context: dict, lang: str | None = None, words=None) -> tup
 
 	row, one = _type(name), declared().get(name) or {}
 	safe = {key: _escaped(_said(value, lang)) for key, value in context.items()}
-	# In the subject the names stand out, as frappe's own notifications bold
-	# them, so neither our text nor an administrator's has to say <b>.
 	strong = {key: f"<b>{value}</b>" if _named(value) else value for key, value in safe.items()}
 	said = []
 	for values, own, live, default, msgid in zip(
@@ -494,9 +476,6 @@ def _escaped(value):
 	return frappe.utils.escape_html(str(value if value is not None else ""))
 
 
-# ------------------------------------------------------------------ the two ways out
-
-
 def notify(
 	name: str,
 	users,
@@ -518,7 +497,6 @@ def notify(
 	row = _type(name)
 	if not row.enabled or row.one_outside:
 		return
-	# Once per type: an assignment or a mention on the same record is not this.
 	if dedupe_on and "type" not in dedupe_on:
 		dedupe_on = ["type", *dedupe_on]
 	people = [users] if isinstance(users, str) else list(filter(None, users or []))
@@ -549,7 +527,6 @@ def notify(
 		enqueue_create_notification(emails, doc, dedupe_on=dedupe_on)
 		if always:
 			for email in emails:
-				# As frappe does for a notification's mail: the bell has it.
 				with unsent():
 					_send(email, lang, name, subject, message, link, record, always=True)
 
@@ -582,7 +559,6 @@ def mail(name: str, recipients, lang: str | None = None, words=None, **kwargs) -
 	)
 
 
-#: What `mail()` passes on to frappe.sendmail rather than into the text.
 SENDMAIL = frozenset(
 	{
 		"now",
@@ -615,9 +591,6 @@ def unsent():
 		frappe.log_error(title=_("Failed to send notification email"))
 
 
-# ------------------------------------------------------------------ the mail itself
-
-
 def compose(
 	subject: str,
 	message: str,
@@ -634,8 +607,6 @@ def compose(
 	(templates/emails/standard.html, ours)."""
 	from markupsafe import Markup
 
-	# Our own file, filled with text `render` has already made safe; an
-	# administrator's text never reaches a template with frappe's globals.
 	return frappe.get_template("templates/emails/one_mail.html").render(
 		{
 			"subject": Markup(subject or ""),
@@ -649,8 +620,6 @@ def compose(
 	)
 
 
-#: frappe's right-to-left languages (frappe.utils.jinja_globals.is_rtl,
-#: which reads only the request's language).
 RTL = frozenset({"ar", "fa", "he", "ku", "ps", "ur"})
 
 
@@ -698,9 +667,7 @@ def one_mail_brand(ones: bool = False) -> dict:
 	}
 
 
-#: One's mark as a mail can show it: one.svg drawn at 96 pixels.
 ONE_MARK = "/assets/onedesk/images/one-mail.png"
-#: frappe-ui's gray-900, the button when there is no Brand Colour.
 INK = "#171717"
 
 

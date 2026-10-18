@@ -70,7 +70,6 @@ def _to_site():
 	villa = frappe.db.get_value("Sales Order", {"project": project, "docstatus": 1})
 	if not villa:
 		return
-	# The van and its driver are the fleet's, kept by whoever set the workspace up.
 	van = once(
 		"Vehicle",
 		{"license_plate": "DXB K 41207"},
@@ -98,7 +97,6 @@ def _to_site():
 			row.warehouse = wh("Finished Goods")
 			row.qty = row.stock_qty = row.picked_qty = 24
 		save(pick, submit=True)
-		# ERPNext's mapper saves the draft itself.
 		note = create_delivery_note(pick.name)
 		if note.is_new():
 			note = save(note)
@@ -125,8 +123,6 @@ def _to_site():
 			},
 		)
 		save(trip, submit=True)
-	# ERPNext makes no pick list for an order that has stock held, so the
-	# doors are held once the windows are on their way.
 	settings = frappe.get_single("Stock Settings")
 	if not settings.enable_stock_reservation:
 		settings.enable_stock_reservation = 1

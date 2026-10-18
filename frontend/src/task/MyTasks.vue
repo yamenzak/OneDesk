@@ -1,11 +1,5 @@
 <template>
-  <!-- OneTask's page (one_task/page/my_tasks): its column, then the open
-       view's tasks in one list, grouped by when each is due
-       (one_task/mine.py, read as the reader).
-       Modelled on Asana's My Tasks and Todoist's Upcoming: Overdue, the next
-       seven days and Later, each task ticked off in place, a timer on it. -->
   <div class="flex">
-    <!-- The column stays in sight while the list scrolls. -->
     <div class="sticky top-12 h-[calc(100svh-3rem-var(--one-bar-offset))] shrink-0">
       <Sidebar :aria-label="__('Views')" width="14rem" class="border-e border-outline-gray-1 px-2 py-3">
         <Button variant="solid" icon-left="lucide-plus" class="mb-3 w-full" :label="__('Add Task')" @click="newDoc('Task')" />
@@ -17,7 +11,6 @@
         </SidebarItem>
         <div class="mt-auto border-t border-outline-gray-1 pt-2">
           <SidebarItem :label="__('All Tasks')" icon="lucide-circle-check" @click="go('/desk/task?is_template=0')" />
-          <!-- As the rail has it (sidebar/onetask), for whoever may open it. -->
           <SidebarSection v-if="delays" :label="__('Reports')" collapsible>
             <SidebarItem :label="__('Task Delays')" icon="lucide-chart-line" @click="go(DELAYS)" />
           </SidebarSection>
@@ -30,7 +23,6 @@
 
     <main class="mx-auto w-full min-w-0 max-w-4xl px-4 pb-16 pt-5 sm:px-8">
       <h1 class="text-xl font-semibold text-ink-gray-9">{{ shown.label }}</h1>
-      <!-- A task of one's own, in no project: its name, and when it is due. -->
       <div class="mt-4 flex gap-2">
         <TextInput v-model="subject" class="min-w-0 flex-1" :placeholder="__('Add a task')" :maxlength="140" :disabled="adding" :aria-label="__('Add a task')" @keydown.enter.prevent="add" />
         <DatePicker v-model="due" class="w-32 shrink-0 sm:w-40" :format="dateFormat()" :placeholder="__('Expected End Date')" />
@@ -63,7 +55,6 @@
                   <Badge v-if="task.is_milestone" :label="__('Milestone')" theme="violet" size="sm" />
                   <Badge v-if="running?.task === task.name" :label="__('Since {0}', [clock(running.since)])" theme="blue" size="sm" />
                 </div>
-                <!-- On a phone the project goes under the name. -->
                 <button v-if="where(task)" class="truncate text-start text-sm text-ink-gray-5 md:hidden" :disabled="!where(task).route" @click="go(where(task).route)">{{ where(task).label }}</button>
               </div>
             </ListCell>
@@ -95,14 +86,11 @@ const props = defineProps({
   query: { type: Object, default: () => ({}) },
 });
 
-// The views, in the column's order. The key is `?section=`, which is how
-// OneAI knows which is open (oneai.js `where`).
 const VIEWS = [
   { key: "mine", label: __("My Tasks"), icon: "lucide-list-checks", empty: __("No tasks assigned to you") },
   { key: "inbox", label: __("Inbox"), icon: "lucide-inbox", empty: __("No tasks in Inbox") },
 ];
 const PRESSING = { Urgent: "red", High: "amber" };
-// The groups in their order (one_task/mine.py GROUPS).
 const WHEN = ["overdue", "today", "tomorrow", "week", "later", "none"];
 
 const view = ref(VIEWS.some((one) => one.key === props.query.section) ? props.query.section : "mine");
@@ -111,10 +99,8 @@ const groups = ref(null);
 const counts = ref({});
 const running = ref(null);
 const setupClosed = ref(true);
-// ERPNext's Delayed Tasks Summary, under the rail's name for it.
 const DELAYS = "/desk/query-report/Delayed Tasks Summary";
 const delays = canReport("Delayed Tasks Summary");
-// Whoever may keep a timesheet may time a task (one_task/timer.py).
 const times = can("create", "Timesheet");
 const columns = computed(() => ({
   base: ["minmax(0,1fr)", "5.5rem", ...(times ? ["2rem"] : [])],
@@ -132,8 +118,6 @@ async function load() {
   running.value = timing;
 }
 
-// A task ticked here stays in its group, struck through, until the view is
-// left, though the list drawn again no longer has it.
 function kept(now) {
   const was = Object.fromEntries((groups.value || []).flatMap((group) => group.tasks.map((one) => [one.name, [group, one]])));
   for (const name of ticked) {
@@ -159,9 +143,6 @@ function open(key) {
 }
 watch(() => props.query.section, (now) => open(VIEWS.some((one) => one.key === now) ? now : "mine"));
 
-// The project a task is in, as a path through sub-projects, or the
-// onboarding it is a step of (one_task/mine.py `place`), or, for one in no
-// project, the record it is about (a task OneIntake made about a supplier).
 function where(task) {
   if (task.place) return { ...task.place, kind: __(task.place.kind) };
   if (task.about_title)
@@ -173,8 +154,6 @@ function where(task) {
   return null;
 }
 
-// Late, how long ago it was due; in the next week, its weekday; anything
-// else its date. Today and tomorrow are already the group's name.
 function day(due, group) {
   if (!due || group === "today" || group === "tomorrow") return "";
   if (group === "overdue") return ago(due);
@@ -182,9 +161,6 @@ function day(due, group) {
   return date(due);
 }
 
-// Ticked stays on the list, struck through (`kept`), so a tick made by
-// mistake is undone where it was made. Through frappe's own save, so ERPNext
-// closes the task's assignments as it does from the form.
 const ticked = reactive(new Set());
 const busy = reactive(new Set());
 let quietUntil = 0;
@@ -218,7 +194,6 @@ async function add() {
   }
 }
 
-// One timer runs at a time; starting this one pauses whichever was running.
 async function time(task) {
   if (running.value?.task === task.name) {
     onedesk().task_timer?.stopped?.(await call("onedesk.one_task.timer.stop"));
@@ -226,8 +201,6 @@ async function time(task) {
   } else running.value = await call("onedesk.one_task.timer.start", { task: task.name });
 }
 
-// The workspace's extensions on OneTask (one_studio/places.py), told which
-// view is open and what it lists.
 const placed = usePlace(
   "onetask.listed",
   computed(() =>
@@ -252,9 +225,6 @@ const placed = usePlace(
   )
 );
 
-// A task given, saved or ticked elsewhere draws the list again, a moment
-// after the last change. A change made here is not heard as somebody else's,
-// or a tick would take its row away at once.
 let soon = null;
 const again = () => {
   if (Date.now() < quietUntil) return;
@@ -264,7 +234,6 @@ const again = () => {
 let stop = [];
 onMounted(() => {
   load();
-  // A timer paused, resumed or stopped anywhere, the rail's Timers included.
   const timed = async () => (running.value = times ? await call("onedesk.one_task.timer.running") : null);
   stop = [followList("Task", again), followList("ToDo", again), listen("one_timers", timed)];
 });

@@ -17,18 +17,13 @@ VILLA = "Mansour Villa Windows and Doors"
 SEALANTS = "Emirates Sealants & Fixings"
 ALUMINIUM = "Al Noor Aluminium"
 
-#: What Rania asks for: code, quantity.
 ASKED = (("SIL-CLR", 80), ("FIX-ANCH", 600), ("SEAL-EPDM", 400))
-#: Each supplier's price for each, in dirhams.
 PRICED = {
 	ALUMINIUM: {"SIL-CLR": 33.0, "FIX-ANCH": 6.2, "SEAL-EPDM": 4.4},
 	SEALANTS: {"SIL-CLR": 29.5, "FIX-ANCH": 6.6, "SEAL-EPDM": 4.7},
 }
 EURO = "Euro Hardware Trading"
-#: Profile for the stores, asked of Al Noor and Euro Hardware: code, quantity,
-#: and Euro Hardware's price in euros. Al Noor has not answered yet.
 STORES_ASKED = ("ALU-6063", 500, 6.2)
-#: The year's price for aluminium profile, and how much is agreed.
 AGREED = ("ALU-6063", 12000, 26.5)
 
 
@@ -78,7 +73,6 @@ def _villa(project, password):
 
 	quotes = {SEALANTS: _on_the_portal(rfq, password)}
 	with as_user(BUYER):
-		# Al Noor sends theirs by mail, and Karim types it in.
 		typed = make_supplier_quotation_from_rfq(rfq.name, for_supplier=ALUMINIUM)
 		dated(typed, ago(7), "transaction_date")
 		typed.valid_till = ahead(20)
@@ -91,7 +85,6 @@ def _villa(project, password):
 		portal.submit()
 		quotes[SEALANTS] = portal
 
-		# Each line goes to whoever is cheaper on it.
 		cheapest = {code: min(PRICED, key=lambda one: PRICED[one][code]) for code, _qty in ASKED}
 		for supplier, wanted in ((SEALANTS, ago(2)), (ALUMINIUM, ago(1))):
 			order = make_purchase_order(quotes[supplier].name)
@@ -188,13 +181,9 @@ def _agreed(project):
 		save(order, submit=True)
 
 
-#: The profile's next prices: who quotes, in what currency, at what, valid how long.
 QUOTED = ((ALUMINIUM, "AED", 26.0, 20), ("Euro Hardware Trading", "EUR", 6.3, 30))
-#: Al Noor's own code for the profile, on the item's supplier list.
 PART_NO = "AN-6063-T5"
-#: Who makes the profile, and their own number for it.
 MAKER = ("Schüco International", "AWS-50.100")
-#: Who asks for the next run of profile.
 PROFILE_ASKER = "samir@one.test"
 
 
@@ -243,7 +232,6 @@ def _profile():
 	project = frappe.db.get_value("Project", {"project_name": VILLA})
 	if frappe.db.exists("Material Request Item", {"item_code": code, "docstatus": 1, "ordered_qty": 0}):
 		return
-	# Samir asks for the profile, as he asked for its last run.
 	with as_user(PROFILE_ASKER):
 		request = frappe.new_doc("Material Request")
 		request.material_request_type = "Purchase"
@@ -307,7 +295,6 @@ def _scored():
 	for supplier in ("Gulf Glass Industries", ALUMINIUM):
 		if frappe.db.exists("Supplier Scorecard", supplier):
 			continue
-		# The suppliers were taken on in January, before the demo's first order.
 		frappe.db.set_value("Supplier", supplier, "creation", f"{on(1, 2)} 09:00:00", update_modified=False)
 		with as_user(BUYER):
 			card = frappe.new_doc("Supplier Scorecard")

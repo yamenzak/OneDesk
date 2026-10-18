@@ -4,41 +4,27 @@ a way into, answered: where it is reached all the same, or why it is not
 line here. One with no line and no way in is still to be decided.
 """
 
-#: Kept by the system as work is done; nobody opens it by hand.
 ENGINE = "engine"
-#: Reached from inside a page or a record, in a way the map cannot read.
 INSIDE = "inside"
-#: One of ours does its work, so it is not offered.
 REPLACED = "replaced"
-#: Not offered, and why.
 LEFT_OUT = "left out"
-#: The operator's, on frappe's own desk, which only the platform's people
-#: keep (one/boot.py `platform`).
 PLATFORM = "the platform's"
 
-#: What a ledger check is, said once for each of them.
 CHECK = "a check of ERPNext's own ledger, for when stock's worth looks wrong; Stock against the Books and the Inventory Check say what a workspace needs"
 
-#: Why frappe's operator tools are the platform's, said once for each.
 OPERATOR = "the site's own workings, which the platform keeps for every workspace"
 
-#: Why the rest of frappe's website is not offered.
 WEBSITE = "frappe's website builder; a workspace's public pages are One's portal and its forms"
 
-#: Why what OneStudio does is not offered as frappe's own.
 STUDIO = "OneStudio, whose changes are these underneath"
 
-#: Why a backlog line's doctypes are not offered yet.
 BACKLOG = "waits in docs/BACKLOG.md"
 
-#: Why ERPNext's video library is not offered.
 VIDEO = "ERPNext's library of YouTube help videos; One's help is OneAI, on every page"
 
-#: Why the point of sale is not offered, said once for each of its parts.
 POS = "the point of sale, until One has a till screen of its own"
 
 ANSWERS = {
-	# frappe: what a record carries, written and read on the record
 	("DocType", "Comment"): (ENGINE, "a record's comments, written and read on the record"),
 	("DocType", "Communication"): (INSIDE, "a record's activity, and OneMail"),
 	("DocType", "File"): (INSIDE, "OneCloud, which is every file the workspace holds"),
@@ -72,7 +58,6 @@ ANSWERS = {
 	("DocType", "Automation Run"): (ENGINE, "each time an Automation ran"),
 	("DocType", "Automation Trigger Queue"): (ENGINE, "Automations waiting to run"),
 	("DocType", "DuckDB Sync"): (ENGINE, "the copy frappe's analytics reads from"),
-	# frappe: what One's own screens do
 	("DocType", "System Settings"): (INSIDE, "Workspace Settings › General"),
 	("DocType", "Notification Settings"): (INSIDE, "Settings › Notifications"),
 	("DocType", "Notification Log"): (REPLACED, "the bell"),
@@ -90,7 +75,6 @@ ANSWERS = {
 	("DocType", "Print Style"): (REPLACED, "One's print formats, which carry their own look"),
 	("Page", "print-format-builder"): (INSIDE, "Workspace Settings › Printing"),
 	("Page", "print"): (INSIDE, "every record's Print"),
-	("Page", "workflow-builder"): (INSIDE, "Workspace Settings › Approvals"),
 	("Page", "dashboard-view"): (INSIDE, "One › Dashboards"),
 	("DocType", "Dashboard Settings"): (ENGINE, "a person's own dashboard charts, kept from the dashboard"),
 	("DocType", "ToDo"): (REPLACED, "OneTask"),
@@ -117,7 +101,6 @@ ANSWERS = {
 	("DocType", "Server Script"): (REPLACED, STUDIO),
 	("DocType", "Custom Field"): (REPLACED, STUDIO),
 	("DocType", "Property Setter"): (REPLACED, STUDIO),
-	# frappe: the platform's
 	("DocType", "Error Log"): (PLATFORM, OPERATOR),
 	("DocType", "Patch Log"): (PLATFORM, OPERATOR),
 	("DocType", "Installed Applications"): (PLATFORM, OPERATOR),
@@ -147,7 +130,6 @@ ANSWERS = {
 	("Page", "backups"): (PLATFORM, "backups, which the platform takes and keeps"),
 	("Page", "workspace-restore"): (PLATFORM, OPERATOR),
 	("Page", "component-explorer"): (PLATFORM, "frappe's own gallery of its components, for developers"),
-	# frappe: waiting in the backlog, or not offered
 	("DocType", "Data Import"): (LEFT_OUT, BACKLOG),
 	("DocType", "Data Import Log"): (LEFT_OUT, BACKLOG),
 	("DocType", "Data Export"): (LEFT_OUT, BACKLOG),
@@ -184,7 +166,6 @@ ANSWERS = {
 	("DocType", "Website Slideshow"): (LEFT_OUT, WEBSITE),
 	("DocType", "Website Theme"): (LEFT_OUT, WEBSITE),
 	("Report", "Website Analytics"): (LEFT_OUT, WEBSITE),
-	# One's own
 	("DocType", "AI Memory"): (INSIDE, "Workspace Settings › Privacy lists and forgets what OneAI remembers"),
 	("DocType", "Cloud Drive Password"): (INSIDE, "OneCloud › Connect a Drive makes and revokes them"),
 	("DocType", "Cloud File Request"): (INSIDE, "a OneCloud folder's Request Files"),
@@ -207,7 +188,6 @@ ANSWERS = {
 	("Page", "project-view"): (INSIDE, "a Project opens on it"),
 	("Page", "project-template-view"): (INSIDE, "a Project Template opens on it"),
 	("Page", "task-view"): (INSIDE, "a Task opens on it"),
-	# OneBook
 	("DocType", "GL Entry"): (ENGINE, "one line per posting; the General Ledger report shows them"),
 	("DocType", "Payment Ledger Entry"): (ENGINE, "one line per payment against an invoice; the Payment Ledger report shows them"),
 	("DocType", "Advance Payment Ledger Entry"): (ENGINE, "advances against orders, kept as they are paid"),
@@ -227,11 +207,8 @@ ANSWERS = {
 	("DocType", "POS Settings"): (LEFT_OUT, POS),
 	("DocType", "Cashier Closing"): (LEFT_OUT, POS),
 	("Page", "point-of-sale"): (LEFT_OUT, POS),
-	# OneCRM
 	("Page", "sales-funnel"): (REPLACED, "OneCRM's Home, whose funnel counts leads, opportunities and quotations"),
-	# OneProject
 	("DocType", "Activity Cost"): (INSIDE, "an Activity Type's Connections, one rate for each person"),
-	# ERPNext's own
 	("DocType", "Global Defaults"): (INSIDE, "Workspace Settings › General: the company, its country and currency, and how amounts read"),
 	("DocType", "Authorization Rule"): (REPLACED, "Approvals in Workspace Settings, where a step can ask a manager to approve above an amount"),
 	("DocType", "Authorization Control"): (ENGINE, "what an Authorization Rule checks when a record is submitted"),
@@ -241,7 +218,6 @@ ANSWERS = {
 	("DocType", "Video"): (LEFT_OUT, VIDEO),
 	("DocType", "Video Settings"): (LEFT_OUT, VIDEO),
 	("Report", "YouTube Interactions"): (LEFT_OUT, VIDEO),
-	# OneInventory
 	("DocType", "Bin"): (ENGINE, "what each warehouse holds of each item; Stock Summary reads it"),
 	("DocType", "Stock Ledger Entry"): (
 		ENGINE,
@@ -274,7 +250,6 @@ ANSWERS = {
 	("Report", "Stock Ledger Variance"): (LEFT_OUT, CHECK),
 	("Report", "Stock Valuation Comparison"): (LEFT_OUT, CHECK),
 	("Report", "Stock Ledger Entries of Cancelled Vouchers"): (LEFT_OUT, CHECK),
-	# OneHR
 	("DocType", "Employee Health Insurance"): (INSIDE, "an employee's Health Insurance Provider, on their record"),
 	("DocType", "Interview Feedback"): (INSIDE, "an interview's Submit Feedback"),
 	("DocType", "Shift Schedule Assignment"): (INSIDE, "the Shift Assignment Tool, assigning a Shift Schedule"),
@@ -288,8 +263,6 @@ ANSWERS = {
 	("DocType", "Interest"): (LEFT_OUT, "a list HRMS keeps that no form of its own asks for"),
 }
 
-#: Names kept wherever upstream says them: an outside product a workspace meets,
-#: or a notice to keep. Every other brand reads One (onedesk/translations/).
 OUTSIDE = {
 	"Frappe Technologies": "the copyright notice the AGPL asks to be kept",
 	"Frappe Cloud": "the host a workspace's site runs on",
@@ -300,7 +273,6 @@ OUTSIDE = {
 	"Frappe UI": "the component library a developer builds a page with",
 }
 
-#: Said in our own words where swapping the name would read badly.
 SAID = {
 	"Company Abbreviation (requires ERPNext to be installed)": (
 		"Company Abbreviation",
@@ -317,14 +289,10 @@ SAID = {
 	),
 }
 
-#: Documents that print through another record's format of ours
-#: (scripts/atlas.py `printed`).
 PRINTED_AS = {
 	"Proforma Invoice": "its sales order, through the format Selling Settings names, which is One Proforma Invoice",
 }
 
-#: Documents naming a customer or supplier that are not sent to them, so need
-#: no print of ours (scripts/atlas.py `goes_out`).
 NOT_SENT = {
 	"Purchase Invoice": "the supplier's own bill, entered as it came",
 	"Supplier Quotation": "the supplier's prices, entered as they came",

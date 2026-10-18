@@ -12,18 +12,13 @@ from frappe.utils import cint
 
 from onedesk.one_admin import keys
 
-#: How long a signed URL is good for. Long enough for a slow upload on a bad
-#: connection, short enough that one found in a log is not a key to the object.
 GOOD_FOR = 15 * 60
 
-#: Where R2 answers. Account-scoped, with the EU bucket reached through a
-#: jurisdiction-specific host.
 HOSTS = {
 	"Global": "https://{account}.r2.cloudflarestorage.com",
 	"EU": "https://{account}.eu.r2.cloudflarestorage.com",
 }
 
-#: R2 ignores regions but boto3 insists on one.
 REGION = "auto"
 
 
@@ -97,7 +92,6 @@ def remove(tenant, key: str) -> dict:
 	return {"key": full, "deleted": True}
 
 
-#: Objects per delete call. S3 caps this at a thousand and R2 follows it.
 AT_A_TIME = 1000
 
 
@@ -187,9 +181,6 @@ def _client(jurisdiction: str):
 	secret = frappe.conf.get("r2_secret") or stored.get_password("r2_secret", raise_exception=False)
 	if not (account and key_id and secret):
 		frappe.throw(frappe._("R2 is not configured. Set it in OneAdmin Settings."))
-	# Any S3-compatible endpoint instead of R2's, for a self-hosted bench and
-	# for development against a local stand-in. Site config only: an endpoint is
-	# where every tenant's bytes go, so no screen may change it.
 	endpoint = frappe.conf.get("r2_endpoint") or HOSTS[jurisdiction if jurisdiction in HOSTS else "Global"].format(
 		account=account
 	)
@@ -203,7 +194,6 @@ def _client(jurisdiction: str):
 	)
 
 
-#: Mail the Worker stored and the site has not read yet, per ask.
 MAIL_AT_A_TIME = 100
 
 

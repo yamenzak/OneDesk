@@ -79,7 +79,6 @@ def _modified(doctype: str) -> dict:
 	):
 		if row.fieldname and (row.fieldname not in out or row.modified > out[row.fieldname]):
 			out[row.fieldname] = row.modified
-	# A standard field added to other forms: when the last copy was made.
 	for row in frappe.get_all(
 		"Workspace Customization",
 		filters={"record_doctype": doctype, "kind": "Custom Field"},

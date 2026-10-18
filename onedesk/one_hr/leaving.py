@@ -5,9 +5,6 @@ from frappe.utils import add_days, getdate, today
 
 from onedesk.one_hr import passkey, tell
 
-#: Why the status was not set, when erpnext refuses. It refuses for one reason:
-#: somebody still reports to them, and marking them Left would leave those
-#: people reporting to a record nobody looks at.
 STILL_REPORTS = "reports"
 
 
@@ -15,8 +12,6 @@ def nightly() -> None:
 	"""Everybody whose last day has passed and who is still marked Active."""
 	for employee in frappe.get_all(
 		"Employee",
-		# A list rather than a dict: two conditions on one fieldname, and the
-		# second key would quietly replace the first.
 		filters=[
 			["status", "=", "Active"],
 			["relieving_date", "is", "set"],

@@ -5,7 +5,6 @@ from frappe.utils import add_days, now_datetime, nowdate
 
 from onedesk.one_hr import tell
 
-#: How far back a shift has to have been used before its silence is worth a word.
 WINDOW_DAYS = 7
 
 

@@ -1,30 +1,6 @@
-/**
- * Mail for m.4dl.app: every message to a workspace's address arrives here.
- *
- * Cloudflare's Email Routing hands the zone's catch-all to this Worker. The
- * addresses are `<slug>@m.4dl.app` for a workspace and `<name>.<slug>@m.4dl.app`
- * for a person in it; a slug has no dot, so the part after the last dot of the
- * local part is always the workspace. Anything else — another subdomain, the
- * apex, a workspace that does not exist, a name that workspace does not have —
- * is refused while the sender's server is still connected, so it bounces rather
- * than vanishing.
- *
- * **Stored first, then told.** The raw message goes to R2 under the workspace's
- * own prefix, beside its files, before anybody is told anything. Only then does
- * a small notice go to the site, signed with the workspace's own secret over
- * the notice's exact bytes. A site that is down, or migrating, misses the
- * notice and loses nothing: it sweeps its prefix for anything it has not read
- * (one_mail/inbound.py). The notice is a hint to be quick, not the delivery.
- *
- * Which site, which bucket and which secret is the workspace's KV record
- * `mail:<slug>`, written by the admin site as the workspace is provisioned and
- * whenever its addresses change — the same namespace the web router reads.
- */
 
-/** A minute: a new address works within one. */
 const REMEMBER_FOR = 60;
 
-/** A slug as the admin site makes them. */
 const SLUG = /^[a-z0-9][a-z0-9-]{1,39}$/;
 
 export default {
@@ -42,10 +18,6 @@ export default {
 		}
 
 		const bytes = await new Response(message.raw).arrayBuffer();
-		// Sortable by arrival, so a sweep can ask for everything after the last
-		// one it read; the UUID keeps two in the same millisecond apart, and the
-		// name after the ~ says which address it came to, which the headers do
-		// not (a Bcc is in none of them).
 		const stamp = new Date().toISOString().replace(/[^0-9]/g, "").slice(0, 17);
 		const name = `${stamp}-${crypto.randomUUID()}~${bare}.eml`;
 		const key = `${box.prefix}mail/in/${name}`;

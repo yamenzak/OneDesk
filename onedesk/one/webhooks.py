@@ -17,11 +17,9 @@ from onedesk.one.customize import REFUSED_MODULES
 WEBHOOK = "Webhook"
 LOG = "Webhook Request Log"
 
-#: A Jinja tag, and the one kind a workspace's webhook may hold.
 TAG = re.compile(r"\{\{.*?\}\}|\{%.*?%\}", re.S)
 FIELD = re.compile(r"\{\{-?\s*doc\.([A-Za-z_][A-Za-z0-9_]*)\s*-?\}\}")
 
-#: How long a call may take, and how often it is tried again, at most.
 LONGEST = 30
 TRIES = 5
 

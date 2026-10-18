@@ -6,10 +6,8 @@ import frappe
 from frappe import _
 from frappe.utils import cint, flt
 
-#: The field.
 PARENT = "one_parent"
 
-#: ERPNext's own figures on Project, which the tree adds up.
 FIGURES = (
 	"estimated_costing",
 	"total_costing_amount",
@@ -22,7 +20,6 @@ FIGURES = (
 	"gross_margin",
 )
 
-#: How much of a path My Tasks shows: the project and what it is under.
 SHOWN = 3
 
 
@@ -214,7 +211,6 @@ def dashboard(data: dict) -> dict:
 	return data
 
 
-#: Task statuses that are no longer work to do.
 FINISHED = ("Completed", "Cancelled", "Template")
 
 

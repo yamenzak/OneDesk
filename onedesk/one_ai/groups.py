@@ -8,8 +8,6 @@ import re
 
 import frappe
 
-#: Tools every request is given, wherever it is asked from: reading and
-#: changing records, the guides, memory, and the way to more.
 CORE = (
 	"list_records",
 	"read_record",
@@ -33,8 +31,6 @@ CORE = (
 	"more_tools",
 )
 
-#: Every group: what it is for (which the model reads, in `more_tools`), its
-#: tools, and the words that suggest it. `you` is given to every request.
 GROUPS = {
 	"you": {
 		"about": "the person's own day, tasks, calendar, leave, expenses, letters, notifications, mailboxes and sign-in",
@@ -276,7 +272,6 @@ GROUPS = {
 	},
 }
 
-#: A page's module, as frappe names it, to its group.
 MODULES = {
 	"CRM": "crm",
 	"Selling": "crm",
@@ -302,11 +297,8 @@ MODULES = {
 	"One Admin": "console",
 }
 
-#: Where a kind of record's module says too little: an Employee is frappe's
-#: Setup, and is people.
 DOCTYPES = {"Employee": "hr", "File": "files", "Communication": "mail"}
 
-#: Desk pages, by route, to their group.
 PAGES = {
 	"onemail": "mail",
 	"onecloud": "files",

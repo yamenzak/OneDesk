@@ -52,7 +52,6 @@ def test_what_the_company_says_is_escaped():
 	draw = _body("draw")
 	for key in ("name", "logo"):
 		assert f'e(details.get("{key}"))' in draw or f'e(details["{key}"])' in draw, key
-	# Every other fact is escaped once, in _facts.
 	facts = _body("_facts")
 	assert "escape_html" in facts and 'e(details.get("tax_id"))' in facts and "e(details.get(key))" in facts
 	assert "COLOUR.match" in _body("company")
@@ -96,7 +95,7 @@ def test_the_brand_line_may_be_left_out_of_every_preset():
 	assert '"line":' in _body("settings")
 	draw = _body("draw")
 	assert 'said["line"]' in draw
-	assert draw.count("rule") >= 6  # its definition, and every preset but Minimal, whose line is its border
+	assert draw.count("rule") >= 6
 
 
 def test_every_foot_is_drawn_and_carries_no_page_number():
@@ -137,7 +136,7 @@ def test_a_foot_is_one_quiet_line_that_may_carry_the_logo():
 def test_spread_gives_each_detail_an_equal_share():
 	"""With cells as wide as their text, the middle detail sat wherever the two
 	beside it pushed it; an equal share each puts it on the page's centre."""
-	spread = _body("draw_foot").split('preset == "spread"', 1)[1].split("# Centred", 1)[0]
+	spread = _body("draw_foot").split('preset == "spread"', 1)[1].split('if preset == "strip"', 1)[0]
 	assert "table-layout:fixed" in spread and "share" in spread
 
 

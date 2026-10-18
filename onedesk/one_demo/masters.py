@@ -7,7 +7,6 @@ import frappe
 
 from onedesk.one_demo.base import ABBR, COMPANY, make, tag, wh
 
-#: name, group, type, currency, territory, contact (first, last, email, phone), city
 CUSTOMERS = (
 	("Mansour & Sons", "Commercial", "Company", "AED", "Dubai", ("Khalid", "Mansour", "khalid@mansour.example", "+971501112233"), "Dubai"),
 	("Bayview Developments", "Commercial", "Company", "AED", "Dubai", ("Hessa", "Al Marri", "hessa@bayview.example", "+971502223344"), "Dubai"),
@@ -21,8 +20,6 @@ CUSTOMERS = (
 	("Harbour Logistics", "Commercial", "Company", "GBP", "Rest Of The World", ("Tom", "Archer", "tom@harbour.example", "+442075550188"), "London"),
 )
 
-#: The VAT-registered businesses among them, with their TRN, which a tax
-#: invoice to them must carry.
 TRNS = {
 	"Mansour & Sons": "100345678900003",
 	"Bayview Developments": "100456789000003",
@@ -32,7 +29,6 @@ TRNS = {
 	"Crescent Schools": "100890123400003",
 }
 
-#: name, group, currency, contact (first, last, email), what they sell
 SUPPLIERS = (
 	("Al Noor Aluminium", "Raw Material", "AED", ("Faisal", "Noor", "sales@alnoor.example")),
 	("Gulf Glass Industries", "Raw Material", "AED", ("Priya", "Nair", "orders@gulfglass.example")),
@@ -47,8 +43,6 @@ SUPPLIERS = (
 	("Gulf Powder Coating", "Services", "AED", ("Kareem", "Saeed", "jobs@gulfpowder.example")),
 )
 
-#: code, name, group, uom, kind (stock, made, coated, service, asset), buy, sell,
-#: reorder at. Coated goods are made from stock by a subcontractor.
 ITEMS = (
 	("ALU-6063", "Aluminium Profile 6063", "Raw Material", "Meter", "stock", 28, None, 400),
 	("GLS-DGU", "Double Glazed Unit 24mm", "Raw Material", "Square Meter", "stock", 165, None, 60),
@@ -78,7 +72,6 @@ ITEMS = (
 	("IT-LAPTOP", "Laptop", "Fixed Assets", "Nos", "asset", 6500, None, 0),
 )
 
-#: activity, cost per hour, bills at per hour
 ACTIVITIES = (
 	("Design", 110, 320),
 	("Site Survey", 90, 260),
@@ -86,7 +79,6 @@ ACTIVITIES = (
 	("Installation", 55, 180),
 	("Project Management", 140, 350),
 	("Maintenance", 55, 200),
-	# A day on site (one_project/site_time.py), so it costs what an installer's day costs.
 	("Site Work", 55, 180),
 )
 
@@ -171,7 +163,6 @@ def run(password=None):
 				{"warehouse": wh("Stores"), "warehouse_reorder_level": reorder, "warehouse_reorder_qty": reorder * 2, "material_request_type": "Purchase"}
 			]
 		item = make(values)
-		# A selling rate on the item is its Standard Selling price already.
 		for price_list, rate in (("Standard Buying", buy), ("Standard Selling", sell)):
 			if rate and not frappe.db.exists("Item Price", {"item_code": item.name, "price_list": price_list}):
 				make({"doctype": "Item Price", "item_code": item.name, "price_list": price_list, "price_list_rate": rate})
@@ -197,10 +188,8 @@ def _uae():
 		ready.fix("emirate", emirate="Dubai", address_line1="Warehouse 14, Al Quoz Industrial Area 3", city="Dubai")
 
 
-#: The suppliers who sell from abroad, and where from.
 ABROAD = {"Euro Hardware Trading": "Italy", "CNC Machines Europe": "Poland"}
 
-#: Where a customer abroad is billed: what leaves the Emirates is zero-rated.
 EXPORTS = ("United States", "Germany", "United Kingdom")
 
 
@@ -240,8 +229,6 @@ def _contact(person, doctype, name):
 	frappe.db.set_value(doctype, name, f"{doctype.lower()}_primary_contact", contact.name)
 
 
-#: A street and a postcode in each customer's city, so an address prints as
-#: its country writes one. The Emirates have no postcodes.
 STREETS = {
 	"Dubai": ("Business Bay", None),
 	"Abu Dhabi": ("Al Reem Island", None),

@@ -12,8 +12,6 @@ from frappe.utils import now_datetime
 from onedesk.one import notify
 from onedesk.one_crm.next import OPEN, OWNER
 
-#: How far back a step come due is still told: a day, so a scheduler that
-#: stalled for a while misses nothing, and each step is told once by its key.
 BACK = timedelta(days=1)
 
 

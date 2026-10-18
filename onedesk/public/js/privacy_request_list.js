@@ -1,5 +1,3 @@
-// Workspace › Account Deletions (one/privacy.py): who asked for their account
-// to be deleted, and where each stands. Decided on the request itself.
 frappe.listview_settings["Personal Data Deletion Request"] = {
 	...frappe.listview_settings["Personal Data Deletion Request"],
 	hide_name_column: true,

@@ -1,27 +1,18 @@
 <template>
-  <!-- OneBook's Home (one_book/page/books): how the money is doing, what
-       needs somebody today, and everything in OneBook with what it is for
-       (one_book/home.py, one_book/story.py). Reports and Setup open their
-       part of it. Modelled on Frappe Books' Dashboard: the figures that
-       matter, then cash flow, profit and the largest expenses, then where
-       the receivables and payables stand; laid out as OneInventory's Home. -->
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
-      <!-- The headline figures, each with its months as a sparkline. -->
       <div v-if="cards.length" ref="cardsRoot" class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
         <NumberCard v-for="card in cards" :key="card.key" v-bind="card.props" class="cursor-pointer" role="link" @click="go(card.route)" />
       </div>
       <PlaceSpot :said="placed" class="mt-4" />
       <ViewTabs v-model="shown" :views="views" class="mt-5" />
 
-      <!-- Overview: what needs somebody, then the story of the money. -->
       <template v-if="shown === 'overview'">
         <Loading v-if="!story" />
         <BooksStory v-else :story="story" :needs="chips" @today="shown = 'today'" />
       </template>
 
-      <!-- Today: what needs somebody, kind by kind, the empty kinds left out. -->
       <template v-else-if="shown === 'today'">
         <p v-if="!parts.length" class="py-10 text-center text-base text-ink-gray-5">{{ __("Nothing needs you") }}</p>
         <Section v-for="part in parts" :key="part.key" :title="part.title" :icon="part.icon" :aside="part.count" :action="part.action">
@@ -30,7 +21,6 @@
         </Section>
       </template>
 
-      <!-- Everything, or one part of it, each with what it is for. -->
       <template v-else>
         <TextInput v-model="search" class="mt-4 w-full max-w-xs" type="search" :placeholder="__('Search')" :aria-label="__('Search')">
           <template #prefix><span class="lucide-search size-4 text-ink-gray-5" aria-hidden="true" /></template>
@@ -70,10 +60,8 @@ const props = defineProps({
 });
 
 const said = ref(null);
-// Overview, Today, everything, or one part of it: /desk/books/reports opens Reports.
 const shown = ref(props.route[0] || props.query.view || "overview");
 const search = ref("");
-// The story is read beside what needs somebody, so Today never waits on it.
 const story = ref(null);
 
 async function load() {
@@ -83,7 +71,6 @@ async function load() {
 }
 load();
 
-// What needs somebody changes with every invoice, payment and bank line.
 let timer = null;
 const soon = () => {
   clearTimeout(timer);
@@ -109,11 +96,6 @@ const needed = computed(() => {
   return n.overdue.count + n.bills.count + n.bank.count + n.drafts.reduce((sum, one) => sum + one.count, 0);
 });
 
-// The headline figures: what the bank and cash accounts hold, what customers
-// owe and how much of it is late, what is owed to suppliers and what falls
-// due this week, and this month's profit. Cash and profit are set against
-// last month; what is owed is drawn over what was invoiced each month, which
-// is not what it counts, so it is not (`alone`).
 const CARDS = () => [
   { key: "cash", title: __("Cash"), type: "area", hue: 0, route: "/desk/query-report/Cash Flow" },
   { key: "receivable", title: __("Accounts Receivable"), type: "bar", hue: 2, alone: true, route: "/desk/query-report/Accounts Receivable" },
@@ -122,7 +104,6 @@ const CARDS = () => [
   { key: "due_this_week", title: __("Due This Week"), route: '/desk/purchase-invoice?status=["in",["Unpaid","Overdue","Partly Paid"]]' },
   { key: "profit", title: __("Profit This Month"), type: "bar", hue: 4, route: "/desk/query-report/Profit and Loss Statement" },
 ];
-// The cards' colours, as frappe-ui reads them for this island and its theme.
 const cardsRoot = ref();
 const { tokens } = useChartTokens(cardsRoot);
 const change = (series) => {
@@ -147,7 +128,6 @@ const cards = computed(() => {
     }));
 });
 
-// What needs somebody, one button each, leading to Today.
 const chips = computed(() => {
   const n = said.value?.needs;
   if (!n) return [];
@@ -177,8 +157,6 @@ function route(one) {
 const groups = computed(() => {
   const words = search.value.trim().toLowerCase();
   const matches = (one) => !words || `${one.label} ${one.about}`.toLowerCase().includes(words);
-  // Reports and Setup set out by what each part is about, a section to a
-  // topic, as ERPNext's Financial Reports sidebar does.
   const sections = said.value.sections?.[shown.value];
   if (sections)
     return sections
@@ -192,7 +170,6 @@ const groups = computed(() => {
 const owed = (one) => money(one.outstanding, one.currency);
 const late = (days) => (days === 1 ? __("1 day late") : __("{0} days late", [days]));
 
-// Each kind of thing that needs somebody, as rows, and where the rest are.
 const parts = computed(() => {
   const n = said.value.needs;
   const more = (kept, label, where) => (kept.count > kept.rows.length ? { label: __("{0} more", [kept.count - kept.rows.length]) + " · " + label, route: where } : null);
@@ -279,8 +256,6 @@ function report() {
   );
 }
 
-// The page is a place (one_studio/places.py): its extensions are told what
-// needs the reader, and may add a note or a button.
 const placed = reactive({ notes: [], actions: [] });
 let drawn = null;
 function extended(s) {

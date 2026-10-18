@@ -1,9 +1,5 @@
-// One model in the catalogue, from the operator's side. Whether it is offered
-// and the markup in effect are its Record Head (one_admin/heads.py); this is
-// the one verb that shows its answer in the dialog it was asked from.
 frappe.ui.form.on("AI Model", {
 	refresh(frm) {
-		// Only operators read the catalogue, so sharing a model gives nobody anything.
 		frm.sidebar.sidebar.find(".form-shared").addClass("hidden");
 		onedesk.model.markup(frm);
 		if (frm.is_new() || !frm.doc.offered) return;
@@ -13,9 +9,6 @@ frappe.ui.form.on("AI Model", {
 
 frappe.provide("onedesk.model");
 
-// No markup of its own is the default, and a column that cannot be empty holds
-// it as 0: shown as "0.00" it reads as "sold at cost". So the box stays empty
-// and says the default it falls back to.
 onedesk.model.markup = (frm) => {
 	const field = frm.fields_dict.markup;
 	if (!field || frm.doc.markup) return;
@@ -25,9 +18,6 @@ onedesk.model.markup = (frm) => {
 	});
 };
 
-// What one call would cost, against a real workspace's real credits — because
-// a number worked out any other way is a number nobody can check against a
-// bill. The call is made and charged; that is the point of it.
 onedesk.model.price = (frm) => {
 	const asking = new frappe.ui.Dialog({
 		title: __("Test Call"),

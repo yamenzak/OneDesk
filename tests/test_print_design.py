@@ -50,7 +50,7 @@ def test_the_jinja_it_is_told_is_the_jinja_it_may_use():
 	filters = re.search(r"FILTERS = frozenset\(\s*\(\s*(.*?)\)\.split", html, re.S).group(1)
 	for name in " ".join(re.findall(r'"([^"]*)"', filters)).split():
 		if len(name) == 1:
-			continue  # d and e, frappe's short names for default and escape
+			continue
 		assert re.search(rf"\b{name}\b", help_), name
 	tests = re.search(r'TESTS = frozenset\("([^"]*)"', html).group(1)
 	for name in tests.split():
@@ -62,7 +62,6 @@ def test_the_builders_own_block_options():
 	block = _body(AI, "_block")
 	for key in ('"show_label"', '"barcode_format"', '"table_bordered"', '"align"'):
 		assert key in block or key.strip('"') in AI.split("FIELD_OPTIONS =", 1)[1].split("\n", 1)[0], key
-	# frappe's words for a label: show, hide, or inline.
 	assert '"inline"' in block and '"hide"' in block
 
 
@@ -199,8 +198,6 @@ def test_every_property_the_builder_sets_is_ours_to_set():
 	block = _body(AI, "_block")
 	assert "print_props.taken(" in block and "print_props.TABLE_COLUMN" in block
 	assert "print_props.SECTION" in _body(AI, "_built") and "print_props.stored(" in _body(AI, "_written")
-	# A style is a style wherever it is written, a condition is only grammar-checked
-	# here and run by frappe's own safe_eval.
 	assert "printing._style(str(value), where)" in PROPS and 'compile(str(value), key, "eval")' in PROPS
 	assert '("custom_style", "background", "border_color")' in PRINTING
 	assert "print_props.taken(page or {}, print_props.PAGE" in _body(PRINTING, "format_doc")

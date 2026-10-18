@@ -10,8 +10,6 @@ from onedesk.one_demo.base import COMPANY, make, on, tag
 OWNER = "wsadmin@one.test"
 APPS = ("OneCRM", "OneBook", "OneInventory", "OneProject", "OneHR")
 
-#: first, last, email, department, designation, gender, joined, monthly pay,
-#: reports to (by first name), what they may use.
 PEOPLE = (
 	("Layla", "Haddad", OWNER, "Management", "General Manager", "Female", (2019, 3, 1), 42000, None, dict.fromkeys(APPS, "Manager")),
 	("Samir", "Aoun", "samir@one.test", "Projects", "Projects Manager", "Male", (2020, 6, 14), 28000, "Layla", {"OneProject": "Manager", "OneCRM": "User", "OneInventory": "User"}),
@@ -39,8 +37,6 @@ def run(password=None):
 	from onedesk.one_demo.setup import BUILDER
 
 	frappe.db.set_single_value("System Settings", "enable_password_policy", 0)
-	# The owner, invited by whoever set the workspace up, and made its
-	# administrator; then the team, invited by the owner from People.
 	if not frappe.db.exists("User", OWNER):
 		with _as(BUILDER):
 			settings.invite(OWNER, "Layla", "Haddad", dict.fromkeys(APPS, "Manager"))
@@ -91,7 +87,6 @@ def run(password=None):
 		made[first] = tag(doc).name
 	for first, *_rest, boss, _access in PEOPLE:
 		if boss:
-			# The manager approves their leave and expense claims, as HR Settings asks.
 			manager = frappe.db.get_value("Employee", made[boss], "user_id")
 			doc = frappe.get_doc("Employee", made[first])
 			doc.update({"reports_to": made[boss], "leave_approver": manager, "expense_approver": manager})
@@ -100,7 +95,6 @@ def run(password=None):
 	_look()
 
 
-#: What the owner fills in on Workspace › General, for every paper the company sends.
 LOOK = {
 	"one_brand_colour": "#0E6E8C",
 	"phone_no": "+971 4 885 2210",
@@ -112,8 +106,6 @@ LOOK = {
 }
 
 
-#: Sahara's letter head: the company with its address and contacts in columns
-#: at the top, and its name, website and TRN in the corners at the foot.
 HEAD = {
 	"one_top": {"preset": "details", "show": ["address", "phone", "email", "website"]},
 	"one_foot": {"preset": "corner", "show": ["website", "tax_id"]},

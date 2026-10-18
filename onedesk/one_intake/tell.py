@@ -11,14 +11,11 @@ from onedesk.one import notify
 
 def phishing(reading) -> None:
 	"""Phishing, said at once to the person OneAI acts for and to whoever put the file there."""
-	# What waits for a person is said once the auditor has had its say
-	# (tell.waiting), not here, before the rest is even made.
 	if reading.verdict != "Phishing":
 		return
 	people = {reading.on_behalf_of}
 	if reading.source_doctype == "File":
 		people.add(frappe.db.get_value("File", reading.source_name, "owner"))
-	# Once per person and document.
 	notify.notify(
 		"Phishing",
 		list(people),
@@ -84,7 +81,6 @@ def weekly(email: str, week: dict, waiting: list, said: str) -> None:
 		arrived=week["arrived"],
 		handled=week["handled"],
 		waiting=len(waiting),
-		# Built and escaped by body(), in the reader's language.
 		week=Markup(said),
 	)
 

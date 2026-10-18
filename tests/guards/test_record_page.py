@@ -64,8 +64,6 @@ def test_a_records_views_are_the_one_tab_row():
 
 def test_no_page_draws_its_own_record_sidebar():
 	assert not (SRC / "kit" / "Record.vue").exists()
-	# A sidebar draws these together. One alone, such as a task table's
-	# Assigned To column, is a column.
 	found = [
 		str(path.relative_to(ROOT))
 		for path in VUE
@@ -83,7 +81,6 @@ def test_every_crumb_is_a_searchable_switcher():
 	assert "new frappe.ui.Popover({" in switch and 'type="text"' in switch, "a crumb opens a search over its choices"
 	assert "frappe.desk.search.search_link" in switch, "a record's crumb searches its kind as a link field does"
 	assert "onedesk.crumbs.places(" in switch and "onedesk.crumbs.records(" in switch
-	# No module puts places of its own beside the breadcrumb, nor makes a crumb a menu.
 	found = [
 		str(path.relative_to(ROOT))
 		for path in JS
@@ -135,7 +132,6 @@ def test_a_records_activity_is_written_as_a_forms_is():
 			found.append(f"{path.relative_to(ROOT)} lacks the composer or Reply and Reply All")
 		if text.index("<ActivityComposer") > text.index("<ActivityTimeline"):
 			found.append(f"{path.relative_to(ROOT)} has its comment box under the timeline")
-		# A bounded TimelineContainer is frappe/ui's chat layout, oldest first.
 		if "<TimelineContainer" in text:
 			found.append(f"{path.relative_to(ROOT)} lists oldest first")
 	assert not found, found
@@ -148,9 +144,6 @@ def test_an_island_is_inside_frappe_uis_provider():
 	mount = (SRC / "kit" / "mount.js").read_text()
 	assert "h(FrappeUIProvider" in mount
 	assert 'setConfig("systemTimezone"' in mount
-	# In the kit `frappe` is a function returning desk's frappe, so a bare
-	# `frappe.boot` there reads nothing (it once left every island's times
-	# hours out).
 	desk = (SRC / "kit" / "desk.js").read_text()
 	code = "\n".join(line for line in desk.splitlines() if not line.lstrip().startswith(("//", "*", "/*")))
 	assert not re.search(r"(?<![\w.\"'`])frappe\.\w", code.replace("window.frappe", "")), "call frappe() in the kit"

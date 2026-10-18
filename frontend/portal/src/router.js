@@ -1,5 +1,3 @@
-// The portal's places. A tab's path is its Portal Settings route
-// (one/portal.py PATHS), so /portal/orders is what /orders was.
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [

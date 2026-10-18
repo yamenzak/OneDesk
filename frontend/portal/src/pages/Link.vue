@@ -1,9 +1,4 @@
 <template>
-  <!-- A record opened through a signed link (one/portal_share.py), by
-       somebody without an account: the portal's own page for it, with who
-       sent it and who it is for above, and nothing else to go to.
-       Modelled on Stripe's hosted invoice page and DocuSign's signing page:
-       one thing, from one sender, to one person. -->
   <div v-if="said" class="mx-auto w-full max-w-6xl px-4 pt-5 sm:px-6">
     <p class="text-sm text-ink-gray-6">{{ __("From {0}, for {1}", [said.workspace, said.party]) }}</p>
   </div>

@@ -12,9 +12,6 @@ import frappe
 from onedesk.one import account, roles
 
 
-#: As many rounds as the workspace will drive. The account counts them too and
-#: refuses past its own limit — this one is only so a workspace with a bug stops
-#: on its own side rather than being stopped.
 ROUNDS = 5
 
 
@@ -36,26 +33,16 @@ def ask(
 	"""
 	from onedesk.one_ai import tools as surface
 
-	# What the workspace saved, unless a settings screen is trying something
-	# it has not saved yet.
 	chose = chose if chose is not None else mine(action)
 	if pinned:
 		chose = {**chose, "model": pinned}
-	# The groups of tools it is given (one_ai/groups.py); every tool when
-	# nobody chose, as a settings screen trying an action does.
 	given = list(groups) if groups is not None else None
 	offered = surface.declared(given)
-	# A conversation carried in from a panel arrives with the new turn already
-	# on the end of it; a bare `text` is the first thing anybody said.
 	turns = list(turns) if turns else None
 	spent, rounds, cards = 0.0, 0, []
 	asked: dict[str, dict] = {}
 	nudged = reminded = pressed = mended = handed = doubted = looked = False
-	# Whether the action may look things up at all: an answer from one that
-	# may not, a summary, is never asked to.
 	tooled = _tooled(action)
-	# A tool that sends a call back to be mended names itself here, until a
-	# later call to it holds.
 	mend = None
 	called: set[str] = set()
 
@@ -63,9 +50,6 @@ def ask(
 
 	while True:
 		tell({"thinking": rounds})
-		# The account takes ROUNDS model turns a question and refuses the next
-		# (one_admin/actions.py). The last one it takes is told to answer with
-		# what it has, so a long run ends in a sentence rather than a refusal.
 		last = turns is not None and _spoken(turns) >= ROUNDS - 1
 		if last:
 			turns = [*turns, {"role": "user", "text": LAST, "calls": [], "context": True}]
@@ -80,13 +64,9 @@ def ask(
 			tools=offered,
 		)
 		spent += float(out.get("credits") or 0)
-		# Room for a nudge: each one adds the model's turn to the conversation,
-		# and after the last round the account takes, that is a refusal.
 		more = rounds < ROUNDS and not last
 		wanted = {surface.action_of(want.get("tool")) for want in out.get("wants") or []} - {None, action}
 		if wanted and not handed and rounds < ROUNDS:
-			# The model reached for a tool that another action runs, on a model that does
-			# it well (Print Design): that action takes the conversation from here.
 			handed = True
 			action = sorted(wanted)[0]
 			chose = {**mine(action), **({"model": pinned} if pinned else {})}
@@ -95,8 +75,6 @@ def ask(
 			rounds += 1
 			continue
 		if out.get("done") and not reminded and _unkept(text, called) and more:
-			# "I will remember that" with no call behind it is a promise a
-			# small model makes and does not keep. Asked for the call, it makes it.
 			reminded = True
 			turns = [*out["turns"], {"role": "user", "text": KEEP_IT.format(text), "calls": [], "context": True}]
 			rounds += 1
@@ -109,33 +87,22 @@ def ask(
 			and not _asks(out)
 			and more
 		):
-			# A suggestion that exists to make a card, answered with no card: asked for the
-			# call it was for. Not when it ended by asking the person something.
 			pressed = True
 			turns = [*out["turns"], {"role": "user", "text": CALL_IT.format(expects), "calls": [], "context": True}]
 			rounds += 1
 			continue
 		if out.get("done") and mend and not mended and more:
-			# A small model handed "mend this and call again" apologises to the
-			# person instead. Asked once more, it makes the call.
 			mended = True
 			turns = [*_unsaid(out["turns"]), {"role": "user", "text": MEND_IT.format(mend), "calls": [], "context": True}]
 			rounds += 1
 			continue
 		if out.get("done") and mend and mended and not nudged and more:
-			# Asked to mend it and it still did not hold: told to answer, a small
-			# model says the thing was made. It was not, and it says that.
 			nudged = True
 			turns = [*_unsaid(out["turns"]), {"role": "user", "text": GAVE_UP.format(mend), "calls": [], "context": True}]
 			rounds += 1
 			continue
 		if out.get("done") and tooled and not cards and not doubted and more and _claimed(out):
-			# Measured on Gemma 4: asked to add a lead, it answered "I have
-			# suggested creating a new Lead" and called nothing. Told so, it
-			# makes the card or says that nothing was made.
 			doubted = True
-			# Told "call it, or say nothing was made", a model that offered
-			# took the second; an offer is answered as the ask it was.
 			said = OFFERED if _offered(out) else CLAIMED
 			turns = [*out["turns"], {"role": "user", "text": said, "calls": [], "context": True}]
 			rounds += 1
@@ -150,23 +117,16 @@ def ask(
 			and _cannot(out)
 			and not _asks(out)
 		):
-			# Before saying it has no tool for that, it looks at every tool there is.
 			looked = True
 			turns = [*out["turns"], {"role": "user", "text": SEEK, "calls": [], "context": True}]
 			rounds += 1
 			continue
 		if out.get("done") and tooled and not called and not doubted and more and _figured(out) and not _asks(out):
-			# Measured on Gemma 4: asked how many customers there are, it
-			# answered 41 without looking. There were four. A figure nothing
-			# was looked up for is looked up.
 			doubted = True
 			turns = [*out["turns"], {"role": "user", "text": LOOK, "calls": [], "context": True}]
 			rounds += 1
 			continue
 		if out.get("done") and _silent(out, cards) and not nudged and more:
-			# Gemini answers the round after a tool result with nothing, which
-			# is "done" when a card said it and a blank panel when none did.
-			# Asked once, in a turn the reader never sees, it says the answer.
 			nudged = True
 			said = NUDGE if _used(out) else ANSWER
 			turns = [*out["turns"], {"role": "user", "text": said, "calls": [], "context": True}]
@@ -186,9 +146,6 @@ def ask(
 			called.add(want.get("tool"))
 			key = json.dumps([want.get("tool"), want.get("args") or {}], sort_keys=True, default=str)
 			if key in asked:
-				# The same call again: a small model given an empty answer asks
-				# the identical question until the round limit ends the run with
-				# nothing said. Told so, it answers with what it has.
 				answer = {
 					"ran": asked[key].get("ran"),
 					"error": "This exact call was already made and answered above. Do not repeat it: "
@@ -199,8 +156,6 @@ def ask(
 			card = _card(answer)
 			said = answer.get("answer")
 			if given is not None and want.get("tool") == "more_tools" and isinstance(said, dict):
-				# Asked for more: given from the next round, after what it had,
-				# so what the provider cached of the tools still holds.
 				given += [one for one in said.get("given") or [] if one not in given]
 				offered = surface.declared(given)
 			if isinstance(said, dict) and said.get("mend"):
@@ -215,15 +170,11 @@ def ask(
 					"role": "tool",
 					"id": want.get("id"),
 					"tool": want.get("tool"),
-					# What the tool answered, and nothing else: a model handed the bookkeeping
-					# quotes the wrapper back at the reader as if it were the answer.
 					"result": _answer(answer),
 					"ran": bool(answer.get("ran")),
 					"card": card,
 				}
 			)
-		# What this round parked is somebody's to answer, so it is committed now
-		# rather than at the end of a request that holds minutes of model calls.
 		frappe.db.commit()
 		rounds += 1
 
@@ -251,14 +202,10 @@ def _card(answer: dict) -> str | None:
 	return said.get("proposal") if isinstance(said, dict) else None
 
 
-#: Said to a model that looked things up and then said nothing.
 NUDGE = "Now answer the question in one or two sentences from what the tools returned."
 
-#: An empty answer to a question no tool was called for (measured, Gemma 4,
-#: once in four tries of the same request): asked again, it calls the tool.
 ANSWER = "Answer the person: do what they asked with a tool, or say why it cannot be done."
 
-#: Said to a model on the last round the account will take.
 LAST = (
 	"This is the last step. Do not call another tool: answer the person now with what you have, "
 	"and say plainly what is not done."
@@ -275,32 +222,25 @@ def _spoken(turns: list[dict]) -> int:
 	return sum(1 for one in turns[asked + 1 :] if one.get("role") == "model")
 
 
-#: Said to a model that answered a suggestion without making its card.
 CALL_IT = "Now call {0} with what you just wrote. Do not answer in the chat."
 
 
-#: Said to a model that stopped at a call a tool sent back to be mended.
 MEND_IT = (
 	"The call to {0} did not hold. Mend what its answer says and call {0} again. Do not answer in the chat, "
 	"and do not tell them about the error."
 )
 
-#: Said to a model whose mended call still did not hold, so it does not say it did.
 GAVE_UP = (
 	"The call to {0} still did not go through, so nothing was made. Say so in one sentence, without the "
 	"error, and offer something simpler they could ask for."
 )
 
-#: Said to a model that was asked to remember something and did not.
 KEEP_IT = (
 	"The person just said: \"{0}\". Call remember now with the lasting fact in those words — "
 	"not anything already remembered — then answer in one sentence."
 )
 
-#: How a person asks to be remembered, in the languages a workspace reads.
 REMEMBER = re.compile(
-	# "note that" only opening a sentence: "show a note that they are a key
-	# customer" asks for an extension, not to be remembered (measured).
 	r"\b(remember|keep in mind|don'?t forget|do not forget|make a note|merk|vergiss nicht)\b"
 	r"|(?:^|[.!?]\s+)note that\b|تذك|احفظ|لا تنس",
 	re.IGNORECASE,
@@ -321,25 +261,21 @@ def _unkept(text: str | None, called: set[str]) -> bool:
 	return bool(text and REMEMBER.search(text)) and "remember" not in called
 
 
-#: Said to a model that said it made a suggestion and made none.
 CLAIMED = (
 	"You described something to make, but you did not call the tool that makes it, so nothing has been "
 	"suggested. If the person asked for it, call that tool now. Otherwise say plainly that nothing was made."
 )
 
-#: Said to a model that offered to make what was asked instead of making it.
 OFFERED = (
 	"You offered to make it instead of making it. The person asked for it, so make it now with the tool "
 	"that makes it: nothing runs until they approve the card. Only if it cannot be made, say why."
 )
 
-#: Said to a model that said it cannot, before looking at every tool.
 SEEK = (
 	"You said you cannot, without looking at every tool there is. Call more_tools to see every group, "
 	"take the one that fits and do what was asked with it. Only if none fits, say plainly what cannot be done."
 )
 
-#: What saying it cannot do something sounds like, in the panel's three languages.
 _CANNOT = re.compile(
 	r"\b(i (?:cannot|can't|can ?not|am unable|am not able)|i do(?:n't| not) have (?:a|the|any) tool"
 	r"|there is no tool|no tool (?:to|for|that))\b|kann ich nicht|nicht möglich|لا أستطيع|لا يمكنني",
@@ -352,13 +288,11 @@ def _cannot(out: dict) -> bool:
 	return bool(_CANNOT.search(_last_words(out)))
 
 
-#: Said to a model that answered with a figure it did not look up.
 LOOK = (
 	"You answered with a figure without looking anything up. Look it up with a tool, "
 	"then answer from what the tool returns."
 )
 
-#: What saying a card was made sounds like, in the panel's three languages.
 _SUGGESTED = re.compile(
 	r"\b(i(?:'ve| have| can| will|'ll)? (?:suggest(?:ed)?|propose[sd]?|drafted|added|created|made|written|wrote)"
 	r"|approv\w* (?:the|this) card|the card)\b|```|vorgeschlagen|\bkarte\b|اقترحت|البطاقة",
@@ -381,8 +315,6 @@ def _claimed(out: dict) -> bool:
 	return bool(_SUGGESTED.search(_last_words(out))) or _offered(out)
 
 
-#: An offer to make what was asked: "I can, however, write an extension
-#: that…" (measured on Gemma 4, with write_extension given and not called).
 _OFFERS = re.compile(
 	r"\bi (?:can|could)(?:,? however,?)? (?:write|create|make|set up|build|add|suggest|propose) (?:an?|the) \w",
 	re.I,
@@ -433,8 +365,6 @@ def _tried(want: dict) -> dict:
 		return surface.run(want.get("tool"), want.get("args") or {})
 	except Exception as raised:
 		frappe.clear_last_message()
-		# Stripped, because frappe writes its refusals with markup in them and
-		# this text is read by a model that may quote it back to a person.
 		said = frappe.utils.strip_html(str(raised)).strip()
 		return {"tool": want.get("tool"), "ran": False, "error": said[:500]}
 

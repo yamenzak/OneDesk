@@ -1,16 +1,10 @@
 <template>
-  <!-- Stock Summary (one_inventory/page/stock_on_hand): what the company holds
-       now, in every warehouse or one, item by item (one_inventory/stock.py,
-       read as the reader). Modelled on Shopify's Inventory and Katana's Stock
-       screen: a picture and a name, one status, and on hand split into what
-       is committed and what is available, with what is coming in. -->
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
       <Figures :figures="figures" :columns="figures.length" :boxed="wide" class="mt-6" />
       <PlaceSpot :said="placed" class="mt-4" />
 
-      <!-- Shopify's inventory: one location at a time, picked above the list. -->
       <div class="mt-6 flex flex-wrap items-center gap-2">
         <Dropdown :options="placeMenu">
           <template #trigger>
@@ -62,10 +56,6 @@
 </template>
 
 <script setup>
-// What the stores hold now. ERPNext's Stock Balance answers it over a period
-// and is prepared in the background, so the rail's first look at the stores
-// was an empty page with a Generate button. This reads what ERPNext keeps
-// current with every move, and each item opens its own page.
 import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Avatar, Badge, Button, Dropdown, TabButtons, TextInput } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
@@ -85,7 +75,6 @@ const search = ref("");
 const state = ref("all");
 const wide = ref(viewWidth() >= 640);
 onBeforeUnmount(onResize(() => (wide.value = viewWidth() >= 640)));
-// Available is the one a phone keeps; the rest join as the page widens.
 const columns = {
   base: ["minmax(0,1fr)", "auto"],
   sm: ["minmax(0,1fr)", "6.5rem", "8rem", "9rem"],
@@ -108,13 +97,11 @@ async function load() {
   report();
 }
 
-// Every move is a stock ledger entry; the page reads again when one is made.
 let timer = null;
 const soon = () => {
   clearTimeout(timer);
   timer = setTimeout(load, 600);
 };
-// Renaming an item, a warehouse or a unit shows too.
 const stop = ["Stock Ledger Entry", "Bin", "Item", "Warehouse", "UOM"].map((one) => followList(one, soon));
 onBeforeUnmount(() => {
   stop.forEach((one) => one());
@@ -126,9 +113,7 @@ watch(shown, (now) => {
 }, { immediate: true });
 watch(() => props.query.warehouse, (now) => (shown.value = now || "all"));
 
-// A warehouse by its own name, without the company's letters after it.
 const short = (name) => said.value?.warehouses.find((one) => one.name === name)?.label || name;
-// What the status means for this item, on hovering it.
 const note = (item) =>
   item.state === "low"
     ? __("Low in {0}", [item.low_in.map(short).join(", ")])
@@ -187,8 +172,6 @@ function report() {
   );
 }
 
-// The page is a place (one_studio/places.py): its extensions are told what
-// it shows, and may add a note or a button.
 const placed = reactive({ notes: [], actions: [] });
 let drawn = null;
 function extended(s) {

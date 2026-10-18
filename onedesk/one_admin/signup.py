@@ -9,12 +9,8 @@ from frappe.rate_limiter import rate_limit
 
 from onedesk.one_admin import keys, runner, site
 
-#: The statuses a slug is still spoken for in. An abandoned request lets its
-#: name go; one being paid for does not.
 HOLDING = ("New", "Paying", "Paid", "Provisioning", "Done")
 
-#: Days a request may sit unpaid before it is Abandoned and its name is free
-#: again. The same days sales.abandoned loses its deal after.
 ABANDONED_DAYS = 7
 
 
@@ -62,7 +58,6 @@ def accept(request: str) -> str:
 	if asked.tenant:
 		return asked.tenant
 
-	# Money was taken: the operator is told, and told again if it is not built.
 	from onedesk.one_admin import tell
 
 	was = asked.status
@@ -71,8 +66,6 @@ def accept(request: str) -> str:
 		tell.signup_paid(asked)
 	try:
 		if was == "Abandoned":
-			# Paid after its name was let go: somebody else may have it now,
-			# and _tenant_for would hand them this customer's money.
 			_still_free(asked)
 		tenant = _tenant_for(asked)
 	except Exception as raised:
@@ -81,7 +74,6 @@ def accept(request: str) -> str:
 		raise
 
 	asked.db_set({"tenant": tenant, "status": "Provisioning", "failed_reason": None}, notify=True)
-	# Paid for, so theirs: into the account for the address it was bought with.
 	from onedesk.one_admin import accounts
 
 	accounts.hold(tenant, asked.email)
@@ -151,8 +143,6 @@ def _tenant_for(asked) -> str:
 			"jurisdiction": asked.jurisdiction,
 			"cluster": asked.cluster,
 			"country": asked.country,
-			# The bench and region are chosen by the build (steps.place_it).
-			# Decimal gigabytes, not binary: the plan says 25 GB, R2 bills in decimal.
 			"storage_limit": (sold.storage_gb or 0) * 1000 * 1000 * 1000,
 			"database_limit": (sold.database_gb or 0) * 1000 * 1000 * 1000,
 			"seats": sold.seats or 0,
@@ -162,16 +152,11 @@ def _tenant_for(asked) -> str:
 	return asked.slug
 
 
-#: Signups a minute from one address. A person filling in a form makes one; a
-#: script making twenty is taking names nobody will use.
 A_MINUTE = 60
 STARTS_A_MINUTE = 5
 
-#: Name checks a minute. The page asks after every pause in the typing, and five
-#: was measured running out on one name typed in bursts, which froze the hint.
 CHECKS_A_MINUTE = 30
 
-#: Days after an unpaid signup before its one reminder goes (remind).
 REMIND_AFTER_DAYS = 1
 
 
@@ -183,7 +168,6 @@ def available(name: str) -> dict:
 	return free(name)
 
 
-#: Minutes a build may take before the welcome page stops saying "a few".
 SLOW_MINUTES = 15
 
 
@@ -311,14 +295,11 @@ def start(workspace_name: str, offering: str, jurisdiction: str = "Global", emai
 			"slug": workspace_name,
 			"offering": sold.name,
 			"jurisdiction": jurisdiction if jurisdiction in ("Global", "EU") else "Global",
-			# Where it goes is the build job's to choose (steps.place_it), so a
-			# Frappe Cloud outage never stops a signup.
 			"status": "New",
 		}
 	).insert(ignore_permissions=True)
 
 	from onedesk.one_admin import sales, stripe
 
-	# Our own lead and deal for it, before the customer leaves to pay (sales.py).
 	sales.signed_up(asked.name)
 	return {"request": asked.name, "pay_at": stripe.checkout(asked.name)}

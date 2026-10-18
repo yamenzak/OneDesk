@@ -4,7 +4,6 @@ import frappe
 from frappe import _
 from frappe.utils import now_datetime
 
-#: The three fields both of them carry, added as custom fields on each.
 SIGNED = ("one_decided_by", "one_decided_on", "one_note")
 
 

@@ -1,28 +1,18 @@
 <template>
-  <!-- OneHR's Home (one_hr/page/onehr): everybody's day, and for HR how the
-       people are doing, then everything in OneHR with what it is for
-       (one_hr/home.py, one_hr/story.py). Reports and Setup open their part
-       of it. Modelled on HRMS's own phone app's Home (check in, your requests,
-       your team's requests, the leave you have left) for everybody, and laid
-       out as OneCRM's and OneBook's Homes for HR; like them a place an
-       extension may add to. -->
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
-      <!-- HR's figures, each with its months; everybody's leave left. -->
       <div v-if="cards.length" ref="cardsRoot" class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
         <NumberCard v-for="card in cards" :key="card.key" v-bind="card.props" class="cursor-pointer" role="link" @click="go(card.route)" />
       </div>
       <PlaceSpot :said="placed" class="mt-4" />
       <ViewTabs v-model="shown" :views="views" class="mt-5" />
 
-      <!-- Overview, HR's: what needs the reader, then the people's story. -->
       <template v-if="shown === 'overview'">
         <Loading v-if="!story" />
         <HrStory v-else :story="story" :needs="chips" @today="shown = 'today'" />
       </template>
 
-      <!-- Today: what needs the reader, kind by kind, the empty kinds left out. -->
       <template v-else-if="shown === 'today'">
         <p v-if="!parts.length" class="py-10 text-center text-base text-ink-gray-5">{{ __("Nothing needs you") }}</p>
         <Section v-for="part in parts" :key="part.key" :title="part.title" :icon="part.icon" :aside="part.count">
@@ -31,7 +21,6 @@
         </Section>
       </template>
 
-      <!-- Everything, or one part of it, each with what it is for. -->
       <template v-else>
         <TextInput v-model="search" class="mt-4 w-full max-w-xs" type="search" :placeholder="__('Search')" :aria-label="__('Search')">
           <template #prefix><span class="lucide-search size-4 text-ink-gray-5" aria-hidden="true" /></template>
@@ -71,7 +60,6 @@ const props = defineProps({
 });
 
 const said = ref(null);
-// Overview for HR, Today for everybody else; /desk/onehr/reports opens Reports.
 const shown = ref(props.route[0] || props.query.view || null);
 const search = ref("");
 const story = ref(null);
@@ -86,7 +74,6 @@ async function load() {
 }
 load();
 
-// What needs the reader changes with every request, check-in and interview.
 let timer = null;
 const soon = () => {
   clearTimeout(timer);
@@ -127,8 +114,6 @@ const needed = computed(() => {
   return n ? KINDS.reduce((sum, key) => sum + n[key].count, 0) : 0;
 });
 
-// HR's figures: who works here, who joined this month, who is in and who is
-// away today, the last payroll, and the roles being hired for.
 const CARDS = () => [
   { key: "headcount", title: __("Headcount"), plain: true, type: "line", hue: 0, route: "/desk/employee?status=Active" },
   { key: "joined", title: __("Joined This Month"), plain: true, type: "bar", hue: 2, route: "/desk/employee?status=Active" },
@@ -147,7 +132,6 @@ const change = (series, plain) => {
 const format = (one) => (value) => (one.plain ? String(value) : money(value, story.value.currency, 0));
 const cards = computed(() => {
   const hues = tokens.value.categorical;
-  // Everybody's: the leave they have left, kind by kind.
   const leave = (said.value?.needs?.leave || []).map((one) => ({
     key: `leave-${one.leave_type}`,
     route: "/desk/leave-application/new",
@@ -170,7 +154,6 @@ const cards = computed(() => {
     }));
 });
 
-// What needs the reader, one button each, leading to Today.
 const chips = computed(() => {
   const n = said.value?.needs;
   if (!n) return [];
@@ -210,7 +193,6 @@ const groups = computed(() => {
 });
 
 const open = (one) => `/desk/${slug(one.doctype)}/${encodeURIComponent(one.name)}`;
-// A request's dates, or how long it has waited.
 const dates = (one) => (one.from ? (one.to && one.to !== one.from ? `${date(one.from)} – ${date(one.to)}` : date(one.from)) : "");
 const requests = (rows, mine) =>
   rows.map((one) => ({
@@ -225,7 +207,6 @@ const requests = (rows, mine) =>
 const due = (days) => (days === 0 ? __("Today") : days === 1 ? __("Tomorrow") : __("In {0} days", [days]));
 const dated = (rows) => rows.map((one) => ({ key: `${one.name}-${one.about}`, label: one.who, sub: one.about, dot: one.days <= 7 ? "red" : "amber", value: date(one.on), under: due(one.days), route: open(one) }));
 
-// Each kind of thing that needs the reader, as rows, and where the rest are.
 const parts = computed(() => {
   const n = said.value.needs;
   const more = (kept, label, where) => (kept.count > kept.rows.length ? { label: __("{0} more", [kept.count - kept.rows.length]) + " · " + label, route: where } : null);
@@ -249,8 +230,6 @@ const parts = computed(() => {
   return out;
 });
 
-// Before they're in, the shift's start is part of the button: "Check in by 09:00",
-// or that they are late once it has gone.
 function checkLabel(direction) {
   if (direction === "OUT") return __("Check Out");
   const due = clock.value?.due && clock.value.state !== "in" ? onedesk().clock.time(clock.value.due) : "";
@@ -262,10 +241,6 @@ function report() {
   const s = said.value;
   props.onTitle?.({ title: __("OneHR") });
   extended(s);
-  // Everybody's three: clock in, ask for leave, claim an expense. The clock is
-  // the bar's own (public/js/desk.js), so this asks the same gates rather than
-  // opening a blank check-in nobody's phone vouched for; it is left out where
-  // the workspace has not switched self check-in on or there is nothing to punch.
   const direction = clock.value?.direction;
   props.onActions?.([
     ...(direction ? [{ label: checkLabel(direction), primary: true, onClick: () => onedesk().dock.punch().then(load) }] : []),
@@ -274,8 +249,6 @@ function report() {
   ]);
 }
 
-// The page is a place (one_studio/places.py): its extensions are told what
-// needs the reader, and may add a note or a button.
 const placed = reactive({ notes: [], actions: [] });
 let drawn = null;
 function extended(s) {

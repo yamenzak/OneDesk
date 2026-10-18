@@ -10,14 +10,10 @@ from frappe.utils import add_months, add_years, get_datetime, getdate
 
 from onedesk.one_calendar import layers
 
-#: The weekday fields a Weekly event ticks, Monday first as `weekday()` counts.
 WEEKDAYS = ("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday")
 
-#: Who may put an event on everybody's calendar. The New Event dialog offers
-#: it to the same roles (onecalendar.js).
 PUBLISHERS = ("Workspace Administrator", "HR Manager")
 
-#: How far a repeat is looked for, so a daily event from years ago still ends.
 MOST_REPEATS = 400
 
 LAYERS = [
@@ -99,13 +95,10 @@ def _rows(start, end, wanted: str, record: tuple | None = None) -> list[dict]:
 		side = whose(one, user, one.name in shared, user in people.get(one.name, ()))
 		opens = ("Event", one.name)
 		if record:
-			# On the record's own calendar: every event about it, opening the
-			# event when frappe's rule lets the reader, the record otherwise.
 			if record not in records:
 				continue
 			side, opens = "about", opens if side else record
 		elif side is None:
-			# Visible only because of a record it is about, if any is readable.
 			record = next((pair for pair in records if _can_read(pair, readable)), None)
 			if not record:
 				continue
@@ -249,8 +242,6 @@ def validate(doc, method=None) -> None:
 	"""Guests typed as addresses become participants; and only a publisher
 	makes an event Public, or keeps editing one."""
 	if doc.get("one_guests"):
-		# An address carried in by a suggestion OneAI made (ai.py plan_event) or
-		# typed anywhere else: each becomes a participant, a Contact if needed.
 		invite(doc, None, doc.one_guests)
 		doc.one_guests = None
 	if doc.event_type != "Public" or frappe.flags.in_install or frappe.flags.in_migrate:
@@ -278,9 +269,6 @@ def booking(doc, method=None) -> None:
 
 def booked(doc, method=None) -> None:
 	frappe.flags.one_booking = None
-
-
-# ------------------------------------------------------------------ making and showing
 
 
 @frappe.whitelist(methods=["POST"])
@@ -368,8 +356,6 @@ def contact(email: str) -> str:
 			"email_ids": [{"email_id": email, "is_primary": 1}],
 		}
 	)
-	# Made as a side effect of inviting them, which the person may do whether
-	# or not they may add contacts by hand.
 	made.insert(ignore_permissions=True)
 	return made.name
 

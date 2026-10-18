@@ -1,14 +1,10 @@
 <template>
-  <!-- Where the item is kept: each warehouse with what it holds, what is
-       promised from it and on its way to it, and its reorder level; then its
-       lots or numbered pieces, and the last moves in and out of it. -->
   <div class="grid gap-x-10 pb-12 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
     <div class="min-w-0">
     <PlaceSpot :said="spot" class="mb-4" />
     <Section :title="__('Where It Is')" icon="lucide-warehouse" :aside="said.stock.places.length || ''">
       <ItemPlaces :said="said" :form="form" @changed="emit('changed')" />
     </Section>
-    <!-- Its lots and numbered pieces, as the Lots page shows them (frontend/src/lots). -->
     <Section v-if="said.has_batch_no" :title="__('Lots')" icon="lucide-boxes" :aside="said.stock.batches.length || ''" :action="lotAction">
       <LotRows :lots="said.stock.batches" :with-item="false" :empty="__('No lots in stock')" />
     </Section>
@@ -20,7 +16,6 @@
       <Rows :rows="moves" :empty="__('No moves yet')" />
     </Section>
   </div>
-    <!-- How the item is kept here: the item's own form fields, changed in place. -->
     <aside class="min-w-0">
       <Section :title="__('Details')" icon="lucide-info">
         <Facts :facts="details" :form="form" @saved="emit('changed')" />
@@ -43,14 +38,11 @@ const emit = defineEmits(["changed"]);
 const uom = computed(() => props.said.stock_uom);
 const slug = (doctype) => doctype.toLowerCase().replace(/ /g, "-");
 
-// New Lot when the reader may make one, as the Lots page offers it.
 const lotAction = computed(() =>
   can("create", "Batch") ? { text: true, icon: "lucide-plus", label: __("New Batch"), onClick: () => onedesk().lots.new_lot(props.said.name, () => emit("changed")) } : null
 );
-// An item not kept in lots yet, which hasn't moved, may be set up to be.
 const canTrack = computed(() => !props.said.has_batch_no && !props.said.has_serial_no && !props.said.stock_exists && props.form.status("has_batch_no") === "Write");
 
-// A move in plain words: what happened, to how much, and where.
 function told(one) {
   const qty = quantity(Math.abs(one.actual_qty));
   if (one.from) return __("Moved {0} from {1} to {2}", [qty, one.from, one.to]);
@@ -107,13 +99,11 @@ const moves = computed(() =>
   }))
 );
 
-// The Stock view is a place (one_studio/places.py).
 const spot = usePlace("oneinventory_item.stock", () => ({
   item: { name: props.said.name, item_name: props.said.item_name },
   stock: { places: props.said.stock.places.length, low_in: props.said.stock.places.filter((one) => one.low).map((one) => one.called), moves: props.said.stock.moves.length },
 }));
 
-// The item's own form fields that belong here, shown or locked as its form has them.
 const details = [
   { label: __("Safety Stock"), field: "safety_stock" },
   { label: __("Allow Negative Stock"), field: "allow_negative_stock" },

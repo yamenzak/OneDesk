@@ -1,11 +1,6 @@
 <template>
-  <!-- Upkeep's tabs as tables, modelled on UpKeep's and Fiix's work order
-       lists: each row the asset with its picture and the job, one status,
-       who does it and when (one_inventory/upkeep.py). Planned, Asset Repair,
-       Asset Maintenance and Completed each have the columns their rows need. -->
   <p v-if="!rows.length && empty" class="py-6 text-base text-ink-gray-5">{{ empty }}</p>
 
-  <!-- Services not done yet. -->
   <List v-else-if="kind === 'due'" :columns="DUE" divider="full" :row-height="56" class="-mx-3 list-gap-4 list-row-px-3">
     <ListHeader>
       <ListHeaderCell>{{ __("Asset") }}</ListHeaderCell>
@@ -46,7 +41,6 @@
     </ListRows>
   </List>
 
-  <!-- What broke. -->
   <List v-else-if="kind === 'repairs'" :columns="REPAIRS" divider="full" :row-height="56" class="-mx-3 list-gap-4 list-row-px-3">
     <ListHeader>
       <ListHeaderCell>{{ __("Asset") }}</ListHeaderCell>
@@ -77,7 +71,6 @@
     </ListRows>
   </List>
 
-  <!-- Each asset's plan. -->
   <List v-else-if="kind === 'plans'" :columns="PLANS" divider="full" :row-height="56" class="-mx-3 list-gap-4 list-row-px-3">
     <ListHeader>
       <ListHeaderCell>{{ __("Asset") }}</ListHeaderCell>
@@ -106,7 +99,6 @@
     </ListRows>
   </List>
 
-  <!-- What was done. -->
   <List v-else :columns="DONE" divider="full" :row-height="56" class="-mx-3 list-gap-4 list-row-px-3">
     <ListHeader>
       <ListHeaderCell>{{ __("Asset") }}</ListHeaderCell>
@@ -151,7 +143,6 @@ const props = defineProps({
 });
 const emit = defineEmits(["changed"]);
 
-// A day and how far it is from today, red once past.
 const When = defineComponent({
   props: { day: String, late: Boolean },
   setup: (p) => () =>
@@ -163,7 +154,6 @@ const When = defineComponent({
       : h("span", { class: "text-base text-ink-gray-4" }, "–"),
 });
 
-// Each table keeps the asset and the day on a phone; the rest join as it widens.
 const DUE = {
   base: ["minmax(0,1fr)", "7rem", "2rem"],
   sm: ["minmax(0,1fr)", "7rem", "8rem", "2rem"],
@@ -188,7 +178,6 @@ const DONE = {
   lg: ["minmax(0,1fr)", "6rem", "minmax(0,10rem)", "7rem", "7rem"],
 };
 
-// A service late, due within a week, or further off.
 function dueState(one) {
   if (one.late) return { label: __("Overdue"), theme: "red" };
   const soon = one.due_date && (new Date(one.due_date) - new Date(today())) / 86400000 <= 7;

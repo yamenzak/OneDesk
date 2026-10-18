@@ -14,20 +14,15 @@ VILLA = "Mansour Villa Windows and Doors"
 TOWER = "Bayview Tower Curtain Wall"
 COATER = "Gulf Powder Coating"
 
-#: workstation, its step, cost per hour, who works it
 WORKSTATIONS = (
 	("Saw Line", "Cutting", 60, "Arun Kumar"),
 	("Assembly Bench", "Assembly", 45, "Ravi Menon"),
 	("Glazing Table", "Glazing", 50, "Joseph Mathew"),
 )
 
-#: The workshop's floor, kept by Tariq, and how each workstation stands now:
-#: the saw is cutting, the bench is idle, and the glazing table is down for
-#: a new suction lifter.
 FLOOR = "Workshop"
 STANDING = {"Saw Line": "Production", "Assembly Bench": "Idle", "Glazing Table": "Maintenance"}
 
-#: product, [(material, qty for one)], [(step, minutes for one)]
 BOMS = (
 	(
 		"WIN-CS12",
@@ -39,11 +34,9 @@ BOMS = (
 		(("ALU-6063", 16), ("GLS-DGU", 4.5), ("HW-LOCK", 1), ("HW-HANDLE", 2), ("SEAL-EPDM", 12), ("SIL-CLR", 1)),
 		(("Cutting", 20), ("Assembly", 45), ("Glazing", 30)),
 	),
-	# Balustrade glass comes cut to size, and is fixed on site.
 	("BAL-GL", (("GLS-TMP10", 1.1), ("FIX-ANCH", 4), ("SIL-CLR", 1)), ()),
 )
 
-#: product, qty, started, made (all, part or none), project
 ORDERS = (
 	("WIN-CS12", 40, on(4, 8), 40, None),
 	("DR-SL24", 14, on(4, 20), 14, None),
@@ -54,13 +47,9 @@ ORDERS = (
 	("BAL-GL", 40, add_days(today(), -2), 0, VILLA),
 )
 
-#: The villa's last doors, asked for by Rania and not started yet.
 ASKED = ("DR-SL24", 8, ahead(4))
 
-#: Coating: metres sent, the price a metre, sent and back.
 COATED = (300, 4.5, ago(20), ago(12))
-#: The tower's profile, with the coater now: sent three days ago, due back
-#: in four, nothing back yet.
 COATING = (200, 4.5, ago(3), ahead(4))
 
 
@@ -75,8 +64,6 @@ def run(password=None):
 				_bom(product, materials, steps)
 		if not frappe.db.exists("BOM", {"item": "ALU-6063-PC", "is_default": 1}):
 			_bom("ALU-6063-PC", (("ALU-6063", 1),), ())
-	# Making with workstation time needs the company's account for it, and new
-	# work orders their warehouses: the Inventory Check's two fixes.
 	with as_user(BUYER):
 		ready.fix("workshop")
 		ready.fix("floor")
@@ -104,7 +91,6 @@ def _workshop():
 			{"workstation_name": workstation, "workstation_costs": [{"operating_component": "Wages", "operating_cost": rate}]},
 		)
 		once("Operation", {"name": step}, {"name": step, "workstation": workstation})
-	# A floor is the workshop's setup, kept by its manager.
 	with as_user(BUYER):
 		once("Plant Floor", {"name": FLOOR}, {"floor_name": FLOOR, "company": COMPANY, "warehouse": wh("Work In Progress")})
 	for workstation, status in STANDING.items():
@@ -155,7 +141,6 @@ def _work_order(product, qty, started, made, project, request=None):
 	)
 	if request:
 		order.material_request, order.material_request_item = request
-	# The form fetches the bill's materials and steps when the bill is chosen.
 	order.get_items_and_operations_from_bom()
 	order = save(order, submit=True)
 	if started >= today():
@@ -163,7 +148,6 @@ def _work_order(product, qty, started, made, project, request=None):
 	transfer = frappe.get_doc(make_stock_entry(order.name, "Material Transfer for Manufacture", qty))
 	dated(transfer, started)
 	save(transfer, submit=True)
-	# Everything is cut at once, then assembled and glazed as far as it was made.
 	done = _worked(order, {"Cutting": qty if made else 0}, made, started)
 	if made:
 		finish = frappe.get_doc(make_stock_entry(order.name, "Manufacture", made))
@@ -198,7 +182,6 @@ def _worked(order, ahead_of, made, started):
 			start = add_to_date(start, days=1)
 		day = start
 		dated(card, last.date())
-		# What is not done yet is still to do, not lost.
 		card.pending_qty = flt(card.for_quantity) - done
 		card.save()
 		card.submit()
@@ -312,8 +295,6 @@ def _coated(project, coated=COATED, back_in=True):
 		dated(receipt, back)
 		receipt.supplier_delivery_note = "GPC-DN-0417"
 		receipt = save(receipt, submit=True)
-		# The coater's order is received through a purchase receipt as well,
-		# which their bill is then made against.
 		taken = frappe.get_doc(make_purchase_receipt(receipt.name))
 		dated(taken, back)
 		save(taken, submit=True)

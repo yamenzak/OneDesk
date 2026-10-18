@@ -9,13 +9,8 @@ import mimetypes
 
 import frappe
 
-#: Per file. Gemini takes about 20 MB in a request and the conversation goes
-#: with it, so this is well under what the provider would refuse — the limit
-#: that matters is what a round costs, not what the API allows.
 MOST_BYTES = 4 * 1024 * 1024
 
-#: Per turn. Three is a covering letter and two invoices; ten is a folder, and a
-#: folder is a thing to ask about one at a time.
 MOST_FILES = 3
 
 @frappe.whitelist()

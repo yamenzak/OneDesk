@@ -7,15 +7,11 @@ its logo is the one shown. A provider missing from `PROVIDERS` is never offered.
 
 from urllib.parse import quote
 
-#: Every provider a workspace's data may go to, and the company that is, as
-#: one_ai/legal.py names it.
 PROVIDERS = {
 	"google-ai-studio": "Google LLC",
 	"workers-ai": "Cloudflare, Inc.",
 }
 
-#: A maker by the organisation in a Workers AI model's path (its second part):
-#: the name a person knows it by, and the domain its logo is fetched for.
 MAKERS = {
 	"google": ("Google", "gemini.google.com"),
 	"meta": ("Meta", "llama.com"),
@@ -34,7 +30,6 @@ MAKERS = {
 	"baai": ("BAAI", "baai.ac.cn"),
 }
 
-#: Whose logo a provider's own models carry.
 BY_PROVIDER = {
 	"google-ai-studio": ("Google", "gemini.google.com"),
 	"workers-ai": ("Cloudflare", "cloudflare.com"),
@@ -61,10 +56,8 @@ def logo(domain: str, size: int = 64) -> str:
 	)
 
 
-#: Parts of a model's id that read better in capitals.
 LOUD = {"it", "fp8", "fp16", "awq", "er", "oss", "glm", "gpt", "ai", "vl", "moe"}
 
-#: Names their makers spell their own way.
 SPELT = {"deepseek": "DeepSeek", "qwq": "QwQ"}
 
 

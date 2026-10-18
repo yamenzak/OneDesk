@@ -10,7 +10,6 @@ from onedesk.one_hr import own
 
 KINDS = ("Salary Certificate", "Experience Letter", "Employment Letter", "No Objection Certificate", "Other")
 
-#: The roles that may ask for a letter about somebody else.
 HR = ("HR Manager", "HR User")
 
 
@@ -119,8 +118,6 @@ def _salary(employee: str) -> dict | None:
 		fields=["salary_component", "amount"],
 		order_by="idx",
 	)
-	# The code, not the symbol: a letter to a bank says AED 6,000.00, and the
-	# symbol for dirhams is written in Arabic script.
 	money = lambda amount: f"{slip.currency} {fmt_money(flt(amount))}".strip()
 	return {
 		"month": str(slip.start_date)[:7],

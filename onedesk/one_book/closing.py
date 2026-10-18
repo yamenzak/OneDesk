@@ -5,7 +5,6 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, getdate, nowdate
 
-#: Who may lock, unlock and close.
 CLOSERS = ("Accounts Manager", "Workspace Administrator")
 
 
@@ -111,6 +110,5 @@ def close_year(company: str, year: dict) -> str:
 		}
 	)
 	voucher.insert()
-	# Submitting locks the year (year_closed).
 	voucher.submit()
 	return voucher.name

@@ -1,5 +1,3 @@
-// What a workspace needing this much would pay, every way it could.
-// A workspace fills the four needs from what it has now.
 frappe.query_reports["Plan Calculator"] = {
 	filters: [
 		{
@@ -13,7 +11,6 @@ frappe.query_reports["Plan Calculator"] = {
 				frappe
 					.xcall("onedesk.one_admin.report.plan_calculator.plan_calculator.needs_of", { workspace })
 					.then((needs) => {
-						// Setting a changed need refreshes; the same needs again would not.
 						const changed = Object.keys(needs).some((key) => report.get_filter_value(key) != needs[key]);
 						report.set_filter_value(needs);
 						if (!changed) report.refresh(true);

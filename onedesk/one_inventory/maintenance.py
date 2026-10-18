@@ -5,7 +5,6 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, add_months, add_years, getdate, nowdate
 
-#: ERPNext's periodicities, as (days, months, years).
 PERIODS = {
 	"Daily": (1, 0, 0),
 	"Weekly": (7, 0, 0),
@@ -31,7 +30,6 @@ def next_due(periodicity: str, start, last=None, end=None):
 	return due
 
 
-#: What a task's next date is worked out from.
 FROM = ("periodicity", "start_date", "last_completion_date", "end_date")
 
 

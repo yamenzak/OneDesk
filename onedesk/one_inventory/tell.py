@@ -257,7 +257,6 @@ def handed_over(doc, method=None) -> None:
 		)
 
 
-#: How far ahead a service is told.
 SOON = 7
 
 
@@ -288,7 +287,6 @@ def services() -> None:
 			"Service Late" if late else "Service Due",
 			sorted(set(filter(None, people))),
 			record=("Asset Maintenance Log", log.name),
-			# Due and then late are two things to tell, each once.
 			dedupe_on=["type", "document_type", "document_name"],
 			task=log.task_name,
 			asset=asset,

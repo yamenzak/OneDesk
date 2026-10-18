@@ -9,7 +9,6 @@ import frappe
 from frappe.desk.calendar import get_events
 from frappe.utils import get_datetime
 
-#: A task that is a template's step, not work.
 NOT_A_TEMPLATE = ["is_template", "=", 0]
 
 

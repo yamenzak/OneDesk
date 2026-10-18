@@ -18,18 +18,14 @@ from onedesk.one_admin import site
 API = "https://api.cloudflare.com/client/v4"
 TIMEOUT = 30
 
-#: What is ours, by name. A second account, or a second environment on this
-#: one, would change these, not the code.
 KV_TITLE = "one-sites"
 BUCKETS = {"Global": "one-global", "EU": "one-eu"}
 ROUTER = "one-tenant-router"
 MAILER = "one-mail"
-#: A proxied record is never dialled: the Worker answers before the origin.
 NOWHERE = "192.0.2.1"
 DEPLOY = Path(__file__).resolve().parents[2] / "deploy"
 COMPATIBILITY = "2025-01-01"
 
-#: Each step's verdict.
 OURS, MADE, THEIRS, FAILED, WAITING = "ours", "created", "theirs", "failed", "needs attention"
 
 
@@ -42,8 +38,6 @@ class Setup:
 		self.said: list[dict] = []
 		self.account = None
 		self.zone = None
-
-	# ------------------------------------------------------------ the calls
 
 	def call(self, method: str, path: str, **kwargs) -> dict:
 		headers = {"Authorization": f"Bearer {self.token}", **kwargs.pop("headers", {})}
@@ -63,8 +57,6 @@ class Setup:
 		"""A setting is filled in once, and never replaced."""
 		if value and not self.settings.get(field):
 			self.settings.set(field, value)
-
-	# ------------------------------------------------------------ the steps
 
 	def run(self) -> list[dict]:
 		for step in (
@@ -180,7 +172,6 @@ class Setup:
 		try:
 			held = self.call("GET", f"/zones/{zone}/custom_hostnames/fallback_origin").get("result") or {}
 		except Refused:
-			# Cloudflare answers a zone with no fallback origin with an error.
 			held = {}
 		if held.get("origin"):
 			return self.note("fallback origin", OURS if held["origin"] == self.fallback() else THEIRS, held["origin"])
@@ -272,7 +263,6 @@ class Setup:
 				"enable_incoming": 0,
 				"enable_outgoing": 1,
 				"default_outgoing": 1,
-				# Never dialled: outbound.deliver sends it through Cloudflare.
 				"smtp_server": sender.rpartition("@")[2],
 				"no_smtp_authentication": 1,
 				"always_use_account_email_id_as_sender": 1,
@@ -286,8 +276,6 @@ class Setup:
 		):
 			frappe.db.set_value("Email Account", other, "default_outgoing", 0)
 		self.note("sender account", OURS if name else MADE, sender)
-
-	# ------------------------------------------------------------ helpers
 
 	def kv_binding(self) -> dict:
 		return {"type": "kv_namespace", "name": "SITES", "namespace_id": self.settings.cloudflare_kv}

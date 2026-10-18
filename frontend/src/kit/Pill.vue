@@ -1,6 +1,4 @@
 <template>
-  <!-- A value from a short list, as a coloured pill; clicking it picks another
-       (monday's status column). Read-only when `readonly`. -->
   <Dropdown v-if="!readonly" :options="choices">
     <template #trigger>
       <button class="inline-flex rounded-3 focus-visible:ring-2 focus-visible:ring-outline-gray-3" :aria-label="label ? `${label}, ${shown}` : shown">

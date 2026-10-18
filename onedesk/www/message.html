@@ -6,19 +6,12 @@
 {% block breadcrumbs %}{% endblock %}
 
 {% block page_content %}
-{#- frappe's not-permitted page renders this template with its own context,
-    which names no code, only its title. -#}
 {%- set code = (error_code or http_status_code or (403 if title == _("Not Permitted") else ""))|string -%}
 <div class="one-portal one-lost">
 	{%- if success %}{% set lost_code, lost_core = "", "check" %}
 	{%- elif code|length == 3 and code[1] == "0" %}{% set lost_code, lost_core = code, "empty" %}
 	{%- else %}{% set lost_code, lost_core = "", "one" %}{% endif %}
 	{% include "templates/includes/one_lost.html" %}
-	{#- frappe's own not-permitted page, in the desk's words, whatever its
-	    message (none, the title again from erpnext's record pages, or "You
-	    don't have the permissions to access this document" from a web form). A
-	    block sees only the context, so the block below asks the same question
-	    again. -#}
 	{%- set denied = title == _("Not Permitted") %}
 	{% if title %}<h1>{{ _("No access") if denied else title }}</h1>{% endif %}
 	{% block message_body %}

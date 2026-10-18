@@ -93,7 +93,6 @@ def test_every_shipped_field_lands_where_it_was_put():
 			ours.setdefault(field["dt"], {})[field["fieldname"]] = (path, field.get("insert_after"))
 		setters += [(path, one) for one in said.get("property_setters") or []]
 	standard = {name: {f.get("fieldname") for f in doc.get("fields", [])} for name, doc in doctypes.items()}
-	# What hrms adds to erpnext's doctypes as custom fields when it installs.
 	hrms = set(re.findall(r'"fieldname": "(\w+)"', (APPS / "hrms" / "hrms" / "setup.py").read_text()))
 	standard = {name: fields | hrms for name, fields in standard.items()}
 	lost = []

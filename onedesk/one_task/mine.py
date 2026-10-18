@@ -8,10 +8,8 @@ from frappe.utils import getdate, nowdate
 
 from onedesk.one_task.capture import DONE
 
-#: The most tasks one person's list shows.
 MOST = 500
 
-#: The groups, in the order they are shown.
 GROUPS = {
 	"overdue": _lt("Overdue"),
 	"today": _lt("Today"),
@@ -21,7 +19,6 @@ GROUPS = {
 	"none": _lt("No Due Date"),
 }
 
-#: Most pressing first, within a day.
 PRIORITY = {"Urgent": 0, "High": 1, "Medium": 2, "Low": 3}
 
 
@@ -40,7 +37,6 @@ def when(due: date | None, today: date) -> str:
 	return "later"
 
 
-#: The page's views: what each lists, besides being still to do.
 VIEWS = ("mine", "inbox")
 
 
@@ -86,9 +82,6 @@ def tasks(view: str = "mine") -> list[dict]:
 		limit=MOST,
 	)
 	waiting = _waiting([one.name for one in rows])
-	# Where each task is, as a path through sub-projects, Villa and then Handrails.
-	# The reader may be on a task in a project they cannot open; its name is
-	# already on the task, so its path is no more than that.
 	from onedesk.one_project.tree import path
 
 	titles = {project: path(project) for project in {one.project for one in rows if one.project}}
@@ -100,7 +93,6 @@ def tasks(view: str = "mine") -> list[dict]:
 		one.project_title = titles.get(one.project) or one.project
 		one.place = places.get(one.project)
 		one.waiting = waiting.get(one.name, 0)
-		# What a task OneIntake made is about, where it is in no project.
 		if not one.project and one.one_about_doctype and one.one_about:
 			one.about_title = about(one.one_about_doctype, one.one_about)
 		one.subject = unnamed(one.subject, (one.place or {}).get("label") or one.get("about_title"))
@@ -163,7 +155,6 @@ def place(project: str | None, title: str | None = None) -> dict | None:
 		if found:
 			return {
 				"label": found.employee_name or found.name,
-				# Somebody given one step may not open the whole onboarding.
 				"route": f"/desk/{frappe.scrub(doctype).replace('_', '-')}/{found.name}"
 				if frappe.has_permission(doctype, "read", doc=found.name)
 				else None,

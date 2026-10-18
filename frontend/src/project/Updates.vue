@@ -1,6 +1,4 @@
 <template>
-  <!-- The team's latest update, each with the health it was written in, and
-       a line to post the next one. Earlier ones open under it. -->
   <div>
     <div v-for="(one, i) in shown" :key="i" class="flex gap-3 pb-4">
       <Avatar :label="one.by" :image="one.image" size="md" />
@@ -19,7 +17,6 @@
       {{ __("Your update is due today") }}
     </div>
     <div ref="line" class="flex items-center gap-2">
-      <!-- How it's going means nothing once it's finished. -->
       <Pill v-if="said.health && !['Completed', 'Cancelled'].includes(said.status)" :value="said.health" :colors="HEALTH" :label="__('Health')" readonly />
       <TextInput v-model="note" class="min-w-0 flex-1" :placeholder="__('Write an update')" @keydown.enter="post" />
       <Button v-if="note.trim()" variant="solid" :label="__('Post Update')" :loading="posting" @click="post" />
@@ -61,13 +58,10 @@ async function post() {
   }
 }
 
-// Somebody else's update shows as it is posted; a draft OneAI wrote, once
-// approved, lands in the line to be read and posted (one_ai/proposals.py).
 const stop = [
   listen("one_project_update", (data) => {
     if (data.project !== props.said.name) return;
     load();
-    // Whether the reader's own update is still due may have changed with it.
     if (props.said.update_due) emit("changed");
   }),
   listen("one_project_draft", (data) => {
@@ -78,13 +72,11 @@ const stop = [
 ];
 onBeforeUnmount(() => stop.forEach((one) => one()));
 
-// Post Update in the page's menu brings the reader here (ProjectPage.vue).
 const line = ref(null);
 function focus() {
   const input = line.value?.querySelector("input");
   input?.scrollIntoView({ block: "center", behavior: "smooth" });
   input?.focus();
 }
-// After the menu that asked has closed and handed focus back to its button.
 watch(() => props.writing, (now) => now && nextTick(() => setTimeout(focus, 300)), { immediate: true });
 </script>

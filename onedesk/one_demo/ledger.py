@@ -12,7 +12,6 @@ from onedesk.one_demo.base import ABBR, COMPANY, as_user, make, once, today
 
 ACCOUNTS = "huda@one.test"
 
-#: Each part, in order.
 PARTS = (
 	"_closed_year",
 	"_shares",
@@ -218,7 +217,6 @@ def _digest():
 	)
 
 
-#: UN/ECE Recommendation 20's codes for the units the company counts in.
 UNITS = (("H87", "Piece", "Nos"), ("MTR", "Metre", "Meter"), ("KGM", "Kilogram", "Kg"))
 
 

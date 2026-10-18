@@ -15,7 +15,6 @@ PROCEDURE = "Installing a Curtain Wall"
 GOAL = "Installed Right the First Time"
 TEMPLATE = "After Installation"
 
-#: Each part, in order.
 PARTS = ("_procedure", "_goal", "_review", "_nonconformance", "_meeting", "_feedback")
 
 

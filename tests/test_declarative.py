@@ -30,22 +30,14 @@ DECLARED = (
 	"Workflow",
 )
 
-#: Files that write a site or user layer rather than app content.
 LAYERS = (
 	"onedesk/one/companions.py",
-	# A workspace's own notification rules, made on its settings page.
 	"onedesk/one/rules.py",
-	# A workspace's own fields and settings for a form, made on its Customize page.
 	"onedesk/one/customize.py",
-	# A workspace's own print formats, copied from one it prints with on a form's Settings.
 	"onedesk/one/printing.py",
-	# A workspace's own approvals, suggested by OneAI and made when approved.
 	"onedesk/one/approvals.py",
-	# A workspace's own levels between an app's User and Manager, made on Access.
 	"onedesk/one/access.py",
-	# Saved reports in an app's sidebar, the site's layer or a person's own.
 	"onedesk/one/reports.py",
-	# A custom collection in the group of its app's rail an administrator chose.
 	"onedesk/one_studio/record_types.py",
 	"onedesk/one_studio/patches/collection_groups.py",
 )
@@ -78,8 +70,6 @@ def test_the_scan_would_catch_one():
 	assert not pattern.search('frappe.get_doc("Task", name)')
 
 
-#: The icon grid, which `frappe/desk/RETIRING.md` lists for removal in one batch.
-#: Navigation here is the Apps screen: `add_to_apps_screen`, a `Dock`, a `Sidebar`.
 RETIRING = ("Desktop Icon", "Desktop Layout", "Workspace Sidebar")
 
 
@@ -102,7 +92,6 @@ def _doctype_of(path: Path) -> str:
 		doc = json.loads(path.read_text())
 	except (ValueError, UnicodeDecodeError):
 		return ""
-	# A `fixtures` export is a list of documents rather than one.
 	if isinstance(doc, list):
 		return doc[0].get("doctype", "") if doc else ""
 	return doc.get("doctype", "") if isinstance(doc, dict) else ""
@@ -121,8 +110,6 @@ def test_every_module_folder_is_in_modules_txt():
 		if p.is_dir()
 		and (p / "__init__.py").exists()
 		and p.name not in known
-		# one_demo is the demo company's builder, and notifications every
-		# module's notification files: plain Python and files, no doctypes.
 		and p.name not in {"public", "patches", "config", "templates", "www", "one_demo", "notifications"}
 	]
 	assert not strays, f"module folders missing from modules.txt: {strays}"

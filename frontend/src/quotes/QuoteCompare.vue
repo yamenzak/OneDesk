@@ -1,10 +1,4 @@
 <template>
-  <!-- One request's quotes side by side (one_inventory/quotes.py `compare`):
-       each supplier asked is a column, each line a row with every supplier's
-       rate in their own money and, for a quote in another money, the
-       company's under it. The cheapest live rate on a line is marked. Under
-       each supplier, their total and until when it holds, with Order, or
-       Add Supplier Quotation for one still to answer. -->
   <div class="overflow-x-auto">
     <List :columns="columns" :row-height="56" divider="full" class="-mx-3 min-w-max list-gap-3 list-row-px-3">
       <ListHeader>
@@ -33,7 +27,6 @@
           <span v-else class="text-ink-gray-4">–</span>
         </ListCell>
       </ListRow>
-      <!-- Each supplier's quote as a whole. -->
       <ListRow class="!cursor-default">
         <ListCell class="text-ink-gray-5">{{ __("Total") }}</ListCell>
         <ListCell />
@@ -72,7 +65,6 @@ const props = defineProps({ said: { type: Object, required: true }, can: { type:
 
 const columns = computed(() => ["minmax(12rem,1.4fr)", "7rem", ...props.said.suppliers.map(() => "minmax(9rem,1fr)")]);
 
-// A quote may be ordered from while it holds and a line it prices is left to order.
 const canOrder = (one) =>
   props.can.order && !one.expired && ["Submitted", "Partially Ordered"].includes(one.status) && props.said.lines.some((line) => !line.ordered && line.offers[one.supplier]);
 

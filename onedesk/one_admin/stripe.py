@@ -17,15 +17,11 @@ from onedesk.one_admin import faults, lifecycle, signing, signup, site
 STRIPE = "https://api.stripe.com/v1"
 PATIENCE = 20
 
-#: The event that makes a workspace. Everything else is recorded and ignored.
 ACTED_ON = "checkout.session.completed"
 
-#: The two that move a workspace up and down the ladder, deliberately these two
-#: and no more: a failed invoice starts a fall, a paid one ends it.
 OWED = "invoice.payment_failed"
 SETTLED = "invoice.paid"
 
-#: A refund, which our books credit (books.refunded).
 REFUNDED = "charge.refunded"
 
 
@@ -46,8 +42,6 @@ def checkout(request: str) -> str:
 		"cancel_url": _back_to(asked, "cancelled"),
 	}
 	if sold.recurring and sold.trial_days:
-		# A trial changes nothing downstream: the subscription starts in
-		# `trialing` and the workspace is built exactly as a paid one is.
 		form["subscription_data[trial_period_days]"] = int(sold.trial_days)
 	made = _post("checkout/sessions", form)
 	asked.db_set({"status": "Paying", "stripe_session": made.get("id")})
@@ -102,9 +96,6 @@ def webhook():
 		seen.db_set("handled", 1)
 		return {"ignored": kind}
 
-	# Two things complete a checkout and they are told apart by what the session
-	# carries: a signup names the request it came from, a top-up names the
-	# workspace and the pack. Anything else is somebody else's session.
 	meta = body.get("metadata") or {}
 	if meta.get("pack"):
 		from onedesk.one_admin import topup
@@ -256,8 +247,6 @@ def _remember(event: dict):
 	return frappe.get_doc("Stripe Webhook Event", held) if held else None
 
 
-#: How a change to a running subscription is charged: the difference invoiced
-#: now, and refused at once if the card declines.
 PRORATED = {"proration_behavior": "always_invoice", "payment_behavior": "error_if_incomplete"}
 
 

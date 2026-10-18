@@ -11,7 +11,6 @@ import frappe
 from frappe import _, _lt
 from frappe.utils import cint, flt
 
-#: What each kind of record is called on paper, and its number's label.
 TITLES = {
 	"Quotation": (_lt("Quotation"), _lt("Quotation No")),
 	"Sales Order": (_lt("Sales Order"), _lt("Order No")),
@@ -38,7 +37,6 @@ TITLES = {
 	"Maintenance Visit": (_lt("Service Report"), _lt("Report No")),
 }
 
-#: Each record's dates and references, in the order they are printed.
 DETAILS = {
 	"Quotation": ((_lt("Date"), "transaction_date"), (_lt("Valid Until"), "valid_till")),
 	"Sales Order": (
@@ -104,28 +102,20 @@ DETAILS = {
 	),
 }
 
-#: The purposes that move goods from one warehouse to another, printed as a
-#: transfer note that travels with them.
 MOVED = ("Material Transfer", "Material Transfer for Manufacture", "Send to Subcontractor")
 
-#: Who a record is for: its heading, and the field with their name.
 PARTIES = {
 	"Quotation": (_lt("Prepared For"), "customer_name"),
 	"Sales Order": (_lt("Bill To"), "customer_name"),
 	"Sales Invoice": (_lt("Bill To"), "customer_name"),
 	"Delivery Note": (_lt("Deliver To"), "customer_name"),
 	"Purchase Order": (_lt("Supplier"), "supplier_name"),
-	# A blanket order is agreed with a supplier or a customer.
 	"Blanket Order": (_lt("Agreed With"), None),
-	# A work order is made for a project or a customer's order, when it is.
 	"Work Order": (_lt("Made For"), None),
-	# Equipment is handed to a person, or put back at a location.
 	"Asset Movement": (_lt("Handed To"), None),
 	"Purchase Receipt": (_lt("Received From"), "supplier_name"),
 	"Pick List": (_lt("For"), "customer_name"),
-	# A packing slip names its customer through its delivery note.
 	"Packing Slip": (_lt("Deliver To"), None),
-	# Goods moved to a warehouse go to its address, a site's among them.
 	"Stock Entry": (_lt("Deliver To"), None),
 	"Payment Entry": (_lt("Received From"), "party_name"),
 	"Dunning": (_lt("Bill To"), "customer_name"),
@@ -139,8 +129,6 @@ PARTIES = {
 	"Maintenance Visit": (_lt("Customer"), "customer_name"),
 }
 
-#: The format each record that leaves the company prints with, and the module
-#: it is shipped in.
 FORMATS = {
 	"Quotation": ("One Quotation", "one_crm"),
 	"Sales Order": ("One Sales Order", "one_crm"),
@@ -267,12 +255,9 @@ FORMATS = {
 	"Employee": ("One Salary Certificate", "one_hr"),
 }
 
-#: The colour a page has when the company has no Brand Colour.
 INK = "#111827"
 
 
-#: ERPNext's own formats each of One's stands in for, turned off so the print
-#: menu offers each version once. ERPNext's come back on if One's is removed.
 REPLACES = {
 	"One Sales Invoice": ("Sales Invoice Modern", "Tax Invoice", "Sales Invoice Return"),
 	"One Sales Invoice Classic": ("Sales Invoice Classic",),
@@ -377,7 +362,6 @@ def _sync_blocks() -> None:
 	folder = Path(frappe.get_app_path("onedesk", "one", "print_format_field_template"))
 	for path in sorted(folder.glob("*/*.json")):
 		import_file_by_path(str(path))
-	# A block a format no longer uses leaves with its file.
 	shipped = {path.parent.name for path in folder.glob("*/*.json")}
 	for name in frappe.get_all("Print Format Field Template", filters={"module": "One", "standard": 1}, pluck="name"):
 		if frappe.scrub(name) not in shipped:
@@ -401,7 +385,6 @@ def one_print_block(doc, block: str) -> dict:
 		return {}
 	from onedesk.one.letter_heads import readable
 
-	# The Brand Colour, and the same darkened where it is text, as a letter head does.
 	return {**shown, "colour": colour(doc), "ink": readable(colour(doc))}
 
 
@@ -434,20 +417,14 @@ def title(doc) -> dict:
 		said = _("Issue Note")
 	elif doc.doctype == "Payment Entry" and doc.get("payment_type") == "Internal Transfer":
 		said, number = _("Transfer"), _("Transfer No")
-	# In the UAE a VAT-registered company's invoice is a Tax Invoice, and a
-	# return a Tax Credit Note, each with the company's TRN (FTA, Article 59).
 	trn = _trn(doc)
 	heading = doc.get("select_print_heading")
 	if trn and doc.doctype == "Sales Invoice":
 		said = _("Tax Credit Note") if doc.get("is_return") else _("Tax Invoice")
 		if doc.get("is_return"):
 			number = _("Credit Note No")
-		# ERPNext heads every return "Credit Note" on its own; that gives way.
 		if heading in AUTOMATIC:
 			heading = None
-	# A Print Heading frappe lets the record choose, such as Tax Invoice. A
-	# draft or cancelled record is marked by frappe itself, above the page.
-	# A customer knows a project by what it is called, not its number.
 	name = doc.get("project_name") if doc.doctype == "Project" else None
 	return {
 		"title": _(heading) if heading else str(said),
@@ -458,8 +435,6 @@ def title(doc) -> dict:
 	}
 
 
-#: Where an invoice stands, as its reader is told beside its title: the
-#: words and the colours of the mark (text, ground).
 STANDING = {
 	"Paid": ("#15803d", "#dcfce7"),
 	"Partly Paid": ("#b45309", "#fef3c7"),
@@ -481,7 +456,6 @@ def _status(doc) -> dict | None:
 	return {"text": _(standing), "ink": ink, "ground": ground}
 
 
-#: The Print Headings ERPNext sets on a return by itself, not by choice.
 AUTOMATIC = ("Credit Note", "Debit Note")
 
 
@@ -618,7 +592,6 @@ def details(doc) -> dict:
 	for label, field in DETAILS.get(doc.doctype, ()):
 		if doc.get(field) and doc.meta.has_field(field):
 			value = doc.get_formatted(field)
-			# A packing slip's weights are in its own unit, kept beside them.
 			unit = doc.get(field.replace("_pkg", "_uom")) if field.endswith("_pkg") else None
 			rows.append((str(label), f"{value} {unit}" if unit else value))
 	if doc.doctype == "Packing Slip" and doc.get("from_case_no"):
@@ -653,7 +626,6 @@ def _number_format(currency: str | None) -> str | None:
 	return (currency and frappe.get_cached_value("Currency", currency, "number_format")) or None
 
 
-#: How many of a project's open tasks a status lists, soonest first.
 NEXT = 8
 
 
@@ -682,7 +654,6 @@ def progress(doc) -> dict:
 		"milestones": [row(one) for one in said["milestones"]],
 		"next_heading": _("Next"),
 		"next": [row(one) for one in waiting[:NEXT]],
-		# Its sub-projects for the same customer, as its portal page lists them.
 		"projects_heading": _("Sub-projects"),
 		"projects": [
 			(
@@ -708,9 +679,6 @@ def progress(doc) -> dict:
 	}
 
 
-# -- Papers made of other records: only what the builder can't reach -----------
-
-
 def _day(value) -> str:
 	"""A date as One's papers print it: 18 Oct 2026."""
 	from frappe.utils import formatdate
@@ -718,7 +686,6 @@ def _day(value) -> str:
 	return formatdate(value, "dd MMM yyyy") if value else ""
 
 
-#: How a payment's GL subtype reads on a statement.
 PAID = {"Pay": _lt("Payment"), "Receive": _lt("Payment")}
 
 
@@ -726,7 +693,6 @@ def _currency(company: str | None) -> str:
 	return (company and frappe.get_cached_value("Company", company, "default_currency")) or ""
 
 
-#: The ages an open invoice is counted in, by days past its due date.
 AGES = ((0, _lt("Not Due")), (30, _lt("1-30 Days")), (60, _lt("31-60 Days")), (90, _lt("61-90 Days")), (None, _lt("Over 90 Days")))
 
 
@@ -806,7 +772,6 @@ def statement(doc) -> dict:
 		"invoice_columns": (_("Invoice"), _("Date"), _("Due"), _("Total"), _("Outstanding"), _("Days Late")),
 		"invoices": invoices,
 		"currency": currency,
-		# A customer is told where to pay, as an invoice tells them.
 		"bank_heading": _("Pay To"),
 		"bank": _bank(company) if sign == 1 and balance > 0 else [],
 	}
@@ -924,8 +889,6 @@ def leave_balance(doc) -> dict:
 	}
 
 
-#: What a record adds up that it doesn't keep a total of: its table and the
-#: field summed.
 SUMS = {"Payment Order": ("references", "amount")}
 
 

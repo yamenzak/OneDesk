@@ -2,16 +2,9 @@
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
-      <!-- An item's page.
-           Modelled on Shopify's product page and Odoo's product form: what
-           kind of thing it is, what it is called, the one thing worth saying,
-           what it is and how much of it there is, then a view each for its
-           stock, buying, selling and making. Frappe's own form sidebar is on
-           the page's right (onedesk.island_page). -->
       <header class="pt-6">
         <div class="flex items-start justify-between gap-6">
           <div class="min-w-0 flex-1">
-            <!-- Its brand, with its logo when it has one, and what kind of thing it is. -->
             <div class="flex flex-wrap items-center gap-2">
               <button v-if="said.brand" class="flex items-center gap-1.5 text-sm text-ink-gray-6 hover:text-ink-gray-8" @click="go(`/desk/item?brand=${encodeURIComponent(said.brand)}`)">
                 <img v-if="said.brand_logo" :src="said.brand_logo" alt="" class="size-4 rounded-1 object-contain" />
@@ -26,7 +19,6 @@
               </button>
             </div>
             <div class="mt-3 flex items-center gap-4">
-              <!-- Its picture; one who may change the item puts a new one in. -->
               <button
                 class="shrink-0 rounded-3 focus-visible:ring-2 focus-visible:ring-outline-gray-3"
                 :class="said.can_write ? 'cursor-pointer' : 'cursor-default'"
@@ -52,12 +44,9 @@
           <ItemBarcodes v-if="wide" :item="said.name" :barcodes="said.barcodes" :can-write="said.can_write" class="shrink-0" @changed="load" />
         </div>
         <ItemBarcodes v-if="!wide" :item="said.name" :barcodes="said.barcodes" :can-write="said.can_write" class="mt-4 !items-start" @changed="load" />
-        <!-- In cards on a desktop; two to a row on a phone, where five cards
-             would fill the screen before the views. -->
         <Figures v-if="figures.length" :figures="figures" :columns="figures.length" :boxed="wide" class="mt-5" />
       </header>
 
-      <!-- What the workspace's extensions add to the page (one_studio/places.py). -->
       <PlaceSpot :said="placed" class="mt-4" />
       <ViewTabs v-model="view" :views="VIEWS" class="mt-5" />
 
@@ -78,13 +67,6 @@
 </template>
 
 <script setup>
-// An item's page (one_inventory/page/item_view): the item as the stores run
-// on it, as a project's page is for a job. Its head, then Overview, Stock,
-// Buying, Selling, Making, Files and Activity, each where the item has it.
-// What it reads is one_inventory/view.py's `read`; what it changes it
-// changes as desk does, and the documents it starts open in desk's own
-// forms (item_actions.js). Desk's own page head above it carries the main
-// action and the rest (onedesk.island_page), from what `report` says.
 import { computed, defineAsyncComponent, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Avatar, Badge } from "frappe-ui";
 
@@ -99,7 +81,6 @@ import ItemOverview from "./ItemOverview.vue";
 import ItemSelling from "./ItemSelling.vue";
 import ItemStock from "./ItemStock.vue";
 
-// The timeline brings frappe-ui's editor, so it loads when first shown.
 const Activity = defineAsyncComponent(() => import("../project/Activity.vue"));
 
 const props = defineProps({
@@ -112,7 +93,6 @@ const props = defineProps({
 
 const TONE = { red: "text-ink-red-5", orange: "text-ink-amber-6", gray: "text-ink-gray-5" };
 const LINK = "text-ink-gray-8 underline decoration-outline-gray-3 underline-offset-4 hover:decoration-ink-gray-8";
-// What kind of thing it is (view.py `kind`), as the head names it.
 const KIND = { Stock: "Stock Item", Service: "Service", "Fixed Asset": "Equipment", Template: "Template" };
 
 const name = computed(() => props.route[0]);
@@ -121,9 +101,7 @@ onBeforeUnmount(onResize(() => (wide.value = viewWidth() >= 640)));
 const said = ref(null);
 const view = ref(props.query.view || "overview");
 const fileCount = ref(null);
-// The record as its form has it: frappe's own menu items under the page's.
 const record = useRecord("Item", name);
-// The item's own desk form, whose fields the page changes in place.
 const form = useForm("Item", name);
 
 async function load() {
@@ -136,8 +114,6 @@ async function load() {
   report();
 }
 
-// Its stock moves, and what is ordered, sold and made of it, change on other
-// records, so the page listens to those lists as well as to the item itself.
 let timer = null;
 const soon = () => {
   clearTimeout(timer);
@@ -182,13 +158,11 @@ const VIEWS = computed(() => {
     { key: "activity", label: __("Activity"), icon: "lucide-activity" },
   ].filter(Boolean);
 });
-// A view the item no longer has goes back to its Overview.
 watch(VIEWS, (now) => now.length && !now.some((one) => one.key === view.value) && (view.value = "overview"));
 
 const uom = computed(() => said.value?.stock_uom);
 const making = computed(() => (said.value?.making?.orders || []).reduce((sum, one) => sum + Math.max(one.qty - one.produced_qty, 0), 0));
 
-// The one thing worth saying above the item, if anything (view.py `headline`).
 const headline = computed(() => {
   const line = said.value?.headline;
   if (!line) return "";
@@ -201,28 +175,19 @@ const headline = computed(() => {
   return __("Low in {0}", [line.names.join(", ")]);
 });
 
-// What it is, in a line under its name: its code, group, unit and brand.
 const facts = computed(() => {
   const s = said.value;
   return [
     s.item_code !== s.item_name && { label: __("Item Code"), value: s.item_code },
-    // The item's own form fields, changed in place (FieldEdit).
     { label: __("Item Group"), field: "item_group" },
     { label: __("Default Unit of Measure"), field: "stock_uom" },
     { label: __("Brand"), field: "brand", placeholder: __("No brand") },
-    // Left empty, it is valued as Stock Settings says.
     s.stock && { label: __("Valuation Method"), field: "valuation_method", placeholder: __(s.valuation) },
     ...s.attributes.map((one) => ({ label: __(one.attribute), value: one.value })),
   ].filter(Boolean);
 });
 
-// How much of it there is and what it is worth, for stock; what it sells for,
-// for a service; how many are on the register, for equipment.
-// A trend for a card to draw across its foot (frappe-ui's NumberCard), when
-// there is one to see.
 const traced = (data, type = "area") => (data?.some((value) => value) ? { data, type } : undefined);
-// A month-end series as a card shows it: the year's trend, and how far it
-// moved this month.
 function since(data) {
   const sparkline = traced(data);
   if (!sparkline) return {};
@@ -270,7 +235,6 @@ async function set(fieldname, value) {
   }
 }
 
-// A picture put in through desk's own upload dialog becomes the item's image.
 function picture() {
   if (!said.value?.can_write) return;
   upload("Item", name.value, (file) => set("image", file.file_url), {
@@ -293,8 +257,6 @@ function report() {
   props.onActions?.([...actions(s), ...verbs, ...record.menu({ gone: () => go("/desk/item") })]);
 }
 
-// What can be started from the item, each only for whoever may start it, and
-// the reports ERPNext's form offers on it.
 function actions(s) {
   const list = [];
   const can = s.can;
@@ -316,13 +278,8 @@ function actions(s) {
   return list;
 }
 
-// The Activity view is a place of its own.
 const activitySpot = usePlace("oneinventory_item.activity", () => (view.value === "activity" && said.value ? { item: { name: said.value.name, item_name: said.value.item_name } } : null));
 
-// The workspace's extensions on the item's page (one_studio/places.py): those
-// written for it are told the item, those written for an Item's head are
-// told the record as its head is. Each is lent a note and a button, or a verb
-// in the page's head, and drawn again with the page.
 const placed = reactive({ notes: [], actions: [] });
 let verbs = [];
 let drawn = null;

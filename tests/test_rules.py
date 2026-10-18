@@ -58,9 +58,9 @@ def test_distance_agrees_with_hrms_to_a_micrometre():
 		return 2 * r * asin(sqrt(a)) * 1000
 
 	pairs = [
-		(51.5007, -0.1246, 48.8584, 2.2945),  # Big Ben to the Eiffel Tower
-		(25.2048, 55.2708, 25.1972, 55.2744),  # across one office
-		(0, 0, 0, 1),  # a degree on the equator
+		(51.5007, -0.1246, 48.8584, 2.2945),
+		(25.2048, 55.2708, 25.1972, 55.2744),
+		(0, 0, 0, 1),
 	]
 	for pair in pairs:
 		assert abs(theirs(*pair) - rules.distance(*pair)) < 0.001
@@ -141,11 +141,8 @@ def test_every_signal_has_a_sentence():
 
 
 def test_impossible_travel():
-	# London to Paris in ten minutes.
 	assert rules.impossible(343_000, 600)
-	# The same journey by train.
 	assert not rules.impossible(343_000, 2 * 3600)
-	# Across the office, immediately.
 	assert not rules.impossible(0, 0)
 
 
@@ -159,9 +156,7 @@ def test_standing_leans_on_the_recent():
 
 def test_a_proposal_needs_both_voices_and_repetition():
 	assert rules.enough(votes=6, voters=3, threshold=3)
-	# One person, twenty times, from their hotspot.
 	assert not rules.enough(votes=20, voters=1, threshold=3)
-	# Twenty people passing once through an airport.
 	assert not rules.enough(votes=2, voters=20, threshold=3)
 
 

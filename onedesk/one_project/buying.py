@@ -13,8 +13,6 @@ from frappe.utils import flt
 from onedesk.one_inventory import heads
 from onedesk.one_project import money, tree
 
-#: Each document, the line table naming the project and what it calls it,
-#: and its date.
 PAPERS = {
 	"Material Request": ("Material Request Item", "project", "transaction_date"),
 	"Request for Quotation": ("Request for Quotation Item", "project_name", "transaction_date"),
@@ -23,7 +21,6 @@ PAPERS = {
 	"Purchase Receipt": ("Purchase Receipt Item", "project", "posting_date"),
 }
 
-#: How many of each the view shows, newest first.
 SHOWN = 20
 
 
@@ -68,8 +65,6 @@ def papers(
 			order_by=f"{day} desc",
 			limit_page_length=SHOWN,
 		):
-			# ERPNext's status, as urgent as the document's own head in
-			# OneInventory says it is: a late order red.
 			tone = heads.stands(frappe.get_doc(doctype, one.name)) if doctype in heads.STANDS else None
 			found.append(
 				{
@@ -88,7 +83,6 @@ def papers(
 				}
 			)
 	found.sort(key=lambda one: one["date"] or "", reverse=True)
-	# Each supplier's logo (one_mail/faces.py dresses a supplier without one).
 	logos = dict(
 		frappe.get_all(
 			"Supplier",

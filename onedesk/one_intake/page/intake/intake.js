@@ -1,6 +1,3 @@
-// Intake: what OneAI did with what arrived, and what waits for you, as two
-// boxes that work like a mailbox. The server decides what is in each and who
-// has seen what (one_intake/inbox.py); this draws it.
 
 frappe.pages["intake"].on_page_load = (wrapper) => {
 	const page = onedesk.shell.page(wrapper, __("OneIntake"));
@@ -17,8 +14,6 @@ onedesk.IntakeInbox = class IntakeInbox {
 		this.box = "waiting";
 		this.everyone = 0;
 		this.items = [];
-		// A mailbox: the documents in the shell's list pane, the one opened in
-		// the pane beside it.
 		const panes = onedesk.shell.panes(page.$shell, [{ key: "list", width: 380 }, { key: "read" }]);
 		this.$n = $(`<span></span>`);
 		this.tabs = new frappe.ui.TabButtons({
@@ -58,7 +53,6 @@ onedesk.IntakeInbox = class IntakeInbox {
 		const asked = frappe.utils.get_query_params();
 		if (asked.box) this.box = asked.box === "done" ? "done" : "waiting";
 		this.tabs.set_value(this.box, { silent: true });
-		// Opened from OneIntake Settings' month: everybody's, for an administrator.
 		if (asked.everyone && this.$everyone) {
 			this.everyone = 1;
 			this.$everyone.set_value(1);
@@ -147,9 +141,6 @@ onedesk.IntakeInbox = class IntakeInbox {
 		this.counts();
 	}
 
-	// The workspace's extensions on OneIntake (one_studio/places.py), told a
-	// document is open with what OneAI did with it, and lent a note and a
-	// button under its head.
 	extended(said) {
 		if (!onedesk.places || !onedesk.places.listening("intake.reading")) return;
 		const powers = onedesk.places.spot(($spot) => $spot.insertAfter(this.$read.find(".oi-read-head")));
@@ -207,7 +198,6 @@ onedesk.IntakeInbox = class IntakeInbox {
 			.filter(Boolean)
 			.map((line) => `<div class="one-shell-quiet">${esc(line)}</div>`)
 			.join("");
-		// Espresso's buttons, as the rest of the page's; `attrs` says what one does.
 		const button = (label, attrs, primary) => onedesk.shell.button(label, attrs, primary ? "solid" : "subtle");
 		let buttons = "";
 		if (may && act.level === "Proposed") {

@@ -14,40 +14,21 @@ import requests
 from onedesk.one_admin import faults, ledger, meter, pricing, site
 from onedesk.one_admin.faults import Again, Refused
 
-#: Cloudflare's own base. Overridable from `site_config` so a developer can
-#: point at a stand-in without editing a record a migrate would then ship —
-#: the same escape hatch `press.py` has, for the same reason.
 URL = "https://gateway.ai.cloudflare.com/v1"
 
-#: **Every provider's key is stored in the gateway.** An operator stores a key
-#: per provider there; this module never holds one.
 
-#: Long. A generation is two to forty seconds and a timeout here is a call we
-#: paid for and threw away. AI 9 moves this off the web worker entirely.
 TIMEOUT = 60
 
-#: For a call allowed to think (`THINKS` tokens or more), which writes code:
-#: under the 120 seconds a Frappe Cloud web worker is given.
 THOUGHT = 110
 
-#: The gateway's own authorization header. Deliberately not the provider's,
-#: which the gateway attaches on the way out.
 HEADER = "cf-aig-authorization"
 
-#: Where the gateway's per-request log gets the workspace that caused the call.
 TAG = "cf-aig-metadata"
 
-#: Asks Cloudflare's gateway to call the model rather than answer from its
-#: cache. Measured: a blank answer is cached like any other, so the same call
-#: made again got the same blank back, with the same response id, every time.
 FRESH = "cf-aig-skip-cache"
 
-#: How each provider spells a text generation behind the gateway: where it
-#: lives, how a prompt goes in, and where the words come back.
 PROVIDERS = {
 	"workers-ai": {
-		# One path for every model, with the model in the body: Cloudflare's
-		# OpenAI-compatible endpoint, since the per-model path answers 401 here.
 		"path": lambda model: "v1/chat/completions",
 		"talk": lambda model, system, turns, tools, most: {
 			"model": model,
@@ -63,8 +44,6 @@ PROVIDERS = {
 		"calls": lambda body: _openai_calls(body),
 	},
 	"google-ai-studio": {
-		# v1beta, not v1: v1 has no function calling, and the catalogue lists
-		# from v1beta, so what is listed is what can be called.
 		"path": lambda model: f"v1beta/models/{model}:generateContent",
 		"talk": lambda model, system, turns, tools, most: {
 			"contents": [_gemini_turn(one) for one in turns],
@@ -77,21 +56,12 @@ PROVIDERS = {
 	},
 }
 
-#: The least budget a Workers AI model is let think in; below it, it is told
-#: not to think, or it spends every token thinking and answers nothing.
 THINKS = 2000
 
-#: How many times a model may ask for a tool before the loop stops. Each round
-#: is a call and is billed, so this is a cost ceiling as much as it is a guard
-#: against a model that keeps asking for the same thing.
 ROUNDS = 5
 
-#: The one model this stage calls, and the last time a model is named in this
-#: app's code (docs/ONEAI.md).
 FIRST = ("workers-ai", "@cf/meta/llama-3.1-8b-instruct")
 
-#: A ceiling on the answer, so the un-metered call cannot run away before there
-#: is a ledger to stop it.
 MOST = 512
 
 
@@ -126,8 +96,6 @@ def through(
 	where = f"{settings['url'].rstrip('/')}/{settings['account']}/{settings['gateway']}/{provider}/{spoken['path'](model)}"
 	headers = {HEADER: f"Bearer {settings['token']}", "Content-Type": "application/json"}
 	if tenant:
-		# So a bill somebody disputes can be read back in Cloudflare's own log
-		# rather than only in ours.
 		headers[TAG] = json.dumps({"tenant": tenant})
 	if fresh:
 		headers[FRESH] = "true"
@@ -186,7 +154,6 @@ def call(
 	used, unmetered = meter.read(sold.provider, body, pricing.asked(caps or {}))
 	spent = pricing.bill(rates, used, markup, per_dollar)
 	if unmetered or not spent.whole or not used:
-		# Charged the hold, named, and never zero.
 		charged = max(most.credits, _LEAST)
 		note = unmetered or _unpriced(spent)
 		ledger.commit(holding, charged, spent.usd)
@@ -213,8 +180,6 @@ def call(
 	}
 
 
-#: The smallest hold worth taking. A call whose caps price at nothing still has
-#: to reserve something, or two of them race for a balance neither is holding.
 _LEAST = 0.000001
 
 
@@ -253,8 +218,6 @@ def _unpriced(spent: pricing.Bill) -> str:
 	return f"nothing in the catalogue prices {said}" if said else ""
 
 
-#: Said to a model whose tool call its provider could not read.
-#: Said to a model that answered with nothing, in a turn only it sees.
 SAY_IT = "Answer the question above now, in its language. Call a tool if you need one."
 
 ONE_LINE = (
@@ -283,17 +246,10 @@ def _said(
 	try:
 		return asking()
 	except faults.Malformed:
-		# Measured: gemini-2.5-flash designing a print format writes its
-		# stylesheet and layout over many lines, and the call does not read.
-		# Told so, in a turn only it sees, it writes them on one line.
 		return asking(({"role": "user", "text": ONE_LINE, "calls": []},), fresh=True)
 	except faults.Blank as raised:
-		# Right after a tool answered, nothing is an answer: the model did what
-		# it was asked and has nothing to add.
 		if turns and (turns[-1] or {}).get("role") == "tool":
 			return "", [], raised.body
-		# Anywhere else, asked again with a turn only it sees, past the
-		# gateway's cache, which would hand the same blank back.
 		return asking(({"role": "user", "text": SAY_IT, "calls": []},), fresh=True)
 
 
@@ -352,15 +308,10 @@ def _answered(model: str, spoken: dict, answer, whole: bool = False):
 			f"{model} wrote a tool call it could not read", 200, json.dumps(body)[: faults.KEPT]
 		)
 	if words is None and not wants:
-		# A 200 with neither words nor a tool call in it is not an empty answer,
-		# it is a shape we do not understand.
 		raise Refused(f"{model} answered 200 with nothing in it", 200, json.dumps(body)[: faults.KEPT])
 	return (words or "", wants, body) if whole else (words or "")
 
 
-#: How Gemma 4 marks a tool call in its own tokens. Measured: Workers AI now
-#: and then passes one through as the answer's text instead of reading it into
-#: `tool_calls`, and the person is shown `<|tool_call>:waiting_for_answer{...}`.
 LEAKED = "<|tool_call>"
 _CALL = re.compile(r"<\|tool_call>\s*(?:call)?\s*:?\s*([A-Za-z_]\w*)\s*(\{.*?\})\s*<tool_call\|>", re.S)
 _QUOTED = re.compile(r'<\|"\|>(.*?)<\|"\|>', re.S)
@@ -375,8 +326,6 @@ def _leaked(words: str) -> tuple[list[dict], str]:
 	found = []
 
 	def read(match) -> str:
-		# The strings are set aside first, so a comma and a colon in one are
-		# not read as the next key.
 		held = []
 		body = _QUOTED.sub(lambda q: held.append(json.dumps(q.group(1))) or f"\x00{len(held) - 1}\x00", match.group(2))
 		body = _KEY.sub(lambda k: f'{k.group(1)}"{k.group(2)}":', body)
@@ -416,17 +365,11 @@ def _blank(body) -> bool:
 	return first.get("finishReason") == "STOP" and not (first.get("content") or {}).get("parts")
 
 
-# ------------------------------------------------ one conversation, two shapes
-# A turn of ours is `{role, text, calls}` or `{role: "tool", id, tool, result}`.
-
-
 def said(text: str, role: str = "user", files: list[dict] | None = None) -> dict:
 	"""One turn, in our shape. The only place a turn is built by hand."""
 	return {"role": role, "text": text or "", "calls": [], "files": files or []}
 
 
-#: Our turns name the model's own words "model", as Gemini does; OpenAI's
-#: dialect calls them "assistant" and refuses anything else.
 OPENAI_ROLES = {"model": "assistant"}
 
 
@@ -457,8 +400,6 @@ def _openai_turn(one: dict) -> dict:
 	if not shown:
 		return {"role": role, "content": said}
 
-	# OpenAI's dialect carries a picture as a data URL beside the words, and
-	# nothing else; `files.readable` has already refused anything else.
 	return {
 		"role": role,
 		"content": [{"type": "text", "text": said}]
@@ -475,20 +416,13 @@ def _workers_ai_said(body: dict | None) -> str | None:
 	`result.response` and OpenAI's `result.choices[0].message.content` are both
 	read; the thinking is deliberately not read, under either of its names.
 	"""
-	# Three shapes now. `result.response` and `result.choices` come off the
-	# direct API's `/ai/run`; the gateway's OpenAI-compatible endpoint answers
-	# with `choices` at the top level and no `result` wrapper at all.
 	result = (body or {}).get("result") or body or {}
 	if result.get("response") is not None:
 		return result["response"]
 
-	# A choice that came back at all is an answer, even an empty one; `None`
-	# is kept for a shape nobody has seen, for the guard in `_answered`.
 	choices = result.get("choices") or []
 	for choice in choices:
 		said = (choice.get("message") or {}).get("content")
-		# A string or nothing: a tool call put in `content` as an object is
-		# neither an answer nor read as a call.
 		if isinstance(said, str):
 			return _without_thinking(said)
 		if said is not None:
@@ -496,9 +430,6 @@ def _workers_ai_said(body: dict | None) -> str | None:
 	return "" if choices else None
 
 
-#: Where a model that thinks out loud in its answer stops thinking. DeepSeek R1
-#: and QwQ put the whole of it inside `content`, fenced, rather than in a field
-#: of its own — so it cannot be ignored the way `reasoning` is, it has to be cut.
 THINKING = "</think>"
 CHANNEL = "<channel|>"
 
@@ -511,9 +442,6 @@ def _without_thinking(said: str) -> str:
 	"""
 	at = said.rfind(THINKING)
 	said = said[at + len(THINKING) :].strip() if at != -1 else said
-	# Gemma 4 marks its thinking as a channel. Measured on Workers AI: the
-	# marker now and then reaches the answer, as `<|channel>thought ...
-	# <channel|>` or as a bare `:thought` line the person was shown.
 	at = said.rfind(CHANNEL)
 	if at != -1:
 		return said[at + len(CHANNEL) :].strip()
@@ -529,9 +457,6 @@ def _openai_calls(body: dict | None) -> list[dict]:
 	would find out about in advance.
 	"""
 	result = (body or {}).get("result") or body or {}
-	# The same three: `result.tool_calls` on the classic models, and
-	# `choices[].message.tool_calls` wrapped in `result` or not, depending on
-	# whether the answer came from `/ai/run` or the gateway's own endpoint.
 	asked = list(result.get("tool_calls") or [])
 	for choice in result.get("choices") or []:
 		asked.extend((choice.get("message") or {}).get("tool_calls") or [])
@@ -553,9 +478,6 @@ def _arguments(args) -> list[dict]:
 	as one call whose arguments are `{"doctype": "Customer"}{"doctype": "Sales
 	Invoice"}`, which `json.loads` refuses, and a tool handed nothing fails.
 	"""
-	# Twice, because granite-4.0 answers with a JSON string *of* a JSON
-	# string and one pass leaves another string behind — which then reaches
-	# a tool as a string where a dict was expected.
 	for _ in range(2):
 		if not isinstance(args, str):
 			break
@@ -593,14 +515,11 @@ def _gemini_turn(one: dict) -> dict:
 	if one.get("text"):
 		parts.append({"text": one["text"]})
 	for file in one.get("files") or []:
-		# Google takes any of them the same way, which is why a PDF only goes to
-		# Google: `inline_data` with the mime type it really is.
 		if file.get("data"):
 			parts.append({"inline_data": {"mime_type": file["type"], "data": file["data"]}})
 	for call in one.get("calls") or []:
 		said = {"functionCall": {"name": call["tool"], "args": call.get("args") or {}}}
 		if call.get("signature"):
-			# Verbatim and on the same part it came back on. Gemini 3 checks it.
 			said["thoughtSignature"] = call["signature"]
 		parts.append(said)
 	return {"role": "model" if one.get("role") == "model" else "user", "parts": parts or [{"text": ""}]}

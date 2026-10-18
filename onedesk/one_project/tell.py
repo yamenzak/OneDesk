@@ -8,10 +8,8 @@ from frappe.utils import add_months, flt, fmt_money, formatdate, get_first_day, 
 from onedesk.one import notify
 from onedesk.one_project import kinds, retainer
 
-#: The health worth telling people about.
 WORSE = ("At Risk", "Off Track")
 
-#: A status a project's people are told of, as it reads after "is".
 STOPPED = {"On hold": _lt("on hold"), "Cancelled": _lt("cancelled")}
 
 
@@ -183,12 +181,10 @@ def _facts(doc) -> dict:
 	"""Who did it, the project, and its customer and end date, each led by a
 	dot so either may be left out: " · Mansour & Sons · 3 Nov 2026"."""
 	return {
-		# Joined by One on somebody's behalf (members.join): said as them.
 		"who": get_fullname(frappe.flags.get("one_acting_for") or frappe.session.user),
 		"project": doc.project_name,
 		"customer": f" · {doc.customer}" if doc.get("customer") else "",
 		"due": " · " + _("Ends {0}").format(formatdate(doc.expected_end_date)) if doc.get("expected_end_date") else "",
-		# The customer and the end on one line, for the mail.
 		"facts": " · ".join(
 			one
 			for one in (
@@ -438,7 +434,6 @@ def bill_due(name: str, project: str, amount: float, currency: str, supplier: st
 
 def update_asked(doc, people: list[str], update) -> None:
 	"""The team is asked for a status update, in One, and mailed where mail goes."""
-	# The project's own question, where it has one, over the type's text.
 	words = (doc.subject, doc.message)
 	notify.notify(
 		"Project Update Asked",

@@ -1,10 +1,6 @@
-// The Audit Log (one/audit.py): frappe's own lists of changes, sign-ins and
-// exports, headed as One's sidebar names them, each row said as a sentence:
-// who did what to which record, as Activity Log already says a sign-in.
 (() => {
 	const who = (user) => frappe.user.full_name(user) || user;
 	const headed = (title) => (list) => list.page.set_title(title);
-	// The record a row is about, opened from the row's own button.
 	const opens = (doctype, name) => ({
 		show: (doc) => doc[doctype] && doc[name],
 		get_label: () => __("Open"),

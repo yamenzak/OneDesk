@@ -1,11 +1,8 @@
 import frappe
 from frappe.utils import add_days, get_time, getdate, now_datetime, nowdate, time_diff_in_hours
 
-#: What the wizard's Appearance field offers, against `User.desk_theme`.
 THEMES = {"Automatic": "Automatic", "Light": "Light", "Dark": "Dark"}
 
-#: The shift a site starts with. One shift is what most workspaces have, and a
-#: second one is a thing somebody adds rather than a thing everybody configures.
 SHIFT = "Day"
 
 
@@ -95,8 +92,6 @@ def _leave_period(company: str | None, holidays: str | None) -> None:
 	period.optional_holiday_list = holidays
 	period.insert(ignore_permissions=True)
 
-	# Named for its year rather than left as HR-LPR-2026-00001: nothing that links it
-	# has a title field to show instead.
 	frappe.rename_doc("Leave Period", period.name, str(year), force=True)
 
 
@@ -191,7 +186,6 @@ def _shift(starts, ends, holidays: str | None) -> None:
 	existing = frappe.db.exists("Shift Type", SHIFT)
 	doc = frappe.get_doc("Shift Type", SHIFT) if existing else frappe.new_doc("Shift Type")
 
-	# `Shift Type` is named by prompt, so a new one is named here.
 	doc.name = SHIFT
 	doc.start_time = starts
 	doc.end_time = ends

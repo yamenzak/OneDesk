@@ -33,7 +33,6 @@ def execute(filters=None):
 	columns = [
 		{"fieldname": "date", "label": _("Date"), "fieldtype": "Date", "width": 110},
 		{"fieldname": "days", "label": _("Days Left"), "fieldtype": "Int", "width": 90},
-		# The title opens its record (deadlines.js): a file's name is a hash.
 		{"fieldname": "title", "label": _("What"), "fieldtype": "Data", "width": 320},
 		{"fieldname": "doctype", "label": _("Document Type"), "fieldtype": "Data", "hidden": 1},
 		{"fieldname": "name", "label": _("Record"), "fieldtype": "Data", "hidden": 1},

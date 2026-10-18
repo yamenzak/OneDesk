@@ -13,7 +13,6 @@ def run(password=None):
 	from onedesk.one_book import ready
 
 	with as_user(ACCOUNTS):
-		# From the Books Check: a bill OneAI drafts with the VAT template gets the VAT.
 		ready.fix("template_taxes")
 		_repeating()
 		bank = _bank()

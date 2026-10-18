@@ -27,7 +27,7 @@ I am the only person reading this and I already know what we are building.
   complete report.
 * **Never re-explain a decision I already agreed to.**
 
-Long form goes in commit messages, `docs/` and code comments. `/bro` means it
+Long form goes in commit messages and `docs/`. `/bro` means it
 did not land — re-explain it simply.
 
 ## The rule everything else follows
@@ -113,10 +113,9 @@ Before drawing a screen of our own, find the app that does the same job best
 the way they do, with frappe-ui's parts. A table is not a wall of text: a
 picture or avatar, the name with its code quiet under it, one status as a
 coloured Badge, figures right-aligned with their unit smaller and grey, a dash
-for nothing, and filters as a picker and a row of TabButtons above it. The
-screen's opening comment says `Modelled on …`, and
-`tests/guards/test_islands.py` keeps it, with the screens drawn before this
-listed in `UNMODELLED` until each is redrawn. Badge colours are frappe-ui's
+for nothing, and filters as a picker and a row of TabButtons above it. Its row
+in `docs/ISLANDS.md` "What each screen follows" says which app, and
+`tests/guards/test_islands.py` fails a screen without one. Badge colours are frappe-ui's
 (`gray`, `blue`, `green`, `amber`, `red`, `violet`); there is no orange.
 
 ## The passover
@@ -181,9 +180,11 @@ break each other's imports on sites that carry only one of them.
 ## Writing code here
 
 - Short files, one job each. Standard Frappe layout: `onedesk/<module>/doctype/…`.
-- **Comments earn their place.** Explain *why* when it is not obvious, once, in
-  a line or two. No essays, no restating the code, no decision logs in source —
-  those go in the commit message.
+- **No comments in code.** The why goes in the commit message, the module's
+  README or a docstring. What stays: licence and attribution lines (`Derived
+  from frappe/…`, copyright), tool directives (`noqa`, `fmt:`, `eslint-`), and
+  docstrings, which OneAI reads as each tool's description and which tests
+  read. Nothing a test checks may live in a comment.
 - No dead code, no unused exports, no "kept in case". Delete it; git has it.
 - No re-export barrels that defeat tree-shaking; import from the declaring module.
 - Reference in `docs/` is **generated** — `MODULES.md`, `UPSTREAM.md`,
@@ -252,8 +253,8 @@ it serves in `tests/guards/registry.py` and lives in `tests/guards/`.
   pattern that must not appear. Add a rule when you find another.
 - `test_declarative.py` — desk furniture is fixture JSON, and `modules.txt`
   agrees with the folders.
-- `guards/test_source_style.py` — no comment essays, no file that is mostly comment,
-  nothing imported and unused.
+- `guards/test_source_style.py` — no file that is mostly comment, nothing
+  imported and unused.
 - `guards/test_generated.py` — `docs/` and `docs/FRAMEWORK.md` are current, upstream
   was read this fortnight, and every line we override is still there.
 

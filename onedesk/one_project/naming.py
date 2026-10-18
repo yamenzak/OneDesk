@@ -5,7 +5,6 @@ import re
 import frappe
 from frappe import _
 
-#: A letter, then letters and digits: what fits on a whiteboard.
 KEY = re.compile(r"^[A-Z][A-Z0-9]{1,9}$")
 
 
@@ -21,7 +20,6 @@ def validate(doc, method=None) -> None:
 	if other:
 		frappe.throw(_("{0} already names the tasks of {1}.").format(key, other))
 	if doc.is_new():
-		# ERPNext makes a template's tasks in after_insert, before on_update.
 		_write(doc)
 
 

@@ -12,23 +12,16 @@ from onedesk.one_intake.act import Action
 from onedesk.one_intake.identity import CERTAIN
 from onedesk.one_project.intake import task_in
 
-#: Readings that are real enough to make anything from.
 REAL = ("Action", "Information", "", None)
 
-#: Who a document's counterpart is, by kind: the party whose role this is.
 COUNTERPART = {"CV": ("Holder", "Sender"), "Identity Document": ("Holder",), "Sick Note": ("Patient", "Holder", "Sender")}
 
-#: Days before a document runs out that its holder's HR officer is told.
 LEAD_DAYS = {"residence permit": 90, "visa": 90, "work permit": 90, "passport": 60, "driving licence": 30, "driving license": 30}
 LEAD_DEFAULT = 60
 
-#: A task's priority, one step up for each reminder.
 PRIORITY = ("Low", "Medium", "High", "Urgent")
 
 PERSONAL = ("Personal", "Medical", "Pay", "Legal")
-
-
-# ------------------------------------------------------------------ helpers
 
 
 def counterpart(reading: dict) -> dict | None:
@@ -70,9 +63,6 @@ def real(reading: dict, ctx: dict) -> bool:
 	return reading.get("verdict") in REAL and not ctx.get("history") and reading.get("change") != "Nothing New"
 
 
-# ------------------------------------------------------------------ pass 1: parties
-
-
 def parties(reading: dict, ctx: dict) -> list[Action]:
 	"""The counterpart the document needs and nobody has made yet."""
 	if not real(reading, ctx) or ctx.get("direction") == "Sent":
@@ -80,14 +70,11 @@ def parties(reading: dict, ctx: dict) -> list[Action]:
 	kind = reading.get("kind") or ""
 	party = counterpart(reading)
 	why = ctx.get("why_made") or ""
-	# A lead that orders becomes a customer, through ERPNext's own conversion.
 	if kind == "Order" and party and ctx.get("sender_lead") and party.get("matched_doctype") in (None, "Lead"):
 		return [Action("Create", "Customer", values={"lead": ctx["sender_lead"]}, key="party|customer", flow="onedesk.one_intake.planning.customer_from_lead", why=why, as_person=True)]
 	if not party or known(party):
 		return []
 	name = _name(party)
-	# A receipt the company paid is a bill like an invoice, first supplier or
-	# not; one a colleague forwards is their expense claim, not a supplier.
 	billed = kind in ("Invoice", "Credit Note") or (kind == "Receipt" and not ctx.get("sender_is_colleague"))
 	if billed and name and strong(party):
 		return [
@@ -133,9 +120,6 @@ def parties(reading: dict, ctx: dict) -> list[Action]:
 			return []
 		return [Action("Create", "Job Applicant", values={k: v for k, v in values.items() if v}, key="party|applicant", why=why)]
 	return []
-
-
-# ------------------------------------------------------------------ pass 2: people
 
 
 def contact(reading: dict, ctx: dict) -> list[Action]:
@@ -267,9 +251,6 @@ def period(reading: dict) -> tuple[str | None, str | None]:
 	return (str(start) if start else None), (str(end) if end else None)
 
 
-# ------------------------------------------------------------------ tasks, events and promises
-
-
 def tasks(reading: dict, ctx: dict) -> list[Action]:
 	"""One task per matter. A new matter's asks become its steps; a later
 	document nudges, moves or closes the task the matter already has."""
@@ -295,7 +276,6 @@ def tasks(reading: dict, ctx: dict) -> list[Action]:
 		"one_about": about[1] if about else None,
 		"one_steps": [{k: v for k, v in one.items() if v} for one in steps],
 		"assign_to": ctx.get("person"),
-		# A bill or a delivery for a project is the project's work too.
 		"project": task_in(ctx.get("project"), by[0] if by else None),
 	}
 	return [Action("Create", "Task", values={k: v for k, v in values.items() if v}, key="task", flow="onedesk.one_intake.planning.make_task", sure=True)]
@@ -373,7 +353,6 @@ def site_log(reading: dict, ctx: dict) -> list[Action]:
 	if not real(reading, ctx) or reading.get("kind") != "Site Log" or not ctx.get("project") or ctx.get("direction") == "Sent":
 		return []
 	note = (reading.get("text") or reading.get("summary") or "").strip()
-	# A mail's text opens with its subject, which the update does not need.
 	if ctx.get("subject") and note.startswith(ctx["subject"]):
 		note = note[len(ctx["subject"]) :].strip()
 	if not note:
@@ -398,11 +377,6 @@ def second(reading: dict, ctx: dict) -> list[Action]:
 	)
 
 
-# ------------------------------------------------------------------ enrichment
-
-
-#: What a party's record learns from a document, field by field: the
-#: reading party's key, and the record's field, per doctype.
 LEARNS = {
 	"Supplier": {"vat_id": "tax_id", "website": "website"},
 	"Customer": {"vat_id": "tax_id", "website": "website"},

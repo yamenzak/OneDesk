@@ -6,33 +6,22 @@ patch, so a tenant can put any of it back.
 
 import frappe
 
-#: Navbar rows that send a One tenant somewhere that is not One: Frappe's own
-#: support desk, a dialog naming the framework and its version, and an erpnext
-#: action for demo data a paying site never had.
 HIDE_ROWS = ("Frappe Support", "About", "Delete Demo Data")
 
-#: Navbar rows shown only to whoever can open where they go, on frappe's own
-#: read check: System Health is a System Manager's report.
 SHOW_IF = {"System Health": "frappe.model.can_read('System Health Report')"}
 
-#: Reports One has replaced with one of its own, disabled rather than deleted, since
-#: the row is theirs and would come back; a tenant who wants one enables it.
 HIDE_REPORTS = (
 	"Monthly Attendance Sheet",
 	"Shift Attendance",
 	"Employee Hours Utilization Based On Timesheet",
 	"Recruitment Analytics",
-	# OneProject's, without the HR checklists; see one_project/report.
 	"Project Summary",
 	"Project wise Stock Tracking",
-	# OneCRM's board, Opportunity Forecast and Won and Lost; see one_crm/measure.py.
 	"Sales Pipeline Analytics",
 	"Opportunity Summary by Sales Stage",
 	"Lost Opportunity",
 )
 
-#: erpnext's per-module checklists. They are written in erpnext's voice, about
-#: erpnext's modules, and they open over whatever One put on the page.
 HIDE_ONBOARDING = ("erpnext", "hrms")
 
 

@@ -20,8 +20,6 @@ SHELL_JS = tree.APP / "public" / "js" / "shell.js"
 SHELL_CSS = tree.APP / "public" / "css" / "shell.css"
 HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
 
-#: Pages on the shell: their page script makes the page with
-#: `onedesk.shell.page`, and what draws them uses its parts.
 ON_THE_SHELL = {
 	"settings": ("public/js/settings.js", "public/css/settings.css"),
 	"workspace_settings": ("public/js/settings.js", "public/css/settings.css"),
@@ -37,22 +35,12 @@ ON_THE_SHELL = {
 	"masters": ("one/page/masters/masters.js", "one/page/masters/masters.css"),
 }
 
-#: Pages not on it yet, and the stage of docs/SHELL.md that moves them. None
-#: is left; a new page is in neither, and fails until it is on the shell.
 NOT_YET = {}
 
-#: Pages whose body is a frappe-ui island (docs/ISLANDS.md, tests/guards/test_islands.py):
-#: desk keeps their head through onedesk.island_page, and the island draws the
-#: rest with frappe-ui rather than the shell.
 ISLAND_PAGES = {"project_view", "project_template_view", "task_view", "item_view", "stock_on_hand", "inventory", "books", "onecrm", "onehr", "lots", "to_order", "quotes", "sent_out", "upkeep", "floor", "plant", "my_tasks", "timers"}
 
-#: What the shell has, so a page may not style its own: a row of a list, an
-#: empty state, a quiet line, a boxed card, a body or a section.
 PARTS = re.compile(r"\.[a-z]+-(row|empty|quiet|card|content|section|chevron)(-[a-z]+)?\b(?![-\w])")
 
-#: A part that shares a name with the shell's but is not one: the People
-#: section's grid row is a row of a table, not of a list, and a record's Files
-#: tab sits in frappe's own form section.
 OWN = {".os-people-row", ".form-section"}
 
 
@@ -104,8 +92,6 @@ def test_only_the_shell_styles_the_shell():
 			selector = line.split("{")[0]
 			if "{" not in line or ".one-shell" not in selector:
 				continue
-			# A page may place its own part inside one of the shell's, never
-			# restyle the shell's part itself.
 			last = selector.split(",")[-1].strip().split()[-1]
 			assert not last.startswith(".one-shell"), f"{path.name}: {selector.strip()} restyles the shell"
 
@@ -115,7 +101,6 @@ def test_a_page_on_the_shell_draws_none_of_its_parts():
 		css = (tree.APP / style).read_text(encoding="utf-8") if style else ""
 		own = {match.group(0) for match in PARTS.finditer(css)} - OWN
 		assert not own, f"{style} styles its own {sorted(own)}; use the shell's"
-		# The one place a page is sized to the window is the shell's fit().
 		assert not re.search(r"(?<![-\w])(min-)?height:\s*calc\(\s*100d?vh", css), (
 			f"{style} sizes itself to the window; use the shell's panes"
 		)
@@ -142,8 +127,6 @@ def test_the_old_names_are_gone():
 		assert not found, f"{path.relative_to(tree.APP)}: {found.group(0)}"
 
 
-#: The one back button left is OneCloud's, and it is the explorer's own
-#: history (back to the folder you came from), not a way out of a page.
 BACK_ALLOWED = {"onecloud.js"}
 
 
@@ -162,22 +145,16 @@ def test_a_record_a_page_opens_on_is_drawn_as_a_docview():
 		assert part in shell, part
 	for path in _page_scripts():
 		js = path.read_text(encoding="utf-8")
-		# A way out of a page is the breadcrumb, not a button in it.
 		if path.name not in BACK_ALLOWED:
 			assert '"arrow-left"' not in js and "data-back" not in js, f"{path.name} draws its own back button"
-		# Naming a page after something inside another is the trail's job.
 		for call in re.findall(r"shell\.name\(([^;]*)\);", js):
 			assert "route:" not in call, f"{path.name}: shell.name(..., {{ route }}) names a record; use shell.trail"
-		# A page that opens on something from its address, and names itself,
-		# names that something through the trail.
 		if "get_query_params" in js and "shell.name(" in js:
 			assert re.search(r"shell\.trail\(|as_record\(|shell\.record\(", js), (
 				f"{path.name} opens on a record from its address but never names it with the trail"
 			)
 
 
-#: Lists whose rows open what they are in the pane beside them: a mailbox,
-#: and OneIntake's reading list. Every other list of records is a table.
 PANE_LISTS = {"onemail.js", "intake.js", "record_mail.js"}
 
 
@@ -207,12 +184,6 @@ def test_a_list_of_records_is_frappes_table():
 			assert "one-shell-row-link" not in js and not re.search(r"\blink:\s*\{", js), (
 				f"{path.name}: a row that opens a record; a list of records is onedesk.shell.table"
 			)
-			# The Forms list slipped past the line above as rows that opened
-			# through `href`, under a heading per app: the look of a list of
-			# records, drawn without a table. So, outside a mailbox's pane: no
-			# list of rows at all, no row that goes anywhere, no rows made one
-			# per record, and no row drawn by hand. A row is one fact and what to
-			# do about it (Password, Change Password); many are a table.
 			assert "shell.list(" not in js, f"{path.name}: a list of rows; a list of records is onedesk.shell.table"
 			for row in re.finditer(r"shell\.row\(\{(.*?)\}\)", js, re.S):
 				assert not re.search(r"\b(href|link):", row.group(1)), (
@@ -243,8 +214,6 @@ def test_every_page_outside_the_desk_wears_the_portal():
 	itself is a frappe-ui app (frontend/portal), whose build writes its page."""
 	pages = sorted((tree.APP / "www").glob("*.html"))
 	assert pages
-	# me.html and projects.html are never drawn: their .py sends everybody on,
-	# and the file is there so frappe's and erpnext's own pages are not found.
 	never_drawn = {"me.html", "projects.html"}
 	for page in pages:
 		if page.name in never_drawn:
@@ -253,8 +222,6 @@ def test_every_page_outside_the_desk_wears_the_portal():
 		if page.name == "portal.html":
 			continue
 		html = page.read_text(encoding="utf-8")
-		# A page of frappe's own, extended by its app prefix (Set Password),
-		# is frappe's page, found first so its .py can send a portal reader on.
 		frappes = f'{{% extends "frappe/www/{page.name}" %}}'
 		if html.lstrip().startswith(frappes):
 			assert "frappe.Redirect" in (page.parent / page.name.replace("-", "_").replace(".html", ".py")).read_text()

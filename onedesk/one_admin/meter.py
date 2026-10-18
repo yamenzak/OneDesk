@@ -6,7 +6,6 @@ inferred, and a call that answered but could not be metered is not free.
 
 from onedesk.one_admin.pricing import Use
 
-#: Gemini's own word for a modality, which is upper case and one of a handful.
 SAID_AS = {
 	"TEXT": "text",
 	"IMAGE": "image",
@@ -15,8 +14,6 @@ SAID_AS = {
 	"DOCUMENT": "other",
 }
 
-#: Everything either provider counts in, once counted: the same word for both
-#: by coincidence rather than rule, so written down here.
 TOKENS = "tokens"
 
 
@@ -29,8 +26,6 @@ def read(provider: str, body: dict, asked: list[Use] | None = None) -> tuple[lis
 	"""
 	found = _workers_ai(body) if provider == "workers-ai" else _gemini(body)
 	if found:
-		# Anything we asked for that the provider did not report on: a picture's
-		# tiles, an audio minute. Reported lines win where the two overlap.
 		reported = {use.at for use in found}
 		found += [use for use in (asked or []) if use.at not in reported]
 		return found, ""
@@ -80,9 +75,6 @@ def _gemini(body: dict) -> list[Use]:
 			found.append(Use(kind=kind, modality="text", unit=TOKENS, count=float(count)))
 
 	if cached:
-		# Cached tokens are counted inside the prompt total as well, so the
-		# input line comes down by what the cache covered — otherwise the same
-		# tokens are charged twice, once at each rate.
 		found = _less(found, "input", cached)
 		found.append(Use(kind="cached", modality="text", unit=TOKENS, count=cached))
 	return [use for use in found if use.count > 0]

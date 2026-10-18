@@ -6,8 +6,6 @@ from frappe.utils import getdate
 
 from hrms.hr.report.monthly_attendance_sheet import monthly_attendance_sheet as sheet
 
-#: The grid is two-letter codes, so it needs a key. One line, in the order the
-#: codes rank, rather than HRMS's eight-item list wrapping above the chart.
 LEGEND = (
 	("P", "Present", "var(--ink-green-6)"),
 	("WFH", "From home", "var(--ink-green-6)"),
@@ -19,8 +17,6 @@ LEGEND = (
 	("WO", "Weekly off", "var(--ink-gray-5)"),
 )
 
-#: Longest a date range may be, which is HRMS's own limit and the reason it
-#: exists: a column per day stops being a sheet somewhere around a quarter.
 MOST_DAYS = 90
 
 
@@ -48,8 +44,6 @@ def _the_company(filters) -> None:
 
 
 def _check(filters) -> None:
-	# A month when nothing picked one, as from a scheduled mail or OneAI,
-	# the way the page starts.
 	filters.filter_based_on = filters.filter_based_on or "Month"
 	if filters.filter_based_on == "Date Range":
 		if not (filters.start_date and filters.end_date):
@@ -108,8 +102,6 @@ def _the_missing(filters, data: list[dict]) -> list[dict]:
 			for name, details in missing.items()
 		]
 
-	# A shift of `None` with no days: HRMS's own row builder then fills the
-	# holidays and leaves the rest blank, which is the row we want.
 	return sheet.get_rows(missing, filters, holidays, {name: {None: {}} for name in missing})
 
 

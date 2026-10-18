@@ -1,18 +1,10 @@
 <template>
-  <!-- Shop Floor (one_inventory/page/floor): the work on the floor. The open
-       work orders, each with how far its steps have got, then those done; a
-       workstation's steps; and one work order's steps, each a job card to
-       start, pause, record and close (one_inventory/floor.py, through
-       ERPNext's own Shop Floor). Modelled on Odoo's Shop Floor: a tab per
-       workstation, the orders as a table, and each step a card with its
-       clock, who is on it and one button for what comes next. -->
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
       <Figures :figures="figures" :columns="figures.length" :boxed="wide" class="mt-6" />
       <PlaceSpot :said="placed" class="mt-4" />
 
-      <!-- One work order's steps. -->
       <template v-if="order">
         <div class="mt-6 flex flex-wrap items-start gap-4">
           <Button variant="ghost" icon="lucide-arrow-left" :aria-label="__('All Work Orders')" @click="open(null)" />
@@ -37,7 +29,6 @@
 
       <template v-else>
         <ViewTabs v-model="shown" :views="views" class="mt-5" />
-        <!-- A workstation's steps, the oldest first. -->
         <FloorSteps v-if="station" :steps="said.steps" :can="said.can" :employee="said.employee" show-order class="mt-4" @changed="load" @open="open" />
         <template v-else>
           <div class="mt-4 flex flex-wrap items-center gap-2">
@@ -69,7 +60,6 @@ const props = defineProps({
 });
 
 const said = ref(null);
-// Which work order is open, else which tab: open, done, or a workstation.
 const focus = ref(props.query.work_order || null);
 const shown = ref(props.query.workstation || (props.query.done ? "done" : "open"));
 const search = ref("");
@@ -93,21 +83,17 @@ async function load() {
   report();
 }
 
-// A work order opened from the board, or the board again.
 function open(name) {
   focus.value = name;
   setQuery("work_order", name);
   load();
 }
 
-// Every start, pause, record and close changes a job card, and finishing
-// changes the work order: the page reads again when either does.
 let timer = null;
 const soon = () => {
   clearTimeout(timer);
   timer = setTimeout(load, 600);
 };
-// A person or a workstation renamed shows too.
 const stop = ["Job Card", "Work Order", "Employee", "Workstation"].map((one) => followList(one, soon));
 onBeforeUnmount(() => {
   stop.forEach((one) => one());
@@ -164,8 +150,6 @@ function report() {
   );
 }
 
-// The page is a place (one_studio/places.py): its extensions are told what
-// it shows, and may add a note or a button.
 const placed = reactive({ notes: [], actions: [] });
 let drawn = null;
 function extended(s) {

@@ -1,23 +1,7 @@
-// Nobody is asked which company, on a report either.
-//
-// `one/company.py` hides the Company field on every doctype that has one, but a
-// report's filters are not doctype fields — they are a list declared in each
-// report's own script, in another app. Seventeen of them in the OneHR rail alone
-// asked which company, and each answer was the same one.
-//
-// So rather than seventeen forks of somebody else's report, the filter area is
-// swept once after it is built: a Company link is filled from the site and
-// hidden, and the "Include Company Descendants" checkbox beside it goes too,
-// since it can only ever mean the same thing.
 frappe.provide("onedesk.reports");
 
-//: The checkboxes have no other meaning on a single-company site, so they are
-//: named rather than detected: nothing else is hidden by fieldname.
 const ALSO = ["include_company_descendants", "show_aggregate_value_from_subsidiary_companies"];
 
-//: A Currency filter is swept only on a payroll or HR report, where the answer
-//: is always what the company pays in. OneBook's are left alone: a single
-//: company can still be owed money in somebody else's currency.
 const PAID = ["HR", "Payroll", "One HR"];
 
 onedesk.reports.one_company = () => {
@@ -40,8 +24,6 @@ function hide_company(filter, paid) {
 	if (!company && !currency && !ALSO.includes(df.fieldname)) return;
 
 	if (!filter.get_value()) {
-		// `set_input` rather than `set_value`: the same one HRMS's own onload
-		// uses, and it does not fire the onchange that would refetch mid-setup.
 		if (company) filter.set_input(frappe.defaults.get_user_default("Company"));
 		if (currency) filter.set_input(frappe.defaults.get_default("currency"));
 	}
@@ -49,18 +31,11 @@ function hide_company(filter, paid) {
 	filter.$wrapper.addClass("one-gone");
 }
 
-// The heading is the record's name — "Employee Hours Utilization Based On
-// Timesheet" under a rail row reading "Hours Utilization". The rail's own labels
-// come down in the boot (see one/titles.py), so the page is called what the
-// person clicked.
 onedesk.reports.called_what_the_rail_called_it = () => {
 	const QueryReport = frappe.views && frappe.views.QueryReport;
 	if (!QueryReport || QueryReport.prototype.__one_titles) return;
 	QueryReport.prototype.__one_titles = true;
 
-	// The heading is the last crumb, drawn from `page_title`, which also names
-	// the browser tab. `load_report` sets it before its serial chain draws the
-	// page head, so it is renamed as soon as it is set.
 	const theirs = QueryReport.prototype.load_report;
 	QueryReport.prototype.load_report = function (...args) {
 		const result = theirs.apply(this, args);
@@ -70,17 +45,6 @@ onedesk.reports.called_what_the_rail_called_it = () => {
 	};
 };
 
-// An employee column already says the name, so the column beside it does not —
-// and no report column says which company.
-//
-// `one_hr/names.py` hides the mirror `Employee Name` field on the doctypes that
-// carry one, and `show_title_field_in_link` makes every Employee link read the
-// person's name. A report's columns are neither: they are a list built in
-// Python in another app, and eleven of them in the OneHR rail put Employee and
-// Employee Name side by side, reading "Samir Aoun | Samir Aoun".
-//
-// So the mirror column is dropped wherever the link it mirrors is present. Only
-// then: a report that shows the name and not the link still shows the name.
 onedesk.reports.one_name = () => {
 	const QueryReport = frappe.views && frappe.views.QueryReport;
 	if (!QueryReport || QueryReport.prototype.__one_name) return;
@@ -89,10 +53,6 @@ onedesk.reports.one_name = () => {
 	const theirs = QueryReport.prototype.prepare_columns;
 	QueryReport.prototype.prepare_columns = function (columns) {
 		const ready = theirs.call(this, columns);
-		// Hidden rather than removed: frappe reads a list-shaped row, such as the
-		// totals row, by position, and drops hidden columns when it draws.
-		// The same company on every row, for the same reason the filter above it
-		// is swept: there is only one.
 		const linked = ready.some((c) => c.fieldtype === "Link" && c.options === "Employee");
 		for (const c of ready) {
 			if (c.fieldname === "company" || (linked && c.fieldname === "employee_name")) c.hidden = 1;
@@ -101,19 +61,6 @@ onedesk.reports.one_name = () => {
 	};
 };
 
-// A payroll report opens on the last payroll that was run.
-//
-// Salary Register ships `from_date` at today minus a month and `to_date` at
-// today, and its query keeps a slip only when the whole slip sits inside the
-// range. A month-ago-to-today range never contains a whole payroll month, so
-// the report opens on "Nothing to show" however well payroll went — which is
-// how it read here, with five submitted slips for August in the table and the
-// range starting on the 22nd.
-//
-// Calendar months do not fix it either: payroll for August is read in
-// September. So the dates come from the newest submitted slip — the register
-// opens on the run somebody most recently made. It is a default and not a rule:
-// a person who wants another range types one, and nothing resets it.
 const MONTHLY = ["Salary Register", "Income Tax Deductions", "Professional Tax Deductions"];
 
 onedesk.reports.a_payroll_month = () => {
@@ -139,8 +86,6 @@ onedesk.reports.a_payroll_month = () => {
 				const run = {
 					from_date: found[0].start_date,
 					to_date: found[0].end_date,
-					// The deduction reports take a month and a year rather than two
-					// dates, and default the month to whatever month it is today.
 					month: String(on.getMonth() + 1),
 					year: String(on.getFullYear()),
 				};
@@ -153,17 +98,6 @@ onedesk.reports.a_payroll_month = () => {
 	};
 };
 
-// The same for a dashboard, at a different seam.
-//
-// A dashboard's heading is the last crumb too, which its page sets to the
-// document's name (`Dashboard.set_breadcrumbs`). The Dashboard class is local to
-// frappe's dashboard page, so the crumb is renamed on its way into the page,
-// and only there: on the dashboard page, the last crumb, the document's name.
-//
-// The browser tab is left as it is. `Dashboard.show` calls `set_title` after
-// the crumb, so anything written here is overwritten a line later, and a tab
-// reading "Payroll Dashboard" beside a page reading "Payroll Overview" is not
-// worth a second patch.
 onedesk.reports.dashboards_too = () => {
 	const Page = frappe.ui.Page;
 	if (!Page || Page.prototype.__one_titles) return;
@@ -179,19 +113,6 @@ onedesk.reports.dashboards_too = () => {
 	};
 };
 
-// A report that wants a period opens on the one we are in.
-//
-// Income Tax Computation and Accrued Earnings both make `payroll_period`
-// required and default it to nothing, so both open on "Please set filters" with
-// a red box — on a workspace that has exactly one payroll period per year,
-// created by the setup wizard, and almost always wants the current one.
-//
-// Vehicle Expenses is worse: its `fiscal_year` defaults to a user default that
-// nothing on the site ever sets, and the report answers with a red **modal**
-// saying "Start Year and End Year are mandatory" before the page has drawn.
-//
-// Both are the same question, so both are answered the same way: the period
-// containing today, or the newest one if today is outside them all.
 const PERIODS = {
 	"Payroll Period": ["start_date", "end_date"],
 	"Fiscal Year": ["year_start_date", "year_end_date"],
@@ -234,33 +155,10 @@ onedesk.reports.the_period = () => {
 	};
 };
 
-// A required Select filter that nobody gave a default to.
-//
-// Employee Analytics makes `parameter` required and offers Branch, Grade,
-// Department, Designation and Employment Type, and defaults it to nothing. So
-// every open throws `Filter missing` into the console and draws the red box,
-// on a report where any of the five would have been an answer and the reader
-// only wants to see it and then change it.
-//
-// The rule is general rather than named, because the same shape will turn up
-// again: a Select that must be answered and offers a fixed list answers itself
-// with the first option. A Link is left alone — its first option is whatever
-// happens to sort first in somebody's data, which is not an answer.
-//
-// `CHOSEN` is for where the first option is a bad one. Employee Analytics
-// offers Branch first, and a workspace with no branches then gets an empty
-// report where the same question asked of Department would have answered it.
 const CHOSEN = { "Employee Analytics": { parameter: "Department" } };
 
-// A filter that asks for a kind of record as a link to DocType, which only the
-// platform may read: erpnext's Address And Contacts (OneCRM's Addresses and
-// Contacts) refused every pick. It becomes a choice of the kinds the reader
-// can read, customers first, so the rule above answers it.
 const KINDS = { "Address And Contacts": { party_type: ["Customer", "Lead", "Supplier", "Sales Partner"] } };
 
-// A choice that starts somewhere else than erpnext starts it. Delivery Dates
-// sits in OneInventory, so it opens on what left the warehouse against each
-// order's date, not on invoices, which erpnext opens on and which are empty here.
 const STARTS = { "Delayed Order Report": { based_on: "Delivery Note" } };
 
 onedesk.reports.a_choice_is_made = () => {
@@ -295,16 +193,6 @@ onedesk.reports.a_choice_is_made = () => {
 	};
 };
 
-// A report about people leaving opens on the year, not on the year behind.
-//
-// Employee Exits defaults `from_date` to twelve months ago and `to_date` to
-// today, so somebody working a notice period — the person the screen is most
-// useful about — is not in it. On this site the one leaver goes on 15 October
-// and the report was empty on 22 September.
-//
-// The whole calendar year answers both halves of the question: who has gone,
-// and who is going. Only when the filters are still on their own defaults, so a
-// reader who has narrowed the period keeps their answer.
 const WHOLE_YEAR = ["Employee Exits"];
 
 onedesk.reports.who_is_leaving = () => {
@@ -328,8 +216,6 @@ onedesk.reports.who_is_leaving = () => {
 	};
 };
 
-// A report whose empty answer is good news says so, rather than frappe's
-// "Nothing to show": no rows on the comparison means stock and books agree.
 const EMPTY = { "Stock and Account Value Comparison": () => __("Stock and the books agree") };
 
 onedesk.reports.good_news = () => {
@@ -345,18 +231,12 @@ onedesk.reports.good_news = () => {
 	};
 };
 
-// A list of ours is called what the rail calls it too: Tenant is Workspaces,
-// Provisioning Job is Jobs. Its title, the crumb that leads back to it from a
-// record, and its name among another record's connections, which frappe all
-// write as the doctype's name.
 onedesk.reports.lists_too = () => {
 	const BaseList = frappe.views && frappe.views.BaseList;
 	const ours = (doctype) => ((frappe.boot.one_titles || {}).DocType || {})[doctype];
 	const crumb = (doctype) => ((frappe.boot.one_titles || {}).Crumb || {})[doctype];
 	if (BaseList && !BaseList.prototype.__one_titles) {
 		BaseList.prototype.__one_titles = true;
-		// Its heading is the last crumb, drawn from `page_title` before the
-		// browser tab is named from it, so it is renamed before either.
 		const theirs = BaseList.prototype.get_breadcrumbs;
 		BaseList.prototype.get_breadcrumbs = function () {
 			const label = ours(this.doctype) || crumb(this.doctype);
@@ -364,7 +244,6 @@ onedesk.reports.lists_too = () => {
 			return theirs.call(this);
 		};
 	}
-	// A tree's heading too: "Cost Centers", not "Cost Center Tree".
 	const TreeView = frappe.views && frappe.views.TreeView;
 	if (TreeView && !TreeView.prototype.__one_titles) {
 		TreeView.prototype.__one_titles = true;
@@ -374,7 +253,6 @@ onedesk.reports.lists_too = () => {
 			return label ? this.page.set_title(__(label)) : theirs.call(this);
 		};
 	}
-	// A record's connections name each list, and frappe writes the doctype.
 	const Dashboard = frappe.ui.form && frappe.ui.form.Dashboard;
 	if (Dashboard && !Dashboard.prototype.__one_titles) {
 		Dashboard.prototype.__one_titles = true;
@@ -388,12 +266,8 @@ onedesk.reports.lists_too = () => {
 			return out;
 		};
 	}
-	// The crumb is named in shell.js, at load, for a record opened cold too.
 };
 
-// Where a saved report or a dashboard is listed: which app's sidebar, and for whom
-// (one/reports.py). Show In… on the Report view's menu and on a dashboard's, and
-// offered once a report is saved. Only an administrator shows one to everybody.
 onedesk.reports.show_in = async (kind, name) => {
 	const said = await frappe.xcall("onedesk.one.reports.where", { kind, name });
 	const dialog = new frappe.ui.Dialog({
@@ -446,9 +320,6 @@ onedesk.reports.shown_in = () => {
 			return items;
 		};
 	}
-	// frappe's dashboard page keeps its Dashboard class to itself and draws its
-	// menu after the dashboard loads, so the item is added to that menu once the
-	// first dashboard has been drawn.
 	frappe.router.on("change", () => {
 		const route = frappe.get_route();
 		if (route[0] !== "dashboard-view" || !frappe.user.has_role("Workspace Administrator")) return;
@@ -468,7 +339,6 @@ onedesk.reports.shown_in = () => {
 		};
 		wrap(25);
 	});
-	// A report just saved says where it went, and offers to move it.
 	$(document).on("app_ready", () =>
 		frappe.realtime.on("one_report_placed", ({ report }) =>
 			frappe.show_alert(
@@ -491,15 +361,6 @@ frappe.ui.form.on("Dashboard", {
 	},
 });
 
-// Each wraps a frappe class once (its prototype keeps a flag), so it can be
-// tried twice. Now, because frappe's report bundle loads before this file and
-// a report opened by its address is drawn before the first requests settle;
-// and once they do, for a class loaded later.
-// A chart of one period is drawn as bars. ERPNext draws the Balance Sheet as
-// a line, and a line through one year is a single point frappe's chart does
-// not draw: a year's Balance Sheet opened on empty axes. And an ageing chart
-// calls what is not yet due "<0", where its report's own filter says "Not
-// Yet Due" in our Home's words.
 onedesk.reports.one_period_bars = () => {
 	const QueryReport = frappe.views && frappe.views.QueryReport;
 	if (!QueryReport || QueryReport.prototype.__one_bars) return;
@@ -514,11 +375,6 @@ onedesk.reports.one_period_bars = () => {
 	};
 };
 
-// A column says something. One empty on every row goes: Accounts Receivable
-// carried an empty Cost Center and Customer LPO between the party and the
-// amounts. ERPNext's two ledgers of who owes whom, and Gross Profit, also lead
-// with the amounts, which came ninth or later, past the window's edge, behind
-// a Party Type that is always the filter's and a contact's name.
 const COLUMNS = {
 	"Accounts Receivable": {
 		dropped: ["party_type", "customer_primary_contact"],
@@ -528,7 +384,6 @@ const COLUMNS = {
 		dropped: ["party_type"],
 		first: ["posting_date", "party", "voucher_no", "due_date", "invoiced", "paid", "credit_note", "outstanding", "age"],
 	},
-	// What each sale made, before what it was: the profit came fifteenth.
 	"Gross Profit": {
 		first: ["sales_invoice", "customer", "posting_date", "qty", "selling_amount", "buying_amount", "gross_profit", "gross_profit_%"],
 	},
@@ -558,8 +413,6 @@ onedesk.reports.columns_that_say_something = () => {
 				};
 				kept = kept.sort((a, b) => rank(a) - rank(b) || a - b);
 			}
-			// A row as a list, such as a totals row, is read by position: it
-			// follows the columns it was written for.
 			const result = (data.result || []).map((row) => (Array.isArray(row) ? kept.map((at) => row[at]) : row));
 			data = { ...data, columns: kept.map((at) => all[at]), result };
 		}
@@ -567,9 +420,6 @@ onedesk.reports.columns_that_say_something = () => {
 	};
 };
 
-// A Finance Book filter is shown only where the workspace keeps a second set
-// of books. Every financial statement asked for a Finance Book and offered
-// "Include Default FB Entries" to a company that has none.
 onedesk.reports.books_kept = () => {
 	const QueryReport = frappe.views && frappe.views.QueryReport;
 	if (!QueryReport || QueryReport.prototype.__one_books) return;

@@ -5,9 +5,6 @@ from frappe.utils import add_to_date, get_datetime, now_datetime, today
 
 from onedesk.one_hr import policy, tell
 
-#: How long after a shift ends before an open log is closed. Long enough that
-#: somebody finishing late closes their own, short enough that it happens the
-#: same evening.
 GRACE_HOURS = 2
 
 

@@ -66,8 +66,6 @@ def test_every_way_a_status_changes_is_hooked():
 	assert '"Opportunity-sales_stage"' in HOOKS, "stage history comes from the Milestone Tracker fixture"
 
 
-# ------------------------------------------------------------------ the board
-
 BOARD = tree.APP / "one_crm" / "board.py"
 
 

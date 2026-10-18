@@ -6,12 +6,8 @@ from frappe.utils import add_days, date_diff, get_first_day_of_week, getdate, no
 
 from onedesk.one_hr import policy, rules
 
-#: Thirteen weeks of squares: one quarter, which is as far back as anybody looks
-#: and as much as sits beside the numbers without wrapping.
 WEEKS = 13
 
-#: Attendance's own five statuses, in our words. `late`, `holiday` and `none`
-#: are ours — a flag, a list and an absence of any row.
 MARKS = {
 	"Present": "present",
 	"Work From Home": "wfh",
@@ -20,7 +16,6 @@ MARKS = {
 	"Absent": "absent",
 }
 
-#: What a person is waiting on somebody to approve, and the field that says so.
 AWAITING = (
 	("Leave Application", "status", "Open"),
 	("Expense Claim", "approval_status", "Draft"),
@@ -272,8 +267,6 @@ def _leave(doc) -> list[dict]:
 	"""Every type this person holds an allocation for, as HRMS counts it."""
 	from hrms.hr.doctype.leave_application.leave_application import get_leave_details
 
-	# A caught PermissionError still leaves its message for the next dialog, and having
-	# caught it, it is not the reader's problem, so the sentence goes with it.
 	said = len(frappe.local.message_log)
 	try:
 		details = get_leave_details(doc.name, nowdate())
@@ -336,8 +329,6 @@ def _next_payday(doc) -> str | None:
 	return add_days(last[0]["end_date"], 1) if last else None
 
 
-#: What HRMS's Create Assignments menu on an employee asks exists before it
-#: offers to assign it, with HRMS's own filters.
 MASTERS = {
 	"Leave Policy": {"docstatus": 1},
 	"Salary Structure": {"docstatus": 1, "is_active": "Yes"},

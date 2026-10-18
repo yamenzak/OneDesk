@@ -8,7 +8,6 @@ from frappe.utils import getdate
 from onedesk.one_ai import memory
 from onedesk.one_hr import own
 
-#: Words that say which of the workspace's own rules a question is about.
 TOPICS = {
 	"leave": ("leave", "sick", "annual", "vacation", "holiday", "time off", "maternity", "paternity", "carry", "encash", "absence"),
 	"expenses": ("expense", "claim", "receipt", "reimburs", "travel", "allowance", "taxi", "meal"),
@@ -16,7 +15,6 @@ TOPICS = {
 	"leaving": ("notice", "resign", "leaving", "quit", "exit", "gratuity", "terminat"),
 }
 
-#: How much of one note is handed over: the part around the words asked about.
 PASSAGE = 700
 
 

@@ -9,14 +9,10 @@ from frappe import _
 
 from onedesk.one_mail import actions
 
-#: Frappe's role for reading mail.
 INBOX_USER = "Inbox User"
 
-#: A person's part: letters, digits, dash and underscore, no dot, as a slug is.
 NAME = re.compile(r"^[a-z0-9](?:[a-z0-9_-]{0,38}[a-z0-9])?$")
 
-#: Names nobody may take, because mail servers and people expect them to mean
-#: something else.
 RESERVED = frozenset(
 	(
 		"abuse", "admin", "administrator", "billing", "bounce", "bounces", "hostmaster",
@@ -80,8 +76,6 @@ def ensure_workspace() -> str | None:
 	if found:
 		return found
 	made = _make(address, sends=True)
-	# The workspace's mailbox, held at first by whoever administers it; they
-	# choose who else holds it (holders.py).
 	frappe.db.set_value("Email Account", made, "one_shared", 1, update_modified=False)
 	from onedesk.one import roles
 
@@ -102,7 +96,6 @@ def give(user: str, name: str) -> str:
 	from onedesk.one import roles
 
 	frappe.only_for(roles.ADMINISTRATOR)
-	# Set once, as on the person's own page (for_person).
 	held = frappe.db.get_value(
 		"User Email", {"parent": user, "email_account": ["like", f"%.{slug()}@{domain()}"]}, "email_account"
 	)
@@ -186,7 +179,6 @@ def for_person(doc, method=None) -> None:
 		row.email_account for row in doc.get("user_emails") or [] if (row.email_account or "").endswith(own)
 	]
 	if held:
-		# Set once: the address is what people already write to.
 		name = held[0].split("@")[0].rsplit(".", 1)[0]
 		if doc.one_mail_name and doc.one_mail_name != name:
 			frappe.throw(_("{0} already has the address {1}. It can't be changed.").format(doc.name, held[0]))
@@ -206,11 +198,7 @@ def _make(address: str, sends: bool) -> str:
 			"one_hosted": 1,
 			"enable_incoming": 0,
 			"enable_outgoing": int(sends),
-			# The workspace's own address sends for it, unless somebody has set up
-			# another account to; replacing it is a workspace setting (stage 4).
 			"default_outgoing": int(sends and not frappe.db.exists("Email Account", {"default_outgoing": 1})),
-			# Never dialled, since outbound.py sends. Frappe's queue refuses an
-			# account with no SMTP host, so the mail domain stands in.
 			"smtp_server": domain(),
 			"no_smtp_authentication": 1,
 			"always_use_account_email_id_as_sender": 1,

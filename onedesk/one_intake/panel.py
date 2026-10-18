@@ -76,7 +76,6 @@ def described(name: str, brief: bool = False) -> dict:
 	out["quick"] = quick(doc, out["pay"])
 	out["matter"] = matter_of(doc)
 	meta = frappe.get_meta("Reading")
-	# Paying says the IBAN and the reference once, beside its code.
 	shown = [field for field in FACTS if not (out["pay"] and not out["pay"]["warn"] and field in ("iban", "payment_reference"))]
 	out["facts"] = [
 		{"label": _(meta.get_label(field)), "value": doc.get(field), "field": field, "currency": doc.currency}
@@ -94,7 +93,6 @@ def described(name: str, brief: bool = False) -> dict:
 	return out
 
 
-#: A reference's kind, as the line that shows it is called.
 REFERENCE = {
 	"Invoice": _lt("Invoice Number"),
 	"Order": _lt("Order Number"),
@@ -106,7 +104,6 @@ REFERENCE = {
 	"Other": _lt("Reference"),
 }
 
-#: Who a document is from, in the order worth looking for.
 FROM = ("Sender", "Paid To", "Holder", "Patient", "Employee")
 
 
@@ -146,7 +143,6 @@ def quick(doc, pay: dict | None) -> list[dict]:
 	add(_("Notice Period"), doc.notice_period)
 	if not (pay and pay.get("code")):
 		add(_("Payment Reference"), doc.payment_reference)
-	# Whatever else OneAI noted, under its own label, unless it is already here.
 	shown = {facts.compact(one["value"]) for one in out if isinstance(one["value"], str)}
 	for one in json.loads(doc.noted or "[]") if isinstance(doc.noted, str) else doc.noted or []:
 		said = facts.compact(one.get("value"))
@@ -164,9 +160,6 @@ def _party(row) -> dict:
 	if row.matched_doctype and row.matched_name and frappe.has_permission(row.matched_doctype, "read", row.matched_name):
 		said["record"] = [row.matched_doctype, row.matched_name]
 	return said
-
-
-# ------------------------------------------------------------------ what OneAI did
 
 
 def actions_of(reading: str) -> list[dict]:
@@ -197,7 +190,6 @@ def actions_of(reading: str) -> list[dict]:
 					"record": _record(row),
 					"audit": row.audit,
 					"audit_why": row.audit_why,
-					# Applied by the auditor rather than by a person or at once.
 					"by_auditor": row.checked_by == AUTHOR,
 				}
 			)

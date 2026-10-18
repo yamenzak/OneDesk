@@ -21,10 +21,6 @@ LEDGER = tree.APP / "one_admin" / "ledger.py"
 ENTRY = tree.APP / "one_admin" / "doctype" / "credit_ledger_entry" / "credit_ledger_entry.json"
 HOLD = tree.APP / "one_admin" / "doctype" / "credit_reservation" / "credit_reservation.json"
 
-#: What a stored balance would be called if somebody added one. A field like
-#: this is the thing this whole module exists to not have: it can disagree with
-#: the rows it is meant to summarise, and when it does there is no way to tell
-#: which of the two is lying.
 A_STORED_BALANCE = ("credit_balance", "credits_left", "credits_remaining", "balance")
 
 
@@ -105,15 +101,10 @@ def test_only_the_ledger_knows_a_balance_is_made_of_rows():
 	"""Everything above it asks for a number. A second module querying these
 	tables is a second definition of what a balance is."""
 	elsewhere = []
-	#: hooks.py names both doctypes to gate them, one/tiers.py to say how they
-	#: are shown, one/atlas.py where and one/print_blocks.py what an entry
-	#: prints with: registration rather than a query.
 	exempt = {LEDGER, tree.APP / "hooks.py", tree.APP / "one" / "tiers.py", tree.APP / "one" / "atlas.py", tree.APP / "one" / "print_blocks.py"}
 	for path in tree.python():
 		if path in exempt or path.parent.name in ("credit_ledger_entry", "credit_reservation"):
 			continue
-		# The code, not the prose: other modules explain what a balance is made
-		# of, and a guard that grepped would fail on an explanation.
 		if any(name in _code(path) for name in ("Credit Ledger Entry", "Credit Reservation")):
 			elsewhere.append(str(path.relative_to(tree.ROOT)))
 	assert not elsewhere, f"{elsewhere} read the ledger directly. Ask ledger.py instead."

@@ -13,24 +13,13 @@ from frappe.utils import strip_html_tags
 
 from onedesk.one_ai import guide, kind, memory, proposals, schema
 
-#: Fieldtypes never handed to a model, whatever the caller may see. A password
-#: is a credential rather than a fact about a record, and a model that can read
-#: one can put it in an answer.
 NEVER_READ = ("Password",)
 
-#: How many rows a list tool may answer with. A model given five hundred records
-#: is a model given five hundred records' worth of somebody's month.
 MOST = 100
 
-#: How many links of one kind to name. Past this it is a list, not an answer.
 MOST_LINKS = 20
 
-#: How many report rows. A report is exactly the thing that answers with
-#: thousands, and every one of them is a row somebody pays tokens for.
 MOST_REPORT = 50
-
-
-# --------------------------------------------------------------- what it reads
 
 
 def list_records(
@@ -50,9 +39,6 @@ def list_records(
 	"""
 	_known(doctype, filters, fields, order_by)
 	if fields and all(isinstance(one, str) and one.isidentifier() for one in fields):
-		# Asked for one column, a row still says which record it is: measured,
-		# Gemini asked for `territory` alone and the panel showed four cards
-		# called "Customer".
 		title = frappe.get_meta(doctype).title_field
 		fields = list(dict.fromkeys(["name", *([title] if title else []), *fields]))
 	return frappe.get_list(
@@ -89,8 +75,6 @@ def _known(doctype: str, filters=None, fields=None, order_by: str | None = None)
 			f"{doctype} has no field {', '.join(unknown)}. Its fields: {', '.join(kind.fields_of(meta))}, "
 			"plus name, owner, creation and modified."
 		)
-	# A link filtered on a record that does not exist reads to a model as "there
-	# are none": the one record it plainly meant is used, or the values are said.
 	for field, value in (filters or {}).items() if isinstance(filters, dict) else ():
 		df = meta.get_field(field)
 		if df and df.fieldtype == "Link" and isinstance(value, str) and value and not frappe.db.exists(df.options, value):
@@ -177,9 +161,6 @@ def describe_type(
 LAYOUT = proposals.LAYOUT
 
 
-# ------------------------------------------------------ what it may only suggest
-
-
 def create_record(
 	doctype: Annotated[str, "The type of record to create."],
 	values: Annotated[dict, "Field name to value."],
@@ -222,7 +203,6 @@ def delete_record(
 	return _card(proposals.propose("Delete", doctype, record=name, why=why))
 
 
-#: What runs when a model asks for it.
 def about_field(
 	doctype: Annotated[str, "The type of record, such as HR Settings."],
 	fieldname: Annotated[str, "The field's name, or its label as on screen."],
@@ -237,7 +217,6 @@ def about_field(
 	labels = [f for f in meta.fields if f.label and f.fieldtype not in LAYOUT]
 	df = meta.get_field(fieldname) or meta.get_field(frappe.scrub(fieldname or ""))
 	if not df:
-		# By its label as the person sees it, the way `_meant` reads a value.
 		match = _meant(fieldname or "", [f.label for f in labels])
 		df = next((f for f in labels if f.label == match), None)
 	if not df:
@@ -266,8 +245,6 @@ def about_field(
 			"doctype": df.options,
 			"how_many": len(there) if len(there) <= 10 else "more than 10",
 			"some": there[:10],
-			# What a new one needs, so a field pointing at nothing can be
-			# set up by suggesting the record first.
 			"a_new_one_needs": [f for f in kind.fields_of(frappe.get_meta(df.options), most=40) if "required" in f],
 		}
 	return said
@@ -282,8 +259,6 @@ def search_everywhere(
 	office", "INV-0042" — then read what it finds."""
 	from frappe.utils.global_search import search
 
-	# frappe's own search: every hit is checked with has_permission on the record
-	# itself, so nothing the reader may not open is named.
 	found = search(text or "", limit=MOST_FOUND, doctype=doctype or "")
 	return [
 		{
@@ -296,7 +271,6 @@ def search_everywhere(
 	]
 
 
-#: How many hits `search_everywhere` answers with.
 MOST_FOUND = 10
 
 
@@ -344,8 +318,6 @@ def what_links_here(
 	found = linked(doctype=doctype, docname=name) or {}
 	said = {}
 	for linked_type, rows in found.items():
-		# v17 answers {"docs": [...], "hidden_count": n} per type — n being the
-		# ones the reader may not see, said as a number and never as names.
 		hidden = rows.get("hidden_count", 0) if isinstance(rows, dict) else 0
 		rows = rows.get("docs", []) if isinstance(rows, dict) else rows
 		names = [row.get("name") for row in rows or [] if isinstance(row, dict)][:MOST_LINKS]
@@ -369,9 +341,6 @@ def what_can_happen(
 	doc = frappe.get_doc(doctype, name)
 	doc.check_permission("read")
 
-	# Most doctypes have no workflow, and "this one has none" is an answer a
-	# model can use. Asking frappe for the transitions of a doctype without one
-	# raises, which would come back as a refusal and read like a permission.
 	state = _state_field(doctype)
 	if not state:
 		return {"doctype": doctype, "name": name, "state": None, "workflow": False, "can": []}
@@ -458,17 +427,12 @@ READS = (
 	memory.about_record,
 	memory.recall,
 	memory.search_my_chats,
-	# How One itself works, from each module's README; see one_ai/guide.py.
 	guide.how_to,
 	more_tools,
 )
 
-#: What becomes a card instead. Named separately rather than flagged, because a
-#: tool moving from one tuple to the other is a line in a diff somebody reviews.
 SUGGESTS = (create_record, edit_record, delete_record, move_record)
 
-#: What runs at once although it writes: only the asker's own memory, which no
-#: one else reads and they see and delete in the memory list.
 KEEPS = (memory.remember,)
 
 BY_NAME = {fn.__name__: fn for fn in READS + SUGGESTS}

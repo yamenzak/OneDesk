@@ -1,9 +1,4 @@
 <template>
-  <!-- OneInventory's Overview (one_inventory/story.py): what needs somebody,
-       then the story of the stock in six parts, each a row of frappe-ui
-       charts. Colours follow what a chart shows: a kind keeps its hue across
-       a chart, statuses keep theirs, and age and busy days run light to dark.
-       A part the reader may not see is left out. -->
   <div ref="root" class="pb-12">
     <div v-if="needs.length" class="mt-5 flex flex-wrap gap-2">
       <Button v-for="one in needs" :key="one.key" variant="outline" :label="one.label" @click="$emit('today')">
@@ -106,36 +101,25 @@ import { AreaChart, BarChart, ChartCard, DonutChart, FunnelChart, HeatmapChart, 
 
 import { Section, __, count, go, hours as asHours, money, shortMonth, weekdays } from "../kit";
 
-// What needs somebody: late in red, soon in amber.
 const TONE = { late: "text-ink-red-5", soon: "text-ink-amber-6", left: "text-ink-gray-5" };
 
 const props = defineProps({ story: { type: Object, required: true }, needs: { type: Array, default: () => [] } });
 defineEmits(["today"]);
 
-// The colours, as frappe-ui reads them for this island and its theme.
 const root = ref();
 const { tokens } = useChartTokens(root);
 const hue = (i) => tokens.value.categorical[i % tokens.value.categorical.length];
-// The categorical ramp from one hue family on, so neighbouring charts open
-// on different colours.
 const ramp = (from) => {
   const all = tokens.value.categorical;
   return [...all.slice(from), ...all.slice(0, from)];
 };
-// A status keeps its colour wherever it shows: done green, under way blue,
-// waiting grey, late or broken red.
 const STATUS = { good: 2, going: 0, late: 8, broken: 8 };
 const statusHue = (tone) => (tone in STATUS ? hue(STATUS[tone]) : tokens.value.axisLabel);
 
 const cash = (value) => money(value, props.story.currency, 0);
 
-// A name on a horizontal bar wraps onto a second line rather than being cut
-// short, on a desktop and on a phone alike.
 const wrap = { echartOptions: { axisLabel: { formatter: (value) => value, overflow: "break" } } };
 
-// The Sankey's last column of names hangs off its right edge: the plot leaves
-// room for the longest of them, so none is cut. On a phone the card scrolls
-// sideways rather than squeezing the flow.
 const sankeyRoom = computed(() => {
   const paths = props.story.moves?.paths || [];
   const from = new Set(paths.map((one) => one.from));
@@ -144,20 +128,15 @@ const sankeyRoom = computed(() => {
   const longest = Math.max(0, ...Object.entries(ends).map(([name, worth]) => `${name} · ${cash(worth)}`.length));
   return { media: [{ query: { minWidth: 0 }, option: { series: [{ right: Math.round(longest * 6.6) + 24 }] } }] };
 });
-// Counts, hours and days as the reader's number format writes them, never
-// the browser's.
 const days = (value) => __("{0} d", [count(value)]);
 const DAYS = () => [__("Monday"), __("Tuesday"), __("Wednesday"), __("Thursday"), __("Friday"), __("Saturday"), __("Sunday")];
 const dayName = (value) => DAYS()[Number(value)] ?? value;
 const monthName = (value) => shortMonth(typeof value === "string" ? value : new Date(value).toISOString().slice(0, 10));
-// The busy days, each month's week from the workspace's first day of the week.
 const busyDays = computed(() => {
   const order = weekdays();
   return [...props.story.moves.days].sort((a, b) => (a.month < b.month ? -1 : a.month > b.month ? 1 : order.indexOf(a.day) - order.indexOf(b.day)));
 });
 
-// In and out by kind: what came in in greens and blue, what went out in
-// amber and red, counts in grey either way.
 const FLOW = ["bought", "received", "made", "delivered", "used", "counted"];
 const flowSeries = computed(() => ({
   bought: { label: __("Bought"), color: hue(2) },
@@ -173,7 +152,6 @@ const KIND_HUE = { bought: 2, received: 3, made: 0, delivered: 6, used: 8, count
 const kinds = computed(() => props.story.moves.kinds.map((one) => ({ ...one, kind: KINDS()[one.kind] || one.kind })));
 const kindColors = computed(() => props.story.moves.kinds.map((one) => hue(KIND_HUE[one.kind] ?? 9)));
 
-// Older stock in darker blue: the sequential ramp read from light to dark.
 const AGE_BANDS = () => [__("Up to 30 Days"), __("31 to 90 Days"), __("91 to 180 Days"), __("181 to 365 Days"), __("Over a Year")];
 const ages = computed(() => (props.story.ages || []).map((one) => ({ band: AGE_BANDS()[one.band], worth: one.worth })));
 const ageColors = computed(() => {
@@ -185,7 +163,6 @@ const STEPS = () => ({ asked: __("Requested"), ordered: __("Ordered"), arriving:
 const requests = computed(() => (props.story.buying?.requests || []).map((one) => ({ step: STEPS()[one.step], requests: one.requests })));
 const suppliers = computed(() => (props.story.buying?.suppliers || []).slice(0, 8));
 
-// ERPNext's statuses, in its own words, each in the colour of what it means.
 const WORK = { Completed: "good", "In Process": "going", "Not Started": "waiting", Stopped: "broken", Closed: "waiting", Draft: "waiting" };
 const ASSET = { "Partially Depreciated": "going", "Fully Depreciated": "waiting", Submitted: "good", Sold: "waiting", Scrapped: "broken", "Out of Order": "broken", "In Maintenance": "late", Receipt: "going", "Capitalized": "good" };
 const SERVICE = { Completed: "good", Planned: "going", Overdue: "late", Cancelled: "waiting" };

@@ -12,37 +12,23 @@ from frappe.utils import now_datetime, strip_html_tags
 
 from onedesk.one_ai import run
 
-#: The action the panel runs. Named here rather than typed at each call so the
-#: fixture is the one place its instruction lives.
 CHAT = "chat"
 
-#: How much of a conversation goes back to the model. Older turns are dropped
-#: from what is *sent*, never from what is stored: the panel still shows the
-#: whole thing, and a run is billed per round on what it was given.
 KEPT = 24
 
 #: How long a title taken from the first thing asked may be.
 TITLE = 60
 
-#: A run is five rounds at most, each a model call of up to a minute and the
-#: tools between them. Past this the job is stopped and the chat is free again.
 RUN_TIMEOUT = 600
 
-#: How long a finished run's steps are kept for a browser that missed them.
 RUN_KEPT = 900
 
-#: How many records one lookup draws before it says how many more there were.
-#: Three is a glance; ten is a list somebody has to scroll past the answer.
 CARDS = 3
 
-#: Fields on one card. Enough to recognise the record, not enough to replace it.
 FIELDS = 6
 
-#: Fields on each of several. A list is for picking one out, not for reading.
 BRIEF = 2
 
-#: Fieldtypes that are not a line on a card — markup, layout, and the long ones
-#: that would push the answer off the screen.
 NOT_ON_A_CARD = (
 	"Text Editor",
 	"HTML",
@@ -57,11 +43,8 @@ NOT_ON_A_CARD = (
 	"Password",
 )
 
-#: Turns nobody reads on screen. The page pointer is one of these — it is said
-#: to the model, and showing it would be showing somebody their own address bar.
 QUIET = ("context",)
 
-#: Tools whose calls are not drawn in the conversation at all.
 QUIET_TOOLS = ("remember",)
 
 
@@ -88,7 +71,6 @@ def opened(chat: str | None = None) -> dict:
 		"title": doc.title,
 		"said": shown(_turns(doc)),
 		"spent": doc.spent or 0.0,
-		# A run still going, so a panel closed and opened again picks it back up.
 		"running": frappe.cache.get_value(f"one_ai_busy:{doc.name}"),
 		**_model(doc),
 	}
@@ -136,11 +118,8 @@ def say(
 	if _running(doc.name):
 		frappe.throw(frappe._("Still answering the last question."), title=frappe._("Not yet"))
 	turns = _turns(doc)
-	# A chat started by the paperclip was saved before anything was asked, under
-	# a placeholder; its first question is still what names it.
 	if not turns and text:
 		doc.title = text[:TITLE]
-	# "Improve it" names nothing in a list of conversations; the field does.
 	if not turns and writing:
 		label = writing["label"]
 		doc.title = f"{frappe._(label)} — {text}"[:TITLE]
@@ -193,8 +172,6 @@ def answer(chat: str, text: str, field: dict | None, run_id: str, page: dict | s
 		_tell(run_id, chat, {"done": True, "credits": out.get("credits"), "rounds": out.get("rounds")})
 		_title(doc, turns)
 	except frappe.ValidationError as raised:
-		# `_ran` has already put a fault into words somebody can act on, unless
-		# it is the provider's own, which is written for us, not for them.
 		frappe.db.rollback()
 		said = frappe.utils.strip_html(str(raised))
 		if _providers(said):
@@ -309,17 +286,13 @@ def _suggests(row: dict) -> dict:
 		changes = {}
 
 	if row.get("kind") in ("Customize", "Holidays", "Numbering", "Printing", "Approval", "Setup"):
-		# What approving it changes, one line each, as the tool said it: the
-		# page's whole state underneath is not a diff anybody reads.
 		head = changes.get("letter_head") or {}
 		return {
 			"doctype": doctype,
 			"name": (row.get("record") or "") if row.get("kind") == "Holidays" else "",
 			"title": changes.get("title") or "" if row.get("kind") == "Setup" else "",
-			# Where a Setup card's report, dashboard, level or person opens once approved.
 			"route": changes.get("route") if row.get("kind") == "Setup" else None,
 			"what": changes.get("what") if row.get("kind") == "Setup" else None,
-			# A format or a letter head it draws is shown as the page, before Approve.
 			"page": row.get("kind") == "Printing"
 			and bool(changes.get("format") or head.get("content") or head.get("footer") or head.get("image")),
 			"format": (changes.get("format") or {}).get("name") or "",
@@ -331,7 +304,6 @@ def _suggests(row: dict) -> dict:
 		}
 
 	if row.get("kind") == "Reply":
-		# The reply as it will be sent, to be read before it opens to send.
 		return {
 			"doctype": doctype,
 			"name": changes.get("subject") or "",
@@ -340,7 +312,6 @@ def _suggests(row: dict) -> dict:
 		}
 
 	if row.get("kind") == "Mail":
-		# The mail as it will open to send, about the record it is on.
 		return {
 			"doctype": doctype,
 			"name": row.get("record") or "",
@@ -353,7 +324,6 @@ def _suggests(row: dict) -> dict:
 		}
 
 	if row.get("kind") == "Update":
-		# The update as it will be posted, under the project it is on.
 		return {
 			"doctype": doctype,
 			"name": frappe.db.get_value("Project", row.get("record"), "project_name") or row.get("record") or "",
@@ -362,7 +332,6 @@ def _suggests(row: dict) -> dict:
 		}
 
 	if row.get("kind") == "Signature":
-		# The signature as it will read, a line each.
 		from frappe.utils import strip_html
 
 		text = re.sub(r"<\s*/?(br|p|div|li)\b[^>]*>", "\n", str(changes.get("signature") or ""), flags=re.I)
@@ -375,11 +344,8 @@ def _suggests(row: dict) -> dict:
 
 	meta = frappe.get_meta(doctype) if doctype and frappe.db.exists("DocType", doctype) else None
 	labels = {field.fieldname: field.label or field.fieldname for field in (meta.fields if meta else [])}
-	# A name typed for a kind whose name a person types (one_ai/kind.py), first.
 	labels = {"__newname": "Name", **labels}
 	known = {field.fieldname: field for field in (meta.fields if meta else [])}
-	# In the form's own order: stored JSON comes back alphabetical, which put
-	# "Asked For On" on the card and pushed "To Date" off it.
 	place = {name: at for at, name in enumerate(labels)}
 	ordered = sorted(changes.items(), key=lambda one: place.get(one[0], len(place)))
 	tables = {
@@ -387,8 +353,6 @@ def _suggests(row: dict) -> dict:
 		for f in (meta.fields if meta else [])
 		if f.fieldtype in frappe.model.table_fields
 	}
-	# Every field, not the first six: approving a card approves all of it, and
-	# a card setting twenty settings had shown six. The panel folds the rest.
 	try:
 		was = frappe.parse_json(row.get("was") or "{}") or {}
 	except Exception:
@@ -408,7 +372,6 @@ def _suggests(row: dict) -> dict:
 			"value": _formatted(known[field], value, changes) if field in known else _card_value(value),
 		}
 		if row.get("kind") == "Edit" and field in was:
-			# A change reads as one: what it holds now, and what it would hold.
 			held = was.get(field)
 			drawn["was"] = (
 				_formatted(known[field], held, was) if field in known and held not in (None, "") else ""
@@ -437,13 +400,11 @@ def _ran(doc, text: str, turns: list[dict], heard=None, page: dict | str | None 
 	try:
 		from onedesk.one_ai import files as carrying
 
-		# Only this question's files: a receipt dropped three questions ago is not
-		# evidence for whatever is being asked now.
 		newest = next(
 			(one for one in reversed(turns) if one.get("role") == "user" and not one.get("context")), {}
 		)
 		frappe.flags.one_ai_files = [one["url"] for one in newest.get("files") or [] if one.get("url")]
-		frappe.flags.one_ai_chat = doc.name  # so searching past chats skips this one
+		frappe.flags.one_ai_chat = doc.name
 		from onedesk.one_ai import groups, suggest
 
 		if isinstance(page, str):
@@ -472,7 +433,6 @@ def rename(chat: str, title: str) -> dict:
 	doc = frappe.get_doc("AI Chat", chat)
 	doc.check_permission("write")
 	doc.title = (title or "").strip()[:TITLE] or doc.title
-	# Named by its person, so OneAI does not name it again.
 	doc.titled = 1
 	doc.save()
 	return {"name": doc.name, "title": doc.title}
@@ -493,9 +453,6 @@ def shown(turns: list[dict]) -> list[dict]:
 	Tool results are folded into the model's turn that asked for them, because
 	"it looked something up" is one event on screen and three in the transcript.
 	"""
-	# Each call is answered by the tool turns straight after the turn that
-	# made it, in order. Not by id: Gemini's id is the tool's name, so matched
-	# by id every earlier call to a tool showed the last answer it gave.
 	answers: dict[int, list[dict]] = {}
 	for at, one in enumerate(turns):
 		if one.get("role") == "model" and one.get("calls"):
@@ -513,15 +470,12 @@ def shown(turns: list[dict]) -> list[dict]:
 		if role == "tool" or any(one.get(quiet) for quiet in QUIET):
 			continue
 		if role != "model":
-			seen = set()  # a new question: its answer draws its own records
+			seen = set()
 		looked = [
 			_looked(call, _answering(call, answers.get(at) or [], n))
 			for n, call in enumerate(one.get("calls") or [])
-			# Keeping a memory is housekeeping, not something to read about in
-			# the conversation; the memory list is where it is seen and undone.
 			if call.get("tool") not in QUIET_TOOLS
 		]
-		# A record read twice while answering one question is one card.
 		for look in looked:
 			fresh = [
 				rec for rec in look.get("records") or [] if (rec.get("doctype"), rec.get("name")) not in seen
@@ -531,16 +485,12 @@ def shown(turns: list[dict]) -> list[dict]:
 		said.append(
 			{
 				"role": "model" if role == "model" else "you",
-				# A field's new text is the card beneath it; printed above it too,
-				# it is the same paragraph twice.
 				"text": "" if one.get("wrote") else (one.get("text") or ""),
 				"files": [
 					{key: value for key, value in file.items() if key != "data"}
 					for file in one.get("files") or []
 				],
 				"looked": looked,
-				# What it kept this turn: not drawn as a lookup, but said in one
-				# quiet line with Undo, so a person knows it kept anything at all.
 				"remembered": _remembered(one, answers.get(at) or []),
 				"cards": [card for card in (look["card"] for look in looked) if card]
 				+ list(one.get("cards") or []),
@@ -659,14 +609,10 @@ def _records(call: dict, answered) -> tuple[list[dict], int]:
 	else:
 		return [], 0
 
-	# One record gets the full card; several get two fields each, because a list
-	# drawn at full height is a list the answer sits below the bottom of.
 	most = FIELDS if len(found) == 1 else BRIEF
 	return [_drawn(doctype, row, most) for row in found[:CARDS]], max(len(found) - CARDS, 0)
 
 
-#: How many records a list of them carries. The panel shows three and the rest
-#: behind "Show more"; past this, the list itself is the place to read them.
 LISTED = 10
 
 
@@ -695,7 +641,6 @@ def _found(call: dict, answered) -> dict | None:
 		"doctype": doctype,
 		"total": len(found),
 		"rows": rows,
-		# A list it read with filters opens on the same filters.
 		"filters": filters if isinstance(filters, dict) else None,
 	}
 
@@ -710,8 +655,6 @@ def _drawn(doctype: str, row: dict, most: int = FIELDS) -> dict:
 	for field in meta.fields:
 		if field.fieldname in skip or field.fieldname not in row:
 			continue
-		# What the form hides, the card hides — Company among them — and the
-		# naming series is how an id is made, not something about the record.
 		if field.hidden or field.fieldname == "naming_series":
 			continue
 		value = row.get(field.fieldname)
@@ -731,7 +674,6 @@ def _drawn(doctype: str, row: dict, most: int = FIELDS) -> dict:
 	}
 
 
-#: Kept as the text they are: frappe's formatter turns their newlines into <br>.
 AS_TEXT = {"Data", "Small Text", "Text", "Long Text", "Text Editor", "HTML Editor", "Markdown Editor", "Code"}
 
 
@@ -744,12 +686,11 @@ def _formatted(df, value, doc: dict | None = None) -> str:
 	if df.fieldtype == "Link" and df.options:
 		return _titled(df.options, value)
 	if df.fieldtype == "Check":
-		# A setting is on or off; a record's box is yes or no.
 		if df.parent and frappe.get_meta(df.parent).issingle:
 			return frappe._("On") if frappe.utils.cint(value) else frappe._("Off")
 		return frappe._("Yes") if frappe.utils.cint(value) else frappe._("No")
 	if df.fieldtype in ("Attach", "Attach Image"):
-		return str(value).rsplit("/", 1)[-1]  # the file's name, not where it is kept
+		return str(value).rsplit("/", 1)[-1]
 	if df.fieldtype in AS_TEXT or isinstance(value, (list, dict)):
 		return _card_value(value)
 	from frappe.utils.formatters import format_value
@@ -764,8 +705,6 @@ def _titled(doctype: str, name) -> str:
 		if meta.title_field and frappe.has_permission(doctype, "read", doc=str(name)):
 			return str(frappe.db.get_value(doctype, name, meta.title_field) or name)
 	except Exception:
-		# A link to a doctype that is gone, or a record the reader cannot open:
-		# the id is still true, and still what the card should say.
 		pass
 	return str(name)
 
@@ -828,9 +767,6 @@ def _asked(
 	from onedesk.one_ai import touch
 
 	where = touch.told(field) if field else _page(page)
-	# The model has no clock: asked for "Friday off" it books a Friday from its
-	# training data. Today goes into every turn, not once per conversation, so a
-	# chat picked up tomorrow still counts from the right day.
 	from onedesk.one_ai import memory
 
 	where = " ".join(
@@ -839,16 +775,12 @@ def _asked(
 	turns = [{"role": "user", "text": where, "calls": [], "context": True}]
 	about = _field_asked(page)
 	if about:
-		# Kept on the turn so the run knows a change card is what this is for.
 		turns[0]["about"] = about
 	turns.append(
 		{
 			"role": "user",
 			"text": text,
 			"calls": [],
-			# Named and sized, never the bytes: a conversation row holding a
-			# base64 of every attachment it ever carried is a row that grows
-			# until it cannot be read.
 			"files": carrying.described(attached or []),
 		}
 	)
@@ -935,8 +867,6 @@ def _page(page: dict | str | None) -> str:
 		narrowed = f", narrowed to {json.dumps(filters)}" if filters else ""
 		return f"The reader is looking at a {view or 'list'} of {doctype}{narrowed}.{_fields_said(doctype)}"
 	if page.get("page"):
-		# A desk page has no record to name, so the module it belongs to says
-		# what it is. Only the page's name comes from the browser.
 		for path in frappe.get_hooks("one_ai_page"):
 			said = frappe.get_attr(path)(page)
 			if said:
@@ -953,16 +883,12 @@ def _brief(doctype: str, name: str) -> str:
 		if not frappe.has_permission(doctype, "read", doc=name):
 			return ""
 		doc = frappe.get_doc(doctype, name)
-		# A field above the reader's level is not theirs to be told about,
-		# here any more than on the form.
 		doc.apply_fieldlevel_read_permissions()
 		row = doc.as_dict()
 	except Exception:
 		return ""
 	drawn = _drawn(doctype, row, most=BRIEF_FIELDS)
 	said = "; ".join(f"{one['label']}: {one['value']}" for one in drawn["fields"] if one.get("value"))
-	# The long text a card leaves off is often what the record is about — a job
-	# opening's description — so the first one is said, shortened.
 	meta = frappe.get_meta(doctype)
 	prose = next(
 		(
@@ -980,7 +906,6 @@ def _brief(doctype: str, name: str) -> str:
 	return f" It says: {told[:BRIEF_SAID]}." if told else ""
 
 
-#: How much of the record on screen the context turn carries.
 BRIEF_SAID = 700
 BRIEF_FIELDS = 8
 BRIEF_PROSE = 300
@@ -1054,7 +979,6 @@ def _field_card(field: dict, turns: list[dict], chat: str) -> list[str]:
 		record=field["name"] or None,
 		reference=chat,
 	)
-	# Marked on the turn itself, which `say` keeps straight after this.
 	last["cards"] = [name]
 	last["wrote"] = True
 	return [name]
@@ -1088,8 +1012,6 @@ def named(model: str) -> str:
 	return run._model_name(model) if model else ""
 
 
-#: How long the models a panel offers are kept. The account's catalogue
-#: changes when a provider adds or withdraws one, which is rare.
 MODELS_KEPT = 600
 
 
@@ -1149,13 +1071,11 @@ def choose_model(model: str | None = None, chat: str | None = None) -> dict:
 	doc = frappe.get_doc("AI Chat", chat)
 	doc.check_permission("write")
 	doc.chosen_model = model or None
-	# The pill says what answers next, not what answered last.
 	doc.model = model or None
 	doc.save()
 	return _model(doc)
 
 
-#: The reader's default for where they keep their pick.
 USUAL = "one_ai_chat_model"
 
 
@@ -1194,7 +1114,6 @@ def _title(doc, turns: list[dict]) -> None:
 	frappe.publish_realtime("one_ai_title", {"chat": doc.name, "title": title}, user=doc.owner, after_commit=True)
 
 
-#: The action that names a conversation (fixtures/ai_action.json).
 CHAT_TITLE = "chat_title"
 
 
@@ -1202,8 +1121,6 @@ def _turns(doc) -> list[dict]:
 	try:
 		return json.loads(doc.turns or "[]")
 	except ValueError:
-		# A conversation that will not parse is not one to throw somebody's next
-		# question away over; it starts again and the row keeps what it had.
 		return []
 
 

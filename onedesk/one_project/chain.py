@@ -2,7 +2,6 @@
 
 import frappe
 
-#: The documents kept in agreement, and what their lines call the project.
 LINES = {
 	"Request for Quotation": "project_name",
 	"Material Request": "project",
@@ -32,7 +31,6 @@ def agree(doc, method=None) -> None:
 				row.set(field, doc.project)
 
 
-#: What a payment can be matched to that names a project.
 NAMED = ("Sales Invoice", "Purchase Invoice", "Sales Order", "Purchase Order")
 
 

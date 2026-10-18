@@ -31,9 +31,6 @@ def ensure(email: str) -> str | None:
 				"email": email,
 				"first_name": email.split("@")[0],
 				"user_type": "Website User",
-				# Nothing is mailed for the account itself: the workspace's own
-				# invitation is the mail that matters, and a second one saying
-				# "you have an account" the same minute is noise.
 				"send_welcome_email": 0,
 			}
 		)
@@ -114,12 +111,9 @@ def workspaces(user: str) -> list[dict]:
 		order_by="creation asc",
 	)
 	told = [frappe._dict({**one, **_stands(one)}) for one in held]
-	# What owes money first: it is the one thing on the page with a clock.
 	return sorted(told, key=lambda one: not one["owing"])
 
 
-#: What a customer reads for each rung: the pill, its colour, and whether the
-#: workspace can be opened. Words a customer would use, not the ladder's.
 STANDS = {
 	"Requested": (_lt("Being built"), "gray", False),
 	"Provisioning": (_lt("Being built"), "gray", False),
@@ -130,7 +124,6 @@ STANDS = {
 	"Failed": (_lt("Not built yet"), "red", False),
 }
 
-#: The sentence under an owing workspace: what happens next, and when.
 FALLS = {
 	"Overdue": _lt("Pay within {0} days to avoid suspension."),
 	"Suspended": _lt("Pay within {0} days to avoid archiving."),
@@ -159,7 +152,6 @@ def _stands(one) -> dict:
 			line = frappe._("{0}, free until {1}").format(plan.label, formatdate(ends))
 	owing = one.status in FALLS and not one.get("closing_on")
 	if one.get("closing_on"):
-		# Closing because they asked, not because they did not pay (closing.py).
 		from onedesk.one_admin import closing
 
 		said = closing.when(one)
@@ -210,8 +202,6 @@ def pay(tenant: str) -> dict:
 	return {"url": billing.portal(tenant, frappe.utils.get_url("/account"))}
 
 
-#: What an invoice's Stripe status is called on the account's page, and its
-#: colour. Draft never reaches here (billing.invoices leaves drafts out).
 INVOICE = {
 	"paid": (_lt("Paid"), "green"),
 	"open": (_lt("Due"), "orange"),
@@ -304,7 +294,6 @@ def save_name(first_name: str, last_name: str | None = None) -> dict:
 	return {"full_name": me.full_name}
 
 
-#: How long the link to confirm a new address lasts.
 CONFIRM_MINUTES = 60
 
 

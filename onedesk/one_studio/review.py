@@ -11,7 +11,6 @@ REVIEW = "studio_review"
 
 VERDICTS = ("Pass", "Refuse")
 
-#: What of the code the reviewer is shown, at most.
 MOST_CODE = 20_000
 
 

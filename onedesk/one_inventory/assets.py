@@ -6,7 +6,6 @@ from frappe import _
 
 from onedesk.one_inventory.maintenance import next_service
 
-#: Asset's own naming series.
 SERIES = "ACC-ASS-.YYYY.-"
 
 
@@ -63,8 +62,6 @@ def finish(name: str) -> bool:
 			asset.calculate_depreciation = 1
 			asset.set("finance_books", [])
 			asset.set_missing_values()
-			# ERPNext dates the first depreciation today; it is the end of the
-			# month the asset came into use, which is its own default.
 			for row in asset.finance_books:
 				row.depreciation_start_date = None
 		asset.flags.ignore_permissions = True

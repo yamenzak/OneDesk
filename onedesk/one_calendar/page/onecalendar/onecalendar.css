@@ -1,14 +1,9 @@
-/* The calendar: the panes and the toolbar's place are the shell's
-   (shell.css); what is here is the layers' list and FullCalendar's week. */
-
 .one-calendar-grid {
 	flex: 1;
 	min-height: 520px;
 	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 2) 0;
 }
 
-/* The page's one sidebar, as OneMail's: New Event, the layers, and at the
-   foot what the rail held. */
 .one-calendar-side {
 	flex: 1;
 	display: flex;
@@ -24,8 +19,6 @@
 	width: 100%;
 }
 
-/* The desk centres a lone icon with auto margins; beside a label it must not
-   (as OneMail's side column). */
 .one-calendar-side svg.icon {
 	margin: 0;
 	flex: none;
@@ -61,7 +54,6 @@
 	margin-top: calc(var(--spacing) * 2);
 }
 
-/* A layer's switch is frappe's Check control, drawn as a row. */
 .one-calendar-layer .frappe-control {
 	margin: 0;
 }
@@ -100,9 +92,6 @@
 	width: 10px;
 }
 
-/* The workspace's days off, behind the day: a weekly day off faint, a
-   holiday a little stronger, with its name. Their colours are set on each
-   (onecalendar.js `days_off`); FullCalendar's own fades them. */
 .one-calendar .fc {
 	--fc-bg-event-opacity: 1;
 }
@@ -114,7 +103,6 @@
 	margin: 2px 4px;
 }
 
-/* A short event shows its title; its place on the grid is its time. */
 .one-calendar .fc-timegrid-event-short .fc-event-time {
 	display: none;
 }
@@ -131,13 +119,11 @@
 	white-space: nowrap;
 }
 
-/* Half an hour tall enough for one line of text. */
 .one-calendar .fc .fc-timegrid-slot {
 	height: 28px;
 }
 
 
-/* An event's card, beside it (frappe.ui.Popover). */
 .one-calendar-card {
 	width: 320px;
 }

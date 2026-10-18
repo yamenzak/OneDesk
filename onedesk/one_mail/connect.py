@@ -9,8 +9,6 @@ from frappe import _
 
 from onedesk.one_mail import addresses, imap
 
-#: Providers everyone uses: domain -> (imap host, smtp host, smtp port).
-#: Ports 993 for IMAP; SMTP on 465 is SSL, on 587 is STARTTLS.
 KNOWN = {
 	"gmail.com": ("imap.gmail.com", "smtp.gmail.com", 587),
 	"googlemail.com": ("imap.gmail.com", "smtp.gmail.com", 587),
@@ -31,11 +29,8 @@ KNOWN = {
 	"yandex.com": ("imap.yandex.com", "smtp.yandex.com", 465),
 }
 
-#: SMTP servers that file what they send in Sent themselves; appending a copy
-#: there would show every message twice.
 FILES_ITS_OWN = {"smtp.gmail.com", "smtp-mail.outlook.com", "smtp.office365.com"}
 
-#: Seconds each guess is given to answer.
 GUESS_PATIENCE = 10
 
 
@@ -116,8 +111,6 @@ def reach(address: str, password: str, login: str | None = None, where: dict | N
 				return one
 		except (imaplib.IMAP4.error, OSError, ssl.SSLError) as error:
 			last = error
-			# A server that answered and refused the password is the right
-			# server: trying the next guess would only hide why.
 			if isinstance(error, imaplib.IMAP4.error):
 				break
 	frappe.throw(imap.refused(last) if last else _("Couldn't find a mail server for {0}.").format(address))
@@ -194,7 +187,6 @@ def connect(
 	return doc.name
 
 
-#: What an Email Account keeps of where its servers are, as `reach` takes it.
 WHERE = (
 	"email_server",
 	"incoming_port",

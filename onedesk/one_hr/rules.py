@@ -8,8 +8,6 @@ frappe`, no site, no session. `tests/test_rules.py` reads this file directly.
 import ipaddress
 import math
 
-#: Signals, their weight off a score of a hundred, and the sentence the employee reads.
-#: `N_` marks the sentence for translation without importing frappe.
 def N_(text: str) -> str:
 	return text
 
@@ -31,16 +29,11 @@ SIGNALS = {
 	"reset-recent": (15, N_("Your passkey has been reset twice within a month.")),
 }
 
-#: Below this a clock-in is refused outright; below the second it is written and
-#: flagged. Both are overridable per workspace, and kept far apart on purpose.
 REFUSE_BELOW = 50
 FLAG_BELOW = 85
 
-#: How fast somebody may travel between two clock-ins before the distance stops
-#: being possible, in metres per second (about 200 km/h).
 TOP_SPEED = 55
 
-#: The earth, for the one formula that needs it.
 EARTH_RADIUS = 6_371_000
 
 
@@ -185,11 +178,8 @@ def _lines(text) -> list[str]:
 	return [line.strip() for line in raw if line.strip() and not line.strip().startswith("#")]
 
 
-#: What a mobile browser says about itself. Not a security control, since a caller
-#: can send any user agent they like.
 PHONES = ("iphone", "ipod", "android", "mobi", "windows phone")
 
-#: iPadOS Safari calls itself a Macintosh, so a tablet needs the second check.
 TABLETS = ("ipad", "tablet")
 
 

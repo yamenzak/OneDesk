@@ -12,7 +12,6 @@ from frappe import _, _lt
 from onedesk.one import roles, tell
 from onedesk.one.access import all_levels, companion
 
-#: (key, label, icon, group). The icons are Lucide, from frappe's sprite.
 SECTIONS = [
 	("profile", _lt("Profile"), "user", "you"),
 	("notifications", _lt("Notifications"), "bell", "you"),
@@ -37,9 +36,6 @@ SECTIONS = [
 	("holidays", _lt("Holidays"), "calendar-days", "workspace"),
 ]
 
-#: What a person may reach in each app, as frappe's own roles: using it, and
-#: managing it. Everybody on the desk has One, OneCloud, OneMail, OneTask and
-#: OneCalendar; these are the apps whose records are somebody's job.
 APPS = [
 	("OneCRM", "onecrm", ("Sales User",), ("Sales Manager",)),
 	("OneBook", "onebook", ("Accounts User",), ("Accounts Manager",)),
@@ -53,7 +49,6 @@ APPS = [
 	("OneHR", "onehr", ("HR User",), ("HR Manager",)),
 ]
 
-#: What each of those holds, said under it on a person's page.
 APP_SAID = {
 	"OneCRM": _lt("Leads, deals, customers and quotes."),
 	"OneBook": _lt("Invoices, bills, payments and the books."),
@@ -64,16 +59,10 @@ APP_SAID = {
 
 LEVELS = ("None", "User", "Manager")
 
-#: Who is never listed among the people: the bench's own account, the guest,
-#: and the user OneAI writes as.
 NOT_PEOPLE = ("Administrator", "Guest", "oneai@one.invalid")
 
-#: What a person may change about themselves here.
 PROFILE = ("first_name", "last_name", "gender", "birth_date", "mobile_no", "location", "bio", "language", "time_zone", "user_image")
 
-#: What a person keeps up to date on their own employee record: how to reach
-#: them, who to call, and two facts HR asks for. Their pay and their job are
-#: HR's to change, so those are shown and not asked.
 EMPLOYEE_OWN = (
 	"personal_email",
 	"current_address",
@@ -85,8 +74,6 @@ EMPLOYEE_OWN = (
 	"blood_group",
 )
 
-#: What HR is told a person changed about themselves: where they live and
-#: who to call. Each says itself as it reads in the notice.
 TOLD_HR = {
 	"current_address": _lt("current address"),
 	"permanent_address": _lt("permanent address"),
@@ -95,40 +82,24 @@ TOLD_HR = {
 	"emergency_phone_number": _lt("emergency contact"),
 }
 
-#: An emergency contact is its name and a phone: a relation alone is nobody
-#: HR can call.
 EMERGENCY = ("person_to_be_contacted", "relation", "emergency_phone_number")
 
-#: Labels this page says in its own words, where frappe's read as a field
-#: name ("Mobile No").
 LABELS = {"mobile_no": _lt("Mobile"), "phone_no": _lt("Phone"), "city": _lt("City"), "state": _lt("State or Region")}
 
-#: Said on both records. The employee's copy is the one HR reads, and erpnext
-#: copies it onto the login on every save of the employee, so a change here
-#: goes to the employee first or the next save would undo it.
 SHARED = {"gender": "gender", "birth_date": "date_of_birth", "mobile_no": "cell_number", "user_image": "image"}
 
-#: What the page shows of a person's job, as HR set it.
 AT_WORK = ("name", "designation", "department", "reports_to", "branch", "employment_type", "date_of_joining", "company_email")
 
-#: What a linked record is called on screen, where its id is not its name. A
-#: department's id carries the company's abbreviation, which one company does
-#: not need.
 TITLES = {"Employee": "employee_name", "Department": "department_name"}
 
-#: Where their pay goes, shown with all but the last four hidden.
 BANK = ("bank_name", "iban", "bank_ac_no")
 
-#: A person's own switches on Notification Settings. Which types they are
-#: mailed is the rest of the section, one tick each (`_notifications`); frappe
-#: hides its older per-kind checkboxes, which no longer decide anything.
 NOTIFY = (
 	"enabled",
 	"enable_email_notifications",
 	"enable_email_threads_on_assigned_document",
 )
 
-#: Frappe's labels for those, as a person would say them.
 NOTIFY_SAID = {
 	"enabled": (
 		_lt("Notifications"),
@@ -148,11 +119,8 @@ INTAKE = ("records", "most_pages", "floor", "audit", "keep_in_place", "quiet_min
 
 SYSTEM = ("date_format", "time_format", "number_format", "first_day_of_the_week", "one_calendar_links")
 
-#: Sections that list several records and open on one of them.
 ON_A_RECORD = ("notification_types", "people", "holidays", "access")
 
-#: What an administrator sets on a notification type: whether it is sent, its
-#: text, and the channels people may choose for it.
 NOTIFICATION_TYPE = (
 	"enabled",
 	"one_subject",
@@ -223,8 +191,6 @@ def save(
 	record: Annotated[str | None, "The one record the section is open on, where it lists several."] = None,
 ) -> dict:
 	values = frappe.parse_json(values) or {}
-	# What the page loaded, so a record changed since is refused the way a
-	# desk form refuses it, rather than overwritten.
 	frappe.flags.one_opened = {f"{one['doctype']}:{one['name']}": one["modified"] for one in frappe.parse_json(opened) or []}
 	savers = {
 		"profile": _save_profile,
@@ -241,8 +207,6 @@ def save(
 	if _group(section) == "workspace":
 		roles.require()
 	if section in ON_A_RECORD:
-		# A new or renamed record comes back under its own name, which the
-		# page then opens.
 		record = savers[section](record, values) or record
 	else:
 		savers[section](values)
@@ -293,9 +257,6 @@ def _fields(doctype: str, names: tuple) -> list[dict]:
 			}
 		)
 	return out
-
-
-# ------------------------------------------------------------------ you
 
 
 def _profile() -> dict:
@@ -361,13 +322,10 @@ def _masked(value: str) -> str:
 def _save_profile(values: dict) -> None:
 	user = _as_opened(frappe.get_doc("User", frappe.session.user))
 	user.update({name: values[name] for name in PROFILE if name in values})
-	# Oneself, and only these fields: frappe's own rule for My Settings.
 	user.save(ignore_permissions=True)
 	employee = _employee()
 	if not employee:
 		return
-	# The login first: saving the employee copies its fields onto the login,
-	# which would find a login changed underneath it the other way round.
 	changes = {name: values[name] for name in EMPLOYEE_OWN if name in values}
 	changes.update({theirs: values[mine] for mine, theirs in SHARED.items() if mine in values})
 	was = {name: employee.get(name) for name in TOLD_HR}
@@ -376,7 +334,6 @@ def _save_profile(values: dict) -> None:
 		employee.person_to_be_contacted and employee.emergency_phone_number
 	):
 		frappe.throw(_("An emergency contact needs a name and a phone number, so HR can call them."))
-	# Their own record, and only these fields.
 	employee.save(ignore_permissions=True)
 	_tell_hr(employee, was)
 
@@ -448,7 +405,6 @@ def _notifications() -> dict:
 	return {
 		"fields": fields,
 		"values": values,
-		# Product names are names; the workspace's own rules are "Rules", in the reader's words.
 		"groups": [
 			{"app": _(app) if app else str(_("Across One")), "mark": _mark(app), "rows": rows}
 			for app, rows in groups.items()
@@ -458,7 +414,6 @@ def _notifications() -> dict:
 	}
 
 
-#: A product whose mark is named after its id rather than its name.
 MARK_OF = {"OneCloud": "onestorage", "OneWriter": "onedoc", "OneWorkbook": "onesheet"}
 
 
@@ -509,7 +464,6 @@ def _save_notifications(values: dict) -> None:
 			for one in kinds
 			if may(one) and _kind_field(prefix, one["name"]) in values
 		}
-		# A kind's twins take its choice: one event, said two ways.
 		for one in kinds:
 			if one["name"] in chosen:
 				chosen.update(dict.fromkeys(one.get("twins", []), chosen[one["name"]]))
@@ -645,8 +599,6 @@ def _agreements() -> dict:
 			fields=["version", "user", "accepted_on"],
 			order_by="creation desc",
 			limit=1,
-			# The reader's own row, or the organisation's, which everybody in it
-			# is bound by and so may see.
 			ignore_permissions=True,
 		)
 		if not rows:
@@ -654,7 +606,6 @@ def _agreements() -> dict:
 		row = rows[0]
 		return {
 			"version": row.version,
-			# Asked again only for a new revision; a new hash is shown, not asked.
 			"owed": not gate.agreed(row.version, assemble.version_of(key)),
 			"on": frappe.utils.formatdate(row.accepted_on),
 			"by": frappe.utils.get_fullname(row.user) if party == gate.WORKSPACE else None,
@@ -664,8 +615,6 @@ def _agreements() -> dict:
 	for key, one in DOCUMENTS.items():
 		version = assemble.version_of(key)
 		parties = gate.AUDIENCE.get(one["audience"], ())
-		# Through a name, not `_(one["title"])`: the extractor would take the
-		# key for the text. The titles are extracted from one_legal/gate.SHOWN.
 		title, summary = one["title"], one["summary"]
 		documents.append(
 			{
@@ -682,9 +631,6 @@ def _agreements() -> dict:
 			}
 		)
 	return {"documents": documents, "admin": roles.administers()}
-
-
-# ------------------------------------------------------------------ the workspace
 
 
 def _company():
@@ -730,12 +676,8 @@ def _general() -> dict:
 	}
 
 
-#: How amounts read on every sale and purchase, as ERPNext's Global Defaults
-#: keeps it. Its company, country and currency are the company's own, above.
 AMOUNTS = ("hide_currency_symbol", "disable_rounded_total", "disable_in_words")
 
-#: What a printed or sent document shows about the company, beside its logo, asked here
-#: once because ERPNext asks for these when an invoice is printed without them.
 ON_DOCUMENTS = ("one_brand_colour", "phone_no", "email", "website", "tax_id")
 ADDRESS = ("address_line1", "address_line2", "city", "state", "pincode")
 
@@ -788,7 +730,6 @@ def _save_company_address(company, values: dict) -> None:
 	address.save(ignore_permissions=True)
 
 
-#: How a person signs in to this workspace, as System Settings keeps it.
 SIGNING_IN = (
 	"two_factor_method",
 	"session_expiry",
@@ -800,13 +741,10 @@ SIGNING_IN = (
 	"force_user_to_reset_password",
 )
 
-#: The address frappe puts at the foot of every mail the workspace sends.
 FOOTER = ("email_footer_address",)
 
-#: How long a lockout lasts after too many wrong passwords, in seconds.
 LOCKOUT = (("60", _lt("1 minute")), ("300", _lt("5 minutes")), ("900", _lt("15 minutes")), ("3600", _lt("1 hour")))
 
-#: How long a session lasts unused, in frappe's hh:mm.
 EXPIRY = (
 	("08:00", _lt("8 hours")),
 	("24:00", _lt("1 day")),
@@ -815,8 +753,6 @@ EXPIRY = (
 	("720:00", _lt("30 days")),
 )
 
-#: What the page says under a field, where the doctype's own words are not
-#: what an administrator here needs to know.
 GENERAL_SAID = {
 	"company_logo": _lt("On printed and sent invoices, quotes and orders."),
 	"one_brand_colour": _lt("Used for the company name, lines and banner in letter heads."),
@@ -836,7 +772,6 @@ GENERAL_SAID = {
 	"disable_in_words": _lt("Sales and purchases don't say their total in words."),
 }
 
-#: Frappe's labels for those, as an administrator here would say them.
 GENERAL_LABELS = {
 	"one_login_with_passkey": _lt("Passkey Sign-in"),
 	"email_footer_address": _lt("Address in Mails"),
@@ -864,7 +799,6 @@ def _said_on_general(fieldname: str, system) -> dict:
 			options.append({"value": system.session_expiry, "label": _("{0} hours").format(system.session_expiry.split(":")[0])})
 		said.update({"fieldtype": "Select", "options": options, "label": _("Signed Out After")})
 	if fieldname == "two_factor_method":
-		# SMS needs a gateway this workspace does not have.
 		said.update(
 			{
 				"options": [{"value": "OTP App", "label": _("Authenticator App")}, {"value": "Email", "label": _("Email")}],
@@ -917,8 +851,6 @@ def _sharing_fields() -> list:
 	]
 
 
-#: Frappe asks for a second step from anybody holding a role flagged for it,
-#: and flags All, everybody, when it is switched on. Administrators hold ours.
 EVERYBODY = "All"
 
 
@@ -974,7 +906,6 @@ def _save_general(values: dict) -> None:
 	if changed:
 		meta = frappe.get_meta("System Settings")
 		tell.sign_in_rules_changed([_(meta.get_label(name)) for name in changed])
-	# After the save, which flags All whenever two-factor is switched on.
 	if "one_two_factor" in values and wanted != "off":
 		frappe.db.set_value("Role", roles.ADMINISTRATOR, "two_factor_auth", 1)
 		frappe.db.set_value("Role", EVERYBODY, "two_factor_auth", 1 if wanted == "everybody" else 0)
@@ -1171,8 +1102,6 @@ def _set_access(doc, access: dict, admin: int, told: bool = True) -> None:
 		wanted.add(roles.ADMINISTRATOR)
 	elif roles.ADMINISTRATOR in before:
 		_not_the_last_administrator(doc.name)
-	# Desk User always: without a role that opens the desk, frappe makes the
-	# person a website user and they drop out of the workspace.
 	after = (before - ours) | {role for role in wanted | {"Desk User"} if frappe.db.exists("Role", role)}
 	if after != before:
 		doc.set("roles", [{"role": role} for role in sorted(after)])
@@ -1238,14 +1167,11 @@ def set_enabled(user: Annotated[str, "The person."], on: Annotated[int, "1 to le
 	roles.require()
 	if user in NOT_PEOPLE or user == frappe.session.user:
 		frappe.throw(_("You cannot turn yourself off."))
-	# Through the User's own save: the seats are counted there (seated), and
-	# somebody turned on gets their mail address.
 	doc = frappe.get_doc("User", user)
 	doc.enabled = int(on)
 	doc.flags.ignore_permissions = True
 	doc.save()
 	if not int(on):
-		# Off means off now, not at their next sign-in.
 		from frappe.sessions import clear_sessions
 
 		clear_sessions(user=user, force=True)
@@ -1275,8 +1201,6 @@ def invite(
 			"first_name": first_name,
 			"last_name": last_name,
 			"user_type": "System User",
-			# One's own invitation instead (one/invite.py): frappe's is a reset
-			# link that lives twenty minutes, from nobody in particular.
 			"send_welcome_email": 0,
 			"roles": [{"role": "Desk User"}],
 		}
@@ -1286,7 +1210,6 @@ def invite(
 
 	wanted = frappe.parse_json(access) or {}
 	if any(level != "None" for level in wanted.values()):
-		# Their invitation is how they hear of it: no second notice.
 		_set_access(frappe.get_doc("User", user.name), wanted, 0, told=False)
 	invitation.send(user.name, _apps_said(wanted))
 	return _people()
@@ -1338,7 +1261,6 @@ def seated(doc, method=None) -> None:
 		frappe.throw(_("All {0} seats are in use. Disable someone or add seats to the plan.").format(seats))
 
 
-#: How old the copy of the account may be before opening the page asks again.
 STALE = 60 * 60
 
 
@@ -1351,7 +1273,6 @@ def _plan() -> dict:
 	heard = held.last_heard
 	if account.configured() and (not heard or frappe.utils.time_diff_in_seconds(frappe.utils.now_datetime(), heard) > STALE):
 		account.refresh()
-		# A GET is not committed, and what refresh wrote is the page's.
 		frappe.db.commit()
 		held = frappe.get_single("Workspace Account")
 	return {
@@ -1371,7 +1292,6 @@ def _plan() -> dict:
 		"add_ons": [{"offering": one.offering, "label": one.label, "quantity": one.quantity, "amount": one.amount} for one in held.add_ons],
 		"ledger": account.ledger() if account.configured() else None,
 		"ledger_days": account.LEDGER_DAYS,
-		# Closing the workspace and the full download (one/closing.py).
 		"closing": closing.state(),
 	}
 
@@ -1386,7 +1306,6 @@ def _domains() -> dict:
 	stale = not heard or frappe.utils.time_diff_in_seconds(frappe.utils.now_datetime(), heard) > STALE
 	if account.configured() and (stale or not held.dns_target):
 		account.refresh()
-		# A GET is not committed, and what refresh wrote is the page's.
 		frappe.db.commit()
 		held = frappe.get_single("Workspace Account")
 	return {
@@ -1449,8 +1368,6 @@ def _oneai() -> dict:
 				"about": _(one.about) if one.about else None,
 				"capability": one.capability,
 				"product": one.product or "OneAI",
-				# The model the action names for itself, when it names one: the
-				# screen's Default for it rather than the default for what it needs.
 				"default_model": one.default_model,
 				"model": held.get("model"),
 				"extra": held.get("extra"),
@@ -1481,7 +1398,6 @@ def _intake() -> dict:
 	values["most_pages"] = values["most_pages"] or pipeline.MOST_PAGES
 	values["floor"] = values["floor"] or act.FLOOR
 	fields = [
-		# A setting switched on or off reads as a switch, as frappe-ui draws one.
 		{**one, "fieldtype": "Switch"} if one["fieldtype"] == "Check" else one
 		for one in _fields("Intake Settings", INTAKE)
 	]
@@ -1499,15 +1415,12 @@ def _intake() -> dict:
 		"values": values,
 		"month": _intake_month(),
 		"hr": list(hr),
-		# The products this page has parts about, and their marks.
 		"marks": {app: _mark(app) for app in ("OneBook", "OneHR", "OneMail", "OneCloud")},
 		**switches.overview(),
 		"opened": _opened(*opened),
 	}
 
 
-#: What OneAI does by itself when something arrives in OneHR, kept on HR Settings and
-#: switched here; recording consent and audio retention stay in HR Settings.
 INTAKE_HR = ("one_ai_screen", "one_ai_prepare", "one_ai_transcribe", "one_ai_grievances")
 
 
@@ -1530,8 +1443,6 @@ def _intake_month() -> dict:
 	return {**month, "waiting": int(waiting or 0), "undone": int(undone or 0)}
 
 
-#: What changes what OneAI does with money, or whether anybody checks it:
-#: the other administrators hear of these.
 TOLD_OF = ("audit", "household", "submit_einvoices", "floor")
 
 
@@ -1541,7 +1452,6 @@ def _save_intake(values: dict) -> None:
 	doc = _as_opened(frappe.get_single("Intake Settings"))
 
 	def meant(name):
-		# An empty floor always meant the default, so writing it in is no change.
 		value = frappe.utils.flt(doc.get(name))
 		return (value or act.FLOOR) if name == "floor" else value
 
@@ -1582,7 +1492,6 @@ def _holidays(record: str | None = None) -> dict:
 			"label": _("Days Off Each Week"),
 			"columns": 4,
 			"sort_options": False,
-			# frappe's MultiCheck reads its ticks from its options.
 			"options": [{"label": _(day), "value": day, "checked": day in off} for day in holidays.WEEK],
 			"description": _("Every one of these days in the list is a day off. Tick two for a weekend of two days."),
 		},
@@ -1605,7 +1514,6 @@ def _holidays(record: str | None = None) -> dict:
 		}
 	)
 	rows = [{"holiday_date": str(one.holiday_date), "description": frappe.utils.strip_html_tags(one.description or "")} for one in public]
-	# frappe's table control reads its rows from the field, not from a value.
 	fields[-1]["data"] = [dict(one) for one in rows]
 	next_list = holidays.after(name, held)
 	return {
@@ -1621,7 +1529,6 @@ def _holidays(record: str | None = None) -> dict:
 			"to_date": str(doc.to_date),
 			"days_left": frappe.utils.date_diff(doc.to_date, frappe.utils.today()),
 			"in_force": name == now,
-			# Not a value: frappe's MultiCheck takes its ticks from its options.
 			"weekly": off,
 			"days_off": len(doc.holidays) - len(public),
 			"public": len(public),
@@ -1651,8 +1558,6 @@ def _save_holidays(record: str | None, values: dict) -> str:
 	off = [day for day in holidays.WEEK if day in (values["weekly_offs"] if "weekly_offs" in values else was_off)]
 	doc.country = values.get("country") or None
 	doc.subdivision = (values.get("subdivision") or None) if doc.country else None
-	# The week's days off are made again every time, so a holiday removed
-	# from a Friday leaves that Friday a day off.
 	doc.set("holidays", [])
 	for day, what in sorted(wanted.items()):
 		doc.append("holidays", {"holiday_date": day, "description": what, "weekly_off": 0})
@@ -1677,9 +1582,6 @@ def _save_holidays(record: str | None, values: dict) -> str:
 	if said:
 		tell.holidays_changed("; ".join(said), doc.name)
 	return doc.name
-
-
-# ------------------------------------------------------------------ access
 
 
 def _access(record: str | None = None) -> dict:
@@ -1759,7 +1661,6 @@ def _level_page(key: str) -> dict:
 	table = {
 		"fieldname": "rows",
 		"fieldtype": "Table",
-		# Its heading says it; the table itself goes unlabelled.
 		"label": "",
 		"fields": [
 			{"fieldname": "doctype", "fieldtype": "Autocomplete", "label": _("Record Type"), "options": options, "in_list_view": 1, "reqd": 1, "columns": 2},
@@ -1769,7 +1670,6 @@ def _level_page(key: str) -> dict:
 			],
 		],
 	}
-	# frappe's table control reads its rows from the field, not from a value.
 	table["data"] = [dict(one) for one in said["rows"]]
 	people = frappe.get_all("User", filters={"name": ["in", said["people"] or [""]]}, fields=["name", "full_name", "user_image"])
 	fields = [table]
@@ -1804,9 +1704,6 @@ def _save_access(record: str | None, values: dict) -> str:
 	frappe.throw(_("There is nothing to save here."))
 
 
-# ------------------------------------------------------------------ numbering
-
-
 def _numbering() -> dict:
 	"""Every kind of record the administrator may renumber (one/numbering.py)."""
 	from onedesk.one import numbering
@@ -1834,15 +1731,12 @@ def _printing() -> dict:
 
 	company = _company()
 	heads = printing.letter_heads()
-	# Each as frappe prints it, its Jinja run for a record of the company's, so
-	# the ones that came with the workspace show their page rather than their code.
 	doc = {"company": company.name if company else None}
 	for one in heads:
 		one["drawn_top"], one["drawn_foot"] = (_drawn(one.get(key), doc) for key in ("content", "footer"))
 	return {
 		"letter_heads": heads,
 		"formats": printing.formats(),
-		# A new letter head starts with the logo Workspace > General keeps.
 		"company_logo": company.company_logo if company else None,
 	}
 
@@ -1854,9 +1748,6 @@ def _drawn(template: str | None, doc: dict) -> str:
 		return frappe.utils.jinja.render_template(template, {"doc": frappe._dict(doc)})
 	except Exception:
 		return ""
-
-
-# ------------------------------------------------------------------ notifications
 
 
 def _notification_types(record: str | None = None) -> dict:
@@ -1906,7 +1797,6 @@ def _notification_types(record: str | None = None) -> dict:
 		fields=["name", "enabled", "document_type", "event", "date_changed", "days_in_advance", "value_changed"],
 		order_by="name asc",
 	)
-	# Ours by app, then frappe's own, which every app shares.
 	return {
 		"rules": [{"name": one.name, "enabled": one.enabled, "said": rules.said(one)} for one in made],
 		"apps": [
@@ -1926,7 +1816,6 @@ def _notification_type(name: str) -> dict:
 	fields = _fields("Notification Type", NOTIFICATION_TYPE)
 	for field in fields:
 		if field["fieldname"] == "one_message":
-			# A few lines, wrapped, rather than a code editor's thirty.
 			field.update({"wrap": 1, "min_lines": 3, "max_lines": 12})
 		if field["fieldname"] == "enabled":
 			field["label"] = _("Send This")
@@ -1935,10 +1824,8 @@ def _notification_type(name: str) -> dict:
 			)
 			field["read_only"] = 1 if fixed else 0
 	if one.get("mailed_by"):
-		# Mailed by the app itself: whether it is sent, where the app lets us say.
 		fields = [field for field in fields if field["fieldname"] == "enabled"]
 	elif notify.upstream(one):
-		# Told through the hub in the app's own words: the channels, not the text.
 		fields = [field for field in fields if field["fieldname"] not in ("one_subject", "one_message")]
 	return {
 		"type": {
@@ -1999,9 +1886,6 @@ def preview_notification(
 	return out
 
 
-# ------------------------------------------------------------------ rules
-
-#: What a rule form sets on the Notification itself.
 RULE = (
 	"enabled",
 	"document_type",
@@ -2015,7 +1899,6 @@ RULE = (
 	"send_to_all_assignees",
 )
 
-#: What it sets on the rule's notification type: the channels people may add.
 RULE_CHANNELS = ("one_allow_email", "one_email_default", "one_allow_push", "one_push_default")
 
 
@@ -2029,7 +1912,6 @@ def _rule(name: str) -> dict:
 		frappe.throw(_("There is no rule {0}.").format(name))
 	doc = rules.blank() if new else rules.get(name)
 	if new:
-		# Frappe's Notification starts with a sample message; a rule starts empty.
 		doc.update({"enabled": 1, "event": "New", "channel": "System Notification", "message": ""})
 	kind = (
 		frappe.db.get_value("Notification Type", doc.name, RULE_CHANNELS, as_dict=True) if not new else None

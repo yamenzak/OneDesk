@@ -6,7 +6,6 @@ import frappe
 from frappe import _
 from frappe.utils import flt, get_quarter_start, getdate, nowdate
 
-#: (section, parent doctype, tax row doctype, taxable field on the parent, extra condition)
 SOURCES = (
 	("output", "Sales Invoice", "Sales Taxes and Charges", "base_net_total", ""),
 	(

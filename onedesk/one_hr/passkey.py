@@ -17,8 +17,6 @@ from webauthn.helpers.structs import (
 from onedesk.one.roles import ADMINISTRATOR
 from onedesk.one_hr import own, policy, rules
 
-#: How long a challenge is good for. Long enough to find your glasses, short
-#: enough that one left lying around is no use to anybody.
 CHALLENGE_SECONDS = 300
 
 
@@ -34,13 +32,9 @@ def start_registration() -> dict:
 	options = webauthn.generate_registration_options(
 		rp_id=rp_id(),
 		rp_name=frappe.get_website_settings("app_name") or "One",
-		# A hash rather than the address, which the authenticator would keep and
-		# show to anybody who lists the passkeys on it.
 		user_id=hashlib.sha256(user.encode()).digest()[:32],
 		user_name=user,
 		user_display_name=frappe.utils.get_fullname(user),
-		# Discoverable, so the same credential can sign them in later without
-		# anybody typing an address.
 		authenticator_selection=AuthenticatorSelectionCriteria(
 			resident_key=ResidentKeyRequirement.PREFERRED,
 			user_verification=UserVerificationRequirement.REQUIRED,
@@ -60,8 +54,6 @@ def _may_register(user: str, employee: str) -> str | None:
 	from onedesk.one import devices
 
 	if employee and is_blocked(employee):
-		# `held` asks for an Active credential, so without this a blocked
-		# employee would simply register a new passkey and carry on.
 		frappe.throw(
 			_("This employee's passkey is blocked. HR must reset it before another can be registered.")
 		)
@@ -85,8 +77,6 @@ def _may_register(user: str, employee: str) -> str | None:
 			else _("You already have a passkey. Remove it before registering another.")
 		)
 
-	# Every employee's, not only while the clock is on: a passkey made on the
-	# office computer while it is off would check them in once it is turned on.
 	if _phone_first(employee) and not rules.is_phone(_agent()):
 		frappe.throw(
 			_("Make your passkey on your phone.")
@@ -272,8 +262,6 @@ def remove() -> dict:
 	return {"removed": len(found)}
 
 
-#: How often somebody without a passkey is offered one after signing in, and
-#: how many "Not now"s it takes to stop asking. Settings still offers it.
 ASK_EVERY_DAYS = 7
 ASK_TIMES = 3
 
@@ -293,8 +281,6 @@ def ask() -> bool:
 		return False
 	at = devices.here() or frappe._dict()
 	if at.use:
-		# Their own assigned machine, until it holds their passkey; nobody's
-		# on a shared one.
 		return at.use == "Assigned" and at.user == user and not frappe.db.exists(
 			"Clock Device", {"device": at.name, "user": user, "status": "Active"}
 		)
@@ -469,8 +455,6 @@ def origin() -> str:
 	return f"https://{frappe.local.site}"
 
 
-#: Before anybody signs in, frappe gives every browser the same sid ("Guest"),
-#: so a challenge keyed by it is one slot shared by everybody on the login page.
 BINDER = "one_passkey"
 
 

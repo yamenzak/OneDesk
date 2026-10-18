@@ -1,8 +1,3 @@
-// A size in bytes as somebody says it out loud, "1.4 MB". The number goes
-// through frappe's format_number, so it reads in the workspace's number
-// format. Files are counted in 1024s, as an explorer counts them; a plan is
-// sold in 1000s, so its pages pass base 1000. Loaded on desk and on the
-// portal pages that take files.
 frappe.provide("onedesk");
 
 onedesk.size = (bytes, base = 1024) => {

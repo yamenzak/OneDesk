@@ -10,34 +10,21 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, add_months, flt, getdate, nowdate
 
-#: The payment terms retention is held under: the part released at handover,
-#: and the rest.
 HANDOVER = "Retention at Handover"
 RETENTION = "Retention"
 HELD = (HANDOVER, RETENTION)
 
-#: How far ahead a customer's retention is in Needs You.
 AHEAD = 30
 
-#: When tax on retention is charged: with the invoice that holds it, or by
-#: the invoice that releases it.
 WITH_INVOICE = "With the Invoice"
 WHEN_RELEASED = "When Released"
 
-#: Where retention is taxed when it's released, so a new workspace there
-#: starts that way: the UAE (the FTA's guide) and the UK (a retention's tax
-#: point is its payment or its invoice).
 RELEASED_IN = ("United Arab Emirates", "United Kingdom")
 
-#: Where tax on retention falls due on its own, so many months after the
-#: work is certified complete, invoiced or not: the UAE (the FTA's guide).
 TAXED_AFTER = {"United Arab Emirates": 12}
 
-#: The item a Retention line is, held or released.
 ITEM = "Retention"
 
-#: Where retention held waits when it's taxed on release: the customer's in
-#: an asset, the supplier's in a liability, each beside the party accounts.
 ACCOUNTS = {
 	"Sales Invoice": ("Retention Receivable", "Receivable", "income_account"),
 	"Purchase Invoice": ("Retention Payable", "Payable", "expense_account"),
@@ -130,7 +117,6 @@ def withheld(doctype: str, names: list[str]) -> dict[str, list[tuple[str, float]
 		fields=["parent", "one_release_on", "base_net_amount"],
 	):
 		found.setdefault(row.parent, []).append((row.one_release_on, -flt(row.base_net_amount)))
-	# A credit note's Retention lines give back what its invoice held.
 	for name in frappe.get_all(doctype, filters={"name": ["in", list(found) or [""]], "is_return": 1}, pluck="name"):
 		del found[name]
 	if not found:
@@ -146,7 +132,6 @@ def withheld(doctype: str, names: list[str]) -> dict[str, list[tuple[str, float]
 		.where((head.docstatus == 1) & (head.is_return == 1) & head.return_against.isin(list(found)) & (line.one_held != ""))
 		.run()
 	):
-		# Below nothing on the invoice, above it on its credit note.
 		released[against] = released.get(against, 0.0) + flt(amount)
 	for row in frappe.get_all(
 		f"{doctype} Item",
@@ -371,7 +356,6 @@ def release(
 			fields=["payment_term", "due_date", "outstanding", "base_outstanding"],
 			order_by="due_date asc",
 		)
-		# In the party account's currency, as ERPNext matches a payment.
 		amount = {str(row.due_date): flt(row.outstanding if own else row.base_outstanding) for row in rows}
 		term = {str(row.due_date): row.payment_term for row in rows}
 		left = [(term[due], due, held) for due, held in still_held(list(amount.items()), head.outstanding_amount)]
@@ -438,7 +422,6 @@ def released(doctype: str, project: str, lines: dict, key: str, party: str | Non
 			made.set(field, first.get(field))
 	made.project = project
 	made.one_retention = 0
-	# One line for each invoice, its parts together.
 	owed: dict[str, float] = {}
 	for name, _term, _due, amount in chosen:
 		owed[name] = owed.get(name, 0.0) + amount
@@ -448,7 +431,6 @@ def released(doctype: str, project: str, lines: dict, key: str, party: str | Non
 			{
 				"item_code": ITEM,
 				"qty": 1,
-				# Held in the company's currency; the invoice is in the customer's.
 				"rate": flt(amount / flt(heads[name].conversion_rate or 1), 2),
 				"description": _("Retention held on {0}").format(name),
 				"one_retention_of": name,

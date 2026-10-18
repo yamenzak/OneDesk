@@ -8,7 +8,6 @@ from frappe.utils import date_diff, flt, getdate, nowdate
 
 from onedesk.one_project import tree
 
-#: How many milestones the Overview shows, and how many of those may be done.
 SHOWN = 8
 DONE_SHOWN = 2
 
@@ -116,8 +115,6 @@ def read(project: str, projects: list[str]) -> dict:
 	]
 	return {
 		"list": pick(rows),
-		# The whole job's milestones a row per part of it, Main first; none
-		# when there is only one part.
 		"lanes": lanes(rows, project, titles) if not tree.narrowed(project) else [],
 		"billable": billable(rows),
 		"projects": [

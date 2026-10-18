@@ -7,8 +7,6 @@ from frappe import _
 from frappe.utils import add_days, escape_html, get_time, now_datetime, nowdate, nowtime
 from frappe.utils.html_utils import sanitize_html
 
-#: ERPNext's jobs this replaces: the three askers, the collector, and the
-#: summary.
 REPLACED = (
 	"erpnext.projects.doctype.project.project.hourly_reminder",
 	"erpnext.projects.doctype.project.project.project_status_update_reminder",
@@ -16,7 +14,6 @@ REPLACED = (
 	"erpnext.projects.doctype.project.project.send_project_status_email_to_users",
 )
 
-#: When an ask with no time set goes out.
 MORNING = time(9, 0)
 
 FIELDS = ("frequency", "first_email", "second_email", "daily_time_to_send", "day_to_send", "weekly_time_to_send")

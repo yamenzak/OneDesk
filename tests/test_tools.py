@@ -22,9 +22,6 @@ TOOLS = tree.APP / "one_ai" / "tools.py"
 PROPOSALS = tree.APP / "one_ai" / "proposals.py"
 PROPOSAL = tree.APP / "one_ai" / "doctype" / "ai_proposal" / "ai_proposal.json"
 
-#: Ways to read that do not check a permission. `get_all` is `get_list` with the
-#: checks off and one letter different, which is why it is named here rather
-#: than left to a reviewer's eye.
 BLIND = ("get_all", "ignore_permissions", "set_user", "db.sql", "only_for('Administrator')")
 
 
@@ -51,9 +48,6 @@ def _code(path: Path) -> str:
 				if not (isinstance(n, ast.Expr) and isinstance(n.value, ast.Constant))
 			]
 	return ast.unparse(body)
-
-
-# ------------------------------------------------------ the rule with no override
 
 
 @pytest.mark.parametrize("said", BLIND)
@@ -102,17 +96,12 @@ def test_every_tool_is_a_function_a_schema_can_be_read_off():
 			for target in node.targets:
 				if isinstance(target, ast.Name) and target.id in ("READS", "SUGGESTS"):
 					named |= {e.id for e in node.value.elts if isinstance(e, ast.Name)}
-	# A count rather than a list, so adding a tool is a deliberate line in a
-	# diff — every one of these is something a model may do to a workspace.
 	assert len(named) == 15, named
 	for name in named:
 		fn = functions[name]
 		assert ast.get_docstring(fn), f"{name} tells a model nothing about itself"
 		for arg in fn.args.args:
 			assert arg.annotation is not None, f"{name}({arg.arg}) has no type on it"
-
-
-# ------------------------------------------------------------------- proposals
 
 
 def test_a_permission_is_checked_when_it_is_suggested_and_again_when_it_is_done():
@@ -143,9 +132,6 @@ def test_a_proposal_is_read_only_to_everybody():
 		assert not row.get("write"), row["role"]
 	by_role = {row["role"]: row for row in spec["permissions"]}
 	assert by_role["All"].get("if_owner"), "everybody would see everybody's cards"
-
-
-# --------------------------------------------------------------- the schema
 
 
 def _of(fn):

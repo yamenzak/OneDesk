@@ -9,7 +9,6 @@ from frappe.utils import getdate
 from onedesk.one_ai import proposals
 from onedesk.one_hr import own
 
-#: The roles that may draft goals for anybody.
 HR = ("HR Manager", "HR User")
 
 
@@ -119,9 +118,6 @@ def training_options(
 	return {
 		"appraisal": latest[0].name if latest else None,
 		"weakest": weakest,
-		# The catalogue, not anybody's record: read whatever the reader's role,
-		# like the KRA list, since somebody who may not open the Training
-		# Program master still needs to know what is on offer.
 		"programs": [
 			{"name": one.name, "about": frappe.utils.strip_html(one.description or "")[:300]}
 			for one in frappe.get_all(

@@ -1,11 +1,6 @@
-// The agreements a workspace runs under, asked for once when the desk starts
-// (one_legal/gate.py). A dialog that cannot be closed, because carrying on is
-// carrying on under the agreement. The documents themselves open on the
-// Agreements page in a new tab, which is never behind this dialog.
 
 frappe.provide("onedesk.legal");
 
-// The desktop at /desk has no route, and frappe.get_route() answers null there.
 onedesk.legal.here = () => (frappe.get_route() || [])[0] || "";
 
 onedesk.legal.check = async function () {
@@ -97,8 +92,6 @@ onedesk.legal.ask = function (said) {
 
 $(document).on("app_ready", () => onedesk.legal.check());
 
-// A tab opened on the Agreements page skips the dialog so the text can be read.
-// Leaving that page asks again.
 frappe.router.on("change", () => {
 	if (onedesk.legal.here() !== "legal" && !onedesk.legal.dialog && onedesk.legal.skipped) onedesk.legal.check();
 	onedesk.legal.skipped = onedesk.legal.here() === "legal";

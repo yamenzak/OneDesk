@@ -4,8 +4,6 @@ clauses go.
 Bump a document's `revision` when a change is material, never for a typo.
 """
 
-#: Us. One place, because it appears in eight documents, and an address that is
-#: right in seven and wrong in the eighth is worse than one wrong in all eight.
 PARTY = {
 	"legal_name": "Four Degree Labs",
 	"short_name": "4° Labs",
@@ -19,9 +17,6 @@ PARTY = {
 	"OneCRM, OneBook, OneInventory, OneHR, OneAI and Intake",
 }
 
-#: Where a document's clauses go, as (id, heading). A module declares into these
-#: ids and nowhere else, so a typo in a module is an error rather than a
-#: paragraph that silently never appears.
 SECTIONS = {
 	"terms": [
 		("about", "Who we are"),
@@ -94,14 +89,10 @@ SECTIONS = {
 	],
 }
 
-#: The catalogue, in the order the documents are shown. A document with no
-#: audience is published and not agreed to.
 DOCUMENTS = {
 	"terms": {
 		"title": "Terms of Service",
 		"audience": "customer",
-		# 11: extensions on One's own pages and on a schedule, tried once before they are kept.
-		# Earlier revisions: README.md, documents.py.
 		"revision": 11,
 		"summary": "The agreement between your organisation and Four Degree Labs for the use of One.",
 	},
@@ -114,8 +105,6 @@ DOCUMENTS = {
 	"privacy": {
 		"title": "Privacy Policy",
 		"audience": "user",
-		# 26: the browsers people sign in on, and passkeys for everybody.
-		# Earlier revisions: README.md, documents.py.
 		"revision": 26,
 		"summary": "What we do with personal data: yours, and the personal data your organisation puts into One.",
 	},
@@ -128,24 +117,18 @@ DOCUMENTS = {
 	"dpa": {
 		"title": "Data Processing Addendum",
 		"audience": "customer",
-		# 5: OneCRM's form visitors and email campaigns are the organisation's to answer for.
-		# Earlier revisions: README.md, documents.py.
 		"revision": 6,
 		"summary": "How we handle personal data your organisation is responsible for. Part of the Terms of Service.",
 	},
 	"subprocessors": {
 		"title": "Subprocessors",
 		"audience": "customer",
-		# 3: Cloudflare also sends One's own mails to customers.
-		# 4: Google Fonts, for a print format that prints in one of its typefaces.
 		"revision": 4,
 		"summary": "Every third party that receives customer data, what for, and where it is kept.",
 	},
 	"ai": {
 		"title": "AI Addendum",
 		"audience": "customer",
-		# 22: what OneAI reads of the books in OneBook, and that it never changes them.
-		# Earlier revisions: README.md, documents.py.
 		"revision": 23,
 		"summary": "How OneAI works, which models run, and what happens to what you send it.",
 	},

@@ -5,7 +5,6 @@ import frappe
 from frappe import _
 from frappe.utils import flt, getdate, nowdate
 
-#: What can be settled here, and what its payment is called in a message.
 SETTLED = ("Sales Invoice", "Purchase Invoice")
 
 REMINDER = "Payment Reminder"

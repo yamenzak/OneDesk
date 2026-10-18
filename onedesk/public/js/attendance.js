@@ -1,4 +1,3 @@
-// Overtime is recorded on the day it was worked, so the day offers it.
 frappe.ui.form.on("Attendance", {
 	refresh(frm) {
 		if (frm.doc.docstatus !== 1 || frm.doc.status !== "Present") return;

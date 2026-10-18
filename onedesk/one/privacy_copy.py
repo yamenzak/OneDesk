@@ -12,8 +12,6 @@ from onedesk.one import roles
 
 DOWNLOAD = "Personal Data Download Request"
 
-#: The kinds a copy is made of, in the order it reads: (key, label, always).
-#: An administrator may withhold any kind that is not always given.
 KINDS = (
 	("account", _lt("Your account and profile"), True),
 	("signins", _lt("Your sign-ins"), True),
@@ -30,11 +28,8 @@ KINDS = (
 	("notifications", _lt("Notifications you got"), False),
 )
 
-#: What a copy holds for somebody who is not a user: a customer's contact, a
-#: supplier, a lead, an applicant. The rest is about an account they do not have.
 OUTSIDER = ("contacts", "records", "mail")
 
-#: Records that name somebody by their address, as (doctype, field, fields shown).
 RECORDS = (
 	("Lead", "email_id", ["lead_name", "company_name", "status", "source", "creation"]),
 	("Opportunity", "contact_email", ["opportunity_from", "party_name", "status", "creation"]),
@@ -43,7 +38,6 @@ RECORDS = (
 	("Job Applicant", "email_id", ["applicant_name", "job_title", "status", "creation"]),
 )
 
-#: What never goes, said in the copy so the person knows it exists.
 NEVER = (
 	"The contents of records you deleted",
 	"Pages you printed",
@@ -51,10 +45,8 @@ NEVER = (
 	"Account secrets such as reset keys",
 )
 
-#: The same, for somebody who is not a user.
 NEVER_OUTSIDER = ("The rest of the records that name you, which are the workspace's",)
 
-#: The account's own fields that are about the person; never its keys.
 ACCOUNT = (
 	"email",
 	"first_name",
@@ -243,9 +235,6 @@ def counts(user: str) -> list[dict]:
 	return out
 
 
-# ------------------------------------------------------------------ the flow
-
-
 def _file_of(user: str, request: str) -> dict:
 	"""Where a copy's file is: on the person's own account, which they may
 	read, rather than on the request, which only administrators may."""
@@ -286,7 +275,6 @@ def ask() -> dict:
 	user = privacy._mine()
 	if frappe.db.exists(DOWNLOAD, {"user": user, "one_status": ["in", ["Waiting", "Gathering"]]}):
 		frappe.throw(_("You've already asked. An administrator is reviewing it."))
-	# frappe's insert would gather everything at once and mail its own message.
 	doc = frappe.get_doc(
 		{
 			"doctype": DOWNLOAD,
@@ -356,13 +344,11 @@ def gather(request: str, withheld: list | None = None) -> None:
 		"given_on": str(now_datetime()),
 		"workspace": frappe.utils.get_url(),
 	}
-	# What is kept is "<labels>: <why>"; under each label, only the why.
 	why = (doc.one_withheld or "").partition(": ")[2]
 	for key, label, _always in kinds_for(address):
 		copy[str(label)] = gather_kind(key, address) if key not in withheld else f"Withheld: {why}"
 	copy["Never included"] = list(NEVER if doc.user else NEVER_OUTSIDER)
 	where = _file_of(address, doc.name) if doc.user else _outsider_file(doc.name)
-	# Gathered again, it replaces the copy before it.
 	for old in frappe.get_all("File", filters=where, pluck="name"):
 		frappe.delete_doc("File", old, ignore_permissions=True)
 	file = frappe.get_doc(
@@ -396,9 +382,6 @@ def _outsider_file(request: str) -> dict:
 		"attached_to_name": request,
 		"file_name": ["like", "Personal-Data-%"],
 	}
-
-
-# ------------------------------------------------------------------ guards
 
 
 def query(user: str | None = None) -> str | None:

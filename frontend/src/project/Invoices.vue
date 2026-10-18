@@ -1,12 +1,7 @@
 <template>
-  <!-- The customer's invoices for the project and those under it, newest
-       first, each with what it's for, what's owed now and what's held, and
-       Record Payment, Release Retention and Send on it
-       (one_project/billing.py `invoices`). -->
   <div class="pb-12">
     <Loading v-if="!said" />
     <template v-else>
-      <!-- The title and what can be done, on one line as on Time. -->
       <div class="flex flex-wrap items-center gap-2 pb-2">
         <h2 class="me-auto flex items-center gap-2 text-lg font-semibold text-ink-gray-9">
           <span class="lucide-receipt size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Invoices") }}
@@ -17,7 +12,6 @@
         <Button v-if="said.can_create && kind === 'Retainer'" size="sm" variant="solid" icon-left="lucide-receipt" :label="__('Invoice Month')" @click="invoiceMonth" />
         <Button v-else-if="said.can_create" size="sm" variant="solid" icon-left="lucide-plus" :label="__('New Invoice')" @click="newInvoice" />
       </div>
-      <!-- What the workspace's extensions add here (one_studio/places.py). -->
       <PlaceSpot :said="spot" class="mb-4" />
       <Figures v-if="said.invoices.length || said.totals.advance" class="mb-5 mt-3" :figures="figures" />
 
@@ -46,11 +40,9 @@
             </ListCell>
             <ListCell v-if="byParty" class="min-w-0 gap-2 max-md:hidden"><Avatar :label="item.party" :image="item.party_image" shape="square" size="sm" /><span class="truncate text-ink-gray-7">{{ item.party }}</span></ListCell>
             <ListCell class="tabular-nums text-ink-gray-7 max-lg:hidden">{{ date(item.date) }}</ListCell>
-            <!-- When the part owed now is due; what's held says its own date. -->
             <ListCell class="tabular-nums max-md:hidden" :class="item.late ? 'text-ink-red-5' : 'text-ink-gray-7'">{{ item.owed || item.status === "Draft" ? date(item.due) : "" }}</ListCell>
             <ListCell><Badge :label="__(item.status)" :theme="STATUS[item.status] || 'gray'" size="md" /></ListCell>
             <ListCell class="justify-end tabular-nums text-ink-gray-8 max-md:hidden">{{ sum(item.total, item.currency) }}</ListCell>
-            <!-- ERPNext's outstanding, as the invoice says it; what's held in it under. -->
             <ListCell class="justify-end">
               <div class="min-w-0 text-end">
                 <div class="tabular-nums" :class="item.outstanding ? 'text-ink-gray-8' : 'text-ink-gray-5'">{{ sum(item.outstanding, item.currency) }}</div>
@@ -79,10 +71,8 @@ import { onlyArg, useOnly } from "./only";
 import { usePlace } from "./place";
 
 const props = defineProps({ projectName: { type: String, required: true }, projectTitle: String, kind: String, customer: String, currency: String });
-// Only the project's own work when the page shows its Main (only.js).
 const only = useOnly();
 
-// ERPNext's own colours for an invoice's status.
 const STATUS = { Paid: "green", "Partly Paid": "blue", Unpaid: "amber", Overdue: "red", Draft: "red", Return: "gray", "Credit Note Issued": "gray" };
 const said = ref(null);
 const spot = usePlace("oneproject.invoices", () =>
@@ -91,8 +81,6 @@ const spot = usePlace("oneproject.invoices", () =>
     invoices: { count: said.value.invoices.length, ...said.value.totals },
   }
 );
-// Amounts in the company's currency are said once, at the top, as on
-// Suppliers (frappe's own number format); another currency keeps its symbol.
 const amount = (value) => plain(value);
 const sum = (value, currency) => (!currency || currency === props.currency ? plain(value) : money(value, currency));
 
@@ -104,7 +92,6 @@ const later = () => {
   clearTimeout(timer);
   timer = setTimeout(load, 400);
 };
-// A payment changes what's owed on an invoice, so both are followed.
 const stops = [followList("Sales Invoice", later), followList("Payment Entry", later)];
 onBeforeUnmount(() => {
   stops.forEach((stop) => stop());
@@ -118,13 +105,11 @@ const figures = computed(() => {
   return [
     { title: __("Invoiced"), value: amount(t.invoiced), note: t.drafts ? (t.drafts === 1 ? __("1 draft") : __("{0} drafts", [t.drafts])) : "" },
     { title: __("Paid"), value: amount(t.paid), bar: share(t.paid, t.invoiced), note: t.advance ? __("{0} paid in advance", [amount(t.advance)]) : "" },
-    // ERPNext's outstanding, as the invoice says it; what's held in it under.
     { title: __("Outstanding"), value: amount(t.outstanding), note: t.retention ? __("{0} held", [amount(t.retention)]) : "" },
     { title: __("Overdue"), value: amount(t.overdue), alarm: t.overdue > 0, note: t.late ? (t.late === 1 ? __("1 invoice") : __("{0} invoices", [t.late])) : "" },
   ];
 });
 
-// One customer needs no column.
 const byParty = computed(() => said.value.parties > 1);
 const columns = computed(() => {
   const party = byParty.value;
@@ -135,7 +120,6 @@ const columns = computed(() => {
   };
 });
 
-// What an invoice is for, as billing.for_what says it.
 function forText(item) {
   const one = item.for || {};
   if (one.kind === "credit") return __("Credit note");
@@ -148,8 +132,6 @@ function forText(item) {
   return "";
 }
 
-// Record Payment is the invoice's own (OneBook's, one_book/heads.py); Send
-// opens the invoice with frappe's Email on it, its print attached.
 function actions(item) {
   const found = [];
   if (item.can_pay && said.value.can_pay) found.push({ label: __("Record Payment"), icon: "lucide-banknote", onClick: () => pay(item) });
@@ -162,8 +144,6 @@ async function pay(item) {
   if (verb) onedesk().head.act({ doctype: "Sales Invoice", doc: { name: item.name }, reload_doc: load }, verb);
 }
 const send = (item) => emailRecord("Sales Invoice", item.name);
-// The customer's payment for the retention held, ERPNext's own Payment
-// Entry matched to each invoice's retention terms (one_project/retention.py).
 const release = (invoice) => onedesk().project.release_retention({ project: props.projectName, doctype: "Sales Invoice", invoice });
 
 const newInvoice = () => newDoc("Sales Invoice", { customer: props.customer, project: props.projectName });

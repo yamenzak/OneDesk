@@ -1,10 +1,4 @@
 <template>
-  <!-- The reader's timers. Under the bar's Timers tile, frappe-ui's Popover
-       anchored to the tile (`reference`), opened and closed by the tile
-       (desk.js `onedesk.dock.timers_open`). On a phone, which has no bar,
-       the page /desk/timers.
-       Modelled on Toggl's and Harvest's timer: the one running with its
-       clock, pause and stop, then the ones paused to resume. -->
   <Popover
     v-if="reference"
     trigger="manual"
@@ -35,14 +29,11 @@ import TimerList from "./TimerList.vue";
 const props = defineProps({
   route: { type: Array, default: () => [] },
   query: { type: Object, default: () => ({}) },
-  // The tile the popover opens beside, and whether it is open.
   reference: { type: Object, default: null },
   open: { type: Boolean, default: false },
 });
 const emit = defineEmits(["close"]);
 
-// A press on the tile is outside the popover, and the tile's own click then
-// toggles it. Left to close here too, it would close and open again at once.
 let onTile = false;
 const pressed = (event) => (onTile = !!props.reference?.contains(event.target));
 const clicked = () => setTimeout(() => (onTile = false));

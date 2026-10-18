@@ -1,5 +1,3 @@
-// What a model has suggested. The list is a queue, so the one thing it has to
-// say per row is whether anybody still has to answer it.
 frappe.listview_settings["AI Proposal"] = {
 	hide_name_column: true,
 	add_fields: ["state", "kind", "for_doctype"],

@@ -47,8 +47,6 @@ def ensure() -> str:
 			}
 		).insert(ignore_permissions=True)
 		held = SLUG
-	# A fresh token each time it is linked: the old one, if any, was only ever
-	# on this site's own config.
 	token = secrets.token_urlsafe(32)
 	frappe.db.set_value(
 		"Tenant", held, "token_hash", hashlib.sha256(token.encode()).hexdigest(), update_modified=False

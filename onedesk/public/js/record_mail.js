@@ -1,14 +1,5 @@
-// Mail on a record: a tab beside Files listing the conversations filed on it
-// (one_mail/linking.py), and a way to write from it. Only the messages the
-// reader may open are listed, since a link never grants read. A
-// conversation opens in OneMail; writing uses the desk's own composer on
-// the record, which files what is sent against it.
-//
-// Declared in one_mail/linking.py, with the records mail is about, and
-// drawn here, as every record tab is (record_tabs.js).
 frappe.provide("onedesk.record_mail");
 
-// The records mail is about, as linking.py declares them.
 onedesk.record_mail.doctypes = () =>
 	(onedesk.record_tabs.declared().find((tab) => tab.name === "mail") || {}).doctypes || [];
 

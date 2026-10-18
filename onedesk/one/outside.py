@@ -8,7 +8,6 @@ import frappe
 
 APP = "onedesk"
 
-#: The sidebar a record no other sidebar of One's lists lands in.
 FIRST = "One"
 
 
@@ -19,19 +18,16 @@ def keep(bootinfo) -> None:
 	if platform():
 		return
 	kept(bootinfo)
-	# Import opens Data Import, the platform's; see docs/BACKLOG.md.
 	if isinstance(bootinfo.get("user"), dict):
 		bootinfo["user"]["can_import"] = []
 	pages = (bootinfo.get("workspaces") or {}).get("pages")
 	if isinstance(pages, list):
 		bootinfo["one_elsewhere"] = sorted(
-			# frappe.router.slug
 			page["name"].lower().replace(" ", "-")
 			for page in pages
 			if page.get("app") != APP and page.get("name")
 		)
 		bootinfo["workspaces"]["pages"] = [page for page in pages if page.get("app") == APP]
-		# A private workspace of one's own is frappe's furniture, not One's.
 		bootinfo["workspaces"]["has_create_access"] = False
 
 

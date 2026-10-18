@@ -10,11 +10,9 @@ from frappe.utils import add_days, now_datetime
 
 from onedesk.one import roles
 
-#: The cookie a browser carries, and how long it lasts.
 COOKIE = "one_device"
 KEEP_SECONDS = 10 * 365 * 24 * 3600
 
-#: An unsorted browser with no passkey, unseen this long, is forgotten.
 FORGET_DAYS = 180
 
 
@@ -131,7 +129,6 @@ def sign_out(device: str) -> int:
 
 	ended = 0
 	for sid in _sessions(device):
-		# Sessions is keyed by sid and has no `name`, so get_value cannot read it.
 		user = frappe.db.sql("select user from `tabSessions` where sid = %s", sid, pluck=True)
 		if user:
 			delete_session(sid, user[0], reason="Device marked lost")
@@ -197,7 +194,6 @@ def for_settings() -> dict:
 		{
 			"name": one.name,
 			"person": frappe.utils.get_fullname(one.user) if one.user else "",
-			# One made before Devices has no browser, and says what it was made on.
 			"device": named.get(one.device) or one.label or "",
 			"linked": bool(one.device),
 			"synced": bool(one.backed_up),

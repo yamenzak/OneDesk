@@ -18,8 +18,6 @@ from onedesk.one.customize import REFUSED_MODULES
 
 SETTINGS = "Document Naming Settings"
 
-#: Kinds named in code by an app setting: the Single, the field, the method that shows or hides
-#: the series and the name field to match (or None), and whether it is read as a global default.
 NAMED_BY = {
 	"Customer": ("Selling Settings", "cust_master_name", "update_customer_naming_settings", True),
 	"Supplier": ("Buying Settings", "supp_master_name", "update_supplier_naming_settings", True),
@@ -28,12 +26,9 @@ NAMED_BY = {
 	"Campaign": ("CRM Settings", "campaign_naming_by", None, True),
 }
 
-#: How any other kind may be named, as frappe's Customize Form offers it: the naming rule it
-#: records, and what it writes as `autoname`. Autoincrement, UUID and By script are left out.
 SERIES = "Naming Series"
 FIELD = "Field"
 EXPRESSION = "Expression"
-#: The two kinds frappe's autoname spells as a word, as a person reads them.
 WORDS = {"prompt": "Set by User", "hash": "Random"}
 NAMING_RULE = {
 	SERIES: 'By "Naming Series" field',
@@ -265,7 +260,6 @@ def doctypes() -> list[dict]:
 			"Property Setter", filters={"property": "autoname", "is_system_generated": 0}, pluck="doc_type"
 		)
 	)
-	# The workspace's custom collections, numbered from their initials.
 	named |= set(frappe.get_all("Record Type", pluck="record_doctype"))
 	rules = {}
 	for one in frappe.get_all("Document Naming Rule", filters={"disabled": 0}, pluck="document_type"):
@@ -341,9 +335,6 @@ def kinds() -> list[dict]:
 	)
 
 
-# ------------------------------------------------------------------ named by
-
-
 def _names_itself(doctype: str) -> bool:
 	"""Whether a kind of record is named by its own code, which a changed
 	`autoname` would not reach."""
@@ -415,7 +406,6 @@ def naming_by(doctype: Annotated[str, "The kind of record."]) -> dict | None:
 			"fields": [],
 			"pattern": "",
 			"app": True,
-			# Auto Name falls back to the doctype's autoname, which is its series.
 			"series": value in (SERIES, "Auto Name"),
 		}
 	if _names_itself(doctype) or (meta.autoname or "").lower() == "autoincrement" or _made_by_code(meta):
@@ -424,7 +414,6 @@ def naming_by(doctype: Annotated[str, "The kind of record."]) -> dict | None:
 	made = made_by(doctype)
 	fields = _fields(meta)
 	if made:
-		# Code that makes the record fills its required fields, and no other.
 		fields = [one for one in fields if meta.get_field(one["value"][6:]).reqd]
 	kinds = [SERIES] if meta.get_field("naming_series") else []
 	kinds += [FIELD] if fields else []
@@ -434,8 +423,6 @@ def naming_by(doctype: Annotated[str, "The kind of record."]) -> dict | None:
 		field = meta.get_field(value[6:])
 		fields.append({"value": value, "label": _(field.label) if field else value[6:]})
 	elif by not in [one["value"] for one in kinds] + [FIELD]:
-		# Named some other way (a newer expression, a UUID, or typed on a kind
-		# One's code makes): kept until something else is picked.
 		kinds.append({"value": by or value, "label": _("As {0} names it now").format(_(doctype))})
 		by = by or value
 	return {
@@ -608,13 +595,11 @@ def _set_autoname(doctype: str, was: str, value: str) -> None:
 			put("naming_series", "hidden", 0 if by == SERIES else 1)
 			put("naming_series", "reqd", 1 if by == SERIES else 0)
 		if field:
-			# Required and unique, as Customize Form marks a field a record is named by.
 			put(field, "reqd", 1)
 			if not _unique_already(doctype, field):
 				put(field, "unique", 1)
 				schema = True
 		if left:
-			# The field it was named by is as required and as unique as its app made it again.
 			frappe.db.delete(
 				"Property Setter",
 				{
@@ -628,14 +613,8 @@ def _set_autoname(doctype: str, was: str, value: str) -> None:
 	finally:
 		frappe.flags.one_named_by = None
 	if schema:
-		# The unique index, added or dropped, as Customize Form's save does.
 		frappe.clear_cache(doctype=doctype)
 		frappe.db.updatedb(doctype)
-
-
-# ------------------------------------------------------------------ naming rules
-
-
 
 
 def validate_rule(doc, method=None) -> None:
@@ -646,7 +625,6 @@ def validate_rule(doc, method=None) -> None:
 		check_rule(doc)
 
 
-#: How a rule's condition compares a field with its value: frappe's own.
 COMPARISONS = ("=", "!=", ">", "<", ">=", "<=")
 
 
@@ -655,9 +633,6 @@ def check_rule(doc) -> None:
 	prefix, and decides by the record's ordinary fields."""
 	from onedesk.one import rules
 
-	# Who may save the rule is asked where it is saved: Numbering asks for an
-	# administrator, and a project's task prefix (one_project/naming.py) for
-	# whoever may change the project.
 	_namable(doc.document_type)
 	prefix = (doc.prefix or "").strip()
 	if not prefix or "#" in prefix:

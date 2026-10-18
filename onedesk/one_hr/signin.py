@@ -63,9 +63,6 @@ def finish(credential: str) -> dict:
 		update_modified=False,
 	)
 
-	# `login_as` calls `post_login` itself, which runs the on_login hooks, the
-	# IP and hour checks and the session. There is nothing here that a password
-	# login does not also do.
 	frappe.local.login_manager.login_as(user)
 	return {"user": user, "home": frappe.db.get_value("User", user, "default_workspace") or "/desk"}
 
@@ -83,9 +80,6 @@ def _device_for(credential_id: str):
 	return frappe._dict(found[0]) if found else None
 
 
-#: The switch lives on System Settings rather than on HR Settings, beside
-#: `disable_user_pass_login` and `login_with_email_link` in the section frappe
-#: already calls Login Methods. A login method is not an HR setting.
 SWITCH = "one_login_with_passkey"
 
 

@@ -26,8 +26,6 @@ def test_both_permission_hooks_are_wired_and_the_grant_comes_first():
 
 
 def test_a_task_with_no_project_is_seen_by_its_own_people_only():
-	# Who reads which task is checked on the demo
-	# (onetask_a_task_is_its_peoples_and_ends_as_they_say).
 	allowed = _body((TASK / "access.py").read_text(), "allowed")
 	assert 'ptype != "delete"' in allowed, "given to me is not mine to delete"
 
@@ -47,7 +45,6 @@ def test_the_calendar_does_not_show_a_task_twice():
 
 
 def test_the_inbox_is_the_tasks_in_no_project():
-	# The rail's Inbox is the page's: one list, the reader's work in no project.
 	rail = json.loads((TASK / "sidebar" / "onetask" / "onetask.json").read_text())
 	inbox = next(item for item in rail["items"] if item["label"] == "Inbox")
 	assert inbox["url"] == "/desk/my-tasks?section=inbox"
@@ -145,7 +142,6 @@ def test_the_timer_writes_the_persons_timesheet_through_its_own_save():
 	source = (TASK / "timer.py").read_text()
 	assert "doc.check_permission(\"read\")" in source and "ignore_permissions" not in source
 	assert '"to_time": ["is", "not set"]' in source, "running is a start with no end, as on the Timesheet form"
-	# Starting one pauses whichever ran, and a pause is a line ended, kept to resume.
 	assert "now_datetime()" in source and "pause()" in source.split("def start(", 1)[1].split("\ndef ", 1)[0]
 	assert '"one_timers"' in source and "set_user_default" in source, "the paused are the person's own, and every screen hears"
 	assert '"/assets/onedesk/js/task_timer.js"' in HOOKS and '"Task": "public/js/task.js"' in HOOKS
@@ -199,8 +195,6 @@ def test_a_tasks_due_date_is_in_sight_and_the_list_has_room_for_its_subject():
 
 
 def test_a_step_does_not_say_whose_it_is_beside_whose_it_is():
-	# HRMS names an onboarding's step "Plan the first week : Feras Odeh", and
-	# My Tasks says Feras Odeh beside it (mine.py `unnamed`).
 	source = "def unnamed(" + _body((TASK / "mine.py").read_text(), "unnamed")
 	space: dict = {}
 	exec(source, space)

@@ -13,10 +13,8 @@ from frappe.utils import flt, get_datetime, get_first_day_of_week, getdate, now_
 
 from onedesk.one_task.capture import DONE
 
-#: The person's paused timers, task names, newest first.
 PAUSED = "one_timers_paused"
 
-#: Shorter than this, in hours, and a timer was started by mistake.
 SLIP = 1 / 60
 
 
@@ -186,8 +184,6 @@ def _end(row) -> float:
 		return 0
 	one.to_time = ends
 	one.hours = time_diff_in_hours(ends, one.from_time)
-	# Not "completed": ERPNext completes the task itself when a submitted
-	# timesheet says so, and timing it isn't finishing it.
 	sheet.save()
 	return one.hours
 

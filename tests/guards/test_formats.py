@@ -8,7 +8,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 BY_HAND = re.compile(r"toLocale(?:Date|Time)?String\(|new Intl\.|\.toFixed\(")
 
-#: Where formatting by hand is allowed: the kit wraps frappe's formatters.
 KIT = {"frontend/src/kit/desk.js"}
 
 
@@ -24,7 +23,6 @@ def test_nothing_is_formatted_by_hand():
 	assert found - KIT == set(), sorted(found - KIT)
 
 
-#: frappe-ui's charts and number card: each prints numbers.
 CHART = re.compile(r"<(BarChart|AreaChart|LineChart|DonutChart|FunnelChart|HeatmapChart|ScatterChart|SankeyChart|NumberCard)\b([^>]*)>", re.S)
 
 

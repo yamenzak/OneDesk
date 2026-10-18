@@ -12,7 +12,6 @@ from frappe import _lt
 from onedesk.one_calendar import layers
 from onedesk.one_hr import own
 
-#: Leave that is not going to happen.
 DROPPED = ("Rejected", "Cancelled")
 
 LAYERS = [
@@ -49,7 +48,6 @@ LAYERS = [
 		"on": False,
 		"rows": "onedesk.one_hr.calendar.whos_off",
 	},
-	# On an employee's own calendar: their leave, for whoever may read it.
 	{
 		"key": "employee-leave",
 		"label": _lt("Leave"),

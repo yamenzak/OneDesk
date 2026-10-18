@@ -1,10 +1,4 @@
 <template>
-  <!-- A check report as a setup checklist (public/js/check.js).
-       Modelled on Shopify's setup guide and Stripe's account checklist: how
-       much is ready, then what is still to do, what is suggested and what is
-       ready, each with what it means and its Fix. The Books, Storage and Inventory
-       Checks are all this (one_book/ready.py, one_storage/ready.py,
-       one_inventory/ready.py). -->
   <div class="mx-auto w-full max-w-4xl px-5 pb-16 pt-6 text-ink-gray-8">
     <div class="rounded-4 border border-outline-gray-1 bg-surface-elevation-2 p-5">
       <div class="flex flex-wrap items-baseline justify-between gap-2">
@@ -46,7 +40,6 @@ const suggested = computed(() => props.rows.filter((one) => one.state === "Sugge
 const ready = computed(() => props.rows.filter((one) => one.state === "Ready"));
 const left = computed(() => todo.value.length + suggested.value.length);
 
-// What is still to do first, then what is suggested, then what is ready.
 const parts = computed(() =>
   [
     { key: "todo", title: __("To Do"), rows: todo.value, icon: "lucide-circle-alert", tone: "text-ink-red-5" },

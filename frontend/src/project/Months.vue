@@ -1,7 +1,4 @@
 <template>
-  <!-- A retainer's months, newest first: the hours used of the allowance,
-       any over, and the month's invoice or Invoice Month
-       (one_project/retainer.py). -->
   <List :columns="{ base: ['minmax(0,1fr)', 'auto', 'auto'], md: ['8.5rem', 'minmax(6rem,1fr)', '7rem', '5.5rem', '9rem'] }" :row-height="48" divider="full" class="-mx-3 list-gap-3 list-row-px-3">
     <ListRows :items="months.months" row-key="month" v-slot="{ item }">
       <ListRow v-bind="item.invoice?.name ? { onClick: () => go(`/desk/sales-invoice/${item.invoice.name}`) } : {}">

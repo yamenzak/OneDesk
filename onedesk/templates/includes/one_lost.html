@@ -1,8 +1,3 @@
-{#- The scene every page of ours that is not where somebody meant to be draws:
-    404, 500, a message, and (in public/js/outside.js) the desk's own. One's
-    ring stands in for the 0 of the code; what sits in its core says the rest.
-    lost_code: a code whose middle digit is 0 ("403", "404", "500") or "".
-    lost_core: empty (on a code, the ring alone is the 0), check, one. -#}
 {%- set core = lost_core or "one" -%}
 <div class="one-lost__art" aria-hidden="true">
 	{%- if lost_code %}<span class="one-lost__digit">{{ lost_code[0] }}</span>{% endif %}

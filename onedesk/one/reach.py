@@ -12,7 +12,6 @@ import re
 
 import frappe
 
-#: Roles every person on the desk holds.
 EVERYBODY = ("All", "Desk User")
 
 
@@ -57,8 +56,6 @@ def check() -> None:
 		print(f"{one['app']} › {one['link']} ({one['doctype']}): {one['why']}")
 
 
-#: A rail link written as an address into a kind of record's views, such as
-#: OneCRM's Pipeline, /desk/opportunity/view/kanban/Pipeline.
 _INTO = re.compile(r"^/desk/([a-z0-9-]+)(?:/|$|\?)")
 
 
@@ -91,7 +88,6 @@ def unopened(sidebars: dict | None) -> None:
 			kind = kind_of(item.get("url")) if item.get("link_type") == "URL" else None
 			if kind and not frappe.has_permission(kind, "read"):
 				continue
-			# A country's own screen, where no company is in that country.
 			if not countries.shown(item.get("link_to") or "", here):
 				continue
 			kept.append(item)
@@ -120,7 +116,6 @@ def atlas() -> dict:
 		name: _allowed("report", name) for name in frappe.get_all("Report", filters={"is_standard": "Yes"}, pluck="name")
 	}
 	pages = {name: _allowed("page", name) for name in frappe.get_all("Page", pluck="name")}
-	# What the demo keeps at least one of, so a walk sees each with something in it.
 	kept = sorted(
 		name
 		for name in doctypes

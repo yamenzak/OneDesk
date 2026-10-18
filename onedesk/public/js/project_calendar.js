@@ -1,9 +1,3 @@
-// Projects on a timeline: frappe's Gantt (and Calendar) view of the Projects
-// list, each project a bar from its start to its end, filled as far as it is
-// done. A project with only an end is a day on its end; one with neither is
-// left off. Its milestones still to come are drawn under it, as rows of their
-// own (one_project/tree.py `milestones`), and can't be dragged: a milestone
-// is a task, changed on its project's page.
 frappe.views.calendar["Project"] = {
 	field_map: {
 		start: "expected_start_date",
@@ -11,7 +5,6 @@ frappe.views.calendar["Project"] = {
 		id: "name",
 		title: "project_name",
 		progress: "percent_complete",
-		// Project has a "Depends on Tasks" tick, which is not a dependency.
 		depends_on: null,
 		is_milestone: null,
 		color: null,
@@ -51,16 +44,11 @@ frappe.views.calendar["Project"] = {
 				render.call(this);
 			});
 	};
-	// frappe-gantt reads the view mode's name off options.view_mode, a string,
-	// so the mode pills lit the first one whatever the chart was in.
 	const buttons = Gantt.prototype.setup_view_mode_buttons;
 	Gantt.prototype.setup_view_mode_buttons = function () {
 		const gantt = this.gantt;
 		if (this.doctype === "Project") {
 			gantt.view_is = (name) => gantt.config.view_mode.name === name;
-			// A project runs for months; by the day or the week most bars run off
-			// the page. Until somebody picks a mode, the timeline opens by the month.
-			// It starts two months back, so what is under way shows from its start.
 			if (!(this.view_user_settings || {}).gantt_view_mode) {
 				gantt.change_view_mode("Month");
 				gantt.set_scroll_position(frappe.datetime.add_months(frappe.datetime.get_today(), -2));

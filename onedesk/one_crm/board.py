@@ -14,15 +14,11 @@ from onedesk.one_crm import stages
 
 BOARD = "Pipeline"
 
-#: What each column's dot says: Won green, On Hold orange, the rest still open.
 INDICATOR = {"Won": "Green", "On Hold": "Orange"}
 
-#: What a card shows under the deal's name, and the icon it shows it by.
 CARD = {"opportunity_amount": "banknote", "one_next_step": "footprints", "one_next_on": "calendar-clock"}
 
 
-#: erpnext's board of deals by status. OneCRM works the Pipeline by stage, so
-#: this one is taken out after every install and update (`one_pipeline`).
 STATUS_BOARD = "Opportunity Pipeline"
 
 

@@ -10,15 +10,11 @@ from frappe.model.document import Document
 
 from onedesk.one_admin import site
 
-#: Written by Set Up Cloudflare, not by a person, so not news.
 NOT_NEWS = ("cloudflare_setup", "cloudflare_deployed")
 
 
 class OneAdminSettings(Document):
 	def before_validate(self) -> None:
-		# A key arrives in the clear only on the save that changes it; frappe
-		# stores it and leaves asterisks before validate runs, so this is the
-		# one moment to see which were changed. Never what they are.
 		self.flags.keys_changed = [
 			df.label
 			for df in self.meta.fields
@@ -58,8 +54,6 @@ class OneAdminSettings(Document):
 
 	def on_update(self) -> None:
 		self._tell()
-		# The catalogue's list shows each model's price after markup, so a new
-		# default markup or credit rate is a new price on every row of it.
 		if self.has_value_changed("default_markup") or self.has_value_changed("credits_per_dollar"):
 			from onedesk.one_admin.doctype.ai_model.ai_model import reprice
 

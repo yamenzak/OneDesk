@@ -16,11 +16,8 @@ from frappe.utils import now_datetime
 from onedesk.one_admin import cloudflare, faults, hosts, log, press, quota
 from onedesk.one_storage import store
 
-#: Returned by a step that has started something and is waiting on press.
 WAIT = "wait"
 
-#: In order, per kind of job. The job records which step is next, so a worker
-#: restart resumes rather than repeats.
 ORDER = (
 	"place_it",
 	"name_is_free",
@@ -32,8 +29,6 @@ ORDER = (
 	"live",
 )
 
-#: What each kind of job walks. `Provision` is `ORDER`, which is named
-#: separately because it is the first step of a job whose kind is not set.
 WALKS = {
 	"Provision": ORDER,
 	"Suspend": ("deactivate_site", "mark_suspended"),
@@ -42,8 +37,6 @@ WALKS = {
 	"Drop": ("empty_storage", "mark_dropped"),
 }
 
-#: What each step is doing, in words an operator reads rather than the function
-#: name. Every step in `WALKS` is named here, and a test fails on one that is not.
 SAID = {
 	"place_it": _lt("Choosing a server"),
 	"name_is_free": _lt("Checking the name is free"),
@@ -67,8 +60,6 @@ SAID = {
 }
 
 
-#: Every app a workspace gets. The same on every bench, so a site is never
-#: missing one because it landed somewhere else.
 APPS = ("erpnext", "hrms", "onedesk")
 
 
@@ -160,8 +151,6 @@ def create_site(job, tenant) -> None:
 	"""
 	if tenant.site:
 		return
-	# Our own server: press puts a site there only when it is named with the
-	# bench group's version, and on one of its free Unlimited plans.
 	group = press.call("press.api.bench.get", name=tenant.bench) or {}
 	answered = press.call(
 		"press.api.site.new",
@@ -224,11 +213,7 @@ def push_config(job, tenant) -> None:
 				{"key": "one_tenant", "value": tenant.slug, "type": "String"},
 				{"key": "one_token", "value": token, "type": "Password"},
 				{"key": "host_name", "value": f"https://{tenant.domain}", "type": "String"},
-				# Every request's size limit, which the site itself cannot
-				# raise: a tenant is limited by storage, not by file size.
 				{"key": "max_file_size", "value": store.LARGEST, "type": "Number"},
-				# Mail at <slug>@<mail domain>: the Worker signs its notices
-				# with this, and the site checks them with it (one_mail/inbound.py).
 				{"key": "one_mail_secret", "value": mail_secret, "type": "Password"},
 				{"key": "one_mail_domain", "value": cloudflare.mail_domain(), "type": "String"},
 			]
@@ -260,7 +245,6 @@ def invite_owner(job, tenant) -> str | None:
 
 def live(job, tenant) -> None:
 	tenant.db_set({"status": "Live", "live_on": now_datetime(), "status_since": now_datetime()}, notify=True)
-	# The owner hears it is ready; their invitation left a step ago.
 	from onedesk.one_admin import signup, tell
 
 	signup.built(tenant)
@@ -295,9 +279,6 @@ def _admin_url() -> str:
 	after a move.
 	"""
 	return frappe.conf.get("one_admin_url") or frappe.utils.get_url()
-
-
-# --- The ladder. One walk per rung, each step safe to run twice. ------------
 
 
 def deactivate_site(job, tenant) -> None:
@@ -407,8 +388,6 @@ def mark_dropped(job, tenant) -> None:
 	_arrive(tenant, "Dropped", log.said("dropped"), job)
 
 
-#: What a Tenant Event calls each rung. Only one differs: arriving at Live is
-#: Restored, since nothing writes an event for a workspace that was always Live.
 CALLED = {"Live": "Restored"}
 
 
@@ -420,12 +399,8 @@ def _arrive(tenant, rung: str, why: str, job=None) -> None:
 	workspace the ladder refuses to touch.
 	"""
 	was = tenant.status
-	# `notify` publishes the change, so an open form and list show it at once.
 	tenant.db_set({"status": rung, "status_since": now_datetime()}, notify=True)
-	# Who did it and which job, in the log (one_admin/log.py).
 	log.write(tenant.name, CALLED.get(rung, rung), why, job=job)
-	# Overdue and Suspended are told to the operator, and Suspended, Archived
-	# and Live again to the owner; see one_admin/tell.py.
 	from onedesk.one_admin import tell
 
 	tell.owing(tenant, rung, why)

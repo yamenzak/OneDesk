@@ -1,10 +1,3 @@
-// Who has how many hours of open work in a week (report/workload/workload.py).
-// The rows are drawn by an island (frontend/src/workload), modelled on Asana's
-// Workload: the team's week in a line with a bar, then a person a row with
-// their load as a bar, red past what they have. frappe's grid, its cards and
-// its footer stay, out of sight, as the report's own; its filters stay. A
-// person's tasks, late tasks and tasks not estimated open their list.
-// Everyone on an open project's team is listed, free or not.
 const ONE_TASKS = {
 	tasks: {},
 	late: () => ({ exp_end_date: ["<", frappe.datetime.get_today()] }),
@@ -18,7 +11,6 @@ function one_tasks(user, which) {
 }
 
 frappe.query_reports["Workload"] = {
-	// Drawn again when a task, a timesheet or a leave changes, as a list follows its records.
 	onload(report) {
 		report.page.wrapper.addClass("one-workload");
 		if (report.one_followed) return;
@@ -32,8 +24,6 @@ frappe.query_reports["Workload"] = {
 			soon = setTimeout(() => report.refresh(), 800);
 		});
 	},
-	// The workspace's extensions are told the week as the table shows it
-	// (one_studio/places.py), and lent a spot above the rows.
 	after_datatable_render() {
 		const report = frappe.query_report;
 		if (!report) return;
@@ -86,7 +76,6 @@ frappe.query_reports["Workload"] = {
 			return `<span class="text-danger">${shown}</span>`;
 		}
 		if (column.fieldname === "late" && data.late) return `<span class="text-danger">${shown}</span>`;
-		// Tasks, Late and Not Estimated open the person's tasks they count.
 		const narrow = { tasks: {}, late: { exp_end_date: ["<", frappe.datetime.get_today()] }, unestimated: { expected_time: 0 } }[column.fieldname];
 		if (narrow && data[column.fieldname]) {
 			const where = { _assign: ["like", `%${data.user}%`], status: ["in", ["Open", "Working", "Pending Review"]], ...narrow };

@@ -45,17 +45,11 @@ def can_read():
 	return room["can_read"]
 
 
-# ------------------------------------------------ what a model may be handed
-
-
 @pytest.mark.parametrize(
 	"model,mime,allowed",
 	[
 		({"provider": "workers-ai", "reads_image": 1}, "image/png", True),
 		({"provider": "workers-ai", "reads_image": 0}, "image/png", False),
-		# A PDF is read by the same eyes as a picture, and by Google alone:
-		# Workers AI's vision models take an image and answer `Bad input` to a
-		# document.
 		({"provider": "google-ai-studio", "reads_image": 1}, "application/pdf", True),
 		({"provider": "workers-ai", "reads_image": 1}, "application/pdf", False),
 		({"provider": "google-ai-studio", "reads_audio": 1}, "audio/mpeg", True),
@@ -72,9 +66,6 @@ def test_the_refusal_happens_before_anything_is_reserved():
 	said = spoken(ACTIONS, "run")
 	assert said.index("_may_read") < said.index("gateway.call")
 	assert "capability.can_read" in spoken(ACTIONS, "_may_read")
-
-
-# --------------------------------------------------------- whose bytes these are
 
 
 def test_the_bytes_are_read_as_the_person_asking():
@@ -101,7 +92,6 @@ def test_a_conversation_row_never_holds_a_base64():
 	for key in ("'name'", "'url'", "'type'", "'size'"):
 		assert key in said
 
-	# And what goes back to the panel drops it too, in case one ever survives.
 	assert "key != 'data'" in spoken(CHAT, "shown")
 
 

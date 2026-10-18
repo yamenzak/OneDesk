@@ -1,5 +1,3 @@
-// frappe's realtime, as a Frappe UI app reaches it (frappe-ui's own client):
-// the reader's room hears what the server tells them.
 import { io } from "socket.io-client";
 
 import { boot } from "./words";

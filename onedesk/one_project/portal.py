@@ -6,7 +6,6 @@ from frappe.utils import flt, getdate, nowdate
 
 from onedesk.one_project import overview, tree
 
-#: What a task is called on the customer's page, by its status.
 SHOWN = {
 	"Open": (lambda: _("To Do"), "gray"),
 	"Working": (lambda: _("In Progress"), "blue"),
@@ -47,13 +46,10 @@ def view(project: str) -> dict:
 	under = tree.children(of).get(project, [])
 	from onedesk.one_project import media
 
-	# A member of the project sees its time unless Hide Timesheets is on, and
-	# its files when View Attachments is, as on ERPNext's own page.
 	member = next((row for row in doc.users if row.user == frappe.session.user), None)
 
 	return {
 		"doc": doc,
-		# The photos and videos the project is shown with, its cover first.
 		"media": media.shown(project),
 		"parent": frappe.db.get_value("Project", doc.get(tree.PARENT), ["name", "project_name"], as_dict=True)
 		if doc.get(tree.PARENT) and may_see(frappe.get_doc("Project", doc.get(tree.PARENT)))
@@ -101,7 +97,6 @@ def view(project: str) -> dict:
 	}
 
 
-#: How many of a project's latest days of time its portal page shows.
 SHOWN_DAYS = 15
 
 
@@ -147,10 +142,8 @@ def progress(doc, of: dict | None = None) -> tuple[int, int, int]:
 	return share, done, len(counted)
 
 
-#: A project's status, as the portal's Badge themes it.
 TONES = {"Completed": "green", "Cancelled": "gray", "On hold": "amber"}
 
-#: A task's colour (SHOWN), as the portal's Badge themes it.
 TASK_TONES = {"orange": "amber"}
 
 

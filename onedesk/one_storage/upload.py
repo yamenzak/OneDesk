@@ -11,10 +11,8 @@ from frappe import _
 from onedesk.one_storage import api, store
 from onedesk.one_storage import namespace as ns
 
-#: How long a ticket is good for, from `begin`.
 TICKET_LIFE = 60 * 60
 
-#: How many files one `begin` signs for.
 AT_ONCE = 200
 
 
@@ -35,14 +33,11 @@ def begin(node: str, files: str | list) -> dict:
 	if not files or len(files) > AT_ONCE:
 		frappe.throw(_("Upload up to {0} files at a time.").format(AT_ONCE))
 	where = api._target(node)
-	# Names already in the folder, so the browser can ask once whether to
-	# replace them (keeping what they held as versions) or keep both.
 	existing = []
 	if where[0] == "folder":
 		asked = {api._clean(one.get("name")) for one in files if "/" not in (one.get("path") or "")}
 		existing = sorted(asked & set(frappe.get_all("File", filters={"folder": where[1], "is_folder": 0, "one_deleted": 0}, pluck="file_name")))
 	if not store.enabled() or where[0] == "mount":
-		# A server is written to through the workspace, which holds its keys.
 		return {"direct": False, "existing": existing}
 	from onedesk.one import account
 
@@ -118,7 +113,6 @@ def _place(node: str, path: str | None, fields: dict, replace: int = 0, version_
 		)
 		fields.update(attached_to_doctype=where[1], attached_to_name=where[2])
 		if len(where) > 3:
-			# A project's Featured Media: photos and videos, open to be shown.
 			from onedesk.one_project import media
 
 			media.check(fields["file_name"])

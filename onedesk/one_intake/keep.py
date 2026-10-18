@@ -6,7 +6,6 @@ holds such a reading cannot be deleted for good before that day.
 
 from datetime import date
 
-#: Years to keep, by country and kind, and the law that says so.
 PERIODS = {
 	"DE": {
 		**dict.fromkeys(("Invoice", "Credit Note", "Receipt", "Bank Statement", "Payment Advice"), (8, "§ 147 AO")),

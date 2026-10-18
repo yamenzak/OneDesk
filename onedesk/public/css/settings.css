@@ -1,6 +1,3 @@
-/* Settings: what only its sections have. The page, its sections, rows and
-   form are the shell's (public/css/shell.css). */
-
 .os-who {
 	display: flex;
 	align-items: center;
@@ -24,7 +21,6 @@
 	margin: calc(var(--spacing) * 1.5) 0 0 calc(var(--spacing) * -2);
 }
 
-/* The photo is the button that changes it. */
 .os-photo {
 	position: relative;
 	flex: none;
@@ -77,8 +73,6 @@
 	text-decoration: none;
 }
 
-/* Storage near its limit, and over it: frappe-ui's bar, in the colour of the
-   warning it is. */
 .os-bar .os-bar-near .es-progress__fill {
 	background: var(--surface-amber-5);
 }
@@ -117,8 +111,6 @@
 	font-weight: var(--font-weight-medium);
 }
 
-/* The profile's photo: larger than any size espresso names, set through the
-   avatar's own size variable so it keeps its shape and its initials. */
 .os-who-large .es-avatar {
 	--es-av-size: calc(var(--spacing) * 20);
 	--es-av-text: var(--text-3xl);
@@ -153,8 +145,6 @@
 	border-radius: var(--radius-sm);
 }
 
-/* The text as it will be sent, drawn as the bell draws it: the subject, then
-   the detail under it, each slot a chip where its value goes. */
 .os-preview {
 	margin-top: calc(var(--spacing) * 4);
 	padding: calc(var(--spacing) * 3) calc(var(--spacing) * 4);
@@ -199,9 +189,6 @@
 	line-height: 1.6;
 }
 
-/* A kind of notification is a row: what it is on the left, then frappe's
-   switch per channel in a column of its own, so Email and Push line up down
-   the list under the columns their app's heading names. */
 .one-shell-form .os-kind .section-body {
 	align-items: center;
 }
@@ -230,8 +217,6 @@
 	margin-bottom: 0;
 }
 
-/* The column says which switch it is; the label stays for a screen reader. */
-/* A switch with its sentence spans the column, its switch at the end. */
 .one-shell-form .form-column .frappe-control[data-fieldtype="Switch"].input-max-width {
 	max-width: none;
 }
@@ -250,7 +235,6 @@
 	white-space: nowrap;
 }
 
-/* A switch the workspace decides: shown as it stands, and not movable. */
 .os-switch-fixed .switch-control {
 	cursor: not-allowed;
 }
@@ -333,12 +317,10 @@
 	margin-top: 2px;
 }
 
-/* A notification's subject is one line, but a long one: the whole column. */
 .one-shell-form .form-column .frappe-control.input-max-width[data-fieldname="one_subject"] {
 	max-width: none;
 }
 
-/* A rule's condition: frappe's own filter editor, under a label as a field has. */
 .os-filter-label {
 	color: var(--ink-gray-5);
 	font-size: var(--text-xs);
@@ -349,7 +331,6 @@
 	max-width: none;
 }
 
-/* A button about the field above it, close under it rather than a row away. */
 .os-under-field {
 	margin-top: calc(var(--spacing) * -3);
 }
@@ -362,8 +343,6 @@
 	height: 12px;
 }
 
-/* What OneAI Remembers: a row's Forget shows on the row the pointer is on,
-   so a long list is not a column of red bins. Touch keeps it visible. */
 @media (hover: hover) {
 	.os-memories .embedded-list-table tbody tr:not(:hover) .embedded-list-actions .es-button {
 		opacity: 0;
@@ -373,27 +352,21 @@
 	text-decoration: underline;
 }
 
-/* Workspace › General: how the chosen formats read, under them. */
 .os-reads {
 	margin-top: calc(-1 * var(--padding-xs));
 	font-variant-numeric: tabular-nums;
 }
 
-/* A person's page: their photo and name at the head, and each app's mark
-   before its name on the field that picks what they may do in it. */
 .os-person-head {
 	align-items: flex-start;
 	gap: calc(var(--spacing) * 4);
 }
 
-/* What One sends, in frappe's table: a notification's name over what it is
-   for, and its app with its mark. */
 .os-type-name {
 	color: var(--ink-gray-8);
 	font-weight: var(--font-weight-medium);
 }
 
-/* A fact that leads somewhere: the seats to People. */
 .os-facts dd a {
 	color: inherit;
 	text-decoration: underline;
@@ -401,8 +374,6 @@
 	text-underline-offset: 3px;
 }
 
-/* The plans side by side in Change Plan, and the ways to have a need in Add
-   to the Plan: frappe's table, the current or cheapest row tinted. */
 .os-plans {
 	font-size: var(--text-sm);
 }
@@ -419,7 +390,6 @@
 	margin-top: calc(var(--spacing) * 6);
 }
 
-/* A DNS record on Domains, as a DNS provider lists one. */
 .os-dns {
 	width: 100%;
 	border: 1px solid var(--outline-gray-1);
@@ -474,7 +444,6 @@
 	margin: 8px 0;
 }
 
-/* OneAI › Actions: a model is its maker's logo and its name. */
 .os-ai-model {
 	display: inline-flex;
 	align-items: center;
@@ -503,7 +472,6 @@
 	margin: 8px 0 4px;
 }
 
-/* OneIntake › Settings: the month as five numbers, each opening the inbox. */
 .os-intake-facts {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -535,8 +503,6 @@
 	margin-bottom: var(--margin-lg);
 }
 
-/* A letter head as it will print: its top and foot on a sheet, the body between
-   them only as much space as says where the document goes. */
 .one-letter-head-sheet {
 	display: block;
 	width: 100%;
@@ -547,8 +513,6 @@
 	margin-bottom: calc(var(--spacing) * 2);
 }
 
-/* The letter head window: the ways to lay it out and their options on the
-   left, the page on the right at the size it reads. */
 .one-lh-studio {
 	display: grid;
 	grid-template-columns: 260px minmax(0, 1fr);
@@ -565,7 +529,6 @@
 	margin: 0 auto;
 }
 
-/* Each way by name, the chosen one marked. */
 .one-lh-presets {
 	display: flex;
 	flex-direction: column;
@@ -595,9 +558,6 @@
 	font-weight: 500;
 }
 
-/* Workspace › Printing: the Settings dialog's Print Formats cards on the page. A
-   letter head's page fills its card's thumbnail; the formats are the dialog's own
-   panel, one per kind, sitting on the page rather than filling a dialog. */
 .one-print-head-frame {
 	position: absolute;
 	inset: 0;

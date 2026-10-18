@@ -15,7 +15,6 @@ from frappe.utils.translations import N_
 from onedesk.one import layer
 from onedesk.one.customize import REFUSED_MODULES
 
-#: The steps a workspace's flow may take.
 ACTIONS = (
 	"SetFieldValue",
 	"CreateDocument",
@@ -26,10 +25,8 @@ ACTIONS = (
 )
 STEPS = ("Action", "Wait", "WaitForEvent")
 
-#: A Jinja tag, as a value is read here.
 TAG = re.compile(r"\{\{.*?\}\}|\{%.*?%\}", re.S)
 
-#: The one kind of tag a workspace writes: a field of a record the step knows.
 FIELD = re.compile(r"\{\{-?\s*(doc|target|trigger|payload)\.[A-Za-z_][A-Za-z0-9_]*\s*-?\}\}")
 
 
@@ -82,7 +79,6 @@ def validate(doc, method=None) -> None:
 		return
 	if doc.document_type:
 		_doctype(doc.document_type)
-	# It runs as whoever wrote it, never as Administrator or somebody else.
 	doc.run_as = "Automation User"
 	doc.automation_user = frappe.session.user
 	if (doc.condition or "").strip():
@@ -110,8 +106,6 @@ def validate(doc, method=None) -> None:
 				frappe.throw(_("{0}: a webhook is sent over https.").format(where))
 
 
-#: The engine's own words for its steps, which it sends untranslated; named
-#: here so they are translated, and `steps` sends them in the reader's language.
 WORDS = (
 	N_("Set Field Value"),
 	N_("Set value of document fields."),

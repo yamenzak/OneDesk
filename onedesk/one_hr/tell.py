@@ -18,8 +18,6 @@ from hrms.hr.doctype.shift_request.shift_request import ShiftRequest as HRMSShif
 
 from onedesk.one import notify
 
-# ------------------------------------------------------------------ approvals
-
 
 class Approvals:
 	"""HRMS's two approval moments, told through the hub. `ASKED` and
@@ -91,7 +89,6 @@ class LeaveApplication(Approvals, HRMSLeaveApplication):
 	def on_cancel(self):
 		super().on_cancel()
 		self.answered("Cancelled")
-		# Cancelled by the employee: whoever approved it plans around it.
 		employee = self._get_employee_user()
 		if frappe.session.user == employee:
 			approver = self.leave_approver
@@ -111,7 +108,6 @@ class ExpenseClaim(Approvals, HRMSExpenseClaim):
 		return {
 			"employee": self.employee_name,
 			"amount": frappe.utils.fmt_money(self.total_claimed_amount, currency=self.currency),
-			# Several types joined: said in the asker's language, not the reader's.
 			"what": ", ".join(
 				frappe._(one)
 				for one in dict.fromkeys(row.expense_type for row in self.expenses if row.expense_type)
@@ -142,9 +138,6 @@ def note(doc) -> str:
 		return ""
 	by = frappe.utils.get_fullname(doc.get("one_decided_by") or frappe.session.user)
 	return f"{by}: {said}"
-
-
-# ------------------------------------------------------------------ attendance requests
 
 
 def attendance_asked(doc, method=None) -> None:
@@ -200,9 +193,6 @@ def _hr() -> list[str]:
 	)
 
 
-# ------------------------------------------------------------------ interviews
-
-
 class Interview(HRMSInterview):
 	@frappe.whitelist(methods=["POST"])
 	def reschedule_interview(
@@ -237,7 +227,6 @@ class Interview(HRMSInterview):
 		) or (self.job_applicant, None)
 		if not email:
 			return
-		# No mail account yet: the interview still stands.
 		with notify.unsent():
 			notify.mail(
 				"Interview Scheduled, to the Applicant",
@@ -322,8 +311,6 @@ def interviews_soon() -> None:
 	before = datetime.datetime.strptime(before, "%H:%M:%S")
 	now = datetime.datetime.now()
 	until = now + datetime.timedelta(hours=before.hour, minutes=before.minute, seconds=before.second)
-	# HRMS filters the date as though it held the time, so every interview
-	# that day matched just after midnight. The date and its start, together.
 	for one in frappe.get_all(
 		"Interview",
 		filters=[
@@ -371,9 +358,6 @@ def feedback_due() -> None:
 		)
 
 
-# ------------------------------------------------------------------ reminders
-
-
 def _colleagues(company: str, but: str | None = None) -> list[str]:
 	"""The users of a company's active employees, but one."""
 	return [
@@ -405,7 +389,6 @@ def _today(field: str) -> list[dict]:
 def birthdays() -> None:
 	"""Daily: each birthday, to everybody else at the company."""
 	for one in _today("date_of_birth"):
-		# No record: most colleagues may not open somebody else's.
 		notify.notify("Birthday", _colleagues(one.company, but=one.user_id), employee=one.employee_name)
 
 
@@ -453,9 +436,6 @@ def _holidays(frequency: str) -> None:
 			),
 			count=cint(len(days)),
 		)
-
-
-# ------------------------------------------------------------------ OneHR's own
 
 
 def grievance_flagged(doc, sensitive: bool) -> None:
@@ -651,9 +631,6 @@ def shift_not_reading(shift: str) -> None:
 		ignore_permissions=True,
 	)
 	notify.notify("Shift Not Reading Check-ins", people, record=("Shift Type", shift), shift=shift)
-
-
-# ------------------------------------------------------------------ the second pass
 
 
 def grievance_answered(doc, method=None) -> None:

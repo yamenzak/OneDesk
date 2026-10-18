@@ -62,15 +62,10 @@ def grant(grants: dict) -> None:
 			update_permission_property(doctype, ADMINISTRATOR, 0, ptype, 1, validate=False)
 
 
-#: What a space's roles are given where erpnext gives only its System
-#: Manager (give): to look, to do the work, to run it.
 USE = ("read", "report", "print")
 WORK = (*USE, "write", "create", "submit")
-#: A manager shares too: assigning somebody a record they cannot open shares
-#: it with them (frappe's assign_to), and refused that, the assignment fails.
 MANAGE = (*WORK, "delete", "cancel", "amend", "export", "share")
 
-#: Rights only a submittable kind has.
 SUBMITTING = ("submit", "cancel", "amend")
 
 

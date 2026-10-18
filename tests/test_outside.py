@@ -19,7 +19,6 @@ def test_the_boot_carries_ones_sidebars_and_workspaces_only():
 	assert SOURCE.count("if platform():") == 2
 	assert 'page.get("app") == APP' in SOURCE and '["has_create_access"] = False' in SOURCE
 	assert "outside.keep(bootinfo)" in (tree.APP / "one" / "boot.py").read_text()
-	# A sidebar swapped in after a change is held to the same.
 	assert "outside.kept(said)" in (tree.APP / "one" / "reports.py").read_text()
 
 
@@ -36,7 +35,6 @@ def test_menus_offer_no_screen_the_reader_cannot_open():
 	js = (tree.APP / "public" / "js" / "outside.js").read_text()
 	assert 'frappe.model.can_read("Audit Trail")' in js
 	assert 'frappe.model.can_read("Auto Email Report")' in js
-	# Print Settings an administrator may only read: off One's desk for everyone.
 	assert "if (!frappe.boot.one_elsewhere) return super.setup_menu();" in js
 	assert '"/assets/onedesk/js/outside.js"' in (tree.APP / "hooks.py").read_text()
 	assert 'bootinfo["user"]["can_import"] = []' in SOURCE
@@ -65,7 +63,6 @@ def test_frappes_screens_open_ones_own():
 	):
 		assert route in js
 	assert "frappe.route_flags.replace_route = true;" in js
-	# Contacts and Addresses are the workspace's, together in One's Address Book.
 	one = json.loads((tree.APP / "one" / "sidebar" / "one" / "one.json").read_text())
 	links = [item.get("link_to") for item in one["items"]]
 	assert links.index("Address") == links.index("Contact") + 1
@@ -99,7 +96,6 @@ def test_frappes_error_pages_are_ones():
 	assert "context.http_status_code = 404" in (www / "404.py").read_text()
 	me = (www / "me.py").read_text()
 	assert '"/desk/settings?section=profile"' in me and '"/account"' in me and "/portal/profile" in me
-	# The passkey button is the sign-in card's, not Set Password's.
 	assert (
 		'".for-login:not(.one-your-data) .page-card-body"'
 		in (tree.APP / "public" / "js" / "login.js").read_text()
@@ -126,12 +122,10 @@ def test_not_found_and_errors_are_one_scene():
 		assert '{% include "templates/includes/one_lost.html" %}' in html and "one-lost" in html, page
 	js = (tree.APP / "public" / "js" / "outside.js").read_text()
 	assert "onedesk.outside.lost(art)" in js and 'class="one-lost one-lost--desk"' in js
-	# No access is 403 on the desk and off it, the ring the 0 of any such code.
 	assert 'code: "403",' in js
 	message = (www / "message.html").read_text()
 	assert 'code|length == 3 and code[1] == "0"' in message
 	assert '403 if title == _("Not Permitted")' in message
-	# Gradient ids per drawing, so a hidden page's scene cannot leave this one's ring undrawn.
 	assert "const id = `one-lost-${++drawn}`;" in js
 	hooks = (tree.APP / "hooks.py").read_text()
 	assert hooks.count('"/assets/onedesk/css/lost.css"') == 2

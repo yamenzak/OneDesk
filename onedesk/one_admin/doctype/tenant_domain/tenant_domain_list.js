@@ -1,11 +1,6 @@
-// Domains, where the only interesting rows are the ones that do not work yet.
-// Cloudflare decides the status and we keep its word for it, said as the
-// customer's own screen says it (heads.py `DOMAIN`), with Cloudflare's reason
-// on the row of a name that does not work, and the main address marked.
 frappe.listview_settings["Tenant Domain"] = {
 	add_fields: ["status", "tenant", "problem", "is_main"],
 	hide_name_column: true,
-	// The name is the domain, which has a filter of its own.
 	hide_name_filter: true,
 
 	get_indicator(doc) {

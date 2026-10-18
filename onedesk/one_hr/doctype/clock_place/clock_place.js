@@ -1,7 +1,3 @@
-// A place is a circle on the earth, and two Floats and a radius do not say
-// whether it covers the car park or the road. The map is drawn from the three
-// fields rather than edited: it is a reading of them, refreshed whenever one
-// changes, so there is no second place where the fence is defined.
 
 frappe.ui.form.on("Clock Place", {
 	refresh: draw,
@@ -9,9 +5,6 @@ frappe.ui.form.on("Clock Place", {
 	longitude: draw,
 	radius: draw,
 
-	// The button had no handler at all, so it did nothing. It asks the browser
-	// where it is, and asks the reader first on a place that already has one:
-	// pressing it at a desk otherwise moves the fence to the desk.
 	fetch_position(frm) {
 		if (!navigator.geolocation) {
 			frappe.msgprint({
@@ -52,9 +45,6 @@ frappe.ui.form.on("Clock Place", {
 	},
 });
 
-// Written onto the doc rather than through `set_value`, so opening a record
-// does not mark it unsaved. Frappe's Geolocation control reads a circle as a
-// Point carrying `point_type` and `radius`.
 function draw(frm) {
 	const { latitude, longitude, radius } = frm.doc;
 	if (!latitude && !longitude) return;
@@ -73,9 +63,6 @@ function draw(frm) {
 	fit(frm.get_field("area"));
 }
 
-// Leaflet measures its container once, when the control is made, and the map
-// has a row of its own that gets its width after that. Without this the circle
-// is on the map and the map is a pixel wide.
 function fit(control) {
 	if (!control) return;
 

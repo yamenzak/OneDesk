@@ -18,9 +18,6 @@ def get_context(context):
 		raise frappe.DoesNotExistError
 
 	context.no_cache = 1
-	# In the reader's language: the titles and summaries are marked in
-	# one_legal/gate.py (SHOWN), the text itself stays English. Called by
-	# another name so the string extractor does not read `it["title"]` as one.
 	said = frappe._
 	context.documents = [
 		{"key": one, "title": said(it["title"]), "summary": said(it["summary"])}

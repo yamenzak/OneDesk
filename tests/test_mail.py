@@ -142,8 +142,6 @@ def test_every_email_goes_through_our_transport():
 	assert 'account.get("one_hosted")' in outbound and "server.session.sendmail(" in outbound
 
 
-# ------------------------------------------------------------------ connected mailboxes
-
 IMAP_NAMES = (
 	"LISTED",
 	"SPECIAL",
@@ -261,9 +259,6 @@ def test_a_sent_copy_is_filed_once_and_not_where_the_server_files_its_own():
 	assert "smtp.gmail.com" in _load(MAIL / "connect.py", ("FILES_ITS_OWN",))["FILES_ITS_OWN"]
 
 
-# ------------------------------------------------------------------ holders
-
-
 def test_everyone_gets_an_address_named_by_whoever_adds_them():
 	import unicodedata
 
@@ -293,8 +288,6 @@ def test_only_the_workspaces_mailboxes_are_shared_out():
 	assert [one["path"] for one in ordered(folders)] == ["INBOX", "T", "A", "b"]
 
 
-# ------------------------------------------------------------------ the page
-
 PAGE_JS = (tree.APP / "public" / "js" / "onemail.js").read_text()
 
 
@@ -321,9 +314,6 @@ def test_the_page_is_in_the_rail():
 	sidebar = (MAIL / "sidebar" / "onemail" / "onemail.json").read_text()
 	assert '"link_to": "onemail"' in sidebar and '"header_icon": "onemail"' in sidebar
 	assert (MAIL / "page" / "onemail" / "onemail.json").exists()
-
-
-# ------------------------------------------------------------------ mail in OneCloud
 
 
 def test_a_message_opens_only_for_its_holders_and_a_link_never_grants_read():
@@ -369,9 +359,6 @@ def test_a_message_too_large_sends_its_largest_attachments_as_links():
 		"a file it cannot find stays attached"
 	)
 	assert space["shrink"](raw, lambda name: "u") == raw, "a message that fits is not touched"
-
-
-# ------------------------------------------------------------------ faces and logos
 
 
 def _faces():
@@ -448,7 +435,6 @@ def test_a_record_tries_both_services_in_the_order_that_fits_it():
 	assert sources("organisation", "hello@gmail.com", None) == ["hello@gmail.com"], "never gmail's logo"
 	assert sources("bank", "x@hsbc.com", "hsbc.com") == ["hsbc.com"]
 	assert sources("organisation", None, None) == []
-	# Someone who works here gets their own face, never our own logo.
 	assert sources("face", "ana@ourco.example", None) == ["ana@ourco.example"]
 	assert sources("face", None, None) == []
 
@@ -466,9 +452,6 @@ def test_a_user_and_their_employee_share_a_photo_and_nobody_is_dressed():
 	assert "borrowed(doc) or next(" in source, "an uploaded photo on the other record comes first"
 	assert "letter_heads.redraw()" in source, "a dressed company's letter heads show the logo"
 	assert "onedesk.one_mail.patches.dress_people_and_company" in (tree.APP / "patches.txt").read_text()
-
-
-# ------------------------------------------------------------------ mail and records
 
 
 def _linking():
@@ -507,9 +490,6 @@ def test_links_say_how_they_were_made_and_the_timeline_is_narrowed():
 	for method in ("getdoc", "get_docinfo", "get_communications"):
 		assert f'"frappe.desk.form.load.{method}": "onedesk.one_mail.linking.{method}"' in HOOKS
 	assert "linking.arrived(" in (MAIL / "inbound.py").read_text(), "linked after Frappe's own second save"
-
-
-# ------------------------------------------------------------------ rules, away and bounces
 
 
 def _rules():
@@ -583,9 +563,6 @@ def test_rules_and_away_run_on_new_mail_only():
 	assert '"Mail Rule": "onedesk.one_mail.rules.rule_allowed"' in HOOKS
 
 
-# ------------------------------------------------------------------ from the old OneMail
-
-
 def test_a_search_understands_the_usual_operators():
 	space = _load(MAIL / "api.py", ("OPERATORS", "WORD", "operators"), re=re)
 	asked = space["operators"]('from:ana subject:"price list" is:unread has:attachment invoice http://x.com')
@@ -628,7 +605,6 @@ def test_the_workspaces_signature_is_its_administrators():
 	assert "enable_outgoing" in may and "actions.holds(account)" in may and "roles.administers()" in may
 	setter = holders.split("def set_signature(", 1)[1].split("\ndef ", 1)[0]
 	assert "may_sign(account)" in setter, "the server holds the line, not only the page"
-	# OneMail's own menu asks the same question.
 	assert "this.box.may_sign ?" in (tree.APP / "public" / "js" / "onemail.js").read_text()
 
 
@@ -640,7 +616,6 @@ def test_a_mailbox_that_breaks_is_told_once_and_can_be_given_its_password_again(
 	assert '"Mailbox Not Reachable"' in told and "Mailbox Not Reachable" in tree.notifications()
 	connect = (MAIL / "connect.py").read_text()
 	again = connect.split("def reconnect(", 1)[1].split("\ndef ", 1)[0]
-	# Tried where it already is, by a holder, and the workspace's by an administrator.
 	assert "actions.require(account)" in again and "frappe.only_for(roles.ADMINISTRATOR)" in again
 	assert "reach(doc.email_id, password, login, {key: doc.get(key) for key in WHERE})" in again
 

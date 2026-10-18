@@ -6,10 +6,8 @@ import frappe
 
 from onedesk.one import boards
 
-#: ERPNext's nightly job that turns open tasks past their date to Overdue.
 OVERDUE_JOB = "erpnext.projects.doctype.task.task.set_tasks_as_overdue"
 
-#: Each column, its colour, and whether it is shown.
 COLUMNS = {
 	"Open": ("Blue", "Active"),
 	"Working": ("Orange", "Active"),
@@ -19,19 +17,13 @@ COLUMNS = {
 	"Template": ("Gray", "Archived"),
 }
 
-#: ERPNext's own board of every task by status (task/kanban_board/task_status.json).
 STANDARD_BOARD = "Task Status"
 
-#: What a card shows under the task's subject, and the icon it shows it by.
 CARD = {"priority": "flag", "exp_end_date": "calendar"}
 
 
-#: The Projects list's own board: open projects by how they are going, ready
-#: in the Kanban view for anybody who works in projects. Dragging a card sets
-#: the project's health, which tells its people as a change on the page does.
 HEALTH_BOARD = "Projects by Health"
 HEALTH = {"On Track": "Green", "At Risk": "Orange", "Off Track": "Red"}
-#: The HR checklists are left out quietly (project_kanban.js), not here.
 BOARDING = ["project_type", "!=", "Employee Boarding"]
 HEALTH_FILTERS = [["Project", "status", "=", "Open", False]]
 HEALTH_CARD = {"customer": "building-2", "expected_end_date": "calendar"}
@@ -44,9 +36,6 @@ def settle(*_args) -> None:
 	if job and not frappe.db.get_value("Scheduled Job Type", job, "stopped"):
 		frappe.db.set_value("Scheduled Job Type", job, "stopped", 1)
 	frappe.db.sql("update `tabTask` set status = 'Open' where status = 'Overdue'")
-	# ERPNext's own board of tasks keeps an Overdue column nothing reaches now.
-	# It is put away on the row itself: saving a standard board in developer
-	# mode would write ERPNext's file.
 	for row in frappe.get_all(
 		"Kanban Board Column",
 		filters={"parent": STANDARD_BOARD, "parenttype": "Kanban Board", "column_name": "Overdue", "status": "Active"},

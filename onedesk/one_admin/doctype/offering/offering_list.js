@@ -1,7 +1,3 @@
-// The price list: plans, then add-ons, then packs, each by price (`sort_key`),
-// with what each costs and gives in words. A disabled one is greyed as
-// Disabled; the others say their kind. The signup page reads the same rows,
-// so the menu opens it as a customer sees it.
 frappe.listview_settings["Offering"] = {
 	add_fields: ["kind", "enabled", "recurring", "currency", "amount"],
 	hide_name_column: true,

@@ -12,7 +12,6 @@ from onedesk.one_demo.people import OWNER
 
 VAN = "Company Van"
 
-#: label, fieldtype, options
 FIELDS = (
 	("Plate", "Data", None),
 	("Make", "Data", None),
@@ -21,13 +20,11 @@ FIELDS = (
 	("Next Service", "Date", None),
 )
 
-#: plate, make, driver's name, mileage
 VANS = (
 	("D 41257", "Toyota Hiace", "Tariq Haidar", 84200),
 	("D 77310", "Nissan Urvan", "Nadia Khoury", 23950),
 )
 
-#: title, runs, record, view or event, explanation, code
 EXTENSIONS = (
 	(
 		"Say When a Customer Has No Mobile",
@@ -79,8 +76,6 @@ def run(password=None):
 					}
 				).insert()
 			)
-		# The second reading is a model's. The demo is built without one, so
-		# it reads as passed, as it did for these when they were written.
 		passed = {"verdict": "Pass", "why": "Does what it says and nothing more."}
 		with mock.patch.object(review, "ask", return_value=passed):
 			for title, runs, record, when, explanation, code in EXTENSIONS:

@@ -16,7 +16,6 @@ APPS = Path("/home/frappe/bench1/apps")
 BLOCKS = APP / "one" / "print_blocks.py"
 TEMPLATES = APP / "one" / "print_format_field_template"
 
-#: Every record One sends to somebody outside the company.
 LEAVES = (
 	"Quotation",
 	"Sales Order",
@@ -113,7 +112,7 @@ def test_each_erpnext_format_has_ours():
 def _pieces(data):
 	if isinstance(data, dict):
 		if data.get("fieldtype") == "Table":
-			return [data]  # its columns are its rows' fields, read by the test
+			return [data]
 		found = [data] if data.get("fieldtype") or data.get("columns") else []
 		return found + [one for value in data.values() for one in _pieces(value)]
 	if isinstance(data, list):
@@ -121,7 +120,6 @@ def _pieces(data):
 	return []
 
 
-#: What frappe's sandbox for a print condition does not have.
 NO_BUILTINS = re.compile(r"\b(len|sum|abs|min|max|any|all|sorted|round|str)\(")
 
 
@@ -158,8 +156,6 @@ def _child(doctype: str, table: str) -> str:
 	raise AssertionError(f"{doctype} has no table {table}")
 
 
-#: What ERPNext sets on a record only for printing it, never stored: its
-#: Proforma Invoice prints a copy of the Sales Order given these.
 PRINTED_ONLY = {"Sales Order": {"proforma_no", "proforma_date"}}
 
 
@@ -191,7 +187,6 @@ def test_every_block_is_a_field_template_with_its_template():
 		assert one["standard"] and one["module"] == "One", path
 		template = APP / one["template_file"]
 		assert template.exists(), f"{one['name']} has no {one['template_file']}"
-		# The builder's canvas previews a field template from its text, and prints from its file.
 		assert one["template"] == '{%% include "%s" %%}' % one["template_file"], f"{one['name']} previews something else"
 		block = re.search(r'one_print_block\(doc, "(\w+)"\)', template.read_text())
 		assert block and block[1] in known, f"{one['template_file']} draws no block of print_blocks.py"
@@ -206,7 +201,6 @@ def test_the_blocks_reach_jinja_and_settle_after_migrate():
 	hooks = (APP / "hooks.py").read_text()
 	assert '"onedesk.one.print_blocks.one_print_block"' in hooks
 	assert hooks.count('"onedesk.one.print_blocks.settle"') == 2, "after_install and after_migrate"
-	# frappe's module sync leaves field templates out, so settle brings them in.
 	assert "def _sync_blocks" in BLOCKS.read_text() and "_sync_blocks()" in BLOCKS.read_text()
 
 

@@ -9,11 +9,7 @@ from frappe.utils import get_fullname, now_datetime
 from onedesk.one_storage import api, store
 from onedesk.one_storage import namespace as ns
 
-#: How many files Recent remembers.
 RECENT = 50
-
-
-# --------------------------------------------------------------- versions
 
 
 def keep(item: dict) -> None:
@@ -119,9 +115,6 @@ def forget(doc, method=None) -> None:
 		frappe.db.after_commit.add(lambda: store._drop(gone))
 
 
-# ------------------------------------------------------------ recent, starred
-
-
 def _recent_key(user: str) -> str:
 	return f"onestorage:recent:{user}"
 
@@ -199,9 +192,6 @@ def _folder_name(folder: str | None) -> str:
 	if found.one_home_of:
 		return _("My Files") if found.one_home_of == frappe.session.user else get_fullname(found.one_home_of)
 	return _("Company") if folder == ns.HOME else found.file_name
-
-
-# --------------------------------------------------------------- activity
 
 
 def note(name: str, what: str) -> None:

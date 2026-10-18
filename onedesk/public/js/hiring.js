@@ -1,6 +1,3 @@
-// Recording an interview. OneAI's own verbs on the hiring walk — screen
-// again, rank again, prepare again, transcribe again — are offered in the
-// OneAI panel, not here; see one_hr/ai.py SUGGESTIONS.
 frappe.provide("onedesk.hiring");
 
 frappe.ui.form.on("Interview", {
@@ -15,16 +12,7 @@ frappe.ui.form.on("Interview", {
 	},
 });
 
-// Recording an interview. The browser's own MediaRecorder, restarted every
-// PART seconds so each part is a whole file that plays on its own: uploaded as
-// soon as it closes, transcribed as soon as it lands, and a laptop that dies in
-// minute forty loses one part rather than the interview. The next part starts
-// before the last one stops, so nothing falls between them.
-//
-// It lives on `onedesk.hiring`, not on the form, so moving to another page
-// does not stop it; only closing the tab does, and the tab says so first.
 onedesk.hiring.recorder = {
-	// hrms/hiring.py PART_SECONDS says the same.
 	PART: 300,
 	BITS: 24000,
 	on: false,
@@ -80,8 +68,6 @@ onedesk.hiring.recorder = {
 		this.sources = [mic];
 		let stream = mic;
 		if (call) {
-			// Chrome only shares a tab's sound alongside its picture; the
-			// picture is never recorded.
 			const tab = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
 			this.sources.push(tab);
 			if (tab.getAudioTracks().length) {
@@ -114,10 +100,6 @@ onedesk.hiring.recorder = {
 		frm.refresh();
 	},
 
-	// A level meter beside the time: the last couple of seconds of sound as
-	// bars, so the interviewer can see the microphone hears the room — and a
-	// line saying so when it has heard nothing for a while, which is a muted
-	// or wrong microphone rather than a quiet candidate.
 	BARS: 18,
 	QUIET_SECONDS: 8,
 
@@ -137,7 +119,6 @@ onedesk.hiring.recorder = {
 			last = now;
 			analyser.getFloatTimeDomainData(samples);
 			const rms = Math.sqrt(samples.reduce((sum, one) => sum + one * one, 0) / samples.length);
-			// Speech sits around 0.02–0.2 RMS; a square root spreads it over the bar.
 			const level = Math.min(1, Math.sqrt(rms * 6));
 			this.levels.push(level);
 			this.levels.shift();
@@ -161,7 +142,6 @@ onedesk.hiring.recorder = {
 		const pen = canvas.getContext("2d");
 		pen.setTransform(ratio, 0, 0, ratio, 0, 0);
 		pen.clearRect(0, 0, width, height);
-		// The OneAI spectrum, read off the page's own tokens.
 		const token = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 		const ramp = pen.createLinearGradient(0, 0, width, 0);
 		ramp.addColorStop(0, token("--one-ai-1"));
@@ -209,9 +189,6 @@ onedesk.hiring.recorder = {
 		this.next = setTimeout(() => this.on && this.part(), this.PART * 1000);
 	},
 
-	// Sent through frappe.call rather than the uploader: there is no dialog
-	// here and no person choosing a file, and the server files it and adds the
-	// part in one step, so a part never exists without its sound.
 	async upload(blob, from, seconds) {
 		const ext = { "audio/ogg": "ogg", "audio/webm": "webm", "audio/mp4": "m4a" }[blob.type] || "webm";
 		const data = await new Promise((resolve, reject) => {

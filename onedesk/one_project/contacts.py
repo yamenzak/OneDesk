@@ -8,7 +8,6 @@ from typing import Annotated
 import frappe
 from frappe import _
 
-#: The roles a contact has on a project, in the order they're offered.
 ROLES = (
 	"Subcontractor",
 	"Supplier",
@@ -19,7 +18,6 @@ ROLES = (
 	"Authority",
 	"Other",
 )
-#: The roles the Suppliers view lists.
 SUPPLYING = ("Subcontractor", "Supplier")
 
 
@@ -29,7 +27,6 @@ def contacts(project: Annotated[str, "The project."]) -> dict:
 	"""The project's contacts, and whether the reader may change them."""
 	doc = frappe.get_doc("Project", project)
 	doc.check_permission("read")
-	# The person as the Contact has them now, the mobile when there's no phone.
 	people = {
 		one.name: one
 		for one in frappe.get_all(
@@ -73,7 +70,6 @@ def contacts(project: Annotated[str, "The project."]) -> dict:
 				"person": _person(people.get(one.contact), "full_name") or one.contact,
 				"email": _person(people.get(one.contact), "email_id") or one.email,
 				"phone": _person(people.get(one.contact), "phone", "mobile_no") or one.phone,
-				# The person's picture, else their company's logo.
 				"image": _person(people.get(one.contact), "image") or logos.get(one.supplier),
 				"note": one.note,
 			}

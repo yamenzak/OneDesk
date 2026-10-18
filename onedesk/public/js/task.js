@@ -1,6 +1,3 @@
-// A timer on the task itself: Start Timer adds a row to the person's timesheet
-// for the week, Stop Timer ends it. See one_task/timer.py. Only for people who
-// may keep a timesheet, which the server checks again when it saves one.
 frappe.provide("onedesk.task_timer");
 
 onedesk.task_timer.button = async (frm) => {

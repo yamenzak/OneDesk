@@ -1,4 +1,3 @@
-// Tax charged against tax paid, for a period. See vat_return.py.
 frappe.query_reports["VAT Return"] = {
 	filters: [
 		{
@@ -15,7 +14,6 @@ frappe.query_reports["VAT Return"] = {
 		onedesk.book.show_lock(report);
 	},
 	formatter(value, row, column, data, default_formatter) {
-		// A heading or a total has no rate or amount of its own: blank, not nought.
 		if (value === undefined || value === null) return "";
 		const out = default_formatter(value, row, column, data);
 		if (data && data.sub && column.fieldname === "line") return `<span style="padding-left: var(--padding-lg)">${out}</span>`;
@@ -25,7 +23,6 @@ frappe.query_reports["VAT Return"] = {
 
 frappe.provide("onedesk.book");
 
-// Where the lock stands, beside the report's title. See one_book/closing.py.
 onedesk.book.show_lock = (report) =>
 	frappe.db.get_value("Company", frappe.defaults.get_default("company"), "accounts_frozen_till_date").then(({ message }) => {
 		const until = message && message.accounts_frozen_till_date;

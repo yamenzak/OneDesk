@@ -7,16 +7,10 @@ another's files. A tenant names a suffix, never an object, and `..` is refused.
 import posixpath
 import re
 
-#: Where a workspace's objects live: one prefix per tenant inside one of two
-#: buckets, never a bucket per tenant.
 ROOT = "tenants"
 
-#: S3 caps a key at 1024 bytes. Ours is shorter so the prefix always fits and a
-#: refusal happens here rather than as a puzzling error from R2.
 LONGEST = 900
 
-#: Never valid in a key we sign. A backslash is not a separator in S3 but is one
-#: in plenty of things that later read the key back.
 FORBIDDEN = ("\\", "\x00", "\n", "\r")
 
 
@@ -82,12 +76,8 @@ def room_for(held: int, pending: int, limit: int, wanted: int) -> bool:
 	return held + pending + wanted <= limit
 
 
-#: A hostname label, and nothing else. A slug becomes `<slug>.t.4dl.app`, a
-#: bucket prefix and a press site name, so the narrowest of those rules wins.
 SHORTEST, LONGEST_SLUG = 3, 30
 
-#: Names a workspace may not have, because we answer on them or will. `admin`
-#: on our own tenant domain is the one that would actually fool somebody.
 RESERVED = frozenset(
 	"admin api app apps assets auth billing cdn dashboard dev docs files help "
 	"login mail one portal press static status support www".split()

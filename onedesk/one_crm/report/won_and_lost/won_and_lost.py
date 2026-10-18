@@ -11,7 +11,6 @@ from frappe.utils import getdate
 
 from onedesk.one_crm import measure
 
-#: What a row can be, and how a deal is put in one.
 BY = ("Month", "Opportunity Owner", "Source", "Lost Reason")
 
 

@@ -66,7 +66,7 @@ def test_everybody_concerned_is_told():
 		assert types[name]["module"] == "one", name
 	for name in ("Workspace Asked to Close", "Workspace Closed"):
 		assert types[name]["module"] == "one_admin", name
-	assert 'if tenant.get("closing_on"):\n\t\t\t# Closed because they asked' in TELL
+	assert 'if tenant.get("closing_on"):\n\t\t\tnotify.mail("Workspace Closed"' in TELL
 	for name in ("workspace_closing", "workspace_staying_open"):
 		assert 'sender="Administrator"' in _body(name, TOLD), "One tells them, not the payer"
 

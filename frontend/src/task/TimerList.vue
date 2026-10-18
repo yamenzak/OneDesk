@@ -1,7 +1,4 @@
 <template>
-  <!-- The reader's timers (one_task/timer.py `timers`): the one running, with
-       its clock, and the ones paused, to resume. In the bar's Timers popover,
-       and on its own page on a phone (Timers.vue). -->
   <div class="flex flex-col gap-4">
     <Loading v-if="!said" />
     <template v-else>
@@ -55,7 +52,6 @@ async function load() {
   said.value = await call("onedesk.one_task.timer.timers");
 }
 
-// Today's closed lines, and the one running since it started.
 const elapsed = computed(() => {
   tick.value;
   const now = said.value?.running;
@@ -80,7 +76,6 @@ async function resume(one) {
   await load();
 }
 
-// Stopping the running one says what it added, as everywhere a timer stops.
 async function stop(one) {
   const hours = await call("onedesk.one_task.timer.stop", { task: one.task });
   if (said.value?.running?.task === one.task) onedesk().task_timer?.stopped?.(hours);

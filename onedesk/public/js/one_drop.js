@@ -1,5 +1,3 @@
-// The portal's file picker (templates/includes/one_drop.html): dropping onto
-// the box, the names of what was chosen, and a button that says it is busy.
 (function () {
 	const size = (bytes) => onedesk.size(bytes);
 

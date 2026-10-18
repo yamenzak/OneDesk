@@ -1,14 +1,7 @@
-// What the Shop Floor (one_inventory/page/floor) does to a job card, each
-// through ERPNext's own calls, asked in frappe's own dialogs as ERPNext's
-// Shop Floor asks them (manufacturing/page/shop_floor): who starts it and
-// when, how many were made and lost when a session ends, and the quality
-// check a step must pass before it is closed. `done` reads the page again.
 frappe.provide("onedesk.floor");
 
 const FLOOR = "erpnext.manufacturing.page.shop_floor.shop_floor";
 
-// Start, pause and resume run the job card's own methods, as ERPNext's
-// workstation does (workstation.update_job_card).
 onedesk.floor.run = (job_card, method, data = {}) =>
 	frappe.xcall("erpnext.manufacturing.doctype.workstation.workstation.update_job_card", {
 		job_card,
@@ -53,9 +46,6 @@ onedesk.floor.resume = async (job_card, done) => {
 	done?.();
 };
 
-// The end of a session: how many were made and lost, then either carry on
-// later or close the step. Closing a step that must pass a quality check
-// asks for it first, as ERPNext's job card does on submit.
 onedesk.floor.record = (step, done) => {
 	const left = Math.max(flt(step.for_quantity) - flt(step.done) - flt(step.loss), 0);
 	const payload = (values) => ({
@@ -98,8 +88,6 @@ onedesk.floor.record = (step, done) => {
 	dialog.show();
 };
 
-// A step that makes a part of its own is closed with what it made received
-// into stock, as ERPNext's Shop Floor offers after it.
 onedesk.floor.offer_entry = (job_card) =>
 	frappe.confirm(__("Receive what {0} made into stock?", [job_card]), () => onedesk.floor.entry(job_card));
 
@@ -108,17 +96,12 @@ onedesk.floor.entry = async (job_card) => {
 	if (r?.name) frappe.set_route("Form", "Stock Entry", r.name);
 };
 
-// The materials a step still has to take, moved to it in a stock entry made
-// by the job card's own mapper.
 onedesk.floor.move = async (job_card) => {
 	const doc = await frappe.xcall("erpnext.manufacturing.doctype.job_card.job_card.make_stock_entry", { source_name: job_card });
 	const [made] = frappe.model.sync(doc);
 	frappe.set_route("Form", made.doctype, made.name);
 };
 
-// A step's quality check: each of its template's readings, a measure for a
-// number and Accepted or Rejected for the rest, submitted as ERPNext's
-// in-process Quality Inspection.
 onedesk.floor.check = async (step, then) => {
 	const said = await frappe.xcall(`${FLOOR}.get_quality_inspection_checklist`, { job_card: step.name });
 	if (!said?.parameters?.length) return then?.();
@@ -146,13 +129,9 @@ onedesk.floor.check = async (step, then) => {
 	dialog.show();
 };
 
-// A step's work instructions, written on its operation. frappe cleans the
-// text editor's HTML when it is saved, so it is shown as it is.
 onedesk.floor.instructions = (step) =>
 	frappe.msgprint({ title: __(step.operation), message: step.instructions.work_instruction, wide: true });
 
-// A step whose sessions are all recorded is closed as ERPNext's Shop Floor
-// closes it, its quality check first when it must pass one.
 onedesk.floor.close = (step, done) => {
 	const close = () =>
 		frappe.confirm(__("Close {0}? Nothing more can be recorded on it.", [__(step.operation)]), async () => {

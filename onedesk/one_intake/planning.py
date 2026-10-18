@@ -15,7 +15,6 @@ from onedesk.one_hr.hiring import AUTHOR
 from onedesk.one_intake import act, identity, matters, plans, tell
 from onedesk.one_intake import identifiers as ids
 
-#: What a task step says for each ask, and what ticks it by itself.
 DONE_WHEN = {"Reply": "reply", "Send": "reply", "Attend": "after"}
 
 
@@ -36,8 +35,6 @@ def run(name: str, which: str) -> None:
 		wanted = money.plan(said, ctx)
 	else:
 		_payable(ctx, reading)
-		# A task about a bill or a delivery goes in the project it names, and
-		# so does a site's log (plans.py `site_log`).
 		ctx["project"] = _project_named(reading) if _supplier(reading) or reading.kind in PROJECT_KINDS else None
 		wanted = plans.second(said, ctx)
 	made = []
@@ -91,9 +88,6 @@ def rematch(reading, changed: bool = False) -> None:
 		reading.flags.ignore_permissions = True
 		reading.save()
 		frappe.db.commit()
-
-
-# ------------------------------------------------------------------ what the planners are told
 
 
 def _said(reading) -> dict:
@@ -186,7 +180,6 @@ def _sender(ctx: dict, mail: dict, structured: dict) -> None:
 		links = frappe.get_all("Dynamic Link", filters={"parenttype": "Contact", "parent": contact}, fields=["link_doctype", "link_name"])
 		ctx["sender_contact_links"] = [(one.link_doctype, one.link_name) for one in links]
 		first = frappe.db.get_value("Contact", contact, "first_name") or ""
-		# Frappe's own contact from mail: no links, named after the address.
 		ctx["sender_contact_bare"] = not links and first.lower() == email.split("@")[0].lower()
 		ctx["sender_contact_phones"] = frappe.get_all("Contact Phone", filters={"parent": contact, "parenttype": "Contact"}, pluck="phone")
 	best = (identity.match([(ids.EMAIL, email)]) or [None])[0]
@@ -264,9 +257,6 @@ def _task(ctx: dict, reading) -> None:
 			ctx["done_when"]["Attend"] = json.dumps({"after": str(one.by_date)})
 
 
-# ------------------------------------------------------------------ money
-
-
 def _money(ctx: dict, reading) -> None:
 	"""What the money planners need: the party's record, what came before
 	(the order, the invoice a credit note credits, one already booked), the
@@ -280,8 +270,6 @@ def _money(ctx: dict, reading) -> None:
 	ctx["supplier"] = _supplier(reading)
 	ctx["customer"] = parties.get("Customer") or (reading.party_name if reading.party_doctype == "Customer" else None)
 	ctx["contract_party"] = ("Supplier", ctx["supplier"]) if ctx["supplier"] else (("Customer", ctx["customer"]) if ctx["customer"] else None)
-	# The project a bill is for, when it names one (one_project/intake.py),
-	# and the customer's own project their request for extra work names.
 	ctx["project"] = _project_named(reading) if ctx["supplier"] else None
 	if ctx["customer"] and reading.kind == "Change Request":
 		named = _project_named(reading)
@@ -296,8 +284,6 @@ def _money(ctx: dict, reading) -> None:
 			ctx["original_invoice"] = frappe.db.get_value("Purchase Invoice", {"supplier": ctx["supplier"], "bill_no": refs["Invoice"], "docstatus": 1, "is_return": 0}, "name")
 		ctx["purchase_order"] = next((one for one in named if frappe.db.exists("Purchase Order", {"name": one, "supplier": ctx["supplier"], "docstatus": 1})), None)
 		ctx["items"] = _items(reading, ctx["supplier"], "Item Supplier", "supplier", "supplier_part_no")
-		# A habit, read from history with no model: where this supplier's
-		# bills were booked last time, else the company's default.
 		ctx["expense_account"] = frappe.db.sql(
 			"""select item.expense_account from `tabPurchase Invoice Item` item
 			join `tabPurchase Invoice` bill on bill.name = item.parent
@@ -353,8 +339,6 @@ def _items(reading, party: str, table: str, field: str, code: str) -> dict:
 		if found:
 			out[index] = found
 	if not out and len(reading.lines) == 1 and table == "Item Supplier":
-		# A habit: a supplier who bills one thing a month is billed for what
-		# it was booked to last time.
 		last = frappe.db.sql(
 			"""select item.item_code from `tabPurchase Invoice Item` item
 			join `tabPurchase Invoice` bill on bill.name = item.parent
@@ -409,9 +393,6 @@ def _hold_iban(reading) -> None:
 		frappe.db.set_value("Intake Action", made, {"audit": "Wrong", "audit_why": why}, update_modified=False)
 
 
-# ------------------------------------------------------------------ flows
-
-
 def make_task(values: dict):
 	"""A task, given by the workspace's Assignment Rules where one takes it,
 	and otherwise to the person it is for. Its steps say what ticks them."""
@@ -419,7 +400,6 @@ def make_task(values: dict):
 	who = values.pop("assign_to", None)
 	doc = frappe.get_doc({"doctype": "Task", **values})
 	doc.flags.ignore_permissions = True
-	# OneTask gives a task nobody holds to its maker, who is OneAI here.
 	doc.flags.one_assigned = True
 	doc.insert()
 	held = frappe.db.exists("ToDo", {"reference_type": "Task", "reference_name": doc.name, "status": "Open"})
@@ -539,9 +519,6 @@ def bank_line(values: dict):
 	return doc
 
 
-# ------------------------------------------------------------------ somebody we knew before
-
-
 FOUND = {ids.EMAIL: "email", ids.VAT: "vat_id", ids.IBAN: "iban", ids.DOCUMENT: "document_number"}
 
 
@@ -632,7 +609,6 @@ def _supplier(reading) -> str | None:
 	return _parties(reading).get("Supplier") or (reading.party_name if reading.party_doctype == "Supplier" else None)
 
 
-#: What a document about a project's work is, whoever sends it.
 PROJECT_KINDS = ("Site Log", "Timesheet", "Change Request")
 
 

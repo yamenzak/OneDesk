@@ -46,7 +46,6 @@ def test_masters_are_granted_to_the_administrator_and_wired():
 		"OneProject",
 		"OneHR",
 	}
-	# A kind that carries settings of its own stays in its app's Setup.
 	for doctype in ("Sales Stage", "Leave Type", "Employee Grade", "Interview Type"):
 		assert f'"{doctype}", _lt(' not in kinds, doctype
 	assert 'MASTER = ("read", "write", "create", "delete")' in (tree.APP / "one" / "access.py").read_text()
@@ -80,8 +79,6 @@ def test_the_page_is_for_administrators_and_app_managers():
 	assert "doc.insert()" in SOURCE and "ignore_permissions" not in SOURCE
 	js = (PAGE / "masters.js").read_text()
 	assert "frappe.client.delete" in js and "frappe.confirm(" in js
-	# A value's dialog draws the kind's own fields from frappe's meta, and
-	# saves the rest through frappe against `modified`.
 	assert "frappe.meta" in js and ".get_docfields(kind.doctype)" in js and "frappe.client.save" in js
 
 

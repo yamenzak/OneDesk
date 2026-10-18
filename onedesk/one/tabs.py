@@ -7,11 +7,8 @@ hooks.py, and nothing is written to any doctype.
 import frappe
 from frappe import _lt
 
-#: What a declaration may say.
 KEYS = {"name", "label", "order", "doctypes", "leaves_out"}
 
-#: One's own: comments, mail, changes, assignments and shares, last, drawn by
-#: frappe's own footer moved into it (record_activity.js).
 TABS = [{"name": "activity", "label": _lt("Activity"), "order": 90}]
 
 

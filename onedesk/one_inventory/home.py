@@ -7,11 +7,8 @@ import frappe
 from frappe import _lt
 from frappe.utils import add_days, flt, getdate, today
 
-#: How many rows of each kind Needs You shows before it says how many more.
 FEW = 5
 
-#: The directory: (group, label, kind, target, what it is for). A kind is
-#: DocType, Report or Page; a Masters kind opens One's Masters at it.
 GROUPS = (
 	("stock", _lt("Stock")),
 	("buying", _lt("Buying")),
@@ -21,7 +18,6 @@ GROUPS = (
 	("reports", _lt("Reports")),
 	("setup", _lt("Setup")),
 )
-#: What a report is about, as Reports sets them out, one section to a topic.
 REPORT_SECTIONS = (
 	("stock", _lt("Stock")),
 	("lots", _lt("Batch and Serial No")),
@@ -65,7 +61,6 @@ REPORT_TOPICS = {
 	"COGS By Item Group": "books",
 	"Stock and Account Value Comparison": "books",
 }
-#: What a part of Setup is about, as Setup sets them out, the settings first.
 SETUP_SECTIONS = (
 	("settings", _lt("Settings")),
 	("stock", _lt("Stock")),
@@ -107,8 +102,6 @@ SETUP_TOPICS = {
 	"Asset Shift Factor": "equipment",
 }
 
-#: Each called what ERPNext calls what it opens, a page by its title: the name
-#: Ctrl+K finds it by.
 EVERYTHING = (
 	("stock", _lt("Item"), "DocType", "Item", _lt("Everything you keep, buy, sell or make.")),
 	("stock", _lt("Stock Summary"), "Page", "stock-on-hand", _lt("What each warehouse holds now, and what it is worth.")),
@@ -321,7 +314,6 @@ def needs_you() -> dict:
 	}
 
 
-#: The papers a draft of which is work left half done.
 DRAFTS = (
 	("Purchase Receipt", _lt("Purchase Receipt")),
 	("Delivery Note", _lt("Delivery Note")),

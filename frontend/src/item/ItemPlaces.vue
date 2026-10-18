@@ -1,8 +1,4 @@
 <template>
-  <!-- Each warehouse that keeps the item: what it holds, what is promised from
-       it, what is free to use and what it is worth, a bar against its reorder
-       level, and the level itself, the item's own reorder row changed in
-       place. Its menu moves or counts the item there. -->
   <div v-if="!rows.length" class="py-3 text-base text-ink-gray-5">{{ __("Not kept anywhere yet") }}</div>
   <ul v-else class="divide-y divide-outline-gray-1">
     <li v-for="one in rows" :key="one.warehouse" class="flex gap-3 py-2.5">
@@ -16,7 +12,6 @@
         </div>
         <div class="truncate text-sm tabular-nums text-ink-gray-5">{{ one.said }}</div>
         <Progress v-if="one.bar !== null" :value="one.bar" size="sm" class="mt-1.5 max-w-64" />
-        <!-- The reorder row, as the item's form has it. -->
         <div v-if="one.row" class="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-ink-gray-5">
           <span class="flex items-center gap-1.5 whitespace-nowrap">{{ __("Reorders At") }}<FieldEdit :form="form" table="reorder_levels" :row="one.row" field="warehouse_reorder_level" :label="__('Reorders At')" :hold="Boolean(adding) && one.row === adding" start class="text-ink-gray-8" @saved="emit('changed')" @cancel="cancel" /></span>
           <span class="flex items-center gap-1.5 whitespace-nowrap">{{ __("Orders") }}<FieldEdit :form="form" table="reorder_levels" :row="one.row" field="warehouse_reorder_qty" :label="__('Orders')" :hold="Boolean(adding) && one.row === adding" start class="text-ink-gray-8" @saved="emit('changed')" @cancel="cancel" /></span>
@@ -46,7 +41,6 @@ const props = defineProps({ said: { type: Object, required: true }, form: { type
 const emit = defineEmits(["changed"]);
 const uom = computed(() => props.said.stock_uom);
 
-// The reorder row added on the page and not saved yet, with its warehouse.
 const adding = ref(null);
 const addingTo = ref(null);
 const saving = ref(false);
@@ -66,7 +60,6 @@ const rows = computed(() =>
       ]
         .filter(Boolean)
         .join(" · "),
-      // Full is the reorder level and one order on top of it.
       bar: one.level && full ? Math.min(100, Math.max(0, Math.round((one.on_hand / full) * 100))) : null,
       actions: actions(one, row),
     };
@@ -83,8 +76,6 @@ function actions(one, row) {
   return out;
 }
 
-// A new reorder row for the warehouse, as desk's grid adds one; its two
-// fields go in together and are saved with the form.
 function add(warehouse) {
   cancel();
   adding.value = props.form.addRow("reorder_levels", { warehouse, material_request_type: "Purchase" });

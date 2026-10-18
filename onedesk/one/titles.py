@@ -6,8 +6,6 @@ and a report's, dashboard's or list's heading is set from them.
 
 import frappe
 
-#: What the rail can rename, each read in `public/js/reports.js` at its own seam.
-#: A workspace's heading is the workspace's own title.
 RENAMES = ("Report", "Dashboard", "DocType")
 
 
@@ -40,8 +38,6 @@ def for_boot() -> dict[str, dict[str, str]]:
 	for doctype, labels in called.items():
 		if doctype in ours and len(labels) == 1 and doctype not in labels:
 			found["DocType"][doctype] = next(iter(labels))
-	# A crumb says what the rail's row says, for a doctype the rails call one thing;
-	# one that is two rows keeps its own name. Read in public/js/shell.js.
 	found["Crumb"] = {
 		doctype: next(iter(labels))
 		for doctype, labels in called.items()

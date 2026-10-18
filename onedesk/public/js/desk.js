@@ -1,20 +1,7 @@
 frappe.provide("onedesk");
-// The band's rows and the bar below are set up while the sidebar is built,
-// which can be before the rest of this file has run.
 frappe.provide("onedesk.dock");
 
-// A record being printed is still that record: frappe reads the print route as
-// its own page, which only the Printing sidebar links, and so left the record's
-// app for frappe's Print Format and Letter Head lists. It reads it as the
-// record's doctype instead, so an invoice prints inside OneBook.
 frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
-	// The workflow builder and the automation list and form are where Workspace ›
-	// Approvals and Automations open, so they stay in One's sidebar rather than
-	// frappe's Workflow and Automation ones: read as the page they open from.
-	// They are workspace settings wherever they are opened from, a record's
-	// Settings dialog in OneCRM included, so One's sidebar is taken even over
-	// the one on screen or in the address, which frappe would otherwise keep.
-	// Going back puts the address, and with it OneCRM's sidebar, back.
 	shell_for_route(route) {
 		if (OneSidebar.workspace(route) && frappe.boot.module_sidebars?.One) return "One";
 		return super.shell_for_route(route);
@@ -36,10 +23,6 @@ frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
 		return route[0] === "print" && route[1] ? "DocType" : super.link_type_from_route(route);
 	}
 
-	// What One's sidebar keeps wherever it is opened from: the workflow builder,
-	// automations, a workspace's dashboards, their charts and cards, and its
-	// reports by mail (one/reports.py), the Recycle Bin (one/recycle.py), the
-	// Audit Log (one/audit.py) and privacy requests (one/privacy.py).
 	static KEPT = [
 		"Automation Flow",
 		"Dashboard",
@@ -62,10 +45,6 @@ frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
 	}
 };
 
-// A report saved from a list goes in its app's sidebar (one/reports.py); the
-// sidebar is fetched again and drawn in place, as frappe's own sidebar editor does.
-// frappe's realtime drops a handler added before its socket exists, so this waits
-// for the desk.
 $(document).on("app_ready", () =>
 	frappe.realtime.on("one_sidebars", async () => {
 		const payload = await frappe.xcall("onedesk.one.reports.sidebars");
@@ -83,31 +62,13 @@ $(document).on("app_ready", () =>
 	})
 );
 
-// Frappe's Automation workspace is a second home for the same flows, in
-// frappe's sidebar: /desk/automation goes to the list Workspace › Automations
-// opens instead.
 frappe.re_route["automation"] = "automation-flow";
 
-// Frappe's, erpnext's and hrms's own workspaces are out of the boot (one/outside.py),
-// so their addresses, and frappe's apps screen after signing in, go to One's Home.
 if (frappe.boot.one_elsewhere) {
 	for (const slug of frappe.boot.one_elsewhere) frappe.re_route[slug] = "one";
 	frappe.re_route[""] = "one";
 }
 
-// What a person checks on: Search, Check In, OneIntake, Timers and
-// Notifications. On a desktop they live in the bar across the top of the shell
-// (`bar`), because it is on every page and the panel is not: a page with a
-// sidebar of its own, such as My Tasks, OneMail or OneCloud, hides frappe's
-// panel and the band under its header with it. These are frappe's buttons, with
-// its classes, so its search, its bell's count and its Notifications panel work
-// from there. On a phone there is no bar, and the band keeps them; beside the
-// bar the band is hidden (desk.css), so nothing shows twice.
-//
-// Clocking in is one row rather than a route because it happens twice a day
-// for everybody. The dot shows the state rather than offering a verb: green
-// while clocked in, grey while not, and the click sends no direction because
-// the server reads that from where the person already is.
 onedesk.dock.rows = (sidebar) => {
 	const $band = sidebar.$standard_items_band;
 	const add = (item) => sidebar.add_item($band, { standard: true, type: "Button", ...item });
@@ -125,8 +86,6 @@ onedesk.dock.rows = (sidebar) => {
 		suffix: `<span class="one-intake-count es-badge hide" data-variant="ghost"></span>`,
 		onClick: () => frappe.set_route("intake"),
 	});
-	// Without the bar, the timers open from here: beside the row, or as a
-	// page on a phone.
 	if (onedesk.dock.times()) {
 		add({
 			label: __("Timers"),
@@ -138,11 +97,8 @@ onedesk.dock.rows = (sidebar) => {
 	}
 	onedesk.dock.bar();
 	onedesk.dock.refresh();
-	// Intake: what OneAI did with what arrived, and what waits for you. A
-	// number when something waits, a dot when something is unread.
 	onedesk.dock.intake();
 	onedesk.dock.timers();
-	// frappe's realtime drops a handler added before its socket exists.
 	const listen = () => {
 		frappe.realtime.on("intake_inbox", () => onedesk.dock.intake());
 		frappe.realtime.on("one_timers", () => onedesk.dock.timers());
@@ -150,11 +106,6 @@ onedesk.dock.rows = (sidebar) => {
 	frappe.realtime.socket ? listen() : $(document).one("app_ready", listen);
 };
 
-// The bar across the top of the shell, Discord's and Slack's title bar: Search,
-// Check In, OneIntake, Timers, Notifications and the background tasks at its
-// right end, each frappe's button for the same thing.
-// The rail below it keeps only the apps and the avatar. Made once; hidden on a
-// phone (desk.css).
 onedesk.dock.bar = () => {
 	if (frappe.session.user === "Guest" || $(".one-bar").length) return;
 	const $bar = $(`<header class="one-bar" role="toolbar" aria-label="${__("Tools")}">
@@ -169,7 +120,6 @@ onedesk.dock.bar = () => {
 		$tile.data("one-tip", new frappe.ui.Tooltip($tile[0], { text: tip, side: "bottom", delay: 0, offset: 6, class: "es-tooltip--plain" }));
 		return $tile;
 	};
-	// page.js opens frappe's search from this class, wherever it is clicked.
 	if (frappe.boot.desk_settings.search_bar) {
 		add({
 			label: __("Search"),
@@ -202,8 +152,6 @@ onedesk.dock.bar = () => {
 		});
 	}
 	if (frappe.boot.desk_settings.notifications) {
-		// frappe's Notifications counts every `.notification-count`, and its panel
-		// takes every `.sidebar-notification` as its button.
 		const $bell = add({
 			label: __("Notifications"),
 			icon: "bell",
@@ -214,7 +162,6 @@ onedesk.dock.bar = () => {
 		const unread = frappe.boot.notification_unread_count || 0;
 		$bell.find(".notification-count").text(unread > 99 ? "99+" : unread || "").toggleClass("hidden", !unread);
 	}
-	// Shown and hidden by frappe's BackgroundTasks, from its class.
 	add({
 		label: __("Background Tasks"),
 		icon: "server",
@@ -223,10 +170,8 @@ onedesk.dock.bar = () => {
 	}).toggleClass("hidden", !frappe.app.sidebar?.background_tasks?.db_tasks?.length);
 };
 
-// Whoever may keep a timesheet may time a task (one_task/timer.py).
 onedesk.dock.times = () => frappe.session.user !== "Guest" && frappe.model.can_create("Timesheet");
 
-// The reader's timers: how many, green while one runs. See one_task/timer.py.
 onedesk.dock.timers = () => {
 	if (!onedesk.dock.times()) return Promise.resolve(null);
 	return frappe.xcall("onedesk.one_task.timer.timers").then((said) => {
@@ -241,10 +186,6 @@ onedesk.dock.timers = () => {
 	});
 };
 
-// The Timers popover: frappe-ui's Popover beside the tile or row clicked, with
-// the onedesk.timers island in it, mounted the first time. The island tells
-// it closed (onClose) when the reader clicks away or opens a task. A phone,
-// with no room beside the band, opens the page instead.
 onedesk.dock.timers_open = (el) => {
 	if (!el || window.matchMedia("(max-width: 767px)").matches) return frappe.set_route("timers");
 	const pop = (onedesk.dock._timers ||= { open: false });
@@ -260,12 +201,9 @@ onedesk.dock.timers_open = (el) => {
 	pop.island = frappe.ui.mount_island("onedesk.timers", $host[0], { ...props, onClose: close });
 };
 
-// A row's or a tile's name, as read aloud and as the bar's tooltip says it.
 onedesk.dock.name = ($item, label) =>
 	$item.attr("aria-label", label).each((_, el) => $(el).data("one-tip")?.set_text(label));
 
-// How many documents wait for the reader in Intake, and whether anything is
-// unread. See one_intake/inbox.py.
 onedesk.dock.intake = () =>
 	frappe.xcall("onedesk.one_intake.inbox.counts").then((said) => {
 		const $rows = $(".one-intake-row");
@@ -283,13 +221,8 @@ onedesk.dock.refresh = () =>
 		const $item = $(".one-clock");
 		onedesk.dock.ready = ready;
 
-		// No employee, or a workspace that has not switched clocking in on. The
-		// row is built before either is known, so it hides itself afterwards
-		// rather than being conditional on an answer nobody had yet.
 		$item.toggleClass("hide", !ready.direction && !ready.state);
 
-		// Green while in, amber when past the shift's start (arrived after it, or
-		// not here yet), and the start itself beside the clock until they are in.
 		const on = ready.state === "in";
 		const due = !on && ready.direction === "IN" && ready.due ? onedesk.clock.time(ready.due) : "";
 		$item.find(".one-clock-dot").toggleClass("one-clock-on", on && !ready.late).toggleClass("one-clock-late", !!ready.late);
@@ -332,8 +265,6 @@ onedesk.dock.punch = async () => {
 	}
 };
 
-// A refusal says what was wrong in sentences rather than in a code, because a
-// refusal nobody can act on is a phone call to HR.
 onedesk.dock.told = (done, ready) => {
 	if (done.register) {
 		frappe.confirm(__("Register a passkey on this phone first?"), () =>
@@ -342,11 +273,6 @@ onedesk.dock.told = (done, ready) => {
 		return;
 	}
 	if (!done.ok) {
-		// `clear` because msgprint appends to whatever dialog is already open, and
-		// what is already open may be somebody else's message about something
-		// else — HRMS's own Employee form asks `get_assignable_masters` on load
-		// and an employee reading their own record gets a permission error back
-		// from it. A refused clock-in says what was wrong with the clock-in.
 		frappe.msgprint({
 			title: __("Not Checked In"),
 			indicator: "red",
@@ -361,10 +287,6 @@ onedesk.dock.told = (done, ready) => {
 	});
 };
 
-// Settings in the avatar menu is One's page rather than frappe's dialog: one
-// place for what a person and a workspace set (one/settings.py). The menu
-// loads the dialog's bundle before calling this, and the bundle would put its
-// own back, so ours is held in place.
 (() => {
 	const ours = (section) => {
 		const known = { profile: "profile", notifications: "notifications" };
@@ -375,28 +297,14 @@ onedesk.dock.told = (done, ready) => {
 
 frappe.provide("onedesk.tenant");
 
-// A plan's storage, in the 1000s it is sold in.
 onedesk.tenant.size = (bytes) => onedesk.size(bytes, 1000) || __("nothing");
 
-// Frappe's workflow builder draws every field of a step, and its controls show a
-// hidden one all the same. An approval tells whoever it waits on through One's hub
-// (one/approvals.py), so frappe's own mail settings are not offered; and to
-// somebody frappe does not let customize, neither is what an approval the
-// workspace writes may not do: tasks a step runs, a value worked out by code.
 $(document).on("startup", () => {
 	document.body.toggleAttribute("data-one-held", !frappe.model.can_create("Custom Field"));
 });
 
-// A space's home is frappe's Workspace page, whose blocks frappe leaves empty
-// for somebody who may not see what they hold (a chart, a card, a number), and
-// whose headings it keeps all the same: an administrator with no sales role saw
-// OneCRM's "My Day" and "The Pipeline" over nothing. An empty block is marked,
-// and so is a heading with nothing shown under it before the next, with the
-// spacers between; desk.css hides them, except while the page is being edited.
 onedesk.tidy_home = ($body) => {
 	const blocks = [...$body.find("#editorjs .ce-block")];
-	// A custom block that has nothing to say hides its own block (One Needs
-	// You, when nothing does): that is not shown either.
 	const shown = (block) => {
 		const held = block.querySelector(".ce-block__content > *");
 		if (!held || block.style.display === "none") return false;
@@ -423,8 +331,6 @@ onedesk.tidy_home = ($body) => {
 		if (is === "heading" || run.length) run.push(block);
 	}
 	close();
-	// Nothing at all shown: frappe's empty state says so, rather than a blank
-	// page, and goes as soon as a block draws.
 	$body.find(".one-home-empty").remove();
 	if (blocks.length && !blocks.some((block) => kind(block) === "shown")) {
 		$(
@@ -444,8 +350,6 @@ $(document).on("app_ready", () => {
 	const shown = Workspace.prototype.show_page;
 	Workspace.prototype.show_page = async function (page) {
 		const out = await shown.call(this, page);
-		// Blocks draw, and hide themselves, after the page does: tidied again
-		// as they change, for the first few seconds.
 		const body = this.body;
 		onedesk.tidy_home(body);
 		const again = frappe.utils.debounce(() => onedesk.tidy_home(body), 150);

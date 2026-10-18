@@ -8,7 +8,6 @@ import calendar
 import re
 from datetime import date, timedelta
 
-#: Days a German authority's posted letter takes to count as received.
 POSTED_DAYS = 4
 
 KINDS_AUTHORITY = ("Letter From an Authority", "Tax Assessment")
@@ -29,7 +28,6 @@ UNITS = {
 
 WORD = re.compile(r"\d{1,3}|[a-zäöüß]+")
 
-#: Words that may stand between a number and its unit: "two full weeks".
 BETWEEN = ("weiteren", "full", "whole", "vollen")
 
 

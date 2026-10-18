@@ -12,8 +12,6 @@ class Refused(Exception):
 		super().__init__(message)
 		self.status = status
 		self.detail = detail
-		#: The other side's own exception name, where it sent one: "NotEnough"
-		#: is a workspace out of credits, which waits rather than fails.
 		self.said = said
 
 
@@ -63,7 +61,6 @@ def raised(endpoint: str, status: int, detail: str, said: str | None = None) -> 
 	else:
 		kind = Again if worth_retrying(status) else Refused
 	if said == "NotEnough" or "NotEnough" in (detail or ""):
-		# The credits are gone: said now, not at the next refresh.
 		try:
 			from onedesk.one import account
 
@@ -75,12 +72,8 @@ def raised(endpoint: str, status: int, detail: str, said: str | None = None) -> 
 	return kind(f"{endpoint}: {detail}", status, detail, said)
 
 
-#: Where Frappe puts the readable part of a failure, in the order that prefers a
-#: thrown message over a traceback. A press error is a Frappe error underneath.
 SAYS = ("_server_messages", "message", "exception", "exc")
 
-#: Enough of a failure to act on. A traceback in a log is useful; a traceback in
-#: a Provisioning Job's error field is a record nobody scrolls.
 KEPT = 500
 
 

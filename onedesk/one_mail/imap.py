@@ -11,13 +11,10 @@ import ssl
 
 import frappe
 
-#: Seconds to wait on a server. A slow one must not hold a worker for long.
 PATIENCE = 60
 
-#: A LIST response line: (flags) "delimiter" name.
 LISTED = re.compile(r'^\((?P<flags>[^)]*)\)\s+(?:"(?P<delim>[^"]*)"|NIL)\s+(?P<name>.+)$')
 
-#: RFC 6154 flags, and what each means here.
 SPECIAL = {
 	"\\sent": "Sent",
 	"\\drafts": "Drafts",
@@ -26,11 +23,8 @@ SPECIAL = {
 	"\\archive": "Archive",
 }
 
-#: Flags on a folder that only repeats others, or holds nothing.
 REPEATS = {"\\all", "\\flagged", "\\noselect", "\\nonexistent", "\\important"}
 
-#: Names servers without special-use give these folders, lowercased, last
-#: part only.
 BY_NAME = {
 	"Sent": {
 		"sent",
@@ -62,7 +56,6 @@ def parse_list(line) -> dict | None:
 	"""One LIST line: {"flags", "delimiter", "path"}, the path as the server
 	spells it. Pure."""
 	if isinstance(line, tuple):
-		# A literal name: (b'(\\HasNoChildren) "/" {12}', b'name')
 		head, literal = line
 		line = head.decode(errors="replace").rsplit("{", 1)[0] + '"' + literal.decode(errors="replace") + '"'
 	elif isinstance(line, bytes):
@@ -194,7 +187,6 @@ class Session:
 				self.imap.starttls(ssl_context=ssl.create_default_context())
 		login = account.login_id or account.email_id
 		self.imap.login(login, account.get_password("password", raise_exception=False) or "")
-		# Servers say more after login than before it; imaplib keeps the first.
 		status, said = self.imap.capability()
 		spoken = said[0] if status == "OK" and said else b""
 		self.capabilities = {one.upper() for one in spoken.decode(errors="replace").split()} or {
@@ -282,8 +274,6 @@ class Session:
 					self.imap.expunge()
 		if status != "OK":
 			raise imaplib.IMAP4.error(f"MOVE to {target} failed: {data}")
-		# COPYUID comes untagged on a MOVE and in the tagged answer on a COPY;
-		# imaplib files the untagged one under its code, without the code.
 		coded = [
 			b"COPYUID " + one
 			for one in self.imap.untagged_responses.pop("COPYUID", [])

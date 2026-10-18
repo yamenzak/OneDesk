@@ -14,11 +14,9 @@ from onedesk.one_demo.base import COMPANY, account, ago, as_user, dated, make, o
 STORES = "karim@one.test"
 BOOKS = "huda@one.test"
 PEOPLE = "mariam@one.test"
-#: Who resigns while holding a pickup, so leaving asks for it back.
 DRIVER = "Sanjay"
 GARAGE = "Emirates Fleet Motors"
 
-#: name, item, location, bought (years back, month, day), cost, custodian
 ASSETS = (
 	("Pickup Truck 1", "VEH-PICKUP", "Main Workshop", (2, 3, 10), 138000, "Sanjay"),
 	("Pickup Truck 2", "VEH-PICKUP", "Main Workshop", (1, 2, 2), 149000, "Yousef"),
@@ -40,7 +38,6 @@ def run(password=None):
 			if frappe.db.exists("Asset", {"asset_name": name}):
 				continue
 			bought = f"{today().year - back}-{month:02d}-{day:02d}"
-			# Booked by the books every month end before this year began.
 			months = back * 12 - month + 1
 			years = {"VEH-PICKUP": 5, "MCH-CNC": 10, "IT-LAPTOP": 3}[item]
 			make(
@@ -72,7 +69,6 @@ def run(password=None):
 				submit=True,
 			)
 		_maintenance()
-	# This year's month ends so far, booked as ERPNext's daily job books them.
 	from erpnext.assets.doctype.asset.depreciation import post_depreciation_entries
 
 	post_depreciation_entries()
@@ -128,7 +124,6 @@ def _maintenance():
 		)
 
 
-#: Equipment whose services are kept up, and whether its last one is late.
 SERVICED = (("Pickup Truck 1", False), ("Pickup Truck 2", True), ("CNC Profile Machining Centre", False))
 
 

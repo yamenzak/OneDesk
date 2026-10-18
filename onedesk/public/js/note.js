@@ -1,6 +1,3 @@
-// An announcement (one/announcements.py). Written by an administrator, a
-// new one is everybody's and shown when they sign in; anybody else's note
-// is their own, and what would make it everybody's is not offered.
 frappe.ui.form.on("Note", {
 	onload(frm) {
 		if (frm.is_new() && onedesk_note_announces()) {

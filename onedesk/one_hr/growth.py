@@ -2,8 +2,6 @@
 
 import frappe
 
-#: The only property whose change is worth saying on the list. Grade and
-#: department changes travel with it; the designation is the one people mean.
 PROMOTED_TO = "Designation"
 
 

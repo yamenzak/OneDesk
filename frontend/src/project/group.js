@@ -1,5 +1,3 @@
-// How the Tasks, Board and Timeline views split tasks into groups, and which
-// tasks they show: monday's "Group by" and search, over what `work` gave.
 import { __, isPast } from "../kit";
 import { DONE, SURFACE, TASK_STATUS } from "./colors";
 
@@ -54,8 +52,6 @@ export function groupTasks(work, tasks, by) {
 	}));
 }
 
-// A group's tasks with each sub-task under its parent (ERPNext's Parent
-// Task), how deep it sits, and for a parent how many of its own are done.
 export function nest(tasks) {
 	const here = new Set(tasks.map((one) => one.name));
 	const under = {};

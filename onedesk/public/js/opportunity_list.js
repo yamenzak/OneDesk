@@ -1,17 +1,8 @@
-// An overdue next step reads red, as on the lead list; see public/js/next_step.js.
-// The pipeline board says what each stage is worth, under the column's own
-// title and count. frappe's Kanban calls no list hooks and redraws a column on
-// every load, drag and realtime update, so one observer follows the page and
-// paints whenever the Opportunity board is the one on screen.
-// See one_crm/board.py.
 (() => {
 	const settings = (frappe.listview_settings["Opportunity"] ||= {});
 	settings.formatters = { ...settings.formatters, ...onedesk.next_step.formatters };
-	// Each status in the colour of what it means; frappe's guess paints Open red.
 	const COLOUR = { Open: "blue", Replied: "orange", Quotation: "purple", Converted: "green", Lost: "gray", Closed: "gray" };
 	settings.get_indicator = (doc) => [__(doc.status), COLOUR[doc.status] || "gray", `status,=,${doc.status}`];
-	// The list opens on what is still being worked (next.py's OPEN), so a
-	// year of won and lost ones is a filter away rather than first.
 	settings.filters = [["status", "in", ["Open", "Quotation", "Replied"]]];
 
 	if (frappe.one_pipeline_worth) return;
@@ -28,12 +19,10 @@
 		const listview = window.cur_list;
 		const board = listview?._kanban;
 		if (listview?.view_name !== "Kanban" || listview.doctype !== "Opportunity" || !board) return;
-		// Worth is added up by stage, so only a board of stages has it.
 		if (board.field_name !== "sales_stage") return;
 		const { currency, stages } = await frappe.xcall("onedesk.one_crm.board.worth", {
 			filters: board.get_effective_filters(),
 		});
-		// Each amount is isolated, or a right-to-left currency sign swaps the two.
 		const money = (value) => `<bdi>${format_currency(value, currency, 0)}</bdi>`;
 		board.$container.find(".kn-column").each(function () {
 			const stage = stages[this.dataset.col] || { value: 0, weighted: 0 };
@@ -52,9 +41,6 @@
 		extended(board, currency, stages);
 	}
 
-	// The workspace's extensions on the board (one_studio/places.py), told
-	// what each stage is worth, and lent a note above the board: only when
-	// that changes, since the board is painted on every change to the page.
 	let told = null;
 	function extended(board, currency, stages) {
 		if (!onedesk.places || !onedesk.places.listening("onecrm.board")) return;

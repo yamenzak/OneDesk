@@ -1,10 +1,5 @@
-// A copy of somebody's data (one/privacy_copy.py), reviewed by a workspace
-// administrator before it goes: what is about the person always goes; what
-// they wrote or touched may be withheld, kind by kind, with a reason they are
-// told (GDPR article 15(4)). Decided here, never by editing the record.
 frappe.ui.form.on("Personal Data Download Request", {
 	refresh(frm) {
-		// frappe's controller keeps user_name from the browser; the name comes from the user.
 		const who = frappe.user.full_name(frm.doc.user) || frm.doc.user;
 		const status = frm.doc.one_status || "Ready";
 		frm.set_intro(

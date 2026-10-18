@@ -8,7 +8,6 @@ import frappe
 from erpnext.manufacturing.page.shop_floor import shop_floor
 from frappe.utils import flt, get_datetime, getdate, now_datetime, nowdate
 
-#: How many work orders the board shows before a search narrows them.
 MOST = 40
 
 
@@ -53,8 +52,6 @@ def read(
 def figures() -> dict:
 	"""What is open, what is running now, what waits to start, and what was
 	finished today, counted as ERPNext counts a job card."""
-	# Open as the board has it: a work order whose steps are all done is the
-	# floor's no more, though it waits for its finished goods.
 	open_orders = shop_floor.get_work_orders("open", 0, 1)["total"]
 	company = erpnext.get_default_company()
 	drafts = frappe.get_all(
@@ -134,7 +131,6 @@ def _work_order(name: str) -> dict:
 	row["late"] = _late(name)
 	row["image"] = frappe.get_cached_value("Item", row.production_item, "image")
 	ready = flt(row.qty if row.skip_transfer else row.transferred) - flt(row.produced_qty)
-	# What Finish would take, as the work order's own Finish button reckons it.
 	row["can_finish"] = max(ready - flt(row.process_loss_qty), 0)
 	return row
 
@@ -189,7 +185,6 @@ def _step(one: dict) -> dict:
 		"instructions": _instructions(one),
 		"qc": one.get("qc") or {},
 		"expected": str(one.expected_end_date) if one.get("expected_end_date") else None,
-		# What its buttons may do now, as ERPNext's page offers them.
 		"may": {
 			"start": draft and not open_log and not one.is_paused and one.status in ("Open", "Not Started", "Material Transferred"),
 			"pause": draft and bool(open_log) and not one.is_paused,

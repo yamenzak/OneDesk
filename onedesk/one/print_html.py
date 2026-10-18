@@ -16,22 +16,16 @@ from jinja2.sandbox import ImmutableSandboxedEnvironment
 
 from onedesk.one_storage import store
 
-#: The mark a workspace's saved HTML block carries.
 MARK = "one_sandboxed"
 
-#: Where this site's files are served: frappe's folders, or One's store (one_storage).
 FILES = rf"(/files/|/private/files/|{re.escape(store.FETCH)}\?)"
 
-#: A picture this site serves, or one written inline.
 IMAGE = re.compile(rf"""^({FILES}[^"'<>\s]+|data:image/[a-z+.-]+;base64,[A-Za-z0-9+/=\s]+)$""", re.I)
 
-#: What a link may open. A link is not fetched when the page is drawn.
 LINK = re.compile(r"^(https?:|mailto:|tel:|#|/)", re.I)
 
-#: What a URL in a style may point at.
 STYLE_URL = re.compile(rf"""url\(\s*['"]?\s*({FILES}|data:image/)""", re.I)
 
-#: What a printed page is made of.
 TAGS = frozenset(
 	(
 		"a abbr address article aside b big blockquote br caption center cite code col colgroup dd "
@@ -41,7 +35,6 @@ TAGS = frozenset(
 	).split()
 )
 
-#: What those may say about themselves; a URL only where it is checked below.
 ATTRIBUTES = {
 	"*": {
 		"align",
@@ -75,7 +68,6 @@ ATTRIBUTES = {
 	"time": {"datetime"},
 }
 
-#: Filters a template may use: the ones that shape a value, none that marks it safe.
 FILTERS = frozenset(
 	(
 		"abs capitalize center count d default e escape first float format int join last length lower "
@@ -83,16 +75,12 @@ FILTERS = frozenset(
 	).split()
 )
 
-#: Tests a template may use.
 TESTS = frozenset("defined undefined none number string odd even divisibleby eq ne lt gt le ge in".split())
 
-#: What a template may call on a record or a row.
 METHODS = frozenset(("get", "get_formatted"))
 
-#: The names a template starts from.
 NAMES = frozenset(("doc", "loop", "_"))
 
-#: Everything else a template may be made of.
 NODES = (
 	nodes.Template,
 	nodes.Output,
@@ -199,7 +187,6 @@ def render(text: str, doc) -> str:
 		check_template(text, _("HTML"))
 		drawn = SANDBOX.from_string(text).render(doc=doc, _=_)
 	except Exception:
-		# A block that no longer reads prints nothing, as frappe's own does.
 		frappe.clear_last_message()
 		return ""
 	return clean(drawn)
@@ -222,7 +209,6 @@ def _attribute(tag: str, attribute: str, value: str) -> str | None:
 	return value
 
 
-#: A picture whose address was taken out, which would print as nothing.
 EMPTY_IMAGE = re.compile(r"<img(?![^>]*\ssrc=)[^>]*>", re.I)
 
 
@@ -245,7 +231,6 @@ def _cleaned(html: str) -> str:
 	)
 
 
-#: A template, wherever a letter head would carry one.
 TEMPLATE = re.compile(r"\{[{%#]")
 
 

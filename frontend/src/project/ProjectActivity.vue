@@ -1,16 +1,8 @@
 <template>
-  <!-- The project's history across it and its sub-projects: the documents
-       made for it, its tasks, time, updates and files (one_project/activity.py),
-       beside frappe's own timeline of the project, its comments, emails and
-       field changes, newest first as a form's Activity is. A comment is
-       written at the top and New Email opens frappe's Email dialog (kit
-       ActivityComposer); an email is answered from its own row with Reply or
-       Reply All. -->
   <div class="flex flex-col gap-4 pb-10">
     <ActivityComposer ref="composer" doctype="Project" :name="project" :vet="letIn" @sent="sent">
       <TabButtons v-model="shown" :options="FILTERS" />
     </ActivityComposer>
-    <!-- What the workspace's extensions add here (one_studio/places.py). -->
     <PlaceSpot :said="spot" />
     <ActivityTimeline :activities="rows" :loading="!ready" :paginate="paginate">
       <template #empty>
@@ -101,11 +93,9 @@ import ActivityLine from "./ActivityLine.vue";
 import { usePlace } from "./place";
 
 const props = defineProps({ project: { type: String, required: true }, modified: String });
-// Only the project's own work when the page shows its Main (only.js).
 const only = useOnly();
 defineEmits(["task"]);
 
-// What of the project's own fields its timeline shows (Project tracks its changes).
 const FIELDS = ["project_name", "status", "one_health", "one_manager", "customer", "expected_start_date", "expected_end_date", "estimated_costing", "priority", "one_kind", "users"];
 const own = useActivityTimeline("Project", props.project, ["comment", "email", { version: FIELDS }]);
 
@@ -118,7 +108,6 @@ const FILTERS = [
 const shown = ref("all");
 const VERBS = () => ({ created: __("created"), submitted: __("submitted"), cancelled: __("cancelled") });
 const HEALTH = { "On Track": "green", "At Risk": "amber", "Off Track": "red" };
-// The gutter icon of each kind of row; a cancelled document and photos have their own.
 const ICONS = { document: "lucide-file-text", tasks: "lucide-list-plus", task: "lucide-circle-check", time: "lucide-clock", update: "lucide-message-square-text", files: "lucide-paperclip", started: "lucide-folder-plus" };
 const iconOf = (one, icon) => (one.data.verb === "cancelled" ? "lucide-file-x" : one.type === "files" && one.data.photos ? "lucide-image" : icon);
 function filesSaid(data) {
@@ -127,7 +116,6 @@ function filesSaid(data) {
   return data.count === 1 ? __("added a file") : __("added {0} files", [data.count]);
 }
 
-// The project's history (activity.py), a page at a time, newest first.
 const history = ref([]);
 const more = ref(false);
 const fetching = ref(false);
@@ -162,8 +150,6 @@ const rows = computed(() =>
 );
 const spot = usePlace("oneproject.activity", () => ready.value && { project: { name: props.project }, activity: { shown: shown.value, count: rows.value.length } });
 
-// Anything that adds to the history reloads its newest page: money moving
-// (money.py tells the page), a task, time or an update, the project saved.
 let soon;
 const later = () => {
   clearTimeout(soon);
@@ -179,9 +165,6 @@ onBeforeUnmount(() => stops.forEach((stop) => stop()));
 watch(() => props.modified, later);
 load();
 
-// Somebody mentioned who can't open the project hears of it but can't come
-// in, so whoever may change the project is asked to add them first
-// (one_project/members.py `unseen`, `let_in`). The comment is posted either way.
 async function letIn(body) {
   const said = await call("onedesk.one_project.members.unseen", { project: props.project, content: body });
   if (!said.people.length || !said.can_add) return;
@@ -190,7 +173,6 @@ async function letIn(body) {
     await call("onedesk.one_project.members.let_in", { project: props.project, users: said.people.map((one) => one.user) });
 }
 
-// What was written at the foot shows at once; a filter that hides it gives way.
 const composer = ref(null);
 function sent() {
   if (shown.value === "money" || shown.value === "work") shown.value = "all";

@@ -17,10 +17,8 @@ from onedesk.one_storage import api, store, tell
 from onedesk.one_storage import namespace as ns
 from onedesk.one_storage.doctype.cloud_link.cloud_link import hashed
 
-#: How long an unlocked link stays unlocked in one browser.
 OPEN_FOR = 12 * 60 * 60
 
-#: How long an emailed code is good for.
 CODE_LIFE = 10 * 60
 
 ANYONE, INVITED = "Anyone with the link", "Invited people"
@@ -28,9 +26,6 @@ ANYONE, INVITED = "Anyone with the link", "Invited people"
 
 def url_of(token: str) -> str:
 	return get_url(f"/s/{token}")
-
-
-# ------------------------------------------------------------ the owner's side
 
 
 def _mine(node: str) -> dict:
@@ -92,8 +87,6 @@ def make(
 			"allow_download": cint(allow_download),
 			"allow_upload": cint(allow_upload),
 			"expires_on": expires_on or None,
-			# An invitation is proved by the code sent to the address; a
-			# password on top would be a second thing to pass on.
 			"password": password if audience != INVITED else None,
 		}
 	)
@@ -130,9 +123,6 @@ def forget_file(doc, method=None) -> None:
 	"""on_trash of File: its links go with it."""
 	for name in frappe.get_all("Cloud Link", filters={"file": doc.name}, pluck="name"):
 		frappe.delete_doc("Cloud Link", name, ignore_permissions=True, force=True)
-
-
-# ------------------------------------------------------------ the guest's side
 
 
 def live(token: str | None):
@@ -201,8 +191,6 @@ def opened_as(link) -> str | None:
 	or None if it has not been opened yet."""
 	if not needs(link):
 		return ""
-	# Frappe's cookie manager quotes what it sets, and the request gives it
-	# back as it was sent.
 	value = unquote(frappe.request.cookies.get(_cookie(link)) or "") if frappe.request else None
 	email = unseal(link.token_hash, value, _key(), time.time())
 	if email is None:
@@ -258,8 +246,6 @@ def ask_code(token: str, email: str | None = None):
 		try:
 			tell.code_asked(link, email, code)
 		except Exception:
-			# The page says the same thing either way; the owner finds out
-			# from the error log rather than the guest from a stack trace.
 			frappe.log_error(title=f"OneCloud could not send a code for {link.name}")
 	frappe.local.cookie_manager.set_cookie("oc_email", email, max_age=CODE_LIFE, httponly=True)
 	return _back(token, "sent")

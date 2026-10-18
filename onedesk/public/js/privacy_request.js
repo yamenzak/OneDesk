@@ -1,6 +1,3 @@
-// A request to delete somebody's account (one/privacy.py): read here by a
-// workspace administrator, decided with Approve and Delete or Hold, never by
-// editing the record. frappe's own buttons are its System Manager's.
 frappe.ui.form.on("Personal Data Deletion Request", {
 	refresh(frm) {
 		const who = frappe.user.full_name(frm.doc.email) || frm.doc.email;

@@ -104,7 +104,6 @@ def paid_online(doc, method=None) -> None:
 	if doc.payment_type != "Receive" or doc.party_type != "Customer":
 		return
 	for row in doc.references:
-		# An invoice paid, or an order's deposit.
 		if not row.get("payment_request") or row.reference_doctype not in ("Sales Invoice", "Sales Order"):
 			continue
 		owner = frappe.db.get_value(row.reference_doctype, row.reference_name, "owner")

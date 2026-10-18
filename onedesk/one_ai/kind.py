@@ -6,16 +6,12 @@ for Intake, so each reads a kind the same way.
 import frappe
 from frappe.utils import strip_html_tags
 
-#: Layout, not data.
 LAYOUT = {"Section Break", "Column Break", "Tab Break", "HTML", "Button", "Heading", "Image", "Fold"}
 
-#: Never shown to a model, even as a field's name.
 NEVER_READ = ("Password",)
 
-#: Where a typed name goes on a new record, as frappe's form puts it.
 TYPED = "__newname"
 
-#: The savepoint a new record is tried in and rolled back from.
 READY = "one_ai_ready"
 
 
@@ -55,9 +51,6 @@ def fields(meta, depth: int = 0, printing: bool = False) -> list:
 		if f.fieldtype in LAYOUT or f.fieldtype in NEVER_READ or f.hidden:
 			continue
 		if printing:
-			# A line a field, as fields_of writes one, with its type: a page
-			# lays out forty of a kind's hundred and fifty, and the model reads
-			# them all on every round.
 			kind = f"Link to {f.options}" if f.fieldtype == "Link" and f.options else f.fieldtype
 			line = f"{f.fieldname} ({f.label or f.fieldname}, {kind}{', not printed' if f.print_hide else ''})"
 			if f.fieldtype in frappe.model.table_fields and depth == 0:
@@ -157,7 +150,6 @@ def ready(doctype: str, changes: dict) -> None:
 	bad, wrong = [], set()
 	for one in rows:
 		invalid, _cancelled = one.get_invalid_links()
-		# frappe's own words for each: "Leave Type: Holiday Leave".
 		bad += [f"Could not find {said}" for _field, _value, said in invalid]
 		wrong |= {field for field, _value, _said in invalid}
 
@@ -166,14 +158,12 @@ def ready(doctype: str, changes: dict) -> None:
 	frappe.flags.mute_messages = True
 	try:
 		for one in rows:
-			one._fix_numeric_types()  # as insert does
+			one._fix_numeric_types()
 		doc.run_method("before_validate")
 		doc.run_method("validate")
 	except frappe.ValidationError as refused:
 		bad.append(strip_html_tags(str(refused)).strip())
 	except Exception:
-		# Something a controller did not expect of a record with no name yet:
-		# not the model's mistake, and Approve will say it if it is real.
 		pass
 	finally:
 		frappe.flags.mute_messages = muted
@@ -183,8 +173,6 @@ def ready(doctype: str, changes: dict) -> None:
 	if needed:
 		bad.insert(0, "Still needed: " + ", ".join(needed))
 	if unknown:
-		# The model's own guess at a field name, said back so it can correct
-		# itself in one step instead of asking the person what a field is called.
 		bad.insert(
 			0, f"{doctype} has no field {', '.join(unknown)}. Its fields: {', '.join(fields_of(meta))}"
 		)
@@ -192,7 +180,6 @@ def ready(doctype: str, changes: dict) -> None:
 		frappe.throw(
 			". ".join(one.rstrip(".") for one in dict.fromkeys(bad))
 			+ ". "
-			# Said to the model, not to a person: it asks them, in their language.
 			+ "Correct what you can from what the person already said and suggest it again; ask them only for what they have not said.",
 			frappe.MandatoryError,
 		)

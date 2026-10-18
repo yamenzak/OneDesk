@@ -10,18 +10,14 @@ from frappe.utils import now_datetime
 
 from onedesk.one_admin import ladder, log, runner, site
 
-#: What to call the job that gets a workspace to each rung.
 BY = {
-	"Overdue": None,  # nothing to do to the site; the fall is the record of it
+	"Overdue": None,
 	"Suspended": "Suspend",
 	"Archived": "Archive",
 	"Dropped": "Drop",
 	"Live": "Restore",
 }
 
-#: Workspaces looked at per nightly run. High enough that a real estate of
-#: tenants is walked in one night, low enough that a bug does not archive the
-#: whole book before anybody wakes up.
 AT_A_TIME = 50
 
 
@@ -52,8 +48,6 @@ def paid(tenant) -> str | None:
 	if tenant.status == "Live":
 		return None
 	if tenant.status in ("Archived", "Dropped"):
-		# The site is gone, so a payment cannot bring it back on its own: the
-		# operators hear it and decide, rebuild from the backup or refund.
 		from onedesk.one_admin import tell
 
 		tell.paid_while_archived(tenant)
@@ -120,8 +114,6 @@ def standing(tenant) -> dict:
 		"rung": tenant.status,
 		"next": ladder.below(tenant.status),
 		"since": str(tenant.status_since) if tenant.status_since else None,
-		# How long this rung lasts, so a screen drawing a bar has a denominator
-		# without keeping its own copy of the periods.
 		"days": days.get(tenant.status),
 		"days_left": ladder.days_left(tenant.status, tenant.status_since, now_datetime(), days),
 	}

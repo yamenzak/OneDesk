@@ -6,7 +6,6 @@ from the site's own schema after every migrate.
 
 import frappe
 
-#: The field, and the two other places it would otherwise keep showing up.
 FIELD = "company"
 OFF = (("hidden", "1"), ("in_list_view", "0"), ("in_standard_filter", "0"))
 

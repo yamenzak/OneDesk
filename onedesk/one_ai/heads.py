@@ -12,7 +12,6 @@ from frappe.utils import escape_html
 
 from onedesk.one_ai import run
 
-#: Where a proposal stands, in a word and a colour.
 SAYS = {
 	"Proposed": ("orange", _lt("Waiting for you")),
 	"Applied": ("green", _lt("Done")),
@@ -81,7 +80,6 @@ MEASURES = {
 }
 
 VERBS = {
-	# Whose decision it is, the server checks (proposals._mine).
 	"proposal.apply": {
 		"doctypes": ["AI Proposal"],
 		"label": lambda doc: _("Apply"),

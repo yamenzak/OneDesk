@@ -14,7 +14,6 @@ import { computed } from "vue";
 
 const props = defineProps({
 	name: { type: String, required: true },
-	// frappe's own sizes: xs 12, sm 16, md 20.
 	size: { type: String, default: "sm" },
 });
 

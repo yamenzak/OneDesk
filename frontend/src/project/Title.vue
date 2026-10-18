@@ -1,6 +1,4 @@
 <template>
-  <!-- The project's name, or a task's subject, renamed in place. On a photo it is drawn in white.
-       A long one wraps to a second line, as on a phone, before it is cut. -->
   <div class="flex min-w-0 flex-wrap items-center gap-3">
     <input
       v-if="editing"

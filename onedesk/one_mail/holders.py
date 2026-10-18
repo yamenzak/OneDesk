@@ -10,11 +10,8 @@ from frappe import _
 
 from onedesk.one_mail import addresses
 
-#: The default holding the account that is the workspace's mailbox, when it is
-#: not the address on the mail domain.
 WORKSPACE = "one_mail_workspace"
 
-#: How folders are listed: the usual ones first, in the order mail clients use.
 ORDER = ("Inbox", "Drafts", "Sent", "Archive", "Junk", "Trash", "Other")
 
 
@@ -109,12 +106,9 @@ def mailboxes() -> list[dict]:
 				"sends": account.enable_outgoing,
 				"error": account.one_error,
 				"intake": account.one_intake,
-				# An address on the mail domain that is somebody's own receives
-				# only: the workspace's address sends for everybody.
 				"receives_only": int(bool(account.one_hosted and not account.enable_outgoing)),
 				"may_sign": int(may_sign(account.name)) if account.enable_outgoing else 0,
 				"signed": first_line(account.signature),
-				# Only a connected mailbox has a password to give again.
 				"may_reconnect": int(
 					bool(account.one_connected) and (not account.one_shared or _administers())
 				),
@@ -232,8 +226,6 @@ def set_signature(account: str, signature: str | None = None) -> None:
 			_("Only a Workspace Administrator can change the signature of {0}.").format(account),
 			frappe.PermissionError,
 		)
-	# Not a save, which would try the mailbox's server again. signed() is
-	# the same rule for the form, a bulk edit or an import.
 	frappe.db.set_value(
 		"Email Account",
 		account,

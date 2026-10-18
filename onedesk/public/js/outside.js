@@ -1,12 +1,6 @@
-// What of frappe's own desk a workspace is not offered (one/outside.py). A menu
-// item that ends on a screen only frappe's System Manager may open is left off,
-// on frappe's own read check of that screen, so the platform's people keep it.
-// The editors for frappe's own furniture (the sidebar, the dock) are left off
-// for everyone on One's desk, whose sidebars are One's.
 
 frappe.provide("onedesk.outside");
 
-// `build` runs with `page.add_menu_item` skipping the given labels.
 onedesk.outside.skipping = (page, labels, build) => {
 	const add = page.add_menu_item;
 	page.add_menu_item = function (label, ...rest) {
@@ -19,7 +13,6 @@ onedesk.outside.skipping = (page, labels, build) => {
 	}
 };
 
-// A dropdown's groups without the options named.
 onedesk.outside.without = (groups, names) =>
 	(groups || []).map((group) => ({
 		...group,
@@ -28,7 +21,6 @@ onedesk.outside.without = (groups, names) =>
 			: group.options,
 	}));
 
-// A record's View Audit Trail opens frappe's Audit Trail, a System Manager's single.
 (() => {
 	const Toolbar = frappe.ui.form && frappe.ui.form.Toolbar;
 	if (!Toolbar || Toolbar.prototype.one_outside) return;
@@ -39,7 +31,6 @@ onedesk.outside.without = (groups, names) =>
 	};
 })();
 
-// A report view's Setup Auto Email opens Auto Email Report, the administrator's.
 (() => {
 	const Report = frappe.views && frappe.views.ReportView;
 	if (!Report || Report.prototype.one_outside) return;
@@ -53,9 +44,6 @@ onedesk.outside.without = (groups, names) =>
 	};
 })();
 
-// The print page's Print Settings opens frappe's form, which an administrator
-// may only read and nobody else may open: it is left off One's desk. The page's
-// class arrives with the page, so it is wrapped then.
 (() => {
 	const form = frappe.ui.form;
 	if (!form || Object.getOwnPropertyDescriptor(form, "PrintView")?.set) return;
@@ -74,18 +62,12 @@ onedesk.outside.without = (groups, names) =>
 	});
 })();
 
-// Edit Sidebar and Manage Dock arrange frappe's sidebars and dock; One's desk
-// has One's (one/outside.py). The user menu gains the theme, which frappe's
-// own settings dialog held, and Help is One's.
 if (frappe.boot.one_elsewhere && frappe.ui.SidebarHeader && frappe.ui.Sidebar) {
 	frappe.ui.SidebarHeader = class OneSidebarHeader extends frappe.ui.SidebarHeader {
 		menu_items() {
-			// All apps opens frappe's apps screen, which One's desk sends Home; the rail is the switcher.
 			return onedesk.outside.without(super.menu_items(), ["edit-sidebar", "all-apps"]);
 		}
 
-		// Help is One's: OneAI answers from each product's own docs. erpnext's
-		// links to its documentation are left out; the site's own help rows stay.
 		get_custom_help_links() {
 			return [
 				{
@@ -103,7 +85,6 @@ if (frappe.boot.one_elsewhere && frappe.ui.SidebarHeader && frappe.ui.Sidebar) {
 			frappe.ui.Dropdown = class extends Dropdown {
 				constructor(opts) {
 					const options = onedesk.outside.without(opts.options, ["workspace-selector"]);
-					// The theme, which frappe's own settings dialog held, beside Reload.
 					const group = options.find((one) => Array.isArray(one.options) && one.options.some((o) => o.name === "reload"));
 					group?.options.splice(group.options.findIndex((o) => o.name === "reload"), 0, {
 						name: "theme",
@@ -123,9 +104,6 @@ if (frappe.boot.one_elsewhere && frappe.ui.SidebarHeader && frappe.ui.Sidebar) {
 	};
 }
 
-// Frappe's own screens for what One has a screen of its own for. A list or form
-// of these, reached from frappe's bell, a link or an address, opens One's, in
-// place of it in the history so Back does not return to it.
 onedesk.outside.instead = (sub_path) => {
 	const [doctype, name] = (sub_path || "").split("/");
 	const me = frappe.session.user;
@@ -146,7 +124,6 @@ onedesk.outside.instead = (sub_path) => {
 		case "print-format":
 		case "letter-head":
 			return name ? null : ["workspace-settings", { section: "printing" }];
-		// frappe's mail client, the list and its Inbox view; a message's own form stays.
 		case "communication":
 			return !name || name === "view" ? ["onemail"] : null;
 	}
@@ -164,9 +141,6 @@ if (frappe.boot.one_elsewhere) {
 	};
 }
 
-// Search offers the pages and reports of One's desk: those a One sidebar
-// lists, and One's own. Frappe's and erpnext's others (point of sale, the sales
-// funnel, stock balance) are left out; records of every kind are still found.
 onedesk.outside.ours = (kind) => {
 	const named = new Set();
 	for (const sidebar of Object.values(frappe.boot.module_sidebars || {})) {
@@ -187,7 +161,6 @@ if (frappe.boot.one_elsewhere && frappe.search?.utils) {
 	};
 	const pages = utils.get_pages;
 	utils.get_pages = function (keywords) {
-		// frappe's own Calendar entry opens its event calendar; OneCalendar is a page of One's.
 		const found = pages.call(this, keywords).filter((one) => one.type !== "Calendar");
 		return keep("Page", frappe.boot.page_info || {}, found);
 	};
@@ -197,18 +170,11 @@ if (frappe.boot.one_elsewhere && frappe.search?.utils) {
 	};
 }
 
-// Frappe's not-found and not-permitted pages, as One's: the scene the web's
-// 404 draws (templates/includes/one_lost.html, css/lost.css), on a page that
-// keeps the rail. A desk address that names no page at all is not found,
-// rather than frappe's "No permission for Page" over an empty screen.
-// Its gradients are named per drawing: a hidden page earlier in the desk holding
-// the same ids would leave this one's ring undrawn.
 let drawn = 0;
 onedesk.outside.lost = ({ code = "", core = "one" }) => {
 	const id = `one-lost-${++drawn}`;
 	const digit = (d) => (code ? `<span class="one-lost__digit">${d}</span>` : "");
 	const mark = {
-		// On a code the ring alone is the 0.
 		empty: "",
 		check: `<path d="M74 97l15 15 30-32" stroke-width="12"/>`,
 	}[core] ?? `<path d="M86 78l10-8v52M84 122h24" stroke-width="12"/>`;
@@ -231,7 +197,6 @@ if (frappe.boot.one_elsewhere) {
 	const draw = (page_name, { title, line, ...art }) => {
 		page_name = page_name || frappe.get_route_str();
 		const wrapper = frappe.pages[page_name] || frappe.container.add_page(page_name);
-		// A frappe page, so the rail and the panel stay as on any other.
 		if (!wrapper.page) frappe.ui.make_app_page({ parent: wrapper, single_column: true });
 		const $scene = $(`<div class="one-lost one-lost--desk">
 			${onedesk.outside.lost(art)}
@@ -271,7 +236,6 @@ if (frappe.boot.one_elsewhere) {
 			frappe.pages[name] ||
 			locals.Page?.[name];
 		if (known) return show.call(this, name);
-		// A kind of record the reader may not read is not in the boot either.
 		frappe
 			.xcall("onedesk.one.outside.kind_of", { name })
 			.then((kind) => (kind ? frappe.show_not_permitted(name) : frappe.show_not_found(name)))

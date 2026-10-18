@@ -1,7 +1,3 @@
-// A quotation for a project is to that project's customer, and one for extra
-// work becomes a sub-project when it's ordered. See one_project/billing.py.
-// One made from a deal, or from the list, offers the customer's open projects,
-// and names the one waiting for its quote (one_project/view.py `to_quote`).
 frappe.ui.form.on("Quotation", {
 	setup(frm) {
 		frm.set_query("project", () =>
@@ -41,9 +37,6 @@ onedesk.quotation.project = async (frm) => {
 	if (project && !frm.doc.project) frm.set_value("project", project);
 };
 
-// A quotation for a project starts with the project's payment terms and terms
-// and conditions, once the customer's own have been fetched, as saving it would
-// give it (one_project/terms.py `carried`).
 onedesk.quotation.terms = (frm) => {
 	if (!frm.doc.project || frm.one_terms_given) return;
 	frm.one_terms_given = true;

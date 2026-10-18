@@ -10,7 +10,6 @@ from frappe.utils import add_days, now_datetime
 from onedesk.one_storage import live, mounts
 from onedesk.one_storage import namespace as ns
 
-#: How long the Recycle Bin keeps things.
 KEPT_DAYS = 30
 
 
@@ -33,7 +32,6 @@ def _target(node_id: str) -> tuple:
 		return ("mount", node_id)
 	kind = ns.parse(node_id)
 	if kind[0] == "featured":
-		# A project's Featured Media: attached to the project, and marked.
 		if not frappe.has_permission("Project", "write", kind[1]):
 			frappe.throw(_("You can't add files to {0}.").format(kind[1]), frappe.PermissionError)
 		return ("record", "Project", kind[1], "featured")
@@ -93,7 +91,6 @@ def listing(node: str = ns.ROOT, search: str | None = None, everywhere: int = 0)
 	elif kind[0] == "featured":
 		can_add = bool(frappe.has_permission("Project", "write", kind[1]))
 	elif kind[0] == "mount":
-		# The server decides; a refusal comes back as its own words.
 		can_add = True
 	return {
 		"node": node,
@@ -290,9 +287,6 @@ def attach(nodes: str | list, doctype: str | None = None, docname: str | None = 
 		if not ns.may(item):
 			frappe.throw(_("You can't open {0}.").format(item.file_name), frappe.PermissionError)
 		if not doctype:
-			# Nothing to attach it to: a new message in OneMail, whose sending
-			# copies it onto the message. A row of its own would only be a stray
-			# copy in My Files.
 			made.append(frappe.get_doc("File", item.name).as_dict())
 			continue
 		doc = frappe.get_doc(
@@ -367,7 +361,6 @@ def _copy(item: dict, where: tuple) -> str:
 	fields = {
 		"doctype": "File",
 		"file_url": item.file_url,
-		# Featured media is public to be shown; a copy of it elsewhere is not.
 		"is_private": 1 if item.get("one_featured") else item.is_private,
 		"file_size": item.file_size,
 		"content_hash": frappe.db.get_value("File", item.name, "content_hash"),

@@ -1,26 +1,18 @@
 <template>
-  <!-- OneInventory's Home (one_inventory/page/inventory): what needs somebody
-       today, and everything in OneInventory with what it is for
-       (one_inventory/home.py). Reports and Setup open their part of it.
-       Modelled on Shopify's admin Home: the figures that matter with their
-       trend, then what needs somebody, then where everything is. -->
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
-      <!-- The headline figures, each with its months as a sparkline. -->
       <div v-if="cards.length" ref="cardsRoot" class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
         <NumberCard v-for="card in cards" :key="card.key" v-bind="card.props" class="cursor-pointer" role="link" @click="go(card.route)" />
       </div>
       <PlaceSpot :said="placed" class="mt-4" />
       <ViewTabs v-model="shown" :views="views" class="mt-5" />
 
-      <!-- Overview: what needs somebody, then the story of the stock. -->
       <template v-if="shown === 'overview'">
         <Loading v-if="!story" />
         <InventoryStory v-else :story="story" :needs="chips" @today="shown = 'today'" />
       </template>
 
-      <!-- Today: what needs somebody, kind by kind, the empty kinds left out. -->
       <template v-else-if="shown === 'today'">
         <p v-if="!parts.length" class="py-10 text-center text-base text-ink-gray-5">{{ __("Nothing needs you") }}</p>
         <Section v-for="part in parts" :key="part.key" :title="part.title" :icon="part.icon" :aside="part.count" :action="part.action">
@@ -29,7 +21,6 @@
         </Section>
       </template>
 
-      <!-- Everything, or one part of it, each with what it is for. -->
       <template v-else>
         <TextInput v-model="search" class="mt-4 w-full max-w-xs" type="search" :placeholder="__('Search')" :aria-label="__('Search')">
           <template #prefix><span class="lucide-search size-4 text-ink-gray-5" aria-hidden="true" /></template>
@@ -69,10 +60,8 @@ const props = defineProps({
 });
 
 const said = ref(null);
-// Today, everything, or one part of it: /desk/inventory/reports opens Reports.
 const shown = ref(props.route[0] || props.query.view || "overview");
 const search = ref("");
-// The story is read beside what needs somebody, so Today never waits on it.
 const story = ref(null);
 
 async function load() {
@@ -82,7 +71,6 @@ async function load() {
 }
 load();
 
-// What needs somebody changes with every order, receipt, move and service.
 let timer = null;
 const soon = () => {
   clearTimeout(timer);
@@ -108,11 +96,6 @@ const needed = computed(() => {
   return n.late.count + n.low.count + n.lots.count + n.services.count + n.work.count + n.drafts.length;
 });
 
-// The headline figures: what stock is worth, what came in, went out and was
-// made this month, what is still on order and how many papers moved stock,
-// each against last month and drawn over its months. Still on Order is drawn
-// over what was ordered each month, which is not what it counts, so it is
-// not set against last month (`alone`).
 const CARDS = () => [
   { key: "worth", title: __("Stock Value"), money: true, type: "area", hue: 0, route: "/desk/stock-on-hand" },
   { key: "taken_in", title: __("Received This Month"), money: true, type: "bar", hue: 2, route: "/desk/purchase-receipt" },
@@ -121,7 +104,6 @@ const CARDS = () => [
   { key: "on_order", title: __("To Receive"), money: true, type: "area", hue: 5, alone: true, route: "/desk/purchase-order?status=To Receive and Bill" },
   { key: "papers", title: __("Stock Ledger Entries This Month"), type: "bar", hue: 1, route: "/desk/query-report/Stock Ledger" },
 ];
-// The cards' colours, as frappe-ui reads them for this island and its theme.
 const cardsRoot = ref();
 const { tokens } = useChartTokens(cardsRoot);
 const change = (series) => {
@@ -146,7 +128,6 @@ const cards = computed(() => {
     }));
 });
 
-// What needs somebody, one button each, leading to Today.
 const chips = computed(() => {
   const n = said.value?.needs;
   if (!n) return [];
@@ -177,8 +158,6 @@ function route(one) {
 const groups = computed(() => {
   const words = search.value.trim().toLowerCase();
   const matches = (one) => !words || `${one.label} ${one.about}`.toLowerCase().includes(words);
-  // Reports and Setup set out by what each part is about, a section to a
-  // topic, as Zoho Inventory's Reports Center and Odoo's configuration do.
   const sections = said.value.sections?.[shown.value];
   if (sections)
     return sections
@@ -194,7 +173,6 @@ const groups = computed(() => {
     .filter((group) => group.rows.length);
 });
 
-// Each kind of thing that needs somebody, as rows, and where the rest are.
 const parts = computed(() => {
   const n = said.value.needs;
   const more = (kept, label, where) => (kept.count > kept.rows.length ? { label: __("{0} more", [kept.count - kept.rows.length]) + " · " + label, route: where } : null);
@@ -318,8 +296,6 @@ function report() {
   );
 }
 
-// The page is a place (one_studio/places.py): its extensions are told what
-// needs somebody, and may add a note or a button.
 const placed = reactive({ notes: [], actions: [] });
 let drawn = null;
 function extended(s) {

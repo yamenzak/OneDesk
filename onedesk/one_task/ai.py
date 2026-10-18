@@ -9,11 +9,8 @@ import frappe
 from frappe import _lt
 from frappe.utils import getdate
 
-#: Steps suggested for one task at once: more is a plan, which is a project.
 MOST_STEPS = 12
 
-#: The statuses a person sets on a task's page. Overdue and Template are
-#: ERPNext's own, not chosen.
 STATUSES = ("Open", "Working", "Pending Review", "Completed", "Cancelled")
 PRIORITIES = ("Low", "Medium", "High", "Urgent")
 
@@ -26,14 +23,12 @@ _FIRST = {
 	"expects": "my_tasks",
 }
 _ADD = {
-	# The reader says what; the model fills in the rest and suggests the card.
 	"label": _lt("Add a task…"),
 	"ask": _lt("Add a task to "),
 	"fill": True,
 	"expects": "plan_task",
 }
 
-#: A task's page (page/task_view), by its open view, from `?view=`.
 PAGE = "task-view"
 
 _STEPS = {
@@ -62,7 +57,6 @@ _WHO = {
 }
 
 _CHANGE = {
-	# The reader says what; the model suggests the card.
 	"label": _lt("Change this task…"),
 	"ask": _lt("Change this task: "),
 	"fill": True,

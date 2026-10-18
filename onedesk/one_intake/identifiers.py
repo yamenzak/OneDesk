@@ -14,13 +14,10 @@ EMAIL, DOMAIN, PHONE, VAT, TAX, IBAN, REGISTER, DOCUMENT = (
 )  # fmt: skip
 KINDS = (EMAIL, DOMAIN, PHONE, VAT, TAX, IBAN, REGISTER, DOCUMENT)
 
-#: Read as its domain: a website is stored as the Domain it names.
 WEBSITE = "Website"
 
-#: Held by one company only, and never shared: one of these matching is a match.
 STRONG = frozenset((VAT, TAX, IBAN, REGISTER, DOCUMENT))
 
-#: Domains that are somebody's mail provider rather than their organisation.
 PROVIDERS = frozenset(
 	(
 		"gmail.com", "googlemail.com", "outlook.com", "outlook.de", "hotmail.com", "hotmail.de", "live.com",
@@ -28,18 +25,15 @@ PROVIDERS = frozenset(
 		"gmx.net", "gmx.de", "gmx.com", "gmx.at", "gmx.ch", "web.de", "t-online.de", "freenet.de", "posteo.de",
 		"mailbox.org", "proton.me", "protonmail.com", "pm.me", "mail.ru", "yandex.com", "yandex.ru", "zoho.com",
 		"fastmail.com", "hey.com", "tutanota.com", "tuta.io", "qq.com", "163.com", "emirates.net.ae",
-		# Reserved for examples (RFC 2606): anybody's address may use them.
 		"example.com", "example.net", "example.org",
 	)
 )  # fmt: skip
 
-#: Country calling codes, for a national number when phonenumbers is absent.
 CALLING = {"DE": "49", "AT": "43", "CH": "41", "NL": "31", "BE": "32", "FR": "33", "IT": "39", "ES": "34",
 	"GB": "44", "IE": "353", "US": "1", "CA": "1", "AE": "971", "SA": "966", "QA": "974", "KW": "965",
 	"BH": "973", "OM": "968", "EG": "20", "JO": "962", "LB": "961", "SY": "963", "IQ": "964", "TR": "90",
 	"PL": "48", "DK": "45", "SE": "46", "NO": "47"}  # fmt: skip
 
-#: How long each country's IBAN is, for the countries a workspace here meets.
 IBAN_LENGTH = {"DE": 22, "AT": 20, "CH": 21, "NL": 18, "BE": 16, "FR": 27, "IT": 27, "ES": 24, "GB": 22,
 	"IE": 22, "LU": 20, "PL": 28, "DK": 18, "SE": 24, "NO": 15, "FI": 18, "PT": 25, "GR": 27, "AE": 23,
 	"SA": 24, "QA": 29, "KW": 30, "BH": 22, "JO": 30, "LB": 28, "EG": 29, "TR": 26, "CZ": 24, "HU": 28,

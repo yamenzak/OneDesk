@@ -1,14 +1,4 @@
 <template>
-  <!-- Rows of a list: frappe-ui's List. A row says what it is, a quiet aside,
-       a quieter `sub` after the name, shown whole or left out when the row is narrow,
-       a badge after the name (a label, or `{ label, theme }`), a line or lines under the name (`below`, `lines`), a bar of how far along it is (the
-       aside then goes under the name; with
-       `then`, a lighter part after it, drawn as frappe-ui's Progress), and a
-       value on the right (with a quieter `under` it); it may carry a
-       dot or an avatar (`avatar` the name, `image` the picture, or an
-       `icon` in its place), and
-       opens its `route` or runs its `onClick`. A row's `actions` are a menu
-       at its end, frappe-ui's Dropdown. -->
   <div v-if="!rows.length && empty" class="py-3 text-base text-ink-gray-5">{{ empty }}</div>
   <List v-else :columns="columns" :row-height="height" divider="full" class="-mx-3 list-gap-3 list-row-px-3">
     <ListRows :items="rows" row-key="key" v-slot="{ item }">
@@ -65,7 +55,6 @@ import { __, go } from "./desk";
 const props = defineProps({ rows: { type: Array, required: true }, empty: String });
 const bars = computed(() => props.rows.some((row) => row.progress !== undefined && row.progress !== null));
 const menus = computed(() => props.rows.some((row) => row.actions?.length));
-// A column for the aside and one for the value, each only when some row has one.
 const dims = computed(() => props.rows.some((row) => row.dim));
 const values = computed(() => props.rows.some((row) => row.value || row.under));
 const columns = computed(() => [
@@ -74,7 +63,6 @@ const columns = computed(() => [
   ...(values.value ? ["minmax(8rem,max-content)"] : []),
   ...(menus.value ? ["2rem"] : []),
 ]);
-// One line for the name, and one more for each line under it.
 const height = computed(() =>
   Math.max(...props.rows.map((row) => 40 + 18 * Math.max((bars.value && row.dim ? 1 : 0) + (row.below ? 1 : 0) + (row.lines?.length || 0), row.under ? 1 : 0)), 40)
 );

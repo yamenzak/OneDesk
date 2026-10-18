@@ -1,12 +1,3 @@
-// A task's due date reads as a day, and red once it has passed on a task still
-// to do. ERPNext's Expected End Date is a Datetime, so every list and board
-// card said "25-09-2026 00:00:00"; the time is shown only when one was set.
-// Lateness is read off the date rather than a status — one_project/board.py says
-// why Overdue is not one.
-//
-// On the docfield rather than the list's formatters, because the board draws
-// its cards through frappe.format, which reads `df.formatter` and nothing else.
-// Its Expected Start Date reads the same way, never red.
 (() => {
 	const DONE = ["Completed", "Cancelled", "Template"];
 	const day_of = (value) => {
@@ -25,16 +16,9 @@
 	if (starts) starts.formatter = (value) => (value ? day_of(value)[1] : "");
 })();
 
-// The list's subject is the task, so frappe's ID column beside it is its
-// number again, taking the room the subject needs.
 frappe.listview_settings["Task"] = frappe.listview_settings["Task"] || {};
 frappe.listview_settings["Task"].hide_name_column = true;
 
-// On the Gantt, a task with a due date and no start is a day on its due date;
-// frappe's view draws a bar from the start and has none to draw. And the view
-// mode pills light the first, Hour, whatever the chart is in: frappe-gantt's
-// view_is reads a name off options.view_mode, which is a string. Wrapped
-// once, for Task only. See one_project/plan.py.
 (() => {
 	const Gantt = frappe.views.GanttView;
 	if (!Gantt || Gantt.prototype.one_due_only) return;

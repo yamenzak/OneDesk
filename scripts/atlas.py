@@ -28,21 +28,13 @@ import tree
 BENCH = Path("/home/frappe/bench1/apps")
 APPS = ("frappe", "erpnext", "hrms")
 SNAPSHOT = tree.ROOT / "docs" / "upstream" / "atlas.json"
-#: Who may read what on the demo site, every grant of One's applied
-#: (one/reach.py `atlas`). A demo check keeps it the site's.
 ROLES = tree.ROOT / "docs" / "atlas-site.json"
 SITE = os.environ.get("ONE_SITE", "onedesk.localhost")
 FRONTEND = tree.ROOT / "frontend" / "src"
 
-#: Field types a person clicks through to another record. A hidden or
-#: read-only one is no way in: nobody can pick or make a record from it.
 LINKS = ("Link", "Table MultiSelect")
 TABLES = ("Table", "Table MultiSelect")
-#: Words that name the upstream product to whoever reads a screen.
 BRAND = re.compile(r"\b(ERPNext|Frappe|HRMS)\b")
-
-
-# ------------------------------------------------------------------ reading a doctype
 
 
 def _doctype(data: dict, app: str) -> dict:
@@ -80,7 +72,6 @@ def _doctype(data: dict, app: str) -> dict:
 		"title": data.get("title_field") or "",
 		"autoname": data.get("autoname") or "",
 		"listed": sorted(f["fieldname"] for f in fields if f.get("in_list_view") and not f.get("hidden")),
-		# What a person reads on its form: its name and every visible label.
 		"labels": sorted(
 			{data["name"]} | {f["label"] for f in fields if f.get("label") and not f.get("hidden")}
 		),
@@ -154,7 +145,6 @@ def _po(path: Path) -> dict:
 	return out
 
 
-#: The languages One is translated into besides English.
 LANGUAGES = ("ar", "de")
 
 
@@ -190,7 +180,6 @@ def snapshot() -> dict:
 					"doctype": data.get("document_type"),
 					"enabled": int(bool(data.get("enabled"))),
 				}
-	# Each label upstream leaves in English, by language.
 	for meta in out["doctypes"].values():
 		meta["untranslated"] = {
 			lang: [label for label in meta["labels"] if label not in translated[lang]] for lang in LANGUAGES
@@ -243,14 +232,13 @@ def _customized(doctypes: dict) -> None:
 					row[2] = 1
 
 
-# ------------------------------------------------------------------ where One reaches things
-
 _SLUG = re.compile(r"/desk/([a-z0-9-]+)")
 _REPORT_URL = re.compile(r"query-report/([^\"'`?#/]+)")
 _ROUTED = re.compile(
 	r"""set_route\(\s*["'](?:List|Form|Tree|Report|query-report)["']\s*,\s*["']([^"']+)["']"""
 )
 _NEW = re.compile(r"""new_doc\(\s*["']([^"']+)["']""")
+_PAGE = re.compile(r"""set_route\(\s*["']([a-z0-9-]+)["']\s*\)""")
 _DIRECTORY = re.compile(r"""_lt\("[^"]*"\),\s*"(DocType|Report|Page|Masters)",\s*"([^"]+)\"""")
 
 
@@ -309,6 +297,9 @@ def routed() -> dict:
 				found.setdefault(("DocType", slugs[slug]), []).append(where)
 			elif slug in pages:
 				found.setdefault(("Page", pages[slug]), []).append(where)
+		for slug in _PAGE.findall(text):
+			if slug in pages:
+				found.setdefault(("Page", pages[slug]), []).append(where)
 		for name in _REPORT_URL.findall(text):
 			found.setdefault(("Report", unquote(name)), []).append(where)
 		for name in _ROUTED.findall(text) + _NEW.findall(text):
@@ -329,8 +320,6 @@ def reach() -> dict:
 		out[(kind, name)] = ("named", sorted(set(where)))
 	for (kind, name), where in routed().items():
 		out.setdefault((kind, name), ("routed", sorted(set(where))))
-	# A form reached opens every record its visible links name, and its tables',
-	# and its Connections tab lists more; a record on a page of our own has none.
 	pages = paged()
 	queue = [name for (kind, name) in out if kind == "DocType" and name in doctypes]
 	while queue:
@@ -349,8 +338,6 @@ def reach() -> dict:
 			if target in doctypes and ("DocType", target) not in out:
 				out[("DocType", target)] = ("connected", [f"{name}'s Connections"])
 				queue.append(target)
-	# A list reached offers, under Related Reports, every report made for it
-	# and every report made for none (frappe's list_view_select.js).
 	for name, meta in every["reports"].items():
 		ref = meta.get("ref")
 		if ("Report", name) not in out and (not ref or ("DocType", ref) in out):
@@ -421,9 +408,6 @@ def waiting() -> dict:
 	return out
 
 
-# ------------------------------------------------------------------ the columns
-
-#: Roles every person on a workspace's desk holds, and the administrator's.
 EVERYBODY = ("All", "Desk User", "Employee", "Employee Self Service")
 ADMINISTRATOR = "Workspace Administrator"
 
@@ -679,10 +663,6 @@ def page() -> str:
 	return "\n".join(lines) + "\n"
 
 
-# ------------------------------------------------------------------ the Passover points, per record type
-
-#: Who a document goes out to: a submitted one naming either is printed and
-#: sent. A person's own papers (an offer, a payslip) are tests/guards/test_print.py's.
 PARTIES = ("Customer", "Supplier")
 
 
@@ -822,18 +802,13 @@ def points() -> dict:
 	return {check: {k: v for k, v in said.items() if v} for check, said in out.items()}
 
 
-# ------------------------------------------------------------------ our screens
-
 _IMPORT = re.compile(r"""from\s+["'](\.{1,2}/[^"']+)["']""")
 _METHOD = re.compile(r"""["'](onedesk(?:\.\w+){2,})["']""")
 _FOLLOW = re.compile(r"""\b(?:follow|followList|useRecord)\(\s*["']([^"']+)["']""")
 _FOLLOW_ALL = re.compile(r"""\[([^\[\]]*)\]\.map\(\s*\(?\w*\)?\s*=>\s*(?:follow|followList)\(""")
-#: A number printed straight into a template, with no formatter around it.
 _BARE = re.compile(
 	r"\{\{\s*([\w.?]+\.(?:qty|quantity|amount|total|worth|rate|price|cost|hours|count|balance|percent))\s*\}\}"
 )
-#: Reads that list records, whose rows a screen shows and should hear change,
-#: and which a company's records narrow.
 READS = {"get_list", "get_all", "count", "get_count"}
 WRITES = {
 	"insert",
@@ -877,7 +852,6 @@ def _module(path: Path):
 	return ast.parse(path.read_text()) if path.exists() else None
 
 
-#: A table a query names.
 _TABLE = re.compile(r"`tab([^`]+)`")
 
 
@@ -891,7 +865,6 @@ def _calls(fn: ast.AST) -> tuple[set, list, bool]:
 			names.add(node.func.id)
 		elif isinstance(node.func, ast.Attribute):
 			attr = node.func.attr
-			# A query that only selects reads the tables it names.
 			said = node.args[0].value if node.args and isinstance(node.args[0], ast.Constant) else None
 			if attr == "sql" and isinstance(said, str) and said.lstrip().lower().startswith("select"):
 				reads += _TABLE.findall(said)
@@ -927,7 +900,6 @@ def method_reads(method: str) -> tuple[bool, list[tuple[str, bool]]]:
 			continue
 		done.add(name)
 		called, read, wrote = _calls(defs[name])
-		# Narrowed by the company, or by its warehouses, which are the company's.
 		body = ast.get_source_segment(source, defs[name])
 		with_company = "company" in body or "warehouse" in body
 		reads += [(doctype, with_company) for doctype in read]
@@ -991,10 +963,6 @@ def screens() -> list[dict]:
 	return out
 
 
-# ------------------------------------------------------------------ the brand
-
-#: Each brand as frappe, erpnext and hrms write it, in every language, and
-#: what One says instead. Longest first, so "Frappe HR" is not read as "Frappe".
 SWAPS = (
 	("Frappe Personalwesen", "OneHR"),
 	("Frappe Framework-Instanz", "One"),
@@ -1009,7 +977,6 @@ SWAPS = (
 	("ERPNext", "One"),
 	("Frappe", "One"),
 )
-#: A brand still said, in any of the three languages.
 SAID_BRAND = re.compile(r"ERPNext|Frappe|Frappé|HRMS|فرابي")
 
 
@@ -1058,8 +1025,6 @@ def rebranded() -> dict:
 
 
 TRANSLATIONS = tree.APP / "translations"
-#: Labels of theirs One translates where they never did, kept by hand,
-#: "msgid,translation" a line; folded into translations/<lang>.csv.
 WORDS = TRANSLATIONS / "words"
 
 

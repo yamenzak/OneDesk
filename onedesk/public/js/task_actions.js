@@ -1,8 +1,3 @@
-// What can be changed on a task from its page (one_task/page/task_view) that
-// the page doesn't change in place: every other field of the task, in
-// frappe's own controls, grouped, and any field a workspace adds under More
-// (onedesk.project.about_fields). Saved against the task as the page loaded
-// it, as a form saves.
 frappe.provide("onedesk.task");
 
 onedesk.task.GROUPS = [
@@ -12,14 +7,11 @@ onedesk.task.GROUPS = [
 	[__("Review"), ["review_date", "closing_date", "completed_on", "completed_by"]],
 	[__("Template"), ["is_template", "start", "duration"]],
 ];
-// Changed in place on the page: its title, its status, its description and
-// its checklist.
 onedesk.task.ELSEWHERE = ["subject", "status", "description", "one_steps"];
 
 onedesk.task.edit = async (task, modified, done, fieldnames = null) => {
 	await frappe.model.with_doctype("Task");
 	const doc = await frappe.db.get_doc("Task", task);
-	// The table names each task by its subject, as Task links do.
 	for (const row of doc.depends_on || []) if (row.subject) frappe.utils.add_link_title("Task", row.task, row.subject);
 	const groups = fieldnames || onedesk.project.about_fields("Task", onedesk.task.GROUPS, onedesk.task.ELSEWHERE);
 	const fields = groups
@@ -40,7 +32,6 @@ onedesk.task.edit = async (task, modified, done, fieldnames = null) => {
 				dialog.hide();
 				done?.();
 			} catch {
-				// frappe has said why, as a changed task's "Please refresh".
 			} finally {
 				dialog.enable_primary_action();
 			}
@@ -49,7 +40,6 @@ onedesk.task.edit = async (task, modified, done, fieldnames = null) => {
 	dialog.show();
 };
 
-// One of the task's fields as the dialog asks for it.
 onedesk.task.field = (doc, fieldname) => {
 	const task = doc.name;
 	if (fieldname === "depends_on") {
@@ -82,9 +72,6 @@ onedesk.task.field = (doc, fieldname) => {
 	return field;
 };
 
-// Log Time on the task: an entry in the reader's draft timesheet for the week,
-// as a project's Log Time makes it (one_project/hours.py `log`), on the task
-// and its project, billable when the project bills hours.
 onedesk.task.log_time = (task, project, bills_hours, done) => {
 	const dialog = new frappe.ui.Dialog({
 		title: __("Log Time"),

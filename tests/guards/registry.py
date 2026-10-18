@@ -38,7 +38,6 @@ POINTS = {
 }
 
 GUARDS = [
-	# 1 Demo coverage
 	Guard(
 		"features-checked",
 		1,
@@ -57,7 +56,6 @@ GUARDS = [
 		"a desk page of ours no browser check opens on the demo",
 		"tests/guards/test_browser.py::test_every_page_of_ours_is_opened_in_the_browser",
 	),
-	# 4 Tier declared
 	Guard(
 		"cards-shown",
 		4,
@@ -118,7 +116,6 @@ GUARDS = [
 		"a record tab drawn outside the one place that draws them",
 		"tests/guards/test_tiers.py::test_a_record_tab_is_declared_by_its_module_and_drawn_in_one_place",
 	),
-	# 5 Our look
 	Guard(
 		"shell-styles-shell",
 		5,
@@ -179,7 +176,6 @@ GUARDS = [
 		"a phone head that crams the breadcrumb and the page's buttons into one row",
 		"tests/guards/test_record_page.py::test_a_phone_head_is_two_rows",
 	),
-	# 8 Built from frappe
 	Guard(
 		"island-frappe-ui",
 		8,
@@ -259,7 +255,6 @@ GUARDS = [
 		"a hook naming a function or asset that does not exist",
 		"tests/guards/test_hooks.py::test_the_function_exists",
 	),
-	# 9 Overrides recorded
 	Guard(
 		"overrides-hold",
 		9,
@@ -296,7 +291,6 @@ GUARDS = [
 		"a kind of record we make that is not declared",
 		"tests/guards/test_makes_records.py::test_every_kind_made_is_declared",
 	),
-	# 10 Notifications
 	Guard(
 		"one-sender",
 		10,
@@ -327,7 +321,6 @@ GUARDS = [
 		"a notification file not named for its type or not in the one layout",
 		"tests/guards/test_notifications.py::test_every_notification_is_one_file_in_one_layout",
 	),
-	# 12 Plain words
 	Guard(
 		"screen-plain",
 		12,
@@ -370,7 +363,6 @@ GUARDS = [
 		"a translation that loses a placeholder",
 		"tests/guards/test_translations.py::test_placeholders_survive_translation",
 	),
-	# 13 Documented, and OneAI knows and does
 	Guard(
 		"docs-current",
 		13,
@@ -392,7 +384,6 @@ GUARDS = [
 		"an OneAI button placed on a page",
 		"tests/guards/test_oneai_place.py::test_no_oneai_button_on_a_page",
 	),
-	# 15 Permissions and roles
 	Guard(
 		"no-system-manager-code",
 		15,
@@ -411,7 +402,6 @@ GUARDS = [
 		"an operator verb without its gate",
 		"tests/guards/test_roles.py::test_every_operator_verb_is_gated",
 	),
-	# 16 Legal
 	Guard(
 		"legal-version",
 		16,
@@ -436,7 +426,6 @@ GUARDS = [
 		"an agreement promising what is not built",
 		"tests/guards/test_legal.py::test_nobody_is_promised_what_is_not_built",
 	),
-	# 6 Nothing lost
 	Guard(
 		"app-on-rail",
 		6,
@@ -551,7 +540,6 @@ GUARDS = [
 		"a label on a reached form still English in Arabic or German, beyond each module's count",
 		"tests/guards/test_atlas.py::test_what_is_reached_reads_in_every_language",
 	),
-	# 7 Extensible
 	Guard(
 		"page-places",
 		7,
@@ -564,7 +552,6 @@ GUARDS = [
 		"a place in one_studio/places.py that no page fires",
 		"tests/guards/test_frame.py::test_each_page_fires_its_events_with_only_its_powers",
 	),
-	# 15 Permissions
 	Guard(
 		"answers-kept",
 		15,
@@ -577,7 +564,6 @@ GUARDS = [
 		"an answered record that does not set the verdict again before it validates",
 		"tests/guards/test_decisions.py::test_every_answered_record_sets_the_verdict_again_before_it_validates",
 	),
-	# 1 Demo coverage
 	Guard(
 		"install-hidden-mandatory",
 		1,
@@ -620,7 +606,6 @@ GUARDS = [
 		"an integration suite that writes, or checks next to nothing",
 		"tests/guards/test_demo.py::test_the_suite_checks_and_writes_nothing",
 	),
-	# 2 Rules on the server
 	Guard(
 		"rules-hooked",
 		2,
@@ -639,7 +624,6 @@ GUARDS = [
 		"an endpoint writing a field a rule owns with frappe.db.set_value",
 		"tests/guards/test_rules.py::test_no_endpoint_writes_round_a_rule",
 	),
-	# 11 Printed
 	Guard(
 		"print-shipped",
 		11,
@@ -664,7 +648,6 @@ GUARDS = [
 		"a block showing a record's value without escaping it",
 		"tests/guards/test_print.py::test_a_template_escapes_what_it_shows",
 	),
-	# 3 Hand-offs
 	Guard(
 		"handoffs-said",
 		3,
@@ -677,7 +660,6 @@ GUARDS = [
 		"the demo suite not holding the hand-offs to the records they leave",
 		"tests/guards/test_handoffs.py::test_the_suite_holds_every_hand_off",
 	),
-	# 14 Intake
 	Guard(
 		"intake-sampled",
 		14,
@@ -696,7 +678,6 @@ GUARDS = [
 		"the demo suite not running every sample",
 		"tests/guards/test_intake_samples.py::test_the_suite_runs_every_sample",
 	),
-	# 17 Clean code
 	Guard(
 		"lints-clean",
 		17,
@@ -747,5 +728,4 @@ GUARDS = [
 	),
 ]
 
-#: Points whose guard is still to come, and what it will fail on.
 PLANNED: dict[int, str] = {}

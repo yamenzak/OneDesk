@@ -1,32 +1,14 @@
-// Settings: everything a person or a workspace sets. The sections are entries
-// in One's own sidebar (one/sidebar/one/one.json), under You and Workspace, so
-// the page is one wide column: the section the address names. The server says
-// which sections the reader may open and holds every read and write
-// (one/settings.py); this draws them with frappe's own parts — espresso
-// buttons, badges and bars, and FieldGroup for anything that is a form.
-//
-// Two pages share it: `settings` for everybody's own, and `workspace-settings`
-// for the workspace's, a page only its administrators may open, so frappe
-// leaves those sidebar entries out for everybody else.
 
 frappe.provide("onedesk");
 
 onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	static API = "onedesk.one.settings.";
 
-	// Sections that are a table rather than a form, so they get the width a
-	// table needs. Every other section is a column in the middle of the page.
 	static WIDE = ["people", "oneai", "intake", "numbering", "printing", "mail_templates", "approvals"];
-	// A letter head the workspace did not make: frappe's own, or written in HTML.
 	static theirs = (one) => one.standard === "Yes";
 
-	// A letter head's page as it prints, top and foot with lines between for the
-	// letter, at `scale` of its width. The markup is frappe's, shown in a sandbox,
-	// which runs nothing.
 	static SHEET = 794;
-	// An A4 page's height at that width.
 	static PAGE = 1123;
-	// `whole` draws the whole page, the letter filling it and the foot at the bottom.
 	static sheet = (top, foot, scale, whole = false) =>
 		`<!doctype html><html><head><style>html,body{margin:0;background:#fff;color:#111;font-family:sans-serif}` +
 		`body{padding:24px;width:746px;transform:scale(${scale});transform-origin:0 0}img{max-width:100%}` +
@@ -42,28 +24,17 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	};
 
 	constructor(page, group) {
-		// Dirty, the warning on leaving, saving against `modified` and hearing
-		// another save are the shell's Editor, which is what a desk form does.
 		super(page);
 		this.group_name = group;
 		this.route = group === "workspace" ? "workspace-settings" : "settings";
 		this.$section = page.$shell;
-		// A section left with unsaved changes keeps them, as frappe keeps an
-		// unsaved document in `locals`, until it is saved or refreshed.
 		this.kept = {};
-		// Agreeing in the dialog changes what the Agreements section shows.
 		$(document).on("legal-agreed", () => this.key === "agreements" && this.open("agreements"));
-		// A mailbox broke or came back (one_mail/sync.py).
 		frappe.realtime.on("one_mailbox", () => this.key === "mail" && this.$content && this.$content.is(":visible") && this.refresh());
-		// A memory was kept or forgotten, here, in the panel or in another tab.
 		frappe.realtime.on("one_memory", () => this.key === "memory" && this.$content && this.$content.is(":visible") && this.refresh());
-		// A copy of your data gathered (one/privacy.py).
 		frappe.realtime.on("one_privacy", () => this.key === "profile" && this.$content && this.$content.is(":visible") && this.refresh());
-		// An action's model or instructions changed (one_ai/run.py, _told).
 		frappe.realtime.on("one_oneai", () => this.key === "oneai" && this.$content && this.$content.is(":visible") && this.refresh());
-		// The full download was made, or the workspace is closing (one/closing.py).
 		frappe.realtime.on("one_closing", () => this.key === "plan" && this.$content && this.$content.is(":visible") && this.refresh());
-		// A domain started or stopped working (one/account.py, _tell_domains).
 		frappe.realtime.on("one_domains", () => this.key === "domains" && this.$content && this.$content.is(":visible") && this.refresh());
 	}
 
@@ -72,11 +43,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const mine = this.said.sections.filter((one) => one.group === this.group_name);
 		const params = frappe.utils.get_query_params();
 		const found = mine.find((one) => one.key === params.section) || mine[0];
-		// A notification type is ?type=, a workspace rule ?rule= (or ?rule=new),
-		// a person ?person=, a holiday list other than today's ?list=.
-		// A new rule opened from a doctype's Settings dialog starts on that doctype (?for=).
 		this.for_doctype = params.rule === "new" ? params.for || null : null;
-		// A level of Access is ?level=.
 		if (found)
 			this.open(found.key, {
 				record: params.type || params.person || params.list || (params.rule ? `rule:${params.rule}` : null) || (params.level ? `level:${params.level}` : null) ||
@@ -85,8 +52,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			});
 	}
 
-	// `record` is the one record a section that lists several is open on, as a
-	// notification type is: the section is then that record's form.
 	async open(key, { fresh = false, record = null } = {}) {
 		const slot = (k, r) => (r ? `${k}:${r}` : k);
 		if (this.dirty && this.values) this.kept[slot(this.key, this.record)] = { values: this.values(), opened: this.opened };
@@ -107,14 +72,10 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this.$content.empty();
 		this.hear(this.data.opened);
 		this[`draw_${key}`](this.data);
-		// The router names the page after show; the section's name wins,
-		// unless a record in it named itself after it (as_record).
 		if (!this.trailed) onedesk.shell.name(section.label);
 		await this.bring_back(slot(key, record));
 	}
 
-	// Unsaved changes left in this section come back, and if the record has
-	// changed underneath them since, the page says so, as a form does.
 	async bring_back(key) {
 		const kept = this.kept[key];
 		delete this.kept[key];
@@ -126,15 +87,10 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		if (moved) this.conflict();
 	}
 
-	// ---------------------------------------------------------------- saving, for the shell's Editor
-
 	saver(values) {
 		return { method: Settings.API + "save", args: { section: this.key, values, record: this.record } };
 	}
 
-	// A record draws itself around the section's body (as_record), so after a save it
-	// starts again from a fresh body with its buttons cleared, as when it was opened. A
-	// record saved under a new name, or made, is opened under that name, as a form is.
 	redraw(said) {
 		const [kind, name] = (said.record || "").split(/:(.*)/s);
 		if (said.record && said.record !== this.record && ["rule", "level", "profile", "group"].includes(kind)) {
@@ -152,17 +108,11 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this.open(this.key, { fresh, record: this.record });
 	}
 
-	// ---------------------------------------------------------------- you
-
-	// Who you are to everybody here, and, when you work here, what your
-	// employee record says. The photo is the avatar itself: click it to change
-	// it. What HR owns (your job, where your pay goes) is shown, not asked.
 	draw_profile(data) {
 		const esc = frappe.utils.escape_html;
 		const image = data.values.user_image;
 		const employee = data.employee;
 		const job = employee ? employee.work.filter((one) => ["designation", "department"].includes(one.fieldname)).map((one) => one.value) : [];
-		// The page's own suggestion (one/ai.py), so it is answered the same way.
 		const check = onedesk.oneai.button(
 			__("Check My Profile"),
 			__("Look at my profile and my employee record, if I have one. What is empty or looks out of date, and what is each of those used for?")
@@ -219,8 +169,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			{ ...data, fields: [...data.fields.filter((one) => one.fieldname !== "user_image"), ...(employee ? employee.fields : [])] },
 			{ before: who, rows }
 		);
-		// Both initials, as the rail's avatar says them: espresso's fallback is
-		// the first letter only.
 		$card.find(".os-photo .es-avatar__fallback").text(frappe.get_abbr(data.full_name || ""));
 		const photo = (user_image) => this.save({ ...this.values(), user_image });
 		$card.find("[data-photo]").on("click", () => {
@@ -237,8 +185,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this.your_data_actions($card, data.privacy);
 	}
 
-	// A copy of your data and deleting your account (one/privacy.py): what
-	// was asked and where it stands, and the buttons that ask.
 	your_data(state) {
 		const when = (on) => frappe.datetime.comment_when(on);
 		const esc = frappe.utils.escape_html;
@@ -302,17 +248,10 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 	}
 
-	// Everything One can tell you reaches the bell. What is also mailed, and
-	// what is pushed to the browsers you turned push on in, is a pair of
-	// frappe's switches per kind, under an Email and a Push column, grouped by
-	// the app that sends it, and only the kinds you can receive: HR's are for
-	// HR. A switch the workspace does not allow is shown and cannot be moved,
-	// so the list is the whole answer.
 	draw_notifications(data) {
 		const rows = [{ stack: ["enabled", "enable_email_notifications"] }];
 		for (const group of data.groups) rows.push({ heading: group.app }, ...group.rows.map((row) => ({ row, css: "os-kind" })));
 		rows.push({ heading: __("Other Emails") }, { stack: ["enable_email_threads_on_assigned_document"] });
-		// The page's own suggestion (one/ai.py), so it is answered the same way.
 		const fewer = onedesk.oneai.button(
 			__("Too Many Emails?"),
 			__("Which of the notifications I get by email could I leave to the bell, or have pushed instead? Say which to untick and why.")
@@ -322,7 +261,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			before: `<div class="os-notify-intro"><div class="one-shell-quiet">${note}</div>${fewer}</div><div class="os-push"></div>`,
 			rows,
 		});
-		// Each app's part says which column is which, once, in its heading.
 		const columns = `<div class="os-kind-columns"><span>${__("Email")}</span><span>${__("Push")}</span></div>`;
 		$card.find(".form-section.os-kind.one-shell-part .section-head").each((at, head) => {
 			const mark = (data.groups[at] || {}).mark;
@@ -335,10 +273,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			$control.find("input").attr("aria-label", `${$control.find(".label-area").text()}: ${name}`);
 		});
 		this.ready.then(() => {
-			// An HTML field draws its options once its value is in.
 			$card.find("[data-oneai-tag]").replaceWith(onedesk.oneai.tag(__("OneAI")));
-			// Frappe draws a read-only switch with no input, so it always looks
-			// off: an always-mailed kind would read as never mailed.
 			for (const field of this.group.fields_list) {
 				if (field.df.fieldtype !== "Switch" || !field.df.read_only) continue;
 				field.$wrapper.addClass("os-switch-fixed").toggleClass("os-switch-on", !!cint(field.get_value()));
@@ -347,8 +282,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this.draw_push($card.find(".os-push"), data.push);
 	}
 
-	// Push in this browser, and the others this person turned it on in. Not a
-	// field of the record: turning it on asks the browser, and is done at once.
 	async draw_push($part, said) {
 		const esc = frappe.utils.escape_html;
 		const here = await onedesk.push.state();
@@ -374,7 +307,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			}) + '<div class="os-push-others"></div>'
 		);
 		const again = async () => this.draw_push($part, await frappe.xcall("onedesk.one.push.devices"));
-		// The other browsers it is on in, as one of frappe's tables.
 		if (others.length) {
 			onedesk.shell.table($part.find(".os-push-others"), {
 				title: __("Other Browsers"),
@@ -405,8 +337,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			});
 		}
 		$part.find('[data-push="on"]').on("click", async () => {
-			// A browser may refuse even when it offers push: a private window
-			// does, and so does one whose push service cannot be reached.
 			let on = false;
 			try {
 				on = await onedesk.push.on(said.key);
@@ -426,9 +356,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 	}
 
-	// The mailboxes the reader holds, each saying what it signs with, and why
-	// when it cannot sign or has stopped connecting. Connecting one is the
-	// page's one action, in its head; it happens in OneMail.
 	draw_mail(data) {
 		const esc = frappe.utils.escape_html;
 		const quiet = (words) => `<span class="one-shell-quiet">${esc(words)}</span>`;
@@ -455,14 +382,12 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 						].join(" "),
 				},
 				{
-					// What it signs with; a click changes it, where they may.
 					label: __("Signature"),
 					render: (one) =>
 						!one.sends ? "" : one.signed ? esc(__("Signs with “{0}”", [one.signed])) : quiet(__("No signature")),
 					on_click: (one) => one.may_sign && this.sign(one.name),
 				},
 				{
-					// Whether it is connecting; a click reconnects one that stopped.
 					label: __("Connection"),
 					render: (one) =>
 						one.error
@@ -478,8 +403,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 
 	async sign(account) {
 		const signature = await frappe.xcall("onedesk.one_mail.holders.signature_of", { account });
-		// The same question as the page's own suggestion (one/ai.py), so OneAI
-		// answers it as a card to approve.
 		const write = onedesk.oneai.button(
 			__("Write With OneAI"),
 			__("Write a short email signature with my name, job title and contact details for me to approve.")
@@ -501,7 +424,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		dialog.show();
 	}
 
-	// The password again, tried on the servers the mailbox already has.
 	reconnect(account, email) {
 		const dialog = new frappe.ui.Dialog({
 			title: __("Reconnect {0}", [email]),
@@ -531,9 +453,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		dialog.show();
 	}
 
-	// The reader's calendar link, drawn as OneCalendar's Subscribe draws it
-	// (calendar_link.js). The page's one action is making the link, or, once
-	// there is one, copying it; a new link and switching it off are quiet.
 	draw_calendar(data) {
 		const how = onedesk.oneai.button(
 			__("How Do I Add It?"),
@@ -564,9 +483,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		draw(data.link);
 	}
 
-	// How the reader signs in, and where they are signed in, read from what
-	// frappe keeps (one/signin.py). Nothing here is saved as a form: each
-	// action is done at once, so the page head has none.
 	draw_signin(data) {
 		const esc = frappe.utils.escape_html;
 		const when = (value) => (value ? frappe.datetime.prettyDate(value) : "");
@@ -575,7 +491,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			__("Is my account safe? Look at how I sign in and where I am signed in, and tell me what to do.")
 		);
 		const intro = `<div class="one-shell-section"><div class="os-notify-intro">${safe}</div></div>`;
-		// One fact and what to do about it: the shell's row, never a list.
 		const row = (title, quiet, actions = "") => onedesk.shell.row({ title, quiet, actions });
 
 		const password = onedesk.shell.section(
@@ -596,8 +511,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				)
 		);
 
-		// Anybody's: it signs them in, and checks an employee in. One a person
-		// removes themselves, unless it checks them in, when a new one is HR's.
 		const passkey =
 			data.passkey || data.passkey_signs_in || data.passkey_clocks
 				? onedesk.shell.section(
@@ -622,8 +535,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this.$content.html(
 			intro + password + passkey + `<div class="one-shell-section" data-list="places"></div><div class="one-shell-section" data-list="recent"></div>`
 		);
-		// Where you are signed in and your last sign-ins: frappe's table, as
-		// every list of records is, this one first and the rest by last use.
 		onedesk.shell.table(this.$content.find('[data-list="places"]'), {
 			title: __("Active Sessions"),
 			rows: data.sessions,
@@ -695,8 +606,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		);
 	}
 
-	// A session as the tables of them read: the device, where from, when
-	// last used, and what can be done about it (`last`).
 	static session_columns(last = null) {
 		const esc = frappe.utils.escape_html;
 		return [
@@ -707,8 +616,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		];
 	}
 
-	// A sign-in as the tables of them read: when, where from, and whether it
-	// worked, a failed one in red.
 	static signin_columns() {
 		const esc = frappe.utils.escape_html;
 		return [
@@ -721,11 +628,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		];
 	}
 
-	// What OneAI keeps for the reader, which they add, correct and forget
-	// here as much as in a conversation; and, to read only, what the
-	// workspace's administrators told OneAI for everybody. Both are frappe's
-	// EmbeddedList: one line each, searchable once there are many, a row
-	// opening the memory as a list row opens its record.
 	async draw_memory(data) {
 		const esc = frappe.utils.escape_html;
 		const know = onedesk.oneai.button(
@@ -753,7 +655,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			empty: __("No memories"),
 			none: __("No matching memories"),
 			open: (one) => this.memory_dialog(one),
-			// Everything at once is the header's quiet second action, asking first.
 			actions: facts.length > 1 ? frappe.ui.button.html({ label: __("Forget All"), variant: "ghost", theme: "red", attrs: { "data-forget-all": "1" } }) : "",
 			columns: [
 				{ label: __("Memory"), fieldname: "fact" },
@@ -793,8 +694,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		}
 	}
 
-	// A memory the reader writes or corrects: frappe's own controls, the
-	// record it is about being any the reader can open.
 	memory_dialog(one = null) {
 		const dialog = new frappe.ui.Dialog({
 			title: one ? __("Edit Memory") : __("Add Memory"),
@@ -814,9 +713,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		dialog.show();
 	}
 
-	// Every agreement: what you agreed to, what your organisation agreed to and
-	// who agreed for it, and what is only published. Each opens on the
-	// Agreements page; an older version, as it was agreed.
 	draw_agreements(data) {
 		const esc = frappe.utils.escape_html;
 		const read = (key, version) =>
@@ -824,8 +720,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const state = (one, whose) => {
 			if (!one.version) return frappe.ui.badge.html({ label: __("Not Agreed"), theme: "orange" });
 			const when = whose === "organisation" ? __("by {0} on {1}", [one.by, one.on]) : __("on {0}", [one.on]);
-			// A new revision asks again; a clarified text (a new hash only) is
-			// still agreed, and what was agreed can still be read.
 			const was = one.version === one.current ? "" : ` <a href="${read(one.key, one.version)}" target="_blank" rel="noopener" onclick="event.stopPropagation();">${esc(__("View Agreed Version"))}</a>`;
 			if (!one.owed) return `${frappe.ui.badge.html({ label: __("Agreed"), theme: "green" })} <span class="one-shell-quiet">${esc(when)}</span>${was}`;
 			return `${frappe.ui.badge.html({ label: __("Updated"), theme: "orange" })} <span class="one-shell-quiet">${esc(when)}</span>${was}`;
@@ -841,7 +735,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				: "") +
 				'<div class="one-shell-section" data-list="you"></div><div class="one-shell-section" data-list="organisation"></div><div class="one-shell-section" data-list="published"></div>'
 		);
-		// Each is one of frappe's tables; a row opens the document to read.
 		const table = (key, title, note, docs, whose, actions = "") =>
 			docs.length &&
 			onedesk.shell.table(this.$content.find(`[data-list="${key}"]`), {
@@ -871,10 +764,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this.$content.find('[data-list="organisation"]').on("click", "[data-everybody]", () => frappe.set_route("List", "Legal Acceptance"));
 	}
 
-	// ---------------------------------------------------------------- the workspace
-
-	// The workspace's own settings, in three parts: what it was made with and
-	// its logo, how dates, times, numbers and amounts read, and the rules for
 	// signing in. Every field is System Settings', Company's or Global Defaults' own.
 	draw_general(data) {
 		const esc = frappe.utils.escape_html;
@@ -912,8 +801,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			{ stack: ["one_login_with_passkey", "login_with_email_link", "deny_multiple_sessions"] },
 			{ heading: __("Sharing") },
 			{ stack: ["one_calendar_links", "one_record_sharing"] },
-			// ERPNext's Transaction Deletion Record, for a workspace that tried
-			// One with made-up records and starts for real.
 			{
 				heading: __("Start Again"),
 				note: __("Customers, items, people and settings stay."),
@@ -928,7 +815,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					.then((r) => frappe.set_route("Form", "Transaction Deletion Record", r.message))
 			)
 		);
-		// How a date, a time and a number will read, as they are chosen.
 		const reads = () => {
 			const values = this.values();
 			const now = values.time_zone && moment.tz && moment.tz.zone(values.time_zone) ? moment().tz(values.time_zone) : moment();
@@ -941,9 +827,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		$card.on("change input", "select, input", () => setTimeout(reads));
 	}
 
-	// Everybody on the workspace, one line each, in frappe's EmbeddedList: what
-	// they may use, whether they administer it, when they were last here. A
-	// row opens the person (draw_person), as a list row opens its record.
 	async draw_people(data) {
 		if (data.person) return this.draw_person(data);
 		const esc = frappe.utils.escape_html;
@@ -972,7 +855,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				},
 				{
 					label: __("Apps"),
-					// A level of the workspace's own is said by its name, between User and Manager.
 					render: (one) => {
 						const said = (level) => levels[level] || level;
 						const theme = (level) => (level === "Manager" ? "blue" : level === "User" ? "gray" : "purple");
@@ -998,11 +880,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 	}
 
-	// One person, drawn as a docview: their name after People in the
-	// breadcrumb, where they stand in the pill, a Select per app with its mark
-	// and the Administrator switch saved from the page head against the User
-	// as it was loaded, frappe's form sidebar with their photo and links, and
-	// what an administrator does when somebody leaves as the page's Actions.
 	draw_person(data) {
 		const esc = frappe.utils.escape_html;
 		const one = data.person;
@@ -1110,7 +987,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		];
 		const $card = this.form(data, { rows });
 		Settings.marks($card, data.apps);
-		// A profile picked sets each app to its level; saved from the page head with the rest.
 		const picked = this.group.get_field("profile");
 		picked &&
 			picked.$input.on("change", () => {
@@ -1118,7 +994,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				if (levels) for (const app of data.apps) this.group.set_value(`app_${app.icon}`, levels[app.name] || "None");
 			});
 		this.draw_holds($card.find('[data-list="holds"]'), one);
-		// Frappe's table, as on the Sign-in page, under the record's own parts.
 		if (!one.me) {
 			onedesk.shell.table($card.find('[data-list="places"]'), {
 				rows: one.sessions,
@@ -1131,15 +1006,11 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		onedesk.shell.table($card.find('[data-list="recent"]'), { rows: one.recent, columns: Settings.signin_columns() });
 	}
 
-	// Access (one/access.py): every level of each app, its User and Manager and the
-	// workspace's own between. A level opens as a record (draw_level). Profiles and groups
-	// join it here.
 	draw_access(data) {
 		if (data.level) return this.draw_level(data);
 		if (data.profile) return this.draw_job_profile(data);
 		if (data.group) return this.draw_group(data);
 		const esc = frappe.utils.escape_html;
-		// A group starts with its people: frappe's group always has somebody in it.
 		const named = (title, method, key, more = []) => {
 			const dialog = new frappe.ui.Dialog({
 				title,
@@ -1215,8 +1086,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 	}
 
-	// A new level is named, given its app and the level it starts as; what it may do
-	// is changed on its page.
 	new_level(data) {
 		const starts = (app) => [
 			{ value: "User", label: __("User") },
@@ -1260,9 +1129,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		dialog.show();
 	}
 
-	// One level, as a record: its name if it is the workspace's own, and what it may do
-	// on each kind of record in frappe's table, saved from the page head; who is at it
-	// beside.
 	draw_level(data) {
 		const esc = frappe.utils.escape_html;
 		const level = data.level;
@@ -1313,8 +1179,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 	}
 
-	// One profile, as a record: its name and a level per app, as a person's page
-	// sets them; who is on it beside.
 	draw_job_profile(data) {
 		const esc = frappe.utils.escape_html;
 		const one = data.profile;
@@ -1359,7 +1223,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		Settings.marks($card, data.apps);
 	}
 
-	// One group, as a record: its name and its people, in frappe's own multi-pick.
 	draw_group(data) {
 		const esc = frappe.utils.escape_html;
 		const one = data.group;
@@ -1381,7 +1244,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				},
 			],
 		});
-		// frappe's multi-pick reads its member row's fields, so the row's doctype comes first.
 		frappe.model.with_doctype("User Group Member", () =>
 			this.form(data, {
 				rows: [
@@ -1393,8 +1255,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		);
 	}
 
-	// What a person is held to (one/access.py): frappe's User Permission, a row a
-	// kind and a record, added and taken away at once, as signing out is.
 	draw_holds($into, one) {
 		const esc = frappe.utils.escape_html;
 		const again = () => this.refresh({ fresh: true });
@@ -1444,29 +1304,23 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 	}
 
-	// Each app's mark before its name, on a field that picks what somebody
-	// may do in it.
 	static marks($wrapper, apps) {
 		for (const app of apps) {
 			$wrapper.find(`.frappe-control[data-fieldname="app_${app.icon}"] .control-label`).first().prepend(`<span class="one-shell-app-mark">${frappe.utils.icon(app.icon, "sm")}</span>`);
 		}
 	}
 
-	// Fieldnames two to a row, for Editor.form's rows.
 	static pairs(names) {
 		const rows = [];
 		for (let at = 0; at < names.length; at += 2) rows.push([names[at], names[at + 1] || ""]);
 		return rows;
 	}
 
-	// Fields in two columns, the first taking the odd one: frappe's Column
-	// Break, so the dialog reads down each column rather than in rows.
 	static two_columns(list, field) {
 		const half = Math.ceil(list.length / 2);
 		return list.flatMap((one, at) => [...(at === half ? [{ fieldtype: "Column Break" }] : []), field(one, at)]);
 	}
 
-	// A new person, with the apps they get, in one step.
 	invite_dialog(data) {
 		const dialog = new frappe.ui.Dialog({
 			title: __("Invite People"),
@@ -1493,10 +1347,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		dialog.show();
 	}
 
-	// The workspace's account, drawn as a record: where it stands in the pill
-	// and, when money or a lost connection is the news, a sentence above
-	// everything; the plan and the credits as its parts; how old the copy is
-	// in the side. Buying is the page's primary action.
 	draw_plan(data) {
 		const esc = frappe.utils.escape_html;
 		const account = data.account || {};
@@ -1513,7 +1363,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				groups: [
 					{
 						label: __("Links"),
-						// Frappe's own sidebar list, as a form's links are.
 						html: `<ul class="list-unstyled sidebar-menu">${[
 							["/desk/workspace-settings?section=people", __("People")],
 							["/desk/onecloud", __("OneCloud")],
@@ -1539,8 +1388,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				.map(([label, value]) => `<dt>${esc(label)}</dt><dd>${value}</dd>`)
 				.join("")}</dl>`;
 		const seats = account.seats ? __("{0} of {1} used", [data.used, account.seats]) : __("{0} used, no limit", [data.used]);
-		// Storage and database as frappe-ui's bar, orange from nine tenths and
-		// red over, each leading to where the room is taken.
 		const bar = (label, used, limit, said) => {
 			if (!limit) return "";
 			const share = (100 * (used || 0)) / limit;
@@ -1603,7 +1450,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		);
 		this.$content.find("[data-closing]").on("click", (event) => this.closing_act($(event.currentTarget).attr("data-closing"), closing));
 		this.draw_invoices(this.$content.find('[data-list="invoices"]'));
-		// What was added to the plan, as one of frappe's tables.
 		if (add_ons) {
 			onedesk.shell.table(this.$content.find('[data-list="add-ons"]'), {
 				title: __("Add-ons"),
@@ -1624,7 +1470,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				],
 			});
 		}
-		// One at a time: 2 × 1 GB becomes 1 × 1 GB, the last one comes off.
 		this.$content.find('[data-list="add-ons"]').on("click", "[data-add-on] [data-drop]", (event) => {
 			const key = $(event.currentTarget).closest("[data-add-on]").attr("data-add-on");
 			const kept = Object.fromEntries((data.add_ons || []).map((one) => [one.offering, one.quantity]));
@@ -1638,9 +1483,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				() => this.take(account.plan_key, kept)
 			);
 		});
-		// The account's ledger as frappe's table, as every list of ours is.
 		if (data.ledger) {
-			// A day of a few small calls is a fraction of a credit, which rounds to nothing.
 			const amount = (value, sign) =>
 				value ? `<span class="${sign === "+" ? "text-success" : ""}">${sign}${esc(format_number(value, null, value < 10 ? 2 : 0))}</span>` : "";
 			onedesk.shell.table(this.$content.find('[data-list="ledger"]'), {
@@ -1659,8 +1502,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		}
 	}
 
-	// Taking everything, and closing the workspace (one/closing.py): the
-	// person who pays may do both; everybody else is told who can.
 	closing_section(closing) {
 		const esc = frappe.utils.escape_html;
 		if (!closing.is_payer) {
@@ -1763,9 +1604,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		dialog.show();
 	}
 
-	// The workspace's Stripe invoices, asked for after the page is drawn so
-	// the page does not wait on Stripe. Each opens Stripe's own page; one not
-	// yet in this workspace's books can be added as a draft bill (one/bills.py).
 	async draw_invoices($into) {
 		const esc = frappe.utils.escape_html;
 		let said;
@@ -1799,7 +1637,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			],
 			open: (one) => one.page && window.open(one.page, "_blank", "noopener"),
 		});
-		// The button is inside a row that opens Stripe's page: it acts, and the row does not.
 		$into.on("click", "[data-book]", async (event) => {
 			event.stopPropagation();
 			const bill = await frappe.xcall("onedesk.one.bills.to_books", { invoice: $(event.currentTarget).attr("data-book") });
@@ -1810,14 +1647,11 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		return list;
 	}
 
-	// Stripe's billing portal, in a new tab: the card, the billing address, old receipts.
 	async payment_portal() {
 		const said = await frappe.xcall("onedesk.one.bills.payment_portal");
 		if (said && said.url) window.open(said.url, "_blank", "noopener");
 	}
 
-	// Somebody else pays from now on: the workspace moves to their One account
-	// (one/account.py, move_billing), and both addresses are mailed.
 	move_billing(account) {
 		const dialog = new frappe.ui.Dialog({
 			title: __("Billing Owner"),
@@ -1844,16 +1678,12 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		dialog.show();
 	}
 
-	// Make the plan this with exactly these add-ons (one_admin/billing.py),
-	// then draw what the account says now.
 	async take(plan, extras, label = null) {
 		await frappe.xcall("onedesk.one.account.plans_take", { plan, extras, label });
 		frappe.show_alert({ message: __("Plan changed"), indicator: "green" });
 		this.refresh({ fresh: true });
 	}
 
-	// Every plan side by side, the current one marked, and what moving to one
-	// costs a month against now. The add-ons stay.
 	async change_plan() {
 		const said = await frappe.xcall("onedesk.one.account.plans_offered");
 		const esc = frappe.utils.escape_html;
@@ -1911,9 +1741,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		show();
 	}
 
-	// An add-on and how many, and what that costs a month. When the plan above
-	// would give the same for less, it says so and offers that instead: the
-	// calculator's one job on this side (one_admin/plans.py, quote).
 	async add_to_plan(data) {
 		const account = data.account || {};
 		const said = await frappe.xcall("onedesk.one.account.plans_offered");
@@ -1949,7 +1776,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			const count = Math.max(1, cint(dialog.get_value("count")));
 			if (!chosen) return;
 			const cost = __("{0} a month more. The difference for the rest of this month is charged now.", [money(chosen.price * count)]);
-			// What the workspace would have with it, and whether a plan gives that for less.
 			const gb = (bytes) => Math.round((bytes || 0) / 1e9);
 			const needs = {
 				seats: (account.seats || 0) + (chosen.seats || 0) * count,
@@ -1980,7 +1806,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			);
 			dialog.fields_dict.said.$wrapper.find("[data-better]").on("click", async () => {
 				dialog.hide();
-				// The plan and exactly the add-ons it needs, in place of what is there.
 				await this.take(better.plan, Object.fromEntries(better.extras.map((one) => [one.offering, one.count])), better.label);
 			});
 		}, 250);
@@ -1988,15 +1813,11 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		show();
 	}
 
-	// Ask the account now rather than tonight, and draw what it said.
 	async check_again() {
 		await frappe.xcall("onedesk.one.account.check_again");
 		this.refresh({ fresh: true });
 	}
 
-	// A pack from the account's price list, then Stripe in a new tab. The
-	// credit arrives when Stripe says the money moved, so the page asks again
-	// when the reader comes back to it.
 	async buy_credits() {
 		let packs = [];
 		try {
@@ -2032,11 +1853,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		dialog.show();
 	}
 
-	// Every kind of record whose naming there is something to say about: numbered by a
-	// series, named some way the workspace chose, or with rules. Each row is read from
-	// what the Settings dialog's Naming tab reads (one/numbering.py naming_by), and opens
-	// it; Set Up Naming opens it on any other kind. The page is read again when the
-	// dialog is put away.
 	draw_numbering(data) {
 		const esc = frappe.utils.escape_html;
 		const again = () => this.key === "numbering" && this.open("numbering", { fresh: true });
@@ -2067,8 +1883,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 	}
 
-	// The workspace's approvals (one/approvals.py): each workflow, the kind of record
-	// it moves, and whether it is on. One opens in frappe's workflow builder.
 	draw_approvals(data) {
 		const esc = frappe.utils.escape_html;
 		this.page.set_primary_action(__("New Approval"), () => onedesk.approvals.create(), "plus");
@@ -2092,9 +1906,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 	}
 
-	// The words the workspace mails again and again (one/mail_templates.py): each
-	// template, the kind of record it is for, and what it is the default for. A template
-	// opens in the same editor the record's Settings uses.
 	draw_mail_templates(data) {
 		const esc = frappe.utils.escape_html;
 		const again = () => this.refresh({ fresh: true });
@@ -2120,12 +1931,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 	}
 
-	// How the workspace's documents look on paper (one/printing.py): its letter heads,
-	// which are a top and a foot, and the formats it made in frappe's print format
-	// builder. Both are drawn as the Settings dialog's Print Formats tab draws a
-	// format, a card with the page on it: the letter heads by hand in its classes, and
-	// the formats by that tab itself, once for each kind of record the workspace made
-	// one for, so its preview, its star for the default and its New are frappe's.
 	draw_printing(data) {
 		const esc = frappe.utils.escape_html;
 		this.page.set_primary_action(__("New Letter Head"), () => this.letter_head(), "plus");
@@ -2157,9 +1962,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			onedesk.doctype_settings.adapt();
 			for (const [doctype, label] of kinds) {
 				frappe.model.with_doctype(doctype, () => {
-					// The tab, in a panel of the dialog's own with no dialog around it: its
-					// title is the kind, and what it would close when it opens the builder
-					// is nothing.
 					const panel = new frappe.ui.SettingsDialogPanel({ hide() {} }, {});
 					const set_view = panel.set_view.bind(panel);
 					panel.set_view = (view) => set_view({ ...view, title: __(label), description: null });
@@ -2170,8 +1972,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 	}
 
-	// A letter head as a card of the Print Formats tab: its page, top and foot, and
-	// its name; the star makes it the default, and the page or the name opens it.
 	letter_head_card(one) {
 		const $card = $(`
 			<div class="dts-pf-card${one.is_default ? " is-default" : ""}">
@@ -2199,7 +1999,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				this.refresh({ fresh: true });
 			});
 		}
-		// Scaled to the card once it is on the page and has a width.
 		requestAnimationFrame(() => {
 			const scale = ($thumb.width() || 200) / Settings.SHEET;
 			$thumb.append(Settings.frame(Settings.sheet(one.drawn_top, one.drawn_foot || "", scale, true), "one-print-head-frame"));
@@ -2207,25 +2006,14 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		return $card;
 	}
 
-	// A letter head: its name, its top and foot, whether it is the default, whether
-	// it is off. The top and the foot are each one of the presets letter_heads.py
-	// draws from Workspace > General, shown as they print with the company's own
-	// details, or written by hand on frappe's print format builder (Write It
-	// Yourself); a letter head may have no foot. One the workspace did not make is
-	// only made the default or turned off.
-	// The page it makes is shown once, above frappe's Tabs, one for the top and one
-	// for the foot; the page, Default and Off belong to neither.
 	letter_head(one = null) {
 		const theirs = !!one && Settings.theirs(one);
 		const esc = frappe.utils.escape_html;
-		// The top's preset, or null when it was written by hand.
 		const kept = one && one.one_top ? frappe.utils.parse_json(one.one_top) : null;
 		let preset = one ? (kept && kept.preset) || null : "classic";
 		const shows = (kept && kept.show) || ["address", "phone", "email", "website"];
-		// The foot's preset; null when it was written by hand, "none" when there is none.
 		const kept_foot = one && one.one_foot ? frappe.utils.parse_json(one.one_foot) : null;
 		let foot = one ? (kept_foot && kept_foot.preset) || (one.footer ? null : "none") : "centred";
-		// A foot is one quiet line: the top already says the rest.
 		const foot_shows = (kept_foot && kept_foot.show) || ["phone", "website", "tax_id"];
 		const SHOWN = [
 			["name", __("Name")],
@@ -2243,7 +2031,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			fields: [
 				...(theirs ? [{ fieldtype: "HTML", fieldname: "theirs", options: frappe.ui.alert.html({ title: __("A standard letter head can only be set as default or disabled."), theme: "gray" }) }] : []),
 				{ fieldtype: "Data", fieldname: "letter_head_name", label: __("Name"), reqd: 1, hidden: one ? 1 : 0 },
-				// The ways to lay it out and their options on the left, the page on the right.
 				{ fieldtype: "HTML", fieldname: "preview" },
 				{ fieldtype: "Section Break" },
 				{ fieldtype: "Check", fieldname: "is_default", label: __("Default"), description: __("Printed on a document unless another is chosen.") },
@@ -2267,9 +2054,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				this.refresh({ fresh: true });
 			},
 		});
-		// The top and the foot, each a FieldGroup in a tab of frappe's Tabs (frappe-ui's
-		// Tabs, as the desk ships it) under the page they make. Both are made at once,
-		// so a save reads the foot whether or not its tab was opened.
 		const group = (fields) => {
 			const made = new frappe.ui.FieldGroup({ body: document.createElement("div"), fields });
 			made.make();
@@ -2348,26 +2132,19 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			const chosen = drawn_feet.find((d) => d.preset === foot);
 			return chosen ? chosen.html : (one && one.drawn_foot) || "";
 		};
-		// The page, at the size it reads: under the list, or beside it.
 		const show_preview = (top, bottom = foot_html()) => {
 			const $stage = theirs ? dialog.get_field("preview").$wrapper : dialog.get_field("preview").$wrapper.find(".one-lh-stage");
-			// As wide as the room it has, so the page reads at nearly its printed size.
-			// The whole page, the footer at its foot, as it prints, small enough
-			// that all of it is in sight at once.
 			const scale = Math.min(1, (($stage.width() || 600) - 2) / Settings.SHEET, (window.innerHeight - 320) / Settings.PAGE);
 			const sheet = frame(page(top, bottom, scale, true), "one-letter-head-sheet");
 			sheet.style.height = `${Math.ceil(Settings.PAGE * scale) + 2}px`;
 			sheet.style.width = `${Math.ceil(Settings.SHEET * scale) + 2}px`;
 			$stage.empty().append(sheet);
 		};
-		// Every preset as it prints with the company's details, the chosen one
-		// marked; a top written by hand is shown as it is until one is chosen.
 		let drawn_with = [];
 		let drawn_feet = [];
 		const cards = () => {
 			const field = parts.get_field("presets");
 			if (!field) return;
-			// Each by name; pointing at one shows it on the page, a click keeps it.
 			const $grid = $(`<div class="one-lh-presets"></div>`);
 			for (const one_preset of drawn_with) {
 				const $card = $(`<button type="button" class="one-lh-preset"></button>`)
@@ -2387,7 +2164,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				: `<p class="text-muted small">${esc(__("This header is custom HTML. Choosing a preset replaces it."))}</p>`;
 			field.$wrapper.empty().append(note).append($grid);
 		};
-		// Every foot the same way, and None, since a letter head may have no foot.
 		const feet = () => {
 			const field = parts.get_field("feet");
 			if (!field) return;
@@ -2449,14 +2225,11 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		drawn();
 	}
 
-	// frappe's print format builder, on the designer pointed at this letter head.
 	async design_letter_head(name) {
 		const designer = await frappe.xcall("onedesk.one.printing.design_letter_head", { letter_head: name });
 		frappe.set_route("print-format-builder", designer);
 	}
 
-	// Every browser somebody has signed in on (one/devices.py). The
-	// administrator names one and says whether it is shared or one person's.
 	draw_devices(data) {
 		const esc = frappe.utils.escape_html;
 		const when = (value) => (value ? frappe.datetime.prettyDate(value) : "");
@@ -2582,9 +2355,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		dialog.show();
 	}
 
-	// Where the workspace opens: the address One gives it, which always works,
-	// and the customer's own, each once its DNS points here (one/account.py,
-	// one_admin/domains.py). Add a Domain is the page's action.
 	draw_domains(data) {
 		const esc = frappe.utils.escape_html;
 		const target = data.target || "";
@@ -2596,7 +2366,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			await frappe.xcall("onedesk.one.account.domains_refresh");
 			this.refresh();
 		});
-		// The record each of their own domains still needs, or an example one.
 		const waiting = rows.filter((one) => !one.given && one.status !== "Active").map((one) => one.domain);
 		this.$content.html(
 			onedesk.shell.section(
@@ -2675,8 +2444,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 	}
 
-	// The CNAME record each name needs, drawn as a DNS provider lists one:
-	// type, name and value, each value with Copy. `null` is an example row.
 	static dns_records(names, target) {
 		const esc = frappe.utils.escape_html;
 		const copy = (value) =>
@@ -2693,8 +2460,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		return `<table class="os-dns"><thead><tr><th>${esc(__("Type"))}</th><th>${esc(__("Name"))}</th><th>${esc(__("Value"))}</th></tr></thead><tbody>${rows}</tbody></table>`;
 	}
 
-	// Said only when it applies: a bare domain (acme.com) can take a CNAME
-	// only where the DNS provider flattens it.
 	static dns_note(names) {
 		const bare = names.filter((name) => name && name.split(".").length === 2);
 		if (!bare.length) return "";
@@ -2703,8 +2468,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		)}</div>`;
 	}
 
-	// The domain and the record it needs, together. Adding does not wait on
-	// the DNS: the domain waits, and works a few minutes after the record does.
 	add_domain(target) {
 		const dialog = new frappe.ui.Dialog({
 			title: __("Add Domain"),
@@ -2741,9 +2504,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		dialog.show();
 	}
 
-	// OneAI's actions: what each does, for which product, the model it runs
-	// on (its maker's logo and name) and what it used in the last thirty
-	// days. A row opens it: the model, what is added to it, and Try It.
 	draw_oneai(data) {
 		const esc = frappe.utils.escape_html;
 		const params = frappe.utils.get_query_params();
@@ -2795,8 +2555,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		}
 	}
 
-	// The model an action runs on: what it chose, else the catalogue's
-	// default for what it needs. `chosen` says which.
 	static model_of(catalogue, one) {
 		const offered = (catalogue || {})[one.capability] || [];
 		const picked = one.model && offered.find((m) => m.name === one.model);
@@ -2806,13 +2564,10 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		return fallback ? { ...fallback, chosen: false } : null;
 	}
 
-	// What an action runs on when nothing is chosen: the model it names for
-	// itself, while it is offered, else the default for what it needs.
 	static fallback(offered, one) {
 		return (one.default_model && offered.find((m) => m.name === one.default_model)) || offered.find((m) => m.default);
 	}
 
-	// The product an action works for, as a badge with its mark.
 	static product_badge(product) {
 		if (!product) return "";
 		return frappe.ui.badge.html({ label: product, icon: product.toLowerCase(), size: "sm", css_class: "os-ai-product" });
@@ -2827,9 +2582,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		return `<span class="os-ai-model">${logo}<span>${esc(model.label)}</span>${tag}${gone}</span>`;
 	}
 
-	// One action, changed where it is listed: its model, what is added to it,
-	// Try It and Use the Default. Saved against when it was opened, as a
-	// desk form is.
 	action_dialog(one, catalogue) {
 		const esc = frappe.utils.escape_html;
 		const offered = (catalogue || {})[one.capability] || [];
@@ -2846,7 +2598,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					? __("About {0} credits per 1,000 words read and {1} per 1,000 written.", [format_number(m.read, null, 2), format_number(m.written, null, 2)])
 					: __("Priced per use.");
 			return `<div class="os-ai-picked">${Settings.model_html({ ...m, chosen: true })}<div class="one-shell-quiet">${esc(
-				// A company's name may end in its own full stop: "Cloudflare, Inc."
 				__("Made by {0}, run by {1}.", [m.maker, String(m.company || "").replace(/\.$/, "")])
 			)} ${esc(cost)}</div></div>`;
 		};
@@ -2863,7 +2614,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					onchange: () => dialog.fields_dict.picked.$wrapper.html(describe(dialog.get_value("model"))),
 				},
 				{ fieldname: "picked", fieldtype: "HTML" },
-				// Only the chat has a panel to pick in.
 				...(one.name === "chat"
 					? [
 							{
@@ -2912,8 +2662,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		dialog.show();
 	}
 
-	// Runs the action once as the dialog stands, saved or not. It costs
-	// credits like any call, and says so before it runs.
 	try_action(one, model, extra) {
 		const esc = frappe.utils.escape_html;
 		const asking = new frappe.ui.Dialog({
@@ -2942,9 +2690,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		asking.show();
 	}
 
-	// OneIntake's settings in four parts, each a heading and what it decides,
-	// under the month: what arrived, what OneAI handled and what waits, each
-	// opening the inbox where it is.
 	draw_intake(data) {
 		const esc = frappe.utils.escape_html;
 		const month = data.month || {};
@@ -2994,13 +2739,9 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			],
 		});
 		this.draw_intake_sources(data);
-		// What OneIntake's reading runs on is set with the rest of OneAI's actions.
 		this.page.add_inner_button(__("Models"), () => frappe.set_route("workspace-settings", { section: "oneai", product: "OneIntake" }));
 	}
 
-	// The mailboxes and folders OneAI reads, as lists. Turning one on is its
-	// holder's consent, since OneAI then acts as them; an administrator may
-	// stop any (one_intake/switches.py).
 	draw_intake_sources(data) {
 		const esc = frappe.utils.escape_html;
 		const reading = (on) => frappe.ui.badge.html({ label: on ? __("Reading") : __("Off"), theme: on ? "green" : "gray" });
@@ -3083,10 +2824,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 	}
 
-	// The holiday list in force today, edited here: its day off, its country
-	// and its public holidays. Saving it is what OneHR, OneCalendar and
-	// Intake's deadlines all read (one/holidays.py). Next year's list is made
-	// from this one, and opened here with ?list=.
 	draw_holidays(data) {
 		const esc = frappe.utils.escape_html;
 		const open_list = (name) => this.open("holidays", { record: name === data.now ? null : name });
@@ -3204,11 +2941,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this.page.add_inner_button(__("Use Another List"), use_another);
 	}
 
-	// ---------------------------------------------------------------- notifications
-
-	// Every notification One sends, by the app that sends it, or the one that
-	// is open. Frappe's own (mentions, assignments, shares) are listed so the
-	// page is the whole answer, but their text is frappe's and not ours to edit.
 	draw_notification_types(data) {
 		if (data.rule) return this.draw_rule(data);
 		if (data.type) return this.draw_notification_type(data);
@@ -3237,8 +2969,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			<div class="one-shell-section" data-list="rules"></div>
 			<div class="one-shell-section" data-list="types"></div>`
 		);
-		// The workspace's own rules, then everything One sends: frappe's table,
-		// as every list of records is, each opening its own page.
 		onedesk.shell.table(this.$content.find('[data-list="rules"]'), {
 			title: __("Rules"),
 			rows: data.rules || [],
@@ -3246,7 +2976,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			empty: __("No rules"),
 			open: (one) => open_rule(one.name),
 			actions:
-				// The panel's own "Make a rule" (one/ai.py), so it is answered the same way.
 				onedesk.oneai.button(
 					__("Ask OneAI"),
 					__("Help me set up a notification rule. Ask me what should happen and who should be told, then suggest the rule.")
@@ -3284,9 +3013,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this.$content.on("click", "[data-rule-new]", () => open_rule("new"));
 	}
 
-	// One type, edited as a form is: its text and its channels, saved from the
-	// page head against the record as it was loaded. The preview renders the
-	// text as it will be sent, with each slot shown where its value goes.
 	draw_notification_type(data) {
 		const esc = frappe.utils.escape_html;
 		const type = data.type;
@@ -3379,7 +3105,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 		const $card = this.form(data, { rows });
 		const draw = frappe.utils.debounce(() => this.preview(type.name, $card), 400);
-		// The preview follows the text; form() already keeps "Not Saved".
 		for (const name of ["one_subject", "one_message"]) {
 			const field = this.group.fields_dict[name];
 			if (!field) continue;
@@ -3399,18 +3124,12 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			subject: this.group.get_value("one_subject") || "",
 			message: this.group.get_value("one_message") || "",
 		});
-		// Rendered by the server from the administrator's own text, with every
-		// value escaped and each slot a chip we drew: the one place this page
-		// puts HTML it did not build itself.
 		$card.find(".os-preview-subject").html(said.subject || "");
 		$card.find(".os-preview-message").html(said.message || "");
 		const wrong = [said.subject_wrong, said.message_wrong].filter(Boolean);
 		$card.find(".os-preview-wrong").html(wrong.length ? frappe.ui.alert.html({ title: wrong.join(" "), theme: "red" }) : "");
 	}
 
-	// A rule of the workspace's, as a form: frappe's own Notification, held to
-	// what a workspace rule may do (one/rules.py). The condition is frappe's
-	// own filter editor; the fields it offers follow what the rule watches.
 	draw_rule(data) {
 		const esc = frappe.utils.escape_html;
 		const rule = data.rule;
@@ -3483,7 +3202,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		offer(data.options);
 		filters(data.values.document_type, data.values.filters);
 		const watched = this.group.fields_dict.document_type;
-		// Only what the person may read, and records in their own right.
 		watched.get_query = () => ({ query: "onedesk.one.rules.watchable" });
 		const was = watched.df.change;
 		watched.df.change = async (...args) => {
@@ -3496,7 +3214,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			filters(doctype, "");
 		};
 		this.rule_watches = data.values.document_type;
-		// A new rule, once saved, is opened under its own name.
 		if (!rule.new && this.record === "rule:new") frappe.set_route("workspace-settings", { section: this.key, rule: rule.name });
 	}
 };

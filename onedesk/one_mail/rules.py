@@ -9,16 +9,11 @@ import frappe
 from frappe import _
 from frappe.utils import getdate, today
 
-#: How long an away reply is not repeated to the same sender, in seconds.
 AWAY_ONCE_IN = 4 * 24 * 3600
 
-#: Senders that are machines.
 MACHINES = re.compile(
 	r"^(no-?reply|do-?not-?reply|mailer-daemon|postmaster|bounces?)([+.@-]|$)", re.IGNORECASE
 )
-
-
-# ------------------------------------------------------------------ pure
 
 
 def matches(rule: dict, message: dict, about: set | None = None) -> bool:
@@ -78,7 +73,6 @@ def failures(message) -> list[tuple[str, str, str]]:
 	for part in message.walk():
 		if part.get_content_type() != "message/delivery-status":
 			continue
-		# The per-recipient blocks come as the payload's messages after the first.
 		blocks = part.get_payload() if part.is_multipart() else []
 		for block in blocks[1:]:
 			action = (block.get("Action") or "").strip().lower()
@@ -106,9 +100,6 @@ def bounced_id(message) -> str | None:
 			if found:
 				return found.strip().strip("<>")
 	return None
-
-
-# ------------------------------------------------------------------ after arrival
 
 
 def after(made, arrival) -> None:
@@ -241,9 +232,6 @@ def away(made, message) -> bool:
 	return True
 
 
-# ------------------------------------------------------------------ the page
-
-
 @frappe.whitelist(methods=["POST"])
 def set_away(account: str, away: int = 0, until: str | None = None, message: str | None = None) -> None:
 	"""Turn a mailbox's out-of-office reply on or off."""
@@ -266,9 +254,6 @@ def away_of(account: str) -> dict:
 	return frappe.db.get_value(
 		"Email Account", account, ["one_away", "one_away_until", "one_away_message"], as_dict=True
 	)
-
-
-# ------------------------------------------------------------------ who sees rules
 
 
 def rule_allowed(doc, ptype=None, user=None, debug=False) -> bool:

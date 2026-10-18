@@ -18,7 +18,6 @@ CHARTS = Path(
 	"/home/frappe/bench1/apps/erpnext/erpnext/accounts/doctype/account/chart_of_accounts/verified"
 )
 
-#: What `hrms.overrides.company.set_default_hr_accounts` searches for, by name.
 WANTED = ("Payroll Payable", "Employee Advances")
 
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -57,10 +56,6 @@ def test_the_country_charts_still_do_not():
 	)
 
 
-#: Assigning this anywhere in our source is the mistake docs/ACCOUNTS.md exists
-#: to stop: the country's chart looks like the thoughtful default and leaves
-#: every payroll account empty. Both spellings — `x = "…"` in code and
-#: `"chart_of_accounts": "…"` in a fixture.
 FORBIDDEN = re.compile(r"""chart_of_accounts"?\s*[:=]\s*['"]""")
 
 

@@ -1,15 +1,9 @@
 <template>
-  <!-- A customer's project (one_project/portal.py `page`).
-       Modelled on Basecamp's client view of a project: its photos beside how
-       far along it is and when it ends, then its milestones as a line of
-       dates, its sub-projects and tasks, and beside them its order and
-       invoices, the time a member is shown and its files. -->
   <Head :title="doc?.title || ''" :crumbs="[{ label: tab, route: '/projects' }]" :badge="doc" />
   <div class="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
     <Loading v-if="!doc && !failed" />
     <Empty v-else-if="failed" :title="__('No access')" :line="__('This is not one of yours, or it was taken away.')" />
     <div v-else class="grid gap-5 lg:grid-cols-[minmax(0,1fr)_20rem]">
-      <!-- On a phone the two columns are one, what it comes to first. -->
       <div class="contents lg:flex lg:min-w-0 lg:flex-col lg:gap-5">
         <Gallery v-if="doc.media.length" :media="doc.media" />
 

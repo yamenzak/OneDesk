@@ -13,13 +13,10 @@ from frappe.utils import add_days, flt, get_datetime, getdate, now_datetime
 from onedesk.one_crm import next as next_step
 from onedesk.one_crm import stages
 
-#: How far back the win rate on Home looks.
 RATE_DAYS = 90
 
-#: How far back what is usual for a stage looks.
 USUAL_DAYS = 365
 
-#: Fewer finished stays in a stage than this, and nothing is usual yet.
 FEWEST = 3
 
 
@@ -84,9 +81,6 @@ def value(deal) -> float:
 	return flt(deal.base_opportunity_amount) or flt(deal.base_total)
 
 
-# ------------------------------------------------------------------ Home
-
-
 def rate(won: int, lost: int) -> float:
 	"""Won as a share of won and lost, in percent. Pure."""
 	return round(100 * won / (won + lost), 1) if won + lost else 0.0
@@ -94,9 +88,6 @@ def rate(won: int, lost: int) -> float:
 
 def not_recorded() -> str:
 	return _("Not Recorded")
-
-
-# ------------------------------------------------------------ time in stage
 
 
 def stays(moves) -> list[dict]:

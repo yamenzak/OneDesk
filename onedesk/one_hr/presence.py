@@ -4,22 +4,13 @@ import frappe
 from frappe import _
 from frappe.utils import get_datetime, getdate, nowdate, time_diff_in_seconds
 
-#: What a person can be. Ordered by how much they overrule each other, which is
-#: the order `of` asks the questions in.
 STATES = ("leave", "holiday", "in", "out", "absent", "unknown")
 
-#: How late is late. Frappe's own grace is per Shift Type and is about *marking*
-#: attendance; this is about a word on a page, and a minute either side of the
-#: hour is not a story anybody wants told about them.
 GRACE = 10 * 60
 
-#: The doctypes this needs. A site without HRMS has none of them, and every
-#: entry point here answers `unknown` rather than raising: a record page that
-#: 500s because an app is missing is worse than one that says it does not know.
 
 #: Taken from the retired OneApp's `oneapp/onehr/presence.py`, ours and under
 #: the same licence. The reasoning has not changed; only the app it sits
-#: in has.
 NEEDED = ("Employee Checkin", "Attendance", "Leave Application")
 
 
@@ -118,9 +109,6 @@ def _on_leave(employee: str, today) -> dict | None:
 	return {
 		"state": "leave",
 		"label": _("Half day") if half else _("On leave"),
-		# The leave type, because "on leave" and "on leave until Friday, and it
-		# is sick leave" are different amounts of information for the same
-		# space on the page.
 		"detail": one.get("leave_type") or "",
 		"since": None,
 		"until": str(one.get("to_date") or ""),

@@ -1,8 +1,4 @@
 <template>
-  <!-- A copy of what the workspace holds about the reader, or that deleted:
-       the same calls as the desk's Profile (one/privacy.py,
-       one/privacy_copy.py), heard again when an administrator decides.
-       Modelled on Google Account's Data & privacy: download, or delete. -->
   <Head :title="__('Your Data')" />
   <div class="mx-auto w-full max-w-3xl px-4 py-6 sm:px-6">
     <Loading v-if="!state" />
@@ -91,7 +87,6 @@ async function remove() {
   }
 }
 
-// A copy made ready, or a decision, while the page is open.
 const socket = realtime();
 socket.on("one_privacy", load);
 onBeforeUnmount(() => socket.off("one_privacy", load));

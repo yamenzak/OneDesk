@@ -1,12 +1,5 @@
-// What can be done to a project, from its page (one_project/page/project_view)
-// and its form alike: the schedule, grouping it under a new project, saving it
-// as a template, invoicing its time and posting an update, the board, and its
-// budget and cost types. Each takes the
-// project as `frm`, whose `doc` names it; the page passes its own.
 frappe.provide("onedesk.project");
 
-// The board: ERPNext's own, made the way their button makes it
-// (one_project/board.py shapes it as it is made).
 onedesk.project.board = async (frm) => {
 	await frappe.xcall("erpnext.projects.doctype.project.project.create_kanban_board_if_not_exists", {
 		project: frm.doc.name,
@@ -14,8 +7,6 @@ onedesk.project.board = async (frm) => {
 	frappe.set_route("List", "Task", "Kanban", frm.doc.project_name);
 };
 
-// The schedule: frappe's Gantt over the tasks of this project and everything under
-// it, the ones still in play. See one_project/plan.py.
 onedesk.project.plan = async (frm) => {
 	const said = await frappe.xcall("onedesk.one_project.overview.overview", { project: frm.doc.name });
 	frappe.route_options = {
@@ -25,8 +16,6 @@ onedesk.project.plan = async (frm) => {
 	frappe.set_route("List", "Task", "Gantt");
 };
 
-// A new project above this one, taking its place, with this one and the
-// sub-projects ticked moved under it.
 onedesk.project.group = async (frm) => {
 	const said = await frappe.xcall("onedesk.one_project.tree.totals", { project: frm.doc.name });
 	const dialog = new frappe.ui.Dialog({
@@ -55,8 +44,6 @@ onedesk.project.group = async (frm) => {
 	dialog.show();
 };
 
-// A template made from this project's tasks (one_project/templates.py), for
-// the next one like it.
 onedesk.project.save_as = (frm) => {
 	frappe.prompt(
 		{ fieldtype: "Data", fieldname: "title", label: __("Template Name"), reqd: 1, default: frm.doc.project_name },
@@ -73,8 +60,6 @@ onedesk.project.save_as = (frm) => {
 	);
 };
 
-// A template's tasks added to a running project, dated from the day chosen
-// (one_project/templates.py `add`), from the workspace's templates or the library.
 onedesk.project.add_template = (project, done) => {
 	const dialog = new frappe.ui.Dialog({
 		title: __("Add from Template"),
@@ -99,9 +84,6 @@ onedesk.project.add_template = (project, done) => {
 	dialog.show();
 };
 
-// A draft invoice for the project's billable time not yet invoiced, by
-// activity, and on a Time and Materials job what was bought for it at cost
-// plus its markup (one_project/billing.py). It opens unsaved, to be read first.
 onedesk.project.invoice_time = async (frm) => {
 	const said = await frappe.xcall("onedesk.one_project.billing.unbilled", { project: frm.doc.name });
 	const costs = said.costs || {};
@@ -109,7 +91,6 @@ onedesk.project.invoice_time = async (frm) => {
 		frappe.ui.toast({ message: __("No billable time on {0} is waiting to be invoiced.", [frm.doc.project_name]), type: "info" });
 		return;
 	}
-	// What's waiting: the hours, and what was bought for it at cost plus the markup.
 	const waiting = [
 		said.hours && __("{0} hours, {1}", [format_number(said.hours, null, 2), format_currency(said.amount, said.currency)]),
 		costs.count && (costs.count === 1 ? __("1 cost, {0}", [format_currency(costs.amount, said.currency)]) : __("{0} costs, {1}", [costs.count, format_currency(costs.amount, said.currency)])),
@@ -152,10 +133,6 @@ onedesk.project.invoice_time = async (frm) => {
 	dialog.show();
 };
 
-// Draw Up Contract: what the customer or one of the project's suppliers
-// signs, ERPNext's own Contract naming the project, opened in its form to sign
-// and submit (one_project/agreement.py). Its wording comes from a Contract
-// Template, or for the customer from the project's terms and conditions.
 onedesk.project.draw_up = async (project, terms) => {
 	const parties = await frappe.xcall("onedesk.one_project.agreement.parties", { project });
 	const templates = await frappe.db.count("Contract Template");
@@ -201,14 +178,11 @@ onedesk.project.draw_up = async (project, terms) => {
 	dialog.show();
 };
 
-// Add Contract: a Fixed Price project's contract, made after the project,
-// as the New Project dialog makes it (one_project/kinds.py `add_contract`).
 onedesk.project.add_contract = async (frm) => {
 	const said = await frappe.xcall("onedesk.one_project.kinds.defaults", { customer: frm.doc.customer });
 	const dialog = new frappe.ui.Dialog({
 		title: __("Add Contract"),
 		fields: [
-			// In what the customer is billed in, which the order is made in.
 			{ fieldtype: "Link", fieldname: "currency", options: "Currency", hidden: 1, default: said.currency },
 			{ fieldtype: "Currency", fieldname: "contract", label: __("Contract Value"), reqd: 1, options: "currency" },
 			{
@@ -221,7 +195,6 @@ onedesk.project.add_contract = async (frm) => {
 				get_query: () => ({ filters: { is_sales_item: 1, disabled: 0, is_stock_item: 0 } }),
 			},
 			{ fieldtype: "Column Break" },
-			// The project's retention, which the contract may change.
 			{
 				fieldtype: "Percent",
 				fieldname: "retention",
@@ -245,7 +218,6 @@ onedesk.project.add_contract = async (frm) => {
 				depends_on: "eval:doc.retention",
 				default: frm.doc.one_retention_handover,
 			},
-			// The project's terms, which the contract carries (one_project/terms.py).
 			{ fieldtype: "Section Break" },
 			{
 				fieldtype: "Link",
@@ -275,9 +247,6 @@ onedesk.project.add_contract = async (frm) => {
 	dialog.show();
 };
 
-// Make Order: the quotation the customer accepted becomes the sales order,
-// as ERPNext's Create › Sales Order makes it. A quotation with alternative
-// items opens instead, where ERPNext asks which to take.
 onedesk.project.order_quote = (quote) => {
 	if (quote.alternatives) return frappe.set_route("Form", "Quotation", quote.name);
 	frappe.model.open_mapped_doc({
@@ -286,8 +255,6 @@ onedesk.project.order_quote = (quote) => {
 	});
 };
 
-// Post Update: the reader's note on how the project is going
-// (one_project/updates.py).
 onedesk.project.post = (frm) => {
 	frappe.prompt(
 		{
@@ -307,13 +274,7 @@ onedesk.project.post = (frm) => {
 	);
 };
 
-// The budget: what the whole project is expected to cost, ERPNext's
-// estimated_costing. Once it has cost types, it is their total and not set here.
 onedesk.project.budget = async (frm, done) => {
-	// The budget for the whole project, and the time's own: the team's hours,
-	// which no cost type holds as ERPNext books no account for them, and the
-	// hours the work was planned at when its tasks plan none. With cost types
-	// the Budget is theirs and the time's added up (one_project/budget.py).
 	const now = (await frappe.db.get_value("Project", frm.doc.name, ["estimated_costing", "one_time_budget", "one_hours_planned"])).message || {};
 	const typed = await frappe.db.count("Budget", { filters: { budget_against: "Project", project: frm.doc.name, docstatus: 1 } });
 	const dialog = new frappe.ui.Dialog({
@@ -338,14 +299,9 @@ onedesk.project.budget = async (frm, done) => {
 	dialog.show();
 };
 
-// A cost type: ERPNext's own Budget against the project, one per expense
-// account (one_project/budget.py). Without a row it adds one; with one it
-// changes its budget or removes it.
 onedesk.project.cost_type = async (frm, row, done) => {
 	const company = frm.doc.company || (await frappe.db.get_value("Project", frm.doc.name, "company")).message?.company;
 	const dialog = new frappe.ui.Dialog({
-		// A row the project doesn't budget for itself yet is added, its
-		// account given.
 		title: row && !row.fresh ? row.cost_type : __("Add Cost Type"),
 		fields: [
 			{
@@ -392,10 +348,6 @@ onedesk.project.cost_type = async (frm, row, done) => {
 	dialog.show();
 };
 
-// Log Time: an entry in the reader's draft timesheet for the week, the one the
-// task timer writes into (one_project/hours.py). `frm.tree` names the projects
-// it may be on; billable is ticked when the project's kind bills hours
-// (`frm.bills_hours`).
 onedesk.project.log_time = (frm, done) => {
 	const tree = frm.tree || [frm.doc.name];
 	const dialog = new frappe.ui.Dialog({
@@ -411,13 +363,11 @@ onedesk.project.log_time = (frm, done) => {
 				label: __("Task"),
 				options: "Task",
 				get_query: () => ({ filters: { project: ["in", tree], status: ["not in", ["Cancelled", "Template"]] } }),
-				// The time goes on the task's project.
 				onchange: () => {
 					const task = dialog.get_value("task");
 					if (task && tree.length > 1) frappe.db.get_value("Task", task, "project").then(({ message }) => message && dialog.set_value("on", message.project));
 				},
 			},
-			// Where the time was, on a project with sub-projects (one_project/hours.py `log`).
 			{
 				fieldtype: "Link",
 				fieldname: "on",
@@ -426,7 +376,6 @@ onedesk.project.log_time = (frm, done) => {
 				default: frm.doc.name,
 				hidden: tree.length < 2,
 				get_query: () => ({ filters: { name: ["in", tree] } }),
-				// Billable when that project's kind bills hours.
 				onchange: () => {
 					const on = dialog.get_value("on");
 					if (!on) return;
@@ -438,7 +387,6 @@ onedesk.project.log_time = (frm, done) => {
 			},
 			{ fieldtype: "Section Break" },
 			{ fieldtype: "Small Text", fieldname: "description", label: __("Description") },
-			// Billable when the project's kind bills hours; cost only otherwise.
 			{ fieldtype: "Check", fieldname: "billable", label: __("Billable"), default: frm.bills_hours ? 1 : 0 },
 		],
 		primary_action_label: __("Log Time"),
@@ -452,7 +400,6 @@ onedesk.project.log_time = (frm, done) => {
 	dialog.show();
 };
 
-// Add Member: somebody joins the project's Members (one_project/team.py).
 onedesk.project.add_member = (frm, done) => {
 	const dialog = new frappe.ui.Dialog({
 		title: __("Add User"),
@@ -476,9 +423,6 @@ onedesk.project.add_member = (frm, done) => {
 	dialog.show();
 };
 
-// Add Contact, and changing one: somebody outside the company on the project,
-// as what (one_project/contacts.py). `row` is the contact being changed;
-// `preset` fills in a new one, as Add Supplier does.
 onedesk.project.contact = (project, row, done, preset = {}) => {
 	const roles = ["Subcontractor", "Supplier", "Consultant", "Architect", "Engineer", "Client's Representative", "Authority", "Other"];
 	const values = row || preset;
@@ -523,10 +467,6 @@ onedesk.project.contact = (project, row, done, preset = {}) => {
 	dialog.show();
 };
 
-// Invoice Month: a retainer's month as a draft invoice, the fee and any hours
-// over the allowance (one_project/retainer.py). It opens unsaved, to be read
-// first. `month` is the month to start on; the dialog offers every month not
-// invoiced yet.
 onedesk.project.invoice_month = async (frm, month) => {
 	const said = await frappe.xcall("onedesk.one_project.retainer.months", { project: frm.doc.name });
 	const open = said.months.filter((one) => !one.invoice);
@@ -589,13 +529,8 @@ onedesk.project.invoice_month = async (frm, month) => {
 	show(first);
 };
 
-// Bill Progress on a project with more than one order asks which, each with
-// what's left to bill; with one, it bills that one (progress.js).
-// A project billed by milestones starts from the share they come to.
 onedesk.project.bill_progress = (orders, contract, currency, share) => {
 	const open = (orders || []).filter((one) => one.billable && one.billed < 100);
-	// The milestones' share is the page's own, so an order under it starts
-	// from what it has billed.
 	const bill = (name) => {
 		const one = open.find((order) => order.name === name);
 		onedesk.progress.ask({ doctype: "Sales Order", doc: { name } }, !one || one.own ? share : null);
@@ -625,9 +560,6 @@ onedesk.project.bill_progress = (orders, contract, currency, share) => {
 	dialog.show();
 };
 
-// A milestone: a task marked Is Milestone, on the project or one under it,
-// billed on completion when it carries a share of the contract. See
-// one_project/milestones.py.
 onedesk.project.add_milestone = (projects, billed, done) => {
 	const dialog = new frappe.ui.Dialog({
 		title: __("Add Milestone"),
@@ -668,9 +600,6 @@ onedesk.project.add_milestone = (projects, billed, done) => {
 	dialog.show();
 };
 
-// Ask for Updates: ERPNext's own Collect Progress fields on the project, how
-// often and when the team is asked, saved against the project as it was
-// loaded. See one_project/updates.py.
 onedesk.project.ASKING = [
 	"collect_progress",
 	"frequency",
@@ -707,25 +636,13 @@ onedesk.project.ask_updates = async (project, done) => {
 	dialog.show();
 };
 
-// About on a project's Overview, changed in place: ERPNext's own Project
-// fields, saved against the project as the page loaded it, so a change made
-// meanwhile is refused as a form's would be. % Complete is typed only when
-// progress is Manual. The page is where a project is edited, so About holds
-// every field not edited elsewhere on it, and any field a workspace adds.
 onedesk.project.ABOUT_GROUPS = [
 	[__("Work"), ["one_manager", "expected_start_date", "expected_end_date", "one_completed_on", "percent_complete_method", "percent_complete", "priority", "one_time", "one_site", "one_key", "project_type", "department", "one_parent"]],
 	[__("Customer"), ["customer", "one_kind", "one_monthly_fee", "one_monthly_hours", "one_markup", "one_payment_terms", "one_terms", "one_retention", "one_retention_due", "one_retention_handover"]],
 	[__("Accounts"), ["cost_center"]],
 ];
-// Edited elsewhere on the page: the name, status and health in the head,
-// members and contacts on Team, the budget on Money, Ask for Updates, the
-// Brief, the cover from Featured Media and the contract's order. The rest
-// is set when the project is made or kept by ERPNext.
 onedesk.project.ELSEWHERE = ["naming_series", "project_name", "status", "one_health", "project_template", "one_cover", "users", "one_contacts", "estimated_costing", "one_time_budget", "one_hours_planned", "company", "sales_order", "collect_progress", "holiday_list", "frequency", "from_time", "to_time", "first_email", "second_email", "daily_time_to_send", "day_to_send", "weekly_time_to_send", "subject", "message", "notes", "is_active"];
 
-// A record's fields in its groups, then any other field it has that can be
-// typed in (one a workspace added) under More. The project's About and the
-// template's details are both this.
 onedesk.project.about_fields = (doctype = "Project", groups = onedesk.project.ABOUT_GROUPS, elsewhere = onedesk.project.ELSEWHERE) => {
 	const known = new Set([...groups.flatMap(([, names]) => names), ...elsewhere]);
 	const more = frappe.get_meta(doctype).fields
@@ -737,7 +654,6 @@ onedesk.project.about_fields = (doctype = "Project", groups = onedesk.project.AB
 onedesk.project.edit = async (project, modified, fieldnames, title, done, fixed = [], doctype = "Project") => {
 	await frappe.model.with_doctype(doctype);
 	const doc = await frappe.db.get_doc(doctype, project);
-	// A section is ["Label", [fieldnames]], set among the fieldnames.
 	const fields = fieldnames
 		.flatMap((one) => (Array.isArray(one) ? [{ fieldtype: "Section Break", label: one[0] }, ...one[1]] : [one]))
 		.map((fieldname) => (typeof fieldname === "string" ? frappe.meta.get_docfield(doctype, fieldname) : fieldname))
@@ -745,13 +661,11 @@ onedesk.project.edit = async (project, modified, fieldnames, title, done, fixed 
 		.map((df) => {
 			if (df.fieldtype === "Section Break") return df;
 			const field = { ...df, default: doc[df.fieldname] };
-			// Who it bills and how stay once it has orders or invoices (kinds.py `settled`).
 			if (fixed.includes(df.fieldname)) Object.assign(field, { read_only: 1, description: __("Fixed once the project has orders or invoices.") });
 			if (df.fieldname === "one_parent") field.get_query = () => ({ filters: { name: ["!=", project] } });
 			if (df.fieldname === "percent_complete") {
 				Object.assign(field, { read_only: 0, depends_on: "eval:doc.percent_complete_method == 'Manual'" });
 			}
-			// Named as About names them; the Brief is the dialog's whole.
 			if (df.fieldname === "percent_complete_method") field.label = __("Progress");
 			if (df.fieldname === "notes") field.label = "";
 			return field;
@@ -768,7 +682,6 @@ onedesk.project.edit = async (project, modified, fieldnames, title, done, fixed 
 				dialog.hide();
 				done?.();
 			} catch {
-				// frappe has said why, as a changed record's "Please refresh".
 			} finally {
 				dialog.enable_primary_action();
 			}
@@ -783,13 +696,10 @@ onedesk.project.edit_about = async (project, modified, done) => {
 	onedesk.project.edit(project, modified, onedesk.project.about_fields(), __("Edit About"), done, fixed);
 };
 
-// A template's details, changed from its page: what a project made from it
-// starts with, and whether it can still be used.
 onedesk.project.TEMPLATE_GROUPS = [
 	[__("Details"), ["project_type", "disabled"]],
 	[__("Customer"), ["one_payment_terms", "one_terms", "one_retention", "one_retention_handover"]],
 ];
-// Edited elsewhere on the template's page: its tasks, in the table.
 onedesk.project.TEMPLATE_ELSEWHERE = ["tasks"];
 onedesk.project.edit_template = async (template, modified, done) => {
 	await frappe.model.with_doctype("Project Template");
@@ -800,14 +710,9 @@ onedesk.project.edit_template = async (template, modified, done) => {
 onedesk.project.edit_brief = (project, modified, done) =>
 	onedesk.project.edit(project, modified, ["notes"], __("Brief"), done);
 
-// A task's details, changed from the project's task panel: ERPNext's own
-// Task fields in frappe's controls, Depends On as frappe's table, saved
-// against the task as the panel loaded it. One_task/README.md has what each
-// is for.
 onedesk.project.task_details = async (task, modified, done) => {
 	await frappe.model.with_doctype("Task");
 	const doc = await frappe.db.get_doc("Task", task);
-	// The table names each task by its subject, as Task links do.
 	for (const row of doc.depends_on || []) if (row.subject) frappe.utils.add_link_title("Task", row.task, row.subject);
 	const field = (fieldname, extra = {}) => ({ ...frappe.meta.get_docfield("Task", fieldname), default: doc[fieldname], ...extra });
 	const fields = [
@@ -850,7 +755,6 @@ onedesk.project.task_details = async (task, modified, done) => {
 				dialog.hide();
 				done?.();
 			} catch {
-				// frappe has said why, as a changed task's "Please refresh".
 			} finally {
 				dialog.enable_primary_action();
 			}
@@ -859,7 +763,6 @@ onedesk.project.task_details = async (task, modified, done) => {
 	dialog.show();
 };
 
-// Repeat, as the task's form offers it: frappe's own Auto Repeat prompt.
 onedesk.project.repeat_task = (task, done) =>
 	frappe.utils.new_auto_repeat_prompt({ doc: { doctype: "Task", name: task }, reload_doc: () => done?.() });
 
@@ -868,8 +771,6 @@ onedesk.project.stop_repeat = async (task, done) => {
 	done?.();
 };
 
-// Pay Advance: ERPNext's own payment against the order, opened to check and
-// submit, as the order's Create › Payment makes it.
 onedesk.project.pay_advance = (order) =>
 	frappe.call({
 		method: "erpnext.accounts.doctype.payment_entry.payment_entry.get_payment_entry",
@@ -880,18 +781,12 @@ onedesk.project.pay_advance = (order) =>
 		},
 	});
 
-// Release Retention, or Pay Retention for a supplier: the payment for the
-// retention held, ERPNext's own Payment Entry matched to each invoice's
-// retention terms, opened unsaved (one_project/retention.py `release`).
 onedesk.project.release_retention = async (args) => {
 	const doc = await frappe.xcall("onedesk.one_project.retention.release", args);
 	const [made] = frappe.model.sync(doc);
 	frappe.set_route("Form", made.doctype, made.name);
 };
 
-// On a project, sharing is membership (one_project/members.py `shared`): the
-// sidebar's Share says Members, shows them, and opens Add Member. On the
-// project's page and its form alike.
 onedesk.project.members_in_sidebar = (frm) => {
 	frm.share_doc = () => onedesk.project.add_member(frm, () => (frm.reload_doc ? frm.reload_doc() : frm.sidebar.reload_docinfo()));
 	const $shared = frm.sidebar?.sidebar?.find(".form-shared");

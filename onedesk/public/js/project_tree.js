@@ -1,7 +1,3 @@
-// Projects as a tree: frappe's Tree view of the Projects list, each project
-// under its parent (one_project/tree.py `nodes`). A project opens its page;
-// the tree's own add, move, rename and delete are left out, since a project
-// is made with New Project and moved by its Parent Project.
 frappe.treeview_settings["Project"] = {
 	get_tree_nodes: "onedesk.one_project.tree.nodes",
 	get_tree_root: false,

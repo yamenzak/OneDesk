@@ -1,7 +1,4 @@
 <template>
-  <!-- Requests for quotation as a table, modelled on Odoo Purchase's list of
-       RFQs: what is asked for, where it stands, each supplier asked and
-       whether they answered, and when (one_inventory/quotes.py `asked`). -->
   <p v-if="!requests.length && empty" class="py-6 text-base text-ink-gray-5">{{ empty }}</p>
   <List v-else :columns="columns" divider="full" :row-height="56" class="-mx-3 list-gap-4 list-row-px-3">
     <ListHeader>
@@ -55,7 +52,6 @@ import { __, count, date, go, onedesk } from "../kit";
 const props = defineProps({ requests: { type: Array, required: true }, can: { type: Object, required: true }, empty: String });
 const emit = defineEmits(["compare"]);
 
-// Answered is the one a phone keeps; the status, the suppliers and the day join as the page widens.
 const columns = {
   base: ["minmax(0,1fr)", "auto", "2rem"],
   sm: ["minmax(0,1fr)", "7rem", "6rem", "2rem"],

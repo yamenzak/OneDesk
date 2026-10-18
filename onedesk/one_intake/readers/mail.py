@@ -12,8 +12,6 @@ import email.utils
 import html
 import re
 
-#: The line a mail client writes above what it forwards or quotes, in the
-#: languages people here write in.
 MARKER = re.compile(
 	r"^\s*(?:-{2,}|_{2,})\s*(?:forwarded message|weitergeleitete nachricht|original message|"
 	r"ursprüngliche nachricht|message transféré|message d'origine|mensaje reenviado|mensaje original|"
@@ -23,7 +21,6 @@ MARKER = re.compile(
 	re.IGNORECASE | re.MULTILINE,
 )
 
-#: Outlook forwards with no marker line, only a header block.
 OUTLOOK = re.compile(r"^\s*(?:from|von|de|da|van)\s*:\s*.+\n\s*(?:sent|gesendet|envoyé|enviado|inviato|verzonden|date|datum)\s*:", re.IGNORECASE | re.MULTILINE)
 
 HEADERS = {

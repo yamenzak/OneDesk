@@ -13,27 +13,18 @@ from frappe.utils import cint, getdate, today
 from onedesk.one_intake import tell
 from onedesk.one_intake.act import Action
 
-#: A match this sure is the record a document belongs to (identity.CERTAIN).
 CERTAIN = 0.9
 
-#: Which party a document belongs to first: the person it is about, then who
-#: sent it.
 ROLES = ("Holder", "Patient", "Employee", "Sender", "Paid To", "Recipient", "Mentioned")
 
-#: Sensitive documents are attached only to a person's own record; anywhere
-#: else they are linked, since a link never grants read.
 PERSONAL_RECORDS = ("Employee", "Job Applicant")
 
 JUNK = ("Spam", "Phishing", "Advertising")
 BULK = ("Newsletter", "Notification")
 
-#: A name OneAI already gave, or one a person gave the same shape.
 NAMED = re.compile(r"^\d{4}-\d{2}-\d{2} ")
 UNSAFE = re.compile(r'[\\/:*?"<>|\n\r\t]+')
 MOST_NAME = 120
-
-
-# ------------------------------------------------------------------ pure
 
 
 def records(parties: list[dict]) -> list[tuple[str, str]]:
@@ -83,8 +74,6 @@ def plan(reading: dict, where: dict) -> list[Action]:
 	kind = reading.get("kind") or ""
 	parties = reading.get("parties") or []
 	belongs = records(parties)
-	# What the matter's earlier documents were filed with: a reminder that
-	# names only an invoice number goes where the invoice went.
 	belongs += [tuple(one) for one in where.get("matter_records") or [] if tuple(one) not in belongs]
 	copy = bool(where.get("copy"))
 	sure = {"sure": True, "confidence": 1}
@@ -111,7 +100,6 @@ def plan(reading: dict, where: dict) -> list[Action]:
 		return out
 	folder, own, attached = where.get("folder"), where.get("own"), where.get("attached")
 	if verdict in JUNK:
-		# From a trusted channel: set aside with the advertising, never deleted.
 		if verdict in ("Spam", "Advertising") and not own and not attached and where.get("switched"):
 			out.append(Action("Move", "File", held, {"under": where["switched"], "path": [where.get("advertising_label") or "Advertising"]}, key="advertising", **sure))
 		return out
@@ -122,7 +110,6 @@ def plan(reading: dict, where: dict) -> list[Action]:
 	main = belongs[0] if belongs else None
 	if main and reading.get("sensitivity") not in (None, "", "Ordinary") and main[0] not in PERSONAL_RECORDS:
 		main = None
-	# A file a person attached to a record stays there; it is only linked on.
 	attach = bool(main) and not own and not copy and verdict != "Newsletter" and (not attached or attached[0] == "Communication") and attached != list(main)
 
 	if attach:
@@ -143,9 +130,6 @@ def plan(reading: dict, where: dict) -> list[Action]:
 	if tags and kind:
 		out.append(Action("Tag", "File", held, {"tags": tags}, key="tags", **sure))
 	return out
-
-
-# ------------------------------------------------------------------ on the site
 
 
 def run(name: str) -> None:

@@ -6,8 +6,6 @@ exists" on the request; this takes that message off, and nothing else.
 
 import frappe
 
-#: The only thing swept. Matched on the doctype's name rather than on the
-#: sentence, because the sentence is translated and the name is not.
 MILESTONE = "HR Telemetry Milestone"
 
 

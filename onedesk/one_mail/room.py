@@ -11,10 +11,8 @@ from frappe.email.receive import Email
 
 from onedesk.one_mail import tell
 
-#: How many messages one hourly pass looks at.
 MOST = 50
 
-#: Once a day at most, while storage stays full.
 TOLD = "one_mail:storage_full_told"
 
 
@@ -23,8 +21,6 @@ def kept(doc, missing: list[dict]) -> None:
 	held = unsaved(doc.name)
 	names = {one["file_name"] for one in held}
 	held += [one for one in missing if one["file_name"] not in names]
-	# On the document as well: frappe saves a new message again after its
-	# attachments, which would write back what it held.
 	doc.one_unsaved = json.dumps(held)
 	frappe.db.set_value("Communication", doc.name, "one_unsaved", doc.one_unsaved, update_modified=False)
 	tell.attachments_not_saved(doc)
@@ -64,8 +60,6 @@ def again() -> int:
 				saved += 1
 			except store.NoRoom:
 				left.append({"file_name": file_name, "size": len(attachment["fcontent"] or b"")})
-		# One that is not in the original any more cannot be saved, and is not
-		# waited for.
 		frappe.db.set_value(
 			"Communication", name, "one_unsaved", json.dumps(left) if left else None, update_modified=False
 		)

@@ -128,7 +128,6 @@ def test_push_is_wired_and_its_keys_stay_out_of_the_database():
 	assert '"after_insert": "onedesk.one.push.pushed"' in logs
 	assert "update_site_config(PRIVATE" in source
 	assert '"Service-Worker-Allowed": "/"' in source
-	# The worker handles push and clicks, and never a request the page makes.
 	worker = source.split('WORKER = """', 1)[1].split('"""', 1)[0]
 	assert '"fetch"' not in worker and "'fetch'" not in worker
 
@@ -174,8 +173,6 @@ def test_a_workspace_rule_is_held_and_tells_only_who_may_read():
 		assert kept in hold, kept
 	recipients = source.split("def get_list_of_recipients(", 1)[1].split("\n\n", 1)[0]
 	assert "_may_read" in recipients and "[], []" in recipients
-	# Who counts as frappe's own writer of rules is read from frappe's DocPerm,
-	# never named here.
 	assert '"DocPerm"' in source
 
 

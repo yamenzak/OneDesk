@@ -14,7 +14,6 @@ from frappe.permissions import (
 
 from onedesk.one_project import members
 
-#: What every desk user may do to a task the two hooks let them near.
 GRANTS = ("read", "write", "create", "delete", "share")
 
 
@@ -62,7 +61,6 @@ def allowed(doc, ptype=None, user=None, debug=False) -> bool:
 	if doc.owner == user:
 		return True
 	if assigned(doc, user):
-		# Somebody else's to-do given to me is mine to do, not mine to delete.
 		return ptype != "delete" or in_view(doc.project, user)
 	if doc.get("is_template") and sees_projects(user):
 		return True

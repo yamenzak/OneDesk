@@ -1,6 +1,4 @@
 <template>
-  <!-- The reader's tabs (Portal Settings by role) and their account's pages,
-       under the customer or supplier they sign in for. -->
   <Sidebar :aria-label="__('Portal')" :collapsible="false">
     <SidebarHeader :title="me.party || me.name" :subtitle="me.party ? me.name : ''" logo="/assets/onedesk/images/one.svg" :menu-items="menu" />
     <div class="flex-1 overflow-y-auto px-2 pb-3">
@@ -35,7 +33,6 @@ import { __, boot } from "../words";
 
 const { tabs = [], account = [], me = {} } = boot();
 const route = useRoute();
-// A record's page lights its tab.
 const here = computed(() => route.path.split("/")[1]);
 const go = (where) => () => (window.location.href = where);
 const menu = [

@@ -1,9 +1,4 @@
 <template>
-  <!-- Asset Maintenance (one_inventory/page/upkeep): servicing and mending the company's
-       equipment as one page. Planned lists the maintenance not done yet, Asset
-       Repair what broke, Asset Maintenance each asset's plan, and Completed what was done
-       (one_inventory/upkeep.py, upkeep_actions.js). Modelled on UpKeep's and
-       Fiix's work order lists: a table per tab, one status per row. -->
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
@@ -59,7 +54,6 @@ const soonLoad = () => {
   clearTimeout(timer);
   timer = setTimeout(load, 600);
 };
-// An asset renamed shows too.
 const stop = ["Asset Maintenance Log", "Asset Maintenance", "Asset Repair", "Asset"].map((one) => followList(one, soonLoad));
 onBeforeUnmount(() => {
   stop.forEach((one) => one());
@@ -116,8 +110,6 @@ function report() {
   );
 }
 
-// The page is a place (one_studio/places.py): its extensions are told what
-// it shows, and may add a note or a button.
 const placed = reactive({ notes: [], actions: [] });
 let drawn = null;
 function extended(s) {

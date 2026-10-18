@@ -1,8 +1,3 @@
-// A customer's or supplier's contact and the portal (one/portal_invite.py):
-// where they stand, and Invite to Portal, Invite Again, Revoke Access or
-// Restore Access for a workspace administrator or the party's manager.
-// frappe's own Invite as User is only for somebody who may create users,
-// and nobody on a workspace may.
 frappe.ui.form.on("Contact", {
 	async refresh(frm) {
 		if (frm.is_new()) return;

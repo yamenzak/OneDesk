@@ -12,14 +12,9 @@ import requests
 from onedesk.one_admin import faults, site
 from onedesk.one_admin.faults import Again, Refused
 
-#: A write can take a while — press does real work inside the request. A read
-#: that has not answered in ten seconds is a read we should not be blocking a
-#: page on.
 TIMEOUT = 60
 READ_TIMEOUT = 10
 
-#: How long a catalogue answer is good for. Long enough that a screen redraw is
-#: free, short enough that a bench added this morning is offerable by lunch.
 CACHED_FOR = 60
 
 

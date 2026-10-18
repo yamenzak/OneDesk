@@ -1,5 +1,3 @@
-// What will fail the first time somebody invoices, is paid or pays, with the fix
-// beside it (one_book/ready.py). A fix that needs a decision asks for it first.
 frappe.query_reports["Books Check"] = onedesk.check.report({
 	method: "onedesk.one_book.ready.fix",
 	ask(key, call) {

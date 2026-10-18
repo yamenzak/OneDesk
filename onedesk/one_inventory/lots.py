@@ -10,7 +10,6 @@ from frappe.utils import flt
 
 from onedesk.one_inventory import batches
 
-#: How many lots or numbers a tab lists before a search narrows them.
 MOST = 60
 
 
@@ -91,7 +90,6 @@ def lots(search: str | None = None, item: str | None = None, soon: int = 0) -> l
 				"where": batches.left(one.name),
 			}
 		)
-	# Those going off first, then those with no date.
 	return sorted(out, key=lambda one: (one["expiry_date"] is None, one["expiry_date"] or ""))
 
 
@@ -101,7 +99,6 @@ def serials(search: str | None = None, item: str | None = None) -> list[dict]:
 	if not frappe.has_permission("Serial No", "read"):
 		return []
 	filters = {"item_code": item} if item else {}
-	# The reader's company's pieces, as everything else this page counts.
 	company = erpnext.get_default_company()
 	if company:
 		filters["company"] = company

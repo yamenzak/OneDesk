@@ -1,15 +1,3 @@
-// On a phone a page's head is two bars (docs/STANDARD.md, The head). The
-// first is for the kind of record: the panel's button, the place, the page's
-// buttons and search. The second is for the record: its name, its status and
-// what narrows it, or a list's view switch, and is there only when it has
-// something. Frappe keeps all of it in one row, where the names are cut to
-// make room for the buttons. Laid out in desk.css; here the buttons and the
-// status are moved, the head says whether its second bar has anything, and
-// its height is told to frappe's
-// sticky parts (the form's tabs, a report's grid) through
-// --page-head-height, as frappe's own CSS reads it. A record's status, which
-// frappe shrinks to a dot and then hides on a phone, is a pill with its word
-// beside the record's name.
 {
 	const Page = frappe.ui.Page;
 	if (Page && !Page.prototype.__one_phone_pill) {
@@ -28,8 +16,6 @@
 		const page = frappe.container?.page;
 		return page ? page.querySelector(".page-head") : null;
 	};
-	// The record's status: beside its name, in the title on a wider screen
-	// and in the second bar on a phone, where frappe has no room for it.
 	const place_pill = (head, phone) => {
 		const pill = head.querySelector(".page-indicator-pill");
 		const actions = head.querySelector(".page-actions");
@@ -38,8 +24,6 @@
 		if (phone && pill.parentElement !== actions) actions.prepend(pill);
 		else if (!phone && pill.parentElement !== title) title.append(pill);
 	};
-	// The page's buttons (··· and the main one): in the first bar on a
-	// phone, before search, so the second bar is the record's alone.
 	const place_buttons = (head, phone) => {
 		const buttons = head.querySelector(".standard-actions");
 		const actions = head.querySelector(".page-actions");

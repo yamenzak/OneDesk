@@ -12,9 +12,6 @@ def before_validate(doc, method=None) -> None:
 		get_appointment_letter_details,
 	)
 
-	# Their helper answers `[{introduction, closing_notes}, {"description": [rows]}]`
-	# — the terms arrive under a key called `description`, which is also the name
-	# of a field on each row. Read exactly as their own form script reads it.
 	found = get_appointment_letter_details(doc.appointment_letter_template)
 	if len(found) < 2:
 		return

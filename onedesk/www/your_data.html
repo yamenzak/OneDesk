@@ -7,7 +7,6 @@
 {% block breadcrumbs %}{% endblock %}
 
 {% block page_content %}
-{#- Drawn as frappe's own sign-in card (www/login.html), which links here. -#}
 <section class="for-login one-your-data">
 	<div class="login-content page-card flex flex-col gap-5">
 		<div class="page-card-head flex flex-col items-start gap-4 text-left">
@@ -111,5 +110,4 @@ frappe.ready(() => {
 </script>
 {% endblock %}
 
-{#- frappe's sign-in card styles. -#}
 {% block head_include %}{{ super() }}{{ include_style("login.bundle.css") }}{% endblock %}

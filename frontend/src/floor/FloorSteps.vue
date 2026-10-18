@@ -1,9 +1,4 @@
 <template>
-  <!-- A work order's or a workstation's steps, each a job card, as cards
-       modelled on Odoo's Shop Floor: the operation and where it stands, the
-       clock and who is on it, how many are done of how many, what of its
-       materials is short, its quality check, and one button for what comes
-       next, as ERPNext's Shop Floor offers it. -->
   <div v-if="!steps.length" class="py-3 text-base text-ink-gray-5">{{ __("No operations here") }}</div>
   <div v-else class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
     <div v-for="one in rows" :key="one.name" class="flex min-w-0 flex-col gap-3 rounded-4 border bg-surface-elevation-2 p-4" :class="one.running ? 'border-outline-green-2' : 'border-outline-gray-1'">
@@ -62,17 +57,13 @@ import { __, duration, go, onedesk, quantity, secondsSince } from "../kit";
 
 const props = defineProps({
   steps: { type: Array, required: true },
-  // What the reader may do (floor.read's `can`).
   can: { type: Object, required: true },
-  // The reader's own employee, who a start puts on the step.
   employee: String,
-  // Each step says which work order it is for, on a workstation's tab.
   showOrder: Boolean,
 });
 const emit = defineEmits(["changed", "open"]);
 const done = () => emit("changed");
 
-// A clock for the steps someone is on, ticking while one is.
 const now = ref(Date.now());
 const tick = setInterval(() => (now.value = Date.now()), 1000);
 onBeforeUnmount(() => clearInterval(tick));
@@ -89,7 +80,6 @@ const rows = computed(() =>
       theme: one.paused ? "red" : THEMES[one.status] || "gray",
       clock: duration(seconds),
       bar,
-      // What needs saying under the bar: a material short, the quality check.
       lines: [
         ...one.short.map((row) => ({ text: __("Short of {0}, {1} more needed", [row.item_name, quantity(row.shortage - row.on_hand_qty, row.uom)]), tone: "red", icon: "lucide-triangle-alert" })),
         one.qc.required && { text: one.qc.status ? __("Quality check {0}", [__(one.qc.status)]) : __("Needs a quality check before it closes"), tone: one.qc.status === "Rejected" ? "red" : null, icon: "lucide-shield-check" },
@@ -100,7 +90,6 @@ const rows = computed(() =>
   })
 );
 
-// The one thing to do next on a step, as a button.
 function next(one) {
   const may = one.may;
   if (may.finish && props.can["Stock Entry"]) return { label: __("Receive Into Stock"), icon: "lucide-package-check", solid: true, onClick: () => onedesk().floor.entry(one.name) };
@@ -112,7 +101,6 @@ function next(one) {
   return null;
 }
 
-// The rest, in the step's menu.
 function more(one) {
   const out = [];
   if (one.may.record && props.can.start) out.push({ label: __("Record Made"), icon: "lucide-clipboard-check", onClick: () => onedesk().floor.record(one, done) });

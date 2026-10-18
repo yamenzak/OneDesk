@@ -131,9 +131,8 @@ frappe-ui. A list of records is not a wall of text: a picture or avatar, the
 name with its code quiet under it, one status as a coloured Badge, figures
 right-aligned with the unit smaller and grey and a dash for nothing, and
 filters as a picker and TabButtons above it rather than a long row of tabs.
-The screen's opening comment names its model (`Modelled on …`), which
-`tests/guards/test_islands.py` holds; screens drawn before the rule wait in
-its `UNMODELLED` until redrawn.
+Its row in `docs/ISLANDS.md` names its model, which
+`tests/guards/test_islands.py` holds.
 
 **6 Nothing lost.** A page of its own keeps everything frappe's form gives.
 Its sidebar is frappe's own, its menu is frappe's under the page's, it saves

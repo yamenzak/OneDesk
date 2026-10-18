@@ -1,10 +1,4 @@
 <template>
-  <!-- What the project is and how it is going, laid out for its kind
-       (docs/PROJECT-PAGE.md): its figures, two to a row in cards, its tasks
-       and hours as charts, and what the kind is worked by on the left; what
-       needs someone, in a card, and the facts on the right. A group of cards
-       is its own divide, so no rule runs above or below one. Each thing is
-       in one place. -->
   <div ref="root" class="grid gap-x-10 pb-12 pt-2 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
     <div class="min-w-0">
       <PlaceSpot :said="spot" class="mt-5" />
@@ -30,8 +24,6 @@
           <Rows :rows="workAndBilling" />
           <Button v-if="view.billing.unbilled && said.contract && can('create', 'Sales Invoice')" class="mt-3" :label="__('Bill Progress')" @click="onedesk().project.bill_progress(said.orders, said.contract, said.currency, view.billing.billable?.share)" />
         </Section>
-        <!-- What the customer ordered, then what they've been quoted and not
-             ordered: one flow, so side by side. -->
         <Section v-if="said.orders?.length > 1" :title="__('Orders')" icon="lucide-shopping-cart" :aside="said.orders.length" :action="{ icon: 'lucide-arrow-up-right', label: __('Orders'), onClick: () => go(said.orders_route) }">
           <Rows :rows="orders" />
           <Button v-if="said.orders.length > orders.length" variant="ghost" class="mt-2 -ms-2" :label="__('Show All')" @click="go(said.orders_route)" />
@@ -89,7 +81,6 @@
           <Rows :rows="retention" />
         </Section>
       </template>
-      <!-- What the customer and the suppliers signed for it (agreement.py). -->
       <Section v-if="said.contracts?.length || said.can_draw_up" :title="__('Contracts')" icon="lucide-pen-line" :action="said.can_draw_up ? { text: true, icon: 'lucide-plus', label: __('Draw Up Contract'), onClick: () => onedesk().project.draw_up(said.name, said.terms) } : null">
         <Rows :rows="contracts" :empty="__('No contracts')" />
       </Section>
@@ -142,12 +133,10 @@ import { usePlace } from "./place";
 const props = defineProps({ said: { type: Object, required: true }, writing: Boolean });
 const emit = defineEmits(["changed", "view", "main"]);
 const view = computed(() => props.said.overview);
-// The charts' colours, as frappe-ui reads them for this island and its theme.
 const root = ref();
 const { tokens } = useChartTokens(root);
 const kind = computed(() => props.said.kind);
 
-// A quotation's status as a dot: still open, ordered, or gone.
 const QUOTE = { Open: "blue", Replied: "blue", "Partially Ordered": "green", Ordered: "green", Lost: "red", Expired: "amber", Draft: "gray" };
 
 const NAMES = () => ({
@@ -161,8 +150,6 @@ const figure = (card) => {
   if (card.date) return card.value ? date(card.value) : "–";
   return card.value ?? "–";
 };
-// The Overview is a place (one_studio/places.py): its extensions are told
-// the figures and what needs someone, and may add a note or a button.
 const spot = usePlace("oneproject.overview", () => ({
   project: { name: props.said.name, title: props.said.title, kind: props.said.kind, currency: props.said.currency },
   overview: {
@@ -183,7 +170,6 @@ const figures = computed(() =>
     button: next(card),
   }))
 );
-// The work done beside what's billed and paid, as amounts (view.work_and_billing).
 const workAndBilling = computed(() => {
   const b = view.value.billing;
   const sum = (value) => money(value, props.said.currency);
@@ -199,10 +185,6 @@ const workAndBilling = computed(() => {
   ].filter(Boolean);
 });
 
-// Each cost type over the project and those under it, then Other for the
-// rest, so the bars add up to the figures (view._budget_lines): what's
-// spent, what's on order, and what's left of its budget. A cost type over
-// its budget is a row under the chart, as a red figure is.
 const budgetLines = computed(() => {
   const b = view.value.budget;
   return [...b.lines.map((one) => ({ ...one, type: one.cost_type })), b.other && { ...b.other, type: __("Other") }].filter(Boolean);
@@ -210,7 +192,6 @@ const budgetLines = computed(() => {
 const budgetBars = computed(() =>
   budgetLines.value.map((one) => ({ type: one.type, spent: one.spent, committed: one.committed, left: Math.max(one.left || 0, 0) }))
 );
-// Spent and on order are one hue at two strengths; what's left is the track.
 const budgetSeries = computed(() => {
   const [spent, committed] = tokens.value.categorical;
   return { spent: { label: __("Spent"), color: spent }, committed: { label: __("On Order"), color: committed }, left: { label: __("Left"), color: tokens.value.axisLine } };
@@ -221,10 +202,6 @@ const over = computed(() =>
     .map((one) => ({ key: one.type, dot: "red", label: one.type, below: __("{0} budget", [money(one.budget, props.said.currency)]), value: __("{0} over", [money(-one.left, props.said.currency)]) }))
 );
 
-// The tasks by status, in the colours their badges have: Completed, Working,
-// Pending Review and Overdue in the ramp's green, blue, amber and red, Open,
-// not started, in gray. The ring draws the largest first, so the colours are
-// listed in that order too.
 const TASK_ORDER = ["Completed", "Working", "Pending Review", "Overdue", "Open"];
 const tasks = computed(() =>
   TASK_ORDER.filter((status) => view.value.statuses?.[status])
@@ -242,12 +219,10 @@ const tasksSaid = computed(() => {
   return __("{0} of {1} done", [view.value.statuses?.Completed || 0, all]);
 });
 
-// A figure whose documents are a view of this page opens that view.
 const opens = (card) =>
   card.view && !card.route && props.said.views?.includes(card.view)
     ? { icon: "lucide-arrow-up-right", label: NAMES()[card.key] || card.key, onClick: () => emit("view", card.view) }
     : null;
-// What the first figure asks for next, for whoever may do it.
 const next = (card) => {
   if (!can("create", "Sales Order")) return null;
   if (card.action === "add_contract" && props.said.can_write && props.said.customer)
@@ -287,11 +262,6 @@ const unbilledTotal = computed(() => {
   return all.length ? money(all.reduce((sum, one) => sum + one.amount, 0), props.said.currency) : "";
 });
 
-// What the head doesn't say: how progress is measured, when it's due and how
-// far off that is, who's on it, how much it matters and how its time is
-// counted. The head has the
-// customer, the order, the dates and the manager; the breadcrumb has where
-// a sub-project sits.
 const facts = computed(() => {
   const s = props.said;
   const left = s.days_left;
@@ -316,7 +286,6 @@ const facts = computed(() => {
       label: __("Retention"),
       value: [`${s.retention_terms.percent}%`, s.retention_terms.handover && __("{0}% at handover", [s.retention_terms.handover]), s.retention_terms.due && __("Due {0}", [date(s.retention_terms.due)])].filter(Boolean).join(" · "),
     },
-    // What the customer signs, ERPNext's own Contract (agreement.py).
     s.agreement && {
       label: __("Signed Contract"),
       value: s.agreement.signed ? [__("Signed"), s.agreement.ends && __("Ends {0}", [date(s.agreement.ends)])].filter(Boolean).join(" · ") : __("Not signed yet"),
@@ -333,10 +302,6 @@ function ends(left) {
 }
 const editAbout = () => onedesk().project.edit_about(props.said.name, props.said.modified, () => emit("changed"));
 const editBrief = () => onedesk().project.edit_brief(props.said.name, props.said.modified, () => emit("changed"));
-// What the customer holds and what's held from suppliers, each with its rate
-// when the orders agree and when the first of it is due (retention.sides).
-// The customer's side carries their logo, the suppliers' side the Suppliers
-// tab's icon.
 const retention = computed(() =>
   [
     ["customer", __("From the Customer")],
@@ -355,11 +320,6 @@ const retention = computed(() =>
       };
     })
 );
-// Each sub-project: how it's going (kind, when it's due, who runs it), its
-// branch's money by kind, and a dot when it's late, over budget or not on
-// track (view._sub_projects).
-// The project's own work first, as a row of its own: opening it shows the
-// page for that alone (view.py `_sub_projects` "main").
 const mainRow = computed(() => {
   const one = view.value.sub_projects.main;
   if (!one) return [];
@@ -374,7 +334,6 @@ const mainRow = computed(() => {
       key: "main",
       label: __("Main", null, "Project"),
       lines: [worth.filter(Boolean).join(" · ")].filter(Boolean),
-      // Every row has how far along it is; with no tasks of its own, a dash.
       value: share(one.share),
       dot: one.over ? "red" : undefined,
       onClick: () => emit("main"),
@@ -412,13 +371,9 @@ function when(left) {
   if (left === 0) return __("Due today");
   return left === 1 ? __("Due tomorrow") : __("Due in {0} days", [left]);
 }
-// A finished project is not planned any further: no milestones or
-// sub-projects are added to it.
 const finished = computed(() => ["Completed", "Cancelled"].includes(props.said.status));
 const canAddSub = computed(() => !finished.value && props.said.can_write && can("create", "Project"));
 const addSub = () => newDoc("Project", { one_parent: props.said.name, customer: props.said.customer });
-// A Fixed Price project is quoted until it has its contract; what is quoted
-// after is extra work, ordered as a sub-project (billing.py `ordered`).
 const quoting = computed(() => {
   const s = props.said;
   if (!s.customer || !can("create", "Quotation")) return null;
@@ -426,7 +381,6 @@ const quoting = computed(() => {
     return { text: true, icon: "lucide-plus", label: __("New Quotation"), onClick: () => newDoc("Quotation", { project: s.name, quotation_to: "Customer", party_name: s.customer, payment_terms_template: s.payment_terms, tc_name: s.terms }) };
   return { text: true, icon: "lucide-plus", label: __("Quote Extra Work"), onClick: () => newDoc("Quotation", { project: s.name, one_extra_work: 1, quotation_to: "Customer", party_name: s.customer }) };
 });
-// The quotations not yet ordered (view._quotes): an ordered one is its order.
 const quotes = computed(() =>
   (view.value.quotes || []).map((one) => ({
     key: one.name,
@@ -438,8 +392,6 @@ const quotes = computed(() =>
     route: `/desk/quotation/${one.name}`,
   }))
 );
-// Each contract: who it is with, what it covers, whether it is signed, and
-// when it ends. One for a project under this one names it, else its template.
 const contracts = computed(() =>
   props.said.contracts.map((one) => ({
     key: one.name,
@@ -453,10 +405,7 @@ const contracts = computed(() =>
     route: one.route,
   }))
 );
-// As many as the other sections show (view.SHOWN).
 const SHOWN = 8;
-// The customer's orders across the tree: where each is and what it's for,
-// what's left to bill, and ERPNext's status when it can't be billed.
 const orders = computed(() =>
   props.said.orders.slice(0, SHOWN).map((one) => ({
     key: one.name,
@@ -474,8 +423,6 @@ const orders = computed(() =>
   }))
 );
 const billed = (one) => (one.ordered ? Math.round((100 * one.billed) / one.ordered) : 0);
-// Each order: what it's for and where, how far it's billed, and when that's
-// ahead of the work on its project, or there's something to pay.
 const subcontracts = computed(() =>
   view.value.subcontracts.map((one) => {
     const ahead = one.done !== null && one.done !== undefined && billed(one) > one.done;

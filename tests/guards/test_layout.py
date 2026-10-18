@@ -9,13 +9,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "onedesk"
-#: Where a module's notifications go out from.
 TELL = "tell.py"
-#: Where a module's roles are given.
 ACCESS = "access.py"
-#: The doors themselves.
 DOORS = {APP / "one" / "notify.py", APP / "one" / "roles.py"}
-#: frappe's own ways of writing a role's rights.
 WRITERS = ("add_permission", "update_permission_property")
 
 

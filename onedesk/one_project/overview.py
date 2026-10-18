@@ -12,7 +12,6 @@ from frappe.utils import date_diff, flt, formatdate, getdate, nowdate
 from onedesk.one import figures
 from onedesk.one_project import members, money, tree
 
-#: What a task that is still to do cannot be.
 DONE = ("Completed", "Cancelled", "Template")
 
 
@@ -129,12 +128,8 @@ def overview(project: Annotated[str, "The project."]) -> dict:
 	total = sum(row.n for row in counts)
 	done = sum(row.n for row in counts if row.status == "Completed")
 	open_ = [["project", "in", projects], ["status", "not in", DONE]]
-	# frappe reads a missing date as the earliest one, so a task with no due
-	# date would count as late.
 	late_filters = [*open_, ["exp_end_date", "is", "set"], ["exp_end_date", "<", today]]
 	late = frappe.db.count("Task", late_filters)
-	# A late task is Overdue whatever its status says: ERPNext only marks
-	# one so overnight, and the figures count it late from the day after.
 	statuses = {row.status: row.n for row in counts}
 	if late:
 		for row in frappe.get_all(
@@ -157,8 +152,6 @@ def overview(project: Annotated[str, "The project."]) -> dict:
 		"tasks": total,
 		"done": done,
 		"statuses": statuses,
-		# A completed project is done, whatever its tasks say; otherwise ERPNext's
-		# own % Complete, so this page and the lists say the same (README).
 		"share": 100
 		if doc.status == "Completed"
 		else own_progress(project, doc.percent_complete_method, doc.percent_complete) or 0

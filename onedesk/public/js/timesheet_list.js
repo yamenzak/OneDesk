@@ -1,9 +1,3 @@
-// Time, OneProject's list of timesheets: who, for which project, which days
-// and how many hours, billable and all. The ID is on the row's hover, so it
-// takes no column (one_hr/custom/timesheet.json has the columns). A sheet's
-// days are one column, its first and last only when they differ, and hours
-// read as hours ("9 h", "3.6 h") with none billable as a dash, where frappe
-// wrote "9", "3.60" and "0.00" down one column.
 (() => {
 	const hours = (value) =>
 		__("{0} h", [format_number(value || 0, null, Number(value) % 1 ? 1 : 0)]);

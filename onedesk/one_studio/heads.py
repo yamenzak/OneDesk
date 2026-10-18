@@ -28,8 +28,6 @@ def extension_said(doc):
 	if doc.review == "Refused":
 		return {"text": _("The review refused it: {0}").format(doc.review_note or ""), "colour": "red"}
 	if doc.runs == extensions.ON_SERVER and not extensions.runs_server_scripts():
-		# What it does still comes first: the form leaves the explanation to
-		# the head unless the review refused it.
 		return {
 			"text": " ".join(
 				filter(

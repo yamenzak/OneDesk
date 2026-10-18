@@ -18,8 +18,6 @@ def execute():
 	)
 	server = (was[0][0] or "").strip() if was else ""
 	if server:
-		# Written as a row rather than a Settings save, which would mail the
-		# operators that Settings changed.
 		if not frappe.db.exists("Workspace Server", {"parent": "One Admin Settings"}):
 			frappe.get_doc(
 				{
@@ -36,6 +34,5 @@ def execute():
 			"update tabTenant set server=%s where ifnull(server, '')='' and ifnull(site, '')!=''", server
 		)
 	frappe.db.sql("delete from tabSingles where doctype='One Admin Settings' and field='press_server'")
-	# A default is not written into a Single that already exists.
 	if not frappe.db.get_single_value("One Admin Settings", "press_plan"):
 		frappe.db.set_single_value("One Admin Settings", "press_plan", "Unlimited - Hetzner")

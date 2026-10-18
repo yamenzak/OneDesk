@@ -8,11 +8,8 @@ import frappe
 from frappe import _
 
 FOLDER = Path(__file__).parent / "library"
-#: The payment terms and terms and conditions the presets name, made in the
-#: workspace the first time a preset that names them is copied in.
 TERMS = Path(__file__).parent / "library_terms.json"
 
-#: What a task in a preset may say.
 TASK_KEYS = {"subject", "day", "days", "milestone", "hours", "after", "tasks"}
 
 

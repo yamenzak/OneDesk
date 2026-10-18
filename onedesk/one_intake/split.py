@@ -8,8 +8,6 @@ starts again. A vision model marks the rest when it reads the pages. Pure.
 
 import re
 
-#: A page with fewer characters than this is blank: an empty back, a scanner's
-#: speck read as a letter.
 BLANK = 6
 
 SEPARATOR = re.compile(
@@ -17,7 +15,6 @@ SEPARATOR = re.compile(
 	re.IGNORECASE,
 )
 
-#: "Seite 2 von 3", "Page 2 of 3", "Pagina 2 di 3", "2/3" alone on a line.
 NUMBERED = re.compile(
 	r"(?:seite|page|blatt|pagina|página|sayfa|صفحة)\s*(\d{1,3})\s*(?:/|von|of|de|di|sur|van|من)\s*(\d{1,3})"
 	r"|^\s*(\d{1,3})\s*/\s*(\d{1,3})\s*$",

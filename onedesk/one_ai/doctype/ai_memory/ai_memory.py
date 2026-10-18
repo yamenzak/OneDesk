@@ -11,8 +11,6 @@ from frappe.model.document import Document
 
 
 class AIMemory(Document):
-	# A fact is one line of up to 500 characters, and it is about a record its
-	# keeper may open, however it is written (the panel, Settings, the list).
 	def validate(self):
 		self.fact = " ".join((self.fact or "").split())[:500]
 		if not self.fact:
@@ -22,8 +20,6 @@ class AIMemory(Document):
 		):
 			frappe.throw(_("You cannot open that record."), frappe.PermissionError)
 
-	# The owner's Settings page and panel redraw when a memory is kept,
-	# changed or forgotten, from wherever that happened.
 	def on_update(self):
 		self.told()
 

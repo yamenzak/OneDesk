@@ -5,13 +5,10 @@ import mimetypes
 import frappe
 from frappe import _
 
-#: The node a project's Featured Media folder is in OneCloud.
 PREFIX = "@featured/"
 
-#: What the folder is called.
 FOLDER = "Featured Media"
 
-#: What may go in it.
 KINDS = ("image/", "video/")
 
 
@@ -81,7 +78,6 @@ def changed(doc, method=None) -> None:
 		return
 	before = doc.get_doc_before_save() if method == "on_update" else None
 	if doc.get("one_featured") or (before and before.get("one_featured")):
-		# A file being deleted is still there while it goes.
 		settle_cover(doc.attached_to_name, without=doc.name if method == "on_trash" else None)
 
 
@@ -109,7 +105,6 @@ def feature(name: str, on: bool) -> None:
 	if on:
 		check(doc.file_name)
 	doc.one_featured = 1 if on else 0
-	# Shown, it opens for anybody; taken back, it is the project's again.
 	doc.is_private = 0 if on else 1
 	doc.flags.ignore_permissions = True
 	doc.save()

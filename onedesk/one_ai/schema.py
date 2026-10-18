@@ -7,8 +7,6 @@ parameter may be left out, and `Literal` is a closed list.
 import inspect
 import typing
 
-#: What a Python type is called in JSON Schema. Anything not here is refused
-#: rather than guessed at, so no parameter has to be told about in prose.
 CALLED = {
 	str: "string",
 	int: "integer",
@@ -107,11 +105,8 @@ def _typed(tool: str, name: str, hint) -> dict:
 			raise Unreadable(f"{tool}({name}) is a Literal of mixed kinds")
 		return {"type": kinds.pop(), "enum": values}
 
-	# `list[str]` and a bare `list` both land here. Google refuses an array without
-	# `items` while OpenAI accepts it, so the stricter reading is the one written.
 	if typing.get_origin(hint) is list or hint is list:
 		inside = typing.get_args(hint)
-		# A list of lists (a filter's [field, operator, value]) nests.
 		if inside and (inside[0] is list or typing.get_origin(inside[0]) is list):
 			return {"type": "array", "items": _typed(tool, name, inside[0])}
 		of = CALLED.get(inside[0]) if inside else "string"

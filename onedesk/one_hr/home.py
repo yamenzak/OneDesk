@@ -11,16 +11,12 @@ import frappe
 from frappe import _lt
 from frappe.utils import add_days, flt, getdate, nowdate
 
-#: How many rows of each kind Today shows before it says how many more.
 FEW = 5
 
-#: How far ahead a passport, a contract or a probation running out counts.
 MONTH = 30
 
-#: The roles HR holds.
 HR = ("HR User", "HR Manager")
 
-#: The directory's groups, in the rail's order.
 GROUPS = (
 	("people", _lt("Employee")),
 	("time", _lt("Time")),
@@ -34,14 +30,12 @@ GROUPS = (
 	("reports", _lt("Reports")),
 	("setup", _lt("Setup")),
 )
-#: What a report is about, as Reports sets them out, one section to a topic.
 REPORT_SECTIONS = (
 	("time", _lt("Time")),
 	("leave", _lt("Leave")),
 	("pay", _lt("Pay")),
 	("people", _lt("Employee")),
 )
-#: What a part of Setup is about, the settings first.
 SETUP_SECTIONS = (
 	("settings", _lt("Settings")),
 	("time", _lt("Time")),
@@ -50,8 +44,6 @@ SETUP_SECTIONS = (
 	("lists", _lt("Masters")),
 )
 
-#: Each called what ERPNext and HRMS call what it opens: the name Ctrl+K finds
-#: it by. A report's or a setting's topic is its last value.
 EVERYTHING = (
 	(
 		"people",
@@ -628,7 +620,6 @@ def needs_you() -> dict:
 	}
 
 
-#: Each request, where its answer is kept and which answer means it waits.
 REQUESTS = (
 	("Leave Application", "status", ("Open",), "leave_approver", "leave_type"),
 	("Expense Claim", "approval_status", ("Draft",), "expense_approver", "total_claimed_amount"),

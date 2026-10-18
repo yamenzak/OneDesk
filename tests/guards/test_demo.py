@@ -7,7 +7,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 DEMO = ROOT / "onedesk" / "one_demo"
-#: Not steps: what the steps share, the runner and the suite.
 TOOLS = {"__init__", "base", "build", "check", "history", "samples"}
 
 

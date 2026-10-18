@@ -11,7 +11,6 @@ import frappe
 
 DONE = "one_demo_done"
 
-#: In order: each step leans on what the steps before it made.
 STEPS = (
 	"setup",
 	"people",

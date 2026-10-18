@@ -26,7 +26,6 @@ ACTIONS = tree.APP / "one_admin" / "actions.py"
 RUN = tree.APP / "one_ai" / "run.py"
 TOOLS = tree.APP / "one_ai" / "tools.py"
 
-#: The translators, which touch nothing but `json` and each other.
 LIFTED = (
 	"said",
 	"_openai_turn",
@@ -47,7 +46,6 @@ def turns():
 		if isinstance(node, ast.FunctionDef) and node.name in LIFTED
 	]
 	assert len(wanted) == len(LIFTED), "a translator was renamed and this guard was not"
-	# `_openai_turn` reads the roles its own module names.
 	wanted += [
 		node
 		for node in body.body
@@ -74,9 +72,6 @@ def spoken(where: Path, name: str) -> str:
 	raise AssertionError(f"{name} is not in {where.name}")
 
 
-# --------------------------------------------------------- one turn, two ways
-
-
 def test_a_plain_turn_is_the_same_thing_in_both_dialects():
 	room = turns()
 	one = room["said"]("what is on my list?")
@@ -100,8 +95,6 @@ def test_a_model_asking_for_a_tool_keeps_its_arguments():
 	said = openai["tool_calls"][0]
 	assert said["id"] == "c1"
 	assert said["function"]["name"] == "list_records"
-	# OpenAI's dialect carries the arguments as a JSON string, Google's as an
-	# object, and a provider handed the other one answers as if there were none.
 	assert json.loads(said["function"]["arguments"]) == {"doctype": "ToDo"}
 
 	gemini = room["_gemini_turn"](one)
@@ -118,7 +111,6 @@ def test_a_tool_result_goes_back_where_each_provider_looks_for_it():
 	assert openai["tool_call_id"] == "c1"
 	assert json.loads(openai["content"]) == [{"name": "TODO-1"}]
 
-	# Google has no tool role: a result is the user's next turn.
 	gemini = room["_gemini_turn"](one)
 	assert gemini["role"] == "user"
 	answered = gemini["parts"][0]["functionResponse"]
@@ -193,10 +185,6 @@ def test_a_body_with_neither_words_nor_calls_reads_as_neither():
 	assert room["_openai_calls"]({}) == []
 
 
-# ------------------------------------------------- who may stop the loop, and
-# ------------------------------------------------- who may offer a tool at all
-
-
 def test_the_rounds_are_counted_on_the_side_that_pays():
 	"""Admin counts the model turns it is handed; the workspace only proposes."""
 	said = spoken(ACTIONS, "_conversation")
@@ -221,8 +209,6 @@ def test_a_tool_that_refuses_comes_back_as_a_result():
 	said = spoken(RUN, "_tried")
 	assert "except Exception" in said
 	assert "'ran': False" in said
-	# Read as a tree rather than as text, because the variable is called
-	# `raised` and a grep for the keyword finds it.
 	body = ast.parse(said).body[0]
 	assert not [node for node in ast.walk(body) if isinstance(node, ast.Raise)]
 
@@ -295,11 +281,9 @@ def test_a_call_gemma_wrote_as_text_is_read_as_a_call():
 		}
 	]
 	assert words == ""
-	# Words around it stay words; a call that does not read is left alone.
 	assert room["_leaked"]("Looking. <|tool_call>call:my_day{}<tool_call|>")[1] == "Looking."
 	broken = "<|tool_call>call:my_day{a:<tool_call|>"
 	assert room["_leaked"](broken) == ([], broken)
-	# Only that syntax: free-form text is never read as a call.
 	assert room["_leaked"]("call my_day {}") == ([], "call my_day {}")
 	assert "LEAKED in words" in spoken(GATEWAY, "_answered")
 
@@ -311,7 +295,6 @@ def test_the_last_round_the_account_takes_is_told_to_answer():
 	asked = [{"role": "user", "text": "q"}]
 	looked = [{"role": "model", "calls": [{}]}, {"role": "tool"}]
 	assert room["_spoken"](asked + looked * 4) == 4
-	# A nudge is not the person speaking, and does not start the count again.
 	assert room["_spoken"](asked + looked * 2 + [{"role": "user", "context": True}] + looked) == 3
 	said = spoken(RUN, "ask")
 	assert "_spoken(turns) >= ROUNDS - 1" in said

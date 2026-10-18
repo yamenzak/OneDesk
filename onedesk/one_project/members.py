@@ -5,13 +5,10 @@ from contextlib import contextmanager
 import frappe
 from frappe import _
 
-#: Who sees every project.
 MANAGERS = ("Projects Manager",)
 
-#: Who sees every project without running them: the books.
 BOOKS = ("Accounts User", "Accounts Manager")
 
-#: The role whose view of projects this narrows.
 WORKER = "Projects User"
 
 
@@ -140,9 +137,6 @@ def join(project: str, user: str) -> bool:
 	if frappe.has_permission("Project", "share", doc=project):
 		doc.save()
 	else:
-		# ERPNext shares the project with a new member as whoever saves it, and
-		# frappe asks them for the right to share. OneAI and Intake give work
-		# without it, so the joining is One's own.
 		with _as_administrator():
 			doc.save()
 	forget()

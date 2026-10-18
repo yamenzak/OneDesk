@@ -11,27 +11,21 @@ from frappe.utils import cint, strip_html
 
 from onedesk.one_mail import actions, faces, holders
 
-#: Conversations per page of the list.
 PAGE = 50
 
-#: Characters of a message's text shown under its subject.
 SNIPPET = 140
 
 
 def snippet(html: str | None) -> str:
 	"""A message's first words, as text. Pure apart from Frappe's strip_html."""
-	# A paragraph or a line that ended is a space, or "Hello,<p>Please" reads
-	# "Hello,Please".
 	text = re.sub(r"(?i)<\s*(br|/p|/div|/li|/tr|/h\d)\b[^>]*>", " ", html or "")
 	text = unescape(strip_html(text))
 	text = re.sub(r"\s+", " ", text).strip()
 	return text[:SNIPPET]
 
 
-#: The words a search understands before a colon, as mail clients spell them.
 OPERATORS = ("from", "to", "subject", "has", "is")
 
-#: A search word: `key:value`, `key:"two words"`, "a phrase", or a word.
 WORD = re.compile(r'(?:(\w+):)?(?:"([^"]*)"|(\S+))')
 
 
@@ -144,7 +138,6 @@ def conversations(account: str, folder: str | None = None, search: str | None = 
 	rows = rows[:PAGE]
 	if not rows:
 		return {"items": [], "more": 0}
-	# The newest message of each conversation, among those listed here.
 	newest = {}
 	for message in (
 		query.select(
@@ -220,7 +213,6 @@ def conversation(account: str, thread: str) -> dict:
 	for one in messages:
 		one["face"] = pictures.get(_address(one.sender))
 		one["attachments"] = files.get(one.name, [])
-		# Attachments that arrived while storage was full (room.py).
 		one["unsaved"] = frappe.parse_json(one.pop("one_unsaved") or "[]") or []
 		one["snippet"] = snippet(one.content)
 	return {"thread": thread, "messages": messages}

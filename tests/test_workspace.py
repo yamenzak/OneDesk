@@ -25,12 +25,8 @@ ONE = tree.APP / "one"
 ACCOUNT = ONE / "doctype" / "workspace_account" / "workspace_account.json"
 DOMAIN = ONE / "doctype" / "workspace_domain" / "workspace_domain.json"
 
-#: Fieldtypes nobody types into.
 NOT_A_FIELD = ("Section Break", "Column Break", "Tab Break", "HTML", "Heading", "Image")
 
-#: The calls a workspace administrator makes, and the guard each one runs
-#: first. Reading is gated too: the plan and the quota are nobody's business
-#: but the people who run the workspace.
 GATED = (
 	"domains",
 	"domains_refresh",

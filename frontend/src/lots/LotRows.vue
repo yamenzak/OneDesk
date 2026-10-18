@@ -1,8 +1,4 @@
 <template>
-  <!-- Lots as a table, modelled on Odoo's Lots and Serial Numbers and Katana's
-       batch tracking: the lot and its item, one status, when it was made and
-       when it goes off, where it is, and how much is left (one_inventory/lots.py).
-       The Batch and Serial No page and an item's Stock tab both show them. -->
   <p v-if="!lots.length && empty" class="py-6 text-base text-ink-gray-5">{{ empty }}</p>
   <List v-else :columns="columns" divider="full" :row-height="56" class="-mx-3 list-gap-4 list-row-px-3">
     <ListHeader>
@@ -57,13 +53,10 @@ import { __, date, fromToday, go, quantity } from "../kit";
 
 const props = defineProps({
   lots: { type: Array, required: true },
-  // On an item's page the item's name is the page's, and not said again.
   withItem: { type: Boolean, default: true },
   empty: String,
 });
 
-// Phone: the lot and what is left; wider, its status, dates and where it is.
-// On an item's page, a half-width column, where it is goes under the lot.
 const columns = computed(() =>
   props.withItem
     ? {

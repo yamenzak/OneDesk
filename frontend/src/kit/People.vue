@@ -1,8 +1,4 @@
 <template>
-  <!-- People on something, as overlapping avatars, with their names after
-       them when `named`; with `options`, clicking picks who, each one ticked
-       on or off. With `groups` (frappe's User Groups), picking one adds each
-       of its members. -->
   <Dropdown v-if="options" :options="choices">
     <template #trigger>
       <button class="flex items-center rounded-3 focus-visible:ring-2 focus-visible:ring-outline-gray-3" :aria-label="__('Assign')">
@@ -50,7 +46,6 @@ const Stack = defineComponent({
               h(Avatar, { label: one.name, image: one.image, size: stack.size, class: "ring-2 ring-outline-base" })
             );
           }),
-          // The rest as one more avatar, "+3", as frappe-ui's Avatar takes a slot.
           stack.users.length > props.max &&
             h(Avatar, { label: "+", size: stack.size, class: "ring-2 ring-outline-base" }, () =>
               h("span", { class: "text-xs font-medium normal-case tabular-nums" }, `+${stack.users.length - props.max}`)

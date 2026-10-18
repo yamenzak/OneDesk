@@ -5,15 +5,10 @@ from typing import Annotated
 import frappe
 from frappe.utils import flt
 
-#: A change this large, as a share of what it was, is worth a line.
 SHARE = 0.10
 
-#: And a change smaller than this is not, whatever its share — a 5 on a 20
-#: deduction is 25% and nobody's problem.
 LEAST = 50
 
-#: The most flagged slips handed over. A run where more than this moved is a
-#: run where something changed for everybody, and the first thirty say what.
 MOST_FLAGGED = 30
 
 
@@ -45,8 +40,6 @@ def payroll_changes(
 
 	flagged, steady, now_total, then_total = [], 0, 0.0, 0.0
 	earlier = {slip.name: _before(slip) for slip in slips}
-	# A workspace's first payroll has nothing before it for anybody, and
-	# "first slip" on every line is a list of nothing. Said once instead.
 	first = not any(earlier.values())
 	for slip in slips:
 		before = earlier[slip.name]

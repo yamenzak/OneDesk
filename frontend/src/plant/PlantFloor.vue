@@ -1,10 +1,4 @@
 <template>
-  <!-- Plant Floor (one_inventory/page/plant): a floor's workstations, each with
-       its status and what is running on it, and the stock kept on the floor
-       (one_inventory/plant.py, through ERPNext's own Plant Floor). A
-       workstation opens its steps on the Shop Floor. Modelled on Odoo's work
-       centres overview: a card per workstation with its status to change in
-       place, what runs on it with its clock, and what waits. -->
   <Page wide>
     <Loading v-if="!said" />
     <div v-else-if="!said.plant" class="py-16 text-center">
@@ -118,27 +112,22 @@ const status = ref("");
 const wide = ref(viewWidth() >= 640);
 onBeforeUnmount(onResize(() => (wide.value = viewWidth() >= 640)));
 
-// The colours ERPNext gives each status (workstation.get_color_map).
 const THEMES = { Production: "green", Off: "gray", Idle: "gray", Problem: "red", Maintenance: "amber", Setup: "blue" };
 const DOTS = { Production: "bg-surface-green-5", Off: "bg-surface-gray-5", Idle: "bg-surface-gray-4", Problem: "bg-surface-red-5", Maintenance: "bg-surface-amber-5", Setup: "bg-surface-blue-5" };
-// The stock table keeps what is on hand on a phone; the rest join as it widens.
 const stockColumns = { base: ["minmax(0,1fr)", "auto", "2rem"], sm: ["minmax(0,1fr)", "8rem", "8rem", "2rem"], lg: ["minmax(0,1fr)", "8rem", "8rem", "8rem", "2rem"] };
 const STOCK_SHOWN = { actual_qty: "", for_making: "max-sm:hidden", coming: "max-lg:hidden" };
 
-// A clock for each step running, ticking.
 const now = ref(Date.now());
 const tick = setInterval(() => (now.value = Date.now()), 1000);
 onBeforeUnmount(() => clearInterval(tick));
 const clock = (since) => (now.value, duration(secondsSince(since)));
 
-// Each status to set the workstation to, as its own Status field offers them.
 const statusMenu = (one) =>
   said.value.statuses.map((value) => ({
     label: __(value),
     icon: value === one.status ? "lucide-check" : undefined,
     onClick: () => value !== one.status && setValue("Workstation", one.name, "status", value).then(load),
   }));
-// Add Stock or Move Stock, as ERPNext's Plant Floor offers them.
 const stockMenu = (one) => [
   { label: __("Add Stock"), icon: "lucide-plus", onClick: () => onedesk().plant.stock(said.value.plant, one, "Material Receipt") },
   { label: __("Move Stock"), icon: "lucide-arrow-left-right", onClick: () => onedesk().plant.stock(said.value.plant, one, "Material Transfer") },
@@ -154,7 +143,6 @@ async function load() {
   report();
 }
 
-// A status changed anywhere, or a step started or stopped, reads the page again.
 let timer = null;
 const soon = () => {
   clearTimeout(timer);
@@ -206,8 +194,6 @@ function report() {
   );
 }
 
-// The page is a place (one_studio/places.py): its extensions are told what
-// it shows, and may add a note or a button.
 const placed = reactive({ notes: [], actions: [] });
 let drawn = null;
 function extended(s) {

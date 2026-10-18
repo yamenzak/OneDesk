@@ -19,28 +19,15 @@ import tree
 
 FRONTEND = tree.ROOT / "frontend" / "src"
 
-#: What is printed or mailed: paper and mail clients have no tokens, so their
-#: colours are written out (docs/PRINTING.md).
-#: Mail is read by mail clients, which load no stylesheet of ours and read no
-#: CSS variable: templates/emails writes frappe-ui's own values out.
 NOT_A_SCREEN = ("one_print", "print_format", "letter_head", "/notifications/", "templates/emails")
 
-#: Documents shown in a sandboxed frame, which loads no stylesheet of ours: a
-#: received mail, drawn as a mail client draws it, and a letter head on its
-#: white page. Their own <style> keeps its colours; the rest of the file is
-#: checked as any other.
 SANDBOXED = {
 	"onedesk/public/js/onemail.js": "a received mail, in a frame",
 	"onedesk/public/js/settings.js": "a letter head as it prints, in a frame",
 }
 
-#: The One mark and OneAI's spectrum (scripts/brand/marks.json), and
-#: frappe-ui's overlays for what sits on a photo, which it ships as Tailwind
-#: classes only: the only literal colours, each defined as a token and used by
-#: name.
 MARK = re.compile(r"--one-(suite|ai|over)-[\w-]+")
 
-#: frappe-ui's white-overlay and black-overlay, as tokens/colors.js has them.
 OVER = {
 	f"{tone}-{step}": f"oklch({1 if tone == 'white' else 0} 0 0 / {alpha})"
 	for tone in ("white", "black")
@@ -54,9 +41,6 @@ OVER = {
 	)
 }
 
-#: A colour may only be one of frappe-ui's semantic tokens, as frappe's desk
-#: and website stylesheets define them, one of ours, or the sidebar's surface,
-#: which the rail and the bar share with frappe's shell.
 HUES = "amber|blue|cyan|green|orange|pink|purple|red|teal|violet|yellow"
 TOKEN = re.compile(
 	rf"--(ink|surface|outline)-({HUES})-(10|[1-9])|--(ink|outline)-gray-[1-9]|--surface-gray-(10|[1-9])"
@@ -65,11 +49,8 @@ TOKEN = re.compile(
 	r"|--one-[\w-]+|--desk-sidebar-bg"
 )
 
-#: frappe-ui's corners.
 RADIUS = re.compile(r"var\(--radius(-(sm|md|lg|xl|2xl|full|none|[0-9]))?\)")
 
-#: frappe's older colour names and the raw ramps under every theme, never
-#: named in a token of ours either.
 OLD = re.compile(
 	r"--(text-(color|muted|light|extra-muted|on-[\w-]+)|bg-[\w-]+|border-color|fg-color|card-bg|subtle-[\w-]+|control-bg|btn-[\w-]+|heading-color"
 	r"|white|black|shadow[\w-]*|elevation-[\w-]+|dock-[\w-]+|(gray|blue|green|red|orange|amber|yellow|teal|cyan"
@@ -87,7 +68,6 @@ COLOURED = re.compile(
 SIDE = r"(-(top|right|bottom|left|inline|block)(-(start|end))?)?"
 DECL = re.compile(r"(?<![\w-])(-?-?[a-z][\w-]*)\s*:\s*([^;{}]+?)\s*(?:;|(?=\})|$)", re.S)
 
-#: Tailwind's raw palette and literal values, which skip the theme.
 PALETTE = re.compile(
 	r"(?<![\w-])(?:[a-z-]+:)*(?:bg|text|border|ring|fill|stroke|from|via|to|divide|outline|decoration|placeholder"
 	r"|caret|accent)-(?:(?:gray|slate|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue"

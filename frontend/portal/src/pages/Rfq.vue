@@ -1,18 +1,9 @@
 <template>
-  <!-- A quote request sent to the reader's supplier (one/portal.py `rfq`).
-       Modelled on Ariba's supplier quote: the buyer's message, each row
-       priced in place in one card, with a discount and the tax the workspace
-       charges on it, and the totals; notes; and beside them what
-       the quote comes to and Send Quote (`send_quote`). Once answered, the
-       quotes sent take the button's place. Through a signed link (`token`,
-       pages/Link.vue) the same page for the link's supplier, sent once,
-       with the sender's name. -->
   <Head :title="doc?.name || name" :crumbs="token ? [] : [{ label: tab, route: '/rfq' }]" :badge="doc" />
   <div class="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
     <Loading v-if="!doc && !failed" />
     <Empty v-else-if="failed" :title="__('No access')" :line="__('This request was not sent to you, or it is closed.')" />
     <div v-else class="grid gap-5 lg:grid-cols-[minmax(0,1fr)_20rem]">
-      <!-- On a phone the two columns are one, what it comes to first. -->
       <div class="contents lg:flex lg:min-w-0 lg:flex-col lg:gap-5">
         <Card v-if="doc.message" :title="__('From the buyer')" icon="lucide-message-square">
           <div class="prose prose-sm max-w-none text-ink-gray-7" v-html="doc.message" />
@@ -146,7 +137,6 @@ import { __, boot } from "../words";
 
 const props = defineProps({
   name: { type: String, default: "" },
-  // A signed link's token, and what its page first said (pages/Link.vue).
   token: { type: String, default: "" },
   link: { type: Object, default: null },
 });
@@ -161,7 +151,6 @@ const answer = reactive({});
 const notes = ref("");
 const sending = ref(false);
 
-// A request still to answer: once quoted, it shows the quotes sent instead.
 const open = computed(() => Boolean(doc.value && doc.value.open && !doc.value.quoted));
 const amount = (row) =>
   (Number(answer[row]?.qty) || 0) * (Number(answer[row]?.rate) || 0) * (1 - Math.min(Number(answer[row]?.discount) || 0, 100) / 100);
@@ -169,8 +158,6 @@ const total = computed(() => Object.keys(answer).reduce((sum, row) => sum + amou
 const priced = computed(() => total.value > 0);
 const pricedRows = computed(() => Object.keys(answer).filter((row) => amount(row) > 0).length);
 
-// What the quote comes to as erpnext will reckon it once sent: each row's
-// discount, net and tax under the workspace's own taxes, and the grand total.
 const preview = ref(null);
 const said = (row) => preview.value?.rows?.[row];
 const grand = computed(() => preview.value?.total || money(total.value, doc.value.money));

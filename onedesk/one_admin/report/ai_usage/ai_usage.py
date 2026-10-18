@@ -9,8 +9,6 @@ from frappe.utils import add_days, flt, getdate
 
 from onedesk.one_admin import ledger, site
 
-#: How a period is cut. Each is what an operator asks: who spends, on which
-#: models, on which of OneAI's actions, and who spends on what.
 BY = {
 	"Workspace": ["tenant"],
 	"Model": ["why"],
@@ -19,7 +17,6 @@ BY = {
 	"Workspace and Action": ["tenant", "action"],
 }
 
-#: What the price list, the provider and so every column here is in.
 CURRENCY = "USD"
 
 
@@ -44,14 +41,9 @@ def usage(filters, by: list[str]) -> tuple[list[dict], dict | None]:
 	each = offerings.credit_price()
 	models = dict(frappe.get_all("AI Model", fields=["name", "label"], as_list=True))
 	actions = dict(frappe.get_all("AI Action", fields=["name", "label"], as_list=True))
-	# frappe's own total row adds every number up, and a sum of "workspaces" or
-	# of a margin is not a number anybody means. This one counts the whole
-	# period, and its margin is the period's.
 	whole = ledger.usage(start, end, [], tenant=filters.get("tenant"), model=filters.get("model"))[0]
 	whole[by[0]] = frappe._("Total")
 	whole.bold = 1
-	# Our own workspace's calls (house.py) cost what they cost, and are sold to
-	# nobody: nothing of them is charged, and the margin is the customers'.
 	ours = _ours(start, end, by, filters)
 	for row in [*rows, whole]:
 		key = "whole" if row is whole else tuple(row.get(one) for one in by)
@@ -117,7 +109,6 @@ def _columns(by: list[str]) -> list[dict]:
 		},
 		*(named[key] for key in by),
 	]
-	# The other side of the cut, counted, so a row still says how wide it is.
 	if by in (["tenant"], ["action"]):
 		columns.append({"fieldname": "models", "label": frappe._("Models"), "fieldtype": "Int", "width": 80})
 	if by in (["why"], ["action"]):
@@ -139,7 +130,6 @@ def _columns(by: list[str]) -> list[dict]:
 			"label": frappe._("Charged"),
 			"fieldtype": "Currency",
 			"options": "currency",
-			# Calls cost fractions of a cent, and two places reads them as free.
 			"precision": 4,
 			"width": 100,
 		},
@@ -148,7 +138,6 @@ def _columns(by: list[str]) -> list[dict]:
 			"label": frappe._("Cost"),
 			"fieldtype": "Currency",
 			"options": "currency",
-			# Calls cost fractions of a cent, and two places reads them as free.
 			"precision": 4,
 			"width": 100,
 		},

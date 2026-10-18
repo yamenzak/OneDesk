@@ -56,8 +56,6 @@ def test_a_sections_fields_are_read_one_to_a_line_or_by_commas_once_each():
 
 def test_only_what_a_person_types_is_edited_here():
 	(refused,) = _pure("refused")
-	# A table is the linked record's own, in frappe's grid; a field kept to
-	# some people is shown by their permission levels, not refused.
 	for df in (
 		_Df(fieldtype="Data"),
 		_Df(fieldtype="Date"),
@@ -95,14 +93,11 @@ def test_the_section_is_laid_out_as_the_linked_form_lays_its_fields():
 		"-",
 		"education",
 	]
-	# Another section, or a column already passed, starts a section here.
 	assert placing(source, ["personal_email", "cell_number"]) == ["personal_email", "-", "cell_number"]
 	assert placing(source, ["notes", "cell_number"]) == ["notes", "-", "cell_number"]
 
 
 def test_the_linked_record_is_saved_in_the_same_save_or_not_at_all():
-	# In the record's own save, after it and before the request commits, on
-	# a draft and on a submitted record's Update alike.
 	assert '"onedesk.one.linked.save",' in HOOKS
 	assert re.search(r'"on_update_after_submit": \[?"onedesk\.one\.linked\.save"', HOOKS)
 	body = SOURCE.split("def save(", 1)[1]
@@ -121,12 +116,8 @@ def test_the_linked_record_is_saved_in_the_same_save_or_not_at_all():
 def test_the_form_draws_frappes_controls_and_says_what_changed_as_it_changes():
 	assert 'bootinfo["one_linked"] = linked.for_boot(bootinfo)' in (tree.APP / "one" / "boot.py").read_text()
 	assert "Layout.prototype.get_doctype_fields" in JS, "the section is part of the form's own layout"
-	# Frappe runs no validate on Update and a grid edit fires none of ours, so
-	# what changed is gathered where frappe saves, whatever the action.
 	assert "frappe.ui.form.save = function (frm, ...rest)" in JS and "onedesk.head.collect(frm);" in JS
 	assert 'trigger("validate")' not in JS and "validate(frm)" not in JS
-	# The linked fields are in the record's own field copy, as a custom field is.
 	assert "frappe.meta.make_docfield_copy_for = function" in JS
 	assert "frm.doc.__one_linked = sent" in JS
-	# As frappe does for the record itself: reload when clean, say so when not.
 	assert "frm.debounced_reload_doc()" in JS and "doc_subscribe(doctype, name)" in JS

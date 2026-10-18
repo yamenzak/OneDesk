@@ -13,7 +13,6 @@ import requests
 
 from onedesk.one_admin import makers
 
-#: How long a logo is kept. Makers do not change their marks often.
 KEEP = 30 * 24 * 3600
 
 

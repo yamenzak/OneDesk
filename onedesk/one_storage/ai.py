@@ -8,17 +8,13 @@ import frappe
 from frappe import _lt
 from frappe.utils import cint, get_fullname
 
-#: Characters of a file's text given to the model.
 MOST_TEXT = 12000
 
-#: Files listed when asked what takes the space.
 MOST_LISTED = 15
 
 SUGGESTIONS = {
-	# In a folder, with nothing chosen.
 	"page:onecloud": [
 		{
-			# The reader says what the file is about; searched by what it says.
 			"label": _lt("Find a file…"),
 			"ask": _lt("Find the file that "),
 			"fill": True,
@@ -30,7 +26,6 @@ SUGGESTIONS = {
 			"expects": "largest_files",
 		},
 	],
-	# With one file chosen (oneai.js names the section `file`).
 	"page:onecloud/file": [
 		{
 			"label": _lt("Summarise this file"),
@@ -126,8 +121,6 @@ def open_file(
 		"owner": get_fullname(item.owner),
 		"record": [item.attached_to_doctype, item.attached_to_name] if item.get("attached_to_name") else None,
 	}
-	# Not `get_list`, since nobody may read a Reading row by itself. The reader
-	# may open this file, so what OneIntake read of it is theirs to see.
 	hashed = frappe.db.get_value("File", item.name, "content_hash")
 	reading = frappe.get_all(
 		"Reading",
@@ -194,7 +187,6 @@ def who_can_see(
 			{"name": one["name"], "may_change": one["edit"], "folder": one["from"]}
 			for one in people["inherited"]
 		],
-		# The link's address is a key; the model is told what it reaches, not the key.
 		"links": [
 			{
 				"reaches": "only the people invited" if one["invitees"] else one["audience"],
@@ -215,7 +207,6 @@ def largest_files() -> dict:
 	full the workspace's storage is. The files are the reader's own, not
 	everybody's: what takes the space in their files is theirs to clear."""
 	user = frappe.session.user
-	# Only the reader's own files, by owner: nothing here reaches anybody else's.
 	mine = frappe.get_all(
 		"File",
 		filters={"owner": user, "is_folder": 0, "one_deleted": 0},

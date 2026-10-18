@@ -1,6 +1,4 @@
 <template>
-  <!-- One line of a project's history, drawn as frappe's timeline draws its
-       own log rows: who, what, and when. -->
   <div class="flex flex-1 flex-col gap-1.5 ps-[13px] text-sm font-medium leading-6 text-ink-gray-5">
     <div class="flex items-start gap-1.5">
       <span class="min-w-0 break-words">

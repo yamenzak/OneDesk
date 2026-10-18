@@ -1,27 +1,18 @@
 <template>
-  <!-- OneCRM's Home (one_crm/page/onecrm): how selling is going, what needs the
-       reader today, and everything in OneCRM with what it is for
-       (one_crm/home.py, one_crm/story.py). Reports and Setup open their part
-       of it. Modelled on Frappe CRM's Dashboard: the figures that matter,
-       then the sales trend, the forecast and the funnel, where the pipeline
-       stands and where sales come from; laid out as OneBook's Home. -->
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
-      <!-- The headline figures, each with its months as a sparkline. -->
       <div v-if="cards.length" ref="cardsRoot" class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
         <NumberCard v-for="card in cards" :key="card.key" v-bind="card.props" class="cursor-pointer" role="link" @click="go(card.route)" />
       </div>
       <PlaceSpot :said="placed" class="mt-4" />
       <ViewTabs v-model="shown" :views="views" class="mt-5" />
 
-      <!-- Overview: what needs the reader, then the story of selling. -->
       <template v-if="shown === 'overview'">
         <Loading v-if="!story" />
         <CrmStory v-else :story="story" :needs="chips" @today="shown = 'today'" />
       </template>
 
-      <!-- Today: what needs the reader, kind by kind, the empty kinds left out. -->
       <template v-else-if="shown === 'today'">
         <p v-if="!parts.length" class="py-10 text-center text-base text-ink-gray-5">{{ __("Nothing needs you") }}</p>
         <Section v-for="part in parts" :key="part.key" :title="part.title" :icon="part.icon" :aside="part.count">
@@ -30,7 +21,6 @@
         </Section>
       </template>
 
-      <!-- Everything, or one part of it, each with what it is for. -->
       <template v-else>
         <TextInput v-model="search" class="mt-4 w-full max-w-xs" type="search" :placeholder="__('Search')" :aria-label="__('Search')">
           <template #prefix><span class="lucide-search size-4 text-ink-gray-5" aria-hidden="true" /></template>
@@ -70,10 +60,8 @@ const props = defineProps({
 });
 
 const said = ref(null);
-// Overview, Today, everything, or one part of it: /desk/onecrm/reports opens Reports.
 const shown = ref(props.route[0] || props.query.view || "overview");
 const search = ref("");
-// The story is read beside what needs the reader, so Today never waits on it.
 const story = ref(null);
 
 async function load() {
@@ -83,7 +71,6 @@ async function load() {
 }
 load();
 
-// What needs the reader changes with every lead, opportunity and quotation.
 let timer = null;
 const soon = () => {
   clearTimeout(timer);
@@ -109,10 +96,6 @@ const needed = computed(() => {
   return ["opportunities", "leads", "unplanned", "unclaimed", "closing", "expiring"].reduce((sum, key) => sum + n[key].count, 0) + n.drafts.reduce((sum, one) => sum + one.count, 0);
 });
 
-// The headline figures: leads in this month, what the open opportunities
-// are worth and worth weighted, what was won this month, the win rate and
-// what a won opportunity is usually worth. Leads and won are set against
-// last month.
 const CARDS = () => [
   { key: "leads", title: __("Leads This Month"), type: "bar", hue: 0, plain: true, route: "/desk/lead" },
   { key: "pipeline", title: __("Pipeline Value"), route: "/desk/query-report/Opportunity Forecast" },
@@ -121,10 +104,8 @@ const CARDS = () => [
   { key: "rate", title: __("Win Rate (90 Days)"), percent: true, route: "/desk/query-report/Won and Lost" },
   { key: "average", title: __("Average Won Value"), route: "/desk/query-report/Won and Lost" },
 ];
-// The cards' colours, as frappe-ui reads them for this island and its theme.
 const cardsRoot = ref();
 const { tokens } = useChartTokens(cardsRoot);
-// Money changes by its share of last month; a count by how many more or fewer.
 const change = (series, plain) => {
   const [before, now] = (series || []).slice(-2);
   if (plain) return series?.length > 1 ? now - before : null;
@@ -149,7 +130,6 @@ const cards = computed(() => {
     }));
 });
 
-// What needs the reader, one button each, leading to Today.
 const chips = computed(() => {
   const n = said.value?.needs;
   if (!n) return [];
@@ -176,7 +156,6 @@ function route(one) {
   if (one.kind === "Page") return `/desk/${one.target}`;
   if (one.kind === "Masters") return `/desk/masters?type=${encodeURIComponent(one.target)}`;
   const filters = Object.entries(one.filters || {});
-  // A single record, such as the Get in Touch form, opens itself.
   if (filters.length === 1 && filters[0][0] === "name") return `/desk/${slug(one.target)}/${encodeURIComponent(filters[0][1])}`;
   const query = filters.map(([key, value]) => `${key}=${encodeURIComponent(typeof value === "object" ? JSON.stringify(value) : value)}`);
   return `/desk/${slug(one.target)}${query.length ? `?${query.join("&")}` : ""}`;
@@ -185,7 +164,6 @@ function route(one) {
 const groups = computed(() => {
   const words = search.value.trim().toLowerCase();
   const matches = (one) => !words || `${one.label} ${one.about}`.toLowerCase().includes(words);
-  // Reports and Setup set out by what each part is about, a section to a topic.
   const sections = said.value.sections?.[shown.value];
   if (sections)
     return sections
@@ -197,7 +175,6 @@ const groups = computed(() => {
 });
 
 const open = (one) => `/desk/${slug(one.doctype)}/${encodeURIComponent(one.name)}`;
-// When a step is due: late in red with how long ago, today in amber.
 const when = (one) => (one.late ? __("Due {0}", [ago(one.on)]) : one.on ? __("Due today") : "");
 const steps = (rows) =>
   rows.map((one) => ({
@@ -212,7 +189,6 @@ const steps = (rows) =>
 const late = (days) => (days === 1 ? __("1 day past") : __("{0} days past", [days]));
 const expires = (days) => (days === 0 ? __("Expires today") : days === 1 ? __("Expires tomorrow") : __("Expires in {0} days", [days]));
 
-// Each kind of thing that needs the reader, as rows, and where the rest are.
 const parts = computed(() => {
   const n = said.value.needs;
   const more = (kept, label, where) => (kept.count > kept.rows.length ? { label: __("{0} more", [kept.count - kept.rows.length]) + " · " + label, route: where } : null);
@@ -301,8 +277,6 @@ function report() {
   );
 }
 
-// The page is a place (one_studio/places.py): its extensions are told what
-// needs the reader, and may add a note or a button.
 const placed = reactive({ notes: [], actions: [] });
 let drawn = null;
 function extended(s) {

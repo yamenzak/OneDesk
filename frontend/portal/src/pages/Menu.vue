@@ -1,6 +1,4 @@
 <template>
-  <!-- On a phone, the tab bar's last tab: every tab and the reader's account.
-       Modelled on Gameplan's More tab on frappe-ui's MobileShell. -->
   <Head :title="me.party || me.name" />
   <div class="px-4 py-4">
     <List :row-height="44" class="-mx-3 list-row-px-3">

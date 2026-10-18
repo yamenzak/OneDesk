@@ -54,7 +54,6 @@ def about(name: str) -> dict:
 		"employee_name": doc.employee_name or doc.employee,
 		"claimed": flt(doc.total_claimed_amount),
 		"sanctioned": sanctioned,
-		# What is actually paid back: an advance already handed over comes off.
 		"payable": max(flt(doc.grand_total) - advance, 0),
 		"advance": advance,
 		"currency": doc.currency,

@@ -11,16 +11,10 @@ import frappe
 
 from onedesk.one_mail import threads
 
-#: What a message from the mail domain may weigh before its largest
-#: attachments go as links. Admin refuses over 5 MiB (one_admin/mailing.py);
-#: this leaves room for the headers each recipient's copy adds.
 ROOMY = 4 * 1024 * 1024
 
-#: How long a link made for an attachment works, in days.
 LINK_DAYS = 30
 
-#: How many ancestors a References header carries. Mail clients keep the
-#: first and the last few; twenty is plenty and keeps headers short.
 KEPT = 20
 
 
@@ -46,7 +40,6 @@ def deliver(account, recipient: str, raw: bytes, sender: str | None = None) -> N
 	from onedesk.one_admin import mailing
 
 	if (account.email_id or "").lower() == mailing.ours():
-		# The admin site's own mails, from Sender Email (one_admin/setup.py).
 		mailing.send_ours(recipient, raw)
 		return
 	if account.get("one_hosted"):
@@ -83,7 +76,6 @@ def file_copy(account, raw: bytes) -> None:
 		with imap.Session(account) as session:
 			session.append(actions.folder_of(account.name, "Sent") or account.sent_folder_name or "Sent", raw)
 	except Exception:
-		# The message went; only its copy did not. Not worth failing the queue.
 		frappe.log_error(title=f"OneMail could not file a sent copy in {account.name}")
 
 
@@ -193,7 +185,6 @@ def _account(queue, sender: str):
 
 	if queue.email_account:
 		return frappe.get_doc("Email Account", queue.email_account)
-	# Frappe answers {what matched: account}, or nothing.
 	found = EmailAccount.find_outgoing(match_by_email=parseaddr(sender)[1])
 	return next(iter(found.values()), None) if found else None
 
@@ -217,16 +208,11 @@ def with_references(raw: bytes) -> bytes:
 	return parsed.as_bytes()
 
 
-# ------------------------------------------------------------------ filing
-
-
 def file_sent(doc, method=None) -> None:
 	"""Communication before_insert: mail sent from here is in Sent, in the
 	thread of what it answers, and signed only as the composer signed it."""
 	if doc.communication_medium != "Email" or doc.sent_or_received != "Sent":
 		return
-	# Frappe would sign after the composer closed. The sending address signs,
-	# in the composer (public/js/mail_compose.js).
 	doc.flags.skip_add_signature = True
 	doc.one_folder = doc.one_folder or "Sent"
 	if not doc.one_thread and doc.in_reply_to:

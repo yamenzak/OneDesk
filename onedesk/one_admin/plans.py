@@ -10,14 +10,11 @@ from dataclasses import dataclass, field
 from itertools import pairwise
 from math import ceil
 
-#: The four things a workspace can run out of, as Offering fields.
 RESOURCES = ("seats", "storage_gb", "database_gb", "credits_a_month")
 
-#: What a plan leaves at zero to mean no limit; zero credits are none.
 UNLIMITED_AT_ZERO = ("seats", "storage_gb", "database_gb")
 INF = float("inf")
 
-#: What each resource is called, for a finding a person reads.
 NAMED = {
 	"seats": "seats",
 	"storage_gb": "GB of storage",
@@ -30,31 +27,30 @@ NAMED = {
 class Costs:
 	"""What one of each thing costs us a month, in the offerings' currency."""
 
-	workspace: float = 0.0  # a workspace before any size: its site, its mail
+	workspace: float = 0.0
 	seat: float = 0.0
 	storage_gb: float = 0.0
-	database_gb: float = 0.0  # the database itself, on the site's plan
-	backup_gb: float = 0.0  # one backup copy of one GB, kept a month
+	database_gb: float = 0.0
+	backup_gb: float = 0.0
 	backups_kept: int = 0
 	credit: float = 0.0
-	margin: float = 2.0  # the least a price may be over what it costs us
+	margin: float = 2.0
 
 
 @dataclass
 class Offer:
 	key: str
 	label: str
-	kind: str  # Plan, Add-on or Credit Pack
+	kind: str
 	price: float
 	seats: int = 0
 	storage_gb: float = 0
 	database_gb: float = 0
 	credits_a_month: int = 0
-	credits: int = 0  # a pack's, once
+	credits: int = 0
 
 	def quota(self, resource: str) -> float:
 		held = float(getattr(self, resource) or 0)
-		# A plan's zero seats, storage or database is no limit (Offering).
 		if not held and self.kind == "Plan" and resource in UNLIMITED_AT_ZERO:
 			return INF
 		return held
@@ -75,11 +71,11 @@ class Offer:
 
 @dataclass
 class Finding:
-	level: str  # "red" when the list does not make sense, "orange" when it is close
+	level: str
 	offer: str
-	said: str  # in English, for a test or a log; the screens say `rule` with `slots`
-	rule: str = ""  # which of the five rules, so a screen can say it in its reader's words
-	slots: dict = field(default_factory=dict)  # the numbers and names the sentence names
+	said: str
+	rule: str = ""
+	slots: dict = field(default_factory=dict)
 
 
 @dataclass
@@ -176,7 +172,6 @@ def check(plans: list[Offer], sold: list[Offer], costs: Costs) -> list[Finding]:
 	found = []
 	ladder = sorted(plans, key=lambda one: one.price)
 
-	# 1. Every price covers what it costs, with the margin.
 	for offer in [*ladder, *sold]:
 		ours = cost(offer, costs)
 		if ours and offer.price < ours * costs.margin:
@@ -197,7 +192,6 @@ def check(plans: list[Offer], sold: list[Offer], costs: Costs) -> list[Finding]:
 				)
 			)
 
-	# 2. Each plan up gives at least as much of everything, for more.
 	for lower, upper in pairwise(ladder):
 		for resource in RESOURCES:
 			if upper.quota(resource) < lower.quota(resource):
@@ -211,7 +205,6 @@ def check(plans: list[Offer], sold: list[Offer], costs: Costs) -> list[Finding]:
 					)
 				)
 
-	# 3. Moving up is cheaper than buying the difference as add-ons.
 	for lower, upper in pairwise(ladder):
 		step = upper.price - lower.price
 		instead = [topping(one, upper.quota(one) - lower.quota(one), sold) for one in RESOURCES]
@@ -240,7 +233,6 @@ def check(plans: list[Offer], sold: list[Offer], costs: Costs) -> list[Finding]:
 				)
 			)
 
-	# 4. The smallest add-on is cheaper than moving up, or nobody buys it.
 	for lower, upper in pairwise(ladder):
 		step = upper.price - lower.price
 		for resource in RESOURCES:
@@ -266,7 +258,6 @@ def check(plans: list[Offer], sold: list[Offer], costs: Costs) -> list[Finding]:
 					)
 				)
 
-	# 5. A bigger size of the same thing is no dearer per unit.
 	for resource in RESOURCES:
 		sizes = sorted(
 			(one for one in sold if one.resource == resource and one.size), key=lambda one: one.size

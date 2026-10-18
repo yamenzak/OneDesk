@@ -12,20 +12,13 @@ from frappe.model.document import Document
 
 from onedesk.one_admin import site
 
-#: What each kind is allowed to carry. A credit pack with a storage quota is
-#: somebody filling in a field because it was there.
 CARRIES = {
 	"Plan": ("storage_gb", "database_gb", "seats", "credits_a_month"),
-	# A pack is bought once, so it grants once. The same number under the
-	# monthly field would be a lump somebody's nightly job kept granting.
 	"Credit Pack": ("credits",),
-	# An add-on is one thing in one size, so it can be bought several times.
 	"Add-on": ("storage_gb", "database_gb", "seats", "credits_a_month"),
 }
 
 
-#: The price list's order: plans first, then add-ons, then packs, each by
-#: price. `sort_key` carries it, since frappe's list sorts by one field.
 RANK = {"Plan": 1, "Add-on": 2, "Credit Pack": 3}
 
 
@@ -33,8 +26,6 @@ class Offering(Document):
 	def validate(self) -> None:
 		site.require_admin()
 		self.key = (self.key or "").strip().lower()
-		# Whether it recurs is the kind's for a pack and an add-on, so neither
-		# form asks; only a plan may be paid once or monthly.
 		if self.kind == "Credit Pack":
 			self.recurring = 0
 		elif self.kind == "Add-on":
@@ -60,13 +51,8 @@ class Offering(Document):
 			if not self.recurring:
 				frappe.throw(frappe._("An add-on must be recurring."))
 		if not self.is_new() and (self.has_value_changed("amount") or self.has_value_changed("currency") or self.has_value_changed("recurring")):
-			# A Stripe price cannot be changed, so the next sale makes a new one
-			# (stripe.price_for). Customers already on the old one keep it.
 			self.stripe_price = None
 		if self.trial_days and not self.recurring:
-			# Stripe carries a trial on the subscription, so there is nowhere to
-			# put one on a single payment. A trial here would be a number that
-			# shows on the signup page and changes nothing at checkout.
 			frappe.throw(frappe._("Only a recurring offering can have a trial."))
 		self.gives = gives(self)
 		self.sort_key = RANK.get(self.kind, 9) * 1_000_000 + (self.amount or 0)

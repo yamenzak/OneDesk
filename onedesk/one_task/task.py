@@ -44,8 +44,6 @@ def recurring(doc, method=None, reference_doc=None, auto_repeat_doc=None, **kwar
 	doc.update({"act_start_date": None, "act_end_date": None, "actual_time": 0})
 	for step in doc.get("one_steps") or []:
 		step.done = 0
-	# capture.task_made gives the copy to these people once it is saved. A task
-	# done has emptied its list, so then it is whoever closed its ToDos.
 	people = None
 	if reference_doc:
 		people = frappe.parse_json(frappe.db.get_value("Task", reference_doc.name, "_assign") or "[]") or frappe.get_all(

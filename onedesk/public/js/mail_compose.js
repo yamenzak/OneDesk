@@ -1,12 +1,3 @@
-// Frappe's email composer, signed as the address it sends from, and offered the
-// templates for what it is about.
-//
-// Frappe signs with the writer's own User signature first and the address's
-// only when they have none, so a reply from sales@ went out signed as the
-// person rather than as sales@. A shared address signs the same whoever
-// writes from it; the writer's own signature is for their own address. The
-// server's second signature, added after the composer closed, is held off in
-// one_mail/outbound.py `file_sent`.
 (() => {
 	const Composer = frappe.views && frappe.views.CommunicationComposer;
 	if (!Composer || Composer.prototype.one_signed) return;
@@ -24,11 +15,6 @@
 	Composer.prototype.one_signed = true;
 })();
 
-// The composer's templates are the record's: frappe asks its form for the kind,
-// and OneMail's composer has no form, so it was offered every template, the
-// leave mails in a mail to a customer among them. It asks the record it is
-// about instead, and with none, is offered the templates for any record.
-// The template is filled in from the record by one/mail_templates.py.
 (() => {
 	const Composer = frappe.views && frappe.views.CommunicationComposer;
 	if (!Composer || Composer.prototype.one_templated) return;
@@ -46,9 +32,6 @@
 	Composer.prototype.one_templated = true;
 })();
 
-// The workspace's extensions on writing a message (one_studio/places.py),
-// wherever in One it is written: told what it is to and about, and lent a
-// note above it and the subject, cc and bcc to fill in.
 (() => {
 	const Composer = frappe.views && frappe.views.CommunicationComposer;
 	if (!Composer || Composer.prototype.one_extended) return;

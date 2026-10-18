@@ -9,10 +9,8 @@ from decimal import Decimal, InvalidOperation
 
 from onedesk.one_intake.readers import markup as m
 
-#: UNTDID 1001: what a document says it is.
 CREDIT_NOTES = {"381", "396", "532"}
 
-#: UNTDID 4461: how it is paid.
 DEBITED = {"49", "59"}
 TRANSFERRED = {"30", "31", "42", "58"}
 
@@ -65,9 +63,6 @@ def described(invoice: dict) -> str:
 def _party(party: dict) -> str:
 	bits = [party.get("name"), party.get("vat_id") and f"VAT {party['vat_id']}", party.get("city")]
 	return ", ".join(bit for bit in bits if bit)
-
-
-# ------------------------------------------------------------------ UBL
 
 
 def _ubl(root, name: str) -> dict:
@@ -140,9 +135,6 @@ def _ubl_party(party) -> dict:
 			"email": m.text(party, "Contact/ElectronicMail") or (endpoint if endpoint and "@" in endpoint else None),
 		}
 	)
-
-
-# ------------------------------------------------------------------ CII
 
 
 def _cii(root) -> dict:
@@ -226,9 +218,6 @@ def _cii_party(party) -> dict:
 			or m.text(party, "URIUniversalCommunication/URIID"),
 		}
 	)
-
-
-# ------------------------------------------------------------------ values
 
 
 def _date(value: str | None) -> str | None:

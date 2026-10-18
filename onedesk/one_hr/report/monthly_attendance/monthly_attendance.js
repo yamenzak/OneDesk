@@ -1,5 +1,3 @@
-// The filters, less the two that ask which company. Everything else is HRMS's
-// own, because the questions it asks of a month are the right ones.
 frappe.query_reports["Monthly Attendance"] = {
 	filters: [
 		{
@@ -107,8 +105,6 @@ frappe.query_reports["Monthly Attendance"] = {
 				filter.set_input(filter.df.default);
 			}),
 
-	// The name is what a person reads and the id is what the link needs, so the
-	// grid carries one column and this puts the other back into it.
 	formatter(value, row, column, data, default_formatter) {
 		if (column.fieldname === "employee_name" && data?.employee) {
 			return `<a href="/desk/employee/${encodeURIComponent(data.employee)}">${frappe.utils.escape_html(value || data.employee)}</a>`;

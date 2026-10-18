@@ -1,6 +1,3 @@
-// Signups, in the words their Record Head says too (heads.REQUEST). A paid
-// signup with no workspace is the row somebody has to act on, so it is
-// orange or red and everything before it is a normal step.
 frappe.listview_settings["Account Request"] = {
 	add_fields: ["status", "offering"],
 	hide_name_column: true,

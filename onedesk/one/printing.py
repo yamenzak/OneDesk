@@ -18,32 +18,20 @@ from onedesk.one import layer, print_html, roles
 from onedesk.one.customize import REFUSED_MODULES
 from onedesk.one_storage import store
 
-#: Builder blocks the workspace may not add: Typst reads files.
 UNSAFE_BLOCKS = ("Typst",)
 
-#: The HTML blocks frappe's own default layout makes, which stay frappe's: its
-#: heading, and an empty block where the doctype has an HTML field.
 FRAPPES_HTML = (None, "", DEFAULT_PRINT_HEADING)
 
-#: What frappe's renderer sets on a block as it draws, and trusts when it finds it
-#: already there (print_format_generator: a stored `renderer` is used as is, a
-#: stored `_value` is printed unescaped by the Data macro).
 DRAWN_KEYS = ("renderer", "section")
 
-#: A block's kind names a macro file; only a plain name may.
 KIND = re.compile(r"^[A-Za-z ]+$")
 
-#: Kinds whose value frappe prints as markup. A block may say one only of a field
-#: that really is one, or a record's plain text would print as markup.
 RICH = ("Text Editor", "HTML Editor", "Markdown Editor")
 
-#: Where this site's files are served: frappe's folders, or One's store (one_storage).
 FILES = rf"(/files/|/private/files/|{re.escape(store.FETCH)}\?)"
 
-#: An image uploaded to this site, as frappe writes it into a letter head's markup.
 FILE_URL = re.compile(rf"""^{FILES}[^"'<>]+$""")
 
-#: What a URL in a style may point at: this site's files, or an inline image.
 SAFE_URL = re.compile(rf"""url\(\s*['"]?\s*({FILES}|data:image/)""", re.I)
 
 
@@ -81,7 +69,6 @@ def _blocks(data) -> list[dict]:
 def validate_format(doc, method=None) -> None:
 	"""Print Format validate: what a format written by the workspace may carry."""
 	if doc.name == DESIGNER:
-		# The letter head designer's own format never prints anything.
 		doc.disabled = 1
 	if not layer.held():
 		return
@@ -125,7 +112,6 @@ def _layout(data, doctype: str | None, name: str) -> None:
 				)
 			)
 		if kind == "HTML":
-			# Marked or not by this save alone, so a mark is never the writer's to leave off.
 			block.pop(print_html.MARK, None)
 			if block.get("html") not in FRAPPES_HTML:
 				if not isinstance(block["html"], str):
@@ -149,7 +135,6 @@ def _layout(data, doctype: str | None, name: str) -> None:
 			"table_border_color",
 		):
 			_style(block.get(key), where)
-	# A section's own look is style too, and the builder keeps every key of it.
 	sections = (data.get("sections") or []) if isinstance(data, dict) else []
 	for section in (one for one in sections if isinstance(one, dict)):
 		for key in ("custom_style", "background", "border_color"):
@@ -272,16 +257,11 @@ def validate_letter_head(doc, method=None) -> None:
 	letter_heads.apply(doc)
 	_stored_images(doc)
 	if not layer.held():
-		# The top and foot are filtered here rather than by frappe's XSS filter, which
-		# takes out an inline picture (letter_heads draws its icons as one): a drawn
-		# one is ours and escaped, and any other gets frappe's own filter.
 		if doc.content and not doc.one_top:
 			doc.content = sanitize_html(doc.content)
 		if doc.footer and not doc.get("one_foot"):
 			doc.footer = sanitize_html(doc.footer)
 		return
-	# One the workspace did not make, frappe's own or one that runs a script, may be
-	# made the default or turned off, and nothing else.
 	before = doc.get_doc_before_save()
 	if before and (before.standard == "Yes" or before.header_script or before.footer_script):
 		if any(doc.get(key) != before.get(key) for key in DRAWN):
@@ -295,8 +275,6 @@ def validate_letter_head(doc, method=None) -> None:
 		frappe.throw(_("A workspace makes its own letter heads."))
 	if doc.header_script or doc.footer_script:
 		frappe.throw(_("A letter head may not run a script."))
-	# frappe writes the image into the letter head's markup as it is, and keeps
-	# whatever markup was sent when there is no image to write.
 	if any(ch in (doc.name or "") + (doc.letter_head_name or "") for ch in '"<>'):
 		frappe.throw(_("A letter head's name may not contain quotes or angle brackets."))
 	if (doc.source or "Image") == "HTML":
@@ -312,7 +290,6 @@ def validate_letter_head(doc, method=None) -> None:
 			frappe.throw(_("A letter head's footer is an image uploaded here."))
 		if not doc.footer_image:
 			doc.footer = None
-			# The foot is optional; frappe's reminder that it has no picture is not said.
 			failed = _(PICTURES[1][-1])
 			frappe.local.message_log = [one for one in frappe.local.message_log if failed not in str(one)]
 	if (doc.source or "Image") not in ("Image", "HTML") or (doc.footer_source or "Image") not in (
@@ -323,9 +300,6 @@ def validate_letter_head(doc, method=None) -> None:
 	_style(doc.custom_css, _("Style"))
 
 
-#: A letter head's two pictures: which source says so, the field, its size fields,
-#: its alignment, where frappe writes the markup, and what frappe says when it cannot
-#: (LetterHead.set_image).
 PICTURES = (
 	(
 		"source",
@@ -494,13 +468,9 @@ def new_format(
 	return doc.name
 
 
-#: Builder blocks that are not a field of the record: the builder's palette.
 PALETTE = ("HTML", "Spacer", "Divider", "Image", "Barcode", "Repeater", "Static Text", "Linked Field")
 
 
-#: Where a format may print its page number (Print Format's page_number).
-#: A Google Font's name as frappe's Print Format takes it (its `font`, which
-#: frappe imports from Google Fonts itself): words of letters and digits.
 FONT = re.compile(r"[A-Za-z0-9]+(?: [A-Za-z0-9]+){0,5}")
 
 PAGE_NUMBER = ("Hide", "Top Left", "Top Center", "Top Right", "Bottom Left", "Bottom Center", "Bottom Right")
@@ -538,7 +508,6 @@ def format_doc(
 			continue
 		field = meta.get_field(fieldname) if fieldname else None
 		if not field:
-			# A table's column is a field of its rows.
 			if not any(frappe.get_meta(one.options).has_field(fieldname) for one in meta.get_table_fields()):
 				unknown.append(str(fieldname))
 			continue
@@ -560,8 +529,6 @@ def format_doc(
 				column["fieldtype"] = row_field.fieldtype
 				if row_field.options:
 					column["options"] = row_field.options
-				# A line printed under the column's own takes its row field's
-				# type, which is how the renderer knows a picture from text.
 				for merged in column.get("merged_fields") or []:
 					merged_field = rows.get_field(merged.get("fieldname"))
 					if not merged_field:
@@ -696,11 +663,8 @@ def proposal_preview(proposal: Annotated[str, "An AI Proposal of kind Printing."
 	)
 
 
-#: The workspace's own format frappe's builder opens to design a letter head on, kept
-#: off, so nothing prints with it, and out of every list of formats.
 DESIGNER = "Letter Head Designer"
 
-#: The kinds of record the designer is laid out as, the first one they can open.
 DESIGNED_ON = ("Sales Invoice", "Quotation", "Sales Order", "Purchase Order", "Project", "Employee")
 
 
@@ -738,7 +702,6 @@ def design_letter_head(letter_head: Annotated[str, "The letter head to design."]
 	if isinstance(data, dict):
 		data["letter_head"] = letter_head
 		doc.format_data = json.dumps(data)
-	# The builder opens a draft over the format when there is one.
 	doc.draft_data = None
 	doc.disabled = 1
 	doc.save()
@@ -789,7 +752,6 @@ def formats() -> list[dict]:
 	]
 
 
-#: What a letter head prints, which only its maker changes.
 DRAWN = (
 	"source",
 	"footer_source",
@@ -863,9 +825,6 @@ def save_letter_head(values: Annotated[str | dict, "The letter head's fields."])
 		{key: values.get(key) for key in keys if key in values and not (name and key == "letter_head_name")}
 	)
 	if not ours:
-		# One that came with an app is only made the default or turned off, by frappe's
-		# own steps less the save, whose export would write it back into that app's
-		# files wherever developer mode is on.
 		doc.validate_disabled_and_default()
 		doc.db_set({"is_default": doc.is_default, "disabled": doc.disabled})
 		doc.set_as_default()

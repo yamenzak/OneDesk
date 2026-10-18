@@ -15,28 +15,16 @@ from frappe import _, _lt
 from frappe.model.document import Document
 from frappe.website.utils import get_portal_sidebar_items
 
-#: Portal Settings rows One has no use for: an Issue is OneCRM's Support's to
-#: work, raised by mail or by phone, and a Material Request is the workspace's
-#: own, not something a customer raises.
 OFF = ("/issues", "/material-requests")
 
-#: Portal Settings rows renamed in plain words: erpnext names a supplier's tabs
-#: after its doctypes.
 TITLES = {"/rfq": "Quote Requests", "/supplier-quotations": "Quotes"}
 
-#: The web forms a portal reader fills in, in plain words: an address's
-#: button. frappe's account deletion form is not one of them: a portal
-#: reader asks under Your Data (ACCOUNT), as everybody else does.
 FORMS = {"addresses": {"button_label": "Save Address"}}
 
-#: The same titles and words, for translation: the records hold the English,
-#: and each is translated as it is drawn.
 SAID = (_lt("Quote Requests"), _lt("Quotes"), _lt("Save Address"))
 
-#: Where a Portal Settings route lives in the app, where the two differ.
 PATHS = {"/project": "projects"}
 
-#: Each tab's Lucide icon.
 ICONS = {
 	"projects": "folder-kanban",
 	"quotations": "file-text",
@@ -51,7 +39,6 @@ ICONS = {
 	"purchase-invoices": "receipt",
 }
 
-#: The reader's own pages, under Account, as (path, title, icon).
 ACCOUNT = (
 	("profile", _lt("Profile"), "user"),
 	("password", _lt("Password"), "key-round"),
@@ -59,7 +46,6 @@ ACCOUNT = (
 	("apps", _lt("Third Party Apps"), "plug"),
 )
 
-#: The kinds erpnext lists as transactions, each with a page of its own.
 TRANSACTIONS = (
 	"Quotation",
 	"Sales Order",
@@ -71,7 +57,6 @@ TRANSACTIONS = (
 	"Purchase Invoice",
 )
 
-#: A list's column heads, by kind; any other kind has the first.
 COLUMNS = {
 	None: (_lt("Number"), _lt("Status"), _lt("Total")),
 	"Request for Quotation": (_lt("Number"), _lt("Status"), _lt("Needed by")),
@@ -80,16 +65,12 @@ COLUMNS = {
 	"Address": (_lt("Address"), _lt("Type"), _lt("City")),
 }
 
-#: A list's button for adding one, where the reader may.
 ADD = {"Address": ("addresses/new", _lt("Add Address"))}
 
-#: How many rows a list gives at a time.
 PAGE = 20
 
-#: How many of a kind Home counts before it says "100+".
 COUNTED = 100
 
-#: The states of a kind that wait on the reader, and how Home says so.
 WAITING = {
 	"Sales Invoice": (("Unpaid", "Overdue", "Partly Paid"), lambda n: _("{0} to pay").format(n)),
 	"Purchase Order": (
@@ -98,33 +79,22 @@ WAITING = {
 	),
 }
 
-#: erpnext's indicator colours, as frappe-ui's Badge themes them.
 TONES = {"green": "green", "blue": "blue", "orange": "amber", "yellow": "amber", "red": "red"}
 
-#: How a state reads to the portal's reader where erpnext's word is written
-#: for the workspace: a supplier's quote the buyer has yet to take up is, to
-#: the supplier, sent.
 SAID_TO_READER = {
 	("Supplier Quotation", "Draft"): ("blue", _lt("Sent")),
-	# A customer's order and shipment, as the customer sees them: erpnext names
-	# them by what the workspace still has to do (deliver, bill).
 	("Sales Order", "To Deliver and Bill"): ("blue", _lt("Confirmed")),
 	("Sales Order", "To Deliver"): ("blue", _lt("Confirmed")),
 	("Sales Order", "To Bill"): ("green", _lt("Delivered")),
 	("Delivery Note", "To Bill"): ("green", _lt("Delivered")),
 	("Delivery Note", "Completed"): ("green", _lt("Delivered")),
-	# A quotation the customer turned down, in their word, not the team's.
 	("Quotation", "Lost"): ("gray", _lt("Declined")),
-	# A supplier's purchase order, as the supplier sees it: what they still
-	# have to deliver. An advance is due before they deliver (erpnext's To Pay).
 	("Purchase Order", "To Pay"): ("amber", _lt("Awaiting payment")),
 	("Purchase Order", "To Receive and Bill"): ("amber", _lt("To deliver")),
 	("Purchase Order", "To Receive"): ("amber", _lt("To deliver")),
 	("Purchase Order", "To Bill"): ("green", _lt("Delivered")),
 }
 
-#: A record page's facts, in order: the field, and how the page names it.
-#: Only those the record has are said.
 FACTS = (
 	("transaction_date", _lt("Date")),
 	("posting_date", _lt("Date")),
@@ -136,20 +106,14 @@ FACTS = (
 	("bill_no", _lt("Your reference")),
 )
 
-#: A kind as one of them is called on the portal, where erpnext's name is
-#: written for the workspace: to a supplier, its quotation is a quote.
 CALLED = {
 	"Request for Quotation": _lt("Quote Request"),
 	"Supplier Quotation": _lt("Quote"),
 }
 
-#: Kinds a reader pays: once part is paid, their page says what is paid and
-#: what is left.
 OWED = ("Sales Invoice", "Purchase Invoice")
 
 
-#: The kinds a record of may be hidden from some of its party's contacts on
-#: the portal (`one_portal_hidden`, set on the desk record: `access`).
 NARROWED = (
 	"Quotation",
 	"Sales Order",
@@ -263,7 +227,6 @@ def boot() -> dict:
 	from frappe.utils.jinja_globals import is_rtl
 
 	if frappe.session.user == "Guest":
-		# A signed link's page (one/portal_share.py): nobody signed in, no tabs.
 		said = frappe._dict(lang=frappe.local.lang, rtl=is_rtl(), guest=True, me={}, tabs=[], account=[])
 		load_translations(said)
 		return said
@@ -426,8 +389,6 @@ def _next(doctype: str, doc, done: bool) -> dict:
 	bill's due date, a quotation's last day, an order's delivery."""
 	from frappe.utils import date_diff, today
 
-	# A quote request's date has its own column, and a quotation answered or
-	# ordered looks ahead to nothing.
 	if done or doc.docstatus != 1 or doctype == "Request for Quotation":
 		return {}
 	if doctype in ("Quotation", "Supplier Quotation") and (
@@ -498,7 +459,6 @@ def rows(kind: str, txt: str | None = None, start: int = 0, state: str | None = 
 	doctype = _kind(kind)
 	start = frappe.utils.cint(start)
 	found = get_list_data_for_context(None, doctype, txt=txt or None, limit=COUNTED)
-	# erpnext lists a timesheet once per time entry: each record once.
 	found = [one for one in {_field(one, "name"): one for one in found}.values() if mine(doctype, one)]
 	drawn = [row for row in (_row(kind, doctype, one) for one in found) if row]
 	states = {}
@@ -521,8 +481,6 @@ def rows(kind: str, txt: str | None = None, start: int = 0, state: str | None = 
 	}
 
 
-#: What on Home asks something of the reader, by kind: whether a record does,
-#: and the button it offers.
 ASKS = {
 	"Sales Invoice": (lambda doc: (doc.get("outstanding_amount") or 0) > 0, _lt("View and Pay")),
 	"Purchase Invoice": (lambda doc: False, None),
@@ -531,7 +489,6 @@ ASKS = {
 	"Purchase Order": (lambda doc: doc.status in ("To Receive and Bill", "To Receive"), _lt("View")),
 }
 
-#: How many records Home lists under Needs You and Recent.
 SHOWN = 5
 
 
@@ -587,7 +544,6 @@ def home() -> dict:
 	for _when, path, doctype, one, icon, row in recent[:SHOWN]:
 		row = row or _row(path, doctype, one)
 		latest.append({**row, "kind": _called(doctype), "icon": icon})
-	# What is late first.
 	asks.sort(key=lambda row: not row.get("when", {}).get("late"))
 	return {"tiles": tiles, "asks": asks[:SHOWN], "more_asks": max(len(asks) - SHOWN, 0), "recent": latest}
 
@@ -643,7 +599,6 @@ def _record(doctype: str, context, pdf: str | None = None) -> dict:
 		)
 	for tax in doc.get("taxes") or []:
 		if tax.tax_amount:
-			# erpnext writes "VAT 5% @ 5.0" where the account names its rate.
 			label = re.sub(r"\s*@\s*[\d.]+\s*$", "", tax.description or "") or _("Tax")
 			totals.append({"label": label, "value": tax.get_formatted("tax_amount")})
 	total = (
@@ -661,8 +616,6 @@ def _record(doctype: str, context, pdf: str | None = None) -> dict:
 				{"label": _("To pay"), "value": doc.get_formatted("outstanding_amount"), "strong": True}
 			)
 
-	# The record's own status, as its list says it, before erpnext's page's
-	# indicator, which says Submitted of an ordered quotation.
 	tone, word = status(
 		doctype, doc.get("status") or doc.get("indicator_title"), doc.docstatus, doc.get("indicator_color")
 	)
@@ -716,7 +669,6 @@ def _record(doctype: str, context, pdf: str | None = None) -> dict:
 				"qty": number(row.qty),
 				"uom": _(row.get("uom") or row.get("stock_uom") or ""),
 				"rate": row.get_formatted("rate", doc),
-				# A discount shows as the list rate less it, as on the print.
 				"list_rate": row.get_formatted("price_list_rate", doc)
 				if row.get("discount_percentage")
 				else "",
@@ -735,9 +687,6 @@ def _record(doctype: str, context, pdf: str | None = None) -> dict:
 	}
 
 
-#: What follows from what, by kind: the item row's field naming the record
-#: before, and the kinds after it with the field on their item rows that names
-#: this one.
 CHAIN = {
 	"Quotation": ((), (("Sales Order", "Sales Order Item", "prevdoc_docname"),)),
 	"Sales Order": (
@@ -760,8 +709,6 @@ CHAIN = {
 	"Purchase Invoice": ((("Purchase Order", "purchase_order"),), ()),
 }
 
-#: The party a kind belongs to, so a linked record is shown only when it is
-#: the same customer's or supplier's.
 PARTY = {
 	"Quotation": "party_name",
 	"Sales Order": "customer",
@@ -795,8 +742,6 @@ def _summary(doctype: str, doc, total: str) -> dict:
 		if left <= 0:
 			return {"label": _("Paid"), "value": doc.get_formatted(total), "line": _("Paid in full")}
 		said = {"label": _("Amount due"), "value": doc.get_formatted("outstanding_amount")}
-		# The first instalment still owed, as erpnext's Overdue reads it, else
-		# the bill's own due date.
 		owed = [row.due_date for row in doc.get("payment_schedule") or [] if (row.outstanding or 0) > 0]
 		due = min(owed) if owed else doc.get("due_date")
 		if due:
@@ -1133,8 +1078,6 @@ def _rfq(doc, sent: list[str]) -> dict:
 	}
 
 
-#: The frappe web forms the portal fills in, by the page they are on: the
-#: reader's profile (frappe's) and an address (erpnext's).
 WEB_FORMS = {"profile": "edit-profile", "addresses": "addresses"}
 
 
@@ -1190,8 +1133,6 @@ def _choices(field) -> list | None:
 	if field.fieldtype == "Select":
 		return [{"value": one, "label": _(one)} for one in options]
 	if not options and field.fieldname == "language":
-		# A portal reader may not read Language, so frappe's own form offers
-		# none: the languages the workspace has on, as its sign-in page does.
 		return [
 			{"value": one.name, "label": one.language_name}
 			for one in frappe.get_all(
@@ -1261,7 +1202,6 @@ def _quote(rfq: str, rows: str | dict, notes: str | None = None, sending: bool =
 	if link:
 		supplier, contact = link.party, link.contact
 	else:
-		# erpnext's page reads which request it is on from the form.
 		frappe.form_dict.doctype, frappe.form_dict.name = "Request for Quotation", rfq
 		supplier = get_supplier()
 		if (
@@ -1275,9 +1215,6 @@ def _quote(rfq: str, rows: str | dict, notes: str | None = None, sending: bool =
 		contact = _contact_of(user, "Supplier", supplier)
 	if frappe.db.get_value("Request for Quotation", rfq, "docstatus") != 1:
 		frappe.throw(_("This request is closed."))
-	# erpnext's own check that the supplier was asked, and its row lookup,
-	# which takes the item from the request and only the rate and quantity
-	# from the supplier.
 	doc = get_quotable_rfq(rfq, supplier)
 	answered = frappe.parse_json(rows) or {}
 	items, off = [], {}
@@ -1304,18 +1241,12 @@ def _quote(rfq: str, rows: str | dict, notes: str | None = None, sending: bool =
 			or frappe.get_cached_value("Company", doc.company, "default_currency"),
 			"buying_price_list": supplier_doc.default_price_list
 			or frappe.db.get_single_value("Buying Settings", "buying_price_list"),
-			# The supplier's own prices: the workspace's pricing rules are
-			# for what it sells and buys at its own prices, not for a quote.
 			"ignore_pricing_rule": 1,
-			# Whoever sent it is its contact.
 			"contact_person": contact,
 			"terms": notes or "",
 		}
 	)
 	add_items(quote, supplier, doc, items)
-	# erpnext's rows leave out the project each request line is for, and an
-	# order made from the quote is then refused against the material request
-	# it came from. The quote names it as the request does.
 	projects = {row.name: row.get("project_name") for row in doc.items}
 	for row in quote.items:
 		row.project = row.get("project") or projects.get(row.request_for_quotation_item)
@@ -1325,8 +1256,6 @@ def _quote(rfq: str, rows: str | dict, notes: str | None = None, sending: bool =
 		quote.run_method("set_missing_values")
 	finally:
 		frappe.session.user = user
-	# A discount is erpnext's own: the supplier's rate is the row's list
-	# price and the discount comes off it, after the price list had its say.
 	for row in quote.items:
 		rate, discount = off[row.request_for_quotation_item]
 		row.price_list_rate = rate
@@ -1377,7 +1306,6 @@ def reckon(quote, user: str) -> dict:
 		"rows": out,
 		"taxes": [
 			{
-				# erpnext writes "VAT 5% @ 5.0" where the account names its rate.
 				"label": re.sub(r"\s*@\s*[\d.]+\s*$", "", tax.description or "") or _("Tax"),
 				"value": money(tax.tax_amount),
 			}
@@ -1403,8 +1331,6 @@ def send(quote, doc, supplier: str, user: str) -> str:
 		quote.insert()
 	finally:
 		frappe.session.user = user
-	# Saved with the user switched, the quote is the supplier's all the same;
-	# sent through a link, by nobody signed in, it is the workspace's.
 	user = user if user != "Guest" else "Administrator"
 	quote.db_set({"owner": user, "modified_by": user}, update_modified=False)
 
@@ -1414,7 +1340,6 @@ def send(quote, doc, supplier: str, user: str) -> str:
 	return quote.name
 
 
-#: Who a contact's login may be a portal user of.
 PARTIES = ("Customer", "Supplier")
 
 
@@ -1461,9 +1386,6 @@ def settle() -> None:
 	frappe.cache.delete_key("portal_menu_items")
 
 
-#: frappe's website stylesheet carries frappe-ui's dark values under
-#: [data-theme=dark], which nothing on the website sets: this sets it from the
-#: reader's own light or dark, before anything is drawn.
 LIGHT_OR_DARK = (
 	"<script>(()=>{const m=matchMedia('(prefers-color-scheme: dark)'),"
 	"set=()=>document.documentElement.setAttribute('data-theme',m.matches?'dark':'light');"

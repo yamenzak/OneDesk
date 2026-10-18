@@ -26,7 +26,6 @@ def _load(path, space, names=None):
 
 ACT = _load(ROOT / "act.py", {"dataclass": dataclass, "field": field, "hashlib": hashlib, "json": json, "cint": lambda v: int(v or 0), "flt": lambda v, p=None: float(v or 0)}, {"KINDS", "FLOOR", "CHANGES", "Action", "level", "_filled", "_same"})
 Action = ACT["Action"]
-# one_project/intake.py `task_in`, here keeping the project the document names.
 PLANS = _load(ROOT / "plans.py", {"Action": Action, "getdate": _getdate, "timedelta": timedelta, "task_in": lambda project, day: project})
 STEPS = _load(ROOT / "steps.py", {"getdate": _getdate, "flt": lambda v, p=None: float(v or 0), "json": json}, {"holds", "passed"})
 
@@ -42,9 +41,6 @@ INVOICE = {"name": "r1", "kind": "Invoice", "verdict": "Action", "title": "Stadt
 
 def kinds(actions):
 	return [(one.kind, one.doctype) for one in actions]
-
-
-# ------------------------------------------------------------------ parties
 
 
 def test_an_invoice_from_somebody_new_makes_a_supplier():
@@ -77,7 +73,6 @@ def test_an_order_makes_a_customer_through_the_lead_when_there_is_one():
 	assert made[0].values["customer_type"] == "Individual"
 	through = PLANS["parties"](order, {**CTX, "sender_lead": "CRM-LEAD-1"})
 	assert through[0].flow == "onedesk.one_intake.planning.customer_from_lead" and through[0].values == {"lead": "CRM-LEAD-1"}
-	# The sender already matched to their lead is still not a customer.
 	matched = {**order, "parties": [{"role": "Sender", "party_name": "Osei Builders", "matched_doctype": "Lead", "matched_name": "CRM-LEAD-1", "score": 0.96}]}
 	assert PLANS["parties"](matched, {**CTX, "sender_lead": "CRM-LEAD-1"})[0].as_person
 
@@ -96,9 +91,6 @@ def test_our_own_sent_mail_makes_no_party():
 	assert PLANS["parties"](INVOICE, {**CTX, "direction": "Sent"}) == []
 
 
-# ------------------------------------------------------------------ the sender
-
-
 def test_a_contact_is_made_once_and_a_bare_one_completed():
 	ctx = {**CTX, "direction": "Received", "sender_email": "anna@nordwind.example", "sender_name": "Anna Berg", "sender_party": ("Supplier", "Nordwind AG")}
 	made = PLANS["contact"](INVOICE, ctx)
@@ -111,8 +103,6 @@ def test_a_contact_is_made_once_and_a_bare_one_completed():
 	assert PLANS["contact"](INVOICE, {**ctx, "sender_is_colleague": True}) == []
 	assert PLANS["contact"]({**INVOICE, "verdict": "Spam"}, ctx) == [], "junk makes no contacts"
 
-
-# ------------------------------------------------------------------ a person's documents
 
 EMPLOYEE_CTX = {**CTX, "employee": "HR-EMP-1", "employee_name": "Ahmad Ali", "employee_document_numbers": [], "file_url": "/private/files/p.pdf"}
 PASSPORT = {"kind": "Identity Document", "verdict": "Action", "document_type": "Passport", "number": "N1234567", "valid_until": "2031-03-01", "issued_on": "2021-03-02", "issuing_country": "Syria", "parties": []}
@@ -144,7 +134,6 @@ def test_a_resignation_is_only_proposed_and_a_signed_offer_waits_for_a_person():
 	assert level[0] == "Proposed"
 	offer = PLANS["employee_documents"]({"kind": "Contract", "verdict": "Action"}, {**EMPLOYEE_CTX, "accepted_offer": "HR-OFF-1"})
 	assert offer[0].propose and offer[0].flow.endswith("employee_from_offer")
-	# An applicant who signed is not an employee yet.
 	signed = PLANS["employee_documents"]({"kind": "Contract", "verdict": "Action"}, {**EMPLOYEE_CTX, "employee": None, "accepted_offer": "HR-OFF-1"})
 	assert signed and signed[0].doctype == "Employee"
 
@@ -155,9 +144,6 @@ def test_an_employees_receipt_is_their_expense_claim():
 	made = PLANS["receipt"](receipt, ctx)
 	assert made[0].values["expenses"][0] == {"expense_date": "2026-09-21", "expense_type": "Travel", "description": "Taxi to the airport", "amount": 23.5}
 	assert PLANS["receipt"]({**receipt, "currency": "USD"}, ctx) == [], "never a rate OneAI made up"
-
-
-# ------------------------------------------------------------------ tasks
 
 
 REMINDER = {"name": "r2", "kind": "Reminder", "verdict": "Action", "title": "Mahnung", "summary": "Pay RE-1.", "sensitivity": "Ordinary", "asks": [{"what": "Pay", "detail": "RE-1", "by_date": "2026-10-01"}]}
@@ -202,9 +188,6 @@ def test_an_appointment_is_an_event_for_whoever_it_is_for():
 	assert made[0].values["starts_on"] == "2026-10-02 09:00:00" and made[0].values["all_day"] == 1 and made[0].values["for"] == "hr@acme.test"
 
 
-# ------------------------------------------------------------------ steps
-
-
 def test_a_step_ticks_itself_by_the_record_it_waits_for():
 	holds, passed = STEPS["holds"], STEPS["passed"]
 	assert holds({"field": "outstanding_amount", "equals": 0}, 0.0)
@@ -230,9 +213,6 @@ def test_planners_are_pure():
 
 def test_flows_that_check_the_signed_in_user_are_written_as_the_person():
 	source = (ROOT / "plans.py").read_text()
-	# A leave application and an expense claim ask who is signed in; a
-	# customer from a lead saves the lead's contact as them, and so does
-	# HRMS's employee from an offer.
 	assert '"Leave Application"' in source and source.count("as_person=True") == 4
 	act = (ROOT / "act.py").read_text()
 	assert "with as_oneai(person if action.as_person else None, person):" in act
@@ -251,9 +231,6 @@ def test_a_document_teaches_its_parties_what_they_lack():
 	assert PLANS["enrich"](reading, {**CTX, "direction": "Sent"}) == []
 
 
-# ------------------------------------------------------------------ a project's work
-
-
 SITE_LOG = {"name": "r9", "kind": "Site Log", "verdict": "Information", "title": "Site log", "text": "Site log, villa\n\nGlazed the ground floor.", "parties": [], "confidence": 90}
 
 
@@ -262,6 +239,5 @@ def test_a_colleagues_site_log_is_their_part_of_the_days_update():
 	made = PLANS["site_log"](SITE_LOG, ctx)
 	assert kinds(made) == [("Create", "Project Update")]
 	assert made[0].values == {"project": "PROJ-1", "user": "rania@acme.test", "note": "Glazed the ground floor."}, "the mail's subject is left off"
-	# Anybody else's is a comment on the project, and no project named is nothing.
 	assert kinds(PLANS["site_log"](SITE_LOG, {**ctx, "sender_colleague": None})) == [("Comment", "Project")]
 	assert PLANS["site_log"](SITE_LOG, {**ctx, "project": None}) == []

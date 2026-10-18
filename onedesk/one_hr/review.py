@@ -4,8 +4,6 @@ import frappe
 from frappe import _
 from frappe.utils import now_datetime
 
-#: Roles that may settle one. Deliberately not the employee's own: the person
-#: a flag is about is not the person who clears it.
 REVIEWERS = ("HR User", "HR Manager")
 
 

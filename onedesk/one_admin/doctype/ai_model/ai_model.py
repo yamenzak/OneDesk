@@ -10,8 +10,6 @@ from frappe.model.document import Document
 
 from onedesk.one_admin import capability, site
 
-#: What a person may change. Everything else is a copy of what a provider said,
-#: and a copy somebody edited is a copy that lies.
 THEIRS = ("offered", "default_for", "priced_by_hand", "markup", "rates")
 
 
@@ -37,8 +35,6 @@ class AIModel(Document):
 						self.capability, self.default_for
 					)
 				)
-			# A withdrawn model does not hold a capability's default against a
-			# live one.
 			held = frappe.db.get_value(
 				"AI Model",
 				{
@@ -59,8 +55,6 @@ class AIModel(Document):
 				frappe.throw(
 					frappe._("Each rate needs a unit, a quantity and a price.")
 				)
-		# Zero where there is no token price. The column cannot hold nothing, so
-		# the list and the form both read zero as "not priced in tokens".
 		held, said = priced(self)
 		self.input_per_million, self.output_per_million = held or 0, said or 0
 		self.rank = rank(self)

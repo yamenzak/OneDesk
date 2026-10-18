@@ -1,4 +1,3 @@
-// No company filter: one workspace is one company.
 frappe.query_reports["Hours Utilization"] = {
 	filters: [
 		{
@@ -25,7 +24,6 @@ frappe.query_reports["Hours Utilization"] = {
 		{ fieldname: "project", label: __("Project"), fieldtype: "Link", options: "Project" },
 	],
 
-	// The name is what a person reads and the id is what the link needs.
 	formatter(value, row, column, data, default_formatter) {
 		if (column.fieldname === "employee_name" && data?.employee) {
 			return `<a href="/desk/employee/${encodeURIComponent(data.employee)}">${frappe.utils.escape_html(value || data.employee)}</a>`;

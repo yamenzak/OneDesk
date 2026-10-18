@@ -5,8 +5,6 @@ import frappe
 FIELD = "currency"
 MODULES = ("HR", "Payroll", "One HR")
 
-#: Filled by their own form script rather than by the schema, so the rule below
-#: cannot see it. Checked by reading the script, not by assuming.
 ALSO = (
 	"Employee Tax Exemption Declaration",
 	"Employee Tax Exemption Proof Submission",

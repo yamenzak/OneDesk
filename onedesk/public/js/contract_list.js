@@ -1,6 +1,3 @@
-// Contracts: whether each is signed and when it ends, and the project it is
-// for by name (one_project/agreement.py). ERPNext's list read "Draft" for an
-// unsigned contract, since it never asked a draft for its status.
 const ONE_FOR = {};
 const SIGNED = { Unsigned: "orange", Active: "green", Inactive: "gray" };
 

@@ -26,7 +26,6 @@ import tree
 SITE = "onedesk.localhost"
 BENCH = Path("/home/frappe/bench1")
 
-#: The folders that hold a screen document, and the doctype each one is.
 KINDS = {
 	"dock": "Dock",
 	"workspace": "Workspace",
@@ -71,8 +70,6 @@ def main() -> int:
 		"from frappe.modules.import_file import import_file_by_path",
 		f"frappe.init(site={SITE!r})",
 		"frappe.connect()",
-		# Without this the import refuses: frappe will not overwrite a standard
-		# document outside a migration.
 		"frappe.flags.in_migrate = True",
 	]
 	for path in work:

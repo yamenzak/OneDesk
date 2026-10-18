@@ -16,15 +16,10 @@ from werkzeug.utils import redirect
 
 FETCH = "/api/method/onedesk.one_storage.store.fetch"
 
-#: How long to wait on R2 for one object, either way.
 PATIENCE = 120
 
-#: The largest file anything in a workspace takes: what R2 accepts in one PUT.
-#: Every size limit Frappe has is set to this (`unlimit`, one_admin/steps.py).
 LARGEST = 5 * 1024**3
 
-#: How long a URL admin signed is reused for; admin signs them for fifteen
-#: minutes, so a reused one always has five left.
 REUSE = 10 * 60
 
 
@@ -110,9 +105,6 @@ def unlimit() -> None:
 		frappe.db.set_single_value("System Settings", "max_file_size", wanted)
 
 
-# ---------------------------------------------------------------- the hooks
-
-
 def write(doc):
 	"""write_file: new content to R2, or to disk where there is no account."""
 	if not enabled():
@@ -157,9 +149,6 @@ def _drop(keys: list) -> None:
 			frappe.log_error(title=f"OneCloud could not delete {key}")
 
 
-# ------------------------------------------------------------ the one door
-
-
 @frappe.whitelist(allow_guest=True, methods=["GET", "HEAD"])
 def fetch(key: str, download: int = 0):
 	"""A stored file, for whoever may open it: a redirect to R2.
@@ -189,15 +178,11 @@ def fetch(key: str, download: int = 0):
 			if not thumbnail and not int(download):
 				history.seen(row.name)
 			return redirect(signed(key, filename=row.file_name, inline=not int(download)), 302)
-	# An old version opens for whoever may open the file it was a version of.
 	for version in frappe.get_all("Cloud File Version", filters={"file_url": url_for(key)}, fields=["file", "version"], limit=20):
 		item = namespace.row(version.file)
 		if item and namespace.may(item):
 			return redirect(signed(key, filename=item.file_name, inline=not int(download)), 302)
 	raise NotFound(_("File not found"))
-
-
-# ------------------------------------------------------ files on the disk
 
 
 def on_disk() -> list:

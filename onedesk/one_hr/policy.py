@@ -2,18 +2,12 @@
 
 import frappe
 
-#: Every switch, and what a site that has never touched it gets. Self clock-in
-#: is off: a workspace turns attendance on deliberately, and one that has not
-#: should not discover it because somebody found the button.
 DEFAULTS = {
 	"one_self_checkin": 0,
 	"one_gate_passkey": 1,
 	"one_gate_network": 1,
 	"one_gate_place": 1,
 	"one_gate_photo": 0,
-	# Either the network or the place, rather than both: they prove the same
-	# thing two ways, and demanding both means one flaky fix stops somebody
-	# working. A workspace that means it can ask for both.
 	"one_gates_require": "Either",
 	"one_passkey_refuses": 1,
 	"one_passkey_phone_only": 1,
@@ -26,12 +20,7 @@ DEFAULTS = {
 	"one_close_the_day": 1,
 	"one_reason_on_out": 1,
 	"one_keep_photo_days": 7,
-	# hrms's own field rather than one of ours, and the only reading of "how
-	# long is a day" the product has. Left at zero it makes every hour of a
-	# shiftless day overtime, so it starts at eight.
 	"standard_working_hours": 8,
-	# OneAI on hiring and grievances: every automatic call starts on, and a
-	# workspace that may not use one says so here. See one_hr/README.md.
 	"one_ai_screen": 1,
 	"one_ai_prepare": 1,
 	"one_ai_record": 1,
@@ -51,8 +40,6 @@ def band(which: str, fallback: int) -> int:
 
 
 def get(switch: str):
-	# Asked of the meta rather than the table: HR Settings is a Single and has
-	# no table to have a column in.
 	if not frappe.get_meta("HR Settings").has_field(switch):
 		return DEFAULTS.get(switch)
 	if not _written(switch):

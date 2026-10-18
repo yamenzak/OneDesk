@@ -94,11 +94,7 @@ def test_a_card_carries_rows_only_of_its_own_tables():
 def test_an_empty_answer_after_a_tool_is_done_and_anywhere_else_is_retried():
 	said = _source(GATEWAY, "_said")
 	assert "turns[-1] or {}).get('role') == 'tool'" in said
-	# Once as asked, and again past the gateway's cache, which caches a blank too.
 	assert said.count("asking()") == 1 and "SAY_IT" in said and "fresh=True" in said
-
-
-# ----------------------------------------------------------------- leave
 
 
 def test_leave_is_only_ever_booked_in_the_askers_name_and_only_as_a_card():

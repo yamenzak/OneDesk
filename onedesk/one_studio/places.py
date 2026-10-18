@@ -10,7 +10,6 @@ def _lt(text: str) -> str:
 	return text
 
 
-#: What an extension may do on a page, said the way OneAI reads it.
 POWERS = {
 	"note": "page.note(text, tone): a line of text shown on the page; tone is gray, blue, green, orange or red.",
 	"action": "page.action(label, handler): a button; handler() runs when it is pressed.",
@@ -22,8 +21,6 @@ POWERS = {
 PLACES = {
 	"onemail": {
 		"label": "OneMail",
-		# The kind of record what happens here is about, for the list, the
-		# review and the guard's permission check.
 		"record": "Communication",
 		"events": {
 			"conversation": {
@@ -44,7 +41,6 @@ PLACES = {
 	},
 	"record_head": {
 		"label": _lt("Record Head"),
-		# The kind of record is the extension's own: it runs on that kind's head.
 		"record": None,
 		"events": {
 			"drawn": {
@@ -316,7 +312,6 @@ PLACES = {
 	},
 	"space": {
 		"label": _lt("Space Home"),
-		# A space's home is a frappe Workspace; nothing of it is a record.
 		"record": "Workspace",
 		"events": {
 			"home": {
@@ -339,7 +334,6 @@ PLACES = {
 				),
 				"may": ("note", "action"),
 			},
-			# Each of the page's views, when it is open, with what it shows.
 			"overview": {
 				"about": _lt("A project's Overview is opened, and each time its figures change."),
 				"gives": (

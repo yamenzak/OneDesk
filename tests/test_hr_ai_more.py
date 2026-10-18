@@ -27,9 +27,6 @@ def _pure(path: Path, *names, **space):
 	return space
 
 
-# ------------------------------------------------------------------ payroll
-
-
 def _slip(net, components, days=30, working=30):
 	return {"gross": net, "net": net, "days": days, "working": working, "components": components}
 
@@ -45,7 +42,6 @@ def test_a_payroll_change_is_found_by_arithmetic_not_by_the_model():
 	assert "net 6000 → 4200" in said
 	assert "Housing (earning) is gone (was 1800)" in said
 
-	# Small moves are the month, not a mistake.
 	nudged = _slip(6030, {"Basic (earning)": 4000, "Housing (earning)": 1830, "Transport (earning)": 200})
 	assert changes(nudged, before) == []
 
@@ -64,8 +60,6 @@ def test_payroll_is_read_as_the_person_asking():
 	assert "ignore_permissions" not in source
 	assert '"onedesk.one_hr.ai_payroll.payroll_changes"' in (tree.APP / "hooks.py").read_text()
 
-
-# ------------------------------------------------------------------ letters
 
 LETTER = HR / "doctype" / "employee_letter"
 
@@ -87,9 +81,6 @@ def test_a_letters_kind_is_read_loosely():
 	assert kind(None) == "Other"
 
 
-# ------------------------------------------------------------------ policy
-
-
 def test_a_long_note_is_handed_over_around_the_words_asked_about():
 	passage = _pure(HR / "ai_policy.py", "PASSAGE", "passage")["passage"]
 	note = "Welcome to the company. " * 40 + "Sick leave is fifteen days a year, paid in full. " + "Other things. " * 40
@@ -105,8 +96,6 @@ def test_a_policy_answer_names_its_source():
 	assert "do not answer from what is usual" in source
 	assert '"source": f"Leave Type: {one.name}"' in source
 
-
-# ------------------------------------------------------------------ grievances
 
 GRIEVANCE = HR / "ai_grievance.py"
 
@@ -135,9 +124,6 @@ def test_harassment_discrimination_and_safety_are_always_sensitive():
 	assert set(space["SENSITIVE"]) <= set(space["CATEGORIES"])
 	source = GRIEVANCE.read_text(encoding="utf-8")
 	assert "sensitive = category in SENSITIVE or bool(answer.get(\"sensitive\"))" in source
-
-
-# ------------------------------------------------------------------ growth
 
 
 def test_a_kra_is_one_of_the_workspaces_own():

@@ -10,7 +10,6 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, get_datetime, get_url, now_datetime
 
-#: How long an invitation's link works.
 DAYS = 7
 
 
@@ -84,7 +83,6 @@ def accept(key: str):
 			_("This invitation was withdrawn"), _("Ask the person who invited you."), http_status_code=410
 		)
 	link = doc._reset_password()
-	# A GET is not committed on its own, and the new reset key must be kept.
 	frappe.db.commit()
 	frappe.local.response["type"] = "redirect"
 	frappe.local.response["location"] = link

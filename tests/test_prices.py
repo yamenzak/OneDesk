@@ -62,9 +62,6 @@ def test_the_module_has_no_frappe_in_it():
 	assert "frappe" not in ast.unparse(body), "prices.py has to be readable without a site"
 
 
-# ----------------------------------------------------------------- Workers AI
-
-
 def test_every_workers_ai_model_on_the_page_is_priced():
 	read = workers()
 	assert len(read.rates) > 40, "the page stopped yielding model rows"
@@ -105,9 +102,6 @@ def test_a_cache_read_is_not_a_cheaper_input():
 def test_more_than_one_unit_is_in_use():
 	units = {r.unit for rows in workers().rates.values() for r in rows}
 	assert len(units) >= 6, f"only {units} — the page has stopped saying units"
-
-
-# --------------------------------------------------------------------- Gemini
 
 
 def test_most_gemini_models_are_priced_and_the_rest_say_why():

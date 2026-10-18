@@ -12,8 +12,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 
 import atlas
 
-#: What each module still has with no way in and no answer. Lower it as each
-#: is placed or answered; it may never rise.
 WAITING = {
 	"erpnext / Accounts": 0,
 	"erpnext / Bulk Transaction": 0,
@@ -43,7 +41,6 @@ WAITING = {
 	"hrms / Payroll": 0,
 }
 
-#: What an answer may say a thing is (onedesk/one/atlas.py).
 KINDS = {"engine", "inside", "replaced", "left out", "the platform's"}
 
 
@@ -85,14 +82,8 @@ def test_the_atlas_is_current():
 	assert (atlas.tree.ROOT / "docs" / "ATLAS.md").read_text() == atlas.page(), "run python scripts/docs.py"
 
 
-# ------------------------------------------------------------------ who may open it
-
-#: Modules whose records live on the operator's own site, where the operator
-#: holds every right (one_admin).
 OPERATOR = ("One Admin",)
 
-#: What each module has that a person reaches but no role a workspace gives may
-#: open. Lower it as each is opened to its people or its way in is closed.
 NOBODY = {
 	"erpnext / Accounts": 0,
 	"erpnext / Maintenance": 0,
@@ -136,9 +127,6 @@ def test_who_may_open_what_was_read():
 	assert atlas.readers()["doctypes"].get("Item"), "run python scripts/atlas.py --site"
 
 
-# ------------------------------------------------------------------ the brand
-
-
 def test_the_brand_translations_are_current():
 	for lang, text in atlas.translation_files().items():
 		path = atlas.TRANSLATIONS / f"{lang}.csv"
@@ -163,10 +151,6 @@ def test_nothing_upstream_says_names_them():
 			assert not atlas.SAID_BRAND.search(_unbranded(text)), (lang, msgid, text)
 
 
-# ------------------------------------------------------------------ our screens
-
-#: Record types each screen lists but does not hear change. Lower it as each
-#: is followed (the kit's followList); it may never rise.
 UNHEARD = {
 	"project": 9,
 	"task": 2,
@@ -176,10 +160,8 @@ UNHEARD = {
 	"timers": 4,
 }
 
-#: Numbers a screen prints with no formatter around them.
 BARE = {}
 
-#: Record types a screen lists without the reader's company, in a type with one.
 NOT_THE_COMPANYS = {
 	"project": 8,
 	"task": 2,
@@ -216,26 +198,16 @@ def test_the_screens_are_read():
 	assert "Bin" in stock["reads"] and "Bin" not in stock["unheard"]
 
 
-# ------------------------------------------------------------------ the Passover points, per record type
-
-#: Point 1. Record types a person reaches that the demo has none of.
 EMPTY = {
-	# India's, Italy's and South Africa's own, which a UAE company never sees.
 	"erpnext / Regional": 3,
-	# Placed with none on purpose: an accounting dimension adds a field to every
-	# accounting form, and a Process Payment Reconciliation's log is written when one runs.
 	"erpnext / Accounts": 23,
-	# Shift allocations want an asset depreciated by shift.
 	"erpnext / Assets": 2,
 	"erpnext / CRM": 1,
 	"erpnext / Maintenance": 0,
 	"erpnext / Manufacturing": 4,
 	"erpnext / Projects": 1,
 	"erpnext / Selling": 4,
-	# A Transaction Deletion Record of the demo's would delete the demo.
 	"erpnext / Setup": 4,
-	# Placed with none on purpose: a stock dimension adds a field to every stock
-	# form, and a closing refuses the history the demo writes behind it.
 	"erpnext / Stock": 6,
 	"erpnext / Subcontracting": 1,
 	"erpnext / Support": 0,
@@ -258,7 +230,6 @@ EMPTY = {
 	"onedesk / One Studio": 1,
 }
 
-#: Point 11. Documents sent to a customer or supplier on a print not ours.
 UNPRINTED = {
 	"erpnext / Accounts": 1,
 	"erpnext / Maintenance": 0,
@@ -266,13 +237,10 @@ UNPRINTED = {
 	"erpnext / Subcontracting": 0,
 }
 
-#: Point 5. Lists that say nothing but a number.
 ONLY_AN_ID = {
 	"frappe / Core": 1,
 }
 
-#: Point 12. Labels on a reached form still English in Arabic or German,
-#: counted once for each language.
 ENGLISH = {
 	"erpnext / Accounts": 0,
 	"erpnext / Assets": 3,

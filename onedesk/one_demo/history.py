@@ -6,7 +6,6 @@ date, with its versions and child rows, the time of day kept."""
 
 import frappe
 
-#: What says when each happened, by doctype.
 DATES = {
 	"Opportunity": "transaction_date",
 	"Quotation": "transaction_date",
@@ -30,8 +29,6 @@ DATES = {
 	"Timesheet": "start_date",
 }
 
-#: Moments One stamps on a record as it is saved, which move with it: none
-#: can be later than the record's last change.
 STAMPS = {
 	"Expense Claim": ("one_decided_on",),
 }

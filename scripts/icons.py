@@ -24,11 +24,9 @@ import tree
 
 MARKS = tree.ROOT / "brand"
 
-#: Other companies' marks, for a button that opens their app. See its README.
 OTHERS = MARKS / "others"
 FIXTURE = tree.APP / "fixtures" / "custom_icon.json"
 
-#: `CustomIcon.validate` refuses anything else, and the name becomes a DOM id.
 NAME = re.compile(r"^[a-zA-Z0-9_-]+$")
 
 _DEFINED = re.compile(r'\bid="([^"]+)"')

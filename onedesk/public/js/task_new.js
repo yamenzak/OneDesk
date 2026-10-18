@@ -1,7 +1,3 @@
-// New Task, OneTask's own dialog: what a task needs to start, in frappe's
-// controls, the rest one click away in the full form. `values` fills it in
-// (a project, a parent); `projects` narrows Project to a project's tree.
-// Rough for now; one_task/README.md, New Task.
 frappe.provide("onedesk.task");
 
 onedesk.task.new = async ({ values = {}, projects = null, done = null } = {}) => {
@@ -48,13 +44,11 @@ onedesk.task.new = async ({ values = {}, projects = null, done = null } = {}) =>
 		primary_action: async ({ owner_user, ...picked }) => {
 			dialog.disable_primary_action();
 			try {
-				// Whoever is named is given it as the task is made (one_task/capture.py task_made).
 				const doc = await frappe.xcall("frappe.client.insert", { doc: { doctype: "Task", ...picked, one_for: owner_user || null } });
 				dialog.hide();
 				frappe.show_alert({ message: __("{0} added", [doc.subject]), indicator: "green" });
 				done?.(doc);
 			} catch {
-				// frappe has said why.
 			} finally {
 				dialog.enable_primary_action();
 			}
@@ -66,8 +60,6 @@ onedesk.task.new = async ({ values = {}, projects = null, done = null } = {}) =>
 			frappe.new_doc("Task", picked);
 		},
 	});
-	// Somebody given a task on a project they can't open joins it
-	// (one_project/members.py `assigned`); the dialog says so beforehand.
 	const joins = async () => {
 		const { project, owner_user } = dialog.get_values(true) || {};
 		const said = project && owner_user ? await frappe.xcall("onedesk.one_project.members.joins", { project, user: owner_user }) : false;

@@ -49,7 +49,6 @@ def held(doc, method=None) -> None:
 	kind = doc.get("one_kind")
 	if kind == INTERNAL:
 		doc.customer = None
-		# Nobody is billed, so nothing is due and nothing is printed.
 		doc.one_payment_terms = None
 		doc.one_terms = None
 	elif kind in KINDS and not doc.get("customer"):
@@ -61,8 +60,6 @@ def held(doc, method=None) -> None:
 		doc.one_markup = 0
 
 
-#: What can't change once the project has orders or invoices: who they bill,
-#: and how the project is paid for.
 SETTLED = ("customer", "one_kind")
 
 
@@ -113,10 +110,7 @@ def make(values: Annotated[dict | str, "What the New Project dialog asked for."]
 		if not values.item:
 			frappe.throw(_("Pick the item to bill the contract as."))
 
-	# A preset from the library is copied in first (library.py).
 	template = values.template or (values.library and library.copy(values.library)) or None
-	# What isn't asked for comes from the customer, the template or the company
-	# (terms.py). A sub-project's comes from the job it is part of (terms.of).
 	agreed = terms.defaults(values.client if kind != INTERNAL else None, template)
 	for key in ("payment_terms", "terms"):
 		values[key] = values.get(key) or (None if values.parent else agreed[key])
@@ -138,10 +132,8 @@ def make(values: Annotated[dict | str, "What the New Project dialog asked for."]
 			"one_monthly_fee": flt(values.monthly_fee) if kind == RETAINER else 0,
 			"one_monthly_hours": flt(values.monthly_hours) if kind == RETAINER else 0,
 			"one_markup": flt(values.markup) if kind == TIME else 0,
-			# How its time is counted, and where (hours.py).
 			"one_time": values.time,
 			"one_site": values.site,
-			# The project's retention, which each customer order starts with (retention.py).
 			"one_retention": flt(values.retention) if kind == FIXED else 0,
 			"one_retention_due": values.retention_due if kind == FIXED and flt(values.retention) else None,
 			"one_retention_handover": flt(values.retention_handover) if kind == FIXED and flt(values.retention) else 0,
@@ -149,7 +141,6 @@ def make(values: Annotated[dict | str, "What the New Project dialog asked for."]
 	)
 	if values.parent:
 		project.one_parent = values.parent
-	# What the dialog was answered stands, a blank included (terms.started).
 	project.flags.one_terms_given = True
 	project.insert()
 
@@ -166,7 +157,6 @@ def _contract(project, values, contract: float) -> str:
 	ends = getdate(values.ends) if values.ends else add_days(start, 30)
 	order = frappe.new_doc("Sales Order")
 	order.company = project.company
-	# The contract value is in the customer's own currency, as the order is.
 	bill_in(order, "Customer", project.customer)
 	order.update(
 		{
@@ -231,7 +221,6 @@ def add_contract(
 		starts=doc.expected_start_date,
 		ends=doc.expected_end_date,
 	)
-	# Agreed with the contract, so the project's own from now on.
 	changed = {
 		field: value
 		for field, value in (("one_payment_terms", payment_terms), ("one_terms", conditions))
@@ -245,8 +234,6 @@ def add_contract(
 	return order
 
 
-#: The item a contract is billed as when the workspace has none of its own:
-#: a service in Lump Sum, so Bill Progress can bill it in parts.
 CONTRACT_ITEM = "Contract Work"
 
 
@@ -260,7 +247,6 @@ def defaults(
 	last project's contract was billed as, or Contract Work, the currency the
 	customer is billed in, how the workspace counts time, and the payment terms,
 	terms and conditions and retention to agree (terms.py)."""
-	# Only an item Bill As takes: sold, enabled and not kept in stock.
 	billable = frappe.get_all("Item", filters={"is_sales_item": 1, "disabled": 0, "is_stock_item": 0}, pluck="name")
 	found = frappe.get_all(
 		"Sales Order Item",

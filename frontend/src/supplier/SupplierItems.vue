@@ -1,10 +1,4 @@
 <template>
-  <!-- A supplier's Items tab (one_inventory/supplier_items.py): what is
-       bought from them, item by item. Modelled on Odoo's vendor price list
-       and Zoho Inventory's items on a vendor: the item with their own code
-       for it, the last price paid in their money, how much was bought in a
-       year, what is on order and the lead time, then what they quoted for
-       and were never ordered from. -->
   <div class="text-ink-gray-8">
     <Loading v-if="!said" />
     <template v-else>
@@ -80,8 +74,6 @@ const props = defineProps({ supplier: { type: String, required: true }, onCount:
 
 const said = ref(null);
 const search = ref("");
-// The price is the one a phone keeps; the rest join as the form widens, On
-// Order and Lead Time only when some item has one.
 const has = computed(() => ({
   on_order: (said.value?.items || []).some((one) => one.on_order),
   lead_days: (said.value?.items || []).some((one) => one.lead_days),
@@ -107,7 +99,6 @@ async function load() {
 }
 watch(() => props.supplier, load, { immediate: true });
 
-// An order, a quote, an agreement or a change to an item shows here.
 let timer = null;
 const soon = () => {
   clearTimeout(timer);
@@ -128,7 +119,6 @@ const summary = computed(() => {
   return [s.count === 1 ? __("1 item") : __("{0} items", [count(s.count)]), s.on_order && __("{0} on order", [count(s.on_order)])].filter(Boolean).join(" · ");
 });
 
-// What they last charged, what they agreed or what they quoted, and when.
 const price = (one) => (one.agreed ? { ...one.last, rate: one.agreed.rate, currency: one.last?.currency || said.value.currency, uom: one.last?.uom || one.unit } : one.last || one.quoted);
 function when(one) {
   if (one.agreed) return __("Agreed until {0}", [date(one.agreed.until)]);

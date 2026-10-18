@@ -6,10 +6,8 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, add_years, flt, getdate, nowdate
 
-#: Who may change what the check fixes.
 FIXERS = ("Accounts Manager", "Workspace Administrator")
 
-#: Company fields a first invoice or payment throws without, and what each is.
 DEFAULTS = {
 	"default_receivable_account": "Default Receivable Account",
 	"default_payable_account": "Default Payable Account",
@@ -117,7 +115,6 @@ def _tax(one, doctype: str, key: str, check: str) -> dict:
 	return _row(key, check, SUGGESTED, _("No template is the default, so nothing is charged unless somebody picks one."), key)
 
 
-#: The side of a Tax Rule each kind of template is, and the rule's field for it.
 SIDES = {
 	"Sales Taxes and Charges Template": ("Sales", "sales_tax_template"),
 	"Purchase Taxes and Charges Template": ("Purchase", "purchase_tax_template"),
@@ -293,7 +290,6 @@ def fix(key: str, **values) -> None:
 	elif key == "reminder":
 		from onedesk.one_book.paid import REMINDER
 
-		# Its Send This, which turns the Notification that mails it on too.
 		doc = frappe.get_doc("Notification Type", REMINDER)
 		doc.enabled = 1
 		doc.flags.ignore_permissions = True

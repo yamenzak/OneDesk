@@ -1,16 +1,3 @@
-// Opens every screen in screens.mjs on the demo workspace, as its person, and
-// says which did not show what it should, threw in the browser, or refused.
-//
-//     ONE_URL=http://onedesk.localhost:8002 ONE_DEMO_PASSWORD=… node tests/browser/run.mjs [path-part]
-//
-// Playwright is not a dependency of the app: point PLAYWRIGHT_FROM at a
-// directory whose node_modules has it, and CHROMIUM at a browser if
-// Playwright's own is not installed. ONE_SHOTS names a folder for a
-// screenshot of each screen.
-//
-// A screen's `panel` says whether the module's panel is open on a desktop
-// (docs/PASSOVER.md, The panel), `phone` the places its breadcrumb's switcher
-// lists on a phone, and `menu` the places it lists on a desktop.
 import { createRequire } from "node:module";
 import { mkdirSync } from "node:fs";
 import { join } from "node:path";
@@ -43,14 +30,12 @@ async function as(who, phone = false) {
 	return people.get(key);
 }
 
-// Whether the module's panel is out beside the page.
 const panel_open = (page) =>
 	page.evaluate(() => {
 		const panel = document.querySelector(".body-sidebar-container");
 		return !!panel && panel.offsetParent !== null && panel.classList.contains("expanded");
 	});
 
-// What is wrong with the breadcrumb's menu of places, on a phone or not.
 async function crumb_menu(screen, labels, phone) {
 	const where = phone ? " on a phone" : "";
 	const page = await (await as(screen.who, phone)).newPage();
@@ -97,7 +82,6 @@ for (const screen of SCREENS.filter((one) => !ONLY || one.path.includes(ONLY))) 
 		wrong.push(...thrown.map((message) => `threw: ${message.slice(0, 200)}`));
 		if (screen.panel !== undefined && (await panel_open(page)) !== screen.panel)
 			wrong.push(screen.panel ? "has its panel shut" : "has its panel out");
-		// The trail in the page head, crumb by crumb, as frappe draws it.
 		if (screen.trail) {
 			const trail = await page.locator(".page-head .navbar-breadcrumbs li").filter({ visible: true }).allInnerTexts();
 			const said = trail.map((one) => one.trim()).filter(Boolean);

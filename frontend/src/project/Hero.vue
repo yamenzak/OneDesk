@@ -1,9 +1,4 @@
 <template>
-  <!-- The project's Featured Media across the top of its page, the cover
-       first, then each photo and video in turn: a photo for a few seconds,
-       slowly drawing in, a video muted to its end. The name and the facts sit
-       over it, the team in the corner.
-       Holding the pointer over it pauses it; a click opens the viewer. -->
   <div class="group relative h-80 overflow-hidden rounded-7 bg-surface-gray-9 lg:h-[26rem]" @mouseenter="held = true" @mouseleave="held = false">
     <button class="absolute inset-0 block" :aria-label="__('Featured Media')" @click="$emit('open', at)">
       <div v-for="(one, i) in media" :key="one.name" class="absolute inset-0 transition-opacity duration-1000 motion-reduce:transition-none" :class="i === at ? 'opacity-100' : 'opacity-0'">
@@ -61,10 +56,7 @@ import Thumb from "./Thumb.vue";
 const props = defineProps({ media: { type: Array, required: true }, canAdd: Boolean });
 defineEmits(["open", "add"]);
 
-// How long a photo stays.
 const PHOTO = 6000;
-// Someone who asked their system for less motion gets the photos still and
-// turns them themselves.
 const still = lessMotion();
 
 const at = ref(0);
@@ -78,7 +70,6 @@ function go(i) {
 }
 const next = () => props.media.length > 1 && go(at.value + 1);
 
-// The one shown plays, from the start; the rest wait.
 async function play() {
   shown.value = 0;
   await nextTick();
@@ -93,7 +84,6 @@ async function play() {
 watch(at, play);
 watch(() => props.media.length, (n) => at.value >= n && (at.value = 0));
 
-// A photo's time runs while nobody holds it; a video's is its own.
 let frame = null;
 let last = null;
 function tick(now) {

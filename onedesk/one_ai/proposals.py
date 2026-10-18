@@ -12,21 +12,13 @@ from frappe.utils import now_datetime
 from onedesk.one_ai import touch
 from onedesk.one_ai.kind import LAYOUT
 
-#: What is done and cannot be done again. Everything else is still a decision.
 SETTLED = ("Applied", "Refused", "Stale")
 
-#: How much of a record is quoted back on the card. A proposal is read by a
-#: person in a hurry, and forty fields is a diff nobody checks.
 MOST_FIELDS = 40
 
-#: Rows a suggestion may carry in one child table. An expense claim is its rows
-#: — but twenty is a stack of receipts somebody reads, and a hundred is a table
-#: nobody does.
 MOST_ROWS = 20
 
 
-#: Kinds whose changes are the tool's own, checked by it, rather than a
-#: record's values: a form's look, a signature, holidays, a reply, an update, a mail.
 OWN_WORDS = ("Customize", "Signature", "Holidays", "Reply", "Numbering", "Printing", "Approval", "Setup", "Update", "Mail")
 
 
@@ -46,8 +38,6 @@ def propose(
 	person cannot edit is refused at the point it is suggested rather than at
 	the point somebody presses a button.
 	"""
-	# A customization is written by the tool that checked it (one/ai.py
-	# `customize`), as the Customize page would send it: not a record's values.
 	changes = (changes or {}) if kind in OWN_WORDS else _plain(changes or {}, doctype)
 	if kind in ("Create", "Edit") and frappe.db.exists("DocType", doctype):
 		changes = _understood(doctype, changes)
@@ -55,11 +45,8 @@ def propose(
 	if kind == "Create":
 		_ready(doctype, changes)
 	if kind == "Edit" and held:
-		# Only what would change goes on the card: "set up every field" came
-		# back with the ones already right riding along as noise.
 		changes = {key: value for key, value in changes.items() if not _same_value(held.get(key), value)}
 		if not changes:
-			# Said to the model, which then tells the person it is right as it is.
 			frappe.throw(
 				"That is what it already holds, so there is nothing to change. Say it is right as it is."
 			)
@@ -98,14 +85,10 @@ def apply(proposal: str) -> dict:
 
 	changes = json.loads(entry.changes or "{}")
 	if entry.kind == "Customize":
-		# The Customize page's own save, as the administrator who pressed
-		# Approve: the same holds, and refused if the form's customizations
-		# moved since this was suggested.
 		from onedesk.one import customize
 
 		if changes.get("token") != customize.state(entry.for_doctype):
 			entry.db_set("state", "Stale")
-			# Kept through the refusal's rollback: nothing else was written.
 			frappe.db.commit()
 			frappe.throw(
 				frappe._(
@@ -116,9 +99,6 @@ def apply(proposal: str) -> dict:
 		return _done(entry, entry.for_doctype)
 
 	if entry.kind == "Reply":
-		# Nothing is sent from here. Approving hands the reply to frappe's email
-		# window, where the person reads it, changes it and sends it themselves
-		# (Record.vue, onemail.js `reply_to`).
 		from onedesk.one_mail import actions
 
 		actions.require(changes.get("account"))
@@ -126,16 +106,11 @@ def apply(proposal: str) -> dict:
 		return {"proposal": entry.name, "state": "Applied", "reply": changes}
 
 	if entry.kind == "Mail":
-		# Nothing is sent from here: frappe's email window opens with the mail
-		# written in, to be sent by the person (Record.vue, record.js).
 		frappe.has_permission(entry.for_doctype, "email", doc=entry.record, throw=True)
 		_done(entry, entry.record)
 		return {"proposal": entry.name, "state": "Applied", "mail": changes}
 
 	if entry.kind == "Update":
-		# Nothing is posted from here. Approving puts the draft in the line under
-		# Updates on the project's page, to be read, changed and posted by the
-		# person (Updates.vue, `one_project_draft`).
 		frappe.has_permission("Project", "read", doc=entry.record, throw=True)
 		frappe.publish_realtime(
 			"one_project_draft", {"project": entry.record, "text": changes.get("text")}, user=frappe.session.user
@@ -144,8 +119,6 @@ def apply(proposal: str) -> dict:
 		return {"proposal": entry.name, "state": "Applied", "update": changes}
 
 	if entry.kind == "Holidays":
-		# The Holidays page's own save, as the administrator who pressed
-		# Approve: the same notice, and refused if the list moved since.
 		from onedesk.one import roles, settings
 
 		roles.require()
@@ -161,16 +134,12 @@ def apply(proposal: str) -> dict:
 		return _done(entry, entry.record)
 
 	if entry.kind == "Signature":
-		# The mailbox's own signature step, which writes it without saving the
-		# mailbox: the person may sign it, and may not write mailboxes.
 		from onedesk.one_mail import holders
 
 		holders.set_signature(entry.record, changes.get("signature"))
 		return _done(entry, entry.record)
 
 	if entry.kind == "Numbering":
-		# Numbering's own doors (one/numbering.py), as the administrator who
-		# pressed Approve, and refused if the series moved since.
 		from onedesk.one import numbering
 
 		if changes.get("state") != numbering.state(entry.for_doctype):
@@ -188,7 +157,6 @@ def apply(proposal: str) -> dict:
 		for one in changes.get("move") or []:
 			numbering.set_current(entry.for_doctype, one["series"], one["to"])
 		for one in changes.get("rules") or []:
-			# frappe's own Document Naming Rule, saved as its form would save it.
 			if one.get("delete"):
 				frappe.delete_doc("Document Naming Rule", one["name"])
 			else:
@@ -196,8 +164,6 @@ def apply(proposal: str) -> dict:
 		return _done(entry, entry.for_doctype)
 
 	if entry.kind == "Printing":
-		# Printing's own doors (one/printing.py), as the administrator who pressed
-		# Approve, and refused if the default or a letter head changed since.
 		from onedesk.one import printing
 
 		made = changes.get("format") or {}
@@ -220,8 +186,6 @@ def apply(proposal: str) -> dict:
 		return _done(entry, entry.for_doctype)
 
 	if entry.kind == "Approval":
-		# Approvals' own door (one/approvals.py), as the administrator who pressed
-		# Approve, and refused if an approval on the kind changed since.
 		from onedesk.one import approvals
 
 		if changes.get("state") != approvals.state(entry.for_doctype):
@@ -235,9 +199,6 @@ def apply(proposal: str) -> dict:
 		return _done(entry, approvals.make(entry.for_doctype, changes["workflow"]))
 
 	if entry.kind == "Setup":
-		# A report, a dashboard, a report by mail, a level, a profile, a group or
-		# what a person sees, made by the page's own code (one/ai_setup.py) as the
-		# person who pressed Approve.
 		from onedesk.one import ai_setup
 
 		try:
@@ -277,9 +238,6 @@ def apply(proposal: str) -> dict:
 		return _done(entry, entry.record)
 
 	if entry.kind == "Move":
-		# The workflow's own transition, which checks the role it is allowed to
-		# and writes the state change and its log entry. Not a `db_set` on the
-		# state field, which would move the record without any of that.
 		from frappe.model.workflow import apply_workflow
 
 		apply_workflow(held, changes.get("action"))
@@ -401,7 +359,6 @@ def _allowed(kind: str, doctype: str, record: str | None):
 	is refused here rather than being written and then failing.
 	"""
 	if kind == "Customize":
-		# Whoever may open the Customize page on this form, and nobody else.
 		from onedesk.one import customize
 
 		customize.may(doctype)
@@ -417,8 +374,6 @@ def _allowed(kind: str, doctype: str, record: str | None):
 		numbering._meta(doctype)
 		return None
 	if kind == "Setup":
-		# Checked by the tool that wrote it (one/ai_setup.py), against the same
-		# rules as the page, and again by the page's own code when approved.
 		return None
 	if kind == "Approval":
 		from onedesk.one import approvals, roles
@@ -434,18 +389,14 @@ def _allowed(kind: str, doctype: str, record: str | None):
 			printing._doctype(doctype)
 		return None
 	if kind == "Reply":
-		# Whoever holds the mailbox the conversation is in; `record` is its
-		# last message.
 		from onedesk.one_mail import actions
 
 		actions.require(frappe.db.get_value("Communication", record, "email_account"))
 		return None
 	if kind == "Mail":
-		# Whoever may email the record, as its form's Email asks.
 		frappe.has_permission(doctype, "email", doc=record, throw=True)
 		return None
 	if kind == "Update":
-		# Whoever may read the project may post on it (one_project/updates.py).
 		frappe.has_permission("Project", "read", doc=record, throw=True)
 		return None
 	if kind == "Signature":
@@ -455,9 +406,6 @@ def _allowed(kind: str, doctype: str, record: str | None):
 			frappe.throw(frappe._("You may not change how {0} signs.").format(record), frappe.PermissionError)
 		return None
 	if kind == "Edit" and doctype == "Communication" and not record:
-		# A message for the email window the person has open (touch.EMAIL).
-		# Taking it puts text in their own window and writes nothing, and
-		# sending it is frappe's own check, when they send.
 		return None
 	verb = {"Create": "create", "Edit": "write", "Delete": "delete", "Move": "write"}.get(kind)
 	if not verb:
@@ -465,8 +413,6 @@ def _allowed(kind: str, doctype: str, record: str | None):
 
 	held = None
 	if kind == "Edit" and not record:
-		# A field on a document that is not saved yet — written from the field's
-		# own control, and applied into the form. What it asks is to create one.
 		verb = "create"
 	elif kind != "Create":
 		if not record:

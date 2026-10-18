@@ -133,8 +133,6 @@ def _payroll():
 		entry.submit_salary_slips()
 
 
-#: Who is paid by the hour from his timesheets, at what rate, and as what,
-#: so ERPNext's Profit on Billed Hours has his retainer time to weigh.
 PAID_BY_THE_HOUR = "Imran"
 HOURLY = "Sahara Hourly"
 HOURS = "Hours Worked"
@@ -172,7 +170,6 @@ def _by_the_hour():
 		entry.submit_salary_slips()
 
 
-#: Who resigns, and the UAE rule his end of service is worked out by.
 LEAVER = "Joseph"
 RESIGNED = "Rule Under Unlimited Contract on resignation (UAE)"
 
@@ -246,7 +243,6 @@ def _leave():
 				},
 				submit=True,
 			)
-	#: who, kind, from, days, approved
 	asked = (
 		("Rania", "Privilege Leave", on(4, 13), 5, True),
 		("Arun", "Sick Leave", on(6, 8), 2, True),
@@ -278,8 +274,6 @@ def _leave():
 			application.submit()
 
 
-#: The tower's site, where it counts its time by attendance, and who works
-#: there: each day they clock in there is a day on the tower (site_time.py).
 SITE = ("Bayview Tower site", 25.0805, 55.1403, 200)
 ON_SITE = ("Bilal", "Imran")
 
@@ -320,16 +314,11 @@ def _attendance():
 			employee = _employee(first)
 			if frappe.db.exists("Attendance", {"employee": employee, "attendance_date": day}):
 				continue
-			# Nobody comes in after their last day.
 			if first == LEAVER and getdate(day) > get_last_day(add_months(today(), -1)):
 				continue
-			# A day somebody asked off is not marked here: hrms refuses any
-			# answer to a leave application over a day marked present.
 			if frappe.db.exists("Leave Application", {"employee": employee, "from_date": ["<=", day], "to_date": [">=", day], "docstatus": ["<", 2]}):
 				continue
 			status = "Absent" if (back + i) % 17 == 0 else "Half Day" if (back + i) % 11 == 0 else "Present"
-			# On site only on a day they logged no other time: ERPNext refuses
-			# two timesheets over the same hours.
 			if first in ON_SITE and status != "Absent" and not _logged(employee, day):
 				make({"doctype": "Employee Checkin", "employee": employee, "log_type": "IN", "time": f"{day} 07:30:00", "latitude": SITE[1], "longitude": SITE[2]})
 			try:
@@ -343,7 +332,6 @@ def _attendance():
 
 
 def _claims():
-	#: who, project, kind, amount, what, approved, days ago
 	claims = (
 		("Rania", "Mansour Villa Windows and Doors", "Travel", 340, "Taxis to Al Barsha for the frame installation", True, 40),
 		("Tariq", "Workshop CNC Upgrade", "Others", 1180, "Power cables and isolators for the CNC bay", True, 22),
@@ -373,7 +361,6 @@ def _claims():
 					expense.reject(claim.name, "Roaming is on the company phone plan already.")
 			claim.reload()
 		if approved and days > 30:
-			# Paid back by the books with the next bank run.
 			from hrms.overrides.employee_payment_entry import get_payment_entry_for_employee
 
 			with as_user(ACCOUNTS):
@@ -424,7 +411,6 @@ def _hiring():
 		opening = frappe.db.get_value("Job Opening", {"job_title": title})
 		applicant = make({"doctype": "Job Applicant", "applicant_name": name, "email_id": email, "job_title": opening, "status": status, "source": "Website Listing"})
 		if status == "Accepted":
-			# Accepted and signed, as the appointment letter below says.
 			make(
 				{
 					"doctype": "Job Offer",
@@ -451,8 +437,6 @@ def _hiring():
 			)
 
 
-#: Feras's first weeks, each step somebody's task on My Tasks: (what, who,
-#: days after boarding begins, days it takes).
 JOINING = (
 	("Prepare the employment contract and visa", HR, 0, 5),
 	("Issue the laptop and site PPE", "karim@one.test", 20, 3),
@@ -486,7 +470,6 @@ def _onboarding():
 	)
 
 
-#: What the demo's offer sets out, as a hiring manager writes it.
 OFFER = (
 	("Monthly Salary", "AED 16,000"),
 	("Housing Allowance", "AED 4,000 a month"),
@@ -496,7 +479,6 @@ OFFER = (
 )
 
 
-#: What the demo's appointment letter sets out.
 APPOINTED = (
 	("Reporting To", "Samir Aoun, Projects Manager"),
 	("Place of Work", "Our site projects across Dubai, and the workshop in Dubai Investments Park"),
@@ -560,7 +542,6 @@ def _interview():
 		)
 
 
-#: The workshop's shift, and who asked to work it.
 SHIFT = ("Workshop Day", "07:00:00", "16:00:00")
 
 
@@ -574,7 +555,6 @@ def _shifts():
 		employee = _employee(first)
 		if frappe.db.exists("Shift Request", {"employee": employee, "shift_type": name}):
 			continue
-		# Mariam answers the workshop's shift requests.
 		frappe.db.set_value("Employee", employee, "shift_request_approver", HR)
 		request = make(
 			{

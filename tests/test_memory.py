@@ -59,7 +59,7 @@ def test_global_search_is_frappes_and_checks_each_record():
 
 def test_a_records_story_is_read_live_through_the_sidebars_own_function():
 	about = _body(MEMORY, "about_record")
-	assert "tools.read_record(doctype, name)" in about  # the permission check
+	assert "tools.read_record(doctype, name)" in about
 	assert "load.get_docinfo(" in about
 	for kind in ('"comments"', '"emails"', '"changes"', '"assigned_to"', '"files"', '"links_here"'):
 		assert kind in about, kind

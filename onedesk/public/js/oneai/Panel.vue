@@ -236,8 +236,6 @@ import Icon from "./Icon.vue";
 const __ = window.__;
 const mark = "/assets/onedesk/images/oneai.svg";
 
-// A product name is a name. It is the same in every language, so it is written
-// here once and never passed through `__()`.
 const ONEAI = "OneAI";
 
 const props = defineProps({ here: { type: Object, default: null } });
@@ -259,18 +257,10 @@ const body = ref(null);
 const box = ref(null);
 const listening = ref(false);
 
-// The field a question is about, when the panel was opened from a field's own
-// control. Its answer comes back as a suggestion for that field.
 const target = ref(null);
 
-// What the run in the background has done so far, as it happens. Sent over
-// frappe's own realtime channel; asked for every few seconds as well, because a
-// socket that dropped or a tab that slept would otherwise wait for ever.
 const steps = ref([]);
 
-// What the panel offers on the page it opened on — a receipt on an expense
-// claim, a summary on a record — asked of the server, which knows what each
-// module offers and what this reader may do. See one_ai/suggest.py.
 const offered = ref([]);
 watch(
 	() => props.here,
@@ -287,10 +277,6 @@ onBeforeUnmount(() => {
 	stop();
 });
 
-// Three asks that cover most of what anybody wants from a paragraph, pressed
-// rather than typed. An empty field has one thing to ask for. An email has a
-// reader, so it also gets its length and its tone, and a translation whose
-// language the writer finishes in the box.
 const said = (label) => ({ label, ask: label });
 const quick = computed(() => {
 	if (!target.value) return [];
@@ -313,27 +299,15 @@ const quick = computed(() => {
 
 const words = (html) => $("<div>").html(String(html || "")).text().trim();
 
-// The browser's own speech recognition, where there is one. Chrome and Safari
-// have it and Firefox does not, so the button is simply absent there rather
-// than present and broken. What it hears is typed into the box, not sent: a
-// misheard word is fixed before the question goes, not after.
 const Hearing = window.SpeechRecognition || window.webkitSpeechRecognition;
 let ear = null;
 
-//: Three sizes rather than two. Snug is the live-chat shape; roomy is for a
-//: conversation with records in it; full is for reading a report next to the
-//: page it is about. Remembered per browser, because it is a preference about
-//: this screen rather than about this conversation.
 const SIZES = ["snug", "roomy", "full"];
 
 const bigger = computed(() =>
 	size.value === "full" ? __("Make it smaller") : __("Make it bigger")
 );
 
-// Frappe loads a doctype's user settings on demand, so on a fresh page there
-// are none in the browser yet — and `get_user_settings` answers a missing key
-// with `{}` rather than undefined, which is how a size of "[object Object]"
-// gets onto the panel. Fetched once, when the panel first mounts.
 frappe.model.user_settings.get("AI Chat").then((kept) => {
 	frappe.model.user_settings["AI Chat"] = kept || {};
 	if (SIZES.includes((kept || {}).panel_size)) size.value = kept.panel_size;
@@ -342,14 +316,9 @@ frappe.model.user_settings.get("AI Chat").then((kept) => {
 function grow() {
 	const at = SIZES.indexOf(size.value);
 	size.value = SIZES[(at + 1) % SIZES.length];
-	// Frappe's own per-user settings rather than this browser's storage, so the
-	// size somebody chose is theirs on whatever machine they next sign in from.
 	frappe.model.user_settings.save("AI Chat", "panel_size", size.value);
 }
 
-// Frappe's own markdown, which is showdown with tables on and a whitelist
-// sanitiser after it — so a model that answers with a script tag gets its
-// script tag removed by the framework rather than by something we wrote.
 function prose(text) {
 	return frappe.markdown(text || "");
 }
@@ -360,17 +329,11 @@ const subtitle = computed(() => {
 });
 
 defineExpose({
-	// The launcher may say where to land: a conversation, or straight into a
-	// fresh one from a record's own AI control.
 	async opened(opening) {
 		if (opening && opening.chat) return openChat(opening.chat);
 		if (opening && opening.fresh) return fresh();
-		// A question already asked for the reader — a settings field's "what is
-		// this for" — goes straight in, in a conversation of its own.
 		if (opening && opening.ask) {
 			fresh();
-			// The field the question is about goes with the page, so the model
-			// is handed what it is for and what it may hold before it answers.
 			aimed.value = opening.about && props.here ? { ...props.here, field: opening.about } : null;
 			await ask(opening.ask);
 			aimed.value = null;
@@ -381,9 +344,6 @@ defineExpose({
 			target.value = opening.field;
 			return;
 		}
-		// Into a new conversation, offering what fits the page: the panel is
-		// opened to do something here, and the last conversation is about
-		// somewhere else. Every earlier one is one press back.
 		fresh();
 	},
 });
@@ -394,8 +354,6 @@ async function list() {
 }
 
 async function openChat(name) {
-	// Whatever was being followed belongs to the conversation being left; it
-	// is picked up again from `running` if somebody comes back to it.
 	stop();
 	busy.value = false;
 	chat.value = await frappe.xcall("onedesk.one_ai.chat.opened", { chat: name });
@@ -418,8 +376,6 @@ function fresh() {
 	view.value = "chat";
 	nextTick(() => box.value && box.value.focus());
 	offer();
-	// Asked for after the box is up, so a new conversation opens at once and
-	// the pill fills in a moment later with whatever model would answer it.
 	frappe.xcall("onedesk.one_ai.chat.opened").then((empty) => {
 		if (!chat.value.name) chat.value = { ...chat.value, ...empty, said: chat.value.said };
 	});
@@ -429,11 +385,6 @@ function toThreads() {
 	list();
 }
 
-// Frappe's own uploader, attaching to the conversation — so the file is a File
-// row with an owner and a permission, in the workspace, rather than something
-// living inside a transcript nobody can find again. The chat has to exist first,
-// which is why an empty one is saved before the dialog opens.
-// How long after the last upload lands a suggestion waits for another.
 const SETTLE = 1200;
 
 async function attach(then) {
@@ -447,9 +398,6 @@ async function attach(then) {
 		frm: null,
 		on_success: (file) => {
 			waiting.value.push({ name: file.file_name, url: file.file_url });
-			// A suggestion that needs a file asks once every file is in: the
-			// uploader answers file by file, and asking on the first sent a
-			// batch of CVs as one CV. Asked when a moment passes with no more.
 			if (!then) return;
 			clearTimeout(settle);
 			settle = setTimeout(() => nextTick(then), SETTLE);
@@ -464,15 +412,11 @@ async function offer() {
 			page: (useHere.value && props.here) || onedesk.oneai.home(),
 		});
 	} catch (e) {
-		// Nothing offered is a panel that still works; the box is still there.
 	}
 }
 
-// A suggestion taken: asked straight away, or once the file it needs is in.
 function take(one) {
 	if (one.run) return run(one);
-	// A question to be finished by the reader: in the box, waiting for their
-	// words ("Draft a reply that says: turn down their offer").
 	if (one.fill) {
 		text.value = one.ask;
 		nextTick(() => {
@@ -486,8 +430,6 @@ function take(one) {
 	ask(one.ask);
 }
 
-// A suggestion that is a job on this record rather than a question: run it,
-// and say so where an answer would be. Nothing is sent to a model from here.
 async function run(one) {
 	const name = props.here && props.here.name;
 	if (!name) return;
@@ -497,22 +439,17 @@ async function run(one) {
 		await frappe.xcall(one.run, { [one.arg]: name });
 		chat.value.said.push({ role: "model", text: one.said, looked: [], cards: [], files: [] });
 	} catch (e) {
-		// The server said why, in its own dialog.
 	} finally {
 		busy.value = false;
 		toBottom();
 	}
 }
 
-// A quick ask is a question somebody did not have to type, not a retry.
 function ask(one) {
 	text.value = one;
 	return send();
 }
 
-// The field's text as the form has it now, if that form is still the one open.
-// An email's is what is written in its window now, without the signature and
-// the quoted message.
 function current() {
 	const aim = target.value;
 	if (!aim) return "";
@@ -525,7 +462,6 @@ function current() {
 	return same ? frm.doc[aim.fieldname] || "" : aim.value || "";
 }
 
-// An email's subject and recipients as they are now in its window.
 function latest() {
 	const writing = target.value && target.value.email && onedesk.oneai.writing;
 	if (!writing || !writing.composer.dialog.display) return {};
@@ -533,10 +469,6 @@ function latest() {
 	return { subject: dialog.get_value("subject") || "", to: dialog.get_value("recipients") || "" };
 }
 
-// The model this conversation runs on, in frappe's own menu on the pill.
-// Automatic is what the workspace set for the chat; a pick is this person's,
-// for this conversation and their next ones, and never anybody else's.
-// Whoever administers the workspace also finds the setting everybody gets.
 const pill = ref(null);
 let menu = null;
 watch(pill, (el) => {
@@ -569,8 +501,6 @@ async function models() {
 	return chat.value.may_choose ? menus : menus.slice(1);
 }
 
-// One row per maker, its models beside it: thirty models in one column is
-// a list to scroll, not a menu.
 function byMaker(models, chosen) {
 	const makers = new Map();
 	for (const one of models) {
@@ -602,8 +532,6 @@ function toModel() {
 	frappe.set_route("workspace-settings", { section: "oneai", action: chat.value.model_at });
 }
 
-// A conversation is named by OneAI after its first answer; its person can
-// rename it, and OneAI then leaves the name alone.
 function rename() {
 	const named = chat.value.name;
 	frappe.prompt(
@@ -623,14 +551,12 @@ function titled(said) {
 	threads.value = threads.value.map((one) => (one.name === said.chat ? { ...one, title: said.title } : one));
 }
 
-// The page as sent for one question about one field, then forgotten.
 const aimed = ref(null);
 
 function toMemory() {
 	frappe.set_route("settings", { section: "memory" });
 }
 
-// A memory kept in this conversation, forgotten from where it was said.
 async function unremember(kept) {
 	await frappe.xcall("onedesk.one.settings.forget", { name: kept.memory });
 	kept.undone = true;
@@ -666,8 +592,6 @@ async function send(again) {
 	busy.value = true;
 	doing.value = __("Thinking…");
 
-	// Shown before it is sent, so the question is on screen while the model is
-	// still thinking about it rather than appearing with the answer.
 	const sending = waiting.value.splice(0);
 	if (!again) {
 		chat.value.said.push({ role: "you", text: asked, looked: [], cards: [], files: sending });
@@ -682,8 +606,6 @@ async function send(again) {
 			chat: chat.value.name,
 			page: aimed.value || (useHere.value && props.here ? props.here : null),
 			files: sending.map((one) => one.url),
-			// What the field says now, read at the moment of asking — the person
-			// may have typed in it since the panel opened.
 			field: target.value ? { ...target.value, value: current(), ...latest() } : null,
 		});
 		chat.value = started;
@@ -695,7 +617,6 @@ async function send(again) {
 	toBottom();
 }
 
-// Watch one run until it says it is done or failed.
 function follow(run) {
 	stop();
 	busy.value = true;
@@ -713,8 +634,6 @@ function stop() {
 	watching = null;
 }
 
-// One message about a run, from the socket or from a poll. The poll carries
-// every step so far; the socket carries one at a time.
 function heard(step) {
 	if (!watching || !step || step.run !== watching.run) return;
 	if (step.steps) steps.value = step.steps.map(told);
@@ -737,8 +656,6 @@ async function finish() {
 	toBottom();
 }
 
-// The question stays on screen with the reason under it and a button, because
-// a failed run that clears the box is a question retyped.
 function fail(reason) {
 	stop();
 	broke.value = reason;
@@ -747,13 +664,6 @@ function fail(reason) {
 	toBottom();
 }
 
-// Why it did not go through, in words somebody can act on.
-//
-// `frappe.xcall` rejects with the response's `message`, which for an exception
-// is empty — the reason is in `frappe.last_response`, where frappe leaves the
-// last reply so its own error dialog can read it. Read from there, stripped of
-// markup, and frappe's dialog is dismissed because the panel is already saying
-// it in the place somebody is looking.
 function _why(raised) {
 	const last = frappe.last_response || {};
 	let said = "";
@@ -761,7 +671,6 @@ function _why(raised) {
 		said = JSON.parse(last._server_messages || "[]")[0] || "";
 		said = JSON.parse(said).message || said;
 	} catch (e) {
-		// Not a server message. The next two lines still have somewhere to look.
 	}
 	said = said || last.exception || (typeof raised === "string" ? raised : "");
 	said = $("<span>").html(String(said)).text().trim();
@@ -781,11 +690,6 @@ async function answered() {
 	emit("counted");
 }
 
-// What it did, not which function it called. A write says it suggested rather
-// than that it looked, because "looked at ToDo" above a card that would create
-// one is the one sentence in the panel that could be read as "it did it".
-// An answer that drew what it read says nothing more about having looked:
-// "Looked at Customer" above the list of customers is the list twice.
 function drew(said) {
 	return (said.looked || []).some((look) => look.found || (look.records || []).length);
 }
@@ -796,15 +700,10 @@ function told(look) {
 	return what ? __("Looked at {0}", [what]) : __("Looked something up");
 }
 
-// `comment_when` answers with a span carrying the exact time in a title, which
-// is right where frappe puts it as HTML and wrong here, where it is text. The
-// words are what is wanted; the markup is thrown away.
 function when(said) {
 	return said ? $("<span>").html(frappe.datetime.comment_when(said)).text() : "";
 }
 
-// frappe's format_number, not `frappe.format`, which answers with markup for
-// a Float and would print its own div into the sentence.
 function format(credits) {
 	return format_number(credits || 0, null, 4);
 }

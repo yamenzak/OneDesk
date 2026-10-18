@@ -10,13 +10,9 @@ from frappe import _, _lt
 
 from onedesk.one_calendar import layers
 
-#: What a reading's date must be to be a deadline. A sick note's "valid
-#: until" is the day somebody is back, which nobody has to act on; a
-#: passport's is.
 DEADLINES = ("Due", "Deadline", "Valid Until")
 RENEWED = ("Identity Document", "Certificate", "Contract")
 
-#: The records Intake made for a reading that, once done, settle its dates.
 INVOICES = ("Purchase Invoice", "Sales Invoice")
 
 LAYERS = [

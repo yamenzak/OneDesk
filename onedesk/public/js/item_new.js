@@ -1,9 +1,3 @@
-// New Item, by kind: frappe's quick entry for Item, in three steps on frappe's
-// Slides as New Project is (project_new.js). What the thing is comes first, then
-// its name, group and unit, then what that kind needs: prices and supplier, where
-// it is kept and when to order more, its asset category, or the sizes and colours
-// it comes in. The server sets ERPNext's own fields from the answers
-// (one_inventory/kinds.py `make`).
 frappe.provide("onedesk.item");
 
 onedesk.item.KINDS = () => [
@@ -83,9 +77,6 @@ frappe.ui.form.ItemQuickEntryForm = class ItemQuickEntryForm extends frappe.ui.f
 			label: __(attribute),
 			options: values,
 		}));
-		// Selling on the left, and where it comes from on the right, each switch
-		// opening the fields it needs underneath it. Ordering more when low is
-		// its own part.
 		const sells = ["Stock", "Service", "Versions"];
 		const more = [
 			{ fieldtype: "Data", fieldname: "kind", hidden: 1 },
@@ -122,8 +113,6 @@ frappe.ui.form.ItemQuickEntryForm = class ItemQuickEntryForm extends frappe.ui.f
 			...versions,
 			{ fieldtype: "Data", fieldname: "currency", hidden: 1, default: said.currency },
 		];
-		// What goes into one of it: its first bill of materials, a step only
-		// something made here has (`follow_made`).
 		this.made_from = {
 			name: "made",
 			title: __("Made From"),
@@ -146,7 +135,6 @@ frappe.ui.form.ItemQuickEntryForm = class ItemQuickEntryForm extends frappe.ui.f
 				const [, details] = Object.values(this.slides.slide_dict);
 				const unit = details.get_value("unit") || this.said.unit;
 				const table = step.get_field("materials");
-				// "Per Meter", but "per unit" for a unit that is counted.
 				frappe.db.get_value("UOM", unit, "must_be_whole_number").then(({ message }) => {
 					const said = message?.must_be_whole_number ? __("Quantities per unit") : __("Quantities per {0}", [__(unit)]);
 					step.get_field("note").$wrapper.html(`<p class="text-muted">${frappe.utils.escape_html(said)}</p>`);
@@ -155,9 +143,6 @@ frappe.ui.form.ItemQuickEntryForm = class ItemQuickEntryForm extends frappe.ui.f
 				for (const material of table.df.fields.filter((df) => df.fieldname === "item_code")) {
 					material.get_query = () => ({ filters: { disabled: 0, has_variants: 0, is_fixed_asset: 0, name: ["!=", code] } });
 				}
-				// Each material's name and unit: ERPNext shows an item link as
-				// "code: name" when the row has its name, and the unit says what
-				// the quantity counts.
 				const named = async () => {
 					const rows = (table.grid.df.data || []).filter((row) => row.item_code && !row.uom);
 					if (!rows.length) return;
@@ -173,7 +158,6 @@ frappe.ui.form.ItemQuickEntryForm = class ItemQuickEntryForm extends frappe.ui.f
 					table.grid.refresh();
 				};
 				table.grid.wrapper.on("change awesomplete-selectcomplete", "input", () => setTimeout(named, 300));
-				// Hundreds of parts come from a list, not one row at a time.
 				$(frappe.ui.button.html({ label: __("Add from a List"), size: "sm", css_class: "one-from-list" }))
 					.insertAfter(table.grid.wrapper.find(".grid-add-row"))
 					.on("click", () => this.from_list(table));
@@ -193,7 +177,6 @@ frappe.ui.form.ItemQuickEntryForm = class ItemQuickEntryForm extends frappe.ui.f
 					fields: details,
 					onload: (step) => {
 						step.get_field("group").get_query = () => ({ filters: { is_group: 0 } });
-						// The code follows the name until somebody types one.
 						let typed = false;
 						step.get_field("code").df.onchange = () => (typed = Boolean(step.get_value("code")));
 						step.get_field("title").df.onchange = () => {
@@ -231,8 +214,6 @@ frappe.ui.form.ItemQuickEntryForm = class ItemQuickEntryForm extends frappe.ui.f
 		if (this.init_callback) this.init_callback(this);
 	}
 
-	// A step's fields say what its kind needs, and a kind starts in its group,
-	// sold or not, as most things of that kind are.
 	follow_kind(step) {
 		if (!step?.form || !this.kind) return;
 		const was = step.get_value("kind");
@@ -244,16 +225,12 @@ frappe.ui.form.ItemQuickEntryForm = class ItemQuickEntryForm extends frappe.ui.f
 		}
 		if (step.name === "more") {
 			step.form.set_value("sold", this.kind === "Equipment" ? 0 : 1);
-			// Only stock can be made here, so a service or equipment is bought.
 			const made = ["Stock", "Versions"].includes(this.kind);
 			$(step.form.wrapper).find(".column-label").eq(1).text(made ? __("Buying and Making") : __("Buying"));
 			this.follow_made(step);
 		}
 	}
 
-	// Add from a List: a parts list pasted or uploaded, read and matched to the
-	// items there are, shown before anything is saved, then added to the table
-	// with the missing parts made stock items (one_inventory/parts.py).
 	from_list(table) {
 		const esc = frappe.utils.escape_html;
 		const counted = (qty) => format_number(qty, null, Number.isInteger(qty) ? 0 : 3);
@@ -303,9 +280,6 @@ frappe.ui.form.ItemQuickEntryForm = class ItemQuickEntryForm extends frappe.ui.f
 		dialog.show();
 	}
 
-	// Something made here has a fourth step for what it is made from.
-	// Length or Area counts the item in metres or square metres, unless
-	// it is kept in a unit of its own (a sheet), which then says its size.
 	follow_measure(details) {
 		const by = details.get_value("measured_by");
 		const unit = { Length: "Meter", Area: "Square Meter" }[by];
@@ -314,8 +288,6 @@ frappe.ui.form.ItemQuickEntryForm = class ItemQuickEntryForm extends frappe.ui.f
 		if (!unit && ["Meter", "Square Meter"].includes(was)) details.form.set_value("unit", this.said.unit);
 	}
 
-	// A unit that is a length or an area sells the item by it, as saving the
-	// item would (measure.py follows_unit).
 	follow_unit(details) {
 		const unit = details.get_value("unit");
 		if (!unit || details.get_value("measured_by") !== "No") return;
@@ -404,7 +376,6 @@ frappe.ui.form.ItemQuickEntryForm = class ItemQuickEntryForm extends frappe.ui.f
 			frappe.show_alert({ message: __("{0} added", [frappe.utils.escape_html(values.title)]), indicator: "green" });
 			if (this.after_insert) this.after_insert(await frappe.db.get_doc("Item", name));
 			else {
-				// Something made here opens where its bill of materials is added.
 				if (values.made_here) frappe.route_options = { view: "making" };
 				frappe.set_route("Form", "Item", name);
 			}
@@ -414,7 +385,6 @@ frappe.ui.form.ItemQuickEntryForm = class ItemQuickEntryForm extends frappe.ui.f
 	}
 };
 
-// An item code from its name, as kinds.py `code_from` makes it.
 onedesk.item.code_from = (name) =>
 	(String(name || "").match(/[A-Za-z0-9]+/g) || [])
 		.slice(0, 3)

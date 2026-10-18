@@ -1,7 +1,4 @@
 <template>
-  <!-- The time logged on the task, newest first, as the reader may read
-       timesheets (one_task/view.py `_time`): who, the day, the activity and
-       the hours, a draft said as one. -->
   <div class="pb-12">
     <PlaceSpot :said="spot" class="mb-3" />
     <div class="flex flex-wrap items-center gap-2 pb-2">
@@ -32,7 +29,6 @@
         <ListCell class="justify-end tabular-nums text-ink-gray-8">{{ hours(item.hours) }}</ListCell>
         <ListCell class="max-md:hidden"><Badge v-if="item.draft" :label="__('Draft')" theme="gray" size="md" /></ListCell>
       </ListRow>
-      <!-- The rest, a page at a time. -->
       <ListRow v-if="time.entries.length > shown.length" @click="page += PAGE">
         <ListCell class="text-ink-gray-5">{{ __("Show {0} More", [Math.min(PAGE, time.entries.length - shown.length)]) }}</ListCell>
       </ListRow>
@@ -53,8 +49,6 @@ const props = defineProps({ said: { type: Object, required: true } });
 const emit = defineEmits(["changed"]);
 const time = computed(() => props.said.time);
 
-// Who logged the hours, most first, and what is still in draft. The head
-// already says the total against the plan.
 const figures = computed(() => {
   const by = {};
   for (const one of time.value.entries) {

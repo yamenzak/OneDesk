@@ -1,10 +1,3 @@
-// Loaded after hrms's own employee_attendance_tool.js, so every handler here
-// runs after theirs and has the last word.
-//
-// The screen reads in three steps rather than one: the day, then who, then
-// what to mark them as. hrms interleaves the three, so the checkboxes that
-// qualify the status sat a screen above it and the filters nobody sets were
-// the first thing on the page.
 
 frappe.ui.form.on("Employee Attendance Tool", {
 	refresh(frm) {
@@ -50,25 +43,17 @@ frappe.ui.form.on("Employee Attendance Tool", {
 			});
 	},
 
-	// hrms triggers this once the employees are on screen, which is also the
-	// moment there is something to mark them as.
 	set_primary_action(frm) {
 		unhide_field("one_mark_section");
 		search(frm);
 	},
 });
 
-// The heading is the last breadcrumb, which for a Single is the doctype's own
-// name; DocType has no label to set, so the crumb is replaced instead. The
-// Single is never saved either, so the dirty badge it keeps is about nothing.
 function quiet(frm) {
 	frm.page.clear_indicator();
 	frappe.after_ajax(() => frm.page.set_breadcrumbs([{ label: __("Mark Attendance") }]));
 }
 
-// A department of sixty is three columns of checkboxes with no way through it.
-// The rows are hidden rather than removed, so a tick survives a search: the
-// control's own selection is untouched by anything here.
 function search(frm) {
 	const field = frm.get_field("one_search");
 	if (!field || !field.$input || field.$input.data("one-bound")) return;

@@ -1,5 +1,3 @@
-// No company filter, and no staffing plan required: the period is the opening's
-// posting date, and an opening nobody applied to is still a row.
 frappe.query_reports["Hiring Pipeline"] = {
 	filters: [
 		{
@@ -46,8 +44,6 @@ frappe.query_reports["Hiring Pipeline"] = {
 		},
 	],
 
-	// Both names are titles, and the id behind each of them is an email address
-	// or an HR-OPN number that nobody wants to read.
 	formatter(value, row, column, data, default_formatter) {
 		if (column.fieldname === "job_title" && data?.job_opening) {
 			return `<a href="/desk/job-opening/${encodeURIComponent(data.job_opening)}">${frappe.utils.escape_html(value || data.job_opening)}</a>`;

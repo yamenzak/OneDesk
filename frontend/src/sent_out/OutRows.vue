@@ -1,8 +1,4 @@
 <template>
-  <!-- Work sent out as a table, modelled on Katana's outsourced purchase
-       orders and Odoo's subcontracting: what the supplier makes and for
-       which project, who has it, where it stands, what went to them, how much
-       is back, and when it is due (one_inventory/sent_out.py). -->
   <p v-if="!orders.length && empty" class="py-6 text-base text-ink-gray-5">{{ empty }}</p>
   <List v-else :columns="columns" divider="full" :row-height="56" class="-mx-3 list-gap-4 list-row-px-3">
     <ListHeader>
@@ -73,12 +69,10 @@ import { __, count, date, fromToday, go, onedesk, quantity } from "../kit";
 const props = defineProps({
   orders: { type: Array, required: true },
   can: { type: Object, required: true },
-  // The Received tab: when each went, not when it is due.
   done: Boolean,
   empty: String,
 });
 
-// How much is back is the one a phone keeps; the rest join as the page widens.
 const columns = {
   base: ["minmax(0,1fr)", "7rem", "2rem"],
   sm: ["minmax(0,1fr)", "8rem", "8rem", "2rem"],
@@ -87,7 +81,6 @@ const columns = {
   xl: ["minmax(0,1fr)", "minmax(0,12rem)", "8rem", "9rem", "8rem", "7rem", "2rem"],
 };
 
-// ERPNext's own statuses, each with its colour.
 const STATES = {
   Open: [() => __("Open"), "amber"],
   "Partial Material Transferred": [() => __("Partial Material Transferred"), "amber"],
@@ -105,7 +98,6 @@ const made = (one) => one.makes[0] || { name: one.name };
 const title = (one) => (one.makes.length > 1 ? __("{0} and {1} more", [made(one).name, one.makes.length - 1]) : made(one).name);
 const back = (one) => one.makes.reduce((sum, row) => sum + row.back, 0);
 const asked = (one) => one.makes.reduce((sum, row) => sum + row.qty, 0);
-// Materials sent in full.
 const sentAll = (one) => one.materials.filter((row) => row.sent >= row.needed).length;
 
 const actions = (one) =>

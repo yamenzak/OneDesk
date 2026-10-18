@@ -7,7 +7,6 @@ import frappe
 from frappe import _lt
 from frappe.utils import add_days, flt, get_first_day, getdate, nowdate
 
-#: How far ahead Due This Week looks, today included.
 WEEK = 7
 
 
@@ -184,12 +183,8 @@ def due_this_week(filters: str | None = None) -> dict:
 	return _card(amount, ["List", "Purchase Invoice"], {"status": ["in", ["Unpaid", "Overdue", "Partly Paid"]]})
 
 
-# ------------------------------------------------------------------ the page
-
-#: How many rows of each kind Today shows before it says how many more.
 FEW = 5
 
-#: The directory's groups, in the order ERPNext's Invoicing sidebar sets them.
 GROUPS = (
 	("receivables", _lt("Receivables")),
 	("payables", _lt("Payables")),
@@ -198,7 +193,6 @@ GROUPS = (
 	("reports", _lt("Reports")),
 	("setup", _lt("Setup")),
 )
-#: What a report is about, as Reports sets them out, one section to a topic.
 REPORT_SECTIONS = (
 	("statements", _lt("Financial Reports")),
 	("ledgers", _lt("Ledgers")),
@@ -248,7 +242,6 @@ REPORT_TOPICS = {
 	"UAE VAT 201": "tax",
 	"Tax Withholding Details": "tax",
 }
-#: What a part of Setup is about, as Setup sets them out, the checks first.
 SETUP_SECTIONS = (
 	("settings", _lt("Settings")),
 	("accounts", _lt("Accounts")),
@@ -309,8 +302,6 @@ SETUP_TOPICS = {
 	"Bank Transaction Rule": "payments",
 }
 
-#: Each called what ERPNext calls what it opens, a filtered list as ERPNext's
-#: own sidebar calls it (and with its filters): the name Ctrl+K finds it by.
 EVERYTHING = (
 	("receivables", _lt("Sales Invoice"), "DocType", "Sales Invoice", _lt("What you have billed customers.")),
 	("receivables", _lt("Credit Note"), "DocType", "Sales Invoice", _lt("Money given back to a customer, against an invoice."), {"is_return": 1}),
@@ -500,7 +491,6 @@ def _bank() -> dict:
 	}
 
 
-#: The papers a draft of which is work left half done.
 DRAFTS = (
 	("Sales Invoice", _lt("Sales Invoice")),
 	("Purchase Invoice", _lt("Purchase Invoice")),

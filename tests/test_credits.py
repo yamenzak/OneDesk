@@ -50,9 +50,6 @@ def test_the_module_has_no_frappe_in_it():
 	assert "frappe" not in ast.unparse(body)
 
 
-# ------------------------------------------------------------------- balance
-
-
 def test_nothing_granted_is_nothing_to_spend():
 	assert credits.balance([], TODAY) == 0
 
@@ -79,9 +76,6 @@ def test_an_overdraw_counts_and_does_not_expire():
 	overdraw was never in a bucket: it is owed."""
 	assert credits.balance([Bucket("a", 10, GONE)], TODAY, overdrawn=-4) == -4
 	assert credits.balance([Bucket("a", 10, LATER)], TODAY, overdrawn=-4) == 6
-
-
-# --------------------------------------------------------------------- order
 
 
 def test_the_soonest_to_expire_is_drawn_first():
@@ -112,9 +106,6 @@ def test_an_expired_bucket_is_never_drawn_from():
 	assert credits.draw(buckets, 5, TODAY) == [Draw("new", 2), Draw(None, 3)]
 
 
-# ------------------------------------------------------------------ overdraw
-
-
 def test_what_nothing_covers_comes_back_belonging_to_nothing():
 	"""Not an error here. Refusing at this point would be a call that already
 	happened and was never charged for; the place to refuse is the hold."""
@@ -124,9 +115,6 @@ def test_what_nothing_covers_comes_back_belonging_to_nothing():
 def test_nothing_is_drawn_for_nothing():
 	assert credits.draw([Bucket("a", 5, LATER)], 0, TODAY) == []
 	assert credits.draw([Bucket("a", 5, LATER)], -1, TODAY) == []
-
-
-# --------------------------------------------------------------------- holds
 
 
 @pytest.mark.parametrize(
@@ -143,9 +131,6 @@ def test_a_hold_is_spent_as_far_as_the_next_call_is_concerned(have, holding, wan
 	"""Two calls arriving together both seeing the same balance and both
 	spending it is the race this exists to lose."""
 	assert credits.enough([Bucket("a", have, LATER)], want, holding, TODAY) is yes
-
-
-# ----------------------------------------------------------------- rounding
 
 
 def test_a_thousandth_of_a_credit_is_not_rounded_away():

@@ -12,13 +12,8 @@ from frappe.utils import add_days, date_diff, flt, formatdate, getdate, now_date
 from onedesk.one import roles
 from onedesk.one_admin import faults, proxy
 
-#: How long to wait on admin. A workspace drawing a page should not be held up
-#: by somebody else's slow request, and every one of these calls has a cached
-#: answer to fall back on.
 PATIENCE = 10
 
-#: The config keys `steps.push_config` writes. Named here so a site missing one
-#: says which rather than failing at a request.
 NEEDED = ("one_admin_url", "one_tenant", "one_token")
 
 
@@ -26,8 +21,6 @@ def configured() -> bool:
 	return all(frappe.conf.get(key) for key in NEEDED)
 
 
-#: How long an AI run may take on admin: longer than the provider's own wait
-#: (60s, or 110 for a call that thinks), so an answer on its way is not dropped.
 PATIENCE_FOR = {"onedesk.one_admin.proxy.ai_run": 120}
 
 
@@ -119,7 +112,6 @@ def refresh() -> dict:
 	)
 	_keep(held, said.get("domains"), said.get("add_ons"))
 	_tell(before, held, credits.get("gift"))
-	# A new workspace's first administrator is whoever paid for it (one/owner.py).
 	from onedesk.one import owner
 
 	owner.arrive(said)
@@ -144,14 +136,10 @@ def wake() -> dict:
 	return {"administered": bool(roles.administrators())}
 
 
-#: A balance under this share of the last thirty days' use is running low:
-#: about three days left at the rate the workspace spends.
 LOW = 0.1
 
-#: How close to full storage is before the administrators hear of it.
 NEARLY_FULL = 0.9
 
-#: How many days before credits expire the administrators hear of it.
 EXPIRY_NOTICE = 7
 
 
@@ -162,10 +150,8 @@ def _tell(before, after, gift: dict | None = None) -> None:
 	itself; the two told by date remember the date they were told of."""
 	from onedesk.one import tell
 
-	# Credits One gave by hand are told once each, with the operator's note.
 	given = gift and _once("gift", gift.get("entry") or "")
 	if not before.get("last_heard"):
-		# The first answer is where the workspace starts, not a change.
 		return
 	people = _administrators()
 	if not people:
@@ -236,7 +222,6 @@ def _administrators() -> list[str]:
 	return [one for one in roles.administrators() if one not in NOT_PEOPLE]
 
 
-#: How far back the ledger on Plan and Credits goes.
 LEDGER_DAYS = 90
 
 
@@ -284,11 +269,9 @@ def ledger() -> list[dict] | None:
 		}
 		for one in said.get("days") or []
 	]
-	# Newest first; on one day, what came in above what went out.
 	return sorted(rows, key=lambda one: (one["on"], "came" in one), reverse=True)
 
 
-#: Where every one of those leads.
 PAGE = "/desk/workspace-settings?section=plan"
 
 
@@ -487,7 +470,6 @@ def domains_refresh() -> list:
 	"""
 	roles.require()
 	rows = _after(_domains_ask("domain_refresh") or [])
-	# And the rest of the account, so what the DNS points at is current too.
 	refresh()
 	return rows
 
@@ -537,10 +519,8 @@ def _domains_ask(what: str, **params):
 		frappe.throw(_plainly(refused), title=frappe._("Domains"))
 
 
-#: The page the domain notices open.
 DOMAINS = "/desk/workspace-settings?section=domains"
 
-#: Press's word for a name that works.
 WORKING = "Active"
 
 
@@ -551,7 +531,6 @@ def _tell_domains(before: list, after: list | None, target: str | None, but: str
 		return
 	was = {one.get("domain"): one.get("status") for one in before}
 	if was != {one.get("domain"): one.get("status") for one in after}:
-		# An open Domains page redraws (settings.js).
 		for user in _administrators():
 			frappe.publish_realtime("one_domains", {}, user=user, after_commit=True)
 	people = [one for one in _administrators() if one != but]

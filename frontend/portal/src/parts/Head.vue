@@ -1,7 +1,4 @@
 <template>
-  <!-- A page's head: frappe-ui's PageHeader with its Breadcrumbs, or on a
-       phone PageHeaderMobile with the way back. The page's Badge sits after
-       its name, its buttons at the end. -->
   <PageHeaderMobile v-if="phone">
     <template v-if="up" #prefix>
       <PageHeaderBackButton :fallback-route="up" />
@@ -38,7 +35,6 @@ import { phone } from "../phone";
 
 const props = defineProps({
   title: { type: String, default: "" },
-  // [{ label, route }] before the page's own name.
   crumbs: { type: Array, default: () => [] },
   badge: { type: Object, default: null },
 });

@@ -1,10 +1,4 @@
 <template>
-  <!-- One field of a record, shown as the form shows it read-only, with a
-       pencil (a chevron for a Link or Select) that puts the form's own
-       control for it over the place it is shown. A Check is frappe-ui's
-       Switch, which sets the form's value. Nothing shows while the form hides the field.
-       With `table` and `row`, the field is one of that table row's, as
-       desk's grid shows it. -->
   <div v-if="status && status !== 'None'" class="flex min-w-0 items-center gap-1.5" :class="[start ? 'justify-start' : 'justify-end', { 'w-full': editing }]">
     <Switch v-if="check" :model-value="checked" :disabled="!writable" :aria-label="label" @update:model-value="tick" />
     <div v-else-if="editing" ref="spot" class="w-full min-w-48" />
@@ -29,32 +23,20 @@
 </template>
 
 <script setup>
-// The standard way a page changes one field of a record (docs/STANDARD.md):
-// the record's own desk form, out of sight (the kit's useForm), lends the
-// field's control to the page while it is changed, and takes it back after.
-// A change saves the form as desk saves it; Escape reloads it unchanged.
 import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import { Button, Switch } from "frappe-ui";
 
 import { __ } from "./desk";
 
 const props = defineProps({
-  // useForm's answer for the record.
   form: { type: Object, required: true },
   field: { type: String, required: true },
   label: { type: String, required: true },
-  // What shows while it has no value.
   placeholder: String,
-  // Set at the line's start, as long text is, not its end.
   start: Boolean,
-  // A field of this table row of the form, not of the form itself.
   table: String,
   row: String,
-  // A 0 shows as the placeholder, for a field where 0 means none (a
-  // maximum discount of 0 is no limit).
   blankZero: Boolean,
-  // Lent from the start, and saved by the page, not by a change to it (a
-  // new row whose fields go in together). Escape asks the page to cancel.
   hold: Boolean,
 });
 const emit = defineEmits(["saved", "cancel"]);
@@ -68,7 +50,6 @@ let lent = null;
 let saving = false;
 let stop = null;
 
-// The form, or the table row the field is in.
 const source = computed(() => (props.table ? props.form.row(props.table, props.row) : props.form));
 const status = computed(() => source.value.status(props.field));
 const fieldtype = computed(() => source.value.df(props.field)?.fieldtype);
@@ -90,8 +71,6 @@ async function start() {
   (c?.$input || c?.quill)?.focus?.();
 }
 
-// A change to the field saves the form: a link or date picked, a number
-// typed and left. Long text waits for Save.
 async function save() {
   const frm = props.form.frm.value;
   if (!frm || saving) return;
@@ -127,18 +106,15 @@ function keys(e) {
   }
   if (e.key !== "Enter" || long.value || props.hold) return;
   e.preventDefault();
-  // The input's own change goes into the form first.
   lent?.control?.$input?.trigger("change");
   setTimeout(() => (props.form.frm.value?.is_dirty() ? save() : close()), 50);
 }
 
-// Leaving the field without a change puts it back.
 function left() {
   if (long.value || props.hold || !editing.value || saving) return;
   if (!props.form.frm.value?.is_dirty()) close();
 }
 
-// A switch turned is set through the form, which its scripts hear, then saved.
 async function tick(on) {
   await source.value.set(props.field, on ? 1 : 0);
   save();

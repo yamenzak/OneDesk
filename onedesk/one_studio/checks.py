@@ -10,13 +10,8 @@ import re
 
 from onedesk.one_studio.guard import Refused
 
-#: Lines of code past which an extension is refused as more than one thing.
-#: The longest that passed in the evals was 40; a person asking for one
-#: change gets a short one.
 LONGEST = 120
 
-#: What every record has besides its fields, and what a server extension
-#: calls on `doc` (frappe's Document).
 ON_EVERY_RECORD = frozenset(
 	"""
 	name doctype owner creation modified modified_by docstatus idx parent parentfield parenttype
@@ -27,8 +22,6 @@ ON_EVERY_RECORD = frozenset(
 	""".split()
 )
 
-#: What frappe's form calls on a handler by name, besides a field's change
-#: (frappe/public/js/frappe/form, Oct 2026).
 FORM_EVENTS = frozenset(
 	"""
 	setup before_load onload onload_post_render refresh render_complete validate before_save
@@ -38,7 +31,6 @@ FORM_EVENTS = frozenset(
 	""".split()
 )
 
-#: What a child table's handler is called: `items_add`, `before_items_remove`.
 _TABLE_EVENT = re.compile(r"^(?:before_)?(\w+?)_(?:add|remove|move|delete|on_form_rendered)$")
 
 
@@ -102,7 +94,6 @@ def on_server(code: str, doctype: str | None, fields) -> None:
 			continue
 		func = node.func
 		called = func.attr if isinstance(func, ast.Attribute) else getattr(func, "id", "")
-		# doc.get("x"), doc.set("x", …), doc.append("items", …)
 		if (
 			doctype
 			and isinstance(func, ast.Attribute)
@@ -114,7 +105,6 @@ def on_server(code: str, doctype: str | None, fields) -> None:
 			name = _text(node.args[0])
 			if name:
 				_field(name, doctype, own, f'calls doc.{called}("{name}")')
-		# frappe.get_list("Lead", fields=[…], filters={…}), frappe.db.get_value("Lead", name, "field")
 		if called in ("get_list", "get_all", "get_value", "count", "get_single_value") and node.args:
 			kind = _text(node.args[0])
 			known = fields(kind) if kind else None
@@ -136,10 +126,8 @@ def on_server(code: str, doctype: str | None, fields) -> None:
 				_field(name, kind, known, f"asks {kind} for {name}")
 
 
-#: frappe.ui.form.on("Customer", { … }) and frappe.ui.form.on("Customer", "field", fn)
 _FORM_ON = re.compile(r"""frappe\.ui\.form\.on\(\s*(["'])([^"']+)\1\s*,\s*""")
 
-#: What screen code names a field by, on the record the form shows.
 _SCREEN_FIELD = (
 	(re.compile(r"""\bfrm\.doc\.([A-Za-z_][A-Za-z0-9_]*)"""), "uses frm.doc.{0}"),
 	(re.compile(r"""\bfrm\.fields_dict\.([A-Za-z_][A-Za-z0-9_]*)"""), "uses frm.fields_dict.{0}"),
@@ -153,7 +141,6 @@ _SCREEN_FIELD = (
 	),
 )
 
-#: The same with a list of fields: frm.toggle_display(["a", "b"], …)
 _SCREEN_FIELDS = re.compile(
 	r"""\bfrm\.(?:toggle_display|toggle_reqd|toggle_enable|set_df_property)\(\s*\[([^\]]*)\]"""
 )
@@ -212,9 +199,6 @@ def _object_keys(code: str, start: int) -> list:
 def _handler(key: str, kind: str, known: set | None) -> None:
 	if known is None or key in FORM_EVENTS or key in known:
 		return
-	# items_add is handled on the child's kind (frappe.ui.form.on("Sales
-	# Invoice Item", {items_add})) and named after the parent's table, which
-	# the child cannot say: its shape is enough.
 	if _TABLE_EVENT.match(key):
 		return
 	raise Refused(
@@ -237,7 +221,6 @@ def on_screen(code: str, doctype: str | None, view: str | None, fields) -> None:
 			for key in _object_keys(text, after):
 				_handler(key, kind, known)
 		else:
-			# frappe.ui.form.on("Customer", "territory", fn)
 			named = re.match(r"""(["'])([^"']+)\1""", text[after:])
 			if named:
 				_handler(named.group(2), kind, known)

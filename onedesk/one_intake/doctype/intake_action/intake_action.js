@@ -1,4 +1,3 @@
-// Something OneAI did or proposed: Apply or Dismiss what waits, Undo what was done.
 frappe.ui.form.on("Intake Action", {
 	refresh(frm) {
 		const settle = (take) =>

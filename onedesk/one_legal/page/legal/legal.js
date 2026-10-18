@@ -1,7 +1,3 @@
-// The agreements, to read: the current text of each, or the exact text of a
-// version somebody agreed to (?document=terms&version=1.4ca1a130). Open to
-// everybody signed in, and never behind the agreement dialog, because a person
-// asked to agree to something has to be able to read it first.
 
 frappe.pages["legal"].on_page_load = (wrapper) => {
 	const page = onedesk.shell.page(wrapper, __("Agreements"));
@@ -15,9 +11,6 @@ onedesk.legal.Reader = class Reader {
 		this.page = page;
 	}
 
-	// Drawn as a docview: "Agreements / Privacy Policy" in the breadcrumb,
-	// its version in the pill, the text in the main column, and the other
-	// documents in frappe's form sidebar.
 	async show() {
 		if (!this.catalogue) this.catalogue = await frappe.xcall("onedesk.one_legal.reading.catalogue", {}, "GET");
 		const asked = frappe.utils.get_query_params();
@@ -46,7 +39,6 @@ onedesk.legal.Reader = class Reader {
 				meta: [said.historic ? __("The text as it was agreed to") : __("The current text")],
 			}),
 		});
-		// The breadcrumb names it, as a form's does: the text starts under it.
 		$main.html(`<article class="ol-document">${said.html.replace(/<h1[^>]*>[\s\S]*?<\/h1>/, "")}</article>`);
 	}
 };

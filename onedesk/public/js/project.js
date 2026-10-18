@@ -1,13 +1,4 @@
-// A project's form, under Edit Details on its page (project_page.js): its
-// board, calendar and plan as buttons of their own, Group Under New Project,
-// Save as Template, Invoice Time, Quote Extra Work and Post Update, from
-// project_actions.js.
-// What it says above its fields is its Record Head (one_project/heads.py).
-//
-// Calendar is OneCalendar narrowed to the project. The figures are one_project/overview.py's.
 
-// The money (Customer, Cost, Forecast, Cost Types, Suppliers) is the page's
-// Money and Suppliers views; the form keeps the fields behind them.
 
 frappe.ui.form.on("Project", {
 	refresh(frm) {
@@ -26,15 +17,12 @@ frappe.ui.form.on("Project", {
 			frm.add_custom_button(__("Group Under New Project"), () => onedesk.project.group(frm), __("Actions"));
 		}
 		if (frm.doc.customer && frappe.model.can_create("Sales Invoice")) {
-			// A retainer is invoiced by the month, its hours with it (retainer.py).
 			if (frm.doc.one_kind === "Retainer") {
 				frm.add_custom_button(__("Invoice Month"), () => onedesk.project.invoice_month(frm), __("Actions"));
 			} else {
 				frm.add_custom_button(__("Invoice Time"), () => onedesk.project.invoice_time(frm), __("Actions"));
 			}
 		}
-		// Extra work the customer asks for: a quotation that becomes a sub-project
-		// when it's ordered (one_project/billing.py).
 		if (frm.doc.customer && frappe.model.can_create("Quotation")) {
 			frm.add_custom_button(
 				__("Quote Extra Work"),
@@ -54,8 +42,6 @@ frappe.ui.form.on("Project", {
 		onedesk.project.asked(frm);
 		frappe.realtime.off("one_project_money");
 		frappe.realtime.on("one_project_money", (data) => {
-			// The head's figures come with the record, so an unchanged form is
-			// read again; one being edited keeps its edits.
 			if (cur_frm !== frm || data.project !== frm.doc.name || frm.is_dirty()) return;
 			frm.reload_doc();
 		});
@@ -64,9 +50,6 @@ frappe.ui.form.on("Project", {
 
 frappe.provide("onedesk.project");
 
-// Post Update: the reader's note on how the project is going
-// (one_project/updates.py). Always under Actions; a button of its own, and a
-// line at the top, when today's ask is waiting on the reader.
 onedesk.project.asked = async (frm) => {
 	const waiting = await frappe.xcall("onedesk.one_project.updates.asked", { project: frm.doc.name });
 	if (frm.doc.name !== cur_frm?.doc?.name) return;

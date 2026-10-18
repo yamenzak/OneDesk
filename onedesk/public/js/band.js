@@ -1,22 +1,8 @@
-// The band of answers under a record's title, on every tab. Shared by every
-// Record Head (head.js), the Employee record and a lead's, a deal's and a
-// project's page; the CSS is `.one-band` in desk.css.
-//
-// A number is a metric card: its label over its value, as the desk puts a
-// number on screen, then how it changed, the way frappe's Number Card says it
-// (a round pill with an arrow, then "12% since last year"), and how far it is
-// to a whole, the way frappe-ui's Progress draws it. A chart beside the
-// numbers is frappe's own `frappe.Chart`, as a Dashboard Chart or a report's
-// chart is, in one hue.
 frappe.provide("onedesk.band");
 
-// `extra.note` is a line under the value, as HTML the caller has escaped.
 onedesk.band.stat = (label, value, route, tone, extra = {}) => {
 	const esc = frappe.utils.escape_html;
 	if (extra.steps) return onedesk.band.steps(extra.steps);
-	// A time since is sent as the moment and said here, the way the desk says
-	// every other: "yesterday", "3 days ago".
-	// `short` says it the way the clock does ("5 d").
 	const said = () =>
 		extra.short
 			? $("<div>").html(frappe.datetime.comment_when(extra.when, true)).text()
@@ -32,9 +18,6 @@ onedesk.band.stat = (label, value, route, tone, extra = {}) => {
 	return route ? `<a class="${cls}" href="${route}">${inner}</a>` : `<span class="${cls}">${inner}</span>`;
 };
 
-// Where a record stands, as a track across the band's width, modelled on
-// Shopify's order page: each step done (a tick), the one it is at, late (in
-// red), or still to come, with what it means under its name.
 onedesk.band.steps = (steps) => {
 	const esc = frappe.utils.escape_html;
 	const ICON = { done: "check", now: "dot", late: "alert-circle", next: "dot" };
@@ -53,9 +36,6 @@ onedesk.band.steps = (steps) => {
 	);
 };
 
-// How a number changed against the period before. `better` says which way is
-// good news: more billed is, more owed is not. A number that did not move
-// says nothing, as the Number Card leaves out a stat of nought.
 onedesk.band.delta = (delta) => {
 	if (!delta || delta.change === null || delta.change === undefined || !isFinite(delta.change)) return "";
 	const change = Number(delta.change);
@@ -70,7 +50,6 @@ onedesk.band.delta = (delta) => {
 	);
 };
 
-// A part of a whole: frappe-ui's Progress, medium, as a line under the value.
 onedesk.band.meter = (meter) => {
 	if (!meter || !meter.of) return "";
 	const share = Math.max(0, Math.min(100, (100 * Number(meter.value || 0)) / Number(meter.of)));
@@ -80,21 +59,12 @@ onedesk.band.meter = (meter) => {
 	);
 };
 
-// The band: charts on the left if there are any, numbers on the right.
 onedesk.band.show = (frm, stats, charts = []) => {
 	if (!stats.length && !charts.length) return frm.dashboard.clear_headline();
-	// A band replaces the one before it: set_headline appends.
 	frm.layout.message.children(".form-message:has(.one-band)").remove();
-	// A heat map of named days (a person's quarter) is laid out as it always
-	// was: the months, the numbers beside them, and the key across the foot.
 	const heat = charts.find((chart) => chart.kind === "heat");
 	if (heat) {
 		const drawn = onedesk.band.heat(heat.days);
-		// The legend is a third child rather than part of the chart: seven keys
-		// in a row are wider than four months of squares, so inside the left
-		// column it either shouldered the numbers off the edge or wrapped to
-		// three lines and stretched the band to fit. Across the foot it is one
-		// line with room over.
 		frm.dashboard.set_headline(
 			`<div class="one-band">` +
 				(drawn ? drawn.months : "") +
@@ -116,14 +86,10 @@ onedesk.band.show = (frm, stats, charts = []) => {
 		null,
 		true
 	);
-	// Into the band just drawn, never a copy of an earlier one still leaving.
 	const $band = frm.layout.message.find(".one-band").last();
 	charts.forEach((chart, i) => onedesk.band.chart($band.find(`#one-chart-${key}-${i} .one-chart-body`)[0], chart));
 };
 
-// A chart's panel: what it is and what it adds up to, over the chart. The
-// one figure it is about (this invoice's month) keeps the hue and the rest go
-// grey, which is the whole of the emphasis.
 onedesk.band.panel = (chart, key) => {
 	const esc = frappe.utils.escape_html;
 	const id = `one-chart-${key}`;
@@ -140,8 +106,6 @@ onedesk.band.panel = (chart, key) => {
 	);
 };
 
-// The hue a single series is drawn in: the desk's own blue, the step of it
-// that reads on this theme's surface (checked for contrast on both).
 onedesk.band.hue = () => {
 	const style = getComputedStyle(document.documentElement);
 	const dark = document.documentElement.getAttribute("data-theme") === "dark";
@@ -153,20 +117,14 @@ onedesk.band.chart = (el, chart) => {
 	const said = chart.currency
 		? (value) => format_currency(value, chart.currency, 0)
 		: (value) => format_number(value, null, Number.isInteger(value) ? 0 : 1);
-	// Thousands shortened as frappe's dashboards shorten them; a count under a
-	// thousand as the whole number it is, not "200.00".
 	const axis = (value) =>
 		Math.abs(value) >= 1000 ? frappe.utils.format_chart_axis_number(value) : String(Math.round(value * 10) / 10);
 	const options = {
 		type: chart.kind,
 		height: 132,
-		// No entry animation: a band drawn again mid-animation kept its bars
-		// at nought, and a figure that grows in is decoration.
 		animate: 0,
 		disableEntryAnimation: 1,
 		showLegend: 0,
-		// Copies: frappe-charts works on the arrays it is given in place, and a
-		// band drawn again from the same head would have drawn noughts.
 		data: { labels: [...chart.labels], datasets: [{ name: chart.label, values: [...chart.values] }] },
 		colors: [onedesk.band.hue()],
 		axisOptions: {
@@ -180,14 +138,10 @@ onedesk.band.chart = (el, chart) => {
 		lineOptions: { regionFill: 1, hideDots: chart.values.length > 12 ? 1 : 0, dotSize: 4 },
 		tooltipOptions: { formatTooltipY: said },
 	};
-	// frappe's own: more than ten labels get less room each.
 	frappe.utils.set_space_label_ratio(options);
 	return new frappe.Chart(el, options);
 };
 
-//: What a square can mean, in the order the legend reads them. Five are
-//: Attendance's own statuses; late is its two flags on an otherwise present
-//: day, and holiday is the list rather than the record.
 onedesk.band.MARKS = () => ({
 	present: __("Present"),
 	wfh: __("From home"),
@@ -198,12 +152,6 @@ onedesk.band.MARKS = () => ({
 	holiday: __("Holiday"),
 });
 
-// `frappe.Chart` ships a heatmap and it is the wrong instrument: it ramps a
-// *count* through five shades of one hue and labels the scale Less→More, where
-// a day here is one of seven named states and absent is not more than present.
-// So the geometry is frappe-charts' to the pixel — a ten pixel square, a two
-// pixel gutter, a three pixel radius, a month to a block, the month's name
-// above it — and only what the colours mean is ours.
 onedesk.band.heat = (days) => {
 	if (!days || !days.length) return "";
 
@@ -214,9 +162,6 @@ onedesk.band.heat = (days) => {
 	days.forEach((day, i) => {
 		const month = moment(day.date);
 		if (!months.length || month.date() === 1) {
-			// The server hands back one run that starts on a week boundary, so a
-			// day's row is its place in that run: no weekday arithmetic here, and
-			// a month opens with blanks down to the weekday it starts on.
 			months.push({ name: month.format("MMM"), cells: new Array(i % 7).fill("") });
 		}
 		seen.add(day.mark);
@@ -248,7 +193,6 @@ onedesk.band.square = (day, marks) => {
 		: `<span class="${cls}" title="${said}"></span>`;
 };
 
-// Everything the day knows, in the order somebody would say it out loud.
 onedesk.band.said = (day, marks) => {
 	const said = [frappe.datetime.str_to_user(day.date), marks[day.mark] || __("Not marked")];
 	if (day.holiday) said.push(day.holiday);

@@ -1,15 +1,7 @@
-// A record's head: the pill, the sentence, the band of numbers and charts, and the verbs
-// above its fields, drawn from what the server worked out as the reader
-// (one/head.py, `__onload.one_head`). One renderer for every doctype with a
-// Record Head; nothing here knows any of them. docs/SHELL.md, decision 4.
-// Below them, its linked sections: fields of a record it links to, edited in
-// frappe's own controls and saved with it (one/linked.py, decision 5).
 frappe.provide("onedesk.head");
 
 frappe.ui.form.on("*", {
 	setup(frm) {
-		// ERPNext's own refresh, which runs after ours, makes Create the primary
-		// group. While a primary verb is on the page it is the one dark button.
 		const primary = frm.page.set_inner_btn_group_as_primary.bind(frm.page);
 		frm.page.set_inner_btn_group_as_primary = (label) =>
 			frm.one_primary_verb && frm.custom_buttons[frm.one_primary_verb] ? null : primary(label);
@@ -20,9 +12,6 @@ frappe.ui.form.on("*", {
 		onedesk.head.draw(frm);
 		onedesk.head.extended(frm);
 		onedesk.head.linked(frm);
-		// A workspace administrator sees the form's custom fields from its own
-		// menu (OneStudio's Custom Fields). Frappe's own Customize is its
-		// System Managers'.
 		if (!frm.meta.istable && !frm.meta.issingle && frappe.user.has_role("Workspace Administrator")) {
 			frm.page.add_menu_item(
 				__("Custom Fields"),
@@ -30,18 +19,12 @@ frappe.ui.form.on("*", {
 				true,
 			);
 		}
-		// And frappe's Settings dialog for the doctype, which frappe offers only to its
-		// System Managers (public/js/doctype_settings.js).
 		if (onedesk.doctype_settings.offered(frm.meta)) {
 			frm.page.add_menu_item(__("Settings"), () => onedesk.doctype_settings.open(frm.doctype), true);
 		}
 	},
 });
 
-// The workspace's extensions on a record's head (one_studio/places.py), told
-// the record is drawn with a copy of its fields, and lent a verb beside the
-// head's own, a figure in its band, and a note under it. Only a saved record
-// with a head, and only extensions written for its kind of record.
 onedesk.head.extended = (frm) => {
 	if (frm.is_new() || !frm.one_headed || !onedesk.places) return;
 	const head = (frm.doc.__onload && frm.doc.__onload.one_head) || {};
@@ -61,7 +44,6 @@ onedesk.head.extended = (frm) => {
 		frm.doctype
 	);
 	if (!figures.length) return;
-	// Its figures join the head's own in one band, after them.
 	onedesk.band.show(
 		frm,
 		[...(head.band || []), ...figures].map((one) => onedesk.band.stat(one.label, one.value, one.route, one.tone, one)),
@@ -71,36 +53,22 @@ onedesk.head.extended = (frm) => {
 
 onedesk.head.draw = (frm, drawn = null) => {
 	frm.one_primary_verb = null;
-	// A head that redraws as the form changes draws a new record from the form
-	// as it stands; any other has nothing to say before the record is saved.
 	if (!drawn && frm.is_new()) return onedesk.head.live(frm) && onedesk.head.preview(frm);
 	const head = drawn || (frm.doc.__onload && frm.doc.__onload.one_head);
-	// A form without a head is left as its own script drew it.
 	if (!head && !frm.one_headed) return;
 	frm.one_headed = !!head;
-	// Only what this drew before goes: the message area is shared.
 	frm.layout.message.children(".form-message:has(.one-head-sentence, .one-band), .one-record-changed").remove();
 	if (!head) return;
 	if (head.indicator) frm.page.set_indicator(head.indicator.label, head.indicator.colour);
 	if (head.sentence) {
-		// The framework writes "Submit this document to confirm" from
-		// `show_submit_message`, after the refresh and stacking rather than
-		// replacing. The sentence is that sentence with the answer in it, so it
-		// goes after, in its place: frappe's own headline alert. Permanent,
-		// with no close: it is where the record stands, not a message to
-		// dismiss, and it is drawn again on every refresh anyway.
 		const said = head.sentence;
 		setTimeout(() => {
-			// Only that: a form's intro (OneAI's "Made by OneAI", intake.js) stays.
 			frm.layout.message.children(".form-message:not(:has(.one-band))").not(frm.$intro_message || []).remove();
-			// frappe's alert has no gray and draws one it does not know as blue;
-			// a quiet sentence goes as its plain one, coloured gray in desk.css.
 			frm.dashboard.set_headline_alert(
 				`<span class="one-head-sentence">${frappe.utils.escape_html(said.text)}</span>`,
 				said.colour === "gray" ? "white" : said.colour,
 				true,
 			);
-			// The news first, then the numbers.
 			frm.layout.message.children(".form-message:has(.one-head-sentence)").prependTo(frm.layout.message);
 		}, 0);
 	}
@@ -120,8 +88,6 @@ onedesk.head.draw = (frm, drawn = null) => {
 	}
 };
 
-// A verb asks what it needs in frappe's own dialog, then the server does it,
-// checking again that it still can be done.
 onedesk.head.act = (frm, verb) => {
 	const go = (values) =>
 		frappe
@@ -145,10 +111,6 @@ onedesk.head.act = (frm, verb) => {
 	dialog.show();
 };
 
-// ------------------------------------------------------------------ linked sections
-
-// The sections go into the form's layout where frappe builds it, each a
-// section of frappe's own controls, read-only until the record is loaded.
 (() => {
 	const Layout = frappe.ui.form.Layout;
 	const fields_of = Layout.prototype.get_doctype_fields;
@@ -160,8 +122,6 @@ onedesk.head.act = (frm, verb) => {
 		});
 		return fields;
 	};
-	// And into the record's own copy of its fields, where frappe looks a
-	// field up by name (the grid, set_df_property), as a custom field is.
 	const copy_for = frappe.meta.make_docfield_copy_for;
 	frappe.meta.make_docfield_copy_for = function (doctype, docname, docfield_list = null) {
 		copy_for.call(this, doctype, docname, docfield_list);
@@ -171,19 +131,13 @@ onedesk.head.act = (frm, verb) => {
 	};
 })();
 
-// ------------------------------------------------------------------ redrawn as the form changes
-
 onedesk.head.live = (frm) => (frappe.boot.one_heads_live || {})[frm.doctype];
 
-// The head of the record as it stands in the form, unsaved (one/head.py,
-// `preview`): a new record's, or a draft's once a field it reads changes.
 onedesk.head.preview = frappe.utils.debounce(async (frm) => {
 	const said = await frappe.xcall("onedesk.one.head.preview", { doc: frm.doc });
 	if (said && frm === cur_frm) onedesk.head.draw(frm, said);
 }, 300);
 
-// The fields a live head reads: a change to one, or to any row of a table
-// among them, redraws it.
 onedesk.head.watched = new Set();
 onedesk.head.watch = (doctype) => {
 	const live = (frappe.boot.one_heads_live || {})[doctype];
@@ -191,7 +145,6 @@ onedesk.head.watch = (doctype) => {
 	onedesk.head.watched.add(doctype);
 	const redraw = (frm) => frm && frm.doctype === doctype && frm.doc.docstatus === 0 && onedesk.head.preview(frm);
 	frappe.model.on(doctype, "*", (fieldname) => live.fields.includes(fieldname) && redraw(cur_frm));
-	// A row removed is an event on the row's doctype, not the record's.
 	for (const [table, child] of Object.entries(live.tables)) {
 		frappe.model.on(child, "*", () => redraw(cur_frm));
 		frappe.ui.form.on(child, { [`${table}_remove`]: redraw });
@@ -200,23 +153,18 @@ onedesk.head.watch = (doctype) => {
 
 onedesk.head.sections = (doctype) => (frappe.boot.one_linked || {})[doctype] || [];
 
-// Each section as the fields frappe draws: a section break, then the linked
-// record's fields under names of their own.
 onedesk.head.drawn = (doctype) =>
 	onedesk.head.sections(doctype).map((section) => [
 		{ fieldtype: "Section Break", fieldname: `one_linked__${section.link_field}`, label: section.label, parent: doctype },
 		...section.layout.map((df) => ({ ...df, read_only: 1, allow_on_submit: 1, parent: doctype })),
 	]);
 
-// At the end of the tab its field is in, which is before the next tab, or of
-// the first tab when it names none.
 onedesk.head.place = (fields, placed_in) => {
 	const at = Math.max(placed_in ? fields.findIndex((df) => df.fieldname === placed_in) : 0, 0);
 	const next = fields.findIndex((df, i) => i > at && df.fieldtype === "Tab Break");
 	return next < 0 ? fields.length : next;
 };
 
-// Changing the link redraws its section.
 onedesk.head.listened = new Set();
 onedesk.head.listen = (doctype) => {
 	if (onedesk.head.listened.has(doctype)) return;
@@ -226,9 +174,6 @@ onedesk.head.listen = (doctype) => {
 	if (Object.keys(events).length) frappe.ui.form.on(doctype, events);
 };
 
-// What changed goes with the record however it is saved: frappe's one save
-// runs for Save, Submit and Update alike, where no client event does (Update
-// runs no validate), and an edit in a child table fires none of ours.
 (() => {
 	const saving = frappe.ui.form.save;
 	frappe.ui.form.save = function (frm, ...rest) {
@@ -237,15 +182,12 @@ onedesk.head.listen = (doctype) => {
 	};
 })();
 
-// The fields a child row holds a value in, as the server reads them.
 onedesk.head.columns = (doctype) =>
 	frappe.meta
 		.get_docfields(doctype)
 		.filter((df) => !frappe.model.no_value_type.includes(df.fieldtype))
 		.map((df) => df.fieldname);
 
-// A table as it is sent: each row's values, and the name it has on the linked
-// record, which a row added here has not.
 onedesk.head.rows = (rows, doctype, own = (row) => row.__one_name) => {
 	const columns = onedesk.head.columns(doctype);
 	return (rows || []).map((row) => {
@@ -255,16 +197,11 @@ onedesk.head.rows = (rows, doctype, own = (row) => row.__one_name) => {
 	});
 };
 
-// Two tables are the same when their rows say the same, whatever null, empty
-// or a number as text each side wrote.
 onedesk.head.same = (a, b) => {
 	const plain = (key, value) => (value === null || value === undefined ? "" : typeof value === "number" ? String(value) : value);
 	return JSON.stringify(a, plain) === JSON.stringify(b, plain);
 };
 
-// Fill each section from the record as loaded, and say who may change what.
-// A section shows only while the record links where it did when it loaded:
-// its fields belong to that record, not to one just picked.
 onedesk.head.linked = (frm) => {
 	const sections = onedesk.head.sections(frm.doctype);
 	if (!sections.length) return;
@@ -284,7 +221,6 @@ onedesk.head.linked = (frm) => {
 			field.df.read_only = seen && !one.locked.includes(df.one_linked) ? 0 : 1;
 			field.refresh();
 		}
-		// The section and the breaks that lay it out as the linked form does.
 		for (const name of [`one_linked__${section.link_field}`, ...section.layout.filter((df) => !df.one_linked).map((df) => df.fieldname)]) {
 			const part = frm.fields_dict[name];
 			if (!part) continue;
@@ -296,9 +232,6 @@ onedesk.head.linked = (frm) => {
 	onedesk.head.collect(frm);
 };
 
-// A linked value as the form holds it. A child table's rows are copies under
-// names of their own, so the linked record's own form, if it is open, keeps
-// its rows; each remembers the name it has there.
 onedesk.head.fill = (frm, df, value) => {
 	if (df.fieldtype !== "Table" && df.fieldtype !== "Table MultiSelect") return value;
 	return (value || []).map((row, i) => {
@@ -318,9 +251,6 @@ onedesk.head.fill = (frm, df, value) => {
 	});
 };
 
-// What the form sends with its own record: each linked record's changed
-// values and the `modified` they were loaded at, or nothing. A table goes
-// whole, as its form would send it.
 onedesk.head.collect = (frm) => {
 	const loaded = frm.one_linked_loaded || {};
 	const sent = {};
@@ -345,20 +275,15 @@ onedesk.head.collect = (frm) => {
 	else delete frm.doc.__one_linked;
 };
 
-// A linked record somebody else saved: as frappe does for the record itself,
-// reload when nothing here is unsaved, and say so when something is.
 onedesk.head.heard = new Set();
 onedesk.head.hear = async (doctype, name) => {
 	const key = `${doctype}:${name}`;
 	if (onedesk.head.heard.has(key)) return;
 	onedesk.head.heard.add(key);
-	// Heard from the first subscription on: when this script loads, frappe's
-	// socket is not there yet to listen on.
 	if (!onedesk.head.listening) {
 		onedesk.head.listening = true;
 		frappe.realtime.on("doc_update", onedesk.head.updated);
 	}
-	// frappe lets one subscription through a second; wait our turn.
 	while (frappe.flags.doc_subscribe) await new Promise((done) => setTimeout(done, 250));
 	frappe.realtime.doc_subscribe(doctype, name);
 };
@@ -375,9 +300,6 @@ onedesk.head.updated = (data) => {
 	);
 };
 
-// Somebody else saved the record, or a record it links to, while this form
-// has unsaved changes: frappe-ui's row alert at the top of the form, the way
-// the shell's pages say it, with Refresh.
 onedesk.head.warn = (frm, title) => {
 	frm.layout.message.children(".one-record-changed").remove();
 	const $block = $(`<div class="form-message one-record-changed"></div>`).append(
@@ -386,8 +308,6 @@ onedesk.head.warn = (frm, title) => {
 	frm.layout.message.removeClass("hidden").prepend($block);
 };
 
-// Frappe's own warning for the record itself, drawn the same way rather than
-// as a bootstrap button in a message. What it decides is frappe's.
 frappe.ui.form.Form.prototype.show_conflict_message = function () {
 	if (!this.doc.__needs_refresh) return;
 	if (!this.doc.__unsaved) return this.debounced_reload_doc();

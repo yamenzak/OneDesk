@@ -110,8 +110,6 @@ def test_a_project_is_its_members():
 
 
 def test_a_member_is_told_in_ours_not_erpnexts_mail():
-	# ERPNext's English invitation is never sent, with mail or without; the
-	# member hears Added to Project through the hub (tell.py).
 	assert '"onedesk.one_project.members.invite",\n\t\t\t"onedesk.one_project.members.unlist",' in HOOKS
 	tell = (PROJECT / "tell.py").read_text()
 	assert 'notify.notify("Added to Project"' in tell and 'notify.notify("Made Project Manager"' in tell
@@ -165,12 +163,10 @@ def test_the_tree_view_puts_each_project_under_its_parent():
 		{"name": "H", "project_name": "Handrails", "one_parent": "V"},
 		{"name": "S", "project_name": "Secret", "one_parent": "X"},
 	]
-	# A project whose parent the reader can't see is at the top.
 	assert [(one["value"], one["expandable"]) for one in under(rows, None)] == [("S", False), ("V", True)]
 	assert [one["title"] for one in under(rows, "V")] == ["Handrails", "Windows"]
 	assert [one["value"] for one in under(rows, "H")] == ["G"]
 	assert yes(True) and yes("true") and yes("1") and not yes("0") and not yes(None)
-	# frappe's own Tree and Gantt views, from the Projects list's switcher.
 	assert (
 		'"Project": "public/js/project_tree.js"' in HOOKS
 		and '"Project": "public/js/project_calendar.js"' in HOOKS
@@ -215,18 +211,13 @@ def test_the_overview_counts_days_and_work():
 def test_the_overview_is_the_whole_tree_and_its_chart_is_the_bands():
 	source = (PROJECT / "overview.py").read_text()
 	assert "tree.scope(project)" in source and "members.sees(one, user)" in source
-	# What the page says above its fields is its Record Head, over the overview.
 	heads = (PROJECT / "heads.py").read_text()
 	assert "overview.overview(name)" in heads and '"doctype": "Project"' in heads
 	assert '"charts": [{"chart": "project.hours"}]' in heads
 	page = "".join(
 		(tree.APP / "public" / "js" / name).read_text() for name in ("project.js", "project_actions.js")
 	)
-	# The band is the Record Head's; the page only borrows its figures for
-	# the Costing tab.
 	assert "onedesk.band.show" not in page
-	# The hours are the reader's own list of timesheets, and the chart is the
-	# band's (frappe.Chart in band.js), never one drawn here.
 	weekly = source.split("def _weekly(", 1)[1]
 	assert 'frappe.get_list(\n\t\t"Timesheet Detail"' in weekly and "frappe.get_all" not in weekly
 	assert "frappe.Chart" not in page
@@ -293,8 +284,6 @@ def test_a_template_counts_days_from_the_projects_start():
 
 
 def test_a_template_is_the_whole_teams_and_keeps_what_erpnext_drops():
-	# What a template hands on, and who reads it, is checked on the demo
-	# (oneproject_a_template_hands_on_what_erpnext_leaves_out).
 	assert '"onedesk.one_project.templates.task_made"' in HOOKS.split('"Task": {', 1)[1].split("},", 1)[0]
 	assert "after_rollback.add(_forget)" in (PROJECT / "naming.py").read_text()
 	page = "".join(
@@ -302,7 +291,6 @@ def test_a_template_is_the_whole_teams_and_keeps_what_erpnext_drops():
 	)
 	assert "onedesk.one_project.templates.save_as" in page
 	assert '"Project Template": "public/js/project_template.js"' in HOOKS
-	# Tasks are OneTask's rail's, which leaves a template's tasks out.
 	rail = TASK / "sidebar" / "onetask" / "onetask.json"
 	tasks = next(i for i in json.loads(rail.read_text())["items"] if i.get("label") == "Task")
 	assert "is_template" in tasks["filters"], rail.name
@@ -328,8 +316,6 @@ def test_time_is_invoiced_by_activity():
 
 
 def test_time_billed_is_its_lines_to_the_cent():
-	# Hours at a rate turned into another currency: each row rounds apart,
-	# and the last row of a line takes what is left, so they add up to it.
 	space = _load(PROJECT / "billing.py", ("lines",), flt=_flt)
 	rate = 180 * 0.2723
 	rows = [
@@ -340,7 +326,6 @@ def test_time_billed_is_its_lines_to_the_cent():
 	assert len(lines) == 1
 	assert round(sum(row["billing_amount"] for row in rows), 2) == lines[0]["amount"]
 	assert lines[0]["amount"] == round(round(1.33 + 2.17 + 0.75 + 3.1, 2) * lines[0]["rate"], 2)
-	# A different rate for the same activity is a line of its own.
 	rows.append({"activity_type": "Design", "billing_hours": 1, "billing_amount": 200})
 	assert [one["rate"] for one in space["lines"](rows)] == [lines[0]["rate"], 200]
 
@@ -364,8 +349,6 @@ def test_an_order_for_extra_work_is_named_by_what_it_orders():
 def test_an_order_under_a_project_becomes_its_sub_project():
 	orders = HOOKS.split('"Sales Order": {', 1)[1].split("},", 1)[0]
 	assert '"onedesk.one_project.billing.ordered"' in orders
-	# The project and the Extra Work tick, by the same names on both, so the
-	# mapping carries them from quotation to order.
 	quote = json.loads((PROJECT / "custom" / "quotation.json").read_text())
 	assert [f["fieldname"] for f in quote["custom_fields"]] == ["project", "one_extra_work"]
 	order_ = json.loads((PROJECT / "custom" / "sales_order.json").read_text())
@@ -500,7 +483,6 @@ def test_what_the_old_oneproject_had_that_is_kept():
 	assert "doc.one_health" in (PROJECT / "heads.py").read_text(), "health leads the band"
 	rail = json.loads((PROJECT / "sidebar" / "oneproject" / "oneproject.json").read_text())
 	items = {item["label"]: item for item in rail["items"]}
-	# Somebody's first week is not client work: left out quietly in every view.
 	assert "filters" not in items["Project"]
 	assert '"project_type", "!=", "Employee Boarding"' in (tree.APP / "public" / "js" / "project_list.js").read_text()
 	lifecycle = (tree.APP / "one_hr" / "lifecycle.py").read_text()
@@ -515,7 +497,6 @@ def test_the_projects_list_says_status_and_names_the_manager():
 	assert 'Open: "blue", "On hold": "orange", Completed: "green"' in js, (
 		"Open is not red, and a share is not a status"
 	)
-	# Customer is a column; it filters under Filters, not in the quick filters.
 	user = json.loads((tree.APP / "one" / "custom" / "user.json").read_text())
 	assert any(
 		row["property"] == "show_title_field_in_link" and row["value"] == "1"
@@ -547,22 +528,16 @@ def test_a_projects_page_puts_its_dates_and_members_on_details():
 		< order.index("costing_tab")
 	)
 	assert said[("Project", "section_break_18", "collapsible")] == "0"
-	# Users keeps ERPNext's label (tests/guards/test_erpnext_names.py).
 	assert ("Project", "users", "label") not in said and said[("Project", "users", "description")] == ""
 	assert said[("Project User", "view_attachments", "in_list_view")] == "0"
-	# One asks in its own words when the project has none (updates.py).
 	assert said[("Project", "subject", "mandatory_depends_on")] == ""
 	assert said[("Project", "message", "mandatory_depends_on")] == ""
 	assert ("Project", "total_costing_amount", "label") not in said, "ERPNext's label"
-	# Hourly is not offered, so it is not where a project starts, and the
-	# projects that said it say Weekly (patches/no_hourly_asks.py).
 	assert (
 		"Hourly" not in said[("Project", "frequency", "options")]
 		and said[("Project", "frequency", "default")] == "Weekly"
 	)
 	assert "onedesk.one_project.patches.no_hourly_asks" in (tree.APP / "patches.txt").read_text()
-	# Our fields carry no notes; the README says what they are. An empty note
-	# is written out, since frappe's sync leaves a missing one as it was.
 	assert all(
 		one.get("description") == "" for one in custom["custom_fields"] if one["fieldname"].startswith("one_")
 	)
@@ -615,14 +590,12 @@ def test_updates_keep_their_health_and_lines_and_say_when_the_team_is_asked():
 		and '"asking": asking.asking(doc.as_dict())' in view_py
 	)
 	panel = (tree.ROOT / "frontend" / "src" / "project" / "Updates.vue").read_text()
-	# Health is set in the head; the line shows it, read-only.
 	assert ':colors="HEALTH" :label="__(\'Health\')" readonly' in panel and "setValue" not in panel
 	assert 'listen("one_project_update"' in panel and 'listen("one_project_draft"' in panel
 	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
 	assert 'label: __("Post Update"), onClick: writeUpdate' in page and "desk().project.ask_updates(" in page
 	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
 	assert 'frappe.xcall("frappe.client.save", { doc: { ...doc, ...values } })' in actions
-	# OneAI drafts; nothing is posted until the reader posts it.
 	ai = (PROJECT / "ai.py").read_text()
 	assert '"expects": "draft_update"' in ai and 'proposals.propose("Update", "Project"' in ai
 	assert '"onedesk.one_project.ai.draft_update",' in HOOKS
@@ -636,11 +609,9 @@ def test_oneai_reminds_a_customer_and_adds_people_only_on_approval():
 	for tool in ("remind_customer", "add_member", "add_contact"):
 		assert f'"onedesk.one_project.ai.{tool}",' in HOOKS
 	assert 'proposals.propose(\n\t\t\t"Mail",' in ai
-	# Its facts carry the invoices past their date and what is due to each subcontractor.
 	assert '"invoices": _invoices(project),' in ai
 	for key in ('"to_pay"', '"overdue"', '"late"', '"due"'):
 		assert key in ai.split("def _money", 1)[1].split("def ", 1)[0]
-	# A mail is opened to send, never sent; a member or contact is added by the Team view's own code.
 	proposals = (tree.APP / "one_ai" / "proposals.py").read_text()
 	mail = proposals.split('if entry.kind == "Mail":', 1)[1].split("\n\n", 1)[0]
 	assert '"email"' in mail and "sendmail" not in mail and "make(" not in mail
@@ -653,7 +624,6 @@ def test_oneai_reminds_a_customer_and_adds_people_only_on_approval():
 def test_workload_reads_true_follows_and_is_asked_about():
 	report = (PROJECT / "report" / "workload")
 	source = (report / "workload.py").read_text()
-	# Hours to a tenth through frappe's format, and only the projects the reader may open.
 	assert '"precision": 1' in source.split("def hours", 1)[1] and "frappe.format(" in source
 	assert 'frappe.get_list("Project"' in source.split("def team", 1)[1].split("def ", 1)[0]
 	script = (report / "workload.js").read_text()
@@ -712,18 +682,15 @@ def test_every_money_document_names_its_project_once():
 		def set(self, key, value):
 			self[key] = value
 
-	# A line with no project takes the document's.
 	doc = Doc("Purchase Order", "P1", [{"project": None}, {"project": "P2"}])
 	agree(doc)
 	assert [row["project"] for row in doc["items"]] == ["P1", "P2"]
-	# A document with none takes its lines' when they agree, and not otherwise.
 	doc = Doc("Sales Invoice", None, [{"project": "P1"}, {"project": "P1"}, {"project": None}])
 	agree(doc)
 	assert doc["project"] == "P1" and doc["items"][2]["project"] == "P1"
 	doc = Doc("Sales Invoice", None, [{"project": "P1"}, {"project": "P2"}])
 	agree(doc)
 	assert doc["project"] is None
-	# A request for quotation's lines call it project_name.
 	doc = Doc("Request for Quotation", "P1", [{"project_name": None}])
 	agree(doc)
 	assert doc["items"][0]["project_name"] == "P1"
@@ -749,11 +716,8 @@ def test_the_forecast_is_never_under_the_budget_and_counts_open_orders():
 	flt = lambda value=0, *args: float(value or 0)  # noqa: E731
 	space = _load(PROJECT / "money.py", ("forecast", "unbilled"), flt=flt)
 	forecast, unbilled = space["forecast"], space["unbilled"]
-	# Spending under budget: the budget is the forecast.
 	assert forecast(50_000, 10_000, 5_000, 40_000) == {"cost": 40_000, "margin": 10_000}
-	# An order that takes spending past the budget shows the day it's placed.
 	assert forecast(50_000, 10_000, 45_000, 40_000) == {"cost": 55_000, "margin": -5_000}
-	# What a supplier still has to bill, in the company's currency.
 	rows = [
 		_Row(amount=1000, billed_amt=400, base_net_amount=3670),
 		_Row(amount=500, billed_amt=600, base_net_amount=500),
@@ -765,13 +729,10 @@ def test_the_forecast_is_never_under_the_budget_and_counts_open_orders():
 def test_the_forecast_is_per_cost_type_and_none_without_a_budget():
 	flt = lambda value=0, *args: float(value or 0)  # noqa: E731
 	forecast = _load(PROJECT / "money.py", ("forecast",), flt=flt)["forecast"]
-	# Villa Al Barsha: Cost of Goods Sold 10,000 over with its order; the rest
-	# of the budget under. The totals alone would hide it.
 	types = [{"budget": 100_000, "spent": 32_000, "committed": 78_000}]
 	rest = {"budget": 40_500, "spent": 32_785, "committed": 0}
 	assert forecast(375_000, 64_785, 78_000, 140_500) == {"cost": 142_785, "margin": 232_215}
 	assert forecast(375_000, 64_785, 78_000, 140_500, types, rest) == {"cost": 150_500, "margin": 224_500}
-	# No budget, nothing to forecast against.
 	assert forecast(39_000, 0, 0, 0) == {"cost": None, "margin": None}
 	vue = (tree.ROOT / "frontend" / "src" / "project" / "Money.vue").read_text()
 	assert ".filter((one) => one.value)" in vue and "__('So Far')" in vue
@@ -780,14 +741,12 @@ def test_the_forecast_is_per_cost_type_and_none_without_a_budget():
 def test_paid_is_read_from_the_invoices_however_they_were_paid():
 	flt = lambda value=0, *args: float(value or 0)  # noqa: E731
 	paid_share = _load(PROJECT / "money.py", ("paid_share",), flt=flt)["paid_share"]
-	# Half of a 1,000 invoice is the project's; 1,050 with tax, 50 still owed.
 	invoices = [
 		_Row(name="A", base_net_total=1000, base_grand_total=1050, outstanding_amount=50, conversion_rate=1)
 	]
 	assert paid_share(invoices, {"A": 500}) == 500.0
 	money = (PROJECT / "money.py").read_text()
 	assert "pe.unallocated_amount > 0" in money and "advance_paid" in money
-	# Journal entries on the project's expense accounts are its cost.
 	assert '(gl.voucher_type == "Journal Entry")' in money and '(account.root_type == "Expense")' in money
 	chain = (PROJECT / "chain.py").read_text()
 	assert "def paid_for(" in chain and '"onedesk.one_project.chain.paid_for"' in HOOKS
@@ -840,7 +799,6 @@ def test_subcontracts_are_cards_goods_are_bought_and_bills_are_listed():
 
 	flt = lambda value=0, *args: float(value or 0)  # noqa: E731
 	space = _load(PROJECT / "money.py", ("subcontract", "next_due"), flt=flt, LUMP_SUM="Lump Sum")
-	# A Lump Sum, or anything not kept in stock, is a package of work.
 	assert "LUMP_SUM" in (PROJECT / "money.py").read_text()
 	subcontract = space["subcontract"]
 	stock = {"Handrail Bracket"}
@@ -849,7 +807,6 @@ def test_subcontracts_are_cards_goods_are_bought_and_bills_are_listed():
 	assert subcontract(brackets, stock) is False and subcontract(glazing, stock) is True
 	next_due = space["next_due"]
 	term = lambda due, amount, held=False: {"due_date": due, "amount": amount, "held": held}  # noqa: E731
-	# Paid the first part, the second still coming; retention never counts.
 	terms = [term("2026-09-01", 1000), term("2026-11-01", 1000), term("2027-09-01", 200, True)]
 	assert next_due(terms, 1200, "2026-10-06") == "2026-11-01"
 	assert next_due(terms, 200, "2026-10-06") is None
@@ -881,15 +838,11 @@ def test_costing_shows_both_sides_and_opens_what_is_behind_each_figure():
 	money = (PROJECT / "money.py").read_text()
 	for label in ('_("Quoted")', '_("Delivered")', '_("Invoiced")', '_("Received")', '_("Stock Used")'):
 		assert label in money
-	# Every figure is submitted documents, read for the reader only if they may.
 	assert '"docstatus": 1' in money and "_sees(" in money
-	# A submit or cancel anywhere redraws the open project and those above it.
 	assert HOOKS.count('"onedesk.one_project.money.moved"') == 2
 	assert "tree.above(" in money and "after_commit=True" in money
 	layout = json.loads((PROJECT / "custom" / "project.json").read_text())
 	fields = {f["fieldname"]: f for f in layout["custom_fields"]}
-	# The money is the page's Money and Suppliers views; the form's HTML
-	# sections that drew it are gone, from the layout and from every site.
 	gone = {"one_customer", "one_cost", "one_forecast", "one_suppliers", "one_budget"}
 	assert not gone & set(fields)
 	patch = (PROJECT / "patches" / "costing_on_the_page.py").read_text()
@@ -920,15 +873,10 @@ def test_progress_bills_the_share_done_and_holds_retention_on_the_work():
 	space = _load(PROJECT / "progress.py", ("to_bill", "billed_share", "split"), flt=flt)
 	to_bill, billed_share, split = space["to_bill"], space["billed_share"], space["split"]
 	still_held = _load(PROJECT / "retention.py", ("still_held",), flt=flt)["still_held"]
-	# 40% of one Lump Sum, nothing billed: 0.4. At 70% with 0.4 billed: 0.3.
 	assert to_bill(1, 0, 40) == 0.4 and round(to_bill(1, 0.4, 70), 6) == 0.3
-	# Never a credit for going backwards.
 	assert to_bill(1, 0.4, 30) == 0
 	assert billed_share([_Row(amount=80000, billed_amt=32000), _Row(amount=20000, billed_amt=0)]) == 32.0
-	# Retention is the share of the work billed, whatever advance is set off:
-	# 32,000 billed, 8,000 advance, 10% held.
 	assert split(24000, 32000, 10) == (20800, 3200)
-	# Retention is paid last: what's held is never more than what's owed.
 	assert still_held([("2027-03-31", 3200)], 24000) == [("2027-03-31", 3200)]
 	assert still_held([("2027-03-31", 3200)], 1000) == [("2027-03-31", 1000)]
 	assert still_held([("2027-03-31", 3200)], 0) == []
@@ -961,8 +909,6 @@ def test_the_customers_contract_is_billed_the_same_way():
 		}
 		assert fields["one_retention"]["allow_on_submit"] == 1
 		assert fields["one_retention_due"]["allow_on_submit"] == 1
-	# A new date moves the retention on both sides' invoices, and both sides'
-	# invoices hold the share of the work.
 	assert HOOKS.count('"onedesk.one_project.progress.release"') == 2
 	assert HOOKS.count('"onedesk.one_project.progress.retained"') == 2
 	money = (PROJECT / "money.py").read_text()
@@ -974,7 +920,6 @@ def test_a_cost_type_is_erpnexts_own_budget_on_the_project():
 	left = _load(PROJECT / "budget.py", ("left",), flt=flt)["left"]
 	assert left(100000, 48000, 32000) == 20000 and left(100000, 78000, 32000) == -10000
 	budget = (PROJECT / "budget.py").read_text()
-	# ERPNext checks it; orders and spending together, not only each alone.
 	assert '"budget_against": "Project"' in budget and '"applicable_on_cumulative_expense": 1' in budget
 	money_view = (tree.ROOT / "frontend" / "src" / "project" / "Money.vue").read_text()
 	assert "cash.value.cost_types" in money_view and "project.cost_type(" in money_view
@@ -1004,13 +949,11 @@ def test_milestones_say_where_and_when_and_may_be_billed_on_completion():
 		{"subject": "Handover", "done": False, "due": "2026-10-13", "share": 0},
 		{"subject": "Frames", "done": False, "due": "2026-09-27", "share": 0},
 	]
-	# The last two done, then the ones to come soonest first, undated last.
 	assert [one["subject"] for one in pick(rows)] == ["Done 3", "Done 4", "Frames", "Handover", "Undated"]
 	of = {"GLASS": "RAILS", "RAILS": "VILLA"}
 	titles = {"GLASS": "Glass for handrails", "RAILS": "Handrails", "VILLA": "Villa Al Barsha"}
 	assert where("GLASS", "VILLA", of, titles) == "Handrails › Glass for handrails"
 	assert where("VILLA", "VILLA", of, titles) is None
-	# Billing on milestones is only for a project whose milestones carry a share.
 	assert billable(rows) is None
 	shared = [
 		{"subject": "Frames", "done": True, "share": 20},
@@ -1049,26 +992,20 @@ def test_subcontracts_say_what_where_how_far_and_what_to_pay():
 	view_py = (PROJECT / "view.py").read_text()
 	subs = view_py[view_py.index("def _subcontracts(") : view_py.index("def late(")]
 	assert "milestones.where(" in subs and 'done[project] = view["share"]' in subs
-	assert '"subcontracts_count": len(cash["suppliers"])' not in view_py  # set on said, below
-	# Goods bought for the job are on Buying; the Overview counts the packages.
+	assert '"subcontracts_count": len(cash["suppliers"])' not in view_py
 	assert 'said["subcontracts_count"] = len(packages)' in view_py
 	bills = view_py[view_py.index("def _overdue_bills(") : view_py.index("def _late_route(")]
-	# By the payment schedule, retention not yet due left out.
 	assert '_("Pay {0}")' in bills and '_("Chase {0}")' in bills and '"Purchase Invoice", projects' in bills
 	flt = lambda value=0, *args: float(value or 0)  # noqa: E731
 	past_due = _load(PROJECT / "money.py", ("past_due",), flt=flt)["past_due"]
 	term = lambda due, amount, held=False: {"due_date": due, "amount": amount, "held": held}  # noqa: E731
-	# The villa's handrails: 57,000 paid of 60,000, the 3,000 retention due
-	# next year. Nothing is past due, whatever the per-term outstanding says.
 	handrails = [term("2026-09-30", 57000), term("2027-09-30", 3000, True)]
 	assert past_due(handrails, 3000, "2026-10-06") is None
-	# Unpaid and past its date: all of it, since the term's day.
 	assert past_due([term("2026-09-19", 7500)], 7500, "2026-10-06") == {
 		"due": 7500,
 		"since": "2026-09-19",
 		"held": False,
 	}
-	# Paid but for the retention, now due: retention only.
 	assert past_due(handrails, 3000, "2027-10-01") == {"due": 3000, "since": "2027-09-30", "held": True}
 	assert 'found += _overdue_bills(view["tree"], user)' in view_py
 	late = _load(PROJECT / "view.py", ("late",), _=lambda text: text)["late"]
@@ -1082,8 +1019,6 @@ def test_the_overview_budget_adds_up_to_numbers():
 	flt = lambda value=0, *args: float(value or 0)  # noqa: E731
 	space = _load(PROJECT / "budget.py", ("left", "other"), flt=flt)
 	other = space["other"]
-	# Villa Al Barsha: Cost of Goods Sold budgeted on the project itself; a
-	# sub-project's bill and the team's time are outside it.
 	lines = [{"budget": 100000, "spent": 32000, "committed": 78000}]
 	rest = other(lines, 140500, 63210, 78000)
 	assert rest == {"budget": 40500, "spent": 31210, "committed": 0, "left": 9290}
@@ -1091,7 +1026,6 @@ def test_the_overview_budget_adds_up_to_numbers():
 	assert other(lines, 100000, 32000, 78000) is None
 	assert other(lines, 90000, 30000, 70000) is None
 	budget = (PROJECT / "budget.py").read_text()
-	# A cost type counts only the projects that budget for it, as ERPNext checks.
 	assert (
 		"committed.get((one.project, one.account), 0.0)" in budget
 		and "spent.get((one.project, one.account), 0.0)" in budget
@@ -1111,7 +1045,6 @@ def test_the_money_is_told_and_read():
 	kinds = tree.notifications()
 	assert "Over Budget" in kinds and "Progress Bill Drafted" in kinds
 	told = _body((PROJECT / "tell.py").read_text(), "over_budget")
-	# Once for each budget: a revised budget can tell again.
 	assert 'dedupe_on=["document_type", "document_name"]' in told and '("Budget", one["budget_name"])' in told
 	assert "budget.over(project)" in (PROJECT / "money.py").read_text()
 	assert HOOKS.count('"onedesk.one_project.progress.drafted"') == 2
@@ -1144,22 +1077,14 @@ def test_a_project_has_a_kind_and_new_project_asks_by_kind():
 	assert kind["options"].split("\n")[1:] == list(space["KINDS"])
 	page = (tree.APP / "public" / "js" / "project_new.js").read_text()
 	assert "frappe.ui.form.ProjectQuickEntryForm" in page and "onedesk.one_project.kinds.make" in page
-	# Three steps on frappe's Slides: the kind, its details, the plan.
 	assert "new frappe.ui.Slides(" in page and "extends frappe.ui.Slide" in page
 	for step in ('name: "kind"', 'name: "details"', 'name: "plan"'):
 		assert step in page
-	# Each step is a dialog's form from the start, so a field marks itself
-	# missing only once the primary button is pressed.
 	assert "is_dialog: true," in page and "fulfil()" in page
-	# A retainer runs month to month: Plan asks when it starts, not when it ends.
 	assert 'depends_on: kind(["Fixed Price", "Time and Materials", "Internal"]),' in page
 	assert 'if (this.kind === "Retainer") delete values.ends;' in page
-	# The cards are drawn with frappe's tokens of today: --border-radius-* are gone,
-	# and a corner written with one is square.
 	for sheet in (tree.APP / "public" / "css").glob("*.css"):
 		assert "var(--border-radius" not in sheet.read_text(), sheet.name
-	# The dialog's fieldnames are its own: a quick entry takes the doctype's
-	# label and hidden flag for a field of the same name.
 	for taken in ('fieldname: "project_name"', 'fieldname: "one_kind"', 'fieldname: "customer"'):
 		assert taken not in page
 
@@ -1172,8 +1097,6 @@ def test_a_project_opens_on_its_own_page():
 	assert page["name"] == "project-view" and page["module"] == "One Project"
 	view = (PROJECT / "view.py").read_text()
 	assert 'frappe.has_permission("Project", "read", doc=project, throw=True)' in view
-	# Every kind has its cards; Money and Suppliers show for whoever may see
-	# them, Suppliers where a Fixed Price project expects subcontracts.
 	assert (
 		"def views(kind: str, cash: dict, customer" in view
 		and '"views": views(kind, cash, doc.customer, doc.name)' in view
@@ -1181,16 +1104,12 @@ def test_a_project_opens_on_its_own_page():
 	assert 'frappe.has_permission("Purchase Order", "read")' in view
 	script = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
 	assert '"onedesk.one_project.view.said"' in script
-	# The page follows the record as a form does, through the kit's bridge to desk.
 	for follows in ('follow("Project"', 'listen("one_project_money"'):
 		assert follows in script
-	# /desk/project/<name> is the page; ?edit=1 and a new project are the form.
 	route = (tree.APP / "public" / "js" / "project_new.js").read_text()
 	assert '{ Project: "project-view", "Project Template": "project-template-view", Task: "task-view", Item: "item-view" }' in route
 	assert "return [page, name];" in route and 'has("edit")' in route and 'name.startsWith("new-")' in route
-	# The page edits every field itself; the form stays only at ?edit=1.
 	assert "?edit=1" not in script
-	# What the page and the form both do is one file, loaded by both.
 	assert '"Project": ["public/js/project_actions.js", "public/js/project.js"]' in HOOKS
 	loader = (PROJECT / "page" / "project_view" / "project_view.js").read_text()
 	assert "/assets/onedesk/js/project_actions.js" in loader and 'island: "onedesk.project"' in loader
@@ -1203,7 +1122,6 @@ def test_time_invoices_and_team_are_views_of_erpnexts_own_records():
 	state = space["state"]
 	assert state(0, True, None) == "Draft" and state(1, True, "SINV-1") == "Invoiced"
 	assert state(1, True, None) == "To Invoice" and state(1, False, None) == "Not Billable"
-	# A hand-logged entry starts after the day's last one, so none overlap.
 	space.update(
 		getdate=lambda value: value.date() if isinstance(value, datetime) else value,
 		get_datetime=lambda value: value,
@@ -1216,14 +1134,11 @@ def test_time_invoices_and_team_are_views_of_erpnexts_own_records():
 		time_logs=[_Row(to_time=datetime(2026, 10, 5, 12, 30)), _Row(to_time=datetime(2026, 10, 4, 18, 0))]
 	)
 	assert after(busy, day) == datetime(2026, 10, 5, 12, 30)
-	# Or after one on another of the person's timesheets, submitted ones too.
 	assert after(busy, day, [datetime(2026, 10, 5, 15, 0)]) == datetime(2026, 10, 5, 15, 0)
 
 	hours = (PROJECT / "hours.py").read_text()
 	team = (PROJECT / "team.py").read_text()
 	billing = (PROJECT / "billing.py").read_text()
-	# Each reads as the reader reads the records behind it, and changes only
-	# what the reader may change.
 	for source in (hours, team, billing):
 		assert 'frappe.has_permission("Project", "read"' in source
 	assert (
@@ -1275,8 +1190,6 @@ def test_a_retainer_is_invoiced_by_the_month():
 	assert "one_retainer_month" in {one["fieldname"] for one in custom["custom_fields"]}
 	view = (PROJECT / "view.py").read_text()
 	assert 'said["months"] = retainer.months(doc.name)' in view
-	# A month waiting for its invoice has Invoice Month in Months, the one
-	# place it shows.
 	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
 	assert "onedesk().project.invoice_month(frm(), month)" in overview
 	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
@@ -1289,8 +1202,6 @@ def test_a_retainer_is_invoiced_by_the_month():
 
 
 def test_the_project_page_tells_oneai_where_it_is():
-	# The panel names the open view as the page's section (oneai.js where()),
-	# and is told when the view changes without a route change (kit setQuery).
 	oneai = (tree.APP / "public" / "js" / "oneai.js").read_text()
 	assert "params.section || params.view" in oneai
 	kit = (tree.ROOT / "frontend" / "src" / "kit" / "desk.js").read_text()
@@ -1298,12 +1209,9 @@ def test_the_project_page_tells_oneai_where_it_is():
 	assert '"onedesk.one_project.ai.page"' in HOOKS
 	ai = (PROJECT / "ai.py").read_text()
 	assert 'PAGE = "project-view"' in ai and 'frappe.has_permission("Project", "read", doc=name)' in ai
-	# A suggestion for one kind of project is checked on the record the page
-	# is open on, and only one the reader may read.
 	suggest = (tree.APP / "one_ai" / "suggest.py").read_text()
 	assert 'page.get("name") or page.get("record")' in suggest
 	assert 'frappe.has_permission(doctype, "read", doc=name)' in suggest
-	# Every view has its own, and the Tasks layouts share the Tasks view's.
 	for view in ("", "/tasks", "/board", "/timeline", "/time", "/money", "/invoices", "/suppliers", "/team"):
 		assert f"page:{{PAGE}}{view}" in ai or (view in ("/board", "/timeline") and "LAYOUTS" in ai)
 	assert "_here(UPDATE, kinds=BILLED)" in ai and "_here(ALLOWANCE, kinds=(kinds.RETAINER,))" in ai
@@ -1321,7 +1229,6 @@ def test_a_retainer_tells_whoever_runs_it():
 
 def test_the_project_page_fits_a_phone():
 	src = tree.ROOT / "frontend" / "src" / "project"
-	# frappe-ui's own way: a list's columns by breakpoint, minor cells hidden.
 	for name in ("Time", "Team", "Invoices", "Money", "Months"):
 		vue = (src / f"{name}.vue").read_text()
 		assert ":columns=" in vue and "base:" in vue and "max-md:hidden" in vue, name
@@ -1339,9 +1246,6 @@ def test_the_rail_is_projects_workload_time_and_templates_and_is_open_on_them():
 		("Workload", "Workload"),
 		("Timesheet", "Timesheet"),
 		("Project Template", "Project Template"),
-		# ERPNext's and HRMS's project reports, by their own names
-		# (tests/guards/test_erpnext_names.py), with Company filled and hidden
-		# (reports.js); two of them ours over theirs, without the HR checklists.
 		("Reports", None),
 		("Project Progress", "Project Progress"),
 		("Project Profitability", "Project Profitability"),
@@ -1349,19 +1253,13 @@ def test_the_rail_is_projects_workload_time_and_templates_and_is_open_on_them():
 		("Daily Timesheet Summary", "Daily Timesheet Summary"),
 		("Stock by Project", "Stock by Project"),
 	]
-	# The panel is open on the four and shut on a record; the breadcrumb
-	# switches between its rows, as in every module (public/js/crumb_switch.js,
-	# tests/guards/test_record_page.py).
 	places = (tree.APP / "public" / "js" / "project_places.js").read_text()
 	assert "TabButtons" not in places and "hide_sidebar" not in places
 	assert '"/assets/onedesk/js/project_places.js"' in HOOKS
 	template_js = (PROJECT / "page" / "project_template_view" / "project_template_view.js").read_text()
 	assert "hide_sidebar: !frappe.is_mobile()" in template_js and 'record: "Project Template"' in template_js
-	# Setup is in the Projects list's menu.
 	menu = (tree.APP / "public" / "js" / "project_list.js").read_text()
 	assert '__("Activity Type")' in menu and '__("Project Templates")' not in menu
-	# A project's name in its breadcrumb switches to the others: the reader's
-	# open projects before anything is typed, any project as it is.
 	view_js = (PROJECT / "page" / "project_view" / "project_view.js").read_text()
 	assert "hide_sidebar: !frappe.is_mobile()" in view_js and 'record: "Project"' in view_js
 	assert "onedesk.crumbs.suggest.Project = onedesk.project.picker" in places
@@ -1373,14 +1271,11 @@ def test_the_rail_is_projects_workload_time_and_templates_and_is_open_on_them():
 	picker = view_py[view_py.index("def picker(") : view_py.index("PICKED = ")]
 	assert 'frappe.has_permission("Project", "read", doc=project, throw=True)' in picker
 	assert '"project_type": ["!=", "Employee Boarding"]' in picker and "frappe.get_list(" in picker
-	# A task with an empty assignment is assigned to nobody.
 	assert 'frappe.parse_json(task._assign or "[]")' in (PROJECT / "report" / "workload" / "workload.py").read_text()
-	# Rates: an activity's rates for a person are its connection, and lead back to it.
 	assert '"Activity Type": ["onedesk.one_project.rates.dashboard"]' in HOOKS
 	assert '"onedesk.one_project.rates.homes"' in HOOKS
 	rates = (PROJECT / "rates.py").read_text()
 	assert 'data["fieldname"] = "activity_type"' in rates and '"Activity Cost"' in rates
-	# Projects Settings is in the Projects list's menu, for whoever may change it.
 	listing = (tree.APP / "public" / "js" / "project_list.js").read_text()
 	assert 'frappe.model.can_write("Projects Settings")' in listing
 	assert '"route": "/desk/project/view/tree"' in (PROJECT / "heads.py").read_text()
@@ -1388,12 +1283,9 @@ def test_the_rail_is_projects_workload_time_and_templates_and_is_open_on_them():
 
 def test_the_projects_list_names_where_each_stands_and_what_it_is_under():
 	listing = (tree.APP / "public" / "js" / "project_list.js").read_text()
-	# One pill: an open project's health, a finished one's status.
 	assert 'doc.status === "Open" && doc.one_health' in listing
 	assert '"On Track": "green", "At Risk": "orange", "Off Track": "red"' in listing
-	# A sub-project reads by its own name, its parent after it and quieter.
 	assert "project_name(value, df, doc)" in listing and "`${value} · ${up}`" in listing
-	# How far along is a figure beside frappe's bar, through frappe.format.
 	assert "percent_complete(value)" in listing and 'fieldtype: "Percent"' in listing
 	assert '"one_health",' in listing and '"one_parent"' in listing
 	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
@@ -1404,30 +1296,22 @@ def test_the_projects_list_names_where_each_stands_and_what_it_is_under():
 	assert setters[(None, "sort_field")] == "modified" and setters[(None, "sort_order")] == "DESC"
 	fields = {one["fieldname"]: one for one in custom["custom_fields"]}
 	assert not fields["one_health"]["in_list_view"] and fields["one_health"]["in_standard_filter"]
-	# The Tree's button is the list's.
 	assert '__("Add {0}", [__("Project")])' in (tree.APP / "public" / "js" / "project_tree.js").read_text()
-	# On a phone the list is as wide as the screen, as every list is.
 	css = (tree.APP / "public" / "css" / "desk.css").read_text()
 	assert '[data-page-route^="List/"] .frappe-list .result .list-row-container' in css
 
 
 def test_the_other_views_of_projects_are_oneprojects_own():
 	listing = (tree.APP / "public" / "js" / "project_list.js").read_text()
-	# Every view leaves out the HR checklists without a filter anybody set,
-	# and the address carries only what somebody chose.
 	assert "List.prototype.get_filters_for_args = function" in listing
 	assert 'params.delete("project_type")' in listing
 	kanban = (tree.APP / "public" / "js" / "project_kanban.js").read_text()
 	assert "Page.prototype.get_effective_filters = function" in kanban
 	assert '"Project": "public/js/project_kanban.js"' in HOOKS
-	# An internal project's card does not ask for a customer.
 	assert 'card.one_kind === "Internal"' in kanban
-	# Report: the ID column is the Project column reading the name, Project
-	# Name is not repeated and Cover is not a column.
 	assert '["project_name", "one_cover"].includes(name)' in listing
 	assert 'built.name = built.content = __("Project")' in listing
 	assert 'frappe.utils.add_link_title("Project", row.name, row.project_name)' in listing
-	# Dashboard: OneProject's cards and charts, not ERPNext's two.
 	assert 'module: "One Project"' in listing
 	cards = {
 		json.loads(path.read_text())["label"]: json.loads(path.read_text())
@@ -1459,7 +1343,6 @@ def test_the_other_views_of_projects_are_oneprojects_own():
 		"projects_by_customer": "Bar",
 		"projects_started": "Line",
 	}
-	# A slice's colour follows what it is: health in the pill's colours.
 	health = json.loads(charts["projects_by_health"]["custom_options"])["one_colors"]
 	assert list(health) == ["On Track", "At Risk", "Off Track"]
 	kinds = json.loads(charts["projects_by_kind"]["custom_options"])["one_colors"]
@@ -1469,11 +1352,9 @@ def test_the_other_views_of_projects_are_oneprojects_own():
 		"built.colors = labels.map((label) => hue(named[label]))" in colours and "built.showLegend = 0" in colours
 	)
 	assert '"/assets/onedesk/js/chart_colors.js"' in (tree.APP / "hooks.py").read_text()
-	# Kanban: a board by health, made once.
 	board = (PROJECT / "board.py").read_text()
 	assert 'HEALTH_BOARD = "Projects by Health"' in board
 	assert 'HEALTH = {"On Track": "Green", "At Risk": "Orange", "Off Track": "Red"}' in board
-	# Every view frappe offers stays: Calendar too (docs/PASSOVER.md, point 4).
 	assert "delete found." not in listing
 
 
@@ -1494,7 +1375,6 @@ def test_a_projects_featured_media_is_a_folder_of_its_own():
 		space["project_of"]("@records/Project/PROJ-0008") is None
 		and space["project_of"]("@featured/") is None
 	)
-	# The file is marked; the project has a Cover, its picture wherever frappe shows one.
 	file_fields = json.loads((PROJECT / "custom" / "file.json").read_text())["custom_fields"]
 	assert [one["fieldname"] for one in file_fields] == ["one_featured"]
 	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
@@ -1503,7 +1383,6 @@ def test_a_projects_featured_media_is_a_folder_of_its_own():
 	assert any(
 		one["property"] == "image_field" and one["value"] == "one_cover" for one in custom["property_setters"]
 	)
-	# OneCloud shows it inside the project's own folder, and only there.
 	names = (tree.APP / "one_storage" / "namespace.py").read_text()
 	assert 'FEATURED = "@featured/"' in names and 'if doctype == "Project":' in names
 	api = (tree.APP / "one_storage" / "api.py").read_text()
@@ -1513,10 +1392,8 @@ def test_a_projects_featured_media_is_a_folder_of_its_own():
 		'media.check(fields["file_name"])' in upload
 		and "fields.update(one_featured=1, is_private=0)" in upload
 	)
-	# The cover follows the folder, and hands over before a delete frappe would refuse.
 	hooks = (tree.APP / "hooks.py").read_text()
 	assert hooks.count('"onedesk.one_project.media.changed"') == 3
-	# The portal shows it; the agreements say who can open it.
 	assert '"media": media.shown(project)' in (PROJECT / "portal.py").read_text()
 	assert 'key="oneproject-featured"' in (PROJECT / "legal.py").read_text()
 	assert 'key="oneproject-contacts"' in (PROJECT / "legal.py").read_text()
@@ -1525,15 +1402,12 @@ def test_a_projects_featured_media_is_a_folder_of_its_own():
 def test_a_projects_page_is_laid_out_for_its_kind():
 	space = _load(PROJECT / "view.py", ("percent",), flt=float)
 	percent = space["percent"]
-	# Budget Used says the real share, past 100 when over; a bar stops at 100.
 	assert percent(156, 100) == 156 and percent(5, 0) == 0 and percent(-5, 10) == 0
 	view = (PROJECT / "view.py").read_text()
 	assert "\"value\": f\"{percent(cash['spent'], cash['budget'])}%\"" in view
-	# A task with no due date is not late: frappe reads a missing date as the
-	# earliest one, so the date is asked for.
 	assert (
 		view.count(
-			'["exp_end_date", "is", "set"],\n\t\t\t# Before tomorrow: the due date is kept with a time.\n'
+			'["exp_end_date", "is", "set"],\n'
 			'\t\t\t["exp_end_date", "<", str(add_days(today, 1))]'
 		)
 		== 1
@@ -1541,13 +1415,9 @@ def test_a_projects_page_is_laid_out_for_its_kind():
 	assert (
 		'["exp_end_date", "is", "set"], ["exp_end_date", "<", today]' in (PROJECT / "overview.py").read_text()
 	)
-	# Each thing shows once: a retainer's months and time not invoiced have
-	# sections of their own, and a Fixed Price project's budget is its own.
 	needs = view[view.index("def needs(") : view.index("def _budget_lines(")]
 	assert "retainer.waiting" not in needs and "billing.unbilled" not in needs
 	assert "if kind != kinds.FIXED:" in needs
-	# Needs You: verb first, where each task is, the reader's own first, due
-	# today too, counted whole, and over budget across the tree.
 	assert '_("Check bill from {0}")' in needs and '_("Check invoice to {0}")' in needs
 	assert "milestones.where(task.project, doc.name, of, titles)" in needs
 	assert 'sorted(found, key=lambda one: not one.get("mine"))' in needs
@@ -1556,15 +1426,12 @@ def test_a_projects_page_is_laid_out_for_its_kind():
 	overview_vue = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
 	assert ":aside=\"view.needs_count || ''\"" in overview_vue and "go(view.needs_all)" in overview_vue
 	assert 'one.today ? __("Today")' in overview_vue
-	# This month's hours are the tree's, as Hours by Week counts them.
 	assert '{"key": "hours", "hours": _month_hours(view["tree"])}' in view
 	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
 	for kind in ("'Fixed Price'", "'Time and Materials'", "'Retainer'"):
 		assert f"kind === {kind}" in overview
 	assert '<Section v-if="said.notes"' in overview and "__('Add Brief')" in overview
 	assert "<Updates " in overview
-	# The head shows the cover and the rest of Featured Media, and adds to it
-	# through frappe's upload dialog.
 	header = (tree.ROOT / "frontend" / "src" / "project" / "Header.vue").read_text()
 	assert 'method: "onedesk.one_project.media.add"' in header and '"image/*", "video/*"' in header
 	assert '"media": media.shown(doc.name)' in view
@@ -1577,16 +1444,11 @@ def test_a_projects_page_is_laid_out_for_its_kind():
 
 
 def test_featured_media_turns_on_the_page_and_the_portal():
-	# A project may have as many photos and videos as it needs: ERPNext's four
-	# attachments would stop its folder and Featured Media at four.
 	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
 	assert {"property": "max_attachments", "value": "0"}.items() <= next(
 		one for one in custom["property_setters"] if one["property"] == "max_attachments"
 	).items()
-	# The cover first, on both.
 	assert 'sorted(found, key=lambda one: one["url"] != cover)' in (PROJECT / "media.py").read_text()
-	# The page: each in turn, a video muted to its end, one video on a loop,
-	# paused under the pointer, still for whoever asked for less motion.
 	hero = (tree.ROOT / "frontend" / "src" / "project" / "Hero.vue").read_text()
 	for part in (
 		"muted",
@@ -1597,7 +1459,6 @@ def test_featured_media_turns_on_the_page_and_the_portal():
 		"@mouseenter",
 	):
 		assert part in hero, part
-	# The portal: the same, beside the project's facts.
 	gallery = (tree.ROOT / "frontend" / "portal" / "src" / "parts" / "Gallery.vue").read_text()
 	assert "<Gallery" in (tree.ROOT / "frontend" / "portal" / "src" / "pages" / "Project.vue").read_text()
 	for part in ("muted playsinline", ':loop="media.length === 1"', '@ended="on(1)"', "prefers-reduced-motion", "@mouseenter", "clip.value.play()"):
@@ -1605,8 +1466,6 @@ def test_featured_media_turns_on_the_page_and_the_portal():
 
 
 def test_a_fixed_price_project_is_quoted_then_contracted_from_its_page():
-	# The first figure: the contract once ordered, the quote while one is out,
-	# and Add Contract with neither.
 	def first(order, quote):
 		space = _load(PROJECT / "view.py", ("_first",), _=lambda text: text)
 		space.update(contract=lambda doc: order, quotation=lambda doc: quote, ordered_above=lambda doc: above)
@@ -1620,18 +1479,15 @@ def test_a_fixed_price_project_is_quoted_then_contracted_from_its_page():
 	)
 	assert quoted["key"] == "quoted" and quoted["money"] == 180 and quoted["route"] == "/desk/quotation/QTN-1"
 	assert first(None, None) == {"key": "contract", "money": 0, "action": "add_contract"}
-	# A sub-project whose work is on its parent's order says so, not 0.00.
 	above = ("Bayview Tower Curtain Wall", "SO-9")
 	on_parent = first(None, None)
 	assert on_parent["value"] == "–" and on_parent["route"] == "/desk/sales-order/SO-9" and on_parent["above"]
 	assert on_parent["note"] == "On {0}'s order".format("Bayview Tower Curtain Wall")
 	above = None
-	# With several open, which one is ordered is picked on their list.
 	several = first(
 		None, {"name": "QTN-2", "value": 195, "count": 2, "list": "/desk/quotation?x", "valid_till": None}
 	)
 	assert several["route"] == "/desk/quotation?x" and "action" not in several
-	# While quoted, the quote's last day stands where Billed will be.
 	days = lambda a, b: int(a[-2:]) - int(b[-2:])  # noqa: E731
 	space = _load(
 		PROJECT / "view.py", ("_valid",), _=lambda text: text, nowdate=lambda: "2026-10-05", date_diff=days
@@ -1640,17 +1496,13 @@ def test_a_fixed_price_project_is_quoted_then_contracted_from_its_page():
 	assert valid("2026-10-15") == {"key": "valid", "value": "2026-10-15", "date": True, "note": "In 10 days"}
 	assert valid(None)["note"] is None
 	assert "second = [_valid(valid)]" in (PROJECT / "view.py").read_text()
-	# Quoted, the order is the next step: the page's main button, while one
-	# quote is open. A Fixed Price project can be quoted again until ordered.
 	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
 	assert (
 		'if (s.kind === "Fixed Price" && !s.contract && s.quotation?.count === 1 && can("create", "Sales Order"))'
 		in page
 	)
-	# Quoting is the + on the Overview's Quotations: New Quotation until the contract.
 	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
 	assert 'if (s.kind === "Fixed Price" && !s.contract)\n    return { text: true, icon: "lucide-plus", label: __("New Quotation")' in overview
-	# Its quotations are listed, and work against billing waits for an order.
 	view_py = (PROJECT / "view.py").read_text()
 	assert (
 		'"quotes": _quotes(doc),' in view_py
@@ -1664,8 +1516,6 @@ def test_a_fixed_price_project_is_quoted_then_contracted_from_its_page():
 	view = (PROJECT / "view.py").read_text()
 	assert '"quotation": None if contract(doc) else quotation(doc)' in view
 	assert '"one_extra_work": 0' in view and '_("{0}% of the quote")' in view
-	# Add Contract makes the dialog's own order, once, for whoever may change
-	# the project and make orders, in the customer's currency.
 	kinds = (PROJECT / "kinds.py").read_text()
 	add = kinds[kinds.index("def add_contract(") : kinds.index("CONTRACT_ITEM =")]
 	for part in (
@@ -1676,8 +1526,6 @@ def test_a_fixed_price_project_is_quoted_then_contracted_from_its_page():
 	):
 		assert part in add, part
 	assert 'bill_in(order, "Customer", project.customer)' in kinds
-	# The page asks for the next step under the figure, with frappe-ui's
-	# Button, and makes the order with ERPNext's own quotation mapper.
 	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
 	assert 'can("create", "Sales Order")' in overview and '__("Add Contract")' in overview
 	assert '<Button v-if="one.button"' in (tree.ROOT / "frontend" / "src" / "kit" / "Figures.vue").read_text()
@@ -1715,9 +1563,7 @@ def test_a_party_billed_in_another_currency_is_billed_in_it(monkeypatch):
 	rate = space["rate"]
 	assert rate("AED", "AED") == 1.0 and rate(None, "AED") == 1.0
 	assert rate("USD", "AED") == 3.6725
-	# ERPNext keeps the rate one way; the other way is its inverse.
 	assert abs(rate("AED", "USD") - 1 / 3.6725) < 1e-12
-	# Every document OneDesk makes for a party goes through bill_in.
 	for path, party in (
 		(PROJECT / "kinds.py", '"Customer", project.customer'),
 		(PROJECT / "billing.py", '"Customer", source.customer'),
@@ -1727,7 +1573,6 @@ def test_a_party_billed_in_another_currency_is_billed_in_it(monkeypatch):
 		assert any(f"bill_in({doc}, {party})" in path.read_text() for doc in ("order", "invoice", "doc")), (
 			path
 		)
-	# Hours are turned into the invoice's currency from each timesheet's own.
 	billing = _load(
 		PROJECT / "billing.py",
 		("in_currency",),
@@ -1736,15 +1581,12 @@ def test_a_party_billed_in_another_currency_is_billed_in_it(monkeypatch):
 	)
 	rows = billing["in_currency"]([{"currency": "AED", "billing_amount": 400.0}], "USD")
 	assert rows[0]["billing_amount"] == 100.0
-	# A retainer's fee is shown, and the New Project dialog asks for it, in the
-	# customer's currency.
 	assert '"currency": retainer.fee_currency(doc)' in (PROJECT / "view.py").read_text()
 	assert 'options: "currency"' in (tree.APP / "public" / "js" / "project_new.js").read_text()
 
 
 def test_a_projects_status_holds_and_closing_it_closes_what_is_open():
 	status = (PROJECT / "status.py").read_text()
-	# ERPNext's four, On hold among them, everywhere the status is picked or shown.
 	assert '"On hold": _lt("On hold")' in status
 	facts = (tree.ROOT / "frontend" / "src" / "project" / "Facts.vue").read_text()
 	assert ":options=\"['Open', 'On hold', 'Completed', 'Cancelled']\"" in facts
@@ -1754,24 +1596,17 @@ def test_a_projects_status_holds_and_closing_it_closes_what_is_open():
 	assert '"On hold": "amber"' in (tree.ROOT / "frontend" / "src" / "project" / "colors.js").read_text()
 	assert '"On hold": "orange"' in (tree.APP / "public" / "js" / "project_list.js").read_text()
 	assert '"On hold": "amber"' in (PROJECT / "portal.py").read_text()
-	# Completing or cancelling asks first, and closes the open tasks and
-	# sub-projects with it; a task already closed keeps its status.
 	change = status[status.index("def change(") : status.index("def due(")]
 	assert "and not int(close):" in change and 'doc.flags.one_close_work = bool(int(close))' in change
 	assert 'OPEN_TASK = ["not in", ("Completed", "Cancelled", "Template")]' in status
-	# The rule is the Project's own (held, before ERPNext reads progress), so
-	# a bulk edit or an import closes nothing with open work and keeps the rest.
 	held = status[status.index("def held(") : status.index("def change(")]
 	assert 'frappe.db.set_value("Task", name, "status", doc.status)' in held
 	assert 'if not doc.flags.get("one_close_work"):' in held
 	assert '"onedesk.one_project.status.held"' in HOOKS
-	# Opening a project ERPNext turned to progress by hand puts it back on its
-	# tasks; one whose tasks are all done says it can't be opened.
 	assert 'doc.percent_complete_method = "Task Completion"' in held
 	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
 	assert 'if (fieldname === "status") return changeStatus(value);' in page
 	assert '"onedesk.one_project.status.ask"' in page and '"onedesk.one_project.status.change"' in page
-	# A completed project says what's still owed, and its manager is told.
 	view = (PROJECT / "view.py").read_text()
 	assert 'if doc.status == "Completed" and frappe.has_permission("Sales Invoice", "read"):' in view
 	tell = (PROJECT / "tell.py").read_text()
@@ -1780,8 +1615,6 @@ def test_a_projects_status_holds_and_closing_it_closes_what_is_open():
 
 
 def test_a_completed_project_reads_as_done():
-	# ERPNext keeps a project completed without tasks of its own at its old
-	# share, so the page, the head, OneAI and the portal read Completed as 100%.
 	assert '"share": 100\n\t\tif doc.status == "Completed"\n\t\telse' in (PROJECT / "overview.py").read_text()
 	assert (
 		'100\n\t\tif doc.status == "Completed"\n\t\telse overview.share('
@@ -1794,7 +1627,6 @@ def test_a_project_with_several_orders_bills_and_holds_each():
 	view = (PROJECT / "view.py").read_text()
 	assert '"orders": orders(doc, view["tree"]),' in view
 	assert 'filters={"project": ["in", projects], "docstatus": 1}' in view
-	# The head names the order, or says how many; Bill Progress asks which.
 	facts = (tree.ROOT / "frontend" / "src" / "project" / "Facts.vue").read_text()
 	assert '__("{0} orders", [said.orders.length])' in facts
 	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
@@ -1811,8 +1643,6 @@ def test_a_project_with_several_orders_bills_and_holds_each():
 
 def test_orders_cover_the_tree_and_say_where_what_for_and_what_is_left():
 	view = (PROJECT / "view.py").read_text()
-	# Every order on the project and those under it, where and what for, and
-	# whether it's extra work; Retention reads the same orders.
 	assert '"where": milestones.where(one.project, doc.name, of, titles),' in view
 	assert '"for": money.bought(lines.get(one.name, [])),' in view
 	assert '"extra": bool(one.one_extra_work),' in view
@@ -1828,8 +1658,6 @@ def test_orders_cover_the_tree_and_say_where_what_for_and_what_is_left():
 	assert "onClick: () => go(said.orders_route) }" in overview
 	rows = (tree.ROOT / "frontend" / "src" / "kit" / "Rows.vue").read_text()
 	assert '<Badge v-if="item.badge" :label="item.badge.label || item.badge"' in rows
-	# Bill Progress offers each order under the project too, saying where, and
-	# the milestones' share starts only the page's own.
 	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
 	assert "!one || one.own ? share : null" in actions
 	assert '[one.name, one.where, __("{0} left", [format_currency(one.left, currency)])]' in actions
@@ -1843,16 +1671,13 @@ def test_retention_is_switched_on_held_both_ways_released_in_parts_and_told():
 		flt=flt,
 	)
 	parts, still_held, side = space["parts"], space["still_held"], space["side"]
-	# 5% held, half of it at handover; none at handover is one part, as before.
 	assert parts(5, 50) == [(None, 95), ("Retention at Handover", 2.5), ("Retention", 2.5)]
 	assert parts(5, 0) == [(None, 95), ("Retention", 5)]
 	assert parts(5, 100) == [(None, 95), ("Retention at Handover", 5)]
-	# Paid last, and the handover part before the rest.
 	held = [("2027-09-30", 500), ("2026-12-03", 500)]
 	assert still_held(held, 57500) == [("2026-12-03", 500), ("2027-09-30", 500)]
 	assert still_held(held, 700) == [("2026-12-03", 200), ("2027-09-30", 500)]
 	assert still_held(held, 300) == [("2027-09-30", 300)]
-	# A side: what's held, the rate when the orders agree, the first due.
 	assert side([("2027-09-30", 3000)], {5.0}) == {"held": 3000, "percent": 5.0, "due": "2027-09-30"}
 	assert side([("2027-03-31", 1000), ("2027-01-01", 500)], {5.0, 10.0}) == {
 		"held": 1500,
@@ -1860,7 +1685,6 @@ def test_retention_is_switched_on_held_both_ways_released_in_parts_and_told():
 		"due": "2027-01-01",
 	}
 	assert side([], {5.0}) is None
-	# The switch: off unless the workspace holds retention, and the desk hides it.
 	settings = json.loads((PROJECT / "custom" / "projects_settings.json").read_text())
 	switch = {f["fieldname"]: f for f in settings["custom_fields"]}["one_retention"]
 	assert switch["label"] == "Hold Retention" and switch["default"] == "0"
@@ -1876,11 +1700,9 @@ def test_retention_is_switched_on_held_both_ways_released_in_parts_and_told():
 	for name in ("project_new.js", "project_actions.js"):
 		page = (tree.APP / "public" / "js" / name).read_text()
 		assert "hidden: !frappe.boot.one_retention" in page and 'fieldname: "retention_handover"' in page
-	# Handover falls due when the project is completed; the day it's due is told.
 	assert '"onedesk.one_project.retention.handed_over"' in HOOKS
 	assert '"onedesk.one_project.retention.due"' in HOOKS
 	assert tree.notifications()["Retention Due"]["subject"] == "Retention on {project} is due today"
-	# Needs You asks the customer for it, and says when a supplier's is to pay.
 	view = (PROJECT / "view.py").read_text()
 	assert 'found += retention.asks(view["tree"], user)' in view
 	assert '_("Pay retention to {0}") if one["held"] else _("Pay {0}")' in view
@@ -1895,20 +1717,17 @@ def test_retention_is_switched_on_held_both_ways_released_in_parts_and_told():
 def test_about_says_what_the_head_doesnt_and_is_changed_in_place():
 	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
 	about = overview.split("const facts = computed(() => {", 1)[1].split("});", 1)[0]
-	# Only what the head doesn't say.
 	for gone in ("s.customer", "s.manager", "s.contract", "s.starts", "s.parent"):
 		assert gone not in about
 	for said in ('__("Progress")', '__("Expected End Date")', '__("Team")', '__("Priority")'):
 		assert said in about
 	assert "__('About', null, 'Project')" in overview
-	# Changed in place, with frappe's controls, against the loaded record.
 	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
 	assert '[__("Work"), ["one_manager", "expected_start_date", "expected_end_date"' in actions
 	assert 'frappe.meta.get_docfield("Project", fieldname)' in actions
 	assert "{ doc: { ...doc, ...values, modified } }" in actions
 	assert "onedesk().project.edit_brief(props.said.name, props.said.modified" in overview
 	assert "edit=1" not in overview
-	# A sub-project's breadcrumb names its parents.
 	view = (PROJECT / "view.py").read_text()
 	assert '"above": _above(doc.name),' in view
 	assert (
@@ -1922,7 +1741,6 @@ def test_about_says_what_the_head_doesnt_and_is_changed_in_place():
 def test_sub_projects_say_how_each_is_going_and_what_it_is_worth():
 	flt = lambda value=0, *args: float(value or 0)  # noqa: E731
 	branch_money = _load(PROJECT / "view.py", ("branch_money",), flt=flt)["branch_money"]
-	# Villa Windows: 30,000 bought and 1,210 of time against a 20,000 budget.
 	windows = {"estimated_costing": 20000, "total_costing_amount": 1210, "total_purchase_cost": 30000}
 	assert branch_money(windows) == {"ordered": 0, "billed": 0, "spent": 31210, "budget": 20000, "over": True}
 	handrails = {"total_sales_amount": 200000, "total_billed_amount": 60000, "estimated_costing": 5500}
@@ -1959,7 +1777,6 @@ def test_the_tasks_table_says_what_waits_and_how_long_and_nests_sub_tasks():
 
 def test_the_task_panel_is_the_same_task_onetask_opens():
 	panel = (tree.ROOT / "frontend" / "src" / "project" / "TaskPanel.vue").read_text()
-	# Its checklist, sub-tasks, what it waits on, the timer and Repeat.
 	for said in (
 		"onedesk.one_task.task.tick",
 		"onedesk.one_task.task.add_step",
@@ -1986,7 +1803,6 @@ def test_a_task_goes_to_a_group_a_template_joins_a_running_project_and_people_he
 		assert ':groups="canWrite ? work.user_groups || [] : []"' in said
 	assert "def _user_groups() -> list[dict]:" in (PROJECT / "view.py").read_text()
 	templates = (PROJECT / "templates.py").read_text()
-	# ERPNext's own copy, dated from the day chosen, beside the tasks it has.
 	assert (
 		"doc.create_task_from_template(one)" in templates
 		and "doc.dependency_mapping(sources, made)" in templates
@@ -2039,7 +1855,6 @@ def test_time_is_counted_apart_from_how_the_customer_pays():
 		},
 	]
 	money = space["count"](rows, date(2026, 10, 1), True)
-	# A draft is hours, not yet cost or billing.
 	assert money == {"month": 5, "hours": 9, "drafts": 3, "to_invoice": 1120, "invoiced": 600, "cost": 820}
 	assert space["count"](rows, date(2026, 10, 1), False) == {"month": 5, "hours": 9, "drafts": 3}
 	hooks = (tree.APP / "hooks.py").read_text()
@@ -2066,7 +1881,6 @@ def test_a_day_on_site_is_a_day_on_the_project():
 		),
 	)
 	worked = space["worked"]
-	# What attendance measured, else the standard day, half for a Half Day.
 	assert worked(9.1, "Present", 8.5) == 9.1
 	assert worked(0, "Present", 8.5) == 8.5 and worked(0, "Half Day", 8.5) == 4.25
 	assert worked(0, "Absent", 8.5) == 0
@@ -2083,7 +1897,6 @@ def test_what_was_bought_for_a_time_and_materials_job_is_billed_once():
 	]
 	assert charge(30000, 10) == 33000 and charge(250, 0) == 250
 	billing = (PROJECT / "billing.py").read_text()
-	# Only a Time and Materials project's costs, and never one already on an invoice.
 	assert "if one.one_kind == kinds.TIME and one.customer == customer" in billing
 	assert '"one_rebills": ["in", [one["key"] for one in found] or [""]], "docstatus": ["<", 2]' in billing
 	item = json.loads((PROJECT / "custom" / "sales_invoice_item.json").read_text())
@@ -2095,10 +1908,8 @@ def test_what_was_bought_for_a_time_and_materials_job_is_billed_once():
 def test_a_task_over_its_hours_is_told_and_timing_it_does_not_finish_it():
 	assert "Hours Over Plan" in tree.notifications()
 	tell = (PROJECT / "tell.py").read_text()
-	# Once, as the hours pass the plan.
 	assert "if not (flt(before.actual_time) <= planned < flt(doc.actual_time)):" in tell
 	assert '"onedesk.one_project.tell.over_plan"' in (tree.APP / "hooks.py").read_text()
-	# ERPNext completes a task when a submitted timesheet's row says so.
 	assert "one.completed = 1" not in (tree.APP / "one_task" / "timer.py").read_text()
 	assert '"completed": 0,' in (PROJECT / "hours.py").read_text()
 
@@ -2113,7 +1924,6 @@ def test_bill_progress_bills_each_line_of_a_bill_of_quantities_by_its_own_share(
 	cabling = Line(name="cabling", qty=600, amount=15000)
 	commissioning = Line(name="commissioning", qty=1, amount=6000)
 	done = {"lights": 50, "cabling": 30}
-	# By value: 9,000 and 4,500 of 39,000.
 	assert space["overall"]([lights, cabling, commissioning], done) == 34.62
 	assert space["to_bill"](40, 0, 50) == 20 and space["to_bill"](600, 0, 30) == 180
 	assert space["to_bill"](600, 180, 30) == 0
@@ -2129,8 +1939,6 @@ def test_the_cost_figure_says_why_it_is_red_and_what_is_on_order():
 	under = {"budget": 200000, "forecast_cost": 141210, "open_orders": 0}
 	assert note(under) == [["of {0} budget", [200000]]]
 	assert note({"budget": 0, "forecast_cost": 0, "open_orders": 5000}) == [["{0} on order", [5000]]]
-	# Billed opens Invoices; Cost and Forecast Margin open Money, and so does
-	# a finished project's Margin.
 	view = (PROJECT / "view.py").read_text()
 	assert '"view": "invoices",' in view and view.count('"view": "money",') == 3
 	assert 'def _made(cash: dict)' in view and '"key": "margin"' in view
@@ -2152,18 +1960,15 @@ def test_work_done_is_measured_as_the_project_says_and_billing_as_amounts():
 	assert progress("Task Progress", tasks, 0) == 75
 	assert progress("Task Weight", tasks, 0) == (100 * 1 + 50 * 3) / 4
 	assert progress("Manual", tasks, 40) == 40 and progress("Task Completion", [], 12) == 12
-	# As ERPNext measures its own: a cancelled task is finished.
 	assert progress("Task Completion", [*tasks, {"status": "Cancelled", "progress": 0}], 0) == round(
 		200 / 3, 2
 	)
-	# One figure: the tree's stored as ERPNext's % Complete, read by the page.
 	overview = (PROJECT / "overview.py").read_text()
 	assert '\t\telse round(flt(doc.percent_complete)),' in overview and '"share": 100\n\t\tif doc.status == "Completed"' in overview
 	assert 'frappe.db.set_value("Project", one, "percent_complete", value, update_modified=False)' in overview
 	assert '"onedesk.one_project.overview.task_changed"' in HOOKS
 	assert '"onedesk.one_project.overview.project_changed"' in HOOKS
 	assert "onedesk.one_project.patches.tree_progress" in (tree.APP / "patches.txt").read_text()
-	# The Tasks tab reads every project under, at any depth, by path.
 	view = (PROJECT / "view.py").read_text()
 	assert "milestones.where(one, project, of, titles)" in view.split("def work(", 1)[1]
 	billing = _load(PROJECT / "view.py", ("work_and_billing",), _=lambda text: text, flt=float)[
@@ -2183,8 +1988,6 @@ def test_work_done_is_measured_as_the_project_says_and_billing_as_amounts():
 	assert ahead["ahead"] == 22500 and ahead["unbilled"] == 0
 	early = billing(0, {**cash, "invoiced": 0, "owed": 0, "advance": 57000}, 0)
 	assert early["advance"] == 57000 and early["owed"] == 0
-	# Paid with 5% VAT on a 100,000 invoice is no advance: owed and paid
-	# ahead are both read from the invoices, tax included (money._paid_on).
 	taxed = billing(17, {**cash, "invoiced": 100000, "owed": 0, "advance": 0}, 0)
 	assert taxed["advance"] == 0 and taxed["owed"] == 0
 	assert said["last"] is None
@@ -2198,7 +2001,6 @@ def test_a_project_lists_who_outside_the_company_is_on_it():
 	assert space["ROLES"][:2] == space["SUPPLYING"] == ("Subcontractor", "Supplier")
 	assert "Client's Representative" in space["ROLES"] and space["ROLES"][-1] == "Other"
 	person = space["_person"]
-	# The phone, or the mobile when there's none; nothing without a Contact.
 	assert person({"phone": "", "mobile_no": "+971 50 1"}, "phone", "mobile_no") == "+971 50 1"
 	assert person({"phone": "+971 4 5"}, "phone", "mobile_no") == "+971 4 5"
 	assert person(None, "phone") is None
@@ -2213,7 +2015,6 @@ def test_a_project_lists_who_outside_the_company_is_on_it():
 	contacts_py = (PROJECT / "contacts.py").read_text()
 	save = contacts_py[contacts_py.index("def save(") : contacts_py.index("def remove(")]
 	assert 'doc.check_permission("write")' in save
-	# Each row names somebody, and its contact names the project, as the Project's own rules.
 	assert "linked(row.contact, doc.name)" in contacts_py and '"onedesk.one_project.contacts.held"' in HOOKS
 	assert '_("Give the supplier, the company or the contact.")' in save
 	assert 'person.has_permission("write")' in contacts_py
@@ -2256,12 +2057,9 @@ def test_activity_is_the_projects_history_not_only_its_record():
 	)
 	events, moved, page = space["events"], space["moved"], space["page"]
 	doc = {"creation": "2026-10-04 14:50:00", "owner": "wren", "docstatus": 1, "modified": "2026-10-04 15:00:00", "modified_by": "wren"}
-	# Made and submitted in one sitting by the same person: one row.
 	assert events(doc, [("2026-10-04 14:55:00", "wren", 1)]) == [("submitted", "2026-10-04 14:55:00", "wren")]
-	# Submitted by somebody else, then cancelled: three rows.
 	said = events({**doc, "docstatus": 2}, [("2026-10-04 15:00:00", "samir", 1), ("2026-10-05 09:00:00", "samir", 2)])
 	assert [one[0] for one in said] == ["created", "submitted", "cancelled"]
-	# A type that keeps no Versions: submitted when last changed.
 	assert events({**doc, "creation": "2026-10-01 09:00:00"}, [])[1] == ("submitted", "2026-10-04 15:00:00", "wren")
 	assert events({**doc, "docstatus": 0}, []) == [("created", "2026-10-04 14:50:00", "wren")]
 	assert moved('{"changed":[["status","Draft","To Bill"],["docstatus",0,1]]}') == 1
@@ -2297,18 +2095,14 @@ def test_the_overview_puts_its_figures_in_cards_and_charts_tasks_hours_and_budge
 	src = tree.ROOT / "frontend" / "src"
 	overview = (src / "project" / "Overview.vue").read_text()
 	assert '<Figures :figures="figures" boxed :columns="figures.length === 4 ? 2 : figures.length" />' in overview
-	# A group of cards is its own divide: no rule above or below one.
 	assert overview.count("data-cards") == 2 and "border-b" not in overview
 	assert "[&:has(+[data-cards])]:border-b-0" in (src / "kit" / "Section.vue").read_text()
 	assert '<Section boxed :title="__(\'Needs You\')"' in overview
 	assert "<DonutChart" in overview and "<ChartCard" in overview and "horizontal stacked" in overview
-	# Colours from frappe-ui's tokens on the island's own root, never hex.
 	assert "useChartTokens(root)" in overview and not re.search(r"#[0-9a-fA-F]{6}", overview)
-	# The ring draws the largest first: the colours are listed in that order.
 	assert ".sort((a, b) => b.n - a.n)" in overview
 	assert not (src / "project" / "Statuses.vue").exists()
 	assert "rounded-4 border border-outline-gray-1 bg-surface-elevation-2" in (src / "kit" / "Figures.vue").read_text()
-	# Every kind charts its tasks and hours, and a late task is Overdue.
 	view = (PROJECT / "view.py").read_text().split("def _overview(", 1)[1].split("\ndef ", 1)[0]
 	assert '"statuses": view["statuses"]' in view and '"weekly": view["weekly"]' in view
 	assert 'said["weekly"]' not in view and 'said["statuses"]' not in view
@@ -2328,8 +2122,6 @@ def test_orders_and_quotations_sit_together_and_an_ordered_quote_is_its_order():
 
 def test_every_avatar_on_a_project_shows_the_persons_picture():
 	src = tree.ROOT / "frontend" / "src"
-	# Every Avatar is given a picture, save the "+N" one and one that shows an
-	# icon for nobody in particular.
 	for path in [*(src / "project").glob("*.vue"), *(src / "kit").glob("*.vue")]:
 		for line in path.read_text().splitlines():
 			if "<Avatar" in line or "h(Avatar" in line:
@@ -2347,22 +2139,17 @@ def test_a_suppliers_logo_shows_where_the_supplier_does():
 	assert '<Avatar :label="one.supplier" :image="one.image" shape="square"' in (src / "Suppliers.vue").read_text()
 	assert "image: one.image,\n      square: true," in (src / "Overview.vue").read_text()
 	assert "or logos.get(one.supplier)" in (PROJECT / "contacts.py").read_text()
-	# The bills, invoices and buying lists carry each party's logo too.
 	assert '"party_image": logos.get(row.party_id),' in (PROJECT / "billing.py").read_text()
 	assert 'one["party_image"] = logos.get(one.pop("supplier"))' in (PROJECT / "buying.py").read_text()
 	assert (src / "Suppliers.vue").read_text().count(':image="item.party_image" shape="square"') == 2
 	assert '<Avatar :label="item.party" :image="item.party_image" shape="square"' in (src / "Invoices.vue").read_text()
-	# And the customer's on the head, beside the project's name.
 	assert '"customer_image": frappe.db.get_value("Customer", doc.customer, "image")' in (PROJECT / "view.py").read_text()
 	assert ':image="said.customer_image" shape="square"' in (src / "Facts.vue").read_text()
-	# The Overview's orders and the customer's retention carry it too.
 	assert 'image: props.said.customer_image } : { icon: "lucide-truck" }),' in (src / "Overview.vue").read_text()
 	assert "    image: props.said.customer_image,\n    square: true," in (src / "Overview.vue").read_text()
 
 
 def test_a_parent_can_be_read_without_what_is_under_it():
-	# tree.narrow makes tree.scope the project alone for the rest of the
-	# request; a call inside it that doesn't ask keeps what the page asked.
 	import types
 
 	frappe = types.SimpleNamespace(local=types.SimpleNamespace())
@@ -2383,7 +2170,6 @@ def test_a_parent_can_be_read_without_what_is_under_it():
 	assert space["scope"]("Villa") == {"Villa"}
 	assert space["scope"]("Handrails") == {"Handrails", "Glass"}
 
-	# Every view the page reads takes `only` and counts through tree.scope.
 	ONLY = 'only: Annotated[bool | None, "Only the project\'s own work, not what is under it."] = None'
 	for module, name in (
 		("view.py", "said"),
@@ -2402,7 +2188,6 @@ def test_a_parent_can_be_read_without_what_is_under_it():
 		assert "tree.scope(project)" in (PROJECT / module).read_text(), module
 	assert '"own" if tree.narrowed(project) else "tree"' in (PROJECT / "money.py").read_text()
 
-	# The page: Main first in Sub-projects, the crumb switches, the address keeps it.
 	src = tree.ROOT / "frontend" / "src" / "project"
 	view = (PROJECT / "view.py").read_text()
 	assert '"main": {' in view and "overview.own_progress(" in view
@@ -2430,7 +2215,6 @@ def test_a_whole_jobs_milestones_are_a_row_per_part():
 		row("Keys", None, False, "Villa"),
 	]
 	found = lanes(rows, "Villa", {"Handrails": "Handrails", "Pergola": "Pergola"})
-	# Main first, then by each part's next milestone; within a part, soonest first and undated last.
 	assert [one["key"] for one in found] == ["Villa", "Pergola", "Handrails"]
 	assert found[0]["title"] is None and [one["subject"] for one in found[0]["milestones"]] == ["Site ready", "Keys"]
 	assert found[0]["done"] == 1
@@ -2476,11 +2260,9 @@ def test_time_groups_add_up_every_entry_not_only_those_sent():
 
 def test_money_shows_its_totals_to_every_reader_and_links_only_for_those_who_may_open():
 	money = (PROJECT / "money.py").read_text()
-	# The figure is the project's, its route only for whoever reads the doctype.
 	assert "if doctype and _sees(doctype):" in money
 	assert "if _sees(doctype):\n\t\t\tcustomer.append" not in money
 	assert '_opens(received)' in money and '_opens(paid)' in money
-	# Amounts are in the project's company's currency, as its base amounts are.
 	assert '"currency": currency(project)' in money and 'frappe.db.get_default("currency")' not in money
 
 
@@ -2491,8 +2273,6 @@ def test_a_debit_note_is_never_late_and_the_rules_stand_in_hooks():
 	assert past_due(note, -1200, "2026-10-08") is None
 	bill = [{"due_date": "2026-07-01", "amount": 1200, "held": False}]
 	assert past_due(bill, 1200, "2026-10-08")["due"] == 1200
-	# A disabled user can't join through the desk form, nor a retainer's
-	# hours be billed outside their month.
 	assert '"onedesk.one_project.members.enabled"' in HOOKS
 	assert '"onedesk.one_project.retainer.billed_by_month"' in HOOKS
 
@@ -2519,7 +2299,6 @@ def test_retention_taxed_when_released_is_held_in_lines_below_the_work():
 	assert withheld(4920, 10, 50) == [("Retention at Handover", 246.0), ("Retention", 246.0)]
 	assert withheld(1000.01, 5, 0) == [("Retention", 50.0)]
 	assert withheld(100, 0, 50) == []
-	# A third of 10.01 each way leaves the last part the cent rounding left.
 	assert sum(amount for _term, amount in withheld(100.1, 10, 33)) == 10.01
 	said = type("Said", (), {"ends": "2026-12-01", "due": "2027-06-30"})()
 	dates = released_on(date(2026, 11, 16), said, ["Retention at Handover", "Retention"])
@@ -2528,7 +2307,6 @@ def test_retention_taxed_when_released_is_held_in_lines_below_the_work():
 	dates = released_on(date(2026, 11, 16), early, ["Retention at Handover", "Retention"])
 	assert dates["Retention at Handover"] == date(2026, 11, 17) and dates["Retention"] == date(2026, 11, 18)
 	assert {"United Arab Emirates", "United Kingdom"} <= set(held["RELEASED_IN"])
-	# The setting, beside Hold Retention, and only while it's on.
 	settings = {f["fieldname"]: f for f in json.loads((PROJECT / "custom" / "projects_settings.json").read_text())["custom_fields"]}
 	tax = settings["one_retention_tax"]
 	assert tax["options"].split("\n") == ["With the Invoice", "When Released"] and tax["depends_on"] == "one_retention"

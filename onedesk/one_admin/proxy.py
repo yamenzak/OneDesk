@@ -13,16 +13,10 @@ from frappe.utils import cint
 
 from onedesk.one_admin import faults, site
 
-#: The rungs a workspace is still served on: Live and Overdue, since Overdue
-#: is defined as nothing happening to the workspace.
 SERVING = ("Live", "Overdue")
 
-#: Ours rather than `Authorization`, which Frappe's own API-key authentication
-#: reads first and rejects anything in that is not `key:secret`.
 HEADER = "X-One-Token"
 
-#: Per tenant per minute, and not per IP: every tenant on one bench calls from
-#: one address.
 A_MINUTE = 60
 CALLS_A_MINUTE = 120
 
@@ -120,13 +114,9 @@ def hello(database_bytes: int | None = None) -> dict:
 		"tenant": tenant.name,
 		"status": tenant.status,
 		"standing": lifecycle.standing(_tenant_doc(tenant)),
-		# The day it closes and the day it is deleted, when its payer asked.
 		"closing": closing.when(_tenant_doc(tenant)),
 		"workspace": known.workspace_name,
-		# Who paid for it: made its first administrator and invited, once, by a
-		# workspace nobody administers yet (one/owner.py).
 		"owner": known.owner_email,
-		# Whose One account holds it now: who is billed and told (accounts.py).
 		"billed_to": known.get("account"),
 		"domain": known.primary_domain or known.domain,
 		"given_domain": known.domain,
@@ -141,25 +131,15 @@ def hello(database_bytes: int | None = None) -> dict:
 		"database_bytes": known.database_bytes or 0,
 		"database_limit": known.database_limit or 0,
 		"add_ons": _add_ons(tenant.name),
-		# Who its invoices are from, so its books can know us as a supplier.
 		"seller": billing.seller(),
 		"storage_bytes": known.storage_bytes or 0,
 		"storage_limit": known.storage_limit or 0,
-		# A sum over the ledger, never a stored number; and the last credits an
-		# operator gave, with their note, so the customer hears why.
 		"credits": {
 			**ledger.standing(tenant.name),
-			# Nothing to run low against on our own workspace, which is never
-			# refused (house.py), so it is never told it is running low.
 			"month": 0 if known.get("is_house") else _used_lately(tenant.name),
 			"gift": ledger.last_gift(tenant.name),
 		},
-		# The addresses too, so the account screen is one call rather than two.
-		# A workspace that asked only about its account still gets them, which
-		# is what keeps the copy on its own site in step after an outage.
 		"domains": domains.mine(_tenant_doc(tenant)),
-		# What a customer's own name points at, as a CNAME: the name we gave the
-		# workspace, which is what Cloudflare serves it from (domains.py).
 		"dns_target": known.domain,
 	}
 
@@ -196,8 +176,6 @@ def ai_run(
 			tools=frappe.parse_json(tools) if isinstance(tools, str) else tools,
 		)
 	except faults.Refused as raised:
-		# Thrown, so the sentence that says why reaches the workspace; `Again`
-		# keeps its own name, so the caller can still tell retryable apart.
 		frappe.throw(str(raised), exc=type(raised))
 
 

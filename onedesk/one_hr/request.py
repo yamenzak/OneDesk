@@ -5,8 +5,6 @@ from frappe import _
 
 from onedesk.one_hr import decision, tell
 
-#: The two strings HRMS's own Select holds, and the only two its status mapping
-#: can tell apart. Every Attendance Reason lands on one of them.
 WORK_FROM_HOME = "Work From Home"
 ON_DUTY = "On Duty"
 

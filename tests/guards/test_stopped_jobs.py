@@ -11,7 +11,6 @@ import pytest
 ROOT = Path(__file__).resolve().parents[2]
 APPS = Path("/home/frappe/bench1/apps")
 
-#: (our file, the constant naming what it stops).
 STOPS = (
 	("onedesk/one_calendar/tell.py", "FRAPPE_DIGEST"),
 	("onedesk/one_project/board.py", "OVERDUE_JOB"),

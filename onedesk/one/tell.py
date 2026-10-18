@@ -7,8 +7,6 @@ from frappe.automation.doctype.reminder.reminder import Reminder as _FrappeRemin
 
 from onedesk.one import notify, roles
 
-# ------------------------------------------------------------------ the account
-
 
 def credits_running_low(people: list[str], balance: str, days: int) -> None:
 	"""The credits fell under a tenth of a month's use (account._tell)."""
@@ -139,9 +137,6 @@ def domain_stopped_working(people: list[str], domain: str, target: str | None) -
 	notify.notify("Domain Stopped Working", people, link=account.DOMAINS, sender="Administrator", **slots)
 
 
-# ------------------------------------------------------------------ closing
-
-
 def _everybody() -> list[str]:
 	"""Everybody who signs in to the workspace, the payer included."""
 	from onedesk.one.settings import NOT_PEOPLE
@@ -197,9 +192,6 @@ def workspace_staying_open() -> None:
 		sender="Administrator",
 		by=frappe.utils.get_fullname(),
 	)
-
-
-# ------------------------------------------------------------------ people and access
 
 
 def invited(email: str, apps: list[str] | None, **said) -> None:
@@ -265,13 +257,6 @@ def employee_details_changed(employee, said: list[str]) -> None:
 	)
 
 
-# ------------------------------------------------------------------ sign-in
-
-# A security notice goes on the bell and is always mailed, so a person who did
-# not do it finds out wherever they are. It is sent by the workspace rather
-# than the person, or frappe would not tell them of their own act.
-
-
 def _said() -> dict:
 	"""When, from which device and address: what a security notice says."""
 	from frappe.utils import now_datetime
@@ -314,9 +299,6 @@ def passkey_turned_off(user: str, device: str) -> None:
 	notify.notify(
 		"Passkey Turned Off", user, link="/desk/settings?section=signin", sender="Administrator", device=device
 	)
-
-
-# ------------------------------------------------------------------ privacy
 
 
 def asked_to_confirm_deletion(email: str, url: str, hours: int) -> None:
@@ -424,9 +406,6 @@ def copy_ready_to_download(request: str, address: str, withheld: str) -> None:
 	)
 
 
-# ------------------------------------------------------------------ the workspace
-
-
 def announced(doc) -> None:
 	"""A note made public, told once to everybody but whoever posted it."""
 	from onedesk.one.announcements import NOTE, SAID
@@ -490,7 +469,6 @@ def told_by_automation(people: list[str], doc, subject: str, message: str) -> No
 		people,
 		record=(doc.doctype, doc.name) if doc else None,
 		subject=frappe.utils.strip_html(subject or ""),
-		# The message is the flow's own, or a checked template's: HTML, cleaned.
 		message=Markup(frappe.utils.sanitize_html(message or "")),
 	)
 
@@ -603,9 +581,6 @@ def _or(said: list[str]) -> str:
 	return _("{0} or {1}").format(", ".join(said[:-1]), said[-1])
 
 
-# ------------------------------------------------------------------ repeats
-
-
 def repeats_failed() -> None:
 	"""Hourly: a repeat frappe switched off because the next one could not be
 	made, from the hour's Error Log, told to whoever set it up, and accounts
@@ -647,9 +622,6 @@ def repeats_failed() -> None:
 		)
 
 
-# ------------------------------------------------------------------ reminders
-
-
 class Reminder(_FrappeReminder):
 	"""frappe's Remind Me, told as One's Reminder: frappe writes an Alert,
 	which neither pushes nor mails, so a reminder set for the morning was a
@@ -671,9 +643,6 @@ class Reminder(_FrappeReminder):
 			)
 		except Exception:
 			self.log_error("Failed to send reminder")
-
-
-# ------------------------------------------------------------------ the second pass
 
 
 def administrator_removed(doc) -> None:

@@ -91,16 +91,12 @@ const __ = window.__;
 
 const props = defineProps({
 	record: { type: Object, required: true },
-	// A suggestion is the same card with a verb where the id would be and two
-	// buttons underneath, because what is being approved is a record.
 	suggested: { type: Object, default: null },
 });
 const emit = defineEmits(["answered"]);
 
 const busy = ref(false);
 
-// Every field a card carries is on it — approving approves all of them — and
-// past eight the rest wait behind a line that says how many.
 const FOLD = 8;
 const unfolded = ref(false);
 const fields = computed(() => {
@@ -108,17 +104,12 @@ const fields = computed(() => {
 	return unfolded.value || many.value ? all : all.slice(0, FOLD);
 });
 
-// A change to more than a few fields is said as what it touches, not drawn as
-// a table: the page it changes is the better place to read it, and Approve
-// puts it there with every changed field marked.
 const MANY = 4;
 const many = computed(
 	() => props.suggested && props.suggested.kind === "Edit" && (props.record.fields || []).length > MANY
 );
 const folded = computed(() => Math.max((props.record.fields || []).length - FOLD, 0));
 
-// One field holding a paragraph — what a field's own control comes back with —
-// is read top to bottom rather than squeezed into the label-value grid.
 const prose = computed(() => {
 	const fields = props.record.fields || [];
 	return fields.length === 1 && String(fields[0].value || "").length > 80;
@@ -127,10 +118,8 @@ const state = computed(() => props.suggested && props.suggested.state);
 
 const kind = computed(() => (props.suggested ? props.suggested.kind || "Create" : ""));
 
-// A Setup card's glyph is what it would set up (one/ai_setup.py).
 const SETUP = { report: "file-chart-column", dashboard: "layout-dashboard", mail: "mail-check", level: "shield-check", profile: "id-card", group: "users-round", hold: "eye", extension: "puzzle", record_type: "table-2" };
 
-// A record, a new one, a change, a deletion or how a form looks — Lucide's own.
 const glyph = computed(
 	() => ({ Create: "file-plus", Edit: "file-pen", Delete: "trash-2", Customize: "settings-2", Signature: "pen-line", Holidays: "calendar-days", Reply: "reply", Numbering: "hash", Printing: "printer", Approval: "route" })[kind.value] ||
 		SETUP[props.record.what] ||
@@ -140,8 +129,6 @@ const glyph = computed(
 
 const doctype = computed(() => props.record.doctype || (props.suggested && props.suggested.for_doctype) || "");
 
-// What the card is, as a person would say it: the record's own title for a
-// lookup, and for a suggestion what approving it would do.
 const title = computed(() => {
 	const name = props.record.title || props.record.name;
 	if (kind.value === "Create") return __("New {0}", [__(doctype.value)]);
@@ -158,12 +145,10 @@ const title = computed(() => {
 	if (kind.value === "Approval") return __("Approval of {0}", [__(doctype.value)]);
 	if (kind.value === "Reply") return __("A reply to {0}", [name]);
 	if (kind.value === "Mail") return __("A mail about {0}", [name]);
-	// A Setup card says itself, already translated (one/ai_setup.py).
 	if (kind.value === "Setup") return props.record.title || __(doctype.value);
 	return name || __(doctype.value);
 });
 
-// What a Setup card sets up, said instead of the doctype under it.
 const SETUP_SAID = { report: "Saved Report", dashboard: "Dashboard", mail: "Report by Mail", level: "Level", profile: "Profile", group: "Group", hold: "What They See", extension: "Extension", record_type: "Record Type", member: "Member", contact: "Contact", project: "Project", status: "Status", milestone: "Milestone", time: "Time", budget: "Budget" };
 
 const sub = computed(() => {
@@ -181,8 +166,6 @@ const settled = computed(() => {
 	return card.state;
 });
 
-// A Printing card's page, drawn by the server as it would print, in a frame
-// that runs nothing (printing.proposal_preview).
 async function see_page() {
 	const html = await frappe.xcall("onedesk.one.printing.proposal_preview", { proposal: props.suggested.name });
 	const dialog = new frappe.ui.Dialog({ title: title.value, size: "extra-large" });
@@ -195,32 +178,19 @@ async function see_page() {
 }
 
 function open(name) {
-	// A customization was applied to a form, not to a record of it.
 	if (kind.value === "Customize") frappe.set_route("List", "Workspace Field", { form: doctype.value });
-	// A mailbox's signature is set, and seen, in Settings › Mail.
 	else if (kind.value === "Signature") frappe.set_route("settings", { section: "mail" });
-	// The holidays are read, and changed by hand, on Workspace › Holidays.
 	else if (kind.value === "Holidays") frappe.set_route("workspace-settings", { section: "holidays" });
-	// A reply is read, and sent, in OneMail.
 	else if (kind.value === "Reply") frappe.set_route("onemail");
-	// A kind of record's series are read, and changed by hand, in its Settings.
 	else if (kind.value === "Numbering") onedesk.doctype_settings.open(doctype.value, "naming");
-	// A format it designed opens in frappe's builder, to be changed there like any other.
 	else if (kind.value === "Printing" && props.record.format) frappe.set_route("print-format-builder", props.record.format);
-	// Letter heads and defaults are read, and changed by hand, on Workspace › Printing.
 	else if (kind.value === "Printing") frappe.set_route("workspace-settings", { section: "printing" });
-	// An approval it made opens in frappe's workflow builder, to be changed there.
 	else if (kind.value === "Approval") frappe.set_route("workflow-builder", name);
-	// What it set up opens where it is kept: a report, a level's page, Show In's place.
 	else if (kind.value === "Setup" && props.record.route) frappe.set_route(...props.record.route);
 	else frappe.set_route("Form", doctype.value, name);
 }
 
 
-// The form this suggestion is about, if it is the one open. Approving a change
-// there puts the text into the form beside whatever the person has typed and
-// not saved, and they save it the way they save anything — a save from here
-// would either lose their edits or be refused as stale.
 function form() {
 	const card = props.suggested;
 	const frm = window.cur_frm;
@@ -228,7 +198,6 @@ function form() {
 	return (card.record ? frm.docname === card.record : frm.is_new()) ? frm : null;
 }
 
-// A new message written for the email window that is still open.
 function writes() {
 	const card = props.suggested;
 	const writing = onedesk.oneai.writing;
@@ -247,15 +216,11 @@ async function answer(what) {
 	try {
 		const frm = what === "apply" ? form() : null;
 		if (what === "apply" && kind.value === "Reply") {
-			// Nothing is sent: the reply opens in frappe's email window, as Reply
-			// opens it, to be read, changed and sent (onemail.js reply_to).
 			const out = await frappe.xcall("onedesk.one_ai.run.apply", { proposal: props.suggested.name });
 			const said = out.reply || {};
 			await frappe.require(["/assets/onedesk/css/onemail.css", "/assets/onedesk/js/onemail.js"]);
 			await onedesk.OneMail.reply_to(said.account, said.thread, { text: said.text });
 		} else if (what === "apply" && kind.value === "Mail") {
-			// Nothing is sent: frappe's email window opens on the record with the
-			// mail written in, to be read, changed and sent (record.js).
 			const out = await frappe.xcall("onedesk.one_ai.run.apply", { proposal: props.suggested.name });
 			const said = out.mail || {};
 			await onedesk.record.email(props.suggested.for_doctype, props.suggested.record, {
@@ -264,7 +229,6 @@ async function answer(what) {
 				message: (said.text || "").split(/\n\s*\n/).map((one) => `<p>${frappe.utils.escape_html(one).replace(/\n/g, "<br>")}</p>`).join(""),
 			});
 		} else if (what === "apply" && writes()) {
-			// Into the open email window, its signature and quoted message kept.
 			const out = await frappe.xcall("onedesk.one_ai.run.took", { proposal: props.suggested.name });
 			onedesk.oneai.rewrite((out.changes || {}).content || "");
 		} else if (frm) {
@@ -273,15 +237,12 @@ async function answer(what) {
 				await frm.set_value(fieldname, value);
 			}
 			onedesk.oneai.wrote(frm, out.changes || {}, props.suggested.name);
-			// Each field it changed is marked on the page with what it held, to be
-			// read there and saved or undone the way anything on a form is.
 			onedesk.oneai.changed(frm, props.record.fields || []);
 		} else {
 			await frappe.xcall(`onedesk.one_ai.run.${what}`, { proposal: props.suggested.name });
 		}
 		emit("answered", props.suggested.name);
 	} catch {
-		// The server already said why, in its own dialog; the card stays open.
 	} finally {
 		busy.value = false;
 	}

@@ -11,15 +11,12 @@ from frappe import _, _lt
 
 from onedesk.one_mail import actions, live
 
-#: Documents a message may be found to name in its text, by their naming series.
 NAMED = (
 	"Sales Invoice", "Purchase Invoice", "Sales Order", "Purchase Order", "Quotation", "Supplier Quotation",
 	"Delivery Note", "Purchase Receipt", "Payment Entry", "Material Request", "Request for Quotation",
 	"Opportunity", "Issue", "Project", "Task", "Job Applicant", "Expense Claim",
 )  # fmt: skip
 
-#: The Mail tab, on the records mail is about: the conversations filed on
-#: one, and a way to write from it (record_mail.js). See one/tabs.py.
 TABS = [
 	{
 		"name": "mail",
@@ -45,23 +42,17 @@ TABS = [
 	}
 ]
 
-#: The records an address is looked up on, beyond Frappe's contacts: (doctype, fields).
 BY_ADDRESS = (
 	("Employee", ("company_email", "personal_email", "prefered_email")),
 	("Lead", ("email_id",)),
 )
 
-#: Where the quoted history of a reply begins, in text or HTML.
 QUOTED = re.compile(
 	r"(<blockquote|<div class=\"gmail_quote|-----\s*Original Message|^On .{0,200} wrote:$|^>)",
 	re.IGNORECASE | re.MULTILINE,
 )
 
-#: Most documents one message is linked to by its text.
 MOST_NAMED = 10
-
-
-# ------------------------------------------------------------------ pure
 
 
 def fresh_part(content: str | None) -> str:
@@ -93,9 +84,6 @@ def candidates(text: str, starts: list[str]) -> list[str]:
 		+ r")[A-Za-z0-9./-]*\d"
 	)
 	return list(dict.fromkeys(pattern.findall(text or "")))
-
-
-# ------------------------------------------------------------------ making links
 
 
 def held_links(name: str) -> set[tuple[str, str]]:
@@ -223,15 +211,11 @@ def from_text(doc) -> list[tuple[str, str]]:
 	out = []
 	for word in candidates(text, list(known)):
 		prefix = max((one for one in known if word.startswith(one)), key=len)
-		# A prefix match is a guess; the document existing is not.
 		if frappe.db.exists(known[prefix], word):
 			out.append((known[prefix], word))
 		if len(out) >= MOST_NAMED:
 			break
 	return out
-
-
-# ------------------------------------------------------------------ reading
 
 
 def visible(names: list[str], user: str | None = None) -> set[str]:
@@ -367,9 +351,6 @@ def _mine(names) -> list[str]:
 			frappe.throw(_("This message isn't in a mailbox."))
 		actions.require(account)
 	return names
-
-
-# ------------------------------------------------------------------ the timeline
 
 
 def _filter(messages: list) -> list:

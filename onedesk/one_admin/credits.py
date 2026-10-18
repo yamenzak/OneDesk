@@ -7,8 +7,6 @@ and an overdraw belongs to no bucket.
 from dataclasses import dataclass
 from datetime import date
 
-#: Credits are counted to six places. A single call can cost a thousandth of
-#: one, and rounding those to zero is a product given away by arithmetic.
 PLACES = 6
 
 
@@ -18,7 +16,6 @@ class Bucket:
 
 	name: str
 	left: float
-	#: None never expires. A date is the last day it counts.
 	expires_on: date | None = None
 
 	def live_on(self, day: date) -> bool:

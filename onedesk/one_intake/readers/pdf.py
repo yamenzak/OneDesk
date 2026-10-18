@@ -7,14 +7,10 @@ when a PDF needs it, so the decisions around it stay checkable without it.
 
 import io
 
-#: A page with fewer characters than this has no text layer worth the name:
-#: a scan with a stamp, a page number or a barcode read as letters.
 WORDY = 25
 
-#: Fewer than this is a blank page, which says nothing either way.
 BLANK = 6
 
-#: What ZUGFeRD, Factur-X and XRechnung call the invoice they embed.
 EMBEDDED = ("factur-x.xml", "zugferd-invoice.xml", "xrechnung.xml", "zugferd.xml")
 
 

@@ -11,15 +11,12 @@ from frappe.permissions import setup_custom_perms
 from onedesk.one import roles, tell
 from onedesk.one.customize import REFUSED_MODULES
 
-#: The rights a level's page shows, one tick each, in frappe's own names.
 RIGHTS = ("select", "read", "write", "create", "delete", "submit", "cancel", "export")
 
-#: frappe's other rights, which follow the ones shown (`_wanted`).
 FOLLOW = ("amend", "report", "import", "print", "email", "share")
 
 ALL_RIGHTS = RIGHTS + FOLLOW
 
-#: How each shown right is said on screen.
 SAID = {
 	"select": "Pick",
 	"read": "Read",
@@ -31,9 +28,6 @@ SAID = {
 	"export": "Export",
 }
 
-#: What a right cannot be had without: what frappe refuses a rule for lacking
-#: (doctype.py `check_permission_dependency`), and reading, which every other
-#: right is useless without.
 NEEDS = {
 	"write": {"read"},
 	"create": {"read"},
@@ -49,14 +43,11 @@ NEEDS = {
 	"share": {"read"},
 }
 
-#: Rights only a kind that is submitted has, and those a single kind cannot.
 SUBMITTED = {"submit", "cancel", "amend"}
 NOT_SINGLE = {"report", "import", "export"}
 
-#: The two levels every app has, as People sets them.
 BASE = ("User", "Manager")
 
-#: Roles everybody on the workspace holds, whatever their level.
 EVERYONE = ("All", "Desk User", "Guest")
 
 
@@ -83,7 +74,6 @@ def _companion(app: str) -> str:
 			{"doctype": "Role", "role_name": name, "desk_access": 1, "is_custom": 1, "one_app": app}
 		).insert(ignore_permissions=True)
 		for user in people_at(app, "User"):
-			# The administrator may not save a User record, which add_roles does.
 			doc = frappe.get_doc("User", user)
 			doc.flags.ignore_permissions = True
 			doc.add_roles(name)
@@ -523,10 +513,6 @@ def doctype_levels(doctype: str) -> list[dict]:
 	return for_doctype(doctype)
 
 
-# ------------------------------------------------------------------ record access
-
-#: The kinds of record a person can be held to, as frappe's User Permission
-#: holds them: everything linked to one of these is then theirs only.
 RECORD_KINDS = (
 	"Territory",
 	"Customer Group",
@@ -613,9 +599,6 @@ def let_go(name: str) -> None:
 	)
 
 
-# ------------------------------------------------------------------ profiles
-
-
 def profiles() -> list[dict]:
 	"""Every profile, the levels it sets, and how many people are on it."""
 	said = []
@@ -682,8 +665,6 @@ def save_profile(name: str | None, title: str, levels: dict) -> str:
 		doc = frappe.get_doc("Role Profile", name)
 	doc.set("roles", [{"role": one} for one in sorted(wanted) if frappe.db.exists("Role", one)])
 	doc.save(ignore_permissions=True)
-	# frappe locks a profile until its member sync runs, and One's profiles have no
-	# frappe members, so the lock would only refuse the next save.
 	doc.unlock()
 	for user in frappe.get_all("User", filters={"one_profile": doc.name}, pluck="name"):
 		put_on(user, doc.name)
@@ -712,9 +693,6 @@ def remove_profile(name: str) -> None:
 	roles.require()
 	frappe.db.set_value("User", {"one_profile": name}, "one_profile", None, update_modified=False)
 	frappe.delete_doc("Role Profile", name, ignore_permissions=True, force=True)
-
-
-# ------------------------------------------------------------------ groups
 
 
 def groups() -> list[dict]:
@@ -775,69 +753,45 @@ def remove_group(name: str) -> None:
 	frappe.delete_doc("User Group", name, ignore_permissions=True, force=True)
 
 
-# ------------------------------------------------------------------ what One gives on frappe's doctypes
-
-#: What the workspace administrator is given where frappe keeps a doctype for
-#: its System Manager, by the screen that needs it.
 ADMINISTRATOR = {
-	# Announcements: frappe's Note.
 	"Note": ("read", "write", "create", "delete"),
-	# Approvals.
 	"Workflow": ("read", "write", "create", "delete"),
 	"Workflow State": ("read", "write", "create"),
 	"Workflow Action Master": ("read", "write", "create"),
-	# Audit Log.
 	"Version": ("read", "report"),
 	"Activity Log": ("read", "report"),
 	"Access Log": ("read", "report"),
-	# Automations.
 	"Automation Flow": ("read", "write", "create", "delete"),
-	# Mail Templates.
 	"Email Template": ("read", "write", "create", "delete"),
-	# Numbering.
 	"Document Naming Rule": ("read", "write", "create", "delete"),
-	# Notifications, so what OneAI suggests (a rewrite, a rule) is applied as them.
 	"Notification Type": ("read", "write"),
 	"Notification": ("read", "write", "create", "delete"),
-	# Printing. Field templates are read only, since only a standard one is placed.
 	"Print Format": ("read", "write", "create", "delete", "print"),
 	"Letter Head": ("read", "write", "create", "delete"),
 	"Print Format Snippet": ("read", "write", "create", "delete"),
 	"Print Format Field Template": ("read",),
 	"Print Settings": ("read",),
-	# Privacy Requests.
 	"Personal Data Deletion Request": ("read", "report"),
 	"Personal Data Download Request": ("read", "report"),
-	# General's Start Again, to follow it: one/start_again.py makes it.
 	"Transaction Deletion Record": ("read",),
-	# Recycle Bin.
 	"Deleted Document": ("read", "delete"),
-	# Reports and Dashboards.
 	"Report": ("read", "write", "create", "delete"),
 	"Auto Email Report": ("read", "write", "create", "delete"),
 	"Dashboard": ("read", "write", "create", "delete"),
 	"Dashboard Chart": ("read", "write", "create", "delete"),
 	"Number Card": ("read", "write", "create", "delete"),
-	# Webhooks.
 	"Webhook": ("read", "write", "create", "delete"),
 	"Webhook Request Log": ("read", "report"),
 }
 
-#: frappe's builder pages, whose only role is System Manager: Approvals and Printing.
 PAGES = ("workflow-builder", "print-format-builder")
 
-#: The levels of a Note beyond the first: 1 makes it public and shown on
-#: sign-in, 2 is who has seen it.
 NOTE_LEVELS = {1: ("read", "write"), 2: ("read",)}
 
-#: What the administrator, and an app's managers, may do with a master.
 MASTER = ("read", "write", "create", "delete")
 
-#: Where settle keeps which master and role an app's managers were given, so a
-#: change made later in Access stands.
 MASTERS_GIVEN = "onedesk_masters_given"
 
-#: The role every desk user holds.
 DESK = "Desk User"
 
 

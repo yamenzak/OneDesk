@@ -44,7 +44,6 @@ def rate(source: str | None, target: str, date=None) -> float:
 	date = date or nowdate()
 	found = flt(get_exchange_rate(source, target, date))
 	if not found:
-		# A rate kept one way only, USD to AED say, read the other way.
 		back = flt(get_exchange_rate(target, source, date))
 		found = 1 / back if back else 0.0
 	if not found:

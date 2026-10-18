@@ -1,29 +1,7 @@
-// The shell every page of ours is built in (docs/SHELL.md). A page composes
-// these parts rather than drawing its own, so every page of One looks like one
-// product and like the desk it sits in:
-//
-// - the head is frappe's page head: the title, the breadcrumb, the indicator,
-//   Save as the primary action with Ctrl+S, the buttons and the menu;
-// - the body is a column (the desk form's width), wide (a table's width), or
-//   panes side by side, fitted to the window, for a list beside what it opens;
-// - a section is a heading, a note and what is under it, divided from the
-//   next by a rule, never boxed;
-// - a row, an empty state, a quiet line, one of each;
-// - the Editor is a record edited as a desk form is: dirty against what
-//   loaded, a warning before leaving, saved against `modified`, and told on
-//   `doc_update` when somebody else changes it.
-//
-// Every part is frappe's first (point 9 of docs/PASSOVER.md): espresso's
-// button, badge and alert drawn as frappe-ui draws them, FieldGroup for
-// fields, the page head for actions. What is here is only what frappe has not.
 
 frappe.provide("onedesk.shell");
 
 $.extend(onedesk.shell, {
-	// A page of ours: frappe's app page, with the shell's frame in its main area.
-	// `hide_sidebar` is for a page whose panes are its own sidebar: OneMail's
-	// mailboxes, OneCloud's tree. Such a page has no panel header, so `mark`
-	// puts the app's mark before its name, as that header would.
 	page(wrapper, title, { hide_sidebar = false, mark = null } = {}) {
 		const page = frappe.ui.make_app_page({ parent: wrapper, title, single_column: true, hide_sidebar });
 		if (mark) page.$title_area.prepend(`<span class="one-shell-mark">${frappe.utils.icon(mark, "md")}</span>`);
@@ -31,21 +9,11 @@ $.extend(onedesk.shell, {
 		return page;
 	},
 
-	// The body: a column in the middle of the page, as a desk form and
-	// frappe-ui's settings pages are, or wide where a table needs the room.
-	// Drawing one replaces what the frame held.
 	body($shell, { wide = false } = {}) {
 		$shell.html(`<div class="one-shell-body">${onedesk.shell.quiet(__("Loading…"))}</div>`);
 		return $shell.find(".one-shell-body").toggleClass("one-shell-wide", !!wide);
 	},
 
-	// Panes side by side, fitted to the window once for every page that has
-	// them: a list beside what it opens, or a column of choices beside what they
-	// choose. Each is `{ key, width }`, a width in pixels or none for the rest;
-	// a rule divides them, and nothing boxes them. A pane may be hidden (its
-	// `data-pane`) and the others close up. `fit: false` is for panes inside
-	// something that sizes itself: OneCloud's window, or a record's tab.
-	// Returns each pane by key.
 	panes($into, panes, { fit = true } = {}) {
 		const $panes = $(`<div class="one-shell-panes${fit ? "" : " one-shell-panes-inset"}"></div>`);
 		const found = {};
@@ -59,15 +27,10 @@ $.extend(onedesk.shell, {
 		return found;
 	},
 
-	// A pane's own head: what switches or narrows what the pane shows, above
-	// it, on a rule.
 	pane_head($pane, html) {
 		return $(`<div class="one-shell-pane-head">${html || ""}</div>`).prependTo($pane);
 	},
 
-	// As tall as the window leaves it, from where it starts down to the bottom,
-	// and again when the window changes. The one place a page is sized to the
-	// window.
 	fit($el) {
 		const size = () => {
 			if (!$el.is(":visible") || window.innerWidth < 768) return $el.css("height", "");
@@ -79,26 +42,12 @@ $.extend(onedesk.shell, {
 		$(document).on("page-change", () => setTimeout(size, 50));
 	},
 
-	// The page head is a breadcrumb in v17, so a page's name goes there, and
-	// to the browser tab. `route` is where the name leads, when that is not
-	// this page: a record's calendar leads back to the record. Each page draws
-	// its own trail (`page.set_breadcrumbs`).
 	name(label, { route = null, page = frappe.get_current_page() } = {}) {
 		page && page.set_breadcrumbs([{ label, ...(route ? { href: route } : {}) }]);
 		frappe.utils.set_title(label);
-		// OneAI's panel names where the reader is by the page's title, which the
-		// router's change came before; tell it again now that it is right.
 		if (onedesk.oneai && onedesk.oneai.panel) onedesk.oneai.panel.moved(onedesk.oneai.where());
 	},
 
-	// A record inside a page: its section's name and then its own, as a
-	// form's breadcrumb reads "Customer / Client Example Ltd", with `between`
-	// any records it sits under, as a sub-project's parents. The record's
-	// name switches between records of its kind (crumb_switch.js); `menu`
-	// gives it choices of its own instead, frappe.ui.Dropdown's options.
-	// `after` are crumbs after it, each `{ label, menu }`: a project with
-	// sub-projects switches between all of its work, its own, and each
-	// sub-project.
 	trail(parent, route, label, between = [], menu = null, page = frappe.get_current_page(), after = []) {
 		if (page) {
 			page.set_breadcrumbs([
@@ -112,14 +61,7 @@ $.extend(onedesk.shell, {
 		if (onedesk.oneai && onedesk.oneai.panel) onedesk.oneai.panel.moved(onedesk.oneai.where());
 	},
 
-	// A record a page opens on, drawn as a docview is, on any page: its name
-	// after the page's in the breadcrumb (`trail`), its status in the page
-	// head's pill, what can be done to it as the page head's own buttons
-	// (`actions`, each `{ label, action, group }`), and frappe's form sidebar
-	// (`side`) beside the main column, which it returns. `$into` is the
-	// shell's body. A record that is edited uses Editor.as_record instead.
 	record($into, { page, parent, route, title, status = null, side = "", actions = [] }) {
-		// A page that is itself the record (Plan and Credits) keeps its own name.
 		if (parent) onedesk.shell.trail(parent, route, title, [], null, page);
 		if (status) page.set_indicator(status.label, status.colour);
 		const $view = $(`<div class="one-record-view"><div class="one-record-main"></div><div class="one-record-side form-sidebar">${side}</div></div>`);
@@ -129,20 +71,11 @@ $.extend(onedesk.shell, {
 		return $view.find(".one-record-main");
 	},
 
-	// A list of records: frappe's EmbeddedList, the one table every page of
-	// ours lists records in (docs/SHELL.md, Lists). A heading and a note above
-	// it, searchable once there are more than five, `open` for what a row
-	// does when clicked, `actions` for buttons beside the search (html, bound
-	// by the page), and `page_size` before Load More. `choose` narrows the
-	// rows by one of their values with frappe's Select beside the search:
-	// `{ key, all, value }`, `all` naming the choice of every row; the rows'
-	// own values are the rest. Resolves to the list.
 	async table($into, { title = "", note = "", rows = [], columns, open = null, empty = "", none = "", icon = "list", page_size = 20, actions = "", mark = null, choose = null } = {}) {
 		await frappe.require("embedded_list.bundle.js");
 		const esc = frappe.utils.escape_html;
 		const list = new frappe.ui.EmbeddedList({
 			wrapper: $into,
-			// `mark` is a product's mark before the title, for a list of its things.
 			title: title ? `${mark ? `<span class="one-shell-part-mark">${frappe.utils.icon(mark, "md")}</span>` : ""}${esc(title)}` : "",
 			description: note ? esc(note) : "",
 			show_search: rows.length > 5,
@@ -164,7 +97,6 @@ $.extend(onedesk.shell, {
 				render_input: true,
 				only_input: true,
 			});
-			// Sized as frappe sizes the search beside it.
 			select.$input.addClass("form-control-sm");
 			list.chosen = values.includes(choose.value) ? choose.value : choose.all;
 			select.set_value(list.chosen);
@@ -179,9 +111,6 @@ $.extend(onedesk.shell, {
 		return list;
 	},
 
-	// The sidebar of a record drawn as a docview, in frappe's own form-sidebar
-	// parts: its picture (a photo, initials, or a mark), its name and a line
-	// under it, groups of links, and a few quiet lines of when.
 	side({ image = null, initials = "", mark = null, title = "", sub = "", groups = [], meta = [] } = {}) {
 		const esc = frappe.utils.escape_html;
 		const picture = image
@@ -205,10 +134,6 @@ $.extend(onedesk.shell, {
 		return frappe.ui.button.html({ label, attrs, variant, icon, theme: theme || undefined });
 	},
 
-	// One part of a page: a heading and what it holds, divided from the next
-	// by a rule, the way a record's sections are. `aside` goes beside the
-	// heading: a count, a badge. The title is one flex item, or a product
-	// name in it (brand.js) would be split from its words by the gap.
 	section(title, body, note, aside = "") {
 		const esc = frappe.utils.escape_html;
 		return `<div class="one-shell-section">${title ? `<div class="one-shell-section-title"><span>${esc(title)}</span>${aside}</div>` : ""}${
@@ -216,14 +141,6 @@ $.extend(onedesk.shell, {
 		}${body}</div>`;
 	},
 
-	// A row of a list, as frappe-ui's ListRow is: what it is (`title`, which may
-	// carry badges), a line under it (`sub`), a quieter one (`quiet`), and on
-	// the right what it says in passing (`meta`: a date, a count) and its
-	// actions. `lead` goes before it all: a tick, an avatar. `link` makes the
-	// whole row the target, with the list-row hover, and `attrs` names a row
-	// that is not one; `href` makes it a link to another page. `active` is the
-	// row open beside the list, `unread` one not yet opened, as in a mailbox,
-	// and `picked` one ticked for what is done to several at once.
 	row({
 		title = "",
 		sub = "",
@@ -255,14 +172,11 @@ $.extend(onedesk.shell, {
 		</${tag}>`;
 	},
 
-	// An app's name with its mark before it, in a table cell or a line: the
-	// mark is a Custom Icon (scripts/icons.py), none for what is no app's.
 	app(label, mark) {
 		const esc = frappe.utils.escape_html;
 		return `<span class="one-shell-app">${mark ? `<span class="one-shell-app-mark">${frappe.utils.icon(mark, "sm")}</span>` : ""}${esc(label)}</span>`;
 	},
 
-	// Rows, as one list.
 	list(rows) {
 		return `<div class="one-shell-list">${rows}</div>`;
 	},
@@ -271,15 +185,10 @@ $.extend(onedesk.shell, {
 		return `<div class="one-shell-actions">${html}</div>`;
 	},
 
-	// Nothing to show: frappe's own empty state, sized for a section rather
-	// than a whole page.
 	empty(title, description, { icon = null } = {}) {
 		return frappe.ui.empty_state.html({ title, description, icon: icon || undefined, css_class: "one-shell-empty" });
 	},
 
-	// A search box: frappe's own Data control, with a search icon in front
-	// as frappe-ui's TextInput draws one with a prefix. Its input is returned
-	// for the page to listen to.
 	search($parent, { placeholder = "", title = "" } = {}) {
 		const $box = $(`<div class="one-shell-search">${frappe.utils.icon("search", "sm")}</div>`).appendTo($parent);
 		const control = frappe.ui.form.make_control({
@@ -296,10 +205,6 @@ $.extend(onedesk.shell, {
 		return `<div class="one-shell-quiet">${frappe.utils.escape_html(text)}</div>`;
 	},
 
-	// Somebody else saved what is open here. One title and one action is
-	// frappe-ui's row alert: Refresh on the right, a ghost button in the
-	// alert's own colour (Alert.vue). A page, a record and a record it links
-	// to all say it this way.
 	changed(title, refresh, css_class = "") {
 		const $refresh = $(onedesk.shell.button(__("Refresh"), {}, "ghost")).on("click", refresh);
 		return $(
@@ -313,10 +218,6 @@ $.extend(onedesk.shell, {
 	},
 });
 
-// A record edited on a page of ours, as a desk form edits one (form.js,
-// model.js). A page extends it and says three things: what to call to save
-// (`saver`), how to draw what came back (`redraw`), and how to open the record
-// again (`refresh`). `this.$content` is the body the form is drawn in.
 onedesk.shell.Editor = class Editor {
 	constructor(page) {
 		this.page = page;
@@ -329,18 +230,14 @@ onedesk.shell.Editor = class Editor {
 		frappe.realtime.on("doc_update", (data) => this.updated(data));
 	}
 
-	// Listen on each record's realtime room, as a form does on load.
 	async hear(opened) {
 		this.opened = opened || [];
 		for (const one of this.opened) {
-			// frappe lets one subscription through a second; wait our turn.
 			while (frappe.flags.doc_subscribe) await new Promise((done) => setTimeout(done, 250));
 			frappe.realtime.doc_subscribe(one.doctype, one.name);
 		}
 	}
 
-	// Somebody saved one of these records. Untouched, the page reloads; with
-	// changes in it, it says so and keeps them (model.js).
 	updated(data) {
 		const one = this.opened.find((it) => it.doctype === data.doctype && it.name === data.name);
 		if (!one || this.saving || !data.modified || data.modified <= one.modified) return;
@@ -355,9 +252,6 @@ onedesk.shell.Editor = class Editor {
 			.prependTo(this.$content);
 	}
 
-	// Dirty is a difference from what was loaded, so undoing a change makes
-	// the page clean again. The warning on leaving is frappe's own, kept out
-	// of developer mode as frappe keeps it.
 	check() {
 		if (!this.values || this.snapshot === undefined) return;
 		this.set_dirty(Editor.same(this.values()) !== this.snapshot);
@@ -374,14 +268,10 @@ onedesk.shell.Editor = class Editor {
 		if (dirty && !frappe.boot.developer_mode) addEventListener("beforeunload", this.leaving, { capture: true });
 	}
 
-	// Every field's value. FieldGroup.get_values leaves an empty field out, so
-	// a field somebody cleared would never be sent, and never be cleared.
 	static every(group, names) {
 		return Object.fromEntries(names.map((name) => [name, group.get_value(name) ?? ""]));
 	}
 
-	// Values as compared: empty is empty whatever it is, and order does not
-	// count. A table is its rows as they read, not the grid's own bookkeeping.
 	static same(values) {
 		const text = (value) => {
 			if (value === null || value === undefined) return "";
@@ -396,20 +286,10 @@ onedesk.shell.Editor = class Editor {
 		);
 	}
 
-	// A form made of the record's own fields, saved in one go from the page
-	// head, the way a record is. `rows` lays fields out side by side: each row
-	// is a list of fieldnames, one per column, or `{ heading, note }` to start
-	// a part of its own under a rule (`mark` puts a product's mark before the
-	// heading), `{ stack }` for fields one under another
-	// in one column, `{ row, css }` for a row whose part carries a class, or
-	// `{ html }` for something to read.
 	form(data, { before = "", after = "", rows = null } = {}) {
 		const $card = $(`<div class="one-shell-section">${before}<div class="one-shell-form"></div>${after}</div>`).appendTo(this.$content);
 		const own = Object.fromEntries(data.fields.map((one) => [one.fieldname, { ...one, default: data.values[one.fieldname] }]));
-		// A heading names the section the rows after it are in: a section with
-		// no fields of its own, frappe hides.
 		let heading = null;
-		// A part about one of the products carries its mark before its heading.
 		const marks = {};
 		const fields = rows
 			? rows.flatMap((row, at) => {
@@ -441,9 +321,6 @@ onedesk.shell.Editor = class Editor {
 			if (part) part.wrapper.find(".section-head").first().prepend(`<span class="one-shell-part-mark">${frappe.utils.icon(mark, "md")}</span>`);
 		}
 		$card.toggleClass("one-shell-columns", !!rows);
-		// Frappe marks a section empty while it is drawn, before its values are
-		// in and its fields' depends_on can say they show, and a FieldGroup never
-		// looks again. So look again once the values are in, and on every change.
 		const shown = () => {
 			this.group.refresh_dependency();
 			this.group.refresh_sections();
@@ -461,8 +338,6 @@ onedesk.shell.Editor = class Editor {
 		return $card;
 	}
 
-	// Save goes in the page head. What the fields hold once they have settled
-	// is what "changed" is measured against.
 	saves(values, $watch, ready) {
 		this.values = values;
 		this.snapshot = undefined;
@@ -470,15 +345,11 @@ onedesk.shell.Editor = class Editor {
 			this.snapshot = Editor.same(values());
 		});
 		this.page.set_primary_action(__("Save"), () => this.save(values()));
-		// Ctrl+S on a page calls its save_action; only a form uses its button (desk.js).
 		this.page.wrapper[0].save_action = () => this.save(values());
 		$watch.on("input change", "input, select, textarea", () => this.check());
-		// A grid's rows are added, removed and dragged without an input changing.
 		$watch.on("click mouseup", ".frappe-control[data-fieldtype='Table']", frappe.utils.debounce(() => this.check(), 150));
 	}
 
-	// No save until a form says what it saves; no record, its buttons or its
-	// status until one is drawn.
 	unsaved() {
 		this.values = null;
 		this.status = null;
@@ -490,11 +361,6 @@ onedesk.shell.Editor = class Editor {
 		this.page.clear_indicator();
 	}
 
-	// A record the page is open on, drawn as a docview is: its name after the
-	// page's in the breadcrumb, its status in the page head's pill, frappe's
-	// form sections for its fields with frappe's form sidebar beside them, and
-	// what can be done to it as the page head's own buttons (`actions`, each
-	// `{ label, action, group }`). What form() draws goes in the main column.
 	as_record(record) {
 		this.trailed = true;
 		this.status = record.status || null;
@@ -502,14 +368,10 @@ onedesk.shell.Editor = class Editor {
 		return this.$content;
 	}
 
-	// The record's own status stands in the pill until something is changed,
-	// as a form's does; "Not Saved" takes it meanwhile.
 	show_status() {
 		if (this.status) this.page.set_indicator(this.status.label, this.status.colour);
 	}
 
-	// Saved against the records as they were loaded, so frappe refuses the
-	// save if somebody changed one since (Document.check_if_latest).
 	async save(values) {
 		this.saving = true;
 		const { method, args } = this.saver(values);
@@ -535,21 +397,11 @@ onedesk.shell.Editor = class Editor {
 	}
 };
 
-// A crumb leads back where the reader came from, as the rail names it. A kind
-// of record whose home is a page (a department on Masters) leads to that page,
-// where frappe's crumb would name a list no rail links (one/homes.py); any
-// other says what its row in the rail says, "Items" over an item, on its
-// list, its tree and every record under them (one/titles.py). Set here, at
-// load, so a record opened by its address is named as one reached by a click.
-// Every page already opened keeps a head of its own, and frappe writes the
-// crumb into each, so each is renamed.
 {
 	const named = (doctype) => ((frappe.boot.one_titles || {}).Crumb || {})[doctype];
 	const homes = (doctype) => (frappe.boot.one_homes || {})[doctype];
 	const home_crumbs = (home) => home.map((one) => ({ label: __(one.label), href: encodeURI(one.route) }));
 
-	// A list no rail links leads back to its home. Its title, the last crumb,
-	// is named as its row is (reports.js lists_too).
 	const List = frappe.views.BaseList;
 	if (List && !List.prototype.__one_crumbs) {
 		List.prototype.__one_crumbs = true;
@@ -561,8 +413,6 @@ onedesk.shell.Editor = class Editor {
 		};
 	}
 
-	// A record's crumb leads back to where it lives: its home, or its list
-	// named as the rail names it (frappe.ui.form.get_breadcrumbs).
 	const formed = frappe.ui.form.get_breadcrumbs;
 	if (formed && !formed.__one) {
 		frappe.ui.form.get_breadcrumbs = function (frm) {
@@ -577,14 +427,10 @@ onedesk.shell.Editor = class Editor {
 		frappe.ui.form.get_breadcrumbs.__one = true;
 	}
 
-	// And the rail lights its home, where frappe finds no row for the route.
 	const Sidebar = frappe.ui.Sidebar;
 	if (Sidebar && !Sidebar.prototype.__one_homes) {
 		Sidebar.prototype.__one_homes = true;
 		const found = Sidebar.prototype.find_active_item;
-		// A list's row leads to one of its views (Projects to /project/view/list),
-		// and every view of the list is that row's (onedesk.panel.path,
-		// panel_menu.js).
 		const list = (path) => onedesk.panel.path(path);
 		const light = (sidebar, $row) => {
 			if (!$row || !$row.length) return false;
@@ -593,7 +439,6 @@ onedesk.shell.Editor = class Editor {
 		};
 		Sidebar.prototype.find_active_item = function () {
 			if (found.call(this)) return true;
-			// Of two rows on one list (Inbox and Tasks), the one that narrows it least.
 			const narrows = (a) => new URLSearchParams(a.getAttribute("href").split("?")[1] || "").size;
 			const row = (path) =>
 				$(".item-anchor[href]")
@@ -601,7 +446,6 @@ onedesk.shell.Editor = class Editor {
 					.filter((a) => list(a.getAttribute("href")) === list(path))
 					.sort((a, b) => narrows(a) - narrows(b))[0];
 			const route = frappe.get_route();
-			// A record lights its list's row, or its home's.
 			const home = route[0] === "Form" && homes(route[1]);
 			const path = route[0] === "Form" ? (home ? home[0].route : `/desk/${frappe.router.slug(route[1])}`) : window.location.pathname;
 			const found_row = row(path) || (route[0] === "Form" ? null : row(window.location.pathname));
@@ -610,15 +454,8 @@ onedesk.shell.Editor = class Editor {
 	}
 }
 
-// An amount reads the way it is written. Frappe writes a dirham's symbol
-// before the number, "د.إ -1,210", and the symbol's Arabic letters make the
-// browser read the minus and the digits right to left, as "1,210- د.إ". A
-// left-to-right mark after a right-to-left symbol keeps the number as
-// written. Frappe's own money (forms, lists, reports) is made by
-// `format_currency`; a Record Head's figures come made from the server.
 {
 	const RTL = "\u0590-\u08FF\uFB1D-\uFDFF\uFE70-\uFEFF";
-	// The mark itself is not part of a symbol, so marking twice marks once.
 	const symbol = new RegExp(`([${RTL}][^\\s\\d\u200e]*)(\\s+)(?=[-+(]?\\d)`, "g");
 	onedesk.shell.ltr = (text) => (typeof text === "string" ? text.replace(symbol, "$1\u200e$2") : text);
 	const theirs = window.format_currency;

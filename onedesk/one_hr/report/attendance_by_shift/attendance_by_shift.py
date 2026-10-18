@@ -68,8 +68,6 @@ def _rows(filters) -> list[frappe._dict]:
 		if filters.get(field):
 			query = query.where(attendance[field] == filters[field])
 
-	# Ticked means "only these"; unticked is not a request for the days that
-	# were on time, which is what filtering on 0 would have asked for.
 	if filters.late_entry:
 		query = query.where(attendance.late_entry == 1)
 	if filters.early_exit:

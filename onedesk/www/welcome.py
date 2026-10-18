@@ -24,8 +24,6 @@ SAYS = {
 	"Failed": lambda: frappe._("The workspace could not be built. Somebody has been told and will be in touch."),
 }
 
-#: What the same two statuses say when the plan carried a trial: nothing was
-#: charged, so "Payment received" would be false.
 ON_TRIAL = {
 	"Paid": lambda: frappe._("Your trial has started. The workspace is being built."),
 	"Provisioning": lambda: frappe._("Your trial has started. The workspace is being built."),
@@ -39,13 +37,10 @@ def get_context(context):
 	from onedesk.one_admin import signup
 
 	context.no_cache = 1
-	# Only with the key the request was given: its name counts up, and would
-	# otherwise open anybody's signup (signup.owned).
 	asked = signup.owned(frappe.form_dict.get("request"), frappe.form_dict.get("key"))
 	context.cancelled = bool(asked) and frappe.form_dict.get("outcome") == "cancelled"
 	if context.cancelled:
 		signup.let_go(asked)
-		# A page is a GET, and frappe rolls a GET back: said here or not at all.
 		frappe.db.commit()
 	context.asked = asked
 	trial = (
@@ -64,21 +59,14 @@ def get_context(context):
 		if asked and asked.tenant
 		else None
 	)
-	# Its own name once there is a workspace: a quick signup's request may
-	# carry only the slug.
 	context.title_said = (held.workspace_name if held else None) or (asked.workspace_name if asked else None)
-	# Its own domain when it has one, and straight to signing in.
 	context.open_at = f"https://{held.primary_domain or held.domain}/login" if held and (held.primary_domain or held.domain) else None
 	context.trial_ends = _trial_ends(held, trial) if asked and asked.status == "Done" else None
-	# Asked again every few seconds while it is being built (signup.state), so
-	# "Open it" appears without anybody reloading.
 	context.watching = bool(asked) and asked.status in ("Paid", "Provisioning")
 	context.slow = bool(asked) and signup.slow(asked)
 	context.can_pay = bool(asked) and asked.status in ("New", "Paying") and not asked.tenant
 	context.signed_in = frappe.session.user != "Guest"
-	# Whoever paid has a One account from the moment the payment landed.
 	context.has_account = bool(asked) and asked.status in ("Paid", "Provisioning", "Done")
-	# Start again with what they had chosen, after closing Stripe.
 	context.again = (
 		"/start?" + urlencode({"name": asked.workspace_name or "", "plan": asked.offering or ""})
 		if asked

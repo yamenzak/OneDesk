@@ -15,10 +15,8 @@ from onedesk.one_demo.base import COMPANY, as_user, make, once, save, tag, today
 SALES = "omar@one.test"
 TECHNICIAN = "Tariq Haidar"
 BAYVIEW = "Bayview Developments"
-#: Made to Bayview's drawings, and sold to nobody else.
 PANEL = "CW-BAYVIEW"
 
-#: Each part, in order.
 PARTS = (
 	"_lists",
 	"_agreement",
@@ -97,7 +95,6 @@ def _agreement():
 		)
 
 
-#: subject, customer, raised by, kind, priority, status, what they wrote
 ISSUES = (
 	("Sliding door hard to open", "Gulf Properties REIT", "maintenance@gulfreit.example", "Fault", "High", "Open", "The lobby's sliding door sticks halfway since the weekend."),
 	("Classroom window handle broken", "Crescent Schools", "office@crescent.example", "Fault", "Medium", "Replied", "The handle on the second window in room 4 came off in a teacher's hand."),
@@ -168,8 +165,6 @@ def _maintenance():
 		start = getdate(add_days(today(), -120))
 		schedule = frappe.db.get_value("Maintenance Schedule", {"customer": "Bayview Developments", "docstatus": 1})
 		if not schedule:
-			# A schedule's visits point at its item rows, which have names
-			# only once it is saved, so it is saved before they are drawn.
 			doc = frappe.get_doc(
 				{
 					"doctype": "Maintenance Schedule",
@@ -239,8 +234,6 @@ def _phones():
 				],
 			},
 		)
-	# Whose settings they are is the administrator's to say (ERPNext keeps the
-	# user at a level only the System Manager writes).
 	with as_user("Administrator"):
 		once(
 			"Voice Call Settings",
@@ -277,7 +270,6 @@ def _offers():
 			},
 		)
 	with as_user("Administrator"):
-		# Once kept the Products for Bayview, which barred every other customer from them.
 		for wrong in frappe.get_all("Party Specific Item", filters={"party": BAYVIEW, "restrict_based_on": "Item Group"}, pluck="name"):
 			frappe.delete_doc("Party Specific Item", wrong, ignore_permissions=True)
 		if not frappe.db.exists("Item", PANEL):

@@ -93,14 +93,10 @@ def rows() -> list[dict]:
 		{"company": company},
 		as_dict=True,
 	)
-	# What draft orders hold is being ordered: the order's own rule
-	# (within_requests) keeps a line from being ordered twice over.
 	held = drafted([row.material_request_item for row in requested], company)
 	for row in requested:
 		row["qty"] = left(row.pop("stock_qty"), row.pop("ordered_qty"), held.get(row.material_request_item))
 	requested = [row for row in requested if row["qty"] > 0]
-	# Which project a request is for, by its name, as a project's own page
-	# says the request.
 	titles = dict(
 		frappe.get_all(
 			"Project",
@@ -246,8 +242,6 @@ def order(rows: str | list, supplier: str | None = None) -> list[str]:
 		doc.company = get_default_company()
 		doc.supplier = name
 		doc.transaction_date = nowdate()
-		# A supplier billing in another currency is ordered from in theirs;
-		# ERPNext prices the lines in it from the buying price list.
 		bill_in(doc, "Supplier", name)
 		for line in lines:
 			lead = frappe.get_cached_value("Item", line["item_code"], "lead_time_days") or 0
@@ -255,8 +249,6 @@ def order(rows: str | list, supplier: str | None = None) -> list[str]:
 				"items",
 				{
 					"item_code": line["item_code"],
-					# How many is counted in the stock unit, so it is ordered
-					# in it, not in the item's buying unit.
 					"qty": flt(line["qty"]),
 					"uom": line.get("uom") or frappe.get_cached_value("Item", line["item_code"], "stock_uom"),
 					"conversion_factor": 1,
@@ -264,8 +256,6 @@ def order(rows: str | list, supplier: str | None = None) -> list[str]:
 					"schedule_date": add_days(nowdate(), max(int(lead), 1)),
 					"material_request": line.get("material_request"),
 					"material_request_item": line.get("material_request_item"),
-					# ERPNext holds the order line to the request's project,
-					# read from the request, not from what the page sent.
 					"project": (
 						frappe.db.get_value("Material Request Item", line["material_request_item"], "project")
 						if line.get("material_request_item")

@@ -2,18 +2,10 @@
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
-      <!-- A project's page. Modelled on Asana's project and monday's
-           boards: a head with its health, then views that each open in place,
-           as a form's tabs do, across the top under the head. Frappe's own
-           form sidebar is on the page's right (onedesk.island_page). -->
       <Header :said="said" @change="changeProject" @media="load" @view="(now) => (view = now)" />
-      <!-- What the workspace's extensions add to the page (one_studio/places.py). -->
       <PlaceSpot :said="placed" class="mt-4" />
       <ViewTabs v-model="tab" :views="VIEWS" class="mt-4" />
-      <!-- Every view starts a little below the tabs, and makes room for an
-           open task so the row stays in sight. -->
       <div ref="views" class="pt-4 transition-[padding] duration-200" :style="{ paddingInlineEnd: `${room}px` }">
-      <!-- The task views' toolbar, under the view's title. -->
       <div v-if="taskView" class="flex flex-wrap items-center gap-2 pb-2">
         <h2 class="me-auto flex items-center gap-2 text-lg font-semibold text-ink-gray-9">
           <span class="lucide-list-checks size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Tasks") }}
@@ -56,11 +48,6 @@
 </template>
 
 <script setup>
-// A project's workspace (docs/PROJECT-PAGE.md): its head, then its views,
-// each opening in place, as monday and Asana present a project. What it reads
-// is one_project/view.py's `said` and `work`; what it changes it changes as
-// desk does. Desk's own page head above it carries the main action and the
-// rest (onedesk.island_page), from what `report` says.
 import { computed, defineAsyncComponent, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Button, Dropdown, TabButtons, TextInput } from "frappe-ui";
 
@@ -82,7 +69,6 @@ import { onlyArg, provideOnly } from "./only";
 import { usePlace } from "./place";
 import { useWork } from "./useWork";
 
-// The timeline brings frappe-ui's editor, so it loads when first shown.
 const ProjectActivity = defineAsyncComponent(() => import("./ProjectActivity.vue"));
 
 const props = defineProps({
@@ -102,13 +88,10 @@ const showDone = ref(false);
 const groupBy = ref("project");
 const fileCount = ref(null);
 const opened = ref(null);
-// Only the project's own work, its Main, and not what is under it: kept in
-// the address so it can be shared and survives a reload.
 const only = ref(props.query.only === "1");
 provideOnly(only);
 
 const { work, load: loadWork, set, add: addTask, give, take, find, count } = useWork(name, only);
-// The record as its form has it: frappe's own menu items under the page's.
 const record = useRecord("Project", name);
 
 async function load() {
@@ -147,14 +130,12 @@ watch(only, (now) => {
   loadWork();
 });
 watch(() => props.query.only, (now) => (only.value = now === "1"));
-// A project with nothing under it has no Main to show on its own.
 watch(said, (now) => now && only.value && !now.only && (only.value = false));
 watch(() => props.query.view, (now) => now && (view.value = now));
 watch(() => said.value?.modified, (now, before) => now && before && now !== before && record.reload());
 watch(record.record, () => said.value && report());
 
 const taskView = computed(() => ["tasks", "board", "timeline"].includes(view.value));
-// Tasks, as a table, board or timeline, is a place (one_studio/places.py).
 const taskSpot = usePlace("oneproject.tasks", () => {
   if (!taskView.value || !work.value || !said.value) return null;
   const today = new Date().toISOString().slice(0, 10);
@@ -169,8 +150,6 @@ const taskSpot = usePlace("oneproject.tasks", () => {
     },
   };
 });
-// The views in the bar. Board and Timeline are the tasks laid out another way,
-// as monday's views of a board are, so they sit under Tasks and its switch.
 const LAYOUTS = [
   { value: "tasks", label: __("Table"), icon: "lucide-table" },
   { value: "board", label: __("Board"), icon: "lucide-kanban" },
@@ -181,7 +160,6 @@ const VIEWS = computed(() =>
   [
     { key: "overview", label: __("Overview"), icon: "lucide-layout-dashboard" },
     { key: "tasks", label: __("Tasks"), icon: "lucide-list-checks", count: count.value || null },
-    // Each of these only for whoever may see it (view.py `views`).
     allowed("time") && { key: "time", label: __("Timesheet"), icon: "lucide-clock" },
     allowed("money") && { key: "money", label: __("Money"), icon: "lucide-wallet" },
     allowed("invoices") && { key: "invoices", label: __("Invoices"), icon: "lucide-receipt" },
@@ -191,7 +169,6 @@ const VIEWS = computed(() =>
     { key: "activity", label: __("Activity"), icon: "lucide-activity" },
   ].filter(Boolean)
 );
-// The tab shown as chosen: Tasks for any of its layouts, which it reopens on.
 const layout = ref(["board", "timeline"].includes(props.query.view) ? props.query.view : "tasks");
 watch(view, (now) => taskView.value && (layout.value = now));
 const tab = computed({
@@ -200,7 +177,6 @@ const tab = computed({
 });
 const tree = computed(() => (work.value?.groups || []).map((one) => one.key));
 
-// A view the reader may not see (Money, Suppliers) opens Overview instead.
 watch(VIEWS, (now) => said.value && !now.some((one) => one.key === tab.value) && (view.value = "overview"));
 
 const GROUPS = () => ({ project: __("Project"), status: __("Status"), owner: __("Assigned To"), due: __("Expected End Date") });
@@ -212,8 +188,6 @@ const team = computed(() => [...new Set([...(said.value?.team || []).map((one) =
 function open(task) {
   opened.value = find(task) || null;
 }
-// The task panel is fixed on the right (kit Drawer, 36rem); the views give
-// it as much room as it covers of them, on a screen wide enough to share.
 const views = ref(null);
 const room = ref(0);
 function makeRoom() {
@@ -228,7 +202,6 @@ watch(work, () => opened.value && (opened.value = find(opened.value.name) || nul
 async function add(project, subject, extra) {
   await addTask(project || name.value, subject, extra);
 }
-// OneTask's New Task, on this project, picking among the projects shown.
 function newTask() {
   desk().task.new({ values: { project: name.value }, projects: tree.value.length ? tree.value : null, done: loadWork });
 }
@@ -240,9 +213,6 @@ async function changeProject(fieldname, value) {
   load();
 }
 
-// Completing or cancelling a project closes what's still open in it, on the
-// reader's say-so; ERPNext would set it back to Open otherwise
-// (one_project/status.py).
 async function changeStatus(value) {
   const project = name.value;
   const set = (close) => call("onedesk.one_project.status.change", { project, status: value, close: close ? 1 : 0 }).finally(load);
@@ -260,8 +230,6 @@ async function changeStatus(value) {
   );
 }
 
-// The project as desk's shared actions take it (project_actions.js).
-// A template's tasks added here, or these tasks kept as a template.
 const templates = computed(() => {
   const s = said.value;
   if (!s) return [];
@@ -282,8 +250,6 @@ function report() {
 }
 
 const projectRoute = (project) => `/desk/project/${encodeURIComponent(project)}`;
-// A project with sub-projects gets a crumb after its name that switches
-// between all its work, its own work only (its Main), and each sub-project.
 function scopeCrumb(s) {
   if (!s.below?.length) return [];
   const menu = () => [
@@ -300,10 +266,6 @@ function scopeCrumb(s) {
   return [{ label: only.value ? __("Main", null, "Project") : __("All Work"), menu }];
 }
 
-// The workspace's extensions on the project page (one_studio/places.py):
-// those written for the page are told the project, those written for a
-// Project's head are told the record as its head is. Each is lent a note and
-// a button, or a verb in the page's head, and drawn again with the page.
 const placed = reactive({ notes: [], actions: [] });
 let verbs = [];
 let drawn = null;
@@ -354,21 +316,16 @@ function extended(s) {
   }
 }
 
-// What can be done to the project, each only for whoever may do it. The
-// views are in the page; the head keeps the kind's main action and the rest.
 function actions(s) {
   const list = [];
   const main = mainAction(s);
   if (main) list.push({ ...main, primary: true });
   if (s.can_write) list.push({ label: __("Ask for Updates"), onClick: () => desk().project.ask_updates(s.name, load) });
-  // Every other step has its own place on the page: quotations, contracts and
-  // sub-projects on the Overview, stock and expenses on Money, templates on Tasks.
   if (s.can_write) list.push({ label: __("Group Under New Project"), onClick: () => desk().project.group(frm()) });
   return list;
 }
 
 function mainAction(s) {
-  // While it's quoted and not ordered, the next step is the customer's order.
   if (s.kind === "Fixed Price" && !s.contract && s.quotation?.count === 1 && can("create", "Sales Order"))
     return { key: "order", label: __("Make Order"), onClick: () => desk().project.order_quote(s.quotation) };
   if (s.kind === "Fixed Price" && s.contract && can("create", "Sales Invoice"))
@@ -380,8 +337,6 @@ function mainAction(s) {
   return { key: "post", label: __("Post Update"), onClick: writeUpdate };
 }
 
-// An update is written in the line under Updates on the Overview, which
-// takes the cursor when `writing` is set (Updates.vue).
 const writing = ref(false);
 function writeUpdate() {
   view.value = "overview";

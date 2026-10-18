@@ -10,8 +10,6 @@ APP = ROOT / "onedesk"
 HOOKS = (APP / "hooks.py").read_text()
 SUITE = (APP / "one_demo" / "check.py").read_text()
 
-#: Each rule: the record, the hook that holds it, the fields it owns, and the
-#: check that changes it every way on the demo.
 RULES = (
 	("Project", "onedesk.one_project.status.held", {"status"}, "a_project_with_open_work_is_not_closed_by_hand"),
 	(
@@ -41,7 +39,6 @@ RULES = (
 	),
 )
 
-#: Direct writes to a field a rule owns, each with why it is not a way round.
 ALLOWED = {
 	("one/privacy.py", "_turn_off"): "turning somebody off takes no seat",
 	("one/portal_invite.py", "invite_contact"): "a portal login is a Website User and takes no seat",

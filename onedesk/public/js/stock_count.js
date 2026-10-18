@@ -1,6 +1,3 @@
-// A count's line says what was counted, what the books held and the
-// difference. ERPNext keeps the difference as text ("-3.0"), so it is printed
-// here as the number it is, signed and right-aligned like the rest.
 frappe.ui.form.on("Stock Reconciliation", {
 	refresh(frm) {
 		const grid = frm.fields_dict.items?.grid;

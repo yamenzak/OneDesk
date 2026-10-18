@@ -5,10 +5,8 @@ Where we do more than frappe it is declared here, and
 `tests/guards/test_tiers.py` fails on anything done and not declared.
 """
 
-#: Every collection view frappe has. Ours set one up; none is taken away.
 VIEWS = ("List", "Report", "Dashboard", "Kanban", "Calendar", "Gantt", "Tree", "Image", "Map", "Inbox")
 
-#: Records with a page of their own, and why the form was not enough.
 PAGES = {
 	"Project": "a job is run from it all day: its money with both sides, tasks, time, suppliers, people and files, across its sub-projects",
 	"Project Template": "its tasks are laid out, nested, linked and timed as a project's are, which a form's child table cannot show",
@@ -16,7 +14,6 @@ PAGES = {
 	"Item": "the stores run on it: where it is kept and how much, who it is bought from and sold to, what it is made of and goes into",
 }
 
-#: Records to become pages next, and why.
 NEXT_PAGES = {
 	"Opportunity": "a deal is worked from first call to signed order, with its calls, mails, quotes and next steps",
 	"Lead": "a lead is worked until it becomes a deal or is let go",
@@ -24,8 +21,6 @@ NEXT_PAGES = {
 	"Job Applicant": "a candidate is moved through interviews, feedback and an offer",
 }
 
-#: Records with a Record Head: frappe's form with its band, sentence and verbs
-#: above the fields (each module's heads.py, `one_record_heads`).
 HEADS = (
 	"AI Action Setting",
 	"AI Model",
@@ -94,9 +89,6 @@ HEADS = (
 	"Workspace Account",
 )
 
-#: Collection views we set up, by doctype: which view and what it adds. A list
-#: script, a calendar's fields or a tree's parent (doctype_list_js,
-#: doctype_calendar_js, doctype_tree_js in hooks.py) is declared here.
 COLLECTIONS = {
 	"Item": {"List": "a tab for each kind of item, and how many of each are on hand, with Low once a warehouse is at its reorder level"},
 	"Project Template": {"List": "From the Library beside Add, copying a preset in and opening it"},
@@ -149,7 +141,6 @@ COLLECTIONS = {
 	"Personal Data Download Request": {"List": "Data Copies and where each stands"},
 }
 
-#: Desk pages of ours, and what each one is.
 SCREENS = {
 	"project-view": "the page a Project opens on (PAGES)",
 	"project-template-view": "the page a Project Template opens on (PAGES)",

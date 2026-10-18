@@ -10,8 +10,6 @@ from frappe import _, _lt
 
 from onedesk.one import layer, roles, rules
 
-#: (group, doctype, label, one of them), in the order the page lists them.
-#: "Shared" is the administrator's; an app's group is its managers' too.
 KINDS = (
 	("Shared", "Salutation", _lt("Salutations"), _lt("Salutation")),
 	("Shared", "Gender", _lt("Genders"), _lt("Gender")),
@@ -44,28 +42,18 @@ KINDS = (
 	("OneHR", "Identification Document Type", _lt("ID Document Types"), _lt("ID Document Type")),
 )
 
-#: Fields a value's dialog leaves out: a tree's bookkeeping, and the company,
-#: which One has one of.
 KEPT = {"lft", "rgt", "old_parent", "company"}
 
-#: Tables a value's dialog holds, for a kind that is little more than its
-#: table (an attribute's values), with the heading the dialog gives it.
-#: Other tables stay in frappe's form.
 HELD = {"Item Attribute": {"item_attribute_values": _lt("Values")}}
 
-#: Kinds named by more than their name: a department is "Sales - ONE", for
-#: the company, and says "Sales".
 LABEL = {"Department": "department_name"}
 
-#: A Jinja tag, as a template is read here: each `{{ }}` and `{% %}` in it.
 TAG = re.compile(r"\{\{.*?\}\}|\{%.*?%\}", re.S)
 
-#: The tags a workspace adds: a field, an `if` on one, and its end.
 FIELD = re.compile(r"\{\{-?\s*([a-z][a-z0-9_]*)\s*-?\}\}")
 IF = re.compile(r"\{%-?\s*if\s+([a-z][a-z0-9_]*)\s*-?%\}")
 END = re.compile(r"\{%-?\s*(endif|else)\s*-?%\}")
 
-#: A label in the reader's language, as frappe's own templates write one: {{ _("Phone") }}.
 WORDS = re.compile(r"""\{\{-?\s*_\(\s*(?:"[^"{}%\\]*"|'[^'{}%\\]*')\s*\)\s*-?\}\}""")
 
 
@@ -126,7 +114,6 @@ def kinds() -> list[dict]:
 				"doctype": doctype,
 				"label": str(label),
 				"one": str(one),
-				# The app's mark beside its group's name; One's own for Shared.
 				"mark": settings._mark("" if group == "Shared" else group),
 				"count": frappe.db.count(doctype, _below_root(doctype)),
 				"create": bool(frappe.has_permission(doctype, "create")),
@@ -272,12 +259,10 @@ def used(doctype: str, name: str) -> int:
 		if meta.is_virtual:
 			continue
 		for field in fields if isinstance(fields, list) else [fields]:
-			# A settings page's default (Selling Settings' customer group).
 			if meta.issingle:
 				total += frappe.db.count("Singles", {"doctype": table, "field": field, "value": name})
 				continue
 			where = {field: name}
-			# A Dynamic Link names the kind in another field.
 			if info.get("doctype_fieldname"):
 				where[info["doctype_fieldname"]] = doctype
 			total += frappe.db.count(table, where)

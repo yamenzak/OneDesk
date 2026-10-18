@@ -1,6 +1,4 @@
 <template>
-  <!-- The project's featured photos and videos, one at a time, with the rest
-       under it: frappe-ui's Dialog. -->
   <Dialog v-model:open="open" :title="item?.title" size="4xl">
     <div v-if="item" class="flex flex-col gap-4">
       <div class="relative flex h-[60vh] items-center justify-center overflow-hidden rounded-5 bg-surface-gray-2">

@@ -4,8 +4,6 @@ import frappe
 from frappe import _
 from frappe.utils import getdate
 
-#: Where the answer already is. `Company.default_holiday_list` is what
-#: `get_holiday_list_for_employee` itself falls back to for somebody who has one.
 COMPANY_FIELD = "default_holiday_list"
 
 
@@ -15,13 +13,9 @@ def onboarding(doc, method=None) -> None:
 	doc.holiday_list = frappe.db.get_value("Company", doc.company, COMPANY_FIELD)
 
 
-#: The two documents that own a boarding project. A Task in either one's project
-#: is a boarding activity; a Task anywhere else is OneProject's and is left alone.
 BOARDINGS = ("Employee Onboarding", "Employee Separation")
 
 
-#: The Project Type of a boarding project. OneProject's Projects and Project
-#: Tree leave it out: somebody's first week is not a piece of client work.
 BOARDING = "Employee Boarding"
 
 

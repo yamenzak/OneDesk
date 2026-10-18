@@ -1,9 +1,4 @@
 <template>
-  <!-- Who bought the item in the last twelve months, returns taken off: each
-       customer with their picture, how much and what it came to in their own
-       currency, the last price and when, and their own code for it, the
-       item's own customer row changed in place. Its menu quotes them, takes
-       an order from them or sets their code. -->
   <div v-if="!rows.length && !adding" class="py-3 text-base text-ink-gray-5">{{ __("Not sold in 12 months") }}</div>
   <ul v-else class="divide-y divide-outline-gray-1">
     <li v-for="one in rows" :key="one.customer" class="flex gap-3 py-2.5">
@@ -13,7 +8,6 @@
           {{ one.customer }}
         </button>
         <div v-for="(line, i) in one.lines" :key="i" class="truncate text-sm text-ink-gray-5">{{ line }}</div>
-        <!-- Their own code for the item, the item's own customer row. -->
         <div v-if="one.row" class="mt-1 flex items-center gap-1.5 whitespace-nowrap text-sm text-ink-gray-5">
           {{ __("Customer's Code") }}
           <FieldEdit :form="form" table="customer_items" :row="one.row" field="ref_code" :label="__('Customer\'s Code')" :hold="Boolean(adding) && one.row === adding" start class="text-ink-gray-8" @saved="emit('changed')" @cancel="cancel" />
@@ -47,7 +41,6 @@ const emit = defineEmits(["changed"]);
 const selling = computed(() => props.said.selling);
 const ours = computed(() => props.said.currency);
 
-// The customer row added on the page and not saved yet, and whose it is.
 const adding = ref(null);
 const addingFor = ref(null);
 const saving = ref(false);
@@ -60,7 +53,6 @@ const rows = computed(() =>
     return {
       ...one,
       row,
-      // What they paid in their own currency, and what it came to in ours under it.
       value: own ? money(one.their_amount, theirs) : one.amount ? money(one.amount, ours.value) : "",
       base: own ? money(one.amount, ours.value) : "",
       lines: [
@@ -84,8 +76,6 @@ function actions(one, row) {
   return out;
 }
 
-// A customer row added to the item as desk's grid adds one; its code goes in
-// and is saved with the form.
 function add(customer) {
   cancel();
   adding.value = props.form.addRow("customer_items", { customer_name: customer });

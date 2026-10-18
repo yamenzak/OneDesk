@@ -39,17 +39,11 @@ def _vue() -> list[Path]:
 def test_every_island_is_declared_built_and_mounted():
 	entries = _entries()
 	assert entries, "no islands built"
-	# frappe's hook for naming them is gone; a line in it would name nothing.
 	assert "ui_islands" not in HOOKS
 	for name, source in entries.items():
 		assert name.startswith("onedesk."), name
 		entry = (FRONTEND / source).read_text(encoding="utf-8")
-		# Every island mounts through the kit, so `__` and the mount contract are
-		# the same everywhere.
 		assert 'from "../kit"' in entry and "screen(" in entry, name
-		# And a desk page mounts it through onedesk.island_page, which keeps the
-		# head, a record's tab through onedesk.record_tabs, which keeps the form,
-		# or a check report through onedesk.check.report, which keeps the report.
 		pages = [
 			path
 			for path in tree.APP.glob("*/page/*/*.js")
@@ -64,8 +58,6 @@ def test_every_island_is_declared_built_and_mounted():
 				or "onedesk.check.report = " in path.read_text(encoding="utf-8")
 			)
 		]
-		# Or one of our own reports, whose script keeps frappe's filters and
-		# draws its rows through the island in place of the grid.
 		reports = [
 			path
 			for path in tree.APP.glob("*/report/*/*.js")
@@ -82,7 +74,6 @@ def test_bench_build_builds_the_islands():
 	assert "frontend install --frozen-lockfile" in root["scripts"]["postinstall"]
 	frontend = json.loads((FRONTEND / "package.json").read_text())
 	assert frontend["scripts"]["build"] == "node build-islands.mjs --production && cd portal && vite build"
-	# One frappe-ui for every island, pinned: an upgrade is a decision.
 	assert re.fullmatch(r"\d+\.\d+\.\d+", frontend["dependencies"]["frappe-ui"])
 	assert frontend["dependencies"]["@framework/ui"] == "link:../../frappe/ui"
 	assert (FRONTEND / "yarn.lock").exists()
@@ -134,14 +125,11 @@ def test_what_an_island_says_is_translated():
 	like any other string."""
 	for path in _vue():
 		template = re.search(r"<template>(.*)</template>", path.read_text(encoding="utf-8"), re.S).group(1)
-		# Text between tags, outside {{ }}, is a word nobody translates.
 		for text in re.findall(r">([^<>{}]+)<", template):
 			words = text.strip()
 			assert not re.search(r"[A-Za-z]{2,}", words), f"{path.name} says {words!r} untranslated"
 
 
-#: Where a box is ticked rather than a setting turned on: a checklist's steps
-#: and a task done, as frappe-ui's own to-do lists draw them.
 TICKED = {"task/TaskPage.vue", "task/MyTasks.vue", "project/TaskPanel.vue"}
 
 
@@ -155,28 +143,31 @@ def test_a_setting_is_a_switch():
 		assert "<Checkbox" not in path.read_text(encoding="utf-8"), f"{name} draws a checkbox; use frappe-ui's Switch"
 
 
-#: Screens drawn before they had to name what they follow. It only shrinks,
-#: and is empty: every screen of ours names the app it follows.
-UNMODELLED: set[str] = set()
+def _modelled() -> dict[str, str]:
+	"""docs/ISLANDS.md's table: each screen, by its path under frontend/, and
+	the app it follows."""
+	text = (tree.ROOT / "docs" / "ISLANDS.md").read_text(encoding="utf-8")
+	table = text.split("## What each screen follows", 1)[1]
+	return dict(re.findall(r"^\| `([^`]+)` \| (.+?) \|$", table, re.M))
 
 
 def test_a_screen_names_the_app_it_follows():
 	"""A screen of our own is drawn after the app people already use for the
-	same job (Shopify's inventory, Linear's issues), not invented, and its
-	opening comment says which: `Modelled on …`."""
-	screens = {}
+	same job (Shopify's inventory, Linear's issues), not invented, and
+	docs/ISLANDS.md says which."""
+	screens = set()
 	for source in _entries().values():
 		entry = (FRONTEND / source).read_text(encoding="utf-8")
 		for component in re.findall(r'import \w+ from "\.\./([\w/]+\.vue)"', entry):
-			screens[component] = (SRC / component).read_text(encoding="utf-8")
+			screens.add(f"src/{component}")
 	assert screens, "no screens found"
-	named = {path for path, text in screens.items() if "Modelled on " in text.split("</template>")[0][:1500]}
-	assert set(screens) - named <= UNMODELLED, sorted(set(screens) - named - UNMODELLED)
-	assert not UNMODELLED & named, f"named now, take off UNMODELLED: {sorted(UNMODELLED & named)}"
-	assert UNMODELLED <= set(screens), sorted(UNMODELLED - set(screens))
+	modelled = _modelled()
+	assert screens <= set(modelled), f"say in docs/ISLANDS.md what these follow: {sorted(screens - set(modelled))}"
+	gone = [path for path in modelled if not (FRONTEND / path).exists()]
+	assert not gone, f"docs/ISLANDS.md names screens that are gone: {gone}"
+	assert all(len(said) > 10 for said in modelled.values())
 
 
-#: frappe-ui's Badge colours. Any other is drawn gray, without a word.
 BADGE_THEMES = {"gray", "blue", "green", "amber", "red", "violet"}
 
 
@@ -187,7 +178,6 @@ def test_a_badge_is_a_colour_frappe_ui_has():
 	wrong = []
 	for path in _vue():
 		text = path.read_text(encoding="utf-8")
-		# A bound `:theme="tone"` names a variable, not a colour.
 		for colour in re.findall(r'(?<!:)theme="(\w+)"', text) + re.findall(r'\btheme: "(\w+)"', text):
 			if colour not in BADGE_THEMES:
 				wrong.append(f"{_name(path)}: {colour}")
@@ -197,12 +187,12 @@ def test_a_badge_is_a_colour_frappe_ui_has():
 
 
 def test_a_portal_page_names_the_app_it_follows():
-	"""The portal's pages (frontend/portal) are screens too: each opening
-	comment says which app it follows."""
+	"""The portal's pages (frontend/portal) are screens too: each has its row
+	in docs/ISLANDS.md."""
 	portal = FRONTEND / "portal" / "src"
+	modelled = _modelled()
 	for path in [portal / "App.vue", *sorted((portal / "pages").glob("*.vue"))]:
-		opening = path.read_text(encoding="utf-8").split("-->", 1)[0]
-		assert "Modelled on" in opening, f"{path.name} doesn't say which app it follows"
+		assert str(path.relative_to(FRONTEND)) in modelled, f"{path.name} doesn't say which app it follows"
 
 
 def test_a_dialog_is_drawn_with_frappe_ui_1s_slots():

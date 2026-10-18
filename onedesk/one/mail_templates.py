@@ -14,15 +14,10 @@ from frappe import _
 from onedesk.one import layer, roles, rules
 from onedesk.one.customize import REFUSED_MODULES
 
-#: A Jinja tag, as the template is read here: each `{{ }}` and `{% %}` in it.
 TAG = re.compile(r"\{\{.*?\}\}|\{%.*?%\}", re.S)
 
-#: The one kind of tag a workspace adds: a field of the record, bare.
 FIELD = re.compile(r"\{\{-?\s*([A-Za-z][A-Za-z0-9_]*)\s*-?\}\}")
 
-#: The settings that name a template, and the kind of record each is sent about.
-#: A template the apps made on setup for one of these says so (`settle`), so the
-#: composer offers it there and not on every other kind.
 NAMED_BY = (
 	("HR Settings", "leave_approval_notification_template", "Leave Application"),
 	("HR Settings", "leave_status_notification_template", "Leave Application"),
@@ -33,9 +28,6 @@ NAMED_BY = (
 	("Delivery Settings", "dispatch_template", "Delivery Trip"),
 )
 
-#: The templates the apps make on setup, by the name each is made with, for a
-#: workspace whose settings never named them. The name is translated when it is
-#: made, so it is matched in English and in the workspace's language.
 MADE_AS = (
 	("Interview Reminder", "Interview"),
 	("Interview Feedback Reminder", "Interview"),
@@ -43,7 +35,6 @@ MADE_AS = (
 	("Dispatch Notification", "Delivery Trip"),
 )
 
-#: What a template is made of, subject first.
 TEXT = ("subject", "response", "response_html")
 
 
@@ -191,8 +182,6 @@ def get_email_template(
 		doc = held.as_dict()
 	from frappe.email.doctype.email_template.email_template import get_email_template as theirs
 
-	# frappe's own answer, with the record read and shown as above; it checks
-	# the template's permission and says whether it is HTML.
 	shown = _shown(frappe.get_doc("Email Template", template_name), doc)
 	return theirs(template_name, frappe._dict(shown), sender=sender)
 

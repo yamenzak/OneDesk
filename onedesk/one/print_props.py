@@ -9,18 +9,14 @@ from frappe import _
 
 ALIGN = ("left", "center", "right")
 
-#: Where a condition may be written, and what frappe hands it.
 CONDITIONS = ("visible_if", "row_condition", "column_condition")
 
-#: A colour as the builder's colour control writes one, or one of frappe's own.
 COLOUR = re.compile(
 	r"#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})|var\(--[a-z]+-[0-9]{2,3}\)|transparent"
 )
 
-#: A width in pixels, as the builder's size control writes one.
 PIXELS = re.compile(r"[0-9]{1,3}px")
 
-#: Every block may carry these.
 EVERY = {"custom_style": "css", "visible_if": "condition"}
 
 SECTION = {
@@ -85,7 +81,6 @@ TABLE_COLUMN = {
 	"column_condition": "condition",
 }
 
-#: The builder's own blocks, by fieldtype.
 BLOCKS = {
 	"HTML": dict(EVERY),
 	"Static Text": {"bold": "bool", "font_size": "int", "align": ALIGN, **EVERY},
@@ -110,7 +105,6 @@ BLOCKS = {
 	},
 }
 
-#: The format's own settings the builder sets (Print Format's fields).
 PAGE = {
 	"font_size": "int",
 	"margin_top": "number",
@@ -122,7 +116,6 @@ PAGE = {
 	"value_color": "hex",
 }
 
-#: How a merged line in a table cell reads.
 MERGED_STYLES = ("primary", "secondary", "mono-sm", "muted-sm")
 
 

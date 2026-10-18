@@ -23,8 +23,6 @@ class CloudLink(Document):
 		if not item:
 			frappe.throw(_("This item no longer exists."))
 		self.file_name, self.is_folder = item.file_name, item.is_folder
-		# Who may share what holds however the link is made (OneCloud, the
-		# list, an import): never a My Files, and only what its maker may change.
 		if self.is_new() or self.has_value_changed("file"):
 			from onedesk.one_storage import links
 

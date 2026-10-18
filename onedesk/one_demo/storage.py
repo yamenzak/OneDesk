@@ -28,7 +28,6 @@ def run(password=None):
 		if not frappe.db.exists("File", {"folder": root, "file_name": ELEVATIONS}):
 			first = upload._place(root, None, {"file_name": ELEVATIONS, "content": _pdf("Elevations, first issue")})
 			links.make(first["id"])
-			# Revised after Khalid's comments: the same file, a second version.
 			upload._place(root, None, {"file_name": ELEVATIONS, "content": _pdf("Elevations, revision B")}, replace=1)
 		notes = frappe.db.get_value("File", {"owner": PM, "file_name": NOTES})
 		if not notes:

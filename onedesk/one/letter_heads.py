@@ -11,7 +11,6 @@ import frappe
 from frappe import _, _lt
 from frappe.utils import cint, escape_html
 
-#: The ways a top is laid out, in the order they are offered.
 PRESETS = {
 	"classic": _lt("Classic"),
 	"details": _lt("Columns"),
@@ -28,7 +27,6 @@ PRESETS = {
 	"logo": _lt("Logo Only"),
 }
 
-#: The ways a foot is laid out, in the order they are offered.
 FEET = {
 	"centred": _lt("Centred"),
 	"split": _lt("Two Sides"),
@@ -41,22 +39,16 @@ FEET = {
 	"band": _lt("Tinted"),
 }
 
-#: What a foot may show: what a top may, and a small logo before it.
 FOOT_SHOWN = {"logo": _lt("Logo")}
 
-#: What a new foot shows: a quiet line, since the top already says the rest.
 FOOT_FIRST = ("phone", "website", "tax_id")
 
-#: How tall the logo in a foot is, in pixels.
 FOOT_LOGO = 20
 
-#: How long a foot's note may be.
 NOTE = 200
 
-#: The settings a header is drawn with.
 TOP_KEYS = ("preset", "show", "logo_height", "align", "line")
 
-#: What a top may show beside the logo, in the order it is written.
 SHOWN = {
 	"name": _lt("Name"),
 	"address": _lt("Address"),
@@ -66,21 +58,15 @@ SHOWN = {
 	"tax_id": _lt("Tax ID"),
 }
 
-#: What a new top shows. The name only when ticked: a logo usually says it, and
-#: with no logo the name is the top's headline whatever is ticked.
 SHOWN_FIRST = ("address", "phone", "email", "website")
 
-#: How the company is reached, and the icon each is shown with.
 CONTACTS = (("phone", "phone"), ("email", "mail"), ("website", "globe"))
 
-#: A colour as General's control writes one.
 COLOUR = re.compile(r"^#[0-9a-fA-F]{3,8}$")
 
-#: The colour a top has when General has none.
 INK = "#111827"
 MUTED = "#6b7280"
 
-#: So a band of colour prints as it shows.
 EXACT = "-webkit-print-color-adjust:exact;print-color-adjust:exact;"
 
 
@@ -93,8 +79,6 @@ def settings(raw) -> dict:
 		"preset": preset,
 		"show": shown,
 		"logo_height": min(max(cint(said.get("logo_height")) or 60, 24), 160),
-		# The line in the Brand Colour under the top: off unless asked for, since
-		# the room under the top already sets it apart.
 		"line": 1 if cint(said.get("line", 0)) else 0,
 		"align": (said.get("align") or "left").lower()
 		if (said.get("align") or "").lower() in ("left", "center", "right")
@@ -108,7 +92,6 @@ def foot_settings(raw) -> dict:
 	return {
 		"preset": said.get("preset") if said.get("preset") in FEET else "centred",
 		"show": [one for one in (said.get("show") or FOOT_FIRST) if one in SHOWN or one in FOOT_SHOWN],
-		# A line of the workspace's own, such as "Thank you for your business."
 		"note": " ".join(str(said.get("note") or "").split())[:NOTE],
 		"line": 1 if cint(said.get("line", 0)) else 0,
 	}
@@ -141,25 +124,19 @@ def company() -> dict:
 		"email": held.email,
 		"website": held.website,
 		"tax_id": held.tax_id,
-		# A UAE company's tax number is its TRN, and its papers call it that.
 		"tax_label": "TRN" if held.country == "United Arab Emirates" else "Tax ID",
 		"colour": colour if COLOUR.match(colour) else INK,
 	}
 
 
-#: What a company's tax number is called on its papers (company), for translation.
 TAX_LABELS = (_lt("TRN"), _lt("Tax ID"))
 
-#: The company's details in the order a reader looks for them, after the name.
 REACH = ("phone", "email", "website")
 
-#: Between details on one line.
 DOT = '<span style="color:#d1d5db;padding:0 6px">·</span>'
 
-#: How light a tint of the Brand Colour a band is, out of one.
 TINT = 0.07
 
-#: A detail's size and colour, and a faint rule's.
 SMALL = f"font-size:9.5px;line-height:1.6;color:{MUTED};"
 FAINT = "#eef0f3"
 
@@ -272,7 +249,6 @@ def draw(raw, details: dict | None = None) -> str:
 	e = lambda value: escape_html(str(value or ""))  # noqa: E731
 	f = _facts(details, shown)
 	has_logo = bool(details.get("logo"))
-	# The name beside the logo only when ticked: a logo usually says it.
 	name = e(details.get("name")) if "name" in shown or not has_logo else ""
 	reach = [f[key] for key in REACH if f[key]]
 	tax = f"{f['tax_label']} {f['tax_id']}" if f["tax_id"] else ""
@@ -286,7 +262,6 @@ def draw(raw, details: dict | None = None) -> str:
 		if not has_logo:
 			return ""
 		height = height or said["logo_height"]
-		# Its width said outright: a printed page sizes a picture to its box.
 		ratio = _ratio(details["logo"])
 		width = f"width:{round(height * ratio)}px;" if ratio else "width:auto;"
 		return (
@@ -338,8 +313,6 @@ def draw(raw, details: dict | None = None) -> str:
 		return f'<div style="text-align:{said["align"]}">{identity()}</div>{rule}'
 
 	if preset == "details":
-		# Columns: the identity left; the address and how to reach the company
-		# in columns at right, each under a quiet label.
 		columns = fact(_("Address"), where, style="vertical-align:top;padding-left:26px") + fact(
 			_("Contact"), _lines(*reach), style="vertical-align:top;padding-left:26px;white-space:nowrap"
 		) + fact(f["tax_label"], f["tax_id"], style="vertical-align:top;padding-left:26px;white-space:nowrap")
@@ -352,7 +325,6 @@ def draw(raw, details: dict | None = None) -> str:
 		)
 
 	if preset == "ledger":
-		# The identity left; the facts two by two at right, under labels in the colour.
 		cells = [
 			one
 			for one in (
@@ -375,7 +347,6 @@ def draw(raw, details: dict | None = None) -> str:
 		)
 
 	if preset == "strip":
-		# The identity on its own, then every fact in a strip across the page.
 		strip = (
 			fact(_("Address"), where, style="vertical-align:top;padding-right:14px;width:34%")
 			+ fact(_("Phone"), f["phone"], style="vertical-align:top;padding-right:14px;white-space:nowrap")
@@ -395,7 +366,6 @@ def draw(raw, details: dict | None = None) -> str:
 		)
 
 	if preset == "masthead":
-		# The identity centred over three equal columns of facts.
 		columns = [
 			(_("Address"), where),
 			(_("Contact"), _lines(f["phone"], f["email"])),
@@ -424,7 +394,6 @@ def draw(raw, details: dict | None = None) -> str:
 		)
 
 	if preset == "window":
-		# Everything at top right, the left free for the address a letter goes to.
 		return (
 			f'<div style="text-align:right"><div>{identity(36, 40)}</div>'
 			f'<div style="{SMALL}margin-top:10px">{_lines(f["street"], f["locality"], DOT.join(reach), tax)}</div>'
@@ -432,7 +401,6 @@ def draw(raw, details: dict | None = None) -> str:
 		)
 
 	if preset == "accent":
-		# A short bar in the colour over the identity; the facts in two columns at right.
 		bar = f'<div style="width:36px;height:4px;border-radius:2px;background:{colour};margin-bottom:14px;{EXACT}"></div>'
 		right = (
 			_cell(f'<div style="{SMALL}">{where}</div>', "vertical-align:bottom;text-align:right")
@@ -450,7 +418,6 @@ def draw(raw, details: dict | None = None) -> str:
 		)
 
 	if preset == "wordmark":
-		# The name set large and spaced, or the logo; every fact on one line under it.
 		mark = (
 			logo()
 			if has_logo
@@ -463,7 +430,6 @@ def draw(raw, details: dict | None = None) -> str:
 		)
 
 	if preset == "minimal":
-		# One quiet line: the name or a small logo, and how to reach the company.
 		left = logo(36) if has_logo and not name else f'<span style="font-size:12px;font-weight:600;color:{ink}">{name}</span>'
 		return (
 			f'<div style="padding-bottom:10px;{f"border-bottom:1px solid {colour};" if said["line"] else ""}">'
@@ -475,7 +441,6 @@ def draw(raw, details: dict | None = None) -> str:
 		)
 
 	if preset == "banner":
-		# Tinted: the company on its Brand Colour's faintest tint.
 		return (
 			f'<div style="background:{tint(colour)};border-radius:6px;padding:20px 24px;{EXACT}">'
 			+ _row(
@@ -487,7 +452,6 @@ def draw(raw, details: dict | None = None) -> str:
 		)
 
 	if preset == "band":
-		# A band in the colour, the name or the logo on it, the facts under it.
 		text = on(colour)
 		mark = (
 			f'<span style="display:inline-block;background:#ffffff;border-radius:6px;padding:6px 10px">{logo(32)}</span>'
@@ -508,7 +472,6 @@ def draw(raw, details: dict | None = None) -> str:
 			+ rule
 		)
 
-	# Classic: the identity on the left, the company stacked on the right.
 	return (
 		_row(
 			_cell(identity(), "vertical-align:middle"),
@@ -561,7 +524,6 @@ def draw_foot(raw, details: dict | None = None) -> str:
 
 	preset = said["preset"]
 	if preset == "band":
-		# Tinted: the line on the Brand Colour's faintest tint.
 		return (
 			f'<div style="background:{tint(colour)};border-radius:4px;padding:8px 14px;text-align:center;{small}{EXACT}">'
 			f"{DOT.join(everything)}</div>"
@@ -570,7 +532,6 @@ def draw_foot(raw, details: dict | None = None) -> str:
 		)
 
 	if preset == "split":
-		# Who the company is on the left; how to reach it on the right.
 		left = [one for one in (name, f["where"]) if one] or everything[:1]
 		right = [one for one in everything if one not in left]
 		return (
@@ -584,7 +545,6 @@ def draw_foot(raw, details: dict | None = None) -> str:
 		)
 
 	if preset == "above":
-		# The logo centred on its own over the line, whether or not it was ticked.
 		return (
 			(f'<div style="text-align:center;margin-bottom:6px">{mark(always=True)}</div>' if details.get("logo") else "")
 			+ rule
@@ -593,9 +553,6 @@ def draw_foot(raw, details: dict | None = None) -> str:
 		)
 
 	if preset == "spread":
-		# Each detail in an equal share of the width: the first against the left
-		# edge, the last against the right, the rest centred in theirs. The name,
-		# with the logo, takes two shares, so it stays on one line.
 		named = (mark() + name) if (mark() or name) else ""
 		items = [one for one in (named, f["where"], *reach, tax) if one]
 		last = len(items) - 1
@@ -618,7 +575,6 @@ def draw_foot(raw, details: dict | None = None) -> str:
 		)
 
 	if preset == "strip":
-		# Fact Strip: each fact in a column under its quiet label.
 		def fact(label: str, body: str, keep: bool = True) -> str:
 			return (
 				_cell(_label(label) + f"<div>{body}</div>", "vertical-align:top;padding-right:18px;" + ("white-space:nowrap;width:1%" if keep else ""))
@@ -640,7 +596,6 @@ def draw_foot(raw, details: dict | None = None) -> str:
 		)
 
 	if preset == "legal":
-		# Who the company is, where it is registered and its tax number, centred.
 		return (
 			rule
 			+ f'<div style="text-align:center;{small}">'
@@ -651,7 +606,6 @@ def draw_foot(raw, details: dict | None = None) -> str:
 		)
 
 	if preset == "accent":
-		# A short bar in the colour over one centred line.
 		return (
 			f'<div style="width:28px;height:3px;border-radius:2px;background:{colour};margin:0 auto 8px;{EXACT}"></div>'
 			+ f'<div style="text-align:center;{small}">{DOT.join(everything)}</div>'
@@ -659,7 +613,6 @@ def draw_foot(raw, details: dict | None = None) -> str:
 		)
 
 	if preset == "corner":
-		# The logo or the name in the left corner, the rest on the right.
 		left = mark(always=True, height=22) or (
 			f'<span style="font-weight:600;color:#374151">{e(details.get("name"))}</span>'
 		)
@@ -673,11 +626,9 @@ def draw_foot(raw, details: dict | None = None) -> str:
 			+ note("left")
 		)
 
-	# Centred: everything ticked on one line, joined by dots.
 	return rule + f'<div style="text-align:center;{small}">{mark()}{DOT.join(everything)}</div>' + note("center")
 
 
-#: Lucide, as frappe ships it to the desk.
 SPRITE = ("frappe", "public", "icons", "lucide", "icons.svg")
 
 
@@ -700,8 +651,6 @@ def _icon(name: str, colour: str) -> str:
 	return "data:image/svg+xml;base64," + base64.b64encode(drawn.encode()).decode()
 
 
-#: An icon asked for by name in a letter head written by hand: [icon:phone], or
-#: [icon:phone:#0f766e] for a colour other than the Brand Colour.
 ICON = re.compile(r"\[icon:([a-z0-9-]+)(?::(#[0-9a-fA-F]{3,8}))?\]")
 
 
@@ -769,8 +718,6 @@ def _ratio(url: str) -> float | None:
 	return ratio or None
 
 
-#: Each drawn part: its settings field, the fields frappe keeps it in, how it is
-#: read, and how it is drawn.
 PARTS = (
 	("one_top", "source", "content", "image", settings, lambda raw, details=None: draw(raw, details)),
 	(

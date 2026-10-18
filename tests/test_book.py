@@ -73,7 +73,6 @@ def test_a_missing_fiscal_year_follows_the_last_and_covers_today():
 	covering = _load(READY, ("covering",))["covering"]
 	assert covering(None, date(2026, 9, 23)) == (date(2026, 1, 1), date(2026, 12, 31))
 	assert covering(date(2025, 12, 31), date(2026, 9, 23)) == (date(2026, 1, 1), date(2026, 12, 31))
-	# An April year, and a gap of two years: the one holding today, not the next.
 	assert covering(date(2025, 3, 31), date(2026, 9, 23)) == (date(2026, 4, 1), date(2027, 3, 31))
 	assert covering(date(2023, 12, 31), date(2026, 9, 23)) == (date(2026, 1, 1), date(2026, 12, 31))
 
@@ -85,7 +84,6 @@ def test_a_company_bank_account_wires_the_bank_modes_of_payment():
 def test_the_books_check_opens_setup():
 	assert _items()["Setup"]["link_to"] == "books" and _items()["Setup"]["route"] == "setup"
 	source = (BOOK / "home.py").read_text(encoding="utf-8")
-	# The first of Setup's rows in the directory, after GROUPS names the group.
 	rows = [line for line in source.splitlines() if line.strip().startswith('("setup", _lt("') and '"Setup"' not in line]
 	assert '"Books Check"' in rows[0]
 
@@ -188,7 +186,6 @@ def test_the_uae_checks_only_run_in_the_uae_and_the_bill_hook_is_wired():
 
 
 def test_locking_is_for_the_closers_and_never_into_the_future():
-	# The rule is the Company's own, so a bulk edit or an import keeps it too.
 	assert '"validate": "onedesk.one_book.closing.kept_to_today"' in HOOKS
 
 
@@ -219,8 +216,6 @@ def test_what_is_owed_falls_due_part_by_part():
 	parts = _load(BOOK / "home.py", ("parts",), flt=float)["parts"]
 	invoice = {"outstanding_amount": 300, "due_date": date(2027, 2, 10)}
 	assert parts(invoice, []) == [{"outstanding_amount": 300, "due_date": date(2027, 2, 10)}]
-	# 400 of 700 paid settles the first part and some of the second; the part
-	# long late is not hidden behind the retention's date.
 	schedule = [
 		{"due_date": date(2026, 5, 30), "payment_amount": 300},
 		{"due_date": date(2026, 9, 1), "payment_amount": 200},
@@ -230,7 +225,6 @@ def test_what_is_owed_falls_due_part_by_part():
 		{"outstanding_amount": 100, "due_date": date(2026, 9, 1)},
 		{"outstanding_amount": 200, "due_date": date(2027, 2, 10)},
 	]
-	# In the company's currency, the parts still add up to what is owed.
 	assert sum(one["outstanding_amount"] for one in parts({**invoice, "outstanding_amount": 600, "own": 300}, schedule)) == 600
 
 

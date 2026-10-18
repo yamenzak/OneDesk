@@ -15,22 +15,18 @@ ITEM = "SIL-WP"
 SUPPLIER = "Emirates Sealants & Fixings"
 BUYER = "karim@one.test"
 
-#: lot, made, expires, received, bought, rate
 LOTS = (
 	("SIL-WP-A1", ago(341), ahead(24), on(1, 12), 120, 38),
 	("SIL-WP-B2", ago(55), ahead(310), ago(48), 80, 39.5),
 )
 
-#: How much of the old lot went to site, and when.
 SENT = 70
 
-#: The smart locks: item, supplier, their numbers, received, rate.
 LOCK = "HW-SMART"
 LOCKS = ("Euro Hardware Trading", [f"SL-{n:04d}" for n in range(1, 7)], ago(30), 105)
 
 
 def run(password=None):
-	# Lots and serial numbers are off in ERPNext until a workspace turns them on.
 	if not frappe.db.get_single_value("Stock Settings", "enable_serial_and_batch_no_for_item"):
 		settings = frappe.get_doc("Stock Settings")
 		settings.enable_serial_and_batch_no_for_item = 1
@@ -68,7 +64,6 @@ def _lot(batch, made, expires, received, qty, rate):
 	if frappe.db.exists("Batch", {"batch_id": batch, "item": ITEM}):
 		return
 	with as_user(BUYER):
-		# A lot's name is ERPNext's own; what people read is its batch_id.
 		lot = frappe.get_doc(
 			{
 				"doctype": "Batch",
@@ -150,7 +145,6 @@ def _locks():
 		receipt = frappe.new_doc("Purchase Receipt")
 		receipt.supplier = supplier
 		receipt.company = COMPANY
-		# The supplier bills in euros, as its orders do (one_demo/buying.py).
 		receipt.currency = "EUR"
 		dated(receipt, received)
 		receipt.append(

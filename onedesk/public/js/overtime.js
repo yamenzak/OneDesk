@@ -1,7 +1,3 @@
-// Recording overtime for one employee on one day. Offered from the Employee
-// record and from the Attendance itself; both open the same dialog, because
-// overtime is one person's extra hours on one date rather than something a
-// list ever shares.
 
 frappe.provide("onedesk.overtime");
 
@@ -78,8 +74,6 @@ onedesk.overtime.ask = (opts = {}) => {
 	return dialog;
 };
 
-// The day decides whether there is anything to write on. Asking the server
-// first means the dialog says why rather than failing on submit.
 function look(dialog) {
 	const { employee, date } = dialog.get_values(true) || {};
 	const $day = dialog.get_field("day").$wrapper;

@@ -16,7 +16,6 @@ from frappe.utils import cint, cstr
 from onedesk.one import head as heads
 from onedesk.one import layer, roles, tell
 
-#: Modules that are the framework, or One itself, which no workspace changes.
 REFUSED_MODULES = (
 	"Core",
 	"Custom",
@@ -33,10 +32,8 @@ REFUSED_MODULES = (
 	"One Legal",
 )
 
-#: What the page changes about a field the record came with.
 FIELD_PROPERTIES = ("label", "hidden", "reqd", "in_list_view")
 
-#: The columns of each Record Head table the page edits.
 HEAD_COLUMNS = {
 	"band": (
 		"label",
@@ -56,7 +53,6 @@ HEAD_COLUMNS = {
 	"linked": ("label", "link_field", "fields", "placed_in"),
 }
 
-#: Where a button may go: a route inside the desk, nothing that runs.
 ROUTE = re.compile(r"/?(app/)?[A-Za-z0-9][A-Za-z0-9_\-/ ?=&%.]*")
 
 
@@ -71,9 +67,6 @@ def may(doctype: str) -> None:
 		frappe.throw(_("{0} is not a form a workspace customizes.").format(_(doctype)))
 	if not frappe.has_permission(doctype, "read"):
 		frappe.throw(_("You cannot open {0}.").format(_(doctype)), frappe.PermissionError)
-
-
-# ------------------------------------------------------------------ the ledger
 
 
 def _ledger(doctype: str, kind: str) -> set[str]:
@@ -124,9 +117,6 @@ def state(doctype: str) -> str:
 			)[0]
 		)
 	return "|".join(f"{cint(count)}:{cstr(modified)}" for count, modified in said)
-
-
-# ------------------------------------------------------------------ what the page is given
 
 
 @frappe.whitelist()
@@ -231,7 +221,6 @@ def added(doctype: str) -> list[dict]:
 		row["also_on"] = sorted(
 			other.dt for other in rows if other.dt != doctype and other.fieldname == row.fieldname
 		)
-	# A field the form came with, carried to others: listed too, as the form's own.
 	meta = frappe.get_meta(doctype)
 	carried = {row.fieldname for row in rows if row.dt != doctype} - {row.fieldname for row in here}
 	for fieldname in sorted(carried):
@@ -276,9 +265,6 @@ def changed_fields(doctype: str) -> list[dict]:
 	return list(out.values())
 
 
-# ------------------------------------------------------------------ saved
-
-
 @frappe.whitelist(methods=["POST"])
 def save(doctype: str, values: str | dict, token: str) -> dict:
 	"""Everything the page changed, in one transaction, held as the
@@ -295,9 +281,6 @@ def save(doctype: str, values: str | dict, token: str) -> dict:
 	values = frappe.parse_json(values)
 	frappe.flags.one_workspace_layer = True
 	try:
-		# Everything is checked before anything is written: adding a field
-		# alters the table, which the database commits there and then, so a
-		# refusal half-way would leave half a save.
 		_check(doctype, values)
 		carried = _carries(doctype, values.get("carry") or [])
 		_fields(doctype, values.get("fields") or [])
@@ -317,8 +300,6 @@ def save(doctype: str, values: str | dict, token: str) -> dict:
 def _changed(doctype: str) -> None:
 	frappe.clear_cache(doctype=doctype)
 	frappe.cache.delete_value(heads.CACHE)
-	# Heard by any Customize page open on the form, as a form hears its
-	# record's doc_update: whoever saved, the page, a Reset, or a OneAI card.
 	frappe.publish_realtime(
 		"one_customized", {"doctype": doctype, "token": state(doctype)}, after_commit=True
 	)
@@ -328,8 +309,6 @@ def _set(doctype: str, fieldname: str | None, prop: str, value) -> None:
 	"""A property of a field, or of the form when `fieldname` is None, as a
 	Property Setter the ledger names."""
 	kind = frappe.get_meta("DocField").get_field(prop)
-	# A setter a module wrote first stays the module's: what it held is noted
-	# for Reset to put back.
 	name = f"{doctype}-{fieldname or 'main'}-{prop}"
 	was = None
 	if frappe.db.exists("Property Setter", name) and name not in _ledger(doctype, "Property Setter"):
@@ -407,9 +386,6 @@ def _fields(doctype: str, rows: list) -> None:
 				"is_system_generated": 0,
 			}
 		)
-		# Noted first: the insert alters the table, which commits whatever
-		# the transaction holds, so a note written after it could be lost to
-		# a later refusal and leave a field Reset cannot find.
 		field.autoname()
 		_note(doctype, "Custom Field", field.name)
 		field.insert(ignore_permissions=True)
@@ -428,9 +404,6 @@ def _fields(doctype: str, rows: list) -> None:
 		)
 	if order != [df.fieldname for df in meta.fields]:
 		_set(doctype, None, "field_order", json.dumps(order))
-
-
-# ------------------------------------------------------------------ carried to other forms
 
 
 def may_carry(other: str, doctype: str) -> None:
@@ -673,9 +646,6 @@ def _actions(doctype: str, rows: list) -> None:
 				"idx": 1000 + at,
 			}
 		).db_insert()
-
-
-# ------------------------------------------------------------------ taken back, and taken away
 
 
 def restored(field) -> str:

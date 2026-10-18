@@ -1,6 +1,4 @@
 <template>
-  <!-- An address of the reader's, or a new one: erpnext's Addresses web form.
-       Modelled on Shopify's customer account addresses: one form, Save. -->
   <WebForm
     page="addresses"
     :name="name === 'new' ? null : name"

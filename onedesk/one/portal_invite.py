@@ -12,7 +12,6 @@ from frappe.utils import pretty_date
 from onedesk.one import invite, roles
 from onedesk.one.portal import PARTIES
 
-#: Who besides a workspace administrator may invite a party's contact.
 MANAGERS = {"Customer": "Sales Manager", "Supplier": "Purchase Manager"}
 
 
@@ -104,16 +103,12 @@ def invite_contact(contact: str) -> dict:
 					"first_name": doc.first_name or email.split("@")[0],
 					"last_name": doc.last_name,
 					"user_type": "Website User",
-					# One's Portal Invitation instead: frappe's is a reset link
-					# that lives twenty minutes (one/invite.py).
 					"send_welcome_email": 0,
 				}
 			)
 			.insert(ignore_permissions=True)
 			.name
 		)
-	# frappe's User links itself to the contact with its address, so the
-	# contact is read again before it is saved.
 	doc = frappe.get_doc("Contact", doc.name)
 	if doc.user != user:
 		doc.user = user

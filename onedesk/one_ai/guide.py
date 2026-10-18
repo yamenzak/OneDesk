@@ -13,17 +13,13 @@ from onedesk.one_ai import memory
 
 APP = Path(__file__).resolve().parent.parent
 
-#: Where a README stops being for the people who use the module.
 BACKSTAGE = "## Under the hood"
 
-#: Words every question has and no section is about. Counted as matches,
-#: "the" and "how" made the dock's colour an answer about hiring.
 ASKING = frozenset(
 	"how what who whom why when where which the can could was were are does did get "
 	"out over see happen about will would should there their this that with from into".split()
 )
 
-#: How many sections one answer is drawn from, and how much of each.
 MOST = 3
 LONGEST = 1800
 

@@ -1,4 +1,3 @@
-/* The agreements: the dialog that asks, and the page that reads them. */
 .ol-ask-intro {
 	margin: 0 0 calc(var(--spacing) * 3);
 	color: var(--ink-gray-7);
@@ -29,8 +28,6 @@
 	font-size: var(--text-sm);
 }
 
-/* The text, in a record's main column (shell.css), read at a reading size
-   and a reading width. */
 .ol-document {
 	max-width: 760px;
 	padding: calc(var(--spacing) * 5) calc(var(--spacing) * 7.5) calc(var(--spacing) * 12);
@@ -42,7 +39,6 @@
 	margin-top: 0;
 }
 
-/* The documents, in the sidebar: this one named, the others links. */
 .ol-here {
 	font-weight: var(--font-weight-medium);
 	color: var(--ink-gray-9);

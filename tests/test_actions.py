@@ -52,9 +52,6 @@ def _function(name: str) -> ast.FunctionDef:
 	return next(n for n in body.body if isinstance(n, ast.FunctionDef) and n.name == name)
 
 
-# ------------------------------------------------- ours first, theirs after
-
-
 def test_a_workspace_adds_and_never_replaces():
 	"""Read off the one line that joins the two, because there is nowhere else
 	the order could be got wrong."""
@@ -92,10 +89,6 @@ def test_the_instruction_is_never_taken_from_the_caller():
 	)
 	taken = {a.arg for a in endpoint.args.args}
 	assert "instruction" not in taken and "system" not in taken, taken
-	# `turns` and `tools` are the conversation and what the workspace will run.
-	# Neither is an instruction: the model's turns are what the model said, and
-	# a tool declaration shapes a request rather than telling a model anything
-	# about what it may touch.
 	assert taken == {"action", "text", "model", "extra", "reference", "turns", "tools"}
 
 
@@ -106,9 +99,6 @@ def test_what_a_workspace_adds_is_bounded_at_both_ends():
 	assert "MOST" in (
 		tree.APP / "one_ai" / "doctype" / "ai_action_setting" / "ai_action_setting.py"
 	).read_text(encoding="utf-8")
-
-
-# --------------------------------------------------------- who may write what
 
 
 def test_only_the_operator_may_write_an_action():
@@ -126,17 +116,12 @@ def test_a_workspace_owns_its_own_setting():
 	assert "One Operator" not in roles, "an operator editing this would be editing a customer's"
 
 
-# ------------------------------------------------------------ which model
-
-
 @pytest.mark.parametrize(
 	"model_says,action_needs,yes",
 	[
 		("Text Generation", "Text Generation", True),
 		("Multimodal", "Text Generation", True),
 		("Vision", "Text Generation", True),
-		# Measured: a model that reads sound and nothing else turned up as a
-		# candidate summariser, because it writes text back.
 		("Transcription", "Text Generation", False),
 		("Text Generation", "Vision", False),
 		("Multimodal", "Vision", True),
@@ -170,9 +155,6 @@ def test_the_selects_offer_the_words_the_table_knows():
 	assert "Other" not in capability.COVERS
 
 
-# ------------------------------------------------------------- the fixtures
-
-
 def test_the_actions_ship_as_fixtures():
 	hooks = (tree.APP / "hooks.py").read_text(encoding="utf-8")
 	assert '"AI Action",' in hooks, "an action that is not a fixture arrives on no site"
@@ -199,9 +181,6 @@ def test_the_persona_says_what_not_to_do():
 	assert "suggest" in said
 
 
-# ------------------------------------------- the instruction is not a workspace's
-
-
 def test_a_workspace_holds_no_copy_of_the_instruction():
 	"""`AI Action` is a fixture, so every site gets the row — the label, the
 	capability and the caps, which is what a workspace needs to pick a model.
@@ -217,7 +196,6 @@ def test_a_workspace_holds_no_copy_of_the_instruction():
 		at = hooks.index(when)
 		block = hooks[at : hooks.index("]", at)]
 		assert "onedesk.one_ai.instructions.trim" in block, f"{when} does not trim"
-		# After the flag is applied, because what it does depends on it.
 		assert block.index("site.apply") < block.index("instructions.trim")
 
 
@@ -232,9 +210,6 @@ def test_the_persona_is_said_once_rather_than_four_times():
 	is four places to edit and three chances to disagree."""
 	said = spoken(tree.APP / "one_admin" / "actions.py", "instruction")
 	assert "_persona()" in said
-	# And the persona comes before the action's own words, because an action
-	# saying "answer in two sentences" is a refinement of the rules, not a
-	# replacement for them.
 	assert said.index("_persona()") < said.index("asked.instruction")
 
 	rules = ("you are oneai", "suggest", "count rather than list", "do not invent")

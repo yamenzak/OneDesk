@@ -1,23 +1,5 @@
-// The upload dialog, joined to OneCloud. Frappe's dialog (every Attach field,
-// the text editor's image, a comment, Data Import) keeps My Device, Link and
-// Camera, and gains OneCloud: the explorer, to choose a file from anywhere
-// the person may open — My Files, Company, what is shared with them, their
-// libraries, any record's files — through the extension point Frappe gives
-// for this, FileUploader.UploadOptions.
-//
-// Its own Library goes. It browsed Frappe's folder tree and asked Frappe's
-// File permission, which knows nothing of a folder shared through OneCloud;
-// two pickers answering "can I use that file" differently is worse than one.
-//
-// A file chosen is attached the way Library attached one — a new File row
-// on the same object, so no bytes are copied — but through
-// one_storage/api.py `attach`, which asks namespace.may, not Frappe's File
-// permission. The explorer is loaded when OneCloud is first clicked.
 frappe.provide("onedesk");
 
-// What each open dialog was asked for — its on_success, its restrictions —
-// which Frappe's component keeps to itself. Keyed by the mounted uploader,
-// which is what an upload option is handed when clicked.
 onedesk.uploader_options = new WeakMap();
 
 onedesk.pick_from_onecloud = ({ dialog, uploader, doctype, docname, fieldname }) => {
@@ -54,8 +36,6 @@ onedesk.pick_from_onecloud = ({ dialog, uploader, doctype, docname, fieldname })
 			docname: docname || null,
 			fieldname: fieldname || null,
 		});
-		// What Frappe's own upload does when a file arrives: the Attach field
-		// takes its URL, the sidebar lists it, the editor inserts it.
 		files.forEach((file) => props.on_success && props.on_success(file, { message: file }));
 		picker.hide();
 		dialog && dialog.hide();
@@ -80,8 +60,6 @@ onedesk.pick_from_onecloud = ({ dialog, uploader, doctype, docname, fieldname })
 	});
 };
 
-// "image/*" and the like, against a file's extension, as the browser's
-// own picker reads an accept list.
 onedesk.file_kinds = {
 	kinds: {
 		image: ["png", "jpg", "jpeg", "gif", "webp", "svg", "bmp", "heic", "avif", "ico"],
@@ -106,7 +84,6 @@ frappe.require("file_uploader.bundle.js").then(() => {
 	frappe.ui.FileUploader = OneCloudUploader;
 	Uploader.UploadOptions.push({
 		label: __("OneCloud"),
-		// Drawn like its neighbours: a disc, and Lucide's cloud from the sprite.
 		icon: `<circle cx="15" cy="15" r="15" fill="var(--subtle-fg)"></circle>
 			<use href="#icon-cloud" x="7" y="7" width="16" height="16" style="color: var(--ink-gray-8)"></use>`,
 		action: (context) => onedesk.pick_from_onecloud(context),

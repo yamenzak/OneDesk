@@ -1,5 +1,3 @@
-// Custom Collections: what the workspace keeps of its own. A collection is
-// made and changed by asking OneAI, and a click on one opens its records.
 frappe.listview_settings["Record Type"] = {
 	add_fields: ["record_doctype", "app", "rail_group"],
 	hide_name_column: true,
@@ -26,13 +24,10 @@ frappe.listview_settings["Record Type"] = {
 				onedesk.oneai.open({ ask: __("I want to change {0}.", [names.join(", ")]) });
 			}, false);
 			list.page.add_actions_menu_item(__("Move"), () => move(list), false);
-			// frappe's own Delete, with its confirmation.
 			const remove = list.get_actions_menu_items().find((item) => item.label === __("Delete"));
 			if (remove) list.page.add_actions_menu_item(remove.label, remove.action, remove.standard);
 		};
 		list.set_actions_menu_items();
-		// A row is not a page to read: it opens the collection's records. Caught
-		// before frappe's own click, which would follow the row's link.
 		if (!list.__one_opens) {
 			list.__one_opens = true;
 			list.$result[0].addEventListener(
@@ -54,9 +49,6 @@ frappe.listview_settings["Record Type"] = {
 	},
 };
 
-// Where a collection is listed: its app, and a group of that app's rail, one
-// the rail has or a new one. frappe's dialog and controls; the groups come
-// from the app chosen.
 function move(list) {
 	const [doc] = list.get_checked_items();
 	if (!doc || list.get_checked_items().length > 1) {

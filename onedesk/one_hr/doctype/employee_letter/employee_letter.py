@@ -9,7 +9,6 @@ import frappe
 from frappe.model.document import Document
 from frappe.utils import now_datetime
 
-#: The roles that write letters about anybody. Everybody else writes their own.
 HR = ("HR Manager", "HR User")
 
 

@@ -59,7 +59,6 @@ def execute(filters=None):
 				"indicator": worst,
 			}
 		)
-	# What is wrong first, then close calls, each in the list's own order.
 	rank = {"red": 0, "orange": 1, "green": 2}
 	rows.sort(key=lambda row: rank[row["indicator"]])
 

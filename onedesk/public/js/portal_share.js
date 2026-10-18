@@ -1,8 +1,3 @@
-// A submitted record and the portal (one/portal_share.py). Portal opens one
-// dialog, modelled on OneCloud's Share (and Google Drive's): a link sent or
-// copied for one person at the top, the customer's or supplier's portal
-// contacts below with Can See or Hidden, saved as it is chosen, and the
-// record's links with Copy, Email Again, Rotate and Revoke.
 const PORTAL_KINDS = [
 	"Quotation",
 	"Sales Order",
@@ -36,7 +31,6 @@ function portal_dialog(frm, first) {
 	const $body = dialog.fields_dict.body.$wrapper;
 	let said = first;
 
-	// frappe's own Select, chevron and all (form/controls/select.js).
 	const select = (css, options, disabled) =>
 		`<div class="frappe-control ${css}" data-fieldtype="Select"><div class="control-input flex align-center">
 			<select class="form-control" ${disabled ? "disabled" : ""}>${options}</select>

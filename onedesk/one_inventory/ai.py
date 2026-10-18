@@ -10,23 +10,14 @@ import frappe
 from frappe import _lt
 from frappe.utils import flt, get_fullname
 
-#: An item's page (page/item_view), by its open view, from `?view=`.
 PAGE = "item-view"
-#: Stock on Hand (page/stock_on_hand).
 STOCK = "stock-on-hand"
-#: Shop Floor (page/floor).
 FLOOR = "floor"
-#: Plant Floor (page/plant).
 PLANT = "plant"
-#: OneInventory's Home (page/inventory).
 HOME = "inventory"
-#: Lots (page/lots).
 LOTS = "lots"
-#: Quotes (page/quotes).
 QUOTES = "quotes"
-#: Sent Out (page/sent_out).
 SENT_OUT = "sent-out"
-#: Upkeep (page/upkeep).
 UPKEEP = "upkeep"
 
 _HOW = {
@@ -50,7 +41,6 @@ _ORDER = {
 	"expects": "item_facts",
 }
 _CHANGE = {
-	# The reader says what; the model suggests the card.
 	"label": _lt("Change this item…"),
 	"ask": _lt("Change this item: "),
 	"fill": True,
@@ -99,7 +89,6 @@ _ARRIVING = {
 _RECEIVE = {
 	"label": _lt("Receive this order"),
 	"ask": _lt("Draft a receipt for what is still to come on this order."),
-	# Offered to whoever may make the receipt, not whoever may read the order.
 	"can": "create",
 	"doctype": "Purchase Receipt",
 	"expects": "plan_receipt",
@@ -123,7 +112,6 @@ _TO_DELIVER = {
 _DELIVER = {
 	"label": _lt("Deliver this order"),
 	"ask": _lt("Draft a delivery for what is still to go out on this order."),
-	# Offered to whoever may make the delivery, not whoever may read the order.
 	"can": "create",
 	"doctype": "Delivery Note",
 	"expects": "plan_delivery",
@@ -146,7 +134,6 @@ _SEND = {
 _COUNTED = {
 	"label": _lt("What did this count find?"),
 	"ask": _lt("What did this stock count find? Say what the books held and what was counted, and what it did to the books."),
-	# On the count's own form, so the reader's right to read it is the count's.
 	"can": "read",
 	"expects": "count_facts",
 }
@@ -189,7 +176,6 @@ _CHEAPEST = {
 	"can": "read",
 	"expects": "quotes_now",
 }
-#: On a quote's own form, where the reader's right to read it is the form's.
 _COMPARE_HERE = {key: value for key, value in _COMPARE.items() if key != "doctype"}
 _LATE = {
 	"label": _lt("Which orders are late?"),
@@ -258,7 +244,6 @@ _DUE = {
 	"expects": "services_due",
 }
 _HAND = {
-	# The reader says to whom; the model suggests the card.
 	"label": _lt("Hand this to somebody…"),
 	"ask": _lt("Hand this asset to "),
 	"fill": True,
@@ -1360,9 +1345,6 @@ def _order(one) -> dict:
 		"still_to_come": one.left,
 		"late": one.late,
 	}
-
-
-# ------------------------------------------------------------------ making
 
 
 def _steps(order) -> list[dict]:

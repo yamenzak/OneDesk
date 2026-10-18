@@ -71,14 +71,10 @@ def test_every_label_is_a_name_not_a_sentence():
 	assert not wrong, "labels out of register, see docs/WORDING.md:\n  " + "\n  ".join(wrong)
 
 
-# What a screen says (docs/WORDING.md, On a Screen): no colon or semicolon
-# joining two clauses, no em dash, and nothing longer than a short sentence.
-# A label and its value ("Default: {0}") is not a joined clause.
 SCREEN = re.compile(r'__\(\s*"((?:[^"\\]|\\.)*)"')
 JOINED = re.compile(r"[a-z)\]][:;] \S| — |—")
 LABELLED = re.compile(r"^\w+( \w+){0,2}: \{\d\}(, \{\d\})*$")
 SCREEN_LONGEST = 140
-# A note under a heading is short and never says how to use the screen.
 NOTE = re.compile(r'note:\s*__\(\s*"((?:[^"\\]|\\.)*)"')
 NOTE_LONGEST = 70
 TELLING = re.compile(r"\b(Open one|Click (one|a|an|the|somebody|someone)|Tap one)\b")

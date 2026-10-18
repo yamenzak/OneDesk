@@ -5,9 +5,6 @@ from frappe.utils import now_datetime
 
 from onedesk.one_hr import rules
 
-#: What the browser tells us about itself, and what we call each one. None of it
-#: is identity — the passkey is that. It is what makes a reset request
-#: recognisable and what shows several people enrolling from one machine.
 SEEN = ("user_agent", "platform", "model", "screen", "renderer")
 
 
@@ -30,8 +27,6 @@ def write(employee: str, direction: str, seen: dict, signals: list[str], **found
 			"signals", {"signal": name, "weight": rules.weight(name), "says": rules.says(name)}
 		)
 	attempt.insert(ignore_permissions=True)
-	# Committed now, because HRMS may refuse the check-in next and roll back, and the
-	# attempt's row must not go with it.
 	frappe.db.commit()
 	return attempt.name
 

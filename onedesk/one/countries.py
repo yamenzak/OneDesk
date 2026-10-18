@@ -3,7 +3,6 @@ is in it, as ERPNext switches its own regional features on by country."""
 
 import frappe
 
-#: What each opens, and the country it is for.
 ONLY_IN = {
 	"UAE VAT 201": "United Arab Emirates",
 	"UAE VAT Settings": "United Arab Emirates",

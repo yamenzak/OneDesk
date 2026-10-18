@@ -11,7 +11,6 @@ GIVEN = {
 	"Project": {"Accounts User": roles.USE, "Accounts Manager": roles.USE},
 }
 
-#: Who keeps project templates, and who picks one.
 MANAGER = "Projects Manager"
 USER = "Projects User"
 

@@ -1,4 +1,3 @@
-// Every date something must be done by, from what was read. See deadlines.py.
 frappe.query_reports["Deadlines"] = {
 	filters: [
 		{ fieldname: "from_date", label: __("From Date"), fieldtype: "Date", reqd: 1, default: frappe.datetime.get_today() },

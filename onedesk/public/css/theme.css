@@ -1,18 +1,3 @@
-/* One's tokens, on frappe's.
- *
- * One has no palette of its own: every screen is drawn in frappe-ui's tokens
- * (--ink-*, --surface-*, --outline-*, --radius-*), and light and dark are
- * frappe's. The bluish ramp that used to be redefined here retinted only what
- * read the ramp, while frappe-ui's islands set the semantic tokens to their
- * own neutral values, so one surface came out grey and the next blue
- * (tests/guards/test_tokens.py keeps it this way).
- *
- * What is here is One's own: the mark's colours, the only literal colours in
- * the app, and the bar's tokens, made of frappe's. */
-
-/* One's own mark, the suite spectrum of scripts/brand/marks.json: the ring
- * that stands in for the 0 when a page is not found (lost.css). */
-
 :root {
 	--one-suite-1: #38bdf8;
 	--one-suite-2: #e11d48;
@@ -23,27 +8,14 @@
 	--one-suite-glint: #ffffff;
 }
 
-/* The bar across the top of the shell (desk.css), on the rail's own surface,
- * so the two read as one frame around the page, as Discord's do. */
-
 :root {
 	--one-bar-height: 28px;
-	/* What the bar takes off the window's height: none until it is shown. */
 	--one-bar-offset: 0px;
 	--one-bar-bg: var(--desk-sidebar-bg);
 	--one-bar-ink: var(--ink-gray-6);
 	--one-bar-ink-strong: var(--ink-gray-9);
 	--one-bar-hover: var(--surface-gray-3);
 }
-
-/* OneAI's spectrum, read off the mark itself.
- *
- * The six stops of `ai-spectrum` in scripts/brand/marks.json, in order, plus
- * the aurora behind it. Everything that is AI wears this ramp — the launcher's
- * ring, the panel's top edge, a badge on a field it wrote, the border that
- * glows while it works — so the moment somebody has learned what the colour
- * means, they have learned it everywhere. Defined here with the rest of One's
- * tokens; nothing else in the app writes a literal colour. */
 
 :root {
 	--one-ai-1: #22d3ee;

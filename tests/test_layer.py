@@ -96,7 +96,6 @@ def test_the_holds_are_on_frappes_own_records():
 		("Server Script", "onedesk.one.layer.script"),
 	):
 		assert f'"{doctype}": {{"validate": "{path}"}}' in HOOKS, doctype
-	# Everything the page writes is the workspace's, whoever presses Save.
 	assert "frappe.flags.one_workspace_layer = True" in CUSTOMIZE
 	assert "System Manager" not in LAYER.read_text(encoding="utf-8").split('"""', 2)[2]
 
@@ -113,12 +112,9 @@ def test_the_page_checks_everything_before_it_writes():
 def test_reset_takes_back_only_what_the_workspace_made():
 	body = CUSTOMIZE.split("def reset(", 1)[1].split("\n@frappe", 1)[0]
 	assert '_ledger(doctype, "Custom Field")' in body and '"kind": "Property Setter"' in body
-	# A module's setter the workspace changed is put back, not deleted.
 	assert "if row.replaced:" in body
 	assert 'frappe.db.exists("Property Setter", name) and name not in _ledger' in CUSTOMIZE
 	assert '"custom": 1' in body, "a connection or button of a module's stays"
-	# Nothing is taken by what it looks like: a property setter of a module's
-	# has no mark of its own, so only the ledger says which are the workspace's.
 	assert 'frappe.db.delete("Property Setter", {"doc_type"' not in CUSTOMIZE
 
 

@@ -7,20 +7,14 @@ ties an opportunity's stage and its status together.
 import frappe
 from frappe import _
 
-#: What an outcome makes an opportunity's status.
 STATUS = {"Won": "Converted", "Lost": "Lost"}
 
-#: The outcomes that close a deal. On Hold does not: the deal waits, open.
 CLOSED = tuple(STATUS)
 
-#: The outcome of a stage a deal waits in, out of the pipeline.
 HOLD = "On Hold"
 
-#: ERPNext's daily job that sets status Open on any lead or opportunity with an
-#: Event today, converted and lost ones included.
 REOPENER = "erpnext.crm.utils.open_leads_opportunities_based_on_todays_event"
 
-#: The stages a small business recognises: name, position, probability, outcome.
 SEVEN = (
 	("New", 1, 10, "Open"),
 	("Qualified", 2, 25, "Open"),
@@ -31,7 +25,6 @@ SEVEN = (
 	("Lost", 7, 0, "Lost"),
 )
 
-#: The eight stages ERPNext's setup wizard writes, retired where none is in use.
 TEXTBOOK = (
 	"Prospecting",
 	"Qualification",
@@ -114,12 +107,10 @@ def before_validate(doc, method=None) -> None:
 	was_status = before.status if before else None
 
 	if doc.status != was_status and doc.status in ("Lost", "Converted"):
-		# One of ERPNext's verbs decided; the stage goes where the status went.
 		wanted = "Lost" if doc.status == "Lost" else "Won"
 		if _outcome(doc.sales_stage) != wanted:
 			doc.sales_stage = first(wanted) or doc.sales_stage
 	elif doc.status != was_status and doc.status == "Open" and _outcome(doc.sales_stage) in CLOSED:
-		# Reopened: back to the stage it was in before it was won or lost.
 		doc.sales_stage = last_open(doc.name) or first("Open")
 	elif doc.sales_stage != was_stage:
 		moved_to = _outcome(doc.sales_stage)

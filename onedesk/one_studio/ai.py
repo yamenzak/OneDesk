@@ -13,7 +13,6 @@ from onedesk.one_studio import extensions, guard, record_types
 SUGGESTIONS = {
 	"Record Type": [
 		{
-			# The reader says what is kept; the model designs the fields.
 			"label": _lt("Make a collection…"),
 			"ask": _lt("Make a collection for "),
 			"fill": True,
@@ -27,10 +26,8 @@ SUGGESTIONS = {
 			"expects": "design_record_type",
 		},
 	],
-	# Custom Fields in OneStudio, every field the workspace added or changed.
 	"Workspace Field": [
 		{
-			# Asked about first, step by step: nothing is expected of the first turn.
 			"label": _lt("Add a field…"),
 			"ask": _lt("I want to add a field to "),
 			"fill": True,
@@ -53,7 +50,6 @@ SUGGESTIONS = {
 	],
 	"Extension": [
 		{
-			# The reader says what; the model writes it.
 			"label": _lt("Write an extension…"),
 			"ask": _lt("Write an extension that "),
 			"fill": True,
@@ -68,7 +64,6 @@ SUGGESTIONS = {
 			"view": "List",
 		},
 		{
-			# Changing one is writing it again: reviewed again, off until approved.
 			"label": _lt("Change this one…"),
 			"ask": _lt("Change this extension so that "),
 			"fill": True,
@@ -112,8 +107,6 @@ def extensions_here(
 	or changing one."""
 	if not roles.administers():
 		return {"error": "Only a workspace administrator sees the extensions."}
-	# A model on the Extensions list reads "Extension" as the kind to narrow
-	# to, and was told there were none (measured, Gemma 4).
 	if record == extensions.EXTENSION:
 		record = None
 	filters = {"record_doctype": record} if record else {}
@@ -305,13 +298,8 @@ def write_extension(
 		return {"error": "Only a workspace administrator may have an extension written."}
 	extension = _named(extension)
 	if extension and not frappe.db.exists(extensions.EXTENSION, extension):
-		# Measured on Gemma 4: refused by the guard, so never kept, then
-		# mended "with extension=" its own title. There is nothing to change:
-		# it is a new one.
 		extension = None
 	if extension:
-		# A change that leaves out where or when keeps what it has: measured,
-		# Gemma changing a limit sent the code and no event, and was refused.
 		was = frappe.db.get_value(
 			extensions.EXTENSION, extension, ["view", "event", "place", "cron"], as_dict=True
 		)
@@ -535,7 +523,6 @@ def forms_here(
 		],
 		"fields_changed": changes,
 		"extensions": forms.extensions(record),
-		# What the buttons, charts and numbers above the fields may name.
 		"choices": {
 			key: value
 			for key, value in page.load(record)["choices"].items()

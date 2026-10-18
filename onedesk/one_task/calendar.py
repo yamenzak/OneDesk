@@ -44,8 +44,6 @@ def due(which: list, start, end) -> list[dict]:
 
 
 def _tasks(filters: list, day: str) -> list[dict]:
-	# Editable: the page offers the drag, and `move` checks the reader may
-	# write the task before anything changes.
 	return [
 		{"name": one.name, "title": one.subject, "start": getdate(one[day]), "all_day": 1, "editable": 1, "resizable": 0}
 		for one in frappe.get_list("Task", filters=filters, fields=["name", "subject", day], limit=layers.MOST)

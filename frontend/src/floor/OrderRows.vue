@@ -1,8 +1,4 @@
 <template>
-  <!-- The work orders on the floor as a table, modelled on Odoo's
-       manufacturing orders in its Shop Floor and Katana's make orders: the
-       item, where it stands, the step it is at, how much is made, how many
-       steps are done and when it is wanted (one_inventory/floor.py). -->
   <p v-if="!orders.length && empty" class="py-6 text-base text-ink-gray-5">{{ empty }}</p>
   <List v-else :columns="columns" divider="full" :row-height="56" class="-mx-3 list-gap-4 list-row-px-3">
     <ListHeader>
@@ -63,7 +59,6 @@ import { __, date, fromToday, quantity } from "../kit";
 defineProps({ orders: { type: Array, required: true }, empty: String });
 const emit = defineEmits(["open"]);
 
-// How much is made is the one a phone keeps; the rest join as the page widens.
 const columns = {
   base: ["minmax(0,1fr)", "6rem"],
   sm: ["minmax(0,1fr)", "8rem", "7rem"],

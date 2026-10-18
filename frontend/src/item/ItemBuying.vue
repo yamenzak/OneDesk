@@ -1,7 +1,4 @@
 <template>
-  <!-- Who the item is bought from and at what, the quotes still open, what is
-       on order and still to arrive, what has been asked for, who makes it,
-       and its buying prices. Each starts the next document as its own form would. -->
   <div class="grid gap-x-10 pb-12 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
     <div class="min-w-0">
     <PlaceSpot :said="spot" class="mb-4" />
@@ -30,7 +27,6 @@
       </ul>
     </Section>
   </div>
-    <!-- How the item is kept here: the item's own form fields, changed in place. -->
     <aside class="min-w-0">
       <Section :title="__('Details')" icon="lucide-info">
         <Facts :facts="details" :form="form" @saved="emit('changed')" />
@@ -56,18 +52,14 @@ const suppliersList = ref();
 const ours = computed(() => props.said.currency);
 const defaultSupplier = computed(() => buying.value.suppliers.find((one) => one.default)?.supplier || null);
 
-// ERPNext's own mappers, as each document's form makes the next one.
 const MAPPERS = {
   receive: "erpnext.buying.doctype.purchase_order.mapper.make_purchase_receipt",
   order: "erpnext.stock.doctype.material_request.mapper.make_purchase_order",
   quote: "erpnext.buying.doctype.supplier_quotation.mapper.make_purchase_order",
 };
-// A request's order runs the order's link triggers, as the request's own form does.
 const mapped = (kind, name, args) => onedesk().item.mapped(MAPPERS[kind], name, args, kind === "order");
 const due = (one) => (one.due ? (one.late ? __("Was due {0}", [date(one.due)]) : __("Due {0}", [date(one.due)])) : "");
 
-// A quote still open: who, at what in their currency, until when; the
-// cheapest marked. Order This makes the order from it.
 const quotes = computed(() =>
   buying.value.quotes.map((one) => ({
     key: one.name,
@@ -85,7 +77,6 @@ const quotes = computed(() =>
   }))
 );
 
-// An order still to arrive: how much has, and Receive makes the receipt.
 const orders = computed(() =>
   buying.value.orders.map((one) => ({
     key: one.name,
@@ -102,8 +93,6 @@ const orders = computed(() =>
   }))
 );
 
-// What someone asked to be bought: who, for which project, and Make Order
-// orders it from the default supplier, as the request's own form does.
 const requests = computed(() =>
   buying.value.requests.map((one) => ({
     key: one.name,
@@ -118,7 +107,6 @@ const requests = computed(() =>
   }))
 );
 
-// The Buying view is a place (one_studio/places.py).
 const spot = usePlace("oneinventory_item.buying", () => ({
   item: { name: props.said.name, item_name: props.said.item_name },
   buying: {
@@ -129,7 +117,6 @@ const spot = usePlace("oneinventory_item.buying", () => ({
   },
 }));
 
-// The item's own form fields that belong here, shown or locked as its form has them.
 const details = [
   { label: __("Default Purchase Unit of Measure"), field: "purchase_uom", placeholder: __("Same as stock") },
   { label: __("Lead Time in Days"), field: "lead_time_days" },

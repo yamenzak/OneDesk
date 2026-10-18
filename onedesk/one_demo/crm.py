@@ -11,7 +11,6 @@ from onedesk.one_demo.base import ago, ahead, as_user, make, save, tag, wh
 SALES = "omar@one.test"
 ESTIMATOR = "samir@one.test"
 
-#: first, last, company, email, source, status, owner, next step, in days
 LEADS = (
 	("Hamad", "Al Suwaidi", "Suwaidi Villas", "hamad@suwaidi.example", "Website", "Lead", SALES, "Call back about the villa windows", 1),
 	("Elena", "Petrova", "Petrova Design Studio", "elena@petrova.example", "Reference", "Replied", SALES, "Send the showroom brochure", 2),
@@ -25,8 +24,6 @@ LEADS = (
 	("Lucy", "Tran", "Tran Retail", "lucy@tranretail.example", "Website", "Converted", SALES, None, 0),
 )
 
-#: title, party (customer or a lead by first name), stage, amount, currency,
-#: closing in days, next step, in days
 DEALS = (
 	("Suwaidi Villas glazing", ("Lead", "Hamad"), "New", 180000, "AED", 60, "Visit the plot with Samir", 3),
 	("Webb Hotel lobby curtain wall", ("Lead", "Marcus"), "Qualified", 640000, "AED", 45, "Ask for the drawings", 2),
@@ -110,7 +107,6 @@ def run(password=None):
 				if stage == "Won":
 					_ordered(quote.name)
 				if stage == "Lost":
-					# Turned down: the quotation is lost, and ERPNext loses the deal with it.
 					quote.declare_enquiry_lost([{"lost_reason": _lost_reason()}], [], "Went with a cheaper local supplier.")
 		_convert("Lucy")
 		_last_year()
@@ -118,8 +114,6 @@ def run(password=None):
 	_from_the_form()
 
 
-#: first, last, company, email, message: two who wrote through the Get in
-#: Touch form, so nobody owns them yet, the second the same business as Hamad.
 FORM = (
 	("Priya", "Nair", "Nair Interiors", "priya@nairinteriors.example", "We need a quote for frameless shower screens in six flats."),
 	("Khalid", "Al Suwaidi", "Suwaidi Villas", "khalid@suwaidi.example", "Following up on the villa windows my brother asked about."),
@@ -186,9 +180,6 @@ def _lost_reason():
 	return name
 
 
-#: A year of selling for Home's story: title, customer, owner, source, months
-#: ago, days to close, outcome, value, lost reason, and how far the money of a
-#: won one got (Paid, Billed, or only Ordered).
 LAST_YEAR = (
 	("Bayview tower lobby doors", "Bayview Developments", SALES, "Existing Customer", 11, 40, "Won", 72000, None, "Paid"),
 	("Palm Interiors office partitions", "Palm Interiors", ESTIMATOR, "Reference", 10, 25, "Lost", 28000, "Price", None),
@@ -202,9 +193,6 @@ LAST_YEAR = (
 	("Gulf Properties car park screens", "Gulf Properties REIT", ESTIMATOR, "Reference", 2, 28, "Lost", 47000, "Price", None),
 )
 
-#: first, last, company, email, source, months ago, status, next step in
-#: days: leads of the year before, most long since settled, and one still
-#: open with nothing planned.
 LAST_YEARS_LEADS = (
 	("Omar", "Haddad", "Haddad Contracting", "omar@haddad.example", "Exhibition", 11, "Do Not Contact", None),
 	("Grace", "Lim", "Lim Dental", "grace@limdental.example", "Website", 10, "Do Not Contact", None),
@@ -278,8 +266,6 @@ def _last_year():
 		quote = make_quotation(deal.name)
 		dated(quote, add_days(closed, -7), "transaction_date")
 		quote.append("items", {"item_code": "SVC-INST", "qty": round(amount / 180), "rate": 180})
-		# ERPNext orders no quotation past its Valid Till, which today these
-		# are; it is written once the order is made, as the day it ran to.
 		quote.valid_till = add_days(closed, 20) if outcome == "Lost" else None
 		quote = save(quote, submit=True)
 		if outcome == "Lost":
@@ -340,7 +326,6 @@ def _back(doctype: str, name: str, day):
 	)
 
 
-#: campaign, what it was, and the emails of the leads it brought in.
 CAMPAIGNS = (
 	("Dubai Design Week 2026", "Our stand at Design Week.", ("peter@novak.example", "omar@haddad.example")),
 	("Hotel Refit Mailer", "Mail to hotel owners planning a refit.", ("marcus@webbhosp.example", "sam@okafor.example")),
@@ -358,7 +343,6 @@ def _marketing():
 			lead = frappe.db.get_value("Lead", {"email_id": email})
 			if lead:
 				frappe.db.set_value("Lead", lead, "utm_campaign", name, update_modified=False)
-	# Mail templates are the administrator's (one/access.py).
 	if not frappe.db.exists("Email Template", "Hotel Refit"):
 		with as_user("Administrator"):
 			make(

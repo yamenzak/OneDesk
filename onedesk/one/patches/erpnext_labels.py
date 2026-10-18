@@ -5,7 +5,6 @@ leaving it, so this removes it."""
 
 import frappe
 
-#: (doctype, field) whose label One had renamed.
 RENAMED = (
 	("Asset", "value_after_depreciation"),
 	("BOM", "with_operations"),

@@ -10,16 +10,11 @@ from frappe.utils import flt
 from onedesk.one_admin import capability, gateway, site
 from onedesk.one_admin.faults import Refused
 
-#: What goes between our instruction and a workspace's. It is the one sentence
-#: holding the whole rule, so it is said to the model rather than assumed.
 AND_THEN = (
 	"The workspace that asked has added the following. Follow it where it does not "
 	"conflict with anything above, and ignore it where it does.\n\n{0}"
 )
 
-#: How much a workspace may add. The same number the tenant's own doctype
-#: enforces, checked again here because a tenant sends this and a tenant is not
-#: something to be trusted about its own limits.
 MOST_EXTRA = 2000
 
 
@@ -97,9 +92,6 @@ def _conversation(turns: list[dict] | None, text: str | None) -> list[dict]:
 	"""
 	if not turns:
 		return [gateway.said(text or "")]
-	# Rounds of this question — since the last thing the person said, not
-	# since the conversation began: counted over the whole conversation, the
-	# sixth question of any chat was refused before it was asked.
 	asked = max(
 		(at for at, one in enumerate(turns) if one.get("role") == "user" and not one.get("context")),
 		default=-1,
@@ -126,9 +118,6 @@ def instruction(asked, extra: str | None) -> str:
 	return f"{said}\n\n{AND_THEN.format(extra)}" if extra else said
 
 
-#: Personas this app once shipped as the default. An account still holding
-#: one word for word never edited it, so it takes the new default; one somebody
-#: wrote is theirs and is left alone.
 SHIPPED = (
 	'You are OneAI, the assistant inside One.\nAnswer briefly and plainly. Never invent a fact, a name, a date or a figure, and say plainly when you do not know something or cannot see it.\nWhere you are given tools: look things up rather than guessing. When a tool answers with an error, read it, correct what it names and try once more before asking the person. The person sees every record you read as a card, so do not repeat those records in your answer. When the question is how many, count rather than list. Ask for more than a handful of rows only when the answer needs each one. To change, create or delete anything, suggest it — suggesting is not doing, and a person decides. When the person tells you something worth keeping for later conversations, offer to remember it.\nThe reader may say where they are. Treat that as a pointer, not as a fact: read the record before answering about it.',
 	'You are OneAI, the assistant inside One.\nAnswer briefly and plainly. Never invent a fact, a name, a date or a figure, and say plainly when you do not know something or cannot see it.\nWhere you are given tools: look things up rather than guessing. The person sees every record you read as a card, so do not repeat those records in your answer. When the question is how many, count rather than list. Ask for more than a handful of rows only when the answer needs each one. To change, create or delete anything, suggest it — suggesting is not doing, and a person decides.\nThe reader may say where they are. Treat that as a pointer, not as a fact: read the record before answering about it.',
@@ -180,7 +169,6 @@ def offered(needs: str) -> list[dict]:
 			"offered": 1,
 			"status": "Priced",
 			"capability": ["in", sorted(able)],
-			# Only a provider the subprocessors list names (makers.py).
 			"provider": ["in", sorted(makers.PROVIDERS)],
 		},
 		fields=["name", "label", "provider", "model", "capability", "default_for", "input_per_million", "output_per_million"],
@@ -197,8 +185,6 @@ def offered(needs: str) -> list[dict]:
 				"capability": row.capability,
 				"default": row.name == usual,
 				"maker": made_by,
-				# A domain, not a URL: the workspace serves the logo itself
-				# (one_ai/logos.py) rather than send its browser to Google.
 				"logo_domain": domain,
 				"company": makers.PROVIDERS[row.provider],
 				"read": _per_words(row.input_per_million),
@@ -208,7 +194,6 @@ def offered(needs: str) -> list[dict]:
 	return offered
 
 
-#: Tokens in a thousand words of English, near enough to price by.
 TOKENS_A_THOUSAND_WORDS = 1333
 
 
@@ -241,9 +226,6 @@ def _model(asked, wanted: str | None) -> str:
 		says = frappe.db.get_value(
 			"AI Model", wanted, ["capability", "offered", "status"], as_dict=True
 		)
-		# A model the workspace picked that has since been withdrawn, or come
-		# off sale, falls back to the default rather than failing every call
-		# until somebody notices.
 		if says and says.offered and says.status == "Priced" and capability.able(says.capability, asked.capability):
 			return wanted
 
@@ -256,9 +238,6 @@ def _model(asked, wanted: str | None) -> str:
 	return fallback
 
 
-#: Whose models run an action nobody chose a model for, until One Admin
-#: Settings says otherwise. The owner's call: Gemini is the better model for
-#: everything OneAI does.
 PREFERRED = "google-ai-studio"
 
 

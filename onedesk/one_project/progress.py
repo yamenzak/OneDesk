@@ -9,8 +9,6 @@ from frappe.utils import add_days, flt, getdate, nowdate, strip_html
 from onedesk.one_project import retention, terms
 from onedesk.one_project.retention import HANDOVER, HELD, RETENTION, parts
 
-#: How an order is billed: the invoice it makes, ERPNext's own mapper, and the
-#: field on an invoice line naming the order line it came from.
 SIDES = {
 	"Purchase Order": {
 		"invoice": "Purchase Invoice",
@@ -24,8 +22,6 @@ SIDES = {
 	},
 }
 
-#: The unit a package of work is ordered in. Retention's payment terms are
-#: retention.py's.
 LUMP_SUM = "Lump Sum"
 
 
@@ -53,7 +49,6 @@ def progress(doctype: str, name: str) -> dict:
 		"lines": [
 			{
 				"line": line.name,
-				# A bill of quantities' lines often share one item; its description says which.
 				"item": strip_html(line.description or "").strip() or line.item_name or line.item_code,
 				"ordered": f"{flt(line.qty):g} {line.uom or ''}".strip(),
 				"billed": round(100 * flt(line.billed_amt) / flt(line.amount), 1)
@@ -111,7 +106,6 @@ def bill_progress(
 		line = lines.get(row.get(side["detail"]))
 		if not line:
 			continue
-		# The mapper leaves what's not billed yet; the rest is billed.
 		qty = to_bill(line.qty, flt(line.qty) - flt(row.qty), shares.get(line.name, 0) if shares else done)
 		qty = flt(qty, row.precision("qty"))
 		if qty <= 0:
@@ -130,7 +124,6 @@ def bill_progress(
 	invoice.set("items", kept)
 	invoice.one_progress = done
 	invoice.allocate_advances_automatically = 1
-	# Due as the order says, which ERPNext's mapper leaves off (terms.py).
 	terms.give(invoice, order.get("payment_terms_template"), None if invoice.get("tc_name") else order.get("tc_name"))
 	invoice.run_method("set_missing_values")
 	invoice.run_method("calculate_taxes_and_totals")
@@ -211,7 +204,6 @@ def _hold(doc, said, share: float) -> None:
 				"payment_term": term,
 				"description": {HANDOVER: _("Retention at Handover"), RETENTION: _("Retention")}[term],
 				"due_date": dates[term],
-				# Set by `retained`, once ERPNext has made its own.
 				"invoice_portion": 0,
 				"payment_amount": 0,
 			},
@@ -248,8 +240,6 @@ def withhold(doc, said, share: float) -> None:
 	work = [row for row in doc.items if not row.get("one_held")]
 	had = {row.one_held: row for row in doc.items if row.get("one_held")}
 	doc.set("payment_schedule", [row for row in doc.get("payment_schedule") or [] if row.payment_term not in HELD])
-	# A credit note's Retention lines name no item, or ERPNext would hold all
-	# its credit notes together to the 1 of the line each returns.
 	sign = -1 if doc.get("is_return") else 1
 	if sign < 0:
 		had = {}
@@ -260,7 +250,6 @@ def withhold(doc, said, share: float) -> None:
 	unit = frappe.get_cached_value("Item", retention.ITEM, "stock_uom")
 	lines = []
 	for term, amount in held:
-		# Kept, not made again, so a line keeps its name and a date moved by hand.
 		row = had.get(term) or frappe._dict(
 			item_code=retention.ITEM if sign > 0 else None,
 			item_name=retention.ITEM,
@@ -339,7 +328,6 @@ def retained(doc, method=None) -> None:
 	held stays owed, and a payment for it is matched to its terms."""
 	if doc.get("is_pos") or doc.get("is_opening") == "Yes":
 		return
-	# An invoice releasing retention holds none.
 	if any(row.get("one_retention_of") for row in doc.get("items") or []):
 		return
 	if doc.get("is_return"):
@@ -353,7 +341,6 @@ def retained(doc, method=None) -> None:
 	if doc.get("one_retention") is None:
 		doc.one_retention = said.retention if said else 0
 	share = flt(doc.one_retention)
-	# Taxed when released, or held that way before the workspace changed.
 	if lines or (share and retention.when_released()):
 		withhold(doc, said, share)
 		return
@@ -397,7 +384,6 @@ def retained(doc, method=None) -> None:
 	rows.sort(key=lambda row: getdate(row.due_date))
 	for idx, row in enumerate(rows, start=1):
 		row.idx = idx
-	# ERPNext dates the invoice by its last payment term.
 	doc.due_date = max(getdate(row.due_date) for row in rows)
 
 

@@ -1,6 +1,3 @@
-// The exchange rate under a money document's rate, said with the rate in it.
-// ERPNext writes "1 EUR = [?] AED" under it, the [?] standing for the box
-// above, on every quotation, order, receipt and invoice in another currency.
 (() => {
 	const controller = window.erpnext?.TransactionController;
 	if (!controller) return;
@@ -31,10 +28,6 @@
 	}
 })();
 
-// A money document in the company's own currency shows its tax totals once.
-// ERPNext's change_form_labels hides the company-currency copies when the two
-// currencies are one, then shows its tax totals again whenever they are not
-// zero, base_ ones included, so a dirham receipt said its taxes twice.
 (() => {
 	const proto = window.erpnext?.TransactionController?.prototype;
 	const theirs = proto?.change_form_labels;

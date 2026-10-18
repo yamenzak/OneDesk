@@ -11,16 +11,13 @@ from datetime import timedelta
 import frappe
 from frappe.utils import add_to_date, cint, flt, getdate, now_datetime, today
 
-#: How long an open matter of a party is a candidate for a new document.
 RECENT_DAYS = 180
 
-#: How many open matters the model is shown to choose from.
 SHORTLIST = 5
 
 PLACE = "intake_place"
 CHANGES = ("New", "Nudge", "Update", "Completion", "Answer", "Closing", "Nothing New")
 
-#: Kinds that follow another document rather than start something.
 FOLLOWERS = {
 	"Reminder": ("Invoice", "Credit Note", "Tax Assessment", "Letter From an Authority"),
 	"Payment Advice": ("Invoice",),
@@ -28,9 +25,6 @@ FOLLOWERS = {
 	"Delivery Note": ("Order", "Order Confirmation"),
 	"Credit Note": ("Invoice",),
 }
-
-
-# ------------------------------------------------------------------ pure
 
 
 def compact(value) -> str:
@@ -47,8 +41,6 @@ def is_copy(new: dict, earlier: dict) -> bool:
 		return False
 	if not new.get("number") or compact(new["number"]) != compact(earlier.get("number")):
 		return False
-	# The same number from somebody else, or from somebody not known yet, is
-	# not the same document.
 	if new.get("party") != earlier.get("party"):
 		return False
 	for key in ("gross", "issued_on"):
@@ -69,9 +61,6 @@ def by_reference(new: dict, candidates: list[dict]) -> dict | None:
 	for one in candidates:
 		if new.get("party") and one.get("party") and new["party"] != one["party"]:
 			continue
-		# This month's invoice on the same order is a new invoice, not a
-		# correction of last month's: a document with its own, different
-		# number of the same kind starts its own matter.
 		if new.get("kind") == one.get("kind") and compact(new.get("number")) and compact(one.get("number")) and compact(new["number"]) != compact(one["number"]):
 			continue
 		theirs = {compact(one.get("number"))} | {compact(ref) for ref in one.get("refs") or []}
@@ -87,8 +76,6 @@ def by_party(new: dict, open_matters: list[dict]) -> dict | None:
 	if not new.get("party"):
 		return None
 	wanted = FOLLOWERS.get(new.get("kind") or "", ())
-	# The same kind follows only when it has no number of its own: a letter
-	# after a letter, never this month's invoice after last month's.
 	same = not compact(new.get("number"))
 	fits = [one for one in open_matters if one.get("party") == new["party"] and (one.get("kind") in wanted or (same and one.get("kind") == new.get("kind")))]
 	return fits[0] if len(fits) == 1 else None
@@ -122,9 +109,6 @@ def urgent(dates: list, today_: str, verdict: str | None = None) -> bool:
 		return True
 	limit = getdate(today_) + timedelta(days=1)
 	return any(one.get("what") in ("Due", "Deadline") and one.get("date") and getdate(one["date"]) <= limit for one in dates or [])
-
-
-# ------------------------------------------------------------------ on the site
 
 
 def facts_of(doc) -> dict:
@@ -189,8 +173,6 @@ def _place(reading) -> None:
 	if found:
 		_join(reading, found, "Party")
 		return
-	# A document with its own number that follows nothing (an invoice, an
-	# order) starts its own matter; asking a model would only cost credits.
 	starts = bool(compact(new.get("number"))) and new.get("kind") not in FOLLOWERS
 	if reading.on_behalf_of and not cint(reading.history) and new["party"] and not starts:
 		shortlist = [one for one in open_matters if one.get("party") == new["party"]][:SHORTLIST]
@@ -227,7 +209,6 @@ def _earlier(reading) -> list[dict]:
 		values = [one for one in numbers if len(one) >= 3]
 		if values:
 			names |= set(frappe.get_all("Reading Reference", filters={"compact": ["in", values], "parent": ["!=", reading.name]}, pluck="parent", limit=50))
-			# An earlier document's own number, named here as a reference.
 			written = {one for one in [reading.number, *(row.value for row in reading.refs)] if one}
 			names |= set(frappe.get_all("Reading", filters={"number": ["in", list(written)], "name": ["!=", reading.name]}, pluck="name", limit=20))
 	out = []
@@ -281,9 +262,6 @@ def _mail_key(communication: str) -> str:
 	return "mail-" + hashlib.md5((message_id or communication).encode()).hexdigest()
 
 
-# ------------------------------------------------------------------ asking
-
-
 def _ask(reading, new: dict, shortlist: list[dict]) -> dict:
 	"""The model chooses among a party's open matters, or none."""
 	from onedesk.one_intake import understand
@@ -310,9 +288,6 @@ def _asked_change(reading, head) -> str | None:
 		return None
 	said = _ask(reading, facts_of(reading), [{**facts_of(head), "name": head.name}])
 	return said.get("change") if said.get("change") in CHANGES else None
-
-
-# ------------------------------------------------------------------ acting, once it is quiet
 
 
 def due() -> None:
@@ -346,8 +321,6 @@ def act_now(name: str) -> None:
 
 	frappe.db.set_value("Reading", name, "acted_on", now_datetime(), update_modified=False)
 	frappe.db.commit()
-	# The counterpart first, so the invoice is filed with the supplier just
-	# made; then everything else, with the parties matched again.
 	steps = (
 		("parties", lambda: planning.run(name, "parties")),
 		("filing", lambda: filing.run(name)),

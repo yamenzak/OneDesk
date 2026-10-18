@@ -12,13 +12,10 @@ import frappe
 from frappe import _
 from frappe.utils import add_months, date_diff, flt, getdate, today
 
-#: How many months the story looks back over, this one included.
 MONTHS = 12
 
-#: The age bands stock is sorted into, in days (ERPNext's Stock Ageing).
 AGES = "30, 90, 180, 365"
 
-#: What a stock entry's purpose means for the story.
 PURPOSES = {
 	"Material Receipt": "received",
 	"Material Issue": "used",
@@ -206,8 +203,6 @@ def _made(months: list[date], moves: list) -> list[float]:
 	return _series(months, moves, ("made",), 1)
 
 
-#: The headline figures: the key the page knows each by, and the frappe
-#: Number Card (number_card/) whose method counts it.
 CARDS = (
 	("worth", "Stock Worth"),
 	("taken_in", "Taken In This Month"),

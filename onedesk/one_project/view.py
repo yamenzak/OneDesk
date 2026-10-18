@@ -36,14 +36,11 @@ from onedesk.one_project import (
 )
 from onedesk.one_project import updates as asking
 
-#: The most late tasks Needs You reads, to count and to show some of.
 LISTED = 200
 
-#: How many of each list the Overview shows.
 SHOWN = 6
 
 
-#: The tabs each kind has, in order, as far as they are built.
 def views(kind: str, cash: dict, customer: str | None = None, name: str | None = None) -> list[str]:
 	"""The views the page shows beyond Overview, the tasks, Files and
 	Activity, each for whoever may see what it shows: Time to whoever may read
@@ -52,7 +49,6 @@ def views(kind: str, cash: dict, customer: str | None = None, name: str | None =
 	subcontracts or the project is a Fixed Price one, which is where they're
 	expected; and Team to everyone."""
 	shown = []
-	# Not on a project that doesn't count time, unless somebody logged some anyway.
 	if frappe.has_permission("Timesheet", "read") and (
 		hours.method(name) != hours.NOT_TRACKED
 		or (name and frappe.db.exists("Timesheet Detail", {"project": name, "parenttype": "Timesheet"}))
@@ -95,7 +91,6 @@ def said(
 		"status": doc.status,
 		"health": doc.get("one_health"),
 		"customer": doc.customer,
-		# What a stock issue or an expense claim started here is booked to.
 		"company": doc.company,
 		"customer_name": frappe.db.get_value("Customer", doc.customer, "customer_name")
 		if doc.customer
@@ -111,18 +106,13 @@ def said(
 		"below": _below(doc.name),
 		"priority": doc.priority,
 		"progress_method": doc.percent_complete_method,
-		# The rest of About, shown when set (Overview.vue `facts`).
 		"project_type": doc.project_type,
 		"department": doc.department,
 		"task_prefix": doc.get("one_key"),
 		"cost_center": doc.cost_center,
-		# How its time is counted, and its site (hours.py).
 		"time": hours.method(doc.name),
 		"site": doc.get("one_site"),
-		# What's agreed with the customer, carried onto its documents (terms.py).
-		# A sub-project with none of its own is billed on its parent's.
 		**dict(zip(("payment_terms", "terms", "terms_from"), _terms(doc.name), strict=True)),
-		# The retention each customer order starts with (retention.py).
 		"retention_terms": {
 			"percent": flt(doc.get("one_retention")),
 			"due": str(doc.one_retention_due) if doc.get("one_retention_due") else None,
@@ -130,8 +120,6 @@ def said(
 		}
 		if flt(doc.get("one_retention"))
 		else None,
-		# The contracts signed for it, ERPNext's own (agreement.py), and the
-		# customer's About shows.
 		"contracts": (signed := agreement.contracts(view["tree"])),
 		"agreement": agreement.main(doc.name, signed),
 		"can_draw_up": bool(frappe.has_permission("Contract", "create") and (doc.customer or agreement.suppliers(doc.name))),
@@ -143,8 +131,6 @@ def said(
 			}
 			for row in doc.users
 		],
-		# Everyone the Team view lists, for the head and About: the manager,
-		# members, and whoever the tasks or the time name.
 		"people": [
 			{"user": one["user"], "name": one["name"], "image": one["image"]}
 			for one in team.team(doc.name)["people"]
@@ -163,7 +149,6 @@ def said(
 		"monthly_hours": flt(doc.get("one_monthly_hours")),
 		"media": media.shown(doc.name),
 		"overview": _overview(kind, doc, view, cash),
-		# The page shows only the project's own work, its Main (tree.narrow).
 		"only": tree.narrowed(doc.name) and bool(tree.children(tree.parents()).get(doc.name)),
 		"update_due": asking.asked(doc.name),
 		"asking": asking.asking(doc.as_dict()),
@@ -198,7 +183,6 @@ def _above(project: str) -> list[dict]:
 def contract(doc) -> str | None:
 	"""The customer's contract: the project's Sales Order, or the first one
 	submitted against it, still open to bill. Asked once for the page."""
-	# A list row has no flags to keep it on.
 	flags = getattr(doc, "flags", None)
 	if flags is None:
 		return _contract(doc)
@@ -220,7 +204,6 @@ def _contract(doc) -> str | None:
 	return found[0] if found else None
 
 
-#: An order Bill Progress can't bill: closed, held or done.
 UNBILLABLE = ("Closed", "On Hold", "Completed")
 
 
@@ -305,7 +288,6 @@ def quotation(doc) -> dict | None:
 	still open, extra work aside: the newest, and how many there are."""
 	from onedesk.one_project.money import OPEN_QUOTE, _route
 
-	# A quote revised is no longer offered (erpnext's Is Active).
 	filters = {"project": doc.name, "docstatus": 1, "is_active": 1, "status": ["in", list(OPEN_QUOTE)], "one_extra_work": 0}
 	found = frappe.get_all(
 		"Quotation",
@@ -322,7 +304,6 @@ def quotation(doc) -> dict | None:
 		"valid_till": one.valid_till,
 		"count": len(found),
 		"list": _route("Quotation", filters),
-		# ERPNext asks which alternative items to take on the quotation itself.
 		"alternatives": bool(frappe.db.exists("Quotation Item", {"parent": one.name, "is_alternative": 1})),
 	}
 
@@ -356,7 +337,6 @@ def _first(doc, cash: dict) -> dict:
 		return {"key": "contract", "money": cash["contract"], "route": f"/desk/sales-order/{order}"}
 	quote = quotation(doc)
 	if quote and quote["count"] > 1:
-		# Which of them is ordered is the customer's answer, picked on the list.
 		return {
 			"key": "quoted",
 			"money": quote["value"],
@@ -372,7 +352,6 @@ def _first(doc, cash: dict) -> dict:
 			"route": f"/desk/quotation/{quote['name']}",
 			"valid_till": quote["valid_till"],
 		}
-	# A sub-project's work is often on the order of the job it is part of.
 	above = ordered_above(doc)
 	if above:
 		return {
@@ -413,7 +392,6 @@ def _valid(until) -> dict:
 	}
 
 
-#: A project done with, whose figures are what happened, not a forecast.
 FINISHED = ("Completed", "Cancelled")
 
 
@@ -433,7 +411,6 @@ def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 	"""The kind's figures, each with what it's of and a bar where there's
 	something to fill (docs/PROJECT-PAGE.md)."""
 	customer = {one["label"]: one["value"] for one in cash["customer"]}
-	# What's paid only for whoever may see payments, never a 0 that isn't so.
 	paid = customer.get(_("Paid"))
 	invoiced = {
 		"key": "invoiced",
@@ -442,17 +419,12 @@ def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 	}
 	if kind == kinds.FIXED:
 		first = _first(doc, cash)
-		# While it's only quoted, the margin is measured against the quote.
 		worth = first["money"] if first["key"] == "quoted" else cash["contract"]
-		# With no budget there's no forecast cost, so no margin to forecast.
 		if cash["forecast_cost"] is None:
 			margin = None
 		else:
 			margin = worth - cash["forecast_cost"] if first["key"] == "quoted" else cash["forecast_margin"]
-		# Billed means nothing until something is ordered: while it's quoted the
-		# quote's last day stands in its place, and with nothing yet, nothing.
 		valid = first.pop("valid_till", None)
-		# How much of the contract came as extra work since, on the whole job.
 		extra = sum(one["value"] for one in orders(doc, view["tree"]) if one["extra"])
 		if first["key"] == "contract" and extra and not first.get("action") and not first.get("above"):
 			first["note_money"] = [[_("{0} extra work"), [extra]]]
@@ -503,7 +475,6 @@ def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 		return [
 			{
 				"key": "unbilled",
-				# The hours and what was bought for it, not invoiced yet.
 				"money": flt(waiting.get("amount")) + flt(costs.get("amount")),
 				"note": " · ".join(
 					filter(
@@ -527,7 +498,6 @@ def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 	if kind == kinds.RETAINER:
 		hours = _month_hours([doc.name])
 		allowance = flt(doc.one_monthly_hours)
-		# A retainer's months that have ended without an invoice, at its fee.
 		late = retainer.waiting(doc.name) if doc.customer else []
 		return [
 			{
@@ -644,7 +614,6 @@ def work_and_billing(
 		"billable": billable,
 		"unbilled": round(gap) if gap >= 1 else 0,
 		"ahead": round(-gap) if gap <= -1 else 0,
-		# Both tax included, as the invoices owe them (money._paid_on).
 		"owed": flt(cash.get("owed")),
 		"overdue": overdue,
 		"retention": flt(customer.get(_("Retention Held"))),
@@ -728,14 +697,12 @@ def _overview(kind: str, doc, view: dict, cash: dict) -> dict:
 		"needs_all": _late_route(view["tree"]) if len(needed) > SHOWN + 2 else None,
 		"sub_projects": _sub_projects(doc.name),
 		"quotes": _quotes(doc),
-		# Every kind charts its tasks by status and its hours by week.
 		"statuses": view["statuses"],
 		"weekly": view["weekly"],
 	}
 	if kind in (kinds.FIXED, kinds.INTERNAL):
 		said["milestones"] = milestones.read(doc.name, view["tree"])
 	if kind == kinds.FIXED:
-		# Work against billing means nothing until something is ordered.
 		said["billing"] = (
 			work_and_billing(
 				view["share"],
@@ -748,7 +715,6 @@ def _overview(kind: str, doc, view: dict, cash: dict) -> dict:
 			else None
 		)
 		said["budget"] = _budget_lines(cash)
-		# Goods bought for the job are on Suppliers' Buying, not here.
 		packages = [one for one in cash["suppliers"] if one["subcontract"]]
 		said["subcontracts"] = _subcontracts(doc.name, view, packages[:SHOWN])
 		said["subcontracts_count"] = len(packages)
@@ -783,7 +749,6 @@ def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 		from onedesk.one_project.status import due
 
 		found += [{"tone": "orange", "text": one["text"], "money": one["money"]} for one in due(doc.name)]
-	# Work going on without a signed contract comes before the rest.
 	found += agreement.asks(doc, agreement.contracts(view["tree"]))
 	if kind != kinds.FIXED:
 		for one in budget.across(view["tree"]):
@@ -832,11 +797,9 @@ def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 				}
 			)
 	found += _overdue_bills(view["tree"], user)
-	# A completed project's owed money is said whole, above.
 	if doc.status != "Completed":
 		found += _overdue_invoices(view["tree"], user)
 	found += retention.asks(view["tree"], user)
-	# The reader's own time on it still in draft from before this week (hours.py).
 	found += hours.late_drafts(view["tree"], user)
 	today = getdate(nowdate())
 	titles = dict(
@@ -850,9 +813,7 @@ def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 		filters=[
 			["project", "in", view["tree"]],
 			["status", "not in", overview.DONE],
-			# frappe reads a missing date as the earliest one.
 			["exp_end_date", "is", "set"],
-			# Before tomorrow: the due date is kept with a time.
 			["exp_end_date", "<", str(add_days(today, 1))],
 		],
 		fields=["name", "subject", "exp_end_date", "_assign", "project"],
@@ -881,7 +842,6 @@ def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 				"mine": mine,
 			}
 		)
-	# The reader's own first; the rest keep their order, worst first.
 	return sorted(found, key=lambda one: not one.get("mine"))
 
 
@@ -901,7 +861,6 @@ def _subcontracts(project: str, view: dict, orders: list[dict]) -> list[dict]:
 			"Project", filters={"name": ["in", view["tree"]]}, fields=["name", "status", "percent_complete"]
 		)
 	}
-	# The page's own project is as far along as its Work Done.
 	done[project] = view["share"]
 	of = tree.parents()
 	return [
@@ -1170,8 +1129,6 @@ def _sub_projects(project: str) -> dict:
 		"list": found,
 		"count": len(under),
 		"all": money._route("Project", {"one_parent": project}) if len(under) > SHOWN else None,
-		# The project's own work, first in the list: opening it narrows the
-		# page to it (tree.narrow).
 		"main": {
 			"share": 100
 			if head.status == "Completed"
@@ -1245,7 +1202,6 @@ def _time_rows(project: str) -> list:
 	faces = _faces(sheets.values())
 	for row in rows:
 		sheet = sheets.get(row.parent) or frappe._dict()
-		# A timesheet is the employee's; the user is there only when they have one.
 		row.user = sheet.user or sheet.employee
 		row.who = get_fullname(sheet.user) if sheet.user else sheet.employee_name
 		row.image = faces.get(row.user)
@@ -1300,7 +1256,6 @@ def _people(project: str) -> list[dict]:
 	]
 
 
-#: A task's fields as the workspace's views show them.
 TASK_FIELDS = (
 	"name",
 	"subject",
@@ -1339,8 +1294,6 @@ def work(
 			"Project", filters={"name": ["in", list(below)]}, fields=["name", "project_name"], as_list=True
 		)
 	)
-	# Every project under it, at any depth, the reader may see, by path:
-	# Handrails, then Glass for handrails under it (milestones.where).
 	under = sorted(
 		(
 			{"key": one, "title": milestones.where(one, project, of, titles) or titles.get(one) or one}
@@ -1529,7 +1482,6 @@ def picker(project: Annotated[str, "The project whose page is open."]) -> dict:
 	return {"open": [{"name": one.name, "title": one.title} for one in open_]}
 
 
-#: How many open projects the breadcrumb's menu lists.
 PICKED = 12
 
 

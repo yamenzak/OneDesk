@@ -15,13 +15,11 @@ from frappe import _
 
 from onedesk.one_intake import search
 
-#: What a tax adviser asks for.
 KINDS = (
 	"Invoice", "Credit Note", "Receipt", "Payslip", "Bank Statement", "Payment Advice", "Tax Assessment",
 	"Letter From an Authority", "Contract", "Certificate",
 )  # fmt: skip
 
-#: The most documents one download holds.
 MOST = 3000
 
 

@@ -1,10 +1,4 @@
 <template>
-  <!-- One tab: its kind's own list, as erpnext and frappe give it to the
-       reader (one/portal.py `rows`), searched, narrowed to a state and a page
-       at a time. Modelled on Shopify's order list in a customer account and
-       Stripe's invoices: the states as tabs with their counts over a table in
-       a card, each row its number and date, what it is for, its state, the
-       date it looks ahead to and its total. -->
   <Head :title="title">
     <template #actions>
       <TextInput v-if="!phone" v-model="txt" type="search" :placeholder="__('Search')" class="w-60">
@@ -39,7 +33,6 @@
         </ListHeader>
         <ListRows :items="rows" v-slot="{ item }">
           <ListRow :route="item.to ? `/${item.to}` : undefined">
-            <!-- A phone: the name and its Badge, what it is for under it, the total at the end. -->
             <template v-if="phone">
               <ListCell class="flex-col !items-start gap-1 py-3">
                 <span class="w-full truncate text-base font-medium text-ink-gray-9">{{ item.title }}</span>
@@ -117,10 +110,7 @@ const txt = ref("");
 const state = ref("");
 const loading = ref(false);
 
-// A quotation, order or bill: its items and the date it looks ahead to have
-// columns of their own.
 const dealt = computed(() => rows.value.some((row) => row.date !== undefined));
-// The Next column only where a row has a date to look ahead to.
 const ahead = computed(() => rows.value.some((row) => row.when?.text));
 const columns = computed(() => {
   if (phone.value) return ["minmax(0,1fr)", "auto"];

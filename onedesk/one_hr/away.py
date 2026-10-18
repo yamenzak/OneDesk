@@ -3,7 +3,6 @@
 import frappe
 from frappe.utils import getdate
 
-#: What an approved day predicts, and therefore what it is allowed to forgive.
 FORGIVES = ("network-unknown", "network-personal", "place-outside", "place-absent")
 
 

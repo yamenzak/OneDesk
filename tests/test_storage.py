@@ -99,7 +99,6 @@ def test_a_node_id_says_what_it_names():
 	space = _load(NAMESPACE, ("parse",), **constants)
 	parse = space["parse"]
 	assert parse("@mail") == ("@mail",) and parse("@mail/sales@acme.com") == ("@mail", "sales@acme.com")
-	# A project's Featured Media is a node of its own, inside the project's folder.
 	assert parse("@featured/PROJ-0008") == ("featured", "PROJ-0008")
 	assert parse("") == ("@root",) and parse("@my") == ("@my",)
 	assert parse("@libraries") == ("@libraries",) and parse("@starred") == ("@starred",)
@@ -619,7 +618,7 @@ def test_the_upload_dialog_chooses_from_onecloud_instead_of_its_library():
 	assert "/assets/onedesk/js/onecloud_picker.js" in HOOKS
 	explorer = (PAGE / "onecloud.js").read_text()
 	assert "if (this.picker) return this.picker.on_pick(" in explorer
-	assert "if (this.picker) return; // nothing is moved from inside a dialog" in explorer
+	assert "if (this.picker) return;" in explorer
 
 
 def test_a_file_chosen_is_allowed_by_onecloud_and_copies_no_bytes():

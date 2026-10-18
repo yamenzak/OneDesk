@@ -8,17 +8,12 @@ import frappe
 from frappe import _, _lt
 from frappe.utils import add_to_date, now_datetime
 
-#: A domain asked for less than this long ago is still being set up, not waiting.
 DOMAIN_GRACE_HOURS = 24
 
-#: The most of each kind listed at once; the count says how many there are.
 MOST = 50
 
-#: A job due longer ago than this has not moved: the scheduler has stopped,
-#: or a worker died holding it. Two ticks is four minutes; this is patient.
 STALLED_MINUTES = 15
 
-#: A job that has not moved, said by what it is doing.
 STALLED = {
 	"Provision": _lt("Building {0} is stalled"),
 	"Suspend": _lt("Suspending {0} is stalled"),
@@ -27,7 +22,6 @@ STALLED = {
 	"Drop": _lt("Deleting files of {0} is stalled"),
 }
 
-#: A failed job, said by what it was doing.
 FAILED = {
 	"Provision": _lt("Building {0} failed"),
 	"Suspend": _lt("Suspending {0} failed"),
@@ -46,7 +40,6 @@ def _may() -> None:
 def _filters() -> dict:
 	"""What each count counts, as the list it opens filters it."""
 	return {
-		# Customers: our own workspace (house.py) is not one.
 		"live": ("Tenant", {"status": "Live", "is_house": 0}),
 		"building": ("Provisioning Job", {"kind": "Provision", "status": ["in", ["Pending", "Waiting"]]}),
 		"owing": ("Tenant", {"status": ["in", ["Overdue", "Suspended"]]}),
@@ -275,7 +268,6 @@ def _over_database() -> list[dict]:
 	][:MOST]
 
 
-#: Hours a build may wait on Frappe Cloud before a person should look.
 SLOW_BUILD_HOURS = 3
 
 
@@ -312,7 +304,6 @@ def _slow_builds() -> list[dict]:
 	]
 
 
-#: The share of a server's limit at which Home says it is filling up.
 FILLING = 0.8
 
 
@@ -343,7 +334,6 @@ def _filling() -> list[dict]:
 		for one in listed
 		if one.open and one.capacity and counts.get(one.server, 0) >= FILLING * one.capacity
 	]
-	# EU is only asked about on /start once there is an EU bucket.
 	offers_eu = bool(frappe.get_cached_value("One Admin Settings", None, "bucket_eu"))
 	for eu, title in (
 		(False, _("No open server for new workspaces")),

@@ -42,23 +42,18 @@ def run(only: str | None = None) -> int:
 	chosen = [fn for fn in CHECKS if not only or fn.__name__ == only or (only.endswith("_") and fn.__name__.startswith(only))]
 	for fn in chosen:
 		try:
-			# What a check does is never kept, even where the code it runs
-			# commits as it goes (submitting drafts, merging records).
 			with unkept():
 				fn()
 			print(f"ok    {fn.__name__}")
 		except Exception as e:
 			failed.append(fn.__name__)
-			# A bare assert says nothing; the line it stopped on says which.
 			here = [one.lineno for one in traceback.extract_tb(e.__traceback__) if one.filename == __file__]
 			said = str(e) or f"line {traceback.extract_tb(e.__traceback__)[-1].lineno}"
 			print(f"FAIL  {fn.__name__} (check.py:{here[-1] if here else '?'}): {type(e).__name__} {said[:600]}")
 		finally:
 			frappe.db.rollback()
-			# What a check cached about records it changed is gone with them.
 			frappe.clear_cache()
 			_unasked()
-			# Nor what it answered, such as a page's status.
 			frappe.local.response = frappe._dict({"docs": []})
 			frappe.set_user("Administrator")
 	print(f"{len(chosen) - len(failed)} of {len(chosen)} passed" if len(chosen) != 1 else "")
@@ -177,7 +172,6 @@ def every_project_page_opens_for_its_people():
 		for user in {OWNER, "samir@one.test", "huda@one.test", *_team(project.name)}:
 			if not frappe.has_permission("Project", "read", doc=project.name, user=user):
 				continue
-			# A customer on the team follows it on the portal (oneproject_what_a_member_sees_on_the_portal).
 			if frappe.db.get_value("User", user, "user_type") != "System User":
 				continue
 			try:
@@ -194,7 +188,6 @@ def every_project_page_opens_for_its_people():
 def a_project_is_closed_to_who_has_no_part_in_it():
 	from onedesk.one_project import view
 
-	# One he is not on: which project lists first changes with what was last edited.
 	project = next(one.name for one in _projects() if "yousef@one.test" not in _team(one.name))
 	try:
 		with as_user("yousef@one.test"):
@@ -273,7 +266,6 @@ def _reports():
 	)
 
 
-#: What a report's own filters start at, the way its page fills them.
 FILTERS = {
 	"company": COMPANY,
 	"from_date": str(on(1, 1)),
@@ -291,7 +283,7 @@ FILTERS = {
 def every_report_of_ones_runs():
 	from frappe.desk.query_report import run as run_report
 
-	skip = {"AI Usage", "Plan Calculator", "Price Check", "AI Credits"}  # the operator's, not a workspace's
+	skip = {"AI Usage", "Plan Calculator", "Price Check", "AI Credits"}
 	broken = []
 	for name in _reports():
 		if name in skip:
@@ -434,9 +426,6 @@ def a_manager_shares_what_they_assign():
 		assert frappe.has_permission("Asset Maintenance", "share"), "Stock Manager cannot share upkeep"
 
 
-# What a desk changes without the page: a bulk edit of the list, a cell of
-# the report view and a row of Data Import. Each holds a record's rules, so
-# each is tried as the person who would make it and rolled back after.
 WAYS = ("bulk edit", "report view", "import")
 
 
@@ -666,9 +655,6 @@ def the_payment_reminder_is_turned_on_where_every_notification_is():
 		kind.enabled = 1
 		kind.save()
 	assert frappe.db.get_value("Notification", "Payment Reminder", "enabled") == 1
-	# Turned off on the rule itself, as its list would. In developer mode frappe
-	# writes a standard rule back to its file on save, and the suite writes
-	# nothing.
 	frappe.flags.in_import = True
 	try:
 		frappe.client.set_value("Notification", "Payment Reminder", "enabled", 0)
@@ -692,16 +678,14 @@ def every_paper_prints_in_the_companys_look():
 		assert frappe.get_meta(doctype).default_print_format == name, doctype
 		record = frappe.get_all(doctype, filters={"docstatus": ["<", 2]}, order_by="creation desc", limit=1, pluck="name")
 		if not record:
-			continue  # a record the demo doesn't make; tests/guards/test_print.py reads its format back
+			continue
 		with as_user(OWNER):
 			html = frappe.get_print(doctype, record[0], name)
 		assert colour in html and escape_html(record[0]) in html, f"{doctype} {record[0]} prints without its letter head or number"
 		if "One Title" not in (frappe.db.get_value("Print Format", name, "format_data") or ""):
-			continue  # its title is the builder's own, which says itself
-		# The number's label is printed by One Title alone, never by the letter head.
+			continue
 		label = print_blocks.title(frappe.get_doc(doctype, record[0]))["label"]
 		assert label in html, f"{doctype} {record[0]} prints no blocks"
-	# Each of One's versions of ERPNext's own prints, and ERPNext's is off.
 	for name, theirs in print_blocks.REPLACES.items():
 		doctype = frappe.db.get_value("Print Format", name, "doc_type")
 		record = frappe.get_all(doctype, filters={"docstatus": ["<", 2]}, order_by="docstatus desc, creation desc", limit=1, pluck="name")[0]
@@ -726,8 +710,6 @@ def every_intake_sample_left_what_it_should():
 	assert not wrong, wrong
 
 
-#: Each hand-off the READMEs' Connections name, by the records it leaves in
-#: the demo: (from, to, kind of record, what marks it as handed over).
 HANDOFFS = (
 	("OneCRM", "OneBook", "Sales Invoice Item", {"sales_order": ["is", "set"], "docstatus": 1}),
 	("OneCRM", "OneInventory", "Delivery Note Item", {"against_sales_order": ["is", "set"], "docstatus": 1}),
@@ -784,7 +766,6 @@ def a_template_is_laid_out_and_changed_on_its_page():
 		template_view.remove(TEMPLATE, made)
 		assert made not in {one["name"] for one in template_view.read(TEMPLATE)["tasks"]}
 		assert listed(TEMPLATE)[0] == 25
-		# A template task changed on its own form, as a bulk edit would, is counted too.
 		last = max(template_view.read(TEMPLATE)["tasks"], key=lambda one: one["start"] + one["duration"])
 		task = frappe.get_doc("Task", last["name"])
 		task.duration += 10
@@ -860,8 +841,6 @@ def onetask_works_for_whoever_has_tasks():
 		assert timer.running()["task"] == one
 		timer.stop()
 		assert not timer.running()
-		# Timers: starting another pauses the one running, a pause keeps it to
-		# resume, and stopping takes it off.
 		other = next(task.name for group in groups for task in group["tasks"] if task.name != one)
 		timer.start(one)
 		timer.start(other)
@@ -877,7 +856,6 @@ def onetask_works_for_whoever_has_tasks():
 		assert timer.timers() == {"running": None, "paused": []}
 		assert ai.plan_task("Send the snag photos", due=str(on(12, 1))).get("state") == "Proposed"
 		assert ai.plan_steps(one, ["Check the seals", "Clean the frames"]).get("state") == "Proposed"
-		# A change as the page makes it, saved only when approved.
 		said = ai.plan_change(one, priority="Urgent", why="The client asked for it this week.")
 		assert said.get("state") == "Proposed" and frappe.db.get_value("Task", one, "priority") != "Urgent", said
 		proposals.apply(said["proposal"])
@@ -1071,8 +1049,6 @@ def onebook_keeps_the_books_rules():
 			pass
 		income = company.default_income_account
 		cash = frappe.db.get_value("Account", {"account_type": "Cash", "is_group": 0, "company": COMPANY})
-		# The demo closes last year to every entry (ledger.py); reopened here,
-		# as an accountant would, to post the sale the year-end has to close.
 		with as_user("Administrator"):
 			for period in frappe.get_all("Accounting Period", filters={"company": COMPANY, "start_date": "2025-01-01"}, pluck="name"):
 				frappe.delete_doc("Accounting Period", period, ignore_permissions=True, force=True)
@@ -1112,14 +1088,12 @@ def oneinventory_assets_items_and_orders_for_the_stores():
 		assert made and frappe.db.get_value("Purchase Order", made[0], "docstatus") == 0
 		listed = order.rows()
 		assert listed, "nothing to order in the demo"
-		# To Order's page: the same lines, each with its unit and warehouse by name, costed.
 		said = order.read()
 		assert said["figures"]["lines"] == len(said["lines"]) == len(listed) and said["currency"], said["figures"]
 		assert all(one["unit"] and one["warehouse_label"] and one["why"] in ("requested", "low") for one in said["lines"])
 		assert said["figures"]["cost"] == sum(one["cost"] or 0 for one in said["lines"]) and said["can"]["order"]
 		first = listed[0]
 		order.order([{**first, "supplier": first.get("supplier") or "Al Noor Aluminium"}])
-		# A requested row is its request's own line, as two requests may ask for the same item.
 		def row(one):
 			return one.get("material_request_item") or (one["item_code"], one["warehouse"])
 
@@ -1187,7 +1161,7 @@ def onecrm_leads_and_deals_as_omar_works_them():
 		assert frappe.db.get_value("Opportunity", deal, "one_next_step") == "Review the drawings"
 		assert frappe.db.exists("Comment", {"reference_name": deal, "content": ["like", "%Ask for the drawings%"]})
 
-		next.settle()  # as every update runs it
+		next.settle()
 		assert not frappe.db.get_value("Lead", priya, "lead_owner"), "the web form gives a lead no owner, and an update leaves it so"
 		capture.take("Lead", priya)
 		assert frappe.db.get_value("Lead", priya, "lead_owner") == "omar@one.test"
@@ -1281,7 +1255,6 @@ def onestudio_record_types_extensions_and_forms_for_the_owner():
 				said = mend.mend(screen)
 			assert said["review"] == "Passed" and not frappe.db.get_value(extensions.EXTENSION, screen, "enabled"), "a fixed extension stays off"
 		with mock.patch("frappe.enqueue") as queued:
-			# Mended a moment ago, so it has no errors since: the person says what is wrong.
 			assert "error" in ai.mend_extension(screen)
 			assert ai.mend_extension(screen, "It says nothing on a new customer").get("started")
 			assert queued.call_args.args[0] == "onedesk.one_studio.mend.in_background"
@@ -1367,7 +1340,6 @@ def oneproject_every_tab_of_a_project_page_reads_for_samir():
 		assert len(view.updates(VILLA)) >= 2 and activity.activity(VILLA)["activities"]
 		assert billing.bills(VILLA)["bills"]
 		assert billing.unbilled(SHOWROOM)["hours"] > 0 and billing.unbilled(SHOWROOM)["currency"] == "EUR"
-		# Its three cost types, and the team's own time (its Time Budget).
 		assert len(budget.lines(VILLA)["lines"]) == 4
 		assert buying.papers(VILLA)["papers"], "the request for the next run of profile"
 		assert contacts.contacts(VILLA)["can_change"]
@@ -1466,7 +1438,6 @@ def oneproject_samir_runs_a_project():
 
 	with as_user("samir@one.test"):
 		assert "huda@one.test" in {one["user"] for one in team.add(VILLA, "huda@one.test")["people"]}
-		# She stays on the team for the villa's task she is given, though no longer a member.
 		assert "huda@one.test" not in {one["user"] for one in team.remove(VILLA, "huda@one.test")["people"] if one["member"]}
 		row = next(
 			one
@@ -1535,7 +1506,6 @@ def oneproject_the_books_invoice_time_a_month_and_progress():
 	with as_user("huda@one.test"):
 		invoice = billing.invoice_time(SHOWROOM, item="SVC-MAINT")
 		assert invoice.currency == "EUR" and invoice.items and invoice.is_new()
-		# Time Billed is the time lines to the cent, in euros as much as in dirhams.
 		billed = flt(sum(flt(row.billing_amount, 2) for row in invoice.timesheets), 2)
 		lines = flt(sum(flt(row.amount) for row in invoice.items if not row.get("one_rebills")), 2)
 		assert billed == lines, (billed, lines)
@@ -1549,7 +1519,6 @@ def oneproject_the_books_invoice_time_a_month_and_progress():
 		assert fee.items[0].rate == flt(frappe.db.get_value("Project", MARINA, "one_monthly_fee"))
 		order = frappe.db.get_value("Project", VILLA, "sales_order")
 		windows = progress.progress("Sales Order", order)["lines"][0]
-		# The windows are counted whole, so they are billed to the end, the rest not yet.
 		draft = progress.bill_progress(order, "Sales Order", lines={windows["line"]: 100})
 		assert [row.item_code for row in draft.items if not row.get("one_held")] == ["WIN-CS12"] and draft.is_new()
 
@@ -1608,13 +1577,11 @@ def oneproject_retention_is_taxed_when_released():
 	assert _close(booked.get(retention.account(COMPANY, "Sales Invoice")), held, 0.01), booked
 	kept = retention.held_on("Sales Invoice", [invoice.name])
 	assert _close(sum(amount for _due, amount in kept[invoice.name]), held, 0.01) and not retention.held_on("Sales Invoice", [invoice.name], owed=True)
-	# Completed eleven months and a half ago, its tax falls due within the month, invoiced or not.
 	frappe.db.set_value("Project", VILLA, "one_completed_on", add_days(add_months(today(), -12), 15))
 	with as_user(OWNER):
 		asked = [one for one in retention.asks([VILLA], OWNER) if one["route"].endswith(invoice.name)]
 		assert any("before its tax falls due" in one["text"] for one in asked), asked
 	frappe.db.set_value("Project", VILLA, "one_completed_on", None)
-	# A credit note for half the work gives back half its retention.
 	from erpnext.accounts.doctype.sales_invoice.mapper import make_sales_return
 
 	with as_user("huda@one.test"):
@@ -1727,7 +1694,6 @@ def oneproject_its_terms_travel_from_quotation_to_invoice():
 		assert draft.tc_name == "Construction Works", draft.tc_name
 		schedule = {row.payment_term: getdate(row.due_date) for row in draft.payment_schedule}
 		if retention.when_released():
-			# Taxed when it's released, the retention is held in lines, due after the invoice.
 			held = {row.one_held: getdate(row.one_release_on) for row in draft.items if row.get("one_held")}
 			assert max(schedule.values()) == getdate(draft.due_date) and held.get(RETENTION) > getdate(draft.due_date), (schedule, held)
 		else:
@@ -1851,7 +1817,6 @@ def oneproject_its_invoices_suppliers_team_and_activity_read_true():
 				fields=["due_date", "payment_term"],
 			)
 			for row in own:
-				# A bill from a supplier with no terms is due on its own date.
 				days = frappe.db.get_value("Payment Term", row.payment_term, "credit_days") if row.payment_term else 0
 				assert date_diff(row.due_date, one.posting_date) >= (days or 0), (one.name, row)
 	held = frappe.get_all(
@@ -1891,7 +1856,6 @@ def oneproject_oneai_reminds_adds_and_the_rules_stand():
 		assert said["mail"]["text"].startswith("Dear Bayview") and said["mail"]["subject"], said
 		assert frappe.db.count("Communication") == mails, "a reminder is opened to send, never sent"
 	with as_user("samir@one.test"):
-		# Samir reads no invoices, so OneAI finds none to chase for him.
 		assert not ai.project_facts(TOWER)["invoices"]["overdue"]
 		on = set(frappe.get_all("Project User", filters={"parent": VILLA, "parenttype": "Project"}, pluck="user"))
 		joins = next(one for one in ("rania@one.test", "nadia@one.test", "tariq@one.test", "omar@one.test", "karim@one.test") if one not in on)
@@ -1978,7 +1942,6 @@ def oneproject_and_onetask_reports_open_for_their_people():
 				assert row == label, (sidebar, report, row)
 				said = run(report, filters={"company": company, **wanted.get(report, {})})
 				assert report not in busy or said["result"], report
-		# Ours leave out an employee's onboarding and exit checklists.
 		checklists = set(frappe.get_all("Project", filters={"project_type": "Employee Boarding"}, pluck="name"))
 		assert checklists
 		for report in ("Project Progress", "Stock by Project"):
@@ -2005,7 +1968,6 @@ def oneproject_its_contracts_are_on_the_page():
 		villa = view.said(VILLA)
 		own = [one for one in villa["contracts"] if one["project"] == VILLA]
 		assert [one["signed"] for one in own] == [True], own
-		# The addendum is the staircase's, and says so wherever it is listed.
 		addendum = [one for one in villa["contracts"] if one["project_title"] == "Staircase balustrade"]
 		assert [one["signed"] for one in addendum] == [False], villa["contracts"]
 		assert villa["agreement"]["signed"] and villa["agreement"]["ends"] and not villa["agreement"]["route"], villa["agreement"]
@@ -2132,7 +2094,6 @@ def oneproject_a_template_hands_on_what_erpnext_leaves_out():
 		assert not frappe.parse_json(frappe.db.get_value("Task", made, "_assign") or "[]"), "a template task is given to nobody"
 		villa = frappe.get_doc("Project", VILLA)
 		villa.one_key = "vil"
-		# The whole job's template runs longer than what is left of the villa.
 		villa.expected_end_date = add_days(today(), 365)
 		villa.save()
 		assert villa.one_key == "VIL"
@@ -2192,15 +2153,12 @@ def oneproject_money_reads_as_its_documents_and_its_people_are_told():
 		assert {row.timesheet_detail for row in month.timesheets} == set(logged), (month.timesheets, logged)
 
 	with as_user("samir@one.test"):
-		# Just over what is spent, so what is on order takes it past.
 		line = next(one for one in budget.lines(VILLA)["lines"] if flt(one.get("committed")))
 		budget.set_budget(VILLA, line["account"], flt(line["spent"]) + 1)
-		# What every submit on the project asks (money.moved).
 		with _Told() as told:
 			budget.over(VILLA)
 		assert "samir@one.test" in told.to("Over Budget"), told.said
 
-		# An allowance with two hours left, and a three-hour inspection.
 		used = retainer.logged(MARINA, get_first_day(today()))
 		frappe.db.set_value("Project", MARINA, {"one_monthly_hours": used + 2, "one_manager": "huda@one.test"})
 		sheet = hours.log(MARINA, today(), 3, "Project Management", description="Inspection round")
@@ -2222,7 +2180,6 @@ def oneproject_money_reads_as_its_documents_and_its_people_are_told():
 
 	with as_user("rania@one.test"):
 		shown = view.said(VILLA)["views"]
-		# She buys for the site, so orders are hers to read; invoices are not.
 		assert "invoices" not in shown and "suppliers" in shown, shown
 		try:
 			assert not billing.invoices(VILLA)["invoices"]
@@ -2257,7 +2214,6 @@ def oneproject_its_people_are_asked_and_its_customer_reads_their_own():
 
 	contact = next(one.parent for one in frappe.get_all("Dynamic Link", filters={"parenttype": "Contact", "link_doctype": "Customer", "link_name": "Mansour & Sons"}, fields=["parent"]))
 	with as_user("omar@one.test"), mock.patch("onedesk.one.tell.invited_to_portal"):
-		# The demo invited him already; asked again, he stays let in.
 		assert portal_invite.invite_contact(contact)["status"] in ("invited", "active")
 	khalid = frappe.db.get_value("Contact", contact, "user")
 	with as_user(khalid):
@@ -2350,7 +2306,6 @@ def oneproject_a_day_on_site_and_the_projects_pictures():
 		attendance.submit()
 	sheet = frappe.db.get_value("Timesheet", {"one_attendance": attendance.name, "docstatus": 1})
 	assert sheet and frappe.db.get_value("Timesheet Detail", {"parent": sheet}, "project") == TOWER, sheet
-	# A day on site costs what Site Work costs an hour.
 	spent = frappe.db.get_value("Timesheet Detail", {"parent": sheet}, ["hours", "costing_amount", "activity_type"], as_dict=True)
 	rate = frappe.db.get_value("Activity Cost", {"employee": tariq, "activity_type": spent.activity_type}, "costing_rate") or frappe.db.get_value("Activity Type", spent.activity_type, "costing_rate")
 	assert flt(rate) > 0 and flt(spent.costing_amount, 2) == flt(spent.hours * rate, 2), (spent, rate)
@@ -2359,8 +2314,6 @@ def oneproject_a_day_on_site_and_the_projects_pictures():
 		attendance.cancel()
 	assert frappe.db.get_value("Timesheet", sheet, "docstatus") == 2, "the day went with its attendance"
 
-	# A photo of its own, since frappe takes a file off disk at once and the
-	# rollback after this check would leave the demo's Cover pointing at nothing.
 	from onedesk.one_storage import upload
 
 	with as_user("samir@one.test"):
@@ -2415,8 +2368,6 @@ def oneintake_layla_works_through_what_oneai_read():
 			explain.explain(doubted)
 			assert asked.call_count == 1, "explained once, then read back"
 
-		# The new employee waits for what the contract does not say: her
-		# birthday and the day she joins. Layla turns it down for now.
 		contract = _sample("signed-contract")
 		proposed = frappe.get_all("Intake Action", filters={"reading": contract, "level": "Proposed"}, pluck="name")[0]
 		act.settle(proposed, 0)
@@ -2505,7 +2456,6 @@ def oneai_a_conversation_its_cards_and_its_settings():
 		call = crm.write_up_call("Opportunity", deal, "They want the price by Thursday.")["proposal"]
 		run.apply(call)
 		assert frappe.db.get_value("AI Proposal", call, "state") == "Applied"
-		# A field written on a new lead's form, before the lead has a name.
 		field = frappe.get_doc("AI Proposal", proposals.propose("Edit", "Lead", {"company_name": "Pike Hotels"}))
 		run.took(field.name)
 		lead = frappe.get_doc({"doctype": "Lead", "first_name": "Joanna", "last_name": "Pike", "company_name": "Pike Hotels", "email_id": "jp@pikehotels.example"}).insert()
@@ -2578,7 +2528,6 @@ def onemail_layla_reads_sorts_and_files_her_mail():
 	with as_user(OWNER):
 		boxes = {one["name"]: one for one in api.mailboxes()}
 		assert account in boxes and account in {one["name"] for one in holders.mailboxes()}
-		# The workspace's own address comes first, and says what is unread in it.
 		first = holders.mailboxes()[0]
 		assert first["workspace"] and first["unread"] == len(mail.MAILS), first
 		unread = frappe.db.count("Communication", {"email_account": account, "one_folder": "INBOX", "seen": 0})
@@ -2850,7 +2799,6 @@ def onecloud_the_site_team_works_in_its_library():
 		assert len(versions) == 1 and history.activity(drawing)["versions"]
 		was = frappe.db.get_value("File", drawing, "file_url")
 		history.restore(drawing, versions[0]["name"])
-		# The first issue is current again, and revision B is kept as a version.
 		assert frappe.db.get_value("File", drawing, "file_url") == versions[0]["url"]
 		assert was in {one["url"] for one in history.versions(drawing)}
 		assert {one["user"] for one in share.people(notes)["people"]} >= {"rania@one.test"}
@@ -2980,7 +2928,6 @@ def onecloud_files_go_out_and_come_in():
 		tickets = upload.begin(root, [{"name": demo.ELEVATIONS, "size": 900}, {"name": "Door schedule.pdf", "size": 400}])
 		assert tickets["direct"] and tickets["existing"] == [demo.ELEVATIONS]
 		placed = upload.done(tickets["tickets"][1]["token"])
-		# A ticket is used once, and only by whoever asked for it.
 		for token, who in ((tickets["tickets"][1]["token"], demo.PM), (tickets["tickets"][0]["token"], "rania@one.test")):
 			with as_user(who):
 				try:
@@ -3179,7 +3126,6 @@ def onehr_requests_are_answered_by_who_answers_them():
 	with as_user(demo.HR):
 		request.approve(nadia, "Counted.")
 		assert frappe.db.get_value("Attendance Request", nadia, "docstatus") == 1
-		# A working day of hers: HRMS refuses a request that is all holiday.
 		from erpnext.setup.doctype.employee.employee import is_holiday
 
 		day = add_days(today(), -2)
@@ -3199,8 +3145,6 @@ def onehr_the_crews_days_overtime_and_pay_add_up():
 	from onedesk.one_demo import hr as demo
 	from onedesk.one_hr import employee, encashment, learned, marking, overtime, payroll, presence, setup
 
-	# The crew's last two weeks and this morning's check-ins, as of today
-	# however old the demo is (kept only for the check).
 	demo._attendance()
 	arun = _employee("Arun")
 	worked = frappe.db.get_value("Attendance", {"employee": arun, "status": "Present", "docstatus": 1}, "attendance_date", order_by="attendance_date desc")
@@ -3332,7 +3276,6 @@ def onehr_tariq_clocks_in_with_his_phone():
 	from onedesk.one_hr import clock, employee, passkey, review, signin
 
 	tariq = _employee("Tariq")
-	# The clock is offered on a working day only, so on a weekend today is made one.
 	off = frappe.db.get_value("Employee", tariq, "holiday_list") or frappe.db.get_value("Company", COMPANY, "default_holiday_list")
 	frappe.db.delete("Holiday", {"parent": off, "holiday_date": today()})
 	frappe.db.set_single_value("HR Settings", "one_self_checkin", 1)
@@ -3347,14 +3290,11 @@ def onehr_tariq_clocks_in_with_his_phone():
 		_asked(headers={"User-Agent": PHONE})
 		refused = clock.punch(json.dumps(phone.sign(passkey.start_assertion())), seen={"user_agent": PHONE})
 		assert not refused["ok"] and refused["score"] < 50, refused
-	# The office network, which the clock now trusts.
 	frappe.get_doc({"doctype": "Clock Network", "address": "127.0.0.1/32", "label": "Office", "status": "Confirmed"}).insert(ignore_permissions=True)
 	with as_user("tariq@one.test"):
 		_asked(headers={"User-Agent": PHONE})
 		clean = clock.punch(json.dumps(phone.sign(passkey.start_assertion())), seen={"user_agent": PHONE})
 		assert clean["ok"] and not clean["flagged"], clean
-		# From the office computer rather than his phone: let through, and flagged.
-		# A second apart, as hrms keeps one check-in a second.
 		time.sleep(1.1)
 		_asked(headers={"User-Agent": DESKTOP})
 		punched = clock.punch(json.dumps(phone.sign(passkey.start_assertion())), seen={"user_agent": DESKTOP})
@@ -3412,8 +3352,6 @@ def onehr_the_clock_says_when_the_shift_starts():
 			"name": "Check Shift",
 			"start_time": start.strftime("%H:%M:00"),
 			"end_time": "23:59:00",
-			# Just after midnight the shift is the whole day, and frappe's hour
-			# after its end would reach into the next one.
 			"allow_check_out_after_shift_end_time": 0,
 			"begin_check_in_before_shift_start_time": 0,
 		}
@@ -3475,7 +3413,6 @@ def one_devices_decide_where_a_passkey_lives():
 		laptop = devices.here().name
 		listed = {one["name"]: one for one in devices.for_settings()["devices"]}
 		assert listed[laptop]["seen_by"] and not listed[laptop]["use"]
-		# The builder made a passkey there before anybody said it was shared.
 		_asked(headers={"User-Agent": DESKTOP}, cookies=reception_browser)
 		frappe.db.delete("Clock Device", {"user": BUILDER})
 		builder = _Phone(b"builder")
@@ -3573,8 +3510,6 @@ def one_anybody_signs_in_with_a_passkey():
 			raise AssertionError("an employee the clock checks removed their own passkey")
 		except frappe.ValidationError:
 			pass
-	# With the clock off, an employee still makes theirs on a phone: one made on
-	# the office computer would check them in the day it is turned on.
 	frappe.db.set_single_value("HR Settings", "one_self_checkin", 0)
 	frappe.db.delete("Clock Device", {"user": "tariq@one.test"})
 	with as_user("tariq@one.test"):
@@ -3963,11 +3898,8 @@ def privacy_requests_go_through_the_administrators():
 			privacy_copy.send(copy, optional[:1], "Kept while the audit is open.")
 			assert frappe.db.get_value(privacy_copy.DOWNLOAD, copy, "one_status") == "Gathering"
 
-		# The hourly limit on asking is kept in the cache, outside the rollback,
-		# so a run within the hour of the last one starts it again.
 		frappe.cache.delete_keys("rl:")
 		frappe.set_user("Guest")
-		# Somebody who isn't a user: Khalid is the villa's portal user now.
 		with mock.patch("onedesk.one.tell.request_to_confirm", side_effect=keep("public")):
 			privacy_public.ask("jordan@acme.example", "copy")
 		_opened_link(mailed["public"])
@@ -4213,8 +4145,6 @@ def a_supplier_is_invited_to_the_portal_and_answers_a_quote_request():
 		).insert()
 		rfq.submit()
 	with as_user(user):
-		# Priced with a tenth off, the page says what erpnext will reckon: the
-		# row's net, and the workspace's own tax on it.
 		priced = {rfq.items[0].name: {"rate": 120, "qty": 40, "discount": 10}}
 		said = portal.quote_preview(rfq.name, priced)
 		assert said["rows"][rfq.items[0].name]["discount"] and said["total"], said
@@ -4265,7 +4195,6 @@ def a_customer_and_a_supplier_find_their_own_on_the_portal():
 		said = portal.home()
 		home = {one["path"]: one for one in said["tiles"]}
 		assert "invoices" in home and int(home["invoices"]["count"]) >= 1, home
-		# An unpaid bill asks to be paid on Home, and says what is left.
 		assert any(one["to"].startswith("invoices/") for one in said["asks"]), said["asks"]
 		assert home["invoices"]["figure"], home["invoices"]
 		listed = portal.rows("invoices")
@@ -4850,8 +4779,6 @@ def oneai_lays_out_a_print_format_as_meant():
 		assert ai.print_layout("Sales Invoice").get("error")
 
 
-#: What the account on the admin site answers, by what it is asked: the
-#: workspace's plan, its credits, its domains and its bills from One.
 ACCOUNT = {
 	"credit_packs": [{"name": "credits-500", "label": "500 credits", "amount": 25, "currency": "USD"}],
 	"buy_credits": {"url": "https://checkout.stripe.com/c/pay/cs_demo"},
@@ -4963,12 +4890,10 @@ def a_form_is_customized_and_a_record_head_acts():
 		head.run("Sales Invoice", invoice.name, "invoice.record_payment", values)
 		assert frappe.db.get_value("Sales Invoice", invoice.name, "outstanding_amount") == 0
 	with as_user(OWNER):
-		# A head that redraws as the form is typed in, on a record not yet saved.
 		kind = next(one for one in sorted(head.headed()) if head.redrawn(frappe.get_cached_doc("Record Head", one)) and frappe.db.count(one))
 		record = frappe.get_last_doc(kind)
 		assert head.preview(frappe.copy_doc(record).as_dict()) is not None, kind
 	title = frappe.db.get_value("Project", VILLA, "project_name")
-	# frappe's own: the title to whoever may select or read, else the name.
 	with as_user("samir@one.test"):
 		assert get_link_title("Project", VILLA) == title
 	frappe.set_user("Guest")
@@ -5007,7 +4932,6 @@ def push_reaches_a_persons_own_browsers():
 	with as_user("rania@one.test"), mock.patch("onedesk.one.tell.password_changed") as told:
 		_asked()
 		with mock.patch("frappe.core.doctype.user.user.update_password", return_value="/desk"):
-			# Her first password, from the invitation, is joining; the next is a change.
 			signin.update_password("A-new-long-passphrase-2026", old_password="the old one")
 			assert not told.called
 			signin.update_password("Another-long-passphrase-2026", old_password="A-new-long-passphrase-2026")
@@ -5070,7 +4994,6 @@ def oneai_reads_and_sets_up_the_workspace_with_layla():
 		wrong = {name: said for name, said in read.items() if isinstance(said, dict) and said.get("error")}
 		assert not wrong, wrong
 
-		# A new field alters its table, which no check may keep: the card is read, not approved.
 		field = ai.customize("Lead", add=[{"label": "Site Visit Date", "kind": "Date"}])
 		assert "Site Visit Date" in frappe.db.get_value("AI Proposal", field["proposal"], "changes")
 		holiday = f"{getdate(today()).year}-12-31"
@@ -5093,7 +5016,6 @@ def oneai_reads_and_sets_up_the_workspace_with_layla():
 		assert "Dubai Investments Park" in (frappe.db.get_value("Email Account", holders.workspace(), "signature") or "")
 		_applied(ai.write_mail_template("Invoice {{ name }} is due", "Dear {{ customer_name }},\n\nA reminder that invoice {{ name }} is due.", new_name="Payment reminder", for_doctype="Sales Invoice"))
 		assert frappe.db.exists("Email Template", "Payment reminder")
-		# An approval adds its state column to the table: read, not approved.
 		approval = (
 			ai.suggest_approval(
 				"Purchase Order",
@@ -5318,7 +5240,6 @@ def onetask_takes_work_from_intake_and_onehr():
 		said = view.read(mine_[0].name)
 		assert said["place"]["route"].endswith(onboarding.name), said["place"]
 	with as_user("karim@one.test"):
-		# Karim is given one step, and may not open the whole onboarding.
 		mine_ = [one for group in mine.tasks("mine") for one in group["tasks"] if one.project == onboarding.project]
 		assert mine_ and mine_[0].place["label"] == "Feras Odeh" and not mine_[0].place["route"], mine_[0].place
 
@@ -5513,7 +5434,6 @@ def oneinventory_an_items_selling_says_what_can_go_and_who_buys():
 	assert acme["currency"] == "USD" and acme["their_amount"] and acme["their_amount"] != acme["amount"], acme
 	assert selling["sales"] and all(one["rate"] for one in selling["sales"]), selling["sales"]
 	assert any(one["price_list_rate"] > 2350 for one in selling["prices"]), selling["prices"]
-	# A salesperson sees the list price of what they sell.
 	with as_user("omar@one.test"):
 		assert view.read("WIN-CS12")["selling"]["prices"], "Omar sells the window and sees its price"
 
@@ -5567,7 +5487,6 @@ def oneinventory_the_shop_floor_runs_a_step_from_start_to_close():
 		assert said["work_order"]["project_name"], said["work_order"]
 		assert [one["operation"] for one in said["steps"]] == ["Cutting", "Assembly", "Glazing"], said["steps"]
 		cut, joint = said["steps"][0], said["steps"][1]
-		# Arun has been on the saw since the morning (one_demo/making.py).
 		assert cut["running"] and cut["may"]["pause"] and cut["may"]["record"] and not cut["may"]["start"], cut
 		assert cut["people"] == ["Arun Kumar"] and cut["minutes"] == 0 and cut["since"], cut
 		assert joint["may"]["start"] and not joint["may"]["pause"], joint["may"]
@@ -5589,7 +5508,6 @@ def oneinventory_the_shop_floor_runs_a_step_from_start_to_close():
 		assert cut["docstatus"] == 1 and cut["done"] == cut["for_quantity"], cut
 		assert not any(cut["may"][key] for key in ("start", "pause", "resume", "record")), cut["may"]
 		assert floor.figures()["done_today"] == closed_before + 1
-		# ERPNext keeps the steps in order: Assembly starts once Cutting is closed.
 		update_job_card(joint["name"], "start_timer", start_time=str(at), employees=[{"employee": said["employee"]}])
 		joint = floor.read(work_order=door["name"])["steps"][1]
 		assert joint["running"] and joint["people"] == ["Tariq Haidar"], joint
@@ -5647,7 +5565,6 @@ def oneinventory_home_tells_the_story_of_the_stock():
 		cards = told["cards"]
 		assert round(cards["worth"]["value"], 2) == round(worth, 2) > 0, cards["worth"]
 		assert cards["worth"]["series"][-1] == round(worth, 2), cards["worth"]["series"]
-		# Each figure is its Number Card's own method, as frappe's dashboards call it.
 		said = {
 			"worth": story.stock_worth(),
 			"taken_in": story.taken_in_this_month(),
@@ -5705,7 +5622,6 @@ def oneinventory_lots_and_numbers_are_one_tool():
 		kept = {one["name"]: one for one in lots.read(view="items")["items"]}
 		assert kept["SIL-WP"]["has_batch_no"] and kept[LOCK]["has_serial_no"], kept
 
-		# Track Lots and New Lot, as lots_actions.js makes them.
 		frappe.get_doc({"doctype": "Item", "item_code": "CHK-PRIMER", "item_name": "Check Primer", "item_group": "Consumable", "stock_uom": "Nos", "is_stock_item": 1}).insert()
 		offered = [row[0] for row in lots.can_be_tracked("Item", "", "name", 0, 500)]
 		assert "CHK-PRIMER" in offered and "SIL-WP" not in offered and "ALU-6063-PC" not in offered, offered
@@ -5758,7 +5674,6 @@ def oneinventory_quotes_ask_compare_and_order_on_one_page():
 		villa = quotes.compare(next(one["name"] for one in said["asked"] if one["ordered"] and one["answered"] == 2))
 		assert all(one["ordered"] for one in villa["lines"]) and not any(one["cheapest_on"] for one in villa["suppliers"]), villa
 
-		# Al Noor answers by mail, cheaper, and Karim orders the cheapest.
 		theirs = make_supplier_quotation_from_rfq(stores["name"], for_supplier=ALUMINIUM)
 		for row in theirs.items:
 			row.rate = 24.0
@@ -5771,7 +5686,6 @@ def oneinventory_quotes_ask_compare_and_order_on_one_page():
 		assert len(made) == 1 and order.docstatus == 0 and order.supplier == ALUMINIUM, made
 		assert [(row.item_code, row.qty, row.supplier_quotation) for row in order.items] == [(code, qty, theirs.name)], order.items
 
-		# Ask for Prices drafts a request for what is still needed.
 		pending = frappe.get_list("Material Request", filters={"docstatus": 1, "material_request_type": "Purchase", "status": "Pending"}, pluck="name", limit=1)
 		if pending:
 			drafted = frappe.get_doc("Request for Quotation", quotes.ask(pending[0], [ALUMINIUM, EURO]))
@@ -6002,7 +5916,6 @@ def oneinventory_new_item_parts_list_and_sizes():
 		assert round(measure.line_quantity(glass, "Area", "Square Meter", 4, 1200, 800), 3) == 3.84
 		assert round(measure.line_quantity(sheet, "Area", "Nos", 2, 1250, 2500), 3) == 2.0
 		assert round(measure.line_quantity(profile, "Length", "Meter", 6, 2400), 3) == 14.4
-		# Sold by Size follows a unit that is a length or an area, unless set.
 		assert measure.unit_is("Foot") == "Length" and measure.unit_is("Square Foot") == "Area" and not measure.unit_is("Nos")
 		cord = frappe.get_doc({"doctype": "Item", "item_code": "DEMO-CORD", "item_name": "Backer Rod", "item_group": "Products", "stock_uom": "Meter"}).insert()
 		assert cord.one_measured_by == "Length", cord.one_measured_by
@@ -6040,7 +5953,6 @@ def oneinventory_a_return_is_counted_on_what_it_came_back_against():
 		assert returns, f"the demo sends back no {doctype}"
 		for against in returns:
 			assert flt(frappe.db.get_value(doctype, against, "per_returned")) > 0, (doctype, against)
-	# Each count says where it was taken, so the list's warehouse is never blank.
 	assert not frappe.get_all("Stock Reconciliation", filters={"docstatus": 1, "set_warehouse": ["is", "not set"]})
 	shipment = frappe.get_all("Shipment Delivery Note", filters={"parenttype": "Shipment"}, pluck="delivery_note")
 	assert shipment and frappe.db.get_value("Delivery Note", shipment[0], "customer") == "Gulf Properties REIT", shipment
@@ -6060,7 +5972,6 @@ def one_atlas_knows_who_may_open_what():
 	with open(path) as f:
 		kept = json.load(f)
 	assert reach.atlas() == kept, "run python scripts/atlas.py --site"
-	# One's words for theirs: frappe reads onedesk/translations after every app.
 	from frappe.translate import get_all_translations
 
 	frappe.clear_cache()
@@ -6122,7 +6033,6 @@ def oneinventory_stock_on_hand_says_what_the_stores_hold():
 	with as_user("karim@one.test"):
 		every = stock.on_hand()
 		assert every["count"] and abs(every["worth"] - held) < 0.01, (every["worth"], held)
-		# One company, one currency: every warehouse shown is the reader's company's.
 		company = frappe.db.get_value("Warehouse", wh("Stores"), "company")
 		assert {frappe.db.get_value("Warehouse", one["name"], "company") for one in every["warehouses"]} == {company}
 		low = {one["item"]: one for one in every["items"] if one["low_in"]}
@@ -6278,11 +6188,9 @@ def oneinventory_stock_moves_and_counts_reach_the_books():
 	sent = frappe.get_doc("Stock Entry", frappe.db.get_value("Stock Entry", {"docstatus": 1, "purpose": "Material Transfer", "to_warehouse": site}))
 	used = frappe.get_doc("Stock Entry", frappe.db.get_value("Stock Entry", {"docstatus": 1, "purpose": "Material Issue", "from_warehouse": site}))
 	assert sent.owner == "karim@one.test" and used.owner == "tariq@one.test"
-	# Every movement's form reads Stock Settings on opening, the site foreman's too.
 	with as_user("tariq@one.test"):
 		assert frappe.has_permission("Stock Settings", "read")
 	assert sent.project == used.project == frappe.db.get_value("Project", {"project_name": "Mansour Villa Windows and Doors"})
-	# What the movements left at the site is what was sent less what was used.
 	moved = {
 		code: sum(flt(one) for one in frappe.get_all("Stock Ledger Entry", filters={"warehouse": site, "item_code": code, "voucher_type": "Stock Entry", "is_cancelled": 0}, pluck="actual_qty"))
 		for code in ("ALU-6063", "SIL-CLR")
@@ -6290,7 +6198,6 @@ def oneinventory_stock_moves_and_counts_reach_the_books():
 	assert moved == {"ALU-6063": 40, "SIL-CLR": 6}, moved
 	assert flt(get_stock_balance("ALU-6063", site)) == 40
 
-	# The movement's head and its transfer note, with the site's address.
 	assert heads.move_from(sent)["value"] == "Stores" and heads.move_to(sent)["value"] == "Mansour Villa Site"
 	assert heads.move_value(sent) and heads.move_used(sent) is None and heads.move_to(used) is None
 	printed = frappe.get_print("Stock Entry", sent.name, print_format="One Stock Entry")
@@ -6298,17 +6205,14 @@ def oneinventory_stock_moves_and_counts_reach_the_books():
 	assert "Mansour Villa Site" in printed and "Villa 14, Al Wasl Road" in printed, "it says where the goods go"
 	assert frappe.db.get_value("Print Format", "One Stock Entry", "doc_type") == "Stock Entry"
 
-	# The count: its difference is in the stock adjustment account, as a loss.
 	count = frappe.get_doc("Stock Reconciliation", {"purpose": "Stock Reconciliation", "docstatus": 1})
 	adjustment = frappe.get_cached_value("Company", count.company, "stock_adjustment_account")
 	assert count.owner == "karim@one.test" and count.expense_account == adjustment and flt(count.difference_amount) < 0
 	posted = frappe.get_all("GL Entry", filters={"voucher_no": count.name, "account": adjustment, "is_cancelled": 0}, fields=["debit", "credit"])
 	assert flt(sum(flt(one.debit) - flt(one.credit) for one in posted), 2) == flt(-count.difference_amount, 2)
 	assert heads.count_where(count)["value"] == "Stores" and heads.count_items(count) == "1"
-	# A new count starts as a count, so its difference goes to stock adjustment.
 	assert frappe.get_meta("Stock Reconciliation").get_field("purpose").default == "Stock Reconciliation"
 
-	# Huda sees the stock in the books is whole, and is told when it is not.
 	with as_user("huda@one.test"):
 		rows = {one["key"]: one for one in ready.checks()}
 	assert rows["stock_accounts"]["state"] == ready.READY and rows["reposts"]["state"] == ready.READY
@@ -6332,7 +6236,6 @@ def oneinventory_stock_moves_and_counts_reach_the_books():
 		frappe.db.set_value("Warehouse", rejected, "account", None, update_modified=False)
 		frappe.flags.pop("warehouse_account_map", None)
 
-	# OneAI reads a movement and a count, and drafts a transfer to the site.
 	from onedesk.one_ai import proposals
 	from onedesk.one_inventory import ai
 
@@ -6650,7 +6553,6 @@ def oneinventory_a_documents_head_says_where_it_stands():
 				document = frappe.get_doc(doctype, name)
 				said = head.said(document, record)
 				assert said["sentence"] and said["sentence"]["text"], (doctype, name)
-				# A return is the goods going back, with no stages of its own.
 				if doctype in tracked and not document.get("is_return"):
 					steps = next((one["steps"] for one in said["band"] if one.get("steps")), None)
 					assert steps and all(step["state"] in ("done", "now", "late", "next") for step in steps), (doctype, name, said["band"])
@@ -6683,11 +6585,9 @@ def oneinventory_buying_from_request_to_order():
 	assert {one.supplier for one in rfq.suppliers} == {"Al Noor Aluminium", "Emirates Sealants & Fixings"}
 	quotes = {one.supplier: frappe.get_doc("Supplier Quotation", one.name) for one in frappe.get_all("Supplier Quotation", filters={"name": ["in", frappe.get_all("Supplier Quotation Item", filters={"request_for_quotation": rfq.name}, pluck="parent")]}, fields=["name", "supplier"])}
 	portal = quotes["Emirates Sealants & Fixings"]
-	# The supplier priced it on the portal, and its lines name the villa as the request's do.
 	assert frappe.db.exists("Portal User", {"parent": portal.supplier, "user": portal.owner})
 	assert {one.project for one in portal.items} == {villa}
 
-	# Each line went to whoever was cheaper on it.
 	with as_user("karim@one.test"):
 		compared = ai.quote_comparison(asked.name)
 	cheapest = {one["item"]: one["cheapest"] for one in compared["lines"]}
@@ -6697,7 +6597,6 @@ def oneinventory_buying_from_request_to_order():
 	assert heads.rfq_cheapest(rfq)["value"] == "Split between 2" and heads.rfq_answered(rfq)["value"] == "2 of 2"
 	assert heads.quote_cheapest(portal)["value"] == "1 of 3 lines" and heads._request_quotes(asked) == (2, 2)
 
-	# Al Noor is late, Karim is told once, and closed orders and services are not late.
 	late = frappe.get_doc("Purchase Order", frappe.db.get_value("Purchase Order Item", {"material_request": asked.name, "item_code": "FIX-ANCH", "docstatus": 1}, "parent"))
 	assert heads.order_said(late)["colour"] == "red"
 	named = {one.name for one in tell.late()}
@@ -6714,11 +6613,9 @@ def oneinventory_buying_from_request_to_order():
 		said = ai.late_orders()
 	assert late.name in {one["order"] for one in said["orders"]}
 
-	# The quotes that lost expired, and say so.
 	expired = frappe.get_all("Supplier Quotation", filters={"status": "Expired"}, pluck="name")
 	assert expired and heads.quote_valid(frappe.get_doc("Supplier Quotation", expired[0]))["tone"] == "quiet"
 
-	# Al Noor's aluminium for the year, and the villa's profile ordered against it.
 	agreed = frappe.get_doc("Blanket Order", {"supplier": "Al Noor Aluminium", "docstatus": 1})
 	on_it = frappe.get_all("Purchase Order Item", filters={"blanket_order": agreed.name, "docstatus": 1}, fields=["parent", "rate", "qty"])
 	assert on_it and all(flt(one.rate) == flt(agreed.items[0].rate) for one in on_it)
@@ -6727,8 +6624,6 @@ def oneinventory_buying_from_request_to_order():
 	printed = frappe.get_print("Blanket Order", agreed.name, print_format="One Blanket Order")
 	assert "Blanket Order" in printed and "Al Noor Aluminium" in printed
 
-	# Al Noor's Items tab: the aluminium agreed for the year, and the anchors
-	# it was cheapest on, each with its last price in its own money.
 	with as_user("karim@one.test"):
 		tab = supplier_items.read("Al Noor Aluminium")
 	lines = {one["item"]: one for one in tab["items"]}
@@ -6736,7 +6631,6 @@ def oneinventory_buying_from_request_to_order():
 	assert lines["FIX-ANCH"]["last"]["rate"] > 0 and lines["FIX-ANCH"]["unit"], lines.get("FIX-ANCH")
 	assert tab["count"] == len(tab["items"]) and all(one["item_name"] for one in tab["items"])
 
-	# A request line is not ordered twice over on drafts, and To Order agrees.
 	glass = frappe.get_doc("Material Request Item", {"item_code": "GLS-DGU", "project": villa, "docstatus": 1, "ordered_qty": 0})
 	with as_user("karim@one.test"):
 		first = order.order([{"item_code": glass.item_code, "qty": glass.stock_qty, "warehouse": glass.warehouse, "supplier": "Gulf Glass Industries", "material_request": glass.parent, "material_request_item": glass.name, "uom": glass.stock_uom}])
@@ -6748,14 +6642,12 @@ def oneinventory_buying_from_request_to_order():
 			assert "left to order" in str(refused)
 		frappe.delete_doc("Purchase Order", first[0])
 
-	# Scored each month, on what the Inventory Check offers.
 	card = frappe.get_doc("Supplier Scorecard", "Gulf Glass Industries")
 	assert frappe.db.count("Supplier Scorecard Period", {"scorecard": card.name, "docstatus": 1}) >= 6
 	assert {one.criteria_name for one in card.criteria} == {name for name, _formula in ready.CRITERIA}
 	with as_user("karim@one.test"):
 		assert {one["key"]: one for one in ready.checks()}["scoring"]["state"] == ready.READY
 
-	# Who may do what: Karim agrees and scores, Rania asks and reads, Nadia nothing.
 	with as_user("karim@one.test"):
 		assert frappe.has_permission("Blanket Order", "create") and frappe.has_permission("Supplier Scorecard", "write")
 		assert ai.plan_quote_request(asked.name, ["Al Noor Aluminium"]).get("error"), "a request ordered already"
@@ -6793,8 +6685,6 @@ def oneinventory_making_from_bill_to_finished_goods():
 	assert {one.owner for one in orders} == {making.SUPERVISOR}, "Tariq makes the work orders"
 	assert {one.project for one in orders} == {None, villa, tower}
 
-	# Each step was worked in order by whoever works its workstation, and the
-	# time is in what the windows cost.
 	done = frappe.get_doc("Work Order", {"project": villa, "production_item": "DR-SL24", "status": "Completed"})
 	cards = frappe.get_all("Job Card", filters={"work_order": done.name, "docstatus": 1}, fields=["name", "operation", "total_completed_qty", "total_time_in_mins", "process_loss_qty"])
 	assert {one.operation for one in cards} == {"Cutting", "Assembly", "Glazing"} and all(one.total_completed_qty == done.qty for one in cards)
@@ -6804,8 +6694,6 @@ def oneinventory_making_from_bill_to_finished_goods():
 	assert made.project == villa and flt(made.total_additional_costs) > 0, "the workshop's time is in the doors' value"
 	assert all(row.project == villa for row in made.items)
 
-	# The tower's windows are cut, and twelve of thirty assembled and made. The
-	# rest is still to do, not lost.
 	going = frappe.get_doc("Work Order", {"project": tower, "docstatus": 1})
 	steps = {step["label"]: step for step in heads.work_progress(going)["steps"]}
 	assert going.status == "In Process" and steps["Manufactured"]["note"] == "12 of 30 Nos"
@@ -6813,7 +6701,6 @@ def oneinventory_making_from_bill_to_finished_goods():
 	steps = {one.operation: one for one in frappe.get_all("Job Card", filters={"work_order": going.name, "docstatus": 1}, fields=["operation", "total_completed_qty", "process_loss_qty"])}
 	assert steps["Cutting"].total_completed_qty == 30 and steps["Assembly"].total_completed_qty == 12 and not steps["Assembly"].process_loss_qty
 
-	# What the villa's work orders used counts in its cost, as ERPNext counts it.
 	used = frappe.db.sql(
 		"""select sum(row.amount) from `tabStock Entry Detail` row join `tabStock Entry` entry on entry.name = row.parent
 		where entry.purpose = 'Manufacture' and entry.docstatus = 1 and row.project = %s and ifnull(row.t_warehouse, '') = ''""",
@@ -6824,13 +6711,10 @@ def oneinventory_making_from_bill_to_finished_goods():
 	project.set_consumed_material_cost()
 	assert flt(used) > 0 and flt(kept, 2) == flt(project.total_consumed_material_cost, 2) and kept >= flt(used)
 
-	# Rania asked for the villa's last doors, and the work order says so.
 	asked = frappe.get_doc("Work Order", {"material_request": ["is", "set"], "docstatus": 1})
 	assert frappe.db.get_value("Material Request", asked.material_request, "owner") == "rania@one.test"
 	assert heads.work_for(asked)["value"] == "Rania Sabbagh" and asked.project == villa and asked.status == "Not Started"
 
-	# Whoever asked and the villa's manager are told when its order is made.
-	# Tariq asked for this one himself, and the hub tells nobody of their own work.
 	manager = frappe.db.get_value("Project", villa, "one_manager")
 	with as_user(making.SUPERVISOR), _Told() as told:
 		tell.work_done(made)
@@ -6838,28 +6722,23 @@ def oneinventory_making_from_bill_to_finished_goods():
 	assert frappe.db.exists("Notification Log", {"document_name": done.name, "for_user": manager})
 	assert not frappe.db.exists("Notification Log", {"document_name": done.name, "for_user": making.SUPERVISOR})
 
-	# The floor's sheet: what is made, from what, step by step, for the villa.
 	printed = frappe.get_print("Work Order", done.name, "One Work Order")
 	assert making.VILLA in printed and "Cutting" in printed and "Aluminium Profile 6063" in printed
 	for_stock = next(one.name for one in orders if not one.project)
 	assert "Mansour &amp; Sons" in printed or "Mansour & Sons" in printed, "made for the villa's customer"
 	assert "Made For" not in frappe.get_print("Work Order", for_stock, "One Work Order"), "goods for stock are made for nobody"
 
-	# The villa's profile went out to be coated and came back.
 	sent = frappe.get_doc("Subcontracting Order", {"supplier": making.COATER, "docstatus": 1, "project": villa})
 	assert sent.project == villa and sent.status == "Completed" and {step["label"]: step["state"] for step in heads.sub_progress(sent)["steps"]} == {"Ordered": "done", "Material Transferred": "done", "Received": "done"}
 	back = frappe.get_doc("Subcontracting Receipt", frappe.db.get_value("Subcontracting Receipt Item", {"subcontracting_order": sent.name, "docstatus": 1}, "parent"))
 	assert heads.sub_order(back)["value"] == sent.name
 	assert frappe.db.get_value("Purchase Order", sent.purchase_order, "status") == "To Bill"
-	# The tower's profile is still with the coater, and nothing more of the villa's.
 	assert flt(get_stock_balance("ALU-6063-PC", wh("Stores"))) == 300
 	assert flt(get_stock_balance("ALU-6063", wh(making.COATER))) == making.COATING[0]
 
 	rows = {row["key"]: row for row in ready.checks()}
 	assert rows["workshop"]["state"] == ready.READY and rows["floor"]["state"] == ready.READY
 
-	# A work order saved as Data Import or OneAI would, without the form's
-	# fetch, still takes its bill's steps, so its job cards are made.
 	with as_user(making.SUPERVISOR):
 		imported = frappe.get_doc(
 			{"doctype": "Work Order", "production_item": "WIN-CS12", "bom_no": window.name, "qty": 2, "company": COMPANY}
@@ -6868,7 +6747,6 @@ def oneinventory_making_from_bill_to_finished_goods():
 		assert imported.wip_warehouse == wh("Work In Progress") and imported.fg_warehouse == wh("Finished Goods")
 		imported.delete()
 
-	# OneAI reads the workshop as the floor sees it and drafts a work order.
 	from onedesk.one_ai import proposals
 	from onedesk.one_inventory import ai
 
@@ -6886,7 +6764,6 @@ def oneinventory_making_from_bill_to_finished_goods():
 	with as_user("nadia@one.test"):
 		assert ai.work_in_hand().get("error") and ai.plan_work_order("WIN-CS12", 1).get("error")
 
-	# Who may do what: OneInventory's people make, Nadia does not.
 	for person in (making.SUPERVISOR, "rania@one.test"):
 		with as_user(person):
 			assert frappe.has_permission("Work Order", "create") and frappe.has_permission("Job Card", "submit")
@@ -6908,7 +6785,6 @@ def oneinventory_equipment_bought_given_serviced_and_mended():
 	from onedesk.one_hr import heads as hr_heads
 	from onedesk.one_inventory import heads, tell
 
-	# Bought on a receipt that registers it, and handed to Mariam.
 	laptop = frappe.get_doc("Asset", {"asset_name": "Laptop Mariam"})
 	mariam = frappe.db.get_value("Employee", {"user_id": "mariam@one.test"})
 	assert laptop.docstatus == 1 and laptop.purchase_receipt and laptop.custodian == mariam
@@ -6921,18 +6797,15 @@ def oneinventory_equipment_bought_given_serviced_and_mended():
 	assert heads.handed_what(given)["value"] == "Laptop Mariam" and heads.handed_to(given)["value"] == "Mariam Saleh"
 	assert frappe.db.exists("Notification Log", {"type": "Equipment Handed Over", "for_user": "mariam@one.test", "document_name": laptop.name})
 
-	# The sheet she signs: what she was given, and what she agrees to.
 	printed = frappe.get_print("Asset Movement", given.name, "One Equipment Handover")
 	assert "Laptop Mariam" in printed and "Mariam Saleh" in printed and "I have received the equipment above" in printed
 	assert "Received By" in printed
 
-	# Mariam sees what a person holds, and changes none of it.
 	yousef = frappe.get_doc("Employee", {"user_id": "yousef@one.test"})
 	with as_user("mariam@one.test"):
 		assert frappe.has_permission("Asset", "read") and not frappe.has_permission("Asset", "write")
 		assert hr_heads.equipment(yousef)["value"] == "1 held"
 
-	# Every service is dated, kept up by whoever does it, and one truck is late.
 	trucks = {name: frappe.db.get_value("Asset", {"asset_name": name}) for name, _late in demo.SERVICED}
 	day = getdate(today())
 	open_ = {
@@ -6956,8 +6829,6 @@ def oneinventory_equipment_bought_given_serviced_and_mended():
 	assert told.to("Service Late") == {"yousef@one.test", "tariq@one.test"}
 	assert told.to("Service Due") <= {"yousef@one.test", "tariq@one.test"}
 
-	# A schedule saved as Data Import would, without the form's sum, has its
-	# dates. A service whose date moved past today is no longer late.
 	plan = frappe.get_doc("Asset Maintenance", trucks["Pickup Truck 1"])
 	was = plan.asset_maintenance_tasks[0].next_due_date
 	plan.asset_maintenance_tasks[0].next_due_date = None
@@ -6970,7 +6841,6 @@ def oneinventory_equipment_bought_given_serviced_and_mended():
 		coming.save()
 	assert coming.maintenance_status == "Planned"
 
-	# The truck mended on the garage's bill, and Huda's laptop waiting.
 	mended = frappe.get_doc("Asset Repair", {"asset": trucks["Pickup Truck 1"], "docstatus": 1})
 	bill = frappe.get_doc("Purchase Invoice", mended.invoices[0].purchase_invoice)
 	assert mended.repair_status == "Completed" and flt(mended.total_repair_cost) == 3850 and bill.supplier == demo.GARAGE
@@ -6978,14 +6848,11 @@ def oneinventory_equipment_bought_given_serviced_and_mended():
 	waiting = frappe.get_doc("Asset Repair", {"repair_status": "Pending"})
 	assert frappe.db.get_value("Asset", waiting.asset, "status") == "Out of Order" and heads.repair_out(waiting)["tone"] == "alarm"
 
-	# The CNC centre written down by a tenth, into the books.
 	cut = frappe.get_doc("Asset Value Adjustment", {"docstatus": 1})
 	assert flt(cut.new_asset_value) < flt(cut.current_asset_value) and cut.owner == demo.BOOKS
 	assert heads.worth_change(cut)["tone"] == "alarm"
 	assert frappe.db.exists("Journal Entry", {"name": cut.journal_entry, "docstatus": 1})
 
-	# OneAI says how a piece of equipment is doing and who holds what, which
-	# services are due, and drafts a handover.
 	from onedesk.one_ai import proposals
 	from onedesk.one_inventory import ai
 
@@ -7004,8 +6871,6 @@ def oneinventory_equipment_bought_given_serviced_and_mended():
 		assert ai.asset_facts("Pickup Truck 1").get("error") and ai.equipment_held().get("error")
 		assert ai.services_due().get("error") and ai.plan_handover("Laptop Nadia", "Yousef Bakr").get("error")
 
-	# Who may do what: Yousef records services, Karim hands equipment over,
-	# Nadia sees none of it.
 	with as_user("yousef@one.test"):
 		assert frappe.has_permission("Asset Maintenance Log", "submit")
 	with as_user(demo.STORES):
@@ -7026,7 +6891,6 @@ def oneinventory_hand_offs_from_the_other_side():
 	from onedesk.one_demo import assets as demo
 	from onedesk.one_inventory import heads
 
-	# Leaving asks for the equipment back, from a checklist HR submits.
 	driver = demo._employee(demo.DRIVER)
 	truck = frappe.db.get_value("Asset", {"asset_name": "Pickup Truck 1"})
 	separation = frappe.get_doc("Employee Separation", {"employee": driver})
@@ -7036,24 +6900,19 @@ def oneinventory_hand_offs_from_the_other_side():
 	back = next(row for row in separation.activities if truck in (row.activity_name or ""))
 	assert back.task and demo.STORES in frappe.parse_json(frappe.db.get_value("Task", back.task, "_assign") or "[]"), back.task
 
-	# The sales order says what has gone out, and since when it is late.
 	order = frappe.get_doc("Sales Order", "SAL-ORD-2026-00006")
 	assert 0 < order.per_delivered < 100, order.per_delivered
 	late = crm_heads.deliver_by(order)
 	assert isinstance(late, dict) and late["tone"] == "alarm", late
 
-	# The coater's receipt is worth what the coating cost, and its bill came
-	# in by mail as a draft against the order.
 	receipt = frappe.get_doc("Purchase Receipt", {"supplier": "Gulf Powder Coating", "docstatus": 1, "is_subcontracted": 1})
 	assert heads.receipt_worth(receipt) not in (None, frappe.utils.fmt_money(0, currency=receipt.currency)), heads.receipt_worth(receipt)
 	bill = frappe.get_doc("Purchase Invoice", {"bill_no": "GPC-2207"})
 	assert bill.docstatus == 0 and flt(bill.grand_total) == 1417.5 and bill.project, (bill.docstatus, bill.grand_total, bill.project)
 	assert all(row.purchase_order == receipt.items[0].purchase_order for row in bill.items), [row.purchase_order for row in bill.items]
-	# The coater's own due date, which the order's payment row would replace.
 	asked = getdate("2026-11-07")
 	assert getdate(bill.due_date) == asked or asked < getdate(bill.posting_date), (bill.due_date, bill.posting_date)
 
-	# Each service names its asset, so the two pickups are told apart.
 	titles = frappe.get_all("Asset Maintenance Log", filters={"item_code": "VEH-PICKUP"}, pluck="one_asset_title")
 	assert set(titles) == {"Pickup Truck 1", "Pickup Truck 2"}, titles
 
@@ -7094,9 +6953,6 @@ def onetask_a_task_opens_on_its_own_page():
 		assert ai.task_facts(elsewhere).get("error")
 
 
-# ---------------------------------------------------------------- the business, figure by figure (docs/SCENARIOS.md)
-
-#: Cents a figure may be off by, after ERPNext rounds each row.
 CENTS = 0.05
 
 
@@ -7145,7 +7001,6 @@ def onebook_a_foreign_payment_gains_or_loses_at_its_rate():
 	dirhams than its invoice was booked at. Every payment in another currency
 	settles its invoice in full, and the difference from the invoice's rate
 	is a gain or a loss in the books, to the dirham."""
-	# ERPNext books a gain and a loss apart when the company names both.
 	gain_loss = tuple(filter(None, frappe.db.get_value("Company", COMPANY, ["exchange_gain_loss_account", "exchange_gain_account", "exchange_loss_account"])))
 	seen, wrong = 0, []
 	for ref in frappe.db.sql(
@@ -7167,8 +7022,6 @@ def onebook_a_foreign_payment_gains_or_loses_at_its_rate():
 		if abs(difference) < 1:
 			continue
 		seen += 1
-		# ERPNext's Exchange Gain Or Loss entry names the invoice on its party
-		# row and the payment on its gain or loss row.
 		posted = frappe.db.sql(
 			"""select ifnull(sum(gl.credit - gl.debit), 0) from `tabGL Entry` gl
 			where gl.voucher_type = 'Journal Entry' and gl.account in %s and gl.is_cancelled = 0
@@ -7219,8 +7072,6 @@ def oneinventory_broken_glass_goes_back_and_the_bill_is_debited():
 		where reference_doctype = 'Purchase Invoice' and reference_name = %s and docstatus = 1""",
 		bill.name,
 	)[0][0]
-	# ERPNext keeps a debit note's own outstanding until it is matched to the
-	# bill, so what is owed on the two is read together.
 	owed = flt(bill.outstanding_amount) + flt(frappe.db.get_value("Purchase Invoice", note.name, "outstanding_amount"))
 	assert abs(owed - (flt(bill.grand_total) + flt(note.grand_total) - flt(paid))) <= CENTS, (owed, bill.grand_total, note.grand_total, paid)
 	assert frappe.db.exists("Purchase Receipt", {"is_return": 1, "supplier": "Gulf Glass Industries", "docstatus": 1, "posting_date": [">=", bill.posting_date]})

@@ -18,8 +18,6 @@ from onedesk.one import account, roles
 
 PAGE = account.PAGE
 
-#: Kept out of the CSVs: the framework's queues and caches, and anything
-#: that holds a key. All of it is in the database backup regardless.
 LEFT_OUT = (
 	"Email Queue",
 	"Email Queue Recipient",
@@ -35,10 +33,8 @@ LEFT_OUT = (
 	"Workspace Account",
 )
 
-#: Rows read from a table at a time, so a large one is never held whole.
 BATCH = 5000
 
-#: How long one file may take to come from the store.
 PATIENCE = 600
 
 
@@ -104,8 +100,6 @@ def build(user: str) -> None:
 	os.makedirs(folder, exist_ok=True)
 	name = f"{frappe.scrub(_held().workspace_name or frappe.local.site)}-{now_datetime():%Y-%m-%d}.zip"
 	path = os.path.join(folder, name)
-	# Written under a name of its own and moved into place whole, so a
-	# download never meets a zip half made, or two made at once.
 	part = os.path.join(folder, f".{name}.{os.getpid()}.part")
 	missing = []
 	try:
@@ -233,7 +227,6 @@ def _files(zipped) -> list[str]:
 			elif one.file_url and not one.file_url.startswith("http"):
 				zipped.write(frappe.get_doc("File", one.name).get_full_path(), arcname)
 			else:
-				# A link to somewhere else: its address is in the File records.
 				continue
 			seen.add((arcname, one.content_hash))
 		except Exception:
@@ -293,7 +286,6 @@ def close(password: str) -> dict:
 	held = _held()
 	from onedesk.one import tell
 
-	# Everybody, the payer too: the sender is One, not them.
 	tell.workspace_closing(held)
 	frappe.publish_realtime("one_closing", after_commit=True)
 	return state()

@@ -7,7 +7,6 @@ import frappe
 from frappe import _
 from frappe.utils import cint, flt
 
-#: What a task's row changes in place, and how a value is read.
 FIELDS = {
 	"subject": lambda value: (value or "").strip(),
 	"start": cint,
@@ -57,7 +56,6 @@ def read(template: str) -> dict:
 		depth, above = 0, task.parent_task
 		while above in found and depth < 10:
 			depth, above = depth + 1, found[above].parent_task
-		# ERPNext lists a group's own tasks as what it waits on; those are the tree.
 		own = {one.name for one in found.values() if one.parent_task == name}
 		tasks.append({**task, "depth": depth, "waits": [one for one in waits.get(name, []) if one not in own]})
 	return {
@@ -68,7 +66,6 @@ def read(template: str) -> dict:
 		"tasks": tasks,
 		"days": max((one.start + one.duration for one in found.values()), default=0),
 		"used": frappe.db.count("Project", {"project_template": doc.name}),
-		# What a project made from it agrees with its customer (terms.py).
 		"payment_terms": doc.get("one_payment_terms"),
 		"terms": doc.get("one_terms"),
 		"retention": doc.get("one_retention") or 0,

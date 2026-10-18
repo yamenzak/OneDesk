@@ -10,8 +10,6 @@ from frappe.utils import comma_or, flt
 
 from onedesk.one_project import tree
 
-#: ERPNext's four, as they read. ERPNext ships no German for "On hold", so
-#: ours carries it, for the page's pill as much as for this module.
 LABELS = {
 	"Open": _lt("Open"),
 	"On hold": _lt("On hold"),
@@ -20,7 +18,6 @@ LABELS = {
 }
 STATUSES = tuple(LABELS)
 CLOSED = ("Completed", "Cancelled")
-#: A task still to be done; a Template task belongs to no project's work.
 OPEN_TASK = ["not in", ("Completed", "Cancelled", "Template")]
 
 
@@ -61,9 +58,6 @@ def held(doc, method=None) -> None:
 			return
 		if not doc.flags.get("one_close_work"):
 			frappe.throw(_("{0} still has open work.").format(doc.project_name))
-		# As ERPNext's own set_project_status: straight to the status, since a
-		# task's own checks (its dependencies done first) don't apply to work
-		# being closed.
 		for name in tasks:
 			frappe.db.set_value("Task", name, "status", doc.status)
 		for name in below:
@@ -103,7 +97,6 @@ def change(
 		and frappe.db.count("Task", {"project": project})
 		and not frappe.db.count("Task", {"project": project, "status": OPEN_TASK})
 	):
-		# What ERPNext's own save would do anyway, said before it does.
 		frappe.throw(
 			_("Every task on {0} is done. Add a task to open it again.").format(
 				doc.project_name

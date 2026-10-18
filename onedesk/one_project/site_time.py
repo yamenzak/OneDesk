@@ -10,13 +10,10 @@ from frappe.utils import flt, get_datetime, getdate
 
 from onedesk.one_project import hours
 
-#: Attendance that puts somebody at work, and what share of a day it is.
 WORKED = {"Present": 1.0, "Half Day": 0.5}
 
-#: Where a day starts when the attendance has no check-in time.
 DAY_STARTS = time(8, 0)
 
-#: The activity made for days on site when the workspace has none set.
 SITE_WORK = "Site Work"
 
 
@@ -85,7 +82,6 @@ def project_at(employee: str, day, attendance: str | None = None) -> str | None:
 			if any(rules.within(lat, lon, zones) for lat, lon in seen):
 				return project
 		return None
-	# No position on any check-in: the site their shift that day names.
 	assigned = frappe.get_all(
 		"Shift Assignment",
 		filters={

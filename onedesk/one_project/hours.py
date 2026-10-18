@@ -12,16 +12,13 @@ from onedesk.one_project.money import _route as money_route
 from onedesk.one_project.money import currency as money_currency
 from onedesk.one_task import timer
 
-#: How a project counts its time.
 TIMESHEETS = "Timesheets"
 ATTENDANCE = "Attendance on Site"
 NOT_TRACKED = "Not Tracked"
 METHODS = (TIMESHEETS, ATTENDANCE, NOT_TRACKED)
 
-#: How many entries the view lists, newest first; the totals count them all.
 SHOWN = 200
 
-#: Where an hand-logged entry starts on its day when nothing else is logged.
 DAY_STARTS = time(9, 0)
 
 
@@ -185,7 +182,6 @@ def sums(rows: list, people: dict, tasks: dict, where) -> list[dict]:
 		)
 		one["entries"] += 1
 		one["hours"] += flt(row.hours)
-		# A draft is no cost yet, as `count` says it.
 		if row.docstatus == 0:
 			continue
 		one["amount"] += flt(row.get("base_billing_amount")) if row.is_billable else 0.0
@@ -248,15 +244,11 @@ def entries(
 		)
 	)
 	totals = count(rows, getdate(get_first_day(nowdate())), money)
-	# What the tasks plan, else what the projects were planned at as a whole,
-	# and the time budget its cost is measured against.
 	whole = frappe.get_all(
 		"Project", filters={"name": ["in", projects]}, fields=["one_hours_planned", "one_time_budget"]
 	)
 	totals["planned"] = planned(projects) or round(sum(flt(one.one_hours_planned) for one in whole), 2)
 	totals["time_budget"] = round(sum(flt(one.one_time_budget) for one in whole), 2) if money else None
-	# Billable time on a sub-project shows where it is, on a parent that
-	# doesn't bill hours itself (the villa's windows).
 	billing_on = sorted(
 		{
 			titles.get(row.project) or row.project
@@ -287,7 +279,6 @@ def entries(
 				"task": row.task,
 				"task_subject": tasks.get(row.task),
 				"project": row.project,
-				# Where it is under this project, as a path (milestones.where).
 				"where": milestones.where(row.project, project, of, titles),
 				"amount": flt(row.get("base_billing_amount")) if row.is_billable else None,
 				"cost": flt(row.get("base_costing_amount")) if money else None,
@@ -298,19 +289,12 @@ def entries(
 			for row in rows[:SHOWN]
 		],
 		"more": max(0, len(rows) - SHOWN),
-		# Every entry's hours and money by what the tab groups them by, so a
-		# group's total is the whole of it, not only the entries sent.
 		"sums": sums(rows, people, tasks, lambda row: milestones.where(row.project, project, of, titles)),
-		# The entries older than those sent, in the Timesheet list.
 		"all_route": money_route("Timesheet", {"Timesheet Detail.project": ["in", projects], "docstatus": ["<", 2]}),
 		"has_sub_projects": len(projects) > 1,
-		# A retainer's hours are counted against its month, not priced here.
 		"allowance": flt(head.one_monthly_hours) if head.one_kind == kinds.RETAINER else None,
-		# Time on a project counted by attendance comes from attendance (site_time.py).
 		"can_log": method(project) != ATTENDANCE and bool(frappe.has_permission("Timesheet", "create")),
-		# Setting the time budget and planned hours, as Money's Change Budget does.
 		"can_budget": bool(frappe.has_permission("Project", "write", doc=project)),
-		# A retainer's hours are billed with its month (retainer.py), not here.
 		"can_invoice": head.one_kind != kinds.RETAINER
 		and bool(head.customer)
 		and bool(frappe.has_permission("Sales Invoice", "create")),
@@ -391,7 +375,6 @@ def log(
 			"from_time": starts,
 			"to_time": starts + timedelta(hours=flt(hours)),
 			"hours": flt(hours),
-			# Logging time isn't finishing the task; ERPNext would complete it.
 			"completed": 0,
 			"is_billable": 1 if billable else 0,
 			"description": description,
@@ -475,7 +458,6 @@ def whose(sheets) -> dict[str, dict]:
 	)
 	said = {}
 	for one in found:
-		# A timesheet with no employee is its maker's, as the timer keeps it.
 		user = one.user or linked.get(one.employee) or (None if one.employee else one.owner)
 		said[one.name] = {
 			"user": user,

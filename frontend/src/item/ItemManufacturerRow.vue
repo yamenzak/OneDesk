@@ -1,7 +1,4 @@
 <template>
-  <!-- Who makes the item and their part number, the Item Manufacturer's own
-       field changed in place on its own form, out of sight. The default is
-       the one ERPNext puts on every order and receipt line. -->
   <li class="flex gap-3 py-2.5">
     <div class="min-w-0 flex-1">
       <div class="flex min-w-0 items-center gap-2">
@@ -28,15 +25,12 @@ import { Badge, Button, Dropdown } from "frappe-ui";
 import { FieldEdit, __, go, useForm } from "../kit";
 
 const props = defineProps({
-  // The Item Manufacturer row as the page read it.
   maker: { type: Object, required: true },
 });
 const emit = defineEmits(["changed"]);
 
 const form = useForm("Item Manufacturer", computed(() => props.maker.name));
 
-// Make Default sets the record's own switch; ERPNext then clears the others
-// and puts it on the item.
 const actions = computed(() =>
   !props.maker.is_default && form.status("is_default") === "Write"
     ? [{ label: __("Make Default"), icon: "lucide-star", onClick: makeDefault }]

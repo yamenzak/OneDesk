@@ -1,9 +1,5 @@
-// The OneCloud page. The explorer itself is public/js/onecloud.js, shared
-// with a record's Files tab, and loaded the first time either is opened.
 
 frappe.pages["onecloud"].on_page_load = (wrapper) => {
-	// The explorer is its own navigation: the rail's panel (Files, and Storage
-	// Check under Setup) starts closed, and the tree takes its place.
 	const page = onedesk.shell.page(wrapper, __("OneCloud"), { hide_sidebar: true, mark: "onestorage" });
 	wrapper.loading = frappe.require(["/assets/onedesk/css/onecloud.css", "/assets/onedesk/js/onecloud.js"]).then(() => {
 		wrapper.onecloud = new onedesk.OneCloud(page);

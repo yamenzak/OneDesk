@@ -1,16 +1,3 @@
-// A record's tabs after its fields: Mail, Files, Activity. Each is declared
-// by the module that draws it (`one_record_tabs`, one/tabs.py), which says
-// its label, its place and which records carry it, and is drawn by what that
-// module registers here under the same name. This is the one place the
-// form's layout is added to for them: a Tab Break and an HTML field each,
-// appended where the form reads its fields (Layout.get_doctype_fields), so
-// nothing is written to any doctype, erpnext's and hrms's included. A form
-// with no tabs of its own gets Frappe's own "Details" tab in front of them.
-//
-// A drawer is { wanted(frm), refresh(frm, field, tab), open(frm, field, tab),
-// opened(frm, field) }, every part optional: `refresh` runs on each refresh
-// of a saved record, `open` the first time the tab is clicked, and again on a
-// refresh while the tab is showing or `opened` says it was drawn.
 frappe.provide("onedesk.record_tabs");
 
 onedesk.record_tabs.drawers = {};
@@ -24,8 +11,6 @@ onedesk.record_tabs.FIELD = (name) => `__one_${name}`;
 
 onedesk.record_tabs.declared = () => frappe.boot.one_record_tabs || [];
 
-// The tabs this layout carries. A child row and a settings page have no room
-// of their own.
 onedesk.record_tabs.on = (layout) => {
 	const frm = layout.frm;
 	const meta = frm && frm.meta;
@@ -57,7 +42,6 @@ onedesk.record_tabs.on = (layout) => {
 onedesk.record_tabs.tab = (frm, name) =>
 	((frm.layout && frm.layout.tabs) || []).find((one) => one.df.fieldname === onedesk.record_tabs.TAB(name));
 
-// A count beside the tab's name: files, conversations, comments.
 onedesk.record_tabs.count = (frm, name, count) => {
 	const tab = onedesk.record_tabs.tab(frm, name);
 	if (!tab) return;
@@ -73,9 +57,7 @@ frappe.ui.form.on("*", {
 			.map((declared) => ({ name: declared.name, tab: onedesk.record_tabs.tab(frm, declared.name) }))
 			.filter((one) => one.tab);
 		if (!drawn.length) return;
-		// A new record has nothing to show in any of them yet.
 		for (const { tab } of drawn) tab.df.hidden = frm.is_new() ? 1 : 0;
-		// Frappe's own pass, so a form left with one tab shows no strip.
 		frm.layout.refresh_tabs();
 		if (frm.is_new()) return;
 		for (const { name, tab } of drawn) {

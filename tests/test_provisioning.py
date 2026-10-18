@@ -49,7 +49,7 @@ def _walks() -> dict[str, list[str]]:
 		):
 			found = {}
 			for key, value in zip(node.value.keys, node.value.values):
-				if isinstance(value, ast.Name):  # WALKS["Provision"] is ORDER
+				if isinstance(value, ast.Name):
 					found[key.value] = _order()
 					continue
 				found[key.value] = [

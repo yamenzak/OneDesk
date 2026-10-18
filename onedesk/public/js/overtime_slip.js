@@ -1,13 +1,5 @@
-// Reading attendance into a slip, without the slip saving itself first.
-//
-// HRMS's Fetch button calls a document method that ends in `self.save()`, so on
-// a new form it inserted a record and left the person on the unsaved blank one.
-// Ours asks the server for the rows, fills the grid, and leaves the document
-// dirty so saving stays the person's decision.
 frappe.ui.form.on("Overtime Slip", {
 	onload(frm) {
-		// The grid opens with one empty row, and Date and Overtime Type are
-		// both mandatory on it, so the first Save fails on a row nobody added.
 		if (frm.is_new()) frm.clear_table("overtime_details");
 	},
 
@@ -18,9 +10,6 @@ frappe.ui.form.on("Overtime Slip", {
 		}
 	},
 
-	// Replaces HRMS's, which called a document method that threw for anybody
-	// without a salary structure — and named the date it was working out, so
-	// the refusal read "for date None".
 	set_frequency_and_dates(frm) {
 		if (!frm.doc.employee || !frm.doc.posting_date) return;
 		return frappe
@@ -69,8 +58,6 @@ function read(frm) {
 		});
 }
 
-// A day worked beyond the type's daily maximum is paid up to it and no further.
-// HRMS trimmed it on the way in and said nothing, which is a quiet pay cut.
 function told(trimmed) {
 	const rows = trimmed
 		.map(

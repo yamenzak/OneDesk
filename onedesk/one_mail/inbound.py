@@ -14,10 +14,8 @@ from frappe.rate_limiter import rate_limit
 
 from onedesk.one_mail import addresses, threads
 
-#: Seconds a notice's timestamp may be off by.
 SKEW = 300
 
-#: Where the last key read is kept, so the sweep asks only for what is new.
 LAST = "one_mail_last_key"
 
 
@@ -79,8 +77,6 @@ def sweep() -> int:
 				take(item["key"])
 				taken += 1
 			except Exception:
-				# One message that cannot be read must not hold up the rest. The
-				# original is still in R2, and the error says which it was.
 				frappe.db.rollback()
 				frappe.log_error(title=f"OneMail could not read {item['key']}")
 			frappe.db.set_default(LAST, item["key"])
@@ -130,11 +126,7 @@ class Arrival(InboundMail):
 		fresh=True,
 	):
 		super().__init__(content, email_account, uid=uid, seen_status=seen)
-		# New mail, rather than history read in the background: only new mail
-		# is sorted by rules and answered while away (rules.py).
 		self.fresh = fresh
-		# Read from a connected server, whose sync counts each folder once it
-		# has read it (sync.py); mail at the mail domain is counted here.
 		self.synced = uid is not None
 		self.key = key
 		self.folder = folder
@@ -143,8 +135,6 @@ class Arrival(InboundMail):
 
 	def process(self):
 		made = super().process()
-		# Filed on its records once Frappe has finished with it: Frappe saves a
-		# new message again after inserting it, which rewrites its links.
 		if made and made.name:
 			from onedesk.one_mail import linking, rules
 
@@ -196,7 +186,6 @@ class Arrival(InboundMail):
 
 	def as_dict(self):
 		data = super().as_dict()
-		# References is oldest first; In-Reply-To, the parent, goes after it.
 		references = " ".join(
 			one for one in (self.mail.get("References"), self.mail.get("In-Reply-To")) if one
 		)

@@ -9,9 +9,7 @@ import erpnext
 import frappe
 from frappe.utils import flt, getdate, today
 
-#: How many orders a tab lists before a search narrows them.
 MOST = 40
-#: ERPNext's statuses for an order still out, and for one done with.
 OUT = ("Open", "Partial Material Transferred", "Material Transferred", "Partially Received")
 DONE = ("Completed", "Closed")
 

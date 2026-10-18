@@ -12,11 +12,8 @@ import requests
 
 from onedesk.one_admin import faults
 
-#: Cloudflare's v4 API. The KV endpoints are the only ones we call.
 API = "https://api.cloudflare.com/client/v4"
 
-#: Seconds. KV writes are small and fast; anything slower than this is an outage
-#: rather than a slow call, and the step will be retried by the runner.
 TIMEOUT = 15
 
 
@@ -61,9 +58,6 @@ def mail_domain() -> str:
 def mail_record(slug: str) -> dict | None:
 	answered = _call("GET", f"values/mail:{slug}", raw=True)
 	return json.loads(answered) if answered else None
-
-
-# ------------------------------------------------------------ own domains
 
 
 def host_route(name: str, site: str) -> None:
@@ -164,8 +158,6 @@ def forget(slug: str) -> None:
 	answers 200, so this is safe to run on a workspace that never had one.
 	"""
 	_call("DELETE", f"values/{slug}")
-	# And its mail: without this the mail Worker kept taking mail for an
-	# archived workspace, storing it and knocking on a site that is gone.
 	_call("DELETE", f"values/mail:{slug}")
 
 
@@ -187,8 +179,6 @@ def _call(method: str, path: str, data: str | None = None, raw: bool = False):
 			method,
 			url,
 			headers={"Authorization": f"Bearer {token}"},
-			# Multipart, as the write-with-metadata endpoint takes it. A plain
-			# form is stored as it is sent: `value=…&metadata=…`, in the value.
 			files={"value": (None, data), "metadata": (None, "{}")} if data is not None else None,
 			timeout=TIMEOUT,
 		)

@@ -14,13 +14,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 
 import tree
 
-#: A comment block longer than this is an essay.
 LONGEST_BLOCK = 3
 
-#: A docstring longer than this belongs in the module's README.
 LONGEST_DOCSTRING = 8
 
-#: Comment lines per code line, per file.
 DENSEST = 0.40
 
 
@@ -115,8 +112,6 @@ def test_the_essay_scan_would_catch_one(tmp_path):
 	assert _long_docstrings(lecture) == ["module"] and _long_docstrings(fine) == []
 
 
-#: Modules the closing passover has finished, and the demo that shows them:
-#: they stay free of what ruff catches (pyproject's [tool.ruff]).
 LINTED = ("onedesk/one_project", "onedesk/one_demo")
 
 

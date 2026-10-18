@@ -9,7 +9,6 @@ from email.utils import format_datetime, make_msgid
 import frappe
 from frappe.utils import add_days, get_datetime, now_datetime
 
-#: from (name, address), subject, days ago, body
 MAILS = (
 	(
 		("Hessa Al Marri", "hessa@bayview.example"),

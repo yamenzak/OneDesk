@@ -11,13 +11,11 @@ from frappe import _
 from frappe.query_builder.functions import IfNull
 from frappe.utils import escape_html, format_datetime
 
-#: The statuses in which somebody still has something to do.
 OPEN = {
 	"Lead": ("Lead", "Open", "Replied", "Interested"),
 	"Opportunity": ("Open", "Quotation", "Replied"),
 }
 
-#: Who a record belongs to.
 OWNER = {"Lead": "lead_owner", "Opportunity": "opportunity_owner"}
 
 

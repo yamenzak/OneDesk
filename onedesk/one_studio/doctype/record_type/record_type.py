@@ -5,7 +5,6 @@ from frappe.model.document import Document
 
 
 class RecordType(Document):
-	# Where it lives holds however it is changed. See record_types.held.
 	def validate(self):
 		from onedesk.one_studio import record_types
 

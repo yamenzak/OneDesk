@@ -1,7 +1,4 @@
 <template>
-  <!-- The item's first two barcodes, drawn by frappe's Barcode control. Any
-       of them opens Manage Barcodes, where they are added, changed and put
-       in order; the first two are the ones shown here. -->
   <div class="flex flex-col items-end gap-2">
     <button
       v-for="one in shown"
@@ -18,10 +15,6 @@
 </template>
 
 <script setup>
-// The barcodes in an item's head (one_inventory/barcodes.py). Each is drawn
-// by frappe.ui.form.ControlBarcode, the control desk's Barcode field uses, in
-// the format its ERPNext type names, or Code 128 when it has none or does
-// not fit it.
 import { computed } from "vue";
 import { Button } from "frappe-ui";
 
@@ -34,7 +27,6 @@ const props = defineProps({
 });
 const emit = defineEmits(["changed"]);
 
-// ERPNext's barcode types, in the formats JsBarcode draws.
 const FORMAT = {
   EAN: "EAN",
   "EAN-13": "EAN13",

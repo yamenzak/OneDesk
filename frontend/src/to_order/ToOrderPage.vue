@@ -1,9 +1,4 @@
 <template>
-  <!-- Reorder (one_inventory/page/to_order): what to buy, each open purchase
-       request and each item at or below its level (one_inventory/order.py).
-       Modelled on Odoo's Replenishment screen: one line per item and
-       warehouse, why it is there, how many and from whom, ticked and ordered
-       in one go, a draft purchase order per supplier. -->
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
@@ -66,10 +61,6 @@
 </template>
 
 <script setup>
-// Buying starts here: what the stores ask for and what runs low, in one list.
-// It was a report whose rows were ticked in a grid of IDs; ERPNext itself
-// raises the requests each night and leaves turning them into orders to a
-// form at a time.
 import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Avatar, Badge, TabButtons, TextInput } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
@@ -89,7 +80,6 @@ const reason = ref(props.query.why || "all");
 const picked = ref([]);
 const wide = ref(viewWidth() >= 640);
 onBeforeUnmount(onResize(() => (wide.value = viewWidth() >= 640)));
-// How many is the one a phone keeps; why, from whom and the cost join as the page widens.
 const columns = {
   base: ["minmax(0,1fr)", "auto"],
   sm: ["minmax(0,1fr)", "11rem", "8rem"],
@@ -109,8 +99,6 @@ async function load() {
 }
 load();
 
-// A request, an order or a move changes what is to order; renaming an item,
-// a supplier, a warehouse or a unit shows too.
 let timer = null;
 const soon = () => {
   clearTimeout(timer);
@@ -123,7 +111,6 @@ onBeforeUnmount(() => {
 });
 watch(picked, () => said.value && report());
 
-// What put the line here, under its badge.
 const because = (one) =>
   one.why === "requested"
     ? [one.project_title || one.material_request, one.needed_by && __("needed {0}", [fromToday(one.needed_by)])].filter(Boolean).join(" · ")
@@ -157,8 +144,6 @@ const figures = computed(() => {
   ];
 });
 
-// Order: the lines ticked, or every line shown, as a draft purchase order per
-// supplier; lines with no supplier go to the one asked for.
 function order() {
   const chosen = picked.value.length ? said.value.lines.filter((one) => picked.value.includes(one.key)) : lines.value;
   if (!chosen.length) return;
@@ -197,8 +182,6 @@ function report() {
 }
 watch(lines, () => said.value && report());
 
-// The page is a place (one_studio/places.py): its extensions are told what
-// it shows, and may add a note or a button.
 const placed = reactive({ notes: [], actions: [] });
 let drawn = null;
 function extended(s) {

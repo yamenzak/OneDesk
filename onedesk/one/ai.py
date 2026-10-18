@@ -14,7 +14,6 @@ from typing import Annotated
 import frappe
 from frappe import _, _lt
 
-#: What the panel offers on a Settings section, keyed `page:<page>/<section>`.
 SUGGESTIONS = {
 	"page:settings/profile": [
 		{
@@ -381,7 +380,6 @@ SUGGESTIONS = {
 			"expects": "workspace_intake",
 		},
 	],
-	# Home: what waits for the reader today, across every product.
 	"workspace:One": [
 		{
 			"label": _lt("What needs me today?"),
@@ -910,7 +908,6 @@ def draft_notification(
 	}
 
 
-#: What an added field may say, as the model names it, to frappe's property.
 FIELD_SAYS = {
 	"required": "reqd",
 	"unique": "unique",
@@ -1214,8 +1211,6 @@ def customize(
 			return {
 				"error": "Say what to change: add, change, remove, carry, band, buttons, charts, linked, connections or go_to."
 			}
-		# Everything the save would refuse, refused now, so the card that
-		# reaches the administrator is one that applies.
 		page._check(doctype, values)
 		page._carries(doctype, values["carry"])
 		for row in fields:
@@ -1382,7 +1377,6 @@ def workspace_reports() -> dict:
 		filters={"parenttype": "Custom Sidebar", "link_type": "Report", "added": 1},
 		fields=["link_to", "parent"],
 	)
-	# The site's layer has no user: what is in it, everybody sees.
 	shared = {row.link_to for row in placed if not frappe.db.get_value("Custom Sidebar", row.parent, "user")}
 	dashboards = []
 	for name in frappe.get_list("Dashboard", filters={"is_standard": 0}, pluck="name", limit=50):
@@ -1972,7 +1966,6 @@ def workspace_oneai() -> dict:
 	return {"actions": sorted(actions, key=lambda one: one["last_30_days"]["credits"], reverse=True)}
 
 
-#: What each status of a domain means, for the model.
 DOMAIN_STATES = {
 	"Active": "working",
 	"Pending": "added; waiting for its CNAME to point at the workspace's own address (cname_target) and for "
@@ -2031,7 +2024,6 @@ def workspace_plan() -> dict:
 				{"from_date": add_days(end, -29), "to_date": end, "by": by}
 			)
 		except frappe.ValidationError:
-			# The account could not be reached: the cached numbers still answer.
 			rows = []
 		cut[by.lower()] = rows[:10]
 	return {
@@ -2052,10 +2044,7 @@ def workspace_plan() -> dict:
 			"expire_on": str(held["credits_expires_on"]) if held["credits_expires_on"] else None,
 		},
 		"last_30_days": cut,
-		# What came in and what went out each day, newest first.
 		"ledger": (said["ledger"] or [])[:40],
-		# Who may close the workspace or take everything, whether it is
-		# closing, and the full download (one/closing.py).
 		"closing": said["closing"],
 		"as_of": str(held["last_heard"]) if held["last_heard"] else None,
 		"next": "The plan's monthly credits expire at the end of the month and are used first; bought credits never expire. Credits "
@@ -2073,7 +2062,6 @@ def _cheapest(said: dict) -> list | None:
 	gb = 1000 * 1000 * 1000
 	needs = {
 		"seats": said["used"],
-		# Kept as text on the account, since a byte count outgrows an Int.
 		"storage_gb": -(-frappe.utils.cint(held["storage_bytes"]) // gb),
 		"database_gb": -(-frappe.utils.cint(held["database_bytes"]) // gb),
 	}
@@ -2279,9 +2267,6 @@ def sign_mailbox(
 	}
 
 
-# ------------------------------------------------------------------ numbering
-
-#: How frappe reads a series, for the model: every part it understands.
 SERIES_HELP = (
 	"A series is parts joined by dots, read left to right. Text is kept as written (INV-, SO/, -). "
 	"YYYY is the year (2026), YY the year's last two digits (26), MM the month (01-12), DD the day, "
@@ -2295,7 +2280,6 @@ SERIES_HELP = (
 )
 
 
-#: How frappe names a new record, for the model: every way this workspace may choose.
 NAMING_HELP = (
 	"A new record is named one of these ways, as frappe offers them. Naming Series: the next name in one "
 	"of its series (only a kind with a Naming Series field). field:<fieldname>: the value of that field, "
@@ -2494,9 +2478,6 @@ def change_numbering(
 	}
 
 
-# ------------------------------------------------------------------ printing
-
-
 def workspace_printing(
 	doctype: Annotated[str, "A kind of record, such as Sales Invoice, to also read its formats and default."]
 	| None = None,
@@ -2533,7 +2514,6 @@ def workspace_printing(
 				"footer_shows": [*letter_heads.FOOT_SHOWN, *letter_heads.SHOWN],
 			},
 			"company_logo": company.company_logo if company else None,
-			# What a letter head is written from: Workspace > General's Contact and Branding.
 			"company": _on_documents(company),
 			"workspace_formats": printing.formats(),
 		}
@@ -2553,7 +2533,6 @@ def workspace_printing(
 		return {"error": str(e)}
 
 
-#: A picture held inline in a letter head's HTML, shown to OneAI by what it is.
 INLINE_PICTURE = re.compile(r'src="data:image/[^"]+"')
 
 
@@ -2573,8 +2552,6 @@ def _letter_head_part(one: dict, part: str) -> dict | None:
 	html = one.get("content" if top else "footer")
 	picture = one.get("image" if top else "footer_image")
 	if source == "HTML" and (html or "").strip():
-		# Inline pictures (the icons) are long and say nothing to read; [icon:name]
-		# puts one back.
 		return {"written_in": "HTML", "html": INLINE_PICTURE.sub('src="[inline picture]"', html)[:4000]}
 	if picture:
 		return {"picture": picture}
@@ -2653,8 +2630,6 @@ def change_printing(
 				if not logo:
 					return {"error": "Workspace > General has no logo yet; ask them to add one there first."}
 			top, foot = letter_head.get("top_html"), letter_head.get("foot_html")
-			# A change to a letter head that is there is made to what it is now: the
-			# settings named change, the rest stay as they are.
 			was = (
 				frappe.db.get_value("Letter Head", name, ["one_top", "one_foot"], as_dict=True)
 				if name
@@ -2782,7 +2757,6 @@ def _on_documents(company) -> dict:
 	}
 
 
-#: How a print format is written, for a model writing one.
 LAYOUT_HELP = (
 	"sections is a list of sections, top to bottom. A section is a list of columns side by side, or "
 	"{label, columns, keep_together, labels_beside} (label prints above it; keep_together keeps it on one "
@@ -2852,12 +2826,9 @@ def _how() -> str:
 	)
 
 
-#: What a block may say about itself beyond what it is, in the shorter words a
-#: model may write; any of frappe's own (print_props) may be written as well.
 FIELD_OPTIONS = ("label", "show_label", "align", "bold", "show_empty", "spread")
 ALIGN = ("left", "center", "right")
 
-#: The words a block is made of, rather than frappe's properties of it.
 SHORT = {"field", "fieldname", "table", "columns", "bordered", "striped", "html", "text", "space", "image"}
 SHORT |= {"barcode", "format", "spread", "linked", "repeater", "divider", "value"}
 
@@ -2878,7 +2849,6 @@ def _block(one) -> dict:
 	if not isinstance(one, dict):
 		frappe.throw(_(NOT_A_BLOCK))
 	if one.get("columns") and not one.get("table") and (one.get("field") or one.get("fieldname")):
-		# {field: 'items', columns: [...]} can only mean the table.
 		one = {**one, "table": one.get("field") or one.get("fieldname")}
 	if one.get("columns") and not one.get("table"):
 		frappe.throw(
@@ -2909,10 +2879,7 @@ def _block(one) -> dict:
 		return {
 			"fieldname": one["table"],
 			"table_columns": columns,
-			# As frappe's own formats print a table: its columns say what it is.
 			**({} if one.get("show_label") else {"show_label": "hide"}),
-			# Lined unless boxed or striped is asked for; frappe boxes a table
-			# unless told not to.
 			"table_bordered": 1 if one.get("bordered") else 0,
 			**({"table_style": "striped"} if one.get("striped") else {}),
 			**print_props.taken(
@@ -2965,10 +2932,7 @@ def _block(one) -> dict:
 			),
 		}
 		if one.get("spread"):
-			# Label at the left edge and value at the right, in a section whose
-			# labels sit beside their values.
 			block["label_justify"] = "space-between"
-		# frappe's word for it: show, hide, or inline (beside the value).
 		said = one.get("show_label")
 		if said in ("inline", "show"):
 			block["show_label"] = said
@@ -2985,17 +2949,12 @@ def _parsed(text: str):
 		return json.loads(text)
 	except ValueError:
 		pass
-	# A line break written into a string as it is, and a backslash before a
-	# character JSON does not escape (an html block's own), are what a model
-	# writes by hand: taken as the characters it meant.
 	loose = json.JSONDecoder(strict=False)
 	text = re.sub(r"\\(.)", lambda m: m[0] if m[1] in '"\\/bfnrtu' else "\\\\" + m[1], text, flags=re.S)
 	try:
-		# The sections and then something after them: the sections.
 		return loose.raw_decode(text.strip())[0]
 	except ValueError:
 		pass
-	# Outside strings only: split on quoted runs and mend the pieces between.
 	parts = re.split(r'("(?:[^"\\]|\\.)*")', text)
 	mended = "".join(
 		part
@@ -3380,8 +3339,6 @@ def print_layout(
 			return {"error": f"{name} is not a format of {doctype}."}
 		return {
 			"doctype": doctype,
-			# Every field and its type, each table's with its rows, as OneAI and
-			# Intake read a kind: the same describer, told it is for a page.
 			"fields": kind.fields(meta, printing=True),
 			"starting_layout": print_recipes.starting_layout(doctype),
 			"format": name,
@@ -3515,9 +3472,6 @@ def design_print_format(
 	}
 
 
-# ------------------------------------------------------------------ mail templates
-
-#: What a template may say, for the model: the same words the editor's help gives.
 TEMPLATE_HELP = (
 	"A template is a subject and a message. Name a field of the record in double braces, bare, as "
 	"{{ customer_name }} or {{ due_date }}: never {{ doc.customer_name }}, which frappe's composer, the leave "
@@ -3625,8 +3579,6 @@ def write_mail_template(
 	except frappe.ValidationError as e:
 		frappe.clear_last_message()
 		return {"mend": "write_mail_template", "error": str(e)}
-	# Notification rules name a field as {{ doc.x }}; a template names it bare, and
-	# the one is the other, so it is written the way that works.
 	subject, message = (
 		re.sub(r"\{\{-?\s*doc\.(\w+)\s*-?\}\}", r"{{ \1 }}", text or "") for text in (subject, message)
 	)
@@ -3666,9 +3618,6 @@ def write_mail_template(
 	}
 
 
-# ------------------------------------------------------------------ approvals
-
-#: How an approval is made, for the model.
 APPROVAL_HELP = (
 	"An approval is the states a kind of record moves through and the steps between them. Each state is "
 	"{state, submitted, editable_by, sets}: state a short word such as Pending, Approved or Rejected; "
@@ -3745,7 +3694,6 @@ def suggest_approval(
 
 	if not roles.administers():
 		return {"mend": "suggest_approval", "error": "Only a workspace administrator sets approvals."}
-	# A name that is no approval of the kind is the new one's name.
 	if name and not new_name and frappe.db.get_value("Workflow", name, "document_type") != doctype:
 		name, new_name = None, name
 	if not name and not new_name:
@@ -3883,9 +3831,6 @@ def suggest_approval(
 	}
 
 
-# ------------------------------------------------------------------ automations
-
-#: How an automation is made, for the model.
 AUTOMATION_HELP = (
 	"An automation does something by itself when a record of a kind is made, changed, submitted or reaches "
 	"a date. when is one of: created, changed, field changed (with field, and from or to if it matters), "
@@ -3899,7 +3844,6 @@ AUTOMATION_HELP = (
 	"runs as whoever approves it, so each step can do only what they could do by hand."
 )
 
-#: when, as the model writes it, to frappe's trigger.
 WHEN = {
 	"created": "Doc Created",
 	"changed": "Doc Updated",
@@ -4038,8 +3982,6 @@ def suggest_automation(
 				}
 			)
 		elif do == "assign":
-			# frappe's step assigns users by name; whoever made the record is a
-			# stand-in only Tell People reads.
 			if any(str(one_who).startswith("@") for one_who in who):
 				return {
 					**mend,
@@ -4059,7 +4001,6 @@ def suggest_automation(
 	if not rows:
 		return {**mend, "error": "An automation needs at least one step."}
 	values["actions"] = rows
-	# Checked as saving it would check it, frappe's own checks and the workspace's.
 	try:
 		trial = frappe.get_doc({"doctype": "Automation Flow", **values})
 		trial.run_method("validate")
@@ -4092,11 +4033,6 @@ def suggest_automation(
 	}
 
 
-# The two tools that lay a page out are run by Print Design, not the chat: a
-# small model lays a page out wrong, so the chat hands the conversation over
-# the moment it reaches for one (one_ai/run.py, tools.action_of).
 print_layout.action = design_print_format.action = "print_design"
 
-# On Workspace Setup's stronger model too: a small one could not make an approval's parts
-# fit, and reached for a rule, which cannot assign, where an automation was meant.
 suggest_approval.action = suggest_automation.action = draft_notification.action = "workspace_setup"

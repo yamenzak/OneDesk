@@ -4,11 +4,8 @@ A clause or a subprocessor, registered at import time from `<module>/legal.py`,
 and given out in a stable order so a document's hash moves only with its text.
 """
 
-#: `(document, section)` -> list of clause dicts. Filled at import time.
 CLAUSES: dict[tuple[str, str], list[dict]] = {}
 
-#: name -> subprocessor dict. A name may be declared once; two modules using
-#: Cloudflare declare the *purposes* they use it for, not two Cloudflares.
 SUBPROCESSORS: dict[str, dict] = {}
 
 

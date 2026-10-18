@@ -1,6 +1,4 @@
 <template>
-  <!-- The item's files: OneCloud on the item's room, as every record's Files
-       tab is (record_files.js). -->
   <div class="pb-12">
     <div class="flex flex-wrap items-center gap-2 pb-3">
       <h2 class="me-auto flex items-center gap-2 text-lg font-semibold text-ink-gray-9">
@@ -8,7 +6,6 @@
         <span v-if="count" class="text-base font-normal text-ink-gray-5">{{ count }}</span>
       </h2>
     </div>
-    <!-- What the workspace's extensions add here (one_studio/places.py). -->
     <PlaceSpot :said="spot" class="mb-4" />
     <div ref="box" class="one-project-files" />
   </div>
@@ -24,9 +21,6 @@ const props = defineProps({ item: { type: String, required: true }, title: Strin
 const emit = defineEmits(["count"]);
 const box = ref(null);
 
-// The page is an island in a shadow root, which desk's styles and icons
-// don't reach. The explorer is desk's, so it lives in the page itself and is
-// shown here through a slot, styled as on every other record.
 let outside = null;
 onMounted(async () => {
   await requires(["/assets/onedesk/css/onecloud.css", "/assets/onedesk/js/onecloud.js"]);

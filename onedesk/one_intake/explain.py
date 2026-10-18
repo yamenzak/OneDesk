@@ -12,7 +12,6 @@ from onedesk.one_intake import search
 
 EXPLAIN = "intake_explain"
 
-#: What of a long document the model is shown.
 MOST_TEXT = 30_000
 
 

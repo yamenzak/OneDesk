@@ -14,8 +14,6 @@ from onedesk.one_ai import files, proposals
 from onedesk.one_crm import capture, measure, record, stages
 from onedesk.one_crm import next as next_step
 
-#: What the panel offers, by doctype or workspace, when it opens on one. The
-#: keys are OneHR's; see `one_hr/ai.py`.
 SUGGESTIONS = {
 	"Opportunity": [
 		{
@@ -141,16 +139,12 @@ def page(said: dict) -> str | None:
 		"read the pipeline; how each part works is in OneCRM's documentation (how_to)."
 	)
 
-#: What each record type is called when talking to a person.
 CALLED = {"Lead": "lead", "Opportunity": "deal"}
 
-#: The most history handed over for one record, newest kept.
 MOST_EVENTS = 40
 
-#: How much of one mail, call or comment is handed over.
 MOST_WORDS = 600
 
-#: The most open records looked through for "gone quiet".
 MOST_OPEN = 300
 
 
@@ -167,9 +161,6 @@ def workspace() -> str:
 	if names:
 		said += " The open sales stages, in order, are " + ", ".join(names) + "."
 	return said
-
-
-# ----------------------------------------------------------------- reading
 
 
 def deal_facts(deal: Annotated[str, "The deal's id, such as CRM-OPP-2026-00001."]) -> dict:
@@ -302,7 +293,6 @@ def gone_quiet(
 		fields += ["sales_stage", "opportunity_amount", "currency"]
 	now = now_datetime()
 	found = []
-	# A deal on hold is quiet on purpose; its next step says when to look again.
 	alive = measure.alive() if record_type == "Opportunity" else {"status": ["in", next_step.OPEN[record_type]]}
 	for one in frappe.get_list(
 		record_type,
@@ -399,9 +389,6 @@ def _rows(doctype: str, field: str, deals: list[str]) -> dict[str, list[str]]:
 	return held
 
 
-# -------------------------------------------------------------- suggesting
-
-
 def add_lead(
 	person: Annotated[str, "The person's full name, as printed."],
 	email: Annotated[str, "Their email address, as printed."] | None = None,
@@ -475,7 +462,6 @@ def plan_next_step(
 	if not when or when.date() < getdate(today()):
 		return {"error": f"{on} has passed. Suggest a day from today on."}
 	if len(on.strip()) <= 10:
-		# A day with no time said is a day, not midnight: the morning of it.
 		when = when.replace(hour=9, minute=0)
 	status = frappe.db.get_value(record_type, name, "status")
 	if status is None:
@@ -516,6 +502,5 @@ def write_up_call(
 	doc.check_permission("write")
 	call = record.call(doc, direction, outcome, minutes, summary)
 	call.pop("doctype")
-	# A card holds plain values; the times are written as the database would.
 	call.update(start_time=str(call["start_time"].replace(microsecond=0)), end_time=str(call["end_time"].replace(microsecond=0)))
 	return {"proposal": proposals.propose("Create", "Call Log", changes=call), "state": "Proposed"}

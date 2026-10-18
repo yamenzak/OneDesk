@@ -2,11 +2,6 @@
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
-      <!-- A task's page.
-           Modelled on Linear's issue and Asana's task: where it stands, what
-           it is called, the one thing worth saying, when it runs and how far
-           along it is, then its details, time, files and activity. Frappe's
-           own form sidebar is on the page's right (onedesk.island_page). -->
       <header class="pt-6">
         <div class="flex flex-wrap items-center gap-2">
           <Pill :value="said.status" :options="said.statuses" :colors="TASK_STATUS" :label="__('Status')" :readonly="!said.can_write" @change="(v) => set('status', v)" />
@@ -44,7 +39,6 @@
         <Figures v-if="figures.length" :figures="figures" :columns="figures.length" boxed class="mt-5" />
       </header>
 
-      <!-- What the workspace's extensions add to the page (one_studio/places.py). -->
       <PlaceSpot :said="placed" class="mt-4" />
       <ViewTabs v-model="view" :views="VIEWS" class="mt-5" />
 
@@ -139,11 +133,6 @@
 </template>
 
 <script setup>
-// A task's page (one_task/page/task_view): the task as one person works it
-// all day, as a project's page is for a job. Its head, then Details, Time,
-// Files and Activity. What it reads is one_task/view.py's `read`; what it
-// changes it changes as desk does. Desk's own page head above it carries
-// the main action and the rest (onedesk.island_page), from what `report` says.
 import { computed, defineAsyncComponent, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Badge, Button, Checkbox, TextInput } from "frappe-ui";
 
@@ -155,7 +144,6 @@ import { usePlace } from "../project/place";
 import TaskFiles from "./TaskFiles.vue";
 import TaskTime from "./TaskTime.vue";
 
-// The timeline brings frappe-ui's editor, so it loads when first shown.
 const Activity = defineAsyncComponent(() => import("../project/Activity.vue"));
 
 const props = defineProps({
@@ -167,14 +155,12 @@ const props = defineProps({
 });
 
 const TONE = { red: "text-ink-red-5", orange: "text-ink-amber-6", blue: "text-ink-blue-6" };
-// A field that opens another record reads as a link.
 const LINK = "text-ink-gray-8 underline decoration-outline-gray-3 underline-offset-4 hover:decoration-ink-gray-8";
 
 const name = computed(() => props.route[0]);
 const said = ref(null);
 const view = ref(props.query.view || "details");
 const fileCount = ref(null);
-// The record as its form has it: frappe's own menu items under the page's.
 const record = useRecord("Task", name);
 
 async function load() {
@@ -187,8 +173,6 @@ async function load() {
   report();
 }
 
-// Its sub-tasks and the time on it change on other records, so the page
-// listens to those lists as well as to the task itself.
 let timer = null;
 const soon = () => {
   clearTimeout(timer);
@@ -231,7 +215,6 @@ const late = (one) => !DONE.includes(one.status) && isPast(day(one.exp_end_date)
 const doneSteps = computed(() => said.value.steps.filter((one) => one.done).length);
 const doneSubs = computed(() => said.value.sub_tasks.filter((one) => one.status === "Completed").length);
 
-// The one thing worth saying above the task, if anything (view.py `headline`).
 const headline = computed(() => {
   const line = said.value?.headline;
   if (!line) return "";
@@ -241,8 +224,6 @@ const headline = computed(() => {
   return __("Due today");
 });
 
-// How far along it is: the hours against the plan, the checklist and the
-// sub-tasks, each only where the task has one.
 const figures = computed(() => {
   const s = said.value;
   const list = [];
@@ -262,8 +243,6 @@ const figures = computed(() => {
   return list;
 });
 
-// What the Details column lists beside the work: the rest of the task, each
-// only where it has a value.
 const facts = computed(() => {
   const s = said.value;
   return [
@@ -312,7 +291,6 @@ const desk = onedesk;
 const details = () => desk().task.edit(name.value, said.value.modified, load);
 const describe = () => desk().task.edit(name.value, said.value.modified, load, ["description"]);
 
-// Timing the task, as OneTask does (one_task/timer.py): one timer at a time.
 const running = ref(null);
 const timing = computed(() => running.value?.task === name.value);
 async function time() {
@@ -343,13 +321,10 @@ const timed = async () => {
   running.value = name.value && said.value?.can_time !== false ? await call("onedesk.one_task.timer.running") : null;
 };
 watch(name, timed, { immediate: true });
-// A timer paused, resumed or stopped anywhere, the rail's Timers included.
 const unheard = listen("one_timers", timed);
 onBeforeUnmount(unheard);
 watch(running, () => said.value && report());
 
-// What can be done to the task, each only for whoever may do it. A
-// template's task is never done or repeated: it is copied into projects.
 function actions(s) {
   const list = [];
   const template = s.is_template || s.status === "Template";
@@ -362,13 +337,8 @@ function actions(s) {
   return list;
 }
 
-// The Activity view is a place of its own.
 const activitySpot = usePlace("onetask_task.activity", () => (view.value === "activity" && said.value ? { task: { name: said.value.name, subject: said.value.subject } } : null));
 
-// The workspace's extensions on the task's page (one_studio/places.py): those
-// written for it are told the task, those written for a Task's head are told
-// the record as its head is. Each is lent a note and a button, or a verb in
-// the page's head, and drawn again with the page.
 const placed = reactive({ notes: [], actions: [] });
 let verbs = [];
 let drawn = null;

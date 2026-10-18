@@ -1,12 +1,7 @@
 <template>
   <Page wide>
     <Loading v-if="!said" />
-    <!-- A project template's page: what it adds up to and what it agrees
-         with the customer, then its tasks (Tasks.vue).
-         Modelled on TeamGantt's and Smartsheet's project templates. Frappe's
-         own form sidebar is on the page's right (onedesk.island_page). -->
     <div v-else class="pt-6">
-      <!-- What the workspace's extensions add to the page (one_studio/places.py). -->
       <PlaceSpot :said="placed" class="mb-4" />
       <div class="mb-4 flex items-start gap-2">
         <div class="me-auto space-y-1 text-base text-ink-gray-6">
@@ -34,10 +29,6 @@
 </template>
 
 <script setup>
-// A project template's page (one_project/page/project_template_view): the
-// template's tasks in the Tasks table in template mode. Desk's page head above
-// it carries New Project and the form's own menu; the pencil by the summary
-// changes the rest.
 import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Button } from "frappe-ui";
 
@@ -73,7 +64,6 @@ watch(
     stop?.();
     said.value = null;
     if (!now) return;
-    // Every change saves the template, so whoever has it open hears it.
     stop = follow("Project Template", now, load);
     load();
   },
@@ -93,8 +83,6 @@ const summary = computed(() => {
 const used = computed(() => (said.value.used === 1 ? __("Used by 1 project") : __("Used by {0} projects", [said.value.used])));
 const edit = () => onedesk().project.edit_template(said.value.name, said.value.modified, load);
 
-// What a project made from it starts with: its type, payment terms, terms
-// and conditions and retention, changed with the pencil beside them.
 const agreed = computed(() => {
   const s = said.value;
   return [s.project_type, s.payment_terms, s.terms, s.retention ? __("{0}% retention", [s.retention]) : ""].filter(Boolean).join(" · ");
@@ -112,8 +100,6 @@ function report() {
   props.onActions?.([...actions, ...verbs, ...record.menu({ gone: () => go("/desk/project-template") })]);
 }
 
-// Each change is the server's (template_view.py); the page reads the template
-// again once it is saved, and so does anybody else who has it open.
 const run = (method, args) => call(`${METHOD}.${method}`, { template: name.value, ...args }).then(load);
 const change = (task, field, value) => run("change", { task, field, value });
 const add = (subject, parent) => run("add", { subject, parent });
@@ -132,9 +118,6 @@ function remove(task) {
   confirm(__("Delete {0} and the tasks under it?", [one?.subject || task]), () => run("remove", { task }));
 }
 
-// The workspace's extensions on the template's page (one_studio/places.py):
-// those written for it are told the template, those written for a Project
-// Template's head are told the record as its head is.
 const placed = reactive({ notes: [], actions: [] });
 let verbs = [];
 let drawn = null;

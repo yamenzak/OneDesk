@@ -1,10 +1,5 @@
-// What the Plant Floor (one_inventory/page/plant) does, each through
-// ERPNext's own calls, asked in frappe's own dialogs as ERPNext's Plant Floor
-// asks them (manufacturing/doctype/plant_floor). `done` reads the page again.
 frappe.provide("onedesk.plant");
 
-// Stock brought onto the floor, or moved off it to another warehouse, made by
-// the Plant Floor's own make_stock_entry and opened as a draft to check.
 onedesk.plant.stock = (plant, item, purpose) => {
 	const moving = purpose === "Material Transfer";
 	frappe.prompt(

@@ -10,7 +10,6 @@ import re
 import frappe
 from frappe import _
 
-#: The kinds of field a workspace may add: what a person types or picks.
 KINDS = (
 	"Data",
 	"Small Text",
@@ -38,9 +37,6 @@ KINDS = (
 	"Tab Break",
 )
 
-#: What a field the workspace adds may say about itself, besides its kind,
-#: label, choices and place: how it is checked, shown, copied and carried.
-#: Nothing here runs; `fetch_from` is held by `_fetched`.
 ADDED = (
 	"reqd",
 	"unique",
@@ -70,10 +66,8 @@ ADDED = (
 	"collapsible",
 )
 
-#: What a Data field may hold besides any text, checked by frappe as it saves.
 DATA_OPTIONS = ("", "Email", "Name", "Phone", "URL", "Barcode", "IBAN")
 
-#: What a workspace may change about a field, or a form (`field_order`).
 PROPERTIES = (
 	"label",
 	"hidden",
@@ -96,8 +90,6 @@ PROPERTIES = (
 	"allow_in_quick_entry",
 )
 
-#: What a condition is written from: a field of the record, a plain value, a
-#: comparison, and nothing that calls or reaches past the record.
 _TOKEN = re.compile(
 	r"""\s*(?:
 		(?P<field>doc\.[a-z_][a-z0-9_]*)
@@ -125,7 +117,6 @@ def plain(condition: str | None) -> bool:
 		found = _TOKEN.match(rest)
 		if not found:
 			return False
-		# A field followed by a bracket is a call, not a comparison.
 		if last == "field" and found.group("op") == "(":
 			return False
 		last = found.lastgroup
@@ -192,7 +183,6 @@ def _fetched(doc, where: str) -> None:
 		frappe.throw(_("{0}: you cannot read {1}.").format(where, _(through.options)))
 
 
-#: The doctype defaults a module may set through set_default.
 DEFAULTS = ("default_print_format", "default_email_template")
 
 
@@ -218,25 +208,18 @@ def property_setter(doc, method=None) -> None:
 	if not held():
 		return
 	where = doc.field_name or doc.doc_type
-	# A doctype's series, written by Numbering (one/numbering.py), which has checked
-	# the doctype is the workspace's and frappe's own update_series has checked each
-	# series; only the naming_series field's options and default, and only from there.
 	if (
 		frappe.flags.one_numbering
 		and doc.field_name == "naming_series"
 		and doc.property in ("options", "default")
 	):
 		return
-	# A doctype's default print format or mail template, set through set_default by
-	# the module that has checked it (one/printing.py, one/mail_templates.py).
 	if (
 		frappe.flags.one_default
 		and doc.doctype_or_field == "DocType"
 		and doc.property == frappe.flags.one_default
 	):
 		return
-	# How a kind of record is named, from Numbering (one/numbering.py set_naming_by),
-	# which has checked the kind and the choice and writes what Customize Form would.
 	if (
 		frappe.flags.one_named_by
 		and doc.doc_type == frappe.flags.one_named_by

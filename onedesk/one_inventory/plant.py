@@ -12,7 +12,6 @@ from frappe.utils import flt
 
 from onedesk.one_inventory import floor as shop
 
-#: ERPNext's workstation statuses, in the order its Status field offers them.
 STATUSES = ("Production", "Off", "Idle", "Problem", "Maintenance", "Setup")
 
 
@@ -53,8 +52,6 @@ def read(plant: str | None = None, workstation_type: str | None = None, status: 
 	said["workstations"] = [_workstation(one) for one in shown]
 	said["figures"] = figures(everything)
 	if chosen.warehouse and frappe.has_permission("Warehouse", "read", doc=chosen.warehouse):
-		# ERPNext's summary keeps a row for every item ever there; one with
-		# nothing here and nothing on its way says nothing.
 		said["stock"] = [
 			_stock(one)
 			for one in plant_floor.get_stock_summary(chosen.warehouse)
@@ -102,7 +99,6 @@ def _workstation(one: dict) -> dict:
 				"work_order": card.work_order,
 				"item_name": frappe.get_cached_value("Item", card.production_item, "item_name"),
 				"people": [frappe.db.get_value("Employee", who, "employee_name") or who for who in people if who],
-				# Since when it has run, for the card's clock.
 				"since": str(min(log.from_time for log in logs)) if logs else None,
 			}
 		)
@@ -130,7 +126,6 @@ def _stock(one: dict) -> dict:
 		"for_making": flt(one.reserved_qty_for_production),
 		"coming": flt(one.pending_qty),
 		"uom": frappe.get_cached_value("Item", one.item_code, "stock_uom"),
-		# The unit by its symbol where the workspace gave it one (m² for Square Meter).
 		"unit": frappe.get_cached_value("UOM", frappe.get_cached_value("Item", one.item_code, "stock_uom"), "symbol")
 		or frappe.get_cached_value("Item", one.item_code, "stock_uom"),
 	}

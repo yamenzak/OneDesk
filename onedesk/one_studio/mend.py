@@ -10,10 +10,8 @@ from onedesk.one_studio import extensions, guard
 
 MEND = "studio_mend"
 
-#: An extension's Errors tab (one/tabs.py), drawn by extension_errors.js.
 TABS = [{"name": "errors", "label": _lt("Errors"), "order": 85, "doctypes": ("Extension",)}]
 
-#: How many of its latest errors it is shown, and how much of each.
 ERRORS, EACH = 5, 3000
 
 
@@ -175,7 +173,6 @@ def in_background(extension: str, told: str, problem: str | None = None) -> None
 		user=told,
 		after_commit=True,
 	)
-	# The page may be closed by now: "you will be told" is kept on the bell.
 	from onedesk.one_studio import tell
 
 	tell.extension_fixed(told, extension, title, message)

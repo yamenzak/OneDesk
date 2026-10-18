@@ -8,7 +8,6 @@ from frappe.utils import flt, get_first_day, getdate, nowdate, sbool
 
 from onedesk.one_project import hours, tree
 
-#: Task statuses that are no longer work to do.
 DONE = ("Completed", "Cancelled", "Template")
 
 
@@ -43,7 +42,6 @@ def team(
 		if row.user:
 			one = person(row.user)
 			one["member"] = True
-			# What a member who signs in on the portal sees there (portal.py `view`).
 			one["timesheets"] = not row.hide_timesheets
 			one["files"] = bool(row.view_attachments)
 	if doc.get("one_manager"):
@@ -89,8 +87,6 @@ def team(
 			fields=["name", "full_name", "user_image", "enabled", "user_type"],
 		)
 	}
-	# Each person's job, from their Employee record: by their user, or the
-	# employee a timesheet was for when they have no sign-in.
 	jobs = {}
 	for employee in frappe.get_all(
 		"Employee",
@@ -111,7 +107,6 @@ def team(
 		one.pop("shown", None)
 		one["image"] = known.user_image if known else None
 		one["portal"] = bool(known and known.user_type == "Website User")
-		# Only a user who can sign in can be made a member.
 		one["can_join"] = bool(known and known.enabled) and not one["member"]
 		one["hours"] = round(one["hours"], 1)
 		one["month"] = round(one["month"], 1)

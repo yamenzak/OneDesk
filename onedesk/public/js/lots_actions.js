@@ -1,11 +1,5 @@
-// What the Batch and Serial No page (one_inventory/page/lots) and an item's Stock tab do,
-// each through frappe's own calls on ERPNext's records, asked in frappe's own
-// dialogs. `done` reads the page again.
 frappe.provide("onedesk.lots");
 
-// Keeping an item in lots or by serial number, in one step: the item's own
-// fields, saved together, so ERPNext's rules on them apply (an item that has
-// moved already cannot change how it is kept).
 onedesk.lots.track = (item, done) => {
 	const dialog = new frappe.ui.Dialog({
 		title: __("Track Batches"),
@@ -18,7 +12,6 @@ onedesk.lots.track = (item, done) => {
 				default: item || "",
 				reqd: 1,
 				read_only: item ? 1 : 0,
-				// Items that have never moved: ERPNext fixes how an item is kept once it has.
 				get_query: () => ({ query: "onedesk.one_inventory.lots.can_be_tracked" }),
 			},
 			{
@@ -78,9 +71,6 @@ onedesk.lots.track = (item, done) => {
 	dialog.show();
 };
 
-// A new lot of an item kept in lots: its number (left empty when the item
-// numbers its lots itself), when it was made and when it goes off, which
-// ERPNext works out from the item's shelf life when it is left empty.
 onedesk.lots.new_lot = async (item, done) => {
 	const auto = item ? await frappe.db.get_value("Item", item, ["create_new_batch", "has_expiry_date"]) : null;
 	const own = auto?.message || {};
@@ -133,8 +123,6 @@ onedesk.lots.new_lot = async (item, done) => {
 	dialog.show();
 };
 
-// Lots and serial numbers are off in ERPNext until a workspace turns them on,
-// as the Inventory Check's fix does (one_inventory/ready.py).
 onedesk.lots.switch_on = (done) =>
 	frappe.confirm(__("Let items be kept in batches or by Serial No?"), async () => {
 		await frappe.xcall("onedesk.one_inventory.ready.fix", { key: "serials" });

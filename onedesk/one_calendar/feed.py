@@ -16,13 +16,10 @@ from frappe.utils.password import get_decrypted_password
 
 from onedesk.one_calendar import layers
 
-#: The days a subscription carries, before today and after it.
 BEHIND, AHEAD = 60, 365
 
-#: What the method is called at, for the address.
 METHOD = "onedesk.one_calendar.feed.ics"
 
-#: The longest line the format allows, in bytes.
 LINE = 75
 
 
@@ -103,8 +100,6 @@ def _addresses(token: str) -> dict:
 		"https": address,
 		"webcal": "webcal://" + address.split("://", 1)[1],
 		"name": f"{frappe.get_hooks('app_title', app_name='onedesk')[0]} · {frappe.utils.get_fullname()}",
-		# What it carries, as the reader's calendar names its layers, and when
-		# an app last read it, so the person can see that it works.
 		"carries": [one["label"] for one in layers.offered() if one["on"]],
 		"last_read": frappe.db.get_value("Calendar Feed", frappe.session.user, "last_read"),
 	}
@@ -117,8 +112,6 @@ def stop() -> None:
 
 
 @frappe.whitelist(allow_guest=True, methods=["GET"])
-# Per link, not per address: Google reads everybody's calendar from the same
-# few servers, and a limit per address would cut off a whole workspace at once.
 @rate_limit(key="token", ip_based=False, limit=60, seconds=60 * 60)
 def ics(token: str) -> None:
 	"""The calendar behind a link, as the person it belongs to."""
@@ -168,9 +161,6 @@ def _as(user: str):
 
 def _hash(token: str) -> str:
 	return hashlib.sha256(token.encode()).hexdigest()
-
-
-# ----------------------------------------------------------- the format
 
 
 def calendar(found: list[dict], name: str, zone, now: datetime, site: str) -> str:

@@ -10,8 +10,6 @@ from frappe import _, _lt
 from . import assemble
 from .documents import DOCUMENTS
 
-#: Each document's title and summary, for the dialog in the reader's language.
-#: Here, because a translated title in documents.py would change the hash.
 SHOWN = (
 	_lt("Terms of Service"),
 	_lt("The agreement between your organisation and Four Degree Labs for the use of One."),
@@ -34,7 +32,6 @@ SHOWN = (
 WORKSPACE = "Workspace"
 USER = "User"
 
-#: Who has to accept what. `both` lands in each list, for the reason above.
 AUDIENCE = {"customer": (WORKSPACE,), "user": (USER,), "both": (WORKSPACE, USER)}
 
 
@@ -94,9 +91,6 @@ def standing(user: str | None = None) -> list[dict]:
 		version = assemble.version_of(key)
 		for party in AUDIENCE[one["audience"]]:
 			if party == WORKSPACE and not binds:
-				# Somebody else's to accept. It still blocks the workspace, but
-				# not this person — telling them to accept a contract they
-				# cannot bind is telling them to do the impossible.
 				continue
 			was = _accepted(key, party, user)
 			rows.append(

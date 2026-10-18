@@ -1,18 +1,6 @@
-// Projects: where each one stands, in one pill. An open project's pill is its
-// health (On Track, At Risk, Off Track), since every open project would
-// otherwise read "Open"; a finished one says Completed or Cancelled. ERPNext's
-// list put "33%" in place of Open once a task was done; how far it has got is
-// its own column. The manager reads as a name because every link to a person
-// does (`show_title_field_in_link` on User).
-//
-// A sub-project reads by its own name, then the project it is under, quieter:
-// "Handrails · Villa Al Barsha". The column is narrow and its own name is
-// what tells two sub-projects apart. A parent on the page is read off the
-// page, one that isn't is asked for once.
 const ONE_PARENTS = {};
 const HEALTH = { "On Track": "green", "At Risk": "orange", "Off Track": "red" };
 
-// The parent's part of the name, quieter. frappe writes the name as text.
 function quiet(listview) {
 	listview.$result.find(".list-row a.ellipsis[data-name]").each((_, link) => {
 		const doc = listview.data.find((one) => one.name === link.dataset.name);
@@ -25,11 +13,6 @@ function quiet(listview) {
 	});
 }
 
-// Every view of Projects (List, Report, Kanban, Timeline, the counts and the
-// sidebar's groups) leaves out an employee's onboarding or exit checklist
-// (one_hr/lifecycle.py). It is asked for with every load but never shown as
-// a filter, so the list does not read "Filters 1" on a page nobody narrowed.
-// Filtering on the type yourself takes its place.
 const BOARDING = ["Project", "project_type", "!=", "Employee Boarding"];
 (() => {
 	const List = frappe.views.ListView;
@@ -41,7 +24,6 @@ const BOARDING = ["Project", "project_type", "!=", "Employee Boarding"];
 		if (this.doctype !== "Project" || filters.some((one) => one[1] === "project_type")) return filters;
 		return [...filters, BOARDING];
 	};
-	// The address carries only what somebody chose.
 	const search = List.prototype.get_search_params;
 	List.prototype.get_search_params = function () {
 		const params = search.call(this);
@@ -52,8 +34,6 @@ const BOARDING = ["Project", "project_type", "!=", "Employee Boarding"];
 	};
 })();
 
-// The list is a place for the workspace's extensions (one_studio/places.py):
-// told the projects on the page, it lends a spot above them.
 function told(listview) {
 	const places = onedesk.places;
 	listview.$one_spot && listview.$one_spot.remove();
@@ -82,13 +62,7 @@ function told(listview) {
 frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Project"] || {}, {
 	hide_name_column: true,
 	hide_name_filter: true,
-	// Every project, finished ones too, as the rail's Projects says. ERPNext
-	// opens on Open alone, which also brings its own "Open" layout and its
-	// columns (List Filter, Project-Open) in place of these.
 	filters: [],
-	// OneProject's panel lists its four places (project_places.js): the rest
-	// of its setup is in this menu. Projects Settings has four ticks about time; it is opened from here
-	// by whoever may change it.
 	onload(listview) {
 		if (frappe.model.can_read("Activity Type")) {
 			listview.page.add_menu_item(__("Activity Type"), () => frappe.set_route("List", "Activity Type"));
@@ -100,7 +74,6 @@ frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Pr
 			listview.page.add_menu_item(__("Projects Settings"), () => frappe.set_route("Form", "Projects Settings"));
 		}
 	},
-	// A bar on the Timeline says how far along it is and when it ends.
 	gantt_custom_popup_html(task, item) {
 		const ends = item && item.expected_end_date ? frappe.datetime.str_to_user(item.expected_end_date) : "";
 		const done = __("{0}% done", [Math.round((item && item.percent_complete) || 0)]);
@@ -115,7 +88,6 @@ frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Pr
 		return [__(doc.status), colour, `status,=,${doc.status}`];
 	},
 	formatters: {
-		// frappe draws the bar alone; the figure is beside it.
 		percent_complete(value) {
 			const done = Math.round(value || 0);
 			return `<div class="flex align-center" style="gap: var(--padding-sm); width: 100%;">
@@ -131,7 +103,6 @@ frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Pr
 			return up ? `${value} · ${up}` : value;
 		},
 	},
-	// The parents on the page are known before its rows are drawn.
 	before_render() {
 		const listview = window.cur_list;
 		if (listview && listview.doctype === "Project") {
@@ -155,9 +126,6 @@ frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Pr
 	},
 });
 
-// The Timeline leaves out an employee's onboarding or exit checklist, as the
-// rail's Projects and the Tree do (one_hr/lifecycle.py); it reads the type.
-// The pill reads the health, and the name the project it is under.
 (frappe.listview_settings["Project"].add_fields = frappe.listview_settings["Project"].add_fields || []).push(
 	"status",
 	"one_kind",
@@ -169,14 +137,10 @@ frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Pr
 	"one_parent"
 );
 
-// The other views of Projects.
 (() => {
 	const Report = frappe.views.ReportView;
 	if (Report && !Report.prototype.one_projects) {
 		Report.prototype.one_projects = true;
-		// The ID column already reads as the project's name (Project shows its
-		// title in a link) and opens it, so it is the Project column, and the
-		// Project Name column beside it would only say the same again.
 		const fields = Report.prototype.set_default_fields;
 		Report.prototype.set_default_fields = function () {
 			fields.call(this);
@@ -184,8 +148,6 @@ frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Pr
 				this.fields = this.fields.filter(([name]) => !["project_name", "one_cover"].includes(name));
 			}
 		};
-		// The name is asked for with the rows, so the Project column reads it
-		// rather than the ID frappe draws until it learns the title.
 		const asked = Report.prototype.get_fields;
 		Report.prototype.get_fields = function () {
 			const fields = asked.call(this);
@@ -206,8 +168,6 @@ frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Pr
 			if (built && this.doctype === "Project" && c[0] === "name" && (c[1] || "Project") === "Project") {
 				built.name = built.content = __("Project");
 			}
-			// Health is how an open project is going: a finished or cancelled
-			// one says nothing there, as its pill and its head say nothing.
 			if (built && this.doctype === "Project" && c[0] === "one_health") {
 				const format = built.format;
 				built.format = (value, row, column, data) => {
@@ -219,13 +179,9 @@ frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Pr
 		};
 	}
 
-	// The dashboard is OneProject's cards and charts (one_project/number_card,
-	// one_project/dashboard_chart). ERPNext's two count every project, the
-	// HR checklists with them, by when it was last changed.
 	const Dashboard = frappe.views.DashboardView;
 	if (Dashboard && !Dashboard.prototype.one_projects) {
 		Dashboard.prototype.one_projects = true;
-		// Where things stand first, then who and what for, then over time.
 		const ORDER = [
 			"Projects Under Way",
 			"Projects at Risk",
@@ -241,7 +197,6 @@ frappe.listview_settings["Project"] = Object.assign(frappe.listview_settings["Pr
 			if (this.doctype !== "Project") return fetch.call(this, doctype, filters, obj_name);
 			return fetch.call(this, doctype, { ...filters, module: "One Project" }, obj_name).then(() => {
 				this[obj_name].sort((a, b) => ORDER.indexOf(a.name) - ORDER.indexOf(b.name));
-				// Twelve months read better across the page.
 				for (const item of this[obj_name]) if (item.timeseries) item.width = "Full";
 			});
 		};

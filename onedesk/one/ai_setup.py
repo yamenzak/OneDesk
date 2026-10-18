@@ -17,13 +17,10 @@ from frappe.utils import validate_email_address
 from onedesk.one import access, reports, roles
 from onedesk.one.customize import REFUSED_MODULES
 
-#: Fields every record has, which a report may show and filter on.
 STANDARD = ("name", "owner", "creation", "modified", "docstatus")
 
-#: How a filter compares, as frappe takes it.
 OPERATORS = ("=", "!=", ">", "<", ">=", "<=", "like", "not like", "in", "not in", "is")
 
-#: A right as somebody would say it, and frappe's name for it.
 RIGHT_WORDS = {
 	"pick": "select",
 	"select": "select",
@@ -41,7 +38,6 @@ RIGHT_WORDS = {
 	"export": "export",
 }
 
-#: How a right is said on a card.
 VERB = {
 	"select": "pick",
 	"read": "read",
@@ -168,9 +164,6 @@ def _person(who: str) -> str:
 	if len(found) != 1:
 		raise Mend(f"{who} is {'nobody' if not found else 'more than one person'} here; give their address.")
 	return found[0]
-
-
-# ------------------------------------------------------------------ the tools
 
 
 def suggest_saved_report(
@@ -504,8 +497,6 @@ def suggest_level(
 				raise Mend(f"{one['doctype']} is not a kind of record {app} works with.")
 		key = access.key_of(app, starts_as if new else name)
 		rows = access.level(key)["rows"]
-		# Only what would change: a right it holds already is not given, nor
-		# one it lacks taken away, so the card says no more than happens.
 		have = {row["doctype"]: {r for r in access.RIGHTS if row.get(r)} for row in rows}
 		give = [
 			g
@@ -734,21 +725,15 @@ for _tool in (
 	_tool.action = "workspace_setup"
 
 
-# ------------------------------------------------------------------ approving
-
-
 def apply(changes: dict) -> str:
 	"""A Setup card approved: the page's own code, as whoever pressed Approve.
 	Returns what was made or changed."""
 	what = changes.get("what")
 	if what == "template":
-		# A project template OneAI drafted, made as the library makes one (one_project/library.py).
 		from onedesk.one_project import library
 
 		return library.drafted(changes["preset"])
 	if what in ("project", "status", "milestone", "time", "budget", "member", "contact"):
-		# A new project, made as the New Project dialog makes one, or somebody on a
-		# project's team or among its contacts, added by the Team view's own code.
 		from onedesk.one_project import ai as project_ai
 
 		return project_ai.approved(changes)
@@ -784,7 +769,6 @@ def apply(changes: dict) -> str:
 		return made.name
 	if what == "mail":
 		roles.require()
-		# It runs as, and shows what is seen by, whoever approved it.
 		return frappe.get_doc({**changes["doc"], "user": frappe.session.user}).insert().name
 	if what == "level":
 		roles.require()

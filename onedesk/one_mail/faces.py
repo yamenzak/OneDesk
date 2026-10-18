@@ -11,20 +11,15 @@ import frappe
 import requests
 from frappe.utils import add_days, now_datetime
 
-# Domains that are somebody's mail provider rather than their organisation.
 from onedesk.one_intake.identifiers import PROVIDERS
 
-#: Where pictures are kept: the Logos folder in Company.
 FOLDER, FOLDER_NAME = "Home/Logos", "Logos"
 
-#: A picture larger than this is not kept.
 LARGEST = 256 * 1024
 
-#: Seconds each source is given to answer.
 PATIENCE = 8
 
-#: How long a face not found is left before it is looked for again.
-AGAIN_AFTER = 30  # days
+AGAIN_AFTER = 30
 
 
 EXTENSIONS = {
@@ -35,9 +30,6 @@ EXTENSIONS = {
 	"image/x-icon": "ico",
 	"image/vnd.microsoft.icon": "ico",
 }
-
-
-# ------------------------------------------------------------------ pure
 
 
 def domain_of(address: str | None) -> str | None:
@@ -90,9 +82,6 @@ def file_name(key: str, content_type: str) -> str:
 	return f"{key}.{EXTENSIONS.get(content_type.split(';')[0].strip(), 'png')}"
 
 
-# ------------------------------------------------------------------ reading
-
-
 def lookup(addresses: list[str]) -> dict[str, str]:
 	"""The picture to draw for each address, where there is one: its
 	Contact's, else its person's face, else its organisation's logo. Those
@@ -141,9 +130,6 @@ def lookup(addresses: list[str]) -> dict[str, str]:
 	return out
 
 
-# ------------------------------------------------------------------ fetching
-
-
 def folder() -> str:
 	"""the Logos folder in Company, made the first time it is needed."""
 	if not frappe.db.exists("File", FOLDER):
@@ -174,7 +160,6 @@ def fetch(key: str) -> str | None:
 		if answer.status_code == 200 and kind.startswith("image/") and 0 < len(answer.content) <= LARGEST:
 			image = _keep(key, answer.content, kind)
 	except requests.RequestException:
-		# Unreachable is not "has none": look again on the next pass.
 		return None
 	values = {
 		"kind": "Person" if is_person(key) else "Organisation",
@@ -214,10 +199,6 @@ def again() -> None:
 		fetch_many(stale)
 
 
-# ------------------------------------------------------------------ records
-
-#: The image field each kind of record is dressed in, and whether it is a
-#: person (a face first) or an organisation (a logo first).
 DRESSED = {
 	"Contact": ("image", "person"),
 	"Lead": ("image", "person"),
@@ -231,7 +212,6 @@ DRESSED = {
 	"Brand": ("image", "bank"),
 }
 
-#: Users who are nobody to look for.
 NOBODY = ("Administrator", "Guest")
 
 
@@ -345,7 +325,6 @@ def dress(doctype: str, name: str) -> str | None:
 		return None
 	frappe.db.set_value(doctype, name, field, image, update_modified=False)
 	if doctype == "Company":
-		# A drawn letter head shows the logo as soon as there is one.
 		from onedesk.one import letter_heads
 
 		letter_heads.redraw()

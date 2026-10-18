@@ -1,9 +1,5 @@
 <template>
-  <!-- The project's head: its Featured Media turning behind its name and
-       what its kind is watched by, changed right here (Hero.vue, Facts.vue),
-       everyone on it in the corner, which opens Team. -->
   <header class="pt-6">
-    <!-- With no photos, a quiet panel in their place, laid out the same. -->
     <div v-if="!said.media.length" class="relative rounded-7 bg-surface-gray-2 p-6 lg:p-8">
       <Button v-if="said.can_write" class="absolute end-4 top-4 lg:end-6 lg:top-6" variant="outline" icon-left="lucide-image-plus" :label="__('Add Cover')" @click="add" />
       <div class="mb-2 text-sm font-medium uppercase tracking-widest text-ink-gray-5">{{ __(said.kind) }}</div>
@@ -31,7 +27,6 @@
           </button>
         </template>
       </Hero>
-      <!-- On a phone the photo is too small to carry the facts. -->
       <Facts class="mt-4 sm:hidden" :said="said" @change="relay" />
     </template>
 
@@ -54,7 +49,6 @@ const props = defineProps({
 });
 const emit = defineEmits(["change", "media", "view"]);
 const relay = (fieldname, value) => emit("change", fieldname, value);
-// Everyone Team lists, manager first (view.py "people").
 const users = computed(() => props.said.people.map((one) => one.user));
 const teamPeople = computed(() => Object.fromEntries(props.said.people.map((one) => [one.user, one])));
 
@@ -65,8 +59,6 @@ function show(i) {
   viewing.value = true;
 }
 
-// frappe's upload dialog, sending what is picked to the project's Featured
-// Media (one_project/media.py `add`).
 const add = () =>
   upload("Project", props.said.name, () => emit("media"), {
     method: "onedesk.one_project.media.add",

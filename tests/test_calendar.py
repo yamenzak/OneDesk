@@ -99,7 +99,7 @@ def test_a_weekly_event_repeats_on_its_days_and_keeps_its_hour():
 
 
 def test_a_weekly_event_with_no_day_ticked_repeats_on_its_own_weekday():
-	one = _event(repeat_this_event=1, repeat_on="Weekly")  # 7 September 2026 is a Monday
+	one = _event(repeat_this_event=1, repeat_on="Weekly")
 	found = EVENTS["occurrences"](one, date(2026, 9, 1), date(2026, 9, 30))
 	assert [start.day for start, _ in found] == [7, 14, 21, 28]
 
@@ -248,8 +248,6 @@ def test_nothing_is_copied_into_an_event():
 	]:
 		said = path.read_text()
 		if path.name == "events.py":
-			# New Event as the person makes it, and a guest's Contact: made on
-			# purpose, never copied from another record.
 			for name in ("make", "contact"):
 				said = re.sub(rf"\ndef {name}\(.*?(?=\ndef |\Z)", "", said, flags=re.S)
 		assert '"doctype": "Event", "' not in said and 'new_doc("Event"' not in said, path.name
@@ -287,9 +285,6 @@ def test_a_deal_a_lead_and_an_employee_have_calendars_of_their_own():
 	for script in ("opportunity.js", "lead.js", "employee.js", "project.js"):
 		assert "onedesk.record_calendar(frm)" in (tree.APP / "public" / "js" / script).read_text(), script
 	assert '"/assets/onedesk/js/record_calendar.js"' in HOOKS
-
-
-# ------------------------------------------------------------------ the passover
 
 
 def _tell():

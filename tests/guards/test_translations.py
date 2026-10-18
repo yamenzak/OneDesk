@@ -27,10 +27,8 @@ ROOT = Path(__file__).resolve().parents[2]
 LOCALE = ROOT / "onedesk" / "locale"
 BENCH = Path("/home/frappe/bench1/apps")
 
-#: Languages kept complete in the repo.
 SHIPPED = ("ar", "de")
 
-#: Whose catalogues a reader of our site also has loaded.
 UPSTREAM = ("frappe", "erpnext", "hrms")
 
 ENTRY = re.compile(r"^msgid ((?:\"[^\n]*\"\n)+)msgstr ((?:\"[^\n]*\"\n?)+)", re.M)

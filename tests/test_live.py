@@ -27,7 +27,6 @@ CATALOGUE = tree.APP / "one_admin" / "catalogue.py"
 MODEL = tree.APP / "one_admin" / "doctype" / "ai_model" / "ai_model.py"
 METER = tree.APP / "one_admin" / "meter.py"
 
-#: The two readers, lifted out of `gateway.py` — they touch nothing but `json`.
 LIFTED = (
 	"_workers_ai_said",
 	"_without_thinking",
@@ -42,7 +41,6 @@ def readers():
 	body = ast.parse(GATEWAY.read_text(encoding="utf-8"))
 	wanted = [n for n in body.body if isinstance(n, ast.FunctionDef) and n.name in LIFTED]
 	assert len(wanted) == len(LIFTED), "a reader was renamed and this guard was not"
-	# `_workers_ai_said` reads a constant its own module defines.
 	room: dict = {"json": json, "re": re, "THINKING": "</think>", "CHANNEL": "<channel|>"}
 	exec(compile(ast.Module(body=wanted, type_ignores=[]), str(GATEWAY), "exec"), room)
 	return room
@@ -53,9 +51,6 @@ def spoken(where: Path, name: str) -> str:
 		if isinstance(node, ast.FunctionDef) and node.name == name:
 			return ast.unparse(node)
 	raise AssertionError(f"{name} is not in {where.name}")
-
-
-# ------------------------------------------- Workers AI answers in two shapes
 
 
 def test_the_classic_shape_is_read():
@@ -89,16 +84,12 @@ def test_a_reasoning_model_that_says_nothing_has_still_answered():
 	`content` altogether. That is the model saying nothing, not a shape nobody
 	has seen — and the difference decides whether a paid call raises."""
 	room = readers()
-	# Both field names, and both ways of saying there are no words: absent on
-	# `/ai/run`, an explicit null on the gateway's endpoint.
 	for message in (
 		{"reasoning_content": "hm"},
 		{"content": None, "reasoning": "hm", "refusal": None},
 	):
 		spent = {"choices": [{"finish_reason": "length", "message": message}]}
 		assert room["_workers_ai_said"](spent) == ""
-	# A body with no choices at all is still unreadable, which is the case the
-	# guard in `_answered` exists for.
 	assert room["_workers_ai_said"]({"oops": True}) is None
 
 
@@ -119,7 +110,6 @@ def test_thinking_inside_the_answer_is_cut_off():
 		{"choices": [{"message": {"content": "<think>hm, let me count</think>There are 6."}}]}
 	)
 	assert said == "There are 6."
-	# A model that never opened one is left exactly as it wrote.
 	assert readers()["_without_thinking"]("plain words") == "plain words"
 
 
@@ -181,9 +171,6 @@ def test_a_tool_call_is_found_in_either_shape():
 		assert said(body) == [{"id": "c1", "tool": "count_records", "args": {"doctype": "ToDo"}}]
 
 
-# --------------------------------------------- Google is stricter about schema
-
-
 def test_an_array_parameter_declares_what_is_in_it():
 	"""Measured: gemini-2.5-flash-lite answers 400 with
 	`properties[fields].items: missing field` for an array with no `items`.
@@ -228,12 +215,8 @@ def test_gemini_threes_thought_signature_is_carried_back():
 	back = room["_gemini_turn"]({"role": "model", "text": "", "calls": asked})
 	assert back["parts"][0]["thoughtSignature"] == "EuIDCt8D"
 
-	# And nothing invented where the model sent none.
 	asked[0]["signature"] = None
 	assert "thoughtSignature" not in room["_gemini_turn"]({"role": "model", "calls": asked})["parts"][0]
-
-
-# ------------------------------------------ a refusal keeps its name and words
 
 
 def test_the_other_sides_exception_type_wins_over_the_status():
@@ -250,9 +233,6 @@ def test_the_proxy_throws_rather_than_letting_a_fault_propagate():
 	said = spoken(PROXY, "ai_run")
 	assert "faults.Refused" in said
 	assert "frappe.throw" in said
-
-
-# ------------------------------- a provider may reclassify or drop a model
 
 
 def test_a_withdrawn_model_lets_go_of_its_default():

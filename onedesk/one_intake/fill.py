@@ -11,10 +11,8 @@ import frappe
 
 from onedesk.one_ai import kind
 
-#: The AI action that fills a record's missing fields from a document.
 FILL = "intake_fill"
 
-#: How much of a document the model is shown.
 MOST = 12000
 
 

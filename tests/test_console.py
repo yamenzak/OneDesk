@@ -22,26 +22,13 @@ import tree
 ADMIN = tree.APP / "one_admin"
 OPERATOR = "One Operator"
 
-#: Fieldtypes nobody can type into: the ones that arrange a form and the ones
-#: that only draw. `read_only` on them means nothing, so a guard that demands it
-#: fails on a layout choice rather than on a mistake.
 NOT_A_FIELD = ("Section Break", "Column Break", "Tab Break", "HTML", "Heading", "Image")
 
-#: OneAdmin's own doctypes that are deliberately not in the rail, and why.
-#: Anything else missing from it is an oversight rather than a decision.
 UNRAILED = {
-	# Stripe's deliveries and the unique index that makes a redelivery harmless.
-	# There is nothing to do on this screen; it is read when a payment is being
-	# chased, by somebody who will type its name.
 	"Stripe Webhook Event",
-	# A hold lives for the length of one model call. The only question anybody
-	# asks about one — how much of a balance is promised — is answered on the
-	# balance itself, and a stale one is let go nightly rather than by hand.
 	"Credit Reservation",
 }
 
-#: Records made by the machinery that also fills them in. An operator typing one
-#: gets a half-record every screen then reads as though it were real.
 MADE_FOR_YOU = {
 	"Tenant",
 	"Provisioning Job",
@@ -84,8 +71,6 @@ def test_the_console_is_gated_on_the_operator_role():
 	"""The whole of the hiding, and the only thing standing between a tenant and it."""
 	roles = [row["role"] for row in _workspace().get("roles") or []]
 	assert roles == [OPERATOR], f"the OneAdmin page grants {roles}"
-	# frappe offers every workspace to Workspace Manager whatever its roles say,
-	# so the boot is told of OneAdmin only for an operator on the admin site.
 	assert '"onedesk.one_admin.site.offer"' in (tree.APP / "hooks.py").read_text()
 	offer = (ADMIN / "site.py").read_text().split("def offer(", 1)[1]
 	assert "is_admin() and OPERATOR in frappe.get_roles()" in offer and "pop(MODULE" in offer
@@ -121,7 +106,6 @@ def test_the_home_page_names_number_cards_that_exist():
 	}
 	named = {row["number_card_name"] for row in _workspace().get("number_cards") or []}
 	assert named <= shipped, f"the home page names cards that do not exist: {named - shipped}"
-	# The layout names a card by the workspace's own row label, not the card.
 	labels = {row["label"] for row in _workspace()["number_cards"]}
 	laid = {
 		one["data"]["number_card_name"]
@@ -544,7 +528,6 @@ def test_an_action_nobody_picked_a_model_for_still_runs_on_gemini():
 	assert 'PREFERRED = "google-ai-studio"' in actions and "def default_model(" in actions
 	choose = actions.split("def _model(")[1].split("\ndef ")[0]
 	assert "fallback = action_default(asked)" in choose and "is not a model this account offers" not in choose
-	# An action may name its own model (Print Design); else the capability's.
 	assert (
 		"return default_model(asked.capability)" in actions.split("def action_default(")[1].split("\ndef ")[0]
 	)

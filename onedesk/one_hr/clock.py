@@ -9,9 +9,6 @@ from onedesk.one_hr import away, gates, ledger, own, policy, presence, rules, te
 IN = "IN"
 OUT = "OUT"
 
-#: Where somebody has to be for a direction to make sense. On leave or on a
-#: holiday there is no honest answer, so the control is not offered and this
-#: refuses.
 DIRECTIONS = {"in": OUT, "late": OUT, "out": IN, "absent": IN, "unknown": IN}
 
 
@@ -37,8 +34,6 @@ def ready() -> dict:
 		"direction": DIRECTIONS.get(state.get("state"), ""),
 		"state": state.get("state") or "",
 		"since": state.get("since") or "",
-		# Today's shift start, and whether they are past it: arrived after it,
-		# or not here yet and it has gone.
 		"due": str(start) if start else "",
 		"late": is_late(employee, state, start),
 		"why": "" if DIRECTIONS.get(state.get("state")) else state.get("state") or "",
@@ -99,8 +94,6 @@ def punch(credential=None, position=None, seen=None, reason=None, photo=None) ->
 	if not policy.self_service():
 		frappe.throw(_("Checking yourself in is not enabled on this site."))
 
-	# This endpoint answers only in what it returns, so anything a gate or a caught
-	# permission check leaves in the message log is cut before it joins the refusal dialog.
 	said = len(frappe.local.message_log)
 
 	seen = frappe.parse_json(seen) if isinstance(seen, str) else (seen or {})
@@ -152,9 +145,6 @@ def punch(credential=None, position=None, seen=None, reason=None, photo=None) ->
 	try:
 		checkin = _write(employee, direction, place, reason, attempt)
 	except frappe.ValidationError as refused:
-		# HRMS said no after our gates said yes — its own radius, its duplicate
-		# window, a workspace's own rule. The attempt stands as the record of it
-		# rather than being rolled back into silence.
 		frappe.db.rollback()
 		frappe.db.set_value("Clock Attempt", attempt, "outcome", "Refused", update_modified=False)
 		frappe.db.commit()
@@ -210,8 +200,6 @@ def _refused(attempt: str, score: int, signals: list[str]) -> dict:
 
 
 def _write(employee: str, direction: str, place: dict, reason, attempt: str) -> str:
-	# What an `after_insert` hook says is not about whether the row was accepted, and
-	# HRMS's telemetry leaves a "Duplicate Name" message on every clock-in after the first.
 	said = len(frappe.local.message_log)
 
 	log = frappe.new_doc("Employee Checkin")

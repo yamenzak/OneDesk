@@ -13,16 +13,12 @@ from frappe.utils import add_days, add_months, flt, get_first_day, getdate, toda
 
 from onedesk.one_crm import chain, measure, stages
 
-#: How many months the story looks back over, this one included.
 MONTHS = 12
 
-#: How many months ahead the forecast looks, this one not included.
 AHEAD = 5
 
-#: How many owners, sources or territories a chart names.
 FEW = 8
 
-#: The papers an opportunity becomes, in order, as the funnel counts them.
 FUNNEL = ("Opportunity", "Quotation", "Sales Order", "Sales Invoice", "Paid")
 
 

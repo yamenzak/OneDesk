@@ -17,8 +17,6 @@ from onedesk.one_admin import billing, offerings, plans, site
 
 GB = 1024**3
 
-#: What a plan no add-on can top up is short of. Credits have no monthly
-#: add-on, only packs bought once, so a plan short of them stays short.
 SHORT = {
 	"seats": _lt("seats"),
 	"storage_gb": _lt("storage"),
@@ -52,7 +50,6 @@ def execute(filters=None):
 				else _("Cheapest")
 				if at == 0
 				else fmt_money(option["monthly"] - options[0]["monthly"], currency=currency),
-				# Not columns: what the formatter colours Dearer By by.
 				"cheapest": at == 0 and not option["unmet"],
 				"short": bool(option["unmet"]),
 				"theirs": _("Current plan") if held and option["plan"].key == held.offering else "",

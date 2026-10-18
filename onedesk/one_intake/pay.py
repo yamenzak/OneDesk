@@ -9,10 +9,8 @@ from frappe import _
 
 from onedesk.one_intake import identifiers as ids
 
-#: What the EPC code may carry (EPC069-12): euro only, up to this amount.
 MOST = 999_999_999.99
 
-#: Nothing to pay: paid already, or the bank collects it.
 NOT_BY_TRANSFER = ("Direct Debit", "Already Paid")
 
 

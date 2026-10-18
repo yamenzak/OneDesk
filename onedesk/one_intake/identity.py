@@ -10,7 +10,6 @@ from frappe import _
 
 from onedesk.one_intake import identifiers as ids
 
-#: How much one matching identifier says, alone. Two together say more.
 WEIGHT = {
 	ids.IBAN: 0.99,
 	ids.VAT: 0.99,
@@ -22,15 +21,10 @@ WEIGHT = {
 	ids.DOMAIN: 0.6,
 }
 
-#: Records that are one person. A mail domain is an organisation's, so it
-#: never says which of its people somebody is.
 PEOPLE = ("Contact", "Employee", "Job Applicant")
 
-#: A match this sure, this far ahead of the next, is taken as certain.
 CERTAIN, AHEAD = 0.9, 0.2
 
-#: Where each record keeps what says who it is: (kind, field) on the record,
-#: and (kind, table, field) in a child table.
 FIELDS = {
 	"Contact": [(ids.EMAIL, "email_ids", "email_id"), (ids.PHONE, "phone_nos", "phone")],
 	"Customer": [("Tax ID", "tax_id"), (ids.WEBSITE, "website"), (ids.EMAIL, "email_id"), (ids.PHONE, "mobile_no")],
@@ -58,11 +52,8 @@ FIELDS = {
 	"Address": [(ids.EMAIL, "email_id"), (ids.PHONE, "phone")],
 }
 
-#: What a record's identifiers belong to when it is not itself somebody:
-#: a Bank Account's IBAN is its party's, an Address's email its parties'.
 ELSEWHERE = ("Bank Account", "Address")
 
-#: Records flagged when they arrive holding what another of their kind holds.
 FLAGGED = ("Contact", "Customer", "Supplier")
 
 
@@ -101,9 +92,6 @@ def owners(doc) -> list[tuple[str, str]]:
 
 def origin_of(doctype: str, name: str) -> str:
 	return f"{doctype}/{name}"
-
-
-# ------------------------------------------------------------------ keeping it up
 
 
 def remember(doc, method=None) -> None:
@@ -173,9 +161,6 @@ def remember_all() -> None:
 		frappe.db.commit()
 
 
-# ------------------------------------------------------------------ asking
-
-
 def holders(kind: str, value: str) -> list[tuple[str, str]]:
 	rows = frappe.get_all("Identifier", filters={"kind": kind, "value": value}, fields=["for_doctype", "for_name"])
 	return list(dict.fromkeys((row.for_doctype, row.for_name) for row in rows))
@@ -192,8 +177,6 @@ def who(raw: str) -> list[dict]:
 	return out
 
 
-#: What a contact speaks for without being it: a project it is a contact
-#: on (one_project/contacts.py) is its customer's.
 SPOKEN_FOR = ("Project",)
 
 
@@ -269,9 +252,6 @@ def _our_domains() -> set[str]:
 	)
 	found = {ids.organisation_domain(one) for one in used if one}
 	return {one for one in found if one and one != shared}
-
-
-# ------------------------------------------------------------------ duplicates
 
 
 def flag(doc, method=None) -> None:

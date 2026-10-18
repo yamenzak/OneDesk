@@ -1,10 +1,3 @@
-// Masters: the short lists records pick their values from, in one place
-// (one/masters.py). The kinds down the left, grouped by where they are used;
-// the chosen kind's values beside them in frappe's EmbeddedList. Add is the
-// page head's primary action; a value opens in frappe's dialog with the kind's
-// own fields, as quick entry draws them, and how many records use it. Every
-// write is frappe's own (insert, save, rename_doc, delete), so its permission
-// checks and its refusal to remove a value in use are the ones that apply.
 
 frappe.pages["masters"].on_page_load = (wrapper) => {
 	const page = onedesk.shell.page(wrapper, __("Masters"));
@@ -18,7 +11,6 @@ frappe.provide("onedesk");
 onedesk.Masters = class Masters {
 	static API = "onedesk.one.masters.";
 
-	// The groups' names as the page says them.
 	static GROUPS = { Shared: __("Shared") };
 
 	constructor(page) {
@@ -27,8 +19,6 @@ onedesk.Masters = class Masters {
 		this.listen();
 	}
 
-	// A value added, changed or removed anywhere (another person, a OneAI
-	// card, frappe's form) draws the open list and the counts again.
 	listen() {
 		const again = frappe.utils.debounce(() => this.load(), 800);
 		frappe.realtime.on("list_update", (data) => {
@@ -36,7 +26,6 @@ onedesk.Masters = class Masters {
 		});
 	}
 
-	// Told of changes to the open kind only.
 	watch() {
 		if (this.watched === this.kind.doctype) return;
 		if (this.watched) frappe.realtime.doctype_unsubscribe(this.watched);
@@ -54,10 +43,6 @@ onedesk.Masters = class Masters {
 		await this.draw_values();
 	}
 
-	// The kinds as a sidebar, as OneMail's folders and OneTask's views, under
-	// their group's name.
-	// Each group under its app's mark, folded away and opened again as the
-	// rail's sections are; the open list's group stays open.
 	draw_kinds() {
 		const esc = frappe.utils.escape_html;
 		const groups = [...new Set(this.kinds.map((one) => one.group))];
@@ -100,18 +85,14 @@ onedesk.Masters = class Masters {
 			this.kind = this.kinds.find((one) => one.doctype === event.currentTarget.dataset.kind);
 			history.replaceState(null, "", `${location.pathname}?type=${encodeURIComponent(this.kind.doctype)}`);
 			this.draw_kinds();
-			// On a phone the panes stack, so the chosen list is brought into view.
 			this.draw_values().then(() => {
 				if (!window.matchMedia("(max-width: 767px)").matches) return;
 				requestAnimationFrame(() => this.panes.values[0].scrollIntoView({ block: "start" }));
 			});
-			// An open OneAI panel is told which list is open now.
 			if (onedesk.oneai && onedesk.oneai.panel) onedesk.oneai.panel.moved(onedesk.oneai.where());
 		});
 	}
 
-	// The groups this person folded away, kept in frappe's user settings as
-	// OneMail keeps its own, so they follow them from device to device.
 	closed(groups) {
 		if (groups) {
 			this.folded = groups;
@@ -129,7 +110,6 @@ onedesk.Masters = class Masters {
 		this.watch();
 		if (kind.create) this.page.set_primary_action(__("Add {0}", [kind.one]), () => this.open(null), "plus");
 		const rows = await frappe.xcall(`${Masters.API}values`, { doctype: kind.doctype });
-		// The name, then what frappe's own list of the kind shows beside it.
 		const columns = [
 			{ label: __("Name"), render: (one) => esc(__(one.label || one.name)) },
 			...kind.columns.map((df) => ({ label: df.label, render: (one) => frappe.format(one[df.fieldname], df, { inline: true }) })),
@@ -152,10 +132,6 @@ onedesk.Masters = class Masters {
 		this.load();
 	}
 
-	// A value in frappe's dialog, with the kind's own fields as quick entry
-	// draws them (a unit's symbol and whether it is whole, an item group's
-	// parent), the name first. What a dialog can't hold, a department's
-	// approvers, is in frappe's form behind Edit Full Form.
 	async open(one) {
 		const kind = this.kind;
 		await frappe.model.with_doctype(kind.doctype);
@@ -186,11 +162,6 @@ onedesk.Masters = class Masters {
 		dialog.show();
 	}
 
-	// The kind's fields from frappe's meta: every one with a value, but a
-	// tree's bookkeeping, the company, and tables, unless the kind is little
-	// more than its table (an attribute's values). A field keeps its section's
-	// condition. The name comes first; a kind named as it is asked to be
-	// (Lead Sources) gets a Name field.
 	fields(kind, doc) {
 		const kept = new Set(["lft", "rgt", "old_parent", "company"]);
 		const held = kind.held || {};
@@ -212,8 +183,6 @@ onedesk.Masters = class Masters {
 		return [name, ...shown];
 	}
 
-	// A held table's rows as frappe saves them: the columns, and the name of
-	// a row that was already there.
 	rows(df, value, doc) {
 		const had = new Set(((doc && doc[df.fieldname]) || []).map((row) => row.name));
 		return (value || [])
@@ -224,8 +193,6 @@ onedesk.Masters = class Masters {
 			}));
 	}
 
-	// Save: a new value through masters.add; a changed name through frappe's
-	// rename, then the rest through frappe.client.save against `modified`.
 	async save(dialog, kind, doc, fields) {
 		const values = dialog.get_values();
 		if (!values) return;
@@ -240,7 +207,6 @@ onedesk.Masters = class Masters {
 			let name = doc.name;
 			const was = name_field === "__newname" ? doc.name : doc[name_field];
 			if (values[name_field] !== was) {
-				// frappe says it was renamed.
 				name = await frappe.xcall(`${Masters.API}rename`, { doctype: kind.doctype, name, value: values[name_field] });
 			}
 			const changed = {};
@@ -261,8 +227,6 @@ onedesk.Masters = class Masters {
 		this.again();
 	}
 
-	// Remove, beside a dialog's Save, with frappe's own confirmation. Frappe
-	// refuses a value records still use, and says which.
 	removable(dialog, kind, name, label) {
 		if (!kind.delete) return;
 		dialog.set_secondary_action_label(__("Remove"));

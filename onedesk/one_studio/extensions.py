@@ -14,15 +14,10 @@ from onedesk.one_studio import checks, guard, review, tell, trial
 EXTENSION = "Extension"
 ON_SCREEN, ON_SERVER = "On Screen", "On Server"
 
-#: frappe's script each kind of extension is, and the field that turns it off.
 SCRIPTS = {ON_SCREEN: ("Client Script", "enabled"), ON_SERVER: ("Server Script", "disabled")}
 
-#: A screen extension for one of One's own pages (places.py) rather than a
-#: frappe form or list. frappe has no script for those, so One keeps the code
-#: on the extension itself and runs it there (public/js/places.js).
 PAGE = "Page"
 
-#: A scheduled extension's event as frappe's scheduler names it.
 FREQUENCY = {
 	"Every Hour": "Hourly",
 	"Every Day": "Daily",
@@ -32,16 +27,10 @@ FREQUENCY = {
 }
 ON_A_SCHEDULE = "On a Schedule"
 
-#: The least time between two runs of one: a scheduled extension runs over
-#: every record of its kind, as Administrator, so not more often than hourly.
 LEAST_BETWEEN = 60 * 60
 
-#: frappe's scripts made from extensions are named after them.
 PREFIX = "OneStudio "
 
-#: What OneAI writes and the review reads. `read_only` keeps these only in the
-#: form, so validate keeps them on the server: an administrator turns an
-#: extension on and off, and nothing else.
 WRITTEN = (
 	"title", "runs", "record_doctype", "view", "place", "event", "cron", "explanation", "asked", "asked_by",
 	"review", "review_note", "written_on",
@@ -118,7 +107,6 @@ def boot(bootinfo) -> None:
 			fields=["name", "place", "record_doctype as doctype", "code", "review", "reviewed", "runs", "view"],
 			ignore_permissions=True,
 		)
-		# Only as reviewed: an extension changed since its review does not run.
 		if one.review == "Passed"
 		and one.reviewed == review.fingerprint(one.code, one.runs, one.doctype, one.place)
 	]
@@ -171,8 +159,6 @@ def check(
 		if not found:
 			raise guard.Refused(_("{0} is not a page an extension can run on.").format(place))
 		page = places.PLACES[found[0]]
-		# The head's kind is the one the extension names, and is checked; a
-		# page's own kind (Communication, Event) is the page's, not opened.
 		named = None if page["record"] else doctype
 		guard.on_page(code, page["label"], set(page["events"]), named, site())
 		checks.length(code)
@@ -192,7 +178,6 @@ def check(
 	known = site()
 	if runs == ON_SERVER:
 		guard.on_server(code, doctype, known, event)
-		# A scheduled one has no doc; what it looks up is still read.
 		checks.on_server(code, None if event in guard.SCHEDULED else doctype, fields_of)
 	else:
 		guard.on_screen(code, doctype, known)
@@ -234,8 +219,6 @@ def write(
 			raise guard.Refused(_("Say which kind of record's head it runs on."))
 	cron = (cron or "").strip() if event == ON_A_SCHEDULE else None
 	check(runs, doctype, view, event, code, place, cron)
-	# Run once on a real record and undone, so a mistake is found now and
-	# what it did is told to OneAI (trial.py).
 	tried = trial.ran(code, doctype, event) if runs == ON_SERVER else ""
 	when = place if paged else (f"{event} {cron}" if cron else (event or view))
 	said = review.ask(runs, doctype, when, explanation, code)
@@ -263,7 +246,6 @@ def write(
 	)
 	doc.reviewed = reviewed_as(doc) if passed else None
 	doc.written_on = frappe.utils.now_datetime()
-	# The code is above the administrator's level, so frappe would drop it.
 	doc.flags.ignore_permissions = True
 	doc.flags.written = True
 	doc.save()
@@ -351,8 +333,6 @@ def sync(doc, method=None) -> None:
 def _heard(doc) -> None:
 	"""Turned on or off by a person, the other administrators hear."""
 	before = doc.get_doc_before_save()
-	# Written again by OneAI, it is off until somebody turns it on, which is
-	# when the others hear.
 	if before and before.enabled != doc.enabled and not doc.flags.written:
 		if doc.enabled:
 			tell.extension_turned_on(_told(doc))
@@ -385,8 +365,6 @@ def _place_said(doc) -> str:
 	if not found:
 		return doc.get("place") or ""
 	page, event = found
-	# A product's name is a name; the head's is words. Both are marked where
-	# places.py writes them, so they are looked up before they are said.
 	label = places.PLACES[page]["label"]
 	about = places.PLACES[page]["events"][event]["about"]
 	return _("{0}: {1}").format(_(label), _(about))
@@ -419,10 +397,7 @@ def tripped(
 	) or (None, 0, None)
 	if runs != ON_SCREEN or not enabled:
 		return
-	# The message first, which is what the Errors tab shows; the browser's
-	# stack after it, for mending.
 	said = "\n".join(filter(None, [(message or "")[:500], (stack or "")[:2000]]))
-	# Which record it was open on, if that is one: the Errors tab links to it.
 	named = record if record and frappe.db.exists(doctype, record) else None
 	frappe.log_error(
 		title=f"{guard.TITLE}{extension}",

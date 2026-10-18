@@ -9,12 +9,8 @@ from frappe.model.document import Document
 
 from onedesk.one_admin import site
 
-#: Which way each kind has to point. A refund is positive because it gives back
-#: an over-charge; a spend that added credit would be a very quiet bug.
 POINTS = {"Grant": 1, "Spend": -1, "Refund": 1}
 
-#: A grant is the only kind that starts a bucket, so it is the only one that may
-#: carry a date and the only one that may not be drawn from something else.
 STARTS_A_BUCKET = "Grant"
 
 

@@ -9,14 +9,10 @@ from frappe import _
 
 from onedesk.one_hr.hiring import AUTHOR
 
-#: The field an `AI Touch` row names when it marks the whole record.
 WHOLE = "*"
 
-#: The doctypes that carry a mark, cached; a save of anything else costs one
-#: cache read.
 CACHE = "one_intake_marked_doctypes"
 
-#: How many marked names the list's filter hands the list view at most.
 MOST_LISTED = 500
 
 
@@ -66,9 +62,6 @@ def clear(doctype: str, name: str, by: str | None = None) -> bool:
 		update_modified=False,
 	)
 	return True
-
-
-# ------------------------------------------------------------------ hooks
 
 
 def _by_a_person() -> bool:
@@ -123,9 +116,6 @@ def _action_of(doctype: str, name: str) -> str | None:
 	return frappe.db.get_value(
 		"Intake Action", {"target_doctype": doctype, "target_name": name, "kind": "Create", "level": "Done"}, "name"
 	)
-
-
-# ------------------------------------------------------------------ asked by the desk
 
 
 @frappe.whitelist()

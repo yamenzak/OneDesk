@@ -454,8 +454,6 @@ def test_forms_tell_the_others_and_offer_only_what_fits_the_page():
 	assert '"onedesk.one_studio.ai.forms_here"' in HOOKS
 	assert '"forms_here"' in (tree.APP / "one_ai" / "groups.py").read_text()
 	forms = (STUDIO / "forms.py").read_text()
-	# Every form has an app by its module where no rail links to it, and the
-	# extensions on one are read only where the form may be customized.
 	assert "module in MODULES" in forms and "\tmay(doctype)\n" in forms
 
 
@@ -464,11 +462,8 @@ def test_a_form_is_changed_only_through_oneai_and_a_field_goes_where_it_belongs(
 	and carries it to the forms that should have it, filled through their
 	link or copied as one is made from the other."""
 	customize = (tree.APP / "one" / "customize.py").read_text()
-	# Every carry checked before anything is written; each noted in the
-	# form's own ledger, so its Reset takes it back.
 	assert customize.index("carried = _carries(") < customize.index("_fields(doctype, values.get")
 	assert '_note(doctype, "Custom Field", field.name)' in customize.split("def _carry(")[1]
-	# A table is carried to only through a form the administrator may customize.
 	assert "may(parent)" in customize.split("def may_carry(")[1].split("def ")[0]
 	layer = (tree.APP / "one" / "layer.py").read_text()
 	assert '"fetch_from",' in layer and "_fetched(doc, where)" in layer
@@ -552,7 +547,6 @@ def test_a_collections_records_are_numbered_from_its_initials():
 def test_a_collection_sits_in_the_group_of_its_apps_rail_that_was_chosen():
 	source = (STUDIO / "record_types.py").read_text()
 	place = source.split("def _place(", 1)[1].split("\ndef ", 1)[0]
-	# frappe's own arrangement and save, as its sidebar editor writes one.
 	assert (
 		"layer_arrangement(module, None)" in place and "_save_customization(module, rows, user=None)" in place
 	)
@@ -560,7 +554,6 @@ def test_a_collection_sits_in_the_group_of_its_apps_rail_that_was_chosen():
 	assert "reports._take" not in source, "a group of ours left empty goes with the collection"
 	move = source.split("def move(", 1)[1].split("\ndef ", 1)[0]
 	assert "roles.require()" in move and "ours.save(" in move
-	# Where a collection lives is the Record Type's own rule, so a bulk edit keeps it too.
 	held = source.split("def held(", 1)[1].split("\ndef ", 1)[0]
 	moved = source.split("def moved(", 1)[1].split("\ndef ", 1)[0]
 	assert "check_group(ours.app, ours.rail_group)" in held and "_permissions(ours.app)" in moved

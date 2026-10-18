@@ -1,8 +1,4 @@
 <template>
-  <!-- Suppliers' quotes as a table, modelled on Odoo Purchase's list of
-       vendor quotations: who quoted, where it stands, the request it answers, until
-       when it holds and its total in its own money
-       (one_inventory/quotes.py `quotes`). -->
   <p v-if="!quotes.length && empty" class="py-6 text-base text-ink-gray-5">{{ empty }}</p>
   <List v-else :columns="columns" divider="full" :row-height="56" class="-mx-3 list-gap-4 list-row-px-3">
     <ListHeader>
@@ -59,7 +55,6 @@ import { __, andList, date, fromToday, go, money, onedesk } from "../kit";
 const props = defineProps({ quotes: { type: Array, required: true }, can: { type: Object, required: true }, empty: String });
 const emit = defineEmits(["compare"]);
 
-// The total is the one a phone keeps; the rest join as the page widens.
 const columns = {
   base: ["minmax(0,1fr)", "auto", "2rem"],
   sm: ["minmax(0,1fr)", "8rem", "8rem", "2rem"],
@@ -67,7 +62,6 @@ const columns = {
   lg: ["minmax(0,1fr)", "8rem", "minmax(0,1fr)", "8rem", "8rem", "2rem"],
 };
 
-// ERPNext's own statuses, each with its colour.
 const STATES = {
   Draft: [() => __("Draft"), "gray"],
   Submitted: [() => __("Submitted"), "blue"],

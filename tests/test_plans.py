@@ -65,7 +65,6 @@ def _list():
 		database_gb=held["cost_database_gb"],
 		backup_gb=held["cost_backup_gb"],
 		backups_kept=held["backups_kept"],
-		# A dollar of provider cost is 1,000 credits, marked up twice.
 		credit=1 / 2000,
 		margin=held["least_margin"],
 	)
@@ -90,17 +89,14 @@ def test_moving_up_beats_add_ons_and_a_little_more_is_an_add_on():
 	ladder, sold, _costs = _list()
 	for lower, upper in pairwise(ladder):
 		assert plans.upgrade_saving(lower, upper, sold) > 0.3, (lower.label, upper.label)
-	# Two more GB of database on the smallest plan is an add-on...
 	cheapest = plans.quote({"seats": 5, "database_gb": 3}, ladder, sold)[0]
 	assert cheapest.plan.key == "starter" and cheapest.extras
-	# ...and three times the seats as well is the next plan.
 	cheapest = plans.quote({"seats": 15, "database_gb": 3}, ladder, sold)[0]
 	assert cheapest.plan.key == "team" and not cheapest.extras
 
 
 def test_the_check_catches_what_does_not_make_sense():
 	ladder, sold, costs = _list()
-	# A plan up the ladder that is dearer than its add-ons nobody moves to.
 	dear = [
 		*ladder[:-1],
 		plans.Offer(
@@ -108,7 +104,6 @@ def test_the_check_catches_what_does_not_make_sense():
 		),
 	]
 	assert any(one.level == "red" and one.offer == "scale" for one in plans.check(dear, sold, costs))
-	# A price under what it costs us.
 	cheap = [
 		plans.Offer(
 			"starter", "Starter", "Plan", 5, seats=5, storage_gb=20, database_gb=1, credits_a_month=1000
@@ -116,7 +111,6 @@ def test_the_check_catches_what_does_not_make_sense():
 		*ladder[1:],
 	]
 	assert any(one.level == "red" and one.offer == "starter" for one in plans.check(cheap, sold, costs))
-	# A plan that gives less than the one below it.
 	fewer = [
 		ladder[0],
 		plans.Offer("team", "Team", "Plan", 70, seats=4, storage_gb=100, database_gb=3, credits_a_month=3000),
@@ -127,7 +121,6 @@ def test_the_check_catches_what_does_not_make_sense():
 
 def test_add_ons_are_bought_in_the_cheapest_mix():
 	_ladder, sold, _costs = _list()
-	# 300 GB is one 250 and one 50, not two 250s.
 	mix = plans.extras_for("storage_gb", 300, sold)
 	assert sorted((one.key, count) for one, count in mix) == [("storage-250", 1), ("storage-50", 1)]
 	assert plans.topping("database_gb", 0, sold) == 0

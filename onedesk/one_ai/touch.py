@@ -9,22 +9,14 @@ import json
 import frappe
 from frappe.utils import get_datetime, strip_html_tags
 
-#: Where the control goes: fields somebody writes prose in.
 WRITES = ("Small Text", "Text", "Long Text", "Text Editor", "Markdown Editor")
 
-#: Where a badge can go: anything OneAI can set that a person reads as words.
 TEXTS = ("Data", *WRITES, "HTML Editor")
 
-#: What the model is shown of the field it is writing. A field is prose, not a
-#: document; past this the question is about something else.
 MOST_SHOWN = 8000
 
-#: frappe's email window, written through Communication's own Message field.
-#: It comes with what an email is written against: its subject, who it is to,
-#: and the message it replies to, which the writer has in front of them.
 EMAIL = ("Communication", "content")
 
-#: What the model is shown of the message being replied to.
 MOST_QUOTED = 6000
 
 
@@ -154,9 +146,6 @@ def wrote(doctype: str, record: str, changes: dict, proposal: str | None = None)
 				"touched_by": frappe.session.user,
 			}
 		)
-		# Written as a side effect of something the person was already allowed
-		# to do — `took` and `apply` checked their permission on the record — and
-		# a person holds no permission on this table at all.
 		row.save(ignore_permissions=True)
 
 

@@ -1,8 +1,4 @@
 <template>
-  <!-- A frappe web form (one/portal.py `form`), drawn with frappe-ui's
-       controls and saved through frappe's own accept, which checks the
-       reader may: its sections and columns as the form lays them out, Save
-       and Discard in the head once something has changed. -->
   <Head :title="title" :crumbs="crumbs">
     <template #actions>
       <template v-if="dirty">
@@ -64,7 +60,6 @@ const props = defineProps({
   name: { type: String, default: null },
   heading: { type: String, default: "" },
   crumbs: { type: Array, default: () => [] },
-  // Where the reader goes once it is saved; staying put when unset.
   after: { type: String, default: "" },
 });
 const emit = defineEmits(["saved"]);
@@ -81,8 +76,6 @@ const saving = ref(false);
 const title = computed(() => props.heading || said.value?.title || "");
 const dirty = computed(() => JSON.stringify(values.value) !== loaded.value);
 
-// A web form's breaks, read in order: a Section Break starts a section, a
-// Column Break a column in it.
 const sections = computed(() => {
   const out = [{ label: "", columns: [[]] }];
   for (const field of said.value?.fields || []) {
@@ -132,7 +125,6 @@ async function save() {
   }
 }
 
-// Leaving with unsaved changes asks first, as a desk form does.
 const warn = (event) => {
   if (!dirty.value) return;
   event.preventDefault();

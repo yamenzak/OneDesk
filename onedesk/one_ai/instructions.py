@@ -34,9 +34,6 @@ def trim() -> None:
 
 	held = frappe.get_all("AI Action", filters={"instruction": ["!=", ""]}, pluck="name")
 	for name in held:
-		# `db_set` on the row rather than a save: this runs after a migrate has
-		# just written the fixture, and a save would fire a validation against a
-		# field the migrate is about to write again.
 		frappe.db.set_value("AI Action", name, "instruction", "", update_modified=False)
 	if held:
 		frappe.db.commit()

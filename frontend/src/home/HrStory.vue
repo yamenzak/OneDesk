@@ -1,7 +1,4 @@
 <template>
-  <!-- OneHR's Overview (one_hr/story.py), for HR: what needs the reader, then
-       the people, their time, their pay and hiring, each a row of frappe-ui
-       charts. A part the reader may not see is left out. -->
   <div ref="root" class="pb-12">
     <div v-if="needs.length" class="mt-5 flex flex-wrap gap-2">
       <Button v-for="one in needs" :key="one.key" variant="outline" :label="one.label" @click="$emit('today')">
@@ -76,7 +73,6 @@ const days = (value) => __("{0} days", [value]);
 const monthName = (value) => shortMonth(typeof value === "string" ? value : new Date(value).toISOString().slice(0, 10));
 const dayName = (value) => date(typeof value === "string" ? value : new Date(value).toISOString().slice(0, 10));
 const wrap = { echartOptions: { axisLabel: { formatter: (value) => value, overflow: "break" } } };
-// People are counted whole: no tick between one and two.
 const whole = { format: count, echartOptions: { minInterval: 1 } };
 
 const departments = computed(() => (props.story.people?.departments || []).map((one) => ({ ...one, label: one.label || __("Not Recorded") })));
@@ -86,7 +82,6 @@ const funnel = computed(() => (props.story.hiring?.funnel || []).map((one) => ({
 
 const moveSeries = computed(() => ({ joined: { label: __("Joined"), color: hue(2) }, left: { label: __("Left"), color: hue(6) } }));
 const paySeries = computed(() => ({ gross: { label: __("Gross Pay"), color: hue(0) }, net: { label: __("Net Pay"), color: hue(2) } }));
-// Present in green, away in amber, absent in red, as attendance is coloured.
 const statusSeries = computed(() => ({
   Present: { label: __("Present"), color: hue(2) },
   "Work From Home": { label: __("Work From Home"), color: hue(0) },

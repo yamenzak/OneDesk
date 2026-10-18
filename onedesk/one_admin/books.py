@@ -9,19 +9,15 @@ from frappe.utils import flt, getdate, nowdate
 
 from onedesk.one_admin import site
 
-#: What Stripe charges in: the price list's currency (offerings.CURRENCY).
 CURRENCY = "USD"
 
-#: The item group our offerings are sold under.
 GROUP = "One Subscriptions"
 
-#: The account names made once, per currency where it matters.
 STRIPE = "Stripe {0}"
 RECEIVABLE = "Debtors {0}"
 FEES = "Stripe Fees"
 MODE = "Stripe"
 
-#: How far back catch_up looks for paid invoices the webhook did not book.
 CATCH_UP_DAYS = 35
 
 
@@ -49,9 +45,6 @@ def ensure(*_args) -> None:
 		).insert(ignore_permissions=True)
 	for offering in frappe.get_all("Offering", pluck="name"):
 		item_for(offering)
-
-
-# ------------------------------------------------------------------ accounts
 
 
 def _account(name: str, parent: str | None, **values) -> str | None:
@@ -131,9 +124,6 @@ def _mode() -> str:
 	return MODE
 
 
-# ------------------------------------------------------------------ items
-
-
 def item_code(offering: str) -> str:
 	return f"ONE-{offering}".upper()
 
@@ -189,9 +179,6 @@ def synced(doc, method=None) -> None:
 			frappe.log_error(title=f"The item for {doc.name}")
 
 
-# ------------------------------------------------------------------ invoices
-
-
 def invoiced(invoice: dict) -> str | None:
 	"""A paid Stripe invoice, booked: the Sales Invoice, its payment and the
 	fee. Returns the Sales Invoice, or None when there is nothing to book."""
@@ -201,7 +188,6 @@ def invoiced(invoice: dict) -> str | None:
 		return held
 	paid = flt(invoice.get("amount_paid")) / 100
 	if paid <= 0:
-		# A trial's zero invoice, or one settled from Stripe credit: no money moved.
 		return None
 	tenant = frappe.db.get_value("Tenant", {"stripe_customer": invoice.get("customer")}, "name")
 	if not tenant:
@@ -335,9 +321,6 @@ def catch_up() -> None:
 			frappe.log_error(title=f"Booking {invoice.get('id')}")
 
 
-# ------------------------------------------------------------------ the parts
-
-
 def _booked(stripe_id: str | None) -> str | None:
 	return (
 		frappe.db.get_value("Sales Invoice", {"one_stripe_invoice": stripe_id, "docstatus": 1}, "name")
@@ -352,8 +335,6 @@ def _item_for_price(line: dict) -> str:
 		(line.get("price") or {}).get("metadata") or {}
 	).get("offering")
 	if not offering and price:
-		# A customer still on a price the offering has moved on from: the item
-		# is the offering whose Tenant Add-on or plan carries it, by metadata.
 		offering = frappe.db.get_value("Offering", {"key": price}, "name")
 	return item_for(offering) if offering else _unknown()
 
@@ -408,9 +389,6 @@ def _pay(si, amount: float, reference: str, day) -> str:
 	it for a credit note."""
 	from erpnext.accounts.doctype.payment_entry.payment_entry import get_payment_entry
 
-	# The Stripe account handed to ERPNext's own builder, which then sets its
-	# currency, the amounts either side and the exchange rates itself.
-	# A credit note's own outstanding (negative) is what goes back out.
 	pe = get_payment_entry(
 		"Sales Invoice",
 		si.name,

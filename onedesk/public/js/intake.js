@@ -1,6 +1,3 @@
-// The Intake panel: what OneAI read in a file or a message, drawn beside it
-// by OneCloud's preview and above a message by OneMail. The server says only
-// what the reader may see (one_intake/panel.py); this draws it.
 
 frappe.provide("onedesk.intake");
 
@@ -27,9 +24,6 @@ onedesk.intake.panel = async ($el, which) => {
 	onedesk.intake.bind($el, which, said.name);
 };
 
-// Beside a file or above a message the panel is short: what it is, one line
-// about it, what OneAI did with it in a word that opens Intake, and Pay,
-// Explain and the details behind a button each. Intake itself shows the rest.
 onedesk.intake.slim = (said) => {
 	const esc = frappe.utils.escape_html;
 	const date = (value) => (value ? frappe.datetime.str_to_user(value) : "");
@@ -88,7 +82,6 @@ onedesk.intake.html = (said) => {
 	const value = (fact) => {
 		if (fact.field === "gross") return format_currency(fact.value, fact.currency);
 		if (["issued_on", "valid_until"].includes(fact.field)) return date(fact.value);
-		// An IBAN in the groups of four banks print it in, which also lets it wrap.
 		if (fact.field === "iban") return String(fact.value).replace(/(.{4})/g, "$1 ").trim();
 		return fact.value;
 	};
@@ -134,7 +127,6 @@ onedesk.intake.html = (said) => {
 	</div>`;
 };
 
-// What was read, in full: the facts, who, when, what it asks.
 onedesk.intake.details = (said) => {
 	onedesk.intake.details_only = true;
 	try {
@@ -144,10 +136,6 @@ onedesk.intake.details = (said) => {
 	}
 };
 
-// ------------------------------------------------------------------ paying it
-
-// Whom to pay, each part ready to copy, and the GiroCode a banking app scans.
-// A changed IBAN has no code, only why (one_intake/pay.py).
 onedesk.intake.pay = (pay) => {
 	if (!pay) return "";
 	const esc = frappe.utils.escape_html;
@@ -164,8 +152,6 @@ onedesk.intake.pay = (pay) => {
 	const code = pay.code ? `<div class="oi-code" title="${__("Scan with your banking app")}">${pay.code}</div>` : "";
 	return `<div class="oi-title">${__("Payment")}</div><div class="oi-pay"><dl>${rows}</dl>${code}</div>`;
 };
-
-// ------------------------------------------------------------------ explaining it
 
 onedesk.intake.explained = (said) => {
 	const buttons = `<span class="oi-buttons">
@@ -193,8 +179,6 @@ onedesk.intake.explanation = (said) => {
 	return `${paragraphs}${todo}${reply}`;
 };
 
-// ------------------------------------------------------------------ its matter
-
 onedesk.intake.matter = (matter) => {
 	if (!matter) return "";
 	const esc = frappe.utils.escape_html;
@@ -204,8 +188,6 @@ onedesk.intake.matter = (matter) => {
 	const change = matter.change && !matter.copy ? ` ${frappe.ui.badge.html({ label: matter.change, theme: "gray", size: "sm" })}` : "";
 	return `<div class="oi-matter">${said}${change}</div>`;
 };
-
-// ------------------------------------------------------------------ what OneAI did
 
 onedesk.intake.actions = (said) => {
 	const esc = frappe.utils.escape_html;
@@ -292,13 +274,6 @@ onedesk.intake.undone = (said) => {
 	});
 };
 
-// ------------------------------------------------------------------ the mark in lists
-
-// A record OneAI made and no person has checked carries the OneAI mark beside
-// its title in every list (docs/INTAKE.md §4.2). The list asks once per
-// render which of its rows are marked, and only for a doctype the boot says
-// holds any; a row drawn later (the long list draws as it scrolls) reads the
-// same answer when its title is made.
 (() => {
 	const List = frappe.views && frappe.views.ListView;
 	if (!List || List.prototype.one_intake_marked) return;
@@ -347,8 +322,6 @@ onedesk.intake.unchecked_button = (list, said) => {
 	list.one_unchecked_label = label;
 	list.page.add_inner_button(label, () => list.filter_area.add([[list.doctype, "name", "in", said.all]]));
 };
-
-// ------------------------------------------------------------------ the banner on a form
 
 $(document).on("form-refresh", (event, frm) => {
 	const held = (frm.doc.__onload || {}).one_intake_mark;

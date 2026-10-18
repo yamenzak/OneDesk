@@ -12,7 +12,6 @@ from frappe.utils import add_days, getdate
 
 from onedesk.one import account, roles
 
-#: How the table is cut.
 BY = ("Model", "Action", "Person", "Day")
 
 
@@ -111,8 +110,6 @@ def _chart(said: dict, start, end) -> dict:
 		day = add_days(day, 1)
 	return {
 		"data": {
-			# The day of the month and nothing more: frappe-charts cuts a longer label
-			# to dots at thirty bars. The period is in the filters above the chart.
 			"labels": [str(day.day) for day in days],
 			"datasets": [{"name": frappe._("Credits"), "values": [spent.get(str(day), 0) for day in days]}],
 		},

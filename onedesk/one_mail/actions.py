@@ -10,7 +10,6 @@ from frappe import _
 
 from onedesk.one_mail import imap, live
 
-#: Folders every hosted mailbox has, as (path, kind).
 STANDARD = (
 	("INBOX", "Inbox"),
 	("Sent", "Sent"),
@@ -20,11 +19,7 @@ STANDARD = (
 	("Archive", "Archive"),
 )
 
-#: Kinds a person may not rename or delete.
 FIXED = ("Inbox", "Sent", "Drafts", "Junk", "Trash", "Archive")
-
-
-# ------------------------------------------------------------------ who
 
 
 def holds(account: str, user: str | None = None) -> bool:
@@ -36,14 +31,10 @@ def holds(account: str, user: str | None = None) -> bool:
 
 
 def require(account: str) -> None:
-	# A mailbox's own rules act for it (rules.py), whoever the job runs as.
 	if frappe.flags.one_mail_rules:
 		return
 	if not holds(account):
 		raise frappe.PermissionError(_("You don't have access to the mailbox {0}.").format(account))
-
-
-# ------------------------------------------------------------------ helpers
 
 
 def _names(names) -> list[str]:
@@ -115,9 +106,6 @@ def standard(account: str) -> None:
 			).insert(ignore_permissions=True)
 
 
-# ------------------------------------------------------------------ flags
-
-
 def _flag(names, field: str, flag: str, on: int) -> int:
 	rows = _rows(names)
 	on = int(bool(int(on)))
@@ -141,9 +129,6 @@ def mark(names, seen: int = 1) -> int:
 def star(names, flagged: int = 1) -> int:
 	"""Star messages, or take the star off."""
 	return _flag(names, "one_flagged", "\\Flagged", flagged)
-
-
-# ------------------------------------------------------------------ moving
 
 
 def _was(rows) -> list[dict]:
@@ -205,8 +190,6 @@ def _move(account: str, path: str | None, group: list, to: str) -> None:
 			if _uids(group):
 				now = session.move(_uids(group), to)
 	for row in group:
-		# Without COPYUID the new uid is unknown; the next sync reads the target
-		# folder and finds the message by its Message-ID.
 		frappe.db.set_value(
 			"Communication",
 			row.name,
@@ -265,9 +248,6 @@ def linked(row) -> bool:
 			"Communication Link", {"parent": row.name, "link_doctype": ["not in", ("Contact", "Address")]}
 		)
 	)
-
-
-# ------------------------------------------------------------------ folders
 
 
 def _path(account: str, label: str, parent: str | None) -> tuple[str, str]:
@@ -334,7 +314,6 @@ def rename_folder(folder: str, label: str) -> str:
 	if _connected(doc.account):
 		with imap.Session(frappe.get_doc("Email Account", doc.account)) as session:
 			session.rename(doc.path, path)
-	# The folder and everything under it now have new paths.
 	old = doc.path
 	for row in [{"name": doc.name, "path": old}, *_under(doc)]:
 		moved = path + row["path"][len(old) :]

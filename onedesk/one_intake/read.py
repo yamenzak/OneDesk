@@ -20,7 +20,6 @@ SOUNDS = ("mp3", "m4a", "wav", "ogg", "oga", "opus", "amr", "aac", "webm", "3gp"
 PLAIN = ("txt", "md", "text", "log", "json", "rtf")
 MT940 = ("sta", "940", "mt940")
 
-#: What a zip may hold before it is somebody's attempt to stall a worker.
 MOST_MEMBERS = 200
 MOST_UNPACKED = 256 * 1024 * 1024
 

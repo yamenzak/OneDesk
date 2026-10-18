@@ -20,7 +20,6 @@ def _hook(name: str) -> dict:
 	return {}
 
 
-#: Heads whose doctype is a name in code, and the line that names it.
 NAMED_IN_CODE = {
 	"Credit Ledger Entry": ("one_admin/heads.py", '"doctype": ledger.ENTRY,'),
 	"Extension": ("one_studio/heads.py", '"doctype": extensions.EXTENSION,'),
@@ -46,8 +45,6 @@ def test_every_record_head_is_declared():
 
 
 def test_every_page_of_its_own_is_declared():
-	# Each island and the record it is the page of; None for a screen of many
-	# records (SCREENS).
 	islands = {
 		"onedesk.project": "Project",
 		"onedesk.template": "Project Template",
@@ -89,7 +86,6 @@ def test_every_collection_set_up_is_declared():
 		assert set(views) <= set(tiers.VIEWS), doctype
 
 
-#: frappe's view classes, and the view each draws.
 VIEW_CLASSES = {
 	"ReportView": "Report",
 	"DashboardView": "Dashboard",

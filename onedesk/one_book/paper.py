@@ -42,8 +42,6 @@ def pay_into(doc, method=None) -> None:
 	)
 
 
-#: The dirham's symbol as frappe ships it, and as One prints and shows it: the
-#: code, which every printer and every reader reads the same.
 DIRHAM = ("د.إ", "AED")
 
 

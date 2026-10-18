@@ -6,7 +6,6 @@
 	white-space: nowrap;
 }
 
-/* "Follow my system" sits under the grid, not in it. */
 .theme-follow {
 	display: flex;
 	align-items: center;
@@ -18,12 +17,6 @@
 	cursor: pointer;
 }
 
-/* A gradient inside a `display: none` subtree has no render object in Chromium,
- * so it resolves to nothing. `#all-symbols` is such a subtree — a hidden div —
- * and every One mark paints from a `url(#…)` gradient, so the marks came out
- * hollow while lucide's icons, which are paths taking their stroke from CSS,
- * never noticed. Kept out of flow and zero-sized instead of hidden; a `<symbol>`
- * draws nothing by itself either way. */
 #all-symbols,
 #all-symbols > svg {
 	display: block !important;
@@ -33,8 +26,6 @@
 	overflow: hidden;
 }
 
-/* The panel header keeps its app's mark beside the name. frappe hides it while
- * the rail is pinned (dock.scss), since the lit tile shows it; One keeps both. */
 @media (min-width: 768px) {
 	body.dock-pinned.dock-active .body-sidebar-container.expanded .sidebar-header {
 		padding-left: 6px;
@@ -45,13 +36,7 @@
 	}
 }
 
-/* The Employee band: one row of chips under the title, on every tab. The
- * message band it sits in is frappe's, and it paints itself blue for a notice;
- * this is a permanent summary rather than a notice, so it takes the page's own
- * surface back. */
 .form-message:has(.one-band) {
-	/* In line with the fields below it, and room above and below: frappe's
-	   own padding is a notice's, one line high. */
 	padding: var(--padding-md) var(--padding-xl);
 	background: var(--surface-elevation-1) !important;
 	border: none !important;
@@ -59,25 +44,17 @@
 	color: var(--ink-gray-7) !important;
 }
 
-/* A head's sentence (head.js) is frappe's own headline alert, in line with the
-   band and the fields under it. */
 .form-message:has(.one-head-sentence) {
 	padding-left: var(--padding-xl);
 	padding-right: var(--padding-lg);
 }
 
-/* A quiet one, said in gray: frappe's alert has none (head.js). */
 .form-message.white:has(.one-head-sentence) {
 	border: 1px solid var(--surface-gray-2);
 	background: var(--surface-gray-2);
 	color: var(--ink-gray-7);
 }
 
-/* Two panels rather than two things pushed to opposite walls. A flex row with
-   space-between left a dead gap down the middle and let the legend — which is
-   wider than the chart it explains — run into the first column of numbers. A
-   grid sizes the left column to the heatmap and gives the rest to the numbers,
-   and the rule says where one ends and the other starts. */
 .one-band {
 	display: grid;
 	grid-template-columns: max-content 1fr;
@@ -85,7 +62,6 @@
 	gap: var(--margin-md) var(--margin-lg);
 }
 
-/* The quarter and the numbers share the first row; the legend runs under both. */
 .one-heat-months {
 	grid-column: 1;
 }
@@ -94,11 +70,6 @@
 	grid-column: 1 / -1;
 }
 
-/* frappe-charts' heatmap, to the pixel: a ten pixel square, a two pixel
-   gutter, a three pixel radius, a month to a block with its name above it.
-   Seven rows and column flow are the whole layout — the server starts the run
-   on a week boundary and pads each month, so every square lands on its own
-   weekday without being told which one it is. */
 .one-heat-months {
 	display: flex;
 	align-items: flex-start;
@@ -167,7 +138,6 @@
 	border-radius: var(--radius-sm);
 }
 
-/* The days before a month begins are drawn by frappe as nothing at all. */
 .one-day-blank {
 	background: none;
 }
@@ -176,12 +146,9 @@ a.one-day:hover {
 	outline: 1px solid var(--outline-gray-4);
 }
 
-/* Where frappe puts Less→More. The colours mean seven things rather than five
-   amounts, so the scale is replaced by a key to the ones this quarter used. */
 .one-heat-legend {
 	display: flex;
 	flex-wrap: wrap;
-	/* No margin of its own: the band's row gap already puts it under the two. */
 	gap: 4px var(--margin-sm);
 	font-size: var(--text-xs);
 	color: var(--ink-gray-5);
@@ -197,20 +164,9 @@ a.one-day:hover {
 	background: var(--one-mark);
 }
 
-/* Label over value, the desk's own way of putting a number on screen. Three
-   columns rather than a wrapping row: a row that wraps puts five numbers on one
-   line and one on the next, and looks like it ran out of room, which it did.
-
-   The gaps are wider than the desk's usual because these are six unrelated
-   numbers rather than one table: at 10 by 20 the labels of adjacent columns
-   nearly touch and read as one phrase, and a minimum column width stops a
-   short value like "1 h" pulling its neighbour in. */
 .one-stats {
 	display: grid;
 	grid-template-columns: repeat(3, minmax(7rem, max-content));
-	/* Spread both ways: the columns across the width the grid hands over, the
-	   rows over whatever height the heatmap sets — so the top row lines up
-	   with the first month and the bottom with the legend. */
 	justify-content: space-between;
 	align-content: space-between;
 	min-width: 0;
@@ -229,9 +185,6 @@ a.one-day:hover {
 	}
 }
 
-/* A record's track (band.js `steps`): across the band's whole width, over
-   its other figures, each step a mark, its name and what it means, joined by
-   a line that is filled as far as the record has come. */
 .one-steps {
 	grid-column: 1 / -1;
 	display: grid;
@@ -253,7 +206,6 @@ a.one-day:hover {
 	--one-step-track: var(--surface-gray-2);
 }
 
-/* The step's track: a bar along its top, not a border, in its state's colour. */
 .one-step::before {
 	content: "";
 	position: absolute;
@@ -292,7 +244,6 @@ a.one-day:hover {
 	background: var(--surface-gray-7);
 }
 
-/* The step under way: a blue ring round an empty centre. */
 .one-step-now .one-step-mark {
 	background: var(--surface-base);
 	outline: 5px solid var(--surface-blue-5);
@@ -338,7 +289,6 @@ a.one-day:hover {
 	color: var(--ink-red-5);
 }
 
-/* Two by two on a phone, where four would cut every label. */
 @media (max-width: 575px) {
 	.one-steps {
 		grid-auto-flow: row;
@@ -360,8 +310,6 @@ a.one-day:hover {
 	color: var(--ink-gray-5);
 }
 
-/* A metric card's value: larger than a field's, as frappe's Number Card and
-   frappe-ui's NumberChart set theirs, so the band reads as figures first. */
 .one-stat-value {
 	font-size: var(--text-lg);
 	font-weight: var(--weight-semibold);
@@ -369,14 +317,12 @@ a.one-day:hover {
 	color: var(--ink-gray-8);
 }
 
-/* A line under the value: what it's of, or what's behind it. */
 .one-stat-note {
 	font-size: var(--text-sm);
 	line-height: 1.35;
 	color: var(--ink-gray-5);
 }
 
-/* How it changed: the Number Card's own pill and wording, a size down. */
 .one-stat-delta {
 	display: inline-flex;
 	align-items: center;
@@ -403,9 +349,6 @@ a.one-day:hover {
 	color: var(--ink-red-6);
 }
 
-/* A part of a whole: frappe-ui's Progress, a track in the page's grey with
-   the filled part in ink. Its small height, since it sits under a figure
-   that already says the number. */
 .one-stat-meter {
 	display: block;
 	width: 100%;
@@ -452,8 +395,6 @@ a.one-stat:hover .one-stat-value {
 	color: var(--ink-red-8);
 }
 
-/* Check In's row in the panel's band. The dot is the state and the label the
-   verb: grey while out, green while in. */
 .one-clock .one-clock-dot {
 	display: inline-block;
 	width: 8px;
@@ -466,8 +407,6 @@ a.one-stat:hover .one-stat-value {
 	background: var(--surface-green-5);
 }
 
-/* Intake's row: frappe's ghost badge with the count of what waits, or a dot
-   when only something is unread. */
 .one-intake-row .one-intake-count.one-intake-dot {
 	min-width: 8px;
 	width: 8px;
@@ -477,15 +416,11 @@ a.one-stat:hover .one-stat-value {
 	background: var(--ink-gray-9);
 }
 
-/* The bar across the top of the shell (desk.js `bar`), modelled on Discord's
-   and Slack's title bar: the tools at its right end, on the rail's surface.
-   Hidden on a phone, where the panel's band keeps them. */
 .one-bar {
 	display: none;
 }
 
 @media (min-width: 768px) {
-	/* frappe's own body has `padding: 0 !important`. */
 	body.one-barred {
 		--one-bar-offset: var(--one-bar-height);
 		padding-top: var(--one-bar-height) !important;
@@ -496,7 +431,6 @@ a.one-stat:hover .one-stat-value {
 		top: 0;
 		left: 0;
 		right: 0;
-		/* Over the floating rail's 1030, under frappe's modals. */
 		z-index: 1031;
 		display: flex;
 		align-items: center;
@@ -506,8 +440,6 @@ a.one-stat:hover .one-stat-value {
 		color: var(--one-bar-ink);
 	}
 
-	/* frappe's shell is a row of boxes each the window's height. Beside the bar
-	   each is the window less the bar, or the page scrolls by the bar's height. */
 	body.one-barred .main-section,
 	body.one-barred.dock-pinned .dock,
 	body.one-barred .body-sidebar,
@@ -528,16 +460,10 @@ a.one-stat:hover .one-stat-value {
 		height: calc(100dvh - var(--page-head-height) - var(--one-bar-height));
 	}
 
-	/* The panel's band would only say the same again. */
 	body.one-barred .body-sidebar .standard-items-band {
 		display: none;
 	}
 
-	/* The bar and the pinned rail are one frame, on the rail's surface, and
-	   everything right of the rail sits inset in it, as Discord's channels and
-	   chat do: one rule along its top and its left, rounded where they meet.
-	   The corner is the sidebar's while it is open, and the page's when the
-	   sidebar is folded away or the page hides it. */
 	body.one-barred.dock-pinned {
 		background: var(--one-bar-bg);
 	}
@@ -605,7 +531,6 @@ a.one-stat:hover .one-stat-value {
 	stroke: currentColor;
 }
 
-/* A count beside its tool, as the rail's were. */
 .one-bar .one-bar-badge {
 	min-width: 16px;
 	height: 16px;
@@ -631,7 +556,6 @@ a.one-stat:hover .one-stat-value {
 	padding: 0;
 }
 
-/* A timer running: its count in green, as frappe-ui's solid green Badge. */
 .one-timers-count.one-timers-on,
 .one-bar .one-bar-badge.one-timers-on {
 	background: var(--surface-green-7);
@@ -648,20 +572,15 @@ a.one-stat:hover .one-stat-value {
 	background: var(--surface-green-5);
 }
 
-/* Past the shift's start: in late, or not in yet. */
 .one-clock .one-clock-dot.one-clock-late {
 	background: var(--surface-amber-5);
 }
 
-/* The shift's start, beside the clock until they check in. */
 .one-bar .one-clock .one-clock-due {
 	font-variant-numeric: tabular-nums;
 }
 
 @media (min-width: 768px) {
-	/* frappe's Notifications and Background Tasks open in the sidebar's
-	   container, which a page with a sidebar of its own hides. A panel the bar
-	   opened there shows on its own, beside the rail, without the sidebar. */
 	.body-sidebar-container[style*="display: none"]:has(.sidebar-panel:not(.hidden)) {
 		display: block !important;
 		width: 0 !important;
@@ -672,9 +591,6 @@ a.one-stat:hover .one-stat-value {
 	}
 }
 
-/* A grid nobody may type in. `editable_grid: 0` removes the inline editing and
-   leaves the row checkbox and the open-row pencil behind, which on a read-only
-   record offer an edit that cannot happen. See one_hr/doctype/clock_attempt. */
 .one-static-grid .grid-row-check,
 .one-static-grid .btn-open-row,
 .one-static-grid .grid-footer,
@@ -682,23 +598,16 @@ a.one-stat:hover .one-stat-value {
 	display: none;
 }
 
-/* A filter One has answered on the reader's behalf; see public/js/reports.js.
-   Marked by class rather than by fieldname so nothing else can match it, and
-   `!important` because the control's own refresh would otherwise show it again. */
 .one-gone {
 	display: none !important;
 }
 
-/* What a pipeline column is worth, under its header; see public/js/opportunity_list.js.
-   Indented as the header's title is (ps-4 on .kn-column-header). */
 .one-stage-worth {
 	padding-inline: 1rem 0.25rem;
 	font-size: var(--text-xs);
 	color: var(--ink-gray-5);
 }
 
-/* A band with charts: the charts take the width they need on the left and
-   the numbers the rest, split by the same rule as the Employee's heat map. */
 .one-band-charted {
 	grid-template-columns: max-content minmax(0, 1fr);
 	gap: var(--margin-lg) var(--margin-xl);
@@ -710,12 +619,6 @@ a.one-stat:hover .one-stat-value {
 	gap: var(--margin-lg);
 }
 
-/* Beside a chart the numbers flow into as many columns as fit, rather than
-   three squeezed ones. */
-/* Beside a chart, and on a band of numbers alone, each number takes the
-   width it needs on one line and the row wraps where the next one would not
-   fit: a column grid broke "1,210 of 25,500" across two lines to keep its
-   columns even. */
 .one-band-charted .one-stats,
 .one-band-plain .one-stats {
 	display: flex;
@@ -725,8 +628,6 @@ a.one-stat:hover .one-stat-value {
 	gap: var(--margin-md) var(--margin-xl);
 }
 
-/* Each grows into what is left of its row, so a row ends at the edge rather
-   than in a gap. */
 .one-band-charted .one-stat,
 .one-band-plain .one-stat {
 	flex: 1 0 auto;
@@ -734,8 +635,6 @@ a.one-stat:hover .one-stat-value {
 	white-space: nowrap;
 }
 
-/* Rows of figures inside a form's section (a project's Costing tab): the
-   band's numbers in columns that line up from one row to the next. */
 .one-figures {
 	display: flex;
 	flex-direction: column;
@@ -754,8 +653,6 @@ a.one-stat:hover .one-stat-value {
 	white-space: nowrap;
 }
 
-/* A project's subcontracts: a list as frappe-ui's ListView draws one, its
-   header in the muted small type and the amounts on one line. */
 .one-suppliers .table {
 	margin-bottom: var(--margin-sm);
 }
@@ -784,8 +681,6 @@ a.one-stat:hover .one-stat-value {
 	min-width: 0;
 }
 
-/* The chart's name over what it adds up to, as a Number Card's title sits
-   over its figure: side by side, a long name wrapped into the total. */
 .one-chart-head {
 	display: flex;
 	flex-direction: column;
@@ -804,8 +699,6 @@ a.one-chart-head:hover .one-stat-label {
 	white-space: nowrap;
 }
 
-/* frappe-charts pads its own container for a dashboard card; in the band the
-   panel's head is the title, so the chart sits flush under it. */
 .one-chart-body .chart-container {
 	margin: 0 -8px -8px;
 }
@@ -829,8 +722,6 @@ a.one-chart-head:hover .one-stat-label {
 	}
 }
 
-/* A band that is only numbers, as on a lead's or a deal's page: no chart to sit
-   beside, so no column rule, and the numbers flow across the width. */
 .one-band-plain {
 	display: block;
 }
@@ -840,28 +731,15 @@ a.one-chart-head:hover .one-stat-label {
 	border-left: none;
 }
 
-/* erpnext moves a lead's and a deal's timeline into the Activities tab and hides
-   its comment box with an inline style, which left nowhere to write a note but
-   the separate Notes tab. The notes are comments now (one_crm/record.py), so the
-   box is shown again; `!important` because the inline style is erpnext's. */
 [data-page-route="Lead"] .comment-box,
 [data-page-route="Opportunity"] .comment-box {
 	display: block !important;
 }
 
-/* frappe's Gantt view draws into the list's `.result`, which is `display: table`
- * and so grows to the whole timeline: nothing scrolls, the chart opens a month
- * before today and every bar is off the right of the screen. As a block the
- * Gantt's own container scrolls, and frappe-gantt scrolls it to today. */
-/* As specific as frappe's own rule in list.scss, and one class more. */
 .layout-main-section-wrapper .frappe-list .result-container .result.result:has(> .gantt-container) {
 	display: block;
 }
 
-/* On a phone every list is as wide as the screen: frappe draws its rows in a
- * table that grows to its longest line, so a sub-project's name carrying its
- * parent's, or an asset's place and kind under its name, put the status pill
- * off the edge. As a block the line shortens with an ellipsis instead. */
 @media (max-width: 767px) {
 	[data-page-route^="List/"] .layout-main-section-wrapper .frappe-list .result-container .result.result {
 		display: block;
@@ -875,15 +753,9 @@ a.one-chart-head:hover .one-stat-label {
 	[data-page-route^="List/"] .frappe-list .result .list-row .mobile-layout {
 		min-width: 0;
 	}
-	/* frappe keeps the right of a row as wide as three people's faces
-	 * (list.scss, has-assign-to), which a phone does not show: on Tasks it
-	 * left the name 146 of 350 pixels. */
 	[data-page-route^="List/"] .frappe-list .result.result .list-row .level-right.level-right {
 		min-width: 0;
 	}
-	/* Under the name frappe sets its fields in a line that clips at the edge,
-	 * so a pill after a long name went missing. As a flex line the text
-	 * shortens with an ellipsis and a pill keeps its width. */
 	[data-page-route^="List/"] .frappe-list .result .list-row .level-left.level-left:has(> .mobile-layout) {
 		display: flex;
 		flex-wrap: wrap;
@@ -892,7 +764,6 @@ a.one-chart-head:hover .one-stat-label {
 	[data-page-route^="List/"] .frappe-list .result .list-row .level-left > .list-subject {
 		flex: 0 0 100%;
 	}
-	/* Sized from nothing up to its own width, so the line never wraps. */
 	[data-page-route^="List/"] .frappe-list .result .list-row .level-left > .mobile-layout {
 		flex: 1 1 0;
 		min-width: 0;
@@ -904,9 +775,6 @@ a.one-chart-head:hover .one-stat-label {
 	}
 }
 
-/* A project's milestone on the Projects timeline (project_calendar.js): a mark
- * on its day, in the warning colour, that can't be dragged or opened, being a
- * task changed on its project's page. */
 .gantt .bar-wrapper.one-milestone {
 	pointer-events: none;
 }
@@ -914,10 +782,6 @@ a.one-chart-head:hover .one-stat-label {
 	fill: var(--surface-amber-5);
 }
 
-/* A record's Files (record_files.js). Here and not in onecloud.css, which
- * is loaded only when the explorer first opens: the sidebar's Attachments,
- * reduced to a row that opens the Files tab — its list, Show All and its
- * own uploader go — and the count beside the tab's name and that row. */
 .one-files-side .attachment-row,
 .one-files-side .show-all-btn,
 .one-files-side .add-attachment-btn {
@@ -936,8 +800,6 @@ a.one-chart-head:hover .one-stat-label {
 	text-decoration: none;
 }
 
-/* The Activity tab's own field only makes the tab (record_activity.js); its
- * section stays so frappe keeps the tab, and takes no room. */
 .form-section.one-activity-field,
 .form-section.one-activity-field .section-body,
 .form-section.one-activity-field .form-column,
@@ -948,14 +810,10 @@ a.one-chart-head:hover .one-stat-label {
 	min-height: 0;
 }
 
-/* The "One" of a product's name (brand.js): light against the product's word,
-   whatever weight that is, as the marks letter it. */
 .one-light {
 	font-weight: 300;
 }
 
-/* A calendar link (calendar_link.js): a row of app buttons, then what it
-   carries and how it ends. */
 .one-calendar-said {
 	color: var(--ink-gray-5);
 }
@@ -994,9 +852,6 @@ a.one-chart-head:hover .one-stat-label {
 	gap: calc(var(--spacing) * 1);
 }
 
-/* frappe's workflow builder: its mail settings, which One's hub replaces, and for
-   somebody frappe does not let customize what an approval of theirs may not do
-   (desk.js, one/approvals.py). */
 #page-workflow-builder .field:has(> [data-fieldname="send_email_alert"]),
 #page-workflow-builder .field:has(> [data-fieldname="send_email"]),
 #page-workflow-builder .field:has(> [data-fieldname="next_action_email_template"]),
@@ -1005,17 +860,11 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	display: none;
 }
 
-/* A step of an automation draws its params in a FieldGroup inside the row's
-   own form (doctype_settings.js); its section lines up with the row's fields
-   rather than indenting as a second form would. */
 .one-step-fields .form-section {
 	padding: 0;
 	border: 0;
 }
 
-/* A line an extension shows on one of One's pages (public/js/places.js),
- * in the tone it asked for: the desk's own pairs, the same frappe's form
- * dashboard draws its notes in, so a head note and a page note match. */
 .one-place-notes:empty {
 	display: none;
 }
@@ -1040,7 +889,6 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 .one-place-note--orange { background: var(--surface-orange-2); color: var(--ink-orange-8); }
 .one-place-note--red { background: var(--surface-red-2); color: var(--ink-red-8); }
 
-/* Buttons an extension adds beside its notes, in a page's spot for them. */
 .one-place-actions:empty,
 .one-place-spot:has(> .one-place-notes:empty):has(> .one-place-actions:empty) {
 	display: none;
@@ -1053,8 +901,6 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	margin: 0 0 8px;
 }
 
-/* A space home's empty blocks and the headings over nothing (desk.js
- * tidy_home), shown again while the page is edited. */
 .layout-main-section:not(.edit-mode) .one-block-empty,
 .layout-main-section.edit-mode .one-home-empty {
 	display: none !important;
@@ -1065,8 +911,6 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 }
 
 
-/* New Project: the kinds as cards, one picked, as frappe-ui draws a radio
-   card: a hairline, and the ink colour around the one picked. */
 .one-kinds {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1087,7 +931,6 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	transition: background-color 0.15s, border-color 0.15s;
 }
 
-/* As frappe-ui's padded Radio: a grey surface on hover, a dark ring once picked. */
 .one-kind:hover {
 	background: var(--surface-gray-2);
 }
@@ -1127,15 +970,9 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	color: var(--ink-gray-6);
 }
 
-/* New Project's steps: frappe's Slides inside the dialog rather than on the
-   setup wizard's page (public/js/project_new.js). */
-/* Each step the same height, so the dialog doesn't jump, and room under the
-   dates for their calendar. */
 .one-new-project .slide-container {
 	min-height: 330px;
 }
-/* The steps in the footer, centred between Previous and Next, whichever of
-   them shows (onedesk.project.steps_in_footer). */
 .one-steps-footer {
 	display: grid;
 	grid-template-columns: 1fr minmax(120px, 200px) 1fr;
@@ -1162,7 +999,6 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	align-items: center;
 	gap: var(--margin-sm);
 }
-/* The bar alone. "Step 2 of 3" stays for a screen reader, which names the bar by it. */
 .one-steps-footer .slides-progress .es-progress__header {
 	position: absolute;
 	width: 1px;
@@ -1205,7 +1041,6 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	}
 }
 
-/* A coloured pie or donut's legend, under it, wrapping (public/js/chart_colors.js). */
 .one-chart-legend {
 	display: flex;
 	flex-wrap: wrap;
@@ -1229,10 +1064,6 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	color: var(--ink-gray-6);
 }
 
-/* A crumb that switches (public/js/crumb_switch.js): the place's, the
- * record's, or one a page gives choices to, with frappe-ui's up-down chevron
- * after the name. The place's crumb keeps its name, and the record's name
- * after it is the one that shortens. */
 .navbar-breadcrumbs li.one-crumb-switch {
 	cursor: pointer;
 	min-width: 0;
@@ -1251,8 +1082,6 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	flex-shrink: 0;
 }
 
-/* Its panel: frappe-ui's Combobox with the search at the top, the rows
- * frappe's menu rows. */
 .one-crumb-switch-popover.es-popover {
 	width: calc(var(--spacing) * 76);
 	padding: 0;
@@ -1297,23 +1126,14 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	border-top: 1px solid var(--outline-elevation-2);
 }
 
-/* The record's and a scope's buttons belong to a phone's second bar;
- * wider, they are crumbs. */
 .page-head .page-actions .one-head-record,
 .page-head .page-actions .one-head-scope {
 	display: none;
 }
 
-/* On a phone the head is two bars (public/js/phone_head.js), each its own
- * height with a line under it. The first is for the kind of record: the
- * panel's button, the place, the page's buttons and search. The second is
- * for the record: its name, its status and what narrows it (a project's All
- * Work). A list's second bar has its view switch. It is there only when it
- * has something. */
 @media (max-width: 767.98px) {
 	.page-head .page-head-content {
 		height: auto;
-		/* frappe's .flex-nowrap is !important */
 		flex-wrap: wrap !important;
 		row-gap: 0;
 		padding: 0;
@@ -1340,13 +1160,10 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 		flex: 1 0 100%;
 		display: flex;
 		align-items: center;
-		/* frappe's .justify-content-end on the row is !important */
 		justify-content: flex-start !important;
 		gap: 8px;
 		height: 0;
 		overflow: hidden;
-		/* the edges of the first bar: the panel's button, and search;
-		   frappe's .pl-0 on the row is !important */
 		padding-block: 0;
 		padding-inline: 15px 10px !important;
 	}
@@ -1358,7 +1175,6 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	.page-head .page-actions .custom-mobile-actions .es-button {
 		margin-inline-start: 0;
 	}
-	/* The page's buttons, moved to the first bar before search. */
 	.page-head .page-head-content > .standard-items-section > .standard-actions {
 		display: flex;
 		align-items: center;
@@ -1376,7 +1192,6 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	.page-head .page-actions .one-head-record {
 		display: inline-flex;
 		order: -1;
-		/* the record's name has the room the buttons leave */
 		flex: 0 1 auto;
 		min-width: 4rem;
 		margin: 0;
@@ -1397,7 +1212,6 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	.page-head .navbar-breadcrumbs li.one-crumb-record {
 		display: none !important;
 	}
-	/* The first crumb, the place, always shows in the first bar. */
 	.page-head .navbar-breadcrumbs li:first-child {
 		display: flex;
 	}
@@ -1425,9 +1239,6 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	.page-head .navbar-breadcrumbs li.one-crumb-scope {
 		display: none !important;
 	}
-	/* The view switch has room for its name again: frappe squares a
-	   button whose label it hides below md (page.scss), by a rule whose
-	   :has() parts outweigh any selector of ours. */
 	.page-head .page-actions .view-switcher .hidden-xs {
 		display: inline !important;
 	}
@@ -1435,7 +1246,6 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 		width: auto !important;
 		padding-inline: calc(var(--spacing) * 2) !important;
 	}
-	/* The whole trail fits now: the place and the record, each a switcher. */
 	.page-head .navbar-breadcrumbs,
 	body[data-route^="Form"] .page-head .navbar-breadcrumbs {
 		max-width: none;
@@ -1445,9 +1255,6 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	.page-head .navbar-breadcrumbs ol {
 		min-width: 0;
 	}
-	/* Every crumb that switches shows, the place's giving way first, then
-	   the record's; a plain crumb between them (a sub-project's parents)
-	   stays hidden, as frappe hides it. */
 	.page-head .navbar-breadcrumbs li.one-crumb-switch:not(:last-child) {
 		display: flex;
 	}
@@ -1472,8 +1279,6 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	}
 }
 
-/* A record's own page (the project's, the template's) keeps its side panel in
-   place while the page scrolls, as frappe does on routes starting "Form". */
 body[data-route^="project-view"] .layout-side-section,
 body[data-route^="project-template-view"] .layout-side-section {
 	overflow-y: auto;
@@ -1491,8 +1296,6 @@ body[data-route^="project-template-view"] .layout-side-section {
 	}
 }
 
-/* The Items list's kinds: frappe-ui's TabButtons, a grey track with the
-   chosen one raised (public/js/item_list.js). */
 .one-item-tabs {
 	display: inline-flex;
 	flex-wrap: wrap;
@@ -1522,64 +1325,45 @@ body[data-route^="project-template-view"] .layout-side-section {
 	color: var(--ink-gray-8);
 }
 
-/* A timesheet is looked up by who it is for, whose name fits whole. */
 body[data-route="List/Timesheet/List"] .list-row-col.list-subject {
 	flex: 1.4;
 }
 
-/* A record whose connections sit at the top of its only tab, not a
-   Connections tab of their own, shows them only once one has something:
-   a payment says nothing of a bank statement line it is not matched to. */
 .tab-pane[id$="-__details"] > .form-dashboard > .form-links:not(:has(.count:not(.hidden))) {
 	display: none;
 }
 
-/* An invoice is looked up by whom it is to or from, whose name fits whole
-   beside what is still owed. */
 body[data-route="List/Sales Invoice/List"] .list-row-col.list-subject,
 body[data-route="List/Purchase Invoice/List"] .list-row-col.list-subject {
 	flex: 1.6;
 }
 
-/* A journal entry is looked up by what it is for, a statement line by what
-   the bank wrote: a sentence of a title either way. */
 body[data-route="List/Journal Entry/List"] .list-row-col.list-subject,
 body[data-route="List/Bank Transaction/List"] .list-row-col.list-subject {
 	flex: 2.2;
 }
 
-/* An item's name is what it is looked up by; its column takes the room. */
 body[data-route="List/Item/List"] .list-row-col.list-subject {
 	flex: 2.4;
 }
 
-/* A check report draws its rows as a checklist (check.js); frappe's grid, its
- * filter bar and its footer stay, out of sight, as the report's own. */
 .one-check .page-form,
 .one-check .report-wrapper,
 .one-check .report-footer {
 	display: none !important;
 }
 
-/* Workload draws its rows through an island (workload.js); frappe's cards,
- * grid and footer stay out of sight, its filters in view. */
 .one-workload .report-summary,
 .one-workload .report-wrapper,
 .one-workload .report-footer {
 	display: none !important;
 }
 
-/* frappe-ui's charts measure their labels in a hidden element parked at
-   left: -9999px. In a right-to-left page that is scrollable room, so an
-   Arabic page with a chart grew eleven thousand pixels wide and opened on
-   nothing. Parked on the other side, it takes no room in either direction. */
 html[dir="rtl"] body > div[style*="left: -9999px"] {
 	left: auto !important;
 	right: -9999px !important;
 }
 
-/* A record's Portal dialog (public/js/portal_share.js), drawn as OneCloud's
-   Share is: a send row, then people and links as rows. */
 .ps-send,
 .ps-other {
 	display: flex;

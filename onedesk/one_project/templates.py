@@ -6,7 +6,6 @@ from frappe.utils import date_diff, getdate, nowdate
 
 from onedesk.one_project.library import copy
 
-#: The Task fields a template task keeps, beside its dates.
 KEPT = (
 	"subject",
 	"description",
@@ -19,7 +18,6 @@ KEPT = (
 	"color",
 )
 
-#: What ERPNext's copy leaves out and the new task takes from its template task.
 LEFT_OUT = ("is_milestone", "expected_time")
 
 
@@ -130,8 +128,6 @@ def add(
 	frappe.has_permission("Project Template", "read", template, throw=True)
 	frappe.has_permission("Task", "create", throw=True)
 	doc = frappe.get_doc("Project", project)
-	# ERPNext's copy counts each task's Begin On from the project's start; here
-	# that's the day chosen, and the project itself isn't saved.
 	doc.expected_start_date = getdate(starts or nowdate())
 	sources = [frappe.get_doc("Task", row.task) for row in frappe.get_doc("Project Template", template).tasks]
 	if not sources:

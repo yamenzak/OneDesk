@@ -15,11 +15,8 @@ from onedesk.one_project.intake import task_in
 
 REAL = ("Action", "Information", "", None)
 
-#: A line with no item is booked by name, in this unit.
 UNIT = "Nos"
 
-#: How long after an order a customer is assumed to want it, when the order
-#: gives no date.
 DELIVERY_DAYS = 7
 
 
@@ -54,8 +51,6 @@ def lines(reading: dict, items: dict, account: str | None = None) -> list[dict]:
 			continue
 		row = {"qty": qty, "rate": float(rate), "description": (one.get("text") or "")[:140]}
 		if amount is not None and abs(round(float(rate), 2) * qty - float(amount)) > 0.005:
-			# 250 kWh at 0.28304 rounds to 70.00 in a currency of cents: the
-			# line is booked at what it cost, and says how that was made.
 			row = {"qty": 1, "rate": float(amount), "description": f"{qty:g} × {rate:g} {(one.get('text') or '')}".strip()[:140]}
 		item = items.get(index)
 		if item:
@@ -75,7 +70,6 @@ def lines(reading: dict, items: dict, account: str | None = None) -> list[dict]:
 	return out
 
 
-#: How far a document's tax may be from a rate's, rounded line by line.
 TAX_ROUNDING = 0.05
 
 
@@ -99,7 +93,6 @@ def purchase(reading: dict, ctx: dict) -> list[Action]:
 	if not _real(reading, ctx) or kind not in ("Invoice", "Receipt", "Credit Note", "Timesheet") or not ctx.get("supplier") or ctx.get("sender_is_colleague"):
 		return []
 	if ctx.get("existing_invoice"):
-		# Somebody booked it first: the document goes there, and nothing is made.
 		return [Action("Link", "Purchase Invoice", ctx["existing_invoice"], {"file": ctx.get("file")}, key="books|existing", sure=True)] if ctx.get("file") else []
 	day, moved = posting_day(ctx["today"], ctx.get("locked"))
 	remarks = [ctx["said"]["moved"].format(ctx["locked"])] if moved else []
@@ -119,11 +112,7 @@ def purchase(reading: dict, ctx: dict) -> list[Action]:
 		"due_date": due if due and due >= day else None,
 		"currency": reading.get("currency"),
 		"remarks": " ".join(remarks) or None,
-		# The project the bill names, on the bill and each line, which is where
-		# a project's cost counts it from.
 		"project": ctx.get("project"),
-		# The company's purchase taxes at the rate the document charges, so
-		# the bill comes to what the document says.
 		"taxes_and_charges": taxed_by(reading, ctx.get("purchase_taxes")),
 	}
 	head = {key: value for key, value in head.items() if value}
@@ -311,7 +300,6 @@ def contract(reading: dict, ctx: dict) -> list[Action]:
 	}
 	out = [Action("Create", "Contract", values={k: v for k, v in values.items() if v}, key="books|contract")]
 	if cancel_by:
-		# A month before the last day to cancel, somebody decides.
 		remind = str(max(getdate(cancel_by) - timedelta(days=30), getdate(ctx["today"])))
 		out.append(
 			_Action(

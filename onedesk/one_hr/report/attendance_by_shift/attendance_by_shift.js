@@ -1,5 +1,3 @@
-// No company filter, and no "Include Shift Attendance Without Checkins": every
-// day in the period is a row, so there is nothing left to opt back into.
 frappe.query_reports["Attendance by Shift"] = {
 	filters: [
 		{
@@ -40,7 +38,6 @@ frappe.query_reports["Attendance by Shift"] = {
 		},
 	],
 
-	// The name is what a person reads and the id is what the link needs.
 	formatter(value, row, column, data, default_formatter) {
 		if (column.fieldname === "employee_name" && data?.employee) {
 			return `<a href="/desk/employee/${encodeURIComponent(data.employee)}">${frappe.utils.escape_html(value || data.employee)}</a>`;

@@ -12,14 +12,10 @@ import frappe
 from frappe import _
 from frappe.utils import now_datetime
 
-#: What the lead's source reads as, by the way it came in.
 WEBSITE = "Website"
 
-#: The owners erpnext's `__user` default gives a lead nobody made at the desk.
 NOBODY = ("Guest",)
 
-#: How many trailing digits make two phone numbers the same number, so that
-#: +971 50 123 4567 and 050-1234567 match and two short extensions do not.
 DIGITS = 8
 
 
@@ -56,8 +52,6 @@ def matches(doc) -> list[dict]:
 		for name in contact_links("email_id", doc.email_id):
 			found.append({"doctype": "Customer", "name": name, "on": "email"})
 
-	# Numbers are stored as typed, spaces and dashes included, so the database
-	# narrows by the last four digits and the comparison is done on digits.
 	phones = ("mobile_no", "phone", "whatsapp_no")
 	for number in {tail(doc.get(field)) for field in phones} - {""}:
 		for field in phones:
@@ -173,8 +167,6 @@ def defaults() -> None:
 	after that they are the workspace's."""
 	frappe.db.set_single_value("CRM Settings", "carry_forward_communication_and_comments", 1)
 	frappe.db.set_single_value("CRM Settings", "allow_lead_duplication_based_on_emails", 1)
-	# Where a lead came from is shown, not tucked behind a switch: saving Selling
-	# Settings is what un-hides the Source section on every doctype that has it.
 	selling = frappe.get_single("Selling Settings")
 	selling.enable_utm = 1
 	selling.save(ignore_permissions=True)

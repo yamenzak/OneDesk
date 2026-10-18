@@ -100,8 +100,6 @@ def test_a_plan_gives_the_gigabytes_it_advertises():
 	"""
 	import ast
 
-	# The AST rather than the text, because the comment above the line explains
-	# why it is not 1024 — and a guard that greps would fail on its own reason.
 	source = (tree.APP / "one_admin" / "signup.py").read_text(encoding="utf-8")
 	numbers = {
 		node.value

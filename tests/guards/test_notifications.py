@@ -19,8 +19,6 @@ NOTIFY = tree.APP / "one" / "notify.py"
 HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
 
 
-#: Reading Notification Log is fine (setup.py asks whether it said something
-#: this week); writing one is not. So these are the ways of writing.
 FORBIDDEN = (
 	re.compile(r"frappe\.sendmail\("),
 	re.compile(r"enqueue_create_notification"),
@@ -85,7 +83,6 @@ def test_nothing_declares_a_notification_anywhere_else():
 	assert not stray, stray
 
 
-#: Every key a declaration may carry (one/notify.py says what each means).
 KEYS = {
 	"name", "app", "about", "subject", "message", "roles", "email", "push", "email_default",
 	"push_default", "outside", "required", "always_mailed", "words", "rule", "mailed_by", "switch",
@@ -100,7 +97,6 @@ def test_every_type_says_what_it_needs():
 		)
 		upstream = one.get("mailed_by") or one.get("words")
 		assert {"name", "app", "about"} <= set(one), name
-		# Our own words need a subject; the apps' own are theirs to write.
 		assert bool(one.get("subject")) != bool(upstream), name
 		assert not (one.get("outside") and one.get("push_default")), (
 			f"{name} goes outside and cannot be pushed"
@@ -151,11 +147,9 @@ def _sent():
 			):
 				first = node.args[0]
 				if path == tree.APP / "one" / "tell.py" and getattr(first, "id", None) == "carried":
-					# A standard rule is told as the type that carries it (rule_fired).
 					yield func.attr, [name for name, one in _declared().items() if one.get("rule")]
 					continue
 				if isinstance(first, ast.Attribute) and getattr(first.value, "id", None) == "self":
-					# Each class names its own, as a constant: every one it can be.
 					yield func.attr, _constants(path, first.attr)
 					continue
 				names = [first.body, first.orelse] if isinstance(first, ast.IfExp) else [first]

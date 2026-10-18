@@ -6,7 +6,6 @@ from frappe.utils import getdate
 
 from onedesk.one_demo.base import ABBR, COMPANY, CURRENCY, today
 
-#: Who runs the wizard: the bench's own address, as a new workspace's build does.
 BUILDER = "admin@example.com"
 
 
@@ -59,8 +58,6 @@ def settle():
 					"for_selling": 1,
 				}
 			).insert()
-	# The euro rose in the summer, so a euro invoice paid after it brings in
-	# more dirhams than it was booked at, and a euro bill costs more.
 	rose = getdate(f"{today().year}-07-20")
 	if rose <= today() and not frappe.db.exists("Currency Exchange", {"from_currency": "EUR", "date": rose}):
 		frappe.get_doc(

@@ -17,10 +17,8 @@ from frappe.utils.caching import request_cache
 from onedesk.one import stages
 from onedesk.one_project import overview
 
-#: A task that is still to do is none of these.
 DONE = ("Completed", "Cancelled", "Template")
 
-#: How somebody's judgement of a project reads.
 HEALTH_TONE = {"At Risk": "waiting", "Off Track": "alarm"}
 
 

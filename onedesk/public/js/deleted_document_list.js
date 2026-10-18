@@ -1,11 +1,7 @@
-// The Recycle Bin (one/recycle.py): who deleted what, and putting it back through
-// One's restore rather than frappe's, which is its System Manager's.
 frappe.listview_settings["Deleted Document"] = {
 	...frappe.listview_settings["Deleted Document"],
 	add_fields: ["deleted_doctype", "deleted_name", "one_title", "restored", "owner"],
 	formatters: {
-		// Its title, kept as it was deleted (one/recycle.py), and a custom
-		// field's form, from its name "Form-fieldname".
 		one_title(value, df, doc) {
 			const name = String(doc.deleted_name ?? "");
 			value = value || name;

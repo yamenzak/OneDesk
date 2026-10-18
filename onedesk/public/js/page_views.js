@@ -1,14 +1,5 @@
-// A page that gathers some record types into one screen (Batch and Serial No,
-// Request for Quotation, Subcontracting Order, Asset Maintenance) is one more view of those records, beside frappe's own. The
-// page's head carries frappe's view switcher, leading to their List and
-// Report views and to the reports that belong with them, and frappe's
-// switcher on those lists leads back to the page. One registry serves both
-// ways (docs/PASSOVER.md, Everything follows frappe).
 frappe.provide("onedesk");
 
-// Per page: its name in the switcher, and in order the record types it
-// gathers, each by its own name and the page's tab that shows it, then
-// the script reports that go with them.
 onedesk.page_views = {
 	lots: {
 		label: () => __("Batch and Serial No"),
@@ -48,7 +39,6 @@ onedesk.page_views = {
 	},
 };
 
-// The page that gathers a record type, and the tab that shows it.
 onedesk.page_views.page_of = (doctype) => {
 	for (const [page, said] of Object.entries(onedesk.page_views)) {
 		if (typeof said !== "object") continue;
@@ -58,9 +48,6 @@ onedesk.page_views.page_of = (doctype) => {
 	return null;
 };
 
-// The switcher on a page, as frappe draws it on a list (ListViewSelect): the
-// page itself, its Overview, selected, then List View and Report View, each
-// naming the record types when the page gathers more than one.
 onedesk.page_views.switcher = (page, name) => {
 	const said = onedesk.page_views[name];
 	if (!said) return;
@@ -92,7 +79,6 @@ onedesk.page_views.switcher = (page, name) => {
 			),
 		].filter(Boolean);
 	};
-	// The head is drawn again whenever the page reports, so one switcher.
 	page.custom_actions.add(page.custom_mobile_actions).children(".view-switcher").remove();
 	const $wrapper = $('<div class="custom-btn-group view-switcher"></div>');
 	const $trigger = frappe.ui.button({ css_class: "ellipsis" });
@@ -105,8 +91,6 @@ onedesk.page_views.switcher = (page, name) => {
 	parent.removeClass("hide").append($wrapper);
 };
 
-// frappe's switcher on a record type's list leads back to the page that
-// gathers it, as the first row.
 (() => {
 	const Select = frappe.views.ListViewSelect;
 	if (!Select || Select.prototype.one_page_views) return;

@@ -10,7 +10,6 @@ from frappe.utils import add_days, getdate, today
 from onedesk.one_admin import faults, lifecycle, log, runner
 from onedesk.one_admin.ladder import NOTICE_DAYS
 
-#: The rungs a workspace may be asked to close from: the ones still served.
 OPEN = ("Live", "Overdue")
 
 
@@ -26,7 +25,6 @@ def when(tenant) -> dict:
 	kept = days.get("Archived")
 	return {
 		"closing_on": str(closes),
-		# A period of zero means never (ladder.py), so there is no day to say.
 		"deleted_on": str(add_days(closes, kept)) if kept else None,
 		"asked_by": tenant.closing_asked_by,
 		"closed": tenant.status in ("Archived", "Dropped"),
@@ -75,7 +73,6 @@ def _renewal(tenant, ends: bool) -> None:
 	try:
 		stripe.at_period_end(tenant.stripe_subscription, ends)
 	except faults.Refused:
-		# The Archive job cancels it either way; an operator sees the log.
 		frappe.log_error(title=f"Closing {tenant.name}: the subscription was not changed")
 
 
@@ -87,8 +84,6 @@ def due() -> None:
 		return
 	for slug in frappe.get_all(
 		"Tenant",
-		# "is set" first: frappe reads a missing date as 0001-01-01, which is
-		# before today, so without it every workspace would be closed.
 		filters=[
 			["closing_on", "is", "set"],
 			["closing_on", "<=", today()],

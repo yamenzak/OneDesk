@@ -1,7 +1,3 @@
-// Status is the only decision on this record, so it is made by a verb rather
-// than by a dropdown: read-only on the form, and changed through the two
-// functions that also decide what happens next. Reset lets the employee
-// register another passkey; Block does not.
 frappe.ui.form.on("Clock Device", {
 	refresh(frm) {
 		if (frm.is_new() || !frappe.model.can_write("Clock Device")) return;

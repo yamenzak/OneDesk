@@ -1,10 +1,4 @@
 <template>
-  <!-- Batch and Serial No (one_inventory/page/lots): batches and serial numbers as one tool.
-       What each lot holds and where, which go off soon, each serial number
-       and where it is, and the items kept in lots, with Track Batches and New
-       Batch (one_inventory/lots.py, lots_actions.js). Modelled on Odoo's Lots
-       and Serial Numbers and Katana's batch tracking: a table of lots with one
-       status each, filtered by state above it. -->
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
@@ -54,9 +48,7 @@ const props = defineProps({
 const said = ref(null);
 const shown = ref(props.query.view || "batches");
 const search = ref("");
-// All, those going off within a month, or those gone off; ?soon= opens on the first two.
 const state = ref(props.query.soon ? "soon" : "all");
-// An item's page opens the page narrowed to that item.
 const item = ref(props.query.item || null);
 const wide = ref(viewWidth() >= 640);
 onBeforeUnmount(onResize(() => (wide.value = viewWidth() >= 640)));
@@ -127,7 +119,6 @@ const figures = computed(() => {
   ].filter(Boolean);
 });
 
-// The items kept in lots or by number, and how: their numbering and how long a lot keeps.
 const items = computed(() =>
   said.value.items.map((one) => ({
     key: one.name,
@@ -148,8 +139,6 @@ const items = computed(() =>
   }))
 );
 
-// A numbering pattern as the first number it gives, as frappe reads it:
-// SL-.#### is SL-0001, LOT-.YYYY.-.### is LOT-2026-001.
 function example(series) {
   const today = new Date();
   const parts = { YYYY: String(today.getFullYear()), YY: String(today.getFullYear()).slice(2), MM: String(today.getMonth() + 1).padStart(2, "0"), DD: String(today.getDate()).padStart(2, "0") };
@@ -171,8 +160,6 @@ function report() {
   );
 }
 
-// The page is a place (one_studio/places.py): its extensions are told what
-// it shows, and may add a note or a button.
 const placed = reactive({ notes: [], actions: [] });
 let drawn = null;
 function extended(s) {

@@ -23,8 +23,6 @@ import tree
 MODULE = "One Admin"
 OPERATOR = "One Operator"
 
-#: Read off the module rather than typed, so a doctype added without a
-#: permission block is a failure rather than a thing this file forgot.
 def admin_doctypes() -> list[tuple[str, dict]]:
 	found = []
 	for path in tree.fixtures():
@@ -43,7 +41,7 @@ def test_the_module_has_doctypes_to_hold_to_the_rule():
 def test_every_operator_doctype_grants_one_role_and_it_is_the_operator():
 	for name, spec in admin_doctypes():
 		if spec.get("istable"):
-			continue  # A child is reached through its parent and grants nothing.
+			continue
 		roles = [row.get("role") for row in spec.get("permissions") or []]
 		assert roles == [OPERATOR], (
 			f"{name} grants {roles!r}. Every OneAdmin doctype grants exactly "

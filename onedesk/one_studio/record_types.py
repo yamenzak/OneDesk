@@ -15,7 +15,6 @@ from onedesk.one_studio import extensions, tell
 RECORD_TYPE = "Record Type"
 MODULE = "One Studio"
 
-#: What a field of a workspace's record type may be.
 FIELDTYPES = (
 	"Data",
 	"Small Text",
@@ -40,19 +39,14 @@ FIELDTYPES = (
 	"Column Break",
 )
 
-#: What a field may say of itself, beside its label and kind.
 FIELD_KEYS = ("label", "fieldtype", "options", "reqd", "in_list_view", "description")
 
-#: A name a person can read: words, spaces, and nothing frappe would refuse.
 NAME = re.compile(r"^[A-Za-z][A-Za-z0-9 ]{2,60}$")
 
-#: The most fields one may have.
 MOST_FIELDS = 60
 
-#: The group of an app's rail a collection sits in when none is chosen.
 YOUR_RECORDS = "Your Records"
 
-#: A group's name, as a person writes one.
 GROUP = re.compile(r"^[A-Za-z][A-Za-z0-9 &]{1,39}$")
 
 
@@ -181,7 +175,6 @@ def _permissions(app: str) -> list[dict]:
 	every = {"read": 1, "write": 1, "create": 1, "report": 1, "export": 1, "print": 1, "email": 1, "share": 1}
 	spec = _apps()[app]
 	rows = [{"role": roles.ADMINISTRATOR, **every, "delete": 1}]
-	# frappe's own rule grants delete unless told not to.
 	rows += [{"role": role, **every, "delete": 0} for role in spec["users"]]
 	rows += [{"role": role, **every, "delete": 1} for role in spec["managers"]]
 	return rows
@@ -268,8 +261,6 @@ def change(
 		doctype.set("fields", rows)
 		doctype.description = description
 		if doctype.autoname == "hash":
-			# Made before collections were numbered: its records so far keep
-			# their IDs, and new ones are numbered.
 			doctype.autoname = series(doctype.name, doctype.name)
 		doctype.set("permissions", _permissions(app))
 		doctype.save(ignore_permissions=True)
@@ -302,7 +293,6 @@ def _told(doctype: str, app: str, description: str | None, link: bool = True) ->
 		"who": frappe.utils.get_fullname(frappe.session.user),
 		"collection": _(doctype),
 		"app": _(app),
-		# A sentence of its own before the fields, however it was written.
 		"description": (description or "").strip().rstrip(".") + "." if (description or "").strip() else "",
 		"fields": ", ".join(shown),
 	}

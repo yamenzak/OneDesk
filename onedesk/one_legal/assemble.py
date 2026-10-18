@@ -8,8 +8,6 @@ import hashlib
 from .documents import DOCUMENTS, PARTY, SECTIONS
 from .registry import clauses_for, subprocessor_rows
 
-#: Every module that declares clauses. Imported for the side effect, in a fixed
-#: order so the registry is the same on every process — the hash depends on it.
 MODULES = (
 	"one",
 	"one_admin",
@@ -44,7 +42,6 @@ def _load() -> None:
 
 	import importlib
 
-	# The house clauses first: One as a whole, then each module.
 	importlib.import_module("onedesk.one_legal.legal")
 	for module in MODULES:
 		try:

@@ -6,7 +6,6 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 
-#: The fields a requested file can fill.
 ATTACH = ("Attach", "Attach Image")
 
 
@@ -16,7 +15,6 @@ def hashed(token: str) -> str:
 
 class CloudFileRequest(Document):
 	def validate(self):
-		# What arrives needs somewhere to land, however the request is made.
 		if not self.folder and not (self.reference_doctype and self.reference_name):
 			frappe.throw(_("Pick the folder or the record the files go to."))
 		if self.reference_doctype and not frappe.db.exists(self.reference_doctype, self.reference_name):

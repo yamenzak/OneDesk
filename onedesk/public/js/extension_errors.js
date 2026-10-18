@@ -1,8 +1,3 @@
-// An extension's Errors tab (one_studio/mend.py): what this version of it ran
-// into, at most two weeks back: when, on which record, and what went wrong in
-// one line. Never its code, which nobody on the workspace reads: Fix With
-// OneAI, at the top of the extension, has OneAI read the code and these errors
-// and write it again.
 onedesk.record_tabs.register("errors", {
 	async refresh(frm, field) {
 		if (!field || frm.is_new()) return;

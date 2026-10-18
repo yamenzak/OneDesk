@@ -1,23 +1,7 @@
-// A crumb is where the reader goes next (docs/STANDARD.md, The breadcrumb).
-// Every crumb with somewhere else to go is a switcher: a search box over the
-// choices, as frappe-ui's Combobox draws one with trigger="button", in an
-// espresso popover with the menu's rows.
-// - The place's crumb ("Projects", "Purchase Orders") lists the app's
-//   places, the panel's own rows under its section names (panel_menu.js).
-// - A record's crumb lists the records of its kind and searches them as a
-//   link field does (frappe.desk.search.search_link), with the kind's own
-//   suggestions before anything is typed (`onedesk.crumbs.suggest`), and
-//   the whole list last.
-// - A crumb a page gives choices of its own (shell.trail's `menu` and
-//   `after`) lists those, filtered by what is typed.
 frappe.provide("onedesk.crumbs");
 
-// Per doctype, what its record's crumb offers before anything is typed:
-// `(current) => options`, frappe.ui.Dropdown's options or a Promise of them.
 onedesk.crumbs.suggest = onedesk.crumbs.suggest || {};
 
-// The choices as rows and sections, `{ label, description, icon, selected,
-// onclick }` and `{ group, options }`, whatever shape they came in.
 const sections = (options) => {
 	const out = [];
 	for (const one of (options || []).filter(Boolean)) {
@@ -30,7 +14,6 @@ const sections = (options) => {
 	return out;
 };
 
-// What a typed word keeps of fixed choices.
 const matching = (options, txt) => {
 	const word = (txt || "").trim().toLowerCase();
 	if (!word) return options;
@@ -39,10 +22,6 @@ const matching = (options, txt) => {
 };
 onedesk.crumbs.matching = matching;
 
-// The panel: the search row, then the rows, then the pinned ones (the whole
-// list) under them, as frappe-ui's Combobox has its footer; the highlight
-// moved by the arrow keys and the pointer alike, as frappe's menu moves its
-// data-highlighted.
 const panel = ({ options, placeholder, picked }) => {
 	const $panel = $(`<div class="one-crumb-switch-panel">
 		<label class="one-crumb-switch-search">
@@ -128,12 +107,9 @@ const panel = ({ options, placeholder, picked }) => {
 	return { el: $panel[0], focus: () => $input.trigger("focus") };
 };
 
-// A crumb made a switcher. `options(txt)` gives the rows for what is typed.
-// `button` is a button already drawn, as a scope's in a phone's second bar.
 onedesk.crumbs.switch = ($crumb, { options, placeholder = __("Search"), button = false }) => {
 	if (!$crumb?.length) return;
 	if (!button) $crumb.addClass("one-crumb-switch");
-	// The crumb opens its switcher; where it led is the first of its rows.
 	if (!button) $crumb.find("a").removeAttr("href").attr({ role: "button", tabindex: 0 });
 	if (!button && !$crumb.find(".one-crumb-chevron").length) {
 		$crumb.children().first().append($(frappe.utils.icon("chevrons-up-down", "xs")).addClass("one-crumb-chevron"));
@@ -147,15 +123,12 @@ onedesk.crumbs.switch = ($crumb, { options, placeholder = __("Search"), button =
 	});
 };
 
-// The place's switcher: the panel's rows, `here` ticked, the typed word
-// matched against a row's name and its section's.
 onedesk.crumbs.places = ($crumb, here) =>
 	onedesk.crumbs.switch($crumb, {
 		placeholder: __("Go to"),
 		options: (txt) => matching(onedesk.panel.options(here), txt),
 	});
 
-// A record's switcher: the records of its kind, as a link field finds them.
 onedesk.crumbs.records = ($crumb, { doctype, name, list, button = false }) =>
 	onedesk.crumbs.switch($crumb, {
 		button,
@@ -178,8 +151,6 @@ onedesk.crumbs.records = ($crumb, { doctype, name, list, button = false }) =>
 		},
 	});
 
-// Each drawing of a page's trail makes its crumbs switchers: the crumbs a
-// page gave choices to, the record's own, and the one that names the place.
 {
 	const Page = frappe.ui.Page;
 	if (Page && !Page.prototype.__one_crumb_switch) {
@@ -190,22 +161,15 @@ onedesk.crumbs.records = ($crumb, { doctype, name, list, button = false }) =>
 			const $crumbs = this.$breadcrumbs && this.$breadcrumbs.children("li");
 			if (!$crumbs || !$crumbs.length) return;
 			const items = this.get_breadcrumbs();
-			// The record: a form's, or a record page's (onedesk.island_page `record`).
 			const route = frappe.get_route();
 			const form = route[0] === "Form" && route[2] && !String(route[2]).startsWith("new-");
 			const doctype = form ? route[1] : this.one_record;
 			const name = form ? route[2] : this.one_record && route[1];
 			const at = form ? items.length - 1 : items.findIndex((item) => item.one_record);
-			// On a phone the trail splits over the head's two bars: the place
-			// stays in the first, and the record and what narrows it (a
-			// project's All Work) are buttons at the start of the second,
-			// beside its status and buttons (phone_head.js). Wider, they are
-			// crumbs as frappe draws them.
 			this.page_actions?.children(".one-head-record, .one-head-scope").remove();
 			const below = (i, kind, wire) => {
 				if (at < 0 || i < at || !this.page_actions) return;
 				$crumbs.eq(i).addClass(i === at ? "one-crumb-record" : "one-crumb-scope");
-				// Their order in the bar is desk.css's: the record first.
 				const $button = frappe.ui.button({ label: items[i].label, icon_right: "chevrons-up-down", css_class: kind });
 				this.page_actions.prepend($button);
 				wire($button);
@@ -219,7 +183,6 @@ onedesk.crumbs.records = ($crumb, { doctype, name, list, button = false }) =>
 				done.add(i);
 				below(i, i === at ? "one-head-record" : "one-head-scope", ($b) => onedesk.crumbs.switch($b, { options, button: true }));
 			});
-			// The place: the crumb that leads back to it, or the place's own page.
 			let place = -1;
 			let here = null;
 			items.forEach((item, i) => {
@@ -242,8 +205,6 @@ onedesk.crumbs.records = ($crumb, { doctype, name, list, button = false }) =>
 	}
 }
 
-// The panel is drawn after the page on a cold load: the trail is drawn again
-// once it is there, so the place's crumb finds its rows.
 {
 	const Sidebar = frappe.ui.Sidebar;
 	if (Sidebar && !Sidebar.prototype.__one_crumb_panel) {

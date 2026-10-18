@@ -1,25 +1,8 @@
-// The passkey button on the login page, ahead of the password.
-//
-// `web_include_js` reaches here — `templates/base.html` renders those includes
-// and `login.html` extends it — so the button is added to frappe's own card
-// rather than by replacing their template. With the switch off nothing is
-// added at all.
-//
-// No account is named before the signature is verified. Asking the server
-// whether it holds a passkey for an address would turn the login page into a
-// way of finding out who works here.
-// Deferred to DOMContentLoaded: base.html renders the includes near the end of
-// the body but the login card is drawn by a block above it, and reading for a
-// card that is not there yet is how the button quietly never appears.
 const draw = () => {
-	// The sign-in card only: Set Password and Your Data draw the same card.
 	const $card = document.querySelector(".for-login:not(.one-your-data) .page-card-body");
 	if (!$card) return;
 	if (!(window.PublicKeyCredential && navigator.credentials && window.isSecureContext)) return;
 
-	// `frappe.call` is in frappe-web.bundle, which base.html loads before these
-	// includes, so the login page has it and there is no reason to reach for
-	// anything else.
 	const call = (method, args) =>
 		frappe.call({ method, args: args || {}, type: "POST" }).then((r) => r.message);
 
@@ -65,9 +48,6 @@ const draw = () => {
 
 	call("onedesk.one_hr.signin.offered").then((yes) => {
 		if (!yes) return;
-		// The way in the page leads with: first and solid, with the password
-		// under an "or" and its button stepped down to match. Enter in the
-		// password box still submits it.
 		const $button = document.createElement("button");
 		$button.type = "button";
 		$button.className = "es-button w-full one-passkey-login";
@@ -84,10 +64,6 @@ const draw = () => {
 	});
 };
 
-// Your Data and the Privacy Policy under the sign-in card. frappe's login
-// stylesheet hides the site footer, where brand.py puts the same two links,
-// so somebody who is not a user would never see where to ask for their data
-// (one/privacy_public.py). frappe's own small line, as under its reset card.
 const footnote = () => {
 	const $card = document.querySelector(".for-login:not(.one-your-data) .login-content");
 	if (!$card || document.querySelector(".one-login-footnote")) return;
@@ -107,8 +83,6 @@ const footnote = () => {
 	$card.appendChild($line);
 };
 
-// After frappe's own fetch of the page's translations, or both would be
-// drawn in English on a page in Arabic.
 const start = () =>
 	Promise.resolve(window.frappe && frappe._translations_loaded)
 		.catch(() => null)

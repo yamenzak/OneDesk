@@ -1,7 +1,3 @@
-// Push in this browser: turning it on, off, and saying where it stands. The
-// server side is one/push.py. The worker is served from a method with
-// Service-Worker-Allowed: / so it is registered for the whole site; it handles
-// push and clicks only, never a request the page makes.
 
 frappe.provide("onedesk.push");
 
@@ -12,7 +8,6 @@ Object.assign(onedesk.push, {
 		return "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
 	},
 
-	// Where this browser stands: not able to, blocked, on (with its address), or off.
 	async state() {
 		if (!this.supported()) return { state: "unsupported" };
 		if (Notification.permission === "denied") return { state: "blocked" };
@@ -39,7 +34,6 @@ Object.assign(onedesk.push, {
 		await subscription.unsubscribe();
 	},
 
-	// The browser and the system, as a person would name the device.
 	label() {
 		const agent = navigator.userAgent;
 		const browser = /Edg\//.test(agent) ? "Edge" : /Firefox\//.test(agent) ? "Firefox" : /Chrome\//.test(agent) ? "Chrome" : /Safari\//.test(agent) ? "Safari" : __("A browser");
@@ -47,7 +41,6 @@ Object.assign(onedesk.push, {
 		return system ? __("{0} on {1}", [browser, system]) : browser;
 	},
 
-	// The server's key as the browser wants it: base64url to bytes.
 	bytes(key) {
 		const padded = (key + "=".repeat((4 - (key.length % 4)) % 4)).replace(/-/g, "+").replace(/_/g, "/");
 		return Uint8Array.from(atob(padded), (c) => c.charCodeAt(0));

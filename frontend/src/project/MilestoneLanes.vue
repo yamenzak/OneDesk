@@ -1,9 +1,4 @@
 <template>
-  <!-- A whole job's milestones, a row per part of it on one dated line:
-       Main, then each sub-project with what is under it
-       (milestones.py `lanes`). Done ones filled, each row's next one ringed
-       and named, a late one red, the rest named on hover. On a phone, a row
-       per part with its next milestone. -->
   <div>
     <div class="max-md:hidden">
       <div class="grid grid-cols-[9rem_minmax(0,1fr)_4rem] gap-x-4">
@@ -14,7 +9,6 @@
         <div />
       </div>
       <div class="relative mb-5">
-        <!-- Today, across every row. -->
         <div v-if="now !== null" class="pointer-events-none absolute inset-y-0 z-[1] grid w-full grid-cols-[9rem_minmax(0,1fr)_4rem] gap-x-4">
           <div />
           <div class="relative">
@@ -55,8 +49,6 @@ const DAY = 86400000;
 const time = (day) => Date.parse(`${day}T00:00:00Z`);
 const todayIs = today();
 
-// The line runs from the first milestone to the last, today included, with
-// a little room either side.
 const span = computed(() => {
   const days = props.lanes.flatMap((lane) => lane.milestones.map((one) => one.due).filter(Boolean)).concat([todayIs]).map(time);
   const first = Math.min(...days) - 4 * DAY;
@@ -66,7 +58,6 @@ const span = computed(() => {
 const at = (day) => (100 * (time(day) - span.value.first)) / span.value.width;
 const now = computed(() => at(todayIs));
 
-// A tick on the first of each month on the line.
 const ticks = computed(() => {
   const found = [];
   const start = new Date(span.value.first);
@@ -92,10 +83,8 @@ const ring = (one, lane) =>
   one.done ? "border-outline-gray-5 bg-surface-gray-7" : late(one) ? "border-outline-red-3 bg-surface-red-5" : one.name === lane.next?.name ? "border-outline-gray-5 bg-surface-base" : "border-outline-gray-3 bg-surface-base";
 const tip = (one) => [one.subject, one.in_lane, one.due ? shortDate(one.due) : __("No date")].filter(Boolean).join(" · ");
 
-// Main shows the page for the project's own work; a sub-project opens.
 const openLane = (lane) => (lane.main ? emit("main") : go(`/desk/project/${encodeURIComponent(lane.key)}`));
 
-// On a phone: each part, its next milestone and when, and how many are done.
 const phone = computed(() =>
   rows.value.map((lane) => ({
     key: lane.key,

@@ -11,10 +11,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 
-#: A FieldGroup handed a dict: a dialog, a step's form, or a field group.
 DICT_TO_FIELD_GROUP = re.compile(r"\b(?:dialog|d|dlg|form|fields?|group)\.set_value\(\s*\{")
 
-#: A button drawn with Bootstrap's `btn` class, or recoloured by poking one on.
 HAND_BUTTON = re.compile(r"""class=["'](?:[^"']*\s)?btn(?:\s[^"']*)?["']|(?:add|remove|toggle)Class\(\s*["']btn-""")
 
 

@@ -7,7 +7,6 @@ import frappe
 
 from onedesk.one_intake.search import BEFORE, SKIP, WIDTH, file_route, files_of, messages_of, root_of, snippet
 
-#: How many documents OneAI is shown, at most.
 MOST_FOUND = 10
 
 
@@ -25,7 +24,6 @@ def find_documents(
 	open is found. For a question about amounts, add up the amounts found
 	rather than quoting a passage."""
 	asked = [word for word in re.findall(r"\w{3,}", (words or "").lower()) if word not in SKIP][:12]
-	# A batch scan is found through the letters cut from it, not beside them.
 	conditions, values = ["state in ('Read', 'Understood')", "name not in (select part_of from `tabReading` where ifnull(part_of, '') != '')"], {}
 	if asked:
 		conditions.append("match(title, text) against (%(q)s in boolean mode)")

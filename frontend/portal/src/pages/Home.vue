@@ -1,8 +1,4 @@
 <template>
-  <!-- What the reader has with the workspace (one/portal.py `home`).
-       Modelled on Shopify's customer account and Stripe's customer portal: a
-       tile a kind they have, with what is left to pay on bills; then what
-       asks something of them, each with its button, beside what came last. -->
   <Head :title="__('Home')" />
   <div class="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
     <div class="mb-6">

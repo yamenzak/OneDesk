@@ -1,29 +1,9 @@
-// The explorer: every file a person may reach, laid out the way everybody
-// already knows — a folder tree on the left, an address bar with back, forward
-// and up, the folder's contents as details or tiles, a preview on the right,
-// and a status bar underneath.
-//
-// It draws and never decides. Every list and every change is a call to
-// one_storage/api.py, which asks namespace.may first; a button that is shown
-// but refused says why in the server's words. Uploads go from this browser to
-// R2 directly (one_storage/upload.py signs them), so a large file costs this
-// server two small requests.
-//
-// The place is in the address (?node=…), so the browser's own back button,
-// a bookmark and a link somebody pastes all land in the same folder.
-//
-// Two hosts: the OneCloud page (page/onecloud), and a record's Files tab
-// (record_files.js), which opens it on one record's room with no tree and
-// no address of its own. Either loads this file when first opened.
 
 frappe.provide("onedesk");
 
 onedesk.OneCloud = class OneCloud {
 	static API = "onedesk.one_storage.api.";
 
-	// What OneAI is told about the OneCloud page (oneai.js `where`): the
-	// folder open and, when one file is chosen, that file. Only the page's
-	// own explorer, never a picker or a record's Files tab.
 	static here() {
 		const cloud = frappe.pages.onecloud && frappe.pages.onecloud.onecloud;
 		if (!cloud || (frappe.get_route() || [])[0] !== "onecloud") return null;
@@ -49,11 +29,6 @@ onedesk.OneCloud = class OneCloud {
 	static PREVIEW_VIDEO = ["mp4", "webm", "mov", "m4v"];
 	static PREVIEW_AUDIO = ["mp3", "wav", "ogg", "m4a", "flac", "aac"];
 
-	// `room`: a record's node, for the Files tab — the explorer opens there,
-	// stays there, and draws into `parent` rather than a page of its own.
-	// `picker`: the upload dialog's OneCloud (one_storage/public/js/
-	// onecloud_picker.js) — it walks anywhere without the address, changes
-	// nothing, and a file opened is a file chosen: {start, on_pick, on_select}.
 	constructor(page, { room = null, parent = null, listed = null, picker = null } = {}) {
 		this.page = page;
 		this.room = room;
@@ -84,10 +59,7 @@ onedesk.OneCloud = class OneCloud {
 		});
 	}
 
-	// ------------------------------------------------------------- the frame
-
 	build() {
-		// Every button is frappe's own (frappe.ui.button), named by what it does.
 		const button = (act, name, label, more = {}) =>
 			frappe.ui.button.html({ variant: "ghost", icon: name, label, title: label, attrs: { "data-act": act, ...more } });
 		const bare = (act, name, label) =>
@@ -127,8 +99,6 @@ onedesk.OneCloud = class OneCloud {
 			<input type="file" class="oc-pick-version" hidden>
 			<div class="oc-uploads" hidden></div>
 		</div>`).appendTo(this.parent || this.page.$shell);
-		// Three panes, the shell's, inside the explorer's window: the tree, what
-		// is in the folder, and the preview. A record has no tree.
 		const panes = onedesk.shell.panes(
 			this.$root.find(".oc-body"),
 			[
@@ -151,7 +121,6 @@ onedesk.OneCloud = class OneCloud {
 		this.$preview = panes.preview.addClass("oc-preview").attr("role", "complementary");
 		this.$items = this.$root.find(".oc-items");
 		this.$search = onedesk.shell.search(this.$root.find(".oc-search"));
-		// Details or tiles: frappe's segmented control (frappe.ui.tab_buttons).
 		this.$views = frappe.ui
 			.tab_buttons({
 				type: "ghost",
@@ -163,8 +132,6 @@ onedesk.OneCloud = class OneCloud {
 				on_change: (value) => this.act(value === "tiles" ? "view-tiles" : "view-details"),
 			})
 			.appendTo(this.$root.find(".oc-views"));
-		// On its page, the explorer runs to the bottom of the window; a tab's
-		// or a dialog's height is its stylesheet's.
 		if (!this.room && !this.picker) onedesk.shell.fit(this.$root);
 	}
 
@@ -185,25 +152,18 @@ onedesk.OneCloud = class OneCloud {
 		frappe.model.user_settings.save("File", "OneCloud", this.settings);
 	}
 
-	// ------------------------------------------------------------- live
-
-	// Somebody else's change to what is open: redraw, the way a list view
-	// does. The server says which folders and records changed as keys
-	// (one_storage/live.py); a listing says which keys it is watching.
 	listen() {
 		frappe.realtime.doctype_subscribe("File");
 		const redraw = frappe.utils.debounce(() => this.redraw(), 600);
 		frappe.realtime.on("onecloud_change", (data) => {
 			const keys = (data && data.keys) || [];
 			if (this.watch !== "*" && !keys.some((one) => (this.watch || []).includes(one))) return;
-			// Hidden (another page, another tab of the form): on the next look.
 			if (!this.$root.is(":visible")) return (this.stale = true);
 			redraw();
 		});
 	}
 
 	redraw() {
-		// Not under somebody's hands: a menu open, a name being typed, a drag.
 		if (this.menu_open() || this.dragging || this.$root.find("input.oc-rename, input.oc-path").length) {
 			return setTimeout(() => this.redraw(), 1500);
 		}
@@ -211,20 +171,15 @@ onedesk.OneCloud = class OneCloud {
 		this.refresh();
 	}
 
-	// ------------------------------------------------------------ where we are
-
 	wanted() {
 		if (this.picker) return this.node || this.picker.start || "@my";
 		return this.room || frappe.utils.get_query_params().node || "@my";
 	}
 
-	// The room, or the whole project a project's Main is the own part of.
 	same(node) {
 		return node === this.room || (this.room.startsWith("@own/") && node === `@records/Project/${this.room.slice(5)}`);
 	}
 
-	// Whether a room shows `node` in place: the room, a folder it lists while
-	// inside it, or a step of the trail from the room down.
 	holds(node) {
 		if (this.same(node)) return true;
 		const from = this.trail.findIndex((one) => this.same(one.id));
@@ -232,7 +187,6 @@ onedesk.OneCloud = class OneCloud {
 		return this.trail.slice(from).some((one) => one.id === node) || this.items.some((one) => one.id === node && one.folder);
 	}
 
-	// The Files tab moving to another record (the form is reused).
 	enter(room) {
 		if (room === this.room) return this.ready && this.refresh();
 		this.room = room;
@@ -242,12 +196,10 @@ onedesk.OneCloud = class OneCloud {
 		if (this.ready) this.open(room);
 	}
 
-	// Coming to the page, or the address changing under it.
 	show() {
 		if (!this.ready) return;
 		const node = this.wanted();
 		if (node === this.node) return this.refresh();
-		// The browser's own back and forward, kept in step with ours.
 		if (this.past.length && this.past[this.past.length - 1] === node) {
 			this.past.pop();
 			this.node && this.ahead.push(this.node);
@@ -263,15 +215,12 @@ onedesk.OneCloud = class OneCloud {
 
 	go(node) {
 		if (node === this.node && !this.search) return;
-		// The picker keeps its own history; the page's address is not its.
 		if (this.picker) {
 			this.node && this.past.push(this.node);
 			this.ahead = [];
 			this.set_search("");
 			return this.open(node);
 		}
-		// A room is one record's files, and the folders it holds (a project's
-		// sub-projects and tasks) open in place; anywhere else is the OneCloud page.
 		if (this.room) {
 			if (!this.holds(node)) return frappe.set_route("onecloud", { node });
 			if (this.same(node)) node = this.room;
@@ -287,8 +236,6 @@ onedesk.OneCloud = class OneCloud {
 
 	async open(node) {
 		this.node = node;
-		// A link to one file (the awesome bar's "In documents") opens its
-		// folder with the file chosen.
 		const asked = !this.picker && !this.room && frappe.utils.get_query_params().file;
 		if (asked) this.reveal = asked;
 		this.selected.clear();
@@ -323,7 +270,6 @@ onedesk.OneCloud = class OneCloud {
 		const live = new Set(this.items.map((one) => one.id));
 		this.selected = new Set([...this.selected].filter((id) => live.has(id)));
 		this.draw();
-		// Inside a room's folder, back and up lead home again.
 		if (this.room) this.$root.toggleClass("oc-deep", this.node !== this.room);
 		if (!this.room) this.draw_tree();
 		if (this.listed) this.listed(this.items.length);
@@ -351,8 +297,6 @@ onedesk.OneCloud = class OneCloud {
 		return "folder";
 	}
 
-	// ------------------------------------------------------------- drawing
-
 	draw() {
 		const here = this.trail[this.trail.length - 1];
 		this.draw_crumbs();
@@ -360,7 +304,6 @@ onedesk.OneCloud = class OneCloud {
 		this.$search.attr("placeholder", global ? __("Search everywhere") : __("Search {0}", [here ? here.name : __("Files")]));
 		this.draw_scope(here);
 		this.$root.attr("data-kind", this.kind());
-		// Search results say which folder each is in; Shared with Me says who from.
 		const where_head = { shared: __("Shared by"), libraries: __("Your role"), recent: __("Folder"), starred: __("Folder"), network: __("Type"), requests: __("Progress"), request: __("File · From") }[this.kind()];
 		this.$root.toggleClass("oc-searching", !!this.search || !!where_head);
 		this.$root.find(".oc-head .oc-col-where").text(where_head && !this.search ? where_head : __("Folder"));
@@ -376,8 +319,6 @@ onedesk.OneCloud = class OneCloud {
 		this.draw_bar();
 	}
 
-	// While searching: where the results are from, and a way to widen or
-	// narrow that, the way an explorer offers "search again in".
 	draw_scope(here) {
 		const $scope = this.$root.find(".oc-scope");
 		const scoped = !!this.search && this.kind() !== "root" && !this.room;
@@ -414,7 +355,6 @@ onedesk.OneCloud = class OneCloud {
 	}
 
 	draw_crumbs() {
-		// frappe's breadcrumbs: each folder above goes there, the last is here.
 		const last = this.trail.length - 1;
 		const $crumbs = frappe.ui.breadcrumbs({
 			items: this.trail.map((one, at) => ({
@@ -475,8 +415,6 @@ onedesk.OneCloud = class OneCloud {
 			if (sort === "where") return (item.where || "").toLowerCase();
 			return (item.name || "").toLowerCase();
 		};
-		// The server's own order is kept where it means something: the roots,
-		// and the records, newest file first.
 		if (["root", "records"].includes(this.kind()) && sort === "name" && way === 1) return this.items.slice();
 		return this.items.slice().sort((a, b) => {
 			if (a.folder !== b.folder) return a.folder ? -1 : 1;
@@ -517,7 +455,6 @@ onedesk.OneCloud = class OneCloud {
 		return onedesk.size(bytes);
 	}
 
-	// One of two sentences, the second with the number put in.
 	count(n, one, many) {
 		return n === 1 ? one : many.replace("{0}", n);
 	}
@@ -557,7 +494,6 @@ onedesk.OneCloud = class OneCloud {
 		</div>`;
 	}
 
-	// Selection, focus and what was cut, drawn onto rows already there.
 	mark() {
 		const cut = this.clipboard && this.clipboard.mode === "cut" ? new Set(this.clipboard.ids) : new Set();
 		this.$items.find(".oc-item").each((_, el) => {
@@ -573,8 +509,6 @@ onedesk.OneCloud = class OneCloud {
 		this.tell_oneai();
 	}
 
-	// An open OneAI panel is told when the chosen file changes, so what it
-	// offers and what it is told are about that file.
 	tell_oneai() {
 		if (this.picker || this.room || !onedesk.oneai || !onedesk.oneai.panel) return;
 		const here = OneCloud.here();
@@ -588,8 +522,6 @@ onedesk.OneCloud = class OneCloud {
 		return this.items.filter((one) => this.selected.has(one.id));
 	}
 
-	// Backed by a File of ours: can be shared, starred, versioned. A server's
-	// file is stored somewhere else, and only moved, copied and renamed.
 	filed(item) {
 		return this.stored(item) && !item.remote;
 	}
@@ -630,8 +562,6 @@ onedesk.OneCloud = class OneCloud {
 		}
 		this.$root.find(".oc-status").text(text);
 	}
-
-	// ------------------------------------------------------------- preview
 
 	draw_preview() {
 		if (!cint(this.settings.preview)) return;
@@ -674,14 +604,10 @@ onedesk.OneCloud = class OneCloud {
 			<dl>${rows.map(([key, value]) => `<dt>${key}</dt><dd>${esc(String(value))}</dd>`).join("")}</dl>
 			<div class="oc-history"></div>`);
 		if (this.filed(item)) this.draw_history(item);
-		// What OneAI read in it (intake.js).
 		if (this.filed(item) && !item.folder) onedesk.intake.panel(this.$preview.find(".oc-intake-panel"), { file: item.id });
 		this.extended(item);
 	}
 
-	// The workspace's extensions on OneCloud (one_studio/places.py), told a
-	// file is chosen with what its preview shows, and lent a note and a button
-	// under its name. Not in a picker, which only chooses.
 	extended(item) {
 		if (item.folder || this.picker || !onedesk.places || !onedesk.places.listening("onecloud.file")) return;
 		const powers = onedesk.places.spot(($spot) => $spot.insertAfter(this.$preview.find(".oc-preview-name")));
@@ -700,10 +626,7 @@ onedesk.OneCloud = class OneCloud {
 		);
 	}
 
-	// With nothing chosen, the folder itself: what is in it, who can see it,
-	// and whether OneAI reads it, as a file's details are shown.
 	draw_folder() {
-		// Drawn again when what is in the folder changes.
 		const key = `@folder:${this.node}:${this.items.length}:${this.items.reduce((sum, one) => sum + (one.size || 0), 0)}`;
 		if (this.previewing === key) return;
 		this.previewing = key;
@@ -721,7 +644,6 @@ onedesk.OneCloud = class OneCloud {
 			<div class="oc-preview-shown"><div class="oc-preview-icon">${frappe.utils.icon("folder", "xl")}</div></div>
 			<div class="oc-preview-name">${esc(here ? here.name : "OneCloud")}</div>
 			<dl class="oc-folder-facts">${rows.map(([name, value]) => `<dt>${name}</dt><dd>${esc(value)}</dd>`).join("")}</dl>`);
-		// A folder of ours says who can see it and whether OneAI reads it.
 		if (!this.node || this.node.startsWith("@")) return;
 		const node = this.node;
 		Promise.all([
@@ -740,7 +662,6 @@ onedesk.OneCloud = class OneCloud {
 		});
 	}
 
-	// A file's versions and what was done to it, under its preview.
 	async draw_history(item) {
 		let found;
 		try {
@@ -782,11 +703,8 @@ onedesk.OneCloud = class OneCloud {
 		});
 	}
 
-	// ------------------------------------------------------------- the tree
-
 	async draw_tree() {
 		if (!this.kids["@root"]) this.kids["@root"] = await frappe.xcall(OneCloud.API + "folders", { node: "@root" });
-		// Everything on the way to where we are is opened, so the tree shows it.
 		for (const one of this.trail.slice(1, -1)) this.open_in_tree.add(one.id);
 		for (const id of this.open_in_tree) {
 			if (!this.kids[id]) {
@@ -817,11 +735,8 @@ onedesk.OneCloud = class OneCloud {
 		if (!ids.length) this.kids = {};
 	}
 
-	// ------------------------------------------------------------- events
-
 	bind() {
 		const $r = this.$root;
-		// New is frappe's own action menu on its button (frappe.ui.Dropdown).
 		this.new_dropdown = new frappe.ui.Dropdown({
 			trigger: $r.find("[data-act=new-menu]"),
 			options: () => this.as_menu(this.new_menu()),
@@ -830,7 +745,6 @@ onedesk.OneCloud = class OneCloud {
 			e.stopPropagation();
 			this.act(e.currentTarget.dataset.act, e);
 		});
-		// The empty part of the address bar turns it into a path to type.
 		$r.on("click", ".oc-crumbs", () => this.type_path());
 		$r.on("click", ".oc-head [data-sort]", (e) => {
 			const key = e.currentTarget.dataset.sort;
@@ -838,7 +752,6 @@ onedesk.OneCloud = class OneCloud {
 			this.draw();
 		});
 
-		// The tree.
 		this.$tree.on("click", ".oc-twisty", async (e) => {
 			e.stopPropagation();
 			const id = $(e.currentTarget).closest(".oc-node").attr("data-node");
@@ -848,7 +761,6 @@ onedesk.OneCloud = class OneCloud {
 		});
 		this.$tree.on("click", ".oc-node", (e) => this.go(e.currentTarget.dataset.node));
 
-		// The items.
 		this.$items.on("mousedown", ".oc-item", (e) => {
 			if (e.button === 2 && this.selected.has(e.currentTarget.dataset.id)) return;
 			if (e.button > 2) return;
@@ -862,9 +774,6 @@ onedesk.OneCloud = class OneCloud {
 			}
 		});
 		this.$items.on("dblclick", ".oc-item", (e) => this.open_items([this.find(e.currentTarget.dataset.id)]));
-		// The right-click menu is frappe's own (frappe.ui.ContextMenu): what it
-		// offers is decided as it opens, from what was clicked. A picker is for
-		// choosing, not changing, and has none.
 		if (this.picker) {
 			this.$items.on("contextmenu", (e) => e.preventDefault());
 		} else {
@@ -884,7 +793,6 @@ onedesk.OneCloud = class OneCloud {
 		}
 		$r.on("keydown", (e) => this.key(e));
 
-		// Search, as you type.
 		this.$search.on(
 			"input",
 			frappe.utils.debounce(() => {
@@ -902,7 +810,6 @@ onedesk.OneCloud = class OneCloud {
 			e.stopPropagation();
 		});
 
-		// Uploading by picking.
 		$r.find(".oc-pick-files, .oc-pick-folder").on("change", (e) => {
 			const list = [...e.target.files].map((file) => ({ file, path: file.webkitRelativePath || file.name }));
 			e.target.value = "";
@@ -933,7 +840,6 @@ onedesk.OneCloud = class OneCloud {
 		return this.items.find((one) => one.id === id);
 	}
 
-	// Click, Ctrl+click and Shift+click, as everywhere.
 	pick(id, e) {
 		const order = this.sorted().map((one) => one.id);
 		if (e.shiftKey && this.anchor && order.includes(this.anchor)) {
@@ -964,7 +870,6 @@ onedesk.OneCloud = class OneCloud {
 		if ((e.altKey && k === "ArrowLeft") || k === "Backspace") return handled(), this.act("back");
 		if (e.altKey && k === "ArrowRight") return handled(), this.act("forward");
 		if (e.altKey && k === "ArrowUp") return handled(), this.act("up");
-		// Choosing a file changes nothing: none of the keys that would.
 		const changes = (ctrl && ["c", "x", "v"].includes(k)) || ["F2", "Delete"].includes(k) || (ctrl && e.shiftKey && k.toLowerCase() === "n");
 		if (this.picker && changes) return;
 		if (ctrl && e.shiftKey && (k === "N" || k === "n")) return handled(), this.act("new-folder");
@@ -1019,8 +924,6 @@ onedesk.OneCloud = class OneCloud {
 		return Math.max(1, tiles.filter((el) => el.offsetTop === top).length);
 	}
 
-	// ------------------------------------------------------------- verbs
-
 	async act(act, e) {
 		const chosen = this.chosen();
 		const call = (method, args) => frappe.xcall(OneCloud.API + method, args);
@@ -1049,7 +952,6 @@ onedesk.OneCloud = class OneCloud {
 				this.remember({ preview: cint(this.settings.preview) ? 0 : 1 });
 				return this.draw_preview();
 			case "new-menu":
-				// Opened by its own frappe.ui.Dropdown (see `draw`).
 				return;
 			case "new-folder":
 				if (!this.can_make_folder) return;
@@ -1212,8 +1114,6 @@ onedesk.OneCloud = class OneCloud {
 		this.rename(this.find(made.id));
 	}
 
-	// Renaming in place: the name becomes a box, the part before the extension
-	// chosen, Enter keeps it and Escape does not.
 	rename(item) {
 		if (!item) return;
 		const $label = this.$items.find(`.oc-item[data-id="${CSS.escape(item.id)}"] .oc-label`);
@@ -1232,7 +1132,6 @@ onedesk.OneCloud = class OneCloud {
 				try {
 					await frappe.xcall(OneCloud.API + "rename", { node: item.id, name });
 				} catch (e) {
-					// the server said why; the old name comes back
 				}
 				this.forget_tree();
 			}
@@ -1293,10 +1192,6 @@ onedesk.OneCloud = class OneCloud {
 		this.refresh();
 	}
 
-	// ------------------------------------------------------------- sharing
-
-	// Anything stored can be opened in the Share dialog; the server says
-	// whether people or links can be added to it.
 	shareable(item) {
 		return this.filed(item);
 	}
@@ -1306,7 +1201,6 @@ onedesk.OneCloud = class OneCloud {
 		const call = (method, args) => frappe.xcall("onedesk.one_storage.share." + method, args);
 		const dialog = new frappe.ui.Dialog({
 			title: __("Share {0}", [item.name]),
-			// The people picker opens its list on focus, over everything else.
 			no_focus: true,
 			fields: [
 				{
@@ -1413,7 +1307,6 @@ onedesk.OneCloud = class OneCloud {
 			${frappe.ui.button.html({ variant: "subtle", icon: "link", label: make, attrs: { "data-new-link": true } })}`;
 	}
 
-	// A link for people outside the team: who, what they can do, until when.
 	new_link(item, after) {
 		const dialog = new frappe.ui.Dialog({
 			title: __("Create link"),
@@ -1436,8 +1329,6 @@ onedesk.OneCloud = class OneCloud {
 					depends_on: "eval:doc.audience=='Invited people'",
 					mandatory_depends_on: "eval:doc.audience=='Invited people'",
 				},
-				// What the link lets them do, and how long and how guarded it is,
-				// side by side (frappe's own sections and columns).
 				{ fieldtype: "Section Break" },
 				{ fieldtype: "Check", fieldname: "allow_download", label: __("Can download"), default: 1 },
 				{ fieldtype: "Column Break" },
@@ -1475,9 +1366,6 @@ onedesk.OneCloud = class OneCloud {
 		dialog.show();
 	}
 
-	// ------------------------------------------------------------- libraries
-
-	// The library the reader is somewhere inside, from the trail.
 	library_here() {
 		return this.trail.length > 2 && this.trail[1].id === "@libraries" ? this.trail[2] : null;
 	}
@@ -1566,9 +1454,6 @@ onedesk.OneCloud = class OneCloud {
 		draw();
 	}
 
-	// ------------------------------------------------------------- servers
-
-	// Between a server and OneCloud, or two servers, is a copy.
 	across(target) {
 		const server = (id) => (id.startsWith("@mount/") ? id.split("/")[1] : null);
 		return server(target) !== server(this.node);
@@ -1581,10 +1466,6 @@ onedesk.OneCloud = class OneCloud {
 		const dialog = new frappe.ui.Dialog({
 			title: item ? __("Edit {0}", [item.name]) : __("Connect server"),
 			fields: [
-				// Name and kind with the server under them, then how to sign in:
-				// frappe's own sections, two columns where two things belong
-				// together. A section of only conditional fields would be hidden
-				// when the dialog is drawn, so the server rides in the first one.
 				{ fieldtype: "Data", fieldname: "title", label: __("Name"), reqd: 1, default: values.title },
 				{ fieldtype: "Data", fieldname: "host", label: __("Server"), default: values.host, depends_on: "eval:doc.protocol=='SFTP'" },
 				{ fieldtype: "Column Break" },
@@ -1614,7 +1495,6 @@ onedesk.OneCloud = class OneCloud {
 					fieldtype: "Small Text",
 					fieldname: "private_key",
 					label: __("Private Key"),
-					// Not conditional: frappe hides a section whose only field is.
 					description: __("SFTP only. Used instead of a password."),
 				},
 				{ fieldtype: "Section Break" },
@@ -1637,10 +1517,6 @@ onedesk.OneCloud = class OneCloud {
 		dialog.show();
 	}
 
-	// ------------------------------------------------------------- file requests
-
-	// Ask people for files by name. On a record, each file can fill one of
-	// its attachment fields; anywhere else, they land in this folder.
 	async request_dialog() {
 		const parts = this.node.split("/");
 		const record = parts[0] === "@records" && parts.length === 3 ? { doctype: parts[1], name: parts[2] } : null;
@@ -1773,10 +1649,6 @@ onedesk.OneCloud = class OneCloud {
 		dialog.show();
 	}
 
-	// ------------------------------------------------------------- the drive
-
-	// A folder, or everything, as a drive in Windows, macOS or Linux: its
-	// address, how each system adds one, and the password to sign in with.
 	async drive(node, name) {
 		const where = await frappe.xcall("onedesk.one_storage.dav.address", {
 			node: ["@root", "@recent", "@starred", "@bin", "@mounts"].includes(node) || node.startsWith("@mount/") ? "@root" : node,
@@ -1843,8 +1715,6 @@ onedesk.OneCloud = class OneCloud {
 		list();
 	}
 
-	// Whether OneAI reads what arrives in a folder: asked once, in plain words,
-	// because it is the person's consent (one_intake/switches.py).
 	intake(item, on) {
 		const set = async () => {
 			await frappe.xcall("onedesk.one_intake.switches.set_folder", { folder: item.id, on: on ? 1 : 0 });
@@ -1860,7 +1730,6 @@ onedesk.OneCloud = class OneCloud {
 		);
 	}
 
-	// One file read now, as the person asking, where no folder of it is read.
 	read_file(item) {
 		frappe.confirm(
 			__("Read {0} with OneAI? OneAI files it and acts on it. Scans and photos use credits.", [
@@ -1872,8 +1741,6 @@ onedesk.OneCloud = class OneCloud {
 			}
 		);
 	}
-
-	// ------------------------------------------------------------- menus
 
 	new_menu() {
 		if (this.kind() === "libraries") return [[["new-library", "library-big", __("Library"), this.can_make_library]]];
@@ -1940,8 +1807,6 @@ onedesk.OneCloud = class OneCloud {
 					? ["unstar", "star-off", __("Remove star"), chosen.every((item) => this.filed(item))]
 					: ["star", "star", __("Star"), chosen.every((item) => this.filed(item))],
 				one && !one.folder && this.filed(one) ? ["new-version", "upload", __("Upload new version"), !one.record] : null,
-				// A folder is connected as a drive and read as it fills; a file is
-				// read once. Neither is offered where it cannot apply.
 				one && one.folder && !one.virtual ? ["drive", "hard-drive", __("Connect as a drive…"), true] : null,
 				one && one.folder && one.intake ? ["intake-off", "scan-text", __("Stop reading with OneAI"), this.filed(one)] : null,
 				one && one.folder && !one.intake && this.filed(one) && !["Home/Attachments", "Home/Libraries"].includes(one.id)
@@ -1982,9 +1847,6 @@ onedesk.OneCloud = class OneCloud {
 		];
 	}
 
-	// The explorer's menus as frappe's menu rows: a group each, no heading.
-	// A row that could apply here but not now is disabled; one that cannot
-	// apply to what was chosen is not offered at all (`null` in the lists).
 	as_menu(groups) {
 		return groups
 			.map((group) => group.filter(Boolean))
@@ -2007,11 +1869,6 @@ onedesk.OneCloud = class OneCloud {
 		return !!((this.context && this.context.is_open) || (this.new_dropdown && this.new_dropdown.menu));
 	}
 
-	// ------------------------------------------------------------- dragging
-
-	// Where a drag may land: a folder among the items, a node in the tree, or
-	// the folder being looked at. Records take files; Shared, the Bin and the
-	// lists of records take nothing.
 	target_of(el) {
 		const $item = $(el).closest(".oc-item[data-folder=1]");
 		if ($item.length) {
@@ -2032,7 +1889,7 @@ onedesk.OneCloud = class OneCloud {
 	}
 
 	bind_drag() {
-		if (this.picker) return; // nothing is moved from inside a dialog
+		if (this.picker) return;
 		const $r = this.$root;
 		let over = null;
 		const light = (target) => {
@@ -2064,7 +1921,6 @@ onedesk.OneCloud = class OneCloud {
 				return;
 			}
 			e.preventDefault();
-			// Across into a record, or out of one, is always a copy.
 			const copying =
 				outside || e.ctrlKey || e.metaKey || target.id.startsWith("@records/") || this.kind() === "record" || this.across(target.id);
 			dt.dropEffect = copying ? "copy" : "move";
@@ -2091,8 +1947,6 @@ onedesk.OneCloud = class OneCloud {
 		});
 	}
 
-	// Files and whole folders dropped from the computer, each with the path
-	// it had inside what was dropped.
 	async dropped(dt) {
 		const entries = [...dt.items].map((one) => one.webkitGetAsEntry && one.webkitGetAsEntry()).filter(Boolean);
 		if (!entries.length) return [...dt.files].map((file) => ({ file, path: file.name }));
@@ -2114,8 +1968,6 @@ onedesk.OneCloud = class OneCloud {
 		return out;
 	}
 
-	// ------------------------------------------------------------- uploads
-
 	async upload(list, node) {
 		if (!list.length) return;
 		const rows = list.map((one) => ({ ...one, sent: 0, state: "waiting" }));
@@ -2134,8 +1986,6 @@ onedesk.OneCloud = class OneCloud {
 				this.draw_uploads();
 				continue;
 			}
-			// Names already there: replace them, keeping the old as versions, or
-			// keep both — asked once for the whole drop, the way Explorer asks.
 			const clashing = new Set(answer.existing || []);
 			const clash = batch.filter((one) => !one.version_of && clashing.has(one.file.name));
 			const replacing = clash.length ? await this.ask_replace(clash) : false;
@@ -2159,8 +2009,6 @@ onedesk.OneCloud = class OneCloud {
 				title: clash.length === 1 ? __("A file with this name is already here") : __("{0} files with these names are already here", [clash.length]),
 				fields: [{ fieldtype: "HTML", options: `<p>${names}${more}</p><p class="text-muted">${__("Replaced files are kept as earlier versions.")}</p>` }],
 				primary_action_label: __("Replace"),
-				// Answered before hiding: hiding answers "keep both" for a
-				// dialog closed with its cross.
 				primary_action: () => {
 					answer(true);
 					dialog.hide();
@@ -2192,7 +2040,6 @@ onedesk.OneCloud = class OneCloud {
 				try {
 					await this.xhr("PUT", row.ticket.url, row.file, row, { "Content-Type": row.ticket.type || row.file.type || "application/octet-stream" });
 				} catch (e) {
-					// R2 out of reach from this browser: through the server instead.
 					row.ticket = null;
 				}
 			}

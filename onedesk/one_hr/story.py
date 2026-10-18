@@ -13,16 +13,12 @@ from frappe.utils import add_days, add_months, flt, get_first_day, get_last_day,
 
 from onedesk.one_hr.home import is_hr
 
-#: How many months the story looks back over, this one included.
 MONTHS = 12
 
-#: How many days the attendance chart covers, today included.
 DAYS = 30
 
-#: How many departments or kinds a chart names.
 FEW = 8
 
-#: Hiring, step by step, as the funnel counts it.
 FUNNEL = ("Job Applicant", "Interview", "Job Offer", "Accepted", "Joined")
 
 
@@ -130,7 +126,6 @@ def _cards(company, months, people) -> dict:
 			)
 		}
 	if _may("Salary Slip"):
-		# The last month run, since this month's is run at its end.
 		paid = _payroll(company, months)
 		while paid and not paid[-1]["net"]:
 			paid = paid[:-1]
@@ -176,7 +171,6 @@ def _moves(months, people) -> list[dict]:
 	]
 
 
-#: How each attendance status is drawn, in the order the bars stack.
 STATUSES = ("Present", "Work From Home", "Half Day", "On Leave", "Absent")
 
 

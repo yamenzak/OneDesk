@@ -11,7 +11,6 @@ from frappe.utils import flt, nowdate
 
 from onedesk.one import roles
 
-#: The item every line from One is booked as, in this workspace's books.
 ITEM = "One Subscription"
 
 
@@ -157,14 +156,11 @@ def _payable_for(supplier: str, currency: str | None) -> None:
 		account.insert()
 		name = account.name
 	held.append("accounts", {"company": company, "account": name})
-	# ERPNext only takes a payable in the supplier's own billing currency.
 	held.default_currency = held.default_currency or currency
 	held.flags.ignore_permissions = True
 	held.save()
 
 
-#: What a software subscription is booked to, in the order a chart of
-#: accounts names it. The draft says it, and somebody can change it.
 EXPENSES = ("%Software%", "%Subscription%", "%Office Expense%", "%Administrative Expense%")
 
 
@@ -226,8 +222,6 @@ def _attach(bill, said: dict) -> None:
 		got.raise_for_status()
 	except requests.RequestException:
 		return
-	# The bill stands without it: a store that cannot take the file is logged,
-	# and the invoice is still one click away on the Plan and Credits page.
 	mark = "one_bill_pdf"
 	frappe.db.savepoint(mark)
 	try:

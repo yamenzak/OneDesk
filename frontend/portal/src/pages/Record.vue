@@ -1,12 +1,4 @@
 <template>
-  <!-- A quotation, order, invoice, shipment or purchase document, through
-       erpnext's own page context (one/portal.py `record`).
-       Modelled on Shopify's order page in a customer account, with Stripe's
-       invoice summary: where it is on its way across the top, its items and
-       totals in one card, and beside them what it comes to (what is left to
-       pay, and Pay), its details and the records before and after it.
-       Through a signed link (`token`, pages/Link.vue) the same page, read
-       through the link, answered once, with the answerer's name. -->
   <Head :title="doc?.name || name" :crumbs="token ? [] : [{ label: tab, route: `/${kind}` }]" :badge="doc">
     <template #actions>
       <Button
@@ -24,7 +16,6 @@
     <Loading v-if="!doc && !failed" />
     <Empty v-else-if="failed" :title="__('No access')" :line="__('This is not one of yours, or it was taken away.')" />
     <div v-else class="grid gap-5 lg:grid-cols-[minmax(0,1fr)_20rem]">
-      <!-- On a phone the two columns are one, what it comes to first. -->
       <div class="contents lg:flex lg:min-w-0 lg:flex-col lg:gap-5">
         <Card v-if="doc.steps.length"><Steps :steps="doc.steps" /></Card>
 
@@ -36,8 +27,6 @@
                 <p class="truncate text-base text-ink-gray-9">{{ item.item }}</p>
                 <p v-if="item.about" class="truncate text-sm text-ink-gray-5">{{ item.about }}</p>
                 <p class="text-sm tabular-nums text-ink-gray-6">
-                  <!-- Each figure isolated: a currency written right to left
-                       would otherwise carry the discount past it. -->
                   <bdi>{{ item.qty }} {{ item.uom }}</bdi> ×
                   <template v-if="item.discount"><bdi>{{ item.list_rate }}</bdi> <bdi class="text-ink-green-6">− {{ item.discount }}</bdi></template>
                   <bdi v-else>{{ item.rate }}</bdi>
@@ -68,7 +57,6 @@
           <p v-if="doc.summary.line" :class="['mt-1 text-sm', doc.summary.late ? 'text-ink-red-6' : 'text-ink-gray-6']">{{ doc.summary.line }}</p>
           <Button v-for="one in solid" :key="one.href" class="mt-4 w-full" variant="solid" size="md" :label="one.label" :href="one.href" />
           <p v-if="answered" class="mt-3 text-sm text-ink-gray-6">{{ __("Answered by {0}, {1}.", [answered.by, answered.on]) }}</p>
-          <!-- A quotation still open: the customer's answer. -->
           <div v-if="doc.answer" class="mt-4 flex flex-col gap-2">
             <Button variant="solid" size="md" :label="__('Accept Quotation')" icon-left="lucide-check" @click="accepting = true" />
             <Button size="md" :label="__('Decline')" @click="declining = true" />
@@ -156,7 +144,6 @@ import { __, boot } from "../words";
 const props = defineProps({
   kind: { type: String, default: "" },
   name: { type: String, default: "" },
-  // A signed link's token, and what its page first said (pages/Link.vue).
   token: { type: String, default: "" },
   link: { type: Object, default: null },
 });
@@ -165,7 +152,6 @@ const tab = computed(() => boot().tabs?.find((one) => one.path === props.kind)?.
 const doc = ref(props.link?.page || null);
 const answered = ref(props.link?.answered || null);
 const failed = ref(false);
-// Pay goes in the summary, under what it pays; the rest in the head.
 const solid = computed(() => (doc.value?.actions || []).filter((one) => one.solid));
 const quiet = computed(() => (doc.value?.actions || []).filter((one) => !one.solid));
 
@@ -194,8 +180,6 @@ watch(
   { immediate: true },
 );
 
-// The customer's answer to a quotation (one/portal.py `accept_quote`,
-// `decline_quote`): erpnext makes the order, or sets the quotation lost.
 const accepting = ref(false);
 const declining = ref(false);
 const busy = ref(false);
@@ -208,7 +192,6 @@ const by = ref("");
 async function answer(method, args, said) {
   busy.value = true;
   try {
-    // Through a link, the link's own calls (one/portal_share.py), with who answered.
     if (props.token) await call(`onedesk.one.portal_share.link_${method}`, { token: props.token, by: by.value, ...args });
     else await call(`${method}_quote`, { kind: props.kind, name: props.name, ...args });
     toast.success(said);

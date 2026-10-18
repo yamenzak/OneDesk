@@ -14,16 +14,12 @@ from frappe.utils import add_months, date_diff, flt, getdate, today
 
 from onedesk.one_book import home
 
-#: How many months the story looks back over, this one included.
 MONTHS = 12
 
-#: How many expense accounts Top Expenses names; the rest are Others.
 TOP = 5
 
-#: How many customers or suppliers a chart of who owes names.
 PARTIES = 8
 
-#: ERPNext's ageing ranges (Accounts Receivable), in days past due.
 RANGES = (30, 60, 90, 120)
 
 

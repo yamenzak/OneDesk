@@ -1,6 +1,3 @@
-// Custom Fields: every field the workspace added or changed, one row a field.
-// A field is added or changed by asking OneAI: Add Field and a click on a row
-// open the panel, and the only actions are Export and Reset, per form.
 frappe.listview_settings["Workspace Field"] = {
 	add_fields: ["status", "form", "app", "label"],
 	hide_name_column: true,
@@ -19,7 +16,6 @@ frappe.listview_settings["Workspace Field"] = {
 	},
 	onload(list) {
 		const settings = this;
-		// frappe would say "Add Workspace Field"; the button says what it does.
 		list.set_primary_action = () =>
 			list.page.set_primary_action(__("Add Field"), () => settings.primary_action(), "plus");
 		list.set_primary_action();
@@ -29,8 +25,6 @@ frappe.listview_settings["Workspace Field"] = {
 			list.page.add_actions_menu_item(__("Reset"), () => settings.reset(list), false);
 		};
 		list.set_actions_menu_items();
-		// A row is not a record to open: it asks OneAI to change the field. Caught
-		// before frappe's own click, which would follow the row's link.
 		if (!list.__one_asks) {
 			list.__one_asks = true;
 			list.$result[0].addEventListener(
@@ -49,12 +43,10 @@ frappe.listview_settings["Workspace Field"] = {
 				true,
 			);
 		}
-		// A field changes through a OneAI card or a Reset; the list hears it.
 		frappe.realtime.off("one_customized", list.__one_customized);
 		list.__one_customized = () => list.refresh();
 		frappe.realtime.on("one_customized", list.__one_customized);
 	},
-	// The forms of the ticked rows, each once.
 	forms(list) {
 		return [...new Set(list.get_checked_items().map((doc) => doc.form))];
 	},

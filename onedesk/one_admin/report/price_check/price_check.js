@@ -1,6 +1,3 @@
-// Whether the price list makes sense (one_admin/plans.py, check). What is
-// wrong comes first, in red; a close call in orange. The costs it measures
-// against are One Admin Settings', which the menu opens.
 frappe.query_reports["Price Check"] = {
 	filters: [
 		{

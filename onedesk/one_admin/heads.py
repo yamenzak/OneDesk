@@ -14,7 +14,6 @@ from frappe.utils.caching import request_cache
 from onedesk.one.heads import size
 from onedesk.one_admin import ledger, operator
 
-#: Each rung of a workspace in a word, and its colour.
 TENANT = {
 	"Requested": ("orange", _lt("Waiting to be built")),
 	"Provisioning": ("blue", _lt("Being built")),
@@ -33,7 +32,6 @@ JOB = {
 	"Failed": ("red", _lt("Failed")),
 }
 
-#: A signup's state, as its list says it too (account_request_list.js).
 REQUEST = {
 	"New": ("grey", _lt("Not paid")),
 	"Paying": ("orange", _lt("At checkout")),
@@ -44,7 +42,6 @@ REQUEST = {
 	"Abandoned": ("grey", _lt("Abandoned")),
 }
 
-#: A domain's state in the customer's own words (settings.js says the same).
 DOMAIN = {
 	"Pending": ("orange", _lt("Waiting")),
 	"Active": ("green", _lt("Working")),
@@ -78,9 +75,6 @@ def _confirm(text: str, warning: str = "") -> list[dict]:
 		f'<p class="text-danger">{escape_html(warning)}</p>' if warning else ""
 	)
 	return [{"fieldtype": "HTML", "fieldname": "what", "options": html}]
-
-
-# ------------------------------------------------------------------ a workspace
 
 
 @request_cache
@@ -218,9 +212,6 @@ def _fall_fields(doc) -> list[dict]:
 	)
 
 
-# ------------------------------------------------------------------ a job
-
-
 @request_cache
 def _walk(name: str) -> dict:
 	return operator.walk(name)
@@ -253,9 +244,6 @@ def job_steps(doc):
 		"tone": "alarm" if walk["status"] == "Failed" else None,
 		"meter": meter,
 	}
-
-
-# ------------------------------------------------------------------ a signup
 
 
 def request_state(doc):
@@ -291,9 +279,6 @@ def signup_days() -> int:
 	from onedesk.one_admin.signup import ABANDONED_DAYS
 
 	return ABANDONED_DAYS
-
-
-# ------------------------------------------------------------------ a credit
 
 
 def _n(value) -> str:
@@ -371,10 +356,6 @@ def _take_back_fields(doc) -> list[dict]:
 	]
 
 
-# ------------------------------------------------------------------ the settings
-
-#: What each connection needs, and what stops without it. Read by the head and
-#: by OneAI (ai.settings_check); a key is only ever said to be set or not.
 NEEDED = (
 	(("press_team", "press_token", "press_url"), _lt("Frappe Cloud"), _lt("no workspace can be built")),
 	(
@@ -406,8 +387,6 @@ def settings_missing(doc) -> list[dict]:
 
 
 def _held(doc, fieldname: str) -> bool:
-	# The site's own config wins where the code reads it (cloudflare.py,
-	# gateway.py), so a value kept there is set.
 	if frappe.conf.get(fieldname):
 		return True
 	if doc.meta.get_field(fieldname).fieldtype == "Password":
@@ -421,9 +400,6 @@ def settings_said(doc):
 		return {"text": _("All settings are filled in."), "colour": "green"}
 	said = [_("{0} isn't set, so {1}.").format(one["what"], one["stops"]) for one in missing]
 	return {"text": " ".join(one[0].upper() + one[1:] for one in said), "colour": "red"}
-
-
-# ------------------------------------------------------------------ a domain
 
 
 def domain_state(doc):
@@ -464,9 +440,6 @@ def domain_said(doc):
 	}
 
 
-# ------------------------------------------------------------------ an offering
-
-
 def offering_sold(doc):
 	"""Who has it, and what an edit here does to them: the price never
 	reaches them, the quotas do the next time they change their plan or
@@ -499,9 +472,6 @@ def offering_sold(doc):
 		),
 		"colour": "orange",
 	}
-
-
-# ------------------------------------------------------------------ a model
 
 
 def model_state(doc):
@@ -597,8 +567,6 @@ MEASURES = {
 }
 
 VERBS = {
-	# Every fall is confirmed, saying what it costs: Delete Files deletes
-	# files, Suspend stops a company working.
 	"tenant.fall": {
 		"doctypes": ["Tenant"],
 		"label": _fall_label,
@@ -612,8 +580,6 @@ VERBS = {
 		"when": lambda doc: not doc.is_new() and bool(_standing(doc.name).get("may_restore")),
 		"run": lambda doc, **_values: operator.restore(doc.name) and None,
 	},
-	# Under a group: neither is done daily, and both cost a round trip to
-	# somebody else's service.
 	"tenant.measure": {
 		"doctypes": ["Tenant"],
 		"label": lambda doc: _("Measure Storage"),
@@ -635,8 +601,6 @@ VERBS = {
 		"fields": lambda doc: _confirm(_("Resume {0} from the step it stopped on?").format(doc.name)),
 		"run": lambda doc, **_values: operator.resume(doc.name) and None,
 	},
-	# Money taken and nothing given: until this, the only way to finish it was
-	# to replay the webhook.
 	"request.build": {
 		"doctypes": ["Account Request"],
 		"label": lambda doc: _("Build Workspace"),
@@ -653,7 +617,6 @@ VERBS = {
 	},
 	"domain.refresh": {
 		"doctypes": ["Tenant Domain"],
-		# The customer's own screen and Home both say this.
 		"label": lambda doc: _("Check Again"),
 		"when": lambda doc: not doc.is_new(),
 		"run": lambda doc, **_values: operator.refresh_domain(doc.name) and None,

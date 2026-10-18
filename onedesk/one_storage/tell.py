@@ -14,7 +14,6 @@ def shared(user: str, item: dict) -> None:
 	"""A notification that opens the explorer on it, not File's own form."""
 	from onedesk.one_storage import namespace as ns
 
-	# A folder opens on itself; a file opens where the reader can see it.
 	node = item.name if item.is_folder else ns.SHARED
 	notify.notify(
 		"Shared With You",
@@ -74,7 +73,6 @@ def files_requested(doc, tokens: dict) -> None:
 	from onedesk.one_storage.file_requests import url_of
 
 	who = get_fullname(doc.owner)
-	# The note and the due date are left out, gap and all, when there are none.
 	note = Markup("<br><br>") + escape(doc.message) if doc.message else ""
 	due = (
 		Markup("<br><br>") + escape(_("Due {0}.").format(frappe.format(doc.due_date, "Date")))
@@ -117,8 +115,6 @@ def request_answered(doc, person, item, finished: bool) -> None:
 		doc.owner,
 		record=("Cloud File Request", doc.name),
 		link=f"/desk/onecloud?node={quote(node_id(doc.name), safe='')}",
-		# From nobody in the workspace: it runs as the owner, whom frappe
-		# would otherwise leave off as telling themselves.
 		sender="Guest",
 		who=person.email,
 		request=doc.title,

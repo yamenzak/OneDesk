@@ -28,8 +28,6 @@ OWNER = "wsadmin@one.test"
 ACCOUNTS_USER = "huda@one.test"
 TEMPLATE = "Aluminium & Glazing"
 
-#: The Aluminium & Glazing template, from the library: five phases of the
-#: work, each ending in a milestone. phase, [(task, begins on day, lasts days)]
 PHASES = tuple(
 	(phase["subject"], tuple((one["subject"], one["day"], one["days"]) for one in phase["tasks"]))
 	for phase in library.read("aluminium_and_glazing")["tasks"]
@@ -60,9 +58,6 @@ def run(password=None):
 	_portal(password)
 
 
-# The projects
-
-
 def villa():
 	name = _project(
 		"Mansour Villa Windows and Doors",
@@ -86,7 +81,6 @@ def villa():
 	)
 	_signed(name, on(2, 14), "Khalid Mansour")
 	_budget(name, {"Materials": 140000, "Subcontracts": 60000, "Labour": 40000})
-	# The team's own time, budgeted apart as no cost type holds it (hours.py).
 	frappe.db.set_value("Project", name, {"one_time_budget": 90000, "one_hours_planned": 1500})
 	_progress(name, done_through=3, half_way=4)
 	_current(name)
@@ -106,8 +100,6 @@ def villa():
 		(("ALU-6063", 420), ("GLS-DGU", 95), ("HW-HINGE", 120), ("HW-HANDLE", 60), ("SEAL-EPDM", 600)),
 	)
 	_issue(name, on(8, 4), (("ALU-6063", 380), ("GLS-DGU", 88), ("HW-LOCK", 18), ("SIL-CLR", 40)))
-	# The workshop's time on the factory's work, the installers' on the
-	# site's, and Rania's running the job on no one task.
 	_time(name, ("Arun", "Ravi", "Joseph"), "Fabrication", _begins(name, FACTORY), weeks=5, hours=28, phase=FACTORY)
 	_time(name, ("Yousef", "Bilal"), "Installation", _begins(name, SITE), weeks=3, hours=32, phase=SITE)
 	_time(name, ("Yousef", "Bilal"), "Installation", GLASS_IN, weeks=None, hours=32, phase=SITE)
@@ -115,8 +107,6 @@ def villa():
 	_extra_work(
 		name, "Mansour & Sons", "Staircase balustrade", [("BAL-GL", 14, 1500), ("SVC-INST", 20, 180)], ago(30)
 	)
-	# The addendum for the staircase, on its own sub-project, with the
-	# customer to sign.
 	_signed(frappe.db.get_value("Project", {"one_parent": name, "project_name": "Staircase balustrade"}) or name)
 	_update(name, "Frames for the ground floor are in. Glass for the first floor lands on Thursday.", ago(9), "rania@one.test")
 	_update(name, "Balustrade drawings approved by Khalid. Starting the staircase next week.", ago(3), "tariq@one.test")
@@ -144,7 +134,6 @@ def tower():
 		retention_due=ahead(300),
 		handover=50,
 	)
-	# Drawn up, and still with the customer to sign.
 	_signed(name)
 	_advance("Bayview Developments", order, 180000, on(3, 10))
 	_budget(name, {"Materials": 900000, "Subcontracts": 300000, "Labour": 180000, "Equipment": 60000})
@@ -193,8 +182,6 @@ def acme():
 		ends=ahead(140),
 		notes="Glass entrance and lobby screens for Acme's Manhattan office. Quoted, waiting on their board.",
 	)
-	# The revised quote Omar's deal is waiting to send: on the deal and the
-	# project both, so each says the other.
 	quote = frappe.new_doc("Quotation")
 	quote.update(
 		{
@@ -348,7 +335,6 @@ def marina():
 		1,
 		months=today().month - 1,
 		people=("Yousef", "Bilal"),
-		# July's visits run a little past the 40 hours, as a summer does.
 		hours=(9, 10, 11, 9, 12, 10, 15, 13, 9),
 	)
 
@@ -394,9 +380,6 @@ def workshop():
 	_time(name, ("Tariq",), "Project Management", on(5, 4), weeks=12, hours=4)
 
 
-# How each is made
-
-
 def _project(
 	title, kind, starts, ends, client=None, template=None, team=(), notes=None, parent=None, **values
 ):
@@ -434,7 +417,6 @@ def _contract(project, date, lines, retention=0, retention_due=None, handover=0)
 
 	doc = frappe.get_doc("Project", project)
 	if retention:
-		# The project's retention, which its later orders start with (retention.py).
 		frappe.db.set_value(
 			"Project",
 			project,
@@ -517,7 +499,6 @@ def _redate(invoice, date):
 	for row in rows:
 		if row.payment_term not in HELD:
 			row.due_date = add_days(date, max(0, date_diff(row.due_date, today())))
-	# With no schedule yet, ERPNext makes it on saving, from the new date.
 	invoice.due_date = max(getdate(row.due_date) for row in rows) if rows else None
 	return invoice
 
@@ -527,7 +508,6 @@ def _pay(invoice, date, part=1.0):
 
 	from onedesk.one_project.retention import HELD
 
-	# What's held back as retention isn't paid until it's released.
 	held = sum(flt(row.payment_amount) for row in invoice.get("payment_schedule") or [] if row.payment_term in HELD)
 	with as_user(ACCOUNTS_USER):
 		payment = get_payment_entry(invoice.doctype, invoice.name)
@@ -582,7 +562,6 @@ def _subcontract(project, supplier, amount, date, retention=0):
 	return save(order, submit=True).name
 
 
-#: The villa's window schedule: mark, type, width and height in mm, how many.
 SCHEDULE = (
 	("W01", "Casement", 1200, 1500, 12),
 	("W02", "Casement", 900, 1500, 18),
@@ -654,7 +633,6 @@ def _buy_for(project, supplier, lines, date, currency=None):
 	save(order, submit=True)
 	from erpnext.buying.doctype.purchase_order.mapper import make_purchase_invoice
 
-	# The supplier's bill is the books' to enter.
 	with as_user(ACCOUNTS_USER):
 		bill = make_purchase_invoice(order.name)
 		_redate(bill, add_days(date, 12))
@@ -719,14 +697,12 @@ def _current(project):
 	)
 	ends = [getdate(one.exp_end_date) for one in tasks if one.exp_end_date]
 	shift = max(0, date_diff(ahead(7), min(ends))) if ends else 0
-	# Never past the project's own end, as ERPNext checks on the task.
 	last = getdate(frappe.db.get_value("Project", project, "expected_end_date") or add_days(today(), 365))
 	for i, task in enumerate(tasks):
 		values = {"priority": ("Medium", "Low", "High", "Medium", "Low")[i % 5]}
 		if shift and task.exp_end_date:
 			end = min(getdate(add_days(task.exp_end_date, shift)), last)
 			values["exp_end_date"] = end
-			# Work under way started when it did; work to come moves whole.
 			if task.status == "Open" and task.exp_start_date:
 				values["exp_start_date"] = min(getdate(add_days(task.exp_start_date, shift)), end)
 		if task.status == "Working" and not flt(task.progress):
@@ -734,10 +710,8 @@ def _current(project):
 		frappe.db.set_value("Task", task.name, values, update_modified=False)
 
 
-#: The villa's phases its workshop and its installers work in.
 FACTORY, SITE = "Factory Fabrication & Assembly", "Site Installation & Logistics"
 
-#: When the villa's glass reached site, weeks behind the frames.
 GLASS_IN = on(8, 10)
 
 
@@ -768,7 +742,6 @@ def _glass_late(project):
 		return
 	day = getdate(ahead(7))
 	last = getdate(frappe.db.get_value("Project", project, "expected_end_date"))
-	# Each as long as it was planned, but short enough that all of it fits.
 	room = max(1, date_diff(last, day) // len(after))
 	for one in after:
 		planned = date_diff(one.exp_end_date, one.exp_start_date) if one.exp_start_date and one.exp_end_date else 2
@@ -777,7 +750,6 @@ def _glass_late(project):
 			"Task", one.name, {"exp_start_date": day, "exp_end_date": ends, "status": "Open", "progress": 0}, update_modified=False
 		)
 		day = min(add_days(ends, 1), last)
-	# Each phase from its first task's start to its last task's end.
 	for phase in frappe.get_all("Task", filters={"project": project, "is_group": 1}, pluck="name"):
 		dates = frappe.get_all("Task", filters={"parent_task": phase}, fields=["exp_start_date", "exp_end_date"])
 		if not dates:
@@ -834,7 +806,6 @@ def _behind():
 		frappe.db.set_value(
 			"Task",
 			late[0].name,
-			# Begun when it was, or twelve days ago.
 			{"exp_start_date": min(getdate(late[0].exp_start_date or ago(12)), getdate(ago(12))), "exp_end_date": ago(4), "status": "Working"},
 			update_modified=False,
 		)
@@ -911,8 +882,6 @@ def _estimates():
 	for i, task in enumerate(tasks):
 		days = date_diff(task.exp_end_date, task.exp_start_date) + 1 if task.exp_start_date and task.exp_end_date else 2
 		hours = min(max(days, 1), 5) * (2, 3, 4, 6)[i % 4]
-		# Work still open has hours left beyond the time already logged on it;
-		# work done was planned at about what it took, some a little over.
 		if task.status not in ("Completed", "Cancelled"):
 			hours += flt(task.actual_time)
 		elif flt(task.actual_time):
@@ -940,7 +909,6 @@ def _contacts():
 			doc.save()
 
 
-#: Work of one's own, in no project: what each person keeps on their Inbox.
 OWN = {
 	PM: [
 		("Call Acme about the lobby drawings", -2, "High", []),
@@ -955,7 +923,6 @@ OWN = {
 	],
 }
 
-#: Own to-dos that repeat, as the page's Repeat sets them: (who, subject): how often.
 REPEATS = {(ACCOUNTS_USER, "Send Samir the week's cash position"): "Weekly"}
 
 
@@ -1058,8 +1025,6 @@ def _time(project, people, activity, starts, weeks, hours, phase=None, task=True
 					},
 				)
 			if sheet.time_logs:
-				# Each logs their own time, and the project manager logs the
-				# workshop's, who have no account, and approves it all.
 				with as_user(frappe.db.get_value("Employee", employee, "user_id") or PM):
 					save(sheet)
 				with as_user(PM):
@@ -1073,8 +1038,6 @@ def _on(tasks, day):
 	ERPNext sets a task with time logged on it back to Working otherwise."""
 	day = getdate(day)
 	started = [t for t in tasks if t.exp_start_date and getdate(t.exp_start_date) <= day]
-	# The task scheduled that day, else the last one begun: work runs on
-	# past its plan.
 	found = next(
 		(t for t in started if day <= getdate(t.exp_end_date or day)),
 		started[-1] if started else None,
@@ -1139,12 +1102,10 @@ def _retainer(project, first_month, months, people, hours):
 		)
 		with as_user(ACCOUNTS_USER):
 			draft = invoice_month(project, month=str(month), item="SVC-MAINT", overage=1)
-			# Its terms date it from the month's end, not from today.
 			_redate(draft, add_days(add_months(month, 1), -1))
 			invoice = save(draft, submit=True)
 		if date_diff(today(), invoice.posting_date) > 40:
 			_pay(invoice, add_days(invoice.posting_date, 21))
-	# This month's visits so far, to be invoiced with it.
 	month = get_first_day(add_months(on(first_month, 1), months))
 	_time(project, people, "Maintenance", add_days(month, 2), weeks=None, hours=hours[months % len(hours)])
 
@@ -1158,7 +1119,6 @@ def _update(project, note, date, by):
 	frappe.db.set_value("Project Update", made, "date", date)
 
 
-#: The expense accounts a project's cost types are, by what they are called.
 COST_TYPES = {
 	"Materials": "Cost of Goods Sold",
 	"Subcontracts": "Subcontract Costs",
@@ -1182,8 +1142,6 @@ def _accounts():
 					"account_type": "Expense Account",
 				}
 			)
-	# A subcontract is booked to its cost type, as an item's own expense
-	# account books it in ERPNext.
 	item = frappe.get_doc("Item", "SVC-SUB")
 	row = next((one for one in item.item_defaults if one.company == COMPANY), None) or item.append(
 		"item_defaults", {"company": COMPANY}
@@ -1193,8 +1151,6 @@ def _accounts():
 		item.save()
 
 
-#: Each project's payment terms and terms and conditions, as New Project asks.
-#: The villa's come from its template, Bayview's payment terms from the customer.
 AGREED = {
 	"Bayview Tower Curtain Wall": (None, "Construction Works"),
 	"Acme New York Lobby": ("Net 30", "Construction Works"),
@@ -1203,7 +1159,6 @@ AGREED = {
 }
 
 
-#: The workspace's contract template for a subcontractor.
 SUBCONTRACT = "Subcontract Agreement"
 
 

@@ -48,13 +48,10 @@ def _anchored():
 def test_a_shipped_row_goes_where_the_app_ships_it():
 	anchored = _anchored()
 	shipped = ["items", "stock-on-hand", "receipts", "more", "pick", "packing", "trips", "landed"]
-	# A layer saved before Stock on Hand, Packing Slips and Delivery Trips were
-	# shipped, with a group of the workspace's own at the end.
 	rows = ["items", "receipts", "more", "pick", "landed", "yours", "van", "stock-on-hand", "packing", "trips"]
 	named = {"items", "receipts", "more", "pick", "landed", "yours", "van"}
 	got = anchored(rows, shipped, named, lambda one: one)
 	assert got == ["items", "stock-on-hand", "receipts", "more", "pick", "packing", "trips", "landed", "yours", "van"]
-	# A layer that names every row is left as it was arranged.
 	assert anchored(got[::-1], shipped, set(got), lambda one: one) == got[::-1]
 
 
@@ -73,14 +70,10 @@ def test_a_layer_nobody_rearranged_follows_the_apps_new_order():
 	assert untouched(rows, None, lambda one: one, added), "a layer older than the kept order"
 	now = ["items", "buying", "to-order", "requests", "quotes", "orders", "blanket", "suppliers", "more"]
 	assert rebased(rows, now, lambda one: one, added) == [*now, "yours", "van"]
-	# Somebody moved Suppliers up: theirs stands.
 	moved = ["items", "buying", "suppliers", "to-order", "orders", "requests", "more", "quotes", "yours", "van"]
 	assert not untouched(moved, before, lambda one: one, added)
-	# A row of the layer's own stays after the row it followed.
 	mid = ["items", "mine", "buying", "to-order"]
 	assert rebased(mid, ["buying", "to-order", "items"], lambda one: one, lambda one: one == "mine") == ["buying", "to-order", "items", "mine"]
-	# A group of its own that followed a row now gone stays after the app's
-	# rows under the group it follows, and never takes them in.
 	grouped = ["assets", "asset", "yours", "van", "reports", "upkeep"]
 	now = ["assets", "asset", "upkeep", "reports"]
 	children = {"asset", "upkeep", "van"}

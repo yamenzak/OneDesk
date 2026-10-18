@@ -16,13 +16,10 @@ from onedesk.one import tell
 DOWNLOAD = "Personal Data Download Request"
 DELETION = "Personal Data Deletion Request"
 
-#: How long a confirmation link works.
 LINK_HOURS = 24
 
-#: How long the link to a copy works.
 DOWNLOAD_DAYS = 7
 
-#: How many requests one network address may make in an hour.
 ASKS_AN_HOUR = 5
 
 KINDS = ("copy", "delete")
@@ -121,7 +118,6 @@ def _ask_deletion(email: str) -> None:
 		try:
 			privacy._guard(email)
 		except frappe.ValidationError:
-			# Said to the administrators, who see the request and why it waits.
 			pass
 	doc = frappe.get_doc({"doctype": DELETION, "email": email, "status": "Pending Approval"})
 	doc.set_new_name()
@@ -161,7 +157,6 @@ def erase(doc) -> None:
 	`_anonymize_data` runs it, without the last step, which renames an
 	account they do not have. Run as Administrator by privacy.erase."""
 	email, anon = doc.email, doc.name
-	# frappe's own, name-mangled: the patterns for the address and the name.
 	doc._PersonalDataDeletionRequest__set_anonymization_data(email, anon)
 	doc.add_deletion_steps()
 	for ref in doc.full_match_privacy_docs:
@@ -170,7 +165,6 @@ def erase(doc) -> None:
 	for ref in doc.partial_privacy_docs:
 		doc.redact_partial_match_data(ref)
 		doc.set_step_status(ref["doctype"])
-	# The copies of their data, with their files.
 	for name in frappe.get_all(DOWNLOAD, filters={"one_email": email}, pluck="name"):
 		frappe.delete_doc(DOWNLOAD, name, ignore_permissions=True, force=True, delete_permanently=True)
 	frappe.db.set_value(DELETION, doc.name, {"status": "Deleted", "email": anon}, update_modified=False)

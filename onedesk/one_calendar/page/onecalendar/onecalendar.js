@@ -1,17 +1,5 @@
-// The calendar: every app's dated things as layers over one week.
-//
-// The layers and the entries come from one_calendar/layers.py, each read as the
-// person looking, so this page draws and never decides who sees what. Which
-// layers are off, and the view, are the reader's own user settings, kept under
-// Event: they follow the person to another browser.
-//
-// With ?doctype=Project&name=PROJ-0004 it is that record's own calendar: only
-// the layers that can draw one (a project's tasks, the events about it), and
-// nothing it changes is saved as the reader's main calendar.
 
 frappe.pages["onecalendar"].on_page_load = (wrapper) => {
-	// The layers are their own navigation, as OneMail's mailboxes are: no rail
-	// panel beside them. What the rail held is at the foot of the layers.
 	const page = onedesk.shell.page(wrapper, __("OneCalendar"), { hide_sidebar: true, mark: "onecalendar" });
 	wrapper.onecalendar = new onedesk.OneCalendar(page);
 };
@@ -22,18 +10,12 @@ frappe.pages["onecalendar"].on_page_show = (wrapper) => {
 
 frappe.provide("onedesk");
 
-// Who may put an event on everybody's calendar; one_calendar/events.py checks
-// the same list on save.
 onedesk.CALENDAR_PUBLISHERS = ["Workspace Administrator", "HR Manager"];
 
 onedesk.OneCalendar = class OneCalendar {
 	constructor(page) {
 		this.page = page;
 		this.about = this.narrowed();
-		// The layers in a pane of their own beside the week, the week's own
-		// toolbar in its pane's head: the shell's panes, fitted to the window.
-		// The pane is the page's only sidebar, as OneMail's mailboxes are: New
-		// Event on top, the layers, and what the rail held at the foot.
 		const panes = onedesk.shell.panes(page.$shell, [{ key: "layers", width: 236 }, { key: "week" }]);
 		const $side = $(`<div class="one-calendar-side"></div>`)
 			.attr({ role: "navigation", "aria-label": __("Layers") })
@@ -48,22 +30,16 @@ onedesk.OneCalendar = class OneCalendar {
 		frappe.require("calendar.bundle.js", () => this.start());
 	}
 
-	// The layers switched off go as one string: user settings are merged
-	// deeply, and an array merged into a longer one keeps the old tail.
 	save() {
-		// Opened straight on a record's calendar, the main calendar's layers were
-		// never read, so they are left as they were rather than saved as none.
 		const off = this.saved.off ? { off: this.saved.off.join(",") } : {};
 		frappe.model.user_settings.save("Event", "OneCalendar", { view: this.saved.view, ...off });
 	}
 
-	// The record this is the calendar of, from the address, or null.
 	narrowed() {
 		const { doctype, name } = frappe.utils.get_query_params();
 		return doctype && name ? { doctype, name } : null;
 	}
 
-	// Coming back to the page, perhaps for another record or for none.
 	async show() {
 		if (!this.calendar) return;
 		const about = this.narrowed();
@@ -79,12 +55,9 @@ onedesk.OneCalendar = class OneCalendar {
 		if (!this.about) this.saved.off = this.saved.off || this.layers.filter((one) => !one.on).map((one) => one.key);
 		this.draw_layers();
 		this.draw_foot();
-		// The heading is the breadcrumb trail, which names the record and leads
-		// back to it.
 		if (this.about) {
 			const { doctype, name } = this.about;
 			const title = (await frappe.utils.fetch_link_title(doctype, name)) || name;
-			// "Client Example Ltd / Calendar": the record leads back to itself.
 			this.page.set_title(__("Calendar"));
 			onedesk.shell.trail(title, `/desk/${frappe.router.slug(doctype)}/${encodeURIComponent(name)}`, __("Calendar"));
 		} else {
@@ -93,18 +66,13 @@ onedesk.OneCalendar = class OneCalendar {
 		}
 	}
 
-	// What the rail held, under the layers: every event as a list, the
-	// deadlines, the link for another calendar app, and setup for those who
-	// may. A record's calendar has no link: the link is the reader's own.
 	draw_foot() {
 		const $foot = this.$foot.empty();
 		const link = (label, icon, onclick) =>
 			frappe.ui.button({ label, icon, variant: "ghost", css_class: "one-calendar-link", onclick }).appendTo($foot);
 		link(__("All Events"), "list", () => frappe.set_route("List", "Event"));
-		// The report is for Desk Users; OneIntake's deadlines are read in it.
 		if (frappe.user.has_role(["Desk User", "Workspace Administrator"]))
 			link(__("Deadlines"), "alarm-clock", () => frappe.set_route("query-report", "Deadlines"));
-		// Only where the workspace allows calendar links (Workspace › General).
 		if (!this.about && frappe.boot.one_calendar_links) link(__("Subscribe"), "rss", () => this.subscribe());
 		const setup = [
 			["Google Calendar", __("Google Calendar")],
@@ -119,7 +87,6 @@ onedesk.OneCalendar = class OneCalendar {
 		});
 	}
 
-	// Layers switched off on a record's calendar are off for this visit only.
 	off() {
 		return this.about ? this.off_here || [] : this.saved.off;
 	}
@@ -133,7 +100,6 @@ onedesk.OneCalendar = class OneCalendar {
 		this.calendar = new frappe.FullCalendar(this.$grid[0], {
 			plugins: frappe.FullCalendar.Plugins,
 			initialView: this.saved.view || "timeGridWeek",
-			// A notice about an event opens the calendar on its day.
 			initialDate: frappe.utils.get_query_params().date || undefined,
 			headerToolbar: false,
 			allDayText: __("All Day"),
@@ -146,14 +112,10 @@ onedesk.OneCalendar = class OneCalendar {
 			selectMirror: true,
 			dayMaxEvents: true,
 			eventDisplay: "block",
-			// A half-hour event is one line tall; FullCalendar fills it with the time
-			// and the title falls off the end. It is drawn a little taller, with the
-			// title alone (onecalendar.css) — where it sits already says when.
 			eventMinHeight: 22,
 			scrollTime: "08:00:00",
 			eventSources: [
 				{ events: (info, done, failed) => this.entries(info).then(done, failed) },
-				// The workspace's days off, shaded behind everything else.
 				{ events: (info, done, failed) => this.days_off(info).then(done, failed), display: "background" },
 			],
 			select: (info) => this.new_event(info),
@@ -161,18 +123,14 @@ onedesk.OneCalendar = class OneCalendar {
 			eventDrop: (info) => this.move(info),
 			eventResize: (info) => this.move(info),
 			eventDidMount: (info) => {
-				// The whole title on hover, since a short event cuts it off.
 				const said = info.event.extendedProps.description;
 				info.el.title = said ? `${info.event.title}\n${said}` : info.event.title;
-				// An event opens a card beside it (frappe.ui.Popover); anything
-				// else opens its record (`open`).
 				if (info.event.extendedProps.doctype === "Event" && info.event.display !== "background") {
 					new frappe.ui.Popover({
 						trigger: info.el,
 						side: "right",
 						align: "start",
 						css_class: "one-calendar-card",
-						// The time is the one clicked: a repeat's, not its first.
 						content: () => this.card(info.event.extendedProps.name, info.event),
 					});
 				}
@@ -191,8 +149,6 @@ onedesk.OneCalendar = class OneCalendar {
 		this.listen();
 	}
 
-	// Anything on a layer that changes elsewhere is drawn again: frappe's own
-	// list_update, for each doctype a layer reads, a moment after the last.
 	listen() {
 		const doctypes = new Set(["Event", ...this.layers.map((one) => one.doctype).filter(Boolean)]);
 		doctypes.forEach((doctype) => frappe.realtime.doctype_subscribe(doctype));
@@ -202,7 +158,6 @@ onedesk.OneCalendar = class OneCalendar {
 		});
 	}
 
-	// Holidays and weekly days off, from the list in force on each day.
 	async days_off(info) {
 		const last = moment(info.end).subtract(1, "day");
 		const rows = await frappe.xcall("onedesk.one_calendar.layers.days_off", {
@@ -219,8 +174,6 @@ onedesk.OneCalendar = class OneCalendar {
 		}));
 	}
 
-	// The desk's own calendar toolbar (frappe/views/calendar): the arrows, the
-	// title that opens a date picker, Today, and the views as TabButtons.
 	draw_toolbar() {
 		this.$title = frappe.ui.button({ label: __("Calendar"), variant: "ghost", css_class: "text-lg-medium text-ink-gray-7" });
 		this.jumper = new frappe.ui.Popover({
@@ -250,7 +203,6 @@ onedesk.OneCalendar = class OneCalendar {
 		);
 	}
 
-	// Pick a day, and the calendar goes there in the view it is in.
 	date_jumper() {
 		const wrapper = document.createElement("div");
 		let lang = (frappe.boot.user && frappe.boot.user.language) || "en";
@@ -279,8 +231,6 @@ onedesk.OneCalendar = class OneCalendar {
 			if (!mine.length) continue;
 			$side.append(`<div class="one-calendar-group">${__(group)}</div>`);
 			for (const one of mine) {
-				// Each switch is frappe's Check control, with the layer's colour
-				// beside its label.
 				const $row = $(`<div class="one-calendar-layer"></div>`).appendTo($side);
 				const control = frappe.ui.form.make_control({
 					df: { fieldtype: "Check", fieldname: one.key, label: one.label },
@@ -328,8 +278,6 @@ onedesk.OneCalendar = class OneCalendar {
 			allDay: one.all_day,
 			editable: one.editable,
 			durationEditable: one.resizable,
-			// The desk calendar's colours: a tinted surface and the family's ink,
-			// both tokens, so they turn with the dark theme.
 			backgroundColor: `var(--surface-${one.color}-1)`,
 			borderColor: `var(--surface-${one.color}-1)`,
 			textColor: `var(--ink-${one.color}-7)`,
@@ -340,13 +288,10 @@ onedesk.OneCalendar = class OneCalendar {
 	open(info) {
 		info.jsEvent.preventDefault();
 		const one = info.event.extendedProps;
-		// An event's card is its popover's; the click that opens it ends here.
 		if (one.doctype === "Event") return;
 		frappe.set_route("Form", one.doctype, one.name);
 	}
 
-	// The card on an event: when, where, who, what it says, a Join link, and
-	// Open and Delete for whoever may. Filled once the event is read.
 	card(name, at) {
 		const $card = $(`<div class="one-calendar-card-body">${onedesk.shell.quiet(__("Loading…"))}</div>`);
 		frappe.xcall("onedesk.one_calendar.events.card", { name }).then((one) => {
@@ -390,9 +335,6 @@ onedesk.OneCalendar = class OneCalendar {
 							}),
 					})
 					.appendTo($foot);
-			// The workspace's extensions on OneCalendar (one_studio/places.py),
-			// told this event's card is open with a copy of what it shows, and
-			// lent a note above its buttons and a button among them.
 			onedesk.places &&
 				onedesk.places.emit(
 					"onecalendar.event",
@@ -428,7 +370,6 @@ onedesk.OneCalendar = class OneCalendar {
 				end: format(one.end),
 				all_day: one.allDay ? 1 : 0,
 			})
-			// A task dragged moves its start too, so what is drawn is read again.
 			.then(() => this.refetch(), () => info.revert());
 	}
 
@@ -436,15 +377,11 @@ onedesk.OneCalendar = class OneCalendar {
 		const all_day = info ? info.allDay : false;
 		const start = info ? moment(info.start) : moment().add(1, "hour").startOf("hour");
 		let end = info ? moment(info.end) : moment(start).add(1, "hour");
-		// A day picked on the month view ends at midnight after it; the event
-		// ends that day.
 		if (all_day) end = moment(end).subtract(1, "second");
 		const may_publish = onedesk.CALENDAR_PUBLISHERS.some((role) => frappe.user.has_role(role));
 		const dialog = new frappe.ui.Dialog({
 			title: __("New Event"),
 			fields: [
-				// frappe's own sections and columns: what an event needs on top,
-				// who it is with beside it, and the rest folded under More.
 				{ fieldtype: "Data", fieldname: "subject", label: __("Subject"), reqd: 1 },
 				{ fieldtype: "Section Break" },
 				{ fieldtype: "Datetime", fieldname: "starts_on", label: __("Starts On"), reqd: 1, default: start.format("YYYY-MM-DD HH:mm:ss") },
@@ -455,7 +392,6 @@ onedesk.OneCalendar = class OneCalendar {
 				{ fieldtype: "Data", fieldname: "location", label: __("Location") },
 				{ fieldtype: "Column Break" },
 				{
-					// People in the workspace, by name; frappe's own pills.
 					fieldtype: "MultiSelectPills",
 					fieldname: "team",
 					label: __("Invite"),
@@ -490,7 +426,6 @@ onedesk.OneCalendar = class OneCalendar {
 				await frappe.xcall("onedesk.one_calendar.events.make", {
 					values: {
 						...values,
-						// Made on a record's calendar, it is about that record.
 						...(this.about ? { reference_doctype: this.about.doctype, reference_docname: this.about.name } : {}),
 					},
 				});
@@ -502,7 +437,6 @@ onedesk.OneCalendar = class OneCalendar {
 		dialog.show();
 	}
 
-	// The link as Settings › Calendar draws it (public/js/calendar_link.js).
 	subscribe() {
 		return onedesk.calendar_link.dialog();
 	}

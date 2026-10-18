@@ -63,8 +63,6 @@ class CloudFile(File):
 		from onedesk.one_project import media
 
 		keep.guard(self)
-		# A project's Cover hands over to its next photo first: frappe will not
-		# delete a file whose address is still in one of the record's fields.
 		media.handing_over(self)
 		return super().on_trash()
 

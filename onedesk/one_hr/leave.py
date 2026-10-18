@@ -10,8 +10,6 @@ OPEN = "Open"
 APPROVED = "Approved"
 REJECTED = "Rejected"
 
-#: What an encashed day is paid as. HRMS ships Casual Leave encashable with no earning
-#: component, which fails only on submit; HRMS installs this one itself.
 PAID_AS = "Leave Encashment"
 
 

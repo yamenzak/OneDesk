@@ -1,11 +1,5 @@
-// Items as a catalogue: a tab for each kind of thing along the top, so the
-// trucks, the services and the profile on the shelf are not one long table, and
-// how much of a stock item there is, with Low when a warehouse it is reordered
-// in is at or below its level (one_inventory/kinds.py `stocked`). ERPNext's list
-// settings are kept and added to.
 frappe.provide("onedesk.item");
 
-// Each tab and the filters it is. The first shows everything.
 onedesk.item.TABS = () => [
 	{ label: __("All"), filters: [] },
 	{ label: __("Kept in Stock"), filters: [["is_stock_item", "=", 1], ["has_variants", "=", 0]] },
@@ -14,14 +8,12 @@ onedesk.item.TABS = () => [
 	{ label: __("Equipment"), filters: [["is_fixed_asset", "=", 1]] },
 	{ label: __("Sizes or Colours"), filters: [["has_variants", "=", 1]] },
 ];
-// The fields a tab sets, cleared before another is applied.
 onedesk.item.TABBED = ["is_stock_item", "has_variants", "default_bom", "is_fixed_asset"];
 
 {
 	const theirs = frappe.listview_settings["Item"] || {};
 	const held = {};
 
-	// The tab whose filters are the ones the list has now.
 	const current = (listview) => {
 		const on = (listview.filter_area.get() || []).filter((one) => onedesk.item.TABBED.includes(one[1]));
 		return onedesk.item.TABS().findIndex(
@@ -51,11 +43,8 @@ onedesk.item.TABBED = ["is_stock_item", "has_variants", "default_bom", "is_fixed
 
 	frappe.listview_settings["Item"] = Object.assign({}, theirs, {
 		formatters: Object.assign({}, theirs.formatters, {
-			// The unit's column says how many of it there are.
 			stock_uom(value, df, doc) {
 				const esc = frappe.utils.escape_html;
-				// Nothing on hand to say for a service, equipment, or a product whose
-				// stock is kept by its versions.
 				if (!doc.is_stock_item || doc.has_variants) return "";
 				const one = held[doc.name];
 				if (!one) return `<span class="text-muted">${esc(__(value || ""))}</span>`;

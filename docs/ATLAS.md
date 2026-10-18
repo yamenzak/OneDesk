@@ -26,7 +26,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
 | onedesk | 74 | 4 | 22 | 0 |
-| frappe | 35 | 38 | 141 | 0 |
+| frappe | 36 | 38 | 140 | 0 |
 | erpnext | 304 | 130 | 51 | 0 |
 | hrms | 103 | 19 | 8 | 0 |
 
@@ -744,7 +744,7 @@ Reports: Website Analytics (left out: frappe's website builder; a workspace's pu
 | Workflow State | through a form's link (Workflow: state) | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Workflow Transition Tasks | through a form's link (Workflow: transition_tasks) | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 
-Pages: workflow-builder (inside: Workspace Settings › Approvals).
+Pages: workflow-builder (opened by our screens).
 
 ## hrms / HR
 

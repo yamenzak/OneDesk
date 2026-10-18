@@ -1,14 +1,3 @@
-/* OneAI's own surface: the launcher, the panel, and the colours everything AI
- * is drawn in.
- *
- * The spectrum is the mark's own gradient, read off scripts/brand/marks.json —
- * the six stops of `ai-spectrum`, in order. Anything that is AI wears it: the
- * launcher's ring, the panel's top edge, the badge on a field it wrote, and the
- * border that glows while it is working. One ramp, so the moment a person has
- * learned what the colour means they have learned it everywhere. */
-
-/* ---------------------------------------------------------- the launcher */
-
 .one-ai-dial {
 	position: fixed;
 	right: 24px;
@@ -69,8 +58,6 @@
 	display: none;
 }
 
-/* ------------------------------------------------------------- the panel */
-
 .one-ai-panel {
 	position: fixed;
 	right: 24px;
@@ -85,9 +72,6 @@
 	background: var(--surface-base);
 	overflow: hidden;
 }
-
-/* Three sizes. Snug is the live-chat shape; roomy is for a conversation with
- * records in it; full is for reading a report beside the page it is about. */
 
 .one-ai-panel--roomy {
 	width: min(560px, calc(100vw - 48px));
@@ -125,7 +109,6 @@
 	text-overflow: ellipsis;
 }
 
-/* The conversation's name, which renames it when pressed. */
 .one-ai-head__name {
 	display: block;
 	max-width: 100%;
@@ -166,7 +149,6 @@
 	cursor: pointer;
 }
 
-/* An icon from the sprite, sized by frappe's own icon-xs / -sm / -md. */
 .one-ai-glyph {
 	display: inline-flex;
 	line-height: 0;
@@ -183,14 +165,6 @@
 	overflow-y: auto;
 	padding: 14px;
 }
-
-/* ---------------------------------------------------------- the messages
- *
- * Who said it is read off where it sits, not off a name above it. The reader's
- * words are a tinted bubble on the right; OneAI's are plain text on the left,
- * because an answer is usually the longest thing in the panel and a bubble
- * round a paragraph is a box round a page. The names stay for a screen reader,
- * which has no left and right to read. */
 
 .one-ai-said {
 	display: flex;
@@ -236,8 +210,6 @@
 	padding: 2px 1px;
 }
 
-/* What it did on the way to answering. A line rather than a box, because it is
- * a footnote to the answer and not a second message. */
 .one-ai-looked {
 	display: flex;
 	align-items: center;
@@ -248,7 +220,6 @@
 	color: var(--ink-gray-6);
 }
 
-/* What OneAI kept this turn, said once, with Undo. */
 .one-ai-kept__undo {
 	margin-inline-start: 4px;
 	padding: 0;
@@ -276,8 +247,6 @@
 	background: var(--one-ai-6);
 }
 
-/* Under the conversations: the one place a person sees what OneAI keeps
- * about them, and deletes it. */
 .one-ai-remembers {
 	display: flex;
 	align-items: center;
@@ -298,15 +267,6 @@
 	color: var(--ink-gray-8);
 }
 
-/* --------------------------------------------------------- a record, drawn
- *
- * A head that says what it is, the fields as label and value, and for a
- * suggestion a foot that holds the why and the two answers — the same card
- * whether it was looked up or is being suggested, because a person reading it
- * is doing the same thing either way. No gradient edge: the colour is on the
- * launcher, where it is the mark. */
-
-/* Several records read at once: one list, a line each (Found.vue). */
 .one-ai-found {
 	margin: 8px 0 10px;
 	border: 1px solid var(--outline-gray-1);
@@ -451,8 +411,6 @@
 	text-overflow: ellipsis;
 }
 
-/* Label and value on one line each, the labels in one column so the values
- * start at the same place — and two pairs across once there is room. */
 .one-ai-rec__fields {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
@@ -481,8 +439,6 @@
 	grid-template-columns: minmax(84px, 45%) minmax(0, 1fr);
 }
 
-/* A label wraps rather than being cut: "Employee Naming…" on a change card
- * hid which setting was changing. */
 .one-ai-rec__field dt {
 	margin: 0;
 	color: var(--ink-gray-6);
@@ -513,8 +469,6 @@
 	line-height: 1.6;
 }
 
-/* A child table's rows: what each is, the amount on the right, the kind and
- * date underneath in grey. */
 .one-ai-rec__field:has(.one-ai-rec__rows) {
 	grid-template-columns: minmax(0, 1fr);
 	gap: 4px;
@@ -550,7 +504,6 @@
 	color: var(--ink-gray-6);
 }
 
-/* A change: what the field holds now, greyed and struck, and what it would. */
 .one-ai-rec__change {
 	display: flex;
 	flex-wrap: wrap;
@@ -573,7 +526,6 @@
 	color: var(--ink-gray-6);
 }
 
-/* A big change, said as what it touches. */
 .one-ai-rec__gist {
 	padding: 10px 12px 2px;
 	border-top: 1px solid var(--outline-gray-1);
@@ -589,9 +541,6 @@
 	margin: 8px 0 8px;
 }
 
-/* A field OneAI changed on the open form, until it is saved. */
-/* The launcher's own ring: the spectrum drawn as a 1px border under a
- * padding-box fill of the control's colour. */
 .one-ai-changed .form-control,
 .one-ai-changed .checkbox {
 	border: 1px solid transparent;
@@ -681,7 +630,6 @@
 	background: var(--surface-gray-2);
 }
 
-/* The send button's own black, so the one thing to press looks like it. */
 .one-ai-btn--go {
 	border-color: transparent;
 	background: var(--surface-gray-8);
@@ -730,8 +678,6 @@
 	color: var(--ink-gray-8);
 }
 
-/* -------------------------------------------------------------- the foot */
-
 .one-ai-foot {
 	padding: 8px 12px 12px;
 }
@@ -766,9 +712,6 @@
 	text-decoration: line-through;
 }
 
-/* One card holding everything about the next question — what is attached, the
-   words, and a row of controls under them — so the box and its buttons read as
-   one thing rather than a field with buttons parked beside it. */
 .one-ai-ask {
 	display: flex;
 	flex-direction: column;
@@ -877,7 +820,6 @@ button.one-ai-model:hover {
 	animation: one-ai-hear 1.4s ease-in-out infinite;
 }
 
-/* Listening: the microphone breathes. */
 @keyframes one-ai-hear {
 	50% {
 		opacity: 0.55;
@@ -919,8 +861,6 @@ button.one-ai-model:hover {
 	color: var(--ink-gray-5);
 }
 
-/* ------------------------------------------------------------ the threads */
-
 .one-ai-thread {
 	display: block;
 	width: 100%;
@@ -959,12 +899,6 @@ button.one-ai-model:hover {
 	color: var(--ink-gray-6);
 }
 
-/* ----------------------------------------------------------- the thinking
- *
- * The same bloom as the mark's aurora, breathing. It is the one animation in
- * the panel, so "it is working" needs no words and no spinner borrowed from
- * somewhere else in the desk. */
-
 .one-ai-thinking {
 	display: flex;
 	flex-direction: column;
@@ -974,7 +908,6 @@ button.one-ai-model:hover {
 	color: var(--ink-gray-6);
 }
 
-/* What it has already done, one quiet line each, above what it is doing now. */
 .one-ai-thinking__done {
 	padding-left: 27px;
 	position: relative;
@@ -1023,17 +956,9 @@ button.one-ai-model:hover {
 		height: calc(100vh - 96px);
 	}
 	.one-ai-dial { right: 16px; bottom: 16px; }
-	/* The open panel fills the phone and has its own close; the dial on top
-	 * of it covered the send button. */
 	body:has(.one-ai-panel) .one-ai-dial { display: none; }
 }
 
-
-/* ------------------------------------------------------------- the prose
- *
- * A model answers in markdown whether or not anybody asked it to, so the
- * answer is rendered rather than printed. `frappe.markdown` is showdown with
- * tables on and a whitelist sanitiser after it — the framework's, not ours. */
 
 .one-ai-prose {
 	white-space: normal;
@@ -1116,12 +1041,6 @@ button.one-ai-model:hover {
 	color: var(--ink-gray-6);
 }
 
-/* --------------------------------------------------------- when it breaks
- *
- * The question stays where it was, the reason is under it, and the button
- * sends the same thing again — because a run that fails and clears the box is
- * a question somebody has to retype. */
-
 .one-ai-broke {
 	display: flex;
 	align-items: center;
@@ -1140,13 +1059,6 @@ button.one-ai-model:hover {
 	overflow-wrap: anywhere;
 }
 
-
-/* --------------------------------------------------------------- the files
- *
- * What was dropped on a turn, and what is waiting to go with the next one. A
- * line rather than a thumbnail: the file is an attachment on the conversation
- * and opening it is one click, so the panel says its name and gets out of the
- * way. */
 
 .one-ai-files {
 	display: flex;
@@ -1217,10 +1129,6 @@ button.one-ai-model:hover {
 	color: var(--ink-gray-8);
 }
 
-/* ------------------------------------------------------------- the fields */
-
-/* The control beside a prose field's label, and the badge on one OneAI wrote.
-   Both small and quiet: a form is somebody's work, and these are beside it. */
 .one-ai-write {
 	display: inline-flex;
 	align-items: center;
@@ -1237,7 +1145,6 @@ button.one-ai-model:hover {
 	transition: background 0.15s ease;
 }
 
-/* Grey until OneAI wrote what the field says; its own colours while it does. */
 .one-ai-write img,
 .one-ai-touched {
 	width: 14px;
@@ -1261,8 +1168,6 @@ button.one-ai-model:hover {
 	background: var(--surface-gray-2);
 }
 
-/* On a settings page every field has one, so they stay out of sight until the
- * field is pointed at or the mark itself has focus. */
 .one-ai-help {
 	opacity: 0;
 	transition: opacity 0.15s ease, background 0.15s ease;
@@ -1311,10 +1216,6 @@ button.one-ai-model:hover {
 	color: var(--ink-gray-8);
 }
 
-/* ------------------------------------------------ recording an interview */
-
-/* Bottom centre, clear of the OneAI dial in the corner, and on every page:
- * the recording outlives the form it was started from. */
 .one-rec {
 	position: fixed;
 	left: 50%;
@@ -1363,12 +1264,6 @@ button.one-ai-model:hover {
 	.one-rec__dot { animation: none; }
 }
 
-/* ------------------------------------------------------ a tag and a button */
-
-/* What is AI, one look everywhere (onedesk.oneai.tag and .button): frappe's
- * own badge and button, filled as they are, with the spectrum as a hairline
- * edge and the mark in front. The fill is the part's own, tinted a touch
- * towards the spectrum's middle, so it reads on either theme. */
 .es-badge.one-ai-tag,
 .es-button.one-ai-button {
 	--one-ai-fill: color-mix(in srgb, var(--one-ai-3) 8%, var(--surface-base));
@@ -1393,19 +1288,12 @@ button.one-ai-model:hover {
 	height: 16px;
 }
 
-/* Pointed at, its fill leans further towards the spectrum. */
 .es-button.one-ai-button:hover,
 .es-button.one-ai-button:focus-visible {
 	--one-ai-fill: color-mix(in srgb, var(--one-ai-3) 14%, var(--surface-base));
 }
 
 
-/* ------------------------------------------------- beside the email window */
-
-/* Opened from the email window's Message, the panel sits above the window's
- * backdrop rather than under it, and on a screen wide enough the window moves
- * left to make room, so what is written and what is suggested are both in
- * view (oneai.js `beside`). */
 body.one-ai-writing .one-ai-panel,
 body.one-ai-writing .one-ai-dial {
 	z-index: 1060;
@@ -1418,7 +1306,6 @@ body.one-ai-writing .one-ai-dial {
 	}
 }
 
-/* A Printing card's page, as it would print (Record.vue see_page). */
 .one-ai-page {
 	display: block;
 	width: 100%;

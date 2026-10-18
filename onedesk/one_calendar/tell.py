@@ -12,25 +12,18 @@ from markupsafe import Markup
 from onedesk.one import notify
 from onedesk.one_calendar.feed import escape, fold, utc
 
-#: How far ahead a reminder may be set and still be looked for.
 AHEAD = timedelta(days=2)
 
-#: A reminder when an event names none.
 DEFAULT_BEFORE = 10
 
-#: Minutes in each of frappe's reminder intervals.
 INTERVAL = {"minutes": 1, "hours": 60, "days": 1440, "weeks": 10080}
 
-#: frappe's own morning mail, stopped because Today's Events replaces it.
 FRAPPE_DIGEST = "frappe.desk.doctype.event.event.send_event_digest"
 
 
 def install(*_args) -> None:
 	"""after_migrate: frappe's morning mail stopped, so nobody gets two."""
 	frappe.db.set_value("Scheduled Job Type", {"method": FRAPPE_DIGEST}, "stopped", 1)
-
-
-# ------------------------------------------------------------------ on save
 
 
 def saved(doc, method=None) -> None:
@@ -68,8 +61,6 @@ def people(doc) -> dict[str, str | None]:
 	owner = frappe.db.get_value("User", doc.owner, "email") if doc.owner else None
 	if owner:
 		out[owner.lower()] = doc.owner
-	# Shared with somebody (OneIntake's events are made by OneAI and shared
-	# with whoever they are for): they are on it too.
 	for user in (
 		frappe.get_all("DocShare", filters={"share_doctype": "Event", "share_name": doc.name}, pluck="user")
 		if doc.get("name") and not doc.is_new()
@@ -165,9 +156,6 @@ def _link(doc) -> str:
 	return f"/desk/onecalendar?date={getdate(doc.starts_on)}"
 
 
-# ------------------------------------------------------------------ guests
-
-
 def _mail(doc, emails: list[str], method: str, facts: dict, changed: bool = False) -> None:
 	"""Each guest mailed the event as an invitation, a change to it, or its
 	cancellation."""
@@ -193,7 +181,6 @@ def _mail(doc, emails: list[str], method: str, facts: dict, changed: bool = Fals
 
 def _as_event(doc) -> dict:
 	return {
-		# A deleted event's name is given out again; its first save is not.
 		"name": f"{doc.name}-{get_datetime(doc.creation):%Y%m%d%H%M%S}",
 		"subject": doc.subject,
 		"starts_on": get_datetime(doc.starts_on),
@@ -205,7 +192,6 @@ def _as_event(doc) -> dict:
 	}
 
 
-#: frappe's repeat as the format's FREQ.
 FREQ = {"Daily": "DAILY", "Weekly": "WEEKLY", "Monthly": "MONTHLY", "Yearly": "YEARLY"}
 
 
@@ -271,9 +257,6 @@ def invitation(
 	return "".join(fold(line) + "\r\n" for line in lines)
 
 
-# ------------------------------------------------------------------ starting soon
-
-
 def soon() -> None:
 	"""Every five minutes: each reminder that has come due and not been told."""
 	if not frappe.db.get_value("Notification Type", "Starting Soon", "enabled"):
@@ -316,7 +299,6 @@ def _reminders(names: list[str]) -> dict[str, list[int]]:
 
 def _starting(event, starts: datetime) -> None:
 	doc = frappe.get_doc("Event", event.name)
-	# Nobody who said they are not coming.
 	declined = {
 		(row.email or "").lower() for row in doc.get("event_participants") or [] if row.attending == "No"
 	}
@@ -330,15 +312,11 @@ def _starting(event, starts: datetime) -> None:
 		link=_link(doc),
 		sender="Administrator",
 		event=doc.subject,
-		# The day too when it is not today, or tomorrow's reads as today's.
 		time=format_datetime(starts, "HH:mm")
 		if getdate(starts) == getdate(now_datetime())
 		else format_datetime(starts, "EEE d MMM, HH:mm"),
 		where=f", {doc.location}" if doc.location else "",
 	)
-
-
-# ------------------------------------------------------------------ each morning
 
 
 def today_events() -> None:

@@ -9,7 +9,6 @@ from frappe.utils import add_days, now_datetime
 
 from onedesk.one_admin.signup import ABANDONED_DAYS
 
-#: A workspace in any of these was live once.
 BEEN_LIVE = ("Live", "Overdue", "Suspended", "Archived", "Dropped")
 
 

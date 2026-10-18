@@ -1,10 +1,4 @@
 <template>
-  <!-- The Tasks table in template mode: each task a day after the start and a
-       number of days long, renamed, nested, linked and marked as a milestone
-       in place (one_project/template_view.py).
-       Modelled on TeamGantt's and Smartsheet's project templates: phases with their tasks under them,
-       each a day and a length from the start, what it waits on and its
-       hours. Somebody who may only read it reads text, not boxes. -->
   <div class="overflow-x-auto rounded-5 border border-outline-gray-2">
     <List :columns="COLUMNS" :row-height="44" divider="full" class="min-w-[52rem] list-gap-3 list-row-px-3">
       <ListHeader class="bg-surface-gray-1">
@@ -127,7 +121,6 @@ const names = computed(() => Object.fromEntries(props.tasks.map((one) => [one.na
 const subject = (name) => names.value[name] || name;
 const draft = ref("");
 
-// "Day 12 · 5 days", counted from the day the project starts.
 const when = (one) =>
   `${__("Day {0}", [one.start || 0])} · ${one.duration === 1 ? __("1 day") : __("{0} days", [one.duration || 0])}`;
 
@@ -143,7 +136,6 @@ function add() {
   emit("add", now, null);
 }
 
-// The tasks above `one`, so it is not put under its own.
 function below(one) {
   const under = new Set([one.name]);
   for (const other of props.tasks) if (under.has(other.parent_task)) under.add(other.name);

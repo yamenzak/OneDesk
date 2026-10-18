@@ -1,6 +1,3 @@
-// A webhook written by a workspace administrator (one/webhooks.py): what
-// the server would refuse is not offered. Somebody frappe lets customize
-// keeps frappe's whole form.
 frappe.ui.form.on("Webhook", {
 	refresh(frm) {
 		if ((frappe.boot.user.can_write || []).includes("Custom Field")) return;

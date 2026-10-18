@@ -1,7 +1,4 @@
 <template>
-  <!-- Where a record is on its way: each step a dot on one line, filled once
-       done, ringed where it is now. Shopify's order status, drawn in
-       frappe-ui's tokens. -->
   <ol class="flex items-start">
     <li v-for="(step, i) in steps" :key="step.label" class="flex min-w-0 flex-1 flex-col items-center gap-2 text-center">
       <div class="flex w-full items-center">

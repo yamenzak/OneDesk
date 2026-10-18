@@ -1,19 +1,5 @@
 frappe.provide("onedesk.clock");
 
-// Clocking in, from the browser's side.
-//
-// The button never sends a direction. A tab left open since this morning would
-// send whichever way it pointed when it loaded, so the server reads the
-// direction from where the person already is and this only says "punch".
-//
-// What it does send is what only a browser can answer: the passkey assertion,
-// the position, and what the browser says about itself. Each is collected only
-// where the workspace asked for it — `ready()` says which — so nobody sees a
-// location prompt they were never going to be judged on.
-
-//: How long to wait for a position before giving up and saying so. A phone
-//: indoors can take fifteen seconds to get a fix and a refusal is instant, so
-//: the wait is for the honest case rather than the awkward one.
 onedesk.clock.FIX_MS = 12000;
 
 onedesk.clock.ready = () => frappe.xcall("onedesk.one_hr.clock.ready");
@@ -40,8 +26,6 @@ onedesk.clock.punch = async (ready, reason) => {
 	});
 };
 
-// A refusal is a fact, not an error: somebody who said no to the prompt has
-// answered the question, and the server decides what that costs.
 onedesk.clock.where = () =>
 	new Promise((resolve) => {
 		if (!navigator.geolocation) return resolve({ refused: false });
@@ -57,12 +41,6 @@ onedesk.clock.where = () =>
 		);
 	});
 
-// Asked on the way out and never on the way in, and only where the workspace
-// wants it. The options are `Clock Reason` rows rather than four words written
-// here, so a workplace that needs "Client visit" adds one without a deploy.
-// Cancelling cancels the clock-out rather than filing one with no reason: the
-// prompt is the workspace's question and answering it is not optional once it
-// has been asked.
 onedesk.clock.why = (direction) =>
 	new Promise((resolve) => {
 		if (direction !== "OUT") return resolve(null);
@@ -76,9 +54,6 @@ onedesk.clock.why = (direction) =>
 				label: __("Reason"),
 				reqd: 1,
 				get_query: () => ({ filters: { enabled: 1 } }),
-				// The workspace wrote a sentence under each reason and nobody
-				// was ever shown it. It says what the reason means here, which
-				// is the whole point of a workspace defining its own.
 				onchange: () => onedesk.clock.explain(dialog),
 			},
 			({ reason }) => resolve(reason),
@@ -96,25 +71,12 @@ onedesk.clock.explain = (dialog) => {
 	});
 };
 
-// `comment_when` answers in markup, and anywhere it is put into an attribute or
-// escaped it would print the span rather than the words. The words are what we
-// want, not the tooltip around them.
 onedesk.clock.when = (stamp) =>
 	stamp ? $("<div>").html(frappe.datetime.comment_when(stamp, true)).text() : "";
 
-// A time of day in the reader's own format, without seconds: "09:00".
 onedesk.clock.time = (stamp) =>
 	stamp ? moment(frappe.datetime.convert_to_user_tz(stamp)).format(frappe.datetime.get_user_time_fmt().replace(":ss", "")) : "";
 
-// The optional photo. The camera opens inside the page and a frame goes
-// straight from a canvas, so there is no file input anywhere and nothing can be
-// chosen from the gallery — `<input type="file" capture>` is only a hint, and a
-// file can still be picked on several platforms.
-//
-// It answers *who*, never *where*: a canvas capture carries no EXIF at all, and
-// a photo that does came from a file somebody could have written anything into.
-// The position comes from the place gate at the same moment, and the time from
-// the server.
 onedesk.clock.SHOT = { width: 640, height: 480, quality: 0.7 };
 
 onedesk.clock.look = async () => {
@@ -133,7 +95,6 @@ onedesk.clock.look = async () => {
 		video.srcObject = stream;
 		video.muted = true;
 		await video.play();
-		// One frame after the sensor has settled; the first is usually black.
 		await new Promise((done) => setTimeout(done, 600));
 
 		const canvas = document.createElement("canvas");

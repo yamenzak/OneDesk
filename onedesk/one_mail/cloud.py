@@ -5,10 +5,8 @@ from frappe import _
 
 from onedesk.one_mail import holders
 
-#: The node ids: `@mail`, and `@mail/<mailbox>`.
 MAIL = "@mail"
 
-#: How many files a mailbox's folder lists.
 MOST = 500
 
 

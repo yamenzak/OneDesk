@@ -15,16 +15,11 @@ def _on(doctype: str, view: str | None = None, name: str | None = None) -> dict:
 	return {key: value for key, value in (("doctype", doctype), ("view", view), ("name", name)) if value}
 
 
-#: The workspace's administrator on the dev site, who asks most cases.
 USER = "wsadmin@one.test"
 
-#: Who asks the sales and people cases on the dev site: somebody with the sales
-#: and HR roles and an employee record, so those cases make a card rather than
-#: being refused.
 PEOPLE = "admin@example.com"
 
 CASES = [
-	# Reading: the answer comes from the right tool.
 	{
 		"id": "count-customers",
 		"page": _on("Customer", "List"),
@@ -118,7 +113,6 @@ CASES = [
 		"ask": "كم عدد العملاء لدينا؟",
 		"tools": ("count_records", "list_records"),
 	},
-	# Doing: the right card is made, and nothing happens until it is approved.
 	{
 		"id": "task",
 		"page": {},
@@ -160,8 +154,6 @@ CASES = [
 		"id": "book-leave",
 		"page": {},
 		"ask": "Book me annual leave next Monday.",
-		# No card on the dev site: nobody approves that employee's leave, and
-		# the tool says so.
 		"tools": ("book_leave",),
 		"user": PEOPLE,
 	},
@@ -183,7 +175,6 @@ CASES = [
 		"id": "screen-form",
 		"page": _on("Customer", "List"),
 		"ask": "On the customer form, hide the Website field unless the customer type is Company.",
-		# A form customization's "show when" does it without code, which is as right.
 		"tools": ("write_extension", "customize"),
 		"card": True,
 	},
@@ -223,8 +214,6 @@ CASES = [
 		"card": True,
 	},
 	{
-		# The field is tax_id; a guess at "tax_number" is refused by checks.py
-		# with the right name, and mended.
 		"id": "screen-field",
 		"page": _on("Customer", "List"),
 		"ask": "On the customer form, make the tax number required when the customer type is Company.",
@@ -275,7 +264,6 @@ CASES = [
 		"card": True,
 	},
 	{"id": "remember", "page": {}, "ask": "Remember that I prefer short answers.", "tools": ("remember",)},
-	# Saying no well: nothing to call, and a sentence saying so.
 	{"id": "cannot", "page": {}, "ask": "Can you order pizza for the office?", "tools": ()},
 ]
 
@@ -319,8 +307,6 @@ def run(model: str | None = None, only: str | None = None, every: bool = False) 
 				expects=suggest.expected(case["ask"]),
 				chose=chose,
 				groups=None if every else groups.chosen(case["ask"], case.get("page") or {}, turns),
-				# A model named here is the person's pick in the panel, and
-				# holds through a handover, so the whole run is on it.
 				pinned=model,
 			)
 		except Exception as e:
@@ -341,7 +327,6 @@ def run(model: str | None = None, only: str | None = None, every: bool = False) 
 			"model": said.get("model"),
 			"groups": said.get("groups"),
 			"said": (last.get("text") or said.get("error") or "")[:160],
-			# What a tool refused, which is most often why a card was not made.
 			"refused": [
 				f"{t.get('tool')}: {str((t.get('result') or {}).get('error'))[:200]}"
 				for t in said.get("turns") or []

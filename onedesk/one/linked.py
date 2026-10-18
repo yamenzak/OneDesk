@@ -11,10 +11,8 @@ import frappe
 from frappe import _
 from frappe.utils import cstr
 
-#: The form's own name for a linked field, which no field of a record has.
 PREFIX = "one_linked__"
 
-#: What a linked section may not show: layout, and what is computed.
 REFUSED = {
 	"Section Break",
 	"Column Break",
@@ -27,10 +25,8 @@ REFUSED = {
 	"Read Only",
 }
 
-#: A linked record's child tables, drawn as frappe's grid.
 TABLES = ("Table", "Table MultiSelect")
 
-#: The docfield properties the form draws a linked field with.
 DRAWN = ("fieldtype", "label", "options", "description", "precision", "length", "non_negative")
 
 
@@ -148,9 +144,6 @@ def validate(head) -> None:
 				frappe.throw(f"{where}: {reason}")
 
 
-# ------------------------------------------------------------------ what the form is given
-
-
 def for_boot(bootinfo=None) -> dict:
 	"""The sections each doctype's form draws, for this person: none through a
 	doctype they may not read. The form builds its layout from these once. A
@@ -228,8 +221,6 @@ def loaded(doc, head) -> dict:
 		linked = frappe.get_doc(link.options, target)
 		writable = linked.docstatus < 2 and bool(linked.has_permission("write"))
 		fields = [name for name in names(row.fields) if linked.meta.get_field(name)]
-		# What the reader's permission levels keep from them, as frappe's own
-		# form would.
 		hidden = [name for name in fields if not linked.has_permlevel_access_to(name, permission_type="read")]
 		shown = [name for name in fields if name not in hidden]
 		out[row.link_field] = {
@@ -253,9 +244,6 @@ def loaded(doc, head) -> dict:
 			],
 		}
 	return out
-
-
-# ------------------------------------------------------------------ saved with the record
 
 
 def save(doc, method=None) -> None:

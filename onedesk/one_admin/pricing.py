@@ -6,17 +6,10 @@ estimated, a use with no rate is not free, and nothing converts between units.
 
 from dataclasses import dataclass
 
-#: Credits are counted to six places, the same as the ledger. A single call can
-#: cost a thousandth of one.
 PLACES = 6
 
-#: Dollars are kept to more, because a provider's rate can be $0.0000528 and a
-#: cost rounded to cents before the markup is a cost rounded away entirely.
 CENTS = 10
 
-#: What a caller may declare a ceiling on, and the rate each cap is priced
-#: against. An action caps what it asks for; it cannot cap what a provider
-#: decides to charge, which is what the settle is for.
 CAPS = {
 	"input_tokens": ("input", "text", "tokens"),
 	"cached_tokens": ("cached", "text", "tokens"),
@@ -36,8 +29,6 @@ class Use:
 	modality: str
 	unit: str
 	count: float
-	#: True when this is a parameter we sent rather than a number the provider
-	#: reported. Kept so a bill can say which of its lines were measured.
 	asked: bool = False
 
 	@property
@@ -52,7 +43,6 @@ class Bill:
 	usd: float
 	credits: float
 	lines: tuple[tuple[Use, float], ...] = ()
-	#: Uses with no rate to price them. A bill with any of these is not a bill.
 	unpriced: tuple[Use, ...] = ()
 
 	@property
@@ -102,7 +92,6 @@ def ceiling(rates: list, caps: dict, markup: float, per_dollar: float) -> Bill:
 	return bill(rates, asked(caps), markup, per_dollar)
 
 
-#: A price list reads per million tokens, so that is what the catalogue shows.
 MILLION = 1_000_000
 
 

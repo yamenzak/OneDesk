@@ -1,16 +1,10 @@
 <template>
-  <!-- Where the project's money stands and where it's heading: the forecast,
-       the customer's side and the cost side, and the budget by cost type.
-       Every figure opens the documents behind it (one_project/money.py). -->
   <div class="pb-12">
-    <!-- The title, as on Tasks and Time, and the currency every amount is in. -->
     <div class="flex flex-wrap items-center gap-2 pb-2">
       <h2 class="me-auto flex items-center gap-2 text-lg font-semibold text-ink-gray-9">
         <span class="lucide-wallet size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Money") }}
       </h2>
       <span v-if="cash.currency" class="text-sm text-ink-gray-5">{{ __("Amounts in {0}", [cash.currency]) }}</span>
-      <!-- What the work uses: stock taken out for it, and what the team paid
-           themselves, each naming the project (money.py). -->
       <Button v-if="can('create', 'Stock Entry')" size="sm" icon-left="lucide-package-minus" :label="__('Issue Stock')" @click="issueStock" />
       <Button v-if="can('create', 'Expense Claim')" size="sm" icon-left="lucide-plus" :label="__('New Expense Claim')" @click="newDoc('Expense Claim', { project: said.name, company: said.company })" />
     </div>
@@ -64,7 +58,6 @@
       </List>
     </section>
 
-    <!-- What was booked to a cost type, each opening its document. -->
     <Dialog v-model:open="showing" :title="opened?.cost_type" size="xl">
       <Loading v-if="!booked" />
       <Rows v-else :rows="booked" :empty="__('Nothing booked yet')" />
@@ -90,23 +83,15 @@ const emit = defineEmits(["changed", "view"]);
 
 const cash = computed(() => props.said.money);
 const amount = (value) => money(value, cash.value.currency);
-// Amounts in a table, the currency said once at the top (frappe's own
-// number format).
 const maybe = (value) => (value === null || value === undefined ? "–" : amount(value));
 const share = (part, whole) => (whole ? Math.max(0, Math.min(100, Math.round((100 * part) / whole))) : null);
 const percent = (part, whole) => (whole ? Math.round((100 * part) / whole) : null);
 const frm = () => ({ doctype: "Project", doc: { name: props.said.name } });
-// Stock used on the project, asked as OneInventory asks it (item_actions.js),
-// with the project filled in; its cost shows here once issued.
 const issueStock = () =>
   requires(["/assets/onedesk/js/item_actions.js"]).then(() => onedesk().stock.issue({ project: props.said.name, title: props.said.title, done: () => emit("changed") }));
 
-// The forecast, by how the project earns (money.py). A project with no
-// customer and nothing ordered by one has no contract: its forecast is the
-// budget and what's left of it.
 const selling = computed(() => Boolean(props.said.customer || cash.value.contract));
 const kind = computed(() => cash.value.kind);
-// Time and materials and a retainer have no contract to forecast against.
 const soFarOnly = computed(() => selling.value && ["Time and Materials", "Retainer"].includes(kind.value));
 const budgetFigure = () => {
   const c = cash.value;
@@ -116,9 +101,6 @@ const budgetFigure = () => {
     note: c.budget && selling.value ? __("{0} spent", [amount(c.spent)]) : "",
     bar: selling.value ? share(c.spent, c.budget) ?? undefined : undefined,
     alarm: c.budget && c.spent > c.budget,
-    // The figure is the whole tree's; it's changed here only where it's the
-    // project's own, with no sub-projects. With cost types adding it up, the
-    // dialog changes the time budget and planned hours only.
     action:
       props.said.can_budget && !props.said.overview.sub_projects?.count
         ? { icon: "lucide-pencil", label: __("Change Budget"), onClick: changeBudget }
@@ -134,8 +116,6 @@ const soFar = (c, whole) => ({
   note: whole && c.margin > 0 ? __("{0}% margin", [percent(c.margin, whole)]) : "",
   alarm: c.margin < 0,
 });
-// Money is a place (one_studio/places.py): told the project's figures and
-// each cost type against its budget.
 const spot = usePlace("oneproject.money", () => ({
   project: { name: props.said.name, title: props.said.title, kind: kind.value, currency: cash.value.currency },
   money: {
@@ -159,8 +139,6 @@ const forecast = computed(() => {
       { title: __("Left"), value: maybe(left), alarm: left !== null && left < 0 },
     ];
   }
-  // Time and materials earns as the work is done; an order, if there is
-  // one, is what it may come to.
   if (kind.value === "Time and Materials") {
     const ordered = c.customer.find((one) => one.doctype === "Sales Order")?.value;
     return [
@@ -172,7 +150,6 @@ const forecast = computed(() => {
       ...(ordered && c.forecast_margin !== null ? [{ title: __("Forecast Margin"), value: amount(c.forecast_margin), alarm: c.forecast_margin < 0 }] : []),
     ];
   }
-  // A retainer is its fee, month by month.
   if (kind.value === "Retainer") {
     const months = props.said.overview.months;
     return [
@@ -203,9 +180,6 @@ const forecast = computed(() => {
   ];
 });
 
-// Each side as its figures in order, with a bar against what was ordered.
-// A figure still at nothing isn't shown: a delivery or a receipt means
-// nothing on work that's never delivered.
 const ORDERS = ["Sales Order", "Purchase Order"];
 const side = (figures, whole) =>
   figures
@@ -225,17 +199,13 @@ const ordered = (figures) => figures.find((one) => ORDERS.includes(one.doctype))
 const customer = computed(() => side(cash.value.customer, ordered(cash.value.customer)));
 const cost = computed(() => [...side(cash.value.cost, ordered(cash.value.cost)), ...side(cash.value.own, 0)]);
 
-// The budget by cost type over the project and those under it, and Other
-// for what they leave out (one_project/budget.py).
 const types = computed(() => cash.value.cost_types);
 const typeRows = computed(() => [
   ...types.value.lines.map((one) => ({ ...one, key: one.key || one.account })),
   ...(types.value.other ? [{ ...types.value.other, key: "other", cost_type: __("Other") }] : []),
 ]);
-// How much of a cost type's budget is spent or on order, past 100 when over.
 const used = (row) => (row.budget ? Math.round((100 * (row.committed + row.spent)) / row.budget) : row.committed + row.spent ? 100 : 0);
 
-// A cost type opens what was booked to it; the time opens Time.
 const opened = ref(null);
 const showing = ref(false);
 const booked = ref(null);
@@ -255,8 +225,6 @@ async function openType(row) {
   }));
 }
 
-// A cost type the project budgets for itself is changed; one only its
-// sub-projects budget for adds the project's own.
 function costType(row) {
   const shown = row ? (row.own !== null ? { ...row, budget: row.own } : { account: row.account, fresh: true }) : null;
   onedesk().project.cost_type(frm(), shown, () => emit("changed"));

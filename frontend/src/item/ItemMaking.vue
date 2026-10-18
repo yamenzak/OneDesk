@@ -1,8 +1,4 @@
 <template>
-  <!-- What the item is made from and how many the stock would make, the
-       steps that make it, the work orders making it step by step, what was
-       made in the last year, its bills of materials, and, for a material,
-       what it goes into and what the open work orders still need of it. -->
   <div class="grid gap-x-10 pb-12 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
     <div class="min-w-0">
     <PlaceSpot :said="spot" class="mb-4" />
@@ -36,7 +32,6 @@
       <Rows :rows="boms" :empty="__('No bill of materials')" />
     </Section>
   </div>
-    <!-- How the item is kept here: the item's own form fields, changed in place. -->
     <aside class="min-w-0">
       <Section :title="__('Details')" icon="lucide-info">
         <Facts :facts="details" :form="form" @saved="emit('changed')" />
@@ -59,8 +54,6 @@ const bom = computed(() => making.value.boms.find((one) => one.name === props.sa
 const madeQty = computed(() => making.value.made.reduce((sum, one) => sum + one.produced_qty, 0));
 const neededQty = computed(() => making.value.needed.reduce((sum, one) => sum + one.left, 0));
 
-// Each material with how many its free stock would make; the one that runs
-// out first marked.
 const materials = computed(() =>
   making.value.materials.map((one, i) => ({
     key: `${one.item_code}-${i}`,
@@ -85,9 +78,6 @@ const steps = computed(() =>
   }))
 );
 
-// A work order still open: for which project, how far each step has got,
-// red once it was wanted. Finish records what has been made, and Shop
-// Floor opens the floor's own page at it.
 const orders = computed(() =>
   making.value.orders.map((one) => ({
     key: one.name,
@@ -97,7 +87,6 @@ const orders = computed(() =>
     dim: __("{0} of {1} made", [quantity(one.produced_qty), quantity(one.qty)]),
     progress: one.qty ? Math.round((100 * one.produced_qty) / one.qty) : 0,
     below: one.expected_delivery_date ? (one.late ? __("Was wanted by {0}", [date(one.expected_delivery_date)]) : __("Wanted by {0}", [date(one.expected_delivery_date)])) : "",
-    // How many each step has done, of the order's quantity above.
     lines: one.steps.length ? [one.steps.map((step) => `${__(step.operation)} ${quantity(step.completed_qty)}`).join(" · ")] : [],
     value: __(one.status),
     route: `/desk/work-order/${encodeURIComponent(one.name)}`,
@@ -140,7 +129,6 @@ const usedIn = computed(() =>
   }))
 );
 
-// What the open work orders still have to take of it.
 const needed = computed(() =>
   making.value.needed.map((one) => ({
     key: one.name,
@@ -152,7 +140,6 @@ const needed = computed(() =>
   }))
 );
 
-// The Making view is a place (one_studio/places.py).
 const spot = usePlace("oneinventory_item.making", () => ({
   item: { name: props.said.name, item_name: props.said.item_name },
   making: {
@@ -163,9 +150,6 @@ const spot = usePlace("oneinventory_item.making", () => ({
   },
 }));
 
-// The item's own form fields that belong here, shown or locked as its form
-// has them. Whether it is taken as a material only means something for what
-// goes into something.
 const details = computed(() => [
   ...(making.value.used_in.length || !making.value.made_here ? [{ label: __("Include Item In Manufacturing"), field: "include_item_in_manufacturing" }] : []),
   ...(making.value.made_here ? [{ label: __("Default BOM"), field: "default_bom" }] : []),

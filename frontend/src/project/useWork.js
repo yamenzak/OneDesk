@@ -1,7 +1,3 @@
-// The project's tasks, shared by the Tasks, Board and Timeline views and the
-// task panel: one read (one_project/view.py `work`), kept live as desk's list
-// view is, and every change made as desk makes it (set_value, insert, assign),
-// shown at once and read again from the server after.
 import { computed, onBeforeUnmount, ref } from "vue";
 
 import { assign, call, followList, insert, setValue, unassign } from "../kit";
@@ -49,7 +45,6 @@ export function useWork(project, only) {
 		return made;
 	}
 
-	// One person, or a User Group's members, as frappe's Assign To gives them.
 	async function give(name, users) {
 		users = [].concat(users);
 		const task = find(name);

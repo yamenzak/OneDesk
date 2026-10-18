@@ -8,9 +8,6 @@ is checked, so a captured one cannot be replayed.
 import hashlib
 import hmac
 
-#: How far out of step a delivery may be. Stripe's own default, and it is a
-#: replay window rather than a clock allowance: shorter is safer and starts
-#: rejecting real deliveries from a server whose clock has drifted.
 TOLERANCE = 300
 
 

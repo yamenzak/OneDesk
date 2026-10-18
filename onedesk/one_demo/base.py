@@ -8,7 +8,6 @@ from frappe.utils import add_days, flt, getdate, nowdate
 
 TAG = "Demo"
 
-#: The company the demo is, made by the setup wizard.
 COMPANY = "Sahara Glass & Aluminium"
 ABBR = "SGA"
 CURRENCY = "AED"

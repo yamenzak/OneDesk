@@ -13,7 +13,6 @@ from frappe.permissions import add_permission, update_permission_property
 
 from onedesk.one import layer, roles
 
-#: doctype: [(role, permission, value)]
 CHANGES = {
 	"Opportunity": [("Sales User", "delete", 0)],
 	"Prospect": [("Sales User", "create", 1), ("Sales User", "write", 1)],
@@ -23,15 +22,11 @@ CHANGES = {
 }
 
 
-#: What sales is given where erpnext gives only its System Manager.
 GIVEN = {
 	doctype: {"Sales User": roles.USE, "Sales Manager": roles.MANAGE}
 	for doctype in ("Email Campaign", "Email Group", "Email Group Member", "UTM Source")
 } | {
 	"Assignment Rule": {"Sales Manager": roles.MANAGE},
-	# ERPNext's sales order reads two of these as it opens (its
-	# sales_order_proforma.js), and gives them to the Sales Manager alone, so
-	# everybody else who opens an order was told they had no permission.
 	"Selling Settings": {role: ("read",) for role in ("Sales User", "Stock User", "Accounts User", "Projects User")},
 	"Promotional Scheme": {"Sales User": roles.USE},
 	"Party Specific Item": {"Sales User": roles.USE, "Sales Manager": roles.MANAGE},
@@ -41,24 +36,16 @@ GIVEN = {
 	"Communication Medium": {"Sales Manager": roles.MANAGE},
 }
 
-#: After the sale: ERPNext's service desk, which it gives to a Support Team
-#: and a Maintenance User that People never hands out.
 SUPPORT = ("Issue", "Warranty Claim", "Maintenance Schedule", "Maintenance Visit")
 SUPPORT_LISTS = ("Issue Type", "Issue Priority", "Service Level Agreement")
 GIVEN |= {doctype: {"Sales User": roles.WORK, "Sales Manager": roles.MANAGE} for doctype in SUPPORT}
 GIVEN |= {doctype: {"Sales User": roles.USE, "Sales Manager": roles.MANAGE} for doctype in SUPPORT_LISTS}
-#: Issue's reports, which ERPNext opens to its Support Team alone.
 SUPPORT_REPORTS = ("Issue Summary", "Issue Analytics", "First Response Time for Issues", "Support Hour Distribution")
 
-#: The kinds of record a Sales Manager's Assignment Rule shares out.
 SHARED_OUT = ("Lead", "Opportunity")
 
-#: An assignment rule's conditions, frappe evaluates with the record's
-#: fields as names.
 CONDITIONS = ("assign_condition", "unassign_condition", "close_condition")
 
-#: What a plain condition is made of: the record's fields, plain values,
-#: comparisons and the words that join them.
 PLAIN = (
 	ast.Expression,
 	ast.Compare,

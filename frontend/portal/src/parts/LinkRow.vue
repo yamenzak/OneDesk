@@ -1,7 +1,4 @@
 <template>
-  <!-- A record named in a side card: its number with its Badge, and a line
-       under it (what it is, its date, its total), opening its page where the
-       reader has one (not through a signed link). -->
   <component :is="to ? RouterLink : 'div'" :to="to || undefined" :class="['block border-b border-outline-gray-1 px-4 py-3 last:border-b-0', to && 'hover:bg-surface-gray-1']">
     <span class="flex items-center justify-between gap-2">
       <span class="min-w-0 truncate text-sm font-medium text-ink-gray-8">{{ name }}</span>

@@ -16,7 +16,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
 
-#: (what, use this instead, pattern that must not appear, which suffixes)
 RULES = [
 	(
 		"dialogs and prompts",
@@ -75,24 +74,12 @@ RULES = [
 ]
 
 
-#: Where a literal colour is the point rather than a mistake. theme.css defines
-#: the tokens everything on the desk is told to use; portal.css defines a second,
-#: smaller set for /start and /welcome, which are not desk screens and load none
-#: of espresso.
 DEFINES_TOKENS = (
 	"onedesk/public/css/theme.css",
 	"onedesk/public/css/portal.css",
 )
 
 
-#: (rule, file) pairs where we looked and the framework has nothing. The
-#: explorer PUTs a file's bytes straight to a URL R2 signed, on another
-#: origin, and shows its progress; frappe.call only posts to this site, and
-#: FileUploader only to upload_file. A letter head reads the proportions of the
-#: company's uploaded logo, which may be an SVG file, and draws frappe's own Lucide
-#: icons as inline pictures, since a letter head's HTML may hold no SVG. The
-#: desk's not found and no access draw One's own mark, its ring and core moved
-#: apart (css/lost.css), which an icon from the sprite cannot be.
 LOOKED = {
 	("fetching", "onedesk/public/js/onecloud.js"),
 	("icons", "onedesk/one/letter_heads.py"),
@@ -145,13 +132,11 @@ def test_every_rule_would_catch_its_own_example():
 		assert re.search(pattern, examples[what]), f"{what} no longer matches its example"
 
 
-#: The sprite the desk loads: Lucide as frappe ships it, then every Custom Icon.
 LUCIDE = Path("/home/frappe/bench1/apps/frappe/frappe/public/icons/lucide/icons.svg")
 
-#: How an icon is named in our code: the Icon component, or frappe's own call.
 NAMED = (
 	r"<Icon\s+name=\"([\w-]+)\"",
-	r"<Icon\s+:name=\"[^\"]*\"",  # a ternary: every quoted name inside it
+	r"<Icon\s+:name=\"[^\"]*\"",
 	r"frappe\.utils\.icon\(\s*['\"]([\w-]+)['\"]",
 )
 
@@ -169,8 +154,7 @@ def _named() -> dict[str, str]:
 				found[name] = str(path.relative_to(tree.ROOT))
 		for match in re.finditer(NAMED[2], text):
 			found[match.group(1)] = str(path.relative_to(tree.ROOT))
-		# A lookup table of names, like the record card's glyphs.
-		for block in re.findall(r"// .*Lucide.*\n(?:.*\n){0,3}", text):
+		for block in re.findall(r"const glyph = computed\(\s*\(\) => \(\{([^}]*)\}\)", text):
 			for name in re.findall(r"\"([a-z][\w-]+)\"", block):
 				found[name] = str(path.relative_to(tree.ROOT))
 	return found

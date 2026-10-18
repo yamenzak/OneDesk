@@ -19,7 +19,6 @@ from onedesk.one_storage.doctype.cloud_file_request.cloud_file_request import AT
 
 PREFIX = "@request"
 
-#: Days before the due date a reminder goes, and on the day itself.
 REMIND_AT = (3, 1, 0)
 
 
@@ -35,9 +34,6 @@ def is_request(node: str | None) -> bool:
 	return bool(node) and node.startswith(PREFIX + "/")
 
 
-# ------------------------------------------------------------ the asker's side
-
-
 @frappe.whitelist()
 @frappe.read_only()
 def fields(doctype: str) -> list[dict]:
@@ -47,7 +43,6 @@ def fields(doctype: str) -> list[dict]:
 	return [
 		{"value": one.fieldname, "label": _(one.label or one.fieldname)}
 		for one in frappe.get_meta(doctype).fields
-		# An image field is often hidden and shown as the record's picture.
 		if one.fieldtype in ATTACH and (not one.hidden or one.fieldtype == "Attach Image")
 	]
 
@@ -109,9 +104,6 @@ def _where(node: str, title: str | None) -> dict:
 	folder = ns.folder_of(node) if kind[0] in (ns.MY, ns.COMPANY, "file") else None
 	if folder:
 		api._need(api._item(folder), "add")
-	# A folder of its own, named after the request, in the folder it was made
-	# in (or My Files): what arrives stays together and the folder around it
-	# does not fill with the senders' addresses.
 	made = api.make_folder(folder or ns.MY, title or _("File request"))
 	return {"folder": made["id"]}
 
@@ -272,9 +264,6 @@ def remind_due() -> None:
 			frappe.set_user("Administrator")
 
 
-# ------------------------------------------------------------ the sender's side
-
-
 def live(token: str | None):
 	"""The request and the person a link belongs to, or (None, None)."""
 	if not token or len(token) > 64:
@@ -349,7 +338,6 @@ def _land(doc, person, item, filename: str, content: bytes) -> None:
 	if item.fieldname:
 		frappe.db.set_value("File", placed["id"], "attached_to_field", item.fieldname)
 	if before and not item.several and frappe.db.exists("File", before.file):
-		# One file asked for, sent again: a new version of the one before.
 		history.replace(ns.row(before.file), placed["id"])
 		kept = before.file
 		before.sent_on = now_datetime()
@@ -391,7 +379,6 @@ def _called(email: str) -> str:
 
 def _settle(doc, person) -> None:
 	have = {one.item for one in doc.uploads if one.email == person.email}
-	# With nothing marked required, every item is.
 	required = [one.label for one in doc.items if one.required] or [one.label for one in doc.items]
 	if all(label in have for label in required):
 		person.state = "Complete"

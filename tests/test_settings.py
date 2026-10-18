@@ -97,7 +97,6 @@ def test_a_save_is_refused_if_the_record_changed_since_it_was_opened():
 
 
 def test_the_page_sends_every_field_and_behaves_like_a_form():
-	# The form behaviour is the shell's Editor, which Settings extends.
 	script = (tree.APP / "public" / "js" / "settings.js").read_text()
 	shell = (tree.APP / "public" / "js" / "shell.js").read_text()
 	assert "extends onedesk.shell.Editor" in script
@@ -119,8 +118,6 @@ def test_what_oneai_offers_on_settings_is_for_a_section_that_exists_and_is_docum
 	for key in offered:
 		assert key in keys, key
 		assert f"### {labels[key]}" in readme, f"Settings › {labels[key]} is not in one/README.md"
-	# A workspace section is written up as "<label>, for the Workspace", or
-	# as its label when that already names the workspace.
 	for key in re.findall(r'"page:workspace-settings/(\w+)"', ai):
 		assert key in keys, key
 		heading = labels[key] if labels[key].startswith("Workspace ") else f"{labels[key]}, for the Workspace"
@@ -131,7 +128,6 @@ def test_hr_hears_of_a_new_address_or_emergency_contact_and_a_contact_is_whole()
 	source = SETTINGS.read_text()
 	body = source[source.index("def _save_profile") :]
 	body = body[: body.index("\ndef ")]
-	# A relation alone is nobody HR can call.
 	assert "person_to_be_contacted and employee.emergency_phone_number" in body
 	assert body.index("frappe.throw(") < body.index("employee.save(")
 	assert "_tell_hr(employee, was)" in body

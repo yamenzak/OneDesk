@@ -12,7 +12,6 @@ from onedesk.one import stages as steps
 from onedesk.one_crm import capture, chain, record, stages
 from onedesk.one_crm.next import OWNER
 
-#: Where a record's time since goes in its label or value.
 WHEN = "{when}"
 
 
@@ -45,9 +44,6 @@ def _money(value, currency) -> str:
 	return fmt_money(value or 0, precision=0, currency=currency)
 
 
-# ------------------------------------------------------------------ a deal
-
-
 def value(doc):
 	said = _said(doc.doctype, doc.name)
 	return {
@@ -59,7 +55,6 @@ def value(doc):
 
 def stage(doc):
 	said = _said(doc.doctype, doc.name)
-	# Won or lost is a day, not a stay.
 	if doc.status in ("Converted", "Lost"):
 		named = said["stage"] or doc.status
 		return {"label": _(named), "value": _("on {0}").format(formatdate(said["since"]))}
@@ -71,7 +66,6 @@ def stage(doc):
 		if usual is not None
 		else _("for {0}").format(stayed),
 		"tone": "waiting" if said.get("long") else None,
-		# How far through the stage's usual time it is.
 		"meter": {
 			"value": int((now_datetime() - get_datetime(said["since"])).total_seconds() // 86400),
 			"of": usual,
@@ -186,9 +180,6 @@ def of_customer(doc):
 	}
 
 
-# ------------------------------------------------------------------ a lead
-
-
 def came_in(doc):
 	return {"value": WHEN, "when": str(_said(doc.doctype, doc.name)["since"])}
 
@@ -215,9 +206,6 @@ def made_deals(doc):
 	}
 
 
-# ------------------------------------------------------------------ both
-
-
 def next_step(doc):
 	said = _said(doc.doctype, doc.name)
 	if not said["open"]:
@@ -225,7 +213,6 @@ def next_step(doc):
 	step, on = said["next"]["step"], said["next"]["on"]
 	if not step and not on:
 		return {"value": _("None planned"), "tone": "waiting"}
-	# A day to come is said as the day; frappe says only a time passed.
 	ahead = on and getdate(on) > getdate(today())
 	return {
 		"label": _("Next Step") + (f" · {formatdate(on)}" if ahead else f" · {WHEN}" if on else ""),
@@ -289,7 +276,6 @@ MEASURES = {
 
 
 VERBS = {
-	# Nobody's yet: it came in from the web form or the inbox. See capture.py.
 	"crm.take": {
 		"doctypes": list(OWNER),
 		"label": lambda doc: _("Take This Lead") if doc.doctype == "Lead" else _("Take This Opportunity"),
@@ -317,8 +303,6 @@ HEADS = [
 		],
 		"verbs": [{"verb": "crm.take"}],
 	},
-	# What OneInventory has delivered of an order, and OneBook billed, as the
-	# purchase order says what has arrived and been billed.
 	{
 		"doctype": "Sales Order",
 		"band": [

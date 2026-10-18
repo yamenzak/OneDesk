@@ -1,13 +1,8 @@
 <template>
-  <!-- The time on the project and those under it, newest first, each entry
-       with where it stands (one_project/hours.py). Its figures follow the
-       kind: hours against the plan always, what's to invoice where hours are
-       billed, and money only for whoever may see rates. -->
   <div class="pb-12">
     <Loading v-if="!said" />
     <template v-else>
       <PlaceSpot :said="spot" class="mb-3" />
-      <!-- The title and what can be done, on one line as on Tasks. -->
       <div class="flex flex-wrap items-center gap-2 pb-2">
         <h2 class="me-auto flex items-center gap-2 text-lg font-semibold text-ink-gray-9">
           <span class="lucide-clock size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Timesheet") }}
@@ -45,7 +40,6 @@
             <ListCell v-if="byOthers" class="min-w-0 gap-2"><Avatar :label="item.who || item.user" :image="item.image" size="sm" /><span class="truncate text-ink-gray-8">{{ item.who || item.user }}</span></ListCell>
             <ListCell class="min-w-0 max-md:hidden"><span class="truncate text-ink-gray-7">{{ item.activity || "–" }}</span></ListCell>
             <ListCell v-if="hasTask" class="min-w-0 max-md:hidden">
-              <!-- The task, and under it where it is below this project. -->
               <span class="flex min-w-0 flex-col">
                 <span v-if="item.task_subject || !item.where" class="truncate text-ink-gray-7">{{ item.task_subject || "–" }}</span>
                 <span v-if="item.where" class="truncate text-ink-gray-5" :class="item.task_subject && 'text-sm'">{{ item.where }}</span>
@@ -55,7 +49,6 @@
             <ListCell v-if="said.money" class="justify-end tabular-nums text-ink-gray-7 max-md:hidden">{{ value(item) ? amount(value(item)) : "–" }}</ListCell>
             <ListCell v-if="hasStatus" class="max-md:hidden"><Badge v-if="billable || item.state === 'Draft'" :label="__(item.state)" :theme="STATE[item.state]" size="md" /></ListCell>
           </ListRow>
-          <!-- The rest of the group, a page at a time. -->
           <ListRow v-if="group.rows.length > group.shown.length" @click="more[group.key] = group.shown.length + PAGE">
             <ListCell class="text-ink-gray-5">{{ __("Show {0} More", [Math.min(PAGE, group.rows.length - group.shown.length)]) }}</ListCell>
           </ListRow>
@@ -81,7 +74,6 @@ const props = defineProps({
   title: String,
   tree: { type: Array, default: () => [] },
 });
-// Only the project's own work when the page shows its Main (only.js).
 const only = useOnly();
 
 const STATE = { Draft: "gray", "Not Billable": "gray", "To Invoice": "amber", Invoiced: "green" };
@@ -92,17 +84,13 @@ const FILTERS = [
   { value: "Invoiced", label: __("Invoiced") },
   { value: "Not Billable", label: __("Not Billable") },
 ];
-// How many entries a group shows at first, and adds with each Show More:
-// a few for each person, more for the list ungrouped.
 const PAGE = 25;
 const FIRST = 5;
 const more = reactive({});
 const GROUPS = () => ({ none: __("None"), who: __("Person"), activity: __("Activity"), task: __("Task"), project: __("Project") });
 const shown = ref("all");
-// By person, so a long project reads as who did what.
 const groupBy = ref("who");
 const said = ref(null);
-// Money is in the company's currency, as ERPNext's base amounts are.
 const amount = (value) => money(value, said.value?.currency);
 const value = (item) => (said.value.bills_hours ? item.amount : item.cost);
 const frm = () => ({ doctype: "Project", doc: { name: props.projectName, project_name: props.title, customer: props.customer }, tree: props.tree, bills_hours: said.value?.bills_hours });
@@ -121,35 +109,26 @@ onBeforeUnmount(() => {
 });
 watch(() => props.projectName, load, { immediate: true });
 
-// The Amount or Cost column only for whoever sees money.
-// Grouped by person, the group names them, so the row need not.
 const byOthers = computed(() => groupBy.value !== "who");
 const wide = computed(() => ["6.5rem", byOthers.value && "minmax(9rem,1fr)", "minmax(7rem,0.8fr)", hasTask.value && "minmax(10rem,1.4fr)", "4.5rem", said.value?.money && "7rem", hasStatus.value && "7.5rem"].filter(Boolean));
 const rows = computed(() => (said.value?.entries || []).filter((one) => shown.value === "all" || one.state === shown.value));
-// How many entries the filter shows, the older ones not sent included.
 const counted = computed(() => (said.value?.sums || []).reduce((sum, one) => sum + (shown.value === "all" || one.state === shown.value ? one.entries : 0), 0));
 watch([shown, groupBy], () => Object.keys(more).forEach((key) => delete more[key]));
-// Where nothing is billed (a Fixed Price project's time), where each entry
-// stands says nothing, but for drafts; and no task, no Task column.
 const entries = computed(() => said.value?.entries || []);
 const billable = computed(() => said.value?.bills_hours || entries.value.some((one) => ["To Invoice", "Invoiced"].includes(one.state)));
 const hasStatus = computed(() => billable.value || entries.value.some((one) => one.state === "Draft"));
 const hasTask = computed(() => entries.value.some((one) => one.task_subject || one.where));
 const filters = computed(() => FILTERS.filter((one) => one.value === "all" || entries.value.some((entry) => entry.state === one.value && (billable.value || one.value === "Draft"))));
-// Each group with as many of its entries as it shows.
 const paged = computed(() =>
   groups.value.map((group) => ({ ...group, shown: group.rows.slice(0, more[group.key] || (group.title === null ? PAGE : FIRST)) }))
 );
 
-// The rows by what they're grouped by, each group with its hours and money.
 const KEYS = {
   who: (one) => one.who || one.user || __("Nobody"),
   activity: (one) => one.activity || __("No activity"),
   task: (one) => one.task_subject || __("No task"),
   project: (one) => one.where || props.title,
 };
-// A group's hours and money are the server's sums over every entry, the
-// older ones not sent included (hours.py).
 const groups = computed(() => {
   if (groupBy.value === "none") return [{ key: "all", title: null, rows: rows.value }];
   const found = new Map();
@@ -172,7 +151,6 @@ const groupChoices = computed(() =>
     .map(([key, label]) => ({ label, selected: key === groupBy.value, onClick: () => (groupBy.value = key) }))
 );
 
-// Time is a place (one_studio/places.py): told the hours as its figures say them.
 const spot = usePlace("oneproject.time", () =>
   said.value && {
     project: { name: props.projectName, title: props.title, customer: props.customer || null },
@@ -190,7 +168,6 @@ const figures = computed(() => {
   const s = said.value;
   const t = s.totals;
   const drafts = t.drafts ? __("{0} not submitted", [hours(t.drafts)]) : "";
-  // A retainer's hours are billed with its month (Months, on the Overview).
   if (s.allowance != null)
     return [
       {
@@ -214,7 +191,6 @@ const figures = computed(() => {
     { title: __("This Month"), value: hours(t.month) },
   ];
   if (!s.money) return list;
-  // What's to invoice where hours are billed, here or on a sub-project.
   if (s.bills_hours || t.to_invoice || t.invoiced) {
     list.push({
       title: __("To Invoice"),
@@ -224,7 +200,6 @@ const figures = computed(() => {
     });
     list.push({ title: __("Invoiced"), value: amount(t.invoiced) });
   }
-  // Time's cost against its budget, where the project has one (Money, Change Budget).
   list.push({
     title: __("Total Costing Amount"),
     value: amount(t.cost),

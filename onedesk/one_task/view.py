@@ -13,7 +13,6 @@ from onedesk.one_project.hours import bills_hours
 from onedesk.one_task.capture import DONE
 from onedesk.one_task.mine import about, place
 
-#: What the page reads of the task itself.
 FIELDS = (
 	"name",
 	"subject",
@@ -43,7 +42,6 @@ FIELDS = (
 	"_assign",
 )
 
-#: The most time entries the Time view lists; the rest open in the Timesheet list.
 MOST = 200
 
 
@@ -75,13 +73,9 @@ def read(task: Annotated[str, "The task."]) -> dict:
 	today = getdate(nowdate())
 	due = getdate(doc.exp_end_date or doc.exp_start_date) if (doc.exp_end_date or doc.exp_start_date) else None
 
-	# A parent's own sub-tasks are in its Depends On too, and listed as its
-	# sub-tasks instead.
 	under = set(frappe.get_all("Task", filters={"parent_task": task}, pluck="name"))
 	waits = _readable([row.task for row in doc.depends_on if row.task not in under], ["name", "subject", "status"])
 	waiting = [one.subject for one in waits if one.status not in DONE]
-	# ERPNext lists a sub-task in its parent's Depends On, so the parent is
-	# what the task is part of, not work waiting on it.
 	blocking = _readable(
 		[
 			one

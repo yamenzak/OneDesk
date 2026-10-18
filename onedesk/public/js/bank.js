@@ -1,12 +1,5 @@
-// The Bank Reconciliation Tool and a new Bank Statement Import open on the
-// company's bank account: its default one, or the only one it has. ERPNext
-// leaves both empty, and the tool draws nothing until one is picked. The
-// tool's own intro offers ERPNext's separate Banking app, which One does not
-// install, so it goes.
 
 onedesk.bank = {
-	// The company's own bank account to start from, or nothing when it has
-	// several and none is its default.
 	async ours(company) {
 		const found = await frappe.db.get_list("Bank Account", {
 			filters: { is_company_account: 1, disabled: 0, ...(company ? { company } : {}) },

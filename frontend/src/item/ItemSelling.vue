@@ -1,8 +1,4 @@
 <template>
-  <!-- What customers have ordered and not yet had and what of it can go now,
-       the quotes still open, who buys the item and at what over the last
-       twelve months, and its selling prices. Each starts the next document
-       as its own form would. -->
   <div class="grid gap-x-10 pb-12 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
     <div class="min-w-0">
     <PlaceSpot :said="spot" class="mb-4" />
@@ -22,7 +18,6 @@
       </ul>
     </Section>
   </div>
-    <!-- How the item is kept here: the item's own form fields, changed in place. -->
     <aside class="min-w-0">
       <Section :title="__('Details')" icon="lucide-info">
         <Facts :facts="details" :form="form" @saved="emit('changed')" />
@@ -45,7 +40,6 @@ const selling = computed(() => props.said.selling);
 const uom = computed(() => props.said.stock_uom);
 const ours = computed(() => props.said.currency);
 
-// ERPNext's own mappers, as each document's form makes the next one.
 const MAPPERS = {
   deliver: "erpnext.selling.doctype.sales_order.mapper.make_delivery_note",
   invoice: "erpnext.selling.doctype.sales_order.mapper.make_sales_invoice",
@@ -53,8 +47,6 @@ const MAPPERS = {
 };
 const mapped = (kind, name) => onedesk().item.mapped(MAPPERS[kind], name);
 
-// An order still to go: how much has, whether what is on hand covers it
-// (soonest due first), and Deliver or Invoice makes the next document.
 const orders = computed(() =>
   selling.value.orders.map((one) => ({
     key: one.name,
@@ -75,8 +67,6 @@ const orders = computed(() =>
   }))
 );
 
-// A quote still open: for whom, at what in their currency, until when (red
-// when it runs out within a week). Make Order makes a customer's order from it.
 const quotes = computed(() =>
   selling.value.quotes.map((one) => ({
     key: one.name,
@@ -94,7 +84,6 @@ const quotes = computed(() =>
   }))
 );
 
-// The Selling view is a place (one_studio/places.py).
 const spot = usePlace("oneinventory_item.selling", () => ({
   item: { name: props.said.name, item_name: props.said.item_name },
   selling: {
@@ -106,7 +95,6 @@ const spot = usePlace("oneinventory_item.selling", () => ({
   },
 }));
 
-// The item's own form fields that belong here, shown or locked as its form has them.
 const details = [
   { label: __("Default Sales Unit of Measure"), field: "sales_uom", placeholder: __("Same as stock") },
   { label: __("Max Discount (%)"), field: "max_discount", blankZero: true, placeholder: __("No limit") },

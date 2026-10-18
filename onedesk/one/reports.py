@@ -9,7 +9,6 @@ from frappe import _
 
 from onedesk.one import layer, roles
 
-#: What the section a saved report goes under is called in a sidebar.
 SECTION = "Saved Reports"
 
 
@@ -17,9 +16,6 @@ def _trusted() -> bool:
 	"""Whoever frappe lets customize (one/layer.py): the operator, never a
 	workspace."""
 	return frappe.session.user == "Administrator" or not layer.held()
-
-
-# ------------------------------------------------------------------ guards (hooks.py doc_events)
 
 
 def report_kept(doc, method=None) -> None:
@@ -56,9 +52,6 @@ def mail_kept(doc, method=None) -> None:
 		frappe.throw(_("You cannot open {0}.").format(_(doc.report)), frappe.PermissionError)
 
 
-# ------------------------------------------------------------------ the sidebar
-
-
 def _module(doctype: str) -> str | None:
 	"""The module of the sidebar frappe opens a kind in for whoever is saving
 	(`build_entity_module_map`), so the report sits where its list was; else
@@ -91,11 +84,9 @@ def _layer(module: str, user: str | None):
 	return frappe.new_doc("Custom Sidebar").update({"module": module, "user": user or SITE_LAYER})
 
 
-#: What each kind is listed under in a sidebar.
 SECTIONS = {
 	"Report": (SECTION, "file-chart-column"),
 	"Dashboard": ("Dashboards", "layout-dashboard"),
-	# A workspace's own record types (one_studio/record_types.py).
 	"DocType": ("Your Records", "table-2"),
 }
 
@@ -170,9 +161,6 @@ def placed(doc, method=None) -> None:
 def removed(doc, method=None) -> None:
 	"""Report.on_trash and Dashboard.on_trash: out of every sidebar it was in."""
 	_take(doc.doctype, doc.name)
-
-
-# ------------------------------------------------------------------ Show In
 
 
 def places() -> list[dict]:
@@ -300,7 +288,6 @@ def rebased(rows: list, shipped: list, key, added, child=lambda row: False) -> l
 	return out + tail
 
 
-#: The order each of One's sidebars shipped in at the last migrate.
 SHIPPED = "one_sidebar_shipped"
 
 

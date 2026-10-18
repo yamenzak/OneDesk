@@ -1,16 +1,5 @@
-// Frappe's Settings dialog for a doctype (frappe/public/js/frappe/form/doctype_settings/),
-// opened for a workspace administrator from One's own menu item, beside Customize.
-//
-// Frappe offers its item only to whoever may create a Custom Field and a Property
-// Setter, which a workspace administrator is never given (the Customize page writes
-// those under its own guard), so the item here is ours and the dialog is frappe's.
-// Each tab shows when its doctype can be read, which is frappe's own rule; the
-// Permissions tab is frappe's own administrators' and stays theirs.
 frappe.provide("onedesk.doctype_settings");
 
-// Offered on a doctype a workspace may change: the modules the Customize page
-// refuses are refused here too (one/customize.py), and whoever frappe gives its
-// own item to (the same test frappe makes) keeps frappe's.
 onedesk.doctype_settings.offered = (meta) =>
 	!!meta &&
 	!meta.istable &&
@@ -19,11 +8,6 @@ onedesk.doctype_settings.offered = (meta) =>
 	!(frappe.model.can_create("Custom Field") && frappe.model.can_create("Property Setter")) &&
 	!(frappe.boot.one_refused_modules || []).includes(meta.module);
 
-// `tab` opens it on one of its tabs, as Workspace › Numbering opens it on Naming.
-// The doctype's meta is loaded first: opened from Workspace › Numbering, no form of it
-// has been, and the tabs ask it which apply.
-// `closed` is called when the dialog is put away, so a page listing what it changes
-// can read it again.
 onedesk.doctype_settings.open = (doctype, tab = null, closed = null) =>
 	frappe.require("doctype_settings.bundle.js", () =>
 		frappe.model.with_doctype(doctype, () => {
@@ -38,25 +22,12 @@ onedesk.doctype_settings.open = (doctype, tab = null, closed = null) =>
 		})
 	);
 
-// The dialog's Notifications tab lists the workspace's own rules on the doctype
-// and opens them in Automation › Workspace Notifications, the one place a rule is written
-// (one/rules.py). Frappe's tab opens frappe's Notification form, whose rail is
-// frappe's; this is the same list, frappe's list panel, pointed at ours.
-// The tabs a workspace administrator is given, as each is opened to workspaces.
-// Frappe shows a tab to whoever can read its doctype, and
-// reading an Email Template is everybody's; a tab is offered here once what it
-// opens can be used, and the rail beside it is One's.
 onedesk.doctype_settings.TABS = ["notifications", "naming", "print-format", "email-template", "workflow", "automations", "access"];
 
 onedesk.doctype_settings.adapt = () => {
 	if (onedesk.doctype_settings.adapted) return;
 	onedesk.doctype_settings.adapted = true;
-	// General is held back. It was saved on opening, which frappe has fixed
-	// (tabs/settings_map.js, same_value). What each of its settings does to a
-	// workspace is not yet looked at (docs/upstream/2026-10-07.md). It is added
-	// outside the groups, so it is taken out by its builder.
 	delete frappe.doctype_settings.builders.general;
-	// Automations is not one of frappe's tabs; it goes beside Approvals (one/automations.py).
 	const beside = frappe.doctype_settings.groups.find((group) => group.items.some((item) => item.id === "workflow"));
 	beside &&
 		beside.items.splice(beside.items.findIndex((item) => item.id === "workflow") + 1, 0, {
@@ -65,13 +36,9 @@ onedesk.doctype_settings.adapt = () => {
 			icon: "zap",
 			condition: () => frappe.model.can_read("Automation Flow"),
 		});
-	// Access is not one of frappe's tabs either: where frappe's Permissions tab would be,
-	// what each app's levels may do on the kind (one/access.py).
 	beside && beside.items.push({ id: "access", label: __("Access"), icon: "shield-check" });
 	for (const group of frappe.doctype_settings.groups) {
 		for (const item of group.items) {
-			// Frappe's own test for each tab; Naming's, read on Document Naming Rule, is
-			// given with the rules (one/numbering.py GRANTS).
 			const shown = item.condition;
 			if (item.id === "naming") item.label = __("Numbering");
 			if (item.id === "email-template") item.label = __("Mail Templates");
@@ -80,8 +47,6 @@ onedesk.doctype_settings.adapt = () => {
 			item.condition = (doctype) => onedesk.doctype_settings.TABS.includes(item.id) && (shown ? shown(doctype) : true);
 		}
 	}
-	// Its New starts from a format the kind already prints with rather than from every
-	// field the kind has, internal switches included (one/printing.py new_format).
 	const print_formats = frappe.doctype_settings.builders["print-format"];
 	print_formats &&
 		frappe.doctype_settings.register("print-format", (panel, doctype) => {
@@ -93,15 +58,9 @@ onedesk.doctype_settings.adapt = () => {
 				});
 			return print_formats(panel, doctype);
 		});
-	// The tab draws every format of the kind, a disabled one too, whose preview may need
-	// fields this workspace does not have (erpnext's Italian eInvoice); the print view
-	// offers only the enabled, and so does the tab.
 	const get_list = frappe.doctype_settings.get_list;
 	frappe.doctype_settings.get_list = (doctype, args = {}) =>
 		get_list(doctype, doctype === "Print Format" ? { ...args, filters: { ...(args.filters || {}), disabled: 0 } } : args);
-	// The Print Formats tab is frappe's own. Its star makes a format the default by
-	// writing a Property Setter, which the workspace layer refuses, so that one property
-	// goes through One's door (one/printing.py set_default), which is frappe's make_default.
 	const set_property = frappe.doctype_settings.set_property;
 	frappe.doctype_settings.set_property = (doctype, property, value) =>
 		property === "default_print_format"
@@ -109,10 +68,6 @@ onedesk.doctype_settings.adapt = () => {
 					.xcall("onedesk.one.printing.set_default", { doctype, print_format: value })
 					.then(() => frappe.show_alert({ message: __("Default updated"), indicator: "green" }))
 			: set_property(doctype, property, value);
-	// The tab reads the current default from Property Setter and from DocType, which a
-	// workspace administrator cannot read, so those two reads, and only those, are
-	// answered by the same door: the Property Setter one with the doctype's default,
-	// the DocType one with nothing, as frappe's own answer is the first it finds.
 	const get_value = frappe.db.get_value;
 	frappe.db.get_value = function (doctype, filters, fieldname, callback) {
 		const setter = doctype === "Property Setter" && filters && filters.property === "default_print_format";
@@ -126,10 +81,6 @@ onedesk.doctype_settings.adapt = () => {
 			return r;
 		});
 	};
-	// The dialog's lists are drawn as Numbering's are: the panel's own heading with its
-	// button, over the shell's table, which is frappe's EmbeddedList. Frappe draws its
-	// Workflow, Email Templates and Notifications tabs in its flatter list panel, and
-	// Naming in EmbeddedList; One draws them all one way.
 	const table = (panel, { title, description, add, load, columns, open, icon, empty, actions = [] }) => {
 		let $into;
 		const draw = async () => {
@@ -160,9 +111,6 @@ onedesk.doctype_settings.adapt = () => {
 	};
 	const esc = frappe.utils.escape_html;
 	const named = (label, badge) => esc(label) + (badge ? " " + frappe.ui.badge.html(badge) : "");
-	// Mail Templates: a template opened in One's editor (onedesk.mail_templates.edit)
-	// rather than frappe's form, whose rail is frappe's, and made the default through
-	// One's door (one/mail_templates.py).
 	frappe.doctype_settings.register("email-template", (panel, doctype) => {
 		let current = null;
 		const edit = (name, draw) => onedesk.mail_templates.edit(name, { doctype, done: draw });
@@ -202,9 +150,6 @@ onedesk.doctype_settings.adapt = () => {
 			],
 		});
 	});
-	// Approvals, as frappe's Workflow tab lists them, but a new one is made in frappe's
-	// workflow builder, set to this doctype, rather than frappe's Workflow form
-	// (one/approvals.py).
 	frappe.doctype_settings.register("workflow", (panel, doctype) => {
 		const open = (name) => {
 			panel.dialog.hide();
@@ -244,8 +189,6 @@ onedesk.doctype_settings.adapt = () => {
 			],
 		});
 	});
-	// Automations: the doctype's Automation Flows, each opened in frappe's own form,
-	// which One's sidebar lists, so the rail stays One's.
 	frappe.doctype_settings.register("automations", (panel, doctype) => {
 		const form = (name) => {
 			panel.dialog.hide();
@@ -281,10 +224,6 @@ onedesk.doctype_settings.adapt = () => {
 			],
 		});
 	});
-	// Notifications: the workspace's own rules on the doctype, each opened in Workspace ›
-	// Notifications, the one place a rule is written (one/rules.py). Frappe keeps the
-	// sidebar on screen for a page of the same app, and every One sidebar is one app, so
-	// the rule would open inside OneCRM's; One's is selected as a dock row would.
 	const go = (panel, args) => {
 		panel.dialog.hide();
 		frappe.app.sidebar && frappe.app.sidebar.select_module("One");
@@ -310,9 +249,6 @@ onedesk.doctype_settings.adapt = () => {
 			],
 		})
 	);
-	// Access: for each app whose people work with the kind, what its User, the workspace's
-	// own levels and its Manager may do on it. Each opens on its page in Workspace › Access,
-	// where what it may do is changed.
 	frappe.doctype_settings.register("access", (panel, doctype) => {
 		const said = (right) =>
 			({ select: __("Select"), read: __("Read"), write: __("Edit"), create: __("Create"), delete: __("Delete"), submit: __("Submit"), cancel: __("Cancel"), export: __("Export") })[right];
@@ -344,10 +280,6 @@ onedesk.doctype_settings.adapt = () => {
 			],
 		});
 	});
-	// The dialog's Naming tab: the doctype's series, through One's guarded doors
-	// (one/numbering.py), since frappe's calls Document Naming Settings, which is not
-	// given. The shell's table, which is frappe's EmbeddedList, and frappe's dialog. Rules
-	// (Document Naming Rule) stay the framework's.
 	frappe.doctype_settings.register("naming", (panel, doctype) => {
 		let list;
 		const head = (series) => ({
@@ -361,8 +293,6 @@ onedesk.doctype_settings.adapt = () => {
 				const $by = $('<div class="one-numbering-by"></div>').appendTo($body);
 				const $series = $('<div class="one-numbering-series"></div>').appendTo($body);
 				list = onedesk.numbering.list($series, doctype);
-				// The series only while a new record takes its name from one; a kind that
-				// names itself shows them wherever it has a series field.
 				const series = (said) => (said ? said.series : !!frappe.meta.has_field(doctype, "naming_series"));
 				const shown = (said) => {
 					$series.toggle(series(said));
@@ -375,8 +305,6 @@ onedesk.doctype_settings.adapt = () => {
 		});
 	});
 };
-
-// ------------------------------------------------------------------ numbering
 
 frappe.provide("onedesk.numbering");
 
@@ -405,8 +333,6 @@ onedesk.numbering.list = ($wrapper, doctype) => {
 	return { refresh: draw };
 };
 
-// A new series, with the name it would give next shown as it is typed (or what is
-// wrong with it, in frappe's words), and how a series is written beside it.
 onedesk.numbering.add = (doctype, done) => {
 	const dialog = new frappe.ui.Dialog({
 		title: __("Add Series"),
@@ -438,8 +364,6 @@ onedesk.numbering.add = (doctype, done) => {
 	dialog.show();
 };
 
-// What a series being written would give next, under its field. `adding` says so when
-// it is one the record already has.
 onedesk.numbering.preview = async (doctype, dialog, fieldname, adding = false) => {
 	const field = dialog.fields_dict[fieldname];
 	const one = (field.get_value() || "").trim();
@@ -455,7 +379,6 @@ onedesk.numbering.preview = async (doctype, dialog, fieldname, adding = false) =
 	);
 };
 
-// One series: its pattern, and the number it has reached, which only goes up.
 onedesk.numbering.edit = (doctype, row, rows, done) => {
 	const dialog = new frappe.ui.Dialog({
 		title: __("Edit Series"),
@@ -506,7 +429,6 @@ onedesk.numbering.edit = (doctype, row, rows, done) => {
 		},
 	});
 	dialog.fields_dict.series.$input.on("input", frappe.utils.debounce(() => onedesk.numbering.preview(doctype, dialog, "series"), 300));
-	// A series is deleted from its own window; the last one is refused by the server.
 	dialog.set_secondary_action_label(__("Delete"));
 	dialog.set_secondary_action(() =>
 		frappe.confirm(__("Delete series {0}?", [row.series]), async () => {
@@ -518,14 +440,10 @@ onedesk.numbering.edit = (doctype, row, rows, done) => {
 	dialog.show();
 };
 
-// ------------------------------------------------------------------ mail templates
-
 frappe.provide("onedesk.mail_templates");
 
 onedesk.mail_templates.API = "onedesk.one.mail_templates.";
 
-// A template in frappe's own dialog and controls, saved as a desk form saves: against
-// the version it was opened at. What it may say is checked by one/mail_templates.py.
 onedesk.mail_templates.edit = async (name, { doctype = null, done = null } = {}) => {
 	const doc = name ? await frappe.db.get_doc("Email Template", name) : null;
 	const dialog = new frappe.ui.Dialog({
@@ -582,10 +500,6 @@ onedesk.mail_templates.edit = async (name, { doctype = null, done = null } = {})
 	if (!doc && doctype) dialog.set_value("reference_doctype", doctype);
 };
 
-// ------------------------------------------------------------------ automations
-
-// A flow the workspace writes runs as whoever wrote it and decides by its field rules
-// (one/automations.py), so its form does not offer the code condition or who it runs as.
 frappe.ui.form.on("Automation Flow", {
 	refresh(frm) {
 		onedesk.automations.offer(frm);
@@ -598,13 +512,6 @@ frappe.ui.form.on("Automation Flow", {
 	trigger_type: (frm) => onedesk.automations.offer(frm),
 });
 
-// What a step does. Frappe keeps it as JSON in `params` and gives Action Type
-// no choices: its engine says what each step takes (params_schema, read through
-// one/automations.py `steps`), and nothing in frappe draws that yet. So a
-// step's row draws it as frappe's own controls in a FieldGroup and writes the
-// JSON back, and the people a step names are picked from frappe's own list
-// (get_param_options). The engine's plumbing (step key, target, alias, code
-// conditions) stays for whoever frappe lets customize.
 frappe.provide("onedesk.automations");
 
 onedesk.automations.PLUMBING = ["step_key", "target", "output_alias", "step_condition", "related_condition", "parent_step", "branch"];
@@ -632,7 +539,6 @@ onedesk.automations.STEP_LABELS = () => ({
 	If: __("If"),
 });
 
-// When a flow runs, as a sentence about the record rather than frappe's trigger name.
 onedesk.automations.when = (row, doctype) => {
 	const label = (fieldname) => (fieldname && __(frappe.meta.get_label(doctype, fieldname) || fieldname, null, doctype)) || "";
 	switch (row.trigger_type) {
@@ -661,11 +567,9 @@ onedesk.automations.when = (row, doctype) => {
 	}
 };
 
-// The choices, on the grid and on every row, and how the list names them.
 onedesk.automations.offer = (frm) =>
 	onedesk.automations.steps(frm).then((said) => {
 		const grid = frm.fields_dict.actions?.grid;
-		// Once per kind and trigger: redrawing the grid under an open row loses its form.
 		if (!grid || grid.one_offered === frm.one_steps.key) return said;
 		grid.one_offered = frm.one_steps.key;
 		const kinds = onedesk.automations.STEP_LABELS();
@@ -688,7 +592,6 @@ onedesk.automations.offer = (frm) =>
 		return said;
 	});
 
-// A Wait is frappe's own step with its own params, which no schema describes.
 onedesk.automations.waits = (said) => {
 	const units = ["Minutes", "Hours", "Days"].map((unit) => ({ value: unit, label: __(unit) }));
 	return {
@@ -711,7 +614,6 @@ onedesk.automations.waits = (said) => {
 	};
 };
 
-// One param of a step as frappe's own control.
 onedesk.automations.field = async (one, frm, action_type) => {
 	const df = {
 		fieldname: one.fieldname,
@@ -749,7 +651,6 @@ onedesk.automations.field = async (one, frm, action_type) => {
 		Object.assign(df, { fieldtype: "Code", options: "JSON" });
 	}
 	if (one.link_filters) df.get_query = () => ({ filters: one.link_filters });
-	// The templates for this kind of record, as the composer offers them (mail_compose.js).
 	if (one.options === "Email Template")
 		df.get_query = () => ({
 			query: "frappe.email.doctype.email_template.email_template.get_email_templates",
@@ -759,7 +660,6 @@ onedesk.automations.field = async (one, frm, action_type) => {
 	return df;
 };
 
-// Draws the row's step: its params as controls, in place of the JSON box.
 onedesk.automations.draw = async (frm, cdn, changed = false) => {
 	const row = locals["Automation Action"]?.[cdn];
 	const form = frm.fields_dict.actions?.grid.grid_rows_by_docname[cdn]?.grid_form;
@@ -777,7 +677,6 @@ onedesk.automations.draw = async (frm, cdn, changed = false) => {
 	fields.params.$wrapper.toggle(!schema && !onedesk.automations.held());
 	if (!schema) return;
 
-	// A different step starts from nothing: another step's params mean nothing to it.
 	if (changed) await frappe.model.set_value(row.doctype, row.name, "params", "");
 	let values = {};
 	try {
@@ -804,7 +703,6 @@ onedesk.automations.draw = async (frm, cdn, changed = false) => {
 				try {
 					value = JSON.parse(value);
 				} catch {
-					// Kept as written; frappe's validate says what is wrong with it.
 				}
 			}
 			said[df.fieldname] = value;
@@ -830,18 +728,13 @@ frappe.ui.form.on("Automation Action", {
 	action_type: (frm, cdt, cdn) => onedesk.automations.draw(frm, cdn, true),
 });
 
-// ------------------------------------------------------------------ approvals
-
 frappe.provide("onedesk.approvals");
 
-// frappe's builder page asks for the doctype and a name when opened without a
-// workflow, and makes it; route_options preselects the doctype.
 onedesk.approvals.create = (doctype = null) => {
 	frappe.route_options = doctype ? { doctype } : null;
 	frappe.set_route("workflow-builder");
 };
 
-// How a series is written, in One's words: every part the series here accept.
 onedesk.numbering.help_html = () => {
 	const part = (code, said) => `<li><code>${code}</code> ${said}</li>`;
 	return `<div class="text-muted small">
@@ -863,13 +756,8 @@ onedesk.numbering.help_html = () => {
 	</div>`;
 };
 
-// ------------------------------------------------------------------ printing
-
 frappe.provide("onedesk.printing");
 
-// A new print format: its name and the format it starts as a copy of, the one the kind
-// prints with first; or every field, as frappe's builder lays a new one out. Then the
-// builder, as frappe's own New opens it.
 onedesk.printing.new_format = async (panel, doctype) => {
 	const starts = await frappe.xcall("onedesk.one.printing.new_format_starts", { doctype });
 	const every = __("Every field of {0}", [__(doctype)]);
@@ -897,8 +785,6 @@ onedesk.printing.new_format = async (panel, doctype) => {
 	dialog.show();
 };
 
-// Set Up Naming on Workspace > Numbering: any kind of record this administrator may
-// set up, picked in frappe's own dialog, then opened in the Settings dialog.
 onedesk.numbering.set_up = async (naming) => {
 	const kinds = await frappe.xcall(onedesk.numbering.API + "kinds");
 	const dialog = new frappe.ui.Dialog({
@@ -913,11 +799,6 @@ onedesk.numbering.set_up = async (naming) => {
 	dialog.show();
 };
 
-// How a new record is named, with frappe's own choices: its series, one of its fields
-// (made required and unique), an expression written as a series is, typed by whoever
-// makes it, or random; or, for a kind that names itself (a Customer, an Item), its
-// app's own choice. Changed through one/numbering.py set_naming_by. Nothing is drawn
-// where there is no choice.
 onedesk.numbering.named_by = async ($wrapper, doctype, shown = () => {}) => {
 	const API = onedesk.numbering.API;
 	let said = await frappe.xcall(API + "naming_by", { doctype });
@@ -970,7 +851,6 @@ onedesk.numbering.named_by = async ($wrapper, doctype, shown = () => {}) => {
 	});
 	group.make();
 	group.get_field("help").$wrapper.html(onedesk.numbering.help_html());
-	// The name it would give next, or what frappe says is wrong, as it is typed.
 	const $pattern = group.get_field("pattern");
 	$pattern.$input.on(
 		"input",
@@ -1020,9 +900,6 @@ onedesk.numbering.named_by = async ($wrapper, doctype, shown = () => {}) => {
 	load();
 };
 
-// Naming Rules: a record whose fields match is named by the rule's own prefix,
-// before any series. frappe's Document Naming Rule, held by one/numbering.py
-// validate_rule, in frappe's dialog and saved as a desk form saves.
 onedesk.numbering.rules = async ($wrapper, doctype) => {
 	const esc = frappe.utils.escape_html;
 	const draw = async () => {
@@ -1122,7 +999,6 @@ onedesk.numbering.rule = async (doctype, name, done) => {
 			done();
 		},
 	});
-	// The name the rule would give next, or what frappe says is wrong, as it is typed.
 	const prefix = dialog.get_field("prefix");
 	const said = prefix.df.description;
 	const next = frappe.utils.debounce(async () => {
@@ -1154,8 +1030,6 @@ onedesk.numbering.rule = async (doctype, name, done) => {
 	dialog.show();
 };
 
-// A list's menu carries it too. Frappe's list menu has no hook for an item, so
-// get_menu_items is wrapped (docs/OVERRIDES.md).
 (() => {
 	const List = frappe.views && frappe.views.ListView;
 	if (!List || List.prototype.one_settings_item) return;

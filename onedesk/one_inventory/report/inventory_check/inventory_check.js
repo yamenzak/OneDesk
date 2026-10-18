@@ -1,5 +1,3 @@
-// What will fail the first time somebody receives stock, counts it or
-// registers an asset, with the fix beside it (one_inventory/ready.py).
 frappe.query_reports["Inventory Check"] = onedesk.check.report({
 	method: "onedesk.one_inventory.ready.fix",
 	ask(key, call) {

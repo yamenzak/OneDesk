@@ -1,8 +1,4 @@
 <template>
-  <!-- A project's photos and videos, its cover first, then each in turn: a
-       photo for a few seconds, a video muted to its end, one video on a loop.
-       The arrows and thumbnails turn it by hand, the pointer over it holds it,
-       and someone who asked for less motion turns it themselves. -->
   <div class="flex flex-col gap-2">
     <div class="relative aspect-video overflow-hidden rounded-5 bg-surface-gray-2" @mouseenter="hold(true)" @mouseleave="hold(false)">
       <a :href="shown.url" target="_blank" rel="noopener" class="block size-full" :aria-label="shown.title">
@@ -53,7 +49,6 @@ function hold(on) {
   else if (!still) clip.value.play().catch(() => {});
 }
 
-// A photo turns after a few seconds; a video when it ends.
 watch(
   [at, held],
   () => {

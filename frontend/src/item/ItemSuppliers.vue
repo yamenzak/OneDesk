@@ -1,9 +1,4 @@
 <template>
-  <!-- Who the item is bought from: each supplier with their picture, the
-       last price ordered and the one before it in their own currency, what
-       they have agreed for the year, and their part number, the item's own
-       supplier row changed in place. Its menu orders from them, asks them
-       for a quote or makes them the default. -->
   <div v-if="!rows.length && !adding" class="py-3 text-base text-ink-gray-5">{{ __("Never bought") }}</div>
   <ul v-else class="divide-y divide-outline-gray-1">
     <li v-for="one in rows" :key="one.supplier" class="flex gap-3 py-2.5">
@@ -16,7 +11,6 @@
           <Badge v-if="one.default" :label="__('Default')" theme="blue" size="sm" />
         </div>
         <div v-for="(line, i) in one.lines" :key="i" class="truncate text-sm text-ink-gray-5">{{ line }}</div>
-        <!-- Their part number, the item's own supplier row. -->
         <div v-if="one.row" class="mt-1 flex items-center gap-1.5 whitespace-nowrap text-sm text-ink-gray-5">
           {{ __("Part Number") }}
           <FieldEdit :form="form" table="supplier_items" :row="one.row" field="supplier_part_no" :label="__('Part Number')" :hold="one.row === adding" start class="text-ink-gray-8" @saved="emit('changed')" @cancel="cancel" />
@@ -36,7 +30,6 @@
         </Dropdown>
       </div>
     </li>
-    <!-- A supplier added to the item's list and not saved yet. -->
     <li v-if="adding && !rows.some((one) => one.row === adding)" class="flex flex-wrap items-center gap-x-4 gap-y-2 py-2.5 text-sm text-ink-gray-5">
       <span class="flex items-center gap-1.5 whitespace-nowrap">{{ __("Supplier") }}<FieldEdit :form="form" table="supplier_items" :row="adding" field="supplier" :label="__('Supplier')" hold start class="text-ink-gray-8" @cancel="cancel" /></span>
       <span class="flex items-center gap-1.5 whitespace-nowrap">{{ __("Part Number") }}<FieldEdit :form="form" table="supplier_items" :row="adding" field="supplier_part_no" :label="__('Part Number')" hold start class="text-ink-gray-8" @cancel="cancel" /></span>
@@ -59,7 +52,6 @@ const emit = defineEmits(["changed"]);
 const buying = computed(() => props.said.buying);
 const ours = computed(() => props.said.currency);
 
-// The supplier row added on the page and not saved yet, and whose it is.
 const adding = ref(null);
 const addingFor = ref(null);
 const saving = ref(false);
@@ -72,7 +64,6 @@ const rows = computed(() =>
       ...one,
       row,
       price: one.rate !== null ? money(one.rate, theirs) : "",
-      // A price in another currency says what it came to in ours.
       base: one.rate !== null && theirs !== ours.value ? money(one.base_rate, ours.value) : "",
       lines: [
         one.last &&
@@ -97,8 +88,6 @@ function actions(one, row) {
   return out;
 }
 
-// A supplier row added to the item as desk's grid adds one; what goes in it
-// is saved with the form.
 function add(supplier = null) {
   cancel();
   adding.value = props.form.addRow("supplier_items", supplier ? { supplier } : {});
@@ -122,8 +111,6 @@ function cancel() {
   props.form.discard();
 }
 
-// The default supplier is the item's defaults row for the workspace's own
-// company, as the form's Item Defaults table keeps it.
 async function makeDefault(supplier) {
   cancel();
   const kept = buying.value.default_row;

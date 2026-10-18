@@ -18,7 +18,6 @@ from onedesk.one_intake import mark
 
 KINDS = ("Create", "Update", "Add", "Link", "Attach", "Rename", "Move", "Tag", "Comment")
 
-#: What the person on whose behalf OneAI acts must be allowed on the target.
 NEEDS = {
 	"Create": "create",
 	"Update": "write",
@@ -31,10 +30,8 @@ NEEDS = {
 	"Comment": "read",
 }
 
-#: The confidence under which a record or a change waits for a person.
 FLOOR = 70
 
-#: Kinds whose record OneAI makes or changes; the rest only file and label.
 CHANGES = ("Create", "Update", "Add")
 
 
@@ -48,29 +45,12 @@ class Action:
 	why: str = ""
 	confidence: float = 1.0
 	ends_employment: bool = False
-	#: Nothing was judged: a batch scan cut where its pages say, a file
-	#: named. The reading's doubts do not hold it back.
 	sure: bool = False
-	#: Always a person's decision, however sure OneAI is: starting
-	#: somebody's employment, say.
 	propose: bool = False
-	#: When the flow refuses (HRMS's leave validation, a missing approver), a
-	#: person gets it as a proposal with the reason rather than nothing.
 	propose_on_error: bool = False
-	#: Fields whose current value is a placeholder nobody chose (the first
-	#: name Frappe gives a contact from an address), which are filled rather
-	#: than proposed.
 	over: tuple = ()
-	#: Written as the person OneAI acts for, for a flow that checks who is
-	#: signed in (HRMS's leave and expense claims ask whether that is the
-	#: employee, their approver or HR). The mark still says OneAI made it.
 	as_person: bool = False
-	#: A dotted path to the flow's own function, which takes the values and
-	#: answers the record it made.
 	flow: str | None = None
-
-
-# ------------------------------------------------------------------ deciding
 
 
 def level(action: Action, reading: dict, before: dict, floor: float = FLOOR, marked: bool = False) -> tuple[str, str, list]:
@@ -122,9 +102,6 @@ def _same(one, other) -> bool:
 	return str(one or "").strip() == str(other or "").strip()
 
 
-# ------------------------------------------------------------------ the door
-
-
 def apply(action: Action, reading) -> str | None:
 	"""Do, propose or refuse one action for a reading. Answers the Intake
 	Action row's name, or None when there is nobody to act for."""
@@ -161,8 +138,6 @@ def apply(action: Action, reading) -> str | None:
 
 	before = _before(action)
 	if action.kind == "Update" and before and all(_same(before.get(key), value) for key, value in (action.values or {}).items()):
-		# The record already says all of it: nothing to do, and nothing to
-		# write down.
 		return None
 	from onedesk.one_intake import mark
 
@@ -200,7 +175,6 @@ def _insert(row) -> str:
 	try:
 		row.insert(ignore_permissions=True)
 	except frappe.DuplicateEntryError:
-		# The same key, written by another job a moment ago.
 		return frappe.db.get_value("Intake Action", {"key": row.key}, "name")
 	return row.name
 
@@ -251,7 +225,6 @@ def allowed(action: Action, person: str) -> bool:
 			return False
 	elif not frappe.has_permission(action.doctype, ptype, action.name, user=person):
 		return False
-	# Filing a file on a record: the person must be able to open the file too.
 	held = action.values.get("file")
 	if held and action.kind in ("Link", "Attach"):
 		from onedesk.one_storage import namespace as ns
@@ -259,9 +232,6 @@ def allowed(action: Action, person: str) -> bool:
 		item = ns.row(held)
 		return bool(item and ns.may(item, "read", user=person))
 	return True
-
-
-# ------------------------------------------------------------------ the writes
 
 
 def _before(action: Action) -> dict:
@@ -313,7 +283,6 @@ def _update(action: Action, before: dict) -> dict:
 	doc.save()
 	from onedesk.one_ai import touch
 
-	# A field OneAI filled on a record a person made gets the field badge.
 	touch.wrote(action.doctype, action.name, action.values)
 	return {"name": action.name, **action.values}
 
@@ -446,9 +415,6 @@ WRITES = {
 }
 
 
-# ------------------------------------------------------------------ a person decides
-
-
 def _may_decide(row) -> None:
 	from onedesk.one.roles import administers
 
@@ -538,9 +504,6 @@ def settle_for(row, take: bool, why: str) -> str:
 
 		mark.mark(row.target_doctype, row.target_name, row.reading)
 	return "Done"
-
-
-# ------------------------------------------------------------------ undo
 
 
 @frappe.whitelist(methods=["POST"])
@@ -706,9 +669,6 @@ UNDO = {
 	"Tag": _undo_tag,
 	"Comment": _undo_comment,
 }
-
-
-# ------------------------------------------------------------------ who sees them
 
 
 def query(user=None) -> str:

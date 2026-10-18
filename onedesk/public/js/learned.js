@@ -1,6 +1,3 @@
-// The two decisions on something the clock proposed. Status is read-only on
-// the record, because rejecting an address is a decision rather than a value
-// you pick out of a list — and because the learner treats a rejection as final.
 frappe.ui.form.on("Clock Network", { refresh: settle });
 frappe.ui.form.on("Clock Place", { refresh: settle });
 

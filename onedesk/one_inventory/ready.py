@@ -9,15 +9,12 @@ FIXERS = ("Stock Manager", "Manufacturing Manager", "Accounts Manager", "Workspa
 
 READY, TO_DO, SUGGESTED = "Ready", "To Do", "Suggested"
 
-#: The company's accounts perpetual inventory posts through.
 STOCK_ACCOUNTS = {
 	"default_inventory_account": "Default Inventory Account",
 	"stock_adjustment_account": "Stock Adjustment Account",
 	"stock_received_but_not_billed": "Stock Received But Not Billed",
 }
 
-#: The usual asset categories: the chart's Fixed Assets ledger each is kept
-#: in, and its life in months.
 USUAL = (
 	("Computers", "Electronic Equipment", 36),
 	("Software", "Software", 36),
@@ -158,8 +155,6 @@ def _reposted() -> dict:
 	return _row("reposts", check, READY, _("Every back-dated entry has been worked through."))
 
 
-#: What a supplier is scored by, out of 100 each month: ERPNext's own
-#: variables, and a month with nothing delivered counted as full marks.
 CRITERIA = (
 	(
 		"Delivered On Time",

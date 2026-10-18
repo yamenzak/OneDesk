@@ -1,7 +1,4 @@
 <template>
-  <!-- A new password: frappe's own update_password (one/signin.py tells the
-       person afterwards) and its strength test as it is typed.
-       Modelled on GitHub's Change password: three fields and Update. -->
   <Head :title="__('Password')">
     <template #actions>
       <Button variant="solid" :label="__('Update')" :loading="saving" :disabled="!ready" @click="save" />

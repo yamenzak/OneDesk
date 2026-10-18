@@ -1,5 +1,3 @@
-// Workspace › Data Copies (one/privacy_copy.py): who asked for a copy of their
-// data, and where each stands. Reviewed and sent on the request itself.
 frappe.listview_settings["Personal Data Download Request"] = {
 	...frappe.listview_settings["Personal Data Download Request"],
 	hide_name_column: true,

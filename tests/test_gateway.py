@@ -20,10 +20,6 @@ import tree
 
 GATEWAY = tree.APP / "one_admin" / "gateway.py"
 
-#: What a provider key looks like in code that sends one. `Authorization` is the
-#: header a direct provider call uses and is exactly what the gateway exists to
-#: keep us from needing; the rest are the query parameters the two providers
-#: accept a key in.
 A_PROVIDER_KEY = ("Authorization", "x-goog-api-key", "api_key", "?key=")
 
 

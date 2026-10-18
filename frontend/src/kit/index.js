@@ -1,7 +1,3 @@
-// The kit every OneDesk island is built from (docs/ISLANDS.md). A part is
-// here only when frappe-ui and @framework/ui have none: each is frappe-ui's
-// components laid out with its tokens, so every screen in every app reads the
-// same.
 export * from "./desk";
 export { screen } from "./mount";
 export { default as ActivityComposer } from "./ActivityComposer.vue";

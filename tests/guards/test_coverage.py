@@ -12,12 +12,8 @@ ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "onedesk"
 SUITE = (APP / "one_demo" / "check.py").read_text()
 
-#: Modules whose methods run on the admin site, which the demo, a workspace,
-#: is not.
 ELSEWHERE = {"one_admin": "the operator's console runs on the admin site"}
 
-#: What each module still has that no demo check reaches. Lower it when a
-#: check reaches one; it may never rise.
 STILL = {
 	"one": 0,
 	"one_ai": 0,

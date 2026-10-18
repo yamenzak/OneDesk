@@ -4,7 +4,6 @@ manages the rest in one dialog (frontend/src/item/ItemBarcodes.vue)."""
 
 import frappe
 
-#: How many barcodes an item's page shows in its head.
 FEATURED = 2
 
 

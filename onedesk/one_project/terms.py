@@ -8,7 +8,6 @@ a template's or the company's. The README's terms.py says more.
 import frappe
 from erpnext.accounts.party import get_due_date_from_template, get_payment_terms_template
 
-#: The selling documents a project's terms are carried onto.
 SELLING = ("Quotation", "Sales Order", "Sales Invoice")
 
 
@@ -95,7 +94,6 @@ def give(doc, payment_terms: str | None, terms: str | None) -> None:
 		doc.set("payment_schedule", [])
 		posting = doc.get("posting_date") or doc.get("transaction_date")
 		if posting and doc.meta.has_field("due_date"):
-			# ERPNext dates an invoice by the party's terms, not the ones on it.
 			doc.due_date = get_due_date_from_template(payment_terms, posting, doc.get("bill_date"))
 	if terms and doc.meta.has_field("tc_name"):
 		from erpnext.setup.doctype.terms_and_conditions.terms_and_conditions import get_terms_and_conditions
@@ -120,7 +118,6 @@ def carried(doc, method=None) -> None:
 	elif doc.doctype in SELLING:
 		payment_terms, terms, _from = of(project)
 	else:
-		# The project's terms are agreed with its customer, not its suppliers.
 		return
 	party = _party(doc)
 	own = get_payment_terms_template(party[1], party[0], doc.get("company")) if party else None
@@ -128,7 +125,6 @@ def carried(doc, method=None) -> None:
 		payment_terms = None
 	picked = doc.get("tc_name")
 	if picked and picked != _default_terms(doc):
-		# Chosen on the document, or carried from what it is made from.
 		terms = None
 	give(doc, payment_terms, terms if terms != picked else None)
 

@@ -1,6 +1,4 @@
 <template>
-  <!-- A due date: red once it has passed and the work is not done; clicking
-       it picks another. -->
   <DatePicker
     v-if="!readonly"
     :model-value="value || ''"

@@ -1,6 +1,3 @@
-// Bill Progress on an order: the share of the work done, billed at the
-// order's rate, less what's been billed and less retention. The invoice opens
-// unsaved. See one_project/progress.py.
 for (const doctype of ["Purchase Order", "Sales Order"]) {
 	frappe.ui.form.on(doctype, {
 		refresh(frm) {
@@ -9,8 +6,6 @@ for (const doctype of ["Purchase Order", "Sales Order"]) {
 	});
 }
 
-// A customer's new order on a project starts with the project's retention,
-// which it may change (one_project/retention.py `ordered`).
 frappe.ui.form.on("Sales Order", {
 	async project(frm) {
 		if (!frm.is_new() || !frm.doc.project || !frappe.boot.one_retention) return;
@@ -35,14 +30,11 @@ onedesk.progress.button = (frm) => {
 	frm.add_custom_button(__("Bill Progress"), () => onedesk.progress.ask(frm), __("Create"));
 };
 
-// `share`: where to start, the milestones done on a project billed by them.
 onedesk.progress.ask = async (frm, share) => {
 	const said = await frappe.xcall("onedesk.one_project.progress.progress", {
 		doctype: frm.doctype,
 		name: frm.doc.name,
 	});
-	// An order of several lines may be billed line by line, as work measured
-	// against a bill of quantities is (one_project/progress.py `lines`).
 	const several = said.lines.length > 1;
 	const dialog = new frappe.ui.Dialog({
 		title: __("Bill Progress"),

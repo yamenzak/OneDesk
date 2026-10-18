@@ -15,7 +15,6 @@ from frappe.utils import date_diff, flt, fmt_money, formatdate, getdate, today
 from onedesk.one import figures, stages
 from onedesk.one_book import paid
 
-#: What the band is on: a submitted invoice or bill that is not a return.
 OWED = [["docstatus", "=", 1], ["is_return", "=", 0]]
 
 
@@ -152,12 +151,8 @@ def repeats(doc):
 	return {"value": _(found.status), "tone": "quiet", "route": route}
 
 
-# ------------------------------------------------------------------ a customer or a supplier
-
-#: A party's invoices: which doctype, and the field on it that names them.
 BILLS = {"Customer": ("Sales Invoice", "customer"), "Supplier": ("Purchase Invoice", "supplier")}
 
-#: A party's invoices counted: submitted, and not a credit or debit note.
 COUNTED = {"docstatus": 1, "is_return": 0}
 
 
@@ -281,8 +276,6 @@ def party_last_bill(doc):
 	if not found:
 		return {"value": _("None yet"), "tone": "quiet"}
 	last = found[0]
-	# The day goes in the label: beside an amount in a right-to-left currency
-	# the two run into each other.
 	label = _("Last Sales Invoice") if doc.doctype == "Customer" else _("Last Purchase Invoice")
 	return {
 		"label": _("{0} · {1}").format(label, formatdate(last.posting_date)),
@@ -330,9 +323,6 @@ def invoice_party_billed(doc):
 	month in the hue and the others grey."""
 	party = "Customer" if doc.doctype == "Sales Invoice" else "Supplier"
 	return _billed(party, doc.get(BILLS[party][1]), marked_day=doc.posting_date)
-
-
-# ------------------------------------------------------------------ a payment
 
 
 def _bank_side(doc) -> str | None:
@@ -390,9 +380,6 @@ def payment_progress(doc):
 	)
 
 
-# ------------------------------------------------------------------ a journal entry
-
-
 def _journal_money(doc, value) -> str:
 	return fmt_money(flt(value), currency=frappe.get_cached_value("Company", doc.company, "default_currency"))
 
@@ -446,9 +433,6 @@ def journal_reference(doc):
 		"value": journal.named(*found),
 		"route": f"/desk/{frappe.scrub(found[0]).replace('_', '-')}/{found[1]}",
 	}
-
-
-# ------------------------------------------------------------------ the bank
 
 
 def _tool(bank_account: str) -> str:
@@ -666,7 +650,6 @@ CHARTS = {
 	},
 }
 
-#: What a credit or debit note is against, in each doctype's own label.
 RETURN_AGAINST = {
 	"Sales Invoice": _lt("Return Against"),
 	"Purchase Invoice": _lt("Return Against Purchase Invoice"),
@@ -675,8 +658,6 @@ RETURN_AGAINST = {
 HEADS = [
 	{
 		"doctype": doctype,
-		# Where it stands, as Frappe Books' status pill says it: a sentence,
-		# then a track from ordered to paid, then what the form keeps low down.
 		"sentences": [{"measure": "invoice.said"}],
 		"band": [
 			*_BAND,
@@ -727,8 +708,6 @@ HEADS = [
 	},
 	{
 		"doctype": "Payment Entry",
-		# Where it stands, as an invoice's head says it: a sentence, then a
-		# track to reconciled, then what the form keeps lower down.
 		"sentences": [{"measure": "payment.said"}],
 		"band": [
 			{"label": _lt("Progress"), "source": "Measure", "measure": "payment.progress"},
@@ -773,7 +752,6 @@ HEADS = [
 				"route": '/desk/sales-order?customer={{ doc.name }}&docstatus=1&status=["not in",["Completed","Closed"]]',
 				"hide_empty": 1,
 			},
-			# OneCRM's: what the customer may still buy.
 			{"label": _lt("Opportunity"), "source": "Measure", "measure": "crm.of_customer"},
 		],
 		"charts": [{"chart": "party.billed"}],

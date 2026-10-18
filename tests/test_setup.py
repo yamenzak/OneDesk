@@ -29,9 +29,6 @@ def test_nothing_is_ever_deleted():
 def test_a_setting_already_filled_in_is_never_replaced():
 	keep = _method("keep")
 	assert "if value and (not self.settings.get(field))" in keep
-	# Every write to a setting goes through keep, but for the two that are
-	# kept by their own guard: the deployed hashes, and the R2 secret, which
-	# is written only when its key id was empty.
 	writes = re.findall(r"self\.settings\.(\w+) = ", SOURCE)
 	assert set(writes) <= {"cloudflare_setup", "cloudflare_deployed", "r2_secret"}
 	assert "if self.settings.r2_key_id:" in _method("r2_keys")
@@ -39,8 +36,6 @@ def test_a_setting_already_filled_in_is_never_replaced():
 
 def test_somebody_elses_record_or_route_is_left_as_it_is():
 	assert "THEIRS" in _method("dns") and "THEIRS" in _method("route")
-	# The catch-all is the one thing taken over. The fallback origin is set
-	# only on a zone that has none: one the zone holds is somebody else's.
 	puts = re.findall(r'self\.call\(\s*"PUT",\s*f"([^"]+)"', SOURCE)
 	assert puts == [
 		"/zones/{zone}/custom_hostnames/fallback_origin",

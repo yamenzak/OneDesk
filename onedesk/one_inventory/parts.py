@@ -12,10 +12,8 @@ from frappe.utils import cstr, flt
 
 from onedesk.one_inventory.kinds import code_from
 
-#: The most rows one list is read for.
 MOST = 1000
 
-#: What a list's heading row may call each column.
 HEADS = {
 	"code": ("code", "item", "item code", "part", "part no", "part number", "article", "article no", "sku", "ref"),
 	"name": ("name", "item name", "description", "part name", "title"),
@@ -23,7 +21,6 @@ HEADS = {
 	"unit": ("unit", "uom", "units"),
 }
 
-#: Columns in order, for a list without a heading row.
 ORDER = {"code": 0, "name": 1, "qty": 2, "unit": 3}
 
 

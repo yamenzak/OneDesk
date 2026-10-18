@@ -7,7 +7,6 @@ expired in its list."""
 import frappe
 from frappe.utils import add_days, flt, getdate, today
 
-#: How many days ahead a batch is expiring soon.
 SOON = 30
 
 

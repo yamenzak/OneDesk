@@ -44,11 +44,11 @@ NOW = datetime(2026, 9, 23, 12, 0)
 @pytest.mark.parametrize(
 	"spoke, next_on, days, gone",
 	[
-		("2026-09-01 10:00", None, 14, True),  # three weeks, nothing planned
-		("2026-09-20 10:00", None, 14, False),  # spoke three days ago
-		("2026-09-01 10:00", "2026-09-25 09:00", 14, False),  # something is planned
-		("2026-09-01 10:00", "2026-09-10 09:00", 14, True),  # the plan's day passed
-		("2026-09-14 10:00", None, 7, True),  # a lead waits a week, not two
+		("2026-09-01 10:00", None, 14, True),
+		("2026-09-20 10:00", None, 14, False),
+		("2026-09-01 10:00", "2026-09-25 09:00", 14, False),
+		("2026-09-01 10:00", "2026-09-10 09:00", 14, True),
+		("2026-09-14 10:00", None, 7, True),
 	],
 )
 def test_a_deal_is_quiet_when_nobody_spoke_and_nothing_is_planned(spoke, next_on, days, gone):

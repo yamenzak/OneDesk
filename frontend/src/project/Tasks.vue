@@ -1,6 +1,4 @@
 <template>
-  <!-- Tasks as a table in groups, as monday's main table: every cell changes
-       in place, and a row's name opens it beside the page. -->
   <div class="pb-12">
     <div v-for="group in groups" :key="group.key" class="mt-6">
       <div class="mb-2 flex items-center gap-2">
@@ -12,7 +10,6 @@
         <span v-if="planned(group)" class="whitespace-nowrap text-base text-ink-gray-5">· {{ hours(planned(group)) }}</span>
       </div>
       <div v-if="!closed[group.key]" class="overflow-x-auto rounded-5 border border-outline-gray-2">
-        <!-- A group with no tasks shows only where to add one. -->
         <List v-if="group.tasks.length" :columns="COLUMNS" :row-height="group.tasks.some((one) => one.waiting?.length) ? 58 : 44" divider="full" class="min-w-[58rem] list-gap-3 list-row-px-3">
           <ListHeader class="bg-surface-gray-1">
             <ListHeaderCell>{{ __("Task") }}</ListHeaderCell>
@@ -100,14 +97,11 @@ const props = defineProps({
   groups: { type: Array, required: true },
   team: { type: Array, default: () => [] },
   canWrite: Boolean,
-  // The task open in the panel, marked in its row.
   current: String,
 });
 const emit = defineEmits(["open", "set", "give", "take", "add"]);
 
 const COLUMNS = ["minmax(14rem,1fr)", "6rem", "9rem", "8rem", "7rem", "5.5rem", "8rem"];
-// The hours planned for a group's tasks (ERPNext's Expected Time), a
-// cancelled one's left out, as Time counts them (hours.py `planned`).
 const planned = (group) => group.tasks.reduce((sum, one) => sum + (one.status === "Cancelled" ? 0 : Number(one.expected_time) || 0), 0);
 const closed = reactive({});
 const drafts = reactive({});

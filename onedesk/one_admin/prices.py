@@ -9,16 +9,10 @@ import re
 from dataclasses import dataclass, field
 from datetime import date
 
-#: What a rate is charged against. `cached` is a read of somebody's context
-#: cache and is a third thing, not a cheaper input — the providers price it
-#: separately and so do we.
 KINDS = ("input", "cached", "output", "usage")
 
-#: Only ever a description. Metering matches on the unit, never on this.
 MODALITIES = ("text", "image", "audio", "video", "other")
 
-#: Which modality a unit's own words imply. Order matters: "image MP" is a
-#: picture, and "tokens" only means text when nothing more specific said so.
 READS_AS = (
 	("audio", ("audio", "second", "minute")),
 	("video", ("video", "frame")),
@@ -26,9 +20,6 @@ READS_AS = (
 	("text", ("token", "character", "word")),
 )
 
-#: The multiplier a provider writes in front of a unit rather than in the
-#: number. `M` is Cloudflare's and Google's million; `1k` is Cloudflare's
-#: thousand. Anything else is one of whatever it is.
 MANY = (
 	(1_000_000, ("1m", "m", "million", "1,000,000")),
 	(1_000, ("1k", "k", "1,000", "thousand")),
@@ -50,9 +41,6 @@ class Rate:
 	unit: str
 	per: int
 	usd: float
-	#: When the provider says a price takes over from another one. Google
-	#: publishes next year's price beside this year's; both are kept and
-	#: `in_effect` picks.
 	starts: date | None = None
 	ends: date | None = None
 
@@ -95,14 +83,9 @@ def in_effect(rates: list[Rate], on: date) -> list[Rate]:
 			continue
 		key = (rate.kind, rate.modality, rate.unit, rate.per)
 		held = best.get(key)
-		# A dated price beats an undated one: the undated row is the general
-		# case and the dated row is the provider being specific.
 		if held is None or (rate.starts and not held.starts):
 			best[key] = rate
 	return list(best.values())
-
-
-# ---------------------------------------------------------------- reading text
 
 
 def _plain(fragment: str) -> str:
@@ -146,18 +129,10 @@ def _modality(unit: str) -> str:
 	return "other"
 
 
-# ------------------------------------------------------------- Workers AI
-
-
-#: A row on Cloudflare's page names a model by its own id, which is what the
-#: API answers with too, so nothing has to be matched up by name.
 A_WORKERS_MODEL = re.compile(r"^@[a-z0-9]")
 
-#: `$0.027 per M input tokens`, and also `$0.015 per first MP (1024x1024)`.
-#: The amount and then everything up to the next amount.
 A_PRICE = re.compile(r"\$\s*([\d.,]+)\s*(?:per|/)\s+([^$]+)")
 
-#: The words that say what a price is charged against rather than what of.
 SAYS_KIND = (
 	("cached", ("cached input", "cached", "context caching", "cache read")),
 	("input", ("input",)),
@@ -228,20 +203,10 @@ def _rate(usd: float, said: str) -> Rate:
 	return Rate(kind=kind, modality=_modality(unit), unit=unit, per=per, usd=usd)
 
 
-# ---------------------------------------------------------------- Gemini
-
-
-#: Google's page is one table per model per tier, with the model in a heading
-#: above the table rather than in a cell of it, so the reading has to be done in
-#: document order.
 A_HEADING = re.compile(r"(?s)<h([23])[^>]*>(.*?)</h\1>|<table[^>]*>(.*?)</table>")
 
-#: The only tier we sell. Batch, Flex and Priority are different products with
-#: different latencies, and offering one would be a decision rather than a price.
 SOLD = "Standard"
 
-#: What a row's label means. Longest first, so "Text input price" is not read as
-#: the general "Input price".
 LABELLED = (
 	("text input price", ("input", "text")),
 	("image input price", ("input", "image")),
@@ -252,9 +217,6 @@ LABELLED = (
 	("input price", ("input", "text")),
 )
 
-#: Rows on the page that are not a price per call: a grounding tool, a storage
-#: charge per hour, a tuning job, and Google's note about training. Skipped
-#: rather than flagged — a model is sellable without them.
 NOT_A_CALL = (
 	"grounding with",
 	"used to improve",
@@ -263,10 +225,8 @@ NOT_A_CALL = (
 	"storage price",
 )
 
-#: `Paid Tier, per 1M tokens in USD` — where Google puts the unit.
 A_UNIT = re.compile(r"per\s+([\d.,]*\s*[a-z]*)\s+([a-z ]+?)(?:\s+in\s+usd)?\s*$", re.I)
 
-#: `$1.50 starting January 1, 2027` and `$0.75 through December 31, 2026`.
 A_WHEN = re.compile(r"\b(starting|through|until|from)\s+([A-Z][a-z]+\s+\d{1,2},\s*\d{4})", re.I)
 
 MONTHS = (
@@ -315,9 +275,6 @@ def gemini(page: str) -> Read:
 	return read
 
 
-#: One heading, more than one model. Google prices its three Live models in a
-#: single table under a heading that lists them, and the alternative to splitting
-#: it is three models nothing could price.
 A_LIST = re.compile(r"\s*,\s*and\s+|\s*,\s*|\s+and\s+")
 
 
@@ -341,11 +298,8 @@ def _one_table(read: Read, model: str, table: str) -> None:
 		billable += 1
 		named = next((k for spelling, k in LABELLED if label.startswith(spelling)), None)
 		if named is None:
-			# A row whose label is not a kind of price but a variant of the model
-			# (Veo, Lyria): the whole row is its price.
 			read.gaps.append(Gap(model, cells[0], _unreadable(cells[-1])))
 			continue
-		# The paid column is the last one; the free tier is not what we resell.
 		paid = cells[-1]
 		if not per:
 			read.gaps.append(Gap(model, "unit", _plain(" ".join(rows[0])) or "no unit on the table"))
@@ -418,15 +372,11 @@ def _dated(paid: str, kind: str, modality: str, per: int, unit: str) -> tuple[li
 		said = paid[found.end() : nxt if nxt != -1 else len(paid)]
 		at = nxt if nxt != -1 else len(paid)
 		if any(word in said.lower() for word in NOT_A_CALL):
-			# A storage charge sharing a cell with a call price, skipped: a model
-			# is perfectly sellable without it.
 			continue
 		if usd is None:
 			unread.append(found.group(0) + said)
 			continue
 
-		# An amount's own unit is only believed when the page attaches it to the
-		# amount, `$0.005/min` or `$0.45 ($0.00012 per image)`.
 		attached = said.startswith("/") or paid[: found.start()].rstrip().endswith("(")
 		if not attached and AN_OWN_UNIT.match(said):
 			unread.append(found.group(0) + said)
@@ -473,9 +423,6 @@ def _rates_for(
 	return rates
 
 
-#: What a parenthetical after an amount may say about what it covers. Google
-#: writes `(text / image / video)` and `(text and thinking)`; thinking is
-#: charged as text and is not a modality of its own.
 SAYS_MODALITY = {
 	"text": "text",
 	"thinking": "text",
@@ -506,9 +453,6 @@ def _modalities(said: str) -> list[str]:
 	return named
 
 
-#: `/min`, `per image`, `/ 1,000,000 tokens`. An amount that carries its own
-#: unit is not in the table's unit, and reading it as though it were is the
-#: mistake this whole module exists to avoid.
 AN_OWN_UNIT = re.compile(r"^\s*\(?\s*(?:/|per\b)\s*([\d.,]*\s*[a-zA-Z][a-zA-Z0-9 ]*)", re.I)
 
 

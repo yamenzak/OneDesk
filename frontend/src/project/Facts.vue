@@ -1,8 +1,4 @@
 <template>
-  <!-- What the head says about the project beside its name, for its kind:
-       status and health to change in place, then the kind's facts. How long
-       is left is the Due card's, not said twice. Over a photo it is drawn
-       in white. -->
   <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-base" :class="onImage ? 'text-white-overlay-900' : 'text-ink-gray-6'">
     <div class="flex items-center gap-2">
       <Pill :value="said.status" :options="['Open', 'On hold', 'Completed', 'Cancelled']" :colors="PROJECT_STATUS" :label="__('Status')" :readonly="!said.can_write" @change="(v) => $emit('change', 'status', v)" />

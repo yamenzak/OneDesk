@@ -70,24 +70,16 @@ def _trusted(user: str) -> bool:
 	return user == "Administrator" or (user == frappe.session.user and not layer.held())
 
 
-#: Who deletes as the system rather than as a person: the scheduler, a patch, a
-#: cleanup. What they delete is housekeeping, not anybody's to put back.
 SYSTEM = ("Administrator", "Guest")
 
-#: frappe's own machinery: what a customization or a permission writes, never a
-#: record somebody made, and never in the bin.
 MACHINERY = ("Core", "Custom")
 
-#: What puts back what a workspace makes of frappe's machinery, which a plain insert would
-#: not; each checks who may and returns the name it came back as.
 RESTORERS = {
 	"Custom Field": "onedesk.one.customize.restored",
 	"Record Type": "onedesk.one_studio.record_types.restored",
 }
 
 
-#: What people make themselves in frappe's own modules, kept in the bin like
-#: any record: a meeting, a note, a to-do.
 MADE_BY_PEOPLE = ("Event", "Note", "ToDo")
 
 
@@ -174,7 +166,6 @@ def restore(name: str, alert: bool = True) -> str:
 
 	was = {field: doc.get(field) for field in ("owner", "creation", "modified", "modified_by")}
 	doc.flags.from_restore = True
-	# frappe names it afresh, a random one too, so what linked to it would not find it.
 	doc.flags.name_set = not frappe.db.exists(doc.doctype, doc.name)
 	try:
 		doc.insert()

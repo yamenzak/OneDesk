@@ -36,9 +36,6 @@ def _count(doc, value) -> str:
 	return f"{fmt_money(flt(value), precision=0)} {_(doc.stock_uom or '')}".strip()
 
 
-# ------------------------------------------------------------------ an item
-
-
 def on_hand(doc):
 	said = _item(doc.name)
 	return {"value": _count(doc, said["on_hand"]), "tone": None if said["on_hand"] > 0 else "quiet"}
@@ -71,7 +68,6 @@ def last_bought(doc):
 	"""A service that is only ever sold was never bought, and saying so is noise."""
 	last = _item(doc.name)["last"]
 	if last:
-		# The day goes in the label, as a party's last invoice does.
 		return {
 			"label": _("Last Purchase Rate · {0}").format(
 				formatdate(last.on_date)
@@ -79,9 +75,6 @@ def last_bought(doc):
 			"value": _("{0} from {1}").format(_money(last.rate), last.supplier),
 		}
 	return {"value": _("Never"), "tone": "quiet"} if doc.is_stock_item else None
-
-
-# ------------------------------------------------------------------ an asset
 
 
 def worth_now(doc):
@@ -144,9 +137,6 @@ def next_service(doc):
 		"tone": "alarm" if getdate(service.due_date) < getdate(today()) else None,
 		"route": f"/desk/asset-maintenance-log/{quote(service.name)}",
 	}
-
-
-# ------------------------------------------------------------------ a warehouse
 
 
 @request_cache
@@ -229,9 +219,6 @@ def warehouse_last(doc):
 	return formatdate(last) if last else {"value": _("Never"), "tone": "quiet"}
 
 
-# ------------------------------------------------------------------ a batch
-
-
 @request_cache
 def _left(name: str) -> list:
 	return batches.left(name)
@@ -281,9 +268,6 @@ def batch_went(doc):
 	"""How many documents took some out, opening its trace."""
 	out = {(one["doctype"], one["name"]) for one in _moves(doc.name) if one["qty"] < 0}
 	return {"value": len(out), "tone": None if out else "quiet"}
-
-
-# ------------------------------------------------------------------ a receipt
 
 
 def receipt_order(doc):
@@ -337,9 +321,6 @@ def receipt_rejected(doc):
 	return {"value": f"{fmt_money(rejected, precision=0)} {unit}".strip(), "tone": "alarm"}
 
 
-# ------------------------------------------------------------------ a delivery
-
-
 def delivery_order(doc):
 	"""The sales orders the goods were sold on."""
 	orders = list(dict.fromkeys(row.against_sales_order for row in doc.items if row.get("against_sales_order")))
@@ -375,9 +356,6 @@ def delivery_trip(doc):
 		"value": " · ".join(one for one in (when, trip.driver_name) if one),
 		"route": f"/desk/delivery-trip/{quote(trip.name)}",
 	}
-
-
-# ------------------------------------------------------------------ buying
 
 
 def _company_money(doc) -> str:
@@ -525,9 +503,6 @@ def _paid(doc) -> float:
 	return min(paid, flt(doc.grand_total))
 
 
-# ------------------------------------------------------------------ an order
-
-
 def order_progress(doc):
 	"""Ordered, received, billed, paid."""
 	if doc.docstatus != 1:
@@ -542,8 +517,6 @@ def order_progress(doc):
 	settled = paid >= total - 0.005
 	waiting = [row.schedule_date for row in lines if flt(row.received_qty) < flt(row.qty)]
 	late = bool(waiting) and bool(stages.overdue(min(waiting))) and doc.status not in ("Closed", "On Hold")
-	# One thing to a note: a sum and a date side by side reorder around an
-	# Arabic currency sign.
 	return stages.track(
 		stages.step(_("Ordered"), "done", formatdate(doc.transaction_date)),
 		stages.step(
@@ -588,9 +561,6 @@ def order_said(doc):
 		left = fmt_money(flt(doc.grand_total) - paid, currency=doc.currency)
 		return {"text": _("Received and billed; {0} is still to pay.").format(left), "colour": "orange"}
 	return {"text": _("Received, billed and paid."), "colour": "green"}
-
-
-# ------------------------------------------------------------------ a request
 
 
 def _request_quotes(doc) -> tuple[int, int]:
@@ -697,7 +667,6 @@ def rfq_stands(doc):
 	return {"colour": "green" if asked and len(answered) >= len(asked) else "blue"}
 
 
-#: The buying documents whose head's sentence says how urgent they are.
 STANDS = {
 	"Purchase Order": "order_said",
 	"Material Request": "request_said",
@@ -712,9 +681,6 @@ def stands(doc) -> str | None:
 	said = STANDS.get(doc.doctype)
 	said = globals()[said](doc) if said else None
 	return said["colour"] if said else None
-
-
-# ------------------------------------------------------------------ a receipt and a delivery
 
 
 def _ordered_on(doctype: str, names) -> str:
@@ -774,9 +740,6 @@ def delivery_said(doc):
 	if flt(doc.per_billed) < 100:
 		return {"text": _("Delivered to {0}; not billed yet.").format(customer), "colour": "orange"}
 	return {"text": _("Delivered and billed."), "colour": "green"}
-
-
-# ------------------------------------------------------------------ making
 
 
 def work_progress(doc):
@@ -875,9 +838,6 @@ def bom_said(doc):
 	return {"text": _("In use, and no BOM for {0} is the default.").format(what), "colour": "orange"}
 
 
-# ------------------------------------------------------------------ equipment
-
-
 def asset_said(doc):
 	if said := stages.draft(doc, _("A draft. Submit it to put it in use.")):
 		return said
@@ -953,10 +913,6 @@ def blanket_orders(doc):
 	return {"value": str(len(made)), "tone": None if made else "quiet"}
 
 
-# ------------------------------------------------------------------ a movement
-
-
-#: What makes goods, whose value is what was made, with what it used beside it.
 MADE = ("Manufacture", "Repack", "Disassemble")
 
 
@@ -996,9 +952,6 @@ def move_used(doc):
 	return _money(doc.total_outgoing_value)
 
 
-# ------------------------------------------------------------------ a count
-
-
 def count_items(doc):
 	"""ERPNext keeps only the lines a count changed, so each one is a difference."""
 	return str(len(doc.items))
@@ -1006,9 +959,6 @@ def count_items(doc):
 
 def count_where(doc):
 	return _places(row.warehouse for row in doc.items)
-
-
-# ------------------------------------------------------------------ making
 
 
 def _of(made, wanted, unit) -> dict:
@@ -1082,9 +1032,6 @@ def sub_order(doc):
 	if len(orders) != 1:
 		return None
 	return {"value": orders[0], "route": f"/desk/subcontracting-order/{quote(orders[0])}"}
-
-
-# ------------------------------------------------------------------ equipment
 
 
 def _equipment(name: str) -> dict | None:
@@ -1197,9 +1144,6 @@ def worth_change(doc):
 	if not flt(doc.current_asset_value):
 		return None
 	return {"value": _money(change), "tone": "alarm" if change < 0 else None}
-
-
-# ------------------------------------------------------------------ the charts
 
 
 def moved(doc):
@@ -1351,9 +1295,6 @@ MEASURES = {
 }
 
 
-# ------------------------------------------------------------------ the two movements
-
-
 def _movable(doc) -> bool:
 	"""A sold or scrapped asset is nobody's to give."""
 	return (
@@ -1401,8 +1342,6 @@ VERBS = {
 	},
 }
 
-
-# ------------------------------------------------------------------ the heads
 
 HEADS = [
 	{
@@ -1526,8 +1465,6 @@ HEADS = [
 	},
 	{
 		"doctype": "Purchase Order",
-		# Where it stands and what is next, as Shopify's order page says it: a
-		# sentence, then a track from ordered to paid, then what it is for.
 		"sentences": [{"measure": "order.said"}],
 		"band": [
 			{"label": _lt("Progress"), "source": "Measure", "measure": "order.progress"},

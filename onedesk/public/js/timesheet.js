@@ -1,20 +1,3 @@
-// The timer, on one clock, resuming only what has not ended.
-//
-// ERPNext's has two faults and they compound. It offers Resume for any row whose
-// Completed box is unticked and whose From Time is past — which is every row
-// anybody typed by hand, since nothing ticks Completed when you enter a block
-// yourself — and on Complete it writes `to_time = now` over the end time that
-// was already there. And its two clocks disagree: it stamps times with
-// `frappe.datetime.get_datetime_as_string()`, which is `moment()` on the
-// operator's own machine, while it measures elapsed time against
-// `frappe.datetime.now_datetime()`, which is the site's timezone. On this site
-// (Asia/Dubai, container in UTC) Complete wrote 20:40 against a start of 23:59
-// and the save died on "To Time cannot be before From Time"; four hours the
-// other way it would have silently banked four hours nobody worked.
-//
-// So this is ours rather than a wrapper around theirs. Every stamp is
-// `frappe.datetime.now_datetime()`, and the only row it will resume is one with
-// a start and no end.
 frappe.provide("onedesk.timesheet");
 
 frappe.ui.form.on("Timesheet", {
@@ -30,8 +13,6 @@ frappe.ui.form.on("Timesheet", {
 	},
 });
 
-// A row on a project billed by the hour starts billable, as Log Time and the
-// timer make it (one_project/hours.py `bills_hours`). It can be unticked.
 frappe.ui.form.on("Timesheet Detail", {
 	async project(frm, cdt, cdn) {
 		const row = locals[cdt][cdn];
@@ -41,7 +22,6 @@ frappe.ui.form.on("Timesheet Detail", {
 	},
 });
 
-// A row with an end time is finished, whatever its Completed box says.
 function running(frm) {
 	return (frm.doc.time_logs || []).find((row) => row.from_time && !row.to_time);
 }
@@ -100,8 +80,6 @@ function run(frm, dialog, row) {
 	let told = false;
 
 	// Elapsed is always derived from the row's own start against the site's
-	// clock, never counted up from zero: a dialog closed and reopened, or a
-	// page reloaded, must not lose the time in between.
 	const since = () =>
 		Math.max(moment(frappe.datetime.now_datetime()).diff(moment(row.from_time), "seconds"), 0);
 

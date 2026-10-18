@@ -1,7 +1,3 @@
-/* Masters: the kinds as a sidebar, as OneMail's folders and OneTask's views,
- * and the chosen kind's values beside them. The panes and the
- * table are the shell's (public/css/shell.css). Espresso tokens only. */
-
 .one-masters-side {
 	display: flex;
 	flex-direction: column;
@@ -9,8 +5,6 @@
 	padding: calc(var(--spacing) * 2);
 }
 
-/* A group's name under its app's mark, as frappe-ui's Sidebar labels a
-   section it can fold: the chevron turns when the group is folded away. */
 .one-masters-group {
 	display: flex;
 	align-items: center;
@@ -71,7 +65,6 @@
 	display: none;
 }
 
-/* A group's lists sit in under its name. */
 .one-masters-kinds {
 	display: flex;
 	flex-direction: column;
@@ -118,7 +111,6 @@
 	color: var(--ink-gray-5);
 }
 
-/* The chosen kind's values, set in from the panes' rule. */
 .one-masters-main {
 	padding: calc(var(--spacing) * 4) calc(var(--spacing) * 5) calc(var(--spacing) * 6);
 }

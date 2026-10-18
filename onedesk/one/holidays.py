@@ -12,7 +12,6 @@ from frappe.utils import date_diff, getdate, today
 
 from onedesk.one import roles, tell
 
-#: Days before a list's last day when, with no list after it, people are told.
 WARN = (60, 30, 7)
 
 
@@ -101,7 +100,6 @@ def public(start, end, held: str | None = None) -> list:
 	return [one for one in rows if in_force(one.holiday_date, held) == one.parent]
 
 
-#: The week, in erpnext's words for it (Holiday List's `weekly_off`).
 WEEK = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 
 
@@ -135,7 +133,6 @@ def assign(holiday_list: str, held: str | None = None) -> bool:
 	if in_force(day, held) == holiday_list:
 		_follow(held)
 		return False
-	# One assignment a day: a list chosen twice in a day replaces the first.
 	same_day = frappe.db.get_value(
 		"Holiday List Assignment",
 		{"applicable_for": "Company", "assigned_to": held, "from_date": day, "docstatus": 1},

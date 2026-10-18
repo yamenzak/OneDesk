@@ -1,9 +1,5 @@
-// A lead's or a deal's next step: marked done from the record, which asks what
-// comes next in the same breath, and shown red on a list once it is overdue.
-// See one_crm/next.py.
 frappe.provide("onedesk.next_step");
 
-//: The statuses in which somebody still has something to do; one_crm/next.py OPEN.
 onedesk.next_step.OPEN = {
 	Lead: ["Lead", "Open", "Replied", "Interested"],
 	Opportunity: ["Open", "Quotation", "Replied"],
@@ -52,12 +48,8 @@ onedesk.next_step.ask = (frm) => {
 	dialog.show();
 };
 
-// Whether a step's time has passed. Both sides in the system's time zone, which
-// is what a Datetime is stored in; the browser's clock is in the reader's.
 onedesk.next_step.late = (value) => !!value && value < frappe.datetime.system_datetime();
 
-// Red once the time has passed on a lead or deal still open, so an overdue step
-// is seen without reading dates, and a finished one is not called overdue.
 onedesk.next_step.formatters = {
 	one_next_on(value, df, doc) {
 		if (!value) return "";

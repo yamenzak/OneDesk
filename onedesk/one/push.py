@@ -12,8 +12,6 @@ import frappe
 from frappe import _
 from frappe.utils import now_datetime, strip_html
 
-#: The push services a browser's address may be at. Anything else is refused
-#: when a device is registered.
 SERVICES = (
 	"fcm.googleapis.com",
 	"updates.push.services.mozilla.com",
@@ -21,14 +19,9 @@ SERVICES = (
 	".notify.windows.com",
 )
 
-#: A device that failed this many times in a row, without the service saying
-#: it is gone, is forgotten anyway.
 MOST_FAILURES = 5
 
 PRIVATE, PUBLIC = "onedesk_vapid_private", "onedesk_vapid_public"
-
-
-# ------------------------------------------------------------------ the keys
 
 
 def _keys() -> tuple[str, str]:
@@ -61,9 +54,6 @@ def allowed_service(endpoint: str) -> bool:
 	return parsed.scheme == "https" and any(
 		host == one.lstrip(".") or (one.startswith(".") and host.endswith(one)) for one in SERVICES
 	)
-
-
-# ------------------------------------------------------------------ the person's devices
 
 
 @frappe.whitelist()
@@ -141,9 +131,6 @@ def test() -> dict:
 	return {"sent": sent}
 
 
-# ------------------------------------------------------------------ sending
-
-
 def pushed(doc, method=None) -> None:
 	"""Notification Log after_insert: queue a push if its person wants one."""
 	if not doc.for_user or not _wants(doc.for_user, doc.type):
@@ -156,7 +143,6 @@ def _wants(user: str, kind: str | None) -> bool:
 
 	if not kind or not frappe.db.exists("Push Device", {"user": user}):
 		return False
-	# Frappe's own kinds carry no switch of ours, and may always be pushed.
 	if kind not in notify.FRAPPE_KINDS and not frappe.db.get_value(
 		"Notification Type", kind, "one_allow_push"
 	):
@@ -217,7 +203,6 @@ def _send_to(user: str, message: dict) -> int:
 			)
 		except WebPushException as e:
 			status = getattr(e.response, "status_code", None)
-			# 404 and 410 are the service saying the browser unsubscribed.
 			if status in (404, 410) or (device.failures or 0) + 1 >= MOST_FAILURES:
 				frappe.delete_doc("Push Device", device.name, ignore_permissions=True, force=True)
 			else:
@@ -243,9 +228,6 @@ def _vapid(private_pem: str):
 	from py_vapid import Vapid02
 
 	return Vapid02.from_pem(private_pem.encode())
-
-
-# ------------------------------------------------------------------ the worker
 
 
 WORKER = """

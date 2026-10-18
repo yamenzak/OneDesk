@@ -5,9 +5,6 @@ from frappe.utils import add_to_date, get_datetime, getdate
 
 from onedesk.one_hr import ledger, passkey, policy, rules
 
-#: How far back to look for another clock-in when asking whether the journey
-#: between two of them was possible. A whole day is more than enough and keeps
-#: the query on one index.
 LOOK_BACK_HOURS = 24
 
 
@@ -22,8 +19,6 @@ def passkey_gate(employee: str, credential, seen: dict) -> dict:
 	checked = passkey.check(credential, employee)
 	signals = [checked["why"]] if checked["why"] else []
 
-	# A synced passkey is on the employee's laptop as well as their phone, so a
-	# different browser is only a question for one that never leaves its device.
 	held = (
 		frappe.db.get_value("Clock Device", checked["device"], ["user_agent", "backed_up"], as_dict=True)
 		if checked["device"]
@@ -67,8 +62,6 @@ def network_gate(employee: str, places: list[str]) -> dict:
 		if any(seen in one for one in rules.networks(row.address)):
 			found["network"] = row.name
 			if row.employee and not row.shift_location:
-				# Their own home rather than a place the company holds. Worth a
-				# point, because a home address is one person's word for it.
 				found["signals"].append("network-personal")
 			return found
 
@@ -116,16 +109,11 @@ def place_gate(employee: str, places: list[str], position: dict) -> dict:
 
 	zones = _zones(employee, places)
 	if not zones:
-		# Nowhere to be outside of. A workspace that has switched the gate on
-		# but drawn no circles gets a position recorded and nothing refused.
 		return found
 
 	inside = rules.within(found["latitude"], found["longitude"], zones)
 	if inside:
 		found["zone"] = inside["name"]
-		# A position good to two kilometres that lands inside a fifty metre
-		# circle has not told us anything. A desktop with no GPS answers like
-		# this, and so does a fake.
 		if found["accuracy"] and found["accuracy"] > float(inside["radius"]):
 			found["signals"].append("place-vague")
 		return found
@@ -136,7 +124,6 @@ def place_gate(employee: str, places: list[str], position: dict) -> dict:
 		for z in zones
 	)
 	found["metres_out"] = round(max(0.0, nearest), 1)
-	# A site records the distance and lets them through; a fence does not.
 	if not all(z.get("is_site") for z in zones):
 		found["signals"].append("place-outside")
 	return found

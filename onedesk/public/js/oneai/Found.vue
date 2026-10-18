@@ -30,7 +30,6 @@ const __ = window.__;
 
 const props = defineProps({ found: { type: Object, required: true } });
 
-//: Lines shown before "Show more".
 const FIRST = 3;
 const unfolded = ref(false);
 const rows = computed(() => props.found.rows || []);

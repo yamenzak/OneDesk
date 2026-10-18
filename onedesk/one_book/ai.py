@@ -12,13 +12,10 @@ from frappe.utils import flt, getdate, nowdate
 
 from onedesk.one_book import home, story
 
-#: OneBook's Home (page/books).
 HOME = "books"
 
-#: What a suggestion's permission is checked on: OneBook makes none of them.
 SALES, BUYING, LEDGER = "Sales Invoice", "Purchase Invoice", "GL Entry"
 
-#: The kinds of invoice invoice_facts reads, by the party each is with.
 PARTY = {SALES: "customer", BUYING: "supplier"}
 
 _MONEY = {

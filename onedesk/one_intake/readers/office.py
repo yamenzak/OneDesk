@@ -10,10 +10,8 @@ import zipfile
 
 from onedesk.one_intake.readers import markup as m
 
-#: Uncompressed, a document larger than this is somebody's attempt at a zip bomb.
 LARGEST = 64 * 1024 * 1024
 
-#: Where the words are, in reading order, for each kind.
 WORD = ("word/header", "word/document.xml", "word/footnotes.xml", "word/footer")
 SLIDES = re.compile(r"ppt/slides/slide(\d+)\.xml$")
 

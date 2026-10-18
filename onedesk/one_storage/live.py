@@ -9,7 +9,6 @@ from frappe.utils.password import get_encryption_key
 
 EVENT = "onecloud_change"
 
-#: A listing that redraws on any change.
 ANY = "*"
 
 
@@ -82,7 +81,7 @@ def watch(node: str, searching: bool = False):
 		return ANY
 	kind = ns.parse(node)
 	if kind[0] == "mount":
-		return []  # a server is read live, and tells us nothing
+		return []
 	if kind[0] == ns.RECORDS and len(kind) == 3:
 		return [record_key(kind[1], kind[2])]
 	if kind[0] in ("featured", "own"):

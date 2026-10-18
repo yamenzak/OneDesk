@@ -1,7 +1,4 @@
 <template>
-  <!-- The apps the reader has let in (frappe's Third Party Apps), each taken
-       away with frappe's own delete_client.
-       Modelled on GitHub's Authorized OAuth Apps: a line an app, Revoke. -->
   <Head :title="__('Third Party Apps')" />
   <div class="mx-auto w-full max-w-3xl px-4 py-6 sm:px-6">
     <Loading v-if="!list" />

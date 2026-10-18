@@ -10,9 +10,7 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, add_months, flt, get_datetime, getdate, now_datetime, today
 
-#: How many rows a tab lists before a search narrows them.
 MOST = 60
-#: A service due within this many days is due this week.
 WEEK = 7
 
 

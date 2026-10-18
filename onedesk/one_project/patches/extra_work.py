@@ -11,8 +11,6 @@ import frappe
 
 def execute():
 	for doctype in ("Quotation", "Sales Order"):
-		# The column outlives its Custom Field, which the sync may have taken
-		# already, so it is read as a column.
 		if not frappe.db.has_column(doctype, "one_project"):
 			continue
 		rows = frappe.db.sql(

@@ -1,7 +1,3 @@
-// The Approver is mandatory and HRMS filters it to the employee's own approver
-// plus their department's. Where there is one obvious answer the form takes it.
-// Where there is none, the head's sentence says so (one_hr/heads.py) instead of
-// leaving somebody guessing at a required field.
 frappe.ui.form.on("Shift Request", {
 	refresh: approver,
 	employee: approver,

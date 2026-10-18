@@ -16,8 +16,6 @@ SOFT = "#f9fafb"
 DATE = "dd MMM yyyy"
 HEAD = f"font-size:9.5px;letter-spacing:0.08em;text-transform:uppercase;color:{MUTED};font-weight:600;margin-bottom:6px;"
 
-#: What the builder's own controls cannot say: amounts kept on one line, and
-#: the second line of a merged cell no heavier than the first.
 CSS = """.child-table td[data-fieldtype="Currency"] { white-space: nowrap; }
 .child-table td[data-fieldname="one_vat_amount"] .cell-line--primary,
 .child-table td[data-fieldname="qty"] .cell-line--primary,
@@ -170,11 +168,9 @@ def line_columns(image=False, code=False):
 
 def lines_section(columns=None, **look):
 	return section([table("items", "Items", columns or line_columns(),
-		# Retention held is said under the totals, not as lines.
 		row_condition="not row.one_held", **look)], top=28)
 
 
-#: An invoice priced by the hour bills exactly its time; a retainer's fee does not.
 PRICED = "doc.total_billing_amount == doc.total"
 
 
@@ -209,13 +205,11 @@ def schedule(**look):
 
 def total_rows(words=True):
 	rows = [
-		# Taxed when released: the work, the retention taken off it, and what's taxed.
 		row("one_work_billed", "Currency", "Work Billed", visible_if="doc.one_work_billed"),
 		row("one_retention_held", "Currency", "Less Retention", visible_if="doc.one_work_billed"),
 		row("net_total", "Currency", "Subtotal"),
 		row("total_taxes_and_charges", "Currency", "VAT"),
 		row("grand_total", "Currency", "Total", bold=1, label_color=INK, font_size=15, custom_style=f"border-bottom:2px solid {INK};padding:8px 0;"),
-		# Taxed with the invoice: the retention is part of the total, asked for later.
 		row("one_retention_held", "Currency", "Retention Held", visible_if="doc.one_retention_held and not doc.one_work_billed"),
 		row("one_due_now", "Currency", "Due Now", bold=1, visible_if="doc.one_due_now and doc.one_retention_held and doc.outstanding_amount == (doc.rounded_total or doc.grand_total)"),
 		row("outstanding_amount", "Currency", "Balance Due", bold=1, visible_if='doc.status in ("Partly Paid", "Overdue") and doc.outstanding_amount != doc.grand_total'),
@@ -249,8 +243,6 @@ def terms_section():
 def layout(*sections):
 	return {"header": {"columns": [{"label": "", "fields": []}]}, "footer": {"columns": [{"label": "", "fields": []}]}, "sections": list(sections)}
 
-
-# -- The versions --------------------------------------------------------------
 
 def master():
 	"""ERPNext's Modern, its UAE Tax Invoice and its Return, in one."""
@@ -398,17 +390,12 @@ def voucher():
 	return layout(head, who, lines, taxes, remarks, signs)
 
 
-# -- Documents that trade: quotations, orders, deliveries -----------------------
-
-#: What each prints, as One's blocks did: its title, who it's for, its own
-#: details, whether its lines are priced, and who signs it.
 TRADE = {
 	"Quotation": {
 		"module": "one_crm",
 		"titles": (("Quotation", ""),),
 		"number": "Quotation No",
 		"party": ("Prepared For", "customer_name"),
-		# A quotation may be for a lead, so it keeps no tax ID of its own.
 		"tax": None,
 		"details": (("transaction_date", "Date", "Date"), ("valid_till", "Date", "Valid Until"), ("payment_terms_template", "Link", "Payment Terms"), ("incoterm", "Link", "Delivery Terms")),
 		"schedule": True,
@@ -467,7 +454,6 @@ def _rfq_party(spec):
 
 TRADE.update({
 	"Purchase Order": {
-		# A buyer's own address is the one it's billed at.
 		"our_address": "billing_address_display",
 		"module": "one_inventory",
 		"titles": (("Purchase Order", ""),),
@@ -486,7 +472,6 @@ TRADE.update({
 		"advance": True,
 	},
 	"Purchase Invoice": {
-		# A buyer's own address is the one it's billed at.
 		"our_address": "billing_address_display",
 		"module": "one_book",
 		"titles": (("Purchase Invoice", "not doc.is_return"), ("Debit Note", "doc.is_return")),
@@ -506,7 +491,6 @@ TRADE.update({
 		"schedule": True,
 	},
 	"Request for Quotation": {
-		# A buyer's own address is the one it's billed at.
 		"our_address": "billing_address_display",
 		"module": "one_inventory",
 		"titles": (("Request for Quotation", ""),),
@@ -524,7 +508,6 @@ TRADE.update({
 		"counted": False,
 	},
 	"Purchase Receipt": {
-		# A buyer's own address is the one it's billed at.
 		"our_address": "billing_address_display",
 		"module": "one_inventory",
 		"titles": (("Goods Received Note", "not doc.is_return"), ("Goods Returned", "doc.is_return")),
@@ -760,9 +743,6 @@ def proforma():
 	to be paid ahead, with the bank to pay into."""
 	spec = {**TRADE["Sales Order"], "titles": (("Proforma Invoice", ""),), "number": "Proforma No"}
 	found = trade_master(spec)
-	# ERPNext's own Proforma Invoice prints its order through this format, on
-	# a copy it gives the proforma's number and date and, for a proforma by
-	# amount, the word to leave out the quantities and rates.
 	drawn = 'doc.get("proforma_no")'
 	number = found["sections"][0]["columns"][1]["fields"]
 	number[0]["visible_if"] = f"not {drawn}"
@@ -772,7 +752,6 @@ def proforma():
 	details[0]["visible_if"] = f"not {drawn}"
 	details.insert(0, row("proforma_date", "Date", "Date", date_format=DATE, visible_if=drawn))
 	for one in found["sections"][3]["columns"][1]["fields"]:
-		# Said for the whole order, not the part asked for.
 		if one["fieldname"] == "in_words":
 			one["visible_if"] = f"not {drawn}"
 	for column in found["sections"][2]["columns"][0]["fields"][0]["table_columns"]:
@@ -829,8 +808,6 @@ def receipt_with_serials():
 	]
 	return trade_master({**spec, "columns": columns})
 
-
-# -- Money moved and asked for, and goods picked --------------------------------
 
 RECEIVED = 'doc.payment_type == "Receive"'
 PAID = 'doc.payment_type == "Pay"'
@@ -1023,8 +1000,6 @@ def pick_list():
 	return layout(head, who, lines, signs_section((("Picked By", None), ("Checked By", None))))
 
 
-# -- People: pay and letters ----------------------------------------------------
-
 PAID_LINE = "row.amount and not row.statistical_component and not row.do_not_include_in_total"
 
 
@@ -1173,8 +1148,6 @@ def appointment_letter():
 		signs_section((("For", "company"), ("Accepted By", "applicant_name"))))
 
 
-# -- Records that move goods, make things and do work ---------------------------
-
 ADDRESS = "color:#374151;line-height:1.5;margin-top:2px;"
 TRANSFER = 'doc.purpose in ("Material Transfer", "Material Transfer for Manufacture", "Send to Subcontractor")'
 
@@ -1230,7 +1203,6 @@ def stock_entry():
 	who = section(
 		_who("Deliver To", "to_warehouse",
 			field("target_address_display", "Small Text", "Address", show_label="hide", custom_style=ADDRESS, visible_if="doc.target_address_display"),
-			# Else the store's own address, as a site keeps it.
 			linked("to_warehouse.address_line_1", "Address", show_label="hide", custom_style=ADDRESS, visible_if="not doc.target_address_display"),
 			linked("to_warehouse.address_line_2", "Address", show_label="hide", custom_style=ADDRESS, visible_if="not doc.target_address_display"),
 			linked("to_warehouse.city", "City", show_label="hide", custom_style=ADDRESS, visible_if="not doc.target_address_display"),
@@ -1722,8 +1694,6 @@ def payment_request():
 			row("outstanding_amount", "Currency", "Still Owed", visible_if="doc.outstanding_amount and doc.outstanding_amount != doc.grand_total")],
 		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
 	)
-	# Its message is a template ERPNext renders only into the email, so the
-	# paper says the request in its own words.
 	message = section([text("Please pay the amount above, quoting this request's number.", custom_style="font-size:10.5px;")],
 		top=22, visible_if=inward)
 	bank = section(
@@ -1859,8 +1829,6 @@ def bill_of_materials():
 	], widths=[52, 48], gap=48, top=14, keep_together=1, field_orientation="left-right")
 	return layout(_numbered((("Bill of Materials", ""),), "BOM No"), make, materials, steps, costs)
 
-
-# -- The rest, drawn from a few parts ------------------------------------------
 
 NUMERIC = ("Float", "Int", "Currency", "Percent")
 DATED = ("Date", "Datetime")
@@ -2867,8 +2835,6 @@ def vehicle_log():
 		signs=(("Driver", None), ("Checked By", None)))
 
 
-# -- Papers gathered from other records ---------------------------------------
-
 def _block(name):
 	"""One of One's blocks (one/print_blocks.py): what a paper gathers from
 	records it doesn't hold. Everything around it is the builder's own."""
@@ -2900,7 +2866,6 @@ def _trade(doctype, make):
 	return lambda: make(TRADE[doctype])
 
 
-#: Each version: its doctype, the module it ships in, and what draws it.
 VERSIONS = {
 	"One Sales Invoice": ("Sales Invoice", "one_book", master),
 	"One Sales Invoice Classic": ("Sales Invoice", "one_book", classic),
@@ -3032,7 +2997,6 @@ VERSIONS = {
 	"One Vehicle Log": ("Vehicle Log", "one_hr", vehicle_log),
 }
 TRADE["Supplier Quotation"] = {
-	# A buyer's own address is the one it's billed at.
 	"our_address": "billing_address_display",
 	"module": "one_inventory",
 	"titles": (("Supplier Quotation", ""),),
@@ -3047,7 +3011,6 @@ TRADE["Supplier Quotation"] = {
 		("incoterm", "Link", "Delivery Terms"),
 	),
 }
-#: ERPNext ships one look for these, or none, so One's is its master alone.
 ONE_LOOK = ("Purchase Receipt", "Supplier Quotation")
 for _doctype, _spec in TRADE.items():
 	VERSIONS[f"One {_doctype}"] = (_doctype, _spec["module"], _trade(_doctype, trade_master))

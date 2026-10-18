@@ -9,16 +9,12 @@ from frappe.utils import cint, now_datetime
 from onedesk.one_mail import imap, live, tell
 from onedesk.one_mail.inbound import Arrival
 
-#: Messages read per folder per run, in each direction.
 BATCH = 100
 
-#: Without CONDSTORE, how many of the newest messages have their flags read.
 WATCHED = 500
 
-#: How often the folder list is read again.
-RELIST_EVERY = 15  # minutes
+RELIST_EVERY = 15
 
-#: Kinds whose messages are the mailbox's own.
 OWN = ("Sent", "Drafts")
 
 
@@ -59,8 +55,6 @@ def sync_account(account: str) -> dict:
 		said = imap.refused(error)
 		frappe.db.set_value("Email Account", account, "one_error", said, update_modified=False)
 		frappe.db.commit()
-		# Once, when it breaks: every sync after that fails the same way, and
-		# a notice each time would be a notice nobody reads.
 		if not doc.one_error:
 			broke(doc, said)
 		raise
@@ -113,7 +107,6 @@ def discover(session, doc) -> list[str]:
 			folder.insert(ignore_permissions=True)
 	for path, name in held.items():
 		if path not in seen:
-			# Gone from the server: its messages leave with it.
 			frappe.db.set_value(
 				"Communication",
 				{"email_account": doc.name, "one_folder": path},
@@ -128,8 +121,6 @@ def sync_folder(session, doc, folder) -> dict:
 	now = session.select(folder.path, readonly=True)
 	read = {"new": 0, "old": 0, "flags": 0, "gone": 0}
 	if folder.uidvalidity and folder.uidvalidity != now["uidvalidity"]:
-		# Renumbered: forget the uids, keep the messages; they are matched
-		# again by Message-ID as they are read.
 		frappe.db.set_value("Communication", {"email_account": doc.name, "one_folder": folder.path}, "uid", 0)
 		folder.uidnext = 0
 		folder.oldest_uid = 0
@@ -157,7 +148,6 @@ def sync_folder(session, doc, folder) -> dict:
 				folder.oldest_uid = older[0]
 			folder.backfilled = int(not [one for one in everything if one < folder.oldest_uid])
 		if not first:
-			# Not on a folder's first read: its flags were just read with it.
 			read["flags"] += _flags(session, doc, folder, now)
 		read["gone"] += _gone(session, doc, folder, now)
 	folder.uidvalidity = now["uidvalidity"]

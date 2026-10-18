@@ -1,41 +1,9 @@
-// A desk page whose body is a frappe-ui island (docs/ISLANDS.md). Desk keeps
-// the page: its head, breadcrumb, buttons and menu, set from what the island
-// reports, the way frappe sets the head of its own Frappe UI pages
-// (frappe/ui/island/decisions/0010).
-//
-// The island gets the route below the page and the query, as frappe's page
-// islands do, and reports:
-// - `onTitle(title)`: the page's name, after `parent` in the breadcrumb, or
-//   `{ title, between, after }` with `{ label, route }`s between the two and
-//   `{ label, menu }`s after it (shell.trail);
-// - `onStatus({ label, color })`: the indicator beside it, or null;
-// - `onActions(actions)`: frappe's `{ label, icon?, onClick | href }`, with
-//   `primary` for the page's main button and `button` for one beside it; the
-//   rest go in the ··· menu, as frappe puts them, `standard` ones (a record's
-//   Print, Email, Delete…, onedesk.record.menu) in its lower part.
-//
-// `views` names the page in onedesk.page_views when it gathers record types
-// into one screen: frappe's view switcher then sits in its head, leading to
-// their List and Report views (page_views.js).
-//
-// `menu` makes the page's name in the breadcrumb a menu (shell.trail), and
-// `hide_sidebar` closes the module's panel on arrival, as frappe's pages do.
-// `record` names the doctype of a page that shows one record, the first part
-// of the route after the page: frappe's own form sidebar is then on its
-// right, as on a form (onedesk.record.sidebar, docs/PASSOVER.md, A record's
-// page). `files` names the island's own Files view, which the sidebar's Files
-// row opens; without one it opens OneCloud on the record's room. `mark` puts
-// an app's mark before the page's name, for an app's own page.
 frappe.provide("onedesk");
 
 onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], hide_sidebar = false, menu = null, record = null, files = null, mark = null, views = null }) => {
 	const page = frappe.ui.make_app_page({ parent: wrapper, title, single_column: !record, sidebar_position: "Right", hide_sidebar });
-	// The doctype of the record the page shows, whose crumb switches between them.
 	page.one_record = record;
-	// An app's own page, with no panel header, puts the app's mark before its
-	// name, as onedesk.shell.page does.
 	if (mark) page.$title_area.prepend(`<span class="one-shell-mark">${frappe.utils.icon(mark, "md")}</span>`);
-	// The record the sidebar is for, and the way to stop it.
 	let framed = null;
 	let unframe = () => {};
 	const frame = () => {
@@ -66,7 +34,6 @@ onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], h
 		}
 		if (views) onedesk.page_views.switcher(page, views);
 	};
-	// A view of the island, by its `?view=`, as its own tabs set it.
 	const view = (key) => {
 		const url = new URL(window.location.href);
 		url.searchParams.set("view", key);

@@ -14,8 +14,6 @@ from onedesk.one import roles, tell
 DOWNLOAD = "Personal Data Download Request"
 DELETION = "Personal Data Deletion Request"
 
-#: What is only the person's and of no use to the workspace once they are
-#: gone: deleted outright before frappe's erasure, as {doctype: field}.
 ONLY_THEIRS = {
 	"AI Chat": "owner",
 	"AI Memory": "owner",
@@ -23,17 +21,13 @@ ONLY_THEIRS = {
 	"Push Device": "user",
 	"Calendar Feed": "user",
 	"Cloud Drive Password": "user",
-	# The copies of their data they asked for (the files go too, below).
 	"Personal Data Download Request": "user",
 }
 
-#: How long a mailed confirmation link works.
 LINK_HOURS = 24
 
-#: After how many days a request nobody decided reminds the administrators.
 REMIND_AFTER_DAYS = 7
 
-#: Where a deletion waits: confirmed, or for the person's mailed link.
 OPEN = ("Pending Verification", "Pending Approval", "On Hold")
 
 
@@ -109,9 +103,6 @@ def _held_because(name: str) -> str | None:
 	)
 
 
-# ------------------------------------------------------------------ deletion
-
-
 def _guard(user: str) -> None:
 	"""The last administrator and the person billed for the workspace hand
 	those on before they go."""
@@ -141,8 +132,6 @@ def ask_to_delete(password: str | None = None) -> dict:
 			check_password(user, password or "")
 		except frappe.AuthenticationError:
 			frappe.throw(_("That is not your password."), title=_("Not deleted"))
-	# frappe's insert mails its own confirmation, written for somebody not
-	# signed in; One confirms with the password just typed, or its own mail.
 	doc = frappe.get_doc(
 		{
 			"doctype": DELETION,
@@ -206,8 +195,6 @@ def withdraw() -> dict:
 def _waiting(name: str):
 	roles.require()
 	doc = frappe.get_doc(DELETION, name)
-	# An account turned off has been approved already; somebody who is not a
-	# user has no account to turn off.
 	approved = frappe.db.exists("User", doc.email) and not frappe.db.get_value("User", doc.email, "enabled")
 	if doc.status not in ("Pending Approval", "On Hold") or approved:
 		frappe.throw(_("This request is not waiting for a decision."))
@@ -245,7 +232,6 @@ def approve(name: str) -> None:
 	if doc.email == frappe.session.user:
 		frappe.throw(_("Another administrator approves deleting your own account."))
 	user = _is_user(doc.email)
-	# Told while there is still somebody to tell.
 	tell.deletion_approved(doc, user)
 	doc.add_comment("Info", _("Approved by {0}").format(frappe.utils.get_fullname()))
 	if user:
@@ -272,7 +258,6 @@ def erase(request: str) -> None:
 			continue
 		for name in frappe.get_all(doctype, filters={field: doc.email}, pluck="name"):
 			frappe.delete_doc(doctype, name, ignore_permissions=True, force=True, delete_permanently=True)
-	# The copies of their data, kept on their account.
 	for name in frappe.get_all(
 		"File",
 		filters={
@@ -285,8 +270,6 @@ def erase(request: str) -> None:
 		frappe.delete_doc("File", name, ignore_permissions=True, force=True, delete_permanently=True)
 	frappe.db.commit()
 	doc._anonymize_data(commit=True)
-	# The request itself is the record that it was done, kept under the
-	# anonymous name like everything else.
 	frappe.db.set_value(DELETION, request, "email", request, update_modified=False)
 	frappe.db.commit()
 
@@ -299,9 +282,6 @@ def remind() -> None:
 	waiting += frappe.db.count(DOWNLOAD, {"one_status": "Waiting", "creation": ["<", since]})
 	if waiting:
 		tell.privacy_requests_waiting(waiting)
-
-
-# ------------------------------------------------------------------ guards
 
 
 def query(user: str | None = None) -> str | None:

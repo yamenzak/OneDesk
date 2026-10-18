@@ -12,11 +12,8 @@ STORES = "karim@one.test"
 SITE = "tariq@one.test"
 VILLA = "Mansour Villa Windows and Doors"
 
-#: What the villa's site needs from the stores: code, quantity.
 SENT = (("ALU-6063", 120), ("HW-LOCK", 12), ("SIL-CLR", 20))
-#: What was used on site from it.
 USED = (("ALU-6063", 80), ("SIL-CLR", 14))
-#: The hinges the count found short.
 SHORT = ("HW-HINGE", 3)
 
 
@@ -28,7 +25,6 @@ def run(password=None):
 		_used(project, site)
 	from onedesk.one_demo.build import _reposted
 
-	# The count reads each item's value, so the back-dated entries are worked out first.
 	_reposted()
 	if not frappe.db.exists("Stock Reconciliation", {"docstatus": 1, "purpose": "Stock Reconciliation"}):
 		_counted()

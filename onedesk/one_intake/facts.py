@@ -5,7 +5,6 @@ reading of them is really in the document. Pure.
 import re
 from datetime import date
 
-#: Countries that write 03/04/2026 month first.
 MONTH_FIRST = frozenset(("US", "PH", "CA", "FM", "GU", "MH", "PW"))
 
 MONTHS = {
@@ -22,9 +21,6 @@ MONTHS = {
 	"nov": 11, "november": 11, "novembre": 11, "noviembre": 11,
 	"dec": 12, "dez": 12, "december": 12, "dezember": 12, "décembre": 12, "diciembre": 12, "dicembre": 12,
 }  # fmt: skip
-
-
-# ------------------------------------------------------------------ numbers
 
 
 def amounts(text: str) -> set[float]:
@@ -48,10 +44,8 @@ def _readings(token: str) -> list[float]:
 	else:
 		last = max(token.rfind("."), token.rfind(","))
 		decimals = len(token) - last - 1
-		# the last separator as a decimal point, the others as thousands
 		if decimals in (1, 2, 3):
 			candidates.append(re.sub(r"[.,]", "", token[:last]) + "." + token[last + 1 :])
-		# every separator as thousands
 		candidates.append(re.sub(r"[.,]", "", token))
 	for candidate in candidates:
 		try:
@@ -71,7 +65,6 @@ def number(value) -> float | None:
 	readings = _readings(said.lstrip("-"))
 	if not readings:
 		return None
-	# A model answering in the document's own format: the decimal reading.
 	best = readings[0]
 	return -best if said.startswith("-") else best
 
@@ -80,9 +73,6 @@ def has_amount(value: float | None, text: str, found: set[float] | None = None) 
 	if value is None:
 		return True
 	return round(abs(value), 2) in (found if found is not None else amounts(text))
-
-
-# ------------------------------------------------------------------ dates
 
 
 def parse_date(raw, country: str | None = None) -> date | None:
@@ -134,9 +124,6 @@ def dates(text: str, country: str | None = None) -> set[date]:
 	return found
 
 
-# ------------------------------------------------------------------ identifiers and numbers
-
-
 def compact(value) -> str:
 	return re.sub(r"[^0-9a-z]", "", str(value or "").lower())
 
@@ -148,9 +135,6 @@ def has_code(value, text: str) -> bool:
 	return not said or said in compact(text)
 
 
-# ------------------------------------------------------------------ the check
-
-#: The most other facts kept from one document.
 MOST_NOTED = 8
 
 
@@ -174,7 +158,6 @@ def check(reading: dict, text: str, country: str | None = None) -> tuple[dict, l
 	money = dict(reading.get("money") or {})
 	for key in ("net", "tax", "gross"):
 		value = number(money.get(key))
-		# No tax is how a receipt without VAT reads, and it prints no 0,00.
 		if value == 0:
 			money[key] = 0.0 if key == "tax" else None
 			continue
@@ -203,8 +186,6 @@ def check(reading: dict, text: str, country: str | None = None) -> tuple[dict, l
 	for one in reading.get("dates") or []:
 		when = parse_date(one.get("date"), country)
 		if not when:
-			# A period with no day ("within one month") is counted later, by
-			# deadlines.py, from what it says.
 			if one.get("about"):
 				checked_dates.append({**one, "date": None, "counted": True, "found": 0})
 			continue
@@ -253,9 +234,6 @@ def check(reading: dict, text: str, country: str | None = None) -> tuple[dict, l
 				when = None
 			document[key] = when.isoformat() if when else None
 
-	# What else a person would look for at a glance: a booking code, a meter
-	# reading, a plate. Kept only when its value is written in the document;
-	# one that is not is simply left out, since nothing depends on it.
 	noted = [
 		{"label": " ".join(str(one.get("label") or "").split())[:60], "value": " ".join(str(one.get("value") or "").split())[:140]}
 		for one in reading.get("facts") or []

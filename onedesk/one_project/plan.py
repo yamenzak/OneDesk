@@ -5,7 +5,6 @@ from frappe.utils import add_days, date_diff
 
 from onedesk.one_project import tree
 
-#: What ERPNext moves when what it waits on slips: work not yet done.
 MOVES = ("Open", "Working", "Overdue")
 
 
@@ -18,7 +17,6 @@ def reschedule(doc, method=None) -> None:
 	family = tree.below({tree.above(doc.project, of)[-1]}, of) - {doc.project}
 	if not family:
 		return
-	# ERPNext's own lookup (`reschedule_dependent_tasks`), less its project.
 	waiting = frappe.get_all(
 		"Task Depends On",
 		filters={"parenttype": "Task", "task": doc.name, "parent": ["!=", doc.parent_task or ""]},
@@ -33,7 +31,6 @@ def reschedule(doc, method=None) -> None:
 			continue
 		task.exp_start_date, task.exp_end_date = moved
 		task.flags.ignore_recursion_check = True
-		# A date past its project's end warns rather than refuses, as theirs does.
 		task.flags.rescheduled = True
 		task.flags.ignore_permissions = True
 		task.save()

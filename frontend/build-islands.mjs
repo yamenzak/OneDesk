@@ -1,13 +1,6 @@
-// Every OneDesk island, in one build, so they share one Vue and one frappe-ui
-// (frappe/ui/README.md, "Desk islands"; docs/ISLANDS.md). An entry's name is
-// the island's name: the build writes it into assets.json, which is frappe's
-// registry (ui/island/decisions/0014). `bench build` runs this through the
-// root package.json.
 import { fileURLToPath } from "node:url";
 import { buildIslands } from "@framework/ui/vite/island";
 
-// frappe/ui's composers, which its package lists under no path of their own.
-// Its root would bring every part it has (tests/guards, import the part).
 const COMPOSER = fileURLToPath(import.meta.resolve("@framework/ui/ActivityTimeline")).replace(
 	/ActivityTimeline\/index\.ts$/,
 	"Composer/index.ts"

@@ -1,12 +1,3 @@
-// The OneAI panel, mounted once and never torn down.
-//
-// Fetched by `frappe.require("oneai.bundle.js")` the first time somebody opens
-// the launcher, which is why Vue lives in here rather than in `app_include_js`:
-// a page nobody asks a question on pays nothing for it.
-//
-// `onedesk.oneai.mount` is the whole of the contract with the launcher — it
-// returns the two methods the launcher calls, `open` and `moved`, and nothing
-// else crosses between them.
 
 import { createApp, h, ref } from "vue";
 

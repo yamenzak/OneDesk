@@ -1,6 +1,3 @@
-// Ready to submit: every draft OneAI made that the reader may post, the ready
-// ones with Submit all and the red ones apart with what is wrong. The server
-// decides what is ready and submits as the reader (one_intake/drafts.py).
 
 frappe.pages["ready-to-submit"].on_page_load = (wrapper) => {
 	const page = onedesk.shell.page(wrapper, __("Ready to Submit"));
@@ -14,7 +11,6 @@ frappe.provide("onedesk");
 onedesk.ReadyToSubmit = class ReadyToSubmit {
 	constructor(page) {
 		this.page = page;
-		// Tables, so the shell's wide body.
 		this.$body = onedesk.shell.body(page.$shell, { wide: true });
 		this.page.set_primary_action(__("Submit All"), () => this.submit(), "check-check");
 	}

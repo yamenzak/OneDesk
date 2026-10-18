@@ -8,7 +8,6 @@ import json
 import re
 from dataclasses import dataclass, field
 
-#: Attributes an extension never touches on the server.
 REFUSED_ATTRIBUTES = frozenset(
 	{
 		"sql",
@@ -53,13 +52,8 @@ REFUSED_ATTRIBUTES = frozenset(
 	}
 )
 
-#: Attributes frappe's own sandbox refuses (safe_exec.UNSAFE_ATTRIBUTES) that
-#: a writer reaches for anyway: caught here, with what to do instead, rather
-#: than at the first save.
 UNSAFE_IN_FRAPPE = frozenset({"format", "format_map"})
 
-#: The names a server extension's code finds already there. Anything else it
-#: reads it must set itself, or it runs into a NameError on every save.
 IN_THE_SANDBOX = frozenset(
 	"""
 	ArithmeticError AssertionError AttributeError BaseException Exception IndexError KeyError
@@ -71,7 +65,6 @@ IN_THE_SANDBOX = frozenset(
 	""".split()
 )
 
-#: frappe.utils' own, which a writer reaches for bare: what to say instead.
 UTILS = frozenset(
 	"""
 	add_days add_months add_to_date add_years cint cstr date_diff flt fmt_money format_date
@@ -81,7 +74,6 @@ UTILS = frozenset(
 	""".split()
 )
 
-#: Names an extension never uses on the server.
 REFUSED_NAMES = frozenset(
 	{
 		"FrappeClient",
@@ -100,10 +92,8 @@ REFUSED_NAMES = frozenset(
 	}
 )
 
-#: Keyword arguments that lift frappe's checks.
 REFUSED_KEYWORDS = frozenset({"ignore_permissions", "ignore_links", "ignore_validate", "for_update"})
 
-#: Calls whose first argument names a kind of record.
 NAMES_A_KIND = frozenset(
 	{
 		"get_doc",
@@ -119,7 +109,6 @@ NAMES_A_KIND = frozenset(
 	}
 )
 
-#: What a screen extension never writes, as it appears in JavaScript.
 REFUSED_ON_SCREEN = (
 	("fetch(", "calls the network"),
 	("XMLHttpRequest", "calls the network"),
@@ -157,7 +146,6 @@ REFUSED_ON_SCREEN = (
 	("setInterval", "runs on a timer"),
 )
 
-#: The record events a server extension may run on.
 EVENTS = (
 	"Before Insert",
 	"Before Validate",
@@ -174,12 +162,8 @@ EVENTS = (
 	"After Delete",
 )
 
-#: When a scheduled server extension runs: frappe's scheduler, which has no
-#: record of its own to hand it, as Administrator. "On a Schedule" takes a
-#: cron line (extensions.cron_refused).
 SCHEDULED = ("Every Hour", "Every Day", "Every Week", "Every Month", "On a Schedule")
 
-#: The views a screen extension may run on.
 VIEWS = ("Form", "List")
 
 
@@ -250,7 +234,6 @@ def on_server(code: str, doctype: str, site: Site, event: str | None = None) -> 
 		raise Refused(f"It is not Python: {error.msg} on line {error.lineno}.") from None
 	touched = {doctype}
 	words = set()
-	# doc.add_comment("Comment", …) names a comment's type, not the kind.
 	said = {
 		id(node.args[0])
 		for node in ast.walk(tree)
@@ -278,8 +261,6 @@ def on_server(code: str, doctype: str, site: Site, event: str | None = None) -> 
 			if node.attr in REFUSED_ATTRIBUTES or node.attr.startswith("_"):
 				raise Refused(f"It uses {node.attr}, which no extension may.")
 			if node.attr == "is_new" and (event or "").startswith("After"):
-				# Measured: frappe has saved the record by After Insert, so
-				# is_new() is already false there and the code under it never ran.
 				raise Refused(
 					f"It asks doc.is_new() {event}, when the record is already saved and it is never true: "
 					"After Insert runs only for a new record, so it needs no check."
@@ -307,14 +288,10 @@ def on_server(code: str, doctype: str, site: Site, event: str | None = None) -> 
 	return touched
 
 
-#: What screen code may ask the server, all of it reading, all of it as the
-#: person whose screen it is: frappe answers these with that person's own
-#: permissions, so a lookup shows them nothing they could not open.
 LOOKUPS = ("get_value", "get_list", "count", "exists")
 
 _DB = re.compile(r"frappe\.db\.([A-Za-z_]+)")
 
-#: Text the person is shown, __("Domain"): a label, not the kind of that name.
 _SAID = re.compile(r"""\b__\(\s*(["'`])[^"'`\n]*\1""")
 
 
@@ -331,8 +308,6 @@ def on_screen(code: str, doctype: str, site: Site) -> set:
 				f"It calls frappe.db.{called}, which changes or reaches past what the person sees; "
 				f"on the screen only {', '.join('frappe.db.' + one for one in LOOKUPS)} may be used."
 			)
-	# A page extension on OneMail or OneCalendar names no kind of its own: it
-	# sees only what its page hands it.
 	touched = {doctype} if doctype else set()
 	words = set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", text))
 	for quoted in re.findall(r"""["'`]([^"'`\n]{1,140})["'`]""", _SAID.sub("__(", text)):
@@ -344,8 +319,6 @@ def on_screen(code: str, doctype: str, site: Site) -> set:
 	return touched
 
 
-#: What it listens for: an event, or the place and its event as
-#: places.py names them ("conversation" or "onemail.conversation").
 _LISTENS = re.compile(r"""\bone\.on\(\s*["'`]([A-Za-z_.]+)["'`]""")
 
 
@@ -379,11 +352,8 @@ def _fields(words: set, touched: set, site: Site) -> None:
 			raise Refused(f"It reads {', '.join(hidden)} on {doctype}, which you may not read.")
 
 
-#: What an extension's errors are written down under, then its name.
 TITLE = "OneStudio: "
 
-#: How every server extension is run: an error in it is written down and the
-#: record still saves, while a message it means to stop the save with still does.
 WRAPPED = """# Written by OneAI in OneStudio. Change it by asking OneAI.
 try:
 {body}
@@ -393,8 +363,6 @@ except Exception:
 	frappe.log_error(title={title}, reference_doctype=doc.doctype, reference_name=doc.name)
 """
 
-#: A scheduled one has no record: its error is written down under its name
-#: alone, and a message it means stops only that run.
 WRAPPED_SCHEDULED = """# Written by OneAI in OneStudio. Change it by asking OneAI.
 try:
 {body}
@@ -409,8 +377,6 @@ def wrapped(name: str, code: str, scheduled: bool = False) -> str:
 	return held.format(title=repr(f"{TITLE}{name}"), body=body or "\tpass")
 
 
-#: How every screen extension is run, the same as on the server: each handler
-#: runs inside a `try`, and what it trips on is written down (extensions.tripped).
 WRAPPED_ON_SCREEN = """// Written by OneAI in OneStudio. Change it by asking OneAI.
 (function () {{
 	const extension = {name};

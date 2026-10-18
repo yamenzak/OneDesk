@@ -1,5 +1,3 @@
-// Who spends on AI, on what, and what it cost us. A month at a time unless
-// asked otherwise, because a month is what a workspace is billed in.
 frappe.query_reports["AI Usage"] = {
 	filters: [
 		{

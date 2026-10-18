@@ -10,11 +10,8 @@ import json
 import frappe
 from frappe import _
 
-#: The sign-ins shown, newest first.
 RECENT = 6
 
-#: Browsers and systems, in the order a user agent is read: Edge and Opera say
-#: "Chrome" too, and every browser on an iPhone says "Safari".
 BROWSERS = (
 	("Edg/", "Edge"),
 	("OPR/", "Opera"),
@@ -78,7 +75,6 @@ def sessions(user: str | None = None) -> list[dict]:
 				"here": row.sid == here,
 			}
 		)
-	# This one first, then the rest as they were last used.
 	return sorted(out, key=lambda one: not one["here"])
 
 
@@ -115,16 +111,12 @@ def facts(user: str | None = None) -> dict:
 		"password_changed": frappe.db.get_value("User", user, "last_password_reset_date"),
 		"employee": employee,
 		"passkey": bool(keys.held(user)),
-		# Where it is: their own device's, and a company machine's.
 		"passkeys": [
 			{"label": frappe.db.get_value("Device", one.device, "device_name") or one.label}
 			for one in keys.every({"user": user})
 		],
 		"passkey_signs_in": passkey_signin.offered(),
-		# Their passkey checks them in too, so a new one is HR's to allow.
 		"passkey_clocks": bool(employee) and policy.self_service(),
-		# This browser is a machine assigned to them that has no passkey of theirs
-		# yet, so it may take one beside their phone's (one/devices.py).
 		"add_here": _adds_here(devices.here(), user),
 		"two_factor": bool(two_factor_is_enabled(user)),
 		"two_factor_method": frappe.get_system_settings("two_factor_method")
@@ -148,9 +140,6 @@ def sign_out(key_of: str) -> int:
 	return 0
 
 
-# ------------------------------------------------------------------ telling
-
-
 @frappe.whitelist(allow_guest=True, methods=["POST"])
 def update_password(
 	new_password: str, logout_all_sessions: int = 0, key: str | None = None, old_password: str | None = None
@@ -163,7 +152,6 @@ def update_password(
 
 	said = frappes(new_password, logout_all_sessions=logout_all_sessions, key=key, old_password=old_password)
 	if frappe.local.response.get("http_status_code") != 410 and frappe.session.user != "Guest":
-		# A first password, set from an invitation, is joining, not a change.
 		if not invite.spend(frappe.session.user):
 			tell.password_changed(frappe.session.user)
 	return said

@@ -6,22 +6,12 @@ somebody else's traffic to it. It decides only a customer's own names.
 
 import re
 
-#: Each label of a hostname: letters, digits and hyphens, not starting or ending
-#: with one. Deliberately stricter than the RFC, which allows an underscore in
-#: places nobody serving HTTP wants one.
 LABEL = re.compile(r"^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$")
 
-#: The longest a hostname may be, in the usual reading: 253 characters once the
-#: trailing dot is dropped.
 LONGEST = 253
 
-#: The fewest labels a customer domain may have. A single label is not a domain,
-#: and a two-label name is somebody's apex, which is allowed.
 FEWEST_LABELS = 2
 
-#: Labels nobody may take as the leftmost part of a name under a domain of ours.
-#: This list only matters for names we serve; a customer's own `admin.acme.com`
-#: is their business.
 RESERVED = frozenset(
 	{
 		"admin",
@@ -31,7 +21,6 @@ RESERVED = frozenset(
 		"billing",
 		"cdn",
 		"dashboard",
-		# The zone's fallback origin for custom hostnames (setup.py).
 		"fallback",
 		"mail",
 		"one",
@@ -102,8 +91,6 @@ def ours(name: str, *served) -> bool:
 	for domain in served:
 		if not domain:
 			continue
-		# A port, because the admin's own host carries one in development and the
-		# name being compared never can.
 		domain = domain.strip().lower().rstrip(".").split(":", 1)[0]
 		if not domain:
 			continue
@@ -143,8 +130,6 @@ def reserved_here(name: str, *served) -> bool:
 	return name.split(".", 1)[0] in RESERVED
 
 
-#: Where Cloudflare can leave a custom hostname that will not come right by
-#: waiting: blocked, moved away, or a certificate step that gave up.
 STUCK = frozenset({"blocked", "moved", "deleted", "pending_deletion", "test_blocked", "test_failed"})
 GAVE_UP = frozenset(
 	{"expired", "deleted", "initializing_timed_out", "validation_timed_out", "issuance_timed_out", "deployment_timed_out"}

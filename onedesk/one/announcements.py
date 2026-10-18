@@ -11,7 +11,6 @@ from onedesk.one import roles
 
 NOTE = "Note"
 
-#: How much of an announcement the bell and the mail carry.
 SAID = 300
 
 

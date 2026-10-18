@@ -14,10 +14,8 @@ from frappe.utils import getdate, nowdate
 
 from onedesk.one_project import terms
 
-#: How many days before a signed contract ends that Needs You says so.
 ENDING = 30
 
-#: Who a project's contract may be with.
 PARTIES = ("Customer", "Supplier")
 
 
@@ -125,7 +123,6 @@ def contracts(projects: list[str]) -> list[dict]:
 	)
 	reads = frappe.has_permission("Contract", "read")
 	titles = dict(frappe.get_all("Project", filters={"name": ["in", list(projects)]}, fields=["name", "project_name"], as_list=True))
-	# Each party's logo, as the page shows the customer's and suppliers' elsewhere.
 	logos = {}
 	for kind in PARTIES:
 		named = [one.party_name for one in found if one.party_type == kind]

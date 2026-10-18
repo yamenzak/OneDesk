@@ -1,13 +1,5 @@
-// A job, from the operator's side.
-//
-// Read-only: the machinery writes it. Where it is in its walk is the head
-// (one_admin/heads.py); below it, the walk itself, every step in words with
-// the ones done ticked, the one it is on marked, and a failed one's error
-// under it. The step's own field is a function name, so it is not shown, and
-// its attempts and error are said under the step rather than twice.
 frappe.ui.form.on("Provisioning Job", {
 	refresh(frm) {
-		// The walk below says the step, how often it was tried and the error.
 		frm.toggle_display(["step", "attempts", "error"], false);
 		frm.sidebar.sidebar.find(".form-shared").addClass("hidden");
 		if (frm.is_new()) return;
@@ -29,8 +21,6 @@ onedesk.job.draw = (frm, walk) => {
 		const icon = step.done || walk.status === "Done" ? "check" : failed ? "x" : here ? "loader" : "circle";
 		const tone = failed ? "text-danger" : step.done || walk.status === "Done" ? "" : here ? "" : "text-muted";
 		const weight = here ? "bold" : "";
-		// Under the step it is on: how often it was tried, and what the last
-		// try answered, in red once it has failed.
 		const said = here
 			? [walk.attempts && !failed ? __("Tried {0} times", [walk.attempts]) : "", walk.error || ""].filter(Boolean)
 			: [];

@@ -13,7 +13,6 @@ import tree
 
 HOOKS = (tree.APP / "hooks.py").read_text()
 
-#: What each space gives, and to whom: what reach.check found refused.
 GIVEN = {
 	"one_book": (
 		"Bank",

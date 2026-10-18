@@ -3,7 +3,6 @@
 import frappe
 from frappe import _
 
-#: The doctypes the learner writes. Nothing else may be settled through here.
 LEARNED = ("Clock Network", "Clock Place")
 
 

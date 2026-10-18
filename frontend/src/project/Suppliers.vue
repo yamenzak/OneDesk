@@ -1,12 +1,5 @@
 <template>
-  <!-- What the project buys. Subcontracts, the packages of work billed as
-       they get done, are cards: what each is for, how far it's billed, what's
-       held and what's to pay, with Bill Progress for the next bill
-       (one_project/money.py `_suppliers`, progress.py). Then the suppliers'
-       bills (billing.py `bills`), and Buying: requests, quotations, orders
-       for goods and receipts (buying.py). -->
   <div class="pb-12">
-    <!-- The title and what can be done, on one line as on Invoices. -->
     <div class="flex flex-wrap items-center gap-2 pb-2">
       <h2 class="me-auto flex items-center gap-2 text-lg font-semibold text-ink-gray-9">
         <span class="lucide-truck size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Suppliers") }}
@@ -14,11 +7,9 @@
       </h2>
       <span v-if="cash.currency" class="text-sm text-ink-gray-5">{{ __("Amounts in {0}", [cash.currency]) }}</span>
       <Button v-if="contacts?.can_change" size="sm" icon-left="lucide-plus" :label="__('Add Supplier')" @click="addSupplier" />
-      <!-- A bill with no order before it, a shop receipt: the project filled in. -->
       <Button v-if="cash.can_bill" size="sm" icon-left="lucide-receipt" :label="__('Record Bill')" @click="newDoc('Purchase Invoice', { project: said.name })" />
       <Button v-if="cash.can_order" size="sm" variant="solid" icon-left="lucide-plus" :label="__('New Purchase Order')" @click="order" />
     </div>
-    <!-- What the workspace's extensions add here (one_studio/places.py). -->
     <PlaceSpot :said="spot" class="mt-3" />
     <Figures v-if="orders.length || bills?.bills.length" class="mb-2 mt-3" :figures="figures" />
 
@@ -34,7 +25,6 @@
         <span class="lucide-hard-hat size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Subcontracts") }}
         <span v-if="packages.length" class="text-base font-normal text-ink-gray-5">{{ packages.length }}</span>
       </h2>
-    <!-- A section with nothing in it says so in a line, as Buying does. -->
     <div v-if="!packages.length" class="py-3 text-base text-ink-gray-5">{{ __("No subcontracts") }}</div>
 
     <div v-else class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -49,7 +39,6 @@
           <Badge v-if="STATUS[one.status]" :label="__(one.status)" :theme="STATUS[one.status]" size="md" />
         </div>
 
-        <!-- The supplier's contract for the project (agreement.py). -->
         <button v-for="signed in signedWith(one.supplier_id)" :key="signed.name" class="mt-3 flex items-center gap-2 text-start text-sm text-ink-gray-7 enabled:hover:underline" :disabled="!signed.route" @click="go(signed.route)">
           <span class="h-2 w-2 shrink-0 rounded-full" :class="signed.signed ? 'bg-surface-green-5' : 'bg-surface-amber-5'" />
           {{ signed.signed ? (signed.ends ? __("Contract signed, ends {0}", [date(signed.ends)]) : __("Contract signed")) : __("Contract not signed yet") }}
@@ -106,11 +95,9 @@
             </ListCell>
             <ListCell v-if="byParty" class="min-w-0 gap-2 max-md:hidden"><Avatar :label="item.party" :image="item.party_image" shape="square" size="sm" /><span class="truncate text-ink-gray-7">{{ item.party }}</span></ListCell>
             <ListCell class="tabular-nums text-ink-gray-7 max-lg:hidden">{{ date(item.date) }}</ListCell>
-            <!-- When the part owed now is due; what's held says its own date. -->
             <ListCell class="tabular-nums max-md:hidden" :class="item.late ? 'text-ink-red-5' : 'text-ink-gray-7'">{{ item.owed || item.status === "Draft" ? date(item.due) : "" }}</ListCell>
             <ListCell><Badge :label="__(item.status)" :theme="BILL[item.status] || 'gray'" size="md" /></ListCell>
             <ListCell class="justify-end tabular-nums text-ink-gray-8 max-md:hidden">{{ sum(item.total, item.currency) }}</ListCell>
-            <!-- ERPNext's outstanding, as the invoice says it; what's held in it under. -->
             <ListCell class="justify-end">
               <div class="min-w-0 text-end">
                 <div class="tabular-nums" :class="item.outstanding ? 'text-ink-gray-8' : 'text-ink-gray-5'">{{ sum(item.outstanding, item.currency) }}</div>
@@ -177,24 +164,17 @@ import { onlyArg, useOnly } from "./only";
 import { usePlace } from "./place";
 
 const props = defineProps({ said: { type: Object, required: true } });
-// Only the project's own work when the page shows its Main (only.js).
 const only = useOnly();
 
 const STATUS = { "On Hold": "amber", Closed: "gray", Completed: "green" };
 const cash = computed(() => props.said.money);
 const orders = computed(() => cash.value.suppliers);
-// Goods are on Buying, with what's received; the cards are the packages of work.
 const packages = computed(() => orders.value.filter((one) => one.subcontract));
-// A supplier's contracts on the project, newest first.
 const signedWith = (supplier) => (props.said.contracts || []).filter((one) => one.party_type === "Supplier" && one.party === supplier);
-// Amounts in the company's currency are said once, at the top (frappe's own
-// number format); another currency keeps its symbol.
 const amount = (value) => plain(value);
 const sum = (value, currency) => (!currency || currency === cash.value.currency ? plain(value) : money(value, currency));
 const suppliers = computed(() => new Set(orders.value.map((one) => one.supplier_id)).size);
 const share = (part, whole) => (whole ? Math.max(0, Math.min(100, Math.round((100 * part) / whole))) : undefined);
-// What's ordered from suppliers, billed, paid and still to pay, as Invoices
-// says it for the customer (billing.py `bills`).
 const figures = computed(() => {
   const t = bills.value?.totals || {};
   const ordered = total("ordered");
@@ -228,20 +208,16 @@ function facts(one) {
     { label: __("Paid"), value: amount(one.paid) },
   ];
   if (one.to_pay) shown.push({ label: __("To Pay"), value: amount(one.to_pay), alarm: Boolean(one.late) });
-  // The subcontract's own retention, and what's held from it so far.
   if (one.rate) shown.push({ label: __("Retention"), value: one.retention ? __("{0}% · {1} held", [one.rate, amount(one.retention)]) : `${one.rate}%` });
   if (one.advance) shown.push({ label: __("Advance"), value: amount(one.advance) });
   return shown;
 }
 
-// Bill Progress is desk's own dialog, the one on the order's form.
 const bill = (one) => onedesk().progress.ask({ doctype: "Purchase Order", doc: { name: one.order } });
 const order = () => newDoc("Purchase Order", { project: props.said.name });
 
-// The suppliers' bills, as the Invoices view lists the customer's.
 const BILL = { Paid: "green", "Partly Paid": "blue", Unpaid: "amber", Overdue: "red", Draft: "red", Return: "gray", "Debit Note Issued": "gray" };
 const bills = ref(null);
-// One supplier needs no column of its own.
 const byParty = computed(() => (bills.value?.parties || 0) > 1);
 const billColumns = computed(() => ({
   base: ["minmax(0,1fr)", "auto", "6.5rem", "2rem"],
@@ -259,8 +235,6 @@ async function pay(item) {
   const verb = await call("onedesk.one.head.offer", { doctype: "Purchase Invoice", name: item.name, verb: "invoice.record_payment" });
   if (verb) onedesk().head.act({ doctype: "Purchase Invoice", doc: { name: item.name }, reload_doc: load }, verb);
 }
-// Record Payment, and Pay Retention for what's held from the bill, matched to
-// its retention terms (one_project/retention.py `release`).
 function billActions(item) {
   if (!bills.value.can_pay) return [];
   return [
@@ -273,9 +247,6 @@ function billActions(item) {
   ].filter(Boolean);
 }
 
-// Buying: ERPNext's statuses. An order, a request or a receipt is coloured as
-// urgent as its head says it is (one_inventory/heads.py `stands`), a late one
-// red; a quotation as its list colours it.
 const TONE = { red: "red", orange: "amber", blue: "blue", green: "green", gray: "gray" };
 const PAPER = {
   Draft: "red", Pending: "amber", "Partially Ordered": "amber", Ordered: "green", Received: "green", "Partially Received": "amber",
@@ -283,18 +254,13 @@ const PAPER = {
   Stopped: "red", Expired: "gray", Cancelled: "red",
 };
 const slug = (doctype) => doctype.toLowerCase().replaceAll(" ", "-");
-// As OneInventory's Quotes page asks (quotes_actions.js), from the project's
-// own material requests.
 const askPrices = () =>
   requires(["/assets/onedesk/js/quotes_actions.js"]).then(() => onedesk().quotes.ask(load, { project: props.said.name }));
-// An order for goods says how much has come, and warns when it's billed ahead.
 const received = (item) =>
   item.received === null || item.received === undefined ? "" : [__("{0}% received", [Math.round(item.received)]), __("{0}% billed", [Math.round(item.billed)])].join(" · ");
 const ahead = (item) => item.billed > item.received;
 const buying = ref(null);
 
-// The suppliers on the project with nothing ordered from them yet: its
-// Contacts as Subcontractor or Supplier (one_project/contacts.py).
 const contacts = ref(null);
 const waiting = computed(() =>
   (contacts.value?.contacts || []).filter(
@@ -313,8 +279,6 @@ async function load() {
   ]);
 }
 watch(() => [props.said.name, props.said.modified, cash.value.open_orders, cash.value.spent], load, { immediate: true });
-// A payment changes what's owed on a bill, and a request, quotation or order
-// shows as soon as it's saved, a draft too.
 let timer = null;
 const later = () => {
   clearTimeout(timer);

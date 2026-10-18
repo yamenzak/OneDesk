@@ -60,9 +60,6 @@ def kinds(actions):
 	return [(one.kind, one.doctype, one.name) for one in actions]
 
 
-# ------------------------------------------------------------------ the door
-
-
 def test_what_waits_for_a_person():
 	level = ACT["level"]
 	assert level(Action("Update", "Supplier", "S", {"tax_id": "DE2"}), {}, {"tax_id": "DE1"})[:2] == ("Proposed", "overwrite")
@@ -84,9 +81,6 @@ def test_an_action_is_keyed_by_what_it_does():
 	assert key_of("hash", Action("Tag", "File", "f", key="given")) == "given"
 
 
-# ------------------------------------------------------------------ names
-
-
 def test_a_file_is_named_by_its_day_party_and_kind():
 	name = FILING["file_name"]
 	assert name(date(2026, 9, 24), "Stadtwerke Köln", "Mahnung", "Mahnung Strom", "pdf") == "2026-09-24 Stadtwerke Köln – Mahnung Strom.pdf"
@@ -102,9 +96,6 @@ def test_the_record_a_document_belongs_to_comes_first():
 	guess = {"role": "Mentioned", "matched_doctype": "Customer", "matched_name": "C1", "score": 0.6}
 	assert records([SUPPLIER, employee, guess, US]) == [("Employee", "E1"), ("Supplier", "Stadtwerke Köln GmbH")]
 	assert records([SUPPLIER, SUPPLIER]) == [("Supplier", "Stadtwerke Köln GmbH")]
-
-
-# ------------------------------------------------------------------ filing a file
 
 
 def test_a_matched_invoice_is_filed_with_its_supplier():
@@ -160,8 +151,6 @@ def test_junk_through_a_trusted_channel_is_set_aside():
 	assert FILING["plan"]({**INVOICE, "verdict": "Phishing"}, DROPPED) == [], "phishing is warned about, never filed"
 	assert FILING["plan"](advert, {**DROPPED, "own": True}) == []
 
-
-# ------------------------------------------------------------------ filing a message
 
 MAIL = {"message": "c1", "direct": True, "in_inbox": True, "junk": "JUNK-1", "newsletters": None, "newsletters_label": "Newsletter", "today": "2026-09-24"}
 

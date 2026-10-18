@@ -7,13 +7,8 @@ being billed cannot change it.
 
 import frappe
 
-#: The key, and the only one. Read through `frappe.conf` rather than
-#: `frappe.local.conf` so it resolves the same in a request, a worker and a
-#: bench console.
 FLAG = "one_admin"
 
-#: The role every OneAdmin doctype grants, and the only role any of them
-#: grants. `tests/test_admin_flag.py` holds that.
 OPERATOR = "One Operator"
 
 
@@ -90,7 +85,6 @@ def nothing_on_a_tenant(user=None, doctype=None) -> str:
 	return "" if is_admin() else "1=0"
 
 
-#: OneAdmin's module, and the workspace that is its Home.
 MODULE = "One Admin"
 
 

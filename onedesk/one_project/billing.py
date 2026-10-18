@@ -10,8 +10,6 @@ from onedesk.one_book.currency import bill_in, billed_in
 from onedesk.one_book.currency import rate as currency_rate
 from onedesk.one_project import money, terms
 
-#: The tick on Quotation and Sales Order saying the order is extra work, to
-#: become a sub-project of the project it names.
 EXTRA = "one_extra_work"
 
 
@@ -23,7 +21,6 @@ def unbilled(project: str) -> dict:
 	frappe.has_permission("Project", "read", project, throw=True)
 	customer = frappe.db.get_value("Project", project, "customer")
 	rows = _rows(project)
-	# Each timesheet's amount in the currency the customer is billed in.
 	currency = (billed_in("Customer", customer) if customer else None) or (rows[0].currency if rows else None)
 	if rows and currency:
 		rows = in_currency(rows, currency)
@@ -76,8 +73,6 @@ def invoice_time(source_name: str, item: str | None = None, cost_item: str | Non
 	frappe.has_permission("Sales Invoice", "create", throw=True)
 	source = frappe.db.get_value("Project", project, ["project_name", "customer", "one_kind"], as_dict=True)
 	if source.one_kind == "Retainer":
-		# Its hours are covered by the fee and billed with the month
-		# (retainer.py); billing them here would bill them twice.
 		frappe.throw(_("{0} is a retainer. Invoice it by the month.").format(source.project_name))
 	if not source.customer:
 		frappe.throw(_("Give {0} a customer to bill its time to.").format(source.project_name))
@@ -88,15 +83,11 @@ def invoice_time(source_name: str, item: str | None = None, cost_item: str | Non
 	invoice = frappe.new_doc("Sales Invoice")
 	invoice.customer = source.customer
 	invoice.project = project
-	# The customer is billed in their currency, and each timesheet's amount is
-	# turned into it, as ERPNext's own Fetch Timesheet does.
 	bill_in(invoice, "Customer", source.customer)
 	terms.give(invoice, *terms.of(project)[:2])
 	rows = in_currency(rows, invoice.currency)
 	for line in lines(rows):
 		invoice.append("items", hours_line(item, line["hours"], line["rate"], line["activity"] or _("Time")))
-	# What was bought for it, at cost plus the project's markup, in the
-	# currency the customer is billed in.
 	rate = currency_rate(money.currency(project), invoice.currency) if found else 1
 	for one in found:
 		invoice.append(
@@ -165,8 +156,6 @@ def bills(
 	return {**said, "bills": said.pop("rows")}
 
 
-#: What each kind of document is read with: its party, and what it says
-#: it's for that the other doesn't keep.
 LISTED = {
 	"Sales Invoice": {
 		"party": "customer_name",
@@ -250,9 +239,7 @@ def _listed(project: str, doctype: str) -> dict:
 		order_by="idx asc",
 	)
 	held = retention.held_on(doctype, [row.name for row in rows if row.docstatus == 1])
-	# Retention taxed when released isn't invoiced yet, so it isn't owed either.
 	in_owed = retention.held_on(doctype, [row.name for row in rows if row.docstatus == 1], owed=True)
-	# When each is due, retention left out: the last of its other payments.
 	due = {}
 	for one in frappe.get_all(
 		"Payment Schedule",
@@ -265,7 +252,6 @@ def _listed(project: str, doctype: str) -> dict:
 			"Project", filters={"name": ["in", projects]}, fields=["name", "project_name"], as_list=True
 		)
 	)
-	# Each party's logo (one_mail/faces.py dresses a party without one).
 	logos = dict(
 		frappe.get_all(
 			how["party_id"][1],
@@ -274,8 +260,6 @@ def _listed(project: str, doctype: str) -> dict:
 			as_list=True,
 		)
 	)
-	# Outstanding is ERPNext's figure, retention held in it; owed_now leaves
-	# the retention out.
 	totals = {
 		"invoiced": 0.0,
 		"paid": 0.0,
@@ -286,7 +270,6 @@ def _listed(project: str, doctype: str) -> dict:
 		"drafts": 0,
 		"late": 0,
 	}
-	# Late by the dates, not the status: ERPNext marks Overdue overnight.
 	terms = money._terms(doctype, [row.name for row in rows if row.docstatus == 1])
 	today = getdate(nowdate())
 	found = []
@@ -323,8 +306,6 @@ def _listed(project: str, doctype: str) -> dict:
 				"party": row.party,
 				"party_image": logos.get(row.party_id),
 				"date": str(row.posting_date) if row.posting_date else None,
-				# What's held back falls due later: the date is when the rest is
-				# due, and the retention held says its own.
 				"due": str(due.get(row.name) or row.due_date or "") or None,
 				"owed": flt(now / flt(row.conversion_rate or 1), 2),
 				"held": held_own,
@@ -348,7 +329,6 @@ def _listed(project: str, doctype: str) -> dict:
 	return {
 		"rows": found,
 		"totals": totals,
-		# One party needs no column of its own.
 		"parties": len({row.party_id for row in rows}),
 		"can_create": bool(frappe.has_permission(doctype, "create")),
 		"can_pay": bool(frappe.has_permission("Payment Entry", "create")),
@@ -546,8 +526,6 @@ def ordered(doc, method=None) -> None:
 	project.set("one_parent", parent)
 	project.flags.ignore_permissions = True
 	project.insert()
-	# The order and its lines are the sub-project's now. ERPNext links an order
-	# to its project only when it names none, and this one named the parent.
 	doc.db_set("project", project.name)
 	frappe.db.set_value("Sales Order Item", {"parent": doc.name}, "project", project.name)
 	project.update_sales_amount()
@@ -566,7 +544,6 @@ def title(doc) -> str:
 	quotes = {row.get("prevdoc_docname") for row in doc.get("items") or []} - {None, ""}
 	for quote in sorted(quotes):
 		said = frappe.db.get_value("Quotation", quote, ["title", "customer_name", "party_name"], as_dict=True)
-		# ERPNext titles a quotation with the party's name unless somebody wrote one.
 		if said and said.title and said.title not in (said.customer_name, said.party_name):
 			return said.title
 	return ordered_title(doc)

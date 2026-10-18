@@ -7,7 +7,6 @@ from frappe.utils import cint
 
 from onedesk.one_hr import hiring, own, tell
 
-#: What a grievance can be about. The last three are sensitive.
 CATEGORIES = (
 	"Pay",
 	"Leave",
@@ -22,7 +21,6 @@ CATEGORIES = (
 )
 SENSITIVE = ("Harassment", "Discrimination", "Safety")
 
-#: Who sees a sensitive grievance besides the person who raised it.
 TRUSTED = "HR Manager"
 
 
@@ -48,7 +46,6 @@ def triage(grievance: str) -> None:
 	)
 	answer = hiring._read("grievance", hiring._ask("grievance", asked, None, grievance), grievance)
 	if not answer:
-		# OneAI could not read it: HR still hears of it.
 		tell.grievance_raised(doc)
 		return
 
@@ -60,7 +57,6 @@ def triage(grievance: str) -> None:
 		"one_ai_urgency": urgency,
 		"one_ai_summary": hiring._short(answer.get("summary"), 400),
 	}
-	# Set, never cleared: see the module's docstring.
 	if sensitive:
 		values["one_ai_sensitive"] = 1
 	frappe.db.set_value("Employee Grievance", grievance, values)
@@ -122,9 +118,6 @@ def trusted_users() -> list[str]:
 		filters={"name": ["in", holders or [""]], "enabled": 1, "user_type": "System User"},
 		pluck="name",
 	)
-
-
-# ------------------------------------------------------------ who may see it
 
 
 def _trusted(user: str) -> bool:

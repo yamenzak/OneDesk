@@ -4,23 +4,14 @@ Nothing of Frappe in here: this decides when somebody's data is deleted. Five
 rungs and one direction; no timestamp never falls; a period of zero means never.
 """
 
-#: In order, top to bottom. Falling means moving one place to the right.
 RUNGS = ("Live", "Overdue", "Suspended", "Archived", "Dropped")
 
-#: The rungs money can be owed on. A workspace here is one somebody should be
-#: told about, and the workspace itself is told so its own header can say so.
 OWING = ("Overdue", "Suspended", "Archived")
 
-#: The rung a workspace comes back to, whatever it fell to.
 PAID = "Live"
 
-#: Default days on each rung before falling off it. Deliberately generous at the
-#: top and long at the bottom: the cost of suspending somebody who was going to
-#: pay is much higher than the cost of carrying them a week.
 DAYS = {"Overdue": 7, "Suspended": 14, "Archived": 30}
 
-#: Days a workspace keeps working after the person who pays for it asks for
-#: it to be closed (closing.py); then it is Archived, and falls from there.
 NOTICE_DAYS = 14
 
 

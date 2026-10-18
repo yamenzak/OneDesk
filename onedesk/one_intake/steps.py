@@ -14,9 +14,6 @@ from onedesk.one_hr.hiring import AUTHOR
 CACHE = "one_intake_watched_doctypes"
 
 
-# ------------------------------------------------------------------ pure
-
-
 def holds(when: dict, value) -> bool:
 	"""Whether a record's value satisfies a step's condition. Pure."""
 	if "all" in when:
@@ -34,9 +31,6 @@ def holds(when: dict, value) -> bool:
 def passed(when: dict, today_: str) -> bool:
 	"""Whether a step that waits for a day is done. Pure."""
 	return bool(when.get("after")) and getdate(when["after"]) < getdate(today_)
-
-
-# ------------------------------------------------------------------ on the site
 
 
 def _open_steps(like: str | None = None) -> list[dict]:
@@ -121,9 +115,6 @@ def _set(step: dict, done: bool) -> None:
 	task = step["parent"]
 	left = frappe.db.count("Task Step", {"parent": task, "parenttype": "Task", "done": 0})
 	status = frappe.db.get_value("Task", task, "status")
-	# A task OneAI made is done when its steps are, and closed as OneAI, so
-	# that a state changing back opens it again unless a person has since
-	# touched it.
 	if not left and status not in ("Completed", "Cancelled") and frappe.db.get_value("Task", task, "owner") == AUTHOR:
 		frappe.db.set_value("Task", task, "status", "Completed", modified_by=AUTHOR)
 	elif left and status == "Completed" and frappe.db.get_value("Task", task, "modified_by") == AUTHOR:

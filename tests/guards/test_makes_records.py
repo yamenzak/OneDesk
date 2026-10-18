@@ -21,15 +21,10 @@ import pytest
 ROOT = Path(__file__).resolve().parents[2] / "onedesk"
 APPS = Path("/home/frappe/bench1/apps")
 
-#: Modules that ask OneAI for whatever a record they make still needs, its
-#: name included (one_intake/fill.py), so any naming holds for them.
 FILLS = ("one_intake",)
 
-#: The demo company's builder, which makes records the way a person does and
-#: takes whatever names Numbering gives them (one_demo/README.md).
 DEMO = ("one_demo",)
 
-#: The three ways the app builds a record of a named kind.
 MADE = re.compile(r'(?:get_doc\(\s*\{\s*"doctype":\s*"|new_doc\("|"doctype":\s*")([A-Z][A-Za-z ]+)"')
 
 

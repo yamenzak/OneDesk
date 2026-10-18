@@ -10,7 +10,6 @@ from frappe.utils import add_days, add_months, get_first_day, get_last_day
 from onedesk.one_demo.base import COMPANY, ago, ahead, as_user, make, on, once, save, today
 from onedesk.one_demo.hr import ACCOUNTS, HR, LEAVER, _employee, _payable
 
-#: Each part, in order; `run` makes the ones not made yet.
 PARTS = (
 	"_grades",
 	"_leave_rules",
@@ -42,9 +41,6 @@ def _user(first):
 	return frappe.db.get_value("Employee", _employee(first), "user_id")
 
 
-# ------------------------------------------------------------------ grades
-
-
 def _grades():
 	"""Grades the workshop and the office are paid by."""
 	for grade, pay in (("Workshop", 4500), ("Office", 12000), ("Management", 25000)):
@@ -53,9 +49,6 @@ def _grades():
 			{"name": grade},
 			{"__newname": grade, "default_base_pay": pay, "default_salary_structure": "Sahara Standard"},
 		)
-
-
-# ------------------------------------------------------------------ leave
 
 
 def _leave_rules():
@@ -75,7 +68,6 @@ def _leave_rules():
 		},
 		submit=True,
 	)
-	# Next year's, since this year's leave was allocated by hand.
 	year = today().year + 1
 	for first in ("Noor",):
 		employee = _employee(first)
@@ -196,9 +188,6 @@ def _encashed(annual):
 	)
 
 
-# ------------------------------------------------------------------ shifts
-
-
 def _shifts():
 	"""The workshop's week on the Day shift, given by a schedule, and Bilal
 	on the Night shift for the Marina job."""
@@ -245,9 +234,6 @@ def _shifts():
 				"create_shifts_after": ago(7),
 			}
 		)
-
-
-# ------------------------------------------------------------------ training
 
 
 def _training():
@@ -305,9 +291,6 @@ def _training():
 				},
 				submit=True,
 			)
-
-
-# ------------------------------------------------------------------ growth
 
 
 def _growth():
@@ -406,9 +389,6 @@ def _moves():
 				],
 			}
 		)
-
-
-# ------------------------------------------------------------------ travel and an advance
 
 
 def _travel():
@@ -514,9 +494,6 @@ def _vehicle():
 		)
 
 
-# ------------------------------------------------------------------ grievance
-
-
 def _grievance():
 	"""Arun says the workshop's extraction is not working, and HR looks into it."""
 	kind = once(
@@ -546,9 +523,6 @@ def _grievance():
 			"cause_of_grievance": "The extractor's motor burnt out and no repair was booked.",
 		}
 	)
-
-
-# ------------------------------------------------------------------ hiring
 
 
 def _hiring():
@@ -594,7 +568,6 @@ def _hiring():
 		)
 	employee = _employee("Omar")
 	if not frappe.db.exists("Job Requisition", {"requested_by": employee}):
-		# Raised by HR for him: hrms lets only HR make one.
 		make(
 			{
 				"doctype": "Job Requisition",
@@ -630,9 +603,6 @@ def _hiring():
 				},
 				submit=True,
 			)
-
-
-# ------------------------------------------------------------------ pay
 
 
 def _pay():
@@ -721,7 +691,6 @@ def _arrear():
 	employee = _employee("Huda")
 	if frappe.db.exists("Arrear", {"employee": employee}):
 		return
-	# Back pay is worked out on the components marked for it.
 	for component in ("Basic Salary", "Housing Allowance", "Transport Allowance"):
 		frappe.db.set_value("Salary Component", component, "arrear_component", 1)
 	raised = get_first_day(add_months(today(), -1))
@@ -754,9 +723,6 @@ def _arrear():
 			"currency": "AED",
 		}
 	)
-
-
-# ------------------------------------------------------------------ leaving
 
 
 def _leaving():
@@ -792,9 +758,6 @@ def _leaving():
 		save(statement)
 
 
-# ------------------------------------------------------------------ OneHR's own
-
-
 def _clock():
 	"""Where the workshop clocks in: its place on the map and its network,
 	Yousef's phone, and one attempt of his the clock flagged. Learnt by the
@@ -804,17 +767,11 @@ def _clock():
 
 
 def _clocked():
-	# The workshop clocks itself in: the switch HR turns on in HR Settings.
 	frappe.db.set_single_value("HR Settings", "one_self_checkin", 1)
-	# Everybody works a shift, so the clock can say when it starts: the Day
-	# shift where nobody assigned another.
 	day = frappe.db.get_value("Shift Type", "Day")
 	if day:
 		for one in frappe.get_all("Employee", filters={"status": "Active", "default_shift": ["is", "not set"]}, pluck="name"):
 			frappe.db.set_value("Employee", one, "default_shift", day, update_modified=False)
-	# Two browsers people signed in on, sorted by the administrator
-	# (one/devices.py): the front desk everybody uses, and Nadia's laptop, the
-	# asset she holds.
 	windows = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/128.0 Safari/537.36"
 	once(
 		"Device",
@@ -870,8 +827,6 @@ def _clocked():
 			"platform": "Android",
 			"model": "Pixel 8",
 			"registered_on": f"{ago(40)} 07:58:00",
-			# His old phone, reset by HR: a demo cannot hold a real key, and
-			# an Active row without one would ask him to sign with nothing.
 			"status": "Reset",
 		},
 	)
@@ -905,9 +860,6 @@ def _letters():
 					"body": "<p>This is to certify that Rania Sabbagh has worked for Sahara Glass &amp; Aluminium as a Site Engineer since August 2022.</p>",
 				}
 			)
-
-
-# ------------------------------------------------------------------ the rest
 
 
 def _templates():

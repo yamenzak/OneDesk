@@ -16,10 +16,6 @@ import tree  # noqa: E402
 
 from onedesk.one_legal import assemble, documents, registry  # noqa: E402
 
-#: The version of every document. When a clause changes, this fails, and there
-#: are two ways out and no third: if the change is material, bump the
-#: document's `revision` in one_legal/documents.py, so everybody agrees again;
-#: if it is a typo, write the new hash here.
 VERSIONS = {
 	"terms": "11.a5c45579",
 	"aup": "1.cc05bbc3",
@@ -31,21 +27,15 @@ VERSIONS = {
 	"licences": "1.c71daf62",
 }
 
-#: Every outside host One's Python calls, and whose it is: a declared
-#: subprocessor's name, or None for a host that receives no customer data.
 HOSTS = {
 	"api.cloudflare.com": "Cloudflare, Inc.",
 	"gateway.ai.cloudflare.com": "Cloudflare, Inc.",
 	"api.stripe.com": "Stripe, Inc.",
-	# Stripe's own pages, which a payer is sent to.
 	"checkout.stripe.com": "Stripe, Inc.",
 	"billing.stripe.com": "Stripe, Inc.",
 	"www.gravatar.com": "Automattic Inc.",
 	"t1.gstatic.com": "Google LLC",
-	# Chrome's push service: it carries pushes encrypted for one browser and
-	# cannot read them, as the privacy notice's push section says.
 	"fcm.googleapis.com": None,
-	# Pricing pages, read by the operator's price check; nothing is sent.
 	"developers.cloudflare.com": None,
 	"ai.google.dev": None,
 }
@@ -137,9 +127,6 @@ def test_every_model_provider_offered_is_a_declared_subprocessor():
 
 
 def test_every_modules_legal_file_is_assembled():
-	# A module's legal.py the list leaves out declares clauses no document
-	# carries. www/legal.py is the page that shows them, and one_legal the
-	# documents themselves.
 	from onedesk.one_legal.assemble import MODULES
 
 	found = {path.parent.name for path in tree.APP.glob("one*/legal.py") if path.parent.name != "one_legal"}

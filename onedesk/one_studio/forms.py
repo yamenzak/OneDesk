@@ -18,9 +18,6 @@ def _counts(doctype: str, field: str) -> dict:
 	}
 
 
-#: Where no rail of One's links to a kind of record, the app its module
-#: belongs to: an Account Category is OneBook's though no rail names it.
-#: What is shared by every app (Setup, Contacts, Geo) stays Other Forms.
 MODULES = {
 	"Accounts": "One Book",
 	"Regional": "One Book",
@@ -102,8 +99,6 @@ def forms() -> list[dict]:
 	from onedesk.one.settings import _mark
 
 	apps = _apps()
-	# Each app's mark, as Settings draws it (one/settings.py): the product's
-	# name, OneCloud for One Storage, One's own for the forms every app shares.
 	products = dict(
 		frappe.get_all("Sidebar", filters={"app": "onedesk"}, fields=["module", "name"], as_list=True)
 	)

@@ -17,8 +17,6 @@ from onedesk.one_intake import identifiers as ids
 LOOK = "intake_look"
 READ = "intake_read"
 
-#: What the model is shown of a long document. The first pages of a letter
-#: say what it is; a forty-page contract's terms are for search, not for this.
 MOST_TEXT = 40_000
 MOST_LOOK = 1500
 
@@ -37,18 +35,15 @@ ASKS = ("Pay", "Sign", "Reply", "Attend", "Send", "Cancel", "Decide", "Other")
 REFERENCES = ("Invoice", "Order", "Customer", "Contract", "Case", "Tax", "Policy", "Other")
 PAID = {"transfer": "Transfer", "direct debit": "Direct Debit", "already paid": "Already Paid"}
 
-#: How sensitive a kind is at least, whatever the model said.
 SENSITIVE = {"Payslip": "Pay", "Sick Note": "Medical", "Medical Report": "Medical", "Identity Document": "Personal", "CV": "Personal", "Resignation": "Personal"}
 LEVELS = ("Ordinary", "Personal", "Legal", "Pay", "Medical")
 
-#: What a line was spent on, for Spending.
 CATEGORIES = ("Groceries", "Fuel", "Pharmacy", "Clothing", "Household", "Children", "Insurance", "Utilities", "Dining", "Travel", "Office", "Other")
 
 
 def run(name: str) -> None:
 	"""Understand one Reading that has been read."""
 	reading = frappe.get_doc("Reading", name)
-	# Read, or waiting at understanding for credits or a passing failure.
 	if reading.state not in ("Read", "Waiting for Credits", "Queued") or not reading.read_on:
 		return
 	if not (reading.text or reading.structured):
@@ -101,9 +96,6 @@ def _done(reading) -> None:
 	frappe.db.commit()
 	if reading.act_after and reading.act_after <= now_datetime():
 		matters.act_now(reading.name)
-
-
-# ------------------------------------------------------------------ without a model
 
 
 def known(structured: dict) -> dict | None:
@@ -197,9 +189,6 @@ def _party(role: str, said: dict) -> dict:
 	}
 
 
-# ------------------------------------------------------------------ with a model
-
-
 def look(reading, structured: dict, topics: list | None = None) -> tuple[str, set]:
 	"""The first look: junk, or something to read, and which of its mailbox's
 	About rules (`topics`, as (rule, about)) a new message is about. Mail a
@@ -282,9 +271,6 @@ def _ask(action: str, text: str, reference: str) -> dict | None:
 	from onedesk.one_hr.hiring import read
 
 	return read(run.once(action, text, reference=reference))
-
-
-# ------------------------------------------------------------------ keeping it
 
 
 def apply(reading, said: dict, dropped: list[str], structured: dict) -> None:
@@ -428,7 +414,6 @@ def matched(party: dict) -> dict:
 		"phone": party.get("phone"),
 		"website": party.get("website"),
 		"vat_id": ids.vat(party.get("vat_id")),
-		# A VAT number without its country letters, as a TRN is, is a tax number.
 		"tax_number": party.get("tax_number") or (None if ids.vat(party.get("vat_id")) else ids.tax_number(party.get("vat_id"))),
 		"iban": ids.iban(party.get("iban")),
 		"register": party.get("register"),

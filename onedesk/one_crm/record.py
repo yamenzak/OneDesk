@@ -13,7 +13,6 @@ from frappe.utils import add_to_date, cint, flt, get_datetime, now_datetime
 from onedesk.one_crm import measure
 from onedesk.one_crm import next as next_step
 
-#: A call's outcome in the dialog's words, and Call Log's own status for it.
 OUTCOME = {"Answered": "Completed", "No Answer": "No Answer", "Busy": "Busy"}
 
 
@@ -165,7 +164,6 @@ def log_call(
 	doc = frappe.get_doc(doctype, name)
 	doc.check_permission("write")
 	log = frappe.get_doc(call(doc, direction, outcome, minutes, summary))
-	# Written by hand, so no telephony popup is owed to anybody.
 	log.trigger_call_popup = lambda: None
 	log.insert(ignore_permissions=True)
 	return log.name

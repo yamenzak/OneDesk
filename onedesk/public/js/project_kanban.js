@@ -1,9 +1,3 @@
-// Projects by Health (one_project/board.py), frappe's Kanban.
-//
-// The board leaves out an employee's onboarding or exit checklist as the list
-// does (project_list.js), asked for with every load and never shown under
-// Filters. frappe loads the board's code on first use, after this file, so
-// the board is changed when it arrives.
 (() => {
 	const quiet = (Page) => {
 		if (!Page || Page.prototype.one_boarding) return;
@@ -28,8 +22,6 @@
 	});
 })();
 
-// An internal project has no customer, so its card leaves the line out
-// rather than ask for one.
 frappe.kanban_v2.extend_settings("Project", {
 	renderCard(card, el, ctx, page) {
 		const fields = page.card_field_list;

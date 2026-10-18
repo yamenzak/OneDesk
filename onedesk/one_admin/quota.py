@@ -12,7 +12,6 @@ from onedesk.one_admin import site
 
 GB = 1000 * 1000 * 1000
 
-#: What a plan and an add-on can carry, as Offering fields.
 LIMITED = ("seats", "storage_gb", "database_gb", "credits_a_month")
 
 

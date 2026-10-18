@@ -1,9 +1,4 @@
 <template>
-  <!-- Request for Quotation (one_inventory/page/quotes): asking suppliers for prices, their
-       answers and the comparison as one page (one_inventory/quotes.py,
-       quotes_actions.js). Modelled on Odoo Purchase: Asked is its list of
-       RFQs, Quotes its vendors' quotations, and Compare its Compare Product
-       Lines, one request's quotes side by side with the cheapest marked. -->
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
@@ -120,7 +115,6 @@ const figures = computed(() => {
   ].filter(Boolean);
 });
 
-// Quotes by what is left to do with them, as the figures count them.
 const KINDS = {
   decide: (one) => one.status === "Submitted",
   check: (one) => one.status === "Draft",
@@ -161,8 +155,6 @@ function report() {
   props.onActions?.([s.can.ask && { label: __("Ask for Prices"), primary: true, onClick: () => onedesk().quotes.ask(load) }].filter(Boolean));
 }
 
-// The page is a place (one_studio/places.py): its extensions are told what
-// it shows, and may add a note or a button.
 const placed = reactive({ notes: [], actions: [] });
 let drawn = null;
 function extended(s) {

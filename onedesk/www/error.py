@@ -17,7 +17,6 @@ def get_context(context):
 		context.title = _("Page not found")
 		context.message = _("The link may be broken, or the page has moved.")
 		return {}
-	# Frappe's own words are "Server Error" and "There was an error building this page".
 	context.title = context.title or _("Something went wrong")
 	context.message = context.message or _("Try again in a moment.")
 	return error.get_context(context)

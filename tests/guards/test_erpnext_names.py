@@ -20,11 +20,8 @@ RAILS = {
 	"one_crm": "onecrm",
 }
 
-#: The pages a module opens on, titled for the module.
 HOMES = ("inventory", "my-tasks", "books", "onecrm")
 
-#: The custom files whose labels are these three modules' to keep: their own,
-#: and Timesheet's, which sits on OneProject's rail and is OneHR's file.
 CUSTOM = [APP / module / "custom" for module in RAILS] + [APP / "one_hr" / "custom" / "timesheet.json"]
 
 
@@ -59,8 +56,6 @@ def test_a_rail_row_says_what_it_opens():
 				continue
 			kind, target = row.get("link_type"), row["link_to"]
 			wanted = target if kind in ("DocType", "Report") else pages.get(target) if kind == "Page" else None
-			# A module's own home page is titled for the module and its row says
-			# what it opens on: Home, My Tasks.
 			if (row["label"], kind, target) in theirs:
 				continue
 			if wanted is not None and row["label"] != wanted and not (kind == "Page" and target in HOMES):

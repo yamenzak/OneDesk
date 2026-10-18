@@ -12,7 +12,6 @@ import frappe
 
 from onedesk.one_intake.readers import pdf
 
-#: Pages sent in one request.
 PER_PIECE = 8
 
 PAGES = "read_pages"

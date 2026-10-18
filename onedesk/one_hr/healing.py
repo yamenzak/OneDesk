@@ -5,13 +5,8 @@ from frappe.utils import add_to_date, now_datetime, nowdate
 
 from onedesk.one_hr import policy, rules, tell
 
-#: How far back a night's pass looks. Long enough that a new address seen on
-#: Friday and again on Monday is one pattern rather than two.
 WINDOW_DAYS = 7
 
-#: How close two positions have to be to count as the same place. Fifty metres
-#: is a building rather than a street, and it is the radius a proposed zone
-#: opens with.
 CLUSTER_METRES = 50
 
 

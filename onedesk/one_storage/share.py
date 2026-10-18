@@ -35,8 +35,6 @@ def people(node: str) -> dict:
 		fields=["user", "write"],
 		order_by="creation asc",
 	)
-	# What reaches it from a folder above, for the reader to see where it
-	# comes from; it is changed on that folder.
 	above = frappe.get_all(
 		"DocShare",
 		filters={"share_doctype": "File", "share_name": ["in", ns.chain(item.folder)] or [""], "everyone": 0},
@@ -45,8 +43,6 @@ def people(node: str) -> dict:
 	return {
 		"owner": {"user": item.owner, "name": get_fullname(item.owner)},
 		"can_share": _may_share(item),
-		# A link can be made for anything its reader may change, a record's
-		# file included; links.py says who that reaches.
 		"can_link": not item.one_home_of and ns.may(item, "write"),
 		"people": [{"user": one.user, "name": get_fullname(one.user), "edit": bool(one.write)} for one in rows],
 		"inherited": [
@@ -114,7 +110,6 @@ def unshare(node: str, user: str) -> None:
 	item = api._item(node)
 	if user != frappe.session.user:
 		_shareable(node)
-	# Checked above as OneCloud reads it; frappe would ask for its own Share right.
 	frappe.share.remove("File", item.name, user, flags={"ignore_permissions": True, "ignore_share_permission": True})
 	live.announce(item)
 	ns.forget()

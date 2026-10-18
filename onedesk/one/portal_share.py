@@ -13,20 +13,14 @@ from frappe.utils import add_days, get_datetime, get_url, getdate, now_datetime,
 from onedesk.one import portal
 from onedesk.one.doctype.portal_link.portal_link import hashed
 
-#: How many days a link opens for, unless a quotation's own last day is sooner.
 DAYS = 30
 
-#: The kinds a link is for answering, and its button in the mail.
 ANSWERS = {
 	"Quotation": _lt("Review the quotation"),
 	"Request for Quotation": _lt("Answer the quote request"),
 }
 
-#: What a link that no longer opens says, whatever the reason.
 GONE = _lt("This link no longer works. Ask whoever sent it for a new one.")
-
-
-# ------------------------------------------------------------ the desk's side
 
 
 def _record(doctype: str, name: str, ptype: str = "read"):
@@ -217,7 +211,6 @@ def make_link(
 	email = (email or "").strip().lower()
 	if not frappe.utils.validate_email_address(email):
 		frappe.throw(_("A link needs an email address to go to."))
-	# The person's open link, if they have one: Rotate is for a new one.
 	for name in frappe.get_all(
 		"Portal Link",
 		filters={"reference_doctype": doctype, "reference_name": doc.name, "email": email, "disabled": 0},
@@ -316,9 +309,6 @@ def _mail(link, url: str, doc) -> None:
 		button=str(ANSWERS[doc.doctype]) if doc.doctype in ANSWERS else _("Open {0}").format(doc.name),
 		until=portal._date(link.expires_on),
 	)
-
-
-# ------------------------------------------------------------ the link's side
 
 
 def _live(token: str | None):

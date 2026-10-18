@@ -7,7 +7,6 @@ from frappe.utils import add_days, get_datetime
 
 from onedesk.one_demo.base import ago, as_user
 
-#: who makes it, subject, days from today, at, hours, team, guests, about, public
 EVENTS = (
 	("samir@one.test", "Weekly site meeting", -7, "08:00", 1, ("rania@one.test", "tariq@one.test"), None, None, False),
 	("samir@one.test", "Weekly site meeting", 0, "08:00", 1, ("rania@one.test", "tariq@one.test"), None, None, False),

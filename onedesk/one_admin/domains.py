@@ -9,11 +9,8 @@ from frappe.utils import now_datetime
 
 from onedesk.one_admin import cloudflare, hosts, press
 
-#: Our word for a name that works.
 SETTLED = ("Active",)
 
-#: The most names one workspace may add. Not a technical limit, but a number
-#: beyond which somebody is doing something we should look at.
 MOST = 10
 
 
@@ -103,7 +100,6 @@ def mine(tenant) -> list[dict]:
 	given = {
 		"domain": tenant.domain,
 		"status": "Active",
-		# Ours is the main address unless one of theirs is.
 		"primary": not any(one["primary"] for one in held),
 		"given": True,
 	}
@@ -137,7 +133,6 @@ def nightly() -> None:
 		except Exception:
 			frappe.log_error(f"asking Cloudflare about {slug}'s domains")
 		frappe.db.commit()
-	# What is still waiting a day on, or broken, told to the operator.
 	from onedesk.one_admin import tell
 
 	tell.domains_waiting()
@@ -165,7 +160,6 @@ def _keep(name: str, said: dict | None) -> None:
 			"said": frappe.as_json(said) if said else None,
 		},
 	)
-	# Published, so a domain open in the console changes as Cloudflare answers.
 	frappe.get_doc("Tenant Domain", name).notify_update()
 
 

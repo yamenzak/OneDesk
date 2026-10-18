@@ -6,10 +6,8 @@ import re
 import frappe
 from frappe.utils import getdate
 
-#: Shorter names say too little to go by ("Web", "HQ").
 SHORTEST = 5
 
-#: Not a project here: an employee's onboarding or exit checklist.
 HR = "Employee Boarding"
 
 
@@ -35,7 +33,6 @@ def pick(text: str, projects: list[tuple[str, str]]) -> str | None:
 		and len(title.strip()) >= SHORTEST
 		and re.search(rf"(?<!\w){re.escape(title.strip())}(?!\w)", text, re.IGNORECASE)
 	]
-	# A name inside a longer one that is named too is the longer.
 	found = [
 		one
 		for one in found

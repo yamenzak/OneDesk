@@ -1,9 +1,3 @@
-// What can be done to an item from its page (one_inventory/page/item_view)
-// that the page doesn't do in place: every other field of the item, in
-// frappe's own controls, grouped, with its tables, and any field a workspace
-// adds under More (onedesk.project.about_fields). Saved against the item as
-// the page loaded it, as a form saves. And the documents an item is the start
-// of, opened in desk's own form with the item on their first line.
 frappe.provide("onedesk.item");
 
 onedesk.item.GROUPS = [
@@ -20,9 +14,6 @@ onedesk.item.GROUPS = [
 	[__("Asset"), ["is_fixed_asset", "asset_category", "asset_naming_series", "auto_create_assets", "is_grouped_asset"]],
 	[__("Accounts"), ["item_defaults", "taxes"]],
 ];
-// Changed in place on the page: its name, its description, whether it is
-// disabled. Its code and series are how it was named. Which companies it is
-// for is not asked: a workspace is one company.
 onedesk.item.ELSEWHERE = ["item_name", "description", "disabled", "item_code", "naming_series", "restrict_to_companies", "allowed_companies"];
 
 onedesk.item.edit = async (item, modified, done, fieldnames = null) => {
@@ -49,7 +40,6 @@ onedesk.item.edit = async (item, modified, done, fieldnames = null) => {
 				dialog.hide();
 				done?.();
 			} catch {
-				// frappe has said why, as a changed item's "Please refresh".
 			} finally {
 				dialog.enable_primary_action();
 			}
@@ -58,9 +48,6 @@ onedesk.item.edit = async (item, modified, done, fieldnames = null) => {
 	dialog.show();
 };
 
-// One of the item's fields as the dialog asks for it. A table is its rows in
-// frappe's grid, its columns those the item's form shows, and a row's company
-// is the workspace's own.
 onedesk.item.field = (doc, fieldname) => {
 	const df = frappe.meta.get_docfield("Item", fieldname);
 	if (!df) return null;
@@ -80,14 +67,10 @@ onedesk.item.field = (doc, fieldname) => {
 	};
 };
 
-// A document started from the item, open in desk's form with the item on its
-// first line, as the form's Create menu starts one: its own triggers then
-// fill the line's price, unit and warehouse.
 onedesk.item.start = (doctype, item, values = {}, line = {}, table = "items", field = "item_code") => {
 	frappe.model.with_doctype(doctype, () => {
 		const doc = frappe.model.get_new_doc(doctype);
 		Object.assign(doc, values);
-		// A table among the values gets its rows as the form adds them.
 		for (const [fieldname, rows] of Object.entries(values)) {
 			if (!Array.isArray(rows)) continue;
 			doc[fieldname] = [];
@@ -105,22 +88,15 @@ onedesk.item.start = (doctype, item, values = {}, line = {}, table = "items", fi
 	});
 };
 
-// What the item page's head starts, each a document of ERPNext's own.
 onedesk.item.order = (item, supplier) => onedesk.item.start("Purchase Order", item, supplier ? { supplier } : {});
-// A quotation or an order for a customer, when there is one.
 onedesk.item.quote = (item, customer) =>
 	onedesk.item.start("Quotation", item, customer ? { quotation_to: "Customer", party_name: customer } : {});
 onedesk.item.sell = (item, customer) => onedesk.item.start("Sales Order", item, customer ? { customer } : {});
-// A request for a quote, to the supplier when there is one.
 onedesk.item.ask = (item, supplier) =>
 	onedesk.item.start("Request for Quotation", item, supplier ? { suppliers: [{ supplier }] } : {});
-// A document made from another as its own form's button makes it, with
-// ERPNext's mapper (an order received, a request ordered, a quote ordered).
-// `triggers` re-runs the new form's link triggers, where ERPNext's own button does.
 onedesk.item.mapped = (method, source_name, args, triggers = false) =>
 	frappe.model.open_mapped_doc({ method, source_name, args, run_link_triggers: triggers });
 onedesk.item.request = (item) => onedesk.item.start("Material Request", item, { material_request_type: "Purchase" });
-// From a warehouse's row, the transfer starts from it and the count is of it.
 onedesk.item.move = (item, warehouse) => onedesk.stock.move(warehouse, item);
 onedesk.item.count = (item, opening, warehouse) =>
 	onedesk.item.start(
@@ -144,9 +120,6 @@ onedesk.item.make = (item, bom) => {
 };
 onedesk.item.bom = (item) => frappe.new_doc("BOM", { item });
 onedesk.item.manufacturer = (item) => frappe.new_doc("Item Manufacturer", { item_code: item });
-// What a work order has made, recorded as its own form's Finish records it:
-// how many, up to what has been taken for it, then ERPNext's manufacture
-// entry opened in its form.
 onedesk.item.finish = (work_order, most) => {
 	frappe.prompt(
 		[{ fieldtype: "Float", fieldname: "qty", label: __("How Many Made"), reqd: 1, default: most, description: __("Up to {0}", [most]) }],
@@ -165,9 +138,6 @@ onedesk.item.finish = (work_order, most) => {
 };
 onedesk.item.price = (item, buying) => frappe.new_doc("Item Price", { item_code: item, price_list: frappe.defaults.get_default(buying ? "buying_price_list" : "selling_price_list") || undefined });
 
-// A variant of a template made from its attributes, as ERPNext's Single
-// Variant asks for one: a value for each attribute, then the new item in its
-// form to name and save.
 onedesk.item.variant = async (item) => {
 	await frappe.model.with_doctype("Item");
 	const doc = await frappe.db.get_doc("Item", item);
@@ -204,14 +174,8 @@ onedesk.item.variant = async (item) => {
 	dialog.show();
 };
 
-// What Stock on Hand starts, for a warehouse when one is chosen.
 frappe.provide("onedesk.stock");
-// A transfer as Shopify's asks it: where from, where to, and which items and
-// how many, with the project it is for and a note. The server makes ERPNext's Material Transfer and submits it
-// (one_inventory/stock.py, transfer); Open Full Form leaves for ERPNext's form.
 onedesk.stock.move = (warehouse, item) => {
-	// No company in the filter: a link's search prints its filters, and the
-	// workspace is one company. ERPNext refuses a warehouse of another.
 	const places = (other) => () => ({ filters: { is_group: 0, disabled: 0, ...(other() ? { name: ["!=", other()] } : {}) } });
 	const dialog = new frappe.ui.Dialog({
 		title: __("Transfer Stock"),
@@ -258,12 +222,7 @@ onedesk.stock.move = (warehouse, item) => {
 	});
 	dialog.show();
 };
-// Stock used, on a project when it is asked from one, as a transfer is asked:
-// where from, which items and how many, and a note. The server makes ERPNext's
-// Material Issue and submits it (one_inventory/stock.py, issue), so its cost
-// is the project's at once; Open Full Form leaves for ERPNext's form.
 onedesk.stock.issue = ({ project, title, warehouse, done } = {}) => {
-	// The project reads by its name, not its number, in a field nobody changes.
 	if (project && title) frappe.utils.add_link_title("Project", project, title);
 	const dialog = new frappe.ui.Dialog({
 		title: __("Issue Stock"),

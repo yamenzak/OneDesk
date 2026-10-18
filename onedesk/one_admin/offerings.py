@@ -10,20 +10,17 @@ from frappe.utils import flt
 
 from onedesk.one_admin import plans, site
 
-#: What a month of each thing costs us, in US dollars. Estimates to start
-#: from: the operator sets the real ones in One Admin Settings, Costs.
 COSTS = {
-	"cost_workspace": 8,  # the smallest Frappe Cloud site, and its mail
+	"cost_workspace": 8,
 	"cost_seat": 0.5,
-	"cost_storage_gb": 0.02,  # R2 at 0.015, and its operations
-	"cost_database_gb": 3,  # what a GB adds to the site's Frappe Cloud plan
-	"cost_backup_gb": 0.015,  # a backup copy in R2
+	"cost_storage_gb": 0.02,
+	"cost_database_gb": 3,
+	"cost_backup_gb": 0.015,
 	"backups_kept": 14,
 	"least_margin": 2,
 }
 
 PLANS = [
-	# key, label, price, seats, storage GB, database GB, credits a month, trial days
 	("starter", "Starter", 30, 5, 20, 1, 1000, 14),
 	("team", "Team", 70, 15, 100, 3, 3000, 14),
 	("business", "Business", 150, 40, 300, 8, 8000, 0),
@@ -31,7 +28,6 @@ PLANS = [
 ]
 
 ADDONS = [
-	# key, label, price, what it adds
 	("storage-50", "50 GB of Storage", 5, {"storage_gb": 50}),
 	("storage-250", "250 GB of Storage", 20, {"storage_gb": 250}),
 	("database-1", "1 GB of Database", 9, {"database_gb": 1}),
@@ -40,7 +36,6 @@ ADDONS = [
 ]
 
 PACKS = [
-	# key, label, price, credits
 	("pack1k", "1,000 credits", 9, 1000),
 	("pack5k", "5,000 credits", 40, 5000),
 	("pack20k", "20,000 credits", 150, 20000),
@@ -171,9 +166,6 @@ def credit_price() -> float:
 	return flt(pack[0].amount) / flt(pack[0].credits) if pack else 0.0
 
 
-#: Each of plans.check's rules, in words a translator can reach: plans.py is
-#: frappe-free and keeps its English for tests and logs, so a screen says a
-#: finding by its `rule`, with its `slots`.
 RULES = {
 	"margin": _lt("{label} sells for {price} and costs {cost}, below the {margin}× margin ({least})."),
 	"fewer": _lt("{upper} costs more than {lower} and gives less {what}."),
@@ -185,7 +177,6 @@ RULES = {
 	"per_unit": _lt("{big} costs more per unit than {small}."),
 }
 
-#: What a plan runs out of, as `fewer` names it.
 RESOURCE_SAID = {
 	"seats": _lt("seats"),
 	"storage_gb": _lt("storage"),

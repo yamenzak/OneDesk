@@ -4,7 +4,6 @@
 {%- block navbar -%}{%- endblock -%}
 {%- block footer -%}{%- endblock -%}
 {% block breadcrumbs %}{% endblock %}
-{#- The key is in this page's address: sites it links to are not told it. -#}
 {% block head_include %}{{ super() }}<meta name="referrer" content="no-referrer">{% endblock %}
 
 {% block page_content %}

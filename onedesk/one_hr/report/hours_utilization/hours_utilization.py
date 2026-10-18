@@ -10,8 +10,6 @@ from hrms.utils.holiday_list import (
 	get_holidays_in_ranges_map,
 )
 
-#: Below this a workspace usually wants to know. Not a rule, and not a colour on
-#: its own: the tile says the number and the reader decides.
 WATCH = 70.0
 
 
