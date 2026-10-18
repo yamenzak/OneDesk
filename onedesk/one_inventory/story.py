@@ -571,7 +571,10 @@ def _received_on(orders: list[str]) -> dict:
 		return {}
 	rows = frappe.get_list(
 		"Purchase Receipt",
-		filters=[["docstatus", "=", 1], ["Purchase Receipt Item", "purchase_order", "in", orders]],
+		filters=[
+			*[[k, "=", v] for k, v in _ours({"docstatus": 1}).items()],
+			["Purchase Receipt Item", "purchase_order", "in", orders],
+		],
 		fields=["posting_date", "`tabPurchase Receipt Item`.purchase_order as purchase_order"],
 		limit_page_length=0,
 	)

@@ -99,12 +99,13 @@ async function load() {
   said.value = await call("onedesk.one_project.hours.entries", { project: props.projectName, ...onlyArg(only) });
 }
 let timer = null;
-const stop = followList("Timesheet", () => {
+const later = () => {
   clearTimeout(timer);
   timer = setTimeout(load, 400);
-});
+};
+const stop = ["Timesheet", "Employee", "User"].map((doctype) => followList(doctype, later));
 onBeforeUnmount(() => {
-  stop();
+  stop.forEach((one) => one());
   clearTimeout(timer);
 });
 watch(() => props.projectName, load, { immediate: true });

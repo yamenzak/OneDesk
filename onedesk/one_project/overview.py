@@ -6,6 +6,7 @@ it week by week for a quarter.
 
 from typing import Annotated
 
+import erpnext
 import frappe
 from frappe.utils import date_diff, flt, formatdate, getdate, nowdate
 
@@ -57,7 +58,7 @@ def own_progress(project: str, method: str | None, stored) -> int | None:
 		return round(flt(stored))
 	tasks = frappe.get_all(
 		"Task",
-		filters={"project": project, "status": ["!=", "Template"]},
+		filters={"project": project, "status": ["!=", "Template"], "company": erpnext.get_default_company()},
 		fields=["status", "progress", "task_weight"],
 	)
 	return round(progress(method, tasks, stored)) if tasks else None
@@ -118,16 +119,21 @@ def overview(project: Annotated[str, "The project."]) -> dict:
 	)
 	projects = [one for one in tree.scope(project) if one == project or members.sees(one, user)]
 	today = nowdate()
+	company = erpnext.get_default_company()
 
 	counts = frappe.get_all(
 		"Task",
-		filters={"project": ["in", projects], "status": ["not in", ("Cancelled", "Template")]},
+		filters={
+			"project": ["in", projects],
+			"status": ["not in", ("Cancelled", "Template")],
+			"company": company,
+		},
 		fields=["status", {"COUNT": "*", "as": "n"}],
 		group_by="status",
 	)
 	total = sum(row.n for row in counts)
 	done = sum(row.n for row in counts if row.status == "Completed")
-	open_ = [["project", "in", projects], ["status", "not in", DONE]]
+	open_ = [["project", "in", projects], ["company", "=", company], ["status", "not in", DONE]]
 	late_filters = [*open_, ["exp_end_date", "is", "set"], ["exp_end_date", "<", today]]
 	late = frappe.db.count("Task", late_filters)
 	statuses = {row.status: row.n for row in counts}
@@ -186,6 +192,7 @@ def _weekly(projects: list[str], day) -> dict | None:
 			["Timesheet Detail", "project", "in", projects],
 			["Timesheet Detail", "from_time", ">=", str(starts[0])],
 			["Timesheet", "docstatus", "<", 2],
+			["Timesheet", "company", "=", erpnext.get_default_company()],
 		],
 		fields=["from_time", "hours"],
 		limit_page_length=0,

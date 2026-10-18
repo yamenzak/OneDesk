@@ -284,7 +284,7 @@ const later = () => {
   clearTimeout(timer);
   timer = setTimeout(load, 400);
 };
-const stops = ["Purchase Invoice", "Payment Entry", "Material Request", "Request for Quotation", "Supplier Quotation", "Purchase Order", "Purchase Receipt"].map((doctype) =>
+const stops = ["Purchase Invoice", "Payment Entry", "Supplier", "Material Request", "Request for Quotation", "Supplier Quotation", "Purchase Order", "Purchase Receipt"].map((doctype) =>
   followList(doctype, later)
 );
 onBeforeUnmount(() => {

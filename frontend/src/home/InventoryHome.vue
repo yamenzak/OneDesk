@@ -76,7 +76,23 @@ const soon = () => {
   clearTimeout(timer);
   timer = setTimeout(load, 800);
 };
-const stop = ["Purchase Order", "Purchase Receipt", "Delivery Note", "Stock Entry", "Batch", "Work Order", "Asset Maintenance Log"].map((one) => followList(one, soon));
+const stop = [
+  "Item",
+  "Warehouse",
+  "Bin",
+  "Stock Ledger Entry",
+  "Purchase Order",
+  "Purchase Receipt",
+  "Delivery Note",
+  "Stock Entry",
+  "Material Request",
+  "Batch",
+  "Work Order",
+  "Job Card",
+  "Asset",
+  "Asset Maintenance",
+  "Asset Maintenance Log",
+].map((one) => followList(one, soon));
 onBeforeUnmount(() => {
   stop.forEach((one) => one());
   clearTimeout(timer);

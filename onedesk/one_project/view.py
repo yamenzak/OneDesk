@@ -4,6 +4,7 @@
 
 from typing import Annotated
 
+import erpnext
 import frappe
 from frappe import _
 from frappe.utils import (
@@ -37,6 +38,11 @@ from onedesk.one_project import (
 from onedesk.one_project import updates as asking
 
 LISTED = 200
+
+
+def _company() -> str | None:
+	"""The reader's company, which every list on the page is of."""
+	return erpnext.get_default_company()
 
 SHOWN = 6
 
@@ -162,7 +168,10 @@ def _below(project: str) -> list[dict]:
 	if not names:
 		return []
 	found = frappe.get_list(
-		"Project", filters={"name": ["in", names]}, fields=["name", "project_name"], order_by="project_name asc"
+		"Project",
+		filters={"name": ["in", names], "company": _company()},
+		fields=["name", "project_name"],
+		order_by="project_name asc",
 	)
 	return [{"name": one.name, "title": one.project_name or one.name} for one in found]
 
@@ -174,7 +183,10 @@ def _above(project: str) -> list[dict]:
 		return []
 	titles = dict(
 		frappe.get_all(
-			"Project", filters={"name": ["in", chain]}, fields=["name", "project_name"], as_list=True
+			"Project",
+			filters={"name": ["in", chain], "company": _company()},
+			fields=["name", "project_name"],
+			as_list=True,
 		)
 	)
 	return [{"name": one, "title": titles.get(one) or one} for one in reversed(chain)]
@@ -196,7 +208,12 @@ def _contract(doc) -> str | None:
 		return doc.sales_order
 	found = frappe.get_all(
 		"Sales Order",
-		filters={"project": doc.name, "docstatus": 1, "status": ["not in", ("Closed", "Completed")]},
+		filters={
+			"project": doc.name,
+			"docstatus": 1,
+			"status": ["not in", ("Closed", "Completed")],
+			"company": _company(),
+		},
 		order_by="transaction_date asc",
 		pluck="name",
 		limit=1,
@@ -228,7 +245,7 @@ def _orders(doc, projects: list[str] | None = None) -> list[dict]:
 	projects = projects or sorted(tree.scope(doc.name))
 	found = frappe.get_list(
 		"Sales Order",
-		filters={"project": ["in", projects], "docstatus": 1},
+		filters={"project": ["in", projects], "docstatus": 1, "company": _company()},
 		fields=[
 			"name",
 			"project",
@@ -253,7 +270,10 @@ def _orders(doc, projects: list[str] | None = None) -> list[dict]:
 		lines.setdefault(line.parent, []).append(line)
 	titles = dict(
 		frappe.get_all(
-			"Project", filters={"name": ["in", projects]}, fields=["name", "project_name"], as_list=True
+			"Project",
+			filters={"name": ["in", projects], "company": _company()},
+			fields=["name", "project_name"],
+			as_list=True,
 		)
 	)
 	return [
@@ -291,7 +311,7 @@ def quotation(doc) -> dict | None:
 	filters = {"project": doc.name, "docstatus": 1, "is_active": 1, "status": ["in", list(OPEN_QUOTE)], "one_extra_work": 0}
 	found = frappe.get_all(
 		"Quotation",
-		filters=filters,
+		filters={**filters, "company": _company()},
 		fields=["name", "base_net_total", "valid_till"],
 		order_by="transaction_date desc, creation desc",
 	)
@@ -634,7 +654,7 @@ def _last_billed(projects: list[str]) -> dict | None:
 		return None
 	found = frappe.get_list(
 		"Sales Invoice",
-		filters={"docstatus": 1, "is_return": 0, "project": ["in", projects]},
+		filters={"docstatus": 1, "is_return": 0, "project": ["in", projects], "company": _company()},
 		fields=["posting_date", "one_progress"],
 		order_by="posting_date desc, creation desc",
 		limit=1,
@@ -671,7 +691,12 @@ def _quotes(doc) -> list[dict]:
 		}
 		for one in frappe.get_list(
 			"Quotation",
-			filters={"project": doc.name, "docstatus": ["<", 2], "status": ["!=", "Ordered"]},
+			filters={
+				"project": doc.name,
+				"docstatus": ["<", 2],
+				"status": ["!=", "Ordered"],
+				"company": _company(),
+			},
 			fields=[
 				"name",
 				"transaction_date",
@@ -744,6 +769,7 @@ def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 	sections of their own. A completed project still owed money says so
 	first. Every row there is, for the Overview to show some and count all."""
 	user = frappe.session.user
+	company = _company()
 	found = []
 	if doc.status == "Completed" and frappe.has_permission("Sales Invoice", "read"):
 		from onedesk.one_project.status import due
@@ -765,7 +791,12 @@ def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 			continue
 		for bill in frappe.get_all(
 			doctype,
-			filters={"docstatus": 0, "one_progress": [">", 0], "project": ["in", view["tree"]]},
+			filters={
+				"docstatus": 0,
+				"one_progress": [">", 0],
+				"project": ["in", view["tree"]],
+				"company": company,
+			},
 			fields=[
 				"name",
 				"owner",
@@ -804,7 +835,10 @@ def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 	today = getdate(nowdate())
 	titles = dict(
 		frappe.get_all(
-			"Project", filters={"name": ["in", view["tree"]]}, fields=["name", "project_name"], as_list=True
+			"Project",
+			filters={"name": ["in", view["tree"]], "company": company},
+			fields=["name", "project_name"],
+			as_list=True,
 		)
 	)
 	of = tree.parents()
@@ -812,6 +846,7 @@ def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 		"Task",
 		filters=[
 			["project", "in", view["tree"]],
+			["company", "=", company],
 			["status", "not in", overview.DONE],
 			["exp_end_date", "is", "set"],
 			["exp_end_date", "<", str(add_days(today, 1))],
@@ -850,16 +885,11 @@ def _subcontracts(project: str, view: dict, orders: list[dict]) -> list[dict]:
 	work on its project has got, to set beside what's billed."""
 	if not orders:
 		return []
-	titles = dict(
-		frappe.get_all(
-			"Project", filters={"name": ["in", view["tree"]]}, fields=["name", "project_name"], as_list=True
-		)
-	)
+	ours = {"name": ["in", view["tree"]], "company": _company()}
+	titles = dict(frappe.get_all("Project", filters=ours, fields=["name", "project_name"], as_list=True))
 	done = {
 		one.name: 100 if one.status == "Completed" else round(flt(one.percent_complete))
-		for one in frappe.get_all(
-			"Project", filters={"name": ["in", view["tree"]]}, fields=["name", "status", "percent_complete"]
-		)
+		for one in frappe.get_all("Project", filters=ours, fields=["name", "status", "percent_complete"])
 	}
 	done[project] = view["share"]
 	of = tree.parents()
@@ -996,6 +1026,7 @@ def _due_soon(projects: list[str]) -> list[dict]:
 		"Task",
 		filters=[
 			["project", "in", projects],
+			["company", "=", _company()],
 			["status", "not in", overview.DONE],
 			["exp_end_date", ">=", str(today)],
 			["exp_end_date", "<=", str(add_days(today, 14))],
@@ -1022,7 +1053,11 @@ def _on_it(projects: list[str]) -> list[dict]:
 	found: dict = {}
 	for one in frappe.get_list(
 		"Task",
-		filters=[["project", "in", projects], ["status", "not in", overview.DONE]],
+		filters=[
+			["project", "in", projects],
+			["company", "=", _company()],
+			["status", "not in", overview.DONE],
+		],
 		fields=["_assign"],
 		limit_page_length=0,
 	):
@@ -1046,7 +1081,7 @@ def _unbilled_people(project: str) -> list[dict]:
 		one.name: one
 		for one in frappe.get_all(
 			"Timesheet",
-			filters={"name": ["in", list({row.time_sheet for row in rows})]},
+			filters={"name": ["in", list({row.time_sheet for row in rows})], "company": _company()},
 			fields=["name", "employee_name", "user", "employee"],
 		)
 	}
@@ -1094,14 +1129,14 @@ def _sub_projects(project: str) -> dict:
 		one.name: one
 		for one in frappe.get_all(
 			"Project",
-			filters={"name": ["in", names]},
+			filters={"name": ["in", names], "company": _company()},
 			fields=["name", "one_kind", "one_manager", "expected_end_date", "one_health"],
 		)
 	}
 	extra = set(
 		frappe.get_all(
 			"Sales Order",
-			filters={"project": ["in", names], "docstatus": 1, billing.EXTRA: 1},
+			filters={"project": ["in", names], "docstatus": 1, billing.EXTRA: 1, "company": _company()},
 			pluck="project",
 		)
 	)
@@ -1170,6 +1205,7 @@ def _month_hours(projects: list[str]) -> float:
 			["Timesheet Detail", "from_time", ">=", str(get_first_day(nowdate()))],
 			["Timesheet Detail", "from_time", "<", str(get_first_day(add_months(nowdate(), 1)))],
 			["Timesheet", "docstatus", "<", 2],
+			["Timesheet", "company", "=", _company()],
 		],
 		fields=["hours"],
 		limit_page_length=0,
@@ -1179,6 +1215,7 @@ def _month_hours(projects: list[str]) -> float:
 
 def _time_rows(project: str) -> list:
 	"""This month's time on the project, each with who logged it."""
+	company = _company()
 	rows = frappe.get_list(
 		"Timesheet Detail",
 		parent_doctype="Timesheet",
@@ -1187,6 +1224,7 @@ def _time_rows(project: str) -> list:
 			["Timesheet Detail", "from_time", ">=", str(get_first_day(nowdate()))],
 			["Timesheet Detail", "from_time", "<", str(get_first_day(add_months(nowdate(), 1)))],
 			["Timesheet", "docstatus", "<", 2],
+			["Timesheet", "company", "=", company],
 		],
 		fields=["parent", "activity_type", "hours", "billing_amount"],
 		limit_page_length=0,
@@ -1195,7 +1233,7 @@ def _time_rows(project: str) -> list:
 		one.name: one
 		for one in frappe.get_all(
 			"Timesheet",
-			filters={"name": ["in", list({row.parent for row in rows})]},
+			filters={"name": ["in", list({row.parent for row in rows})], "company": company},
 			fields=["name", "user", "employee", "employee_name"],
 		)
 	}
@@ -1220,7 +1258,7 @@ def _faces(sheets) -> dict:
 			dict(
 				frappe.get_all(
 					"Employee",
-					filters={"name": ["in", list(employees)]},
+					filters={"name": ["in", list(employees)], "company": _company()},
 					fields=["name", "image"],
 					as_list=True,
 				)
@@ -1287,11 +1325,15 @@ def work(
 	the reader, so a task they may not see is not here."""
 	frappe.has_permission("Project", "read", doc=project, throw=True)
 	tree.narrow(project, only)
+	company = _company()
 	of = tree.parents()
 	below = tree.scope(project)
 	titles = dict(
 		frappe.get_all(
-			"Project", filters={"name": ["in", list(below)]}, fields=["name", "project_name"], as_list=True
+			"Project",
+			filters={"name": ["in", list(below)], "company": company},
+			fields=["name", "project_name"],
+			as_list=True,
 		)
 	)
 	under = sorted(
@@ -1305,7 +1347,11 @@ def work(
 	groups = [{"key": project, "title": titles.get(project) or project, "own": True}, *under]
 	rows = frappe.get_list(
 		"Task",
-		filters=[["project", "in", [one["key"] for one in groups]], ["status", "!=", "Template"]],
+		filters=[
+			["project", "in", [one["key"] for one in groups]],
+			["company", "=", company],
+			["status", "!=", "Template"],
+		],
 		fields=list(TASK_FIELDS),
 		order_by="exp_end_date asc, creation asc",
 		limit_page_length=0,
@@ -1388,7 +1434,11 @@ def _waiting(names: list[str]) -> dict[str, list[str]]:
 		one.name: one.subject
 		for one in frappe.get_all(
 			"Task",
-			filters={"name": ["in", list({row.task for row in rows})], "status": ["not in", overview.DONE]},
+			filters={
+				"name": ["in", list({row.task for row in rows})],
+				"status": ["not in", overview.DONE],
+				"company": _company(),
+			},
 			fields=["name", "subject"],
 		)
 	}

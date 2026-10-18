@@ -893,6 +893,7 @@ def method_reads(method: str) -> tuple[bool, list[tuple[str, bool]]]:
 	if parts[-1] not in defs:
 		return False, []
 	marked = any("read_only" in ast.get_source_segment(source, d) for d in defs[parts[-1]].decorator_list)
+	naming = {name for name, node in defs.items() if "company" in ast.get_source_segment(source, node)}
 	queue, done, reads, writes = [parts[-1]], set(), [], False
 	while queue:
 		name = queue.pop()
@@ -901,7 +902,7 @@ def method_reads(method: str) -> tuple[bool, list[tuple[str, bool]]]:
 		done.add(name)
 		called, read, wrote = _calls(defs[name])
 		body = ast.get_source_segment(source, defs[name])
-		with_company = "company" in body or "warehouse" in body
+		with_company = "company" in body or "warehouse" in body or bool(called & naming)
 		reads += [(doctype, with_company) for doctype in read]
 		writes |= wrote
 		queue += list(called)
@@ -919,7 +920,9 @@ def screens() -> list[dict]:
 		for _, child, _ in meta.get("tables", []):
 			parents.setdefault(child, set()).add(name)
 	companied = {
-		name for name, meta in every.items() if any(target == "Company" for _, target, _ in meta["links"])
+		name
+		for name, meta in every.items()
+		if any(field == "company" and target == "Company" for field, target, _ in meta["links"])
 	}
 	out = []
 	for island, source in re.findall(r'"(onedesk\.\w+)":\s*"([^"]+)"', build):

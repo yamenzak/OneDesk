@@ -29,7 +29,7 @@
 import { computed, nextTick, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Avatar, Button, TextInput } from "frappe-ui";
 
-import { Pill, __, call, date, listen } from "../kit";
+import { Pill, __, call, date, followList, listen } from "../kit";
 import { HEALTH } from "./colors";
 
 const props = defineProps({ said: { type: Object, required: true }, writing: Boolean });
@@ -69,6 +69,7 @@ const stop = [
     note.value = data.text || "";
     focus();
   }),
+  followList("User", load),
 ];
 onBeforeUnmount(() => stop.forEach((one) => one()));
 

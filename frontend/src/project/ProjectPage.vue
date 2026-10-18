@@ -51,7 +51,7 @@
 import { computed, defineAsyncComponent, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Button, Dropdown, TabButtons, TextInput } from "frappe-ui";
 
-import { Loading, Page, PlaceSpot, ViewTabs, __, andList, call, can, confirm, escape, follow, go, listen, newDoc, onResize, onedesk, setQuery, setValue, useRecord, viewWidth } from "../kit";
+import { Loading, Page, PlaceSpot, ViewTabs, __, andList, call, can, confirm, escape, follow, followList, go, listen, newDoc, onResize, onedesk, setQuery, setValue, useRecord, viewWidth } from "../kit";
 import Board from "./Board.vue";
 import Files from "./Files.vue";
 import Header from "./Header.vue";
@@ -103,6 +103,11 @@ async function load() {
   report();
 }
 
+let timer = null;
+const soon = () => {
+  clearTimeout(timer);
+  timer = setTimeout(load, 400);
+};
 let stop = [];
 watch(
   name,
@@ -115,13 +120,17 @@ watch(
       follow("Project", now, load),
       listen("one_project_money", (data) => data.project === now && load()),
       listen("one_project_media", (data) => data.project === now && load()),
+      ...["Sales Order", "Quotation", "Employee", "User"].map((one) => followList(one, soon)),
     ];
     load();
     loadWork();
   },
   { immediate: true }
 );
-onBeforeUnmount(() => stop.forEach((one) => one()));
+onBeforeUnmount(() => {
+  stop.forEach((one) => one());
+  clearTimeout(timer);
+});
 watch(view, (now) => setQuery("view", now === "overview" ? null : now));
 watch(only, (now) => {
   setQuery("only", now ? "1" : null);

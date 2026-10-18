@@ -173,7 +173,7 @@ def _made(item: str) -> dict | None:
 		return None
 	bom = frappe.get_list(
 		"BOM",
-		filters={"item": item, "is_default": 1, "is_active": 1, "docstatus": 1},
+		filters={"item": item, "is_default": 1, "is_active": 1, "docstatus": 1, "company": erpnext.get_default_company()},
 		fields=["name", "quantity", "total_cost"],
 		limit=1,
 	)
@@ -184,9 +184,10 @@ def _stock(doc) -> dict:
 	"""Where it is kept, how much each place holds and needs, its batches and
 	the last moves in and out of it."""
 	levels = {row.warehouse: row for row in doc.get("reorder_levels") or []}
+	company = erpnext.get_default_company()
 	bins = frappe.get_list(
 		"Bin",
-		filters={"item_code": doc.name},
+		filters={"item_code": doc.name, "company": company},
 		fields=[
 			"warehouse",
 			"actual_qty",
@@ -209,7 +210,7 @@ def _stock(doc) -> dict:
 		],
 		"batches": lots.lots(item=doc.name) if doc.has_batch_no else [],
 		"numbers": lots.serials(item=doc.name) if doc.has_serial_no else [],
-		"serials": frappe.db.count("Serial No", {"item_code": doc.name, "status": "Active"})
+		"serials": frappe.db.count("Serial No", {"item_code": doc.name, "status": "Active", "company": company})
 		if doc.has_serial_no and _readable("Serial No")
 		else None,
 		"moves": _moves(doc.name),
@@ -226,10 +227,11 @@ def _trends(doc) -> dict:
 		return said
 	day = getdate(nowdate())
 	starts = figures.months(day)
+	company = erpnext.get_default_company()
 	if frappe.has_permission("Stock Ledger Entry", "read"):
 		moves = frappe.get_list(
 			"Stock Ledger Entry",
-			filters={"item_code": doc.name, "is_cancelled": 0, "posting_date": ["<=", day]},
+			filters={"item_code": doc.name, "is_cancelled": 0, "posting_date": ["<=", day], "company": company},
 			fields=["warehouse", "posting_date", "qty_after_transaction", "stock_value"],
 			order_by="posting_datetime asc, creation asc",
 			limit_page_length=0,
@@ -242,6 +244,7 @@ def _trends(doc) -> dict:
 				["Purchase Order Item", "item_code", "=", doc.name],
 				["docstatus", "=", 1],
 				["transaction_date", ">=", starts[0]],
+				["company", "=", company],
 			],
 			fields=["transaction_date", "items.item_code", "items.stock_qty as qty"],
 			limit_page_length=0,
@@ -297,9 +300,10 @@ def _moves(item: str) -> list:
 	"""The last moves of it, newest first, as the reader's stock ledger lists them."""
 	if not _readable("Stock Ledger Entry"):
 		return []
+	company = erpnext.get_default_company()
 	moves = frappe.get_list(
 		"Stock Ledger Entry",
-		filters={"item_code": item, "is_cancelled": 0},
+		filters={"item_code": item, "is_cancelled": 0, "company": company},
 		fields=[
 			"posting_date",
 			"voucher_type",
@@ -320,7 +324,7 @@ def _moves(item: str) -> list:
 		for entry in (
 			frappe.get_all(
 				"Stock Entry",
-				filters={"name": ["in", list(entries)]},
+				filters={"name": ["in", list(entries)], "company": company},
 				fields=["name", "stock_entry_type", "purpose"],
 			)
 			if entries
@@ -377,10 +381,15 @@ def _buying(doc) -> dict | None:
 		return None
 	suppliers = {}
 	lines = []
+	company = erpnext.get_default_company()
 	if _readable("Purchase Order"):
 		lines = frappe.get_list(
 			"Purchase Order",
-			filters=[["Purchase Order Item", "item_code", "=", doc.name], ["docstatus", "=", 1]],
+			filters=[
+				["Purchase Order Item", "item_code", "=", doc.name],
+				["docstatus", "=", 1],
+				["company", "=", company],
+			],
 			fields=[
 				"supplier",
 				"currency",
@@ -406,7 +415,6 @@ def _buying(doc) -> dict | None:
 	for row in doc.get("supplier_items") or []:
 		one = suppliers.setdefault(row.supplier, _supplier(row.supplier))
 		one.update(part_no=row.supplier_part_no, row=row.name)
-	company = erpnext.get_default_company()
 	defaults = next((row for row in doc.get("item_defaults") or [] if row.company == company), None)
 	default = defaults.default_supplier if defaults else None
 	if default and default not in suppliers:
@@ -535,6 +543,7 @@ def _agreed(item: str) -> dict:
 			["docstatus", "=", 1],
 			["blanket_order_type", "=", "Purchasing"],
 			["to_date", ">=", nowdate()],
+			["company", "=", erpnext.get_default_company()],
 		],
 		fields=[
 			"supplier",
@@ -563,6 +572,7 @@ def _quotes(item: str) -> list:
 			["Supplier Quotation Item", "item_code", "=", item],
 			["docstatus", "=", 1],
 			["status", "not in", ("Ordered", "Expired", "Stopped", "Cancelled")],
+			["company", "=", erpnext.get_default_company()],
 		],
 		fields=[
 			"name",
@@ -598,6 +608,7 @@ def _selling(doc) -> dict | None:
 		return None
 	customers = {}
 	sales = []
+	company = erpnext.get_default_company()
 	if _readable("Sales Invoice"):
 		for row in frappe.get_list(
 			"Sales Invoice",
@@ -605,6 +616,7 @@ def _selling(doc) -> dict | None:
 				["Sales Invoice Item", "item_code", "=", doc.name],
 				["docstatus", "=", 1],
 				["posting_date", ">=", frappe.utils.add_months(nowdate(), -12)],
+				["company", "=", company],
 			],
 			fields=[
 				"customer",
@@ -674,7 +686,10 @@ def _selling(doc) -> dict | None:
 		ready(
 			orders,
 			sum(
-				flt(one) for one in frappe.get_all("Bin", filters={"item_code": doc.name}, pluck="actual_qty")
+				flt(one)
+				for one in frappe.get_all(
+					"Bin", filters={"item_code": doc.name, "company": company}, pluck="actual_qty"
+				)
 			),
 		)
 	return {
@@ -728,6 +743,7 @@ def _quotations(item: str) -> list:
 			["Quotation Item", "item_code", "=", item],
 			["docstatus", "=", 1],
 			["status", "not in", ("Ordered", "Lost", "Expired", "Cancelled")],
+			["company", "=", erpnext.get_default_company()],
 		],
 		fields=[
 			"name",
@@ -762,7 +778,12 @@ def _open(doctype: str, child: str, fields: list, item: str, status=OPEN_ORDER) 
 		return []
 	rows = frappe.get_list(
 		doctype,
-		filters=[[child, "item_code", "=", item], ["docstatus", "=", 1], ["status", *status]],
+		filters=[
+			[child, "item_code", "=", item],
+			["docstatus", "=", 1],
+			["status", *status],
+			["company", "=", erpnext.get_default_company()],
+		],
 		fields=["name", *fields],
 		order_by=f"`tab{doctype}`.{'delivery_date' if doctype == 'Sales Order' else 'schedule_date'} asc",
 		limit=MOST,
@@ -803,9 +824,10 @@ def _making(doc) -> dict | None:
 	work orders still need of it."""
 	if not _readable("BOM"):
 		return None
+	company = erpnext.get_default_company()
 	boms = frappe.get_list(
 		"BOM",
-		filters={"item": doc.name, "docstatus": ["<", 2]},
+		filters={"item": doc.name, "docstatus": ["<", 2], "company": company},
 		fields=[
 			"name",
 			"is_active",
@@ -843,7 +865,12 @@ def _making(doc) -> dict | None:
 		)
 	used_in = frappe.get_list(
 		"BOM",
-		filters=[["BOM Item", "item_code", "=", doc.name], ["is_active", "=", 1], ["docstatus", "=", 1]],
+		filters=[
+			["BOM Item", "item_code", "=", doc.name],
+			["is_active", "=", 1],
+			["docstatus", "=", 1],
+			["company", "=", company],
+		],
 		fields=["name", "item", "item_name", "is_default", "`tabBOM Item`.qty as qty"],
 		limit=MOST,
 	)
@@ -855,6 +882,7 @@ def _making(doc) -> dict | None:
 				"production_item": doc.name,
 				"docstatus": 1,
 				"status": ["not in", ("Completed", "Closed", "Cancelled", "Stopped")],
+				"company": company,
 			},
 			fields=[
 				"name",
@@ -890,6 +918,7 @@ def _making(doc) -> dict | None:
 				"docstatus": 1,
 				"status": "Completed",
 				"actual_end_date": [">=", frappe.utils.add_months(nowdate(), -12)],
+				"company": company,
 			},
 			fields=["name", "produced_qty", "project", "actual_end_date"],
 			order_by="actual_end_date desc",
@@ -904,6 +933,7 @@ def _making(doc) -> dict | None:
 				["Work Order Item", "item_code", "=", doc.name],
 				["docstatus", "=", 1],
 				["status", "not in", ("Completed", "Closed", "Cancelled", "Stopped")],
+				["company", "=", company],
 			],
 			fields=[
 				"name",
@@ -954,7 +984,7 @@ def _free(items) -> dict:
 	free = {}
 	for row in frappe.get_all(
 		"Bin",
-		filters={"item_code": ["in", list(items)]},
+		filters={"item_code": ["in", list(items)], "company": erpnext.get_default_company()},
 		fields=["item_code", "actual_qty", "reserved_qty_for_production"],
 	):
 		free[row.item_code] = free.get(row.item_code, 0) + flt(row.actual_qty) - flt(row.reserved_qty_for_production)
@@ -964,9 +994,10 @@ def _free(items) -> dict:
 def _assets(item: str) -> list:
 	if not _readable("Asset"):
 		return []
+	company = erpnext.get_default_company()
 	assets = frappe.get_list(
 		"Asset",
-		filters={"item_code": item, "docstatus": ["<", 2]},
+		filters={"item_code": item, "docstatus": ["<", 2], "company": company},
 		fields=["name", "asset_name", "status", "location", "custodian", "docstatus", "purchase_date"],
 		order_by="purchase_date desc",
 		limit=MOST,
@@ -976,7 +1007,7 @@ def _assets(item: str) -> list:
 		dict(
 			frappe.get_all(
 				"Employee",
-				filters={"name": ["in", list(held)]},
+				filters={"name": ["in", list(held)], "company": company},
 				fields=["name", "employee_name"],
 				as_list=True,
 			)
@@ -1000,6 +1031,7 @@ def last_made(item: str) -> dict | None:
 			["docstatus", "=", 1],
 			["Stock Entry Detail", "item_code", "=", item],
 			["Stock Entry Detail", "is_finished_item", "=", 1],
+			["company", "=", erpnext.get_default_company()],
 		],
 		fields=["posting_date", "`tabStock Entry Detail`.qty as qty"],
 		order_by="posting_date desc",

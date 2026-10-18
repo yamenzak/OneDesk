@@ -119,6 +119,11 @@ const soon = () => {
   clearTimeout(timer);
   timer = setTimeout(load, 600);
 };
+async function files() {
+  const asked = name.value;
+  const got = await call("onedesk.one_inventory.view.files", { item: asked });
+  if (asked === name.value) fileCount.value = got;
+}
 let stop = [];
 watch(
   name,
@@ -127,7 +132,29 @@ watch(
     said.value = null;
     fileCount.value = null;
     if (!now) return;
-    stop = [follow("Item", now, load), ...["Bin", "Purchase Order", "Sales Order", "Work Order", "Material Request", "Item Price", "BOM"].map((one) => followList(one, soon))];
+    stop = [
+      follow("Item", now, load),
+      followList("File", files),
+      ...[
+        "Bin",
+        "Stock Ledger Entry",
+        "Stock Entry",
+        "Serial No",
+        "Purchase Order",
+        "Supplier Quotation",
+        "Blanket Order",
+        "Item Manufacturer",
+        "Quotation",
+        "Sales Order",
+        "Sales Invoice",
+        "Work Order",
+        "Material Request",
+        "Item Price",
+        "BOM",
+        "Asset",
+        "Employee",
+      ].map((one) => followList(one, soon)),
+    ];
     load();
   },
   { immediate: true }

@@ -18,9 +18,9 @@ export function useWork(project, only) {
 		clearTimeout(timer);
 		timer = setTimeout(load, 400);
 	};
-	const stop = followList("Task", soon);
+	const stop = ["Task", "User", "User Group"].map((one) => followList(one, soon));
 	onBeforeUnmount(() => {
-		stop();
+		stop.forEach((one) => one());
 		clearTimeout(timer);
 	});
 

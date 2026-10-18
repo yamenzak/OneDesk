@@ -128,7 +128,7 @@ const later = () => {
   clearTimeout(timer);
   timer = setTimeout(load, 400);
 };
-const stops = ["Task", "Timesheet", "Contact"].map((doctype) => followList(doctype, later));
+const stops = ["Task", "Timesheet", "Contact", "Supplier", "Employee", "User"].map((doctype) => followList(doctype, later));
 onBeforeUnmount(() => {
   stops.forEach((stop) => stop());
   clearTimeout(timer);

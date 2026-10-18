@@ -178,6 +178,11 @@ const soon = () => {
   clearTimeout(timer);
   timer = setTimeout(load, 400);
 };
+async function files() {
+  const asked = name.value;
+  const got = await call("onedesk.one_task.view.files", { task: asked });
+  if (asked === name.value) fileCount.value = got;
+}
 let stop = [];
 watch(
   name,
@@ -186,7 +191,7 @@ watch(
     said.value = null;
     fileCount.value = null;
     if (!now) return;
-    stop = [follow("Task", now, load), followList("Task", soon), followList("Timesheet", soon)];
+    stop = [follow("Task", now, load), followList("Task", soon), followList("Timesheet", soon), followList("User", soon), followList("File", files)];
     load();
   },
   { immediate: true }

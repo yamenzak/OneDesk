@@ -41,7 +41,7 @@
 import { computed, onMounted, onUnmounted, ref } from "vue";
 import { Button } from "frappe-ui";
 
-import { Loading, __, call, duration, go, listen, onedesk, secondsSince } from "../kit";
+import { Loading, __, call, duration, followList, go, listen, onedesk, secondsSince } from "../kit";
 
 const emit = defineEmits(["opened"]);
 
@@ -82,15 +82,21 @@ async function stop(one) {
   await load();
 }
 
-let stopListening = () => {};
+let stopListening = [];
 let clock = null;
+let timer = null;
+const soon = () => {
+  clearTimeout(timer);
+  timer = setTimeout(load, 400);
+};
 onMounted(() => {
   load();
-  stopListening = listen("one_timers", load);
+  stopListening = [listen("one_timers", load), ...["Timesheet", "Task", "Project"].map((one) => followList(one, soon))];
   clock = setInterval(() => (tick.value += 1), 1000);
 });
 onUnmounted(() => {
-  stopListening();
+  stopListening.forEach((one) => one());
   clearInterval(clock);
+  clearTimeout(timer);
 });
 </script>

@@ -6485,6 +6485,76 @@ def onebook_chases_what_customers_owe():
 
 
 @check
+def onebook_a_late_invoice_ages_into_its_column():
+	"""The invoice longest late sits in the same column of what is owed on
+	Huda's Home as in ERPNext's Accounts Receivable, and that column is the
+	one its days past due fall in."""
+	from erpnext.accounts.report.accounts_receivable.accounts_receivable import execute
+
+	from onedesk.one_book import home, story
+
+	with as_user("huda@one.test"):
+		late = frappe.get_all(
+			"Sales Invoice",
+			filters={"docstatus": 1, "status": "Overdue", "company": COMPANY},
+			fields=["name", "due_date", "outstanding_amount"],
+			order_by="due_date asc",
+			limit=1,
+		)
+		assert late, "the demo leaves an invoice late"
+		one = late[0]
+		days = date_diff(today(), one.due_date)
+		bands = [row["band"] for row in story.ageing([])]
+		ours = next(row["band"] for row in story.ageing([one]) if row["owed"])
+		low, _, high = ours.partition("-")
+		assert int(low) <= days and (high == "Above" or days <= int(high)), (ours, days)
+		told = {row["band"]: row["owed"] for row in story.read()["receivable"]["ages"]}
+		assert told[ours] >= flt(one.outstanding_amount) - 0.01, (told, one)
+		_, rows, *_ = execute(
+			frappe._dict(company=home._company(), report_date=today(), range="30, 60, 90, 120", ageing_based_on="Due Date")
+		)
+		row = next(row for row in rows if row.get("voucher_no") == one.name)
+		theirs = next(n for n in range(1, 6) if abs(flt(row.get(f"range{n}")) - flt(one.outstanding_amount)) < 0.01)
+		assert bands[theirs] == ours, (bands[theirs], ours, days)
+
+
+@check
+def onebook_profit_and_loss_shows_each_month_in_its_month():
+	"""ERPNext's Profit and Loss by month, as Huda runs it: the workshop and
+	office rent, 38,000 on the first of each month, sits in each month this
+	year, and nowhere twice."""
+	from erpnext.accounts.report.profit_and_loss_statement.profit_and_loss_statement import execute
+
+	from onedesk.one_book import home
+
+	with as_user("huda@one.test"):
+		year = frappe.db.get_value(
+			"Fiscal Year", {"year_start_date": ["<=", today()], "year_end_date": [">=", today()]}, "name"
+		)
+		_, rows, *_ = execute(
+			frappe._dict(
+				company=home._company(),
+				filter_based_on="Fiscal Year",
+				from_fiscal_year=year,
+				to_fiscal_year=year,
+				period_start_date=getdate(f"{getdate(today()).year}-01-01"),
+				period_end_date=getdate(f"{getdate(today()).year}-12-31"),
+				periodicity="Monthly",
+				accumulated_values=0,
+				presentation_currency=None,
+			)
+		)
+		rent = next(row for row in rows if (row.get("account_name") or "").startswith("Rent Expense"))
+		months = [key for key in rent if key[:3].lower() in {
+			"jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"
+		} and key[-4:].isdigit()]
+		assert len(months) == 12, months
+		for n, key in enumerate(months, start=1):
+			want = 38000 if n <= getdate(today()).month else 0
+			assert abs(flt(rent[key]) - want) < 0.01, (key, rent[key])
+
+
+@check
 def onebook_a_payment_says_where_it_stands():
 	"""Every payment Huda opens says in a sentence what moved, to or from
 	whom, and a payment through the bank says whether the statement has it

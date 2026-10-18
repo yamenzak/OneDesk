@@ -2,6 +2,7 @@
 
 from datetime import date, timedelta
 
+import erpnext
 import frappe
 from frappe import _lt
 from frappe.utils import getdate, nowdate
@@ -65,7 +66,7 @@ def tasks(view: str = "mine") -> list[dict]:
 	filters, or_filters = _filters(view if view in VIEWS else "mine", frappe.session.user)
 	rows = frappe.get_list(
 		"Task",
-		filters=filters,
+		filters=[*filters, ["company", "=", erpnext.get_default_company()]],
 		or_filters=or_filters,
 		fields=[
 			"name",
@@ -130,7 +131,11 @@ def _waiting(names: list[str]) -> dict[str, int]:
 		one.name: one.parent_task
 		for one in frappe.get_all(
 			"Task",
-			filters={"name": ["in", list({one.task for one in rows})], "status": ["not in", DONE]},
+			filters={
+				"name": ["in", list({one.task for one in rows})],
+				"status": ["not in", DONE],
+				"company": erpnext.get_default_company(),
+			},
 			fields=["name", "parent_task"],
 		)
 	}
@@ -186,10 +191,16 @@ def counts() -> dict:
 	which is the Overdue group's own rule (`when`). Counted as the reader,
 	through `get_list`: `frappe.db.count` is not."""
 	user = frappe.session.user
+	company = ["company", "=", erpnext.get_default_company()]
 	filters, or_filters = _filters("inbox", user)
-	inbox = frappe.get_list("Task", filters=filters, or_filters=or_filters, pluck="name", limit=MOST)
+	inbox = frappe.get_list(
+		"Task", filters=[*filters, company], or_filters=or_filters, pluck="name", limit=MOST
+	)
 	mine = frappe.get_list(
-		"Task", filters=_filters("mine", user)[0], fields=["exp_start_date", "exp_end_date"], limit=MOST
+		"Task",
+		filters=[*_filters("mine", user)[0], company],
+		fields=["exp_start_date", "exp_end_date"],
+		limit=MOST,
 	)
 	today = getdate(nowdate())
 	late = sum(1 for one in mine if when(due(one), today) == "overdue")

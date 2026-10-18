@@ -152,23 +152,14 @@ def test_nothing_upstream_says_names_them():
 
 
 UNHEARD = {
-	"project": 9,
-	"task": 2,
-	"item": 11,
-	"home": 8,
-	"my_tasks": 2,
-	"timers": 4,
+	"project": 2,
 }
 
 BARE = {}
 
 NOT_THE_COMPANYS = {
-	"project": 8,
+	"project": 4,
 	"task": 2,
-	"item": 9,
-	"home": 5,
-	"my_tasks": 2,
-	"timers": 3,
 }
 
 
@@ -239,28 +230,7 @@ UNPRINTED = {
 
 ONLY_AN_ID: dict = {}
 
-ENGLISH = {
-	"erpnext / Accounts": 0,
-	"erpnext / Assets": 3,
-	"erpnext / Buying": 11,
-	"erpnext / CRM": 8,
-	"erpnext / Manufacturing": 32,
-	"erpnext / Projects": 40,
-	"erpnext / Selling": 0,
-	"erpnext / Setup": 0,
-	"erpnext / Stock": 15,
-	"erpnext / Subcontracting": 3,
-	"erpnext / Support": 0,
-	"frappe / Automation": 32,
-	"frappe / Core": 26,
-	"frappe / Desk": 32,
-	"frappe / Email": 4,
-	"frappe / Integrations": 6,
-	"frappe / Printing": 6,
-	"frappe / Website": 2,
-	"hrms / HR": 0,
-	"hrms / Payroll": 0,
-}
+ENGLISH: dict = {}
 
 
 def _point(check: str, allowed: dict) -> None:

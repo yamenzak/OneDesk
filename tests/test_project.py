@@ -1626,7 +1626,7 @@ def test_a_completed_project_reads_as_done():
 def test_a_project_with_several_orders_bills_and_holds_each():
 	view = (PROJECT / "view.py").read_text()
 	assert '"orders": orders(doc, view["tree"]),' in view
-	assert 'filters={"project": ["in", projects], "docstatus": 1}' in view
+	assert 'filters={"project": ["in", projects], "docstatus": 1, "company": _company()}' in view
 	facts = (tree.ROOT / "frontend" / "src" / "project" / "Facts.vue").read_text()
 	assert '__("{0} orders", [said.orders.length])' in facts
 	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()

@@ -235,7 +235,7 @@ let stop = [];
 onMounted(() => {
   load();
   const timed = async () => (running.value = times ? await call("onedesk.one_task.timer.running") : null);
-  stop = [followList("Task", again), followList("ToDo", again), listen("one_timers", timed)];
+  stop = [followList("Task", again), followList("ToDo", again), followList("Timesheet", timed), listen("one_timers", timed)];
 });
 onBeforeUnmount(() => {
   clearTimeout(soon);

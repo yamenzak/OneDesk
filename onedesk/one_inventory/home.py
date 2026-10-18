@@ -3,6 +3,7 @@ somebody today, and everything in OneInventory, each with what it is for.
 How it works is in the module's README, Under the hood.
 """
 
+import erpnext
 import frappe
 from frappe import _lt
 from frappe.utils import add_days, flt, getdate, today
@@ -246,8 +247,6 @@ def read() -> dict:
 
 
 def _currency() -> str | None:
-	import erpnext
-
 	company = erpnext.get_default_company()
 	return erpnext.get_company_currency(company) if company else None
 
@@ -297,6 +296,7 @@ def needs_you() -> dict:
 				"docstatus": 1,
 				"status": ["in", ("Not Started", "In Process")],
 				"expected_delivery_date": ["<", day],
+				"company": erpnext.get_default_company(),
 			},
 			fields=["name", "item_name", "qty", "produced_qty", "expected_delivery_date"],
 			order_by="expected_delivery_date asc",
@@ -325,13 +325,14 @@ DRAFTS = (
 def drafts() -> list[dict]:
 	"""For each kind of paper, how many drafts were left more than a day ago."""
 	out = []
+	company = erpnext.get_default_company()
 	for doctype, label in DRAFTS:
 		if not frappe.has_permission(doctype, "read"):
 			continue
 		count = len(
 			frappe.get_list(
 				doctype,
-				filters={"docstatus": 0, "modified": ["<", add_days(today(), -1)]},
+				filters={"docstatus": 0, "modified": ["<", add_days(today(), -1)], "company": company},
 				pluck="name",
 			)
 		)
