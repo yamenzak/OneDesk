@@ -1,6 +1,16 @@
 {
  "custom_fields": [
   {
+   "fieldname": "one_item_name",
+   "fieldtype": "Data",
+   "label": "Item Name",
+   "fetch_from": "item_code.item_name",
+   "read_only": 1,
+   "insert_after": "item_code",
+   "dt": "Installation Note Item",
+   "module": "One Inventory"
+  },
+  {
    "fieldname": "one_measured_by",
    "fieldtype": "Data",
    "label": "Sold by Size",

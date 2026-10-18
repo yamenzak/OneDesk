@@ -21,7 +21,9 @@ HEAD = f"font-size:9.5px;letter-spacing:0.08em;text-transform:uppercase;color:{M
 CSS = """.child-table td[data-fieldtype="Currency"] { white-space: nowrap; }
 .child-table td[data-fieldname="one_vat_amount"] .cell-line--primary,
 .child-table td[data-fieldname="qty"] .cell-line--primary,
-.child-table td[data-fieldname="received_qty"] .cell-line--primary { font-weight: 400; }
+.child-table td[data-fieldname="received_qty"] .cell-line--primary,
+.child-table td[data-fieldname="required_qty"] .cell-line--primary,
+.child-table td[data-fieldname="consumed_qty"] .cell-line--primary { font-weight: 400; }
 """
 
 
@@ -757,7 +759,26 @@ def proforma():
 	"""ERPNext's Proforma Invoice: the order as the invoice it will become,
 	to be paid ahead, with the bank to pay into."""
 	spec = {**TRADE["Sales Order"], "titles": (("Proforma Invoice", ""),), "number": "Proforma No"}
-	return trade_master(spec)
+	found = trade_master(spec)
+	# ERPNext's own Proforma Invoice prints its order through this format, on
+	# a copy it gives the proforma's number and date and, for a proforma by
+	# amount, the word to leave out the quantities and rates.
+	drawn = 'doc.get("proforma_no")'
+	number = found["sections"][0]["columns"][1]["fields"]
+	number[0]["visible_if"] = f"not {drawn}"
+	number[:0] = [field("proforma_no", "Data", "Proforma No", show_label="hide", align="right", bold=1, font_size=14, visible_if=drawn),
+		field("name", "Data", "Against Order", align="right", hide_colon=1, custom_style="margin-top:4px;", visible_if=drawn)]
+	details = found["sections"][1]["columns"][1]["fields"]
+	details[0]["visible_if"] = f"not {drawn}"
+	details.insert(0, row("proforma_date", "Date", "Date", date_format=DATE, visible_if=drawn))
+	for one in found["sections"][3]["columns"][1]["fields"]:
+		# Said for the whole order, not the part asked for.
+		if one["fieldname"] == "in_words":
+			one["visible_if"] = f"not {drawn}"
+	for column in found["sections"][2]["columns"][0]["fields"][0]["table_columns"]:
+		if column["fieldname"] in ("qty", "rate"):
+			column["column_condition"] = 'not doc.get("hide_item_qty")'
+	return found
 
 
 def purchase_voucher():
@@ -1405,6 +1426,201 @@ def service_report():
 		signs_section((("Serviced By", None), ("Accepted By", "customer_name"))))
 
 
+def _project(label="Project"):
+	return linked("project.project_name", label, label_justify="space-between", hide_colon=1, custom_style=f"padding:5px 0;border-bottom:1px solid {LINE};")
+
+
+def _remarks(fieldname="remarks", words="Remarks"):
+	return section([heading(words), field(fieldname, "Small Text", words, show_label="hide")], top=16, visible_if=f"doc.{fieldname}")
+
+
+def installation_note():
+	"""Goods installed at a customer's: where, when, each item with its serial
+	numbers and the delivery it came on, and the customer to accept it."""
+	who = section(
+		[*_who("Installed For", "customer_name"), field("address_display", "Small Text", "Address", show_label="hide", custom_style=ADDRESS), *contact_lines()],
+		[row("inst_date", "Date", "Date", date_format=DATE), row("inst_time", "Time", "Time"), _project()],
+		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
+	)
+	lines = section([table("items", "Items", [
+		{"fieldname": "idx", "fieldtype": "Int", "label": "No", "width": 5},
+		{"fieldname": "one_item_name", "fieldtype": "Data", "label": "Item", "width": 45,
+			"merged_fields": [{"fieldname": "item_code", "fieldtype": "Link", "label": "Item Code", "style": "muted-sm"},
+				{"fieldname": "one_size", "fieldtype": "Data", "label": "Size", "style": "muted-sm"},
+				{"fieldname": "description", "fieldtype": "Text Editor", "label": "Description", "style": "muted-sm"}]},
+		{"fieldname": "serial_no", "fieldtype": "Small Text", "label": "Serial No", "width": 22},
+		{"fieldname": "prevdoc_docname", "fieldtype": "Data", "label": "Delivery No", "width": 16},
+		{"fieldname": "qty", "fieldtype": "Float", "label": "Qty", "width": 12, "align": "right"},
+	])], top=28)
+	words = section([text("The items above have been installed and work as they should.", custom_style="font-size:10.5px;")], top=16)
+	return layout(_numbered((("Installation Note", ""),), "Note No"), who, lines, _remarks(), words,
+		signs_section((("Installed By", None), ("Accepted By", "customer_name"))))
+
+
+def _materials(fieldname, words, columns, **kw):
+	return section([heading(words), table(fieldname, words, columns, table_cell_padding=6)], top=22, visible_if=f"doc.{fieldname}", **kw)
+
+
+def subcontracting_order():
+	"""Work sent out to be done: to whom, by when and where to, what they make
+	at what cost, the materials we send them for it, and both sides to sign."""
+	who = section(
+		[*_who("Supplier", "supplier_name"), field("address_display", "Small Text", "Address", show_label="hide", custom_style=ADDRESS), *contact_lines(),
+			heading("Deliver To", visible_if="doc.shipping_address_display", custom_style="margin-top:14px;"),
+			field("shipping_address_display", "Small Text", "Deliver To", show_label="hide", custom_style=ADDRESS, visible_if="doc.shipping_address_display")],
+		[row("transaction_date", "Date", "Date", date_format=DATE), row("schedule_date", "Date", "Required By", date_format=DATE),
+			row("purchase_order", "Link", "Purchase Order"), row("supplier_warehouse", "Link", "Materials At"), _project()],
+		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
+	)
+	lines = section([table("items", "Items", [
+		{"fieldname": "idx", "fieldtype": "Int", "label": "No", "width": 5},
+		item_column(code=True, width=39),
+		{"fieldname": "schedule_date", "fieldtype": "Date", "label": "Required By", "width": 14, "date_format": DATE},
+		_qty(unit="stock_uom", width=12),
+		{"fieldname": "rate", "fieldtype": "Currency", "label": "Rate", "width": 14, "align": "right"},
+		{"fieldname": "amount", "fieldtype": "Currency", "label": "Amount", "width": 16, "align": "right"},
+	])], top=28)
+	totals = section([], [
+		row("total_qty", "Float", "Total Qty"),
+		row("total_additional_costs", "Currency", "Other Costs", visible_if="doc.total_additional_costs"),
+		row("total", "Currency", "Total", bold=1, label_color=INK, font_size=15, custom_style=f"border-bottom:2px solid {INK};padding:8px 0;"),
+	], widths=[52, 48], gap=48, top=14, keep_together=1, field_orientation="left-right")
+	sent = _materials("supplied_items", "Materials We Send", [
+		{"fieldname": "rm_item_code", "fieldtype": "Link", "label": "Material", "width": 40},
+		{"fieldname": "main_item_code", "fieldtype": "Link", "label": "For", "width": 30},
+		_qty(fieldname="required_qty", unit="stock_uom", label="Needed", width=15),
+		{"fieldname": "supplied_qty", "fieldtype": "Float", "label": "Sent", "width": 15, "align": "right"},
+	])
+	return layout(_numbered((("Subcontracting Order", ""),), "Order No", details=[_company_trn(align="right", custom_style="margin-top:4px;")]),
+		who, lines, totals, sent, signs_section((("For", "company"), ("Accepted By", "supplier_name"))))
+
+
+def subcontracting_receipt():
+	"""Work done and come back: from whom and into where, what was received,
+	accepted and turned away at what cost, the materials it used, and both
+	sides to sign."""
+	who = section(
+		[*_who("Received From", "supplier_name"), field("address_display", "Small Text", "Address", show_label="hide", custom_style=ADDRESS), *contact_lines()],
+		[row("posting_date", "Date", "Date", date_format=DATE), row("supplier_delivery_note", "Data", "Their Delivery Note"),
+			row("bill_no", "Data", "Their Invoice No"), row("return_against", "Link", "Against Receipt"), row("set_warehouse", "Link", "Into"),
+			row("rejected_warehouse", "Link", "Rejected Into"), row("transporter_name", "Data", "Transporter"), row("lr_no", "Data", "Vehicle"), _project()],
+		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
+	)
+	lines = section([table("items", "Items", [
+		{"fieldname": "idx", "fieldtype": "Int", "label": "No", "width": 5},
+		{**item_column(code=True, width=33), "merged_fields": [*item_column(code=True)["merged_fields"],
+			{"fieldname": "batch_no", "fieldtype": "Link", "label": "Batch", "style": "muted-sm"},
+			{"fieldname": "serial_no", "fieldtype": "Small Text", "label": "Serial No", "style": "muted-sm"}]},
+		_qty(fieldname="received_qty", unit="stock_uom", label="Received", width=13),
+		{"fieldname": "qty", "fieldtype": "Float", "label": "Accepted", "width": 12, "align": "right"},
+		{"fieldname": "rejected_qty", "fieldtype": "Float", "label": "Rejected", "width": 11, "align": "right",
+			"column_condition": "[one for one in doc.items if one.rejected_qty]"},
+		{"fieldname": "rate", "fieldtype": "Currency", "label": "Rate", "width": 12, "align": "right"},
+		{"fieldname": "amount", "fieldtype": "Currency", "label": "Amount", "width": 14, "align": "right"},
+	])], top=28)
+	totals = section([], [
+		row("total_qty", "Float", "Total Qty"),
+		row("total_additional_costs", "Currency", "Other Costs", visible_if="doc.total_additional_costs"),
+		row("total", "Currency", "Total", bold=1, label_color=INK, font_size=15, custom_style=f"border-bottom:2px solid {INK};padding:8px 0;"),
+		field("in_words", "Data", "In Words", show_label="hide", align="right", custom_style=f"color:{MUTED};font-size:10px;margin-top:6px;"),
+	], widths=[52, 48], gap=48, top=14, keep_together=1, field_orientation="left-right")
+	used = _materials("supplied_items", "Materials Used", [
+		{"fieldname": "item_name", "fieldtype": "Data", "label": "Material", "width": 40,
+			"merged_fields": [{"fieldname": "rm_item_code", "fieldtype": "Link", "label": "Item Code", "style": "muted-sm"}]},
+		{"fieldname": "main_item_code", "fieldtype": "Link", "label": "For", "width": 28},
+		{"fieldname": "batch_no", "fieldtype": "Link", "label": "Batch", "width": 16},
+		_qty(fieldname="consumed_qty", unit="stock_uom", label="Used", width=16),
+	])
+	titles = (("Subcontracting Receipt", "not doc.is_return"), ("Subcontracting Return", "doc.is_return"))
+	return layout(_numbered(titles, "Receipt No", details=[_company_trn(align="right", custom_style="margin-top:4px;")]), who, lines, totals, used, _remarks(),
+		signs_section((("Delivered By", "supplier_name"), ("Received By", None))))
+
+
+def subcontracting_inward_order():
+	"""Work a customer sends us to do: for whom and from which order, what we
+	make and how far it has got, the materials they send for it and what has
+	come in, and both sides to sign."""
+	who = section(
+		[*_who("Customer", "customer_name"), linked("sales_order.address_display", "Address", show_label="hide", custom_style=ADDRESS),
+			linked("sales_order.contact_display", "Contact", hide_colon=1, custom_style="margin-top:6px;")],
+		[row("transaction_date", "Date", "Date", date_format=DATE), row("sales_order", "Link", "Sales Order"),
+			row("customer_warehouse", "Link", "Their Materials At"), row("set_delivery_warehouse", "Link", "Delivered From")],
+		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
+	)
+	lines = section([table("items", "Items", [
+		{"fieldname": "idx", "fieldtype": "Int", "label": "No", "width": 5},
+		item_column(code=True, width=41, describe=False),
+		{"fieldname": "bom", "fieldtype": "Link", "label": "Made To", "width": 18},
+		_qty(unit="stock_uom", width=12),
+		{"fieldname": "produced_qty", "fieldtype": "Float", "label": "Made", "width": 12, "align": "right"},
+		{"fieldname": "delivered_qty", "fieldtype": "Float", "label": "Delivered", "width": 12, "align": "right"},
+	])], top=28)
+	received = _materials("received_items", "Their Materials", [
+		{"fieldname": "rm_item_code", "fieldtype": "Link", "label": "Material", "width": 36},
+		{"fieldname": "main_item_code", "fieldtype": "Link", "label": "For", "width": 24},
+		_qty(fieldname="required_qty", unit="stock_uom", label="Needed", width=14),
+		{"fieldname": "received_qty", "fieldtype": "Float", "label": "Received", "width": 13, "align": "right"},
+		{"fieldname": "consumed_qty", "fieldtype": "Float", "label": "Used", "width": 13, "align": "right"},
+	])
+	return layout(_numbered((("Subcontracting Inward Order", ""),), "Order No", details=[_company_trn(align="right", custom_style="margin-top:4px;")]),
+		who, lines, received, signs_section((("For", "company"), ("Accepted By", "customer_name"))))
+
+
+def payment_order():
+	"""An instruction to our bank: the account to pay from, and each payment
+	with whom it goes to, into which account, for what and how much, signed
+	twice as a bank asks."""
+	who = section(
+		[heading("To"), linked("company_bank_account.bank", "Bank", show_label="hide", bold=1, font_size=13),
+			linked("company_bank_account.branch_code", "Branch", hide_colon=1, custom_style="margin-top:2px;"),
+			heading("Pay From", custom_style="margin-top:14px;"), linked("company_bank_account.account_name", "Account", show_label="hide"),
+			linked("company_bank_account.iban", "IBAN", hide_colon=1, custom_style="margin-top:2px;font-variant-numeric:tabular-nums;"),
+			linked("company_bank_account.bank_account_no", "Account No", hide_colon=1, custom_style="margin-top:2px;font-variant-numeric:tabular-nums;")],
+		[row("posting_date", "Date", "Date", date_format=DATE)],
+		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
+	)
+	words = section([text("Please make the payments below from our account.", custom_style="font-size:10.5px;")], top=20)
+	lines = section([table("references", "Payments", [
+		{"fieldname": "idx", "fieldtype": "Int", "label": "No", "width": 5},
+		{"fieldname": "supplier", "fieldtype": "Link", "label": "Pay To", "width": 27,
+			"merged_fields": [{"fieldname": "bank_account", "fieldtype": "Link", "label": "Into", "style": "muted-sm"}]},
+		{"fieldname": "reference_name", "fieldtype": "Dynamic Link", "label": "For", "width": 22,
+			"merged_fields": [{"fieldname": "reference_doctype", "fieldtype": "Link", "label": "Document", "style": "muted-sm"}]},
+		{"fieldname": "payment_reference", "fieldtype": "Data", "label": "Reference", "width": 16},
+		{"fieldname": "mode_of_payment", "fieldtype": "Link", "label": "By", "width": 13},
+		{"fieldname": "amount", "fieldtype": "Currency", "label": "Amount", "width": 17, "align": "right"},
+	])], top=12)
+	return layout(_numbered((("Payment Order", ""),), "Order No", details=[_company_trn(align="right", custom_style="margin-top:4px;")]),
+		who, words, lines, signs_section((("Authorised Signatory", None), ("Authorised Signatory", None))))
+
+
+def bank_guarantee():
+	"""A guarantee a bank gives for us or to us: for whom, how much, from when
+	to when and for what, the bank behind it, and what it cost."""
+	given = 'doc.bg_type == "Providing"'
+	who = section(
+		[heading("Beneficiary"), field("name_of_beneficiary", "Data", "Beneficiary", show_label="hide", bold=1, font_size=13),
+			field("customer", "Link", "Customer", hide_colon=1, custom_style="margin-top:6px;", visible_if="doc.customer != doc.name_of_beneficiary"),
+			field("supplier", "Link", "Supplier", hide_colon=1, custom_style="margin-top:2px;", visible_if="doc.supplier != doc.name_of_beneficiary")],
+		[row("amount", "Currency", "Amount", bold=1), row("start_date", "Date", "From", date_format=DATE), row("end_date", "Date", "Until", date_format=DATE),
+			row("validity", "Int", "Days"), row("reference_docname", "Dynamic Link", "For"), _project()],
+		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
+	)
+	bank = section(
+		[heading("Issued By"), field("bank", "Link", "Bank", show_label="hide", bold=1, font_size=13),
+			field("branch_code", "Data", "Branch", hide_colon=1, custom_style="margin-top:2px;"),
+			field("swift_number", "Data", "SWIFT", hide_colon=1, custom_style="margin-top:2px;")],
+		[row("bank_account_no", "Data", "Account No"), row("iban", "Data", "IBAN"), row("margin_money", "Currency", "Margin Money"),
+			row("fixed_deposit_number", "Data", "Fixed Deposit"), row("charges", "Currency", "Charges")],
+		widths=[55, 45], gap=48, top=22, background=SOFT, radius=8, padding={"top": 14, "right": 16, "bottom": 14, "left": 16}, field_orientation="left-right",
+	)
+	more = section([heading("Terms"), field("more_information", "Text Editor", "Terms", show_label="hide", custom_style="line-height:1.55;")],
+		top=18, visible_if="doc.more_information")
+	titles = (("Bank Guarantee Given", given), ("Bank Guarantee Received", f"not ({given})"))
+	return layout(_numbered(titles, "Guarantee No", details=[field("bank_guarantee_number", "Data", "Bank's No", align="right", hide_colon=1, custom_style="margin-top:4px;")]),
+		who, bank, more)
+
+
 def _trade(doctype, make):
 	return lambda: make(TRADE[doctype])
 
@@ -1441,6 +1657,12 @@ VERSIONS = {
 	"One Contract": ("Contract", "one_crm", contract),
 	"One Maintenance Plan": ("Maintenance Schedule", "one_crm", maintenance_plan),
 	"One Service Report": ("Maintenance Visit", "one_crm", service_report),
+	"One Installation Note": ("Installation Note", "one_crm", installation_note),
+	"One Subcontracting Order": ("Subcontracting Order", "one_inventory", subcontracting_order),
+	"One Subcontracting Receipt": ("Subcontracting Receipt", "one_inventory", subcontracting_receipt),
+	"One Subcontracting Inward Order": ("Subcontracting Inward Order", "one_inventory", subcontracting_inward_order),
+	"One Payment Order": ("Payment Order", "one_book", payment_order),
+	"One Bank Guarantee": ("Bank Guarantee", "one_book", bank_guarantee),
 }
 #: ERPNext ships one look for these, so One's is its master alone.
 ONE_LOOK = ("Purchase Receipt",)

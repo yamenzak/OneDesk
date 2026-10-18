@@ -317,6 +317,12 @@ SAID = {
 	),
 }
 
+#: Documents that print through another record's format of ours
+#: (scripts/atlas.py `printed`).
+PRINTED_AS = {
+	"Proforma Invoice": "its sales order, through the format Selling Settings names, which is One Proforma Invoice",
+}
+
 #: Documents naming a customer or supplier that are not sent to them, so need
 #: no print of ours (scripts/atlas.py `goes_out`).
 NOT_SENT = {

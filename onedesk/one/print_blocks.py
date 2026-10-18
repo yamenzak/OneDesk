@@ -167,6 +167,12 @@ FORMATS = {
 	"Project": ("One Project Status", "one_project"),
 	"Maintenance Schedule": ("One Maintenance Plan", "one_crm"),
 	"Maintenance Visit": ("One Service Report", "one_crm"),
+	"Installation Note": ("One Installation Note", "one_crm"),
+	"Subcontracting Order": ("One Subcontracting Order", "one_inventory"),
+	"Subcontracting Receipt": ("One Subcontracting Receipt", "one_inventory"),
+	"Subcontracting Inward Order": ("One Subcontracting Inward Order", "one_inventory"),
+	"Payment Order": ("One Payment Order", "one_book"),
+	"Bank Guarantee": ("One Bank Guarantee", "one_book"),
 }
 
 #: The colour a page has when the company has no Brand Colour.
@@ -256,6 +262,18 @@ def settle() -> None:
 			validate_fields_for_doctype=False,
 		)
 		frappe.clear_cache(doctype=doctype)
+	_proforma()
+
+
+def _proforma() -> None:
+	"""ERPNext's Proforma Invoice prints its Sales Order through the format
+	Selling Settings names, else its own, which One's replaces."""
+	ours = "One Proforma Invoice"
+	chosen = frappe.db.get_single_value("Selling Settings", "default_proforma_print_format")
+	if not frappe.db.exists("Print Format", {"name": ours, "disabled": 0}):
+		return
+	if not chosen or chosen in REPLACES[ours]:
+		frappe.db.set_single_value("Selling Settings", "default_proforma_print_format", ours)
 
 
 def _sync_blocks() -> None:

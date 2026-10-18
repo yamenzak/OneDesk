@@ -80,7 +80,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Bank Account Subtype | through a form's link (Bank Account: account_subtype) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Bank Account Type | through a form's link (Bank Account: account_type) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Bank Clearance | on a rail or a home | OneBook | untouched | no | general |  |  |  |  |  |  |
-| Bank Guarantee | through a form's connections (Bank's Connections) | OneBook | untouched | yes | general |  | **none** | **theirs** |  |  |  |
+| Bank Guarantee | through a form's connections (Bank's Connections) | OneBook | untouched | yes | general |  | **none** | ours |  |  |  |
 | Bank Reconciliation Tool | on a rail or a home | OneBook | form script | no | general |  |  |  |  | ar 1 |  |
 | Bank Statement Import | on a rail or a home | OneBook | form script | yes | general |  | **none** |  |  |  |  |
 | Bank Statement Import Log | inside: a Bank Statement Import's log | **nobody** | untouched | yes | general |  | **none** |  |  | ar 14, de 14 |  |
@@ -125,7 +125,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Payment Entry | on a rail or a home | OneBook | a head, events, 3 settings | yes | general | makes it | yes |  |  |  |  |
 | Payment Gateway Account | through a form's link (Subscription Plan: payment_gateway) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Payment Ledger Entry | engine: one line per payment against an invoice; the Payment Ledger report shows them | OneBook | untouched | yes | general |  | yes |  |  | ar 1 |  |
-| Payment Order | through a form's connections (Payment Request's Connections) | OneBook | untouched | yes | general |  | **none** | **theirs** |  |  |  |
+| Payment Order | through a form's connections (Payment Request's Connections) | OneBook | untouched | yes | general |  | **none** | ours |  |  |  |
 | Payment Reconciliation | on a rail or a home | OneBook | untouched | no | general |  |  |  |  | ar 2, de 2 |  |
 | Payment Request | on a rail or a home | OneBook | 3 settings | yes | general |  | yes |  |  |  |  |
 | Payment Term | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
@@ -334,10 +334,10 @@ Reports: Electronic Invoice Register (under a list's related reports (Sales Invo
 | Customer | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, 3 fields, 7 settings | yes | taught | makes it | yes |  |  |  | Credit Limit Crossed |
 | Delivery Schedule Item | through a form's connections (Sales Order's Connections) | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
 | Industry Type | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Installation Note | through a form's connections (Customer's Connections) | OneCRM | untouched | yes | general |  | **none** | **theirs** |  |  |  |
+| Installation Note | through a form's connections (Customer's Connections) | OneCRM | untouched | yes | general |  | **none** | ours |  |  |  |
 | Party Specific Item | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Product Bundle | through a form's link (Delivery Note: product_bundle) | OneCRM, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
-| Proforma Invoice | through a form's connections (Sales Order's Connections) | OneCRM | untouched | yes | general |  | **none** | **theirs** |  |  |  |
+| Proforma Invoice | through a form's connections (Sales Order's Connections) | OneCRM | untouched | yes | general |  | **none** | ours |  |  |  |
 | Quotation | on a rail or a home | OneCRM | events, form script, 3 fields | yes | general | makes it | yes |  |  |  | Quotation Declined, Quotation Running Out |
 | SMS Center | left out: sends through SMS Settings, which waits in docs/BACKLOG.md | OneCRM | untouched | no | general |  |  |  |  |  |  |
 | Sales Order | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, 6 fields, 1 settings | yes | taught | makes it | yes | ours |  |  | Delivery Late, Quotation Accepted |
@@ -440,9 +440,9 @@ Pages: stock-balance (replaced: Stock Summary); warehouse-capacity-summary (on a
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Subcontracting BOM | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Subcontracting Inward Order | through a form's connections (Sales Order's Connections) | OneCRM, OneInventory | untouched | yes | general |  | **none** | **theirs** |  | ar 2 |  |
-| Subcontracting Order | opened by our screens | OneInventory | a head, 3 settings | yes | taught |  | yes | **theirs** |  |  | Back From Supplier Late |
-| Subcontracting Receipt | on a rail or a home | OneBook, OneInventory | a head, 3 settings | yes | general |  | yes | **theirs** |  | ar 1 |  |
+| Subcontracting Inward Order | through a form's connections (Sales Order's Connections) | OneCRM, OneInventory | untouched | yes | general |  | **none** | ours |  | ar 2 |  |
+| Subcontracting Order | opened by our screens | OneInventory | a head, 3 settings | yes | taught |  | yes | ours |  |  | Back From Supplier Late |
+| Subcontracting Receipt | on a rail or a home | OneBook, OneInventory | a head, 3 settings | yes | general |  | yes | ours |  | ar 1 |  |
 
 Reports: Subcontracted Items To Be Delivered (under a list's related reports (Subcontracting Inward Order's list)); Subcontracted Raw Materials To Be Received (under a list's related reports (Subcontracting Inward Order's list)); Subcontracting Inward Order Summary (under a list's related reports (Subcontracting Inward Order's list)).
 

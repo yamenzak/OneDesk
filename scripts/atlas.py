@@ -706,7 +706,7 @@ def goes_out(name: str) -> bool:
 
 def printed(name: str) -> bool:
 	"""Point 11: it prints from a format of ours."""
-	return name in _our_prints()
+	return name in _our_prints() or name in _module_dict("PRINTED_AS")
 
 
 @cache

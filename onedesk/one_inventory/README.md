@@ -1415,7 +1415,11 @@ where the goods go with that store's address), One Blanket Order (the
 quantity and rate agreed, how much is ordered so far), One Work Order (what
 to make and for whom, the materials and where from, each step) and One
 Equipment Handover (each piece from whom or where to whom or where, and the
-pledge of whoever takes it).
+pledge of whoever takes it). Work sent out and taken in prints too: One
+Subcontracting Order (what the supplier makes at what cost, and the materials
+we send for it), One Subcontracting Receipt (received, accepted and rejected,
+and the materials it used) and One Subcontracting Inward Order (what a
+customer sends us to make, how far it has got, and their materials).
 
 ### access.py
 

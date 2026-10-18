@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-18 14:20+0000\n"
-"PO-Revision-Date: 2026-10-18 14:20+0000\n"
+"POT-Creation-Date: 2026-10-18 14:38+0000\n"
+"PO-Revision-Date: 2026-10-18 14:38+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1581,15 +1581,18 @@ msgstr ""
 #. Option for the 'Verdict' (Select) field in DocType 'Clock Attempt'
 #. Label in the One Purchase Receipt print format
 #. Label in the One Purchase Receipt with Serial Numbers print format
+#. Label in the One Subcontracting Receipt print format
 #: onedesk/one/portal.py:351 onedesk/one/portal.py:671
 #: onedesk/one/portal.py:841
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:237
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt_with_serial_numbers/one_purchase_receipt_with_serial_numbers.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 msgid "Accepted"
 msgstr ""
 
+#. Label in the One Installation Note print format
 #. Label in the One Quotation print format
 #. Label in the One Quotation Bordered print format
 #. Label in the One Quotation Classic print format
@@ -1597,6 +1600,9 @@ msgstr ""
 #. Label in the One Service Report print format
 #. Label in the One Appointment Letter print format
 #. Label in the One Job Offer print format
+#. Label in the One Subcontracting Inward Order print format
+#. Label in the One Subcontracting Order print format
+#: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
 #: onedesk/one_crm/print_format/one_quotation_bordered/one_quotation_bordered.json
 #: onedesk/one_crm/print_format/one_quotation_classic/one_quotation_classic.json
@@ -1604,6 +1610,8 @@ msgstr ""
 #: onedesk/one_crm/print_format/one_service_report/one_service_report.json
 #: onedesk/one_hr/print_format/one_appointment_letter/one_appointment_letter.json
 #: onedesk/one_hr/print_format/one_job_offer/one_job_offer.json
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
 msgid "Accepted By"
 msgstr ""
 
@@ -1651,6 +1659,7 @@ msgstr ""
 #. Label of the account (Link) field in DocType 'Tenant'
 #. Label in the One Detailed Tax Invoice print format
 #. Label in the One Journal Voucher print format
+#. Label in the One Payment Order print format
 #. Label in the One Payment Reminder print format
 #. Label in the One Payment Voucher print format
 #. Label in the One Purchase Voucher print format
@@ -1671,6 +1680,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_journal_voucher/one_journal_voucher.json
+#: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_book/print_format/one_payment_reminder/one_payment_reminder.json
 #: onedesk/one_book/print_format/one_payment_voucher/one_payment_voucher.json
 #: onedesk/one_book/print_format/one_purchase_voucher/one_purchase_voucher.json
@@ -1717,6 +1727,13 @@ msgstr ""
 
 #: onedesk/one_book/report/books_check/books_check.js:12
 msgid "Account Name"
+msgstr ""
+
+#. Label in the One Bank Guarantee print format
+#. Label in the One Payment Order print format
+#: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
+#: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
+msgid "Account No"
 msgstr ""
 
 #: onedesk/one_book/report/books_check/books_check.js:14
@@ -2401,6 +2418,7 @@ msgstr ""
 #. Label in the One Sales Invoice Bordered print format
 #. Label in the One Sales Invoice Classic print format
 #. Label in the One Sales Invoice with Images print format
+#. Label in the One Installation Note print format
 #. Label in the One Maintenance Plan print format
 #. Label in the One Proforma Invoice print format
 #. Label in the One Quotation print format
@@ -2428,6 +2446,9 @@ msgstr ""
 #. Label in the One Purchase Receipt with Serial Numbers print format
 #. Label in the One Request for Quotation Bordered print format
 #. Label in the One Stock Entry print format
+#. Label in the One Subcontracting Inward Order print format
+#. Label in the One Subcontracting Order print format
+#. Label in the One Subcontracting Receipt print format
 #. Label of the url (Data) field in DocType 'Cloud Mount'
 #: onedesk/one/custom/personal_data_download_request.json
 #: onedesk/one/doctype/device/device.json onedesk/one/letter_heads.py:62
@@ -2445,6 +2466,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
 #: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
+#: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
@@ -2472,6 +2494,9 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_purchase_receipt_with_serial_numbers/one_purchase_receipt_with_serial_numbers.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_bordered/one_request_for_quotation_bordered.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 #: onedesk/public/js/onecloud.js:1597 onedesk/public/js/onecloud.js:1793
 #: onedesk/public/js/settings.js:202 onedesk/public/js/settings.js:704
@@ -2663,6 +2688,16 @@ msgstr ""
 #: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 msgid "Against Invoice"
+msgstr ""
+
+#. Label in the One Proforma Invoice print format
+#: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
+msgid "Against Order"
+msgstr ""
+
+#. Label in the One Subcontracting Receipt print format
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
+msgid "Against Receipt"
 msgstr ""
 
 #. Message of a notification
@@ -2983,8 +3018,10 @@ msgstr ""
 
 #. Label of the amount (Currency) field in DocType 'Offering'
 #. Label of the amount (Long Int) field in DocType 'Tenant Event'
+#. Label in the One Bank Guarantee print format
 #. Label in the One Detailed Tax Invoice print format
 #. Label in the One Journal Credit Note print format
+#. Label in the One Payment Order print format
 #. Label in the One Payment Voucher print format
 #. Label in the One Purchase Invoice print format
 #. Label in the One Purchase Invoice Bordered print format
@@ -3011,12 +3048,16 @@ msgstr ""
 #. Label in the One Purchase Order Bordered print format
 #. Label in the One Purchase Order Classic print format
 #. Label in the One Purchase Order with Images print format
+#. Label in the One Subcontracting Order print format
+#. Label in the One Subcontracting Receipt print format
 #: frontend/portal/src/pages/Rfq.vue:28 frontend/src/project/Suppliers.vue:149
 #: frontend/src/project/Time.vue:35 onedesk/one/automations.py:130
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
+#: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_journal_credit_note/one_journal_credit_note.json
+#: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_book/print_format/one_payment_voucher/one_payment_voucher.json
 #: onedesk/one_book/print_format/one_purchase_invoice/one_purchase_invoice.json
 #: onedesk/one_book/print_format/one_purchase_invoice_bordered/one_purchase_invoice_bordered.json
@@ -3044,6 +3085,8 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_purchase_order_bordered/one_purchase_order_bordered.json
 #: onedesk/one_inventory/print_format/one_purchase_order_classic/one_purchase_order_classic.json
 #: onedesk/one_inventory/print_format/one_purchase_order_with_images/one_purchase_order_with_images.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/public/js/intake.js:161 onedesk/public/js/settings.js:1787
 msgid "Amount"
 msgstr ""
@@ -4485,7 +4528,9 @@ msgstr ""
 msgid "Authenticator Setup"
 msgstr ""
 
+#. Label in the One Payment Order print format
 #. Label in the One Contract print format
+#: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
 msgid "Authorised Signatory"
 msgstr ""
@@ -4719,7 +4764,9 @@ msgstr ""
 msgid "Band row {0}"
 msgstr ""
 
+#. Label in the One Bank Guarantee print format
 #. Label in the One Detailed Tax Invoice print format
+#. Label in the One Payment Order print format
 #. Label in the One Payment Reminder print format
 #. Label in the One Sales Invoice print format
 #. Label in the One Sales Invoice Bordered print format
@@ -4732,7 +4779,9 @@ msgstr ""
 #. Label in the One Sales Order with Images print format
 #. Label in the One Payslip print format
 #. Label in the One Salary Statement print format
+#: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
+#: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_book/print_format/one_payment_reminder/one_payment_reminder.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
@@ -4761,6 +4810,16 @@ msgstr ""
 
 #: onedesk/public/js/settings.js:210
 msgid "Bank Details"
+msgstr ""
+
+#. Label in the One Bank Guarantee print format
+#: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
+msgid "Bank Guarantee Given"
+msgstr ""
+
+#. Label in the One Bank Guarantee print format
+#: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
+msgid "Bank Guarantee Received"
 msgstr ""
 
 #: onedesk/one_book/home.py:346
@@ -4805,6 +4864,11 @@ msgstr ""
 msgid "Bank transactions brought in from Plaid, where Plaid reaches your bank."
 msgstr ""
 
+#. Label in the One Bank Guarantee print format
+#: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
+msgid "Bank's No"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_book/home.py:197 onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Banking"
@@ -4839,12 +4903,14 @@ msgstr ""
 #. Label in the One Pick List print format
 #. Label in the One Purchase Receipt with Serial Numbers print format
 #. Label in the One Stock Entry print format
+#. Label in the One Subcontracting Receipt print format
 #: frontend/src/lots/LotRows.vue:9 frontend/src/lots/LotsPage.vue:139
 #: onedesk/one_inventory/home.py:120
 #: onedesk/one_inventory/print_format/one_packing_slip/one_packing_slip.json
 #: onedesk/one_inventory/print_format/one_pick_list/one_pick_list.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt_with_serial_numbers/one_purchase_receipt_with_serial_numbers.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/public/js/page_views.js:16
 msgid "Batch"
 msgstr ""
@@ -5056,6 +5122,11 @@ msgstr ""
 #. Label of the press_bench (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Bench Group"
+msgstr ""
+
+#. Label in the One Bank Guarantee print format
+#: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
+msgid "Beneficiary"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -5393,7 +5464,12 @@ msgstr ""
 msgid "Box"
 msgstr ""
 
-#: onedesk/one/masters.py:39 onedesk/one_hr/home.py:553
+#. Label in the One Bank Guarantee print format
+#. Label in the One Payment Order print format
+#: onedesk/one/masters.py:39
+#: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
+#: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
+#: onedesk/one_hr/home.py:553
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:82
 msgid "Branch"
 msgstr ""
@@ -5602,6 +5678,7 @@ msgid "Buying, Selling and Stock"
 msgstr ""
 
 #. Label of the by (Select) field in DocType 'Tenant Event'
+#. Label in the One Payment Order print format
 #. Label in the One Contract print format
 #. Label in the One Maintenance Plan print format
 #. Label in the One Service Report print format
@@ -5611,6 +5688,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_admin/report/ai_usage/ai_usage.js:19
 #: onedesk/one_ai/report/ai_credits/ai_credits.js:19
+#: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_service_report/one_service_report.json
@@ -5904,7 +5982,7 @@ msgstr ""
 msgid "Case Number"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:511
+#: onedesk/one/print_blocks.py:529
 msgid "Cases"
 msgstr ""
 
@@ -6092,6 +6170,11 @@ msgstr ""
 
 #: onedesk/one_admin/heads.py:535
 msgid "Charged at {0}× the provider's price."
+msgstr ""
+
+#. Label in the One Bank Guarantee print format
+#: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
+msgid "Charges"
 msgstr ""
 
 #. Label of the chart (Data) field in DocType 'Record Head Chart'
@@ -7289,6 +7372,7 @@ msgstr ""
 #. Label in the One Sales Invoice print format
 #. Label in the One Sales Invoice Classic print format
 #. Label in the One Sales Invoice with Images print format
+#. Label in the One Installation Note print format
 #. Label in the One Maintenance Plan print format
 #. Label in the One Proforma Invoice print format
 #. Label in the One Quotation print format
@@ -7311,6 +7395,9 @@ msgstr ""
 #. Label in the One Purchase Order with Images print format
 #. Label in the One Purchase Receipt print format
 #. Label in the One Purchase Receipt with Serial Numbers print format
+#. Label in the One Subcontracting Inward Order print format
+#. Label in the One Subcontracting Order print format
+#. Label in the One Subcontracting Receipt print format
 #. Label of the contact (Link) field in DocType 'Project Contact'
 #: frontend/src/project/Team.vue:70
 #: onedesk/one/doctype/portal_link/portal_link.json
@@ -7326,6 +7413,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_crm/home.py:121
+#: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
@@ -7348,6 +7436,9 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_purchase_order_with_images/one_purchase_order_with_images.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt_with_serial_numbers/one_purchase_receipt_with_serial_numbers.json
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/one_project/ai.py:789
 #: onedesk/one_project/doctype/project_contact/project_contact.json
 #: onedesk/public/js/project_actions.js:504
@@ -7417,7 +7508,7 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
 #: frontend/src/project/Money.vue:188 frontend/src/project/Overview.vue:154
-#: onedesk/one/print_blocks.py:35 onedesk/one/print_blocks.py:581
+#: onedesk/one/print_blocks.py:35 onedesk/one/print_blocks.py:599
 #: onedesk/one_crm/home.py:123
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
@@ -7948,7 +8039,7 @@ msgstr ""
 #. Label in the One Sales Invoice with Images print format
 #. Label of a Sidebar Item
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
-#: onedesk/one/print_blocks.py:307 onedesk/one_book/home.py:316
+#: onedesk/one/print_blocks.py:325 onedesk/one_book/home.py:316
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_journal_credit_note/one_journal_credit_note.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
@@ -7974,7 +8065,7 @@ msgid "Credit Note Issued"
 msgstr ""
 
 #. Label in the One Journal Credit Note print format
-#: onedesk/one/print_blocks.py:329
+#: onedesk/one/print_blocks.py:347
 #: onedesk/one_book/print_format/one_journal_credit_note/one_journal_credit_note.json
 msgid "Credit Note No"
 msgstr ""
@@ -8220,6 +8311,7 @@ msgstr ""
 
 #. Label of the customer (Link) field in DocType 'Tenant'
 #. Option for the 'By' (Select) field in DocType 'Tenant Event'
+#. Label in the One Bank Guarantee print format
 #. Label in the One Detailed Tax Invoice print format
 #. Label in the One Payment Reminder print format
 #. Label in the One Purchase Invoice print format
@@ -8257,6 +8349,7 @@ msgstr ""
 #. Label in the One Purchase Order with Images print format
 #. Label in the One Purchase Receipt print format
 #. Label in the One Purchase Receipt with Serial Numbers print format
+#. Label in the One Subcontracting Inward Order print format
 #. Label in the One Work Order print format
 #. Label in the One Timesheet print format
 #: frontend/src/project/Invoices.vue:31 frontend/src/project/Money.vue:23
@@ -8264,6 +8357,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event_list.js:39
 #: onedesk/one_book/home.py:317
+#: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_payment_reminder/one_payment_reminder.json
 #: onedesk/one_book/print_format/one_purchase_invoice/one_purchase_invoice.json
@@ -8303,6 +8397,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_purchase_order_with_images/one_purchase_order_with_images.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt_with_serial_numbers/one_purchase_receipt_with_serial_numbers.json
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 #: onedesk/one_project/ai.py:983
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
@@ -8493,6 +8588,7 @@ msgstr ""
 #. Label in the One Detailed Tax Invoice print format
 #. Label in the One Journal Credit Note print format
 #. Label in the One Journal Voucher print format
+#. Label in the One Payment Order print format
 #. Label in the One Payment Receipt print format
 #. Label in the One Payment Reminder print format
 #. Label in the One Payment Voucher print format
@@ -8507,6 +8603,7 @@ msgstr ""
 #. Label in the One Sales Invoice with Images print format
 #. Label in the One Sales Voucher print format
 #. Label in the One Simplified Tax Invoice print format
+#. Label in the One Installation Note print format
 #. Label in the One Maintenance Plan print format
 #. Label in the One Proforma Invoice print format
 #. Label in the One Quotation print format
@@ -8538,6 +8635,9 @@ msgstr ""
 #. Label in the One Request for Quotation Classic print format
 #. Label in the One Request for Quotation with Images print format
 #. Label in the One Stock Entry print format
+#. Label in the One Subcontracting Inward Order print format
+#. Label in the One Subcontracting Order print format
+#. Label in the One Subcontracting Receipt print format
 #. Label in the One Timesheet print format
 #: frontend/src/project/Invoices.vue:32 frontend/src/project/Suppliers.vue:92
 #: frontend/src/project/Suppliers.vue:147 frontend/src/project/Time.vue:30
@@ -8550,11 +8650,12 @@ msgstr ""
 #: onedesk/one/print_blocks.py:79 onedesk/one/print_blocks.py:81
 #: onedesk/one/print_blocks.py:83 onedesk/one/print_blocks.py:88
 #: onedesk/one/print_blocks.py:90 onedesk/one/print_blocks.py:99
-#: onedesk/one/print_blocks.py:101 onedesk/one/print_blocks.py:592
+#: onedesk/one/print_blocks.py:101 onedesk/one/print_blocks.py:610
 #: onedesk/one/settings.py:1602
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_journal_credit_note/one_journal_credit_note.json
 #: onedesk/one_book/print_format/one_journal_voucher/one_journal_voucher.json
+#: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
 #: onedesk/one_book/print_format/one_payment_reminder/one_payment_reminder.json
 #: onedesk/one_book/print_format/one_payment_voucher/one_payment_voucher.json
@@ -8569,6 +8670,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
 #: onedesk/one_book/print_format/one_simplified_tax_invoice/one_simplified_tax_invoice.json
+#: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
@@ -8604,6 +8706,9 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_request_for_quotation_classic/one_request_for_quotation_classic.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_with_images/one_request_for_quotation_with_images.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/one_project/ai.py:682
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/public/js/onemail.js:807 onedesk/public/js/overtime.js:25
@@ -8660,8 +8765,10 @@ msgstr ""
 msgid "Day {0} · {1} days"
 msgstr ""
 
+#. Label in the One Bank Guarantee print format
 #. Label of the one_days (Int) field in DocType 'Project Template'
 #: onedesk/one/settings.py:2043
+#: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_project/custom/project_template.json
 msgid "Days"
 msgstr ""
@@ -8755,7 +8862,7 @@ msgstr ""
 #. Label in the One Purchase Invoice Classic print format
 #. Label in the One Purchase Invoice with Images print format
 #. Label of a Sidebar Item
-#: onedesk/one/print_blocks.py:309 onedesk/one_book/home.py:322
+#: onedesk/one/print_blocks.py:327 onedesk/one_book/home.py:322
 #: onedesk/one_book/print_format/one_purchase_invoice/one_purchase_invoice.json
 #: onedesk/one_book/print_format/one_purchase_invoice_bordered/one_purchase_invoice_bordered.json
 #: onedesk/one_book/print_format/one_purchase_invoice_classic/one_purchase_invoice_classic.json
@@ -9194,6 +9301,7 @@ msgstr ""
 #. Label in the One Request for Quotation Classic print format
 #. Label in the One Request for Quotation with Images print format
 #. Label in the One Stock Entry print format
+#. Label in the One Subcontracting Order print format
 #: onedesk/one/print_blocks.py:116 onedesk/one/print_blocks.py:127
 #: onedesk/one/print_blocks.py:129
 #: onedesk/one_inventory/print_format/one_delivery_note/one_delivery_note.json
@@ -9210,6 +9318,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_request_for_quotation_classic/one_request_for_quotation_classic.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_with_images/one_request_for_quotation_with_images.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
 msgid "Deliver To"
 msgstr ""
 
@@ -9222,12 +9331,14 @@ msgstr ""
 msgid "Deliver to site"
 msgstr ""
 
+#. Label in the One Subcontracting Inward Order print format
 #: frontend/src/home/InventoryStory.vue:166
 #: frontend/src/home/InventoryStory.vue:171 onedesk/one/portal.py:113
 #: onedesk/one/portal.py:114 onedesk/one/portal.py:115
 #: onedesk/one/portal.py:123 onedesk/one/portal.py:851
 #: onedesk/one/portal.py:861 onedesk/one_book/heads.py:101
 #: onedesk/one_crm/heads.py:329 onedesk/one_inventory/heads.py:761
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
 #: onedesk/one_project/money.py:156
 msgid "Delivered"
 msgstr ""
@@ -9238,13 +9349,20 @@ msgstr ""
 #. Label in the One Delivery Note with Images print format
 #. Label in the One Purchase Receipt print format
 #. Label in the One Purchase Receipt with Serial Numbers print format
+#. Label in the One Subcontracting Receipt print format
 #: onedesk/one_inventory/print_format/one_delivery_note/one_delivery_note.json
 #: onedesk/one_inventory/print_format/one_delivery_note_bordered/one_delivery_note_bordered.json
 #: onedesk/one_inventory/print_format/one_delivery_note_classic/one_delivery_note_classic.json
 #: onedesk/one_inventory/print_format/one_delivery_note_with_images/one_delivery_note_with_images.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt_with_serial_numbers/one_purchase_receipt_with_serial_numbers.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 msgid "Delivered By"
+msgstr ""
+
+#. Label in the One Subcontracting Inward Order print format
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+msgid "Delivered From"
 msgstr ""
 
 #. Label of a number card
@@ -9293,12 +9411,14 @@ msgstr ""
 msgid "Delivery Late"
 msgstr ""
 
+#. Label in the One Installation Note print format
 #. Label in the One Delivery Note print format
 #. Label in the One Delivery Note Bordered print format
 #. Label in the One Delivery Note Classic print format
 #. Label in the One Delivery Note with Images print format
 #. Label in the One Packing Slip print format
 #: onedesk/one/print_blocks.py:19 onedesk/one/print_blocks.py:68
+#: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_inventory/print_format/one_delivery_note/one_delivery_note.json
 #: onedesk/one_inventory/print_format/one_delivery_note_bordered/one_delivery_note_bordered.json
 #: onedesk/one_inventory/print_format/one_delivery_note_classic/one_delivery_note_classic.json
@@ -9471,6 +9591,7 @@ msgstr ""
 #. Label in the One Sales Invoice with Images print format
 #. Label in the One Sales Voucher print format
 #. Label in the One Simplified Tax Invoice print format
+#. Label in the One Installation Note print format
 #. Label in the One Maintenance Plan print format
 #. Label in the One Proforma Invoice print format
 #. Label in the One Quotation print format
@@ -9502,6 +9623,9 @@ msgstr ""
 #. Label in the One Request for Quotation Classic print format
 #. Label in the One Request for Quotation with Images print format
 #. Label in the One Stock Entry print format
+#. Label in the One Subcontracting Inward Order print format
+#. Label in the One Subcontracting Order print format
+#. Label in the One Subcontracting Receipt print format
 #. Label of the description (Small Text) field in DocType 'Record Type'
 #: frontend/src/item/ItemOverview.vue:19 frontend/src/item/ItemOverview.vue:20
 #: frontend/src/project/TaskPanel.vue:75 frontend/src/task/TaskPage.vue:56
@@ -9520,6 +9644,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
 #: onedesk/one_book/print_format/one_simplified_tax_invoice/one_simplified_tax_invoice.json
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:480
+#: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
@@ -9551,6 +9676,9 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_request_for_quotation_classic/one_request_for_quotation_classic.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_with_images/one_request_for_quotation_with_images.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/one_studio/ai.py:452
 #: onedesk/one_studio/doctype/record_type/record_type.json
 #: onedesk/public/js/item_new.js:78 onedesk/public/js/project_actions.js:440
@@ -9854,11 +9982,13 @@ msgstr ""
 msgid "Do this now, as you?"
 msgstr ""
 
+#. Label in the One Payment Order print format
 #. Label in the One Payment Receipt print format
 #. Label in the One Payment Voucher print format
 #. Label of the document (Data) field in DocType 'Legal Acceptance'
 #. Label of the document (Data) field in DocType 'Legal Document Version'
 #: frontend/src/project/Suppliers.vue:145
+#: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
 #: onedesk/one_book/print_format/one_payment_voucher/one_payment_voucher.json
 #: onedesk/one_intake/calendar.py:100 onedesk/one_intake/inbox.py:62
@@ -10782,6 +10912,7 @@ msgstr ""
 #. Label in the One Sales Invoice print format
 #. Label in the One Sales Invoice Classic print format
 #. Label in the One Sales Invoice with Images print format
+#. Label in the One Installation Note print format
 #. Label in the One Maintenance Plan print format
 #. Label in the One Proforma Invoice print format
 #. Label in the One Quotation print format
@@ -10807,6 +10938,8 @@ msgstr ""
 #. Label in the One Purchase Order with Images print format
 #. Label in the One Purchase Receipt print format
 #. Label in the One Purchase Receipt with Serial Numbers print format
+#. Label in the One Subcontracting Order print format
+#. Label in the One Subcontracting Receipt print format
 #. Label of the email (Data) field in DocType 'Project Contact'
 #. Label of the email (Data) field in DocType 'Cloud File Request Recipient'
 #. Label of the email (Data) field in DocType 'Cloud File Request Upload'
@@ -10826,6 +10959,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
+#: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
@@ -10851,6 +10985,8 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_purchase_order_with_images/one_purchase_order_with_images.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt_with_serial_numbers/one_purchase_receipt_with_serial_numbers.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/one_project/doctype/project_contact/project_contact.json
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 #: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json
@@ -12903,6 +13039,11 @@ msgstr ""
 msgid "Fixed Asset Register"
 msgstr ""
 
+#. Label in the One Bank Guarantee print format
+#: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
+msgid "Fixed Deposit"
+msgstr ""
+
 #. Option for the 'Kind' (Select) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
 msgid "Fixed Price"
@@ -13023,7 +13164,9 @@ msgstr ""
 msgid "Footer"
 msgstr ""
 
+#. Label in the One Bank Guarantee print format
 #. Label in the One Journal Credit Note print format
+#. Label in the One Payment Order print format
 #. Label in the One Payment Receipt print format
 #. Label in the One Contract print format
 #. Label in the One Quotation print format
@@ -13033,10 +13176,15 @@ msgstr ""
 #. Label in the One Appointment Letter print format
 #. Label in the One Job Offer print format
 #. Label in the One Pick List print format
+#. Label in the One Subcontracting Inward Order print format
+#. Label in the One Subcontracting Order print format
+#. Label in the One Subcontracting Receipt print format
 #. Label in the One Timesheet print format
 #. Label of the label (Data) field in DocType 'Cloud Drive Password'
 #: onedesk/one/print_blocks.py:125
+#: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_book/print_format/one_journal_credit_note/one_journal_credit_note.json
+#: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
@@ -13047,6 +13195,9 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_appointment_letter/one_appointment_letter.json
 #: onedesk/one_hr/print_format/one_job_offer/one_job_offer.json
 #: onedesk/one_inventory/print_format/one_pick_list/one_pick_list.json
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/one_storage/doctype/cloud_drive_password/cloud_drive_password.json
 #: onedesk/public/js/doctype_settings.js:540
@@ -13270,6 +13421,7 @@ msgstr ""
 msgid "Friday"
 msgstr ""
 
+#. Label in the One Bank Guarantee print format
 #. Label in the One Maintenance Plan print format
 #. Label in the One Quotation Bordered print format
 #. Label in the One Sales Order Bordered print format
@@ -13287,6 +13439,7 @@ msgstr ""
 #. Label in the One Timesheet print format
 #: onedesk/one/print_blocks.py:60 onedesk/one/print_blocks.py:64
 #: onedesk/one/print_blocks.py:79
+#: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_quotation_bordered/one_quotation_bordered.json
 #: onedesk/one_crm/print_format/one_sales_order_bordered/one_sales_order_bordered.json
@@ -13745,7 +13898,7 @@ msgstr ""
 
 #. Label in the One Purchase Receipt print format
 #. Label in the One Purchase Receipt with Serial Numbers print format
-#: onedesk/one/print_blocks.py:313
+#: onedesk/one/print_blocks.py:331
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt_with_serial_numbers/one_purchase_receipt_with_serial_numbers.json
 msgid "Goods Returned"
@@ -13953,6 +14106,11 @@ msgstr ""
 #: onedesk/one_hr/home.py:32 onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Growth"
+msgstr ""
+
+#. Label in the One Bank Guarantee print format
+#: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
+msgid "Guarantee No"
 msgstr ""
 
 #. Label of the one_guests (Small Text) field in DocType 'Event'
@@ -14949,7 +15107,9 @@ msgstr ""
 msgid "I'm away and will reply when I'm back."
 msgstr ""
 
+#. Label in the One Bank Guarantee print format
 #. Label in the One Detailed Tax Invoice print format
+#. Label in the One Payment Order print format
 #. Label in the One Payment Reminder print format
 #. Label in the One Sales Invoice print format
 #. Label in the One Sales Invoice Bordered print format
@@ -14962,7 +15122,9 @@ msgstr ""
 #. Label in the One Sales Order with Images print format
 #. Option for the 'Kind' (Select) field in DocType 'Identifier'
 #. Label of the iban (Data) field in DocType 'Reading Party'
+#: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
+#: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_book/print_format/one_payment_reminder/one_payment_reminder.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
@@ -15238,6 +15400,7 @@ msgstr ""
 #. Label in the One Purchase Order Bordered print format
 #. Label in the One Purchase Order Classic print format
 #. Label in the One Purchase Order with Images print format
+#. Label in the One Subcontracting Receipt print format
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_journal_credit_note/one_journal_credit_note.json
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
@@ -15264,6 +15427,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_purchase_order_bordered/one_purchase_order_bordered.json
 #: onedesk/one_inventory/print_format/one_purchase_order_classic/one_purchase_order_classic.json
 #: onedesk/one_inventory/print_format/one_purchase_order_with_images/one_purchase_order_with_images.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 msgid "In Words"
 msgstr ""
 
@@ -15578,6 +15742,21 @@ msgstr ""
 msgid "Install glass"
 msgstr ""
 
+#. Label in the One Installation Note print format
+#: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
+msgid "Installation Note"
+msgstr ""
+
+#. Label in the One Installation Note print format
+#: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
+msgid "Installed By"
+msgstr ""
+
+#. Label in the One Installation Note print format
+#: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
+msgid "Installed For"
+msgstr ""
+
 #. Description of the 'Private Key' (Password) field in DocType 'Cloud Mount'
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 msgid "Instead of a password, for a server that signs in with a key."
@@ -15751,11 +15930,15 @@ msgstr ""
 msgid "Interviews Today"
 msgstr ""
 
+#. Label in the One Payment Order print format
 #. Label in the One Purchase Receipt print format
 #. Label in the One Purchase Receipt with Serial Numbers print format
+#. Label in the One Subcontracting Receipt print format
 #. Label in the One Work Order print format
+#: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt_with_serial_numbers/one_purchase_receipt_with_serial_numbers.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 msgid "Into"
 msgstr ""
@@ -15871,7 +16054,7 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
 #: frontend/src/item/ItemSelling.vue:73 frontend/src/project/Invoices.vue:30
-#: onedesk/one/print_blocks.py:18 onedesk/one/print_blocks.py:592
+#: onedesk/one/print_blocks.py:18 onedesk/one/print_blocks.py:610
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_payment_reminder/one_payment_reminder.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
@@ -15995,7 +16178,7 @@ msgid "Invoiced {0}"
 msgstr ""
 
 #: frontend/src/project/Invoices.vue:12
-#: frontend/src/project/ProjectPage.vue:187 onedesk/one/print_blocks.py:582
+#: frontend/src/project/ProjectPage.vue:187 onedesk/one/print_blocks.py:600
 #: onedesk/public/js/settings.js:1584 onedesk/public/js/tenant.js:21
 #: onedesk/templates/includes/one_account_tabs.html:4
 #: onedesk/www/account_invoices.html:2 onedesk/www/account_invoices.html:17
@@ -16101,7 +16284,7 @@ msgid "Issue Analytics"
 msgstr ""
 
 #. Label in the One Stock Entry print format
-#: onedesk/one/print_blocks.py:319
+#: onedesk/one/print_blocks.py:337
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 msgid "Issue Note"
 msgstr ""
@@ -16139,8 +16322,10 @@ msgstr ""
 msgid "Issued"
 msgstr ""
 
+#. Label in the One Bank Guarantee print format
 #. Label of the issued_by (Link) field in DocType 'Employee Letter'
 #. Label in the One Work Order print format
+#: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 msgid "Issued By"
@@ -16320,6 +16505,7 @@ msgstr ""
 
 #. Label in the One Purchase Voucher print format
 #. Label in the One Sales Voucher print format
+#. Label in the One Installation Note print format
 #. Label in the One Maintenance Plan print format
 #. Label in the One Service Report print format
 #. Label in the One Work Order print format
@@ -16331,6 +16517,7 @@ msgstr ""
 #: frontend/src/to_order/ToOrderPage.vue:23
 #: onedesk/one_book/print_format/one_purchase_voucher/one_purchase_voucher.json
 #: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
+#: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_service_report/one_service_report.json
 #: onedesk/one_inventory/home.py:113
@@ -16356,6 +16543,7 @@ msgstr ""
 #. Label in the One Detailed Tax Invoice print format
 #. Label in the One Purchase Invoice Classic print format
 #. Label in the One Sales Invoice Classic print format
+#. Label in the One Installation Note print format
 #. Label in the One Quotation Classic print format
 #. Label in the One Sales Order Classic print format
 #. Label of the code (Data) field in DocType 'Reading Line'
@@ -16366,11 +16554,15 @@ msgstr ""
 #. Label in the One Purchase Order Classic print format
 #. Label in the One Request for Quotation Classic print format
 #. Label in the One Stock Entry print format
+#. Label in the One Subcontracting Inward Order print format
+#. Label in the One Subcontracting Order print format
+#. Label in the One Subcontracting Receipt print format
 #. Label in the One Work Order print format
 #: frontend/src/item/ItemPage.vue:208
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_purchase_invoice_classic/one_purchase_invoice_classic.json
 #: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
+#: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_quotation_classic/one_quotation_classic.json
 #: onedesk/one_crm/print_format/one_sales_order_classic/one_sales_order_classic.json
 #: onedesk/one_intake/doctype/reading_line/reading_line.json
@@ -16381,6 +16573,9 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_purchase_order_classic/one_purchase_order_classic.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_classic/one_request_for_quotation_classic.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 msgid "Item Code"
 msgstr ""
@@ -16399,7 +16594,9 @@ msgid "Item Lead Time"
 msgstr ""
 
 #. Label of the 'item_name' field in DocType 'BOM'
+#. Label of the one_item_name (Data) field in DocType 'Installation Note Item'
 #: frontend/src/item/ItemPage.vue:38 onedesk/one_inventory/custom/bom.json
+#: onedesk/one_inventory/custom/installation_note_item.json
 msgid "Item Name"
 msgstr ""
 
@@ -16460,6 +16657,7 @@ msgstr ""
 #. Label in the One Sales Invoice with Images print format
 #. Label in the One Sales Voucher print format
 #. Label in the One Simplified Tax Invoice print format
+#. Label in the One Installation Note print format
 #. Label in the One Maintenance Plan print format
 #. Label in the One Proforma Invoice print format
 #. Label in the One Quotation print format
@@ -16488,6 +16686,9 @@ msgstr ""
 #. Label in the One Request for Quotation Classic print format
 #. Label in the One Request for Quotation with Images print format
 #. Label in the One Stock Entry print format
+#. Label in the One Subcontracting Inward Order print format
+#. Label in the One Subcontracting Order print format
+#. Label in the One Subcontracting Receipt print format
 #: frontend/portal/src/pages/List.vue:29
 #: frontend/portal/src/pages/Record.vue:31 frontend/portal/src/pages/Rfq.vue:20
 #: frontend/src/lots/LotsPage.vue:117 frontend/src/stock/StockOnHand.vue:168
@@ -16504,6 +16705,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
 #: onedesk/one_book/print_format/one_simplified_tax_invoice/one_simplified_tax_invoice.json
+#: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
@@ -16535,6 +16737,9 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_request_for_quotation_classic/one_request_for_quotation_classic.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_with_images/one_request_for_quotation_with_images.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/one_inventory/supplier_items.py:15
 #: onedesk/public/js/item_actions.js:227 onedesk/public/js/item_actions.js:279
 msgid "Items"
@@ -16817,7 +17022,7 @@ msgid "Kept"
 msgstr ""
 
 #. Label in the One Equipment Handover print format
-#: onedesk/one/print_blocks.py:494 onedesk/one_inventory/heads.py:1394
+#: onedesk/one/print_blocks.py:512 onedesk/one_inventory/heads.py:1394
 #: onedesk/one_inventory/print_format/one_equipment_handover/one_equipment_handover.json
 msgid "Kept At"
 msgstr ""
@@ -18325,6 +18530,11 @@ msgstr ""
 msgid "MB"
 msgstr ""
 
+#. Label in the One Subcontracting Inward Order print format
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+msgid "Made"
+msgstr ""
+
 #. Label in the One Work Order print format
 #. Label of the made_by (Link) field in DocType 'Cloud File Version'
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
@@ -18374,6 +18584,11 @@ msgstr ""
 #. Label in the One Work Order print format
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 msgid "Made So Far"
+msgstr ""
+
+#. Label in the One Subcontracting Inward Order print format
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+msgid "Made To"
 msgstr ""
 
 #. Label of the ai_generated (Check) field in DocType 'File'
@@ -18811,6 +19026,11 @@ msgstr ""
 msgid "Margin"
 msgstr ""
 
+#. Label in the One Bank Guarantee print format
+#: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
+msgid "Margin Money"
+msgstr ""
+
 #: frontend/src/project/Money.vue:132 frontend/src/project/Money.vue:202
 #: onedesk/one_project/heads.py:263
 msgid "Margin So Far"
@@ -19013,7 +19233,13 @@ msgstr ""
 msgid "Matching mail is moved too"
 msgstr ""
 
+#. Label in the One Subcontracting Inward Order print format
+#. Label in the One Subcontracting Order print format
+#. Label in the One Subcontracting Receipt print format
 #. Label in the One Work Order print format
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 #: onedesk/public/js/item_new.js:139
 msgid "Material"
@@ -19082,6 +19308,21 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 #: onedesk/public/js/item_new.js:135
 msgid "Materials"
+msgstr ""
+
+#. Label in the One Subcontracting Order print format
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
+msgid "Materials At"
+msgstr ""
+
+#. Label in the One Subcontracting Receipt print format
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
+msgid "Materials Used"
+msgstr ""
+
+#. Label in the One Subcontracting Order print format
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
+msgid "Materials We Send"
 msgstr ""
 
 #: onedesk/one_inventory/ready.py:209
@@ -19271,7 +19512,7 @@ msgstr ""
 
 #: frontend/portal/src/pages/Project.vue:16
 #: frontend/src/project/Overview.vue:49 frontend/src/project/Overview.vue:70
-#: onedesk/one/print_blocks.py:566
+#: onedesk/one/print_blocks.py:584
 msgid "Milestones"
 msgstr ""
 
@@ -19770,7 +20011,11 @@ msgstr ""
 msgid "Narrow the List"
 msgstr ""
 
+#. Label in the One Subcontracting Inward Order print format
+#. Label in the One Subcontracting Order print format
 #. Label in the One Work Order print format
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 msgid "Needed"
 msgstr ""
@@ -20224,7 +20469,7 @@ msgstr ""
 
 #: frontend/portal/src/pages/List.vue:31
 #: frontend/portal/src/parts/Gallery.vue:14 frontend/src/project/Media.vue:11
-#: onedesk/one/print_blocks.py:568
+#: onedesk/one/print_blocks.py:586
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:246
 #: onedesk/public/js/doctype_settings.js:400 onedesk/public/js/item_new.js:345
 #: onedesk/public/js/project_actions.js:619
@@ -20320,6 +20565,7 @@ msgid "Next: {0}"
 msgstr ""
 
 #. Label in the One Detailed Tax Invoice print format
+#. Label in the One Payment Order print format
 #. Label in the One Purchase Invoice print format
 #. Label in the One Purchase Invoice Bordered print format
 #. Label in the One Purchase Invoice Classic print format
@@ -20328,6 +20574,7 @@ msgstr ""
 #. Label in the One Sales Invoice Bordered print format
 #. Label in the One Sales Invoice Classic print format
 #. Label in the One Sales Invoice with Images print format
+#. Label in the One Installation Note print format
 #. Label in the One Maintenance Plan print format
 #. Label in the One Proforma Invoice print format
 #. Label in the One Quotation print format
@@ -20359,11 +20606,15 @@ msgstr ""
 #. Label in the One Request for Quotation Classic print format
 #. Label in the One Request for Quotation with Images print format
 #. Label in the One Stock Entry print format
+#. Label in the One Subcontracting Inward Order print format
+#. Label in the One Subcontracting Order print format
+#. Label in the One Subcontracting Receipt print format
 #. Label in the One Work Order print format
 #: onedesk/one/ai.py:2731 onedesk/one/ai.py:2734 onedesk/one/ai.py:3862
-#: onedesk/one/ai.py:4082 onedesk/one/print_blocks.py:305
+#: onedesk/one/ai.py:4082 onedesk/one/print_blocks.py:323
 #: onedesk/one_ai/chat.py:750
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
+#: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_book/print_format/one_purchase_invoice/one_purchase_invoice.json
 #: onedesk/one_book/print_format/one_purchase_invoice_bordered/one_purchase_invoice_bordered.json
 #: onedesk/one_book/print_format/one_purchase_invoice_classic/one_purchase_invoice_classic.json
@@ -20372,6 +20623,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
 #: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
+#: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
@@ -20403,6 +20655,9 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_request_for_quotation_classic/one_request_for_quotation_classic.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_with_images/one_request_for_quotation_with_images.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 #: onedesk/public/js/item_new.js:55 onedesk/public/js/onecloud.js:738
 msgid "No"
@@ -21571,6 +21826,11 @@ msgstr ""
 #: onedesk/public/js/project_actions.js:505 onedesk/public/js/settings.js:2311
 #: onedesk/public/js/tenant.js:72
 msgid "Note"
+msgstr ""
+
+#. Label in the One Installation Note print format
+#: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
+msgid "Note No"
 msgstr ""
 
 #. Label in the One Work Order print format
@@ -23645,6 +23905,7 @@ msgstr ""
 msgid "Order More When Low"
 msgstr ""
 
+#. Label in the One Payment Order print format
 #. Label in the One Sales Order print format
 #. Label in the One Sales Order Bordered print format
 #. Label in the One Sales Order Classic print format
@@ -23653,9 +23914,12 @@ msgstr ""
 #. Label in the One Purchase Order Bordered print format
 #. Label in the One Purchase Order Classic print format
 #. Label in the One Purchase Order with Images print format
+#. Label in the One Subcontracting Inward Order print format
+#. Label in the One Subcontracting Order print format
 #. Label in the One Work Order print format
 #: onedesk/one/print_blocks.py:17 onedesk/one/print_blocks.py:24
 #: onedesk/one/print_blocks.py:27
+#: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_crm/print_format/one_sales_order/one_sales_order.json
 #: onedesk/one_crm/print_format/one_sales_order_bordered/one_sales_order_bordered.json
 #: onedesk/one_crm/print_format/one_sales_order_classic/one_sales_order_classic.json
@@ -23664,6 +23928,8 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_purchase_order_bordered/one_purchase_order_bordered.json
 #: onedesk/one_inventory/print_format/one_purchase_order_classic/one_purchase_order_classic.json
 #: onedesk/one_inventory/print_format/one_purchase_order_with_images/one_purchase_order_with_images.json
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 msgid "Order No"
 msgstr ""
@@ -23833,6 +24099,13 @@ msgstr ""
 msgid "Other Browsers"
 msgstr ""
 
+#. Label in the One Subcontracting Order print format
+#. Label in the One Subcontracting Receipt print format
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
+msgid "Other Costs"
+msgstr ""
+
 #: onedesk/public/js/settings.js:314
 msgid "Other Emails"
 msgstr ""
@@ -23998,7 +24271,7 @@ msgstr ""
 
 #. Label in the One Payment Reminder print format
 #: frontend/src/project/Invoices.vue:36 frontend/src/project/Invoices.vue:122
-#: frontend/src/project/Suppliers.vue:96 onedesk/one/print_blocks.py:592
+#: frontend/src/project/Suppliers.vue:96 onedesk/one/print_blocks.py:610
 #: onedesk/one_book/print_format/one_payment_reminder/one_payment_reminder.json
 msgid "Outstanding"
 msgstr ""
@@ -24287,7 +24560,7 @@ msgstr ""
 #. Label in the One Payment Receipt print format
 #. Label in the One Payment Voucher print format
 #. Option for the 'Role' (Select) field in DocType 'Reading Party'
-#: onedesk/one/print_blocks.py:422
+#: onedesk/one/print_blocks.py:440
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
 #: onedesk/one_book/print_format/one_payment_voucher/one_payment_voucher.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
@@ -24699,6 +24972,11 @@ msgstr ""
 msgid "Pay Advance"
 msgstr ""
 
+#. Label in the One Payment Order print format
+#: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
+msgid "Pay From"
+msgstr ""
+
 #. Label of the one_pay_into (Link) field in DocType 'Dunning'
 #. Label of the one_pay_into (Link) field in DocType 'Sales Invoice'
 #. Label of the one_pay_into (Link) field in DocType 'Sales Order'
@@ -24713,6 +24991,7 @@ msgid "Pay Retention"
 msgstr ""
 
 #. Label in the One Detailed Tax Invoice print format
+#. Label in the One Payment Order print format
 #. Label in the One Payment Reminder print format
 #. Label in the One Sales Invoice print format
 #. Label in the One Sales Invoice Bordered print format
@@ -24724,6 +25003,7 @@ msgstr ""
 #. Label in the One Sales Order Classic print format
 #. Label in the One Sales Order with Images print format
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
+#: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_book/print_format/one_payment_reminder/one_payment_reminder.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
@@ -24800,7 +25080,7 @@ msgid "Payload"
 msgstr ""
 
 #. Label in the One Payment Receipt print format
-#: onedesk/one/print_blocks.py:315
+#: onedesk/one/print_blocks.py:333
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
 #: onedesk/public/js/intake.js:154 onedesk/public/js/intake.js:165
 msgid "Payment"
@@ -24839,8 +25119,13 @@ msgstr ""
 msgid "Payment Method"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:315
+#: onedesk/one/print_blocks.py:333
 msgid "Payment No"
+msgstr ""
+
+#. Label in the One Payment Order print format
+#: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
+msgid "Payment Order"
 msgstr ""
 
 #. Name of a notification
@@ -25031,8 +25316,10 @@ msgstr ""
 msgid "Payment {0} recorded."
 msgstr ""
 
+#. Label in the One Payment Order print format
 #. Task in the Mobile App project template
 #: onedesk/one_book/home.py:196 onedesk/one_book/home.py:256
+#: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_project/library/mobile_app.json onedesk/one_project/tree.py:212
 msgid "Payments"
 msgstr ""
@@ -25229,7 +25516,7 @@ msgstr ""
 msgid "Per Workspace"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:502
+#: onedesk/one/print_blocks.py:520
 msgid "Period"
 msgstr ""
 
@@ -25311,6 +25598,7 @@ msgstr ""
 #. Label in the One Sales Invoice print format
 #. Label in the One Sales Invoice Classic print format
 #. Label in the One Sales Invoice with Images print format
+#. Label in the One Installation Note print format
 #. Label in the One Maintenance Plan print format
 #. Label in the One Proforma Invoice print format
 #. Label in the One Quotation print format
@@ -25335,6 +25623,8 @@ msgstr ""
 #. Label in the One Purchase Receipt print format
 #. Label in the One Purchase Receipt with Serial Numbers print format
 #. Label in the One Stock Entry print format
+#. Label in the One Subcontracting Order print format
+#. Label in the One Subcontracting Receipt print format
 #. Label of the phone (Data) field in DocType 'Project Contact'
 #: frontend/src/project/Team.vue:73 onedesk/one/letter_heads.py:63
 #: onedesk/one/letter_heads.py:360 onedesk/one/letter_heads.py:381
@@ -25347,6 +25637,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
+#: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
@@ -25371,6 +25662,8 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt_with_serial_numbers/one_purchase_receipt_with_serial_numbers.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/one_project/doctype/project_contact/project_contact.json
 #: onedesk/public/js/settings.js:2233
 msgid "Phone"
@@ -25746,6 +26039,11 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Platform"
+msgstr ""
+
+#. Label in the One Payment Order print format
+#: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
+msgid "Please make the payments below from our account."
 msgstr ""
 
 #. Task in the Small Building Works project template
@@ -26309,7 +26607,7 @@ msgstr ""
 #: frontend/portal/src/pages/Project.vue:77
 #: frontend/src/project/Overview.vue:300 frontend/src/project/Tasks.vue:24
 #: frontend/src/task/TaskPage.vue:261 onedesk/one/portal.py:78
-#: onedesk/one/print_blocks.py:562 onedesk/one_book/heads.py:639
+#: onedesk/one/print_blocks.py:580 onedesk/one_book/heads.py:639
 #: onedesk/one_book/heads.py:722 onedesk/one_book/heads.py:734
 #: onedesk/one_crm/heads.py:308 onedesk/one_inventory/heads.py:1533
 #: onedesk/one_inventory/heads.py:1544 onedesk/one_inventory/heads.py:1583
@@ -26329,6 +26627,7 @@ msgstr ""
 msgid "Progress…"
 msgstr ""
 
+#. Label in the One Bank Guarantee print format
 #. Label in the One Detailed Tax Invoice print format
 #. Label in the One Payment Receipt print format
 #. Label in the One Purchase Invoice print format
@@ -26339,6 +26638,7 @@ msgstr ""
 #. Label in the One Sales Invoice Classic print format
 #. Label in the One Sales Invoice with Images print format
 #. Label in the One Sales Voucher print format
+#. Label in the One Installation Note print format
 #. Label in the One Proforma Invoice print format
 #. Label in the One Sales Order print format
 #. Label in the One Sales Order Classic print format
@@ -26352,6 +26652,8 @@ msgstr ""
 #. Label in the One Purchase Receipt print format
 #. Label in the One Purchase Receipt with Serial Numbers print format
 #. Label in the One Stock Entry print format
+#. Label in the One Subcontracting Order print format
+#. Label in the One Subcontracting Receipt print format
 #. Label in the One Work Order print format
 #. Label of the project (Link) field in DocType 'Material Request'
 #. Label of the project (Link) field in DocType 'Quotation'
@@ -26361,8 +26663,9 @@ msgstr ""
 #: frontend/src/project/ProjectPage.vue:206
 #: frontend/src/project/TaskPanel.vue:48 frontend/src/project/Time.vue:100
 #: onedesk/one/portal.py:78 onedesk/one/print_blocks.py:36
-#: onedesk/one/print_blocks.py:516 onedesk/one_book/heads.py:640
+#: onedesk/one/print_blocks.py:534 onedesk/one_book/heads.py:640
 #: onedesk/one_book/heads.py:735
+#: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
 #: onedesk/one_book/print_format/one_purchase_invoice/one_purchase_invoice.json
@@ -26375,6 +26678,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
 #: onedesk/one_crm/heads.py:315 onedesk/one_crm/heads.py:325
 #: onedesk/one_crm/heads.py:345
+#: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
 #: onedesk/one_crm/print_format/one_sales_order/one_sales_order.json
 #: onedesk/one_crm/print_format/one_sales_order_classic/one_sales_order_classic.json
@@ -26395,6 +26699,8 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt_with_serial_numbers/one_purchase_receipt_with_serial_numbers.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 #: onedesk/one_project/custom/material_request.json
 #: onedesk/one_project/custom/quotation.json
@@ -26725,6 +27031,7 @@ msgstr ""
 #. Label in the One Purchase Order Bordered print format
 #. Label in the One Purchase Order Classic print format
 #. Label in the One Purchase Order with Images print format
+#. Label in the One Subcontracting Order print format
 #. Label of a Sidebar Item
 #: onedesk/one/print_blocks.py:24 onedesk/one_inventory/heads.py:1567
 #: onedesk/one_inventory/heads.py:1576 onedesk/one_inventory/heads.py:1585
@@ -26733,6 +27040,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_purchase_order_bordered/one_purchase_order_bordered.json
 #: onedesk/one_inventory/print_format/one_purchase_order_classic/one_purchase_order_classic.json
 #: onedesk/one_inventory/print_format/one_purchase_order_with_images/one_purchase_order_with_images.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Purchase Order"
 msgstr ""
@@ -26844,6 +27152,7 @@ msgstr ""
 #. Label in the One Sales Invoice Classic print format
 #. Label in the One Sales Invoice with Images print format
 #. Label in the One Simplified Tax Invoice print format
+#. Label in the One Installation Note print format
 #. Label in the One Proforma Invoice print format
 #. Label in the One Quotation print format
 #. Label in the One Quotation Bordered print format
@@ -26868,6 +27177,8 @@ msgstr ""
 #. Label in the One Request for Quotation Classic print format
 #. Label in the One Request for Quotation with Images print format
 #. Label in the One Stock Entry print format
+#. Label in the One Subcontracting Inward Order print format
+#. Label in the One Subcontracting Order print format
 #: frontend/src/to_order/ToOrderPage.vue:26
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_purchase_invoice/one_purchase_invoice.json
@@ -26879,6 +27190,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_book/print_format/one_simplified_tax_invoice/one_simplified_tax_invoice.json
+#: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
 #: onedesk/one_crm/print_format/one_quotation_bordered/one_quotation_bordered.json
@@ -26903,6 +27215,8 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_request_for_quotation_classic/one_request_for_quotation_classic.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_with_images/one_request_for_quotation_with_images.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
 msgid "Qty"
 msgstr ""
 
@@ -27179,12 +27493,16 @@ msgstr ""
 #. Label in the One Purchase Voucher print format
 #. Label in the One Sales Voucher print format
 #. Label in the One Blanket Order print format
+#. Label in the One Subcontracting Order print format
+#. Label in the One Subcontracting Receipt print format
 #: frontend/portal/src/pages/Rfq.vue:25 frontend/portal/src/pages/Rfq.vue:41
 #: frontend/portal/src/pages/Rfq.vue:44 frontend/portal/src/pages/Rfq.vue:57
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_purchase_voucher/one_purchase_voucher.json
 #: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
 #: onedesk/one_inventory/print_format/one_blanket_order/one_blanket_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 msgid "Rate"
 msgstr ""
 
@@ -27430,10 +27748,12 @@ msgstr ""
 #. Label in the One Payment Receipt print format
 #. Label in the One Purchase Receipt print format
 #. Label in the One Purchase Receipt with Serial Numbers print format
+#. Label in the One Subcontracting Receipt print format
 #: onedesk/one/print_blocks.py:20 onedesk/one/print_blocks.py:29
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt_with_serial_numbers/one_purchase_receipt_with_serial_numbers.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 msgid "Receipt No"
 msgstr ""
 
@@ -27482,6 +27802,8 @@ msgid "Receive what {0} made into stock?"
 msgstr ""
 
 #. Label in the One Purchase Receipt print format
+#. Label in the One Subcontracting Inward Order print format
+#. Label in the One Subcontracting Receipt print format
 #: frontend/src/home/InventoryStory.vue:164
 #: frontend/src/home/InventoryStory.vue:171
 #: frontend/src/home/InventoryStory.vue:184
@@ -27492,6 +27814,8 @@ msgstr ""
 #: onedesk/one_inventory/heads.py:648 onedesk/one_inventory/heads.py:735
 #: onedesk/one_inventory/heads.py:841
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/one_project/money.py:172 onedesk/public/js/settings.js:2955
 msgid "Received"
 msgstr ""
@@ -27509,6 +27833,7 @@ msgstr ""
 #. Label in the One Purchase Receipt print format
 #. Label in the One Purchase Receipt with Serial Numbers print format
 #. Label in the One Stock Entry print format
+#. Label in the One Subcontracting Receipt print format
 #: onedesk/one_inventory/print_format/one_delivery_note/one_delivery_note.json
 #: onedesk/one_inventory/print_format/one_delivery_note_bordered/one_delivery_note_bordered.json
 #: onedesk/one_inventory/print_format/one_delivery_note_classic/one_delivery_note_classic.json
@@ -27518,16 +27843,19 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt_with_serial_numbers/one_purchase_receipt_with_serial_numbers.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 msgid "Received By"
 msgstr ""
 
 #. Label in the One Payment Receipt print format
 #. Label in the One Purchase Receipt print format
 #. Label in the One Purchase Receipt with Serial Numbers print format
+#. Label in the One Subcontracting Receipt print format
 #: onedesk/one/print_blocks.py:124 onedesk/one/print_blocks.py:130
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt_with_serial_numbers/one_purchase_receipt_with_serial_numbers.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 msgid "Received From"
 msgstr ""
 
@@ -27841,6 +28169,7 @@ msgstr ""
 #. Label of the reference (Data) field in DocType 'Credit Ledger Entry'
 #. Label of the reference (Data) field in DocType 'Credit Reservation'
 #. Label in the One Journal Voucher print format
+#. Label in the One Payment Order print format
 #. Label in the One Payment Receipt print format
 #. Label in the One Payment Voucher print format
 #. Option for the 'Placed By' (Select) field in DocType 'Reading'
@@ -27849,6 +28178,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
 #: onedesk/one_book/print_format/one_journal_voucher/one_journal_voucher.json
+#: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
 #: onedesk/one_book/print_format/one_payment_voucher/one_payment_voucher.json
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -28019,13 +28349,20 @@ msgstr ""
 #. Option for the 'Status' (Select) field in DocType 'Clock Network'
 #. Option for the 'Status' (Select) field in DocType 'Clock Place'
 #. Label in the One Purchase Receipt print format
+#. Label in the One Subcontracting Receipt print format
 #: onedesk/one_hr/custom/attendance_request.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/public/js/checkin_list.js:12
 msgid "Rejected"
+msgstr ""
+
+#. Label in the One Subcontracting Receipt print format
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
+msgid "Rejected Into"
 msgstr ""
 
 #: onedesk/one_inventory/heads.py:1588
@@ -28091,12 +28428,16 @@ msgstr ""
 #. Label in the One Payment Voucher print format
 #. Label in the One Purchase Voucher print format
 #. Label in the One Sales Voucher print format
+#. Label in the One Installation Note print format
 #. Label in the One Stock Entry print format
+#. Label in the One Subcontracting Receipt print format
 #: onedesk/one_book/print_format/one_journal_credit_note/one_journal_credit_note.json
 #: onedesk/one_book/print_format/one_payment_voucher/one_payment_voucher.json
 #: onedesk/one_book/print_format/one_purchase_voucher/one_purchase_voucher.json
 #: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
+#: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/public/js/item_actions.js:239 onedesk/public/js/item_actions.js:289
 msgid "Remarks"
 msgstr ""
@@ -28604,6 +28945,7 @@ msgstr ""
 #. Label in the One Request for Quotation Bordered print format
 #. Label in the One Request for Quotation Classic print format
 #. Label in the One Request for Quotation with Images print format
+#. Label in the One Subcontracting Order print format
 #: onedesk/one/print_blocks.py:77
 #: onedesk/one_inventory/print_format/one_purchase_order/one_purchase_order.json
 #: onedesk/one_inventory/print_format/one_purchase_order_bordered/one_purchase_order_bordered.json
@@ -28613,6 +28955,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_request_for_quotation_bordered/one_request_for_quotation_bordered.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_classic/one_request_for_quotation_classic.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_with_images/one_request_for_quotation_with_images.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
 msgid "Required By"
 msgstr ""
 
@@ -28900,7 +29243,7 @@ msgstr ""
 #. Label in the One Delivery Note Bordered print format
 #. Label in the One Delivery Note Classic print format
 #. Label in the One Delivery Note with Images print format
-#: onedesk/one/print_blocks.py:311
+#: onedesk/one/print_blocks.py:329
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
@@ -29229,6 +29572,11 @@ msgstr ""
 msgid "SMTP Server"
 msgstr ""
 
+#. Label in the One Bank Guarantee print format
+#: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
+msgid "SWIFT"
+msgstr ""
+
 #. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
 #: onedesk/one_hr/custom/employee_grievance.json
 msgid "Safety"
@@ -29323,6 +29671,7 @@ msgstr ""
 #. Label in the One Sales Order Classic print format
 #. Label in the One Sales Order with Images print format
 #. Label of a Sidebar Item
+#. Label in the One Subcontracting Inward Order print format
 #. Label in the One Work Order print format
 #: onedesk/one/print_blocks.py:17 onedesk/one_crm/heads.py:134
 #: onedesk/one_crm/home.py:126 onedesk/one_crm/home.py:349
@@ -29332,6 +29681,7 @@ msgstr ""
 #: onedesk/one_crm/print_format/one_sales_order_with_images/one_sales_order_with_images.json
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_inventory/heads.py:1598
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 msgid "Sales Order"
 msgstr ""
@@ -29865,6 +30215,7 @@ msgstr ""
 msgid "Sensitivity"
 msgstr ""
 
+#. Label in the One Subcontracting Order print format
 #. Label in the One Work Order print format
 #. Option for the 'Kind' (Select) field in DocType 'Mail Folder'
 #. Label of the section_sent (Section Break) field in DocType 'Cloud File
@@ -29873,6 +30224,7 @@ msgstr ""
 #. Label of the file (Link) field in DocType 'Cloud File Request Upload'
 #: onedesk/one/portal.py:108 onedesk/one/portal.py:836
 #: onedesk/one/portal.py:840 onedesk/one/portal.py:846
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
@@ -29990,10 +30342,15 @@ msgstr ""
 msgid "Separator"
 msgstr ""
 
+#. Label in the One Installation Note print format
 #. Label in the One Service Report print format
+#. Label in the One Subcontracting Receipt print format
 #: frontend/src/lots/LotsPage.vue:139 frontend/src/lots/SerialRows.vue:9
+#: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_service_report/one_service_report.json
-#: onedesk/one_inventory/home.py:121 onedesk/public/js/page_views.js:17
+#: onedesk/one_inventory/home.py:121
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
+#: onedesk/public/js/page_views.js:17
 msgid "Serial No"
 msgstr ""
 
@@ -30585,7 +30942,7 @@ msgstr ""
 #. Label in the One Sales Order Bordered print format
 #. Label in the One Sales Order Classic print format
 #. Label in the One Sales Order with Images print format
-#: onedesk/one/print_blocks.py:453
+#: onedesk/one/print_blocks.py:471
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
 #: onedesk/one_crm/print_format/one_sales_order/one_sales_order.json
 #: onedesk/one_crm/print_format/one_sales_order_bordered/one_sales_order_bordered.json
@@ -31158,6 +31515,7 @@ msgstr ""
 #. Label in the One Sales Invoice Bordered print format
 #. Label in the One Sales Invoice Classic print format
 #. Label in the One Sales Invoice with Images print format
+#. Label in the One Installation Note print format
 #. Label in the One Proforma Invoice print format
 #. Label in the One Quotation print format
 #. Label in the One Quotation Bordered print format
@@ -31219,6 +31577,9 @@ msgstr ""
 #. Label in the One Request for Quotation Classic print format
 #. Label in the One Request for Quotation with Images print format
 #. Label in the One Stock Entry print format
+#. Label in the One Subcontracting Inward Order print format
+#. Label in the One Subcontracting Order print format
+#. Label in the One Subcontracting Receipt print format
 #. Label of the file_size (Int) field in DocType 'Cloud File Version'
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_purchase_invoice/one_purchase_invoice.json
@@ -31229,6 +31590,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
 #: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
+#: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
 #: onedesk/one_crm/print_format/one_quotation_bordered/one_quotation_bordered.json
@@ -31286,6 +31648,9 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_request_for_quotation_classic/one_request_for_quotation_classic.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_with_images/one_request_for_quotation_with_images.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json
 #: onedesk/public/js/onecloud.js:147 onedesk/public/js/onecloud.js:663
 #: onedesk/public/js/onecloud.js:718
@@ -32419,7 +32784,7 @@ msgstr ""
 
 #: frontend/portal/src/pages/Project.vue:36
 #: frontend/src/project/Overview.vue:122
-#: frontend/src/project/ProjectPage.vue:298 onedesk/one/print_blocks.py:571
+#: frontend/src/project/ProjectPage.vue:298 onedesk/one/print_blocks.py:589
 #: onedesk/one_project/heads.py:258 onedesk/one_project/tree.py:198
 msgid "Sub-projects"
 msgstr ""
@@ -32436,18 +32801,32 @@ msgstr ""
 msgid "Subcontracting BOM"
 msgstr ""
 
+#. Label in the One Subcontracting Inward Order print format
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+msgid "Subcontracting Inward Order"
+msgstr ""
+
+#. Label in the One Subcontracting Order print format
 #. Label of a Sidebar Item
 #: frontend/src/sent_out/SentOutPage.vue:114
 #: onedesk/one_inventory/heads.py:1666 onedesk/one_inventory/home.py:150
 #: onedesk/one_inventory/page/sent_out/sent_out.js:11
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/public/js/page_views.js:33 onedesk/public/js/page_views.js:35
 msgid "Subcontracting Order"
 msgstr ""
 
+#. Label in the One Subcontracting Receipt print format
 #: frontend/src/sent_out/OutRows.vue:114 onedesk/one_inventory/home.py:151
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/public/js/page_views.js:36
 msgid "Subcontracting Receipt"
+msgstr ""
+
+#. Label in the One Subcontracting Receipt print format
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
+msgid "Subcontracting Return"
 msgstr ""
 
 #. Option for the 'Role' (Select) field in DocType 'Project Contact'
@@ -32678,6 +33057,7 @@ msgstr ""
 msgid "Supplied"
 msgstr ""
 
+#. Label in the One Bank Guarantee print format
 #. Label in the One Purchase Invoice print format
 #. Label in the One Purchase Invoice Bordered print format
 #. Label in the One Purchase Invoice Classic print format
@@ -32693,6 +33073,7 @@ msgstr ""
 #. Label in the One Request for Quotation Bordered print format
 #. Label in the One Request for Quotation Classic print format
 #. Label in the One Request for Quotation with Images print format
+#. Label in the One Subcontracting Order print format
 #. Option for the 'Role' (Select) field in DocType 'Project Contact'
 #. Label of the supplier (Link) field in DocType 'Project Contact'
 #: frontend/src/item/ItemSuppliers.vue:41 frontend/src/project/Overview.vue:450
@@ -32701,6 +33082,7 @@ msgstr ""
 #: frontend/src/to_order/ToOrderPage.vue:25
 #: frontend/src/to_order/ToOrderPage.vue:176 onedesk/one/print_blocks.py:117
 #: onedesk/one_book/home.py:323
+#: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_book/print_format/one_purchase_invoice/one_purchase_invoice.json
 #: onedesk/one_book/print_format/one_purchase_invoice_bordered/one_purchase_invoice_bordered.json
 #: onedesk/one_book/print_format/one_purchase_invoice_classic/one_purchase_invoice_classic.json
@@ -32717,6 +33099,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_request_for_quotation_bordered/one_request_for_quotation_bordered.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_classic/one_request_for_quotation_classic.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_with_images/one_request_for_quotation_with_images.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/one_project/doctype/project_contact/project_contact.json
 #: onedesk/public/js/lots_actions.js:114
@@ -32963,6 +33346,7 @@ msgstr ""
 
 #. Label in the One Detailed Tax Invoice print format
 #. Label in the One Journal Credit Note print format
+#. Label in the One Payment Order print format
 #. Label in the One Payment Receipt print format
 #. Label in the One Payment Reminder print format
 #. Label in the One Purchase Invoice print format
@@ -32996,9 +33380,13 @@ msgstr ""
 #. Label in the One Request for Quotation print format
 #. Label in the One Request for Quotation Bordered print format
 #. Label in the One Request for Quotation with Images print format
+#. Label in the One Subcontracting Inward Order print format
+#. Label in the One Subcontracting Order print format
+#. Label in the One Subcontracting Receipt print format
 #: onedesk/one/letter_heads.py:151
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_journal_credit_note/one_journal_credit_note.json
+#: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
 #: onedesk/one_book/print_format/one_payment_reminder/one_payment_reminder.json
 #: onedesk/one_book/print_format/one_purchase_invoice/one_purchase_invoice.json
@@ -33033,10 +33421,13 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_request_for_quotation/one_request_for_quotation.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_bordered/one_request_for_quotation_bordered.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_with_images/one_request_for_quotation_with_images.json
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 msgid "TRN"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:341 onedesk/one/print_blocks.py:452
+#: onedesk/one/print_blocks.py:359 onedesk/one/print_blocks.py:470
 msgid "TRN {0}"
 msgstr ""
 
@@ -33245,7 +33636,7 @@ msgstr ""
 #. Label in the One Sales Invoice Bordered print format
 #. Label in the One Sales Invoice Classic print format
 #. Label in the One Sales Invoice with Images print format
-#: onedesk/one/print_blocks.py:327
+#: onedesk/one/print_blocks.py:345
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
@@ -33269,7 +33660,7 @@ msgstr ""
 msgid "Tax ID"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:452
+#: onedesk/one/print_blocks.py:470
 msgid "Tax ID {0}"
 msgstr ""
 
@@ -33278,7 +33669,7 @@ msgstr ""
 #. Label in the One Sales Invoice Bordered print format
 #. Label in the One Sales Invoice Classic print format
 #. Label in the One Sales Invoice with Images print format
-#: onedesk/one/print_blocks.py:327
+#: onedesk/one/print_blocks.py:345
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
@@ -33502,6 +33893,7 @@ msgstr ""
 msgid "Term"
 msgstr ""
 
+#. Label in the One Bank Guarantee print format
 #. Label in the One Detailed Tax Invoice print format
 #. Label in the One Purchase Invoice print format
 #. Label in the One Purchase Invoice Bordered print format
@@ -33542,6 +33934,7 @@ msgstr ""
 #. Template'
 #: frontend/portal/src/pages/Rfq.vue:93 onedesk/one/portal.py:729
 #: onedesk/one/print_recipes.py:182
+#: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_purchase_invoice/one_purchase_invoice.json
 #: onedesk/one_book/print_format/one_purchase_invoice_bordered/one_purchase_invoice_bordered.json
@@ -34442,6 +34835,11 @@ msgstr ""
 #. Description of the 'Its Number' (Data) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "The invoice, order or case number the document itself carries."
+msgstr ""
+
+#. Label in the One Installation Note print format
+#: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
+msgid "The items above have been installed and work as they should."
 msgstr ""
 
 #. Description of the 'One Profile' (Link) field in DocType 'User'
@@ -35377,10 +35775,27 @@ msgstr ""
 
 #. Label in the One Purchase Receipt print format
 #. Label in the One Purchase Receipt with Serial Numbers print format
+#. Label in the One Subcontracting Receipt print format
 #: onedesk/one/print_blocks.py:74
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt_with_serial_numbers/one_purchase_receipt_with_serial_numbers.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 msgid "Their Delivery Note"
+msgstr ""
+
+#. Label in the One Subcontracting Receipt print format
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
+msgid "Their Invoice No"
+msgstr ""
+
+#. Label in the One Subcontracting Inward Order print format
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+msgid "Their Materials"
+msgstr ""
+
+#. Label in the One Subcontracting Inward Order print format
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+msgid "Their Materials At"
 msgstr ""
 
 #: onedesk/public/js/settings.js:1832
@@ -36087,6 +36502,7 @@ msgstr ""
 msgid "Tiling"
 msgstr ""
 
+#. Label in the One Installation Note print format
 #. Label in the One Service Report print format
 #. Label of a Sidebar Item
 #. Label of a Card Break in the OneHR Setup Workspace
@@ -36096,6 +36512,7 @@ msgstr ""
 #. Label in the One Timesheet print format
 #: frontend/portal/src/pages/Project.vue:102 frontend/src/home/HrStory.vue:23
 #: frontend/src/project/Overview.vue:308
+#: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_service_report/one_service_report.json
 #: onedesk/one_hr/attendance.py:15 onedesk/one_hr/home.py:26
 #: onedesk/one_hr/home.py:39 onedesk/one_hr/home.py:47
@@ -36251,6 +36668,7 @@ msgid "Titled"
 msgstr ""
 
 #. Label in the One Journal Credit Note print format
+#. Label in the One Payment Order print format
 #. Label in the One Payment Reminder print format
 #. Label in the One Maintenance Plan print format
 #. Label in the One Appointment Letter print format
@@ -36264,6 +36682,7 @@ msgstr ""
 #: onedesk/one/ai_setup.py:418 onedesk/one/print_blocks.py:65
 #: onedesk/one/print_blocks.py:79 onedesk/one_ai/chat.py:349
 #: onedesk/one_book/print_format/one_journal_credit_note/one_journal_credit_note.json
+#: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_book/print_format/one_payment_reminder/one_payment_reminder.json
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_hr/print_format/one_appointment_letter/one_appointment_letter.json
@@ -36547,11 +36966,13 @@ msgstr ""
 #. Label in the One Purchase Order Bordered print format
 #. Label in the One Purchase Order Classic print format
 #. Label in the One Purchase Order with Images print format
+#. Label in the One Subcontracting Order print format
+#. Label in the One Subcontracting Receipt print format
 #: frontend/portal/src/pages/Rfq.vue:82 frontend/src/project/Invoices.vue:35
 #: frontend/src/project/Suppliers.vue:95
 #: frontend/src/quotes/QuoteCompare.vue:38 frontend/src/quotes/QuoteRows.vue:13
 #: onedesk/one/portal.py:76 onedesk/one/portal.py:654 onedesk/one/portal.py:825
-#: onedesk/one/print_blocks.py:592
+#: onedesk/one/print_blocks.py:610
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:51
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_journal_credit_note/one_journal_credit_note.json
@@ -36583,6 +37004,8 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_purchase_order_bordered/one_purchase_order_bordered.json
 #: onedesk/one_inventory/print_format/one_purchase_order_classic/one_purchase_order_classic.json
 #: onedesk/one_inventory/print_format/one_purchase_order_with_images/one_purchase_order_with_images.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 msgid "Total"
 msgstr ""
 
@@ -36654,12 +37077,16 @@ msgstr ""
 #. Label in the One Delivery Note with Images print format
 #. Label in the One Purchase Receipt print format
 #. Label in the One Purchase Receipt with Serial Numbers print format
+#. Label in the One Subcontracting Order print format
+#. Label in the One Subcontracting Receipt print format
 #: onedesk/one_inventory/print_format/one_delivery_note/one_delivery_note.json
 #: onedesk/one_inventory/print_format/one_delivery_note_bordered/one_delivery_note_bordered.json
 #: onedesk/one_inventory/print_format/one_delivery_note_classic/one_delivery_note_classic.json
 #: onedesk/one_inventory/print_format/one_delivery_note_with_images/one_delivery_note_with_images.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt_with_serial_numbers/one_purchase_receipt_with_serial_numbers.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 msgid "Total Qty"
 msgstr ""
 
@@ -36796,7 +37223,7 @@ msgstr ""
 #. Label in the One Payment Receipt print format
 #. Label of a Sidebar Item
 #. Option for the 'Paid How' (Select) field in DocType 'Reading'
-#: onedesk/one/print_blocks.py:321
+#: onedesk/one/print_blocks.py:339
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -36807,12 +37234,12 @@ msgstr ""
 msgid "Transfer Material"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:321
+#: onedesk/one/print_blocks.py:339
 msgid "Transfer No"
 msgstr ""
 
 #. Label in the One Stock Entry print format
-#: onedesk/one/print_blocks.py:317
+#: onedesk/one/print_blocks.py:335
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 msgid "Transfer Note"
 msgstr ""
@@ -36849,11 +37276,13 @@ msgstr ""
 #. Label in the One Delivery Note with Images print format
 #. Label in the One Purchase Receipt print format
 #. Label in the One Purchase Receipt with Serial Numbers print format
+#. Label in the One Subcontracting Receipt print format
 #: onedesk/one_inventory/print_format/one_delivery_note/one_delivery_note.json
 #: onedesk/one_inventory/print_format/one_delivery_note_classic/one_delivery_note_classic.json
 #: onedesk/one_inventory/print_format/one_delivery_note_with_images/one_delivery_note_with_images.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt_with_serial_numbers/one_purchase_receipt_with_serial_numbers.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 msgid "Transporter"
 msgstr ""
 
@@ -37235,12 +37664,18 @@ msgstr ""
 #. Label in the One Blanket Order print format
 #. Label in the One Packing Slip print format
 #. Label in the One Stock Entry print format
+#. Label in the One Subcontracting Inward Order print format
+#. Label in the One Subcontracting Order print format
+#. Label in the One Subcontracting Receipt print format
 #. Label in the One Work Order print format
 #: frontend/src/item/ItemBarcodes.vue:76 onedesk/one/masters.py:32
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 #: onedesk/one_inventory/print_format/one_blanket_order/one_blanket_order.json
 #: onedesk/one_inventory/print_format/one_packing_slip/one_packing_slip.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 #: onedesk/public/js/doctype_settings.js:697
 #: onedesk/public/js/doctype_settings.js:709 onedesk/public/js/item_new.js:49
@@ -37414,6 +37849,8 @@ msgstr ""
 msgid "Untaken days paid out."
 msgstr ""
 
+#. Label in the One Bank Guarantee print format
+#: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/public/js/onemail.js:929
 msgid "Until"
 msgstr ""
@@ -37598,9 +38035,13 @@ msgid "Use {0} to insert a field of the record."
 msgstr ""
 
 #. Label of the storage_bytes (Long Int) field in DocType 'Workspace Account'
+#. Label in the One Subcontracting Inward Order print format
+#. Label in the One Subcontracting Receipt print format
 #: frontend/src/project/Money.vue:44
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:137
+#: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/one_inventory/story.py:437
 msgid "Used"
 msgstr ""
@@ -37950,6 +38391,7 @@ msgstr ""
 #. Label in the One Delivery Note with Images print format
 #. Label in the One Purchase Receipt print format
 #. Label in the One Purchase Receipt with Serial Numbers print format
+#. Label in the One Subcontracting Receipt print format
 #: onedesk/one/print_blocks.py:58 onedesk/one/print_blocks.py:75
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/one_inventory/print_format/one_delivery_note/one_delivery_note.json
@@ -37957,6 +38399,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_delivery_note_with_images/one_delivery_note_with_images.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt_with_serial_numbers/one_purchase_receipt_with_serial_numbers.json
+#: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 msgid "Vehicle"
 msgstr ""
 
@@ -45799,7 +46242,7 @@ msgstr ""
 msgid "{0} of {1} tasks"
 msgstr ""
 
-#: frontend/portal/src/pages/Project.vue:80 onedesk/one/print_blocks.py:564
+#: frontend/portal/src/pages/Project.vue:80 onedesk/one/print_blocks.py:582
 msgid "{0} of {1} tasks done"
 msgstr ""
 
@@ -46411,7 +46854,7 @@ msgstr ""
 msgid "{0}% billed"
 msgstr ""
 
-#: frontend/src/project/Overview.vue:490 onedesk/one/print_blocks.py:575
+#: frontend/src/project/Overview.vue:490 onedesk/one/print_blocks.py:593
 #: onedesk/one_project/view.py:824 onedesk/public/js/project_list.js:106
 #: onedesk/public/js/project_tree.js:18
 #, python-format

@@ -260,10 +260,10 @@ EMPTY = {
 
 #: Point 11. Documents sent to a customer or supplier on a print not ours.
 UNPRINTED = {
-	"erpnext / Accounts": 3,
+	"erpnext / Accounts": 1,
 	"erpnext / Maintenance": 0,
-	"erpnext / Selling": 2,
-	"erpnext / Subcontracting": 3,
+	"erpnext / Selling": 0,
+	"erpnext / Subcontracting": 0,
 }
 
 #: Point 5. Lists that say nothing but a number.

@@ -159,13 +159,18 @@ def _child(doctype: str, table: str) -> str:
 	raise AssertionError(f"{doctype} has no table {table}")
 
 
+#: What ERPNext sets on a record only for printing it, never stored: its
+#: Proforma Invoice prints a copy of the Sales Order given these.
+PRINTED_ONLY = {"Sales Order": {"proforma_no", "proforma_date"}}
+
+
 def test_a_native_format_prints_fields_the_record_has():
 	"""A misspelt field prints nothing and says nothing, so each is read back
 	against the doctype, its custom fields, and its tables' own."""
 	if not (APPS / "erpnext").exists():
 		pytest.skip("erpnext is not checked out beside this app")
 	for doctype, layout in _native().values():
-		has = _fields(doctype)
+		has = _fields(doctype) | PRINTED_ONLY.get(doctype, set())
 		for one in _pieces(layout):
 			if one.get("fieldtype") == "Table":
 				assert one["fieldname"] in has, f"{doctype}: {one['fieldname']}"
