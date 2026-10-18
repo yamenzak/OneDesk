@@ -368,7 +368,10 @@ matched to), a budget and how it's spread, a cost allocation, an exchange
 rate revaluation, invoice discounting, a period closing, a share transfer
 with both sides to sign, and the background runs (deferred accounting,
 payment reconciliation, ledger reposts, a transactions deletion), each
-saying what it did. A payment order has no total
+saying what it did. A customer prints as a **Statement of Account** and a
+supplier as a **Supplier Statement**: this fiscal year from the ledger, the
+balance after each document, how old what's open is, and, to a customer who
+owes, where to pay. A payment order has no total
 of its own, and frappe's builder can't add one up. ERPNext's six
   POS Invoice formats have no version: One has no till, so it makes no POS
   invoices to print. ERPNext's nine report formats (Accounts Receivable,

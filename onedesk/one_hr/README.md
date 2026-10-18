@@ -449,7 +449,11 @@ feedback, an interview and an exit interview; onboarding and separation
 steps; attendance, shifts and overtime; training, travel, a grievance, a
 referral, a vehicle log; and payroll's own (a payroll run, salary structures
 and assignments, additional salary, arrears, incentives, retention bonuses,
-withholding, benefits and tax exemptions).
+withholding, benefits and tax exemptions). A leave application also says
+what the employee has left of each leave. An employee prints as the two
+letters people ask HR for: a **Salary Certificate** (since when and as what,
+and the monthly pay as the latest payslip made it up) and an **Experience
+Letter** (from when to when, or that they still work here).
 
 **Training Program**, **Training Event**, **Training Feedback** and **Training
 Result** list what each is about and when.

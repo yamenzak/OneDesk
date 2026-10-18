@@ -1,0 +1,20 @@
+{%- set b = one_print_block(doc, "leave_balance") -%}
+{%- if b %}
+<div style="font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:#6b7280;margin-bottom:4px">{{ b.heading|e }}</div>
+<table style="width:100%;border-collapse:collapse;font-size:11px">
+	<tr>
+		{%- for one in b.columns %}
+		<td style="padding:5px 0;border-bottom:1px solid #111827;color:#6b7280;{{ 'text-align:right' if not loop.first else '' }}">{{ one|e }}</td>
+		{%- endfor %}
+	</tr>
+	{%- for kind, total, taken, waiting, left in b.rows %}
+	<tr>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;color:#111827">{{ kind|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;text-align:right;color:#111827">{{ total|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;text-align:right;color:#111827">{{ taken|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;text-align:right;color:#6b7280">{{ waiting|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;text-align:right;color:#111827;font-weight:600">{{ left|e }}</td>
+	</tr>
+	{%- endfor %}
+</table>
+{%- endif %}

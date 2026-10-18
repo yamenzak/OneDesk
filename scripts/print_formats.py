@@ -1591,7 +1591,7 @@ def payment_order():
 		{"fieldname": "amount", "fieldtype": "Currency", "label": "Amount", "width": 17, "align": "right"},
 	])], top=12)
 	return layout(_numbered((("Payment Order", ""),), "Order No", details=[_company_trn(align="right", custom_style="margin-top:4px;")]),
-		who, words, lines, signs_section((("Authorised Signatory", None), ("Authorised Signatory", None))))
+		who, words, lines, section([_block("One Total")], top=12), signs_section((("Authorised Signatory", None), ("Authorised Signatory", None))))
 
 
 def bank_guarantee():
@@ -2687,6 +2687,7 @@ def leave_application():
 			_r("half_day_date", "Date", "Half Day On"), _r("total_leave_days", "Float", "Days", bold=1, font_size=15), _r("leave_balance", "Float", "Balance Before"),
 			_r("status", "Data", "Status", bold=1)]),
 		_note("description", "Reason"),
+		section([_block("One Leave Balance")], top=18),
 		signs=(("Employee", "employee_name"), ("Approved By", "leave_approver_name")))
 
 
@@ -2866,6 +2867,35 @@ def vehicle_log():
 		signs=(("Driver", None), ("Checked By", None)))
 
 
+# -- Papers gathered from other records ---------------------------------------
+
+def _block(name):
+	"""One of One's blocks (one/print_blocks.py): what a paper gathers from
+	records it doesn't hold. Everything around it is the builder's own."""
+	return {"label": name, "fieldname": name.lower().replace(" ", "_") + "_template", "fieldtype": "Field Template",
+		"field_template": name, "show_label": "hide"}
+
+
+def _statement(words, name):
+	"""Its account is the party itself, so the title stands alone and the
+	party is said once, under it."""
+	return lambda: layout(
+		section([text(words, font_size=24, bold=1, custom_style="letter-spacing:-0.01em;line-height:1.1;")],
+			[], widths=[60, 40], top=6, field_orientation="left-right"),
+		_pair([heading("Statement For"), field(name, "Data", "Name", show_label="hide", bold=1, font_size=14),
+				_muted("primary_address", "Text", "Address"), _line("tax_id", "Data", "TRN"), _line("email_id", "Data", "Email"),
+				_line("mobile_no", "Data", "Phone")], [], top=22),
+		section([_block("One Statement")], top=22))
+
+
+def _letter(words, block):
+	return lambda: _paper(words, "Ref No",
+		_pair([heading("Employee"), field("employee_name", "Data", "Employee", show_label="hide", bold=1, font_size=13),
+				_muted("designation", "Link", "Designation")], [], top=18),
+		section([_block(block)], top=18),
+		signs=(("Authorised Signatory", None), ("Company Stamp", None)))
+
+
 def _trade(doctype, make):
 	return lambda: make(TRADE[doctype])
 
@@ -2949,6 +2979,10 @@ VERSIONS = {
 	"One Telephony Call Type": ("Telephony Call Type", "one_crm", telephony_call_type),
 	"One Transaction Deletion Record": ("Transaction Deletion Record", "one_book", transaction_deletion_record),
 	"One Credit Ledger Entry": ("Credit Ledger Entry", "one_admin", credit_ledger_entry),
+	"One Statement of Account": ("Customer", "one_book", _statement("Statement of Account", "customer_name")),
+	"One Supplier Statement": ("Supplier", "one_book", _statement("Supplier Statement", "supplier_name")),
+	"One Salary Certificate": ("Employee", "one_hr", _letter("Salary Certificate", "One Salary Certificate")),
+	"One Experience Letter": ("Employee", "one_hr", _letter("Experience Letter", "One Experience Letter")),
 	"One Additional Salary": ("Additional Salary", "one_hr", additional_salary),
 	"One Appraisal": ("Appraisal", "one_hr", appraisal),
 	"One Arrear": ("Arrear", "one_hr", arrear),

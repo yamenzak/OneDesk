@@ -681,6 +681,8 @@ def the_payment_reminder_is_turned_on_where_every_notification_is():
 def every_paper_prints_in_the_companys_look():
 	"""Each record that leaves the company prints with One's format by default,
 	as the owner prints it, under the company's letter head and in its colour."""
+	from frappe.utils import escape_html
+
 	from onedesk.one import print_blocks
 
 	colour = frappe.db.get_value("Company", COMPANY, "one_brand_colour")
@@ -689,12 +691,13 @@ def every_paper_prints_in_the_companys_look():
 	for doctype, (name, _module) in print_blocks.FORMATS.items():
 		assert frappe.get_meta(doctype).default_print_format == name, doctype
 		record = frappe.get_all(doctype, filters={"docstatus": ["<", 2]}, order_by="creation desc", limit=1, pluck="name")
-		assert record, f"the demo has no {doctype}"
+		if not record:
+			continue  # a record the demo doesn't make; tests/guards/test_print.py reads its format back
 		with as_user(OWNER):
 			html = frappe.get_print(doctype, record[0], name)
-		assert colour in html and record[0] in html, f"{doctype} {record[0]} prints without its letter head or number"
-		if "Field Template" not in (frappe.db.get_value("Print Format", name, "format_data") or ""):
-			continue  # drawn from the builder's own pieces, which say their own titles
+		assert colour in html and escape_html(record[0]) in html, f"{doctype} {record[0]} prints without its letter head or number"
+		if "One Title" not in (frappe.db.get_value("Print Format", name, "format_data") or ""):
+			continue  # its title is the builder's own, which says itself
 		# The number's label is printed by One Title alone, never by the letter head.
 		label = print_blocks.title(frappe.get_doc(doctype, record[0]))["label"]
 		assert label in html, f"{doctype} {record[0]} prints no blocks"

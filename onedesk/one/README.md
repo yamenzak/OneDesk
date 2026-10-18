@@ -2801,34 +2801,38 @@ turns it back on.
 
 ### print_blocks.py
 
-A record that leaves the company prints from a format laid out in frappe's
-print format builder (each module's `print_format/`). Most of the page is the
-builder's own: fields, the items table, the terms. The parts the builder cannot
-say are One's blocks, frappe's own Print Format Field Templates, standard in
-module One (`one/print_format_field_template/`), so a workspace finds them in
-the builder's Library and can place them on a format of its own:
+Everything One submits prints from a format laid out in frappe's print format
+builder (each module's `print_format/`, written by `scripts/print_formats.py`)
+out of the builder's own pieces: fields, tables, linked fields, static text,
+sections that show only when they say something. A workspace changes them in
+the builder like any of its own.
 
-- **One Title**: what the paper is (an invoice, a credit note, a receipt) and
-  its number, in the company's Brand Colour.
-- **One Party**: who it is for, with their address, contact and tax ID, and
-  where the goods go when that is somewhere else.
-- **One Details**: its dates and references, the ones that are set.
-- **One Totals**: the subtotal, discount, each tax, the total, what is paid
-  and owed, the total in the company's currency when the record is in
-  another, and the total in words.
-- **One Payment Schedule**, **One Bank Details**: when it is due, and where
-  to pay it.
-- **One Payslip** and **One Payment**: a payslip's earnings and deductions,
-  and what a payment settles.
-- **One Signatures**: where each side signs, on a paper that is signed and
-  handed back.
+A few papers are gathered from records the one printed doesn't hold, which the
+builder can't reach. That part alone is one of One's blocks, frappe's own Print
+Format Field Templates, standard in module One
+(`one/print_format_field_template/`), so a workspace finds them in the
+builder's Library; the rest of the paper is still the builder's:
+
+- **One Statement**: a customer's or a supplier's account this fiscal year,
+  from the general ledger: the opening balance, each document with the
+  balance after it, how old what's open is, the open invoices, and where to
+  pay. On **One Statement of Account** and **One Supplier Statement**.
+- **One Salary Certificate** and **One Experience Letter**: the letter an
+  employee asks for, dated today, with the monthly pay as their latest
+  payslip made it up.
+- **One Leave Balance**: each leave the employee has, on a leave
+  application, as HRMS counts it.
+- **One Total**: a payment order's total, which it doesn't keep.
+- **One Progress**, with **One Title**, **One Party** and **One Details**:
+  a project's status, the one paper still drawn wholly from blocks.
 
 Each template (templates/one_print/) is drawn from `one_print_block`, which
-says what to show. Every value is frappe's formatted value, in the record's
-own currency, so nothing in print_blocks.py formats a number by hand.
+says what to show; every amount is frappe's own formatting in the record's
+currency.
 
 Each record in `FORMATS` prints with One's format unless the workspace has
-chosen another (`settle`).
+chosen another (`settle`), and ERPNext's own that One's replace (`REPLACES`)
+are turned off.
 
 ### print_html.py
 

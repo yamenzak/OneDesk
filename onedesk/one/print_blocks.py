@@ -262,6 +262,9 @@ FORMATS = {
 	"Training Result": ("One Training Result", "one_hr"),
 	"Travel Request": ("One Travel Request", "one_hr"),
 	"Vehicle Log": ("One Vehicle Log", "one_hr"),
+	"Customer": ("One Statement of Account", "one_book"),
+	"Supplier": ("One Supplier Statement", "one_book"),
+	"Employee": ("One Salary Certificate", "one_hr"),
 }
 
 #: The colour a page has when the company has no Brand Colour.
@@ -388,6 +391,11 @@ def one_print_block(doc, block: str) -> dict:
 		"party": party,
 		"details": details,
 		"progress": progress,
+		"statement": statement,
+		"salary_certificate": salary_certificate,
+		"experience_letter": experience_letter,
+		"leave_balance": leave_balance,
+		"total": total,
 	}[block](doc)
 	if not shown:
 		return {}
@@ -698,3 +706,233 @@ def progress(doc) -> dict:
 		],
 		"columns": (_("Invoice"), _("Date"), _("Total"), _("Outstanding")),
 	}
+
+
+# -- Papers made of other records: only what the builder can't reach -----------
+
+
+def _day(value) -> str:
+	"""A date as One's papers print it: 18 Oct 2026."""
+	from frappe.utils import formatdate
+
+	return formatdate(value, "dd MMM yyyy") if value else ""
+
+
+#: How a payment's GL subtype reads on a statement.
+PAID = {"Pay": _lt("Payment"), "Receive": _lt("Payment")}
+
+
+def _currency(company: str | None) -> str:
+	return (company and frappe.get_cached_value("Company", company, "default_currency")) or ""
+
+
+#: The ages an open invoice is counted in, by days past its due date.
+AGES = ((0, _lt("Not Due")), (30, _lt("1-30 Days")), (60, _lt("31-60 Days")), (90, _lt("61-90 Days")), (None, _lt("Over 90 Days")))
+
+
+def statement(doc) -> dict:
+	"""A customer's or a supplier's account this fiscal year: what it stood at
+	before, every document since with the balance after it, how old what's
+	still open is, and the invoices it's made of. A customer's balance is
+	what they owe us, a supplier's what we owe them."""
+	if doc.doctype not in ("Customer", "Supplier"):
+		return {}
+	from erpnext.accounts.utils import get_fiscal_year
+	from frappe.utils import date_diff, getdate, today
+
+	company = _company(doc)
+	currency = _currency(company)
+	start = get_fiscal_year(today(), company=company)[1]
+	sign = 1 if doc.doctype == "Customer" else -1
+	gle = frappe.qb.DocType("GL Entry")
+	mine = (gle.party_type == doc.doctype) & (gle.party == doc.name) & (gle.company == company) & (gle.is_cancelled == 0)
+	from frappe.query_builder.functions import Sum
+
+	before = frappe.qb.from_(gle).select(Sum(gle.debit - gle.credit)).where(mine & (gle.posting_date < start)).run()
+	opening = sign * flt(before[0][0] if before else 0)
+	moved = (
+		frappe.qb.from_(gle)
+		.select(gle.posting_date, gle.voucher_type, gle.voucher_subtype, gle.voucher_no, Sum(gle.debit).as_("debit"), Sum(gle.credit).as_("credit"))
+		.where(mine & (gle.posting_date >= start))
+		.groupby(gle.posting_date, gle.voucher_type, gle.voucher_subtype, gle.voucher_no)
+		.orderby(gle.posting_date)
+		.orderby(gle.voucher_no)
+		.run(as_dict=True)
+	)
+	balance, rows, charged, settled = opening, [], 0.0, 0.0
+	for one in moved:
+		up, down = (one.debit, one.credit) if sign == 1 else (one.credit, one.debit)
+		balance += flt(up) - flt(down)
+		charged += flt(up)
+		settled += flt(down)
+		rows.append((
+			_day(one.posting_date), str(PAID.get(one.voucher_subtype) or _(one.voucher_subtype or one.voucher_type)), one.voucher_no,
+			number(doc, up, currency) if up else "", number(doc, down, currency) if down else "", number(doc, balance, currency),
+		))
+	invoice = "Sales Invoice" if doc.doctype == "Customer" else "Purchase Invoice"
+	party = "customer" if doc.doctype == "Customer" else "supplier"
+	open_ = frappe.get_all(
+		invoice,
+		filters={party: doc.name, "company": company, "docstatus": 1, "outstanding_amount": ["!=", 0]},
+		fields=["name", "posting_date", "due_date", "grand_total", "outstanding_amount"],
+		order_by="due_date asc",
+	)
+	aged = [0.0] * len(AGES)
+	invoices = []
+	for one in open_:
+		late = max(date_diff(getdate(), one.due_date or one.posting_date), 0)
+		for i, (upto, _label) in enumerate(AGES):
+			if upto is None or late <= upto:
+				aged[i] += flt(one.outstanding_amount)
+				break
+		invoices.append((one.name, _day(one.posting_date), _day(one.due_date), number(doc, one.grand_total, currency),
+			number(doc, one.outstanding_amount, currency), str(late) if late else ""))
+	return {
+		"period": _("{0} to {1}").format(_day(start), _day(today())),
+		"period_label": _("Period"),
+		"summary": (
+			(_("Opening Balance"), money(doc, opening, currency)),
+			(_("Invoiced") if sign == 1 else _("Billed"), money(doc, charged, currency)),
+			(_("Paid") if sign == 1 else _("Paid to Them"), money(doc, settled, currency)),
+			(_("Balance Due") if sign == 1 else _("We Owe"), money(doc, balance, currency)),
+		),
+		"columns": (_("Date"), _("Document"), _("Number"), _("Debit") if sign == 1 else _("Credit"), _("Credit") if sign == 1 else _("Debit"), _("Balance")),
+		"rows": rows,
+		"opening_label": _("Opening Balance"),
+		"opening": number(doc, opening, currency),
+		"ages_heading": _("How Old"),
+		"ages": [(str(label), money(doc, amount, currency)) for (_upto, label), amount in zip(AGES, aged, strict=True)],
+		"invoices_heading": _("Open Invoices"),
+		"invoice_columns": (_("Invoice"), _("Date"), _("Due"), _("Total"), _("Outstanding"), _("Days Late")),
+		"invoices": invoices,
+		"currency": currency,
+		# A customer is told where to pay, as an invoice tells them.
+		"bank_heading": _("Pay To"),
+		"bank": _bank(company) if sign == 1 and balance > 0 else [],
+	}
+
+
+def _bank(company: str | None) -> list:
+	found = frappe.db.get_value(
+		"Bank Account", {"company": company, "is_company_account": 1, "disabled": 0},
+		["bank", "account_name", "iban", "bank_account_no"], order_by="is_default desc, creation asc", as_dict=True,
+	)
+	if not found:
+		return []
+	return [(label, value) for label, value in (
+		(_("Bank"), found.bank), (_("Account"), found.account_name), (_("IBAN"), found.iban), (_("Account No"), found.bank_account_no),
+	) if value]
+
+
+def _letter_date(doc) -> str:
+	from frappe.utils import today
+
+	return _("Date: {0}").format(_day(today()))
+
+
+def _employed(doc) -> str:
+	return _day(doc.date_of_joining)
+
+
+def salary_certificate(doc) -> dict:
+	"""A salary certificate, as a bank or an embassy asks for one: who, since
+	when and as what, and the monthly pay as the latest payslip made it up."""
+	if doc.doctype != "Employee":
+		return {}
+	company = _company(doc)
+	slip = frappe.get_all(
+		"Salary Slip", filters={"employee": doc.name, "docstatus": 1}, fields=["name", "gross_pay", "currency"],
+		order_by="end_date desc", limit=1,
+	)
+	lines, gross, currency = [], 0.0, _currency(company)
+	if slip:
+		currency = slip[0].currency or currency
+		gross = flt(slip[0].gross_pay)
+		for one in frappe.get_all(
+			"Salary Detail",
+			filters={"parent": slip[0].name, "parentfield": "earnings", "statistical_component": 0, "do_not_include_in_total": 0},
+			fields=["salary_component", "amount"],
+			order_by="idx",
+		):
+			if flt(one.amount):
+				lines.append((_(one.salary_component), money(doc, one.amount, currency)))
+	else:
+		base = frappe.db.get_value("Salary Structure Assignment", {"employee": doc.name, "docstatus": 1}, ["base", "currency"],
+			order_by="from_date desc", as_dict=True)
+		if base and flt(base.base):
+			currency = base.currency or currency
+			gross = flt(base.base)
+			lines.append((_("Basic Salary"), money(doc, gross, currency)))
+	passport = _(", holding passport number {0},").format(doc.passport_number) if doc.get("passport_number") else ""
+	return {
+		"date": _letter_date(doc),
+		"greeting": _("To Whom It May Concern"),
+		"opening": _("This is to certify that {0}{1} has been employed with {2} as {3} since {4}.").format(
+			doc.employee_name, passport, company, _(doc.designation or "") or _("an employee"), _employed(doc)),
+		"pay_heading": _("Monthly Salary"),
+		"lines": lines,
+		"total_label": _("Total"),
+		"total": money(doc, gross, currency) if gross else "",
+		"closing": _("This certificate is issued at the employee's request, without any liability on the part of the company."),
+	}
+
+
+def experience_letter(doc) -> dict:
+	"""An experience letter: who worked here, from when to when, as what and
+	where, or that they still do."""
+	if doc.doctype != "Employee":
+		return {}
+	company = _company(doc)
+	role = _(doc.designation or "") or _("an employee")
+	where = _(" in the {0} department").format(doc.department.rsplit(" - ", 1)[0]) if doc.get("department") else ""
+	if doc.get("relieving_date"):
+		said = _("This is to certify that {0} worked with {1} from {2} to {3} as {4}{5}.").format(
+			doc.employee_name, company, _employed(doc), _day(doc.relieving_date), role, where)
+		wish = _("We thank {0} for their work and wish them every success.").format(doc.employee_name)
+	else:
+		said = _("This is to certify that {0} has worked with {1} since {2} and is currently employed as {3}{4}.").format(
+			doc.employee_name, company, _employed(doc), role, where)
+		wish = ""
+	return {
+		"date": _letter_date(doc),
+		"greeting": _("To Whom It May Concern"),
+		"opening": said,
+		"wish": wish,
+		"closing": _("This letter is issued at the employee's request."),
+	}
+
+
+def leave_balance(doc) -> dict:
+	"""What the employee has of each leave on the first day asked for, as
+	HRMS counts it."""
+	if doc.doctype != "Leave Application" or not doc.get("employee") or not doc.get("from_date"):
+		return {}
+	from hrms.hr.doctype.leave_application.leave_application import get_leave_details
+
+	found = (get_leave_details(doc.employee, doc.from_date) or {}).get("leave_allocation") or {}
+	rows = [
+		(_(kind), f"{flt(one.get('total_leaves')):g}", f"{flt(one.get('leaves_taken')):g}",
+			f"{flt(one.get('leaves_pending_approval')):g}", f"{flt(one.get('remaining_leaves')):g}")
+		for kind, one in found.items()
+	]
+	if not rows:
+		return {}
+	return {
+		"heading": _("Leave Balance"),
+		"columns": (_("Leave Type"), _("Allocated"), _("Taken"), _("Waiting"), _("Left")),
+		"rows": rows,
+	}
+
+
+#: What a record adds up that it doesn't keep a total of: its table and the
+#: field summed.
+SUMS = {"Payment Order": ("references", "amount")}
+
+
+def total(doc) -> dict:
+	"""A table's total, for a record that keeps none."""
+	if doc.doctype not in SUMS:
+		return {}
+	table, fieldname = SUMS[doc.doctype]
+	currency = _currency(_company(doc))
+	return {"label": _("Total"), "value": money(doc, sum(flt(one.get(fieldname)) for one in doc.get(table) or []), currency)}

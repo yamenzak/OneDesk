@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-18 16:05+0000\n"
+"POT-Creation-Date: 2026-10-18 17:18+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -21,6 +21,10 @@ msgstr ""
 #: onedesk/one_ai/tell.py:16
 msgid " and "
 msgstr " و"
+
+#: onedesk/one/print_blocks.py:891
+msgid " in the {0} department"
+msgstr " في قسم {0}"
 
 #: onedesk/one_task/tell.py:193
 msgid " · was {0}"
@@ -51,6 +55,10 @@ msgstr "* مطلوب"
 #: onedesk/public/js/settings.js:2061
 msgid "+{0} more"
 msgstr "+{0} أخرى"
+
+#: onedesk/one/print_blocks.py:870
+msgid ", holding passport number {0},"
+msgstr "، حامل جواز السفر رقم {0}،"
 
 #. Label in the One Quality Inspection print format
 #: onedesk/one_inventory/print_format/one_quality_inspection/one_quality_inspection.json
@@ -274,6 +282,10 @@ msgstr "أمر عمل واحد"
 msgid "1 workstation"
 msgstr "محطة عمل واحدة"
 
+#: onedesk/one/print_blocks.py:734
+msgid "1-30 Days"
+msgstr "1-30 يومًا"
+
 #: onedesk/one/settings.py:814
 msgid "10 days"
 msgstr "10 أيام"
@@ -309,9 +321,17 @@ msgstr "مراجعة بعد 30 يومًا"
 msgid "31 to 90 Days"
 msgstr "من 31 إلى 90 يومًا"
 
+#: onedesk/one/print_blocks.py:734
+msgid "31-60 Days"
+msgstr "31-60 يومًا"
+
 #: onedesk/one/settings.py:807
 msgid "5 minutes"
 msgstr "5 دقائق"
+
+#: onedesk/one/print_blocks.py:734
+msgid "61-90 Days"
+msgstr "61-90 يومًا"
 
 #: onedesk/one/settings.py:811
 msgid "8 hours"
@@ -1714,7 +1734,7 @@ msgstr "أُلغي الوصول"
 #. Label in the One Landed Cost Voucher print format
 #: frontend/portal/src/pages/Menu.vue:15
 #: frontend/portal/src/parts/PortalSidebar.vue:16
-#: onedesk/one_admin/doctype/tenant/tenant.json
+#: onedesk/one/print_blocks.py:827 onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_book/print_format/one_bank_transaction/one_bank_transaction.json
 #: onedesk/one_book/print_format/one_budget/one_budget.json
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
@@ -1775,6 +1795,7 @@ msgstr "اسم الحساب"
 #. Label in the One Bank Guarantee print format
 #. Label in the One Payment Order print format
 #. Label in the One Payment Request print format
+#: onedesk/one/print_blocks.py:827
 #: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_book/print_format/one_payment_request/one_payment_request.json
@@ -2480,6 +2501,8 @@ msgstr ""
 #. Label in the One Sales Invoice Bordered print format
 #. Label in the One Sales Invoice Classic print format
 #. Label in the One Sales Invoice with Images print format
+#. Label in the One Statement of Account print format
+#. Label in the One Supplier Statement print format
 #. Label in the One Installation Note print format
 #. Label in the One Maintenance Plan print format
 #. Label in the One Proforma Invoice print format
@@ -2530,6 +2553,8 @@ msgstr ""
 #: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
 #: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
+#: onedesk/one_book/print_format/one_statement_of_account/one_statement_of_account.json
+#: onedesk/one_book/print_format/one_supplier_statement/one_supplier_statement.json
 #: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
@@ -3010,6 +3035,7 @@ msgid "Allocate leave to many people at once."
 msgstr "خصّص الإجازات لعدة أشخاص دفعة واحدة."
 
 #. Label in the One Salary Statement print format
+#: onedesk/one/print_blocks.py:926
 #: onedesk/one_hr/print_format/one_salary_statement/one_salary_statement.json
 msgid "Allocated"
 msgstr "المخصص"
@@ -4857,9 +4883,13 @@ msgstr "إعداد تطبيق المصادقة"
 #. Label in the One Invoice Discounting print format
 #. Label in the One Payment Order print format
 #. Label in the One Contract print format
+#. Label in the One Experience Letter print format
+#. Label in the One Salary Certificate print format
 #: onedesk/one_book/print_format/one_invoice_discounting/one_invoice_discounting.json
 #: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
+#: onedesk/one_hr/print_format/one_experience_letter/one_experience_letter.json
+#: onedesk/one_hr/print_format/one_salary_certificate/one_salary_certificate.json
 msgid "Authorised Signatory"
 msgstr "المفوض بالتوقيع"
 
@@ -5073,7 +5103,7 @@ msgstr "النسخ الاحتياطية المحفوظة"
 #. Label in the One Exchange Rate Revaluation print format
 #. Label in the One Leave Encashment print format
 #: onedesk/one/doctype/workspace_account/workspace_account.json
-#: onedesk/one_book/heads.py:713
+#: onedesk/one/print_blocks.py:803 onedesk/one_book/heads.py:713
 #: onedesk/one_book/print_format/one_exchange_rate_revaluation/one_exchange_rate_revaluation.json
 #: onedesk/one_hr/print_format/one_leave_encashment/one_leave_encashment.json
 #: onedesk/public/js/settings.js:1590
@@ -5090,6 +5120,7 @@ msgstr "الرصيد السابق"
 #. Label in the One Sales Invoice Bordered print format
 #. Label in the One Sales Invoice Classic print format
 #. Label in the One Sales Invoice with Images print format
+#: onedesk/one/print_blocks.py:801
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
@@ -5136,6 +5167,7 @@ msgstr "الشرائح"
 #. Label in the One Sales Order with Images print format
 #. Label in the One Payslip print format
 #. Label in the One Salary Statement print format
+#: onedesk/one/print_blocks.py:827
 #: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_invoice_discounting/one_invoice_discounting.json
@@ -5274,6 +5306,10 @@ msgstr ""
 #: onedesk/public/js/settings.js:1246
 msgid "Based On"
 msgstr ""
+
+#: onedesk/one/print_blocks.py:869
+msgid "Basic Salary"
+msgstr "الراتب الأساسي"
 
 #. Label in the One Asset Capitalization print format
 #. Label in the One Packing Slip print format
@@ -5665,9 +5701,9 @@ msgstr "قابل للفوترة حسب المراحل"
 #: frontend/src/project/Overview.vue:154 frontend/src/project/Overview.vue:472
 #: frontend/src/project/Overview.vue:493 frontend/src/project/Suppliers.vue:60
 #: frontend/src/project/Suppliers.vue:203
-#: frontend/src/project/Suppliers.vue:226 onedesk/one_book/heads.py:102
-#: onedesk/one_book/heads.py:655 onedesk/one_crm/heads.py:135
-#: onedesk/one_crm/heads.py:335
+#: frontend/src/project/Suppliers.vue:226 onedesk/one/print_blocks.py:799
+#: onedesk/one_book/heads.py:102 onedesk/one_book/heads.py:655
+#: onedesk/one_crm/heads.py:135 onedesk/one_crm/heads.py:335
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:182
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:214
 #: onedesk/one_inventory/heads.py:560 onedesk/one_inventory/heads.py:736
@@ -6494,7 +6530,7 @@ msgstr "قضية"
 msgid "Case Number"
 msgstr "رقم القضية"
 
-#: onedesk/one/print_blocks.py:618
+#: onedesk/one/print_blocks.py:626
 msgid "Cases"
 msgstr "الصناديق"
 
@@ -7668,6 +7704,13 @@ msgstr "تتحمله الشركة"
 msgid "Company Property"
 msgstr "ممتلكات الشركة"
 
+#. Label in the One Experience Letter print format
+#. Label in the One Salary Certificate print format
+#: onedesk/one_hr/print_format/one_experience_letter/one_experience_letter.json
+#: onedesk/one_hr/print_format/one_salary_certificate/one_salary_certificate.json
+msgid "Company Stamp"
+msgstr "ختم الشركة"
+
 #. Task in the ERP Rollout project template
 #: onedesk/one_project/library/erp_rollout.json
 msgid "Company, chart of accounts and taxes"
@@ -8159,7 +8202,7 @@ msgstr "يستمر بعد {0} (كان {1})"
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
 #: frontend/src/project/Money.vue:188 frontend/src/project/Overview.vue:154
-#: onedesk/one/print_blocks.py:35 onedesk/one/print_blocks.py:688
+#: onedesk/one/print_blocks.py:35 onedesk/one/print_blocks.py:696
 #: onedesk/one_crm/home.py:123
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
@@ -8717,6 +8760,7 @@ msgstr "بيانات حساب Frappe Cloud الذي يستضيف مواقع ال
 
 #. Label in the One Journal Voucher print format
 #. Label in the One Sales Voucher print format
+#: onedesk/one/print_blocks.py:803
 #: onedesk/one_book/print_format/one_journal_voucher/one_journal_voucher.json
 #: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
 msgid "Credit"
@@ -8749,7 +8793,7 @@ msgstr "تجاوز حد الائتمان"
 #. Label in the One Sales Invoice with Images print format
 #. Label of a Sidebar Item
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
-#: onedesk/one/print_blocks.py:414 onedesk/one_book/home.py:316
+#: onedesk/one/print_blocks.py:422 onedesk/one_book/home.py:316
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_journal_credit_note/one_journal_credit_note.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
@@ -8775,7 +8819,7 @@ msgid "Credit Note Issued"
 msgstr "صدر إشعار دائن"
 
 #. Label in the One Journal Credit Note print format
-#: onedesk/one/print_blocks.py:436
+#: onedesk/one/print_blocks.py:444
 #: onedesk/one_book/print_format/one_journal_credit_note/one_journal_credit_note.json
 msgid "Credit Note No"
 msgstr "رقم الإشعار الدائن"
@@ -9430,7 +9474,8 @@ msgstr "قاعدة البيانات المستخدمة"
 #: onedesk/one/print_blocks.py:79 onedesk/one/print_blocks.py:81
 #: onedesk/one/print_blocks.py:83 onedesk/one/print_blocks.py:88
 #: onedesk/one/print_blocks.py:90 onedesk/one/print_blocks.py:99
-#: onedesk/one/print_blocks.py:101 onedesk/one/print_blocks.py:699
+#: onedesk/one/print_blocks.py:101 onedesk/one/print_blocks.py:707
+#: onedesk/one/print_blocks.py:803 onedesk/one/print_blocks.py:810
 #: onedesk/one/settings.py:1602
 #: onedesk/one_book/print_format/one_bank_transaction/one_bank_transaction.json
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
@@ -9553,6 +9598,10 @@ msgstr "تاريخ التعديل"
 msgid "Date of Birth"
 msgstr "تاريخ الميلاد"
 
+#: onedesk/one/print_blocks.py:834
+msgid "Date: {0}"
+msgstr "التاريخ: {0}"
+
 #: onedesk/one_intake/planning.py:142
 msgid "Dated after the books closed on {0}."
 msgstr "مؤرخ بعد إغلاق الدفاتر في {0}."
@@ -9615,7 +9664,7 @@ msgid "Days Given Back"
 msgstr "الأيام المستردة"
 
 #. Label in the One Payment Reminder print format
-#: frontend/src/home/InventoryStory.vue:67
+#: frontend/src/home/InventoryStory.vue:67 onedesk/one/print_blocks.py:810
 #: onedesk/one_book/print_format/one_payment_reminder/one_payment_reminder.json
 msgid "Days Late"
 msgstr "أيام التأخير"
@@ -9695,6 +9744,7 @@ msgstr "عزيزي {applicant}، موعد مقابلتك في {when}. ردّ ع�
 
 #. Label in the One Journal Voucher print format
 #. Label in the One Purchase Voucher print format
+#: onedesk/one/print_blocks.py:803
 #: onedesk/one_book/print_format/one_journal_voucher/one_journal_voucher.json
 #: onedesk/one_book/print_format/one_purchase_voucher/one_purchase_voucher.json
 msgid "Debit"
@@ -9705,7 +9755,7 @@ msgstr "مدين"
 #. Label in the One Purchase Invoice Classic print format
 #. Label in the One Purchase Invoice with Images print format
 #. Label of a Sidebar Item
-#: onedesk/one/print_blocks.py:416 onedesk/one_book/home.py:322
+#: onedesk/one/print_blocks.py:424 onedesk/one_book/home.py:322
 #: onedesk/one_book/print_format/one_purchase_invoice/one_purchase_invoice.json
 #: onedesk/one_book/print_format/one_purchase_invoice_bordered/one_purchase_invoice_bordered.json
 #: onedesk/one_book/print_format/one_purchase_invoice_classic/one_purchase_invoice_classic.json
@@ -10701,11 +10751,13 @@ msgstr "اعتماد العميل للتصميم"
 #. Label in the One Employee Performance Feedback print format
 #. Label in the One Employee Separation print format
 #. Label in the One Exit Interview print format
+#. Label in the One Experience Letter print format
 #. Label in the One Full and Final Settlement print format
 #. Label in the One Gratuity print format
 #. Label in the One Payroll Run print format
 #. Label in the One Payslip print format
 #. Label in the One Payslip Compact print format
+#. Label in the One Salary Certificate print format
 #. Label in the One Salary Statement print format
 #. Label in the One Salary Structure Assignment print format
 #: onedesk/one/masters.py:38 onedesk/one_hr/home.py:552
@@ -10715,11 +10767,13 @@ msgstr "اعتماد العميل للتصميم"
 #: onedesk/one_hr/print_format/one_employee_performance_feedback/one_employee_performance_feedback.json
 #: onedesk/one_hr/print_format/one_employee_separation/one_employee_separation.json
 #: onedesk/one_hr/print_format/one_exit_interview/one_exit_interview.json
+#: onedesk/one_hr/print_format/one_experience_letter/one_experience_letter.json
 #: onedesk/one_hr/print_format/one_full_and_final_settlement/one_full_and_final_settlement.json
 #: onedesk/one_hr/print_format/one_gratuity/one_gratuity.json
 #: onedesk/one_hr/print_format/one_payroll_run/one_payroll_run.json
 #: onedesk/one_hr/print_format/one_payslip/one_payslip.json
 #: onedesk/one_hr/print_format/one_payslip_compact/one_payslip_compact.json
+#: onedesk/one_hr/print_format/one_salary_certificate/one_salary_certificate.json
 #: onedesk/one_hr/print_format/one_salary_statement/one_salary_statement.json
 #: onedesk/one_hr/print_format/one_salary_structure_assignment/one_salary_structure_assignment.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:25
@@ -11015,7 +11069,7 @@ msgstr "أنفّذ هذا الآن باسمك؟"
 #. Label in the One Serial and Batch Bundle print format
 #. Label of the document (Data) field in DocType 'Legal Acceptance'
 #. Label of the document (Data) field in DocType 'Legal Document Version'
-#: frontend/src/project/Suppliers.vue:145
+#: frontend/src/project/Suppliers.vue:145 onedesk/one/print_blocks.py:803
 #: onedesk/one_book/print_format/one_bank_transaction/one_bank_transaction.json
 #: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
@@ -11472,7 +11526,8 @@ msgstr "أُسقط"
 #. Label in the One Maintenance Record print format
 #: frontend/src/project/Invoices.vue:33 frontend/src/project/Suppliers.vue:93
 #: frontend/src/sent_out/OutRows.vue:14 frontend/src/upkeep/UpkeepRows.vue:15
-#: onedesk/one/portal.py:134 onedesk/one_admin/accounts.py:217
+#: onedesk/one/portal.py:134 onedesk/one/print_blocks.py:810
+#: onedesk/one_admin/accounts.py:217
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/one_inventory/print_format/one_maintenance_record/one_maintenance_record.json
@@ -11993,6 +12048,8 @@ msgstr "«أحدهما» يقبل تسجيل الحضور الذي يجتاز أ
 #. Label in the One Sales Invoice print format
 #. Label in the One Sales Invoice Classic print format
 #. Label in the One Sales Invoice with Images print format
+#. Label in the One Statement of Account print format
+#. Label in the One Supplier Statement print format
 #. Label in the One Installation Note print format
 #. Label in the One Maintenance Plan print format
 #. Label in the One Proforma Invoice print format
@@ -12044,6 +12101,8 @@ msgstr "«أحدهما» يقبل تسجيل الحضور الذي يجتاز أ
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
+#: onedesk/one_book/print_format/one_statement_of_account/one_statement_of_account.json
+#: onedesk/one_book/print_format/one_supplier_statement/one_supplier_statement.json
 #: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
@@ -12209,6 +12268,7 @@ msgstr "الإمارة"
 #. Label in the One Employee Tax Exemption Proof Submission print format
 #. Label in the One Exit Interview print format
 #. Label in the One Expense Claim print format
+#. Label in the One Experience Letter print format
 #. Label in the One Full and Final Settlement print format
 #. Label in the One Gratuity print format
 #. Label in the One Holiday List Assignment print format
@@ -12224,6 +12284,7 @@ msgstr "الإمارة"
 #. Label in the One Payslip Compact print format
 #. Label in the One Promotion Letter print format
 #. Label in the One Retention Bonus print format
+#. Label in the One Salary Certificate print format
 #. Label in the One Salary Statement print format
 #. Label in the One Salary Structure Assignment print format
 #. Label in the One Salary Withholding print format
@@ -12267,6 +12328,7 @@ msgstr "الإمارة"
 #: onedesk/one_hr/print_format/one_employee_tax_exemption_proof_submission/one_employee_tax_exemption_proof_submission.json
 #: onedesk/one_hr/print_format/one_exit_interview/one_exit_interview.json
 #: onedesk/one_hr/print_format/one_expense_claim/one_expense_claim.json
+#: onedesk/one_hr/print_format/one_experience_letter/one_experience_letter.json
 #: onedesk/one_hr/print_format/one_full_and_final_settlement/one_full_and_final_settlement.json
 #: onedesk/one_hr/print_format/one_gratuity/one_gratuity.json
 #: onedesk/one_hr/print_format/one_holiday_list_assignment/one_holiday_list_assignment.json
@@ -12282,6 +12344,7 @@ msgstr "الإمارة"
 #: onedesk/one_hr/print_format/one_payslip_compact/one_payslip_compact.json
 #: onedesk/one_hr/print_format/one_promotion_letter/one_promotion_letter.json
 #: onedesk/one_hr/print_format/one_retention_bonus/one_retention_bonus.json
+#: onedesk/one_hr/print_format/one_salary_certificate/one_salary_certificate.json
 #: onedesk/one_hr/print_format/one_salary_statement/one_salary_statement.json
 #: onedesk/one_hr/print_format/one_salary_structure_assignment/one_salary_structure_assignment.json
 #: onedesk/one_hr/print_format/one_salary_withholding/one_salary_withholding.json
@@ -13457,7 +13520,9 @@ msgid "Expenses · {0}"
 msgstr "مصاريف · {0}"
 
 #. Option for the 'Letter Type' (Select) field in DocType 'Employee Letter'
+#. Label in the One Experience Letter print format
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
+#: onedesk/one_hr/print_format/one_experience_letter/one_experience_letter.json
 msgid "Experience Letter"
 msgstr "شهادة خبرة"
 
@@ -15362,7 +15427,7 @@ msgstr "إشعار استلام بضائع"
 
 #. Label in the One Purchase Receipt print format
 #. Label in the One Purchase Receipt with Serial Numbers print format
-#: onedesk/one/print_blocks.py:420
+#: onedesk/one/print_blocks.py:428
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt_with_serial_numbers/one_purchase_receipt_with_serial_numbers.json
 msgid "Goods Returned"
@@ -16127,6 +16192,10 @@ msgstr "كم صُنع"
 msgid "How Often"
 msgstr "كم مرة"
 
+#: onedesk/one/print_blocks.py:807
+msgid "How Old"
+msgstr "أعمار الأرصدة"
+
 #: frontend/src/home/InventoryStory.vue:52
 msgid "How Old Stock Is"
 msgstr "عمر المخزون"
@@ -16639,6 +16708,7 @@ msgstr "أنا غائب وسأرد عند عودتي."
 #. Label in the One Sales Order with Images print format
 #. Option for the 'Kind' (Select) field in DocType 'Identifier'
 #. Label of the iban (Data) field in DocType 'Reading Party'
+#: onedesk/one/print_blocks.py:827
 #: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
@@ -17650,7 +17720,8 @@ msgstr "دعوة المالك"
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
 #. Label in the One Repair Record print format
 #: frontend/src/item/ItemSelling.vue:73 frontend/src/project/Invoices.vue:30
-#: onedesk/one/print_blocks.py:18 onedesk/one/print_blocks.py:699
+#: onedesk/one/print_blocks.py:18 onedesk/one/print_blocks.py:707
+#: onedesk/one/print_blocks.py:810
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_invoice_discounting/one_invoice_discounting.json
 #: onedesk/one_book/print_format/one_payment_reminder/one_payment_reminder.json
@@ -17768,7 +17839,7 @@ msgstr "أصدر فاتورة {project} عن الشهر الماضي"
 #: frontend/src/project/Overview.vue:156 frontend/src/project/Time.vue:92
 #: frontend/src/project/Time.vue:225 onedesk/one/portal.py:852
 #: onedesk/one/portal.py:856 onedesk/one/portal.py:862
-#: onedesk/one_project/money.py:157
+#: onedesk/one/print_blocks.py:799 onedesk/one_project/money.py:157
 msgid "Invoiced"
 msgstr "المفوتر"
 
@@ -17782,7 +17853,7 @@ msgstr "مفوتر {0}"
 
 #. Label in the One Invoice Discounting print format
 #: frontend/src/project/Invoices.vue:12
-#: frontend/src/project/ProjectPage.vue:187 onedesk/one/print_blocks.py:689
+#: frontend/src/project/ProjectPage.vue:187 onedesk/one/print_blocks.py:697
 #: onedesk/one_book/print_format/one_invoice_discounting/one_invoice_discounting.json
 #: onedesk/public/js/settings.js:1584 onedesk/public/js/tenant.js:21
 #: onedesk/templates/includes/one_account_tabs.html:4
@@ -17899,7 +17970,7 @@ msgid "Issue Analytics"
 msgstr "تحليلات البلاغات"
 
 #. Label in the One Stock Entry print format
-#: onedesk/one/print_blocks.py:426
+#: onedesk/one/print_blocks.py:434
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 msgid "Issue Note"
 msgstr "إذن صرف"
@@ -18718,7 +18789,7 @@ msgstr "محفوظة"
 
 #. Label in the One Asset Card print format
 #. Label in the One Equipment Handover print format
-#: onedesk/one/print_blocks.py:601 onedesk/one_inventory/heads.py:1394
+#: onedesk/one/print_blocks.py:609 onedesk/one_inventory/heads.py:1394
 #: onedesk/one_inventory/print_format/one_asset_card/one_asset_card.json
 #: onedesk/one_inventory/print_format/one_equipment_handover/one_equipment_handover.json
 msgid "Kept At"
@@ -19390,7 +19461,7 @@ msgid "Leave Asked"
 msgstr "إجازة مطلوبة"
 
 #. Label of a Sidebar Item
-#: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one/print_blocks.py:925 onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Leave Balance"
 msgstr ""
 
@@ -19465,7 +19536,7 @@ msgstr "الإجازات المأخوذة هذا العام"
 #. Label in the One Leave Encashment print format
 #. Label in the One Leave Policy print format
 #. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/home.py:502
+#: onedesk/one/print_blocks.py:926 onedesk/one_hr/home.py:502
 #: onedesk/one_hr/print_format/one_compensatory_leave_request/one_compensatory_leave_request.json
 #: onedesk/one_hr/print_format/one_leave_adjustment/one_leave_adjustment.json
 #: onedesk/one_hr/print_format/one_leave_allocation/one_leave_allocation.json
@@ -19564,7 +19635,7 @@ msgstr ""
 #. Label in the One Salary Statement print format
 #: frontend/src/home/HrStory.vue:87 frontend/src/lots/LotRows.vue:14
 #: frontend/src/project/Money.vue:43 frontend/src/project/Money.vue:159
-#: frontend/src/project/Overview.vue:216
+#: frontend/src/project/Overview.vue:216 onedesk/one/print_blocks.py:926
 #: onedesk/one_hr/print_format/one_employee_benefit_application/one_employee_benefit_application.json
 #: onedesk/one_hr/print_format/one_full_and_final_settlement/one_full_and_final_settlement.json
 #: onedesk/one_hr/print_format/one_salary_statement/one_salary_statement.json
@@ -21394,7 +21465,7 @@ msgstr "تأخّر معلم"
 
 #: frontend/portal/src/pages/Project.vue:16
 #: frontend/src/project/Overview.vue:49 frontend/src/project/Overview.vue:70
-#: onedesk/one/print_blocks.py:673
+#: onedesk/one/print_blocks.py:681
 msgid "Milestones"
 msgstr "المراحل الرئيسية"
 
@@ -21559,6 +21630,10 @@ msgstr "الرصيد الشهري"
 #: onedesk/public/js/project_new.js:171
 msgid "Monthly Fee"
 msgstr "الرسوم الشهرية"
+
+#: onedesk/one/print_blocks.py:876
+msgid "Monthly Salary"
+msgstr "الراتب الشهري"
 
 #: onedesk/one_admin/topup.py:103
 msgid "Monthly credit for {0}"
@@ -21803,6 +21878,8 @@ msgstr "مهامي"
 #. Label of the device_name (Data) field in DocType 'Device'
 #. Label of the workspace_name (Data) field in DocType 'Workspace Account'
 #. Label of the label (Data) field in DocType 'AI Model'
+#. Label in the One Statement of Account print format
+#. Label in the One Supplier Statement print format
 #. Label in the One Telephony Call Type print format
 #. Label of the label (Data) field in DocType 'Clock Network'
 #. Label of the label (Data) field in DocType 'Clock Place'
@@ -21817,6 +21894,8 @@ msgstr "مهامي"
 #: onedesk/one/settings.py:1744 onedesk/one/settings.py:1777
 #: onedesk/one/settings.py:2078
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/one_book/print_format/one_statement_of_account/one_statement_of_account.json
+#: onedesk/one_book/print_format/one_supplier_statement/one_supplier_statement.json
 #: onedesk/one_crm/print_format/one_telephony_call_type/one_telephony_call_type.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
@@ -22378,7 +22457,7 @@ msgstr "النشرات البريدية"
 
 #: frontend/portal/src/pages/List.vue:31
 #: frontend/portal/src/parts/Gallery.vue:14 frontend/src/project/Media.vue:11
-#: onedesk/one/print_blocks.py:675
+#: onedesk/one/print_blocks.py:683
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:246
 #: onedesk/public/js/doctype_settings.js:400 onedesk/public/js/item_new.js:345
 #: onedesk/public/js/project_actions.js:619
@@ -22553,7 +22632,7 @@ msgstr "التالي: {0}"
 #. Label in the One Supplier Quotation print format
 #. Label in the One Work Order print format
 #: onedesk/one/ai.py:2731 onedesk/one/ai.py:2734 onedesk/one/ai.py:3862
-#: onedesk/one/ai.py:4082 onedesk/one/print_blocks.py:412
+#: onedesk/one/ai.py:4082 onedesk/one/print_blocks.py:420
 #: onedesk/one_ai/chat.py:750
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
@@ -23464,6 +23543,10 @@ msgstr "غير مسجّل"
 msgid "Not Checked In"
 msgstr "لم يسجّل الحضور"
 
+#: onedesk/one/print_blocks.py:734
+msgid "Not Due"
+msgstr "غير مستحق"
+
 #: onedesk/one_project/report/workload/workload.py:181
 msgid "Not Estimated"
 msgstr "غير مُقدَّرة"
@@ -24136,6 +24219,7 @@ msgstr "تذكير"
 #. Label in the One Serial and Batch Bundle print format
 #. Label in the One Stock Reservation Entry print format
 #: onedesk/one/portal.py:76 onedesk/one/portal.py:77
+#: onedesk/one/print_blocks.py:803
 #: onedesk/one_book/print_format/one_bank_transaction/one_bank_transaction.json
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
@@ -25524,6 +25608,10 @@ msgstr "فتح النموذج الكامل"
 msgid "Open Holidays"
 msgstr "فتح العطلات"
 
+#: onedesk/one/print_blocks.py:809
+msgid "Open Invoices"
+msgstr "الفواتير المفتوحة"
+
 #: frontend/src/floor/FloorSteps.vue:122
 msgid "Open Job Card"
 msgstr "فتح بطاقة العمل"
@@ -25745,6 +25833,10 @@ msgstr "فُتح {0} مرات"
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:167
 msgid "Opening"
 msgstr "الوظيفة الشاغرة"
+
+#: onedesk/one/print_blocks.py:798 onedesk/one/print_blocks.py:805
+msgid "Opening Balance"
+msgstr "الرصيد الافتتاحي"
 
 #: onedesk/one_book/home.py:385
 msgid "Opening Invoice Creation Tool"
@@ -26366,7 +26458,8 @@ msgstr "رموز المخرجات"
 
 #. Label in the One Payment Reminder print format
 #: frontend/src/project/Invoices.vue:36 frontend/src/project/Invoices.vue:122
-#: frontend/src/project/Suppliers.vue:96 onedesk/one/print_blocks.py:699
+#: frontend/src/project/Suppliers.vue:96 onedesk/one/print_blocks.py:707
+#: onedesk/one/print_blocks.py:810
 #: onedesk/one_book/print_format/one_payment_reminder/one_payment_reminder.json
 msgid "Outstanding"
 msgstr "المتبقي"
@@ -26382,6 +26475,10 @@ msgstr "المستحق حسب العميل"
 #: frontend/src/home/BooksStory.vue:125
 msgid "Outstanding by Supplier"
 msgstr "المستحق حسب المورد"
+
+#: onedesk/one/print_blocks.py:734
+msgid "Over 90 Days"
+msgstr "أكثر من 90 يومًا"
 
 #: frontend/src/item/ItemSelling.vue:113
 msgid "Over Billing Allowance (%)"
@@ -26614,7 +26711,8 @@ msgstr "الصفحات"
 #: frontend/src/project/Suppliers.vue:228 onedesk/one/portal.py:659
 #: onedesk/one/portal.py:796 onedesk/one/portal.py:853
 #: onedesk/one/portal.py:863 onedesk/one/portal.py:866
-#: onedesk/one/portal.py:868 onedesk/one_admin/accounts.py:216
+#: onedesk/one/portal.py:868 onedesk/one/print_blocks.py:800
+#: onedesk/one_admin/accounts.py:216
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/log.py:15 onedesk/one_book/heads.py:103
 #: onedesk/one_book/heads.py:380
@@ -26697,7 +26795,7 @@ msgstr "دُفعت عبر الإنترنت"
 #. Label in the One Payment Receipt print format
 #. Label in the One Payment Voucher print format
 #. Option for the 'Role' (Select) field in DocType 'Reading Party'
-#: onedesk/one/print_blocks.py:529
+#: onedesk/one/print_blocks.py:537
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
 #: onedesk/one_book/print_format/one_payment_voucher/one_payment_voucher.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
@@ -26753,6 +26851,10 @@ msgstr "مدفوعة بالكامل"
 #: onedesk/one_book/heads.py:125
 msgid "Paid in full."
 msgstr "مدفوعة بالكامل."
+
+#: onedesk/one/print_blocks.py:800
+msgid "Paid to Them"
+msgstr "المدفوع لهم"
 
 #: onedesk/one_hr/heads.py:657
 msgid "Paid under"
@@ -27204,6 +27306,7 @@ msgstr "دفع المحتجزات"
 #. Label in the One Sales Order Bordered print format
 #. Label in the One Sales Order Classic print format
 #. Label in the One Sales Order with Images print format
+#: onedesk/one/print_blocks.py:814
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_book/print_format/one_payment_reminder/one_payment_reminder.json
@@ -27288,7 +27391,7 @@ msgid "Payload"
 msgstr "الحمولة"
 
 #. Label in the One Payment Receipt print format
-#: onedesk/one/print_blocks.py:422
+#: onedesk/one/print_blocks.py:430 onedesk/one/print_blocks.py:726
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
 #: onedesk/public/js/intake.js:154 onedesk/public/js/intake.js:165
 msgid "Payment"
@@ -27332,7 +27435,7 @@ msgstr "إعادة ترحيل دفتر المدفوعات"
 msgid "Payment Method"
 msgstr "طريقة الدفع"
 
-#: onedesk/one/print_blocks.py:422
+#: onedesk/one/print_blocks.py:430
 msgid "Payment No"
 msgstr "رقم الدفعة"
 
@@ -27774,7 +27877,7 @@ msgstr "لكل مساحة عمل"
 msgid "Performance Feedback"
 msgstr "ملاحظات الأداء"
 
-#: onedesk/one/print_blocks.py:609
+#: onedesk/one/print_blocks.py:617 onedesk/one/print_blocks.py:796
 msgid "Period"
 msgstr ""
 
@@ -27869,6 +27972,8 @@ msgstr "تصيّد احتيالي"
 #. Label in the One Sales Invoice print format
 #. Label in the One Sales Invoice Classic print format
 #. Label in the One Sales Invoice with Images print format
+#. Label in the One Statement of Account print format
+#. Label in the One Supplier Statement print format
 #. Label in the One Installation Note print format
 #. Label in the One Maintenance Plan print format
 #. Label in the One Proforma Invoice print format
@@ -27912,6 +28017,8 @@ msgstr "تصيّد احتيالي"
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
+#: onedesk/one_book/print_format/one_statement_of_account/one_statement_of_account.json
+#: onedesk/one_book/print_format/one_supplier_statement/one_supplier_statement.json
 #: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
@@ -28953,7 +29060,7 @@ msgstr "البرنامج"
 #: frontend/portal/src/pages/Project.vue:77
 #: frontend/src/project/Overview.vue:300 frontend/src/project/Tasks.vue:24
 #: frontend/src/task/TaskPage.vue:261 onedesk/one/portal.py:78
-#: onedesk/one/print_blocks.py:669 onedesk/one_book/heads.py:639
+#: onedesk/one/print_blocks.py:677 onedesk/one_book/heads.py:639
 #: onedesk/one_book/heads.py:722 onedesk/one_book/heads.py:734
 #: onedesk/one_crm/heads.py:308 onedesk/one_inventory/heads.py:1533
 #: onedesk/one_inventory/heads.py:1544 onedesk/one_inventory/heads.py:1583
@@ -29022,7 +29129,7 @@ msgstr "التقدم…"
 #: frontend/src/project/ProjectPage.vue:206
 #: frontend/src/project/TaskPanel.vue:48 frontend/src/project/Time.vue:100
 #: onedesk/one/portal.py:78 onedesk/one/print_blocks.py:36
-#: onedesk/one/print_blocks.py:623 onedesk/one_book/heads.py:640
+#: onedesk/one/print_blocks.py:631 onedesk/one_book/heads.py:640
 #: onedesk/one_book/heads.py:735
 #: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_book/print_format/one_budget/one_budget.json
@@ -30673,6 +30780,13 @@ msgstr "سلة المحذوفات"
 msgid "Redraw On"
 msgstr "إعادة الرسم عند"
 
+#. Label in the One Experience Letter print format
+#. Label in the One Salary Certificate print format
+#: onedesk/one_hr/print_format/one_experience_letter/one_experience_letter.json
+#: onedesk/one_hr/print_format/one_salary_certificate/one_salary_certificate.json
+msgid "Ref No"
+msgstr "الرقم المرجعي"
+
 #. Label of the reference (Data) field in DocType 'Credit Ledger Entry'
 #. Label of the reference (Data) field in DocType 'Credit Reservation'
 #. Label in the One Credit Ledger Entry print format
@@ -31874,7 +31988,7 @@ msgstr "موقوف"
 #. Label in the One Delivery Note Bordered print format
 #. Label in the One Delivery Note Classic print format
 #. Label in the One Delivery Note with Images print format
-#: onedesk/one/print_blocks.py:418
+#: onedesk/one/print_blocks.py:426
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
@@ -32283,7 +32397,9 @@ msgid "Salary Assignment"
 msgstr "تعيين الراتب"
 
 #. Option for the 'Letter Type' (Select) field in DocType 'Employee Letter'
+#. Label in the One Salary Certificate print format
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
+#: onedesk/one_hr/print_format/one_salary_certificate/one_salary_certificate.json
 msgid "Salary Certificate"
 msgstr "شهادة راتب"
 
@@ -33739,7 +33855,7 @@ msgstr ""
 #. Label in the One Sales Order Bordered print format
 #. Label in the One Sales Order Classic print format
 #. Label in the One Sales Order with Images print format
-#: onedesk/one/print_blocks.py:560
+#: onedesk/one/print_blocks.py:568
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
 #: onedesk/one_crm/print_format/one_sales_order/one_sales_order.json
 #: onedesk/one_crm/print_format/one_sales_order_bordered/one_sales_order_bordered.json
@@ -35085,10 +35201,22 @@ msgstr "الحالة"
 msgid "State or Region"
 msgstr "الولاية أو المنطقة"
 
+#. Label in the One Statement of Account print format
+#. Label in the One Supplier Statement print format
+#: onedesk/one_book/print_format/one_statement_of_account/one_statement_of_account.json
+#: onedesk/one_book/print_format/one_supplier_statement/one_supplier_statement.json
+msgid "Statement For"
+msgstr "كشف حساب لـ"
+
 #. Label in the One Full and Final Settlement print format
 #: onedesk/one_hr/print_format/one_full_and_final_settlement/one_full_and_final_settlement.json
 msgid "Statement No"
 msgstr "رقم الكشف"
+
+#. Label in the One Statement of Account print format
+#: onedesk/one_book/print_format/one_statement_of_account/one_statement_of_account.json
+msgid "Statement of Account"
+msgstr "كشف حساب"
 
 #. Name of a notification
 #: onedesk/notifications/one_book/statement_of_accounts.md
@@ -35775,7 +35903,7 @@ msgstr ""
 
 #: frontend/portal/src/pages/Project.vue:36
 #: frontend/src/project/Overview.vue:122
-#: frontend/src/project/ProjectPage.vue:298 onedesk/one/print_blocks.py:678
+#: frontend/src/project/ProjectPage.vue:298 onedesk/one/print_blocks.py:686
 #: onedesk/one_project/heads.py:258 onedesk/one_project/tree.py:198
 msgid "Sub-projects"
 msgstr "المشاريع الفرعية"
@@ -36195,6 +36323,11 @@ msgstr "تصنيف بطاقة أداء المورد"
 msgid "Supplier Scorecard Variable"
 msgstr ""
 
+#. Label in the One Supplier Statement print format
+#: onedesk/one_book/print_format/one_supplier_statement/one_supplier_statement.json
+msgid "Supplier Statement"
+msgstr "كشف حساب المورد"
+
 #. Task in the Event project template
 #: onedesk/one_project/library/event.json
 msgid "Supplier bills paid"
@@ -36379,6 +36512,8 @@ msgstr "تيرابايت"
 #. Label in the One Sales Invoice Classic print format
 #. Label in the One Sales Invoice with Images print format
 #. Label in the One Simplified Tax Invoice print format
+#. Label in the One Statement of Account print format
+#. Label in the One Supplier Statement print format
 #. Label in the One Maintenance Plan print format
 #. Label in the One Proforma Invoice print format
 #. Label in the One Quotation print format
@@ -36421,6 +36556,8 @@ msgstr "تيرابايت"
 #: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_book/print_format/one_simplified_tax_invoice/one_simplified_tax_invoice.json
+#: onedesk/one_book/print_format/one_statement_of_account/one_statement_of_account.json
+#: onedesk/one_book/print_format/one_supplier_statement/one_supplier_statement.json
 #: onedesk/one_book/report/books_check/books_check.js:22
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
@@ -36451,7 +36588,7 @@ msgstr "تيرابايت"
 msgid "TRN"
 msgstr "الرقم الضريبي"
 
-#: onedesk/one/print_blocks.py:448 onedesk/one/print_blocks.py:559
+#: onedesk/one/print_blocks.py:456 onedesk/one/print_blocks.py:567
 msgid "TRN {0}"
 msgstr "رقم التسجيل الضريبي {0}"
 
@@ -36491,7 +36628,7 @@ msgid "Take back {0} and record it with Take Back on the asset's page."
 msgstr "استرجع {0} وسجّل ذلك بزر الاسترجاع في صفحة الأصل."
 
 #. Label in the One Salary Statement print format
-#: frontend/src/home/HrStory.vue:29
+#: frontend/src/home/HrStory.vue:29 onedesk/one/print_blocks.py:926
 #: onedesk/one_hr/print_format/one_salary_statement/one_salary_statement.json
 msgid "Taken"
 msgstr "مأخوذة"
@@ -36674,7 +36811,7 @@ msgstr ""
 #. Label in the One Sales Invoice Bordered print format
 #. Label in the One Sales Invoice Classic print format
 #. Label in the One Sales Invoice with Images print format
-#: onedesk/one/print_blocks.py:434
+#: onedesk/one/print_blocks.py:442
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
@@ -36708,7 +36845,7 @@ msgstr "إثبات الإعفاء الضريبي"
 msgid "Tax ID"
 msgstr ""
 
-#: onedesk/one/print_blocks.py:559
+#: onedesk/one/print_blocks.py:567
 msgid "Tax ID {0}"
 msgstr "الرقم الضريبي {0}"
 
@@ -36717,7 +36854,7 @@ msgstr "الرقم الضريبي {0}"
 #. Label in the One Sales Invoice Bordered print format
 #. Label in the One Sales Invoice Classic print format
 #. Label in the One Sales Invoice with Images print format
-#: onedesk/one/print_blocks.py:434
+#: onedesk/one/print_blocks.py:442
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
@@ -39207,6 +39344,10 @@ msgstr "لا يمكن التراجع عن ذلك. اطلب نسخة من بيا�
 msgid "This cannot be done to {0} now."
 msgstr "لا يمكن تنفيذ هذا على {0} الآن."
 
+#: onedesk/one/print_blocks.py:880
+msgid "This certificate is issued at the employee's request, without any liability on the part of the company."
+msgstr "صدرت هذه الشهادة بناءً على طلب الموظف دون أدنى مسؤولية على الشركة."
+
 #: onedesk/www/s.py:20
 msgid "This code is incorrect or has expired."
 msgstr "هذا الرمز غير صحيح أو انتهت صلاحيته."
@@ -39285,6 +39426,18 @@ msgstr "هذه الدفعة بعملة أخرى. استخدم إنشاء › د�
 msgid "This is taking longer than usual. We will mail {0} when it is ready."
 msgstr "يستغرق هذا وقتًا أطول من المعتاد. سنراسل {0} عندما تصبح جاهزة."
 
+#: onedesk/one/print_blocks.py:897
+msgid "This is to certify that {0} has worked with {1} since {2} and is currently employed as {3}{4}."
+msgstr "نشهد بأن {0} يعمل لدى {1} منذ {2} ويشغل حاليًا وظيفة {3}{4}."
+
+#: onedesk/one/print_blocks.py:893
+msgid "This is to certify that {0} worked with {1} from {2} to {3} as {4}{5}."
+msgstr "نشهد بأن {0} عمل لدى {1} من {2} إلى {3} بوظيفة {4}{5}."
+
+#: onedesk/one/print_blocks.py:874
+msgid "This is to certify that {0}{1} has been employed with {2} as {3} since {4}."
+msgstr "نشهد بأن {0}{1} يعمل لدى {2} بوظيفة {3} منذ {4}."
+
 #: onedesk/one_storage/api.py:20 onedesk/one_storage/api.py:85
 #: onedesk/one_storage/dav.py:294
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.py:24
@@ -39294,6 +39447,10 @@ msgstr "يستغرق هذا وقتًا أطول من المعتاد. سنراس�
 #: onedesk/one_storage/share.py:31
 msgid "This item no longer exists."
 msgstr "هذا العنصر لم يعد موجودًا."
+
+#: onedesk/one/print_blocks.py:905
+msgid "This letter is issued at the employee's request."
+msgstr "صدر هذا الخطاب بناءً على طلب الموظف."
 
 #: onedesk/one/portal_share.py:382
 msgid "This link has been answered already."
@@ -39912,6 +40069,7 @@ msgstr "للموردين"
 msgid "To Warehouse"
 msgstr "إلى المستودع"
 
+#: onedesk/one/print_blocks.py:873 onedesk/one/print_blocks.py:902
 #: onedesk/one_hr/ai_letters.py:76
 msgid "To Whom It May Concern"
 msgstr "إلى من يهمه الأمر"
@@ -40127,7 +40285,8 @@ msgstr "نمط الأعلى"
 #: frontend/src/project/Suppliers.vue:95
 #: frontend/src/quotes/QuoteCompare.vue:38 frontend/src/quotes/QuoteRows.vue:13
 #: onedesk/one/portal.py:76 onedesk/one/portal.py:654 onedesk/one/portal.py:825
-#: onedesk/one/print_blocks.py:699
+#: onedesk/one/print_blocks.py:707 onedesk/one/print_blocks.py:810
+#: onedesk/one/print_blocks.py:878 onedesk/one/print_blocks.py:942
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:51
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_exchange_rate_revaluation/one_exchange_rate_revaluation.json
@@ -40436,7 +40595,7 @@ msgstr "تبقى النصوص. اضبطه على 0 للاحتفاظ بالصوت
 #. Label in the One Payment Receipt print format
 #. Label of a Sidebar Item
 #. Option for the 'Paid How' (Select) field in DocType 'Reading'
-#: onedesk/one/print_blocks.py:428
+#: onedesk/one/print_blocks.py:436
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -40453,13 +40612,13 @@ msgid "Transfer Material"
 msgstr "تحويل المواد"
 
 #. Label in the One Share Transfer print format
-#: onedesk/one/print_blocks.py:428
+#: onedesk/one/print_blocks.py:436
 #: onedesk/one_book/print_format/one_share_transfer/one_share_transfer.json
 msgid "Transfer No"
 msgstr "رقم التحويل"
 
 #. Label in the One Stock Entry print format
-#: onedesk/one/print_blocks.py:424
+#: onedesk/one/print_blocks.py:432
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 msgid "Transfer Note"
 msgstr "إذن نقل"
@@ -41944,6 +42103,7 @@ msgstr "انتظار حدث"
 #. Recipient'
 #: frontend/src/quotes/RequestRows.vue:69 frontend/src/task/MyTasks.vue:62
 #: onedesk/one/custom/personal_data_download_request.json
+#: onedesk/one/print_blocks.py:926
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:13
 #: onedesk/one_admin/heads.py:49
@@ -42146,6 +42306,10 @@ msgstr "اختبار المياه"
 msgid "Waybill No"
 msgstr "رقم بوليصة الشحن"
 
+#: onedesk/one/print_blocks.py:801
+msgid "We Owe"
+msgstr "المستحق علينا"
+
 #. Message of a notification
 #: onedesk/notifications/one_admin/workspace_delayed.md
 msgid "We have your payment for {workspace}, but setup hit a problem on our side. We're working on it.<br><br>We'll email you when it's ready. You don't need to do anything. If you have a question, reply to this email."
@@ -42154,6 +42318,10 @@ msgstr "استلمنا دفعتك لـ {workspace}، لكن الإعداد وا�
 #: onedesk/www/account_profile.html:92
 msgid "We sent a link to {0}. The address changes when it is followed, within the hour."
 msgstr "أرسلنا رابطًا إلى {0}. يتغيّر العنوان عند فتحه خلال ساعة."
+
+#: onedesk/one/print_blocks.py:895
+msgid "We thank {0} for their work and wish them every success."
+msgstr "نشكر {0} على جهوده ونتمنى له التوفيق."
 
 #: frontend/portal/src/pages/Record.vue:117
 msgid "We'll prepare your order for {0} and confirm it with you."
@@ -47122,6 +47290,10 @@ msgstr "تنبيه"
 msgid "already set"
 msgstr "مضبوط مسبقًا"
 
+#: onedesk/one/print_blocks.py:875 onedesk/one/print_blocks.py:890
+msgid "an employee"
+msgstr "موظف"
+
 #: onedesk/one_crm/heads.py:31
 msgid "an hour"
 msgstr "ساعة واحدة"
@@ -49726,7 +49898,7 @@ msgstr "قدّم {0} من {1} موردين عروضًا. اطلب من الأف�
 msgid "{0} of {1} tasks"
 msgstr "{0} من {1} مهام"
 
-#: frontend/portal/src/pages/Project.vue:80 onedesk/one/print_blocks.py:671
+#: frontend/portal/src/pages/Project.vue:80 onedesk/one/print_blocks.py:679
 msgid "{0} of {1} tasks done"
 msgstr "أُنجزت {0} من {1} مهام"
 
@@ -50125,10 +50297,10 @@ msgstr "{0} للطلب"
 msgid "{0} to pay"
 msgstr "{0} للدفع"
 
-#: onedesk/one_hr/heads.py:210 onedesk/one_hr/heads.py:338
-#: onedesk/one_inventory/heads.py:928 onedesk/one_inventory/ready.py:139
-#: onedesk/one_project/heads.py:201 onedesk/one_project/tell.py:435
-#: onedesk/public/js/settings.js:3165
+#: onedesk/one/print_blocks.py:795 onedesk/one_hr/heads.py:210
+#: onedesk/one_hr/heads.py:338 onedesk/one_inventory/heads.py:928
+#: onedesk/one_inventory/ready.py:139 onedesk/one_project/heads.py:201
+#: onedesk/one_project/tell.py:435 onedesk/public/js/settings.js:3165
 msgid "{0} to {1}"
 msgstr "{0} إلى {1}"
 
@@ -50338,7 +50510,7 @@ msgstr "{0}% عند التسليم"
 msgid "{0}% billed"
 msgstr "{0}% مفوتر"
 
-#: frontend/src/project/Overview.vue:490 onedesk/one/print_blocks.py:682
+#: frontend/src/project/Overview.vue:490 onedesk/one/print_blocks.py:690
 #: onedesk/one_project/view.py:824 onedesk/public/js/project_list.js:106
 #: onedesk/public/js/project_tree.js:18
 #, python-format

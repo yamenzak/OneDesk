@@ -1,0 +1,74 @@
+{%- set b = one_print_block(doc, "statement") -%}
+{%- if b %}
+<table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:18px">
+	<tr>
+		{%- for label, value in b.summary %}
+		<td style="width:25%;padding:10px 12px;background:#f9fafb;{{ 'border-left:2px solid #fff;' if not loop.first else '' }}vertical-align:top">
+			<div style="font-size:10px;color:#6b7280;margin-bottom:4px">{{ label|e }}</div>
+			<div style="font-weight:{{ '700' if loop.last else '600' }};color:{{ b.ink|e if loop.last else '#111827' }};font-size:{{ '14px' if loop.last else '12px' }};white-space:nowrap">{{ value|e }}</div>
+		</td>
+		{%- endfor %}
+	</tr>
+</table>
+<div style="font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:#6b7280;margin-bottom:4px">{{ b.period_label|e }} · {{ b.period|e }}</div>
+<table style="width:100%;border-collapse:collapse;font-size:11px;margin-bottom:18px">
+	<tr>
+		{%- for one in b.columns %}
+		<td style="padding:5px 0;border-bottom:1px solid #111827;color:#6b7280;{{ 'text-align:right' if loop.index > 3 else '' }}">{{ one|e }}</td>
+		{%- endfor %}
+	</tr>
+	<tr>
+		<td colspan="5" style="padding:5px 0;border-bottom:1px solid #e5e7eb;color:#6b7280">{{ b.opening_label|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;text-align:right;color:#111827">{{ b.opening|e }}</td>
+	</tr>
+	{%- for day, kind, number, up, down, balance in b.rows %}
+	<tr>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;color:#6b7280;white-space:nowrap">{{ day|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;color:#111827">{{ kind|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;color:#111827">{{ number|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;text-align:right;color:#111827">{{ up|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;text-align:right;color:#111827">{{ down|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;text-align:right;color:#111827;font-weight:600">{{ balance|e }}</td>
+	</tr>
+	{%- endfor %}
+</table>
+{%- if b.invoices %}
+<div style="font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:#6b7280;margin-bottom:4px">{{ b.ages_heading|e }}</div>
+<table style="width:100%;border-collapse:collapse;font-size:11px;margin-bottom:18px">
+	<tr>
+		{%- for label, value in b.ages %}
+		<td style="width:20%;padding:8px 10px;border:1px solid #e5e7eb">
+			<div style="font-size:10px;color:#6b7280;margin-bottom:3px">{{ label|e }}</div>
+			<div style="font-weight:600;color:#111827;white-space:nowrap">{{ value|e }}</div>
+		</td>
+		{%- endfor %}
+	</tr>
+</table>
+<div style="font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:#6b7280;margin-bottom:4px">{{ b.invoices_heading|e }}</div>
+<table style="width:100%;border-collapse:collapse;font-size:11px">
+	<tr>
+		{%- for one in b.invoice_columns %}
+		<td style="padding:5px 0;border-bottom:1px solid #111827;color:#6b7280;{{ 'text-align:right' if loop.index > 3 else '' }}">{{ one|e }}</td>
+		{%- endfor %}
+	</tr>
+	{%- for name, day, due, total, owed, late in b.invoices %}
+	<tr>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;color:#111827">{{ name|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;color:#6b7280">{{ day|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;color:#6b7280">{{ due|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;text-align:right;color:#111827">{{ total|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;text-align:right;color:#111827;font-weight:600">{{ owed|e }}</td>
+		<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;text-align:right;color:#991b1b">{{ late|e }}</td>
+	</tr>
+	{%- endfor %}
+</table>
+{%- endif %}
+{%- if b.bank %}
+<div style="font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:#6b7280;margin:18px 0 4px">{{ b.bank_heading|e }}</div>
+<table style="border-collapse:collapse;font-size:11px">
+	{%- for label, value in b.bank %}
+	<tr><td style="padding:2px 12px 2px 0;color:#6b7280">{{ label|e }}</td><td style="padding:2px 0;color:#111827">{{ value|e }}</td></tr>
+	{%- endfor %}
+</table>
+{%- endif %}
+{%- endif %}

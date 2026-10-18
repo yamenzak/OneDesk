@@ -78,18 +78,17 @@ def test_every_record_that_leaves_has_a_format_we_ship():
 		shipped = _format(name, module)
 		assert shipped["doc_type"] == doctype and shipped["standard"] == "Yes" and not shipped["disabled"], name
 		assert shipped["print_format_builder_beta"] and not shipped.get("custom_format"), f"{name} is not laid out in the builder"
-		used = {one["field_template"] for one in _blocks(json.loads(shipped["format_data"]))}
-		assert not used or "One Title" in used, f"{name} does not open with One Title"
 
 
-def _native() -> dict:
+def _native(blocks: bool = False) -> dict:
 	"""Every format we ship drawn only from the builder's own pieces, by name,
-	as (its doctype, its layout)."""
+	as (its doctype, its layout); with `blocks`, those that also gather a part
+	from other records in one of One's blocks."""
 	found = {}
 	for path in APP.glob("*/print_format/*/*.json"):
 		shipped = json.loads(path.read_text())
 		layout = json.loads(shipped.get("format_data") or "{}")
-		if shipped.get("print_format_builder_beta") and layout and not _blocks(layout):
+		if shipped.get("print_format_builder_beta") and layout and (blocks or not _blocks(layout)):
 			found[shipped["name"]] = (shipped["doc_type"], layout)
 	return found
 
@@ -130,7 +129,7 @@ def test_a_native_format_asks_only_what_frappe_can_answer():
 	"""A condition frappe cannot evaluate prints the thing anyway and logs
 	an error on every print, so one that calls a builtin never ships."""
 	assert _native(), "no format is native yet"
-	for doctype, layout in _native().values():
+	for doctype, layout in _native(blocks=True).values():
 		for one in _pieces(layout):
 			for key in ("visible_if", "column_condition", "row_condition"):
 				said = one.get(key) or ""
@@ -169,7 +168,7 @@ def test_a_native_format_prints_fields_the_record_has():
 	against the doctype, its custom fields, and its tables' own."""
 	if not (APPS / "erpnext").exists():
 		pytest.skip("erpnext is not checked out beside this app")
-	for doctype, layout in _native().values():
+	for doctype, layout in _native(blocks=True).values():
 		has = _fields(doctype) | PRINTED_ONLY.get(doctype, set())
 		for one in _pieces(layout):
 			if one.get("fieldtype") == "Table":
@@ -180,7 +179,7 @@ def test_a_native_format_prints_fields_the_record_has():
 						assert shown["fieldname"] in rows, f"{doctype} {one['fieldname']}: {shown['fieldname']}"
 			elif one.get("fieldtype") == "Linked Field":
 				assert one["link_path"].split(".")[0] in has, f"{doctype}: {one['link_path']}"
-			elif one.get("fieldtype") and not one.get("custom") and one.get("fieldname"):
+			elif one.get("fieldtype") not in (None, "Field Template") and not one.get("custom") and one.get("fieldname"):
 				assert one["fieldname"] in has, f"{doctype}: {one['fieldname']}"
 
 
