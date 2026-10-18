@@ -39,7 +39,7 @@ step that stopped it. One step alone runs with `'only': 'crm'`.
 | calendar | The weekly site meeting, a handover walk with the customer, a supplier visit, the workshop's safety briefing and a pricing review |
 | studio | Company Van, a record type of the company's own in OneInventory, with two vans. An extension on the customer's form that is on and has run into an error, and one on the lead kept off |
 | storage | A Projects library Samir runs with the site team in it, the villa's elevations there with a link for the customer and a second version, Samir's site visit notes shared with Rania, a request to Al Noor for its papers, and a drive password |
-| intake | The owner's own address and the accounts team's Bank Statements folder, both read by OneAI. The samples in tests/samples/intake arrive there |
+| intake | The owner's own address and the accounts team's Bank Statements folder, both read by OneAI. The samples in tests/samples/intake arrive there, and Huda matches the statement's transport debit in the reconciliation tool |
 | mail | The workspace's own address, which Layla holds, with a customer's request for a price, a supplier's delivery date and a hotel's maintenance call |
 
 Every record is made the way a click makes it, through frappe's controllers,
@@ -120,9 +120,9 @@ figures back, not only when its records exist; · is later.
 | ✓ | A customer pays a euro invoice after the rate moved, and the difference is a gain or a loss in the books | `onebook_a_foreign_payment_gains_or_loses_at_its_rate` |
 | ✓ | Broken glass goes back to its supplier, a debit note is made against the bill, and what we owe falls by it | `oneinventory_broken_glass_goes_back_and_the_bill_is_debited` |
 | ✓ | What every invoice and bill still has outstanding is its total less what was paid and credited against it | `onebook_what_is_outstanding_is_what_is_left` |
-| · | The bank statement is matched to the payments it shows | |
-| · | Profit and loss shows each month's rent and wages in that month | |
-| · | A late invoice ages into the right column of what is owed | |
+| ✓ | The bank statement is matched to the payments it shows | `onebook_the_statement_is_matched_to_what_it_shows` |
+| ✓ | Profit and loss shows each month's rent in that month | `onebook_profit_and_loss_shows_each_month_in_its_month` |
+| ✓ | A late invoice ages into the right column of what is owed | `onebook_a_late_invoice_ages_into_its_column` |
 | · | A bill from a supplier abroad is charged VAT by reverse charge, not zero | |
 
 ### OneInventory
@@ -136,8 +136,8 @@ figures back, not only when its records exist; · is later.
 | ✓ | What the stock is worth in the books is what the warehouses hold | `oneinventory_the_stock_in_the_books_is_what_the_warehouses_hold` |
 | ✓ | An order's price is what is received and billed, quantity for quantity | `oneinventory_what_was_ordered_is_received_and_billed_price_for_price` |
 | ✓ | Orders reach every state a buyer meets, to receive, to bill, both and completed | `erpnext_statuses_are_all_there` |
-| · | Freight on imported hardware raises what the hardware cost | |
-| · | A finished work order's product is worth its materials and the workshop's time | |
+| ✓ | Freight on imported hardware raises what the hardware cost | `oneinventory_goods_arrive_as_the_receipt_says` |
+| ✓ | A finished work order's product is worth its materials and the workshop's time | `oneinventory_making_from_bill_to_finished_goods` |
 
 ### OneCRM and selling
 

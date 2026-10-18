@@ -165,3 +165,33 @@ def _rules(bank):
 	)
 	if not frappe.db.exists("Tax Category", "Export"):
 		make({"doctype": "Tax Category", "title": "Export"})
+
+
+TRANSPORT = "Transport Expenses"
+
+
+def matched():
+	"""Huda matches the statement's transport debit the way the bank
+	reconciliation tool does it: a bank entry made from the line, to
+	transport, and reconciled in the same step. The Marina Hotels deposit is
+	left for OneAI's draft payment."""
+	from erpnext.accounts.doctype.bank_reconciliation_tool.bank_reconciliation_tool import (
+		create_journal_entry_bts,
+	)
+
+	with as_user(ACCOUNTS):
+		lines = frappe.get_all(
+			"Bank Transaction",
+			filters={"docstatus": 1, "status": "Unreconciled", "withdrawal": [">", 0], "description": ["like", "%transport%"]},
+			fields=["name", "reference_number", "date"],
+		)
+		for line in lines:
+			create_journal_entry_bts(
+				line.name,
+				reference_number=line.reference_number,
+				reference_date=line.date,
+				posting_date=line.date,
+				entry_type="Bank Entry",
+				second_account=_expense(TRANSPORT),
+			)
+

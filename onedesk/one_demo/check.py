@@ -6619,6 +6619,34 @@ def onebook_the_bank_says_what_is_left_to_match():
 
 
 @check
+def onebook_the_statement_is_matched_to_what_it_shows():
+	"""The transport debit on the bank statement is matched to the bank entry
+	Huda made from it in the reconciliation tool: the line is Reconciled with
+	nothing left over, the entry carries the bank's reference and is cleared
+	on the statement's date, and the bank account counts it no more."""
+	from onedesk.one_demo.books import TRANSPORT
+
+	with as_user("huda@one.test"):
+		line = frappe.get_all(
+			"Bank Transaction",
+			filters={"docstatus": 1, "withdrawal": [">", 0], "description": ["like", "%transport%"]},
+			fields=["name", "status", "unallocated_amount", "reference_number", "date", "withdrawal"],
+		)
+		assert line, "the statement has its transport debit"
+		line = line[0]
+		assert line.status == "Reconciled" and not flt(line.unallocated_amount), line
+		paid = frappe.get_doc("Bank Transaction", line.name).payment_entries
+		assert len(paid) == 1 and paid[0].payment_document == "Journal Entry", paid
+		entry = frappe.get_doc("Journal Entry", paid[0].payment_entry)
+		assert entry.docstatus == 1 and entry.cheque_no == line.reference_number, entry.cheque_no
+		assert str(entry.clearance_date) == str(line.date), (entry.clearance_date, line.date)
+		booked = {row.account.rsplit(" - ", 1)[0]: flt(row.debit) for row in entry.accounts}
+		assert booked.get(TRANSPORT) == flt(line.withdrawal), booked
+		still = frappe.db.count("Bank Transaction", {"docstatus": 1, "status": "Unreconciled"})
+		assert still and still == frappe.db.count("Bank Transaction", {"docstatus": 1}) - 1
+
+
+@check
 def onebook_the_books_check_has_nothing_left_to_do():
 	"""The demo company is set up as its accountant would leave it: nothing
 	on the Books Check is To Do, Temporary Opening is at nought, and the UAE

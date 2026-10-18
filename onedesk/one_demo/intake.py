@@ -30,6 +30,9 @@ def run(password=None):
 	frappe.db.commit()
 	rules()
 	_samples()
+	from onedesk.one_demo import books
+
+	books.matched()
 
 
 RULE = "Supplier Tasks to the Books"
