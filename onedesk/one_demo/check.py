@@ -2724,6 +2724,8 @@ def onemail_a_mailbox_is_its_holders_and_threads_by_what_was_answered():
 	assert first and first != second and reply == first, thread
 
 	with as_user(OWNER):
+		if not frappe.db.exists("Email Account", {"email_id": addresses.person_address("rania")}):
+			addresses.give("rania@one.test", "rania")
 		try:
 			addresses.give("rania@one.test", "rania2")
 		except frappe.ValidationError as e:
@@ -3410,6 +3412,10 @@ def onehr_the_clock_says_when_the_shift_starts():
 			"name": "Check Shift",
 			"start_time": start.strftime("%H:%M:00"),
 			"end_time": "23:59:00",
+			# Just after midnight the shift is the whole day, and frappe's hour
+			# after its end would reach into the next one.
+			"allow_check_out_after_shift_end_time": 0,
+			"begin_check_in_before_shift_start_time": 0,
 		}
 	).insert(ignore_permissions=True)
 	frappe.get_doc(

@@ -21,6 +21,9 @@ dependencies = [
     # MPL-2.0, used as a library: RFC 8291 encryption and VAPID signing are
     # security-critical and a solved problem.
     "pywebpush>=2,<3",
+    # S3-compatible storage, for each workspace's files on R2
+    # (one_admin/storage.py). Apache-2.0.
+    "boto3>=1.34,<2",
 ]
 
 [build-system]
