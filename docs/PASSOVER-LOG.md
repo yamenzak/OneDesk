@@ -24,14 +24,15 @@ commit message; the log of every walk up to 18 October 2026 is
 | The portal (records, lists, quotations, access by record and link) | done, redrawn in cards | 2026-10-16 |
 | Mail: one frame for every mail, every type listed | done, two coverage passes | 2026-10-16 |
 | Print: every record One submits prints from a format of ours | closed | 2026-10-18 |
-| The atlas: every frappe, erpnext and hrms record type, report and page has a way in or an answer | waiting count at zero | 2026-10-17 |
+| The atlas: every frappe, erpnext and hrms record type, report and page has a way in or an answer | waiting at zero; nothing reached in English; nothing printed on ERPNext's format; screens hear and filter what they list | 2026-10-18 |
 | Overrides: every place we lean on upstream read against both sides | done; 62 asks upstream in `docs/OVERRIDES.md` | 2026-10-18 |
+| The code: no comments, docs in the module that owns them, one backlog | done | 2026-10-18 |
 
 ## Up next
 
-1. Rebuild the demo on a fresh site, so the checks that read dates relative
-   to today pass again (`docs/BACKLOG.md`).
-2. The upstream checkpoint: the last one is 2026-10-07, and the guard fails
-   after 2026-10-21 (`python scripts/upstream.py --fetch --draft`).
+Everything under "Due now" in `docs/BACKLOG.md`, then the rest of it:
+
+1. The upstream checkpoint, before the guard fails after 2026-10-21.
+2. Rebuild the demo on a fresh site, so the five checks that read dates
+   relative to today pass again.
 3. Send the upstream asks in `docs/OVERRIDES.md`, largest first.
-4. The rest of `docs/BACKLOG.md`, in its order.

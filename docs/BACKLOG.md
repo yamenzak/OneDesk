@@ -18,7 +18,9 @@ module's README says what it does.
 - **The upstream checkpoint.** The last is `docs/upstream/2026-10-07.md`;
   `tests/guards/test_generated.py` fails after 2026-10-21. Run
   `python3 scripts/upstream.py --fetch --draft`, close each item, then
-  `--checkpoint`.
+  `--checkpoint`. On this box `--fetch` was killed for memory on 18 October,
+  taking the session with it; fetch the three apps one at a time, or from a
+  bigger machine.
 - **The asks upstream.** `docs/OVERRIDES.md` lists 62 changes to ask frappe,
   erpnext and hrms for (31, 23 and 7). Each one sent and merged retires an
   override row. Which to send, and in what order, is yours.
@@ -245,8 +247,6 @@ Checked against `onedesk/one_intake/` on 2026-10-18. The design is
 
 ## Noticed along the way
 
-- **Sign-in** says "288 sessions" for the administrator: it counts every
-  session ever left open, not the devices a person uses.
 - **Profile**: a OneAI button, Check My Profile, and Write It With OneAI
   under Bio. A proof of address Intake reads could offer to update it.
 - **Agreements**: whether administrators are told by mail when their
@@ -263,6 +263,19 @@ Checked against `onedesk/one_intake/` on 2026-10-18. The design is
   declares. Taking them off changes Numbering for those kinds.
 - **OneBook › Bank**: erpnext's reconciliation tool shows a banner for its
   newer Banking app, which One does not carry.
+- **The monthly statements** that Process Statement Of Accounts mails print
+  from ERPNext's own template. One Statement of Account on the Customer is
+  ours, printed by hand; giving the mailed ones our look means replacing
+  how ERPNext renders them, an override row of its own.
+- **Platform records nobody may open**: DocType, Domain, Module Profile,
+  Package, Page, User Type, Role Profile, User, Customize Form and One's own
+  Record Head, Push Device and AI Touch are reached through a link or our
+  screens but open to no role a workspace gives. Opening any is a security
+  call, so the atlas counts them in NOBODY.
+- **Demo records still missing**: about 45 record types a person reaches
+  have none in the demo (`EMPTY` in `tests/guards/test_atlas.py`). Each
+  goes in the step of the person whose work it is, with the next demo
+  rebuild.
 
 ## Upstream's, not ours
 
