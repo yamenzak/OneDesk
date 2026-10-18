@@ -86,15 +86,15 @@ if (frappe.boot.one_elsewhere && frappe.ui.SidebarHeader && frappe.ui.Sidebar) {
 
 		// Help is One's: OneAI answers from each product's own docs. erpnext's
 		// links to its documentation are left out; the site's own help rows stay.
-		get_help_siblings() {
-			const [, site] = super.get_help_siblings();
-			const ask = {
-				name: "ask-oneai",
-				label: __("Ask OneAI"),
-				icon: "sparkles",
-				onclick: () => onedesk.oneai.open({ ask: __("How does this page work?") }),
-			};
-			return [{ group: "", options: [ask] }, site];
+		get_custom_help_links() {
+			return [
+				{
+					name: "ask-oneai",
+					label: __("Ask OneAI"),
+					icon: "sparkles",
+					onclick: () => onedesk.oneai.open({ ask: __("How does this page work?") }),
+				},
+			];
 		}
 	};
 	frappe.ui.Sidebar = class OneUserMenuSidebar extends frappe.ui.Sidebar {

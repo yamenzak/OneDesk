@@ -189,9 +189,12 @@ def get_email_template(
 		held = frappe.get_doc(doc["doctype"], doc["name"])
 		held.check_permission("read")
 		doc = held.as_dict()
-	template = frappe.get_doc("Email Template", template_name)
-	template.check_permission("read")
-	return template.get_formatted_email(frappe._dict(_shown(template, doc)), sender=sender)
+	from frappe.email.doctype.email_template.email_template import get_email_template as theirs
+
+	# frappe's own answer, with the record read and shown as above; it checks
+	# the template's permission and says whether it is HTML.
+	shown = _shown(frappe.get_doc("Email Template", template_name), doc)
+	return theirs(template_name, frappe._dict(shown), sender=sender)
 
 
 def _shown(template, doc: dict) -> dict:

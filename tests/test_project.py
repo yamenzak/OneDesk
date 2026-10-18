@@ -1477,12 +1477,8 @@ def test_the_other_views_of_projects_are_oneprojects_own():
 	assert "delete found." not in listing
 
 
-def test_a_person_in_a_link_reads_as_their_name_to_whoever_may_pick_them():
+def test_administrator_runs_no_project():
 	hooks = (tree.APP / "hooks.py").read_text()
-	assert '"frappe.desk.search.get_link_title": "onedesk.one.link_titles.get_link_title"' in hooks
-	source = (tree.APP / "one" / "link_titles.py").read_text()
-	assert '("select", "read")' in source and "return docname" in source
-	# Administrator runs no project.
 	assert '"onedesk.one_project.members.nobody",' in hooks
 	assert "onedesk.one_project.patches.nobody_runs_it" in (tree.APP / "patches.txt").read_text()
 

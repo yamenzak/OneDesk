@@ -17,12 +17,10 @@ DOCTYPE = "Transaction Deletion Record"
 
 def planned(company: str):
 	"""The record saved with what it will delete. ERPNext's list leaves out
-	only what is already in its ignored table, which its form fills on
-	opening; made here, it is filled first, or customers, accounts and
-	employees would be on the list."""
+	what is in its ignored table, which its own validate fills, so customers,
+	accounts and employees stay off the list."""
 	doc = frappe.new_doc(DOCTYPE)
 	doc.company = company
-	doc.populate_doctypes_to_be_ignored_table()
 	doc.insert()
 	doc.generate_to_delete_list()
 	return doc

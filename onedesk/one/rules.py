@@ -63,10 +63,10 @@ class Rule(Notification):
 			return recipients, cc, bcc
 		return [one for one in recipients if _may_read(one, doc)], [], []
 
-	def send_an_email(self, doc, context):
+	def send_an_email(self, doc, context, template_content=None):
 		name = carried(self)
 		if not name:
-			return super().send_an_email(doc, context)
+			return super().send_an_email(doc, context, template_content)
 		from markupsafe import Markup
 
 		from onedesk.one import tell
@@ -74,15 +74,19 @@ class Rule(Notification):
 		recipients, cc, bcc = super().get_list_of_recipients(doc, context)
 		inside = _people(recipients + cc + bcc)
 		if inside:
-			# A standard rule's text, rendered as frappe renders it for mail.
-			said = [
-				Markup(frappe.render_template(text or "", context, restrict_globals=True))
-				for text in (self.subject, self.message)
-			]
-			tell.rule_fired(name, inside, doc, tuple(said))
+			# A standard rule's text as frappe mails it: its Email Template's,
+			# already rendered, else its own subject and message.
+			if template_content:
+				said = (Markup(template_content["subject"]), Markup(template_content["message"]))
+			else:
+				said = tuple(
+					Markup(frappe.render_template(text or "", context, restrict_globals=True))
+					for text in (self.subject, self.message)
+				)
+			tell.rule_fired(name, inside, doc, said)
 		self.flags.one_outside_only = True
 		try:
-			super().send_an_email(doc, context)
+			super().send_an_email(doc, context, template_content)
 		finally:
 			self.flags.one_outside_only = False
 

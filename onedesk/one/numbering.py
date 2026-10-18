@@ -78,6 +78,15 @@ def _settings(doctype: str):
 	return settings
 
 
+def _last(doctype: str):
+	"""The latest record of a type, for a series that names by its fields, as
+	Document Naming Settings previews from. None when there is none yet."""
+	try:
+		return frappe.get_last_doc(doctype)
+	except Exception:
+		return None
+
+
 def _options(settings) -> list[str]:
 	return settings.get_options_list(settings.get_options() or "")
 
@@ -91,7 +100,7 @@ def _row(settings, one: str) -> dict:
 	try:
 		following = parse_naming_series(
 			counter.series,
-			doc=settings._fetch_last_doc_if_available(),
+			doc=_last(settings.transaction_type),
 			number_generator=lambda _prefix, digits: str(current + 1).zfill(digits),
 		)
 	except Exception:
@@ -687,7 +696,7 @@ def preview_rule(
 	except frappe.ValidationError as e:
 		frappe.clear_messages()
 		return {"error": strip_html(str(e))}
-	last = _settings(doctype)._fetch_last_doc_if_available()
+	last = _last(doctype)
 	try:
 		parsed = parse_naming_series(prefix, doc=last)
 	except Exception:

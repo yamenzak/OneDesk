@@ -131,7 +131,7 @@ OVERRIDES = [
 	),
 	(
 		"Start Again is the workspace administrator's",
-		"ERPNext's Transaction Deletion Record asks for the System Manager, the operator's role, and fills the setup it keeps only when its form opens; one/start_again.py fills that list, adds a company's setup through company_data_to_be_ignored, and submits it as Administrator once the administrator is checked",
+		"ERPNext's Transaction Deletion Record asks for the System Manager, the operator's role; one/start_again.py adds a company's setup through company_data_to_be_ignored, and submits it as Administrator once the administrator is checked",
 		"onedesk/one/start_again.py",
 		"erpnext/erpnext/setup/doctype/transaction_deletion_record/transaction_deletion_record.py",
 		'frappe.only_for("System Manager")',
@@ -551,10 +551,10 @@ OVERRIDES = [
 	),
 	(
 		"Numbering runs Document Naming Settings' own methods, not through run_doc_method",
-		"numbering.py calls update_series (which validates and refuses a series another doctype uses), the last-document lookup the preview uses, and the Version log update_series_start writes, after its own guard",
+		"numbering.py calls update_series (which validates and refuses a series another doctype uses) and the Version log update_series_start writes, after its own guard; the last-document lookup the preview uses is its own, frappe.get_last_doc, rather than the settings' private method",
 		"onedesk/one/numbering.py",
 		"frappe/frappe/core/doctype/document_naming_settings/document_naming_settings.py",
-		"def _fetch_last_doc_if_available(self):",
+		"def update_series(self):",
 	),
 	(
 		"A record offers View Audit Trail only to whoever can read it",
@@ -586,10 +586,10 @@ OVERRIDES = [
 	),
 	(
 		"Help on One's desk is Ask OneAI",
-		"frappe's header Help lists the help links registered for the page, erpnext's to its documentation, then the site's help rows; outside.js overrides SidebarHeader.get_help_siblings to keep the site's rows and put Ask OneAI in place of the links",
+		"frappe's header Help lists the help links registered for the page, erpnext's to its documentation, then the site's help rows; outside.js overrides SidebarHeader.get_custom_help_links to give Ask OneAI in place of the links, and frappe's get_help_siblings keeps the site's rows",
 		"onedesk/public/js/outside.js",
 		"frappe/frappe/public/js/frappe/ui/sidebar/sidebar_header.js",
-		"get_help_siblings() {",
+		'{ group: "", options: this.get_custom_help_links() },',
 	),
 	(
 		"Search offers the pages and reports of One's desk",
@@ -767,13 +767,6 @@ OVERRIDES = [
 		'file_path = Path(frappe.get_app_path(app)).parent / "babel_extractors.csv"',
 	),
 	(
-		"A person in a link reads as their name to whoever may pick them",
-		"get_link_title is overridden (hooks override_whitelisted_methods): frappe's asks for read, so a Report View with a person the reader may only select in it raised Not permitted per person; ours gives the title for select or read and the name otherwise",
-		"onedesk/one/link_titles.py",
-		"frappe/frappe/desk/search.py",
-		"def get_link_title(doctype: str, docname: str | int):",
-	),
-	(
 		"The templates hrms and erpnext make on setup are told what they are for",
 		"mail_templates.settle sets reference_doctype on the templates the apps make with none, by the setting that names each or the name it is made with, so the composer offers them only on their record",
 		"onedesk/one/mail_templates.py",
@@ -858,18 +851,11 @@ OVERRIDES = [
 		"def to_symbol",
 	),
 	(
-		"Switch Theme offers palette x mode",
-		"frappe offers Light, Dark and Automatic; One offers its palettes, and system is a checkbox",
+		"Switch Theme offers Light and Dark, and following the system is a checkbox",
+		"frappe offers Light, Dark and Automatic as three cards; theme.js subclasses ThemeSwitcher, filters Automatic out of frappe's own list, and puts Follow my system under the two cards",
 		"onedesk/public/js/theme.js",
 		"frappe/frappe/public/js/frappe/ui/theme_switcher.js",
 		'size: "large"',
-	),
-	(
-		"The theme dialog is two columns",
-		"`.theme-grid` is a flex row sized for three cards; a palette is two",
-		"onedesk/public/css/desk.css",
-		"frappe/frappe/public/scss/desk/theme_switcher.scss",
-		".theme-grid {",
 	),
 	(
 		"The Employee band is not a notice",
@@ -1287,7 +1273,7 @@ OVERRIDES = [
 	(
 		"A vehicle log says how far, on how much",
 		"it carries the last and current odometer and not the distance between them, and hides the litres behind a collapsed section",
-		"onedesk/public/js/vehicle_log.js",
+		"onedesk/one_hr/heads.py",
 		"hrms/hrms/hr/doctype/vehicle_log/vehicle_log.json",
 		"last_odometer",
 	),
@@ -1371,7 +1357,7 @@ OVERRIDES = [
 	(
 		"A tax claim says what was claimed and what is allowed",
 		"both screens open on a tab carrying the department and the currency, and put the table and the two totals on the next one",
-		"onedesk/public/js/exemption.js",
+		"onedesk/one_hr/heads.py",
 		"hrms/hrms/payroll/doctype/employee_tax_exemption_declaration/employee_tax_exemption_declaration.json",
 		"total_exemption_amount",
 	),
@@ -1420,7 +1406,7 @@ OVERRIDES = [
 	(
 		"A payroll run says how many people and how much",
 		"the Overview tab carries the account and two checkboxes; the count is parked in the employee filter and the total is only in the slips",
-		"onedesk/public/js/payroll_entry.js",
+		"onedesk/one_hr/heads.py",
 		"hrms/hrms/payroll/doctype/payroll_entry/payroll_entry.json",
 		"number_of_employees",
 	),
@@ -1448,7 +1434,7 @@ OVERRIDES = [
 	(
 		"A payslip says what it pays, on the tab it opens on",
 		"the money is on the third and fourth tabs; the first carries the letter head and the designation",
-		"onedesk/public/js/salary_slip.js",
+		"onedesk/one_hr/heads.py",
 		"hrms/hrms/payroll/doctype/salary_slip/salary_slip.json",
 		"rounded_total",
 	),
@@ -1502,13 +1488,6 @@ OVERRIDES = [
 		"data.message[0].from_date",
 	),
 	(
-		"Total Leaves Allocated is read-only",
-		"it is computed on save from the new days plus what was carried forward, so typing in it is overwritten",
-		"onedesk/one_hr/custom/leave_allocation.json",
-		"hrms/hrms/hr/doctype/leave_allocation/leave_allocation.py",
-		"def set_total_leaves_allocated",
-	),
-	(
 		"The setup wizard's persona slide is replaced",
 		"its four required questions were read only by `capture_user_persona`",
 		"onedesk/public/js/setup_wizard.js",
@@ -1517,7 +1496,7 @@ OVERRIDES = [
 	),
 	(
 		"The daily job that reopens converted and lost deals is stopped",
-		"it sets status Open on any lead or opportunity with an Event today, whatever the status was",
+		"it sets status Open on a lead or opportunity with an Event today; ERPNext now spares converted and lost ones, but still moves a Replied or Interested lead and a Replied opportunity back to Open",
 		"onedesk/one_crm/stages.py",
 		"erpnext/erpnext/crm/utils.py",
 		"def open_leads_opportunities_based_on_todays_event",
@@ -1570,20 +1549,6 @@ OVERRIDES = [
 		"onedesk/one_crm/deal.py",
 		"erpnext/erpnext/crm/doctype/opportunity/opportunity.js",
 		'"base_opportunity_amount",',
-	),
-	(
-		"A next step's reminder goes to the record's owner",
-		"a Reminder takes its user from the session in validate, so the owner is written after insert",
-		"onedesk/one_crm/next.py",
-		"frappe/frappe/automation/doctype/reminder/reminder.py",
-		"self.user = frappe.session.user",
-	),
-	(
-		"Home counts the reader's own deals and leads",
-		"a shortcut's stats_filter is evaluated as a JavaScript expression, so it can name frappe.session.user",
-		"onedesk/one_crm/workspace/onecrm/onecrm.json",
-		"frappe/frappe/public/js/frappe/utils/utils.js",
-		"new Function(`return ${filter}`)()",
 	),
 	(
 		"A lead's and a deal's comment box is shown again",
@@ -1965,7 +1930,7 @@ OVERRIDES = [
 	),
 	(
 		"A customer's project page lets the customer in",
-		"theirs checks role permissions, which a website user never has, so it refused every customer; it also showed the team's assignees and let a customer add tasks. onedesk/www/projects.py is found first and sends its address to the app's project page, which reads one_project/portal.view",
+		"theirs shows the team's assignees and lets a customer add tasks, and a URL with a query string reaches it before any redirect. onedesk/www/projects.py is found first and sends its address to the app's project page, which reads one_project/portal.view",
 		"onedesk/www/projects.py",
 		"erpnext/erpnext/templates/pages/projects.py",
 		"project_doc.check_permission()",
@@ -2651,15 +2616,15 @@ OVERRIDES = [
 	),
 	(
 		"A report shows the employee's name once and no Company column",
-		"reports.js wraps QueryReport.prepare_columns to drop company and an employee_name beside an Employee link",
+		"reports.js wraps QueryReport.prepare_columns to hide company and an employee_name beside an Employee link; hidden rather than removed, since frappe reads a list-shaped row by position and drops hidden columns only when it draws",
 		"onedesk/public/js/reports.js",
 		"frappe/frappe/public/js/frappe/views/reports/query_report.js",
 		"prepare_columns(columns) {",
 	),
 	(
 		"The breadcrumbs follow the sidebar once it is drawn",
-		"panel_menu.js wraps Sidebar.make_sidebar to draw the current page's breadcrumbs again",
-		"onedesk/public/js/panel_menu.js",
+		"crumb_switch.js wraps Sidebar.make_sidebar to draw the current page's breadcrumbs again",
+		"onedesk/public/js/crumb_switch.js",
 		"frappe/frappe/public/js/frappe/ui/sidebar/sidebar.js",
 		"make_sidebar() {",
 	),
@@ -2733,17 +2698,228 @@ OVERRIDES = [
 		"frappe/frappe/templates/print_format/macros/Table.html",
 		"column.merged_fields",
 	),
+	(
+		"A notification's mail is One's mail",
+		"NotificationLog (hooks override_doctype_class) repeats frappe's after_insert, the realtime push and unseen mark, and mails through mail_log in place of send_notification_email; a change to frappe's after_insert has to be carried here",
+		"onedesk/one/notify.py",
+		"frappe/frappe/desk/doctype/notification_log/notification_log.py",
+		"send_notification_email(self)",
+	),
+	(
+		"Remind Me is told as One's Reminder",
+		"Reminder (hooks override_doctype_class) repeats frappe's send_reminder guard, marking it notified once, and tells through notify rather than writing an Alert, which neither pushes nor mails",
+		"onedesk/one/tell.py",
+		"frappe/frappe/automation/doctype/reminder/reminder.py",
+		'self.db_set("notified", 1, update_modified=False)',
+	),
 ]
+
+
+#: What we would ask upstream to change, by the row it would retire: each a small
+#: change worth proposing, after which our side of the row could go. Ours stays
+#: until theirs lands.
+ASKS = {
+	"An appointment's meeting is on its maker's calendar": (
+		'Appointment validate/on_update set and clear a flag that events.validate reads while Appointment.after_insert/on_update insert the Event; it works only because create_calendar_event runs inside that save. Propose upstream that create_calendar_event take the event type from Appointment Booking Settings (or default to Private), and drop booking/booked then.'
+	),
+	"A payment is titled by the party's name": (
+		'Payment Entry validate swaps title from party ID to party_name after set_title. Propose upstream PaymentEntry.set_title use `self.party_name or self.party` (payment_entry.py:1249); then paid.titled and its patch can go.'
+	),
+	"A work order takes its bill's steps however it is saved": (
+		"before_validate calls WorkOrder.set_work_order_operations, upstream's own public method, only when operations are empty. Propose upstream WorkOrder.validate do the same (fill operations from a with_operations BOM when the table is empty), so Data Import and API work orders get job cards."
+	),
+	'Workshop time has an account before anything is made': (
+		'The Inventory Check sets Company.default_operating_cost_account through the Company\'s own save. Propose adding "default_operating_cost_account": "Expenses Included In Valuation" to the default_accounts map in Company.set_default_accounts (company.py ~line 750), which would make the Fix unnecessary on new companies.'
+	),
+	"A quote priced on the portal keeps the request's project": (
+		'_quote reuses mapper.add_items then copies each RFQ row\'s project_name onto the quote row. Propose adding "project": rfq_row.get("project_name") to the args in mapper.create_rfq_items (request_for_quotation/mapper.py:140), then drop our loop.'
+	),
+	"A quote request on the portal is the app's page, and sending a quote works": (
+		'send_quote reproduces mapper.create_supplier_quotation (get_quotable_rfq, validate_existing_supplier_quotation, add_items, set_missing_values) with frappe.session.user switched to Administrator, and sets form_dict to call templates.pages.rfq.get_supplier. Propose upstream that create_supplier_quotation run set_missing_values with item reads permission-free for a verified portal user, so ours can call it and only add discounts.'
+	),
+	'Time logged for somebody without an account': (
+		"OneTimesheet subclasses HRMS's EmployeeTimesheet only to change set_user, which runs inside Timesheet.validate right before validate_overlap, so no doc_event can intervene. Propose upstream set_user fall back to owner only when there is no employee (timesheet.py:153-156); then remove the Timesheet entry from override_doctype_class."
+	),
+	'A task made from a template keeps its milestone, time and checklist': (
+		'Task before_insert copies is_milestone, expected_time and checklist from template_task. Propose adding is_milestone=task_details.is_milestone and expected_time=task_details.expected_time to Project.create_task_from_template (project.py:139-155); keep ours for one_steps.'
+	),
+	'A finished asset depreciates from the end of the month it was bought': (
+		"finish() blanks depreciation_start_date after set_missing_values so Asset.validate's get_last_day(available_for_use_date) default (asset.py:627) applies. Propose get_item_details' finance book rows use d.depreciation_start_date without `or nowdate()` (asset.py:1131); then the blanking goes."
+	),
+	'A maintenance task with an end date is due': (
+		"maintenance.next_due re-implements calculate_next_due_date because upstream blanks the date whenever an end date is set (`or next_due_date`, asset_maintenance.py:128). Propose changing that clause to `or (next_due_date and getdate(next_due_date) > getdate(end_date))` and computing next_due_date in AssetMaintenance.validate; then `due` can call upstream's function."
+	),
+	'A service moved past today is no longer late': (
+		'before_validate puts Overdue back to Planned when due_date is not past. Propose AssetMaintenanceLog.validate do the reverse itself (Overdue -> Planned when due_date >= today), a two-line change at asset_maintenance_log.py:45.'
+	),
+	"A line's size sets its quantity": (
+		"measure.unit copies get_item_details' default-unit rule and has drifted: ERPNext gives the stock unit to Request for Quotation lines and to non-Purchase Material Requests (get_item_details.py:596-603), ours gives the purchase unit. Propose upstream factor that rule into a public helper (doctype, item, material_request_type) and call it here; fix the drift meanwhile."
+	),
+	"One's print blocks are synced by One, not by frappe's module sync": (
+		'Propose adding ("printing", "print_format_field_template") to frappe/model/sync.py IMPORTABLE_DOCTYPES: erpnext ships buying/selling/accounts field templates the same way and nothing syncs them either. Until then print_blocks._sync_blocks (import_file_by_path in after_migrate) stays.'
+	),
+	"A workspace's approval keeps its state in a field One makes": (
+		"approvals._state_field re-creates the Custom Field that Workflow.create_custom_field_for_workflow_state makes (same dict) because frappe's uses .save() without ignore_permissions. Propose frappe insert that system Custom Field with ignore_permissions=True (it is a side effect of a permitted Workflow save); then _state_field can shrink to the fieldname/type check."
+	),
+	"A workspace's print format may not carry what frappe's renderer trusts": (
+		'printing.validate_format refuses stored `renderer`/`section`/_-prefixed keys because print_format_generator skips _prepare_field when "renderer" is in df and the Data macro prints a stored _value unescaped. Propose frappe strip render-time keys (renderer, section, _*) from format_data in PrintFormat.validate, which closes it for every writer; ours stays until then.'
+	),
+	"The builder's previews of an unsaved format are checked as its save would be": (
+		'Already a minimal wrap: runs _previewed (our save checks) then calls print_format_generator.render_builder_preview / download_builder_preview_pdf unchanged. Propose _builder_preview_generator call pf.run_method("validate") on the in-memory doc so doc_events validate checks apply to previews; both overrides then drop and validate_format does the job.'
+	),
+	"A letter head's picture kept in One's store becomes its markup": (
+		'_stored_images copies LetterHead.set_image_as_html\'s markup and then deletes frappe\'s failure msgprint from message_log by matching its translated text. Propose set_image_as_html decide image-ness from the File row (frappe.db.get_value("File", {"file_url": url}, "file_name")) when is_image(url) fails; then _stored_images drops.'
+	),
+	"OneAI tags a file with Frappe's own tags": (
+		'act._tag repeats DocTags.add/update_tags\' two writes (_user_tags column, Tag + Tag Link inserts) because update_tags calls doc.check_permission("write") as the OneAI user. Propose DocTags.add(dn, tag, ignore_permissions=False) passing through to update_tags; then _tag becomes DocTags(dt).add(name, tag, ignore_permissions=True) after our own check.'
+	),
+	"A form's timeline lists only the mail its reader may open": (
+		'Already the lightest wrap: getdoc/get_docinfo/get_communications each call frappe.desk.form.load\'s original and filter frappe.response docinfo communications through linking.visible. Propose load._get_communications drop rows failing frappe.has_permission("Communication", "read", row); then all three overrides drop and the has_permission hook of row 116 does the job.'
+	),
+	'Marks become sprite symbols': (
+		'scripts/icons.py writes a Custom Icon fixture with ids prefixed per mark because CustomIcon.to_symbol keeps ids as-is and one sprite shares them. Propose to_symbol prefix every id and url(#id) with icon_name; then unique_ids in our script drops.'
+	),
+	'erpnext and hrms mount on One': (
+		'companions.apply rewrites erpnext\'s and hrms\'s standard Dock row mount_on on every migrate because only the companion\'s app layer can declare a mount and their dock files do not. Propose a host-side hook in dock.mounted_apps (e.g. `dock_companions = ["erpnext", "hrms"]` in the host\'s hooks) so the mount is declared, not written into another app\'s standard row.'
+	),
+	'Telemetry bookkeeping is kept off the screen': (
+		'quiet.milestone strips "HR Telemetry Milestone" from message_log after hrms\'s _claim_milestone insert fails in a savepoint (the DuplicateEntryError msgprint survives the rollback). Propose _claim_milestone return False when frappe.db.exists(MILESTONE_DOCTYPE, {"event": event}) before inserting; then the two quiet.milestone hooks drop.'
+	),
+	'A moved interview tells interviewers in One and mails the applicant': (
+		"tell.Interview.reschedule_interview copies hrms's whole method (no-change check, db_set, notify_update) minus its sendmail. Propose hrms move the mail into an overridable method (e.g. self.notify_reschedule(original_date, original_from_time, original_to_time)) or behind an HR Settings switch; ours then overrides only that. Interview.after_insert/on_update only extend via super() and could be doc_events once the class is not needed."
+	),
+	"An employee's Create Assignments menu asks only of what the reader may read": (
+		'Ours copies hrms\'s masters dict and adds frappe.has_permission(doctype, "read") before get_list. Propose hrms add the same has_permission guard in employee_master.get_assignable_masters (one condition); then the override and MASTERS copy drop.'
+	),
+	'A rolled-back naming rule leaves the cache too': (
+		'naming._write registers frappe.db.after_rollback.add(_forget) to clear the Document Naming Rule doctype map. Propose DocumentNamingRule.clear_doctype_map also register itself on after_rollback (same for any doctype-map cache); ours drops then.'
+	),
+	"File reads a stored file's content from R2": (
+		'CloudFile.get_content/make_thumbnail/exists_on_disk branch on store.is_stored and otherwise call super(); only the stored-file branch is ours. Propose a `read_file` hook in File.get_content (and make_thumbnail/exists_on_disk) symmetric to write_file/delete_file_data_content; then these three overrides drop.'
+	),
+	'A stored file is decoded the way Frappe decodes one': (
+		'one_storage.file.decoded copies the 8-line decode loop of File.get_content (filetype.guess, OLE_FILE_SIGNATURE, FILE_ENCODING_OPTIONS). Propose frappe factor it into a module function (e.g. decode_file_bytes(content, encodings)) that get_content calls; ours then imports it.'
+	),
+	"A report's chart of one period is drawn as bars": (
+		"one_period_bars wraps get_chart_options and calls the original. Propose in frappe QueryReport.get_chart_options: when options.type is 'line' and data.labels.length === 1, draw 'bar' (frappe-charts draws nothing for a one-point line); the '<0' -> Not Yet Due relabel stays ours (erpnext wording)."
+	),
+	"A printed record keeps its app's sidebar": (
+		"desk.js OneSidebar subclass overrides entity_from_route/link_type_from_route and calls super for everything but print/<doctype>. Propose adding print: 'DocType' to frappe's ENTITY_VIEW_ROUTES in ui/sidebar/sidebar.js (today only query-report and dashboard-view), which gives both answers; then the print branch here can go."
+	),
+	"The Print Formats tab makes a format the default through One's door": (
+		"Replaces frappe.doctype_settings.set_property, calling the original for every property but default_print_format. Propose frappe's Print Formats tab set its default through frappe.printing.doctype.print_format.print_format.make_default (already whitelisted) instead of inserting a Property Setter from the client; then this wrap drops."
+	),
+	"The Print Formats tab's two reads of the current default are answered by One's door": (
+		"Patches the global frappe.db.get_value for the whole desk to answer the Print Formats tab's two reads (Property Setter / DocType default_print_format); calls the original otherwise. Propose the tab read the default from frappe.get_meta(doctype).default_print_format (meta already merges property setters) or one whitelisted method, which removes this global patch; same proposal as row 67."
+	),
+	"One's desk has no Manage Dock": (
+		"create_user_menu temporarily swaps the global frappe.ui.Dropdown for a subclass that filters 'workspace-selector' and inserts Theme; relies on frappe building exactly one Dropdown synchronously inside it, and fails silently otherwise. Propose frappe move the inline options into an overridable Sidebar.get_user_menu_items() (as SidebarHeader.menu_items already is); then this is a plain super-and-filter override."
+	),
+	'The email composer offers the templates of the record it is about, form or none': (
+		'Wraps CommunicationComposer.get_fields, calls the original and swaps the email_template get_query. Propose frappe use `me.frm?.doctype || me.doc?.doctype` in that get_query (communication.js ~l.563) and in get_email_template_names (~l.509), which ignore this.doc today; then the wrap drops (ours also only fixes the query, not get_email_template_names).'
+	),
+	'A pipeline column says what it is worth': (
+		"opportunity_list.js keeps a MutationObserver on document.body for the whole session and paints '.kn-column[data-col]' after '.kn-column-header'. kanban_v2 offers renderColumnHeader(column, el) but it replaces frappe's header (dot/title/count/add) entirely. Propose an additive hook (e.g. settings.after_column_header(column, el, page) called after the default header in kanban_core.renderColumnHeader); then paint there via doctype_kanban_js and drop the body observer."
+	),
+	'A repeating record says how often in its sidebar': (
+		'record.js wraps form Sidebar.show_auto_repeat_status, adding the missing <span> then calling the original. Propose frappe add <span></span> inside li.auto-repeat-status in form/templates/form_sidebar.html (l.167), or write el.html(...) in form_sidebar.js l.189; then the wrap drops.'
+	),
+	'A task with only a due date is a bar on the Gantt': (
+		"task_list.js wraps GanttView.prepare_tasks (calls the original, then start := end and drops tasks with neither). Propose frappe's prepare_tasks set `start: item[field_map.start] || item[field_map.end]` and filter out items with neither (it already does end := start); this also lets project_calendar.js drop its identical mapping. Same code as row 371."
+	),
+	"The Gantt's lit view mode is the one it is in": (
+		"frappe-gantt 1.2.1 defines view_is twice in class B (dist l.1646 and l.1668); the second reads options.view_mode.name off a string and wins. Ours overrides gantt.view_is on the instance before calling setup_view_mode_buttons. Propose frappe's setup_view_mode_buttons compare this.gantt.config.view_mode.name directly (and/or the duplicate removed in frappe-gantt); then both wraps (task_list.js, project_calendar.js) drop."
+	),
+	'The Projects and Tasks timelines light the mode they are in': (
+		"project_calendar.js and task_list.js each wrap GanttView.setup_view_mode_buttons to override gantt.view_is (calls the original). The view_is part is the frappe-gantt bug in row 264 (same upstream fix); the 'opens by the month, two months back' default for Project stays ours."
+	),
+	'A task with only a due date is a bar on the Tasks timeline': (
+		'Same wrap as row 263 (task_list.js:41-49, prepare_tasks calling the original); one upstream fix covers both rows.'
+	),
+	"A step of a new record is a dialog's form from the start": (
+		"onedesk.project.Step.setup_form copies frappe.ui.Slide.setup_form's body (slides.js l.89-102) to add is_dialog: true to its FieldGroup. Propose frappe's Slide pass `is_dialog: this.is_dialog` (or accept form options) when it makes the FieldGroup; then the override goes and nothing is copied."
+	),
+	"An opportunity's status is the colour of what it means": (
+		"Ours extends listview_settings and only swaps get_indicator for a self-contained colour map, so nothing of theirs is copied. Propose `states` (DocType State: Open blue, Replied orange, Quotation purple, Converted green, Lost/Closed gray) in erpnext's opportunity.json: frappe.get_indicator checks meta.states before listview get_indicator, so the colours become schema and our COLOUR map can go. Our app cannot ship this declaratively itself, because sync_customizations does not sync DocType State."
+	),
+	"A lead's status is the colour of what it means": (
+		"Same as row 1: propose `states` on erpnext's lead.json, since frappe.get_indicator reads meta.states ahead of get_indicator. Keep our COLOUR override (extends settings, copies nothing) until then."
+	),
+	'An Arabic page with a chart is as wide as the window': (
+		"The desk.css rule matches the inline `left: -9999px` string, so if frappe-ui changes how it serialises that style the RTL page silently grows wide again. Propose that frappe-ui measureText.ts set `style.insetInlineStart = '-9999px'` (or drop `left` and keep only `top: -9999px`), which is right-side in RTL and is exactly what our rule forces. Then drop the rule."
+	),
+	"The Bank Reconciliation Tool starts on the company's bank account": (
+		"The documented frappe.ui.form.on onload and refresh handlers are already minimal. Propose two things to erpnext's bank_reconciliation_tool.js: show the 'new Banking module' intro only when the banking app is installed (frappe.boot.versions.banking), and default bank_account to the company's default company Bank Account. Then bank.js can go."
+	),
+	"A number card's label and a chart's name are translated": (
+		"babel_extractors.csv is frappe's documented per-app hook (gettext/translate.py get_method_map), so ours is fine. Propose number_card and dashboard_chart extractors in frappe's own babel_extractors.csv, since frappe's standard cards and charts are shown through __() and are not extracted either. Our two lines can then go."
+	),
+	"The workflow builder hides frappe's mail settings and what a workspace approval may not do": (
+		"Hiding builder fields via data-fieldname depends on Properties.vue's markup. Propose a `.filter(df => !df.hidden)` in Properties.vue so it honours hidden. Then send_email_alert, send_email and next_action_email_template become hidden property setters on Workflow, Workflow Document State and Workflow Transition. Only the body[data-one-held] rules for transition_tasks and evaluate_as_expression would remain CSS."
+	),
+	'The icon sprite is kept out of flow, not hidden': (
+		"Propose that frappe's desk.html, base.html and desk.js hide #all-symbols and the injected <svg> as zero-size absolute rather than display:none, so `url(#gradient)` in symbols resolves in Chromium. Then our 6-line rule can go."
+	),
+	"An Overtime Slip's dates come from the frequency or the calendar month": (
+		"Ours wins only because frappe sets frm.events[event] to the last handler registered, and hrms calls frm.events.set_frequency_and_dates directly. If hrms switches to frm.trigger, theirs runs too and throws. Propose that hrms's OvertimeSlip.get_frequency_and_dates fall back to the calendar month when there is no salary structure, and fix its message to use `date` not self.start_date. Then our override can go (the Read Attendance button stays ours)."
+	),
+	'The timesheet timer is ours': (
+		"Ours removes their Start/Resume Timer by label and draws its own timer, so a renamed label would show both. Propose that erpnext's timesheet.js resume only a row with from_time and no to_time, and that Complete not overwrite an existing to_time. Keep ours until then."
+	),
+	'The timer stamps one clock': (
+		"Propose that erpnext's public/js/projects/timer.js stamp with frappe.datetime.now_datetime() (site tz) instead of get_datetime_as_string() (browser tz), matching what it measures against. Together with row 143 this would let timesheet.js's timer go."
+	),
+	'A tax report opens on a period rather than a red box': (
+		"Propose that hrms's income_tax_computation.js and accrued_earnings_report.js default payroll_period to the period containing today (one get_value on Payroll Period). Then 'Payroll Period' can leave PERIODS in reports.js, and with row 182 the whole the_period wrapper of QueryReport.setup_filters could go."
+	),
+	'The leave panel opens with its dates filled': (
+		"Ours is documented refresh, dates_based_on and leave_period handlers. Propose that hrms's set_leave_details set from_date/to_date from the leave period it just fetched instead of today/null, since add_fetch only fires on a change. Then onedesk.leave_panel.dates can go."
+	),
+	"The leave panel's employee picker has no Company column": (
+		"Ours copies hrms's get_employees_datatable_columns whole, minus Company, and wins by being the last handler in frm.events. Any column hrms adds or reshapes is silently lost. Propose that hrms leave out the Company column (the form already filters by company), or build its columns from a list apps can filter. Then delete our copy."
+	),
+	"A lead's and a deal's comment box is shown again": (
+		'`display:block !important` beats an inline style from erpnext\'s crm_activities.js, whose `$(".comment-box").hide()` is unscoped and hides every comment box in the DOM. Propose dropping that line, or scoping it to this.form_wrapper. Then our rule goes.'
+	),
+	'A new lead or deal with one series does not show it': (
+		'Propose that erpnext.toggle_naming_series in public/js/utils.js stay hidden when the field has a single option or is hidden by a property setter. Then crm_record.one_series and its two callers can go.'
+	),
+	'Search, Check In, OneIntake, Timers and Notifications sit in a bar across the top of the shell': (
+		'Ours restates 100dvh for four frappe shell boxes (main.scss, dock.scss, sidebar, sidebar-panel). Propose that frappe use one `height: var(--desk-height, 100dvh)` in those rules. Then the bar sets --desk-height once instead of re-declaring each selector.'
+	),
+	"A panel the rail opens shows on a page without frappe's sidebar": (
+		'The rule keys on the inline `style*="display: none"` frappe sets on .body-sidebar-container. Propose that frappe hide .body-sidebar rather than its container on pages without a sidebar, or mount sidebar_panel.js panels outside it (MOUNT_SELECTOR). Then our two rules go.'
+	),
+	'An item with stock keeps Batches and Serial Numbers locked': (
+		"Ours adds a second toggle_has_serial_batch_fields handler that re-locks the fields. Propose that erpnext's item.js call `frm.toggle_enable([...], !hide_fields && !frm.doc.__onload?.stock_exists)`, a one-line fix since the server already refuses the change. Then item_form.js can go."
+	),
+	'The Task tree leaves templates out and names a task once': (
+		"task_tree.js only extends treeview_settings, but one_task.views.children re-implements erpnext's task.get_children to add NOT_A_TEMPLATE and status. Propose that erpnext's get_children filter out is_template tasks and return status. Then ours keeps only get_label."
+	),
+	'The Gantt scrolls, and opens on today': (
+		"Ours out-specifies frappe's list.scss `display: table` for a .result that holds a Gantt. Propose that frappe exclude the Gantt (e.g. `.result:not(:has(> .gantt-container))`, or a class from gantt_view.js) from that rule. Then ours goes."
+	),
+	'The exchange rate is said with the rate in it': (
+		"Wraps three erpnext.TransactionController prototype methods. A subclass that overrides change_form_labels would bypass it. Propose that erpnext's transaction.js write the actual rate in the conversion_rate and plc_conversion_rate description (and refresh it on change) instead of '[?]'. Then the first half of rate_note.js goes."
+	),
+	"A document in the company's currency says its taxes once": (
+		"Propose that erpnext's change_form_labels skip the base_ tax fields in its taxes_fields loop when doc.currency == company_currency. That loop re-shows the fields the earlier toggle hid, which is a one-condition bug fix. Then the second wrapper in rate_note.js goes."
+	),
+}
 
 
 def missing() -> list[str]:
 	gone = []
-	for what, _why, _ours, where, line in OVERRIDES:
+	for what, _why, ours, where, line in OVERRIDES:
 		path = BENCH / where
+		# Our side too: a row naming a file we no longer have guards nothing.
+		if not (tree.ROOT / ours).exists():
+			gone.append(f"{what}: our {ours} is gone")
 		if not path.exists():
 			gone.append(f"{what}: {where} is not in the checkout")
 		elif line not in path.read_text():
 			gone.append(f"{what}: {where} no longer contains {line!r}")
+	gone += [f"an ask names no row: {what}" for what in ASKS if what not in {one[0] for one in OVERRIDES}]
 	return gone
 
 
@@ -2759,6 +2935,14 @@ def page() -> str:
 	for what, why, ours, where, line in OVERRIDES:
 		out.append(f"| {what} | {why} | `{ours}` | `{where}` | `{line}` |\n")
 	out.append(f"\n{len(OVERRIDES)} overrides.\n")
+	out.append(
+		"\n## What we would ask upstream\n\nA small change in frappe, erpnext or hrms after which our side"
+		" of the row could go. Ours stays until theirs lands.\n\n| Row | Upstream | Ask |\n|---|---|---|\n"
+	)
+	where = {one[0]: one[3] for one in OVERRIDES}
+	for what, ask in sorted(ASKS.items(), key=lambda one: (where[one[0]], one[0])):
+		out.append(f"| {what} | `{where[what]}` | {ask} |\n")
+	out.append(f"\n{len(ASKS)} asks.\n")
 	return "".join(out)
 
 

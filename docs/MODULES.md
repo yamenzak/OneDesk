@@ -243,7 +243,6 @@ No doctypes yet.
 * `onedesk.one.home.tasks_due`
 * `onedesk.one.invite.accept`
 * `onedesk.one.letter_heads.presets`
-* `onedesk.one.link_titles.get_link_title`
 * `onedesk.one.mail_templates.default`
 * `onedesk.one.mail_templates.get_email_template`
 * `onedesk.one.mail_templates.set_default`

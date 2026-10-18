@@ -46,12 +46,9 @@ LINES = (
 	"Asset Capitalization Service Item",
 )
 
-#: Records whose new lines ERPNext gives the item's buying unit, as its
-#: get_item_details does. Selling records take the selling unit, the rest the
-#: stock unit.
+#: Records whose new lines get the buying unit, as get_item_details gives it:
+#: these and a material request to buy. Selling ones take the selling unit.
 BUYING = {
-	"Material Request",
-	"Request for Quotation",
 	"Supplier Quotation",
 	"Purchase Order",
 	"Purchase Receipt",
@@ -131,11 +128,16 @@ def factor(item_code: str, measured_by: str, uom: str) -> float:
 	)
 
 
-def unit(row, parent: str) -> str:
-	"""The unit a line counts in: its own, or the one ERPNext will give it."""
+def unit(row, parent) -> str:
+	"""The unit a line counts in: its own, or the one ERPNext will give it.
+	`parent` is the record, or its doctype."""
 	if row.get("uom"):
 		return row.uom
-	field = "purchase_uom" if parent in BUYING else "sales_uom" if parent in SELLING else None
+	doctype = parent if isinstance(parent, str) else parent.doctype
+	buying = doctype in BUYING or (
+		doctype == "Material Request" and not isinstance(parent, str) and parent.get("material_request_type") == "Purchase"
+	)
+	field = "purchase_uom" if buying else "sales_uom" if doctype in SELLING else None
 	said = frappe.db.get_value("Item", row.item_code, [field or "stock_uom", "stock_uom"])
 	return said[0] or said[1] if field else said[0]
 
@@ -147,7 +149,7 @@ def size(measured_by: str, pieces, length, width) -> str:
 	return " × ".join(([str(pieces)] if pieces > 1 else []) + parts) + " mm"
 
 
-def quantity(row, parent: str) -> float | None:
+def quantity(row, parent) -> float | None:
 	"""A line's quantity from its size, or None when it has none."""
 	measured_by = row.get("one_measured_by")
 	if measured_by not in BASE or not flt(row.get("one_length")):
@@ -175,7 +177,7 @@ def sized(doc, method=None) -> None:
 				continue
 			if row.get("one_measured_by") not in BASE:
 				row.one_measured_by = frappe.db.get_value("Item", row.item_code, "one_measured_by")
-			qty = quantity(row, doc.doctype)
+			qty = quantity(row, doc)
 			if qty is None:
 				row.one_size = None
 				continue

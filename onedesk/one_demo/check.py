@@ -4933,7 +4933,9 @@ def a_form_is_customized_and_a_record_head_acts():
 	as the form has it. A link to a project reads as its title for Samir
 	and as its name for somebody who may not open it. The automation step
 	editor lists what a flow may do."""
-	from onedesk.one import automations, customize, head, link_titles
+	from frappe.desk.search import get_link_title
+
+	from onedesk.one import automations, customize, head
 
 	with as_user(OWNER):
 		opened = customize.load("Opportunity")
@@ -4960,10 +4962,11 @@ def a_form_is_customized_and_a_record_head_acts():
 		record = frappe.get_last_doc(kind)
 		assert head.preview(frappe.copy_doc(record).as_dict()) is not None, kind
 	title = frappe.db.get_value("Project", VILLA, "project_name")
+	# frappe's own: the title to whoever may select or read, else the name.
 	with as_user("samir@one.test"):
-		assert link_titles.get_link_title("Project", VILLA) == title
+		assert get_link_title("Project", VILLA) == title
 	frappe.set_user("Guest")
-	assert link_titles.get_link_title("Project", VILLA) == VILLA
+	assert get_link_title("Project", VILLA) == VILLA
 
 
 @check

@@ -89,12 +89,15 @@ onedesk.reports.one_name = () => {
 	const theirs = QueryReport.prototype.prepare_columns;
 	QueryReport.prototype.prepare_columns = function (columns) {
 		const ready = theirs.call(this, columns);
+		// Hidden rather than removed: frappe reads a list-shaped row, such as the
+		// totals row, by position, and drops hidden columns when it draws.
 		// The same company on every row, for the same reason the filter above it
 		// is swept: there is only one.
-		const kept = ready.filter((c) => c.fieldname !== "company");
-		const linked = kept.some((c) => c.fieldtype === "Link" && c.options === "Employee");
-		if (!linked) return kept;
-		return kept.filter((c) => c.fieldname !== "employee_name");
+		const linked = ready.some((c) => c.fieldtype === "Link" && c.options === "Employee");
+		for (const c of ready) {
+			if (c.fieldname === "company" || (linked && c.fieldname === "employee_name")) c.hidden = 1;
+		}
+		return ready;
 	};
 };
 

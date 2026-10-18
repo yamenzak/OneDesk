@@ -295,7 +295,7 @@ def fix(key: str, **values) -> None:
 	frappe.only_for(FIXERS)
 	one = company()
 	if key == "serials":
-		frappe.db.set_single_value("Stock Settings", "enable_serial_and_batch_no_for_item", 1)
+		_settle(enable_serial_and_batch_no_for_item=1)
 	elif key == "home":
 		names = frappe.get_all("Warehouse", filters={"company": one.name, "is_group": 0, "disabled": 0}, order_by="lft asc", pluck="name")
 		if not names:

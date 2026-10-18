@@ -76,7 +76,7 @@ def test_help_mail_and_search_are_ones():
 	mail list and Inbox view open OneMail, and search offers One's pages and
 	reports."""
 	js = (tree.APP / "public" / "js" / "outside.js").read_text()
-	assert "get_help_siblings()" in js and '__("Ask OneAI")' in js
+	assert "get_custom_help_links()" in js and '__("Ask OneAI")' in js
 	assert "new frappe.ui.ThemeSwitcher().show()" in js and '["edit-sidebar", "all-apps"]' in js
 	assert 'return !name || name === "view" ? ["onemail"] : null;' in js
 	assert "utils.get_pages = function" in js and "utils.get_reports = function" in js

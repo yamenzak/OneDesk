@@ -938,9 +938,6 @@ override_whitelisted_methods = {
 	# A template picked in OneMail's composer, which has no form behind it, is filled
 	# in from the record read here. See one/mail_templates.py.
 	"frappe.email.doctype.email_template.email_template.get_email_template": "onedesk.one.mail_templates.get_email_template",
-	# A person in a link reads as their name to whoever may pick them, not
-	# only to whoever may read their User. See one/link_titles.py.
-	"frappe.desk.search.get_link_title": "onedesk.one.link_titles.get_link_title",
 	# An employee's Create Assignments menu asks only of what the reader may read.
 	# See one_hr/employee.py.
 	"hrms.overrides.employee_master.get_assignable_masters": "onedesk.one_hr.employee.get_assignable_masters",
