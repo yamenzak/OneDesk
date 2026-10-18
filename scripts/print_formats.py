@@ -1860,6 +1860,1012 @@ def bill_of_materials():
 	return layout(_numbered((("Bill of Materials", ""),), "BOM No"), make, materials, steps, costs)
 
 
+# -- The rest, drawn from a few parts ------------------------------------------
+
+NUMERIC = ("Float", "Int", "Currency", "Percent")
+DATED = ("Date", "Datetime")
+
+
+def _r(fieldname, fieldtype, label, **kw):
+	"""A ruled row, dated the One way when it's a date."""
+	if fieldtype in DATED:
+		kw.setdefault("date_format", DATE)
+	return row(fieldname, fieldtype, label, **kw)
+
+
+def _c(fieldname, fieldtype, label, width, *merged, **kw):
+	"""A table column, numbers to the right, dates the One way, and the
+	fields merged under it small and muted."""
+	col = {"fieldname": fieldname, "fieldtype": fieldtype, "label": label, "width": width, **kw}
+	if fieldtype in NUMERIC:
+		col.setdefault("align", "right")
+	if fieldtype in DATED:
+		col.setdefault("date_format", DATE)
+	if merged:
+		col["merged_fields"] = [{"fieldname": f, "fieldtype": t, "label": words, "style": "muted-sm"} for f, t, words in merged]
+	return col
+
+
+def _pair(left, right, top=26, **kw):
+	return section(left, right, widths=[55, 45], gap=48, top=top, field_orientation="left-right", **kw)
+
+
+def _head(words, name, *rest, size=13):
+	"""A heading over a name and the lines under it, each line shown only
+	when it says something."""
+	return [heading(words), field(name, "Data", words, show_label="hide", bold=1, font_size=size), *rest]
+
+
+def _line(fieldname, fieldtype, label, **kw):
+	return field(fieldname, fieldtype, label, hide_colon=1, custom_style="margin-top:4px;" + kw.pop("custom_style", ""), **kw)
+
+
+def _muted(fieldname, fieldtype="Small Text", label="Description"):
+	return field(fieldname, fieldtype, label, show_label="hide", custom_style=ADDRESS)
+
+
+def _list(fieldname, words, columns, top=22, **kw):
+	"""A heading over a table, both only when it has rows."""
+	return section([heading(words), table(fieldname, words, columns, table_cell_padding=6)], top=top, visible_if=f"doc.{fieldname}", **kw)
+
+
+def _lines(fieldname, words, columns, top=28):
+	return section([table(fieldname, words, columns)], top=top, visible_if=f"doc.{fieldname}")
+
+
+def _note(fieldname, words, fieldtype="Small Text"):
+	return section([heading(words), field(fieldname, fieldtype, words, show_label="hide", custom_style="line-height:1.55;")],
+		top=18, visible_if=f"doc.{fieldname}")
+
+
+def _total(fieldname, label):
+	return row(fieldname, "Currency", label, bold=1, label_color=INK, font_size=15, custom_style=f"border-bottom:2px solid {INK};padding:8px 0;")
+
+
+def _sums(*rows, left=()):
+	return section(list(left), list(rows), widths=[52, 48], gap=48, top=14, keep_together=1, field_orientation="left-right")
+
+
+def _paper(words, number, *body, signs=None, trn=False):
+	"""A title and its number, the body, and the people to sign."""
+	if isinstance(words, str):
+		words = ((words, ""),)
+	details = [_company_trn(align="right", custom_style="margin-top:4px;")] if trn else ()
+	found = [_numbered(words, number, details=details), *body]
+	if signs:
+		found.append(signs_section(signs))
+	return layout(*found)
+
+
+PREPARED = (("Prepared By", None), ("Approved By", None))
+
+
+def asset():
+	"""An asset's card: what it is and where, who keeps it, what it cost and
+	is worth now, how it's written down, and its insurance."""
+	return _paper("Asset Card", "Asset No",
+		_pair(
+			[*_head("Asset", "asset_name", size=15), field("item_code", "Link", "Item Code", show_label="hide", custom_style=f"color:{MUTED};"),
+				_line("asset_category", "Link", "Category"), _line("location", "Link", "Kept At"), _line("custodian", "Link", "Kept By"),
+				_line("department", "Link", "Department"), field("image", "Attach Image", "Image", show_label="hide", custom_style="margin-top:10px;max-width:160px;")],
+			[_r("purchase_date", "Date", "Bought On"), _r("available_for_use_date", "Date", "In Use From"), _r("asset_quantity", "Int", "Quantity"),
+				_r("net_purchase_amount", "Currency", "Bought For"), _r("additional_asset_cost", "Currency", "Added Since"),
+				_r("total_asset_cost", "Currency", "Total Cost", bold=1), _r("value_after_depreciation", "Currency", "Worth Now", bold=1),
+				_r("status", "Data", "Status"), _r("disposal_date", "Date", "Disposed On")],
+		),
+		_list("finance_books", "Written Down", [
+			_c("depreciation_method", "Data", "Method", 28), _c("total_number_of_depreciations", "Int", "Times", 14),
+			_c("frequency_of_depreciation", "Int", "Every (Months)", 18), _c("depreciation_start_date", "Date", "From", 18),
+			_c("expected_value_after_useful_life", "Currency", "Worth at the End", 22)]),
+		_pair([heading("Insurance", visible_if="doc.insurer"), field("insurer", "Data", "Insurer", show_label="hide", bold=1),
+				_line("policy_number", "Data", "Policy No")],
+			[_r("insured_value", "Data", "Insured For"), _r("insurance_start_date", "Date", "From"), _r("insurance_end_date", "Date", "Until")],
+			top=22, visible_if="doc.insurer or doc.policy_number"),
+		_note("purchase_invoice", "Bought On Invoice", "Link"),
+	)
+
+
+def asset_capitalization():
+	"""Stock, assets and services put together into one asset: what it makes,
+	each part with its value, and what it all comes to."""
+	return _paper("Asset Capitalization", "Capitalization No",
+		_pair(_head("Makes", "target_asset_name", field("target_item_code", "Link", "Item Code", show_label="hide", custom_style=f"color:{MUTED};")),
+			[_r("posting_date", "Date", "Date"), _r("target_asset", "Link", "Asset"), _project()]),
+		_list("stock_items", "Stock Used", [
+			_c("item_name", "Data", "Item", 40, ("item_code", "Link", "Item Code"), ("batch_no", "Link", "Batch")),
+			_c("warehouse", "Link", "From", 20), _qty(fieldname="stock_qty", unit="stock_uom", width=12),
+			_c("valuation_rate", "Currency", "Rate", 13), _c("amount", "Currency", "Amount", 15)], top=24),
+		_list("asset_items", "Assets Used", [
+			_c("asset_name", "Data", "Asset", 60, ("asset", "Link", "Asset No")), _c("asset_value", "Currency", "Value", 40)]),
+		_list("service_items", "Services", [
+			_c("item_name", "Data", "Service", 48, ("item_code", "Link", "Item Code")), _qty(width=14),
+			_c("rate", "Currency", "Rate", 18), _c("amount", "Currency", "Amount", 20)]),
+		_sums(_r("stock_items_total", "Currency", "Stock", visible_if="doc.stock_items_total"),
+			_r("asset_items_total", "Currency", "Assets", visible_if="doc.asset_items_total"),
+			_r("service_items_total", "Currency", "Services", visible_if="doc.service_items_total"),
+			_total("total_value", "Total")),
+		signs=PREPARED,
+	)
+
+
+def asset_maintenance_log():
+	"""A maintenance job on an asset: which, what was due and when, what was
+	done and by whom, and both to sign."""
+	return _paper("Maintenance Record", "Record No",
+		_pair([heading("Asset"), field("item_name", "Data", "Item", show_label="hide", bold=1, font_size=13),
+				field("asset_name", "Data", "Asset", show_label="hide", custom_style=f"color:{MUTED};")],
+			[_r("task_name", "Data", "Task"), _r("maintenance_type", "Data", "Type"), _r("periodicity", "Data", "How Often"),
+				_r("due_date", "Date", "Due"), _r("completion_date", "Date", "Done On"), _r("maintenance_status", "Data", "Status", bold=1),
+				_r("assign_to_name", "Data", "Done By")]),
+		_note("description", "What's Asked", "Text Editor"),
+		_note("actions_performed", "What Was Done", "Text Editor"),
+		signs=(("Done By", "assign_to_name"), ("Checked By", None)),
+	)
+
+
+def asset_repair():
+	"""A repair: what failed and when, what was done and how long it was
+	down, the parts used and the bills, what it all cost, and both to sign."""
+	return _paper("Repair Record", "Repair No",
+		_pair(_head("Asset", "asset_name", field("asset", "Link", "Asset No", show_label="hide", custom_style=f"color:{MUTED};")),
+			[_r("failure_date", "Datetime", "Failed On"), _r("completion_date", "Datetime", "Fixed On"), _r("downtime", "Data", "Down For"),
+				_r("repair_status", "Data", "Status", bold=1), _project()]),
+		_note("description", "What Failed", "Long Text"),
+		_note("actions_performed", "What Was Done", "Long Text"),
+		_list("stock_items", "Parts Used", [
+			_c("item_code", "Link", "Part", 36), _c("warehouse", "Link", "From", 22), _c("consumed_quantity", "Data", "Qty", 12, align="right"),
+			_c("valuation_rate", "Currency", "Rate", 14), _c("total_value", "Currency", "Amount", 16)]),
+		_list("invoices", "Bills", [_c("purchase_invoice", "Link", "Invoice", 60), _c("repair_cost", "Currency", "Amount", 40)]),
+		_sums(_r("repair_cost", "Currency", "Repair", visible_if="doc.repair_cost"),
+			_r("consumed_items_cost", "Currency", "Parts", visible_if="doc.consumed_items_cost"),
+			_total("total_repair_cost", "Total")),
+		signs=(("Repaired By", None), ("Accepted By", None)),
+	)
+
+
+def asset_shift_allocation():
+	"""An asset written down by the shifts it works: each date, the shift
+	and the amount."""
+	return _paper("Shift Depreciation", "Allocation No",
+		_pair([heading("Asset"), field("asset", "Link", "Asset", show_label="hide", bold=1, font_size=13)], [_r("finance_book", "Link", "Finance Book")]),
+		_lines("depreciation_schedule", "Schedule", [
+			_c("schedule_date", "Date", "Date", 22), _c("shift", "Link", "Shift", 22), _c("depreciation_amount", "Currency", "Written Down", 28),
+			_c("accumulated_depreciation_amount", "Currency", "So Far", 28)]),
+	)
+
+
+def asset_value_adjustment():
+	"""An asset's value changed: from what to what, the difference and where
+	it's booked, and who approved it."""
+	return _paper("Asset Value Adjustment", "Adjustment No",
+		_pair([heading("Asset"), field("asset", "Link", "Asset", show_label="hide", bold=1, font_size=13), _line("asset_category", "Link", "Category")],
+			[_r("date", "Date", "Date"), _r("current_asset_value", "Currency", "Was Worth"), _r("new_asset_value", "Currency", "Now Worth", bold=1),
+				_r("difference_amount", "Currency", "Difference"), _r("difference_account", "Link", "Booked To"), _r("journal_entry", "Link", "Journal Entry")]),
+		signs=PREPARED,
+	)
+
+
+def bom_creator():
+	"""A product's whole tree of parts drafted at once: what it makes, each
+	part with what it goes into, and what the materials cost."""
+	return _paper("BOM Draft", "Draft No",
+		_pair(_head("Makes", "item_name", field("item_code", "Link", "Item Code", show_label="hide", custom_style=f"color:{MUTED};"), size=15),
+			[_r("qty", "Float", "Quantity", bold=1), _r("uom", "Link", "Unit"), _project(), _r("status", "Data", "Status")]),
+		_lines("items", "Parts", [
+			_c("item_name", "Data", "Part", 34, ("item_code", "Link", "Item Code")), _c("fg_item", "Link", "Goes Into", 22),
+			_qty(width=14), _c("rate", "Currency", "Rate", 14), _c("amount", "Currency", "Amount", 16)]),
+		_sums(_total("raw_material_cost", "Materials")),
+		_note("remarks", "Notes", "Text Editor"),
+	)
+
+
+def bank_transaction():
+	"""A line off the bank statement: when, in or out, from or to whom, and
+	what it was matched to."""
+	return _paper("Bank Transaction", "Transaction No",
+		_pair([heading("Account"), field("bank_account", "Link", "Account", show_label="hide", bold=1, font_size=13),
+				_muted("description"), _line("bank_party_name", "Data", "From or To"), _line("bank_party_iban", "Data", "Their IBAN")],
+			[_r("date", "Date", "Date"), _r("deposit", "Currency", "In", bold=1, visible_if="doc.deposit"),
+				_r("withdrawal", "Currency", "Out", bold=1, visible_if="doc.withdrawal"), _r("reference_number", "Small Text", "Reference"),
+				_r("party", "Dynamic Link", "Party"), _r("status", "Data", "Status")]),
+		_list("payment_entries", "Matched To", [
+			_c("payment_document", "Link", "Document", 26), _c("payment_entry", "Dynamic Link", "Number", 30),
+			_c("clearance_date", "Date", "Cleared On", 20), _c("allocated_amount", "Currency", "Amount", 24)], top=24),
+		_sums(_r("allocated_amount", "Currency", "Matched"), _r("unallocated_amount", "Currency", "Not Matched", bold=1, visible_if="doc.unallocated_amount")),
+	)
+
+
+def budget():
+	"""A budget: for what, which account, the years it covers, how much, and
+	how it's spread."""
+	return _paper("Budget", "Budget No",
+		_pair([heading("For"), field("cost_center", "Link", "Cost Center", show_label="hide", bold=1, font_size=13),
+				field("project", "Link", "Project", show_label="hide", bold=1, font_size=13), _line("account", "Link", "Account")],
+			[_r("from_fiscal_year", "Link", "From Year"), _r("to_fiscal_year", "Link", "To Year"), _r("budget_start_date", "Date", "Starts"),
+				_r("budget_end_date", "Date", "Ends"), _r("distribution_frequency", "Data", "Spread"), _total("budget_amount", "Budget")]),
+		_list("budget_distribution", "Spread", [
+			_c("start_date", "Date", "From", 25), _c("end_date", "Date", "To", 25), _c("percent", "Percent", "Share", 20), _c("amount", "Currency", "Amount", 30)], top=24),
+		signs=PREPARED,
+	)
+
+
+def cost_center_allocation():
+	"""A cost center's costs shared out: from when, and each share."""
+	return _paper("Cost Allocation", "Allocation No",
+		_pair([heading("Shared From"), field("main_cost_center", "Link", "Cost Center", show_label="hide", bold=1, font_size=13)],
+			[_r("valid_from", "Date", "From")]),
+		_lines("allocation_percentages", "Shares", [_c("cost_center", "Link", "To", 70), _c("percentage", "Percent", "Share", 30)]),
+		signs=PREPARED,
+	)
+
+
+def exchange_rate_revaluation():
+	"""Foreign balances valued again: each account at the old rate and the
+	new, the gain or loss, and the total."""
+	return _paper("Exchange Rate Revaluation", "Revaluation No",
+		_pair([], [_r("posting_date", "Date", "Date")], top=18),
+		_lines("accounts", "Accounts", [
+			_c("account", "Link", "Account", 28, ("party", "Dynamic Link", "Party")), _c("account_currency", "Link", "Currency", 10),
+			_c("balance_in_account_currency", "Currency", "Balance", 16), _c("current_exchange_rate", "Float", "Old Rate", 12),
+			_c("new_exchange_rate", "Float", "New Rate", 12), _c("gain_loss", "Currency", "Gain or Loss", 22)], top=22),
+		_sums(_r("gain_loss_booked", "Currency", "Booked", visible_if="doc.gain_loss_booked"),
+			_r("gain_loss_unbooked", "Currency", "Not Booked", visible_if="doc.gain_loss_unbooked"), _total("total_gain_loss", "Total")),
+		signs=PREPARED,
+	)
+
+
+def invoice_discounting():
+	"""Invoices sold to a bank for cash now: the loan, each invoice, and the
+	charges."""
+	return _paper("Invoice Discounting", "Discounting No",
+		_pair([heading("Bank"), field("bank_account", "Link", "Bank Account", show_label="hide", bold=1, font_size=13),
+				_line("short_term_loan", "Link", "Loan Account")],
+			[_r("posting_date", "Date", "Date"), _r("loan_start_date", "Date", "Loan From"), _r("loan_period", "Int", "Days"),
+				_r("loan_end_date", "Date", "Loan Until"), _r("status", "Data", "Status")]),
+		_lines("invoices", "Invoices", [
+			_c("sales_invoice", "Link", "Invoice", 26), _c("customer", "Link", "Customer", 32), _c("posting_date", "Date", "Date", 18),
+			_c("outstanding_amount", "Currency", "Owed", 24)]),
+		_sums(_total("total_amount", "Total"), _r("bank_charges", "Currency", "Bank Charges", visible_if="doc.bank_charges")),
+		signs=(("Authorised Signatory", None), ("For the Bank", None)),
+	)
+
+
+def item_standard_cost():
+	"""An item's standard cost from a date."""
+	return _paper("Standard Cost", "Cost No",
+		_pair([heading("Item"), field("item_code", "Link", "Item", show_label="hide", bold=1, font_size=13)],
+			[_r("effective_date", "Date", "From"), _total("standard_rate", "Standard Cost"), _r("revaluation_entry", "Link", "Revaluation")]),
+		signs=PREPARED,
+	)
+
+
+def landed_cost_voucher():
+	"""What it cost to land goods, shared over them: the receipts, the
+	charges, and each item with its share."""
+	return _paper("Landed Cost", "Voucher No",
+		_pair([], [_r("posting_date", "Date", "Date"), _r("distribute_charges_based_on", "Data", "Shared By")], top=18),
+		_list("purchase_receipts", "Receipts", [
+			_c("receipt_document", "Dynamic Link", "Receipt", 28, ("receipt_document_type", "Data", "Document")), _c("supplier", "Link", "Supplier", 32),
+			_c("posting_date", "Date", "Date", 18), _c("grand_total", "Currency", "Total", 22)]),
+		_list("taxes", "Charges", [_c("description", "Small Text", "Charge", 46), _c("expense_account", "Link", "Account", 30), _c("amount", "Currency", "Amount", 24)]),
+		_list("items", "Shared Over", [
+			_c("item_code", "Link", "Item", 36, ("description", "Text Editor", "Description")), _c("receipt_document", "Dynamic Link", "Receipt", 18),
+			_c("qty", "Float", "Qty", 10), _c("amount", "Currency", "Amount", 16), _c("applicable_charges", "Currency", "Charges Added", 20)]),
+		_sums(_total("total_taxes_and_charges", "Total Charges")),
+		signs=PREPARED,
+	)
+
+
+def period_closing_voucher():
+	"""A year closed: which, the dates, and where the profit went."""
+	return _paper("Period Closing", "Voucher No",
+		_pair([], [_r("transaction_date", "Date", "Date"), _r("fiscal_year", "Link", "Fiscal Year"), _r("period_start_date", "Date", "From"),
+			_r("period_end_date", "Date", "To"), _r("closing_account_head", "Link", "Closed Into", bold=1), _r("gle_processing_status", "Data", "Status")], top=18),
+		_note("remarks", "Remarks"),
+		signs=PREPARED,
+	)
+
+
+def process_deferred_accounting():
+	"""Income or expense earned over time, booked for a stretch of dates."""
+	return _paper("Deferred Booking", "Booking No",
+		_pair([], [_r("type", "Data", "Type"), _r("account", "Link", "Account"), _r("start_date", "Date", "From"), _r("end_date", "Date", "To"),
+			_r("posting_date", "Date", "Booked On")], top=18),
+	)
+
+
+def process_payment_reconciliation():
+	"""A party's payments matched to its invoices in the background: whose,
+	which account, and the dates looked at."""
+	return _paper("Payment Reconciliation", "Run No",
+		_pair([heading("Party"), field("party", "Dynamic Link", "Party", show_label="hide", bold=1, font_size=13), _line("party_type", "Link", "Type")],
+			[_r("receivable_payable_account", "Link", "Account"), _r("from_invoice_date", "Date", "Invoices From"), _r("to_invoice_date", "Date", "Invoices To"),
+				_r("from_payment_date", "Date", "Payments From"), _r("to_payment_date", "Date", "Payments To"), _r("status", "Data", "Status")]),
+	)
+
+
+def product_bundle():
+	"""Items sold as one: the bundle and what's in it."""
+	return _paper("Product Bundle", "Bundle",
+		_pair([heading("Sold As"), field("new_item_code", "Link", "Item", show_label="hide", bold=1, font_size=13), _muted("description", "Data")], [], top=22),
+		_lines("items", "Contains", [_c("idx", "Int", "No", 6), _c("item_code", "Link", "Item", 50, ("description", "Text Editor", "Description")),
+			_qty(width=20), _c("rate", "Float", "Rate", 24)], top=22),
+	)
+
+
+def production_plan():
+	"""What the workshop plans to make for which orders, when, and the
+	materials it needs."""
+	return _paper("Production Plan", "Plan No",
+		_pair([], [_r("posting_date", "Date", "Date"), _r("from_date", "Date", "Orders From"), _r("to_date", "Date", "Orders To"),
+			_r("for_warehouse", "Link", "Materials Into"), _project(), _r("status", "Data", "Status")], top=18),
+		_list("sales_orders", "For Orders", [_c("sales_order", "Link", "Order", 26), _c("customer", "Link", "Customer", 34),
+			_c("sales_order_date", "Date", "Date", 18), _c("grand_total", "Currency", "Total", 22)]),
+		_list("po_items", "To Make", [
+			_c("item_code", "Link", "Item", 30, ("bom_no", "Link", "BOM")), _qty(fieldname="planned_qty", unit="stock_uom", label="Planned", width=14),
+			_c("warehouse", "Link", "Into", 20), _c("planned_start_date", "Datetime", "Starts", 18), _c("produced_qty", "Float", "Made", 18)]),
+		_list("mr_items", "Materials Needed", [
+			_c("item_name", "Data", "Material", 36, ("item_code", "Link", "Item Code")), _qty(fieldname="quantity", width=14),
+			_c("warehouse", "Link", "For", 22), _c("material_request_type", "Data", "By", 14), _c("schedule_date", "Date", "By When", 14)]),
+		_sums(_r("total_planned_qty", "Float", "Planned"), _r("total_produced_qty", "Float", "Made")),
+	)
+
+
+def project_update():
+	"""What each person said about a project on a day."""
+	return _paper("Project Update", "Update No",
+		_pair([heading("Project"), linked("project.project_name", "Project", show_label="hide", bold=1, font_size=13)],
+			[_r("date", "Date", "Date"), _r("time", "Time", "Time")]),
+		_lines("users", "Updates", [_c("full_name", "Data", "Who", 28), _c("project_status", "Text", "Update", 72)], top=24),
+	)
+
+
+def repost_accounting_ledger():
+	"""Documents whose ledger entries were written again, and how it went."""
+	return _paper("Ledger Repost", "Repost No",
+		_pair([], [_r("status", "Data", "Status")], top=18),
+		_lines("vouchers", "Documents", [_c("voucher_type", "Link", "Document", 40), _c("voucher_no", "Dynamic Link", "Number", 40), _c("status", "Data", "Status", 20)], top=22),
+	)
+
+
+def repost_payment_ledger():
+	"""Documents whose payment ledger was written again, and how it went."""
+	return _paper("Payment Ledger Repost", "Repost No",
+		_pair([], [_r("posting_date", "Date", "From"), _r("voucher_type", "Link", "Documents"), _r("repost_status", "Data", "Status")], top=18),
+		_lines("repost_vouchers", "Documents", [_c("voucher_type", "Link", "Document", 50), _c("voucher_no", "Dynamic Link", "Number", 50)], top=22),
+	)
+
+
+def sales_forecast():
+	"""What we expect to sell, item by item and when, to plan making and
+	buying by."""
+	return _paper("Sales Forecast", "Forecast No",
+		_pair([], [_r("posting_date", "Date", "Date"), _r("from_date", "Date", "From"), _r("frequency", "Data", "Every"),
+			_r("demand_number", "Int", "Periods"), _r("parent_warehouse", "Link", "Warehouse"), _r("status", "Data", "Status")], top=18),
+		_lines("items", "Expected", [_c("item_name", "Data", "Item", 40, ("item_code", "Link", "Item Code")), _c("delivery_date", "Date", "By", 18),
+			_c("warehouse", "Link", "Warehouse", 22), _qty(fieldname="demand_qty", width=20)], top=22),
+	)
+
+
+def serial_and_batch_bundle():
+	"""The serial and batch numbers that moved with one line of a document."""
+	return _paper("Serial and Batch Numbers", "Bundle No",
+		_pair(_head("Item", "item_name", field("item_code", "Link", "Item Code", show_label="hide", custom_style=f"color:{MUTED};")),
+			[_r("type_of_transaction", "Data", "Direction"), _r("voucher_type", "Link", "Document"), _r("voucher_no", "Dynamic Link", "Number"),
+				_r("warehouse", "Link", "Warehouse"), _r("posting_datetime", "Datetime", "Date"), _r("total_qty", "Float", "Quantity", bold=1)]),
+		_lines("entries", "Numbers", [_c("serial_no", "Link", "Serial No", 32), _c("batch_no", "Link", "Batch", 28), _c("warehouse", "Link", "Warehouse", 25),
+			_c("qty", "Float", "Qty", 15)]),
+	)
+
+
+def share_transfer():
+	"""Shares issued, bought back or passed on: from whom to whom, which and
+	how many, at what price, and each side to sign."""
+	return _paper("Share Transfer", "Transfer No",
+		_pair([heading("From", visible_if="doc.from_shareholder"), linked("from_shareholder.title", "From", show_label="hide", bold=1, font_size=13),
+				_line("from_folio_no", "Data", "Folio"),
+				heading("To", visible_if="doc.to_shareholder", custom_style="margin-top:14px;"),
+				linked("to_shareholder.title", "To", show_label="hide", bold=1, font_size=13), _line("to_folio_no", "Data", "Folio")],
+			[_r("date", "Date", "Date"), _r("transfer_type", "Data", "Type"), _r("share_type", "Link", "Shares"), _r("from_no", "Int", "From No"),
+				_r("to_no", "Int", "To No"), _r("no_of_shares", "Int", "Number of Shares", bold=1), _r("rate", "Currency", "Price Each"), _total("amount", "Amount")]),
+		_note("remarks", "Remarks", "Long Text"),
+		signs=(("Transferor", None), ("Transferee", None)),
+	)
+
+
+def shipment():
+	"""A booking with a carrier: from where to where, when it's collected,
+	the parcels, what's inside and its value, and the deliveries it carries."""
+	return _paper("Shipment", "Shipment No",
+		_pair([heading("Collect From"), *[field(one, "Link", "From", show_label="hide", bold=1, font_size=13) for one in ("pickup_company", "pickup_customer", "pickup_supplier")],
+				field("pickup", "Data", "From", show_label="hide", bold=1, font_size=13), _muted("pickup_address", "Text"),
+				_line("pickup_contact", "Text", "Contact"),
+				heading("Deliver To", custom_style="margin-top:14px;"),
+				*[field(one, "Link", "To", show_label="hide", bold=1, font_size=13) for one in ("delivery_company", "delivery_customer", "delivery_supplier")],
+				field("delivery_to", "Data", "To", show_label="hide", bold=1, font_size=13),
+				_muted("delivery_address", "Text"), _line("delivery_contact", "Text", "Contact")],
+			[_r("pickup_date", "Date", "Collect On"), _r("pickup_from", "Time", "From"), _r("pickup_to", "Time", "Until"), _r("shipment_type", "Data", "Type"),
+				_r("carrier", "Data", "Carrier"), _r("carrier_service", "Data", "Service"), _r("awb_number", "Data", "Waybill No", bold=1),
+				_r("value_of_goods", "Currency", "Value"), _r("incoterm", "Link", "Delivery Terms"), _r("total_weight", "Float", "Weight")]),
+		_list("shipment_parcel", "Parcels", [_c("count", "Int", "Count", 16), _c("length", "Float", "Length", 21), _c("width", "Float", "Width", 21),
+			_c("height", "Float", "Height", 21), _c("weight", "Float", "Weight", 21)]),
+		_note("description_of_content", "Contents"),
+		_list("shipment_delivery_note", "Deliveries", [_c("delivery_note", "Link", "Delivery No", 60), _c("grand_total", "Currency", "Value", 40)]),
+		signs=(("Handed Over By", None), ("Collected By", "carrier")),
+	)
+
+
+def stock_closing_entry():
+	"""Stock balances frozen for a stretch of dates."""
+	return _paper("Stock Closing", "Closing No",
+		_pair([], [_r("from_date", "Date", "From"), _r("to_date", "Date", "To"), _r("status", "Data", "Status")], top=18),
+		signs=PREPARED,
+	)
+
+
+def stock_reconciliation():
+	"""Stock counted: opening stock, a count or an adjustment by what it's
+	for, each item with what the books said and what was found, the value
+	it changes, and who counted and approved."""
+	titles = (("Opening Stock", 'doc.purpose == "Opening Stock"'), ("Stock Count", 'doc.purpose == "Stock Reconciliation"'),
+		("Stock Adjustment", 'doc.purpose == "Adjustment Entry"'))
+	return _paper(titles, "Count No",
+		_pair([], [_r("posting_date", "Date", "Date"), _r("set_warehouse", "Link", "Warehouse")], top=18),
+		_lines("items", "Items", [
+			_c("item_name", "Data", "Item", 30, ("item_code", "Link", "Item Code"), ("batch_no", "Link", "Batch")), _c("warehouse", "Link", "Warehouse", 16),
+			_c("current_qty", "Float", "Books Said", 12), _qty(unit="stock_uom", label="Counted", width=12), _c("quantity_difference", "Data", "Difference", 12, align="right"),
+			_c("amount_difference", "Currency", "Value Change", 18)], top=22),
+		_sums(_total("difference_amount", "Value Change")),
+		signs=(("Counted By", None), ("Approved By", None)),
+	)
+
+
+def stock_reservation_entry():
+	"""Stock held for an order: which item, where, for what, how much is
+	held and how much has gone."""
+	return _paper("Stock Reservation", "Reservation No",
+		_pair([heading("Item"), field("item_code", "Link", "Item", show_label="hide", bold=1, font_size=13), _line("warehouse", "Link", "In")],
+			[_r("voucher_type", "Data", "For"), _r("voucher_no", "Dynamic Link", "Number"), _r("reserved_qty", "Float", "Held", bold=1),
+				_r("stock_uom", "Link", "Unit"), _r("delivered_qty", "Float", "Gone"), _r("status", "Data", "Status"), _project()]),
+	)
+
+
+def supplier_scorecard_period():
+	"""How a supplier scored over a stretch: each measure with its weight
+	and score, and the total."""
+	return _paper("Supplier Score", "Score No",
+		_pair([heading("Supplier"), field("supplier", "Link", "Supplier", show_label="hide", bold=1, font_size=13)],
+			[_r("start_date", "Date", "From"), _r("end_date", "Date", "To"), _r("total_score", "Percent", "Score", bold=1, font_size=15)]),
+		_lines("criteria", "Measures", [_c("criteria_name", "Link", "Measure", 46), _c("weight", "Percent", "Weight", 18), _c("score", "Percent", "Score", 18),
+			_c("max_score", "Float", "Out Of", 18)], top=22),
+	)
+
+
+def telephony_call_type():
+	"""A kind of call, by name."""
+	return _paper("Call Type", "Name", _pair([heading("Call Type"), field("call_type", "Data", "Call Type", show_label="hide", bold=1, font_size=13)], [], top=22))
+
+
+def transaction_deletion_record():
+	"""A company's transactions deleted: what kinds and how many."""
+	return _paper("Transactions Deleted", "Record No",
+		_pair([], [_r("status", "Data", "Status")], top=18),
+		_lines("doctypes_to_delete", "Deleted", [_c("doctype_name", "Link", "Kind", 60), _c("document_count", "Int", "Count", 20), _c("deleted", "Check", "Done", 20, align="right")], top=22),
+		signs=PREPARED,
+	)
+
+
+def credit_ledger_entry():
+	"""Credits given, spent or refunded: to whom, how many, why, and until
+	when."""
+	return _paper("Credit Entry", "Entry No",
+		_pair([heading("Workspace"), field("tenant", "Link", "Workspace", show_label="hide", bold=1, font_size=13), _muted("why")],
+			[_r("kind", "Data", "Kind"), _r("credits", "Float", "Credits", bold=1), _r("source", "Data", "From"), _r("expires_on", "Date", "Until"),
+				_r("against", "Link", "Against"), _r("reference", "Data", "Reference")]),
+	)
+
+
+def _emp(*more, words="Employee", name="employee_name"):
+	"""Whose it is: the name, and the lines under it."""
+	return [heading(words), field(name, "Data", words, show_label="hide", bold=1, font_size=13), *more]
+
+
+DEPT = _muted("department", "Link", "Department")
+SIGNED = (("Employee", "employee_name"), ("Approved By", None))
+LETTER = (("For the Company", "company"), ("Accepted By", "employee_name"))
+
+
+def _components(fieldname, words):
+	return _list(fieldname, words, [_c("salary_component", "Link", "Component", 70), _c("amount", "Float", "Amount", 30)], top=18)
+
+
+def _changes(fieldname):
+	return _lines(fieldname, "Changes", [_c("property", "Data", "What", 34), _c("current", "Data", "Was", 33), _c("new", "Data", "Now", 33)], top=24)
+
+
+def _activities():
+	return _list("activities", "Steps", [_c("activity_name", "Data", "Step", 36, ("description", "Text Editor", "Description")),
+		_c("user", "Link", "Who", 26), _c("role", "Link", "Or Role", 20), _c("begin_on", "Int", "Day", 9), _c("duration", "Int", "Days", 9)], top=24)
+
+
+def additional_salary():
+	"""An amount added to or taken from one payroll: whose, what for, how much
+	and when."""
+	return _paper("Additional Salary", "No",
+		_pair(_emp(DEPT), [_r("salary_component", "Link", "Component"), _r("type", "Data", "Type"), _r("payroll_date", "Date", "Paid With Payroll Of"),
+			_r("from_date", "Date", "From"), _r("to_date", "Date", "To"), _total("amount", "Amount")]),
+		signs=SIGNED)
+
+
+def appraisal():
+	"""How someone did over a cycle: each goal with its weight and score,
+	how they rated themselves, what others said, and the final score."""
+	return _paper("Appraisal", "Appraisal No",
+		_pair(_emp(_muted("designation", "Link", "Designation"), DEPT),
+			[_r("appraisal_cycle", "Link", "Cycle"), _r("start_date", "Date", "From"), _r("end_date", "Date", "To"),
+				_r("total_score", "Float", "Goals"), _r("self_score", "Float", "Self"), _r("avg_feedback_score", "Float", "Feedback"),
+				_r("final_score", "Float", "Final Score", bold=1, font_size=15)]),
+		_list("appraisal_kra", "Goals", [_c("kra", "Link", "Goal", 46), _c("per_weightage", "Percent", "Weight", 18),
+			_c("goal_completion", "Percent", "Done", 18), _c("goal_score", "Float", "Score", 18)], top=24),
+		_list("self_ratings", "Self Rating", [_c("criteria", "Link", "Criterion", 60), _c("per_weightage", "Percent", "Weight", 20), _c("rating", "Rating", "Rating", 20)]),
+		_note("reflections", "Reflections", "Text Editor"),
+		_note("remarks", "Remarks", "Text Editor"),
+		signs=(("Employee", "employee_name"), ("Appraiser", None)),
+	)
+
+
+def arrear():
+	"""Pay owed from before, paid now: whose, from when, and each component."""
+	return _paper("Arrears", "No",
+		_pair(_emp(), [_r("arrear_start_date", "Date", "Owed From"), _r("payroll_date", "Date", "Paid With Payroll Of"), _r("payroll_period", "Link", "Payroll Period"),
+			_r("salary_structure", "Link", "Salary Structure")]),
+		_components("earning_arrears", "Earnings"), _components("deduction_arrears", "Deductions"), _components("accrual_arrears", "Accruals"),
+		signs=SIGNED)
+
+
+def attendance():
+	"""A day's attendance: whose, which day, present or not, the shift, in
+	and out, and the hours."""
+	return _paper("Attendance", "No",
+		_pair(_emp(DEPT), [_r("attendance_date", "Date", "Date"), _r("status", "Data", "Status", bold=1), _r("leave_type", "Link", "Leave"),
+			_r("shift", "Link", "Shift"), _r("in_time", "Datetime", "In"), _r("out_time", "Datetime", "Out"), _r("working_hours", "Float", "Hours"),
+			_r("actual_overtime_duration", "Float", "Overtime")]),
+	)
+
+
+def attendance_request():
+	"""Asking for days to count as worked: whose, which days, and why."""
+	return _paper("Attendance Request", "Request No",
+		_pair(_emp(DEPT), [_r("from_date", "Date", "From"), _r("to_date", "Date", "To"), _r("half_day_date", "Date", "Half Day On"),
+			_r("reason", "Data", "Reason", bold=1), _r("shift", "Link", "Shift")]),
+		_note("explanation", "Explanation"),
+		signs=SIGNED)
+
+
+def compensatory_leave_request():
+	"""Leave asked for in return for days worked off-schedule."""
+	return _paper("Compensatory Leave Request", "Request No",
+		_pair(_emp(DEPT), [_r("work_from_date", "Date", "Worked From"), _r("work_end_date", "Date", "Worked To"), _r("half_day_date", "Date", "Half Day On"),
+			_r("leave_type", "Link", "Leave Type")]),
+		_note("reason", "Reason"),
+		signs=SIGNED)
+
+
+def employee_benefit_application():
+	"""Benefits chosen for a payroll period, within what's allowed."""
+	return _paper("Benefit Application", "Application No",
+		_pair(_emp(DEPT), [_r("date", "Date", "Date"), _r("payroll_period", "Link", "Payroll Period"), _r("max_benefits", "Currency", "Allowed"),
+			_r("remaining_benefit", "Currency", "Left")]),
+		_lines("employee_benefits", "Benefits", [_c("salary_component", "Link", "Benefit", 50), _c("max_benefit_amount", "Currency", "Up To", 25),
+			_c("amount", "Currency", "Chosen", 25)], top=24),
+		_sums(_total("total_amount", "Total")),
+		signs=SIGNED)
+
+
+def employee_benefit_claim():
+	"""A benefit claimed: what, how much, and how much is allowed."""
+	return _paper("Benefit Claim", "Claim No",
+		_pair(_emp(DEPT), [_r("payroll_date", "Date", "Date"), _r("earning_component", "Link", "Benefit"), _r("max_amount_eligible", "Currency", "Allowed"),
+			_total("claimed_amount", "Claimed")]),
+		signs=SIGNED)
+
+
+def employee_grievance():
+	"""A grievance: who raised it, against whom, what happened, why, and how
+	it was resolved."""
+	return _paper("Grievance", "Grievance No",
+		_pair([heading("Raised By"), linked("raised_by.employee_name", "Raised By", show_label="hide", bold=1, font_size=13),
+				_muted("designation", "Link", "Designation"), heading("Against", custom_style="margin-top:14px;"),
+				field("grievance_against", "Dynamic Link", "Against", show_label="hide", bold=1), _muted("grievance_against_party", "Link", "Kind")],
+			[_r("date", "Date", "Date"), _r("grievance_type", "Link", "Type"), _r("status", "Data", "Status", bold=1), _r("resolution_date", "Date", "Resolved On")]),
+		section([heading("Subject"), field("subject", "Data", "Subject", show_label="hide", bold=1)], top=18),
+		_note("description", "What Happened", "Text Editor"),
+		_note("cause_of_grievance", "Cause", "Text Editor"),
+		_note("resolution_detail", "Resolution"),
+		signs=(("Raised By", None), ("Resolved By", None)),
+	)
+
+
+def employee_incentive():
+	"""An incentive paid with a payroll."""
+	return _paper("Incentive", "No",
+		_pair(_emp(DEPT), [_r("payroll_date", "Date", "Paid With Payroll Of"), _r("salary_component", "Link", "Component"), _total("incentive_amount", "Amount")]),
+		signs=SIGNED)
+
+
+def employee_onboarding():
+	"""Someone joining: who, when, as what, and each step to get them started."""
+	return _paper("Onboarding", "No",
+		_pair(_emp(_muted("designation", "Link", "Designation"), DEPT),
+			[_r("date_of_joining", "Date", "Joins On"), _r("boarding_begins_on", "Date", "Starts On"), _r("job_offer", "Link", "Job Offer"),
+				_r("boarding_status", "Data", "Status"), _project()]),
+		_activities(),
+	)
+
+
+def employee_other_income():
+	"""Income from elsewhere declared for tax."""
+	return _paper("Other Income", "No",
+		_pair(_emp(), [_r("payroll_period", "Link", "Payroll Period"), _r("source", "Data", "From"), _total("amount", "Amount")]),
+		signs=SIGNED)
+
+
+def employee_performance_feedback():
+	"""What a reviewer said about someone: each criterion rated, the score,
+	and the words."""
+	return _paper("Performance Feedback", "No",
+		_pair(_emp(_muted("designation", "Link", "Designation"), DEPT),
+			[_r("added_on", "Date", "Date"), _r("appraisal_cycle", "Link", "Cycle"), _r("reviewer_name", "Data", "Reviewer"),
+				_r("reviewer_designation", "Link", "Reviewer's Role"), _r("total_score", "Float", "Score", bold=1)]),
+		_list("feedback_ratings", "Ratings", [_c("criteria", "Link", "Criterion", 60), _c("per_weightage", "Percent", "Weight", 20), _c("rating", "Rating", "Rating", 20)], top=24),
+		_note("feedback", "Feedback", "Text Editor"),
+		signs=(("Reviewer", "reviewer_name"), ("Employee", "employee_name")),
+	)
+
+
+def employee_promotion():
+	"""A promotion: from when, what changes, and the pay before and after."""
+	return _paper("Promotion Letter", "No",
+		_pair(_emp(DEPT), [_r("promotion_date", "Date", "From"), _r("current_ctc", "Currency", "Pay Was"), _r("revised_ctc", "Currency", "Pay Now", bold=1)]),
+		_changes("promotion_details"),
+		signs=LETTER)
+
+
+def employee_referral():
+	"""Someone put forward for a job: who, for what, by whom, and why."""
+	return _paper("Referral", "Referral No",
+		_pair(_head("Candidate", "full_name", _line("email", "Data", "Email"), _line("contact_no", "Data", "Phone"),
+				_line("current_employer", "Data", "Works At"), _line("current_job_title", "Data", "As")),
+			[_r("date", "Date", "Date"), _r("for_designation", "Link", "For"), _r("department", "Link", "Department"), _r("referrer_name", "Data", "Referred By"),
+				_r("status", "Data", "Status")]),
+		_note("qualification_reason", "Why", "Text Editor"),
+		_note("work_references", "References", "Text Editor"),
+	)
+
+
+def employee_separation():
+	"""Someone leaving: who, when they resigned, and each step to see them
+	out."""
+	return _paper("Separation", "No",
+		_pair(_emp(_muted("designation", "Link", "Designation"), DEPT),
+			[_r("resignation_letter_date", "Date", "Resigned On"), _r("boarding_begins_on", "Date", "Starts On"), _r("boarding_status", "Data", "Status"), _project()]),
+		_activities(),
+		_note("exit_interview", "Exit Interview", "Text Editor"),
+	)
+
+
+def employee_tax_exemption_declaration():
+	"""What someone expects to claim against tax this period."""
+	return _paper("Tax Exemption Declaration", "No",
+		_pair(_emp(DEPT), [_r("payroll_period", "Link", "Payroll Period")]),
+		_lines("declarations", "Declared", [_c("exemption_sub_category", "Link", "For", 40, ("exemption_category", "Link", "Category")),
+			_c("max_amount", "Currency", "Up To", 30), _c("amount", "Currency", "Declared", 30)], top=24),
+		_sums(_r("total_declared_amount", "Currency", "Declared"), _total("total_exemption_amount", "Exempt")),
+		signs=SIGNED)
+
+
+def employee_tax_exemption_proof_submission():
+	"""Proof of what someone spent against tax."""
+	return _paper("Tax Exemption Proof", "No",
+		_pair(_emp(DEPT), [_r("submission_date", "Date", "Date"), _r("payroll_period", "Link", "Payroll Period")]),
+		_lines("tax_exemption_proofs", "Proofs", [_c("exemption_sub_category", "Link", "For", 36, ("exemption_category", "Data", "Category")),
+			_c("type_of_proof", "Data", "Proof", 24), _c("max_amount", "Currency", "Up To", 20), _c("amount", "Currency", "Spent", 20)], top=24),
+		_sums(_r("total_actual_amount", "Currency", "Spent"), _total("exemption_amount", "Exempt")),
+		signs=SIGNED)
+
+
+def employee_transfer():
+	"""A transfer: from when, and what changes."""
+	return _paper("Transfer Letter", "No",
+		_pair(_emp(DEPT), [_r("transfer_date", "Date", "From"), _r("new_company", "Link", "To Company"), _r("new_employee_id", "Link", "New Employee No")]),
+		_changes("transfer_details"),
+		signs=LETTER)
+
+
+def exit_interview():
+	"""The conversation on the way out: who, when, with whom, and what was
+	said."""
+	return _paper("Exit Interview", "No",
+		_pair(_emp(_muted("designation", "Link", "Designation"), DEPT),
+			[_r("date", "Date", "Date"), _r("date_of_joining", "Date", "Joined"), _r("relieving_date", "Date", "Leaves"), _r("status", "Data", "Status"),
+				_r("employee_status", "Data", "Outcome", bold=1)]),
+		_list("interviewers", "Interviewers", [_c("user", "Link", "Interviewer", 100)]),
+		_note("interview_summary", "Summary", "Text Editor"),
+		signs=(("Employee", "employee_name"), ("Interviewer", None)),
+	)
+
+
+def full_and_final_statement():
+	"""What's settled when someone leaves: what's owed to them, what they owe,
+	the company's things they hold, and both to sign."""
+	return _paper("Full and Final Settlement", "Statement No",
+		_pair(_emp(_muted("designation", "Link", "Designation"), DEPT),
+			[_r("transaction_date", "Date", "Date"), _r("date_of_joining", "Date", "Joined"), _r("relieving_date", "Date", "Left"), _r("status", "Data", "Status")]),
+		_list("payables", "Owed to Them", [_c("component", "Data", "For", 40, ("remark", "Small Text", "Remark")), _c("reference_document", "Dynamic Link", "Document", 26),
+			_c("status", "Data", "Status", 14), _c("amount", "Currency", "Amount", 20)], top=24),
+		_list("receivables", "Owed by Them", [_c("component", "Data", "For", 40, ("remark", "Small Text", "Remark")), _c("reference_document", "Dynamic Link", "Document", 26),
+			_c("status", "Data", "Status", 14), _c("amount", "Currency", "Amount", 20)]),
+		_list("assets_allocated", "Company Property", [_c("asset_name", "Data", "Item", 36, ("reference", "Link", "Asset No")), _c("date", "Date", "Given On", 18),
+			_c("status", "Data", "Status", 16), _c("action", "Data", "Action", 12), _c("cost", "Currency", "Cost", 18)]),
+		_sums(_r("total_payable_amount", "Currency", "Owed to Them"), _r("total_receivable_amount", "Currency", "Owed by Them"),
+			_r("total_asset_recovery_cost", "Currency", "Property Not Returned", visible_if="doc.total_asset_recovery_cost")),
+		signs=(("For the Company", "company"), ("Received and Settled", "employee_name")),
+	)
+
+
+def gratuity():
+	"""End-of-service pay: whose, by which rule, how long they served, how
+	much, and what's been paid."""
+	return _paper("Gratuity", "No",
+		_pair(_emp(_muted("designation", "Data", "Designation"), DEPT),
+			[_r("posting_date", "Date", "Date"), _r("gratuity_rule", "Link", "Rule"), _r("current_work_experience", "Float", "Years Served"),
+				_total("amount", "Gratuity"), _r("paid_amount", "Currency", "Paid", visible_if="doc.paid_amount"), _r("status", "Data", "Status")]),
+		signs=(("For the Company", "company"), ("Received By", "employee_name")),
+	)
+
+
+def holiday_list_assignment():
+	"""Which holidays someone follows, from when."""
+	return _paper("Holiday List Assignment", "No",
+		_pair([heading("For"), field("employee_name", "Data", "Employee", show_label="hide", bold=1, font_size=13),
+				field("assigned_to", "Dynamic Link", "For", show_label="hide", custom_style=f"color:{MUTED};")],
+			[_r("holiday_list", "Link", "Holiday List", bold=1), _r("from_date", "Date", "From"), _r("holiday_list_start", "Date", "List Starts"),
+				_r("holiday_list_end", "Date", "List Ends")]),
+	)
+
+
+def income_tax_slab():
+	"""Income tax by bands: from when, each band and its rate, and other
+	taxes."""
+	return _paper("Income Tax Slab", "Slab",
+		_pair([], [_r("effective_from", "Date", "From"), _r("currency", "Link", "Currency"), _r("standard_tax_exemption_amount", "Currency", "Standard Exemption"),
+			_r("tax_relief_limit", "Currency", "Relief Up To")], top=18),
+		_lines("slabs", "Bands", [_c("from_amount", "Currency", "From", 30), _c("to_amount", "Currency", "To", 30), _c("percent_deduction", "Percent", "Rate", 40)], top=22),
+		_list("other_taxes_and_charges", "Other Taxes", [_c("description", "Data", "Tax", 40), _c("percent", "Percent", "Rate", 20),
+			_c("min_taxable_income", "Currency", "From", 20), _c("max_taxable_income", "Currency", "To", 20)]),
+	)
+
+
+def interview():
+	"""An interview: who for what, when, with whom, the rating, and the
+	summary."""
+	return _paper("Interview", "Interview No",
+		_pair([heading("Candidate"), linked("job_applicant.applicant_name", "Candidate", show_label="hide", bold=1, font_size=13),
+				_line("designation", "Link", "For"), _line("job_opening", "Link", "Opening")],
+			[_r("scheduled_on", "Date", "Date"), _r("from_time", "Time", "From"), _r("to_time", "Time", "To"), _r("interview_type", "Link", "Round"),
+				_r("average_rating", "Rating", "Rating"), _r("status", "Data", "Status", bold=1)]),
+		_list("interview_details", "Interviewers", [_c("interviewer", "Link", "Interviewer", 100)]),
+		_note("interview_summary", "Summary", "Text Editor"),
+		signs=(("Interviewer", None), ("Interviewer", None)),
+	)
+
+
+def leave_adjustment():
+	"""Leave added or taken off an allocation, and why."""
+	return _paper("Leave Adjustment", "No",
+		_pair(_emp(), [_r("posting_date", "Date", "Date"), _r("leave_type", "Link", "Leave Type"), _r("adjustment_type", "Data", "Adjustment"),
+			_r("allocated_leaves", "Float", "Had"), _r("leaves_to_adjust", "Float", "Changed By"), _r("leaves_after_adjustment", "Float", "Has Now", bold=1)]),
+		_note("reason_for_adjustment", "Reason"),
+		signs=SIGNED)
+
+
+def leave_allocation():
+	"""Leave given for a period: how much new, carried forward, and in all."""
+	return _paper("Leave Allocation", "No",
+		_pair(_emp(DEPT), [_r("leave_type", "Link", "Leave Type"), _r("from_date", "Date", "From"), _r("to_date", "Date", "To"),
+			_r("new_leaves_allocated", "Float", "New"), _r("unused_leaves", "Float", "Carried Forward", visible_if="doc.carry_forward"),
+			_r("total_leaves_allocated", "Float", "In All", bold=1, font_size=15)]),
+		_note("description", "Notes"),
+	)
+
+
+def leave_application():
+	"""Leave asked for: whose, what kind, from when to when, how many days,
+	what's left, why, and who approves."""
+	return _paper("Leave Application", "Application No",
+		_pair(_emp(DEPT), [_r("posting_date", "Date", "Date"), _r("leave_type", "Link", "Leave Type"), _r("from_date", "Date", "From"), _r("to_date", "Date", "To"),
+			_r("half_day_date", "Date", "Half Day On"), _r("total_leave_days", "Float", "Days", bold=1, font_size=15), _r("leave_balance", "Float", "Balance Before"),
+			_r("status", "Data", "Status", bold=1)]),
+		_note("description", "Reason"),
+		signs=(("Employee", "employee_name"), ("Approved By", "leave_approver_name")))
+
+
+def leave_encashment():
+	"""Unused leave paid out: how many days, at how much."""
+	return _paper("Leave Encashment", "No",
+		_pair(_emp(DEPT), [_r("encashment_date", "Date", "Date"), _r("leave_type", "Link", "Leave Type"), _r("leave_balance", "Float", "Balance"),
+			_r("encashment_days", "Float", "Days Paid"), _total("encashment_amount", "Amount"), _r("status", "Data", "Status")]),
+		signs=(("For the Company", "company"), ("Received By", "employee_name")))
+
+
+def leave_policy():
+	"""How much of each leave a year a policy gives."""
+	return _paper("Leave Policy", "Policy No",
+		_lines("leave_policy_details", "Leave a Year", [_c("leave_type", "Link", "Leave Type", 70), _c("annual_allocation", "Float", "Days", 30)], top=24))
+
+
+def leave_policy_assignment():
+	"""Which leave policy someone follows, from when to when."""
+	return _paper("Leave Policy Assignment", "No",
+		_pair(_emp(), [_r("leave_policy", "Link", "Policy", bold=1), _r("assignment_based_on", "Data", "Based On"), _r("effective_from", "Date", "From"),
+			_r("effective_to", "Date", "To")]))
+
+
+def overtime_slip():
+	"""Overtime worked over a stretch: each day and how long."""
+	return _paper("Overtime Slip", "Slip No",
+		_pair(_emp(DEPT), [_r("posting_date", "Date", "Date"), _r("start_date", "Date", "From"), _r("end_date", "Date", "To"),
+			_r("total_overtime_duration", "Float", "Overtime", bold=1)]),
+		_lines("overtime_details", "Overtime", [_c("date", "Date", "Date", 22), _c("overtime_type", "Link", "Type", 30),
+			_c("standard_working_hours", "Float", "Normal Hours", 24), _c("overtime_duration", "Float", "Overtime", 24)], top=24),
+		signs=SIGNED)
+
+
+def payroll_correction():
+	"""A payroll put right: days given back, and each amount."""
+	return _paper("Payroll Correction", "No",
+		_pair(_emp(), [_r("payroll_date", "Date", "Paid With Payroll Of"), _r("month_for_lwp_reversal", "Data", "For Month"), _r("working_days", "Float", "Working Days"),
+			_r("lwp_days", "Float", "Unpaid Days"), _r("days_to_reverse", "Float", "Days Given Back", bold=1), _r("salary_slip_reference", "Link", "Payslip")]),
+		_components("earning_arrears", "Earnings"), _components("deduction_arrears", "Deductions"),
+		signs=SIGNED)
+
+
+def payroll_entry():
+	"""A payroll run: the period, who's in it, and where it's paid from."""
+	return _paper("Payroll Run", "Run No",
+		_pair([], [_r("posting_date", "Date", "Date"), _r("start_date", "Date", "From"), _r("end_date", "Date", "To"), _r("payroll_frequency", "Data", "Every"),
+			_r("number_of_employees", "Int", "People", bold=1), _r("bank_account", "Link", "Paid From"), _r("status", "Data", "Status")], top=18),
+		_lines("employees", "People", [_c("idx", "Int", "No", 6), _c("employee_name", "Data", "Employee", 44), _c("department", "Link", "Department", 25),
+			_c("designation", "Data", "Designation", 25)], top=22),
+		signs=PREPARED)
+
+
+def retention_bonus():
+	"""A bonus to stay: whose, how much, and when it's paid."""
+	return _paper("Retention Bonus", "No",
+		_pair(_emp(DEPT), [_r("bonus_payment_date", "Date", "Paid On"), _r("salary_component", "Link", "Component"), _total("bonus_amount", "Amount")]),
+		signs=LETTER)
+
+
+def salary_structure():
+	"""How pay is made up: each earning and deduction, and how it's worked
+	out."""
+	return _paper("Salary Structure", "Structure",
+		_pair([], [_r("payroll_frequency", "Data", "Paid Every"), _r("currency", "Link", "Currency")], top=18),
+		_list("earnings", "Earnings", [_c("salary_component", "Link", "Component", 34), _c("formula", "Code", "Worked Out As", 40), _c("amount", "Currency", "Amount", 26)]),
+		_list("deductions", "Deductions", [_c("salary_component", "Link", "Component", 34), _c("formula", "Code", "Worked Out As", 40), _c("amount", "Currency", "Amount", 26)]),
+	)
+
+
+def salary_structure_assignment():
+	"""Someone's pay from a date: the structure, the base, and the tax slab."""
+	return _paper("Salary Assignment", "No",
+		_pair(_emp(_muted("designation", "Link", "Designation"), DEPT),
+			[_r("from_date", "Date", "From"), _r("salary_structure", "Link", "Structure"), _total("base", "Base Pay"), _r("variable", "Currency", "Variable"),
+				_r("income_tax_slab", "Link", "Tax Slab")]),
+		_list("employee_benefits", "Benefits", [_c("salary_component", "Link", "Benefit", 70), _c("amount", "Currency", "Amount", 30)]),
+		signs=LETTER)
+
+
+def salary_withholding():
+	"""Pay held back: whose, why, and for which periods."""
+	return _paper("Salary Withholding", "No",
+		_pair(_emp(), [_r("posting_date", "Date", "Date"), _r("from_date", "Date", "From"), _r("to_date", "Date", "To"),
+			_r("number_of_withholding_cycles", "Int", "Pay Periods"), _r("relieving_date", "Date", "Leaves On"), _r("status", "Data", "Status", bold=1)]),
+		_note("reason_for_withholding_salary", "Reason"),
+		_list("cycles", "Periods", [_c("from_date", "Date", "From", 33), _c("to_date", "Date", "To", 33), _c("journal_entry", "Link", "Journal Entry", 34)]),
+		signs=PREPARED)
+
+
+def shift_assignment():
+	"""A shift someone works, from when, and where."""
+	return _paper("Shift Assignment", "No",
+		_pair(_emp(DEPT), [_r("shift_type", "Link", "Shift", bold=1), _r("start_date", "Date", "From"), _r("end_date", "Date", "To"),
+			_r("shift_location", "Link", "Where"), _r("status", "Data", "Status")]))
+
+
+def shift_request():
+	"""A shift asked for, and who approves it."""
+	return _paper("Shift Request", "Request No",
+		_pair(_emp(DEPT), [_r("shift_type", "Link", "Shift", bold=1), _r("from_date", "Date", "From"), _r("to_date", "Date", "To"), _r("status", "Data", "Status")]),
+		signs=(("Employee", "employee_name"), ("Approved By", "approver")))
+
+
+def shift_schedule():
+	"""A shift that repeats: which, how often, and on which days."""
+	return _paper("Shift Schedule", "Schedule",
+		_pair([], [_r("shift_type", "Link", "Shift", bold=1), _r("frequency", "Data", "Repeats")], top=18),
+		_lines("repeat_on_days", "Days", [_c("day", "Data", "Day", 100)], top=22))
+
+
+def staffing_plan():
+	"""How many people a department plans for: each role, how many now, how
+	many to hire, and what it costs."""
+	return _paper("Staffing Plan", "Plan",
+		_pair([heading("Department", visible_if="doc.department"), field("department", "Link", "Department", show_label="hide", bold=1, font_size=13)],
+			[_r("from_date", "Date", "From"), _r("to_date", "Date", "To")]),
+		_lines("staffing_details", "Roles", [_c("designation", "Link", "Role", 30), _c("number_of_positions", "Int", "Planned", 12), _c("current_count", "Int", "Now", 10),
+			_c("vacancies", "Int", "To Hire", 12), _c("estimated_cost_per_position", "Currency", "Cost Each", 18), _c("total_estimated_cost", "Currency", "Cost", 18)], top=24),
+		_sums(_total("total_estimated_budget", "Budget")),
+		signs=PREPARED)
+
+
+def training_event():
+	"""A training: what, when and where, who runs it, and who attends."""
+	return _paper("Training", "Training",
+		_pair(_head("Training", "event_name", _line("training_program", "Link", "Programme"), _line("course", "Data", "Course"), size=15),
+			[_r("start_time", "Datetime", "Starts"), _r("end_time", "Datetime", "Ends"), _r("location", "Data", "Where"), _r("type", "Data", "Kind"),
+				_r("level", "Data", "Level"), _r("trainer_name", "Data", "Trainer"), _r("event_status", "Data", "Status")]),
+		_note("introduction", "About", "Text Editor"),
+		_list("employees", "Attending", [_c("employee_name", "Data", "Employee", 40), _c("department", "Link", "Department", 26), _c("status", "Data", "Invited", 17),
+			_c("attendance", "Data", "Attended", 17)]),
+	)
+
+
+def training_feedback():
+	"""What someone thought of a training."""
+	return _paper("Training Feedback", "No",
+		_pair(_emp(DEPT), [_r("training_event", "Link", "Training"), _r("course", "Data", "Course"), _r("trainer_name", "Data", "Trainer")]),
+		_note("feedback", "Feedback", "Text Editor"))
+
+
+def training_result():
+	"""How each person did in a training: hours, grade and comments."""
+	return _paper("Training Result", "No",
+		_pair([heading("Training"), field("training_event", "Link", "Training", show_label="hide", bold=1, font_size=13)], [], top=22),
+		_lines("employees", "Results", [_c("employee_name", "Data", "Employee", 30), _c("hours", "Float", "Hours", 12), _c("grade", "Data", "Grade", 14),
+			_c("comments", "Text", "Comments", 44)], top=22),
+		signs=(("Trainer", None), ("Approved By", None)))
+
+
+def travel_request():
+	"""A trip asked for: who, why, the route and dates, who pays, and what it
+	costs."""
+	return _paper("Travel Request", "Request No",
+		_pair(_emp(_line("cell_number", "Data", "Phone"), _line("prefered_email", "Data", "Email"), _line("passport_number", "Data", "Passport")),
+			[_r("travel_type", "Data", "Travel"), _r("purpose_of_travel", "Link", "Purpose", bold=1), _r("travel_funding", "Data", "Funding"),
+				_r("details_of_sponsor", "Data", "Sponsor"), _r("name_of_organizer", "Data", "Organiser")]),
+		_note("description", "Details"),
+		_list("itinerary", "Route", [_c("travel_from", "Data", "From", 18), _c("travel_to", "Data", "To", 18), _c("mode_of_travel", "Data", "By", 12),
+			_c("departure_date", "Datetime", "Leaves", 18), _c("arrival_date", "Datetime", "Arrives", 18), _c("advance_amount", "Data", "Advance", 16, align="right")], top=22),
+		_list("costings", "Costs", [_c("expense_type", "Link", "Cost", 34, ("comments", "Small Text", "Comments")), _c("sponsored_amount", "Currency", "Sponsored", 22),
+			_c("funded_amount", "Currency", "Company Pays", 22), _c("total_amount", "Currency", "Total", 22)]),
+		signs=SIGNED)
+
+
+def vehicle_log():
+	"""A company car's trip or fill-up: which car, who, the odometer, fuel,
+	and service done."""
+	return _paper("Vehicle Log", "Log No",
+		_pair([heading("Vehicle"), field("license_plate", "Link", "Vehicle", show_label="hide", bold=1, font_size=13), _line("make", "Data", "Make"), _line("model", "Data", "Model"),
+				heading("Driver", custom_style="margin-top:14px;"), linked("employee.employee_name", "Driver", show_label="hide", bold=1)],
+			[_r("date", "Date", "Date"), _r("last_odometer", "Int", "Odometer Was"), _r("odometer", "Int", "Odometer Now", bold=1), _r("fuel_qty", "Float", "Fuel"),
+				_r("price", "Currency", "Fuel Price"), _r("supplier", "Link", "Filled At"), _r("invoice", "Data", "Their Invoice No")]),
+		_list("service_detail", "Service", [_c("service_item", "Link", "Service", 40), _c("type", "Data", "Kind", 20), _c("frequency", "Data", "How Often", 20),
+			_c("expense_amount", "Currency", "Cost", 20)]),
+		signs=(("Driver", None), ("Checked By", None)))
+
+
 def _trade(doctype, make):
 	return lambda: make(TRADE[doctype])
 
@@ -1910,6 +2916,86 @@ VERSIONS = {
 	"One Employee Advance": ("Employee Advance", "one_hr", employee_advance),
 	"One Job Card": ("Job Card", "one_inventory", job_card),
 	"One Bill of Materials": ("BOM", "one_inventory", bill_of_materials),
+	"One Asset Card": ("Asset", "one_inventory", asset),
+	"One Asset Capitalization": ("Asset Capitalization", "one_inventory", asset_capitalization),
+	"One Maintenance Record": ("Asset Maintenance Log", "one_inventory", asset_maintenance_log),
+	"One Repair Record": ("Asset Repair", "one_inventory", asset_repair),
+	"One Asset Shift Allocation": ("Asset Shift Allocation", "one_inventory", asset_shift_allocation),
+	"One Asset Value Adjustment": ("Asset Value Adjustment", "one_inventory", asset_value_adjustment),
+	"One BOM Creator": ("BOM Creator", "one_inventory", bom_creator),
+	"One Bank Transaction": ("Bank Transaction", "one_book", bank_transaction),
+	"One Budget": ("Budget", "one_book", budget),
+	"One Cost Center Allocation": ("Cost Center Allocation", "one_book", cost_center_allocation),
+	"One Exchange Rate Revaluation": ("Exchange Rate Revaluation", "one_book", exchange_rate_revaluation),
+	"One Invoice Discounting": ("Invoice Discounting", "one_book", invoice_discounting),
+	"One Item Standard Cost": ("Item Standard Cost", "one_inventory", item_standard_cost),
+	"One Landed Cost Voucher": ("Landed Cost Voucher", "one_inventory", landed_cost_voucher),
+	"One Period Closing Voucher": ("Period Closing Voucher", "one_book", period_closing_voucher),
+	"One Process Deferred Accounting": ("Process Deferred Accounting", "one_book", process_deferred_accounting),
+	"One Process Payment Reconciliation": ("Process Payment Reconciliation", "one_book", process_payment_reconciliation),
+	"One Product Bundle": ("Product Bundle", "one_inventory", product_bundle),
+	"One Production Plan": ("Production Plan", "one_inventory", production_plan),
+	"One Project Update": ("Project Update", "one_project", project_update),
+	"One Repost Accounting Ledger": ("Repost Accounting Ledger", "one_book", repost_accounting_ledger),
+	"One Repost Payment Ledger": ("Repost Payment Ledger", "one_book", repost_payment_ledger),
+	"One Sales Forecast": ("Sales Forecast", "one_inventory", sales_forecast),
+	"One Serial and Batch Bundle": ("Serial and Batch Bundle", "one_inventory", serial_and_batch_bundle),
+	"One Share Transfer": ("Share Transfer", "one_book", share_transfer),
+	"One Shipment": ("Shipment", "one_inventory", shipment),
+	"One Stock Closing Entry": ("Stock Closing Entry", "one_inventory", stock_closing_entry),
+	"One Stock Reconciliation": ("Stock Reconciliation", "one_inventory", stock_reconciliation),
+	"One Stock Reservation Entry": ("Stock Reservation Entry", "one_inventory", stock_reservation_entry),
+	"One Supplier Scorecard Period": ("Supplier Scorecard Period", "one_inventory", supplier_scorecard_period),
+	"One Telephony Call Type": ("Telephony Call Type", "one_crm", telephony_call_type),
+	"One Transaction Deletion Record": ("Transaction Deletion Record", "one_book", transaction_deletion_record),
+	"One Credit Ledger Entry": ("Credit Ledger Entry", "one_admin", credit_ledger_entry),
+	"One Additional Salary": ("Additional Salary", "one_hr", additional_salary),
+	"One Appraisal": ("Appraisal", "one_hr", appraisal),
+	"One Arrear": ("Arrear", "one_hr", arrear),
+	"One Attendance": ("Attendance", "one_hr", attendance),
+	"One Attendance Request": ("Attendance Request", "one_hr", attendance_request),
+	"One Compensatory Leave Request": ("Compensatory Leave Request", "one_hr", compensatory_leave_request),
+	"One Employee Benefit Application": ("Employee Benefit Application", "one_hr", employee_benefit_application),
+	"One Employee Benefit Claim": ("Employee Benefit Claim", "one_hr", employee_benefit_claim),
+	"One Employee Grievance": ("Employee Grievance", "one_hr", employee_grievance),
+	"One Employee Incentive": ("Employee Incentive", "one_hr", employee_incentive),
+	"One Employee Onboarding": ("Employee Onboarding", "one_hr", employee_onboarding),
+	"One Employee Other Income": ("Employee Other Income", "one_hr", employee_other_income),
+	"One Employee Performance Feedback": ("Employee Performance Feedback", "one_hr", employee_performance_feedback),
+	"One Promotion Letter": ("Employee Promotion", "one_hr", employee_promotion),
+	"One Employee Referral": ("Employee Referral", "one_hr", employee_referral),
+	"One Employee Separation": ("Employee Separation", "one_hr", employee_separation),
+	"One Employee Tax Exemption Declaration": ("Employee Tax Exemption Declaration", "one_hr", employee_tax_exemption_declaration),
+	"One Employee Tax Exemption Proof Submission": ("Employee Tax Exemption Proof Submission", "one_hr", employee_tax_exemption_proof_submission),
+	"One Transfer Letter": ("Employee Transfer", "one_hr", employee_transfer),
+	"One Exit Interview": ("Exit Interview", "one_hr", exit_interview),
+	"One Full and Final Settlement": ("Full and Final Statement", "one_hr", full_and_final_statement),
+	"One Gratuity": ("Gratuity", "one_hr", gratuity),
+	"One Holiday List Assignment": ("Holiday List Assignment", "one_hr", holiday_list_assignment),
+	"One Income Tax Slab": ("Income Tax Slab", "one_hr", income_tax_slab),
+	"One Interview": ("Interview", "one_hr", interview),
+	"One Leave Adjustment": ("Leave Adjustment", "one_hr", leave_adjustment),
+	"One Leave Allocation": ("Leave Allocation", "one_hr", leave_allocation),
+	"One Leave Application": ("Leave Application", "one_hr", leave_application),
+	"One Leave Encashment": ("Leave Encashment", "one_hr", leave_encashment),
+	"One Leave Policy": ("Leave Policy", "one_hr", leave_policy),
+	"One Leave Policy Assignment": ("Leave Policy Assignment", "one_hr", leave_policy_assignment),
+	"One Overtime Slip": ("Overtime Slip", "one_hr", overtime_slip),
+	"One Payroll Correction": ("Payroll Correction", "one_hr", payroll_correction),
+	"One Payroll Run": ("Payroll Entry", "one_hr", payroll_entry),
+	"One Retention Bonus": ("Retention Bonus", "one_hr", retention_bonus),
+	"One Salary Structure": ("Salary Structure", "one_hr", salary_structure),
+	"One Salary Structure Assignment": ("Salary Structure Assignment", "one_hr", salary_structure_assignment),
+	"One Salary Withholding": ("Salary Withholding", "one_hr", salary_withholding),
+	"One Shift Assignment": ("Shift Assignment", "one_hr", shift_assignment),
+	"One Shift Request": ("Shift Request", "one_hr", shift_request),
+	"One Shift Schedule": ("Shift Schedule", "one_hr", shift_schedule),
+	"One Staffing Plan": ("Staffing Plan", "one_hr", staffing_plan),
+	"One Training Event": ("Training Event", "one_hr", training_event),
+	"One Training Feedback": ("Training Feedback", "one_hr", training_feedback),
+	"One Training Result": ("Training Result", "one_hr", training_result),
+	"One Travel Request": ("Travel Request", "one_hr", travel_request),
+	"One Vehicle Log": ("Vehicle Log", "one_hr", vehicle_log),
 }
 TRADE["Supplier Quotation"] = {
 	# A buyer's own address is the one it's billed at.
@@ -1937,7 +3023,7 @@ for _doctype, _spec in TRADE.items():
 	VERSIONS[f"One {_doctype} Bordered"] = (_doctype, _spec["module"], _trade(_doctype, trade_bordered))
 	VERSIONS[f"One {_doctype} with Images"] = (_doctype, _spec["module"], _trade(_doctype, trade_images))
 
-MODULES = {"one_book": "One Book", "one_crm": "One CRM", "one_inventory": "One Inventory", "one_hr": "One HR", "one_project": "One Project"}
+MODULES = {"one_admin": "One Admin", "one_book": "One Book", "one_crm": "One CRM", "one_inventory": "One Inventory", "one_hr": "One HR", "one_project": "One Project"}
 
 
 def write(modified):

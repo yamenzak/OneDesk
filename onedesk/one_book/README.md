@@ -361,7 +361,14 @@ fails a small business on first use or leaves a question unanswered.
 prints as an instruction to the bank (the account to pay from, each payment
 with the account it goes into, two to sign) and a bank guarantee as what it
 is for, the bank behind it and what it cost. A payment request prints as
-the request it is: how much, for what, and the bank and link to pay by. A payment order has no total
+the request it is: how much, for what, and the bank and link to pay by.
+Every other record OneBook submits prints from One's pieces too, rather
+than frappe's Standard: a bank transaction (in or out, and what it was
+matched to), a budget and how it's spread, a cost allocation, an exchange
+rate revaluation, invoice discounting, a period closing, a share transfer
+with both sides to sign, and the background runs (deferred accounting,
+payment reconciliation, ledger reposts, a transactions deletion), each
+saying what it did. A payment order has no total
 of its own, and frappe's builder can't add one up. ERPNext's six
   POS Invoice formats have no version: One has no till, so it makes no POS
   invoices to print. ERPNext's nine report formats (Accounts Receivable,

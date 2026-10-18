@@ -1427,7 +1427,15 @@ buying), One Delivery Trip (the driver's stops in order, who to ask for,
 room to tick each one), One Quality Inspection (each reading against what
 it should be, and whether it passed), One Job Card (one step of a work order
 on the floor, its materials and time) and One Bill of Materials (the
-materials and steps, and what it all costs).
+materials and steps, and what it all costs). The rest of what OneInventory
+submits prints from One's pieces too rather than frappe's Standard: an
+asset's card (what it cost and is worth now, how it's written down, its
+insurance), its maintenance and repair records, a value adjustment, shift
+depreciation and a capitalization; a stock count (what the books said and
+what was found), a landed cost, a stock reservation, the serial and batch
+numbers a line moved, a stock closing; a production plan, a BOM draft, a
+sales forecast, an item's standard cost, a product bundle, a supplier's
+score and a shipment.
 
 ### access.py
 

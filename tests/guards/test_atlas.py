@@ -287,7 +287,7 @@ ENGLISH = {
 	"erpnext / Support": 0,
 	"frappe / Automation": 32,
 	"frappe / Core": 26,
-	"frappe / Desk": 33,
+	"frappe / Desk": 32,
 	"frappe / Email": 4,
 	"frappe / Integrations": 6,
 	"frappe / Printing": 6,

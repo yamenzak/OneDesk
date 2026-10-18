@@ -673,7 +673,8 @@ maintenance plan (what's maintained, how often, each visit and who did it)
 and a service report (each item seen to and the work done, the customer's
 feedback) print the same way, and so does an installation note (each item
 with its serial numbers and the delivery it came on, the customer to accept
-it); its lines keep the item's name (`one_item_name`) for it.
+it); its lines keep the item's name (`one_item_name`) for it. A call type prints as
+its name, so nothing OneCRM submits falls back to frappe's Standard.
 
 ### deal.py
 

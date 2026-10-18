@@ -439,7 +439,17 @@ money an employee spends or is given ahead, and One has two: **One Expense
 Claim** (each expense claimed and approved, any advance taken off, what's
 owed them) and **One Employee Advance** (how much and what for, what's spent
 and given back, and the promise that the rest comes from salary when the
-advance says so).
+advance says so). Everything else HR submits prints from One's pieces
+rather than frappe's Standard, each saying whose it is first: a leave
+application (the days, the balance before, the approver to sign), an
+allocation, adjustment, encashment and policy; a promotion or transfer
+letter (what changes, both to sign); a full and final settlement (owed to
+them, owed by them, company property not returned); gratuity; an appraisal,
+feedback, an interview and an exit interview; onboarding and separation
+steps; attendance, shifts and overtime; training, travel, a grievance, a
+referral, a vehicle log; and payroll's own (a payroll run, salary structures
+and assignments, additional salary, arrears, incentives, retention bonuses,
+withholding, benefits and tax exemptions).
 
 **Training Program**, **Training Event**, **Training Feedback** and **Training
 Result** list what each is about and when.

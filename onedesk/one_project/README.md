@@ -1501,6 +1501,8 @@ one field for it.
 - **One Timesheet** is drawn from the builder's own pieces
   (`scripts/print_formats.py`): whose hours, for whom and when, each day's
   work with its task, the hours billable, and the customer to approve them.
+- **One Project Update** prints what each person said about a project on a
+  day.
 - **One Sales Invoice** shows the hours a time and materials invoice bills,
   from ERPNext's Time Sheets table on it, as Time Billed, or Time Spent with
   the hours alone on a retainer, whose fee isn't the time's. An invoice that

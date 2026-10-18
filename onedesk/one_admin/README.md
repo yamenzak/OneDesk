@@ -385,7 +385,8 @@ because they were paid for.
 
 When an operator gives credits, the workspace's administrators get **Credits
 Added** with the note and expiry. Only operators see the ledger. On an entry,
-OneAI answers **Where did the credits go?**.
+OneAI answers **Where did the credits go?**. An entry prints as **One Credit
+Entry** (the workspace, the kind, how many, from where and until when).
 
 ## Models
 

@@ -513,7 +513,7 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | Access Log | on a rail or a home | the administrator | list script, 3 settings | no | taught |  | **none** |  |  |  |  |
 | Activity Log | on a rail or a home | the administrator | list script, 4 settings | no | taught |  | yes |  |  |  |  |
 | Audit Trail | replaced: Audit Log › Changes | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Background Task | engine: work run after a click, whose result the page shows | everybody | untouched | no | general |  | **none** |  |  | ar 6, de 1 |  |
+| Background Task | engine: work run after a click, whose result the page shows | everybody | untouched | no | general |  | **none** |  |  | ar 5, de 1 |  |
 | Comment | engine: a record's comments, written and read on the record | **nobody** | events | no | taught |  | yes |  |  |  |  |
 | Communication | inside: a record's activity, and OneMail | everybody | events, 7 fields | no | taught |  | yes |  |  |  | Mail Not Sent |
 | Custom DocPerm | inside: Workspace Settings › Access | **nobody** | untouched | no | general |  | yes |  |  | ar 1, de 1 |  |
@@ -613,7 +613,7 @@ Reports: Audit System Hooks (the platform's: the site's own workings, which the 
 | Desktop Settings | replaced: One's dock | **nobody** | untouched | no | general |  |  |  |  | ar 1, de 1 |  |
 | Dock | opened by our screens | everybody | untouched | no | general |  | yes |  |  | ar 3, de 3 |  |
 | Document Template | left out: waits in docs/BACKLOG.md | everybody | untouched | no | general |  | **none** |  |  | ar 1 |  |
-| Event | on a rail or a home | everybody | events, 1 fields | no | taught | makes it | yes |  |  | ar 1 | Event Changed, Invited to an Event, Starting Soon |
+| Event | on a rail or a home | everybody | events, 1 fields | no | taught | makes it | yes |  |  |  | Event Changed, Invited to an Event, Starting Soon |
 | Form Tour | through a form's link (Onboarding Step: form_tour) | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Global Search Settings | engine: which kinds of record search finds | everybody | untouched | no | general |  |  |  |  |  |  |
 | Kanban Board | opened by our screens | everybody | events | no | general |  | yes |  |  | ar 9, de 9 |  |
