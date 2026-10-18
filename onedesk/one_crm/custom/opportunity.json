@@ -289,6 +289,14 @@
    "property": "show_title_field_in_link",
    "property_type": "Check",
    "value": "1"
+  },
+  {
+   "doc_type": "Opportunity",
+   "doctype_or_field": "DocField",
+   "field_name": "utm_campaign",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
   }
  ],
  "sync_on_migrate": 1

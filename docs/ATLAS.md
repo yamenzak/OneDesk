@@ -26,7 +26,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
 | onedesk | 74 | 4 | 22 | 0 |
-| frappe | 36 | 38 | 140 | 0 |
+| frappe | 36 | 34 | 144 | 0 |
 | erpnext | 304 | 130 | 51 | 0 |
 | hrms | 103 | 19 | 8 | 0 |
 
@@ -59,8 +59,8 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | upkeep (`frontend/src/upkeep/UpkeepPage.vue`) | Asset, Asset Maintenance, Asset Maintenance Log, Asset Maintenance Task, Asset Repair | – | – | – |
 | floor (`frontend/src/floor/ShopFloor.vue`) | Employee, Job Card, Workstation | – | – | – |
 | plant (`frontend/src/plant/PlantFloor.vue`) | Job Card, Job Card Time Log, Plant Floor, Workstation | – | – | – |
-| my_tasks (`frontend/src/task/MyTasks.vue`) | Task, Task Depends On, Timesheet, Timesheet Detail | Timesheet, Timesheet Detail | – | Task, Timesheet |
-| timers (`frontend/src/task/Timers.vue`) | Project, Task, Timesheet, Timesheet Detail | Project, Task, Timesheet, Timesheet Detail | – | Project, Task, Timesheet |
+| my_tasks (`frontend/src/task/MyTasks.vue`) | Task, Task Depends On, Timesheet, Timesheet Detail | Timesheet, Timesheet Detail | – | – |
+| timers (`frontend/src/task/Timers.vue`) | Project, Task, Timesheet, Timesheet Detail | Project, Task, Timesheet, Timesheet Detail | – | – |
 
 ## erpnext / Accounts
 
@@ -116,10 +116,10 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Monthly Distribution | through a form's link (Territory: distribution_id) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Opening Invoice Creation Tool | on a rail or a home | OneBook | untouched | no | general |  |  |  |  |  |  |
 | POS Closing Entry | left out: the point of sale, until One has a till screen of its own | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
-| POS Invoice | through a form's link (Sales Invoice: pos_invoice) | OneBook, OneCRM | untouched | yes | general |  | **none** | ours |  |  |  |
+| POS Invoice | through a form's link (Sales Invoice: pos_invoice) | OneBook, OneCRM | 2 settings | yes | general |  | **none** | ours |  |  |  |
 | POS Invoice Merge Log | left out: the point of sale, until One has a till screen of its own | OneCRM | untouched | yes | general |  | **none** | **theirs** |  |  |  |
 | POS Opening Entry | left out: the point of sale, until One has a till screen of its own | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
-| POS Profile | through a form's connections (Sales Taxes and Charges Template's Connections) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
+| POS Profile | through a form's connections (Sales Taxes and Charges Template's Connections) | OneBook | 2 settings | yes | general |  | **none** |  |  |  |  |
 | POS Settings | left out: the point of sale, until One has a till screen of its own | OneBook, OneCRM | untouched | no | general |  |  |  |  |  |  |
 | Party Link | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Payment Entry | on a rail or a home | OneBook | a head, events, 3 settings | yes | general | makes it | yes |  |  |  |  |
@@ -132,7 +132,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Payment Terms Template | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Pegged Currencies | on a rail or a home | OneBook | untouched | no | general |  |  |  |  |  |  |
 | Period Closing Voucher | on a rail or a home | OneBook | events | yes | general |  | **none** |  |  |  |  |
-| Pricing Rule | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
+| Pricing Rule | on a rail or a home | OneBook, OneCRM, OneInventory | 1 settings | yes | general |  | yes |  |  |  |  |
 | Process Deferred Accounting | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Process Payment Reconciliation | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Process Payment Reconciliation Log | through a form's connections (Process Payment Reconciliation's Connections) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
@@ -144,7 +144,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Purchase Taxes and Charges Template | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Repost Accounting Ledger | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Repost Payment Ledger | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
-| Sales Invoice | on a rail or a home | OneBook | a head, events, form script, 9 fields, 3 settings | yes | taught |  | yes | ours |  |  | Invoice Overdue |
+| Sales Invoice | on a rail or a home | OneBook | a head, events, form script, 9 fields, 5 settings | yes | taught |  | yes | ours |  |  | Invoice Overdue |
 | Sales Taxes and Charges Template | on a rail or a home | OneBook, OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Share Transfer | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Share Type | on a rail or a home | OneBook, OneCRM | untouched | yes | general |  | yes |  |  |  |  |
@@ -218,9 +218,9 @@ Reports: Item-wise Purchase History (under a list's related reports (Purchase Or
 | Contract | on a rail or a home | OneCRM, OneHR, OneInventory | a head, list script, 2 fields, 4 settings | yes | taught | makes it | yes |  |  | de 1 | Contract Expiring |
 | Contract Template | through a form's link (Contract: contract_template) | OneCRM, OneHR, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Email Campaign | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
-| Lead | on a rail or a home | OneCRM | a head, events, form script, list script, 7 fields, 28 settings | yes | taught | makes it | yes |  |  | ar 1 | New Lead Waiting |
+| Lead | on a rail or a home | OneCRM | a head, events, form script, list script, 7 fields, 29 settings | yes | taught | makes it | yes |  |  | ar 1 | New Lead Waiting |
 | Market Segment | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Opportunity | on a rail or a home | OneCRM | a head, events, form script, list script, 2 fields, 34 settings | yes | taught |  | yes |  |  | ar 2 |  |
+| Opportunity | on a rail or a home | OneCRM | a head, events, form script, list script, 2 fields, 35 settings | yes | taught |  | yes |  |  | ar 2 |  |
 | Opportunity Lost Reason | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Opportunity Type | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Prospect | on a rail or a home | OneCRM | 2 settings | yes | general |  | yes |  |  | ar 1 |  |
@@ -338,9 +338,9 @@ Reports: Electronic Invoice Register (under a list's related reports (Sales Invo
 | Party Specific Item | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Product Bundle | through a form's link (Delivery Note: product_bundle) | OneCRM, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Proforma Invoice | through a form's connections (Sales Order's Connections) | OneCRM | untouched | yes | general |  | **none** | ours |  |  |  |
-| Quotation | on a rail or a home | OneCRM | events, form script, 3 fields | yes | general | makes it | yes |  |  |  | Quotation Declined, Quotation Running Out |
+| Quotation | on a rail or a home | OneCRM | events, form script, 3 fields, 2 settings | yes | general | makes it | yes |  |  |  | Quotation Declined, Quotation Running Out |
 | SMS Center | left out: sends through SMS Settings, which waits in docs/BACKLOG.md | OneCRM | untouched | no | general |  |  |  |  |  |  |
-| Sales Order | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, 6 fields, 1 settings | yes | taught | makes it | yes | ours |  |  | Delivery Late, Quotation Accepted |
+| Sales Order | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, 6 fields, 3 settings | yes | taught | makes it | yes | ours |  |  | Delivery Late, Quotation Accepted |
 | Sales Partner Type | through a form's link (Sales Partner: partner_type) | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Selling Settings | on a rail or a home | OneBook, OneCRM, OneInventory, OneProject | untouched | no | general |  |  |  |  | ar 33, de 29 |  |
 
@@ -388,7 +388,7 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Batch | on a rail or a home | OneInventory | a head | yes | taught |  | yes |  |  | ar 1 | Expiring Soon |
 | Bin | engine: what each warehouse holds of each item; Stock Summary reads it | OneCRM, OneInventory | untouched | yes | taught |  | yes |  |  | ar 2 |  |
 | Customs Tariff Number | through a form's link (Item: customs_tariff_number) | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
-| Delivery Note | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, list script, 1 fields, 4 settings | yes | taught |  | yes | ours |  |  |  |
+| Delivery Note | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, list script, 1 fields, 6 settings | yes | taught |  | yes | ours |  |  |  |
 | Delivery Settings | on a rail or a home | OneInventory | untouched | no | general |  |  |  |  |  |  |
 | Delivery Trip | on a rail or a home | OneInventory | events, form script | yes | taught |  | yes |  |  |  |  |
 | Inventory Dimension | on a rail or a home | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
@@ -606,7 +606,7 @@ Reports: Audit System Hooks (the platform's: the site's own workings, which the 
 | Custom Workspace | replaced: each app's Home | **nobody** | untouched | no | general |  | **none** |  |  | ar 6, de 6 |  |
 | Dashboard | on a rail or a home | everybody | events, form script | no | taught |  | yes |  |  |  |  |
 | Dashboard Chart | through a form's link (Workspace: chart_name) | everybody | events | no | taught |  | yes |  |  | ar 1, de 1 |  |
-| Dashboard Chart Source | through a form's link (Dashboard Chart: source) | **nobody** | untouched | no | general |  | yes |  |  |  |  |
+| Dashboard Chart Source | through a form's link (Dashboard Chart: source) | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Dashboard Settings | engine: a person's own dashboard charts, kept from the dashboard | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | Desktop Icon | replaced: One's dock | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | Desktop Layout | replaced: One's dock | everybody | untouched | no | general |  | **none** |  |  | ar 1 |  |
@@ -647,7 +647,7 @@ Pages: backups (the platform's: backups, which the platform takes and keeps); de
 | Auto Email Report | on a rail or a home | the administrator | events | no | taught |  | **none** |  |  | ar 1, de 1 |  |
 | Document Follow | left out: waits in docs/BACKLOG.md | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | Email Account | opened by our screens | OneHR | events, 9 fields | no | taught |  | yes |  |  |  |  |
-| Email Domain | through a form's link (Email Account: domain) | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Email Domain | through a form's link (Email Account: domain) | the administrator | untouched | no | general |  | **none** |  |  |  |  |
 | Email Flag Queue | engine: read and unread marks on their way to the mail server | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Email Group | on a rail or a home | OneCRM | untouched | no | general |  | yes |  |  |  |  |
 | Email Group Member | inside: an Email Group's members, in OneCRM | OneCRM | untouched | no | general |  | yes |  |  |  |  |
@@ -655,7 +655,7 @@ Pages: backups (the platform's: backups, which the platform takes and keeps); de
 | Email Rule | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Email Template | through a form's link (DocType: default_email_template) | everybody | events | no | taught |  | yes |  |  |  |  |
 | Email Unsubscribe | engine: who asked for no more mail, which OneMail's rules honour | **nobody** | 1 fields | no | general |  | yes |  |  |  |  |
-| Notification | opened by our screens | the administrator | class, events, 1 fields | no | taught |  | yes |  |  | ar 1, de 1 |  |
+| Notification | opened by our screens | the administrator | class, events, 1 fields, 1 settings | no | taught |  | yes |  |  | ar 1, de 1 |  |
 | Unhandled Email | engine: mail a mailbox could not file, kept for the platform | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 
 ## frappe / Geo
@@ -682,7 +682,7 @@ Pages: backups (the platform's: backups, which the platform takes and keeps); de
 | OAuth Provider Settings | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | OAuth Settings | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Push Notification Settings | replaced: One's own push, sent with the site's keys (one/push.py) | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Slack Webhook URL | through a form's link (Notification: slack_webhook_url) | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Slack Webhook URL | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Social Login Key | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  | ar 3, de 3 |  |
 | Token Cache | engine: an outside service's sign-in, kept while it lasts | everybody | untouched | no | general |  | **none** |  | **only an ID** |  |  |
 | Webhook | on a rail or a home | the administrator | events, form script | no | taught |  | **none** |  |  | ar 1, de 1 |  |
@@ -717,18 +717,18 @@ Pages: print (inside: every record's Print); print-format-builder (inside: Works
 | Personal Data Deletion Request | on a rail or a home | the administrator | form script, list script, 3 settings | no | taught |  | **none** |  |  |  |  |
 | Personal Data Download Request | on a rail or a home | the administrator | form script, list script, 4 fields, 3 settings | no | taught |  | **none** |  |  |  |  |
 | Portal Settings | replaced: One's portal, which reads it for its tabs | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| UTM Campaign | through a form's link (Promotional Scheme: campaign) | **nobody** | untouched | no | general |  | yes |  |  |  |  |
-| UTM Medium | through a form's link (Delivery Note: utm_medium) | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| UTM Campaign | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | yes |  |  |  |  |
+| UTM Medium | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | UTM Source | on a rail or a home | OneCRM, the administrator | untouched | no | general |  | yes |  |  |  |  |
-| Web Form | on a rail or a home | **nobody** | untouched | no | general |  | yes |  |  | ar 1, de 1 |  |
+| Web Form | on a rail or a home | the administrator | 1 settings | no | general |  | yes |  |  | ar 1, de 1 |  |
 | Web Form Request | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  | ar 4, de 4 |  |
-| Web Page | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Web Page | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | 1 settings | no | general |  | **none** |  |  |  |  |
 | Web Page View | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Web Template | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 | Website Route Meta | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Website Script | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Website Settings | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  |  |  |  | ar 1, de 1 |  |
-| Website Sidebar | through a form's link (Web Form: website_sidebar) | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Website Sidebar | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Website Slideshow | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Website Theme | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 
@@ -742,7 +742,7 @@ Reports: Website Analytics (left out: frappe's website builder; a workspace's pu
 | Workflow Action | engine: an approval waiting on somebody; the bell and the record's head say it | everybody | events | no | general |  | **none** |  |  |  |  |
 | Workflow Action Master | through a form's link (Workflow: action) | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Workflow State | through a form's link (Workflow: state) | the administrator | untouched | no | general |  | yes |  |  |  |  |
-| Workflow Transition Tasks | through a form's link (Workflow: transition_tasks) | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Workflow Transition Tasks | through a form's link (Workflow: transition_tasks) | the administrator | untouched | no | general |  | **none** |  |  |  |  |
 
 Pages: workflow-builder (opened by our screens).
 

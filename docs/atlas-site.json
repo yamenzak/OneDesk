@@ -720,7 +720,8 @@
 ],
 "Dashboard Chart Source": [
 "Administrator",
-"System Manager"
+"System Manager",
+"Workspace Administrator"
 ],
 "Dashboard Settings": [
 "Desk User"
@@ -882,7 +883,8 @@
 "System Manager"
 ],
 "Email Domain": [
-"System Manager"
+"System Manager",
+"Workspace Administrator"
 ],
 "Email Flag Queue": [
 "System Manager"
@@ -2916,7 +2918,8 @@
 "Sales User"
 ],
 "Web Form": [
-"Website Manager"
+"Website Manager",
+"Workspace Administrator"
 ],
 "Web Form Request": [
 "Website Manager"
@@ -2977,7 +2980,8 @@
 "Workspace Administrator"
 ],
 "Workflow Transition Tasks": [
-"System Manager"
+"System Manager",
+"Workspace Administrator"
 ],
 "Workspace": [
 "Desk User",

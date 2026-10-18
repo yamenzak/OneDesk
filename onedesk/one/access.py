@@ -782,6 +782,10 @@ ADMINISTRATOR = {
 	"Number Card": ("read", "write", "create", "delete"),
 	"Webhook": ("read", "write", "create", "delete"),
 	"Webhook Request Log": ("read", "report"),
+	"Web Form": ("read", "write", "create", "delete"),
+	"Email Domain": ("read",),
+	"Dashboard Chart Source": ("read",),
+	"Workflow Transition Tasks": ("read", "write", "create"),
 }
 
 PAGES = ("workflow-builder", "print-format-builder")

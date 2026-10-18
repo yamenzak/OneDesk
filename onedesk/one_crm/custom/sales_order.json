@@ -10,6 +10,22 @@
    "property": "description",
    "property_type": "Small Text",
    "value": ""
+  },
+  {
+   "doc_type": "Sales Order",
+   "doctype_or_field": "DocField",
+   "field_name": "utm_campaign",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Sales Order",
+   "doctype_or_field": "DocField",
+   "field_name": "utm_medium",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
   }
  ],
  "sync_on_migrate": 1
