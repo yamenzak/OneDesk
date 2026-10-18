@@ -8,12 +8,20 @@ FETCHED = "employee.employee_name"
 
 
 def hide(*_args) -> None:
+	"""A mandatory Employee Name is made optional as it is hidden: the
+	Employee fills it, and a field hidden, mandatory and with no default fails
+	the next sync of that record type's customizations, which stops
+	`bench migrate`."""
 	from frappe.custom.doctype.property_setter.property_setter import make_property_setter
 
 	for doctype in _doctypes():
 		if not _written(doctype, MIRROR, "hidden"):
 			make_property_setter(
 				doctype, MIRROR, "hidden", "1", "Check", validate_fields_for_doctype=False
+			)
+		if frappe.get_meta(doctype).get_field(MIRROR).reqd and not _written(doctype, MIRROR, "reqd"):
+			make_property_setter(
+				doctype, MIRROR, "reqd", "0", "Check", validate_fields_for_doctype=False
 			)
 		if _doubled(doctype) and not _written(doctype, LINK, "in_list_view"):
 			make_property_setter(
