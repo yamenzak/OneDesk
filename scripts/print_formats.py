@@ -98,12 +98,23 @@ def title_section(words=TITLES):
 	)
 
 
+def contact_lines():
+	"""Who to talk to there, and how."""
+	small = "margin-top:2px;"
+	return [
+		field("contact_display", "Data", "Contact", hide_colon=1, custom_style="margin-top:6px;"),
+		field("contact_email", "Data", "Email", hide_colon=1, custom_style=small),
+		field("contact_mobile", "Data", "Phone", hide_colon=1, custom_style=small),
+	]
+
+
 def bill_to():
 	return [
 		heading("Bill To"),
 		field("customer_name", "Data", "Customer", show_label="hide", bold=1, font_size=13),
 		field("address_display", "Small Text", "Address", show_label="hide", custom_style="color:#374151;line-height:1.5;margin-top:2px;"),
 		field("tax_id", "Data", "TRN", hide_colon=1, custom_style="margin-top:6px;"),
+		*contact_lines(),
 	]
 
 
@@ -114,6 +125,8 @@ def detail_rows():
 		row("return_against", "Link", "Against Invoice"),
 		linked("project.project_name", "Project", label_justify="space-between", hide_colon=1, custom_style=f"padding:5px 0;border-bottom:1px solid {LINE};"),
 		row("po_no", "Data", "Your Reference"),
+		row("payment_terms_template", "Link", "Payment Terms"),
+		row("incoterm", "Link", "Delivery Terms"),
 	]
 
 
@@ -394,7 +407,7 @@ TRADE = {
 		"party": ("Prepared For", "customer_name"),
 		# A quotation may be for a lead, so it keeps no tax ID of its own.
 		"tax": None,
-		"details": (("transaction_date", "Date", "Date"), ("valid_till", "Date", "Valid Until")),
+		"details": (("transaction_date", "Date", "Date"), ("valid_till", "Date", "Valid Until"), ("payment_terms_template", "Link", "Payment Terms"), ("incoterm", "Link", "Delivery Terms")),
 		"schedule": True,
 		"signs": (("For", "company"), ("Accepted By", "customer_name")),
 	},
@@ -409,6 +422,8 @@ TRADE = {
 			("delivery_date", "Date", "Delivery Date"),
 			("po_no", "Data", "Your Reference"),
 			("project", "Project", "Project"),
+			("payment_terms_template", "Link", "Payment Terms"),
+			("incoterm", "Link", "Delivery Terms"),
 		),
 		"schedule": True,
 		"advance": True,
@@ -427,6 +442,7 @@ TRADE = {
 			("transporter_name", "Data", "Transporter"),
 			("vehicle_no", "Data", "Vehicle"),
 			("driver_name", "Data", "Driver"),
+			("incoterm", "Link", "Delivery Terms"),
 		),
 		"priced": False,
 		"signs": (("Delivered By", None), ("Received By", "customer_name")),
@@ -460,6 +476,8 @@ TRADE.update({
 			("transaction_date", "Date", "Date"),
 			("schedule_date", "Date", "Required By"),
 			("project", "Project", "Project"),
+			("payment_terms_template", "Link", "Payment Terms"),
+			("incoterm", "Link", "Delivery Terms"),
 		),
 		"schedule": True,
 		"advance": True,
@@ -479,6 +497,8 @@ TRADE.update({
 			("due_date", "Date", "Due Date"),
 			("return_against", "Link", "Against Invoice"),
 			("project", "Project", "Project"),
+			("payment_terms_template", "Link", "Payment Terms"),
+			("incoterm", "Link", "Delivery Terms"),
 		),
 		"schedule": True,
 	},
@@ -489,7 +509,7 @@ TRADE.update({
 		"titles": (("Request for Quotation", ""),),
 		"number": "Request No",
 		"party_fields": _rfq_party,
-		"details": (("transaction_date", "Date", "Date"), ("schedule_date", "Date", "Required By")),
+		"details": (("transaction_date", "Date", "Date"), ("schedule_date", "Date", "Required By"), ("incoterm", "Link", "Delivery Terms")),
 		"priced": False,
 		"columns": (
 			{"fieldname": "qty", "fieldtype": "Float", "label": "Qty", "width": 14, "align": "right",
@@ -497,6 +517,8 @@ TRADE.update({
 			{"fieldname": "schedule_date", "fieldtype": "Date", "label": "Required By", "width": 18, "align": "right", "date_format": DATE},
 		),
 		"message": "message_for_supplier",
+		"contacts": False,
+		"counted": False,
 	},
 	"Purchase Receipt": {
 		# A buyer's own address is the one it's billed at.
@@ -514,6 +536,7 @@ TRADE.update({
 			("transporter_name", "Data", "Transporter"),
 			("lr_no", "Data", "Vehicle"),
 			("project", "Project", "Project"),
+			("incoterm", "Link", "Delivery Terms"),
 		),
 		"priced": False,
 		"columns": (
@@ -560,7 +583,8 @@ def trade_party(spec):
 		found.append(field("address_display", "Small Text", "Address", show_label="hide", custom_style=style))
 	if spec.get("tax", "tax_id"):
 		found.append(field(spec.get("tax", "tax_id"), "Data", "TRN", hide_colon=1, custom_style="margin-top:6px;"))
-	found.append(field("contact_display", "Data", "Contact", hide_colon=1, custom_style="margin-top:2px;"))
+	if spec.get("contacts", True):
+		found += contact_lines()
 	if spec.get("deliver"):
 		found += [
 			heading("Deliver To", visible_if="doc.shipping_address_display", custom_style="margin-top:14px;"),
@@ -645,7 +669,7 @@ def signs_section(signs):
 def trade_rest(spec):
 	found = [terms_section()]
 	if spec.get("message"):
-		found.insert(0, section([field(spec["message"], "Text Editor", "Message", show_label="hide", custom_style="line-height:1.55;")],
+		found.insert(0, section([heading("Message"), field(spec["message"], "Text Editor", "Message", show_label="hide", custom_style="line-height:1.55;")],
 			top=22, visible_if=f"doc.{spec['message']}"))
 	if spec.get("bank"):
 		found.insert(0, trade_bank())
@@ -654,12 +678,19 @@ def trade_rest(spec):
 	return found
 
 
+def trade_count(spec):
+	"""A document without prices ends its lines with how many in all."""
+	if spec.get("priced", True) or not spec.get("counted", True):
+		return []
+	return [section([], [row("total_qty", "Float", "Total Qty", bold=1)], widths=[52, 48], gap=48, top=8, field_orientation="left-right")]
+
+
 def trade_master(spec):
 	return layout(
 		trade_title(spec),
 		section(trade_party(spec), trade_details(spec), widths=[55, 45], gap=48, top=26, field_orientation="left-right"),
 		trade_lines(spec),
-		*([trade_totals(spec)] if spec.get("priced", True) else []),
+		*([trade_totals(spec)] if spec.get("priced", True) else trade_count(spec)),
 		*trade_rest(spec),
 	)
 
@@ -671,7 +702,7 @@ def trade_classic(spec):
 		[*_titles(spec, size=17), row("name", "Data", spec["number"], bold=1), linked("company.tax_id", "Our TRN", label_justify="space-between", hide_colon=1, custom_style=f"padding:5px 0;border-bottom:1px solid {LINE};"), *trade_details(spec)],
 		widths=[52, 48], gap=40, top=8, field_orientation="left-right",
 	)
-	found = [panel, trade_lines(spec, trade_columns(spec, code=True), **look)]
+	found = [panel, trade_lines(spec, trade_columns(spec, code=True), **look), *trade_count(spec)]
 	if spec.get("priced", True):
 		found.append(trade_totals(spec, words=False, **look))
 		found.append(section([field("in_words", "Data", "In Words", hide_colon=1, label_gap=10)], top=14, background=SOFT, radius=6,
@@ -705,7 +736,7 @@ def trade_bordered(spec):
 		custom_style=f"border:1px solid {LINE};", field_orientation="left-right",
 	)
 	look = {"table_bordered": True, "table_header": "styled", "table_header_bg": SOFT, "table_radius": 6}
-	found = [section(_titles(spec), top=6), facts, parties, trade_lines(spec, **look)]
+	found = [section(_titles(spec), top=6), facts, parties, trade_lines(spec, **look), *trade_count(spec)]
 	if spec.get("priced", True):
 		found.append(trade_totals(spec, **look))
 	return layout(*found, *trade_rest(spec))
@@ -958,12 +989,14 @@ def pick_list():
 	)
 	lines = section([table("locations", "Items", [
 		{"fieldname": "idx", "fieldtype": "Int", "label": "No", "width": 5},
-		item_column(width=33),
-		{"fieldname": "warehouse", "fieldtype": "Link", "label": "From", "width": 18},
-		{"fieldname": "qty", "fieldtype": "Float", "label": "Qty", "width": 11, "align": "right",
+		item_column(code=True, width=27),
+		{"fieldname": "warehouse", "fieldtype": "Link", "label": "From", "width": 16},
+		{"fieldname": "batch_no", "fieldtype": "Link", "label": "Batch", "width": 10},
+		{"fieldname": "serial_no", "fieldtype": "Small Text", "label": "Serial Numbers", "width": 10},
+		{"fieldname": "qty", "fieldtype": "Float", "label": "Qty", "width": 7, "align": "right",
 			"merged_fields": [{"fieldname": "uom", "fieldtype": "Link", "label": "UOM", "style": "muted-sm"}]},
-		{"fieldname": "picked_qty", "fieldtype": "Float", "label": "Picked", "width": 11, "align": "right"},
-		{"fieldname": "sales_order", "fieldtype": "Link", "label": "Order", "width": 22},
+		{"fieldname": "picked_qty", "fieldtype": "Float", "label": "Picked", "width": 9, "align": "right"},
+		{"fieldname": "sales_order", "fieldtype": "Link", "label": "Order", "width": 16},
 	])], top=28)
 	return layout(head, who, lines, signs_section((("Picked By", None), ("Checked By", None))))
 
@@ -987,6 +1020,8 @@ def _employee(size=13):
 		field("employee_name", "Data", "Employee", show_label="hide", bold=1, font_size=size),
 		field("designation", "Link", "Designation", show_label="hide", custom_style="color:#374151;margin-top:2px;"),
 		field("department", "Link", "Department", show_label="hide", custom_style="color:#374151;"),
+		linked("employee.employee", "Employee No", hide_colon=1, custom_style="margin-top:6px;"),
+		linked("employee.date_of_joining", "Joined", hide_colon=1, custom_style="margin-top:2px;"),
 	]
 
 
@@ -1008,9 +1043,13 @@ def _net(words=True):
 
 
 def _paid_into():
-	return section([row("mode_of_payment", "Link", "Paid By"), row("bank_name", "Data", "Bank"), row("bank_account_no", "Data", "Account")], [],
-		widths=[52, 48], top=18, field_orientation="left-right", visible_if="doc.bank_account_no or doc.mode_of_payment")
-
+	"""Where the pay went, as HRMS copied it from the employee onto the slip."""
+	return section([
+		heading("Paid Into"),
+		row("mode_of_payment", "Link", "Paid By"),
+		row("bank_name", "Data", "Bank"),
+		row("bank_account_no", "Data", "Account"),
+	], [], widths=[52, 48], top=18, field_orientation="left-right", visible_if="doc.bank_account_no or doc.bank_name or doc.mode_of_payment")
 
 def payslip():
 	"""HRMS's Salary Slip Classic: who and for when, what was earned and what
@@ -1034,7 +1073,9 @@ def payslip_compact():
 	the period on one line each, no words for the sum."""
 	head = section(
 		[field("employee_name", "Data", "Employee", show_label="hide", bold=1, font_size=13),
-			field("designation", "Link", "Designation", show_label="hide", custom_style="color:#374151;")],
+			field("designation", "Link", "Designation", show_label="hide", custom_style="color:#374151;"),
+			linked("employee.employee", "Employee No", hide_colon=1, custom_style="margin-top:4px;"),
+			field("payment_days", "Float", "Days Paid", hide_colon=1)],
 		[field("name", "Data", "Payslip No", show_label="hide", align="right", bold=1),
 			field("start_date", "Date", "From", align="right", hide_colon=1, date_format=DATE),
 			field("end_date", "Date", "To", align="right", hide_colon=1, date_format=DATE)],
