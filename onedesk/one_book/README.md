@@ -30,8 +30,13 @@ sidebar calls it. The rail has:
   Receivable** (who owes you, and how late) and **Process Statement Of
   Accounts** (customer statements by mail).
 - **Payables** — **Debit Note** and **Accounts Payable** (whom you owe).
-- **Banking** — **Bank Transaction**, **Bank Statement Import** and **Bank
-  Account**.
+- **Banking** — **Bank Transaction** (each line of a bank statement, to
+  match), **Bank Statement Import** (bringing a statement file in) and
+  **Bank Account** (each of the company's bank accounts: the bank, the IBAN
+  and account number, and the account in the chart it posts to). Tick **Is
+  Default Account** on the one you use most: an invoice prints it as the
+  account to pay into, and the Bank Reconciliation Tool and a new statement
+  import open on it.
 - **Financial Reports** — **Profit and Loss**, **Balance Sheet**, **Cash
   Flow**, **General Ledger**, **Trial Balance**, **Gross Profit**, the **VAT
   Return** and, in the UAE, the **UAE VAT 201**.

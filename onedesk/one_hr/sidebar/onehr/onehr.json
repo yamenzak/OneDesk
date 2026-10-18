@@ -685,18 +685,6 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
-   "label": "Professional Tax Deductions",
-   "link_to": "Professional Tax Deductions",
-   "link_type": "Report",
-   "show_arrow": 0,
-   "type": "Link"
-  },
-  {
-   "child": 1,
-   "collapsible": 1,
-   "indent": 0,
-   "is_default_module": 1,
-   "keep_closed": 0,
    "label": "Accrued Earnings",
    "link_to": "Accrued Earnings Report",
    "link_type": "Report",

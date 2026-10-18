@@ -680,8 +680,10 @@ a file?**, using only what you can see in the log.
 
 People ask for a copy of their data, or for their account to be deleted, under
 You › Profile › **Your Data**. People without an account use the workspace's
-**/your-data** page. Administrators handle requests under Privacy › **Data
-Copies** and **Account Deletions**.
+**/your-data** page. Administrators handle requests under Privacy in the
+rail: **Data Copies** lists every request for a copy of someone's data, and
+**Account Deletions** every request to delete an account. Open one to answer
+it.
 
 - Administrators are notified of each new request in One and by email, and
   again each day once a request has waited a week.
@@ -1913,7 +1915,7 @@ For the people who build One. OneAI does not read past this heading.
 | `../public/js/settings.js` | Draws a section, and behaves like a desk form: dirty, stale saves, realtime |
 | `sidebar/one/one.json` | One's sidebar, with a link per section |
 | `ai.py` | What OneAI offers on these pages, what it is told about where the reader is, and its suggestion tools: a notification rule, its text, and a form customized (`customize`) |
-| `notify.py` | The one door every notification goes through, and the sandbox an edited text renders in; see `docs/NOTIFICATIONS.md` |
+| `notify.py` | The one door every notification goes through, and the sandbox an edited text renders in; see `onedesk/notifications/README.md` |
 | `push.py`, `doctype/push_device`, `../public/js/push.js` | Web Push: a person's browsers, the site's keys, sending, and the service worker |
 | `rules.py` | The workspace's own notification rules: frappe's Notification, held to what a workspace rule may do |
 | `custom/notification_type.json` | What a Notification Type carries here: its app, text and channels |
@@ -2995,7 +2997,7 @@ request as if they had asked from their profile.
 
 ### push.py
 
-Standard Web Push (docs/NOTIFICATIONS.md, stage 4). Nothing of Frappe's relay
+Standard Web Push (onedesk/notifications/README.md). Nothing of Frappe's relay
 and no Firebase account: each message is encrypted on our server for the one
 browser it is for (RFC 8291, by `pywebpush`), and the browser's own push
 service carries it without being able to read it: Google's for Chrome and
@@ -3236,7 +3238,7 @@ hooks.py, as a measure or a verb is (one/head.py): a name, a label, where it
 goes, and which records carry it. The desk draws it with what that module
 registers under the same name in `public/js/record_tabs.js`, which is the one
 place the form's layout is added to for them. Nothing is written to any
-doctype, erpnext's and hrms's included. docs/SHELL.md, stage 8.
+doctype, erpnext's and hrms's included. docs/SHELL.md, Record tabs.
 
 A tab is on every record that has a room of its own, which is not a child
 table or a settings page, unless it names the doctypes it is for; `leaves_out`

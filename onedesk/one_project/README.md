@@ -30,8 +30,10 @@ places, and its reports below them.
 - **Project Template**: the tasks a kind of job usually has, to start a project
   from (Starting from a template).
 - **Reports**, ERPNext's own reports across all projects:
-  - **Project Summary**: each project's tasks, how many are done and how
-    many are late, and how far along it is.
+  - **Project Progress**: how far along each project is, with its tasks,
+    how many are done and how many are late. It opens on open projects;
+    filter it by status or priority. Onboarding and exit checklists are
+    left out.
   - **Project Profitability**: what billed timesheets earned against what
     the people who logged them cost. It counts only people paid from their
     timesheets.
@@ -176,7 +178,8 @@ Every project's folder in OneCloud (**Records › Project ›** the project) has
 - They're shown on the project's page and on the customer's portal, the cover
   first and then each in turn: a photo for a few seconds, a video muted to its
   end. A single video plays on a loop. Holding the pointer over them pauses
-  them.
+  them. Someone whose device asks for less motion gets the photos still:
+  no slow zoom, no fade, and no turning on their own.
 - The newest photo is the project's **cover**, shown wherever the project has a
   picture.
 - A project can have as many photos and videos as it needs.
@@ -1458,8 +1461,8 @@ ERPNext's **Project** is the project and its money: the customer, the one
 Sales Order it answers to, `estimated_costing`, and the totals ERPNext keeps
 from timesheets, purchases and invoices (`total_costing_amount`,
 `total_billed_amount`, `gross_margin`). ERPNext's **Task** is the work, and is
-OneTask's as much as ours. ERPNext has no project inside a project; stage 3 adds
-one field for it.
+OneTask's as much as ours. ERPNext has no project inside a project; Parent Project
+(`one_parent`) adds one field for it.
 
 - `board.py` — ERPNext's own per-project Kanban, shaped as it is made, and
   their nightly Overdue job stopped: a late task is a date, not a column. Their
@@ -1806,7 +1809,9 @@ one field for it.
   A project made without a kind, by ERPNext, HR or an import, is given the
   kind its records say (`guess`, `fill`), as `patches/kinds.py` did for the
   projects made before kinds existed.
-- `progress.py` — Bill Progress on a purchase or sales order: ERPNext's own
+- `progress.py` — Bill Progress on a purchase or sales order (a subcontract is
+  a purchase order; ERPNext's own "Subcontracting" is something else, a factory
+  making items from materials sent to it): ERPNext's own
   "Create > Invoice" mapper with each line's quantity cut to the share done
   less what's billed (`to_bill`), since ERPNext keeps an invoice at the
   order's rate. `settle` makes the **Lump Sum** unit (can be split) and the
@@ -2379,7 +2384,7 @@ one field for it.
 ### What OneTask has to keep doing for projects
 
 OneTask is everybody's; these are the promises it makes to OneProject, and each
-stage below that touches tasks keeps them:
+change here that touches tasks keeps them:
 
 - a task's people see it wherever it is, and a task in no project is its own
   people's alone (`one_task/access.py`);
@@ -2387,76 +2392,6 @@ stage below that touches tasks keeps them:
 - the timer writes time against whichever project a task is in;
 - My Tasks names the project a task is in — and, once there are sub-projects,
   the path to it.
-
-### The plan
-
-1. **The split.** *Done.* The project half of OneTask — the board, a project's
-   calendar, task prefixes, the plan and the project settings — moves here,
-   and OneProject gets its own place in the dock.
-2. **Members.** *Done.* A project's Users decide who sees it and its tasks,
-   instead of every Projects User seeing every project; a project listing
-   nobody stays open. A task's own people still see it. Members of a project
-   will see what is under it once there is something under it (`under`).
-3. **Sub-projects.** *Done.* A Parent Project on Project, to any depth, so a separately
-   billable piece — the handrails on a villa, a change request on a website —
-   is a project of its own with its own quotation, sales order, time and
-   invoices. A project cannot sit under itself. A parent shows its own figures
-   and the whole tree's, worked out rather than stored, and its sub-projects as
-   an indented list. **Group Under New Project** makes a parent above a project
-   and moves it and any of its sub-projects under it. A sub-project takes its
-   parent's customer unless told otherwise. The calendar includes the
-   sub-projects' tasks, titled by sub-project; the board stays one project's,
-   since ERPNext's board is a filter fixed when it is made.
-4. **The overview.** *Done.* A project's page answers first: done so far, due against
-   expected, cost against budget, billed against billable (each of the three
-   with a line showing how far), overdue tasks and the next milestone, and
-   beside them the hours logged on its timesheets a bar a week for twelve
-   weeks, this week's in blue.
-5. **The plan.** *Done.* frappe's Gantt over a project's tasks and its
-   sub-projects', milestones on it, and dependencies that move across projects
-   in one tree, not only within one. Three things of frappe's needed fixing for
-   it to show anything: a task with no start date, a chart that never scrolled,
-   and the view mode pills.
-6. **Templates.** *Done.* ERPNext's Project Template starts a project with its
-   tasks, sub-tasks and dependencies; a project that went well is saved as
-   one; milestones, expected time and checklists come across; the project's
-   prefix names them; templates are the team's, not their maker's. A template
-   of a whole tree of sub-projects is not built: ERPNext's template is one
-   project.
-7. **Cost and billing.** *Done.* Time priced by Activity Cost, which ERPNext
-   already did; a project's billable hours invoiced in one step, by activity;
-   a quotation for extra work ordered as a sub-project of the project it is
-   for. A rate per customer or per project is not built: ERPNext prices time
-   by person and activity only.
-8. **Status updates.** *Done.* ERPNext's Project Update asks the team for a
-   note on a schedule — in One, and by mail where there is mail — the note is
-   written on the project's page or by replying, and the answers are in the
-   project's activity. Asking the customer is stage 9's.
-9. **The customer's view.** *Done.* ERPNext's portal shows a customer their
-   own projects: a customer invited from their contact can sign in, reach the
-   list and open a project, which shows its progress, end, milestones,
-   sub-projects, tasks, order and invoices, and nothing of the team's. A
-   customer adding tasks or commenting is not built.
-10. **Workload.** *Done.* Who has how many hours of open work in a week, from
-    the expected time left on the tasks assigned to them, against their working
-    days less holidays and leave, with what is late and what is not estimated.
-    Moving work between people is done on the tasks, not here.
-11. **The old OneProject.** *Done.* Read from OneApp's `56216d9a`, where it
-    left: a space manifest over the same ERPNext doctypes, with seven screens.
-    Taken: **Health** and **Project Manager** on a project, a **Milestones**
-    list across projects, and boarding checklists kept out of the portfolio.
-    Already here: task prefixes (its Key), the checklist, the Gantt with
-    dependencies and milestones, sub-tasks, the project's tasks, time and
-    invoices as connections, templates, and the rate card under Setup. Not
-    taken: its own board columns, labels, ranks, cycles and assignee mirror
-    (OneTask's stage 6 says why); a colour per project; a board of projects by
-    health, which anybody can make from Health with frappe's Kanban; its
-    dashboards and charts beyond the page's one hours chart; a Gantt of projects, since
-    a project's own schedule is the one people plan with; a read-only
-    Invoices screen, which is the project's connections; and members seeing
-    only their own timesheets, which would stop a project lead invoicing
-    their team's time. Its one live leftover in OneApp, OneBook reading the
-    OneProject catalogue row on import, is fixed there.
 
 ### access.py
 

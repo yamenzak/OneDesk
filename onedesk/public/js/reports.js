@@ -61,7 +61,7 @@ onedesk.reports.one_name = () => {
 	};
 };
 
-const MONTHLY = ["Salary Register", "Income Tax Deductions", "Professional Tax Deductions"];
+const MONTHLY = ["Salary Register", "Income Tax Deductions"];
 
 onedesk.reports.a_payroll_month = () => {
 	const QueryReport = frappe.views && frappe.views.QueryReport;

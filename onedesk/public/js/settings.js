@@ -609,7 +609,12 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	static session_columns(last = null) {
 		const esc = frappe.utils.escape_html;
 		return [
-			{ label: __("Device"), fieldname: "device" },
+			{
+				label: __("Device"),
+				render: (one) =>
+					esc(one.device) +
+					(one.count > 1 ? ` <span class="one-shell-quiet">${esc(__("{0} sessions", [one.count]))}</span>` : ""),
+			},
 			{ label: __("Address"), fieldname: "address" },
 			{ label: __("Last Used"), render: (one) => `<span class="one-shell-quiet">${esc(frappe.datetime.prettyDate(one.last_used))}</span>` },
 			...(last ? [{ label: "", render: last }] : []),

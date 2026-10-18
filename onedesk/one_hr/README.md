@@ -30,8 +30,8 @@ The rail on the left has the whole of OneHR in it:
   **Growth**, **Joining & Leaving** — one group each, opened with the arrow.
   Pay has Employee Incentive, Retention Bonus, Arrear (back pay for a raise
   dated in the past) and Payroll Correction (days without pay given back);
-  Growth has Transfer; Joining & Leaving has Exit Interview and the Full and
-  Final Statement.
+  Growth has Transfer; Joining & Leaving has Exit Interview and the
+  Full and Final Statement.
 
 **One workspace is one company.** You are never asked which company a record
 belongs to, and no screen, filter or report shows a Company field. Pay is in
@@ -144,6 +144,11 @@ be learned for one person, so home counts like the office.
 day. If you forget to clock out, the day is closed at the end of your shift,
 you get one reminder, and the log says it was closed automatically.
 
+The reasons offered are kept under **Clock Reason** in the rail. Add one,
+give it a description to show when it is picked, or untick **Enabled** to
+stop offering it. Tick **Ends the Shift** on the one that means not coming
+back today; a day closed at the shift's end is filed under it.
+
 **OneHR fixes its own settings.** When the office router gets a new address,
 or everybody clocks in at a gate outside the drawn location, check-ins from
 people who were verified another way are noticed. After enough of them — the
@@ -191,8 +196,9 @@ shift that has check-ins and is producing no attendance.
 
 ### Marking attendance by hand
 
-For people without a phone, or a day the clock did not cover: **Mark
-Attendance** in the rail. Pick the day, then who, then what to mark them as.
+For people without a phone, or a day the clock did not cover:
+**Mark Attendance** in the rail. Pick the day, then who, then what to mark
+them as.
 **Tick Everyone Who Checked In** ticks everybody who clocked in that day, and
 **Search** narrows a long list without losing the ticks.
 
@@ -205,6 +211,11 @@ adds. **Shift Request** asks to work a different shift.
 Both are answered the same way as leave and expense claims: **Approve** or
 **Reject**, with a note. The record then shows who decided, when, and what they
 wrote. Nobody approves their own request.
+
+**Shift Assignment Tool** puts many people on a shift at once. Pick the
+shift and the dates, narrow the list by branch, department or designation,
+tick who, and press **Assign Shift**. Its other two actions give people a
+shift schedule, or approve or reject a batch of shift requests together.
 
 ### Overtime
 
@@ -258,11 +269,17 @@ Lina Farah AED 700.00 for 7 days of Casual Leave* — or says what is missing:
 the daily encashment amount on the salary structure or the person's
 assignment. OneHR does not guess a daily rate.
 
-**Reports:** **Leave Balance**, **Leave Balance Summary** and **Working on a
-Holiday**. An employee can have a holiday list of their own that differs from
+**Reports:** **Leave Balance**, **Leave Balance Summary**, **Leave Ledger**
+and **Working on a Holiday**. **Leave Ledger** lists every day of leave
+given, taken, encashed or lapsed, one line each, so you can see where a
+balance came from. An employee can have a holiday list of their own that differs from
 the company's; Working on a Holiday reads theirs.
 
 ## Pay
+
+**Payroll Overview**, first in Pay, shows the salary paid out month by
+month, and last month's pay by department and by designation, with last
+month's total pay and incentives beside it.
 
 **Payroll Entry** says the whole run in one line: *01-08-2026 – 31-08-2026: 5
 people, 27,500.00, in 5 slips still in draft*, and turns green when they are
@@ -275,7 +292,11 @@ the period, and how many working days were paid when it was not a whole month.
 **Salary Register** opens on the most recent payroll run.
 
 **Salary Structure Assignment** and **Additional Salary** show the amount in
-the list. **Salary Withholding** shows the reason, and the period held.
+the list. **Bulk Salary Structure Assignment** puts many people on one
+salary structure at once: pick the structure and the date it starts, and it
+lists everybody with no assignment on that date. Narrow it by branch,
+department, designation or grade, give each person their base and variable
+pay, tick who, and press **Assign Structure**. **Salary Withholding** shows the reason, and the period held.
 
 **CTC Break-up** needs an employee and an assignment chosen before it shows
 anything.
@@ -289,10 +310,26 @@ stay empty.
 **Exemption Declaration** and **Exemption Proof** say how much was claimed and
 how much is allowed, in orange when part of a claim is over a category's limit.
 **Benefit Application** and **Benefit Claim** work out their own limits and
-totals. The four tax reports open on the current payroll year or the month of
-the last payroll run.
+totals. **Other Income** records what an employee earns outside the company
+in a payroll year, so the tax worked out on their salary counts it.
+
+The tax reports open on the current payroll year or the month of the last
+payroll run:
+
+- **Income Tax Computation** — each person's tax for the payroll year: what
+  they earned, their exemptions, what is taxable, the tax due and what has
+  been taken so far.
+- **Income Tax Deductions** — the income tax taken from each payslip in a
+  month.
+- **Accrued Earnings** — benefits that build up through the year, by person
+  and component: what has built up, what has been paid and what is still
+  owed. **Create Additional Salary** on a row pays what is still owed.
 
 ## Expenses
+
+**Expense Overview**, first in Expenses, shows this month's claims, how
+many were approved and rejected, and charts of claims over time, by type and
+by department, and of advances by status.
 
 **Expense Claim.** The approver presses **Approve** or **Reject** with a note,
 and the claim says what approving pays: *Approving this pays Omar Haddad back
@@ -303,7 +340,8 @@ their own claim. The cost centre is filled in.
 correctly.
 
 **Travel Request** shows who is travelling and why at the top. It has no
-approval step.
+approval step. The reasons it can give are kept under **Purpose of Travel**
+in the rail; add one there when a trip fits none of them.
 
 **Vehicle Log** says the distance and the fuel: *770 on the odometer since the
 last log, on 58.00 Litre costing AED 179.80*.
@@ -378,6 +416,17 @@ it.
 fills in from its template. **Staffing Plan** lists its period, headcount and
 budget.
 
+**Employee Referral** is somebody an employee puts forward for a job: their
+details, their CV and why they fit. Once it is submitted, **Create Job
+Applicant** makes them an applicant, or **Reject Employee Referral** turns
+them down. When an accepted referral earns a bonus, **Create Additional
+Salary** starts the referrer's bonus as an Additional Salary for payroll.
+
+**Recruitment Overview**, first in Hiring, shows the open positions, this
+month's applicants and offers, how many were accepted and rejected, the
+offer acceptance rate and the time to fill, with charts of applicants by
+stage, source and status.
+
 **Hiring Pipeline** is the hiring report: one row per applicant, starting from
 the opening, so an opening nobody applied to shows *nobody yet*. The tiles are
 Openings, Vacancies, Applicants, Waiting, Interviewed, Offered and Accepted.
@@ -400,6 +449,10 @@ weakest areas to the workspace's own training programs and events.
 01-07-2026: designation Engineer → Senior Engineer* — and the list shows the new
 designation, so it can be filtered.
 
+**Appraisal Overview** is the appraisal report: one row per appraisal, with
+the goal score, the average feedback score and how many feedbacks it got,
+the self score and the final score. Pick a cycle to see one round.
+
 ## Joining & Leaving
 
 **Onboarding** needs a Job Offer, and the first one a workspace submits goes
@@ -412,6 +465,10 @@ after the company's equipment; see OneInventory.
 rule (in the UAE, days of basic pay for each year served) from their last
 payslip, and the books pay it. HRMS's UAE rules count no pay at all until a
 pay component is added to them. The demo adds Basic Salary.
+
+**Full and Final Statement** settles up with a leaver: what the company
+still owes them, what they owe it, and any company property they have not
+returned.
 
 **Grievance.** Each new grievance is read by OneAI: a neutral summary, a
 category and an urgency. One about harassment, discrimination or safety is
@@ -455,15 +512,19 @@ letters people ask HR for: a **Salary Certificate** (since when and as what,
 and the monthly pay as the latest payslip made it up) and an **Experience
 Letter** (from when to when, or that they still work here).
 
-**Training Program**, **Training Event**, **Training Feedback** and **Training
-Result** list what each is about and when.
+**Training Program**, **Training Event**, **Training Feedback** and
+**Training Result** list what each is about and when. A **Training Result**
+records how each person did on an event: their hours, their grade and a
+comment.
 
 **Exits.** **Employee Exits** opens on this year, so it shows who has left and
 who is leaving. In the panel on exit interviews, **Why are people leaving?**
 counts the reasons given over the last twelve months.
 
-**Reports:** **Lifecycle Overview**, **Employee Birthday**, **Employee
-Information** and **Employee Analytics**, which opens on Department.
+**Reports:** **Lifecycle Overview**, **Employee Birthday**,
+**Employee Information** and **Employee Analytics**, which opens on
+Department. **Employee Information** is everybody's details in one table, to
+sort, filter and add columns to.
 
 ## OneAI in OneHR
 
@@ -1706,7 +1767,7 @@ only when its `modified` changes, so the rail's own date moved with it.
 
 ### tell.py
 
-What HRMS tells people, told through One's hub instead (docs/NOTIFICATIONS.md, stage 6).
+What HRMS tells people, told through One's hub instead (onedesk/notifications/README.md).
 
 HRMS tells people things four ways, and none of them is the bell:
 

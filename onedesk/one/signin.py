@@ -48,8 +48,9 @@ def key(sid: str) -> str:
 
 
 def sessions(user: str | None = None) -> list[dict]:
-	"""Where the person is signed in and has not yet been signed out by time:
-	the device, the address, when it was last used, and which is this one."""
+	"""Where the person is signed in and has not yet been signed out by time,
+	one row a device: the device, the address, how many sessions it holds,
+	when it was last used, and which is this one."""
 	from frappe.sessions import get_expired_threshold
 
 	user = user or frappe.session.user
@@ -59,23 +60,44 @@ def sessions(user: str | None = None) -> list[dict]:
 		(user, get_expired_threshold()),
 		as_dict=True,
 	)
-	here = frappe.session.sid
-	out = []
-	for row in rows:
-		try:
-			data = json.loads(row.sessiondata or "{}")
-		except ValueError:
-			data = {}
-		out.append(
+	return grouped([_place(row) for row in rows], frappe.session.sid)
+
+
+def _place(row) -> dict:
+	try:
+		data = json.loads(row.sessiondata or "{}")
+	except ValueError:
+		data = {}
+	return {
+		"sid": row.sid,
+		"device": device(data.get("user_agent")),
+		"address": data.get("session_ip") or "",
+		"last_used": row.lastupdate,
+	}
+
+
+def grouped(places: list[dict], here: str | None) -> list[dict]:
+	"""Sessions on the same device from the same address as one row, newest
+	first and this device on top. A browser left open, a script or a test
+	run each opens one, and a person asks about devices. Pure."""
+	rows: dict = {}
+	for one in places:
+		row = rows.setdefault(
+			(one["device"], one["address"]),
 			{
-				"key": key(row.sid),
-				"device": device(data.get("user_agent")),
-				"address": data.get("session_ip") or "",
-				"last_used": row.lastupdate,
-				"here": row.sid == here,
-			}
+				"key": key(f"{one['device']}|{one['address']}"),
+				"device": one["device"],
+				"address": one["address"],
+				"count": 0,
+				"last_used": one["last_used"],
+				"here": False,
+			},
 		)
-	return sorted(out, key=lambda one: not one["here"])
+		row["count"] += 1
+		row["last_used"] = max(row["last_used"], one["last_used"])
+		row["here"] = row["here"] or one["sid"] == here
+	out = sorted(rows.values(), key=lambda row: row["last_used"], reverse=True)
+	return sorted(out, key=lambda row: not row["here"])
 
 
 def recent(user: str | None = None) -> list[dict]:
@@ -129,15 +151,22 @@ def facts(user: str | None = None) -> dict:
 
 @frappe.whitelist(methods=["POST"])
 def sign_out(key_of: str) -> int:
-	"""One of the reader's own sessions ends, found by the key the page has."""
+	"""A device's sessions end, found by the key the page has; this session
+	stays, even when it is on that device."""
 	from frappe.sessions import delete_session
 
-	mine = frappe.db.sql("select sid from `tabSessions` where user = %s", frappe.session.user, pluck=True)
+	mine = frappe.db.sql(
+		"select sid, sessiondata, lastupdate from `tabSessions` where user = %s",
+		frappe.session.user,
+		as_dict=True,
+	)
+	ended = 0
 	for row in mine:
-		if key(row) == key_of and row != frappe.session.sid:
-			delete_session(row, frappe.session.user, reason="Signed out from Settings")
-			return 1
-	return 0
+		one = _place(row)
+		if key(f"{one['device']}|{one['address']}") == key_of and row.sid != frappe.session.sid:
+			delete_session(row.sid, frappe.session.user, reason="Signed out from Settings")
+			ended += 1
+	return ended
 
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])

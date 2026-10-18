@@ -24,7 +24,7 @@ def _load(names):
 	return space
 
 
-S = _load({"BROWSERS", "SYSTEMS", "device", "key"})
+S = _load({"BROWSERS", "SYSTEMS", "device", "key", "grouped"})
 
 
 def test_a_device_is_named_as_a_person_says_it():
@@ -41,9 +41,26 @@ def test_a_device_is_named_as_a_person_says_it():
 
 def test_the_page_never_sees_a_session_id():
 	assert S["key"]("abc") != "abc" and len(S["key"]("abc")) == 16
-	assert '"key": key(row.sid)' in SIGNIN.read_text() and '"sid"' not in SIGNIN.read_text().split(
-		"def sessions"
-	)[1].split("def recent")[0].replace("select sid", "")
+	rows = S["grouped"]([{"sid": "s1", "device": "Chrome on Mac", "address": "1.2.3.4", "last_used": 1}], "s1")
+	assert "sid" not in rows[0] and "s1" not in str(rows)
+
+
+def test_sessions_are_shown_a_device_at_a_time():
+	"""288 sessions from one test run read as one row, not 288."""
+	places = [{"sid": f"s{n}", "device": "Chrome on Linux", "address": "127.0.0.1", "last_used": n} for n in range(288)]
+	places += [
+		{"sid": "phone", "device": "Safari on iPhone", "address": "5.6.7.8", "last_used": 500},
+		{"sid": "here", "device": "Chrome on Mac", "address": "1.2.3.4", "last_used": 10},
+	]
+	rows = S["grouped"](places, "here")
+	assert [(row["device"], row["count"]) for row in rows] == [
+		("Chrome on Mac", 1),
+		("Safari on iPhone", 1),
+		("Chrome on Linux", 288),
+	]
+	assert rows[0]["here"] and not rows[1]["here"]
+	assert rows[2]["last_used"] == 287
+	assert len({row["key"] for row in rows}) == 3
 
 
 def test_a_password_change_goes_through_ours_and_the_notices_are_always_mailed():
