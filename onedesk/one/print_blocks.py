@@ -173,6 +173,15 @@ FORMATS = {
 	"Subcontracting Inward Order": ("One Subcontracting Inward Order", "one_inventory"),
 	"Payment Order": ("One Payment Order", "one_book"),
 	"Bank Guarantee": ("One Bank Guarantee", "one_book"),
+	"Material Request": ("One Material Request", "one_inventory"),
+	"Supplier Quotation": ("One Supplier Quotation", "one_inventory"),
+	"Delivery Trip": ("One Delivery Trip", "one_inventory"),
+	"Quality Inspection": ("One Quality Inspection", "one_inventory"),
+	"Payment Request": ("One Payment Request", "one_book"),
+	"Expense Claim": ("One Expense Claim", "one_hr"),
+	"Employee Advance": ("One Employee Advance", "one_hr"),
+	"Job Card": ("One Job Card", "one_inventory"),
+	"BOM": ("One Bill of Materials", "one_inventory"),
 }
 
 #: The colour a page has when the company has no Brand Colour.

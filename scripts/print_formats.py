@@ -1621,6 +1621,245 @@ def bank_guarantee():
 		who, bank, more)
 
 
+def material_request():
+	"""Goods asked for: to buy, to move, to issue or to make by what it's
+	for, where they go and by when, each item with how many, and who asked
+	and who approved."""
+	titles = (
+		("Purchase Request", 'doc.material_request_type == "Purchase"'),
+		("Transfer Request", 'doc.material_request_type == "Material Transfer"'),
+		("Issue Request", 'doc.material_request_type == "Material Issue"'),
+		("Production Request", 'doc.material_request_type == "Manufacture"'),
+		("Subcontracting Request", 'doc.material_request_type == "Subcontracting"'),
+		("Material Request", 'doc.material_request_type == "Customer Provided"'),
+	)
+	who = section(
+		[heading("Deliver To", visible_if="doc.set_warehouse"), field("set_warehouse", "Link", "Deliver To", show_label="hide", bold=1, font_size=13),
+			heading("From Customer", visible_if="doc.customer", custom_style="margin-top:14px;"),
+			field("customer", "Link", "Customer", show_label="hide", bold=1, font_size=13)],
+		[row("transaction_date", "Date", "Date", date_format=DATE), row("schedule_date", "Date", "Required By", date_format=DATE),
+			row("set_from_warehouse", "Link", "From"), row("work_order", "Link", "Work Order"), row("job_card", "Link", "Job Card"), row("status", "Data", "Status")],
+		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
+	)
+	lines = section([table("items", "Items", [
+		{"fieldname": "idx", "fieldtype": "Int", "label": "No", "width": 5},
+		item_column(code=True, width=36),
+		{"fieldname": "from_warehouse", "fieldtype": "Link", "label": "From", "width": 15},
+		{"fieldname": "warehouse", "fieldtype": "Link", "label": "Into", "width": 16},
+		{"fieldname": "schedule_date", "fieldtype": "Date", "label": "Required By", "width": 14, "date_format": DATE},
+		_qty(width=14),
+	])], top=28)
+	return layout(_numbered(titles, "Request No"), who, lines, terms_section(), signs_section((("Requested By", None), ("Approved By", None))))
+
+
+def delivery_trip():
+	"""A driver's run: who drives what and when they leave, each stop in
+	order with the customer, the address, who to ask for and what is
+	dropped, room to mark each one done, and both sides to sign."""
+	who = section(
+		[*_who("Driver", "driver_name"), field("vehicle", "Link", "Vehicle", hide_colon=1, custom_style="margin-top:6px;")],
+		[row("departure_time", "Datetime", "Leaves", date_format=DATE), row("total_distance", "Float", "Distance"), row("uom", "Link", "Measured In"),
+			row("status", "Data", "Status")],
+		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
+	)
+	stops = section([table("delivery_stops", "Stops", [
+		{"fieldname": "idx", "fieldtype": "Int", "label": "No", "width": 5},
+		{"fieldname": "customer", "fieldtype": "Link", "label": "Customer", "width": 33,
+			"merged_fields": [{"fieldname": "customer_address", "fieldtype": "Small Text", "label": "Address", "style": "muted-sm"}]},
+		{"fieldname": "customer_contact", "fieldtype": "Small Text", "label": "Ask For", "width": 18},
+		{"fieldname": "delivery_note", "fieldtype": "Link", "label": "Delivery No", "width": 16,
+			"merged_fields": [{"fieldname": "details", "fieldtype": "Small Text", "label": "Notes", "style": "muted-sm"}]},
+		{"fieldname": "estimated_arrival", "fieldtype": "Datetime", "label": "Arrive By", "width": 16},
+		{"fieldname": "visited", "fieldtype": "Check", "label": "Done", "width": 12, "align": "right"},
+	], table_cell_padding=7)], top=28)
+	return layout(_numbered((("Delivery Trip", ""),), "Trip No"), who, stops, signs_section((("Dispatched By", None), ("Driver", "driver_name"))))
+
+
+def quality_inspection():
+	"""An item checked: what and from where, when and by whom, each reading
+	against what it should be, whether it passed, and both to sign."""
+	passed = 'doc.status == "Accepted"'
+	who = section(
+		[heading("Item"), field("item_name", "Data", "Item", show_label="hide", bold=1, font_size=13),
+			field("item_code", "Link", "Item Code", show_label="hide", custom_style=f"color:{MUTED};"),
+			field("description", "Small Text", "Description", show_label="hide", custom_style=ADDRESS),
+			field("batch_no", "Link", "Batch", hide_colon=1, custom_style="margin-top:6px;"),
+			field("item_serial_no", "Link", "Serial No", hide_colon=1, custom_style="margin-top:2px;")],
+		[row("report_date", "Date", "Date", date_format=DATE), row("inspection_type", "Data", "Inspection"), row("reference_name", "Dynamic Link", "For"),
+			row("sample_size", "Float", "Sample Size"), row("inspected_by", "Link", "Inspected By"),
+			text("Accepted", visible_if=passed, align="right", custom_style=PILL + "background:#dcfce7;color:#166534;"),
+			text("Rejected", visible_if='doc.status == "Rejected"', align="right", custom_style=PILL + "background:#fee2e2;color:#991b1b;")],
+		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
+	)
+	measured = "[one for one in doc.readings if one.numeric]"
+	readings = section([table("readings", "Readings", [
+		{"fieldname": "specification", "fieldtype": "Link", "label": "Check", "width": 26},
+		{"fieldname": "value", "fieldtype": "Data", "label": "Should Be", "width": 14},
+		{"fieldname": "min_value", "fieldtype": "Float", "label": "Min", "width": 9, "align": "right", "column_condition": measured},
+		{"fieldname": "max_value", "fieldtype": "Float", "label": "Max", "width": 9, "align": "right", "column_condition": measured},
+		{"fieldname": "reading_1", "fieldtype": "Data", "label": "1", "width": 8, "align": "right"},
+		{"fieldname": "reading_2", "fieldtype": "Data", "label": "2", "width": 8, "align": "right"},
+		{"fieldname": "reading_3", "fieldtype": "Data", "label": "3", "width": 8, "align": "right"},
+		{"fieldname": "reading_value", "fieldtype": "Data", "label": "Found", "width": 10},
+		{"fieldname": "status", "fieldtype": "Data", "label": "Result", "width": 10, "align": "right"},
+	], table_cell_padding=7)], top=28, visible_if="doc.readings")
+	return layout(_numbered((("Quality Inspection", ""),), "Report No"), who, readings, _remarks(),
+		signs_section((("Inspected By", None), ("Verified By", "verified_by"))))
+
+
+def payment_request():
+	"""A request to be paid, or to pay: to whom, for what, how much, how to
+	pay it with the bank and a link, and the message."""
+	inward = 'doc.payment_request_type == "Inward"'
+	who = section(
+		[heading("Bill To", visible_if=inward), heading("Pay To", visible_if=f"not ({inward})"),
+			field("party_name", "Data", "Party", show_label="hide", bold=1, font_size=13),
+			field("email_to", "Data", "Email", hide_colon=1, custom_style="margin-top:6px;"),
+			field("phone_number", "Data", "Phone", hide_colon=1, custom_style="margin-top:2px;")],
+		[row("transaction_date", "Date", "Date", date_format=DATE), row("reference_name", "Dynamic Link", "For"),
+			row("mode_of_payment", "Link", "Pay By"),
+			row("grand_total", "Currency", "Amount Due", bold=1, label_color=INK, font_size=15, custom_style=f"border-bottom:2px solid {INK};padding:8px 0;"),
+			row("outstanding_amount", "Currency", "Still Owed", visible_if="doc.outstanding_amount and doc.outstanding_amount != doc.grand_total")],
+		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
+	)
+	# Its message is a template ERPNext renders only into the email, so the
+	# paper says the request in its own words.
+	message = section([text("Please pay the amount above, quoting this request's number.", custom_style="font-size:10.5px;")],
+		top=22, visible_if=inward)
+	bank = section(
+		[heading("Pay Into"), field("bank", "Link", "Bank", hide_colon=1, custom_style="padding:2px 0;"),
+			field("iban", "Data", "IBAN", hide_colon=1, custom_style="padding:2px 0;font-variant-numeric:tabular-nums;"),
+			field("bank_account_no", "Data", "Account No", hide_colon=1, custom_style="padding:2px 0;"),
+			field("swift_number", "Data", "SWIFT", hide_colon=1, custom_style="padding:2px 0;")],
+		[heading("Pay Online", visible_if="doc.payment_url"), field("payment_url", "Data", "Link", show_label="hide", visible_if="doc.payment_url", custom_style="word-break:break-all;")],
+		widths=[52, 48], gap=48, top=22, keep_together=1, field_orientation="left-right", visible_if=f"{inward} and (doc.bank or doc.payment_url)",
+	)
+	return layout(_numbered((("Payment Request", ""),), "Request No", details=[_company_trn(align="right", custom_style="margin-top:4px;")]), who, message, bank)
+
+
+def expense_claim():
+	"""What an employee spent for the company: each expense, what was
+	claimed and what's approved, tax, any advance taken off, what's owed
+	them, and both to sign."""
+	who = section(
+		[*_who("Employee", "employee_name"), field("department", "Link", "Department", show_label="hide", custom_style=ADDRESS)],
+		[row("posting_date", "Date", "Date", date_format=DATE), row("expense_approver", "Link", "Approver"), row("approval_status", "Data", "Approval"),
+			_project(), row("task", "Link", "Task")],
+		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
+	)
+	lines = section([table("expenses", "Expenses", [
+		{"fieldname": "idx", "fieldtype": "Int", "label": "No", "width": 5},
+		{"fieldname": "expense_date", "fieldtype": "Date", "label": "Date", "width": 15, "date_format": DATE},
+		{"fieldname": "expense_type", "fieldtype": "Link", "label": "Expense", "width": 46,
+			"merged_fields": [{"fieldname": "description", "fieldtype": "Text Editor", "label": "Description", "style": "muted-sm"}]},
+		{"fieldname": "amount", "fieldtype": "Currency", "label": "Claimed", "width": 17, "align": "right"},
+		{"fieldname": "sanctioned_amount", "fieldtype": "Currency", "label": "Approved", "width": 17, "align": "right",
+			"column_condition": "doc.total_sanctioned_amount"},
+	])], top=28)
+	advances = [heading("Advances", visible_if="doc.advances"), table("advances", "Advances", [
+		{"fieldname": "employee_advance", "fieldtype": "Link", "label": "Advance", "width": 40},
+		{"fieldname": "posting_date", "fieldtype": "Date", "label": "Date", "width": 30, "date_format": DATE},
+		{"fieldname": "allocated_amount", "fieldtype": "Currency", "label": "Taken Off", "width": 30, "align": "right"},
+	], visible_if="doc.advances", table_cell_padding=6)]
+	totals = section(advances, [
+		row("total_claimed_amount", "Currency", "Claimed"),
+		row("total_sanctioned_amount", "Currency", "Approved", visible_if="doc.total_sanctioned_amount"),
+		row("total_taxes_and_charges", "Currency", "Tax", visible_if="doc.total_taxes_and_charges"),
+		row("total_advance_amount", "Currency", "Less Advance", visible_if="doc.total_advance_amount"),
+		row("grand_total", "Currency", "To Pay", bold=1, label_color=INK, font_size=15, custom_style=f"border-bottom:2px solid {INK};padding:8px 0;"),
+	], widths=[52, 48], gap=48, top=14, keep_together=1, field_orientation="left-right")
+	return layout(_numbered((("Expense Claim", ""),), "Claim No"), who, lines, totals, _remarks("remark"),
+		signs_section((("Claimed By", "employee_name"), ("Approved By", "expense_approver"))))
+
+
+def employee_advance():
+	"""Money given ahead to an employee: to whom, how much and what for, how
+	it's paid, what has been spent against it and given back, and both to
+	sign."""
+	who = section(
+		[*_who("Employee", "employee_name"), field("department", "Link", "Department", show_label="hide", custom_style=ADDRESS)],
+		[row("posting_date", "Date", "Date", date_format=DATE), row("mode_of_payment", "Link", "Paid By"),
+			row("advance_amount", "Currency", "Amount", bold=1, label_color=INK, font_size=15, custom_style=f"border-bottom:2px solid {INK};padding:8px 0;"),
+			row("paid_amount", "Currency", "Paid", visible_if="doc.paid_amount"), row("claimed_amount", "Currency", "Spent", visible_if="doc.claimed_amount"),
+			row("return_amount", "Currency", "Given Back", visible_if="doc.return_amount"),
+			row("pending_amount", "Currency", "Still Out", bold=1, visible_if="doc.pending_amount")],
+		widths=[55, 45], gap=48, top=26, field_orientation="left-right",
+	)
+	purpose = section([heading("For"), field("purpose", "Small Text", "Purpose", show_label="hide", custom_style="line-height:1.55;")], top=22)
+	words = section([text("Whatever is not spent and not given back is taken from my salary.", custom_style="font-size:10.5px;")],
+		top=14, visible_if="doc.repay_unclaimed_amount_from_salary")
+	return layout(_numbered((("Employee Advance", ""),), "Advance No"), who, purpose, words,
+		signs_section((("Received By", "employee_name"), ("Approved By", None))))
+
+
+def job_card():
+	"""One step of a work order on the floor: what's made and how many, the
+	step and where, the materials it takes, each stretch of time and who
+	worked it, and the operator and supervisor to sign."""
+	make = section(
+		[heading("Make"), field("item_name", "Data", "Item", show_label="hide", bold=1, font_size=15),
+			field("production_item", "Link", "Item Code", show_label="hide", custom_style=f"color:{MUTED};")],
+		[row("for_quantity", "Float", "Quantity", bold=1), row("stock_uom", "Link", "Unit"), row("total_completed_qty", "Float", "Done So Far")],
+		widths=[55, 45], gap=48, top=22, background=SOFT, radius=8, padding={"top": 14, "right": 16, "bottom": 14, "left": 16}, field_orientation="left-right",
+	)
+	step = section(
+		[heading("Step"), field("operation", "Link", "Step", show_label="hide", bold=1, font_size=13),
+			field("workstation", "Link", "Where", hide_colon=1, custom_style="margin-top:4px;")],
+		[row("work_order", "Link", "Work Order"), row("expected_start_date", "Datetime", "Starts", date_format=DATE),
+			row("expected_end_date", "Datetime", "Ends", date_format=DATE), row("wip_warehouse", "Link", "Work In Progress At"), _project()],
+		widths=[55, 45], gap=48, top=22, field_orientation="left-right",
+	)
+	materials = _materials("items", "Materials", [
+		{"fieldname": "item_name", "fieldtype": "Data", "label": "Material", "width": 44,
+			"merged_fields": [{"fieldname": "item_code", "fieldtype": "Link", "label": "Item Code", "style": "muted-sm"}]},
+		{"fieldname": "source_warehouse", "fieldtype": "Link", "label": "From", "width": 24},
+		_qty(fieldname="required_qty", unit="stock_uom", label="Needed", width=16),
+		{"fieldname": "transferred_qty", "fieldtype": "Float", "label": "Sent", "width": 16, "align": "right"},
+	])
+	times = section([heading("Time"), table("time_logs", "Time", [
+		{"fieldname": "from_time", "fieldtype": "Datetime", "label": "From", "width": 24},
+		{"fieldname": "to_time", "fieldtype": "Datetime", "label": "To", "width": 24},
+		{"fieldname": "employee", "fieldtype": "Link", "label": "Who", "width": 24},
+		{"fieldname": "time_in_mins", "fieldtype": "Float", "label": "Minutes", "width": 14, "align": "right"},
+		{"fieldname": "completed_qty", "fieldtype": "Float", "label": "Done", "width": 14, "align": "right"},
+	], table_cell_padding=6), row("total_time_in_mins", "Float", "Total Minutes", bold=1)], top=18, field_orientation="left-right", visible_if="doc.time_logs")
+	return layout(_numbered((("Job Card", ""),), "Card No"), make, step, materials, times, _remarks(),
+		signs_section((("Operator", None), ("Supervisor", None))))
+
+
+def bill_of_materials():
+	"""How one thing is made: what and how many, each material at its cost,
+	each step with where and how long, and what it all costs."""
+	make = section(
+		[heading("Makes"), field("item_name", "Data", "Item", show_label="hide", bold=1, font_size=15),
+			field("item", "Link", "Item Code", show_label="hide", custom_style=f"color:{MUTED};"),
+			field("description", "Small Text", "Description", show_label="hide", custom_style=ADDRESS)],
+		[row("quantity", "Float", "Quantity", bold=1), row("uom", "Link", "Unit"), _project(), row("routing", "Link", "Routing")],
+		widths=[55, 45], gap=48, top=22, background=SOFT, radius=8, padding={"top": 14, "right": 16, "bottom": 14, "left": 16}, field_orientation="left-right",
+	)
+	materials = section([heading("Materials"), table("items", "Materials", [
+		{"fieldname": "idx", "fieldtype": "Int", "label": "No", "width": 5},
+		item_column(code=True, width=45, describe=False),
+		{"fieldname": "operation", "fieldtype": "Link", "label": "At Step", "width": 16},
+		_qty(width=12),
+		{"fieldname": "rate", "fieldtype": "Currency", "label": "Rate", "width": 10, "align": "right"},
+		{"fieldname": "amount", "fieldtype": "Currency", "label": "Cost", "width": 12, "align": "right"},
+	], table_cell_padding=6)], top=24)
+	steps = _materials("operations", "Steps", [
+		{"fieldname": "operation", "fieldtype": "Link", "label": "Step", "width": 32},
+		{"fieldname": "workstation", "fieldtype": "Link", "label": "Where", "width": 26},
+		{"fieldname": "time_in_mins", "fieldtype": "Float", "label": "Minutes", "width": 14, "align": "right"},
+		{"fieldname": "hour_rate", "fieldtype": "Currency", "label": "Per Hour", "width": 14, "align": "right"},
+		{"fieldname": "operating_cost", "fieldtype": "Currency", "label": "Cost", "width": 14, "align": "right"},
+	])
+	costs = section([], [
+		row("raw_material_cost", "Currency", "Materials"),
+		row("operating_cost", "Currency", "Steps", visible_if="doc.operating_cost"),
+		row("total_cost", "Currency", "Total Cost", bold=1, label_color=INK, font_size=15, custom_style=f"border-bottom:2px solid {INK};padding:8px 0;"),
+	], widths=[52, 48], gap=48, top=14, keep_together=1, field_orientation="left-right")
+	return layout(_numbered((("Bill of Materials", ""),), "BOM No"), make, materials, steps, costs)
+
+
 def _trade(doctype, make):
 	return lambda: make(TRADE[doctype])
 
@@ -1663,9 +1902,33 @@ VERSIONS = {
 	"One Subcontracting Inward Order": ("Subcontracting Inward Order", "one_inventory", subcontracting_inward_order),
 	"One Payment Order": ("Payment Order", "one_book", payment_order),
 	"One Bank Guarantee": ("Bank Guarantee", "one_book", bank_guarantee),
+	"One Material Request": ("Material Request", "one_inventory", material_request),
+	"One Delivery Trip": ("Delivery Trip", "one_inventory", delivery_trip),
+	"One Quality Inspection": ("Quality Inspection", "one_inventory", quality_inspection),
+	"One Payment Request": ("Payment Request", "one_book", payment_request),
+	"One Expense Claim": ("Expense Claim", "one_hr", expense_claim),
+	"One Employee Advance": ("Employee Advance", "one_hr", employee_advance),
+	"One Job Card": ("Job Card", "one_inventory", job_card),
+	"One Bill of Materials": ("BOM", "one_inventory", bill_of_materials),
 }
-#: ERPNext ships one look for these, so One's is its master alone.
-ONE_LOOK = ("Purchase Receipt",)
+TRADE["Supplier Quotation"] = {
+	# A buyer's own address is the one it's billed at.
+	"our_address": "billing_address_display",
+	"module": "one_inventory",
+	"titles": (("Supplier Quotation", ""),),
+	"number": "Quotation No",
+	"party": ("From", "supplier_name"),
+	"tax": None,
+	"details": (
+		("transaction_date", "Date", "Date"),
+		("quotation_number", "Data", "Their Quotation No"),
+		("valid_till", "Date", "Valid Until"),
+		("project", "Project", "Project"),
+		("incoterm", "Link", "Delivery Terms"),
+	),
+}
+#: ERPNext ships one look for these, or none, so One's is its master alone.
+ONE_LOOK = ("Purchase Receipt", "Supplier Quotation")
 for _doctype, _spec in TRADE.items():
 	VERSIONS[f"One {_doctype}"] = (_doctype, _spec["module"], _trade(_doctype, trade_master))
 	if _doctype in ONE_LOOK:

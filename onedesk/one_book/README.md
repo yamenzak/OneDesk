@@ -360,7 +360,8 @@ fails a small business on first use or leaves a question unanswered.
   pay into, which a reminder now names as an invoice does). A payment order
 prints as an instruction to the bank (the account to pay from, each payment
 with the account it goes into, two to sign) and a bank guarantee as what it
-is for, the bank behind it and what it cost. A payment order has no total
+is for, the bank behind it and what it cost. A payment request prints as
+the request it is: how much, for what, and the bank and link to pay by. A payment order has no total
 of its own, and frappe's builder can't add one up. ERPNext's six
   POS Invoice formats have no version: One has no till, so it makes no POS
   invoices to print. ERPNext's nine report formats (Accounts Receivable,

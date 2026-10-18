@@ -1419,7 +1419,15 @@ pledge of whoever takes it). Work sent out and taken in prints too: One
 Subcontracting Order (what the supplier makes at what cost, and the materials
 we send for it), One Subcontracting Receipt (received, accepted and rejected,
 and the materials it used) and One Subcontracting Inward Order (what a
-customer sends us to make, how far it has got, and their materials).
+customer sends us to make, how far it has got, and their materials). So
+does the rest ERPNext ships no print for: One Material Request (a Purchase,
+Transfer, Issue or Production Request by what it's for), One Supplier
+Quotation (the supplier's prices as entered, for whoever approves the
+buying), One Delivery Trip (the driver's stops in order, who to ask for,
+room to tick each one), One Quality Inspection (each reading against what
+it should be, and whether it passed), One Job Card (one step of a work order
+on the floor, its materials and time) and One Bill of Materials (the
+materials and steps, and what it all costs).
 
 ### access.py
 

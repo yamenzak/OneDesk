@@ -434,7 +434,12 @@ Compact** on half a page, and **One Salary Statement** for HRMS's detailed
 one (each line's year to date, the payroll period, any income tax and the
 leave taken and left); **One Job Offer** (the position, each term of the
 offer, both sides to sign) and **One Appointment Letter** (the opening
-words, each term, the closing words, both sides to sign).
+words, each term, the closing words, both sides to sign). HRMS ships none for
+money an employee spends or is given ahead, and One has two: **One Expense
+Claim** (each expense claimed and approved, any advance taken off, what's
+owed them) and **One Employee Advance** (how much and what for, what's spent
+and given back, and the promise that the rest comes from salary when the
+advance says so).
 
 **Training Program**, **Training Event**, **Training Feedback** and **Training
 Result** list what each is about and when.
