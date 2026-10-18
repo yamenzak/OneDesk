@@ -105,6 +105,7 @@ def read(item: Annotated[str, "The item code."]) -> dict:
 				if row.attribute_value
 			],
 			"variants": _variants(item) if doc.has_variants else [],
+			"choices": _choices(doc) if doc.has_variants and doc.variant_based_on == "Item Attribute" else None,
 			"made": _made(item),
 			"last_made": last_made(item) if doc.is_stock_item else None,
 			"last_bought": stock.last_bought(item) if not doc.is_fixed_asset else None,
@@ -1038,3 +1039,62 @@ def last_made(item: str) -> dict | None:
 		limit=1,
 	)
 	return rows[0] if rows else None
+
+
+STEPS = 100
+
+
+def steps(start: float, end: float, step: float, most: int = STEPS) -> list[str] | None:
+	"""The values a numeric attribute allows, from `start` to `end` by `step`,
+	written as ERPNext writes them; None when there are more than `most`, so
+	the picker asks for them typed instead. Pure."""
+	if not step or step <= 0 or start > end:
+		return []
+	count = int(round((end - start) / step, 6)) + 1
+	if count > most:
+		return None
+	return [_written(start + i * step) for i in range(count)]
+
+
+def _written(value: float) -> str:
+	"""A number as an attribute value: 10, not 10.0. Pure."""
+	value = flt(value, 6)
+	return str(int(value)) if value == int(value) else repr(value)
+
+
+def _choices(doc) -> dict:
+	"""What Make Several offers on a template: each of its attributes with the
+	values it allows (a numeric one from its Item Attribute, as ERPNext's own
+	Multiple Variants dialog reads it), and the combinations its variants
+	already are, so the picker can say how many it would really make."""
+	attributes = []
+	for row in doc.get("attributes") or []:
+		if row.disabled:
+			continue
+		master = frappe.db.get_value(
+			"Item Attribute", row.attribute, ["numeric_values", "from_range", "to_range", "increment"], as_dict=True
+		) or {}
+		if master.get("numeric_values"):
+			start, end, step = flt(master.from_range), flt(master.to_range), flt(master.increment)
+			attributes.append(
+				{
+					"attribute": row.attribute,
+					"numeric": {"from": start, "to": end, "step": step, "said": [_written(x) for x in (start, end, step)]},
+					"values": steps(start, end, step),
+				}
+			)
+		else:
+			values = frappe.get_all(
+				"Item Attribute Value", filters={"parent": row.attribute}, pluck="attribute_value", order_by="idx asc"
+			)
+			attributes.append({"attribute": row.attribute, "numeric": None, "values": values})
+	made = {}
+	variants = frappe.get_list("Item", filters={"variant_of": doc.name}, pluck="name", limit_page_length=0)
+	if variants:
+		for one in frappe.get_all(
+			"Item Variant Attribute",
+			filters={"parent": ("in", variants), "parenttype": "Item"},
+			fields=["parent", "attribute", "attribute_value"],
+		):
+			made.setdefault(one.parent, {})[one.attribute] = one.attribute_value
+	return {"attributes": attributes, "made": list(made.values()), "image": bool(doc.image)}

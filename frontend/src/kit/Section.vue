@@ -6,8 +6,10 @@
       </h2>
       <div class="flex items-center gap-1">
         <span v-if="aside !== undefined && aside !== null && aside !== ''" class="text-base text-ink-gray-5">{{ aside }}</span>
-        <Button v-if="action && action.text" variant="ghost" :icon-left="action.icon" :label="action.label" @click="action.onClick" />
-        <Button v-else-if="action" variant="ghost" :icon="action.icon" :aria-label="action.label" @click="action.onClick" />
+        <template v-for="one in [action].flat().filter(Boolean)" :key="one.label">
+          <Button v-if="one.text" variant="ghost" :icon-left="one.icon" :label="one.label" @click="one.onClick" />
+          <Button v-else variant="ghost" :icon="one.icon" :aria-label="one.label" @click="one.onClick" />
+        </template>
       </div>
     </div>
     <slot />
@@ -17,5 +19,5 @@
 <script setup>
 import { Button } from "frappe-ui";
 
-defineProps({ title: { type: String, required: true }, aside: [String, Number], action: Object, boxed: Boolean, icon: String });
+defineProps({ title: { type: String, required: true }, aside: [String, Number], action: [Object, Array], boxed: Boolean, icon: String });
 </script>

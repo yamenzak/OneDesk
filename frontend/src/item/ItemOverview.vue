@@ -15,7 +15,7 @@
         <FieldEdit :form="form" field="description" start :label="__('Description')" :placeholder="said.can_write ? __('Add Description') : __('No description')" @saved="emit('changed')" />
       </Section>
 
-      <Section v-if="said.has_variants" :title="__('Variants')" icon="lucide-layers" :aside="said.variants.length || ''" :action="said.can.Item ? { text: true, icon: 'lucide-plus', label: __('Add Variant'), onClick: () => onedesk().item.variant(said.name) } : null">
+      <Section v-if="said.has_variants" :title="__('Variants')" icon="lucide-layers" :aside="said.variants.length || ''" :action="said.can.Item ? [said.choices && { text: true, icon: 'lucide-list-plus', label: __('Make Several'), onClick: () => emit('several') }, { text: true, icon: 'lucide-plus', label: __('Add Variant'), onClick: () => onedesk().item.variant(said.name) }] : null">
         <Rows :rows="said.variants.map((one) => ({ key: one.name, label: one.item_name, sub: one.name !== one.item_name ? one.name : '', badge: one.disabled ? { label: __('Disabled'), theme: 'red' } : null, route: `/desk/item/${encodeURIComponent(one.name)}` }))" :empty="__('No variants')" />
       </Section>
 
@@ -40,7 +40,7 @@ import { BarChart, ChartCard } from "frappe-ui/charts";
 import { Facts, FieldEdit, Rows, Section, __, date, go, onedesk, quantity } from "../kit";
 
 const props = defineProps({ said: { type: Object, required: true }, form: { type: Object, required: true } });
-const emit = defineEmits(["changed", "view"]);
+const emit = defineEmits(["changed", "view", "several"]);
 const root = ref();
 
 const moved = computed(() => {

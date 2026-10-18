@@ -51,7 +51,7 @@
       <ViewTabs v-model="view" :views="VIEWS" class="mt-5" />
 
       <div class="pt-4">
-        <ItemOverview v-if="view === 'overview'" :said="said" :form="form" @changed="load" @view="(key) => (view = key)" />
+        <ItemOverview v-if="view === 'overview'" :said="said" :form="form" @changed="load" @view="(key) => (view = key)" @several="several = true" />
         <ItemStock v-else-if="view === 'stock'" :said="said" :form="form" @changed="load" />
         <ItemBuying v-else-if="view === 'buying'" :said="said" :form="form" @changed="load" />
         <ItemSelling v-else-if="view === 'selling'" :said="said" :form="form" @changed="load" />
@@ -62,6 +62,7 @@
           <Activity :key="said.name" doctype="Item" :name="said.name" />
         </div>
       </div>
+      <ItemVariantsMake v-if="said.choices" v-model:open="several" :item="said.name" :choices="said.choices" @made="load" />
     </template>
   </Page>
 </template>
@@ -80,6 +81,7 @@ import ItemMaking from "./ItemMaking.vue";
 import ItemOverview from "./ItemOverview.vue";
 import ItemSelling from "./ItemSelling.vue";
 import ItemStock from "./ItemStock.vue";
+import ItemVariantsMake from "./ItemVariantsMake.vue";
 
 const Activity = defineAsyncComponent(() => import("../project/Activity.vue"));
 
@@ -101,6 +103,7 @@ onBeforeUnmount(onResize(() => (wide.value = viewWidth() >= 640)));
 const said = ref(null);
 const view = ref(props.query.view || "overview");
 const fileCount = ref(null);
+const several = ref(false);
 const record = useRecord("Item", name);
 const form = useForm("Item", name);
 
@@ -134,6 +137,8 @@ watch(
     if (!now) return;
     stop = [
       follow("Item", now, load),
+      followList("Item", (data) => said.value?.has_variants && data.name !== now && soon()),
+      followList("Item Attribute", () => said.value?.has_variants && soon()),
       followList("File", files),
       ...[
         "Bin",
@@ -294,6 +299,7 @@ function actions(s) {
   if (usable && s.stock && can["Stock Entry"]) list.push({ label: __("Transfer Stock"), onClick: () => desk().item.move(s.name) });
   if (usable && s.stock && can["Stock Reconciliation"]) list.push({ label: s.stock.moves.length ? __("Count Stock") : __("Set Opening Stock"), onClick: () => desk().item.count(s.name, !s.stock.moves.length) });
   if (s.has_variants && can.Item) list.push({ label: __("Add Variant"), primary: true, onClick: () => desk().item.variant(s.name) });
+  if (s.choices && can.Item) list.push({ label: __("Make Several Variants"), onClick: () => (several.value = true) });
   if (s.can_write) list.push({ label: __("Edit Details"), onClick: details });
   if (s.can_write) list.push({ label: s.disabled ? __("Enable Item") : __("Disable Item"), onClick: () => set("disabled", s.disabled ? 0 : 1) });
   if (s.stock) {
