@@ -254,7 +254,7 @@
    "child": 1,
    "collapsible": 1,
    "indent": 0,
-   "is_default_module": 1,
+   "is_default_module": 0,
    "keep_closed": 0,
    "label": "Timesheet",
    "link_to": "Timesheet",
