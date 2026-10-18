@@ -1,4 +1,4 @@
-"""What OneHR tells people, through One's hub (docs/NOTIFICATIONS.md, stage 6).
+"""What OneHR tells people, through One's hub (onedesk/notifications/README.md).
 
 HRMS's approvals, reminders and rescheduled interviews, told here instead of
 its own app and mails, and OneHR's own moments besides. More in
@@ -8,7 +8,7 @@ one_hr/README.md, Under the hood.
 import datetime
 
 import frappe
-from frappe import _lt
+from frappe import _, _lt
 from frappe.utils import add_days, add_months, cint, cstr, formatdate, getdate, to_timedelta
 from hrms.hr.doctype.expense_claim.expense_claim import ExpenseClaim as HRMSExpenseClaim
 from hrms.hr.doctype.interview.interview import Interview as HRMSInterview
@@ -861,3 +861,28 @@ def claims_paid(doc, method=None) -> None:
 				record=("Expense Claim", row.reference_name),
 				amount=frappe.utils.fmt_money(claim.total_sanctioned_amount, currency=claim.currency),
 			)
+
+
+def employee_details_changed(employee, said: list[str]) -> None:
+	"""A person changed where they live or who to call, told to HR but not them."""
+	from onedesk.one.settings import NOT_PEOPLE
+
+	hr = frappe.get_all("Has Role", filters={"role": "HR Manager", "parenttype": "User"}, pluck="parent")
+	hr = [
+		user
+		for user in dict.fromkeys(hr)
+		if user != frappe.session.user
+		and user not in NOT_PEOPLE
+		and frappe.db.get_value("User", user, "enabled")
+	]
+	if not hr:
+		return
+	what = said[0] if len(said) == 1 else _("{0} and {1}").format(", ".join(said[:-1]), said[-1])
+	notify.notify(
+		"Employee Details Changed",
+		hr,
+		record=("Employee", employee.name),
+		link=f"/desk/employee/{employee.name}",
+		employee=employee.employee_name or employee.name,
+		what=what,
+	)

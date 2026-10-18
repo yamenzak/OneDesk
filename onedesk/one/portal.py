@@ -1334,7 +1334,7 @@ def send(quote, doc, supplier: str, user: str) -> str:
 	user = user if user != "Guest" else "Administrator"
 	quote.db_set({"owner": user, "modified_by": user}, update_modified=False)
 
-	from onedesk.one import tell
+	from onedesk.one_inventory import tell
 
 	tell.quote_received(doc, quote, user, supplier)
 	return quote.name

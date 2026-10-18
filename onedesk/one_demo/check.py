@@ -4404,7 +4404,7 @@ def a_link_opens_a_record_for_somebody_without_an_account_and_answers_once():
 	with as_user("Guest"):
 		assert portal_share.link_view(token)["page"]["open"]
 		assert portal_share.link_preview(token, frappe.as_json(rows))["total"]
-		with mock.patch("onedesk.one.tell.quote_received"):
+		with mock.patch("onedesk.one_inventory.tell.quote_received"):
 			sent = portal_share.link_send(token, frappe.as_json(rows), "Two weeks", by="Rami Haddad")
 		assert not portal_share.link_view(token)["page"]["open"]
 	assert frappe.db.get_value("Supplier Quotation", sent, ["supplier", "docstatus"]) == ("Emirates Sealants & Fixings", 0)

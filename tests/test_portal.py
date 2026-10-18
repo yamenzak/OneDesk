@@ -111,7 +111,7 @@ def test_a_supplier_answers_a_quote_request_on_the_portal():
 	assert '"ignore_pricing_rule": 1' in send
 	assert "def quote_preview(" in SOURCE and "quote.calculate_taxes_and_totals()" in SOURCE
 	assert '"quote_preview"' in _page("Rfq.vue")
-	told = (tree.APP / "one" / "tell.py").read_text().split("def quote_received(", 1)[1]
+	told = (tree.APP / "one_inventory" / "tell.py").read_text().split("def quote_received(", 1)[1]
 	assert 'notify.notify(\n\t\t"Quote Received"' in told
 	notes = tree.notifications()
 	assert notes["Quote Received"]["module"] == notes["Quote Request Sent"]["module"] == "one_inventory"

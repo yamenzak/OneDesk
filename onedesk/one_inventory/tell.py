@@ -1,5 +1,5 @@
 """What ERPNext mailed from OneInventory, told through the hub instead
-(docs/NOTIFICATIONS.md, stage 6)."""
+(onedesk/notifications/README.md)."""
 
 import frappe
 from frappe import _, _lt
@@ -422,3 +422,20 @@ def back_late() -> None:
 				order=one.name,
 				due=formatdate(one.schedule_date),
 			)
+
+
+def quote_received(doc, quote, user: str, supplier: str) -> None:
+	"""A supplier quoted on the portal, told to whoever asked for the quote."""
+	from frappe.utils.user import get_users_with_role
+
+	asked = frappe.get_all("User", filters={"name": doc.owner, "enabled": 1}, pluck="name")
+	notify.notify(
+		"Quote Received",
+		asked or get_users_with_role("Purchase Manager"),
+		record=("Supplier Quotation", quote.name),
+		sender=user,
+		supplier=quote.supplier_name or supplier,
+		request=doc.name,
+		total=quote.get_formatted("grand_total"),
+		items=", ".join(row.item_name or row.item_code for row in quote.items),
+	)

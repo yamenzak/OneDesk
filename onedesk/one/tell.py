@@ -232,31 +232,6 @@ def administrator_added(doc) -> None:
 	)
 
 
-def employee_details_changed(employee, said: list[str]) -> None:
-	"""A person changed where they live or who to call, told to HR but not them."""
-	from onedesk.one.settings import NOT_PEOPLE
-
-	hr = frappe.get_all("Has Role", filters={"role": "HR Manager", "parenttype": "User"}, pluck="parent")
-	hr = [
-		user
-		for user in dict.fromkeys(hr)
-		if user != frappe.session.user
-		and user not in NOT_PEOPLE
-		and frappe.db.get_value("User", user, "enabled")
-	]
-	if not hr:
-		return
-	what = said[0] if len(said) == 1 else _("{0} and {1}").format(", ".join(said[:-1]), said[-1])
-	notify.notify(
-		"Employee Details Changed",
-		hr,
-		record=("Employee", employee.name),
-		link=f"/desk/employee/{employee.name}",
-		employee=employee.employee_name or employee.name,
-		what=what,
-	)
-
-
 def _said() -> dict:
 	"""When, from which device and address: what a security notice says."""
 	from frappe.utils import now_datetime
@@ -537,23 +512,6 @@ def holidays_run_out_soon(holiday_list: str, end, left: int) -> None:
 		last_day=frappe.utils.formatdate(end),
 		days=left,
 		first_day=frappe.utils.formatdate(add_days(end, 1)),
-	)
-
-
-def quote_received(doc, quote, user: str, supplier: str) -> None:
-	"""A supplier quoted on the portal, told to whoever asked for the quote."""
-	from frappe.utils.user import get_users_with_role
-
-	asked = frappe.get_all("User", filters={"name": doc.owner, "enabled": 1}, pluck="name")
-	notify.notify(
-		"Quote Received",
-		asked or get_users_with_role("Purchase Manager"),
-		record=("Supplier Quotation", quote.name),
-		sender=user,
-		supplier=quote.supplier_name or supplier,
-		request=doc.name,
-		total=quote.get_formatted("grand_total"),
-		items=", ".join(row.item_name or row.item_code for row in quote.items),
 	)
 
 

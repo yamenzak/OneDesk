@@ -348,7 +348,9 @@ def _tell_hr(employee, was: dict) -> None:
 	)
 	if not said:
 		return
-	tell.employee_details_changed(employee, said)
+	from onedesk.one_hr import tell as hr
+
+	hr.employee_details_changed(employee, said)
 
 
 def _notifications() -> dict:
