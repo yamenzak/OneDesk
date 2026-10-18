@@ -1,6 +1,6 @@
 """Push: a notification on the devices a person turned it on for.
 
-Standard Web Push (docs/NOTIFICATIONS.md, stage 4): each message encrypted on
+Standard Web Push (onedesk/notifications/README.md): each message encrypted on
 our server for one browser, and sent only to the browsers' own push services.
 """
 

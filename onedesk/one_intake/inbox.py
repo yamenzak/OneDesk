@@ -1,4 +1,4 @@
-"""Intake as an inbox: what OneAI did, and what waits for you (docs/INTAKE.md §4).
+"""Intake as an inbox: what OneAI did, and what waits for you (onedesk/one_intake/README.md §4).
 
 **Intake** in the rail opens two boxes that work like a mailbox, one line per
 document: **Done** and **Waiting**.

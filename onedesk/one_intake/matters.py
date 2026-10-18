@@ -1,7 +1,7 @@
 """Stage 5 of Intake: which matter a document belongs to, and what it changes.
 
 A **matter** is its first document's Reading, and every later Reading about it
-names that one in `matter` (docs/INTAKE.md §5.3).
+names that one in `matter` (onedesk/one_intake/README.md §5.3).
 """
 
 import json

@@ -1,5 +1,5 @@
 """What ERPNext mailed from OneBook's screens, told through the hub instead
-(docs/NOTIFICATIONS.md, stage 6)."""
+(onedesk/notifications/README.md)."""
 
 import frappe
 from frappe.utils import add_days, fmt_money, formatdate, getdate

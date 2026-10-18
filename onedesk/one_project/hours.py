@@ -1,4 +1,4 @@
-"""A project's time, for the page's Time view (docs/PROJECT-PAGE.md)."""
+"""A project's time, for the page's Time view (one_project/README.md)."""
 
 from datetime import datetime, time, timedelta
 from typing import Annotated

@@ -1,5 +1,5 @@
 """Ready to submit: every draft OneAI made that a person can post in one go
-(docs/INTAKE.md §3.2).
+(onedesk/one_intake/README.md §3.2).
 
 A draft is ready when its document's facts passed the check, its party is
 known and its total is the document's. Submitting is the person's own act.

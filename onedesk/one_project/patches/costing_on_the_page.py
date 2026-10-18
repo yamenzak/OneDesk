@@ -2,7 +2,7 @@
 
 The customer's side, the cost side, the forecast, the cost types and the
 suppliers were HTML fields drawn on the form. The page's Money and Suppliers
-views show them now (docs/PROJECT-PAGE.md), so the fields go. The tab keeps
+views show them now (one_project/README.md), so the fields go. The tab keeps
 the Budget and the fields ERPNext needs."""
 
 import frappe

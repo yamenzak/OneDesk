@@ -1,5 +1,5 @@
-"""Rules: notifications a workspace builds for itself (docs/NOTIFICATIONS.md,
-stage 5).
+"""Rules: notifications a workspace builds for itself
+(onedesk/notifications/README.md).
 
 A rule is frappe's own Notification, sent through the hub; one saved without
 frappe's own Notification roles is a workspace rule (`one_rule`), held here.

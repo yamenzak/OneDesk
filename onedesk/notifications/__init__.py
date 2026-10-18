@@ -1,5 +1,5 @@
 """Every notification and mail One sends, one file each, by module
-(README.md beside this, and docs/NOTIFICATIONS.md).
+(README.md beside this).
 
 `TYPES` is what one/notify.py declares: each file read in the one layout
 (layout.py), its words translated where they are shown.

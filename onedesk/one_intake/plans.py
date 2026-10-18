@@ -385,7 +385,7 @@ LEARNS = {
 
 
 def enrich(reading: dict, ctx: dict) -> list[Action]:
-	"""Every document teaches its parties something (docs/INTAKE.md §9). An
+	"""Every document teaches its parties something (onedesk/one_intake/README.md §9). An
 	empty field is filled and gets the field badge; one holding something
 	else keeps it and the new value is proposed beside it, which the door
 	decides from what the record says now. A phone the sender's contact does

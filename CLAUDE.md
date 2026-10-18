@@ -121,8 +121,10 @@ in `docs/ISLANDS.md` "What each screen follows" says which app, and
 ## The passover
 
 `docs/PASSOVER.md` is the seventeen points and how a screen is walked, short
-enough to read before every screen. What each walk found and fixed, where
-each area stands and what is up next go in `docs/PASSOVER-LOG.md`. The
+enough to read before every screen. What each walk found and fixed goes in
+its commit message, as the seventeen-point table. Where each area stands and
+what is up next go in `docs/PASSOVER-LOG.md`, which is kept short; the log of
+every walk up to 18 October 2026 is `git show b22b68f:docs/PASSOVER-LOG.md`. The
 guards and the atlas check what a machine can; the walk is for what it
 cannot (placement, the look, the words, the flow, a phone).
 
@@ -188,7 +190,8 @@ break each other's imports on sites that carry only one of them.
 - No dead code, no unused exports, no "kept in case". Delete it; git has it.
 - No re-export barrels that defeat tree-shaking; import from the declaring module.
 - Reference in `docs/` is **generated** — `MODULES.md`, `UPSTREAM.md`,
-  `FRAMEWORK.md`, `OVERRIDES.md`. Never edit those. If a fact has to be typed by
+  `FRAMEWORK.md`, `OVERRIDES.md`, `ATLAS.md` and `atlas-site.json`. Never edit
+  those. If a fact has to be typed by
   hand in two places, one of them is wrong.
 - A **module's README** is written by hand, lives beside the module and says so
   in its first line — `onedesk/one_hr/README.md` is one. Everything above its
@@ -196,9 +199,15 @@ break each other's imports on sites that carry only one of them.
   because OneAI's `how_to` tool reads it to answer them; the rest is for us.
   A module keeps one README rather than plans and audits in `docs/`: git keeps
   the history.
-- **`docs/BACKLOG.md` is what waits**: the P3 frappe doctypes, what was
-  decided against for now, unfinished stages and what the passover noticed.
-  Something built leaves it; something put off goes in it.
+- **`docs/BACKLOG.md` is what waits**: what is due now, the P3 frappe
+  doctypes, what was decided against for now, each module's unbuilt parts and
+  what the passover noticed. Something built leaves it; something put off goes
+  in it.
+- The rest of `docs/` is written by hand and short: `PASSOVER.md` (the
+  points), `STANDARD.md` (what a finished module looks like), `SHELL.md` (the
+  record and list frame), `ISLANDS.md` (frappe-ui screens inside desk),
+  `WORDING.md`, `ACCOUNTS.md`, and `docs/upstream/<date>.md` for each
+  checkpoint.
 - **A space's rail opens for its own roles.** erpnext and hrms keep some of
   what a rail links to for their System Manager; the space's `access.py`
   gives it to the roles People hands out, and
@@ -247,7 +256,8 @@ dependency.
 
 `python -m pytest` — fast, no site needed, and every guard has a test proving
 it still catches its own example. Every guard is listed by the passover point
-it serves in `tests/guards/registry.py` and lives in `tests/guards/`.
+it serves in `tests/guards/registry.py` and lives in `tests/guards/`, except
+the two below that sit in `tests/` and are not in the registry.
 
 - `test_borrowing.py` — a named list of what the framework does for us, and the
   pattern that must not appear. Add a rule when you find another.

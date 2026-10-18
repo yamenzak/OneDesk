@@ -659,16 +659,15 @@ Resuming, building and checking again are Home's buttons, not OneAI's.
 
 For the people who build OneAdmin. OneAI does not read past this heading.
 
-- **The account** (`accounts.py`, docs/ONE-ACCOUNT.md) is a frappe Website
-  User named by its email, and `Tenant.account` links a workspace to it;
-  `accounts.hold` runs from `signup.accept` and from the `accounts` patch.
+- **The account** (`accounts.py`) is a frappe Website User named by its
+  email, and `Tenant.account` links a workspace to it.
   `send_login_link` overrides frappe's on the admin site only, and
   `home_page` (hooks `get_website_user_home_page`) sends it to `/account`.
   An account has no desk and no roles; it signs in at `/login` and sees only
-  the portal pages we give it. `owner_email` stays as what the workspace was
-  bought with; `account` is who holds it now. Nothing makes an account for
-  somebody who has not paid: `hold` runs from `signup.accept`, after the
-  money, and from the patch for the workspaces that were already there.
+  the portal pages we give it. No doctype of ours stands in for a person.
+  `owner_email` stays as what the workspace was bought with; `account` is
+  who holds it now.
+
   On the admin site, `send_login_link`'s link is made by frappe
   (`_generate_temporary_login_link`, spent by `login_via_key`), and only for
   a Website User: an operator keeps their password and passkey, and a mailed
@@ -676,6 +675,51 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   silent answer an unknown one does, so the page tells nobody who has what.
   The mail is ours (Sign-in Link, `tell.sign_in_link`), in the same words as
   every other.
+
+  The account holds what spans workspaces: the list of them, starting
+  another, every invoice and the card, and the holder's name and email. What
+  belongs to one workspace (its plan, add-ons, credits, domains and people)
+  stays in that workspace's own screens. The account links to them rather
+  than copying them, so there is one screen per plan.
+
+  How an account comes to exist:
+
+  * **At payment.** `accounts.hold` runs from `signup.accept`, after the
+    money. The signup's email becomes a Website User if it is not one, and
+    the Tenant's `account` is set to it. Nothing is made for a signup that
+    never paid.
+  * **For workspaces from before.** The `accounts` patch makes one per
+    distinct `owner_email` and sets `account` on each Tenant. Our own
+    workspace (`is_house`) gets none.
+  * **Signed in on `/start`.** No email box: `signup.start` takes the
+    account's email over anything posted, so the workspace joins the account
+    the person is looking at. A guest is offered Sign in; `/welcome` links
+    back to the account.
+
+  **The Stripe customer is not shared.** Every invoice event is matched to
+  its workspace by customer: `stripe._ladder`, `books`, `billing.invoices`
+  and `billing.invoice` all read `Tenant.stripe_customer`. Two workspaces on
+  one customer would let one workspace's failed payment suspend the other.
+  Sharing it means matching by subscription in those four places, proven
+  against real Stripe events. Until then each workspace keeps its own
+  customer, which is why `accounts.invoices` asks Stripe once per workspace
+  and merges the answers newest first (one Stripe cannot answer for is named
+  rather than failing the page), and why Update card and **Pay** open
+  Stripe's billing portal per workspace. Pay goes to the portal rather than
+  the workspace's Plan screen because a suspended workspace cannot be opened
+  to reach it. Where Link is on in our Stripe account, Stripe offers the
+  saved card to the same email at checkout anyway.
+
+  **A new email** is proven by a mailed link (`ask_email_change`,
+  `confirm_email`) before frappe's own rename moves the User and every link
+  to it, `Tenant.account` included.
+
+  **Who pays** is on the workspace's Plan and Credits for its
+  administrators. `proxy.billed_to` calls `accounts.move`, which moves
+  `Tenant.account` to that email's account (making it if needed), logs
+  **Account Moved** and mails both holders. The ladder's suspension, archive
+  and restore mails go to the account holder, and `hello` carries
+  `billed_to` so the workspace shows who pays.
 - **The portal pages** are `www/start`, `www/welcome`, `www/account`,
   `www/account_invoices` and `www/account_profile` (routed from
   `/account/invoices` and `/account/profile`) and `www/legal`, drawn
@@ -688,8 +732,7 @@ For the people who build OneAdmin. OneAI does not read past this heading.
 - **Two gates** (`site.py`): the site config key `one_admin` makes a site the
   admin site, and every OneAdmin doctype grants only One Operator. On any
   other site the role is taken off everybody, and the permission hooks refuse
-  every record and every list. `docs/INFRASTRUCTURE.md` and
-  `docs/ACCOUNTS.md` are the long form.
+  every record and every list.
 
   The same app ships to every site. It is a site config key rather than a
   role, a setting or a fixture, and that is the whole point: all three of
@@ -752,6 +795,77 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   write. So there are two kinds of gate and they fail differently: the role
   decides what is *offered* — a rail, an awesomebar, a report builder — and
   the site config decides what is *answered*.
+
+  What the flag changes: the OneAdmin rail and its doctypes are offered
+  (`site.offer`), the proxy answers instead of refusing (`caller` calls
+  `require_admin`), and the provisioning runner does any work (`runner.py`
+  returns at once elsewhere). On a workspace site the same doctypes exist as
+  empty tables with no rail entry and no search hits, which is the cost of
+  one app.
+- **Who owns what.** Frappe Cloud owns the servers, benches, sites, their
+  backups and their upgrades. We are a press customer, never its operator,
+  and press's whitelisted HTTP API is the whole boundary (`press.py`). We own
+  the commercial facts: who the customer is, what they bought and spent,
+  where we put them and what the workspace is called. That is `Tenant` and
+  what hangs off it. Nothing of press's is mirrored. What `Tenant` stores
+  about the site is what we *asked* press for, which has to survive press
+  being unreachable.
+- **The admin site is in the control path, never the data path.** It
+  checks, signs and records; R2 and Cloudflare carry the bytes. Calls go
+  tenant to admin only (`proxy.py`), so there is no key anywhere that opens
+  every workspace. Bench common config holds nothing secret: each site's own
+  config gets the admin URL, its tenant name and its token from
+  `push_config`, and admin keeps only the token's hash. The old design put
+  R2 keys, the Cloudflare token and AI keys in common config, where every
+  workspace on the bench could read them.
+
+  AI is the one call that carries a payload through admin: it is kilobytes,
+  admin owns the ledger, and the gateway token never exists on a workspace,
+  so `ai_run` holds, calls and settles in one round trip. Anything that
+  charges is safe to repeat, because a timeout leaves us unable to tell
+  whether it landed: a Stripe event id is unique (`Stripe Webhook Event`),
+  and `ledger.grant` takes a key that meets a unique index. A signed storage
+  URL needs no key, since storage is billed on what is held, measured
+  nightly.
+
+  When admin is down, new uploads, new AI calls, plan changes and checkout
+  stop. Everything else in a workspace keeps working, and `Workspace Account`
+  keeps the plan and quota screens drawn.
+- **Where a workspace lives** is one question at signup (`www/start.py`,
+  `_jurisdictions`), and it sets both the R2 bucket (`jurisdiction`,
+  `storage._bucket`) and the server `place_it` picks (a server marked EU in
+  Settings' list, for the EU).
+  Asking twice would let somebody pick EU files on a US server. It is
+  permanent, and the page says so: R2 pins a bucket to its jurisdiction when
+  it is made, so moving means copying every object. EU is offered only once
+  Settings has `bucket_eu`, and with one choice the page draws no picker.
+- **Provisioning** is `steps.ORDER`, walked by `runner.py`: choose a server,
+  check the name is free, create the site, wait for it, write the edge key
+  (`route_it`), push the config (admin URL, tenant, token, `host_name`,
+  `max_file_size`), invite the owner, mark it live. The money comes first,
+  before any job exists (`signup.accept`). The R2 prefix needs no step: it is
+  `keys.prefix` of the slug.
+
+  Workspaces run OneStudio's server extensions, which are frappe Server
+  Scripts and run only where `server_script_enabled` is set in the bench's
+  `common_site_config.json` (on Frappe Cloud, the bench group's config). It
+  is set once per bench group, never per site. A workspace on a bench
+  without it shows Cannot Run Here on its server extensions and nothing else
+  changes. Who may write one is OneStudio's rule (`one_studio/README.md`).
+- **What lives where.** OneAdmin's doctypes are on every site and answer only
+  on the admin site: `One Admin Settings`, `Tenant` (with `Tenant Add-on`),
+  `Tenant Event`, `Tenant Domain`, `Account Request`, `Provisioning Job`,
+  `Workspace Server`, `Offering`, `Stripe Webhook Event`, `Credit Ledger
+  Entry`, `Credit Reservation`, `AI Model` (with `AI Model Rate`). A plan, a
+  pack and an add-on are all one `Offering`. The workspace side keeps
+  `Workspace Account` (`one/`), a single holding what it last heard from
+  `hello`, so its screens draw without a round trip. Storage is a
+  measurement written onto `Tenant`, not a second ledger.
+- **What is never here:** a credential that opens more than one workspace; a
+  copy of press's state (a fact that can be asked for is asked for); bytes
+  passing through admin; a second runtime. The bench's own queue,
+  scheduler and socketio, plus Cloudflare's Workers, are all there is to
+  deploy.
 - **Home is frappe's `One Admin` workspace**, as One's Home is: five
   number cards, and Needs You as a Custom HTML Block (`OneAdmin Needs You`,
   a fixture, for One Operator only) drawn with frappe's own quick list
@@ -1018,7 +1132,7 @@ system instruction rather than being glued onto the front of the prompt.
 **Nothing is ever asked "which model" at the call site.** An action declares
 the capability it needs; a workspace picks a model on a settings screen or does
 not; and if it does not, the operator's default for that capability answers.
-Code that calls a model never names one — see `docs/ONEAI.md`.
+Code that calls a model never names one — see `one_ai/README.md`.
 
 The action read here is **the administrator's copy**. A workspace carries the
 same fixture so it knows what it may ask for and so a settings screen has
@@ -1319,7 +1433,7 @@ model call for a customer goes through.
   `reasoning_content`, stops at "length" and answers nothing; told not to
   think, it answers in twenty. A model that does not think ignores the switch.
 - `FIRST`: AI 2's catalogue replaces both of these with a row somebody chose —
-  see the rule in `docs/ONEAI.md`: an action names a capability, a workspace
+  see the rule in `one_ai/README.md`: an action names a capability, a workspace
   names a model, and nothing else knows one exists.
 - `through`: `turns` is the whole conversation in our shape rather than one
   prompt: a round where a model asked for a tool, was given the result and

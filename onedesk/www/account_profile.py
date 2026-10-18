@@ -1,5 +1,5 @@
-"""A One account's own name and address (docs/ONE-ACCOUNT.md, stage 5), at
-/account/profile. Admin site only.
+"""A One account's own name and address (one_admin/README.md, The account),
+at /account/profile. Admin site only.
 
 A new address is not taken on trust: it is mailed a link, and the account
 moves to it only when that link is followed (accounts.ask_email_change).

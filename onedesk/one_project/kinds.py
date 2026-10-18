@@ -1,5 +1,5 @@
 """A project's kind: how it's paid for, which decides what it asks for when it
-is made and what its page shows (docs/PROJECT-PAGE.md).
+is made and what its page shows (one_project/README.md).
 """
 
 from typing import Annotated

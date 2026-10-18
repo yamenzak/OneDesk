@@ -1,4 +1,4 @@
-"""How long a document must be kept, and nothing deleted before (docs/INTAKE.md §16.10).
+"""How long a document must be kept, and nothing deleted before (onedesk/one_intake/README.md §16.10).
 
 A reading carries the day it may go (Keep Until), and a file whose only copy
 holds such a reading cannot be deleted for good before that day.

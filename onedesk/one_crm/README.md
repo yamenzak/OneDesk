@@ -518,7 +518,7 @@ Four ideas in it are worth having here, and each is a stage:
     it — replacing `one_first_reply_at` — and the agreement needs a holiday
     list, which a new site has only after its setup wizard.
 
-After Frappe CRM was read (docs/PASSOVER-LOG.md, OneCRM), two more:
+After Frappe CRM was read (commit c3e54ac), two more:
 
 14. **ERPNext's names.** *Done* — `patches/opportunity_again`. The Translation
     rows that called an Opportunity a Deal are gone, and with them the word

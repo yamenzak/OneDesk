@@ -66,6 +66,13 @@ way `follows` it and is not listed on its own.
 (it is them) and the workspace's page always does: "Their leave approver".
 `tests/test_notify.py` holds both.
 
+**The subject says what happened and to what; the message says what to do
+next.** The button is the mail's only link, never an anchor in the message.
+Where "Open" and the record's kind would be wrong, the type's `button` says
+it, a verb and a noun: `Review It`, `Confirm Request`. A task's or project's
+facts go on one line, `Due 20 Oct · Mansour Villa`, not a sentence each.
+Every default is read in its frame, in English and in Arabic.
+
 ## What is out
 
 No metaphor, no anecdote, no rhetorical contrast. All three of these were in

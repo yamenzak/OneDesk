@@ -1,5 +1,5 @@
 """Deadlines: every date something must be done by, from what was read
-(docs/INTAKE.md §6).
+(onedesk/one_intake/README.md §6).
 
 The calendar's three kinds of date, in one list a person can work down.
 """

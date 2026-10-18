@@ -1,4 +1,4 @@
-"""The week, and the month, in one number each (docs/INTAKE.md §14, §16.9).
+"""The week, and the month, in one number each (onedesk/one_intake/README.md §14, §16.9).
 
 **The weekly digest** goes to each person OneAI read for this week, and **the
 monthly number** is what a workspace pays OneAI for, in Intake Settings.

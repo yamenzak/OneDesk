@@ -1,4 +1,4 @@
-"""The One account: a person above their workspaces (docs/ONE-ACCOUNT.md).
+"""The One account: a person above their workspaces (README.md, The account).
 
 An account is a frappe `User` on the admin site, of type Website User, named by
 its email. A workspace belongs to one through `Tenant.account`.
@@ -214,8 +214,9 @@ def invoices(user: str) -> dict:
 	"""Every invoice across the workspaces this account holds, newest first.
 
 	Asked of Stripe per workspace, since each workspace is its own Stripe
-	customer (docs/ONE-ACCOUNT.md, stage 3). A workspace Stripe cannot answer
-	for is left out and said, rather than failing the whole page.
+	customer (README.md, "The Stripe customer is not shared"). A workspace
+	Stripe cannot answer for is left out and said, rather than failing the
+	whole page.
 	"""
 	from datetime import UTC, datetime
 

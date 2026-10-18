@@ -1,4 +1,4 @@
-"""Lessons: what people take back, remembered (docs/INTAKE.md §10).
+"""Lessons: what people take back, remembered (onedesk/one_intake/README.md §10).
 
 The next document from that party is read with its lessons, and three alike
 make the door propose instead of act.

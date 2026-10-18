@@ -1,4 +1,4 @@
-"""A task's steps that tick themselves (docs/INTAKE.md §3.4).
+"""A task's steps that tick themselves (onedesk/one_intake/README.md §3.4).
 
 A step OneAI writes can say what completes it in `done_when`, checked with no
 model. When every step is done, a task OneAI made is done.

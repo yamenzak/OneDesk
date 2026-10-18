@@ -1,4 +1,4 @@
-"""Explain this letter, and write the answer to it (docs/INTAKE.md §16.3).
+"""Explain this letter, and write the answer to it (onedesk/one_intake/README.md §16.3).
 
 The one Intake call a person starts, so it is kept per document and language.
 """

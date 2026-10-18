@@ -71,8 +71,8 @@ GUARDS = [
 	Guard(
 		"pages-on-shell",
 		4,
-		"a desk page neither on the shell nor named as not yet",
-		"tests/guards/test_shell.py::test_every_page_is_on_the_shell_or_named_as_not_yet",
+		"a desk page neither on the shell nor an island",
+		"tests/guards/test_shell.py::test_every_page_is_on_the_shell_or_an_island",
 	),
 	Guard(
 		"heads-declared",

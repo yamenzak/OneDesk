@@ -1371,28 +1371,6 @@ a register and a movement form in it would be a rail with five rows.
   row shipped after a workspace arranged its rail goes where it is shipped
   (`one/reports.py` `settle`).
 
-### The plan
-
-1. **The place.** OneInventory's rail, in the dock after OneBook, with buying
-   and assets in it, and the sales order on OneCRM's rail. *Done.*
-2. **Ready to use.** A check of what will fail the first time somebody
-   receives, delivers or registers an asset — serial and batch numbers
-   switched off, no account for opening stock, no location for an asset — with
-   the fix beside each. *Done.*
-3. **An item answers first.** On hand across warehouses, what is free to sell,
-   what is on order, what it is worth, whether it is below its reorder level,
-   and what it last cost and from whom. *Done.*
-4. **What to order.** Items at or below their reorder level with how many to
-   order and from whom, made into purchase orders a supplier at a time. *Done.*
-5. **Assets: a register that finishes itself.** The assets a receipt makes are
-   drafts nobody completes and so never depreciate; they are completed from
-   their purchase and category, and an asset's page says what it is worth. *Done.*
-6. **Assets: who has what.** Give an asset to an employee and take it back in
-   one step; an employee's page lists what they hold, and leaving asks for it
-   back. *Done.*
-7. **Assets: maintenance.** What is due for a service, on the calendar and in
-   the owner's tasks. *Done.*
-
 ### print_format/
 
 A delivery note prints from the builder's own pieces too

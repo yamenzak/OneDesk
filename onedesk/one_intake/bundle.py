@@ -1,4 +1,4 @@
-"""The tax year's documents, in one download (docs/INTAKE.md §16.6).
+"""The tax year's documents, in one download (onedesk/one_intake/README.md §16.6).
 
 A zip of a year's documents by kind, with a list of every document, its date,
 whom it is from and its amount, that opens in any spreadsheet.

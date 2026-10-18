@@ -1,4 +1,5 @@
-"""A One account's own page (docs/ONE-ACCOUNT.md), on the admin site only.
+"""A One account's own page (one_admin/README.md, The account), on the admin
+site only.
 
 Where an account lands after signing in (accounts.home_page): who is signed
 in, the workspaces the account holds with where each stands, Pay for one that

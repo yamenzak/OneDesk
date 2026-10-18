@@ -120,8 +120,9 @@ person or day. Only administrators see it.
 
 ## Under the hood
 
-`docs/ONEAI.md` is the long form: the gateway, the credits, the actions and
-why a model cannot write.
+The files come first. After them: where the money lives, the gateway, the
+catalogue, credits, how a call is billed, which model answers, and what is
+deliberately not here.
 
 - `chat.py`: a conversation (`AI Chat`) and the panel's calls (`start`, `say`,
   `answer`, `rename`, `suggestions`, `cards`). The page travels as a pointer,
@@ -510,3 +511,140 @@ picker asks for the list and stores what was chosen.
 distinction is the safety of the feature: a workspace can tell the summariser
 to write in Arabic and keep it terse, and cannot tell it to ignore what it was
 told about what it may touch.
+
+### Where the money lives
+
+The ledger is on the account (the OneAdmin site), not on the workspace.
+`Credit Ledger Entry`, `Credit Reservation`, `AI Model` and its rates live
+there, behind `one_admin/proxy.py`. A workspace reaches them the way it gets a
+signed upload URL: it asks, holding a token that names it and authorises
+nothing else. The account never calls a workspace.
+
+- A balance is a sum over ledger rows, on a database the customer cannot reach.
+- Only the Stripe webhook and the operator insert a row, and both run on the
+  account.
+- `ledger.py` is the only code that knows where a balance comes from.
+
+What stays on the workspace is what people touch: action settings, runs,
+conversations, cards. Putting those on the account would cost a round trip to
+draw a screen.
+
+### The gateway
+
+Every call goes through Cloudflare AI Gateway (`one_admin/gateway.py`). The
+provider keys are stored in the gateway. The account holds a gateway token
+and the Cloudflare account id; a workspace holds neither. The gateway also
+gives caching, retries, rate limits, a spend limit of our own and a request
+log tagged with the workspace.
+
+Two providers: Workers AI (`workers-ai`) and Gemini (`google-ai-studio`). Each
+is a row in a table of path, body and where the words are, not a branch in
+code. A 200 whose shape we don't recognise raises, so a changed response
+can't quietly come back blank.
+
+### The catalogue
+
+`one_admin/catalogue.py` syncs `AI Model` nightly: what exists and what it can
+do from each provider's API, and the price from the page each provider
+publishes (`one_admin/prices.py`, with saved pages in `tests/samples/`).
+
+- A rate is (kind, modality, unit, cost for N). Nothing converts between
+  units: Gemini bills tokens by modality, Workers AI bills text per million
+  tokens, pictures per tile and per step, speech per minute.
+- A model with any price the parser couldn't read lands as `Needs Review`,
+  with the wording that beat it. There is no default price.
+- `priced_by_hand` makes the rate rows editable, and the sync then leaves the
+  rates alone. That is how Veo and Lyria are sold.
+- Two prices for the same thing is a gap. Gemini 2.5 Pro prices prompts under
+  and over 200k tokens differently, and there is no field for context length,
+  so the parser says so rather than picking one.
+- The sync never decides whether a model is offered. It only takes a model off
+  sale when it can no longer be priced, and marks one gone when the provider
+  withdraws it.
+- A model's capability is two facts: what it makes, and what it can be fed
+  (`reads_*`). The one word on the list (Text Generation, Vision, Multimodal,
+  and so on) is derived from both in `one_admin/capability.py`. The provider's
+  word is a floor and the published rates raise it: `gemini-2.5-flash-lite`
+  says text, but its price page has rates for pictures, sound and video.
+
+### Credits
+
+Customers buy credits, not tokens, so a provider re-pricing a model is our
+problem rather than an announcement. A credit is `credits_per_dollar` of
+provider cost times a markup: the model's own `markup`, or `default_markup` in
+One Admin Settings. Neither has a default; an unset markup refuses the call.
+
+`balance()` sums the ledger and is never a stored field.
+
+- A grant that does not roll over has `expires_on`, and only unexpired grants
+  count. Expiry is arithmetic, not a nightly job.
+- A spend names the grant it drew from, soonest-expiring first, so a free
+  monthly grant is used before bought credits. The ledger is append-only.
+- A spend nothing covers is owed, and does not expire.
+
+### A call, in three steps
+
+1. Hold a ceiling: price the action's caps (`max_output_tokens` and the rest)
+   and reserve that many credits. Every read the hold rests on is a locking
+   read: measured, two processes holding seven of ten credits both succeeded
+   with a plain `SELECT`, because InnoDB reads from the transaction's first
+   snapshot.
+2. Make the call through the gateway.
+3. Settle what the provider reported and release the rest.
+
+Every number billed is either reported by the provider or a parameter we
+sent, and each `Use` says which (`asked`). Nothing is worked out from the
+length of a string. Gemini's `usageMetadata` gives tokens per modality;
+Workers AI reports text tokens only, so its pictures and speech are billed
+from what we asked for. Cached tokens are taken off the input line, since
+Google counts them in both.
+
+- A call that answered but can't be metered is charged its hold and flagged.
+- A call that failed releases its hold.
+- `ledger.nightly` lets go of holds whose call never came back.
+
+### Which model answers
+
+An `AI Action` (fixture) names a capability; an `AI Action Setting` names a
+model. With no setting, the action runs on the operator's default model for
+its capability. For a conversation the order is: the person's pick
+(`AI Chat.chosen_model`), then the workspace's setting for the chat action,
+then the default. The account checks the pick again at call time, and
+`pinned` keeps it through a handover.
+
+`chat_title` names a conversation after its first answer: a 30-token action
+with no tools. Once its person renames it, `titled` is set and OneAI never
+names it again.
+
+### Background runs
+
+A generation takes two to forty seconds, and a gunicorn worker held for that
+answers nothing else. So a run is a background job: the browser gets a run id
+at once and subscribes. Progress goes out with `frappe.publish_realtime`
+through redis to the socketio the bench already runs.
+
+### How OneAI looks
+
+Anything of OneAI's on screen is drawn in its spectrum with its mark: the
+launcher's ring, the panel's edge, a field it wrote. Pages use two shared
+parts in `public/js/oneai.js`:
+
+- `onedesk.oneai.tag(label)`: frappe's badge with the mark in front, for
+  something OneAI does or did ("Read by OneAI").
+- `onedesk.oneai.button(label, ask)`: frappe's button, drawn the same way. It
+  opens the panel on `ask`, the same question the page's suggestion asks.
+  Inside a dialog it closes the dialog first.
+
+`tests/guards/test_ai_look.py` fails on anything that badges OneAI by hand.
+
+### What is deliberately not here
+
+- No model named in application code. The one exception is `gateway.FIRST`,
+  the model the operator's token test calls, and `tests/test_gateway.py`
+  holds it to that.
+- No estimate is ever billed.
+- No second runtime: redis, socketio and the background queue the bench
+  already has.
+- No provider key on a workspace, and no bring-your-own-key. That would be a
+  support burden, a billing hole and a place for a key to leak. A workspace
+  that wants another model asks the operator to add it to the catalogue.

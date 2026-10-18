@@ -1,4 +1,4 @@
-"""Pay from the document (docs/INTAKE.md §16.5).
+"""Pay from the document (onedesk/one_intake/README.md §16.5).
 
 A bill to be paid by transfer shows whom to pay, the IBAN, the amount, the
 reference and a GiroCode. A changed IBAN stops it.

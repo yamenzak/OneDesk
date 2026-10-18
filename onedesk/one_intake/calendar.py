@@ -1,4 +1,4 @@
-"""Intake on the calendar, and in the Deadlines report (docs/INTAKE.md §6).
+"""Intake on the calendar, and in the Deadlines report (onedesk/one_intake/README.md §6).
 
 Three kinds of date from what was read (a reading's deadline, a contract's last
 day to cancel, an employee's document expiring), each shown to whoever may read

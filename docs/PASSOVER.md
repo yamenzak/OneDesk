@@ -2,8 +2,9 @@
 
 Every screen of One, one at a time, checked against the points below. You
 decide when a screen is done and when the next one starts. This file is the
-points and how a screen is walked; what each walk found and fixed, where each
-area stands and what is up next are in `docs/PASSOVER-LOG.md`.
+points and how a screen is walked. What each walk found and fixed is in its
+commit message; where each area stands and what is up next are in
+`docs/PASSOVER-LOG.md`.
 
 ## The points
 
@@ -328,7 +329,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 1. Screenshot it and read the code behind it, and read its module in
    `docs/ATLAS.md`: what still waits, has no demo record, prints on
    ERPNext's format, lists only a number or reads in English.
-2. Write the findings under the points in `docs/PASSOVER-LOG.md`, then "A
+2. Write the findings under the points, for the commit message, then "A
    record answers first" for a record screen, then anything else about using
    it (UX).
 3. Fix them, look again in the browser, and run the gates: the fast tests,

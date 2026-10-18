@@ -1,5 +1,5 @@
 """Spending: what was bought, read from the receipts and invoices themselves
-(docs/INTAKE.md §3.2).
+(onedesk/one_intake/README.md §3.2).
 
 The readings' lines added up by category, shop, person or month, one currency
 at a time.

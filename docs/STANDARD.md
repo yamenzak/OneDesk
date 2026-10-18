@@ -26,7 +26,7 @@ is finished when it meets all of it, and the gates at the end pass.
 3. **Every point, every screen.** Look at the screen in the browser as the
    people who use it (OneProject used Samir, who runs projects, and Huda, who
    keeps the books), on a desktop and a phone, and read the code behind it.
-   Write the findings under the points in `docs/PASSOVER-LOG.md`. Each screen ends
+   Write the findings in the screen's commit message. Each screen ends
    with a table of all seventeen points, plus Everything follows frappe and
    What ERPNext already does, saying what was looked at, even where nothing
    was found. A point left out of the table is a point not checked.
@@ -36,8 +36,8 @@ is finished when it meets all of it, and the gates at the end pass.
    that every point is written down. They were walked again against the
    points they had skipped, and that found as much as the first walk. A
    module is not finished until every screen has every point in its table.
-6. **Close it.** Mark each screen done in `docs/PASSOVER-LOG.md`, then the module
-   closed, with what stays open written down.
+6. **Close it.** Mark the module closed in `docs/PASSOVER-LOG.md`, and write
+   what stays open in `docs/BACKLOG.md`.
 
 ## What finished looks like
 
@@ -309,30 +309,17 @@ Each must pass before a push.
 
 ```
 python3 -m pytest -q tests                  # fast tests and every guard
-sh check.sh                                 # the demo suite, every check
+bench --site <site> execute onedesk.one_demo.check.run   # every demo check
 python3 scripts/overrides.py --check
 python3 scripts/atlas.py --check            # the snapshot is the bench's
 python3 scripts/docs.py --check
 ruff check onedesk/<module> onedesk/one_demo
 ```
 
-When OneProject closed these were 1891 fast tests and 103 of 103 demo checks.
-When OneTask closed they were 1894 and 108 of 108.
+## Learned closing OneTask
 
-## What stays open on OneProject
-
-Intake into a project, the cents on a time and materials invoice and the
-cost of a day on site were open here and are done (PASSOVER, "OneProject's
-gaps").
-
-- **Manufacturing.** No module offers bills of materials or work orders.
-  Whether OneInventory takes them on is a product decision.
-
-## OneTask, closed against it
-
-OneTask was the second module closed against the standard, on 2026-10-09,
-in five steps: a task's page, My Tasks and the Inbox, All Tasks and its
-views, across modules, and the closing pass. It added these to watch for:
+OneTask was the second module closed against the standard. It added these
+to watch for:
 
 - **A rule on the hooks that the guard doesn't know.** A task's progress was
   its checklist on `before_validate`, but nothing changed it every way until
@@ -344,12 +331,3 @@ views, across modules, and the closing pass. It added these to watch for:
 - **frappe's own bugs in the record frame.** A record's page carries
   frappe's sidebar, bugs included, such as "Repeats Weekly" without its
   words. Fix them for the form too, and record the override.
-
-What stays open on OneTask is under its step 5 in `docs/PASSOVER-LOG.md`.
-
-## The next module
-
-Each finished module is walked again against these points, one screen at a
-time, in the order `docs/PASSOVER-LOG.md` keeps under Up next. A module is closed
-the way OneProject was, with a row in its table saying "closed" and its open
-items written down.

@@ -1,4 +1,4 @@
-"""Every notification One sends, through one door (docs/NOTIFICATIONS.md).
+"""Every notification One sends, through one door (onedesk/notifications/README.md).
 
 A notification is frappe's own Notification Log of a Notification Type, with
 its type declared in `onedesk/notifications/`. `notify()` is for people in the

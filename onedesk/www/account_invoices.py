@@ -1,5 +1,5 @@
 """A One account's invoices, across every workspace it holds
-(docs/ONE-ACCOUNT.md, stage 4), at /account/invoices. Admin site only.
+(one_admin/README.md, The account), at /account/invoices. Admin site only.
 
 Each workspace is its own Stripe customer, so its card is its own too: Update
 card is offered per workspace, and opens Stripe's billing portal for it.

@@ -1,5 +1,5 @@
 """The project page: what it shows, in one call, shaped by the project's kind
-(kinds.py, docs/PROJECT-PAGE.md).
+(kinds.py, one_project/README.md).
 """
 
 from typing import Annotated
@@ -409,7 +409,7 @@ def _made(cash: dict) -> dict:
 
 def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 	"""The kind's figures, each with what it's of and a bar where there's
-	something to fill (docs/PROJECT-PAGE.md)."""
+	something to fill (one_project/README.md)."""
 	customer = {one["label"]: one["value"] for one in cash["customer"]}
 	paid = customer.get(_("Paid"))
 	invoiced = {

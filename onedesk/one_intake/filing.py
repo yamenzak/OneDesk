@@ -1,4 +1,4 @@
-"""Filing: where a document goes once it is understood (docs/INTAKE.md §8, §13).
+"""Filing: where a document goes once it is understood (onedesk/one_intake/README.md §8, §13).
 
 `plan` is pure: a reading and where it is, to a list of actions. `run` finds
 out where it is, and hands each action to `act.apply`, the one door.

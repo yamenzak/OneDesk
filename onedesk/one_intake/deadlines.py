@@ -1,4 +1,4 @@
-"""Deadlines counted the way the law counts them (docs/INTAKE.md §6). Pure.
+"""Deadlines counted the way the law counts them (onedesk/one_intake/README.md §6). Pure.
 
 A letter says "within one month of receipt"; the day that means depends on
 when it counts as received and how a month is counted. The model never counts.

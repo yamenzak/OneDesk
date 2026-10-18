@@ -1,4 +1,4 @@
-"""A project's team, for the page's Team view (docs/PROJECT-PAGE.md)."""
+"""A project's team, for the page's Team view (one_project/README.md)."""
 
 from typing import Annotated
 

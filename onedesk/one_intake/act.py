@@ -1,4 +1,4 @@
-"""The one door every Intake write goes through (docs/INTAKE.md §15.3).
+"""The one door every Intake write goes through (onedesk/one_intake/README.md §15.3).
 
 A planner says what should happen as an `Action`; `apply` decides whether it
 happens, and is the only code in Intake that writes. `undo` takes one back.

@@ -35,8 +35,6 @@ ON_THE_SHELL = {
 	"masters": ("one/page/masters/masters.js", "one/page/masters/masters.css"),
 }
 
-NOT_YET = {}
-
 ISLAND_PAGES = {"project_view", "project_template_view", "task_view", "item_view", "stock_on_hand", "inventory", "books", "onecrm", "onehr", "lots", "to_order", "quotes", "sent_out", "upkeep", "floor", "plant", "my_tasks", "timers"}
 
 PARTS = re.compile(r"\.[a-z]+-(row|empty|quiet|card|content|section|chevron)(-[a-z]+)?\b(?![-\w])")
@@ -50,12 +48,11 @@ def _pages():
 	}
 
 
-def test_every_page_is_on_the_shell_or_named_as_not_yet():
+def test_every_page_is_on_the_shell_or_an_island():
 	pages = _pages()
 	assert pages, "no pages found"
-	unknown = set(pages) - set(ON_THE_SHELL) - set(NOT_YET) - ISLAND_PAGES
+	unknown = set(pages) - set(ON_THE_SHELL) - ISLAND_PAGES
 	assert not unknown, f"a new page goes on the shell (onedesk.shell.page): {sorted(unknown)}"
-	assert not set(ON_THE_SHELL) & set(NOT_YET)
 
 
 def test_a_page_on_the_shell_is_made_by_it():

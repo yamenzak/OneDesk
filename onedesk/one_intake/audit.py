@@ -1,4 +1,4 @@
-"""The auditor: a second agent that checks what OneAI did (docs/INTAKE.md §4).
+"""The auditor: a second agent that checks what OneAI did (onedesk/one_intake/README.md §4).
 
 Once a document has been acted on, a separate call (`intake_audit`) is shown
 the document and everything done and proposed because of it, and answers for

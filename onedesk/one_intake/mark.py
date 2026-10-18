@@ -1,6 +1,6 @@
 """The OneAI mark on a whole record: OneAI made this, and nobody has checked it.
 
-It is an `AI Touch` row whose field is `*` (docs/INTAKE.md §4.2), taken down
+It is an `AI Touch` row whose field is `*` (onedesk/one_intake/README.md §4.2), taken down
 by a person doing something to the record.
 """
 
