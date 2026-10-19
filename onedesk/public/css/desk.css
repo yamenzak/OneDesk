@@ -1673,3 +1673,41 @@ html[dir="rtl"] body > div[style*="left: -9999px"] {
 .one-app-card.is-locked .one-app-needs {
 	display: block;
 }
+
+.one-app-card.is-kept {
+	cursor: default;
+}
+
+.one-app-card.is-kept:hover {
+	background: var(--surface-base);
+}
+
+.one-app-tag {
+	font-size: 11px;
+	color: var(--ink-gray-6);
+}
+
+.one-apps-code {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	margin-top: 16px;
+	padding-top: 16px;
+	border-top: 1px solid var(--outline-gray-1);
+}
+
+.one-apps-code-field {
+	display: flex;
+	gap: 6px;
+}
+
+.one-apps-code-field input {
+	width: 180px;
+	text-transform: uppercase;
+}
+
+.one-apps-code .one-apps-said {
+	margin-bottom: 0;
+}

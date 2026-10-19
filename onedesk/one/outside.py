@@ -22,12 +22,15 @@ def keep(bootinfo) -> None:
 		bootinfo["user"]["can_import"] = []
 	pages = (bootinfo.get("workspaces") or {}).get("pages")
 	if isinstance(pages, list):
+		from onedesk.one import private
+
+		held = {APP, *private.names()}
 		bootinfo["one_elsewhere"] = sorted(
 			page["name"].lower().replace(" ", "-")
 			for page in pages
-			if page.get("app") != APP and page.get("name")
+			if page.get("app") not in held and page.get("name")
 		)
-		bootinfo["workspaces"]["pages"] = [page for page in pages if page.get("app") == APP]
+		bootinfo["workspaces"]["pages"] = [page for page in pages if page.get("app") in held]
 		bootinfo["workspaces"]["has_create_access"] = False
 
 
@@ -43,13 +46,14 @@ def kept(said: dict) -> None:
 	sidebars = said.get("module_sidebars")
 	if not isinstance(sidebars, dict):
 		return
-	from onedesk.one import apps
+	from onedesk.one import apps, private
 
 	off = set(apps.hidden())
+	held = {APP, *private.names()}
 	ours = {
 		name: sidebar
 		for name, sidebar in sidebars.items()
-		if (sidebar or {}).get("app") == APP and name not in off
+		if (sidebar or {}).get("app") in held and name not in off
 	}
 	order = sorted(ours, key=lambda name: name != FIRST)
 	said["module_sidebars"] = {name: ours[name] for name in order}

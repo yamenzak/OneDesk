@@ -1,0 +1,107 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "field:app",
+ "creation": "2026-10-19 13:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "description": "An app made for some workspaces only. A workspace types its code into Apps, and the app is installed there for good.",
+ "field_order": [
+  "app",
+  "title",
+  "column_break_what",
+  "icon",
+  "enabled",
+  "about_section",
+  "said",
+  "grants_section",
+  "grants"
+ ],
+ "fields": [
+  {
+   "fieldname": "app",
+   "fieldtype": "Data",
+   "label": "Frappe App",
+   "reqd": 1,
+   "unique": 1,
+   "description": "The app's name on the bench group, the same as app_name in its hooks.py."
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "column_break_what",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "icon",
+   "fieldtype": "Data",
+   "label": "Icon",
+   "description": "The icon the Apps card shows before the app is installed. Installed, the app's own hooks.py says."
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "default": "1",
+   "label": "Enabled",
+   "in_list_view": 1,
+   "description": "Off, its codes open nothing. Workspaces that have it keep it."
+  },
+  {
+   "fieldname": "about_section",
+   "fieldtype": "Section Break",
+   "label": "About"
+  },
+  {
+   "fieldname": "said",
+   "fieldtype": "Small Text",
+   "label": "Description",
+   "description": "One sentence that says what the app is for, shown to the workspace when its code is typed."
+  },
+  {
+   "fieldname": "grants_section",
+   "fieldtype": "Section Break",
+   "label": "Workspaces"
+  },
+  {
+   "fieldname": "grants",
+   "fieldtype": "Table",
+   "options": "Private App Grant",
+   "label": "Workspaces",
+   "description": "Make a code for a workspace with New Code. A code works for that workspace only."
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-19 13:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Admin",
+ "name": "Private App",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "One Operator",
+   "share": 0,
+   "write": 1
+  }
+ ],
+ "show_title_field_in_link": 1,
+ "title_field": "title",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

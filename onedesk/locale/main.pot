@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-19 11:38+0000\n"
-"PO-Revision-Date: 2026-10-19 11:38+0000\n"
+"POT-Creation-Date: 2026-10-19 12:13+0000\n"
+"PO-Revision-Date: 2026-10-19 12:13+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -355,6 +355,10 @@ msgstr ""
 #. Header text in the One Workspace
 #: onedesk/one/workspace/one/one.json
 msgid "<span class=\"h4\"><b>Today</b></span>"
+msgstr ""
+
+#: onedesk/one_admin/doctype/private_app/private_app.py:15
+msgid "A Frappe app's name is lowercase letters, digits and underscores."
 msgstr ""
 
 #. Label of the monthly (Float) field in DocType 'Workspace Account'
@@ -1537,6 +1541,7 @@ msgid "Abandoned"
 msgstr ""
 
 #. Label of the one_about (Small Text) field in DocType 'Notification Type'
+#. Label of the about_section (Section Break) field in DocType 'Private App'
 #. Label of the about (Small Text) field in DocType 'AI Action'
 #. Label of the about_section (Section Break) field in DocType 'AI Memory'
 #. Label in the One Training Event print format
@@ -1544,6 +1549,7 @@ msgstr ""
 #. Label of the about (Small Text) field in DocType 'Mail Rule'
 #. Label of the one_about (Dynamic Link) field in DocType 'Task'
 #: frontend/src/task/TaskPage.vue:35 onedesk/one/custom/notification_type.json
+#: onedesk/one_admin/doctype/private_app/private_app.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_ai/doctype/ai_memory/ai_memory.json
 #: onedesk/one_hr/print_format/one_training_event/one_training_event.json
@@ -1974,7 +1980,7 @@ msgstr ""
 msgid "Actions Performed"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:51
+#: onedesk/one_admin/steps.py:52
 msgid "Activating the site"
 msgstr ""
 
@@ -2051,7 +2057,7 @@ msgstr ""
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:18
-#: onedesk/public/js/doctype_settings.js:352
+#: onedesk/public/js/apps.js:65 onedesk/public/js/doctype_settings.js:352
 #: onedesk/public/js/doctype_settings.js:986 onedesk/public/js/onecloud.js:1410
 #: onedesk/public/js/settings.js:716 onedesk/public/js/settings.js:1286
 #: onedesk/public/js/settings.js:1389 onedesk/public/js/settings.js:1390
@@ -3374,7 +3380,12 @@ msgstr ""
 msgid "An app for iPhone and Android, from the idea to the stores."
 msgstr ""
 
-#: onedesk/public/js/apps.js:52
+#. Description of a DocType
+#: onedesk/one_admin/doctype/private_app/private_app.json
+msgid "An app made for some workspaces only. A workspace types its code into Apps, and the app is installed there for good."
+msgstr ""
+
+#: onedesk/public/js/apps.js:54
 msgid "An app turned off leaves the rail and search for everybody. Its records stay, and links to them still open."
 msgstr ""
 
@@ -4046,14 +4057,14 @@ msgid "Approving this puts {0} on {1} {2}."
 msgstr ""
 
 #: onedesk/one/ai_setup.py:598 onedesk/public/js/apps.js:12
-#: onedesk/public/js/apps.js:23 onedesk/public/js/apps.js:46
+#: onedesk/public/js/apps.js:23 onedesk/public/js/apps.js:48
 #: onedesk/public/js/settings.js:868 onedesk/public/js/settings.js:983
 #: onedesk/public/js/settings.js:1054 onedesk/public/js/settings.js:1230
 #: onedesk/public/js/settings.js:1343
 msgid "Apps"
 msgstr ""
 
-#: onedesk/public/js/apps.js:65
+#: onedesk/public/js/apps.js:76
 msgid "Apps saved"
 msgstr ""
 
@@ -4099,7 +4110,7 @@ msgstr ""
 msgid "Archived For"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:54
+#: onedesk/one_admin/steps.py:55
 msgid "Archiving the site"
 msgstr ""
 
@@ -6474,7 +6485,7 @@ msgstr ""
 msgid "Cancelled; it counts for nothing."
 msgstr ""
 
-#: onedesk/one_admin/steps.py:55
+#: onedesk/one_admin/steps.py:56
 msgid "Cancelling its subscription in Stripe"
 msgstr ""
 
@@ -7059,7 +7070,11 @@ msgstr ""
 msgid "Checking out…"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:42
+#: onedesk/one_admin/steps.py:61
+msgid "Checking the app is on the bench group"
+msgstr ""
+
+#: onedesk/one_admin/steps.py:43
 msgid "Checking the name is free"
 msgstr ""
 
@@ -7184,7 +7199,7 @@ msgstr ""
 msgid "Choose your password to start.{apps}<br><br>The link works for {days} days. You sign in with {address}."
 msgstr ""
 
-#: onedesk/one_admin/steps.py:41
+#: onedesk/one_admin/steps.py:42
 msgid "Choosing a server"
 msgstr ""
 
@@ -7232,9 +7247,16 @@ msgstr ""
 msgid "Claimed"
 msgstr ""
 
+#. Label of the claimed_by (Data) field in DocType 'Private App Grant'
 #. Label in the One Expense Claim print format
+#: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json
 #: onedesk/one_hr/print_format/one_expense_claim/one_expense_claim.json
 msgid "Claimed By"
+msgstr ""
+
+#. Label of the claimed_on (Datetime) field in DocType 'Private App Grant'
+#: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json
+msgid "Claimed On"
 msgstr ""
 
 #: onedesk/one_hr/home.py:424
@@ -7547,12 +7569,27 @@ msgstr ""
 #. Label of the section_code (Section Break) field in DocType 'Extension'
 #. Label of the code (Code) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
-#: onedesk/public/js/item_new.js:38 onedesk/public/js/onecloud.js:25
+#: onedesk/public/js/apps.js:63 onedesk/public/js/item_new.js:38
+#: onedesk/public/js/onecloud.js:25
 msgid "Code"
+msgstr ""
+
+#. Label of the code_end (Data) field in DocType 'Private App Grant'
+#: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json
+msgid "Code Ends"
+msgstr ""
+
+#. Label of the code_hash (Data) field in DocType 'Private App Grant'
+#: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json
+msgid "Code Hash"
 msgstr ""
 
 #: onedesk/one_book/home.py:382
 msgid "Code List"
+msgstr ""
+
+#: onedesk/one_admin/doctype/private_app/private_app.js:10
+msgid "Code for {0}"
 msgstr ""
 
 #: onedesk/www/s.html:54
@@ -7884,7 +7921,7 @@ msgstr ""
 msgid "Confidence Floor"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:46
+#: onedesk/one_admin/steps.py:47
 msgid "Configuring the site"
 msgstr ""
 
@@ -8537,6 +8574,10 @@ msgstr ""
 msgid "Couldn't Read"
 msgstr ""
 
+#: onedesk/public/js/apps.js:29
+msgid "Couldn't be installed. We've been told."
+msgstr ""
+
 #: onedesk/public/js/settings.js:1530
 msgid "Couldn't create the download. Try again, or reply to any email from One."
 msgstr ""
@@ -8772,7 +8813,7 @@ msgstr ""
 msgid "Creating the download. You'll be notified when it's ready."
 msgstr ""
 
-#: onedesk/one_admin/steps.py:43
+#: onedesk/one_admin/steps.py:44
 msgid "Creating the site"
 msgstr ""
 
@@ -9748,7 +9789,7 @@ msgstr ""
 msgid "Days leave may not be taken."
 msgstr ""
 
-#: onedesk/one_admin/steps.py:49
+#: onedesk/one_admin/steps.py:50
 msgid "Deactivating the site"
 msgstr ""
 
@@ -10213,7 +10254,7 @@ msgstr ""
 msgid "Deleting files of {0} is stalled"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:58
+#: onedesk/one_admin/steps.py:59
 msgid "Deleting the files"
 msgstr ""
 
@@ -10618,6 +10659,7 @@ msgid "Depreciations Booked"
 msgstr ""
 
 #. Label of the description (Small Text) field in DocType 'Offering'
+#. Label of the said (Small Text) field in DocType 'Private App'
 #. Label in the One Credit Ledger Entry print format
 #. Label in the One Bank Transaction print format
 #. Label in the One Detailed Tax Invoice print format
@@ -10684,6 +10726,7 @@ msgstr ""
 #: frontend/src/task/TaskPage.vue:49 frontend/src/task/TaskPage.vue:50
 #: onedesk/one/automations.py:126
 #: onedesk/one_admin/doctype/offering/offering.json
+#: onedesk/one_admin/doctype/private_app/private_app.json
 #: onedesk/one_admin/print_format/one_credit_ledger_entry/one_credit_ledger_entry.json
 #: onedesk/one_book/print_format/one_bank_transaction/one_bank_transaction.json
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
@@ -12656,6 +12699,7 @@ msgstr ""
 
 #. Label of the enabled (Check) field in DocType 'Record Head'
 #. Label of the enabled (Check) field in DocType 'Offering'
+#. Label of the enabled (Check) field in DocType 'Private App'
 #. Label of the enabled (Check) field in DocType 'AI Action'
 #. Label of the enabled (Check) field in DocType 'AI Knowledge'
 #. Label of the enabled (Check) field in DocType 'Attendance Reason'
@@ -12664,6 +12708,7 @@ msgstr ""
 #. Label of the enabled (Check) field in DocType 'Extension'
 #: onedesk/one/doctype/record_head/record_head.json
 #: onedesk/one_admin/doctype/offering/offering.json
+#: onedesk/one_admin/doctype/private_app/private_app.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
@@ -13794,6 +13839,7 @@ msgstr ""
 
 #. Option for the 'Full Download' (Select) field in DocType 'Workspace Account'
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
+#. Option for the 'Status' (Select) field in DocType 'Private App Grant'
 #. Option for the 'Status' (Select) field in DocType 'Provisioning Job'
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #. Label of a number card
@@ -13803,6 +13849,7 @@ msgstr ""
 #. Option for the 'State' (Select) field in DocType 'Reading'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/doctype/account_request/account_request.json
+#: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:26
 #: onedesk/one_admin/doctype/tenant/tenant.json onedesk/one_admin/heads.py:32
@@ -14798,6 +14845,11 @@ msgstr ""
 #. Description of the 'Ours' (Check) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Four Degree Labs' own workspace. Nobody bills it, its OneAI is never refused for credits, and its AI use is a cost, not a sale."
+msgstr ""
+
+#. Label of the app (Data) field in DocType 'Private App'
+#: onedesk/one_admin/doctype/private_app/private_app.json
+msgid "Frappe App"
 msgstr ""
 
 #. Label of the press_section (Section Break) field in DocType 'One Admin
@@ -15913,6 +15965,10 @@ msgstr ""
 msgid "Have a One account?"
 msgstr ""
 
+#: onedesk/public/js/apps.js:61
+msgid "Have a code for a private app? Type it here. Once installed, a private app stays on."
+msgstr ""
+
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:13
 msgid "Head Office"
 msgstr ""
@@ -16826,6 +16882,11 @@ msgstr ""
 msgid "IT set up and tested"
 msgstr ""
 
+#. Label of the icon (Data) field in DocType 'Private App'
+#: onedesk/one_admin/doctype/private_app/private_app.json
+msgid "Icon"
+msgstr ""
+
 #. Label of the key (Data) field in DocType 'Credit Ledger Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 msgid "Idempotency Key"
@@ -17424,6 +17485,11 @@ msgstr ""
 msgid "Inspection before closing ceilings"
 msgstr ""
 
+#. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
+msgid "Install App"
+msgstr ""
+
 #. Task in the Aluminium & Glazing project template
 #: onedesk/one_project/library/aluminium_and_glazing.json
 msgid "Install frames"
@@ -17439,6 +17505,11 @@ msgstr ""
 msgid "Installation Note"
 msgstr ""
 
+#. Option for the 'Status' (Select) field in DocType 'Private App Grant'
+#: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json
+msgid "Installed"
+msgstr ""
+
 #. Label in the One Installation Note print format
 #: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 msgid "Installed By"
@@ -17447,6 +17518,19 @@ msgstr ""
 #. Label in the One Installation Note print format
 #: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 msgid "Installed For"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Private App Grant'
+#: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json
+msgid "Installing"
+msgstr ""
+
+#: onedesk/one_admin/steps.py:62
+msgid "Installing the app"
+msgstr ""
+
+#: onedesk/public/js/apps.js:29
+msgid "Installing…"
 msgstr ""
 
 #. Description of the 'Private Key' (Password) field in DocType 'Cloud Mount'
@@ -17772,7 +17856,7 @@ msgstr ""
 msgid "Invitees"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:47
+#: onedesk/one_admin/steps.py:48
 msgid "Inviting the owner"
 msgstr ""
 
@@ -18649,7 +18733,9 @@ msgstr ""
 msgid "Jan"
 msgstr ""
 
+#. Label of the job (Link) field in DocType 'Private App Grant'
 #. Label of the job (Link) field in DocType 'Tenant Event'
+#: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 msgid "Job"
 msgstr ""
@@ -20823,6 +20909,10 @@ msgstr ""
 msgid "Make 1 Variant"
 msgstr ""
 
+#: onedesk/one_admin/doctype/private_app/private_app.js:16
+msgid "Make Code"
+msgstr ""
+
 #: frontend/src/item/ItemManufacturerRow.vue:36
 #: frontend/src/item/ItemSuppliers.vue:86
 #: onedesk/one_book/report/books_check/books_check.js:48
@@ -20856,6 +20946,11 @@ msgstr ""
 
 #: frontend/src/item/ItemVariantsMake.vue:127
 msgid "Make Variants"
+msgstr ""
+
+#. Description of the 'Workspaces' (Table) field in DocType 'Private App'
+#: onedesk/one_admin/doctype/private_app/private_app.json
+msgid "Make a code for a workspace with New Code. A code works for that workspace only."
 msgstr ""
 
 #: onedesk/one_studio/ai.py:17
@@ -21149,19 +21244,23 @@ msgstr ""
 msgid "Marketing Campaign"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:57
+#: onedesk/one_admin/steps.py:58
 msgid "Marking it archived"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:59
+#: onedesk/one_admin/steps.py:60
 msgid "Marking it dropped"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:48 onedesk/one_admin/steps.py:52
+#: onedesk/one_admin/steps.py:64
+msgid "Marking it installed"
+msgstr ""
+
+#: onedesk/one_admin/steps.py:49 onedesk/one_admin/steps.py:53
 msgid "Marking it live"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:50
+#: onedesk/one_admin/steps.py:51
 msgid "Marking it suspended"
 msgstr ""
 
@@ -22180,7 +22279,7 @@ msgstr ""
 msgid "Needs review"
 msgstr ""
 
-#: onedesk/public/js/apps.js:38
+#: onedesk/public/js/apps.js:40
 msgid "Needs {0}"
 msgstr ""
 
@@ -22306,6 +22405,11 @@ msgstr ""
 #. Name of a project template
 #: onedesk/one_project/library/client_onboarding.json
 msgid "New Client Onboarding"
+msgstr ""
+
+#: onedesk/one_admin/doctype/private_app/private_app.js:4
+#: onedesk/one_admin/doctype/private_app/private_app.js:15
+msgid "New Code"
 msgstr ""
 
 #: frontend/src/kit/ActivityComposer.vue:18 onedesk/public/js/onemail.js:58
@@ -23700,6 +23804,7 @@ msgstr ""
 msgid "Not Estimated"
 msgstr ""
 
+#: onedesk/one/private.py:91 onedesk/one_admin/private.py:74
 #: onedesk/www/404.html:2
 msgid "Not Found"
 msgstr ""
@@ -24501,6 +24606,11 @@ msgstr ""
 msgid "Off in this browser"
 msgstr ""
 
+#. Description of the 'Enabled' (Check) field in DocType 'Private App'
+#: onedesk/one_admin/doctype/private_app/private_app.json
+msgid "Off, its codes open nothing. Workspaces that have it keep it."
+msgstr ""
+
 #. Label in the One Job Offer print format
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #: onedesk/one_hr/print_format/one_job_offer/one_job_offer.json
@@ -24517,7 +24627,9 @@ msgid "Offer No"
 msgstr ""
 
 #. Label of the offered (Check) field in DocType 'AI Model'
+#. Option for the 'Status' (Select) field in DocType 'Private App Grant'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json
 #: onedesk/one_admin/heads.py:481
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:234
 #: onedesk/public/js/ai_model_list.js:11
@@ -24896,6 +25008,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+#: onedesk/one_admin/doctype/private_app/private_app.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
@@ -25017,6 +25130,11 @@ msgstr ""
 #. Description of a DocType
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "One published price, in the provider's own unit."
+msgstr ""
+
+#. Description of the 'Description' (Small Text) field in DocType 'Private App'
+#: onedesk/one_admin/doctype/private_app/private_app.json
+msgid "One sentence that says what the app is for, shown to the workspace when its code is typed."
 msgstr ""
 
 #. Description of the 'Fact' (Small Text) field in DocType 'AI Memory'
@@ -25242,6 +25360,10 @@ msgstr ""
 #. Title of a Sidebar
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 msgid "OneAdmin"
+msgstr ""
+
+#: onedesk/one/private.py:88
+msgid "OneAdmin can't be reached right now. Try again in a few minutes."
 msgstr ""
 
 #. Title of a Sidebar
@@ -29057,10 +29179,29 @@ msgstr ""
 msgid "Privacy requests are waiting: {count}"
 msgstr ""
 
+#. Name of a DocType
+#: onedesk/one_admin/doctype/private_app/private_app.json
+msgid "Private App"
+msgstr ""
+
+#. Name of a DocType
+#: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json
+msgid "Private App Grant"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_admin/sidebar/one_admin/one_admin.json
+msgid "Private Apps"
+msgstr ""
+
 #. Label of the private_key (Password) field in DocType 'Cloud Mount'
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 #: onedesk/public/js/onecloud.js:1494
 msgid "Private Key"
+msgstr ""
+
+#: onedesk/public/js/apps.js:30
+msgid "Private app"
 msgstr ""
 
 #. Label of the one_probability (Percent) field in DocType 'Sales Stage'
@@ -30877,7 +31018,7 @@ msgstr ""
 msgid "Recording starts only after the interviewer confirms the candidate's consent."
 msgstr ""
 
-#: onedesk/one_admin/steps.py:53
+#: onedesk/one_admin/steps.py:54
 msgid "Recording the latest backup"
 msgstr ""
 
@@ -31406,7 +31547,7 @@ msgstr ""
 msgid "Removed from Project"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:56
+#: onedesk/one_admin/steps.py:57
 msgid "Removing the address"
 msgstr ""
 
@@ -32776,7 +32917,7 @@ msgstr ""
 #: onedesk/one_book/report/books_check/books_check.js:23
 #: onedesk/one_book/report/books_check/books_check.js:40
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:424
-#: onedesk/public/js/apps.js:57 onedesk/public/js/crm_record.js:97
+#: onedesk/public/js/apps.js:68 onedesk/public/js/crm_record.js:97
 #: onedesk/public/js/item_actions.js:31 onedesk/public/js/lots_actions.js:53
 #: onedesk/public/js/next_step.js:27 onedesk/public/js/onecloud.js:1506
 #: onedesk/public/js/onemail.js:834 onedesk/public/js/onemail.js:857
@@ -33192,6 +33333,10 @@ msgstr ""
 
 #: onedesk/public/js/oneai/Panel.vue:161
 msgid "Send this again"
+msgstr ""
+
+#: onedesk/one_admin/doctype/private_app/private_app.js:11
+msgid "Send this to the workspace. It's shown once."
 msgstr ""
 
 #. Option for the 'Role' (Select) field in DocType 'Reading Party'
@@ -33718,7 +33863,7 @@ msgstr ""
 msgid "Setting up One"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:45
+#: onedesk/one_admin/steps.py:46
 msgid "Setting up the address"
 msgstr ""
 
@@ -35420,6 +35565,7 @@ msgstr ""
 #. Label of the status (Data) field in DocType 'Workspace Domain'
 #. Label of the status (Select) field in DocType 'Account Request'
 #. Label of the status (Select) field in DocType 'AI Model'
+#. Label of the status (Select) field in DocType 'Private App Grant'
 #. Label of the status (Select) field in DocType 'Provisioning Job'
 #. Label of the status (Select) field in DocType 'Tenant'
 #. Label of the status (Select) field in DocType 'Tenant Domain'
@@ -35484,6 +35630,7 @@ msgstr ""
 #: onedesk/one/portal.py:64 onedesk/one/print_blocks.py:101
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
@@ -37501,6 +37648,10 @@ msgstr ""
 msgid "That cannot be set."
 msgstr ""
 
+#: onedesk/one_admin/private.py:74
+msgid "That code doesn't open an app for this workspace."
+msgstr ""
+
 #: onedesk/one_ai/chat.py:189 onedesk/public/js/oneai/Panel.vue:677
 msgid "That did not go through."
 msgstr ""
@@ -37793,6 +37944,11 @@ msgstr ""
 msgid "The app whose events send this."
 msgstr ""
 
+#. Description of the 'Frappe App' (Data) field in DocType 'Private App'
+#: onedesk/one_admin/doctype/private_app/private_app.json
+msgid "The app's name on the bench group, the same as app_name in its hooks.py."
+msgstr ""
+
 #. Who a notification is sent to
 #: onedesk/notifications/one_hr/interview_moved_to_the_applicant.md
 #: onedesk/notifications/one_hr/interview_scheduled_to_the_applicant.md
@@ -37870,6 +38026,11 @@ msgstr ""
 
 #: onedesk/one_hr/heads.py:567
 msgid "The claim is closed and nothing is booked."
+msgstr ""
+
+#. Description of the 'Code Ends' (Data) field in DocType 'Private App Grant'
+#: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json
+msgid "The code's last four characters, to tell codes apart. The code itself is shown once, when it is made."
 msgstr ""
 
 #. Description of the 'Brand Colour' (Color) field in DocType 'Company'
@@ -38206,6 +38367,11 @@ msgstr ""
 
 #: onedesk/one_crm/home.py:157
 msgid "The hours of the day issues come in."
+msgstr ""
+
+#. Description of the 'Icon' (Data) field in DocType 'Private App'
+#: onedesk/one_admin/doctype/private_app/private_app.json
+msgid "The icon the Apps card shows before the app is installed. Installed, the app's own hooks.py says."
 msgstr ""
 
 #: onedesk/one_crm/home.py:173
@@ -39128,7 +39294,7 @@ msgstr ""
 msgid "The workspace now opens at {domain}. To have sign-in and links in mail use it, make it the main address on Workspace › Domains."
 msgstr ""
 
-#: onedesk/public/js/apps.js:113
+#: onedesk/public/js/apps.js:140
 msgid "The workspace's apps changed. Reload to see them."
 msgstr ""
 
@@ -39383,6 +39549,10 @@ msgstr ""
 
 #: onedesk/one_inventory/ready.py:66
 msgid "There is no warehouse, so nothing can be received."
+msgstr ""
+
+#: onedesk/one_admin/private.py:50
+msgid "There is no workspace {0}."
 msgstr ""
 
 #: onedesk/one_storage/api.py:133
@@ -39811,7 +39981,7 @@ msgstr ""
 msgid "This signup was closed without paying, and the name is free again."
 msgstr ""
 
-#: onedesk/one_admin/proxy.py:69
+#: onedesk/one_admin/proxy.py:71
 msgid "This site doesn't manage this workspace."
 msgstr ""
 
@@ -39875,7 +40045,7 @@ msgstr ""
 msgid "This workspace has no mail domain yet."
 msgstr ""
 
-#: onedesk/one_admin/proxy.py:443
+#: onedesk/one_admin/proxy.py:445
 msgid "This workspace has no mail route yet."
 msgstr ""
 
@@ -39899,7 +40069,11 @@ msgstr ""
 msgid "This workspace is not linked to an account, so files are kept on the server's disk."
 msgstr ""
 
-#: onedesk/one_admin/proxy.py:440
+#: onedesk/one/private.py:93
+msgid "This workspace isn't linked to OneAdmin, so it can't add private apps."
+msgstr ""
+
+#: onedesk/one_admin/proxy.py:442
 msgid "Those addresses aren't on this workspace."
 msgstr ""
 
@@ -40113,6 +40287,7 @@ msgid "Tinted"
 msgstr ""
 
 #. Label of the one_title (Data) field in DocType 'Deleted Document'
+#. Label of the title (Data) field in DocType 'Private App'
 #. Label of the title (Data) field in DocType 'AI Chat'
 #. Label of the title (Data) field in DocType 'AI Knowledge'
 #. Label of the title (Data) field in DocType 'Reading'
@@ -40120,6 +40295,7 @@ msgstr ""
 #. Label of the title (Data) field in DocType 'Cloud File Request'
 #. Label of the title (Data) field in DocType 'Extension'
 #: onedesk/one/custom/deleted_document.json
+#: onedesk/one_admin/doctype/private_app/private_app.json
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
 #: onedesk/one_intake/bundle.py:74
@@ -41138,6 +41314,10 @@ msgstr ""
 #: onedesk/public/js/onecloud.js:592 onedesk/public/js/onecloud.js:1469
 #: onedesk/public/js/settings.js:373 onedesk/public/js/settings.js:2471
 msgid "Type"
+msgstr ""
+
+#: onedesk/one/private.py:82
+msgid "Type the code you were given."
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -42380,7 +42560,7 @@ msgstr ""
 msgid "Waiting for DNS"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:44
+#: onedesk/one_admin/steps.py:45 onedesk/one_admin/steps.py:63
 msgid "Waiting for Frappe Cloud"
 msgstr ""
 
@@ -46296,6 +46476,7 @@ msgstr ""
 #. Label of the tenant (Link) field in DocType 'Account Request'
 #. Label of the tenant (Link) field in DocType 'Credit Ledger Entry'
 #. Label of the tenant (Link) field in DocType 'Credit Reservation'
+#. Label of the tenant (Link) field in DocType 'Private App Grant'
 #. Label of the tenant (Link) field in DocType 'Provisioning Job'
 #. Label of the tab_workspace (Tab Break) field in DocType 'Tenant'
 #. Label of the workspace_name (Data) field in DocType 'Tenant'
@@ -46307,6 +46488,8 @@ msgstr ""
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
+#: onedesk/one_admin/doctype/private_app/private_app.js:6
+#: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
@@ -46491,7 +46674,10 @@ msgstr ""
 msgid "Workspace rule"
 msgstr ""
 
+#. Label of the grants_section (Section Break) field in DocType 'Private App'
+#. Label of the grants (Table) field in DocType 'Private App'
 #. Label of a Sidebar Item
+#: onedesk/one_admin/doctype/private_app/private_app.json
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:116
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:164
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
@@ -48894,7 +49080,7 @@ msgstr ""
 msgid "{0} can't be sent by a webhook."
 msgstr ""
 
-#: onedesk/one/apps.py:204
+#: onedesk/one/apps.py:207
 msgid "{0} can't be turned off."
 msgstr ""
 
@@ -48969,6 +49155,10 @@ msgstr ""
 
 #: onedesk/public/js/oneai/Record.vue:136
 msgid "{0} changes to {1}"
+msgstr ""
+
+#: onedesk/one_admin/doctype/private_app/private_app.py:22
+msgid "{0} claimed this app, and an installed app stays."
 msgstr ""
 
 #: onedesk/one_hr/heads.py:420
@@ -49264,6 +49454,10 @@ msgstr ""
 msgid "{0} has a template error ({1})."
 msgstr ""
 
+#: onedesk/one_admin/private.py:54
+msgid "{0} has already claimed {1}."
+msgstr ""
+
 #: onedesk/one/settings.py:1262
 msgid "{0} has already joined. Send a password reset instead."
 msgstr ""
@@ -49432,6 +49626,10 @@ msgstr ""
 msgid "{0} is a personal mailbox and can't be shared."
 msgstr ""
 
+#: onedesk/one/private.py:70
+msgid "{0} is a private app, and a private app installed stays."
+msgstr ""
+
 #: onedesk/one_project/billing.py:76
 msgid "{0} is a retainer. Invoice it by the month."
 msgstr ""
@@ -49488,6 +49686,10 @@ msgstr ""
 msgid "{0} is already connected."
 msgstr ""
 
+#: onedesk/public/js/apps.js:91
+msgid "{0} is already installed."
+msgstr ""
+
 #: onedesk/one_admin/domains.py:26
 msgid "{0} is already on another workspace."
 msgstr ""
@@ -49534,6 +49736,10 @@ msgstr ""
 
 #: onedesk/one/recycle.py:157 onedesk/one/recycle.py:187
 msgid "{0} is back."
+msgstr ""
+
+#: onedesk/public/js/apps.js:93
+msgid "{0} is being installed. It takes a few minutes, and appears in Apps and on the rail when it's ready."
 msgstr ""
 
 #: onedesk/one_intake/drafts.py:62

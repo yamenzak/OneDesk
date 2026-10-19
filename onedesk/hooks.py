@@ -61,6 +61,10 @@ after_sync = [
 	"onedesk.one_hr.lifecycle.settle_boardings",
 ]
 
+after_app_install = ["onedesk.one.private.installed_now"]
+
+before_app_uninstall = ["onedesk.one.private.refuse_uninstall"]
+
 after_migrate = [
 	"onedesk.one.roles.ensure",
 	"onedesk.one.notify.install",
@@ -686,6 +690,7 @@ has_permission = {
 	"Provisioning Job": "onedesk.one_admin.site.refuse_on_a_tenant",
 	"Stripe Webhook Event": "onedesk.one_admin.site.refuse_on_a_tenant",
 	"Tenant": "onedesk.one_admin.site.refuse_on_a_tenant",
+	"Private App": "onedesk.one_admin.site.refuse_on_a_tenant",
 	"Tenant Domain": "onedesk.one_admin.site.refuse_on_a_tenant",
 	"Tenant Event": "onedesk.one_admin.site.refuse_on_a_tenant",
 }
@@ -715,6 +720,7 @@ permission_query_conditions = {
 	"Provisioning Job": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"Stripe Webhook Event": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"Tenant": "onedesk.one_admin.site.nothing_on_a_tenant",
+	"Private App": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"Tenant Domain": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"Tenant Event": "onedesk.one_admin.site.nothing_on_a_tenant",
 }

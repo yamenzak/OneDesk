@@ -26,12 +26,14 @@ onedesk.apps.button = ($dock) => {
 onedesk.apps.card = (app, off) => {
 	const esc = frappe.utils.escape_html;
 	const locked = app.needs && off.has(app.needs);
-	return `<button type="button" class="one-app-card ${app.on ? "" : "is-off"} ${locked ? "is-locked" : ""}" data-app="${esc(app.name)}" data-needs="${esc(
-		app.needs || ""
-	)}" aria-pressed="${app.on}" ${locked ? "disabled" : ""}>
+	const states = { Installing: __("Installing…"), Failed: __("Couldn't be installed. We've been told.") };
+	const tag = app.kept ? (app.state ? states[app.state] || app.state : __("Private app")) : "";
+	return `<button type="button" class="one-app-card ${app.on ? "" : "is-off"} ${locked ? "is-locked" : ""} ${app.kept ? "is-kept" : ""}" data-app="${esc(
+		app.name
+	)}" data-needs="${esc(app.needs || "")}" aria-pressed="${app.on}" ${locked || app.kept ? "disabled" : ""}>
 		<span class="one-app-top">
 			<span class="one-app-icon">${frappe.utils.icon(app.icon, "xl")}</span>
-			<span class="one-app-switch"></span>
+			${app.kept ? `<span class="one-app-tag">${esc(tag)}</span>` : `<span class="one-app-switch"></span>`}
 		</span>
 		<span class="one-app-name">${esc(app.title)}</span>
 		<span class="one-app-said">${esc(app.said)}</span>
@@ -53,11 +55,20 @@ onedesk.apps.configure = async () => {
 					"An app turned off leaves the rail and search for everybody. Its records stay, and links to them still open."
 				)}</p><div class="one-apps-grid">${apps.map((app) => onedesk.apps.card(app, off)).join("")}</div>`,
 			},
+			{
+				fieldtype: "HTML",
+				fieldname: "code",
+				options: `<div class="one-apps-code"><span class="one-apps-said">${__(
+					"Have a code for a private app? Type it here. Once installed, a private app stays on."
+				)}</span><span class="one-apps-code-field"><input type="text" class="form-control" autocomplete="off" spellcheck="false" aria-label="${__(
+					"Code"
+				)}" placeholder="XXXX-XXXX-XXXX">${frappe.ui.button.html({ label: __("Add"), variant: "subtle", attrs: { "data-claim": "1" } })}</span></div>`,
+			},
 		],
 		primary_action_label: __("Save"),
 		primary_action: async () => {
 			const off = dialog.$wrapper
-				.find(".one-app-card.is-off")
+				.find(".one-app-card.is-off:not(.is-kept)")
 				.map((_i, card) => $(card).attr("data-app"))
 				.get();
 			await frappe.xcall("onedesk.one.apps.save", { off });
@@ -67,7 +78,23 @@ onedesk.apps.configure = async () => {
 		},
 	});
 	const set = ($card, on) => $card.toggleClass("is-off", !on).attr("aria-pressed", on);
-	dialog.$wrapper.on("click", ".one-app-card", (event) => {
+	dialog.$wrapper.on("click", "[data-claim]", async () => {
+		const $input = dialog.$wrapper.find(".one-apps-code input");
+		const code = ($input.val() || "").trim();
+		if (!code) return $input.trigger("focus");
+		const app = await frappe.xcall("onedesk.one.private.claim", { code });
+		dialog.hide();
+		frappe.msgprint({
+			title: app.title,
+			message:
+				app.state === "Installed"
+					? __("{0} is already installed.", [frappe.utils.escape_html(app.title)])
+					: __("{0} is being installed. It takes a few minutes, and appears in Apps and on the rail when it's ready.", [
+							frappe.utils.escape_html(app.title),
+					  ]),
+		});
+	});
+	dialog.$wrapper.on("click", ".one-app-card:not(.is-kept)", (event) => {
 		const $card = $(event.currentTarget);
 		const on = $card.hasClass("is-off");
 		set($card, on);

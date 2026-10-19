@@ -130,7 +130,7 @@ Their One account shows it as Closing, then Closed, with the deletion date.
 ## Jobs
 
 A **job** builds a workspace or moves it to another status, one step at a
-time. There are five types:
+time. There are six types:
 
 - **Provision** builds a new workspace. It chooses a server, checks the name
   is free, creates the site in Frappe Cloud, waits for it, sets up the
@@ -139,6 +139,9 @@ time. There are five types:
 - **Archive** deletes the site after a backup, cancels the Stripe
   subscription so it isn't invoiced again, and removes its mail route.
 - **Drop** deletes the files.
+- **Install App** installs a private app a workspace claimed with its code.
+  It checks the app is on the bench group, asks Frappe Cloud to install it,
+  and waits until it is. A failed install leaves the workspace Live.
 
 The server is the emptiest open one in Settings › Servers (an EU one for an
 EU workspace), and is shown on the workspace as **Server**. A bench group
@@ -166,6 +169,20 @@ stopped, or a worker died while holding it.
 makes whoever paid its first administrator and emails them a link to choose
 a password, valid for a week. When the job finishes they get **Workspace
 Ready** with the address.
+
+## Private Apps
+
+A **private app** is an app made for one customer. Add one under **Private
+Apps** with the app's name as in its `hooks.py`, its title and one sentence.
+**New Code** makes a code for one workspace and shows it once; send it to
+them. A new code for the same workspace replaces the old one.
+
+The workspace types the code into Apps. That queues an **Install App** job,
+and the workspace's row under **Workspaces** on the app says Installing,
+then Installed. A workspace that has claimed an app keeps it: its row can't
+be removed and the app can't be uninstalled. Turn **Enabled** off to stop
+new codes working. Writing one, and putting it on the bench group, is
+`docs/PRIVATE-APPS.md`.
 
 ## Price List
 
@@ -1370,6 +1387,21 @@ grow, and each is a screen somebody opens on its own.
 Each is called what the rail calls it (`one/titles.py` renames our own doctypes
 in the browser); the customer is erpnext's, and keeps its name. Its invoices
 are one click from it, and from the form's Billing menu.
+
+### private.py
+
+Private apps. A code is twelve characters from an alphabet without 0, O, 1
+and I, kept as its SHA-256 with its last four for the operator to tell codes
+apart. `claim` looks the hash up among one workspace's grants only, so a
+code can't open another workspace's app, and every miss says the same thing.
+`proxy.app_claim` rate-limits it to twenty an hour a workspace. A claim
+queues one Install App job (`runner.start` dedupes on its payload, the app
+and the grant); typing it again answers the job's state. `state` is what
+the workspace sees: Installed when the last step has run, Failed when the
+job has, Installing otherwise. The steps are in `steps.py` after `APPS`:
+`app_on_bench` reads `press.apps` for the bench group, `install_app` asks
+`press.api.site.install_app` once (skipped when `press.api.site.installed_apps`
+already lists it), and `app_is_installed` waits on that list.
 
 ### faults.py
 

@@ -35,6 +35,7 @@ WALKS = {
 	"Restore": ("activate_site", "route_it", "mark_live"),
 	"Archive": ("note_backup", "archive_site", "stop_billing", "unroute", "mark_archived"),
 	"Drop": ("empty_storage", "mark_dropped"),
+	"Install App": ("app_on_bench", "install_app", "app_is_installed", "app_installed"),
 }
 
 SAID = {
@@ -57,10 +58,61 @@ SAID = {
 	"mark_archived": _lt("Marking it archived"),
 	"empty_storage": _lt("Deleting the files"),
 	"mark_dropped": _lt("Marking it dropped"),
+	"app_on_bench": _lt("Checking the app is on the bench group"),
+	"install_app": _lt("Installing the app"),
+	"app_is_installed": _lt("Waiting for Frappe Cloud"),
+	"app_installed": _lt("Marking it installed"),
 }
 
 
 APPS = ("erpnext", "hrms", "onedesk")
+
+
+def _app(job) -> str:
+	from onedesk.one_admin import private
+
+	app = private.wanted(job).get("app")
+	if not app:
+		raise faults.Refused("the job doesn't say which app to install")
+	return app
+
+
+def _installed_on(tenant) -> set:
+	found = press.call("press.api.site.installed_apps", name=tenant.site) or []
+	return {one.get("app") or one.get("name") for one in found if isinstance(one, dict)}
+
+
+def app_on_bench(job, tenant) -> None:
+	"""A private app is installed from the bench group, so it has to be on it.
+
+	Missing, the job fails saying so; Resume installs it once it is deployed.
+	"""
+	app = _app(job)
+	if not tenant.site or not tenant.bench:
+		raise faults.Refused("the workspace has no site to install on yet")
+	held = {one.get("name") or one.get("app") for one in press.apps(tenant.bench) or [] if isinstance(one, dict)}
+	if app not in held:
+		raise faults.Refused(f"{app} is not on the bench group {tenant.bench}. Add it in Frappe Cloud, deploy, then resume")
+
+
+def install_app(job, tenant) -> None:
+	"""Ask press to install it, which runs `install-app` on the site: its
+	doctypes, patches, fixtures and after_install, the same as a migrate. Once:
+	an app already there is not asked for again."""
+	app = _app(job)
+	if app in _installed_on(tenant):
+		return
+	press.call("press.api.site.install_app", name=tenant.site, app=app)
+
+
+def app_is_installed(job, tenant) -> str | None:
+	return None if _app(job) in _installed_on(tenant) else WAIT
+
+
+def app_installed(job, tenant) -> None:
+	from onedesk.one_admin import private
+
+	private.installed(job)
 
 
 def place_it(job, tenant) -> None:

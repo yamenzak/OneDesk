@@ -3598,6 +3598,115 @@ def one_the_bar_stays_where_each_person_put_it():
 
 
 @check
+def oneadmin_a_code_installs_a_private_app_that_stays():
+	"""The operator makes a code for a workspace; typed there (in any case,
+	without its dashes) it queues one Install App job, and typing it again
+	queues no second. The job checks the app is on the bench group, asks press
+	to install it and waits until press lists it. A claimed app can't be
+	offered again or taken off the record. A wrong code, or another
+	workspace's, opens nothing; an app missing from the bench fails its job
+	and leaves the workspace Live."""
+	from unittest.mock import patch
+
+	from onedesk.one_admin import press, private, runner
+
+	app = "acme_fleet"
+	installed: list = []
+	asked: list = []
+
+	def pressed(method, **kwargs):
+		asked.append(method)
+		if method == "press.api.site.installed_apps":
+			return [{"app": one} for one in installed]
+		if method == "press.api.site.install_app":
+			installed.append(kwargs["app"])
+		return None
+
+	with patch("onedesk.one_admin.site.is_admin", return_value=True), patch("frappe.sendmail"), patch.object(press, "call", side_effect=pressed), patch.object(
+		press, "apps", return_value=[{"name": app}]
+	):
+		for slug in ("acme-private", "other-private"):
+			frappe.get_doc({"doctype": "Tenant", "slug": slug, "status": "Live", "jurisdiction": "Global", "site": f"{slug}.frappe.cloud", "bench": "bench-1"}).insert(ignore_permissions=True)
+		frappe.get_doc({"doctype": "Private App", "app": app, "title": "Acme Fleet", "said": "Acme's vans, drivers and routes."}).insert(ignore_permissions=True)
+		code = private.new_code(app, "acme-private")
+		assert len(private.normal(code)) == private.LENGTH and code.count("-") == 2, code
+		for wrong in ("", "ABCD-EFGH-JKLM"):
+			try:
+				private.claim("acme-private", wrong)
+			except frappe.ValidationError:
+				pass
+			else:
+				raise AssertionError(f"{wrong!r} opened an app")
+		try:
+			private.claim("other-private", code)
+		except frappe.ValidationError:
+			pass
+		else:
+			raise AssertionError("another workspace's code opened the app")
+		said = private.claim("acme-private", code.lower().replace("-", " "), by="owner@acme.test")
+		assert said["title"] == "Acme Fleet" and said["state"] == "Installing", said
+		job = frappe.db.get_value("Private App Grant", {"tenant": "acme-private"}, "job")
+		assert private.claim("acme-private", code)["state"] == "Installing"
+		assert frappe.db.count("Provisioning Job", {"tenant": "acme-private", "kind": private.KIND}) == 1, "typed twice, queued twice"
+		for _ in range(6):
+			if runner.advance(job) in ("Done", "Failed"):
+				break
+		assert frappe.db.get_value("Provisioning Job", job, "status") == "Done", frappe.db.get_value("Provisioning Job", job, "error")
+		assert installed == [app] and asked.count("press.api.site.install_app") == 1, asked
+		assert private.mine("acme-private") == [{"app": app, "title": "Acme Fleet", "said": "Acme's vans, drivers and routes.", "icon": "", "state": "Installed"}]
+		try:
+			private.new_code(app, "acme-private")
+		except frappe.ValidationError:
+			pass
+		else:
+			raise AssertionError("a claimed app was offered again")
+		doc = frappe.get_doc("Private App", app)
+		doc.set("grants", [row for row in doc.grants if row.tenant != "acme-private"])
+		try:
+			doc.save(ignore_permissions=True)
+		except frappe.ValidationError:
+			pass
+		else:
+			raise AssertionError("an installed app came off the record")
+
+		other = private.new_code(app, "other-private")
+		with patch.object(press, "apps", return_value=[]):
+			private.claim("other-private", other)
+			job = frappe.db.get_value("Private App Grant", {"tenant": "other-private"}, "job")
+			assert runner.advance(job) == "Failed"
+		assert frappe.db.get_value("Tenant", "other-private", "status") == "Live", "a failed install took the workspace down"
+		assert private.mine("other-private")[0]["state"] == "Failed"
+
+
+@check
+def one_a_private_app_is_always_on():
+	"""A private app installed has a card in Apps that can't be turned off,
+	and uninstalling it is refused."""
+	from unittest.mock import patch
+
+	from onedesk.one import apps, private
+
+	said = {"name": "acme_fleet", "title": "Acme Fleet", "said": "Acme's vans.", "icon": "truck"}
+	with patch.object(private, "names", return_value=["acme_fleet"]), patch.object(private, "about", return_value=said), patch.object(private, "rail", return_value=set()):
+		card = next(one for one in apps.offered() if one["name"] == "acme_fleet")
+		assert card["kept"] and card["on"], card
+		with as_user(OWNER):
+			try:
+				apps.save(["acme_fleet"])
+			except frappe.ValidationError:
+				pass
+			else:
+				raise AssertionError("a private app was turned off")
+		try:
+			private.refuse_uninstall("acme_fleet")
+		except frappe.ValidationError:
+			pass
+		else:
+			raise AssertionError("a private app was uninstalled")
+		private.refuse_uninstall("hrms")
+
+
+@check
 def one_devices_decide_where_a_passkey_lives():
 	"""Signing in gives a browser its id and lists it. The builder sorts two:
 	the reception computer, shared, where Tariq is neither offered nor allowed

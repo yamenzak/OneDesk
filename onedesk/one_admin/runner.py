@@ -4,6 +4,8 @@ A job resumes and never repeats; waiting is not failing; backoff is per step
 and grows, to a cap.
 """
 
+import json
+
 import frappe
 from frappe.utils import add_to_date, now_datetime
 
@@ -163,7 +165,7 @@ def _backoff(attempt: int) -> int:
 	return BACKOFF[min(attempt, len(BACKOFF)) - 1]
 
 
-def start(tenant: str, kind: str = "Provision") -> str:
+def start(tenant: str, kind: str = "Provision", payload: dict | None = None) -> str:
 	"""Queue a job for a tenant, once.
 
 	An open job of the same kind is returned rather than a second one made: two
@@ -171,9 +173,10 @@ def start(tenant: str, kind: str = "Provision") -> str:
 	to destroy the same one.
 	"""
 	site.require_admin()
+	said = json.dumps(payload, sort_keys=True) if payload else None
 	open_already = frappe.get_all(
 		"Provisioning Job",
-		filters={"tenant": tenant, "kind": kind, "status": ["in", ("Pending", "Waiting")]},
+		filters={"tenant": tenant, "kind": kind, "status": ["in", ("Pending", "Waiting")], **({"payload": said} if said else {})},
 		limit=1,
 		pluck="name",
 	)
@@ -187,6 +190,7 @@ def start(tenant: str, kind: str = "Provision") -> str:
 			"status": "Pending",
 			"step": steps.WALKS[kind][0],
 			"next_run_at": now_datetime(),
+			"payload": said,
 		}
 	).insert(ignore_permissions=True)
 	return job.name

@@ -17,7 +17,7 @@ SOURCE = (tree.APP / "one" / "outside.py").read_text()
 def test_the_boot_carries_ones_sidebars_and_workspaces_only():
 	assert 'APP = "onedesk"' in SOURCE and 'FIRST = "One"' in SOURCE
 	assert SOURCE.count("if platform():") == 2
-	assert 'page.get("app") == APP' in SOURCE and '["has_create_access"] = False' in SOURCE
+	assert 'page.get("app") in held' in SOURCE and "held = {APP, *private.names()}" in SOURCE and '["has_create_access"] = False' in SOURCE
 	assert "outside.keep(bootinfo)" in (tree.APP / "one" / "boot.py").read_text()
 	assert "outside.kept(said)" in (tree.APP / "one" / "reports.py").read_text()
 

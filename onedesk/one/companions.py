@@ -1,7 +1,8 @@
 """erpnext and hrms become companions of One rather than apps beside it.
 
 Their `Dock` rows are made to name One as their host, on every migrate, so
-their doctypes open in One's rail rather than their own.
+their doctypes open in One's rail rather than their own. A private app's Dock
+is mounted the same way, and its rows stay shown (one/private.py).
 """
 
 import frappe
@@ -12,7 +13,9 @@ SITE_LAYER = ""
 
 
 def apply() -> None:
-	for app in COMPANIONS:
+	from onedesk.one import private
+
+	for app in (*COMPANIONS, *private.names()):
 		name = frappe.db.exists("Dock", {"app": app, "user": SITE_LAYER, "standard": 1})
 		if name and frappe.db.get_value("Dock", name, "mount_on") != HOST:
 			frappe.db.set_value("Dock", name, "mount_on", HOST, update_modified=False)
@@ -30,9 +33,9 @@ def layer() -> None:
 	"""
 	from frappe.desk.doctype.dock.dock import get_app_base, get_app_dock
 
-	from onedesk.one import apps
+	from onedesk.one import apps, private
 
-	ours = {row.get("link_to") for row in get_app_dock(HOST)}
+	ours = {row.get("link_to") for row in get_app_dock(HOST)} | private.rail()
 	off = set(apps.hidden())
 	rows = get_app_base(HOST)
 	name = frappe.db.exists("Dock", {"app": HOST, "user": SITE_LAYER, "standard": 0})

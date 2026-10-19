@@ -1,0 +1,92 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-10-19 13:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "tenant",
+  "code_end",
+  "status",
+  "column_break_claim",
+  "claimed_on",
+  "claimed_by",
+  "job",
+  "code_hash"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "options": "Tenant",
+   "label": "Workspace",
+   "in_list_view": 1,
+   "reqd": 1,
+   "columns": 3
+  },
+  {
+   "fieldname": "code_end",
+   "fieldtype": "Data",
+   "label": "Code Ends",
+   "read_only": 1,
+   "in_list_view": 1,
+   "columns": 2,
+   "description": "The code's last four characters, to tell codes apart. The code itself is shown once, when it is made."
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "options": "Offered\nInstalling\nInstalled\nFailed",
+   "default": "Offered",
+   "label": "Status",
+   "read_only": 1,
+   "in_list_view": 1,
+   "columns": 2
+  },
+  {
+   "fieldname": "column_break_claim",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "claimed_on",
+   "fieldtype": "Datetime",
+   "label": "Claimed On",
+   "read_only": 1,
+   "in_list_view": 1,
+   "columns": 2
+  },
+  {
+   "fieldname": "claimed_by",
+   "fieldtype": "Data",
+   "label": "Claimed By",
+   "read_only": 1
+  },
+  {
+   "fieldname": "job",
+   "fieldtype": "Link",
+   "options": "Provisioning Job",
+   "label": "Job",
+   "read_only": 1
+  },
+  {
+   "fieldname": "code_hash",
+   "fieldtype": "Data",
+   "label": "Code Hash",
+   "read_only": 1,
+   "hidden": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-10-19 13:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Admin",
+ "name": "Private App Grant",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "idx",
+ "sort_order": "ASC",
+ "states": []
+}

@@ -52,12 +52,15 @@ def refuse_ai() -> None:
 
 
 def offered() -> list[dict]:
-	"""One's own rail rows a workspace may turn off, in rail order."""
+	"""One's own rail rows a workspace may turn off, in rail order, then the
+	private apps it has (always on), then OneAI and OneIntake."""
 	from frappe.desk.doctype.dock.dock import get_app_dock
 
+	from onedesk.one import private
 	from onedesk.one.settings import APP_SAID
 
 	off = set(hidden())
+	theirs = private.rail()
 	rail = [
 		{
 			"name": row.get("link_to"),
@@ -67,9 +70,9 @@ def offered() -> list[dict]:
 			"on": row.get("link_to") not in off,
 		}
 		for row in get_app_dock(HOST)
-		if row.get("link_type") == "Sidebar" and row.get("link_to") not in KEPT
+		if row.get("link_type") == "Sidebar" and row.get("link_to") not in KEPT and row.get("link_to") not in theirs
 	]
-	return rail + [
+	return rail + private.offered() + [
 		{
 			"name": name,
 			"title": name,
@@ -183,10 +186,10 @@ def boot(bootinfo) -> None:
 
 @frappe.whitelist()
 def read() -> dict:
-	from onedesk.one import roles
+	from onedesk.one import private, roles
 
 	roles.require()
-	return {"apps": offered()}
+	return {"apps": offered() + private.waiting()}
 
 
 @frappe.whitelist(methods=["POST"])
@@ -198,7 +201,7 @@ def save(off: str | list) -> dict:
 	off = frappe.parse_json(off) if isinstance(off, str) else off
 	off = list(off or [])
 	off += [one for one, needs in NEEDS.items() if needs in off and one not in off]
-	allowed = {one["name"] for one in offered()}
+	allowed = {one["name"] for one in offered() if not one.get("kept")}
 	unknown = [one for one in off or [] if one not in allowed]
 	if unknown:
 		frappe.throw(_("{0} can't be turned off.").format(", ".join(unknown)))

@@ -60,6 +60,8 @@ No doctypes yet.
 | Credit Reservation | 10 | document |
 | Offering | 24 | document |
 | One Admin Settings | 64 | single |
+| Private App | 9 | document |
+| Private App Grant | 8 | child |
 | Provisioning Job | 15 | document |
 | Stripe Webhook Event | 7 | document |
 | Tenant | 47 | document |
@@ -313,6 +315,7 @@ No doctypes yet.
 * `onedesk.one.privacy_public.ask`
 * `onedesk.one.privacy_public.confirm`
 * `onedesk.one.privacy_public.download`
+* `onedesk.one.private.claim`
 * `onedesk.one.push.devices`
 * `onedesk.one.push.forget`
 * `onedesk.one.push.register`
@@ -367,10 +370,12 @@ No doctypes yet.
 * `onedesk.one_admin.operator.take_back_credits`
 * `onedesk.one_admin.operator.try_the_gateway`
 * `onedesk.one_admin.operator.walk`
+* `onedesk.one_admin.private.new_code`
 * `onedesk.one_admin.proxy.ai_models`
 * `onedesk.one_admin.proxy.ai_models_for`
 * `onedesk.one_admin.proxy.ai_run`
 * `onedesk.one_admin.proxy.ai_usage`
+* `onedesk.one_admin.proxy.app_claim`
 * `onedesk.one_admin.proxy.billed_to`
 * `onedesk.one_admin.proxy.billing_invoice`
 * `onedesk.one_admin.proxy.billing_invoices`
@@ -390,6 +395,7 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.plans_offered`
 * `onedesk.one_admin.proxy.plans_quote`
 * `onedesk.one_admin.proxy.plans_take`
+* `onedesk.one_admin.proxy.private_apps`
 * `onedesk.one_admin.proxy.storage_delete`
 * `onedesk.one_admin.proxy.storage_get`
 * `onedesk.one_admin.proxy.storage_put`

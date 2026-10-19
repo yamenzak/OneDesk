@@ -19,6 +19,8 @@ HEADER = "X-One-Token"
 
 A_MINUTE = 60
 CALLS_A_MINUTE = 120
+AN_HOUR = 3600
+CLAIMS_AN_HOUR = 20
 
 
 def caller():
@@ -508,3 +510,23 @@ def domain_primary(domain: str) -> dict:
 	from onedesk.one_admin import domains
 
 	return domains.make_primary(_tenant_doc(caller()), domain)
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CLAIMS_AN_HOUR, seconds=AN_HOUR, ip_based=False)
+def app_claim(code: str, by: str | None = None) -> dict:
+	"""A private app's code, typed in the workspace's Apps (one_admin/private.py)."""
+	tenant = caller()
+	from onedesk.one_admin import private
+
+	return private.claim(tenant.name, code, by)
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def private_apps() -> list[dict]:
+	"""The private apps this workspace has claimed, and how far each has got."""
+	tenant = caller()
+	from onedesk.one_admin import private
+
+	return private.mine(tenant.name)
