@@ -149,7 +149,7 @@ def test_a_chart_is_frappes_own_and_its_figures_the_readers():
 	assert "new frappe.Chart(" in band, "drawn by the desk's own charts, as a Dashboard Chart is"
 	assert "[...chart.values]" in band, "frappe-charts works on its data in place"
 	assert "disableEntryAnimation: 1" in band
-	assert "indicator-pill-round" in band and '"--blue-400" : "--blue-500"' in band
+	assert "frappe.ui.stat_card(" in band and '"--blue-400" : "--blue-500"' in band
 	for module in ("one_book", "one_inventory"):
 		source = (tree.APP / module / "heads.py").read_text(encoding="utf-8")
 		for name in re.findall(r'"figures": (\w+)', source):

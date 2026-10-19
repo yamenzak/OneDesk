@@ -315,7 +315,7 @@ because what it draws is code.
 
 A chart is a Record Head row naming a chart a module registers under
 `one_charts`. It is drawn with `frappe.Chart`, a part of a whole with
-frappe-ui's Progress, and a change with frappe's Number Card pill. Every chart
+frappe-ui's Progress, and a change as frappe's stat card says it. Every chart
 is one series in the desk's blue (`--blue-500` light, `--blue-400` dark); the
 bar the record is about keeps the hue and the rest go grey. No legends, no
 animation. A chart appears only when the record has figures to draw; where a

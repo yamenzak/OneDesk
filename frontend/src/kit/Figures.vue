@@ -1,12 +1,12 @@
 <template>
-  <div class="grid" :class="[COLUMNS[columns || figures.length] || 'lg:grid-cols-4', boxed ? 'grid-cols-1 gap-3 sm:grid-cols-2' : 'grid-cols-1 gap-x-8 gap-y-6 pb-3 sm:grid-cols-2']">
-    <div v-for="one in figures" :key="one.title" class="flex min-w-0 flex-col" :class="{ [CARD]: boxed && !one.sparkline }">
+  <div class="grid grid-cols-1 gap-3 sm:grid-cols-2" :class="COLUMNS[columns || figures.length] || 'lg:grid-cols-4'">
+    <div v-for="one in figures" :key="one.title" class="flex min-w-0 flex-col" :class="{ [CARD]: !one.sparkline }">
       <NumberCard
         :title="one.title"
         :value="one.value"
-        :card="boxed && !!one.sparkline"
+        :card="!!one.sparkline"
         :class="{ 'flex-1': one.sparkline }"
-        :color="one.alarm ? 'var(--ink-red-5)' : undefined"
+        :color="one.alarm ? 'var(--ink-red-7)' : undefined"
         :sparkline="one.sparkline"
         :delta="one.delta"
         :delta-format="one.deltaFormat"
@@ -33,7 +33,7 @@ import { NumberCard } from "frappe-ui/charts";
 
 import { go } from "./desk";
 
-defineProps({ figures: { type: Array, required: true }, boxed: Boolean, columns: Number });
+defineProps({ figures: { type: Array, required: true }, columns: Number });
 const CARD = "rounded-4 border border-outline-gray-1 bg-surface-elevation-2 px-4 py-3";
-const COLUMNS = { 2: "lg:grid-cols-2", 3: "lg:grid-cols-3", 5: "lg:grid-cols-5" };
+const COLUMNS = { 2: "lg:grid-cols-2", 3: "lg:grid-cols-3", 5: "lg:grid-cols-3", 6: "lg:grid-cols-3" };
 </script>

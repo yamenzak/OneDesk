@@ -36,7 +36,7 @@
             <dd class="truncate py-1"><button :class="LINK" @click="go(`/desk/${slug(said.one_about_doctype)}/${encodeURIComponent(said.one_about)}`)">{{ said.about_title }}</button></dd>
           </div>
         </dl>
-        <Figures v-if="figures.length" :figures="figures" :columns="figures.length" boxed class="mt-5" />
+        <Figures v-if="figures.length" :figures="figures" :columns="figures.length" class="mt-5" />
       </header>
 
       <PlaceSpot :said="placed" class="mt-4" />

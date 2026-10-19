@@ -2,7 +2,7 @@
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
-      <Figures :figures="figures" :columns="figures.length" :boxed="wide" class="mt-6" />
+      <Figures :figures="figures" :columns="figures.length" class="mt-6" />
       <PlaceSpot :said="placed" class="mt-4" />
 
       <div class="mt-6 flex flex-wrap items-center gap-2">

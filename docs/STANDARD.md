@@ -108,6 +108,16 @@ is checked at 1440 wide and on a phone. **Watch for** text cut off in a
 column, a figure only a bar says, a large empty state where every other one
 is a line, and a list that only fits on a desktop.
 
+**One figure.** Set by the user on 2026-10-20: a record's head, a module's
+Home, a record page of ours and ERPNext's own overviews drew numbers three
+ways. A figure is one card everywhere: a small grey label, the number at
+20px, one line under it (a caption, or a change against last month), framed
+with 8px corners, with a bar or a sparkline below where there is one. On the
+desk it is frappe's `frappe.ui.stat_card`, so a head and ERPNext's Customer
+Overview are the same card; on an island it is frappe-ui's NumberCard in the
+same frame, through the kit's `Figures`. A number that warns is red-7,
+frappe's negative. `tests/guards/test_figures.py` holds it.
+
 **A module's Home tells its story.** Set by the user on 2026-10-13, first on
 OneInventory. A Home opens on figures with sparklines (frappe-ui's
 NumberCard, each against last month), a button for each kind of thing that

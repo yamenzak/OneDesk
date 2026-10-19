@@ -7,7 +7,7 @@
         <span class="flex-1 text-base text-ink-gray-7">{{ __("Items can't be kept in batches or by Serial No yet.") }}</span>
         <Button v-if="said.can.switch" variant="solid" :label="__('Turn On')" @click="onedesk().lots.switch_on(load)" />
       </div>
-      <Figures :figures="figures" :columns="figures.length" :boxed="wide" class="mt-6" />
+      <Figures :figures="figures" :columns="figures.length" class="mt-6" />
       <PlaceSpot :said="placed" class="mt-4" />
       <ViewTabs v-model="shown" :views="views" class="mt-5" />
 

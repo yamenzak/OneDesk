@@ -1,21 +1,24 @@
 frappe.provide("onedesk.band");
 
-onedesk.band.stat = (label, value, route, tone, extra = {}) => {
-	const esc = frappe.utils.escape_html;
-	if (extra.steps) return onedesk.band.steps(extra.steps);
+onedesk.band.stat = (label, value, route, tone, extra = {}) =>
+	extra.steps ? onedesk.band.steps(extra.steps) : { label, value, route, tone, extra };
+
+onedesk.band.card = ({ label, value, route, tone, extra }) => {
 	const said = () =>
 		extra.short
 			? $("<div>").html(frappe.datetime.comment_when(extra.when, true)).text()
 			: frappe.datetime.prettyDate(extra.when);
 	const when = (text) => (extra.when ? String(text).replace("{when}", said()) : String(text));
-	const inner =
-		`<span class="one-stat-label">${esc(when(label))}</span>` +
-		`<span class="one-stat-value">${esc(onedesk.shell.ltr(when(value)))}</span>` +
-		onedesk.band.delta(extra.delta) +
-		(extra.note ? `<span class="one-stat-note">${extra.note}</span>` : "") +
-		onedesk.band.meter(extra.meter);
-	const cls = `one-stat${tone ? " one-stat-" + tone : ""}`;
-	return route ? `<a class="${cls}" href="${route}">${inner}</a>` : `<span class="${cls}">${inner}</span>`;
+	const $card = frappe.ui.stat_card({
+		label: when(label),
+		value: onedesk.shell.ltr(when(value)),
+		delta: onedesk.band.delta(extra.delta),
+		caption: extra.note ? $("<span>").html(extra.note) : null,
+		css_class: `one-stat${tone ? " one-stat-" + tone : ""}${route ? " es-stat-card--clickable" : ""}`,
+	});
+	$card.append(onedesk.band.meter(extra.meter));
+	const html = $card.prop("outerHTML");
+	return route ? `<a class="one-stat-link" href="${route}">${html}</a>` : html;
 };
 
 onedesk.band.steps = (steps) => {
@@ -37,17 +40,9 @@ onedesk.band.steps = (steps) => {
 };
 
 onedesk.band.delta = (delta) => {
-	if (!delta || delta.change === null || delta.change === undefined || !isFinite(delta.change)) return "";
-	const change = Number(delta.change);
-	if (!change) return "";
-	const up = change > 0;
-	const good = delta.better === "down" ? !up : up;
-	const size = Math.abs(change) >= 1000 ? __("999+") : format_number(Math.abs(change), null, 0);
-	return (
-		`<span class="one-stat-delta ${good ? "green-stat" : "red-stat"}">` +
-		`<span class="indicator-pill-round ${good ? "green" : "red"}">${frappe.utils.icon(up ? "arrow-up-right" : "arrow-down-right", "xs")}</span>` +
-		`<span>${frappe.utils.escape_html(`${size}% ${delta.against || ""}`.trim())}</span></span>`
-	);
+	if (!delta || delta.change === null || delta.change === undefined || !isFinite(delta.change)) return null;
+	if (!Number(delta.change)) return null;
+	return { value: Math.max(-999, Math.min(999, Number(delta.change))), positive_is_good: delta.better !== "down", suffix: delta.against || "" };
 };
 
 onedesk.band.meter = (meter) => {
@@ -59,8 +54,10 @@ onedesk.band.meter = (meter) => {
 	);
 };
 
-onedesk.band.show = (frm, stats, charts = []) => {
-	if (!stats.length && !charts.length) return frm.dashboard.clear_headline();
+onedesk.band.show = async (frm, said, charts = []) => {
+	if (!said.length && !charts.length) return frm.dashboard.clear_headline();
+	if (said.some((one) => typeof one !== "string")) await frappe.require(["desk_charts.bundle.js", "desk_charts.bundle.css"]);
+	const stats = said.map((one) => (typeof one === "string" ? one : onedesk.band.card(one)));
 	frm.layout.message.children(".form-message:has(.one-band)").remove();
 	const heat = charts.find((chart) => chart.kind === "heat");
 	if (heat) {
@@ -68,7 +65,7 @@ onedesk.band.show = (frm, stats, charts = []) => {
 		frm.dashboard.set_headline(
 			`<div class="one-band">` +
 				(drawn ? drawn.months : "") +
-				`<div class="one-stats">${stats.join("")}</div>` +
+				`<div class="one-stats es-stat-card-grid">${stats.join("")}</div>` +
 				(drawn ? drawn.legend : "") +
 				`</div>`,
 			null,
@@ -82,7 +79,7 @@ onedesk.band.show = (frm, stats, charts = []) => {
 			(charts.length
 				? `<div class="one-band-charts">${charts.map((chart, i) => onedesk.band.panel(chart, `${key}-${i}`)).join("")}</div>`
 				: "") +
-			`<div class="one-stats">${stats.join("")}</div></div>`,
+			`<div class="one-stats es-stat-card-grid">${stats.join("")}</div></div>`,
 		null,
 		true
 	);

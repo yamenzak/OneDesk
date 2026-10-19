@@ -2098,7 +2098,7 @@ def test_a_projects_views_are_one_row_of_tabs_under_its_head():
 def test_the_overview_puts_its_figures_in_cards_and_charts_tasks_hours_and_budget():
 	src = tree.ROOT / "frontend" / "src"
 	overview = (src / "project" / "Overview.vue").read_text()
-	assert '<Figures :figures="figures" boxed :columns="figures.length === 4 ? 2 : figures.length" />' in overview
+	assert '<Figures :figures="figures" :columns="figures.length === 4 ? 2 : figures.length" />' in overview
 	assert overview.count("data-cards") == 2 and "border-b" not in overview
 	assert "[&:has(+[data-cards])]:border-b-0" in (src / "kit" / "Section.vue").read_text()
 	assert '<Section boxed :title="__(\'Needs You\')"' in overview

@@ -6,7 +6,7 @@
       <Button v-if="said.can['Plant Floor']" class="mt-3" variant="solid" :label="__('New Plant Floor')" @click="newDoc('Plant Floor')" />
     </div>
     <template v-else>
-      <Figures :figures="figures" :columns="figures.length" :boxed="wide" class="mt-6" />
+      <Figures :figures="figures" :columns="figures.length" class="mt-6" />
       <PlaceSpot :said="placed" class="mt-4" />
       <ViewTabs v-if="said.floors.length > 1" v-model="plant" :views="floors" class="mt-5" />
 

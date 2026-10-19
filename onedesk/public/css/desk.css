@@ -312,11 +312,12 @@ a.one-day:hover {
 	}
 }
 
-.one-stat {
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-	text-decoration: none;
+body .es-stat-card {
+	border-radius: var(--radius-4);
+}
+
+body .es-stat-card__value {
+	font-size: var(--text-3xl);
 }
 
 .one-stat-label {
@@ -325,49 +326,32 @@ a.one-day:hover {
 	color: var(--ink-gray-5);
 }
 
-.one-stat-value {
-	font-size: var(--text-lg);
-	font-weight: var(--weight-semibold);
-	line-height: 1.35;
-	color: var(--ink-gray-8);
+.one-stat-link {
+	display: flex;
+	min-width: 0;
+	color: inherit;
+	text-decoration: none;
 }
 
-.one-stat-note {
-	font-size: var(--text-sm);
-	line-height: 1.35;
-	color: var(--ink-gray-5);
+.one-stat-link:hover {
+	color: inherit;
+	text-decoration: none;
 }
 
-.one-stat-delta {
-	display: inline-flex;
-	align-items: center;
-	gap: 4px;
-	margin-top: 2px;
-	font-size: var(--text-xs);
+.one-stat-link > .es-stat-card {
+	flex: 1;
+	min-width: 0;
 }
 
-.one-stat-delta .indicator-pill-round {
-	width: 16px;
-	height: 16px;
-}
-
-.one-stat-delta .indicator-pill-round .icon-xs {
-	width: 10px;
-	height: 10px;
-}
-
-.one-stat-delta.green-stat {
-	color: var(--ink-green-6);
-}
-
-.one-stat-delta.red-stat {
-	color: var(--ink-red-6);
+.one-stat .es-stat-card__value,
+.one-stat .es-stat-card__caption {
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .one-stat-meter {
 	display: block;
 	width: 100%;
-	max-width: 9rem;
 	height: 4px;
 	margin-top: 4px;
 	overflow: hidden;
@@ -390,24 +374,16 @@ a.one-day:hover {
 	background: var(--surface-amber-5);
 }
 
-a.one-stat:hover {
-	text-decoration: none;
+.one-stat-waiting .es-stat-card__value {
+	color: var(--ink-amber-7);
 }
 
-a.one-stat:hover .one-stat-value {
-	text-decoration: underline;
-}
-
-.one-stat-waiting .one-stat-value {
-	color: var(--ink-amber-8);
-}
-
-.one-stat-quiet .one-stat-value {
+.one-stat-quiet .es-stat-card__value {
 	color: var(--ink-gray-5);
 }
 
-.one-stat-alarm .one-stat-value {
-	color: var(--ink-red-8);
+.one-stat-alarm .es-stat-card__value {
+	color: var(--ink-red-7);
 }
 
 .one-clock .one-clock-dot {
@@ -716,38 +692,14 @@ body:not(.one-bar-bottom) .one-bar [data-group="ai"] {
 	gap: var(--margin-lg);
 }
 
-.one-band-charted .one-stats,
-.one-band-plain .one-stats {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: flex-start;
-	align-content: flex-start;
-	gap: var(--margin-md) var(--margin-xl);
+.one-band .one-stats {
+	grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+	align-content: start;
+	gap: var(--margin-md);
 }
 
-.one-band-charted .one-stat,
-.one-band-plain .one-stat {
-	flex: 1 0 auto;
-	min-width: 7rem;
-	white-space: nowrap;
-}
-
-.one-figures {
-	display: flex;
-	flex-direction: column;
-	gap: var(--margin-lg);
-	padding-bottom: var(--padding-md);
-}
-
-.one-figures .one-stats {
-	grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
-	justify-content: stretch;
-	padding-left: 0;
-	border-left: 0;
-}
-
-.one-figures .one-stat {
-	white-space: nowrap;
+.one-band .one-stats > .one-steps {
+	grid-column: 1 / -1;
 }
 
 .one-suppliers .table {

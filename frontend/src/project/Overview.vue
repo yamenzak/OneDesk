@@ -14,7 +14,7 @@
       </Section>
       <PlaceSpot :said="spot" class="mt-5" />
       <div data-cards class="py-5">
-        <Figures :figures="figures" boxed :columns="figures.length === 4 ? 2 : figures.length" />
+        <Figures :figures="figures" :columns="figures.length === 4 ? 2 : figures.length" />
       </div>
 
       <Section v-if="said.notes" :title="__('Brief')" icon="lucide-file-text" :action="said.can_write ? { icon: 'lucide-pencil', label: __('Edit Brief'), onClick: editBrief } : null">

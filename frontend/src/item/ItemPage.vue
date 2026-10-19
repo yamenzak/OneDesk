@@ -44,7 +44,7 @@
           <ItemBarcodes v-if="wide" :item="said.name" :barcodes="said.barcodes" :can-write="said.can_write" class="shrink-0" @changed="load" />
         </div>
         <ItemBarcodes v-if="!wide" :item="said.name" :barcodes="said.barcodes" :can-write="said.can_write" class="mt-4 !items-start" @changed="load" />
-        <Figures v-if="figures.length" :figures="figures" :columns="figures.length" :boxed="wide" class="mt-5" />
+        <Figures v-if="figures.length" :figures="figures" :columns="figures.length" class="mt-5" />
       </header>
 
       <PlaceSpot :said="placed" class="mt-4" />
