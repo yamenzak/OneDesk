@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-19 05:14+0000\n"
+"POT-Creation-Date: 2026-10-19 05:21+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -3375,7 +3375,7 @@ msgstr "سعر متفق عليه يُفوتر مع تقدم العمل. عقود
 msgid "An app for iPhone and Android, from the idea to the stores."
 msgstr "تطبيق لأجهزة iPhone وAndroid، من الفكرة إلى المتاجر."
 
-#: onedesk/public/js/apps.js:32
+#: onedesk/public/js/apps.js:45
 msgid "An app turned off leaves the rail and search for everybody. Its records stay, and links to them still open."
 msgstr "يختفي التطبيق المُوقف من الشريط والبحث لدى الجميع. تبقى سجلاته، وتظل الروابط إليها تُفتح."
 
@@ -4047,14 +4047,14 @@ msgid "Approving this puts {0} on {1} {2}."
 msgstr "اعتماد هذا يضع {0} على {1} {2}."
 
 #: onedesk/one/ai_setup.py:598 onedesk/public/js/apps.js:10
-#: onedesk/public/js/apps.js:21 onedesk/public/js/apps.js:27
+#: onedesk/public/js/apps.js:21 onedesk/public/js/apps.js:39
 #: onedesk/public/js/settings.js:862 onedesk/public/js/settings.js:977
 #: onedesk/public/js/settings.js:1048 onedesk/public/js/settings.js:1224
 #: onedesk/public/js/settings.js:1337
 msgid "Apps"
 msgstr ""
 
-#: onedesk/public/js/apps.js:43
+#: onedesk/public/js/apps.js:58
 msgid "Apps saved"
 msgstr "تم حفظ التطبيقات"
 
@@ -24433,7 +24433,8 @@ msgstr "ممن"
 #: onedesk/one/ai.py:2709 onedesk/one/settings.py:823
 #: onedesk/one_ai/chat.py:690
 #: onedesk/one_studio/doctype/extension/extension_list.js:10
-#: onedesk/one_studio/heads.py:22 onedesk/public/js/doctype_settings.js:180
+#: onedesk/one_studio/heads.py:22 onedesk/public/js/apps.js:32
+#: onedesk/public/js/doctype_settings.js:180
 #: onedesk/public/js/doctype_settings.js:214
 #: onedesk/public/js/doctype_settings.js:247
 #: onedesk/public/js/doctype_settings.js:942 onedesk/public/js/settings.js:510
@@ -24537,7 +24538,8 @@ msgstr "إغلاق النظام القديم"
 
 #: onedesk/one/ai.py:3810 onedesk/one/ai.py:4023 onedesk/one_ai/chat.py:690
 #: onedesk/one_studio/doctype/extension/extension_list.js:6
-#: onedesk/one_studio/heads.py:17 onedesk/public/js/doctype_settings.js:180
+#: onedesk/one_studio/heads.py:17 onedesk/public/js/apps.js:32
+#: onedesk/public/js/doctype_settings.js:180
 #: onedesk/public/js/doctype_settings.js:214 onedesk/public/js/settings.js:510
 #: onedesk/public/js/settings.js:3093 onedesk/public/js/settings.js:3150
 msgid "On"
@@ -32723,7 +32725,7 @@ msgstr "السبت"
 #: onedesk/one_book/report/books_check/books_check.js:23
 #: onedesk/one_book/report/books_check/books_check.js:40
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:424
-#: onedesk/public/js/apps.js:38 onedesk/public/js/crm_record.js:97
+#: onedesk/public/js/apps.js:50 onedesk/public/js/crm_record.js:97
 #: onedesk/public/js/item_actions.js:31 onedesk/public/js/lots_actions.js:53
 #: onedesk/public/js/next_step.js:27 onedesk/public/js/onecloud.js:1509
 #: onedesk/public/js/onemail.js:850 onedesk/public/js/onemail.js:873
@@ -39043,7 +39045,7 @@ msgstr "لدى مساحة العمل الآن {balance} رصيد.{note}"
 msgid "The workspace now opens at {domain}. To have sign-in and links in mail use it, make it the main address on Workspace › Domains."
 msgstr "تُفتح مساحة العمل الآن على {domain}. ليستخدمه تسجيل الدخول والروابط في البريد، اجعله العنوان الرئيسي في مساحة العمل › النطاقات."
 
-#: onedesk/public/js/apps.js:82
+#: onedesk/public/js/apps.js:103
 msgid "The workspace's apps changed. Reload to see them."
 msgstr "تغيّرت تطبيقات مساحة العمل. أعد التحميل لرؤيتها."
 

@@ -1467,3 +1467,102 @@ html[dir="rtl"] body > div[style*="left: -9999px"] {
 	justify-content: center;
 	width: 100%;
 }
+
+.one-apps-said {
+	color: var(--ink-gray-5);
+	margin-bottom: 16px;
+}
+
+.one-apps-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+	gap: 12px;
+}
+
+.one-app-card {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 4px;
+	padding: 14px;
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius-lg);
+	background: var(--surface-base);
+	text-align: start;
+	cursor: pointer;
+}
+
+.one-app-card:hover {
+	background: var(--surface-gray-1);
+}
+
+.one-app-top {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	margin-bottom: 8px;
+}
+
+.one-app-icon {
+	display: flex;
+}
+
+.one-app-icon .icon {
+	width: 32px;
+	height: 32px;
+}
+
+.one-app-name {
+	font-weight: 600;
+	color: var(--ink-gray-9);
+}
+
+.one-app-state {
+	font-size: 12px;
+	color: var(--ink-green-6);
+}
+
+.one-app-switch {
+	position: relative;
+	width: 28px;
+	height: 16px;
+	border-radius: var(--radius-full);
+	background: var(--surface-gray-7);
+}
+
+.one-app-switch::after {
+	content: "";
+	position: absolute;
+	top: 2px;
+	inset-inline-start: 14px;
+	width: 12px;
+	height: 12px;
+	border-radius: var(--radius-full);
+	background: var(--surface-base);
+}
+
+.one-app-card.is-off {
+	background: var(--surface-gray-1);
+}
+
+.one-app-card.is-off .one-app-icon {
+	opacity: 0.4;
+	filter: grayscale(1);
+}
+
+.one-app-card.is-off .one-app-name {
+	color: var(--ink-gray-5);
+}
+
+.one-app-card.is-off .one-app-state {
+	color: var(--ink-gray-5);
+}
+
+.one-app-card.is-off .one-app-switch {
+	background: var(--surface-gray-4);
+}
+
+.one-app-card.is-off .one-app-switch::after {
+	inset-inline-start: 2px;
+}

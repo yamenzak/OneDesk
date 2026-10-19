@@ -21,28 +21,49 @@ onedesk.apps.button = ($dock) => {
 	new frappe.ui.Tooltip($button[0], { text: __("Apps"), side: "right", delay: 0, offset: 10, class: "es-tooltip--plain" });
 };
 
+onedesk.apps.card = (app) => {
+	const esc = frappe.utils.escape_html;
+	return `<button type="button" class="one-app-card ${app.on ? "" : "is-off"}" data-app="${esc(app.name)}" aria-pressed="${app.on}">
+		<span class="one-app-top">
+			<span class="one-app-icon">${frappe.utils.icon(app.icon, "xl")}</span>
+			<span class="one-app-switch"></span>
+		</span>
+		<span class="one-app-name">${esc(app.title)}</span>
+		<span class="one-app-state" data-on="${esc(__("On"))}" data-off="${esc(__("Off"))}">${app.on ? __("On") : __("Off")}</span>
+	</button>`;
+};
+
 onedesk.apps.configure = async () => {
 	const { apps } = await frappe.xcall("onedesk.one.apps.read");
 	const dialog = new frappe.ui.Dialog({
 		title: __("Apps"),
+		size: "large",
 		fields: [
 			{
 				fieldtype: "HTML",
-				fieldname: "said",
-				options: `<p class="text-muted">${__(
+				fieldname: "apps",
+				options: `<p class="one-apps-said">${__(
 					"An app turned off leaves the rail and search for everybody. Its records stay, and links to them still open."
-				)}</p>`,
+				)}</p><div class="one-apps-grid">${apps.map(onedesk.apps.card).join("")}</div>`,
 			},
-			...apps.map((app) => ({ fieldtype: "Check", fieldname: app.name, label: app.title, default: app.on ? 1 : 0 })),
 		],
 		primary_action_label: __("Save"),
-		primary_action: async (values) => {
-			const off = apps.filter((app) => !values[app.name]).map((app) => app.name);
+		primary_action: async () => {
+			const off = dialog.$wrapper
+				.find(".one-app-card.is-off")
+				.map((_i, card) => $(card).attr("data-app"))
+				.get();
 			await frappe.xcall("onedesk.one.apps.save", { off });
 			dialog.hide();
 			frappe.show_alert({ message: __("Apps saved"), indicator: "green" });
 			window.location.reload();
 		},
+	});
+	dialog.$wrapper.on("click", ".one-app-card", (event) => {
+		const $card = $(event.currentTarget).toggleClass("is-off");
+		const on = !$card.hasClass("is-off");
+		const $state = $card.attr("aria-pressed", on).find(".one-app-state");
+		$state.text($state.attr(on ? "data-on" : "data-off"));
 	});
 	dialog.show();
 };
