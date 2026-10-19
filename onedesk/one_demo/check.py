@@ -6252,16 +6252,19 @@ def oneinventory_new_item_parts_list_and_sizes():
 		bolt.save()
 		assert bolt.one_measured_by == "Area", "a new unit that is an area sells it by area"
 		assert frappe.db.get_value("Item", sheet, "one_measured_by") == "Area", "a sheet kept by the piece keeps what it says"
-		assert not frappe.db.exists("Item", {"one_measured_by": ["in", ["Piece", ""]]}), "every item says No, Length or Area"
+		assert not frappe.db.exists("Item", {"one_measured_by": ["in", ["", None]]}), "every item says how it is sold"
+		panel = frappe.get_doc({"doctype": "Item", "item_code": "DEMO-CW", "item_name": "Curtain Wall Panel", "item_group": "Products", "stock_uom": "Nos", "one_measured_by": "Piece"}).insert()
+		assert panel.one_measured_by == "Piece", "a panel sold by the piece keeps what it says"
 	with as_user("omar@one.test"):
 		customer = frappe.get_all("Customer", limit=1, pluck="name")[0]
 		quote = frappe.get_doc({"doctype": "Quotation", "quotation_to": "Customer", "party_name": customer, "items": [
 			{"item_code": glass, "one_pieces": 4, "one_length": 1200, "one_width": 800, "qty": 1},
 			{"item_code": sheet, "one_pieces": 2, "one_length": 1250, "one_width": 2500, "qty": 1},
 			{"item_code": profile, "one_pieces": 6, "one_length": 2400, "qty": 1},
+			{"item_code": "DEMO-CW", "one_length": 20525, "one_width": 3500, "qty": 2},
 		]}).insert()
 		said = [(row.qty, row.uom, row.one_size) for row in quote.items]
-		assert said == [(3.84, "Square Meter", "4 × 1200 × 800 mm"), (2.0, "Nos", "2 × 1250 × 2500 mm"), (14.4, "Meter", "6 × 2400 mm")], said
+		assert said == [(3.84, "Square Meter", "4 × 1200 × 800 mm"), (2.0, "Nos", "2 × 1250 × 2500 mm"), (14.4, "Meter", "6 × 2400 mm"), (2.0, "Nos", "20525 × 3500 mm")], said
 		quote.submit()
 		order = make_sales_order(quote.name)
 		assert [(row.one_pieces, row.one_length, row.qty) for row in order.items][:1] == [(4, 1200, 3.84)], "the order keeps the size"

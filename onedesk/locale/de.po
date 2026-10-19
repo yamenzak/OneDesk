@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-19 12:13+0000\n"
+"POT-Creation-Date: 2026-10-19 15:22+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -26468,8 +26468,8 @@ msgstr "Aufträge bis"
 
 #. Description of the 'Sold by Size' (Select) field in DocType 'Item'
 #: onedesk/one_inventory/custom/item.json
-msgid "Orders give each piece's length, or length and width, and the quantity follows. Set from the unit when it is a length or an area."
-msgstr "Aufträge nennen die Länge jedes Stücks oder Länge und Breite, und die Menge folgt daraus. Wird aus der Einheit gesetzt, wenn sie eine Länge oder Fläche ist."
+msgid "Orders give each piece's size. By length or area the quantity follows from it; by the piece the size only prints."
+msgstr "Aufträge geben die Größe jedes Stücks an. Nach Länge oder Fläche ergibt sich die Menge daraus; nach Stück wird die Größe nur gedruckt."
 
 #. Option for the 'Sensitivity' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -28450,6 +28450,11 @@ msgstr "Kommissioniert von"
 #: onedesk/public/js/item_new.js:71
 msgid "Picture"
 msgstr "Bild"
+
+#. Option for the 'Sold by Size' (Select) field in DocType 'Item'
+#: onedesk/one_inventory/custom/item.json
+msgid "Piece"
+msgstr "Stück"
 
 #. Label of the one_pieces (Int) field in DocType 'Asset Capitalization Service
 #. Item'
@@ -41583,7 +41588,7 @@ msgstr "Einheitenkategorie"
 msgid "Unit Price"
 msgstr "Einzelpreis"
 
-#: onedesk/one_inventory/measure.py:121
+#: onedesk/one_inventory/measure.py:124
 msgid "Unit {0} can't be counted in {1}. Pick a unit that converts, or add it to the item's units."
 msgstr "Einheit {0} lässt sich nicht in {1} rechnen. Wähle eine umrechenbare Einheit oder füge sie den Einheiten des Artikels hinzu."
 

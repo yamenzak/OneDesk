@@ -5,6 +5,8 @@ onedesk.measure.SIZE = ["one_pieces", "one_length", "one_width"];
 
 onedesk.measure.measured = (row) => ["Length", "Area"].includes(row.one_measured_by);
 
+onedesk.measure.sized = (row) => row.one_measured_by === "Piece" || onedesk.measure.measured(row);
+
 onedesk.measure.formatter = (value, df, options, doc) => {
 	const shown = frappe.format(value, { ...df, formatter: null }, { ...options, inline: true }, doc);
 	const listed = ["uom", "stock_uom"].some((f) => frappe.meta.get_docfield(df.parent, f)?.in_list_view);
@@ -20,10 +22,13 @@ onedesk.measure.columns = (frm) => {
 		const quantities = (grid.docfields || []).filter((df) => ["qty", "rejected_qty"].includes(df.fieldname) && df.formatter !== onedesk.measure.formatter);
 		const formatted = grid.grid_rows?.length && quantities.length;
 		if (formatted) quantities.forEach((df) => grid.update_docfield_property(df.fieldname, "formatter", onedesk.measure.formatter));
-		const show = (frm.doc[fieldname] || []).some((row) => onedesk.measure.measured(row) && (frm.doc.docstatus === 0 || row.one_length));
+		const rows = (frm.doc[fieldname] || []).filter((row) => frm.doc.docstatus === 0 || row.one_length);
+		const counted = rows.some(onedesk.measure.measured);
+		const show = counted ? "counted" : rows.some(onedesk.measure.sized) ? "piece" : "";
 		if (grid.one_sized !== show) {
 			grid.one_sized = show;
-			grid.set_column_disp_in_list_view(onedesk.measure.SIZE, show);
+			grid.set_column_disp_in_list_view(onedesk.measure.SIZE, !!show);
+			if (show === "piece") grid.set_column_disp_in_list_view(["one_pieces"], false);
 		} else if (formatted) {
 			grid.grid_rows.forEach((row) => row.refresh());
 		}

@@ -1,15 +1,18 @@
 """Items sold by size: an item sold by length or area (Item's Sold by Size),
 and a line that gives its pieces, length and width in millimetres. The
 line's quantity is worked out from them, in the line's unit, so ERPNext prices,
-taxes, stocks and costs it as it would any other line. Every table that lines
-up items carries the size (custom fields one_measured_by, one_pieces,
-one_length, one_width and one_size)."""
+taxes, stocks and costs it as it would any other line. An item sold by the
+Piece has a size that prints and counts nothing: a curtain-wall panel is one,
+however big. Every table that lines up items carries the size (custom fields
+one_measured_by, one_pieces, one_length, one_width and one_size)."""
 
 import frappe
 from frappe import _
 from frappe.utils import cint, flt
 
 BASE = {"Length": "Meter", "Area": "Square Meter"}
+
+PIECE = "Piece"
 
 LINES = (
 	"Quotation Item",
@@ -75,7 +78,7 @@ def follows_unit(doc, method=None) -> None:
 	it, once it is made or its unit changes, on every path an item is saved
 	by. One already sold by size keeps what it says (a sheet kept by the
 	piece and sold by the square metre)."""
-	if doc.get("one_measured_by") in BASE:
+	if doc.get("one_measured_by") in (*BASE, PIECE):
 		return
 	before = doc.get_doc_before_save() if not doc.is_new() else None
 	if before and before.stock_uom == doc.stock_uom:
@@ -145,6 +148,13 @@ def size(measured_by: str, pieces, length, width) -> str:
 	return " × ".join(([str(pieces)] if pieces > 1 else []) + parts) + " mm"
 
 
+def described(length, width) -> str | None:
+	"""A piece's size, which counts nothing: 20525 × 3500 mm. Pure."""
+	if not flt(length):
+		return None
+	return size("Area" if flt(width) else "Length", 1, length, width)
+
+
 def quantity(row, parent) -> float | None:
 	"""A line's quantity from its size, or None when it has none."""
 	measured_by = row.get("one_measured_by")
@@ -173,6 +183,9 @@ def sized(doc, method=None) -> None:
 				continue
 			if row.get("one_measured_by") not in BASE:
 				row.one_measured_by = frappe.db.get_value("Item", row.item_code, "one_measured_by")
+			if row.one_measured_by == PIECE:
+				row.one_size = described(row.one_length, row.one_width)
+				continue
 			qty = quantity(row, doc)
 			if qty is None:
 				row.one_size = None

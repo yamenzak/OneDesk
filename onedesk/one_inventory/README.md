@@ -100,7 +100,9 @@ assets is on the rail, on Home, or answered in `onedesk/one/atlas.py`
 
 **Details** asks for its name, group, unit and a picture. **Sold by Size**
 says whether each line gives its length (**Length**) or its length and width
-(**Area**), or neither (**No**). See Selling by size.
+(**Area**), so the quantity follows; a size that only prints, on something
+counted by the piece (**Piece**), like a curtain-wall panel; or none (**No**).
+See Selling by size.
 
 **Buying, Selling and Stock** has a switch for each side. **Sold to
 Customers** opens its selling price. **Bought from Suppliers** opens its
@@ -899,13 +901,14 @@ a register and a movement form in it would be a rail with five rows.
   (Item Supplier) or name; `add` makes the missing parts stock items in Raw
   Material, bought and not sold.
 - `measure.py` and `public/js/measure.js` — selling by size. Item's
-  `one_measured_by` (Sold by Size: No, Length or Area), set by `follows_unit`
+  `one_measured_by` (Sold by Size: No, Piece, Length or Area), set by `follows_unit`
   before_validate from ERPNext's UOM Conversion Factor category when the item
   is made or its unit changes, and on every table in `LINES` the custom fields
   one_measured_by (fetched from the item), one_pieces, one_length, one_width
   and one_size. `sized` runs before_validate on every record (`doc_events`
   "*"), so the quantity holds under bulk edit, Data Import and ERPNext's
-  mappers. `factor` converts a metre or square metre to the line's unit by
+  mappers. A Piece line keeps its quantity and gets only `one_size`
+  (`described`). `factor` converts a metre or square metre to the line's unit by
   the item's own conversion first, then ERPNext's UOM Conversion Factor. The
   form script sets the quantity as the size is typed, shows the size columns
   only where a line is measured, and the unit's symbol beside the quantity.
