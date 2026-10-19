@@ -1,15 +1,12 @@
 <template>
   <div ref="root" class="grid gap-x-10 pb-12 pt-2 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
     <div class="min-w-0">
-      <div v-for="notice in said.notices || []" :key="notice.notice" data-notice class="mt-5 rounded-3 bg-surface-amber-1 px-4 py-3">
-        <p class="text-base font-medium text-ink-gray-8">{{ notice.text }}</p>
-        <ul v-if="notice.lines?.length" class="mt-1.5 space-y-1">
-          <li v-for="line in notice.lines" :key="line" class="text-base leading-relaxed text-ink-gray-7">{{ line }}</li>
-        </ul>
+      <Section v-for="notice in said.notices || []" :key="notice.notice" data-notice boxed :title="notice.text" icon="lucide-history">
+        <Rows :rows="(notice.lines || []).map((line, i) => ({ key: i, label: line, dot: notice.colour }))" />
         <div class="mt-3 flex flex-wrap gap-2">
-          <Button v-for="verb in notice.verbs" :key="verb.verb" :label="verb.label" @click="act(verb)" />
+          <Button v-for="verb in notice.verbs" :key="verb.verb" size="sm" variant="outline" :label="verb.label" @click="act(verb)" />
         </div>
-      </div>
+      </Section>
       <PlaceSpot :said="spot" class="mt-5" />
       <div data-cards class="py-5">
         <Figures :figures="figures" boxed :columns="figures.length === 4 ? 2 : figures.length" />
