@@ -8,7 +8,8 @@ One's own number.
 
 Two habits of the old app are undone. A sub-project called "Original
 Contract" or "Original Scope" is the main project's own work, which One shows as the main
-project's Main view: it folds into the main project. And a main project
+project's Main view: it folds into the main project, and so does one Rua
+later merged into the main contract (`merged`). And a main project
 whose contract is the total of its sub-projects' would count that work
 twice: it keeps only what is its own (`own_contracts`).
 """
@@ -27,60 +28,73 @@ FOLDED = ("original contract", "original scope")
 TOTAL = 0.95
 
 
-def folded(project) -> bool:
+def merged() -> set[str]:
+	"""The sub-projects Rua later merged into their main project's contract
+	(`rua_merged` in site_config, by their old names): they fold like an
+	Original Contract, and their value is already in the main's."""
+	return set(frappe.conf.get("rua_merged") or [])
+
+
+def folded(project, merged=()) -> bool:
 	"""A sub-project that is its parent's own work under another name. Pure."""
-	return bool(project.get("parent1")) and clean(project["name"]).lower().startswith(FOLDED)
+	return bool(project.get("parent1")) and (
+		clean(project["name"]).lower().startswith(FOLDED) or project["name"] in merged
+	)
 
 
-def home(projects, name) -> str:
+def home(projects, name, merged=()) -> str:
 	"""The old project a record of `name` belongs to once folding is done. Pure."""
 	found = {one["name"]: one for one in projects}.get(name)
-	return found["parent1"] if found and folded(found) else name
+	return found["parent1"] if found and folded(found, merged) else name
 
 
-def own_contracts(projects) -> tuple[dict, dict]:
+def own_contracts(projects, merged=()) -> tuple[dict, dict]:
 	"""Each old project's own contract, and what a main project said beyond
-	its parts. A folded sub-project's contract is its parent's; a main
-	project whose value is the total of its parts (at least 95% of it is
-	theirs) has none of its own beyond a folded one. Pure."""
+	its parts. A folded sub-project's contract is its parent's own work, and
+	a merged one's is already in it. Where the main project said more than
+	its parts, the main is right and the rest is its own work; where it said
+	less, its own work is what was folded into it. A main project with
+	nothing folded whose value is the total of its parts (at least 95% of it
+	is theirs) has none of its own. Pure."""
 	value = {one["name"]: flt(one.get("contract_value")) for one in projects if one.get("status") != "Tender"}
-	parts = {}
+	parts, inside = {}, {}
 	for one in projects:
-		if one.get("parent1") and one["name"] in value and not folded(one):
-			parts[one["parent1"]] = parts.get(one["parent1"], 0) + value[one["name"]]
+		parent = one.get("parent1")
+		if not parent or one["name"] not in value or one["name"] in merged:
+			continue
+		into = inside if folded(one, merged) else parts
+		into[parent] = into.get(parent, 0) + value[one["name"]]
 	own, beyond = {}, {}
 	for one in projects:
 		name = one["name"]
-		if name not in value:
+		if name not in value or folded(one, merged):
 			continue
-		if folded(one):
-			own[one["parent1"]] = own.get(one["parent1"], 0) + value[name]
-			continue
-		mine = value[name]
-		inside = parts.get(name, 0) + sum(
-			value[c["name"]]
-			for c in projects
-			if c.get("parent1") == name and folded(c) and c["name"] in value
-		)
-		if mine and inside >= TOTAL * mine:
-			beyond[name] = mine - inside
-			mine = 0
-		own[name] = own.get(name, 0) + mine
+		mine, theirs = value[name], parts.get(name, 0)
+		if name in inside:
+			own[name] = max(inside[name], mine - theirs)
+			if abs(mine - theirs - inside[name]) >= 0.005:
+				beyond[name] = mine - theirs - inside[name]
+		elif mine and theirs >= TOTAL * mine:
+			own[name], beyond[name] = 0, mine - theirs
+		else:
+			own[name] = mine
 	return own, beyond
 
 
 def run(run_):
 	projects = run_.docs(PROJECT)
 	first = started(run_)
-	own, beyond = own_contracts(projects)
+	joined = merged()
+	own, beyond = own_contracts(projects, joined)
 	for project in sorted(projects, key=lambda one: (bool(one.get("parent1")), one.get("creation") or "")):
 		if project.get("status") == "Tender":
 			tender(run_, project, first)
 			continue
-		if folded(project):
+		if folded(project, joined):
 			parent = run_.made(PROJECT, project["parent1"], "Project")
 			if parent and not run_.made(PROJECT, project["name"], "Project"):
 				run_.remember(PROJECT, project["name"], "Project", parent)
+			if parent:
 				run_.note(
 					"Folded",
 					"Project",
@@ -97,13 +111,31 @@ def run(run_):
 		if flt(own.get(project["name"])) > 0 and not run_.made(PROJECT, project["name"], "Sales Order"):
 			contract(run_, project, name, first, own[project["name"]])
 		if project["name"] in beyond:
-			run_.note(
-				"Contract Counted Twice",
-				"Project",
-				name,
-				f"{project['name']}: its contract of {flt(project.get('contract_value')):,.2f} was the total of its "
-				f"sub-projects' and isn't ordered again (it differs from theirs by {flt(beyond[project['name']]):,.2f})",
-			)
+			said, over = flt(project.get("contract_value")), flt(beyond[project["name"]])
+			if not flt(own.get(project["name"])):
+				run_.note(
+					"Contract Counted Twice",
+					"Project",
+					name,
+					f"{project['name']}: its contract of {said:,.2f} was the total of its sub-projects' and isn't "
+					f"ordered again (it differs from theirs by {over:,.2f})",
+				)
+			elif over > 0:
+				run_.note(
+					"Contract Above Its Parts",
+					"Project",
+					name,
+					f"{project['name']}: its contract of {said:,.2f} is {over:,.2f} more than its parts, "
+					"which is ordered as its own work",
+				)
+			else:
+				run_.note(
+					"Contract Below Its Parts",
+					"Project",
+					name,
+					f"{project['name']}: its contract of {said:,.2f} is {-over:,.2f} less than its parts, "
+					"which are ordered as they are",
+				)
 
 
 def started(run_) -> dict:

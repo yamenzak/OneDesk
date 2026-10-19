@@ -62,7 +62,7 @@ class Old:
 			if one.get("type") == "Tax Invoice" and one.get("status") == "Final"
 		]
 		from rua.importer.payments import copies, family
-		from rua.importer.projects import own_contracts
+		from rua.importer.projects import merged, own_contracts
 
 		payments = [one for one in run_.docs("RUA Payment") if one.get("status") == "Submitted"]
 		self.twice = [one for one in payments if one["name"] in copies(payments, family(run_))]
@@ -73,7 +73,8 @@ class Old:
 		self.petty = [one for one in payments if one.get("type") == "Pay: Petty Cash"]
 		self.final_lpos = [one for one in run_.docs("RUA LPO") if one.get("status") == "Final"]
 		self.projects = run_.docs("RUA Project")
-		self.own, _beyond = own_contracts(self.projects)
+		self.joined = merged()
+		self.own, _beyond = own_contracts(self.projects, self.joined)
 
 	@staticmethod
 	def total(rows, field):
@@ -93,8 +94,8 @@ def counts(run_, old, line):
 	projects = [p for p in old.projects if p.get("status") != "Tender"]
 	tenders = [p for p in old.projects if p.get("status") == "Tender"]
 	line(
-		"Projects, an Original Contract or Scope folded into its main project",
-		sum(1 for p in projects if not folded(p)),
+		"Projects, an Original Contract or Scope, or a merged sub-project, folded into its main project",
+		sum(1 for p in projects if not folded(p, old.joined)),
 		one(
 			"select count(distinct target_name) from `tabRua Import Record` where target_doctype = 'Project'"
 		),
@@ -130,7 +131,8 @@ def sales(run_, old, line):
 		"Contract value the old app counted twice",
 		everything - sum(old.own.values()),
 		0,
-		"A main project's contract was the total of its sub-projects' and was added to theirs. Each is listed",
+		"A main project's contract was the total of its sub-projects' and was added to theirs, or a merged "
+		"sub-project's was already in its main's. Each is listed",
 	)
 	line(
 		"Invoiced, with VAT",

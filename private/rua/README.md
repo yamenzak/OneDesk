@@ -27,6 +27,12 @@ the old app is, the import follows in the background:
 
     bench --site <site> set-config rua_source '{"url": "...", "key": "...", "secret": "..."}'
 
+Where Rua later merged a sub-project into its main project's contract, the
+site's config names it, by its old name, so it folds into the main project
+and adds nothing to its contract:
+
+    bench --site <site> set-config rua_merged '["<old sub-project name>"]' --parse
+
 The key only ever reads: the importer sends nothing but GET. A copy of the
 old app on disk (`rua_source_dir`, written by `rua.source.Source.dump`) is
 read instead when it's set, which is how the import is tried on a copy
@@ -62,7 +68,11 @@ received is copies, on four jobs. Each copy is left out and listed. And a
 sub-project called "Original Contract" or "Original Scope" was the main
 project's own work, with the main project's value the total of its parts;
 One shows a main project's own work as its Main view, so that sub-project
-folds into it and no contract is counted twice.
+folds into it and no contract is counted twice. Where a main project's
+value is more than its parts, Rua says the main is right, and the
+difference is ordered as its own work; where it is less, the parts stand.
+A sub-project Rua later merged into the main contract (`rua_merged`) folds
+too, its value already in the main's.
 
 **Rua never recorded a supplier's bill.** An LPO marked Final is the one the
 supplier accepted, so it becomes a Purchase Invoice on its date, which puts

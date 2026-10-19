@@ -125,6 +125,38 @@ def test_a_main_contract_that_totals_its_parts_is_not_ordered_twice():
 	assert "School" in beyond and "Villa" not in beyond
 
 
+def test_a_main_contract_above_its_parts_is_right_and_the_rest_is_its_own_work():
+	own, beyond = _projects()["own_contracts"](
+		[
+			{"name": "Court", "contract_value": 1314550.66},
+			{"name": "Original Scope: Court", "parent1": "Court", "contract_value": 1034652.15},
+			{"name": "Grill: Court", "parent1": "Court", "contract_value": 221812.5},
+			{"name": "Curtain Wall: Court", "parent1": "Court", "contract_value": 42738.16},
+		]
+	)
+	assert round(own["Court"], 2) == 1050000.0, "the main's total stands; its own work takes the difference"
+	assert round(beyond["Court"], 2) == 15347.85
+	assert round(sum(own.values()), 2) == 1314550.66
+
+
+def test_a_sub_project_merged_into_the_main_contract_adds_nothing():
+	space = _projects()
+	projects = [
+		{"name": "School", "contract_value": 6314437.5},
+		{"name": "Original Contract: School", "parent1": "School", "contract_value": 6065259.45},
+		{"name": "Variation: School", "parent1": "School", "contract_value": 245437.5},
+		{"name": "Termination: School", "parent1": "School", "contract_value": 366712.5},
+	]
+	merged = {"Variation: School"}
+	own, beyond = space["own_contracts"](projects, merged)
+	assert own == {"School": 6065259.45, "Termination: School": 366712.5}, "the variation is in the main LPO"
+	assert beyond["School"] < 0, "the main said less than its parts, which stand"
+	assert (
+		space["folded"](projects[2], merged)
+		and space["home"](projects, "Variation: School", merged) == "School"
+	)
+
+
 def _payments():
 	return _load(IMPORTER / "payments.py", {"references", "copies"})
 

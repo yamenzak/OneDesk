@@ -11,7 +11,8 @@ In the order the importer runs (`rua/importer/__init__.py`, `STEPS`).
 | Project, Tender | Opportunity for its client | `projects` |
 | Project, any other | Project under its parent, numbered by One, the old name as its title; its suppliers and consultants as Project Contacts | `projects` |
 | Sub-project "Original Contract" or "Original Scope" | Nothing of its own: it is the main project's own work, which One shows as the main project's Main view; its contract and records go to the main project | `projects` |
-| Project's contract value | A submitted Sales Order with VAT in the price, so its total is the contract. A main project whose value is the total of its sub-projects' gets no order of its own, so no work is ordered twice | `projects` |
+| Sub-project Rua later merged into the main contract (`rua_merged`) | Nothing of its own, as an Original Contract; its value is already in the main's | `projects` |
+| Project's contract value | A submitted Sales Order with VAT in the price, so its total is the contract. A main project whose value is the total of its sub-projects' gets no order of its own, so no work is ordered twice; one whose value is more than its parts orders the difference as its own work | `projects` |
 | Quotation | Quotation, each line under the product its words name, its mark as the line's name, its size in millimetres; the written sections as its terms | `quotations` |
 | LPO | Purchase Order, submitted unless it was a draft; items made from the line names | `buying` |
 | LPO, Final | And a submitted Purchase Invoice from it, on its date | `buying` |
