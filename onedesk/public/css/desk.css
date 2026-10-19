@@ -497,6 +497,10 @@ a.one-stat:hover .one-stat-value {
 		bottom: 0;
 	}
 
+	body.one-bar-bottom .one-ai-dial {
+		display: none;
+	}
+
 	body.one-barred.one-bar-bottom.dock-pinned .body-sidebar,
 	body.one-barred.one-bar-bottom.dock-pinned .main-section {
 		border-top: 0;
@@ -539,8 +543,21 @@ a.one-stat:hover .one-stat-value {
 	display: inline-flex;
 }
 
+.one-bar-tool:has(.one-bar-badge:not(.hide, .hidden)) {
+	padding-inline-end: 14px;
+}
+
+.one-bar .one-ai-row svg {
+	width: 18px;
+	height: 18px;
+}
+
 .one-bar-now {
 	font-variant-numeric: tabular-nums;
+}
+
+body:not(.one-bar-bottom) .one-bar [data-group="ai"] {
+	display: none;
 }
 
 .one-bar-now .one-bar-time {
@@ -562,7 +579,9 @@ a.one-stat:hover .one-stat-value {
 }
 
 .one-bar-tool {
-	padding: 0 7px;
+	justify-content: center;
+	min-width: 28px;
+	padding: 0 6px;
 }
 
 .one-bar-tool.hide,
@@ -586,10 +605,10 @@ a.one-stat:hover .one-stat-value {
 
 .one-bar .one-bar-badge {
 	position: absolute;
-	top: -5px;
-	inset-inline-start: 9px;
-	min-width: 14px;
-	height: 14px;
+	top: -6px;
+	inset-inline-start: 13px;
+	min-width: 13px;
+	height: 13px;
 	padding: 0 3px;
 	border-radius: var(--radius-full);
 	outline: 2px solid var(--one-bar-bg);
@@ -597,7 +616,7 @@ a.one-stat:hover .one-stat-value {
 	color: var(--one-bar-bg);
 	font-size: 9px;
 	font-weight: 600;
-	line-height: 14px;
+	line-height: 13px;
 	text-align: center;
 }
 
@@ -607,8 +626,8 @@ a.one-stat:hover .one-stat-value {
 }
 
 .one-bar .one-bar-badge.one-intake-dot {
-	top: -2px;
-	inset-inline-start: 10px;
+	top: -3px;
+	inset-inline-start: 13px;
 	min-width: 6px;
 	width: 6px;
 	height: 6px;
@@ -623,8 +642,8 @@ a.one-stat:hover .one-stat-value {
 
 .one-bar .one-clock .one-clock-dot {
 	position: absolute;
-	bottom: -1px;
-	inset-inline-end: -2px;
+	bottom: -2px;
+	inset-inline-end: -4px;
 	width: 6px;
 	height: 6px;
 	outline: 1.5px solid var(--one-bar-bg);

@@ -116,6 +116,7 @@ onedesk.dock.bar = () => {
 			<div class="one-bar-group" data-group="find"></div>
 			<div class="one-bar-group" data-group="day"></div>
 			<div class="one-bar-group" data-group="waiting"></div>
+			<div class="one-bar-group" data-group="ai"></div>
 			<div class="one-bar-group" data-group="bar"></div>
 		</div>
 	</header>`).prependTo(document.body);
@@ -190,6 +191,16 @@ onedesk.dock.bar = () => {
 		click: () => frappe.ui.sidebar_panels.toggle("background-tasks"),
 		group: "waiting",
 	}).toggleClass("hidden", !frappe.app.sidebar?.background_tasks?.db_tasks?.length);
+	if (onedesk.apps.ai()) {
+		add({
+			label: __("Ask {0}", ["OneAI"]),
+			icon: "oneai",
+			css: "one-ai-row",
+			badge: `<span class="one-bar-badge hide"></span>`,
+			click: () => onedesk.oneai.open(),
+			group: "ai",
+		});
+	}
 	const moved = () => (onedesk.dock.at === "bottom" ? __("Move This Bar to the Top") : __("Move This Bar to the Bottom"));
 	const $move = add({
 		label: moved(),

@@ -55,7 +55,8 @@ click it to open OneCalendar. On the right are **Search**, then **Check In**
 and **Timers**, then **OneIntake** and **Notifications**. A number on an icon
 says how much waits there. **Check In** says *Check In* when your shift has
 started and you haven't, and *Late* once you are late. The last button moves
-the bar to the bottom of the screen, or back to the top. That choice is yours
+the bar to the bottom of the screen, or back to the top. At the bottom, the
+round OneAI button in the corner moves into the bar, beside it. That choice is yours
 alone and is remembered. With the rail the bar makes one frame, and the rest
 of the screen sits inset in it, its corner rounded. On a phone there is no
 bar, and its tools are at the top of the panel instead.

@@ -82,9 +82,11 @@ onedesk.oneai = {
 	},
 
 	paint() {
+		const said = this.waiting > 9 ? "9+" : String(this.waiting);
+		$(".one-ai-row .one-bar-badge").text(said).toggleClass("hide", !this.waiting);
 		if (!this.dial) return;
 		const badge = this.dial.querySelector(".one-ai-dial__count");
-		badge.textContent = this.waiting > 9 ? "9+" : String(this.waiting);
+		badge.textContent = said;
 		badge.hidden = !this.waiting;
 	},
 
