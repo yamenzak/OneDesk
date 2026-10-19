@@ -1596,6 +1596,39 @@ def oneproject_a_new_retention_date_reaches_the_receivables():
 
 
 @check
+def oneproject_an_invoice_is_its_projects_next_claim():
+	"""A progress invoice on the villa takes the next claim number within the
+	project when it's submitted, and its print says where the contract
+	stands: the contract, billed before, this claim, billed to date,
+	received and left to bill. Its amendment keeps the number."""
+	from onedesk.one_project import claims, progress
+
+	order = _another_villa_order()
+	before = claims.next_claim(frappe.get_all("Sales Invoice", filters={"project": VILLA, "docstatus": ["!=", 0]}, pluck="one_claim"))
+	with as_user("huda@one.test"):
+		windows = progress.progress("Sales Order", order)["lines"][0]
+		invoice = progress.bill_progress(order, "Sales Order", lines={windows["line"]: 50})
+		invoice.insert()
+		assert not invoice.one_claim, "a draft has no number yet"
+		invoice.submit()
+	invoice.reload()
+	assert invoice.one_claim == before, (invoice.one_claim, before)
+	said = claims.standing(invoice)
+	contract = sum(flt(one) for one in frappe.get_all("Sales Order", filters={"project": VILLA, "docstatus": 1}, pluck="grand_total"))
+	assert _close(said["contract"], contract, 0.01) and _close(said["this"], invoice.grand_total, 0.01), said
+	assert _close(said["to_date"], said["before"] + said["this"], 0.01) and _close(said["left"], contract - said["to_date"], 0.01), said
+	printed = frappe.get_print("Sales Invoice", invoice.name, "One Sales Invoice")
+	assert f"Claim {before} on the Contract" in printed and "Left to Bill" in printed
+	with as_user("huda@one.test"):
+		invoice.cancel()
+		again = frappe.copy_doc(invoice)
+		again.amended_from = invoice.name
+		again.insert()
+		again.submit()
+	assert frappe.db.get_value("Sales Invoice", again.name, "one_claim") == before, "the amendment keeps its number"
+
+
+@check
 def oneproject_retention_is_taxed_when_released():
 	"""In the UAE tax on retention is due when it's released, so a new order
 	for the villa starts that way and its progress invoice is taxed on the

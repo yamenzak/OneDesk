@@ -302,6 +302,7 @@ doc_events = {
 	"Bank Account": {"on_update": "onedesk.one_book.ready.wired"},
 	"Sales Invoice": {
 		"on_recurring": "onedesk.one_book.repeat.repeated",
+		"on_submit": "onedesk.one_project.claims.numbered",
 		"before_insert": ["onedesk.one_project.chain.customers_one", "onedesk.one_project.terms.carried"],
 		"after_insert": "onedesk.one_project.progress.drafted",
 		"validate": [

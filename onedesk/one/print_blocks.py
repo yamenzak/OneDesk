@@ -380,6 +380,7 @@ def one_print_block(doc, block: str) -> dict:
 		"party": party,
 		"details": details,
 		"progress": progress,
+		"claim": claim,
 		"statement": statement,
 		"salary_certificate": salary_certificate,
 		"experience_letter": experience_letter,
@@ -681,6 +682,30 @@ def progress(doc) -> dict:
 			for one in said["invoices"]
 		],
 		"columns": (_("Invoice"), _("Date"), _("Total"), _("Outstanding")),
+	}
+
+
+def claim(doc) -> dict:
+	"""Where a project's contract stands as of this invoice: the contract,
+	billed before, this claim, billed to date, received and left to bill."""
+	if doc.doctype != "Sales Invoice" or doc.get("is_return"):
+		return {}
+	from onedesk.one_project import claims
+
+	said = claims.standing(doc)
+	if not said:
+		return {}
+	heading = _("Claim {0} on the Contract").format(said["claim"]) if said["claim"] else _("Contract Statement")
+	return {
+		"heading": heading,
+		"rows": [
+			(_("Contract"), money(doc, said["contract"]), False),
+			(_("Billed Before"), money(doc, said["before"]), False),
+			(_("This Claim"), money(doc, said["this"]), False),
+			(_("Billed to Date"), money(doc, said["to_date"]), True),
+			(_("Received to Date"), money(doc, said["received"]), False),
+			(_("Left to Bill"), money(doc, said["left"]), True),
+		],
 	}
 
 

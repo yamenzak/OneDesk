@@ -96,7 +96,7 @@ def test_each_erpnext_format_has_ours():
 	"""ERPNext's formats One's replace are turned off on migrate, so each of
 	One's is shipped and each of ERPNext's it names is one ERPNext ships."""
 	replaces = ast.literal_eval(_assigned("REPLACES"))
-	native = _native()
+	native = _native(blocks=True)
 	assert set(replaces) <= set(native), sorted(set(replaces) - set(native))
 	if not (APPS / "erpnext").exists():
 		pytest.skip("erpnext is not checked out beside this app")

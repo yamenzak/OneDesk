@@ -1,0 +1,14 @@
+{%- set b = one_print_block(doc, "claim") -%}
+{%- if b %}
+<div style="margin-top:18px;font-size:10.5px">
+	<div style="font-size:9.5px;letter-spacing:0.08em;text-transform:uppercase;color:#6b7280;font-weight:600;margin-bottom:6px">{{ b.heading|e }}</div>
+	<table style="width:100%;border-collapse:collapse">
+		{%- for label, value, strong in b.rows %}
+		<tr>
+			<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;{% if strong %}font-weight:700;color:#111827{% else %}color:#374151{% endif %}">{{ label|e }}</td>
+			<td style="padding:5px 0;border-bottom:1px solid #e5e7eb;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;{% if strong %}font-weight:700;color:#111827{% endif %}">{{ value|e }}</td>
+		</tr>
+		{%- endfor %}
+	</table>
+</div>
+{%- endif %}

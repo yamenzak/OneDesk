@@ -1114,6 +1114,16 @@ Settings.
   it, and a month before that year is out Needs You says to invoice the
   retention (`retention.TAXED_AFTER`).
 
+Every invoice on a project is a **claim**. When it's submitted it gets the
+next **Claim No** within its project; an amendment keeps the number of the
+invoice it replaces. Its print adds where the contract stands as of it: the
+**Contract** (the project's orders), **Billed Before**, **This Claim**,
+**Billed to Date**, **Received to Date** and **Left to Bill**. The number
+is `claims.numbered` on submit, under a lock on the project; the figures are
+`claims.standing`, printed by the One Claim block. Invoices from before
+claim numbers got theirs in the order they were posted
+(`patches/claims_are_numbered`).
+
 ### Before the customer orders
 
 A Fixed Price project can start before anything is agreed. **New Quotation**
