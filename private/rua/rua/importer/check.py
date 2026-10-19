@@ -61,12 +61,19 @@ class Old:
 			for one in run_.docs("RUA Invoice")
 			if one.get("type") == "Tax Invoice" and one.get("status") == "Final"
 		]
+		from rua.importer.payments import copies, family
+		from rua.importer.projects import own_contracts
+
 		payments = [one for one in run_.docs("RUA Payment") if one.get("status") == "Submitted"]
+		self.twice = [one for one in payments if one["name"] in copies(payments, family(run_))]
+		self.counted_twice = {one["name"] for one in self.twice}
+		payments = [one for one in payments if one["name"] not in self.counted_twice]
 		self.received = [one for one in payments if one.get("type") == "Receive"]
 		self.paid = [one for one in payments if one.get("type") == "Pay"]
 		self.petty = [one for one in payments if one.get("type") == "Pay: Petty Cash"]
 		self.final_lpos = [one for one in run_.docs("RUA LPO") if one.get("status") == "Final"]
 		self.projects = run_.docs("RUA Project")
+		self.own, _beyond = own_contracts(self.projects)
 
 	@staticmethod
 	def total(rows, field):
@@ -81,9 +88,18 @@ def counts(run_, old, line):
 	made = dict(
 		frappe.db.sql("select target_doctype, count(*) from `tabRua Import Record` group by target_doctype")
 	)
+	from rua.importer.projects import folded
+
 	projects = [p for p in old.projects if p.get("status") != "Tender"]
 	tenders = [p for p in old.projects if p.get("status") == "Tender"]
-	line("Projects", len(projects), made.get("Project"), near=0)
+	line(
+		"Projects, an Original Contract or Scope folded into its main project",
+		sum(1 for p in projects if not folded(p)),
+		one(
+			"select count(distinct target_name) from `tabRua Import Record` where target_doctype = 'Project'"
+		),
+		near=0,
+	)
 	line(
 		"Tenders, as opportunities",
 		len(tenders),
@@ -93,8 +109,8 @@ def counts(run_, old, line):
 	)
 	line(
 		"Contracts, as sales orders",
-		sum(1 for p in projects if flt(p.get("contract_value")) > 0),
-		made.get("Sales Order"),
+		sum(1 for value in old.own.values() if value > 0),
+		one("select count(*) from `tabSales Order` where docstatus = 1"),
 		near=0,
 	)
 	line("Quotations", len(run_.docs(QUOTATION)), made.get("Quotation"), near=0)
@@ -104,10 +120,17 @@ def counts(run_, old, line):
 
 def sales(run_, old, line):
 	invoices = old.invoices
+	everything = sum(flt(p.get("contract_value")) for p in old.projects if p.get("status") != "Tender")
 	line(
-		"Contract value",
-		sum(flt(p.get("contract_value")) for p in old.projects if p.get("status") != "Tender"),
+		"Contract value, each piece of work once",
+		sum(old.own.values()),
 		one("select sum(grand_total) from `tabSales Order` where docstatus = 1"),
+	)
+	line(
+		"Contract value the old app counted twice",
+		everything - sum(old.own.values()),
+		0,
+		"A main project's contract was the total of its sub-projects' and was added to theirs. Each is listed",
 	)
 	line(
 		"Invoiced, with VAT",
@@ -125,7 +148,13 @@ def sales(run_, old, line):
 		one("select sum(total_taxes_and_charges) from `tabSales Invoice` where docstatus = 1"),
 	)
 	line(
-		"Received from clients",
+		"Payments the old app has twice",
+		old.total(old.twice, "amount"),
+		0,
+		"The same payment entered again on another part of the project. Each copy is listed and left out",
+	)
+	line(
+		"Received from clients, each payment once",
 		old.total(old.received, "amount"),
 		one(
 			"select sum(paid_amount) from `tabPayment Entry` where docstatus = 1 and payment_type = 'Receive'"
@@ -345,10 +374,16 @@ def retention_sample(run_, line):
 def projects(run_, old):
 	"""A project whose invoices or receipts don't add up to the old app's, by
 	project, is listed for the accountant."""
+	was = {}
 	for project in old.projects:
 		made = run_.made("RUA Project", project["name"], "Project")
 		if not made:
 			continue
+		billed, received = was.get(made, (0, 0))
+		billed += sum(flt(i.get("grand_total")) for i in old.invoices if i.get("project") == project["name"])
+		received += sum(flt(r.get("amount")) for r in old.received if r.get("project") == project["name"])
+		was[made] = (billed, received)
+	for made, (was_billed, was_received) in was.items():
 		billed = one(
 			"select sum(grand_total) from `tabSales Invoice` where docstatus = 1 and project = %s", made
 		)
@@ -356,10 +391,6 @@ def projects(run_, old):
 			"select sum(paid_amount) from `tabPayment Entry` where docstatus = 1 and payment_type = 'Receive' and project = %s",
 			made,
 		)
-		was_billed = sum(
-			flt(i.get("grand_total")) for i in old.invoices if i.get("project") == project["name"]
-		)
-		was_received = sum(flt(r.get("amount")) for r in old.received if r.get("project") == project["name"])
 		if abs(billed - was_billed) > NEAR or abs(received - was_received) > NEAR:
 			run_.note(
 				"To Check",
@@ -372,5 +403,5 @@ def projects(run_, old):
 				"No Invoice",
 				"Project",
 				made,
-				f"Received {was_received:,.2f} and nothing invoiced in the old app: the invoices were made outside it",
+				f"Received {was_received:,.2f} and nothing invoiced in the old app",
 			)

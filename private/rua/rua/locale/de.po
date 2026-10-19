@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Rua VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-19 16:11+0000\n"
+"POT-Creation-Date: 2026-10-19 17:12+0000\n"
 "PO-Revision-Date: 2026-10-19 16:11+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -55,6 +55,11 @@ msgstr "Prüfung"
 msgid "Checks"
 msgstr "Prüfungen"
 
+#. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
+#: rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "Contract Counted Twice"
+msgstr "Vertrag doppelt gezählt"
+
 #. Label of the difference (Float) field in DocType 'Rua Import Check'
 #: rua/rua/doctype/rua_import_check/rua_import_check.json
 msgid "Difference"
@@ -74,6 +79,11 @@ msgstr "Fertig"
 #: rua/rua/doctype/rua_import_record/rua_import_record.json
 msgid "Each old record and what it became."
 msgstr "Jeder alte Datensatz und was daraus wurde."
+
+#. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
+#: rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "Entered Twice"
+msgstr "Doppelt erfasst"
 
 #. Label of the error_section (Section Break) field in DocType 'Rua Import'
 #. Label of the error (Code) field in DocType 'Rua Import'
@@ -95,6 +105,11 @@ msgstr "Fehlgeschlagen"
 #: rua/rua/doctype/rua_import/rua_import.json
 msgid "Finished"
 msgstr "Beendet"
+
+#. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
+#: rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "Folded"
+msgstr "Zusammengeführt"
 
 #. Label of the notes_section (Section Break) field in DocType 'Rua Import'
 #: rua/rua/doctype/rua_import/rua_import.json

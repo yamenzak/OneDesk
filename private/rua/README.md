@@ -51,8 +51,18 @@ project family (Rua billed the parent and received on the child, or the
 other way round): first an open invoice of the same amount, nearest in
 date; then oldest invoice first. What no invoice takes is an advance on the
 project's contract. Each match and each advance is on Rua Import for the
-accountant to confirm. Most of the advances are on projects whose invoices
-were never in the old app at all: Rua billed them outside it.
+accountant to confirm. Rua says what is left are advances it took and has
+not invoiced yet; on a project marked Completed, that means its last
+invoice is still to be made.
+
+**Some payments were entered twice, and some work ordered twice.** When a
+job was split into sub-projects, its payments were typed in again on the
+sub-projects, under the same bank references: 7.8M of the old app's 39M
+received is copies, on four jobs. Each copy is left out and listed. And a
+sub-project called "Original Contract" or "Original Scope" was the main
+project's own work, with the main project's value the total of its parts;
+One shows a main project's own work as its Main view, so that sub-project
+folds into it and no contract is counted twice.
 
 **Rua never recorded a supplier's bill.** An LPO marked Final is the one the
 supplier accepted, so it becomes a Purchase Invoice on its date, which puts

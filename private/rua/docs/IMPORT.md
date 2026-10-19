@@ -10,7 +10,8 @@ In the order the importer runs (`rua/importer/__init__.py`, `STEPS`).
 | Party no record names | Nothing | `parties` |
 | Project, Tender | Opportunity for its client | `projects` |
 | Project, any other | Project under its parent, numbered by One, the old name as its title; its suppliers and consultants as Project Contacts | `projects` |
-| Project's contract value | A submitted Sales Order with VAT in the price, so its total is the contract | `projects` |
+| Sub-project "Original Contract" or "Original Scope" | Nothing of its own: it is the main project's own work, which One shows as the main project's Main view; its contract and records go to the main project | `projects` |
+| Project's contract value | A submitted Sales Order with VAT in the price, so its total is the contract. A main project whose value is the total of its sub-projects' gets no order of its own, so no work is ordered twice | `projects` |
 | Quotation | Quotation, each line under the product its words name, its mark as the line's name, its size in millimetres; the written sections as its terms | `quotations` |
 | LPO | Purchase Order, submitted unless it was a draft; items made from the line names | `buying` |
 | LPO, Final | And a submitted Purchase Invoice from it, on its date | `buying` |
@@ -20,6 +21,7 @@ In the order the importer runs (`rua/importer/__init__.py`, `STEPS`).
 | Invoice, Tax, not final | Draft Sales Invoice, listed | `sales` |
 | Invoice, Proforma | Payment Request on the contract | `sales` |
 | Payment, Receive | Payment Entry into its bank, allocated or matched (see the README) | `payments` |
+| Payment entered twice | Nothing: the copy on another part of the same job, found by its bank reference or by its amount and day, is left out and listed | `payments` |
 | Payment, Pay | Payment Entry against the LPO's bill, or its order | `payments` |
 | Payment, Petty Cash | Purchase Invoice paid from petty cash, on its project | `payments` |
 | Bank (free text) | One bank ledger and Bank Account per bank, the spellings folded; a blank one to Bank Not Recorded | `payments` |

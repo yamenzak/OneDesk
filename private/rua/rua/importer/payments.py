@@ -10,6 +10,8 @@ project's order, or on the customer's account when it has none. Every
 match and every advance is listed for Rua's accountant.
 """
 
+import re
+
 import frappe
 from frappe.utils import flt, getdate
 
@@ -38,6 +40,15 @@ SAME = 1.0
 
 def run(run_):
 	payments = [one for one in run_.docs(PAYMENT) if one.get("status") == "Submitted"]
+	twice = copies(payments, family(run_))
+	for name, kept in twice.items():
+		run_.note(
+			"Entered Twice",
+			"Payment Entry",
+			run_.made(PAYMENT, kept, "Payment Entry"),
+			f"{name} repeats {kept}: the same payment entered again on another part of the project. Left out",
+		)
+	payments = [one for one in payments if one["name"] not in twice]
 	plan = matched(run_, [one for one in payments if one.get("type") == "Receive"])
 	for old in sorted(payments, key=lambda one: (one.get("date") or "", one["name"])):
 		if old.get("type") == "Receive":
@@ -46,6 +57,53 @@ def run(run_):
 			pay(run_, old)
 		elif old.get("type") == "Pay: Petty Cash":
 			petty(run_, old)
+
+
+def references(said) -> set:
+	"""The bank references a payment names, however they were typed: one or
+	several, split by commas or slashes, spaces and leading zeros dropped.
+	Pure."""
+	parts = re.split(r"[,/&;]|\band\b", str(said or ""), flags=re.IGNORECASE)
+	found = {re.sub(r"\s+", "", part).upper().lstrip("0") for part in parts}
+	return {one for one in found if len(one) >= 3}
+
+
+def copies(payments, top) -> dict:
+	"""The payments the old app has twice, each with the one it repeats. A
+	copy is in the same project family and of the same kind, and either
+	every bank reference it names was named already, or another part of the
+	family took the same amount on the same day and one of the two names no
+	reference. The one
+	linked to an invoice or an LPO is kept, else the one entered first. Pure."""
+	order = sorted(
+		payments, key=lambda one: (not one.get("related_docname"), one.get("creation") or "", one["name"])
+	)
+	kept, named, twice = [], {}, {}
+	for one in order:
+		home = (top.get(one.get("project"), one.get("project")), one.get("type"))
+		mine = references(one.get("ref_number"))
+		if mine and all((home, ref) in named for ref in mine):
+			twice[one["name"]] = named[(home, sorted(mine)[0])]
+			continue
+		same = next(
+			(
+				other
+				for other in kept
+				if (top.get(other.get("project"), other.get("project")), other.get("type")) == home
+				and other.get("project") != one.get("project")
+				and not (mine and references(other.get("ref_number")))
+				and abs(flt(other.get("amount")) - flt(one.get("amount"))) <= 1
+				and other.get("date") == one.get("date")
+			),
+			None,
+		)
+		if same:
+			twice[one["name"]] = same["name"]
+			continue
+		kept.append(one)
+		for ref in mine:
+			named.setdefault((home, ref), one["name"])
+	return twice
 
 
 def bank(run_, said):

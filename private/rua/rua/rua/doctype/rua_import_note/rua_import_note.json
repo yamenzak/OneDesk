@@ -15,7 +15,7 @@
    "fieldname": "kind",
    "fieldtype": "Select",
    "label": "Kind",
-   "options": "Receipt Matched\nAdvance Left Open\nBill From Order\nNo Invoice\nAttendance Not Marked\nLeft Out\nTo Check",
+   "options": "Entered Twice\nFolded\nContract Counted Twice\nReceipt Matched\nAdvance Left Open\nBill From Order\nNo Invoice\nAttendance Not Marked\nLeft Out\nTo Check",
    "in_list_view": 1,
    "columns": 2
   },

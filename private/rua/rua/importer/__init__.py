@@ -82,7 +82,10 @@ def _notes(run_, step):
 	rows.sort(key=lambda row: order.get(row.get("step"), len(STEPS)))
 	doc.set("notes", [])
 	for row in rows:
-		doc.append("notes", {key: row.get(key) for key in ("kind", "reference_doctype", "reference_name", "note", "step")})
+		doc.append(
+			"notes",
+			{key: row.get(key) for key in ("kind", "reference_doctype", "reference_name", "note", "step")},
+		)
 	doc.flags.ignore_permissions = True
 	doc.save()
 	run_.notes = []

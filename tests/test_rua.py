@@ -22,7 +22,9 @@ def flt(value, places=None):
 def _load(path, names, **space):
 	space = {"flt": flt, "re": re, **space}
 	for node in ast.parse(path.read_text()).body:
-		if isinstance(node, ast.Assign) and any(isinstance(t, ast.Name) and t.id.isupper() for t in node.targets):
+		if isinstance(node, ast.Assign) and any(
+			isinstance(t, ast.Name) and t.id.isupper() for t in node.targets
+		):
 			exec(ast.unparse(node), space)
 		if isinstance(node, ast.FunctionDef) and node.name in names:
 			exec(ast.unparse(node), space)
@@ -88,3 +90,77 @@ def test_rua_is_a_private_app_that_needs_one():
 	hooks = (RUA / "hooks.py").read_text()
 	assert 'required_apps = ["onedesk"]' in hooks
 	assert "one_private_app = {" in hooks
+
+
+def _projects():
+	space = _load(IMPORTER / "projects.py", {"clean", "folded", "home", "own_contracts"})
+	space["clean"] = lambda text: " ".join(str(text or "").split())
+	return space
+
+
+def test_an_original_contract_is_the_main_projects_own_work():
+	space = _projects()
+	assert space["folded"]({"name": "Original Contract: School", "parent1": "School"})
+	assert space["folded"]({"name": "Original Scope : Court", "parent1": "Court"})
+	assert not space["folded"]({"name": "Aluminum Variation: School", "parent1": "School"})
+	assert not space["folded"]({"name": "Original Contract", "parent1": None})
+
+
+def test_a_main_contract_that_totals_its_parts_is_not_ordered_twice():
+	own, beyond = _projects()["own_contracts"](
+		[
+			{"name": "School", "contract_value": 6314437.5},
+			{"name": "Original Contract: School", "parent1": "School", "contract_value": 6065259.45},
+			{"name": "Variation: School", "parent1": "School", "contract_value": 245437.5},
+			{"name": "Termination: School", "parent1": "School", "contract_value": 366712.5},
+			{"name": "Villa", "contract_value": 300000},
+			{"name": "Extra Doors: Villa", "parent1": "Villa", "contract_value": 36750},
+		]
+	)
+	assert own["School"] == 6065259.45, "the main project keeps only the work folded into it"
+	assert own["Variation: School"] == 245437.5 and own["Termination: School"] == 366712.5
+	assert own["Villa"] == 300000 and own["Extra Doors: Villa"] == 36750, (
+		"an add-on is not inside its main contract"
+	)
+	assert "School" in beyond and "Villa" not in beyond
+
+
+def _payments():
+	return _load(IMPORTER / "payments.py", {"references", "copies"})
+
+
+def test_a_bank_reference_reads_the_same_however_it_was_typed():
+	references = _payments()["references"]
+	assert references("002031, 002419") == {"2031", "2419"}
+	assert references(" 033IPP227642975 ") == {"33IPP227642975"}
+	assert references("") == set() and references(None) == set()
+
+
+def test_a_payment_entered_again_on_another_part_of_the_job_is_a_copy():
+	copies = _payments()["copies"]
+	top = {"School": "School", "Main: School": "School", "Villa": "Villa"}
+	pay = lambda name, project, amount, ref, date, linked=None, made="2026-01-01": {  # noqa: E731
+		"name": name,
+		"project": project,
+		"type": "Receive",
+		"amount": amount,
+		"ref_number": ref,
+		"date": date,
+		"related_docname": linked,
+		"creation": made,
+	}
+	found = copies(
+		[
+			pay("R1", "School", 800000, "002031", "2026-03-10", "INV-1"),
+			pay("R2", "School", 800000, "002419", "2026-03-11", "INV-2"),
+			pay("R3", "Main: School", 1600000, "002031, 002419", "2026-03-10", made="2026-04-14"),
+			pay("R4", "Main: School", 500000, "002743", "2026-06-26", made="2026-06-26"),
+			pay("R5", "School", 500000, "002743", "2026-06-26", "INV-3"),
+			pay("R6", "Main: School", 78671.25, "000472", "2025-01-22", made="2026-04-08"),
+			pay("R7", "School", 78671.25, None, "2025-01-22", "INV-4"),
+			pay("R8", "Villa", 50000, "009999", "2026-02-01"),
+			pay("R9", "Villa", 50000, "009998", "2026-02-01"),
+		],
+		top,
+	)
+	assert found == {"R3": "R1", "R4": "R5", "R6": "R7"}, "the copy goes, the one linked to an invoice stays"

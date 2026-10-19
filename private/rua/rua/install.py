@@ -9,4 +9,11 @@ def after_install():
 
 	setup.run()
 	if Source.configured():
-		frappe.enqueue("rua.importer.run", queue="long", timeout=4 * 60 * 60, enqueue_after_commit=True)
+		frappe.enqueue(
+			"rua.importer.run",
+			queue="long",
+			timeout=4 * 60 * 60,
+			job_id="rua-import",
+			deduplicate=True,
+			enqueue_after_commit=True,
+		)
