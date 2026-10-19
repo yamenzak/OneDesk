@@ -1,9 +1,8 @@
-"""Apps a workspace has turned off.
+"""Apps a workspace has turned off, OneAI and OneIntake among them.
 
-An app turned off leaves the rail for everybody, and the record types only it
-lists leave search and the pickers of Link and Dynamic Link fields. Nothing
-is deleted or refused: its records stay, a link to one still opens it,
-OneIntake still files into it, and turning it back on brings it all back.
+An app turned off leaves the rail, search and the pickers for everybody, and
+nothing is deleted or refused. OneAI off refuses every model call and turns
+OneIntake off with it. The rest is in one/README.md, under Apps.
 """
 
 import json
@@ -14,6 +13,13 @@ from frappe import _
 KEY = "one_hidden_apps"
 HOST = "onedesk"
 KEPT = ("One", "OneAdmin", "One Admin")
+AI = "OneAI"
+INTAKE = "OneIntake"
+NEEDS = {INTAKE: AI}
+SECTIONS = (AI, INTAKE)
+ICONS = {AI: "oneai", INTAKE: "oneintake"}
+INTAKE_SIDEBAR = "One Intake"
+MEMORY = {"link_to": "settings", "route_options": {"section": "memory"}}
 
 
 def hidden() -> list[str]:
@@ -22,7 +28,27 @@ def hidden() -> list[str]:
 		said = json.loads(frappe.db.get_default(KEY) or "[]")
 	except ValueError:
 		return []
-	return [one for one in said if isinstance(one, str)]
+	off = [one for one in said if isinstance(one, str)]
+	return off + [one for one, needs in NEEDS.items() if needs in off and one not in off]
+
+
+def ai_on() -> bool:
+	"""Whether OneAI may be asked anything in this workspace."""
+	return AI not in hidden()
+
+
+def intake_on() -> bool:
+	"""Whether OneIntake reads: it needs OneAI too."""
+	return INTAKE not in hidden()
+
+
+def refuse_ai() -> None:
+	"""Every model call goes through run.ask or run.once, which ask this
+	first. A Refused is what their callers already handle."""
+	if not ai_on():
+		from onedesk.one_admin import faults
+
+		raise faults.Refused(_("OneAI is turned off for this workspace."))
 
 
 def offered() -> list[dict]:
@@ -32,7 +58,7 @@ def offered() -> list[dict]:
 	from onedesk.one.settings import APP_SAID
 
 	off = set(hidden())
-	return [
+	rail = [
 		{
 			"name": row.get("link_to"),
 			"title": _(row.get("title") or row.get("link_to")),
@@ -42,6 +68,17 @@ def offered() -> list[dict]:
 		}
 		for row in get_app_dock(HOST)
 		if row.get("link_type") == "Sidebar" and row.get("link_to") not in KEPT
+	]
+	return rail + [
+		{
+			"name": name,
+			"title": name,
+			"said": str(APP_SAID.get(name, "")),
+			"icon": ICONS[name],
+			"on": name not in off,
+			"needs": NEEDS.get(name),
+		}
+		for name in SECTIONS
 	]
 
 
@@ -54,19 +91,72 @@ def unlisted(lists: dict[str, set], off: set) -> set:
 
 
 def _lists() -> dict[str, set]:
-	"""What each of One's rail rows lists, by record type."""
+	"""What each of One's rail rows lists, by record type, and what One's
+	OneAI and OneIntake sections list, as theirs."""
 	from frappe.desk.doctype.dock.dock import get_app_dock
 
 	rail = [row.get("link_to") for row in get_app_dock(HOST) if row.get("link_type") == "Sidebar"]
-	found: dict[str, set] = {name: set() for name in rail}
+	found: dict[str, set] = {name: set() for name in (*rail, *SECTIONS)}
+	section = None
 	for row in frappe.get_all(
 		"Sidebar Item",
-		filters={"parenttype": "Sidebar", "parent": ["in", rail], "link_type": "DocType"},
-		fields=["parent", "link_to"],
+		filters={"parenttype": "Sidebar", "parent": ["in", rail]},
+		fields=["parent", "type", "label", "link_type", "link_to"],
+		order_by="parent asc, idx asc",
 		limit=0,
 	):
-		found[row.parent].add(row.link_to)
+		if row.type == "Section Break":
+			section = row.label if row.parent == "One" and row.label in SECTIONS else None
+			continue
+		if row.link_type == "DocType":
+			found[section or row.parent].add(row.link_to)
 	return found
+
+
+def _where(item: dict) -> tuple:
+	said = item.get("route_options") or None
+	if isinstance(said, str):
+		try:
+			said = json.loads(said)
+		except ValueError:
+			pass
+	return item.get("link_to"), json.dumps(said, sort_keys=True)
+
+
+def sectioned(items: list[dict], off: set) -> tuple[list[dict], set]:
+	"""One's sidebar without the sections of OneAI and OneIntake that are
+	off, and where each link they held went, so another sidebar can lose it
+	too (OneBook's Ready to Submit, OneCalendar's Deadlines). Pure."""
+	gone, kept, section = set(), [], None
+	for item in items:
+		if item.get("type") == "Section Break":
+			section = item.get("label") if item.get("label") in off else None
+		if section:
+			if item.get("link_to"):
+				gone.add(_where(item))
+			continue
+		kept.append(item)
+	if AI in off:
+		kept = [item for item in kept if _where(item) != _where(MEMORY)]
+	return kept, gone
+
+
+def trim(sidebars: dict) -> None:
+	"""`outside.kept`: the sections of OneAI and OneIntake turned off leave
+	One's sidebar, and their links and OneIntake's own sidebar every other."""
+	off = {name for name in SECTIONS if name in hidden()}
+	if not off or not isinstance(sidebars, dict):
+		return
+	one = sidebars.get("One") or {}
+	one_items, gone = sectioned(one.get("items") or [], off)
+	if one:
+		one["items"] = one_items
+	if INTAKE in off:
+		sidebars.pop(INTAKE_SIDEBAR, None)
+	for name, sidebar in sidebars.items():
+		if name == "One" or not isinstance(sidebar, dict):
+			continue
+		sidebar["items"] = [item for item in sidebar.get("items") or [] if _where(item) not in gone]
 
 
 def doctypes() -> list[str]:
@@ -86,8 +176,9 @@ def rehome(said: dict) -> None:
 
 def boot(bootinfo) -> None:
 	"""What the desk hides: the apps (the rail does it through the site's
-	Dock layer) and their record types (search and the pickers)."""
-	bootinfo["one_hidden"] = {"apps": hidden(), "doctypes": doctypes()}
+	Dock layer) and their record types (search and the pickers), and whether
+	OneAI and OneIntake are on."""
+	bootinfo["one_hidden"] = {"apps": hidden(), "doctypes": doctypes(), "ai": ai_on(), "intake": intake_on()}
 
 
 @frappe.whitelist()
@@ -105,6 +196,8 @@ def save(off: str | list) -> dict:
 
 	roles.require()
 	off = frappe.parse_json(off) if isinstance(off, str) else off
+	off = list(off or [])
+	off += [one for one, needs in NEEDS.items() if needs in off and one not in off]
 	allowed = {one["name"] for one in offered()}
 	unknown = [one for one in off or [] if one not in allowed]
 	if unknown:

@@ -54,6 +54,10 @@ def mail_arrived(made, arrival) -> None:
 
 
 def later(method: str, job: str, **kwargs) -> None:
+	from onedesk.one import apps
+
+	if not apps.intake_on():
+		return
 	frappe.enqueue(
 		f"onedesk.one_intake.pipeline.{method}",
 		queue="long",
@@ -399,6 +403,10 @@ def again() -> None:
 	"""Every quarter hour: readings that waited for credits or failed for a
 	passing reason are tried again, and files and messages that were never
 	read (they were there before Intake was) are caught up, a few at a time."""
+	from onedesk.one import apps
+
+	if not apps.intake_on():
+		return
 	stale = frappe.utils.add_to_date(now_datetime(), minutes=-10)
 	for held in frappe.get_all(
 		"Reading",

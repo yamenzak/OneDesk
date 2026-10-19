@@ -1,6 +1,8 @@
 frappe.provide("onedesk.apps");
 
 onedesk.apps.hidden = () => new Set(frappe.boot.one_hidden?.doctypes || []);
+onedesk.apps.ai = () => frappe.boot.one_hidden?.ai !== false;
+onedesk.apps.intake = () => frappe.boot.one_hidden?.intake !== false;
 
 onedesk.apps.button = ($dock) => {
 	const $user = $dock.find(".dock-user");
@@ -21,20 +23,25 @@ onedesk.apps.button = ($dock) => {
 	new frappe.ui.Tooltip($button[0], { text: __("Apps"), side: "right", delay: 0, offset: 10, class: "es-tooltip--plain" });
 };
 
-onedesk.apps.card = (app) => {
+onedesk.apps.card = (app, off) => {
 	const esc = frappe.utils.escape_html;
-	return `<button type="button" class="one-app-card ${app.on ? "" : "is-off"}" data-app="${esc(app.name)}" aria-pressed="${app.on}">
+	const locked = app.needs && off.has(app.needs);
+	return `<button type="button" class="one-app-card ${app.on ? "" : "is-off"} ${locked ? "is-locked" : ""}" data-app="${esc(app.name)}" data-needs="${esc(
+		app.needs || ""
+	)}" aria-pressed="${app.on}" ${locked ? "disabled" : ""}>
 		<span class="one-app-top">
 			<span class="one-app-icon">${frappe.utils.icon(app.icon, "xl")}</span>
 			<span class="one-app-switch"></span>
 		</span>
 		<span class="one-app-name">${esc(app.title)}</span>
 		<span class="one-app-said">${esc(app.said)}</span>
+		${app.needs ? `<span class="one-app-needs">${esc(__("Needs {0}", [app.needs]))}</span>` : ""}
 	</button>`;
 };
 
 onedesk.apps.configure = async () => {
 	const { apps } = await frappe.xcall("onedesk.one.apps.read");
+	const off = new Set(apps.filter((app) => !app.on).map((app) => app.name));
 	const dialog = new frappe.ui.Dialog({
 		title: __("Apps"),
 		size: "large",
@@ -44,7 +51,7 @@ onedesk.apps.configure = async () => {
 				fieldname: "apps",
 				options: `<p class="one-apps-said">${__(
 					"An app turned off leaves the rail and search for everybody. Its records stay, and links to them still open."
-				)}</p><div class="one-apps-grid">${apps.map(onedesk.apps.card).join("")}</div>`,
+				)}</p><div class="one-apps-grid">${apps.map((app) => onedesk.apps.card(app, off)).join("")}</div>`,
 			},
 		],
 		primary_action_label: __("Save"),
@@ -59,9 +66,14 @@ onedesk.apps.configure = async () => {
 			window.location.reload();
 		},
 	});
+	const set = ($card, on) => $card.toggleClass("is-off", !on).attr("aria-pressed", on);
 	dialog.$wrapper.on("click", ".one-app-card", (event) => {
-		const $card = $(event.currentTarget).toggleClass("is-off");
-		$card.attr("aria-pressed", !$card.hasClass("is-off"));
+		const $card = $(event.currentTarget);
+		const on = $card.hasClass("is-off");
+		set($card, on);
+		const $needing = dialog.$wrapper.find(`.one-app-card[data-needs="${$card.attr("data-app")}"]`);
+		if (!on) set($needing, false);
+		$needing.toggleClass("is-locked", !on).prop("disabled", !on);
 	});
 	dialog.show();
 };

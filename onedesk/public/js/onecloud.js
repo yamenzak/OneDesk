@@ -483,7 +483,7 @@ onedesk.OneCloud = class OneCloud {
 		const star_note = __("Starred");
 		const star = item.starred ? `<span class="oc-starred" title="${star_note}">${frappe.utils.icon("star", "xs")}</span>` : "";
 		const reads_note = __("Read by OneAI");
-		const reads = item.intake ? `<img class="oc-intake" src="/assets/onedesk/images/oneai.svg" alt="${reads_note}" title="${reads_note}">` : "";
+		const reads = item.intake && onedesk.apps.intake() ? `<img class="oc-intake" src="/assets/onedesk/images/oneai.svg" alt="${reads_note}" title="${reads_note}">` : "";
 		const found = item.found ? `<span class="oc-found">${esc(item.found)}</span>` : "";
 		return `<div class="oc-item" role="option" draggable="true" data-id="${esc(item.id)}" data-folder="${item.folder ? 1 : 0}">
 			<span class="oc-name"><span class="oc-picture">${picture}</span>${found ? `<span class="oc-titles"><span class="oc-label">${esc(item.name)}</span>${found}</span>` : `<span class="oc-label">${esc(item.name)}</span>`}${count}${reads}${star}${shared}${open}</span>
@@ -648,7 +648,7 @@ onedesk.OneCloud = class OneCloud {
 		const node = this.node;
 		Promise.all([
 			frappe.xcall("onedesk.one_storage.share.people", { node }).catch(() => null),
-			frappe.xcall("onedesk.one_intake.switches.folder_state", { folder: node }).catch(() => null),
+			onedesk.apps.intake() ? frappe.xcall("onedesk.one_intake.switches.folder_state", { folder: node }).catch(() => null) : null,
 		]).then(([people, reading]) => {
 			if (this.previewing !== key) return;
 			const more = [];
@@ -1000,9 +1000,6 @@ onedesk.OneCloud = class OneCloud {
 			case "share":
 				if (chosen.length === 1 && this.shareable(chosen[0])) this.share(chosen[0]);
 				return;
-			case "intake-on":
-			case "intake-off":
-				return this.intake(this.chosen()[0], act === "intake-on");
 			case "read-file":
 				return this.read_file(chosen[0]);
 			case "drive":
@@ -1715,21 +1712,6 @@ onedesk.OneCloud = class OneCloud {
 		list();
 	}
 
-	intake(item, on) {
-		const set = async () => {
-			await frappe.xcall("onedesk.one_intake.switches.set_folder", { folder: item.id, on: on ? 1 : 0 });
-			frappe.show_alert({ message: on ? __("OneAI will read new files in {0}.", [item.name]) : __("OneAI no longer reads {0}.", [item.name]), indicator: "green" });
-			this.refresh();
-		};
-		if (!on) return set();
-		frappe.confirm(
-			__("Read new files in {0} and its subfolders with OneAI? OneAI files them and acts on them. Scans and photos use credits.", [
-				`<b>${frappe.utils.escape_html(item.name)}</b>`,
-			]),
-			set
-		);
-	}
-
 	read_file(item) {
 		frappe.confirm(
 			__("Read {0} with OneAI? OneAI files it and acts on it. Scans and photos use credits.", [
@@ -1808,11 +1790,7 @@ onedesk.OneCloud = class OneCloud {
 					: ["star", "star", __("Star"), chosen.every((item) => this.filed(item))],
 				one && !one.folder && this.filed(one) ? ["new-version", "upload", __("Upload new version"), !one.record] : null,
 				one && one.folder && !one.virtual ? ["drive", "hard-drive", __("Connect as a drive…"), true] : null,
-				one && one.folder && one.intake ? ["intake-off", "scan-text", __("Stop reading with OneAI"), this.filed(one)] : null,
-				one && one.folder && !one.intake && this.filed(one) && !["Home/Attachments", "Home/Libraries"].includes(one.id)
-					? ["intake-on", "scan-text", __("Read with OneAI…"), true]
-					: null,
-				one && !one.folder && this.filed(one) && !(one.record && one.record[0] === "Communication") ? ["read-file", "scan-text", __("Read with OneAI"), true] : null,
+				one && !one.folder && onedesk.apps.intake() && this.filed(one) && !(one.record && one.record[0] === "Communication") ? ["read-file", "scan-text", __("Read with OneAI"), true] : null,
 				["rename", "pencil", __("Rename"), !!(one && stored) && this.kind() !== "record", "F2"],
 				["delete", "trash-2", __("Delete"), stored, "Del", "red"],
 			],

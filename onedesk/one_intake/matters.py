@@ -293,6 +293,10 @@ def _asked_change(reading, head) -> str | None:
 def due() -> None:
 	"""Every minute: act on the matters that have been quiet long enough,
 	each once, over everything that arrived in the burst."""
+	from onedesk.one import apps
+
+	if not apps.intake_on():
+		return
 	now = now_datetime()
 	waiting = frappe.get_all(
 		"Reading",

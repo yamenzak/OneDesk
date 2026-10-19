@@ -27,7 +27,7 @@ TRUSTED = "HR Manager"
 def raised(doc, method=None) -> None:
 	"""A new grievance: read it once the insert is committed, or, with OneAI's
 	reading off, told to HR as it is."""
-	if cint(frappe.db.get_single_value("HR Settings", "one_ai_grievances")):
+	if hiring.on("one_ai_grievances"):
 		hiring._later("onedesk.one_hr.ai_grievance.triage", f"grievance::{doc.name}", grievance=doc.name)
 	else:
 		tell.grievance_raised(doc)

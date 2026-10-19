@@ -62,6 +62,7 @@ onedesk.oneai = {
 	},
 
 	async open(opening) {
+		if (!onedesk.apps.ai()) return;
 		if (!this.panel) {
 			await frappe.require("oneai.bundle.js");
 			this.panel = onedesk.oneai.mount(document.body);
@@ -111,7 +112,7 @@ const words = (value) => $("<div>").html(String(value || "")).text().replace(/\s
 onedesk.oneai.watched = new Set();
 
 onedesk.oneai.fields = function (frm) {
-	if (!frm || !frm.fields_dict || frappe.session.user === "Guest") return;
+	if (!frm || !frm.fields_dict || frappe.session.user === "Guest" || !onedesk.apps.ai()) return;
 	onedesk.oneai.landing(frm);
 	onedesk.oneai.unchanged(frm);
 
@@ -152,7 +153,7 @@ onedesk.oneai.tag = (label, opts = {}) =>
 	frappe.ui.badge.html({ ...opts, label, css_class: ["one-ai-tag", opts.css_class].filter(Boolean).join(" ") });
 
 onedesk.oneai.button = (label, ask, opts = {}) =>
-	frappe.ui.button.html({
+	!onedesk.apps.ai() ? "" : frappe.ui.button.html({
 		variant: "subtle",
 		...opts,
 		label,
@@ -328,6 +329,7 @@ onedesk.oneai.beside = function (on) {
 };
 
 onedesk.oneai.compose = function (composer) {
+	if (!onedesk.apps.ai()) return;
 	const field = composer.dialog && composer.dialog.fields_dict.content;
 	const top = field && field.$wrapper.find(".clearfix").first();
 	if (!top || !top.length || top.find(".one-ai-write").length) return;
@@ -385,6 +387,7 @@ onedesk.oneai.compose = function (composer) {
 $(document).on("form-refresh", (event, frm) => onedesk.oneai.fields(frm));
 
 $(document).on("app_ready", () => {
+	if (!onedesk.apps.ai()) return;
 	onedesk.oneai.draw();
 	onedesk.oneai.count();
 

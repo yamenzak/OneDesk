@@ -44,8 +44,9 @@ You only find documents you have permission to open.
 
 ## Letting OneAI read a folder or a mailbox
 
-1. In OneCloud, right-click a folder. In OneMail, open a mailbox's **⋯** menu.
-2. Choose **Read with OneAI…**.
+1. In One, open **What OneAI Reads** in the OneIntake group. An administrator
+   can open **Settings** there instead, which lists every mailbox and folder.
+2. Click a mailbox to turn reading on, or **Add Folder** to pick a folder.
 
 New files and mail there are then read by OneAI as well. Scans and photos
 are read, recordings are transcribed and a scan of the day's post is split
@@ -55,8 +56,9 @@ into separate letters. This uses OneAI credits.
 - Only you can switch it on for your My Files and your own mailbox.
 - A folder OneAI reads, and every folder inside it, shows the OneAI mark.
 
-To turn it off, choose **Stop reading with OneAI** in the same menu. What was
-already read is kept.
+To turn it off, click the mailbox or folder there again. What was already
+read is kept. An administrator can turn OneIntake off for the whole workspace
+in **Apps**, at the bottom of the rail; it turns off with OneAI too.
 
 ## What OneAI understood
 
@@ -499,8 +501,8 @@ Workspace.
 
 ## Connections
 
-- **From OneMail**: Every message, sent or received, can be found by its text. In a mailbox set to **Read with OneAI**, each new message and its attachments appear in Intake.
-- **From OneCloud**: Every new file can be found by its text. In a folder set to **Read with OneAI**, each new file appears in Intake.
+- **From OneMail**: Every message, sent or received, can be found by its text. In a mailbox OneAI reads, each new message and its attachments appear in Intake.
+- **From OneCloud**: Every new file can be found by its text. In a folder OneAI reads, each new file appears in Intake.
 - **To OneCRM**: An enquiry creates a Lead, and an order creates the Customer and a draft Sales Order. The sender gets a Contact, and a contract becomes a Contract with a Cancel By date.
 - **To OneInventory**: An invoice from a new sender with a tax ID creates the Supplier. A delivery note becomes a draft Purchase Receipt against its order, and a quote becomes a Supplier Quotation.
 - **To OneBook**: Bills, credit notes and paid receipts become draft Purchase Invoices, listed in Ready to Submit. A payment advice becomes a draft Payment Entry, and a bank statement becomes Bank Transactions.

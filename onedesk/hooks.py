@@ -660,6 +660,7 @@ override_whitelisted_methods = {
 ignore_links_on_delete = ["Intake Action", "Intake Lesson", "Reading", "Reading Party"]
 
 has_permission = {
+	"Number Card": "onedesk.one.home.card_shown",
 	"Clock Device": "onedesk.one_hr.passkey.has_permission",
 	"Deleted Document": "onedesk.one.recycle.has_permission",
 	"Version": "onedesk.one.audit.has_permission",

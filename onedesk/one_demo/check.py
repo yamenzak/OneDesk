@@ -3511,6 +3511,72 @@ def one_an_app_turned_off_is_hidden_not_refused():
 
 
 @check
+def one_oneai_turned_off_asks_nothing_and_oneintake_reads_nothing():
+	"""OneAI off, in Apps, turns OneIntake off with it: no model is asked
+	(`run.once`, a chat), nothing is queued to be read, no switch turns on,
+	OneHR's screening is off, and One's sidebar loses both sections, OneBook
+	its Ready to Submit. OneIntake alone off leaves OneAI answering. What
+	OneAI Reads holds only the reader's own mailboxes."""
+	from frappe.boot import get_module_sidebars
+
+	from onedesk.one import apps, settings
+	from onedesk.one_admin import faults
+	from onedesk.one_ai import chat, run
+	from onedesk.one_hr import hiring
+	from onedesk.one_intake import pipeline, switches
+
+	with as_user("rania@one.test"):
+		mine = settings.load("reads")
+		assert all(one["mine"] for one in mine["mailboxes"]), mine["mailboxes"]
+	queued = []
+	enqueue = frappe.enqueue
+	frappe.enqueue = lambda *args, **kwargs: queued.append(args)
+	try:
+		with as_user(OWNER):
+			apps.save(["OneAI"])
+			assert {"OneAI", "OneIntake"} <= set(apps.hidden()), apps.hidden()
+			try:
+				run.once("summarise", "anything")
+			except faults.Refused:
+				pass
+			else:
+				raise AssertionError("OneAI off still asked a model")
+			try:
+				chat.say("hello")
+			except frappe.ValidationError:
+				pass
+			else:
+				raise AssertionError("OneAI off still started a chat")
+			pipeline.later("read_file", "file:nothing", name="nothing", person=OWNER)
+			assert not queued, queued
+			box = frappe.get_all("Email Account", pluck="name", limit=1)
+			if box:
+				try:
+					switches.set_mailbox(box[0], 1)
+				except frappe.ValidationError:
+					pass
+				else:
+					raise AssertionError("a mailbox switched on with OneIntake off")
+			assert not hiring.on("one_ai_screen")
+			shown = {one["key"] for one in settings.sections()["sections"]}
+			assert not shown & {"memory", "oneai", "reads", "intake"}, shown
+			sidebars = get_module_sidebars()
+			apps.trim(sidebars)
+			labels = {item.get("label") for item in sidebars["One"]["items"] if item.get("type") == "Section Break"}
+			assert not labels & {"OneAI", "OneIntake"}, labels
+			assert "One Intake" not in sidebars
+			assert all(item.get("link_to") != "ready-to-submit" for item in (sidebars.get("OneBook") or {}).get("items", []))
+			apps.save(["OneIntake"])
+			assert apps.ai_on() and not apps.intake_on()
+			apps.save([])
+			assert apps.intake_on() and hiring.on("one_ai_screen") == bool(frappe.db.get_single_value("HR Settings", "one_ai_screen"))
+	finally:
+		frappe.enqueue = enqueue
+		with as_user(OWNER):
+			apps.save([])
+
+
+@check
 def one_devices_decide_where_a_passkey_lives():
 	"""Signing in gives a browser its id and lists it. The builder sorts two:
 	the reception computer, shared, where Tariq is neither offered nor allowed

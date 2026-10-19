@@ -104,7 +104,8 @@ On a connected mailbox, the rule is also set up on the mail server, so your
 phone matches. Rules only apply to new mail, not to mail that was there when
 the mailbox was connected.
 
-**About rules** need **Read with OneAI…** turned on in the mailbox's menu.
+**About rules** need OneAI to read the mailbox, which is turned on in One,
+under **OneIntake › What OneAI Reads**.
 OneAI reads each new message and moves it a moment later. Spam and phishing
 always go to Junk.
 
@@ -113,7 +114,7 @@ CocaCola folder" or "put mail about soft drinks in Beverages". It suggests
 the rule on a card. When you approve it:
 
 - the folder is created if it doesn't exist
-- **Read with OneAI** is turned on, for an About rule
+- OneAI starts reading the mailbox, for an About rule
 - the rule is created
 - for a rule by words, matching mail already in the Inbox can be moved too
 
@@ -219,7 +220,7 @@ you ask. Each question uses OneAI credits.
 - **To OneHR**: Mail from an employee's address is linked to their record. Employees and job applicants have a Mail tab. An employee without a photo gets the one on their user, or their Gravatar photo.
 - **To OneBook**: A message that names an invoice or payment by its number is linked to it. Sales and purchase invoices have a Mail tab.
 - **To OneCloud**: Every attachment is saved in OneCloud under Mail, in a folder for each mailbox. A file too large to send from the workspace's address goes as a link that works for 30 days.
-- **To OneIntake**: With Read with OneAI on, each new message and its attachments go to OneIntake.
+- **To OneIntake**: In a mailbox OneAI reads, each new message and its attachments go to OneIntake.
 
 ## Under the hood
 

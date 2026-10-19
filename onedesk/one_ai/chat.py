@@ -106,8 +106,11 @@ def say(
 	seconds, and a web worker held for that is a worker answering nobody else.
 	The browser is handed a run id and told each step as it happens.
 	"""
+	from onedesk.one import apps
 	from onedesk.one_ai import touch
 
+	if not apps.ai_on():
+		frappe.throw(frappe._("OneAI is turned off for this workspace."), title=frappe._("OneAI is off"))
 	text = (text or "").strip()
 	writing = touch.target(field)
 	attached = frappe.parse_json(files) if isinstance(files, str) else (files or [])

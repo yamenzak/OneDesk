@@ -377,7 +377,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 								label: one.workspace ? __("Workspace") : one.shared ? __("Shared") : one.connected ? __("Connected") : __("Personal"),
 								theme: one.workspace ? "blue" : "gray",
 							}),
-							one.intake ? onedesk.oneai.tag(__("Read by OneAI")) : "",
+							one.intake && onedesk.apps.intake() ? onedesk.oneai.tag(__("Read by OneAI")) : "",
 							one.receives_only ? frappe.ui.badge.html({ label: __("Receives Only"), theme: "gray" }) : "",
 						].join(" "),
 				},
@@ -2737,14 +2737,28 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				...((data.hr || []).length
 					? [
 							{ heading: __("OneHR"), note: __("Each uses OneAI credits."), mark: marks.OneHR },
-							{ stack: data.hr },
-							{ html: links([["/desk/hr-settings", __("HR Settings")]]) },
+							{ stack: data.hr.filter((name) => name !== "one_keep_recordings_days") },
+							...(data.hr.includes("one_keep_recordings_days") ? [["one_keep_recordings_days", "_"]] : []),
 					  ]
 					: []),
 			],
 		});
 		this.draw_intake_sources(data);
 		this.page.add_inner_button(__("Models"), () => frappe.set_route("workspace-settings", { section: "oneai", product: "OneIntake" }));
+	}
+
+	draw_reads(data) {
+		if (data.off) {
+			this.$content.append(onedesk.shell.section(__("What OneAI Reads"), `<div class="one-shell-quiet">${__("OneIntake is turned off for this workspace.")}</div>`));
+			return;
+		}
+		this.$content.append(
+			onedesk.shell.section(
+				__("Sources"),
+				`<p class="one-shell-quiet">${__("Your mailboxes, and the folders you can change. OneAI reads what arrives in them on your behalf.")}</p><div class="os-intake-list" data-list="mailboxes"></div><div class="os-intake-list" data-list="folders"></div>`
+			)
+		);
+		this.draw_intake_sources(data);
 	}
 
 	draw_intake_sources(data) {

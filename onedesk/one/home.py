@@ -21,6 +21,18 @@ def _card(value: int, route: list, route_options: dict | None = None) -> dict:
 	}
 
 
+NEEDS = {"Documents Waiting": "OneIntake", "OneAI Suggestions": "OneAI"}
+
+
+def card_shown(doc, ptype=None, user=None, debug=False) -> bool:
+	"""Number Card has_permission: Home's OneIntake and OneAI numbers leave
+	it while the workspace has those turned off (one/apps.py)."""
+	from onedesk.one import apps
+
+	needs = NEEDS.get(doc.name)
+	return not needs or needs not in apps.hidden()
+
+
 @frappe.whitelist()
 @frappe.read_only()
 def tasks_due(filters=None) -> dict:

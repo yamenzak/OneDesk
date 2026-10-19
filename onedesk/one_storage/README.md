@@ -311,8 +311,8 @@ OneAI only reads files you can open, and only when you ask. It doesn't change
 anything in OneCloud. Sharing, moving and deleting are done in the explorer.
 
 **Read with OneAI** on a file's menu has OneAI read that file now, file it
-and act on it. On a folder, **Read with OneAI…** reads every new file that
-arrives there. Scans and photos use OneAI credits.
+and act on it. A folder whose new files OneAI reads is added in One, under
+**OneIntake › What OneAI Reads**. Scans and photos use OneAI credits.
 
 With nothing selected, the preview pane shows the folder: how many folders
 and files it holds and their total size. For your own folders, it also shows
@@ -325,7 +325,7 @@ who can see the folder and whether OneAI reads it.
 - **From OneAdmin**: OneAdmin keeps the workspace's storage limit. A file is refused when there isn't room.
 - **To One**: Every record has a Files tab that opens its folder in OneCloud. Letter heads print their pictures from OneCloud, and the full download includes every file.
 - **To OneMail**: An attachment too large to send goes as a link to the file instead.
-- **To OneIntake**: Every new file can be found by its text. A folder set to **Read with OneAI** has each new file handled in Intake.
+- **To OneIntake**: Every new file can be found by its text. A folder OneAI reads has each new file handled in Intake.
 - **To OneProject**: Photos and videos in a project's Featured Media folder are shown on its page and its portal. The newest photo is its cover.
 - **To OneAI**: OneAI answers questions about a file you can open and finds files by what they say. It also lists your largest files and how full the storage is.
 

@@ -19,6 +19,7 @@ SECTIONS = [
 	("calendar", _lt("Calendar"), "calendar", "you"),
 	("signin", _lt("Sign-in"), "key-round", "you"),
 	("memory", _lt("What OneAI Remembers"), "brain", "you"),
+	("reads", _lt("What OneAI Reads"), "oneintake", "you"),
 	("agreements", _lt("Agreements"), "scale", "you"),
 	("general", _lt("General"), "building-2", "workspace"),
 	("people", _lt("People"), "users", "workspace"),
@@ -60,6 +61,8 @@ APP_SAID = {
 	"OneTask": _lt("Everybody's work in one list, with checklists, due dates and timers."),
 	"OneCalendar": _lt("Meetings, leave and deadlines from every app, on one calendar."),
 	"OneStudio": _lt("Shape One to the way you work with your own fields, record types and forms."),
+	"OneAI": _lt("Ask about anything in the workspace, and have drafts, summaries and answers written for you."),
+	"OneIntake": _lt("Mail and files read as they arrive, filed on the right record and acted on."),
 }
 
 LEVELS = ("None", "User", "Manager")
@@ -124,6 +127,9 @@ INTAKE = ("records", "most_pages", "floor", "audit", "keep_in_place", "quiet_min
 
 SYSTEM = ("date_format", "time_format", "number_format", "first_day_of_the_week", "one_calendar_links")
 
+NEEDS_AI = ("memory", "oneai")
+NEEDS_INTAKE = ("reads", "intake")
+
 ON_A_RECORD = ("notification_types", "people", "holidays", "access")
 
 NOTIFICATION_TYPE = (
@@ -141,12 +147,15 @@ NOTIFICATION_TYPE = (
 @frappe.read_only()
 def sections() -> dict:
 	"""The sections this person may open, and who they are."""
+	from onedesk.one import apps
+
 	admin = roles.administers()
+	gone = {*(() if apps.ai_on() else NEEDS_AI), *(() if apps.intake_on() else NEEDS_INTAKE)}
 	return {
 		"sections": [
 			{"key": key, "label": str(label), "icon": icon, "group": group}
 			for key, label, icon, group in SECTIONS
-			if group == "you" or admin
+			if (group == "you" or admin) and key not in gone
 		],
 		"admin": admin,
 		"user": frappe.session.user,
@@ -165,6 +174,7 @@ def load(
 		"calendar": _calendar,
 		"signin": _signin,
 		"memory": _memory,
+		"reads": _reads,
 		"agreements": _agreements,
 		"general": _general,
 		"people": _people,
@@ -1414,7 +1424,7 @@ def _intake() -> dict:
 	hr = _intake_hr()
 	if hr:
 		held = frappe.get_single("HR Settings")
-		fields += [{**one, "fieldtype": "Switch"} for one in _fields("HR Settings", hr)]
+		fields += [{**one, "fieldtype": "Switch"} if one["fieldtype"] == "Check" else one for one in _fields("HR Settings", hr)]
 		values.update({name: held.get(name) for name in hr})
 		opened.append(held)
 	return {
@@ -1428,6 +1438,18 @@ def _intake() -> dict:
 	}
 
 
+def _reads() -> dict:
+	"""The mailboxes and folders OneAI reads that are the reader's to switch:
+	the mailboxes they hold and the folders they may change. Every one of
+	them, for an administrator, is OneIntake Settings."""
+	from onedesk.one import apps
+	from onedesk.one_intake import switches
+
+	if not apps.intake_on():
+		return {"off": True}
+	return {**switches.overview(mine=True), "marks": {app: _mark(app) for app in ("OneMail", "OneCloud")}}
+
+
 INTAKE_HR = ("one_ai_screen", "one_ai_prepare", "one_ai_transcribe", "one_ai_grievances")
 
 
@@ -1435,7 +1457,8 @@ def _intake_hr() -> tuple:
 	if not frappe.db.exists("DocType", "HR Settings"):
 		return ()
 	meta = frappe.get_meta("HR Settings")
-	return tuple(name for name in INTAKE_HR if meta.get_field(name))
+	shown = ("one_ai_screen", "one_ai_prepare", "one_ai_record", "one_ai_transcribe", "one_keep_recordings_days", "one_ai_grievances")
+	return tuple(name for name in shown if meta.get_field(name))
 
 
 def _intake_month() -> dict:

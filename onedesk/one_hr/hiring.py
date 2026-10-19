@@ -74,6 +74,12 @@ def _author() -> None:
 
 
 def on(key: str) -> bool:
+	"""A hiring switch, which is off for what OneAI does while OneAI is off."""
+	from onedesk.one import apps
+	from onedesk.one.settings import INTAKE_HR
+
+	if key in INTAKE_HR and not apps.ai_on():
+		return False
 	return bool(cint(frappe.db.get_single_value("HR Settings", key)))
 
 

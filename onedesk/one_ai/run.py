@@ -31,8 +31,10 @@ def ask(
 	`pinned` is the model the person picked for this conversation, and it wins.
 	`heard` is told each thing as it happens: a round starting, a tool it ran.
 	"""
+	from onedesk.one import apps
 	from onedesk.one_ai import tools as surface
 
+	apps.refuse_ai()
 	chose = chose if chose is not None else mine(action)
 	if pinned:
 		chose = {**chose, "model": pinned}
@@ -378,6 +380,9 @@ def once(action: str, text: str, files: list[dict] | None = None, reference: str
 	lot over in one turn and takes the words back. `files` carry their bytes,
 	base64'd, the shape `files.carried` makes.
 	"""
+	from onedesk.one import apps
+
+	apps.refuse_ai()
 	chose = mine(action)
 	out = account.ask(
 		"onedesk.one_admin.proxy.ai_run",

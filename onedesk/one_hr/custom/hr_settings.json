@@ -224,7 +224,8 @@
    "label": "OneAI",
    "insert_after": "hiring_sender_email",
    "module": "One HR",
-   "description": "What OneAI does by itself in OneHR is switched on OneIntake Settings. Recording consent and how long audio is kept stay here."
+   "description": null,
+   "hidden": 1
   },
   {
    "dt": "HR Settings",
@@ -253,7 +254,8 @@
    "fieldname": "one_column_hiring_ai",
    "fieldtype": "Column Break",
    "insert_after": "one_ai_prepare",
-   "module": "One HR"
+   "module": "One HR",
+   "hidden": 1
   },
   {
    "dt": "HR Settings",
@@ -263,7 +265,8 @@
    "insert_after": "one_column_hiring_ai",
    "default": "1",
    "description": "Recording starts only after the interviewer confirms the candidate's consent.",
-   "module": "One HR"
+   "module": "One HR",
+   "hidden": 1
   },
   {
    "dt": "HR Settings",
@@ -284,7 +287,8 @@
    "insert_after": "one_ai_transcribe",
    "default": "365",
    "description": "Transcripts are kept. Set to 0 to keep audio indefinitely.",
-   "module": "One HR"
+   "module": "One HR",
+   "hidden": 1
   },
   {
    "dt": "HR Settings",

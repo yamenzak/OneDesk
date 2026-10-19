@@ -1573,3 +1573,21 @@ html[dir="rtl"] body > div[style*="left: -9999px"] {
 .one-app-card.is-off .one-app-switch::after {
 	inset-inline-start: 2px;
 }
+
+.one-app-needs {
+	display: none;
+	font-size: 12px;
+	color: var(--ink-gray-6);
+}
+
+.one-app-card.is-locked {
+	cursor: not-allowed;
+}
+
+.one-app-card.is-locked:hover {
+	background: var(--surface-gray-1);
+}
+
+.one-app-card.is-locked .one-app-needs {
+	display: block;
+}

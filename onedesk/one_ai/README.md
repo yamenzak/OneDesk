@@ -107,6 +107,9 @@ person or day. Only administrators see it.
 - Your conversations, memories and cards are yours alone.
 - Everyone can read **Knowledge**. Only administrators change it.
 - **Actions** and **Credits** are for administrators.
+- An administrator can turn OneAI off for the whole workspace in **Apps**, at
+  the bottom of the rail. Then nobody can ask it anything, nothing calls a
+  model, and OneIntake goes off with it. Conversations and memories stay.
 
 ## Connections
 

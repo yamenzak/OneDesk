@@ -565,8 +565,9 @@ OneHR, with the rest of what OneAI does by itself when something arrives:
 | A recording ends | Transcribed and commented on | Transcribe Interview Recordings |
 | A new grievance | Summarised and categorised | Triage Grievances |
 
-Whether interviews may be recorded, and how long their audio is kept, are
-HR's policy and stay in HR Settings.
+Whether interviews may be recorded, and how long their audio is kept, are on
+the same page, under OneHR. With OneAI turned off in **Apps** none of the four
+runs, and a grievance goes to HR as it was written.
 
 Each is one AI call per event and uses the workspace's AI credits. Comments
 from these are written by a user called **OneAI**. Which model each uses is set
@@ -777,7 +778,7 @@ a model that exposed somebody. Only an HR Manager unticks it.
 who is right, and names nobody the grievance does not.
 
 One call per grievance, run as OneAI in the background like the hiring work,
-switched off in HR Settings.
+switched off on OneIntake Settings.
 
 ### ai_growth.py
 

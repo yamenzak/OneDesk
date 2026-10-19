@@ -4,6 +4,7 @@ frappe.provide("onedesk.intake");
 onedesk.intake.MARK = "/assets/onedesk/images/oneai.svg";
 
 onedesk.intake.panel = async ($el, which) => {
+	if (!onedesk.apps.intake()) return;
 	$el.empty();
 	let said;
 	try {

@@ -79,13 +79,15 @@ onedesk.dock.rows = (sidebar) => {
 		suffix: `<span class="one-clock-dot"></span>`,
 		onClick: () => onedesk.dock.punch(),
 	});
-	add({
-		label: __("OneIntake"),
-		icon: "inbox",
-		class: "one-intake-row",
-		suffix: `<span class="one-intake-count es-badge hide" data-variant="ghost"></span>`,
-		onClick: () => frappe.set_route("intake"),
-	});
+	if (onedesk.apps.intake()) {
+		add({
+			label: __("OneIntake"),
+			icon: "inbox",
+			class: "one-intake-row",
+			suffix: `<span class="one-intake-count es-badge hide" data-variant="ghost"></span>`,
+			onClick: () => frappe.set_route("intake"),
+		});
+	}
 	if (onedesk.dock.times()) {
 		add({
 			label: __("Timers"),
@@ -135,13 +137,15 @@ onedesk.dock.bar = () => {
 		badge: `<span class="one-clock-dot"></span><span class="one-clock-due hide"></span>`,
 		click: () => onedesk.dock.punch(),
 	});
-	add({
-		label: __("OneIntake"),
-		icon: "inbox",
-		css: "one-intake-row",
-		badge: `<span class="one-intake-count one-bar-badge hide"></span>`,
-		click: () => frappe.set_route("intake"),
-	});
+	if (onedesk.apps.intake()) {
+		add({
+			label: __("OneIntake"),
+			icon: "inbox",
+			css: "one-intake-row",
+			badge: `<span class="one-intake-count one-bar-badge hide"></span>`,
+			click: () => frappe.set_route("intake"),
+		});
+	}
 	if (onedesk.dock.times()) {
 		add({
 			label: __("Timers"),
@@ -205,6 +209,7 @@ onedesk.dock.name = ($item, label) =>
 	$item.attr("aria-label", label).each((_, el) => $(el).data("one-tip")?.set_text(label));
 
 onedesk.dock.intake = () =>
+	onedesk.apps.intake() &&
 	frappe.xcall("onedesk.one_intake.inbox.counts").then((said) => {
 		const $rows = $(".one-intake-row");
 		const $badge = $rows.find(".one-intake-count");

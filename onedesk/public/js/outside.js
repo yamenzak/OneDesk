@@ -69,6 +69,7 @@ if (frappe.boot.one_elsewhere && frappe.ui.SidebarHeader && frappe.ui.Sidebar) {
 		}
 
 		get_custom_help_links() {
+			if (!onedesk.apps.ai()) return [];
 			return [
 				{
 					name: "ask-oneai",

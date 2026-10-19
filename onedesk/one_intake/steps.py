@@ -102,6 +102,10 @@ def replied(doc, method=None) -> None:
 def daily() -> None:
 	"""A day that has passed ticks the steps waiting for it: an appointment
 	that was attended."""
+	from onedesk.one import apps
+
+	if not apps.intake_on():
+		return
 	for step in _open_steps('"after"'):
 		if passed(json.loads(step.done_when), today()):
 			_set(step, True)

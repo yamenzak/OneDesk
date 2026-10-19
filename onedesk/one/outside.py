@@ -53,6 +53,8 @@ def kept(said: dict) -> None:
 	}
 	order = sorted(ours, key=lambda name: name != FIRST)
 	said["module_sidebars"] = {name: ours[name] for name in order}
+	apps.trim(said["module_sidebars"])
+	ours = said["module_sidebars"]
 	owned = said.get("entity_module")
 	if isinstance(owned, dict):
 		said["entity_module"] = {entity: shell for entity, shell in owned.items() if shell in ours}

@@ -45,6 +45,10 @@ def said(month: dict) -> str:
 
 def weekly() -> None:
 	"""Scheduler, weekly: one digest per person OneAI read for this week."""
+	from onedesk.one import apps
+
+	if not apps.intake_on():
+		return
 	since, until = add_days(today(), -7), today()
 	people = frappe.db.sql_list(
 		"""select distinct on_behalf_of from `tabReading`

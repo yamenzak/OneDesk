@@ -60,6 +60,7 @@ def read_now(file: str) -> None:
 	"""Read one file with OneAI, as the person asking, when no folder of it is
 	read. Whoever may open the file may ask; a message's attachment is read
 	with its mailbox, and a folder is switched on instead."""
+	_reading()
 	item = ns.row(file)
 	if not item or item.get("is_folder") or item.get("one_deleted") or not ns.may(item):
 		frappe.throw(_("File {0} not found").format(file), frappe.PermissionError)
@@ -75,6 +76,8 @@ def set_folder(folder: str, on: int) -> dict:
 	"""Turn reading on or off for a folder and everything inside it."""
 	item = ns.row(folder)
 	on = int(on or 0)
+	if on:
+		_reading()
 	stopping = not on and _administers()
 	if not item or not item.get("is_folder") or not (stopping or _may_switch(item)):
 		frappe.throw(
@@ -156,6 +159,8 @@ def set_mailbox(account: str, on: int) -> dict:
 	from onedesk.one_mail import actions
 
 	on = int(on or 0)
+	if on:
+		_reading()
 	if on or not _administers():
 		actions.require(account)
 	values = {"one_intake": on, "one_intake_for": frappe.session.user if on else None}
@@ -166,8 +171,9 @@ def set_mailbox(account: str, on: int) -> dict:
 	return {"on": bool(held.one_intake), "for": held.one_intake_for}
 
 
-def overview() -> dict:
-	"""Every mailbox, and every folder OneAI reads, for OneIntake Settings."""
+def overview(mine: bool = False) -> dict:
+	"""Every mailbox, and every folder OneAI reads, for OneIntake Settings;
+	or, `mine`, only those the person asking may switch (What OneAI Reads)."""
 	from onedesk.one_mail import actions
 
 	name = frappe.utils.get_fullname
@@ -185,6 +191,8 @@ def overview() -> dict:
 			order_by="email_id asc",
 		)
 	]
+	if mine:
+		mailboxes = [one for one in mailboxes if one["mine"]]
 	folders = [
 		{"name": one.name, "path": one.name, "for": name(one.one_intake_for) if one.one_intake_for else None}
 		for one in frappe.get_all(
@@ -193,8 +201,18 @@ def overview() -> dict:
 			fields=["name", "one_intake_for"],
 			order_by="name asc",
 		)
+		if not mine or _may_switch(ns.row(one.name))
 	]
 	return {"mailboxes": mailboxes, "folders": folders}
+
+
+def _reading() -> None:
+	"""A switch turned on, or a file read now, while OneIntake is off (One ›
+	Apps) is refused: nothing would read it."""
+	from onedesk.one import apps
+
+	if not apps.intake_on():
+		frappe.throw(_("OneIntake is turned off for this workspace."), title=_("OneIntake is off"))
 
 
 def _administers() -> bool:

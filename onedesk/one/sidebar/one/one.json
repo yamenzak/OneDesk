@@ -620,17 +620,29 @@
   {
    "keep_closed": 0,
    "type": "Link",
+   "label": "What OneAI Reads",
+   "link_to": "settings",
+   "link_type": "Page",
+   "icon": "oneintake",
+   "child": 1,
+   "route_options": "{\"section\": \"reads\"}",
+   "idx": 54,
+   "filters": "{\"section\": \"reads\"}"
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
    "label": "Settings",
    "link_to": "workspace-settings",
    "link_type": "Page",
    "icon": "settings",
    "child": 1,
    "route_options": "{\"section\": \"intake\"}",
-   "idx": 54,
+   "idx": 55,
    "filters": "{\"section\": \"intake\"}"
   }
  ],
- "modified": "2026-11-03 12:05:00",
+ "modified": "2026-10-19 05:55:20.075777",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",
