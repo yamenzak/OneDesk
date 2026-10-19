@@ -111,15 +111,26 @@ onedesk.dock.rows = (sidebar) => {
 onedesk.dock.bar = () => {
 	if (frappe.session.user === "Guest" || $(".one-bar").length) return;
 	const $bar = $(`<header class="one-bar" role="toolbar" aria-label="${__("Tools")}">
-		<div class="one-bar-tools"></div>
+		<button class="one-bar-tool one-bar-now"></button>
+		<div class="one-bar-tools">
+			<div class="one-bar-group" data-group="find"></div>
+			<div class="one-bar-group" data-group="day"></div>
+			<div class="one-bar-group" data-group="waiting"></div>
+			<div class="one-bar-group" data-group="bar"></div>
+		</div>
 	</header>`).prependTo(document.body);
 	$("body").addClass("one-barred");
-	const add = ({ label, icon, css, badge = "", click, tip = label, $to = $bar.find(".one-bar-tools") }) => {
+	onedesk.dock.place(frappe.defaults.get_user_default("one_bar") === "bottom" ? "bottom" : "top");
+	const tip = (el, text) => new frappe.ui.Tooltip(el, { text, side: onedesk.dock.at === "bottom" ? "top" : "bottom", delay: 0, offset: 6, class: "es-tooltip--plain" });
+	const add = ({ label, icon, css, badge = "", text = "", click, tip: said = label, group }) => {
 		const $tile = $(
-			`<button class="one-bar-tool ${css}" aria-label="${frappe.utils.escape_html(label)}">${frappe.utils.icon(icon, "sm")}${badge}</button>`
-		).appendTo($to);
+			`<button class="one-bar-tool ${css}" aria-label="${frappe.utils.escape_html(label)}"><span class="one-bar-icon">${frappe.utils.icon(
+				icon,
+				"sm"
+			)}${badge}</span>${text}</button>`
+		).appendTo($bar.find(`[data-group="${group}"]`));
 		if (click) $tile.on("click", click);
-		$tile.data("one-tip", new frappe.ui.Tooltip($tile[0], { text: tip, side: "bottom", delay: 0, offset: 6, class: "es-tooltip--plain" }));
+		$tile.data("one-tip", tip($tile[0], said));
 		return $tile;
 	};
 	if (frappe.boot.desk_settings.search_bar) {
@@ -128,24 +139,18 @@ onedesk.dock.bar = () => {
 			tip: `${__("Search")} ${frappe.utils.is_mac() ? "⌘K" : "Ctrl+K"}`,
 			icon: "search",
 			css: "navbar-modal-search-mobile",
+			group: "find",
 		});
 	}
 	add({
 		label: __("Check In"),
 		icon: "clock",
 		css: "one-clock hide",
-		badge: `<span class="one-clock-dot"></span><span class="one-clock-due hide"></span>`,
+		badge: `<span class="one-clock-dot"></span>`,
+		text: `<span class="one-clock-due hide"></span>`,
 		click: () => onedesk.dock.punch(),
+		group: "day",
 	});
-	if (onedesk.apps.intake()) {
-		add({
-			label: __("OneIntake"),
-			icon: "inbox",
-			css: "one-intake-row",
-			badge: `<span class="one-intake-count one-bar-badge hide"></span>`,
-			click: () => frappe.set_route("intake"),
-		});
-	}
 	if (onedesk.dock.times()) {
 		add({
 			label: __("Timers"),
@@ -153,6 +158,17 @@ onedesk.dock.bar = () => {
 			css: "one-timers-row",
 			badge: `<span class="one-timers-count one-bar-badge hide"></span>`,
 			click: (event) => onedesk.dock.timers_open(event.currentTarget),
+			group: "day",
+		});
+	}
+	if (onedesk.apps.intake()) {
+		add({
+			label: __("OneIntake"),
+			icon: "inbox",
+			css: "one-intake-row",
+			badge: `<span class="one-intake-count one-bar-badge hide"></span>`,
+			click: () => frappe.set_route("intake"),
+			group: "waiting",
 		});
 	}
 	if (frappe.boot.desk_settings.notifications) {
@@ -162,6 +178,7 @@ onedesk.dock.bar = () => {
 			css: "sidebar-notification",
 			badge: `<span class="notification-count one-bar-badge hidden" aria-live="polite"></span>`,
 			click: () => frappe.ui.sidebar_panels.toggle("notifications"),
+			group: "waiting",
 		});
 		const unread = frappe.boot.notification_unread_count || 0;
 		$bell.find(".notification-count").text(unread > 99 ? "99+" : unread || "").toggleClass("hidden", !unread);
@@ -171,7 +188,43 @@ onedesk.dock.bar = () => {
 		icon: "server",
 		css: "sidebar-background-tasks hidden",
 		click: () => frappe.ui.sidebar_panels.toggle("background-tasks"),
+		group: "waiting",
 	}).toggleClass("hidden", !frappe.app.sidebar?.background_tasks?.db_tasks?.length);
+	const moved = () => (onedesk.dock.at === "bottom" ? __("Move This Bar to the Top") : __("Move This Bar to the Bottom"));
+	const $move = add({
+		label: moved(),
+		icon: onedesk.dock.at === "bottom" ? "panel-top" : "panel-bottom",
+		css: "one-bar-move",
+		group: "bar",
+		click: async () => {
+			const at = onedesk.dock.at === "bottom" ? "top" : "bottom";
+			onedesk.dock.place(at);
+			$move.find("use").attr("href", `#icon-${at === "bottom" ? "panel-top" : "panel-bottom"}`);
+			onedesk.dock.name($move, moved());
+			$bar.find(".one-bar-tool").each((_, el) => $(el).data("one-tip")?.destroy?.());
+			$bar.find(".one-bar-tool").each((_, el) => $(el).data("one-tip", tip(el, $(el).attr("aria-label"))));
+			await frappe.xcall("onedesk.one.settings.place_bar", { at });
+		},
+	});
+	const $now = $bar.find(".one-bar-now");
+	if (!(frappe.boot.one_hidden?.apps || []).includes("OneCalendar")) $now.on("click", () => frappe.set_route("onecalendar"));
+	onedesk.dock.now($now);
+	$now.data("one-tip", tip($now[0], $now.attr("aria-label")));
+	clearInterval(onedesk.dock._ticking);
+	onedesk.dock._ticking = setInterval(() => onedesk.dock.now($now), 15 * 1000);
+};
+
+onedesk.dock.place = (at) => {
+	onedesk.dock.at = at;
+	$("body").toggleClass("one-bar-bottom", at === "bottom");
+};
+
+onedesk.dock.now = ($now) => {
+	const zone = frappe.boot.time_zone?.user || frappe.boot.time_zone?.system;
+	const now = zone && moment.tz ? moment().tz(zone) : moment();
+	const time = now.format((frappe.datetime.get_user_time_fmt() || "HH:mm").replace(/:ss/, ""));
+	$now.html(`<span class="one-bar-date">${frappe.utils.escape_html(now.format("ddd D MMM"))}</span><span class="one-bar-time">${frappe.utils.escape_html(time)}</span>`);
+	onedesk.dock.name($now, now.format("dddd D MMMM YYYY"));
 };
 
 onedesk.dock.times = () => frappe.session.user !== "Guest" && frappe.model.can_create("Timesheet");
@@ -231,7 +284,8 @@ onedesk.dock.refresh = () =>
 		const on = ready.state === "in";
 		const due = !on && ready.direction === "IN" && ready.due ? onedesk.clock.time(ready.due) : "";
 		$item.find(".one-clock-dot").toggleClass("one-clock-on", on && !ready.late).toggleClass("one-clock-late", !!ready.late);
-		$item.find(".one-clock-due").text(due).toggleClass("hide", !due);
+		const word = on ? "" : ready.late ? __("Late") : due ? __("Check In") : "";
+		$item.find(".one-clock-due").text(word).toggleClass("hide", !word);
 		const label = on
 			? ready.late
 				? __("Checked in {0}, late", [onedesk.clock.when(ready.since)])

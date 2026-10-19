@@ -3577,6 +3577,27 @@ def one_oneai_turned_off_asks_nothing_and_oneintake_reads_nothing():
 
 
 @check
+def one_the_bar_stays_where_each_person_put_it():
+	"""Rania moves the bar to the bottom: it is her default, nobody else's,
+	and the next page draws it there. Anything but top or bottom is refused."""
+	from onedesk.one import settings
+
+	with as_user("rania@one.test"):
+		settings.place_bar("bottom")
+		assert frappe.defaults.get_user_default("one_bar") == "bottom"
+		try:
+			settings.place_bar("left")
+		except frappe.ValidationError:
+			pass
+		else:
+			raise AssertionError("the bar went somewhere it cannot be drawn")
+	with as_user(OWNER):
+		assert frappe.defaults.get_user_default("one_bar") != "bottom", "one person's bar moved another's"
+	with as_user("rania@one.test"):
+		settings.place_bar("top")
+
+
+@check
 def one_devices_decide_where_a_passkey_lives():
 	"""Signing in gives a browser its id and lists it. The builder sorts two:
 	the reception computer, shared, where Tariq is neither offered nor allowed

@@ -332,6 +332,7 @@ No doctypes yet.
 * `onedesk.one.settings.invite_again`
 * `onedesk.one.settings.keep`
 * `onedesk.one.settings.load`
+* `onedesk.one.settings.place_bar`
 * `onedesk.one.settings.preview_notification`
 * `onedesk.one.settings.save`
 * `onedesk.one.settings.sections`

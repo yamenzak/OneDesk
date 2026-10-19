@@ -199,6 +199,16 @@ def load(
 
 
 @frappe.whitelist(methods=["POST"])
+def place_bar(at: Annotated[str, "top or bottom"]) -> str:
+	"""Where the reader keeps the thin bar of tools: across the top of the
+	screen, or the bottom. Theirs alone, and kept with their other defaults."""
+	if at not in ("top", "bottom"):
+		frappe.throw(_("The bar goes at the top or the bottom."))
+	frappe.defaults.set_user_default("one_bar", at)
+	return at
+
+
+@frappe.whitelist(methods=["POST"])
 def save(
 	section: Annotated[str, "Which section."],
 	values: Annotated[str | dict, "What was changed."],

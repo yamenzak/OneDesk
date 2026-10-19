@@ -50,11 +50,15 @@ not in OneMail or OneCloud: **What OneAI Reads** lists yours, the mailboxes
 you hold and the folders you can change, and **Settings** lists all of them
 for an administrator, with how OneIntake reads and what OneHR lets it do.
 
-The thin bar across the top of every page holds **Search**, **Check In**,
-**OneIntake**, **Timers** and **Notifications** at its right end. A number on
-one says how much waits there. With the rail it makes one frame, and the rest
-of the screen sits inset in it, its corner rounded. On a phone there is no bar,
-and they are at the top of the panel instead.
+The thin bar across every page shows today's date and the time on the left;
+click it to open OneCalendar. On the right are **Search**, then **Check In**
+and **Timers**, then **OneIntake** and **Notifications**. A number on an icon
+says how much waits there. **Check In** says *Check In* when your shift has
+started and you haven't, and *Late* once you are late. The last button moves
+the bar to the bottom of the screen, or back to the top. That choice is yours
+alone and is remembered. With the rail the bar makes one frame, and the rest
+of the screen sits inset in it, its corner rounded. On a phone there is no
+bar, and its tools are at the top of the panel instead.
 
 In every app the panel on the left lists the app's places, and stays open on
 its lists and reports.
