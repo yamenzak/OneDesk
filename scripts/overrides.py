@@ -1683,6 +1683,27 @@ OVERRIDES = [
 		'doctype: bool(frappe.get_list(doctype, filters=filters, limit=1, pluck="name"))',
 	),
 	(
+		"The rail ends in Apps for a workspace administrator",
+		"their dock ends in the user menu; apps.js wraps Dock.make and puts Apps above it, where an administrator turns apps off for the workspace",
+		"onedesk/public/js/apps.js",
+		"frappe/frappe/public/js/frappe/ui/sidebar/dock.js",
+		'<div class="dock-user">',
+	),
+	(
+		"Search leaves out the record types only apps turned off list",
+		"their awesomebar offers every record type the reader may read; apps.js wraps AwesomeBar.build_options and drops a result whose route names one of them",
+		"onedesk/public/js/apps.js",
+		"frappe/frappe/public/js/frappe/ui/toolbar/awesome_bar.js",
+		"build_options(txt) {",
+	),
+	(
+		"A picker of record types leaves out those only apps turned off list",
+		"their search_link offers every DocType the reader may read; ours adds name not in the types only apps the workspace turned off list (one/apps.py), as theirs leaves out the modules of a disabled app",
+		"onedesk/one/apps.py",
+		"frappe/frappe/desk/search.py",
+		'if doctype == "DocType" and (disabled_modules := get_disabled_modules()):',
+	),
+	(
 		"The pinned rail and the bar are one frame, with the rest inset in it",
 		"their pinned rail ends in a rule of its own; ours gives the rule to the inset, rounded where it meets the bar's",
 		"onedesk/public/css/desk.css",
@@ -2783,6 +2804,9 @@ ASKS = {
 	),
 	'A moved interview tells interviewers in One and mails the applicant': (
 		"tell.Interview.reschedule_interview copies hrms's whole method (no-change check, db_set, notify_update) minus its sendmail. Propose hrms move the mail into an overridable method (e.g. self.notify_reschedule(original_date, original_from_time, original_to_time)) or behind an HR Settings switch; ours then overrides only that. Interview.after_insert/on_update only extend via super() and could be doc_events once the class is not needed."
+	),
+	"A picker of record types leaves out those only apps turned off list": (
+		'Ours wraps search_link to add a name filter when picking a DocType. Propose search_widget take its DocType exclusions from a hook (beside get_disabled_modules) so an app can hide record types from pickers without wrapping search_link; ours drops.'
 	),
 	"An employee's Create Assignments menu asks only of what the reader may read": (
 		'Ours copies hrms\'s masters dict and adds frappe.has_permission(doctype, "read") before get_list. Propose hrms add the same has_permission guard in employee_master.get_assignable_masters (one condition); then the override and MASTERS copy drop.'

@@ -3473,6 +3473,44 @@ def onehr_the_clock_says_when_the_shift_starts():
 
 
 @check
+def one_an_app_turned_off_is_hidden_not_refused():
+	"""The workspace administrator turns OneCRM off: it leaves everybody's
+	rail, and Opportunity leaves search and the pickers, while Customer,
+	which OneBook lists too, stays. Nothing is refused: an opportunity still
+	opens, OneIntake may still file into one, and turning OneCRM back
+	on brings it all back. Nobody else may turn an app off."""
+	from frappe.desk.doctype.dock.dock import resolve_dock
+
+	from onedesk.one import apps
+
+	with as_user("rania@one.test"):
+		try:
+			apps.save(["OneCRM"])
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("only a workspace administrator turns an app off")
+	with as_user(OWNER):
+		offered = {one["name"]: one for one in apps.read()["apps"]}
+		assert "OneCRM" in offered and "One" not in offered, offered
+		apps.save(["OneCRM"])
+		assert apps.hidden() == ["OneCRM"]
+		gone = set(apps.doctypes())
+		assert "Opportunity" in gone and "Customer" not in gone, sorted(gone)[:20]
+		picked = [one["value"] for one in apps.search_link("DocType", "Opportun")]
+		assert "Opportunity" not in picked, picked
+	rail = {row.get("link_to"): row.get("hidden") for row in resolve_dock().get("onedesk", [])}
+	assert rail.get("OneCRM") in (None, 1) and not rail.get("OneBook"), rail
+	opportunity = frappe.get_all("Opportunity", pluck="name", limit=1)
+	assert opportunity and frappe.has_permission("Opportunity", "read", opportunity[0], user=OWNER)
+	assert frappe.has_permission("Opportunity", "create", user=OWNER), "OneIntake checks this before it files"
+	with as_user(OWNER):
+		apps.save([])
+		assert not apps.doctypes()
+		assert "Opportunity" in [one["value"] for one in apps.search_link("DocType", "Opportun")]
+
+
+@check
 def one_devices_decide_where_a_passkey_lives():
 	"""Signing in gives a browser its id and lists it. The builder sorts two:
 	the reception computer, shared, where Tariq is neither offered nor allowed

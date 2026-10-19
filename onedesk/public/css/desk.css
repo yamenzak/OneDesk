@@ -1460,3 +1460,10 @@ html[dir="rtl"] body > div[style*="left: -9999px"] {
 	flex: none;
 	gap: calc(var(--spacing) * 0.5);
 }
+
+.dock .one-apps {
+	display: flex;
+	flex: 0 0 auto;
+	justify-content: center;
+	width: 100%;
+}

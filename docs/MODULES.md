@@ -211,6 +211,9 @@ No doctypes yet.
 * `onedesk.one.account.plans_quote`
 * `onedesk.one.account.plans_take`
 * `onedesk.one.account.wake`
+* `onedesk.one.apps.read`
+* `onedesk.one.apps.save`
+* `onedesk.one.apps.search_link`
 * `onedesk.one.automations.steps`
 * `onedesk.one.bills.invoices`
 * `onedesk.one.bills.payment_portal`

@@ -115,6 +115,7 @@ extend_bootinfo = [
 	"onedesk.one_admin.site.offer",
 	"onedesk.one.announcements.boot",
 	"onedesk.one_studio.extensions.boot",
+	"onedesk.one.apps.boot",
 ]
 
 scheduler_events = {
@@ -653,6 +654,7 @@ override_whitelisted_methods = {
 	"frappe.utils.print_format_generator.render_jinja_template": "onedesk.one.printing.render_jinja_template",
 	"frappe.email.doctype.email_template.email_template.get_email_template": "onedesk.one.mail_templates.get_email_template",
 	"hrms.overrides.employee_master.get_assignable_masters": "onedesk.one_hr.employee.get_assignable_masters",
+	"frappe.desk.search.search_link": "onedesk.one.apps.search_link",
 }
 
 ignore_links_on_delete = ["Intake Action", "Intake Lesson", "Reading", "Reading Party"]
@@ -877,6 +879,7 @@ app_include_js = [
 	"/assets/onedesk/js/check.js",
 	"/assets/onedesk/js/size.js",
 	"/assets/onedesk/js/desk.js",
+	"/assets/onedesk/js/apps.js",
 	"/assets/onedesk/js/record.js",
 	"/assets/onedesk/js/page_views.js",
 	"/assets/onedesk/js/list_names.js",

@@ -32,8 +32,10 @@ def keep(bootinfo) -> None:
 
 
 def kept(said: dict) -> None:
-	"""One's sidebars only, One's first, and the records they own. Also what
-	`reports.sidebars` swaps in when a sidebar changes."""
+	"""One's sidebars only, One's first, and the records they own, less the
+	apps the workspace turned off (one/apps.py), whose records then open in
+	another app that lists them. Also what `reports.sidebars` swaps in when a
+	sidebar changes."""
 	from onedesk.one.boot import platform
 
 	if platform():
@@ -41,13 +43,21 @@ def kept(said: dict) -> None:
 	sidebars = said.get("module_sidebars")
 	if not isinstance(sidebars, dict):
 		return
-	ours = {name: sidebar for name, sidebar in sidebars.items() if (sidebar or {}).get("app") == APP}
+	from onedesk.one import apps
+
+	off = set(apps.hidden())
+	ours = {
+		name: sidebar
+		for name, sidebar in sidebars.items()
+		if (sidebar or {}).get("app") == APP and name not in off
+	}
 	order = sorted(ours, key=lambda name: name != FIRST)
 	said["module_sidebars"] = {name: ours[name] for name in order}
 	owned = said.get("entity_module")
 	if isinstance(owned, dict):
 		said["entity_module"] = {entity: shell for entity, shell in owned.items() if shell in ours}
 	placed(said)
+	apps.rehome(said)
 
 
 def placed(said: dict) -> None:

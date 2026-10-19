@@ -16,11 +16,13 @@ def apply() -> None:
 		name = frappe.db.exists("Dock", {"app": app, "user": SITE_LAYER, "standard": 1})
 		if name and frappe.db.get_value("Dock", name, "mount_on") != HOST:
 			frappe.db.set_value("Dock", name, "mount_on", HOST, update_modified=False)
-	_hide_borrowed_rows()
+	layer()
 
 
-def _hide_borrowed_rows() -> None:
-	"""Keep One's own five on the rail and drop what mounting appended.
+def layer() -> None:
+	"""The site's Dock layer: One's own rows on the rail, except the apps the
+	workspace has turned off (one/apps.py), and what mounting appended
+	dropped.
 
 	The layer names every row and not only the hidden ones: `resolve_app_dock`
 	resolves with `keep_unnamed=False`, so a saved layer is the whole rail and a
@@ -28,12 +30,14 @@ def _hide_borrowed_rows() -> None:
 	"""
 	from frappe.desk.doctype.dock.dock import get_app_base, get_app_dock
 
-	ours = {row.get("link_to") for row in get_app_dock(HOST)}
-	rows = get_app_base(HOST)
-	if len(rows) == len(ours):
-		return
+	from onedesk.one import apps
 
+	ours = {row.get("link_to") for row in get_app_dock(HOST)}
+	off = set(apps.hidden())
+	rows = get_app_base(HOST)
 	name = frappe.db.exists("Dock", {"app": HOST, "user": SITE_LAYER, "standard": 0})
+	if len(rows) == len(ours) and not off and not name:
+		return
 	layer = frappe.get_doc("Dock", name) if name else frappe.new_doc("Dock")
 	layer.app = HOST
 	layer.user = SITE_LAYER
@@ -46,7 +50,7 @@ def _hide_borrowed_rows() -> None:
 				"link_to": row.get("link_to"),
 				"title": row.get("title"),
 				"icon": row.get("icon"),
-				"hidden": 0 if row.get("link_to") in ours else 1,
+				"hidden": 0 if row.get("link_to") in ours and row.get("link_to") not in off else 1,
 			}
 			for row in rows
 		],

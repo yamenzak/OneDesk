@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-19 04:47+0000\n"
-"PO-Revision-Date: 2026-10-19 04:47+0000\n"
+"POT-Creation-Date: 2026-10-19 05:14+0000\n"
+"PO-Revision-Date: 2026-10-19 05:14+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -3373,6 +3373,10 @@ msgstr ""
 msgid "An app for iPhone and Android, from the idea to the stores."
 msgstr ""
 
+#: onedesk/public/js/apps.js:32
+msgid "An app turned off leaves the rail and search for everybody. Its records stay, and links to them still open."
+msgstr ""
+
 #. Description of the 'Approved Request' (Link) field in DocType 'Clock
 #. Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -4040,10 +4044,16 @@ msgstr ""
 msgid "Approving this puts {0} on {1} {2}."
 msgstr ""
 
-#: onedesk/one/ai_setup.py:598 onedesk/public/js/settings.js:862
-#: onedesk/public/js/settings.js:977 onedesk/public/js/settings.js:1048
-#: onedesk/public/js/settings.js:1224 onedesk/public/js/settings.js:1337
+#: onedesk/one/ai_setup.py:598 onedesk/public/js/apps.js:10
+#: onedesk/public/js/apps.js:21 onedesk/public/js/apps.js:27
+#: onedesk/public/js/settings.js:862 onedesk/public/js/settings.js:977
+#: onedesk/public/js/settings.js:1048 onedesk/public/js/settings.js:1224
+#: onedesk/public/js/settings.js:1337
 msgid "Apps"
+msgstr ""
+
+#: onedesk/public/js/apps.js:43
+msgid "Apps saved"
 msgstr ""
 
 #: frontend/portal/src/pages/Apps.vue:16
@@ -32724,10 +32734,11 @@ msgstr ""
 #: onedesk/one_book/report/books_check/books_check.js:23
 #: onedesk/one_book/report/books_check/books_check.js:40
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:424
-#: onedesk/public/js/crm_record.js:97 onedesk/public/js/item_actions.js:31
-#: onedesk/public/js/lots_actions.js:53 onedesk/public/js/next_step.js:27
-#: onedesk/public/js/onecloud.js:1509 onedesk/public/js/onemail.js:850
-#: onedesk/public/js/onemail.js:873 onedesk/public/js/project_actions.js:59
+#: onedesk/public/js/apps.js:38 onedesk/public/js/crm_record.js:97
+#: onedesk/public/js/item_actions.js:31 onedesk/public/js/lots_actions.js:53
+#: onedesk/public/js/next_step.js:27 onedesk/public/js/onecloud.js:1509
+#: onedesk/public/js/onemail.js:850 onedesk/public/js/onemail.js:873
+#: onedesk/public/js/project_actions.js:59
 #: onedesk/public/js/project_actions.js:287
 #: onedesk/public/js/project_actions.js:329
 #: onedesk/public/js/project_actions.js:451
@@ -39061,6 +39072,10 @@ msgstr ""
 #. Message of a notification
 #: onedesk/notifications/one/domain_working.md
 msgid "The workspace now opens at {domain}. To have sign-in and links in mail use it, make it the main address on Workspace › Domains."
+msgstr ""
+
+#: onedesk/public/js/apps.js:82
+msgid "The workspace's apps changed. Reload to see them."
 msgstr ""
 
 #. Message of a notification
@@ -48819,6 +48834,10 @@ msgstr ""
 
 #: onedesk/one/webhooks.py:70
 msgid "{0} can't be sent by a webhook."
+msgstr ""
+
+#: onedesk/one/apps.py:103
+msgid "{0} can't be turned off."
 msgstr ""
 
 #: onedesk/one/notify.py:225
