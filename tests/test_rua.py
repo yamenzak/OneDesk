@@ -215,3 +215,17 @@ def test_retention_inside_an_invoice_comes_off_it_with_its_vat():
 	taken = {"net_total": 1000, "total_taxes_and_charges": 50}
 	found = {name: (now, after) for name, now, after in _figures()(1000, 50, 0, 0, 100, taken)}
 	assert found == {"billed": (1000, 1000), "vat": (50, 45), "owed": (0, -105), "held": (0, 100)}
+
+
+def test_an_lpo_line_whose_total_is_not_its_quantity_times_its_price_keeps_the_total():
+	rest = _load(IMPORTER / "buying.py", {"rest"})["rest"]
+	assert rest(3369, 80, 269572.8) == 52.8, "3,369.66 m2 kept as 3,369"
+	assert rest(3369, 80, 269520) == 0 and rest(2, 10.005, 20.01) == 0
+	assert rest(5, 100, 0) == 0, "a line with no total says nothing"
+
+
+def test_rua_says_which_sub_projects_were_merged_into_their_main_contract():
+	source = (IMPORTER / "projects.py").read_text()
+	assert "Aluminum Variation: Al-Ittihad Private School" in source, (
+		"folds on Rua's site with nothing to set"
+	)

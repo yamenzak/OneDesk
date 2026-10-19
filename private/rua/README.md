@@ -27,9 +27,10 @@ the old app is, the import follows in the background:
 
     bench --site <site> set-config rua_source '{"url": "...", "key": "...", "secret": "..."}'
 
-Where Rua later merged a sub-project into its main project's contract, the
-site's config names it, by its old name, so it folds into the main project
-and adds nothing to its contract:
+The sub-projects Rua later merged into their main project's contract are
+named in `rua/importer/projects.py` (`MERGED`), as Rua said them, so they
+fold into the main project and add nothing to its contract. Another found
+later can be added without a release:
 
     bench --site <site> set-config rua_merged '["<old sub-project name>"]' --parse
 
@@ -71,8 +72,13 @@ One shows a main project's own work as its Main view, so that sub-project
 folds into it and no contract is counted twice. Where a main project's
 value is more than its parts, Rua says the main is right, and the
 difference is ordered as its own work; where it is less, the parts stand.
-A sub-project Rua later merged into the main contract (`rua_merged`) folds
+A sub-project Rua later merged into the main contract (`MERGED`) folds
 too, its value already in the main's.
+
+**An LPO line's total is what the supplier billed.** The old app kept a
+measured quantity as a whole one (3,369 for 3,369.66 m²), so one line's
+total isn't its quantity times its price. The line keeps both, and a Line
+Difference line on the same order carries the rest.
 
 **Rua never recorded a supplier's bill.** An LPO marked Final is the one the
 supplier accepted, so it becomes a Purchase Invoice on its date, which puts

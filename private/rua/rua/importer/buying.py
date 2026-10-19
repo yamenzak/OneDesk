@@ -5,6 +5,11 @@ Rua never recorded a supplier's bill, so an LPO marked Final, which is the
 one the supplier accepted, becomes a Purchase Invoice on its own date. That
 puts the material cost on the project, and each one is listed for Rua's
 accountant to set against the real bill.
+
+Where an old line's total isn't its quantity times its price (the old app
+kept a measured quantity as a whole one), the total is what the supplier
+billed: the line keeps its quantity and price, and a Line Difference line
+carries the rest.
 """
 
 import frappe
@@ -20,6 +25,49 @@ LPO = "RUA LPO"
 RFQ = "RUA RFQ"
 RECEIPT = "RUA Purchase Receipt"
 GROUPS = {"Aluminum": "Aluminium", "Glass": "Glass", "Material": "Materials", "Cladding": "Cladding"}
+DIFFERENCE = "Line Difference"
+
+
+def rest(qty, price, total) -> float:
+	"""What an old line's total says beyond its quantity times its price, or
+	nothing when they agree to the fils. Pure."""
+	over = flt(total) - flt(qty) * flt(price)
+	return round(over, 2) if flt(total) and abs(over) >= 0.01 else 0.0
+
+
+def lines_of(codes, old, project) -> list[dict]:
+	"""An old LPO's lines as an order's, each followed by its Line Difference
+	where its total says more or less than its quantity times its price."""
+	rows = []
+	for one in old.get("items") or []:
+		if not flt(one.get("qty")):
+			continue
+		code = item(codes, one.get("item"), old.get("type"), one.get("description"))
+		said = clean(one.get("description")) or clean(one.get("item"))
+		rows.append(
+			{
+				"item_code": code,
+				"description": said,
+				"qty": flt(one.get("qty")),
+				"rate": flt(one.get("unit_price"), 2),
+				"schedule_date": old.get("date"),
+				"project": project,
+			}
+		)
+		over = rest(one.get("qty"), one.get("unit_price"), one.get("total_amount"))
+		if over:
+			rows.append(
+				{
+					"item_code": setup.item(DIFFERENCE, "Nos", "Services"),
+					"description": f"{code}: {flt(one.get('qty')):,g} x {flt(one.get('unit_price')):,.2f} "
+					f"on the old LPO, whose line total is {flt(one.get('total_amount')):,.2f}",
+					"qty": 1,
+					"rate": over,
+					"schedule_date": old.get("date"),
+					"project": project,
+				}
+			)
+	return rows
 
 
 def run(run_):
@@ -67,17 +115,7 @@ def order(run_, old, codes):
 			"project": project,
 			"taxes_and_charges": template,
 			"taxes": rows,
-			"items": [
-				{
-					"item_code": item(codes, one.get("item"), old.get("type"), one.get("description")),
-					"description": clean(one.get("description")) or clean(one.get("item")),
-					"qty": flt(one.get("qty")),
-					"rate": flt(one.get("unit_price"), 2),
-					"schedule_date": old.get("date"),
-					"project": project,
-				}
-				for one in lines
-			],
+			"items": lines_of(codes, old, project),
 		}
 	)
 	doc.flags.ignore_mandatory = True

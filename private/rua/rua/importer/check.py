@@ -193,8 +193,8 @@ def buying(run_, old, line):
 	]
 	why = (
 		(
-			"A line's total in the old LPO isn't its quantity times its price; One bills the quantity at the price. "
-			+ "; ".join(odd)
+			"A line's total in the old LPO isn't its quantity times its price; One bills the total, the rest as a "
+			"Line Difference. " + "; ".join(odd)
 		)
 		if odd
 		else None

@@ -26,13 +26,15 @@ VAT = "UAE VAT 5%"
 DATED = ("RUA Invoice", "RUA Payment", "RUA LPO", "RUA RFQ", "RUA Quotation")
 FOLDED = ("original contract", "original scope")
 TOTAL = 0.95
+MERGED = ("Aluminum Variation: Al-Ittihad Private School",)
 
 
 def merged() -> set[str]:
-	"""The sub-projects Rua later merged into their main project's contract
-	(`rua_merged` in site_config, by their old names): they fold like an
-	Original Contract, and their value is already in the main's."""
-	return set(frappe.conf.get("rua_merged") or [])
+	"""The sub-projects Rua later merged into their main project's contract,
+	by their old names, as Rua said (`MERGED`, and any more in site_config's
+	`rua_merged`): they fold like an Original Contract, and their value is
+	already in the main's."""
+	return {*MERGED, *(frappe.conf.get("rua_merged") or [])}
 
 
 def folded(project, merged=()) -> bool:
