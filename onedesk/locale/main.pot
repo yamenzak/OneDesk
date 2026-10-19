@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-19 08:10+0000\n"
-"PO-Revision-Date: 2026-10-19 08:10+0000\n"
+"POT-Creation-Date: 2026-10-19 11:38+0000\n"
+"PO-Revision-Date: 2026-10-19 11:38+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -4268,7 +4268,7 @@ msgstr ""
 msgid "Ask again under Your Data if you still want your account deleted."
 msgstr ""
 
-#: onedesk/public/js/desk.js:398 onedesk/public/js/outside.js:228
+#: onedesk/public/js/desk.js:411 onedesk/public/js/outside.js:228
 #: onedesk/www/message.html:20
 msgid "Ask an administrator for access."
 msgstr ""
@@ -4325,12 +4325,12 @@ msgstr ""
 msgid "Ask the sender for a new one."
 msgstr ""
 
-#: onedesk/public/js/oneai.js:96 onedesk/public/js/oneai.js:97
-#: onedesk/public/js/oneai/Panel.vue:180
+#: onedesk/public/js/desk.js:196 onedesk/public/js/oneai.js:98
+#: onedesk/public/js/oneai.js:99 onedesk/public/js/oneai/Panel.vue:180
 msgid "Ask {0}"
 msgstr ""
 
-#: onedesk/public/js/oneai.js:179
+#: onedesk/public/js/oneai.js:181
 msgid "Ask {0} about this"
 msgstr ""
 
@@ -5111,7 +5111,7 @@ msgstr ""
 msgid "Background"
 msgstr ""
 
-#: onedesk/public/js/desk.js:187
+#: onedesk/public/js/desk.js:188
 msgid "Background Tasks"
 msgstr ""
 
@@ -6854,8 +6854,8 @@ msgstr ""
 #. The button on a notification's mail
 #: frontend/src/home/HrHome.vue:237
 #: onedesk/notifications/one_hr/not_checked_in.md onedesk/public/js/desk.js:76
-#: onedesk/public/js/desk.js:146 onedesk/public/js/desk.js:287
-#: onedesk/public/js/desk.js:298 onedesk/public/js/desk.js:301
+#: onedesk/public/js/desk.js:147 onedesk/public/js/desk.js:298
+#: onedesk/public/js/desk.js:309 onedesk/public/js/desk.js:314
 msgid "Check In"
 msgstr ""
 
@@ -6883,8 +6883,8 @@ msgstr ""
 msgid "Check bill from {0}"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:237 onedesk/public/js/desk.js:296
-#: onedesk/public/js/desk.js:301
+#: frontend/src/home/HrHome.vue:237 onedesk/public/js/desk.js:307
+#: onedesk/public/js/desk.js:314
 msgid "Check in by {0}"
 msgstr ""
 
@@ -7019,11 +7019,11 @@ msgstr ""
 msgid "Checked By"
 msgstr ""
 
-#: onedesk/public/js/desk.js:301 onedesk/public/js/desk.js:344
+#: onedesk/public/js/desk.js:314 onedesk/public/js/desk.js:357
 msgid "Checked In"
 msgstr ""
 
-#: onedesk/public/js/desk.js:344
+#: onedesk/public/js/desk.js:357
 msgid "Checked Out"
 msgstr ""
 
@@ -7035,11 +7035,11 @@ msgstr ""
 msgid "Checked in"
 msgstr ""
 
-#: onedesk/public/js/desk.js:292
+#: onedesk/public/js/desk.js:303
 msgid "Checked in {0}"
 msgstr ""
 
-#: onedesk/public/js/desk.js:291
+#: onedesk/public/js/desk.js:302
 msgid "Checked in {0}, late"
 msgstr ""
 
@@ -7051,11 +7051,11 @@ msgstr ""
 msgid "Checked when someone sets or changes their password."
 msgstr ""
 
-#: onedesk/public/js/desk.js:315
+#: onedesk/public/js/desk.js:328
 msgid "Checking in…"
 msgstr ""
 
-#: onedesk/public/js/desk.js:315
+#: onedesk/public/js/desk.js:328
 msgid "Checking out…"
 msgstr ""
 
@@ -8561,7 +8561,7 @@ msgstr ""
 msgid "Couldn't reach the server."
 msgstr ""
 
-#: onedesk/public/js/desk.js:320
+#: onedesk/public/js/desk.js:333
 msgid "Couldn't record the check-in."
 msgstr ""
 
@@ -19306,7 +19306,7 @@ msgstr ""
 #: frontend/src/project/group.js:39 frontend/src/sent_out/SentOutPage.vue:85
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:184
 #: onedesk/one_project/report/workload/workload.py:177
-#: onedesk/public/js/band.js:148 onedesk/public/js/desk.js:287
+#: onedesk/public/js/band.js:148 onedesk/public/js/desk.js:298
 msgid "Late"
 msgstr ""
 
@@ -19327,7 +19327,7 @@ msgid "Late from {0}"
 msgstr ""
 
 #: onedesk/one_crm/heads.py:256 onedesk/one_inventory/heads.py:380
-#: onedesk/one_inventory/heads.py:529
+#: onedesk/one_inventory/heads.py:529 onedesk/public/js/desk.js:314
 msgid "Late since {0}"
 msgstr ""
 
@@ -21535,7 +21535,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_request_for_quotation_with_images/one_request_for_quotation_with_images.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/public/js/doctype_settings.js:464
-#: onedesk/public/js/doctype_settings.js:465 onedesk/public/js/oneai.js:356
+#: onedesk/public/js/doctype_settings.js:465 onedesk/public/js/oneai.js:358
 #: onedesk/public/js/onecloud.js:1531 onedesk/public/js/onemail.js:513
 #: onedesk/public/js/onemail.js:832 onedesk/public/js/quotes_actions.js:33
 #: onedesk/public/js/settings.js:3116 onedesk/public/js/settings.js:3229
@@ -21833,11 +21833,11 @@ msgstr ""
 msgid "Move These Beside It"
 msgstr ""
 
-#: onedesk/public/js/desk.js:193
+#: onedesk/public/js/desk.js:204
 msgid "Move This Bar to the Bottom"
 msgstr ""
 
-#: onedesk/public/js/desk.js:193
+#: onedesk/public/js/desk.js:204
 msgid "Move This Bar to the Top"
 msgstr ""
 
@@ -23688,7 +23688,7 @@ msgid "Not Booked"
 msgstr ""
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/not_checked_in.md onedesk/public/js/desk.js:336
+#: onedesk/notifications/one_hr/not_checked_in.md onedesk/public/js/desk.js:349
 msgid "Not Checked In"
 msgstr ""
 
@@ -23830,7 +23830,7 @@ msgstr ""
 msgid "Not checked until the workspace is linked to an account."
 msgstr ""
 
-#: onedesk/public/js/desk.js:299
+#: onedesk/public/js/desk.js:310
 msgid "Not checking in today"
 msgstr ""
 
@@ -24130,7 +24130,7 @@ msgid "Nothing has happened yet. It is checked against your own permissions when
 msgstr ""
 
 #: frontend/portal/src/pages/Home.vue:68 frontend/portal/src/pages/List.vue:84
-#: onedesk/one/page/masters/masters.js:124 onedesk/public/js/desk.js:397
+#: onedesk/one/page/masters/masters.js:124 onedesk/public/js/desk.js:410
 msgid "Nothing here yet"
 msgstr ""
 
@@ -24199,7 +24199,7 @@ msgstr ""
 msgid "Nothing shared with you"
 msgstr ""
 
-#: onedesk/public/js/desk.js:308
+#: onedesk/public/js/desk.js:321
 msgid "Nothing to check in. You're {0} today."
 msgstr ""
 
@@ -24294,7 +24294,7 @@ msgstr ""
 #. Task in the Mobile App project template
 #: onedesk/one/settings.py:17 onedesk/one/settings.py:113
 #: onedesk/one/sidebar/one/one.json onedesk/one_project/library/mobile_app.json
-#: onedesk/public/js/desk.js:176 onedesk/public/js/doctype_settings.js:234
+#: onedesk/public/js/desk.js:177 onedesk/public/js/doctype_settings.js:234
 #: onedesk/public/js/settings.js:3055 onedesk/public/js/settings.js:3149
 #: onedesk/public/js/settings.js:3206
 msgid "Notifications"
@@ -25311,7 +25311,7 @@ msgstr ""
 #: onedesk/one/sidebar/one/one.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_intake/page/intake/intake.js:3 onedesk/public/js/desk.js:84
-#: onedesk/public/js/desk.js:166 onedesk/public/js/desk.js:272
+#: onedesk/public/js/desk.js:167 onedesk/public/js/desk.js:283
 msgid "OneIntake"
 msgstr ""
 
@@ -31114,7 +31114,7 @@ msgstr ""
 msgid "Register a passkey before checking in."
 msgstr ""
 
-#: onedesk/public/js/desk.js:329
+#: onedesk/public/js/desk.js:342
 msgid "Register a passkey on this phone first?"
 msgstr ""
 
@@ -32324,7 +32324,7 @@ msgstr ""
 msgid "Rewrite with OneAI"
 msgstr ""
 
-#: onedesk/public/js/oneai.js:236
+#: onedesk/public/js/oneai.js:238
 msgid "Rewrite with {0}"
 msgstr ""
 
@@ -32986,8 +32986,8 @@ msgstr ""
 #: frontend/src/to_order/ToOrderPage.vue:9
 #: frontend/src/upkeep/UpkeepPage.vue:10
 #: onedesk/one_hr/custom/employee_attendance_tool.json
-#: onedesk/public/js/crumb_switch.js:110 onedesk/public/js/desk.js:138
-#: onedesk/public/js/desk.js:139 onedesk/public/js/onemail.js:67
+#: onedesk/public/js/crumb_switch.js:110 onedesk/public/js/desk.js:139
+#: onedesk/public/js/desk.js:140 onedesk/public/js/onemail.js:67
 msgid "Search"
 msgstr ""
 
@@ -40052,8 +40052,8 @@ msgid "Timeout (seconds)"
 msgstr ""
 
 #: frontend/src/task/Timers.vue:13 onedesk/one_task/page/timers/timers.js:2
-#: onedesk/public/js/desk.js:93 onedesk/public/js/desk.js:156
-#: onedesk/public/js/desk.js:240
+#: onedesk/public/js/desk.js:93 onedesk/public/js/desk.js:157
+#: onedesk/public/js/desk.js:251
 msgid "Timers"
 msgstr ""
 
@@ -40104,7 +40104,7 @@ msgstr ""
 msgid "Timesheets"
 msgstr ""
 
-#: onedesk/public/js/desk.js:240
+#: onedesk/public/js/desk.js:251
 msgid "Timing {0}"
 msgstr ""
 
@@ -42543,7 +42543,7 @@ msgstr ""
 msgid "Was wanted by {0}"
 msgstr ""
 
-#: onedesk/one_task/tell.py:193 onedesk/public/js/oneai.js:201
+#: onedesk/one_task/tell.py:193 onedesk/public/js/oneai.js:203
 msgid "Was {0}"
 msgstr ""
 
@@ -43051,7 +43051,7 @@ msgstr ""
 msgid "What have I agreed to?"
 msgstr ""
 
-#: onedesk/public/js/oneai.js:186
+#: onedesk/public/js/oneai.js:188
 msgid "What is \"{0}\" in {1} for? Suggest a value."
 msgstr ""
 
@@ -46660,7 +46660,7 @@ msgstr ""
 msgid "Write up a call"
 msgstr ""
 
-#: onedesk/public/js/oneai.js:236 onedesk/public/js/oneai.js:336
+#: onedesk/public/js/oneai.js:238 onedesk/public/js/oneai.js:338
 msgid "Write with {0}"
 msgstr ""
 
@@ -46721,7 +46721,7 @@ msgstr ""
 msgid "Written by the sync. Editable only on a model priced by hand."
 msgstr ""
 
-#: onedesk/public/js/oneai.js:242
+#: onedesk/public/js/oneai.js:244
 msgid "Written by {0}"
 msgstr ""
 
@@ -47362,7 +47362,7 @@ msgstr ""
 msgid "Your sessions are on the Sign-in page."
 msgstr ""
 
-#: onedesk/public/js/desk.js:295
+#: onedesk/public/js/desk.js:306
 msgid "Your shift started at {0}"
 msgstr ""
 
@@ -47727,7 +47727,7 @@ msgstr ""
 msgid "emergency contact"
 msgstr ""
 
-#: onedesk/public/js/oneai.js:201 onedesk/public/js/oneai/Record.vue:46
+#: onedesk/public/js/oneai.js:203 onedesk/public/js/oneai/Record.vue:46
 msgid "empty"
 msgstr ""
 
@@ -48013,7 +48013,7 @@ msgid "not known yet"
 msgstr ""
 
 #: onedesk/one/heads.py:28 onedesk/one/notify.py:321
-#: onedesk/public/js/desk.js:359
+#: onedesk/public/js/desk.js:372
 msgid "nothing"
 msgstr ""
 
@@ -50337,7 +50337,7 @@ msgstr ""
 msgid "{0} passkeys on it stopped working"
 msgstr ""
 
-#: onedesk/public/js/desk.js:240
+#: onedesk/public/js/desk.js:251
 msgid "{0} paused timers"
 msgstr ""
 
@@ -50642,7 +50642,7 @@ msgstr ""
 msgid "{0} variants made"
 msgstr ""
 
-#: onedesk/public/js/desk.js:272
+#: onedesk/public/js/desk.js:283
 msgid "{0} waiting in OneIntake"
 msgstr ""
 

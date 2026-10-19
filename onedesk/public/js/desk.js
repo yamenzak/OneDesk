@@ -309,7 +309,9 @@ onedesk.dock.refresh = () =>
 					? __("Check In")
 					: __("Not checking in today");
 		onedesk.dock.name($item, label);
-		$item.find(".sidebar-item-label").text(on ? __("Checked In") : due ? __("Check in by {0}", [due]) : __("Check In"));
+		$item
+			.find(".sidebar-item-label")
+			.text(on ? __("Checked In") : due ? (ready.late ? __("Late since {0}", [due]) : __("Check in by {0}", [due])) : __("Check In"));
 		return ready;
 	});
 

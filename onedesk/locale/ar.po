@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-19 08:10+0000\n"
+"POT-Creation-Date: 2026-10-19 11:38+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -4270,7 +4270,7 @@ msgstr "اسأل عن هذه الصفحة، أو ابحث عن معلومة، أ
 msgid "Ask again under Your Data if you still want your account deleted."
 msgstr "اطلب مرة أخرى من صفحة بياناتك إذا كنت لا تزال تريد حذف حسابك."
 
-#: onedesk/public/js/desk.js:398 onedesk/public/js/outside.js:228
+#: onedesk/public/js/desk.js:411 onedesk/public/js/outside.js:228
 #: onedesk/www/message.html:20
 msgid "Ask an administrator for access."
 msgstr "اطلب الوصول من أحد المسؤولين."
@@ -4327,12 +4327,12 @@ msgstr "اسأل الشخص الذي دعاك."
 msgid "Ask the sender for a new one."
 msgstr "اطلب رابطًا جديدًا من المرسل."
 
-#: onedesk/public/js/oneai.js:96 onedesk/public/js/oneai.js:97
-#: onedesk/public/js/oneai/Panel.vue:180
+#: onedesk/public/js/desk.js:196 onedesk/public/js/oneai.js:98
+#: onedesk/public/js/oneai.js:99 onedesk/public/js/oneai/Panel.vue:180
 msgid "Ask {0}"
 msgstr "اسأل {0}"
 
-#: onedesk/public/js/oneai.js:179
+#: onedesk/public/js/oneai.js:181
 msgid "Ask {0} about this"
 msgstr "اسأل {0} عن هذا"
 
@@ -5113,7 +5113,7 @@ msgstr "الخادم والبيانات"
 msgid "Background"
 msgstr "الخلفية"
 
-#: onedesk/public/js/desk.js:187
+#: onedesk/public/js/desk.js:188
 msgid "Background Tasks"
 msgstr "المهام في الخلفية"
 
@@ -6856,8 +6856,8 @@ msgstr "تحقق مرة أخرى"
 #. The button on a notification's mail
 #: frontend/src/home/HrHome.vue:237
 #: onedesk/notifications/one_hr/not_checked_in.md onedesk/public/js/desk.js:76
-#: onedesk/public/js/desk.js:146 onedesk/public/js/desk.js:287
-#: onedesk/public/js/desk.js:298 onedesk/public/js/desk.js:301
+#: onedesk/public/js/desk.js:147 onedesk/public/js/desk.js:298
+#: onedesk/public/js/desk.js:309 onedesk/public/js/desk.js:314
 msgid "Check In"
 msgstr "تسجيل الحضور"
 
@@ -6885,8 +6885,8 @@ msgstr "مراجعة عرض سعر المورد"
 msgid "Check bill from {0}"
 msgstr "راجع فاتورة {0}"
 
-#: frontend/src/home/HrHome.vue:237 onedesk/public/js/desk.js:296
-#: onedesk/public/js/desk.js:301
+#: frontend/src/home/HrHome.vue:237 onedesk/public/js/desk.js:307
+#: onedesk/public/js/desk.js:314
 msgid "Check in by {0}"
 msgstr "سجّل حضورك قبل {0}"
 
@@ -7021,11 +7021,11 @@ msgstr "تُكتب تسجيلات الحضور التي تقع درجتها بي
 msgid "Checked By"
 msgstr "راجعه"
 
-#: onedesk/public/js/desk.js:301 onedesk/public/js/desk.js:344
+#: onedesk/public/js/desk.js:314 onedesk/public/js/desk.js:357
 msgid "Checked In"
 msgstr "سجّل الحضور"
 
-#: onedesk/public/js/desk.js:344
+#: onedesk/public/js/desk.js:357
 msgid "Checked Out"
 msgstr "سجّل الانصراف"
 
@@ -7037,11 +7037,11 @@ msgstr "تمت مطابقتها مع المستند والطلب"
 msgid "Checked in"
 msgstr "سجّل الحضور"
 
-#: onedesk/public/js/desk.js:292
+#: onedesk/public/js/desk.js:303
 msgid "Checked in {0}"
 msgstr "سجّل الحضور {0}"
 
-#: onedesk/public/js/desk.js:291
+#: onedesk/public/js/desk.js:302
 msgid "Checked in {0}, late"
 msgstr "سجّلت حضورك {0}، متأخراً"
 
@@ -7053,11 +7053,11 @@ msgstr "سجّل الانصراف"
 msgid "Checked when someone sets or changes their password."
 msgstr "يُفحص عندما يعيّن شخص كلمة مروره أو يغيّرها."
 
-#: onedesk/public/js/desk.js:315
+#: onedesk/public/js/desk.js:328
 msgid "Checking in…"
 msgstr "جارٍ تسجيل الحضور…"
 
-#: onedesk/public/js/desk.js:315
+#: onedesk/public/js/desk.js:328
 msgid "Checking out…"
 msgstr "جارٍ تسجيل الانصراف…"
 
@@ -8563,7 +8563,7 @@ msgstr "تعذّر تحميل السجل."
 msgid "Couldn't reach the server."
 msgstr "تعذّر الوصول إلى الخادم."
 
-#: onedesk/public/js/desk.js:320
+#: onedesk/public/js/desk.js:333
 msgid "Couldn't record the check-in."
 msgstr "تعذر تسجيل الحضور."
 
@@ -19305,7 +19305,7 @@ msgstr "آخر {0} يومًا."
 #: frontend/src/project/group.js:39 frontend/src/sent_out/SentOutPage.vue:85
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:184
 #: onedesk/one_project/report/workload/workload.py:177
-#: onedesk/public/js/band.js:148 onedesk/public/js/desk.js:287
+#: onedesk/public/js/band.js:148 onedesk/public/js/desk.js:298
 msgid "Late"
 msgstr "متأخر"
 
@@ -19326,7 +19326,7 @@ msgid "Late from {0}"
 msgstr "متأخر من {0}"
 
 #: onedesk/one_crm/heads.py:256 onedesk/one_inventory/heads.py:380
-#: onedesk/one_inventory/heads.py:529
+#: onedesk/one_inventory/heads.py:529 onedesk/public/js/desk.js:314
 msgid "Late since {0}"
 msgstr "متأخر منذ {0}"
 
@@ -21529,7 +21529,7 @@ msgstr "دمج في {0}"
 #: onedesk/one_inventory/print_format/one_request_for_quotation_with_images/one_request_for_quotation_with_images.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/public/js/doctype_settings.js:464
-#: onedesk/public/js/doctype_settings.js:465 onedesk/public/js/oneai.js:356
+#: onedesk/public/js/doctype_settings.js:465 onedesk/public/js/oneai.js:358
 #: onedesk/public/js/onecloud.js:1531 onedesk/public/js/onemail.js:513
 #: onedesk/public/js/onemail.js:832 onedesk/public/js/quotes_actions.js:33
 #: onedesk/public/js/settings.js:3116 onedesk/public/js/settings.js:3229
@@ -21827,11 +21827,11 @@ msgstr "نقل المخزون"
 msgid "Move These Beside It"
 msgstr "انقل هذه بجانبه"
 
-#: onedesk/public/js/desk.js:193
+#: onedesk/public/js/desk.js:204
 msgid "Move This Bar to the Bottom"
 msgstr "نقل هذا الشريط إلى الأسفل"
 
-#: onedesk/public/js/desk.js:193
+#: onedesk/public/js/desk.js:204
 msgid "Move This Bar to the Top"
 msgstr "نقل هذا الشريط إلى الأعلى"
 
@@ -23682,7 +23682,7 @@ msgid "Not Booked"
 msgstr "غير مسجّل"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/not_checked_in.md onedesk/public/js/desk.js:336
+#: onedesk/notifications/one_hr/not_checked_in.md onedesk/public/js/desk.js:349
 msgid "Not Checked In"
 msgstr "لم يسجّل الحضور"
 
@@ -23824,7 +23824,7 @@ msgstr "لم يسجّل الحضور"
 msgid "Not checked until the workspace is linked to an account."
 msgstr "لا يُفحص حتى تُربط مساحة العمل بحساب."
 
-#: onedesk/public/js/desk.js:299
+#: onedesk/public/js/desk.js:310
 msgid "Not checking in today"
 msgstr "لا تسجيل حضور اليوم"
 
@@ -24124,7 +24124,7 @@ msgid "Nothing has happened yet. It is checked against your own permissions when
 msgstr "لم يحدث شيء بعد. ويُفحص مقابل صلاحياتك أنت عند تطبيقه."
 
 #: frontend/portal/src/pages/Home.vue:68 frontend/portal/src/pages/List.vue:84
-#: onedesk/one/page/masters/masters.js:124 onedesk/public/js/desk.js:397
+#: onedesk/one/page/masters/masters.js:124 onedesk/public/js/desk.js:410
 msgid "Nothing here yet"
 msgstr "لا شيء هنا بعد"
 
@@ -24193,7 +24193,7 @@ msgstr "لا شيء قيد التشغيل"
 msgid "Nothing shared with you"
 msgstr "لا شيء مُشارَك معك"
 
-#: onedesk/public/js/desk.js:308
+#: onedesk/public/js/desk.js:321
 msgid "Nothing to check in. You're {0} today."
 msgstr "لا يوجد ما تسجّل حضوره. أنت {0} اليوم."
 
@@ -24288,7 +24288,7 @@ msgstr "إشعار"
 #. Task in the Mobile App project template
 #: onedesk/one/settings.py:17 onedesk/one/settings.py:113
 #: onedesk/one/sidebar/one/one.json onedesk/one_project/library/mobile_app.json
-#: onedesk/public/js/desk.js:176 onedesk/public/js/doctype_settings.js:234
+#: onedesk/public/js/desk.js:177 onedesk/public/js/doctype_settings.js:234
 #: onedesk/public/js/settings.js:3055 onedesk/public/js/settings.js:3149
 #: onedesk/public/js/settings.js:3206
 msgid "Notifications"
@@ -25305,7 +25305,7 @@ msgstr "تُفتح الصفحة الرئيسية لـ OneHR، وفي كل مرة
 #: onedesk/one/sidebar/one/one.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_intake/page/intake/intake.js:3 onedesk/public/js/desk.js:84
-#: onedesk/public/js/desk.js:166 onedesk/public/js/desk.js:272
+#: onedesk/public/js/desk.js:167 onedesk/public/js/desk.js:283
 msgid "OneIntake"
 msgstr "OneIntake"
 
@@ -31105,7 +31105,7 @@ msgstr "سجّل هذا الجهاز"
 msgid "Register a passkey before checking in."
 msgstr "سجّل مفتاح مرور قبل تسجيل الحضور."
 
-#: onedesk/public/js/desk.js:329
+#: onedesk/public/js/desk.js:342
 msgid "Register a passkey on this phone first?"
 msgstr "هل تريد تسجيل مفتاح مرور على هذا الهاتف أولاً؟"
 
@@ -32313,7 +32313,7 @@ msgstr "أعد كتابة هذا الإشعار"
 msgid "Rewrite with OneAI"
 msgstr "أعد الكتابة مع OneAI"
 
-#: onedesk/public/js/oneai.js:236
+#: onedesk/public/js/oneai.js:238
 msgid "Rewrite with {0}"
 msgstr "إعادة الكتابة باستخدام {0}"
 
@@ -32975,8 +32975,8 @@ msgstr "الإحكام والعزل ضد الطقس"
 #: frontend/src/to_order/ToOrderPage.vue:9
 #: frontend/src/upkeep/UpkeepPage.vue:10
 #: onedesk/one_hr/custom/employee_attendance_tool.json
-#: onedesk/public/js/crumb_switch.js:110 onedesk/public/js/desk.js:138
-#: onedesk/public/js/desk.js:139 onedesk/public/js/onemail.js:67
+#: onedesk/public/js/crumb_switch.js:110 onedesk/public/js/desk.js:139
+#: onedesk/public/js/desk.js:140 onedesk/public/js/onemail.js:67
 msgid "Search"
 msgstr "بحث"
 
@@ -40021,8 +40021,8 @@ msgid "Timeout (seconds)"
 msgstr "المهلة (بالثواني)"
 
 #: frontend/src/task/Timers.vue:13 onedesk/one_task/page/timers/timers.js:2
-#: onedesk/public/js/desk.js:93 onedesk/public/js/desk.js:156
-#: onedesk/public/js/desk.js:240
+#: onedesk/public/js/desk.js:93 onedesk/public/js/desk.js:157
+#: onedesk/public/js/desk.js:251
 msgid "Timers"
 msgstr "المؤقتات"
 
@@ -40073,7 +40073,7 @@ msgstr "رقم سجل الدوام"
 msgid "Timesheets"
 msgstr "سجلات الدوام"
 
-#: onedesk/public/js/desk.js:240
+#: onedesk/public/js/desk.js:251
 msgid "Timing {0}"
 msgstr "يتم توقيت {0}"
 
@@ -42512,7 +42512,7 @@ msgstr "كان متوقعًا بحلول {0}"
 msgid "Was wanted by {0}"
 msgstr "كان مطلوبًا بحلول {0}"
 
-#: onedesk/one_task/tell.py:193 onedesk/public/js/oneai.js:201
+#: onedesk/one_task/tell.py:193 onedesk/public/js/oneai.js:203
 msgid "Was {0}"
 msgstr "كان {0}"
 
@@ -43020,7 +43020,7 @@ msgstr "ما الذي حدث عندما يُرسل هذا."
 msgid "What have I agreed to?"
 msgstr "على ماذا وافقت؟"
 
-#: onedesk/public/js/oneai.js:186
+#: onedesk/public/js/oneai.js:188
 msgid "What is \"{0}\" in {1} for? Suggest a value."
 msgstr "ما الغرض من «{0}» في {1}؟ اقترح قيمة."
 
@@ -46624,7 +46624,7 @@ msgstr "اكتب وصف هذه الوظيفة، وما يتمتع به المت�
 msgid "Write up a call"
 msgstr "سجّل مكالمة"
 
-#: onedesk/public/js/oneai.js:236 onedesk/public/js/oneai.js:336
+#: onedesk/public/js/oneai.js:238 onedesk/public/js/oneai.js:338
 msgid "Write with {0}"
 msgstr "اكتب باستخدام {0}"
 
@@ -46685,7 +46685,7 @@ msgstr "يُكتب من الإعدادات، الإشعارات. يُرسل إل
 msgid "Written by the sync. Editable only on a model priced by hand."
 msgstr "تكتبها المزامنة. ولا تُحرَّر إلا في نموذج مُسعَّر يدوياً."
 
-#: onedesk/public/js/oneai.js:242
+#: onedesk/public/js/oneai.js:244
 msgid "Written by {0}"
 msgstr "كتبه {0}"
 
@@ -47326,7 +47326,7 @@ msgstr "دورك"
 msgid "Your sessions are on the Sign-in page."
 msgstr "جلساتك موجودة في صفحة تسجيل الدخول."
 
-#: onedesk/public/js/desk.js:295
+#: onedesk/public/js/desk.js:306
 msgid "Your shift started at {0}"
 msgstr "بدأت مناوبتك الساعة {0}"
 
@@ -47691,7 +47691,7 @@ msgstr ""
 msgid "emergency contact"
 msgstr "جهة الاتصال في حالات الطوارئ"
 
-#: onedesk/public/js/oneai.js:201 onedesk/public/js/oneai/Record.vue:46
+#: onedesk/public/js/oneai.js:203 onedesk/public/js/oneai/Record.vue:46
 msgid "empty"
 msgstr "فارغ"
 
@@ -47977,7 +47977,7 @@ msgid "not known yet"
 msgstr "غير معروف بعد"
 
 #: onedesk/one/heads.py:28 onedesk/one/notify.py:321
-#: onedesk/public/js/desk.js:359
+#: onedesk/public/js/desk.js:372
 msgid "nothing"
 msgstr "لا شيء"
 
@@ -50301,7 +50301,7 @@ msgstr "{0} قطع، منها {1} جديدة"
 msgid "{0} passkeys on it stopped working"
 msgstr "توقفت {0} من مفاتيح المرور عليه عن العمل"
 
-#: onedesk/public/js/desk.js:240
+#: onedesk/public/js/desk.js:251
 msgid "{0} paused timers"
 msgstr "{0} مؤقتات متوقفة مؤقتًا"
 
@@ -50606,7 +50606,7 @@ msgstr "مستخدمو {0}"
 msgid "{0} variants made"
 msgstr "تم إنشاء {0} متغيّرات"
 
-#: onedesk/public/js/desk.js:272
+#: onedesk/public/js/desk.js:283
 msgid "{0} waiting in OneIntake"
 msgstr "{0} بانتظارك في OneIntake"
 
