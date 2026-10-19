@@ -100,6 +100,30 @@ def _lines(doctype: str, projects: list[str]) -> float:
 	return flt(found[0][0]) if found else 0.0
 
 
+def _with_tax(doctype: str, projects: list[str]) -> float:
+	"""What the lines on the projects come to with their documents' taxes,
+	each line taking its share of its document's: the figure the customer
+	reads, where `_lines` is the one margins are worked from."""
+	from onedesk.one_project.retention import ITEM
+
+	child = frappe.qb.DocType(LINES[doctype])
+	head = frappe.qb.DocType(doctype)
+	where = child.project.isin(projects) & (child.docstatus == 1)
+	if doctype in ("Sales Invoice", "Purchase Invoice"):
+		where &= (child.item_code.isnull() | (child.item_code != ITEM)) & (child.one_held.isnull() | (child.one_held == ""))
+	found = 0.0
+	for amount, net, taxes in (
+		frappe.qb.from_(child)
+		.join(head)
+		.on(head.name == child.parent)
+		.select(child.base_net_amount, head.base_net_total, head.base_total_taxes_and_charges)
+		.where(where)
+		.run()
+	):
+		found += flt(amount) * (1 + flt(taxes) / flt(net) if flt(net) else 1)
+	return found
+
+
 def _figure(label: str, value: float, doctype: str | None, projects: list[str], **filters) -> dict:
 	"""One figure, opening the submitted documents behind it for whoever may
 	read them. The total itself is the project's, shown to whoever reads it,
@@ -223,12 +247,14 @@ def money(project: Annotated[str, "The project."]) -> dict:
 		"can_bill": bool(frappe.has_permission("Purchase Invoice", "create")),
 		"can_order": bool(frappe.has_permission("Purchase Order", "create")),
 		"contract": contract,
+		"contract_with_tax": _with_tax("Sales Order", projects) if ordered else contract,
 		"budget": flt(kept["estimated_costing"]),
 		"spent": spent,
 		"open_orders": open_orders,
 		"forecast_cost": ahead["cost"],
 		"forecast_margin": ahead["margin"],
 		"invoiced": invoiced,
+		"invoiced_with_tax": _with_tax("Sales Invoice", projects),
 		"to_invoice": to_invoice,
 		"owed": owed,
 		"advance": advance,

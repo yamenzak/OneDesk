@@ -678,6 +678,9 @@ counts towards the parent. Sub-projects can have sub-projects.
   billed and margin), and its **% Complete** measures every task under it.
   **Sub-projects** lists the ones directly under it. The **Contract** card
   says how much of it was ordered as extra work.
+- The **Contract** and **Billed** cards read with VAT, as the **Invoices**
+  tab does: what the customer pays. **Money** works before VAT, since cost
+  and margin have no VAT in them.
 - **Main**, first in **Sub-projects**, shows the page for the parent's own
   work alone: its own orders, tasks, time, invoices, bills, team and
   activity, and its figures without what's under it. A project with

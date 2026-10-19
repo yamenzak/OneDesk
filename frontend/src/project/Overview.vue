@@ -2,7 +2,12 @@
   <div ref="root" class="grid gap-x-10 pb-12 pt-2 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
     <div class="min-w-0">
       <Section v-for="notice in said.notices || []" :key="notice.notice" data-notice boxed :title="notice.text" icon="lucide-history">
-        <Rows :rows="(notice.lines || []).map((line, i) => ({ key: i, label: line, dot: notice.colour }))" />
+        <div class="flex flex-col gap-2 pb-1">
+          <p v-for="(line, i) in notice.lines || []" :key="i" class="flex items-start gap-2.5 text-base text-ink-gray-8">
+            <span class="mt-[0.45em] size-2 shrink-0 rounded-full" :class="DOTS[notice.colour] || DOTS.gray" />
+            <span class="min-w-0"><Branded :text="line" /></span>
+          </p>
+        </div>
         <div class="mt-3 flex flex-wrap gap-2">
           <Button v-for="verb in notice.verbs" :key="verb.verb" size="sm" variant="outline" :label="verb.label" @click="act(verb)" />
         </div>
@@ -129,7 +134,7 @@ import { computed, ref, watch } from "vue";
 import { Button } from "frappe-ui";
 import { BarChart, ChartCard, DonutChart, useChartTokens } from "frappe-ui/charts";
 
-import { Facts, Figures, PlaceSpot, Rows, Section, __, can, colors, count, date, go, hours, money, newDoc, onedesk, shortDate, useForm } from "../kit";
+import { Branded, Facts, Figures, PlaceSpot, Rows, Section, __, can, colors, count, date, go, hours, money, newDoc, onedesk, shortDate, useForm } from "../kit";
 import MilestoneLanes from "./MilestoneLanes.vue";
 import Milestones from "./Milestones.vue";
 import Months from "./Months.vue";
@@ -138,6 +143,7 @@ import { usePlace } from "./place";
 
 const props = defineProps({ said: { type: Object, required: true }, writing: Boolean });
 const emit = defineEmits(["changed", "view", "main"]);
+const DOTS = { red: "bg-surface-red-5", amber: "bg-surface-amber-5", orange: "bg-surface-amber-5", green: "bg-surface-green-5", blue: "bg-surface-blue-5", gray: "bg-surface-gray-5" };
 const act = (verb) => onedesk().head.act({ doctype: "Project", doc: { name: props.said.name }, reload_doc: () => emit("changed") }, verb);
 const view = computed(() => props.said.overview);
 const root = ref();

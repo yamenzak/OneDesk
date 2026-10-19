@@ -1,5 +1,5 @@
 <template>
-  <div class="grid" :class="[COLUMNS[columns || figures.length] || 'lg:grid-cols-4', boxed ? 'grid-cols-1 gap-3 sm:grid-cols-2' : 'grid-cols-2 gap-x-8 gap-y-6 pb-3']">
+  <div class="grid" :class="[COLUMNS[columns || figures.length] || 'lg:grid-cols-4', boxed ? 'grid-cols-1 gap-3 sm:grid-cols-2' : 'grid-cols-1 gap-x-8 gap-y-6 pb-3 sm:grid-cols-2']">
     <div v-for="one in figures" :key="one.title" class="flex min-w-0 flex-col" :class="{ [CARD]: boxed && !one.sparkline }">
       <NumberCard
         :title="one.title"

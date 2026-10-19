@@ -365,7 +365,11 @@ def _first(doc, cash: dict) -> dict:
 	quote while one is out, or nothing yet with Add Contract."""
 	order = contract(doc)
 	if order:
-		return {"key": "contract", "money": cash["contract"], "route": f"/desk/sales-order/{order}"}
+		return {
+			"key": "contract",
+			"money": cash.get("contract_with_tax", cash["contract"]),
+			"route": f"/desk/sales-order/{order}",
+		}
 	quote = quotation(doc)
 	if quote and quote["count"] > 1:
 		return {
@@ -470,7 +474,7 @@ def cards(kind: str, doc, view: dict, cash: dict) -> list[dict]:
 				{
 					"key": "billed",
 					"value": f"{percent(cash['invoiced'], cash['contract'])}%",
-					"note_money": [[_("{0} invoiced"), [cash["invoiced"]]]],
+					"note_money": [[_("{0} invoiced"), [cash.get("invoiced_with_tax", cash["invoiced"])]]],
 					"bar": share(cash["invoiced"], cash["contract"]),
 					"view": "invoices",
 				}
