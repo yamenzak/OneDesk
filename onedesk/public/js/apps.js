@@ -29,7 +29,7 @@ onedesk.apps.card = (app) => {
 			<span class="one-app-switch"></span>
 		</span>
 		<span class="one-app-name">${esc(app.title)}</span>
-		<span class="one-app-state" data-on="${esc(__("On"))}" data-off="${esc(__("Off"))}">${app.on ? __("On") : __("Off")}</span>
+		<span class="one-app-said">${esc(app.said)}</span>
 	</button>`;
 };
 
@@ -61,9 +61,7 @@ onedesk.apps.configure = async () => {
 	});
 	dialog.$wrapper.on("click", ".one-app-card", (event) => {
 		const $card = $(event.currentTarget).toggleClass("is-off");
-		const on = !$card.hasClass("is-off");
-		const $state = $card.attr("aria-pressed", on).find(".one-app-state");
-		$state.text($state.attr(on ? "data-on" : "data-off"));
+		$card.attr("aria-pressed", !$card.hasClass("is-off"));
 	});
 	dialog.show();
 };

@@ -1518,9 +1518,10 @@ html[dir="rtl"] body > div[style*="left: -9999px"] {
 	color: var(--ink-gray-9);
 }
 
-.one-app-state {
+.one-app-said {
 	font-size: 12px;
-	color: var(--ink-green-6);
+	line-height: 1.4;
+	color: var(--ink-gray-5);
 }
 
 .one-app-switch {
@@ -1555,8 +1556,8 @@ html[dir="rtl"] body > div[style*="left: -9999px"] {
 	color: var(--ink-gray-5);
 }
 
-.one-app-card.is-off .one-app-state {
-	color: var(--ink-gray-5);
+.one-app-card.is-off .one-app-said {
+	color: var(--ink-gray-4);
 }
 
 .one-app-card.is-off .one-app-switch {

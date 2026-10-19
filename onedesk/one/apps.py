@@ -29,9 +29,17 @@ def offered() -> list[dict]:
 	"""One's own rail rows a workspace may turn off, in rail order."""
 	from frappe.desk.doctype.dock.dock import get_app_dock
 
+	from onedesk.one.settings import APP_SAID
+
 	off = set(hidden())
 	return [
-		{"name": row.get("link_to"), "title": _(row.get("title") or row.get("link_to")), "icon": row.get("icon"), "on": row.get("link_to") not in off}
+		{
+			"name": row.get("link_to"),
+			"title": _(row.get("title") or row.get("link_to")),
+			"said": str(APP_SAID.get(row.get("link_to"), "")),
+			"icon": row.get("icon"),
+			"on": row.get("link_to") not in off,
+		}
 		for row in get_app_dock(HOST)
 		if row.get("link_type") == "Sidebar" and row.get("link_to") not in KEPT
 	]

@@ -50,11 +50,16 @@ APPS = [
 ]
 
 APP_SAID = {
-	"OneCRM": _lt("Leads, deals, customers and quotes."),
+	"OneCRM": _lt("Leads, opportunities, customers and quotes."),
 	"OneBook": _lt("Invoices, bills, payments and the books."),
 	"OneInventory": _lt("Items, stock, buying, making and assets."),
 	"OneProject": _lt("Projects, tasks and timesheets."),
 	"OneHR": _lt("Employees, leave, attendance and pay."),
+	"OneCloud": _lt("Files, folders and what you share."),
+	"OneMail": _lt("Mailboxes, conversations and mail on records."),
+	"OneTask": _lt("Tasks, checklists and timers."),
+	"OneCalendar": _lt("Meetings, leave and deadlines in one calendar."),
+	"OneStudio": _lt("Your own fields, record types and forms."),
 }
 
 LEVELS = ("None", "User", "Manager")
