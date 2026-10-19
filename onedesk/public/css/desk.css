@@ -911,6 +911,19 @@ a.one-chart-head:hover .one-stat-label {
 	font-weight: 300;
 }
 
+.one-solo {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 0.2em;
+	white-space: nowrap;
+}
+
+.one-mark {
+	width: 1.05em;
+	height: 1.05em;
+	align-self: center;
+}
+
 .one-calendar-said {
 	color: var(--ink-gray-5);
 }

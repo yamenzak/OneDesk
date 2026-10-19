@@ -2,6 +2,38 @@ frappe.provide("onedesk.brand");
 
 onedesk.brand.NAME = /\bOne(AI|Admin|Book|Calendar|Cloud|Code|CRM|DB|Desk|Display|Doc|Fit|Forms|Governance|HR|Intake|Inventory|Legal|Mail|Market|Mobility|Project|Scratchpad|Sheet|Signature|Slide|Studio|Study|Task|Ticket|Workbook|Writer)\b/g;
 
+onedesk.brand.MARK = "/assets/onedesk/images/one.svg";
+
+onedesk.brand.VERBS = new Set(
+	"opens added may can cannot keeps sends reads shows asks uses does doesn't is isn't will won't has hasn't holds makes gives tells writes stores checks knows works needs puts takes turns brings finds counts books bills pays says sees saves signs".split(" "),
+);
+
+onedesk.brand.solo = (text) => {
+	const found = [];
+	for (const match of (text || "").matchAll(/\bOne\b(?!-)/g)) {
+		const before = text.slice(0, match.index).trimEnd();
+		const after = text.slice(match.index + 3);
+		if (/^\w/.test(after) && !/^'s\b/.test(after)) continue;
+		const next = (after.match(/^\s+([\p{L}']+)/u) || [])[1] || "";
+		const starts = !before || /[.!?:]$/.test(before);
+		const product = /^['’]s\b/.test(after) || (starts ? onedesk.brand.VERBS.has(next) : !/^\p{Lu}/u.test(next));
+		if (product && text.trim() !== "One") found.push(match.index);
+	}
+	return found;
+};
+
+onedesk.brand.parts = (text) => {
+	const parts = [];
+	let at = 0;
+	for (const index of onedesk.brand.solo(text)) {
+		if (index > at) parts.push(text.slice(at, index));
+		parts.push({ one: true });
+		at = index + 3;
+	}
+	if (at < (text || "").length) parts.push(text.slice(at));
+	return parts;
+};
+
 onedesk.brand.LEAVE = "input, textarea, select, option, script, style, code, pre, [contenteditable], .ql-editor, .CodeMirror, .ace_editor, [data-v-app], .one-name, title, svg";
 
 onedesk.brand.wrap = (root) => {
@@ -25,23 +57,44 @@ onedesk.brand.text = (node) => {
 	const parent = node.parentElement;
 	if (!parent || parent.closest(onedesk.brand.LEAVE)) return;
 	onedesk.brand.NAME.lastIndex = 0;
-	if (!onedesk.brand.NAME.test(text)) return;
+	const named = onedesk.brand.NAME.test(text);
+	const solo = onedesk.brand.solo(text);
+	if (!named && !solo.length) return;
 	onedesk.brand.NAME.lastIndex = 0;
+	const found = [
+		...[...text.matchAll(onedesk.brand.NAME)].map((match) => ({ at: match.index, length: match[0].length, rest: match[1] })),
+		...solo.map((at) => ({ at, length: 3, rest: null })),
+	].sort((a, b) => a.at - b.at);
 	const into = document.createDocumentFragment();
 	let at = 0;
-	for (const match of text.matchAll(onedesk.brand.NAME)) {
-		if (match.index > at) into.append(text.slice(at, match.index));
-		const name = document.createElement("span");
-		name.className = "one-name";
-		const light = document.createElement("span");
-		light.className = "one-light";
-		light.textContent = "One";
-		name.append(light, match[1]);
-		into.append(name);
-		at = match.index + match[0].length;
+	for (const one of found) {
+		if (one.at > at) into.append(text.slice(at, one.at));
+		into.append(one.rest === null ? onedesk.brand.mark() : onedesk.brand.named(one.rest));
+		at = one.at + one.length;
 	}
 	into.append(text.slice(at));
 	parent.replaceChild(into, node);
+};
+
+onedesk.brand.named = (rest) => {
+	const name = document.createElement("span");
+	name.className = "one-name";
+	const light = document.createElement("span");
+	light.className = "one-light";
+	light.textContent = "One";
+	name.append(light, rest);
+	return name;
+};
+
+onedesk.brand.mark = () => {
+	const name = document.createElement("span");
+	name.className = "one-name one-solo";
+	const mark = document.createElement("img");
+	mark.className = "one-mark";
+	mark.src = onedesk.brand.MARK;
+	mark.alt = "";
+	name.append(mark, "One");
+	return name;
 };
 
 (() => {

@@ -10,7 +10,7 @@
           <div class="min-w-0 flex-1">
             <div class="flex min-w-0 items-center gap-2">
               <div class="flex h-[1lh] min-w-0 flex-wrap overflow-hidden text-base">
-                <span class="max-w-full truncate text-ink-gray-8">{{ item.label }}</span>
+                <span class="max-w-full truncate text-ink-gray-8"><Branded :text="item.label" /></span>
                 <span v-if="item.sub" class="whitespace-nowrap ps-1 text-ink-gray-5">· {{ item.sub }}</span>
               </div>
               <Badge v-if="item.badge" :label="item.badge.label || item.badge" :theme="item.badge.theme || 'gray'" size="sm" />
@@ -51,6 +51,7 @@ import { Avatar, Badge, Button, Dropdown, Progress } from "frappe-ui";
 import { List, ListCell, ListRow, ListRows } from "frappe-ui/list";
 
 import { __, go } from "./desk";
+import Branded from "./Branded.vue";
 
 const props = defineProps({ rows: { type: Array, required: true }, empty: String });
 const bars = computed(() => props.rows.some((row) => row.progress !== undefined && row.progress !== null));
