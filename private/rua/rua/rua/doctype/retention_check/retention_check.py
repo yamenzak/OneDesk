@@ -1,5 +1,5 @@
 from frappe.model.document import Document
 
 
-class RuaSettlement(Document):
+class RetentionCheck(Document):
 	pass

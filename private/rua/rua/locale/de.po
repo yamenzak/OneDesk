@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Rua VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-19 18:00+0000\n"
+"POT-Creation-Date: 2026-10-19 18:17+0000\n"
 "PO-Revision-Date: 2026-10-19 16:11+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -20,22 +20,17 @@ msgstr ""
 
 #. Name of a role
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
+#: rua/rua/doctype/retention_check/retention_check.json
 #: rua/rua/doctype/rua_import/rua_import.json
 #: rua/rua/doctype/rua_import_record/rua_import_record.json
-#: rua/rua/doctype/rua_settlement/rua_settlement.json
 msgid "Accounts Manager"
 msgstr "Buchhaltungsleiter"
 
 #. Name of a role
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
-#: rua/rua/doctype/rua_settlement/rua_settlement.json
+#: rua/rua/doctype/retention_check/retention_check.json
 msgid "Accounts User"
 msgstr "Buchhaltungsbenutzer"
-
-#. Label of the advance_state (Select) field in DocType 'Rua Settlement'
-#: rua/rua/doctype/rua_settlement/rua_settlement.json
-msgid "Advance"
-msgstr "Anzahlung"
 
 #. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
@@ -47,19 +42,15 @@ msgstr "Offene Anzahlung"
 msgid "Agrees"
 msgstr "Stimmt überein"
 
-#: rua/settle.py:170
-msgid "All Settled"
-msgstr "Alles geklärt"
-
 #. Label of the amended_from (Link) field in DocType 'Retention Before One'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
 msgid "Amended From"
 msgstr "Geändert von"
 
-#. Label of the copies_amount (Currency) field in DocType 'Rua Settlement'
-#: rua/rua/doctype/rua_settlement/rua_settlement.json
-msgid "Amount Left Out"
-msgstr "Ausgelassener Betrag"
+#. Label of the answer (Select) field in DocType 'Retention Check'
+#: rua/rua/doctype/retention_check/retention_check.json
+msgid "Answer"
+msgstr "Antwort"
 
 #. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
@@ -81,11 +72,6 @@ msgstr "Prüfung"
 #: rua/rua/doctype/rua_import/rua_import.json
 msgid "Checks"
 msgstr "Prüfungen"
-
-#. Option for the 'Advance' (Select) field in DocType 'Rua Settlement'
-#: rua/rua/doctype/rua_settlement/rua_settlement.json
-msgid "Confirmed"
-msgstr "Bestätigt"
 
 #. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
@@ -114,7 +100,7 @@ msgstr "Fertig"
 
 #. Label of the due_back (Date) field in DocType 'Retention Before One'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
-#: rua/settle.py:92
+#: rua/settle.py:54
 msgid "Due Back"
 msgstr "Fällig zurück"
 
@@ -124,10 +110,7 @@ msgid "Each old record and what it became."
 msgstr "Jeder alte Datensatz und was daraus wurde."
 
 #. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
-#. Label of the section_copies (Section Break) field in DocType 'Rua
-#. Settlement'
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
-#: rua/rua/doctype/rua_settlement/rua_settlement.json
 msgid "Entered Twice"
 msgstr "Doppelt erfasst"
 
@@ -162,22 +145,14 @@ msgstr "Zusammengeführt"
 msgid "For the Accountant"
 msgstr "Für die Buchhaltung"
 
-#. Option for the 'Retention' (Select) field in DocType 'Rua Settlement'
-#: rua/rua/doctype/rua_settlement/rua_settlement.json
+#. Option for the 'Answer' (Select) field in DocType 'Retention Check'
+#: rua/rua/doctype/retention_check/retention_check.json
 msgid "Held"
 msgstr "Einbehalten"
 
-#: rua/settle.py:42
-msgid "Is the client still holding retention on invoices made outside One?"
-msgstr "Hält der Kunde noch Einbehalt auf Rechnungen, die außerhalb von One erstellt wurden?"
-
-#: rua/settle.py:164
-msgid "It's an Advance"
-msgstr "Es ist eine Anzahlung"
-
-#: rua/settle.py:132
-msgid "Kept as an advance until its invoice is made."
-msgstr "Bleibt eine Anzahlung, bis ihre Rechnung erstellt ist."
+#: rua/settle.py:28
+msgid "Is the client still holding retention on this project from invoices made outside One?"
+msgstr "Hält der Kunde auf diesem Projekt noch Einbehalt aus Rechnungen, die außerhalb von One erstellt wurden?"
 
 #. Label of the kind (Select) field in DocType 'Rua Import Note'
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
@@ -194,16 +169,16 @@ msgstr "Ausgelassen"
 msgid "No Invoice"
 msgstr "Keine Rechnung"
 
-#: rua/settle.py:158
+#: rua/settle.py:108
 msgid "No Retention Held"
 msgstr "Kein Einbehalt"
 
-#: rua/settle.py:125
+#: rua/settle.py:90
 msgid "No retention held."
 msgstr "Kein Einbehalt."
 
-#. Option for the 'Retention' (Select) field in DocType 'Rua Settlement'
-#: rua/rua/doctype/rua_settlement/rua_settlement.json
+#. Option for the 'Answer' (Select) field in DocType 'Retention Check'
+#: rua/rua/doctype/retention_check/retention_check.json
 msgid "None Held"
 msgstr "Nichts einbehalten"
 
@@ -215,7 +190,7 @@ msgstr "Nicht gestartet"
 #. Label of the note (Small Text) field in DocType 'Retention Before One'
 #. Label of the note (Small Text) field in DocType 'Rua Import Note'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
-#: rua/rua/doctype/rua_import_note/rua_import_note.json rua/settle.py:95
+#: rua/rua/doctype/rua_import_note/rua_import_note.json rua/settle.py:57
 msgid "Note"
 msgstr "Notiz"
 
@@ -223,10 +198,6 @@ msgstr "Notiz"
 #: rua/rua/doctype/rua_import/rua_import.json
 msgid "Notes"
 msgstr "Notizen"
-
-#: rua/settle.py:57
-msgid "Nothing is left to settle on {0}."
-msgstr "Bei {0} ist nichts mehr zu klären."
 
 #. Label of the old (Float) field in DocType 'Rua Import Check'
 #: rua/rua/doctype/rua_import_check/rua_import_check.json
@@ -248,26 +219,21 @@ msgstr "Alter Datensatztyp"
 msgid "One"
 msgstr "One"
 
-#: rua/settle.py:54
-msgid "Only somebody in accounts settles what the old app left."
-msgstr "Nur jemand aus der Buchhaltung klärt, was die alte App hinterlassen hat."
-
-#. Label of the copies (Int) field in DocType 'Rua Settlement'
-#: rua/rua/doctype/rua_settlement/rua_settlement.json
-msgid "Payments Left Out"
-msgstr "Ausgelassene Zahlungen"
+#: rua/settle.py:35
+msgid "Only somebody in accounts answers this."
+msgstr "Nur jemand aus der Buchhaltung beantwortet das."
 
 #. Label of the project (Link) field in DocType 'Retention Before One'
-#. Label of the project (Link) field in DocType 'Rua Settlement'
+#. Label of the project (Link) field in DocType 'Retention Check'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
-#: rua/rua/doctype/rua_settlement/rua_settlement.json
+#: rua/rua/doctype/retention_check/retention_check.json
 msgid "Project"
 msgstr "Projekt"
 
 #. Label of the project_name (Data) field in DocType 'Retention Before One'
-#. Label of the project_name (Data) field in DocType 'Rua Settlement'
+#. Label of the project_name (Data) field in DocType 'Retention Check'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
-#: rua/rua/doctype/rua_settlement/rua_settlement.json
+#: rua/rua/doctype/retention_check/retention_check.json
 msgid "Project Name"
 msgstr "Projektname"
 
@@ -281,16 +247,11 @@ msgstr "Gelesen aus"
 msgid "Receipt Matched"
 msgstr "Zahlungseingang zugeordnet"
 
-#. Label of the advance (Currency) field in DocType 'Rua Settlement'
-#: rua/rua/doctype/rua_settlement/rua_settlement.json
-msgid "Received, Not Invoiced"
-msgstr "Erhalten, nicht berechnet"
-
 #. Label of the reference_name (Dynamic Link) field in DocType 'Rua Import
 #. Note'
 #. Label of the target_name (Dynamic Link) field in DocType 'Rua Import Record'
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
-#: rua/rua/doctype/rua_import_record/rua_import_record.json rua/settle.py:151
+#: rua/rua/doctype/rua_import_record/rua_import_record.json rua/settle.py:101
 msgid "Record"
 msgstr "Datensatz"
 
@@ -306,21 +267,23 @@ msgstr "Datensatztyp"
 msgid "Result"
 msgstr "Ergebnis"
 
-#. Label of the retention_state (Select) field in DocType 'Rua Settlement'
-#: rua/rua/doctype/rua_settlement/rua_settlement.json
-msgid "Retention"
-msgstr "Einbehalt"
-
 #. Name of a DocType
-#. Label of the retention (Link) field in DocType 'Rua Settlement'
+#. Label of the retention (Link) field in DocType 'Retention Check'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
-#: rua/rua/doctype/rua_settlement/rua_settlement.json
+#: rua/rua/doctype/retention_check/retention_check.json
 msgid "Retention Before One"
 msgstr "Einbehalt vor One"
 
+#. Name of a DocType
+#. Label of a Sidebar Item
+#: rua/rua/doctype/retention_check/retention_check.json
+#: rua/rua/sidebar/rua/rua.json
+msgid "Retention Check"
+msgstr "Einbehaltsprüfung"
+
 #. Label of the amount (Currency) field in DocType 'Retention Before One'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
-#: rua/settle.py:85 rua/settle.py:150
+#: rua/settle.py:47 rua/settle.py:100
 msgid "Retention Held"
 msgstr "Einbehalt"
 
@@ -328,6 +291,10 @@ msgstr "Einbehalt"
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
 msgid "Retention a client held on an invoice made before One, owed until it is released."
 msgstr "Einbehalt, den ein Kunde auf einer Rechnung vor One zurückhielt; geschuldet, bis er freigegeben wird."
+
+#: rua/settle.py:27
+msgid "Retention from before One"
+msgstr "Einbehalt aus der Zeit vor One"
 
 #. Title of a Sidebar
 #: rua/rua/sidebar/rua/rua.json
@@ -357,13 +324,6 @@ msgstr "Rua-Importnotiz"
 msgid "Rua Import Record"
 msgstr "Rua-Importdatensatz"
 
-#. Name of a DocType
-#. Label of a Sidebar Item
-#: rua/rua/doctype/rua_settlement/rua_settlement.json
-#: rua/rua/sidebar/rua/rua.json
-msgid "Rua Settlement"
-msgstr "Rua-Klärung"
-
 #. Option for the 'Status' (Select) field in DocType 'Rua Import'
 #: rua/rua/doctype/rua_import/rua_import.json
 msgid "Running"
@@ -375,18 +335,9 @@ msgid "Sales Invoice"
 msgstr "Ausgangsrechnung"
 
 #: rua/rua/doctype/retention_before_one/retention_before_one.py:25
-#: rua/settle.py:102
+#: rua/settle.py:64
 msgid "Say how much retention the client holds, before VAT."
 msgstr "Geben Sie an, wie viel Einbehalt der Kunde hält, vor MwSt."
-
-#. Label of the settled (Check) field in DocType 'Rua Settlement'
-#: rua/rua/doctype/rua_settlement/rua_settlement.json
-msgid "Settled"
-msgstr "Geklärt"
-
-#: rua/settle.py:140
-msgid "Settled."
-msgstr "Geklärt."
 
 #. Label of the started_on (Datetime) field in DocType 'Rua Import'
 #: rua/rua/doctype/rua_import/rua_import.json
@@ -407,9 +358,9 @@ msgstr "Schritt"
 
 #. Name of a role
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
+#: rua/rua/doctype/retention_check/retention_check.json
 #: rua/rua/doctype/rua_import/rua_import.json
 #: rua/rua/doctype/rua_import_record/rua_import_record.json
-#: rua/rua/doctype/rua_settlement/rua_settlement.json
 msgid "System Manager"
 msgstr "Systemverwalter"
 
@@ -418,8 +369,8 @@ msgstr "Systemverwalter"
 msgid "The old Rua app brought over, and checked against the books."
 msgstr "Die alte Rua-App, übernommen und mit der Buchhaltung abgeglichen."
 
-#. Option for the 'Retention' (Select) field in DocType 'Rua Settlement'
-#: rua/rua/doctype/rua_settlement/rua_settlement.json
+#. Option for the 'Answer' (Select) field in DocType 'Retention Check'
+#: rua/rua/doctype/retention_check/retention_check.json
 msgid "To Ask"
 msgstr "Zu fragen"
 
@@ -428,41 +379,27 @@ msgstr "Zu fragen"
 msgid "To Check"
 msgstr "Zu prüfen"
 
-#. Option for the 'Advance' (Select) field in DocType 'Rua Settlement'
-#: rua/rua/doctype/rua_settlement/rua_settlement.json
-msgid "To Confirm"
-msgstr "Zu bestätigen"
-
-#: rua/settle.py:45
-msgid "To settle from the old app"
-msgstr "Aus der alten App zu klären"
-
 #: rua/rua/doctype/retention_before_one/retention_before_one.py:23
 msgid "Turn retention on in Projects Settings first."
 msgstr "Schalten Sie den Einbehalt zuerst in den Projekteinstellungen ein."
 
-#. Description of a DocType
-#: rua/rua/doctype/rua_settlement/rua_settlement.json
-msgid "What a project still has to settle from the old app, until somebody says it is settled."
-msgstr "Was ein Projekt aus der alten App noch zu klären hat, bis jemand sagt, dass es geklärt ist."
-
 #. Description of the 'Retention Held' (Currency) field in DocType 'Retention
 #. Before One'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
-#: rua/settle.py:87
+#: rua/settle.py:49
 msgid "What the client still holds, before VAT."
 msgstr "Was der Kunde noch hält, vor MwSt."
 
 #. Description of the 'Due Back' (Date) field in DocType 'Retention Before One'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
-#: rua/settle.py:93
+#: rua/settle.py:55
 msgid "When the client is due to pay it back, if anybody knows."
 msgstr "Wann der Kunde ihn zurückzahlen muss, falls bekannt."
 
-#. Label of the copies_said (Small Text) field in DocType 'Rua Settlement'
-#: rua/rua/doctype/rua_settlement/rua_settlement.json
-msgid "Which"
-msgstr "Welche"
+#. Description of a DocType
+#: rua/rua/doctype/retention_check/retention_check.json
+msgid "Whether a client still holds retention on a project from invoices made before One."
+msgstr "Ob ein Kunde auf einem Projekt noch Einbehalt aus Rechnungen vor One hält."
 
 #. Description of the 'Note' (Small Text) field in DocType 'Retention Before
 #. One'
@@ -475,19 +412,15 @@ msgstr "Auf welchen Rechnungen außerhalb von One er einbehalten wurde."
 msgid "Why"
 msgstr "Warum"
 
+#: rua/settle.py:38
+msgid "{0} has been answered already."
+msgstr "{0} wurde bereits beantwortet."
+
 #: rua/rua/doctype/retention_before_one/retention_before_one.py:28
 msgid "{0} has no customer to hold the retention."
 msgstr "{0} hat keinen Kunden, der den Einbehalt hält."
 
-#: rua/settle.py:116
+#: rua/settle.py:82
 msgid "{0} held as retention, owed until it is released."
 msgstr "{0} als Einbehalt gehalten, geschuldet bis zur Freigabe."
-
-#: rua/settle.py:37
-msgid "{0} payments entered twice were left out ({1})."
-msgstr "{0} doppelt erfasste Zahlungen wurden ausgelassen ({1})."
-
-#: rua/settle.py:33
-msgid "{0} received and not invoiced yet."
-msgstr "{0} erhalten und noch nicht berechnet."
 

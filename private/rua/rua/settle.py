@@ -1,80 +1,42 @@
-"""What each project still has to settle from the old app, said on the
-project itself until somebody says it is settled.
+"""Retention Rua may still be owed from invoices made before One, asked on
+the project itself until somebody answers.
 
-The import leaves three kinds of loose end on a project (`importer/settle.py`):
-money received and not invoiced yet, payments left out because they were
-entered twice, and retention Rua may have held on invoices made in Excel.
-The project's head says what is open in one line, and its buttons settle
-it there: the retention held (a Retention Before One), none held, the
-advance confirmed, or all of it settled. A project with nothing open says
-nothing.
+Lately Rua held retention on invoices made in Excel and typed only the
+amounts after it into the old app, so nothing the import reads says what a
+client still holds. Each project that billed or was paid asks once, on its
+Overview: Retention Held (how much and when it is due back, booked through
+a Retention Before One) or No Retention Held. Answered, it says nothing.
 """
 
 import frappe
 from frappe import _, _lt
 from frappe.utils import flt, fmt_money
 
-SETTLEMENT = "Rua Settlement"
+CHECK = "Retention Check"
 
 
-def _of(doc):
-	name = frappe.db.exists(SETTLEMENT, {"project": doc.name, "settled": 0})
-	return frappe.get_doc(SETTLEMENT, name) if name else None
+def _asking(doc):
+	name = frappe.db.exists(CHECK, {"project": doc.name, "answer": "To Ask"})
+	return frappe.get_doc(CHECK, name) if name else None
 
 
 def said(doc) -> dict | None:
-	"""The line on the project: what is still open, or None."""
-	held = _of(doc)
-	if not held:
+	if not _asking(doc):
 		return None
-	parts = []
-	if held.advance_state == "To Confirm":
-		parts.append(
-			_("{0} received and not invoiced yet.").format(fmt_money(held.advance, currency=_currency()))
-		)
-	if held.copies:
-		parts.append(
-			_("{0} payments entered twice were left out ({1}).").format(
-				held.copies, fmt_money(held.copies_amount, currency=_currency())
-			)
-		)
-	if held.retention_state == "To Ask":
-		parts.append(_("Is the client still holding retention on invoices made outside One?"))
-	if not parts:
-		return None
-	return {"text": _("To settle from the old app"), "lines": parts, "colour": "orange"}
+	return {
+		"text": _("Retention from before One"),
+		"lines": [_("Is the client still holding retention on this project from invoices made outside One?")],
+		"colour": "orange",
+	}
 
 
-def _currency():
-	return frappe.db.get_value("Company", frappe.db.get_default("company"), "default_currency")
-
-
-def _settling(doc):
-	if not frappe.has_permission(SETTLEMENT, "write"):
-		frappe.throw(_("Only somebody in accounts settles what the old app left."), frappe.PermissionError)
-	held = _of(doc)
-	if not held:
-		frappe.throw(_("Nothing is left to settle on {0}.").format(doc.project_name or doc.name))
-	return held
-
-
-def _close(held) -> None:
-	"""Settled once nothing is left to ask: no retention question, no advance
-	to confirm and no copies to acknowledge."""
-	if held.retention_state != "To Ask" and held.advance_state != "To Confirm" and not held.copies:
-		held.settled = 1
-	held.flags.ignore_permissions = True
-	held.save()
-
-
-def _asks_retention(doc) -> bool:
-	held = _of(doc)
-	return bool(held and held.retention_state == "To Ask")
-
-
-def _asks_advance(doc) -> bool:
-	held = _of(doc)
-	return bool(held and held.advance_state == "To Confirm")
+def _answering(doc):
+	if not frappe.has_permission(CHECK, "write"):
+		frappe.throw(_("Only somebody in accounts answers this."), frappe.PermissionError)
+	asked = _asking(doc)
+	if not asked:
+		frappe.throw(_("{0} has been answered already.").format(doc.project_name or doc.name))
+	return asked
 
 
 def _held_fields(doc) -> list[dict]:
@@ -97,7 +59,7 @@ def _held_fields(doc) -> list[dict]:
 
 
 def _held(doc, amount=None, due_back=None, note=None) -> str:
-	held = _settling(doc)
+	asked = _answering(doc)
 	if flt(amount) <= 0:
 		frappe.throw(_("Say how much retention the client holds, before VAT."))
 	made = frappe.get_doc(
@@ -111,37 +73,25 @@ def _held(doc, amount=None, due_back=None, note=None) -> str:
 	)
 	made.insert()
 	made.submit()
-	held.retention_state, held.retention = "Held", made.name
-	_close(held)
-	return _("{0} held as retention, owed until it is released.").format(
-		fmt_money(amount, currency=_currency())
+	asked.answer, asked.retention = "Held", made.name
+	asked.flags.ignore_permissions = True
+	asked.save()
+	currency = frappe.db.get_value(
+		"Company", made.get("company") or frappe.db.get_default("company"), "default_currency"
 	)
+	return _("{0} held as retention, owed until it is released.").format(fmt_money(amount, currency=currency))
 
 
 def _none(doc) -> str:
-	held = _settling(doc)
-	held.retention_state = "None Held"
-	_close(held)
+	asked = _answering(doc)
+	asked.answer = "None Held"
+	asked.flags.ignore_permissions = True
+	asked.save()
 	return _("No retention held.")
 
 
-def _advance(doc) -> str:
-	held = _settling(doc)
-	held.advance_state = "Confirmed"
-	_close(held)
-	return _("Kept as an advance until its invoice is made.")
-
-
-def _all(doc) -> str:
-	held = _settling(doc)
-	held.settled = 1
-	held.flags.ignore_permissions = True
-	held.save()
-	return _("Settled.")
-
-
-def _open(doc) -> bool:
-	return bool(_of(doc))
+def _asks(doc) -> bool:
+	return bool(_asking(doc))
 
 
 VERBS = {
@@ -149,34 +99,22 @@ VERBS = {
 		"doctypes": ["Project"],
 		"label": _lt("Retention Held"),
 		"action": _lt("Record"),
-		"when": _asks_retention,
+		"when": _asks,
 		"fields": _held_fields,
 		"run": _held,
 	},
 	"rua.no_retention": {
 		"doctypes": ["Project"],
 		"label": _lt("No Retention Held"),
-		"when": _asks_retention,
+		"when": _asks,
 		"run": _none,
-	},
-	"rua.advance_confirmed": {
-		"doctypes": ["Project"],
-		"label": _lt("It's an Advance"),
-		"when": _asks_advance,
-		"run": _advance,
-	},
-	"rua.settled": {
-		"doctypes": ["Project"],
-		"label": _lt("All Settled"),
-		"when": _open,
-		"run": _all,
 	},
 }
 
 NOTICES = {
-	"rua.settle": {
+	"rua.retention": {
 		"doctypes": ["Project"],
 		"said": said,
-		"verbs": ["rua.retention_held", "rua.no_retention", "rua.advance_confirmed", "rua.settled"],
+		"verbs": ["rua.retention_held", "rua.no_retention"],
 	}
 }
