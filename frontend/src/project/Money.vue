@@ -4,7 +4,7 @@
       <h2 class="me-auto flex items-center gap-2 text-lg font-semibold text-ink-gray-9">
         <span class="lucide-wallet size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Money") }}
       </h2>
-      <span v-if="cash.currency" class="text-sm text-ink-gray-5">{{ __("Amounts in {0}", [cash.currency]) }}</span>
+      <span v-if="cash.currency" class="text-sm text-ink-gray-5">{{ __("Amounts in {0}, before VAT", [cash.currency]) }}</span>
       <Button v-if="can('create', 'Stock Entry')" size="sm" icon-left="lucide-package-minus" :label="__('Issue Stock')" @click="issueStock" />
       <Button v-if="can('create', 'Expense Claim')" size="sm" icon-left="lucide-plus" :label="__('New Expense Claim')" @click="newDoc('Expense Claim', { project: said.name, company: said.company })" />
     </div>
