@@ -6,7 +6,7 @@
       </h2>
       <span v-if="cash.currency" class="text-sm text-ink-gray-5">{{ __("Amounts in {0}, before VAT", [cash.currency]) }}</span>
       <Button v-if="can('create', 'Stock Entry')" size="sm" icon-left="lucide-package-minus" :label="__('Issue Stock')" @click="issueStock" />
-      <Button v-if="can('create', 'Expense Claim')" size="sm" icon-left="lucide-plus" :label="__('New Expense Claim')" @click="newDoc('Expense Claim', { project: said.name, company: said.company })" />
+      <Button v-if="can('create', 'Expense Claim')" size="sm" icon-left="lucide-plus" :label="__('New Expense Claim')" @click="newDocIn('Expense Claim', { project: said.name, company: said.company }, parts)" />
     </div>
     <PlaceSpot :said="spot" class="mb-3" />
     <Section :title="soFarOnly ? __('So Far') : __('Forecast')" icon="lucide-trending-up">
@@ -75,11 +75,13 @@ import { computed, ref } from "vue";
 import { Button, Dialog, Progress } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
-import { Figures, Loading, PlaceSpot, Rows, Section, __, call, can, date, money, newDoc, onedesk, plain, requires } from "../kit";
+import { Figures, Loading, PlaceSpot, Rows, Section, __, call, can, date, money, newDocIn, onedesk, plain, requires } from "../kit";
+import { useParts } from "./only";
 import { usePlace } from "./place";
 
 const props = defineProps({ said: { type: Object, required: true } });
 const emit = defineEmits(["changed", "view"]);
+const parts = useParts();
 
 const cash = computed(() => props.said.money);
 const amount = (value) => money(value, cash.value.currency);

@@ -49,6 +49,30 @@ export function listen(event, heard) {
 
 export const newDoc = (doctype, values) => frappe().new_doc(doctype, values);
 
+export function newDocIn(doctype, values, projects) {
+	if (!projects || projects.length < 2) return newDoc(doctype, values);
+	const dialog = new (frappe().ui.Dialog)({
+		title: __("New {0}", [__(doctype)]),
+		fields: [
+			{
+				fieldtype: "Link",
+				fieldname: "project",
+				options: "Project",
+				label: __("Project"),
+				reqd: 1,
+				default: values.project,
+				get_query: () => ({ filters: { name: ["in", projects] } }),
+			},
+		],
+		primary_action_label: __("Continue"),
+		primary_action: ({ project }) => {
+			dialog.hide();
+			newDoc(doctype, { ...values, project });
+		},
+	});
+	dialog.show();
+}
+
 export const prompt = (fields, done, title, label) => frappe().prompt(fields, done, title, label);
 
 export const confirm = (message, yes) => frappe().confirm(message, yes);

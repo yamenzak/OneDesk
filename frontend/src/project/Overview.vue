@@ -134,15 +134,17 @@ import { computed, ref, watch } from "vue";
 import { Button } from "frappe-ui";
 import { BarChart, ChartCard, DonutChart, useChartTokens } from "frappe-ui/charts";
 
-import { Branded, Facts, Figures, PlaceSpot, Rows, Section, __, can, colors, count, date, go, hours, money, newDoc, onedesk, shortDate, useForm } from "../kit";
+import { Branded, Facts, Figures, PlaceSpot, Rows, Section, __, can, colors, count, date, go, hours, money, newDoc, newDocIn, onedesk, shortDate, useForm } from "../kit";
 import MilestoneLanes from "./MilestoneLanes.vue";
 import Milestones from "./Milestones.vue";
 import Months from "./Months.vue";
 import Updates from "./Updates.vue";
+import { useParts } from "./only";
 import { usePlace } from "./place";
 
 const props = defineProps({ said: { type: Object, required: true }, writing: Boolean });
 const emit = defineEmits(["changed", "view", "main"]);
+const parts = useParts();
 const DOTS = { red: "bg-surface-red-5", amber: "bg-surface-amber-5", orange: "bg-surface-amber-5", green: "bg-surface-green-5", blue: "bg-surface-blue-5", gray: "bg-surface-gray-5" };
 const act = (verb) => onedesk().head.act({ doctype: "Project", doc: { name: props.said.name }, reload_doc: () => emit("changed") }, verb);
 const view = computed(() => props.said.overview);
@@ -382,8 +384,8 @@ const quoting = computed(() => {
   const s = props.said;
   if (!s.customer || !can("create", "Quotation")) return null;
   if (s.kind === "Fixed Price" && !s.contract)
-    return { text: true, icon: "lucide-plus", label: __("New Quotation"), onClick: () => newDoc("Quotation", { project: s.name, quotation_to: "Customer", party_name: s.customer, payment_terms_template: s.payment_terms, tc_name: s.terms }) };
-  return { text: true, icon: "lucide-plus", label: __("Quote Extra Work"), onClick: () => newDoc("Quotation", { project: s.name, one_extra_work: 1, quotation_to: "Customer", party_name: s.customer }) };
+    return { text: true, icon: "lucide-plus", label: __("New Quotation"), onClick: () => newDocIn("Quotation", { project: s.name, quotation_to: "Customer", party_name: s.customer, payment_terms_template: s.payment_terms, tc_name: s.terms }, parts.value) };
+  return { text: true, icon: "lucide-plus", label: __("Quote Extra Work"), onClick: () => newDocIn("Quotation", { project: s.name, one_extra_work: 1, quotation_to: "Customer", party_name: s.customer }, parts.value) };
 });
 const quotes = computed(() =>
   (view.value.quotes || []).map((one) => ({

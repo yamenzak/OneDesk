@@ -678,6 +678,11 @@ counts towards the parent. Sub-projects can have sub-projects.
   billed and margin), and its **% Complete** measures every task under it.
   **Sub-projects** lists the ones directly under it. The **Contract** card
   says how much of it was ordered as extra work.
+- On **All Work**, a **New** button (invoice, bill, purchase order, material
+  request, expense claim, quotation) asks which project it's for first, the
+  main one filled in, as **New Task** does, so a variation's work isn't
+  booked on the main project by mistake. On **Main** or a sub-project it
+  goes straight to the form.
 - The **Contract** and **Billed** cards read with VAT, as the **Invoices**
   tab does: what the customer pays. **Money** works before VAT, since cost
   and margin have no VAT in them.

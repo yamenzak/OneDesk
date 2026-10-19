@@ -66,12 +66,13 @@ import { computed, onBeforeUnmount, ref, watch } from "vue";
 import { Avatar, Badge, Button, Dropdown } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
-import { Figures, Loading, PlaceSpot, __, call, date, emailRecord, followList, go, money, monthName, newDoc, onedesk, plain } from "../kit";
-import { onlyArg, useOnly } from "./only";
+import { Figures, Loading, PlaceSpot, __, call, date, emailRecord, followList, go, money, monthName, newDocIn, onedesk, plain } from "../kit";
+import { onlyArg, useOnly, useParts } from "./only";
 import { usePlace } from "./place";
 
 const props = defineProps({ projectName: { type: String, required: true }, projectTitle: String, kind: String, customer: String, currency: String });
 const only = useOnly();
+const parts = useParts();
 
 const STATUS = { Paid: "green", "Partly Paid": "blue", Unpaid: "amber", Overdue: "red", Draft: "red", Return: "gray", "Credit Note Issued": "gray" };
 const said = ref(null);
@@ -146,7 +147,7 @@ async function pay(item) {
 const send = (item) => emailRecord("Sales Invoice", item.name);
 const release = (invoice) => onedesk().project.release_retention({ project: props.projectName, doctype: "Sales Invoice", invoice });
 
-const newInvoice = () => newDoc("Sales Invoice", { customer: props.customer, project: props.projectName });
+const newInvoice = () => newDocIn("Sales Invoice", { customer: props.customer, project: props.projectName }, parts.value);
 const invoiceMonth = () =>
   onedesk().project.invoice_month({ doctype: "Project", doc: { name: props.projectName, project_name: props.projectTitle, customer: props.customer } });
 </script>

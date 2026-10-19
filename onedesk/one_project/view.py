@@ -112,6 +112,7 @@ def said(
 		else None,
 		"above": _above(doc.name),
 		"below": _below(doc.name),
+		"parts": [doc.name, *sorted(set(view["tree"]) - {doc.name})] if len(view["tree"]) > 1 else None,
 		"priority": doc.priority,
 		"progress_method": doc.percent_complete_method,
 		"project_type": doc.project_type,

@@ -7,7 +7,7 @@
       </h2>
       <span v-if="cash.currency" class="text-sm text-ink-gray-5">{{ __("Amounts in {0}", [cash.currency]) }}</span>
       <Button v-if="contacts?.can_change" size="sm" icon-left="lucide-plus" :label="__('Add Supplier')" @click="addSupplier" />
-      <Button v-if="cash.can_bill" size="sm" icon-left="lucide-receipt" :label="__('Record Bill')" @click="newDoc('Purchase Invoice', { project: said.name })" />
+      <Button v-if="cash.can_bill" size="sm" icon-left="lucide-receipt" :label="__('Record Bill')" @click="newDocIn('Purchase Invoice', { project: said.name }, parts)" />
       <Button v-if="cash.can_order" size="sm" variant="solid" icon-left="lucide-plus" :label="__('New Purchase Order')" @click="order" />
     </div>
     <PlaceSpot :said="spot" class="mt-3" />
@@ -121,7 +121,7 @@
           <span v-if="buying?.papers.length" class="text-base font-normal text-ink-gray-5">{{ buying.papers.length }}</span>
         </h2>
         <div class="ms-auto flex gap-2">
-          <Button v-if="buying?.can_request" size="sm" icon-left="lucide-plus" :label="__('New Material Request')" @click="newDoc('Material Request', { project: said.name, material_request_type: 'Purchase' })" />
+          <Button v-if="buying?.can_request" size="sm" icon-left="lucide-plus" :label="__('New Material Request')" @click="newDocIn('Material Request', { project: said.name, material_request_type: 'Purchase' }, parts)" />
           <Button v-if="buying?.can_ask" size="sm" icon-left="lucide-plus" :label="__('Ask for Prices')" @click="askPrices" />
         </div>
       </div>
@@ -159,12 +159,13 @@ import { computed, onBeforeUnmount, ref, watch } from "vue";
 import { Avatar, Badge, Button, Dropdown, Progress } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
-import { Figures, Loading, PlaceSpot, __, call, date, followList, go, money, newDoc, onedesk, plain, requires } from "../kit";
-import { onlyArg, useOnly } from "./only";
+import { Figures, Loading, PlaceSpot, __, call, date, followList, go, money, newDocIn, onedesk, plain, requires } from "../kit";
+import { onlyArg, useOnly, useParts } from "./only";
 import { usePlace } from "./place";
 
 const props = defineProps({ said: { type: Object, required: true } });
 const only = useOnly();
+const parts = useParts();
 
 const STATUS = { "On Hold": "amber", Closed: "gray", Completed: "green" };
 const cash = computed(() => props.said.money);
@@ -214,7 +215,7 @@ function facts(one) {
 }
 
 const bill = (one) => onedesk().progress.ask({ doctype: "Purchase Order", doc: { name: one.order } });
-const order = () => newDoc("Purchase Order", { project: props.said.name });
+const order = () => newDocIn("Purchase Order", { project: props.said.name }, parts.value);
 
 const BILL = { Paid: "green", "Partly Paid": "blue", Unpaid: "amber", Overdue: "red", Draft: "red", Return: "gray", "Debit Note Issued": "gray" };
 const bills = ref(null);

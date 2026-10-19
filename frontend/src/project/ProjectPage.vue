@@ -65,7 +65,7 @@ import Tasks from "./Tasks.vue";
 import Time from "./Time.vue";
 import Timeline from "./Timeline.vue";
 import { groupTasks, visible } from "./group";
-import { onlyArg, provideOnly } from "./only";
+import { onlyArg, provideOnly, provideParts } from "./only";
 import { usePlace } from "./place";
 import { useWork } from "./useWork";
 
@@ -90,6 +90,7 @@ const fileCount = ref(null);
 const opened = ref(null);
 const only = ref(props.query.only === "1");
 provideOnly(only);
+provideParts(computed(() => said.value?.parts || null));
 
 const { work, load: loadWork, set, add: addTask, give, take, find, count } = useWork(name, only);
 const record = useRecord("Project", name);
