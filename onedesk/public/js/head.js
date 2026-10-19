@@ -108,9 +108,12 @@ onedesk.head.act = (frm, verb) => {
 				frm.reload_doc();
 			});
 	if (!verb.fields.length) return go({});
+	const redraw = frappe.utils.debounce(() => onedesk.head.redraw(frm, verb, dialog), 250);
+	const placed = verb.fields.some((df) => df.fieldname === "one_live");
+	const fields = verb.live ? [...verb.fields.map((df) => ({ ...df, onchange: redraw })), ...(placed ? [] : [{ fieldname: "one_live", fieldtype: "HTML" }])] : verb.fields;
 	const dialog = new frappe.ui.Dialog({
 		title: verb.title,
-		fields: verb.fields,
+		fields,
 		primary_action_label: verb.action,
 		primary_action(values) {
 			dialog.disable_primary_action();
@@ -120,6 +123,20 @@ onedesk.head.act = (frm, verb) => {
 		},
 	});
 	dialog.show();
+	if (verb.live) redraw();
+};
+
+onedesk.head.redraw = async (frm, verb, dialog) => {
+	const said = await frappe.xcall("onedesk.one.head.foresee", { doctype: frm.doctype, name: frm.doc.name, verb: verb.verb, values: dialog.get_values(true) });
+	const $live = dialog.fields_dict.one_live.$wrapper.empty();
+	if (!said || !said.rows.length) return;
+	const esc = frappe.utils.escape_html;
+	const $table = $(`<table class="one-live"><thead><tr><th></th><th>${esc(__("Now"))}</th><th>${esc(__("After"))}</th></tr></thead><tbody></tbody></table>`);
+	for (const row of said.rows) {
+		$(`<tr class="${row.changed ? "one-live-changed" : ""}"><td>${esc(row.label)}</td><td>${esc(row.now)}</td><td>${esc(row.after)}</td></tr>`).appendTo($table.find("tbody"));
+	}
+	$live.append($table);
+	for (const line of said.lines || []) $("<p class=\"one-live-said\">").text(line).appendTo($live);
 };
 
 (() => {

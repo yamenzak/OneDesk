@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-19 18:17+0000\n"
+"POT-Creation-Date: 2026-10-19 18:51+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -534,6 +534,10 @@ msgstr "نسخة من {0}"
 msgid "A course given, who came and how they did."
 msgstr "دورة قُدّمت، ومن حضر وكيف كان أداؤه."
 
+#: private/rua/rua/settle.py:193
+msgid "A credit note takes {0} and its VAT off {1}, and a held invoice holds it: nothing to pay now."
+msgstr "إشعار دائن يخصم {0} وضريبتها من {1}، وفاتورة محتجزة تحتفظ بها: لا شيء يُدفع الآن."
+
 #: onedesk/one_book/heads.py:118
 msgid "A credit note to {0}."
 msgstr "إشعار دائن إلى {0}."
@@ -766,6 +770,10 @@ msgstr "تضم المجموعة أشخاصًا من مساحة العمل."
 #: onedesk/one_studio/record_types.py:171
 msgid "A group's name is 2 to 40 letters, numbers and spaces."
 msgstr "اسم المجموعة من 2 إلى 40 حرفًا ورقمًا ومسافة."
+
+#: private/rua/rua/settle.py:205
+msgid "A held invoice adds {0} of work on top: nothing to pay now and no VAT yet."
+msgstr "فاتورة محتجزة تضيف {0} من العمل فوق ذلك: لا شيء يُدفع الآن ولا ضريبة بعد."
 
 #. Description of the 'Household' (Check) field in DocType 'Intake Settings'
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
@@ -2747,7 +2755,7 @@ msgstr "إعلان"
 #. Label of the after (JSON) field in DocType 'Intake Action'
 #. Task in the Event project template
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
-#: onedesk/one_project/library/event.json
+#: onedesk/one_project/library/event.json onedesk/public/js/head.js:134
 msgid "After"
 msgstr "بعد"
 
@@ -5219,7 +5227,7 @@ msgstr ""
 msgid "Band"
 msgstr "الشريط"
 
-#: onedesk/one/head.py:146
+#: onedesk/one/head.py:150
 msgid "Band row {0}"
 msgstr "صف الشريط {0}"
 
@@ -5826,6 +5834,10 @@ msgstr "يُفوتر بالساعة بأسعار متفق عليها، إضاف�
 #: onedesk/one_book/heads.py:647
 msgid "Billed by {0}"
 msgstr "فواتير {0}"
+
+#: private/rua/rua/settle.py:176
+msgid "Billed for the Work"
+msgstr "المفوتر عن العمل"
 
 #: onedesk/one/print_blocks.py:705
 msgid "Billed to Date"
@@ -6868,11 +6880,11 @@ msgstr ""
 msgid "Chart of Accounts Importer"
 msgstr "استيراد دليل الحسابات"
 
-#: onedesk/one/head.py:184
+#: onedesk/one/head.py:188
 msgid "Chart {0}"
 msgstr "المخطط {0}"
 
-#: onedesk/one/head.py:187
+#: onedesk/one/head.py:191
 msgid "Chart {0} is {1}, which no module has."
 msgstr "المخطط {0} هو {1}، ولا تملكه أي وحدة."
 
@@ -7222,6 +7234,10 @@ msgstr "اختر البلد أولًا."
 #: onedesk/one/portal.py:891
 msgid "Choose the date you need it by, today or later."
 msgstr "اختر التاريخ الذي تحتاجه بحلوله، اليوم أو بعده."
+
+#: private/rua/rua/settle.py:127
+msgid "Choose the invoice the retention is in."
+msgstr "اختر الفاتورة التي تتضمن المحتجزات."
 
 #: onedesk/public/js/oneai/Panel.vue:193
 msgid "Choose the model"
@@ -8954,6 +8970,7 @@ msgstr "تجاوز حد الائتمان"
 #. Label in the One Sales Invoice with Images print format
 #. Label of a Sidebar Item
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
+#. Label of the credit_note (Link) field in DocType 'Retention Before One'
 #: onedesk/one/print_blocks.py:411 onedesk/one_book/home.py:307
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_journal_credit_note/one_journal_credit_note.json
@@ -8964,6 +8981,7 @@ msgstr "تجاوز حد الائتمان"
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_intake/doctype/reading/reading.json
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
 msgid "Credit Note"
 msgstr "إشعار دائن"
 
@@ -11445,7 +11463,7 @@ msgstr "المنجز حتى الآن"
 msgid "Done When"
 msgstr "يكتمل عندما"
 
-#: onedesk/one/head.py:513 onedesk/one_ai/suggest.py:77
+#: onedesk/one/head.py:524 onedesk/one_ai/suggest.py:77
 #: onedesk/one_inventory/heads.py:655
 msgid "Done."
 msgstr "تم."
@@ -11725,7 +11743,7 @@ msgstr "الاستحقاق"
 
 #. Label of the due_back (Date) field in DocType 'Retention Before One'
 #: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
-#: private/rua/rua/settle.py:54
+#: private/rua/rua/settle.py:115
 msgid "Due Back"
 msgstr "تاريخ الاسترداد"
 
@@ -17549,11 +17567,11 @@ msgstr "زيادة قيمة حقل"
 msgid "Indicator"
 msgstr ""
 
-#: onedesk/one/head.py:135
+#: onedesk/one/head.py:139
 msgid "Indicator {0}"
 msgstr "المؤشر {0}"
 
-#: onedesk/one/head.py:133
+#: onedesk/one/head.py:137
 msgid "Indicator {0} names the measure {1}, which no module has."
 msgstr "المؤشر {0} يسمّي المقياس {1}، ولا تملكه أي وحدة."
 
@@ -18115,6 +18133,10 @@ msgstr "جزء الفاتورة"
 msgid "Invoice Time"
 msgstr "فوترة الوقت"
 
+#: private/rua/rua/settle.py:89
+msgid "Invoice With the Retention In It"
+msgstr "الفاتورة التي تتضمن المحتجزات"
+
 #: onedesk/one_project/retention.py:337
 msgid "Invoice the retention from {0} before its tax falls due"
 msgstr "أصدر فاتورة المحتجزات لدى {0} قبل استحقاق ضريبتها"
@@ -18237,7 +18259,7 @@ msgstr "هل تسجيل الدخول هنا آمن بما يكفي؟"
 msgid "Is signing in to this workspace safe enough? Look at our rules and at how people sign in, and say what to change."
 msgstr "هل تسجيل الدخول إلى مساحة العمل هذه آمن بما يكفي؟ راجع قواعدنا وكيف يسجّل الناس الدخول، وقل ما الذي يجب تغييره."
 
-#: private/rua/rua/settle.py:28
+#: private/rua/rua/settle.py:33
 msgid "Is the client still holding retention on this project from invoices made outside One?"
 msgstr "هل ما زال العميل يحتجز محتجزات على هذا المشروع من فواتير صدرت خارج One؟"
 
@@ -23183,7 +23205,7 @@ msgstr "شهادة عدم ممانعة"
 msgid "No Order Yet"
 msgstr "لا طلب بعد"
 
-#: private/rua/rua/settle.py:108
+#: private/rua/rua/settle.py:263
 msgid "No Retention Held"
 msgstr "لا محتجزات"
 
@@ -23669,7 +23691,7 @@ msgstr "لا طلبات مطابقة"
 msgid "No results"
 msgstr "لا توجد نتائج"
 
-#: private/rua/rua/settle.py:90
+#: private/rua/rua/settle.py:244
 msgid "No retention held."
 msgstr "لا توجد محتجزات."
 
@@ -24342,7 +24364,7 @@ msgstr "ليس بعد"
 #: onedesk/public/js/tenant.js:52
 #: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
 #: private/rua/rua/rua/doctype/rua_import_note/rua_import_note.json
-#: private/rua/rua/settle.py:57
+#: private/rua/rua/settle.py:118
 msgid "Note"
 msgstr "ملاحظة"
 
@@ -24629,6 +24651,7 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_promotion_letter/one_promotion_letter.json
 #: onedesk/one_hr/print_format/one_staffing_plan/one_staffing_plan.json
 #: onedesk/one_hr/print_format/one_transfer_letter/one_transfer_letter.json
+#: onedesk/public/js/head.js:134
 msgid "Now"
 msgstr ""
 
@@ -25936,7 +25959,7 @@ msgstr "لا يُضاف إلى الوسائط المميزة إلا الصور �
 msgid "Only record types you can open."
 msgstr "أنواع السجلات التي يمكنك فتحها فقط."
 
-#: private/rua/rua/settle.py:35
+#: private/rua/rua/settle.py:40
 msgid "Only somebody in accounts answers this."
 msgstr "لا يجيب عن هذا إلا أحد من الحسابات."
 
@@ -27107,6 +27130,10 @@ msgstr "مستحق من"
 #: onedesk/one_hr/print_format/one_full_and_final_settlement/one_full_and_final_settlement.json
 msgid "Owed by Them"
 msgstr "مستحق عليه"
+
+#: private/rua/rua/settle.py:178
+msgid "Owed by the Client Now"
+msgstr "المستحق على العميل الآن"
 
 #. Label in the One Full and Final Settlement print format
 #: onedesk/one_hr/print_format/one_full_and_final_settlement/one_full_and_final_settlement.json
@@ -31098,7 +31125,7 @@ msgstr "تمت إعادة الاتصال"
 #: onedesk/public/js/settings.js:1302
 #: private/rua/rua/rua/doctype/rua_import_note/rua_import_note.json
 #: private/rua/rua/rua/doctype/rua_import_record/rua_import_record.json
-#: private/rua/rua/settle.py:101
+#: private/rua/rua/settle.py:255
 msgid "Record"
 msgstr "تسجيل"
 
@@ -31321,7 +31348,7 @@ msgid "Recycle Bin"
 msgstr "سلة المحذوفات"
 
 #. Label of the redraw_on (Small Text) field in DocType 'Record Head'
-#: onedesk/one/doctype/record_head/record_head.json onedesk/one/head.py:144
+#: onedesk/one/doctype/record_head/record_head.json onedesk/one/head.py:148
 msgid "Redraw On"
 msgstr "إعادة الرسم عند"
 
@@ -31580,6 +31607,10 @@ msgstr ""
 #: frontend/src/project/Invoices.vue:11 frontend/src/project/Invoices.vue:138
 msgid "Release Retention"
 msgstr "الإفراج عن المحتجزات"
+
+#: private/rua/rua/settle.py:207
+msgid "Release Retention bills it with its VAT when the client pays it back."
+msgstr "«الإفراج عن المحتجزات» يفوترها مع ضريبتها عندما يدفعها العميل."
 
 #. Option for the 'State' (Select) field in DocType 'Credit Reservation'
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
@@ -32498,7 +32529,8 @@ msgstr "موعد استحقاق المحتجز"
 #: onedesk/one_project/custom/sales_invoice_item.json
 #: onedesk/one_project/money.py:157 onedesk/one_project/view.py:652
 #: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
-#: private/rua/rua/settle.py:47 private/rua/rua/settle.py:100
+#: private/rua/rua/settle.py:107 private/rua/rua/settle.py:179
+#: private/rua/rua/settle.py:254
 msgid "Retention Held"
 msgstr "المحتجز القائم"
 
@@ -32516,7 +32548,7 @@ msgstr "محتجزات احتفظ بها عميل على فاتورة صدرت �
 msgid "Retention at Handover"
 msgstr "المحتجز عند التسليم"
 
-#: private/rua/rua/settle.py:27
+#: private/rua/rua/settle.py:32
 msgid "Retention from before One"
 msgstr "محتجزات من قبل One"
 
@@ -33299,8 +33331,8 @@ msgstr "جارٍ الحفظ…"
 msgid "Say hello in one short sentence."
 msgstr "ألقِ التحية في جملة قصيرة واحدة."
 
-#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.py:25
-#: private/rua/rua/settle.py:64
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.py:30
+#: private/rua/rua/settle.py:214
 msgid "Say how much retention the client holds, before VAT."
 msgstr "اذكر قيمة المحتجزات لدى العميل قبل ضريبة القيمة المضافة."
 
@@ -33779,11 +33811,11 @@ msgstr "أُرسل: {0}"
 msgid "Sentence"
 msgstr "الجملة"
 
-#: onedesk/one/head.py:137 onedesk/one/head.py:142
+#: onedesk/one/head.py:141 onedesk/one/head.py:146
 msgid "Sentence {0}"
 msgstr "الجملة {0}"
 
-#: onedesk/one/head.py:140
+#: onedesk/one/head.py:144
 msgid "Sentence {0} names the measure {1}, which no module has."
 msgstr "الجملة {0} تسمّي المقياس {1}، ولا تملكه أي وحدة."
 
@@ -37278,6 +37310,11 @@ msgstr "استرجع {0} وسجّل ذلك بزر الاسترجاع في صفح
 msgid "Taken"
 msgstr "مأخوذة"
 
+#. Label of the taken_from (Link) field in DocType 'Retention Before One'
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Taken From"
+msgstr "مخصومة من"
+
 #: onedesk/one_inventory/story.py:428
 msgid "Taken In"
 msgstr "مُستلم"
@@ -38101,6 +38138,10 @@ msgstr "الحقل"
 msgid "The Frappe Cloud root domain sites are created on, for example frappe.cloud."
 msgstr "النطاق الجذر في Frappe Cloud الذي تُنشأ عليه المواقع، مثل frappe.cloud."
 
+#: private/rua/rua/settle.py:81
+msgid "The Full Amount, Retention Included"
+msgstr "المبلغ الكامل، شاملاً المحتجزات"
+
 #: onedesk/one_intake/planning.py:392
 msgid "The IBAN isn't on file for {0}. Confirm it by phone before paying."
 msgstr "رقم IBAN غير مسجل لـ {0}. تأكد منه هاتفيًا قبل الدفع."
@@ -38114,6 +38155,10 @@ msgstr "معرّف الرسالة الأولى في محادثتها."
 #: onedesk/one_hr/print_format/one_job_offer/one_job_offer.json
 msgid "The Offer"
 msgstr "العرض"
+
+#: private/rua/rua/settle.py:78
+msgid "The Old App Has"
+msgstr "التطبيق القديم يحتوي على"
 
 #. Description of the 'Payer' (Data) field in DocType 'Workspace Account'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
@@ -38337,6 +38382,10 @@ msgstr "رقم الشيك أو التحويل. يُستخدم رقم الفات�
 #: onedesk/one_hr/heads.py:567
 msgid "The claim is closed and nothing is booked."
 msgstr "تُغلق المطالبة ولا يُسجَّل شيء."
+
+#: private/rua/rua/settle.py:199
+msgid "The client has then paid {0} more than they owe, held to their credit."
+msgstr "يكون العميل حينها قد دفع {0} أكثر مما عليه، تُحفظ لصالحه."
 
 #. Description of the 'Code Ends' (Data) field in DocType 'Private App Grant'
 #: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json
@@ -38703,6 +38752,12 @@ msgstr "رقم IBAN في الفاتورة غير مسجل لـ {0}."
 #: onedesk/one_book/notification/payment_reminder/payment_reminder.html:5
 msgid "The invoice is attached. If you have already paid it, please ignore this reminder."
 msgstr "الفاتورة مرفقة. إذا كنت قد دفعتها بالفعل، يرجى تجاهل هذا التذكير."
+
+#. Description of the 'Taken From' (Link) field in DocType 'Retention Before
+#. One'
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "The invoice the old app has for the full work, retention included, when it is one. The retention comes off it."
+msgstr "الفاتورة التي يحتويها التطبيق القديم عن العمل كاملاً شاملاً المحتجزات، إن وُجدت. تُخصم المحتجزات منها."
 
 #: onedesk/one_intake/planning.py:139
 msgid "The invoice this credits was not found."
@@ -40050,7 +40105,7 @@ msgstr "لا يمكن نقل هذا في التقويم."
 msgid "This can't be undone. Request a copy of your data first if you need one."
 msgstr "لا يمكن التراجع عن ذلك. اطلب نسخة من بياناتك أولًا إن احتجت إليها."
 
-#: onedesk/one/head.py:511
+#: onedesk/one/head.py:515
 msgid "This cannot be done to {0} now."
 msgstr "لا يمكن تنفيذ هذا على {0} الآن."
 
@@ -40094,7 +40149,7 @@ msgstr "هذا المجلد فارغ."
 msgid "This footer is custom HTML. Choosing a preset replaces it."
 msgstr "هذا التذييل بلغة HTML مخصصة. اختيار نمط جاهز يستبدله."
 
-#: onedesk/public/js/head.js:325 onedesk/public/js/shell.js:251
+#: onedesk/public/js/head.js:342 onedesk/public/js/shell.js:251
 msgid "This form has been modified after you have loaded it"
 msgstr "تم تعديل هذا النموذج بعد أن فتحته"
 
@@ -41545,7 +41600,7 @@ msgstr "إيقاف حسابك وإزالة اسمك وعنوانك من السج
 msgid "Turn off {0}'s portal access? They're signed out at once."
 msgstr "إيقاف وصول {0} إلى البوابة؟ سيتم تسجيل خروجه فوراً."
 
-#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.py:23
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.py:28
 msgid "Turn retention on in Projects Settings first."
 msgstr "فعّل المحتجزات في إعدادات المشاريع أولًا."
 
@@ -42477,6 +42532,10 @@ msgstr "ضريبة القيمة المضافة"
 msgid "VAT Audit Report"
 msgstr "تقرير تدقيق ضريبة القيمة المضافة"
 
+#: private/rua/rua/settle.py:177
+msgid "VAT Charged"
+msgstr "الضريبة المحتسبة"
+
 #. Option for the 'Kind' (Select) field in DocType 'Identifier'
 #. Label of the vat_id (Data) field in DocType 'Reading Party'
 #: onedesk/one_intake/doctype/identifier/identifier.json
@@ -42673,7 +42732,7 @@ msgstr ""
 msgid "Verb"
 msgstr "الإجراء"
 
-#: onedesk/one/head.py:179
+#: onedesk/one/head.py:183
 msgid "Verb {0} is {1}, which no module has."
 msgstr "الإجراء {0} هو {1}، ولا تملكه أي وحدة."
 
@@ -43306,6 +43365,10 @@ msgstr "ما يتذكّره OneAI عنك"
 msgid "What OneAI said when asked to explain it, per language."
 msgstr "ما قاله OneAI عندما طُلب منه شرحه، لكل لغة."
 
+#: private/rua/rua/settle.py:80
+msgid "What Was Billed After the Retention"
+msgstr "ما فُوتر بعد خصم المحتجزات"
+
 #. Label in the One Maintenance Record print format
 #. Label in the One Repair Record print format
 #: onedesk/one_inventory/print_format/one_maintenance_record/one_maintenance_record.json
@@ -43800,7 +43863,7 @@ msgstr "اسم المخطط، إن لم يكن اسمه الأصلي."
 #. Description of the 'Retention Held' (Currency) field in DocType 'Retention
 #. Before One'
 #: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
-#: private/rua/rua/settle.py:49
+#: private/rua/rua/settle.py:109
 msgid "What the client still holds, before VAT."
 msgstr "ما يحتفظ به العميل حتى الآن، قبل ضريبة القيمة المضافة."
 
@@ -45235,7 +45298,7 @@ msgstr "متى أجاب المدير آخر مرة."
 
 #. Description of the 'Due Back' (Date) field in DocType 'Retention Before One'
 #: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
-#: private/rua/rua/settle.py:55
+#: private/rua/rua/settle.py:116
 msgid "When the client is due to pay it back, if anybody knows."
 msgstr "متى يحين سداده من العميل، إن كان معروفًا."
 
@@ -47405,7 +47468,7 @@ msgstr "لا يمكنك مشاركة {0}."
 msgid "You cannot make a {0}, so you cannot put one back."
 msgstr "لا يمكنك إنشاء {0}، لذلك لا يمكنك استعادته."
 
-#: onedesk/one/head.py:247
+#: onedesk/one/head.py:251
 msgid "You cannot make a {0}."
 msgstr "لا يمكنك إنشاء {0}."
 
@@ -49536,7 +49599,7 @@ msgstr "تعذّر تسجيل {0}؛ كلٌّ منها يذكر السبب في �
 msgid "{0} couldn't be restored."
 msgstr "تعذّرت استعادة {0}."
 
-#: onedesk/one/head.py:163
+#: onedesk/one/head.py:167
 msgid "{0} counts nothing."
 msgstr "{0} لا يعدّ شيئًا."
 
@@ -49754,7 +49817,7 @@ msgstr "{0} من {1} إلى {2}."
 msgid "{0} gives you this for {1} a month, {2} less."
 msgstr "{0} يمنحك هذا مقابل {1} شهريًا، أقل بـ {2}."
 
-#: onedesk/one/head.py:156 onedesk/one/linked.py:127
+#: onedesk/one/head.py:160 onedesk/one/linked.py:127
 msgid "{0} goes through {1}, which is not a link."
 msgstr "{0} يمر عبر {1}، وهو ليس رابطًا."
 
@@ -49809,7 +49872,7 @@ msgstr "طالبت {0} بالفعل بـ {1}."
 msgid "{0} has already joined. Send a password reset instead."
 msgstr "انضم {0} بالفعل. أرسل إعادة تعيين كلمة المرور بدلًا من ذلك."
 
-#: private/rua/rua/settle.py:38
+#: private/rua/rua/settle.py:43
 msgid "{0} has been answered already."
 msgstr "تمت الإجابة عن {0} من قبل."
 
@@ -49842,7 +49905,7 @@ msgstr "لا يوجد في {0} وقت قابل للفوترة لم يُفوتر 
 msgid "{0} has no custom field called {1}."
 msgstr "لا يحتوي {0} على حقل مخصص باسم {1}."
 
-#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.py:28
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.py:33
 msgid "{0} has no customer to hold the retention."
 msgstr "{0} ليس له عميل يحتفظ بالمحتجزات."
 
@@ -49903,7 +49966,7 @@ msgstr "لم يُدفع {0}."
 msgid "{0} held"
 msgstr "{0} بحوزته"
 
-#: private/rua/rua/settle.py:82
+#: private/rua/rua/settle.py:236
 msgid "{0} held as retention, owed until it is released."
 msgstr "{0} محتجزة، مستحقة حتى يُفرج عنها."
 
@@ -50125,6 +50188,10 @@ msgstr "أُنجز {0}"
 msgid "{0} is filling up"
 msgstr "{0} يمتلئ"
 
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.py:46
+msgid "{0} is for less than the retention, before VAT."
+msgstr "{0} أقل من المحتجزات، قبل الضريبة."
+
 #: onedesk/one_storage/api.py:215
 msgid "{0} is in someone else's files. Copy it instead."
 msgstr "{0} ضمن ملفات شخص آخر. انسخه بدلًا من ذلك."
@@ -50173,7 +50240,7 @@ msgstr "{0} أكثر من المتبقي {1}."
 msgid "{0} is not a capability any model carries."
 msgstr "{0} ليست قدرة يحملها أي نموذج."
 
-#: onedesk/one/head.py:189
+#: onedesk/one/head.py:193
 msgid "{0} is not a chart of {1}."
 msgstr "{0} ليس مخططًا لـ {1}."
 
@@ -50229,7 +50296,7 @@ msgstr "{0} ليس مكتبة."
 msgid "{0} is not a link field and one of its fields, such as customer.customer_group"
 msgstr "{0} ليس حقل ربط وأحد حقوله، مثل customer.customer_group"
 
-#: onedesk/one/head.py:124
+#: onedesk/one/head.py:128
 msgid "{0} is not a list of filters."
 msgstr "{0} ليس قائمة مرشحات."
 
@@ -50309,6 +50376,10 @@ msgstr "{0} ليس تطبيقًا يمكن أن تنتمي إليه مجموعة
 msgid "{0} is not an enabled user of this workspace."
 msgstr "{0} ليس مستخدمًا مفعّلًا في مساحة العمل هذه."
 
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.py:43
+msgid "{0} is not an invoice to {1} on this project."
+msgstr "{0} ليست فاتورة إلى {1} على هذا المشروع."
+
 #: onedesk/one/customize.py:414
 msgid "{0} is not another form here."
 msgstr "{0} ليس نموذجًا آخر هنا."
@@ -50341,7 +50412,7 @@ msgstr "لا تُحدَّد طريقة تسمية {0} في مساحة العمل
 msgid "{0} is not numbered by a series."
 msgstr "لا يُرقَّم {0} بسلسلة."
 
-#: onedesk/one/head.py:508
+#: onedesk/one/head.py:512
 msgid "{0} is not offered here."
 msgstr "{0} غير متاح هنا."
 
@@ -50373,7 +50444,7 @@ msgstr "لا يُطبع {0} بتنسيقات تحددها مساحة العمل 
 msgid "{0} is not set against an invoice yet."
 msgstr "لم يُخصص {0} لأي فاتورة بعد."
 
-#: onedesk/one/head.py:181
+#: onedesk/one/head.py:185
 msgid "{0} is not something done to {1}."
 msgstr "{0} ليس مما يُنفذ على {1}."
 
@@ -50603,11 +50674,11 @@ msgstr "نُقل {0} من {1} إلى {2}."
 msgid "{0} must be kept by law until {1}."
 msgstr "يجب الاحتفاظ بـ {0} قانونًا حتى {1}."
 
-#: onedesk/one/head.py:173
+#: onedesk/one/head.py:177
 msgid "{0} names the measure {1}, which no module has."
 msgstr "{0} يذكر المقياس {1}، ولا تملكه أي وحدة."
 
-#: onedesk/one/head.py:117 onedesk/one/head.py:159 onedesk/one/linked.py:130
+#: onedesk/one/head.py:121 onedesk/one/head.py:163 onedesk/one/linked.py:130
 #: onedesk/one/linked.py:141
 msgid "{0} names {1}, which {2} does not have."
 msgstr "{0} يذكر {1}، وهو غير موجود في {2}."
@@ -51113,11 +51184,15 @@ msgstr "{0} مشاريع فرعية"
 msgid "{0} submitted"
 msgstr "تم إرسال {0}"
 
-#: onedesk/one/head.py:170
+#: onedesk/one/head.py:174
 msgid "{0} sums {1}, which {2} does not have."
 msgstr "{0} يجمع {1}، وهو غير موجود في {2}."
 
-#: onedesk/one/head.py:150
+#: private/rua/rua/settle.py:233
+msgid "{0} taken off {1} and held as retention, owed until it is released."
+msgstr "خُصم {0} من {1} واحتُجز كمحتجزات، مستحقاً حتى الإفراج عنه."
+
+#: onedesk/one/head.py:154
 msgid "{0} takes its value from nowhere."
 msgstr "{0} لا يأخذ قيمته من أي مصدر."
 
@@ -51318,7 +51393,7 @@ msgstr "{0} {1} من {2} {3}"
 msgid "{0} {1} was changed by somebody else after you opened this. Refresh to see it; nothing was saved."
 msgstr "غيّر شخص آخر {0} {1} بعد أن فتحت هذا. حدّث الصفحة لتراه؛ لم يُحفظ شيء."
 
-#: onedesk/public/js/head.js:310
+#: onedesk/public/js/head.js:327
 msgid "{0} {1} was changed by someone else. Refresh to see the latest."
 msgstr "غيّر شخص آخر {0} {1}. حدّث الصفحة لرؤية الأحدث."
 

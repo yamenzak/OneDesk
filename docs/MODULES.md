@@ -233,6 +233,7 @@ No doctypes yet.
 * `onedesk.one.devices.retire`
 * `onedesk.one.devices.retire_passkey`
 * `onedesk.one.devices.save`
+* `onedesk.one.head.foresee`
 * `onedesk.one.head.offer`
 * `onedesk.one.head.preview`
 * `onedesk.one.head.run`

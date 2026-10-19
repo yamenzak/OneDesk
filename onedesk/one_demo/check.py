@@ -5272,7 +5272,8 @@ def a_form_is_customized_and_a_record_head_acts():
 	"""Layla opens Customize on deals, saves it as it is, and a save from a
 	page opened before somebody else's is refused; she exports what the
 	workspace changed and resets it. Huda records a payment from an
-	invoice's head, which settles it, and a head reads a record not yet saved
+	invoice's head, which settles it, its dialog foreseeing nothing because
+Record Payment changes nothing it has to show, and a head reads a record not yet saved
 	as the form has it. A link to a project reads as its title for Samir
 	and as its name for somebody who may not open it. The automation step
 	editor lists what a flow may do."""
@@ -5297,6 +5298,7 @@ def a_form_is_customized_and_a_record_head_acts():
 		verb = head.offer("Sales Invoice", invoice.name, "invoice.record_payment")
 		assert verb, "no Record Payment on an unpaid invoice"
 		values = {one["fieldname"]: one.get("default") for one in verb["fields"] if one.get("default") is not None}
+		assert head.foresee("Sales Invoice", invoice.name, "invoice.record_payment", values) is None
 		head.run("Sales Invoice", invoice.name, "invoice.record_payment", values)
 		assert frappe.db.get_value("Sales Invoice", invoice.name, "outstanding_amount") == 0
 	with as_user(OWNER):

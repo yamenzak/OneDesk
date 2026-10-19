@@ -11,9 +11,11 @@
   "column_break_1",
   "amount",
   "due_back",
+  "taken_from",
   "section_note",
   "note",
   "sales_invoice",
+  "credit_note",
   "amended_from"
  ],
  "fields": [
@@ -63,6 +65,14 @@
    "description": "When the client is due to pay it back, if anybody knows."
   },
   {
+   "fieldname": "taken_from",
+   "fieldtype": "Link",
+   "label": "Taken From",
+   "options": "Sales Invoice",
+   "description": "The invoice the old app has for the full work, retention included, when it is one. The retention comes off it.",
+   "set_only_once": 1
+  },
+  {
    "fieldname": "section_note",
    "fieldtype": "Section Break",
    "label": ""
@@ -82,6 +92,14 @@
    "no_copy": 1
   },
   {
+   "fieldname": "credit_note",
+   "fieldtype": "Link",
+   "label": "Credit Note",
+   "options": "Sales Invoice",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
    "fieldname": "amended_from",
    "fieldtype": "Link",
    "label": "Amended From",
@@ -93,7 +111,7 @@
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2026-10-19 12:00:00.000000",
+ "modified": "2026-10-19 19:00:00.000000",
  "modified_by": "Administrator",
  "module": "Rua",
  "name": "Retention Before One",

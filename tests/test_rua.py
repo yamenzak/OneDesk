@@ -164,3 +164,22 @@ def test_a_payment_entered_again_on_another_part_of_the_job_is_a_copy():
 		top,
 	)
 	assert found == {"R3": "R1", "R4": "R5", "R6": "R7"}, "the copy goes, the one linked to an invoice stays"
+
+
+def _figures():
+	space = {"flt": flt}
+	for node in ast.parse((RUA / "settle.py").read_text()).body:
+		if isinstance(node, ast.FunctionDef) and node.name == "figures":
+			exec(ast.unparse(node), space)
+	return space["figures"]
+
+
+def test_retention_kept_off_what_was_typed_in_is_added_on_top():
+	found = {name: (now, after) for name, now, after in _figures()(1000, 50, 0, 0, 100)}
+	assert found == {"billed": (1000, 1100), "vat": (50, 50), "owed": (0, 0), "held": (0, 100)}
+
+
+def test_retention_inside_an_invoice_comes_off_it_with_its_vat():
+	taken = {"net_total": 1000, "total_taxes_and_charges": 50}
+	found = {name: (now, after) for name, now, after in _figures()(1000, 50, 0, 0, 100, taken)}
+	assert found == {"billed": (1000, 1000), "vat": (50, 45), "owed": (0, -105), "held": (0, 100)}

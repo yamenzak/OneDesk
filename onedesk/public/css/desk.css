@@ -924,6 +924,50 @@ a.one-chart-head:hover .one-stat-label {
 	font-size: inherit;
 }
 
+.one-live {
+	width: 100%;
+	margin-top: var(--margin-sm);
+	font-size: var(--text-sm);
+	font-variant-numeric: tabular-nums;
+}
+
+.one-live th {
+	color: var(--ink-gray-5);
+	font-weight: 400;
+	text-align: right;
+	padding: 4px 0 4px 12px;
+}
+
+.one-live td {
+	color: var(--ink-gray-6);
+	padding: 4px 0 4px 12px;
+	text-align: right;
+	border-top: 1px solid var(--outline-gray-1);
+}
+
+.one-live td:first-child {
+	text-align: left;
+	padding-left: 0;
+}
+
+.one-live-changed td {
+	color: var(--ink-gray-9);
+}
+
+.one-live-changed td:last-child {
+	font-weight: 600;
+}
+
+.frappe-control[data-fieldname="one_live"]:not(:empty) {
+	margin-bottom: var(--margin-lg);
+}
+
+.one-live-said {
+	margin: var(--margin-sm) 0 0;
+	color: var(--ink-gray-6);
+	font-size: var(--text-sm);
+}
+
 .one-calendar-said {
 	color: var(--ink-gray-5);
 }

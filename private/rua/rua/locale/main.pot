@@ -7,14 +7,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Rua VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-19 18:17+0000\n"
-"PO-Revision-Date: 2026-10-19 18:17+0000\n"
+"POT-Creation-Date: 2026-10-19 18:51+0000\n"
+"PO-Revision-Date: 2026-10-19 18:51+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
+
+#: rua/settle.py:193
+msgid "A credit note takes {0} and its VAT off {1}, and a held invoice holds it: nothing to pay now."
+msgstr ""
+
+#: rua/settle.py:205
+msgid "A held invoice adds {0} of work on top: nothing to pay now and no VAT yet."
+msgstr ""
 
 #. Name of a role
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
@@ -60,6 +68,10 @@ msgstr ""
 msgid "Bill From Order"
 msgstr ""
 
+#: rua/settle.py:176
+msgid "Billed for the Work"
+msgstr ""
+
 #. Label of the subject (Data) field in DocType 'Rua Import Check'
 #: rua/rua/doctype/rua_import_check/rua_import_check.json
 msgid "Check"
@@ -71,9 +83,18 @@ msgstr ""
 msgid "Checks"
 msgstr ""
 
+#: rua/settle.py:127
+msgid "Choose the invoice the retention is in."
+msgstr ""
+
 #. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
 msgid "Contract Counted Twice"
+msgstr ""
+
+#. Label of the credit_note (Link) field in DocType 'Retention Before One'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Credit Note"
 msgstr ""
 
 #. Label of the customer (Link) field in DocType 'Retention Before One'
@@ -98,7 +119,7 @@ msgstr ""
 
 #. Label of the due_back (Date) field in DocType 'Retention Before One'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
-#: rua/settle.py:54
+#: rua/settle.py:115
 msgid "Due Back"
 msgstr ""
 
@@ -148,7 +169,11 @@ msgstr ""
 msgid "Held"
 msgstr ""
 
-#: rua/settle.py:28
+#: rua/settle.py:89
+msgid "Invoice With the Retention In It"
+msgstr ""
+
+#: rua/settle.py:33
 msgid "Is the client still holding retention on this project from invoices made outside One?"
 msgstr ""
 
@@ -167,11 +192,11 @@ msgstr ""
 msgid "No Invoice"
 msgstr ""
 
-#: rua/settle.py:108
+#: rua/settle.py:263
 msgid "No Retention Held"
 msgstr ""
 
-#: rua/settle.py:90
+#: rua/settle.py:244
 msgid "No retention held."
 msgstr ""
 
@@ -188,7 +213,7 @@ msgstr ""
 #. Label of the note (Small Text) field in DocType 'Retention Before One'
 #. Label of the note (Small Text) field in DocType 'Rua Import Note'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
-#: rua/rua/doctype/rua_import_note/rua_import_note.json rua/settle.py:57
+#: rua/rua/doctype/rua_import_note/rua_import_note.json rua/settle.py:118
 msgid "Note"
 msgstr ""
 
@@ -217,8 +242,12 @@ msgstr ""
 msgid "One"
 msgstr ""
 
-#: rua/settle.py:35
+#: rua/settle.py:40
 msgid "Only somebody in accounts answers this."
+msgstr ""
+
+#: rua/settle.py:178
+msgid "Owed by the Client Now"
 msgstr ""
 
 #. Label of the project (Link) field in DocType 'Retention Before One'
@@ -249,7 +278,7 @@ msgstr ""
 #. Note'
 #. Label of the target_name (Dynamic Link) field in DocType 'Rua Import Record'
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
-#: rua/rua/doctype/rua_import_record/rua_import_record.json rua/settle.py:101
+#: rua/rua/doctype/rua_import_record/rua_import_record.json rua/settle.py:255
 msgid "Record"
 msgstr ""
 
@@ -258,6 +287,10 @@ msgstr ""
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
 #: rua/rua/doctype/rua_import_record/rua_import_record.json
 msgid "Record Type"
+msgstr ""
+
+#: rua/settle.py:207
+msgid "Release Retention bills it with its VAT when the client pays it back."
 msgstr ""
 
 #. Label of the result (Select) field in DocType 'Rua Import Check'
@@ -281,7 +314,7 @@ msgstr ""
 
 #. Label of the amount (Currency) field in DocType 'Retention Before One'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
-#: rua/settle.py:47 rua/settle.py:100
+#: rua/settle.py:107 rua/settle.py:179 rua/settle.py:254
 msgid "Retention Held"
 msgstr ""
 
@@ -290,7 +323,7 @@ msgstr ""
 msgid "Retention a client held on an invoice made before One, owed until it is released."
 msgstr ""
 
-#: rua/settle.py:27
+#: rua/settle.py:32
 msgid "Retention from before One"
 msgstr ""
 
@@ -332,8 +365,8 @@ msgstr ""
 msgid "Sales Invoice"
 msgstr ""
 
-#: rua/rua/doctype/retention_before_one/retention_before_one.py:25
-#: rua/settle.py:64
+#: rua/rua/doctype/retention_before_one/retention_before_one.py:30
+#: rua/settle.py:214
 msgid "Say how much retention the client holds, before VAT."
 msgstr ""
 
@@ -362,6 +395,29 @@ msgstr ""
 msgid "System Manager"
 msgstr ""
 
+#. Label of the taken_from (Link) field in DocType 'Retention Before One'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Taken From"
+msgstr ""
+
+#: rua/settle.py:81
+msgid "The Full Amount, Retention Included"
+msgstr ""
+
+#: rua/settle.py:78
+msgid "The Old App Has"
+msgstr ""
+
+#: rua/settle.py:199
+msgid "The client has then paid {0} more than they owe, held to their credit."
+msgstr ""
+
+#. Description of the 'Taken From' (Link) field in DocType 'Retention Before
+#. One'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "The invoice the old app has for the full work, retention included, when it is one. The retention comes off it."
+msgstr ""
+
 #. Description of a DocType
 #: rua/rua/doctype/rua_import/rua_import.json
 msgid "The old Rua app brought over, and checked against the books."
@@ -377,20 +433,28 @@ msgstr ""
 msgid "To Check"
 msgstr ""
 
-#: rua/rua/doctype/retention_before_one/retention_before_one.py:23
+#: rua/rua/doctype/retention_before_one/retention_before_one.py:28
 msgid "Turn retention on in Projects Settings first."
+msgstr ""
+
+#: rua/settle.py:177
+msgid "VAT Charged"
+msgstr ""
+
+#: rua/settle.py:80
+msgid "What Was Billed After the Retention"
 msgstr ""
 
 #. Description of the 'Retention Held' (Currency) field in DocType 'Retention
 #. Before One'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
-#: rua/settle.py:49
+#: rua/settle.py:109
 msgid "What the client still holds, before VAT."
 msgstr ""
 
 #. Description of the 'Due Back' (Date) field in DocType 'Retention Before One'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
-#: rua/settle.py:55
+#: rua/settle.py:116
 msgid "When the client is due to pay it back, if anybody knows."
 msgstr ""
 
@@ -410,15 +474,27 @@ msgstr ""
 msgid "Why"
 msgstr ""
 
-#: rua/settle.py:38
+#: rua/settle.py:43
 msgid "{0} has been answered already."
 msgstr ""
 
-#: rua/rua/doctype/retention_before_one/retention_before_one.py:28
+#: rua/rua/doctype/retention_before_one/retention_before_one.py:33
 msgid "{0} has no customer to hold the retention."
 msgstr ""
 
-#: rua/settle.py:82
+#: rua/settle.py:236
 msgid "{0} held as retention, owed until it is released."
+msgstr ""
+
+#: rua/rua/doctype/retention_before_one/retention_before_one.py:46
+msgid "{0} is for less than the retention, before VAT."
+msgstr ""
+
+#: rua/rua/doctype/retention_before_one/retention_before_one.py:43
+msgid "{0} is not an invoice to {1} on this project."
+msgstr ""
+
+#: rua/settle.py:233
+msgid "{0} taken off {1} and held as retention, owed until it is released."
 msgstr ""
 

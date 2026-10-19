@@ -38,7 +38,9 @@ In the order the importer runs (`rua/importer/__init__.py`, `STEPS`).
 
 Whether a client still holds retention from invoices made outside the old
 app becomes a Retention Check on each project that billed or was paid,
-answered from the project's Overview (`settle`).
+answered from the project's Overview (`settle`): a held invoice on top of
+what the old app has, or, where its invoice was for the full amount, taken
+off that invoice by a credit note.
 
 Numbers carry on: each record type offers Rua's old series first and the
 counters start after the highest number brought over (`numbers`).

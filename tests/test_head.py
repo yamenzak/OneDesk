@@ -182,8 +182,10 @@ def test_the_head_is_worked_out_on_the_server_and_drawn_once():
 	assert '"/assets/onedesk/js/head.js"' in HOOKS
 	source = HEAD.read_text(encoding="utf-8")
 	assert '@frappe.whitelist(methods=["POST"])\ndef run(' in source
-	body = source.split("def run(", 1)[1]
-	assert 'found["when"](doc)' in body and "check_permission" in body
+	checks = source.split("def _doable(", 1)[1].split("\ndef ", 1)[0]
+	assert 'found["when"](doc)' in checks and "check_permission" in checks
+	for name in ("run", "foresee"):
+		assert "_doable(doctype, name, verb)" in source.split(f"def {name}(", 1)[1].split("\ndef ", 1)[0], name
 	assert re.search(r"frappe\.get_list\(\s*row\.of_doctype", source) and not re.search(
 		r"frappe\.get_all\(\s*row\.of_doctype", source
 	)

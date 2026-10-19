@@ -37,7 +37,11 @@ def measures() -> dict:
 def verbs() -> dict:
 	"""Every verb, by name: `doctypes`, `label`, `when`, `fields`, `title`,
 	`action`, `group` and `run`. `label`, `title` and `group` may be
-	functions of the record."""
+	functions of the record. `live`, a function of the record and the
+	dialog's values answering {"rows": [{"label", "now", "after",
+	"changed"}], "lines"}, is what doing it would change, redrawn under the
+	fields as they are typed, or where `fields` puts an HTML field named
+	`one_live`."""
 	return _merged("one_verbs")
 
 
@@ -431,6 +435,7 @@ def _verb(doc, row) -> dict | None:
 		"title": cstr(_said_of(verb.get("title"), doc) or label),
 		"action": cstr(_said_of(verb.get("action"), doc) or label),
 		"fields": verb["fields"](doc) if verb.get("fields") else [],
+		"live": bool(verb.get("live")),
 		"group": cstr(_said_of(verb.get("group"), doc)) or None,
 	}
 
@@ -448,6 +453,7 @@ def _offered(doc, name: str) -> dict | None:
 		"title": cstr(_said_of(verb.get("title"), doc) or label),
 		"action": cstr(_said_of(verb.get("action"), doc) or label),
 		"fields": verb["fields"](doc) if verb.get("fields") else [],
+		"live": bool(verb.get("live")),
 	}
 
 
@@ -497,9 +503,7 @@ def offer(doctype: str, name: str, verb: str) -> dict | None:
 	return _verb(doc, row) if row else None
 
 
-@frappe.whitelist(methods=["POST"])
-def run(doctype: str, name: str, verb: str, values: dict | str | None = None) -> str:
-	"""Do a verb the record's head offers, if it still can be done."""
+def _doable(doctype: str, name: str, verb: str):
 	doc = frappe.get_doc(doctype, name)
 	doc.check_permission("read")
 	if doctype not in headed() or verb not in {
@@ -509,8 +513,26 @@ def run(doctype: str, name: str, verb: str, values: dict | str | None = None) ->
 	found = verbs().get(verb)
 	if not found or not found["when"](doc):
 		frappe.throw(_("This cannot be done to {0} now.").format(name))
+	return doc, found
+
+
+@frappe.whitelist(methods=["POST"])
+def run(doctype: str, name: str, verb: str, values: dict | str | None = None) -> str:
+	"""Do a verb the record's head offers, if it still can be done."""
+	doc, found = _doable(doctype, name, verb)
 	values = frappe.parse_json(values) or {}
 	return found["run"](doc, **values) or _("Done.")
+
+
+@frappe.whitelist(methods=["POST"])
+@frappe.read_only()
+def foresee(doctype: str, name: str, verb: str, values: dict | str | None = None) -> dict | None:
+	"""What doing a verb with these values would change, for its dialog to
+	show as they are typed. Nothing is saved."""
+	doc, found = _doable(doctype, name, verb)
+	if not found.get("live"):
+		return None
+	return found["live"](doc, **(frappe.parse_json(values) or {}))
 
 
 TABLES = ("indicators", "sentences", "band", "verbs", "charts", "linked")

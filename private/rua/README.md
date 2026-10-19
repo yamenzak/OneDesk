@@ -79,12 +79,23 @@ releases it.
 held retention on invoices made in Excel and typed only the amounts after
 it into the old app, so nothing the import reads says what a client still
 holds. Each project that billed or was paid gets a **Retention Check**, and
-its Overview asks once: **Retention Held** (how much and when it is due
-back, booked as the invoice One would have made: the work all held,
-nothing billed now, no VAT, the retention in Retention Receivable until
-Release Retention bills it with its VAT) or **No Retention Held**. Answered,
-the project says nothing; the Retention Check list in Rua's sidebar is what
-is left to ask.
+its Overview asks once: **Retention Held** or **No Retention Held**.
+Answered, the project says nothing; the Retention Check list in Rua's
+sidebar is what is left to ask.
+
+Retention Held asks how much, when it is due back, and what the old app has,
+because Rua typed it both ways. Where it has **what was billed after the
+retention**, the held work goes on top: the invoice One would have made, the
+work all held, nothing billed now, no VAT, the retention in Retention
+Receivable until Release Retention bills it with its VAT. Where it has **the
+full amount, retention included**, the retention comes off the invoice it was
+in: a credit note for it and its VAT, and the same held invoice, so the work
+is billed once and its VAT moves to the release. Nearly every old invoice is
+paid in full once the receipts are matched, so that leaves the client paid
+ahead by the retention and its VAT. The dialog shows the project's work
+billed, VAT, what the client owes and the retention held, now and after, as
+it is typed, so whoever answers sees which reading matches what the client
+actually paid.
 
 **Payroll has no history.** Pay starts with One's first payroll run, from
 the month the import runs in. The roll-call does come over, so that month's
