@@ -606,6 +606,12 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		);
 	}
 
+	static read_switch(on) {
+		return `<span class="switch-control one-read-switch" aria-hidden="true"><span class="input-area"><input type="checkbox" tabindex="-1" ${
+			on ? "checked" : ""
+		}></span><span class="switch-visual"><span class="switch-thumb"></span></span></span>`;
+	}
+
 	static session_columns(last = null) {
 		const esc = frappe.utils.escape_html;
 		return [
@@ -2779,6 +2785,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				columns: [
 					{ label: __("Mailbox"), fieldname: "email" },
 					{ label: __("Read by OneAI"), render: (one) => esc(reading(one)) },
+					{ label: "", render: (one) => Settings.read_switch(one.on) },
 				],
 				open: (one) => this.switch_mailbox(one),
 			});
@@ -2789,6 +2796,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				columns: [
 					{ label: __("Folder"), render: (one) => esc(one.path.replace(/^Home\//, "")) },
 					{ label: __("Read by OneAI"), render: (one) => esc(reading({ on: true, for: one.for })) },
+					{ label: "", render: () => Settings.read_switch(true) },
 				],
 				open: (one) => this.stop_folder(one),
 			});
@@ -2848,7 +2856,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 
 	draw_intake_sources(data) {
 		const esc = frappe.utils.escape_html;
-		const reading = (on) => frappe.ui.badge.html({ label: on ? __("Reading") : __("Off"), theme: on ? "green" : "gray" });
 		const marks = data.marks || {};
 		onedesk.shell.table(this.$content.find('[data-list="mailboxes"]'), {
 			title: __("Mailboxes"),
@@ -2859,7 +2866,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			empty: __("No mailboxes"),
 			columns: [
 				{ label: __("Mailbox"), fieldname: "email" },
-				{ label: __("Read by OneAI"), render: (one) => reading(one.on) },
+				{ label: __("Read by OneAI"), render: (one) => Settings.read_switch(one.on) },
 				{ label: __("On Behalf Of"), render: (one) => esc(one.for || "") },
 			],
 			open: (one) => this.switch_mailbox(one),

@@ -598,3 +598,8 @@
 	font-size: var(--text-base);
 	align-items: center;
 }
+
+.one-read-switch {
+	display: inline-flex;
+	pointer-events: none;
+}
