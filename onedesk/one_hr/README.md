@@ -56,7 +56,8 @@ have. Each answer links to the record it came from.
 
 **Identity Documents** — passport, national ID, residence permit, work permit,
 visa, driving licence — each with its number, issue and expiry dates and a
-scan.
+scan. A workspace with a company in the UAE also has Emirates ID, Labour
+Card, Health Insurance and Medical Fitness.
 
 **Attendance Standing** is a score out of 100, worked out every night from the
 last 90 days of check-ins. It never refuses anybody; it decides whose check-ins
@@ -1483,6 +1484,14 @@ the person appears.
 Derived from the site rather than shipped as a fixture, for the same reason
 `one/company.py` is: the set of doctypes depends on which apps the site
 carries, and only the site knows that.
+
+### papers.py
+
+Kinds of identity document that belong to a country (`BY_COUNTRY`), added
+as Identification Document Types where a company is in it
+(`countries.ours`): on install and migrate, and when a company is saved.
+Never taken away, since papers may point at them. The rest are the fixture
+every workspace gets.
 
 ### lates.py
 

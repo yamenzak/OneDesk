@@ -27,6 +27,7 @@ after_sync = [
 	"onedesk.one_hr.names.hide",
 	"onedesk.one_hr.money.hide",
 	"onedesk.one_hr.policy.seed",
+	"onedesk.one_hr.papers.settle",
 	"onedesk.one_hr.leave.encashable",
 	"onedesk.one_hr.accounts.ready",
 	"onedesk.one_hr.accounts.components",
@@ -86,6 +87,7 @@ after_migrate = [
 	"onedesk.one_hr.names.hide",
 	"onedesk.one_hr.money.hide",
 	"onedesk.one_hr.policy.seed",
+	"onedesk.one_hr.papers.settle",
 	"onedesk.one_hr.leave.encashable",
 	"onedesk.one_hr.accounts.ready",
 	"onedesk.one_hr.accounts.components",
@@ -249,7 +251,11 @@ doc_events = {
 	"Company": {
 		"validate": "onedesk.one_book.closing.kept_to_today",
 		"after_insert": "onedesk.one_mail.faces.dress_later",
-		"on_update": ["onedesk.one.letter_heads.redraw", "onedesk.one_mail.faces.dress_later"],
+		"on_update": [
+			"onedesk.one.letter_heads.redraw",
+			"onedesk.one_mail.faces.dress_later",
+			"onedesk.one_hr.papers.company_saved",
+		],
 	},
 	"Address": {"on_update": "onedesk.one.letter_heads.redraw"},
 	"Print Format Snippet": {"validate": "onedesk.one.printing.validate_snippet"},

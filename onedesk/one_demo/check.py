@@ -3740,6 +3740,19 @@ def one_a_private_app_is_always_on():
 
 
 @check
+def onehr_uae_papers_are_kept_where_a_company_is_in_the_uae():
+	"""Sahara is in the UAE, so an employee's papers may be an Emirates ID, a
+	Labour Card, Health Insurance or a Medical Fitness certificate, and
+	expire as any other; a workspace with no company there gets none of them."""
+	from onedesk.one_hr import papers
+
+	assert papers.wanted({"Germany"}) == [] and "Emirates ID" in papers.wanted({"United Arab Emirates", "Germany"})
+	papers.settle()
+	for name in ("Emirates ID", "Labour Card", "Health Insurance", "Medical Fitness"):
+		assert frappe.db.exists(papers.KIND, name), name
+
+
+@check
 def onehr_late_arrivals_can_count_as_an_absent_day():
 	"""Off by default. At 4 late arrivals to an absent day, an employee late
 	five times in October loses one day on the October payslip, which says

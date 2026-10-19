@@ -58,7 +58,8 @@ def test_what_the_company_says_is_escaped():
 
 
 def test_a_top_is_drawn_again_when_the_company_changes():
-	assert '"on_update": ["onedesk.one.letter_heads.redraw", "onedesk.one_mail.faces.dress_later"]' in HOOKS
+	company = HOOKS.split('\t"Company": {', 1)[1].split("\n\t},", 1)[0]
+	assert '"onedesk.one.letter_heads.redraw"' in company.split('"on_update"', 1)[1]
 	assert '"Address": {"on_update": "onedesk.one.letter_heads.redraw"}' in HOOKS
 	printing = (tree.APP / "one" / "printing.py").read_text()
 	validate = printing.split("def validate_letter_head(", 1)[1].split("\ndef ", 1)[0]

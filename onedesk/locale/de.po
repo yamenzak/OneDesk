@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-19 15:34+0000\n"
+"POT-Creation-Date: 2026-10-19 15:36+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -12364,6 +12364,10 @@ msgstr ""
 msgid "Emirate"
 msgstr "Emirat"
 
+#: onedesk/one_hr/papers.py:9
+msgid "Emirates ID"
+msgstr "Emirates ID"
+
 #. Label of the 'employee' field in DocType 'Expense Claim'
 #. Name of a role
 #. Label of the employee (Link) field in DocType 'Clock Attempt'
@@ -16044,6 +16048,10 @@ msgstr ""
 msgid "Health"
 msgstr "Zustand"
 
+#: onedesk/one_hr/papers.py:9
+msgid "Health Insurance"
+msgstr "Krankenversicherung"
+
 #. Label in the One Shipment print format
 #: onedesk/one_inventory/print_format/one_shipment/one_shipment.json
 msgid "Height"
@@ -19150,6 +19158,10 @@ msgstr "Kennt"
 msgid "Label"
 msgstr ""
 
+#: onedesk/one_hr/papers.py:9
+msgid "Labour Card"
+msgstr "Arbeitskarte"
+
 #. Label in the One Landed Cost Voucher print format
 #: onedesk/one_inventory/print_format/one_landed_cost_voucher/one_landed_cost_voucher.json
 msgid "Landed Cost"
@@ -21593,6 +21605,10 @@ msgstr "Median erste Antwort (Stunden)"
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Medical"
 msgstr "Medizinisch"
+
+#: onedesk/one_hr/papers.py:9
+msgid "Medical Fitness"
+msgstr "Gesundheitszeugnis"
 
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
