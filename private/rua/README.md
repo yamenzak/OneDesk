@@ -75,15 +75,18 @@ amounts and One holds it as the UAE taxes it: VAT on the work less the
 retention now, and the retention in Retention Receivable until an invoice
 releases it.
 
-**Retention held on Excel invoices is caught up by hand, any time.** Lately
-Rua held retention on invoices made in Excel and typed only the amounts
-after it into the old app, so what each client still holds is written
-nowhere the import can read. A **Retention Before One** (Rua's sidebar)
-says the project, what the client holds before VAT, and when it is due
-back. Submitted, it makes the invoice One would have made: the work, all of
-it held, nothing billed now, no VAT and no claim number, with the held
-amount in Retention Receivable. Release Retention on the project then bills
-it back with its VAT like any other. Cancelling it cancels that invoice.
+**What the import can't decide is asked on the project, until it is
+settled.** Some answers only Rua has: whether money received with no invoice
+is an advance, whether a client still holds retention from invoices made in
+Excel, and whether the payments left out as copies were really copies. The
+import writes a **Rua Settlement** for each project with one of these open,
+and the project's Overview says what is open with buttons to answer it:
+**Retention Held** (the amount and when it is due back, booked as the
+invoice One would have made: the work all held, nothing billed now, no VAT,
+the retention in Retention Receivable until Release Retention bills it with
+its VAT), **No Retention Held**, **It's an Advance**, and **All Settled**.
+Once nothing is open the project says nothing, and the Rua Settlement list
+in Rua's sidebar is what is left.
 
 **Payroll has no history.** Pay starts with One's first payroll run, from
 the month the import runs in. The roll-call does come over, so that month's

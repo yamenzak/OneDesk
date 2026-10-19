@@ -57,8 +57,9 @@ onedesk.head.draw = (frm, drawn = null) => {
 	const head = drawn || (frm.doc.__onload && frm.doc.__onload.one_head);
 	if (!head && !frm.one_headed) return;
 	frm.one_headed = !!head;
-	frm.layout.message.children(".form-message:has(.one-head-sentence, .one-band), .one-record-changed").remove();
+	frm.layout.message.children(".form-message:has(.one-head-sentence, .one-band), .one-record-changed, .one-notice").remove();
 	if (!head) return;
+	for (const notice of head.notices || []) onedesk.head.notice(frm, notice);
 	if (head.indicator) frm.page.set_indicator(head.indicator.label, head.indicator.colour);
 	if (head.sentence) {
 		const said = head.sentence;
@@ -86,6 +87,16 @@ onedesk.head.draw = (frm, drawn = null) => {
 			frm.one_primary_verb = verb.label;
 		}
 	}
+};
+
+onedesk.head.notice = (frm, notice) => {
+	const $notice = $(`<div class="form-message one-notice ${notice.colour}"><div class="one-notice-text"></div><div class="one-notice-verbs"></div></div>`);
+	$notice.find(".one-notice-text").text(notice.text);
+	for (const line of notice.lines || []) $("<div>").text(line).appendTo($notice.find(".one-notice-text"));
+	for (const verb of notice.verbs) {
+		$notice.find(".one-notice-verbs").append(frappe.ui.button({ label: verb.label, variant: "subtle", onclick: () => onedesk.head.act(frm, verb) }));
+	}
+	frm.layout.message.append($notice).removeClass("hidden");
 };
 
 onedesk.head.act = (frm, verb) => {

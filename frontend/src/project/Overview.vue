@@ -1,6 +1,15 @@
 <template>
   <div ref="root" class="grid gap-x-10 pb-12 pt-2 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
     <div class="min-w-0">
+      <div v-for="notice in said.notices || []" :key="notice.notice" data-notice class="mt-5 rounded-3 bg-surface-amber-1 px-4 py-3">
+        <p class="text-base font-medium text-ink-gray-8">{{ notice.text }}</p>
+        <ul v-if="notice.lines?.length" class="mt-1.5 space-y-1">
+          <li v-for="line in notice.lines" :key="line" class="text-base leading-relaxed text-ink-gray-7">{{ line }}</li>
+        </ul>
+        <div class="mt-3 flex flex-wrap gap-2">
+          <Button v-for="verb in notice.verbs" :key="verb.verb" :label="verb.label" @click="act(verb)" />
+        </div>
+      </div>
       <PlaceSpot :said="spot" class="mt-5" />
       <div data-cards class="py-5">
         <Figures :figures="figures" boxed :columns="figures.length === 4 ? 2 : figures.length" />
@@ -132,6 +141,7 @@ import { usePlace } from "./place";
 
 const props = defineProps({ said: { type: Object, required: true }, writing: Boolean });
 const emit = defineEmits(["changed", "view", "main"]);
+const act = (verb) => onedesk().head.act({ doctype: "Project", doc: { name: props.said.name }, reload_doc: () => emit("changed") }, verb);
 const view = computed(() => props.said.overview);
 const root = ref();
 const { tokens } = useChartTokens(root);

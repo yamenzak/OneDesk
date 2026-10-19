@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Rua VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-19 17:42+0000\n"
+"POT-Creation-Date: 2026-10-19 18:00+0000\n"
 "PO-Revision-Date: 2026-10-19 16:11+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -22,13 +22,20 @@ msgstr ""
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
 #: rua/rua/doctype/rua_import/rua_import.json
 #: rua/rua/doctype/rua_import_record/rua_import_record.json
+#: rua/rua/doctype/rua_settlement/rua_settlement.json
 msgid "Accounts Manager"
 msgstr "مدير الحسابات"
 
 #. Name of a role
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
+#: rua/rua/doctype/rua_settlement/rua_settlement.json
 msgid "Accounts User"
 msgstr "مستخدم الحسابات"
+
+#. Label of the advance_state (Select) field in DocType 'Rua Settlement'
+#: rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "Advance"
+msgstr "الدفعة المقدمة"
 
 #. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
@@ -40,10 +47,19 @@ msgstr "دفعة مقدمة مفتوحة"
 msgid "Agrees"
 msgstr "متطابق"
 
+#: rua/settle.py:170
+msgid "All Settled"
+msgstr "تمت التسوية بالكامل"
+
 #. Label of the amended_from (Link) field in DocType 'Retention Before One'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
 msgid "Amended From"
 msgstr "معدل من"
+
+#. Label of the copies_amount (Currency) field in DocType 'Rua Settlement'
+#: rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "Amount Left Out"
+msgstr "المبلغ المستبعد"
 
 #. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
@@ -65,6 +81,11 @@ msgstr "تحقق"
 #: rua/rua/doctype/rua_import/rua_import.json
 msgid "Checks"
 msgstr "التحققات"
+
+#. Option for the 'Advance' (Select) field in DocType 'Rua Settlement'
+#: rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "Confirmed"
+msgstr "مؤكد"
 
 #. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
@@ -93,6 +114,7 @@ msgstr "تم"
 
 #. Label of the due_back (Date) field in DocType 'Retention Before One'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
+#: rua/settle.py:92
 msgid "Due Back"
 msgstr "تاريخ الاسترداد"
 
@@ -102,7 +124,10 @@ msgid "Each old record and what it became."
 msgstr "كل سجل قديم وما أصبح عليه."
 
 #. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
+#. Label of the section_copies (Section Break) field in DocType 'Rua
+#. Settlement'
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
+#: rua/rua/doctype/rua_settlement/rua_settlement.json
 msgid "Entered Twice"
 msgstr "مُدخل مرتين"
 
@@ -137,6 +162,23 @@ msgstr "مدمج"
 msgid "For the Accountant"
 msgstr "للمحاسب"
 
+#. Option for the 'Retention' (Select) field in DocType 'Rua Settlement'
+#: rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "Held"
+msgstr "محتجز"
+
+#: rua/settle.py:42
+msgid "Is the client still holding retention on invoices made outside One?"
+msgstr "هل ما زال العميل يحتجز محتجزات على فواتير صدرت خارج One؟"
+
+#: rua/settle.py:164
+msgid "It's an Advance"
+msgstr "إنها دفعة مقدمة"
+
+#: rua/settle.py:132
+msgid "Kept as an advance until its invoice is made."
+msgstr "تبقى دفعة مقدمة حتى تصدر فاتورتها."
+
 #. Label of the kind (Select) field in DocType 'Rua Import Note'
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
 msgid "Kind"
@@ -152,6 +194,19 @@ msgstr "مستبعد"
 msgid "No Invoice"
 msgstr "بلا فاتورة"
 
+#: rua/settle.py:158
+msgid "No Retention Held"
+msgstr "لا محتجزات"
+
+#: rua/settle.py:125
+msgid "No retention held."
+msgstr "لا توجد محتجزات."
+
+#. Option for the 'Retention' (Select) field in DocType 'Rua Settlement'
+#: rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "None Held"
+msgstr "لا شيء محتجز"
+
 #. Option for the 'Status' (Select) field in DocType 'Rua Import'
 #: rua/rua/doctype/rua_import/rua_import.json
 msgid "Not Started"
@@ -160,7 +215,7 @@ msgstr "لم يبدأ"
 #. Label of the note (Small Text) field in DocType 'Retention Before One'
 #. Label of the note (Small Text) field in DocType 'Rua Import Note'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
-#: rua/rua/doctype/rua_import_note/rua_import_note.json
+#: rua/rua/doctype/rua_import_note/rua_import_note.json rua/settle.py:95
 msgid "Note"
 msgstr "ملاحظة"
 
@@ -168,6 +223,10 @@ msgstr "ملاحظة"
 #: rua/rua/doctype/rua_import/rua_import.json
 msgid "Notes"
 msgstr "ملاحظات"
+
+#: rua/settle.py:57
+msgid "Nothing is left to settle on {0}."
+msgstr "لم يبق شيء للتسوية في {0}."
 
 #. Label of the old (Float) field in DocType 'Rua Import Check'
 #: rua/rua/doctype/rua_import_check/rua_import_check.json
@@ -189,13 +248,26 @@ msgstr "نوع السجل القديم"
 msgid "One"
 msgstr "One"
 
+#: rua/settle.py:54
+msgid "Only somebody in accounts settles what the old app left."
+msgstr "لا يسوي ما تركه التطبيق القديم إلا أحد من الحسابات."
+
+#. Label of the copies (Int) field in DocType 'Rua Settlement'
+#: rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "Payments Left Out"
+msgstr "دفعات مستبعدة"
+
 #. Label of the project (Link) field in DocType 'Retention Before One'
+#. Label of the project (Link) field in DocType 'Rua Settlement'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
+#: rua/rua/doctype/rua_settlement/rua_settlement.json
 msgid "Project"
 msgstr "المشروع"
 
 #. Label of the project_name (Data) field in DocType 'Retention Before One'
+#. Label of the project_name (Data) field in DocType 'Rua Settlement'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
+#: rua/rua/doctype/rua_settlement/rua_settlement.json
 msgid "Project Name"
 msgstr "اسم المشروع"
 
@@ -209,11 +281,16 @@ msgstr "مقروء من"
 msgid "Receipt Matched"
 msgstr "مقبوض مطابق"
 
+#. Label of the advance (Currency) field in DocType 'Rua Settlement'
+#: rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "Received, Not Invoiced"
+msgstr "مقبوض بلا فاتورة"
+
 #. Label of the reference_name (Dynamic Link) field in DocType 'Rua Import
 #. Note'
 #. Label of the target_name (Dynamic Link) field in DocType 'Rua Import Record'
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
-#: rua/rua/doctype/rua_import_record/rua_import_record.json
+#: rua/rua/doctype/rua_import_record/rua_import_record.json rua/settle.py:151
 msgid "Record"
 msgstr "السجل"
 
@@ -229,15 +306,21 @@ msgstr "نوع السجل"
 msgid "Result"
 msgstr "النتيجة"
 
+#. Label of the retention_state (Select) field in DocType 'Rua Settlement'
+#: rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "Retention"
+msgstr "المحتجزات"
+
 #. Name of a DocType
-#. Label of a Sidebar Item
+#. Label of the retention (Link) field in DocType 'Rua Settlement'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
-#: rua/rua/sidebar/rua/rua.json
+#: rua/rua/doctype/rua_settlement/rua_settlement.json
 msgid "Retention Before One"
 msgstr "محتجزات قبل One"
 
 #. Label of the amount (Currency) field in DocType 'Retention Before One'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
+#: rua/settle.py:85 rua/settle.py:150
 msgid "Retention Held"
 msgstr "المحتجزات"
 
@@ -274,6 +357,13 @@ msgstr "ملاحظة استيراد Rua"
 msgid "Rua Import Record"
 msgstr "سجل استيراد Rua"
 
+#. Name of a DocType
+#. Label of a Sidebar Item
+#: rua/rua/doctype/rua_settlement/rua_settlement.json
+#: rua/rua/sidebar/rua/rua.json
+msgid "Rua Settlement"
+msgstr "تسوية Rua"
+
 #. Option for the 'Status' (Select) field in DocType 'Rua Import'
 #: rua/rua/doctype/rua_import/rua_import.json
 msgid "Running"
@@ -285,8 +375,18 @@ msgid "Sales Invoice"
 msgstr "فاتورة مبيعات"
 
 #: rua/rua/doctype/retention_before_one/retention_before_one.py:25
+#: rua/settle.py:102
 msgid "Say how much retention the client holds, before VAT."
 msgstr "اذكر قيمة المحتجزات لدى العميل قبل ضريبة القيمة المضافة."
+
+#. Label of the settled (Check) field in DocType 'Rua Settlement'
+#: rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "Settled"
+msgstr "تمت التسوية"
+
+#: rua/settle.py:140
+msgid "Settled."
+msgstr "تمت التسوية."
 
 #. Label of the started_on (Datetime) field in DocType 'Rua Import'
 #: rua/rua/doctype/rua_import/rua_import.json
@@ -309,6 +409,7 @@ msgstr "الخطوة"
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
 #: rua/rua/doctype/rua_import/rua_import.json
 #: rua/rua/doctype/rua_import_record/rua_import_record.json
+#: rua/rua/doctype/rua_settlement/rua_settlement.json
 msgid "System Manager"
 msgstr "مدير النظام"
 
@@ -317,25 +418,51 @@ msgstr "مدير النظام"
 msgid "The old Rua app brought over, and checked against the books."
 msgstr "تطبيق Rua القديم منقولًا ومطابقًا مع الدفاتر."
 
+#. Option for the 'Retention' (Select) field in DocType 'Rua Settlement'
+#: rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "To Ask"
+msgstr "للسؤال"
+
 #. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
 msgid "To Check"
 msgstr "للتحقق"
 
+#. Option for the 'Advance' (Select) field in DocType 'Rua Settlement'
+#: rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "To Confirm"
+msgstr "للتأكيد"
+
+#: rua/settle.py:45
+msgid "To settle from the old app"
+msgstr "للتسوية من التطبيق القديم"
+
 #: rua/rua/doctype/retention_before_one/retention_before_one.py:23
 msgid "Turn retention on in Projects Settings first."
 msgstr "فعّل المحتجزات في إعدادات المشاريع أولًا."
 
+#. Description of a DocType
+#: rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "What a project still has to settle from the old app, until somebody says it is settled."
+msgstr "ما يبقى على المشروع تسويته من التطبيق القديم، حتى يقول أحدهم إنه سُوّي."
+
 #. Description of the 'Retention Held' (Currency) field in DocType 'Retention
 #. Before One'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
+#: rua/settle.py:87
 msgid "What the client still holds, before VAT."
 msgstr "ما يحتفظ به العميل حتى الآن، قبل ضريبة القيمة المضافة."
 
 #. Description of the 'Due Back' (Date) field in DocType 'Retention Before One'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
+#: rua/settle.py:93
 msgid "When the client is due to pay it back, if anybody knows."
 msgstr "متى يحين سداده من العميل، إن كان معروفًا."
+
+#. Label of the copies_said (Small Text) field in DocType 'Rua Settlement'
+#: rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "Which"
+msgstr "أيّها"
 
 #. Description of the 'Note' (Small Text) field in DocType 'Retention Before
 #. One'
@@ -351,4 +478,16 @@ msgstr "السبب"
 #: rua/rua/doctype/retention_before_one/retention_before_one.py:28
 msgid "{0} has no customer to hold the retention."
 msgstr "{0} ليس له عميل يحتفظ بالمحتجزات."
+
+#: rua/settle.py:116
+msgid "{0} held as retention, owed until it is released."
+msgstr "{0} محتجزة، مستحقة حتى يُفرج عنها."
+
+#: rua/settle.py:37
+msgid "{0} payments entered twice were left out ({1})."
+msgstr "استُبعدت {0} دفعات مُدخلة مرتين ({1})."
+
+#: rua/settle.py:33
+msgid "{0} received and not invoiced yet."
+msgstr "{0} مقبوضة ولم تصدر فاتورتها بعد."
 

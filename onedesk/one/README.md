@@ -1991,6 +1991,16 @@ shares. A condition is frappe's filters, and a template names only
 edits a Record Head row by row; OneAI (Customizing a Form, below) places a
 workspace's own numbers, charts, verbs and linked sections.
 
+A Record Head is one per doctype and its module's to declare, so another app
+can't add rows to it. What such an app has to say goes in a **notice**
+(`one_record_notices`): a function of the record that answers a line, a few
+sentences under it and a colour, or nothing, and the names of the verbs that
+are its buttons. `head.js` draws it as a strip above the fields, and a
+record's own page that draws no head shows it too (the project's Overview,
+from `view.said`'s `notices`). `head.run` takes a notice's verbs as it takes
+the head's. The first is Rua's (private/rua, `rua/settle.py`): what a project
+still has to settle from the old app, until somebody says it is settled.
+
 A form of ours used to say all this in a script per doctype: an overview
 method worked the numbers out, and the script drew them under the title and
 added its buttons. docs/SHELL.md, decision 4, is the argument for rows. What

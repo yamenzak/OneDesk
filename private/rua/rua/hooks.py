@@ -14,3 +14,6 @@ one_private_app = {
 }
 
 after_install = "rua.install.after_install"
+
+one_verbs = ["rua.settle.VERBS"]
+one_record_notices = ["rua.settle.NOTICES"]

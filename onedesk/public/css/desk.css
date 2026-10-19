@@ -55,6 +55,21 @@
 	color: var(--ink-gray-7);
 }
 
+.form-message.one-notice {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--padding-sm);
+	padding: var(--padding-sm) var(--padding-lg) var(--padding-sm) var(--padding-xl);
+}
+
+.one-notice-verbs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--padding-xs);
+}
+
 .one-band {
 	display: grid;
 	grid-template-columns: max-content 1fr;

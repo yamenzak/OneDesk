@@ -19,6 +19,7 @@ from frappe.utils import (
 	nowdate,
 )
 
+from onedesk.one import head as record_head
 from onedesk.one_project import (
 	agreement,
 	billing,
@@ -43,6 +44,7 @@ LISTED = 200
 def _company() -> str | None:
 	"""The reader's company, which every list on the page is of."""
 	return erpnext.get_default_company()
+
 
 SHOWN = 6
 
@@ -128,7 +130,9 @@ def said(
 		else None,
 		"contracts": (signed := agreement.contracts(view["tree"])),
 		"agreement": agreement.main(doc.name, signed),
-		"can_draw_up": bool(frappe.has_permission("Contract", "create") and (doc.customer or agreement.suppliers(doc.name))),
+		"can_draw_up": bool(
+			frappe.has_permission("Contract", "create") and (doc.customer or agreement.suppliers(doc.name))
+		),
 		"team": [
 			{
 				"user": row.user,
@@ -155,6 +159,7 @@ def said(
 		"monthly_hours": flt(doc.get("one_monthly_hours")),
 		"media": media.shown(doc.name),
 		"overview": _overview(kind, doc, view, cash),
+		"notices": record_head.notices_of(doc),
 		"only": tree.narrowed(doc.name) and bool(tree.children(tree.parents()).get(doc.name)),
 		"update_due": asking.asked(doc.name),
 		"asking": asking.asking(doc.as_dict()),
@@ -308,7 +313,13 @@ def quotation(doc) -> dict | None:
 	still open, extra work aside: the newest, and how many there are."""
 	from onedesk.one_project.money import OPEN_QUOTE, _route
 
-	filters = {"project": doc.name, "docstatus": 1, "is_active": 1, "status": ["in", list(OPEN_QUOTE)], "one_extra_work": 0}
+	filters = {
+		"project": doc.name,
+		"docstatus": 1,
+		"is_active": 1,
+		"status": ["in", list(OPEN_QUOTE)],
+		"one_extra_work": 0,
+	}
 	found = frappe.get_all(
 		"Quotation",
 		filters={**filters, "company": _company()},
@@ -422,7 +433,9 @@ def _made(cash: dict) -> dict:
 		"view": "money",
 		"key": "margin",
 		"money": made,
-		"note": _("{0}% of what was billed").format(share(made, cash["invoiced"])) if cash["invoiced"] and made > 0 else None,
+		"note": _("{0}% of what was billed").format(share(made, cash["invoiced"]))
+		if cash["invoiced"] and made > 0
+		else None,
 		"tone": "alarm" if made < 0 else None,
 	}
 
@@ -670,7 +683,8 @@ def _overdue(projects: list[str]) -> float:
 	if not frappe.has_permission("Sales Invoice", "read"):
 		return 0.0
 	return sum(
-		flt(one["due"]) * flt(one["head"].conversion_rate or 1) for one in _past_due("Sales Invoice", projects)
+		flt(one["due"]) * flt(one["head"].conversion_rate or 1)
+		for one in _past_due("Sales Invoice", projects)
 	)
 
 
@@ -1107,7 +1121,11 @@ def _unbilled_people(project: str) -> list[dict]:
 def _terms(project: str) -> tuple:
 	"""Its terms, and the title of the project above they come from."""
 	payment_terms, conditions, source = terms.of(project)
-	return payment_terms, conditions, frappe.db.get_value("Project", source, "project_name") if source else None
+	return (
+		payment_terms,
+		conditions,
+		frappe.db.get_value("Project", source, "project_name") if source else None,
+	)
 
 
 def _sub_projects(project: str) -> dict:

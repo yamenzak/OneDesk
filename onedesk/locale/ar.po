@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-19 15:36+0000\n"
+"POT-Creation-Date: 2026-10-19 18:00+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -30,7 +30,7 @@ msgstr " في قسم {0}"
 msgid " · was {0}"
 msgstr " · كان {0}"
 
-#: frontend/src/project/Overview.vue:143 frontend/src/project/Overview.vue:178
+#: frontend/src/project/Overview.vue:153 frontend/src/project/Overview.vue:188
 #: onedesk/one_project/heads.py:257
 msgid "% Completed"
 msgstr "% مكتمل"
@@ -148,7 +148,7 @@ msgstr "واحد بلا خطوة تالية"
 msgid "1 Work Order Late"
 msgstr "أمر عمل واحد متأخر"
 
-#: onedesk/one_project/view.py:506
+#: onedesk/one_project/view.py:508
 msgid "1 cost"
 msgstr "تكلفة واحدة"
 
@@ -166,10 +166,10 @@ msgid "1 day"
 msgstr "يوم واحد"
 
 #: frontend/src/home/BooksHome.vue:171 frontend/src/home/InventoryHome.vue:208
-#: frontend/src/project/Milestones.vue:29 frontend/src/project/Overview.vue:251
-#: frontend/src/project/Overview.vue:360 frontend/src/project/Suppliers.vue:202
+#: frontend/src/project/Milestones.vue:29 frontend/src/project/Overview.vue:261
+#: frontend/src/project/Overview.vue:370 frontend/src/project/Suppliers.vue:202
 #: frontend/src/task/TaskPage.vue:210 onedesk/one_project/retention.py:237
-#: onedesk/one_project/view.py:908
+#: onedesk/one_project/view.py:910
 msgid "1 day late"
 msgstr "متأخرة يوماً واحداً"
 
@@ -221,7 +221,7 @@ msgstr "عنصر واحد محدد"
 msgid "1 minute"
 msgstr "دقيقة واحدة"
 
-#: onedesk/one_project/view.py:542
+#: onedesk/one_project/view.py:544
 msgid "1 month"
 msgstr "شهر واحد"
 
@@ -245,7 +245,7 @@ msgstr "عملية واحدة بالانتظار"
 msgid "1 order"
 msgstr "طلب واحد"
 
-#: frontend/src/project/Overview.vue:275
+#: frontend/src/project/Overview.vue:285
 msgid "1 person"
 msgstr "شخص واحد"
 
@@ -257,11 +257,11 @@ msgstr "شخص واحد فوق طاقته"
 msgid "1 project"
 msgstr "مشروع واحد"
 
-#: frontend/src/project/Overview.vue:349
+#: frontend/src/project/Overview.vue:359
 msgid "1 sub-project"
 msgstr "مشروع فرعي واحد"
 
-#: frontend/src/project/Overview.vue:110
+#: frontend/src/project/Overview.vue:119
 #: frontend/src/template/TemplatePage.vue:79
 #: frontend/src/workload/WorkloadList.vue:29
 #: onedesk/public/js/project_template_list.js:3
@@ -1568,7 +1568,7 @@ msgstr "متروك"
 msgid "About"
 msgstr "عن"
 
-#: frontend/src/project/Overview.vue:95
+#: frontend/src/project/Overview.vue:104
 msgctxt "Project"
 msgid "About"
 msgstr "معلومات"
@@ -1875,6 +1875,14 @@ msgstr "فترة محاسبية"
 msgid "Accounts"
 msgstr "الحسابات"
 
+#. Name of a role
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
+#: private/rua/rua/rua/doctype/rua_import/rua_import.json
+#: private/rua/rua/rua/doctype/rua_import_record/rua_import_record.json
+#: private/rua/rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "Accounts Manager"
+msgstr "مدير الحسابات"
+
 #. Label of a Sidebar Item
 #: frontend/src/home/BooksHome.vue:103 frontend/src/home/BooksStory.vue:109
 #: onedesk/one_book/home.py:340 onedesk/one_book/sidebar/onebook/onebook.json
@@ -1898,6 +1906,12 @@ msgstr ""
 #: onedesk/one_book/home.py:368
 msgid "Accounts Settings"
 msgstr ""
+
+#. Name of a role
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
+#: private/rua/rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "Accounts User"
+msgstr "مستخدم الحسابات"
 
 #. Task in the New Client Onboarding project template
 #: onedesk/one_project/library/client_onboarding.json
@@ -2082,7 +2096,7 @@ msgstr "إضافة عنوان"
 msgid "Add Bank Account"
 msgstr "إضافة حساب بنكي"
 
-#: frontend/src/project/Overview.vue:97
+#: frontend/src/project/Overview.vue:106
 msgid "Add Brief"
 msgstr "إضافة نبذة"
 
@@ -2095,7 +2109,7 @@ msgstr "إضافة مجموعة"
 msgid "Add Contact"
 msgstr "إضافة جهة اتصال"
 
-#: frontend/src/project/Overview.vue:229
+#: frontend/src/project/Overview.vue:239
 #: onedesk/public/js/project_actions.js:184
 #: onedesk/public/js/project_actions.js:239
 msgid "Add Contract"
@@ -2143,7 +2157,7 @@ msgstr "إضافة شركة مصنّعة"
 msgid "Add Memory"
 msgstr "إضافة ذكرى"
 
-#: frontend/src/project/Overview.vue:41 frontend/src/project/Overview.vue:62
+#: frontend/src/project/Overview.vue:50 frontend/src/project/Overview.vue:71
 #: onedesk/public/js/project_actions.js:565
 #: onedesk/public/js/project_actions.js:586
 msgid "Add Milestone"
@@ -2183,7 +2197,7 @@ msgstr "إضافة خطوة"
 msgid "Add Stock"
 msgstr "إضافة مخزون"
 
-#: frontend/src/project/Overview.vue:113
+#: frontend/src/project/Overview.vue:122
 msgid "Add Sub-project"
 msgstr "إضافة مشروع فرعي"
 
@@ -2703,11 +2717,18 @@ msgstr "إعداد الإعلانات"
 
 #. Label in the One Expense Claim print format
 #. Label in the One Travel Request print format
+#. Label of the advance_state (Select) field in DocType 'Rua Settlement'
 #: frontend/src/project/Suppliers.vue:212
 #: onedesk/one_hr/print_format/one_expense_claim/one_expense_claim.json
 #: onedesk/one_hr/print_format/one_travel_request/one_travel_request.json
+#: private/rua/rua/rua/doctype/rua_settlement/rua_settlement.json
 msgid "Advance"
 msgstr "الدفعة المقدمة"
+
+#. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
+#: private/rua/rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "Advance Left Open"
+msgstr "دفعة مقدمة مفتوحة"
 
 #. Label in the One Employee Advance print format
 #: onedesk/one_hr/print_format/one_employee_advance/one_employee_advance.json
@@ -2899,6 +2920,11 @@ msgstr "الاتفاقيات"
 msgid "Agreements Changed"
 msgstr "تغيّرت الاتفاقيات"
 
+#. Option for the 'Result' (Select) field in DocType 'Rua Import Check'
+#: private/rua/rua/rua/doctype/rua_import_check/rua_import_check.json
+msgid "Agrees"
+msgstr "متطابق"
+
 #. Name of a role
 #: frontend/portal/src/pages/List.vue:125
 #: frontend/src/item/ItemVariantsMake.vue:10 frontend/src/lots/LotsPage.vue:100
@@ -2952,6 +2978,10 @@ msgstr "كل المشاريع"
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 msgid "All Read"
 msgstr "قُرئ الكل"
+
+#: private/rua/rua/settle.py:170
+msgid "All Settled"
+msgstr "تمت التسوية بالكامل"
 
 #: frontend/src/task/MyTasks.vue:13
 msgid "All Tasks"
@@ -3169,10 +3199,12 @@ msgstr "يُرسل بالبريد دائماً، لتتمكن من الرد عل
 
 #. Label of the amended_from (Link) field in DocType 'Credit Ledger Entry'
 #. Label of the amended_from (Link) field in DocType 'Employee Letter'
+#. Label of the amended_from (Link) field in DocType 'Retention Before One'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
 msgid "Amended From"
-msgstr ""
+msgstr "معدل من"
 
 #. Label of the amount (Currency) field in DocType 'Offering'
 #. Label of the amount (Long Int) field in DocType 'Tenant Event'
@@ -3293,6 +3325,11 @@ msgstr "المبلغ"
 #: onedesk/one_book/print_format/one_payment_request/one_payment_request.json
 msgid "Amount Due"
 msgstr "المبلغ المستحق"
+
+#. Label of the copies_amount (Currency) field in DocType 'Rua Settlement'
+#: private/rua/rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "Amount Left Out"
+msgstr "المبلغ المستبعد"
 
 #. Label in the One Payment Receipt print format
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
@@ -4754,6 +4791,11 @@ msgstr "الحضور"
 msgid "Attendance"
 msgstr "الحضور"
 
+#. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
+#: private/rua/rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "Attendance Not Marked"
+msgstr "حضور غير مسجل"
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Attendance Overview"
@@ -5186,7 +5228,7 @@ msgstr ""
 msgid "Band"
 msgstr "الشريط"
 
-#: onedesk/one/head.py:137
+#: onedesk/one/head.py:146
 msgid "Band row {0}"
 msgstr "صف الشريط {0}"
 
@@ -5656,7 +5698,12 @@ msgstr "فاتورة مورد مستحقة"
 msgid "Bill From"
 msgstr "الفاتورة من"
 
-#: frontend/src/project/Overview.vue:25
+#. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
+#: private/rua/rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "Bill From Order"
+msgstr "فاتورة من أمر الشراء"
+
+#: frontend/src/project/Overview.vue:34
 #: frontend/src/project/ProjectPage.vue:342
 #: frontend/src/project/Suppliers.vue:66 onedesk/public/js/progress.js:30
 #: onedesk/public/js/progress.js:40 onedesk/public/js/project_actions.js:540
@@ -5741,12 +5788,12 @@ msgstr "قابل للفوترة"
 msgid "Billable Hours"
 msgstr "الساعات القابلة للفوترة"
 
-#: frontend/src/project/Overview.vue:179
+#: frontend/src/project/Overview.vue:189
 msgid "Billable on Milestones"
 msgstr "قابل للفوترة حسب المراحل"
 
-#: frontend/src/project/Overview.vue:143 frontend/src/project/Overview.vue:412
-#: frontend/src/project/Overview.vue:431 frontend/src/project/Suppliers.vue:49
+#: frontend/src/project/Overview.vue:153 frontend/src/project/Overview.vue:422
+#: frontend/src/project/Overview.vue:441 frontend/src/project/Suppliers.vue:49
 #: frontend/src/project/Suppliers.vue:183
 #: frontend/src/project/Suppliers.vue:206 onedesk/one/print_blocks.py:791
 #: onedesk/one_book/heads.py:101 onedesk/one_book/heads.py:639
@@ -5763,7 +5810,7 @@ msgstr "المفوتر"
 msgid "Billed %"
 msgstr "نسبة المفوتر"
 
-#: frontend/src/project/Overview.vue:181
+#: frontend/src/project/Overview.vue:191
 msgid "Billed Ahead"
 msgstr "مفوتر مقدمًا"
 
@@ -6046,7 +6093,7 @@ msgid "Break this task into the steps it takes to finish it, as its checklist. K
 msgstr "قسّم هذه المهمة إلى الخطوات اللازمة لإنجازها، كقائمة تحقق لها. أبقِ الخطوات الموجودة فيها."
 
 #. Task in the Architectural Design Stages project template
-#: frontend/src/project/Overview.vue:9
+#: frontend/src/project/Overview.vue:18
 #: onedesk/one_project/library/architectural_design.json
 #: onedesk/public/js/project_actions.js:711
 msgid "Brief"
@@ -6074,7 +6121,7 @@ msgstr "المتصفح"
 
 #. Label in the One Budget print format
 #. Label in the One Staffing Plan print format
-#: frontend/src/project/Money.vue:34 frontend/src/project/Overview.vue:34
+#: frontend/src/project/Money.vue:34 frontend/src/project/Overview.vue:43
 #: onedesk/one_book/print_format/one_budget/one_budget.json
 #: onedesk/one_hr/print_format/one_staffing_plan/one_staffing_plan.json
 #: onedesk/one_project/ai.py:721 onedesk/public/js/project_actions.js:281
@@ -6263,7 +6310,7 @@ msgstr "الشراء والبيع والمخزون"
 msgid "By"
 msgstr "حسب"
 
-#: frontend/src/project/Overview.vue:106
+#: frontend/src/project/Overview.vue:115
 msgid "By Activity"
 msgstr "حسب النشاط"
 
@@ -6275,7 +6322,7 @@ msgstr "حسب مجموعة الأصناف"
 msgid "By Line"
 msgstr "حسب البند"
 
-#: frontend/src/project/Overview.vue:103
+#: frontend/src/project/Overview.vue:112
 msgid "By Person"
 msgstr "حسب الشخص"
 
@@ -6830,11 +6877,11 @@ msgstr ""
 msgid "Chart of Accounts Importer"
 msgstr "استيراد دليل الحسابات"
 
-#: onedesk/one/head.py:175
+#: onedesk/one/head.py:184
 msgid "Chart {0}"
 msgstr "المخطط {0}"
 
-#: onedesk/one/head.py:178
+#: onedesk/one/head.py:187
 msgid "Chart {0} is {1}, which no module has."
 msgstr "المخطط {0} هو {1}، ولا تملكه أي وحدة."
 
@@ -6848,11 +6895,11 @@ msgstr ""
 msgid "Charts a module registered, drawn beside the numbers under the title."
 msgstr "مخططات سجّلتها وحدة، تُرسم بجانب الأرقام تحت العنوان."
 
-#: onedesk/one_project/view.py:976
+#: onedesk/one_project/view.py:978
 msgid "Chase retention from {0}"
 msgstr "متابعة المحتجز لدى {0}"
 
-#: onedesk/one_project/view.py:976
+#: onedesk/one_project/view.py:978
 msgid "Chase {0}"
 msgstr "متابعة {0}"
 
@@ -6866,9 +6913,11 @@ msgstr "الأرخص"
 
 #. Label of the signal (Data) field in DocType 'Clock Signal'
 #. Label in the One Quality Inspection print format
+#. Label of the subject (Data) field in DocType 'Rua Import Check'
 #: onedesk/one_book/report/books_check/books_check.py:15
 #: onedesk/one_hr/doctype/clock_signal/clock_signal.json
 #: onedesk/one_inventory/print_format/one_quality_inspection/one_quality_inspection.json
+#: private/rua/rua/rua/doctype/rua_import_check/rua_import_check.json
 msgid "Check"
 msgstr "الفحص"
 
@@ -6906,7 +6955,7 @@ msgstr "فحص الجودة"
 msgid "Check Supplier Quotation"
 msgstr "مراجعة عرض سعر المورد"
 
-#: onedesk/one_project/view.py:813
+#: onedesk/one_project/view.py:815
 msgid "Check bill from {0}"
 msgstr "راجع فاتورة {0}"
 
@@ -6915,7 +6964,7 @@ msgstr "راجع فاتورة {0}"
 msgid "Check in by {0}"
 msgstr "سجّل حضورك قبل {0}"
 
-#: onedesk/one_project/view.py:815
+#: onedesk/one_project/view.py:817
 msgid "Check invoice to {0}"
 msgstr "راجع الفاتورة إلى {0}"
 
@@ -7111,7 +7160,10 @@ msgid "Checkout and webhook credentials. The webhook secret is required; signatu
 msgstr "بيانات الدفع والـ webhook. سر الـ webhook مطلوب، وبدونه يفشل فحص التوقيع."
 
 #. Label of the gates_tab (Tab Break) field in DocType 'Clock Attempt'
+#. Label of the checks_section (Section Break) field in DocType 'Rua Import'
+#. Label of the checks (Table) field in DocType 'Rua Import'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: private/rua/rua/rua/doctype/rua_import/rua_import.json
 msgid "Checks"
 msgstr "عمليات التحقق"
 
@@ -7855,7 +7907,7 @@ msgid "Complete {0}"
 msgstr "إكمال {0}"
 
 #. Option for the 'status' (Select) field in DocType 'Task'
-#: frontend/src/floor/ShopFloor.vue:120 frontend/src/project/Overview.vue:351
+#: frontend/src/floor/ShopFloor.vue:120 frontend/src/project/Overview.vue:361
 #: frontend/src/sent_out/OutRows.vue:89 frontend/src/upkeep/UpkeepPage.vue:76
 #: frontend/src/upkeep/UpkeepRows.vue:186 onedesk/one_inventory/heads.py:1621
 #: onedesk/one_project/status.py:16 onedesk/one_task/custom/task.json
@@ -8024,10 +8076,12 @@ msgstr "إرسال طلبات التأكيد إلى البنوك والعملا�
 
 #. Option for the 'Status' (Select) field in DocType 'Clock Network'
 #. Option for the 'Status' (Select) field in DocType 'Clock Place'
+#. Option for the 'Advance' (Select) field in DocType 'Rua Settlement'
 #: onedesk/one/portal.py:86 onedesk/one/portal.py:87 onedesk/one/portal.py:795
 #: onedesk/one/privacy.py:180
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
+#: private/rua/rua/rua/doctype/rua_settlement/rua_settlement.json
 msgid "Confirmed"
 msgstr "تم التأكيد"
 
@@ -8291,7 +8345,7 @@ msgstr "يستمر بعد {0} (كان {1})"
 #. Label of a Sidebar Item
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
-#: frontend/src/project/Money.vue:165 frontend/src/project/Overview.vue:143
+#: frontend/src/project/Money.vue:165 frontend/src/project/Overview.vue:153
 #: onedesk/one/print_blocks.py:34 onedesk/one/print_blocks.py:673
 #: onedesk/one/print_blocks.py:702 onedesk/one_crm/home.py:116
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
@@ -8301,6 +8355,11 @@ msgstr "يستمر بعد {0} (كان {1})"
 #: onedesk/one_project/ai.py:977
 msgid "Contract"
 msgstr "عقد"
+
+#. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
+#: private/rua/rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "Contract Counted Twice"
+msgstr "عقد محسوب مرتين"
 
 #. Name of a notification
 #: onedesk/notifications/one_hr/contract_ending.md onedesk/one_hr/home.py:793
@@ -8371,7 +8430,7 @@ msgstr "الاتفاق على المقاول والسعر"
 msgid "Contractor questions answered"
 msgstr "الرد على أسئلة المقاول"
 
-#: frontend/src/project/Overview.vue:84
+#: frontend/src/project/Overview.vue:93
 msgid "Contracts"
 msgstr "العقود"
 
@@ -8499,7 +8558,7 @@ msgstr "التصحيحات"
 #. Label in the One Vehicle Log print format
 #. Label in the One Bill of Materials print format
 #: frontend/src/project/Money.vue:20 frontend/src/project/Money.vue:112
-#: frontend/src/project/Overview.vue:143 frontend/src/project/Time.vue:30
+#: frontend/src/project/Overview.vue:153 frontend/src/project/Time.vue:30
 #: frontend/src/to_order/ToOrderPage.vue:22
 #: frontend/src/to_order/ToOrderPage.vue:143
 #: frontend/src/upkeep/UpkeepRows.vue:50 frontend/src/upkeep/UpkeepRows.vue:107
@@ -8527,7 +8586,7 @@ msgstr "توزيع التكلفة"
 #. Label in the One Payment Voucher print format
 #. Label in the One Purchase Voucher print format
 #. Label in the One Sales Voucher print format
-#: frontend/src/project/Overview.vue:284 onedesk/one_book/home.py:372
+#: frontend/src/project/Overview.vue:294 onedesk/one_book/home.py:372
 #: onedesk/one_book/print_format/one_budget/one_budget.json
 #: onedesk/one_book/print_format/one_cost_center_allocation/one_cost_center_allocation.json
 #: onedesk/one_book/print_format/one_journal_voucher/one_journal_voucher.json
@@ -9241,6 +9300,7 @@ msgstr "المستويات المخصصة تقع بين المستخدم وال�
 #. Label in the One Supplier Quotation print format
 #. Label in the One Work Order print format
 #. Label in the One Timesheet print format
+#. Label of the customer (Link) field in DocType 'Retention Before One'
 #: frontend/src/project/Invoices.vue:25 frontend/src/project/Money.vue:17
 #: onedesk/one/print_blocks.py:129 onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
@@ -9298,6 +9358,7 @@ msgstr "المستويات المخصصة تقع بين المستخدم وال�
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/one_project/tree.py:197 onedesk/public/js/project_actions.js:641
 #: onedesk/public/js/project_actions.js:701 onedesk/public/js/project_new.js:92
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
 msgid "Customer"
 msgstr "العميل"
 
@@ -10600,7 +10661,7 @@ msgstr "التسليم {0}"
 #. Label in the One Transfer Letter print format
 #. Label in the One Asset Card print format
 #. Label in the One Timesheet print format
-#: frontend/src/project/Overview.vue:282 onedesk/one/masters.py:35
+#: frontend/src/project/Overview.vue:292 onedesk/one/masters.py:35
 #: onedesk/one_hr/home.py:543
 #: onedesk/one_hr/print_format/one_additional_salary/one_additional_salary.json
 #: onedesk/one_hr/print_format/one_appraisal/one_appraisal.json
@@ -10983,15 +11044,22 @@ msgstr "الأجهزة"
 
 #. Label in the One Asset Value Adjustment print format
 #. Label in the One Stock Reconciliation print format
+#. Label of the difference (Float) field in DocType 'Rua Import Check'
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:175
 #: onedesk/one_inventory/print_format/one_asset_value_adjustment/one_asset_value_adjustment.json
 #: onedesk/one_inventory/print_format/one_stock_reconciliation/one_stock_reconciliation.json
+#: private/rua/rua/rua/doctype/rua_import_check/rua_import_check.json
 msgid "Difference"
 msgstr "الفرق"
 
 #: onedesk/one_inventory/heads.py:1648 onedesk/one_inventory/heads.py:1657
 msgid "Difference Amount"
 msgstr ""
+
+#. Option for the 'Result' (Select) field in DocType 'Rua Import Check'
+#: private/rua/rua/rua/doctype/rua_import_check/rua_import_check.json
+msgid "Differs"
+msgstr "مختلف"
 
 #: onedesk/public/js/doctype_settings.js:967
 msgid "Digits"
@@ -11337,6 +11405,7 @@ msgstr "نطاقات بالانتظار"
 #. Label in the One Job Card print format
 #. Label in the One Work Order print format
 #. Label of the done (Check) field in DocType 'Task Step'
+#. Option for the 'Status' (Select) field in DocType 'Rua Import'
 #: frontend/src/project/MilestoneLanes.vue:92
 #: frontend/src/project/ProjectPage.vue:21
 #: onedesk/one_admin/doctype/account_request/account_request.json
@@ -11356,6 +11425,7 @@ msgstr "نطاقات بالانتظار"
 #: onedesk/one_task/doctype/task_step/task_step.json
 #: onedesk/public/js/learned.js:31 onedesk/public/js/onecloud.js:2107
 #: onedesk/public/js/progress.js:46 onedesk/public/js/progress.js:77
+#: private/rua/rua/rua/doctype/rua_import/rua_import.json
 msgid "Done"
 msgstr "المُنجز"
 
@@ -11386,7 +11456,7 @@ msgstr "المنجز حتى الآن"
 msgid "Done When"
 msgstr "يكتمل عندما"
 
-#: onedesk/one/head.py:455 onedesk/one_ai/suggest.py:77
+#: onedesk/one/head.py:513 onedesk/one_ai/suggest.py:77
 #: onedesk/one_inventory/heads.py:655
 msgid "Done."
 msgstr "تم."
@@ -11597,7 +11667,7 @@ msgstr "مسودة. لم يُصدر."
 msgid "Drafts"
 msgstr "المسودات"
 
-#: frontend/src/project/Overview.vue:84
+#: frontend/src/project/Overview.vue:93
 #: onedesk/public/js/project_actions.js:151
 #: onedesk/public/js/project_actions.js:171
 msgid "Draw Up Contract"
@@ -11663,6 +11733,12 @@ msgstr "أُسقط"
 #: onedesk/public/js/settings.js:1627
 msgid "Due"
 msgstr "الاستحقاق"
+
+#. Label of the due_back (Date) field in DocType 'Retention Before One'
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
+#: private/rua/rua/settle.py:92
+msgid "Due Back"
+msgstr "تاريخ الاسترداد"
 
 #. Label in the One Detailed Tax Invoice print format
 #. Label in the One Payment Receipt print format
@@ -11743,7 +11819,7 @@ msgstr "تغيّر تاريخ الاستحقاق"
 msgid "Due Now"
 msgstr "المستحق الآن"
 
-#: frontend/src/project/Overview.vue:67 frontend/src/upkeep/UpkeepRows.vue:184
+#: frontend/src/project/Overview.vue:76 frontend/src/upkeep/UpkeepRows.vue:184
 msgid "Due Soon"
 msgstr "مستحق قريبًا"
 
@@ -11755,7 +11831,7 @@ msgstr "مستحق هذا الأسبوع"
 msgid "Due in the next 7 days"
 msgstr "مستحق خلال الأيام السبعة القادمة"
 
-#: frontend/src/project/Overview.vue:363 onedesk/one_project/retention.py:240
+#: frontend/src/project/Overview.vue:373 onedesk/one_project/retention.py:240
 msgid "Due in {0} days"
 msgstr "مستحق خلال {0} أيام"
 
@@ -11765,12 +11841,12 @@ msgid "Due on Receipt"
 msgstr "مستحق عند الاستلام"
 
 #: frontend/src/home/BooksHome.vue:206 frontend/src/home/CrmHome.vue:178
-#: frontend/src/project/Overview.vue:362 frontend/src/task/TaskPage.vue:211
+#: frontend/src/project/Overview.vue:372 frontend/src/task/TaskPage.vue:211
 #: onedesk/one_project/portal.py:259 onedesk/one_project/retention.py:239
 msgid "Due today"
 msgstr "يستحق اليوم"
 
-#: frontend/src/project/Overview.vue:363 onedesk/one_project/retention.py:240
+#: frontend/src/project/Overview.vue:373 onedesk/one_project/retention.py:240
 msgid "Due tomorrow"
 msgstr "يستحق غدًا"
 
@@ -11778,7 +11854,7 @@ msgstr "يستحق غدًا"
 #: frontend/src/home/InventoryHome.vue:261 frontend/src/item/ItemBuying.vue:61
 #: frontend/src/item/ItemOverview.vue:96 frontend/src/item/ItemOverview.vue:100
 #: frontend/src/item/ItemOverview.vue:103 frontend/src/item/ItemSelling.vue:58
-#: frontend/src/project/Invoices.vue:49 frontend/src/project/Overview.vue:309
+#: frontend/src/project/Invoices.vue:49 frontend/src/project/Overview.vue:319
 #: frontend/src/project/Suppliers.vue:59 frontend/src/project/Suppliers.vue:104
 #: frontend/src/sent_out/SentOutPage.vue:96 onedesk/one/portal.py:410
 #: onedesk/one/portal.py:755 onedesk/one_inventory/heads.py:531
@@ -11926,6 +12002,11 @@ msgstr "إهلاك كل شهر."
 #: onedesk/one_inventory/ready.py:205
 msgid "Each new work order asks where to work and where to put what it makes. Fix sets the company's Work In Progress and Finished Goods."
 msgstr "كل أمر عمل جديد يسأل أين يُعمل وأين يوضع ما يُصنع. الإصلاح يعيّن مستودعي الأعمال الجارية والبضائع التامة للشركة."
+
+#. Description of a DocType
+#: private/rua/rua/rua/doctype/rua_import_record/rua_import_record.json
+msgid "Each old record and what it became."
+msgstr "كل سجل قديم وما أصبح عليه."
 
 #: onedesk/one_crm/home.py:145
 msgid "Each order line: delivered, billed, and what is late."
@@ -12083,7 +12164,7 @@ msgstr "تعديل"
 msgid "Edit About"
 msgstr "تعديل المعلومات"
 
-#: frontend/src/project/Overview.vue:9
+#: frontend/src/project/Overview.vue:18
 msgid "Edit Brief"
 msgstr "تعديل النبذة"
 
@@ -12772,7 +12853,7 @@ msgstr "نهاية العمر"
 msgid "End of Service"
 msgstr "نهاية الخدمة"
 
-#: frontend/src/lots/SerialRows.vue:29 frontend/src/project/Overview.vue:394
+#: frontend/src/lots/SerialRows.vue:29 frontend/src/project/Overview.vue:404
 #: onedesk/public/js/settings.js:2962
 msgid "Ended"
 msgstr "انتهت"
@@ -12831,7 +12912,7 @@ msgstr "ينتهي اليوم"
 msgid "Ends tomorrow"
 msgstr "ينتهي غدًا"
 
-#: frontend/src/project/Overview.vue:290 onedesk/one/portal.py:334
+#: frontend/src/project/Overview.vue:300 onedesk/one/portal.py:334
 #: onedesk/one_project/portal.py:192 onedesk/one_project/tell.py:187
 #: onedesk/one_project/tell.py:192
 msgid "Ends {0}"
@@ -12882,6 +12963,14 @@ msgstr "أدخل ساعات العمل الإضافي."
 msgid "Enter the street address."
 msgstr "أدخل عنوان الشارع."
 
+#. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
+#. Label of the section_copies (Section Break) field in DocType 'Rua
+#. Settlement'
+#: private/rua/rua/rua/doctype/rua_import_note/rua_import_note.json
+#: private/rua/rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "Entered Twice"
+msgstr "مُدخل مرتين"
+
 #: onedesk/one_book/home.py:413
 msgid "Entries that don't match their documents."
 msgstr "قيود لا تطابق مستنداتها."
@@ -12929,10 +13018,13 @@ msgstr "المعدات التي تحتاج صيانة لها جدول"
 #. Label of the error (Small Text) field in DocType 'Provisioning Job'
 #. Label of the error (Small Text) field in DocType 'Stripe Webhook Event'
 #. Label of the error (Small Text) field in DocType 'Reading'
+#. Label of the error_section (Section Break) field in DocType 'Rua Import'
+#. Label of the error (Code) field in DocType 'Rua Import'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/public/js/extension_errors.js:22
+#: private/rua/rua/rua/doctype/rua_import/rua_import.json
 msgid "Error"
 msgstr "خطأ"
 
@@ -12949,7 +13041,7 @@ msgstr "الأخطاء في آخر 7 أيام"
 msgid "Estimated Cost"
 msgstr ""
 
-#: frontend/src/project/Overview.vue:145
+#: frontend/src/project/Overview.vue:155
 msgid "Estimated Cost Used"
 msgstr "المستخدم من التكلفة التقديرية"
 
@@ -13540,7 +13632,7 @@ msgstr ""
 msgid "Expected End"
 msgstr "النهاية المتوقعة"
 
-#: frontend/src/project/Overview.vue:145 frontend/src/project/Overview.vue:274
+#: frontend/src/project/Overview.vue:155 frontend/src/project/Overview.vue:284
 #: frontend/src/project/ProjectPage.vue:191
 #: frontend/src/project/TaskPanel.vue:27 frontend/src/project/Tasks.vue:18
 #: frontend/src/task/MyTasks.vue:28 frontend/src/task/MyTasks.vue:38
@@ -13751,7 +13843,9 @@ msgid "Explain Again"
 msgstr "اشرح مرة أخرى"
 
 #. Label of the explained (Long Text) field in DocType 'Reading'
+#. Option for the 'Result' (Select) field in DocType 'Rua Import Check'
 #: onedesk/one_intake/doctype/reading/reading.json
+#: private/rua/rua/rua/doctype/rua_import_check/rua_import_check.json
 msgid "Explained"
 msgstr "الشرح"
 
@@ -13842,8 +13936,8 @@ msgstr "تعليمات إضافية"
 
 #. Label of the one_extra_work (Check) field in DocType 'Quotation'
 #. Label of the one_extra_work (Check) field in DocType 'Sales Order'
-#: frontend/src/project/Overview.vue:346 frontend/src/project/Overview.vue:379
-#: frontend/src/project/Overview.vue:407
+#: frontend/src/project/Overview.vue:356 frontend/src/project/Overview.vue:389
+#: frontend/src/project/Overview.vue:417
 #: onedesk/one_project/custom/quotation.json
 #: onedesk/one_project/custom/sales_order.json
 msgid "Extra Work"
@@ -13888,6 +13982,7 @@ msgstr "فحص الجودة في المصنع"
 #. Option for the 'Status' (Select) field in DocType 'Interview Recording'
 #. Option for the 'State' (Select) field in DocType 'Interview Recording Part'
 #. Option for the 'State' (Select) field in DocType 'Reading'
+#. Option for the 'Status' (Select) field in DocType 'Rua Import'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json
@@ -13902,6 +13997,7 @@ msgstr "فحص الجودة في المصنع"
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/public/js/admin_settings.js:45 onedesk/public/js/onecloud.js:2107
 #: onedesk/public/js/settings.js:637
+#: private/rua/rua/rua/doctype/rua_import/rua_import.json
 msgid "Failed"
 msgstr "فشل"
 
@@ -14363,9 +14459,11 @@ msgid "Finish {0}"
 msgstr "إنهاء {0}"
 
 #. Label of the finished_at (Datetime) field in DocType 'Provisioning Job'
+#. Label of the finished_on (Datetime) field in DocType 'Rua Import'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
+#: private/rua/rua/rua/doctype/rua_import/rua_import.json
 msgid "Finished"
-msgstr ""
+msgstr "انتهى"
 
 #. Task in the Interior Fit-Out project template
 #: onedesk/one_project/library/interior_fit_out.json
@@ -14549,6 +14647,11 @@ msgstr "الأرضيات"
 msgid "Flow"
 msgstr "المسار"
 
+#. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
+#: private/rua/rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "Folded"
+msgstr "مدمج"
+
 #. Label of the one_folder (Data) field in DocType 'Communication'
 #. Label of the folder (Link) field in DocType 'Cloud File Request'
 #: onedesk/one_mail/custom/communication.json
@@ -14730,6 +14833,11 @@ msgstr "مثلًا: سطر شكر."
 msgid "For new projects"
 msgstr "للمشاريع الجديدة"
 
+#. Label of the notes_section (Section Break) field in DocType 'Rua Import'
+#: private/rua/rua/rua/doctype/rua_import/rua_import.json
+msgid "For the Accountant"
+msgstr "للمحاسب"
+
 #. Label in the One Invoice Discounting print format
 #: onedesk/one_book/print_format/one_invoice_discounting/one_invoice_discounting.json
 msgid "For the Bank"
@@ -14803,7 +14911,7 @@ msgid "Forecast Cost"
 msgstr "التكلفة المتوقعة"
 
 #: frontend/src/project/Money.vue:150 frontend/src/project/Money.vue:174
-#: frontend/src/project/Overview.vue:143 onedesk/one_project/heads.py:262
+#: frontend/src/project/Overview.vue:153 onedesk/one_project/heads.py:262
 msgid "Forecast Margin"
 msgstr "الهامش المتوقع"
 
@@ -14812,7 +14920,7 @@ msgstr "الهامش المتوقع"
 msgid "Forecast No"
 msgstr "رقم التوقع"
 
-#: onedesk/one_project/view.py:572
+#: onedesk/one_project/view.py:574
 msgid "Forecast over by {0}"
 msgstr "التوقع متجاوز بمقدار {0}"
 
@@ -15137,7 +15245,7 @@ msgstr "من المنزل"
 msgid "From or To"
 msgstr "من أو إلى"
 
-#: frontend/src/project/Overview.vue:298
+#: frontend/src/project/Overview.vue:308
 msgid "From the Customer"
 msgstr "لدى العميل"
 
@@ -16066,9 +16174,11 @@ msgstr "الطول والوزن والحساسيات والحالات الطبي
 #. Option for the 'State' (Select) field in DocType 'Credit Reservation'
 #. Label of the credits (Float) field in DocType 'Credit Reservation'
 #. Label in the One Stock Reservation Entry print format
+#. Option for the 'Retention' (Select) field in DocType 'Rua Settlement'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
 #: onedesk/one_inventory/print_format/one_stock_reservation_entry/one_stock_reservation_entry.json
+#: private/rua/rua/rua/doctype/rua_settlement/rua_settlement.json
 msgid "Held"
 msgstr "المحجوز"
 
@@ -16260,7 +16370,7 @@ msgstr "الرئيسية"
 #. Label in the One Attendance print format
 #. Label in the One Training Result print format
 #. Label in the One Timesheet print format
-#: frontend/src/home/InventoryStory.vue:76 frontend/src/project/Overview.vue:18
+#: frontend/src/home/InventoryStory.vue:76 frontend/src/project/Overview.vue:27
 #: frontend/src/project/Time.vue:29 frontend/src/task/TaskTime.vue:22
 #: onedesk/one/portal.py:64 onedesk/one/print_blocks.py:90
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
@@ -16288,7 +16398,7 @@ msgstr "الساعات المسجلة أسبوعًا بأسبوع"
 msgid "Hours Over Plan"
 msgstr "ساعات فوق المخطط"
 
-#: frontend/src/project/Overview.vue:144
+#: frontend/src/project/Overview.vue:154
 msgid "Hours This Month"
 msgstr "ساعات هذا الشهر"
 
@@ -16309,7 +16419,7 @@ msgstr "الساعات المعمولة"
 msgid "Hours a Month"
 msgstr "الساعات شهريًا"
 
-#: frontend/src/project/Overview.vue:18
+#: frontend/src/project/Overview.vue:27
 msgid "Hours by Week"
 msgstr "الساعات حسب الأسبوع"
 
@@ -17308,8 +17418,8 @@ msgstr "في {0}"
 
 #: frontend/src/home/HrHome.vue:207 frontend/src/project/Milestones.vue:29
 #: onedesk/one_admin/heads.py:191 onedesk/one_project/heads.py:77
-#: onedesk/one_project/portal.py:260 onedesk/one_project/view.py:409
-#: onedesk/one_project/view.py:615
+#: onedesk/one_project/portal.py:260 onedesk/one_project/view.py:411
+#: onedesk/one_project/view.py:617
 msgid "In {0} days"
 msgstr "خلال {0} يوم"
 
@@ -17453,11 +17563,11 @@ msgstr "زيادة قيمة حقل"
 msgid "Indicator"
 msgstr ""
 
-#: onedesk/one/head.py:126
+#: onedesk/one/head.py:135
 msgid "Indicator {0}"
 msgstr "المؤشر {0}"
 
-#: onedesk/one/head.py:124
+#: onedesk/one/head.py:133
 msgid "Indicator {0} names the measure {1}, which no module has."
 msgstr "المؤشر {0} يسمّي المقياس {1}، ولا تملكه أي وحدة."
 
@@ -18013,7 +18123,7 @@ msgstr "فاتورة متأخرة"
 msgid "Invoice Portion"
 msgstr "جزء الفاتورة"
 
-#: frontend/src/project/Overview.vue:51
+#: frontend/src/project/Overview.vue:60
 #: frontend/src/project/ProjectPage.vue:344 frontend/src/project/Time.vue:200
 #: onedesk/public/js/project.js:23 onedesk/public/js/project_actions.js:99
 msgid "Invoice Time"
@@ -18033,7 +18143,7 @@ msgid "Invoice {project} for last month"
 msgstr "أصدر فاتورة {project} عن الشهر الماضي"
 
 #: frontend/src/project/Invoices.vue:106 frontend/src/project/Money.vue:157
-#: frontend/src/project/Overview.vue:145 frontend/src/project/Time.vue:84
+#: frontend/src/project/Overview.vue:155 frontend/src/project/Time.vue:84
 #: frontend/src/project/Time.vue:202 onedesk/one/portal.py:797
 #: onedesk/one/portal.py:801 onedesk/one/portal.py:807
 #: onedesk/one/print_blocks.py:791 onedesk/one_project/money.py:146
@@ -18140,6 +18250,10 @@ msgstr "هل تسجيل الدخول هنا آمن بما يكفي؟"
 #: onedesk/one/ai.py:406
 msgid "Is signing in to this workspace safe enough? Look at our rules and at how people sign in, and say what to change."
 msgstr "هل تسجيل الدخول إلى مساحة العمل هذه آمن بما يكفي؟ راجع قواعدنا وكيف يسجّل الناس الدخول، وقل ما الذي يجب تغييره."
+
+#: private/rua/rua/settle.py:42
+msgid "Is the client still holding retention on invoices made outside One?"
+msgstr "هل ما زال العميل يحتجز محتجزات على فواتير صدرت خارج One؟"
 
 #: onedesk/one/ai.py:365
 msgid "Is there a cheaper model that would do?"
@@ -18386,6 +18500,10 @@ msgstr "سيؤدي ذلك إلى إنهاء توظيف شخص ما."
 #: onedesk/one_intake/act.py:78
 msgid "It would overwrite {0}."
 msgstr "سيؤدي ذلك إلى استبدال {0}."
+
+#: private/rua/rua/settle.py:164
+msgid "It's an Advance"
+msgstr "إنها دفعة مقدمة"
 
 #. Label in the One Purchase Voucher print format
 #. Label in the One Sales Voucher print format
@@ -19005,6 +19123,10 @@ msgstr "العهدة لدى"
 msgid "Kept In"
 msgstr "يُحفظ في"
 
+#: private/rua/rua/settle.py:132
+msgid "Kept as an advance until its invoice is made."
+msgstr "تبقى دفعة مقدمة حتى تصدر فاتورتها."
+
 #: onedesk/one_intake/keep.py:49
 msgid "Kept by Law"
 msgstr "محفوظ بموجب القانون"
@@ -19082,6 +19204,7 @@ msgstr "ورشة الانطلاق"
 #. Label of the kind (Select) field in DocType 'Mail Folder'
 #. Label of the one_kind (Select) field in DocType 'Project'
 #. Label of the protocol (Select) field in DocType 'Cloud Mount'
+#. Label of the kind (Select) field in DocType 'Rua Import Note'
 #: frontend/src/upkeep/UpkeepRows.vue:105
 #: onedesk/one/doctype/workspace_customization/workspace_customization.json
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
@@ -19105,6 +19228,7 @@ msgstr "ورشة الانطلاق"
 #: onedesk/public/js/item_list.js:27 onedesk/public/js/item_new.js:173
 #: onedesk/public/js/item_new.js:334 onedesk/public/js/project_new.js:190
 #: onedesk/public/js/project_new.js:280
+#: private/rua/rua/rua/doctype/rua_import_note/rua_import_note.json
 msgid "Kind"
 msgstr "النوع"
 
@@ -19216,7 +19340,7 @@ msgstr "آخر جواب"
 msgid "Last Bank Transaction"
 msgstr "آخر معاملة بنكية"
 
-#: frontend/src/project/Overview.vue:184
+#: frontend/src/project/Overview.vue:194
 msgid "Last Billed"
 msgstr "آخر فوترة"
 
@@ -19845,7 +19969,7 @@ msgstr ""
 #. Label in the One Salary Statement print format
 #: frontend/src/home/HrStory.vue:83 frontend/src/lots/LotRows.vue:10
 #: frontend/src/project/Money.vue:37 frontend/src/project/Money.vue:139
-#: frontend/src/project/Overview.vue:197 onedesk/one/print_blocks.py:917
+#: frontend/src/project/Overview.vue:207 onedesk/one/print_blocks.py:917
 #: onedesk/one_hr/print_format/one_employee_benefit_application/one_employee_benefit_application.json
 #: onedesk/one_hr/print_format/one_full_and_final_settlement/one_full_and_final_settlement.json
 #: onedesk/one_hr/print_format/one_salary_statement/one_salary_statement.json
@@ -19864,6 +19988,11 @@ msgstr "غادر مبكراً بـ"
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:32
 msgid "Left Early Only"
 msgstr "من غادروا مبكراً فقط"
+
+#. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
+#: private/rua/rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "Left Out"
+msgstr "مستبعد"
 
 #: frontend/src/home/BooksHome.vue:230 frontend/src/home/CrmHome.vue:252
 #: frontend/src/home/InventoryHome.vue:286
@@ -20883,7 +21012,7 @@ msgid "Main"
 msgstr ""
 
 #: frontend/src/project/MilestoneLanes.vue:77
-#: frontend/src/project/Overview.vue:326
+#: frontend/src/project/Overview.vue:336
 #: frontend/src/project/ProjectPage.vue:270
 #: frontend/src/project/ProjectPage.vue:275
 msgctxt "Project"
@@ -21184,7 +21313,7 @@ msgstr ""
 msgid "Mar"
 msgstr ""
 
-#: frontend/src/project/Overview.vue:143
+#: frontend/src/project/Overview.vue:153
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:144
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:159
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:174
@@ -21741,7 +21870,7 @@ msgid "Milestone Late"
 msgstr "تأخّر معلم"
 
 #: frontend/portal/src/pages/Project.vue:10
-#: frontend/src/project/Overview.vue:41 frontend/src/project/Overview.vue:62
+#: frontend/src/project/Overview.vue:50 frontend/src/project/Overview.vue:71
 #: onedesk/one/print_blocks.py:659
 msgid "Milestones"
 msgstr "المراحل الرئيسية"
@@ -21844,8 +21973,8 @@ msgstr "الاثنين"
 
 #. Label of the money_tab (Tab Break) field in DocType 'One Admin Settings'
 #. Label of the section_money (Section Break) field in DocType 'Reading'
-#: frontend/src/project/Money.vue:5 frontend/src/project/Overview.vue:34
-#: frontend/src/project/Overview.vue:80
+#: frontend/src/project/Money.vue:5 frontend/src/project/Overview.vue:43
+#: frontend/src/project/Overview.vue:89
 #: frontend/src/project/ProjectActivity.vue:104
 #: frontend/src/project/ProjectPage.vue:173
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
@@ -21902,7 +22031,7 @@ msgid "Monthly Credits"
 msgstr "الرصيد الشهري"
 
 #. Label of the one_monthly_fee (Currency) field in DocType 'Project'
-#: frontend/src/project/Money.vue:156 frontend/src/project/Overview.vue:144
+#: frontend/src/project/Money.vue:156 frontend/src/project/Overview.vue:154
 #: onedesk/one_project/ai.py:987 onedesk/one_project/custom/project.json
 #: onedesk/public/js/project_new.js:144
 msgid "Monthly Fee"
@@ -21920,12 +22049,12 @@ msgstr "رصيد شهر {0}"
 msgid "Monthly credits are used first. Bought credits never expire."
 msgstr "تُستخدم الأرصدة الشهرية أولًا. الأرصدة المشتراة لا تنتهي صلاحيتها."
 
-#: frontend/src/project/Overview.vue:56
+#: frontend/src/project/Overview.vue:65
 #: onedesk/one_crm/report/opportunity_forecast/opportunity_forecast.js:11
 msgid "Months"
 msgstr "الأشهر"
 
-#: frontend/src/project/Overview.vue:145
+#: frontend/src/project/Overview.vue:155
 msgid "Months Not Invoiced"
 msgstr "أشهر غير مفوترة"
 
@@ -22317,7 +22446,7 @@ msgid "Needs Review"
 msgstr "يحتاج مراجعة"
 
 #: frontend/portal/src/pages/Home.vue:31 frontend/src/item/ItemOverview.vue:3
-#: frontend/src/project/Overview.vue:90
+#: frontend/src/project/Overview.vue:99
 msgid "Needs You"
 msgstr "بحاجة إليك"
 
@@ -22596,7 +22725,7 @@ msgid "New Purchase Receipt"
 msgstr "إيصال شراء جديد"
 
 #: frontend/src/home/CrmHome.vue:275 frontend/src/item/ItemCustomers.vue:72
-#: frontend/src/project/Overview.vue:372
+#: frontend/src/project/Overview.vue:382
 msgid "New Quotation"
 msgstr "عرض سعر جديد"
 
@@ -22767,7 +22896,7 @@ msgstr "النشرات البريدية"
 msgid "Next"
 msgstr "التالي"
 
-#: frontend/src/project/Overview.vue:67
+#: frontend/src/project/Overview.vue:76
 msgid "Next 2 weeks"
 msgstr "الأسبوعان القادمان"
 
@@ -23045,6 +23174,11 @@ msgstr "بلا تاريخ إغلاق"
 msgid "No Due Date"
 msgstr "بلا تاريخ استحقاق"
 
+#. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
+#: private/rua/rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "No Invoice"
+msgstr "بلا فاتورة"
+
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:12
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:31
 msgid "No Location"
@@ -23070,6 +23204,10 @@ msgstr "شهادة عدم ممانعة"
 #: frontend/src/project/Suppliers.vue:17
 msgid "No Order Yet"
 msgstr "لا طلب بعد"
+
+#: private/rua/rua/settle.py:158
+msgid "No Retention Held"
+msgstr "لا محتجزات"
 
 #: frontend/src/lots/LotsPage.vue:26
 msgid "No Serial Nos match"
@@ -23158,7 +23296,7 @@ msgstr "لا يوجد في {0} وقت قابل للفوترة بانتظار ا�
 msgid "No brand"
 msgstr "بلا علامة تجارية"
 
-#: frontend/src/project/Money.vue:170 onedesk/one_project/view.py:482
+#: frontend/src/project/Money.vue:170 onedesk/one_project/view.py:484
 msgid "No budget"
 msgstr "لا توجد ميزانية"
 
@@ -23183,7 +23321,7 @@ msgstr "لم يُعثر على تسجيل حضور لذلك اليوم. إن ك�
 msgid "No contacts"
 msgstr "لا توجد جهات اتصال"
 
-#: frontend/src/project/Overview.vue:85
+#: frontend/src/project/Overview.vue:94
 msgid "No contracts"
 msgstr "لا توجد عقود"
 
@@ -23195,7 +23333,7 @@ msgstr "لم يتم اختيار محادثة"
 msgid "No conversations"
 msgstr "لا توجد محادثات"
 
-#: frontend/src/project/Money.vue:30 frontend/src/project/Overview.vue:38
+#: frontend/src/project/Money.vue:30 frontend/src/project/Overview.vue:47
 msgid "No cost types"
 msgstr "لا توجد أنواع تكاليف"
 
@@ -23413,7 +23551,7 @@ msgstr "لا توجد قوالب مطابقة"
 msgid "No memories"
 msgstr "لا توجد ذكريات"
 
-#: frontend/src/project/Overview.vue:44 frontend/src/project/Overview.vue:65
+#: frontend/src/project/Overview.vue:53 frontend/src/project/Overview.vue:74
 msgid "No milestones"
 msgstr "لا توجد مراحل"
 
@@ -23521,7 +23659,7 @@ msgstr "لا توجد تنسيقات طباعة"
 msgid "No profiles"
 msgstr "لا توجد ملفات تعريف"
 
-#: frontend/src/project/Overview.vue:32 frontend/src/project/Overview.vue:73
+#: frontend/src/project/Overview.vue:41 frontend/src/project/Overview.vue:82
 msgid "No quotations"
 msgstr "لا توجد عروض أسعار"
 
@@ -23552,6 +23690,10 @@ msgstr "لا طلبات مطابقة"
 #: onedesk/public/js/onecloud.js:340 onedesk/public/js/onemail.js:289
 msgid "No results"
 msgstr "لا توجد نتائج"
+
+#: private/rua/rua/settle.py:125
+msgid "No retention held."
+msgstr "لا توجد محتجزات."
 
 #: onedesk/one_project/retention.py:405 onedesk/one_project/retention.py:457
 msgid "No retention is held here."
@@ -23601,7 +23743,7 @@ msgstr "لا يوجد صوت. تحقّق من الميكروفون."
 msgid "No starred items"
 msgstr "لا توجد عناصر مميزة بنجمة"
 
-#: frontend/src/project/Overview.vue:114
+#: frontend/src/project/Overview.vue:123
 msgid "No sub-projects"
 msgstr "لا توجد مشاريع فرعية"
 
@@ -23642,7 +23784,7 @@ msgstr "لا توجد مهام"
 msgid "No tasks assigned to you"
 msgstr "لا توجد مهام مسندة إليك"
 
-#: frontend/src/project/Overview.vue:68
+#: frontend/src/project/Overview.vue:77
 msgid "No tasks due"
 msgstr "لا مهام مستحقة"
 
@@ -23670,7 +23812,7 @@ msgstr "لا يوجد قالب افتراضي، لذا لا تُحتسب ضري�
 msgid "No time logged"
 msgstr "لا يوجد وقت مسجل"
 
-#: frontend/src/project/Overview.vue:50
+#: frontend/src/project/Overview.vue:59
 msgid "No time to invoice"
 msgstr "لا وقت للفوترة"
 
@@ -23789,6 +23931,11 @@ msgstr "عدم مطابقة"
 msgid "None"
 msgstr "لا شيء"
 
+#. Option for the 'Retention' (Select) field in DocType 'Rua Settlement'
+#: private/rua/rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "None Held"
+msgstr "لا شيء محتجز"
+
 #: frontend/src/item/ItemMaking.vue:63
 msgid "None free"
 msgstr "لا شيء متاح"
@@ -23864,8 +24011,8 @@ msgstr "غير مُقدَّرة"
 msgid "Not Found"
 msgstr "غير موجود"
 
-#: frontend/src/project/Overview.vue:49 frontend/src/project/Overview.vue:144
-#: frontend/src/project/Overview.vue:180 onedesk/one_project/money.py:192
+#: frontend/src/project/Overview.vue:58 frontend/src/project/Overview.vue:154
+#: frontend/src/project/Overview.vue:190 onedesk/one_project/money.py:192
 msgid "Not Invoiced Yet"
 msgstr "لم تُفوتر بعد"
 
@@ -23904,13 +24051,15 @@ msgstr "غير محفوظ"
 msgid "Not Shown"
 msgstr "غير معروض"
 
-#: frontend/src/project/Overview.vue:394
+#: frontend/src/project/Overview.vue:404
 msgid "Not Signed"
 msgstr "غير موقّع"
 
+#. Option for the 'Status' (Select) field in DocType 'Rua Import'
 #: onedesk/public/js/work_order_list.js:8
+#: private/rua/rua/rua/doctype/rua_import/rua_import.json
 msgid "Not Started"
-msgstr ""
+msgstr "لم يبدأ"
 
 #: frontend/src/task/TaskTime.vue:62
 msgid "Not Submitted"
@@ -24083,7 +24232,7 @@ msgstr "لم يُفتح بعد"
 msgid "Not ordered"
 msgstr "بلا أمر شراء"
 
-#: onedesk/one_project/view.py:371
+#: onedesk/one_project/view.py:373
 msgid "Not ordered yet"
 msgstr "لم يُطلب بعد"
 
@@ -24124,7 +24273,7 @@ msgstr "لم يُسجّل تلقائيًا: {0}"
 msgid "Not saved, storage is full"
 msgstr "لم يُحفظ، التخزين ممتلئ"
 
-#: frontend/src/project/Overview.vue:271 frontend/src/project/Overview.vue:274
+#: frontend/src/project/Overview.vue:281 frontend/src/project/Overview.vue:284
 #: onedesk/public/js/settings.js:2270 onedesk/public/js/settings.js:2349
 msgid "Not set"
 msgstr "غير محدد"
@@ -24143,7 +24292,7 @@ msgstr "غير ظاهر"
 msgid "Not shown when it comes to nothing. Otherwise an empty value shows as a dash."
 msgstr "لا يظهر حين لا تكون له قيمة. وإلا تظهر القيمة الفارغة شرطة."
 
-#: frontend/src/project/Overview.vue:290
+#: frontend/src/project/Overview.vue:300
 msgid "Not signed yet"
 msgstr "لم يُوقَّع بعد"
 
@@ -24198,6 +24347,8 @@ msgstr "ليس بعد"
 #. Label of the note (Data) field in DocType 'Project Contact'
 #. Label of the description (Small Text) field in DocType 'Cloud File Request
 #. Item'
+#. Label of the note (Small Text) field in DocType 'Retention Before One'
+#. Label of the note (Small Text) field in DocType 'Rua Import Note'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
 #: onedesk/one_hr/custom/attendance_request.json
@@ -24211,6 +24362,9 @@ msgstr "ليس بعد"
 #: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json
 #: onedesk/public/js/project_actions.js:449 onedesk/public/js/settings.js:2106
 #: onedesk/public/js/tenant.js:52
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
+#: private/rua/rua/rua/doctype/rua_import_note/rua_import_note.json
+#: private/rua/rua/settle.py:95
 msgid "Note"
 msgstr "ملاحظة"
 
@@ -24224,12 +24378,14 @@ msgstr "رقم الإشعار"
 #. Label in the One Delivery Trip print format
 #. Label in the One Work Order print format
 #. Label in the One Timesheet print format
+#. Label of the notes (Table) field in DocType 'Rua Import'
 #: frontend/portal/src/pages/Rfq.vue:78 onedesk/one/portal.py:681
 #: onedesk/one_hr/print_format/one_leave_allocation/one_leave_allocation.json
 #: onedesk/one_inventory/print_format/one_bom_creator/one_bom_creator.json
 #: onedesk/one_inventory/print_format/one_delivery_trip/one_delivery_trip.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
+#: private/rua/rua/rua/doctype/rua_import/rua_import.json
 msgid "Notes"
 msgstr "ملاحظات"
 
@@ -24293,6 +24449,10 @@ msgstr "لم يحدث شيء بعد. ويُفحص مقابل صلاحياتك أ
 #: onedesk/one/page/masters/masters.js:124 onedesk/public/js/desk.js:410
 msgid "Nothing here yet"
 msgstr "لا شيء هنا بعد"
+
+#: private/rua/rua/settle.py:57
+msgid "Nothing is left to settle on {0}."
+msgstr "لم يبق شيء للتسوية في {0}."
 
 #: onedesk/one_hr/heads.py:525
 msgid "Nothing is spent and no attendance is marked."
@@ -24367,7 +24527,7 @@ msgstr "لا يوجد ما تسجّل حضوره. أنت {0} اليوم."
 msgid "Nothing to deliver"
 msgstr "لا شيء للتسليم"
 
-#: frontend/src/project/Overview.vue:91
+#: frontend/src/project/Overview.vue:100
 msgid "Nothing to do"
 msgstr "لا شيء للقيام به"
 
@@ -24734,10 +24894,25 @@ msgstr "العروض"
 msgid "Office Move"
 msgstr "انتقال المكتب"
 
+#. Label of the old (Float) field in DocType 'Rua Import Check'
+#: private/rua/rua/rua/doctype/rua_import_check/rua_import_check.json
+msgid "Old App"
+msgstr "التطبيق القديم"
+
 #. Label in the One Exchange Rate Revaluation print format
 #: onedesk/one_book/print_format/one_exchange_rate_revaluation/one_exchange_rate_revaluation.json
 msgid "Old Rate"
 msgstr "السعر القديم"
+
+#. Label of the source_name (Data) field in DocType 'Rua Import Record'
+#: private/rua/rua/rua/doctype/rua_import_record/rua_import_record.json
+msgid "Old Record"
+msgstr "السجل القديم"
+
+#. Label of the source_doctype (Data) field in DocType 'Rua Import Record'
+#: private/rua/rua/rua/doctype/rua_import_record/rua_import_record.json
+msgid "Old Record Type"
+msgstr "نوع السجل القديم"
 
 #. Task in the Office Move project template
 #: onedesk/one_project/library/office_move.json
@@ -24807,7 +24982,7 @@ msgid "On My Tasks"
 msgstr "في مهامي"
 
 #: frontend/src/item/ItemBuying.vue:11 frontend/src/item/ItemPage.vue:243
-#: frontend/src/project/Overview.vue:197
+#: frontend/src/project/Overview.vue:207
 #: frontend/src/supplier/SupplierItems.vue:18
 msgid "On Order"
 msgstr "قيد الطلب"
@@ -24961,7 +25136,7 @@ msgstr "فترة تجريبية"
 msgid "On {0}"
 msgstr "في {0}"
 
-#: onedesk/one_project/view.py:380
+#: onedesk/one_project/view.py:382
 msgid "On {0}'s order"
 msgstr "ضمن أمر {0}"
 
@@ -25000,10 +25175,12 @@ msgstr "مرة في الأسبوع، بما وصل وما عالجه OneAI وم�
 #. Name of a Workspace
 #. Option for the 'By' (Select) field in DocType 'Tenant Event'
 #. Option for the 'App' (Select) field in DocType 'Record Type'
+#. Label of the one (Float) field in DocType 'Rua Import Check'
 #: onedesk/one/sidebar/one/one.json onedesk/one/workspace/one/one.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event_list.js:30
 #: onedesk/one_studio/doctype/record_type/record_type.json
+#: private/rua/rua/rua/doctype/rua_import_check/rua_import_check.json
 msgid "One"
 msgstr "One"
 
@@ -25785,6 +25962,10 @@ msgstr "لا يُضاف إلى الوسائط المميزة إلا الصور �
 msgid "Only record types you can open."
 msgstr "أنواع السجلات التي يمكنك فتحها فقط."
 
+#: private/rua/rua/settle.py:54
+msgid "Only somebody in accounts settles what the old app left."
+msgstr "لا يسوي ما تركه التطبيق القديم إلا أحد من الحسابات."
+
 #: onedesk/one_hr/decision.py:13
 msgid "Only somebody who can approve these may answer this one."
 msgstr "لا يبتّ في هذا إلا من يملك اعتماد هذه الطلبات."
@@ -26513,7 +26694,7 @@ msgstr "تم الطلب، لكن البضائع كانت مطلوبة منذ {0}
 msgid "Ordered; waiting for the goods."
 msgstr "تم الطلب؛ بانتظار البضائع."
 
-#: frontend/src/item/ItemPlaces.vue:17 frontend/src/project/Overview.vue:27
+#: frontend/src/item/ItemPlaces.vue:17 frontend/src/project/Overview.vue:36
 msgid "Orders"
 msgstr "الطلبات"
 
@@ -26577,7 +26758,7 @@ msgstr "الأصل"
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
 #. Option for the 'Kind' (Select) field in DocType 'Mail Folder'
 #. Option for the 'Role' (Select) field in DocType 'Project Contact'
-#: frontend/src/project/Money.vue:205 frontend/src/project/Overview.vue:190
+#: frontend/src/project/Money.vue:205 frontend/src/project/Overview.vue:200
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:68
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:96
@@ -26590,7 +26771,7 @@ msgstr "الأصل"
 #: onedesk/one_intake/report/spending/spending.py:22
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_project/doctype/project_contact/project_contact.json
-#: onedesk/one_project/view.py:1093 onedesk/one_project/view.py:1273
+#: onedesk/one_project/view.py:1095 onedesk/one_project/view.py:1275
 #: onedesk/public/js/oneai/Panel.vue:513
 msgid "Other"
 msgstr "أخرى"
@@ -26877,7 +27058,7 @@ msgstr "متأخر"
 msgid "Overdue For"
 msgstr "مدة التأخر"
 
-#: frontend/src/project/Overview.vue:145 onedesk/one_project/heads.py:263
+#: frontend/src/project/Overview.vue:155 onedesk/one_project/heads.py:263
 msgid "Overdue Tasks"
 msgstr "مهام متأخرة"
 
@@ -26938,7 +27119,7 @@ msgid "Overview"
 msgstr "نظرة عامة"
 
 #. Label in the One Invoice Discounting print format
-#: frontend/src/project/Overview.vue:182
+#: frontend/src/project/Overview.vue:192
 #: onedesk/one_book/print_format/one_invoice_discounting/one_invoice_discounting.json
 msgid "Owed"
 msgstr "مستحق"
@@ -27059,7 +27240,7 @@ msgstr "الصفحات"
 #: onedesk/one_hr/print_format/one_gratuity/one_gratuity.json
 #: onedesk/one_inventory/heads.py:535 onedesk/one_project/money.py:154
 #: onedesk/one_project/money.py:165 onedesk/one_project/portal.py:226
-#: onedesk/one_project/view.py:434 onedesk/public/js/settings.js:1627
+#: onedesk/one_project/view.py:436 onedesk/public/js/settings.js:1627
 msgid "Paid"
 msgstr "المدفوع"
 
@@ -27162,7 +27343,7 @@ msgstr "مدفوعة بالخصم المباشر."
 #. Label in the One Purchase Order Bordered print format
 #. Label in the One Purchase Order Classic print format
 #. Label in the One Purchase Order with Images print format
-#: frontend/src/project/Overview.vue:183
+#: frontend/src/project/Overview.vue:193
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
 #: onedesk/one_crm/print_format/one_sales_order/one_sales_order.json
 #: onedesk/one_crm/print_format/one_sales_order_bordered/one_sales_order_bordered.json
@@ -27191,7 +27372,7 @@ msgstr "المدفوع لهم"
 msgid "Paid under"
 msgstr "يُدفع وفق"
 
-#: onedesk/one_project/view.py:438
+#: onedesk/one_project/view.py:440
 msgid "Paid {0}"
 msgstr "مدفوع {0}"
 
@@ -27671,7 +27852,7 @@ msgstr "راتب محجوز لعدة دورات، ولماذا."
 msgid "Pay it from Payment Method so the workspace stays open."
 msgstr "ادفعها من طريقة الدفع لتبقى مساحة العمل مفتوحة."
 
-#: onedesk/one_project/view.py:948
+#: onedesk/one_project/view.py:950
 msgid "Pay retention to {0}"
 msgstr "ادفع المحتجز إلى {0}"
 
@@ -27691,7 +27872,7 @@ msgstr "ادفع خلال {0} يوم لتجنب الحذف."
 msgid "Pay within {0} days to avoid suspension."
 msgstr "ادفع خلال {0} يوم لتجنب الإيقاف."
 
-#: onedesk/one/portal.py:648 onedesk/one_project/view.py:948
+#: onedesk/one/portal.py:648 onedesk/one_project/view.py:950
 msgid "Pay {0}"
 msgstr "ادفع {0}"
 
@@ -27882,7 +28063,7 @@ msgstr ""
 #. Label in the One Purchase Order with Images print format
 #. Label of the one_payment_terms (Link) field in DocType 'Project'
 #. Label of the one_payment_terms (Link) field in DocType 'Project Template'
-#: frontend/src/project/Overview.vue:279
+#: frontend/src/project/Overview.vue:289
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_purchase_invoice/one_purchase_invoice.json
 #: onedesk/one_book/print_format/one_purchase_invoice_classic/one_purchase_invoice_classic.json
@@ -27979,6 +28160,11 @@ msgstr "المدفوعات"
 #: onedesk/one_book/print_format/one_process_payment_reconciliation/one_process_payment_reconciliation.json
 msgid "Payments From"
 msgstr "المدفوعات من"
+
+#. Label of the copies (Int) field in DocType 'Rua Settlement'
+#: private/rua/rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "Payments Left Out"
+msgstr "دفعات مستبعدة"
 
 #. Label in the One Process Payment Reconciliation print format
 #: onedesk/one_book/print_format/one_process_payment_reconciliation/one_process_payment_reconciliation.json
@@ -29206,7 +29392,7 @@ msgstr "طباعة {0}"
 msgid "Prints With"
 msgstr "يُطبع بـ"
 
-#: frontend/src/project/Overview.vue:276 frontend/src/project/TaskPanel.vue:23
+#: frontend/src/project/Overview.vue:286 frontend/src/project/TaskPanel.vue:23
 #: frontend/src/project/TaskPanel.vue:24 frontend/src/project/Tasks.vue:19
 #: frontend/src/project/Tasks.vue:46 frontend/src/task/TaskPage.vue:8
 #: onedesk/one_project/report/project_progress/project_progress.js:12
@@ -29422,7 +29608,7 @@ msgid "Programme"
 msgstr "البرنامج"
 
 #: frontend/portal/src/pages/Project.vue:71
-#: frontend/src/project/Overview.vue:273 frontend/src/project/Tasks.vue:21
+#: frontend/src/project/Overview.vue:283 frontend/src/project/Tasks.vue:21
 #: frontend/src/task/TaskPage.vue:229 onedesk/one/portal.py:63
 #: onedesk/one/print_blocks.py:655 onedesk/one_book/heads.py:623
 #: onedesk/one_book/heads.py:703 onedesk/one_book/heads.py:713
@@ -29490,6 +29676,8 @@ msgstr "التقدم…"
 #. Label in the One Project Update print format
 #. Label in the One Timesheet print format
 #. Label of a Sidebar Item
+#. Label of the project (Link) field in DocType 'Retention Before One'
+#. Label of the project (Link) field in DocType 'Rua Settlement'
 #: frontend/src/project/ProjectPage.vue:191
 #: frontend/src/project/TaskPanel.vue:40 frontend/src/project/Time.vue:90
 #: onedesk/one/portal.py:63 onedesk/one/print_blocks.py:35
@@ -29558,6 +29746,8 @@ msgstr "التقدم…"
 #: onedesk/public/js/project_actions.js:571
 #: onedesk/public/js/project_list.js:169 onedesk/public/js/project_tree.js:28
 #: onedesk/public/js/task_new.js:15 onedesk/public/js/timesheet.js:40
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
+#: private/rua/rua/rua/doctype/rua_settlement/rua_settlement.json
 msgid "Project"
 msgstr "المشروع"
 
@@ -29586,7 +29776,11 @@ msgstr "حالة المشروع"
 msgid "Project Manager"
 msgstr "مدير المشروع"
 
+#. Label of the project_name (Data) field in DocType 'Retention Before One'
+#. Label of the project_name (Data) field in DocType 'Rua Settlement'
 #: frontend/src/project/Title.vue:9 onedesk/public/js/project_actions.js:24
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
+#: private/rua/rua/rua/doctype/rua_settlement/rua_settlement.json
 msgid "Project Name"
 msgstr "اسم المشروع"
 
@@ -29628,7 +29822,7 @@ msgstr "ملخص المشروع"
 msgid "Project Template"
 msgstr ""
 
-#: frontend/src/project/Overview.vue:281 onedesk/one/masters.py:34
+#: frontend/src/project/Overview.vue:291 onedesk/one/masters.py:34
 msgid "Project Type"
 msgstr ""
 
@@ -30284,7 +30478,7 @@ msgstr "عرض السعر {0} لديهم حتى {1}."
 msgid "Quotation {0} ran out on {1}."
 msgstr "انتهت صلاحية عرض السعر {0} في {1}."
 
-#: frontend/src/project/Overview.vue:31 frontend/src/project/Overview.vue:72
+#: frontend/src/project/Overview.vue:40 frontend/src/project/Overview.vue:81
 msgid "Quotations"
 msgstr "عروض الأسعار"
 
@@ -30300,7 +30494,7 @@ msgstr "عروض الأسعار الخاسرة، وسبب خسارتها."
 msgid "Quote"
 msgstr "عرض سعر"
 
-#: frontend/src/project/Overview.vue:373 onedesk/public/js/project.js:28
+#: frontend/src/project/Overview.vue:383 onedesk/public/js/project.js:28
 msgid "Quote Extra Work"
 msgstr "عرض سعر لأعمال إضافية"
 
@@ -30326,7 +30520,7 @@ msgstr "طلبات عروض الأسعار"
 msgid "Quote sent"
 msgstr "أُرسل عرض السعر"
 
-#: frontend/src/project/Overview.vue:143
+#: frontend/src/project/Overview.vue:153
 #: frontend/src/supplier/SupplierItems.vue:29 onedesk/one/portal.py:309
 #: onedesk/one/portal.py:1051 onedesk/one_inventory/heads.py:601
 #: onedesk/one_inventory/heads.py:1492 onedesk/one_project/money.py:131
@@ -30492,6 +30686,11 @@ msgstr "قراءة تسجيلات الحضور"
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
 msgid "Read Files Attached to Records"
 msgstr "قراءة الملفات المرفقة بالسجلات"
+
+#. Label of the source (Data) field in DocType 'Rua Import'
+#: private/rua/rua/rua/doctype/rua_import/rua_import.json
+msgid "Read From"
+msgstr "مقروء من"
 
 #: frontend/src/floor/FloorSteps.vue:108
 msgid "Read Instructions"
@@ -30695,6 +30894,11 @@ msgstr "الأسباب المعروضة على الموظفين عند تسجي�
 msgid "Receipt"
 msgstr "إيصال"
 
+#. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
+#: private/rua/rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "Receipt Matched"
+msgstr "مقبوض مطابق"
+
 #. Label in the One Payment Receipt print format
 #. Label in the One Purchase Receipt print format
 #. Label in the One Purchase Receipt with Serial Numbers print format
@@ -30846,6 +31050,11 @@ msgstr "استُلم {0}"
 msgid "Received {0} from Subcontractor"
 msgstr "استُلم {0} من المقاول من الباطن"
 
+#. Label of the advance (Currency) field in DocType 'Rua Settlement'
+#: private/rua/rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "Received, Not Invoiced"
+msgstr "مقبوض بلا فاتورة"
+
 #: onedesk/one_inventory/heads.py:563
 msgid "Received, billed and paid."
 msgstr "تم الاستلام والفوترة والدفع."
@@ -30904,6 +31113,9 @@ msgstr "تمت إعادة الاتصال"
 #. Label of the reference_name (Dynamic Link) field in DocType 'Cloud File
 #. Request'
 #. Label of the record_doctype (Link) field in DocType 'Extension'
+#. Label of the reference_name (Dynamic Link) field in DocType 'Rua Import
+#. Note'
+#. Label of the target_name (Dynamic Link) field in DocType 'Rua Import Record'
 #: onedesk/one/doctype/portal_link/portal_link.json
 #: onedesk/one/doctype/record_head/record_head.json
 #: onedesk/one/doctype/workspace_customization/workspace_customization.json
@@ -30920,6 +31132,9 @@ msgstr "تمت إعادة الاتصال"
 #: onedesk/public/js/onemail.js:451 onedesk/public/js/overtime.js:46
 #: onedesk/public/js/settings.js:714 onedesk/public/js/settings.js:1277
 #: onedesk/public/js/settings.js:1302
+#: private/rua/rua/rua/doctype/rua_import_note/rua_import_note.json
+#: private/rua/rua/rua/doctype/rua_import_record/rua_import_record.json
+#: private/rua/rua/settle.py:151
 msgid "Record"
 msgstr "تسجيل"
 
@@ -31009,6 +31224,8 @@ msgstr "مشاركة السجلات"
 #. Label of the target_doctype (Link) field in DocType 'Intake Lesson'
 #. Label of the reference_doctype (Link) field in DocType 'Cloud File Request'
 #. Name of a DocType
+#. Label of the reference_doctype (Link) field in DocType 'Rua Import Note'
+#. Label of the target_doctype (Link) field in DocType 'Rua Import Record'
 #: onedesk/one/doctype/portal_link/portal_link.json
 #: onedesk/one/settings.py:1706 onedesk/one/settings.py:1962
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
@@ -31020,6 +31237,8 @@ msgstr "مشاركة السجلات"
 #: onedesk/public/js/settings.js:713 onedesk/public/js/settings.js:1276
 #: onedesk/public/js/settings.js:1301 onedesk/public/js/settings.js:1882
 #: onedesk/public/js/settings.js:1914 onedesk/public/js/settings.js:1940
+#: private/rua/rua/rua/doctype/rua_import_note/rua_import_note.json
+#: private/rua/rua/rua/doctype/rua_import_record/rua_import_record.json
 msgid "Record Type"
 msgstr "نوع السجل"
 
@@ -31138,7 +31357,7 @@ msgid "Recycle Bin"
 msgstr "سلة المحذوفات"
 
 #. Label of the redraw_on (Small Text) field in DocType 'Record Head'
-#: onedesk/one/doctype/record_head/record_head.json onedesk/one/head.py:135
+#: onedesk/one/doctype/record_head/record_head.json onedesk/one/head.py:144
 msgid "Redraw On"
 msgstr "إعادة الرسم عند"
 
@@ -31409,7 +31628,7 @@ msgstr "مُفرج عنه"
 #. Label of the one_retention_handover (Percent) field in DocType 'Purchase
 #. Order'
 #. Label of the one_retention_handover (Percent) field in DocType 'Sales Order'
-#: frontend/src/project/Overview.vue:286
+#: frontend/src/project/Overview.vue:296
 #: onedesk/one_project/custom/project.json
 #: onedesk/one_project/custom/project_template.json
 #: onedesk/one_project/custom/purchase_order.json
@@ -31653,7 +31872,7 @@ msgstr "جدّد العقد"
 msgid "Renew the {0} of {1}"
 msgstr "جدد {0} الخاص بـ {1}"
 
-#: onedesk/one_project/view.py:534
+#: onedesk/one_project/view.py:536
 msgid "Renews {0}"
 msgstr "يتجدد في {0}"
 
@@ -32166,9 +32385,11 @@ msgid "Restoring {0} is stalled"
 msgstr "استعادة {0} متوقفة"
 
 #. Label in the One Quality Inspection print format
+#. Label of the result (Select) field in DocType 'Rua Import Check'
 #: onedesk/one_admin/report/price_check/price_check.py:100
 #: onedesk/one_inventory/print_format/one_quality_inspection/one_quality_inspection.json
 #: onedesk/public/js/settings.js:636
+#: private/rua/rua/rua/doctype/rua_import_check/rua_import_check.json
 msgid "Result"
 msgstr "النتيجة"
 
@@ -32237,7 +32458,8 @@ msgstr "شهر اشتراك للفوترة"
 #. Label of the one_retention (Percent) field in DocType 'Sales Invoice'
 #. Option for the 'Retention Held' (Select) field in DocType 'Sales Invoice
 #. Label of the one_retention (Percent) field in DocType 'Sales Order'
-#: frontend/src/project/Overview.vue:80 frontend/src/project/Overview.vue:285
+#. Label of the retention_state (Select) field in DocType 'Rua Settlement'
+#: frontend/src/project/Overview.vue:89 frontend/src/project/Overview.vue:295
 #: frontend/src/project/Suppliers.vue:211
 #: onedesk/one_project/custom/project.json
 #: onedesk/one_project/custom/project_template.json
@@ -32250,8 +32472,16 @@ msgstr "شهر اشتراك للفوترة"
 #: onedesk/one_project/progress.py:206 onedesk/one_project/progress.py:257
 #: onedesk/public/js/progress.js:56 onedesk/public/js/project_actions.js:201
 #: onedesk/public/js/project_new.js:124
+#: private/rua/rua/rua/doctype/rua_settlement/rua_settlement.json
 msgid "Retention"
 msgstr "المحتجز"
+
+#. Name of a DocType
+#. Label of the retention (Link) field in DocType 'Rua Settlement'
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
+#: private/rua/rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "Retention Before One"
+msgstr "محتجزات قبل One"
 
 #. Label in the One Retention Bonus print format
 #. Label of a Sidebar Item
@@ -32267,7 +32497,7 @@ msgstr "مكافأة الاستبقاء"
 #. Label of the one_retention_due (Date) field in DocType 'Purchase Order'
 #. Label of the one_release_on (Date) field in DocType 'Sales Invoice Item'
 #. Label of the one_retention_due (Date) field in DocType 'Sales Order'
-#: frontend/src/project/Overview.vue:287
+#: frontend/src/project/Overview.vue:297
 #: onedesk/notifications/one_project/retention_due.md
 #: onedesk/one_project/custom/project.json
 #: onedesk/one_project/custom/purchase_invoice_item.json
@@ -32287,6 +32517,7 @@ msgstr "موعد استحقاق المحتجز"
 #. Label of the one_held (Select) field in DocType 'Purchase Invoice Item'
 #. Label of the one_retention_held (Currency) field in DocType 'Sales Invoice'
 #. Label of the one_held (Select) field in DocType 'Sales Invoice Item'
+#. Label of the amount (Currency) field in DocType 'Retention Before One'
 #: frontend/src/project/Suppliers.vue:186
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
@@ -32296,9 +32527,16 @@ msgstr "موعد استحقاق المحتجز"
 #: onedesk/one_project/custom/purchase_invoice_item.json
 #: onedesk/one_project/custom/sales_invoice.json
 #: onedesk/one_project/custom/sales_invoice_item.json
-#: onedesk/one_project/money.py:157 onedesk/one_project/view.py:639
+#: onedesk/one_project/money.py:157 onedesk/one_project/view.py:641
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
+#: private/rua/rua/settle.py:85 private/rua/rua/settle.py:150
 msgid "Retention Held"
 msgstr "المحتجز القائم"
+
+#. Description of a DocType
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Retention a client held on an invoice made before One, owed until it is released."
+msgstr "محتجزات احتفظ بها عميل على فاتورة صدرت قبل One، مستحقة حتى يُفرج عنها."
 
 #. Option for the 'Retention Held' (Select) field in DocType 'Purchase Invoice
 #. Item'
@@ -32598,6 +32836,42 @@ msgstr "الصف {0}: تنتهي صلاحية {1} قبل تاريخ إصداره
 msgid "Row {0}: {1} is not a task on {2}."
 msgstr "الصف {0}: {1} ليست مهمة في {2}."
 
+#. Title of a Sidebar
+#: private/rua/rua/rua/sidebar/rua/rua.json
+msgid "Rua"
+msgstr "Rua"
+
+#. Name of a DocType
+#. Label of a Sidebar Item
+#: private/rua/rua/rua/doctype/rua_import/rua_import.json
+#: private/rua/rua/rua/sidebar/rua/rua.json
+msgid "Rua Import"
+msgstr "استيراد Rua"
+
+#. Name of a DocType
+#: private/rua/rua/rua/doctype/rua_import_check/rua_import_check.json
+msgid "Rua Import Check"
+msgstr "تحقق استيراد Rua"
+
+#. Name of a DocType
+#: private/rua/rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "Rua Import Note"
+msgstr "ملاحظة استيراد Rua"
+
+#. Name of a DocType
+#. Label of a Sidebar Item
+#: private/rua/rua/rua/doctype/rua_import_record/rua_import_record.json
+#: private/rua/rua/rua/sidebar/rua/rua.json
+msgid "Rua Import Record"
+msgstr "سجل استيراد Rua"
+
+#. Name of a DocType
+#. Label of a Sidebar Item
+#: private/rua/rua/rua/doctype/rua_settlement/rua_settlement.json
+#: private/rua/rua/rua/sidebar/rua/rua.json
+msgid "Rua Settlement"
+msgstr "تسوية Rua"
+
 #. Label of the one_rule (Data) field in DocType 'Notification Type'
 #. Label in the One Gratuity print format
 #. Label of the rule (Data) field in DocType 'Reading Date'
@@ -32658,9 +32932,11 @@ msgstr "شغّل الآن"
 msgid "Run sheet written"
 msgstr "كتابة جدول سير الفعالية"
 
+#. Option for the 'Status' (Select) field in DocType 'Rua Import'
 #: frontend/src/task/TimerList.vue:8
+#: private/rua/rua/rua/doctype/rua_import/rua_import.json
 msgid "Running"
-msgstr ""
+msgstr "قيد التشغيل"
 
 #: frontend/src/home/InventoryHome.vue:216
 #: frontend/src/to_order/ToOrderPage.vue:91
@@ -32827,11 +33103,13 @@ msgid "Sales Forecast"
 msgstr ""
 
 #. Label of a Sidebar Item
+#. Label of the sales_invoice (Link) field in DocType 'Retention Before One'
 #: frontend/src/home/BooksHome.vue:192 onedesk/one_book/home.py:306
 #: onedesk/one_book/home.py:495 onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_crm/home.py:120
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
 msgid "Sales Invoice"
-msgstr ""
+msgstr "فاتورة مبيعات"
 
 #: onedesk/one_book/home.py:351
 msgid "Sales Invoice Trends"
@@ -33054,6 +33332,11 @@ msgstr "جارٍ الحفظ…"
 #: onedesk/public/js/admin_settings.js:67 onedesk/public/js/ai_model.js:38
 msgid "Say hello in one short sentence."
 msgstr "ألقِ التحية في جملة قصيرة واحدة."
+
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.py:25
+#: private/rua/rua/settle.py:102
+msgid "Say how much retention the client holds, before VAT."
+msgstr "اذكر قيمة المحتجزات لدى العميل قبل ضريبة القيمة المضافة."
 
 #: onedesk/one_ai/heads.py:94
 msgid "Say no to this?"
@@ -33530,11 +33813,11 @@ msgstr "أُرسل: {0}"
 msgid "Sentence"
 msgstr "الجملة"
 
-#: onedesk/one/head.py:128 onedesk/one/head.py:133
+#: onedesk/one/head.py:137 onedesk/one/head.py:142
 msgid "Sentence {0}"
 msgstr "الجملة {0}"
 
-#: onedesk/one/head.py:131
+#: onedesk/one/head.py:140
 msgid "Sentence {0} names the measure {1}, which no module has."
 msgstr "الجملة {0} تسمّي المقياس {1}، ولا تملكه أي وحدة."
 
@@ -33950,13 +34233,19 @@ msgstr "الاستقرار"
 
 #. Option for the 'State' (Select) field in DocType 'Credit Reservation'
 #. Label of the settled (Float) field in DocType 'Credit Reservation'
+#. Label of the settled (Check) field in DocType 'Rua Settlement'
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
+#: private/rua/rua/rua/doctype/rua_settlement/rua_settlement.json
 msgid "Settled"
-msgstr ""
+msgstr "تمت التسوية"
 
 #: onedesk/one_book/heads.py:123
 msgid "Settled by a return."
 msgstr "سُوّيت بمرتجع."
+
+#: private/rua/rua/settle.py:140
+msgid "Settled."
+msgstr "تمت التسوية."
 
 #. Label in the One Payment Receipt print format
 #. Label in the One Payment Voucher print format
@@ -34324,8 +34613,8 @@ msgstr "هل أطلب المزيد؟"
 msgid "Show"
 msgstr ""
 
-#: frontend/src/project/Overview.vue:29 frontend/src/project/Overview.vue:78
-#: frontend/src/project/Overview.vue:92 frontend/src/project/Overview.vue:115
+#: frontend/src/project/Overview.vue:38 frontend/src/project/Overview.vue:87
+#: frontend/src/project/Overview.vue:101 frontend/src/project/Overview.vue:124
 msgid "Show All"
 msgstr "عرض الكل"
 
@@ -34659,11 +34948,11 @@ msgstr "التوقيع لـ {0}"
 msgid "Signature saved"
 msgstr "تم حفظ التوقيع"
 
-#: frontend/src/project/Overview.vue:290 frontend/src/project/Overview.vue:394
+#: frontend/src/project/Overview.vue:300 frontend/src/project/Overview.vue:404
 msgid "Signed"
 msgstr "موقّع"
 
-#: frontend/src/project/Overview.vue:289
+#: frontend/src/project/Overview.vue:299
 msgid "Signed Contract"
 msgstr "العقد الموقّع"
 
@@ -34756,7 +35045,7 @@ msgstr "قطع مفردة تُتابع برقمها."
 
 #. Label of the site_section (Section Break) field in DocType 'Tenant'
 #. Label of the one_site (Link) field in DocType 'Project'
-#: frontend/src/project/Overview.vue:278
+#: frontend/src/project/Overview.vue:288
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_project/custom/project.json onedesk/public/js/project_new.js:176
 msgid "Site"
@@ -35320,7 +35609,7 @@ msgstr "الإنفاق"
 #. Label in the One Employee Advance print format
 #. Label in the One Employee Tax Exemption Proof Submission print format
 #: frontend/src/project/Money.vue:36 frontend/src/project/Money.vue:137
-#: frontend/src/project/Overview.vue:197
+#: frontend/src/project/Overview.vue:207
 #: onedesk/one_hr/print_format/one_employee_advance/one_employee_advance.json
 #: onedesk/one_hr/print_format/one_employee_tax_exemption_proof_submission/one_employee_tax_exemption_proof_submission.json
 #: onedesk/one_intake/report/spending/spending.py:32
@@ -35490,6 +35779,11 @@ msgstr "بدء التسجيل"
 msgid "Start {0}"
 msgstr "بدء {0}"
 
+#. Label of the started_on (Datetime) field in DocType 'Rua Import'
+#: private/rua/rua/rua/doctype/rua_import/rua_import.json
+msgid "Started"
+msgstr "بدأ"
+
 #: onedesk/public/js/floor_actions.js:18
 msgid "Started At"
 msgstr "بدأ في"
@@ -35658,6 +35952,7 @@ msgstr ""
 #. Label in the One Work Order print format
 #. Label of the status (Select) field in DocType 'Cloud File Request'
 #. Label of the status (Select) field in DocType 'Workspace Field'
+#. Label of the status (Select) field in DocType 'Rua Import'
 #: frontend/src/floor/OrderRows.vue:6 frontend/src/lots/LotRows.vue:6
 #: frontend/src/lots/SerialRows.vue:6 frontend/src/plant/PlantFloor.vue:15
 #: frontend/src/project/Facts.vue:4 frontend/src/project/Invoices.vue:28
@@ -35732,6 +36027,7 @@ msgstr ""
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 #: onedesk/public/js/settings.js:1637 onedesk/public/js/settings.js:2425
+#: private/rua/rua/rua/doctype/rua_import/rua_import.json
 msgid "Status"
 msgstr "الحالة"
 
@@ -35747,6 +36043,8 @@ msgstr "الحالة منذ"
 #. Label in the One Job Card print format
 #. Label in the One Work Order print format
 #. Label of the step (Data) field in DocType 'Task Step'
+#. Label of the step (Data) field in DocType 'Rua Import'
+#. Label of the step (Data) field in DocType 'Rua Import Note'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_hr/print_format/one_employee_onboarding/one_employee_onboarding.json
 #: onedesk/one_hr/print_format/one_employee_separation/one_employee_separation.json
@@ -35754,6 +36052,8 @@ msgstr "الحالة منذ"
 #: onedesk/one_inventory/print_format/one_job_card/one_job_card.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 #: onedesk/one_task/doctype/task_step/task_step.json
+#: private/rua/rua/rua/doctype/rua_import/rua_import.json
+#: private/rua/rua/rua/doctype/rua_import_note/rua_import_note.json
 msgid "Step"
 msgstr "خطوة"
 
@@ -36279,7 +36579,7 @@ msgid "Style"
 msgstr ""
 
 #: frontend/portal/src/pages/Project.vue:30
-#: frontend/src/project/Overview.vue:113
+#: frontend/src/project/Overview.vue:122
 #: frontend/src/project/ProjectPage.vue:273 onedesk/one/print_blocks.py:663
 #: onedesk/one_project/heads.py:256 onedesk/one_project/tree.py:195
 msgid "Sub-projects"
@@ -36335,7 +36635,7 @@ msgstr "مرتجع تصنيع خارجي"
 msgid "Subcontractor"
 msgstr "مقاول من الباطن"
 
-#: frontend/src/project/Overview.vue:76 frontend/src/project/Suppliers.vue:25
+#: frontend/src/project/Overview.vue:85 frontend/src/project/Suppliers.vue:25
 msgid "Subcontracts"
 msgstr "عقود الباطن"
 
@@ -36594,7 +36894,7 @@ msgstr "المُورَّد"
 #. Label in the One Supplier Scorecard Period print format
 #. Option for the 'Role' (Select) field in DocType 'Project Contact'
 #. Label of the supplier (Link) field in DocType 'Project Contact'
-#: frontend/src/item/ItemSuppliers.vue:34 frontend/src/project/Overview.vue:393
+#: frontend/src/item/ItemSuppliers.vue:34 frontend/src/project/Overview.vue:403
 #: frontend/src/project/Suppliers.vue:80 frontend/src/project/Suppliers.vue:133
 #: frontend/src/quotes/QuoteRows.vue:5 frontend/src/sent_out/OutRows.vue:6
 #: frontend/src/to_order/ToOrderPage.vue:20
@@ -36716,7 +37016,7 @@ msgstr "سداد فواتير الموردين"
 #. Label in the One Request for Quotation Bordered print format
 #. Label in the One Request for Quotation Classic print format
 #. Label in the One Request for Quotation with Images print format
-#: frontend/src/item/ItemBuying.vue:5 frontend/src/project/Overview.vue:76
+#: frontend/src/item/ItemBuying.vue:5 frontend/src/project/Overview.vue:85
 #: frontend/src/project/ProjectPage.vue:175
 #: frontend/src/project/Suppliers.vue:5 frontend/src/quotes/RequestRows.vue:7
 #: onedesk/one_inventory/print_format/one_request_for_quotation/one_request_for_quotation.json
@@ -36869,8 +37169,12 @@ msgstr "تعليمة النظام"
 #: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/one_studio/doctype/record_type/record_type.json
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
+#: private/rua/rua/rua/doctype/rua_import/rua_import.json
+#: private/rua/rua/rua/doctype/rua_import_record/rua_import_record.json
+#: private/rua/rua/rua/doctype/rua_settlement/rua_settlement.json
 msgid "System Manager"
-msgstr ""
+msgstr "مدير النظام"
 
 #: onedesk/public/js/size.js:6
 msgid "TB"
@@ -37100,7 +37404,7 @@ msgid "Task Given"
 msgstr "مهمة مُسندة"
 
 #. Label of the one_key (Data) field in DocType 'Project'
-#: frontend/src/project/Overview.vue:283
+#: frontend/src/project/Overview.vue:293
 #: onedesk/one_project/custom/project.json
 msgid "Task Prefix"
 msgstr "بادئة المهام"
@@ -37128,7 +37432,7 @@ msgstr ""
 
 #. Label of the one_tasks (Int) field in DocType 'Project Template'
 #: frontend/portal/src/pages/Project.vue:47
-#: frontend/src/project/Overview.vue:15 frontend/src/project/ProjectPage.vue:11
+#: frontend/src/project/Overview.vue:24 frontend/src/project/ProjectPage.vue:11
 #: frontend/src/project/ProjectPage.vue:171 onedesk/one_project/ai.py:882
 #: onedesk/one_project/calendar.py:17
 #: onedesk/one_project/custom/project_template.json
@@ -37349,7 +37653,7 @@ msgstr ""
 
 #. Label of the press_team (Data) field in DocType 'One Admin Settings'
 #: frontend/src/project/Header.vue:11 frontend/src/project/Header.vue:25
-#: frontend/src/project/Overview.vue:275
+#: frontend/src/project/Overview.vue:285
 #: frontend/src/project/ProjectPage.vue:176 frontend/src/project/Team.vue:7
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Team"
@@ -37561,7 +37865,7 @@ msgstr "الشروط"
 
 #. Label of the one_terms (Link) field in DocType 'Project'
 #. Label of the one_terms (Link) field in DocType 'Project Template'
-#: frontend/src/project/Overview.vue:280 onedesk/one_crm/home.py:177
+#: frontend/src/project/Overview.vue:290 onedesk/one_crm/home.py:177
 #: onedesk/one_project/custom/project.json
 #: onedesk/one_project/custom/project_template.json
 #: onedesk/public/js/project_actions.js:233
@@ -38634,6 +38938,11 @@ msgstr "تفاصيل الإشعار ونص البريد. اختياري."
 #: onedesk/one/doctype/record_head/record_head.json
 msgid "The numbers under the title, in this order."
 msgstr "الأرقام تحت العنوان بهذا الترتيب."
+
+#. Description of a DocType
+#: private/rua/rua/rua/doctype/rua_import/rua_import.json
+msgid "The old Rua app brought over, and checked against the books."
+msgstr "تطبيق Rua القديم منقولًا ومطابقًا مع الدفاتر."
 
 #. Description of the 'Read Back To' (Int) field in DocType 'Mail Folder'
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
@@ -39735,7 +40044,7 @@ msgstr "هذا الجهاز"
 msgid "This IBAN isn't on file for {0}. Confirm it by phone before paying."
 msgstr "رقم IBAN هذا غير مسجل لـ {0}. تأكد منه هاتفيًا قبل الدفع."
 
-#: frontend/src/project/Overview.vue:144 frontend/src/project/Team.vue:21
+#: frontend/src/project/Overview.vue:154 frontend/src/project/Team.vue:21
 #: frontend/src/project/Time.vue:175 frontend/src/project/Time.vue:192
 #: onedesk/public/js/settings.js:2717
 msgid "This Month"
@@ -39781,7 +40090,7 @@ msgstr "لا يمكن نقل هذا في التقويم."
 msgid "This can't be undone. Request a copy of your data first if you need one."
 msgstr "لا يمكن التراجع عن ذلك. اطلب نسخة من بياناتك أولًا إن احتجت إليها."
 
-#: onedesk/one/head.py:453
+#: onedesk/one/head.py:511
 msgid "This cannot be done to {0} now."
 msgstr "لا يمكن تنفيذ هذا على {0} الآن."
 
@@ -39825,7 +40134,7 @@ msgstr "هذا المجلد فارغ."
 msgid "This footer is custom HTML. Choosing a preset replaces it."
 msgstr "هذا التذييل بلغة HTML مخصصة. اختيار نمط جاهز يستبدله."
 
-#: onedesk/public/js/head.js:314 onedesk/public/js/shell.js:251
+#: onedesk/public/js/head.js:328 onedesk/public/js/shell.js:251
 msgid "This form has been modified after you have loaded it"
 msgstr "تم تعديل هذا النموذج بعد أن فتحته"
 
@@ -39938,8 +40247,8 @@ msgstr "هذه الرسالة أكبر من 5 ميغابايت. شارك الم�
 msgid "This message isn't in a mailbox."
 msgstr "هذه الرسالة ليست في صندوق بريد."
 
-#: frontend/src/project/Months.vue:15 frontend/src/project/Overview.vue:103
-#: frontend/src/project/Overview.vue:106
+#: frontend/src/project/Months.vue:15 frontend/src/project/Overview.vue:112
+#: frontend/src/project/Overview.vue:115
 msgid "This month"
 msgstr "هذا الشهر"
 
@@ -40190,7 +40499,7 @@ msgstr "نقطة البيع"
 #. Label in the One Project Update print format
 #. Label in the One Timesheet print format
 #: frontend/portal/src/pages/Project.vue:96 frontend/src/home/HrStory.vue:20
-#: frontend/src/project/Overview.vue:277
+#: frontend/src/project/Overview.vue:287
 #: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_service_report/one_service_report.json
 #: onedesk/one_hr/attendance.py:15 onedesk/one_hr/home.py:22
@@ -40434,6 +40743,11 @@ msgstr "مُسمّاة"
 msgid "To"
 msgstr "إلى"
 
+#. Option for the 'Retention' (Select) field in DocType 'Rua Settlement'
+#: private/rua/rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "To Ask"
+msgstr "للسؤال"
+
 #. Label in the One Contract print format
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
 msgid "To Be Fulfilled"
@@ -40444,10 +40758,20 @@ msgstr "المطلوب تنفيذه"
 msgid "To Case"
 msgstr "إلى الصندوق"
 
+#. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
+#: private/rua/rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "To Check"
+msgstr "للتحقق"
+
 #. Label in the One Transfer Letter print format
 #: onedesk/one_hr/print_format/one_transfer_letter/one_transfer_letter.json
 msgid "To Company"
 msgstr "إلى الشركة"
+
+#. Option for the 'Advance' (Select) field in DocType 'Rua Settlement'
+#: private/rua/rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "To Confirm"
+msgstr "للتأكيد"
 
 #: onedesk/one_admin/report/ai_usage/ai_usage.js:11
 #: onedesk/one_ai/report/ai_credits/ai_credits.js:11
@@ -40521,7 +40845,7 @@ msgstr "للدفع"
 msgid "To Receive"
 msgstr ""
 
-#: frontend/src/project/Overview.vue:299
+#: frontend/src/project/Overview.vue:309
 msgid "To Suppliers"
 msgstr "للموردين"
 
@@ -40569,6 +40893,10 @@ msgstr "بانتظار التسعير"
 msgid "To reclaim"
 msgstr "المسترد"
 
+#: private/rua/rua/settle.py:45
+msgid "To settle from the old app"
+msgstr "للتسوية من التطبيق القديم"
+
 #: onedesk/public/js/onemail.js:279 onedesk/public/js/record_mail.js:20
 msgid "To {0}"
 msgstr "إلى {0}"
@@ -40585,11 +40913,11 @@ msgstr "المهام المسندة إليك"
 #: frontend/src/home/HrHome.vue:106 frontend/src/home/HrHome.vue:207
 #: frontend/src/home/InventoryHome.vue:104
 #: frontend/src/project/MilestoneLanes.vue:16
-#: frontend/src/project/Milestones.vue:29 frontend/src/project/Overview.vue:251
+#: frontend/src/project/Milestones.vue:29 frontend/src/project/Overview.vue:261
 #: onedesk/one_book/heads.py:58
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:195
-#: onedesk/one_project/heads.py:77 onedesk/one_project/view.py:407
-#: onedesk/one_project/view.py:613 onedesk/one_task/mine.py:16
+#: onedesk/one_project/heads.py:77 onedesk/one_project/view.py:409
+#: onedesk/one_project/view.py:615 onedesk/one_task/mine.py:16
 #: onedesk/one_task/tell.py:296
 msgid "Today"
 msgstr "اليوم"
@@ -41266,6 +41594,10 @@ msgstr "إيقاف حسابك وإزالة اسمك وعنوانك من السج
 msgid "Turn off {0}'s portal access? They're signed out at once."
 msgstr "إيقاف وصول {0} إلى البوابة؟ سيتم تسجيل خروجه فوراً."
 
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.py:23
+msgid "Turn retention on in Projects Settings first."
+msgstr "فعّل المحتجزات في إعدادات المشاريع أولًا."
+
 #: onedesk/one/settings.py:1187
 msgid "Turn them on first."
 msgstr "فعّله أولًا."
@@ -41863,7 +42195,7 @@ msgid "Updated"
 msgstr "مُحدَّث"
 
 #. Label in the One Project Update print format
-#: frontend/src/project/Overview.vue:99
+#: frontend/src/project/Overview.vue:108
 #: onedesk/one_project/print_format/one_project_update/one_project_update.json
 msgid "Updates"
 msgstr "التحديثات"
@@ -42240,7 +42572,7 @@ msgstr ""
 msgid "Valid From"
 msgstr "صالح من"
 
-#: frontend/src/project/Overview.vue:143 frontend/src/quotes/QuoteRows.vue:8
+#: frontend/src/project/Overview.vue:153 frontend/src/quotes/QuoteRows.vue:8
 #: onedesk/one_inventory/heads.py:1502
 msgid "Valid Till"
 msgstr ""
@@ -42390,7 +42722,7 @@ msgstr ""
 msgid "Verb"
 msgstr "الإجراء"
 
-#: onedesk/one/head.py:170
+#: onedesk/one/head.py:179
 msgid "Verb {0} is {1}, which no module has."
 msgstr "الإجراء {0} هو {1}، ولا تملكه أي وحدة."
 
@@ -43071,6 +43403,11 @@ msgstr "ما تنسخه النسخة الجديدة من الصنف عن قال�
 msgid "What a product is made from, and its steps."
 msgstr "مِمّ يُصنع المنتج، وخطواته."
 
+#. Description of a DocType
+#: private/rua/rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "What a project still has to settle from the old app, until somebody says it is settled."
+msgstr "ما يبقى على المشروع تسويته من التطبيق القديم، حتى يقول أحدهم إنه سُوّي."
+
 #: onedesk/one_crm/home.py:120
 msgid "What a sales order is billed with, in OneBook."
 msgstr "ما يُفوتر به أمر البيع، في OneBook."
@@ -43513,6 +43850,13 @@ msgstr "ما يقوله الزر حين لا يكون نص الإجراء نفس
 #: onedesk/one/doctype/record_head_chart/record_head_chart.json
 msgid "What the chart is called, when not its own name."
 msgstr "اسم المخطط، إن لم يكن اسمه الأصلي."
+
+#. Description of the 'Retention Held' (Currency) field in DocType 'Retention
+#. Before One'
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
+#: private/rua/rua/settle.py:87
+msgid "What the client still holds, before VAT."
+msgstr "ما يحتفظ به العميل حتى الآن، قبل ضريبة القيمة المضافة."
 
 #. Description of the 'advance_amount' field in DocType 'Employee Advance'
 #: onedesk/one_hr/custom/employee_advance.json
@@ -44943,6 +45287,12 @@ msgstr "عندما يتعذّر إعادة احتساب قيم المخزون، 
 msgid "When the administrator last answered."
 msgstr "متى أجاب المدير آخر مرة."
 
+#. Description of the 'Due Back' (Date) field in DocType 'Retention Before One'
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
+#: private/rua/rua/settle.py:93
+msgid "When the client is due to pay it back, if anybody knows."
+msgstr "متى يحين سداده من العميل، إن كان معروفًا."
+
 #. When a notification is sent
 #: onedesk/notifications/one/your_data_is_ready.md
 msgid "When the copy of your data you asked for on your profile is ready."
@@ -45315,6 +45665,11 @@ msgstr "أين يُنجز العمل، وكم تكلّف الساعة هناك."
 msgid "Whether a person takes calls, and what callers hear."
 msgstr "هل يستقبل الشخص المكالمات، وما يسمعه المتصلون."
 
+#. Label of the copies_said (Small Text) field in DocType 'Rua Settlement'
+#: private/rua/rua/rua/doctype/rua_settlement/rua_settlement.json
+msgid "Which"
+msgstr "أيّها"
+
 #: onedesk/one_admin/ai.py:146
 msgid "Which OneAI actions have no model to run on, and which offered model would each fall to? Say which models are the defaults and what they cost."
 msgstr "أي إجراءات OneAI ليس لها نموذج تعمل عليه، وإلى أي نموذج معروض سيؤول كل منها؟ قل أي النماذج هي الافتراضية وكم تكلّف."
@@ -45387,6 +45742,12 @@ msgstr "ما النماذج التي غيّرناها؟"
 #: onedesk/one_book/ai.py:41
 msgid "Which invoices are overdue?"
 msgstr "أي الفواتير متأخرة؟"
+
+#. Description of the 'Note' (Small Text) field in DocType 'Retention Before
+#. One'
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Which invoices outside One it was held on."
+msgstr "الفواتير خارج One التي احتُجز عليها."
 
 #: onedesk/one_inventory/ai.py:53
 msgid "Which items are at or below their reorder level, where, and what is already on order for them."
@@ -45993,9 +46354,11 @@ msgstr "صلاحيات مَن فُحصت حين كُتب هذا، وصلاحيا
 
 #. Label in the One Employee Referral print format
 #. Label of the why (Small Text) field in DocType 'Intake Action'
+#. Label of the note (Small Text) field in DocType 'Rua Import Check'
 #: frontend/src/to_order/ToOrderPage.vue:19
 #: onedesk/one_hr/print_format/one_employee_referral/one_employee_referral.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
+#: private/rua/rua/rua/doctype/rua_import_check/rua_import_check.json
 msgid "Why"
 msgstr "السبب"
 
@@ -46407,7 +46770,7 @@ msgstr "أعمال متأخرة"
 msgid "Work a supplier does on your materials: what went, what came back and when it is due."
 msgstr "عمل يقوم به مورد على موادك: ما أُرسل وما عاد ومتى يستحق."
 
-#: frontend/src/project/Overview.vue:23
+#: frontend/src/project/Overview.vue:32
 msgid "Work and Billing"
 msgstr "العمل والفوترة"
 
@@ -47013,9 +47376,9 @@ msgstr "نعم، في إشعاراتهم"
 
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json onedesk/one_project/retention.py:272
-#: onedesk/one_project/retention.py:338 onedesk/one_project/view.py:821
-#: onedesk/one_project/view.py:870 onedesk/one_project/view.py:954
-#: onedesk/one_project/view.py:985 onedesk/public/js/oneai/Panel.vue:98
+#: onedesk/one_project/retention.py:338 onedesk/one_project/view.py:823
+#: onedesk/one_project/view.py:872 onedesk/one_project/view.py:956
+#: onedesk/one_project/view.py:987 onedesk/public/js/oneai/Panel.vue:98
 msgid "You"
 msgstr "أنت"
 
@@ -47096,7 +47459,7 @@ msgstr "لا يمكنك مشاركة {0}."
 msgid "You cannot make a {0}, so you cannot put one back."
 msgstr "لا يمكنك إنشاء {0}، لذلك لا يمكنك استعادته."
 
-#: onedesk/one/head.py:238
+#: onedesk/one/head.py:247
 msgid "You cannot make a {0}."
 msgstr "لا يمكنك إنشاء {0}."
 
@@ -47987,7 +48350,7 @@ msgstr "منذ {0} · عادةً {1}"
 msgid "from the token"
 msgstr "من الرمز"
 
-#: frontend/src/project/Overview.vue:271 onedesk/public/js/onecloud.js:1241
+#: frontend/src/project/Overview.vue:281 onedesk/public/js/onecloud.js:1241
 msgid "from {0}"
 msgstr "من {0}"
 
@@ -48253,15 +48616,15 @@ msgstr "من {0}"
 msgid "of {0} a month"
 msgstr "من {0} شهريًا"
 
-#: frontend/src/project/Time.vue:207 onedesk/one_project/view.py:572
+#: frontend/src/project/Time.vue:207 onedesk/one_project/view.py:574
 msgid "of {0} budget"
 msgstr "من ميزانية {0}"
 
-#: onedesk/one_project/view.py:526
+#: onedesk/one_project/view.py:528
 msgid "of {0} h"
 msgstr "من {0} س"
 
-#: onedesk/one_project/view.py:555
+#: onedesk/one_project/view.py:557
 msgid "of {0} open"
 msgstr "من {0} مفتوحة"
 
@@ -48943,7 +49306,7 @@ msgstr "{0} بلا خطوة تالية"
 msgid "{0} Work Orders Late"
 msgstr "{0} أوامر عمل متأخرة"
 
-#: frontend/src/project/Overview.vue:56
+#: frontend/src/project/Overview.vue:65
 #: onedesk/one_admin/doctype/offering/offering_list.js:19
 #: onedesk/www/start.py:92
 msgid "{0} a month"
@@ -49094,7 +49457,7 @@ msgstr "{0} قيد التصنيع"
 msgid "{0} belongs to {1} {2}. Share the record instead."
 msgstr "{0} يخص {1} {2}. شارك السجل بدلًا من ذلك."
 
-#: frontend/src/project/Overview.vue:202
+#: frontend/src/project/Overview.vue:212
 msgid "{0} budget"
 msgstr "{0} ميزانية"
 
@@ -49207,11 +49570,11 @@ msgstr "طالب {0} بمبلغ {1} عن {2}، وكله مقبول."
 msgid "{0} claimed {1} for {2}, of which {3} is allowed — the rest is over a category limit."
 msgstr "طالب {0} بمبلغ {1} عن {2}، المقبول منه {3} — والباقي يتجاوز حد الفئة."
 
-#: frontend/src/project/Overview.vue:34
+#: frontend/src/project/Overview.vue:43
 msgid "{0} cost types"
 msgstr "{0} أنواع تكاليف"
 
-#: onedesk/one_project/view.py:506
+#: onedesk/one_project/view.py:508
 msgid "{0} costs"
 msgstr "{0} تكاليف"
 
@@ -49227,7 +49590,7 @@ msgstr "تعذّر تسجيل {0}؛ كلٌّ منها يذكر السبب في �
 msgid "{0} couldn't be restored."
 msgstr "تعذّرت استعادة {0}."
 
-#: onedesk/one/head.py:154
+#: onedesk/one/head.py:163
 msgid "{0} counts nothing."
 msgstr "{0} لا يعدّ شيئًا."
 
@@ -49299,11 +49662,11 @@ msgid "{0} days before {1}"
 msgstr "قبل {1} بـ {0} أيام"
 
 #: frontend/src/home/BooksHome.vue:171 frontend/src/home/InventoryHome.vue:208
-#: frontend/src/project/Milestones.vue:29 frontend/src/project/Overview.vue:251
-#: frontend/src/project/Overview.vue:361 frontend/src/project/Suppliers.vue:202
+#: frontend/src/project/Milestones.vue:29 frontend/src/project/Overview.vue:261
+#: frontend/src/project/Overview.vue:371 frontend/src/project/Suppliers.vue:202
 #: frontend/src/task/TaskPage.vue:210 onedesk/one_project/heads.py:76
 #: onedesk/one_project/portal.py:257 onedesk/one_project/retention.py:237
-#: onedesk/one_project/view.py:611 onedesk/one_project/view.py:908
+#: onedesk/one_project/view.py:613 onedesk/one_project/view.py:910
 msgid "{0} days late"
 msgstr "متأخرة {0} أيام"
 
@@ -49377,7 +49740,7 @@ msgstr "{0} متوقعة"
 msgid "{0} exported {1}"
 msgstr "{0} صدّر {1}"
 
-#: onedesk/one_project/view.py:450
+#: onedesk/one_project/view.py:452
 msgid "{0} extra work"
 msgstr "{0} أعمال إضافية"
 
@@ -49445,7 +49808,7 @@ msgstr "{0} من {1} إلى {2}."
 msgid "{0} gives you this for {1} a month, {2} less."
 msgstr "{0} يمنحك هذا مقابل {1} شهريًا، أقل بـ {2}."
 
-#: onedesk/one/head.py:147 onedesk/one/linked.py:127
+#: onedesk/one/head.py:156 onedesk/one/linked.py:127
 msgid "{0} goes through {1}, which is not a link."
 msgstr "{0} يمر عبر {1}، وهو ليس رابطًا."
 
@@ -49455,7 +49818,7 @@ msgstr "يصل {0} إلى {1} فعلًا، لذا يمكن نقله إلى {1} �
 
 #: frontend/src/kit/desk.js:21 onedesk/one/portal.py:354
 #: onedesk/one_inventory/heads.py:1018 onedesk/one_project/billing.py:425
-#: onedesk/one_project/heads.py:192 onedesk/one_project/view.py:503
+#: onedesk/one_project/heads.py:192 onedesk/one_project/view.py:505
 #: onedesk/public/js/timesheet_list.js:3
 msgid "{0} h"
 msgstr "{0} س"
@@ -49529,6 +49892,10 @@ msgstr "لا يوجد في {0} وقت قابل للفوترة لم يُفوتر 
 msgid "{0} has no custom field called {1}."
 msgstr "لا يحتوي {0} على حقل مخصص باسم {1}."
 
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.py:28
+msgid "{0} has no customer to hold the retention."
+msgstr "{0} ليس له عميل يحتفظ بالمحتجزات."
+
 #: onedesk/one/customize.py:469
 msgid "{0} has no field that links to {1}, so the field cannot be filled from it."
 msgstr "لا يحتوي {0} على حقل يرتبط بـ {1}، لذا لا يمكن ملء الحقل منه."
@@ -49586,6 +49953,10 @@ msgstr "لم يُدفع {0}."
 msgid "{0} held"
 msgstr "{0} بحوزته"
 
+#: private/rua/rua/settle.py:116
+msgid "{0} held as retention, owed until it is released."
+msgstr "{0} محتجزة، مستحقة حتى يُفرج عنها."
+
 #: onedesk/one_project/tell.py:415
 msgid "{0} held by {1}"
 msgstr "{0} يحتجزها {1}"
@@ -49616,7 +49987,7 @@ msgstr "{0} ساعة، {1}"
 msgid "{0} in 12 months"
 msgstr "{0} خلال 12 شهرًا"
 
-#: frontend/src/project/Overview.vue:18
+#: frontend/src/project/Overview.vue:27
 msgid "{0} in 12 weeks"
 msgstr "{0} في 12 أسبوعًا"
 
@@ -49644,7 +50015,7 @@ msgstr "{0} خلال {1} يوم."
 msgid "{0} in {1} warehouses"
 msgstr "{0} في {1} مستودعات"
 
-#: onedesk/one_project/view.py:460
+#: onedesk/one_project/view.py:462
 msgid "{0} invoiced"
 msgstr "{0} مفوتر"
 
@@ -49852,7 +50223,7 @@ msgstr "{0} أكثر من المتبقي {1}."
 msgid "{0} is not a capability any model carries."
 msgstr "{0} ليست قدرة يحملها أي نموذج."
 
-#: onedesk/one/head.py:180
+#: onedesk/one/head.py:189
 msgid "{0} is not a chart of {1}."
 msgstr "{0} ليس مخططًا لـ {1}."
 
@@ -49908,7 +50279,7 @@ msgstr "{0} ليس مكتبة."
 msgid "{0} is not a link field and one of its fields, such as customer.customer_group"
 msgstr "{0} ليس حقل ربط وأحد حقوله، مثل customer.customer_group"
 
-#: onedesk/one/head.py:115
+#: onedesk/one/head.py:124
 msgid "{0} is not a list of filters."
 msgstr "{0} ليس قائمة مرشحات."
 
@@ -50020,7 +50391,7 @@ msgstr "لا تُحدَّد طريقة تسمية {0} في مساحة العمل
 msgid "{0} is not numbered by a series."
 msgstr "لا يُرقَّم {0} بسلسلة."
 
-#: onedesk/one/head.py:450
+#: onedesk/one/head.py:508
 msgid "{0} is not offered here."
 msgstr "{0} غير متاح هنا."
 
@@ -50052,7 +50423,7 @@ msgstr "لا يُطبع {0} بتنسيقات تحددها مساحة العمل 
 msgid "{0} is not set against an invoice yet."
 msgstr "لم يُخصص {0} لأي فاتورة بعد."
 
-#: onedesk/one/head.py:172
+#: onedesk/one/head.py:181
 msgid "{0} is not something done to {1}."
 msgstr "{0} ليس مما يُنفذ على {1}."
 
@@ -50092,7 +50463,7 @@ msgstr "{0} لا يعمل."
 msgid "{0} is on a private network. OneCloud can't connect to it."
 msgstr "{0} على شبكة خاصة. لا يمكن لـ OneCloud الاتصال به."
 
-#: onedesk/one_project/view.py:785
+#: onedesk/one_project/view.py:787
 msgid "{0} is over budget"
 msgstr "{0} تجاوز الميزانية"
 
@@ -50199,7 +50570,7 @@ msgstr "متأخر {0}. لا يزال على {1} مبلغ {2}."
 msgid "{0} late. {2} still to pay {1}."
 msgstr "متأخر {0}. لا يزال {2} مستحق الدفع إلى {1}."
 
-#: frontend/src/project/Overview.vue:410 onedesk/one_hr/heads.py:72
+#: frontend/src/project/Overview.vue:420 onedesk/one_hr/heads.py:72
 #: onedesk/one_inventory/heads.py:537 onedesk/public/js/project_actions.js:549
 msgid "{0} left"
 msgstr "متبقٍ {0}"
@@ -50256,7 +50627,7 @@ msgstr "{0} دقيقة"
 msgid "{0} models, {1} priced, {2} need review."
 msgstr "{0} نموذجاً، {1} مُسعَّرة، {2} تحتاج مراجعة."
 
-#: onedesk/one_intake/understand.py:376 onedesk/one_project/view.py:540
+#: onedesk/one_intake/understand.py:376 onedesk/one_project/view.py:542
 msgid "{0} months"
 msgstr "{0} أشهر"
 
@@ -50282,11 +50653,11 @@ msgstr "نُقل {0} من {1} إلى {2}."
 msgid "{0} must be kept by law until {1}."
 msgstr "يجب الاحتفاظ بـ {0} قانونًا حتى {1}."
 
-#: onedesk/one/head.py:164
+#: onedesk/one/head.py:173
 msgid "{0} names the measure {1}, which no module has."
 msgstr "{0} يذكر المقياس {1}، ولا تملكه أي وحدة."
 
-#: onedesk/one/head.py:108 onedesk/one/head.py:150 onedesk/one/linked.py:130
+#: onedesk/one/head.py:117 onedesk/one/head.py:159 onedesk/one/linked.py:130
 #: onedesk/one/linked.py:141
 msgid "{0} names {1}, which {2} does not have."
 msgstr "{0} يذكر {1}، وهو غير موجود في {2}."
@@ -50342,7 +50713,7 @@ msgstr "منها {0} تعمل."
 #: onedesk/one/heads.py:69 onedesk/one_admin/doctype/tenant/tenant_list.js:29
 #: onedesk/one_admin/heads.py:150 onedesk/one_inventory/heads.py:424
 #: onedesk/one_inventory/heads.py:764 onedesk/one_inventory/heads.py:966
-#: onedesk/one_project/heads.py:35 onedesk/one_project/view.py:597
+#: onedesk/one_project/heads.py:35 onedesk/one_project/view.py:599
 #: onedesk/public/js/settings.js:1408 onedesk/public/js/work_order_list.js:13
 msgid "{0} of {1}"
 msgstr "{0} من {1}"
@@ -50355,7 +50726,7 @@ msgstr "{0} من {1} ({2}%)"
 msgid "{0} of {1} answered"
 msgstr "أجاب {0} من {1}"
 
-#: frontend/src/project/Overview.vue:321 frontend/src/project/Overview.vue:341
+#: frontend/src/project/Overview.vue:331 frontend/src/project/Overview.vue:351
 msgid "{0} of {1} budget"
 msgstr "{0} من ميزانية {1}"
 
@@ -50379,7 +50750,7 @@ msgstr "{0} من {1} يومًا"
 msgid "{0} of {1} delivered"
 msgstr "سُلّم {0} من {1}"
 
-#: frontend/src/floor/FloorSteps.vue:29 frontend/src/project/Overview.vue:219
+#: frontend/src/floor/FloorSteps.vue:29 frontend/src/project/Overview.vue:229
 msgid "{0} of {1} done"
 msgstr "{0} من {1} منجزة"
 
@@ -50428,7 +50799,7 @@ msgstr "{0} من {1} ما زالت للصنع"
 msgid "{0} of {1} suppliers have quoted. Order from the best."
 msgstr "قدّم {0} من {1} موردين عروضًا. اطلب من الأفضل."
 
-#: onedesk/one_project/view.py:588
+#: onedesk/one_project/view.py:590
 msgid "{0} of {1} tasks"
 msgstr "{0} من {1} مهام"
 
@@ -50461,7 +50832,7 @@ msgid "{0} on"
 msgstr "{0} مفعّل"
 
 #: frontend/src/home/InventoryHome.vue:225 frontend/src/item/ItemPlaces.vue:58
-#: frontend/src/supplier/SupplierItems.vue:119 onedesk/one_project/view.py:575
+#: frontend/src/supplier/SupplierItems.vue:119 onedesk/one_project/view.py:577
 msgid "{0} on order"
 msgstr "{0} قيد الطلب"
 
@@ -50495,7 +50866,7 @@ msgstr "{0} يستقبل البريد فقط، لذا ليس له توقيع."
 msgid "{0} open of {1}"
 msgstr "{0} مفتوحة من {1}"
 
-#: onedesk/one_project/view.py:363
+#: onedesk/one_project/view.py:365
 msgid "{0} open quotes"
 msgstr "{0} عروض أسعار مفتوحة"
 
@@ -50537,7 +50908,7 @@ msgstr "{0} من 5"
 msgid "{0} out on {1}."
 msgstr "{0} صادر في {1}."
 
-#: frontend/src/project/Months.vue:11 frontend/src/project/Overview.vue:202
+#: frontend/src/project/Months.vue:11 frontend/src/project/Overview.vue:212
 msgid "{0} over"
 msgstr "{0} زيادة"
 
@@ -50545,7 +50916,7 @@ msgstr "{0} زيادة"
 msgid "{0} over budget"
 msgstr "{0} فوق الميزانية"
 
-#: frontend/src/project/Overview.vue:176 frontend/src/project/Suppliers.vue:185
+#: frontend/src/project/Overview.vue:186 frontend/src/project/Suppliers.vue:185
 msgid "{0} overdue"
 msgstr "{0} متأخر"
 
@@ -50585,11 +50956,15 @@ msgstr "توقفت {0} من مفاتيح المرور عليه عن العمل"
 msgid "{0} paused timers"
 msgstr "{0} مؤقتات متوقفة مؤقتًا"
 
+#: private/rua/rua/settle.py:37
+msgid "{0} payments entered twice were left out ({1})."
+msgstr "استُبعدت {0} دفعات مُدخلة مرتين ({1})."
+
 #: onedesk/public/js/tenant.js:94
 msgid "{0} pending"
 msgstr "{0} قيد الانتظار"
 
-#: frontend/src/project/Overview.vue:275 onedesk/one_inventory/heads.py:1026
+#: frontend/src/project/Overview.vue:285 onedesk/one_inventory/heads.py:1026
 #: onedesk/one_inventory/heads.py:1051 onedesk/public/js/settings.js:1244
 #: onedesk/www/start.py:114
 msgid "{0} people"
@@ -50659,6 +51034,10 @@ msgstr "{0} عمليات إعادة احتساب بعد قيود بتاريخ س
 msgid "{0} recalculations after back-dated entries stopped with an error, so what they change is not in the books yet. Fix tries them again."
 msgstr "{0} عمليات إعادة احتساب بعد قيود بتاريخ سابق توقفت بخطأ، فما تغيّره ليس في الدفاتر بعد. «إصلاح» يعيد المحاولة."
 
+#: private/rua/rua/settle.py:33
+msgid "{0} received and not invoiced yet."
+msgstr "{0} مقبوضة ولم تصدر فاتورتها بعد."
+
 #: onedesk/one_book/heads.py:345
 msgid "{0} received from {1}."
 msgstr "استُلم {0} من {1}."
@@ -50675,7 +51054,7 @@ msgstr "أُعيد تعيين {0}"
 msgid "{0} restored."
 msgstr "تمت استعادة {0}."
 
-#: frontend/src/project/Overview.vue:176
+#: frontend/src/project/Overview.vue:186
 msgid "{0} retention"
 msgstr "{0} محتجزات"
 
@@ -50731,8 +51110,8 @@ msgstr "ينقص {0}"
 msgid "{0} shows nothing."
 msgstr "{0} لا يعرض شيئًا."
 
-#: frontend/src/project/Money.vue:101 frontend/src/project/Overview.vue:322
-#: frontend/src/project/Overview.vue:342
+#: frontend/src/project/Money.vue:101 frontend/src/project/Overview.vue:332
+#: frontend/src/project/Overview.vue:352
 msgid "{0} spent"
 msgstr "{0} مصروف"
 
@@ -50784,7 +51163,7 @@ msgstr "{0} لم يُرسل بعد"
 msgid "{0} still to take"
 msgstr "{0} لم يُسحب بعد"
 
-#: frontend/src/project/Overview.vue:349
+#: frontend/src/project/Overview.vue:359
 msgid "{0} sub-projects"
 msgstr "{0} مشاريع فرعية"
 
@@ -50792,15 +51171,15 @@ msgstr "{0} مشاريع فرعية"
 msgid "{0} submitted"
 msgstr "تم إرسال {0}"
 
-#: onedesk/one/head.py:161
+#: onedesk/one/head.py:170
 msgid "{0} sums {1}, which {2} does not have."
 msgstr "{0} يجمع {1}، وهو غير موجود في {2}."
 
-#: onedesk/one/head.py:141
+#: onedesk/one/head.py:150
 msgid "{0} takes its value from nowhere."
 msgstr "{0} لا يأخذ قيمته من أي مصدر."
 
-#: frontend/src/project/Overview.vue:110
+#: frontend/src/project/Overview.vue:119
 #: frontend/src/template/TemplatePage.vue:79
 #: frontend/src/workload/WorkloadList.vue:29
 #: onedesk/public/js/project_template_list.js:3
@@ -50831,7 +51210,7 @@ msgstr "{0} للقيام بها"
 msgid "{0} to order"
 msgstr "{0} للطلب"
 
-#: frontend/src/project/Overview.vue:429 onedesk/one/portal.py:75
+#: frontend/src/project/Overview.vue:439 onedesk/one/portal.py:75
 msgid "{0} to pay"
 msgstr "{0} للدفع"
 
@@ -50997,7 +51376,7 @@ msgstr "{0} {1} من {2} {3}"
 msgid "{0} {1} was changed by somebody else after you opened this. Refresh to see it; nothing was saved."
 msgstr "غيّر شخص آخر {0} {1} بعد أن فتحت هذا. حدّث الصفحة لتراه؛ لم يُحفظ شيء."
 
-#: onedesk/public/js/head.js:299
+#: onedesk/public/js/head.js:313
 msgid "{0} {1} was changed by someone else. Refresh to see the latest."
 msgstr "غيّر شخص آخر {0} {1}. حدّث الصفحة لرؤية الأحدث."
 
@@ -51041,15 +51420,15 @@ msgstr "{0} × {1}"
 msgid "{0} – running"
 msgstr "{0} – جارٍ"
 
-#: frontend/src/project/Overview.vue:184 frontend/src/project/Overview.vue:319
-#: frontend/src/project/Overview.vue:339 frontend/src/project/Overview.vue:412
-#: frontend/src/project/Overview.vue:431 frontend/src/project/Suppliers.vue:49
+#: frontend/src/project/Overview.vue:194 frontend/src/project/Overview.vue:329
+#: frontend/src/project/Overview.vue:349 frontend/src/project/Overview.vue:422
+#: frontend/src/project/Overview.vue:441 frontend/src/project/Suppliers.vue:49
 #: frontend/src/project/Suppliers.vue:260
 msgid "{0}% billed"
 msgstr "{0}% مفوتر"
 
-#: frontend/src/project/Overview.vue:428 onedesk/one/print_blocks.py:667
-#: onedesk/one_project/view.py:820 onedesk/public/js/project_list.js:79
+#: frontend/src/project/Overview.vue:438 onedesk/one/print_blocks.py:667
+#: onedesk/one_project/view.py:822 onedesk/public/js/project_list.js:79
 #: onedesk/public/js/project_tree.js:14
 #, python-format
 msgid "{0}% done"
@@ -51070,17 +51449,17 @@ msgid "{0}% of ordered"
 msgstr "{0}% من المطلوب"
 
 #: frontend/src/project/Money.vue:176 onedesk/one_project/tell.py:382
-#: onedesk/one_project/view.py:485
+#: onedesk/one_project/view.py:487
 #, python-format
 msgid "{0}% of the contract"
 msgstr "{0}% من العقد"
 
-#: onedesk/one_project/view.py:485
+#: onedesk/one_project/view.py:487
 #, python-format
 msgid "{0}% of the quote"
 msgstr "{0}% من عرض السعر"
 
-#: onedesk/one_project/view.py:425
+#: onedesk/one_project/view.py:427
 #, python-format
 msgid "{0}% of what was billed"
 msgstr "{0}% مما تمت فوترته"

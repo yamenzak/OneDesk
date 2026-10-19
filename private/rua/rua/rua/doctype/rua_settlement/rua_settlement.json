@@ -1,0 +1,143 @@
+{
+ "actions": [],
+ "autoname": "field:project",
+ "creation": "2026-10-19 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "project",
+  "project_name",
+  "settled",
+  "column_break_1",
+  "advance",
+  "advance_state",
+  "retention_state",
+  "retention",
+  "section_copies",
+  "copies",
+  "copies_amount",
+  "copies_said"
+ ],
+ "fields": [
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "Project",
+   "options": "Project",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "project_name",
+   "fieldtype": "Data",
+   "label": "Project Name",
+   "fetch_from": "project.project_name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "settled",
+   "fieldtype": "Check",
+   "label": "Settled",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "advance",
+   "fieldtype": "Currency",
+   "label": "Received, Not Invoiced",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "advance_state",
+   "fieldtype": "Select",
+   "label": "Advance",
+   "options": "\nTo Confirm\nConfirmed",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "retention_state",
+   "fieldtype": "Select",
+   "label": "Retention",
+   "options": "\nTo Ask\nHeld\nNone Held",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "retention",
+   "fieldtype": "Link",
+   "label": "Retention Before One",
+   "options": "Retention Before One",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_copies",
+   "fieldtype": "Section Break",
+   "label": "Entered Twice"
+  },
+  {
+   "fieldname": "copies",
+   "fieldtype": "Int",
+   "label": "Payments Left Out",
+   "read_only": 1
+  },
+  {
+   "fieldname": "copies_amount",
+   "fieldtype": "Currency",
+   "label": "Amount Left Out",
+   "read_only": 1
+  },
+  {
+   "fieldname": "copies_said",
+   "fieldtype": "Small Text",
+   "label": "Which",
+   "read_only": 1
+  }
+ ],
+ "in_create": 1,
+ "links": [],
+ "modified": "2026-10-19 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Rua",
+ "name": "Rua Settlement",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "Accounts Manager",
+   "read": 1,
+   "write": 1,
+   "report": 1,
+   "export": 1
+  },
+  {
+   "role": "Accounts User",
+   "read": 1,
+   "write": 1,
+   "report": 1,
+   "export": 1
+  },
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "project_name",
+ "show_title_field_in_link": 1,
+ "track_changes": 1,
+ "description": "What a project still has to settle from the old app, until somebody says it is settled."
+}

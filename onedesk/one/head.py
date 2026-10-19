@@ -41,6 +41,15 @@ def verbs() -> dict:
 	return _merged("one_verbs")
 
 
+def notices() -> dict:
+	"""Every notice, by name: `doctypes`, `said`, a function of the record
+	answering {"text", "colour", "lines"} (lines optional, each a sentence
+	under the text) or None when there is nothing to say, and `verbs`, the
+	names of the verbs its buttons are (`one_verbs`). An app adds one to a
+	record whose head another module owns."""
+	return _merged("one_record_notices")
+
+
 def charts() -> dict:
 	"""Every chart, by name: `doctypes`, `label` and `figures`, a function of
 	the record that answers what is drawn, or None when there is nothing to
@@ -256,6 +265,7 @@ def said(doc, head, saved: bool = True) -> dict:
 		"sentence": sentence,
 		"band": [stat for row in head.band if holds(doc, row.shown_when) for stat in _stats(doc, row)],
 		"verbs": [verb for row in head.verbs if (verb := _verb(doc, row))] if saved else [],
+		"notices": notices_of(doc) if saved else [],
 		"charts": [
 			chart
 			for row in head.get("charts") or []
@@ -425,6 +435,54 @@ def _verb(doc, row) -> dict | None:
 	}
 
 
+def _offered(doc, name: str) -> dict | None:
+	"""A verb as a notice's button: as the head offers one, with the verb's
+	own label."""
+	verb = verbs().get(name)
+	if not verb or doc.doctype not in verb["doctypes"] or not verb["when"](doc):
+		return None
+	label = cstr(_said_of(verb["label"], doc))
+	return {
+		"verb": name,
+		"label": label,
+		"title": cstr(_said_of(verb.get("title"), doc) or label),
+		"action": cstr(_said_of(verb.get("action"), doc) or label),
+		"fields": verb["fields"](doc) if verb.get("fields") else [],
+	}
+
+
+def notices_of(doc) -> list[dict]:
+	"""What the notices say of this record, each with its buttons: for the
+	head, and for a record's own page (a project's) that draws no head."""
+	found = []
+	for name, notice in notices().items():
+		if doc.doctype not in notice["doctypes"]:
+			continue
+		said = notice["said"](doc)
+		if not said:
+			continue
+		found.append(
+			{
+				"notice": name,
+				"text": cstr(said["text"]),
+				"lines": [cstr(line) for line in said.get("lines") or []],
+				"colour": said.get("colour") or "orange",
+				"verbs": [verb for one in notice.get("verbs") or [] if (verb := _offered(doc, one))],
+			}
+		)
+	return found
+
+
+def _noticed(doctype: str) -> set[str]:
+	"""The verbs notices offer on a record type."""
+	return {
+		verb
+		for notice in notices().values()
+		if doctype in notice["doctypes"]
+		for verb in notice.get("verbs") or []
+	}
+
+
 @frappe.whitelist()
 @frappe.read_only()
 def offer(doctype: str, name: str, verb: str) -> dict | None:
@@ -446,7 +504,7 @@ def run(doctype: str, name: str, verb: str, values: dict | str | None = None) ->
 	doc.check_permission("read")
 	if doctype not in headed() or verb not in {
 		row.verb for row in frappe.get_cached_doc("Record Head", doctype).verbs
-	}:
+	} | _noticed(doctype):
 		frappe.throw(_("{0} is not offered here.").format(verb), frappe.PermissionError)
 	found = verbs().get(verb)
 	if not found or not found["when"](doc):

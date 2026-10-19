@@ -36,6 +36,10 @@ In the order the importer runs (`rua/importer/__init__.py`, `STEPS`).
 | File | A private file on what its record became; logos and photos public | `files` |
 | Chat, Issue, Todo, Payslip, Inventory, Company, App Update | Nothing | |
 
+What the import can't decide (an advance to confirm, retention to ask
+about, copies to acknowledge) becomes a Rua Settlement on the project,
+answered from the project's Overview (`settle`).
+
 Numbers carry on: each record type offers Rua's old series first and the
 counters start after the highest number brought over (`numbers`).
 

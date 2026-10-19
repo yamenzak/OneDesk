@@ -23,6 +23,7 @@ STEPS = (
 	"attendance",
 	"files",
 	"numbers",
+	"settle",
 	"check",
 )
 SINGLE = "Rua Import"
