@@ -3,12 +3,14 @@ under that record. Logos and photos stay public; everything else is
 private, whatever the old app said: it kept passports and Emirates IDs
 where anybody with the link could fetch them.
 
-Signatures are not brought over, nor the old app's Google key, nor a file
-no record held. OneIntake doesn't read what is brought over: two years of
+A project's photo goes in its Featured Media, which makes it the project's
+cover as any featured photo is. Signatures are not brought over, nor the
+old app's Google key, nor a file no record held. OneIntake doesn't read what is brought over: two years of
 history is not news, and somebody can ask it to read any one of them.
 """
 
 import frappe
+from onedesk.one_project import media
 
 from rua.importer.people import DOCUMENT, EMPLOYEE, company_paper, kind
 
@@ -108,20 +110,25 @@ def bring(run_, old, doctype, name, field, row):
 			f"{old.get('file_name') or old['file_url']}: the old site no longer has it",
 		)
 		return
+	file_name = old.get("file_name") or old["file_url"].rsplit("/", 1)[-1]
+	shown = doctype == "Project" and field and media.kind_of(file_name) == "photo"
 	doc = frappe.get_doc(
 		{
 			"doctype": FILE,
-			"file_name": old.get("file_name") or old["file_url"].rsplit("/", 1)[-1],
+			"file_name": file_name,
 			"attached_to_doctype": doctype,
 			"attached_to_name": name,
-			"attached_to_field": field,
+			"attached_to_field": None if shown else field,
+			"one_featured": 1 if shown else 0,
 			"is_private": 0 if field else 1,
 			"content": content,
 		}
 	)
 	doc.flags.ignore_permissions = True
 	doc.insert()
-	if field and not frappe.db.get_value(doctype, name, field):
+	if shown:
+		media.settle_cover(name)
+	elif field and not frappe.db.get_value(doctype, name, field):
 		frappe.db.set_value(doctype, name, field, doc.file_url, update_modified=False)
 	if row:
 		frappe.db.set_value("Employee Document", row, "attachment", doc.file_url, update_modified=False)
