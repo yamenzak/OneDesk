@@ -75,10 +75,10 @@ def _held_fields(doc) -> list[dict]:
 			{
 				"fieldname": "how",
 				"fieldtype": "Select",
-				"label": _("The Old App Has"),
+				"label": _("Old App Invoices"),
 				"options": [
-					{"value": AFTER, "label": _("What Was Billed After the Retention")},
-					{"value": FULL, "label": _("The Full Amount, Retention Included")},
+					{"value": AFTER, "label": _("Net of Retention")},
+					{"value": FULL, "label": _("Including Retention")},
 				],
 				"default": AFTER,
 				"reqd": 1,
@@ -86,7 +86,7 @@ def _held_fields(doc) -> list[dict]:
 			{
 				"fieldname": "taken_from",
 				"fieldtype": "Select",
-				"label": _("Invoice With the Retention In It"),
+				"label": _("Invoice"),
 				"options": [
 					{
 						"value": one.name,
@@ -104,17 +104,12 @@ def _held_fields(doc) -> list[dict]:
 		{
 			"fieldname": "amount",
 			"fieldtype": "Currency",
-			"label": _("Retention Held"),
+			"label": _("Retention Amount"),
 			"reqd": 1,
-			"description": _("What the client still holds, before VAT."),
+			"description": _("Excluding VAT"),
 		},
-		{"fieldname": "one_live", "fieldtype": "HTML"},
-		{
-			"fieldname": "due_back",
-			"fieldtype": "Date",
-			"label": _("Due Back"),
-			"description": _("When the client is due to pay it back, if anybody knows."),
-		},
+		{"fieldname": "one_live", "label": _("Effect")},
+		{"fieldname": "due_back", "fieldtype": "Date", "label": _("Due Back")},
 		{"fieldname": "note", "fieldtype": "Small Text", "label": _("Note")},
 	]
 
@@ -124,7 +119,7 @@ def _taken(doc, how, taken_from):
 		return None
 	found = next((one for one in _invoices(doc) if one.name == taken_from), None)
 	if not found:
-		frappe.throw(_("Choose the invoice the retention is in."))
+		frappe.throw(_("Choose the invoice that includes the retention."))
 	return found
 
 
@@ -171,47 +166,27 @@ def _live(doc, amount=None, how=None, taken_from=None, **_rest) -> dict:
 	found = figures(
 		flt(totals.billed) - flt(kept_back), flt(totals.vat), flt(totals.owed), held, amount, taken
 	)
-	currency = _currency()
 	labels = {
-		"billed": _("Billed for the Work"),
-		"vat": _("VAT Charged"),
-		"owed": _("Owed by the Client Now"),
+		"billed": _("Work Billed"),
+		"vat": _("VAT"),
+		"owed": _("Client Balance"),
 		"held": _("Retention Held"),
 	}
-	rows = [
-		{
-			"label": labels[name],
-			"now": fmt_money(now, currency=currency),
-			"after": fmt_money(after, currency=currency),
-			"changed": abs(after - now) >= 0.005,
-		}
-		for name, now, after in found
-	]
-	money = fmt_money(flt(amount), currency=currency)
+	if flt(amount) <= 0:
+		return {"rows": [], "lines": []}
+	rows = [{"label": labels[name], "now": now, "after": after} for name, now, after in found]
+	money = fmt_money(flt(amount), currency=_currency())
 	if taken:
-		lines = [
-			_(
-				"A credit note takes {0} and its VAT off {1}, and a held invoice holds it: nothing to pay now."
-			).format(money, taken.name)
-		]
-		if found[2][2] < -0.005:
-			lines.append(
-				_("The client has then paid {0} more than they owe, held to their credit.").format(
-					fmt_money(-found[2][2], currency=currency)
-				)
-			)
-	else:
-		lines = [
-			_("A held invoice adds {0} of work on top: nothing to pay now and no VAT yet.").format(money)
-		]
-	lines.append(_("Release Retention bills it with its VAT when the client pays it back."))
-	return {"rows": rows, "lines": lines if flt(amount) > 0 else []}
+		said = _("Credits {0} plus VAT on {1} and adds a held invoice. VAT is charged on release.")
+		return {"rows": rows, "lines": [said.format(money, taken.name)]}
+	said = _("Adds a held invoice of {0}. VAT is charged on release.")
+	return {"rows": rows, "lines": [said.format(money)]}
 
 
 def _held(doc, amount=None, due_back=None, note=None, how=None, taken_from=None) -> str:
 	asked = _answering(doc)
 	if flt(amount) <= 0:
-		frappe.throw(_("Say how much retention the client holds, before VAT."))
+		frappe.throw(_("Enter the retention amount, excluding VAT."))
 	taken = _taken(doc, how, taken_from)
 	made = frappe.get_doc(
 		{
@@ -230,10 +205,8 @@ def _held(doc, amount=None, due_back=None, note=None, how=None, taken_from=None)
 	asked.save()
 	money = fmt_money(amount, currency=_currency())
 	if taken:
-		return _("{0} taken off {1} and held as retention, owed until it is released.").format(
-			money, taken.name
-		)
-	return _("{0} held as retention, owed until it is released.").format(money)
+		return _("{0} moved from {1} to retention.").format(money, taken.name)
+	return _("{0} recorded as retention.").format(money)
 
 
 def _none(doc) -> str:

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-19 18:51+0000\n"
+"POT-Creation-Date: 2026-10-19 19:01+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -534,10 +534,6 @@ msgstr "Eine Kopie von {0}"
 msgid "A course given, who came and how they did."
 msgstr "Ein Kurs, wer kam und wie gut."
 
-#: private/rua/rua/settle.py:193
-msgid "A credit note takes {0} and its VAT off {1}, and a held invoice holds it: nothing to pay now."
-msgstr "Eine Gutschrift nimmt {0} und die Umsatzsteuer darauf von {1} herunter, und eine Einbehaltsrechnung hält den Betrag: jetzt ist nichts zu zahlen."
-
 #: onedesk/one_book/heads.py:118
 msgid "A credit note to {0}."
 msgstr "Eine Gutschrift an {0}."
@@ -770,10 +766,6 @@ msgstr "Eine Gruppe enthält Personen des Arbeitsbereichs."
 #: onedesk/one_studio/record_types.py:171
 msgid "A group's name is 2 to 40 letters, numbers and spaces."
 msgstr "Der Name einer Gruppe hat 2 bis 40 Buchstaben, Ziffern und Leerzeichen."
-
-#: private/rua/rua/settle.py:205
-msgid "A held invoice adds {0} of work on top: nothing to pay now and no VAT yet."
-msgstr "Eine Einbehaltsrechnung fügt {0} an Leistung hinzu: jetzt ist nichts zu zahlen und noch keine Umsatzsteuer fällig."
 
 #. Description of the 'Household' (Check) field in DocType 'Intake Settings'
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
@@ -2684,6 +2676,10 @@ msgstr "Adresse bei Lieferanten, Banken und Behörden geändert"
 msgid "Addresses employees may check in from."
 msgstr "Adressen, von denen Mitarbeiter einchecken dürfen."
 
+#: private/rua/rua/settle.py:182
+msgid "Adds a held invoice of {0}. VAT is charged on release."
+msgstr "Fügt eine Einbehaltsrechnung über {0} hinzu. Die Umsatzsteuer wird bei Freigabe berechnet."
+
 #. Label in the One Leave Adjustment print format
 #: onedesk/one_hr/print_format/one_leave_adjustment/one_leave_adjustment.json
 msgid "Adjustment"
@@ -2755,7 +2751,7 @@ msgstr "Werbung"
 #. Label of the after (JSON) field in DocType 'Intake Action'
 #. Task in the Event project template
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
-#: onedesk/one_project/library/event.json onedesk/public/js/head.js:134
+#: onedesk/one_project/library/event.json onedesk/public/js/head.js:143
 msgid "After"
 msgstr "Danach"
 
@@ -5835,10 +5831,6 @@ msgstr "Nach Stunden zu vereinbarten Sätzen abgerechnet, plus was dafür gekauf
 msgid "Billed by {0}"
 msgstr "Berechnet von {0}"
 
-#: private/rua/rua/settle.py:176
-msgid "Billed for the Work"
-msgstr "Für die Leistung berechnet"
-
 #: onedesk/one/print_blocks.py:705
 msgid "Billed to Date"
 msgstr "Abgerechnet bis heute"
@@ -7235,9 +7227,9 @@ msgstr "Wählen Sie zuerst das Land."
 msgid "Choose the date you need it by, today or later."
 msgstr "Wählen Sie das Datum, bis zu dem Sie es brauchen, heute oder später."
 
-#: private/rua/rua/settle.py:127
-msgid "Choose the invoice the retention is in."
-msgstr "Wählen Sie die Rechnung, in der der Einbehalt enthalten ist."
+#: private/rua/rua/settle.py:122
+msgid "Choose the invoice that includes the retention."
+msgstr "Wählen Sie die Rechnung, die den Einbehalt enthält."
 
 #: onedesk/public/js/oneai/Panel.vue:193
 msgid "Choose the model"
@@ -7366,6 +7358,10 @@ msgstr "Verrechnet am"
 #: onedesk/one_project/library/mobile_app.json
 msgid "Clickable prototype tested with users"
 msgstr "Klickbarer Prototyp mit Nutzern getestet"
+
+#: private/rua/rua/settle.py:172
+msgid "Client Balance"
+msgstr "Kundensaldo"
 
 #. Task in the Website project template
 #: onedesk/one_project/library/website.json
@@ -9139,6 +9135,10 @@ msgstr "Credits müssen größer als null sein."
 msgid "Credits per Dollar"
 msgstr "Guthaben je Dollar"
 
+#: private/rua/rua/settle.py:180
+msgid "Credits {0} plus VAT on {1} and adds a held invoice. VAT is charged on release."
+msgstr "Schreibt {0} zzgl. Umsatzsteuer auf {1} gut und fügt eine Einbehaltsrechnung hinzu. Die Umsatzsteuer wird bei Freigabe berechnet."
+
 #. Label in the One Appraisal print format
 #. Label in the One Employee Performance Feedback print format
 #: onedesk/one_hr/print_format/one_appraisal/one_appraisal.json
@@ -9183,7 +9183,8 @@ msgstr "Wechselkurs"
 msgid "Currency Exchange Settings"
 msgstr "Wechselkurs-Einstellungen"
 
-#: onedesk/public/js/onecloud.js:676 onedesk/public/js/settings.js:1708
+#: onedesk/public/js/head.js:142 onedesk/public/js/onecloud.js:676
+#: onedesk/public/js/settings.js:1708
 msgid "Current"
 msgstr "Aktuell"
 
@@ -11743,7 +11744,7 @@ msgstr "Fällig"
 
 #. Label of the due_back (Date) field in DocType 'Retention Before One'
 #: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
-#: private/rua/rua/settle.py:115
+#: private/rua/rua/settle.py:112
 msgid "Due Back"
 msgstr "Fällig zurück"
 
@@ -12230,6 +12231,10 @@ msgstr "Bearbeitet"
 #: onedesk/public/js/settings.js:3116
 msgid "Edited text is no longer translated."
 msgstr "Bearbeiteter Text wird nicht mehr übersetzt."
+
+#: onedesk/public/js/head.js:133 private/rua/rua/settle.py:111
+msgid "Effect"
+msgstr "Auswirkung"
 
 #. Option for the 'Network and Location' (Select) field in DocType 'HR
 #. Settings'
@@ -12966,6 +12971,11 @@ msgstr "Geben Sie den Vertragswert ein."
 msgid "Enter the overtime hours."
 msgstr "Überstunden eingeben."
 
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.py:30
+#: private/rua/rua/settle.py:189
+msgid "Enter the retention amount, excluding VAT."
+msgstr "Geben Sie den Einbehaltsbetrag ohne Umsatzsteuer ein."
+
 #: onedesk/one_book/vat.py:64
 msgid "Enter the street address."
 msgstr "Geben Sie die Straßenadresse ein."
@@ -13561,6 +13571,13 @@ msgstr "Wechselkurs"
 #: onedesk/one_book/print_format/one_exchange_rate_revaluation/one_exchange_rate_revaluation.json
 msgid "Exchange Rate Revaluation"
 msgstr "Wechselkursneubewertung"
+
+#. Description of the 'Retention Held' (Currency) field in DocType 'Retention
+#. Before One'
+#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
+#: private/rua/rua/settle.py:109
+msgid "Excluding VAT"
+msgstr "Ohne Umsatzsteuer"
 
 #. Label in the One Employee Tax Exemption Declaration print format
 #. Label in the One Employee Tax Exemption Proof Submission print format
@@ -14167,6 +14184,10 @@ msgstr "Felder, deren Änderung den Kopf aus dem Formular neu zeichnet, wie es g
 #: onedesk/one_project/library/year_end_audit.json
 msgid "Fieldwork"
 msgstr "Prüfung vor Ort"
+
+#: onedesk/public/js/head.js:141
+msgid "Figure"
+msgstr "Kennzahl"
 
 #. Label of the file (Link) field in DocType 'File Link'
 #. Label of the label (Data) field in DocType 'Cloud File Request Item'
@@ -17497,6 +17518,10 @@ msgstr "Enthalten, sofern nicht abgewählt. Halten Sie nur zurück, was für and
 msgid "Includes"
 msgstr "Enthält"
 
+#: private/rua/rua/settle.py:81
+msgid "Including Retention"
+msgstr "Einschließlich Einbehalt"
+
 #: frontend/portal/src/pages/Rfq.vue:93
 msgid "Including {0}"
 msgstr "Inklusive {0}"
@@ -18041,6 +18066,7 @@ msgstr "Den Inhaber einladen"
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 #: onedesk/one_inventory/print_format/one_repair_record/one_repair_record.json
+#: private/rua/rua/settle.py:89
 msgid "Invoice"
 msgstr "Rechnung"
 
@@ -18132,10 +18158,6 @@ msgstr "Rechnungsteil"
 #: onedesk/public/js/project.js:23 onedesk/public/js/project_actions.js:99
 msgid "Invoice Time"
 msgstr "Zeit abrechnen"
-
-#: private/rua/rua/settle.py:89
-msgid "Invoice With the Retention In It"
-msgstr "Rechnung mit dem Einbehalt"
 
 #: onedesk/one_project/retention.py:337
 msgid "Invoice the retention from {0} before its tax falls due"
@@ -22512,6 +22534,10 @@ msgstr "Nettosumme"
 msgid "Net Weight"
 msgstr "Nettogewicht"
 
+#: private/rua/rua/settle.py:80
+msgid "Net of Retention"
+msgstr "Abzüglich Einbehalt"
+
 #. Label of the network_section (Section Break) field in DocType 'Clock
 #. Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -23205,7 +23231,7 @@ msgstr "Unbedenklichkeitsbescheinigung"
 msgid "No Order Yet"
 msgstr "Noch keine Bestellung"
 
-#: private/rua/rua/settle.py:263
+#: private/rua/rua/settle.py:236
 msgid "No Retention Held"
 msgstr "Kein Einbehalt"
 
@@ -23691,7 +23717,7 @@ msgstr "Keine passenden Anfragen"
 msgid "No results"
 msgstr "Keine Ergebnisse"
 
-#: private/rua/rua/settle.py:244
+#: private/rua/rua/settle.py:217
 msgid "No retention held."
 msgstr "Kein Einbehalt."
 
@@ -24364,7 +24390,7 @@ msgstr "Noch nicht"
 #: onedesk/public/js/tenant.js:52
 #: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
 #: private/rua/rua/rua/doctype/rua_import_note/rua_import_note.json
-#: private/rua/rua/settle.py:118
+#: private/rua/rua/settle.py:113
 msgid "Note"
 msgstr "Notiz"
 
@@ -24651,7 +24677,6 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_promotion_letter/one_promotion_letter.json
 #: onedesk/one_hr/print_format/one_staffing_plan/one_staffing_plan.json
 #: onedesk/one_hr/print_format/one_transfer_letter/one_transfer_letter.json
-#: onedesk/public/js/head.js:134
 msgid "Now"
 msgstr ""
 
@@ -24895,6 +24920,10 @@ msgstr "Büroumzug"
 #: private/rua/rua/rua/doctype/rua_import_check/rua_import_check.json
 msgid "Old App"
 msgstr "Alte App"
+
+#: private/rua/rua/settle.py:78
+msgid "Old App Invoices"
+msgstr "Rechnungen der alten App"
 
 #. Label in the One Exchange Rate Revaluation print format
 #: onedesk/one_book/print_format/one_exchange_rate_revaluation/one_exchange_rate_revaluation.json
@@ -27130,10 +27159,6 @@ msgstr "Fällig von"
 #: onedesk/one_hr/print_format/one_full_and_final_settlement/one_full_and_final_settlement.json
 msgid "Owed by Them"
 msgstr "Forderungen an Mitarbeiter"
-
-#: private/rua/rua/settle.py:178
-msgid "Owed by the Client Now"
-msgstr "Jetzt vom Kunden geschuldet"
 
 #. Label in the One Full and Final Settlement print format
 #: onedesk/one_hr/print_format/one_full_and_final_settlement/one_full_and_final_settlement.json
@@ -31125,7 +31150,7 @@ msgstr "Wieder verbunden"
 #: onedesk/public/js/settings.js:1302
 #: private/rua/rua/rua/doctype/rua_import_note/rua_import_note.json
 #: private/rua/rua/rua/doctype/rua_import_record/rua_import_record.json
-#: private/rua/rua/settle.py:255
+#: private/rua/rua/settle.py:228
 msgid "Record"
 msgstr "Erfassen"
 
@@ -31607,10 +31632,6 @@ msgstr ""
 #: frontend/src/project/Invoices.vue:11 frontend/src/project/Invoices.vue:138
 msgid "Release Retention"
 msgstr "Einbehalt freigeben"
-
-#: private/rua/rua/settle.py:207
-msgid "Release Retention bills it with its VAT when the client pays it back."
-msgstr "„Einbehalt freigeben“ berechnet ihn mit Umsatzsteuer, wenn der Kunde ihn auszahlt."
 
 #. Option for the 'State' (Select) field in DocType 'Credit Reservation'
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
@@ -32469,6 +32490,10 @@ msgstr "Retainer-Monat abrechnen"
 msgid "Retention"
 msgstr "Einbehalt"
 
+#: private/rua/rua/settle.py:107
+msgid "Retention Amount"
+msgstr "Einbehaltsbetrag"
+
 #. Name of a DocType
 #. Label of the retention (Link) field in DocType 'Retention Check'
 #: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
@@ -32529,8 +32554,7 @@ msgstr "Einbehalt fällig am"
 #: onedesk/one_project/custom/sales_invoice_item.json
 #: onedesk/one_project/money.py:157 onedesk/one_project/view.py:652
 #: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
-#: private/rua/rua/settle.py:107 private/rua/rua/settle.py:179
-#: private/rua/rua/settle.py:254
+#: private/rua/rua/settle.py:173 private/rua/rua/settle.py:227
 msgid "Retention Held"
 msgstr "Einbehalten"
 
@@ -33330,11 +33354,6 @@ msgstr "Wird gespeichert…"
 #: onedesk/public/js/admin_settings.js:67 onedesk/public/js/ai_model.js:38
 msgid "Say hello in one short sentence."
 msgstr "Sag Hallo in einem kurzen Satz."
-
-#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.py:30
-#: private/rua/rua/settle.py:214
-msgid "Say how much retention the client holds, before VAT."
-msgstr "Geben Sie an, wie viel Einbehalt der Kunde hält, vor MwSt."
 
 #: onedesk/one_ai/heads.py:94
 msgid "Say no to this?"
@@ -38138,10 +38157,6 @@ msgstr "Das Feld"
 msgid "The Frappe Cloud root domain sites are created on, for example frappe.cloud."
 msgstr "Die Frappe-Cloud-Hauptdomain, auf der Sites angelegt werden, zum Beispiel frappe.cloud."
 
-#: private/rua/rua/settle.py:81
-msgid "The Full Amount, Retention Included"
-msgstr "Den vollen Betrag, Einbehalt inbegriffen"
-
 #: onedesk/one_intake/planning.py:392
 msgid "The IBAN isn't on file for {0}. Confirm it by phone before paying."
 msgstr "Die IBAN ist für {0} nicht hinterlegt. Bestätigen Sie sie vor der Zahlung telefonisch."
@@ -38155,10 +38170,6 @@ msgstr "Die Message-ID der ersten Nachricht in ihrer Unterhaltung."
 #: onedesk/one_hr/print_format/one_job_offer/one_job_offer.json
 msgid "The Offer"
 msgstr "Das Angebot"
-
-#: private/rua/rua/settle.py:78
-msgid "The Old App Has"
-msgstr "Die alte App enthält"
 
 #. Description of the 'Payer' (Data) field in DocType 'Workspace Account'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
@@ -38382,10 +38393,6 @@ msgstr "Scheck- oder Überweisungsnummer. Leer gelassen gilt die Rechnungsnummer
 #: onedesk/one_hr/heads.py:567
 msgid "The claim is closed and nothing is booked."
 msgstr "Die Abrechnung wird geschlossen und nichts wird gebucht."
-
-#: private/rua/rua/settle.py:199
-msgid "The client has then paid {0} more than they owe, held to their credit."
-msgstr "Der Kunde hat dann {0} mehr gezahlt, als er schuldet; der Betrag wird ihm gutgeschrieben."
 
 #. Description of the 'Code Ends' (Data) field in DocType 'Private App Grant'
 #: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json
@@ -38756,8 +38763,8 @@ msgstr "Die Rechnung ist beigefügt. Falls Sie sie bereits bezahlt haben, betrac
 #. Description of the 'Taken From' (Link) field in DocType 'Retention Before
 #. One'
 #: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
-msgid "The invoice the old app has for the full work, retention included, when it is one. The retention comes off it."
-msgstr "Die Rechnung der alten App über die volle Leistung samt Einbehalt, falls es eine solche gibt. Der Einbehalt wird von ihr abgezogen."
+msgid "The invoice that included the retention. The retention is credited from it."
+msgstr "Die Rechnung, die den Einbehalt enthielt. Der Einbehalt wird von ihr gutgeschrieben."
 
 #: onedesk/one_intake/planning.py:139
 msgid "The invoice this credits was not found."
@@ -40149,7 +40156,7 @@ msgstr "Dieser Ordner ist leer."
 msgid "This footer is custom HTML. Choosing a preset replaces it."
 msgstr "Diese Fußzeile ist eigenes HTML. Eine Vorlage zu wählen ersetzt sie."
 
-#: onedesk/public/js/head.js:342 onedesk/public/js/shell.js:251
+#: onedesk/public/js/head.js:364 onedesk/public/js/shell.js:251
 msgid "This form has been modified after you have loaded it"
 msgstr "Dieses Formular wurde geändert, nachdem du es geöffnet hast"
 
@@ -42525,16 +42532,13 @@ msgstr "Auslastung"
 #: onedesk/one_inventory/print_format/one_purchase_order_classic/one_purchase_order_classic.json
 #: onedesk/one_inventory/print_format/one_purchase_order_with_images/one_purchase_order_with_images.json
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
+#: private/rua/rua/settle.py:171
 msgid "VAT"
 msgstr "MwSt."
 
 #: onedesk/one_book/home.py:366
 msgid "VAT Audit Report"
 msgstr "Umsatzsteuer-Prüfbericht"
-
-#: private/rua/rua/settle.py:177
-msgid "VAT Charged"
-msgstr "Berechnete Umsatzsteuer"
 
 #. Option for the 'Kind' (Select) field in DocType 'Identifier'
 #. Label of the vat_id (Data) field in DocType 'Reading Party'
@@ -43365,10 +43369,6 @@ msgstr "Was OneAI über Sie weiß"
 msgid "What OneAI said when asked to explain it, per language."
 msgstr "Was OneAI sagte, als es um eine Erklärung gebeten wurde, je Sprache."
 
-#: private/rua/rua/settle.py:80
-msgid "What Was Billed After the Retention"
-msgstr "Den nach Abzug des Einbehalts berechneten Betrag"
-
 #. Label in the One Maintenance Record print format
 #. Label in the One Repair Record print format
 #: onedesk/one_inventory/print_format/one_maintenance_record/one_maintenance_record.json
@@ -43859,13 +43859,6 @@ msgstr "Was die Schaltfläche sagt, wenn nicht der eigene Text der Aktion."
 #: onedesk/one/doctype/record_head_chart/record_head_chart.json
 msgid "What the chart is called, when not its own name."
 msgstr "Wie das Diagramm heißt, wenn nicht wie sein eigener Name."
-
-#. Description of the 'Retention Held' (Currency) field in DocType 'Retention
-#. Before One'
-#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
-#: private/rua/rua/settle.py:109
-msgid "What the client still holds, before VAT."
-msgstr "Was der Kunde noch hält, vor MwSt."
 
 #. Description of the 'advance_amount' field in DocType 'Employee Advance'
 #: onedesk/one_hr/custom/employee_advance.json
@@ -45296,12 +45289,6 @@ msgstr "Wenn Lagerwerte nicht neu berechnet werden können, von ERPNext zusätzl
 msgid "When the administrator last answered."
 msgstr "Wann die Verwaltung zuletzt geantwortet hat."
 
-#. Description of the 'Due Back' (Date) field in DocType 'Retention Before One'
-#: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.json
-#: private/rua/rua/settle.py:116
-msgid "When the client is due to pay it back, if anybody knows."
-msgstr "Wann der Kunde ihn zurückzahlen muss, falls bekannt."
-
 #. When a notification is sent
 #: onedesk/notifications/one/your_data_is_ready.md
 msgid "When the copy of your data you asked for on your profile is ready."
@@ -46714,7 +46701,7 @@ msgstr "Dienstjubiläum"
 #: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
 #: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
-#: onedesk/one_project/custom/sales_invoice.json
+#: onedesk/one_project/custom/sales_invoice.json private/rua/rua/settle.py:170
 msgid "Work Billed"
 msgstr "Berechnete Leistung"
 
@@ -49966,10 +49953,6 @@ msgstr "{0} wurde nicht bezahlt."
 msgid "{0} held"
 msgstr "{0} in Besitz"
 
-#: private/rua/rua/settle.py:236
-msgid "{0} held as retention, owed until it is released."
-msgstr "{0} als Einbehalt gehalten, geschuldet bis zur Freigabe."
-
 #: onedesk/one_project/tell.py:415
 msgid "{0} held by {1}"
 msgstr "{0} von {1} einbehalten"
@@ -50666,6 +50649,10 @@ msgstr "{0} weitere bestellt"
 msgid "{0} more promised than on hand"
 msgstr "{0} mehr zugesagt als auf Lager"
 
+#: private/rua/rua/settle.py:208
+msgid "{0} moved from {1} to retention."
+msgstr "{0} von {1} in den Einbehalt verschoben."
+
 #: onedesk/one_book/heads.py:351
 msgid "{0} moved from {1} to {2}."
 msgstr "{0} von {1} nach {2} umgebucht."
@@ -51055,6 +51042,10 @@ msgstr "{0} Neuberechnungen nach rückdatierten Buchungen sind mit einem Fehler 
 msgid "{0} received from {1}."
 msgstr "{0} von {1} erhalten."
 
+#: private/rua/rua/settle.py:209
+msgid "{0} recorded as retention."
+msgstr "{0} als Einbehalt erfasst."
+
 #: onedesk/one_inventory/heads.py:416
 msgid "{0} requests"
 msgstr "{0} Anfragen"
@@ -51187,10 +51178,6 @@ msgstr "{0} gebucht"
 #: onedesk/one/head.py:174
 msgid "{0} sums {1}, which {2} does not have."
 msgstr "{0} summiert {1}, das {2} nicht hat."
-
-#: private/rua/rua/settle.py:233
-msgid "{0} taken off {1} and held as retention, owed until it is released."
-msgstr "{0} von {1} abgezogen und als Einbehalt gehalten, geschuldet bis zur Freigabe."
 
 #: onedesk/one/head.py:154
 msgid "{0} takes its value from nowhere."
@@ -51393,7 +51380,7 @@ msgstr "{0} {1} {2} {3}"
 msgid "{0} {1} was changed by somebody else after you opened this. Refresh to see it; nothing was saved."
 msgstr "{0} {1} wurde von jemand anderem geändert, nachdem Sie dies geöffnet haben. Aktualisieren Sie, um es zu sehen; nichts wurde gespeichert."
 
-#: onedesk/public/js/head.js:327
+#: onedesk/public/js/head.js:349
 msgid "{0} {1} was changed by someone else. Refresh to see the latest."
 msgstr "{0} {1} wurde von jemand anderem geändert. Aktualisieren Sie, um den neuesten Stand zu sehen."
 

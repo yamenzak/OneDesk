@@ -109,8 +109,7 @@ onedesk.head.act = (frm, verb) => {
 			});
 	if (!verb.fields.length) return go({});
 	const redraw = frappe.utils.debounce(() => onedesk.head.redraw(frm, verb, dialog), 250);
-	const placed = verb.fields.some((df) => df.fieldname === "one_live");
-	const fields = verb.live ? [...verb.fields.map((df) => ({ ...df, onchange: redraw })), ...(placed ? [] : [{ fieldname: "one_live", fieldtype: "HTML" }])] : verb.fields;
+	const fields = verb.live ? onedesk.head.foreseen(verb.fields, redraw) : verb.fields;
 	const dialog = new frappe.ui.Dialog({
 		title: verb.title,
 		fields,
@@ -126,17 +125,40 @@ onedesk.head.act = (frm, verb) => {
 	if (verb.live) redraw();
 };
 
+onedesk.head.foreseen = (fields, redraw) => {
+	const placed = fields.find((df) => df.fieldname === "one_live");
+	const table = {
+		fieldname: "one_live",
+		fieldtype: "Table",
+		label: placed?.label || __("Effect"),
+		hidden: 1,
+		read_only: 1,
+		cannot_add_rows: 1,
+		cannot_delete_rows: 1,
+		in_place_edit: true,
+		data: [],
+		fields: [
+			{ fieldname: "label", fieldtype: "Data", label: __("Figure"), in_list_view: 1, read_only: 1, columns: 4 },
+			{ fieldname: "now", fieldtype: "Currency", label: __("Current"), in_list_view: 1, read_only: 1, columns: 3 },
+			{ fieldname: "after", fieldtype: "Currency", label: __("After"), in_list_view: 1, read_only: 1, columns: 3 },
+		],
+	};
+	const said = { fieldname: "one_live_said", fieldtype: "HTML" };
+	const rest = fields.filter((df) => df.fieldname !== "one_live").map((df) => ({ ...df, onchange: redraw }));
+	if (!placed) return [...rest, table, said];
+	const at = fields.indexOf(placed);
+	return [...rest.slice(0, at), table, said, ...rest.slice(at)];
+};
+
 onedesk.head.redraw = async (frm, verb, dialog) => {
 	const said = await frappe.xcall("onedesk.one.head.foresee", { doctype: frm.doctype, name: frm.doc.name, verb: verb.verb, values: dialog.get_values(true) });
-	const $live = dialog.fields_dict.one_live.$wrapper.empty();
-	if (!said || !said.rows.length) return;
-	const esc = frappe.utils.escape_html;
-	const $table = $(`<table class="one-live"><thead><tr><th></th><th>${esc(__("Now"))}</th><th>${esc(__("After"))}</th></tr></thead><tbody></tbody></table>`);
-	for (const row of said.rows) {
-		$(`<tr class="${row.changed ? "one-live-changed" : ""}"><td>${esc(row.label)}</td><td>${esc(row.now)}</td><td>${esc(row.after)}</td></tr>`).appendTo($table.find("tbody"));
-	}
-	$live.append($table);
-	for (const line of said.lines || []) $("<p class=\"one-live-said\">").text(line).appendTo($live);
+	const field = dialog.fields_dict.one_live;
+	const rows = said?.rows || [];
+	field.df.data = rows.map((row) => ({ ...row }));
+	field.grid.refresh();
+	dialog.set_df_property("one_live", "hidden", rows.length ? 0 : 1);
+	const $said = dialog.fields_dict.one_live_said.$wrapper.empty();
+	if (rows.length && said.lines?.length) $("<p class=\"help-box small text-muted\">").text(said.lines.join(" ")).appendTo($said);
 };
 
 (() => {

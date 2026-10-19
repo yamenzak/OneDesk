@@ -2004,8 +2004,9 @@ still holds retention from invoices made before One, until it is answered.
 A verb whose dialog changes money can say what it would change before it is
 done: `live`, a function of the record and the dialog's values, answers rows
 of a figure now and after, and a few sentences. `head.foresee` runs it as
-the fields are typed, saving nothing, and the dialog draws it under the
-fields, or where the verb's fields put an HTML field named `one_live`.
+the fields are typed, saving nothing, and the dialog draws it as a Table
+field of figures under the fields, or where the verb's fields put a field
+named `one_live`, with the sentences as its description.
 Rua's Retention Held is the first to use it.
 
 A form of ours used to say all this in a script per doctype: an overview

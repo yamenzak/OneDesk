@@ -40,8 +40,8 @@ def verbs() -> dict:
 	functions of the record. `live`, a function of the record and the
 	dialog's values answering {"rows": [{"label", "now", "after",
 	"changed"}], "lines"}, is what doing it would change, redrawn under the
-	fields as they are typed, or where `fields` puts an HTML field named
-	`one_live`."""
+	fields as they are typed, as a table of figures, or where `fields` puts
+	a field named `one_live`."""
 	return _merged("one_verbs")
 
 

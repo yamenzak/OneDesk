@@ -27,7 +27,7 @@ class RetentionBeforeOne(Document):
 		if not retention.on():
 			frappe.throw(_("Turn retention on in Projects Settings first."))
 		if flt(self.amount) <= 0:
-			frappe.throw(_("Say how much retention the client holds, before VAT."))
+			frappe.throw(_("Enter the retention amount, excluding VAT."))
 		self.customer = frappe.db.get_value("Project", self.project, "customer")
 		if not self.customer:
 			frappe.throw(_("{0} has no customer to hold the retention.").format(self.project))
