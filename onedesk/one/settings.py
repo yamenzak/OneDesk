@@ -50,16 +50,16 @@ APPS = [
 ]
 
 APP_SAID = {
-	"OneCRM": _lt("Leads, opportunities, customers and quotes."),
-	"OneBook": _lt("Invoices, bills, payments and the books."),
-	"OneInventory": _lt("Items, stock, buying, making and assets."),
-	"OneProject": _lt("Projects, tasks and timesheets."),
-	"OneHR": _lt("Employees, leave, attendance and pay."),
-	"OneCloud": _lt("Files, folders and what you share."),
-	"OneMail": _lt("Mailboxes, conversations and mail on records."),
-	"OneTask": _lt("Tasks, checklists and timers."),
-	"OneCalendar": _lt("Meetings, leave and deadlines in one calendar."),
-	"OneStudio": _lt("Your own fields, record types and forms."),
+	"OneCRM": _lt("Follow every lead from first call to signed quote, and keep each customer's story in one place."),
+	"OneBook": _lt("Send invoices, pay bills, match the bank and see where the money stands."),
+	"OneInventory": _lt("Know what's in stock, buy what runs low, and make and track what you sell."),
+	"OneProject": _lt("Plan each job, follow its time and costs, and bill it as the work gets done."),
+	"OneHR": _lt("Contracts, leave, attendance, payroll and hiring for everyone who works with you."),
+	"OneCloud": _lt("Keep the company's files in one place and share them with anyone, inside or out."),
+	"OneMail": _lt("The company's email, each message kept on the customer, supplier or job it's about."),
+	"OneTask": _lt("Everybody's work in one list, with checklists, due dates and timers."),
+	"OneCalendar": _lt("Meetings, leave and deadlines from every app, on one calendar."),
+	"OneStudio": _lt("Shape One to the way you work with your own fields, record types and forms."),
 }
 
 LEVELS = ("None", "User", "Manager")

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-19 05:28+0000\n"
-"PO-Revision-Date: 2026-10-19 05:28+0000\n"
+"POT-Creation-Date: 2026-10-19 05:32+0000\n"
+"PO-Revision-Date: 2026-10-19 05:32+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -8311,6 +8311,10 @@ msgstr ""
 msgid "Contracts and Probations Ending"
 msgstr ""
 
+#: onedesk/one/settings.py:57
+msgid "Contracts, leave, attendance, payroll and hiring for everyone who works with you."
+msgstr ""
+
 #. Label of the said_section (Section Break) field in DocType 'AI Chat'
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 msgid "Conversation"
@@ -12582,10 +12586,6 @@ msgstr ""
 msgid "Employees working on a holiday"
 msgstr ""
 
-#: onedesk/one/settings.py:57
-msgid "Employees, leave, attendance and pay."
-msgstr ""
-
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:69
 #: onedesk/public/js/settings.js:150
 msgid "Employment"
@@ -13244,6 +13244,10 @@ msgstr ""
 
 #: onedesk/one_hr/home.py:448
 msgid "Everybody's details in one table."
+msgstr ""
+
+#: onedesk/one/settings.py:60
+msgid "Everybody's work in one list, with checklists, due dates and timers."
 msgstr ""
 
 #: onedesk/one/settings.py:830
@@ -14124,10 +14128,6 @@ msgstr ""
 msgid "Files use {0} GB and the plan allows {1} GB."
 msgstr ""
 
-#: onedesk/one/settings.py:58
-msgid "Files, folders and what you share."
-msgstr ""
-
 #: onedesk/public/js/settings.js:2731
 msgid "Filing"
 msgstr ""
@@ -14502,6 +14502,10 @@ msgstr ""
 
 #: onedesk/public/js/record.js:166
 msgid "Follow"
+msgstr ""
+
+#: onedesk/one/settings.py:53
+msgid "Follow every lead from first call to signed quote, and keep each customer's story in one place."
 msgstr ""
 
 #: onedesk/public/js/theme.js:19
@@ -17949,10 +17953,6 @@ msgstr ""
 msgid "Invoices not paid yet"
 msgstr ""
 
-#: onedesk/one/settings.py:54
-msgid "Invoices, bills, payments and the books."
-msgstr ""
-
 #: onedesk/public/js/doctype_settings.js:977
 msgid "Is"
 msgstr ""
@@ -18573,10 +18573,6 @@ msgstr ""
 msgid "Items, customers and suppliers imported"
 msgstr ""
 
-#: onedesk/one/settings.py:55
-msgid "Items, stock, buying, making and assets."
-msgstr ""
-
 #. Label of the number (Data) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Its Number"
@@ -18836,6 +18832,10 @@ msgstr ""
 msgid "Keep both"
 msgstr ""
 
+#: onedesk/one/settings.py:58
+msgid "Keep the company's files in one place and share them with anyone, inside or out."
+msgstr ""
+
 #: frontend/src/lots/LotRows.vue:76
 msgid "Keeps"
 msgstr ""
@@ -18985,6 +18985,10 @@ msgstr ""
 
 #: onedesk/one_crm/home.py:183
 msgid "Kinds of issue, such as a fault or a question."
+msgstr ""
+
+#: onedesk/one/settings.py:55
+msgid "Know what's in stock, buy what runs low, and make and track what you sell."
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -19436,10 +19440,6 @@ msgstr ""
 
 #: onedesk/one/privacy_copy.py:19
 msgid "Leads, deals, customers, suppliers and applications with your address"
-msgstr ""
-
-#: onedesk/one/settings.py:53
-msgid "Leads, opportunities, customers and quotes."
 msgstr ""
 
 #. Label of the one_learn_zones (Check) field in DocType 'HR Settings'
@@ -20717,10 +20717,6 @@ msgstr ""
 msgid "Mailboxes"
 msgstr ""
 
-#: onedesk/one/settings.py:59
-msgid "Mailboxes, conversations and mail on records."
-msgstr ""
-
 #. Description of the 'To Outside Addresses' (Check) field in DocType
 #. 'Notification Type'
 #: onedesk/one/custom/notification_type.json
@@ -21468,7 +21464,7 @@ msgid "Meetings Today"
 msgstr ""
 
 #: onedesk/one/settings.py:61
-msgid "Meetings, leave and deadlines in one calendar."
+msgid "Meetings, leave and deadlines from every app, on one calendar."
 msgstr ""
 
 #: onedesk/one_project/ai.py:526 onedesk/public/js/onecloud.js:1390
@@ -28484,6 +28480,10 @@ msgstr ""
 msgid "Plan changed"
 msgstr ""
 
+#: onedesk/one/settings.py:56
+msgid "Plan each job, follow its time and costs, and bill it as the work gets done."
+msgstr ""
+
 #. Task in the New Client Onboarding project template
 #: onedesk/one_project/library/client_onboarding.json
 msgid "Plan for the next quarter"
@@ -29451,10 +29451,6 @@ msgstr ""
 #. Name of a dashboard chart
 #: onedesk/one_project/dashboard_chart/projects_by_manager/projects_by_manager.json
 msgid "Projects by Manager"
-msgstr ""
-
-#: onedesk/one/settings.py:56
-msgid "Projects, tasks and timesheets."
 msgstr ""
 
 #. Label of the promise (Check) field in DocType 'Reading Ask'
@@ -33136,6 +33132,10 @@ msgstr ""
 msgid "Send files here"
 msgstr ""
 
+#: onedesk/one/settings.py:54
+msgid "Send invoices, pay bills, match the bank and see where the money stands."
+msgstr ""
+
 #: onedesk/public/js/onecloud.js:1569
 msgid "Send request"
 msgstr ""
@@ -33758,6 +33758,10 @@ msgstr ""
 
 #: onedesk/public/js/settings.js:2345
 msgid "Several people"
+msgstr ""
+
+#: onedesk/one/settings.py:62
+msgid "Shape One to the way you work with your own fields, record types and forms."
 msgstr ""
 
 #. Label in the One Budget print format
@@ -36918,10 +36922,6 @@ msgstr ""
 msgid "Tasks Due or Late"
 msgstr ""
 
-#: onedesk/one/settings.py:60
-msgid "Tasks, checklists and timers."
-msgstr ""
-
 #. Label in the One Detailed Tax Invoice print format
 #. Label in the One Payment Voucher print format
 #. Label in the One Purchase Voucher print format
@@ -37869,6 +37869,10 @@ msgstr ""
 
 #: onedesk/one_hr/home.py:543
 msgid "The company's departments."
+msgstr ""
+
+#: onedesk/one/settings.py:59
+msgid "The company's email, each message kept on the customer, supplier or job it's about."
 msgstr ""
 
 #: onedesk/one_book/ready.py:185
@@ -47245,10 +47249,6 @@ msgstr ""
 #: frontend/portal/src/pages/Record.vue:119
 #: frontend/portal/src/pages/Rfq.vue:81
 msgid "Your name"
-msgstr ""
-
-#: onedesk/one/settings.py:62
-msgid "Your own fields, record types and forms."
 msgstr ""
 
 #: onedesk/one_hr/rules.py:29

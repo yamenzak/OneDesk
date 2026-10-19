@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-19 05:28+0000\n"
+"POT-Creation-Date: 2026-10-19 05:32+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -8313,6 +8313,10 @@ msgstr "العقود"
 msgid "Contracts and Probations Ending"
 msgstr "عقود وفترات تجربة تنتهي"
 
+#: onedesk/one/settings.py:57
+msgid "Contracts, leave, attendance, payroll and hiring for everyone who works with you."
+msgstr "العقود والإجازات والحضور والرواتب والتوظيف لكل من يعمل معك."
+
 #. Label of the said_section (Section Break) field in DocType 'AI Chat'
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 msgid "Conversation"
@@ -12584,10 +12588,6 @@ msgstr "الموظفون"
 msgid "Employees working on a holiday"
 msgstr "موظفون عملوا في عطلة"
 
-#: onedesk/one/settings.py:57
-msgid "Employees, leave, attendance and pay."
-msgstr "الموظفون والإجازات والحضور والرواتب."
-
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:69
 #: onedesk/public/js/settings.js:150
 msgid "Employment"
@@ -13247,6 +13247,10 @@ msgstr "كل من يعمل هنا، بعقده وراتبه ومستنداته."
 #: onedesk/one_hr/home.py:448
 msgid "Everybody's details in one table."
 msgstr "بيانات الجميع في جدول واحد."
+
+#: onedesk/one/settings.py:60
+msgid "Everybody's work in one list, with checklists, due dates and timers."
+msgstr "عمل الجميع في قائمة واحدة، مع قوائم تحقق ومواعيد استحقاق ومؤقتات."
 
 #: onedesk/one/settings.py:830
 msgid "Everyone"
@@ -14126,10 +14130,6 @@ msgstr "تبقى الملفات التي لا تخص أي سجل حيث وصلت
 msgid "Files use {0} GB and the plan allows {1} GB."
 msgstr "تستخدم الملفات {0} غيغابايت والخطة تسمح بـ {1} غيغابايت."
 
-#: onedesk/one/settings.py:58
-msgid "Files, folders and what you share."
-msgstr "الملفات والمجلدات وما تشاركه."
-
 #: onedesk/public/js/settings.js:2731
 msgid "Filing"
 msgstr "الأرشفة"
@@ -14504,6 +14504,10 @@ msgstr "رقم الملف"
 #: onedesk/public/js/record.js:166
 msgid "Follow"
 msgstr ""
+
+#: onedesk/one/settings.py:53
+msgid "Follow every lead from first call to signed quote, and keep each customer's story in one place."
+msgstr "تابع كل عميل محتمل من أول اتصال حتى عرض السعر الموقّع، واحتفظ بقصة كل عميل في مكان واحد."
 
 #: onedesk/public/js/theme.js:19
 msgid "Follow my system"
@@ -17948,10 +17952,6 @@ msgstr "الفواتير تحمل الرقم الضريبي للشركة"
 msgid "Invoices not paid yet"
 msgstr "فواتير لم تُدفع بعد"
 
-#: onedesk/one/settings.py:54
-msgid "Invoices, bills, payments and the books."
-msgstr "الفواتير الصادرة والواردة والمدفوعات والدفاتر."
-
 #: onedesk/public/js/doctype_settings.js:977
 msgid "Is"
 msgstr ""
@@ -18572,10 +18572,6 @@ msgstr "أصناف مطلوبة بأكثر مما هو متوفر."
 msgid "Items, customers and suppliers imported"
 msgstr "استيراد الأصناف والعملاء والموردين"
 
-#: onedesk/one/settings.py:55
-msgid "Items, stock, buying, making and assets."
-msgstr "الأصناف والمخزون والشراء والتصنيع والأصول."
-
 #. Label of the number (Data) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Its Number"
@@ -18835,6 +18831,10 @@ msgstr "يُحفظ حتى"
 msgid "Keep both"
 msgstr "الاحتفاظ بالاثنين"
 
+#: onedesk/one/settings.py:58
+msgid "Keep the company's files in one place and share them with anyone, inside or out."
+msgstr "احفظ ملفات الشركة في مكان واحد وشاركها مع أي شخص، من داخلها أو خارجها."
+
 #: frontend/src/lots/LotRows.vue:76
 msgid "Keeps"
 msgstr "لا تنتهي"
@@ -18985,6 +18985,10 @@ msgstr "أنواع المعدات، وكيف تفقد كل منها قيمتها
 #: onedesk/one_crm/home.py:183
 msgid "Kinds of issue, such as a fault or a question."
 msgstr "أنواع البلاغات، كعطل أو سؤال."
+
+#: onedesk/one/settings.py:55
+msgid "Know what's in stock, buy what runs low, and make and track what you sell."
+msgstr "اعرف ما في المخزون، واشترِ ما يقترب من النفاد، واصنع ما تبيعه وتتبّعه."
 
 #. Label of a Sidebar Item
 #. Label of the body (Text Editor) field in DocType 'AI Knowledge'
@@ -19436,10 +19440,6 @@ msgstr "عملاء محتملون تحدثنا إليهم كثيرًا ولم ي
 #: onedesk/one/privacy_copy.py:19
 msgid "Leads, deals, customers, suppliers and applications with your address"
 msgstr "العملاء المحتملون والصفقات والعملاء والمورّدون وطلبات التوظيف التي تحمل عنوانك"
-
-#: onedesk/one/settings.py:53
-msgid "Leads, opportunities, customers and quotes."
-msgstr "العملاء المحتملون والفرص والعملاء وعروض الأسعار."
 
 #. Label of the one_learn_zones (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -20711,10 +20711,6 @@ msgstr "تم ربط صندوق البريد"
 msgid "Mailboxes"
 msgstr "صناديق البريد"
 
-#: onedesk/one/settings.py:59
-msgid "Mailboxes, conversations and mail on records."
-msgstr "صناديق البريد والمحادثات والبريد المرتبط بالسجلات."
-
 #. Description of the 'To Outside Addresses' (Check) field in DocType
 #. 'Notification Type'
 #: onedesk/one/custom/notification_type.json
@@ -21462,8 +21458,8 @@ msgid "Meetings Today"
 msgstr "اجتماعات اليوم"
 
 #: onedesk/one/settings.py:61
-msgid "Meetings, leave and deadlines in one calendar."
-msgstr "الاجتماعات والإجازات والمواعيد النهائية في تقويم واحد."
+msgid "Meetings, leave and deadlines from every app, on one calendar."
+msgstr "الاجتماعات والإجازات والمواعيد النهائية من كل تطبيق، في تقويم واحد."
 
 #: onedesk/one_project/ai.py:526 onedesk/public/js/onecloud.js:1390
 msgid "Member"
@@ -28475,6 +28471,10 @@ msgstr "الخطة والأرصدة"
 msgid "Plan changed"
 msgstr "تم تغيير الخطة"
 
+#: onedesk/one/settings.py:56
+msgid "Plan each job, follow its time and costs, and bill it as the work gets done."
+msgstr "خطّط لكل عمل، وتابع وقته وتكاليفه، وأصدر فواتيره مع تقدّم العمل."
+
 #. Task in the New Client Onboarding project template
 #: onedesk/one_project/library/client_onboarding.json
 msgid "Plan for the next quarter"
@@ -29443,10 +29443,6 @@ msgstr "المشاريع حسب النوع"
 #: onedesk/one_project/dashboard_chart/projects_by_manager/projects_by_manager.json
 msgid "Projects by Manager"
 msgstr "المشاريع حسب المدير"
-
-#: onedesk/one/settings.py:56
-msgid "Projects, tasks and timesheets."
-msgstr "المشاريع والمهام وجداول الوقت."
 
 #. Label of the promise (Check) field in DocType 'Reading Ask'
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
@@ -33125,6 +33121,10 @@ msgstr "إرسال الرمز"
 msgid "Send files here"
 msgstr "أرسل الملفات هنا"
 
+#: onedesk/one/settings.py:54
+msgid "Send invoices, pay bills, match the bank and see where the money stands."
+msgstr "أرسل الفواتير، وادفع فواتير الموردين، وطابق البنك، واعرف أين يقف المال."
+
 #: onedesk/public/js/onecloud.js:1569
 msgid "Send request"
 msgstr "إرسال الطلب"
@@ -33748,6 +33748,10 @@ msgstr "عدة ملفات"
 #: onedesk/public/js/settings.js:2345
 msgid "Several people"
 msgstr "عدة أشخاص"
+
+#: onedesk/one/settings.py:62
+msgid "Shape One to the way you work with your own fields, record types and forms."
+msgstr "طوّع One لطريقة عملك بحقولك وأنواع سجلاتك ونماذجك الخاصة."
 
 #. Label in the One Budget print format
 #. Label in the One Cost Center Allocation print format
@@ -36894,10 +36898,6 @@ msgstr "المهام"
 msgid "Tasks Due or Late"
 msgstr "مهام مستحقة أو متأخرة"
 
-#: onedesk/one/settings.py:60
-msgid "Tasks, checklists and timers."
-msgstr "المهام وقوائم التحقق والمؤقتات."
-
 #. Label in the One Detailed Tax Invoice print format
 #. Label in the One Payment Voucher print format
 #. Label in the One Purchase Voucher print format
@@ -37846,6 +37846,10 @@ msgstr "البنك الافتراضي للشركة وكل طريقة دفع بن
 #: onedesk/one_hr/home.py:543
 msgid "The company's departments."
 msgstr "أقسام الشركة."
+
+#: onedesk/one/settings.py:59
+msgid "The company's email, each message kept on the customer, supplier or job it's about."
+msgstr "بريد الشركة، وكل رسالة محفوظة على العميل أو المورّد أو العمل الذي تخصّه."
 
 #: onedesk/one_book/ready.py:185
 msgid "The company's emirate is known"
@@ -47210,10 +47214,6 @@ msgstr "لم يُرسل بريدك \"{subject}\""
 #: frontend/portal/src/pages/Rfq.vue:81
 msgid "Your name"
 msgstr "اسمك"
-
-#: onedesk/one/settings.py:62
-msgid "Your own fields, record types and forms."
-msgstr "حقولك وأنواع سجلاتك ونماذجك الخاصة."
 
 #: onedesk/one_hr/rules.py:29
 msgid "Your passkey has been reset twice within a month."

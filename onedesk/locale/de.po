@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-19 05:28+0000\n"
+"POT-Creation-Date: 2026-10-19 05:32+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -8313,6 +8313,10 @@ msgstr "Verträge"
 msgid "Contracts and Probations Ending"
 msgstr "Endende Verträge und Probezeiten"
 
+#: onedesk/one/settings.py:57
+msgid "Contracts, leave, attendance, payroll and hiring for everyone who works with you."
+msgstr "Verträge, Abwesenheiten, Anwesenheit, Gehaltsabrechnung und Einstellung für alle, die mit Ihnen arbeiten."
+
 #. Label of the said_section (Section Break) field in DocType 'AI Chat'
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 msgid "Conversation"
@@ -12584,10 +12588,6 @@ msgstr "Mitarbeiter"
 msgid "Employees working on a holiday"
 msgstr "Mitarbeiter, die an Feiertagen arbeiten"
 
-#: onedesk/one/settings.py:57
-msgid "Employees, leave, attendance and pay."
-msgstr "Mitarbeitende, Urlaub, Anwesenheit und Gehalt."
-
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:69
 #: onedesk/public/js/settings.js:150
 msgid "Employment"
@@ -13247,6 +13247,10 @@ msgstr "Alle, die hier arbeiten, mit Vertrag, Gehalt und Papieren."
 #: onedesk/one_hr/home.py:448
 msgid "Everybody's details in one table."
 msgstr "Alle Angaben in einer Tabelle."
+
+#: onedesk/one/settings.py:60
+msgid "Everybody's work in one list, with checklists, due dates and timers."
+msgstr "Die Arbeit aller in einer Liste, mit Checklisten, Fälligkeiten und Timern."
 
 #: onedesk/one/settings.py:830
 msgid "Everyone"
@@ -14126,10 +14130,6 @@ msgstr "Dateien ohne Datensatz bleiben, wo sie ankamen, statt in einen Ordner f�
 msgid "Files use {0} GB and the plan allows {1} GB."
 msgstr "Dateien belegen {0} GB und der Plan erlaubt {1} GB."
 
-#: onedesk/one/settings.py:58
-msgid "Files, folders and what you share."
-msgstr "Dateien, Ordner und was Sie teilen."
-
 #: onedesk/public/js/settings.js:2731
 msgid "Filing"
 msgstr "Ablage"
@@ -14504,6 +14504,10 @@ msgstr "Folio"
 #: onedesk/public/js/record.js:166
 msgid "Follow"
 msgstr ""
+
+#: onedesk/one/settings.py:53
+msgid "Follow every lead from first call to signed quote, and keep each customer's story in one place."
+msgstr "Begleiten Sie jeden Lead vom ersten Anruf bis zum unterschriebenen Angebot und behalten Sie die Geschichte jedes Kunden an einem Ort."
 
 #: onedesk/public/js/theme.js:19
 msgid "Follow my system"
@@ -17948,10 +17952,6 @@ msgstr "Rechnungen tragen die Steuernummer des Unternehmens"
 msgid "Invoices not paid yet"
 msgstr "Rechnungen noch nicht bezahlt"
 
-#: onedesk/one/settings.py:54
-msgid "Invoices, bills, payments and the books."
-msgstr "Rechnungen, Eingangsrechnungen, Zahlungen und die Bücher."
-
 #: onedesk/public/js/doctype_settings.js:977
 msgid "Is"
 msgstr ""
@@ -18572,10 +18572,6 @@ msgstr "Artikel, die über den Bestand hinaus gebraucht werden."
 msgid "Items, customers and suppliers imported"
 msgstr "Artikel, Kunden und Lieferanten importiert"
 
-#: onedesk/one/settings.py:55
-msgid "Items, stock, buying, making and assets."
-msgstr "Artikel, Lager, Einkauf, Fertigung und Anlagen."
-
 #. Label of the number (Data) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Its Number"
@@ -18835,6 +18831,10 @@ msgstr "Aufbewahren bis"
 msgid "Keep both"
 msgstr "Beide behalten"
 
+#: onedesk/one/settings.py:58
+msgid "Keep the company's files in one place and share them with anyone, inside or out."
+msgstr "Die Dateien des Unternehmens an einem Ort aufbewahren und mit jedem teilen, intern oder extern."
+
 #: frontend/src/lots/LotRows.vue:76
 msgid "Keeps"
 msgstr "Hält"
@@ -18985,6 +18985,10 @@ msgstr "Arten von Ausrüstung und wie jede an Wert verliert."
 #: onedesk/one_crm/home.py:183
 msgid "Kinds of issue, such as a fault or a question."
 msgstr "Arten von Anfragen, etwa ein Defekt oder eine Frage."
+
+#: onedesk/one/settings.py:55
+msgid "Know what's in stock, buy what runs low, and make and track what you sell."
+msgstr "Wissen, was auf Lager ist, nachkaufen, was knapp wird, und herstellen und verfolgen, was Sie verkaufen."
 
 #. Label of a Sidebar Item
 #. Label of the body (Text Editor) field in DocType 'AI Knowledge'
@@ -19436,10 +19440,6 @@ msgstr "Leads, mit denen oft gesprochen wurde, die aber nicht gekauft haben."
 #: onedesk/one/privacy_copy.py:19
 msgid "Leads, deals, customers, suppliers and applications with your address"
 msgstr "Leads, Deals, Kunden, Lieferanten und Bewerbungen mit Ihrer Adresse"
-
-#: onedesk/one/settings.py:53
-msgid "Leads, opportunities, customers and quotes."
-msgstr "Leads, Chancen, Kunden und Angebote."
 
 #. Label of the one_learn_zones (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -20711,10 +20711,6 @@ msgstr "Postfach verbunden"
 msgid "Mailboxes"
 msgstr "Postfächer"
 
-#: onedesk/one/settings.py:59
-msgid "Mailboxes, conversations and mail on records."
-msgstr "Postfächer, Unterhaltungen und E-Mails zu Datensätzen."
-
 #. Description of the 'To Outside Addresses' (Check) field in DocType
 #. 'Notification Type'
 #: onedesk/one/custom/notification_type.json
@@ -21462,8 +21458,8 @@ msgid "Meetings Today"
 msgstr "Termine heute"
 
 #: onedesk/one/settings.py:61
-msgid "Meetings, leave and deadlines in one calendar."
-msgstr "Besprechungen, Abwesenheiten und Fristen in einem Kalender."
+msgid "Meetings, leave and deadlines from every app, on one calendar."
+msgstr "Besprechungen, Abwesenheiten und Fristen aus jeder App, in einem Kalender."
 
 #: onedesk/one_project/ai.py:526 onedesk/public/js/onecloud.js:1390
 msgid "Member"
@@ -28475,6 +28471,10 @@ msgstr "Tarif und Guthaben"
 msgid "Plan changed"
 msgstr "Tarif geändert"
 
+#: onedesk/one/settings.py:56
+msgid "Plan each job, follow its time and costs, and bill it as the work gets done."
+msgstr "Jeden Auftrag planen, Zeit und Kosten verfolgen und ihn abrechnen, während die Arbeit vorankommt."
+
 #. Task in the New Client Onboarding project template
 #: onedesk/one_project/library/client_onboarding.json
 msgid "Plan for the next quarter"
@@ -29443,10 +29443,6 @@ msgstr "Projekte nach Art"
 #: onedesk/one_project/dashboard_chart/projects_by_manager/projects_by_manager.json
 msgid "Projects by Manager"
 msgstr "Projekte nach Leitung"
-
-#: onedesk/one/settings.py:56
-msgid "Projects, tasks and timesheets."
-msgstr "Projekte, Aufgaben und Zeiterfassungen."
 
 #. Label of the promise (Check) field in DocType 'Reading Ask'
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
@@ -33125,6 +33121,10 @@ msgstr "Code senden"
 msgid "Send files here"
 msgstr "Dateien hierher senden"
 
+#: onedesk/one/settings.py:54
+msgid "Send invoices, pay bills, match the bank and see where the money stands."
+msgstr "Rechnungen senden, Eingangsrechnungen bezahlen, die Bank abgleichen und sehen, wo das Geld steht."
+
 #: onedesk/public/js/onecloud.js:1569
 msgid "Send request"
 msgstr "Anfrage senden"
@@ -33748,6 +33748,10 @@ msgstr "Mehrere Dateien"
 #: onedesk/public/js/settings.js:2345
 msgid "Several people"
 msgstr "Mehrere Personen"
+
+#: onedesk/one/settings.py:62
+msgid "Shape One to the way you work with your own fields, record types and forms."
+msgstr "Passen Sie One mit eigenen Feldern, Datensatztypen und Formularen an Ihre Arbeitsweise an."
 
 #. Label in the One Budget print format
 #. Label in the One Cost Center Allocation print format
@@ -36894,10 +36898,6 @@ msgstr "Aufgaben"
 msgid "Tasks Due or Late"
 msgstr "Fällige oder überfällige Aufgaben"
 
-#: onedesk/one/settings.py:60
-msgid "Tasks, checklists and timers."
-msgstr "Aufgaben, Checklisten und Timer."
-
 #. Label in the One Detailed Tax Invoice print format
 #. Label in the One Payment Voucher print format
 #. Label in the One Purchase Voucher print format
@@ -37846,6 +37846,10 @@ msgstr "Die Standardbank des Unternehmens und jede Bank-Zahlungsart verweisen au
 #: onedesk/one_hr/home.py:543
 msgid "The company's departments."
 msgstr "Die Abteilungen des Unternehmens."
+
+#: onedesk/one/settings.py:59
+msgid "The company's email, each message kept on the customer, supplier or job it's about."
+msgstr "Die E-Mails des Unternehmens, jede Nachricht beim Kunden, Lieferanten oder Auftrag, um den es geht."
 
 #: onedesk/one_book/ready.py:185
 msgid "The company's emirate is known"
@@ -47210,10 +47214,6 @@ msgstr "Ihre E-Mail \"{subject}\" wurde nicht gesendet"
 #: frontend/portal/src/pages/Rfq.vue:81
 msgid "Your name"
 msgstr "Ihr Name"
-
-#: onedesk/one/settings.py:62
-msgid "Your own fields, record types and forms."
-msgstr "Ihre eigenen Felder, Datensatztypen und Formulare."
 
 #: onedesk/one_hr/rules.py:29
 msgid "Your passkey has been reset twice within a month."

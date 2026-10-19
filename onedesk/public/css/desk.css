@@ -1475,8 +1475,14 @@ html[dir="rtl"] body > div[style*="left: -9999px"] {
 
 .one-apps-grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+	grid-template-columns: repeat(3, minmax(0, 1fr));
 	gap: 12px;
+}
+
+@media (max-width: 767px) {
+	.one-apps-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
 }
 
 .one-app-card {
