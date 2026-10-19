@@ -1447,7 +1447,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					facts([
 						[__("Balance"), esc(number(account.credits_balance))],
 						[__("Reserved"), account.credits_held ? esc(number(account.credits_held)) : ""],
-						[__("Used in the Last 30 Days"), account.credits_month ? esc(number(account.credits_month)) : ""],
+						[__("Used (Last 30 Days)"), account.credits_month ? esc(number(account.credits_month)) : ""],
 						[__("Expiring"), expiring],
 					]),
 					__("Monthly credits are used first. Bought credits never expire.")
@@ -2630,7 +2630,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 							{
 								fieldname: "people_choose",
 								fieldtype: "Check",
-								label: __("People Choose the Model"),
+								label: __("Allow Model Choice"),
 								default: one.people_choose ? 1 : 0,
 								description: __("Anyone can pick a model for their own chats in the OneAI panel. When off, only administrators can."),
 							},

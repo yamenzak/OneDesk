@@ -33,7 +33,7 @@
    "fieldname": "marks_as",
    "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "Marks the Day As",
+   "label": "Day Status",
    "options": "Present\nWork From Home",
    "reqd": 1
   },

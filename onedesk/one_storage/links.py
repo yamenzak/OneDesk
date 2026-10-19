@@ -21,7 +21,7 @@ OPEN_FOR = 12 * 60 * 60
 
 CODE_LIFE = 10 * 60
 
-ANYONE, INVITED = "Anyone with the link", "Invited people"
+ANYONE, INVITED = "Anyone With Link", "Invited people"
 
 
 def url_of(token: str) -> str:

@@ -9,7 +9,7 @@
    "fieldtype": "Small Text",
    "hidden": 1,
    "insert_after": "amended_from",
-   "label": "Hidden on the Portal From",
+   "label": "Hidden From Contacts",
    "module": "One",
    "name": "Purchase Invoice-one_portal_hidden",
    "no_copy": 1,

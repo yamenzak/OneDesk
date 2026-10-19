@@ -532,7 +532,7 @@ def test_a_rule_matches_all_or_any_of_what_it_names():
 	assert matches({"from_contains": "shop.example", "subject_contains": "newsletter"}, message)
 	assert not matches({"from_contains": "shop.example", "has_attachment": 1}, message), "all, by default"
 	assert matches(
-		{"from_contains": "nobody", "subject_contains": "weekly", "match": "Any of these"}, message
+		{"from_contains": "nobody", "subject_contains": "weekly", "match": "Any Condition"}, message
 	)
 	assert not matches({}, message), "a rule that names nothing matches nothing"
 

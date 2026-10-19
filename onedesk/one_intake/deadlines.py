@@ -10,7 +10,7 @@ from datetime import date, timedelta
 
 POSTED_DAYS = 4
 
-KINDS_AUTHORITY = ("Letter From an Authority", "Tax Assessment")
+KINDS_AUTHORITY = ("Authority Letter", "Tax Assessment")
 
 NUMBERS = {
 	"one": 1, "a": 1, "an": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9,

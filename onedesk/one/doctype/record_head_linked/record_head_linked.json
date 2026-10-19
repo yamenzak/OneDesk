@@ -38,7 +38,7 @@
   {
    "fieldname": "placed_in",
    "fieldtype": "Data",
-   "label": "In the Tab Of",
+   "label": "Placed In",
    "description": "A field of this record. The section goes at the end of its tab, or of the first tab when empty."
   },
   {

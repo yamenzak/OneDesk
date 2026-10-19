@@ -101,7 +101,7 @@
    "fieldname": "state",
    "fieldtype": "Select",
    "label": "State",
-   "options": "Queued\nRead\nUnderstood\nNeeds a Password\nUnreadable\nWaiting for Credits\nFailed",
+   "options": "Queued\nRead\nUnderstood\nPassword Protected\nUnreadable\nWaiting for Credits\nFailed",
    "default": "Queued",
    "in_list_view": 1,
    "in_standard_filter": 1,
@@ -233,7 +233,7 @@
    "fieldtype": "Select",
    "label": "Kind",
    "read_only": 1,
-   "options": "\nInvoice\nCredit Note\nReceipt\nReminder\nTax Assessment\nContract\nOffer\nOrder\nOrder Confirmation\nDelivery Note\nPayment Advice\nBank Statement\nPayslip\nSick Note\nMedical Report\nIdentity Document\nCertificate\nCV\nAppointment\nLetter From an Authority\nNotice of Change\nContact Card\nInquiry\nResignation\nSite Log\nTimesheet\nChange Request\nLetter\nOther",
+   "options": "\nInvoice\nCredit Note\nReceipt\nReminder\nTax Assessment\nContract\nOffer\nOrder\nOrder Confirmation\nDelivery Note\nPayment Advice\nBank Statement\nPayslip\nSick Note\nMedical Report\nIdentity Document\nCertificate\nCV\nAppointment\nAuthority Letter\nNotice of Change\nContact Card\nInquiry\nResignation\nSite Log\nTimesheet\nChange Request\nLetter\nOther",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "search_index": 1
@@ -247,7 +247,7 @@
   {
    "fieldname": "number",
    "fieldtype": "Data",
-   "label": "Its Number",
+   "label": "Document Number",
    "read_only": 1,
    "search_index": 1,
    "description": "The invoice, order or case number the document itself carries."
@@ -273,7 +273,7 @@
   {
    "fieldname": "automatic",
    "fieldtype": "Check",
-   "label": "Sent by a Machine",
+   "label": "Automated",
    "read_only": 1,
    "description": "A mailing list, a bulk send or an automatic reply."
   },
@@ -293,7 +293,7 @@
   {
    "fieldname": "dropped",
    "fieldtype": "Small Text",
-   "label": "Not in the Document",
+   "label": "Not in Document",
    "read_only": 1,
    "description": "What the model said that the document's own text does not."
   },

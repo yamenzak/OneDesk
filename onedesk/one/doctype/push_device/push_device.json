@@ -61,7 +61,7 @@
   {
    "fieldname": "failures",
    "fieldtype": "Int",
-   "label": "Failures in a Row",
+   "label": "Consecutive Failures",
    "read_only": 1
   }
  ],

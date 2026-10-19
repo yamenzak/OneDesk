@@ -25,7 +25,7 @@ onedesk.project.group = async (frm) => {
 			{
 				fieldtype: "MultiCheck",
 				fieldname: "bring",
-				label: __("Move These Beside It"),
+				label: __("Also Move"),
 				hidden: said.under.length ? 0 : 1,
 				options: said.under.map((one) => ({ label: one.title || one.name, value: one.name })),
 			},
@@ -65,7 +65,7 @@ onedesk.project.add_template = (project, done) => {
 		title: __("Add from Template"),
 		fields: [
 			{ fieldtype: "Link", fieldname: "template", label: __("Template"), options: "Project Template" },
-			{ fieldtype: "Autocomplete", fieldname: "library", label: __("From the Library"), depends_on: "eval:!doc.template" },
+			{ fieldtype: "Autocomplete", fieldname: "library", label: __("From Library"), depends_on: "eval:!doc.template" },
 			{ fieldtype: "Date", fieldname: "starts", label: __("Starts"), default: frappe.datetime.get_today(), reqd: 1 },
 		],
 		primary_action_label: __("Add Tasks"),
@@ -498,7 +498,7 @@ onedesk.project.invoice_month = async (frm, month) => {
 				get_query: () => ({ filters: { is_sales_item: 1, disabled: 0 } }),
 			},
 			{ fieldtype: "HTML", fieldname: "said" },
-			{ fieldtype: "Check", fieldname: "overage", label: __("Bill the hours over"), default: 1, hidden: 1 },
+			{ fieldtype: "Check", fieldname: "overage", label: __("Bill Overage Hours"), default: 1, hidden: 1 },
 		],
 		primary_action_label: __("Create"),
 		primary_action: ({ month, item, overage }) => {

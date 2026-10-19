@@ -173,7 +173,7 @@
   {
    "fieldname": "monthly",
    "fieldtype": "Float",
-   "label": "A Month",
+   "label": "Monthly",
    "read_only": 1,
    "description": "The plan and its add-ons."
   },
@@ -222,7 +222,7 @@
   {
    "fieldname": "credits_month",
    "fieldtype": "Float",
-   "label": "Used in the Last 30 Days",
+   "label": "Used (Last 30 Days)",
    "read_only": 1
   },
   {

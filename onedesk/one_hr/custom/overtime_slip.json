@@ -15,7 +15,7 @@
    "dt": "Overtime Slip",
    "fieldname": "one_pay_note",
    "fieldtype": "Small Text",
-   "label": "Why There Is No Figure",
+   "label": "Reason for No Figure",
    "module": "One HR",
    "insert_after": "one_amount",
    "read_only": 1,

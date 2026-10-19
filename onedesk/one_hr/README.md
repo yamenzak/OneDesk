@@ -147,7 +147,7 @@ you get one reminder, and the log says it was closed automatically.
 
 The reasons offered are kept under **Clock Reason** in the rail. Add one,
 give it a description to show when it is picked, or untick **Enabled** to
-stop offering it. Tick **Ends the Shift** on the one that means not coming
+stop offering it. Tick **Ends Shift** on the one that means not coming
 back today; a day closed at the shift's end is filed under it.
 
 **OneHR fixes its own settings.** When the office router gets a new address,
@@ -174,14 +174,14 @@ The rail's **Attendance Settings** opens HR Settings on its Attendance tab:
   workspace turns it on.
 - **Auto Close Open Check-ins at Shift End**, **Ask for a Reason on Check
   Out**.
-- **Late Arrivals That Count as an Absent Day**: 0, which is off, or how
+- **Late Arrivals per Absent Day**: 0, which is off, or how
   many lates in a pay period cost one day's pay. At 4, five lates cost a
   day and eight cost two.
-- **Require a Passkey**, **Refuse Check-in Without a Passkey**, **Check the
-  Network**, **Check the Location**, and **Network and Location**: Either or
+- **Require Passkey**, **Refuse Check-in Without Passkey**, **Check the
+  Network**, **Check Location**, and **Network and Location**: Either or
   Both.
 - **Refuse Below Score** (50) and **Flag Below Score** (85).
-- **Ask for a Photo**, **Delete Photos After (Days)**.
+- **Require Photo**, **Delete Photos After (Days)**.
 - **Learn New Networks**, **Learn New Locations**, **Include Personal Networks
   and Locations**, **Confirmation Threshold**.
 - **Standard Working Hours (Per Day)** and **Allow Geolocation Tracking**,
@@ -203,7 +203,7 @@ shift that has check-ins and is producing no attendance.
 For people without a phone, or a day the clock did not cover:
 **Mark Attendance** in the rail. Pick the day, then who, then what to mark
 them as.
-**Tick Everyone Who Checked In** ticks everybody who clocked in that day, and
+**Select Checked-In Employees** ticks everybody who clocked in that day, and
 **Search** narrows a long list without losing the ticks.
 
 ### Requests and their answers

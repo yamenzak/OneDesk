@@ -25,7 +25,7 @@ READ_IN_FULL = ("Information", "Action")
 KINDS = (
 	"Invoice", "Credit Note", "Receipt", "Reminder", "Tax Assessment", "Contract", "Offer", "Order",
 	"Order Confirmation", "Delivery Note", "Payment Advice", "Bank Statement", "Payslip", "Sick Note",
-	"Medical Report", "Identity Document", "Certificate", "CV", "Appointment", "Letter From an Authority",
+	"Medical Report", "Identity Document", "Certificate", "CV", "Appointment", "Authority Letter",
 	"Notice of Change", "Contact Card", "Inquiry", "Resignation", "Site Log", "Timesheet", "Change Request",
 	"Letter", "Other",
 )  # fmt: skip

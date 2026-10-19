@@ -20,7 +20,7 @@
    "doctype": "Custom Field",
    "dt": "File",
    "fieldname": "one_deleted",
-   "label": "In the Recycle Bin",
+   "label": "In Recycle Bin",
    "fieldtype": "Check",
    "insert_after": "one_home_of",
    "hidden": 1,

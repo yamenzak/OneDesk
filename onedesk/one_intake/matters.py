@@ -19,7 +19,7 @@ PLACE = "intake_place"
 CHANGES = ("New", "Nudge", "Update", "Completion", "Answer", "Closing", "Nothing New")
 
 FOLLOWERS = {
-	"Reminder": ("Invoice", "Credit Note", "Tax Assessment", "Letter From an Authority"),
+	"Reminder": ("Invoice", "Credit Note", "Tax Assessment", "Authority Letter"),
 	"Payment Advice": ("Invoice",),
 	"Order Confirmation": ("Order",),
 	"Delivery Note": ("Order", "Order Confirmation"),

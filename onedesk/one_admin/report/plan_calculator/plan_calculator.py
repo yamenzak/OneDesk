@@ -116,7 +116,7 @@ def _summary(needs: dict, options: list[dict], currency: str, held) -> list[dict
 			"value": _("{0} GB").format(f"{needs['database_gb']:g}"),
 			"datatype": "Data",
 		},
-		{"label": _("Credits a Month"), "value": f"{cint(needs['credits_a_month']):,}", "datatype": "Data"},
+		{"label": _("Monthly Credits"), "value": f"{cint(needs['credits_a_month']):,}", "datatype": "Data"},
 	]
 	reached = [one for one in options if not one["unmet"]]
 	if reached:

@@ -41,7 +41,7 @@
   {
    "fieldname": "audit",
    "fieldtype": "Check",
-   "label": "Audit What OneAI Does",
+   "label": "Audit OneAI Actions",
    "default": "1",
    "description": "A second agent checks each document's actions, approves what is right and sends what is wrong to a person."
   },

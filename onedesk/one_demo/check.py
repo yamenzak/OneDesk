@@ -1694,7 +1694,7 @@ def _another_villa_order(tax=None) -> str:
 @check
 def oneproject_an_order_says_how_its_retention_is_taxed():
 	"""Sahara taxes retention when it's released, but Khalid's contract for
-	the villa taxes each bill in full, so its order says With the Invoice and
+	the villa taxes each bill in full, so its order says With Invoice and
 	its bills hold the retention in their payment terms. An order nobody
 	told starts as the workspace does; one already invoiced keeps what it
 	said."""

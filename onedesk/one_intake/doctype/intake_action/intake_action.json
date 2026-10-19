@@ -126,7 +126,7 @@
   {
    "fieldname": "section_what",
    "fieldtype": "Section Break",
-   "label": "What"
+   "label": "Action"
   },
   {
    "fieldname": "why",
@@ -164,7 +164,7 @@
   {
    "fieldname": "as_person",
    "fieldtype": "Check",
-   "label": "As the Person",
+   "label": "Run as Recipient",
    "hidden": 1,
    "read_only": 1,
    "description": "Written as the person it was read for, for a flow that checks who is signed in."

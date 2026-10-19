@@ -14,6 +14,6 @@ def columns() -> list[dict]:
 	return [
 		{"fieldname": "check", "label": _("Check"), "fieldtype": "Data", "width": 300},
 		{"fieldname": "state", "label": _("State"), "fieldtype": "Data", "width": 110},
-		{"fieldname": "says", "label": _("What It Means"), "fieldtype": "Data", "width": 520},
+		{"fieldname": "says", "label": _("Explanation"), "fieldtype": "Data", "width": 520},
 		{"fieldname": "fix", "label": _("Fix"), "fieldtype": "Data", "width": 150},
 	]

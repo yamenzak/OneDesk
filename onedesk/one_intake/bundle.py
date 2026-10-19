@@ -17,7 +17,7 @@ from onedesk.one_intake import search
 
 KINDS = (
 	"Invoice", "Credit Note", "Receipt", "Payslip", "Bank Statement", "Payment Advice", "Tax Assessment",
-	"Letter From an Authority", "Contract", "Certificate",
+	"Authority Letter", "Contract", "Certificate",
 )  # fmt: skip
 
 MOST = 3000

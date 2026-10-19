@@ -88,7 +88,7 @@
   {
    "fieldname": "root_path",
    "fieldtype": "Data",
-   "label": "Folder on the Server",
+   "label": "Server Folder",
    "default": "/",
    "description": "Where the folder starts. The server's top when left as /."
   },
@@ -100,7 +100,7 @@
   {
    "fieldname": "shared",
    "fieldtype": "Check",
-   "label": "Everyone on the team",
+   "label": "Whole Team",
    "default": "0",
    "description": "Otherwise only its maker. Only a Workspace Administrator can share one."
   },

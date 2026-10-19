@@ -2313,7 +2313,7 @@ def test_retention_taxed_when_released_is_held_in_lines_below_the_work():
 	assert {"United Arab Emirates", "United Kingdom"} <= set(held["RELEASED_IN"])
 	settings = {f["fieldname"]: f for f in json.loads((PROJECT / "custom" / "projects_settings.json").read_text())["custom_fields"]}
 	tax = settings["one_retention_tax"]
-	assert tax["options"].split("\n") == ["With the Invoice", "When Released"] and tax["depends_on"] == "one_retention"
+	assert tax["options"].split("\n") == ["With Invoice", "When Released"] and tax["depends_on"] == "one_retention"
 	assert '"onedesk.one_project.retention.ready"' in HOOKS
 	for name in ("sales_invoice_item.json", "purchase_invoice_item.json"):
 		fields = {f["fieldname"]: f for f in json.loads((PROJECT / "custom" / name).read_text())["custom_fields"]}
@@ -2323,7 +2323,7 @@ def test_retention_taxed_when_released_is_held_in_lines_below_the_work():
 
 def test_each_order_says_how_its_retention_is_taxed():
 	"""Tax on Retention is the order's: a customer's order and a subcontract
-	each say With the Invoice or When Released, starting where Projects
+	each say With Invoice or When Released, starting where Projects
 	Settings does, changeable after submit until the order is invoiced, and
 	an invoice holds its retention as its order says."""
 
@@ -2346,16 +2346,16 @@ def test_each_order_says_how_its_retention_is_taxed():
 		frappe=frappe,
 	)
 	when_released = space["when_released"]
-	assert not when_released() and space["default_tax"]() == "With the Invoice", "nothing set is taxed with the invoice"
+	assert not when_released() and space["default_tax"]() == "With Invoice", "nothing set is taxed with the invoice"
 	Settings.value = "When Released"
 	assert when_released() and when_released({"tax": None})
-	assert not when_released({"tax": "With the Invoice"}), "the order's word over the workspace's"
-	Settings.value = "With the Invoice"
+	assert not when_released({"tax": "With Invoice"}), "the order's word over the workspace's"
+	Settings.value = "With Invoice"
 	assert when_released({"tax": "When Released"})
 	for name in ("sales_order.json", "purchase_order.json"):
 		fields = {f["fieldname"]: f for f in json.loads((PROJECT / "custom" / name).read_text())["custom_fields"]}
 		tax = fields["one_retention_tax"]
-		assert tax["options"].split("\n") == ["", "With the Invoice", "When Released"], name
+		assert tax["options"].split("\n") == ["", "With Invoice", "When Released"], name
 		assert tax["allow_on_submit"] == 1 and tax["depends_on"] == "one_retention" and tax["insert_after"] == "one_retention_handover"
 	assert HOOKS.count('"onedesk.one_project.retention.taxed"') == 4, "validate and after submit, on both orders"
 	progress = (PROJECT / "progress.py").read_text()

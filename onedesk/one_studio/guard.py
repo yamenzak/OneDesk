@@ -162,7 +162,7 @@ EVENTS = (
 	"After Delete",
 )
 
-SCHEDULED = ("Every Hour", "Every Day", "Every Week", "Every Month", "On a Schedule")
+SCHEDULED = ("Every Hour", "Every Day", "Every Week", "Every Month", "Scheduled")
 
 VIEWS = ("Form", "List")
 

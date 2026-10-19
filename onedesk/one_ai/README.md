@@ -82,7 +82,7 @@ change or delete.
 
 The pill under the message box shows which model answers. **Automatic** uses
 the model the workspace set for chat. Only administrators can choose another,
-unless an administrator turns on **People Choose the Model** for the Chat
+unless an administrator turns on **Allow Model Choice** for the Chat
 action. Your choice applies only to your own conversations.
 
 Administrators set each action's model and extra instructions under OneAI ›

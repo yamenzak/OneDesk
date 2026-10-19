@@ -56,7 +56,7 @@
   {
    "fieldname": "section_where",
    "fieldtype": "Section Break",
-   "label": "Where the files go"
+   "label": "Destination"
   },
   {
    "fieldname": "folder",

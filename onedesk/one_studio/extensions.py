@@ -23,9 +23,9 @@ FREQUENCY = {
 	"Every Day": "Daily",
 	"Every Week": "Weekly",
 	"Every Month": "Monthly",
-	"On a Schedule": "Cron",
+	"Scheduled": "Cron",
 }
-ON_A_SCHEDULE = "On a Schedule"
+ON_A_SCHEDULE = "Scheduled"
 
 LEAST_BETWEEN = 60 * 60
 

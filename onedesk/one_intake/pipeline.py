@@ -28,7 +28,7 @@ DEEPEST = 3
 
 TRIES = 5
 
-DONE = ("Read", "Understood", "Unreadable", "Needs a Password")
+DONE = ("Read", "Understood", "Unreadable", "Password Protected")
 
 
 def file_added(doc, method=None) -> None:
@@ -201,7 +201,7 @@ def _fill(reading, name: str, content: bytes, said: read.Text, person: str | Non
 		_failed(reading, raised)
 		return
 	if said.needs == "password":
-		_set(reading, state="Needs a Password", how=said.how)
+		_set(reading, state="Password Protected", how=said.how)
 		return
 	if said.needs == "nothing":
 		_set(reading, state="Unreadable", how=said.how)

@@ -142,7 +142,7 @@ decides what **Details** asks for and what the project's page shows.
   bought for it. Give a **Budget** if there is one, and the **Markup on
   Costs** added to what's bought when it's billed.
 - **Retainer**: a monthly fee for a set number of hours. Give the **Monthly
-  Fee** and the **Hours a Month**.
+  Fee** and the **Monthly Hours**.
 - **Internal**: no customer. Give a **Budget** if there is one.
 
 Every kind asks for a name, and a **Template** or a preset **From the
@@ -934,7 +934,7 @@ A subcontract keeps its own retention, whatever the project's.
 
 **Tax on Retention**, on the order beside its retention, says when tax is
 charged on it:
-- **With the Invoice**: each bill is taxed in full, and the retention comes
+- **With Invoice**: each bill is taxed in full, and the retention comes
   out of what's paid now.
 - **When Released**: each bill is taxed on the work less its retention, and
   the retention is taxed by the bill that releases it, as the UAE and the
@@ -1077,7 +1077,7 @@ How it's held follows the order's **Tax on Retention**
 accounts are ERPNext's own. An invoice made from no order follows Projects
 Settings.
 
-- **With the Invoice**: the invoice is for the whole amount, taxed whole, and
+- **With Invoice**: the invoice is for the whole amount, taxed whole, and
   the retention is a later part of its payment schedule. It stays in Debtors
   and Creditors until paid, and Accounts Receivable by payment terms shows it
   not yet due. **Release Retention** (and **Pay Retention** for a supplier)
@@ -1413,7 +1413,7 @@ your workspace adds to templates. **New Project** at the top starts one.
 
 ### From the library
 
-OneProject comes with templates ready to use. **From the Library** in
+OneProject comes with templates ready to use. **From Library** in
 **New Project**, in **Add from Template** and on the **Project Template** list offers
 them as a list to pick from or search, each with its tasks, its days and what
 it is for, or **In your templates** once you have a copy. The first time one

@@ -6,7 +6,7 @@
    "fieldname": "one_hosted",
    "fieldtype": "Check",
    "insert_after": "email_id",
-   "label": "On the Mail Domain",
+   "label": "On Mail Domain",
    "description": "Kept in this workspace, with no server of its own, because it is an address on the mail domain.",
    "read_only": 1,
    "module": "One Mail",

@@ -33,7 +33,7 @@ def execute(filters=None):
 	columns = [
 		{"fieldname": "date", "label": _("Date"), "fieldtype": "Date", "width": 110},
 		{"fieldname": "days", "label": _("Days Left"), "fieldtype": "Int", "width": 90},
-		{"fieldname": "title", "label": _("What"), "fieldtype": "Data", "width": 320},
+		{"fieldname": "title", "label": _("Deadline"), "fieldtype": "Data", "width": 320},
 		{"fieldname": "doctype", "label": _("Document Type"), "fieldtype": "Data", "hidden": 1},
 		{"fieldname": "name", "label": _("Record"), "fieldtype": "Data", "hidden": 1},
 		{"fieldname": "about", "label": _("About"), "fieldtype": "Data", "width": 240},

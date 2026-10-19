@@ -17,10 +17,10 @@ onedesk.lots.track = (item, done) => {
 			{
 				fieldtype: "Select",
 				fieldname: "kind",
-				label: __("Keep It"),
+				label: __("Tracking"),
 				options: [
-					{ value: "lots", label: __("In batches, each with its dates") },
-					{ value: "serials", label: __("By Serial No, piece by piece") },
+					{ value: "lots", label: __("By Batch") },
+					{ value: "serials", label: __("By Serial No") },
 				],
 				default: "lots",
 				reqd: 1,

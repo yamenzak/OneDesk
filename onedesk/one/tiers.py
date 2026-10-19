@@ -91,7 +91,7 @@ HEADS = (
 
 COLLECTIONS = {
 	"Item": {"List": "a tab for each kind of item, and how many of each are on hand, with Low once a warehouse is at its reorder level"},
-	"Project Template": {"List": "From the Library beside Add, copying a preset in and opening it"},
+	"Project Template": {"List": "From Library beside Add, copying a preset in and opening it"},
 	"Timesheet": {"List": "OneProject's Time: the project, the days and the billable hours as columns, the ID on hover"},
 	"Project": {
 		"List": "each project's standing in one pill, and the views and dashboard of OneProject",

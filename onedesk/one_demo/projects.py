@@ -78,7 +78,7 @@ def villa():
 		retention=10,
 		retention_due=ahead(120),
 		handover=50,
-		tax="With the Invoice",
+		tax="With Invoice",
 	)
 	_signed(name, on(2, 14), "Khalid Mansour")
 	_budget(name, {"Materials": 140000, "Subcontracts": 60000, "Labour": 40000})

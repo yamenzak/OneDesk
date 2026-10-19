@@ -16,7 +16,7 @@ HELD = (HANDOVER, RETENTION)
 
 AHEAD = 30
 
-WITH_INVOICE = "With the Invoice"
+WITH_INVOICE = "With Invoice"
 WHEN_RELEASED = "When Released"
 
 RELEASED_IN = ("United Arab Emirates", "United Kingdom")

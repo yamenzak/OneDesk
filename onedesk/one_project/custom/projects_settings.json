@@ -22,7 +22,7 @@
    "fieldname": "one_retention_tax",
    "label": "Tax on Retention",
    "fieldtype": "Select",
-   "options": "With the Invoice\nWhen Released",
+   "options": "With Invoice\nWhen Released",
    "insert_after": "one_retention",
    "module": "One Project",
    "depends_on": "one_retention",

@@ -95,7 +95,7 @@ frappe.ui.form.ItemQuickEntryForm = class ItemQuickEntryForm extends frappe.ui.f
 			{ fieldtype: "Section Break", depends_on: `eval:doc.reorder && doc.kind == "Stock"` },
 			{ fieldtype: "Float", fieldname: "reorder_level", label: __("Order More Below"), mandatory_depends_on: "eval:doc.reorder" },
 			{ fieldtype: "Column Break" },
-			{ fieldtype: "Float", fieldname: "reorder_qty", label: __("Order This Many") },
+			{ fieldtype: "Float", fieldname: "reorder_qty", label: __("Reorder Quantity") },
 			{ fieldtype: "Section Break", depends_on: kind(["Stock"]) },
 			{ fieldtype: "Link", fieldname: "warehouse", label: __("Kept In"), options: "Warehouse" },
 			{ fieldtype: "Column Break" },
@@ -271,7 +271,7 @@ frappe.ui.form.ItemQuickEntryForm = class ItemQuickEntryForm extends frappe.ui.f
 			size: "large",
 			fields: [
 				{ fieldtype: "Attach", fieldname: "file", label: __("Parts List"), description: __("A spreadsheet or CSV file") },
-				{ fieldtype: "Small Text", fieldname: "text", label: __("Or Paste It"), description: __("Code, name, quantity and unit, one part per row") },
+				{ fieldtype: "Small Text", fieldname: "text", label: __("Or Paste List"), description: __("Code, name, quantity and unit, one part per row") },
 				{ fieldtype: "HTML", fieldname: "found" },
 			],
 			primary_action_label: __("Read List"),

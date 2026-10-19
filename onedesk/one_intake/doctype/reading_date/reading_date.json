@@ -25,7 +25,7 @@
   {
    "fieldname": "what",
    "fieldtype": "Select",
-   "label": "What",
+   "label": "Description",
    "options": "Due\nDeadline\nAppointment\nValid From\nValid Until\nPeriod Start\nPeriod End\nService\nOther",
    "in_list_view": 1,
    "read_only": 1
@@ -40,7 +40,7 @@
   {
    "fieldname": "found",
    "fieldtype": "Check",
-   "label": "Written in the Document",
+   "label": "As Written",
    "read_only": 1
   },
   {

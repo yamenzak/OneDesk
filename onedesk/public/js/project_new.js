@@ -84,7 +84,7 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 			{ fieldtype: "Link", fieldname: "parent", options: "Project", hidden: 1, default: doc.one_parent },
 			{ fieldtype: "Data", fieldname: "title", label: __("Name"), reqd: 1, default: doc.project_name },
 			{ fieldtype: "Link", fieldname: "template", label: __("Template"), options: "Project Template", default: doc.project_template },
-			{ fieldtype: "Autocomplete", fieldname: "library", label: __("From the Library"), depends_on: "eval:!doc.template" },
+			{ fieldtype: "Autocomplete", fieldname: "library", label: __("From Library"), depends_on: "eval:!doc.template" },
 			{ fieldtype: "Column Break" },
 			{
 				fieldtype: "Link",
@@ -143,7 +143,7 @@ frappe.ui.form.ProjectQuickEntryForm = class ProjectQuickEntryForm extends frapp
 			{ fieldtype: "Section Break", depends_on: kind(["Retainer"]) },
 			{ fieldtype: "Currency", fieldname: "monthly_fee", label: __("Monthly Fee"), options: "currency" },
 			{ fieldtype: "Column Break" },
-			{ fieldtype: "Float", fieldname: "monthly_hours", label: __("Hours a Month") },
+			{ fieldtype: "Float", fieldname: "monthly_hours", label: __("Monthly Hours") },
 		];
 		const plan = [
 			{ fieldtype: "Data", fieldname: "kind", hidden: 1 },

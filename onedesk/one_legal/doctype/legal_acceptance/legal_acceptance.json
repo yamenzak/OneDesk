@@ -58,7 +58,7 @@
    "fieldname": "user",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Who",
+   "label": "User",
    "options": "User",
    "reqd": 1,
    "read_only": 1

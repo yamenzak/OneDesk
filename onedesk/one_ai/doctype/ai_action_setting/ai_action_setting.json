@@ -50,7 +50,7 @@
   {
    "fieldname": "people_choose",
    "fieldtype": "Check",
-   "label": "People Choose the Model",
+   "label": "Allow Model Choice",
    "description": "Anybody may pick another model for their own conversations in the OneAI panel. Off, only administrators can."
   },
   {

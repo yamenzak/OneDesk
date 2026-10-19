@@ -144,7 +144,7 @@ In the Share dialog, **Create link** makes a link for people outside the
 team, such as a customer, supplier or accountant. The link is copied so you
 can paste it into an email or chat. You choose:
 
-- **Who can open it**: anyone with the link, or only invited people. Each
+- **Access**: Anyone With Link, or Invited People Only. Each
   invited person is emailed the link. When they open it, they enter their
   email address and get a code, so a forwarded link doesn't work for anyone
   else.

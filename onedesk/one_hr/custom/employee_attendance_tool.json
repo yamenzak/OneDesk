@@ -4,7 +4,7 @@
    "dt": "Employee Attendance Tool",
    "fieldname": "one_from_checkins",
    "fieldtype": "Button",
-   "label": "Tick Everyone Who Checked In",
+   "label": "Select Checked-In Employees",
    "module": "One HR",
    "insert_after": "unmarked_employee_header"
   },

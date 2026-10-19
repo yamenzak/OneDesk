@@ -92,7 +92,7 @@ onedesk.crm_record.call = (frm) => {
 				depends_on: "eval:doc.outcome === 'Answered'",
 			},
 			{ fieldtype: "Section Break" },
-			{ fieldtype: "Small Text", fieldname: "summary", label: __("What Was Said") },
+			{ fieldtype: "Small Text", fieldname: "summary", label: __("Summary") },
 		],
 		primary_action_label: __("Save"),
 		primary_action: async (values) => {

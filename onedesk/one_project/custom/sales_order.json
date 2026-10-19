@@ -59,7 +59,7 @@
    "depends_on": "one_retention",
    "print_hide": 1,
    "description": "When Released taxes each bill on the work less its retention, and the retention when it's released.",
-   "options": "\nWith the Invoice\nWhen Released"
+   "options": "\nWith Invoice\nWhen Released"
   }
  ],
  "doctype": "Sales Order",

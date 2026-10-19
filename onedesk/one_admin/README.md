@@ -243,7 +243,7 @@ we change?** on the report.
 ## Plan Calculator
 
 **Plan Calculator** shows what a customer should buy. Enter the **Seats**,
-**Storage (GB)**, **Database (GB)** and **Credits a Month** they need. It
+**Storage (GB)**, **Database (GB)** and **Monthly Credits** they need. It
 lists every plan with the add-ons that reach those needs, cheapest first,
 showing what the plan **Includes**, the **Add-ons**, the **Monthly** price,
 the **Cost**, the **Margin** and the **Difference** from the cheapest. Credit

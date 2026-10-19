@@ -425,7 +425,7 @@ workspace can give it a different model.
 
 The auditor never decides anything that ends someone's employment. Documents
 that were only filed aren't audited, since there's little to get wrong. Turn
-the auditor off with **Audit What OneAI Does** in Intake Settings.
+the auditor off with **Audit OneAI Actions** in Intake Settings.
 
 A value missing from the document is dropped and doesn't hold up the rest of
 the reading, and a zero tax on a receipt without VAT is accepted. What still
@@ -1543,7 +1543,7 @@ Instead:
 
 ##### 12.1 Reading
 
-- **A password-protected PDF** waits as Needs a Password.
+- **A password-protected PDF** waits as Password Protected.
 - **Encrypted mail** (S/MIME, PGP) is filed and linked by its headers, and
   nothing more.
 - **Handwriting, faded receipts, crumpled photos** are read by the vision

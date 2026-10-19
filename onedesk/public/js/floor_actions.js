@@ -19,7 +19,7 @@ onedesk.floor.start = (job_card, employee, done) => {
 			{
 				fieldtype: "Table",
 				fieldname: "employees",
-				label: __("Who Is On It"),
+				label: __("Employees"),
 				cannot_add_rows: false,
 				in_place_edit: true,
 				data: employee ? [{ employee }] : [],

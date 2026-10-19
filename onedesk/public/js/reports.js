@@ -287,7 +287,7 @@ onedesk.reports.show_in = async (kind, name) => {
 				label: __("Visible To"),
 				options: [
 					{ value: "0", label: __("Only me") },
-					{ value: "1", label: __("Everyone who uses the app") },
+					{ value: "1", label: __("All Users") },
 				],
 				default: String(said.everybody),
 				hidden: !said.administers,

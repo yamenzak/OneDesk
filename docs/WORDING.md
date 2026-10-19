@@ -181,7 +181,10 @@ checked on every screen of the passover.
 to what can be checked by machine: a description of at most 130 characters and
 two sentences, with no first person, no em dash and no colon except after
 `Example`; a label in Title Case with no full stop, at most 60 characters, that
-is a name rather than a sentence ("What It Reads" was a label here). The rest of
+is a name rather than a sentence: no article, pronoun or verb inside it, "Is"
+and "Has" only to start a checkbox, and "I …" only for a consent checkbox
+("The Old App Has" was a label here). A Select's options, a dialog's fields and
+a report's columns, in Python and in `public/js`, are held to the same. The rest of
 this page — no reasoning, frappe's openers, most fields with no description at
 all — is still read by a person.
 

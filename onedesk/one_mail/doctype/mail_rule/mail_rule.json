@@ -57,9 +57,9 @@
   {
    "fieldname": "match",
    "fieldtype": "Select",
-   "label": "Mail That Matches",
-   "options": "All of these\nAny of these",
-   "default": "All of these"
+   "label": "Matching Mail",
+   "options": "All Conditions\nAny Condition",
+   "default": "All Conditions"
   },
   {
    "fieldname": "section_when",
@@ -92,7 +92,7 @@
   {
    "fieldname": "has_attachment",
    "fieldtype": "Check",
-   "label": "Has an Attachment"
+   "label": "Has Attachment"
   },
   {
    "fieldname": "about",

@@ -155,7 +155,7 @@
    "default": "0",
    "fieldname": "credits_a_month",
    "fieldtype": "Int",
-   "label": "Credits a Month",
+   "label": "Monthly Credits",
    "description": "Granted at the start of each month and does not roll over.",
    "depends_on": "eval:doc.kind!='Credit Pack'"
   },

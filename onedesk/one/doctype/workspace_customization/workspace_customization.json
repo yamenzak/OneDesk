@@ -47,7 +47,7 @@
   {
    "fieldname": "was",
    "fieldtype": "Long Text",
-   "label": "Was",
+   "label": "Previous Value",
    "read_only": 1,
    "description": "What the module's row held, put back by Reset."
   }

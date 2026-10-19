@@ -1286,7 +1286,7 @@ onedesk.OneCloud = class OneCloud {
 		const rows = found
 			.map((one) => {
 				const said = [
-					one.audience === "Invited people" ? __("Only {0}", [one.invitees.join(", ")]) : __("Anyone with the link"),
+					one.audience === "Invited people" ? __("Only {0}", [one.invitees.join(", ")]) : __("Anyone With Link"),
 					one.allow_upload ? __("can upload") : one.allow_download ? __("can download") : __("can view"),
 					one.expires_on ? (one.expired ? __("expired {0}", [this.date_text(one.expires_on)]) : __("until {0}", [this.date_text(one.expires_on)])) : "",
 					one.has_password ? __("password") : "",
@@ -1311,12 +1311,12 @@ onedesk.OneCloud = class OneCloud {
 				{
 					fieldtype: "Select",
 					fieldname: "audience",
-					label: __("Who can open it"),
+					label: __("Access"),
 					options: [
-						{ value: "Anyone with the link", label: __("Anyone with the link") },
-						{ value: "Invited people", label: __("Only invited people") },
+						{ value: "Anyone With Link", label: __("Anyone With Link") },
+						{ value: "Invited people", label: __("Invited People Only") },
 					],
-					default: "Anyone with the link",
+					default: "Anyone With Link",
 				},
 				{
 					fieldtype: "Small Text",
@@ -1477,7 +1477,7 @@ onedesk.OneCloud = class OneCloud {
 					depends_on: "eval:doc.protocol=='WebDAV'",
 					description: __("Starts with https://"),
 				},
-				{ fieldtype: "Data", fieldname: "root_path", label: __("Folder on the Server"), default: values.root_path || "/" },
+				{ fieldtype: "Data", fieldname: "root_path", label: __("Server Folder"), default: values.root_path || "/" },
 				{ fieldtype: "Section Break", label: __("Sign In") },
 				{ fieldtype: "Data", fieldname: "username", label: __("User Name"), default: values.username },
 				{ fieldtype: "Column Break" },
@@ -1487,7 +1487,7 @@ onedesk.OneCloud = class OneCloud {
 					label: __("Password"),
 					description: item ? __("Leave empty to keep the saved password.") : "",
 				},
-				{ fieldtype: "Section Break", label: __("Sign In With a Key"), collapsible: 1 },
+				{ fieldtype: "Section Break", label: __("Key Authentication"), collapsible: 1 },
 				{
 					fieldtype: "Small Text",
 					fieldname: "private_key",
@@ -1498,7 +1498,7 @@ onedesk.OneCloud = class OneCloud {
 				{
 					fieldtype: "Check",
 					fieldname: "shared",
-					label: __("Share with everyone on the team"),
+					label: __("Share With Team"),
 					default: values.shared || 0,
 					hidden: admin ? 0 : 1,
 				},

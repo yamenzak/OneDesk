@@ -12,7 +12,7 @@
    "dt": "Shift Location",
    "fieldname": "one_is_site",
    "fieldtype": "Check",
-   "label": "Treat as a Site",
+   "label": "Treat as Site",
    "module": "One HR",
    "insert_after": "one_section",
    "default": "0",

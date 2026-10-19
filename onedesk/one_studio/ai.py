@@ -273,7 +273,7 @@ def write_extension(
 		"On Server only. On a record's event: Before Insert, Before Validate, Before Save, After Insert, After Save, "
 		"Before Submit, After Submit, Before Cancel, After Cancel, Before Save (Submitted Document), "
 		"After Save (Submitted Document), Before Delete or After Delete. On its own, with no doc: Every Hour, "
-		"Every Day, Every Week, Every Month, or On a Schedule (give cron).",
+		"Every Day, Every Week, Every Month, or Scheduled (give cron).",
 	]
 	| None = None,
 	extension: Annotated[
@@ -287,7 +287,7 @@ def write_extension(
 	| None = None,
 	cron: Annotated[
 		str,
-		"On a Schedule only: when, as a cron line, at most hourly, such as 0 8 * * 1-5 for 8:00 each weekday.",
+		"Scheduled only: when, as a cron line, at most hourly, such as 0 8 * * 1-5 for 8:00 each weekday.",
 	]
 	| None = None,
 ) -> dict:

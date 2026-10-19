@@ -318,7 +318,7 @@ Workspace page: `places.js` wraps `Workspace.show_page` rather than editing it,
 and lends a spot above its blocks (`onedesk.places.spot`).
 
 **On a schedule.** A scheduled extension (`event` Every Hour, Every Day, Every
-Week, Every Month, or On a Schedule with `cron`, at most hourly by
+Week, Every Month, or Scheduled with `cron`, at most hourly by
 `extensions.cron_refused`) is a Server Script of type Scheduler Event; frappe
 makes its Scheduled Job Type, and stops it when the script goes. It runs as
 Administrator with no `doc`, so `guard.on_server` refuses one that reads `doc`,

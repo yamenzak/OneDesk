@@ -54,8 +54,8 @@
    "fieldname": "audience",
    "fieldtype": "Select",
    "label": "Audience",
-   "options": "Anyone with the link\nInvited people",
-   "default": "Anyone with the link",
+   "options": "Anyone With Link\nInvited people",
+   "default": "Anyone With Link",
    "in_list_view": 1
   },
   {

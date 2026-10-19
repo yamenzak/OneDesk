@@ -18,7 +18,7 @@
    "dt": "Personal Data Download Request",
    "fieldname": "one_status",
    "fieldtype": "Select",
-   "label": "Where It Stands",
+   "label": "Request Status",
    "insert_after": "user_name",
    "module": "One",
    "name": "Personal Data Download Request-one_status",

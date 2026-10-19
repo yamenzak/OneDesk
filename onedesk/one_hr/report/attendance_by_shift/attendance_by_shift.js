@@ -32,7 +32,7 @@ frappe.query_reports["Attendance by Shift"] = {
 		{ fieldname: "early_exit", label: __("Left Early Only"), fieldtype: "Check" },
 		{
 			fieldname: "consider_grace_period",
-			label: __("Allow the Grace Period"),
+			label: __("Allow Grace Period"),
 			fieldtype: "Check",
 			default: 1,
 		},

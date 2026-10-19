@@ -1,6 +1,6 @@
 """Orders made before each said how its retention is taxed: as their
 invoices already hold it, in Retention lines (When Released) or in payment
-terms (With the Invoice), and an order not yet invoiced as Projects Settings
+terms (With Invoice), and an order not yet invoiced as Projects Settings
 says."""
 
 import frappe

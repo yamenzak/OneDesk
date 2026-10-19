@@ -26,7 +26,7 @@ class TellPeople(AutomationAction):
 	params_schema: ClassVar[list] = [
 		{
 			"fieldname": "recipients",
-			"label": N_("Who"),
+			"label": N_("Recipients"),
 			"fieldtype": "JSON",
 			"reqd": 1,
 			"control": USER_CONTROL,

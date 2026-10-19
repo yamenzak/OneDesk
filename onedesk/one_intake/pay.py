@@ -45,7 +45,7 @@ def epc(name: str, iban: str, amount: float | None, reference: str | None = None
 def of(doc) -> dict | None:
 	"""What the panel shows to pay a Reading, or None when it asks nobody to
 	pay by transfer."""
-	if not doc.iban or doc.verdict == "Phishing" or doc.paid_how in NOT_BY_TRANSFER or doc.kind not in ("Invoice", "Reminder", "Tax Assessment", "Letter From an Authority", "Other", "Letter"):
+	if not doc.iban or doc.verdict == "Phishing" or doc.paid_how in NOT_BY_TRANSFER or doc.kind not in ("Invoice", "Reminder", "Tax Assessment", "Authority Letter", "Other", "Letter"):
 		return None
 	payee = next((row for row in doc.parties if row.role == "Paid To"), None) or next((row for row in doc.parties if row.role == "Sender"), None)
 	name = (payee.party_name if payee else None) or ""

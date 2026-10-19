@@ -28,7 +28,7 @@
    "fieldname": "ends_the_day",
    "fieldtype": "Check",
    "in_list_view": 1,
-   "label": "Ends the Shift"
+   "label": "Ends Shift"
   },
   {
    "fieldname": "column_break_what",

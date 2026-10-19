@@ -7,9 +7,18 @@ switches came to read like commit messages.
 
 A description: at most 130 characters and two sentences, no first person, no
 em dash, and a colon only after "Example". A label: Title Case, no full stop,
-at most 60 characters, and a name rather than a sentence about somebody.
+at most 60 characters, and a name rather than a sentence.
+
+A label is a sentence when it has an article, a pronoun or a verb in the
+middle of it: "Old App Invoices" and "Net of Retention", not "The Old App
+Has" or "What Was Billed After the Retention". "Is" and "Has" may start a
+checkbox's label, as ERPNext's do ("Is Group", "Has Serial No"), and a
+consent checkbox ("I have read and agree to these") is a sentence on
+purpose. A Select's options are held to it too, and so are the fields of
+a dialog or a report's columns, in Python and in the desk's scripts.
 """
 
+import ast
 import json
 import re
 import sys
@@ -21,7 +30,21 @@ import tree
 
 LONGEST = 130
 VOICE = re.compile(r"\b(we|our|us|ours)\b", re.I)
-SENTENCE = re.compile(r"^(The|What|Who|How|When|It|This|These)\s+\w")
+NEVER = set(
+	"the a an it its this that these those which who what was were are does did have had been be".split()
+)
+LEADING = {"is", "has"}
+LAYOUT = {"Section Break", "Tab Break", "Column Break", "HTML", "Button", "Heading"}
+ROOTS = (tree.APP, tree.APP.parent / "private")
+SKIPPED = {"node_modules", "dist", "locale", "one_demo"}
+
+
+def sentence(label: str) -> bool:
+	"""Whether a label reads as a sentence rather than a name. Pure."""
+	if label.startswith("I "):
+		return False
+	words = [word.lower() for word in re.findall(r"[A-Za-z']+", label)]
+	return bool(set(words) & NEVER or set(words[1:]) & LEADING or label.rstrip().endswith((".", "?", ":")))
 
 
 def _fields():
@@ -66,9 +89,100 @@ def test_every_label_is_a_name_not_a_sentence():
 			continue
 		if label.endswith(".") or label[0].islower() or len(label) > 60:
 			wrong.append(f"{where}: {label!r}")
-		elif SENTENCE.match(label):
+		elif sentence(label):
 			wrong.append(f"{where}: {label!r} is a sentence")
 	assert not wrong, "labels out of register, see docs/WORDING.md:\n  " + "\n  ".join(wrong)
+
+
+def _files(*suffixes):
+	for root in ROOTS:
+		for path in root.rglob("*"):
+			if path.suffix in suffixes and path.is_file() and not SKIPPED & set(path.parts):
+				yield path
+
+
+def _text(node):
+	if isinstance(node, ast.Call) and node.args:
+		node = node.args[0]
+	if isinstance(node, ast.Constant) and isinstance(node.value, str):
+		return node.value
+	return None
+
+
+def _keyed(node):
+	if not isinstance(node, ast.Dict) or None in node.keys:
+		return {}
+	return {
+		key.value: value
+		for key, value in zip(node.keys, node.values, strict=True)
+		if isinstance(key, ast.Constant)
+	}
+
+
+def _python():
+	for path in _files(".py"):
+		for node in ast.walk(ast.parse(path.read_text(encoding="utf-8"))):
+			field = _keyed(node)
+			if "fieldtype" not in field:
+				continue
+			if (label := _text(field.get("label"))) is not None:
+				yield path, label
+			if isinstance(field.get("options"), ast.List):
+				for option in field["options"].elts:
+					if (label := _text(_keyed(option).get("label"))) is not None:
+						yield path, label
+
+
+def _options():
+	"""(where, option) for every Select option a doctype or custom field has."""
+	for path in sorted(tree.APP.glob("*/custom/*.json")):
+		for one in json.loads(path.read_text(encoding="utf-8")).get("custom_fields", []):
+			if one.get("fieldtype") == "Select":
+				yield from ((path, option) for option in (one.get("options") or "").split("\n") if option)
+	for path in sorted(tree.APP.parent.glob("**/doctype/*/*.json")):
+		if SKIPPED & set(path.parts):
+			continue
+		spec = json.loads(path.read_text(encoding="utf-8"))
+		if spec.get("doctype") != "DocType":
+			continue
+		for one in spec.get("fields", []):
+			if one.get("fieldtype") == "Select":
+				yield from ((path, option) for option in (one.get("options") or "").split("\n") if option)
+
+
+FIELD = re.compile(
+	r"fieldtype:\s*\"[A-Za-z ]+\"[^{}]*?label:\s*__\(\"([^\"]+)\"\)|label:\s*__\(\"([^\"]+)\"\)[^{}]*?fieldtype:"
+)
+OPTION = re.compile(r"\{\s*value:\s*[^,{}]+,\s*label:\s*__\(\"([^\"]+)\"\)\s*\}")
+
+
+def _desk():
+	for path in _files(".js", ".vue"):
+		source = path.read_text(encoding="utf-8", errors="ignore")
+		for found in FIELD.finditer(source):
+			yield path, found.group(1) or found.group(2)
+		for found in OPTION.finditer(source):
+			yield path, found.group(1)
+
+
+def test_a_label_is_a_name_not_a_sentence():
+	assert sentence("The Old App Has") and sentence("Invoice With the Retention In It")
+	assert not sentence("Net of Retention") and not sentence("Is Group") and not sentence("Has Serial No")
+	assert not sentence("I have read and agree to these")
+
+
+def test_every_option_and_dialog_field_is_a_name():
+	found = sorted(
+		{
+			(str(path.relative_to(tree.APP.parent)), label)
+			for source in (_options(), _python(), _desk())
+			for path, label in source
+			if sentence(label)
+		}
+	)
+	assert not found, "labels that read as sentences, see docs/WORDING.md:\n" + "\n".join(
+		f"  {path}: {label}" for path, label in found
+	)
 
 
 SCREEN = re.compile(r'__\(\s*"((?:[^"\\]|\\.)*)"')

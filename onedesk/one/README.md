@@ -1587,7 +1587,7 @@ it.
     instructions.
   - **Save** is refused if another administrator changed the action since you
     opened it. Close it and open it again.
-- The **Chat** action also has **People Choose the Model**. When it's on,
+- The **Chat** action also has **Allow Model Choice**. When it's on,
   anyone can choose a model for their own conversations in the OneAI panel.
   When it's off, only administrators can. Each person's choice applies only to
   them.
@@ -1639,7 +1639,7 @@ inbox with everyone's documents.
 - **Confidence Floor** (70% by default): anything OneAI is less sure of waits
   for a person under **Waiting** in the inbox. Raise it if OneAI makes
   mistakes. Lower it if too much waits.
-- **Audit What OneAI Does** has a second model check each document's actions.
+- **Audit OneAI Actions** has a second model check each document's actions.
   Correct ones are approved and the rest go to a person.
 
 **Filing**
@@ -1903,7 +1903,7 @@ conversation is saved, and the arrow at the top left lists them.
 - **Model**: the pill under the message box shows which model answers. Click
   it to choose another for this conversation and your next ones. **Automatic**
   uses the model the workspace set for chat. Only administrators can choose,
-  unless an administrator turns on **People Choose the Model** for the Chat
+  unless an administrator turns on **Allow Model Choice** for the Chat
   action. The menu shows each model's maker, and what each costs is in
   OneAI › Actions. If the work moves to another OneAI action, such
   as designing a print format, your choice applies there too.

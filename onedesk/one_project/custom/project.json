@@ -73,7 +73,7 @@
   {
    "dt": "Project",
    "fieldname": "one_monthly_hours",
-   "label": "Hours a Month",
+   "label": "Monthly Hours",
    "fieldtype": "Float",
    "insert_after": "one_monthly_fee",
    "module": "One Project",

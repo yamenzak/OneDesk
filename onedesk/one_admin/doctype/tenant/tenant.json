@@ -308,7 +308,7 @@
    "default": "0",
    "fieldname": "credits_a_month",
    "fieldtype": "Int",
-   "label": "Credits a Month",
+   "label": "Monthly Credits",
    "read_only": 1,
    "description": "Granted at the start of each month. The plan's and the add-ons'."
   },

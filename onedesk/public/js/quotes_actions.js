@@ -31,7 +31,7 @@ onedesk.quotes.ask = async (done, { project } = {}) => {
 				get_data: (text) => frappe.db.get_link_options("Supplier", text, { disabled: 0 }),
 			},
 			{ fieldtype: "Small Text", fieldname: "message", label: __("Message"), description: __("Left empty, the usual message is sent.") },
-			{ fieldtype: "Check", fieldname: "send", label: __("Mail the Suppliers Now"), default: 1 },
+			{ fieldtype: "Check", fieldname: "send", label: __("Email Suppliers Now"), default: 1 },
 		],
 		primary_action_label: __("Ask"),
 		primary_action: async (values) => {

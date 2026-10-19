@@ -1,7 +1,7 @@
 """How long deals stay in each stage, and how long they take to be won.
 
 A stay counts in the period if it ended there; a deal still in a stage counts
-under In It Now, and under Longer Than Usual once it has been there longer
+under Currently in Stage, and under Longer Than Usual once it has been there longer
 than the stage's usual and more than a day (`measure.stuck`). What is usual is the median of the stays that ended in
 the period, and needs `measure.FEWEST` of them. The last row is from a deal
 coming in to its being won, for the deals won in the period.
@@ -81,6 +81,6 @@ def _columns() -> list[dict]:
 		{"fieldname": "deals", "label": _("Opportunities"), "fieldtype": "Int", "width": 90},
 		{"fieldname": "usual", "label": _("Usual Days"), "fieldtype": "Float", "precision": 1, "width": 120},
 		{"fieldname": "longest", "label": _("Longest Days"), "fieldtype": "Float", "precision": 1, "width": 120},
-		{"fieldname": "now", "label": _("In It Now"), "fieldtype": "Int", "width": 100},
+		{"fieldname": "now", "label": _("Currently in Stage"), "fieldtype": "Int", "width": 100},
 		{"fieldname": "stuck", "label": _("Longer Than Usual"), "fieldtype": "Int", "width": 150},
 	]

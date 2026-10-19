@@ -33,7 +33,7 @@ const WHEN = {
 	"Every Day": () => __("Every day"),
 	"Every Week": () => __("Every week"),
 	"Every Month": () => __("Every month"),
-	"On a Schedule": (kind, cron) => __("On the schedule {0}", [cron || ""]),
+	"Scheduled": (kind, cron) => __("On the schedule {0}", [cron || ""]),
 };
 
 const PLACES = {

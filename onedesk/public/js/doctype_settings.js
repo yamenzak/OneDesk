@@ -841,7 +841,7 @@ onedesk.numbering.named_by = async ($wrapper, doctype, shown = () => {}) => {
 			{
 				fieldtype: "Button",
 				fieldname: "use",
-				label: __("Use This Expression"),
+				label: __("Use Expression"),
 				depends_on: `eval:doc.by === "${EXPRESSION}"`,
 				click: () => apply(),
 			},
