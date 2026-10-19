@@ -75,6 +75,16 @@ amounts and One holds it as the UAE taxes it: VAT on the work less the
 retention now, and the retention in Retention Receivable until an invoice
 releases it.
 
+**Retention held on Excel invoices is caught up by hand, any time.** Lately
+Rua held retention on invoices made in Excel and typed only the amounts
+after it into the old app, so what each client still holds is written
+nowhere the import can read. A **Retention Before One** (Rua's sidebar)
+says the project, what the client holds before VAT, and when it is due
+back. Submitted, it makes the invoice One would have made: the work, all of
+it held, nothing billed now, no VAT and no claim number, with the held
+amount in Retention Receivable. Release Retention on the project then bills
+it back with its VAT like any other. Cancelling it cancels that invoice.
+
 **Payroll has no history.** Pay starts with One's first payroll run, from
 the month the import runs in. The roll-call does come over, so that month's
 absences already count.

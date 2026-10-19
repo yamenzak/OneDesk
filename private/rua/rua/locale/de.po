@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Rua VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-19 17:12+0000\n"
+"POT-Creation-Date: 2026-10-19 17:42+0000\n"
 "PO-Revision-Date: 2026-10-19 16:11+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -19,10 +19,16 @@ msgstr ""
 "Generated-By: Babel 2.16.0\n"
 
 #. Name of a role
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
 #: rua/rua/doctype/rua_import/rua_import.json
 #: rua/rua/doctype/rua_import_record/rua_import_record.json
 msgid "Accounts Manager"
 msgstr "Buchhaltungsleiter"
+
+#. Name of a role
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Accounts User"
+msgstr "Buchhaltungsbenutzer"
 
 #. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
@@ -33,6 +39,11 @@ msgstr "Offene Anzahlung"
 #: rua/rua/doctype/rua_import_check/rua_import_check.json
 msgid "Agrees"
 msgstr "Stimmt überein"
+
+#. Label of the amended_from (Link) field in DocType 'Retention Before One'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Amended From"
+msgstr "Geändert von"
 
 #. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
@@ -60,6 +71,11 @@ msgstr "Prüfungen"
 msgid "Contract Counted Twice"
 msgstr "Vertrag doppelt gezählt"
 
+#. Label of the customer (Link) field in DocType 'Retention Before One'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Customer"
+msgstr "Kunde"
+
 #. Label of the difference (Float) field in DocType 'Rua Import Check'
 #: rua/rua/doctype/rua_import_check/rua_import_check.json
 msgid "Difference"
@@ -74,6 +90,11 @@ msgstr "Weicht ab"
 #: rua/rua/doctype/rua_import/rua_import.json
 msgid "Done"
 msgstr "Fertig"
+
+#. Label of the due_back (Date) field in DocType 'Retention Before One'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Due Back"
+msgstr "Fällig zurück"
 
 #. Description of a DocType
 #: rua/rua/doctype/rua_import_record/rua_import_record.json
@@ -136,7 +157,9 @@ msgstr "Keine Rechnung"
 msgid "Not Started"
 msgstr "Nicht gestartet"
 
+#. Label of the note (Small Text) field in DocType 'Retention Before One'
 #. Label of the note (Small Text) field in DocType 'Rua Import Note'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
 msgid "Note"
 msgstr "Notiz"
@@ -165,6 +188,16 @@ msgstr "Alter Datensatztyp"
 #: rua/rua/doctype/rua_import_check/rua_import_check.json
 msgid "One"
 msgstr "One"
+
+#. Label of the project (Link) field in DocType 'Retention Before One'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Project"
+msgstr "Projekt"
+
+#. Label of the project_name (Data) field in DocType 'Retention Before One'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Project Name"
+msgstr "Projektname"
 
 #. Label of the source (Data) field in DocType 'Rua Import'
 #: rua/rua/doctype/rua_import/rua_import.json
@@ -195,6 +228,23 @@ msgstr "Datensatztyp"
 #: rua/rua/doctype/rua_import_check/rua_import_check.json
 msgid "Result"
 msgstr "Ergebnis"
+
+#. Name of a DocType
+#. Label of a Sidebar Item
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+#: rua/rua/sidebar/rua/rua.json
+msgid "Retention Before One"
+msgstr "Einbehalt vor One"
+
+#. Label of the amount (Currency) field in DocType 'Retention Before One'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Retention Held"
+msgstr "Einbehalt"
+
+#. Description of a DocType
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Retention a client held on an invoice made before One, owed until it is released."
+msgstr "Einbehalt, den ein Kunde auf einer Rechnung vor One zurückhielt; geschuldet, bis er freigegeben wird."
 
 #. Title of a Sidebar
 #: rua/rua/sidebar/rua/rua.json
@@ -229,6 +279,15 @@ msgstr "Rua-Importdatensatz"
 msgid "Running"
 msgstr "Läuft"
 
+#. Label of the sales_invoice (Link) field in DocType 'Retention Before One'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Sales Invoice"
+msgstr "Ausgangsrechnung"
+
+#: rua/rua/doctype/retention_before_one/retention_before_one.py:25
+msgid "Say how much retention the client holds, before VAT."
+msgstr "Geben Sie an, wie viel Einbehalt der Kunde hält, vor MwSt."
+
 #. Label of the started_on (Datetime) field in DocType 'Rua Import'
 #: rua/rua/doctype/rua_import/rua_import.json
 msgid "Started"
@@ -247,6 +306,7 @@ msgid "Step"
 msgstr "Schritt"
 
 #. Name of a role
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
 #: rua/rua/doctype/rua_import/rua_import.json
 #: rua/rua/doctype/rua_import_record/rua_import_record.json
 msgid "System Manager"
@@ -262,8 +322,33 @@ msgstr "Die alte Rua-App, übernommen und mit der Buchhaltung abgeglichen."
 msgid "To Check"
 msgstr "Zu prüfen"
 
+#: rua/rua/doctype/retention_before_one/retention_before_one.py:23
+msgid "Turn retention on in Projects Settings first."
+msgstr "Schalten Sie den Einbehalt zuerst in den Projekteinstellungen ein."
+
+#. Description of the 'Retention Held' (Currency) field in DocType 'Retention
+#. Before One'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "What the client still holds, before VAT."
+msgstr "Was der Kunde noch hält, vor MwSt."
+
+#. Description of the 'Due Back' (Date) field in DocType 'Retention Before One'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "When the client is due to pay it back, if anybody knows."
+msgstr "Wann der Kunde ihn zurückzahlen muss, falls bekannt."
+
+#. Description of the 'Note' (Small Text) field in DocType 'Retention Before
+#. One'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Which invoices outside One it was held on."
+msgstr "Auf welchen Rechnungen außerhalb von One er einbehalten wurde."
+
 #. Label of the note (Small Text) field in DocType 'Rua Import Check'
 #: rua/rua/doctype/rua_import_check/rua_import_check.json
 msgid "Why"
 msgstr "Warum"
+
+#: rua/rua/doctype/retention_before_one/retention_before_one.py:28
+msgid "{0} has no customer to hold the retention."
+msgstr "{0} hat keinen Kunden, der den Einbehalt hält."
 

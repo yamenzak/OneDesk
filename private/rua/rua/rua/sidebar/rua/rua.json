@@ -5,7 +5,7 @@
  "doctype": "Sidebar",
  "header_icon": "package",
  "idx": 0,
- "modified": "2026-10-19 12:00:00.000000",
+ "modified": "2026-10-19 21:45:00.000000",
  "modified_by": "Administrator",
  "module": "Rua",
  "name": "Rua",
@@ -13,6 +13,19 @@
  "standard": 1,
  "title": "Rua",
  "items": [
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Retention Before One",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Retention Before One",
+   "icon": "lock"
+  },
   {
    "child": 0,
    "collapsible": 1,

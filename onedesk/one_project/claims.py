@@ -9,10 +9,17 @@ from frappe.utils import flt
 def numbered(doc, method=None) -> None:
 	"""Sales Invoice on_submit: the next claim number within the project. An
 	amendment keeps the number of the invoice it replaces, and one given its
-	number already (an import) keeps it."""
+	number already (an import) keeps it. One that bills nothing now, all of
+	it held as retention, is not a claim."""
 	if not doc.get("project") or doc.get("is_return") or doc.get("one_claim"):
 		return
-	number = frappe.db.get_value("Sales Invoice", doc.amended_from, "one_claim") if doc.get("amended_from") else None
+	if not flt(doc.get("net_total")) and any(row.get("one_held") for row in doc.get("items") or []):
+		return
+	number = (
+		frappe.db.get_value("Sales Invoice", doc.amended_from, "one_claim")
+		if doc.get("amended_from")
+		else None
+	)
 	if not number:
 		frappe.db.sql("select name from `tabProject` where name = %s for update", doc.project)
 		number = next_claim(
@@ -37,7 +44,9 @@ def standing(doc) -> dict | None:
 	project = doc.get("project")
 	if not project:
 		return None
-	orders = frappe.get_all("Sales Order", filters={"project": project, "docstatus": 1}, fields=["name", "grand_total"])
+	orders = frappe.get_all(
+		"Sales Order", filters={"project": project, "docstatus": 1}, fields=["name", "grand_total"]
+	)
 	contract = sum(flt(one.grand_total) for one in orders)
 	if not contract:
 		return None

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Rua VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-19 17:12+0000\n"
+"POT-Creation-Date: 2026-10-19 17:42+0000\n"
 "PO-Revision-Date: 2026-10-19 16:11+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -19,10 +19,16 @@ msgstr ""
 "Generated-By: Babel 2.16.0\n"
 
 #. Name of a role
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
 #: rua/rua/doctype/rua_import/rua_import.json
 #: rua/rua/doctype/rua_import_record/rua_import_record.json
 msgid "Accounts Manager"
 msgstr "مدير الحسابات"
+
+#. Name of a role
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Accounts User"
+msgstr "مستخدم الحسابات"
 
 #. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
@@ -33,6 +39,11 @@ msgstr "دفعة مقدمة مفتوحة"
 #: rua/rua/doctype/rua_import_check/rua_import_check.json
 msgid "Agrees"
 msgstr "متطابق"
+
+#. Label of the amended_from (Link) field in DocType 'Retention Before One'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Amended From"
+msgstr "معدل من"
 
 #. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
@@ -60,6 +71,11 @@ msgstr "التحققات"
 msgid "Contract Counted Twice"
 msgstr "عقد محسوب مرتين"
 
+#. Label of the customer (Link) field in DocType 'Retention Before One'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Customer"
+msgstr "العميل"
+
 #. Label of the difference (Float) field in DocType 'Rua Import Check'
 #: rua/rua/doctype/rua_import_check/rua_import_check.json
 msgid "Difference"
@@ -74,6 +90,11 @@ msgstr "مختلف"
 #: rua/rua/doctype/rua_import/rua_import.json
 msgid "Done"
 msgstr "تم"
+
+#. Label of the due_back (Date) field in DocType 'Retention Before One'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Due Back"
+msgstr "تاريخ الاسترداد"
 
 #. Description of a DocType
 #: rua/rua/doctype/rua_import_record/rua_import_record.json
@@ -136,7 +157,9 @@ msgstr "بلا فاتورة"
 msgid "Not Started"
 msgstr "لم يبدأ"
 
+#. Label of the note (Small Text) field in DocType 'Retention Before One'
 #. Label of the note (Small Text) field in DocType 'Rua Import Note'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
 msgid "Note"
 msgstr "ملاحظة"
@@ -165,6 +188,16 @@ msgstr "نوع السجل القديم"
 #: rua/rua/doctype/rua_import_check/rua_import_check.json
 msgid "One"
 msgstr "One"
+
+#. Label of the project (Link) field in DocType 'Retention Before One'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Project"
+msgstr "المشروع"
+
+#. Label of the project_name (Data) field in DocType 'Retention Before One'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Project Name"
+msgstr "اسم المشروع"
 
 #. Label of the source (Data) field in DocType 'Rua Import'
 #: rua/rua/doctype/rua_import/rua_import.json
@@ -195,6 +228,23 @@ msgstr "نوع السجل"
 #: rua/rua/doctype/rua_import_check/rua_import_check.json
 msgid "Result"
 msgstr "النتيجة"
+
+#. Name of a DocType
+#. Label of a Sidebar Item
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+#: rua/rua/sidebar/rua/rua.json
+msgid "Retention Before One"
+msgstr "محتجزات قبل One"
+
+#. Label of the amount (Currency) field in DocType 'Retention Before One'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Retention Held"
+msgstr "المحتجزات"
+
+#. Description of a DocType
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Retention a client held on an invoice made before One, owed until it is released."
+msgstr "محتجزات احتفظ بها عميل على فاتورة صدرت قبل One، مستحقة حتى يُفرج عنها."
 
 #. Title of a Sidebar
 #: rua/rua/sidebar/rua/rua.json
@@ -229,6 +279,15 @@ msgstr "سجل استيراد Rua"
 msgid "Running"
 msgstr "قيد التشغيل"
 
+#. Label of the sales_invoice (Link) field in DocType 'Retention Before One'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Sales Invoice"
+msgstr "فاتورة مبيعات"
+
+#: rua/rua/doctype/retention_before_one/retention_before_one.py:25
+msgid "Say how much retention the client holds, before VAT."
+msgstr "اذكر قيمة المحتجزات لدى العميل قبل ضريبة القيمة المضافة."
+
 #. Label of the started_on (Datetime) field in DocType 'Rua Import'
 #: rua/rua/doctype/rua_import/rua_import.json
 msgid "Started"
@@ -247,6 +306,7 @@ msgid "Step"
 msgstr "الخطوة"
 
 #. Name of a role
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
 #: rua/rua/doctype/rua_import/rua_import.json
 #: rua/rua/doctype/rua_import_record/rua_import_record.json
 msgid "System Manager"
@@ -262,8 +322,33 @@ msgstr "تطبيق Rua القديم منقولًا ومطابقًا مع الد�
 msgid "To Check"
 msgstr "للتحقق"
 
+#: rua/rua/doctype/retention_before_one/retention_before_one.py:23
+msgid "Turn retention on in Projects Settings first."
+msgstr "فعّل المحتجزات في إعدادات المشاريع أولًا."
+
+#. Description of the 'Retention Held' (Currency) field in DocType 'Retention
+#. Before One'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "What the client still holds, before VAT."
+msgstr "ما يحتفظ به العميل حتى الآن، قبل ضريبة القيمة المضافة."
+
+#. Description of the 'Due Back' (Date) field in DocType 'Retention Before One'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "When the client is due to pay it back, if anybody knows."
+msgstr "متى يحين سداده من العميل، إن كان معروفًا."
+
+#. Description of the 'Note' (Small Text) field in DocType 'Retention Before
+#. One'
+#: rua/rua/doctype/retention_before_one/retention_before_one.json
+msgid "Which invoices outside One it was held on."
+msgstr "الفواتير خارج One التي احتُجز عليها."
+
 #. Label of the note (Small Text) field in DocType 'Rua Import Check'
 #: rua/rua/doctype/rua_import_check/rua_import_check.json
 msgid "Why"
 msgstr "السبب"
+
+#: rua/rua/doctype/retention_before_one/retention_before_one.py:28
+msgid "{0} has no customer to hold the retention."
+msgstr "{0} ليس له عميل يحتفظ بالمحتجزات."
 
