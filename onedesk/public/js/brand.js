@@ -2,7 +2,6 @@ frappe.provide("onedesk.brand");
 
 onedesk.brand.NAME = /\bOne(AI|Admin|Book|Calendar|Cloud|Code|CRM|DB|Desk|Display|Doc|Fit|Forms|Governance|HR|Intake|Inventory|Legal|Mail|Market|Mobility|Project|Scratchpad|Sheet|Signature|Slide|Studio|Study|Task|Ticket|Workbook|Writer)\b/g;
 
-onedesk.brand.MARK = "/assets/onedesk/images/one.svg";
 
 onedesk.brand.VERBS = new Set(
 	"opens added may can cannot keeps sends reads shows asks uses does doesn't is isn't will won't has hasn't holds makes gives tells writes stores checks knows works needs puts takes turns brings finds counts books bills pays says sees saves signs".split(" "),
@@ -89,11 +88,11 @@ onedesk.brand.named = (rest) => {
 onedesk.brand.mark = () => {
 	const name = document.createElement("span");
 	name.className = "one-name one-solo";
-	const mark = document.createElement("img");
-	mark.className = "one-mark";
-	mark.src = onedesk.brand.MARK;
-	mark.alt = "";
-	name.append(mark, "One");
+	name.innerHTML = frappe.utils.icon("one", { width: "1.05em", height: "1.05em" }, "", "", "one-mark");
+	const light = document.createElement("span");
+	light.className = "one-light";
+	light.textContent = "One";
+	name.append(light);
 	return name;
 };
 

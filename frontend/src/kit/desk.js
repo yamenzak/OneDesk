@@ -209,3 +209,8 @@ export const dialog = (options) => new (frappe().ui.Dialog)(options);
 export const alert = (message, indicator = "green") => frappe().show_alert({ message, indicator });
 
 export const formatted = (value, df, doc) => String(frappe().format(value, df, { inline: true, only_value: true }, doc) ?? "");
+
+export const symbol = (name) => {
+  const found = document.getElementById(`icon-${name}`);
+  return found ? { viewBox: found.getAttribute("viewBox"), html: found.innerHTML } : null;
+};

@@ -918,10 +918,10 @@ a.one-chart-head:hover .one-stat-label {
 	white-space: nowrap;
 }
 
-.one-mark {
-	width: 1.05em;
-	height: 1.05em;
+.one-solo .one-mark {
 	align-self: center;
+	flex: none;
+	font-size: inherit;
 }
 
 .one-calendar-said {
