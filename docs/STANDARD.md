@@ -118,6 +118,18 @@ Overview are the same card; on an island it is frappe-ui's NumberCard in the
 same frame, through the kit's `Figures`. A number that warns is red-7,
 frappe's negative. `tests/guards/test_figures.py` holds it.
 
+**Money and tax.** Set by the user on 2026-10-20: One is sold to any country,
+in any currency, under any tax. An amount always carries its own currency;
+there is no heading that names the currency so the figures under it need not.
+A generic label says **Tax**, **Tax ID** and **Tax Return**, never VAT or TRN.
+What really is one country's (the UAE VAT 201, the UAE tax-invoice block, the
+documents a UAE employer files) stays, shown only where the workspace's
+country is that one. A figure that has a tax on it, or one shown before tax,
+is underlined dashed and says the other side on hover: `other` on the kit's
+`Figures`, and `head.taxed` on a desk record's head.
+`tests/guards/test_any_country.py` holds it, with the regional files listed
+and each one's reason.
+
 **A module's Home tells its story.** Set by the user on 2026-10-13, first on
 OneInventory. A Home opens on figures with sparklines (frappe-ui's
 NumberCard, each against last month), a button for each kind of thing that

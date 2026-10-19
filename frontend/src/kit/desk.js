@@ -141,8 +141,6 @@ export const quantity = (value, uom) => {
 	return uom ? __("{0} {1}", [said, __(uom)]) : said;
 };
 
-export const plain = (value) => window.format_number(value || 0, null, 2);
-
 export const requires = (paths) => frappe().require(paths);
 
 export const jq = (el) => window.$(el);

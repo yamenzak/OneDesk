@@ -106,7 +106,7 @@ def _bank_modes(one) -> dict:
 def _tax(one, doctype: str, key: str, check: str) -> dict:
 	templates = frappe.get_all(doctype, filters={"company": one.name, "disabled": 0}, fields=["name", "is_default"])
 	if not templates:
-		return _row(key, check, READY, _("No tax templates, so nothing is charged. Add one if you are registered for VAT."))
+		return _row(key, check, READY, _("No tax templates, so nothing is charged. Add one if you charge tax."))
 	default = next((template.name for template in templates if template.is_default), None)
 	if default and ruled(one.name, doctype, default):
 		return _row(key, check, READY, _("{0} is added unless somebody picks another.").format(default))

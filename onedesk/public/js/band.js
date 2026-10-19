@@ -9,9 +9,11 @@ onedesk.band.card = ({ label, value, route, tone, extra }) => {
 			? $("<div>").html(frappe.datetime.comment_when(extra.when, true)).text()
 			: frappe.datetime.prettyDate(extra.when);
 	const when = (text) => (extra.when ? String(text).replace("{when}", said()) : String(text));
+	const shown = onedesk.shell.ltr(when(value));
+	const other = extra.other && `${extra.other.tax === "with" ? __("With tax") : __("Before tax")}: ${onedesk.shell.ltr(extra.other.value)}`;
 	const $card = frappe.ui.stat_card({
 		label: when(label),
-		value: onedesk.shell.ltr(when(value)),
+		value: other ? $('<span class="one-taxed">').text(shown).attr("title", other) : shown,
 		delta: onedesk.band.delta(extra.delta),
 		caption: extra.note ? $("<span>").html(extra.note) : null,
 		css_class: `one-stat${tone ? " one-stat-" + tone : ""}${route ? " es-stat-card--clickable" : ""}`,
@@ -71,7 +73,7 @@ onedesk.band.show = async (frm, said, charts = []) => {
 			null,
 			true
 		);
-		return;
+		return onedesk.band.tip(frm.layout.message);
 	}
 	const key = frappe.scrub(frm.doctype);
 	frm.dashboard.set_headline(
@@ -85,7 +87,12 @@ onedesk.band.show = async (frm, said, charts = []) => {
 	);
 	const $band = frm.layout.message.find(".one-band").last();
 	charts.forEach((chart, i) => onedesk.band.chart($band.find(`#one-chart-${key}-${i} .one-chart-body`)[0], chart));
+	onedesk.band.tip($band);
 };
+
+// A money figure with a tax on it says the other side of the tax on hover, in
+// the desk's own tooltip, the one the island's frappe-ui Tooltip looks like.
+onedesk.band.tip = ($in) => $in.find(".one-taxed").tooltip({ delay: { show: 150, hide: 100 }, trigger: "hover" });
 
 onedesk.band.panel = (chart, key) => {
 	const esc = frappe.utils.escape_html;

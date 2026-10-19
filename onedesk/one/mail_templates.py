@@ -188,7 +188,7 @@ def get_email_template(
 
 def _shown(template, doc: dict) -> dict:
 	"""A template that only names fields, as one written here does, gets each
-	as the record shows it: 1,250.00 AED and 21-09-2026 rather than 1250.0 and
+	as the record shows it: 1,250.00 EUR and 21-09-2026 rather than 1250.0 and
 	2026-09-21, since it can say nothing else. One that does more, as some the
 	apps made do, gets the values as frappe gives them, which it may work on."""
 	tags = {tag for field in TEXT for tag in TAG.findall(template.get(field) or "")}

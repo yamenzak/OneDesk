@@ -586,7 +586,7 @@ on OneAI › Actions: **Screen Applicants**, **Interviews**,
 - **From OneIntake**: A CV becomes a job applicant, and a receipt an employee sends in becomes their expense claim. A sick note becomes a leave application, and a passport or permit is added to the employee's Identity Documents.
 - **From OneInventory**: The employee record shows how much of the company's equipment the person holds. HR submits a separation, and it adds a Return task for each asset they hold, given to the stores.
 - **From OneTask**: Time from a task's timer goes on the person's timesheet for the week.
-- **To OneBook**: Payroll runs, expense claims and advances post to the accounts. OneHR sets up the payroll and advance accounts so the first run works. The VAT Return counts the VAT on expense claims.
+- **To OneBook**: Payroll runs, expense claims and advances post to the accounts. OneHR sets up the payroll and advance accounts so the first run works. The Tax Return counts the tax on expense claims.
 - **From OneProject**: New Expense Claim on a project's Money starts an expense claim on that project.
 - **To OneProject**: A day of attendance at a project's site is logged as time on the project. An expense claim says its project at the top. Approved expense claims for a project count as its costs, and a Time and Materials project bills them to the customer.
 - **To OneCalendar**: Leave, interviews, holidays and who's off show as layers on the calendar. An employee's own calendar shows their leave.

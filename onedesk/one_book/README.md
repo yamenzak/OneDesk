@@ -38,8 +38,9 @@ sidebar calls it. The rail has:
   account to pay into, and the Bank Reconciliation Tool and a new statement
   import open on it.
 - **Financial Reports** — **Profit and Loss**, **Balance Sheet**, **Cash
-  Flow**, **General Ledger**, **Trial Balance**, **Gross Profit**, the **VAT
-  Return** and, in the UAE, the **UAE VAT 201**.
+  Flow**, **General Ledger**, **Trial Balance**, **Gross Profit**, the **Tax
+  Return** and the country's own returns where ERPNext ships one, such as the
+  **UAE VAT 201** in the UAE.
 - **Reports** and **Setup** open those parts of Home: every accounting report
   by what it is about, and the chart of accounts, cost centers, taxes,
   payment terms, modes of payment, fiscal years and settings, with the
@@ -98,7 +99,7 @@ bill, and says **Ready**, **To Do** or **Suggested** beside each, with a
   account's, and makes the account in the chart, the company's bank account,
   and connects every bank mode of payment — Wire Transfer, Cheque, Credit Card
   — to it. A bank account added any other way is connected the same way.
-- **Invoices carry tax** and **Bills carry tax.** **Fix** asks which VAT
+- **Invoices carry tax** and **Bills carry tax.** **Fix** asks which tax
   template is added to a new invoice or bill when nobody picks one, in a
   form and on every invoice or bill One, OneAI or an import makes.
 - **A late customer is reminded.** **Fix** turns the payment reminder on.
@@ -198,9 +199,9 @@ The band on a repeating invoice says **Repeats Monthly** and when the next
 one is made; clicking it opens the schedule, where it can be paused or
 stopped. **Home › Everything › Auto Repeat** lists every schedule.
 
-## VAT
+## Tax
 
-**Financial Reports › VAT Return** is the figure for any VAT return: for the dates you
+**Financial Reports › Tax Return** is the figure for any tax return: for the dates you
 pick, the tax charged on invoices and the tax paid on bills and expense
 claims, each by tax account and rate with the amount it was charged on, and
 what is left **To pay** (or **To reclaim**). Credit notes lower what was
@@ -216,9 +217,9 @@ there when not all of it can be reclaimed, and it is left alone.
 
 ## Closing a period and a year
 
-Once a VAT return is filed, the period it covers should not change. **Lock
-Books** on the VAT Return asks for a date, and nothing dated on or before it
-can then be entered, changed or cancelled — by anybody. The title of the VAT
+Once a tax return is filed, the period it covers should not change. **Lock
+Books** on the Tax Return asks for a date, and nothing dated on or before it
+can then be entered, changed or cancelled — by anybody. The title of the Tax
 Return says **Locked to** that date. To correct something in a locked
 period, open **Lock Books** again and **Unlock**, correct it, and lock again.
 
@@ -269,7 +270,7 @@ as you may see them and never posts, pays or changes anything in them.
 - **From OneCRM**: A Sales Order is invoiced here with Create › Sales Invoice. Customers are kept in OneCRM.
 - **From OneProject**: Invoice Time, Invoice Month and Bill Progress on a project make the customer's invoices. Bill Progress on a subcontract drafts the supplier's bill for the project's manager to check.
 - **From OneInventory**: A receipt or a purchase order becomes the supplier's bill with Create › Purchase Invoice, and a delivery becomes the customer's invoice the same way. Each asset's depreciation is posted to the books by itself.
-- **From OneHR**: Approved expense claims and payroll runs are posted to the books. The VAT on expense claims counts in the VAT Return.
+- **From OneHR**: Approved expense claims and payroll runs are posted to the books. The tax on expense claims counts in the Tax Return.
 - **From OneIntake**: A supplier's bill read from mail or a file becomes a draft bill, matched to its purchase order. A customer's payment advice becomes a draft payment, and a bank statement's lines are ready to match.
 - **To OneProject**: Invoices, bills and payments that name a project count in its Billed, Paid and Cost figures. A payment takes the project its invoices name.
 - **To OneCRM**: A customer's page shows what they owe, what is overdue, what was billed this year and their last invoice.
@@ -324,7 +325,7 @@ fails a small business on first use or leaves a question unanswered.
   Credit Note, Invoice or Credit Note by the company's TRN and the return
   flag; the standing is a pill per status. What the builder could not reach
   became fields on the record, filled on save by `paper.py`: each line's
-  **VAT Rate**, **VAT** and **Amount incl. VAT**, from ERPNext's own Item
+  **Tax Rate**, **Tax Amount** and **Amount incl. Tax**, from ERPNext's own Item
   Wise Tax Detail (Article 59 asks for the tax per supply), and **Pay Into**,
   the company's default bank account, which the Pay To block reads through.
   The dirham prints as AED, not its symbol, which reads differently on every
@@ -457,7 +458,7 @@ of its own, and frappe's builder can't add one up. ERPNext's six
     number for last month's bill; with duplicate bill numbers refused (the
     Books Check suggests it) the copy cannot even be saved. The copy has none
     until this month's bill comes, and is dated the day it is made.
-- `vat.py` and `report/vat_return` — VAT. ERPNext's UAE VAT 201 reads three
+- `vat.py` and `report/tax_return` — tax. ERPNext's UAE VAT 201 reads three
   things a new company does not have — UAE VAT Settings, the TRN, an address
   with an emirate — and says nothing; the Books Check asks. Its box 9 (VAT on
   expenses) sums a field on each bill that somebody is meant to type, so an
@@ -465,7 +466,7 @@ of its own, and frappe's builder can't add one up. ERPNext's six
   (Purchase Invoice validate) keeps it at the bill's VAT until somebody types
   their own figure (`recoverable`, pure). `emirate` (Sales Invoice validate)
   copies the address's emirate onto an invoice not made on its page, since
-  Frappe only fetches it there. The VAT Return reads tax rows of submitted
+  Frappe only fetches it there. The Tax Return reads tax rows of submitted
   invoices, bills and expense claims, grouped by account and rate (`lines`,
   pure); it is not a UAE form, and needs nothing set up.
 
@@ -488,7 +489,7 @@ of its own, and frappe's builder can't add one up. ERPNext's six
     has neither. The Books Check asks for both, and `emirate` (Sales Invoice
     validate) copies the emirate onto an invoice made anywhere but its page.
 
-  **A return any country can read** is `report/vat_return`: tax charged on
+  **A return any country can read** is `report/tax_return`: tax charged on
   invoices against tax paid on bills and expense claims, by tax account and
   rate, and what is left to pay or reclaim. It reads the tax rows of
   submitted documents, so a credit note lowers what was charged and a debit
@@ -509,7 +510,7 @@ of its own, and frappe's builder can't add one up. ERPNext's six
   or before `Company.accounts_frozen_till_date`
   (`accounts/services/gl_validator.py` `check_freezing_date`) — but it sits
   on a tab of the Company form beside a role that may post anyway, and
-  nothing leads there. **Lock Books** on the VAT Return sets it to the end of
+  nothing leads there. **Lock Books** on the Tax Return sets it to the end of
   the period just filed, since a period that has been filed is not to
   change; the Books Check says where it stands. Locking leaves the role
   empty, so locked means locked for everybody, the Administrator too; to
@@ -546,8 +547,8 @@ of its own, and frappe's builder can't add one up. ERPNext's six
     group and the company's Bank Account in one step, and a company bank
     account saved from anywhere fills the company default and every bank
     mode of payment that has none (`wired`).
-  - **Tax.** Five UAE templates ship and none is the default, so an invoice
-    carries no VAT unless somebody picks it. Which is the default is the
+  - **Tax.** ERPNext ships the country's templates and none is the default, so an invoice
+    carries no tax unless somebody picks it. Which is the default is the
     business's decision, so the fix asks. ERPNext's default template only
     reaches an invoice made in its form. One made on the server (Invoice
     Time, Bill Progress, OneAI, Intake, an import) takes its taxes from a
@@ -621,7 +622,7 @@ links to, or add a bank, and keeps the purchase tax templates from accounts:
 - **Banks**: the list of banks a bank account picks from. ERPNext lets only
   a System Manager add one, so One's own Add Bank stopped for everybody; an
   Accounts Manager adds one here and an Accounts User reads them.
-- **Purchase Taxes and Charges Template**: ERPNext gives them to buying. The VAT a bill
+- **Purchase Taxes and Charges Template**: ERPNext gives them to buying. The tax a bill
   carries is the books' decision, so an Accounts Manager keeps them and an
   Accounts User reads them.
 - **Suppliers**: a bill often comes from a new supplier, so an Accounts

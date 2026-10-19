@@ -1,4 +1,4 @@
-frappe.query_reports["VAT Return"] = {
+frappe.query_reports["Tax Return"] = {
 	filters: [
 		{
 			fieldname: "from_date",

@@ -374,11 +374,11 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
-   "label": "VAT Return",
+   "label": "Tax Return",
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "VAT Return",
+   "link_to": "Tax Return",
    "idx": 28
   },
   {
@@ -425,7 +425,7 @@
    "idx": 31
   }
  ],
- "modified": "2026-11-02 09:00:00.000000",
+ "modified": "2026-11-03 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Book",
  "name": "OneBook",

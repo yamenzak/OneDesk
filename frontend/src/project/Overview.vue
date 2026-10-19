@@ -179,6 +179,7 @@ const figures = computed(() =>
     value: figure(card),
     note: card.note || (card.note_money ? card.note_money.map(([text, values]) => text.replace(/\{(\d+)\}/g, (_, i) => money(values[Number(i)], props.said.currency))).join("\n") : ""),
     bar: card.bar,
+    other: card.other ? { label: card.other.tax === "with" ? __("With tax") : __("Before tax"), value: money(card.other.money, props.said.currency) } : undefined,
     alarm: card.tone === "alarm",
     route: card.route,
     action: opens(card),

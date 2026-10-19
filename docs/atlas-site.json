@@ -4732,6 +4732,12 @@
 "Auditor",
 "Purchase User"
 ],
+"Tax Return": [
+"Accounts Manager",
+"Accounts User",
+"Auditor",
+"Workspace Administrator"
+],
 "Tax Withholding Details": [
 "Accounts Manager",
 "Accounts User",
@@ -4800,12 +4806,6 @@
 "System Manager"
 ],
 "VAT Audit Report": [],
-"VAT Return": [
-"Accounts Manager",
-"Accounts User",
-"Auditor",
-"Workspace Administrator"
-],
 "Vehicle Expenses": [
 "Fleet Manager"
 ],

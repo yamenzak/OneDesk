@@ -794,7 +794,7 @@ GENERAL_SAID = {
 	"allow_consecutive_login_attempts": _lt("After this many wrong passwords in a row, signing in is refused for a while."),
 	"allow_login_after_fail": _lt("How long signing in is refused after too many wrong passwords."),
 	"force_user_to_reset_password": _lt("Then a new one is asked for at sign-in. 0 means they never expire."),
-	"hide_currency_symbol": _lt("Amounts are shown without AED, $ or another symbol."),
+	"hide_currency_symbol": _lt("Amounts are shown without their currency symbol."),
 	"disable_rounded_total": _lt("Sales and purchases are not rounded to a whole amount."),
 	"disable_in_words": _lt("Sales and purchases don't say their total in words."),
 }

@@ -366,11 +366,14 @@ def _first(doc, cash: dict) -> dict:
 	quote while one is out, or nothing yet with Add Contract."""
 	order = contract(doc)
 	if order:
-		return {
+		said = {
 			"key": "contract",
 			"money": cash.get("contract_with_tax", cash["contract"]),
 			"route": f"/desk/sales-order/{order}",
 		}
+		if abs(said["money"] - cash["contract"]) >= 0.005:
+			said["other"] = {"tax": "before", "money": cash["contract"]}
+		return said
 	quote = quotation(doc)
 	if quote and quote["count"] > 1:
 		return {

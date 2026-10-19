@@ -4,7 +4,6 @@
       <h2 class="me-auto flex items-center gap-2 text-lg font-semibold text-ink-gray-9">
         <span class="lucide-wallet size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Money") }}
       </h2>
-      <span v-if="cash.currency" class="text-sm text-ink-gray-5">{{ __("Amounts in {0}, before VAT", [cash.currency]) }}</span>
       <Button v-if="can('create', 'Stock Entry')" size="sm" icon-left="lucide-package-minus" :label="__('Issue Stock')" @click="issueStock" />
       <Button v-if="can('create', 'Expense Claim')" size="sm" icon-left="lucide-plus" :label="__('New Expense Claim')" @click="newDocIn('Expense Claim', { project: said.name, company: said.company }, parts)" />
     </div>
@@ -45,10 +44,10 @@
                 <span v-if="item.key === 'other'" class="truncate text-sm text-ink-gray-5">{{ __("Not in a cost type") }}</span>
               </span>
             </ListCell>
-            <ListCell class="justify-end tabular-nums text-ink-gray-7 max-md:hidden">{{ plain(item.budget) }}</ListCell>
-            <ListCell class="justify-end tabular-nums text-ink-gray-7 max-md:hidden">{{ plain(item.committed) }}</ListCell>
-            <ListCell class="justify-end tabular-nums text-ink-gray-7 max-md:hidden">{{ plain(item.spent) }}</ListCell>
-            <ListCell class="justify-end tabular-nums" :class="item.left < 0 ? 'text-ink-red-5' : 'text-ink-gray-7'">{{ plain(item.left) }}</ListCell>
+            <ListCell class="justify-end tabular-nums text-ink-gray-7 max-md:hidden">{{ amount(item.budget) }}</ListCell>
+            <ListCell class="justify-end tabular-nums text-ink-gray-7 max-md:hidden">{{ amount(item.committed) }}</ListCell>
+            <ListCell class="justify-end tabular-nums text-ink-gray-7 max-md:hidden">{{ amount(item.spent) }}</ListCell>
+            <ListCell class="justify-end tabular-nums" :class="item.left < 0 ? 'text-ink-red-5' : 'text-ink-gray-7'">{{ amount(item.left) }}</ListCell>
             <ListCell class="gap-2">
               <Progress :value="Math.min(100, used(item))" size="md" class="w-full" />
               <span class="w-10 shrink-0 text-end text-sm tabular-nums" :class="used(item) > 100 ? 'text-ink-red-5' : 'text-ink-gray-5'">{{ used(item) }}%</span>
@@ -75,7 +74,7 @@ import { computed, ref } from "vue";
 import { Button, Dialog, Progress } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
-import { Figures, Loading, PlaceSpot, Rows, Section, __, call, can, date, money, newDocIn, onedesk, plain, requires } from "../kit";
+import { Figures, Loading, PlaceSpot, Rows, Section, __, call, can, date, money, newDocIn, onedesk, requires } from "../kit";
 import { useParts } from "./only";
 import { usePlace } from "./place";
 
@@ -85,6 +84,7 @@ const parts = useParts();
 
 const cash = computed(() => props.said.money);
 const amount = (value) => money(value, cash.value.currency);
+const withTax = (gross, net) => (gross !== undefined && gross !== null && Math.abs(gross - net) >= 0.005 ? { label: __("With tax"), value: amount(gross) } : undefined);
 const maybe = (value) => (value === null || value === undefined ? "–" : amount(value));
 const share = (part, whole) => (whole ? Math.max(0, Math.min(100, Math.round((100 * part) / whole))) : null);
 const percent = (part, whole) => (whole ? Math.round((100 * part) / whole) : null);
@@ -156,7 +156,7 @@ const forecast = computed(() => {
     const months = props.said.overview.months;
     return [
       ...(months?.fee ? [{ title: __("Monthly Fee"), value: money(months.fee, months.currency) }] : []),
-      { title: __("Invoiced"), value: amount(c.invoiced) },
+      { title: __("Invoiced"), value: amount(c.invoiced), other: withTax(c.invoiced_with_tax, c.invoiced) },
       costFigure(c),
       soFar(c, c.invoiced),
       ...(c.budget ? [budgetFigure()] : []),
@@ -164,7 +164,7 @@ const forecast = computed(() => {
   }
   const margin = c.forecast_margin;
   return [
-    { title: __("Contract"), value: amount(c.contract), note: c.invoiced ? __("Invoiced {0}", [amount(c.invoiced)]) : "", bar: share(c.invoiced, c.contract) ?? undefined },
+    { title: __("Contract"), value: amount(c.contract), other: withTax(c.contract_with_tax, c.contract), note: c.invoiced ? __("Invoiced {0}", [amount(c.invoiced)]) : "", bar: share(c.invoiced, c.contract) ?? undefined },
     budgetFigure(),
     {
       title: __("Forecast Cost"),
@@ -191,7 +191,7 @@ const side = (figures, whole) =>
       return {
         key: one.label,
         label: one.label,
-        value: plain(one.value),
+        value: amount(one.value),
         progress,
         dim: progress !== undefined && progress !== null ? __("{0}% of ordered", [progress]) : "",
         route: one.route,

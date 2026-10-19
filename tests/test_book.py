@@ -168,8 +168,8 @@ def test_a_bills_reclaimable_vat_follows_the_bill_until_somebody_types_their_own
 	assert recoverable(30, None, None, 100) == 30, "typed on a new bill: kept"
 
 
-def test_the_vat_return_nets_what_was_charged_against_what_was_paid():
-	space = _load(BOOK / "report" / "vat_return" / "vat_return.py", ("lines",), flt=lambda v: float(v or 0), _=lambda s: s)
+def test_the_tax_return_nets_what_was_charged_against_what_was_paid():
+	space = _load(BOOK / "report" / "tax_return" / "tax_return.py", ("lines",), flt=lambda v: float(v or 0), _=lambda s: s)
 	rows = [
 		{"section": "output", "account": "VAT 5%", "rate": 5, "taxable": 20000, "tax": 1000},
 		{"section": "input", "account": "VAT 5%", "rate": 5, "taxable": 4000, "tax": 200},

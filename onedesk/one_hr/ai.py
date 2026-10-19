@@ -278,7 +278,7 @@ def claim_expense(
 	amount: Annotated[float, "The total paid, as printed on the receipt."],
 	expense_type: Annotated[str, "What kind of expense it is, in a word or two, such as taxi, meal or hotel."],
 	description: Annotated[str, "The vendor and what was bought, in a few words."],
-	currency: Annotated[str, "The currency code on the receipt, such as AED."] | None = None,
+	currency: Annotated[str, "The currency code on the receipt, such as EUR."] | None = None,
 ) -> dict:
 	"""Suggest an expense claim, in the asker's own name, from one receipt.
 

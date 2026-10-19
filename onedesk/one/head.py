@@ -331,7 +331,7 @@ def _stat(doc, row, measured=None) -> dict | None:
 		stat.update(
 			{
 				key: value[key]
-				for key in ("label", "route", "tone", "delta", "meter", "when", "short", "steps")
+				for key in ("label", "route", "tone", "delta", "meter", "when", "short", "steps", "other")
 				if key in value
 			}
 		)
@@ -356,7 +356,10 @@ def _value(doc, row):
 				"value": f"{frappe.format_value(round(share), {'fieldtype': 'Int'})}%",
 				"meter": {"value": share, "of": 100},
 			}
-		return doc.get_formatted(row.field)
+		other = taxed(doc, row.field)
+		return (
+			{"value": doc.get_formatted(row.field), "other": other} if other else doc.get_formatted(row.field)
+		)
 	if row.source == "Linked Field":
 		target = doc.get(row.link_field)
 		through = doc.meta.get_field(row.link_field).options
@@ -382,6 +385,35 @@ def _value(doc, row):
 		return frappe.format_value(total or 0, frappe.get_meta(row.of_doctype).get_field(row.field))
 	measure = measures().get(row.measure)
 	return measure(doc) if measure else None
+
+
+WITH_TAX = {
+	"grand_total": "net_total",
+	"rounded_total": "net_total",
+	"base_grand_total": "base_net_total",
+	"base_rounded_total": "base_net_total",
+	"outstanding_amount": "net_total",
+}
+BEFORE_TAX = {"net_total": "grand_total", "base_net_total": "base_grand_total"}
+
+
+def taxed(doc, field: str) -> dict | None:
+	"""A document's total on the other side of its taxes, for the head to say
+	on hover: a total with tax gives what it is before, one before tax what
+	it comes to with it. What is still owed is before tax in the share the
+	work is of the whole. Nothing when the document carries no tax."""
+	if not flt(doc.get("total_taxes_and_charges")) or not flt(doc.get("grand_total")):
+		return None
+	df = doc.meta.get_field(field)
+	if field in WITH_TAX and doc.meta.has_field(WITH_TAX[field]):
+		share = flt(doc.get("net_total")) / flt(doc.get("grand_total"))
+		value = (
+			flt(doc.get(WITH_TAX[field])) if field != "outstanding_amount" else flt(doc.get(field)) * share
+		)
+		return {"tax": "before", "value": frappe.format_value(value, df, doc)}
+	if field in BEFORE_TAX and doc.meta.has_field(BEFORE_TAX[field]):
+		return {"tax": "with", "value": doc.get_formatted(BEFORE_TAX[field])}
+	return None
 
 
 KINDS = ("bar", "line", "heat")

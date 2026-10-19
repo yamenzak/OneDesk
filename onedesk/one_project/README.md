@@ -683,9 +683,11 @@ counts towards the parent. Sub-projects can have sub-projects.
   main one filled in, as **New Task** does, so a variation's work isn't
   booked on the main project by mistake. On **Main** or a sub-project it
   goes straight to the form.
-- The **Contract** and **Billed** cards read with VAT, as the **Invoices**
-  tab does: what the customer pays. **Money** works before VAT, since cost
-  and margin have no VAT in them.
+- The **Contract** and **Billed** cards read with tax, as the **Invoices**
+  tab does: what the customer pays. **Money** works before tax, since cost
+  and margin have no tax in them. Every such figure has a dashed underline,
+  and hovering it says the other side of the tax (`Figures` `other`, and
+  `head.taxed` on a desk record's head).
 - **Main**, first in **Sub-projects**, shows the page for the parent's own
   work alone: its own orders, tasks, time, invoices, bills, team and
   activity, and its figures without what's under it. A project with

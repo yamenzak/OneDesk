@@ -262,6 +262,7 @@ def _listed(project: str, doctype: str) -> dict:
 	)
 	totals = {
 		"invoiced": 0.0,
+		"invoiced_net": 0.0,
 		"paid": 0.0,
 		"outstanding": 0.0,
 		"owed_now": 0.0,
@@ -291,6 +292,7 @@ def _listed(project: str, doctype: str) -> dict:
 			totals["drafts"] += 1
 		else:
 			totals["invoiced"] += flt(row.base_grand_total) * share
+			totals["invoiced_net"] += flt(row.base_net_total) * share
 			totals["paid"] += (flt(row.base_grand_total) - owed) * share
 			totals["outstanding"] += owed * share
 			totals["owed_now"] += now * share

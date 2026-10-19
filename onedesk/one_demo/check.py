@@ -7484,9 +7484,9 @@ def _abroad(party_type: str, party: str) -> bool:
 @check
 def onebook_vat_is_charged_and_returned():
 	"""A sale in the UAE carries 5% VAT and one abroad none, a bill the VAT
-	its supplier charged, and the VAT Return is what they carry, as Huda reads
+	its supplier charged, and the Tax Return is what they carry, as Huda reads
 	it for the year."""
-	from onedesk.one_book.report.vat_return import vat_return
+	from onedesk.one_book.report.tax_return import tax_return
 
 	wrong, output, input_ = [], 0.0, 0.0
 	for doctype, party_type, party in (("Sales Invoice", "Customer", "customer"), ("Purchase Invoice", "Supplier", "supplier")):
@@ -7502,7 +7502,7 @@ def onebook_vat_is_charged_and_returned():
 	assert output > 0 and input_ > 0, (output, input_)
 	claims = frappe.db.sql("select ifnull(sum(tax.base_tax_amount), 0) from `tabExpense Taxes and Charges` tax join `tabExpense Claim` claim on claim.name = tax.parent where claim.docstatus = 1")[0][0]
 	with as_user("huda@one.test"):
-		_columns, lines = vat_return.execute({"from_date": f"{getdate(today()).year - 1}-01-01", "to_date": today()})
+		_columns, lines = tax_return.execute({"from_date": f"{getdate(today()).year - 1}-01-01", "to_date": today()})
 	said = {line["line"]: flt(line.get("tax")) for line in lines if line.get("bold")}
 	assert abs(said["Total charged"] - output) <= 1, (said, output)
 	assert abs(said["Total paid"] - (input_ + flt(claims))) <= 1, (said, input_, claims)

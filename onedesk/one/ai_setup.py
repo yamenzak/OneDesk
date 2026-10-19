@@ -662,7 +662,7 @@ def suggest_hold(
 	kind: Annotated[
 		str, "Territory, Customer Group, Customer, Supplier, Department, Branch, Project or Warehouse."
 	],
-	record: Annotated[str, "Which one, such as United Arab Emirates."],
+	record: Annotated[str, "Which one, such as Germany or Kenya."],
 	only_on: Annotated[str, "Only on this kind of record, such as Sales Invoice; left out, everywhere."]
 	| None = None,
 	let_go: Annotated[

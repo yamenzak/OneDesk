@@ -7,7 +7,6 @@
           <span class="lucide-receipt size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Invoices") }}
           <span v-if="said.invoices.length" class="text-base font-normal text-ink-gray-5">{{ said.invoices.length }}</span>
         </h2>
-        <span v-if="currency" class="text-sm text-ink-gray-5">{{ __("Amounts in {0}", [currency]) }}</span>
         <Button v-if="said.totals.retention && said.can_pay" size="sm" icon-left="lucide-hand-coins" :label="__('Release Retention')" @click="release()" />
         <Button v-if="said.can_create && kind === 'Retainer'" size="sm" variant="solid" icon-left="lucide-receipt" :label="__('Invoice Month')" @click="invoiceMonth" />
         <Button v-else-if="said.can_create" size="sm" variant="solid" icon-left="lucide-plus" :label="__('New Invoice')" @click="newInvoice" />
@@ -66,7 +65,7 @@ import { computed, onBeforeUnmount, ref, watch } from "vue";
 import { Avatar, Badge, Button, Dropdown } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
-import { Figures, Loading, PlaceSpot, __, call, date, emailRecord, followList, go, money, monthName, newDocIn, onedesk, plain } from "../kit";
+import { Figures, Loading, PlaceSpot, __, call, date, emailRecord, followList, go, money, monthName, newDocIn, onedesk } from "../kit";
 import { onlyArg, useOnly, useParts } from "./only";
 import { usePlace } from "./place";
 
@@ -82,8 +81,9 @@ const spot = usePlace("oneproject.invoices", () =>
     invoices: { count: said.value.invoices.length, ...said.value.totals },
   }
 );
-const amount = (value) => plain(value);
-const sum = (value, currency) => (!currency || currency === props.currency ? plain(value) : money(value, currency));
+const amount = (value) => money(value, props.currency);
+const beforeTax = (net, gross) => (net !== undefined && net !== null && Math.abs(gross - net) >= 0.005 ? { label: __("Before tax"), value: amount(net) } : undefined);
+const sum = (value, currency) => money(value, currency || props.currency);
 
 async function load() {
   said.value = await call("onedesk.one_project.billing.invoices", { project: props.projectName, ...onlyArg(only) });
@@ -104,7 +104,7 @@ const share = (part, whole) => (whole ? Math.max(0, Math.min(100, Math.round((10
 const figures = computed(() => {
   const t = said.value.totals;
   return [
-    { title: __("Invoiced"), value: amount(t.invoiced), note: t.drafts ? (t.drafts === 1 ? __("1 draft") : __("{0} drafts", [t.drafts])) : "" },
+    { title: __("Invoiced"), value: amount(t.invoiced), other: beforeTax(t.invoiced_net, t.invoiced), note: t.drafts ? (t.drafts === 1 ? __("1 draft") : __("{0} drafts", [t.drafts])) : "" },
     { title: __("Paid"), value: amount(t.paid), bar: share(t.paid, t.invoiced), note: t.advance ? __("{0} paid in advance", [amount(t.advance)]) : "" },
     { title: __("Outstanding"), value: amount(t.outstanding), note: t.retention ? __("{0} held", [amount(t.retention)]) : "" },
     { title: __("Overdue"), value: amount(t.overdue), alarm: t.overdue > 0, note: t.late ? (t.late === 1 ? __("1 invoice") : __("{0} invoices", [t.late])) : "" },

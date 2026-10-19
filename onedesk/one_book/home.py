@@ -238,7 +238,7 @@ REPORT_TOPICS = {
 	"Profitability Analysis": "profit",
 	"Sales Invoice Trends": "profit",
 	"Purchase Invoice Trends": "profit",
-	"VAT Return": "tax",
+	"Tax Return": "tax",
 	"UAE VAT 201": "tax",
 	"Tax Withholding Details": "tax",
 }
@@ -350,7 +350,7 @@ EVERYTHING = (
 	("reports", _lt("Profitability Analysis"), "Report", "Profitability Analysis", _lt("Income and expenses by cost center or project.")),
 	("reports", _lt("Sales Invoice Trends"), "Report", "Sales Invoice Trends", _lt("What was invoiced, period against period.")),
 	("reports", _lt("Purchase Invoice Trends"), "Report", "Purchase Invoice Trends", _lt("What was billed, period against period.")),
-	("reports", _lt("VAT Return"), "Report", "VAT Return", _lt("The VAT owed for a period, ready for the tax office.")),
+	("reports", _lt("Tax Return"), "Report", "Tax Return", _lt("The tax owed for a period, ready for the tax office.")),
 	("reports", _lt("UAE VAT 201"), "Report", "UAE VAT 201", _lt("The UAE's VAT return, box by box.")),
 	("reports", _lt("Tax Withholding Details"), "Report", "Tax Withholding Details", _lt("Tax withheld from suppliers, payment by payment.")),
 	("reports", _lt("Consolidated Trial Balance"), "Report", "Consolidated Trial Balance", _lt("The trial balances of several companies as one.")),

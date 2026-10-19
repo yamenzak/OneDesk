@@ -5,7 +5,6 @@
         <span class="lucide-truck size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Suppliers") }}
         <span v-if="suppliers" class="text-base font-normal text-ink-gray-5">{{ suppliers }}</span>
       </h2>
-      <span v-if="cash.currency" class="text-sm text-ink-gray-5">{{ __("Amounts in {0}", [cash.currency]) }}</span>
       <Button v-if="contacts?.can_change" size="sm" icon-left="lucide-plus" :label="__('Add Supplier')" @click="addSupplier" />
       <Button v-if="cash.can_bill" size="sm" icon-left="lucide-receipt" :label="__('Record Bill')" @click="newDocIn('Purchase Invoice', { project: said.name }, parts)" />
       <Button v-if="cash.can_order" size="sm" variant="solid" icon-left="lucide-plus" :label="__('New Purchase Order')" @click="order" />
@@ -159,7 +158,7 @@ import { computed, onBeforeUnmount, ref, watch } from "vue";
 import { Avatar, Badge, Button, Dropdown, Progress } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
-import { Figures, Loading, PlaceSpot, __, call, date, followList, go, money, newDocIn, onedesk, plain, requires } from "../kit";
+import { Figures, Loading, PlaceSpot, __, call, date, followList, go, money, newDocIn, onedesk, requires } from "../kit";
 import { onlyArg, useOnly, useParts } from "./only";
 import { usePlace } from "./place";
 
@@ -172,8 +171,8 @@ const cash = computed(() => props.said.money);
 const orders = computed(() => cash.value.suppliers);
 const packages = computed(() => orders.value.filter((one) => one.subcontract));
 const signedWith = (supplier) => (props.said.contracts || []).filter((one) => one.party_type === "Supplier" && one.party === supplier);
-const amount = (value) => plain(value);
-const sum = (value, currency) => (!currency || currency === cash.value.currency ? plain(value) : money(value, currency));
+const amount = (value) => money(value, cash.value.currency);
+const sum = (value, currency) => money(value, currency || cash.value.currency);
 const suppliers = computed(() => new Set(orders.value.map((one) => one.supplier_id)).size);
 const share = (part, whole) => (whole ? Math.max(0, Math.min(100, Math.round((100 * part) / whole))) : undefined);
 const figures = computed(() => {
@@ -181,7 +180,7 @@ const figures = computed(() => {
   const ordered = total("ordered");
   return [
     { title: __("Ordered"), value: amount(ordered), note: total("left") ? __("{0} left to bill", [amount(total("left"))]) : "" },
-    { title: __("Billed"), value: amount(t.invoiced || total("billed")), bar: share(t.invoiced || total("billed"), ordered) },
+    { title: __("Billed"), value: amount(t.invoiced || total("billed")), other: t.invoiced && Math.abs(t.invoiced - t.invoiced_net) >= 0.005 ? { label: __("Before tax"), value: amount(t.invoiced_net) } : undefined, bar: share(t.invoiced || total("billed"), ordered) },
     { title: __("Paid"), value: amount(t.paid), note: t.advance ? __("{0} paid in advance", [amount(t.advance)]) : "" },
     { title: __("To Pay"), value: amount(t.owed_now), alarm: t.overdue > 0, note: t.overdue ? __("{0} overdue", [amount(t.overdue)]) : "" },
     ...(t.retention ? [{ title: __("Retention Held"), value: amount(t.retention) }] : []),
