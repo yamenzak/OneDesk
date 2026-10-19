@@ -781,7 +781,7 @@ Pages: workflow-builder (opened by our screens).
 | Full and Final Statement | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Goal | on a rail or a home | everybody | 2 settings | yes | taught |  | yes |  |  |  |  |
 | Grievance Type | through a form's link (Employee Grievance: grievance_type) | everybody | untouched | yes | general |  | yes |  |  |  |  |
-| HR Settings | on a rail or a home | everybody | 30 fields, 30 settings | no | taught |  |  |  |  | ar 27, de 6 |  |
+| HR Settings | on a rail or a home | everybody | 31 fields, 30 settings | no | taught |  |  |  |  | ar 27, de 6 |  |
 | HR Telemetry Milestone | engine: HRMS counting its own setup steps | **nobody** | untouched | yes | general |  | **none** |  |  | ar 1, de 1 |  |
 | Holiday List Assignment | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Identification Document Type | through a form's link (Travel Request: personal_id_type) | OneHR, the administrator | untouched | yes | general |  | yes |  |  |  |  |
@@ -859,7 +859,7 @@ Pages: organizational-chart (on a rail or a home).
 | Payroll Settings | on a rail or a home | OneHR | events | no | general |  |  |  |  | ar 8, de 4 |  |
 | Retention Bonus | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  | Retention Bonus (theirs) |
 | Salary Component | on a rail or a home | everybody | events | yes | general |  | yes |  |  |  |  |
-| Salary Slip | on a rail or a home | everybody | a head, 2 settings | yes | taught |  | yes |  |  |  |  |
+| Salary Slip | on a rail or a home | everybody | a head, events, 1 fields, 2 settings | yes | taught |  | yes |  |  |  |  |
 | Salary Structure | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Salary Structure Assignment | on a rail or a home | everybody | 2 settings | yes | general |  | yes |  |  |  |  |
 | Salary Withholding | on a rail or a home | everybody | 5 settings | yes | general |  | yes |  |  |  |  |

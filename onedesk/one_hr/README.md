@@ -173,6 +173,9 @@ The rail's **Attendance Settings** opens HR Settings on its Attendance tab:
   workspace turns it on.
 - **Auto Close Open Check-ins at Shift End**, **Ask for a Reason on Check
   Out**.
+- **Late Arrivals That Count as an Absent Day**: 0, which is off, or how
+  many lates in a pay period cost one day's pay. At 4, five lates cost a
+  day and eight cost two.
 - **Require a Passkey**, **Refuse Check-in Without a Passkey**, **Check the
   Network**, **Check the Location**, and **Network and Location**: Either or
   Both.
@@ -288,6 +291,8 @@ so the first run works.
 
 **Salary Slip** shows the net pay in the list, and the slip says the amount and
 the period, and how many working days were paid when it was not a whole month.
+When late arrivals count as absences, the slip says **Days Off for Late
+Arrivals**, and they are in its Absent Days.
 
 **Salary Register** opens on the most recent payroll run.
 
@@ -1478,6 +1483,17 @@ the person appears.
 Derived from the site rather than shipped as a fixture, for the same reason
 `one/company.py` is: the set of doctypes depends on which apps the site
 carries, and only the site knows that.
+
+### lates.py
+
+HR Settings' `one_lates_per_absence` (0 is off). `counted` runs on Salary
+Slip validate after the controller, so HRMS has already counted the payment
+days afresh on this save; it takes `days_off(lates, per)` more off them (the
+lates are submitted Attendance with Late Entry in the slip's period), adds
+them to Absent Days and to `one_late_days`, and has the slip work its pay
+out again (`calculate_net_pay` and the year- and month-to-date figures).
+Since HRMS starts from scratch each save, a second save takes nothing more.
+Timesheet slips are left alone.
 
 ### overtime.py
 

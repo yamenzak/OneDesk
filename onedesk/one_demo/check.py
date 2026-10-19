@@ -3740,6 +3740,43 @@ def one_a_private_app_is_always_on():
 
 
 @check
+def onehr_late_arrivals_can_count_as_an_absent_day():
+	"""Off by default. At 4 late arrivals to an absent day, an employee late
+	five times in October loses one day on the October payslip, which says
+	so, and is paid that much less; with the rule off again nothing is taken."""
+	from onedesk.one_hr import lates
+
+	assert lates.days_off(5, 4) == 1 and lates.days_off(3, 4) == 0 and lates.days_off(9, 0) == 0
+	employee = "HR-EMP-00018"
+	start, end = "2026-10-01", "2026-10-31"
+	marked = set(frappe.get_all("Attendance", filters={"employee": employee, "attendance_date": ["between", [start, end]]}, pluck="attendance_date"))
+	holidays = set(frappe.get_all("Holiday", filters={"parent": frappe.db.get_value("Company", COMPANY, "default_holiday_list")}, pluck="holiday_date"))
+	days = [day for day in (add_days(start, n) for n in range(31)) if getdate(day) not in marked and getdate(day) not in holidays][:5]
+	assert len(days) == 5, days
+	for day in days:
+		frappe.get_doc({"doctype": "Attendance", "employee": employee, "attendance_date": day, "status": "Present", "late_entry": 1, "company": COMPANY}).submit()
+
+	def slip():
+		said = frappe.get_doc({"doctype": "Salary Slip", "employee": employee, "posting_date": end, "start_date": start, "end_date": end, "payroll_frequency": "Monthly"})
+		said.insert()
+		return said
+
+	assert not frappe.db.get_single_value("HR Settings", "one_lates_per_absence"), "off by default"
+	plain = slip()
+	assert not plain.one_late_days
+	paid, gross = plain.payment_days, plain.gross_pay
+	plain.delete()
+	frappe.db.set_single_value("HR Settings", "one_lates_per_absence", 4)
+	late = slip()
+	assert late.one_late_days == 1 and late.payment_days == paid - 1, (late.one_late_days, late.payment_days, paid)
+	assert late.gross_pay < gross, (late.gross_pay, gross)
+	late.save()
+	assert late.one_late_days == 1 and late.payment_days == paid - 1, "a second save takes nothing more"
+	late.delete()
+	frappe.db.set_single_value("HR Settings", "one_lates_per_absence", 0)
+
+
+@check
 def one_devices_decide_where_a_passkey_lives():
 	"""Signing in gives a browser its id and lists it. The builder sorts two:
 	the reception computer, shared, where Tariq is neither offered nor allowed

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-19 15:29+0000\n"
-"PO-Revision-Date: 2026-10-19 15:29+0000\n"
+"POT-Creation-Date: 2026-10-19 15:34+0000\n"
+"PO-Revision-Date: 2026-10-19 15:34+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -56,6 +56,12 @@ msgstr ""
 
 #: onedesk/one/print_blocks.py:861
 msgid ", holding passport number {0},"
+msgstr ""
+
+#. Description of the 'Late Arrivals That Count as an Absent Day' (Int) field
+#. in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "0 is off. At 4, every fourth late arrival in a pay period takes a day off the payslip."
 msgstr ""
 
 #. Label in the One Quality Inspection print format
@@ -8697,6 +8703,12 @@ msgstr ""
 msgid "Counted From"
 msgstr ""
 
+#. Description of the 'Days Off for Late Arrivals' (Float) field in DocType
+#. 'Salary Slip'
+#: onedesk/one_hr/custom/salary_slip.json
+msgid "Counted in Absent Days, by the rule in HR Settings."
+msgstr ""
+
 #: onedesk/public/js/item_new.js:4
 msgid "Counted in a warehouse."
 msgstr ""
@@ -9784,6 +9796,11 @@ msgstr ""
 
 #: onedesk/one/ai.py:1883 onedesk/one/settings.py:1532
 msgid "Days Off Each Week"
+msgstr ""
+
+#. Label of the one_late_days (Float) field in DocType 'Salary Slip'
+#: onedesk/one_hr/custom/salary_slip.json
+msgid "Days Off for Late Arrivals"
 msgstr ""
 
 #. Label in the One Leave Encashment print format
@@ -19417,6 +19434,11 @@ msgstr ""
 #: onedesk/one_project/report/workload/workload.py:177
 #: onedesk/public/js/band.js:148 onedesk/public/js/desk.js:298
 msgid "Late"
+msgstr ""
+
+#. Label of the one_lates_per_absence (Int) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Late Arrivals That Count as an Absent Day"
 msgstr ""
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:140

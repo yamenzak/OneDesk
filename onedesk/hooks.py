@@ -568,6 +568,7 @@ doc_events = {
 	},
 	"Kanban Board": {"before_insert": "onedesk.one_project.board.shape"},
 	"Training Result": {"before_validate": "onedesk.one_hr.lifecycle.result"},
+	"Salary Slip": {"validate": "onedesk.one_hr.lates.counted"},
 	"Attendance": {
 		"on_submit": ["onedesk.one_project.site_time.attended", "onedesk.one_hr.tell.marked_absent"],
 		"on_cancel": "onedesk.one_project.site_time.cancelled",

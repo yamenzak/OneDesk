@@ -1,5 +1,18 @@
 {
- "custom_fields": [],
+ "custom_fields": [
+  {
+   "dt": "Salary Slip",
+   "fieldname": "one_late_days",
+   "fieldtype": "Float",
+   "label": "Days Off for Late Arrivals",
+   "module": "One HR",
+   "insert_after": "absent_days",
+   "read_only": 1,
+   "no_copy": 1,
+   "depends_on": "eval:doc.one_late_days",
+   "description": "Counted in Absent Days, by the rule in HR Settings."
+  }
+ ],
  "doctype": "Salary Slip",
  "links": [],
  "property_setters": [

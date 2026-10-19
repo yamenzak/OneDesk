@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-19 15:29+0000\n"
+"POT-Creation-Date: 2026-10-19 15:34+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -59,6 +59,12 @@ msgstr "+{0} weitere"
 #: onedesk/one/print_blocks.py:861
 msgid ", holding passport number {0},"
 msgstr ", Inhaber des Reisepasses Nr. {0},"
+
+#. Description of the 'Late Arrivals That Count as an Absent Day' (Int) field
+#. in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "0 is off. At 4, every fourth late arrival in a pay period takes a day off the payslip."
+msgstr "0 ist aus. Bei 4 zieht jede vierte Verspätung in einer Abrechnungsperiode einen Tag von der Gehaltsabrechnung ab."
 
 #. Label in the One Quality Inspection print format
 #: onedesk/one_inventory/print_format/one_quality_inspection/one_quality_inspection.json
@@ -8699,6 +8705,12 @@ msgstr "Gezählt von"
 msgid "Counted From"
 msgstr "Gezählt ab"
 
+#. Description of the 'Days Off for Late Arrivals' (Float) field in DocType
+#. 'Salary Slip'
+#: onedesk/one_hr/custom/salary_slip.json
+msgid "Counted in Absent Days, by the rule in HR Settings."
+msgstr "In den Abwesenheitstagen enthalten, nach der Regel in den HR-Einstellungen."
+
 #: onedesk/public/js/item_new.js:4
 msgid "Counted in a warehouse."
 msgstr "Wird im Lager gezählt."
@@ -9787,6 +9799,11 @@ msgstr "Freie Tage"
 #: onedesk/one/ai.py:1883 onedesk/one/settings.py:1532
 msgid "Days Off Each Week"
 msgstr "Freie Tage jede Woche"
+
+#. Label of the one_late_days (Float) field in DocType 'Salary Slip'
+#: onedesk/one_hr/custom/salary_slip.json
+msgid "Days Off for Late Arrivals"
+msgstr "Abzugstage wegen Verspätungen"
 
 #. Label in the One Leave Encashment print format
 #. Label in the One Payslip print format
@@ -19417,6 +19434,11 @@ msgstr "Letzte {0} Tage."
 #: onedesk/public/js/band.js:148 onedesk/public/js/desk.js:298
 msgid "Late"
 msgstr "Verspätet"
+
+#. Label of the one_lates_per_absence (Int) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Late Arrivals That Count as an Absent Day"
+msgstr "Verspätungen, die als ein Fehltag zählen"
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:140
 msgid "Late By"

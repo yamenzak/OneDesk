@@ -19,6 +19,7 @@ DEFAULTS = {
 	"one_flag_below": 85,
 	"one_close_the_day": 1,
 	"one_reason_on_out": 1,
+	"one_lates_per_absence": 0,
 	"one_keep_photo_days": 7,
 	"standard_working_hours": 8,
 	"one_ai_screen": 1,
