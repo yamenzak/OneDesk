@@ -7,13 +7,23 @@ suite reads it back as the people who work there.
 
 ## Build it
 
-On a new site with erpnext, hrms and onedesk installed:
+On a new site with every app One needs installed:
 
     bench --site <site> execute onedesk.one_demo.build.load --kwargs "{'password': '…'}"
 
 The password is everybody's. The build runs in steps, in order. Each
 step that finishes is remembered, so a run that stops starts again from the
 step that stopped it. One step alone runs with `'only': 'crm'`.
+
+Every record is made the way a click makes it, through the same code a
+button runs: each form's own rules, the steps that turn one document into the
+next, and One's own actions. Each is made by the person whose work it is.
+Samir runs the projects, Huda keeps the books, Karim buys, Mariam runs HR,
+Omar sells, and Layla owns the workspace. Every record is tagged **Demo**.
+
+The steps run in the order of the five tables below.
+
+### Demo steps: the company, its people, items, buying, leads and projects
 
 | Step | What it makes |
 |---|---|
@@ -24,30 +34,48 @@ step that stopped it. One step alone runs with `'only': 'crm'`.
 | buying | Requests, requests for quotation, supplier quotations, orders, receipts, bills, payments, a return, broken glass sent back with a debit note on its bill, euro orders, an order received and not billed |
 | crm | Leads from every source in every status, deals at every stage in three currencies, calls, quotations won and lost, a lead turned customer, two leads from the Get in Touch form with nobody owning them, one maybe a lead we have |
 | projects | Ten projects of every kind, with the 25-task template, contracts, progress billing, retention, advances, subcontracts, budgets, time, retainers, extra work |
+
+### Demo steps: the workshop, quality, selling, service and the stores
+
+| Step | What it makes |
+|---|---|
 | making | Tariq's three workstations and the steps on them, bills of materials, and work orders for stock, the villa and the tower, finished, half done and not started. Each step is a job card worked by Arun, Ravi or Joseph, and the villa's manager is told when its order is made. Rania asks the workshop for the villa's last doors, and the villa's profile goes to Gulf Powder Coating and comes back. The Inventory Check's two workshop fixes |
 | quality | How a curtain wall is installed, the goal of installing it right the first time and last month's failed review of it, the corrective action Tariq owns, two bays sealed in the cold against the procedure, the monthly quality meeting, and Marina Hotels' feedback on their pool fence |
 | selling | Orders delivered, invoiced and paid, a return with its credit note, a sale in pounds and one in dollars, an unpaid fee, an order delivered and not invoiced |
 | service | Four issues from open to closed under a standard service level agreement, Marina Hotels' warranty claim on the pool fence and the breakdown visit that mended it, a year of quarterly glazing checks on Bayview with the first visit done, the sales line's hours and greeting, hardware cheaper by the box, and a panel made to Bayview's drawings sold to Bayview alone |
 | moving | The villa's materials sent to its site on a transfer note and used there by Tariq, and a count of the stores that finds three hinges short, posted as a loss |
 | lots | Weatherproof sealant in two lots with a twelve-month shelf life, the older one expiring within the month, part of it taken to the villa |
+
+### Demo steps: ordering, assets and the books
+
+| Step | What it makes |
+|---|---|
 | ordering | Rania's request for the villa's site priced by Al Noor and by Emirates Sealants on the portal, each line ordered from whoever is cheaper, Al Noor late with theirs, Al Noor's aluminium agreed for the year on a blanket order and the villa's profile ordered against it, the quotes that lost expired, the glass order Gulf Glass credited closed, and Gulf Glass and Al Noor scored each month |
 | assets | Trucks, a CNC centre and laptops, with who holds them, depreciation and maintenance. Yousef and Tariq keep up the services the day after each falls due, and leave Pickup Truck 2's last one late. Karim buys Mariam a laptop on a receipt that registers it, and hands it to her. Pickup Truck 1's gearbox is mended on Emirates Fleet Motors' bill, Huda's laptop waits for a new screen, and Huda writes the CNC centre down by a tenth after a spindle crash. Sanjay, who drives Pickup Truck 1, resigns, and Mariam starts his leaving checklist, which asks the stores for the truck back |
 | books | The bank account, opening balances, rent and utilities each month. A tax template brings its taxes (the Books Check) |
 | ledger | Last year closed, the founders' shares issued, the dirham pegged to the dollar, Harbour Logistics both customer and supplier, Emirates NBD's cheque layout, foreign balances valued again, head office costs split sixty to forty from next year, and the corrections an accountant keeps to hand, made but not run. Left empty on purpose: an accounting dimension, which adds a field to every accounting form, and India's, Italy's and South Africa's own screens, which a UAE company never sees |
+
+### Demo steps: HR and pay
+
+| Step | What it makes |
+|---|---|
 | hr | Pay, three payroll runs, and three more for Imran, an installer paid by the hour from his timesheets, so Profit on Billed Hours has rows. Leave, attendance, check-ins, expense claims at every stage, two openings with applicants, an offer with its terms and an appointment letter. A glazier who resigned last month, paid his gratuity |
 | career | The rest of a working life: a leave policy and block days, a holiday worked and given back, days encashed and adjusted, a shift schedule, Working at Height taught and graded, goals and feedback, a promotion and a transfer, travel with an advance, the van's log, a grievance looked into, a staffing plan, a requisition and a referral, a bonus, an incentive, a retention bonus, back pay, pay held, Joseph's exit interview and final statement, the clock's place, network and phone, a salary certificate and an overtime slip. Left empty on purpose: income tax and flexible benefits, which a UAE company does not run, and a payroll correction, since nobody took unpaid leave |
+
+### Demo steps: the calendar, OneStudio, files, OneIntake and mail
+
+| Step | What it makes |
+|---|---|
 | calendar | The weekly site meeting, a handover walk with the customer, a supplier visit, the workshop's safety briefing and a pricing review |
 | studio | Company Van, a record type of the company's own in OneInventory, with two vans. An extension on the customer's form that is on and has run into an error, and one on the lead kept off |
 | storage | A Projects library Samir runs with the site team in it, the villa's elevations there with a link for the customer and a second version, Samir's site visit notes shared with Rania, a request to Al Noor for its papers, and a drive password |
 | intake | The owner's own address and the accounts team's Bank Statements folder, both read by OneAI. The samples in tests/samples/intake arrive there, and Huda matches the statement's transport debit in the reconciliation tool |
 | mail | The workspace's own address, which Layla holds, with a customer's request for a price, a supplier's delivery date and a hotel's maintenance call |
 
-Every record is made the way a click makes it, through frappe's controllers,
-ERPNext's mappers and One's own actions, and by the person whose work it is.
-Samir runs the projects, Huda keeps the books, Karim buys, Mariam runs HR,
-Omar sells, and Layla owns the workspace. Every record is tagged **Demo**.
+## Who works there, and signing in as them
 
-## Who works there
+Each person signs in with their address below and the password given to the
+build. Sign in as somebody to see One as they do.
 
 | Person | Sign in | Uses |
 |---|---|---|
@@ -71,11 +99,14 @@ one by its name, or a group by a prefix ending in `_`, such as a module's.
     bench --site <site> execute onedesk.one_demo.check.run --kwargs "{'only': 'oneproject_'}"
 
 Each check opens what a person would open, as that person, and holds it
-against ERPNext's own records. It writes nothing.
+against the records themselves. It writes nothing. A failed check names the
+records behind it.
+
+### What the demo's checks prove
 
 - The books balance and stock never went below nothing.
 - Every party is billed in its own currency, and the base amounts agree.
-- Every status ERPNext has for invoices, orders, quotations, deals, leads,
+- Every status there is for invoices, orders, quotations, deals, leads,
   projects, work orders and expense claims is there.
 - Every project page opens for its owner, its manager, the books and its
   team, and stays closed to people with no part in it.
@@ -97,8 +128,7 @@ against ERPNext's own records. It writes nothing.
 - Every paper that leaves the company prints with One's format, as the owner
   prints it, under the company's letter head and in its colour.
 
-A failed check names the records behind it. A new feature adds its records
-to the step it belongs to and a check here.
+A new feature adds its records to the step it belongs to and a check here.
 
 ## The stories
 

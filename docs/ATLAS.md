@@ -390,7 +390,7 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Customs Tariff Number | through a form's link (Item: customs_tariff_number) | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Delivery Note | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, list script, 1 fields, 6 settings | yes | taught |  | yes | ours |  |  |  |
 | Delivery Settings | on a rail or a home | OneInventory | untouched | no | general |  |  |  |  |  |  |
-| Delivery Trip | on a rail or a home | OneInventory | events, form script | yes | taught |  | yes |  |  |  |  |
+| Delivery Trip | on a rail or a home | OneInventory | events, form script | yes | general |  | yes |  |  |  |  |
 | Inventory Dimension | on a rail or a home | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Item | on a rail or a home | OneBook, OneCRM, OneInventory | a page of our own | yes | taught |  | yes |  |  |  |  |
 | Item Alternative | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
@@ -403,7 +403,7 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Landed Cost Voucher | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Manufacturer | opened by our screens | OneInventory | events | yes | general |  | yes |  |  |  |  |
 | Material Request | on a rail or a home | OneInventory | a head, events, list script, 1 fields, 7 settings | yes | taught |  | yes |  |  |  | Material Request Asked, Material Request Done, Material Request Raised, Material Request Receipt Notification (theirs), Material Request Stopped, Stock Asked |
-| Packing Slip | on a rail or a home | OneCRM, OneInventory | untouched | yes | taught |  | yes |  |  |  |  |
+| Packing Slip | on a rail or a home | OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Pick List | on a rail or a home | OneInventory | untouched | yes | general |  | yes | ours |  |  |  |
 | Price List | on a rail or a home | OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Purchase Receipt | on a rail or a home | OneBook, OneInventory | a head, events, list script, 1 settings | yes | taught | makes it | yes | ours |  |  |  |
@@ -633,7 +633,7 @@ Reports: Audit System Hooks (the platform's: the site's own workings, which the 
 | Tag | engine: a record's tags, set on the record and filtered on in its list | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Tag Link | engine: which record carries which tag | everybody | untouched | no | general |  | yes |  |  |  |  |
 | ToDo | replaced: OneTask | everybody | events | no | general |  | yes |  |  |  |  |
-| Workspace | through a form's link (User: default_workspace) | everybody | untouched | no | taught |  | yes |  |  |  |  |
+| Workspace | through a form's link (User: default_workspace) | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Workspace Sidebar | replaced: One's rails | everybody | untouched | no | general |  | **none** |  |  |  |  |
 
 Reports: ToDo (replaced: OneTask).

@@ -44,6 +44,13 @@ lists them.
 - **Refuse** leaves everything as it was.
 - If the record changed after the card was made, the card is **Out of date**
   and changes nothing.
+- Asked for several things that belong together, such as a new customer and a
+  quotation for them, or a project and its first tasks, OneAI suggests them in
+  one go, a card each. A card that needs another names it ("New Customer:
+  Acme, from the card above"), and approving it approves that one first.
+  **Approve All** approves every card of the answer, in order.
+- If approving a card does not go through, OneAI is told why and suggests it
+  again, corrected.
 - On an open form, an approved card puts the change into the form. Each
   changed field shows what it was until you save.
 
@@ -64,6 +71,11 @@ label. Click it to **Write with OneAI**.
 The text goes into the form, next to anything you haven't saved. Save as
 usual. While the field still says what OneAI wrote, the mark is in full colour
 (**Written by OneAI**). Once you change the text, it turns grey again.
+
+Any other field OneAI filled, such as a date, an amount or a customer, shows
+the same mark beside its label while it still holds what OneAI put there. A
+record made from a card says **Made by OneAI** under who created it. A record
+OneIntake made says so in a note at the top until somebody marks it checked.
 
 On a settings page, a field you may not know has a small mark beside its
 label. **Ask OneAI about this** explains the field and suggests a value on a
@@ -148,6 +160,14 @@ deliberately not here.
   it read to what it suggests, a receipt to its claim. Only this question's
   files: a receipt dropped three questions ago is not evidence for whatever is
   being asked now.
+
+  **What earlier questions read is sent cut down.** The whole conversation is
+  sent on every round, so a hundred rows read three questions ago were paid
+  for again on every round of this one. `lighter` sends a few rows of each
+  earlier tool answer and the start of each long text, saying how much was
+  left out; what answers this question goes whole, and `_whole` puts the
+  full answers back before the conversation is kept, so the panel still
+  shows every row it showed.
 - `run.py`: asks the account to run an action (`proxy.ai_run` on OneAdmin),
   with the workspace's model and extra instructions. `once` is a single call
   for other modules (OneIntake, OneHR's hiring, OneStudio's review and mend).
@@ -288,6 +308,25 @@ deliberately not here.
   again when it is applied, as an ordinary insert, save or delete. A card
   whose record moved past its `modified` is Stale.
 
+  **A card may point at another card.** A value of `@PROP-26-000042` is the
+  record that card will make: the quotation's customer, the task's project.
+  `_chained` checks each pointer when the card is written (the asker's own
+  card, still waiting or already approved, making the kind the field links
+  to), replaces one already approved by what it made, and keeps the rest as
+  `needs`. `kind.ready` then makes the needed records first inside the same
+  rolled-back savepoint, so the quotation is checked against its customer.
+  Approving a card approves what it needs first (`_made_first`), in the same
+  request, so a failure undoes both. `apply_all` is **Approve All**: the cards
+  of one answer in the order they were suggested, which is the order they
+  point at each other in; a reply or a mail is left for the panel, which
+  opens it. `create_records` suggests a set in one call, each record naming
+  an earlier one by its own `ref`, so a chain costs one round rather than
+  one per record.
+
+  A pointer is a value rather than a link to a draft record because there is
+  no draft record: nothing exists until a person approves, and a half-made
+  customer left behind by a refused quotation is the failure this avoids.
+
   **A model cannot write.** What it can do is put a card in front of somebody
   (this record, these fields, that value), and the doing happens afterwards,
   in a request a person made by pressing Apply, down the same path they would
@@ -309,7 +348,21 @@ deliberately not here.
   a model's diff quietly undoing a person's.
 - `touch.py`, `doctype/ai_touch`: writing in a field, and the mark. `AI Touch`
   keeps what was written, and the mark shows while the field still says it.
-  OneIntake's `act.py` calls `wrote` for the fields it fills.
+  OneIntake's `act.py` calls `wrote` for the fields it fills. Every field is
+  kept, not only prose (`UNMARKED` lists what is not), and compared by its
+  type, so 100 and "100.0" are one value. `onload` also says when the record
+  was made by an approved Create card (`ai_made`), which the form shows as
+  **Made by OneAI** under Created By.
+- `heal.py`: what an error tells the model to do next. A tool that fails
+  answers with its error rather than raising, and the error as the code raised
+  it is written for whoever wrote the code: "[Quotation, new]: party_name"
+  reads to a model as "this cannot be done". So each kind is said with what
+  mends it: a missing field by its label and where to find a value, a record
+  that cannot be found with the tool that finds it, a duplicate with the one
+  that exists, the arguments a tool really takes, the nearest tools to one
+  that does not exist. A refusal says not to try again. Nothing it says names
+  the software underneath. In the panel, a card that fails at Approve is sent
+  back as a message saying why, and the model suggests it again.
 
   **One path, not two.** The control beside a prose field opens the same
   panel as the launcher, pointed at that field. What comes back is an
@@ -422,11 +475,12 @@ deliberately not here.
   frappe's own formats leave off the page is said to be, since most of a
   document of trade's fields are.
 
-  In `ready`, frappe's own checks are: links resolved and their fetched
-  fields filled, then the kind's own `validate` (which is where HRMS says a
-  leave needs an approver and where Expense Claim sets its exchange rate),
+  In `ready`, the record is inserted exactly as Approve will insert it,
   inside a savepoint that is always rolled back, then what is still
-  `missing`. A model told "Leave Approver is missing" asks the person; a card
+  `missing` is said. Running `validate` alone, as it once did, refused every
+  quotation for a price list currency and a unit that the insert fills in by
+  itself (measured on the demo: a quotation of one customer and one item
+  inserts, and failed the check). A model told "Leave Approver is missing" asks the person; a card
   that fails when they press Approve teaches them the cards do not work.
 - `files.py`: a file dropped on the panel, kept as an attachment on the
   `AI Chat`. Only the newest turn's files are sent whole.

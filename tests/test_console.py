@@ -416,10 +416,11 @@ def test_a_domain_is_said_in_the_customers_words_and_says_what_it_needs():
 	domains = (ADMIN / "domains.py").read_text()
 	assert "_mark_main(" in domains and ".notify_update()" in domains
 	source = (ADMIN / "ai.py").read_text()
-	assert '"expects": "domain_facts"' in source
-	assert source.split("def domain_facts(", 1)[1].index("if not _operator()") < source.split(
-		"def domain_facts(", 1
-	)[1].index("frappe.get_doc")
+	domain = source.split('"Tenant Domain": [', 1)[1].split("],", 1)[0]
+	assert '"expects": "workspace_facts"' in domain and "def domain_facts(" not in source
+	facts = source.split("def workspace_facts(", 1)[1].split("\ndef ", 1)[0]
+	assert facts.index("if not _operator()") < facts.index('"Tenant Domain"') < facts.index("frappe.get_doc")
+	assert '"main_address": bool(one.is_main)' in facts and '"cname_to": held.domain' in facts and '"asked_on"' in facts
 
 
 def test_the_price_list_says_who_has_an_offering_and_shows_only_what_its_kind_carries():
@@ -452,7 +453,8 @@ def test_price_check_says_its_findings_in_words_and_warns_on_save():
 	assert "*_mispriced()" in (ADMIN / "home.py").read_text()
 	report = (ADMIN / "report" / "price_check" / "price_check.py").read_text()
 	assert "_holds" not in report and '"gives"' in report and "include_disabled" in report
-	assert '"report:Price Check"' in (ADMIN / "ai.py").read_text()
+	ai = (ADMIN / "ai.py").read_text()
+	assert '"report:Price Check"' in ai and '"expects": "run_report"' in ai.split('"report:Price Check"', 1)[1][:600]
 
 
 def test_plan_calculator_quotes_as_the_customer_is_quoted():
@@ -563,7 +565,8 @@ def test_ai_usage_says_what_a_call_cost_us_and_counts_it_once():
 	usage = (ADMIN / "report" / "ai_usage" / "ai_usage.py").read_text()
 	assert '"Action": ["action"]' in usage and '"cost_us"' in usage and "_summary(whole)" in usage
 	ai = (ADMIN / "ai.py").read_text()
-	assert '"report:AI Usage"' in ai and "if not _operator():" in ai.split("def ai_usage(")[1]
+	assert '"expects": "run_report"' in ai.split('"report:AI Usage"', 1)[1][:600] and "def ai_usage(" not in ai
+	assert report["roles"] == [{"role": "One Operator"}], "run_report reads it for an operator only"
 	assert "## AI Usage" in (ADMIN / "README.md").read_text()
 
 

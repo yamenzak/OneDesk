@@ -81,7 +81,7 @@ No doctypes yet.
 | AI Chat | 9 | document |
 | AI Knowledge | 6 | document |
 | AI Memory | 5 | document |
-| AI Proposal | 20 | document |
+| AI Proposal | 21 | document |
 | AI Touch | 8 | document |
 
 ## One Calendar
@@ -422,6 +422,7 @@ No doctypes yet.
 * `onedesk.one_ai.files.attached`
 * `onedesk.one_ai.logos.logo`
 * `onedesk.one_ai.run.apply`
+* `onedesk.one_ai.run.apply_all`
 * `onedesk.one_ai.run.landed`
 * `onedesk.one_ai.run.models`
 * `onedesk.one_ai.run.models_for`

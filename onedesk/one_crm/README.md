@@ -6,9 +6,9 @@ reads it to answer "how do I…" questions. Under the hood is for the people who
 build it.
 
 OneCRM is where a company keeps the people and businesses it sells to: who got
-in touch, what they might buy, what was said, and what happens next. It is
-built on ERPNext's CRM, so every lead, opportunity, customer and quotation is
-the same record the rest of One reads.
+in touch, what they might buy, what was said, and what happens next. Every
+lead, opportunity, customer and quotation is the same record the rest of One
+reads.
 
 ## Finding your way
 
@@ -28,15 +28,17 @@ The rail on the left has the whole of OneCRM in it:
   Selling. Support is what comes after the sale: issues, warranty claims,
   maintenance schedules and the visits that keep them.
 - **Reports** and **Setup** — open their part of Home: every sales report,
-  and every setting and list OneCRM keeps, each with what it is for. A sales order is what a won opportunity becomes: OneInventory
-  delivers it and OneBook invoices it. At its top it says its project and
-  total, the day what is still to go out was promised (in red once that day
-  has passed), and how much has been delivered and billed.
+  and every setting and list OneCRM keeps, each with what it is for.
 
-**Contract** under Sales lists what customers sign, ERPNext's own Contract:
-whether each is signed (**Unsigned**, **Active**, or **Inactive** once it has
-ended), when it ends, and the project it is for. Open one to record who signed
-it and when, then submit it. A project's contracts are drawn up from the
+A **Sales Order** is what a won opportunity becomes: OneInventory delivers it
+and OneBook invoices it. At its top it says its project and total, the day
+what is still to go out was promised (in red once that day has passed), and
+how much has been delivered and billed.
+
+**Contract** under Selling lists what customers sign: whether each is signed
+(**Unsigned**, **Active**, or **Inactive** once it has ended), when it ends,
+and the project it is for. Open one to record who signed it and when, then
+submit it. A project's contracts are drawn up from the
 project's page with **Draw Up Contract**.
 
 **One workspace is one company.** You are never asked which company a lead or
@@ -55,8 +57,23 @@ An **Opportunity** is a sale in progress. Its **Sales Stage** says how far it ha
 and a quotation made from it is linked back to it. **Opportunity Amount** is what it is
 worth; an opportunity priced by its items takes their total when no value is typed.
 
-Every screen says Opportunity, ERPNext's own name for it, so Ctrl+K finds it
-by the word on the rail.
+Every screen says Opportunity, so Ctrl+K finds it by the word on the rail.
+
+### Converting a lead
+
+Open the lead and use **Create**:
+
+- **Opportunity** — they want something you can price. The opportunity
+  takes the lead's details, comments and mail, and the lead's status
+  becomes Opportunity.
+- **Quotation** — straight to a price, without an opportunity.
+- **Customer** — they have bought, or are about to. The lead's status
+  becomes **Converted**, and it shows no next step from then on.
+- **Prospect** — the business behind the lead, when you want to sell to the
+  business rather than one person (see Customers and prospects below).
+
+An opportunity's own **Create › Customer** turns whoever it is with into a
+customer, and **Create › Quotation** prices it.
 
 ### How leads come in
 
@@ -103,7 +120,11 @@ whoever made it, or to its lead's owner.
 **Being told.** Besides Next Step Due:
 
 - **Given to You**: somebody else makes you the owner of a lead or an
-  opportunity. An Assignment Rule's pick is told as frappe's own assignment.
+  opportunity. A lead an Assignment Rule gives you is told as an assignment.
+- **They Replied**: mail in on your lead or opportunity, whichever mailbox
+  it reached.
+- **Contract Expiring**: an active contract two weeks from its end date, to
+  whoever made it and the user it names.
 - **New Lead Waiting**: a lead from the website or the inbox that nobody owns,
   to sales, until somebody takes it from Home.
 - **Quotation Running Out**: an open quotation three days from its last day,
@@ -161,8 +182,8 @@ timeline beside the mail and the comments, and counts as the last contact.
 
 **Everything said is on one timeline**, under Activities: comments, calls, mail
 sent and received, stage changes and every edit. Write a note in the comment
-box there. ERPNext's separate Notes are comments now, and an opportunity made from a
-lead brings the lead's comments and mail with it (CRM Settings).
+box there; notes are comments. An opportunity made from a lead brings the
+lead's comments and mail with it (CRM Settings).
 
 ### Home
 
@@ -212,7 +233,7 @@ setting of OneCRM, each with a line on what it is for, and a search.
 
 ### Reports
 
-Four reports of OneCRM's own, under **Reports** with ERPNext's:
+Four of the reports under **Reports** are OneCRM's own:
 
 - **Opportunity Forecast** — the open opportunities, except those on hold, by the month they
   are expected to close, with their value, their weighted value, and what was
@@ -271,8 +292,8 @@ usual and the longest stay, how many are in it now and how many of those have
 been there longer than usual — and a last row, **To Win**, from an opportunity coming
 in to its being won. Filter it by dates and by Opportunity Owner.
 
-An opportunity with an event in the calendar today is left as it is. ERPNext would
-reopen it every morning, won and lost ones included; One does not.
+An event in the calendar never reopens an opportunity or a lead: won, lost
+and converted ones stay as they are.
 
 ### The pipeline
 
@@ -288,15 +309,36 @@ in the company's currency and follow the board's filters.
 **On Hold** has its own column, with an orange dot, and counts no weighted
 value: its opportunities are not expected to close while they wait.
 
-The Pipeline is the one board of opportunities. erpnext ships another, of opportunities by
-status, and One takes it out after every install and update, since most of
-its columns are set by quotations and orders rather than moved.
+The Pipeline is the one board of opportunities.
 
 **Lost is not a column.** Losing an opportunity asks why, which a drag cannot, so an
 opportunity is lost from its own page with **Declare Lost**, and lost opportunities leave the
 board.
 
 A stage added, renamed or removed under Setup changes the board's columns.
+
+### Quoting and taking the order
+
+1. On the opportunity, **Create › Quotation**. Add the items with their
+   quantity and rate, and set **Valid Till**, the last day the customer may
+   accept it.
+2. **Submit** it, then **Print** (One Quotation, with room for both sides to
+   sign) or send it.
+3. To let the customer answer online, press **Portal** on the quotation and
+   **Send Link** to one of their contacts. They open it without an account
+   and accept or decline it once. Accepting asks the date they need it by
+   and their own reference.
+4. An acceptance makes a draft **Sales Order** from the quotation and tells
+   whoever made the quotation and the opportunity's owner (**Quotation
+   Accepted**). Check the order and **Submit** it. A quotation the customer
+   agreed to some other way becomes an order with **Create › Sales Order**.
+5. A declined quotation is marked lost with their reason (**Quotation
+   Declined**). To mark one lost yourself, **Set as Lost** asks why.
+
+The opportunity's track then moves on to ordered, billed and paid on its
+own. OneInventory delivers the order (**Create › Delivery Note**) and
+OneBook invoices it (**Create › Sales Invoice**). A quotation still open
+three days before its Valid Till is told as **Quotation Running Out**.
 
 ### OneAI in OneCRM
 
@@ -320,6 +362,8 @@ it, and they approve it as themselves.
   possible duplicate, as the web form would have marked it. *Which leads are
   waiting on us?* lists open leads nobody has spoken to for a week and with
   nothing planned.
+- **On Home**: *Add leads from business cards*, as on the Lead list, and
+  the two below.
 - **On the Opportunity list and Home**: *Which opportunities have gone quiet?* lists open
   opportunities nobody has spoken to for two weeks and with nothing planned, or with a
   next step whose day has passed. *Why are we losing opportunities?* groups the year's
@@ -328,6 +372,51 @@ it, and they approve it as themselves.
 
 A call OneAI writes up is the same call **Log a Call** makes, so it counts as
 the last contact and times the first reply. Anybody in sales may approve one.
+
+## Customers and prospects
+
+A **Customer** is a business or person who buys from you. Their page says
+what they owe and how much of it is late, what they were billed this year,
+their last invoice, their open orders, and their open opportunities with
+what they are worth. **Print** gives their Statement of Account. Customers
+are kept here and used by OneBook, OneInventory and OneProject alike.
+
+A **Prospect** is a business you want to sell to before it has bought
+anything. Its page gathers its leads and opportunities in one place. Its
+people are contacts in One's **Address Book**.
+
+To let a customer's contact sign in and see their own quotations, orders and
+invoices, open the contact and choose **Portal › Invite to Portal**. A Sales
+Manager or the workspace administrator may invite.
+
+## Appointments and campaigns
+
+An **Appointment**, under Selling, is a meeting booked with a lead or a
+customer: who, when (**Scheduled Time**) and their details. It goes on the
+calendar of whoever booked it. When customers may book one themselves is set
+under **Setup › Appointment Booking Settings**.
+
+Under **Campaign** in the rail:
+
+- **Campaign** — a name for a push, such as a trade show or an advert. Pick
+  it in **Campaign** at the foot of a lead or an opportunity, and **Campaign
+  Efficiency** under Reports says what each one brought in. Its **Campaign
+  Schedules** list the mails to send, each an Email Template and a number of
+  days after the start.
+- **Email Campaign** — sends a campaign's mails to one lead, contact or
+  **Email Group**, from its **Start Date**.
+- **Email Group** — a mailing list of addresses.
+
+## Support: issues, warranty claims and maintenance
+
+**Support** in the rail is the service desk. An **Issue** is a
+customer's complaint or question until it is resolved, timed against the
+service level agreement. A **Warranty Claim** is something sold that broke;
+**Make Maintenance Visit** on it sends somebody. A **Maintenance Schedule**
+promises a customer visits over a year, and each **Maintenance Visit**
+records the work done; a visit prints as a **Service Report** the customer
+signs, and a schedule as a **Maintenance Plan**. Issue's own reports are
+under Reports' Support.
 
 ## Setup
 
@@ -344,18 +433,10 @@ who answers which line when. The lists are kept in One's **Masters**.
 Campaign Efficiency is under Reports.
 The workspace's mailboxes are in Settings › Mail.
 
-**Support** in the rail is ERPNext's service desk. An **Issue** is a
-customer's complaint or question until it is resolved, timed against the
-service level agreement. A **Warranty Claim** is something sold that broke;
-**Make Maintenance Visit** on it sends somebody. A **Maintenance Schedule**
-promises a customer visits over a year, and each **Maintenance Visit**
-records the work done; a visit prints as a **Service Report** the customer
-signs, and a schedule as a **Maintenance Plan**. Issue's own reports are
-under Reports' Support.
-
 A Sales Manager runs Email Campaign, Email Group, Lead Source and Assignment
-Rule, and a Sales User reads them. ERPNext gives them only to its
-System Manager and a Newsletter Manager nobody is given here (`access.py`).
+Rule, and a Sales User reads them.
+
+### Forms, and who may do what
 
 **Forms carry what a small business fills in.** A lead asks for a name, job
 title, email and phone numbers, the business, its industry and territory, and
@@ -383,7 +464,7 @@ Change any of it under Role Permissions; One does not change it back.
 - **To OneProject**: A quotation for a customer with one open project is put on that project, however it is made. Once the customer orders it, its Sales Order is the project's contract, and an order for extra work becomes a sub-project.
 - **To OneInventory**: A Sales Order is delivered with Create › Delivery Note. What open orders promise is taken off each item's Free to Sell, and the order says at the top how much has gone out.
 - **To OneBook**: A Sales Order, or the delivery made from it, is invoiced with Create › Sales Invoice. A customer's page counts their open opportunities and what they are worth, opening them.
-- **To OneCalendar**: Your next steps on leads and opportunities are on your calendar at the time they are due. An Appointment booked with a lead or a customer is a meeting on your own calendar; ERPNext would put it on everyone's.
+- **To OneCalendar**: Your next steps on leads and opportunities are on your calendar at the time they are due. An Appointment booked with a lead or a customer is a meeting on your own calendar.
 
 ## Under the hood
 
@@ -463,8 +544,8 @@ none edits erpnext.
    Every group in the rail opened with data in it and fixed: fields nobody
    fills, Company off every filter, names not IDs, and who may see and change
    what.
-8. **OneAI in OneCRM.** *Done* — `ai.py`. Four reads (`deal_facts`,
-   `lead_facts`, `gone_quiet`, `why_we_lose`) and three cards (`add_lead`,
+8. **OneAI in OneCRM.** *Done* — `ai.py`. Three reads (`crm_facts`,
+   for a deal or a lead, `gone_quiet`, `why_we_lose`) and three cards (`add_lead`,
    `plan_next_step`, `write_up_call`), with the panel's suggestions per page.
    A business card is matched to its file by `one_ai/files.uploaded`, which
    OneHR's CVs use too. A written-up call is `record.call`, the dialog's own
@@ -587,8 +668,8 @@ would write is a card somebody approves. What `ai.py` adds is what sales
 knows — that an opportunity is an Opportunity, what an opportunity's history is made of, when
 an opportunity has gone quiet, and when a person is already a lead.
 
-**The model reads the history; the record keeps it.** `deal_facts` and
-`lead_facts` hand over the page's own answers (`record.overview`) and the
+**The model reads the history; the record keeps it.** `crm_facts`, for a
+deal or a lead, hands over the page's own answers (`record.overview`) and the
 timeline — mail, calls, comments and stage moves, oldest first — so a summary,
 a next step or a follow-up is written from what was said rather than from the
 fields. Nothing the model writes becomes history until somebody approves it.

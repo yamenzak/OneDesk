@@ -45,7 +45,7 @@ def how_to(
 			"next": "One's documentation does not cover this. Say so, and suggest asking the workspace's administrator.",
 		}
 	return {
-		"sections": [{"source": one["path"], "text": one["text"][:LONGEST]} for one in found],
+		"sections": [{"source": one["path"], "text": plain(one["text"])[:LONGEST]} for one in found],
 		"next": "Answer from these sections alone, in the person's language. After the answer, name the "
 		"section it came from, such as (OneHR › Clocking in). If they do not answer the question, say so.",
 	}
@@ -64,6 +64,16 @@ def _sections(readmes: tuple) -> tuple:
 	return tuple(found)
 
 
+CODE = re.compile(r"\s*\((?:[^()`]{0,20}`[^`]+`[^()]*?)\)")
+
+
+def plain(text: str) -> str:
+	"""A section as its reader needs it: the names of the code that does it,
+	put in brackets for whoever maintains it ("(`retention.taxed`)"), left
+	out, since a model hands them on as if they were something to press."""
+	return CODE.sub("", text)
+
+
 def split(text: str) -> list[dict]:
 	"""A README's sections for its readers, each with the headings above it. Pure.
 
@@ -75,8 +85,9 @@ def split(text: str) -> list[dict]:
 
 	def close():
 		said = "\n".join(body).strip()
-		if said:
-			out.append({"path": " › ".join([title, *path]) if path else title, "text": said})
+		where = " › ".join([title, *path]) if path else title
+		for part in parts(said):
+			out.append({"path": where, "text": part})
 		body.clear()
 
 	for line in text.splitlines():
@@ -94,6 +105,19 @@ def split(text: str) -> list[dict]:
 			path = path[:1] + [name]
 	close()
 	return out
+
+
+def parts(said: str) -> list[str]:
+	"""A section as pieces no longer than a model is handed, cut between
+	paragraphs, so the end of a long section is found and read rather than
+	cut off. Pure."""
+	out, now = [], ""
+	for paragraph in [one for one in said.split("\n\n") if one.strip()]:
+		if now and len(now) + len(paragraph) + 2 > LONGEST:
+			out.append(now)
+			now = ""
+		now = f"{now}\n\n{paragraph}" if now else paragraph
+	return [*out, now] if now else out
 
 
 def ranked(sections, words: list[str]) -> list[dict]:

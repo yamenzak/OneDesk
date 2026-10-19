@@ -83,6 +83,13 @@ export const escape = (text) => frappe().utils.escape_html(text);
 
 export const onedesk = () => window.onedesk;
 
+export const oneaiMark = "/assets/onedesk/images/oneai.svg";
+
+export const oneaiOn = () => Boolean(window.onedesk?.apps?.ai?.());
+
+// The same panel a desk form's text field opens, pointed at this field.
+export const writeWithOneAI = (field) => window.onedesk?.oneai?.open({ field });
+
 export const setValue = (doctype, name, fieldname, value) =>
 	call("frappe.client.set_value", { doctype, name, fieldname, value });
 

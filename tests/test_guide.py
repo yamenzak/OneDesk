@@ -15,9 +15,9 @@ GUIDE = tree.APP / "one_ai" / "guide.py"
 def _pure():
 	space = {"re": __import__("re")}
 	for node in ast.parse(GUIDE.read_text(encoding="utf-8")).body:
-		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") == "BACKSTAGE":
+		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") in ("BACKSTAGE", "LONGEST"):
 			exec(ast.unparse(node), space)
-		if isinstance(node, ast.FunctionDef) and node.name in ("split", "ranked"):
+		if isinstance(node, ast.FunctionDef) and node.name in ("split", "parts", "ranked"):
 			exec(ast.unparse(node), space)
 	return space
 

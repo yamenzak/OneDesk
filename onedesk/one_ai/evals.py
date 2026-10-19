@@ -271,6 +271,22 @@ CASES = [
 		"tools": ("design_record_type",),
 		"card": True,
 	},
+	{
+		"id": "customer-and-quote",
+		"page": {},
+		"ask": "Harbor Lights LLC is a new customer. Make them a quotation for 3 Casement Window 1200.",
+		"tools": ("create_records", "create_record"),
+		"card": True,
+		"cards": 2,
+	},
+	{
+		"id": "project-and-tasks",
+		"page": {},
+		"ask": "Start a project called Lobby Refit with three tasks: measure, order the glass, install.",
+		"tools": ("create_records", "draft_project", "plan_task", "create_record"),
+		"card": True,
+		"cards": 2,
+	},
 	{"id": "remember", "page": {}, "ask": "Remember that I prefer short answers.", "tools": ("remember",)},
 	{"id": "cannot", "page": {}, "ask": "Can you order pizza for the office?", "tools": ()},
 ]
@@ -284,6 +300,8 @@ def scored(case: dict, called: list[str], cards: int, said: str, error: str | No
 		why.append(f"called {', '.join(called) or 'nothing'}, not {' or '.join(wanted)}")
 	if case.get("card") and not cards:
 		why.append("made no card")
+	elif cards < (case.get("cards") or 0):
+		why.append(f"made {cards} cards, not {case['cards']}")
 	if not case.get("card") and not wanted and cards:
 		why.append("made a card it was not asked for")
 	if not (said or "").strip() and not cards:

@@ -28,6 +28,8 @@ appear without reloading.
 
 ## Layers
 
+Tick a layer in the left column to show it, and untick it to hide it.
+
 **Mine:**
 
 - **My Events**: events you created, were invited to or that were shared
@@ -35,16 +37,22 @@ appear without reloading.
 - **My Tasks**: tasks assigned to you, on their due date
 - **Assigned to Me**: anything else assigned to you, such as a deal or a
   leave application, on its due date
-- **Deal Next Steps** and **Lead Next Steps**: on your own open deals and
+- **Opportunity Next Steps** and **Lead Next Steps**: on your own open deals and
   leads, at the time due
 - **My Leave**
 - **My Interviews**: interviews where you're on the panel
+- **My Maintenance**: asset maintenance assigned to you, on its due date
+- **Deadlines**: due dates read from bills and letters you can open
 
 **Workspace:**
 
 - **Company Events**
 - **Holidays**: the company's holiday list, without weekly days off
 - **Who's Off**: approved leave, off by default
+- **Last Day to Cancel**: the last day to give notice on a contract
+- **Expiring Documents**: employees' documents that run out, such as an ID
+  or a certificate, off by default
+- **Maintenance Due**: all asset maintenance that's due, off by default
 
 **You only see what you have access to.** Each layer uses your permissions.
 Someone who can't read leave doesn't see Who's Off, and an employee limited
@@ -89,6 +97,22 @@ page.
 - A **public** event, with **On Everyone's Calendar** ticked, is seen by
   everyone. Only a Workspace Administrator or HR Manager can create one.
   Everyone else creates a private event and invites people.
+
+## Seeing every event as a list
+
+**All Events** at the bottom of the left column lists every event you can
+see, with filters and search. **Event** in the rail opens the same list.
+
+## The Deadlines report
+
+**Deadlines**, at the bottom of the left column and in the rail, lists every
+date something must be done by, soonest first: due dates read from bills and
+letters, the last day to cancel a contract, and employees' documents that
+expire. Each row shows the date, the **Days Left**, what it's about and the
+rule the date was counted by, and the days left turn red within a week. It
+starts today and looks 90 days ahead. Change **From Date** and **To Date**,
+or pick **Documents**, **Contracts** or **Employees** under **From**, to
+narrow it. Click a deadline to open its record.
 
 ## Notifications
 
@@ -161,8 +185,8 @@ day.
   Workspace › General. All links are deleted, no one can create one, and
   Subscribe disappears. Switching it back on doesn't restore old links.
 
-For two-way sync with Google, use frappe's **Google Calendar** connection
-under Setup. It needs a Google API key in Google Settings first.
+For two-way sync with Google, use the **Google Calendar** connection under
+Setup. It needs a Google API key in Google Settings first.
 
 ## Connections
 

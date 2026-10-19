@@ -630,8 +630,8 @@ def test_workload_reads_true_follows_and_is_asked_about():
 	script = (report / "workload.js").read_text()
 	assert 'frappe.realtime.on("list_update"' in script and '"oneproject_workload.week"' in script
 	ai = (PROJECT / "ai.py").read_text()
-	assert '"report:Workload": [WEEK]' in ai and '"expects": "team_week"' in ai
-	assert '"onedesk.one_project.ai.team_week",' in HOOKS
+	assert '"report:Workload": [WEEK]' in ai and '"expects": "run_report"' in ai.split("WEEK = {", 1)[1].split("}", 1)[0]
+	assert "def team_week(" not in ai and "team_week" not in HOOKS, "run_report reads Workload itself"
 
 
 def test_oneai_reads_a_project_as_its_page_does():

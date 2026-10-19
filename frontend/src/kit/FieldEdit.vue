@@ -5,6 +5,18 @@
     <template v-else>
       <span v-if="long && shown" class="min-w-0 text-start [&_p]:mb-2" v-html="shown" />
       <span v-else class="min-w-0 truncate" :class="{ 'text-ink-gray-4': !shown }" v-html="shown || placeholder || '–'" />
+      <img v-if="touched && !(writable && long && ai)" :src="oneaiMark" class="size-3.5 shrink-0" alt="OneAI" :title="__('Written by {0}', ['OneAI'])" />
+      <button
+        v-if="writable && long && ai"
+        type="button"
+        class="shrink-0 rounded-2 focus-visible:ring-2 focus-visible:ring-outline-gray-3"
+        :class="touched ? '' : 'opacity-50 hover:opacity-100'"
+        :aria-label="__('Write with {0}', ['OneAI'])"
+        :title="touched ? __('Rewrite with {0}', ['OneAI']) : __('Write with {0}', ['OneAI'])"
+        @click="write"
+      >
+        <img :src="oneaiMark" class="block size-3.5" alt="" />
+      </button>
       <button
         v-if="writable"
         type="button"
@@ -26,7 +38,7 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import { Button, Switch } from "frappe-ui";
 
-import { __ } from "./desk";
+import { __, oneaiMark, oneaiOn, writeWithOneAI } from "./desk";
 
 const props = defineProps({
   form: { type: Object, required: true },
@@ -61,6 +73,28 @@ const shown = computed(() => {
   if (props.blankZero && !Number(source.value.value(props.field) || 0)) return "";
   return source.value.shown(props.field);
 });
+const ai = computed(() => !props.table && oneaiOn());
+const words = (value) => String(value ?? "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+// Still what OneAI put there: the same comparison a desk form makes.
+const touched = computed(() => {
+  props.form.version.value;
+  const doc = props.form.frm.value?.doc;
+  const written = doc?.__onload?.ai_touched?.[props.field];
+  return !props.table && written !== undefined && words(source.value.value(props.field)) === words(written);
+});
+
+function write() {
+  const doc = props.form.frm.value?.doc;
+  if (!doc) return;
+  writeWithOneAI({
+    doctype: doc.doctype,
+    name: doc.__islocal ? "" : doc.name,
+    fieldname: props.field,
+    label: props.label,
+    value: source.value.value(props.field) || "",
+  });
+}
+
 const checked = computed(() => (props.form.version.value, Boolean(Number(source.value.value(props.field) || 0))));
 
 async function start() {

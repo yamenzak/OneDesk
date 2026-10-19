@@ -613,6 +613,16 @@
 	gap: 8px;
 }
 
+.one-ai-made {
+	margin-top: 6px;
+}
+
+.one-ai-all {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 8px;
+}
+
 .one-ai-btn {
 	height: 30px;
 	padding: 0 14px;

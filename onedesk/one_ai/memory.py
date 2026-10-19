@@ -39,8 +39,15 @@ def about_record(
 	if held is not None:
 		frappe.response["docinfo"] = held
 
+	counted = {
+		f.fieldname for f in frappe.get_meta(doctype).fields if f.fieldtype in ("Currency", "Float", "Int", "Percent")
+	}
 	return {
-		**{key: value for key, value in record.items() if value not in (None, "", [], 0)},
+		**{
+			key: value
+			for key, value in record.items()
+			if value not in (None, "", []) and (value != 0 or key in counted)
+		},
 		"activity": {
 			"comments": [
 				{"by": one.get("owner"), "on": str(one.get("creation")), "said": _text(one.get("content"))}
@@ -74,10 +81,11 @@ def _documents(doctype: str, name: str) -> list[dict]:
 
 
 def recall(
-	text: Annotated[str, "Words to look for: a name, a subject, a term."],
+	text: Annotated[str, "Words to look for: a name, a subject, a term. Leave it out for everything."] = "",
 ) -> dict:
 	"""Search what the reader asked OneAI to remember and what this workspace
-	wrote down for OneAI — policies, a glossary, how things are done here."""
+	wrote down for OneAI — policies, a glossary, how things are done here.
+	Without words, everything: what OneAI knows about the reader."""
 	words = _words(text)
 	mine = frappe.get_list(
 		"AI Memory",

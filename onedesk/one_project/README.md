@@ -2,9 +2,8 @@
 
 OneProject is where work bigger than a task is run: a villa's windows, a
 website, an office move. A project holds its tasks, its time, what it costs
-and what it's billed. It's built on ERPNext's Projects, so a project's
-quotation, sales order, timesheets and invoices are the same records the rest
-of One uses.
+and what it's billed. A project's quotation, sales order, timesheets and
+invoices are the same records the rest of One uses.
 
 **OneTask and OneProject share the same tasks.** OneTask is what each person
 has to do. OneProject is how a project is going, for the people who run it. A
@@ -29,7 +28,7 @@ places, and its reports below them.
   Timesheet**, for a customer billed for time to sign.
 - **Project Template**: the tasks a kind of job usually has, to start a project
   from (Starting from a template).
-- **Reports**, ERPNext's own reports across all projects:
+- **Reports**, across all projects:
   - **Project Progress**: how far along each project is, with its tasks,
     how many are done and how many are late. It opens on open projects;
     filter it by status or priority. Onboarding and exit checklists are
@@ -90,7 +89,7 @@ opens beside OneProject's rail, as Rates and Project Types do. It holds:
 
 - **Allow Overlapping Time per User** and **Allow Overlapping Time per
   Employee**: on, one person may log two timesheet rows for the same hours,
-  such as a supervisor on two sites at once. Off, ERPNext refuses the second.
+  such as a supervisor on two sites at once. Off, the second is refused.
 - **Bring Timesheets into Sales Invoices**: on, choosing a project on a sales
   invoice adds its billable timesheets. Invoice Time on a project's page does
   this either way.
@@ -333,7 +332,7 @@ which. The heading counts them all, and **Show All** lists the late tasks
 when there are more than it shows.
 
 **About** has what the head doesn't: **Progress** (how Work Done is
-measured, ERPNext's % Complete Method: Manual, Task Completion, Task Progress
+measured, the % Complete Method: Manual, Task Completion, Task Progress
 or Task Weight), when it's **Due** and how far off or late that is, the
 **Team**, and its **Priority**, then its **Project Type**, **Department**,
 **Task Prefix** and **Cost Center** when they're set. The pencil on the
@@ -399,8 +398,8 @@ today and counts the tasks without dates.
 In the table, change who a task is assigned to, its status, due date, priority or hours
 right in its row. Giving a task to a **group** (under **Settings ›
 Access**) gives it to each person in the group. **Planned** is
-the hours planned for it (ERPNext's Expected Time), and each group's heading
-adds them up. **Progress** is ERPNext's own progress on the task. A
+the hours planned for it (the task's Expected Time), and each group's
+heading adds them up. **Progress** is the task's own progress. A
 project with no tasks of its own shows only **Add Task**. A task that depends on others not yet done says what it's
 **waiting on**. A sub-task sits under its parent, and a parent says how many
 of its own are done. **Add Task** at the foot of a group adds one there;
@@ -453,8 +452,7 @@ The figures:
 
 A retainer shows this month's hours against its allowance instead.
 
-Money shows only to those who may see time rates (Accounts Users, as ERPNext
-sets it). Everyone else sees the hours. Amounts are in the company's
+Money shows only to those who may see time rates (Accounts Users). Everyone else sees the hours. Amounts are in the company's
 currency.
 
 **Log Time** asks for the day, the hours, the activity, and the task if there
@@ -506,8 +504,8 @@ The customer's invoices for the project and those under it, newest first.
 Each says what it's for (**Work done 40%**, **9 h of time and costs**, a
 retainer's month, **Credit note**, or its first item) and which sub-project
 it's on, its date, when the part owed now is due (in red once it's past), its
-status, total, and what's **Outstanding**, ERPNext's figure, the one the
-invoice itself says. What of it is retention still held is said under it,
+status, total, and what's **Outstanding**, the figure the invoice itself
+says. What of it is retention still held is said under it,
 with the date it's due on hover. The customer and their logo show when there's more than
 one customer. The figures and amounts are in the company's currency, said
 once above them, as on **Supplier**. An invoice in the customer's own
@@ -521,7 +519,7 @@ Overdue says how many invoices are late.
 
 **Release Retention** above the figures releases the retention, for the
 parts due by today (or all of it when none is due yet). Where the order's tax on
-retention is charged with the invoice, it opens ERPNext's payment, not saved
+retention is charged with the invoice, it opens a payment, not saved
 yet, each part matched to its invoice's retention, so those parts show as
 paid: check the amount, the account and the bank reference, and submit it.
 Where it's charged when released, it opens an invoice for the retention, with
@@ -550,7 +548,7 @@ that person a member, or removes a member. A member who signs in on the
 portal, such as the client's representative, says **Portal** under their
 name, and **···** also has **Show Timesheets** or **Hide Timesheets**, and
 **Show Files** or **Hide Files**: what they see of the project on its
-portal page (ERPNext's **Hide Timesheets** and **View Attachments**). Their tasks
+portal page (the project's **Hide Timesheets** and **View Attachments**). Their tasks
 and time stay, so somebody removed is still listed while the work names
 them. Only somebody who signs in can be a member. An employee who only has
 their time logged can't be. Whoever may change the project may change its
@@ -563,7 +561,7 @@ Members are who can open the project. Three things let somebody in, so
 nobody is given work on a project they can't see:
 
 - **A task given to somebody** who can't open its project makes them a
-  member, as frappe shares a record with whoever is assigned it. New Task
+  member, as a record is shared with whoever is assigned it. New Task
   says so under **Owner** before it's made.
 - **Mentioning somebody** in a comment who can't open the project asks
   whether to add them first (**Add to Project** or **Just Comment**).
@@ -590,8 +588,8 @@ What happened on the project and its sub-projects, the newest first:
   was made, submitted and cancelled, with the party and the amount. Clicking
   one opens it.
 - **Changes to the project**: its name, status, health, manager, customer,
-  dates, budget, priority, kind and members, from frappe's record of its
-  changes.
+  dates, budget, priority, kind and members, from the project's record of
+  its changes.
 - **Work**: tasks added and completed, the team's updates, the team's
   hours in a week (one line a week on each project, naming who logged them,
   most hours first, and over how many days), files added or removed, and
@@ -612,7 +610,7 @@ shows to whoever may read its type.
 Under the views is what a project's form keeps beside its fields: who it is
 **Assigned To**, its **Tags**, who it is **Shared With**, its likes, who else
 has it open, and who made it and changed it last. **+** assigns or shares it
-in frappe's own dialogs; a tag is picked from the workspace's or typed new.
+in the usual dialogs; a tag is picked from the workspace's or typed new.
 Whoever can change the project can assign and tag it; whoever may share it
 can share it.
 
@@ -635,7 +633,7 @@ Below them are the ones every record has, as on its form: **Print**,
 
 The page is where a project is changed: its name, status and health in the
 head, **Edit About** for the rest, members and contacts on **Team**, the
-budget on **Money**, and **Ask for Updates** in **···**. ERPNext's form is
+budget on **Money**, and **Ask for Updates** in **···**. The full form is
 still at the project's address with `?edit=1`, with every field.
 
 Whoever can open a project sees its page. Whoever can change it can rename
@@ -686,8 +684,7 @@ counts towards the parent. Sub-projects can have sub-projects.
 - The **Contract** and **Billed** cards read with tax, as the **Invoices**
   tab does: what the customer pays. **Money** works before tax, since cost
   and margin have no tax in them. Every such figure has a dashed underline,
-  and hovering it says the other side of the tax (`Figures` `other`, and
-  `head.taxed` on a desk record's head).
+  and hovering it says the other side of the tax.
 - **Main**, first in **Sub-projects**, shows the page for the parent's own
   work alone: its own orders, tasks, time, invoices, bills, team and
   activity, and its figures without what's under it. A project with
@@ -829,7 +826,7 @@ sub-projects together. Click a row to see the documents behind it.
 
 A row still at nothing isn't shown. Amounts are before tax, except payments,
 and in the company's currency. Everyone who reads the project sees its
-totals, as ERPNext's project form shows what's billed. A row opens its
+totals, as the project's form shows what's billed. A row opens its
 documents only for someone who may read them.
 **Paid** is what's been paid on the project's invoices or bills, however it
 was paid, with advances on its orders not yet set against a bill. The page
@@ -846,7 +843,7 @@ on **Budget** under **Money**. The same dialog takes the
 **Time Budget**, what the team's own hours may cost, and the **Planned
 Hours** when the tasks don't plan any; the **+** on **Logged** and **Time
 Cost** under **Time** opens it too. A cost type can't hold the time, as
-ERPNext books timesheets to no account, so the time has its own budget.
+timesheets are booked to no account, so the time has its own budget.
 Each can be changed whenever the plan changes.
 
 **Time is priced for you.** Every hour on a timesheet (the timer on a task
@@ -877,8 +874,8 @@ for each kind of cost you track, such as labour, materials, subcontracts or
 equipment (each is an expense account in OneBook). Each shows its
 **Budget**, what's **Committed** on supplier orders not yet billed, what's
 been **Spent**, and what's **Left**, over the project and its sub-projects.
-**Time** is the team's own hours against the **Time Budget**: ERPNext books
-timesheets to no account, so the time has a line of its own, and the
+**Time** is the team's own hours against the **Time Budget**: timesheets
+are booked to no account, so the time has a line of its own, and the
 project's **Budget** is the cost types and the Time Budget added up.
 **Other** is the rest of the budget and cost, *not in a cost type*: a
 sub-project's budget without cost types, and cost booked to accounts none
@@ -960,8 +957,8 @@ due on the order's delivery date, or the day the project is marked
 **Completed** if that's sooner, and the rest at Retention Due. Change Retention
 Due and every bill from the order moves with it.
 
-**Advances**: **Pay Advance** on the card opens ERPNext's payment against
-the order, to check and submit. Each bill sets it off.
+**Advances**: **Pay Advance** on the card opens a payment against the
+order, to check and submit. Each bill sets it off.
 
 Above the cards, the figures say what's **Ordered** (and what's left to
 bill), **Billed**, **Paid**, **To Pay** (and what's overdue) and any
@@ -973,7 +970,7 @@ newest first: what each is for (**Work done 70%**, or its first item), its
 date, when the part owed now is due (in red once it's past), its status,
 total, and what's **Outstanding**, with what of it is held under it. The supplier and their logo show when there's more than one supplier. A draft from Bill Progress is there to check. **···** on a bill
 offers **Record Payment**, and **Pay Retention** once retention is held from
-it: ERPNext's payment to the supplier for that retention, to check and submit.
+it: a payment to the supplier for that retention, to check and submit.
 
 Extra work from a supplier gets an order of its own, so the original stays
 readable.
@@ -982,7 +979,7 @@ readable.
 its sub-projects: material requests, requests for quotation, the suppliers'
 quotations, orders for goods (with how much is received and billed, in amber
 when it's billed ahead of what's come) and the goods received, newest first.
-Each says ERPNext's status, coloured as urgent as its own page in
+Each says its status, coloured as urgent as its own page in
 OneInventory says it is, so a late order is red. **New Material Request**
 asks for material for the project, and **Ask for Prices** asks suppliers to
 quote for one of its requests, as OneInventory's Request for Quotation page
@@ -997,8 +994,7 @@ arrow on the heading opens **Supplier**.
 
 ## What's agreed with the customer
 
-A project for a customer holds two things agreed with them, both ERPNext's
-own:
+A project for a customer holds two things agreed with them:
 
 - **Payment Terms**: when an invoice is due, such as **Net 30**.
 - **Terms and Conditions**: the wording printed at the foot of its
@@ -1026,8 +1022,8 @@ Ones changed there become the project's.
 
 ### Contracts
 
-The contract value is the customer's sales order. What gets signed is an
-ERPNext **Contract**, and a project can have as many as it needs: the main
+The contract value is the customer's sales order. What gets signed is a
+**Contract**, and a project can have as many as it needs: the main
 contract, an addendum for extra work, a renewal, or a supplier's subcontract
 agreement.
 
@@ -1047,8 +1043,8 @@ the contract signed** for each one not signed, and **Renew the contract** from
 a month before a signed one ends, unless a later one with the same party runs
 on past it.
 
-**Draw Up Contract** shows to whoever may create contracts, a Sales Manager in
-ERPNext. Everyone who reads the project sees the list. A contract's wording
+**Draw Up Contract** shows to whoever may create contracts, such as a Sales
+Manager. Everyone who reads the project sees the list. A contract's wording
 opens only for those who may read contracts, since an employee's contract is
 a Contract too.
 
@@ -1084,16 +1080,16 @@ Needs You says to ask for it, and a supplier's past due says to pay it. The
 project's manager is told on the day any of it falls due (**Retention Due**).
 How it's held follows the order's **Tax on Retention**
 (`retention.when_released`, reading `progress._terms_of`), and either way the
-accounts are ERPNext's own. An invoice made from no order follows Projects
+accounts are the standard ones. An invoice made from no order follows Projects
 Settings.
 
 - **With Invoice**: the invoice is for the whole amount, taxed whole, and
   the retention is a later part of its payment schedule. It stays in Debtors
   and Creditors until paid, and Accounts Receivable by payment terms shows it
   not yet due. **Release Retention** (and **Pay Retention** for a supplier)
-  is ERPNext's Payment Entry with each line naming its retention term, so
-  ERPNext marks those terms paid and Debtors or Creditors goes down by what
-  was held.
+  is a Payment Entry with each line naming its retention term, so those
+  terms are marked paid and Debtors or Creditors goes down by what was
+  held.
 - **When Released**: the invoice holds the retention as **Retention** lines
   below nothing, one for the part released at handover and one for the rest,
   each with its **Retention Due**, so its tax is on the work less the
@@ -1104,8 +1100,8 @@ Settings.
   Debtors (Creditors) the first time, and isn't owed until it's invoiced.
   **Release Retention** is an invoice for it, one Retention line naming each
   invoice it releases (**Releases Retention Of**), taxed as that invoice was;
-  submitted, it moves the retention into Debtors with its tax. ERPNext takes
-  a line below nothing only when **Allow Negative Rates for Items** is on in
+  submitted, it moves the retention into Debtors with its tax. An invoice
+  takes a line below nothing only when **Allow Negative Rates for Items** is on in
   Selling and Buying Settings, so an order or the workspace choosing When
   Released turns it on (`retention._released_ready`). What a project has
   billed leaves the Retention lines out, so it reads the same either way.
@@ -1116,8 +1112,8 @@ Settings.
   (`patches/orders_say_how_retention_is_taxed`).
   A credit note against such an invoice gives back the retention on the
   work it takes back, in Retention lines of its own that name no item
-  (ERPNext would hold each to the quantity of the line it returns, which is
-  1, however many credit notes share it), so what's held comes down with it.
+  (otherwise each would be held to the quantity of the line it returns,
+  which is 1, however many credit notes share it), so what's held comes down with it.
   In the UAE the tax on retention falls due a year after the work is
   certified complete even if nobody has invoiced it, so a project keeps
   **Completed On**, the day it's marked Completed unless somebody changes
@@ -1237,7 +1233,7 @@ Summary), on the bell, and by email if they chose it.
   **On hold**, or cancels it. **Project Resumed** when it is opened again.
 - **Removed from Project**: someone takes you off its members.
 - **Comment on Project**: someone comments on a project you manage, unless
-  they mention you (frappe tells you that).
+  they mention you (you get a mention notification then).
 - **Milestone Late**: the morning after a milestone on a project you manage
   was due and is not done.
 - **Project End Moved**: someone moves an open project's end date. Says the
@@ -1277,8 +1273,8 @@ Each is on the bell, and by email or push if you chose. Change them under
 
 ## Asking OneAI
 
-On **Workload**, OneAI offers **Who has too much on this week?** It reads the
-week as Workload shows it to you.
+On **Workload**, OneAI offers **Who has too much on this week?** It runs the
+report itself, so it reads the week as Workload shows it to you.
 
 On a project's page, OneAI offers what fits the view you're on:
 
@@ -1477,7 +1473,7 @@ sub-project.
 
 ## Connections
 
-- **From OneCRM**: A quotation made from a deal or the Quotation list can be put on the customer's open project. Once the customer orders it, its Sales Order is the project's contract. A Sales Order with no project starts one with ERPNext's Create › Project: its customer, the order as its contract, and the customer's terms.
+- **From OneCRM**: A quotation made from a deal or the Quotation list can be put on the customer's open project. Once the customer orders it, its Sales Order is the project's contract. A Sales Order with no project starts one with its Create › Project: its customer, the order as its contract, and the customer's terms.
 - **From OneTask**: A project's tasks are the same tasks people see on My Tasks. The timer on a task logs its time on the project.
 - **From OneHR**: A day of attendance at the project's site becomes a timesheet on the project. Expense claims on the project count in its Cost, and Workload leaves out holidays and approved leave.
 - **From OneInventory**: Purchase orders, goods received and stock issued for the project count in its Cost. A purchase order for a package of work is a subcontract on the Suppliers view.
@@ -1487,7 +1483,7 @@ sub-project.
 - **To OneHR**: New Expense Claim on Money starts an expense claim on the project, which counts in its Cost once approved.
 - **To OneBook**: Invoice Time, Invoice Month and Bill Progress make the customer's invoices for the project, due by its payment terms. Bill Progress on a subcontract drafts the supplier's bill. A new Retention Due on an order moves the date in the receivables report too.
 - **To OneCRM**: New Quotation and Quote Extra Work start the customer's quotation on the project, and Make Order turns the one open quotation into its Sales Order. Add Contract makes the Sales Order for a contract agreed without a quotation. Draw Up Contract makes a Contract for the project with its customer or one of its suppliers.
-- **From One**: the Team view's members are the workspace's people, and adding one shares the project with them, as frappe shares a record. Team › Contacts names the customer's and suppliers' people from One's Address Book, with their email and phone.
+- **From One**: the Team view's members are the workspace's people, and adding one shares the project with them. Team › Contacts names the customer's and suppliers' people from One's Address Book, with their email and phone.
 
 ## Under the hood
 

@@ -43,7 +43,7 @@ SUGGESTIONS = {
 			"can": "read",
 			"view": "Form",
 			"when": {"status": ["Pending", "Broken", "Gone"]},
-			"expects": "domain_facts",
+			"expects": "workspace_facts",
 		},
 	],
 	"Offering": [
@@ -73,7 +73,7 @@ SUGGESTIONS = {
 				"Look at the price check: what is wrong and what is close, with the numbers. Say what to change "
 				"first, and by how much, to make the price list hold."
 			),
-			"expects": "price_check",
+			"expects": "run_report",
 		},
 	],
 	"report:Plan Calculator": [
@@ -127,7 +127,7 @@ SUGGESTIONS = {
 				"Who is spending the most on OneAI this month, on which models and for which actions? Say what it "
 				"was charged, what it cost us and the margin, and anything that looks wrong."
 			),
-			"expects": "ai_usage",
+			"expects": "run_report",
 		},
 	],
 	"AI Model": [
@@ -216,16 +216,30 @@ def console_today() -> dict:
 	}
 
 
+DOMAIN_STATUS = {
+	"Pending": "Waiting",
+	"Active": "Working",
+	"Broken": "Not working",
+	"Gone": "Not at Cloudflare",
+}
+
+
 def workspace_facts(
-	workspace: Annotated[str, "The workspace's id, its slug, as the page names it."],
+	workspace: Annotated[
+		str, "The workspace's id, its slug, as the page names it; or one of its domains, such as crm.acme.com."
+	],
 ) -> dict:
 	"""For an operator of One only: how one workspace stands. Its status and
 	since when, whether it owes and when it falls a rung, its plan and
-	add-ons, its storage against its limit, its OneAI credits and this month's
-	spend, its domains, and its last jobs and log entries."""
+	add-ons, storage, OneAI credits and this month's spend, its last jobs and
+	log entries, and each domain: whether it works, what Cloudflare says
+	stops it, where its CNAME must point, whether it is the main address and
+	since when it has waited. Given a domain, the workspace it belongs to."""
 	if not _operator():
 		return {"error": "Only an operator of One, on the admin site, sees a workspace."}
-	if not frappe.db.exists("Tenant", workspace):
+	if not frappe.db.exists("Tenant", workspace) and frappe.db.exists("Tenant Domain", workspace):
+		workspace = frappe.db.get_value("Tenant Domain", workspace, "tenant")
+	if not workspace or not frappe.db.exists("Tenant", workspace):
 		return {"error": f"There is no workspace {workspace}. Ask which one they meant."}
 	from onedesk.one.heads import size
 	from onedesk.one_admin import operator
@@ -258,9 +272,24 @@ def workspace_facts(
 		"credits_a_month": held.credits_a_month,
 		"credits_this_month": credits.get("month_credits"),
 		"calls_this_month": credits.get("month_calls"),
-		"domains": frappe.get_all(
-			"Tenant Domain", filters={"tenant": held.name}, fields=["domain", "status", "problem"]
-		),
+		"domains": [
+			{
+				"domain": one.domain,
+				"status": DOMAIN_STATUS.get(one.status, one.status),
+				"problem": one.problem,
+				"cname_to": held.domain,
+				"main_address": bool(one.is_main),
+				"asked_on": str(one.asked_on) if one.asked_on else None,
+				"last_asked": str(one.modified),
+			}
+			for one in frappe.get_all(
+				"Tenant Domain",
+				filters={"tenant": held.name},
+				fields=["domain", "status", "problem", "is_main", "asked_on", "modified"],
+			)
+		],
+		"domains_checked": "Cloudflare checks by itself; One asks it each night until the name works, and Check "
+		"Again asks now.",
 		"jobs": frappe.get_all(
 			"Provisioning Job",
 			filters={"tenant": held.name},
@@ -340,45 +369,6 @@ def settings_check() -> dict:
 		"grace_days": {"overdue": held.grace_days, "suspended": held.held_days, "archived": held.kept_days},
 		"workspace_domain": held.tenant_domain,
 		"mail_domain": held.mail_domain,
-	}
-
-
-def ai_usage(
-	by: Annotated[
-		str, "Workspace, Model, Action, Workspace and Model, or Workspace and Action."
-	] = "Workspace",
-	from_date: Annotated[str, "The first day, as YYYY-MM-DD. Empty is the first of this month."]
-	| None = None,
-	to_date: Annotated[str, "The last day, as YYYY-MM-DD. Empty is today."] | None = None,
-	workspace: Annotated[str, "One workspace's id, to see only its calls."] | None = None,
-) -> dict:
-	"""For an operator of One only: OneAI's calls over a period, as AI Usage
-	cuts them, each with how many calls, the credits charged, what that is in
-	dollars, what the provider charged us, and the margin; and the whole
-	period. Changes nothing."""
-	if not _operator():
-		return {"error": "Only an operator of One, on the admin site, sees AI usage."}
-	from onedesk.one_admin.report.ai_usage import ai_usage as report
-
-	cut = report.BY.get(by) or report.BY["Workspace"]
-	rows, whole = report.usage(frappe._dict(from_date=from_date, to_date=to_date, tenant=workspace), cut)
-	keep = (
-		"tenant",
-		"model",
-		"action_name",
-		"calls",
-		"credits",
-		"charged",
-		"cost_us",
-		"margin",
-		"workspaces",
-		"models",
-	)
-	return {
-		"by": by,
-		"currency": report.CURRENCY,
-		"rows": [{key: one.get(key) for key in keep if one.get(key) is not None} for one in rows[:-1]][:40],
-		"total": {key: whole.get(key) for key in keep if whole.get(key) is not None} if whole else None,
 	}
 
 
@@ -517,40 +507,6 @@ def signup_facts(
 	return said
 
 
-def domain_facts(
-	domain: Annotated[str, "The domain, as the page names it, such as crm.acme.com."],
-) -> dict:
-	"""For an operator of One only: one customer domain. Whose it is, whether
-	it works, what Cloudflare says stops it, where its CNAME record must
-	point, whether it is the workspace's main address, and since when it
-	has waited."""
-	if not _operator():
-		return {"error": "Only an operator of One, on the admin site, sees a domain."}
-	if not frappe.db.exists("Tenant Domain", domain):
-		return {"error": f"There is no domain {domain}. Ask which one they meant."}
-	held = frappe.get_doc("Tenant Domain", domain)
-	tenant = (
-		frappe.db.get_value("Tenant", held.tenant, ["workspace_name", "domain", "status"], as_dict=True) or {}
-	)
-	return {
-		"domain": held.domain,
-		"workspace": tenant.get("workspace_name") or held.tenant,
-		"workspace_status": tenant.get("status"),
-		"status": {
-			"Pending": "Waiting",
-			"Active": "Working",
-			"Broken": "Not working",
-			"Gone": "Not at Cloudflare",
-		}.get(held.status, held.status),
-		"problem": held.problem,
-		"cname_to": tenant.get("domain"),
-		"main_address": bool(held.is_main),
-		"asked_on": str(held.asked_on) if held.asked_on else None,
-		"last_asked": str(held.modified),
-		"checked": "Cloudflare checks by itself; One asks it each night until the name works, and Check Again asks now.",
-	}
-
-
 def price_list(
 	offering: Annotated[str, "One offering's key, to also list the workspaces that have it."] | None = None,
 ) -> dict:
@@ -589,38 +545,6 @@ def price_list(
 			"Tenant", filters={"name": ["in", names or [""]]}, fields=["name", "workspace_name", "status"]
 		)
 	return said
-
-
-def price_check() -> dict:
-	"""For an operator of One only: what Price Check finds wrong or close in
-	the price list, each in words with its numbers, what each offering costs
-	us against its price, and the margin wanted. Changes nothing."""
-	if not _operator():
-		return {"error": "Only an operator of One, on the admin site, sees the price check."}
-	from onedesk.one_admin import offerings, plans
-
-	ladder, sold, costs = offerings.listed()
-	return {
-		"margin_wanted": costs.margin,
-		"costs": {
-			"workspace": costs.workspace,
-			"seat": costs.seat,
-			"storage_gb": costs.storage_gb,
-			"database_gb": costs.database_gb,
-			"credit": costs.credit,
-		},
-		"findings": offerings.findings(),
-		"offerings": [
-			{
-				"key": one.key,
-				"label": one.label,
-				"kind": one.kind,
-				"price": one.price,
-				"costs_us": plans.cost(one, costs),
-			}
-			for one in [*ladder, *sold]
-		],
-	}
 
 
 def plan_quote(

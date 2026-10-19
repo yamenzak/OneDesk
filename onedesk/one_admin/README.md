@@ -40,8 +40,13 @@ The number cards at the top each open the list they count:
 - **Failed**: jobs that stopped on a step.
 - **Paid, Not Built**: paid signups with no workspace.
 
-**Needs You** lists what needs an operator, most pressing first. Each row says
-what it is, why, and since when, with one action:
+Below them is **Needs You**. Click a row to open the record. Home updates
+live, without reloading.
+
+### Needs You on Home
+
+**Needs You**, on OneAdmin's Home, lists what needs an operator, most pressing
+first. Each row says what it is, why, and since when, with one action:
 
 - **Failed job**: what it was doing, the step it stopped at and the error.
   **Resume** runs it again from that step. Every step is safe to run twice,
@@ -51,22 +56,20 @@ what it is, why, and since when, with one action:
 - **Workspace owing**: overdue or suspended, and since when. Open it to act.
 - **Domain**: waiting over a day for DNS, or not working. **Check Again**
   asks Cloudflare for its status.
-- **Slow build**: a new workspace still waiting on Frappe Cloud after three
-  hours. Waiting never fails a job, so this is where a stuck build shows up.
-  Check the site in Frappe Cloud.
+- **Slow build**: a new workspace still waiting on the hosting provider after
+  three hours. Waiting never fails a job, so this is where a stuck build shows
+  up. Check the site in the hosting provider's dashboard.
 - **Stalled job**: due but not run for fifteen minutes, with **Run Now**.
-- **Over database**: a workspace holds more than it bought. Frappe Cloud sets
-  no limit on dedicated servers, so OneAdmin watches it.
+- **Over database**: a workspace holds more than it bought. The hosting
+  provider sets no limit on dedicated servers, so OneAdmin watches it.
 - **Server filling up**: at four-fifths of its **Most Workspaces**, full, or
   no open server left for new or EU workspaces. Buy the next one before a
   signup fails.
 - **Update available**: for the bench group new workspaces use, with the apps
-  that have one. Deploy it in Frappe Cloud. It updates every workspace on
-  that bench group at once.
+  that have one. Deploy it in the hosting provider's dashboard. It updates
+  every workspace on that bench group at once.
 - **Wrong price**: a problem Price Check found.
 - **No model**: an AI action no offered model can run.
-
-Click a row to open the record. Home updates live, without reloading.
 
 ## Workspaces
 
@@ -133,27 +136,32 @@ A **job** builds a workspace or moves it to another status, one step at a
 time. There are six types:
 
 - **Provision** builds a new workspace. It chooses a server, checks the name
-  is free, creates the site in Frappe Cloud, waits for it, sets up the
-  address, configures the site, invites the owner and marks it live.
+  is free, creates the site at the hosting provider, waits for it, sets up
+  the address, configures the site, invites the owner and marks it live.
 - **Suspend** and **Restore** stop and restart the site.
 - **Archive** deletes the site after a backup, cancels the Stripe
   subscription so it isn't invoiced again, and removes its mail route.
 - **Drop** deletes the files.
 - **Install App** installs a private app a workspace claimed with its code.
-  It checks the app is on the bench group, asks Frappe Cloud to install it,
-  and waits until it is. A failed install leaves the workspace Live.
+  It checks the app is on the bench group, asks the hosting provider to
+  install it, and waits until it is. A failed install leaves the workspace
+  Live.
 
 The server is the emptiest open one in Settings › Servers (an EU one for an
 EU workspace), and is shown on the workspace as **Server**. A bench group
-missing erpnext, hrms or onedesk fails the first step, naming what to add.
+missing one of the apps a workspace needs fails the first step, naming what
+to add.
+
+### Following a job and resuming one
 
 **Jobs** lists the ones not done, with the workspace, type, status, current
 step and last update. Jobs run every two minutes.
 
 - **Waiting to run**: its next step is due.
-- **Waiting on Frappe Cloud**: a step waits on Frappe Cloud, such as a site
-  being built. This is checked every minute and never fails the job. A slow
-  build shows on Home after three hours.
+- **Waiting on** the hosting provider (the status names it): a step waits on
+  the hosting provider, such as a site being built. This is checked every
+  minute and never fails the job. A slow build shows on Home after three
+  hours.
 - **Failed**: a step that errors is retried, less often each time. After
   twelve tries the job fails and operators are notified.
 
@@ -288,6 +296,8 @@ read without signing in.
   **Sign in**, and the email entered becomes the account (or joins an
   existing one).
 
+### The welcome page after paying
+
 Stripe returns them to **/welcome**, which shows the workspace's status:
 
 - While it's being built, the page checks every ten seconds. After fifteen
@@ -368,7 +378,7 @@ confirmation builds the workspace. Each has a status:
 
 A paid signup with no workspace is the most urgent case, so it shows on Home.
 **Build Workspace** on it tries again. Check why it stopped first. A name
-taken since, or a Frappe Cloud refusal, will stop it again.
+taken since, or a refusal from the hosting provider, will stop it again.
 
 Once there's a workspace, it's linked with **Open Workspace**. **Open in
 Stripe** in the menu finds the payment, and the lead and deal for it are
@@ -511,7 +521,7 @@ who did it and when.
 
 - **Overdue**, **Suspended**, **Archived**, **Dropped** and **Restored**: the
   new status and why (a failed payment, the grace period ending, a payment,
-  an operator, or Frappe Cloud).
+  an operator, or the hosting provider).
 - **Plan Changed** and **Add-on Changed**: the customer changed their plan
   on their workspace.
 - **Over Storage**: it holds more than its plan allows, with both sizes.
@@ -531,11 +541,11 @@ next to its changes, and a job lists the rows it wrote.
 
 **Connections**
 
-- **Frappe Cloud**: the account the sites are built on. The servers are
-  rented from Frappe Cloud, and customers never see it. Includes the **Bench
-  Group** every workspace runs on, the **Site Plan** for each site (one of
-  Frappe Cloud's free Unlimited plans, which only sets daily CPU time), and
-  **Servers** (below).
+- The hosting provider, in the first section: the account the sites are
+  built on. The servers are rented from it, and customers never see it.
+  Includes the **Bench Group** every workspace runs on, the **Site Plan** for
+  each site (one of the provider's free Unlimited plans, which only sets daily
+  CPU time), and **Servers** (below).
 - **Cloudflare**: one token. **Set Up Cloudflare** finds or creates the rest
   and shows the result under **Last Setup**.
 - The R2 buckets and keys, Stripe's keys and the AI Gateway.
@@ -570,9 +580,9 @@ Keys show as dots and are never read back.
 
 **Servers** lists the servers new workspaces are built on. To add one:
 
-1. Buy it in Frappe Cloud, add it to the bench group and deploy.
-2. Add a row here with its name. Its **Region** fills in from Frappe Cloud on
-   save.
+1. Buy it from the hosting provider, add it to the bench group and deploy.
+2. Add a row here with its name. Its **Region** fills in from the hosting
+   provider on save.
 3. Tick **EU** for a server in the EU. Workspaces that asked to keep data in
    the EU only go on those.
 
@@ -590,6 +600,11 @@ answers **Is everything set up?**. Only operators see this page.
 
 ## Notifications
 
+OneAdmin tells operators what needs them, and emails customers about their
+account and workspace. Both lists are below.
+
+### What operators are notified of
+
 Operators are notified of:
 
 - **Job Failed**: a job stopped, with the step and error.
@@ -606,11 +621,13 @@ Operators are notified of:
 - **Paid While Archived**: a payment arrived for a workspace that's already
   archived or dropped. The payment is kept. Rebuild it from its backup or
   refund it in Stripe.
-- **Build Slow**: a build has waited on Frappe Cloud for hours. Waiting never
-  fails a job, so this is the only notice; its payer is mailed Workspace
-  Delayed at the same time.
+- **Build Slow**: a build has waited on the hosting provider for hours.
+  Waiting never fails a job, so this is the only notice; its payer is mailed
+  Workspace Delayed at the same time.
 - **Server Filling Up**: a server new workspaces go on is near its limit, or
   full, once for each.
+
+### What customers are emailed
 
 Customers are emailed:
 
@@ -631,9 +648,10 @@ Customers are emailed:
 - **Workspace Suspended**, **Workspace Archived**, **Workspace Closed** and
   **Workspace Restored** (see Workspaces).
 
-Each can be reworded under **Settings › Notifications**, and turned off
-except the Sign-in Link, which nobody could sign in without. Only operators
-are offered them.
+Each can be reworded on the admin site under Automation › **Workspace
+Notifications**, where they're listed under OneAdmin, and turned off except
+the Sign-in Link, which nobody could sign in without. Each operator chooses
+how they get theirs under You › Notifications.
 
 ## Asking OneAI
 
@@ -670,7 +688,7 @@ Resuming, building and checking again are Home's buttons, not OneAI's.
 - **To OneMail**: Mail to and from a workspace's addresses on the mail domain passes through OneAdmin. Sending is limited per hour and per day.
 - **To OneCRM**: In our own workspace, each signup is a lead and a deal in OneCRM. Paying wins the deal and makes a customer, and a checkout left unpaid loses it.
 - **To OneBook**: Each paid Stripe invoice is a sales invoice and a payment in our own OneBook, with Stripe's fee and any refund. Each offering on the Price List is an item there.
-- **To OneLegal**: The agreements name Frappe Cloud, Cloudflare and Stripe as the companies that run workspaces and take payments. The Terms state how long a workspace stays overdue, suspended and archived.
+- **To OneLegal**: The agreements name the hosting provider, Cloudflare and Stripe as the companies that run workspaces and take payments. The Terms state how long a workspace stays overdue, suspended and archived.
 
 ## Under the hood
 
@@ -927,8 +945,11 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   read is (`operator._may`). `console_today` is Home's own list
   (`home.needs`), so the panel and the page say the same thing;
   `workspace_facts` is what a workspace's own form shows, its head and its
-  connections, `job_facts` a job's walk in words, `domain_facts` why a
-  customer's domain does or does not work, and `price_list` the price list.
+  connections, with why each of its domains does or does not work (given a
+  domain, it answers for that domain's workspace), `job_facts` a job's walk
+  in words, and `price_list` the price list. Price Check and AI Usage are
+  read by the generic `run_report`, the reports' roles keeping them the
+  operator's.
   Nothing is changed from there: resuming a job, building a signup, checking
   a domain or giving credits is a button the operator presses.
 - **A new workspace's owner** (`one/owner.py`, on the tenant): the admin site
@@ -965,7 +986,8 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   frappe-free, whose findings carry a `rule` and `slots`; `offerings.RULES`
   says them in the reader's language, and `offerings.warn` says them on
   saving an offering or the costs. `home._mispriced` is the Wrong ones.
-  OneAI's suggestions reach a report as `report:<name>` (`one_ai/suggest.py`).
+  OneAI's suggestions reach a report as `report:<name>` (`one_ai/suggest.py`),
+  and OneAI reads it with `run_report`.
 - **Our own workspace** (`house.py`): `Tenant.is_house`; `ensure` makes it
   and writes `one_tenant` and `one_token` into the admin site's config;
   `ledger.reserve` never refuses it; AI Usage's `_ours` takes its share out
@@ -987,7 +1009,7 @@ For the people who build OneAdmin. OneAI does not read past this heading.
 - **AI Usage** (`report/ai_usage`): `ledger.usage` sums the calls (one
   settled Credit Reservation each, with `usd`, what the provider charged, kept
   by `ledger.commit` since `patches/call_costs.py`); `usage` in the report is
-  the cut and the margin, and `ai.ai_usage` reads it for OneAI. The numbers
+  the cut and the margin, and OneAI reads it with `run_report`. The numbers
   are `ledger.usage`'s — one row per model call, what it was charged once the
   provider said what it used, and what the provider charged us for it —
   because only the ledger reads its own tables; the report is the cut and the
@@ -1078,7 +1100,7 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   hostnames on our Cloudflare zone; Frappe Cloud is never told of them.
   `Tenant Domain.is_main` is the console's copy of the workspace's
   `primary_domain`, kept by `make_primary`; `_keep` publishes each answer.
-  `ai.domain_facts` is a domain for OneAI.
+  `ai.workspace_facts` says a workspace's domains for OneAI.
 
   Two names reach a workspace. `<slug>.t.4dl.app` is given at provisioning
   and lives entirely at the edge: a proxied wildcard, a Worker that rewrites

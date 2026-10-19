@@ -78,12 +78,12 @@ saved, and only on kinds of record you may open yourself.
 
 **Checked before you see it.** Before an extension is kept, OneAI's code is
 checked for what would make it fail: every field it names must be one the
-record has, every form event one frappe calls, the screen code must read as
-JavaScript, and it must be one change, not a hundred lines of them. Code for
-the server is also run once on one of your records and undone straight away,
-so an error shows now rather than on someone's next save, and OneAI is told
-what it did ("it stopped the save, saying…"). Whatever is wrong goes back to
-OneAI, which mends it before anything reaches you.
+record has, every form event it uses must be one that forms really have, the
+screen code must read as JavaScript, and it must be one change, not a hundred
+lines of them. Code for the server is also run once on one of your records and
+undone straight away, so an error shows now rather than on someone's next
+save, and OneAI is told what it did ("it stopped the save, saying…"). Whatever
+is wrong goes back to OneAI, which mends it before anything reaches you.
 
 **What you see, and what you do not.** Each extension opens on whether it is
 **On** or **Off** (or **Refused by Review**, or **Cannot Run Here**) and what
@@ -118,10 +118,10 @@ such as "A customer needs a mobile number", is not an error: it stops the
 save, as it says.
 
 **What an extension may not do.** Read or change what you could not; reach
-outside your workspace (no mail, no calls to other services); change
-frappe's own records or One's; run on a timer. OneAI says so when what you
-ask needs one of these, and offers what it can do. For something on a
-schedule, or that tells people, an **Automation** is the way.
+outside your workspace (no mail, no calls to other services); change the
+system's own records or One's; run more often than once an hour. OneAI says
+so when what you ask needs one of these, and offers what it can do. For
+something that tells people, an **Automation** is the way.
 
 **Server extensions** run only on workspaces where they are turned on. If an
 extension says **Cannot Run Here**, ask us.
@@ -223,8 +223,9 @@ On Extensions: **Write an extension…**, and **What do our extensions do?**,
 which says what each does and whether any is failing. On an extension:
 **Change this one…**; when it is on, **Has this one run into errors?**, which
 reads what went wrong and on which record (never its code); when it is off,
-**Why is this one off?** On Custom Collections: **Make a collection…**, and on
-one: **Add a field to this one…** On Custom Fields: **Add a field…**, **Which forms
+**Why is this one off?** On Custom Collections: **Make a collection…** and
+**Change a collection…**; on one collection, **Make a collection…** On
+Custom Fields: **Add a field…**, **Which forms
 have we changed?** and **How does customizing work?**
 
 ## Connections

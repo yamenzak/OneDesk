@@ -48,7 +48,7 @@ def test_every_tool_is_in_one_group_or_the_core():
 	unknown = (core | set(grouped)) - _hooked() - {
 		"list_records", "read_record", "count_records", "describe_type", "find_records", "search_everywhere",
 		"about_field", "what_links_here", "what_can_happen", "run_report", "about_record", "recall",
-		"search_my_chats", "how_to", "remember", "create_record", "edit_record", "delete_record", "move_record",
+		"search_my_chats", "how_to", "remember", "create_record", "create_records", "edit_record", "delete_record", "move_record",
 		"more_tools",
 	}  # fmt: skip
 	assert not unknown, f"named in a group but not a tool: {sorted(unknown)}"

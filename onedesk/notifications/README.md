@@ -48,7 +48,7 @@ it to that. The file is named for the type, in lower case with underscores.
 | `from_one` | Sent by One about itself (its plan, credits, storage, billing), so its mail wears One's mark and colour rather than the workspace's. Every mail from the admin site does |
 | `oneai` | Written as OneAI |
 | `follows` | The same event said another way. It takes the choices of the one it follows |
-| `words`, `rule` | ERPNext's or HRMS's own rule, told on the bell in its own words |
+| `words`, `rule` | A rule the stock, accounts or HR records already had, told on the bell in its own words |
 | `notification` | The Notification of ours that mails it. Its Enabled box and Send This are one |
 | `mailed_by` | Its app mails it, and One lists it so everything sent is on one page |
 | `switch` | The app's own setting that is its Send This |
@@ -70,7 +70,8 @@ it to that. The file is named for the type, in lower case with underscores.
   file a Notification Type after every migrate, and draws every mail
   (templates/emails, The mail below).
 - Each module's `tell.py` decides when, and sends by name.
-- `one/rules.py` carries ERPNext's and HRMS's own rules to the bell.
+- `one/rules.py` carries rules to the bell: the ones the stock, accounts
+  and HR records came with, and the workspace's own.
 - Settings › Notifications lists every file by app, and a person's own
   Notifications page lists the ones they may choose.
 - `babel.py` reads a file's words for translation.

@@ -51,6 +51,9 @@ workspace's first, then shared ones, then your own. Folders list
 conversations newest first. A conversation shows all its messages, including
 your replies, with older ones collapsed.
 
+A connected mailbox is checked for new mail every minute, and the list
+updates on its own. **Refresh**, beside the search box, reloads it now.
+
 Remote pictures are hidden until you click **Show pictures**, because loading
 them tells the sender you opened the message.
 
@@ -77,8 +80,9 @@ Deleting from Trash is permanent.
 the message. For example, `from:ana subject:"price list" is:unread` finds
 unread mail from Ana with "price list" in the subject.
 
-**Writing** uses frappe's email window. It opens in the bottom-right corner,
-and you can minimise it and keep reading. You can schedule a message with the
+**Writing:** **New Email** at the top starts a message, and **Reply**,
+**Reply all** and **Forward** answer the one you're reading. The email window
+opens in the bottom-right corner, and you can minimise it and keep reading. You can schedule a message with the
 arrow beside **Send**, undo it for a few seconds after sending, ask for a read
 receipt or a copy to yourself from **⋯**, and link it to a record.
 
@@ -99,6 +103,20 @@ It can match mail by:
 - a word anywhere in it (**Subject or Text Contains**)
 - whether it has attachments
 - what it's about (**About**, in plain words such as "soft drinks")
+
+**To make a rule:**
+
+1. Open the mailbox, then **Rules** in its **⋯** menu.
+2. Click **Add Mail Rule**.
+3. Under **When**, fill in what to match. **Matching Mail** says whether
+   mail must match all of them or any one.
+4. Under **Then**, pick a **Move To** folder, or tick **Mark as Read** or
+   **Star**.
+5. Save.
+
+When several rules match, the lowest **Order** runs first. **Stop Here**
+keeps later rules off mail this one matched. Untick **Enabled** to pause a
+rule.
 
 On a connected mailbox, the rule is also set up on the mail server, so your
 phone matches. Rules only apply to new mail, not to mail that was there when

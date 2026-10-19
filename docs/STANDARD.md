@@ -347,7 +347,7 @@ to watch for:
   its checklist on `before_validate`, but nothing changed it every way until
   it was registered in `tests/guards/test_rules.py`.
 - **OneAI that reads but doesn't do.** The page completes a task and moves
-  its due date. OneAI does the same as a card (`plan_change`).
+  its due date. OneAI does the same as a card (`edit_record` on the Task).
 - **A kind the demo only makes in a check.** A repeating task was made and
   taken away in a check, so no screen showed one. The demo keeps one.
 - **frappe's own bugs in the record frame.** A record's page carries

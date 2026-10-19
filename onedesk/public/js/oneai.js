@@ -149,6 +149,28 @@ onedesk.oneai.fields = function (frm) {
 		onedesk.oneai.badge(frm, df.fieldname);
 		onedesk.oneai.watch(frm.doctype, df.fieldname);
 	}
+
+	const touched = (frm.doc.__onload || {}).ai_touched || {};
+	for (const fieldname of Object.keys(touched)) {
+		const field = frm.fields_dict[fieldname];
+		if (!field || PROSE.includes((field.df || {}).fieldtype)) continue;
+		onedesk.oneai.badge(frm, fieldname);
+		onedesk.oneai.watch(frm.doctype, fieldname);
+	}
+	onedesk.oneai.made(frm);
+};
+
+// A record OneAI suggested and somebody approved says so under who created
+// it, as a record OneIntake made says so in its banner.
+onedesk.oneai.made = function (frm) {
+	const $side = frm.sidebar && frm.sidebar.sidebar ? frm.sidebar.sidebar : $();
+	$side.find(".one-ai-made").remove();
+	const made = (frm.doc.__onload || {}).ai_made;
+	if (!made || frm.is_new()) return;
+	$(`<li class="one-ai-made"></li>`)
+		.html(onedesk.oneai.tag(__("Made by {0}", [ONEAI])))
+		.attr("title", __("Suggested by {0} and approved by {1}", [ONEAI, made.by]))
+		.insertAfter($side.find(".created-by").first());
 };
 
 onedesk.oneai.tag = (label, opts = {}) =>

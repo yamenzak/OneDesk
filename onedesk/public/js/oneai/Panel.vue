@@ -127,7 +127,13 @@
 						:record="(cards[name] && cards[name].shown) || { doctype: '', name: '', title: '', fields: [] }"
 						:suggested="cards[name] || { name, kind: 'Create', state: 'Proposed' }"
 						@answered="answered"
+						@failed="mend"
 					/>
+					<div v-if="waitingIn(said).length > 1" class="one-ai-all">
+						<button class="one-ai-btn one-ai-btn--go" :disabled="busy || approving" @click="approveAll(said)">
+							{{ __("Approve All ({0})", [waitingIn(said).length]) }}
+						</button>
+					</div>
 				</div>
 
 				<div v-if="busy" class="one-ai-thinking">
@@ -688,6 +694,40 @@ async function load() {
 async function answered() {
 	await load();
 	emit("counted");
+}
+
+// The cards of one answer still waiting, which Approve All approves in the
+// order they were suggested: a card pointing at another approves it first.
+function waitingIn(said) {
+	return (said.cards || []).filter((name) => cards.value[name] && cards.value[name].state === "Proposed");
+}
+
+const approving = ref(false);
+
+async function approveAll(said) {
+	const names = waitingIn(said);
+	approving.value = true;
+	try {
+		await frappe.xcall("onedesk.one_ai.run.apply_all", { proposals: names });
+		await answered();
+	} catch (raised) {
+		await answered();
+		mend(names.find((name) => cards.value[name] && cards.value[name].state === "Proposed") || names[0], raised);
+	} finally {
+		approving.value = false;
+	}
+}
+
+// A card that would not go through is handed back to OneAI with what went
+// wrong, to be corrected and suggested again, rather than left as a red
+// message the person has to turn into a question themselves.
+function mend(name, raised) {
+	const card = cards.value[name] || {};
+	const reason = _why(raised);
+	frappe.hide_msgprint && frappe.hide_msgprint();
+	if (busy.value) return;
+	text.value = __("Approving “{0}” did not go through: {1} Correct it and suggest it again.", [card.said || name, reason]);
+	send();
 }
 
 function drew(said) {

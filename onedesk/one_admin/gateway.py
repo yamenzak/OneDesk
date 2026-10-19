@@ -58,7 +58,7 @@ PROVIDERS = {
 
 THINKS = 2000
 
-ROUNDS = 5
+ROUNDS = 8
 
 FIRST = ("workers-ai", "@cf/meta/llama-3.1-8b-instruct")
 

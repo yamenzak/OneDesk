@@ -22,6 +22,7 @@
   "changes",
   "was",
   "files",
+  "needs",
   "modified_then",
   "done_section",
   "applied_doc",
@@ -125,6 +126,14 @@
    "description": "What the suggestion was made from. Attached to the record it makes."
   },
   {
+   "fieldname": "needs",
+   "fieldtype": "Code",
+   "label": "Needs",
+   "options": "JSON",
+   "read_only": 1,
+   "description": "The cards this one points at, approved before it."
+  },
+  {
    "fieldname": "modified_then",
    "fieldtype": "Data",
    "label": "Record As Of",
@@ -140,7 +149,8 @@
    "fieldname": "applied_doc",
    "fieldtype": "Data",
    "label": "Record Written",
-   "read_only": 1
+   "read_only": 1,
+   "search_index": 1
   },
   {
    "fieldname": "applied_by",
@@ -168,7 +178,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-18 12:00:00.000000",
+ "modified": "2026-10-20 02:00:00.000000",
  "modified_by": "Administrator",
  "module": "One AI",
  "name": "AI Proposal",

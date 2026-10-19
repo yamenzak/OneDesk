@@ -77,7 +77,7 @@ SUGGESTIONS = {
 				"What do you know about me? Say what you remember from our conversations, and what my "
 				"workspace told you."
 			),
-			"expects": "my_memories",
+			"expects": "recall",
 		},
 	],
 	"page:masters": [
@@ -287,7 +287,7 @@ SUGGESTIONS = {
 		{
 			"label": _lt("What was deleted lately?"),
 			"ask": _lt("What was deleted in the last week, by whom, and is any of it worth putting back?"),
-			"expects": "recycle_bin",
+			"expects": "list_records",
 		},
 	],
 	"page:workspace-settings/access": [
@@ -350,7 +350,7 @@ SUGGESTIONS = {
 				"Which of our own domains are not working, and what should we check or change in the DNS "
 				"to fix each one?"
 			),
-			"expects": "workspace_domains",
+			"expects": "workspace_plan",
 		},
 	],
 	"page:workspace-settings/oneai": [
@@ -531,7 +531,7 @@ def page(said: dict) -> str | None:
 			f"departments and the like), grouped by the app that uses them.{open_now} An administrator sees them "
 			"all, an app's manager their app's. They add a value from the page head, and change, rename or remove "
 			"one by clicking it, which shows its own fields (a unit's symbol and whether it is whole, an item "
-			"group's parent), says how many records use it, and opens frappe's form for tables such as a "
+			"group's parent), says how many records use it, and opens the full form for tables such as a "
 			"department's approvers. Asked to add values, suggest each with create_record; a tree's value goes "
 			"under its root by itself. Changing the field a value is named from renames it everywhere. How is in "
 			"One's documentation under Masters (how_to)."
@@ -571,8 +571,8 @@ def page(said: dict) -> str | None:
 			"that address, as the page shows, and Cloudflare has issued its certificate, usually minutes later. A "
 			"bare domain such as acme.com needs a DNS provider that flattens a CNAME (ALIAS); otherwise use a "
 			"subdomain. "
-			"The main address is the one sign-in, invitations and links in mail use. workspace_domains reads each "
-			"domain, its status and the target. They add one from the page head and make it the main address or "
+			"The main address is the one sign-in, invitations and links in mail use. workspace_plan reads each "
+			"domain under domains, with its status and the target. They add one from the page head and make it the main address or "
 			"remove it from its row; how is in One's documentation under Domains, for the Workspace (how_to)."
 		)
 	if said.get("page") == "workspace-settings" and said.get("section") == "general":
@@ -603,7 +603,7 @@ def page(said: dict) -> str | None:
 		return (
 			"The reader is on What OneAI Remembers in their own Settings: the facts you keep for them, each "
 			"with when and the record it is about, which they add, edit and forget there; and, to read only, "
-			"what the workspace's administrators wrote for everybody. my_memories reads both. How it works "
+			"what the workspace's administrators wrote for everybody. recall, with no words, reads both. How it works "
 			"is in One's documentation under Settings › What OneAI Remembers (how_to)."
 		)
 	if said.get("page") == "workspace-settings" and said.get("section") == "devices":
@@ -836,7 +836,7 @@ def my_notifications() -> dict:
 
 def draft_notification(
 	name: Annotated[str, "A short name people will know it by, such as Overdue Invoice."],
-	watches: Annotated[str, "The kind of record, as its DocType name, such as Sales Invoice."],
+	watches: Annotated[str, "The record type, by its name, such as Sales Invoice."],
 	when: Annotated[str, "New, Save, Submit, Cancel, Days After, Days Before or Value Change."],
 	subject: Annotated[str, "One line. Fields of the record as {{ doc.fieldname }}, and nothing else."],
 	message: Annotated[str, "The detail under the bell and in the mail, the same way. May be empty."]
@@ -934,7 +934,7 @@ FIELD_SAYS = {
 
 
 def customize(
-	doctype: Annotated[str, "The form, as its DocType name, such as Item or Sales Invoice."],
+	doctype: Annotated[str, "The form, by its record type's name, such as Item or Sales Invoice."],
 	add: Annotated[
 		list[dict],
 		"New fields, each {label, kind, choices, after, also_on, and any of: required, unique, default, "
@@ -943,7 +943,7 @@ def customize(
 		"set_only_once, in_quick_entry}. kind is Data, Small Text, Text, Text Editor, Int, Float, Currency, "
 		"Percent, Check, Date, Datetime, Time, Duration, Select, Link, Phone, Rating, Attach, Attach Image, "
 		"Color or a Section Break, Column Break or Tab Break. choices are a Select's options, a Link's form, "
-		"or for Data one of Email, Name, Phone, URL, Barcode, IBAN, which frappe then checks. show_when and "
+		"or for Data one of Email, Name, Phone, URL, Barcode, IBAN, which are then checked. show_when and "
 		"the other conditions are a field's name or eval:doc.field == 'value'. fetch_from is "
 		"link_field.field_there. also_on carries the same field to other forms, each {form, fetch, through, "
 		"editable}: fetch fills it from this form through their Link field (an Item field onto Sales "
@@ -1441,38 +1441,6 @@ def workspace_reports() -> dict:
 		"next": "A list's Report view is saved from its menu (Save As) and lands under Saved Reports in its app. "
 		"Dashboards are under One › Dashboards; reports by mail under Automation › Reports by Mail, set from a report's "
 		"menu (Setup Auto Email). How is in One's documentation under Reports and dashboards (how_to).",
-	}
-
-
-def recycle_bin(
-	days: Annotated[int, "How many days back to look, 30 if not said."] = 30,
-) -> dict:
-	"""The Recycle Bin as the reader sees it: what was deleted in the last days,
-	of which kind, by whom and when, and whether it has been put back. Everybody
-	sees what they deleted; an administrator also what others deleted, of what
-	they may read."""
-	since = frappe.utils.add_days(frappe.utils.now_datetime(), -max(1, min(int(days or 30), 365)))
-	rows = frappe.get_list(
-		"Deleted Document",
-		filters={"creation": [">=", since]},
-		fields=["name", "deleted_doctype", "deleted_name", "owner", "creation", "restored", "new_name"],
-		order_by="creation desc",
-		limit=100,
-	)
-	return {
-		"deleted": [
-			{
-				"kind": one.deleted_doctype,
-				"record": one.deleted_name,
-				"deleted_by": one.owner,
-				"when": str(one.creation),
-				"put_back_as": one.new_name if one.restored else None,
-				"open": f"/desk/deleted-document/{one.name}",
-			}
-			for one in rows
-		],
-		"next": "Restore on a deleted record, or on several ticked in the list, puts them back; how is in One's "
-		"documentation under Recycle Bin (how_to).",
 	}
 
 
@@ -1976,14 +1944,13 @@ DOMAIN_STATES = {
 }
 
 
-def workspace_domains() -> dict:
-	"""The workspace's addresses, for its administrators: each domain, whether
-	it works and what that means, which is the main address, and the CNAME
-	target a domain of its own has to point at."""
-	from onedesk.one import roles, settings
+def _domains() -> dict:
+	"""The workspace's addresses as `workspace_plan` hands them over: each
+	domain, whether it works and what that means, which is the main address,
+	and the CNAME target. Asks the account again when what it said is stale
+	(settings._domains)."""
+	from onedesk.one import settings
 
-	if not roles.administers():
-		return {"error": "Only a workspace administrator sees the domains."}
 	said = settings._domains()
 	return {
 		"cname_target": said["target"],
@@ -1998,15 +1965,16 @@ def workspace_domains() -> dict:
 			}
 			for one in said["domains"]
 		],
-		"as_of": str(said["last_heard"]) if said["last_heard"] else None,
 	}
 
 
 def workspace_plan() -> dict:
-	"""The workspace's plan and OneAI credits, for its administrators: plan,
-	seats, storage, credits left, held, used in the last thirty days and what
-	expires when, the last thirty days by model and by person, and the ledger:
-	what came in and what OneAI used each day."""
+	"""The workspace's plan, OneAI credits and domains, for its administrators:
+	plan, seats, storage, credits left, held, used in the last thirty days and
+	what expires when, the last thirty days by model and by person, the ledger
+	(what came in and what OneAI used each day), and each of its addresses:
+	whether it works and what that means, which is the main one, and the CNAME
+	target a domain of its own has to point at."""
 	from frappe.utils import add_days, getdate
 
 	from onedesk.one import roles, settings
@@ -2046,6 +2014,7 @@ def workspace_plan() -> dict:
 		"last_30_days": cut,
 		"ledger": (said["ledger"] or [])[:40],
 		"closing": said["closing"],
+		**_domains(),
 		"as_of": str(held["last_heard"]) if held["last_heard"] else None,
 		"next": "The plan's monthly credits expire at the end of the month and are used first; bought credits never expire. Credits "
 		"are bought from Buy Credits in the page head of Workspace › Plan and Credits.",
@@ -2143,23 +2112,6 @@ def workspace_sign_in() -> dict:
 		"next": "Say plainly what is fine and what to change, most important first. Two-factor for everybody, "
 		"or at least administrators, is the usual advice; failed sign-ins from one address are worth naming. "
 		"They change the rules themselves under Workspace › General › Sign-in.",
-	}
-
-
-def my_memories() -> dict:
-	"""Everything OneAI keeps for the person asking, with when and the record
-	each is about, and the titles of what the workspace's administrators wrote
-	for everybody. For "what do you know about me?"."""
-	from onedesk.one import settings
-
-	said = settings._memory()
-	return {
-		"remembered": [
-			{"fact": one.fact, "about": one.about_title, "kept": str(one.creation)} for one in said["facts"]
-		],
-		"workspace_told": said["knowledge"],
-		"next": "Say it plainly, in their words. They add, correct and forget memories on Settings › What "
-		"OneAI Remembers; what the workspace told you is its administrators' to change.",
 	}
 
 
@@ -2281,7 +2233,7 @@ SERIES_HELP = (
 
 
 NAMING_HELP = (
-	"A new record is named one of these ways, as frappe offers them. Naming Series: the next name in one "
+	"A new record is named one of these ways, as the system offers them. Naming Series: the next name in one "
 	"of its series (only a kind with a Naming Series field). field:<fieldname>: the value of that field, "
 	"which becomes required and unique, so only a field no two records will share, such as a title or a "
 	"code; the fields offered are named_by.fields. An expression: a pattern written as a series is, such "
@@ -2297,7 +2249,7 @@ NAMING_HELP = (
 
 def workspace_numbering(
 	doctype: Annotated[
-		str, "The kind of record, as its DocType name, such as Sales Invoice. Empty lists them all."
+		str, "The record type, by its name, such as Sales Invoice. Empty lists them all."
 	]
 	| None = None,
 ) -> dict:
@@ -2336,7 +2288,7 @@ def _rule_said(doc) -> str:
 
 
 def change_numbering(
-	doctype: Annotated[str, "The kind of record, as its DocType name, such as Sales Invoice."],
+	doctype: Annotated[str, "The record type, by its name, such as Sales Invoice."],
 	series: Annotated[
 		list[str],
 		"Every series it may be named by, the default first, when they change: the whole list, not only a new "
@@ -2774,7 +2726,7 @@ LAYOUT_HELP = (
 	"workspace; {linked: 'customer.customer_group'} for a field of the record a link field points at; "
 	"{repeater: 'items', repeater_columns: [{template: [{t: 'f', v: 'item_name'}, {t: 's', v: ' x '}], "
 	"width, align}]} for a table of rows written your own way; {divider: true}; or {html: '...'}. "
-	"An empty column is []. heading is the title at the top in the same HTML, frappe's own when left out. "
+	"An empty column is []. heading is the title at the top in the same HTML, the standard one when left out. "
 	"An html block or heading is Jinja over this one record and nothing else: {{ doc.fieldname }}, "
 	"{{ doc.get('fieldname') }}, {{ doc.get_formatted('grand_total') }} (a value as the form shows it, "
 	"with its currency), {% for row in doc.items %}{{ row.item_name }} {{ row.get_formatted('amount') "
@@ -2783,13 +2735,13 @@ LAYOUT_HELP = (
 	"odd, even, divisibleby, eq, ne, lt, gt, le, ge and in, and only the filters abs, capitalize, center, "
 	"count, default, escape, first, float, format, int, join, last, length, lower, replace, reverse, "
 	"round, sort, string, striptags, sum, title, trim, truncate, upper and wordcount. Nothing else is "
-	"there: no frappe, no frappe.db or get_all, no other record, no macros, includes or imports, no "
+	"there: no frappe.db, get_all or other frappe.* helpers, no other record, no macros, includes or imports, no "
 	"|safe, and no names that start with _; values are escaped, and scripts, forms and outside pictures "
 	"are taken out. For a value from another record, print the field that links to it. How it should "
 	"look: start from print_layout's starting_layout (or the format being changed) and change only what "
-	"was asked. Unless they ask for a look of their own, it prints in the house style, frappe's print "
-	"style spaced and toned as frappe-ui draws a page, so leave css out. When they do ask for a look (a "
-	"colour, a font, a feel), write it as css over frappe's classes (.print-format-doc, .print-heading, "
+	"was asked. Unless they ask for a look of their own, it prints in the house style, the standard print "
+	"style spaced and toned as One draws a page, so leave css out. When they do ask for a look (a "
+	"colour, a font, a feel), write it as css over the print classes (.print-format-doc, .print-heading, "
 	".section, .section-label, .field, .field .label, .field .value, .child-table .table th and td, "
 	"[data-fieldname=...]) and it replaces the house style; with house_style true it is added over the "
 	"house style instead, for a change to it. Their taste wins over the house's. The party and its "
@@ -2797,7 +2749,7 @@ LAYOUT_HELP = (
 	"description widest and the figures narrower; the totals sit under it on the right, in a "
 	"labels_beside section with spread fields, and the amount in words on the left; terms and notes come "
 	"last, each in a labelled section. The letter head already prints the company, so the body does not "
-	"repeat it. A field frappe's own formats leave off the page says not printed; print it only when "
+	"repeat it. A field the standard formats leave off the page says not printed; print it only when "
 	"asked. Build it in this order, so the person can go on changing it in the builder: first the "
 	"builder's own blocks, which cover most of any page; then, for a part they cannot draw (a stamp, a "
 	"grid of terms, a figure worked out from the rows), one html block in its place among them; and "
@@ -2816,10 +2768,10 @@ def _how() -> str:
 
 	return (
 		f"{LAYOUT_HELP} {print_props.described()} Any of these may be set on the block, section, column or "
-		"table column they belong to, beside the shorter words above; frappe's builder shows every one "
+		"table column they belong to, beside the shorter words above; the print format builder shows every one "
 		"of them, so the person can go on changing them there. Whatever a property sets (a table's "
 		"header colour is table_header_bg, a field's colour value_color, a section's background "
-		"background) is set by the property, never by css, which frappe's own print style overrides. "
+		"background) is set by the property, never by css, which the standard print style overrides. "
 		"An html block in the house style is "
 		f"built of the house's own classes and nothing else: {print_recipes.HOUSE_PARTS}. A look of "
 		"their own writes its own classes in css instead."
@@ -3365,13 +3317,13 @@ def design_print_format(
 	]
 	| None = None,
 	heading: Annotated[
-		str, "The title at the top, as an HTML template of the record; frappe's own if left out."
+		str, "The title at the top, as an HTML template of the record; the standard one if left out."
 	]
 	| None = None,
 	css: Annotated[
 		str,
 		"Leave out for the house style (a changed format keeps its own). Only for a look they asked for: "
-		"css that replaces the house style, written over frappe's print classes and nothing else: "
+		"css that replaces the house style, written over the print classes and nothing else: "
 		".print-format-doc (the page), .print-heading h2 and .print-heading .sub-heading (the title), "
 		".section, .section-label, .field .label, .field .value, .child-table .table th, .child-table "
 		".table td, .child-table .table tr.even td (every other row), and .field[data-fieldname=grand_total] "
@@ -3381,7 +3333,7 @@ def design_print_format(
 	font: Annotated[
 		str,
 		"A Google Font the whole page prints in, by its name, such as Playfair Display or Lora, when they "
-		"ask for a typeface; frappe's own Inter when left out.",
+		"ask for a typeface; the standard Inter when left out.",
 	]
 	| None = None,
 	page: Annotated[
@@ -3408,7 +3360,7 @@ def design_print_format(
 	why: Annotated[str, "In a sentence, what the design is for."] | None = None,
 ) -> dict:
 	"""Suggest a print format for any kind of record, as a card a workspace
-	administrator approves: laid out as frappe's print format builder lays one
+	administrator approves: laid out as the print format builder lays one
 	out, from sections of columns of blocks. Read print_layout first. It is
 	checked as the builder's own save checks it; the card shows the page on
 	the kind's latest record before it is approved, and the format then opens
@@ -3474,7 +3426,7 @@ def design_print_format(
 
 TEMPLATE_HELP = (
 	"A template is a subject and a message. Name a field of the record in double braces, bare, as "
-	"{{ customer_name }} or {{ due_date }}: never {{ doc.customer_name }}, which frappe's composer, the leave "
+	"{{ customer_name }} or {{ due_date }}: never {{ doc.customer_name }}, which the mail composer, the leave "
 	"mails and the salary slip all fail on. Nothing else in braces: no conditions, loops or filters. The "
 	"message is plain sentences, a blank line between paragraphs. It ends with a closing line such as Kind "
 	"regards and no name under it: the mailbox it is sent from signs it. Read workspace_mail_templates with "
@@ -3674,7 +3626,7 @@ def workspace_approvals(
 
 
 def suggest_approval(
-	doctype: Annotated[str, "The kind of record, as its DocType name, such as Purchase Invoice."],
+	doctype: Annotated[str, "The record type, by its name, such as Purchase Invoice."],
 	states: Annotated[list[dict], "Every state, the first where a record starts. " + APPROVAL_HELP],
 	steps: Annotated[list[dict], "Every step between states, as {from, action, to, by, when}."],
 	name: Annotated[str, "An approval to change, as workspace_approvals names it."] | None = None,
@@ -3894,7 +3846,7 @@ def workspace_automations(
 
 
 def suggest_automation(
-	doctype: Annotated[str, "The kind of record it watches, as its DocType name, such as Sales Invoice."],
+	doctype: Annotated[str, "The record type it watches, by its name, such as Sales Invoice."],
 	when: Annotated[str, "created, changed, field changed, submitted, cancelled, deleted or date."],
 	steps: Annotated[list[dict], "What it does, in order. " + AUTOMATION_HELP],
 	title: Annotated[str, "What it is called, such as Thank customers for paying."] | None = None,

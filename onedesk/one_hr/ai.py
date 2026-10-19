@@ -752,8 +752,8 @@ def my_leave(
 	about — the holidays in them, how many days they would cost, and who on their
 	team is already off.
 
-	Who is off is exactly what their leave calendar already shows them, by HRMS's
-	own rule: their department, when HR Settings shows department leave to
+	Who is off is exactly what their leave calendar already shows them, by the
+	system's own rule: their department, when HR Settings shows department leave to
 	everybody, and otherwise only what they may read.
 	"""
 	from hrms.hr.doctype.leave_application.leave_application import (

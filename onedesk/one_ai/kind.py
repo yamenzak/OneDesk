@@ -3,6 +3,8 @@ record of it is ready to be made. One place for OneAI's cards and tools and
 for Intake, so each reads a kind the same way.
 """
 
+import re
+
 import frappe
 from frappe.utils import strip_html_tags
 
@@ -13,6 +15,38 @@ NEVER_READ = ("Password",)
 TYPED = "__newname"
 
 READY = "one_ai_ready"
+
+# A value that points at another card's record, which does not exist until
+# that card is approved: "@PROP-26-000042".
+REF = re.compile(r"^@(PROP-[\w-]+)$")
+
+
+def refs(changes) -> list[str]:
+	"""The cards a card's values point at, in the order they appear."""
+	found = []
+	for value in (changes or {}).values():
+		rows = value if isinstance(value, list) else [value]
+		for one in rows:
+			if isinstance(one, dict):
+				found += refs(one)
+			elif isinstance(one, str) and REF.match(one):
+				found.append(REF.match(one).group(1))
+	return list(dict.fromkeys(found))
+
+
+def resolved(changes: dict, made: dict) -> dict:
+	"""The values with every pointer at a card replaced by the record it made."""
+
+	def one(value):
+		if isinstance(value, dict):
+			return resolved(value, made)
+		if isinstance(value, list):
+			return [one(row) for row in value]
+		if isinstance(value, str) and REF.match(value):
+			return made.get(REF.match(value).group(1), value)
+		return value
+
+	return {key: one(value) for key, value in (changes or {}).items()}
 
 
 def naming(doctype: str) -> dict:
@@ -131,45 +165,47 @@ def missing(doc) -> list[tuple[str, str]]:
 	return list(dict.fromkeys(out))
 
 
-def ready(doctype: str, changes: dict) -> None:
+def ready(doctype: str, changes: dict, before: list | tuple = ()) -> None:
 	"""Refuse a new record now that frappe would refuse when it is made.
 
-	Frappe's own checks on a document that is never saved, inside a savepoint that
-	is always rolled back, then what is still `missing`.
-	"""
+	It is inserted as Approve will insert it, in a savepoint always rolled
+	back, after the cards it points at (`before`: card, kind, values, in
+	order). README, kind.py."""
 	meta = frappe.get_meta(doctype)
 	unknown = [
 		key
 		for key in changes
 		if not meta.has_field(key) and key not in frappe.model.default_fields and key != TYPED
 	]
-	doc = frappe.new_doc(doctype)
-	doc.update(changes)
-	rows = [doc, *(row for table in doc.meta.get_table_fields() for row in doc.get(table.fieldname) or [])]
-
-	bad, wrong = [], set()
-	for one in rows:
-		invalid, _cancelled = one.get_invalid_links()
-		bad += [f"Could not find {said}" for _field, _value, said in invalid]
-		wrong |= {field for field, _value, _said in invalid}
-
+	bad, short = [], False
 	muted = frappe.flags.mute_messages
 	frappe.db.savepoint(READY)
 	frappe.flags.mute_messages = True
 	try:
-		for one in rows:
-			one._fix_numeric_types()
-		doc.run_method("before_validate")
-		doc.run_method("validate")
-	except frappe.ValidationError as refused:
-		bad.append(strip_html_tags(str(refused)).strip())
-	except Exception:
-		pass
+		made = {}
+		for card, kind, values in before:
+			try:
+				first = frappe.get_doc({"doctype": kind, **resolved(values, made)})
+				first.insert()
+				made[card] = first.name
+			except Exception as refused:
+				bad.append(f"The card {card} it points at would not be made: {strip_html_tags(str(refused)).strip()}")
+		doc = frappe.new_doc(doctype)
+		doc.update(resolved(changes, made))
+		try:
+			doc.insert()
+		except frappe.MandatoryError:
+			short = True
+		except frappe.ValidationError as refused:
+			bad.append(strip_html_tags(str(refused)).strip())
+		except Exception:
+			pass
 	finally:
 		frappe.flags.mute_messages = muted
+		frappe.local.message_log = []
 		frappe.db.rollback(save_point=READY)
 
-	needed = [f"{label} ({fieldname})" for fieldname, label in missing(doc) if fieldname not in wrong]
+	needed = [f"{label} ({fieldname})" for fieldname, label in missing(doc)] if short or not bad else []
 	if needed:
 		bad.insert(0, "Still needed: " + ", ".join(needed))
 	if unknown:

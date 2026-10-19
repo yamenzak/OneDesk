@@ -160,7 +160,7 @@ WEEK = {
 		"tasks with no estimate, and who has room to take some on."
 	),
 	"can": "read",
-	"expects": "team_week",
+	"expects": "run_report",
 }
 
 SUGGESTIONS = {
@@ -541,8 +541,10 @@ def set_status(
 ) -> dict:
 	"""Suggest a project's status, as a card the reader approves. A project
 	with open work is completed or cancelled only with that work, so ask
-	first and pass close_work. Approving sets it as the page's status does
-	(status.change), and its people are told."""
+	first and pass close_work. Approving sets it as the page's status does,
+	and its people are told.
+
+	Approving runs status.change."""
 	from onedesk.one_ai import proposals
 	from onedesk.one_project import status as states
 
@@ -594,7 +596,9 @@ def add_milestone(
 ) -> dict:
 	"""Suggest a milestone on a project, as a card the reader approves.
 	Approving adds it as Add Milestone does. Together a project's milestones
-	bill at most all of its contract (milestones.kept)."""
+	bill at most all of its contract.
+
+	The contract's limit is milestones.kept."""
 	from onedesk.one_ai import proposals
 
 	if not frappe.db.exists("Project", project) or not frappe.has_permission("Project", "read", doc=project):
@@ -649,8 +653,10 @@ def log_time(
 	description: Annotated[str, "What was done, in a sentence."] | None = None,
 ) -> dict:
 	"""Suggest an entry on the reader's own timesheet for the week, as a card
-	the reader approves. Approving logs it as Time's Log Time does
-	(hours.log), billable as the project bills hours."""
+	the reader approves. Approving logs it as Time's Log Time does, billable
+	as the project bills hours.
+
+	Approving runs hours.log."""
 	from onedesk.one_ai import proposals
 
 	if not frappe.db.exists("Project", project) or not frappe.has_permission("Project", "read", doc=project):
@@ -693,8 +699,10 @@ def set_cost_budget(
 	why: Annotated[str, "In a sentence, why."] | None = None,
 ) -> dict:
 	"""Suggest a cost type's budget on a project, new or changed, as a card
-	the reader approves. Approving sets it as Money's Add Cost Type does
-	(budget.set_budget), and it warns when an order or expense goes over."""
+	the reader approves. Approving sets it as Money's Add Cost Type does, and
+	it warns when an order or expense goes over.
+
+	Approving runs budget.set_budget."""
 	from onedesk.one_ai import proposals
 
 	if not frappe.db.exists("Project", project) or not frappe.has_permission("Project", "read", doc=project):
@@ -921,8 +929,9 @@ def draft_project(
 ) -> dict:
 	"""Suggest a new project, as a card the reader approves. Read
 	project_templates first and offer a template. Approving makes it as the
-	New Project dialog does (kinds.make), with the customer's terms, and
-	opens it."""
+	New Project dialog does, with the customer's terms, and opens it.
+
+	Approving runs kinds.make."""
 	from onedesk.one_ai import proposals
 	from onedesk.one_project import library as presets
 
@@ -1150,39 +1159,6 @@ def _money(project: str) -> dict:
 		"margin_so_far": said["margin"],
 		"earned": said["earned"],
 		"kind": said["kind"],
-	}
-
-
-def team_week(
-	week: Annotated[str, "A day in the week, as YYYY-MM-DD. This week when left out."] | None = None,
-	project: Annotated[str, "Only this project and those under it, such as PROJ-0005."] | None = None,
-) -> dict:
-	"""The team's week as Workload shows it: each person's hours, what is
-	planned for them, what is free, their open, late and unestimated tasks.
-	Read before saying who has too much on or who has room."""
-	from onedesk.one_project.report.workload import workload
-
-	if not frappe.get_doc("Report", "Workload").is_permitted():
-		return {"error": "The reader may not open Workload."}
-	if project and not frappe.has_permission("Project", "read", doc=project):
-		return {"error": f"No project the reader may see is {project}."}
-	_columns, rows, week_of, _chart, cards = workload.execute({"week": week or nowdate(), "project": project})
-	return {
-		"week": week_of,
-		"totals": {str(one["label"]): one["value"] for one in cards},
-		"people": [
-			{
-				"name": one["full_name"] or one["user"],
-				"hours": one["capacity"],
-				"planned": one["planned"],
-				"free": one["free"],
-				"load": f"{one['load']}%" if one["load"] is not None else None,
-				"open_tasks": one["tasks"],
-				"late_tasks": one["late"],
-				"not_estimated": one["unestimated"],
-			}
-			for one in rows
-		],
 	}
 
 

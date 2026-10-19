@@ -27,6 +27,16 @@ Only administrators see Workspace, Setup, Automation, Privacy and Audit Log,
 except **Masters**, which an app's managers see too. Click a group's name to
 fold it away; the quieter ones start folded.
 
+Which mailboxes and folders OneAI reads is set in One's **OneIntake** group,
+not in OneMail or OneCloud: **What OneAI Reads** lists yours, the mailboxes
+you hold and the folders you can change, and **Settings** lists all of them
+for an administrator, with how OneIntake reads and what OneHR lets it do.
+
+A link to a page that doesn't exist shows **Page not found**, and a page you
+may not open shows **No access**. **Go Back** and **Go Home** take you on.
+
+### Turning an app off for the workspace
+
 **Apps**, at the bottom of the rail above your picture, is for
 administrators. Click an app's card to turn it off for the whole workspace:
 it leaves everybody's rail, and the record types only it lists leave search,
@@ -45,6 +55,8 @@ switches can't be turned on. What they read and filed before stays. A
 OneStudio extension waits for OneAI's review, so none can be turned on while
 OneAI is off.
 
+### Adding a private app
+
 **Private apps** are made for one customer. Somebody who administers the
 workspace types the code they were given at the bottom of Apps and presses
 **Add**. The app is installed on the workspace, which takes a few minutes,
@@ -52,10 +64,7 @@ and its card says *Installing…* until it is on the rail. A private app
 can't be turned off, now or later. How one is written and delivered is
 `docs/PRIVATE-APPS.md`.
 
-Which mailboxes and folders OneAI reads is set in One's **OneIntake** group,
-not in OneMail or OneCloud: **What OneAI Reads** lists yours, the mailboxes
-you hold and the folders you can change, and **Settings** lists all of them
-for an administrator, with how OneIntake reads and what OneHR lets it do.
+### The bar across the top
 
 The thin bar across every page shows today's date and the time on the left;
 click it to open OneCalendar. On the right are **Search**, then **Check In**
@@ -63,10 +72,15 @@ and **Timers**, then **OneIntake** and **Notifications**. A number on an icon
 says how much waits there. **Check In** says *Check In* when your shift has
 started and you haven't, and *Late* once you are late. The last button moves
 the bar to the bottom of the screen, or back to the top. At the bottom, the
-round OneAI button in the corner moves into the bar, beside it. That choice is yours
-alone and is remembered. With the rail the bar makes one frame, and the rest
-of the screen sits inset in it, its corner rounded. On a phone there is no
-bar, and its tools are at the top of the panel instead.
+round OneAI button in the corner moves into the bar, beside it. That choice is
+yours alone and is remembered. With the rail the bar makes one frame, and the
+rest of the screen sits inset in it, its corner rounded. On a phone there is
+no bar, and its tools are at the top of the panel instead.
+
+**Background Tasks** shows in the bar only while a long job you started is
+still running. Click it to see what is running.
+
+### Moving between places and records
 
 In every app the panel on the left lists the app's places, and stays open on
 its lists and reports.
@@ -91,6 +105,60 @@ the comment box is at the top, **New Email** opens the email window, and
 
 The round OneAI button in the corner opens OneAI on any page. It offers
 suggestions for that page, and you can ask it how anything in One works.
+
+## Searching for a record or a page
+
+Click **Search** in the bar, or press Ctrl+K (⌘K on a Mac). Type the name of
+a list, a report or a page to go there, or a word to search records for it.
+You only find what you can open. The records of an app the workspace turned
+off are left out.
+
+## Your notifications (the bell)
+
+**Notifications** is the bell in the bar. Its number is how many you haven't
+read. Click it to open the panel:
+
+- **All** lists your notifications, newest first. Click one to open its
+  record. That marks it read.
+- **Events** lists your events for today.
+- The double tick, **Mark all as read**, marks every one read.
+- The gear, **Notification Settings**, opens Settings › Notifications, where
+  you choose what also comes by email or push.
+
+## Your menu: theme, settings and signing out
+
+Click your picture at the bottom of the rail for your menu:
+
+- **Settings** opens your Profile.
+- **Theme** chooses **Light**, **Dark** or **Automatic**, which follows your
+  computer's setting.
+- **Reload** reloads One, for when a page looks out of date.
+- **Logout** signs you out.
+
+The menu under the app's name at the top of the panel has **Help** ›
+**Ask OneAI**, which asks OneAI how the page you're on works.
+
+## Contacts and addresses
+
+**Contacts** and **Addresses**, under Address Book, are the people and places
+the workspace deals with: a customer's buyer, a supplier's accountant, a
+site's address. Every app uses the same ones.
+
+**Adding a contact**
+
+1. Open **Contacts** and click **Add Contact**.
+2. Enter their name, email and phone, and save. **Edit Full Form** shows
+   every field.
+3. Under **Links**, add the customer, supplier or other record they belong
+   to. The contact then shows on that record.
+
+**Addresses** work the same way, with **Add Address**: a title, the type,
+the lines, city and country, and under **Links** whose address it is.
+**Preferred Billing Address** and **Preferred Shipping Address** mark the
+one new documents use first.
+
+A contact of a customer or supplier can be invited to the portal (see The
+Portal).
 
 ## Home
 
@@ -118,7 +186,7 @@ Administrators also see **The Workspace** when something needs attention:
 
 Each one opens the page where you fix it.
 
-Home is a standard frappe workspace, so an administrator can add or move
+Home is a standard workspace page, so an administrator can add or move
 items with **Edit**.
 
 OneAI offers **What needs me today?** here.
@@ -177,16 +245,6 @@ record. Changing them here updates both.
 HR is notified when you change your addresses or your emergency contact, with
 what changed.
 
-**Your Data**, at the bottom of the page:
-
-- **Request My Data** requests a copy of your data. An administrator
-  reviews the request (see Privacy Requests). When the copy is ready, you get a
-  notification and an email, and you can download it here.
-- **Delete My Account** requests deletion of your account. You confirm with
-  your password, or with an emailed link that works for a day if you sign in
-  without one. An administrator decides. Until then, **Cancel Deletion**
-  cancels the request.
-
 OneAI offers these here. The first is also the **Check My Profile** button
 under your name.
 
@@ -196,13 +254,27 @@ under your name.
 - **How do I fill this in?** What each part of the page is for, and what only
   HR can change.
 
+### Getting a copy of your data or deleting your account
+
+**Your Data** is at the bottom of You › Profile:
+
+- **Request My Data** requests a copy of your data. An administrator
+  reviews the request (see Privacy Requests). When the copy is ready, you get a
+  notification and an email, and you can download it here.
+- **Delete My Account** requests deletion of your account. You confirm with
+  your password, or with an emailed link that works for a day if you sign in
+  without one. An administrator decides. Until then, **Cancel Deletion**
+  cancels the request.
+
 ### Notifications
 
 Every notification One can send you, and how you get it. Every notification
 appears in One. Here you choose which ones you also get by **email** and by
 **push**. Push shows them on your computer or phone even when One isn't open.
 
-**Push**
+### Turning on push notifications
+
+On You › Notifications:
 
 - **Turn On Push** asks your browser for permission. After that, this browser
   gets the notifications you switch on for push.
@@ -215,7 +287,9 @@ appears in One. Here you choose which ones you also get by **email** and by
 - iPhone and iPad aren't supported yet. Apple only allows push for sites added
   to the Home Screen as an app, and One can't be added that way yet.
 
-**Choosing what you get**
+### Choosing which notifications you get
+
+On You › Notifications:
 
 - **Notifications** is the main switch. When it's off, you get no
   notifications and no emails, except the few that are always mailed.
@@ -238,7 +312,8 @@ appears in One. Here you choose which ones you also get by **email** and by
   before your events, and emails about records assigned to you.
 
 Click **Save** at the top right. Administrators choose what new people start
-with, and the text of each notification, under Automation › Workspace Notifications.
+with, and the text of each notification, under Automation › Workspace
+Notifications.
 
 OneAI offers:
 
@@ -309,17 +384,20 @@ right away, so there's nothing to save.
 - **Recent Sign-ins** shows your last six, with failed ones in red. A failed
   sign-in you didn't make means someone is trying your password. Change it.
 
-**Signing in.** The login page leads with **Sign in with a Passkey**, and
-the password is under it. Once you've signed in with your password, One offers
-to make you a passkey. **Not Now** asks again in a week, and it stops asking
-after the third time; Settings still has it.
+OneAI offers **Is my account safe?**, also the **Is My Account Safe?** button.
+It checks everything above and says what to do.
+
+### Signing in with a passkey
+
+The login page leads with **Sign in with a Passkey**, and the password is
+under it. Once you've signed in with your password, One offers to make you a
+passkey. **Not Now** asks again in a week, and it stops asking after the third
+time. You can still make one any time with **Register This Device** under
+You › Sign-in.
 
 When your password changes or a passkey is added, you're notified in One and
 always by email, with the time and the device. If it wasn't you, reset your
 password from the sign-in page and tell your administrator.
-
-OneAI offers **Is my account safe?**, also the **Is My Account Safe?** button.
-It checks everything above and says what to do.
 
 ### What OneAI Remembers
 
@@ -416,31 +494,9 @@ administrators see it. Save from the top right.
 - **Region and Formats**: the default language and time zone for people who
   haven't chosen their own in Profile, and how dates, times and numbers are
   shown. A preview line shows how they'll look before you save. Below it,
-  ERPNext's Global Defaults: whether amounts show their currency's symbol,
+  Global Defaults: whether amounts show their currency's symbol,
   and whether sales and purchases have a rounded total and their total in
   words.
-- **Start Again**, at the foot: **Delete All Transactions** deletes every
-  sale, purchase, stock move, project, payslip, lead and asset, for a
-  workspace that tried One with made-up records. Customers, suppliers,
-  items, employees, accounts and settings stay. It is ERPNext's Transaction
-  Deletion Record, which runs in the background; the page it opens shows how
-  far it has got.
-- **Sign-in**: sign-in rules for everyone.
-  - **Two-Factor Sign-in** asks for a code after the password, for
-    administrators only or for everyone. Each person sets it up at their next
-    sign-in, with an authenticator app or by email.
-  - **Signed Out After** is how long someone stays signed in while they're
-    not using One.
-  - **Passwords** sets how strong a new password must be. **Passwords Expire
-    After** asks for a new password once that many days have passed.
-  - **Wrong Passwords Before a Lockout** and **Locked Out For**: after that many
-    wrong passwords in a row, sign-in is blocked for that long.
-  - **Passkey Sign-in** and **Email Link Sign-in** let people sign in without
-    a password, with a passkey on their own device or a link sent by email.
-    Passkey sign-in is on to begin with, and turning it off takes the button
-    off the login page and stops the offer after signing in.
-  - **One Device at a Time** signs a person out everywhere else when they sign
-    in on a new device.
 - **Sharing**
   - **Calendar Links**: when off, every calendar link stops working and no new
     ones can be made.
@@ -450,9 +506,39 @@ administrators see it. Save from the top right.
 If another administrator saved while you had the page open, the page tells you
 instead of saving over their change.
 
+### Sign-in rules for everyone
+
+**Sign-in**, in Workspace › General, sets how everyone signs in. Save from
+the top right.
+
+- **Two-Factor Sign-in** asks for a code after the password, for
+  administrators only or for everyone. Each person sets it up at their next
+  sign-in, with an authenticator app or by email.
+- **Signed Out After** is how long someone stays signed in while they're not
+  using One.
+- **Passwords** sets how strong a new password must be. **Passwords Expire
+  After** asks for a new password once that many days have passed.
+- **Wrong Passwords Before a Lockout** and **Locked Out For**: after that many
+  wrong passwords in a row, sign-in is blocked for that long.
+- **Passkey Sign-in** and **Email Link Sign-in** let people sign in without a
+  password, with a passkey on their own device or a link sent by email.
+  Passkey sign-in is on to begin with, and turning it off takes the button off
+  the login page and stops the offer after signing in.
+- **One Device at a Time** signs a person out everywhere else when they sign
+  in on a new device.
+
 OneAI offers **Is signing in here safe enough?** The answer covers the
 sign-in rules, the number of people, passwords over a year old and last
 week's failed sign-ins, with what to change.
+
+### Deleting all transactions to start again
+
+**Start Again** is at the foot of Workspace › General. **Delete All
+Transactions** deletes every sale, purchase, stock move, project, payslip,
+lead and asset, for a workspace that tried One with made-up records.
+Customers, suppliers, items, employees, accounts and settings stay. It is a
+Transaction Deletion Record, which runs in the background; the page it opens
+shows how far it has got.
 
 ### People, for the Workspace
 
@@ -470,9 +556,11 @@ person, the list shows:
 The line at the top shows how many seats are used. **Search** appears once
 there are more than five people.
 
-**Inviting someone**
+OneAI offers **Who has access to what?** and **Who has not signed in lately?**
 
-1. Click **Invite People** at the top right.
+### Adding a person to the workspace
+
+1. Open Workspace › **People** and click **Invite People** at the top right.
 2. Enter their email, their name and the apps they get.
 
 They get an email invitation from you that lists what they can use, with a
@@ -480,11 +568,14 @@ link to set their password. The link expires after seven days, or once they've
 set a password. Until they join, their page has **Resend Invite**, which sends
 a new invitation.
 
-**Changing someone's access**
+Each person takes a seat. When every seat is taken, add seats under Workspace ›
+Plan and Credits.
 
-Click a person to open their page. It shows their access in each app, what
-each app covers, and whether they're an administrator. Save from the top
-right.
+### Changing someone's access, or disabling them
+
+In Workspace › **People**, click a person to open their page. It shows their
+access in each app, what each app covers, and whether they're an
+administrator. Save from the top right.
 
 - The person is notified of what changed.
 - When someone becomes an administrator, every other administrator gets an
@@ -500,20 +591,40 @@ signed in and their recent sign-ins. Under **Actions** at the top right:
   Everything they created stays.
 - **Enable** lets them sign in again.
 
-OneAI offers **Who has access to what?** and **Who has not signed in lately?**
+For anything finer than None, User or Manager, see Access, for the Workspace.
 
 ### Access, for the Workspace
 
 People gives each person None, User or Manager in OneCRM, OneBook,
 OneInventory, OneProject and OneHR. **Access**, under Workspace, is for
-anything finer. Only administrators see it.
+anything finer: levels, profiles, groups and user permissions, each below.
+Only administrators see it.
 
-**Levels**
+A record's **Settings › Access** shows what each app's users, levels and
+managers can do with that record type, and opens any of them to change it.
 
-Each app's **User** and **Manager** levels are listed here, and work like any
-other level. Tick or untick permissions on any record type the app uses:
-Select, Read, Edit, Create, Delete, Submit, Cancel and Export. For example,
-remove Delete from Manager, or hide a record type from User.
+OneAI offers **Who can do what?** and **Who sees only part?**
+
+You can also ask OneAI to set things up, for example:
+
+- "a level of OneCRM that can't delete quotations"
+- "a profile for bookkeepers"
+- "a group for the Gulf sales team"
+- "limit Rania to the UAE territory"
+- "remove Omar's access"
+
+OneAI shows a card listing every permission it would add or remove, every
+person it would add or remove, and who is notified. Nothing changes until an
+administrator clicks **Approve**. If the level changed after the card was
+made, the card says so and makes no change.
+
+### Access levels and permissions
+
+Each app's **User** and **Manager** levels are listed under Workspace ›
+Access, and work like any other level. Tick or untick permissions on any
+record type the app uses: Select, Read, Edit, Create, Delete, Submit, Cancel
+and Export. For example, remove Delete from Manager, or hide a record type
+from User.
 
 To add your own level, such as Senior Sales:
 
@@ -532,24 +643,31 @@ When you save a level:
   customer. People can then choose those records even if they can't open them.
 - Everyone at that level is notified.
 
-**Profiles**
+Permissions are saved the way Role Permissions Manager saves them. Once you
+change a record type's permissions here, app updates no longer change its
+standard permissions. Everyone at any level of an app still counts as one of
+its users. They get the notifications its users get, and can open its
+reports, which show only what their level can read.
+
+### Access profiles for a job
 
 A profile is a job's apps and levels in one, such as Accountant with OneBook
-as Manager and OneInventory as User. Choose it under **Profile** on a person's
-page to set every app at once.
+as Manager and OneInventory as User. Make one under Workspace › Access, then
+choose it under **Profile** on a person's page to set every app at once.
 
 - Changing the profile later updates everyone on it.
 - Their administrator setting and any other roles they have, such as HR roles,
   stay as they are.
 - Changing one of their apps by hand removes them from the profile.
 
-**Groups**
+### Groups of people
 
-A group is a named team, such as Sales Gulf, and its members. Assign a record
-to everyone in it from **Assign To**, or @mention the group in a comment to
-notify them all. A group doesn't grant any permissions.
+A group is a named team, such as Sales Gulf, and its members. Make one under
+Workspace › Access. Assign a record to everyone in it from **Assign To**, or
+@mention the group in a comment to notify them all. A group doesn't grant any
+permissions.
 
-**User Permissions**
+### Limiting someone to some records (user permissions)
 
 On a person's page, **Add User Permission** limits them to a territory,
 customer group, customer, supplier, department, branch, project or warehouse.
@@ -561,36 +679,24 @@ limit can apply everywhere or to one record type (**Applicable For**).
   be removed here.
 - The person is notified either way.
 
-A record's **Settings › Access** shows what each app's users, levels and
-managers can do with that record type, and opens any of them to change it.
-
-Permissions are saved the way frappe's Role Permissions Manager saves them.
-Once you change a record type's permissions here, app updates no longer change
-its standard permissions. Everyone at any level of an app still counts as one
-of its users. They get the notifications its users get, and can open its
-reports, which show only what their level can read.
-
-OneAI offers **Who can do what?** and **Who sees only part?**
-
-You can also ask OneAI to set things up, for example:
-
-- "a level of OneCRM that can't delete quotations"
-- "a profile for bookkeepers"
-- "a group for the Gulf sales team"
-- "limit Rania to the UAE territory"
-- "remove Omar's access"
-
-OneAI shows a card listing every permission it would add or remove, every
-person it would add or remove, and who is notified. Nothing changes until an
-administrator clicks **Approve**. If the level changed after the card was
-made, the card says so and makes no change.
-
 ### Reports and dashboards
 
-Saved reports, dashboards and reports by mail are frappe's own. Each belongs to
-an app.
+Saved reports, dashboards and reports by mail each belong to an app. Only
+administrators create dashboards and reports by mail. Script reports, Query
+reports, copies of them, and charts or cards that run code can't be made
+here. Those come with the apps.
 
-**Saved reports**
+OneAI offers **What do our dashboards show?** and **Which reports go out by
+mail?**
+
+You can also ask OneAI for a saved report ("unpaid invoices over a thousand,
+largest first, in OneBook"), a dashboard or a report by mail. It shows a card
+with the columns, filters, charts and recipients. When you click **Approve**,
+it creates it as you, so it can't create anything you couldn't. Anyone can ask
+for a saved report of records they can read. Dashboards, reports by mail and
+reports shown to everyone are for administrators.
+
+### Saving a report
 
 1. Open a list's **Report** view from the view switcher at the top right.
 2. Set its columns, filters, grouping and totals.
@@ -608,7 +714,7 @@ such as OneBook for invoices or OneCRM for customers.
   administrator. Deleting it from the report's menu removes it from the sidebar.
 - A saved report shows each person only the records they can read.
 
-**Dashboards**
+### Dashboards of charts and number cards
 
 One › **Dashboards** holds pages of charts and number cards, such as invoices
 by month or how many are unpaid.
@@ -621,25 +727,12 @@ by month or how many are unpaid.
 - **Show In…** on a dashboard's menu also lists it under Dashboards in an
   app's sidebar, for the administrator only or for everyone who uses the app.
 
-**Reports by Mail**
+### Emailing a report on a schedule (Reports by Mail)
 
 Automation › **Reports by Mail**, or **Setup Auto Email** on a report's menu,
 emails a report daily, weekly or monthly to the addresses you enter. The
-report shows what the person who set it up can see.
-
-Only administrators create dashboards and reports by mail. Script reports,
-Query reports, copies of them, and charts or cards that run code can't be made
-here. Those come with the apps.
-
-OneAI offers **What do our dashboards show?** and **Which reports go out by
-mail?**
-
-You can also ask OneAI for a saved report ("unpaid invoices over a thousand,
-largest first, in OneBook"), a dashboard or a report by mail. It shows a card
-with the columns, filters, charts and recipients. When you click **Approve**,
-it creates it as you, so it can't create anything you couldn't. Anyone can ask
-for a saved report of records they can read. Dashboards, reports by mail and
-reports shown to everyone are for administrators.
+report shows what the person who set it up can see. Only administrators
+create them.
 
 ### Announcements
 
@@ -681,8 +774,8 @@ administrators. A restored field comes back with its values, and a restored
 collection comes back with its records list and its place in its app.
 
 Meetings, notes and to-dos are in the bin like any record. The bin doesn't
-include child tables, frappe's internal records such as permission rows, or
-the platform's own records.
+include child tables, the system's internal records such as permission rows,
+or the platform's own records.
 
 OneAI offers **What was deleted lately?**, using only what you can see in the
 bin.
@@ -690,7 +783,7 @@ bin.
 ### Audit Log
 
 Who did what in the workspace, under One › **Audit Log**. Only administrators
-see it. Frappe records each entry as it happens, and no one can change or
+see it. Each entry is recorded as it happens, and no one can change or
 delete one.
 
 - **Changes**: every change to a record, such as "Wren changed One". Each
@@ -724,9 +817,15 @@ it.
   again each day once a request has waited a week.
 - The law allows a month to respond.
 
-**Data copies**
+On a request, OneAI offers **What would this copy give?** and **What would
+deleting them remove?** The answer lists each type of data and how much, or
+what's deleted, what's kept without their name, and what's still assigned to
+them that someone should take over first.
 
-**Review and Send** shows each type of data and how much of it there is.
+### Answering a request for a copy of someone's data
+
+Open the request under Privacy › **Data Copies**. **Review and Send** shows
+each type of data and how much of it there is.
 
 - **Always included**, because it's about the person: their account and
   profile (with employee details), sign-ins, contacts with their email
@@ -740,7 +839,9 @@ it.
 - **Never included**: the contents of records they deleted, printed pages,
   values in the workspace's records, and account secrets. The copy says so.
 
-**Account deletions**
+### Answering a request to delete an account
+
+Open the request under Privacy › **Account Deletions**.
 
 - **Approve and Delete** signs the person out and turns off the account right
   away. Then, in the background:
@@ -760,7 +861,7 @@ it.
   deleted. Hand those over to someone else first.
 - No one can approve their own request.
 
-**People without an account**
+### Privacy requests from people without an account
 
 Customers' contacts, suppliers, leads and job applicants use the workspace's
 **/your-data** page.
@@ -783,16 +884,11 @@ Customers' contacts, suppliers, leads and job applicants use the workspace's
 - Deleting removes their name and email from everything the workspace keeps,
   as for a user. There's no account to turn off or rename.
 
-On a request, OneAI offers **What would this copy give?** and **What would
-deleting them remove?** The answer lists each type of data and how much, or
-what's deleted, what's kept without their name, and what's still assigned to
-them that someone should take over first.
-
 ### Workspace Notifications
 
-**Workspace Notifications**, under Automation, lists every notification One sends,
-grouped by app. For example, a file shared with you, a letter requested from
-HR, or a document OneAI flags as phishing. Only administrators see it.
+**Workspace Notifications**, under Automation, lists every notification One
+sends, grouped by app. For example, a file shared with you, a letter requested
+from HR, or a document OneAI flags as phishing. Only administrators see it.
 
 Each row shows when it's sent and who gets it, with these badges:
 
@@ -802,6 +898,22 @@ Each row shows when it's sent and who gets it, with these badges:
   start with it on.
 - **External Email**: it goes to an address outside the workspace, such as a
   file request email.
+
+Mentions, assignments and shares are the system's built-in notifications,
+listed at the bottom. Their text is built in, so it can't be changed here.
+
+OneAI offers:
+
+- **Rewrite this notification**, also a button on an open notification. New
+  text as a card, using only the names allowed. Approving saves it, and the
+  open page shows the new text.
+- **Which should be emailed?** Which notifications are worth an email and
+  which are better left in One.
+- **Make a rule**: asks what should happen and who should be notified, then
+  suggests the rule.
+- **How do notifications work?** An explanation of this page.
+
+### Notifications the apps send themselves
 
 Notifications the products send are listed under their product, in one of
 three ways:
@@ -820,7 +932,9 @@ three ways:
   workspace sends is hidden. The payslip's **Send This** is the same setting
   as in Payroll Settings. The others are always sent.
 
-**Editing a notification**
+### Changing a notification's text or channels
+
+Under Automation › **Workspace Notifications**:
 
 Click a notification to open it, and save from the top right.
 
@@ -840,7 +954,7 @@ Click a notification to open it, and save from the top right.
   gives it to everyone again if it's on for new people. Each person changes
   their own under You › Notifications.
 
-**Rules**
+### Making your own notification rule
 
 Rules are notifications the workspace makes itself. When something happens to
 a record type, they notify someone. They're at the top of the page. Click
@@ -866,20 +980,6 @@ in the OneAI panel, you describe the rule in your own words ("tell the
 account manager when an invoice is seven days overdue"). OneAI suggests it as
 a card, and nothing is created until you approve it.
 
-Mentions, assignments and shares are frappe's own notifications, listed at
-the bottom. Their text is frappe's, so it can't be changed here.
-
-OneAI offers:
-
-- **Rewrite this notification**, also a button on an open notification. New
-  text as a card, using only the names allowed. Approving saves it, and the
-  open page shows the new text.
-- **Which should be emailed?** Which notifications are worth an email and
-  which are better left in One.
-- **Make a rule**: asks what should happen and who should be notified, then
-  suggests the rule.
-- **How do notifications work?** An explanation of this page.
-
 ### Numbering, for the Workspace
 
 How each record type is named when a record is created. For example, an
@@ -900,7 +1000,26 @@ Up Naming** lets you choose any other record type and opens it there. While
 you type a series or expression, the window shows the next name it would give,
 or what's wrong with it.
 
-**Writing a series**
+You can also ask OneAI, for example "number our invoices by year", "start
+this year's quotations at 500", "name projects by their title", "give
+government customers their own prefix" or "is any numbering behind?". OneAI
+suggests the change as a card, and nothing changes until you approve it.
+
+### Changing how invoices are numbered
+
+The same steps work for quotations, orders or any record type with a series.
+
+1. Open Setup › **Numbering** and click the **Sales Invoice** row.
+2. Click the series to change, or **Add Series** for a new one.
+3. Type the series, such as `INV-.YYYY.-.####`. The window shows the next
+   name it would give, or what's wrong with it.
+4. Tick **Default** so new invoices start with this series.
+5. To start from a higher number, set **Current Value**. It can only go up.
+6. Click **Update**, or **Add** for a new series.
+
+Existing invoices keep their names. Only new ones use the change.
+
+### Writing a series
 
 A series is parts separated by dots, read left to right.
 
@@ -925,10 +1044,10 @@ new year at 1000, but never down, and never below the highest number a record
 already has. The edit window shows that number. Each change is kept in the
 record's history.
 
-**Naming method**
+### Choosing how a record type is named
 
 **Name each new ... by**, at the top of Numbering, sets how a new record gets
-its name, with frappe's own options:
+its name, with these options:
 
 - **Naming Series**: the next name in one of its series, for record types that
   have them.
@@ -955,7 +1074,11 @@ Changes never rename existing records. They apply only to records created
 afterwards. Switching back to a series continues from the number it had
 reached.
 
-**Naming rules**
+The naming method can only be changed on record types people create
+themselves. Ledgers, logs, and the system's and One's own record types are
+named by the system. Rules work on all of them.
+
+### Naming rules: a prefix for some records
 
 A rule gives a record its own prefix when its fields match, whatever its
 naming method. For example, returns as `RET-.YYYY.-`, or government customers
@@ -971,21 +1094,13 @@ as `CUST-GOV-.YYYY.-`.
 When two rules match, the one with the higher **Priority** wins. Rules only
 check the record's standard fields.
 
-You can also ask OneAI, for example "number our invoices by year", "start
-this year's quotations at 500", "name projects by their title", "give
-government customers their own prefix" or "is any numbering behind?". OneAI
-suggests the change as a card, and nothing changes until you approve it.
-
-The naming method can only be changed on record types people create
-themselves. Ledgers, logs, and frappe's and One's own record types are named
-by the system. Rules work on all of them.
-
 ### Printing, for the Workspace
 
-How the workspace's documents look on paper. Only administrators see this,
-and only formats for record types they can open.
+How the workspace's documents look on paper: letter heads and print formats,
+each below. Only administrators see this, and only formats for record types
+they can open. Print headings and address templates are in **Masters**.
 
-**Letter Heads**
+### Letter heads
 
 A letter head is the header and footer of every printed page. Each letter head
 shows as a card with a full page, as it prints. The star makes one the
@@ -993,6 +1108,16 @@ default. Click a card to open it. The letter head window has **Header** and
 **Footer** tabs on the left, each a list of presets with its options under
 it, and the page on the right. Pointing at a preset shows it on the page;
 clicking keeps it.
+
+**Edit in Builder** opens the letter head in the print format builder
+instead, where the header and footer are each an image or HTML. A header or
+footer edited there stays as written. Choosing a preset again replaces it.
+
+**Default** prints a letter head on every document unless another is chosen.
+**Disabled** keeps it but stops offering it. The workspace's standard letter
+heads can be made the default or disabled.
+
+### Letter head headers
 
 The header uses one of thirteen presets, filled in from Workspace › General:
 
@@ -1029,9 +1154,7 @@ Under the presets:
 When you change any of these details in General, including the Brand Colour,
 every preset header and footer updates.
 
-**Edit in Builder** opens the letter head in the print format builder
-instead, where the header and footer are each an image or HTML. A header or
-footer edited there stays as written. Choosing a preset again replaces it.
+### Letter head footers
 
 The footer uses one of nine presets:
 
@@ -1052,13 +1175,9 @@ you for your business.", and turn on its **Brand Line** if you like. A new
 letter head starts with the Centred footer.
 
 The page number isn't part of the footer. It's part of the print format (Page
-Number, in the builder), and frappe prints it on every page.
+Number, in the builder), and it prints on every page.
 
-**Default** prints a letter head on every document unless another is chosen.
-**Disabled** keeps it but stops offering it. The workspace's standard letter
-heads can be made the default or disabled.
-
-**Print Formats**
+### Print formats
 
 This shows the same cards as a record's **Settings › Print Formats** (see A
 Form's Settings). There's one group for each record type the workspace made a
@@ -1075,7 +1194,7 @@ To add a format:
 A format belongs to one record type. A printed record stays inside its app,
 with that app's sidebar.
 
-**Formats One ships**
+### Print formats One ships
 
 Everything that leaves the company prints from a format of ours unless the
 workspace chooses another: One Quotation, One Sales Order, One Sales Invoice,
@@ -1103,6 +1222,8 @@ workspace's own:
 - **One Signatures**: a line for each side to sign, on a quotation, a
   delivery note, a job offer and an appointment letter.
 
+### HTML blocks in a print format
+
 In the builder, a format is made of the record's fields, tables, text, images,
 barcodes, the standard field templates and **Custom HTML** blocks.
 
@@ -1118,17 +1239,32 @@ barcodes, the standard field templates and **Custom HTML** blocks.
   another site aren't available, since each would print exactly what's
   written, on the workspace's address.
 
-**Printing with OneAI**
+### Designing a letter head or print format with OneAI
 
 OneAI offers **Suggest a letter head**, **Tidy our footer**, **Design a letter
 head from our details**, **Design a clean invoice format** and **Which format
 do invoices print with?**
 
+Each suggestion is a card an administrator approves. **See the Page** on the
+card previews it first: a format on the record type's latest record, or a
+letter head's header and footer.
+
 - **Letter heads**: OneAI can change an existing header or footer as well as
   create one. Ask it to remove the footer's line or add a note, and only that
   changes. It can use any preset, or write HTML from the company's details,
-  where `[icon:phone]` (any of frappe's Lucide icon names) shows that icon in
+  where `[icon:phone]` (any Lucide icon name) shows that icon in
   the Brand Colour.
+- OneAI can also suggest the default letter head, and which format a record
+  type prints with.
+- **Model**: designing a format uses a stronger model than the chat, set in
+  the **Print Design** action. Administrators can change it in OneAI Actions.
+- **Checks**: a layout that would print badly, such as an empty section, a
+  table wider than the page, or an invoice without its customer or total, is
+  fixed before you see a card. If it still can't be fixed, OneAI says nothing
+  was made.
+
+### How OneAI lays out a print format
+
 - **Print formats**: OneAI designs a format for any record type from the
   builder's own blocks, so it opens in the builder like any other. It uses an
   HTML block only for a part the blocks can't show, such as a stamp, a grid of
@@ -1139,36 +1275,22 @@ do invoices print with?**
   invoice, quotation, order or bill, that's who it's for on the left, the
   dates on the right, the items in one table, the totals below next to the
   amount in words, and the terms last.
-- **Style**: by default it uses a house style based on frappe's print style,
+- **Style**: by default it uses a house style based on the standard print style,
   with small muted labels, space between sections, an items table under a
   soft header without a box, and the totals as label and figure on one line,
   with the grand total above a rule. A look you ask for, such as a colour, a
   band behind the title or a typeface, replaces the house style. A typeface is
-  set with frappe's Google Font setting on the format.
-- **Properties**: it can set any property frappe's builder shows, by the
+  set with the format's Google Font setting.
+- **Properties**: it can set any property the builder shows, by the
   builder's own name. That includes a section's background, padding, margin,
   radius, borders and when it prints, a field's size and colours, a table's
   style, which rows print and column widths, barcodes, images, repeaters, and
   the page's font size, margins and colours. You can keep editing all of it in
   the builder.
 - **HTML blocks**: in the house style these use cards, large figures, status
-  badges, stamps, tables and label and value rows, in frappe-ui's colours. They
+  badges, stamps, tables and label and value rows, in One's own colours. They
   can only use the record's fields and rows, `get_formatted`, conditions, loops
   and plain filters.
-- **Checks**: a layout that would print badly, such as an empty section, a
-  table wider than the page, or an invoice without its customer or total, is
-  fixed before you see a card. If it still can't be fixed, OneAI says nothing
-  was made.
-- **Model**: designing a format uses a stronger model than the chat, set in
-  the **Print Design** action. Administrators can change it in OneAI Actions.
-- OneAI can also suggest the default letter head, and which format a record
-  type prints with.
-
-Each suggestion is a card an administrator approves. **See the Page** on the
-card previews it first: a format on the record type's latest record, or a
-letter head's header and footer.
-
-Print headings and address templates are in **Masters**.
 
 ### Masters
 
@@ -1193,16 +1315,22 @@ Administrators see every group. An app's managers see their app's group and
 can add, rename and remove its values. Nobody else sees Masters. Click a
 group's name to fold it away; it stays folded for you on every device.
 
-**Add**, in the page head, puts a new value in the open list. A new customer
-group, territory, item group, supplier group or department goes under the top
-of its list unless you choose a parent. Click a value to change, rename or
-remove it: it has the same fields as anywhere else, such as a unit's symbol
-and whether it must be a whole number, or an item group's parent. It also says
-how many records use it. Tables, such as a department's approvers, are in
-**Edit Full Form**.
-Renaming a value changes it on every record that uses it. A value records
-still use can't be removed. You can also add a value straight from a field on
-a record, with **Create a new** at the bottom of its list.
+### Adding, renaming or removing a value in Masters
+
+**Add**, in the page head of Setup › **Masters**, puts a new value in the open
+list. A new customer group, territory, item group, supplier group or
+department goes under the top of its list unless you choose a parent. Click a
+value to change, rename or remove it: it has the same fields as anywhere else,
+such as a unit's symbol and whether it must be a whole number, or an item
+group's parent. It also says how many records use it. Tables, such as a
+department's approvers, are in **Edit Full Form**. Renaming a value changes it
+on every record that uses it. A value records still use can't be removed. You
+can also add a value straight from a field on a record, with **Create a new**
+at the bottom of its list.
+
+### Print headings and address templates
+
+Both are in Setup › **Masters**, under Shared.
 
 **Print Headings**: the title printed above a document, such as **Tax
 Invoice** or **Proforma Invoice**. A print format picks one.
@@ -1226,7 +1354,11 @@ can't open is listed, but they can't change it.
 - A template that's the default for a record type shows it. A record's
   **Settings › Mail Templates** sets the default.
 
-**Fields in a template**
+OneAI offers **Write a payment reminder**, **Tidy the leave mails** and
+**Which mails use a template?** It suggests a new template or new wording as a
+card you approve.
+
+### Putting a record's fields in a mail template
 
 Put a field's name in double braces and it's filled in from the record when
 the email is written, formatted the way the record shows it. For example,
@@ -1239,7 +1371,7 @@ record or a line that only shows when a field is filled in. You can change
 their wording and those parts keep working. You can't add parts like that
 here, since a template runs as whoever sends it.
 
-**Using a template**
+### Using a mail template in an email
 
 Choose a template under **Email Template** in the email window, on a record or
 in OneMail.
@@ -1252,19 +1384,26 @@ in OneMail.
   questionnaire and dispatch notice) each belong to their own record type, so
   they're only offered there.
 
-OneAI offers **Write a payment reminder**, **Tidy the leave mails** and
-**Which mails use a template?** It suggests a new template or new wording as a
-card you approve.
-
 ### Approvals, for the Workspace
 
 An approval sets the states a record moves through before it's done, and who
 moves it. For example, a purchase order stays Waiting for Approval until a
 manager approves it, or a customer stays Pending until the accounts team
 checks it. Only administrators see this, and only for record types they can
-open. Frappe's and One's own record types can't have approvals.
+open. The system's own record types, such as users and roles, and One's own
+can't have approvals.
 
-**Adding an approval**
+OneAI offers **Approve bills by amount** and **Who approves what?** It
+suggests a new or changed approval as a card you approve. The approval then
+opens in the builder, laid out, to edit like any other.
+
+A bill OneIntake drafted waits in **Ready to Submit**. **Submit All** takes
+the approval's step when the step is waiting on your role. Otherwise it says
+who it's waiting for. OneAI never takes a step itself.
+
+### Adding an approval
+
+Open Setup › **Approvals**, or a record type's **Settings › Approvals**.
 
 1. Click **New Approval**, and choose the record type and a name.
 2. In the approval builder, drag a state onto the page for each step.
@@ -1282,7 +1421,7 @@ Workspace Notifications), when a record reaches their step. Whoever made the
 record, and whoever sent it to the step, hear where it went next (**Approval
 Answered**).
 
-**Conditions**
+### Conditions on an approval step
 
 An action can have a **Condition** that compares the record's fields with
 plain values. The same action can then go to different people depending on
@@ -1298,21 +1437,14 @@ Conditions that do more, calculated values and tasks an action runs aren't
 available here, since they'd run as whoever takes the action. A state can only
 set fields that anyone who can edit the record could set.
 
-A bill OneIntake drafted waits in **Ready to Submit**. **Submit All** takes
-the approval's step when the step is waiting on your role. Otherwise it says
-who it's waiting for. OneAI never takes a step itself.
-
-OneAI offers **Approve bills by amount** and **Who approves what?** It
-suggests a new or changed approval as a card you approve. The approval then
-opens in the builder, laid out, to edit like any other.
-
 ### Automations, for the Workspace
 
 An automation runs by itself when a record is created, changed, submitted or
 deleted, when a field changes to a value, on a date before or after one of the
 record's dates, or on a schedule. Only administrators see this, and only for
-record types they can open. Frappe's and One's own record types can't have
-automations. **Automations**, under Workspace, lists them all.
+record types they can open. The system's own record types, such as users and
+roles, and One's own can't have automations. **Automations**, under
+Automation, lists them all.
 
 An automation applies to records that match its **Match Fields**, then runs
 its steps in order. A step can:
@@ -1327,23 +1459,6 @@ its steps in order. A step can:
 
 A value can include a field of the record, such as `{{ doc.customer_name }}`.
 
-**Adding a step**
-
-1. Click **Add row** under Actions, and open the row.
-2. Choose the **Action Type**. Its own fields appear below, such as who to
-   notify and what to say, which field to set and to what, or how long to
-   wait. The record's creator and assignee are offered alongside your team.
-3. Turn the automation **On** once it has at least one step.
-
-**Tell People** notifies the people it names (team members, the record's
-creator or its assignee) in One, and by email if they chose (**Automation
-Notice** in Automation › Workspace Notifications). Give it a subject and message, or a
-**Mail Template**. The template is filled in from the record the same way the
-email window does it, with amounts and dates as the record shows them.
-
-**Test Run** runs the automation on one record and then undoes everything, so
-you can see what it would do.
-
 An automation runs as whoever last saved it. Each step can only do what that
 person could do by hand. Advanced conditions, If steps, scripts and calculated
 values aren't available, since they'd run as code. How often automations can
@@ -1352,6 +1467,30 @@ run, and turning them all off, is managed by the platform team.
 On the list, OneAI offers **Thank customers who pay** and **What runs by
 itself?** It suggests a new or changed automation as a card. Once you approve
 it, it runs as you.
+
+### Adding an automation
+
+1. Open Automation › **Automations** and click **Add Automation Flow**, or
+   click **New** on a record type's **Settings › Automations**.
+2. Give it a **Title** and choose the **Document Type**, the record type it
+   runs on.
+3. Under **Trigger**, choose the **Trigger Type**: when it runs.
+   **Match Fields** limits it to the records it's for.
+4. Under **Actions**, click **Add row** and open the row.
+5. Choose the **Action Type**. Its own fields appear below, such as who to
+   notify and what to say, which field to set and to what, or how long to
+   wait. The record's creator and assignee are offered alongside your team.
+6. Turn the automation **On** once it has at least one step.
+
+**Tell People** notifies the people it names (team members, the record's
+creator or its assignee) in One, and by email if they chose (**Automation
+Notice** in Automation › Workspace Notifications). Give it a subject and
+message, or a **Mail Template**. The template is filled in from the record the
+same way the email window does it, with amounts and dates as the record shows
+them.
+
+**Test Run** runs the automation on one record and then undoes everything, so
+you can see what it would do.
 
 ### Webhooks, for the Workspace
 
@@ -1411,6 +1550,14 @@ at the top refreshes them now.
   (click for People), and two bars. One is storage used by files (click for
   OneCloud), and the other is database used by records, each against what the
   plan and add-ons allow. A bar turns orange at 90% and red when full.
+
+OneAI offers **Are we on the cheapest plan?**, **How long will our credits
+last?** and **What used the most credits this month?**
+
+### Changing the plan or adding storage, seats or credits
+
+On Workspace › **Plan and Credits**:
+
 - **Add-ons** lists add-ons and how many of each. **Remove One**
   removes one (2 × 1 GB becomes 1 × 1 GB), and shows **Remove** on the last
   one. Buying the same add-on again adds to the count. Add-ons are billed on
@@ -1426,6 +1573,11 @@ at the top refreshes them now.
 - A change that would leave the workspace over its limits, such as more active
   people than seats or more files than storage, is refused, with what to clear
   first.
+
+### Invoices from One, the card and who pays
+
+On Workspace › **Plan and Credits**:
+
 - **Invoices** lists what One has charged the workspace, newest first, with
   the date, number, amount and whether it's paid. Click one for Stripe's copy.
   **PDF** downloads it.
@@ -1442,6 +1594,11 @@ at the top refreshes them now.
   another email. That person's One account holds the workspace from then on.
   They and the previous payer both get an email, and the other administrators
   are notified (**Payer Changed**). Only an administrator can change it.
+
+### OneAI credits and their ledger
+
+On Workspace › **Plan and Credits**:
+
 - **OneAI Credits** shows the balance, credits held by calls running now, use
   over the last 30 days, and how many expire when. The plan's monthly credits
   expire at the end of the month and are used first. Credits you buy never
@@ -1452,6 +1609,8 @@ at the top refreshes them now.
   pack bought, the plan's monthly credits, credits from One, a refund) and
   what OneAI used each day. Click a day to open the AI Credits report for that
   day, by person.
+
+### What administrators are told about the workspace
 
 Every administrator is notified:
 
@@ -1476,15 +1635,15 @@ that failed the day before are told each morning (**Automations Failing**),
 as webhooks are. A **Remind Me** on any record comes as a **Reminder**, by
 mail and push as you chose, not only on the bell.
 
-**Closing the Workspace**
+### Closing the workspace
 
 This is at the bottom of the page. Only the person the workspace is billed to
 sees its buttons. Other administrators see who that is.
 
 - **Full Download**: **Create Download** builds a zip of everything in the
   workspace in the background, and you're notified when it's ready (**Full
-  Download Ready**). It contains a standard Frappe database backup that any
-  Frappe site can restore, a CSV for every record type that opens in any
+  Download Ready**). It contains a standard database backup that a new site
+  can be restored from, a CSV for every record type that opens in any
   spreadsheet, every file in its folder, and a README listing the contents and
   any file that couldn't be read. **Download** downloads it. **Create Again**
   replaces it with a new one.
@@ -1497,9 +1656,6 @@ sees its buttons. Other administrators see who that is.
   is notified (**Workspace Staying Open**).
 - On the closing date, no one can sign in. The workspace is deleted 30 days
   later. Until then, One can restore it if you reply to the email you get.
-
-OneAI offers **Are we on the cheapest plan?**, **How long will our credits
-last?** and **What used the most credits this month?**
 
 ### Devices, for the Workspace
 
@@ -1543,17 +1699,6 @@ a browser. Only administrators see and change it.
   main one. The address One gave can always be made the main one again. Email
   addresses don't change. The main address can't be removed, so make another
   one main first.
-- **Add Domain**, at the top right, asks for the domain and shows the DNS
-  record to add. That's a **CNAME** from your domain to the workspace's address
-  from One, with **Copy** next to each value. It works with or without
-  Cloudflare's proxy. The domain shows **Waiting** until the record is right,
-  then works a few minutes later, once its certificate is issued.
-- **DNS Record** shows the record each waiting domain still needs.
-- A root domain such as acme.com only works if your DNS provider allows a CNAME
-  there (some call it ALIAS). The page says so when you enter one. If yours
-  doesn't, add www.acme.com instead and have your registrar redirect acme.com
-  to it. A records aren't supported, since Cloudflare doesn't guarantee the IP
-  addresses behind the workspace's own address stay the same.
 - **Check Again** checks now. Domains are also checked every night, and the
   page updates when one starts or stops working.
 - **Remove** stops the workspace opening at that domain.
@@ -1563,6 +1708,25 @@ starts or stops working, and when another administrator changes the main
 address.
 
 OneAI offers **Why is our domain not working?**
+
+### Adding your own domain
+
+1. Open Workspace › **Domains** and click **Add Domain** at the top right.
+2. Enter the domain, such as crm.acme.com. The page shows the DNS record to
+   add: a **CNAME** from your domain to the workspace's address from One,
+   with **Copy** next to each value.
+3. Add that record at your DNS provider. It works with or without
+   Cloudflare's proxy.
+4. The domain shows **Waiting** until the record is right, then works a few
+   minutes later, once its certificate is issued. **DNS Record** shows the
+   record each waiting domain still needs.
+5. To use it in links and emails, click **Make Main Address** on it.
+
+A root domain such as acme.com only works if your DNS provider allows a CNAME
+there (some call it ALIAS). The page says so when you enter one. If yours
+doesn't, add www.acme.com instead and have your registrar redirect acme.com to
+it. A records aren't supported, since Cloudflare doesn't guarantee the IP
+addresses behind the workspace's own address stay the same.
 
 ### OneAI Actions, for the Workspace
 
@@ -1595,16 +1759,20 @@ it.
 - OneIntake's settings page has **Models**, which opens this list showing only
   OneIntake's actions.
 
-**Knowledge**, next to Actions, holds notes OneAI reads before it answers,
-such as policies, a glossary or how things are done here. Administrators write
-them. Everyone can read them, because OneAI reads them as the person asking.
-
 Every other administrator is notified in One when someone changes an action's
 model or added instructions. Models are only offered from companies on the
 Subprocessors list.
 
 OneAI offers **Which actions cost the most?** and **Is there a cheaper model
 that would do?**
+
+### Knowledge: notes OneAI reads first
+
+**Knowledge**, under OneAI in the sidebar next to Actions, holds notes OneAI
+reads before it answers, such as policies, a glossary or how things are done
+here. Administrators write them. Everyone can read them, because OneAI reads
+them as the person asking. You › What OneAI Remembers lists them too, under
+**Workspace Knowledge**.
 
 ### OneIntake Settings, for the Workspace
 
@@ -1634,6 +1802,17 @@ inbox with everyone's documents.
 - **Most Pages Read** (60 by default) limits how much of a long scan is read.
   The rest can still be found by its name.
 
+Every other administrator is notified in One when someone changes the audit,
+Household or e-invoice settings, or the confidence floor. **Models**, in the
+page head, opens OneAI Actions for OneIntake, where you choose the model for
+each part.
+
+OneAI offers **Is OneIntake set up well for us?**
+
+### How sure OneIntake must be, and how it files
+
+On OneIntake › **Settings**:
+
 **Confidence**
 
 - **Confidence Floor** (70% by default): anything OneAI is less sure of waits
@@ -1650,6 +1829,10 @@ inbox with everyone's documents.
   it, so a burst of emails is handled once. 0 means right away. Payments and
   deadlines due within a day never wait.
 
+### What OneIntake does in OneBook and OneHR
+
+On OneIntake › **Settings**:
+
 **OneBook**
 
 - **Household** is for a workspace that doesn't keep books. Nothing is
@@ -1664,13 +1847,6 @@ What OneAI does automatically when something arrives in OneHR: **Screen New
 Applicants**, **Prepare Interviews**, **Transcribe Interview Recordings** and
 **Triage Grievances**. Each uses credits. Whether interviews can be recorded,
 and how long audio is kept, are set in HR Settings.
-
-Every other administrator is notified in One when someone changes the audit,
-Household or e-invoice settings, or the confidence floor. **Models**, in the
-page head, opens OneAI Actions for OneIntake, where you choose the model for
-each part.
-
-OneAI offers **Is OneIntake set up well for us?**
 
 ### Holidays, for the Workspace
 
@@ -1689,14 +1865,6 @@ OneCalendar's **Holidays** also opens it.
   holidays that are missing, including the state or region's where it
   matters, in your language. Lunar holiday dates are marked as estimates and
   are worth checking.
-- A list covers one year. When it ends within 90 days with no list after it,
-  the page warns you, since every day after its last day counts as a working
-  day for leave and attendance.
-- **Create Next Year's List**, in the page head, creates next year's list from
-  this one, with the same days off and the country's public holidays. It takes
-  effect on 1 January. **Next Year's List** opens it so you can check it.
-- **Use Another List** puts a different list in effect for everyone, from
-  today, or from its first day if that's later.
 
 You can also ask OneAI, for example "add 15 November as Founders Day", "we're
 closed 24 to 31 December" or "Saturday and Sunday off from now on". It shows a
@@ -1709,6 +1877,19 @@ holidays. They're also notified in One and by email 60, 30 and 7 days before
 the list ends with no list after it.
 
 OneAI offers **Are our holidays ready for next year?**
+
+### Next year's holiday list
+
+On Workspace › **Holidays**:
+
+- A list covers one year. When it ends within 90 days with no list after it,
+  the page warns you, since every day after its last day counts as a working
+  day for leave and attendance.
+- **Create Next Year's List**, in the page head, creates next year's list from
+  this one, with the same days off and the country's public holidays. It takes
+  effect on 1 January. **Next Year's List** opens it so you can check it.
+- **Use Another List** puts a different list in effect for everyone, from
+  today, or from its first day if that's later.
 
 ## Customizing a Form
 
@@ -1745,22 +1926,22 @@ already has.
 
 ### Changing a field
 
-Click a field in the list, or tell OneAI what to change. You can rename, hide, require,
-move or remove a custom field. Standard fields can be hidden but not removed,
-and fields the form needs stay required.
+Click a field in the list, or tell OneAI what to change. You can rename, hide,
+require, move or remove a custom field. Standard fields can be hidden but not
+removed, and fields the form needs stay required.
 
 ### Export and Reset
 
-Tick fields in the list, then choose **Export** or **Reset** from
-**Actions**. Export downloads this workspace's changes to their forms. Reset
-removes them all, including fields added to related forms. If someone changes the
-form after OneAI made a card, the card can't be applied and says so.
+Tick fields in the list, then choose **Export** or **Reset** from **Actions**.
+Export downloads this workspace's changes to their forms. Reset removes them
+all, including fields added to related forms. If someone changes the form
+after OneAI made a card, the card can't be applied and says so.
 
 ## A Form's Settings
 
 **Settings**, on a form's or a list's menu next to Customize, shows what the
-workspace has set up for that record type. Only administrators see it. It's
-frappe's own Settings window. Each part appears once the workspace can use it.
+workspace has set up for that record type. Only administrators see it. Each
+part appears once the workspace can use it.
 
 - **Numbering**: how a new record is named (a series, a field, an expression,
   set by user or random) and its naming rules. For a record type with series,
@@ -1787,15 +1968,48 @@ frappe's own Settings window. Each part appears once the workspace can use it.
   Approvals, for the Workspace.
 - **Automations**: the automations for this record type. **New** opens a new
   automation set to it. Click one to edit it or turn it on or off. See
-  Automations, for the Workspace. Frappe's and One's own record types have
-  none, since they have no Customize.
+  Automations, for the Workspace. The system's own record types, and One's,
+  have none, since they have no Customize.
+
+## Printing a record or saving it as a PDF
+
+Open the record and click the printer icon at the top, choose **Print** from
+its menu, or press Ctrl+P (Cmd+P on a Mac). The print page shows the record
+as it will print.
+
+- **Print Format**, **Letter Head** and **Language**, at the top, choose how
+  it looks. The workspace's defaults are chosen to begin with.
+- **Print** sends it to your printer.
+- **PDF** makes a PDF copy to download or send.
+- **Full Page** opens the printed page on its own.
+- The file icon, **Form**, goes back to the record.
+
+Every PDF is listed in Audit Log › Exports and Prints. How formats and letter
+heads look is set in Setup › Printing (see Printing, for the Workspace).
+
+## Setting a reminder on a record
+
+**Remind Me**, in a record's menu (Shift+R on a form), reminds you of that
+record later.
+
+1. Choose **Remind Me In**: 30 minutes, 1 hour, 4 hours, 1 Day, or
+   **Custom** to pick a time under **Remind At**.
+2. Add a **Description** if you like, such as what to do.
+3. Click **Create**.
+
+When it's due you get a **Reminder** notification that opens the record. It
+comes by email and push too, as you chose under You › Notifications.
 
 ## The Portal
 
 Your customers and suppliers can sign in to see their own records. Nobody
-can sign up on their own: open the contact of a customer or supplier and
-choose **Portal › Invite to Portal**. They get an email with a link to
-choose their password, which works for a week, and land on the portal.
+can sign up on their own. You invite them, as below.
+
+### Inviting a customer or supplier to the portal
+
+Open the contact of a customer or supplier and choose **Portal › Invite to
+Portal**. They get an email with a link to choose their password, which
+works for a week, and land on the portal.
 
 - **Who can invite**: a workspace administrator; for a customer's contact,
   also a OneCRM manager; for a supplier's contact, also a OneInventory
@@ -1806,29 +2020,35 @@ choose their password, which works for a week, and land on the portal.
   turns off their login. **Restore Access** turns it back on.
 - An address that belongs to someone in the workspace cannot be invited.
   They sign in to One instead.
-- **Portal**, on a submitted quotation, order, shipment, invoice, quote
-  request, supplier quotation, purchase order or purchase invoice, opens one
-  window, laid out like OneCloud's Share:
-  - **Send Link** at the top sends a link to the record to one person, who
-    needs no account: a contact of the customer or supplier, or **Someone
-    else…** by email address. The copy button beside it makes the link
-    without sending it and copies it. A person has one open link per record,
-    so sending again sends the same one. It opens the record's page on the
-    portal until its day (a month, or a quotation's own last day if sooner).
-    Through it they can accept or decline a quotation, or price and send a
-    quote, once, giving their name; after that it only reads and says who
-    answered. Opening it does not use it up, so a mail scanner that opens it
-    first spends nothing. The mail (Portal Link) has a button to act.
-  - **People on the portal**: the contacts who sign in, each **Can see** or
-    **Hidden**, saved as you choose. By default everyone sees every record of
-    their customer or supplier; hidden, the record no longer lists, opens or
-    prints for them, so two departments of one customer can each see their
-    own. Only who is hidden is kept, so a contact invited later sees it.
-    Projects, timesheets and addresses stay the company's.
-  - **Links**: each open or answered link, with how often it was opened, and
-    **Copy**, **Email Again**, **Rotate** (a new link in its place, the old
-    one stops) and **Revoke**. A link revoked, expired or mistyped says it no
-    longer works, and nothing else.
+
+### Sending a link to one record
+
+**Portal**, on a submitted quotation, order, shipment, invoice, quote
+request, supplier quotation, purchase order or purchase invoice, opens one
+window, laid out like OneCloud's Share:
+
+- **Send Link** at the top sends a link to the record to one person, who
+  needs no account: a contact of the customer or supplier, or **Someone
+  else…** by email address. The copy button beside it makes the link
+  without sending it and copies it. A person has one open link per record,
+  so sending again sends the same one. It opens the record's page on the
+  portal until its day (a month, or a quotation's own last day if sooner).
+  Through it they can accept or decline a quotation, or price and send a
+  quote, once, giving their name; after that it only reads and says who
+  answered. Opening it does not use it up, so a mail scanner that opens it
+  first spends nothing. The mail (Portal Link) has a button to act.
+- **People on the portal**: the contacts who sign in, each **Can see** or
+  **Hidden**, saved as you choose. By default everyone sees every record of
+  their customer or supplier; hidden, the record no longer lists, opens or
+  prints for them, so two departments of one customer can each see their
+  own. Only who is hidden is kept, so a contact invited later sees it.
+  Projects, timesheets and addresses stay the company's.
+- **Links**: each open or answered link, with how often it was opened, and
+  **Copy**, **Email Again**, **Rotate** (a new link in its place, the old
+  one stops) and **Revoke**. A link revoked, expired or mistyped says it no
+  longer works, and nothing else.
+
+### What customers and suppliers see on the portal
 
 - **A customer** sees their quotations, orders, invoices, shipments,
   addresses, projects and timesheets.
@@ -1845,7 +2065,7 @@ to: when an invoice is due or how many days overdue, until when a quotation
 holds, when an order is delivered. On a
 computer the tabs are in a sidebar under their company's name; on a phone
 Home and the first three tabs are a bar along the bottom, and **More** has
-the rest. Which tabs show is set in frappe's Portal Settings. Each list has a
+the rest. Which tabs show is set in Portal Settings. Each list has a
 search, and **Load More** under it once there are more than twenty.
 
 Opening a record shows where it is on its way (an order: Confirmed,
@@ -1856,14 +2076,18 @@ the records before and after it (the quotation an order came from, its
 shipments and invoices). **Download PDF** gives the printed copy. Each sees
 only their own records.
 
+### A supplier sending a quote on the portal
+
 A supplier answers a quote request on the portal: they set a rate for each
-item they can supply, change the quantity if they need to, give a discount
-on any row, add notes, and choose **Send Quote**. As they type, each row
-shows its tax and the quote its taxes and total, the same as once it is sent.
-They cannot change the tax: it is the workspace's own (the purchase taxes
-template, an item's Item Tax Template, a Tax Rule by the supplier's country),
-so it lands in the right accounts. Their quote lands in Quotes, and whoever made the
+item they can supply, change the quantity if they need to, give a discount on
+any row, add notes, and choose **Send Quote**. As they type, each row shows
+its tax and the quote its taxes and total, the same as once it is sent. They
+cannot change the tax: it is the workspace's own (the purchase taxes template,
+an item's Item Tax Template, a Tax Rule by the supplier's country), so it
+lands in the right accounts. Their quote lands in Quotes, and whoever made the
 request is told (Quote Received). A request they have answered says Quoted.
+
+### A customer accepting a quotation on the portal
 
 A customer answers a quotation that is still open on its page. **Accept
 Quotation** asks when they need it by and their own reference, and makes the
@@ -1878,6 +2102,8 @@ A customer adds their own addresses (**Add Address**) and changes them, and
 follows their projects: how far along each is, when it ends, its tasks and
 its order and invoices. Timesheets show the hours worked for them, one row
 per timesheet.
+
+### A portal user's own account
 
 Their own pages are under **Account** in the sidebar (under **More** on a
 phone):

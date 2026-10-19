@@ -21,10 +21,17 @@ MOST_LINKS = 20
 
 MOST_REPORT = 50
 
+FILTERS = (
+	"Field name to value; all of them have to match. A value may be [operator, value] for anything but "
+	'equal: {"grand_total": [">", 1000]}, {"posting_date": ["between", ["2026-01-01", "2026-03-31"]]}, '
+	'{"status": ["in", ["Open", "Overdue"]]}, {"customer_name": ["like", "%glass%"]}, '
+	'{"email_id": ["is", "set"]}.'
+)
+
 
 def list_records(
 	doctype: Annotated[str, "The type of record to look in, spelled as it is on screen."],
-	filters: Annotated[dict, "Field name to value. All of them have to match."] | None = None,
+	filters: Annotated[dict, FILTERS] | None = None,
 	fields: Annotated[list, "Which fields to answer with. Defaults to what a list shows."]
 	| None = None,
 	limit: Annotated[
@@ -134,7 +141,7 @@ def read_record(
 
 def count_records(
 	doctype: Annotated[str, "The type of record to count."],
-	filters: Annotated[dict, "Field name to value. All of them have to match."] | None = None,
+	filters: Annotated[dict, FILTERS] | None = None,
 ) -> int:
 	"""Count records of one type, counting only what the person asking may see."""
 	_known(doctype, filters)
@@ -161,19 +168,88 @@ def describe_type(
 LAYOUT = proposals.LAYOUT
 
 
+POINTING = (
+	"A value may point at a record another card of this conversation will make, before it exists: "
+	"give @ and that card's id, such as @PROP-26-000042. Approving this card approves that one first."
+)
+
+
 def create_record(
 	doctype: Annotated[str, "The type of record to create."],
-	values: Annotated[dict, "Field name to value."],
+	values: Annotated[dict, "Field name to value. " + POINTING],
 	why: Annotated[str, "One sentence on what this is for."] | None = None,
 ) -> dict:
-	"""Suggest creating a record. Nothing is created until a person approves it."""
+	"""Suggest creating a record. Nothing is created until a person approves it.
+	To make several records that belong together (a customer, then a quotation
+	for them, then a task to follow it up) in one step, use create_records."""
 	return _card(proposals.propose("Create", doctype, changes=values, why=why))
+
+
+def create_records(
+	records: Annotated[
+		list[dict],
+		"The records, in the order they are made. Each is {\"ref\": a short name of your own, "
+		"\"doctype\": the type, \"values\": field name to value, \"why\": one sentence}. A value may be "
+		"@ and an earlier record's ref, to point at the record that one makes; or @ and a card id from "
+		"before.",
+	],
+) -> dict:
+	"""Suggest several records that belong together, in one step: a new
+	customer and a quotation for them, a project with its first tasks, a
+	supplier with their first order. Each becomes a card; approving one
+	approves the cards it points at first, and the person can approve them
+	all at once. Stops at the first record that cannot be suggested, keeping
+	the cards made before it, and says what is wrong with that one."""
+	made, cards = {}, []
+	for at, one in enumerate(records or []):
+		if not isinstance(one, dict) or not one.get("doctype"):
+			frappe.throw(f"Record {at + 1} has no doctype. Each record is {{ref, doctype, values, why}}.")
+		ref = str(one.get("ref") or at + 1)
+		values = {
+			key: (made.get(value[1:], value) if isinstance(value, str) and value.startswith("@") else value)
+			for key, value in (one.get("values") or {}).items()
+		}
+		values = {
+			key: (
+				[
+					{
+						field: (made.get(cell[1:], cell) if isinstance(cell, str) and cell.startswith("@") else cell)
+						for field, cell in row.items()
+					}
+					if isinstance(row, dict)
+					else row
+					for row in value
+				]
+				if isinstance(value, list)
+				else value
+			)
+			for key, value in values.items()
+		}
+		try:
+			card = proposals.propose("Create", one["doctype"], changes=values, why=one.get("why"))
+		except Exception as refused:
+			if not cards:
+				raise
+			frappe.clear_last_message()
+			return {
+				"cards": cards,
+				"error": f"Record {ref} ({one['doctype']}) was not suggested: "
+				+ frappe.utils.strip_html(str(refused)).strip()
+				+ " The cards before it stand; suggest this one again with create_record, pointing at them.",
+			}
+		made[ref] = f"@{card}"
+		cards.append({"ref": ref, "proposal": card, "use_as": f"@{card}"})
+	return {
+		"cards": cards,
+		"state": "Proposed",
+		"said": frappe._("Suggested. They happen when somebody approves them."),
+	}
 
 
 def edit_record(
 	doctype: Annotated[str, "The type of record."],
 	name: Annotated[str, "Its id."],
-	changes: Annotated[dict, "Field name to new value. Only the fields that change."],
+	changes: Annotated[dict, "Field name to new value. Only the fields that change. " + POINTING],
 	why: Annotated[str, "One sentence on what this is for."] | None = None,
 ) -> dict:
 	"""Suggest changing a record. Nothing changes until a person approves it."""
@@ -360,7 +436,8 @@ def run_report(
 	filters: Annotated[dict, "The report's own filters, by fieldname."] | None = None,
 	limit: Annotated[int, "At most this many rows of the answer."] = 20,
 ) -> dict:
-	"""Run one of the workspace's own reports and answer with its rows.
+	"""Run one of the workspace's own reports and answer with its rows, and the
+	totals the report shows above them.
 
 	A report is an answer somebody already wrote down and tested — running it
 	beats a model inventing an aggregation over rows it listed. The rows are
@@ -374,12 +451,22 @@ def run_report(
 	out = ran(report_name=report, filters=filters or {}, are_default_filters=False) or {}
 	rows = out.get("result") or []
 	kept = min(int(limit or 20), MOST_REPORT)
-	return {
+	said = {
 		"report": report,
 		"columns": [_column(one) for one in (out.get("columns") or [])],
 		"rows": rows[:kept],
 		"more": max(len(rows) - kept, 0),
 	}
+	summary = [
+		{"label": one.get("label"), "value": one.get("value")}
+		for one in out.get("report_summary") or []
+		if isinstance(one, dict) and one.get("label")
+	]
+	if summary:
+		said["summary"] = summary
+	if out.get("message"):
+		said["note"] = strip_html_tags(str(out["message"])).strip()[:500]
+	return said
 
 
 def _state_field(doctype: str) -> str | None:
@@ -431,7 +518,7 @@ READS = (
 	more_tools,
 )
 
-SUGGESTS = (create_record, edit_record, delete_record, move_record)
+SUGGESTS = (create_record, create_records, edit_record, delete_record, move_record)
 
 KEEPS = (memory.remember,)
 
@@ -508,6 +595,17 @@ def action_of(name: str | None) -> str | None:
 	return getattr(fn, "action", None)
 
 
+def named(name: str | None):
+	"""The tool called `name`, if there is one."""
+	reads, suggests = _every()
+	return {one.__name__: one for one in reads + suggests}.get(name or "")
+
+
+def names() -> list[str]:
+	reads, suggests = _every()
+	return [one.__name__ for one in reads + suggests]
+
+
 def run(name: str, args: dict | None = None) -> dict:
 	"""Call one tool as the person asking, and say whether it happened.
 
@@ -543,6 +641,7 @@ def _plain(said):
 def _card(proposal: str) -> dict:
 	return {
 		"proposal": proposal,
+		"use_as": f"@{proposal}",
 		"state": "Proposed",
 		"said": frappe._("Suggested. It happens when somebody approves it."),
 	}

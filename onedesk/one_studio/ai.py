@@ -236,7 +236,7 @@ def _unescaped(code: str | None) -> str | None:
 
 
 def extension_places() -> dict:
-	"""One's own pages an extension can run on, beyond frappe's forms and
+	"""One's own pages an extension can run on, beyond the record forms and
 	lists: OneMail, OneCalendar, OneTask, OneCloud, OneIntake, the pipeline
 	board, every space's home and a record's head. For each: when it runs,
 	what the extension is told, and the few things it may do there. Read it
@@ -257,7 +257,7 @@ def write_extension(
 		str, "What it is called, a name in Title Case, such as A Customer Needs a Mobile Number."
 	],
 	runs: Annotated[Literal["On Screen", "On Server"], "Where it runs."],
-	record: Annotated[str, "The kind of record it runs on, as its DocType name, such as Customer."],
+	record: Annotated[str, "The record type it runs on, by its name, such as Customer."],
 	explanation: Annotated[
 		str, "What it does and when, in one or two plain sentences for somebody who does not read code."
 	],
@@ -532,7 +532,7 @@ def forms_here(
 
 
 def form_relations(
-	record: Annotated[str, "The form a field is being added to, as its DocType name, such as Item."],
+	record: Annotated[str, "The form a field is being added to, by its record type's name, such as Item."],
 ) -> dict:
 	"""Which other forms a field added to this one might belong on too: the
 	tables of other forms that link to it (Item's Sales Invoice Item, Purchase

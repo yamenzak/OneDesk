@@ -143,14 +143,14 @@ about.
   register number creates the **Supplier** and is filed with it. A name alone
   creates nothing, and a company only mentioned in a document is never
   created.
-- **An order** creates the **Customer**, using ERPNext's own conversion if
-  the sender is already a lead.
+- **An order** creates the **Customer**, converted from the lead if the
+  sender is already one.
 - **A first inquiry** creates a **Lead**.
 - **A CV** creates a **Job Applicant**, linked to an opening only if the
   email named one.
-- **The sender** gets a **Contact**, linked to their company. Frappe's
-  automatic contact for every email address is turned off for mailboxes
-  OneAI reads. Contacts it already made are completed, not duplicated.
+- **The sender** gets a **Contact**, linked to their company. The automatic
+  contact for every email address is turned off for mailboxes OneAI reads.
+  Contacts it already made are completed, not duplicated.
 - **An employee's own documents** go on their Employee record:
   - A passport or permit is added to their identity documents, with a task
     for HR before it expires (90 days ahead for a residence permit, 60 for a
@@ -226,7 +226,7 @@ submit.
   names.
 - **Bank statement**: Bank Transactions on your account, ready for
   reconciliation. A bank line is not a posting.
-- **Contract**: an ERPNext Contract with the party.
+- **Contract**: a Contract with the party.
 - **Reminder for an invoice you don't have**: a task to ask for the invoice,
   with a warning, since this is a common start of fraud.
 
@@ -238,12 +238,13 @@ Paying and dates:
 - An invoice paid by direct debit, or already paid, asks no one to pay.
 - A draft dated in a period OneBook has closed is dated on the first open
   day, with a note.
-- A bill in a currency with no exchange rate is only proposed, with
-  ERPNext's reason. OneAI never makes up a rate.
+- A bill in a currency with no exchange rate is only proposed, with the
+  reason. OneAI never makes up a rate.
 
 ### Ready to Submit
 
-**Ready to Submit** in OneBook lists the drafts OneAI made that you have
+**Ready to Submit**, under OneIntake in One's rail and in OneBook's
+Everything, lists the drafts OneAI made that you have
 permission to submit, where:
 
 - the facts checked out and the party is known
@@ -261,10 +262,10 @@ Settings, off by default).
 
 ### Spending
 
-**Spending** in OneBook's reports totals what was bought, from the receipts
-and invoices themselves, by category, shop, person or month, one currency at
-a time. Categories are learned per shop, so lines from a known shop soon
-need no model.
+**Spending**, under OneIntake in One's rail and in OneBook's reports, totals
+what was bought, from the receipts and invoices themselves, by category, shop,
+person or month, one currency at a time. Categories are learned per shop, so
+lines from a known shop soon need no model.
 
 A **Household** (Intake Settings) keeps no books. No drafts are made, and
 Spending shows where the money went.
@@ -285,16 +286,16 @@ by the legal rules, never the model.
 Each calculated date shows the start date and the rule used, so anyone can
 check it.
 
-**Contracts** with a notice period get a **Cancel By** date on the ERPNext
+**Contracts** with a notice period get a **Cancel By** date on the
 Contract, and a task a month before to decide whether to cancel.
 
 ### The Deadlines report
 
-**Deadlines** in OneCalendar lists every due date: from documents read for
-you, contract cancellation dates and expiring employee documents. Each
-shows to whoever can read its record, with the days left in red within a
-week. Workspace administrators see deadlines for everyone. The calendar has
-the same three as layers.
+**Deadlines**, in OneCalendar's rail and under OneIntake in One's rail, lists
+every due date: from documents read for you, contract cancellation dates and
+expiring employee documents. Each shows to whoever can read its record, with
+the days left in red within a week. Workspace administrators see deadlines for
+everyone. The calendar has the same three as layers.
 
 A deadline disappears once there's nothing left to do: its matter is
 closed, OneAI's task is done or the invoice is paid. A copy of a document
@@ -379,18 +380,23 @@ Ready to Submit, and the supplier's IBAN is never changed from a document.
 
 ## The Intake inbox
 
-**OneIntake** is in the bar across the top of the page, with a count
-when something is waiting for you. On a phone it is at the top of the panel. It has two boxes that work like a
-mailbox, one line per document, bold until you open it.
+**Inbox** under OneIntake in One's rail opens it. **OneIntake** is also in
+the bar across the top of the page, with a count when something is waiting
+for you. On a phone it is at the top of the panel. It has two boxes that
+work like a mailbox, one line per document, bold until you open it.
 
 - **Waiting**: what needs a decision. This includes proposals the auditor was
-  unsure of or couldn't apply (with ERPNext's reason), and actions the
-  auditor thinks are wrong, to undo or keep.
+  unsure of or couldn't apply (with the reason), with **Apply** and
+  **Dismiss**, and actions the auditor thinks are wrong (**Auditor
+  Disagrees**), with **Keep** and **Undo**.
 - **Done**: everything OneAI handled, each document with what it created and
   changed, field by field, and **Undo** next to each.
 
-Read status uses Frappe's `track_seen`, per person. A document is unread
-until you open it, and unread again when OneAI does something new with it.
+Click a line to read it on the right: what OneAI understood, **All
+Details**, **Open Document**, and **What OneAI did**. **Mark All as Read**
+at the top clears the bold. Read status is kept per person. A document is
+unread until you open it, and unread again when OneAI does something new
+with it.
 
 You see documents read for you. Administrators can tick **Everyone's**,
 which still excludes medical, pay and personal documents.

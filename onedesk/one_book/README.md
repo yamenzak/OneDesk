@@ -6,15 +6,14 @@ answer "how do I…" questions. Under the hood is for the people who build it.
 
 OneBook is where the money is kept: the invoices you send, the bills you get,
 the payments either way, the bank, and the reports an accountant and a tax
-office ask for. It is ERPNext's accounting, so every invoice, payment and
-journal entry is the same record the rest of One reads — a project's billed
-amount, a customer's balance, an employee's expense claim.
+office ask for. Every invoice, payment and journal entry is the same record
+the rest of One reads — a project's billed amount, a customer's balance, an
+employee's expense claim.
 
 ## Finding your way
 
-**OneBook** in the dock opens it. Every row is called what ERPNext calls what
-it opens, the name **Ctrl+K** finds it by, or what ERPNext's own Invoicing
-sidebar calls it. The rail has:
+**OneBook** in the dock opens it. Every row is called by the name of what it
+opens, which is also the name **Ctrl+K** finds it by. The rail has:
 
 - **Home** — how the money is doing, what needs doing, and everything else
   (below).
@@ -39,7 +38,7 @@ sidebar calls it. The rail has:
   import open on it.
 - **Financial Reports** — **Profit and Loss**, **Balance Sheet**, **Cash
   Flow**, **General Ledger**, **Trial Balance**, **Gross Profit**, the **Tax
-  Return** and the country's own returns where ERPNext ships one, such as the
+  Return** and the country's own return where there is one, such as the
   **UAE VAT 201** in the UAE.
 - **Reports** and **Setup** open those parts of Home: every accounting report
   by what it is about, and the chart of accounts, cost centers, taxes,
@@ -48,9 +47,8 @@ sidebar calls it. The rail has:
 
 Everything here is for whoever People gives OneBook. An **Accounts User**
 matches the bank and imports a statement; an **Accounts Manager** also
-enters the opening invoices and keeps the purchase tax templates. ERPNext
-gives those four only to its System Manager or to buying, so One gives them
-to accounts (`access.py`).
+enters the opening invoices, adds banks and suppliers, and keeps the purchase
+tax templates.
 
 ## Home
 
@@ -69,22 +67,22 @@ Click a figure to open the report or list it came from. Under them are five
 tabs:
 
 - **Overview** — what needs doing as a row of buttons, then the money told in
-  charts, as Frappe Books' dashboard tells it: **Cash Flow** (what came into
+  charts: **Cash Flow** (what came into
   and went out of the bank and cash accounts each month), **Profit and Loss**
   (each month's profit or loss) and **Top Expenses** (the five largest expense
   accounts and the rest); then, for **Accounts Receivable** and **Accounts
-  Payable** each, the **Ageing** of what is owed in ERPNext's ranges, who owes
+  Payable** each, the **Ageing** of what is owed by how late it is, who owes
   or is owed the most, and the year's invoices by status. Click a chart to
   open what it was drawn from.
 - **Today** — overdue sales invoices, purchase invoices due this week or
   already late, unreconciled bank transactions by bank account, and drafts
   left more than a day, each row opening its document.
-- **Everything** — every accounting screen, each called what ERPNext calls it
-  and with a line on what it is for, with a search.
+- **Everything** — every accounting screen, each by its own name and with a
+  line on what it is for, with a search.
 - **Reports** and **Setup** — their part of Everything, by topic.
 
-Setup has every accounting setting ERPNext keeps, a country's own only when
-the company is there. Among them: the **Email Digest**, a mail each day, week
+Setup has every accounting setting, a country's own only when the company is
+there. Among them: the **Email Digest**, a mail each day, week
 or month of how the business is doing; **Plaid Settings**, for a bank Plaid
 reaches; and the **Code Lists** an electronic invoice names its units and
 taxes by.
@@ -103,8 +101,8 @@ bill, and says **Ready**, **To Do** or **Suggested** beside each, with a
   template is added to a new invoice or bill when nobody picks one, in a
   form and on every invoice or bill One, OneAI or an import makes.
 - **A late customer is reminded.** **Fix** turns the payment reminder on.
-- **Opening balances are finished.** ERPNext posts opening invoices and
-  opening stock against Temporary Opening; once every opening balance is in,
+- **Opening balances are finished.** Opening invoices and opening stock are
+  posted against Temporary Opening; once every opening balance is in,
   an accountant moves what it holds to capital with a Journal Entry. Until
   then the Balance Sheet carries it, and the check says how much.
 - **Every year that has ended is closed.** **Fix** closes the year (below).
@@ -114,7 +112,26 @@ bill, and says **Ready**, **To Do** or **Suggested** beside each, with a
 - **A supplier's bill cannot be entered twice.** **Fix** turns on the check
   that refuses the same supplier invoice number a second time.
 - **Today is in a fiscal year** and **the company's default accounts are
-  set** — ERPNext makes both, and the check catches a site where it did not.
+  set** — both are made with the company, and the check catches a workspace
+  where they were not.
+
+## Opening balances
+
+When the books start part way through a business's life, what customers
+owed and what was owed to suppliers on that day goes in once, from **Home ›
+Setup › Opening Invoice Creation Tool** (an Accounts Manager's):
+
+1. Pick the **Invoice Type**: Sales for what customers owe, Purchase for what
+   you owe suppliers.
+2. Add a row per invoice still open: the party, the **Outstanding Amount**,
+   and its **Posting Date** and **Due Date**. **Create Missing Party** makes a
+   customer or supplier that is not there yet.
+3. **Create Invoices** makes them as opening invoices, which count in
+   Accounts Receivable and Accounts Payable like any other.
+
+The bank's and every other account's opening balance is a **Journal Entry**
+(below). When all of it is in, the Books Check's **Opening balances are
+finished** says what is left in Temporary Opening to move to capital.
 
 ## An invoice, from start to paid
 
@@ -130,9 +147,8 @@ bill, and says **Ready**, **To Do** or **Suggested** beside each, with a
    first) to **Billed** and **Paid**, the last with how much is paid so far
    or how late it is. Beside the track are the **Project** it is for, the
    **Outstanding Amount**, the **Payment Due Date** (the first part still
-   unpaid, as ERPNext's status reads it, so a retention held for a year
-   doesn't hide a late payment; in red once it has passed) and the **Grand
-   Total**.
+   unpaid, so a retention held for a year doesn't hide a late payment; in
+   red once it has passed) and the **Grand Total**.
    Beside them, **Billed to** the customer is a bar a month for a year of
    what they were invoiced, with this invoice's month in blue and the rest in
    grey, so a first invoice and a regular's look different at a glance.
@@ -145,8 +161,12 @@ bill, and says **Ready**, **To Do** or **Suggested** beside each, with a
 5. Money back to a customer is **Create › Return / Credit Note** on the
    invoice.
 
-A purchase invoice works the same way from **Purchase Invoice**: the supplier, what they charged for,
-**Submit**, and **Record Payment** when you pay it.
+A purchase invoice works the same way from **Purchase Invoice**: the
+supplier, what they charged for, **Submit**, and **Record Payment** when you
+pay it. Money a supplier gives back is **Create › Return / Debit Note** on
+their bill. **Credit Note** and **Debit Note** in the rail list these returns.
+
+### A customer's and a supplier's page
 
 **A customer's page** answers first their **Total Unpaid** (red when any of it
 is late, and against their credit limit when one is set), what is
@@ -158,10 +178,12 @@ A supplier's page says the same from the other side: **Total Unpaid**,
 **Bought**. Every figure is worked out from the invoices your own list would
 show you.
 
+### Late payers and being told
+
 **Reminding a late customer.** Once turned on (the Books Check's **A late
 customer is reminded**), a customer is mailed the invoice a week after it
 fell due, if it is still unpaid. It is the Payment Reminder rule, in its own
-words, which frappe does not let be changed while it is on.
+words, which cannot be changed while it is on.
 
 **Being told.** The morning after an invoice goes past its due date unpaid,
 whoever made it and the customer's account manager are told (**Invoice
@@ -169,9 +191,10 @@ Overdue**). On Monday morning accounts hear what supplier bills fall due that
 week (**Bills Due This Week**). A customer paying through a payment link is
 told to the same people as an overdue invoice (**Paid Online**), since no
 person entered it; a deposit paid on an order the same way. A repeating
-invoice or bill that frappe switched off, because the next could not be made,
-is told to whoever set it up and accounts (**Repeat Failed**, one/tell.py). **Credit Limit Crossed** reaches the role Accounts Settings
-names as credit controller, with who was stopped.
+invoice or bill that was switched off, because the next could not be made,
+is told to whoever set it up and accounts (**Repeat Failed**). **Credit Limit
+Crossed** reaches the role Accounts Settings names as credit controller, with
+who was stopped.
 
 **Chasing by hand.** On an overdue invoice, **Create › Dunning** makes a
 payment reminder listing every invoice of theirs that is late, how late, and
@@ -181,9 +204,86 @@ Request** sends a link to pay online. **Process Statement Of Accounts**
 mails each customer their statement on a schedule, monthly or as often as you
 set.
 
-**Bank lines matched by a rule.** A **Bank Transaction Rule** (Home › Setup)
-matches a bank line by its description, such as DEWA's direct debit to
-Utility Expenses, so it is not asked about each month.
+## Bills from mail and scans
+
+A supplier's bill that arrives by mail, or is scanned in, is read by OneAI
+and made into a draft purchase invoice, matched to its purchase order when
+there is one. **Ready to Submit** in the rail lists the drafts whose facts
+checked out and that you may submit; **Submit All** submits them as you.
+Drafts that failed a check, such as a total that does not match or a bank
+account that is not on file for the supplier, are listed in red under
+**Needs Review** with the reason. Open one, correct it, and submit it as any
+bill.
+
+## Payments without an invoice
+
+**Record Payment** on an invoice is the quick way. For anything else —
+money on account, a payment across several invoices, a refund, moving money
+between two of the company's accounts — use **Payment Entry › + Add Payment
+Entry**:
+
+1. Pick the **Payment Type**: **Receive**, **Pay** or **Internal Transfer**.
+2. Pick the party (customer, supplier or employee), the **Mode of Payment**
+   and the **Paid Amount**, and the bank's reference in **Cheque/Reference
+   No**.
+3. **Get Outstanding Invoices** lists what the party still owes or is owed,
+   to settle with it.
+4. **Submit.**
+
+A payment says who it was to or from in its title, and, once it went through
+a bank account, a track to **Reconciled** once it is matched to the bank
+statement.
+
+## Matching the bank
+
+Each line of a bank statement is a **Bank Transaction**. To bring a
+statement in:
+
+1. **Banking › Bank Statement Import › + Add.** The company's default bank
+   account is filled in.
+2. Save, then attach the bank's file under **Import File** (**Download
+   Template** gives a spreadsheet to fill when the bank's file will not do).
+3. Check the preview and press **Start Import**.
+
+A statement OneIntake reads from mail arrives as Bank Transactions the same
+way.
+
+To match them, open **Bank Reconciliation Tool**. It starts on the default
+bank account; pick the dates and type the **Closing Balance as per Bank
+Statement**, then press **Get Unreconciled Entries**. Each line has
+**Actions**:
+
+- **Match Against Voucher** — the payment or journal entry already in the
+  books for it.
+- **Create Voucher** — a new Payment Entry or Journal Entry for it, such as
+  a bank charge.
+- **Update Bank Transaction** — correct the line's reference or party.
+
+The figures at the top compare the statement's closing balance with the
+books' and show the **Difference**, which is nought once everything is
+matched. **Auto Reconcile** matches the lines whose payment it can find by
+their reference and amount, and leaves the rest to you.
+
+A **Bank Transaction Rule** (Home › Setup) matches a bank line by its
+description, such as DEWA's direct debit to Utility Expenses, so it is not
+asked about each month. A bank account's page says what the books hold in it
+and how many lines are still to match.
+
+## Journal entries
+
+A journal entry is for anything that is not an invoice or a payment:
+correcting a posting, an accrual, depreciation by hand, an opening balance.
+
+1. **Journal Entry › + Add Journal Entry.** Pick the **Entry Type** (Journal
+   Entry for most, Opening Entry for opening balances).
+2. Add a line per account under **Accounting Entries**, each with a
+   **Debit** or a **Credit**. A line on a receivable or payable account also
+   names its party. The debits and credits must be equal.
+3. Write what it is for in **User Remark**, and **Submit**.
+
+A journal entry nobody gave a title is named by what it is for — the
+payroll's period, the asset it depreciates, or its remark — rather than by
+its first account.
 
 ## Repeating invoices and bills
 
@@ -227,6 +327,30 @@ At the end of a year, its profit is moved into **Retained Earnings**. The
 Books Check's **Every year that has ended is closed** turns **To Do** once a
 year has ended with entries in it; **Fix** closes it and locks the books to
 its last day. The reports go on showing the year as it was.
+
+## Customers and suppliers in another currency
+
+A customer or supplier whose account is in another currency is billed in
+that currency: their invoices, bills and the orders and invoices other apps
+make for them take it, at the day's exchange rate. **Record Payment** does
+not take a payment in another currency; use **Create › Payment** on the
+invoice. Rates are kept under **Home › Setup › Currency Exchange**.
+
+## Printing invoices and statements
+
+**Print** on a sales invoice offers **One Sales Invoice** and its
+**Classic**, **Bordered** and **with Images** looks, **One Simplified Tax
+Invoice**, **One Detailed Tax Invoice** and **One Sales Voucher** (what was
+posted to which account). Each line shows its tax rate
+and tax, and the invoice names the company's bank account to pay into (the
+one ticked **Is Default Account**). For a VAT-registered company in the UAE
+it is headed **Tax Invoice**, or **Tax Credit Note** for a return, with the
+company's TRN. A bill, a payment (**One Payment Receipt**), a journal entry
+and a payment reminder print the same way.
+
+**Print** on a customer gives their **Statement of Account**: this fiscal
+year's invoices and payments, the balance after each, how old what is open
+is, and where to pay. A supplier prints as a **Supplier Statement**.
 
 ## What is kept where
 

@@ -10,11 +10,15 @@ import re
 import frappe
 from frappe.utils import now_datetime, strip_html_tags
 
-from onedesk.one_ai import run
+from onedesk.one_ai import kind, run
 
 CHAT = "chat"
 
 KEPT = 24
+
+#: How much of what a tool answered for an earlier question is sent again.
+EARLIER_ROWS = 5
+EARLIER_TEXT = 1200
 
 #: How long a title taken from the first thing asked may be.
 TITLE = 60
@@ -167,7 +171,7 @@ def answer(chat: str, text: str, field: dict | None, run_id: str, page: dict | s
 	heard = lambda step: _tell(run_id, chat, step)  # noqa: E731
 	try:
 		out = _ran(doc, text, turns, heard, page)
-		turns = turns[: -min(KEPT, len(turns))] + list(out.get("turns") or [])
+		turns = turns[: -min(KEPT, len(turns))] + _whole(turns[-KEPT:], list(out.get("turns") or []))
 		if field:
 			_field_card(field, turns, doc.name)
 		doc.model = out.get("model") or doc.model
@@ -266,7 +270,7 @@ def cards(names: list[str] | str) -> list[dict]:
 	found = frappe.get_list(
 		"AI Proposal",
 		filters={"name": ["in", list(named)[:50]]},
-		fields=["name", "kind", "for_doctype", "record", "state", "why", "changes", "was", "applied_doc"],
+		fields=["name", "kind", "for_doctype", "record", "state", "why", "said", "changes", "was", "applied_doc"],
 		limit_page_length=50,
 	)
 	return [{**row, "shown": _suggests(row)} for row in found]
@@ -416,7 +420,7 @@ def _ran(doc, text: str, turns: list[dict], heard=None, page: dict | str | None 
 			CHAT,
 			text,
 			reference=doc.name,
-			turns=carrying.carried(turns[-KEPT:]),
+			turns=carrying.carried(lighter(turns[-KEPT:])),
 			heard=heard,
 			expects=suggest.expected(text) or _expects_edit(turns),
 			groups=groups.chosen(text, page, turns),
@@ -495,8 +499,7 @@ def shown(turns: list[dict]) -> list[dict]:
 				],
 				"looked": looked,
 				"remembered": _remembered(one, answers.get(at) or []),
-				"cards": [card for card in (look["card"] for look in looked) if card]
-				+ list(one.get("cards") or []),
+				"cards": [card for look in looked for card in look["cards"]] + list(one.get("cards") or []),
 			}
 		)
 	return _answer_first(said)
@@ -576,6 +579,7 @@ def _looked(call: dict, result: dict | None) -> dict:
 		"ran": bool(said.get("ran")),
 		"error": _first(answered.get("error")) if isinstance(answered, dict) else None,
 		"card": said.get("card"),
+		"cards": list(said.get("cards") or ([said["card"]] if said.get("card") else [])),
 		"records": rows,
 		"more": more,
 		"found": found,
@@ -686,6 +690,8 @@ def _formatted(df, value, doc: dict | None = None) -> str:
 	record's title, and text stays text."""
 	if value in (None, ""):
 		return ""
+	if isinstance(value, str) and kind.REF.match(value):
+		return _pointed(value)
 	if df.fieldtype == "Link" and df.options:
 		return _titled(df.options, value)
 	if df.fieldtype == "Check":
@@ -699,6 +705,53 @@ def _formatted(df, value, doc: dict | None = None) -> str:
 	from frappe.utils.formatters import format_value
 
 	return strip_html_tags(str(format_value(value, df, doc=frappe._dict(doc or {})))).strip()
+
+
+def lighter(turns: list[dict]) -> list[dict]:
+	"""The conversation with what tools answered for earlier questions cut
+	down to a few rows and the start of each long text, saying how much was
+	left out. What answers this question is sent whole. README, chat.py."""
+	asked = max(
+		(at for at, one in enumerate(turns) if one.get("role") == "user" and not one.get("context")),
+		default=-1,
+	)
+	return [
+		{**one, "result": _cut(one.get("result"))} if at < asked and one.get("role") == "tool" else one
+		for at, one in enumerate(turns)
+	]
+
+
+def _whole(sent: list[dict], back: list[dict]) -> list[dict]:
+	"""The run's turns with the earlier tool answers `lighter` cut put back as
+	they were, so the conversation keeps every row it showed."""
+	back = list(back)
+	for at, one in enumerate(sent[: len(back)]):
+		if one.get("role") == "tool" and back[at].get("role") == "tool" and back[at].get("id") == one.get("id"):
+			back[at] = one
+	return back
+
+
+def _cut(said, depth: int = 0):
+	if isinstance(said, list):
+		kept = [_cut(one, depth + 1) for one in said[:EARLIER_ROWS]]
+		return kept + ([{"left_out": len(said) - EARLIER_ROWS}] if len(said) > EARLIER_ROWS else [])
+	if isinstance(said, dict) and depth < 3:
+		return {key: _cut(value, depth + 1) for key, value in said.items()}
+	if isinstance(said, str) and len(said) > EARLIER_TEXT:
+		return said[:EARLIER_TEXT] + f"… ({len(said) - EARLIER_TEXT} more characters left out)"
+	return said
+
+
+def _pointed(value: str) -> str:
+	"""A value that points at another card: what that card makes, or, once it
+	is approved, the record it made."""
+	card = kind.REF.match(value).group(1)
+	held = frappe.db.get_value("AI Proposal", card, ["said", "state", "applied_doc", "for_doctype"], as_dict=True)
+	if not held:
+		return value
+	if held.state == "Applied" and held.applied_doc:
+		return _titled(held.for_doctype, held.applied_doc)
+	return frappe._("{0}, from the card above").format(held.said)
 
 
 def _titled(doctype: str, name) -> str:
@@ -726,11 +779,11 @@ def _card_rows(doctype: str, rows: list, parent: dict | None = None) -> list[dic
 			if value in (None, ""):
 				continue
 			df = meta.get_field(field)
-			kind = df.fieldtype if df else None
+			fieldtype = df.fieldtype if df else None
 			shown = _formatted(df, value, {**row, **(parent or {})}) if df else str(value)
-			if kind in ("Currency", "Float", "Int", "Percent") and not side:
+			if fieldtype in ("Currency", "Float", "Int", "Percent") and not side:
 				side = shown
-			elif kind in ("Link", "Select", "Date", "Datetime"):
+			elif fieldtype in ("Link", "Select", "Date", "Datetime"):
 				notes.append(shown)
 			else:
 				main.append(shown)
@@ -746,11 +799,13 @@ def _card_value(value) -> str:
 	Text as text, and a child table as its rows, one a line — every row a
 	suggestion carries is on the card, because the rows are what is approved.
 	"""
+	if isinstance(value, str) and kind.REF.match(value):
+		return _pointed(value)
 	if isinstance(value, str):
 		return strip_html_tags(value).strip()
 	if isinstance(value, list):
 		return "\n".join(
-			" · ".join(str(one) for one in row.values() if one not in (None, ""))
+			" · ".join(_card_value(one) if isinstance(one, str) else str(one) for one in row.values() if one not in (None, ""))
 			for row in value
 			if isinstance(row, dict)
 		)

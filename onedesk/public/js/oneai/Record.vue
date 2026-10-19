@@ -93,7 +93,7 @@ const props = defineProps({
 	record: { type: Object, required: true },
 	suggested: { type: Object, default: null },
 });
-const emit = defineEmits(["answered"]);
+const emit = defineEmits(["answered", "failed"]);
 
 const busy = ref(false);
 
@@ -243,6 +243,7 @@ async function answer(what) {
 		}
 		emit("answered", props.suggested.name);
 	} catch {
+		if (what === "apply") emit("failed", props.suggested.name);
 	} finally {
 		busy.value = false;
 	}

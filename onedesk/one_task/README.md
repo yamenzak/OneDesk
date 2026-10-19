@@ -18,7 +18,7 @@ else you have to do is here.
   ones given to you, such as a task Intake made about a supplier's bill.
   Quick notes to yourself go here.
 - **Task** at the bottom: every task you can see, as a list.
-- **Reports**, **Delayed Tasks Summary**: ERPNext's report of every task you can see,
+- **Reports**, **Delayed Tasks Summary**: a report of every task you can see,
   on time or late, with how late. It shows to those who work on projects.
 - **Setup** (Task Type), for those with access.
 
@@ -61,8 +61,8 @@ it has no end date.
 
 ## All Tasks
 
-**Task**, at the foot of the column, is every task you can see, as
-frappe's list, with its other views under **List View**:
+**Task**, at the foot of the column, is every task you can see, as a
+list, with its other views under **List View**:
 
 - **Report**: the same tasks as a table you can change in place.
 - **Kanban**: the tasks by status. A project's own board is under Board on
@@ -76,7 +76,7 @@ frappe's list, with its other views under **List View**:
 A template's tasks are steps for a new project, not work, so none of these
 show them. They are in OneProject › Templates.
 
-
+## Creating a task
 
 **New Task** on a project's Tasks asks for the task, its project (this one
 or one under it), what it is part of, who owns it, its priority, when it
@@ -120,8 +120,8 @@ files, tags, who it is shared with and who changed it last.
 
 **Complete Task** at the top completes it, and **Reopen Task** opens it
 again. **Start Timer** times it. **⋯** has **Edit Details**, where every
-other field of the task is, **Repeat** and frappe's own Print, Email,
-Duplicate, Delete and the rest.
+other field of the task is, **Repeat**, and Print, Email, Duplicate, Delete
+and the rest.
 
 Everything on the page updates on its own when someone else changes the
 task, a sub-task or the time on it.
@@ -184,6 +184,20 @@ monthly and so on. Each time, a new task is created:
 Stop repeating from the same menu. Anyone who may change a task may set it to
 repeat or stop it.
 
+## Kinds of task
+
+**Task Type**, under **Setup**, lists the kinds of task, such as Site Visit
+or Inspection, to sort and count tasks by. Set a task's kind under **Type**
+in **Edit Details**, in the task's **⋯** menu.
+
+## Late tasks
+
+**Delayed Tasks Summary**, under **Reports**, lists the tasks you can see,
+latest first, with their dates, when they were done and how many days late,
+in red. A bar on top shows how many are on track and how many delayed.
+Narrow it by **Project**, **From Date** and **To Date**, **Priority** or
+**Status**.
+
 ## Who is on a task
 
 **Assign** on a task's page assigns it to someone. They can see it, it shows
@@ -212,7 +226,8 @@ assigned to several people.
 - **Sent Back**: a task you sent for review comes back out of Pending Review
   without being completed.
 - **Comment on Your Task**: someone comments on a task you were given, gave
-  or made. Someone the comment mentions is told by frappe's Mention instead.
+  or made. Someone the comment mentions gets a mention notification
+  instead.
 - **Today's Tasks**: each morning, what's due today and what's overdue, if
   anything.
 
@@ -253,7 +268,7 @@ You can work on a task someone else assigned to you, but you can't delete it.
 ## Connections
 
 - **From OneProject**: A project task assigned to you shows on My Tasks with its project. Who else sees a project task follows who can see the project. **Open Task** in a project's task panel opens the task on its own page.
-- **From OneHR**: Each activity on an onboarding or separation checklist becomes a task for whoever does it. A separation also adds a Return task for each asset the person holds. Such a task names the person joining or leaving and opens their onboarding or separation, not the checklist project HRMS keeps behind it.
+- **From OneHR**: Each activity on an onboarding or separation checklist becomes a task for whoever does it. A separation also adds a Return task for each asset the person holds. Such a task names the person joining or leaving and opens their onboarding or separation, not the checklist project kept behind it.
 - **From OneIntake**: Tasks are made from what arrives, such as answering an enquiry or renewing a passport before it runs out. Your Assignment Rules decide who gets one first, and otherwise it goes to whoever's mail it came in. A task about a bill or a delivery for a project is in that project. Their steps tick themselves when the record they wait on changes, such as a bill being paid.
 - **To One**: Home shows how many of your tasks are due today or overdue.
 - **To OneCalendar**: Your tasks show under My Tasks on their due date, and dragging one moves its dates. Anything else assigned to you, such as a deal or a leave application, shows under Assigned to Me.
@@ -466,9 +481,10 @@ is:
   `?edit=1`.
 - `ai.py` — the page sentence, `my_tasks`, `plan_task` (a Create card; the
   colleagues it names ride on the hidden `one_for` and are given the task by
-  `capture.task_made`), `plan_steps` (an Edit card on the checklist),
-  `plan_change` (an Edit card on the status, due date or priority, saved as
-  the page saves them, so ERPNext's checks hold), `assign_task` (a Setup
+  `capture.task_made`), `plan_steps` (an Edit card on the checklist; a
+  change to the status, due date or priority is the generic `edit_record`,
+  saved as the page saves them, so ERPNext's checks hold),
+  `assign_task` (a Setup
   card, `what: assign`; approving runs `assigned` through one/ai_setup.py,
   which checks again that the approver may change the task and that each
   colleague is an enabled workspace user, then calls frappe's

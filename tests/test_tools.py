@@ -96,7 +96,7 @@ def test_every_tool_is_a_function_a_schema_can_be_read_off():
 			for target in node.targets:
 				if isinstance(target, ast.Name) and target.id in ("READS", "SUGGESTS"):
 					named |= {e.id for e in node.value.elts if isinstance(e, ast.Name)}
-	assert len(named) == 15, named
+	assert len(named) == 16, named
 	for name in named:
 		fn = functions[name]
 		assert ast.get_docstring(fn), f"{name} tells a model nothing about itself"
@@ -217,18 +217,19 @@ def test_only_the_first_paragraph_reaches_a_model():
 
 
 def test_a_new_record_is_tried_before_it_becomes_a_card():
-	"""Frappe's own checks, and the doctype's own validate, rolled back — so a
-	card never fails at Approve on a field nobody was asked for."""
+	"""The record is made as Approve will make it — the insert, with what it
+	fills in by itself — and rolled back, so a card never fails at Approve on
+	a field nobody was asked for, and never asks for one the insert fills."""
 	proposals = (tree.APP / "one_ai" / "proposals.py").read_text()
 	propose = proposals.split("def propose(", 1)[1].split("\ndef ", 1)[0]
-	assert "_ready(doctype, changes)" in propose
-	assert "kind.ready(doctype, changes)" in proposals.split("def _ready(", 1)[1].split("\ndef ", 1)[0]
+	assert "_ready(doctype, changes, needs)" in propose
+	assert "kind.ready(doctype, changes, _before(" in proposals.split("def _ready(", 1)[1].split("\ndef ", 1)[0]
 	kind = (tree.APP / "one_ai" / "kind.py").read_text()
 	ready = kind.split("def ready(", 1)[1].split("\ndef ", 1)[0]
-	for step in ("get_invalid_links(", 'run_method("validate")', "missing(doc)", "rollback(save_point="):
+	for step in ("doc.insert()", "missing(doc)", "rollback(save_point="):
 		assert step in ready, step
 	assert "_get_missing_mandatory_fields(" in kind.split("def missing(", 1)[1].split("\ndef ", 1)[0]
-	assert ready.index("savepoint(") < ready.index('run_method("validate")') < ready.index("rollback(")
+	assert ready.index("savepoint(") < ready.index("doc.insert()") < ready.index("rollback(")
 
 
 def test_describing_a_type_says_what_is_required_and_what_the_system_fills():

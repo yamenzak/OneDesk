@@ -9,7 +9,7 @@ import json
 import frappe
 from frappe.utils import now_datetime
 
-from onedesk.one_ai import touch
+from onedesk.one_ai import kind, touch
 from onedesk.one_ai.kind import LAYOUT
 
 SETTLED = ("Applied", "Refused", "Stale")
@@ -39,11 +39,13 @@ def propose(
 	the point somebody presses a button.
 	"""
 	changes = (changes or {}) if kind in OWN_WORDS else _plain(changes or {}, doctype)
+	needs = []
 	if kind in ("Create", "Edit") and frappe.db.exists("DocType", doctype):
 		changes = _understood(doctype, changes)
+		changes, needs = _chained(doctype, changes)
 	held = _allowed(kind, doctype, record)
 	if kind == "Create":
-		_ready(doctype, changes)
+		_ready(doctype, changes, needs)
 	if kind == "Edit" and held:
 		changes = {key: value for key, value in changes.items() if not _same_value(held.get(key), value)}
 		if not changes:
@@ -66,6 +68,7 @@ def propose(
 			"modified_then": str(held.modified) if held else None,
 			"reference": reference,
 			"files": frappe.as_json(list(files or [])) if files else None,
+			"needs": frappe.as_json(needs) if needs else None,
 		}
 	)
 	entry.insert()
@@ -84,6 +87,8 @@ def apply(proposal: str) -> dict:
 		frappe.throw(frappe._("{0} was already {1}.").format(proposal, entry.state.lower()))
 
 	changes = json.loads(entry.changes or "{}")
+	if entry.get("needs"):
+		changes = kind.resolved(changes, _made_first(entry))
 	if entry.kind == "Customize":
 		from onedesk.one import customize
 
@@ -302,11 +307,117 @@ def _mine(entry) -> None:
 	roles.require()
 
 
-def _ready(doctype: str, changes: dict) -> None:
-	"""Refuse a new record now that frappe would refuse at Approve (kind.ready)."""
-	from onedesk.one_ai import kind
+def _ready(doctype: str, changes: dict, needs: list | None = None) -> None:
+	"""Refuse a new record now that frappe would refuse at Approve (kind.ready),
+	with the cards it points at made first."""
+	kind.ready(doctype, changes, _before(needs or []))
 
-	kind.ready(doctype, changes)
+
+def _chained(doctype: str, changes: dict) -> tuple[dict, list[str]]:
+	"""The cards these values point at ("@PROP-26-000042"), checked: each is the
+	asker's own, still waiting or already approved, and makes the kind of record
+	the field holds. One already approved is replaced by what it made; the rest
+	are what this card needs approved before it."""
+	named = kind.refs(changes)
+	if not named:
+		return changes, []
+	made, waiting, makes = {}, [], {}
+	for card in named:
+		held = frappe.db.get_value(
+			"AI Proposal", card, ["kind", "for_doctype", "state", "asked_by", "applied_doc"], as_dict=True
+		)
+		if not held or held.asked_by != frappe.session.user:
+			frappe.throw(
+				f"There is no card {card} to point at. Point only at a card suggested in this conversation, "
+				"as @ and the id its tool answered with."
+			)
+		if held.kind != "Create":
+			frappe.throw(f"{card} does not make a record, so nothing can point at it.")
+		if held.state == "Applied":
+			made[card] = held.applied_doc
+		elif held.state == "Proposed":
+			waiting.append(card)
+		else:
+			frappe.throw(
+				f"{card} was {held.state.lower()}, so the record it would have made does not exist. "
+				"Suggest it again, or use a record that exists."
+			)
+		makes[card] = held.for_doctype
+	for label, holds, card in _pointers(doctype, changes):
+		if holds and makes.get(card) and holds != makes[card]:
+			frappe.throw(f"{label} holds a {holds}, and {card} makes a {makes[card]}.")
+	return kind.resolved(changes, made), waiting
+
+
+def _pointers(doctype: str, changes: dict):
+	"""Each (field, the kind it links to, card) where a value points at a card."""
+	meta = frappe.get_meta(doctype)
+	for key, value in changes.items():
+		df = meta.get_field(key)
+		if isinstance(value, list) and df and df.fieldtype in frappe.model.table_fields:
+			for row in value:
+				if isinstance(row, dict):
+					yield from _pointers(df.options, row)
+		elif isinstance(value, str) and kind.REF.match(value):
+			holds = df.options if df and df.fieldtype == "Link" else None
+			yield (df.label if df else key), holds, kind.REF.match(value).group(1)
+
+
+def _before(needs: list[str], seen: set | None = None) -> list[tuple]:
+	"""The waiting cards these point at, and the ones they point at, in the
+	order they have to be made: (card, kind, values)."""
+	seen = seen if seen is not None else set()
+	out = []
+	for card in needs:
+		if card in seen:
+			continue
+		seen.add(card)
+		held = frappe.db.get_value("AI Proposal", card, ["for_doctype", "changes", "needs", "state"], as_dict=True)
+		if not held or held.state != "Proposed":
+			continue
+		out += _before(json.loads(held.needs or "[]"), seen)
+		out.append((card, held.for_doctype, json.loads(held.changes or "{}")))
+	return out
+
+
+def _made_first(entry) -> dict:
+	"""The records the cards this one points at made, approving any still
+	waiting first: approving a quotation approves the new customer it is for."""
+	made = {}
+	for card in json.loads(entry.needs or "[]"):
+		state = frappe.db.get_value("AI Proposal", card, "state")
+		if state == "Proposed":
+			apply(card)
+			state = "Applied"
+		if state != "Applied":
+			frappe.throw(
+				frappe._("This needs {0}, which was {1}. Ask OneAI to suggest it again.").format(
+					frappe.db.get_value("AI Proposal", card, "said") or card, frappe._(state or "deleted").lower()
+				)
+			)
+		made[card] = frappe.db.get_value("AI Proposal", card, "applied_doc")
+	return made
+
+
+# Approved in the panel rather than here: a reply or a mail opens in its own
+# window, and an edit to an unsaved document lands in its open form.
+IN_THE_PANEL = ("Reply", "Mail")
+
+
+def apply_all(names: list[str]) -> list[dict]:
+	"""Approve several cards at once, in the order they were suggested, which is
+	the order they point at each other in. A card already approved because a
+	later one needed it is skipped; one only the panel can apply is left."""
+	out = []
+	for name in names:
+		held = frappe.db.get_value("AI Proposal", name, ["state", "kind", "record"], as_dict=True)
+		if not held or held.state != "Proposed":
+			continue
+		if held.kind in IN_THE_PANEL or (held.kind == "Edit" and not held.record):
+			out.append({"proposal": name, "state": "Proposed", "left": True})
+			continue
+		out.append(apply(name))
+	return out
 
 
 

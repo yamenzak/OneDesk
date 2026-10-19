@@ -147,7 +147,7 @@ def late_invoices(
 ) -> dict:
 	"""Every invoice with something late, or for bills also due this week, the
 	oldest first: to or from whom, how much is still owed, since when and how
-	late, as ERPNext's Overdue counts it from the payment schedule."""
+	late, as the system's own Overdue counts it from the payment schedule."""
 	if kind not in PARTY:
 		return {"error": "Ask for Sales Invoice or Purchase Invoice."}
 	if not frappe.has_permission(kind, "read"):

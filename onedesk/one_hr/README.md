@@ -6,9 +6,7 @@ reads it to answer "how do I…" questions. Under the hood is for the people who
 build it.
 
 OneHR is HR for one company: people, attendance, leave, pay, expenses, hiring,
-appraisals, and joining and leaving. It is built on Frappe HRMS, so every
-record HRMS has is here, and OneHR fixes what HRMS leaves unfinished and adds
-what it lacks.
+appraisals, and joining and leaving.
 
 ## Finding your way
 
@@ -25,7 +23,8 @@ The rail on the left has the whole of OneHR in it:
   list the whole of OneHR with what each is for.
 - **Overview** — who is in, who is absent, who is on leave, and flagged
   check-ins waiting for a look.
-- **Employee**, **Org Chart**, **Setup**.
+- **Employee**, **Org Chart** (who reports to whom, drawn from each
+  employee's **Reports To**) and **Setup** (see Setup below).
 - **Time**, **Leave**, **Pay**, **Tax & Benefits**, **Expenses**, **Hiring**,
   **Growth**, **Joining & Leaving** — one group each, opened with the arrow.
   Pay has Employee Incentive, Retention Bonus, Arrear (back pay for a raise
@@ -86,10 +85,13 @@ without you or you checked in after it. Until you check in it shows when your
 shift starts, and hovering says "Check in by 08:00" or "Your shift started at
 08:00". On OneHR's Home the button says the same: Check in by 08:00, or Check
 In (late). Ten minutes after the start, anybody not in yet is reminded once
-(Not Checked In). The shift is HRMS's: your assignment for the day, else your
-default shift. On a phone it is at the top of the panel. Click it to clock in or out. It picks the right direction itself, and it does not
-appear for somebody on leave or on a holiday, for anybody without an employee
-record, or when the workspace has not turned self check-in on.
+(Not Checked In). The shift is your shift assignment for the day, else your
+default shift. On a phone it is at the top of the panel. Click it to clock in
+or out. It picks the right direction itself, and it does not appear for
+somebody on leave or on a holiday, for anybody without an employee record, or
+when the workspace has not turned self check-in on.
+
+### Registering a passkey
 
 **Before the first clock-in, register a passkey on your phone.** It is a key
 your phone keeps and unlocks with your face, fingerprint or PIN. Registering
@@ -113,11 +115,20 @@ that stays on one phone turning up in another browser is (`passkey-elsewhere`).
 for a reset. HR sees what your new phone looks like next to your old one, and
 resets it in one click.
 
+**Clock Device** in the rail lists every registered passkey: whose it is, the
+device, when it was registered and last used, and its status — **Active**,
+**Reset** or **Blocked**. **Reset** on one, or **Reset Passkey** on the
+employee record, lets the person register a new passkey at their next
+check-in; the old one is retired, not deleted. **Block** stops them checking
+in or registering another.
+
 **Signing in with your passkey.** The same passkey signs you in: the login
 page leads with *Sign in with a Passkey*, and no password is needed. A passkey
 belongs to the login rather than the employee (`Clock Device.user`), so
 anybody can have one; an employee's is also the one the clock reads, which is
 why only HR resets it.
+
+### What a clock-in checks
 
 **What a clock-in checks**, in this order:
 
@@ -135,6 +146,8 @@ either one is enough. A workspace can ask for both.
 checks failed. Every attempt, allowed or refused, is written down as a
 **Clock Attempt** with a score out of 100.
 
+### Working from home, and clocking out
+
 **Working from home or somewhere else.** Ask for it first with an
 **Attendance Request**. Once it is approved, being off the network and away
 from every location costs you nothing on those days. A home network can also
@@ -149,6 +162,8 @@ The reasons offered are kept under **Clock Reason** in the rail. Add one,
 give it a description to show when it is picked, or untick **Enabled** to
 stop offering it. Tick **Ends Shift** on the one that means not coming
 back today; a day closed at the shift's end is filed under it.
+
+### Places, networks and the review queue
 
 **OneHR fixes its own settings.** When the office router gets a new address,
 or everybody clocks in at a gate outside the drawn location, check-ins from
@@ -198,6 +213,14 @@ If a shift is not set up to turn check-ins into attendance, its form says so
 and offers **Read Check-ins**, and HR Managers are told once a week about any
 shift that has check-ins and is producing no attendance.
 
+### Attendance
+
+**Attendance** in the rail is each person's day as it was marked: Present,
+Absent, On Leave, Half Day or Work From Home. Check-ins become attendance
+through the shift; leave and approved attendance requests mark their own
+days. A working day the shift marked absent is told to the employee
+(**Marked Absent**), in case they forgot to clock in.
+
 ### Marking attendance by hand
 
 For people without a phone, or a day the clock did not cover:
@@ -214,7 +237,9 @@ adds. **Shift Request** asks to work a different shift.
 
 Both are answered the same way as leave and expense claims: **Approve** or
 **Reject**, with a note. The record then shows who decided, when, and what they
-wrote. Nobody approves their own request.
+wrote. Nobody approves their own request. A shift request goes to the
+**Shift Request Approver** on the employee's record; when there is none, the
+form says so. An attendance request goes to HR.
 
 **Shift Assignment Tool** puts many people on a shift at once. Pick the
 shift and the dates, narrow the list by branch, department or designation,
@@ -256,10 +281,34 @@ it uses one clock, so a typed block keeps the hours that were typed.
 
 ## Leave
 
+### Applying for leave
+
+1. Press **Request Leave** on OneHR's Home. **Apply for Leave** on your
+   employee record and **Leave Application › + Add Leave Application** do
+   the same. The cards at the top of Home say how many days of each leave you
+   have left, and clicking one starts an application too.
+2. Pick the **Leave Type**, the **From Date** and the **To Date**. Tick
+   **Half Day** for half a day, and write a **Reason**. The table on the form
+   shows what you have of each leave and what is already waiting.
+3. **Save.** It goes to your **Leave Approver**, named on your employee
+   record or your department, or to HR when there is none. It waits under
+   **Your Requests** on Home's Today until it is answered.
+
+You are told the answer, with the approver's note. In the OneAI panel, *Book
+time off* fills in the same application from what you tell it, for you to
+approve. Approved leave that is cancelled later is told to the approver
+(**Leave Cancelled**). Leave that does not carry forward is told two weeks
+before it lapses unused (**Leave Expiring**).
+
+### Approving leave
+
 **Leave Application.** The approver presses **Approve** or **Reject** and can
 add a note. The page says what approving does: *Approving this books 3 days of
 Annual Leave for Rania Sabbagh, 01-10-2026 to 03-10-2026, leaving them 18.* The
-employee is emailed the answer, with the note.
+employee is emailed the answer, with the note. Requests waiting for you are
+under **Waiting for You** on Home's Today.
+
+### Giving people their leave
 
 **The leave year** is created by the setup wizard, named after its year.
 **Leave Control Panel** opens ready to allocate: the leave year's dates filled
@@ -285,6 +334,27 @@ the company's; Working on a Holiday reads theirs.
 month, and last month's pay by department and by designation, with last
 month's total pay and incentives beside it.
 
+### Running payroll
+
+Everybody paid needs a **Salary Structure Assignment**: **Assign a Salary
+Structure** on their employee record, or **Bulk Salary Structure
+Assignment** for many at once (below). Then each month:
+
+1. **Payroll Entry › + Add Payroll Entry.** Set the **Posting Date**, the
+   **Start Date** and **End Date** of the period, and the **Payment Account**
+   the pay leaves from. Save.
+2. **Get Employees** lists everybody with a salary structure for the period.
+   If any of them have overtime, **Create Overtime Slips** and **Submit
+   Overtime Slips** come first.
+3. **Create Salary Slips** makes a draft payslip for each. In the OneAI
+   panel, *Check this payroll* compares every slip with last month's and
+   names anybody missing.
+4. **Submit Salary Slip** submits every slip and posts the payroll to the
+   books.
+5. **Make Bank Entry** records the net pay leaving the bank.
+
+### The payroll screens
+
 **Payroll Entry** says the whole run in one line: *01-08-2026 – 31-08-2026: 5
 people, 27,500.00, in 5 slips still in draft*, and turns green when they are
 all submitted. The payroll payable account is set up correctly out of the box,
@@ -298,11 +368,14 @@ Arrivals**, and they are in its Absent Days.
 **Salary Register** opens on the most recent payroll run.
 
 **Salary Structure Assignment** and **Additional Salary** show the amount in
-the list. **Bulk Salary Structure Assignment** puts many people on one
+the list. An **Additional Salary** adds a one-off earning or deduction, such
+as a bonus, to the payslip of the month it is dated in. **Bulk Salary
+Structure Assignment** puts many people on one
 salary structure at once: pick the structure and the date it starts, and it
 lists everybody with no assignment on that date. Narrow it by branch,
 department, designation or grade, give each person their base and variable
-pay, tick who, and press **Assign Structure**. **Salary Withholding** shows the reason, and the period held.
+pay, tick who, and press **Assign Structure**. **Salary Withholding** shows
+the reason, and the period held.
 
 **CTC Break-up** needs an employee and an assignment chosen before it shows
 anything.
@@ -337,13 +410,37 @@ payroll run:
 many were approved and rejected, and charts of claims over time, by type and
 by department, and of advances by status.
 
+### Claiming an expense
+
+1. Press **Claim an Expense** on OneHR's Home, or on your employee record,
+   or use **Expense Claim › + Add Expense Claim**.
+2. Under **Expenses**, add a row per expense: the **Expense Date**, the
+   **Expense Claim Type**, a **Description** and the **Amount**. Attach the
+   receipts.
+3. Pick your **Expense Approver** (the list offers the ones set for you or
+   your department) and **Save**. It goes to them, or to HR when no approver
+   is picked.
+
+In the OneAI panel, *Claim a receipt* with a photo of the receipt fills in
+the claim for you to approve, and *What can I claim?* says what may be
+claimed and who approves it. A receipt sent in to OneIntake becomes a claim
+the same way. Once a claim is approved, accounts pay it with **Create ›
+Payment** on the claim, and you are told when it is paid (**Expense Claim
+Paid**).
+
+### Approving and paying expenses
+
 **Expense Claim.** The approver presses **Approve** or **Reject** with a note,
 and the claim says what approving pays: *Approving this pays Omar Haddad back
 AED 420.00*, including any advance that covers part of it. Nobody approves
 their own claim. The cost centre is filled in.
 
-**Employee Advance** works out of the box: the advance account is set up
-correctly.
+**Employee Advance** is money given ahead, such as for a trip: the
+**Purpose** and the **Advance Amount**. Once it is submitted, **Create ›
+Payment** pays it. What was not spent comes back with **Create › Return**,
+or is taken from salary with **Create › Deduction from Salary**. A later
+expense claim takes the advance off what it pays back. The advance account
+is set up out of the box.
 
 **Travel Request** shows who is travelling and why at the top. It has no
 approval step. The reasons it can give are kept under **Purpose of Travel**
@@ -354,9 +451,8 @@ last log, on 58.00 Litre costing AED 179.80*.
 
 **Who handles them.** An **HR User** makes and submits advances, travel
 requests and vehicle logs, and an **HR Manager** also cancels them and keeps
-the list of purposes of travel. HRMS gives these to roles nobody is given in
-One (System Manager, Expense Approver, Fleet Manager), so One gives them to
-HR (`access.py`). What an employee sees of their own is unchanged.
+the list of purposes of travel. What an employee sees of their own is
+unchanged.
 
 **Reports:** **Unpaid Expense Claim** and **Vehicle Expenses**, which opens on
 this year.
@@ -388,12 +484,21 @@ Anybody whose standing moves by 15 or more gets a comment saying why.
 In the panel on an applicant: **Screen again**, **What should I ask first?**
 and **Write a kind decline**. On an opening: **Rank the applicants again**.
 
+**Adding applicants from CVs.** Drop CVs on **Add applicants from CVs** in
+the OneAI panel. On an opening, each becomes an applicant to it; on the
+applicant list or Home, each goes to the open job it fits best. Each is a
+card to approve. A CV that arrives by mail becomes an applicant through
+OneIntake.
+
 **Interviewers.** Everybody named on an interview can open it and give
 feedback on it, whatever else they use One for.
 
+### Interviews and recordings
+
 **Interview.** When an interview is made, OneAI writes **Interview
 Preparation** onto it: what to confirm first, then up to eight questions, each
-saying which skill it tests and why.
+saying which skill it tests and why. **Prepare this interview again** in the
+panel writes it again.
 
 **Recording an interview.** Press **Record** on the interview. You must first
 confirm the candidate has agreed; the recording keeps who confirmed it and
@@ -417,6 +522,13 @@ it. **Transcribe again** in the panel on a recording retries parts that failed.
 the recording** drafts your feedback with a rating for each expected skill,
 for you to approve and submit. Only the interview's own interviewers can use
 it.
+
+### Requisitions, offers and referrals
+
+**Job Requisition** is a manager asking to hire: the **Designation**, how
+many (**No of. Positions**), the **Expected Compensation** and why. HR is
+told and answers it, and whoever asked is told the answer. Once it is **Open
+& Approved**, **Actions › Create Job Opening** starts the opening from it.
 
 **Job Offer** — **Write the offer terms** in the panel. **Appointment Letter**
 fills in from its template. **Staffing Plan** lists its period, headcount and
@@ -451,9 +563,18 @@ scores — goals, feedback, self appraisal — is still missing. In the panel:
 **Draft my feedback** and **What training would help?**, which matches the
 weakest areas to the workspace's own training programs and events.
 
+**Feedback** is what a reviewer says about somebody's work, rated against
+the feedback criteria (**Setup › Employee Feedback Criteria**). Its score
+counts in that person's appraisal.
+
 **Employee Promotion** says the change in one line — *Omar Haddad, from
 01-07-2026: designation Engineer → Senior Engineer* — and the list shows the new
 designation, so it can be filtered.
+
+**Transfer** moves somebody to another department or branch from a
+**Transfer Date**: list what changes under **Employee Transfer Detail**, and
+submit it on or after that date to change their employee record. It prints
+as **One Transfer Letter**.
 
 **Appraisal Overview** is the appraisal report: one row per appraisal, with
 the goal score, the average feedback score and how many feedbacks it got,
@@ -462,19 +583,29 @@ the self score and the final score. Pick a cycle to see one round.
 ## Joining & Leaving
 
 **Onboarding** needs a Job Offer, and the first one a workspace submits goes
-through: the holiday list and the project dates are taken care of.
+through: the holiday list and the project dates are taken care of. Each
+activity on it becomes a task for whoever does it, and **Create › Employee**
+makes the new joiner's employee record. In the OneAI panel, *Plan the first
+two weeks* suggests what their first days should hold and who owns each
+part.
+
 **Separation** shows its status in the list. Submitting one adds a **Return**
 task for each asset the person holds (a laptop, a phone), for whoever looks
 after the company's equipment; see OneInventory.
 
-**End of Service** is HRMS's Gratuity. It works out what a leaver is owed by a
-rule (in the UAE, days of basic pay for each year served) from their last
-payslip, and the books pay it. HRMS's UAE rules count no pay at all until a
-pay component is added to them. The demo adds Basic Salary.
+### Settling up with a leaver
+
+**End of Service** is the leaver's gratuity. It works out what they are owed
+by a rule (in the UAE, days of basic pay for each year served) from their
+last payslip, and the books pay it. The UAE rules count no pay at all until a
+pay component, such as Basic Salary, is added to the rule's **Applicable
+Earnings Component**.
 
 **Full and Final Statement** settles up with a leaver: what the company
 still owes them, what they owe it, and any company property they have not
 returned.
+
+### Grievances and letters
 
 **Grievance.** Each new grievance is read by OneAI: a neutral summary, a
 category and an urgency. One about harassment, discrimination or safety is
@@ -489,39 +620,19 @@ the draft, and HR Managers are told. HR reads it and issues it by submitting.
 It prints on the letterhead, marked *Draft. Not issued.* until then. HR can
 ask for a letter about anybody from the employee's record.
 
-**Printing.** A payslip, a job offer and an appointment letter print from
-frappe's print format builder's own pieces (`scripts/print_formats.py`), in
-place of HRMS's: **One Payslip** (who, the period, earnings and deductions
-side by side, the net pay large and where it was paid), **One Payslip
-Compact** on half a page, and **One Salary Statement** for HRMS's detailed
-one (each line's year to date, the payroll period, any income tax and the
-leave taken and left); **One Job Offer** (the position, each term of the
-offer, both sides to sign) and **One Appointment Letter** (the opening
-words, each term, the closing words, both sides to sign). HRMS ships none for
-money an employee spends or is given ahead, and One has two: **One Expense
-Claim** (each expense claimed and approved, any advance taken off, what's
-owed them) and **One Employee Advance** (how much and what for, what's spent
-and given back, and the promise that the rest comes from salary when the
-advance says so). Everything else HR submits prints from One's pieces
-rather than frappe's Standard, each saying whose it is first: a leave
-application (the days, the balance before, the approver to sign), an
-allocation, adjustment, encashment and policy; a promotion or transfer
-letter (what changes, both to sign); a full and final settlement (owed to
-them, owed by them, company property not returned); gratuity; an appraisal,
-feedback, an interview and an exit interview; onboarding and separation
-steps; attendance, shifts and overtime; training, travel, a grievance, a
-referral, a vehicle log; and payroll's own (a payroll run, salary structures
-and assignments, additional salary, arrears, incentives, retention bonuses,
-withholding, benefits and tax exemptions). A leave application also says
-what the employee has left of each leave. An employee prints as the two
-letters people ask HR for: a **Salary Certificate** (since when and as what,
-and the monthly pay as the latest payslip made it up) and an **Experience
-Letter** (from when to when, or that they still work here).
+### Training
 
 **Training Program**, **Training Event**, **Training Feedback** and
 **Training Result** list what each is about and when. A **Training Result**
 records how each person did on an event: their hours, their grade and a
 comment.
+
+### Exit interviews and reports
+
+**Exit Interview** asks a leaver why they are going, before they go: the
+date, who interviews them, the **Interview Summary** and the **Final
+Decision** (**Employee Retained** or **Exit Confirmed**). **Send Exit
+Questionnaire** mails them the questionnaire HR Settings names.
 
 **Exits.** **Employee Exits** opens on this year, so it shows who has left and
 who is leaving. In the panel on exit interviews, **Why are people leaving?**
@@ -531,6 +642,84 @@ counts the reasons given over the last twelve months.
 **Employee Information** and **Employee Analytics**, which opens on
 Department. **Employee Information** is everybody's details in one table, to
 sort, filter and add columns to.
+
+## Setup
+
+**Setup** in the rail opens the lists OneHR is set up from, by topic:
+
+- **People** — Company, Employee Group, Employee Grade and Employee Skill
+  Map.
+- **Time** — Shift Type, Shift Location, Shift Schedule, Activity Type,
+  Overtime Type, Holiday List and Holiday List Assignment.
+- **Leave** — Leave Period (the leave year), Leave Policy, Leave Block List
+  and Leave Type.
+- **Pay** — Salary Component, Salary Structure, Income Tax Slab and Employee
+  Tax Exemption Category.
+- **Expenses** — Expense Claim Type, Driver and Vehicle.
+- **Hiring** — Interview Type and the templates for job openings,
+  appointment letters and job offer terms.
+- **Growth** — Appraisal Template and Employee Feedback Criteria.
+- **Settings** — HR Settings and Payroll Settings.
+- **Check-in** — Clock Reason, Clock Network, Clock Place, Clock Device and
+  Clock Attempt.
+
+In the OneAI panel on a settings page, *Help me set this up* goes through
+the settings and suggests changes.
+
+## Being told
+
+OneHR tells people in One's notifications, and each person chooses how under
+You › Notifications:
+
+- **Requests** — a leave application, expense claim, shift request or
+  attendance request is told to whoever answers it (HR when nobody is
+  named), and the answer, with its note, to whoever asked.
+- **Attendance** — Not Checked In, Marked Absent, Check-in Rejected, and a
+  day closed at the shift's end (Check-in Closed for You).
+- **Running out** — a passport, visa or permit a month and a week before it
+  expires, to the employee and HR (Document Expiring); a contract or
+  probation a month and a week before it ends, to HR and the manager
+  (Contract Ending, Probation Ending); and leave about to lapse (Leave
+  Expiring).
+- **Hiring and growth** — Interview Scheduled, a reminder before it, and
+  feedback not yet given; Job Requisition and Referral asked and answered;
+  Appraisal Started.
+- **HR's own** — Letter Requested and Letter Issued, Grievance Raised and
+  Answered, Expense Claim Paid, Passkey Reset Asked and Done, and a new
+  network or location learned.
+- **Everybody** — birthdays, work anniversaries and upcoming holidays, in
+  the morning.
+
+## Printing payslips and letters
+
+A payslip, a job offer and an appointment letter print as **One Payslip**
+(who, the period, earnings and deductions side by side, the net pay large and
+where it was paid), **One Payslip Compact** on half a page, and **One Salary
+Statement**, the detailed one (each line's year to date, the payroll period,
+any income tax and the leave taken and left); **One Job Offer** (the
+position, each term of the offer, both sides to sign) and **One Appointment
+Letter** (the opening words, each term, the closing words, both sides to
+sign). Two more are for money an employee spends or is given ahead: **One
+Expense Claim** (each expense claimed and approved, any advance taken off,
+what's owed them) and **One Employee Advance** (how much and what for, what's
+spent and given back, and the promise that the rest comes from salary when
+the advance says so).
+
+Everything else HR submits prints too, each saying whose it is first: a leave
+application (the days, the balance before, the approver to sign, and what is
+left of each leave), an allocation, adjustment, encashment and policy; a
+promotion or transfer letter (what changes, both to sign); a full and final
+settlement (owed to them, owed by them, company property not returned);
+gratuity; an appraisal, feedback, an interview and an exit interview;
+onboarding and separation steps; attendance, shifts and overtime; training,
+travel, a grievance, a referral, a vehicle log; and payroll's own (a payroll
+run, salary structures and assignments, additional salary, arrears,
+incentives, retention bonuses, withholding, benefits and tax exemptions).
+
+**Print** on an employee gives the two letters people ask HR for: **One
+Salary Certificate** (since when and as what, and the monthly pay as the
+latest payslip made it up) and **One Experience Letter** (from when to when,
+or that they still work here).
 
 ## OneAI in OneHR
 
@@ -542,16 +731,19 @@ which only writes OneAI's own fields and comments.
 | On | Offered | What it does |
 |---|---|---|
 | Home | Book time off, Claim a receipt, How much leave do I have?, Ask HR for a letter | |
-| Leave | What is our leave policy? | Answers from the leave types, holidays and notes, naming each source |
+| Leave | What is our leave policy?, Book time off, How much leave do I have? | Answers from the leave types, holidays and notes, naming each source; an application for you to approve; what you have left and who on your team is off in the next two weeks |
 | Expense claims | Claim a receipt, What can I claim? | A claim from a photo of a receipt |
 | Payroll entry | Check this payroll | Every slip against last month, and anybody missing |
 | Salary slip | What changed since last month? | The same for one slip |
 | Employee (HR) | Write a letter for this person | |
 | Goals | Draft my goals for this cycle | |
 | Appraisal | Draft my feedback, What training would help? | |
-| Exit interviews | Why are people leaving? | |
+| Onboarding | Plan the first two weeks | What their first two weeks should hold, day by day, and who owns each part |
+| Exit interviews, Separation | Why are people leaving? | |
 | Any settings page | Help me set this up | Goes through the settings and suggests changes |
 | Hiring | see **Hiring** | |
+
+### Asking OneAI about a policy
 
 **Asking about a policy.** "How many sick days do I get?" is answered only
 from what this workspace has written down — its leave types, holiday list and
@@ -560,6 +752,8 @@ names where it came from. When nothing covers the question, OneAI says so.
 
 **Asking how OneHR works.** OneAI reads this page to answer questions like
 "how do I register my passkey?" and names the section it used.
+
+### What OneAI does on its own
 
 **What runs on its own**, each with a switch on OneIntake › Settings, under
 OneHR, with the rest of what OneAI does by itself when something arrives:

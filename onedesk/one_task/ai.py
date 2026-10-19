@@ -1,7 +1,8 @@
 """What OneAI does in OneTask: reads the reader's tasks, suggests a task as a
-card, breaks a task into the steps of its checklist, suggests a change to a
-task (done, due another day, more pressing) as the page makes it, and gives a
-task to a colleague as the page's Assign does.
+card, breaks a task into the steps of its checklist, and gives a task to a
+colleague as the page's Assign does. A change to a task (done, due another
+day, more pressing) is the generic edit_record on the Task, which saves it
+as the page does.
 """
 
 from typing import Annotated
@@ -12,8 +13,6 @@ from frappe.utils import get_fullname, getdate
 
 MOST_STEPS = 12
 
-STATUSES = ("Open", "Working", "Pending Review", "Completed", "Cancelled")
-PRIORITIES = ("Low", "Medium", "High", "Urgent")
 
 _FIRST = {
 	"label": _lt("What should I do first?"),
@@ -63,7 +62,7 @@ _CHANGE = {
 	"fill": True,
 	"can": "write",
 	"doctype": "Task",
-	"expects": "plan_change",
+	"expects": "edit_record",
 }
 
 _GIVE = {
@@ -104,8 +103,10 @@ def page(said: dict) -> str | None:
 		return (
 			f"The reader is on the page of task {name} (“{subject}”). task_facts reads it as its page shows "
 			"it: its dates, what it waits on and what waits on it, its checklist, its sub-tasks and the time "
-			"logged on it; plan_steps suggests the steps of its checklist as a card, plan_change its "
-			"status, due date or priority, as the page sets them, and assign_task gives it to a colleague "
+			"logged on it; plan_steps suggests the steps of its checklist as a card, edit_record "
+			f"(Task, {name}, changing status to Open, Working, Pending Review, Completed or Cancelled, "
+			"exp_end_date as YYYY-MM-DD, or priority to Low, Medium, High or Urgent) its status, due date or "
+			"priority, as the page sets them, and assign_task gives it to a colleague "
 			"as the page's Assign does. Nothing is changed until "
 			"the reader approves. How a task's page works is in OneTask's documentation (how_to)."
 		)
@@ -119,8 +120,9 @@ def page(said: dict) -> str | None:
 	return (
 		where + ". my_tasks reads the list as they see it, grouped by when each is due; plan_task suggests "
 		"a task as a card that adds it when the reader approves, and can give it to a colleague; "
-		"plan_steps suggests the steps of a task's checklist; plan_change suggests a task done, due "
-		"another day or more pressing; assign_task gives a task to a colleague. Nothing is added or "
+		"plan_steps suggests the steps of a task's checklist; edit_record on the Task (status, "
+		"exp_end_date or priority) suggests a task done, due another day or more pressing; assign_task "
+		"gives a task to a colleague. Nothing is added or "
 		"changed until the "
 		"reader approves. How OneTask works is in its documentation (how_to)."
 	)
@@ -271,40 +273,6 @@ def plan_steps(
 		"proposal": proposals.propose(
 			"Edit", "Task", changes={"one_steps": kept + new[:MOST_STEPS]}, record=task, why=why
 		),
-		"state": "Proposed",
-	}
-
-
-def plan_change(
-	task: Annotated[str, "The task's id, as the page or the list names it."],
-	status: Annotated[str, "Open, Working, Pending Review, Completed or Cancelled."] | None = None,
-	due: Annotated[str, "The day it is due, as YYYY-MM-DD."] | None = None,
-	priority: Annotated[str, "Low, Medium, High or Urgent."] | None = None,
-	why: Annotated[str, "In a sentence, why this change."] | None = None,
-) -> dict:
-	"""Suggest a change to a task as its page makes it, as a card the reader
-	approves: its status, the day it is due, or its priority. Approving saves
-	the task, so ERPNext's own checks hold, such as a task not done before
-	what it waits on."""
-	from onedesk.one_ai import proposals
-
-	if not frappe.db.exists("Task", task) or not frappe.has_permission("Task", "write", doc=task):
-		return {"error": "There is no such task the reader may change."}
-	if status and status not in STATUSES:
-		return {"error": f"A task's status is one of {', '.join(STATUSES)}."}
-	if priority and priority not in PRIORITIES:
-		return {"error": f"A task's priority is one of {', '.join(PRIORITIES)}."}
-	held = frappe.db.get_value("Task", task, ["status", "exp_end_date", "priority"], as_dict=True)
-	changes = {
-		"status": status if status and status != held.status else None,
-		"exp_end_date": str(getdate(due)) if due and getdate(due) != getdate(held.exp_end_date) else None,
-		"priority": priority if priority and priority != held.priority else None,
-	}
-	changes = {k: v for k, v in changes.items() if v}
-	if not changes:
-		return {"error": "The task already is as asked. Say so."}
-	return {
-		"proposal": proposals.propose("Edit", "Task", changes=changes, record=task, why=why),
 		"state": "Proposed",
 	}
 

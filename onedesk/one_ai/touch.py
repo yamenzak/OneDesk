@@ -7,11 +7,30 @@ card. The badge shows while the field still says what `AI Touch` holds.
 import json
 
 import frappe
-from frappe.utils import get_datetime, strip_html_tags
+from frappe.utils import cint, flt, get_datetime, strip_html_tags
 
 WRITES = ("Small Text", "Text", "Long Text", "Text Editor", "Markdown Editor")
 
 TEXTS = ("Data", *WRITES, "HTML Editor")
+
+# Every field OneAI sets is marked, not only prose: a date, an amount or a
+# customer it filled is as much its as a paragraph it wrote.
+UNMARKED = (
+	"Section Break",
+	"Column Break",
+	"Tab Break",
+	"HTML",
+	"Button",
+	"Heading",
+	"Image",
+	"Fold",
+	"Table",
+	"Table MultiSelect",
+	"Password",
+	"Read Only",
+)
+
+NUMBERS = ("Currency", "Float", "Int", "Percent", "Rating", "Duration")
 
 MOST_SHOWN = 8000
 
@@ -20,7 +39,13 @@ EMAIL = ("Communication", "content")
 MOST_QUOTED = 6000
 
 
-def same(one, other) -> bool:
+def same(one, other, fieldtype: str | None = None) -> bool:
+	"""Whether a field still says what was written: as numbers for a number,
+	so 100 and "100.0" are one value, and as text otherwise."""
+	if fieldtype in NUMBERS:
+		return flt(one) == flt(other)
+	if fieldtype == "Check":
+		return cint(one) == cint(other)
 	return _words(one) == _words(other)
 
 
@@ -124,13 +149,14 @@ def written(field: dict, said: str) -> str:
 
 
 def wrote(doctype: str, record: str, changes: dict, proposal: str | None = None) -> None:
-	"""Remember what was written into a saved record's prose fields."""
+	"""Remember what OneAI put into a saved record's fields, so each shows the
+	mark while it still says that."""
 	if not record:
 		return
 	meta = frappe.get_meta(doctype)
 	for fieldname, value in (changes or {}).items():
 		df = meta.get_field(fieldname)
-		if not df or df.fieldtype not in TEXTS or not _words(value):
+		if not df or df.fieldtype in UNMARKED or value in (None, "") or isinstance(value, (list, dict)):
 			continue
 		held = frappe.db.get_value(
 			"AI Touch", {"for_doctype": doctype, "record": record, "fieldname": fieldname}
@@ -141,7 +167,7 @@ def wrote(doctype: str, record: str, changes: dict, proposal: str | None = None)
 				"for_doctype": doctype,
 				"record": record,
 				"fieldname": fieldname,
-				"value": value,
+				"value": str(value),
 				"proposal": proposal,
 				"touched_by": frappe.session.user,
 			}
@@ -158,9 +184,25 @@ def onload(doc, method=None) -> None:
 		filters={"for_doctype": doc.doctype, "record": doc.name},
 		fields=["fieldname", "value"],
 	)
-	still = {row.fieldname: row.value for row in rows if same(doc.get(row.fieldname), row.value)}
+	meta = doc.meta
+	still = {
+		row.fieldname: doc.get(row.fieldname)
+		for row in rows
+		if same(doc.get(row.fieldname), row.value, (meta.get_field(row.fieldname) or {}).get("fieldtype"))
+	}
 	if still:
 		doc.set_onload("ai_touched", still)
+	made = frappe.db.get_value(
+		"AI Proposal",
+		{"kind": "Create", "state": "Applied", "for_doctype": doc.doctype, "applied_doc": doc.name},
+		["name", "applied_by", "applied_on"],
+		as_dict=True,
+	)
+	if made:
+		doc.set_onload(
+			"ai_made",
+			{"by": frappe.utils.get_fullname(made.applied_by), "on": str(made.applied_on or "")},
+		)
 
 
 def forget(doc, method=None) -> None:

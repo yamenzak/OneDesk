@@ -59,7 +59,7 @@ def test_every_tool_is_registered_as_a_read_or_a_card():
 	hooks = HOOKS.read_text()
 	reads = hooks.split("one_ai_reads = [", 1)[1].split("]", 1)[0]
 	suggests = hooks.split("one_ai_suggests = [", 1)[1].split("]", 1)[0]
-	for name in ("deal_facts", "lead_facts", "gone_quiet", "why_we_lose"):
+	for name in ("crm_facts", "gone_quiet", "why_we_lose"):
 		assert f"onedesk.one_crm.ai.{name}" in reads
 	for name in ("add_lead", "plan_next_step", "write_up_call"):
 		assert f"onedesk.one_crm.ai.{name}" in suggests

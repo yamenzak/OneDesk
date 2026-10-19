@@ -102,7 +102,7 @@ _SENT = {
 	),
 	"can": "read",
 	"doctype": "Delivery Note",
-	"expects": "delivery_facts",
+	"expects": "about_record",
 }
 _TO_DELIVER = {
 	"label": _lt("What is still to deliver?"),
@@ -122,7 +122,7 @@ _MOVED = {
 	"ask": _lt("What did this stock movement do? Say from where to where, for which project, what it was worth and who made it."),
 	"can": "read",
 	"doctype": "Stock Entry",
-	"expects": "movement_facts",
+	"expects": "read_record",
 }
 _SEND = {
 	"label": _lt("Send stock to a site"),
@@ -135,7 +135,7 @@ _COUNTED = {
 	"label": _lt("What did this count find?"),
 	"ask": _lt("What did this stock count find? Say what the books held and what was counted, and what it did to the books."),
 	"can": "read",
-	"expects": "count_facts",
+	"expects": "read_record",
 }
 
 _ASK = {
@@ -150,7 +150,7 @@ _COMPARE = {
 	"ask": _lt("Compare the quotes suppliers sent for this request, line by line, and say who is cheapest on each."),
 	"can": "read",
 	"doctype": "Supplier Quotation",
-	"expects": "quote_comparison",
+	"expects": "quotes_now",
 }
 _OUT_NOW = {
 	"label": _lt("What is out with suppliers?"),
@@ -181,14 +181,14 @@ _LATE = {
 	"label": _lt("Which orders are late?"),
 	"ask": _lt("Which purchase orders are late, from whom, since when, and what is still to come on each?"),
 	"can": "read",
-	"expects": "late_orders",
+	"expects": "still_to_arrive",
 }
 
 _IN_HAND = {
 	"label": _lt("What is the workshop making?"),
 	"ask": _lt("Which work orders are open, for what, how far along, and which are late?"),
 	"can": "read",
-	"expects": "work_in_hand",
+	"expects": "list_records",
 }
 _ON_FLOOR = {
 	"label": _lt("What is running on the floor?"),
@@ -241,7 +241,7 @@ _ASSET = {
 _DUE = {
 	"label": _lt("Which services are due?"),
 	"ask": _lt("Which services on our equipment are late or due in the next month, and who does each?"),
-	"expects": "services_due",
+	"expects": "upkeep_now",
 }
 _HAND = {
 	"label": _lt("Hand this to somebody…"),
@@ -301,13 +301,15 @@ def page(said: dict) -> str | None:
 		return (
 			"The reader is on the Shop Floor, which shows the open work orders with how far their steps have got, "
 			"and each step's job card to start, pause, record and close. on_the_floor reads what is running now; "
-			"work_order_facts reads one work order. How the page works is in OneInventory's documentation (how_to)."
+			"work_order_facts reads one work order; the open work orders are list_records on Work Order with "
+			"docstatus 1 and status in Not Started or In Process, by expected_delivery_date. How the page works is in OneInventory's documentation (how_to)."
 		)
 	if said.get("page") == HOME:
 		return (
 			"The reader is on OneInventory's Home, which shows the orders late, the items running low, the lots "
 			"going off, the services due, the work orders past their date and the drafts left, and everything in "
-			"OneInventory with what it is for. late_orders, running_low and services_due read those; how each "
+			"OneInventory with what it is for. still_to_arrive with late_only, running_low and upkeep_now read "
+			"those; how each "
 			"part works is in OneInventory's documentation (how_to)."
 		)
 	if said.get("page") == LOTS:
@@ -322,15 +324,16 @@ def page(said: dict) -> str | None:
 			"The reader is on Quotes, which lists each request for prices with which suppliers answered and "
 			"which have not, each supplier's quote with its total and until when it holds, and one request's "
 			"quotes side by side with the cheapest on each line. quotes_now reads it as the page shows it, and "
-			"quote_comparison reads one request's quotes; plan_quote_request drafts a new request for a material "
+			"quotes_now with request (a request for quotation, or the material request it was made from) "
+			"compares one request's quotes line by line; plan_quote_request drafts a new request for a material "
 			"request as a card. "
 			"How the page works is in OneInventory's documentation (how_to)."
 		)
 	if said.get("page") == UPKEEP:
 		return (
 			"The reader is on Upkeep, which lists the services on the equipment not done yet, the repairs, each "
-			"asset's servicing plan and what was done. upkeep_now reads it as the page shows it, and "
-			"services_due the services due within a month. How the page works is in OneInventory's "
+			"asset's servicing plan and what was done. upkeep_now reads it as the page shows it, with the "
+			"services late or due within days (30 if not said). How the page works is in OneInventory's "
 			"documentation (how_to)."
 		)
 	if said.get("page") == SENT_OUT:
@@ -618,10 +621,14 @@ def receipt_facts(receipt: Annotated[str, "The receipt's number, such as MAT-PRE
 def still_to_arrive(
 	supplier: Annotated[str, "Only from this supplier."] | None = None,
 	item: Annotated[str, "Only this item, by its code."] | None = None,
+	late_only: Annotated[
+		bool, "Only what is late, as one entry per order with its late lines and who ordered it."
+	] = False,
 ) -> dict:
 	"""What is ordered from suppliers and not yet received, as the reader's
 	purchase orders say it: each order's lines still to come, when they were
-	due, and which are late, the latest first."""
+	due, and which are late, the latest first. With late_only, the late orders
+	only, oldest first: from whom, what, since when and who ordered it."""
 	if not frappe.has_permission("Purchase Order", "read"):
 		return {"error": "The reader may not see purchase orders."}
 	filters = {"docstatus": 1, "per_received": ["<", 100], "status": ["not in", ("Closed", "On Hold", "Completed")]}
@@ -632,12 +639,12 @@ def still_to_arrive(
 		for one in frappe.get_list(
 			"Purchase Order",
 			filters=filters,
-			fields=["name", "supplier", "supplier_name", "currency", "project"],
+			fields=["name", "supplier", "supplier_name", "currency", "project", "owner"],
 			limit_page_length=0,
 		)
 	}
 	if not orders:
-		return {"lines": [], "count": 0}
+		return {"orders": [], "count": 0} if late_only else {"lines": [], "count": 0}
 	rows = frappe.get_all(
 		"Purchase Order Item",
 		filters={"parent": ["in", list(orders)], **({"item_code": item} if item else {})},
@@ -665,7 +672,33 @@ def still_to_arrive(
 			}
 		)
 	lines.sort(key=lambda one: (-one["late_by_days"], one["due"] or ""))
+	if late_only:
+		return _late_by_order([one for one in lines if one["late_by_days"]], orders)
 	return {"lines": lines[:60], "count": len(lines), "late": sum(1 for one in lines if one["late_by_days"])}
+
+
+def _late_by_order(lines: list[dict], orders: dict) -> dict:
+	"""`still_to_arrive`'s late lines, one entry per order, the latest first."""
+	grouped: dict = {}
+	for one in lines:
+		order = orders[one["order"]]
+		held = grouped.setdefault(
+			one["order"],
+			{
+				"order": one["order"],
+				"supplier": one["supplier"],
+				"project": one["project"],
+				"ordered_by": get_fullname(order.owner),
+				"late_by_days": one["late_by_days"],
+				"lines": [],
+			},
+		)
+		held["late_by_days"] = max(held["late_by_days"], one["late_by_days"])
+		held["lines"].append(
+			{key: one[key] for key in ("item", "name", "still_to_come", "unit", "due", "late_by_days")}
+		)
+	out = sorted(grouped.values(), key=lambda one: -one["late_by_days"])
+	return {"orders": out[:30], "count": len(out)}
 
 
 def plan_receipt(
@@ -678,8 +711,8 @@ def plan_receipt(
 	why: Annotated[str, "In a sentence, why this receipt."] | None = None,
 ) -> dict:
 	"""Suggest a draft receipt for what has arrived on a purchase order, as a
-	card the reader approves. ERPNext's own mapping fills it, with what is still
-	to come on each line unless told less. Nothing is received until the draft
+	card the reader approves. It is filled from the order as the order's own
+	Make button fills it, with what is still to come on each line unless told less. Nothing is received until the draft
 	is submitted on its form."""
 	from erpnext.buying.doctype.purchase_order.mapper import make_purchase_receipt
 
@@ -732,73 +765,6 @@ def plan_receipt(
 		),
 		"state": "Proposed",
 	}
-
-
-def delivery_facts(delivery: Annotated[str, "The delivery's number, such as MAT-DN-2026-00006."]) -> dict:
-	"""What went out on a delivery, as its form shows it to the reader: to
-	whom and on what order, each line and the warehouse it left, what it was
-	worth, how it was packed, the trip that takes it and who drives, and what
-	of it is billed. Read before answering about a delivery."""
-	if not frappe.db.exists("Delivery Note", delivery) or not frappe.has_permission(
-		"Delivery Note", "read", doc=delivery
-	):
-		return {"error": f"No delivery the reader may see is {delivery}."}
-	doc = frappe.get_doc("Delivery Note", delivery)
-	slips = frappe.get_all(
-		"Packing Slip",
-		filters={"delivery_note": doc.name, "docstatus": 1},
-		fields=["name", "from_case_no", "to_case_no", "gross_weight_pkg", "gross_weight_uom"],
-	)
-	stop = frappe.db.get_value(
-		"Delivery Stop", {"delivery_note": doc.name, "parenttype": "Delivery Trip", "docstatus": ["<", 2]}, "parent"
-	)
-	trip = (
-		frappe.db.get_value("Delivery Trip", stop, ["name", "status", "departure_time", "driver_name", "vehicle"], as_dict=True)
-		if stop
-		else None
-	)
-	out = {
-		"delivery": doc.name,
-		"customer": doc.customer_name or doc.customer,
-		"on": str(doc.posting_date),
-		"status": doc.status,
-		"returned": bool(doc.is_return),
-		"project": doc.project,
-		"currency": doc.currency,
-		"orders": list(dict.fromkeys(row.against_sales_order for row in doc.items if row.against_sales_order)),
-		"lines": [
-			{
-				"item": row.item_code,
-				"name": row.item_name,
-				"qty": flt(row.qty),
-				"unit": row.uom,
-				"from": row.warehouse,
-				"price": flt(row.rate),
-			}
-			for row in doc.items
-		],
-		"total": flt(doc.grand_total),
-		"total_in_company_currency": flt(doc.base_grand_total),
-		"packed": [
-			{
-				"slip": one.name,
-				"cases": f"{one.from_case_no}–{one.to_case_no}",
-				"gross_weight": f"{flt(one.gross_weight_pkg)} {one.gross_weight_uom or ''}".strip(),
-			}
-			for one in slips
-		],
-		"trip": {
-			"trip": trip.name,
-			"status": trip.status,
-			"leaves": str(trip.departure_time) if trip.departure_time else None,
-			"driver": trip.driver_name,
-			"vehicle": trip.vehicle,
-		}
-		if trip
-		else None,
-		"billed_percent": flt(doc.per_billed),
-	}
-	return {key: value for key, value in out.items() if value not in (None, [], "")}
 
 
 def still_to_deliver(
@@ -878,8 +844,8 @@ def plan_delivery(
 	why: Annotated[str, "In a sentence, why this delivery."] | None = None,
 ) -> dict:
 	"""Suggest a draft delivery for what goes out on a sales order, as a card
-	the reader approves. ERPNext's own mapping fills it, with what is still to
-	go on each line unless told less. Nothing leaves the stores until the
+	the reader approves. It is filled from the order as the order's own Make
+	button fills it, with what is still to go on each line unless told less. Nothing leaves the stores until the
 	draft is submitted on its form."""
 	from erpnext.selling.doctype.sales_order.mapper import make_delivery_note
 
@@ -929,79 +895,6 @@ def plan_delivery(
 			"Create", "Delivery Note", changes={k: v for k, v in changes.items() if v not in (None, "")}, why=why
 		),
 		"state": "Proposed",
-	}
-
-
-def movement_facts(entry: Annotated[str, "The movement's number, such as MAT-STE-2026-00016."]) -> dict:
-	"""What a stock movement did, as its form shows it to the reader: what
-	kind it was, from where to where, for which project, each line and what
-	it was worth, who made it, and how much of goods sent through transit has
-	arrived. Read before answering about a transfer, an issue or a receipt of
-	stock."""
-	if not frappe.db.exists("Stock Entry", entry) or not frappe.has_permission("Stock Entry", "read", doc=entry):
-		return {"error": f"No stock movement the reader may see is {entry}."}
-	doc = frappe.get_doc("Stock Entry", entry)
-	return {
-		"movement": doc.name,
-		"type": doc.stock_entry_type,
-		"purpose": doc.purpose,
-		"on": str(doc.posting_date),
-		"by": get_fullname(doc.owner),
-		"state": {0: "Draft", 1: "Submitted", 2: "Cancelled"}[doc.docstatus],
-		"project": doc.project,
-		"work_order": doc.work_order,
-		"value_out": flt(doc.total_outgoing_value),
-		"value_in": flt(doc.total_incoming_value),
-		"currency": frappe.get_cached_value("Company", doc.company, "default_currency"),
-		"in_transit": bool(doc.add_to_transit),
-		"arrived_percent": flt(doc.per_transferred) if doc.add_to_transit else None,
-		"lines": [
-			{
-				"item": row.item_code,
-				"name": row.item_name,
-				"qty": flt(row.qty),
-				"unit": row.uom,
-				"from": row.s_warehouse,
-				"to": row.t_warehouse,
-				"value": flt(row.amount),
-			}
-			for row in doc.items
-		],
-		"printed_as": "One Stock Entry",
-	}
-
-
-def count_facts(count: Annotated[str, "The count's number, such as MAT-RECO-2026-00002."]) -> dict:
-	"""What a stock count found, as its form shows it to the reader: what it
-	was for, where and when, each line with what the books held and what was
-	counted, and the difference it made in the books and to which account.
-	ERPNext keeps only the lines a count changed."""
-	if not frappe.db.exists("Stock Reconciliation", count) or not frappe.has_permission(
-		"Stock Reconciliation", "read", doc=count
-	):
-		return {"error": f"No stock count the reader may see is {count}."}
-	doc = frappe.get_doc("Stock Reconciliation", count)
-	return {
-		"count": doc.name,
-		"purpose": doc.purpose,
-		"on": str(doc.posting_date),
-		"by": get_fullname(doc.owner),
-		"state": {0: "Draft", 1: "Submitted", 2: "Cancelled"}[doc.docstatus],
-		"difference": flt(doc.difference_amount),
-		"currency": frappe.get_cached_value("Company", doc.company, "default_currency"),
-		"posted_to": doc.expense_account,
-		"lines": [
-			{
-				"item": row.item_code,
-				"name": row.item_name,
-				"warehouse": row.warehouse,
-				"books_held": flt(row.current_qty),
-				"counted": flt(row.qty),
-				"rate": flt(row.valuation_rate),
-				"difference": flt(row.amount_difference),
-			}
-			for row in doc.items
-		],
 	}
 
 
@@ -1067,80 +960,13 @@ def plan_transfer(
 	}
 
 
-def quote_comparison(
-	request: Annotated[str, "The request for quotation, or the material request it was made from, such as PUR-RFQ-2026-00005."],
-) -> dict:
-	"""The quotes suppliers sent for a request, line by line: each supplier's
-	rate in the company's money so a quote in euros compares, how long it
-	holds, and who is cheapest on each line. An expired quote is said as
-	expired and never counted cheapest."""
-	if not frappe.has_permission("Supplier Quotation", "read"):
-		return {"error": "The reader may not see supplier quotations."}
-	asked = [request] if frappe.db.exists("Request for Quotation", request) else frappe.get_all(
-		"Request for Quotation Item", filters={"material_request": request, "docstatus": 1}, pluck="parent", distinct=True
-	)
-	if not asked:
-		return {"error": f"No request for quotation is {request}, and none was made from it."}
-	quotes = {
-		one.name: one
-		for one in frappe.get_list(
-			"Supplier Quotation",
-			filters={"name": ["in", frappe.get_all(
-				"Supplier Quotation Item", filters={"request_for_quotation": ["in", asked]}, pluck="parent", distinct=True
-			) or [""]], "docstatus": ["<", 2]},
-			fields=["name", "supplier", "supplier_name", "currency", "status", "valid_till", "docstatus", "grand_total"],
-		)
-	}
-	rows = frappe.get_all(
-		"Supplier Quotation Item",
-		filters={"parent": ["in", list(quotes) or [""]]},
-		fields=["parent", "item_code", "item_name", "qty", "uom", "rate", "base_rate", "lead_time_days"],
-		order_by="idx",
-	)
-	lines: dict = {}
-	for row in rows:
-		quote = quotes[row.parent]
-		lines.setdefault(row.item_code, {"item": row.item_code, "name": row.item_name, "offers": []})["offers"].append(
-			{
-				"supplier": quote.supplier_name or quote.supplier,
-				"quote": quote.name,
-				"rate": flt(row.rate),
-				"currency": quote.currency,
-				"rate_in_company_money": flt(row.base_rate),
-				"qty": flt(row.qty),
-				"unit": row.uom,
-				"days_to_deliver": row.lead_time_days or None,
-				"expired": quote.status == "Expired",
-				"draft": quote.docstatus == 0,
-			}
-		)
-	for line in lines.values():
-		live = [one for one in line["offers"] if not one["expired"]]
-		if live:
-			line["cheapest"] = min(live, key=lambda one: one["rate_in_company_money"])["supplier"]
-	asked_of = frappe.get_all("Request for Quotation Supplier", filters={"parent": ["in", asked]}, pluck="supplier_name")
-	return {
-		"requests": asked,
-		"asked": sorted(set(one for one in asked_of if one)),
-		"quotes": [
-			{
-				"quote": one.name,
-				"supplier": one.supplier_name or one.supplier,
-				"total": flt(one.grand_total),
-				"currency": one.currency,
-				"valid_till": str(one.valid_till) if one.valid_till else None,
-				"status": one.status,
-			}
-			for one in quotes.values()
-		],
-		"lines": list(lines.values()),
-	}
-
-
 def late_orders() -> dict:
 	"""The reader's purchase orders with goods past the date they were wanted
 	and not all here, the oldest first: from whom, what, since when and who
-	ordered it. Services and closed orders are left out."""
+	ordered it. Services and closed orders are left out.
+
+	Home's late orders (home.needs_you), not one of OneAI's tools: OneAI reads
+	`still_to_arrive(late_only=True)`."""
 	from onedesk.one_inventory import tell
 
 	if not frappe.has_permission("Purchase Order", "read"):
@@ -1170,8 +996,8 @@ def plan_quote_request(
 	why: Annotated[str, "In a sentence, why this request."] | None = None,
 ) -> dict:
 	"""Suggest a draft request for quotation for what a material request still
-	needs, asking each supplier named, as a card the reader approves. ERPNext
-	makes its lines from the request, so each quote can be ordered against
+	needs, asking each supplier named, as a card the reader approves. Its
+	lines are made from the request, so each quote can be ordered against
 	it. Nothing is sent until the draft is submitted and mailed from its form."""
 	from erpnext.stock.doctype.material_request.mapper import make_request_for_quotation
 
@@ -1215,7 +1041,7 @@ def plan_quote_request(
 def running_low() -> dict:
 	"""The items the reader may see at or below their reorder level in a
 	warehouse, by what is there and on its way less what is promised (as
-	ERPNext's own reordering reads it), with what is already on order."""
+	the system's own reordering reads it), with what is already on order."""
 	if not frappe.has_permission("Bin", "read"):
 		return {"error": "The reader may not see stock levels."}
 	levels = frappe.get_all(
@@ -1282,7 +1108,7 @@ def plan_item_change(
 	"""Suggest a change to an item as its page makes it, as a card the reader
 	approves: its name, its group, whether it is disabled, its lead time, or
 	the reorder level and quantity for a warehouse. Approving saves the item,
-	so ERPNext's own checks hold."""
+	so the item's own checks hold."""
 	from onedesk.one_ai import proposals
 
 	if not frappe.db.exists("Item", item) or not frappe.has_permission("Item", "write", doc=item):
@@ -1359,43 +1185,6 @@ def _steps(order) -> list[dict]:
 		}
 		for row in order.operations
 	]
-
-
-def work_in_hand(
-	project: Annotated[str, "Only the work orders for this project, by name or title."] | None = None,
-) -> dict:
-	"""The work orders not finished yet that the reader may see: what each
-	makes, for which project, how many are made, each step's progress, when it
-	is wanted and whether that has passed."""
-	if not frappe.has_permission("Work Order", "read"):
-		return {"error": "The reader may not see work orders."}
-	filters = {"docstatus": 1, "status": ["in", ("Not Started", "In Process")]}
-	if project:
-		filters["project"] = frappe.db.get_value("Project", {"name": project}) or frappe.db.get_value("Project", {"project_name": project})
-		if not filters["project"]:
-			return {"error": f"No project is called {project}."}
-	day = frappe.utils.getdate(frappe.utils.today())
-	out = []
-	for name in frappe.get_all("Work Order", filters=filters, order_by="expected_delivery_date asc", pluck="name"):
-		if not frappe.has_permission("Work Order", "read", doc=name):
-			continue
-		order = frappe.get_doc("Work Order", name)
-		wanted = frappe.utils.getdate(order.expected_delivery_date) if order.expected_delivery_date else None
-		out.append(
-			{
-				"order": order.name,
-				"makes": order.item_name,
-				"qty": flt(order.qty),
-				"made": flt(order.produced_qty),
-				"unit": order.stock_uom,
-				"status": order.status,
-				"project": frappe.db.get_value("Project", order.project, "project_name") if order.project else None,
-				"wanted_by": str(wanted) if wanted else None,
-				"late": bool(wanted and wanted < day),
-				"steps": _steps(order),
-			}
-		)
-	return {"orders": out, "count": len(out)}
 
 
 def on_the_floor(
@@ -1535,15 +1324,27 @@ def lots_and_numbers(
 	}
 
 
-def quotes_now() -> dict:
+def quotes_now(
+	request: Annotated[
+		str,
+		"Only this request's quotes compared line by line: a request for quotation, or the material request "
+		"it was made from, such as PUR-RFQ-2026-00005.",
+	]
+	| None = None,
+) -> dict:
 	"""What the Quotes page shows: suppliers still to answer, quotes waiting
 	for a decision or still drafts, quotes running out within a week, each
 	request with who answered and who has not, and the newest answered
-	request compared line by line."""
+	request compared line by line. With request, that request's quotes
+	instead: each supplier's rate in the company's money so a quote in euros
+	compares, how long it holds, and who is cheapest on each line. An expired
+	quote is never cheapest."""
 	from onedesk.one_inventory import quotes
 
 	if not frappe.has_permission("Request for Quotation", "read") and not frappe.has_permission("Supplier Quotation", "read"):
 		return {"error": "The reader may not see requests for prices or quotes."}
+	if request:
+		return _compared_request(request)
 	asked = quotes.asked()
 	newest = next((one["name"] for one in asked if one["answered"]), None)
 	compared = quotes.compare(newest) if newest else None
@@ -1580,6 +1381,66 @@ def quotes_now() -> dict:
 	}
 
 
+def _compared_request(request: str) -> dict:
+	"""`quotes_now` for one request: `quotes.compare` for the request for
+	quotation named, or for each made from the material request named."""
+	from onedesk.one_inventory import quotes
+
+	asked = [request] if frappe.db.exists("Request for Quotation", request) else frappe.get_all(
+		"Request for Quotation Item", filters={"material_request": request, "docstatus": 1}, pluck="parent", distinct=True
+	)
+	compared = [one for one in (quotes.compare(name) for name in asked) if one]
+	if not compared:
+		return {"error": f"No request for quotation the reader may see is {request}, and none was made from it."}
+	out = []
+	for one in compared:
+		named = {row["supplier"]: row["name"] for row in one["suppliers"]}
+		out.append(
+			{
+				"request": one["name"],
+				"for_material_requests": one["requests"],
+				"currency": one["currency"],
+				"asked": [row["name"] for row in one["suppliers"]],
+				"not_answered": [row["name"] for row in one["suppliers"] if not row["quote"]],
+				"quotes": [
+					{
+						"quote": row["quote"],
+						"supplier": row["name"],
+						"total": row["total"],
+						"currency": row["currency"],
+						"holds_until": row["valid_till"],
+						"status": row["status"],
+						"expired": row["expired"],
+						"draft": row["draft"],
+						"cheapest_on": row["cheapest_on"],
+					}
+					for row in one["suppliers"]
+					if row["quote"]
+				],
+				"lines": [
+					{
+						"item": line["item"],
+						"name": line["name"],
+						"qty": line["qty"],
+						"unit": line["uom"],
+						"cheapest": named.get(line["cheapest"]) if line["cheapest"] else None,
+						"ordered": line["ordered"],
+						"offers": {
+							named.get(supplier, supplier): {
+								"rate": offer["rate"],
+								"rate_in_company_money": offer["base_rate"],
+								"days_to_deliver": offer["days"],
+							}
+							for supplier, offer in line["offers"].items()
+						},
+					}
+					for line in one["lines"]
+				],
+			}
+		)
+	return {"compared": out}
+
+
 def sent_out_now() -> dict:
 	"""What the Sent Out page shows: the orders still out with suppliers,
 	each with what it makes and how much came back, the materials sent and
@@ -1607,20 +1468,29 @@ def sent_out_now() -> dict:
 	}
 
 
-def upkeep_now() -> dict:
-	"""What the Upkeep page shows: services due this week and late, each
-	service not done yet with who does it, the equipment out of order and
-	since when, and what repairs cost over the last twelve months."""
+def upkeep_now(
+	days: Annotated[int, "The services late or due within this many days. 30 if not said."] = 30,
+) -> dict:
+	"""What the Upkeep page shows: services due this week and late, the
+	services not done yet that are late or due within the days asked, soonest
+	first, with who does each, the equipment out of order and since when, and
+	what repairs cost over the last twelve months."""
+	from frappe.utils import add_days, getdate, today
+
 	from onedesk.one_inventory import upkeep
 
 	if not frappe.has_permission("Asset Maintenance Log", "read") and not frappe.has_permission("Asset Repair", "read"):
 		return {"error": "The reader may not see services or repairs."}
+	until = add_days(getdate(today()), max(0, int(days if days is not None else 30)))
+	due = upkeep.due()
+	soon = [one for one in due if one["due_date"] and getdate(one["due_date"]) <= until]
 	return {
 		"figures": upkeep.figures(),
 		"services": [
 			{"asset": one["asset_name"], "job": one["task_name"], "due": one["due_date"], "late": one["late"], "done_by": one["assign_to_name"]}
-			for one in upkeep.due()
+			for one in soon
 		],
+		"services_later": len(due) - len(soon),
 		"out_of_order": [
 			{"asset": one["asset_name"], "wrong": one["description"], "since": one["failure_date"], "days": one["days_out"]}
 			for one in upkeep.repairs()
@@ -1778,36 +1648,13 @@ def asset_facts(asset: Annotated[str, "The asset, by its number or its name, suc
 	}
 
 
-def equipment_held(
-	employee: Annotated[str, "Whose equipment, by employee number or name. The reader's own when left out."] | None = None,
-) -> dict:
-	"""The company's equipment a person holds: what each is and where it is
-	kept. Read as the reader may see assets."""
-	if not frappe.has_permission("Asset", "read"):
-		return {"error": "The reader may not see the company's equipment."}
-	if employee:
-		found = frappe.db.get_value("Employee", {"name": employee}) or frappe.db.get_value("Employee", {"employee_name": employee})
-	else:
-		found = frappe.db.get_value("Employee", {"user_id": frappe.session.user})
-	if not found:
-		return {"error": f"No employee is called {employee}." if employee else "The reader has no employee record."}
-	held = frappe.get_list(
-		"Asset",
-		filters={"custodian": found, "docstatus": 1},
-		fields=["name", "asset_name", "item_name", "location", "status"],
-		order_by="asset_name",
-	)
-	return {
-		"employee": frappe.db.get_value("Employee", found, "employee_name"),
-		"held": [dict(one) for one in held],
-		"count": len(held),
-	}
-
-
 def services_due() -> dict:
 	"""Services on the company's equipment that are late or due within a
 	month, soonest first, with who does each. Read as the reader may see the
-	services."""
+	services.
+
+	Home's services due (home.needs_you), not one of OneAI's tools: OneAI
+	reads `upkeep_now(days=...)`."""
 	from frappe.utils import add_days, getdate, today
 
 	if not frappe.has_permission("Asset Maintenance Log", "read"):

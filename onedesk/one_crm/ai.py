@@ -4,7 +4,7 @@ The tools and suggestions this module adds to the panel, named in `hooks.py`.
 A read runs as the person asking; anything that would write is a card.
 """
 
-from typing import Annotated
+from typing import Annotated, Literal
 
 import frappe
 from frappe import _, _lt
@@ -163,20 +163,19 @@ def workspace() -> str:
 	return said
 
 
-def deal_facts(deal: Annotated[str, "The deal's id, such as CRM-OPP-2026-00001."]) -> dict:
-	"""Everything about one deal a person would read before deciding what to do:
-	what it is worth, its stage and for how long, its next step, the last time
-	anybody spoke to them, its quotation, and its history — mail, calls,
+def crm_facts(
+	record_type: Annotated[Literal["Opportunity", "Lead"], "Opportunity for a deal, Lead for a lead."],
+	name: Annotated[str, "Its id, such as CRM-OPP-2026-00001 or CRM-LEAD-2026-00001."],
+) -> dict:
+	"""Everything about one deal or lead a person would read before deciding
+	what to do. A deal: what it is worth, its stage and for how long, its next
+	step, the last time anybody spoke to them, its quotation, and its history.
+	A lead: who they are, what they asked, where they came from, how long they
+	have waited, its next step, and its history. The history is mail, calls,
 	comments and stage moves, oldest first."""
-	return _facts("Opportunity", deal)
-
-
-def lead_facts(lead: Annotated[str, "The lead's id, such as CRM-LEAD-2026-00001."]) -> dict:
-	"""Everything about one lead a person would read before deciding what to do:
-	who they are, what they asked, where they came from, how long they have
-	waited, its next step, and its history — mail, calls and comments, oldest
-	first."""
-	return _facts("Lead", lead)
+	if record_type not in ("Opportunity", "Lead"):
+		return {"error": "Say Opportunity for a deal or Lead for a lead."}
+	return _facts(record_type, name)
 
 
 def _facts(doctype: str, name: str) -> dict:

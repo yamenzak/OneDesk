@@ -12,7 +12,7 @@ import frappe
 from onedesk.one import account, roles
 
 
-ROUNDS = 5
+ROUNDS = 8
 
 
 def ask(
@@ -155,7 +155,7 @@ def ask(
 				}
 			else:
 				answer = asked[key] = _tried(want)
-			card = _card(answer)
+			made = _cards(answer)
 			said = answer.get("answer")
 			if given is not None and want.get("tool") == "more_tools" and isinstance(said, dict):
 				given += [one for one in said.get("given") or [] if one not in given]
@@ -165,8 +165,7 @@ def ask(
 			elif want.get("tool") == mend and not answer.get("error"):
 				mend = None
 			tell({"tool": want.get("tool"), "args": surface.shown_args(want.get("tool"), want.get("args")), "ran": bool(answer.get("ran"))})
-			if card:
-				cards.append(card)
+			cards += made
 			turns.append(
 				{
 					"role": "tool",
@@ -174,7 +173,8 @@ def ask(
 					"tool": want.get("tool"),
 					"result": _answer(answer),
 					"ran": bool(answer.get("ran")),
-					"card": card,
+					"card": made[0] if made else None,
+					**({"cards": made} if len(made) > 1 else {}),
 				}
 			)
 		frappe.db.commit()
@@ -193,15 +193,20 @@ def _answer(answer: dict):
 	return answer.get("answer")
 
 
-def _card(answer: dict) -> str | None:
-	"""The proposal a write tool just parked, if that is what this was.
+def _cards(answer: dict) -> list[str]:
+	"""The proposals a write tool just parked, if that is what this was: one,
+	or several from create_records.
 
 	A read tool answers with rows, which is a list, so this asks the shape
 	rather than the tool's name — a tool added later that parks a proposal
 	turns up here without this function being edited.
 	"""
 	said = (answer or {}).get("answer")
-	return said.get("proposal") if isinstance(said, dict) else None
+	if not isinstance(said, dict):
+		return []
+	if said.get("proposal"):
+		return [said["proposal"]]
+	return [one["proposal"] for one in said.get("cards") or [] if isinstance(one, dict) and one.get("proposal")]
 
 
 NUDGE = "Now answer the question in one or two sentences from what the tools returned."
@@ -361,14 +366,21 @@ def _tried(want: dict) -> dict:
 	A refusal is an answer. Raising here would end the run with a traceback
 	where the model was one sentence away from saying "I cannot see that".
 	"""
+	from onedesk.one_ai import heal
 	from onedesk.one_ai import tools as surface
 
+	tool, args = want.get("tool"), want.get("args") or {}
+	if not isinstance(args, dict):
+		return {"tool": tool, "ran": False, "error": "The arguments have to be an object of name to value."}
+	fn = surface.named(tool)
+	if not fn:
+		return {"tool": tool, "ran": False, "error": heal.unknown(tool, surface.names())}
 	try:
-		return surface.run(want.get("tool"), want.get("args") or {})
+		return surface.run(tool, args)
 	except Exception as raised:
 		frappe.clear_last_message()
-		said = frappe.utils.strip_html(str(raised)).strip()
-		return {"tool": want.get("tool"), "ran": False, "error": said[:500]}
+		frappe.local.message_log = []
+		return {"tool": tool, "ran": False, "error": heal.said(raised, tool, args, fn)}
 
 
 def once(action: str, text: str, files: list[dict] | None = None, reference: str | None = None) -> str:
@@ -558,6 +570,15 @@ def apply(proposal: str) -> dict:
 	from onedesk.one_ai import proposals
 
 	return proposals.apply(proposal)
+
+
+@frappe.whitelist(methods=["POST"])
+def apply_all(proposals: list | str) -> list[dict]:
+	"""Approve the cards one answer suggested, in the order it suggested them."""
+	from onedesk.one_ai import proposals as suggested
+
+	named = frappe.parse_json(proposals) if isinstance(proposals, str) else proposals
+	return suggested.apply_all([str(one) for one in named or []][:50])
 
 
 @frappe.whitelist()
