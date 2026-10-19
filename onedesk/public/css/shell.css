@@ -37,6 +37,7 @@
 .one-shell-section-title {
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 	gap: calc(var(--spacing) * 2);
 	color: var(--ink-gray-9);
 	font-weight: var(--font-weight-semibold);
