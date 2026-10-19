@@ -137,7 +137,7 @@ def _retain(invoice, order) -> None:
 	invoice.one_retention = flt(order.get("one_retention"))
 	if not invoice.one_retention:
 		return
-	if retention.when_released():
+	if retention.when_released(_terms_of(order)):
 		withhold(invoice, _terms_of(order), invoice.one_retention)
 		return
 	invoice.payment_terms_template = None
@@ -156,6 +156,7 @@ def _terms_of(source) -> frappe._dict:
 		retention=flt(source.get("one_retention")),
 		handover=flt(source.get("one_retention_handover")),
 		due=source.get("one_retention_due"),
+		tax=source.get("one_retention_tax"),
 		ends=source.get("delivery_date") or source.get("schedule_date") or source.get("expected_end_date"),
 	)
 
@@ -171,7 +172,7 @@ def source(doc) -> frappe._dict | None:
 		order = frappe.db.get_value(
 			order_type,
 			orders.pop(),
-			["one_retention", "one_retention_handover", "one_retention_due", ends],
+			["one_retention", "one_retention_handover", "one_retention_due", "one_retention_tax", ends],
 			as_dict=True,
 		)
 		return _terms_of(order) if order else None
@@ -341,7 +342,7 @@ def retained(doc, method=None) -> None:
 	if doc.get("one_retention") is None:
 		doc.one_retention = said.retention if said else 0
 	share = flt(doc.one_retention)
-	if lines or (share and retention.when_released()):
+	if lines or (share and retention.when_released(said)):
 		withhold(doc, said, share)
 		return
 	held_rows = [row for row in rows if row.payment_term in HELD]

@@ -1597,15 +1597,16 @@ def oneproject_a_new_retention_date_reaches_the_receivables():
 
 @check
 def oneproject_retention_is_taxed_when_released():
-	"""In the UAE tax on retention is due when it's released, so the villa's
-	next progress invoice is taxed on the work less its retention, which waits
+	"""In the UAE tax on retention is due when it's released, so a new order
+	for the villa starts that way and its progress invoice is taxed on the
+	work less its retention, which waits
 	in Retention Receivable; Release Retention is then an invoice for the
 	retention with its own VAT, after which none is held. The same bill from
 	a subcontractor holds it in Retention Payable."""
 	from onedesk.one_project import progress, retention
 
 	assert retention.when_released(), "Sahara is in the UAE"
-	order = frappe.db.get_value("Project", VILLA, "sales_order")
+	order = _another_villa_order()
 	with as_user("huda@one.test"):
 		windows = progress.progress("Sales Order", order)["lines"][0]
 		invoice = progress.bill_progress(order, "Sales Order", lines={windows["line"]: 100})
@@ -1643,6 +1644,56 @@ def oneproject_retention_is_taxed_when_released():
 		releasing.insert()
 		releasing.submit()
 	assert not retention.held_on("Sales Invoice", [invoice.name])[invoice.name], "released"
+
+
+def _another_villa_order(tax=None) -> str:
+	"""A second order for the villa, as its first, submitted, saying `tax` or
+	nothing; checks roll it back."""
+	villa = frappe.db.get_value("Project", VILLA, "sales_order")
+	with as_user(OWNER):
+		order = frappe.copy_doc(frappe.get_doc("Sales Order", villa))
+		order.one_retention_tax = tax
+		order.insert()
+		order.submit()
+	return order.name
+
+
+@check
+def oneproject_an_order_says_how_its_retention_is_taxed():
+	"""Sahara taxes retention when it's released, but Khalid's contract for
+	the villa taxes each bill in full, so its order says With the Invoice and
+	its bills hold the retention in their payment terms. An order nobody
+	told starts as the workspace does; one already invoiced keeps what it
+	said."""
+	from onedesk.one_project import progress, retention
+	from onedesk.one_project.progress import HELD
+
+	assert retention.when_released(), "Sahara is in the UAE"
+	villa = frappe.db.get_value("Project", VILLA, "sales_order")
+	with as_user(OWNER):
+		invoiced = frappe.get_doc("Sales Order", villa)
+		assert invoiced.one_retention_tax == retention.WITH_INVOICE, invoiced.one_retention_tax
+		invoiced.one_retention_tax = retention.WHEN_RELEASED
+		try:
+			invoiced.save()
+		except frappe.ValidationError:
+			pass
+		else:
+			raise AssertionError("an invoiced order changed how its retention is taxed")
+	untold = _another_villa_order()
+	assert frappe.db.get_value("Sales Order", untold, "one_retention_tax") == retention.WHEN_RELEASED
+	for name, lines in ((untold, True), (_another_villa_order(retention.WITH_INVOICE), False)):
+		with as_user("huda@one.test"):
+			line = progress.progress("Sales Order", name)["lines"][0]
+			invoice = progress.bill_progress(name, "Sales Order", lines={line["line"]: 50})
+			invoice.insert()
+		held = [row for row in invoice.items if row.get("one_held")]
+		work = sum(flt(row.amount) for row in invoice.items if not row.get("one_held"))
+		if lines:
+			assert held and _close(invoice.net_total, work + sum(flt(row.amount) for row in held), 0.01), "taxed on the work less its retention"
+		else:
+			assert not held and set(HELD) & {row.payment_term for row in invoice.payment_schedule}, invoice.payment_schedule
+			assert _close(invoice.net_total, work, 0.01), "taxed on all the work"
 
 
 @check
@@ -1735,7 +1786,7 @@ def oneproject_its_terms_travel_from_quotation_to_invoice():
 		assert getdate(draft.due_date) == getdate(add_days(draft.posting_date, 30)), (draft.posting_date, draft.due_date)
 		assert draft.tc_name == "Construction Works", draft.tc_name
 		schedule = {row.payment_term: getdate(row.due_date) for row in draft.payment_schedule}
-		if retention.when_released():
+		if frappe.db.get_value("Sales Order", name, "one_retention_tax") == retention.WHEN_RELEASED:
 			held = {row.one_held: getdate(row.one_release_on) for row in draft.items if row.get("one_held")}
 			assert max(schedule.values()) == getdate(draft.due_date) and held.get(RETENTION) > getdate(draft.due_date), (schedule, held)
 		else:

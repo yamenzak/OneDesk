@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-18 22:55+0000\n"
+"POT-Creation-Date: 2026-10-19 04:47+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -162,7 +162,7 @@ msgstr "1 Tag"
 #: frontend/src/home/BooksHome.vue:171 frontend/src/home/InventoryHome.vue:208
 #: frontend/src/project/Milestones.vue:29 frontend/src/project/Overview.vue:251
 #: frontend/src/project/Overview.vue:360 frontend/src/project/Suppliers.vue:202
-#: frontend/src/task/TaskPage.vue:210 onedesk/one_project/retention.py:197
+#: frontend/src/task/TaskPage.vue:210 onedesk/one_project/retention.py:237
 #: onedesk/one_project/view.py:908
 msgid "1 day late"
 msgstr "1 Tag zu spät"
@@ -4280,7 +4280,7 @@ msgstr "Foto anfordern"
 msgid "Ask for a Reason on Check Out"
 msgstr "Beim Auschecken nach einem Grund fragen"
 
-#: onedesk/one_project/retention.py:231
+#: onedesk/one_project/retention.py:271
 msgid "Ask for retention from {0}"
 msgstr "Einbehalt bei {0} anfordern"
 
@@ -5635,7 +5635,7 @@ msgstr "Fortschritt abrechnen"
 msgid "Bill Progress can't bill part of a {0}. Order {1} in {2} to bill it in parts."
 msgstr "Fortschritt abrechnen kann keinen Teil von {0} abrechnen. Bestellen Sie {1} als {2}, um es in Teilen abzurechnen."
 
-#: onedesk/one_project/progress.py:87 onedesk/one_project/progress.py:459
+#: onedesk/one_project/progress.py:87 onedesk/one_project/progress.py:460
 msgid "Bill Progress is for purchase and sales orders."
 msgstr "Fortschritt abrechnen gibt es für Bestellungen und Kundenaufträge."
 
@@ -11658,7 +11658,7 @@ msgstr "Diese Woche fällig"
 msgid "Due in the next 7 days"
 msgstr "Fällig in den nächsten 7 Tagen"
 
-#: frontend/src/project/Overview.vue:363 onedesk/one_project/retention.py:200
+#: frontend/src/project/Overview.vue:363 onedesk/one_project/retention.py:240
 msgid "Due in {0} days"
 msgstr "Fällig in {0} Tagen"
 
@@ -11669,11 +11669,11 @@ msgstr "Fällig bei Erhalt"
 
 #: frontend/src/home/BooksHome.vue:206 frontend/src/home/CrmHome.vue:178
 #: frontend/src/project/Overview.vue:362 frontend/src/task/TaskPage.vue:211
-#: onedesk/one_project/portal.py:259 onedesk/one_project/retention.py:199
+#: onedesk/one_project/portal.py:259 onedesk/one_project/retention.py:239
 msgid "Due today"
 msgstr "Heute fällig"
 
-#: frontend/src/project/Overview.vue:363 onedesk/one_project/retention.py:200
+#: frontend/src/project/Overview.vue:363 onedesk/one_project/retention.py:240
 msgid "Due tomorrow"
 msgstr "Morgen fällig"
 
@@ -17869,7 +17869,7 @@ msgstr "Rechnungsteil"
 msgid "Invoice Time"
 msgstr "Zeit abrechnen"
 
-#: onedesk/one_project/retention.py:297
+#: onedesk/one_project/retention.py:337
 msgid "Invoice the retention from {0} before its tax falls due"
 msgstr "Einbehalt von {0} in Rechnung stellen, bevor die Steuer darauf fällig wird"
 
@@ -21752,11 +21752,11 @@ msgstr "Mehr"
 msgid "More promised than on hand"
 msgstr "Mehr zugesagt als vorhanden"
 
-#: onedesk/one_project/retention.py:394
+#: onedesk/one_project/retention.py:434
 msgid "More than one customer holds retention here. Release it from each invoice."
 msgstr "Hier hält mehr als ein Kunde Einbehalte. Gib sie auf jeder Rechnung frei."
 
-#: onedesk/one_project/retention.py:396
+#: onedesk/one_project/retention.py:436
 msgid "More than one supplier has retention held here. Pay it from each bill."
 msgstr "Hier sind Einbehalte von mehr als einem Lieferanten offen. Zahle sie auf jeder Eingangsrechnung."
 
@@ -23340,7 +23340,7 @@ msgstr "Keine passenden Anfragen"
 msgid "No results"
 msgstr "Keine Ergebnisse"
 
-#: onedesk/one_project/retention.py:365 onedesk/one_project/retention.py:417
+#: onedesk/one_project/retention.py:405 onedesk/one_project/retention.py:457
 msgid "No retention is held here."
 msgstr "Hier ist kein Einbehalt offen."
 
@@ -25410,7 +25410,7 @@ msgstr "Nur ein gespeicherter Bericht kann woanders gezeigt werden."
 msgid "Only a shared mailbox can be the workspace mailbox."
 msgstr "Nur ein gemeinsames Postfach kann das Postfach des Arbeitsbereichs sein."
 
-#: onedesk/one_project/progress.py:463
+#: onedesk/one_project/progress.py:464
 msgid "Only a submitted order still open can be billed."
 msgstr "Nur ein gebuchter, noch offener Auftrag kann abgerechnet werden."
 
@@ -31984,7 +31984,7 @@ msgstr "Retainer-Monat abrechnen"
 #: onedesk/one_project/custom/sales_invoice.json
 #: onedesk/one_project/custom/sales_invoice_item.json
 #: onedesk/one_project/custom/sales_order.json
-#: onedesk/one_project/progress.py:205 onedesk/one_project/progress.py:256
+#: onedesk/one_project/progress.py:206 onedesk/one_project/progress.py:257
 #: onedesk/public/js/progress.js:56 onedesk/public/js/project_actions.js:201
 #: onedesk/public/js/project_new.js:124
 msgid "Retention"
@@ -32042,15 +32042,15 @@ msgstr "Einbehalten"
 #. Option for the 'Retention Held' (Select) field in DocType 'Sales Invoice
 #: onedesk/one_project/custom/purchase_invoice_item.json
 #: onedesk/one_project/custom/sales_invoice_item.json
-#: onedesk/one_project/progress.py:205 onedesk/one_project/progress.py:256
+#: onedesk/one_project/progress.py:206 onedesk/one_project/progress.py:257
 msgid "Retention at Handover"
 msgstr "Einbehalt bei Übergabe"
 
-#: onedesk/one_project/retention.py:435
+#: onedesk/one_project/retention.py:475
 msgid "Retention held on {0}"
 msgstr "Einbehalt auf {0}"
 
-#: onedesk/one_project/retention.py:332
+#: onedesk/one_project/retention.py:372
 msgid "Retention is held on sales and purchase invoices."
 msgstr "Einbehalte gibt es auf Ausgangs- und Eingangsrechnungen."
 
@@ -37017,9 +37017,17 @@ msgid "Tax held back from what is paid to suppliers."
 msgstr "Steuer, die von Zahlungen an Lieferanten einbehalten wird."
 
 #. Label of the one_retention_tax (Select) field in DocType 'Projects Settings'
+#. Label of the one_retention_tax (Select) field in DocType 'Purchase Order'
+#. Label of the one_retention_tax (Select) field in DocType 'Sales Order'
 #: onedesk/one_project/custom/projects_settings.json
+#: onedesk/one_project/custom/purchase_order.json
+#: onedesk/one_project/custom/sales_order.json
 msgid "Tax on Retention"
 msgstr "Steuer auf Einbehalt"
+
+#: onedesk/one_project/retention.py:76
+msgid "Tax on Retention can't change once {0} is invoiced: its invoices hold their retention as it said then."
+msgstr "Die Steuer auf Einbehalt kann nicht mehr geändert werden, sobald {0} fakturiert ist: Seine Rechnungen behalten den Einbehalt so, wie es damals festgelegt war."
 
 #: onedesk/one_book/report/vat_return/vat_return.py:65
 msgid "Tax paid on purchases and expenses"
@@ -43638,15 +43646,21 @@ msgstr "Wenn OneAI eine neue Beschwerde als dringend einstuft."
 
 #. Option for the 'Tax on Retention' (Select) field in DocType 'Projects
 #. Settings'
+#. Option for the 'Tax on Retention' (Select) field in DocType 'Purchase Order'
+#. Option for the 'Tax on Retention' (Select) field in DocType 'Sales Order'
 #: onedesk/one_project/custom/projects_settings.json
+#: onedesk/one_project/custom/purchase_order.json
+#: onedesk/one_project/custom/sales_order.json
 msgid "When Released"
 msgstr "Bei Freigabe"
 
-#. Description of the 'Tax on Retention' (Select) field in DocType 'Projects
-#. Settings'
-#: onedesk/one_project/custom/projects_settings.json
-msgid "When Released taxes each invoice on the work less its retention, and the retention when an invoice releases it."
-msgstr "Bei Freigabe wird jede Rechnung auf die Leistung abzüglich Einbehalt versteuert, und der Einbehalt mit der Rechnung, die ihn freigibt."
+#. Description of the 'Tax on Retention' (Select) field in DocType 'Purchase
+#. Order'
+#. Description of the 'Tax on Retention' (Select) field in DocType 'Sales
+#: onedesk/one_project/custom/purchase_order.json
+#: onedesk/one_project/custom/sales_order.json
+msgid "When Released taxes each bill on the work less its retention, and the retention when it's released."
+msgstr "„Bei Freigabe“ besteuert jede Rechnung auf die Leistung abzüglich des Einbehalts und den Einbehalt bei seiner Freigabe."
 
 #. When a notification is sent
 #: onedesk/notifications/one_inventory/expiring_soon.md
@@ -44848,6 +44862,12 @@ msgstr "Woher ein Lead kam, um zu zählen, was jede Kampagne brachte."
 msgid "Where a lead or an opportunity came from."
 msgstr "Woher ein Lead oder eine Chance kam."
 
+#. Description of the 'Tax on Retention' (Select) field in DocType 'Projects
+#. Settings'
+#: onedesk/one_project/custom/projects_settings.json
+msgid "Where a new order starts. When Released taxes each invoice on the work less its retention, and the retention when it's released."
+msgstr "Womit ein neuer Auftrag beginnt. „Bei Freigabe“ besteuert jede Rechnung auf die Leistung abzüglich des Einbehalts und den Einbehalt bei seiner Freigabe."
+
 #: onedesk/one_inventory/home.py:196
 msgid "Where arriving stock is put away, and how much each warehouse holds."
 msgstr "Wohin eingehender Bestand kommt und wie viel jedes Lager fasst."
@@ -45864,7 +45884,11 @@ msgstr "Ohne Enddatum"
 
 #. Option for the 'Tax on Retention' (Select) field in DocType 'Projects
 #. Settings'
+#. Option for the 'Tax on Retention' (Select) field in DocType 'Purchase Order'
+#. Option for the 'Tax on Retention' (Select) field in DocType 'Sales Order'
 #: onedesk/one_project/custom/projects_settings.json
+#: onedesk/one_project/custom/purchase_order.json
+#: onedesk/one_project/custom/sales_order.json
 msgid "With the Invoice"
 msgstr "Mit der Rechnung"
 
@@ -46659,8 +46683,8 @@ msgid "Yes, in their notifications"
 msgstr "Ja, in ihren Benachrichtigungen"
 
 #. Label of a Sidebar Item
-#: onedesk/one/sidebar/one/one.json onedesk/one_project/retention.py:232
-#: onedesk/one_project/retention.py:298 onedesk/one_project/view.py:821
+#: onedesk/one/sidebar/one/one.json onedesk/one_project/retention.py:272
+#: onedesk/one_project/retention.py:338 onedesk/one_project/view.py:821
 #: onedesk/one_project/view.py:870 onedesk/one_project/view.py:954
 #: onedesk/one_project/view.py:985 onedesk/public/js/oneai/Panel.vue:98
 msgid "You"
@@ -48937,7 +48961,7 @@ msgstr "{0} Tage vor {1}"
 #: frontend/src/project/Milestones.vue:29 frontend/src/project/Overview.vue:251
 #: frontend/src/project/Overview.vue:361 frontend/src/project/Suppliers.vue:202
 #: frontend/src/task/TaskPage.vue:210 onedesk/one_project/heads.py:76
-#: onedesk/one_project/portal.py:257 onedesk/one_project/retention.py:197
+#: onedesk/one_project/portal.py:257 onedesk/one_project/retention.py:237
 #: onedesk/one_project/view.py:611 onedesk/one_project/view.py:908
 msgid "{0} days late"
 msgstr "{0} Tage zu spät"
@@ -49140,7 +49164,7 @@ msgstr "{0} hat sich seit dem Vorschlag geändert, daher gilt er nicht mehr."
 msgid "{0} has ended and its profit is not yet moved to Retained Earnings."
 msgstr "{0} ist abgelaufen, und der Gewinn ist noch nicht in die Gewinnrücklagen übertragen."
 
-#: onedesk/one_project/retention.py:552
+#: onedesk/one_project/retention.py:592
 msgid "{0} has no account for its {1} to put {2} beside."
 msgstr "{0} hat kein Konto für {1}, neben das {2} gehört."
 

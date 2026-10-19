@@ -513,7 +513,9 @@ doc_events = {
 		"validate": [
 			"onedesk.one_project.chain.agree",
 			"onedesk.one_inventory.order.within_requests",
+			"onedesk.one_project.retention.taxed",
 		],
+		"before_update_after_submit": "onedesk.one_project.retention.taxed",
 		"on_update_after_submit": "onedesk.one_project.progress.release",
 	},
 	"Delivery Note": {
@@ -622,12 +624,14 @@ doc_events = {
 		"validate": [
 			"onedesk.one_project.chain.agree",
 			"onedesk.one_book.paper.pay_into",
+			"onedesk.one_project.retention.taxed",
 		],
 		"on_submit": [
 			"onedesk.one_crm.stages.follow",
 			"onedesk.one_project.billing.ordered",
 		],
 		"on_cancel": "onedesk.one_crm.stages.follow",
+		"before_update_after_submit": "onedesk.one_project.retention.taxed",
 		"on_update_after_submit": "onedesk.one_project.progress.release",
 	},
 	"Shift Request": {

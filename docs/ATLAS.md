@@ -194,7 +194,7 @@ Reports: Asset Activity (on a rail or a home); Asset Maintenance (opened by our 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Buying Settings | on a rail or a home | OneBook, OneInventory | untouched | no | general |  |  |  |  | ar 25, de 22 |  |
-| Purchase Order | on a rail or a home | OneInventory | a head, events, form script, list script, 4 fields, 8 settings | yes | taught |  | yes | ours |  |  | Order Late |
+| Purchase Order | on a rail or a home | OneInventory | a head, events, form script, list script, 5 fields, 8 settings | yes | taught |  | yes | ours |  |  | Order Late |
 | Request for Quotation | opened by our screens | OneInventory | a head, events, form script, 2 fields, 4 settings | yes | taught |  | yes | ours |  |  |  |
 | Supplier | on a rail or a home | OneBook, OneInventory | a head, events, list script, 3 fields, 2 settings | yes | taught | makes it | yes |  |  |  |  |
 | Supplier Quotation | on a rail or a home | OneInventory | a head, events, form script, 1 fields | yes | taught | makes it | yes |  |  |  | Quote Received |
@@ -340,7 +340,7 @@ Reports: Electronic Invoice Register (under a list's related reports (Sales Invo
 | Proforma Invoice | through a form's connections (Sales Order's Connections) | OneCRM | untouched | yes | general |  | **none** | ours |  |  |  |
 | Quotation | on a rail or a home | OneCRM | events, form script, 3 fields, 2 settings | yes | general | makes it | yes |  |  |  | Quotation Declined, Quotation Running Out |
 | SMS Center | left out: sends through SMS Settings, which waits in docs/BACKLOG.md | OneCRM | untouched | no | general |  |  |  |  |  |  |
-| Sales Order | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, 6 fields, 3 settings | yes | taught | makes it | yes | ours |  |  | Delivery Late, Quotation Accepted |
+| Sales Order | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, 7 fields, 3 settings | yes | taught | makes it | yes | ours |  |  | Delivery Late, Quotation Accepted |
 | Sales Partner Type | through a form's link (Sales Partner: partner_type) | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Selling Settings | on a rail or a home | OneBook, OneCRM, OneInventory, OneProject | untouched | no | general |  |  |  |  | ar 33, de 29 |  |
 

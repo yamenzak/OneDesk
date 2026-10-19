@@ -78,6 +78,7 @@ def villa():
 		retention=10,
 		retention_due=ahead(120),
 		handover=50,
+		tax="With the Invoice",
 	)
 	_signed(name, on(2, 14), "Khalid Mansour")
 	_budget(name, {"Materials": 140000, "Subcontracts": 60000, "Labour": 40000})
@@ -410,9 +411,11 @@ def _project(
 	return name
 
 
-def _contract(project, date, lines, retention=0, retention_due=None, handover=0):
+def _contract(project, date, lines, retention=0, retention_due=None, handover=0, tax=None):
 	"""The customer's order for the work, made on the day it was signed and
-	named the project's contract, as Add Contract does."""
+	named the project's contract, as Add Contract does. Khalid's contract
+	taxes each bill in full (`tax`); the rest are taxed as the workspace
+	starts them, the retention when it's released."""
 	from onedesk.one_book.currency import bill_in
 
 	doc = frappe.get_doc("Project", project)
@@ -433,6 +436,7 @@ def _contract(project, date, lines, retention=0, retention_due=None, handover=0)
 			"one_retention": retention,
 			"one_retention_due": retention_due if retention else None,
 			"one_retention_handover": handover if retention else 0,
+			"one_retention_tax": tax,
 		}
 	)
 	dated(order, date, "transaction_date")

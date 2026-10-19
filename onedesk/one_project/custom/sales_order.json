@@ -47,6 +47,19 @@
    "depends_on": "one_retention",
    "print_hide": 1,
    "description": "Share of the retention"
+  },
+  {
+   "dt": "Sales Order",
+   "fieldname": "one_retention_tax",
+   "label": "Tax on Retention",
+   "fieldtype": "Select",
+   "insert_after": "one_retention_handover",
+   "module": "One Project",
+   "allow_on_submit": 1,
+   "depends_on": "one_retention",
+   "print_hide": 1,
+   "description": "When Released taxes each bill on the work less its retention, and the retention when it's released.",
+   "options": "\nWith the Invoice\nWhen Released"
   }
  ],
  "doctype": "Sales Order",

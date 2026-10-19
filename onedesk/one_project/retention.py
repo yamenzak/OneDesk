@@ -36,9 +36,49 @@ def on() -> bool:
 	return bool(frappe.db.get_single_value("Projects Settings", "one_retention"))
 
 
-def when_released() -> bool:
-	"""Whether retention is taxed by the invoice that releases it."""
-	return on() and frappe.db.get_single_value("Projects Settings", "one_retention_tax") == WHEN_RELEASED
+def default_tax() -> str:
+	"""Tax on Retention where a new order starts: Projects Settings, or
+	before anybody set it, as the company's country taxes retention."""
+	return frappe.db.get_single_value("Projects Settings", "one_retention_tax") or _country_tax() or WITH_INVOICE
+
+
+def _country_tax() -> str | None:
+	company = frappe.defaults.get_global_default("company") or frappe.db.get_value("Company", {})
+	country = company and frappe.db.get_value("Company", company, "country")
+	if not country:
+		return None
+	return WHEN_RELEASED if country in RELEASED_IN else WITH_INVOICE
+
+
+def when_released(terms=None) -> bool:
+	"""Whether retention is taxed by the invoice that releases it: as the
+	order says (`terms`, from progress._terms_of), else as Projects Settings
+	does."""
+	return on() and ((terms or {}).get("tax") or default_tax()) == WHEN_RELEASED
+
+
+def taxed(doc, method=None) -> None:
+	"""Sales and Purchase Order validate: an order holding retention says how
+	it's taxed, starting where Projects Settings does. Once it's invoiced the
+	choice stays, so every invoice from one order holds its retention one
+	way and Release Retention can release it all at once."""
+	if not on():
+		return
+	if flt(doc.get("one_retention")) and not doc.get("one_retention_tax"):
+		doc.one_retention_tax = default_tax()
+	before = doc.get_doc_before_save()
+	if before and before.get("one_retention_tax") and before.one_retention_tax != doc.get("one_retention_tax"):
+		invoice_type, link = (
+			("Purchase Invoice", "purchase_order") if doc.doctype == "Purchase Order" else ("Sales Invoice", "sales_order")
+		)
+		if frappe.db.exists(f"{invoice_type} Item", {link: doc.name, "docstatus": 1}):
+			frappe.throw(
+				_("Tax on Retention can't change once {0} is invoiced: its invoices hold their retention as it said then.").format(
+					doc.name
+				)
+			)
+	if doc.get("one_retention_tax") == WHEN_RELEASED:
+		_released_ready()
 
 
 def boot(bootinfo) -> None:
@@ -570,18 +610,22 @@ def book(doc) -> None:
 
 def ready(doc=None, method=None) -> None:
 	"""Projects Settings on_update, and every migrate: Tax on Retention starts
-	as the company's country does it, and taxed when released, the Retention
-	item is there and a Retention line may be below nothing, which ERPNext
+	as the company's country does it, once there is a company to say, and
+	wherever retention is taxed when released, the workspace is ready for it
+	(`_released_ready`)."""
+	said = _country_tax()
+	if said and not frappe.db.get_single_value("Projects Settings", "one_retention_tax"):
+		frappe.db.set_single_value("Projects Settings", "one_retention_tax", said)
+	if when_released() or any(
+		frappe.db.exists(order, {"one_retention_tax": WHEN_RELEASED}) for order in ("Sales Order", "Purchase Order")
+	):
+		_released_ready()
+
+
+def _released_ready() -> None:
+	"""Taxed when released, retention is held in Retention lines: the
+	Retention item is there, and a line may be below nothing, which ERPNext
 	allows only when Selling and Buying Settings say so."""
-	settings = frappe.get_single("Projects Settings")
-	if not settings.get("one_retention_tax"):
-		company = frappe.defaults.get_global_default("company") or frappe.db.get_value("Company", {})
-		country = company and frappe.db.get_value("Company", company, "country")
-		frappe.db.set_single_value(
-			"Projects Settings", "one_retention_tax", WHEN_RELEASED if country in RELEASED_IN else WITH_INVOICE
-		)
-	if not when_released():
-		return
 	if not frappe.db.exists("Item", ITEM):
 		group = frappe.db.exists("Item Group", "Services") or frappe.db.get_value("Item Group", {"is_group": 0})
 		unit = frappe.db.exists("UOM", "Nos") or frappe.db.get_value("Stock Settings", None, "stock_uom") or "Unit"

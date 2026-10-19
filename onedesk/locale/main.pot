@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-18 22:55+0000\n"
-"PO-Revision-Date: 2026-10-18 22:55+0000\n"
+"POT-Creation-Date: 2026-10-19 04:47+0000\n"
+"PO-Revision-Date: 2026-10-19 04:47+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -160,7 +160,7 @@ msgstr ""
 #: frontend/src/home/BooksHome.vue:171 frontend/src/home/InventoryHome.vue:208
 #: frontend/src/project/Milestones.vue:29 frontend/src/project/Overview.vue:251
 #: frontend/src/project/Overview.vue:360 frontend/src/project/Suppliers.vue:202
-#: frontend/src/task/TaskPage.vue:210 onedesk/one_project/retention.py:197
+#: frontend/src/task/TaskPage.vue:210 onedesk/one_project/retention.py:237
 #: onedesk/one_project/view.py:908
 msgid "1 day late"
 msgstr ""
@@ -4278,7 +4278,7 @@ msgstr ""
 msgid "Ask for a Reason on Check Out"
 msgstr ""
 
-#: onedesk/one_project/retention.py:231
+#: onedesk/one_project/retention.py:271
 msgid "Ask for retention from {0}"
 msgstr ""
 
@@ -5633,7 +5633,7 @@ msgstr ""
 msgid "Bill Progress can't bill part of a {0}. Order {1} in {2} to bill it in parts."
 msgstr ""
 
-#: onedesk/one_project/progress.py:87 onedesk/one_project/progress.py:459
+#: onedesk/one_project/progress.py:87 onedesk/one_project/progress.py:460
 msgid "Bill Progress is for purchase and sales orders."
 msgstr ""
 
@@ -11656,7 +11656,7 @@ msgstr ""
 msgid "Due in the next 7 days"
 msgstr ""
 
-#: frontend/src/project/Overview.vue:363 onedesk/one_project/retention.py:200
+#: frontend/src/project/Overview.vue:363 onedesk/one_project/retention.py:240
 msgid "Due in {0} days"
 msgstr ""
 
@@ -11667,11 +11667,11 @@ msgstr ""
 
 #: frontend/src/home/BooksHome.vue:206 frontend/src/home/CrmHome.vue:178
 #: frontend/src/project/Overview.vue:362 frontend/src/task/TaskPage.vue:211
-#: onedesk/one_project/portal.py:259 onedesk/one_project/retention.py:199
+#: onedesk/one_project/portal.py:259 onedesk/one_project/retention.py:239
 msgid "Due today"
 msgstr ""
 
-#: frontend/src/project/Overview.vue:363 onedesk/one_project/retention.py:200
+#: frontend/src/project/Overview.vue:363 onedesk/one_project/retention.py:240
 msgid "Due tomorrow"
 msgstr ""
 
@@ -17870,7 +17870,7 @@ msgstr ""
 msgid "Invoice Time"
 msgstr ""
 
-#: onedesk/one_project/retention.py:297
+#: onedesk/one_project/retention.py:337
 msgid "Invoice the retention from {0} before its tax falls due"
 msgstr ""
 
@@ -21758,11 +21758,11 @@ msgstr ""
 msgid "More promised than on hand"
 msgstr ""
 
-#: onedesk/one_project/retention.py:394
+#: onedesk/one_project/retention.py:434
 msgid "More than one customer holds retention here. Release it from each invoice."
 msgstr ""
 
-#: onedesk/one_project/retention.py:396
+#: onedesk/one_project/retention.py:436
 msgid "More than one supplier has retention held here. Pay it from each bill."
 msgstr ""
 
@@ -23346,7 +23346,7 @@ msgstr ""
 msgid "No results"
 msgstr ""
 
-#: onedesk/one_project/retention.py:365 onedesk/one_project/retention.py:417
+#: onedesk/one_project/retention.py:405 onedesk/one_project/retention.py:457
 msgid "No retention is held here."
 msgstr ""
 
@@ -25416,7 +25416,7 @@ msgstr ""
 msgid "Only a shared mailbox can be the workspace mailbox."
 msgstr ""
 
-#: onedesk/one_project/progress.py:463
+#: onedesk/one_project/progress.py:464
 msgid "Only a submitted order still open can be billed."
 msgstr ""
 
@@ -31994,7 +31994,7 @@ msgstr ""
 #: onedesk/one_project/custom/sales_invoice.json
 #: onedesk/one_project/custom/sales_invoice_item.json
 #: onedesk/one_project/custom/sales_order.json
-#: onedesk/one_project/progress.py:205 onedesk/one_project/progress.py:256
+#: onedesk/one_project/progress.py:206 onedesk/one_project/progress.py:257
 #: onedesk/public/js/progress.js:56 onedesk/public/js/project_actions.js:201
 #: onedesk/public/js/project_new.js:124
 msgid "Retention"
@@ -32053,15 +32053,15 @@ msgstr ""
 #. Item'
 #: onedesk/one_project/custom/purchase_invoice_item.json
 #: onedesk/one_project/custom/sales_invoice_item.json
-#: onedesk/one_project/progress.py:205 onedesk/one_project/progress.py:256
+#: onedesk/one_project/progress.py:206 onedesk/one_project/progress.py:257
 msgid "Retention at Handover"
 msgstr ""
 
-#: onedesk/one_project/retention.py:435
+#: onedesk/one_project/retention.py:475
 msgid "Retention held on {0}"
 msgstr ""
 
-#: onedesk/one_project/retention.py:332
+#: onedesk/one_project/retention.py:372
 msgid "Retention is held on sales and purchase invoices."
 msgstr ""
 
@@ -37041,8 +37041,16 @@ msgid "Tax held back from what is paid to suppliers."
 msgstr ""
 
 #. Label of the one_retention_tax (Select) field in DocType 'Projects Settings'
+#. Label of the one_retention_tax (Select) field in DocType 'Purchase Order'
+#. Label of the one_retention_tax (Select) field in DocType 'Sales Order'
 #: onedesk/one_project/custom/projects_settings.json
+#: onedesk/one_project/custom/purchase_order.json
+#: onedesk/one_project/custom/sales_order.json
 msgid "Tax on Retention"
+msgstr ""
+
+#: onedesk/one_project/retention.py:76
+msgid "Tax on Retention can't change once {0} is invoiced: its invoices hold their retention as it said then."
 msgstr ""
 
 #: onedesk/one_book/report/vat_return/vat_return.py:65
@@ -43669,14 +43677,21 @@ msgstr ""
 
 #. Option for the 'Tax on Retention' (Select) field in DocType 'Projects
 #. Settings'
+#. Option for the 'Tax on Retention' (Select) field in DocType 'Purchase Order'
+#. Option for the 'Tax on Retention' (Select) field in DocType 'Sales Order'
 #: onedesk/one_project/custom/projects_settings.json
+#: onedesk/one_project/custom/purchase_order.json
+#: onedesk/one_project/custom/sales_order.json
 msgid "When Released"
 msgstr ""
 
-#. Description of the 'Tax on Retention' (Select) field in DocType 'Projects
-#. Settings'
-#: onedesk/one_project/custom/projects_settings.json
-msgid "When Released taxes each invoice on the work less its retention, and the retention when an invoice releases it."
+#. Description of the 'Tax on Retention' (Select) field in DocType 'Purchase
+#. Order'
+#. Description of the 'Tax on Retention' (Select) field in DocType 'Sales
+#. Order'
+#: onedesk/one_project/custom/purchase_order.json
+#: onedesk/one_project/custom/sales_order.json
+msgid "When Released taxes each bill on the work less its retention, and the retention when it's released."
 msgstr ""
 
 #. When a notification is sent
@@ -44879,6 +44894,12 @@ msgstr ""
 msgid "Where a lead or an opportunity came from."
 msgstr ""
 
+#. Description of the 'Tax on Retention' (Select) field in DocType 'Projects
+#. Settings'
+#: onedesk/one_project/custom/projects_settings.json
+msgid "Where a new order starts. When Released taxes each invoice on the work less its retention, and the retention when it's released."
+msgstr ""
+
 #: onedesk/one_inventory/home.py:196
 msgid "Where arriving stock is put away, and how much each warehouse holds."
 msgstr ""
@@ -45899,7 +45920,11 @@ msgstr ""
 
 #. Option for the 'Tax on Retention' (Select) field in DocType 'Projects
 #. Settings'
+#. Option for the 'Tax on Retention' (Select) field in DocType 'Purchase Order'
+#. Option for the 'Tax on Retention' (Select) field in DocType 'Sales Order'
 #: onedesk/one_project/custom/projects_settings.json
+#: onedesk/one_project/custom/purchase_order.json
+#: onedesk/one_project/custom/sales_order.json
 msgid "With the Invoice"
 msgstr ""
 
@@ -46694,8 +46719,8 @@ msgid "Yes, in their notifications"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one/sidebar/one/one.json onedesk/one_project/retention.py:232
-#: onedesk/one_project/retention.py:298 onedesk/one_project/view.py:821
+#: onedesk/one/sidebar/one/one.json onedesk/one_project/retention.py:272
+#: onedesk/one_project/retention.py:338 onedesk/one_project/view.py:821
 #: onedesk/one_project/view.py:870 onedesk/one_project/view.py:954
 #: onedesk/one_project/view.py:985 onedesk/public/js/oneai/Panel.vue:98
 msgid "You"
@@ -48972,7 +48997,7 @@ msgstr ""
 #: frontend/src/project/Milestones.vue:29 frontend/src/project/Overview.vue:251
 #: frontend/src/project/Overview.vue:361 frontend/src/project/Suppliers.vue:202
 #: frontend/src/task/TaskPage.vue:210 onedesk/one_project/heads.py:76
-#: onedesk/one_project/portal.py:257 onedesk/one_project/retention.py:197
+#: onedesk/one_project/portal.py:257 onedesk/one_project/retention.py:237
 #: onedesk/one_project/view.py:611 onedesk/one_project/view.py:908
 msgid "{0} days late"
 msgstr ""
@@ -49175,7 +49200,7 @@ msgstr ""
 msgid "{0} has ended and its profit is not yet moved to Retained Earnings."
 msgstr ""
 
-#: onedesk/one_project/retention.py:552
+#: onedesk/one_project/retention.py:592
 msgid "{0} has no account for its {1} to put {2} beside."
 msgstr ""
 

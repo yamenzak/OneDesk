@@ -26,7 +26,7 @@
    "insert_after": "one_retention",
    "module": "One Project",
    "depends_on": "one_retention",
-   "description": "When Released taxes each invoice on the work less its retention, and the retention when an invoice releases it."
+   "description": "Where a new order starts. When Released taxes each invoice on the work less its retention, and the retention when it's released."
   },
   {
    "dt": "Projects Settings",

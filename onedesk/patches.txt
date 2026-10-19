@@ -74,3 +74,4 @@ onedesk.one_project.patches.invoices_say_their_retention
 onedesk.one_book.patches.orders_say_where_to_pay
 onedesk.one_book.patches.reminders_say_where_to_pay
 onedesk.one_inventory.patches.installed_items_named
+onedesk.one_project.patches.orders_say_how_retention_is_taxed

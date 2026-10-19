@@ -357,6 +357,7 @@ def test_an_order_under_a_project_becomes_its_sub_project():
 		"one_retention",
 		"one_retention_due",
 		"one_retention_handover",
+		"one_retention_tax",
 	]
 	assert "onedesk.one_project.patches.extra_work" in (tree.APP / "patches.txt").read_text()
 	assert "Quote Extra Work" in (tree.APP / "public" / "js" / "project.js").read_text()
@@ -2318,3 +2319,49 @@ def test_retention_taxed_when_released_is_held_in_lines_below_the_work():
 		fields = {f["fieldname"]: f for f in json.loads((PROJECT / "custom" / name).read_text())["custom_fields"]}
 		assert {"one_held", "one_release_on", "one_retention_of"} <= set(fields)
 		assert fields["one_release_on"]["allow_on_submit"] == 1
+
+
+def test_each_order_says_how_its_retention_is_taxed():
+	"""Tax on Retention is the order's: a customer's order and a subcontract
+	each say With the Invoice or When Released, starting where Projects
+	Settings does, changeable after submit until the order is invoiced, and
+	an invoice holds its retention as its order says."""
+
+	class Settings:
+		value = None
+
+	db = type(
+		"db",
+		(),
+		{
+			"get_single_value": staticmethod(lambda _dt, field: Settings.value if field == "one_retention_tax" else 1),
+			"get_value": staticmethod(lambda *_args, **_kwargs: None),
+		},
+	)
+	defaults = type("defaults", (), {"get_global_default": staticmethod(lambda _key: None)})
+	frappe = type("frappe", (), {"db": db, "defaults": defaults})
+	space = _load(
+		PROJECT / "retention.py",
+		("WITH_INVOICE", "WHEN_RELEASED", "on", "default_tax", "_country_tax", "when_released"),
+		frappe=frappe,
+	)
+	when_released = space["when_released"]
+	assert not when_released() and space["default_tax"]() == "With the Invoice", "nothing set is taxed with the invoice"
+	Settings.value = "When Released"
+	assert when_released() and when_released({"tax": None})
+	assert not when_released({"tax": "With the Invoice"}), "the order's word over the workspace's"
+	Settings.value = "With the Invoice"
+	assert when_released({"tax": "When Released"})
+	for name in ("sales_order.json", "purchase_order.json"):
+		fields = {f["fieldname"]: f for f in json.loads((PROJECT / "custom" / name).read_text())["custom_fields"]}
+		tax = fields["one_retention_tax"]
+		assert tax["options"].split("\n") == ["", "With the Invoice", "When Released"], name
+		assert tax["allow_on_submit"] == 1 and tax["depends_on"] == "one_retention" and tax["insert_after"] == "one_retention_handover"
+	assert HOOKS.count('"onedesk.one_project.retention.taxed"') == 4, "validate and after submit, on both orders"
+	progress = (PROJECT / "progress.py").read_text()
+	assert "tax=source.get(\"one_retention_tax\")" in progress
+	assert "retention.when_released(_terms_of(order))" in progress and "retention.when_released(said)" in progress
+	retention = (PROJECT / "retention.py").read_text()
+	taxed = retention[retention.index("def taxed(") : retention.index("def boot(")]
+	assert "get_doc_before_save" in taxed and "frappe.throw" in taxed and "_released_ready()" in taxed
+
