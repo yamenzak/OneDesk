@@ -10,7 +10,10 @@ The code is `one_admin/private.py` (control plane) and `one/private.py`
 
 ## Writing one
 
-It is an ordinary Frappe app in its own repository, with `bench new-app`.
+It is an ordinary Frappe app, made with `bench new-app`. It lives in this
+repository under `private/<app>`, beside One, so a change to One and the
+app it breaks land in one commit; `private/rua` is the first. On a bench,
+`apps/<app>` is a link to that folder.
 
 - **`hooks.py`** says it needs One, and that it is a private app:
 
@@ -52,7 +55,9 @@ It is an ordinary Frappe app in its own repository, with `bench new-app`.
 
 ## Getting it to a customer
 
-1. Push the app's repository, and add it to the bench group in Frappe Cloud.
+1. Frappe Cloud takes an app from the root of a repository, so the folder
+   is pushed to one of its own: `git subtree split --prefix private/<app>`
+   and push that to the app's repository. Add it to the bench group.
    Deploy. Every site on the bench group then carries its code, and only the
    ones that claim it install it.
 2. In OneAdmin, add a **Private App**: the app's name as in its `hooks.py`,

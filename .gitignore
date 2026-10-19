@@ -9,3 +9,4 @@ onedesk/www/portal.html
 .DS_Store
 
 __pycache__/
+.ruff_cache/

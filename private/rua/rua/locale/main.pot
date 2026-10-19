@@ -1,0 +1,252 @@
+# Translations template for Rua.
+# Copyright (C) 2026 One
+# This file is distributed under the same license as the Rua project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Rua VERSION\n"
+"Report-Msgid-Bugs-To: hello@4dl.app\n"
+"POT-Creation-Date: 2026-10-19 16:11+0000\n"
+"PO-Revision-Date: 2026-10-19 16:11+0000\n"
+"Last-Translator: hello@4dl.app\n"
+"Language-Team: hello@4dl.app\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#. Name of a role
+#: rua/rua/doctype/rua_import/rua_import.json
+#: rua/rua/doctype/rua_import_record/rua_import_record.json
+msgid "Accounts Manager"
+msgstr ""
+
+#. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
+#: rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "Advance Left Open"
+msgstr ""
+
+#. Option for the 'Result' (Select) field in DocType 'Rua Import Check'
+#: rua/rua/doctype/rua_import_check/rua_import_check.json
+msgid "Agrees"
+msgstr ""
+
+#. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
+#: rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "Attendance Not Marked"
+msgstr ""
+
+#. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
+#: rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "Bill From Order"
+msgstr ""
+
+#. Label of the subject (Data) field in DocType 'Rua Import Check'
+#: rua/rua/doctype/rua_import_check/rua_import_check.json
+msgid "Check"
+msgstr ""
+
+#. Label of the checks_section (Section Break) field in DocType 'Rua Import'
+#. Label of the checks (Table) field in DocType 'Rua Import'
+#: rua/rua/doctype/rua_import/rua_import.json
+msgid "Checks"
+msgstr ""
+
+#. Label of the difference (Float) field in DocType 'Rua Import Check'
+#: rua/rua/doctype/rua_import_check/rua_import_check.json
+msgid "Difference"
+msgstr ""
+
+#. Option for the 'Result' (Select) field in DocType 'Rua Import Check'
+#: rua/rua/doctype/rua_import_check/rua_import_check.json
+msgid "Differs"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Rua Import'
+#: rua/rua/doctype/rua_import/rua_import.json
+msgid "Done"
+msgstr ""
+
+#. Description of a DocType
+#: rua/rua/doctype/rua_import_record/rua_import_record.json
+msgid "Each old record and what it became."
+msgstr ""
+
+#. Label of the error_section (Section Break) field in DocType 'Rua Import'
+#. Label of the error (Code) field in DocType 'Rua Import'
+#: rua/rua/doctype/rua_import/rua_import.json
+msgid "Error"
+msgstr ""
+
+#. Option for the 'Result' (Select) field in DocType 'Rua Import Check'
+#: rua/rua/doctype/rua_import_check/rua_import_check.json
+msgid "Explained"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Rua Import'
+#: rua/rua/doctype/rua_import/rua_import.json
+msgid "Failed"
+msgstr ""
+
+#. Label of the finished_on (Datetime) field in DocType 'Rua Import'
+#: rua/rua/doctype/rua_import/rua_import.json
+msgid "Finished"
+msgstr ""
+
+#. Label of the notes_section (Section Break) field in DocType 'Rua Import'
+#: rua/rua/doctype/rua_import/rua_import.json
+msgid "For the Accountant"
+msgstr ""
+
+#. Label of the kind (Select) field in DocType 'Rua Import Note'
+#: rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "Kind"
+msgstr ""
+
+#. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
+#: rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "Left Out"
+msgstr ""
+
+#. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
+#: rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "No Invoice"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Rua Import'
+#: rua/rua/doctype/rua_import/rua_import.json
+msgid "Not Started"
+msgstr ""
+
+#. Label of the note (Small Text) field in DocType 'Rua Import Note'
+#: rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "Note"
+msgstr ""
+
+#. Label of the notes (Table) field in DocType 'Rua Import'
+#: rua/rua/doctype/rua_import/rua_import.json
+msgid "Notes"
+msgstr ""
+
+#. Label of the old (Float) field in DocType 'Rua Import Check'
+#: rua/rua/doctype/rua_import_check/rua_import_check.json
+msgid "Old App"
+msgstr ""
+
+#. Label of the source_name (Data) field in DocType 'Rua Import Record'
+#: rua/rua/doctype/rua_import_record/rua_import_record.json
+msgid "Old Record"
+msgstr ""
+
+#. Label of the source_doctype (Data) field in DocType 'Rua Import Record'
+#: rua/rua/doctype/rua_import_record/rua_import_record.json
+msgid "Old Record Type"
+msgstr ""
+
+#. Label of the one (Float) field in DocType 'Rua Import Check'
+#: rua/rua/doctype/rua_import_check/rua_import_check.json
+msgid "One"
+msgstr ""
+
+#. Label of the source (Data) field in DocType 'Rua Import'
+#: rua/rua/doctype/rua_import/rua_import.json
+msgid "Read From"
+msgstr ""
+
+#. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
+#: rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "Receipt Matched"
+msgstr ""
+
+#. Label of the reference_name (Dynamic Link) field in DocType 'Rua Import
+#. Note'
+#. Label of the target_name (Dynamic Link) field in DocType 'Rua Import Record'
+#: rua/rua/doctype/rua_import_note/rua_import_note.json
+#: rua/rua/doctype/rua_import_record/rua_import_record.json
+msgid "Record"
+msgstr ""
+
+#. Label of the reference_doctype (Link) field in DocType 'Rua Import Note'
+#. Label of the target_doctype (Link) field in DocType 'Rua Import Record'
+#: rua/rua/doctype/rua_import_note/rua_import_note.json
+#: rua/rua/doctype/rua_import_record/rua_import_record.json
+msgid "Record Type"
+msgstr ""
+
+#. Label of the result (Select) field in DocType 'Rua Import Check'
+#: rua/rua/doctype/rua_import_check/rua_import_check.json
+msgid "Result"
+msgstr ""
+
+#. Title of a Sidebar
+#: rua/rua/sidebar/rua/rua.json
+msgid "Rua"
+msgstr ""
+
+#. Name of a DocType
+#. Label of a Sidebar Item
+#: rua/rua/doctype/rua_import/rua_import.json rua/rua/sidebar/rua/rua.json
+msgid "Rua Import"
+msgstr ""
+
+#. Name of a DocType
+#: rua/rua/doctype/rua_import_check/rua_import_check.json
+msgid "Rua Import Check"
+msgstr ""
+
+#. Name of a DocType
+#: rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "Rua Import Note"
+msgstr ""
+
+#. Name of a DocType
+#. Label of a Sidebar Item
+#: rua/rua/doctype/rua_import_record/rua_import_record.json
+#: rua/rua/sidebar/rua/rua.json
+msgid "Rua Import Record"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Rua Import'
+#: rua/rua/doctype/rua_import/rua_import.json
+msgid "Running"
+msgstr ""
+
+#. Label of the started_on (Datetime) field in DocType 'Rua Import'
+#: rua/rua/doctype/rua_import/rua_import.json
+msgid "Started"
+msgstr ""
+
+#. Label of the status (Select) field in DocType 'Rua Import'
+#: rua/rua/doctype/rua_import/rua_import.json
+msgid "Status"
+msgstr ""
+
+#. Label of the step (Data) field in DocType 'Rua Import'
+#. Label of the step (Data) field in DocType 'Rua Import Note'
+#: rua/rua/doctype/rua_import/rua_import.json
+#: rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "Step"
+msgstr ""
+
+#. Name of a role
+#: rua/rua/doctype/rua_import/rua_import.json
+#: rua/rua/doctype/rua_import_record/rua_import_record.json
+msgid "System Manager"
+msgstr ""
+
+#. Description of a DocType
+#: rua/rua/doctype/rua_import/rua_import.json
+msgid "The old Rua app brought over, and checked against the books."
+msgstr ""
+
+#. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
+#: rua/rua/doctype/rua_import_note/rua_import_note.json
+msgid "To Check"
+msgstr ""
+
+#. Label of the note (Small Text) field in DocType 'Rua Import Check'
+#: rua/rua/doctype/rua_import_check/rua_import_check.json
+msgid "Why"
+msgstr ""
+

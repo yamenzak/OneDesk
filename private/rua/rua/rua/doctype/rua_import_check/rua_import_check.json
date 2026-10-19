@@ -1,0 +1,74 @@
+{
+ "actions": [],
+ "creation": "2026-10-19 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "subject",
+  "old",
+  "one",
+  "difference",
+  "result",
+  "note"
+ ],
+ "fields": [
+  {
+   "fieldname": "subject",
+   "fieldtype": "Data",
+   "label": "Check",
+   "in_list_view": 1,
+   "columns": 4
+  },
+  {
+   "fieldname": "old",
+   "fieldtype": "Float",
+   "label": "Old App",
+   "in_list_view": 1,
+   "columns": 2,
+   "precision": "2"
+  },
+  {
+   "fieldname": "one",
+   "fieldtype": "Float",
+   "label": "One",
+   "in_list_view": 1,
+   "columns": 2,
+   "precision": "2"
+  },
+  {
+   "fieldname": "difference",
+   "fieldtype": "Float",
+   "label": "Difference",
+   "in_list_view": 1,
+   "columns": 1,
+   "precision": "2"
+  },
+  {
+   "fieldname": "result",
+   "fieldtype": "Select",
+   "label": "Result",
+   "options": "Agrees\nDiffers\nExplained",
+   "in_list_view": 1,
+   "columns": 1
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "label": "Why"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-19 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Rua",
+ "name": "Rua Import Check",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "row_format": "Dynamic",
+ "istable": 1,
+ "editable_grid": 0
+}
