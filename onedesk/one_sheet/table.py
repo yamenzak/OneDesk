@@ -6,7 +6,8 @@ applies. README, table.py.
 
 import hashlib
 import json
-from datetime import date, timedelta
+import re
+from datetime import date, datetime, time, timedelta
 
 import frappe
 from frappe import _
@@ -36,11 +37,17 @@ EPOCH = date(1899, 12, 30)
 SAVEPOINT = "one_sheet_table"
 
 
-def columns(fields: list[dict]) -> list[dict]:
+def columns(fields: list[dict], picked: list[str] | None = None) -> list[dict]:
 	"""The hidden row id, then the table's columns as the form's grid shows
-	them: the fields in its list view, and the required ones. Pure."""
+	them: the ones chosen on the grid's gear when there are any (`picked`),
+	else the fields in its list view; and the required ones either way. Pure."""
 	usable = [df for df in fields if df.get("fieldtype") in SHOWN and not df.get("hidden")]
-	chosen = [df for df in usable if df.get("in_list_view") or df.get("reqd")] or usable[:8]
+	if picked:
+		by = {df["fieldname"]: df for df in usable}
+		chosen = [by[name] for name in picked if name in by]
+		chosen += [df for df in usable if df.get("reqd") and df["fieldname"] not in picked]
+	else:
+		chosen = [df for df in usable if df.get("in_list_view") or df.get("reqd")] or usable[:8]
 	out, seen = [{"fieldname": "name", "header": MARK, "fieldtype": "Data", "read_only": True}], set()
 	for df in chosen[:MOST_COLUMNS]:
 		header = _(df.get("label")) if df.get("label") else df["fieldname"]
@@ -92,16 +99,39 @@ def taken(text, column: dict) -> tuple:
 		return (int(number) if kind == "Int" else number), None
 	if kind == "Date":
 		try:
-			return date.fromisoformat(text[:10]).isoformat(), None
+			return date.fromisoformat(text[:10]), None
 		except ValueError:
 			pass
 		try:
-			return (EPOCH + timedelta(days=int(float(text)))).isoformat(), None
+			return EPOCH + timedelta(days=int(float(text))), None
 		except (ValueError, OverflowError):
 			return None, _("{0} must be a date, such as 2026-10-21.").format(column["header"])
+	if kind == "Datetime":
+		try:
+			return datetime.fromisoformat(text), None
+		except ValueError:
+			return None, _("{0} must be a date and time, such as 2026-10-21 09:30.").format(column["header"])
+	if kind == "Time":
+		try:
+			return time.fromisoformat(text).isoformat(), None
+		except ValueError:
+			return None, _("{0} must be a time, such as 09:30.").format(column["header"])
 	if kind == "Select" and column.get("options") and text not in column["options"]:
 		return None, _("{0} must be one of: {1}.").format(column["header"], ", ".join(column["options"]))
 	return text, None
+
+
+def lined(message: str, rows: list[dict]) -> str:
+	"""The record's "Row #3" or "Row 3" as the sheet's line for that row, so
+	its refusals and the sheet's own point at the same line. Pure."""
+	said = {_("Row #{0}"), _("Row {0}"), "Row #{0}", "Row {0}"}
+	pattern = "|".join(re.escape(one).replace(re.escape("{0}"), r"(\d+)") + r"(?!\d)" for one in sorted(said, key=len, reverse=True))
+
+	def line(found):
+		at = int(next(one for one in found.groups() if one))
+		return _("Row {0}").format(rows[at - 1]["line"]) if 0 < at <= len(rows) else found.group(0)
+
+	return re.sub(pattern, line, message)
 
 
 def fingerprint(docstatus: int, rows: list, cols: list[dict]) -> str:
@@ -252,7 +282,10 @@ def open_table(doctype: str, name: str, field: str) -> str:
 	if held and frappe.db.get_value(api.WORKBOOK, held, "file"):
 		refresh(held)
 		return held
-	cols = columns([one.as_dict() for one in frappe.get_meta(df.options).fields])
+	from frappe.model.utils.user_settings import get_user_settings
+
+	grid = (json.loads(get_user_settings(doctype) or "{}").get("GridView") or {}).get(df.options) or []
+	cols = columns([one.as_dict() for one in frappe.get_meta(df.options).fields], [one.get("fieldname") for one in grid if isinstance(one, dict)])
 	if len(cols) < 2:
 		frappe.throw(_("This table has no columns a sheet can hold."))
 	sheet = _(df.label or field)[:31]
@@ -350,7 +383,7 @@ def apply(name: str, sent: str) -> dict:
 		except (frappe.ValidationError, frappe.PermissionError) as error:
 			frappe.db.rollback(save_point=SAVEPOINT)
 			frappe.clear_messages()
-			return {"ok": False, "message": strip_html(str(error)) or _("The record didn't take this table.")}
+			return {"ok": False, "message": lined(strip_html(str(error)), rows) or _("The record didn't take this table.")}
 		except Exception:
 			frappe.db.rollback(save_point=SAVEPOINT)
 			frappe.clear_messages()

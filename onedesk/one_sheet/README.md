@@ -76,7 +76,9 @@ Under every table on a saved record, beside **Add row**, is **Open in a
 workbook**. The first time, it makes a workbook attached to the record (it
 lists in the record's Files) whose first sheet is the table: a line for
 each row, a column for each column the table shows on the form. After that
-the same button opens the same workbook.
+the same button opens the same workbook. Its columns are the ones the
+table shows on the form: choose others with the table's gear before opening
+it the first time, and those are the columns.
 
 - Change a cell, add a line or delete one, and the record saves itself
   with it a moment later, the way typing saves the workbook. Amounts,
@@ -97,6 +99,13 @@ the same button opens the same workbook.
   the first sheet is drawn again from the table; the other sheets stay.
 - Once the record is submitted, the first sheet can only be read.
 
+What a column takes: numbers, money and percentages; text; links to other
+records (checked when the record saves); lists (a dropdown); tick boxes
+(TRUE or FALSE); dates (2026-10-21), dates with a time, and times. Fields
+that hold formatted text, code, files or pictures don't become columns.
+Rules a record keeps only on its form, as it is being typed, don't run
+from a workbook; every rule it checks when it saves does.
+
 ## Who can open it
 
 The same people who can open the file in OneCloud. Your own files are yours
@@ -108,8 +117,7 @@ whoever can open that folder. Somebody who may read it but not change it sees
 
 - A record's table changed on its form doesn't reach a workbook that is
   already open; opening it again does.
-- Fields a table doesn't show in its list on the form, beyond the required
-  ones, aren't columns.
+- Formatted text, code, attachments and pictures as columns.
 
 ## Connections
 
@@ -203,8 +211,9 @@ the bar only when OneAI is on and the account is set up.
 `bound_field` and `bound_sheet` set, behind a File attached to the record,
 so who may open or save it is who may read or write the record
 (`namespace.may` already answers attached files that way). `columns` takes
-the child table's list-view and required fields, at most 20, with the row
-`name` first; their headers are stored in `bound_columns` once, so the
+the columns the opener chose on the grid's gear (`GridView` in their user
+settings), else the child table's list-view fields, and the required ones
+either way, at most 20, with the row `name` first; their headers are stored in `bound_columns` once, so the
 sheet is read by the headers it was drawn with whatever language the next
 person reads in. `laid` draws the sheet: the row ids in a hidden first
 column, the header frozen, the header, id and worked-out columns (read
@@ -216,12 +225,14 @@ the bound sheet's values (`shim/table.js`); `save_sheet` stores the
 workbook as always, then `apply` reads the values into the table. Columns
 are found by their header, so moving one or putting your own column
 between them changes nothing. `taken` checks each value against its field
-type before the record sees it; a line with nothing typed is skipped; a
+type before the record sees it, and hands dates and times over as dates and
+times, not text, because records compare them; a line with nothing typed is skipped; a
 line whose id is a row keeps that row, every field the sheet doesn't show
 included, and a row no line names is removed. When anything differs, the
 record is saved with `doc.save()` under a savepoint, so its validation,
 links, server scripts and totals all run; a refusal rolls back to the
-savepoint and its message goes back to the editor (`tableNotice`), and the
+savepoint and its message goes back to the editor (`tableNotice`), its
+"Row #1" turned into the sheet's line (`lined`), and the
 workbook's own save stands. `back` answers the cells the sheet should take:
 the ids of new rows, the worked-out columns, what the record filled where
 the sheet was empty. The editor writes them through the engine, so

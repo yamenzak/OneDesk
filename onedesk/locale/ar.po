@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-20 15:35+0000\n"
+"POT-Creation-Date: 2026-10-20 15:46+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -1028,7 +1028,7 @@ msgstr "ملاحظة للأشخاص المطلوب منهم."
 msgid "A number a document refers to: an invoice, an order, a case."
 msgstr "رقم يشير إليه مستند: فاتورة أو طلب أو قضية."
 
-#: onedesk/one_sheet/table.py:120
+#: onedesk/one_sheet/table.py:150
 msgid "A number."
 msgstr "رقم."
 
@@ -1387,7 +1387,7 @@ msgstr "تُقيِّم بطاقة أداء المورد على أساس {0}."
 msgid "A table block names its table: {table: 'items', columns: ['item_name:45', 'qty:15']}."
 msgstr "كتلة الجدول تسمّي جدولها: {table: 'items', columns: ['item_name:45', 'qty:15']}."
 
-#: onedesk/one_sheet/table.py:344
+#: onedesk/one_sheet/table.py:377
 msgid "A table takes at most {0} rows from a workbook."
 msgstr "يأخذ الجدول {0} صفًا على الأكثر من مصنف."
 
@@ -7607,7 +7607,7 @@ msgstr "اختر ملفات"
 msgid "Choose from OneCloud"
 msgstr "اختر من OneCloud"
 
-#: onedesk/one_sheet/table.py:116
+#: onedesk/one_sheet/table.py:146
 msgid "Choose one from the list."
 msgstr "اختر واحدًا من القائمة."
 
@@ -34625,7 +34625,15 @@ msgstr ""
 msgid "Row"
 msgstr ""
 
-#: onedesk/one_sheet/table.py:200
+#: onedesk/one_sheet/table.py:127
+msgid "Row #{0}"
+msgstr "الصف #{0}"
+
+#: onedesk/one_sheet/table.py:127 onedesk/one_sheet/table.py:132
+msgid "Row {0}"
+msgstr "الصف {0}"
+
+#: onedesk/one_sheet/table.py:230
 msgid "Row {0}: {1}"
 msgstr "الصف {0}: {1}"
 
@@ -39290,7 +39298,7 @@ msgstr "الرقم الضريبي"
 msgid "TRN {0}"
 msgstr "رقم التسجيل الضريبي {0}"
 
-#: onedesk/one_sheet/table.py:118
+#: onedesk/one_sheet/table.py:148
 msgid "TRUE or FALSE."
 msgstr "TRUE أو FALSE."
 
@@ -40262,7 +40270,7 @@ msgstr "هذه {0} متغيّرات. أنشئ {1} على الأكثر في ال�
 msgid "That isn't a cell."
 msgstr "هذه ليست خلية."
 
-#: onedesk/one_sheet/table.py:250
+#: onedesk/one_sheet/table.py:280
 msgid "That isn't a table on this record."
 msgstr "هذا ليس جدولًا في هذا السجل."
 
@@ -40615,7 +40623,7 @@ msgstr "آخر أربعة أحرف من الرمز، للتمييز بين ال�
 msgid "The colour a letter head carries, in the company's name, its lines and a banner's band."
 msgstr "اللون الذي تحمله الترويسة، في اسم الشركة وخطوطها وشريط البانر."
 
-#: onedesk/one_sheet/table.py:184
+#: onedesk/one_sheet/table.py:214
 msgid "The column {0} isn't in the sheet any more. Undo, or open the workbook again from the record."
 msgstr "العمود {0} لم يعد في الورقة. تراجع، أو افتح المصنف مرة أخرى من السجل."
 
@@ -41573,11 +41581,11 @@ msgstr "السعر بين عملتين في يوم معين."
 msgid "The record changed after this was suggested."
 msgstr "تغيّر السجل بعد تقديم هذا الاقتراح."
 
-#: onedesk/one_sheet/table.py:353
+#: onedesk/one_sheet/table.py:386
 msgid "The record didn't take this table."
 msgstr "لم يقبل السجل هذا الجدول."
 
-#: onedesk/one_sheet/table.py:358
+#: onedesk/one_sheet/table.py:391
 msgid "The record didn't take this table. The error is in the error log."
 msgstr "لم يقبل السجل هذا الجدول. الخطأ في سجل الأخطاء."
 
@@ -41658,7 +41666,7 @@ msgstr "رفض الخادم عنوان البريد الإلكتروني أو ك
 msgid "The server's name or address."
 msgstr "اسم الخادم أو عنوانه."
 
-#: onedesk/one_sheet/table.py:179
+#: onedesk/one_sheet/table.py:209
 msgid "The sheet's hidden first column is gone. Undo, or open the workbook again from the record."
 msgstr "العمود الأول المخفي في الورقة اختفى. تراجع، أو افتح المصنف مرة أخرى من السجل."
 
@@ -42630,7 +42638,7 @@ msgstr "هذا الموقع لا يدير مساحات العمل."
 msgid "This suggestion does not change how anything prints."
 msgstr "لا يغيّر هذا الاقتراح طريقة طباعة أي شيء."
 
-#: onedesk/one_sheet/table.py:257
+#: onedesk/one_sheet/table.py:290
 msgid "This table has no columns a sheet can hold."
 msgstr "لا يحتوي هذا الجدول على أعمدة يمكن أن تحملها ورقة."
 
@@ -51647,7 +51655,7 @@ msgstr "حذف بياناتك"
 msgid "your quotations, orders and invoices"
 msgstr "عروض الأسعار والطلبات والفواتير الخاصة بك"
 
-#: onedesk/one_sheet/table.py:342
+#: onedesk/one_sheet/table.py:375
 msgid "{0} (and {1} more)"
 msgstr "{0} (و{1} غيرها)"
 
@@ -52073,7 +52081,7 @@ msgstr "تغيّر {0} بعد اقتراح هذا، فلم يعد ينطبق."
 msgid "{0} changed in this save. Save it first, then edit what it links to."
 msgstr "تغيّر {0} في هذا الحفظ. احفظه أولًا، ثم حرر ما يرتبط به."
 
-#: onedesk/one_sheet/table.py:334
+#: onedesk/one_sheet/table.py:367
 msgid "{0} changed on the record since this sheet last matched it. Open the workbook again from the record to bring it in."
 msgstr "تغيّر {0} في السجل منذ آخر مرة طابقته هذه الورقة. افتح المصنف مرة أخرى من السجل لجلب التغييرات."
 
@@ -52562,7 +52570,7 @@ msgstr "{0} مفوتر"
 msgid "{0} invoices"
 msgstr "{0} فواتير"
 
-#: onedesk/one_sheet/table.py:82
+#: onedesk/one_sheet/table.py:89
 msgid "{0} is TRUE or FALSE."
 msgstr "{0} قيمته TRUE أو FALSE."
 
@@ -53209,15 +53217,23 @@ msgstr "نُقل {0} من {1} إلى المحتجزات."
 msgid "{0} moved from {1} to {2}."
 msgstr "نُقل {0} من {1} إلى {2}."
 
-#: onedesk/one_sheet/table.py:101
+#: onedesk/one_sheet/table.py:113
+msgid "{0} must be a date and time, such as 2026-10-21 09:30."
+msgstr "يجب أن يكون {0} تاريخًا ووقتًا، مثل 2026-10-21 09:30."
+
+#: onedesk/one_sheet/table.py:108
 msgid "{0} must be a date, such as 2026-10-21."
 msgstr "يجب أن يكون {0} تاريخًا، مثل 2026-10-21."
 
-#: onedesk/one_sheet/table.py:89
+#: onedesk/one_sheet/table.py:96
 msgid "{0} must be a number."
 msgstr "يجب أن يكون {0} رقمًا."
 
-#: onedesk/one_sheet/table.py:91
+#: onedesk/one_sheet/table.py:118
+msgid "{0} must be a time, such as 09:30."
+msgstr "يجب أن يكون {0} وقتًا، مثل 09:30."
+
+#: onedesk/one_sheet/table.py:98
 msgid "{0} must be a whole number."
 msgstr "يجب أن يكون {0} عددًا صحيحًا."
 
@@ -53225,7 +53241,7 @@ msgstr "يجب أن يكون {0} عددًا صحيحًا."
 msgid "{0} must be kept by law until {1}."
 msgstr "يجب الاحتفاظ بـ {0} قانونًا حتى {1}."
 
-#: onedesk/one_sheet/table.py:103
+#: onedesk/one_sheet/table.py:120
 msgid "{0} must be one of: {1}."
 msgstr "يجب أن يكون {0} أحد: {1}."
 

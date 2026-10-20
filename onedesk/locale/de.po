@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-20 15:35+0000\n"
+"POT-Creation-Date: 2026-10-20 15:46+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -1028,7 +1028,7 @@ msgstr "Eine Notiz an die Angefragten."
 msgid "A number a document refers to: an invoice, an order, a case."
 msgstr "Eine Nummer, auf die ein Dokument verweist: eine Rechnung, ein Auftrag, ein Vorgang."
 
-#: onedesk/one_sheet/table.py:120
+#: onedesk/one_sheet/table.py:150
 msgid "A number."
 msgstr "Eine Zahl."
 
@@ -1387,7 +1387,7 @@ msgstr "Die Lieferantenbewertung bewertet nach {0}."
 msgid "A table block names its table: {table: 'items', columns: ['item_name:45', 'qty:15']}."
 msgstr "Ein Tabellenblock nennt seine Tabelle: {table: 'items', columns: ['item_name:45', 'qty:15']}."
 
-#: onedesk/one_sheet/table.py:344
+#: onedesk/one_sheet/table.py:377
 msgid "A table takes at most {0} rows from a workbook."
 msgstr "Eine Tabelle übernimmt höchstens {0} Zeilen aus einer Arbeitsmappe."
 
@@ -7607,7 +7607,7 @@ msgstr "Dateien auswählen"
 msgid "Choose from OneCloud"
 msgstr "Aus OneCloud wählen"
 
-#: onedesk/one_sheet/table.py:116
+#: onedesk/one_sheet/table.py:146
 msgid "Choose one from the list."
 msgstr "Wählen Sie einen Eintrag aus der Liste."
 
@@ -34625,7 +34625,15 @@ msgstr ""
 msgid "Row"
 msgstr ""
 
-#: onedesk/one_sheet/table.py:200
+#: onedesk/one_sheet/table.py:127
+msgid "Row #{0}"
+msgstr "Zeile #{0}"
+
+#: onedesk/one_sheet/table.py:127 onedesk/one_sheet/table.py:132
+msgid "Row {0}"
+msgstr "Zeile {0}"
+
+#: onedesk/one_sheet/table.py:230
 msgid "Row {0}: {1}"
 msgstr "Zeile {0}: {1}"
 
@@ -39290,7 +39298,7 @@ msgstr "Steuernummer (TRN)"
 msgid "TRN {0}"
 msgstr "TRN {0}"
 
-#: onedesk/one_sheet/table.py:118
+#: onedesk/one_sheet/table.py:148
 msgid "TRUE or FALSE."
 msgstr "TRUE oder FALSE."
 
@@ -40262,7 +40270,7 @@ msgstr "Das sind {0} Varianten. Erstellen Sie höchstens {1} auf einmal."
 msgid "That isn't a cell."
 msgstr "Das ist keine Zelle."
 
-#: onedesk/one_sheet/table.py:250
+#: onedesk/one_sheet/table.py:280
 msgid "That isn't a table on this record."
 msgstr "Das ist keine Tabelle in diesem Datensatz."
 
@@ -40615,7 +40623,7 @@ msgstr "Die letzten vier Zeichen des Codes, um Codes zu unterscheiden. Der Code 
 msgid "The colour a letter head carries, in the company's name, its lines and a banner's band."
 msgstr "Die Farbe eines Briefkopfs, im Firmennamen, in seinen Linien und im Band eines Banners."
 
-#: onedesk/one_sheet/table.py:184
+#: onedesk/one_sheet/table.py:214
 msgid "The column {0} isn't in the sheet any more. Undo, or open the workbook again from the record."
 msgstr "Die Spalte {0} ist nicht mehr im Blatt. Machen Sie es rückgängig oder öffnen Sie die Arbeitsmappe erneut aus dem Datensatz."
 
@@ -41573,11 +41581,11 @@ msgstr "Der Kurs zwischen zwei Währungen an einem Tag."
 msgid "The record changed after this was suggested."
 msgstr "Der Datensatz hat sich nach diesem Vorschlag geändert."
 
-#: onedesk/one_sheet/table.py:353
+#: onedesk/one_sheet/table.py:386
 msgid "The record didn't take this table."
 msgstr "Der Datensatz hat diese Tabelle nicht übernommen."
 
-#: onedesk/one_sheet/table.py:358
+#: onedesk/one_sheet/table.py:391
 msgid "The record didn't take this table. The error is in the error log."
 msgstr "Der Datensatz hat diese Tabelle nicht übernommen. Der Fehler steht im Fehlerprotokoll."
 
@@ -41658,7 +41666,7 @@ msgstr "Der Server hat die E-Mail-Adresse oder das Passwort abgelehnt."
 msgid "The server's name or address."
 msgstr "Name oder Adresse des Servers."
 
-#: onedesk/one_sheet/table.py:179
+#: onedesk/one_sheet/table.py:209
 msgid "The sheet's hidden first column is gone. Undo, or open the workbook again from the record."
 msgstr "Die verborgene erste Spalte des Blatts fehlt. Machen Sie es rückgängig oder öffnen Sie die Arbeitsmappe erneut aus dem Datensatz."
 
@@ -42630,7 +42638,7 @@ msgstr "Diese Site verwaltet keine Arbeitsbereiche."
 msgid "This suggestion does not change how anything prints."
 msgstr "Dieser Vorschlag ändert nicht, wie etwas gedruckt wird."
 
-#: onedesk/one_sheet/table.py:257
+#: onedesk/one_sheet/table.py:290
 msgid "This table has no columns a sheet can hold."
 msgstr "Diese Tabelle hat keine Spalten, die ein Blatt aufnehmen kann."
 
@@ -51647,7 +51655,7 @@ msgstr "die Löschung Ihrer Daten"
 msgid "your quotations, orders and invoices"
 msgstr "Ihre Angebote, Aufträge und Rechnungen"
 
-#: onedesk/one_sheet/table.py:342
+#: onedesk/one_sheet/table.py:375
 msgid "{0} (and {1} more)"
 msgstr "{0} (und {1} weitere)"
 
@@ -52073,7 +52081,7 @@ msgstr "{0} hat sich nach dem Vorschlag geändert, daher gilt er nicht mehr."
 msgid "{0} changed in this save. Save it first, then edit what it links to."
 msgstr "{0} hat sich mit diesem Speichern geändert. Zuerst speichern, dann das Verknüpfte bearbeiten."
 
-#: onedesk/one_sheet/table.py:334
+#: onedesk/one_sheet/table.py:367
 msgid "{0} changed on the record since this sheet last matched it. Open the workbook again from the record to bring it in."
 msgstr "{0} wurde im Datensatz geändert, seit dieses Blatt zuletzt übereinstimmte. Öffnen Sie die Arbeitsmappe erneut aus dem Datensatz, um die Änderungen zu übernehmen."
 
@@ -52562,7 +52570,7 @@ msgstr "{0} abgerechnet"
 msgid "{0} invoices"
 msgstr "{0} Rechnungen"
 
-#: onedesk/one_sheet/table.py:82
+#: onedesk/one_sheet/table.py:89
 msgid "{0} is TRUE or FALSE."
 msgstr "{0} ist TRUE oder FALSE."
 
@@ -53209,15 +53217,23 @@ msgstr "{0} von {1} in den Einbehalt verschoben."
 msgid "{0} moved from {1} to {2}."
 msgstr "{0} von {1} nach {2} umgebucht."
 
-#: onedesk/one_sheet/table.py:101
+#: onedesk/one_sheet/table.py:113
+msgid "{0} must be a date and time, such as 2026-10-21 09:30."
+msgstr "{0} muss ein Datum mit Uhrzeit sein, zum Beispiel 2026-10-21 09:30."
+
+#: onedesk/one_sheet/table.py:108
 msgid "{0} must be a date, such as 2026-10-21."
 msgstr "{0} muss ein Datum sein, zum Beispiel 2026-10-21."
 
-#: onedesk/one_sheet/table.py:89
+#: onedesk/one_sheet/table.py:96
 msgid "{0} must be a number."
 msgstr "{0} muss eine Zahl sein."
 
-#: onedesk/one_sheet/table.py:91
+#: onedesk/one_sheet/table.py:118
+msgid "{0} must be a time, such as 09:30."
+msgstr "{0} muss eine Uhrzeit sein, zum Beispiel 09:30."
+
+#: onedesk/one_sheet/table.py:98
 msgid "{0} must be a whole number."
 msgstr "{0} muss eine ganze Zahl sein."
 
@@ -53225,7 +53241,7 @@ msgstr "{0} muss eine ganze Zahl sein."
 msgid "{0} must be kept by law until {1}."
 msgstr "{0} muss gesetzlich bis {1} aufbewahrt werden."
 
-#: onedesk/one_sheet/table.py:103
+#: onedesk/one_sheet/table.py:120
 msgid "{0} must be one of: {1}."
 msgstr "{0} muss einer der folgenden Werte sein: {1}."
 

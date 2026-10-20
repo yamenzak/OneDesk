@@ -84,12 +84,13 @@ def test_the_relay_names_the_room_and_keeps_readers_from_writing():
 def test_a_table_sheet_reads_back_as_the_table():
 	import hashlib
 	import json
-	from datetime import date, timedelta
+	import re
+	from datetime import date, datetime, time, timedelta
 
-	room = {"_": lambda text: text, "hashlib": hashlib, "json": json, "date": date, "timedelta": timedelta}
+	room = {"_": lambda text: text, "hashlib": hashlib, "json": json, "re": re, "date": date, "datetime": datetime, "time": time, "timedelta": timedelta}
 	_lifted(SHEET / "assist.py", ("letters",), room)
 	names = ("NUMBER", "TEXT", "SHOWN", "MOST_COLUMNS", "MOST_ROWS", "SPARE", "LOCKED_TO", "MARK", "YES", "NO", "EPOCH")
-	_lifted(SHEET / "table.py", (*names, "columns", "shown", "taken", "fingerprint", "_rule", "laid", "placed", "read", "back"), room)
+	_lifted(SHEET / "table.py", (*names, "columns", "shown", "taken", "lined", "fingerprint", "_rule", "laid", "placed", "read", "back"), room)
 	fields = [
 		{"fieldname": "item_code", "label": "Item", "fieldtype": "Link", "in_list_view": 1, "reqd": 1},
 		{"fieldname": "notes", "label": "Notes", "fieldtype": "Text Editor", "in_list_view": 1},
@@ -101,12 +102,19 @@ def test_a_table_sheet_reads_back_as_the_table():
 	cols = room["columns"](fields)
 	assert [col["fieldname"] for col in cols] == ["name", "item_code", "kind", "qty", "amount"], "no editor fields, nothing hidden"
 	assert cols[2]["options"] == ["Supply", "Fit"] and cols[4]["read_only"]
+	fields.append({"fieldname": "free", "label": "Free", "fieldtype": "Check"})
+	picked = room["columns"](fields, ["free", "qty", "notes"])
+	assert [col["fieldname"] for col in picked] == ["name", "free", "qty", "item_code"], "the grid's gear decides, and required stays"
 
 	assert room["shown"](420.0, "Float") == "420" and room["shown"](6.75, "Currency") == "6.75" and room["shown"](0, "Check") == "FALSE"
 	assert room["taken"]("1,260", cols[3]) == (1260.0, None)
 	assert room["taken"]("lots", cols[3])[1] == "Qty must be a number."
 	assert room["taken"]("Paint", cols[2])[1] == "Kind must be one of: Supply, Fit."
-	assert room["taken"]("46000", {"fieldtype": "Date", "header": "On"}) == ("2025-12-09", None), "a date the grid worked out as a number"
+	assert room["taken"]("46000", {"fieldtype": "Date", "header": "On"}) == (date(2025, 12, 9), None), "a date the grid worked out as a number"
+	assert room["taken"]("2026-10-21 09:30", {"fieldtype": "Datetime", "header": "At"}) == (datetime(2026, 10, 21, 9, 30), None)
+	assert room["taken"]("half nine", {"fieldtype": "Time", "header": "At"})[1] == "At must be a time, such as 09:30."
+	assert room["lined"]("Row #2: Quantity can't be zero. Row #12 too.", [{"line": 2}, {"line": 4}]) == "Row 4: Quantity can't be zero. Row #12 too."
+	assert room["lined"]("Row 1: Quantity (12.5) cannot be a fraction.", [{"line": 2}]) == "Row 2: Quantity (12.5) cannot be a fraction."
 
 	table = [{"name": "r1", "item_code": "GL", "kind": "Supply", "qty": 6, "amount": 600}]
 	mark = room["fingerprint"](0, table, cols)
