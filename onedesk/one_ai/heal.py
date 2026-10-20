@@ -1,7 +1,7 @@
 """What an error tells the model to do next.
 
-Each kind of failure is said with the one thing that mends it, and a refusal
-says not to try again. Nothing here names the software underneath: the model
+The server's own error goes first, as it sent it, then the one thing that
+mends it; a refusal says not to try again. Nothing here names the software underneath: the model
 repeats what it reads. README, heal.py.
 """
 
@@ -11,48 +11,44 @@ import re
 import frappe
 from frappe.utils import strip_html
 
-MOST = 700
+MOST = 3000
 
 UNDERNEATH = re.compile(r"\b(frappe|erpnext|hrms)\b(\.\w+)*", re.I)
 
 
 def said(raised: Exception, tool: str | None = None, args: dict | None = None, fn=None) -> str:
-	"""The error, said so that a model can act on it."""
-	args = args or {}
-	text = _plain(raised)
-	if isinstance(raised, TypeError) and fn is not None and _about_arguments(text):
+	"""The server's own error as it sent it, with its kind, and on a line of
+	its own what mends it."""
+	raw = _plain(raised) or type(raised).__name__
+	fix = _fix(raised, raw, tool, args or {}, fn)
+	return _clip(f"{type(raised).__name__}: {raw}") + (f"\nWhat to do: {fix}" if fix else "")
+
+
+def _fix(raised: Exception, raw: str, tool: str | None, args: dict, fn) -> str:
+	if isinstance(raised, TypeError) and fn is not None and _about_arguments(raw):
 		return _arguments(tool, fn, args)
 	if isinstance(raised, frappe.PermissionError):
-		return _clip(
-			f"{text} The person asking may not do this, so do not try again: tell them, and that "
-			"somebody who looks after the workspace could."
+		return (
+			"The person asking may not do this, so do not try again: tell them, and that somebody who looks "
+			"after the workspace could."
 		)
 	if isinstance(raised, frappe.DuplicateEntryError):
-		return _clip(
-			f"{text} It exists already: use that one (read it with read_record), or change it with edit_record, "
-			"rather than making it again."
-		)
-	if isinstance(raised, frappe.LinkValidationError) or text.startswith("Could not find"):
-		return _clip(
-			f"{text} Find the right one with find_records (the type and the words the person used) and use the "
-			"id it answers with. If it does not exist yet, suggest it first and point at its card with @ and the "
+		return "It exists already: use that one (read it with read_record), or change it with edit_record."
+	if isinstance(raised, frappe.LinkValidationError) or raw.startswith("Could not find"):
+		return (
+			"Find the right one with find_records (the type and the words the person used) and use the id it "
+			"answers with. If it does not exist yet, suggest it first and point at its card with @ and the "
 			"card's id, or suggest both together with create_records."
 		)
 	if isinstance(raised, frappe.DoesNotExistError):
-		return _clip(
-			f"{text} Look for it with search_everywhere or find_records and use the id it answers with; "
-			"never guess an id."
-		)
+		return "Look for it with search_everywhere or find_records and use the id it answers with; never guess an id."
 	if isinstance(raised, frappe.TimestampMismatchError):
-		return _clip(f"{text} It changed since it was read: read it again, then suggest the change again.")
+		return "It changed since it was read: read it again, then suggest the change again."
 	if isinstance(raised, frappe.MandatoryError):
-		return _clip(_mandatory(text, args))
+		return _mandatory(raw, args)
 	if isinstance(raised, frappe.ValidationError):
-		return _clip(f"{text}{'' if text.endswith('.') else '.'} Correct what it names and call again.")
-	return _clip(
-		f"{text or type(raised).__name__}. Something went wrong that was not about what you asked: "
-		"try once more, differently if you can, then tell the person it did not work."
-	)
+		return "Correct what it names and call again."
+	return "This was not about what you asked: try once more, differently if you can, then tell the person it did not work."
 
 
 def unknown(tool: str | None, known: list[str]) -> str:
@@ -90,20 +86,18 @@ def _arguments(tool: str | None, fn, args: dict) -> str:
 	return " ".join(said)
 
 
-def _mandatory(text: str, args: dict) -> str:
-	"""A record missing what it needs, by label, with how to fill each."""
-	if "Still needed" in text or "suggest it again" in text:
-		return text
+def _mandatory(raw: str, args: dict) -> str:
+	"""What a record still needs, by label, and how to fill it."""
+	ask = "Fill them from what the person already said, or find a value with about_field; ask them only for what they have not said."
+	if "Still needed" in raw or "suggest it again" in raw:
+		return ask
 	doctype = args.get("doctype")
-	named = re.findall(r"\b[a-z][a-z0-9_]+\b", text.split("]:", 1)[-1]) if "]:" in text else []
+	named = re.findall(r"\b[a-z][a-z0-9_]+\b", raw.split("]:", 1)[-1]) if "]:" in raw else []
 	if doctype and named and frappe.db.exists("DocType", doctype):
 		meta = frappe.get_meta(doctype)
 		labels = [f"{(meta.get_field(one) and meta.get_field(one).label) or one} ({one})" for one in named]
-		text = f"{doctype} still needs: {', '.join(labels)}"
-	return (
-		f"{text}. Fill them from what the person already said, or find a value with about_field; "
-		"ask them only for what they have not said."
-	)
+		return f"{doctype} still needs {', '.join(labels)}. {ask}"
+	return ask
 
 
 def _about_arguments(text: str) -> bool:
@@ -111,12 +105,9 @@ def _about_arguments(text: str) -> bool:
 
 
 def _plain(raised: Exception) -> str:
-	"""The message, without markup, the code's own names, or the software's."""
-	text = strip_html(str(raised) or "").strip()
-	text = re.sub(r"^\w+\(\)\s*", "", text)
-	text = re.sub(r"\bDocType\b", "type of record", text)
-	text = UNDERNEATH.sub("One", text)
-	return " ".join(text.split())
+	"""The message as the server sent it, without markup, and without naming
+	the software underneath."""
+	return " ".join(UNDERNEATH.sub("One", strip_html(str(raised) or "")).split())
 
 
 def _near(tool: str, known: list[str]) -> list[str]:

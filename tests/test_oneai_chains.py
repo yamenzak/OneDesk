@@ -123,7 +123,9 @@ def test_an_error_is_answered_with_what_mends_it():
 def test_a_refusal_says_not_to_try_again():
 	heal = (AI / "heal.py").read_text(encoding="utf-8")
 	said = _source(AI / "heal.py", "said")
-	assert said.index("PermissionError") < said.index("ValidationError"), "a refusal is not something to mend"
+	assert "type(raised).__name__" in said and "What to do:" in said, "the server's own error first, then the fix"
+	fix = _source(AI / "heal.py", "_fix")
+	assert fix.index("PermissionError") < fix.index("ValidationError"), "a refusal is not something to mend"
 	assert "do not try again" in heal
 
 

@@ -592,7 +592,8 @@ def _first(error) -> str | None:
 	the fields a type has, the values there are — is written for the model."""
 	if not error:
 		return None
-	said = str(error).split(". ", 1)[0].strip()
+	said = re.sub(r"^\w+(Error|Exception): ", "", str(error).split("\nWhat to do:", 1)[0])
+	said = said.split(". ", 1)[0].strip()
 	return said if said.endswith(".") else said + "."
 
 

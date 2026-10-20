@@ -354,14 +354,15 @@ deliberately not here.
   was made by an approved Create card (`ai_made`), which the form shows as
   **Made by OneAI** under Created By.
 - `heal.py`: what an error tells the model to do next. A tool that fails
-  answers with its error rather than raising, and the error as the code raised
-  it is written for whoever wrote the code: "[Quotation, new]: party_name"
-  reads to a model as "this cannot be done". So each kind is said with what
-  mends it: a missing field by its label and where to find a value, a record
-  that cannot be found with the tool that finds it, a duplicate with the one
-  that exists, the arguments a tool really takes, the nearest tools to one
-  that does not exist. A refusal says not to try again. Nothing it says names
-  the software underneath. In the panel, a card that fails at Approve is sent
+  answers with the server's own error, as it was sent and with its kind
+  (`MandatoryError: [Quotation, new]: party_name`), because that is what a
+  model reads most easily. On a line of its own under it, `What to do:` says
+  what mends that kind: a missing field by its label and where to find a
+  value, a record that cannot be found with the tool that finds it, a
+  duplicate with the one that exists, the arguments a tool really takes, the
+  nearest tools to one that does not exist. A refusal says not to try again.
+  Only the software's own name is taken out of the message. The panel shows
+  the person the first sentence, without the kind or the fix. In the panel, a card that fails at Approve is sent
   back as a message saying why, and the model suggests it again.
 
   **One path, not two.** The control beside a prose field opens the same
