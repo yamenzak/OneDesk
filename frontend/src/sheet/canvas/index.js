@@ -1,5 +1,6 @@
 // Derived from frappe/suite@df7f341 (frontend/src/apps/sheets)/canvas/index.js. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md.
 import { createGeometry } from './geometry.js'
+import { onPicture } from '../shim/pictures.js' // One
 import { createRenderer } from './renderer.js'
 import { createOverlay }  from './overlay.js'
 import { createScrollbars } from './scrollbars.js'
@@ -94,6 +95,7 @@ export function createGrid(canvas, { onSelect, onCommit, onInput, onCancel, getF
   }
 
   const _renderListeners = []
+  const _offPicture = onPicture(() => render()) // One: a picture IMAGE() asked for has arrived
   function onRender(cb) { _renderListeners.push(cb); return () => { const i = _renderListeners.indexOf(cb); if (i >= 0) _renderListeners.splice(i, 1) } }
 
   // Diff overlay: { 'A1': true, ... } for the active sheet.  Used in version-
@@ -1834,6 +1836,7 @@ export function createGrid(canvas, { onSelect, onCommit, onInput, onCancel, getF
   }
 
   function destroy() {
+    _offPicture()
     overlay.remove()
     scrollbars.destroy()
     _acEl?.remove()

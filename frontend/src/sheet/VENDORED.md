@@ -46,6 +46,10 @@ Each is marked `One:` in the file.
 | `canvas/index.js` (again) | a link cell (`type: 'link'`) starts its edit from the caret (`beginEdit`); `commitWith` ends an edit with a picked value; `onEditKey` lets the list under the cell take Up, Down, Enter, Tab and Esc; clicking cells while typing a formula in the cell itself picks them, as from the formula bar (`_pickTarget` took only an input, and the cell's editor is a textarea) |
 | `canvas/painters/cell-painter.js` | an empty link cell shows the dropdown caret |
 | `components/SheetEditor/index.vue` (links) | a link column's search (`shim/LinkSearch.vue`), Create Them for names the record can't find, File › Add Sheets From a Template (`shim/AddSheetsDialog.vue`), and the table's sheet drawn again when the record changes on its form (`one_table_changed`) |
+| `engine/formula.js` (brand) | `RECORD()`, `BRAND()` read `setContext`'s record and company; `IMAGE()` answers a picture spec on the sparkline path |
+| `canvas/painters/cell-painter.js` (picture) | a spec with `image` is drawn as a picture fitted to the cell (`shim/pictures.js`); `canvas/index.js` repaints when one loads |
+| `utils/format-number.js` | `currency:` takes any ISO code (AED was shown as USD); a format ending in `;` shows a zero as blank |
+| `components/SheetEditor/usePersistence.js` (brand) | hands `get_sheet`'s `record` and `brand` to `setContext` on load |
 | `engine/xlsx-io.js` | an imported formula goes through `shim/excel.js`, which drops `_xlfn.` and maps `CEILING.MATH` and the like to the classic names |
 | every `.vue` and the menus' `.js` | the words go through `__` (imported from `kit/desk` in scripts) so they reach Arabic and German; not marked, since there are about 730 |
 

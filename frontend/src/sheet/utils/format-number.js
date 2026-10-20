@@ -164,6 +164,12 @@ const DATE_LIKE = new Set(['date', 'time', 'datetime'])
 
 export function applyNumberFmt(value, format) {
   if (!format) return value
+  // One: a format ending in ";" shows a zero as blank, as Excel's empty
+  // zero section does: `currency:EUR:2;`.
+  if (String(format).endsWith(';')) {
+    if (value !== '' && value != null && Number(value) === 0) return ''
+    format = String(format).slice(0, -1)
+  }
   if (String(format).startsWith('custom:')) return applyCustomFmt(value, String(format).slice(7))
   const { type, variant, decimals } = parseNumberFmt(format)
   // Text format leaves the value untouched (no numeric coercion at display).
@@ -177,10 +183,11 @@ export function applyNumberFmt(value, format) {
     return _numFmt(loc, decimals).format(n)
   }
   if (type === 'currency') {
-    const code = CURRENCIES[variant] ? variant : 'USD'
-    const cfg  = CURRENCIES[code]
+    // One: any ISO code Intl knows, not only the eight above.
+    const code = CURRENCIES[variant] ? variant : (/^[A-Z]{3}$/.test(variant || '') ? variant : 'USD')
+    const cfg  = CURRENCIES[code] || { locale: undefined, defaultDecimals: 2 }
     const d    = decimals ?? cfg.defaultDecimals
-    return _curFmt(cfg.locale, code, d).format(n)
+    try { return _curFmt(cfg.locale, code, d).format(n) } catch { return _curFmt('en-US', 'USD', d).format(n) }
   }
   if (type === 'percentage') return (n * 100).toFixed(decimals ?? 2) + '%'
   if (type === 'date') {

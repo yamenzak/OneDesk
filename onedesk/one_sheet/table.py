@@ -250,9 +250,12 @@ def emptied(data: dict, sheet: str) -> dict:
 	return out
 
 
-def placed(data: dict, sheet: str, layout: dict) -> dict:
+def placed(data: dict, sheet: str, layout: dict, look: dict | None = None, fresh: bool = False) -> dict:
 	"""A workbook's content with the bound sheet drawn in, first; the other
-	sheets, and the bound sheet's column widths, are kept. Pure."""
+	sheets, and the bound sheet's column widths, are kept. `look`
+	(style.table) formats the bound sheet the first time only, so what
+	somebody formatted since stays; `fresh`, for a workbook just made from a
+	template whose columns may lie in another order, formats it anew. Pure."""
 	held = data.get("sheet")
 	if not isinstance(held, dict) or held.get("v") != 2:
 		held = {"v": 2, "current": sheet, "sheets": {}}
@@ -265,10 +268,25 @@ def placed(data: dict, sheet: str, layout: dict) -> dict:
 		part = data.get(key)
 		if not isinstance(part, dict) or (key == "view" and "colW" in part):
 			part = {}
-		was = part.get(sheet) if key == "view" and isinstance(part.get(sheet), dict) else {}
-		part[sheet] = {**was, **layout[key]}
+		was = part.get(sheet) if key == "view" and isinstance(part.get(sheet), dict) and not fresh else {}
+		first = {"colW": look["colW"], "rowH": look["rowH"]} if look and key == "view" else {}
+		part[sheet] = {**first, **was, **layout[key]}
 		data[key] = part
+	if look:
+		formats = data.get("formats") if isinstance(data.get("formats"), dict) else {}
+		if fresh or not formats.get(sheet):
+			formats[sheet] = look["formats"]
+		data["formats"] = formats
 	return data
+
+
+def _look(doc, cols: list[dict]) -> dict:
+	"""How a record's table sheet is formatted: style.table with the
+	company's colour and the record's currency."""
+	from onedesk.one_sheet import style
+
+	brand = style.brand()
+	return style.table(cols, brand["colour"], doc.get("currency") or brand["currency"], style.precisions())
 
 
 def read(sent: list, cols: list[dict]) -> tuple[dict, list[dict], list[str]]:
@@ -374,7 +392,7 @@ def open_table(doctype: str, name: str, field: str, template: str | None = None)
 	if len(cols) < 2:
 		frappe.throw(_("This table has no columns a sheet can hold."))
 	table = doc.get(field)
-	data = placed(data, sheet, laid(cols, table, fingerprint(doc.docstatus, table, cols), doc.docstatus != 0, formulas))
+	data = placed(data, sheet, laid(cols, table, fingerprint(doc.docstatus, table, cols), doc.docstatus != 0, formulas), _look(doc, cols), fresh=True)
 	title = api._titled(f"{doc.name} {_(df.label or field)}")
 	book = frappe.get_doc(
 		{
@@ -422,7 +440,7 @@ def refresh(name: str) -> None:
 	lines = stored(data, book.bound_sheet)
 	if MARK + mark in (lines.get("0") or []):
 		return
-	data = placed(data, book.bound_sheet, laid(cols, table, mark, doc.docstatus != 0, kept(lines, cols)))
+	data = placed(data, book.bound_sheet, laid(cols, table, mark, doc.docstatus != 0, kept(lines, cols)), _look(doc, cols))
 	frappe.db.set_value(api.WORKBOOK, name, "sheets_data", storage.encode_sheets_data(json.dumps(data, default=str)), update_modified=False)
 
 
@@ -452,7 +470,7 @@ def redrawn(name: str) -> dict:
 	refresh(name)
 	book = _held(name)
 	if not book or not book.bound_doctype:
-		return {"sheet": None, "cells": {}}
+		return {"sheet": None, "cells": {}, "record": {}}
 	data = json.loads(storage.decode_sheets_data(book.sheets_data) or "{}")
 	cells = {
 		f"{letters(col)}{int(line) + 1}": value
@@ -460,7 +478,21 @@ def redrawn(name: str) -> dict:
 		for col, value in enumerate(values or [])
 		if value not in (None, "")
 	}
-	return {"sheet": book.bound_sheet, "cells": cells}
+	return {"sheet": book.bound_sheet, "cells": cells, "record": record_of(name)}
+
+
+def record_of(name: str) -> dict:
+	"""The record a table's workbook belongs to, as RECORD() reads it; empty
+	for any other workbook or a reader who may not see the record."""
+	from onedesk.one_sheet import style
+
+	book = frappe.db.get_value(api.WORKBOOK, name, ["bound_doctype", "bound_name"], as_dict=True)
+	if not book or not book.bound_doctype or not frappe.db.exists(book.bound_doctype, book.bound_name):
+		return {}
+	doc = frappe.get_doc(book.bound_doctype, book.bound_name)
+	if not doc.has_permission("read"):
+		return {}
+	return style.record(doc)
 
 
 def bound(name: str) -> dict | None:

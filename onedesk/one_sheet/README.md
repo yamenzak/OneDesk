@@ -132,6 +132,26 @@ the other sheets and the formulas in the table, but not the table's rows,
 which each record has its own of. The first time someone opens that table
 in a workbook, they choose the template or the table as it is.
 
+## Branded sheets
+
+A sheet can carry the company and the record it is for:
+
+- `=BRAND("logo")` inside `=IMAGE(...)` draws the company's logo in the
+  cell, fitted to it; `=BRAND("name")`, `"address"`, `"phone"`, `"email"`,
+  `"website"`, `"tax_id"`, `"currency"` and `"colour"` read the rest from
+  General.
+- `=RECORD("customer_name")`, `=RECORD("transaction_date")` or any other
+  field read the record a table's workbook belongs to, as its form shows
+  them. In any other workbook they are blank.
+
+A record's table sheet is formatted when it is made: the header on the
+company's colour, money in the record's currency, numbers to the
+workspace's decimals, what the record works out in grey, and widths by
+what each column holds. Formatting it yourself afterwards stays.
+
+A number format can show a zero as blank, as a finished costing does on
+its empty lines.
+
 ## Filling the table from another sheet
 
 Type a formula in the table's first line that reads a whole column of
@@ -355,6 +375,28 @@ read as the number 0; `Sheet!$A4` didn't read; and a cell such as "120cm
 Glass Handrail" was the number 120. Excel's `_xlfn.CEILING.MATH` and the
 other dotted names are read as the classic functions on import
 (`shim/excel.js`).
+
+### Branded sheets, `style.py`
+
+`brand` is General's company (`letter_heads.company`) with its currency;
+`record` is a record's own fields through `frappe.format`, stripped of
+markup. `get_sheet` sends both (`brand`, `record`, the latter only for a
+table's workbook whose record the reader may see), `redrawn` sends the
+record again, and the editor hands them to the engine's `setContext`, which
+`RECORD()` and `BRAND()` read; `IMAGE()` answers a spec the sparkline
+painter's path draws as a picture (`shim/pictures.js` loads each once and
+repaints). `table` is a record's table sheet's formats, laid in by
+`table.placed` the first time only, or anew (`fresh`) for a workbook just
+made from a template whose columns may lie in another order. `branded` lays
+out a sheet under the company: the logo over three rows and two columns,
+the name, title and address beside it, up to six label and formula pairs
+from column G, a stripe and a header of its colour, a line's formulas on
+every line with what they work out in grey and the key figures marked, a
+zero there blank (`;` at the end of a number format), and the totals two
+rows under. Rua's costing templates are built with it. Formats are the
+editor's own shapes: `formats` per sheet as `cells`, `cols` and `rows`;
+`merge` as `masterMap` and `slaveMap`; `view` as widths, heights and frozen
+rows and columns.
 
 ### History, `versions.py`
 

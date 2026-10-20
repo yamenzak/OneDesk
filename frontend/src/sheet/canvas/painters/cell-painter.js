@@ -7,6 +7,7 @@ import { checkboxRect, CHECKBOX } from '../checkbox-geometry.js'
 import { checkRule } from '../../engine/validation.js'
 import { sparkGeometry } from '../../engine/sparkline.js'
 import { prefersLightInk } from '../../utils/contrast.js'
+import { picture } from '../../shim/pictures.js' // One: IMAGE()
 
 export function createCellPainter(ctx, { cw, rh, colX, rowY }) {
 
@@ -117,7 +118,7 @@ export function createCellPainter(ctx, { cw, rh, colX, rowY }) {
     const { id, val, fmt, condFmt, x, y, w, h } = g
     // A sparkline cell renders a mini chart in place of text.
     const spark = getSparkline?.(id)
-    if (spark) { _drawSparkline(x, y, w, h, spark); return }
+    if (spark) { spark.image ? _drawPicture(x, y, w, h, spark.image, fmt) : _drawSparkline(x, y, w, h, spark); return } // One: a picture too
     if (val == null || val === '') return
     // List / checkbox cells render their value as a chip or tickbox in the bg
     // pass — don't paint the raw text a second time on top.
@@ -153,6 +154,19 @@ export function createCellPainter(ctx, { cw, rh, colX, rowY }) {
       }
     }
     _drawCellText(drawX, y, drawW, h, s, efmt, rightInset)
+  }
+
+  // One: a picture fitted inside the cell, its proportions kept, placed by
+  // the cell's alignment; nothing until it has loaded.
+  function _drawPicture(x, y, w, h, url, fmt) {
+    const img = picture(url)
+    if (!img) return
+    const pad = 4, bw = w - pad * 2, bh = h - pad * 2
+    if (bw <= 0 || bh <= 0) return
+    const k = Math.min(bw / img.naturalWidth, bh / img.naturalHeight)
+    const iw = img.naturalWidth * k, ih = img.naturalHeight * k
+    const ix = fmt?.align === 'center' ? x + (w - iw) / 2 : fmt?.align === 'right' ? x + w - pad - iw : x + pad
+    ctx.drawImage(img, ix, y + (h - ih) / 2, iw, ih)
   }
 
   // Paint a sparkline spec into the cell box. Geometry (points / bars) comes

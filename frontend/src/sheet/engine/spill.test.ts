@@ -73,3 +73,25 @@ describe('spill', () => {
     expect(sheet.getDisplayValue('A1', 'Items')).toBe('#CIRCULAR!')
   })
 })
+
+describe('record, brand and picture', () => {
+  it('reads the record and the company, blank without them', async () => {
+    const { setContext } = await import('./formula.js')
+    const sheet = createSheet()
+    setContext({ record: { name: 'QTN-1', customer_name: 'Osei' }, brand: { name: 'Sahara', logo: '/files/logo.png' } })
+    sheet.setCell('A1', '=RECORD("customer_name")')
+    sheet.setCell('A2', '=BRAND("name")&" / "&RECORD("name")')
+    sheet.setCell('A3', '=RECORD("nothing")')
+    sheet.setCell('A4', '=IMAGE(BRAND("logo"))')
+    expect(['A1', 'A2', 'A3', 'A4'].map(id => sheet.getDisplayValue(id))).toEqual(['Osei', 'Sahara / QTN-1', '', ''])
+    expect(sheet.getCellValue('A4')).toEqual({ __spark: true, image: '/files/logo.png' })
+    setContext({ record: {}, brand: {} })
+  })
+
+  it('shows a zero as blank when the format says so', async () => {
+    const { applyNumberFmt } = await import('../utils/format-number.js')
+    expect(applyNumberFmt(0, 'currency:AED:2;')).toBe('')
+    expect(applyNumberFmt(12.5, 'currency:AED:2;')).toMatch(/AED\s?12\.50/)
+    expect(applyNumberFmt(0, 'currency:AED:2')).toMatch(/AED\s?0\.00/)
+  })
+})

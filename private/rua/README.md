@@ -129,7 +129,11 @@ Rua's estimators price a job in a costing sheet, one line per opening.
 family of systems (`setup.COSTINGS`): **Costing (Alumil, Gutmann,
 Technal)** and **Costing (Gulf Extrusion)**. A template is the sheet's
 header, its formulas on 100 lines and its totals, and nothing a job types:
-no items, sizes, glass prices or kilos. Gulf Extrusion's sizes are in
+no items, sizes, glass prices or kilos. It is laid out under the company's
+brand (`one_sheet/style.branded`): the logo and name on top, the
+quotation's number, customer, date, validity, currency and status beside
+them, the header on the company's colour, what the formulas work out in
+grey and the rate and overall price marked, money in dirhams. Gulf Extrusion's sizes are in
 centimetres and its aluminium is priced from its weight, powder coated or
 mill finish; Alumil's sizes are in millimetres.
 

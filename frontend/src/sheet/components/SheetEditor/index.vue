@@ -1328,6 +1328,7 @@ import { getFunctionNames }    from '../../engine/formula.js'
 import NamedRangesDialog       from './NamedRangesDialog.vue'
 import { focused } from '../../shim/focus.js' // One: focus inside the island's shadow root
 import LinkSearch              from '../../shim/LinkSearch.vue' // One: a link column's records
+import { setContext }          from '../../engine/formula.js' // One: RECORD() after a redraw
 import AddSheetsDialog         from '../../shim/AddSheetsDialog.vue' // One: a template's sheets into this workbook
 import TemplateDialog          from '../../shim/TemplateDialog.vue' // One: templates
 import { useSmartFill }        from './useSmartFill.js'
@@ -2542,6 +2543,7 @@ watch(bound, (now) => {
     if (said?.workbook !== props.id || isDirty.value) return
     const drawn = await call('onedesk.one_sheet.table.redrawn', { name: props.id })
     if (!drawn?.sheet) return
+    setContext({ record: drawn.record || {} })
     sheet.batchSetCells(drawn.cells || {}, drawn.sheet, { replace: true })
     tableNotice.value = ''
     tableMissing.value = null

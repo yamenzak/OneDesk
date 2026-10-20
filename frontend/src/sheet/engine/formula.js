@@ -256,6 +256,12 @@ const _BY_CELL = new Set([
 	'DATEVALUE','ISBLANK','ISNUMBER','ISTEXT','ISERROR','ISERR','ISNA','ISLOGICAL','ISODD','ISEVEN','N','T',
 ])
 
+// One: what RECORD() and BRAND() read: the record a table's workbook belongs
+// to, its fields as its form shows them, and the company's name, logo,
+// colour and the rest. Set when the workbook opens.
+let _context = { record: {}, brand: {} }
+export function setContext(ctx) { _context = { record: ctx?.record ?? _context.record ?? {}, brand: ctx?.brand ?? _context.brand ?? {} } }
+
 // ─── Built-in functions ───────────────────────────────────────────────────────
 const FUNCTIONS = {
 	SUM:     args => flatten(args).reduce((s,v)=>isErr(v)?s:s+toNum(v), 0),
@@ -829,6 +835,11 @@ const FUNCTIONS = {
 	// an in-cell mini chart instead of text (type: line | column | bar). It's a
 	// normal formula, so it recomputes and shifts with its range like any other.
 	SPARKLINE: ([range, type, color]) => sparkSpec(flatten([range]), type, color),
+	// One: a picture in the cell, drawn as a sparkline is; RECORD and BRAND
+	// read the context above, "" when there is none.
+	IMAGE:  ([url]) => (url && !isErr(url) ? { __spark: true, image: String(url) } : ''),
+	RECORD: ([field]) => { const v = _context.record?.[String(field ?? '')]; return v === undefined || v === null ? '' : v },
+	BRAND:  ([key]) => { const v = _context.brand?.[String(key ?? '')]; return v === undefined || v === null ? '' : v },
 
 	// ── Array functions ─────────────────────────────────────────────────────
 	//

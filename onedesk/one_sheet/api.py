@@ -84,7 +84,7 @@ def make(parent: str, title: str | None = None, template: str | None = None) -> 
 def get_sheet(name: str, compressed: int = 0) -> dict:
 	"""The workbook as the editor loads it, and whether the reader may change it.
 	A workbook bound to a record's table is brought up to the table first."""
-	from onedesk.one_sheet import table
+	from onedesk.one_sheet import style, table
 	from onedesk.one_storage import namespace as ns
 
 	item = _may(name, "read")
@@ -100,6 +100,8 @@ def get_sheet(name: str, compressed: int = 0) -> dict:
 		"sheets_data": raw if frappe.utils.cint(compressed) else storage.decode_sheets_data(raw),
 		"owner": item.get("owner"),
 		"table": table.bound(name),
+		"brand": style.brand(),
+		"record": table.record_of(name),
 	}
 
 

@@ -190,3 +190,32 @@ def test_a_table_sheet_keeps_its_formulas():
 	}, "the header and the formulas, not the rows"
 	assert room["stored"](kept, "Costing") == {"3": ["CW01"]} and "Items" not in kept["protection"] and kept["view"] == data["view"]
 	assert room["shown"]("<p>Aluminum &amp; glass</p>", "Text Editor") == "Aluminum & glass"
+
+
+def test_a_branded_sheet_is_laid_out_under_the_company():
+	room = {}
+	_lifted(SHEET / "assist.py", ("letters",), room)
+	_lifted(SHEET / "style.py", ("ON_COLOUR", "WORKED", "LINE", "MUTED", "FIRST", "KINDS", "tint", "header", "number_format", "width", "table", "branded"), room)
+	room["frappe"] = None
+	assert room["tint"]("#000000", 0.1) == "#E6E6E6" and room["tint"]("#FFF", 0.5) == "#FFFFFF"
+	head = ["Item", "Description", "Qty", "Width", "Height", "Area", "Rate", "Total"]
+	line = {"F": "=D{r}*E{r}/1000000", "H": "=C{r}*G{r}"}
+	kinds = {"money": "GH", "count": "C", "size": "DE", "area": "F", "key": "H", "wide": "B"}
+	laid = room["branded"]("Costing", head, line, {"G": "TOTAL", "H": "=SUM(H{first}:H{last})"}, kinds, "#1F6FEB", "AED", [("Quotation", '=RECORD("name")')], 3)
+	rows, cells = laid["rows"], laid["formats"]["cells"]
+	assert rows["0"][0] == '=IMAGE(BRAND("logo"))' and rows["0"][2] == '=BRAND("name")', "the logo and the name on top"
+	assert laid["merge"]["masterMap"]["A1"] == {"rowSpan": 3, "colSpan": 2, "r": 0, "c": 0} and laid["merge"]["slaveMap"]["B3"] == "A1"
+	assert rows["4"] == head and cells["A5"]["backgroundColor"] == "#1F6FEB" and cells["A5"]["color"] == "#FFFFFF"
+	assert rows["5"][5] == "=D6*E6/1000000" and rows["7"][7] == "=C8*G8"
+	assert "8" not in rows, "a blank row before the totals"
+	assert cells["F6"]["backgroundColor"] == "#F5F5F4" and cells["H6"]["bold"], "worked out in grey, the key figure marked"
+	assert "D6" not in cells, "what is typed stays plain"
+	assert rows["9"][7] == "=SUM(H6:H8)" and cells["A10"]["borderTop"]["color"] == "#1F6FEB"
+	assert laid["formats"]["cols"]["7"] == {"numberFormat": "currency:AED:2;"} and laid["formats"]["cols"]["5"] == {"numberFormat": "number:us:3;"}, "worked out: a zero is blank"
+	assert laid["formats"]["cols"]["6"] == {"numberFormat": "currency:AED:2"}, "typed: a zero shows"
+	assert laid["view"]["freezeRows"] == 5 and laid["view"]["colW"]["1"] == 300
+	cols = [{"fieldname": "name", "fieldtype": "Data"}, {"fieldname": "qty", "fieldtype": "Float"}, {"fieldname": "amount", "fieldtype": "Currency", "read_only": True}]
+	look = room["table"](cols, "#1F6FEB", "AED", {"Currency": 2, "Float": 3})
+	assert look["formats"]["rows"]["0"]["backgroundColor"] == "#1F6FEB"
+	assert look["formats"]["cols"]["1"] == {"numberFormat": "number:us:3"}
+	assert look["formats"]["cols"]["2"]["numberFormat"] == "currency:AED:2" and look["formats"]["cols"]["2"]["backgroundColor"] == "#F5F5F4"

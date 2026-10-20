@@ -243,10 +243,12 @@ def accessory(code, description, uom="Nos"):
 
 COSTING_LINES = 100
 #: Rua's costing sheets, one a family of aluminium systems, each a template
-#: for a quotation's items: the header on the first row, the formulas on
-#: every line under it, the totals under the last. Nothing a job types (a
-#: line's item, sizes, prices, kilos) is in a template. `scale` turns a size
-#: into millimetres.
+#: for a quotation's items laid out under the company's brand
+#: (one_sheet/style.branded): the header, the formulas on every line, the
+#: totals. Nothing a job types (a line's item, sizes, prices, kilos) is in a
+#: template. `scale` turns a size into millimetres; `kinds` says which
+#: columns hold money, counts, sizes, areas and kilos, which are the key
+#: figures and which is wide.
 COSTINGS = (
 	{
 		"title": "Costing (Alumil, Gutmann, Technal)",
@@ -254,8 +256,8 @@ COSTINGS = (
 		"scale": 1,
 		"head": (
 			"ITEM", "DESCRIPTION", "QTY", "WIDTH (mm)", "HEIGHT (mm)", "AREA (sqm)", "GLASS UNIT", "GLASS PRICE",
-			"TOTAL GLASS", "ALU UNIT", "TOTAL ALU", "ACT UNIT", "PROFIT 74%", "UNIT RATE", None, "OVERALL PRICE",
-			None, None, "CW", "INSERTION", "EXTRA", "ALUMIL PRICE", "VAT 5%", None, "ALL PRICE inc PC and VAT",
+			"TOTAL GLASS", "ALU UNIT", "TOTAL ALU", "ACT UNIT", "PROFIT 74%", "UNIT RATE", "RATE", "OVERALL PRICE",
+			None, None, "CW", "INSERTION", "EXTRA", "ALUMIL PRICE", "VAT 5%", "TOTAL", "ALL PRICE inc PC and VAT",
 		),
 		# Area, glass by the square metre, Alumil's price with insertion and
 		# extras, VAT, 74% profit, and the rate rounded up to 5.
@@ -265,13 +267,14 @@ COSTINGS = (
 			"V": "=S{r}+T{r}+U{r}", "W": "=V{r}*1.05", "X": "=W{r}*C{r}", "Y": "=W{r}*1.13",
 		},
 		"totals": {"O": "TOTAL", "P": "=SUM(P{first}:P{last})"},
+		"kinds": {"money": "GHIJKLMNOPSTUVWXY", "count": "C", "size": "DE", "area": "F", "key": "OP", "wide": "B"},
 	},
 	{
 		"title": "Costing (Gulf Extrusion)",
 		"scale": 10,
 		"head": (
 			"Item", "Description", "Qty", "Width (CM)", "Height (CM)", "Area (sqm)", "GLASS UNIT", "GLASS PRICE",
-			"TOTAL GLASS", "ALU UNIT", "TOTAL ALU", "ACT UNIT", "PROFIT 35%", "UNIT RATE", None, "Overall Price",
+			"TOTAL GLASS", "ALU UNIT", "TOTAL ALU", "ACT UNIT", "PROFIT 35%", "UNIT RATE", "PRICE", "Overall Price",
 			None, "Powder KG", "Mill KG", "Accs.", "ALU UNIT PR", "ALU TOTAL",
 		),
 		# Area from centimetres, glass by the square metre, the aluminium from
@@ -287,6 +290,7 @@ COSTINGS = (
 			"A": "GRAND TOTALS", "C": "=SUM(C{first}:C{last})", "I": "=SUM(I{first}:I{last})", "K": "=SUM(K{first}:K{last})",
 			"M": "=SUM(M{first}:M{last})", "P": "=SUM(P{first}:P{last})", "V": "=SUM(V{first}:V{last})",
 		},
+		"kinds": {"money": "GHIJKLMNOPTUV", "count": "C", "size": "DE", "area": "F", "kilos": "RS", "key": "OP", "wide": "B"},
 	},
 )
 #: Which product a line is, read from its description: the first that fits,
@@ -304,7 +308,7 @@ def kind(description) -> str:
 	return next((product for words, product in KINDS if all(one in said for one in words.split("+"))), "Aluminium Works")
 
 
-def kind_formula(first: int = 2) -> str:
+def kind_formula(first: int = 6) -> str:
 	"""KINDS as one formula over the Costing sheet's descriptions, the
 	product of each line it fills down. Pure."""
 	said = '"Aluminium Works"'
@@ -314,7 +318,7 @@ def kind_formula(first: int = 2) -> str:
 	return f'=IF(Costing!A{first}:A="","",{said})'
 
 
-def costing_items(first: int = 2, scale: int = 1) -> dict:
+def costing_items(first: int = 6, scale: int = 1) -> dict:
 	"""The quotation's items, each column one formula that fills it down
 	from the Costing sheet, a line for each line with an ITEM. The rate is
 	the line's overall price over its quantity: O is a unit rate on a
@@ -333,44 +337,53 @@ def costing_items(first: int = 2, scale: int = 1) -> dict:
 	}
 
 
-def costing_rows(spec: dict) -> dict:
-	"""A costing sheet as the workbook keeps it: the header, a line's
-	formulas on every line, the totals. Pure."""
-	first, last = 2, 1 + COSTING_LINES
-	rows = {"0": list(spec["head"])}
-	for r in range(first, last + 1):
-		line = [None] * 26
-		for col, formula in spec["line"].items():
-			line[ord(col) - 65] = formula.replace("{r}", str(r))
-		rows[str(r - 1)] = line
-	totals = [None] * 26
-	for col, value in spec["totals"].items():
-		totals[ord(col) - 65] = value.replace("{first}", str(first)).replace("{last}", str(last))
-	rows[str(last + 1)] = totals
-	return rows
+#: What each costing sheet shows of the quotation it is for, beside the brand.
+COSTING_META = (
+	("Quotation", '=RECORD("name")'),
+	("Customer", '=RECORD("customer_name")'),
+	("Date", '=RECORD("transaction_date")'),
+	("Valid Till", '=RECORD("valid_till")'),
+	("Currency", '=RECORD("currency")'),
+	("Status", '=RECORD("status")'),
+)
+
+
+def costing_sheet(spec: dict, colour: str, currency: str) -> dict:
+	"""A costing sheet laid out under the company's brand. Pure but for the
+	labels' translation."""
+	from onedesk.one_sheet import style
+
+	meta = [(_(label), formula) for label, formula in COSTING_META]
+	return style.branded(spec["title"], list(spec["head"]), spec["line"], spec["totals"], spec["kinds"], colour, currency, meta, COSTING_LINES)
 
 
 def costing():
 	"""Rua's costing sheets as templates for a quotation's items: the
-	estimators' columns, a curtain wall's formulas on every line, and the
-	items sheet whose formulas read it. One already there is left as it is,
-	but one made under its old name or before the items sheet carried
-	formulas is made again in place."""
-	from onedesk.one_sheet import api, storage, table, templates
+	estimators' columns under the company's brand, a curtain wall's formulas
+	on every line, and the items sheet whose formulas read it. One already
+	there and laid out is left as it is, so what somebody changed in it
+	stays; one made under its old name or before it was laid out is made
+	again in place."""
+	from onedesk.one_sheet import api, storage, style, table, templates
 
+	brand = style.brand()
 	for spec in COSTINGS:
 		held = frappe.db.get_value(
-			api.WORKBOOK, {"is_template": 1, "title": ["in", [spec["title"], spec.get("was") or spec["title"]]]}, ["name", "title", "bound_sheet", "file"], as_dict=True
+			api.WORKBOOK, {"is_template": 1, "title": ["in", [spec["title"], spec.get("was") or spec["title"]]]}, ["name", "title", "file", "sheets_data"], as_dict=True
 		)
-		if held and held.bound_sheet and held.title == spec["title"]:
+		if held and held.title == spec["title"] and "Costing" in (json.loads(storage.decode_sheets_data(held.sheets_data) or "{}").get("formats") or {}):
 			continue
-		said = costing_items(2, spec["scale"])
+		said = costing_items(style.FIRST, spec["scale"])
 		cols = table.columns([one.as_dict() for one in frappe.get_meta("Quotation Item").fields], list(said))
 		sheet = _("Items")
 		lines = {"0": [table.MARK] + [col["header"] for col in cols[1:]], "1": [None] + [said.get(col["fieldname"]) for col in cols[1:]]}
+		laid = costing_sheet(spec, brand["colour"], brand["currency"])
+		look = style.table(cols, brand["colour"], brand["currency"], style.precisions())
 		data = {
-			"sheet": {"v": 2, "current": "Costing", "sheets": {sheet: {"rows": lines}, "Costing": {"rows": costing_rows(spec)}}},
-			"view": {"Costing": {"freezeRows": 1, "colW": {"0": 150, "1": 320}}},
+			"sheet": {"v": 2, "current": "Costing", "sheets": {sheet: {"rows": lines}, "Costing": {"rows": laid["rows"]}}},
+			"formats": {"Costing": laid["formats"], sheet: look["formats"]},
+			"merge": {"Costing": laid["merge"]},
+			"view": {"Costing": laid["view"], sheet: {"colW": look["colW"], "rowH": look["rowH"], "freezeRows": 1, "hiddenCols": [0]}},
 		}
 		if not held:
 			templates.make(spec["title"], data, "Quotation", "items", sheet, cols)

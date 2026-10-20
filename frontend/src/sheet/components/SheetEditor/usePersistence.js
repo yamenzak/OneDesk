@@ -6,6 +6,7 @@ import { __ } from '../../../kit/desk'
 import { encodeForUpload, isDecompressionSupported, decodeFromDownload } from '../../utils/compress.js'
 import { packSheet, packSheetChunked, unpackSheet, boundsOf } from '../../utils/sheet-codec.js'
 import { tableValues, takeBack } from '../../shim/table.js' // One: a record's table
+import { setContext } from '../../engine/formula.js' // One
 
 // `merge` and the view-state getters/setters are optional — they were missing
 // from earlier versions and their absence caused merged cells / column widths /
@@ -38,6 +39,7 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
       const doc    = await call('onedesk.one_sheet.api.get_sheet', { name, compressed: canGz ? 1 : 0 })
       const plain  = canGz ? await decodeFromDownload(doc.sheets_data) : doc.sheets_data
       const saved  = JSON.parse(plain || '{}')
+      setContext({ record: doc.record, brand: doc.brand }) // One: what RECORD() and BRAND() read
       if (saved.formats)    formats.restore(saved.formats)
       sheet.restore(
         unpackSheet(saved.sheet) ?? { sheets: { Sheet1: {} }, current: 'Sheet1' },
