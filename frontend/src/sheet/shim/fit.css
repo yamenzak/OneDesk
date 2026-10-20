@@ -1,0 +1,13 @@
+/* The editor was drawn for a whole window; here it fills the page beside the desk's rail. */
+.one-workbook {
+	height: 100%;
+}
+
+.one-workbook .sn-root.sn-root {
+	height: 100%;
+}
+
+.one-workbook .sn-app-menu-trigger svg {
+	width: 24px;
+	height: 24px;
+}

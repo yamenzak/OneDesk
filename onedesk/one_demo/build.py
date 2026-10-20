@@ -35,6 +35,7 @@ STEPS = (
 	"announcements",
 	"studio",
 	"storage",
+	"workbook",
 	"intake",
 	"mail",
 )

@@ -1,7 +1,8 @@
 frappe.provide("onedesk");
 
-onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], hide_sidebar = false, menu = null, record = null, files = null, mark = null, views = null }) => {
+onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], hide_sidebar = false, menu = null, record = null, files = null, mark = null, views = null, bare = null }) => {
 	const page = frappe.ui.make_app_page({ parent: wrapper, title, single_column: !record, sidebar_position: "Right", hide_sidebar });
+	if (bare) $(wrapper).addClass(bare);
 	page.one_record = record;
 	if (mark) page.$title_area.prepend(`<span class="one-shell-mark">${frappe.utils.icon(mark, "md")}</span>`);
 	let framed = null;

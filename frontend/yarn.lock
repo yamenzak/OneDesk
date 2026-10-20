@@ -342,7 +342,7 @@
   dependencies:
     "@floating-ui/utils" "^0.2.12"
 
-"@floating-ui/dom@^1.0.0", "@floating-ui/dom@^1.6.13", "@floating-ui/dom@^1.7.4", "@floating-ui/dom@^1.7.6":
+"@floating-ui/dom@^1.0.0", "@floating-ui/dom@^1.6.13", "@floating-ui/dom@^1.7.4", "@floating-ui/dom@^1.7.6", "@floating-ui/dom@^1.8.0":
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/@floating-ui/dom/-/dom-1.8.0.tgz#8a20e6facbe2456afdbeb6c8b968a72df689cf63"
   integrity sha512-yXSrzeHZBTZadLOlfyhCkJHNeLJnHRnRInwdZ40L7ZiaAtrBwoYlsDrX3v5zB1Utk7CLfzcOVnVVWoXEky7Ceg==
@@ -363,6 +363,14 @@
     "@floating-ui/dom" "^1.7.6"
     "@floating-ui/utils" "^0.2.11"
     vue-demi ">=0.13.0"
+
+"@floating-ui/vue@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@floating-ui/vue/-/vue-2.0.1.tgz#987976853159255ce8be3a39239706192228485c"
+  integrity sha512-043dyEKD9TDSfz080YH2vobubgg+NIo/9Fw4RAl7sEMpD8Am1DNrrSTl/GpMBjyGHoD/FbJY2QLawY+HSQsEIA==
+  dependencies:
+    "@floating-ui/dom" "^1.8.0"
+    "@floating-ui/utils" "^0.2.12"
 
 "@framework/ui@link:../../frappe/ui":
   version "0.0.0"
@@ -1463,6 +1471,11 @@ is-number@^7.0.0:
   resolved "https://registry.yarnpkg.com/is-number/-/is-number-7.0.0.tgz#7535345b896734d5f80c4d06c50955527a14f12b"
   integrity sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==
 
+isomorphic.js@^0.2.4:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/isomorphic.js/-/isomorphic.js-0.2.5.tgz#13eecf36f2dba53e85d355e11bf9d4208c6f7f88"
+  integrity sha512-PIeMbHqMt4DnUP3MA/Flc0HElYjMXArsw1qwJZcm9sqR8mq3l8NYizFMty0pWwE/tzIGH3EKK5+jes5mAr85yw==
+
 jiti@^1.21.7:
   version "1.21.7"
   resolved "https://registry.yarnpkg.com/jiti/-/jiti-1.21.7.tgz#9dd81043424a3d28458b193d965f0d18a2300ba9"
@@ -1487,6 +1500,13 @@ leaflet@^1.9.4:
   version "1.9.4"
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.9.4.tgz#23fae724e282fa25745aff82ca4d394748db7d8d"
   integrity sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA==
+
+lib0@^0.2.99:
+  version "0.2.119"
+  resolved "https://registry.yarnpkg.com/lib0/-/lib0-0.2.119.tgz#c137128f95afe17ec27f2f0d86e80510ea69fdc4"
+  integrity sha512-vh+TiejVy8Xm+hCdnRfn9BthGNvNUZdEXltNjVZL3TzRIKP3s1lnQh8pWd/Q0wCgY0FPAGVVjFF4ZiHUV3LFgA==
+  dependencies:
+    isomorphic.js "^0.2.4"
 
 lightningcss-android-arm64@1.33.0:
   version "1.33.0"
@@ -1952,6 +1972,21 @@ readdirp@~3.6.0:
   dependencies:
     picomatch "^2.2.1"
 
+reka-ui@^2.6.0:
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/reka-ui/-/reka-ui-2.11.0.tgz#e456d5178c94391018c387bb0229b90922bbd6b9"
+  integrity sha512-ilkpm4bIAol4jwzm4tpm3WVcffyGOpqksNZL1k1qO9QmIwAA+q8jroxjkUGLEn/GddfdExFfvofWfQiKZszUeQ==
+  dependencies:
+    "@floating-ui/vue" "^2.0.1"
+    "@internationalized/date" "^3.5.0"
+    "@internationalized/number" "^3.5.0"
+    "@tanstack/vue-virtual" "^3.12.0"
+    "@vueuse/core" "^14.1.0"
+    "@vueuse/shared" "^14.1.0"
+    aria-hidden "^1.2.4"
+    defu "^6.1.5"
+    ohash "^2.0.11"
+
 reka-ui@^2.9.9:
   version "2.10.5"
   resolved "https://registry.yarnpkg.com/reka-ui/-/reka-ui-2.10.5.tgz#f97fcb546e58d42da2f7888ba1b7e17b506d29d8"
@@ -2300,6 +2335,11 @@ vue-demi@>=0.13.0:
   resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.14.10.tgz#afc78de3d6f9e11bf78c55e8510ee12814522f04"
   integrity sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==
 
+vue-echarts@8.0.1:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/vue-echarts/-/vue-echarts-8.0.1.tgz#2ed7e507d223e56cd209610f4fee5e8ec9bcbb2f"
+  integrity sha512-23rJTFLu1OUEGRWjJGmdGt8fP+8+ja1gVgzMYPIPaHWpXegcO1viIAaeu2H4QHESlVeHzUAHIxKXGrwjsyXAaA==
+
 vue-router@^4.6.4:
   version "4.6.4"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.6.4.tgz#a0a9cb9ef811a106d249e4bb9313d286718020d8"
@@ -2345,10 +2385,21 @@ ws@~8.21.0:
   resolved "https://registry.yarnpkg.com/ws/-/ws-8.21.3.tgz#660b4faddb6a3e575c86e078126919961f4de4fc"
   integrity sha512-201TZ/kPWxoPr/OKWjquZR1SWKXcvxdH+e1xrx89b3YbmzLMFCLfnaG1HFIgWzJOEWZ7MvpK++odZufgYR50Rw==
 
+"xlsx@https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz":
+  version "0.20.3"
+  resolved "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz#992725af0bb69fa9733590fcb8ab4a57e10b929b"
+
 xmlhttprequest-ssl@~2.1.1:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/xmlhttprequest-ssl/-/xmlhttprequest-ssl-2.1.2.tgz#e9e8023b3f29ef34b97a859f584c5e6c61418e23"
   integrity sha512-TEU+nJVUUnA4CYJFLvK5X9AOeH4KvDvhIfm0vV1GaQRtchnG0hgK5p8hw/xjv8cunWYCsiPCSDzObPyhEwq3KQ==
+
+yjs@13.6.30:
+  version "13.6.30"
+  resolved "https://registry.yarnpkg.com/yjs/-/yjs-13.6.30.tgz#cd7ee5399431fcd35812d7a43694b57bfa2f005d"
+  integrity sha512-vv/9h42eCMC81ZHDFswuu/MKzkl/vyq1BhaNGfHyOonwlG4CJbQF4oiBBJPvfdeCt/PlVDWh7Nov9D34YY09uQ==
+  dependencies:
+    lib0 "^0.2.99"
 
 zrender@6.1.0:
   version "6.1.0"

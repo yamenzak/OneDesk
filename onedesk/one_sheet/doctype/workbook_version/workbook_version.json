@@ -1,0 +1,98 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-10-20 16:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "naming_rule": "Random",
+ "description": "A workbook as it stood at one point in its history, whole: taken as it is saved, kept thinner as it ages, and kept for ever once somebody names it.",
+ "field_order": [
+  "workbook",
+  "seq",
+  "kind",
+  "label",
+  "pinned",
+  "op_count",
+  "byte_size",
+  "actor",
+  "sheets_data"
+ ],
+ "fields": [
+  {
+   "fieldname": "workbook",
+   "fieldtype": "Link",
+   "label": "Workbook",
+   "options": "Workbook",
+   "search_index": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "seq",
+   "fieldtype": "Int",
+   "label": "Order"
+  },
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "label": "Kind",
+   "options": "auto\nmilestone\nnamed",
+   "default": "auto",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "label",
+   "fieldtype": "Data",
+   "label": "Name"
+  },
+  {
+   "fieldname": "pinned",
+   "fieldtype": "Check",
+   "label": "Kept",
+   "default": "0"
+  },
+  {
+   "fieldname": "op_count",
+   "fieldtype": "Int",
+   "label": "Edits"
+  },
+  {
+   "fieldname": "byte_size",
+   "fieldtype": "Int",
+   "label": "Size"
+  },
+  {
+   "fieldname": "actor",
+   "fieldtype": "Link",
+   "label": "By",
+   "options": "User"
+  },
+  {
+   "fieldname": "sheets_data",
+   "fieldtype": "Long Text",
+   "label": "Workbook"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-20 16:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Sheet",
+ "name": "Workbook Version",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "role": "System Manager",
+   "report": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0
+}

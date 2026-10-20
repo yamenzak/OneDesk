@@ -71,6 +71,10 @@ def later(method: str, job: str, **kwargs) -> None:
 def _readable_file(doc) -> bool:
 	if frappe.flags.one_intake_writing or doc.is_folder or not doc.file_url:
 		return False
+	from onedesk.one_sheet.api import workbook_of
+
+	if workbook_of(doc.file_url):
+		return False
 	if doc.attached_to_doctype in SKIPPED or doc.attached_to_doctype == "Communication":
 		return False
 	return not doc.get("one_deleted")

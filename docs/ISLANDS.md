@@ -107,6 +107,7 @@ that exists.
 | Screen | Modelled on |
 |---|---|
 | `portal/src/App.vue` | frappe-ui's own shells, as Helpdesk and Gameplan use them |
+| `src/sheet/WorkbookPage.vue` | Frappe Suite's Sheets, taken whole (src/sheet/VENDORED.md): Google Sheets' grid, formula bar, tabs, notes and version history |
 | `portal/src/pages/Address.vue` | Shopify's customer account addresses: one form, Save |
 | `portal/src/pages/Apps.vue` | GitHub's Authorized OAuth Apps: a line an app, Revoke |
 | `portal/src/pages/Home.vue` | Shopify's customer account and Stripe's customer portal: a tile a kind they have, with what is left to pay on bills; then what asks something of them, each with its button, beside what came last |

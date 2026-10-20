@@ -83,6 +83,12 @@ export const escape = (text) => frappe().utils.escape_html(text);
 
 export const onedesk = () => window.onedesk;
 
+/** Who is signed in, as desk knows them: name, full name, picture and roles. */
+export const person = () => {
+	const desk = frappe();
+	return { name: desk.session?.user || "", fullName: desk.session?.user_fullname || "", image: desk.user?.image?.() || "", roles: desk.user_roles || [] };
+};
+
 export const oneaiMark = "/assets/onedesk/images/oneai.svg";
 
 export const oneaiOn = () => Boolean(window.onedesk?.apps?.ai?.());

@@ -290,6 +290,9 @@ isn't room for it.
 Clicking a file anywhere in One opens it from cloud storage in a new tab.
 Downloading saves it under its own name.
 
+A workbook opens in OneWorkbook instead, in the same tab. **New › Workbook**
+makes one in the folder you are in (OneWorkbook's guide).
+
 A private file opens only for you and for people who can see the record it's
 attached to. Anyone else who gets the link sees nothing. Public files, such
 as a logo on a web page or an image in an email, open for anyone.
@@ -327,6 +330,7 @@ who can see the folder and whether OneAI reads it.
 - **To OneMail**: An attachment too large to send goes as a link to the file instead.
 - **To OneIntake**: Every new file can be found by its text. A folder OneAI reads has each new file handled in Intake.
 - **To OneProject**: Photos and videos in a project's Featured Media folder are shown on its page and its portal. The newest photo is its cover.
+- **To OneWorkbook**: New › Workbook makes a workbook in the folder you are in, and opening one opens it in OneWorkbook.
 - **To OneAI**: OneAI answers questions about a file you can open and finds files by what they say. It also lists your largest files and how full the storage is.
 
 ## Under the hood

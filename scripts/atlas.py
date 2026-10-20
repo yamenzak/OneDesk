@@ -929,7 +929,7 @@ def screens() -> list[dict]:
 		entry = tree.ROOT / "frontend" / source
 		component = _IMPORT.findall(entry.read_text())
 		start = [(entry.parent / rel).resolve() for rel in component if rel.endswith(".vue")]
-		files = _files(start[0]) if start else []
+		files = [path for path in _files(start[0]) if not tree.vendored(path)] if start else []
 		text = "\n".join(path.read_text() for path in files)
 		followed = set(_FOLLOW.findall(text))
 		for listed in _FOLLOW_ALL.findall(text):

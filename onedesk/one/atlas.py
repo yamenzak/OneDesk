@@ -27,7 +27,9 @@ POS = "the point of sale, until One has a till screen of its own"
 ANSWERS = {
 	("DocType", "Comment"): (ENGINE, "a record's comments, written and read on the record"),
 	("DocType", "Communication"): (INSIDE, "a record's activity, and OneMail"),
-	("DocType", "File"): (INSIDE, "OneCloud, which is every file the workspace holds"),
+	("DocType", "Workbook Change"): (ENGINE, "a workbook's history, edit by edit; its Version History shows them"),
+	("DocType", "Workbook Version"): (ENGINE, "a workbook as it stood; its Version History lists them"),
+	("Page", "workbook"): (INSIDE, "a workbook opens on it from OneCloud"),
 	("DocType", "DocShare"): (INSIDE, "a record's Share"),
 	("DocType", "Document Share Key"): (ENGINE, "the key a shared record's link carries"),
 	("Report", "Document Share Report"): (INSIDE, "a record's Share, which says who it is shared with"),

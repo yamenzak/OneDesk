@@ -25,8 +25,8 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 75 | 4 | 23 | 0 |
-| frappe | 36 | 34 | 144 | 0 |
+| onedesk | 76 | 4 | 26 | 0 |
+| frappe | 36 | 35 | 143 | 0 |
 | erpnext | 304 | 130 | 51 | 0 |
 | hrms | 103 | 19 | 8 | 0 |
 
@@ -61,6 +61,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | plant (`frontend/src/plant/PlantFloor.vue`) | Job Card, Job Card Time Log, Plant Floor, Workstation | – | – | – |
 | my_tasks (`frontend/src/task/MyTasks.vue`) | Task, Task Depends On, Timesheet, Timesheet Detail | – | – | – |
 | timers (`frontend/src/task/Timers.vue`) | Project, Task, Timesheet, Timesheet Detail | – | – | – |
+| workbook (`frontend/src/sheet/WorkbookPage.vue`) | – | – | – | – |
 
 ## erpnext / Accounts
 
@@ -534,7 +535,7 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | Domain Settings | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | DuckDB Sync | engine: the copy frappe's analytics reads from | OneBook, OneCRM | untouched | no | general |  | **none** |  |  | ar 3, de 2 |  |
 | Error Log | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | taught |  | yes |  |  | ar 1, de 1 |  |
-| File | inside: OneCloud, which is every file the workspace holds | everybody | class, events, 10 fields | no | taught |  | yes |  |  |  | Added to a Library, Shared With You |
+| File | through a form's link (Workbook: file) | everybody | class, events, 10 fields | no | taught |  | yes |  |  |  | Added to a Library, Shared With You |
 | Installed Applications | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Language | through a form's link (User: language) | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Log Settings | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
@@ -620,7 +621,7 @@ Reports: Audit System Hooks (the platform's: the site's own workings, which the 
 | List Filter | engine: a list's saved filters, kept from the list | everybody | untouched | no | general |  | yes |  |  | ar 2, de 2 |  |
 | List View Settings | engine: how a list is laid out, set from the list | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Module Onboarding | through a form's link (Workspace: module_onboarding) | everybody | untouched | no | general |  | yes |  |  |  |  |
-| Note | on a rail or a home | everybody | events, form script | no | taught |  | **none** |  |  |  |  |
+| Note | on a rail or a home | everybody | events, form script | no | taught |  | yes |  |  |  |  |
 | Notification Log | replaced: the bell | everybody | class, events | no | general |  | yes |  |  | ar 1, de 1 |  |
 | Notification Settings | inside: Settings › Notifications | everybody | events, 1 fields | no | taught |  | yes |  |  | ar 1, de 1 |  |
 | Notification Type | opened by our screens | the administrator | events, 15 fields | no | taught |  | yes |  |  |  |  |
@@ -886,7 +887,7 @@ Pages: masters (on a rail or a home); settings (on a rail or a home); workspace-
 | AI Action | through a form's link (AI Action Setting: action) | the administrator | untouched | no | taught |  | yes |  |  |  |  |
 | AI Action Setting | opened by our screens | the administrator | a head, form script | no | general |  | yes |  |  |  |  |
 | AI Chat | on a rail or a home | everybody | untouched | no | general |  | **none** |  |  |  |  |
-| AI Chunk | engine: pieces of documents, mail and records by meaning, which Ctrl+K, OneCloud, OneMail and OneAI search | not read | untouched | no | general |  | **none** |  |  |  |  |
+| AI Chunk | engine: pieces of documents, mail and records by meaning, which Ctrl+K, OneCloud, OneMail and OneAI search | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | AI Knowledge | on a rail or a home | everybody | untouched | no | taught |  | **none** |  |  |  |  |
 | AI Memory | inside: Workspace Settings › Privacy lists and forgets what OneAI remembers | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | AI Proposal | on a rail or a home | everybody | a head, list script | no | general |  | yes |  |  |  |  |
@@ -999,6 +1000,16 @@ Pages: onemail (on a rail or a home).
 Reports: Project Progress (on a rail or a home); Stock by Project (on a rail or a home); Workload (on a rail or a home).
 
 Pages: project-template-view (inside: a Project Template opens on it); project-view (inside: a Project opens on it).
+
+## onedesk / One Sheet
+
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Workbook | opened by our screens | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
+| Workbook Change | engine: a workbook's history, edit by edit; its Version History shows them | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
+| Workbook Version | engine: a workbook as it stood; its Version History lists them | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
+
+Pages: workbook (inside: a workbook opens on it from OneCloud).
 
 ## onedesk / One Storage
 

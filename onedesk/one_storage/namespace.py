@@ -331,7 +331,14 @@ def node(item: dict) -> dict:
 		"starred": frappe.session.user in (item.get("_liked_by") or ""),
 		**({"library": True, "icon": "library-big"} if item.get("one_library") else {}),
 		**({"intake": True} if item.get("one_intake") else {}),
+		**({"workbook": book} if (book := _workbook(item)) else {}),
 	}
+
+
+def _workbook(item: dict) -> str | None:
+	from onedesk.one_sheet.api import workbook_of
+
+	return None if item.get("is_folder") else workbook_of(item.get("file_url"))
 
 
 def virtual(node_id: str, name: str, **more) -> dict:

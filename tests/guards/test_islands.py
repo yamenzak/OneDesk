@@ -33,7 +33,7 @@ def _name(path: Path) -> Path:
 
 def _vue() -> list[Path]:
 	"""Every screen: the islands, and the portal, a frappe-ui app of its own."""
-	return sorted([*SRC.rglob("*.vue"), *PORTAL.rglob("*.vue")])
+	return sorted(p for p in [*SRC.rglob("*.vue"), *PORTAL.rglob("*.vue")] if not tree.vendored(p))
 
 
 def test_every_island_is_declared_built_and_mounted():
@@ -98,7 +98,7 @@ def test_an_island_uses_frappe_ui_tokens():
 	scale builds without complaint and draws nothing: corners stay square and
 	panels see-through. And `@framework/ui` is imported by its part, because
 	the whole of it needs a newer frappe-ui than the one we pin."""
-	for path in [*_vue(), *SRC.rglob("*.js"), *PORTAL.rglob("*.js")]:
+	for path in [*_vue(), *(p for p in SRC.rglob("*.js") if not tree.vendored(p)), *PORTAL.rglob("*.js")]:
 		source = path.read_text(encoding="utf-8")
 		name = _name(path)
 		assert not re.search(r"(?<![\w-])rounded(-(sm|md|lg|xl|2xl))?(?![\w-])", source), f"{name} uses Tailwind's corners; use rounded-1 to rounded-7"
@@ -109,7 +109,7 @@ def test_an_island_uses_frappe_ui_tokens():
 def test_only_the_kit_reaches_into_desk():
 	"""Desk's words, formats, calls, routes and realtime come through one
 	bridge, kit/desk.js, so an island never redoes what desk does."""
-	for path in [*SRC.rglob("*.vue"), *SRC.rglob("*.js")]:
+	for path in [p for p in [*SRC.rglob("*.vue"), *SRC.rglob("*.js")] if not tree.vendored(p)]:
 		if path.name == "desk.js":
 			continue
 		source = path.read_text(encoding="utf-8")

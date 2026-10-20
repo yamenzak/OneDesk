@@ -161,6 +161,7 @@ scheduler_events = {
 		],
 	},
 	"daily": [
+		"onedesk.one_sheet.versions.tidy",
 		"onedesk.one.devices.forget",
 		"onedesk.one_admin.tell.trials_ending",
 		"onedesk.one_admin.tell.servers_filling",
@@ -477,8 +478,13 @@ doc_events = {
 		"on_update": "onedesk.one_hr.tell.grievance_answered",
 	},
 	"File": {
+		"before_insert": "onedesk.one_sheet.api.copied",
 		"validate": ["onedesk.one_intake.switches.file_switched", "onedesk.one_project.media.kept_shown"],
-		"after_insert": ["onedesk.one_intake.pipeline.file_added", "onedesk.one_project.media.changed"],
+		"after_insert": [
+			"onedesk.one_sheet.api.placed",
+			"onedesk.one_intake.pipeline.file_added",
+			"onedesk.one_project.media.changed",
+		],
 		"on_update": [
 			"onedesk.one_storage.live.changed",
 			"onedesk.one_intake.lessons.moved",
@@ -490,6 +496,7 @@ doc_events = {
 			"onedesk.one_storage.history.forget",
 			"onedesk.one_storage.live.changed",
 			"onedesk.one_project.media.changed",
+			"onedesk.one_sheet.api.file_gone",
 		]
 	},
 	"Employee Onboarding": {

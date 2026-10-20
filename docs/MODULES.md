@@ -184,6 +184,16 @@ No doctypes yet.
 | Record Type | 6 | document |
 | Workspace Field | 7 | document |
 
+## One Sheet
+
+`onedesk/one_sheet`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Workbook | 5 | document |
+| Workbook Change | 10 | document |
+| Workbook Version | 9 | document |
+
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
@@ -690,6 +700,18 @@ No doctypes yet.
 * `onedesk.one_project.view.to_quote`
 * `onedesk.one_project.view.updates`
 * `onedesk.one_project.view.work`
+* `onedesk.one_sheet.api.download`
+* `onedesk.one_sheet.api.get_link_preview`
+* `onedesk.one_sheet.api.get_sheet`
+* `onedesk.one_sheet.api.make`
+* `onedesk.one_sheet.api.rename_sheet`
+* `onedesk.one_sheet.api.save_sheet`
+* `onedesk.one_sheet.versions.label_snapshot`
+* `onedesk.one_sheet.versions.make_copy`
+* `onedesk.one_sheet.versions.ops_for_cell`
+* `onedesk.one_sheet.versions.restore`
+* `onedesk.one_sheet.versions.state_at`
+* `onedesk.one_sheet.versions.timeline`
 * `onedesk.one_storage.api.attach`
 * `onedesk.one_storage.api.copy`
 * `onedesk.one_storage.api.delete`

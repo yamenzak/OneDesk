@@ -99,6 +99,7 @@ NOBODY = {
 	"frappe / Workflow": 0,
 	"hrms / HR": 0,
 	"onedesk / One": 2,
+	"onedesk / One Sheet": 1,
 	"onedesk / One AI": 1,
 	"onedesk / One Mail": 1,
 }
@@ -204,7 +205,7 @@ EMPTY = {
 	"erpnext / Support": 0,
 	"frappe / Automation": 1,
 	"frappe / Core": 6,
-	"frappe / Desk": 1,
+	"frappe / Desk": 0,
 	"frappe / Email": 2,
 	"frappe / Integrations": 4,
 	"frappe / Website": 2,

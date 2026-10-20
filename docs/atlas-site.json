@@ -13,6 +13,9 @@
 "All",
 "System Manager"
 ],
+"AI Chunk": [
+"System Manager"
+],
 "AI Knowledge": [
 "All",
 "Workspace Administrator"
@@ -2967,6 +2970,15 @@
 "Manufacturing User",
 "Stock User"
 ],
+"Workbook": [
+"System Manager"
+],
+"Workbook Change": [
+"System Manager"
+],
+"Workbook Version": [
+"System Manager"
+],
 "Workflow": [
 "System Manager",
 "Workspace Administrator"
@@ -3231,6 +3243,7 @@
 "Module Def",
 "Module Onboarding",
 "Non Conformance",
+"Note",
 "Notification",
 "Notification Log",
 "Notification Settings",
@@ -3391,6 +3404,9 @@
 "Web Template",
 "Website Theme",
 "Work Order",
+"Workbook",
+"Workbook Change",
+"Workbook Version",
 "Workflow Action Master",
 "Workflow State",
 "Workspace",
@@ -3593,6 +3609,9 @@
 "warehouse-capacity-summary": [
 "Stock Manager",
 "Stock User"
+],
+"workbook": [
+"Desk User"
 ],
 "workflow-builder": [
 "System Manager",

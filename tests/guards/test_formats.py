@@ -3,9 +3,14 @@ workspace's date, number and currency settings and the field's own precision
 apply. Only the kit may wrap frappe's formatters (frontend/src/kit/desk.js)."""
 
 import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import tree
+
 BY_HAND = re.compile(r"toLocale(?:Date|Time)?String\(|new Intl\.|\.toFixed\(")
 
 KIT = {"frontend/src/kit/desk.js"}
@@ -14,7 +19,7 @@ KIT = {"frontend/src/kit/desk.js"}
 def _views():
 	for base in ("frontend/src", "onedesk/public/js"):
 		for path in (ROOT / base).rglob("*"):
-			if path.suffix in (".js", ".vue") and "/dist/" not in str(path):
+			if path.suffix in (".js", ".vue") and "/dist/" not in str(path) and not tree.vendored(path):
 				yield path
 
 

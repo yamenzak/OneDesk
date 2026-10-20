@@ -1,0 +1,78 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-10-20 14:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "naming_rule": "Random",
+ "description": "A spreadsheet's content, behind the File that puts it in OneCloud. Opened and saved only through one_sheet/api.py, which asks OneCloud whether the reader may.",
+ "field_order": [
+  "title",
+  "file",
+  "sheets_data",
+  "byte_size",
+  "head_seq"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "in_list_view": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "file",
+   "fieldtype": "Link",
+   "label": "File",
+   "options": "File",
+   "search_index": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "sheets_data",
+   "fieldtype": "Long Text",
+   "label": "Workbook"
+  },
+  {
+   "fieldname": "byte_size",
+   "fieldtype": "Int",
+   "label": "Size",
+   "read_only": 1
+  },
+  {
+   "fieldname": "head_seq",
+   "fieldtype": "Int",
+   "label": "Head",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-20 14:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Sheet",
+ "name": "Workbook",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "role": "System Manager",
+   "report": 1,
+   "email": 0,
+   "print": 0,
+   "export": 0,
+   "share": 0
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "title",
+ "track_changes": 0
+}

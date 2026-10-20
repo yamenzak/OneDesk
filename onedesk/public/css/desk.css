@@ -1825,3 +1825,19 @@ html[dir="rtl"] body > div[style*="left: -9999px"] {
 .one-apps-code .one-apps-said {
 	margin-bottom: 0;
 }
+
+.one-workbook-page .page-head {
+	display: none;
+}
+
+.one-workbook-page .page-body,
+.one-workbook-page .layout-main-section-wrapper,
+.one-workbook-page .layout-main-section {
+	max-width: none;
+	margin: 0;
+	padding: 0;
+}
+
+.one-workbook-page .one-island {
+	height: calc(100dvh - var(--one-bar-offset, 0px));
+}

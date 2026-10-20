@@ -1,0 +1,103 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-10-20 16:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "naming_rule": "Random",
+ "description": "One edit to a workbook, in the order it was saved: what it touched, and what each cell was before and after. History reads it; nobody opens one.",
+ "field_order": [
+  "workbook",
+  "seq",
+  "sub_sheet",
+  "op_type",
+  "cell_refs",
+  "before_json",
+  "after_json",
+  "summary",
+  "actor",
+  "request_id"
+ ],
+ "fields": [
+  {
+   "fieldname": "workbook",
+   "fieldtype": "Link",
+   "label": "Workbook",
+   "options": "Workbook",
+   "search_index": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "seq",
+   "fieldtype": "Int",
+   "label": "Order",
+   "search_index": 1
+  },
+  {
+   "fieldname": "sub_sheet",
+   "fieldtype": "Data",
+   "label": "Sheet"
+  },
+  {
+   "fieldname": "op_type",
+   "fieldtype": "Data",
+   "label": "Kind",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "cell_refs",
+   "fieldtype": "Long Text",
+   "label": "Cells"
+  },
+  {
+   "fieldname": "before_json",
+   "fieldtype": "Long Text",
+   "label": "Before"
+  },
+  {
+   "fieldname": "after_json",
+   "fieldtype": "Long Text",
+   "label": "After"
+  },
+  {
+   "fieldname": "summary",
+   "fieldtype": "Data",
+   "label": "Summary"
+  },
+  {
+   "fieldname": "actor",
+   "fieldtype": "Link",
+   "label": "By",
+   "options": "User"
+  },
+  {
+   "fieldname": "request_id",
+   "fieldtype": "Data",
+   "label": "Request",
+   "search_index": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-20 16:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Sheet",
+ "name": "Workbook Change",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "role": "System Manager",
+   "report": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0
+}

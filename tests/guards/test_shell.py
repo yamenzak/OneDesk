@@ -35,7 +35,7 @@ ON_THE_SHELL = {
 	"masters": ("one/page/masters/masters.js", "one/page/masters/masters.css"),
 }
 
-ISLAND_PAGES = {"project_view", "project_template_view", "task_view", "item_view", "stock_on_hand", "inventory", "books", "onecrm", "onehr", "lots", "to_order", "quotes", "sent_out", "upkeep", "floor", "plant", "my_tasks", "timers"}
+ISLAND_PAGES = {"project_view", "project_template_view", "task_view", "item_view", "stock_on_hand", "inventory", "books", "onecrm", "onehr", "lots", "to_order", "quotes", "sent_out", "upkeep", "floor", "plant", "my_tasks", "timers", "workbook"}
 
 PARTS = re.compile(r"\.[a-z]+-(row|empty|quiet|card|content|section|chevron)(-[a-z]+)?\b(?![-\w])")
 

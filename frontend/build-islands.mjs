@@ -1,5 +1,6 @@
 import { fileURLToPath } from "node:url";
 import { buildIslands } from "@framework/ui/vite/island";
+import { sheetSeams } from "./src/sheet/seams.mjs";
 
 const COMPOSER = fileURLToPath(import.meta.resolve("@framework/ui/ActivityTimeline")).replace(
 	/ActivityTimeline\/index\.ts$/,
@@ -28,13 +29,14 @@ export const ISLANDS = {
 	"onedesk.plant": "src/islands/plant.js",
 	"onedesk.my_tasks": "src/islands/my_tasks.js",
 	"onedesk.timers": "src/islands/timers.js",
+	"onedesk.workbook": "src/islands/workbook.js",
 };
 
 await buildIslands({
 	app: "onedesk",
 	root: import.meta.dirname,
 	entries: ISLANDS,
-	plugins: [{ name: "framework-ui-composer", enforce: "pre", resolveId: (source) => (source === "@framework/ui/Composer" ? COMPOSER : null) }],
+	plugins: [sheetSeams, { name: "framework-ui-composer", enforce: "pre", resolveId: (source) => (source === "@framework/ui/Composer" ? COMPOSER : null) }],
 	production: process.argv.includes("--production"),
 	watch: process.argv.includes("--watch"),
 });

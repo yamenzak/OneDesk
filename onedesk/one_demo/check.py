@@ -5235,6 +5235,54 @@ def oneai_summarises_a_supplier_once_a_day():
 
 
 @check
+def onecloud_holds_a_workbook_with_its_history():
+	"""Layla makes a workbook in her files from OneCloud, saves it twice with
+	an edit to B2, renames it, and finds both saves in its history and B2's
+	before and after. Rania can't open it. A copy of the first version is a
+	workbook of its own; restoring that version brings 100 back; deleting
+	the File takes the workbook and its history with it."""
+	from onedesk.one_sheet import api, versions
+
+	def held(value):
+		return json.dumps({"sheet": {"v": 2, "current": "Sheet1", "sheets": {"Sheet1": {"rows": {"1": [None, value]}}}}})
+
+	with as_user(OWNER):
+		made = api.make("@my", "Glazing rates")
+		book = made["workbook"]
+		assert made["name"] == "Glazing rates" and api.workbook_of(made["url"]) == book
+		assert api.get_sheet(book)["can_write"]
+		api.save_sheet("Glazing rates", held("100"), book, json.dumps([{"op_type": "setCell", "sub_sheet": "Sheet1", "cell_refs": ["B2"], "before": {"B2": None}, "after": {"B2": "100"}}]), "r1")
+		assert api.save_sheet("Glazing rates", held("100"), book, "", "r1")["head_seq"] == 2, "a save sent twice is kept once"
+		frappe.db.set_value(versions.VERSION, {"workbook": book}, "creation", frappe.utils.add_to_date(None, minutes=-5))
+		api.save_sheet("Glazing rates 2026", held("120"), book, json.dumps([{"op_type": "setCell", "sub_sheet": "Sheet1", "cell_refs": ["B2"], "before": {"B2": "100"}, "after": {"B2": "120"}}]), "r2")
+		assert frappe.db.get_value("File", made["id"], "file_name") == "Glazing rates 2026"
+		assert api.rename_sheet(book, "Glazing rates")["title"] == "Glazing rates"
+		told = versions.timeline(book)["buckets"]["earlier"]["items"]
+		assert len(told) == 2 and told[0]["seq"] > told[1]["seq"], told
+		assert [(one["before"], one["after"]) for one in versions.ops_for_cell(book, "B2", "Sheet1")] == [("100", "120"), (None, "100")]
+		first = told[-1]["id"]
+		assert '"100"' in versions.state_at(first)["sheets_data"]
+		assert versions.label_snapshot(first, "Before the discount")["pinned"]
+		assert versions.timeline(book)["buckets"]["pinned"]["items"][0]["label"] == "Before the discount"
+		copy = versions.make_copy(first, "Glazing rates, first")
+		assert '"100"' in api.get_sheet(copy)["sheets_data"]
+		versions.restore(first)
+		assert '"100"' in api.get_sheet(book)["sheets_data"]
+		assert api.get_link_preview("https://example.com") == {"url": "https://example.com"}
+		api.download(book)
+		assert frappe.local.response["location"] == f"/desk/workbook/{book}"
+	with as_user("rania@one.test"):
+		try:
+			api.get_sheet(book)
+			raise AssertionError("Rania opened Layla's workbook")
+		except frappe.PermissionError:
+			pass
+	for one in (made["id"], frappe.db.get_value(api.WORKBOOK, copy, "file")):
+		frappe.delete_doc("File", one, ignore_permissions=True, force=True)
+	assert not frappe.db.exists(api.WORKBOOK, book) and not frappe.db.exists(versions.VERSION, {"workbook": book})
+
+
+@check
 def oneai_lays_out_a_print_format_as_meant():
 	"""Layla's print format is laid out from sections a model wrote loosely:
 	Python's words for true and none, a table named just before its columns,
