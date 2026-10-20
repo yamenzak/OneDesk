@@ -122,26 +122,29 @@ IDs to anybody with the link. Every file the import brings over is private
 except logos and photos. Signatures and the old app's Google key are left
 behind.
 
-## The costing template
+## The costing templates
 
-Rua's estimators price a job in a costing sheet, one line per opening:
-area, glass at 350 a square metre, Alumil's price with insertion and
-extras, VAT, 74% profit, the rate rounded up to 5. `setup.costing` makes it
-a workbook template for a quotation's items, **Rua Costing**: their columns,
-a curtain wall's formulas on 100 lines and a total, and an Items sheet
-whose first line holds one formula a column, each filling its column down
-from the costing (`setup.COSTING_ITEMS`), a line for each costing line with
-an ITEM. The product comes from the description (`setup.kind_formula`, on
-`setup.KINDS`, which the importer reads the same way), the mark is the item
-name, then the description, quantity, width and height, and the rate is
-the line's overall price (P) over its quantity (C): O is a unit rate on a
-curtain wall's line but the whole price on a cladding or handrail line.
+Rua's estimators price a job in a costing sheet, one line per opening.
+`setup.costing` makes one workbook template for a quotation's items per
+family of systems (`setup.COSTINGS`): **Costing (Alumil, Gutmann,
+Technal)** and **Costing (Gulf Extrusion)**. A template is the sheet's
+header, its formulas on 100 lines and its totals, and nothing a job types:
+no items, sizes, glass prices or kilos. Gulf Extrusion's sizes are in
+centimetres and its aluminium is priced from its weight, powder coated or
+mill finish; Alumil's sizes are in millimetres.
 
-Opening a quotation's items in a workbook offers it. Pasting the C-28
-costing (65 lines) into its Costing sheet made a quotation of 65 lines
-totalling 6,903,715, the sheet's own TOTAL. Louvers, cladding and
-handrails keep their own formulas on their lines, typed or pasted as
-before.
+Each has an Items sheet whose first line holds one formula a column, each
+filling its column down from the costing (`setup.costing_items`), a line
+for each costing line with an item. The product comes from the description
+(`setup.kind_formula`, on `setup.KINDS`, which the importer reads the same
+way), the mark is the item name, then the description, quantity, width and
+height in millimetres, and the rate is the line's overall price (P) over its
+quantity (C).
+
+Pasting the C-28 costing (65 lines) into the Alumil template's Costing
+sheet made a quotation of 65 lines totalling 6,903,715, the sheet's own
+TOTAL; the Gulf Extrusion template gives the 140,000 of the NAD community
+centre sheet it was taken from.
 
 ## What is not built
 

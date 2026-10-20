@@ -55,9 +55,25 @@ def test_a_line_goes_under_the_product_its_words_name():
 def test_the_costing_template_asks_the_same_question_as_the_importer():
 	space = _load(RUA / "setup.py", {"kind_formula", "_on_item"})
 	said = space["kind_formula"]()
-	assert said.startswith('=IF(Costing!A4:A="","",IF(ISNUMBER(SEARCH("louv",Costing!B4:B)),"Louver",')
-	assert 'IF(ISNUMBER(SEARCH("steel",Costing!B4:B))*ISNUMBER(SEARCH("handrail",Costing!B4:B)),"Steel Handrail",' in said
+	assert said.startswith('=IF(Costing!A2:A="","",IF(ISNUMBER(SEARCH("louv",Costing!B2:B)),"Louver",')
+	assert 'IF(ISNUMBER(SEARCH("steel",Costing!B2:B))*ISNUMBER(SEARCH("handrail",Costing!B2:B)),"Steel Handrail",' in said
 	assert said.endswith('"Aluminium Works"' + ")" * (len(space["KINDS"]) + 1))
+
+
+def test_a_costing_template_is_headers_and_formulas_only():
+	space = _load(RUA / "setup.py", {"kind_formula", "costing_items", "costing_rows"})
+	last = 1 + space["COSTING_LINES"]
+	for spec in space["COSTINGS"]:
+		rows = space["costing_rows"](spec)
+		assert rows["0"][:3] in (["ITEM", "DESCRIPTION", "QTY"], ["Item", "Description", "Qty"])
+		lines = [rows[str(at)] for at in range(1, last)]
+		assert all(one is None or one.startswith("=") for line in lines for one in line), "nothing typed, only formulas"
+		assert all(one is None or one.startswith("=") or one.isupper() for one in rows[str(last + 1)])
+	alumil, gulf = (space["costing_rows"](one) for one in space["COSTINGS"])
+	assert alumil["1"][5] == "=(D2*E2)/1000000" and alumil[str(last + 1)][14:16] == ["TOTAL", f"=SUM(P2:P{last})"]
+	assert gulf["1"][5] == "=(D2*E2)/10000" and gulf["1"][20] == "=(R2*24)+(S2*19)+T2"
+	items = space["costing_items"](2, 10)
+	assert items["one_length"] == '=IF(Costing!A2:A="","",IF(ISNUMBER(Costing!D2:D),Costing!D2:D*10,""))', "centimetres to millimetres"
 
 
 def test_a_trn_is_fifteen_digits_or_nothing():
