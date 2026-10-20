@@ -29,13 +29,13 @@
 
       <!-- Action bar (visible while selected) -->
       <div v-if="selectedId === chart.id" class="co-actions" @mousedown.stop>
-        <button class="co-action" title="Edit chart" @click="$emit('edit', chart.id)">
+        <button class="co-action" :title="__('Edit chart')" @click="$emit('edit', chart.id)">
           <FeatherIcon name="pencil" class="co-action-icon" />
         </button>
-        <button class="co-action" title="Refresh data" @click="$emit('refresh', chart.id)">
+        <button class="co-action" :title="__('Refresh data')" @click="$emit('refresh', chart.id)">
           <FeatherIcon name="refresh-cw" class="co-action-icon" />
         </button>
-        <button class="co-action co-action--danger" title="Delete chart" @click="$emit('delete', chart.id)">
+        <button class="co-action co-action--danger" :title="__('Delete chart')" @click="$emit('delete', chart.id)">
           <FeatherIcon name="trash-2" class="co-action-icon" />
         </button>
       </div>

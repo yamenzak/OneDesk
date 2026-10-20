@@ -123,7 +123,7 @@ def test_what_an_island_says_is_translated():
 	"""Every word on an island goes through desk's `__`, which frappe's own
 	extractor reads in .vue files (babel_extractors.csv), so it reaches the POT
 	like any other string."""
-	for path in _vue():
+	for path in sorted([*SRC.rglob("*.vue"), *PORTAL.rglob("*.vue")]):
 		template = re.search(r"<template>(.*)</template>", path.read_text(encoding="utf-8"), re.S).group(1)
 		for text in re.findall(r">([^<>{}]+)<", template):
 			words = text.strip()

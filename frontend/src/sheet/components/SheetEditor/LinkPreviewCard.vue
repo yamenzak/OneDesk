@@ -41,7 +41,7 @@
 					variant="ghost"
 					size="sm"
 					:icon="copied ? 'lucide-check' : 'lucide-copy'"
-					:tooltip="copied ? 'Copied' : 'Copy link'"
+					:tooltip="copied ? __('Copied') : __('Copy link')"
 					@click="copyUrl"
 				/>
 				<Button
@@ -49,7 +49,7 @@
 					variant="ghost"
 					size="sm"
 					icon="lucide-pencil"
-					tooltip="Edit link"
+					:tooltip="__('Edit link')"
 					@click="$emit('edit')"
 				/>
 				<Button
@@ -57,7 +57,7 @@
 					variant="ghost"
 					size="sm"
 					icon="lucide-unlink"
-					tooltip="Remove link"
+					:tooltip="__('Remove link')"
 					@click="$emit('unlink')"
 				/>
 			</div>
@@ -74,8 +74,8 @@
 			v-if="showReplaceOffer"
 			class="flex items-center justify-between gap-2 border-t border-outline-gray-2 bg-surface-gray-1 px-3 py-2"
 		>
-			<span class="text-xs text-ink-gray-6">Replace URL with its title?</span>
-			<Button variant="subtle" size="sm" label="Replace" @click="$emit('replace')" />
+			<span class="text-xs text-ink-gray-6">{{ __('Replace URL with its title?') }}</span>
+			<Button variant="subtle" size="sm" :label="__('Replace')" @click="$emit('replace')" />
 		</div>
 	</div>
 </template>
@@ -84,6 +84,7 @@
 import { computed, ref, watch } from 'vue'
 import { Button, Spinner } from 'frappe-ui'
 import LucideGlobe from '~icons/lucide/globe'
+import { __ } from '../../../kit/desk'
 
 const props = defineProps({
 	open:    { type: Boolean, default: false },
@@ -106,7 +107,7 @@ watch(() => props.url, () => { copied.value = false; faviconFailed.value = false
 const titleText = computed(() => props.preview.title || props.url)
 
 const hostText = computed(() => {
-	if (props.preview.loading) return 'Loading preview…'
+	if (props.preview.loading) return __('Loading preview…')
 	if (props.preview.host) return props.preview.host
 	// mailto: / unreachable pages — show the bare target, minus the scheme.
 	return props.url.replace(/^(https?:\/\/|mailto:)/i, '')

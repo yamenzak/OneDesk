@@ -120,6 +120,7 @@ extend_bootinfo = [
 	"onedesk.one_project.retention.boot",
 	"onedesk.one_admin.site.offer",
 	"onedesk.one.announcements.boot",
+	"onedesk.one_sheet.live.boot",
 	"onedesk.one_studio.extensions.boot",
 	"onedesk.one.apps.boot",
 ]

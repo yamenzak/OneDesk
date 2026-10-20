@@ -4,6 +4,7 @@ import { computePivotModel, computePivotModelAsync, pivotDrillDown, writePivotTo
 import { colLabel, cellId, parseCellId } from '../../utils/cells.js'
 import { COL_HEADER_H, ROW_HEADER_W } from '../../canvas/constants.js'
 import { overlayRectStyle } from '../../utils/overlay-rect.js'
+import { __ } from '../../../kit/desk'
 
 // Styling applied to the pivot's column header row (row 0) and Grand Total
 // row (last row). Matches the Google Sheets look the user asked for.
@@ -168,8 +169,8 @@ export function usePivotIntegration({
   })
 
   const pivotBannerMenuOptions = [
-    { label: 'Edit pivot',   icon: 'lucide-edit-2',                onClick: onPivotEdit   },
-    { label: 'Delete pivot', icon: 'lucide-trash-2', theme: 'red', onClick: onPivotDelete },
+    { label: __('Edit pivot'),   icon: 'lucide-edit-2',                onClick: onPivotEdit   },
+    { label: __('Delete pivot'), icon: 'lucide-trash-2', theme: 'red', onClick: onPivotDelete },
   ]
 
   function openPivotDialog() {

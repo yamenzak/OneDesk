@@ -5241,7 +5241,9 @@ def onecloud_holds_a_workbook_with_its_history():
 	before and after. Rania can't open it. A copy of the first version is a
 	workbook of its own; restoring that version brings 100 back; deleting
 	the File takes the workbook and its history with it."""
-	from onedesk.one_sheet import api, versions
+	from unittest import mock
+
+	from onedesk.one_sheet import api, assist, live, versions
 
 	def held(value):
 		return json.dumps({"sheet": {"v": 2, "current": "Sheet1", "sheets": {"Sheet1": {"rows": {"1": [None, value]}}}}})
@@ -5271,12 +5273,22 @@ def onecloud_holds_a_workbook_with_its_history():
 		assert api.get_link_preview("https://example.com") == {"url": "https://example.com"}
 		api.download(book)
 		assert frappe.local.response["location"] == f"/desk/workbook/{book}"
+		admitted = live.admit("workbook", book)
+		assert admitted["ok"] and admitted["write"] and admitted["who"]["user"] == OWNER, admitted
+		asked = []
+		answer = '{"actions": [{"type": "setCell", "cell": "c2", "formula": "=B2*1.05"}, {"type": "setCell", "cell": "ZZZZ1", "formula": "1"}, {"type": "answer", "text": "Five per cent on top."}]}'
+		with mock.patch("onedesk.one_ai.run.once", side_effect=lambda action, text, **kw: asked.append(text) or answer):
+			told = assist.ai_assist(book, "Add 5% beside it", json.dumps({"sheet": "Sheet1", "r0": 1, "c0": 1, "r1": 1, "c1": 1, "active": "B2"}))
+		assert told["actions"] == [{"type": "setCell", "cell": "C2", "formula": "=B2*1.05"}, {"type": "answer", "text": "Five per cent on top."}], told
+		assert '"B2": "100"' in asked[0] and '"selection": "B2:B2"' in asked[0], asked
 	with as_user("rania@one.test"):
 		try:
 			api.get_sheet(book)
 			raise AssertionError("Rania opened Layla's workbook")
 		except frappe.PermissionError:
 			pass
+		assert live.admit("workbook", book) == {"ok": False}, "nor joins its room"
+		assert live.admit("file", book) == {"ok": False}
 	for one in (made["id"], frappe.db.get_value(api.WORKBOOK, copy, "file")):
 		frappe.delete_doc("File", one, ignore_permissions=True, force=True)
 	assert not frappe.db.exists(api.WORKBOOK, book) and not frappe.db.exists(versions.VERSION, {"workbook": book})

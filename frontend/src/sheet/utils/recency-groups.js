@@ -3,7 +3,15 @@
 // they were modified, in the shape frappe-ui's ListView needs for grouped
 // rendering ([{group, collapsed, rows}], all rows matching that shape).
 
+import { __ } from '../../kit/desk'
+
 const GROUP_ORDER = ['Today', 'Previous 7 days', 'Previous 30 days', 'Earlier']
+const GROUP_LABELS = {
+  'Today':            () => __('Today'),
+  'Previous 7 days':  () => __('Previous 7 days'),
+  'Previous 30 days': () => __('Previous 30 days'),
+  'Earlier':          () => __('Earlier'),
+}
 
 const DAY_MS = 24 * 60 * 60 * 1000
 
@@ -39,8 +47,8 @@ export function groupSheetsByRecency(rows, now = new Date(), prevGroups = []) {
   return GROUP_ORDER
     .filter(g => buckets.get(g).length)
     .map(g => ({
-      group: g,
-      collapsed: collapsedByLabel.get(g) ?? false,
+      group: GROUP_LABELS[g](),
+      collapsed: collapsedByLabel.get(GROUP_LABELS[g]()) ?? false,
       rows: buckets.get(g),
     }))
 }

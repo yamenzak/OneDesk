@@ -1,5 +1,6 @@
 """A costing workbook in the company's files: the rates behind the Bayview
-tower quotation, worked out in a grid, with a second sheet for labour."""
+tower quotation, worked out in a grid, with a second sheet for labour. Shared
+with Karim, so two people can work on it at once."""
 
 import json
 
@@ -9,6 +10,7 @@ from onedesk.one_demo.base import as_user
 from onedesk.one_sheet import api, storage
 
 OWNER = "wsadmin@one.test"
+CHECKER = "karim@one.test"
 NAME = "bayview-costing"
 TITLE = "Bayview tower costing"
 
@@ -37,8 +39,14 @@ def _packed(rows: list[list[str]]) -> dict:
 
 
 def run(password=None):
-	if frappe.db.exists(api.WORKBOOK, NAME):
-		return
+	if not frappe.db.exists(api.WORKBOOK, NAME):
+		_make()
+	file = frappe.db.get_value(api.WORKBOOK, NAME, "file")
+	if frappe.db.exists("User", CHECKER) and not frappe.db.exists("DocShare", {"share_doctype": "File", "share_name": file, "user": CHECKER}):
+		frappe.share.add_docshare("File", file, CHECKER, read=1, write=1, notify=0, flags={"ignore_share_permission": True})
+
+
+def _make():
 	from onedesk.one_storage import namespace as ns
 
 	content = {"sheet": {"v": 2, "current": "Materials", "sheets": {"Materials": _packed(MATERIALS), "Labour": _packed(LABOUR)}}}

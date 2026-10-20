@@ -706,6 +706,8 @@ No doctypes yet.
 * `onedesk.one_sheet.api.make`
 * `onedesk.one_sheet.api.rename_sheet`
 * `onedesk.one_sheet.api.save_sheet`
+* `onedesk.one_sheet.assist.ai_assist`
+* `onedesk.one_sheet.live.admit`
 * `onedesk.one_sheet.versions.label_snapshot`
 * `onedesk.one_sheet.versions.make_copy`
 * `onedesk.one_sheet.versions.ops_for_cell`

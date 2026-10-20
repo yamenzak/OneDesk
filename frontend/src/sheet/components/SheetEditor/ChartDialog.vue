@@ -1,25 +1,25 @@
 <!-- Derived from frappe/suite@df7f341 (frontend/src/apps/sheets)/components/SheetEditor/ChartDialog.vue. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md. -->
 <template>
-  <Dialog v-model:open="show" :title="chartId ? 'Edit chart' : 'Insert chart'" size="4xl">
+  <Dialog v-model:open="show" :title="chartId ? __('Edit chart') : __('Insert chart')" size="4xl">
     <template #default>
 
       <!-- ── Source range ─────────────────────────────────────────────── -->
       <div class="cd-section">
-        <p class="cd-label">Source range</p>
+        <p class="cd-label">{{ __('Source range') }}</p>
         <div class="cd-range-row">
           <FormControl
             v-model="rangeInput"
             type="text"
-            placeholder="e.g. A1:D20"
+            :placeholder="__('e.g. {0}', ['A1:D20'])"
             class="cd-range-input"
             @blur="detect"
             @keydown.enter.prevent="detect"
           />
-          <Button size="sm" variant="outline" label="Detect" @click="detect" />
+          <Button size="sm" variant="outline" :label="__('Detect')" @click="detect" />
           <FormControl
             type="checkbox"
             v-model="hasHeader"
-            label="First row is header"
+            :label="__('First row is header')"
             class="cd-header-toggle"
             @change="detect"
           />
@@ -29,7 +29,7 @@
 
       <!-- ── Chart type picker ────────────────────────────────────────── -->
       <div class="cd-section">
-        <p class="cd-label">Chart type</p>
+        <p class="cd-label">{{ __('Chart type') }}</p>
         <div class="cd-type-grid">
           <button
             v-for="t in CHART_TYPES"
@@ -47,11 +47,11 @@
       <!-- ── Encoding + Preview side by side ────────────────────────────-->
       <div v-if="columns.length" class="cd-grid">
         <div class="cd-encoding">
-          <p class="cd-label">Title</p>
-          <FormControl v-model="title" type="text" placeholder="(optional)" />
+          <p class="cd-label">{{ __('Title') }}</p>
+          <FormControl v-model="title" type="text" :placeholder="__('(optional)')" />
 
           <p class="cd-label" style="margin-top:14px">
-            {{ chartType === 'pie' ? 'Labels' : 'X axis' }}
+            {{ chartType === 'pie' ? __('Labels') : __('X axis') }}
           </p>
           <!-- Combobox keeps the dropdown anchored + scrollable + searchable.
                 Native <select> on macOS renders a system popover that grows to
@@ -60,29 +60,29 @@
             :model-value="String(xCol)"
             :options="columnOptions"
             trigger="button"
-            placeholder="Pick a column"
+            :placeholder="__('Pick a column')"
             @update:model-value="onXAxisChange"
           />
 
           <p class="cd-label" style="margin-top:14px">
-            {{ chartType === 'pie' ? 'Aggregate slices' : 'Aggregate' }}
+            {{ chartType === 'pie' ? __('Aggregate slices') : __('Aggregate') }}
           </p>
-          <FormControl type="select" v-model="opts.aggregate" :options="CHART_AGGREGATIONS" />
+          <FormControl type="select" v-model="opts.aggregate" :options="aggregations" />
           <p v-if="opts.aggregate !== 'none'" class="cd-hint">
-            Rows sharing the same {{ chartType === 'pie' ? 'label' : 'X value' }} are grouped and summarised.
+            {{ chartType === 'pie' ? __('Rows sharing the same label are grouped and summarised.') : __('Rows sharing the same X value are grouped and summarised.') }}
           </p>
 
           <div class="cd-series-head" style="margin-top:14px">
             <p class="cd-label" style="margin:0">
-              {{ chartType === 'pie' ? 'Values' : 'Series' }}
+              {{ chartType === 'pie' ? __('Values') : __('Series') }}
               <span class="cd-series-count">{{ yCols.length }} / {{ columns.length - 1 }}</span>
             </p>
-            <Button size="sm" variant="ghost" label="Numeric only" @click="selectNumericSeries" />
+            <Button size="sm" variant="ghost" :label="__('Numeric only')" @click="selectNumericSeries" />
           </div>
           <FormControl
             v-model="seriesFilter"
             type="text"
-            placeholder="Filter columns…"
+            :placeholder="__('Filter columns…')"
             class="cd-series-filter"
           />
           <div class="cd-series-list" ref="seriesListRef">
@@ -118,22 +118,22 @@
               <span v-if="col.isNumeric" class="cd-series-tag">#</span>
             </div>
             <div v-if="!filteredColumns.length" class="cd-series-empty">
-              No columns match "{{ seriesFilter }}"
+              {{ __('No columns match “{0}”', [seriesFilter]) }}
             </div>
           </div>
 
-          <p class="cd-label" style="margin-top:14px">Options</p>
+          <p class="cd-label" style="margin-top:14px">{{ __('Options') }}</p>
           <div class="cd-options">
-            <FormControl v-if="chartType !== 'pie'" type="checkbox" v-model="opts.showLegend"  label="Show legend" />
-            <FormControl                            type="checkbox" v-model="opts.dataLabels"  label="Show data labels" />
-            <FormControl v-if="chartType !== 'pie'" type="checkbox" v-model="opts.gridLines"   label="Show grid lines" />
-            <FormControl v-if="chartType === 'line' || chartType === 'area'" type="checkbox" v-model="opts.smooth"  label="Smooth curves" />
-            <FormControl v-if="chartType === 'bar'  || chartType === 'area'" type="checkbox" v-model="opts.stacked" label="Stacked" />
+            <FormControl v-if="chartType !== 'pie'" type="checkbox" v-model="opts.showLegend"  :label="__('Show legend')" />
+            <FormControl                            type="checkbox" v-model="opts.dataLabels"  :label="__('Show data labels')" />
+            <FormControl v-if="chartType !== 'pie'" type="checkbox" v-model="opts.gridLines"   :label="__('Show grid lines')" />
+            <FormControl v-if="chartType === 'line' || chartType === 'area'" type="checkbox" v-model="opts.smooth"  :label="__('Smooth curves')" />
+            <FormControl v-if="chartType === 'bar'  || chartType === 'area'" type="checkbox" v-model="opts.stacked" :label="__('Stacked')" />
           </div>
 
           <div class="cd-colors-head" style="margin-top:14px">
-            <p class="cd-label" style="margin:0">Colors</p>
-            <Button v-if="hasCustomColors" size="sm" variant="ghost" label="Reset" @click="resetColors" />
+            <p class="cd-label" style="margin:0">{{ __('Colors') }}</p>
+            <Button v-if="hasCustomColors" size="sm" variant="ghost" :label="__('Reset')" @click="resetColors" />
           </div>
           <div class="cd-palettes">
             <button
@@ -171,10 +171,10 @@
         </div>
 
         <div class="cd-preview">
-          <p class="cd-label">Preview</p>
+          <p class="cd-label">{{ __('Preview') }}</p>
           <div class="cd-preview-frame">
             <ChartView v-if="previewConfig" :config="previewConfig" :matrix="previewMatrix" width="auto" height="auto" />
-            <div v-else class="cd-preview-placeholder">Pick a series to see a preview</div>
+            <div v-else class="cd-preview-placeholder">{{ __('Pick a series to see a preview') }}</div>
           </div>
         </div>
       </div>
@@ -186,10 +186,10 @@
         <Button
           variant="solid"
           :disabled="!canCommit"
-          :label="chartId ? 'Update chart' : 'Insert chart'"
+          :label="chartId ? __('Update chart') : __('Insert chart')"
           @click="onConfirm"
         />
-        <Button @click="show = false">Cancel</Button>
+        <Button @click="show = false">{{ __('Cancel') }}</Button>
       </div>
     </template>
   </Dialog>
@@ -202,6 +202,24 @@ import { Icon as FeatherIcon } from 'frappe-ui/experimental'
 // Lazy-load — same rationale as in ChartOverlay.
 const ChartView = defineAsyncComponent(() => import('./ChartView.vue'))
 import { CHART_TYPES, CHART_PALETTES, ESPRESSO_PALETTE, CHART_AGGREGATIONS } from '../../engine/charts.js'
+import { __ } from '../../../kit/desk'
+
+const AGGREGATION_LABELS = {
+  none:  __('None (plot each row)'),
+  sum:   __('Sum'),
+  avg:   __('Average'),
+  count: __('Count'),
+  min:   __('Min'),
+  max:   __('Max'),
+}
+const aggregations = CHART_AGGREGATIONS.map(o => ({ ...o, label: AGGREGATION_LABELS[o.value] || o.label }))
+const CHART_TYPE_LABELS = {
+  line:    __('Line'),
+  bar:     __('Bar'),
+  area:    __('Area'),
+  pie:     __('Pie'),
+  scatter: __('Scatter'),
+}
 
 const CHART_ICONS = {
   line:    'trending-up',
@@ -278,7 +296,7 @@ function detect() {
   if (!range) {
     range = _autoDetectRange()
     if (!range) {
-      rangeError.value = 'No data found on this sheet. Type a range like A1:D20.'
+      rangeError.value = __('No data found on this sheet. Type a range like {0}.', ['A1:D20'])
       matrix.value = []; columns.value = []
       return
     }
@@ -286,7 +304,7 @@ function detect() {
   }
   const [start, end] = range.includes(':') ? range.split(':') : [range, range]
   const data = props.sheet.getRangeValues(start, end, props.currentSheet)
-  if (!data || !data.length) { rangeError.value = 'Could not read range.'; matrix.value = []; columns.value = []; return }
+  if (!data || !data.length) { rangeError.value = __('Could not read range.'); matrix.value = []; columns.value = []; return }
   rangeError.value = ''
   matrix.value = data
   const ncols = data[0]?.length || 0
@@ -307,7 +325,7 @@ function detect() {
     }
     columns.value.push({
       idx:       i,
-      label:     header?.[i] ? String(header[i]) : `Column ${_colLetter(i)}`,
+      label:     header?.[i] ? String(header[i]) : __('Column {0}', [_colLetter(i)]),
       isNumeric: total > 0 && numHits / total >= 0.6,
     })
   }
@@ -383,7 +401,7 @@ const activePaletteName = computed(() => {
 const selectedSeries = computed(() =>
   yCols.value.map((idx, pos) => ({
     idx,
-    label: columns.value.find(c => c.idx === idx)?.label || `Column ${_colLetter(idx)}`,
+    label: columns.value.find(c => c.idx === idx)?.label || __('Column {0}', [_colLetter(idx)]),
     color: effectiveColors.value[pos % effectiveColors.value.length],
   })),
 )
@@ -427,9 +445,9 @@ const masterCheckState = computed(() => {
   return 'some'
 })
 const masterCheckLabel = computed(() => {
-  if (masterCheckState.value === 'all')  return seriesFilter.value ? 'Deselect visible' : 'Deselect all'
-  if (masterCheckState.value === 'some') return 'Deselect visible'
-  return seriesFilter.value ? 'Select visible' : 'Select all'
+  if (masterCheckState.value === 'all')  return seriesFilter.value ? __('Deselect visible') : __('Deselect all')
+  if (masterCheckState.value === 'some') return __('Deselect visible')
+  return seriesFilter.value ? __('Select visible') : __('Select all')
 })
 
 function toggleMasterSelection() {
@@ -486,7 +504,7 @@ function onConfirm() {
 }
 
 function _label(t) {
-  return t.charAt(0).toUpperCase() + t.slice(1)
+  return CHART_TYPE_LABELS[t] || t.charAt(0).toUpperCase() + t.slice(1)
 }
 function _colLetter(idx) {
   let n = idx + 1, s = ''

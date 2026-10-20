@@ -8,6 +8,7 @@
 // cell-history popover stay drop-in compatible while we keep moving.
 
 import { call } from '../utils/api.js'
+import { __ } from '../../kit/desk'
 
 const PREFIX = 'onedesk.one_sheet.versions'
 
@@ -56,9 +57,9 @@ function _toVersionRow(item) {
 }
 
 function _opLabel(item) {
-	if (item.kind === 'milestone') return ['Milestone']
-	if (item.kind === 'named')     return ['Named version']
-	if (item.op_count > 0)         return [`${item.op_count} edit${item.op_count === 1 ? '' : 's'}`]
+	if (item.kind === 'milestone') return [__('Milestone')]
+	if (item.kind === 'named')     return [__('Named version')]
+	if (item.op_count > 0)         return [item.op_count === 1 ? __('1 edit') : __('{0} edits', [item.op_count])]
 	return []
 }
 

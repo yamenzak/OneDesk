@@ -2,7 +2,7 @@
 <template>
 	<aside v-if="open" class="sn-vh-panel" @click.stop>
 		<header class="sn-vh-header">
-			<div class="sn-vh-title">Version history</div>
+			<div class="sn-vh-title">{{ __('Version history') }}</div>
 			<Button variant="ghost" size="sm" icon="lucide-x" @click="$emit('close')" />
 		</header>
 
@@ -10,15 +10,14 @@
 			<Select v-model="filter" :options="FILTER_OPTIONS" size="sm" />
 		</div>
 
-		<div v-if="loading" class="sn-vh-empty">Loading…</div>
+		<div v-if="loading" class="sn-vh-empty">{{ __('Loading…') }}</div>
 		<div v-else-if="error" class="sn-vh-empty sn-vh-error">{{ error }}</div>
 		<div v-else-if="!visibleGroups.length" class="sn-vh-empty">
 			<div class="sn-vh-empty-title">
-				{{ filter === 'named' ? 'No named versions yet.' : 'No saved versions yet.' }}
+				{{ filter === 'named' ? __('No named versions yet.') : __('No saved versions yet.') }}
 			</div>
 			<div class="sn-vh-empty-hint">
-				Edits are autosaved continuously — your data is safe.
-				Versions appear here after each save (rapid edits are grouped).
+				{{ __('Edits are autosaved continuously — your data is safe. Versions appear here after each save (rapid edits are grouped).') }}
 			</div>
 		</div>
 
@@ -37,7 +36,7 @@
 						<div class="sn-vh-row-title">
 							{{ formatTime(v.timestamp) }}
 							<span v-if="v.collapsed_count > 1" class="sn-vh-count">
-								· {{ v.collapsed_count }} saves
+								· {{ __('{0} saves', [v.collapsed_count]) }}
 							</span>
 						</div>
 						<div class="sn-vh-meta">
@@ -49,7 +48,7 @@
 					<button
 						class="sn-vh-row-menu"
 						:class="{ 'sn-vh-row-menu-visible': v.name === activeVersion }"
-						:title="`More actions for ${formatTime(v.timestamp)}`"
+						:title="__('More actions for {0}', [formatTime(v.timestamp)])"
 						@click.stop="toggleMenu(v.name, $event)"
 					>
 						<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
@@ -70,13 +69,13 @@
 			@click.stop
 		>
 			<button class="sn-vh-menu-item" @click="actionFromMenu('name')">
-				{{ menuRow?.version_name ? 'Rename this version' : 'Name this version' }}
+				{{ menuRow?.version_name ? __('Rename this version') : __('Name this version') }}
 			</button>
 			<button class="sn-vh-menu-item" @click="actionFromMenu('copy')">
-				Make a copy
+				{{ __('Make a copy') }}
 			</button>
 			<button class="sn-vh-menu-item" @click="actionFromMenu('restore')">
-				Restore this version
+				{{ __('Restore this version') }}
 			</button>
 		</div>
 	</aside>
@@ -85,10 +84,11 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { Avatar, Button, Select } from 'frappe-ui'
+import { __ } from '../../../kit/desk'
 
 const FILTER_OPTIONS = [
-	{ label: 'All versions',          value: 'all' },
-	{ label: 'Named versions only',   value: 'named' },
+	{ label: __('All versions'),          value: 'all' },
+	{ label: __('Named versions only'),   value: 'named' },
 ]
 
 const props = defineProps({
@@ -182,8 +182,8 @@ function _dayKey(ts) { return String(ts).slice(0, 10) }
 function dayLabel(dateStr) {
 	const today = _dayKey(new Date().toISOString())
 	const yest  = _dayKey(new Date(Date.now() - 86_400_000).toISOString())
-	if (dateStr === today) return 'Today'
-	if (dateStr === yest)  return 'Yesterday'
+	if (dateStr === today) return __('Today')
+	if (dateStr === yest)  return __('Yesterday')
 	const d = new Date(dateStr)
 	return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
 }

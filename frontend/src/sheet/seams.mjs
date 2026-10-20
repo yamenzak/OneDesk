@@ -25,6 +25,7 @@ export const sheetSeams = {
 	enforce: "pre",
 	resolveId(source) {
 		if (SEAMS[source]) return here(SEAMS[source]);
+		if (source.endsWith("/collab/realtime-adapter.js")) return here("./shim/live.js");
 		if (source.startsWith("@/apps/sheets/")) return here(`./${source.slice("@/apps/sheets/".length)}`);
 		return null;
 	},

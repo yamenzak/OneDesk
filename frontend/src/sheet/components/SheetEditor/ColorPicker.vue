@@ -44,7 +44,7 @@
           <input class="sn-cp-hex" :value="hexBody" maxlength="6" placeholder="rrggbb" spellcheck="false"
                  @input="hexBody = norm($event.target.value)"
                  @keydown.enter.prevent="commitHex(close)" @blur="commitHex(null)" />
-          <Tooltip text="Custom colour">
+          <Tooltip :text="__('Custom colour')">
             <label class="sn-cp-iconbtn">
               <FeatherIcon name="plus" class="sn-cp-icon" />
               <input type="color" :value="nativeValue()" @input="choose($event.target.value, null)" />
@@ -60,6 +60,7 @@
 import { ref, watch } from 'vue'
 import { Popover, Tooltip } from 'frappe-ui'
 import { Icon as FeatherIcon } from 'frappe-ui/experimental'
+import { __ } from '../../../kit/desk'
 
 // Tailwind palette, one family per row (50→900), flattened in row order so the
 // grid reads as 9 columns × 8 families — same source palette Gameplan uses.
@@ -80,8 +81,8 @@ const props = defineProps({
   modelValue:   { type: String, default: '' },
   allowDefault: { type: Boolean, default: false },
   defaultValue: { type: String, default: '' },
-  defaultLabel: { type: String, default: 'Default' },
-  title:        { type: String, default: 'Colour' },
+  defaultLabel: { type: String, default: () => __('Default') },
+  title:        { type: String, default: () => __('Colour') },
   // The native picker needs a literal hex even when modelValue is unset.
   fallback:     { type: String, default: '#000000' },
 })

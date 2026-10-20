@@ -2,6 +2,7 @@
 import { ref }          from 'vue'
 import { parseCellId }  from '../../utils/cells.js'
 import { unpackSheet }  from '../../utils/sheet-codec.js'
+import { __ } from '../../../kit/desk'
 import { list, getState, restore, name, clearName, makeACopy, cellDiff } from '../../services/versions.js'
 
 const _defaultApi = { list, getState, restore, name, clearName, makeACopy, cellDiff }
@@ -136,7 +137,7 @@ export function useVersionHistory({
     try {
       vhVersions.value = await _versionsApi.list(sheetId.value)
     } catch (err) {
-      vhError.value = err.message || 'Failed to load versions'
+      vhError.value = err.message || __('Failed to load versions')
     } finally {
       vhLoading.value = false
     }
@@ -173,7 +174,7 @@ export function useVersionHistory({
         grid?.setActiveDiffSheet?.(getSheet()?.getCurrentSheet())
       } catch (_) { /* highlighting optional */ }
     } catch (err) {
-      vhError.value = err.message || 'Failed to load version'
+      vhError.value = err.message || __('Failed to load version')
       exitPreview()
     }
   }
@@ -209,7 +210,7 @@ export function useVersionHistory({
   async function restorePreview() {
     if (!vhActive.value) return
     // eslint-disable-next-line no-alert
-    if (!window.confirm('Restore this version? A new version will be created representing the restored state.')) return
+    if (!window.confirm(__('Restore this version? A new version will be created representing the restored state.'))) return
     vhRestoring.value = true
     try {
       await _versionsApi.restore(sheetId.value, vhActive.value)
@@ -222,7 +223,7 @@ export function useVersionHistory({
       history.push()
       await _refreshVersions()
     } catch (err) {
-      vhError.value = err.message || 'Restore failed'
+      vhError.value = err.message || __('Restore failed')
     } finally {
       vhRestoring.value = false
     }
@@ -237,7 +238,7 @@ export function useVersionHistory({
     const cur     = vhVersions.value.find(v => v.name === versionId)
     const initial = cur?.version_name || ''
     // eslint-disable-next-line no-alert
-    const next    = window.prompt('Name this version', initial)
+    const next    = window.prompt(__('Name this version'), initial)
     if (next === null) return
     const trimmed = next.trim()
     try {
@@ -245,13 +246,13 @@ export function useVersionHistory({
       else         await _versionsApi.clearName(sheetId.value, versionId)
       await _refreshVersions()
     } catch (err) {
-      vhError.value = err.message || 'Naming failed'
+      vhError.value = err.message || __('Naming failed')
     }
   }
 
   async function makeACopyInline(versionId) {
     // eslint-disable-next-line no-alert
-    const title = window.prompt('Name for the copy', `${currentTitle.value} (snapshot)`)
+    const title = window.prompt(__('Name for the copy'), __('{0} (snapshot)', [currentTitle.value]))
     if (title === null) return
     try {
       const newName = await _versionsApi.makeACopy(sheetId.value, versionId, title.trim())
@@ -261,13 +262,13 @@ export function useVersionHistory({
         window.open(url, '_blank')
       }
     } catch (err) {
-      vhError.value = err.message || 'Copy failed'
+      vhError.value = err.message || __('Copy failed')
     }
   }
 
   async function restoreVersionInline(versionId) {
     // eslint-disable-next-line no-alert
-    if (!window.confirm('Restore this version? A new version will be created representing the restored state.')) return
+    if (!window.confirm(__('Restore this version? A new version will be created representing the restored state.'))) return
     vhRestoring.value  = true
     vhActive.value     = versionId
     try {
@@ -281,7 +282,7 @@ export function useVersionHistory({
       history.push()
       await _refreshVersions()
     } catch (err) {
-      vhError.value = err.message || 'Restore failed'
+      vhError.value = err.message || __('Restore failed')
     } finally {
       vhRestoring.value = false
     }

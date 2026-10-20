@@ -35,7 +35,7 @@
             name="pivot-field-search"
             v-model="query"
             class="pfp-search"
-            placeholder="Search fields…"
+            :placeholder="__('Search fields…')"
             spellcheck="false"
             autocomplete="off"
             @keydown.escape.stop="close"
@@ -53,7 +53,7 @@
             @click="onSelect(f)"
             @mouseenter="highlight = i"
           >{{ f }}</button>
-          <div v-if="!filtered.length" class="pfp-empty">No matching fields</div>
+          <div v-if="!filtered.length" class="pfp-empty">{{ __('No matching fields') }}</div>
         </div>
       </div>
       </FocusScope>

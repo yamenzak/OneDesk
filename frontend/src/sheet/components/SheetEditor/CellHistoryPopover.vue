@@ -1,11 +1,11 @@
 <!-- Derived from frappe/suite@df7f341 (frontend/src/apps/sheets)/components/SheetEditor/CellHistoryPopover.vue. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md. -->
 <template>
-	<Dialog v-model:open="model" :title="`Edit history for ${cellRef}`" size="sm">
+	<Dialog v-model:open="model" :title="__('Edit history for {0}', [cellRef])" size="sm">
 		<template #default>
-			<div v-if="loading" class="sn-ch-empty">Loading…</div>
+			<div v-if="loading" class="sn-ch-empty">{{ __('Loading…') }}</div>
 			<div v-else-if="error" class="sn-ch-empty sn-ch-error">{{ error }}</div>
 			<div v-else-if="!entries.length" class="sn-ch-empty">
-				No edits recorded for this cell yet.
+				{{ __('No edits recorded for this cell yet.') }}
 			</div>
 			<ul v-else class="sn-ch-list">
 				<li v-for="e in entries" :key="e.version" class="sn-ch-item">
@@ -27,6 +27,7 @@
 <script setup>
 import { computed } from 'vue'
 import { Dialog } from 'frappe-ui'
+import { __ } from '../../../kit/desk'
 
 const props = defineProps({
 	modelValue: { type: Boolean, default: false },
@@ -57,7 +58,7 @@ function shortUser(u) {
 }
 
 function displayValue(v) {
-	if (v === null || v === undefined || v === '') return '(empty)'
+	if (v === null || v === undefined || v === '') return __('(empty)')
 	return String(v)
 }
 </script>

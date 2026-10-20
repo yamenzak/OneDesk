@@ -17,16 +17,16 @@
         </svg>
       </div>
       <h2 class="sn-load-error-title">
-        <template v-if="loadError.kind === 'denied'">You don't have access to this sheet</template>
-        <template v-else-if="loadError.kind === 'missing'">this sheet doesn't exist</template>
-        <template v-else>Couldn't open this sheet</template>
+        <template v-if="loadError.kind === 'denied'">{{ __('You don’t have access to this sheet') }}</template>
+        <template v-else-if="loadError.kind === 'missing'">{{ __('this sheet doesn’t exist') }}</template>
+        <template v-else>{{ __('Couldn’t open this sheet') }}</template>
       </h2>
       <p class="sn-load-error-sub">
-        <template v-if="loadError.kind === 'denied'">Ask the owner to share it with you, then reload.</template>
-        <template v-else-if="loadError.kind === 'missing'">It may have been deleted, or the link is wrong.</template>
+        <template v-if="loadError.kind === 'denied'">{{ __('Ask the owner to share it with you, then reload.') }}</template>
+        <template v-else-if="loadError.kind === 'missing'">{{ __('It may have been deleted, or the link is wrong.') }}</template>
         <template v-else>{{ loadError.message }}</template>
       </p>
-      <Button variant="solid" @click="emit('close')">Back to home</Button>
+      <Button variant="solid" @click="emit('close')">{{ __('Back to home') }}</Button>
     </div>
 
     <template v-else>
@@ -56,11 +56,11 @@
         <!-- Save status — muted inline text; never competes with the title -->
         <span v-if="isSaving" class="sn-save-status">
           <FeatherIcon name="loader" class="sn-save-icon sn-save-spin" />
-          Saving…
+          {{ __('Saving…') }}
         </span>
         <span v-else-if="justSaved" class="sn-save-status">
           <FeatherIcon name="check" class="sn-save-icon" />
-          Saved
+          {{ __('Saved') }}
         </span>
         <template v-if="saveError">
           <Badge theme="red" variant="subtle" size="sm" :label="saveError" :tooltip="saveError" />
@@ -68,7 +68,7 @@
             variant="ghost"
             size="sm"
             icon="lucide-refresh-cw"
-            tooltip="Retry save"
+            :tooltip="__('Retry save')"
             :loading="isSaving"
             @click="onRetrySave"
           />
@@ -78,8 +78,8 @@
              edit before they try. Neutral gray (not an error) because read
              access is expected, not a failure. Uses the Frappe UI Badge so it
              matches the save-error chip beside it and the Espresso tokens. -->
-        <Tooltip v-if="readOnly" text="You have view access. Ask the owner for edit access to make changes.">
-          <Badge theme="gray" variant="subtle" size="lg" label="View only">
+        <Tooltip v-if="readOnly" :text="__('You have view access. Ask the owner for edit access to make changes.')">
+          <Badge theme="gray" variant="subtle" size="lg" :label="__('View only')">
             <template #prefix><FeatherIcon name="eye" class="h-3.5 w-3.5" /></template>
           </Badge>
         </Tooltip>
@@ -92,15 +92,15 @@
             variant="ghost"
             size="sm"
             icon="lucide-sparkles"
-            label="Ask AI"
-            tooltip="Ask AI to work on your selection"
+            :label="__('Ask AI')"
+            :tooltip="__('Ask AI to work on your selection')"
             @click="openAskBar"
           />
           <span class="sn-topbar-divider" aria-hidden="true" />
         </template>
         <Dropdown :options="fileDropdownOptions" align="end">
           <template #default="{ open }">
-            <Button :variant="open ? 'subtle' : 'ghost'" size="sm" iconLeft="lucide-file-text" iconRight="lucide-chevron-down" label="File" tooltip="Import / export" />
+            <Button :variant="open ? 'subtle' : 'ghost'" size="sm" iconLeft="lucide-file-text" iconRight="lucide-chevron-down" :label="__('File')" :tooltip="__('Import / export')" />
           </template>
         </Dropdown>
         <input ref="csvInputRef"  name="csv-import"  type="file" accept=".csv"                   style="display:none" @change="importCSV" />
@@ -111,7 +111,7 @@
         <span class="sn-notes-btn-wrap">
           <Button :variant="notesPanel.open ? 'subtle' : 'ghost'"
                   size="sm" icon="lucide-message-square"
-                  :tooltip="`Notes${allNotes.length ? ` (${allNotes.length})` : ''} — Shift+F2 to add`"
+                  :tooltip="allNotes.length ? __('Notes ({0}) — Shift+F2 to add', [allNotes.length]) : __('Notes — Shift+F2 to add')"
                   @click="toggleNotesPanel" />
           <span v-if="allNotes.length" class="sn-notes-badge">{{ allNotes.length > 9 ? '9+' : allNotes.length }}</span>
         </span>
@@ -119,9 +119,9 @@
              reads as toggled, matching Frappe UI's standard toggle pattern. -->
         <Button :variant="vhOpen ? 'subtle' : 'ghost'"
                 size="sm" icon="lucide-clock"
-                tooltip="Version history"
+                :tooltip="__('Version history')"
                 @click="vhOpen ? closeVersionHistory() : (notesPanel.open = false, openVersionHistory())" />
-        <Button variant="ghost" size="sm" icon="lucide-help-circle" tooltip="Keyboard shortcuts" @click="showShortcutsHelp = true" />
+        <Button variant="ghost" size="sm" icon="lucide-help-circle" :tooltip="__('Keyboard shortcuts')" @click="showShortcutsHelp = true" />
         <span class="sn-topbar-divider" aria-hidden="true" />
         <!-- Presence avatars — other users currently in the workbook.
              Outline = their cursor color; tooltip says which sub-sheet
@@ -134,7 +134,7 @@
             :image="u.user_image || undefined"
             size="sm"
             :tooltip="u.sub_sheet && u.sub_sheet !== currentSheet
-              ? `${u.full_name} — on ${u.sub_sheet}`
+              ? __('{0} — on {1}', [u.full_name, u.sub_sheet])
               : u.full_name"
             class="sn-presence-avatar"
             :style="{ '--rc': u.color }"
@@ -142,7 +142,7 @@
           <span
             v-if="presentUsers.length > 3"
             class="sn-presence-more"
-            :title="`${presentUsers.length - 3} more people`"
+            :title="__('{0} more people', [presentUsers.length - 3])"
           >+{{ presentUsers.length - 3 }}</span>
         </div>
         <!-- Share -->
@@ -151,8 +151,8 @@
           variant="ghost"
           size="sm"
           icon="lucide-share-2"
-          :label="shareCount > 0 ? `Share · ${shareCount}` : 'Share'"
-          tooltip="Share this sheet"
+          :label="shareCount > 0 ? __('Share · {0}', [shareCount]) : __('Share')"
+          :tooltip="__('Share this sheet')"
           @click="shareOpen = true"
         />
         <span class="sn-topbar-divider" aria-hidden="true" />
@@ -176,19 +176,19 @@
       <!-- Number format -->
       <Dropdown :options="numberFormatDropdownOptions" class="sn-numfmt">
         <template #default="{ open }">
-          <Button :variant="open ? 'subtle' : 'ghost'" size="sm" iconRight="lucide-chevron-down" :label="numberFormatLabel" tooltip="Number format" />
+          <Button :variant="open ? 'subtle' : 'ghost'" size="sm" iconRight="lucide-chevron-down" :label="numberFormatLabel" :tooltip="__('Number format')" />
         </template>
       </Dropdown>
       <Dropdown :options="currencyDropdownOptions" class="sn-currency">
         <template #default="{ open }">
-          <Button :variant="activeNumberFormatType === 'currency' ? 'subtle' : (open ? 'subtle' : 'ghost')" size="sm" :label="activeCurrencySymbol" tooltip="Currency" />
+          <Button :variant="activeNumberFormatType === 'currency' ? 'subtle' : (open ? 'subtle' : 'ghost')" size="sm" :label="activeCurrencySymbol" :tooltip="__('Currency')" />
         </template>
       </Dropdown>
-      <Button :variant="activeNumberFormatType === 'percentage' ? 'subtle' : 'ghost'" size="sm" label="%" tooltip="Percentage" @click="toggleNumberFmt('percentage')" />
-      <Button :variant="activeNumberFormatType === 'number'     ? 'subtle' : 'ghost'" size="sm" label="," tooltip="Thousands separator" @click="toggleNumberFmt('number')" />
+      <Button :variant="activeNumberFormatType === 'percentage' ? 'subtle' : 'ghost'" size="sm" label="%" :tooltip="__('Percentage')" @click="toggleNumberFmt('percentage')" />
+      <Button :variant="activeNumberFormatType === 'number'     ? 'subtle' : 'ghost'" size="sm" label="," :tooltip="__('Thousands separator')" @click="toggleNumberFmt('number')" />
       <div class="sn-tool-extra">
-        <Button variant="ghost" size="sm" :icon="DecreaseDecimalIcon" tooltip="Decrease decimal places" @click="adjustDecimals(-1)" />
-        <Button variant="ghost" size="sm" :icon="IncreaseDecimalIcon" tooltip="Increase decimal places" @click="adjustDecimals(+1)" />
+        <Button variant="ghost" size="sm" :icon="DecreaseDecimalIcon" :tooltip="__('Decrease decimal places')" @click="adjustDecimals(-1)" />
+        <Button variant="ghost" size="sm" :icon="IncreaseDecimalIcon" :tooltip="__('Increase decimal places')" @click="adjustDecimals(+1)" />
       </div>
 
       <div class="sn-vr" />
@@ -196,21 +196,21 @@
       <!-- Font -->
       <Dropdown :options="fontFamilyDropdownOptions" class="sn-font-family">
         <template #default="{ open }">
-          <Button :variant="open ? 'subtle' : 'ghost'" size="sm" iconRight="lucide-chevron-down" :label="activeFontFamilyLabel" tooltip="Font family" />
+          <Button :variant="open ? 'subtle' : 'ghost'" size="sm" iconRight="lucide-chevron-down" :label="activeFontFamilyLabel" :tooltip="__('Font family')" />
         </template>
       </Dropdown>
-      <Tooltip text="Font size">
+      <Tooltip :text="__('Font size')">
         <TextInput type="number" size="sm" class="sn-font-size-input" :model-value="activeFormat.fontSize || 13" min="8" max="72" @change="onFontSizeInput" @keydown.enter.prevent="onFontSizeInput" />
       </Tooltip>
 
       <div class="sn-vr" />
 
       <!-- Style -->
-      <Button :variant="activeFormat.bold        ? 'subtle' : 'ghost'" :class="{ 'sn-fmt-active': activeFormat.bold }"        size="sm" icon="lucide-bold"                tooltip="Bold (Ctrl+B)"             @click="toggleFmt('bold')" />
-      <Button :variant="activeFormat.italic      ? 'subtle' : 'ghost'" :class="{ 'sn-fmt-active': activeFormat.italic }"      size="sm" icon="lucide-italic"              tooltip="Italic (Ctrl+I)"           @click="toggleFmt('italic')" />
-      <Button :variant="activeFormat.underline   ? 'subtle' : 'ghost'" :class="{ 'sn-fmt-active': activeFormat.underline }"   size="sm" icon="lucide-underline"           tooltip="Underline (Ctrl+U)"        @click="toggleFmt('underline')" />
+      <Button :variant="activeFormat.bold        ? 'subtle' : 'ghost'" :class="{ 'sn-fmt-active': activeFormat.bold }"        size="sm" icon="lucide-bold"                :tooltip="__('Bold (Ctrl+B)')"             @click="toggleFmt('bold')" />
+      <Button :variant="activeFormat.italic      ? 'subtle' : 'ghost'" :class="{ 'sn-fmt-active': activeFormat.italic }"      size="sm" icon="lucide-italic"              :tooltip="__('Italic (Ctrl+I)')"           @click="toggleFmt('italic')" />
+      <Button :variant="activeFormat.underline   ? 'subtle' : 'ghost'" :class="{ 'sn-fmt-active': activeFormat.underline }"   size="sm" icon="lucide-underline"           :tooltip="__('Underline (Ctrl+U)')"        @click="toggleFmt('underline')" />
       <div class="sn-tool-extra">
-        <Button :variant="activeFormat.strikethrough ? 'subtle' : 'ghost'" :class="{ 'sn-fmt-active': activeFormat.strikethrough }" size="sm" icon="lucide-strikethrough" tooltip="Strikethrough (Ctrl+Shift+X)" @click="toggleFmt('strikethrough')" />
+        <Button :variant="activeFormat.strikethrough ? 'subtle' : 'ghost'" :class="{ 'sn-fmt-active': activeFormat.strikethrough }" size="sm" icon="lucide-strikethrough" :tooltip="__('Strikethrough (Ctrl+Shift+X)')" @click="toggleFmt('strikethrough')" />
       </div>
 
       <div class="sn-vr" />
@@ -218,13 +218,13 @@
       <!-- Align + Color -->
       <Dropdown :options="alignDropdownOptions">
         <template #default="{ open }">
-          <Button :variant="open ? 'subtle' : 'ghost'" size="sm" :icon="hAlignIcon" tooltip="Alignment" />
+          <Button :variant="open ? 'subtle' : 'ghost'" size="sm" :icon="hAlignIcon" :tooltip="__('Alignment')" />
         </template>
       </Dropdown>
-      <ColorPicker :model-value="activeFormat.color || ''" allow-default default-label="Default text color"
-                   title="Text colour" fallback="#171717" @update:model-value="setColor('color', $event)">
+      <ColorPicker :model-value="activeFormat.color || ''" allow-default :default-label="__('Default text color')"
+                   :title="__('Text colour')" fallback="#171717" @update:model-value="setColor('color', $event)">
         <template #trigger="{ toggle, open }">
-          <Tooltip text="Text colour">
+          <Tooltip :text="__('Text colour')">
             <button type="button" class="sn-swatch-btn" :class="{ 'is-open': open }" @click="toggle()">
               <FeatherIcon name="type" class="sn-swatch-glyph" />
               <span class="sn-swatch-underline" :style="{ background: activeFormat.color || '#171717' }"></span>
@@ -232,10 +232,10 @@
           </Tooltip>
         </template>
       </ColorPicker>
-      <ColorPicker :model-value="activeFormat.backgroundColor || ''" allow-default default-label="No fill"
-                   title="Fill colour" fallback="#ffffff" @update:model-value="setColor('backgroundColor', $event)">
+      <ColorPicker :model-value="activeFormat.backgroundColor || ''" allow-default :default-label="__('No fill')"
+                   :title="__('Fill colour')" fallback="#ffffff" @update:model-value="setColor('backgroundColor', $event)">
         <template #trigger="{ toggle, open }">
-          <Tooltip text="Fill colour">
+          <Tooltip :text="__('Fill colour')">
             <button type="button" class="sn-swatch-btn" :class="{ 'is-open': open }" @click="toggle()">
               <FeatherIcon name="droplet" class="sn-swatch-glyph" />
               <span class="sn-swatch-underline sn-swatch-fill" :style="{ background: activeFormat.backgroundColor || '#ffffff' }"></span>
@@ -247,35 +247,35 @@
       <div class="sn-vr" />
 
       <!-- Undo / Redo -->
-      <Button variant="ghost" size="sm" icon="lucide-corner-up-left"  tooltip="Undo (Ctrl+Z)" :disabled="!canUndo" @click="undo" />
-      <Button variant="ghost" size="sm" icon="lucide-corner-up-right" tooltip="Redo (Ctrl+Y)" :disabled="!canRedo" @click="redo" />
+      <Button variant="ghost" size="sm" icon="lucide-corner-up-left"  :tooltip="__('Undo (Ctrl+Z)')" :disabled="!canUndo" @click="undo" />
+      <Button variant="ghost" size="sm" icon="lucide-corner-up-right" :tooltip="__('Redo (Ctrl+Y)')" :disabled="!canRedo" @click="redo" />
 
       <div class="sn-vr" />
 
       <!-- Extra tools (visible at wide widths; hidden at narrow — overflow via ···) -->
       <div class="sn-tool-extra">
-        <Button :variant="isPaintingFormat ? 'subtle' : 'ghost'" size="sm" icon="lucide-paint-roller"  tooltip="Format painter"             @click="toggleFormatPainter" />
-        <Button variant="ghost"                                   size="sm" icon="lucide-eraser"         tooltip="Clear formatting"           @click="clearFormatting" />
+        <Button :variant="isPaintingFormat ? 'subtle' : 'ghost'" size="sm" icon="lucide-paint-roller"  :tooltip="__('Format painter')"             @click="toggleFormatPainter" />
+        <Button variant="ghost"                                   size="sm" icon="lucide-eraser"         :tooltip="__('Clear formatting')"           @click="clearFormatting" />
         <div class="sn-vr" />
-        <Button :variant="showSortFilter ? 'subtle' : 'ghost'"   size="sm" icon="lucide-filter"               tooltip="Toggle filter"              @click="showSortFilter = !showSortFilter" />
+        <Button :variant="showSortFilter ? 'subtle' : 'ghost'"   size="sm" icon="lucide-filter"               :tooltip="__('Toggle filter')"              @click="showSortFilter = !showSortFilter" />
         <div class="sn-vr" />
         <Dropdown :options="textWrapDropdownOptions">
           <template #default="{ open }">
-            <Button :variant="open ? 'subtle' : 'ghost'" size="sm" :icon="textWrapIcon" tooltip="Text wrapping" />
+            <Button :variant="open ? 'subtle' : 'ghost'" size="sm" :icon="textWrapIcon" :tooltip="__('Text wrapping')" />
           </template>
         </Dropdown>
         <div class="sn-vr" />
-        <Button variant="ghost" size="sm" icon="lucide-blend"    tooltip="Conditional formatting"      @click="openCfDialog(null)" />
-        <Button variant="ghost" size="sm" icon="lucide-link"     tooltip="Insert hyperlink (Ctrl+L)"   @click="openHyperlinkDialog" />
+        <Button variant="ghost" size="sm" icon="lucide-blend"    :tooltip="__('Conditional formatting')"      @click="openCfDialog(null)" />
+        <Button variant="ghost" size="sm" icon="lucide-link"     :tooltip="__('Insert hyperlink (Ctrl+L)')"   @click="openHyperlinkDialog" />
         <div class="sn-vr" />
         <Dropdown :options="borderDropdownOptions">
           <template #default="{ open }">
-            <Button :variant="open ? 'subtle' : 'ghost'" size="sm" icon="lucide-layout-grid" tooltip="Borders" />
+            <Button :variant="open ? 'subtle' : 'ghost'" size="sm" icon="lucide-layout-grid" :tooltip="__('Borders')" />
           </template>
         </Dropdown>
         <!-- Custom merge glyph (Lucide table-cells-merge) — reads as
              "join two cells" better than the generic maximize-2 icon. -->
-        <Button variant="ghost" size="sm" tooltip="Merge / unmerge cells" @click="toggleMerge">
+        <Button variant="ghost" size="sm" :tooltip="__('Merge / unmerge cells')" @click="toggleMerge">
           <template #icon>
             <svg viewBox="0 0 24 24" class="sn-merge-glyph" aria-hidden="true"
                  fill="none" stroke="currentColor" stroke-width="1.5"
@@ -289,14 +289,14 @@
           </template>
         </Button>
         <div class="sn-vr" />
-        <Button variant="ghost" size="sm" icon="lucide-chart-bar" tooltip="Insert chart" @click="openChartDialog()" />
+        <Button variant="ghost" size="sm" icon="lucide-chart-bar" :tooltip="__('Insert chart')" @click="openChartDialog()" />
       </div>
 
       <!-- More -->
       <div class="sn-tool-more">
         <Dropdown :options="moreToolbarOptions">
           <template #default="{ open }">
-            <Button :variant="open ? 'subtle' : 'ghost'" size="sm" icon="lucide-more-horizontal" tooltip="More" />
+            <Button :variant="open ? 'subtle' : 'ghost'" size="sm" icon="lucide-more-horizontal" :tooltip="__('More')" />
           </template>
         </Dropdown>
       </div>
@@ -304,10 +304,10 @@
 
     <!-- Bar 3 · Formula bar -->
     <div class="sn-formula-bar">
-      <Tooltip :text="`Active cell ${activeCell}`">
+      <Tooltip :text="__('Active cell {0}', [activeCell])">
         <span class="sn-cell-ref">{{ activeCell }}</span>
       </Tooltip>
-      <span class="sn-fx-label" aria-hidden="true">fx</span>
+      <span class="sn-fx-label" aria-hidden="true">{{ __('fx') }}</span>
       <div class="sn-formula-wrap">
         <input
           ref="formulaInputRef"
@@ -318,7 +318,7 @@
           @input="onFormulaInput"
           @keydown="onFormulaKey"
           @blur="closeAc"
-          :placeholder="readOnly ? '' : 'Enter value or formula'"
+          :placeholder="readOnly ? '' : __('Enter value or formula')"
           spellcheck="false"
           autocomplete="off"
         />
@@ -332,7 +332,7 @@
           >
             <span class="sn-ac-name">{{ item.name }}</span>
             <span v-if="item.kind === 'fn'"    class="sn-ac-sig">{{ AC_FUNS[item.name] }}</span>
-            <span v-else                        class="sn-ac-badge">sheet</span>
+            <span v-else                        class="sn-ac-badge">{{ __('sheet') }}</span>
           </div>
         </div>
       </div>
@@ -370,7 +370,7 @@
 <!-- Non-blocking spinner while a large pivot aggregates in the background. -->
       <div v-if="pivotBuilding" class="sn-pivot-building" aria-busy="true">
         <Spinner class="sn-canvas-loading-spinner" />
-        <span>Building pivot…</span>
+        <span>{{ __('Building pivot…') }}</span>
       </div>
 
 <!-- Floating charts (filtered to current sub-sheet by the overlay). -->
@@ -407,20 +407,19 @@
       <aside v-if="notesPanel.open" class="sn-notes-panel" @click.stop>
         <header class="sn-notes-header">
           <div class="sn-notes-title">
-            Notes
+            {{ __('Notes') }}
             <span v-if="allNotes.length" class="sn-notes-count">· {{ allNotes.length }}</span>
           </div>
           <Button variant="ghost" size="sm" icon="lucide-x" @click="notesPanel.open = false" />
         </header>
         <div class="sn-notes-toolbar">
           <Button size="sm" variant="subtle" iconLeft="lucide-plus"
-                  :label="`Add note to ${activeCell}`" @click="addNoteFromPanel" />
+                  :label="__('Add note to {0}', [activeCell])" @click="addNoteFromPanel" />
         </div>
         <div v-if="!allNotes.length" class="sn-notes-empty">
-          <div class="sn-notes-empty-title">No notes yet.</div>
+          <div class="sn-notes-empty-title">{{ __('No notes yet.') }}</div>
           <div class="sn-notes-empty-hint">
-            Select a cell and press <KeyboardShortcut combo="Shift+F2" />, or use
-            the button above. Notes appear here once added.
+            {{ __('Select a cell and press') }} <KeyboardShortcut combo="Shift+F2" />{{ __(', or use the button above. Notes appear here once added.') }}
           </div>
         </div>
         <div v-else class="sn-notes-list">
@@ -520,7 +519,7 @@
       <!-- Pivot FAB — floats below the Grand Total row, like Google Sheets -->
       <Dropdown v-if="activePivotConfig && pivotFabStyle" :options="pivotBannerMenuOptions">
         <template #default="{ open }">
-          <button class="sn-pivot-fab" :class="{ open }" :style="pivotFabStyle" title="Pivot table options">
+          <button class="sn-pivot-fab" :class="{ open }" :style="pivotFabStyle" :title="__('Pivot table options')">
             <FeatherIcon name="pencil" class="sn-pivot-fab-icon" />
           </button>
         </template>
@@ -529,10 +528,10 @@
       <!-- Inline filter panel — sort + condition + Google-Sheets-style
            "Filter by values" checklist with search and Select all/Clear. -->
       <div v-if="filterPanel.open" class="sn-filter-panel" :style="filterPanelStyle">
-        <div class="sn-fp-title">Column {{ colLabel(filterPanel.col) }}</div>
+        <div class="sn-fp-title">{{ __('Column {0}', [colLabel(filterPanel.col)]) }}</div>
         <div class="sn-fp-row">
-          <Button class="sn-fp-grow" size="sm" iconLeft="lucide-arrow-up"   label="A → Z" tooltip="Sort ascending"  @click="doSort(filterPanel.col, 'asc')" />
-          <Button class="sn-fp-grow" size="sm" iconLeft="lucide-arrow-down" label="Z → A" tooltip="Sort descending" @click="doSort(filterPanel.col, 'desc')" />
+          <Button class="sn-fp-grow" size="sm" iconLeft="lucide-arrow-up"   label="A → Z" :tooltip="__('Sort ascending')"  @click="doSort(filterPanel.col, 'asc')" />
+          <Button class="sn-fp-grow" size="sm" iconLeft="lucide-arrow-down" label="Z → A" :tooltip="__('Sort descending')" @click="doSort(filterPanel.col, 'desc')" />
         </div>
 
         <!-- Mode toggle: condition vs values. Labels are short ("Values" /
@@ -540,19 +539,19 @@
              Button text-base size — the full "Filter by …" wording overflowed
              at this width. Both modes share the Apply/Clear actions at the
              bottom, so the user can flip between modes before committing. -->
-        <div class="sn-fp-mode" role="tablist" aria-label="Filter mode">
+        <div class="sn-fp-mode" role="tablist" :aria-label="__('Filter mode')">
           <Button
             class="sn-fp-grow"
             size="sm"
             :variant="filterPanel.mode === 'values' ? 'subtle' : 'ghost'"
-            label="Values"
+            :label="__('Values')"
             @click="filterPanel.mode = 'values'"
           />
           <Button
             class="sn-fp-grow"
             size="sm"
             :variant="filterPanel.mode === 'condition' ? 'subtle' : 'ghost'"
-            label="Condition"
+            :label="__('Condition')"
             @click="filterPanel.mode = 'condition'"
           />
         </div>
@@ -564,15 +563,15 @@
                "Clear" during a search reads as "clear everything" and silently
                leaves the hidden values checked. -->
           <div class="sn-fp-vlinks">
-            <Button variant="ghost" size="sm" :label="valueSearchActive ? 'Select shown' : 'Select all'" @click="selectAllFilterValues" />
-            <Button variant="ghost" size="sm" :label="valueSearchActive ? 'Clear shown'  : 'Clear'"      @click="clearAllFilterValues" />
-            <span class="sn-fp-count">Displaying {{ filterPanel.valueSet.size }}</span>
+            <Button variant="ghost" size="sm" :label="valueSearchActive ? __('Select shown') : __('Select all')" @click="selectAllFilterValues" />
+            <Button variant="ghost" size="sm" :label="valueSearchActive ? __('Clear shown')  : __('Clear')"      @click="clearAllFilterValues" />
+            <span class="sn-fp-count">{{ __('Displaying {0}', [filterPanel.valueSet.size]) }}</span>
           </div>
           <FormControl
             type="text"
             size="sm"
             v-model="filterPanel.valueSearch"
-            placeholder="Search…"
+            :placeholder="__('Search…')"
           >
             <template #prefix>
               <FeatherIcon name="search" class="sn-fp-search-icon" />
@@ -590,9 +589,9 @@
                 @update:modelValue="toggleFilterValue(v)"
                 @click.stop
               />
-              <span class="sn-fp-value-text">{{ v === '' ? '(Blanks)' : v }}</span>
+              <span class="sn-fp-value-text">{{ v === '' ? __('(Blanks)') : v }}</span>
             </div>
-            <div v-if="!filteredFilterValues.length" class="sn-fp-empty">No matching values</div>
+            <div v-if="!filteredFilterValues.length" class="sn-fp-empty">{{ __('No matching values') }}</div>
           </div>
         </template>
 
@@ -609,25 +608,25 @@
             type="text"
             size="sm"
             v-model="filterPanel.value"
-            placeholder="Value"
+            :placeholder="__('Value')"
             @keydown.enter="applyFilter"
           />
         </template>
 
         <div class="sn-fp-actions">
-          <Button class="sn-fp-grow" variant="solid" size="sm" label="Apply" @click="applyFilter" />
-          <Button class="sn-fp-grow"                 size="sm" label="Clear" @click="clearFilterCol" />
-          <Button class="sn-fp-grow"                 size="sm" label="Close" @click="filterPanel.open = false" />
+          <Button class="sn-fp-grow" variant="solid" size="sm" :label="__('Apply')" @click="applyFilter" />
+          <Button class="sn-fp-grow"                 size="sm" :label="__('Clear')" @click="clearFilterCol" />
+          <Button class="sn-fp-grow"                 size="sm" :label="__('Close')" @click="filterPanel.open = false" />
         </div>
       </div>
     </div>
 
     <!-- Add-more-rows strip — only when the user has scrolled near the bottom -->
     <div v-if="showAddRows" class="sn-addrows">
-      <span class="sn-addrows-label">Add</span>
+      <span class="sn-addrows-label">{{ __('Add') }}</span>
       <input name="add-rows-count" class="sn-addrows-input" type="number" min="1" max="10000" v-model.number="addRowsCount" />
-      <span class="sn-addrows-label">more rows at the bottom</span>
-      <Button variant="subtle" size="sm" iconLeft="lucide-plus" label="Add" @click="doAddMoreRows" />
+      <span class="sn-addrows-label">{{ __('more rows at the bottom') }}</span>
+      <Button variant="subtle" size="sm" iconLeft="lucide-plus" :label="__('Add')" @click="doAddMoreRows" />
     </div>
 
     <!-- Bottom · sheet tabs + selection stats -->
@@ -640,7 +639,7 @@
       <!-- Add-sheet is a mutation, so viewers don't get it — hide the whole
            wrapper (button + its divider) rather than leave a dead, greyed pill. -->
       <div v-if="!readOnly" class="sn-tab-add-wrap">
-        <Button variant="ghost" size="sm" icon="lucide-plus" class="sn-tab-add" tooltip="Add sheet" @click="addSheet" />
+        <Button variant="ghost" size="sm" icon="lucide-plus" class="sn-tab-add" :tooltip="__('Add sheet')" @click="addSheet" />
       </div>
       <div class="sn-tabs-track">
         <div
@@ -699,44 +698,44 @@
             <span
               v-if="peersBySubSheet.get(name).length > 3"
               class="sn-tab-peer-more"
-              :title="`${peersBySubSheet.get(name).length - 3} more`"
+              :title="__('{0} more', [peersBySubSheet.get(name).length - 3])"
             >+{{ peersBySubSheet.get(name).length - 3 }}</span>
           </span>
         </div>
       </div>
 
       <div v-if="selectionStats" class="sn-stats">
-        <span v-if="selectionStats.count > 0">Count: {{ selectionStats.count }}</span>
-        <span v-if="selectionStats.sum !== null">Sum: {{ formatStat(selectionStats.sum) }}</span>
-        <span v-if="selectionStats.avg !== null">Avg: {{ formatStat(selectionStats.avg) }}</span>
+        <span v-if="selectionStats.count > 0">{{ __('Count: {0}', [selectionStats.count]) }}</span>
+        <span v-if="selectionStats.sum !== null">{{ __('Sum: {0}', [formatStat(selectionStats.sum)]) }}</span>
+        <span v-if="selectionStats.avg !== null">{{ __('Avg: {0}', [formatStat(selectionStats.avg)]) }}</span>
       </div>
     </div>
 
     <!-- Sheet-tab context menu (rename / duplicate / delete) -->
     <div v-if="tabMenu.open" class="sn-ctx-menu" :style="{ left: tabMenu.x + 'px', bottom: tabMenu.bottom + 'px' }">
-      <Button variant="ghost" size="sm" iconLeft="lucide-edit-2"  label="Rename"    @click="openRenameDialog(tabMenu.name)" />
-      <Button variant="ghost" size="sm" iconLeft="lucide-copy"    label="Duplicate" @click="doDuplicateSheet(tabMenu.name)" />
-      <Button variant="ghost" size="sm" :iconLeft="tabMenuSheetLocked() ? 'lucide-unlock' : 'lucide-lock'" :label="tabMenuSheetLocked() ? 'Unprotect sheet' : 'Protect sheet'" @click="toggleSheetProtection(tabMenu.name)" />
+      <Button variant="ghost" size="sm" iconLeft="lucide-edit-2"  :label="__('Rename')"    @click="openRenameDialog(tabMenu.name)" />
+      <Button variant="ghost" size="sm" iconLeft="lucide-copy"    :label="__('Duplicate')" @click="doDuplicateSheet(tabMenu.name)" />
+      <Button variant="ghost" size="sm" :iconLeft="tabMenuSheetLocked() ? 'lucide-unlock' : 'lucide-lock'" :label="tabMenuSheetLocked() ? __('Unprotect sheet') : __('Protect sheet')" @click="toggleSheetProtection(tabMenu.name)" />
       <Button
         variant="ghost"
         size="sm"
         iconLeft="lucide-trash-2"
-        label="Delete"
+        :label="__('Delete')"
         :disabled="sheetNames.length <= 1"
         @click="doDeleteSheet(tabMenu.name)"
       />
     </div>
 
     <!-- Rename sheet dialog -->
-    <Dialog v-model:open="showRenameDialog" title="Rename sheet" size="sm">
+    <Dialog v-model:open="showRenameDialog" :title="__('Rename sheet')" size="sm">
       <template #default>
-        <FormControl ref="renameInputRef" v-model="renameValue" label="New name" placeholder="Sheet name" @keydown.enter="confirmRename" />
+        <FormControl ref="renameInputRef" v-model="renameValue" :label="__('New name')" :placeholder="__('Sheet name')" @keydown.enter="confirmRename" />
         <p v-if="renameError" class="sn-rename-err">{{ renameError }}</p>
       </template>
       <template #actions>
         <div class="flex flex-row-reverse gap-2">
-          <Button variant="solid" @click="confirmRename">Rename</Button>
-          <Button @click="showRenameDialog = false">Cancel</Button>
+          <Button variant="solid" @click="confirmRename">{{ __('Rename') }}</Button>
+          <Button @click="showRenameDialog = false">{{ __('Cancel') }}</Button>
         </div>
       </template>
     </Dialog>
@@ -749,66 +748,66 @@
 
       <!-- Column-header menu -->
       <template v-if="contextMenu.mode === 'colHeader'">
-        <Button variant="ghost" size="sm" iconLeft="lucide-arrow-left"  label="Insert column left"  @click="doInsertCol(false)" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-arrow-right" label="Insert column right" @click="doInsertCol(true)" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-plus"        label="Insert N columns…"   @click="openInsertMany('col', false)" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-trash-2"     label="Delete column"       @click="doDeleteCol()" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-arrow-left"  :label="__('Insert column left')"  @click="doInsertCol(false)" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-arrow-right" :label="__('Insert column right')" @click="doInsertCol(true)" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-plus"        :label="__('Insert N columns…')"   @click="openInsertMany('col', false)" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-trash-2"     :label="__('Delete column')"       @click="doDeleteCol()" />
         <hr class="sn-ctx-sep" />
-        <Button v-if="contextMenu.targetCol > 0" variant="ghost" size="sm" iconLeft="lucide-chevron-left"  label="Move column left"  @click="doMoveColLeft()" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-chevron-right" label="Move column right" @click="doMoveColRight()" />
+        <Button v-if="contextMenu.targetCol > 0" variant="ghost" size="sm" iconLeft="lucide-chevron-left"  :label="__('Move column left')"  @click="doMoveColLeft()" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-chevron-right" :label="__('Move column right')" @click="doMoveColRight()" />
         <hr class="sn-ctx-sep" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-maximize-2"  label="Auto-fit width"      @click="doAutoFitCol()" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-eye-off"     label="Hide column"         @click="doHideCols()" />
-        <Button v-if="manualHiddenCols.size > 0" variant="ghost" size="sm" iconLeft="lucide-eye" label="Unhide all columns" @click="doUnhideAllCols()" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-maximize-2"  :label="__('Auto-fit width')"      @click="doAutoFitCol()" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-eye-off"     :label="__('Hide column')"         @click="doHideCols()" />
+        <Button v-if="manualHiddenCols.size > 0" variant="ghost" size="sm" iconLeft="lucide-eye" :label="__('Unhide all columns')" @click="doUnhideAllCols()" />
         <hr class="sn-ctx-sep" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-lock"        label="Freeze up to this column" @click="doFreezeCol()" />
-        <Button v-if="freezeCols > 0" variant="ghost" size="sm" iconLeft="lucide-unlock" label="Unfreeze columns" @click="doUnfreezeCols()" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-lock"        :label="__('Freeze up to this column')" @click="doFreezeCol()" />
+        <Button v-if="freezeCols > 0" variant="ghost" size="sm" iconLeft="lucide-unlock" :label="__('Unfreeze columns')" @click="doUnfreezeCols()" />
       </template>
 
       <!-- Row-header menu -->
       <template v-else-if="contextMenu.mode === 'rowHeader'">
-        <Button variant="ghost" size="sm" iconLeft="lucide-arrow-up"    label="Insert row above" @click="doInsertRow(false)" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-arrow-down"  label="Insert row below" @click="doInsertRow(true)" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-plus"        label="Insert N rows…"   @click="openInsertMany('row', false)" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-trash-2"     label="Delete row"       @click="doDeleteRow()" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-arrow-up"    :label="__('Insert row above')" @click="doInsertRow(false)" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-arrow-down"  :label="__('Insert row below')" @click="doInsertRow(true)" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-plus"        :label="__('Insert N rows…')"   @click="openInsertMany('row', false)" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-trash-2"     :label="__('Delete row')"       @click="doDeleteRow()" />
         <hr class="sn-ctx-sep" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-maximize-2"  label="Auto-fit height"  @click="doAutoFitRow()" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-eye-off"     label="Hide row"         @click="doHideRows()" />
-        <Button v-if="manualHiddenRows.size > 0" variant="ghost" size="sm" iconLeft="lucide-eye" label="Unhide all rows" @click="doUnhideAllRows()" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-maximize-2"  :label="__('Auto-fit height')"  @click="doAutoFitRow()" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-eye-off"     :label="__('Hide row')"         @click="doHideRows()" />
+        <Button v-if="manualHiddenRows.size > 0" variant="ghost" size="sm" iconLeft="lucide-eye" :label="__('Unhide all rows')" @click="doUnhideAllRows()" />
         <hr class="sn-ctx-sep" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-lock"        label="Freeze up to this row" @click="doFreezeRow()" />
-        <Button v-if="freezeRows > 0" variant="ghost" size="sm" iconLeft="lucide-unlock" label="Unfreeze rows" @click="doUnfreezeRows()" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-lock"        :label="__('Freeze up to this row')" @click="doFreezeRow()" />
+        <Button v-if="freezeRows > 0" variant="ghost" size="sm" iconLeft="lucide-unlock" :label="__('Unfreeze rows')" @click="doUnfreezeRows()" />
       </template>
 
       <!-- Cell menu (default) -->
       <template v-else>
-        <Button v-if="clipboardHas" variant="ghost" size="sm" iconLeft="lucide-clipboard" label="Paste values only"  @click="doPasteSpecial('values')" />
-        <Button v-if="clipboardHas" variant="ghost" size="sm" iconLeft="lucide-clipboard" label="Paste formats only" @click="doPasteSpecial('formats')" />
-        <Button v-if="clipboardHas" variant="ghost" size="sm" iconLeft="lucide-clipboard" label="Paste formulas only" @click="doPasteSpecial('formulas')" />
+        <Button v-if="clipboardHas" variant="ghost" size="sm" iconLeft="lucide-clipboard" :label="__('Paste values only')"  @click="doPasteSpecial('values')" />
+        <Button v-if="clipboardHas" variant="ghost" size="sm" iconLeft="lucide-clipboard" :label="__('Paste formats only')" @click="doPasteSpecial('formats')" />
+        <Button v-if="clipboardHas" variant="ghost" size="sm" iconLeft="lucide-clipboard" :label="__('Paste formulas only')" @click="doPasteSpecial('formulas')" />
         <hr v-if="clipboardHas" class="sn-ctx-sep" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-arrow-up"    label="Insert row above"     @click="doInsertRow(false)" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-arrow-down"  label="Insert row below"     @click="doInsertRow(true)" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-trash-2"     label="Delete row"           @click="doDeleteRow()" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-arrow-up"    :label="__('Insert row above')"     @click="doInsertRow(false)" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-arrow-down"  :label="__('Insert row below')"     @click="doInsertRow(true)" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-trash-2"     :label="__('Delete row')"           @click="doDeleteRow()" />
         <hr class="sn-ctx-sep" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-arrow-left"  label="Insert column left"   @click="doInsertCol(false)" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-arrow-right" label="Insert column right"  @click="doInsertCol(true)" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-trash-2"     label="Delete column"        @click="doDeleteCol()" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-arrow-left"  :label="__('Insert column left')"   @click="doInsertCol(false)" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-arrow-right" :label="__('Insert column right')"  @click="doInsertCol(true)" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-trash-2"     :label="__('Delete column')"        @click="doDeleteCol()" />
         <hr class="sn-ctx-sep" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-lock"        label="Freeze rows to here"  @click="doFreezeRow()" />
-        <Button v-if="freezeRows > 0" variant="ghost" size="sm" iconLeft="lucide-unlock" label="Unfreeze rows" @click="doUnfreezeRows()" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-lock"        label="Freeze cols to here"  @click="doFreezeCol()" />
-        <Button v-if="freezeCols > 0" variant="ghost" size="sm" iconLeft="lucide-unlock" label="Unfreeze cols" @click="doUnfreezeCols()" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-lock"        :label="__('Freeze rows to here')"  @click="doFreezeRow()" />
+        <Button v-if="freezeRows > 0" variant="ghost" size="sm" iconLeft="lucide-unlock" :label="__('Unfreeze rows')" @click="doUnfreezeRows()" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-lock"        :label="__('Freeze cols to here')"  @click="doFreezeCol()" />
+        <Button v-if="freezeCols > 0" variant="ghost" size="sm" iconLeft="lucide-unlock" :label="__('Unfreeze cols')" @click="doUnfreezeCols()" />
         <hr class="sn-ctx-sep" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-square-check"   label="Data validation…" @click="contextMenu.open=false; openValidationDialog()" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-blend"          label="Conditional format…" @click="contextMenu.open=false; openCfDialog(null)" />
-        <Button v-if="!selectionHasProtectedRange()" variant="ghost" size="sm" iconLeft="lucide-lock"   label="Protect range"     @click="protectSelection()" />
-        <Button v-else                               variant="ghost" size="sm" iconLeft="lucide-unlock" label="Remove protection" @click="unprotectSelection()" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-square-check"   :label="__('Data validation…')" @click="contextMenu.open=false; openValidationDialog()" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-blend"          :label="__('Conditional format…')" @click="contextMenu.open=false; openCfDialog(null)" />
+        <Button v-if="!selectionHasProtectedRange()" variant="ghost" size="sm" iconLeft="lucide-lock"   :label="__('Protect range')"     @click="protectSelection()" />
+        <Button v-else                               variant="ghost" size="sm" iconLeft="lucide-unlock" :label="__('Remove protection')" @click="unprotectSelection()" />
         <hr class="sn-ctx-sep" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-columns"        label="Split text to columns" @click="doSplitTextToColumns()" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-columns"        :label="__('Split text to columns')" @click="doSplitTextToColumns()" />
         <hr class="sn-ctx-sep" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-layout"         label="Insert pivot table…"   @click="openPivotDialog()" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-chart-bar"    label="Insert chart…"          @click="openChartDialog()" />
-        <Button variant="ghost" size="sm" iconLeft="lucide-filter"         label="Insert slicer"          @click="insertSlicer()" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-layout"         :label="__('Insert pivot table…')"   @click="openPivotDialog()" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-chart-bar"    :label="__('Insert chart…')"          @click="openChartDialog()" />
+        <Button variant="ghost" size="sm" iconLeft="lucide-filter"         :label="__('Insert slicer')"          @click="insertSlicer()" />
       </template>
 
     </div>
@@ -883,77 +882,77 @@
     />
 
     <!-- Hyperlink dialog (Ctrl+L) — stores fmt.hyperlink on the active cell -->
-    <Dialog v-model:open="showHyperlinkDialog" title="Insert hyperlink" size="sm">
+    <Dialog v-model:open="showHyperlinkDialog" :title="__('Insert hyperlink')" size="sm">
       <template #default>
         <div class="sn-form-stack">
-          <FormControl v-model="hyperlinkText" label="Display text" placeholder="Click here" />
-          <FormControl v-model="hyperlinkUrl"  label="Link URL" placeholder="https://example.com" @keydown.enter="confirmHyperlink" />
+          <FormControl v-model="hyperlinkText" :label="__('Display text')" :placeholder="__('Click here')" />
+          <FormControl v-model="hyperlinkUrl"  :label="__('Link URL')" placeholder="https://example.com" @keydown.enter="confirmHyperlink" />
         </div>
       </template>
       <template #actions>
         <div class="flex flex-row-reverse gap-2">
-          <Button variant="solid" @click="confirmHyperlink">Apply</Button>
-          <Button v-if="hasActiveHyperlink" theme="red" @click="removeHyperlink">Remove</Button>
-          <Button @click="showHyperlinkDialog = false">Cancel</Button>
+          <Button variant="solid" @click="confirmHyperlink">{{ __('Apply') }}</Button>
+          <Button v-if="hasActiveHyperlink" theme="red" @click="removeHyperlink">{{ __('Remove') }}</Button>
+          <Button @click="showHyperlinkDialog = false">{{ __('Cancel') }}</Button>
         </div>
       </template>
     </Dialog>
 
     <!-- Data validation dialog -->
-    <Dialog v-model:open="validationDialog.open" title="Data validation" size="sm">
+    <Dialog v-model:open="validationDialog.open" :title="__('Data validation')" size="sm">
       <template #default>
         <div class="sn-form-stack">
           <!-- Type -->
-          <FormControl type="select" label="Type" v-model="validationDialog.type"
+          <FormControl type="select" :label="__('Type')" v-model="validationDialog.type"
             :options="[
-              { label: 'Checkbox',       value: 'checkbox' },
-              { label: 'List of items',  value: 'list' },
-              { label: 'Number',         value: 'number' },
-              { label: 'Text length',    value: 'text_length' },
+              { label: __('Checkbox'),       value: 'checkbox' },
+              { label: __('List of items'),  value: 'list' },
+              { label: __('Number'),         value: 'number' },
+              { label: __('Text length'),    value: 'text_length' },
             ]"
           />
 
           <!-- List — one row per item: a colour swatch, the label, and remove.
                Paste a comma/newline list into any field to split it into rows. -->
           <div v-if="validationDialog.type === 'list'" class="sn-vd-list" ref="vdListEl">
-            <label class="sn-vd-list-label">Items</label>
+            <label class="sn-vd-list-label">{{ __('Items') }}</label>
             <div v-for="(item, i) in validationDialog.listItems" :key="i" class="sn-vd-item">
               <ColorPicker
                 :model-value="item.color || ''"
-                allow-default default-label="Automatic colour"
-                :fallback="autoChipColor(i)" title="Label colour"
+                allow-default :default-label="__('Automatic colour')"
+                :fallback="autoChipColor(i)" :title="__('Label colour')"
                 @update:model-value="item.color = $event">
                 <template #trigger="{ toggle, open }">
                   <button type="button" class="sn-vd-swatch" :class="{ 'is-open': open }"
                           :style="{ background: item.color || autoChipColor(i) }"
-                          title="Label colour" @click="toggle()" />
+                          :title="__('Label colour')" @click="toggle()" />
                 </template>
               </ColorPicker>
-              <input class="sn-vd-item-input" v-model="item.label" placeholder="Item"
+              <input class="sn-vd-item-input" v-model="item.label" :placeholder="__('Item')"
                      @keydown.enter.prevent="addListItem(i)"
                      @paste="onListPaste($event, i)" />
-              <button type="button" class="sn-vd-item-x" title="Remove item"
+              <button type="button" class="sn-vd-item-x" :title="__('Remove item')"
                       @click="removeListItem(i)">
                 <FeatherIcon name="x" class="sn-vd-item-xg" />
               </button>
             </div>
             <button type="button" class="sn-vd-add" @click="addListItem()">
-              <FeatherIcon name="plus" class="sn-vd-add-g" /> Add item
+              <FeatherIcon name="plus" class="sn-vd-add-g" /> {{ __('Add item') }}
             </button>
           </div>
 
           <!-- Operator (number / text_length) -->
           <FormControl v-if="['number','text_length'].includes(validationDialog.type)"
-            type="select" label="Condition" v-model="validationDialog.operator"
+            type="select" :label="__('Condition')" v-model="validationDialog.operator"
             :options="[
-              { label: 'Between',             value: 'between' },
-              { label: 'Not between',         value: 'not_between' },
-              { label: 'Greater than',        value: 'gt' },
-              { label: 'Greater than or equal', value: 'gte' },
-              { label: 'Less than',           value: 'lt' },
-              { label: 'Less than or equal',  value: 'lte' },
-              { label: 'Equal to',            value: 'eq' },
-              { label: 'Not equal to',        value: 'neq' },
+              { label: __('Between'),             value: 'between' },
+              { label: __('Not between'),         value: 'not_between' },
+              { label: __('Greater than'),        value: 'gt' },
+              { label: __('Greater than or equal'), value: 'gte' },
+              { label: __('Less than'),           value: 'lt' },
+              { label: __('Less than or equal'),  value: 'lte' },
+              { label: __('Equal to'),            value: 'eq' },
+              { label: __('Not equal to'),        value: 'neq' },
             ]"
           />
 
@@ -962,86 +961,86 @@
             <FormControl
               v-model="validationDialog.val1"
               type="number"
-              :label="['between','not_between'].includes(validationDialog.operator) ? 'Min' : 'Value'"
+              :label="['between','not_between'].includes(validationDialog.operator) ? __('Min') : __('Value')"
             />
             <FormControl
               v-if="['between','not_between'].includes(validationDialog.operator)"
               v-model="validationDialog.val2"
               type="number"
-              label="Max"
+              :label="__('Max')"
             />
           </div>
 
           <!-- Custom error message -->
           <FormControl
             v-model="validationDialog.message"
-            label="Error message (optional)"
-            placeholder="This value is not allowed"
+            :label="__('Error message (optional)')"
+            :placeholder="__('This value is not allowed')"
           />
 
           <!-- On invalid: block the edit, or allow it with a warning -->
           <FormControl v-if="validationDialog.type !== 'checkbox'"
-            type="select" label="When the value is invalid" v-model="validationDialog.severity"
+            type="select" :label="__('When the value is invalid')" v-model="validationDialog.severity"
             :options="[
-              { label: 'Reject the input',        value: 'reject' },
-              { label: 'Allow, but show a warning', value: 'warn' },
+              { label: __('Reject the input'),        value: 'reject' },
+              { label: __('Allow, but show a warning'), value: 'warn' },
             ]"
           />
         </div>
       </template>
       <template #actions>
         <div class="flex flex-row-reverse gap-2">
-          <Button variant="solid" @click="confirmValidation">Apply</Button>
-          <Button variant="ghost" theme="red" @click="removeValidation">Remove rule</Button>
-          <Button @click="validationDialog.open = false">Cancel</Button>
+          <Button variant="solid" @click="confirmValidation">{{ __('Apply') }}</Button>
+          <Button variant="ghost" theme="red" @click="removeValidation">{{ __('Remove rule') }}</Button>
+          <Button @click="validationDialog.open = false">{{ __('Cancel') }}</Button>
         </div>
       </template>
     </Dialog>
 
     <!-- Insert N rows / columns dialog -->
-    <Dialog v-model:open="showInsertManyDialog" :title="insertMany.kind === 'row' ? 'Insert rows' : 'Insert columns'" size="sm">
+    <Dialog v-model:open="showInsertManyDialog" :title="insertMany.kind === 'row' ? __('Insert rows') : __('Insert columns')" size="sm">
       <template #default>
         <FormControl
           v-model.number="insertMany.count"
           type="number"
           :min="1"
           :max="1000"
-          :label="insertMany.kind === 'row' ? 'Number of rows' : 'Number of columns'"
+          :label="insertMany.kind === 'row' ? __('Number of rows') : __('Number of columns')"
           @keydown.enter="confirmInsertMany"
         />
       </template>
       <template #actions>
         <div class="flex flex-row-reverse gap-2">
-          <Button variant="solid" @click="confirmInsertMany">Insert</Button>
-          <Button @click="showInsertManyDialog = false">Cancel</Button>
+          <Button variant="solid" @click="confirmInsertMany">{{ __('Insert') }}</Button>
+          <Button @click="showInsertManyDialog = false">{{ __('Cancel') }}</Button>
         </div>
       </template>
     </Dialog>
 
     <!-- Custom number-format dialog -->
-    <Dialog v-model:open="customFormatDialog.open" title="Custom number format" size="sm">
+    <Dialog v-model:open="customFormatDialog.open" :title="__('Custom number format')" size="sm">
       <template #default>
         <div class="sn-form-stack">
           <FormControl
             v-model="customFormatDialog.pattern"
-            label="Format code"
+            :label="__('Format code')"
             placeholder="#,##0.00"
             @keydown.enter="confirmCustomFormat"
           />
           <div class="text-sm text-ink-gray-6">
-            Preview: <span class="font-medium text-ink-gray-9">{{ customFormatPreview || '—' }}</span>
+            {{ __('Preview:') }} <span class="font-medium text-ink-gray-9">{{ customFormatPreview || '—' }}</span>
           </div>
           <div class="text-xs text-ink-gray-5 leading-relaxed">
-            <code>0</code> padded digit · <code>#</code> optional digit · <code>,</code> thousands ·
-            <code>.</code> decimal · <code>%</code> percent · <code>"text"</code> literal.
-            e.g. <code>#,##0.00</code>, <code>0.0%</code>, <code>"$"#,##0</code>
+            <code>0</code> {{ __('padded digit') }} · <code>#</code> {{ __('optional digit') }} · <code>,</code> {{ __('thousands') }} ·
+            <code>.</code> {{ __('decimal') }} · <code>%</code> {{ __('percent') }} · <code>"{{ __('text') }}"</code> {{ __('literal.') }}
+            {{ __('e.g.') }} <code>#,##0.00</code>, <code>0.0%</code>, <code>"$"#,##0</code>
           </div>
         </div>
       </template>
       <template #actions>
         <div class="flex flex-row-reverse gap-2">
-          <Button variant="solid" @click="confirmCustomFormat">Apply</Button>
-          <Button @click="customFormatDialog.open = false">Cancel</Button>
+          <Button variant="solid" @click="confirmCustomFormat">{{ __('Apply') }}</Button>
+          <Button @click="customFormatDialog.open = false">{{ __('Cancel') }}</Button>
         </div>
       </template>
     </Dialog>
@@ -1049,7 +1048,7 @@
     <!-- Keyboard shortcut help — frappe-ui's KeyboardShortcutsModal, generated
          from the shortcut registry populated by useShortcuts.js (via useShortcut),
          so it can never drift from the handlers. -->
-    <KeyboardShortcutsDialog v-model:open="showShortcutsHelp" title="Keyboard shortcuts" />
+    <KeyboardShortcutsDialog v-model:open="showShortcutsHelp" :title="__('Keyboard shortcuts')" />
 
     <!-- Slicers — floating value-filter controls bound to a filter column -->
     <div v-for="sl in activeSlicers" :key="sl.id" class="sn-slicer"
@@ -1058,22 +1057,22 @@
         <Dropdown :options="slicerColMenu(sl)" class="sn-slicer-colsel">
           <template #default="{ open }">
             <Button :variant="open ? 'subtle' : 'ghost'" size="sm" iconRight="lucide-chevron-down"
-                    :label="sl.label" tooltip="Filter column"
+                    :label="sl.label" :tooltip="__('Filter column')"
                     @mousedown.stop @click.stop />
           </template>
         </Dropdown>
-        <Button variant="ghost" size="sm" icon="lucide-x" tooltip="Remove slicer"
+        <Button variant="ghost" size="sm" icon="lucide-x" :tooltip="__('Remove slicer')"
                 @mousedown.stop @click="removeSlicer(sl)" />
       </div>
       <div class="sn-fp-vlinks sn-slicer-actions" @mousedown.stop>
-        <Button variant="ghost" size="sm" label="Select all" @click="selectAllSlicer(sl)" />
-        <Button variant="ghost" size="sm" label="Clear" @click="clearSlicerValues(sl)" />
+        <Button variant="ghost" size="sm" :label="__('Select all')" @click="selectAllSlicer(sl)" />
+        <Button variant="ghost" size="sm" :label="__('Clear')" @click="clearSlicerValues(sl)" />
       </div>
       <div class="sn-slicer-values">
         <div v-for="row in sl.rows" :key="'v:' + row.v"
              class="sn-fp-value-row" @click="toggleSlicerValue(sl, row.v)">
           <Checkbox :modelValue="row.checked" @update:modelValue="toggleSlicerValue(sl, row.v)" @click.stop />
-          <span class="sn-fp-value-text">{{ row.v === '' ? '(Blanks)' : row.v }}</span>
+          <span class="sn-fp-value-text">{{ row.v === '' ? __('(Blanks)') : row.v }}</span>
         </div>
       </div>
     </div>
@@ -1083,13 +1082,13 @@
          :style="{ left: commentPanel.x + 'px', top: commentPanel.y + 'px' }">
       <div class="sn-comment-header">
         <span class="sn-comment-title">
-          Comment
-          <span v-if="commentPanel.resolved" class="sn-comment-resolved">Resolved</span>
+          {{ __('Comment') }}
+          <span v-if="commentPanel.resolved" class="sn-comment-resolved">{{ __('Resolved') }}</span>
         </span>
         <div class="sn-comment-hactions">
           <Button v-if="commentPanel.thread.length" variant="ghost" size="sm"
                   :icon="commentPanel.resolved ? 'lucide-rotate-ccw' : 'lucide-check'"
-                  :tooltip="commentPanel.resolved ? 'Reopen' : 'Mark resolved'"
+                  :tooltip="commentPanel.resolved ? __('Reopen') : __('Mark resolved')"
                   @click="toggleResolveComment" />
           <Button variant="ghost" size="sm" icon="lucide-x" @click="commentPanel.open = false" />
         </div>
@@ -1098,23 +1097,23 @@
       <div v-if="commentPanel.thread.length" class="sn-comment-thread">
         <div v-for="(r, i) in commentPanel.thread" :key="`${r.ts}-${r.author}`" class="sn-comment-reply">
           <div class="sn-comment-reply-head">
-            <span class="sn-comment-author">{{ r.name || r.author || 'Someone' }}</span>
+            <span class="sn-comment-author">{{ r.name || r.author || __('Someone') }}</span>
             <span class="sn-comment-time">{{ commentTime(r.ts) }}</span>
             <Button v-if="r.author && r.author === userEmail" variant="ghost" size="sm" icon="lucide-trash-2"
-                    tooltip="Delete" class="sn-comment-del" @click="deleteCommentReply(i)" />
+                    :tooltip="__('Delete')" class="sn-comment-del" @click="deleteCommentReply(i)" />
           </div>
           <div class="sn-comment-text">{{ r.text }}</div>
         </div>
       </div>
 
       <textarea class="sn-comment-ta" v-model="commentPanel.draft" rows="2"
-                :placeholder="commentPanel.thread.length ? 'Reply…' : 'Add a comment…'"
+                :placeholder="commentPanel.thread.length ? __('Reply…') : __('Add a comment…')"
                 @keydown.enter.exact.prevent="addCommentReply" />
       <div class="sn-comment-actions">
         <Button size="sm" variant="solid" :disabled="!commentPanel.draft.trim()" @click="addCommentReply">
-          {{ commentPanel.thread.length ? 'Reply' : 'Comment' }}
+          {{ commentPanel.thread.length ? __('Reply') : __('Comment') }}
         </Button>
-        <Button v-if="commentPanel.thread.length" size="sm" variant="ghost" theme="red" @click="deleteComment">Delete all</Button>
+        <Button v-if="commentPanel.thread.length" size="sm" variant="ghost" theme="red" @click="deleteComment">{{ __('Delete all') }}</Button>
       </div>
     </div>
 
@@ -1130,74 +1129,74 @@
       <div v-if="dropdownPanel.value" class="sn-dropdown-opt sn-dropdown-clear"
            @mousedown.prevent="pickDropdownOption('')">
         <FeatherIcon name="x" class="sn-dropdown-check" />
-        <span class="sn-dropdown-label">Clear</span>
+        <span class="sn-dropdown-label">{{ __('Clear') }}</span>
       </div>
     </div>
 
     <!-- Conditional formatting dialog -->
-    <Dialog v-model:open="cfDialog.open" title="Conditional formatting" size="sm">
+    <Dialog v-model:open="cfDialog.open" :title="__('Conditional formatting')" size="sm">
       <template #default>
         <div class="sn-form-stack">
           <!-- Existing rules — click to edit, ✕ to delete. Only shown when
                the active sheet has any rules; otherwise we jump straight to
                the editor for the new rule. -->
           <div v-if="cfRulesForSheet.length" class="sn-cf-rule-list">
-            <div class="sn-cf-rule-list-title">Rules on this sheet</div>
+            <div class="sn-cf-rule-list-title">{{ __('Rules on this sheet') }}</div>
             <div v-for="r in cfRulesForSheet" :key="r.id" class="sn-cf-rule-row"
                  :class="{ 'sn-cf-rule-row--active': cfDialog.editId === r.id }">
               <button type="button" class="sn-cf-rule-pick" @click="openCfDialog(r.id)">
                 {{ cfRuleLabel(r) }}
               </button>
               <Button variant="ghost" size="sm" icon="lucide-x" theme="red"
-                      @click="deleteCfRuleById(r.id)" tooltip="Delete rule" />
+                      @click="deleteCfRuleById(r.id)" :tooltip="__('Delete rule')" />
             </div>
           </div>
 
-          <FormControl type="select" label="Rule type" v-model="cfDialog.kind" :options="CF_KIND_OPTIONS" />
+          <FormControl type="select" :label="__('Rule type')" v-model="cfDialog.kind" :options="CF_KIND_OPTIONS" />
 
           <!-- Classic single-colour rule (the original feature). -->
           <template v-if="cfDialog.kind === 'classic'">
-            <FormControl type="select" label="Condition" v-model="cfDialog.condType" :options="CF_COND_OPTIONS" />
+            <FormControl type="select" :label="__('Condition')" v-model="cfDialog.condType" :options="CF_COND_OPTIONS" />
             <FormControl v-if="!['empty','notempty'].includes(cfDialog.condType)"
-                         v-model="cfDialog.condValue" label="Value" placeholder="e.g. 0" />
+                         v-model="cfDialog.condValue" :label="__('Value')" :placeholder="__('e.g. {0}', ['0'])" />
             <FormControl v-if="cfDialog.condType === 'between'"
-                         v-model="cfDialog.condValue2" label="And" placeholder="e.g. 100" />
+                         v-model="cfDialog.condValue2" :label="__('And')" :placeholder="__('e.g. {0}', ['100'])" />
             <div class="sn-cf-fmt">
-              <ColorPicker v-model="cfDialog.fmtColor" allow-default default-label="Automatic" title="Text colour" fallback="#171717">
+              <ColorPicker v-model="cfDialog.fmtColor" allow-default :default-label="__('Automatic')" :title="__('Text colour')" fallback="#171717">
                 <template #trigger="{ toggle, open }">
-                  <button type="button" class="sn-swatch-btn" :class="{ 'is-open': open }" title="Text colour" @click="toggle()">
+                  <button type="button" class="sn-swatch-btn" :class="{ 'is-open': open }" :title="__('Text colour')" @click="toggle()">
                     <FeatherIcon name="type" class="sn-swatch-glyph" />
                     <span class="sn-swatch-underline" :style="{ background: cfDialog.fmtColor || '#171717' }"></span>
                   </button>
                 </template>
               </ColorPicker>
-              <ColorPicker v-model="cfDialog.fmtBg" allow-default default-label="No fill" title="Fill colour" fallback="#ffffff">
+              <ColorPicker v-model="cfDialog.fmtBg" allow-default :default-label="__('No fill')" :title="__('Fill colour')" fallback="#ffffff">
                 <template #trigger="{ toggle, open }">
-                  <button type="button" class="sn-swatch-btn" :class="{ 'is-open': open }" title="Fill colour" @click="toggle()">
+                  <button type="button" class="sn-swatch-btn" :class="{ 'is-open': open }" :title="__('Fill colour')" @click="toggle()">
                     <FeatherIcon name="droplet" class="sn-swatch-glyph" />
                     <span class="sn-swatch-underline sn-swatch-fill" :style="{ background: cfDialog.fmtBg || '#ffffff' }"></span>
                   </button>
                 </template>
               </ColorPicker>
-              <span class="sn-cf-fmt-label">Apply to range: {{ cfRangeLabel }}</span>
+              <span class="sn-cf-fmt-label">{{ __('Apply to range: {0}', [cfRangeLabel]) }}</span>
             </div>
           </template>
 
           <!-- Colour scale: 2- or 3-stop gradient mapped across the range's min/max. -->
           <template v-else-if="cfDialog.kind === 'color-scale'">
-            <FormControl type="select" label="Variant" v-model="cfDialog.scaleVariant" :options="CF_SCALE_VARIANT_OPTIONS" />
+            <FormControl type="select" :label="__('Variant')" v-model="cfDialog.scaleVariant" :options="CF_SCALE_VARIANT_OPTIONS" />
             <div class="sn-cf-scale">
               <div class="sn-cf-stop">
-                <span>Min</span>
-                <ColorPicker v-model="cfDialog.scaleMin" title="Min colour" :fallback="cfDialog.scaleMin" />
+                <span>{{ __('Min') }}</span>
+                <ColorPicker v-model="cfDialog.scaleMin" :title="__('Min colour')" :fallback="cfDialog.scaleMin" />
               </div>
               <div v-if="cfDialog.scaleVariant === '3color'" class="sn-cf-stop">
-                <span>Mid</span>
-                <ColorPicker v-model="cfDialog.scaleMid" title="Mid colour" :fallback="cfDialog.scaleMid" />
+                <span>{{ __('Mid') }}</span>
+                <ColorPicker v-model="cfDialog.scaleMid" :title="__('Mid colour')" :fallback="cfDialog.scaleMid" />
               </div>
               <div class="sn-cf-stop">
-                <span>Max</span>
-                <ColorPicker v-model="cfDialog.scaleMax" title="Max colour" :fallback="cfDialog.scaleMax" />
+                <span>{{ __('Max') }}</span>
+                <ColorPicker v-model="cfDialog.scaleMax" :title="__('Max colour')" :fallback="cfDialog.scaleMax" />
               </div>
             </div>
             <div
@@ -1206,36 +1205,36 @@
                 ? `linear-gradient(90deg, ${cfDialog.scaleMin}, ${cfDialog.scaleMid}, ${cfDialog.scaleMax})`
                 : `linear-gradient(90deg, ${cfDialog.scaleMin}, ${cfDialog.scaleMax})` }"
             />
-            <span class="sn-cf-fmt-label">Apply to range: {{ cfRangeLabel }}</span>
+            <span class="sn-cf-fmt-label">{{ __('Apply to range: {0}', [cfRangeLabel]) }}</span>
           </template>
 
           <!-- Data bars: horizontal bar inside each cell, proportional to value. -->
           <template v-else-if="cfDialog.kind === 'data-bar'">
             <div class="sn-cf-stop">
-              <span>Bar colour</span>
-              <ColorPicker v-model="cfDialog.barColor" title="Bar colour" :fallback="cfDialog.barColor" />
+              <span>{{ __('Bar colour') }}</span>
+              <ColorPicker v-model="cfDialog.barColor" :title="__('Bar colour')" :fallback="cfDialog.barColor" />
             </div>
             <div class="sn-cf-bar-preview">
               <div class="sn-cf-bar-row" v-for="t in [0.25, 0.5, 0.85]" :key="t">
                 <div class="sn-cf-bar-fill" :style="{ width: (t * 100) + '%', background: cfDialog.barColor }" />
               </div>
             </div>
-            <span class="sn-cf-fmt-label">Apply to range: {{ cfRangeLabel }}</span>
+            <span class="sn-cf-fmt-label">{{ __('Apply to range: {0}', [cfRangeLabel]) }}</span>
           </template>
 
           <!-- Icon sets: small icons at the start of each cell based on bucket. -->
           <template v-else-if="cfDialog.kind === 'icon-set'">
-            <FormControl type="select" label="Icon set" v-model="cfDialog.iconSet" :options="CF_ICON_SET_OPTIONS" />
-            <span class="sn-cf-fmt-label">Apply to range: {{ cfRangeLabel }}</span>
-            <p class="sn-cf-hint">Values are split into three equal buckets across the range.</p>
+            <FormControl type="select" :label="__('Icon set')" v-model="cfDialog.iconSet" :options="CF_ICON_SET_OPTIONS" />
+            <span class="sn-cf-fmt-label">{{ __('Apply to range: {0}', [cfRangeLabel]) }}</span>
+            <p class="sn-cf-hint">{{ __('Values are split into three equal buckets across the range.') }}</p>
           </template>
         </div>
       </template>
       <template #actions>
         <div class="flex flex-row-reverse gap-2">
-          <Button variant="solid" @click="saveCfRule">Apply</Button>
-          <Button v-if="cfDialog.editId !== null" theme="red" @click="deleteCfRule">Delete</Button>
-          <Button @click="cfDialog.open = false">Cancel</Button>
+          <Button variant="solid" @click="saveCfRule">{{ __('Apply') }}</Button>
+          <Button v-if="cfDialog.editId !== null" theme="red" @click="deleteCfRule">{{ __('Delete') }}</Button>
+          <Button @click="cfDialog.open = false">{{ __('Cancel') }}</Button>
         </div>
       </template>
     </Dialog>
@@ -1315,6 +1314,7 @@ import ChartDialog             from './ChartDialog.vue'
 import ChartOverlay            from './ChartOverlay.vue'
 import InlineRenameInput       from '@/apps/drive/components/InlineRenameInput.vue'
 import { mark } from '../../shim/mark.js' // One: the OneWorkbook mark
+import { __ } from '../../../kit/desk'
 import { createNamedRanges }   from '../../engine/named-ranges.js'
 import { getFunctionNames }    from '../../engine/formula.js'
 import NamedRangesDialog       from './NamedRangesDialog.vue'
@@ -1340,10 +1340,9 @@ const sheetHomeBreadcrumbs = computed(() => [
   { label: 'OneCloud', onClick: () => window.frappe?.set_route('onecloud') },
 ])
 const oneMark = mark('onesheet')
-const __ = (text) => (window.__ ? window.__(text) : text)
 const sheetBreadcrumbs = computed(() => [
   ...sheetHomeBreadcrumbs.value,
-  { label: currentTitle.value || 'Untitled Sheet', onClick: startTitleEditing },
+  { label: currentTitle.value || __('Untitled Sheet'), onClick: startTitleEditing },
 ])
 const brandMenuOptions = computed(() => [
   {
@@ -1356,7 +1355,7 @@ const brandMenuOptions = computed(() => [
       settingsMenuOption,
       themeMenuOption,
       ...(sessionStore.isLoggedIn
-        ? [{ label: 'Log out', icon: 'lucide-log-out', onClick: () => sessionStore.logout.submit() }]
+        ? [{ label: __('Log out'), icon: 'lucide-log-out', onClick: () => sessionStore.logout.submit() }]
         : []),
     ],
   },
@@ -1470,14 +1469,14 @@ function runSmartFill() {
   if (!result.ok) {
     // Hint the user when there's nothing to fill — quiet failure feels broken.
     const hints = {
-      'single-column-only':  'Smart Fill works on a single column at a time.',
-      'no-examples':         'Fill in 1–2 example cells first, then select the range and press Cmd+E.',
-      'no-empty-cells':      'No empty cells in the selection to fill.',
-      'no-source-columns':   'Smart Fill needs adjacent columns with source data.',
-      'no-pattern':          "Couldn't detect a pattern from your examples.",
-      'no-fills':            "Detected a pattern but couldn't apply it to any rows.",
+      'single-column-only':  __('Smart Fill works on a single column at a time.'),
+      'no-examples':         __('Fill in 1–2 example cells first, then select the range and press {0}.', ['Cmd+E']),
+      'no-empty-cells':      __('No empty cells in the selection to fill.'),
+      'no-source-columns':   __('Smart Fill needs adjacent columns with source data.'),
+      'no-pattern':          __('Couldn’t detect a pattern from your examples.'),
+      'no-fills':            __('Detected a pattern but couldn’t apply it to any rows.'),
     }
-    saveError.value = hints[result.reason] || 'Smart Fill could not run.'
+    saveError.value = hints[result.reason] || __('Smart Fill could not run.')
     setTimeout(() => { saveError.value = '' }, 3500)
   }
 }
@@ -1678,7 +1677,7 @@ const activeCell        = ref('A1')
 const formulaValue      = ref('')
 const canUndo           = ref(false)
 const canRedo           = ref(false)
-const currentTitle      = ref('Untitled Sheet')
+const currentTitle      = ref(__('Untitled Sheet'))
 usePageMeta(() => appPageMeta(currentTitle.value, 'Sheets'))
 const activeNumberFormat = ref('')
 
@@ -1788,9 +1787,9 @@ const justSaved         = ref(false)
 // so the persisted format value is still a complete font-family string.
 const FONT_FAMILY_OPTIONS = [
   { label: 'Inter',  value: 'inter' },
-  { label: 'Serif',  value: 'serif' },
-  { label: 'Mono',   value: 'mono' },
-  { label: 'System', value: 'system' },
+  { label: __('Serif'),  value: 'serif' },
+  { label: __('Mono'),   value: 'mono' },
+  { label: __('System'), value: 'system' },
 ]
 const FONT_FAMILY_STACK = {
   inter:  'InterVar, Inter, ui-sans-serif, system-ui, sans-serif',
@@ -1804,37 +1803,37 @@ const FONT_FAMILY_STACK = {
 // Flat list driving the dropdown — groups give the menu its sectioned layout.
 // Each entry is a stored format string; clicking applies it as-is.
 const NUMBER_FORMAT_GROUPS = [
-  { group: 'General', options: [
-    { label: 'General',         value: ''            },
-    { label: 'Plain text',      value: 'text'        },
+  { group: __('General'), options: [
+    { label: __('General'),         value: ''            },
+    { label: __('Plain text'),      value: 'text'        },
   ]},
-  { group: 'Number', options: [
-    { label: 'Decimal',         value: 'number'      },
-    { label: 'Decimal — Indian (1,23,456)', value: 'number:in' },
-    { label: 'Percent',         value: 'percentage'  },
+  { group: __('Number'), options: [
+    { label: __('Decimal'),         value: 'number'      },
+    { label: __('Decimal — Indian ({0})', ['1,23,456']), value: 'number:in' },
+    { label: __('Percent'),         value: 'percentage'  },
   ]},
-  { group: 'Currency', options: [
+  { group: __('Currency'), options: [
     { label: 'USD ($)',         value: 'currency:USD:2' },
     { label: 'EUR (€)',         value: 'currency:EUR:2' },
     { label: 'GBP (£)',         value: 'currency:GBP:2' },
     { label: 'INR (₹)',         value: 'currency:INR:2' },
     { label: 'JPY (¥)',         value: 'currency:JPY:0' },
   ]},
-  { group: 'Date', options: [
-    { label: 'Auto (locale)',           value: 'date'         },
+  { group: __('Date'), options: [
+    { label: __('Auto (locale)'),         value: 'date'         },
     { label: 'DD/MM/YYYY',              value: 'date:dmy'     },
     { label: 'MM/DD/YYYY',              value: 'date:mdy'     },
     { label: 'YYYY-MM-DD',              value: 'date:ymd'     },
     { label: '15 Jan 2025',             value: 'date:long'    },
     { label: 'Mon, 15 Jan 2025',        value: 'date:full'    },
   ]},
-  { group: 'Time', options: [
+  { group: __('Time'), options: [
     { label: '15:30',           value: 'time:hm'     },
     { label: '15:30:45',        value: 'time:hms'    },
     { label: '3:30 PM',         value: 'time:hm12'   },
     { label: '3:30:45 PM',      value: 'time:hms12'  },
   ]},
-  { group: 'Date + Time', options: [
+  { group: __('Date + Time'), options: [
     { label: '15/01/2025, 3:30 PM',     value: 'datetime:dmy_hm12'  },
     { label: '15 Jan 2025, 3:30 PM',    value: 'datetime:long_hm12' },
     { label: '2025-01-15, 15:30:00',    value: 'datetime:ymd_hms'   },
@@ -1852,9 +1851,9 @@ const CURRENCY_QUICK_PICKS = [
 ]
 
 const BORDER_STYLE_OPTIONS = [
-  { label: 'Thin',   value: 'thin' },
-  { label: 'Medium', value: 'medium' },
-  { label: 'Thick',  value: 'thick' },
+  { label: __('Thin'),   value: 'thin' },
+  { label: __('Medium'), value: 'medium' },
+  { label: __('Thick'),  value: 'thick' },
 ]
 
 // Custom decimals-with-arrow glyphs for the precision toolbar buttons. Not in
@@ -1891,30 +1890,30 @@ const IncreaseDecimalIcon = _decimalsIcon([
 ])
 
 const FILTER_OPERATOR_OPTIONS = [
-  { label: 'Contains',     value: 'contains' },
-  { label: 'Equals',       value: 'equals' },
-  { label: 'Greater than', value: 'gt' },
-  { label: 'Less than',    value: 'lt' },
-  { label: 'Is empty',     value: 'empty' },
-  { label: 'Is not empty', value: 'notempty' },
+  { label: __('Contains'),     value: 'contains' },
+  { label: __('Equals'),       value: 'equals' },
+  { label: __('Greater than'), value: 'gt' },
+  { label: __('Less than'),    value: 'lt' },
+  { label: __('Is empty'),     value: 'empty' },
+  { label: __('Is not empty'), value: 'notempty' },
 ]
 
 const fileDropdownOptions = computed(() => [
-  { group: 'Export', options: [
-    { label: 'Export as CSV',  icon: 'lucide-download', onClick: () => exportCSV() },
-    { label: 'Export as XLSX', icon: 'lucide-download', onClick: () => exportXLSX() },
-    { label: 'Export as PDF',  icon: 'lucide-printer',  onClick: () => exportPDF() },
+  { group: __('Export'), options: [
+    { label: __('Export as CSV'),  icon: 'lucide-download', onClick: () => exportCSV() },
+    { label: __('Export as XLSX'), icon: 'lucide-download', onClick: () => exportXLSX() },
+    { label: __('Export as PDF'),  icon: 'lucide-printer',  onClick: () => exportPDF() },
   ]},
   // Import writes cells — hide it for viewers (export/read stays available).
-  ...(readOnly.value ? [] : [{ group: 'Import', options: [
-    { label: 'Import CSV',  icon: 'lucide-upload', onClick: () => csvInputRef.value?.click() },
-    { label: 'Import XLSX', icon: 'lucide-upload', onClick: () => xlsxInputRef.value?.click() },
+  ...(readOnly.value ? [] : [{ group: __('Import'), options: [
+    { label: __('Import CSV'),  icon: 'lucide-upload', onClick: () => csvInputRef.value?.click() },
+    { label: __('Import XLSX'), icon: 'lucide-upload', onClick: () => xlsxInputRef.value?.click() },
   ]}]),
   // Only shown to admins — gated server-side via the boot flag so non-admins
   // never see a settings entry they can't use.
   ...(window.frappe?.boot?.ai_assist_can_configure
-    ? [{ group: 'AI', options: [
-        { label: 'AI settings', icon: 'lucide-cpu', onClick: () => { aiSettingsOpen.value = true } },
+    ? [{ group: __('AI'), options: [
+        { label: __('AI settings'), icon: 'lucide-cpu', onClick: () => { aiSettingsOpen.value = true } },
       ]}]
     : []),
 ])
@@ -1974,7 +1973,7 @@ async function onAskSubmit(promptText) {
       r0: sel.r0, c0: sel.c0, r1: sel.r1, c1: sel.c1,
       active: grid?.getActiveCell?.() || '',
     })
-    const res = await call('suite.sheets.api.ai_assist', {
+    const res = await call('onedesk.one_sheet.assist.ai_assist', { // One: through OneAI
       name: props.id, prompt: promptText, selection,
     })
     const actions = Array.isArray(res?.actions) ? res.actions : []
@@ -1982,9 +1981,9 @@ async function onAskSubmit(promptText) {
     if (answers.length) askAnswer.value = answers.map(a => a.text).join('\n\n')
     const applied = _applyAiActions(actions)
     if (applied > 0) aiPending.value = { count: applied }
-    else if (!answers.length) askAnswer.value = 'No changes suggested for that.'
+    else if (!answers.length) askAnswer.value = __('No changes suggested for that.')
   } catch (e) {
-    askError.value = (e && e.message) ? String(e.message) : 'Something went wrong'
+    askError.value = (e && e.message) ? String(e.message) : __('Something went wrong')
   } finally {
     askBusy.value = false
   }
@@ -2070,7 +2069,7 @@ const unregisterPaletteGroups = useRootStore().registerPaletteGroups('sheets-edi
   return [{
     commands: [{
       id: 'sheets-settings',
-      label: 'AI settings',
+      label: __('AI settings'),
       icon: 'lucide-cpu',
       keywords: ['AI', 'assist', 'configure'],
       run: () => (aiSettingsOpen.value = true),
@@ -2365,14 +2364,15 @@ const numberFormatLabel = computed(() => {
   const cur = activeNumberFormat.value
   if (_FORMAT_LABELS.has(cur)) return _FORMAT_LABELS.get(cur)
   const { type, variant } = parseNumberFmt(cur)
-  if (!type) return 'General'
+  if (!type) return __('General')
   // Synthesise a label for variants that don't have a preset (e.g. user
   // adjusted decimals on a known type+variant combo).
-  if (type === 'currency') return `Currency · ${variant || 'USD'}`
-  if (type === 'date')     return variant ? `Date · ${variant}` : 'Date'
-  if (type === 'time')     return variant ? `Time · ${variant}` : 'Time'
-  if (type === 'datetime') return 'Date + Time'
-  return type[0].toUpperCase() + type.slice(1)
+  if (type === 'currency') return __('Currency · {0}', [variant || 'USD'])
+  if (type === 'date')     return variant ? __('Date · {0}', [variant]) : __('Date')
+  if (type === 'time')     return variant ? __('Time · {0}', [variant]) : __('Time')
+  if (type === 'datetime') return __('Date + Time')
+  const named = { number: __('Number'), percentage: __('Percent'), text: __('Plain text'), custom: __('Custom') }[type]
+  return named || type[0].toUpperCase() + type.slice(1)
 })
 
 const numberFormatDropdownOptions = computed(() => [
@@ -2383,8 +2383,8 @@ const numberFormatDropdownOptions = computed(() => [
       onClick: () => onNumberFormatChange(activeNumberFormat.value === it.value ? '' : it.value),
     })),
   })),
-  { group: 'Custom', options: [
-    { label: 'Custom format…', onClick: () => openCustomFormatDialog() },
+  { group: __('Custom'), options: [
+    { label: __('Custom format…'), onClick: () => openCustomFormatDialog() },
   ]},
 ])
 
@@ -2442,9 +2442,9 @@ const TEXT_WRAP_ICON = { overflow: 'lucide-corner-down-right', clip: 'lucide-min
 const textWrapIcon   = computed(() => TEXT_WRAP_ICON[activeTextWrap.value] || 'lucide-corner-down-left')
 
 const textWrapDropdownOptions = computed(() => [
-  { label: 'Overflow', icon: TEXT_WRAP_ICON.overflow, onClick: () => setTextWrap('overflow') },
-  { label: 'Clip',     icon: TEXT_WRAP_ICON.clip,     onClick: () => setTextWrap('clip')     },
-  { label: 'Wrap',     icon: TEXT_WRAP_ICON.wrap,     onClick: () => setTextWrap('wrap')     },
+  { label: __('Overflow'), icon: TEXT_WRAP_ICON.overflow, onClick: () => setTextWrap('overflow') },
+  { label: __('Clip'),     icon: TEXT_WRAP_ICON.clip,     onClick: () => setTextWrap('clip')     },
+  { label: __('Wrap'),     icon: TEXT_WRAP_ICON.wrap,     onClick: () => setTextWrap('wrap')     },
 ])
 
 // View state is now per-sheet (kept in useSheetTabs._viewBySheet) so freeze /
@@ -3220,7 +3220,7 @@ function _setupGridInstance() {
         // 'warn' rules let the value through but surface a transient notice;
         // 'reject' (default) blocks the edit and repaints the pre-edit value.
         if (!v.valid && v.severity !== 'warn') {
-          const msg = v.message || 'Value rejected by data validation rule'
+          const msg = v.message || __('Value rejected by data validation rule')
           saveError.value = msg
           setTimeout(() => { if (saveError.value === msg) saveError.value = '' }, 3500)
           // Force a re-render so the canvas repaints with the pre-edit value
@@ -3232,7 +3232,7 @@ function _setupGridInstance() {
           return
         }
         if (!v.valid && v.severity === 'warn') {
-          const msg = v.message || 'Value flagged by data validation rule'
+          const msg = v.message || __('Value flagged by data validation rule')
           saveError.value = msg
           setTimeout(() => { if (saveError.value === msg) saveError.value = '' }, 3500)
         }
@@ -3460,7 +3460,7 @@ async function _loadInitialData() {
   } else if (props.id === 'new') {
     // Google-Sheets model: create the doc immediately so there is never an
     // "unsaved" state.  The parent swaps the URL to ?id=<name> via onSaved.
-    const name = await autoCreate(currentTitle.value || 'Untitled Sheet')
+    const name = await autoCreate(currentTitle.value || __('Untitled Sheet'))
     if (name) emit('saved', name)
   }
 }
@@ -3668,8 +3668,8 @@ function _pasteAffectedRects(destSel) {
 const protectionNotice = ref('')
 function _flashProtected(sn) {
   const msg = protection.isSheetLocked(sn)
-    ? 'This sheet is protected'
-    : 'This range is protected and can’t be edited'
+    ? __('This sheet is protected')
+    : __('This range is protected and can’t be edited')
   protectionNotice.value = msg
   setTimeout(() => { if (protectionNotice.value === msg) protectionNotice.value = '' }, 3500)
 }
@@ -4475,9 +4475,9 @@ function deleteComment() {
 function commentTime(ts) {
   if (!ts) return ''
   const s = Math.max(0, Math.round((Date.now() - ts) / 1000))
-  if (s < 60)    return 'just now'
-  const m = Math.round(s / 60);   if (m < 60) return `${m}m ago`
-  const h = Math.round(m / 60);   if (h < 24) return `${h}h ago`
+  if (s < 60)    return __('just now')
+  const m = Math.round(s / 60);   if (m < 60) return __('{0}m ago', [m])
+  const h = Math.round(m / 60);   if (h < 24) return __('{0}h ago', [h])
   return new Date(ts).toLocaleDateString()
 }
 
@@ -4701,35 +4701,35 @@ function toggleCheckbox(id) {
 // ── Conditional formatting ────────────────────────────────────────────────────
 
 const CF_COND_OPTIONS = [
-  { label: 'Greater than',     value: 'gt'          },
-  { label: 'Less than',        value: 'lt'          },
-  { label: 'Greater or equal', value: 'gte'         },
-  { label: 'Less or equal',    value: 'lte'         },
-  { label: 'Equal to',         value: 'eq'          },
-  { label: 'Not equal to',     value: 'neq'         },
-  { label: 'Between',          value: 'between'     },
-  { label: 'Contains',         value: 'contains'    },
-  { label: 'Does not contain', value: 'notcontains' },
-  { label: 'Is empty',         value: 'empty'       },
-  { label: 'Is not empty',     value: 'notempty'    },
+  { label: __('Greater than'),     value: 'gt'          },
+  { label: __('Less than'),        value: 'lt'          },
+  { label: __('Greater or equal'), value: 'gte'         },
+  { label: __('Less or equal'),    value: 'lte'         },
+  { label: __('Equal to'),         value: 'eq'          },
+  { label: __('Not equal to'),     value: 'neq'         },
+  { label: __('Between'),          value: 'between'     },
+  { label: __('Contains'),         value: 'contains'    },
+  { label: __('Does not contain'), value: 'notcontains' },
+  { label: __('Is empty'),         value: 'empty'       },
+  { label: __('Is not empty'),     value: 'notempty'    },
 ]
 
 const CF_KIND_OPTIONS = [
-  { label: 'Single colour rule', value: 'classic'     },
-  { label: 'Colour scale',       value: 'color-scale' },
-  { label: 'Data bars',          value: 'data-bar'    },
-  { label: 'Icon set',           value: 'icon-set'    },
+  { label: __('Single colour rule'), value: 'classic'     },
+  { label: __('Colour scale'),       value: 'color-scale' },
+  { label: __('Data bars'),          value: 'data-bar'    },
+  { label: __('Icon set'),           value: 'icon-set'    },
 ]
 
 const CF_SCALE_VARIANT_OPTIONS = [
-  { label: '2-colour (low → high)',         value: '2color' },
-  { label: '3-colour (low → mid → high)',   value: '3color' },
+  { label: __('2-colour (low → high)'),         value: '2color' },
+  { label: __('3-colour (low → mid → high)'),   value: '3color' },
 ]
 
 const CF_ICON_SET_OPTIONS = [
-  { label: 'Arrows (red/grey/green)',  value: 'arrows3'  },
-  { label: 'Traffic lights',           value: 'traffic3' },
-  { label: 'Circles (empty → full)',   value: 'circles3' },
+  { label: __('Arrows (red/grey/green)'),  value: 'arrows3'  },
+  { label: __('Traffic lights'),           value: 'traffic3' },
+  { label: __('Circles (empty → full)'),   value: 'circles3' },
 ]
 
 const cfRangeLabel = computed(() => {
@@ -4856,14 +4856,15 @@ function deleteCfRuleById(id) {
 function cfRuleLabel(rule) {
   const r = rule.range
   const range = `${colLabel(r.c0)}${r.r0 + 1}:${colLabel(r.c1)}${r.r1 + 1}`
-  if (rule.kind === 'color-scale') return `${range} · Colour scale`
-  if (rule.kind === 'data-bar')    return `${range} · Data bars`
-  if (rule.kind === 'icon-set')    return `${range} · Icon set`
+  if (rule.kind === 'color-scale') return `${range} · ${__('Colour scale')}`
+  if (rule.kind === 'data-bar')    return `${range} · ${__('Data bars')}`
+  if (rule.kind === 'icon-set')    return `${range} · ${__('Icon set')}`
   const t = rule.condition?.type
   const v = rule.condition?.value
-  const summary = t === 'between' ? `between ${v} and ${rule.condition?.value2}`
-                : t === 'empty' || t === 'notempty' ? t
-                : `${t} ${v}`
+  const said = CF_COND_OPTIONS.find(o => o.value === t)?.label || t
+  const summary = t === 'between' ? __('between {0} and {1}', [v, rule.condition?.value2])
+                : t === 'empty' || t === 'notempty' ? said
+                : `${said} ${v}`
   return `${range} · ${summary}`
 }
 
@@ -4892,7 +4893,7 @@ async function openCellHistory() {
       props.id, id, sheet.getCurrentSheet(),
     )
   } catch (err) {
-    cellHistory.error = err.message || 'Failed to load cell history'
+    cellHistory.error = err.message || __('Failed to load cell history')
   } finally {
     cellHistory.loading = false
   }
@@ -5290,7 +5291,7 @@ function confirmRename() {
   const newName = renameValue.value
   const ok = _renameSheet(oldName, newName)
   if (!ok) {
-    renameError.value = 'Name is empty or already used.'
+    renameError.value = __('Name is empty or already used.')
     return
   }
   // Keep named-range bindings pointed at the renamed sheet — without this,

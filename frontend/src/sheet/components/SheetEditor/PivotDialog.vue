@@ -2,7 +2,7 @@
 <template>
   <Dialog
     v-model:open="show"
-    :title="pivotId ? 'Edit pivot table' : 'Create pivot table'"
+    :title="pivotId ? __('Edit pivot table') : __('Create pivot table')"
     size="lg"
     :dismissible="pickerOpenCount === 0"
   >
@@ -10,7 +10,7 @@
 
       <!-- ── Source range ─────────────────────────────────────────────────── -->
       <div class="pv-section">
-        <p class="pv-label">Source</p>
+        <p class="pv-label">{{ __('Source') }}</p>
         <div class="pv-range-row">
           <!-- Source sheet picker. Auto-derived but explicit so the user
                can recover an existing pivot whose `sourceSheet` got
@@ -25,12 +25,12 @@
           <FormControl
             v-model="rangeInput"
             type="text"
-            placeholder="e.g. A1:F100"
+            :placeholder="__('e.g. {0}', ['A1:F100'])"
             class="pv-range-input"
             @blur="detectFields"
             @keydown.enter.prevent="detectFields"
           />
-          <Button size="sm" variant="outline" label="Detect fields" @click="detectFields" />
+          <Button size="sm" variant="outline" :label="__('Detect fields')" @click="detectFields" />
         </div>
         <p v-if="rangeError" class="pv-error">{{ rangeError }}</p>
       </div>
@@ -41,7 +41,7 @@
         <!-- Rows -->
         <div class="pv-bucket">
           <p class="pv-bucket-label">
-            <FeatherIcon name="text-align-start" class="pv-bucket-icon" /> Rows
+            <FeatherIcon name="text-align-start" class="pv-bucket-icon" /> {{ __('Rows') }}
           </p>
           <div class="pv-bucket-body">
             <div v-for="f in rowFields" :key="f" class="pv-chip">
@@ -52,7 +52,7 @@
             </div>
             <PivotFieldPicker :fields="pickableFields('rows')" @select="f => addTo('rows', f)" @opened="pickerOpenCount++" @closed="pickerOpenCount--">
               <template #default="{ isOpen }">
-                <Button size="sm" :variant="isOpen ? 'subtle' : 'ghost'" icon="lucide-plus" label="Add field" class="pv-add-btn" />
+                <Button size="sm" :variant="isOpen ? 'subtle' : 'ghost'" icon="lucide-plus" :label="__('Add field')" class="pv-add-btn" />
               </template>
             </PivotFieldPicker>
           </div>
@@ -61,7 +61,7 @@
         <!-- Columns -->
         <div class="pv-bucket">
           <p class="pv-bucket-label">
-            <FeatherIcon name="columns-2" class="pv-bucket-icon" /> Columns
+            <FeatherIcon name="columns-2" class="pv-bucket-icon" /> {{ __('Columns') }}
           </p>
           <div class="pv-bucket-body">
             <div v-for="f in colFields" :key="f" class="pv-chip">
@@ -72,7 +72,7 @@
             </div>
             <PivotFieldPicker :fields="pickableFields('cols')" @select="f => addTo('cols', f)" @opened="pickerOpenCount++" @closed="pickerOpenCount--">
               <template #default="{ isOpen }">
-                <Button size="sm" :variant="isOpen ? 'subtle' : 'ghost'" icon="lucide-plus" label="Add field" class="pv-add-btn" />
+                <Button size="sm" :variant="isOpen ? 'subtle' : 'ghost'" icon="lucide-plus" :label="__('Add field')" class="pv-add-btn" />
               </template>
             </PivotFieldPicker>
           </div>
@@ -81,7 +81,7 @@
         <!-- Values -->
         <div class="pv-bucket">
           <p class="pv-bucket-label">
-            <FeatherIcon name="hash" class="pv-bucket-icon" /> Values
+            <FeatherIcon name="hash" class="pv-bucket-icon" /> {{ __('Values') }}
           </p>
           <div class="pv-bucket-body">
             <div v-for="v in valueFields" :key="v.field" class="pv-chip pv-chip--value">
@@ -103,7 +103,7 @@
             </div>
             <PivotFieldPicker :fields="pickableFields('values')" @select="f => addTo('values', f)" @opened="pickerOpenCount++" @closed="pickerOpenCount--">
               <template #default="{ isOpen }">
-                <Button size="sm" :variant="isOpen ? 'subtle' : 'ghost'" icon="lucide-plus" label="Add field" class="pv-add-btn" />
+                <Button size="sm" :variant="isOpen ? 'subtle' : 'ghost'" icon="lucide-plus" :label="__('Add field')" class="pv-add-btn" />
               </template>
             </PivotFieldPicker>
           </div>
@@ -113,7 +113,7 @@
 
       <!-- ── Preview ────────────────────────────────────────────────────────── -->
       <div v-if="previewTable.length" class="pv-section">
-        <p class="pv-label">Preview <span class="pv-preview-hint">(first 6 rows)</span></p>
+        <p class="pv-label">{{ __('Preview') }} <span class="pv-preview-hint">{{ __('(first 6 rows)') }}</span></p>
         <div class="pv-preview-wrap">
           <table class="pv-preview-table">
             <thead>
@@ -139,10 +139,10 @@
         <Button
           variant="solid"
           :disabled="!canCreate"
-          :label="pivotId ? 'Update pivot' : 'Create pivot'"
+          :label="pivotId ? __('Update pivot') : __('Create pivot')"
           @click="onConfirm"
         />
-        <Button @click="show = false">Cancel</Button>
+        <Button @click="show = false">{{ __('Cancel') }}</Button>
       </div>
     </template>
   </Dialog>
@@ -154,6 +154,7 @@ import { Button, Dialog, FormControl, Dropdown } from 'frappe-ui'
 import { Icon as FeatherIcon } from 'frappe-ui/experimental'
 import { AGG_OPTIONS, computePivot } from '../../engine/pivot.js'
 import PivotFieldPicker from './PivotFieldPicker.vue'
+import { __ } from '../../../kit/desk'
 
 const props = defineProps({
   modelValue:     { type: Boolean, default: false },
@@ -241,10 +242,10 @@ function _pickSourceSheet(cfg) {
 
 function _parseFields() {
   const range = rangeInput.value.trim()
-  if (!range) { rangeError.value = 'Enter a range first.'; return false }
+  if (!range) { rangeError.value = __('Enter a range first.'); return false }
   const [start, end] = range.includes(':') ? range.split(':') : [range, range]
   const data = props.sheet.getRangeValues(start, end, sourceSheetInput.value)
-  if (!data || !data[0]) { rangeError.value = 'Could not read range.'; return false }
+  if (!data || !data[0]) { rangeError.value = __('Could not read range.'); return false }
   rangeError.value = ''
   // Filter out blank/null/zero cells — those are empty header columns
   availableFields.value = data[0]

@@ -10,7 +10,7 @@
           v-model="text"
           type="text"
           class="ab-input"
-          :placeholder="`Ask about ${selectionLabel || 'your selection'}…  e.g. “sum each column below”`"
+          :placeholder="__('Ask about {0}…  e.g. “sum each column below”', [selectionLabel || __('your selection')])"
           :disabled="busy"
           autocomplete="off"
           @keydown.enter="onEnter"
@@ -20,11 +20,11 @@
           v-else
           variant="solid"
           size="sm"
-          label="Ask"
+          :label="__('Ask')"
           :disabled="!text.trim()"
           @click="onEnter"
         />
-        <button type="button" class="ab-close" aria-label="Close" @click="emit('close')">×</button>
+        <button type="button" class="ab-close" :aria-label="__('Close')" @click="emit('close')">×</button>
       </div>
 
       <!-- Error -->
@@ -42,11 +42,11 @@
       <!-- Keep / Undo bar for an applied change -->
       <div v-if="pending" class="ab-keep-row">
         <span class="ab-keep-text">
-          Applied to {{ pending.count }} cell{{ pending.count === 1 ? '' : 's' }}.
+          {{ pending.count === 1 ? __('Applied to 1 cell.') : __('Applied to {0} cells.', [pending.count]) }}
         </span>
         <div class="ab-keep-actions">
-          <Button variant="ghost" size="sm" label="Undo" @click="emit('undo')" />
-          <Button variant="solid" size="sm" label="Keep" @click="emit('keep')" />
+          <Button variant="ghost" size="sm" :label="__('Undo')" @click="emit('undo')" />
+          <Button variant="solid" size="sm" :label="__('Keep')" @click="emit('keep')" />
         </div>
       </div>
     </div>

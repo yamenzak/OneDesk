@@ -17,7 +17,7 @@
       <!-- Mirrors Frappe Writer / Drive: two frappe-ui Selects side by side
            (access level + role) so the whole dialog speaks one consistent
            control + typography language instead of a mix of pills and badges. -->
-      <p class="sd-section-label">General Access</p>
+      <p class="sd-section-label">{{ __('General Access') }}</p>
       <div class="flex items-center justify-between gap-2">
         <Select
           :model-value="generalAccess"
@@ -37,7 +37,7 @@
       <div class="sd-divider" />
 
       <!-- ── Members ────────────────────────────────────────────────────────── -->
-      <p class="sd-section-label">Members</p>
+      <p class="sd-section-label">{{ __('Members') }}</p>
 
       <!-- Stage row: chips for users pending invite + free-text search input
            on the left; the role Select on the right applies to the whole
@@ -51,7 +51,7 @@
             <button
               type="button"
               class="sd-chip-x"
-              aria-label="Remove"
+              :aria-label="__('Remove')"
               @click.stop="removeChip(i)"
             >×</button>
           </div>
@@ -59,8 +59,8 @@
             v-model="searchQuery"
             type="text"
             class="sd-stage-input"
-            :placeholder="staged.length ? '' : 'Add people...'"
-            aria-label="Add people"
+            :placeholder="staged.length ? '' : __('Add people…')"
+            :aria-label="__('Add people')"
             autocomplete="off"
             @input="e => onSearchInput(e.target.value)"
             @keydown.backspace="onStageBackspace"
@@ -101,7 +101,7 @@
             <span class="sd-primary-text">{{ ownerFullName }}</span>
             <span v-if="props.ownerId !== ownerFullName" class="sd-secondary-text">{{ props.ownerId }}</span>
           </div>
-          <span class="sd-role-static">{{ _ownerIsMe ? 'Owner (you)' : 'Owner' }}</span>
+          <span class="sd-role-static">{{ _ownerIsMe ? __('Owner (you)') : __('Owner') }}</span>
         </div>
 
         <div v-for="s in shares" :key="s.user" class="sd-member-row">
@@ -128,12 +128,12 @@
         <Button
           variant="solid"
           size="sm"
-          label="Invite"
+          :label="__('Invite')"
           :loading="inviting"
           :disabled="!staged.length || inviting"
           @click="inviteStaged"
         />
-        <Button variant="outline" size="sm" icon-left="lucide-link-2" label="Copy link" @click="copyLink" />
+        <Button variant="outline" size="sm" icon-left="lucide-link-2" :label="__('Copy link')" @click="copyLink" />
       </div>
     </template>
   </Dialog>
@@ -145,6 +145,7 @@ import { Badge, Button, Dialog, Spinner, Avatar, Select } from 'frappe-ui'
 import { call } from '../../utils/api.js'
 import { useCurrentUser } from '@/boot/session'
 import { userInitials } from '../../utils/session.js'
+import { __ } from '../../../kit/desk'
 
 const props = defineProps({
   modelValue:  { type: Boolean, default: false },
@@ -161,7 +162,7 @@ const show = computed({
   set: (v) => emit('update:modelValue', v),
 })
 
-const dialogTitle = computed(() => `Sharing "${props.sheetTitle || 'Untitled Sheet'}"`)
+const dialogTitle = computed(() => __('Sharing “{0}”', [props.sheetTitle || __('Untitled Sheet')]))
 
 watch(show, (open) => {
   if (open) {
@@ -202,7 +203,7 @@ watch(() => props.ownerId, () => {
 // the user has read it.
 const errorMessage = ref('')
 function _flashError(err) {
-  const msg = (err && err.message) ? String(err.message) : 'Something went wrong'
+  const msg = (err && err.message) ? String(err.message) : __('Something went wrong')
   errorMessage.value = msg
   setTimeout(() => { if (errorMessage.value === msg) errorMessage.value = '' }, 5000)
 }
@@ -242,7 +243,7 @@ const ownerFullName = computed(() =>
   (_ownerIsMe.value && currentUser.fullName.value)
   || ownerInfo.value?.full_name
   || props.ownerId
-  || 'You'
+  || __('You')
 )
 const ownerImage = computed(() =>
   (_ownerIsMe.value ? currentUser.imageURL.value : ownerInfo.value?.user_image) || ''
@@ -259,12 +260,12 @@ const generalAccess = ref('restricted')   // 'restricted' | 'all'
 const generalRole   = ref('0')            // '0' = Can view, '1' = Can edit
 
 const generalAccessOptions = [
-  { label: 'Restricted',        value: 'restricted', icon: 'lucide-lock' },
-  { label: 'Accessible to all', value: 'all',        icon: 'lucide-globe' },
+  { label: __('Restricted'),        value: 'restricted', icon: 'lucide-lock' },
+  { label: __('Accessible to all'), value: 'all',        icon: 'lucide-globe' },
 ]
 const generalRoleOptions = [
-  { label: 'Can view', value: '0', icon: 'lucide-eye' },
-  { label: 'Can edit', value: '1', icon: 'lucide-pencil' },
+  { label: __('Can view'), value: '0', icon: 'lucide-eye' },
+  { label: __('Can edit'), value: '1', icon: 'lucide-pencil' },
 ]
 
 // Serializes the two general-access handlers so a rapid restricted→all toggle
@@ -323,9 +324,9 @@ const loading = ref(false)
 const shares  = ref([])
 
 const memberRoleOptions = [
-  { label: 'Can view',      value: '0',      icon: 'lucide-eye' },
-  { label: 'Can edit',      value: '1',      icon: 'lucide-pencil' },
-  { label: 'Remove access', value: 'remove', icon: 'lucide-trash-2' },
+  { label: __('Can view'),      value: '0',      icon: 'lucide-eye' },
+  { label: __('Can edit'),      value: '1',      icon: 'lucide-pencil' },
+  { label: __('Remove access'), value: 'remove', icon: 'lucide-trash-2' },
 ]
 
 async function fetchShares() {
@@ -434,8 +435,8 @@ const pendingRole = ref('0')        // '0' = Can view, '1' = Can edit
 const inviting    = ref(false)
 
 const pendingRoleOptions = [
-  { label: 'Can view', value: '0', icon: 'lucide-eye' },
-  { label: 'Can edit', value: '1', icon: 'lucide-pencil' },
+  { label: __('Can view'), value: '0', icon: 'lucide-eye' },
+  { label: __('Can edit'), value: '1', icon: 'lucide-pencil' },
 ]
 
 function addChip(u) {

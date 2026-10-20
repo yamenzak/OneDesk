@@ -51,6 +51,25 @@ Versions are taken as you save: the first save, then every 25 edits or half
 a minute. Older ones are thinned as they age: all from the last day, one an
 hour for a week, one a day for a month, one a week for three months.
 
+## Working on it together
+
+Everyone who has a workbook open sees the others' changes as they make them,
+cell by cell, without saving or reloading. Their faces sit at the top right,
+and each person's selection shows in the grid in their colour, with their
+first name. Somebody who may only read it sees the changes and can't make
+any.
+
+## Asking OneAI
+
+**Ask AI**, at the top beside **File**, opens the Ask bar. Select the cells it is about,
+then say what you want: "total this column", "a formula for the margin in
+F2:F5", "which line costs the most?". OneAI either answers in words or fills
+cells, and what it fills is one edit: **Undo** takes it all back. It sees the
+sheet you are on, up to 25 rows and 40 columns of it, and nothing else. Each
+question costs credits like any other OneAI request, and Ask is there only
+when OneAI is on for the workspace. Somebody who may only read the workbook
+can't ask.
+
 ## Who can open it
 
 The same people who can open the file in OneCloud. Your own files are yours
@@ -60,10 +79,7 @@ whoever can open that folder. Somebody who may read it but not change it sees
 
 ## What is not built yet
 
-- Two people editing the same workbook at once. Today the last save wins.
-- Asking OneAI to work on a selection.
 - Filling a record's table from a workbook, or opening one in a workbook.
-- The editor's own words in Arabic and German.
 
 ## Connections
 
@@ -114,6 +130,42 @@ the shims are ours and checked like the rest.
 Formulas are worked out in the browser; the server never parses one. It
 checks only that a save is under 75 MB unpacked and reads as JSON.
 
+### Live, `live.py` and `realtime/handlers.js`
+
+Suite's Yjs layer is kept as it is: cells bound into a Y.Doc
+(`collab/cells-binding.js`), updates batched every 16 ms
+(`collab/frappe-provider.js`), presence and cursors (`collab/awareness.js`).
+Only the transport is ours. `realtime/handlers.js` is loaded by Frappe's own
+socketio process for every app (`frappe/realtime/index.js`), so live editing
+needs no second service. A browser joins a workbook's room with
+`onedesk_join`; the relay asks `live.admit` once, as that socket's session,
+and the server names the room and says whether the person may write. After
+that a change goes browser → node → the others, never through Python. A
+reader may ask for the state and be seen, nothing else; only a writer may
+send cell updates or answer with a whole state. Who somebody is in the
+presence strip is stamped from `admit`, not taken from their browser. A
+message over 2 MB is dropped, and a socket sending more than 300 in five
+seconds is ignored for the rest of the window. On the client, `shim/live.js`
+replaces Suite's `collab/realtime-adapter.js` at build time (`seams.mjs`).
+Each browser still saves the whole workbook itself, as before; Yjs makes
+every open copy the same, so the saves agree. `boot.one_sheet_live` turns it
+on for everybody signed in. A late joiner loads the saved workbook, then asks
+the room and is answered by whoever is there.
+
+### Ask, `assist.py`
+
+The editor's Ask bar is Suite's; only the call is ours. `ai_assist` checks
+the person may write, reads the saved workbook, and shows the model the
+sheet's used range (at most 25 rows by 40 columns and 12 KB, `context`) with
+the selection, through `run.once("sheet_assist", …)`, so the account's
+gateway, credits and logs apply like every other OneAI job. The model
+answers JSON, `{"actions": [...]}`; `cleaned` keeps only `setCell` on a real
+cell address with a formula under 1,000 characters and `answer` text, at
+most 200 of them, and drops the rest. Nothing is written on the server: the
+editor applies the cells as one undoable edit and saves them like typing,
+so live co-editing and history see them too. `boot.ai_assist_enabled` shows
+the bar only when OneAI is on and the account is set up.
+
 ### History, `versions.py`
 
 After Suite's `sheets/versioning`, written again in our style. Every save
@@ -131,17 +183,13 @@ Cell history is a `LIKE` on `cell_refs`, filtered exactly in Python.
 
 - **Suite's sharing dialog.** A workbook is a File, and two share models for
   one object is the bug; OneCloud shares it.
-- **Suite's AI Assist.** It calls Anthropic with a key typed into a settings
-  form. OneAI goes through the account's gateway and credits instead; that
-  is the next stage.
-- **Live co-editing.** Suite has two ways: a Hocuspocus server of its own,
-  which is a second process and an nginx route, and a relay through
-  `publish_realtime` with no room, which sends every workbook's edits to
-  every signed-in user. Ours will relay through the desk's own socket with
-  rooms the server names and a read-only flag it keeps
-  (`apps/<app>/realtime/handlers.js`, which Frappe loads for every app). Until
-  then `useCollaboration` starts only when `frappe.boot.one_sheet_live` is
-  set, and nothing sets it.
+- **Suite's AI settings.** Suite calls a model provider with a key typed
+  into a settings form. Ask goes through the account's gateway and credits
+  instead, so the form is gone.
+- **Suite's two co-editing transports.** One is a Hocuspocus server of its
+  own: a second process, an nginx route and a shared secret. The other relays
+  through `publish_realtime` with no room, which sends every workbook's edits
+  to every signed-in user. Ours is below.
 - **Link previews.** Suite fetches the page a cell links to. One fetches
   nothing a cell names; `get_link_preview` answers with the address.
 - **Suite's Home and Trash pages.** OneCloud is both.

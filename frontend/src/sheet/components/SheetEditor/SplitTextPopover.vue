@@ -1,7 +1,7 @@
 <!-- Derived from frappe/suite@df7f341 (frontend/src/apps/sheets)/components/SheetEditor/SplitTextPopover.vue. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md. -->
 <template>
 	<div v-if="open" class="sn-sp-pop" :style="style" @click.stop>
-		<div class="sn-sp-header">Separator</div>
+		<div class="sn-sp-header">{{ __('Separator') }}</div>
 		<button
 			v-for="o in OPTIONS"
 			:key="o.value"
@@ -25,21 +25,21 @@
 					      stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
 				</svg>
 			</span>
-			<span class="sn-sp-label">Custom</span>
+			<span class="sn-sp-label">{{ __('Custom') }}</span>
 			<FormControl
 				ref="customInputRef"
 				v-model="customValue"
 				type="text"
 				size="sm"
-				placeholder="e.g. ::"
+				:placeholder="__('e.g. {0}', ['::'])"
 				class="sn-sp-custom-input"
 				@click.stop
 			/>
 		</div>
 
 		<div class="sn-sp-actions">
-			<Button size="sm" variant="ghost" label="Cancel" @click="$emit('cancel')" />
-			<Button size="sm" variant="solid" label="Apply"  @click="$emit('apply')" />
+			<Button size="sm" variant="ghost" :label="__('Cancel')" @click="$emit('cancel')" />
+			<Button size="sm" variant="solid" :label="__('Apply')" @click="$emit('apply')" />
 		</div>
 	</div>
 </template>
@@ -47,6 +47,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { Button, FormControl } from 'frappe-ui'
+import { __ } from '../../../kit/desk'
 
 const props = defineProps({
 	open:     { type: Boolean, default: false },
@@ -56,12 +57,12 @@ const props = defineProps({
 const emit = defineEmits(['choose', 'apply', 'cancel'])
 
 const OPTIONS = [
-	{ value: 'auto',      label: 'Detect automatically' },
-	{ value: 'comma',     label: 'Comma' },
-	{ value: 'semicolon', label: 'Semicolon' },
-	{ value: 'period',    label: 'Period' },
-	{ value: 'space',     label: 'Space' },
-	{ value: 'tab',       label: 'Tab' },
+	{ value: 'auto',      label: __('Detect automatically') },
+	{ value: 'comma',     label: __('Comma') },
+	{ value: 'semicolon', label: __('Semicolon') },
+	{ value: 'period',    label: __('Period') },
+	{ value: 'space',     label: __('Space') },
+	{ value: 'tab',       label: __('Tab') },
 ]
 
 const customValue    = ref('')

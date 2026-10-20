@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { frappeRequest } from 'frappe-ui'
 import { call }                  from '../../utils/api.js'
+import { __ } from '../../../kit/desk'
 import { encodeForUpload, isDecompressionSupported, decodeFromDownload } from '../../utils/compress.js'
 import { packSheet, packSheetChunked, unpackSheet, boundsOf } from '../../utils/sheet-codec.js'
 
@@ -60,7 +61,7 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
         t === 'PermissionError'    ? 'denied'  :
         t === 'DoesNotExistError'  ? 'missing' :
                                      'other'
-      loadError.value = { kind, message: err?.message || 'Could not open this sheet' }
+      loadError.value = { kind, message: err?.message || __('Could not open this sheet') }
     }
   }
 
@@ -68,7 +69,7 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
   // doc name.  Called immediately on mount so every doc has a real ID from the
   // start — no manual-save step, matching Google Sheets' always-saved model.
   async function autoCreate(title, { ops } = {}) {
-    return _persist(null, title || 'Untitled Sheet', { ops })
+    return _persist(null, title || __('Untitled Sheet'), { ops })
   }
 
   async function saveExisting(name, title, { keepalive = false, ops } = {}) {
@@ -145,7 +146,7 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
       }
     } catch (err) {
       isSaving.value = false
-      saveError.value = err.message || "Couldn't prepare save payload."
+      saveError.value = err.message || __('Couldn’t prepare save payload.')
       return null
     }
 
@@ -187,8 +188,8 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
       // because silently hiding "your work isn't saved" is the worst
       // possible UX for an editor.
       saveError.value = lastErr?.message
-        ? `Couldn't save: ${lastErr.message}`
-        : "Couldn't save — check your connection, then click retry."
+        ? __('Couldn’t save: {0}', [lastErr.message])
+        : __('Couldn’t save — check your connection, then click retry.')
       return null
     } finally {
       isSaving.value = false

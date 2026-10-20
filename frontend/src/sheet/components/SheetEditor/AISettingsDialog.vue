@@ -1,6 +1,6 @@
 <!-- Derived from frappe/suite@df7f341 (frontend/src/apps/sheets)/components/SheetEditor/AISettingsDialog.vue. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md. -->
 <template>
-  <Dialog v-model:open="show" title="AI Assist" size="md">
+  <Dialog v-model:open="show" :title="__('AI Assist')" size="md">
     <template #default>
 
       <!-- Inline error banner (permission / network failures). Auto-clears. -->
@@ -16,16 +16,14 @@
 
       <template v-else>
         <p class="ai-help">
-          Lets people describe what they want in plain words and have it applied
-          to the grid. The API key is stored encrypted on the server and is
-          never sent back to the browser.
+          {{ __('Lets people describe what they want in plain words and have it applied to the grid. The API key is stored encrypted on the server and is never sent back to the browser.') }}
         </p>
 
         <!-- Enable toggle -->
         <div class="ai-row">
           <div class="ai-row-text">
-            <span class="ai-row-title">Enable AI Assist</span>
-            <span class="ai-row-sub">Show the “Ask” entry point for everyone on this site.</span>
+            <span class="ai-row-title">{{ __('Enable AI Assist') }}</span>
+            <span class="ai-row-sub">{{ __('Show the “Ask” entry point for everyone on this site.') }}</span>
           </div>
           <Switch v-model="enabled" />
         </div>
@@ -33,18 +31,18 @@
         <div class="ai-divider" />
 
         <!-- API key -->
-        <p class="ai-label">Anthropic API key</p>
+        <p class="ai-label">{{ __('Anthropic API key') }}</p>
         <FormControl
           type="password"
           :modelValue="apiKey"
-          :placeholder="keyIsSet ? '•••••••••• key on file — leave blank to keep' : 'sk-ant-...'"
+          :placeholder="keyIsSet ? '•••••••••• ' + __('key on file — leave blank to keep') : 'sk-ant-...'"
           autocomplete="off"
           @update:modelValue="apiKey = $event"
         />
-        <p v-if="keyIsSet" class="ai-key-state">A key is currently configured.</p>
+        <p v-if="keyIsSet" class="ai-key-state">{{ __('A key is currently configured.') }}</p>
 
         <!-- Model -->
-        <p class="ai-label ai-label--gap">Model</p>
+        <p class="ai-label ai-label--gap">{{ __('Model') }}</p>
         <FormControl
           type="text"
           :modelValue="model"
@@ -52,9 +50,7 @@
           @update:modelValue="model = $event"
         />
         <p class="ai-key-state">
-          Tip: set this to <code>mock</code> for a keyless local demo — sums, averages,
-          counts, min/max/median, running totals, % of total, and text transforms
-          (uppercase, trim, first/last name, email domain) over a selection. No API key, no spend.
+          {{ __('Tip: set this to {0} for a keyless local demo — sums, averages, counts, min/max/median, running totals, % of total, and text transforms (uppercase, trim, first/last name, email domain) over a selection. No API key, no spend.', ['“mock”']) }}
         </p>
       </template>
 
@@ -65,12 +61,12 @@
         <Button
           variant="solid"
           size="sm"
-          label="Save"
+          :label="__('Save')"
           :loading="saving"
           :disabled="loading || saving"
           @click="save"
         />
-        <Button variant="outline" size="sm" label="Cancel" @click="show = false" />
+        <Button variant="outline" size="sm" :label="__('Cancel')" @click="show = false" />
       </div>
     </template>
   </Dialog>
@@ -80,6 +76,7 @@
 import { ref, computed, watch } from 'vue'
 import { Badge, Button, Dialog, Switch, FormControl, Spinner } from 'frappe-ui'
 import { call } from '../../utils/api.js'
+import { __ } from '../../../kit/desk'
 
 const props = defineProps({
   modelValue: { type: Boolean, default: false },
@@ -100,7 +97,7 @@ const keyIsSet = ref(false)       // whether a key is already on file (the real 
 
 const errorMessage = ref('')
 function _flashError(err) {
-  const msg = (err && err.message) ? String(err.message) : 'Something went wrong'
+  const msg = (err && err.message) ? String(err.message) : __('Something went wrong')
   errorMessage.value = msg
   setTimeout(() => { if (errorMessage.value === msg) errorMessage.value = '' }, 5000)
 }

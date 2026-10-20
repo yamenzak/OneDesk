@@ -16,13 +16,14 @@
 //      onto whatever error is thrown.
 
 import { call as frappeCall } from 'frappe-ui'
+import { __ } from '../../kit/desk'
 
 function csrfToken() {
   return window.csrf_token ?? ''
 }
 
 function buildServerError(json) {
-  let msg = json?.exc_type || 'Server error'
+  let msg = json?.exc_type || __('Server error')
   if (json?._server_messages) {
     try {
       const parsed = JSON.parse(json._server_messages)

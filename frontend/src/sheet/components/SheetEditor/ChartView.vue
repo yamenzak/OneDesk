@@ -9,7 +9,7 @@
       :update-options="UPDATE_OPTS"
       autoresize
     />
-    <div v-else class="cv-empty">No data</div>
+    <div v-else class="cv-empty">{{ __('No data') }}</div>
   </div>
 </template>
 

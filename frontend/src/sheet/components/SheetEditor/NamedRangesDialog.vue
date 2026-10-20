@@ -1,22 +1,22 @@
 <!-- Derived from frappe/suite@df7f341 (frontend/src/apps/sheets)/components/SheetEditor/NamedRangesDialog.vue. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md. -->
 <template>
-  <Dialog v-model:open="show" title="Named ranges" size="lg">
+  <Dialog v-model:open="show" :title="__('Named ranges')" size="lg">
     <template #default>
 
       <!-- ── Add new ────────────────────────────────────────────────────── -->
       <div class="nr-section">
-        <p class="nr-label">{{ editing ? 'Edit named range' : 'Add named range' }}</p>
+        <p class="nr-label">{{ editing ? __('Edit named range') : __('Add named range') }}</p>
         <div class="nr-form">
           <FormControl
             v-model="form.name"
             type="text"
-            label="Name"
-            placeholder="e.g. Revenue"
+            :label="__('Name')"
+            :placeholder="__('e.g. Revenue')"
             class="nr-form-input"
           />
           <FormControl
             type="select"
-            label="Sheet"
+            :label="__('Sheet')"
             :model-value="form.sheet"
             :options="sheetOptions"
             @update:model-value="(v) => form.sheet = v"
@@ -25,39 +25,38 @@
           <FormControl
             v-model="form.range"
             type="text"
-            label="Range"
-            placeholder="e.g. B2:B100"
+            :label="__('Range')"
+            :placeholder="__('e.g. {0}', ['B2:B100'])"
             class="nr-form-range"
           />
           <div class="nr-form-actions">
-            <Button v-if="editing" @click="_resetForm">Cancel</Button>
+            <Button v-if="editing" @click="_resetForm">{{ __('Cancel') }}</Button>
             <Button variant="solid" :disabled="!_canSubmit" @click="_submit">
-              {{ editing ? 'Save' : 'Add' }}
+              {{ editing ? __('Save') : __('Add') }}
             </Button>
           </div>
         </div>
         <p v-if="formError" class="nr-error">{{ formError }}</p>
         <p class="nr-hint">
-          Names must start with a letter or "_" and contain only letters, digits, and "_".
-          They can't look like cell references or collide with built-in functions.
+          {{ __('Names must start with a letter or “_” and contain only letters, digits, and “_”. They can’t look like cell references or collide with built-in functions.') }}
         </p>
       </div>
 
       <!-- ── Existing list ──────────────────────────────────────────────── -->
       <div class="nr-section">
-        <p class="nr-label">Existing</p>
-        <div v-if="!entries.length" class="nr-empty">No named ranges defined yet.</div>
+        <p class="nr-label">{{ __('Existing') }}</p>
+        <div v-if="!entries.length" class="nr-empty">{{ __('No named ranges defined yet.') }}</div>
         <div v-else class="nr-list">
           <div class="nr-row nr-row--head">
-            <div>Name</div><div>Sheet</div><div>Range</div><div></div>
+            <div>{{ __('Name') }}</div><div>{{ __('Sheet') }}</div><div>{{ __('Range') }}</div><div></div>
           </div>
           <div v-for="e in entries" :key="e.name" class="nr-row">
             <div class="nr-name"><code>{{ e.name }}</code></div>
-            <div class="nr-sheet">{{ e.sheet || '(current)' }}</div>
+            <div class="nr-sheet">{{ e.sheet || __('(current)') }}</div>
             <div class="nr-range"><code>{{ e.range }}</code></div>
             <div class="nr-row-actions">
-              <Button size="sm" variant="ghost" icon="lucide-edit-2"  @click="_edit(e)"  tooltip="Edit"   />
-              <Button size="sm" variant="ghost" icon="lucide-trash-2" @click="_delete(e)" theme="red" tooltip="Delete" />
+              <Button size="sm" variant="ghost" icon="lucide-edit-2"  @click="_edit(e)"  :tooltip="__('Edit')" />
+              <Button size="sm" variant="ghost" icon="lucide-trash-2" @click="_delete(e)" theme="red" :tooltip="__('Delete')" />
             </div>
           </div>
         </div>
@@ -67,7 +66,7 @@
 
     <template #actions>
       <div class="flex flex-row-reverse gap-2">
-        <Button variant="solid" @click="show = false">Done</Button>
+        <Button variant="solid" @click="show = false">{{ __('Done') }}</Button>
       </div>
     </template>
   </Dialog>
@@ -76,6 +75,7 @@
 <script setup>
 import { computed, ref, reactive, watch } from 'vue'
 import { Button, Dialog, FormControl } from 'frappe-ui'
+import { __ } from '../../../kit/desk'
 
 const props = defineProps({
   modelValue:    { type: Boolean, default: false },
@@ -103,7 +103,7 @@ const sheetOptions = computed(() => {
   const opts = props.sheetNames.map(n => ({ label: n, value: n }))
   // First entry represents "current sheet" (empty string) — Sheets behaviour
   // for names with no explicit sheet binding.
-  return [{ label: '(current)', value: '' }, ...opts]
+  return [{ label: __('(current)'), value: '' }, ...opts]
 })
 
 // ── Form state ─────────────────────────────────────────────────────────────
@@ -139,7 +139,7 @@ function _edit(e) {
 
 function _delete(e) {
   // eslint-disable-next-line no-alert
-  if (!window.confirm(`Delete named range "${e.name}"?`)) return
+  if (!window.confirm(__('Delete named range “{0}”?', [e.name]))) return
   props.namedRanges.remove(e.name)
   emit('changed')
 }
