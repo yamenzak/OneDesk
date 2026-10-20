@@ -27,6 +27,9 @@ RECEIPT = "RUA Purchase Receipt"
 GROUPS = {"Aluminum": "Aluminium", "Glass": "Glass", "Material": "Materials", "Cladding": "Cladding"}
 DIFFERENCE = "Line Difference"
 
+#: Requests Rua confirmed were tests in the old app, left out by name.
+TESTS = {"RC-RFQ-2500004"}
+
 
 def rest(qty, price, total) -> float:
 	"""What an old line's total says beyond its quantity times its price, or
@@ -194,6 +197,9 @@ def received(run_, old):
 
 def requested(run_, old, codes):
 	if run_.made(RFQ, old["name"], "Request for Quotation"):
+		return
+	if old["name"] in TESTS:
+		run_.note("Left Out", None, None, f"{old['name']}: a test in the old app (Majd, 20 Oct 2026)")
 		return
 	supplier = supplier_of(run_, old.get("party"))
 	lines = [one for one in old.get("items") or [] if flt(one.get("qty"))]
