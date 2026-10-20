@@ -1,7 +1,7 @@
 frappe.provide("onedesk.item");
 
 onedesk.item.GROUPS = [
-	[__("Details"), ["item_group", "brand", "stock_uom", "one_measured_by", "is_stock_item", "allow_alternative_item", "barcodes"]],
+	[__("Details"), ["item_group", "brand", "stock_uom", "one_measured_by", "one_size_uom", "is_stock_item", "allow_alternative_item", "barcodes"]],
 	[__("Stock"), ["valuation_method", "valuation_rate", "allow_negative_stock", "shelf_life_in_days", "end_of_life", "warranty_period", "weight_per_unit", "weight_uom"]],
 	[__("Reordering"), ["reorder_levels", "default_material_request_type", "safety_stock", "lead_time_days", "min_order_qty"]],
 	[__("Units"), ["uoms", "purchase_uom", "sales_uom"]],

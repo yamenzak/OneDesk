@@ -83,7 +83,7 @@ def make(values: dict | str) -> str:
 	)
 	if kind != "Equipment" and values.measured_by in BASE:
 		item.one_measured_by = values.measured_by
-		per_unit = flt(values.per_unit if values.measured_by == "Length" else values.per_unit_area)
+		per_unit = flt({"Length": values.per_unit, "Area": values.per_unit_area, "Volume": values.per_unit_volume}[values.measured_by])
 		if values.unit != BASE[values.measured_by] and per_unit:
 			item.append("uoms", {"uom": BASE[values.measured_by], "conversion_factor": 1 / per_unit})
 	made_here = kind in ("Stock", "Versions") and bool(values.made_here)

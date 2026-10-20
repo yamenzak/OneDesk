@@ -79,3 +79,4 @@ onedesk.one_project.patches.claims_are_numbered
 onedesk.one.patches.options_are_names
 onedesk.one_book.patches.tax_return
 onedesk.one_project.patches.stock_counted_once
+onedesk.one_inventory.patches.sizes_say_their_unit

@@ -49,6 +49,7 @@ frappe.ui.form.ItemQuickEntryForm = class ItemQuickEntryForm extends frappe.ui.f
 					{ value: "No", label: __("No") },
 					{ value: "Length", label: __("Length") },
 					{ value: "Area", label: __("Area") },
+					{ value: "Volume", label: __("Volume") },
 				],
 				default: "No",
 				depends_on: kind(["Stock", "Versions", "Service"]),
@@ -66,6 +67,13 @@ frappe.ui.form.ItemQuickEntryForm = class ItemQuickEntryForm extends frappe.ui.f
 				label: __("Square Metres in One Unit"),
 				depends_on: `eval:doc.measured_by == "Area" && doc.unit != "Square Meter"`,
 				mandatory_depends_on: `eval:doc.measured_by == "Area" && doc.unit != "Square Meter"`,
+			},
+			{
+				fieldtype: "Float",
+				fieldname: "per_unit_volume",
+				label: __("Cubic Metres in One Unit"),
+				depends_on: `eval:doc.measured_by == "Volume" && doc.unit != "Cubic Meter"`,
+				mandatory_depends_on: `eval:doc.measured_by == "Volume" && doc.unit != "Cubic Meter"`,
 			},
 			{ fieldtype: "Column Break" },
 			{ fieldtype: "Attach Image", fieldname: "image", label: __("Picture") },
@@ -282,10 +290,11 @@ frappe.ui.form.ItemQuickEntryForm = class ItemQuickEntryForm extends frappe.ui.f
 
 	follow_measure(details) {
 		const by = details.get_value("measured_by");
-		const unit = { Length: "Meter", Area: "Square Meter" }[by];
+		const bases = { Length: "Meter", Area: "Square Meter", Volume: "Cubic Meter" };
+		const unit = bases[by];
 		const was = details.get_value("unit");
-		if (unit && [this.said.unit, "Meter", "Square Meter"].includes(was)) details.form.set_value("unit", unit);
-		if (!unit && ["Meter", "Square Meter"].includes(was)) details.form.set_value("unit", this.said.unit);
+		if (unit && [this.said.unit, ...Object.values(bases)].includes(was)) details.form.set_value("unit", unit);
+		if (!unit && Object.values(bases).includes(was)) details.form.set_value("unit", this.said.unit);
 	}
 
 	follow_unit(details) {

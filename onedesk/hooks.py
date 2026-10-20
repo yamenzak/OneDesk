@@ -355,6 +355,9 @@ doc_events = {
 		"before_insert": "onedesk.one_inventory.barcodes.coded",
 		"before_validate": "onedesk.one_inventory.measure.follows_unit",
 	},
+	"Stock Settings": {
+		"validate": "onedesk.one_inventory.measure.size_unit_is_a_length",
+	},
 	"Brand": {
 		"after_insert": "onedesk.one_mail.faces.dress_later",
 		"on_update": "onedesk.one_mail.faces.dress_later",

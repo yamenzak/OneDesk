@@ -107,6 +107,7 @@ const needs = computed(() => {
 
 const details_ = computed(() => [
   { label: __("Sold by Size"), field: "one_measured_by" },
+  { label: __("Size Unit"), field: "one_size_uom" },
   { label: __("Allow Purchase"), field: "is_purchase_item" },
   { label: __("Allow Sales"), field: "is_sales_item" },
   props.said.made && { label: __("Manufactured"), value: __("Yes") },

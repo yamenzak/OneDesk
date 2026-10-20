@@ -1,16 +1,23 @@
-"""Items sold by size: an item sold by length or area (Item's Sold by Size),
-and a line that gives its pieces, length and width in millimetres. The
-line's quantity is worked out from them, in the line's unit, so ERPNext prices,
-taxes, stocks and costs it as it would any other line. An item sold by the
-Piece has a size that prints and counts nothing: a curtain-wall panel is one,
-however big. Every table that lines up items carries the size (custom fields
-one_measured_by, one_pieces, one_length, one_width and one_size)."""
+"""Items sold by size: an item sold by length, area or volume (Item's Sold
+by Size), and a line that gives its pieces, length, width and height in its
+size unit. The line's quantity is worked out from them, in the line's unit,
+so ERPNext prices, taxes, stocks and costs it as it would any other line. An
+item sold by the Piece has a size that prints and counts nothing: a
+curtain-wall panel is one, however big. Every table that lines up items
+carries the size (custom fields one_measured_by, one_pieces, one_length,
+one_width, one_height, one_size_uom and one_size). README, Sizes."""
 
 import frappe
 from frappe import _
 from frappe.utils import cint, flt
 
-BASE = {"Length": "Meter", "Area": "Square Meter"}
+BASE = {"Length": "Meter", "Area": "Square Meter", "Volume": "Cubic Meter"}
+
+#: How many lengths each kind multiplies.
+POWER = {"Length": 1, "Area": 2, "Volume": 3}
+
+#: What sizes are typed in when neither the workspace nor the item says.
+SIZE_UNIT = "Millimeter"
 
 PIECE = "Piece"
 
@@ -57,7 +64,7 @@ SELLING = {"Quotation", "Sales Order", "Delivery Note", "Sales Invoice", "POS In
 
 
 def unit_kind(uom: str | None) -> str | None:
-	"""Length or Area when ERPNext's table of units counts `uom` as one."""
+	"""Length, Area or Volume when ERPNext's table of units counts `uom` as one."""
 	if not uom:
 		return None
 	for side in ("from_uom", "to_uom"):
@@ -73,11 +80,19 @@ def unit_is(uom: str) -> str | None:
 	return unit_kind(uom)
 
 
+def size_unit_is_a_length(doc, method=None) -> None:
+	"""Stock Settings validate: the workspace's size unit is a length."""
+	if doc.get("one_size_uom"):
+		metres(doc.one_size_uom)
+
+
 def follows_unit(doc, method=None) -> None:
 	"""Item before_validate: an item counted in a length or an area is sold by
 	it, once it is made or its unit changes, on every path an item is saved
 	by. One already sold by size keeps what it says (a sheet kept by the
-	piece and sold by the square metre)."""
+	piece and sold by the square metre). Its size unit must be a length."""
+	if doc.get("one_size_uom"):
+		metres(doc.one_size_uom)
 	if doc.get("one_measured_by") in (*BASE, PIECE):
 		return
 	before = doc.get_doc_before_save() if not doc.is_new() else None
@@ -86,14 +101,55 @@ def follows_unit(doc, method=None) -> None:
 	doc.one_measured_by = unit_kind(doc.stock_uom) or "No"
 
 
-def amount(measured_by: str, pieces, length, width) -> float:
-	"""How many metres or square metres the pieces come to. Pure."""
-	pieces = cint(pieces) or 1
-	if measured_by == "Length":
-		return pieces * flt(length) / 1000
-	if measured_by == "Area":
-		return pieces * flt(length) * flt(width) / 1_000_000
-	return 0.0
+def amount(measured_by: str, pieces, length, width=None, height=None, metre: float = 0.001) -> float:
+	"""How many metres, square metres or cubic metres the pieces come to,
+	each size `metre` metres a unit. Pure."""
+	if measured_by not in POWER:
+		return 0.0
+	sides = (flt(length), flt(width), flt(height))[: POWER[measured_by]]
+	out = float(cint(pieces) or 1)
+	for side in sides:
+		out *= side * metre
+	return out
+
+
+def converted(uom: str, to: str) -> float | None:
+	"""How many `to` one `uom` is, by ERPNext's table of units."""
+	if uom == to:
+		return 1.0
+	value = frappe.db.get_value("UOM Conversion Factor", {"from_uom": uom, "to_uom": to}, "value")
+	if flt(value):
+		return flt(value)
+	value = frappe.db.get_value("UOM Conversion Factor", {"from_uom": to, "to_uom": uom}, "value")
+	return 1 / flt(value) if flt(value) else None
+
+
+def size_unit(item_code: str | None = None, row=None) -> str:
+	"""The unit a line's sizes are in: the line's own, the item's, the
+	workspace's (Stock Settings), or millimetres."""
+	return (
+		(row.get("one_size_uom") if row else None)
+		or (item_code and frappe.db.get_value("Item", item_code, "one_size_uom"))
+		or frappe.db.get_single_value("Stock Settings", "one_size_uom")
+		or SIZE_UNIT
+	)
+
+
+def metres(uom: str) -> float:
+	"""How many metres one `uom` is; a unit that isn't a length is refused."""
+	value = converted(uom, "Meter")
+	if not value or unit_kind(uom) != "Length":
+		frappe.throw(_("Sizes can't be typed in {0}. Pick a length: millimetres, centimetres, inches.").format(_(uom)))
+	return value
+
+
+def symbol(uom: str) -> str:
+	"""How a unit is written after a size: mm, cm, in."""
+	return frappe.db.get_value("UOM", uom, "symbol") or SYMBOLS.get(uom) or _(uom)
+
+
+#: What ERPNext's units carry no symbol for.
+SYMBOLS = {"Millimeter": "mm", "Meter": "m", "Inch": "in", "Kilometer": "km", "Yard": "yd", "Decimeter": "dm"}
 
 
 def factor(item_code: str, measured_by: str, uom: str) -> float:
@@ -141,18 +197,20 @@ def unit(row, parent) -> str:
 	return said[0] or said[1] if field else said[0]
 
 
-def size(measured_by: str, pieces, length, width) -> str:
+def size(measured_by: str, pieces, length, width=None, height=None, unit: str = "mm") -> str:
 	"""A line's size as it is read and printed: 4 × 1200 × 800 mm. Pure."""
-	parts = [f"{flt(length):g}"] + ([f"{flt(width):g}"] if measured_by == "Area" else [])
+	sides = (length, width, height)[: POWER.get(measured_by, 1)]
+	parts = [f"{flt(one):g}" for one in sides]
 	pieces = cint(pieces) or 1
-	return " × ".join(([str(pieces)] if pieces > 1 else []) + parts) + " mm"
+	return " × ".join(([str(pieces)] if pieces > 1 else []) + parts) + f" {unit}"
 
 
-def described(length, width) -> str | None:
+def described(length, width, height=None, unit: str = "mm") -> str | None:
 	"""A piece's size, which counts nothing: 20525 × 3500 mm. Pure."""
 	if not flt(length):
 		return None
-	return size("Area" if flt(width) else "Length", 1, length, width)
+	kind = "Volume" if flt(height) else "Area" if flt(width) else "Length"
+	return size(kind, 1, length, width, height, unit)
 
 
 def quantity(row, parent) -> float | None:
@@ -160,9 +218,12 @@ def quantity(row, parent) -> float | None:
 	measured_by = row.get("one_measured_by")
 	if measured_by not in BASE or not flt(row.get("one_length")):
 		return None
-	if measured_by == "Area" and not flt(row.get("one_width")):
+	if measured_by in ("Area", "Volume") and not flt(row.get("one_width")):
 		return None
-	measured = amount(measured_by, row.get("one_pieces"), row.get("one_length"), row.get("one_width"))
+	if measured_by == "Volume" and not flt(row.get("one_height")):
+		return None
+	metre = metres(size_unit(row.item_code, row))
+	measured = amount(measured_by, row.get("one_pieces"), row.get("one_length"), row.get("one_width"), row.get("one_height"), metre)
 	return flt(measured * factor(row.item_code, measured_by, unit(row, parent)), row.precision("qty"))
 
 
@@ -183,24 +244,30 @@ def sized(doc, method=None) -> None:
 				continue
 			if row.get("one_measured_by") not in BASE:
 				row.one_measured_by = frappe.db.get_value("Item", row.item_code, "one_measured_by")
+			if row.one_measured_by not in (*BASE, PIECE):
+				row.one_size = None
+				continue
+			row.one_size_uom = size_unit(row.item_code, row)
+			written = symbol(row.one_size_uom)
 			if row.one_measured_by == PIECE:
-				row.one_size = described(row.one_length, row.one_width)
+				row.one_size = described(row.one_length, row.one_width, row.get("one_height"), written)
 				continue
 			qty = quantity(row, doc)
 			if qty is None:
 				row.one_size = None
 				continue
 			row.qty = qty
-			row.one_size = size(row.one_measured_by, row.one_pieces, row.one_length, row.one_width)
+			row.one_size = size(row.one_measured_by, row.one_pieces, row.one_length, row.one_width, row.get("one_height"), written)
 
 
 @frappe.whitelist()
-def line_quantity(item_code: str, measured_by: str, uom: str, pieces=None, length=None, width=None) -> float:
+def line_quantity(item_code: str, measured_by: str, uom: str, pieces=None, length=None, width=None, height=None, size_uom=None) -> float:
 	"""The quantity a form shows as a line's size is typed."""
 	frappe.has_permission("Item", "read", doc=item_code, throw=True)
 	if measured_by not in BASE:
 		return 0.0
-	return amount(measured_by, pieces, length, width) * factor(item_code, measured_by, uom)
+	metre = metres(size_uom or size_unit(item_code))
+	return amount(measured_by, pieces, length, width, height, metre) * factor(item_code, measured_by, uom)
 
 
 def for_boot() -> dict:
@@ -218,4 +285,8 @@ def for_boot() -> dict:
 			"UOM", filters={"symbol": ["is", "set"], "enabled": 1}, fields=["name", "symbol"], as_list=True
 		)
 	)
-	return {"lines": list(LINES), "records": found, "symbols": symbols}
+	lengths = sorted(
+		{one for row in frappe.get_all("UOM Conversion Factor", filters={"category": "Length"}, fields=["from_uom", "to_uom"]) for one in row.values()}
+	)
+	written = {uom: symbols.get(uom) or SYMBOLS.get(uom) or uom for uom in lengths}
+	return {"lines": list(LINES), "records": found, "symbols": symbols, "lengths": lengths, "written": written, "size_unit": size_unit()}

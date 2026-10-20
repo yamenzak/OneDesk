@@ -6643,8 +6643,8 @@ def oneinventory_new_item_parts_list_and_sizes():
 	parts list pasted in is matched to the items there are, and its new parts
 	are added as stock items. A line of a measured item takes its quantity
 	from its size, in the line's unit, on a quotation and on the order made
-	from it, and the size is kept for print. A linear metre is pieces times
-	their length."""
+	from it, and the size is kept for print, in the line's size unit. Concrete
+	is sold by volume; a line typed in centimetres counts as one."""
 	from erpnext.selling.doctype.quotation.mapper import make_sales_order
 
 	from onedesk.one_inventory import kinds, measure, parts
@@ -6653,6 +6653,14 @@ def oneinventory_new_item_parts_list_and_sizes():
 		glass = kinds.make({"kind": "Stock", "title": "Clear Glass 8 mm", "code": "DEMO-GLASS-8", "group": "Products", "unit": "Square Meter", "measured_by": "Area", "sold": 1, "selling_price": 60, "bought": 1})
 		sheet = kinds.make({"kind": "Stock", "title": "Aluminium Sheet 3 mm", "code": "DEMO-SHEET-3", "group": "Products", "unit": "Nos", "measured_by": "Area", "per_unit_area": 3.125, "sold": 1, "selling_price": 180, "bought": 1})
 		profile = kinds.make({"kind": "Stock", "title": "Edge Trim", "code": "DEMO-TRIM", "group": "Products", "unit": "Meter", "measured_by": "Length", "sold": 1, "selling_price": 12, "bought": 1})
+		concrete = kinds.make({"kind": "Stock", "title": "Ready-Mix Concrete", "code": "DEMO-CONCRETE", "group": "Products", "unit": "Litre", "measured_by": "Volume", "per_unit_volume": 0.001, "sold": 1, "selling_price": 1, "bought": 1})
+		assert round(measure.line_quantity(concrete, "Volume", "Cubic Meter", 2, 100, 50, 20, "Centimeter"), 3) == 0.2
+		assert round(measure.line_quantity(concrete, "Volume", "Litre", 2, 100, 50, 20, "Centimeter"), 1) == 200.0
+		try:
+			measure.line_quantity(concrete, "Volume", "Litre", 1, 1, 1, 1, "Kilogram")
+			raise AssertionError("a size in kilograms")
+		except frappe.ValidationError:
+			pass
 		assert frappe.db.get_value("Item", glass, "one_measured_by") == "Area"
 		assert {(r.uom, round(r.conversion_factor, 2)) for r in frappe.get_doc("Item", sheet).uoms} >= {("Square Meter", 0.32)}
 		assert set(kinds.stocked(["ALU-6063"])) == {"ALU-6063"}, "the Items list reads what the stores hold"
@@ -6682,9 +6690,14 @@ def oneinventory_new_item_parts_list_and_sizes():
 			{"item_code": sheet, "one_pieces": 2, "one_length": 1250, "one_width": 2500, "qty": 1},
 			{"item_code": profile, "one_pieces": 6, "one_length": 2400, "qty": 1},
 			{"item_code": "DEMO-CW", "one_length": 20525, "one_width": 3500, "qty": 2},
+			{"item_code": concrete, "one_size_uom": "Centimeter", "one_pieces": 2, "one_length": 100, "one_width": 50, "one_height": 20, "uom": "Cubic Meter", "qty": 1},
 		]}).insert()
 		said = [(row.qty, row.uom, row.one_size) for row in quote.items]
-		assert said == [(3.84, "Square Meter", "4 × 1200 × 800 mm"), (2.0, "Nos", "2 × 1250 × 2500 mm"), (14.4, "Meter", "6 × 2400 mm"), (2.0, "Nos", "20525 × 3500 mm")], said
+		assert said == [
+			(3.84, "Square Meter", "4 × 1200 × 800 mm"), (2.0, "Nos", "2 × 1250 × 2500 mm"), (14.4, "Meter", "6 × 2400 mm"),
+			(2.0, "Nos", "20525 × 3500 mm"), (0.2, "Cubic Meter", "2 × 100 × 50 × 20 cm"),
+		], said
+		assert quote.items[0].one_size_uom == "Millimeter", "the workspace's unit, said on the line"
 		quote.submit()
 		order = make_sales_order(quote.name)
 		assert [(row.one_pieces, row.one_length, row.qty) for row in order.items][:1] == [(4, 1200, 3.84)], "the order keeps the size"

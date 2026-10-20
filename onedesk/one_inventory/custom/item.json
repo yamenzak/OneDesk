@@ -5,11 +5,22 @@
    "fieldname": "one_measured_by",
    "fieldtype": "Select",
    "label": "Sold by Size",
-   "options": "No\nPiece\nLength\nArea",
+   "options": "No\nPiece\nLength\nArea\nVolume",
    "default": "No",
    "insert_after": "stock_uom",
    "module": "One Inventory",
-   "description": "Orders give each piece's size. By length or area the quantity follows from it; by the piece the size only prints."
+   "description": "Orders give each piece's size. By length, area or volume the quantity follows from it; by the piece the size only prints."
+  },
+  {
+   "dt": "Item",
+   "fieldname": "one_size_uom",
+   "fieldtype": "Link",
+   "options": "UOM",
+   "label": "Size Unit",
+   "insert_after": "one_measured_by",
+   "depends_on": "eval:doc.one_measured_by && doc.one_measured_by !== \"No\"",
+   "module": "One Inventory",
+   "description": "What an order's sizes for this item are typed in. Left blank, the workspace's, in Stock Settings."
   }
  ],
  "doctype": "Item",

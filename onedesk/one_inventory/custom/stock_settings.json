@@ -1,5 +1,17 @@
 {
- "custom_fields": [],
+ "custom_fields": [
+  {
+   "dt": "Stock Settings",
+   "fieldname": "one_size_uom",
+   "fieldtype": "Link",
+   "options": "UOM",
+   "label": "Size Unit",
+   "insert_after": "stock_uom",
+   "default": "Millimeter",
+   "module": "One Inventory",
+   "description": "What sizes are typed in on an order's lines unless an item says otherwise, such as millimetres or inches."
+  }
+ ],
  "doctype": "Stock Settings",
  "links": [],
  "property_setters": [

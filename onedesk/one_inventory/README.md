@@ -126,9 +126,10 @@ as stock items when you press **Add Parts**.
 
 ## Selling by size
 
-Glass, sheets, profiles and the like are sold by size. An item whose **Sold
-by Size** says **Length** or **Area** gets **Pieces**, **Length (mm)** and **Width (mm)** on
-every line it is on: quotations, orders, deliveries, invoices, purchase
+Glass, sheets, profiles, concrete and the like are sold by size. An item
+whose **Sold by Size** says **Length**, **Area** or **Volume** gets
+**Pieces**, **Length**, **Width** and **Height** on every line it is on, as
+many of them as it needs: quotations, orders, deliveries, invoices, purchase
 orders, receipts, stock movements, bills of materials and the rest. The
 quantity is worked out from the size, in the line's unit, and the price,
 tax, stock and cost follow from the quantity as on any other line.
@@ -136,18 +137,27 @@ tax, stock and cost follow from the quantity as on any other line.
 - 4 glass panels of 1200 × 800 mm, sold by the square metre, come to
   3.84 m².
 - 6 profiles cut at 2400 mm, sold by the metre, come to 14.4 m.
+- 2 slabs of 100 × 50 × 20 cm of concrete, sold by the cubic metre, come to
+  0.2 m³, or 200 litres if the line is in litres.
 - An item kept by the piece says how big one piece is when it is made, such
   as a sheet of 3.125 m². Two sheets of 1250 × 2500 mm then come to 2 sheets.
 - Any unit with a conversion set up also works, such as square feet.
 
-An item counted in a length or an area, such as metres or square feet, is set
-to be sold by it when it is made or its unit changes. A sheet kept by the
-piece is set by hand.
+Sizes are typed in the line's **Size Unit**: any length, such as
+millimetres, centimetres or inches. A line takes it from its item's Size
+Unit, and an item without one from the workspace's, in Stock Settings,
+which is millimetres until somebody changes it. Change a line's unit and its
+quantity follows. A line keeps the unit it was saved with, so changing the
+workspace's later doesn't change what an old order meant.
+
+An item counted in a length, an area or a volume, such as metres, square
+feet or litres, is set to be sold by it when it is made or its unit
+changes. A sheet kept by the piece is set by hand.
 
 The size columns show only once a line's item is sold by size, and the quantity
 shows its unit, such as 3.840 m². The size prints under the item's name on
 quotes, orders, invoices and the other printed records, such as
-"4 × 1200 × 800 mm". A quotation's sizes carry to the order made from it, and
+"4 × 1200 × 800 mm", in the line's own unit. A quotation's sizes carry to the order made from it, and
 on from there.
 
 A unit that must be whole, such as Nos, stays whole. Selling 3 m² from a sheet
@@ -1003,18 +1013,27 @@ a register and a movement form in it would be a rail with five rows.
   (Item Supplier) or name; `add` makes the missing parts stock items in Raw
   Material, bought and not sold.
 - `measure.py` and `public/js/measure.js` — selling by size. Item's
-  `one_measured_by` (Sold by Size: No, Piece, Length or Area), set by `follows_unit`
-  before_validate from ERPNext's UOM Conversion Factor category when the item
-  is made or its unit changes, and on every table in `LINES` the custom fields
-  one_measured_by (fetched from the item), one_pieces, one_length, one_width
-  and one_size. `sized` runs before_validate on every record (`doc_events`
-  "*"), so the quantity holds under bulk edit, Data Import and ERPNext's
-  mappers. A Piece line keeps its quantity and gets only `one_size`
-  (`described`). `factor` converts a metre or square metre to the line's unit by
-  the item's own conversion first, then ERPNext's UOM Conversion Factor. The
-  form script sets the quantity as the size is typed, shows the size columns
-  only where a line is measured, and the unit's symbol beside the quantity.
-  The shipped print formats merge one_size under the item's name.
+  `one_measured_by` (Sold by Size: No, Piece, Length, Area or Volume), set by
+  `follows_unit` before_validate from ERPNext's UOM Conversion Factor
+  category when the item is made or its unit changes, and on every table in
+  `LINES` the custom fields one_measured_by (fetched from the item),
+  one_pieces, one_length, one_width, one_height, one_size_uom and one_size.
+  The size unit is the line's, the item's (`one_size_uom`) or Stock
+  Settings' (`one_size_uom`, millimetres by default; `size_unit`), and must
+  be a length (`metres`, by ERPNext's conversion to Meter); `sized` writes
+  it on the line, so a line keeps what it was typed in. `amount` multiplies
+  as many sides as the kind has (`POWER`), each turned into metres. `sized`
+  runs before_validate on every record (`doc_events` "*"), so the quantity
+  holds under bulk edit, Data Import and ERPNext's mappers. A Piece line
+  keeps its quantity and gets only `one_size` (`described`). `factor`
+  converts a metre, square metre or cubic metre to the line's unit by the
+  item's own conversion first, then ERPNext's UOM Conversion Factor. The
+  form script sets the quantity as the size is typed, shows the size
+  columns only where a line is measured (Height only where one is a
+  volume), offers only lengths as a size unit (`for_boot`'s `lengths`), and
+  the unit's symbol beside the quantity. The shipped print formats merge
+  one_size under the item's name. `patches/sizes_say_their_unit` wrote
+  millimetres on every line that had a size before units.
 - `number_card/` — the six figures over Home as frappe Number Cards (Stock
   Worth, Taken In This Month, Sent Out This Month, Made This Month, Still on
   Order, Moves This Month), each counted by its method in `story.py`
