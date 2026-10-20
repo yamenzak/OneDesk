@@ -742,8 +742,13 @@ new expense policy.
 
 To post one, click **Add**, enter a title and write the message.
 
+- Every public announcement runs along the top bar, beside the date, until
+  **Show Until** (a week after it was posted if left empty). The newest five
+  run at once. Hover to stop it, click one to read it all, and **×** hides
+  the ones on the bar now, for you only. A new one still shows.
 - New announcements are **Public** and **Show When People Sign In** by
-  default.
+  default. Untick **Show When People Sign In** for one that only runs on the
+  bar.
 - Each person sees it once, the next time they open One, until **Show Until**
   (a week if left empty).
 - Tick **Every Time They Sign In** to show it at every sign-in.
@@ -2432,7 +2437,7 @@ automations run on.
 An announcement is frappe's own Note, made public and shown on sign-in:
 frappe pops it up for each person the next time they sign in, once or on
 every sign-in, until the day it expires, and writes down who has seen it.
-One adds three things:
+One adds four things:
 
 - **The administrator may announce.** frappe holds a Note's public and
   sign-in fields at a level only its System Manager writes, so anybody
@@ -2442,6 +2447,15 @@ One adds three things:
   each chose (Announcement), not only at their next sign-in.
 - **The administrators see who has read it,** frappe's own Seen By, and
   OneAI answers who has not.
+- **It runs along the top bar** (`current`, booted as `one_announcements`
+  and drawn by `onedesk.dock.news`): public, not expired, newest five. A Note
+  with no expiry runs for `FRESH_DAYS` from when it was posted, as frappe's
+  pop-up does. Saving or deleting a public one sends `one_announcements`, and
+  every open bar asks again. The text scrolls only when it is wider than the
+  bar, pauses on hover and focus, runs the other way in Arabic, and stands
+  still for anybody who has asked for less motion. Hiding (`hide`) keeps the
+  names on the bar as the person's own default, so it follows them to another
+  computer; it is not a record of who read it, which Seen By is.
 
 **It pops up.** frappe works out each person's unseen notes in `on_login`,
 which runs before the session is made, so it works them out for Guest and

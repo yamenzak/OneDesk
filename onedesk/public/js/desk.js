@@ -112,6 +112,7 @@ onedesk.dock.bar = () => {
 	if (frappe.session.user === "Guest" || $(".one-bar").length) return;
 	const $bar = $(`<header class="one-bar" role="toolbar" aria-label="${__("Tools")}">
 		<button class="one-bar-tool one-bar-now"></button>
+		<div class="one-bar-news hide" role="marquee" aria-label="${__("Announcements")}"></div>
 		<div class="one-bar-tools">
 			<div class="one-bar-group" data-group="find"></div>
 			<div class="one-bar-group" data-group="day"></div>
@@ -221,8 +222,69 @@ onedesk.dock.bar = () => {
 	if (!(frappe.boot.one_hidden?.apps || []).includes("OneCalendar")) $now.on("click", () => frappe.set_route("onecalendar"));
 	onedesk.dock.now($now);
 	$now.data("one-tip", tip($now[0], $now.attr("aria-label")));
+	onedesk.dock.news(frappe.boot.one_announcements || []);
 	clearInterval(onedesk.dock._ticking);
 	onedesk.dock._ticking = setInterval(() => onedesk.dock.now($now), 15 * 1000);
+};
+
+/** Announcements run along the bar until they expire; one click opens one,
+ * and Hide puts away those on it now, for this person; a new one still runs. */
+onedesk.dock.news = (all) => {
+	const esc = frappe.utils.escape_html;
+	const $news = $(".one-bar-news");
+	onedesk.dock._news = all;
+	$news.toggleClass("hide", !all.length).empty();
+	if (!all.length) return;
+	const items = all
+		.map(
+			(one) =>
+				`<button class="one-bar-news-item" data-note="${esc(one.name)}"><span class="one-bar-news-title">${esc(one.title)}</span>${
+					one.text ? `<span class="one-bar-news-text">${esc(one.text)}</span>` : ""
+				}</button>`
+		)
+		.join("");
+	$news.html(
+		`<span class="one-bar-news-icon">${frappe.utils.icon("megaphone", "sm")}</span><div class="one-bar-news-window"><div class="one-bar-news-track"><div class="one-bar-news-run">${items}</div></div></div><button class="one-bar-tool one-bar-news-hide" aria-label="${esc(
+			__("Hide")
+		)}">${frappe.utils.icon("x", "xs")}</button>`
+	);
+	const $track = $news.find(".one-bar-news-track");
+	const $run = $track.children().first();
+	if ($run[0].scrollWidth > $news.find(".one-bar-news-window").width()) {
+		$run.clone().attr("aria-hidden", "true").find("button").attr("tabindex", "-1").end().appendTo($track);
+		$news.addClass("one-bar-news-moving");
+		$track.css("animation-duration", `${Math.max(12, Math.round($run[0].scrollWidth / 40))}s`);
+	}
+	$news.find("[data-note]").on("click", (event) => onedesk.dock.announcement($(event.currentTarget).attr("data-note")));
+	$news.find(".one-bar-news-hide").on("click", () => {
+		$news.addClass("hide");
+		frappe.xcall("onedesk.one.announcements.hide");
+	});
+	if (!onedesk.dock._listening_news) {
+		onedesk.dock._listening_news = true;
+		const listen = () =>
+			frappe.realtime.on("one_announcements", () => frappe.xcall("onedesk.one.announcements.current").then((now) => onedesk.dock.news(now || [])));
+		frappe.realtime.socket ? listen() : $(document).one("app_ready", listen);
+	}
+};
+
+onedesk.dock.announcement = async (name) => {
+	const esc = frappe.utils.escape_html;
+	const note = await frappe.db.get_doc("Note", name);
+	const one = (onedesk.dock._news || []).find((row) => row.name === name) || {};
+	const dialog = new frappe.ui.Dialog({
+		title: note.title,
+		fields: [{ fieldname: "said", fieldtype: "HTML" }],
+		primary_action_label: __("All Announcements"),
+		primary_action: () => {
+			dialog.hide();
+			frappe.set_route("List", "Note");
+		},
+	});
+	dialog.fields_dict.said.$wrapper.html(
+		`<div class="one-shell-quiet">${esc(one.by || frappe.user.full_name(note.owner))} · ${frappe.datetime.comment_when(note.creation)}</div><div class="msgprint">${note.content || ""}</div>`
+	);
+	dialog.show();
 };
 
 onedesk.dock.place = (at) => {

@@ -32,6 +32,7 @@ STEPS = (
 	"hr",
 	"career",
 	"calendar",
+	"announcements",
 	"studio",
 	"storage",
 	"intake",

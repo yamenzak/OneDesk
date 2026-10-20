@@ -551,11 +551,134 @@ body .es-stat-card__value {
 }
 
 .one-bar-now {
+	flex: none;
+	white-space: nowrap;
 	font-variant-numeric: tabular-nums;
 }
 
 body:not(.one-bar-bottom) .one-bar [data-group="ai"] {
 	display: none;
+}
+
+.one-bar-news {
+	display: flex;
+	flex: 1 1 auto;
+	align-items: center;
+	gap: 6px;
+	min-width: 0;
+	margin: 0 12px;
+	font-size: var(--text-xs);
+}
+
+.one-bar-news.hide {
+	display: none;
+}
+
+.one-bar-news + .one-bar-tools {
+	margin-inline-start: 0;
+}
+
+.one-bar-news-icon {
+	display: inline-flex;
+	flex: none;
+	color: var(--one-bar-ink-strong);
+}
+
+.one-bar-news-icon svg {
+	stroke: currentColor;
+}
+
+.one-bar-news-window {
+	flex: 1 1 auto;
+	min-width: 0;
+	overflow: hidden;
+}
+
+.one-bar-news-moving .one-bar-news-window {
+	mask-image: linear-gradient(to right, transparent, var(--one-bar-bg) 16px, var(--one-bar-bg) calc(100% - 16px), transparent);
+}
+
+.one-bar-news-track {
+	display: inline-flex;
+	gap: 32px;
+	white-space: nowrap;
+}
+
+.one-bar-news-moving .one-bar-news-track {
+	animation: one-news 30s linear infinite;
+}
+
+html[dir="rtl"] .one-bar-news-moving .one-bar-news-track {
+	animation-name: one-news-rtl;
+}
+
+.one-bar-news:hover .one-bar-news-track,
+.one-bar-news:focus-within .one-bar-news-track {
+	animation-play-state: paused;
+}
+
+@keyframes one-news {
+	to {
+		transform: translateX(calc(-50% - 16px));
+	}
+}
+
+@keyframes one-news-rtl {
+	to {
+		transform: translateX(calc(50% + 16px));
+	}
+}
+
+.one-bar-news-run {
+	display: inline-flex;
+	gap: 32px;
+}
+
+.one-bar-news-item {
+	display: inline-flex;
+	gap: 6px;
+	height: 22px;
+	align-items: center;
+	padding: 0 4px;
+	border: 0;
+	border-radius: var(--radius-sm);
+	background: transparent;
+	color: inherit;
+	font-size: var(--text-xs);
+	cursor: pointer;
+}
+
+.one-bar-news-item:hover {
+	background: var(--one-bar-hover);
+	color: var(--one-bar-ink-strong);
+}
+
+.one-bar-news-item:focus-visible {
+	outline: 2px solid var(--one-bar-ink-strong);
+	outline-offset: -2px;
+}
+
+.one-bar-news-title {
+	color: var(--one-bar-ink-strong);
+	font-weight: 600;
+}
+
+.one-bar-news-hide {
+	flex: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.one-bar-news-moving .one-bar-news-track {
+		animation: none;
+	}
+
+	.one-bar-news-track > [aria-hidden="true"] {
+		display: none;
+	}
+
+	.one-bar-news-window {
+		text-overflow: ellipsis;
+	}
 }
 
 .one-bar-now .one-bar-time {

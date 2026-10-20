@@ -275,6 +275,7 @@ doc_events = {
 		"before_validate": "onedesk.one.announcements.before_validate",
 		"validate": "onedesk.one.announcements.validate",
 		"on_update": "onedesk.one.announcements.on_update",
+		"on_trash": "onedesk.one.announcements.on_trash",
 	},
 	"Document Naming Rule": {"validate": "onedesk.one.numbering.validate_rule"},
 	"Notification Log": {

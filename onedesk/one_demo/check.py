@@ -5149,7 +5149,7 @@ def an_announcement_is_the_administrators_and_reaches_everybody_once():
 	from onedesk.one import announcements
 
 	with as_user("rania@one.test"):
-		frappe.get_doc({"doctype": "Note", "title": "My site checklist", "content": "Sealant, shims, level."}).insert()
+		checklist = frappe.get_doc({"doctype": "Note", "title": "My site checklist", "content": "Sealant, shims, level."}).insert()
 		for said in ({"notify_on_login": 1}, {"public": 1}):
 			try:
 				mine = frappe.get_doc({"doctype": "Note", "title": "To everybody", "content": "Hello", **said}).insert()
@@ -5171,6 +5171,14 @@ def an_announcement_is_the_administrators_and_reaches_everybody_once():
 		booted = frappe._dict()
 		announcements.boot(booted)
 		assert note.name in {one.get("name") for one in booted.notes}, booted.notes
+		assert note.name in {one["name"] for one in booted.one_announcements}, "it runs along her top bar"
+		assert checklist.name not in {one["name"] for one in announcements.current()}, "her own note is not on the bar"
+		announcements.hide()
+		assert note.name not in {one["name"] for one in announcements.current()}, "she put it away"
+		frappe.defaults.clear_user_default(announcements.HIDDEN)
+	frappe.db.set_value("Note", note.name, "expire_notification_on", add_days(today(), -1))
+	with as_user("rania@one.test"):
+		assert note.name not in {one["name"] for one in announcements.current()}, "an expired one leaves the bar"
 	frappe.set_user("Guest")
 	booted = frappe._dict()
 	announcements.boot(booted)
