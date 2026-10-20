@@ -224,6 +224,20 @@ def test_a_branded_sheet_is_laid_out_under_the_company():
 	assert laid["view"]["freezeRows"] == 5 and laid["view"]["freezeCols"] == 1 and laid["view"]["colW"]["1"] == 300
 	cols = [{"fieldname": "name", "fieldtype": "Data"}, {"fieldname": "qty", "fieldtype": "Float"}, {"fieldname": "amount", "fieldtype": "Currency", "read_only": True}]
 	look = room["table"](cols, "#1F6FEB", "AED", {"Currency": 2, "Float": 3})
+	assert room["table"]([cols[0], {**cols[2], "precision": 4}], "#1F6FEB", "AED", {"Currency": 2})["formats"]["cols"]["1"]["numberFormat"] == "currency:AED:4", "a field's own precision first"
 	assert look["formats"]["rows"]["0"]["backgroundColor"] == "#1F6FEB"
 	assert look["formats"]["cols"]["1"] == {"numberFormat": "number:us:3"}
 	assert look["formats"]["cols"]["2"]["numberFormat"] == "currency:AED:2" and look["formats"]["cols"]["2"]["backgroundColor"] == "#F5F5F4"
+
+
+def test_a_table_cell_is_checked_as_its_field():
+	room = _lifted(SHEET / "table.py", ("NUMBER", "_rule"), {"_": lambda text: text})
+	rule = room["_rule"]
+	assert rule({"fieldtype": "Int"})["whole"] and not rule({"fieldtype": "Float"}).get("whole"), "an Int takes whole numbers"
+	assert rule({"fieldtype": "Currency"})["min"] is None, "a negative amount is a number too"
+	assert rule({"fieldtype": "Date"})["type"] == "date" and rule({"fieldtype": "Data"}) is None
+	columns = _lifted(SHEET / "table.py", ("MARK", "MOST_COLUMNS", "NUMBER", "TEXT", "LONG", "SHOWN", "columns"), {"_": lambda text: text})["columns"]
+	cols = columns(
+		[{"fieldname": "rate", "fieldtype": "Currency", "label": "Rate", "in_list_view": 1, "precision": "3"}, {"fieldname": "qty", "fieldtype": "Float", "label": "Qty", "in_list_view": 1}]
+	)
+	assert [col["precision"] for col in cols[1:]] == [3, None], "a field's own precision is kept"

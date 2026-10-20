@@ -194,8 +194,10 @@ function _findOverlayHost() {
 }
 
 function _onOutsideClick(e) {
-  if (popRef.value?.contains(e.target))     return
-  if (triggerRef.value?.contains(e.target)) return
+  // One: in the island's shadow root the target is the host; the path isn't.
+  const path = e.composedPath?.() || [e.target]
+  if (popRef.value && path.includes(popRef.value))         return
+  if (triggerRef.value && path.includes(triggerRef.value)) return
   close()
 }
 

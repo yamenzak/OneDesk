@@ -45,10 +45,22 @@ function _evalRule(rule, value) {
   }
 
   if (rule.type === 'number') {
-    const n = parseFloat(value)
+    // One: all of it a number (12abc is not), commas as thousands, a minus
+    // allowed; `whole` takes only whole numbers, as an Int field does.
+    const text = String(value ?? '').trim().replace(/,/g, '')
+    const n = text === '' ? NaN : Number(text)
     if (isNaN(n)) return { valid: false, message: rule.message || 'Value must be a number' }
+    if (rule.whole && !Number.isInteger(n)) return { valid: false, message: rule.message || 'Value must be a whole number' }
     const ok = _checkNumOp(n, rule.operator, rule.min, rule.max)
     return { valid: ok, message: ok ? null : (rule.message || 'Value out of allowed range') }
+  }
+
+  // One: a date as the record takes one: 2026-10-21, or a spreadsheet's day number.
+  if (rule.type === 'date') {
+    const text = String(value ?? '').trim()
+    const iso = /^\d{4}-\d{2}-\d{2}/.test(text) && !isNaN(Date.parse(text.slice(0, 10)))
+    const ok = iso || /^\d+(\.\d+)?$/.test(text)
+    return { valid: ok, message: ok ? null : (rule.message || 'Value must be a date') }
   }
 
   if (rule.type === 'text_length') {

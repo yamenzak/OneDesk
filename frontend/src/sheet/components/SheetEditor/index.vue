@@ -654,7 +654,9 @@
             'sn-tab--pivot':    isPivotSheet(name),
             'sn-tab-drag-over': tabDragOver === name && tabDragName !== name,
             'sn-tab--static':   readOnly,
+            'sn-tab--coloured': !!tabColourOf(name),
           }"
+          :style="tabColour(name)"
           :draggable="!readOnly"
           @dragstart="onTabDragStart($event, name)"
           @dragend="onTabDragEnd"
@@ -718,6 +720,19 @@
     <div v-if="tabMenu.open" class="sn-ctx-menu" :style="{ left: tabMenu.x + 'px', bottom: tabMenu.bottom + 'px' }">
       <Button variant="ghost" size="sm" iconLeft="lucide-edit-2"  :label="__('Rename')"    @click="openRenameDialog(tabMenu.name)" />
       <Button variant="ghost" size="sm" iconLeft="lucide-copy"    :label="__('Duplicate')" @click="doDuplicateSheet(tabMenu.name)" />
+      <!-- One: the tab's colour -->
+      <div class="sn-tab-colours" role="group" :aria-label="__('Tab colour')">
+        <button
+          v-for="c in TAB_COLOURS"
+          :key="c || 'none'"
+          type="button"
+          class="sn-tab-colour"
+          :class="{ 'is-none': !c, 'is-on': tabColourOf(tabMenu.name) === c }"
+          :style="c ? { background: c } : null"
+          :title="c ? c : __('No colour')"
+          @click="setTabColour(tabMenu.name, c)"
+        />
+      </div>
       <Button variant="ghost" size="sm" :iconLeft="tabMenuSheetLocked() ? 'lucide-unlock' : 'lucide-lock'" :label="tabMenuSheetLocked() ? __('Unprotect sheet') : __('Protect sheet')" @click="toggleSheetProtection(tabMenu.name)" />
       <Button
         variant="ghost"
@@ -2463,15 +2478,23 @@ const numberFormatDropdownOptions = computed(() => [
 
 // Active currency code (for the $-button symbol). Defaults to $ when the cell
 // isn't a currency at all, so the button always says *something* clickable.
+// One: the workspace's currency comes first and is what the button shows.
+const currencyPicks = computed(() => {
+  const home = homeCurrency.value
+  if (!home || CURRENCY_QUICK_PICKS.some(c => c.code === home)) {
+    return [...CURRENCY_QUICK_PICKS].sort((a, b) => (b.code === home) - (a.code === home))
+  }
+  return [{ label: home, code: home, symbol: home }, ...CURRENCY_QUICK_PICKS]
+})
 const activeCurrencySymbol = computed(() => {
   const { type, variant } = parseNumberFmt(activeNumberFormat.value)
-  if (type !== 'currency') return '$'
-  const hit = CURRENCY_QUICK_PICKS.find(c => c.code === (variant || 'USD'))
-  return hit ? hit.symbol : '$'
+  const code = type === 'currency' ? (variant || 'USD') : (homeCurrency.value || 'USD')
+  const hit = currencyPicks.value.find(c => c.code === code)
+  return hit ? hit.symbol : code
 })
 
 const currencyDropdownOptions = computed(() =>
-  CURRENCY_QUICK_PICKS.map(c => {
+  currencyPicks.value.map(c => {
     const fmt = `currency:${c.code}:${c.code === 'JPY' ? 0 : 2}`
     return {
       label: c.label,
@@ -2527,7 +2550,7 @@ const textWrapDropdownOptions = computed(() => [
 // fallbacks only cover the impossible window where someone saves before
 // useSheetTabs has finished initializing.
 let _sheetTabs = null
-const { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableMissing, bound } =
+const { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableMissing, bound, currency: homeCurrency } =
   usePersistence({
     sheet, formats, merge, comments, validation, protection, condFormat, sortFilter, slicers, pivot,
     charts, namedRanges,
@@ -3322,7 +3345,7 @@ function _setupGridInstance() {
       // and 10" silently accepted any value. Skip the check for empty values
       // so the user can always clear a cell (matches Google Sheets).
       const trimmed = String(value ?? '').trim()
-      if (trimmed !== '') {
+      if (trimmed !== '' && !trimmed.startsWith('=')) { // One: a formula is checked by what it works out to on save
         const v = validation.validate(id, value, writeSheet)
         // 'warn' rules let the value through but surface a transient notice;
         // 'reject' (default) blocks the edit and repaints the pre-edit value.
@@ -3860,6 +3883,24 @@ function selectionHasProtectedRange() {
   return protection.getRanges(sn).some(r =>
     sel.r0 <= r.r1 && sel.r1 >= r.r0 && sel.c0 <= r.c1 && sel.c1 >= r.c0)
 }
+// One: a tab's colour, a band along its foot as Excel and Google Sheets draw it.
+const TAB_COLOURS = ['', '#ef4444', '#f97316', '#eab308', '#22c55e', '#14b8a6', '#3b82f6', '#8b5cf6', '#ec4899', '#6b7280']
+const coloursSeen = ref(0)
+function tabColourOf(name) {
+  coloursSeen.value
+  return sheet.getColours()[name] || ''
+}
+function tabColour(name) {
+  const c = tabColourOf(name)
+  return c ? { '--tab-colour': c } : null
+}
+function setTabColour(name, colour) {
+  tabMenu.open = false
+  sheet.setColour(name, colour || null)
+  coloursSeen.value++
+  isDirty.value = true
+}
+
 function tabMenuSheetLocked() {
   return !!tabMenu.name && protection.isSheetLocked(tabMenu.name)
 }
@@ -4184,7 +4225,8 @@ const { onGlobalKey } = useShortcuts({
   runSmartFill,
   insertRowsCols:    _insertRowsColsFromSelection,
   deleteRowsCols:    _deleteRowsColsFromSelection,
-  applyNumberFormat: onNumberFormatChange,
+  // One: Ctrl+Shift+4 is the workspace's currency.
+  applyNumberFormat: (fmt) => onNumberFormatChange(fmt === 'currency:USD:2' && homeCurrency.value ? `currency:${homeCurrency.value}:2` : fmt),
   pasteValues:       () => doPasteSpecial('values'),
   readOnly: () => readOnly.value,
 })
@@ -5464,9 +5506,11 @@ function _onDocMouseDown(e) {
   // Close context menus only when clicking OUTSIDE them. Never close on
   // mousedown when clicking a button inside — that would remove the element
   // before its click event fires, making every menu item a no-op.
-  const menus = document.querySelectorAll('.sn-ctx-menu, .sn-comment-panel, .sn-dropdown-panel, .sn-sp-pop')
-  let inside = false
-  for (const el of menus) if (el.contains(e.target)) { inside = true; break }
+  // One: the island lives in a shadow root, where `document` finds none of
+  // these and the event's target is the host, so read the event's own path.
+  const MENUS = ['sn-ctx-menu', 'sn-comment-panel', 'sn-dropdown-panel', 'sn-sp-pop']
+  const path = e.composedPath?.() || [e.target]
+  const inside = path.some((el) => el?.classList && MENUS.some((name) => el.classList.contains(name)))
   if (!inside) {
     contextMenu.open = false
     tabMenu.open = false
@@ -6603,6 +6647,11 @@ function toggleShowFormulas() {
    context menus so every row's icon sits at the same left padding and the
    labels line up regardless of length. */
 .sn-ctx-menu :deep(button) { width:100%; justify-content:flex-start; padding-left:10px; padding-right:10px; }
+.sn-tab--coloured::after { content:''; position:absolute; left:6px; right:6px; bottom:0; height:3px; border-radius:2px; background:var(--tab-colour); pointer-events:none; }
+.sn-tab-colours { display:flex; flex-wrap:wrap; gap:6px; padding:6px 10px 8px; }
+.sn-tab-colours .sn-tab-colour { width:18px; height:18px; flex:none; border-radius:50%; border:1px solid var(--outline-gray-2); cursor:pointer; padding:0; }
+.sn-tab-colours .sn-tab-colour.is-none { background:linear-gradient(135deg, transparent 45%, var(--ink-red-4) 45%, var(--ink-red-4) 55%, transparent 55%); }
+.sn-tab-colours .sn-tab-colour.is-on { outline:2px solid var(--ink-gray-9); outline-offset:1px; }
 .sn-ctx-sep { height:1px; background:var(--outline-gray-1); margin:4px 0; border:none; }
 .sn-rename-err { margin:6px 0 0; font-size:12px; color:var(--ink-red-6); letter-spacing:.02em; }
 

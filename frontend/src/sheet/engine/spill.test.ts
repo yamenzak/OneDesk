@@ -112,6 +112,18 @@ describe('calculated lines', () => {
     expect(Object.keys(sheet.getLines())).toEqual(['Costing'])
   })
 
+  it('keeps a tab’s colour with its sheet', () => {
+    const sheet = createSheet()
+    sheet.addSheet('Costing')
+    sheet.setColour('Costing', '#ef4444')
+    sheet.renameSheet('Costing', 'Prices')
+    sheet.duplicateSheet('Prices', 'Prices 2')
+    expect(sheet.getColours()).toEqual({ Prices: '#ef4444', 'Prices 2': '#ef4444' })
+    sheet.deleteSheet('Prices')
+    sheet.setColour('Prices 2', '')
+    expect(sheet.getColours()).toEqual({})
+  })
+
   it('reads another record’s field once it has come', async () => {
     const { setContext } = await import('./formula.js')
     const sheet = createSheet()

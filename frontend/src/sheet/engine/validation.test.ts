@@ -112,3 +112,19 @@ describe('checkRule — severity', () => {
     expect(checkRule({ ...rule, severity: 'warn' }, 5).severity).toBeUndefined()
   })
 })
+
+// One: a record's table sheet checks each field's kind.
+describe('field kinds', () => {
+  it('takes whole numbers, negatives and thousands, not words', async () => {
+    const { checkRule } = await import('./validation.js')
+    const whole = { type: 'number', operator: 'between', min: null, max: null, whole: true }
+    const any = { type: 'number', operator: 'between', min: null, max: null }
+    expect(['3', '-4', '1,200', '2.5', '12abc'].map((v) => checkRule(whole, v).valid)).toEqual([true, true, true, false, false])
+    expect(['-0.75', '1,200.5', 'x'].map((v) => checkRule(any, v).valid)).toEqual([true, true, false])
+  })
+  it('takes a date as the record does', async () => {
+    const { checkRule } = await import('./validation.js')
+    const rule = { type: 'date' }
+    expect(['2026-10-21', '46316', 'tomorrow', '21/10'].map((v) => checkRule(rule, v).valid)).toEqual([true, true, false, false])
+  })
+})

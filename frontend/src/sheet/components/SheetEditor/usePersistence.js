@@ -31,6 +31,7 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
   const bound = ref(null)
   const tableNotice = ref('')
   const tableMissing = ref(null) // One: { doctype: [names] } the record can't find
+  const currency = ref('') // One: the workspace's currency, the $ button's first
 
   async function loadSheet(name) {
     loadError.value = null
@@ -40,6 +41,7 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
       const plain  = canGz ? await decodeFromDownload(doc.sheets_data) : doc.sheets_data
       const saved  = JSON.parse(plain || '{}')
       setContext({ record: doc.record, brand: doc.brand }) // One: what RECORD() and BRAND() read
+      currency.value = doc.brand?.currency || ''
       if (saved.formats)    formats.restore(saved.formats)
       sheet.restore(
         unpackSheet(saved.sheet) ?? { sheets: { Sheet1: {} }, current: 'Sheet1' },
@@ -58,6 +60,8 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
       if (saved.namedRanges && namedRanges?.restore) namedRanges.restore(saved.namedRanges)
       for (const name of Object.keys(sheet.getLines())) sheet.setLines(name, null) // One: the formulas each line gets
       for (const [name, rule] of Object.entries(saved.lines || {})) sheet.setLines(name, rule)
+      for (const name of Object.keys(sheet.getColours())) sheet.setColour(name, null) // One: tab colours
+      for (const [name, colour] of Object.entries(saved.colours || {})) sheet.setColour(name, colour)
       currentTitle.value = doc.title
       // Older backends predate `can_write`; treat its absence as writable so we
       // never lock out an editor on a stale server.
@@ -146,6 +150,7 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
         namedRanges: namedRanges?.snapshot?.() ?? null,
         view:       getViewState?.()         ?? null,
         lines:      sheet.getLines(), // One
+        colours:    sheet.getColours(),
       })
       const payload = await encodeForUpload(sheetsData)
       args = {
@@ -217,5 +222,5 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
     if (said.ok !== false && takeBack(sheet, bound.value, said.cells)) onTable?.()
   }
 
-  return { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableMissing, bound }
+  return { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableMissing, bound, currency }
 }

@@ -104,7 +104,7 @@ def header(colour: str) -> dict:
 
 def table(cols: list[dict], colour: str, currency: str = "", precisions: dict | None = None) -> dict:
 	"""A record's table sheet: the header on the company's colour, numbers
-	formatted as their fields are, what the record works out in grey, and
+	formatted as their fields are (a field's own precision first), what the record works out in grey, and
 	widths by kind. Answers {"formats", "colW", "rowH"}. Pure."""
 	precisions = precisions or {}
 	formats = {"cells": {}, "cols": {}, "rows": {"0": header(colour)}}
@@ -113,7 +113,8 @@ def table(cols: list[dict], colour: str, currency: str = "", precisions: dict | 
 		if not at:
 			continue
 		held = {}
-		kind = number_format(col["fieldtype"], currency, precisions.get(col["fieldtype"]))
+		own = col.get("precision")
+		kind = number_format(col["fieldtype"], currency, own if own is not None else precisions.get(col["fieldtype"]))
 		if kind:
 			held["numberFormat"] = kind
 		if col.get("read_only"):

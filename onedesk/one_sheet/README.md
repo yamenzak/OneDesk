@@ -155,12 +155,24 @@ the whole column, however long the list grows. A cell typed over keeps
 what was typed.
 
 A record's table sheet is formatted when it is made: the header on the
-company's colour, money in the record's currency, numbers to the
-workspace's decimals, what the record works out in grey, and widths by
-what each column holds. Formatting it yourself afterwards stays.
+company's colour, money in the record's currency, numbers to the field's
+own decimals or else the workspace's, what the record works out in grey,
+and widths by what each column holds. Formatting it yourself afterwards
+stays. Each cell takes what its field takes: a whole number in a count, a
+number (negative too) in an amount, a date in a date, one of the choices
+in a select, TRUE or FALSE in a tick. Anything else is refused as it is
+typed; a formula is let through, and the record says when what it works out
+to doesn't fit.
+
+In any workbook the currency button offers the workspace's currency first,
+and Ctrl+Shift+4 applies it.
 
 A number format can show a zero as blank, as a finished costing does on
 its empty lines.
+
+A tab can carry a colour, picked in the tab's menu, drawn as a band along
+its foot as Excel and Google Sheets draw it; it goes with the sheet when it
+is renamed or copied.
 
 ## Filling the table from another sheet
 

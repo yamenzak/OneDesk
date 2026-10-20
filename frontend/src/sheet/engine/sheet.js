@@ -319,6 +319,10 @@ export function createSheet({ onCellChanged, onCellsChanged } = {}) {
 		else delete _lines[sheet]
 	}
 	function getLines() { return { ..._lines } }
+	// One: a tab's colour, kept with its sheet's name as lines are.
+	const _colours = {}   // sheet → '#rrggbb'
+	function setColour(sheet, colour) { if (colour) _colours[sheet] = colour; else delete _colours[sheet] }
+	function getColours() { return { ..._colours } }
 	function _lineFor(id, value, sheet) {
 		const rule = _lines[sheet]
 		if (!rule || value === '' || value == null) return []
@@ -593,6 +597,7 @@ export function createSheet({ onCellChanged, onCellsChanged } = {}) {
 		_clearAllMemo()
 		if (current === oldName) current = newName
 		if (_lines[oldName]) { _lines[newName] = _lines[oldName]; delete _lines[oldName] } // One
+		if (_colours[oldName]) { _colours[newName] = _colours[oldName]; delete _colours[oldName] }
 		return true
 	}
 
@@ -601,6 +606,7 @@ export function createSheet({ onCellChanged, onCellsChanged } = {}) {
 		sheets[newName] = deepClone(sheets[srcName])
 		deps.rebuild(sheets[newName], newName)
 		if (_lines[srcName]) _lines[newName] = deepClone(_lines[srcName]) // One
+		if (_colours[srcName]) _colours[newName] = _colours[srcName]
 		return true
 	}
 
@@ -621,6 +627,7 @@ export function createSheet({ onCellChanged, onCellsChanged } = {}) {
 		if (names.length <= 1) return false   // Always keep at least one sheet
 		delete sheets[name]
 		delete _lines[name] // One
+		delete _colours[name]
 		if (current === name) current = Object.keys(sheets)[0]
 		// Notify caller for re-render
 		for (const id of Object.keys(sheets[current] || {}))
@@ -683,7 +690,7 @@ export function createSheet({ onCellChanged, onCellsChanged } = {}) {
 	deps.rebuild({}, 'Sheet1')
 
 	return {
-		setCell, batchSetCells, getCell, getDisplayValue, getCellValue, getRangeValues, getExtent, isSpilled, setLines, getLines,
+		setCell, batchSetCells, getCell, getDisplayValue, getCellValue, getRangeValues, getExtent, isSpilled, setLines, getLines, setColour, getColours,
 		switchSheet, addSheet, renameSheet, duplicateSheet, deleteSheet, reorderSheets,
 		getSheetNames, getCurrentSheet, getRawData, getAllRaw, consumeBounds,
 		insertRow, deleteRow, insertCol, deleteCol,

@@ -75,6 +75,7 @@ def columns(fields: list[dict], picked: list[str] | None = None, also: list[str]
 				"fieldtype": df["fieldtype"],
 				"options": [one for one in (df.get("options") or "").split("\n") if one] if df["fieldtype"] == "Select" else None,
 				"link": df.get("options") if df["fieldtype"] == "Link" else None,
+				"precision": int(df["precision"]) if str(df.get("precision") or "").strip().isdigit() else None,
 				"read_only": bool(df.get("read_only") or df["fieldtype"] == "Read Only" or (df.get("fetch_from") and not df.get("fetch_if_empty"))),
 			}
 		)
@@ -165,8 +166,12 @@ def _rule(col: dict) -> dict | None:
 		return {"type": "list", "options": col["options"], "message": _("Choose one from the list.")}
 	if col["fieldtype"] == "Check":
 		return {"type": "checkbox", "message": _("TRUE or FALSE.")}
+	if col["fieldtype"] == "Int":
+		return {"type": "number", "operator": "between", "min": None, "max": None, "whole": True, "message": _("A whole number.")}
 	if col["fieldtype"] in NUMBER:
 		return {"type": "number", "operator": "between", "min": None, "max": None, "message": _("A number.")}
+	if col["fieldtype"] == "Date":
+		return {"type": "date", "message": _("A date, such as 2026-10-21.")}
 	return None
 
 

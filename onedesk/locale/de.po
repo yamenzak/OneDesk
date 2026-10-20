@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-20 23:12+0000\n"
+"POT-Creation-Date: 2026-10-20 23:18+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -355,7 +355,7 @@ msgstr "181 bis 365 Tage"
 msgid "2"
 msgstr "2"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4904
+#: frontend/src/sheet/components/SheetEditor/index.vue:4913
 msgid "2-colour (low → high)"
 msgstr "2 Farben (niedrig → hoch)"
 
@@ -364,7 +364,7 @@ msgstr "2 Farben (niedrig → hoch)"
 msgid "3"
 msgstr "3"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4905
+#: frontend/src/sheet/components/SheetEditor/index.vue:4914
 msgid "3-colour (low → mid → high)"
 msgstr "3 Farben (niedrig → mittel → hoch)"
 
@@ -611,6 +611,10 @@ msgstr "Die Beschwerde oder Frage eines Kunden, bis sie gelöst ist."
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 msgid "A date a document gives, and what it is for."
 msgstr "Ein Datum aus einem Dokument und wofür es gilt."
+
+#: onedesk/one_sheet/table.py:174
+msgid "A date, such as 2026-10-21."
+msgstr "Ein Datum, etwa 2026-10-21."
 
 #: onedesk/one_project/site_time.py:33
 msgid "A day on site wasn't written for {0}"
@@ -1028,7 +1032,7 @@ msgstr "Eine Notiz an die Angefragten."
 msgid "A number a document refers to: an invoice, an order, a case."
 msgstr "Eine Nummer, auf die ein Dokument verweist: eine Rechnung, ein Auftrag, ein Vorgang."
 
-#: onedesk/one_sheet/table.py:169
+#: onedesk/one_sheet/table.py:172
 msgid "A number."
 msgstr "Eine Zahl."
 
@@ -1387,7 +1391,7 @@ msgstr "Die Lieferantenbewertung bewertet nach {0}."
 msgid "A table block names its table: {table: 'items', columns: ['item_name:45', 'qty:15']}."
 msgstr "Ein Tabellenblock nennt seine Tabelle: {table: 'items', columns: ['item_name:45', 'qty:15']}."
 
-#: onedesk/one_sheet/table.py:533
+#: onedesk/one_sheet/table.py:538
 msgid "A table takes at most {0} rows from a workbook."
 msgstr "Eine Tabelle übernimmt höchstens {0} Zeilen aus einer Arbeitsmappe."
 
@@ -1476,6 +1480,10 @@ msgstr "Ein Webhook hier sendet jeden Datensatz. Um nur einige zu senden, verwen
 #: onedesk/one/webhooks.py:55
 msgid "A webhook is sent over https."
 msgstr "Ein Webhook wird über https gesendet."
+
+#: onedesk/one_sheet/table.py:170
+msgid "A whole number."
+msgstr "Eine ganze Zahl."
 
 #. Description of a DocType
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json
@@ -4449,7 +4457,7 @@ msgstr "Über einen Link angekommen, eine Datei"
 msgid "Arrives"
 msgstr "Ankunft"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4909
+#: frontend/src/sheet/components/SheetEditor/index.vue:4918
 msgid "Arrows (red/grey/green)"
 msgstr "Pfeile (rot/grau/grün)"
 
@@ -5980,7 +5988,7 @@ msgid "Beta with real users"
 msgstr "Beta mit echten Nutzern"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:969
-#: frontend/src/sheet/components/SheetEditor/index.vue:4889
+#: frontend/src/sheet/components/SheetEditor/index.vue:4898
 msgid "Between"
 msgstr "Zwischen"
 
@@ -7628,7 +7636,7 @@ msgstr "Dateien auswählen"
 msgid "Choose from OneCloud"
 msgstr "Aus OneCloud wählen"
 
-#: onedesk/one_sheet/table.py:165
+#: onedesk/one_sheet/table.py:166
 msgid "Choose one from the list."
 msgstr "Wählen Sie einen Eintrag aus der Liste."
 
@@ -7701,7 +7709,7 @@ msgstr "Gewähltes Modell"
 msgid "Chosen transactions posted to the books again."
 msgstr "Ausgewählte Vorgänge, neu in die Bücher gebucht."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4911
+#: frontend/src/sheet/components/SheetEditor/index.vue:4920
 msgid "Circles (empty → full)"
 msgstr "Kreise (leer → voll)"
 
@@ -7819,7 +7827,7 @@ msgstr "Kundenprüfung und Korrekturen"
 msgid "Client's Representative"
 msgstr "Vertreter des Auftraggebers"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2534
+#: frontend/src/sheet/components/SheetEditor/index.vue:2542
 msgid "Clip"
 msgstr "Abschneiden"
 
@@ -8199,8 +8207,8 @@ msgstr "Farben"
 msgid "Colour"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4898
-#: frontend/src/sheet/components/SheetEditor/index.vue:5038
+#: frontend/src/sheet/components/SheetEditor/index.vue:4907
+#: frontend/src/sheet/components/SheetEditor/index.vue:5047
 msgid "Colour scale"
 msgstr "Farbskala"
 
@@ -8800,7 +8808,7 @@ msgstr "Kontakte und Adressen mit Ihrer Adresse"
 
 #. Label in the One Product Bundle print format
 #: frontend/src/sheet/components/SheetEditor/index.vue:1922
-#: frontend/src/sheet/components/SheetEditor/index.vue:4890
+#: frontend/src/sheet/components/SheetEditor/index.vue:4899
 #: onedesk/one_inventory/print_format/one_product_bundle/one_product_bundle.json
 msgid "Contains"
 msgstr "Enthält"
@@ -9163,7 +9171,7 @@ msgstr "Kosten"
 msgid "Could Not Mark Left"
 msgstr "Konnte nicht als ausgeschieden markiert werden"
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:76
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:78
 msgid "Could not open this sheet"
 msgstr "Dieses Tabellenblatt konnte nicht geöffnet werden"
 
@@ -9257,15 +9265,15 @@ msgstr "Aus Ihren Beispielen konnte kein Muster erkannt werden."
 msgid "Couldn’t open this sheet"
 msgstr "Dieses Tabellenblatt konnte nicht geöffnet werden"
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:164
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:166
 msgid "Couldn’t prepare save payload."
 msgstr "Die Daten zum Speichern konnten nicht vorbereitet werden."
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:208
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:210
 msgid "Couldn’t save — check your connection, then click retry."
 msgstr "Speichern fehlgeschlagen – prüfen Sie Ihre Verbindung und klicken Sie dann auf Wiederholen."
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:207
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:209
 msgid "Couldn’t save: {0}"
 msgstr "Speichern fehlgeschlagen: {0}"
 
@@ -10116,8 +10124,8 @@ msgstr "Datenkopien"
 msgid "Data Processing Addendum"
 msgstr "Auftragsverarbeitungsvertrag"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4899
-#: frontend/src/sheet/components/SheetEditor/index.vue:5039
+#: frontend/src/sheet/components/SheetEditor/index.vue:4908
+#: frontend/src/sheet/components/SheetEditor/index.vue:5048
 msgid "Data bars"
 msgstr "Datenbalken"
 
@@ -12078,7 +12086,7 @@ msgstr "Wartende Dokumente"
 msgid "Documents for the Tax Year"
 msgstr "Unterlagen für das Steuerjahr"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4891
+#: frontend/src/sheet/components/SheetEditor/index.vue:4900
 msgid "Does not contain"
 msgstr "Enthält nicht"
 
@@ -13834,7 +13842,7 @@ msgid "Envelope"
 msgstr "Gebäudehülle"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:975
-#: frontend/src/sheet/components/SheetEditor/index.vue:4887
+#: frontend/src/sheet/components/SheetEditor/index.vue:4896
 msgid "Equal to"
 msgstr "Gleich"
 
@@ -14912,7 +14920,7 @@ msgstr "Fehlgeschlagen bei Schritt {0} von {1}"
 msgid "Failed at step {number} of {steps}, {step}.<br>{error}"
 msgstr "Fehlgeschlagen bei Schritt {number} von {steps}, {step}.<br>{error}"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:5075
+#: frontend/src/sheet/components/SheetEditor/index.vue:5084
 msgid "Failed to load cell history"
 msgstr "Zellverlauf konnte nicht geladen werden"
 
@@ -16842,13 +16850,13 @@ msgstr "Abfindung"
 msgid "Gratuity Rule"
 msgstr "Abfindungsregel"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4885
+#: frontend/src/sheet/components/SheetEditor/index.vue:4894
 msgid "Greater or equal"
 msgstr "Größer oder gleich"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:971
 #: frontend/src/sheet/components/SheetEditor/index.vue:1924
-#: frontend/src/sheet/components/SheetEditor/index.vue:4883
+#: frontend/src/sheet/components/SheetEditor/index.vue:4892
 msgid "Greater than"
 msgstr "Größer als"
 
@@ -18175,8 +18183,8 @@ msgid "Icon"
 msgstr "Symbol"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1250
-#: frontend/src/sheet/components/SheetEditor/index.vue:4900
-#: frontend/src/sheet/components/SheetEditor/index.vue:5040
+#: frontend/src/sheet/components/SheetEditor/index.vue:4909
+#: frontend/src/sheet/components/SheetEditor/index.vue:5049
 msgid "Icon set"
 msgstr "Symbolsatz"
 
@@ -19474,7 +19482,7 @@ msgid "Is any numbering out of step?"
 msgstr "Ist eine Nummerierung aus dem Takt?"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1926
-#: frontend/src/sheet/components/SheetEditor/index.vue:4892
+#: frontend/src/sheet/components/SheetEditor/index.vue:4901
 msgid "Is empty"
 msgstr "Ist leer"
 
@@ -19495,7 +19503,7 @@ msgid "Is my account safe? Look at how I sign in and where I am signed in, and t
 msgstr "Ist mein Konto sicher? Schau dir an, wie ich mich anmelde und wo ich angemeldet bin, und sag mir, was zu tun ist."
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1927
-#: frontend/src/sheet/components/SheetEditor/index.vue:4893
+#: frontend/src/sheet/components/SheetEditor/index.vue:4902
 msgid "Is not empty"
 msgstr "Ist nicht leer"
 
@@ -19636,7 +19644,7 @@ msgstr "Es hat sich für alle geändert. Sie finden es in OneStudio › Benutzer
 msgid "It could not be delivered to {to}. Open it to see why, and send it again."
 msgstr "Sie konnte nicht an {to} zugestellt werden. Öffnen Sie sie, um den Grund zu sehen, und senden Sie sie erneut."
 
-#: onedesk/one_sheet/table.py:615
+#: onedesk/one_sheet/table.py:620
 msgid "It couldn't be made."
 msgstr "Es konnte nicht angelegt werden."
 
@@ -21458,13 +21466,13 @@ msgstr "Abzüglich Vorschuss"
 msgid "Less Retention"
 msgstr "Abzüglich Einbehalt"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4886
+#: frontend/src/sheet/components/SheetEditor/index.vue:4895
 msgid "Less or equal"
 msgstr "Kleiner oder gleich"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:973
 #: frontend/src/sheet/components/SheetEditor/index.vue:1925
-#: frontend/src/sheet/components/SheetEditor/index.vue:4884
+#: frontend/src/sheet/components/SheetEditor/index.vue:4893
 msgid "Less than"
 msgstr "Kleiner als"
 
@@ -23797,7 +23805,7 @@ msgstr "Jeden neuen {0} nach {1} benennen? Bestehende Datensätze behalten ihre 
 msgid "Name for the copy"
 msgstr "Name für die Kopie"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:5473
+#: frontend/src/sheet/components/SheetEditor/index.vue:5482
 msgid "Name is empty or already used."
 msgstr "Der Name ist leer oder wird bereits verwendet."
 
@@ -25452,7 +25460,7 @@ msgstr "Kein Jahr ist mit offenen Buchungen abgelaufen."
 msgid "No {0} bucket is configured."
 msgstr "Es ist kein {0}-Bucket eingerichtet."
 
-#: onedesk/one_sheet/table.py:588
+#: onedesk/one_sheet/table.py:593
 msgid "No {0} called {1}"
 msgstr "Kein {0} namens {1}"
 
@@ -25761,7 +25769,7 @@ msgid "Not enough {0} for one"
 msgstr "Nicht genug {0} für eins"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:976
-#: frontend/src/sheet/components/SheetEditor/index.vue:4888
+#: frontend/src/sheet/components/SheetEditor/index.vue:4897
 msgid "Not equal to"
 msgstr "Ungleich"
 
@@ -25790,7 +25798,7 @@ msgstr "In keiner Kostenart"
 msgid "Not in the document ({0})"
 msgstr "Nicht im Dokument ({0})"
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:218
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:220
 msgid "Not in the record yet: {0}"
 msgstr "Noch nicht im Datensatz: {0}"
 
@@ -28734,7 +28742,7 @@ msgstr "Überfällige Aufgaben"
 msgid "Overdue · oldest {0} days"
 msgstr "Überfällig · älteste {0} Tage"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2533
+#: frontend/src/sheet/components/SheetEditor/index.vue:2541
 msgid "Overflow"
 msgstr "Überlauf"
 
@@ -34772,15 +34780,15 @@ msgstr ""
 msgid "Row"
 msgstr ""
 
-#: onedesk/one_sheet/table.py:144
+#: onedesk/one_sheet/table.py:145
 msgid "Row #{0}"
 msgstr "Zeile #{0}"
 
-#: onedesk/one_sheet/table.py:144 onedesk/one_sheet/table.py:149
+#: onedesk/one_sheet/table.py:145 onedesk/one_sheet/table.py:150
 msgid "Row {0}"
 msgstr "Zeile {0}"
 
-#: onedesk/one_sheet/table.py:322
+#: onedesk/one_sheet/table.py:327
 msgid "Row {0}: {1}"
 msgstr "Zeile {0}: {1}"
 
@@ -37161,7 +37169,7 @@ msgstr "Vereinfachte Steuerrechnung"
 msgid "Since {0}"
 msgstr "Seit {0}"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4897
+#: frontend/src/sheet/components/SheetEditor/index.vue:4906
 msgid "Single colour rule"
 msgstr "Einfarbige Regel"
 
@@ -39531,7 +39539,7 @@ msgstr "Steuernummer (TRN)"
 msgid "TRN {0}"
 msgstr "TRN {0}"
 
-#: onedesk/one_sheet/table.py:167
+#: onedesk/one_sheet/table.py:168
 msgid "TRUE or FALSE."
 msgstr "TRUE oder FALSE."
 
@@ -40519,7 +40527,7 @@ msgstr "Das sind {0} Varianten. Erstellen Sie höchstens {1} auf einmal."
 msgid "That isn't a cell."
 msgstr "Das ist keine Zelle."
 
-#: onedesk/one_sheet/table.py:374
+#: onedesk/one_sheet/table.py:379
 msgid "That isn't a table on this record."
 msgstr "Das ist keine Tabelle in diesem Datensatz."
 
@@ -40880,7 +40888,7 @@ msgstr "Die letzten vier Zeichen des Codes, um Codes zu unterscheiden. Der Code 
 msgid "The colour a letter head carries, in the company's name, its lines and a banner's band."
 msgstr "Die Farbe eines Briefkopfs, im Firmennamen, in seinen Linien und im Band eines Banners."
 
-#: onedesk/one_sheet/table.py:306
+#: onedesk/one_sheet/table.py:311
 msgid "The column {0} isn't in the sheet any more. Undo, or open the workbook again from the record."
 msgstr "Die Spalte {0} ist nicht mehr im Blatt. Machen Sie es rückgängig oder öffnen Sie die Arbeitsmappe erneut aus dem Datensatz."
 
@@ -41838,11 +41846,11 @@ msgstr "Der Kurs zwischen zwei Währungen an einem Tag."
 msgid "The record changed after this was suggested."
 msgstr "Der Datensatz hat sich nach diesem Vorschlag geändert."
 
-#: onedesk/one_sheet/table.py:547
+#: onedesk/one_sheet/table.py:552
 msgid "The record didn't take this table."
 msgstr "Der Datensatz hat diese Tabelle nicht übernommen."
 
-#: onedesk/one_sheet/table.py:552
+#: onedesk/one_sheet/table.py:557
 msgid "The record didn't take this table. The error is in the error log."
 msgstr "Der Datensatz hat diese Tabelle nicht übernommen. Der Fehler steht im Fehlerprotokoll."
 
@@ -41923,7 +41931,7 @@ msgstr "Der Server hat die E-Mail-Adresse oder das Passwort abgelehnt."
 msgid "The server's name or address."
 msgstr "Name oder Adresse des Servers."
 
-#: onedesk/one_sheet/table.py:301
+#: onedesk/one_sheet/table.py:306
 msgid "The sheet's hidden first column is gone. Undo, or open the workbook again from the record."
 msgstr "Die verborgene erste Spalte des Blatts fehlt. Machen Sie es rückgängig oder öffnen Sie die Arbeitsmappe erneut aus dem Datensatz."
 
@@ -42843,7 +42851,7 @@ msgstr "Dieser Passkey wurde auf einem anderen Browser registriert."
 msgid "This quotation can't be answered any more."
 msgstr "Auf dieses Angebot kann nicht mehr geantwortet werden."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:3797
+#: frontend/src/sheet/components/SheetEditor/index.vue:3805
 msgid "This range is protected and can’t be edited"
 msgstr "Dieser Bereich ist geschützt und kann nicht bearbeitet werden"
 
@@ -42890,7 +42898,7 @@ msgstr "Dieser Antrag wurde am {0} abgelehnt. Genehmigen Sie ihn zuerst, falls s
 msgid "This section could not be opened."
 msgstr "Dieser Bereich konnte nicht geöffnet werden."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:3796
+#: frontend/src/sheet/components/SheetEditor/index.vue:3804
 msgid "This sheet is protected"
 msgstr "Dieses Tabellenblatt ist geschützt"
 
@@ -42919,11 +42927,11 @@ msgstr "Diese Site verwaltet keine Arbeitsbereiche."
 msgid "This suggestion does not change how anything prints."
 msgstr "Dieser Vorschlag ändert nicht, wie etwas gedruckt wird."
 
-#: onedesk/one_sheet/table.py:601
+#: onedesk/one_sheet/table.py:606
 msgid "This table doesn't name records of that type."
 msgstr "Diese Tabelle verweist nicht auf Datensätze dieser Art."
 
-#: onedesk/one_sheet/table.py:393
+#: onedesk/one_sheet/table.py:398
 msgid "This table has no columns a sheet can hold."
 msgstr "Diese Tabelle hat keine Spalten, die ein Blatt aufnehmen kann."
 
@@ -43891,7 +43899,7 @@ msgstr "Nach Charge oder Seriennummer verfolgen"
 msgid "Tracking"
 msgstr "Verfolgung"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4910
+#: frontend/src/sheet/components/SheetEditor/index.vue:4919
 msgid "Traffic lights"
 msgstr "Ampeln"
 
@@ -44809,8 +44817,8 @@ msgstr "Ohne Titel"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1374
 #: frontend/src/sheet/components/SheetEditor/index.vue:1709
-#: frontend/src/sheet/components/SheetEditor/index.vue:3588
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:84
+#: frontend/src/sheet/components/SheetEditor/index.vue:3596
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:86
 msgid "Untitled Sheet"
 msgstr "Unbenannte Tabelle"
 
@@ -45277,11 +45285,11 @@ msgstr "Wertänderung"
 msgid "Value by Asset Category"
 msgstr "Wert nach Anlagenkategorie"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:3357
+#: frontend/src/sheet/components/SheetEditor/index.vue:3365
 msgid "Value flagged by data validation rule"
 msgstr "Wert durch Regel der Datenüberprüfung markiert"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:3345
+#: frontend/src/sheet/components/SheetEditor/index.vue:3353
 msgid "Value rejected by data validation rule"
 msgstr "Wert durch Regel der Datenüberprüfung abgelehnt"
 
@@ -49856,7 +49864,7 @@ msgstr "Gut zu wissen vor dem Anruf"
 msgid "Worth weighing"
 msgstr "Abzuwägen"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2535
+#: frontend/src/sheet/components/SheetEditor/index.vue:2543
 msgid "Wrap"
 msgstr "Umbrechen"
 
@@ -50983,7 +50991,7 @@ msgstr "Audio"
 msgid "auto"
 msgstr "automatisch"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:5044
+#: frontend/src/sheet/components/SheetEditor/index.vue:5053
 msgid "between {0} and {1}"
 msgstr "zwischen {0} und {1}"
 
@@ -51294,7 +51302,7 @@ msgstr "sein Preis ist nicht mehr lesbar"
 msgid "jane@example.com"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4621
+#: frontend/src/sheet/components/SheetEditor/index.vue:4630
 msgid "just now"
 msgstr "gerade eben"
 
@@ -52029,7 +52037,7 @@ msgstr "die Löschung Ihrer Daten"
 msgid "your quotations, orders and invoices"
 msgstr "Ihre Angebote, Aufträge und Rechnungen"
 
-#: onedesk/one_sheet/table.py:531
+#: onedesk/one_sheet/table.py:536
 msgid "{0} (and {1} more)"
 msgstr "{0} (und {1} weitere)"
 
@@ -52455,7 +52463,7 @@ msgstr "{0} hat sich nach dem Vorschlag geändert, daher gilt er nicht mehr."
 msgid "{0} changed in this save. Save it first, then edit what it links to."
 msgstr "{0} hat sich mit diesem Speichern geändert. Zuerst speichern, dann das Verknüpfte bearbeiten."
 
-#: onedesk/one_sheet/table.py:523
+#: onedesk/one_sheet/table.py:528
 msgid "{0} changed on the record since this sheet last matched it. Open the workbook again from the record to bring it in."
 msgstr "{0} wurde im Datensatz geändert, seit dieses Blatt zuletzt übereinstimmte. Öffnen Sie die Arbeitsmappe erneut aus dem Datensatz, um die Änderungen zu übernehmen."
 
@@ -52944,7 +52952,7 @@ msgstr "{0} abgerechnet"
 msgid "{0} invoices"
 msgstr "{0} Rechnungen"
 
-#: onedesk/one_sheet/table.py:106
+#: onedesk/one_sheet/table.py:107
 msgid "{0} is TRUE or FALSE."
 msgstr "{0} ist TRUE oder FALSE."
 
@@ -53591,23 +53599,23 @@ msgstr "{0} von {1} in den Einbehalt verschoben."
 msgid "{0} moved from {1} to {2}."
 msgstr "{0} von {1} nach {2} umgebucht."
 
-#: onedesk/one_sheet/table.py:130
+#: onedesk/one_sheet/table.py:131
 msgid "{0} must be a date and time, such as 2026-10-21 09:30."
 msgstr "{0} muss ein Datum mit Uhrzeit sein, zum Beispiel 2026-10-21 09:30."
 
-#: onedesk/one_sheet/table.py:125
+#: onedesk/one_sheet/table.py:126
 msgid "{0} must be a date, such as 2026-10-21."
 msgstr "{0} muss ein Datum sein, zum Beispiel 2026-10-21."
 
-#: onedesk/one_sheet/table.py:113
+#: onedesk/one_sheet/table.py:114
 msgid "{0} must be a number."
 msgstr "{0} muss eine Zahl sein."
 
-#: onedesk/one_sheet/table.py:135
+#: onedesk/one_sheet/table.py:136
 msgid "{0} must be a time, such as 09:30."
 msgstr "{0} muss eine Uhrzeit sein, zum Beispiel 09:30."
 
-#: onedesk/one_sheet/table.py:115
+#: onedesk/one_sheet/table.py:116
 msgid "{0} must be a whole number."
 msgstr "{0} muss eine ganze Zahl sein."
 
@@ -53615,7 +53623,7 @@ msgstr "{0} muss eine ganze Zahl sein."
 msgid "{0} must be kept by law until {1}."
 msgstr "{0} muss gesetzlich bis {1} aufbewahrt werden."
 
-#: onedesk/one_sheet/table.py:137
+#: onedesk/one_sheet/table.py:138
 msgid "{0} must be one of: {1}."
 msgstr "{0} muss einer der folgenden Werte sein: {1}."
 
@@ -54701,11 +54709,11 @@ msgstr "{0}; darauf wird nichts mehr erwartet."
 msgid "{0}; nothing more will be made on it."
 msgstr "{0}; darauf wird nichts mehr gefertigt."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4623
+#: frontend/src/sheet/components/SheetEditor/index.vue:4632
 msgid "{0}h ago"
 msgstr "vor {0} Std."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4622
+#: frontend/src/sheet/components/SheetEditor/index.vue:4631
 msgid "{0}m ago"
 msgstr "vor {0} Min."
 
