@@ -248,3 +248,20 @@ def test_a_table_cell_is_checked_as_its_field():
 		[{"fieldname": "rate", "fieldtype": "Currency", "label": "Rate", "in_list_view": 1, "precision": "3"}, {"fieldname": "qty", "fieldtype": "Float", "label": "Qty", "in_list_view": 1}]
 	)
 	assert [col["precision"] for col in cols[1:]] == [3, None], "a field's own precision is kept"
+
+
+def test_oneai_writes_cells_formats_and_notes_into_the_saved_shape():
+	room = _lifted(SHEET / "assist.py", ("CELL", "letters"), {"re": __import__("re")})
+	_lifted(SHEET / "ai.py", ("MOST_CELLS", "LOOKS", "_at", "_span", "_cells_given", "written", "noted"), room)
+	assert room["_at"]("B12") == (11, 1) and room["_at"]("AA1") == (0, 26) and room["_at"]("12B") is None
+	assert room["_span"]("A1:B2") == [(0, 0), (0, 1), (1, 0), (1, 1)] and room["_span"]("nonsense") == []
+	given, styled, wrong = room["_cells_given"]({"a1": "Item", "D2": "=B2*C2", "C2": 4}, {"A1:B1": {"bold": True, "colour": "x"}})
+	assert not wrong and given == {"A1": "Item", "D2": "=B2*C2", "C2": 4} and styled == {"A1": {"bold": True}, "B1": {"bold": True}}
+	assert room["_cells_given"]({"row 3": "x"}, None)[2], "a name that isn't a cell is refused"
+	data = room["written"]({}, "Costing", {"A1": "Item", "C2": "=A1"}, {"A1": {"bold": True}})
+	assert data["sheet"]["sheets"]["Costing"]["rows"] == {"0": ["Item"], "1": [None, None, "=A1"]}
+	assert data["formats"]["Costing"]["cells"]["A1"] == {"bold": True}
+	data = room["written"](data, "Costing", {"A1": ""}, {})
+	assert data["sheet"]["sheets"]["Costing"]["rows"]["0"] == [None], "an empty value clears the cell"
+	data = room["noted"](data, "Costing", "C2", "Check this rate", "a@b.c", "A B", "2026-10-21")
+	assert data["comments"]["Costing"]["C2"]["thread"][0]["text"] == "Check this rate"

@@ -5400,6 +5400,42 @@ def a_table_keeps_its_formulas():
 		frappe.db.rollback(save_point="template_check")
 
 @check
+def oneai_makes_reads_and_writes_a_workbook():
+	"""OneAI suggests a workbook with a formula and a bold header, and on
+	approval it is made in OneCloud; it finds and reads it, writes a cell
+	and a note as cards, and refuses a record's table sheet and a name that
+	isn't a cell. All undone afterwards."""
+	from onedesk.one_ai import proposals, tools
+	from onedesk.one_sheet import ai
+
+	frappe.db.savepoint("oneai_sheet_check")
+	try:
+		with as_user(OWNER):
+			said = tools.run("draft_workbook", {"name": "Glass check", "sheets": [{"name": "Prices", "cells": {"A1": "Item", "B1": "Rate", "A2": "Clear 8mm", "B2": 60, "B3": "=B2*1.05"}, "looks": {"A1:B1": {"bold": True}}}]})
+			assert not said["ran"] and said["answer"]["state"] == "Proposed", said
+			book = proposals.apply(said["answer"]["proposal"])["record"]
+			assert "at least one sheet" in ai.draft_workbook("Empty check", [])["error"]
+			found = ai.my_workbooks("Glass check")
+			assert [one["workbook"] for one in found] == [book] and found[0]["sheets"] == ["Prices"], found
+			read = ai.read_workbook(book)
+			assert read["cells"] == {"A1": "Item", "B1": "Rate", "A2": "Clear 8mm", "B2": 60, "B3": "=B2*1.05"}, read
+			wrote = ai.write_cells(book, "Prices", {"B2": 65}, {"B2:B3": {"numberFormat": "number:us:2"}})
+			proposals.apply(wrote["proposal"])
+			note = ai.comment_on_cell(book, "Prices", "B2", "Up from 60 this month.")
+			proposals.apply(note["proposal"])
+			read = tools.run("read_workbook", {"workbook": book, "cells": "B2:B3"})["answer"]
+			assert read["cells"] == {"B2": 65, "B3": "=B2*1.05"} and read["notes"] == {"B2": "Up from 60 this month."}, read
+			assert "isn't a cell" in tools.run("write_cells", {"workbook": book, "sheet": "Prices", "cells": {"row 3": 1}})["answer"]["error"]
+			quote = frappe.get_all("Quotation", filters={"docstatus": 0}, pluck="name", order_by="name", limit=1)[0]
+			from onedesk.one_sheet import table
+
+			bound = table.open_table("Quotation", quote, "items")
+			assert "record's table" in tools.run("write_cells", {"workbook": bound, "sheet": "Items", "cells": {"B2": "x"}})["answer"]["error"]
+	finally:
+		frappe.db.rollback(save_point="oneai_sheet_check")
+
+
+@check
 def a_spreadsheet_file_opens_and_saves_back_into_itself():
 	"""A CSV in OneCloud opens as a workbook that reads it in the first time,
 	what is done to it is written back into the same File, what it held

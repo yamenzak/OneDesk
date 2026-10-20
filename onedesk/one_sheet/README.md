@@ -87,6 +87,17 @@ question costs credits like any other OneAI request, and Ask is there only
 when OneAI is on for the workspace. Somebody who may only read the workbook
 can't ask.
 
+OneAI's own chat knows workbooks too, from any page: "find the C-28
+costing", "what does the Gulf sheet charge for powder coating?", "make me a
+workbook for this week's deliveries with a total", "put a margin formula in
+column G and make the header bold", "leave a note on D14 that the rate is
+from June". It finds and reads a workbook as it answers. Making one,
+writing cells, formulas and formatting, or leaving a note is a card you
+approve, and nothing changes until you do; an open copy of the workbook
+reloads when it is approved. It reads formulas as they are written, not
+what they work out to, and it never writes into a record's table sheet:
+change the record instead.
+
 ## A record's table in a workbook
 
 Under every table on a saved record, beside **Add row**, is **Open in a
@@ -484,6 +495,19 @@ the new version came from anywhere else, so it reads the file in again.
 `save_sheet` leaves such a File's size alone. OneCloud's Download as Excel
 or CSV opens the editor with `?export=`, which exports once the workbook has
 loaded: only the browser can work a workbook's formulas out.
+
+### OneAI's tools, `ai.py`
+
+`my_workbooks` and `read_workbook` run as the person asking (OneCloud's
+answer for the workbook's File); `draft_workbook`, `write_cells` and
+`comment_on_cell` write a Setup card (`one/ai_setup.apply` hands it back to
+`ai.approved`), which on approval writes into the saved shape (`written`,
+`noted`) through `save_sheet`, so it is a version like any save, and tells
+the approver's open editor (`one_workbook_written`), which reloads when it has nothing
+unsaved. The tools are the `workbooks` group (`one_ai/groups.py`), given
+on the workbook page or when a request says sheet, formula, cell or the
+like. A cell's result is worked out only in the browser, so a read says a
+formula as written.
 
 ### History, `versions.py`
 

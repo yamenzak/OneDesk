@@ -2008,6 +2008,18 @@ function _saved() {
   clearTimeout(_writeBackTimer)
   _writeBackTimer = setTimeout(writeBack, WRITE_BACK_EVERY)
 }
+// One: OneAI wrote in this workbook (one_sheet/ai.py, a card approved):
+// read it again when nothing here is waiting to be saved.
+const _written = async (said) => {
+  if (said?.workbook !== props.id) return
+  if (isDirty.value) { tableNotice.value = __('OneAI changed this workbook. Open it again to see what it wrote.'); return }
+  await loadSheet(props.id)
+  syncNames()
+  _repopulateGrid()
+}
+window.frappe?.realtime?.on?.('one_workbook_written', _written)
+onBeforeUnmount(() => window.frappe?.realtime?.off?.('one_workbook_written', _written))
+
 // A desk page stays mounted when it is left, so leaving is a route change,
 // or the tab going out of sight.
 const _leave = () => { if (_unwritten) flushSave().then(writeBack) }

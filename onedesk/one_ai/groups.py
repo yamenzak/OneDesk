@@ -78,6 +78,14 @@ GROUPS = {
 			"ملف", "ملفات", "مستند", "وثيقة",
 		),
 	},
+	"workbooks": {
+		"about": "workbooks and spreadsheets: find one, read its cells, make one, write values, formulas and formatting, leave a note on a cell",
+		"tools": ("my_workbooks", "read_workbook", "draft_workbook", "write_cells", "comment_on_cell"),
+		"words": (
+			"workbook", "spreadsheet", "sheet", "excel", "formula", "cell", "column", "costing", "tabelle", "arbeitsmappe",
+			"formel", "zelle", "جدول", "ورقة", "صيغة", "خلية", "مصنف",
+		),
+	},
 	"crm": {
 		"about": "sales: deals and leads, what has gone quiet, why deals are lost, next steps, writing up a call",
 		"tools": ("crm_facts", "gone_quiet", "why_we_lose", "add_lead", "plan_next_step", "write_up_call"),
@@ -289,6 +297,7 @@ DOCTYPES = {"Employee": "hr", "File": "files", "Communication": "mail"}
 PAGES = {
 	"onemail": "mail",
 	"onecloud": "files",
+	"workbook": "workbooks",
 	"workspace-settings": "workspace",
 	"masters": "workspace",
 	"one-admin": "console",

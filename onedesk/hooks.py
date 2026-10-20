@@ -1092,6 +1092,8 @@ one_makes_records = {
 }
 
 one_ai_reads = [
+	"onedesk.one_sheet.ai.my_workbooks",
+	"onedesk.one_sheet.ai.read_workbook",
 	"onedesk.one.ai.workspace_numbering",
 	"onedesk.one.ai.workspace_printing",
 	"onedesk.one.ai.workspace_mail_templates",
@@ -1181,6 +1183,9 @@ one_ai_reader = ["onedesk.one_hr.ai.reader"]
 
 one_ai_workspace = ["onedesk.one_hr.ai.workspace", "onedesk.one_crm.ai.workspace"]
 one_ai_suggests = [
+	"onedesk.one_sheet.ai.draft_workbook",
+	"onedesk.one_sheet.ai.write_cells",
+	"onedesk.one_sheet.ai.comment_on_cell",
 	"onedesk.one_hr.ai.claim_expense",
 	"onedesk.one_hr.ai.book_leave",
 	"onedesk.one_hr.ai.add_applicant",
