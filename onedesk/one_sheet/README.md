@@ -97,9 +97,16 @@ it the first time, and those are the columns.
 - A column that names other records, such as the item, searches them the
   way a field on a form does: type in the cell, or click the arrow at its
   right, and the matches show under it, with **Create a new …** and
-  **Advanced Search** at the bottom. Up, Down and Enter pick one. A name that isn't a record yet is refused when the
-  record saves, with **Create Them** beside the reason: it makes those
-  records from their names and saves again.
+  **Advanced Search** at the bottom. Up, Down and Enter pick one.
+- What the record refuses shows on the cell it is about, tinted with a red
+  corner, as Excel marks an error: a name that isn't a record yet, a word
+  in a number, or the record's own reason, such as a quantity of zero on
+  row 4. Select the cell to read why; for a name that isn't a record yet,
+  **Create Item** (or whatever it names) makes it from its name and saves
+  again.
+- A formula that works out to an error (#VALUE!, #REF!, #DIV/0! and the
+  rest) reads red with a red corner, and selecting it says in plain words
+  what is wrong.
 - When somebody changes the table on the form while the workbook is open,
   the first sheet is drawn again in place, formulas kept. If you have
   changes not yet saved, the workbook says the record changed instead; open
@@ -337,7 +344,14 @@ link column and answers them by type instead of saving; `make_missing`
 makes each from its name alone (`_made`: the name field and title set to
 it, and a required link left empty set from the user's default, the top of
 a tree, or the only record there is), as the person, so their own right to
-make one is checked.
+make one is checked. A refusal comes back with `faults`, each a cell and
+why: `read` collects a wrong value where it is, `unknown` each name that
+isn't a record, and `pinned` the record's own reason, its line from "Row 4"
+and its column from the header it names first. The editor tints those cells
+and marks them through the conditional-format seam the painter already
+reads (`fault`, `faultFill`, `faultInk`), and `shim/CellProblem.vue` says
+why under the selected cell, with the fix that calls `make_missing` for the
+one name (`shim/problems.js` also explains a formula's error code).
 
 A record saved anywhere but from the workbook (`doc.flags.from_workbook`)
 calls `changed` from `doc_events`, which publishes `one_table_changed` to

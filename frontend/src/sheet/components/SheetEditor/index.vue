@@ -76,7 +76,6 @@
         <Badge v-if="protectionNotice" theme="gray" variant="subtle" size="sm" :label="protectionNotice" :tooltip="protectionNotice" />
         <!-- One: why the record refused its table (one_sheet/table.py). -->
         <Badge v-if="tableNotice" theme="orange" variant="subtle" size="sm" class="sn-table-notice" :label="tableNotice" :tooltip="tableNotice" />
-        <Button v-if="tableMissing && canWrite" size="sm" :loading="makingMissing" @click="makeMissing">{{ __('Create Them') }}</Button>
         <!-- View-only indicator — shown up front so a viewer knows they can't
              edit before they try. Neutral gray (not an error) because read
              access is expected, not a failure. Uses the Frappe UI Badge so it
@@ -1138,6 +1137,8 @@
       </div>
     </div>
 
+    <CellProblem v-if="cellProblem.open && !linkPanel.open" :key="activeCell" :problem="cellProblem.problem" :workbook="props.id"
+                 :can-fix="canWrite" :x="cellProblem.x" :y="cellProblem.y" @fixed="problemFixed" />
     <LinkSearch v-if="linkPanel.open" ref="linkSearch" :key="linkPanel.id" :doctype="linkPanel.doctype" :query="linkPanel.query"
                 :x="linkPanel.x" :y="linkPanel.y" :w="linkPanel.w" @pick="pickLink" @close="linkPanel.open = false" />
     <!-- Validation dropdown panel -->
@@ -1343,6 +1344,8 @@ import { getFunctionNames }    from '../../engine/formula.js'
 import NamedRangesDialog       from './NamedRangesDialog.vue'
 import { focused } from '../../shim/focus.js' // One: focus inside the island's shadow root
 import LinkSearch              from '../../shim/LinkSearch.vue' // One: a link column's records
+import CellProblem             from '../../shim/CellProblem.vue' // One: what is wrong with a cell
+import { problemOf }           from '../../shim/problems.js' // One
 import { setContext }          from '../../engine/formula.js' // One: RECORD() after a redraw
 import { field as fieldOf, onFields, forget as forgetFields } from '../../shim/fields.js' // One: what FIELD() reads
 import AddSheetsDialog         from '../../shim/AddSheetsDialog.vue' // One: a template's sheets into this workbook
@@ -1978,27 +1981,23 @@ function addTemplateSheets(sheets) {
   switchSheet(last)
 }
 
-// One: make the records the table names that aren't there yet, then save
-// again so the record takes the sheet.
-const makingMissing = ref(false)
-async function makeMissing() {
-  makingMissing.value = true
-  const failed = []
-  try {
-    for (const [doctype, values] of Object.entries(tableMissing.value || {})) {
-      const said = await call('onedesk.one_sheet.table.make_missing', { name: props.id, doctype, values: JSON.stringify(values) })
-      for (const [value, why] of Object.entries(said.failed || {})) failed.push(`${value}: ${why}`)
-    }
-  } catch (error) {
-    failed.push(error?.message || __('They couldn’t be made.'))
-  } finally {
-    makingMissing.value = false
-  }
-  if (failed.length) {
-    tableNotice.value = __('Not made: {0}', [failed.join('; ')])
-    return
-  }
-  tableMissing.value = null
+// One: what is wrong with the selected cell, under it (shim/CellProblem.vue):
+// a formula's error, or what the record refused on its table's sheet.
+const cellProblem = reactive({ open: false, problem: null, x: 0, y: 0 })
+function _faultsHere() {
+  return bound.value && sheet.getCurrentSheet() === bound.value.sheet ? tableFaults.value : null
+}
+function _problemUnder(id) {
+  const problem = problemOf(id, sheet.getDisplayValue(id), _faultsHere())
+  const at = parseCellId(id), rect = canvasRef.value?.getBoundingClientRect()
+  if (!problem || !at || !rect || !grid) { cellProblem.open = false; return }
+  const cell = grid.getCellRect(at.row, at.col)
+  Object.assign(cellProblem, { open: true, problem, x: rect.left + cell.x, y: rect.top + cell.y + cell.height + 2 })
+}
+async function problemFixed(problem) {
+  cellProblem.open = false
+  tableFaults.value = Object.fromEntries(Object.entries(tableFaults.value).filter(([, one]) => !(one.doctype === problem.doctype && one.value === problem.value)))
+  grid?.render()
   isDirty.value = true
   await _doAutoSave()
 }
@@ -2550,7 +2549,7 @@ const textWrapDropdownOptions = computed(() => [
 // fallbacks only cover the impossible window where someone saves before
 // useSheetTabs has finished initializing.
 let _sheetTabs = null
-const { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableMissing, bound, currency: homeCurrency } =
+const { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableFaults, bound, currency: homeCurrency } =
   usePersistence({
     sheet, formats, merge, comments, validation, protection, condFormat, sortFilter, slicers, pivot,
     charts, namedRanges,
@@ -2579,7 +2578,7 @@ watch(bound, (now) => {
     forgetFields()
     sheet.batchSetCells(drawn.cells || {}, drawn.sheet, { replace: true })
     tableNotice.value = ''
-    tableMissing.value = null
+    tableFaults.value = {}
     if (sheet.getCurrentSheet() === drawn.sheet) grid?.render()
   }
   rt.on('one_table_changed', _tableWatch)
@@ -3304,6 +3303,7 @@ function _setupGridInstance() {
   grid = createGrid(canvasRef.value, {
     onSelect(id) {
       activeCell.value   = id
+      _problemUnder(id) // One
       formulaValue.value = sheet.getCell(id)
       refreshActiveFormat()
       _syncNumberFormat(id)
@@ -3322,6 +3322,7 @@ function _setupGridInstance() {
     },
     onCommit(id, value) {
       linkPanel.open = false   // One
+      cellProblem.open = false
       // Cross-sheet path: in-cell overlay was editing on `homeSheet`, user
       // hopped over to another sheet to pick a range, then pressed Enter.
       // Write the formula back to the home sheet and snap the canvas there
@@ -3434,11 +3435,23 @@ function _setupGridInstance() {
     isSlave:      id => merge.isSlave(id, sheet.getCurrentSheet()),
     getMasterId:  id => merge.getMasterId(id, sheet.getCurrentSheet()),
     getComment:   id => comments.hasOpenComment(id, sheet.getCurrentSheet()),
-    getValidation: id => validation.get(id, sheet.getCurrentSheet()),
-    getCondFormat: (id, val) => condFormat.getFormatOverride(
-      id, val, sheet.getCurrentSheet(),
-      (cid) => sheet.getDisplayValue(cid, sheet.getCurrentSheet()),
-    ),
+    // One: the rule is checked against what the cell works out to, not the
+    // text it shows (EUR 99,125.00 is a number).
+    getValidation: id => {
+      const rule = validation.get(id, sheet.getCurrentSheet())
+      return rule ? { ...rule, raw: sheet.getCellValue(id) } : rule
+    },
+    getCondFormat: (id, val) => {
+      const found = condFormat.getFormatOverride(
+        id, val, sheet.getCurrentSheet(),
+        (cid) => sheet.getDisplayValue(cid, sheet.getCurrentSheet()),
+      )
+      // One: a cell with something wrong is marked as Excel marks it.
+      const faults = _faultsHere()
+      const problem = problemOf(id, val, faults)
+      if (!problem) return found
+      return { ...(found || {}), fault: problem.level, faultFill: !!faults?.[id], faultInk: !!problem.code }
+    },
     // A SPARKLINE formula evaluates to a spec object; the painter draws it.
     // In show-formulas mode the cell shows its =SPARKLINE(...) text instead.
     getSparkline: id => {

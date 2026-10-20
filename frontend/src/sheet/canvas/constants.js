@@ -64,4 +64,8 @@ export const COLORS = {
   get chipFill()     { return _token('--surface-gray-3', '#EDEDED') },
   get chipCaret()    { return _token('--ink-gray-7', '#525252') },
   get invalidMark()  { return _token('--ink-red-5', '#D93025') },
+  // One: a cell the record refused, or a formula's error, as Excel marks it.
+  get faultFill()    { return _token('--surface-red-1', '#FFF5F5') },
+  get warnMark()     { return _token('--ink-amber-3', '#E79913') },
+  get warnFill()     { return _token('--surface-amber-1', '#FFF9EB') },
 }

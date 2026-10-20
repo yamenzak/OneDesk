@@ -77,6 +77,7 @@ export function createCellPainter(ctx, { cw, rh, colX, rowY }) {
     if (!g) return
     const { id, val, fmt, condFmt, merge, x, y, w, h } = g
     _drawCellBackground(x, y, w, h, merge, fmt, condFmt)
+    if (condFmt?.fault) _drawFault(x, y, w, h, condFmt) // One
     // Data-bar between background and text so values stay readable on top.
     if (condFmt?.dataBar) _drawDataBar(x, y, w, h, condFmt.dataBar)
     if (getDiffFor && getDiffFor(id)) _drawDiffOverlay(x, y, w, h)
@@ -84,7 +85,7 @@ export function createCellPainter(ctx, { cw, rh, colX, rowY }) {
     const rule = getValidation?.(id)
     if (rule) {
       const has = val != null && String(val) !== ''
-      const invalid = has && !checkRule(rule, val).valid
+      const invalid = has && !checkRule(rule, rule.raw !== undefined ? rule.raw : val).valid // One: the value, not its text
       if (rule.type === 'list') {
         // List rule → a Sheets-style dropdown affordance. With a value it's a
         // chip (which owns the cell text — the text pass skips it); empty,
@@ -127,6 +128,7 @@ export function createCellPainter(ctx, { cw, rh, colX, rowY }) {
     const s = String(val)
     const baseFmt = condFmt ? { ...fmt, ...condFmt } : fmt
     const efmt = { ...baseFmt, align: baseFmt.align || _autoAlign(s) }
+    if (condFmt?.faultInk && !fmt.color) efmt.color = COLORS.invalidMark // One: a formula's error reads red
     const rightInset = getRightInset ? (getRightInset(id) || 0) : 0
     const iconInset  = condFmt?.icon ? ICON_INSET : 0
     _setCellFont(efmt)
@@ -491,6 +493,28 @@ export function createCellPainter(ctx, { cw, rh, colX, rowY }) {
     const sz = 7
     ctx.save()
     ctx.fillStyle = COLORS.invalidMark
+    ctx.beginPath()
+    ctx.moveTo(x, y)
+    ctx.lineTo(x + sz, y)
+    ctx.lineTo(x, y + sz)
+    ctx.closePath()
+    ctx.fill()
+    ctx.restore()
+  }
+
+  // One: a cell with something wrong: tinted when the record refused it,
+  // and a corner mark, red for an error and amber for something to check.
+  function _drawFault(x, y, w, h, condFmt) {
+    const warn = condFmt.fault === 'warn'
+    if (condFmt.faultFill) {
+      ctx.save()
+      ctx.fillStyle = warn ? COLORS.warnFill : COLORS.faultFill
+      ctx.fillRect(x + 1, y + 1, w - 2, h - 2)
+      ctx.restore()
+    }
+    const sz = 7
+    ctx.save()
+    ctx.fillStyle = warn ? COLORS.warnMark : COLORS.invalidMark
     ctx.beginPath()
     ctx.moveTo(x, y)
     ctx.lineTo(x + sz, y)

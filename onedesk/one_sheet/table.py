@@ -152,6 +152,22 @@ def lined(message: str, rows: list[dict]) -> str:
 	return re.sub(pattern, line, message)
 
 
+def pinned(message: str, rows: list[dict], cols: list[dict], at: dict) -> list[dict]:
+	"""The cell a record's refusal is about: its line from "Row 4", its
+	column from the header the message names first, else the line's first
+	column. None when it names no line. Pure."""
+	lines = {row["line"] for row in rows}
+	found = re.search(re.escape(_("Row {0}")).replace(re.escape("{0}"), r"(\d+)"), message or "")
+	if not found or int(found.group(1)) not in lines:
+		return []
+	said = message.lower()
+	named = [col for col in cols[1:] if col["fieldname"] in at and col["header"].lower() in said]
+	col = min(named, key=lambda one: (said.index(one["header"].lower()), -len(one["header"]))) if named else next((one for one in cols[1:] if one["fieldname"] in at), None)
+	if not col:
+		return []
+	return [{"cell": f"{letters(at[col['fieldname']])}{found.group(1)}", "message": message}]
+
+
 def fingerprint(docstatus: int, rows: list, cols: list[dict]) -> str:
 	"""What the table holds, short: the sheet carries the one it last matched. Pure."""
 	held = [int(docstatus or 0)]
@@ -294,9 +310,10 @@ def _look(doc, cols: list[dict]) -> dict:
 	return style.table(cols, brand["colour"], doc.get("currency") or brand["currency"], style.precisions())
 
 
-def read(sent: list, cols: list[dict]) -> tuple[dict, list[dict], list[str]]:
+def read(sent: list, cols: list[dict], faults: list | None = None) -> tuple[dict, list[dict], list[str]]:
 	"""The sheet's lines as the table's rows, each column found by its header
-	wherever it has moved: (where each column is, the rows, what is wrong). Pure."""
+	wherever it has moved: (where each column is, the rows, what is wrong).
+	`faults`, when given, gets each wrong cell and why. Pure."""
 	header = [str(one if one is not None else "").strip() for one in (sent[0] if sent else [])]
 	at = {}
 	for n, text in enumerate(header):
@@ -325,6 +342,8 @@ def read(sent: list, cols: list[dict]) -> tuple[dict, list[dict], list[str]]:
 			value, why = taken(cell(col["fieldname"]), col)
 			if why:
 				wrong.append(_("Row {0}: {1}").format(line, why))
+				if faults is not None:
+					faults.append({"cell": f"{letters(at[col['fieldname']])}{line}", "message": why})
 			else:
 				row["values"][col["fieldname"]] = value
 		rows.append(row)
@@ -531,14 +550,17 @@ def apply(name: str, sent: str) -> dict:
 		}
 	if doc.docstatus != 0:
 		return {"ok": True, "cells": {}}
-	at, rows, wrong = read(lines, cols)
+	faults = []
+	at, rows, wrong = read(lines, cols, faults)
 	if wrong:
-		return {"ok": False, "message": wrong[0] if len(wrong) == 1 else _("{0} (and {1} more)").format(wrong[0], len(wrong) - 1)}
+		said = wrong[0] if len(wrong) == 1 else _("{0} (and {1} more)").format(wrong[0], len(wrong) - 1)
+		return {"ok": False, "message": said, "faults": faults}
 	if len(rows) > MOST_ROWS:
 		return {"ok": False, "message": _("A table takes at most {0} rows from a workbook.").format(MOST_ROWS)}
-	gone = missing(_links(cols, doc.meta.get_field(book.bound_field).options), rows)
+	links = _links(cols, doc.meta.get_field(book.bound_field).options)
+	gone = missing(links, rows)
 	if gone:
-		return {"ok": False, "message": _gone(gone), "missing": gone}
+		return {"ok": False, "message": _gone(gone), "missing": gone, "faults": unknown(links, gone, rows, at)}
 	if _changed(table, rows):
 		_put(doc, book.bound_field, table, rows)
 		doc.flags.from_workbook = True
@@ -546,10 +568,10 @@ def apply(name: str, sent: str) -> dict:
 		try:
 			doc.save()
 		except (frappe.ValidationError, frappe.PermissionError) as error:
-			said = _refusal(error)
+			said = lined(_refusal(error), rows)
 			frappe.db.rollback(save_point=SAVEPOINT)
 			frappe.clear_messages()
-			return {"ok": False, "message": lined(said, rows) or _("The record didn't take this table.")}
+			return {"ok": False, "message": said or _("The record didn't take this table."), "faults": pinned(said, rows, cols, at)}
 		except Exception:
 			frappe.db.rollback(save_point=SAVEPOINT)
 			frappe.clear_messages()
@@ -586,6 +608,25 @@ def missing(links: dict, rows: list[dict]) -> dict:
 		gone = sorted(value for value in values if value not in held)
 		if gone:
 			out[doctype] = gone
+	return out
+
+
+def unknown(links: dict, gone: dict, rows: list[dict], at: dict) -> list[dict]:
+	"""Each cell naming a record that isn't there, why, and what would make
+	it. Pure."""
+	out = []
+	for row in rows:
+		for field, doctype in links.items():
+			value = row["values"].get(field)
+			if value and str(value) in gone.get(doctype, ()) and field in at:
+				out.append(
+					{
+						"cell": f"{letters(at[field])}{row['line']}",
+						"message": _("No {0} called {1}.").format(_(doctype), value),
+						"doctype": doctype,
+						"value": str(value),
+					}
+				)
 	return out
 
 

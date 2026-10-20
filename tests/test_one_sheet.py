@@ -93,7 +93,7 @@ def test_a_table_sheet_reads_back_as_the_table():
 
 	room["html"] = html
 	names = ("NUMBER", "TEXT", "LONG", "SHOWN", "MOST_COLUMNS", "MOST_ROWS", "SPARE", "LOCKED_TO", "MARK", "YES", "NO", "EPOCH")
-	_lifted(SHEET / "table.py", (*names, "columns", "shown", "taken", "lined", "fingerprint", "_rule", "kept", "laid", "stored", "emptied", "placed", "read", "back"), room)
+	_lifted(SHEET / "table.py", (*names, "columns", "shown", "taken", "lined", "fingerprint", "_rule", "kept", "laid", "stored", "emptied", "placed", "read", "back", "unknown", "pinned"), room)
 	fields = [
 		{"fieldname": "item_code", "label": "Item", "fieldtype": "Link", "in_list_view": 1, "reqd": 1},
 		{"fieldname": "notes", "label": "Notes", "fieldtype": "Text Editor", "in_list_view": 1},
@@ -136,6 +136,13 @@ def test_a_table_sheet_reads_back_as_the_table():
 	cells = room["back"](moved, at, rows, after, cols, "new")
 	assert cells == {"C1": "#new", "F2": "800", "C3": "r2", "E3": "Fit", "F3": "200"}, cells
 	assert room["read"]([["#" + mark, "Item"]], cols)[2][0].startswith("The column Kind"), "a column gone is refused"
+	faults = []
+	room["read"]([moved[0], ["", "lots", "r1", "GL", "Supply", "600"]], cols, faults)
+	assert faults and faults[0]["cell"] == "B2", "a wrong cell is said where it is"
+	said = room["unknown"]({"item_code": "Item"}, {"Item": ["GL"]}, rows, at)
+	assert [(one["cell"], one["doctype"], one["value"]) for one in said] == [("D2", "Item", "GL"), ("D3", "Item", "GL")], said
+	assert room["pinned"]("Row 3: Qty for Item GL cannot be zero", rows, cols, at) == [{"cell": "B3", "message": "Row 3: Qty for Item GL cannot be zero"}]
+	assert room["pinned"]("Row 9: gone", rows, cols, at) == [] and room["pinned"]("Nothing about a row", rows, cols, at) == []
 
 
 def test_a_table_sheet_keeps_its_formulas():

@@ -30,7 +30,7 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
   // One: the record's table this workbook's first sheet is (one_sheet/table.py), and why the record last refused it.
   const bound = ref(null)
   const tableNotice = ref('')
-  const tableMissing = ref(null) // One: { doctype: [names] } the record can't find
+  const tableFaults = ref({}) // One: { cell: { message, doctype?, value? } } the record refused
   const currency = ref('') // One: the workspace's currency, the $ button's first
 
   async function loadSheet(name) {
@@ -217,10 +217,15 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
   // One: the record took the sheet (write back its ids and what it worked
   // out, then save again) or refused it (say why; the workbook itself saved).
   function _tookTable(said) {
-    tableNotice.value = said.ok === false ? __('Not in the record yet: {0}', [said.message]) : ''
-    tableMissing.value = said.ok === false && said.missing ? said.missing : null
+    const faults = said.ok === false ? said.faults || [] : []
+    tableFaults.value = Object.fromEntries(faults.map((one) => [one.cell, one]))
+    tableNotice.value = said.ok === false
+      ? (faults.length === 1 ? __('Not in the record yet: one cell needs a look')
+        : faults.length ? __('Not in the record yet: {0} cells need a look', [faults.length])
+        : __('Not in the record yet: {0}', [said.message]))
+      : ''
     if (said.ok !== false && takeBack(sheet, bound.value, said.cells)) onTable?.()
   }
 
-  return { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableMissing, bound, currency }
+  return { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableFaults, bound, currency }
 }
