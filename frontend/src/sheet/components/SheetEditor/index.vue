@@ -1329,6 +1329,7 @@ import NamedRangesDialog       from './NamedRangesDialog.vue'
 import { focused } from '../../shim/focus.js' // One: focus inside the island's shadow root
 import LinkSearch              from '../../shim/LinkSearch.vue' // One: a link column's records
 import { setContext }          from '../../engine/formula.js' // One: RECORD() after a redraw
+import { field as fieldOf, onFields, forget as forgetFields } from '../../shim/fields.js' // One: what FIELD() reads
 import AddSheetsDialog         from '../../shim/AddSheetsDialog.vue' // One: a template's sheets into this workbook
 import TemplateDialog          from '../../shim/TemplateDialog.vue' // One: templates
 import { useSmartFill }        from './useSmartFill.js'
@@ -1942,13 +1943,21 @@ const templateOpen = ref(false)
 const addSheetsOpen = ref(false)
 function addTemplateSheets(sheets) {
   let last = ''
+  const views = _sheetTabs?.viewSnapshot?.() || {}
   for (const one of sheets || []) {
     let name = one.name, n = 1
     while (sheet.getSheetNames().includes(name)) name = `${one.name} ${++n}`
     last = _addSheet(name)
+    // Its look, merges, link cells and the formulas each line gets come with it.
+    if (one.formats)    formats.restore({ ...formats.snapshot(), [name]: one.formats })
+    if (one.merge)      merge.restore({ ...merge.snapshot(), [name]: one.merge })
+    if (one.validation) validation.restore({ ...validation.snapshot(), [name]: one.validation })
+    if (one.view)       views[name] = one.view
+    sheet.setLines(name, one.lines || null)
     sheet.batchSetCells(one.cells || {}, name, { replace: true })
   }
   if (!last) return
+  _sheetTabs?.viewRestore?.(views)
   history.push()
   isDirty.value = true
   switchSheet(last)
@@ -2544,6 +2553,7 @@ watch(bound, (now) => {
     const drawn = await call('onedesk.one_sheet.table.redrawn', { name: props.id })
     if (!drawn?.sheet) return
     setContext({ record: drawn.record || {} })
+    forgetFields()
     sheet.batchSetCells(drawn.cells || {}, drawn.sheet, { replace: true })
     tableNotice.value = ''
     tableMissing.value = null
@@ -2551,7 +2561,12 @@ watch(bound, (now) => {
   }
   rt.on('one_table_changed', _tableWatch)
 })
+// One: FIELD() reads another record once it has come; draw again then.
+setContext({ field: fieldOf })
+const _offFields = onFields(() => { sheet.invalidateMemo(); grid?.render() })
 onBeforeUnmount(() => {
+  _offFields()
+  forgetFields()
   if (!_tableWatch) return
   window.frappe?.realtime?.off?.('one_table_changed', _tableWatch)
   if (bound.value) window.frappe?.realtime?.doc_unsubscribe?.(bound.value.doctype, bound.value.name)
@@ -3387,6 +3402,7 @@ function _setupGridInstance() {
     // (grid.setLazyValues(true)), the grid pulls this per visible cell instead
     // of materialising every cell up front.
     getDisplay:   _cellDisplay,
+    getRaw:       id => sheet.getCell(id), // One: what an edit opens on
     // Non-empty cell ids for the current sheet — the lazy path's source for
     // cold-path scans (Cmd+A extent, autofit) that used to walk the grid's
     // own `data` keys.

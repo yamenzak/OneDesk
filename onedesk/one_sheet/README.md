@@ -143,6 +143,16 @@ A sheet can carry the company and the record it is for:
 - `=RECORD("customer_name")`, `=RECORD("transaction_date")` or any other
   field read the record a table's workbook belongs to, as its form shows
   them. In any other workbook they are blank.
+- `=FIELD("Project", E1, "project_name")` reads a field of any record the
+  reader may open, named in a cell. Pick a project in E1 and the cells that
+  read it fill in a moment later.
+
+A sheet can say which formulas each of its lines gets, as an Excel table's
+calculated columns do: type an item on a new line and the line's area,
+prices and totals appear on it. Nothing is laid out before it is used, so a
+template has no hundred empty lines, and the totals over the header sum
+the whole column, however long the list grows. A cell typed over keeps
+what was typed.
 
 A record's table sheet is formatted when it is made: the header on the
 company's colour, money in the record's currency, numbers to the
@@ -388,15 +398,28 @@ painter's path draws as a picture (`shim/pictures.js` loads each once and
 repaints). `table` is a record's table sheet's formats, laid in by
 `table.placed` the first time only, or anew (`fresh`) for a workbook just
 made from a template whose columns may lie in another order. `branded` lays
-out a sheet under the company: the logo over three rows and two columns,
-the name, title and address beside it, up to six label and formula pairs
-from column G, a stripe and a header of its colour, a line's formulas on
-every line with what they work out in grey and the key figures marked, a
-zero there blank (`;` at the end of a number format), and the totals two
-rows under. Rua's costing templates are built with it. Formats are the
+out a sheet under the company's logo: the logo over three rows, what the
+sheet is for beside it, up to six label and formula pairs from column D (a
+doctype makes that cell a link cell, and `{meta0}` names the first value's
+cell in the others, so `FIELD()` can read the record picked there), the
+totals on row 4 summing open ranges, the header on row 5 in whichever of
+white or ink reads on the company's colour (`letter_heads.on`, also
+`BRAND("on_colour")`), and a `lines` rule rather than lines: what each
+line works out, in grey, and the key figures marked, are column formats,
+and a zero there is blank (`;` at the end of a number format). Only the
+item column is frozen. Rua's costing templates are built with it. Formats are the
 editor's own shapes: `formats` per sheet as `cells`, `cols` and `rows`;
 `merge` as `masterMap` and `slaveMap`; `view` as widths, heights and frozen
-rows and columns.
+rows and columns; `lines` as `{from, key, formulas}`, `{r}` the line, which
+the engine's `setLines` keeps and `setCell` and `batchSetCells` apply.
+`api.records` answers `FIELD()`: `shim/fields.js` asks once for every record
+the formulas named within a moment, `{doctype: {name: fields}}` comes back
+through `style.record` with the fields the reader may not see taken out
+(`apply_fieldlevel_read_permissions`), a record they may not open is left
+out, and the editor drops its results and draws again. File › Add Sheets
+From a Template brings each sheet with its formats, merges, view, link
+cells and lines (`templates.sheets_of`), from any template, a table's own
+sheet left out.
 
 ### History, `versions.py`
 

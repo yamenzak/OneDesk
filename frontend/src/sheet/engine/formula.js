@@ -259,8 +259,12 @@ const _BY_CELL = new Set([
 // One: what RECORD() and BRAND() read: the record a table's workbook belongs
 // to, its fields as its form shows them, and the company's name, logo,
 // colour and the rest. Set when the workbook opens.
-let _context = { record: {}, brand: {} }
-export function setContext(ctx) { _context = { record: ctx?.record ?? _context.record ?? {}, brand: ctx?.brand ?? _context.brand ?? {} } }
+// FIELD() reads another record's field through `field(doctype, name, field)`,
+// which answers '' until the record has come (shim/fields.js).
+let _context = { record: {}, brand: {}, field: null }
+export function setContext(ctx) {
+	_context = { record: ctx?.record ?? _context.record ?? {}, brand: ctx?.brand ?? _context.brand ?? {}, field: ctx?.field ?? _context.field ?? null }
+}
 
 // ─── Built-in functions ───────────────────────────────────────────────────────
 const FUNCTIONS = {
@@ -840,6 +844,11 @@ const FUNCTIONS = {
 	IMAGE:  ([url]) => (url && !isErr(url) ? { __spark: true, image: String(url) } : ''),
 	RECORD: ([field]) => { const v = _context.record?.[String(field ?? '')]; return v === undefined || v === null ? '' : v },
 	BRAND:  ([key]) => { const v = _context.brand?.[String(key ?? '')]; return v === undefined || v === null ? '' : v },
+	FIELD:  ([doctype, name, field]) => {
+		if (!_context.field || name === '' || name == null) return ''
+		const v = _context.field(String(doctype ?? ''), String(name), String(field ?? ''))
+		return v === undefined || v === null ? '' : v
+	},
 
 	// ── Array functions ─────────────────────────────────────────────────────
 	//

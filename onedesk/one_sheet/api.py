@@ -105,6 +105,30 @@ def get_sheet(name: str, compressed: int = 0) -> dict:
 	}
 
 
+#: The most records FIELD() asks for at once.
+MOST_RECORDS = 50
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def records(asked: str) -> dict:
+	"""Other records' fields as FIELD() reads them, {doctype: {name: fields}}
+	for each [doctype, name] asked: only those the reader may open, and only
+	the fields they may read; any other is left out."""
+	from onedesk.one_sheet import style
+
+	out = {}
+	for doctype, name in (json.loads(asked or "[]") or [])[:MOST_RECORDS]:
+		if not isinstance(doctype, str) or not isinstance(name, str) or not frappe.db.exists("DocType", doctype) or frappe.get_meta(doctype).istable:
+			continue
+		if not frappe.db.exists(doctype, name) or not frappe.has_permission(doctype, "read", name):
+			continue
+		doc = frappe.get_doc(doctype, name)
+		doc.apply_fieldlevel_read_permissions()
+		out.setdefault(doctype, {})[name] = style.record(doc)
+	return out
+
+
 @frappe.whitelist(methods=["POST"])
 def save_sheet(title: str, sheets_data: str, name: str = "", ops: str = "", request_id: str = "", table: str = "") -> dict:
 	"""Keep what the editor sends as it is: the browser works the formulas out,

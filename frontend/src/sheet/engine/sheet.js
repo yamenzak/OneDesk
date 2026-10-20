@@ -306,6 +306,32 @@ export function createSheet({ onCellChanged, onCellsChanged } = {}) {
 		return String(raw)
 	}
 
+	// ── One: calculated lines ─────────────────────────────────────────────────
+	//
+	// A sheet can say which formulas every line of a list carries, as an Excel
+	// table's calculated columns do: { from: 6, key: 'A', formulas: { F:
+	// '=D{r}*E{r}' } }. When a line from `from` down gets a value in its `key`
+	// column, each of those columns still empty on that line gets its formula.
+	// A cell typed over keeps what was typed.
+	const _lines = {}   // sheet → { from, key, formulas }
+	function setLines(sheet, rule) {
+		if (rule && rule.formulas && rule.key) _lines[sheet] = rule
+		else delete _lines[sheet]
+	}
+	function getLines() { return { ..._lines } }
+	function _lineFor(id, value, sheet) {
+		const rule = _lines[sheet]
+		if (!rule || value === '' || value == null) return []
+		const at = parseCellId(id)
+		if (!at || colLabel(at.col) !== rule.key || at.row + 1 < (rule.from || 1)) return []
+		const r = at.row + 1, sh = sheets[sheet] || {}, out = []
+		for (const [col, formula] of Object.entries(rule.formulas)) {
+			const cid = col + r
+			if (sh[cid] === undefined || sh[cid] === null || sh[cid] === '') out.push([cid, String(formula).replaceAll('{r}', String(r))])
+		}
+		return out
+	}
+
 	// ── Mutation ──────────────────────────────────────────────────────────────
 
 	function setCell(id, value, sheet = current) {
@@ -334,6 +360,7 @@ export function createSheet({ onCellChanged, onCellsChanged } = {}) {
 		// (formulas on Sheet2 reading Sheet1!A1) get re-evaluated when the
 		// source cell on the other sheet changes.
 		for (const dep of dependents) _notify(dep.cellId, dep.sheet)
+		for (const [cid, formula] of _lineFor(id, value, sheet)) setCell(cid, formula, sheet) // One
 	}
 
 	// Bulk-write a whole pile of cells with one dep-graph rebuild and *no*
@@ -350,6 +377,13 @@ export function createSheet({ onCellChanged, onCellsChanged } = {}) {
 	// queue an undo op.
 	function batchSetCells(map, sheet = current, { replace = true } = {}) {
 		_restoreBounds = null
+		// One: a pasted list's lines get their formulas in the same write.
+		if (_lines[sheet]) {
+			map = { ...map }
+			for (const [id, v] of Object.entries({ ...map })) {
+				for (const [cid, formula] of _lineFor(id, v, sheet)) if (!(cid in map)) map[cid] = formula
+			}
+		}
 		if (!sheets[sheet]) sheets[sheet] = {}
 		const sh = sheets[sheet]
 		const before = {}
@@ -558,6 +592,7 @@ export function createSheet({ onCellChanged, onCellsChanged } = {}) {
 		}
 		_clearAllMemo()
 		if (current === oldName) current = newName
+		if (_lines[oldName]) { _lines[newName] = _lines[oldName]; delete _lines[oldName] } // One
 		return true
 	}
 
@@ -565,6 +600,7 @@ export function createSheet({ onCellChanged, onCellsChanged } = {}) {
 		if (!sheets[srcName] || sheets[newName]) return false
 		sheets[newName] = deepClone(sheets[srcName])
 		deps.rebuild(sheets[newName], newName)
+		if (_lines[srcName]) _lines[newName] = deepClone(_lines[srcName]) // One
 		return true
 	}
 
@@ -584,6 +620,7 @@ export function createSheet({ onCellChanged, onCellsChanged } = {}) {
 		const names = Object.keys(sheets)
 		if (names.length <= 1) return false   // Always keep at least one sheet
 		delete sheets[name]
+		delete _lines[name] // One
 		if (current === name) current = Object.keys(sheets)[0]
 		// Notify caller for re-render
 		for (const id of Object.keys(sheets[current] || {}))
@@ -646,7 +683,7 @@ export function createSheet({ onCellChanged, onCellsChanged } = {}) {
 	deps.rebuild({}, 'Sheet1')
 
 	return {
-		setCell, batchSetCells, getCell, getDisplayValue, getCellValue, getRangeValues, getExtent, isSpilled,
+		setCell, batchSetCells, getCell, getDisplayValue, getCellValue, getRangeValues, getExtent, isSpilled, setLines, getLines,
 		switchSheet, addSheet, renameSheet, duplicateSheet, deleteSheet, reorderSheets,
 		getSheetNames, getCurrentSheet, getRawData, getAllRaw, consumeBounds,
 		insertRow, deleteRow, insertCol, deleteCol,

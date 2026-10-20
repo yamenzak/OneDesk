@@ -95,3 +95,34 @@ describe('record, brand and picture', () => {
     expect(applyNumberFmt(0, 'currency:AED:2')).toMatch(/AED\s?0\.00/)
   })
 })
+
+describe('calculated lines', () => {
+  it('gives a line its formulas when its first column is filled, keeping what was typed', () => {
+    const sheet = createSheet()
+    sheet.setLines('Sheet1', { from: 6, key: 'A', formulas: { C: '=B{r}*2', D: '=C{r}+1' } })
+    sheet.setCell('A4', 'top')
+    expect(sheet.getCell('C4')).toBe('')
+    sheet.setCell('D7', '9')
+    sheet.setCell('B7', '5')
+    sheet.setCell('A7', 'CW01')
+    expect([sheet.getCell('C7'), sheet.getDisplayValue('C7'), sheet.getCell('D7')]).toEqual(['=B7*2', '10', '9'])
+    sheet.batchSetCells({ A8: 'CW02', B8: '3' })
+    expect(sheet.getDisplayValue('D8')).toBe('7')
+    sheet.renameSheet('Sheet1', 'Costing')
+    expect(Object.keys(sheet.getLines())).toEqual(['Costing'])
+  })
+
+  it('reads another record’s field once it has come', async () => {
+    const { setContext } = await import('./formula.js')
+    const sheet = createSheet()
+    const held = {}
+    setContext({ field: (doctype, name, field) => held[`${doctype}/${name}`]?.[field] ?? '' })
+    sheet.setCell('A1', 'PRJ-1')
+    sheet.setCell('B1', '=FIELD("Project",A1,"project_name")')
+    expect(sheet.getDisplayValue('B1')).toBe('')
+    held['Project/PRJ-1'] = { project_name: 'Marina Tower' }
+    sheet.invalidateMemo()
+    expect(sheet.getDisplayValue('B1')).toBe('Marina Tower')
+    setContext({ field: () => '' })
+  })
+})

@@ -8,10 +8,9 @@ utils/format-number.js). README, Branded sheets.
 import frappe
 from frappe.utils import cint, strip_html
 
+from onedesk.one import letter_heads
 from onedesk.one_sheet.assist import letters
 
-#: A header's text on the company's colour.
-ON_COLOUR = "#FFFFFF"
 #: Lines worked out by a formula, and the rows around a header.
 WORKED = "#F5F5F4"
 LINE = "#E7E5E4"
@@ -33,14 +32,13 @@ def tint(colour: str, share: float) -> str:
 def brand() -> dict:
 	"""The company as BRAND() reads it: name, logo, colour, currency and
 	where to reach it."""
-	from onedesk.one import letter_heads
-
 	held = letter_heads.company()
 	company = frappe.db.get_default("company")
 	return {
 		"name": held.get("name") or "",
 		"logo": held.get("logo") or "",
 		"colour": held.get("colour") or letter_heads.INK,
+		"on_colour": letter_heads.on(held.get("colour") or letter_heads.INK),
 		"currency": (company and frappe.db.get_value("Company", company, "default_currency")) or "",
 		"address": ", ".join(held.get("address") or []),
 		"phone": held.get("phone") or "",
@@ -99,8 +97,9 @@ def width(fieldtype: str) -> int:
 
 
 def header(colour: str) -> dict:
-	"""A header row: bold white on the company's colour. Pure."""
-	return {"bold": True, "color": ON_COLOUR, "backgroundColor": colour, "valign": "middle", "textWrap": "wrap"}
+	"""A header row: bold on the company's colour, in whichever of white or
+	ink reads on it. Pure."""
+	return {"bold": True, "color": letter_heads.on(colour), "backgroundColor": colour, "valign": "middle", "textWrap": "wrap"}
 
 
 def table(cols: list[dict], colour: str, currency: str = "", precisions: dict | None = None) -> dict:
@@ -135,27 +134,34 @@ def precisions() -> dict:
 	}
 
 
-#: Where a branded sheet's lines start: under the brand block, a stripe of
-#: the company's colour, and the header.
+#: A branded sheet: the logo and what it is for over three rows, its
+#: totals on the fourth, the header on the fifth, and its lines from the sixth.
+TOTALS = 4
 FIRST = 6
 
 #: What each kind of column holds, as the editor formats it.
 KINDS = {"count": "number:us:0", "size": "number:us:0", "area": "number:us:3", "kilos": "number:us:2"}
 
+#: Where the facts beside the logo start: a label, then its value over three
+#: columns, three to a group.
+META = 3
 
-def branded(title: str, head: list, line: dict, totals: dict, kinds: dict, colour: str, currency: str = "", meta: list | None = None, lines: int = 100) -> dict:
-	"""A sheet laid out under the company's brand, `meta` (label, formula)
-	beside it, `line`'s formulas ({r} the row) on `lines` lines and `totals`
-	under them; `kinds` names the columns holding money, counts, sizes,
-	areas, kilos, the key figures and wide text. Answers its rows, formats,
-	merges and view. README, Branded sheets. Pure."""
+
+def branded(title: str, head: list, line: dict, totals: dict, kinds: dict, colour: str, currency: str = "", meta: list | None = None) -> dict:
+	"""A sheet laid out under the company's logo: `meta` (label, formula,
+	doctype or None) beside it, `totals` over the header, and `line`'s
+	formulas as the rule each line takes when its first column is filled;
+	`kinds` names the columns holding money, counts, sizes, areas, kilos,
+	the key figures and wide text. README, Under the hood. Pure."""
 	wide = len(head)
-	last = FIRST + lines - 1
-	rows, cells, masters, slaves = {}, {}, {}, {}
-	col = {letters(at): at for at in range(max(wide, 26))}
+	rows, cells, masters, slaves, rules = {}, {}, {}, {}, {}
+	col = {letters(at): at for at in range(max(wide, META + 8, 26))}
+
+	def where(ref):
+		return col[ref.rstrip("0123456789")], int(ref.lstrip("ABCDEFGHIJKLMNOPQRSTUVWXYZ")) - 1
 
 	def put(ref, value=None, look=None):
-		at, line_no = col[ref.rstrip("0123456789")], int(ref.lstrip("ABCDEFGHIJKLMNOPQRSTUVWXYZ")) - 1
+		at, line_no = where(ref)
 		if value is not None:
 			held = rows.setdefault(str(line_no), [])
 			held.extend([None] * (at + 1 - len(held)))
@@ -164,7 +170,7 @@ def branded(title: str, head: list, line: dict, totals: dict, kinds: dict, colou
 			cells[ref] = {**cells.get(ref, {}), **look}
 
 	def merge(ref, row_span, col_span):
-		at, line_no = col[ref.rstrip("0123456789")], int(ref.lstrip("ABCDEFGHIJKLMNOPQRSTUVWXYZ")) - 1
+		at, line_no = where(ref)
 		masters[ref] = {"rowSpan": row_span, "colSpan": col_span, "r": line_no, "c": at}
 		for r in range(line_no, line_no + row_span):
 			for c in range(at, at + col_span):
@@ -172,49 +178,56 @@ def branded(title: str, head: list, line: dict, totals: dict, kinds: dict, colou
 					slaves[f"{letters(c)}{r + 1}"] = ref
 
 	put("A1", '=IMAGE(BRAND("logo"))', {"align": "left"})
-	merge("A1", 3, 2)
-	put("C1", '=BRAND("name")', {"bold": True, "fontSize": 16, "valign": "middle", "numberFormat": "text", "align": "left"})
-	put("C2", title, {"color": MUTED, "fontSize": 12, "numberFormat": "text", "align": "left"})
-	put("C3", '=BRAND("address")', {"color": MUTED, "fontSize": 11, "numberFormat": "text", "align": "left"})
-	first_label = 6
-	for at, (label, formula) in enumerate((meta or [])[:6]):
-		label_col = first_label + (at // 3) * 4
-		row = at % 3 + 1
+	merge("A1", 3, 1)
+	put("B1", title, {"bold": True, "fontSize": 13, "valign": "middle", "numberFormat": "text", "align": "left"})
+	meta = [(*one, None)[:3] for one in (meta or [])[:6]]
+	value_of = [f"{letters(META + (at // 3) * 4 + 1)}{at % 3 + 1}" for at in range(len(meta))]
+	for at, (label, formula, doctype) in enumerate(meta):
+		label_col, row = META + (at // 3) * 4, at % 3 + 1
+		for n, ref in enumerate(value_of):
+			formula = formula.replace(f"{{meta{n}}}", ref)
 		put(f"{letters(label_col)}{row}", label, {"color": MUTED, "fontSize": 11, "align": "right", "numberFormat": "text"})
-		put(f"{letters(label_col + 1)}{row}", formula, {"bold": True, "numberFormat": "text", "align": "left"})
-		merge(f"{letters(label_col + 1)}{row}", 1, 2)
-	for at in range(wide):
-		put(f"{letters(at)}4", None, {"backgroundColor": colour})
-		put(f"{letters(at)}5", head[at] if at < len(head) else None, {**header(colour), "align": "center"})
-	worked = set(line)
-	key = set(kinds.get("key", ""))
-	for r in range(FIRST, last + 1):
-		for letter, formula in line.items():
-			put(f"{letter}{r}", formula.replace("{r}", str(r)))
-		for letter in worked | key:
-			look = {"backgroundColor": WORKED}
-			if letter in key:
-				look = {"backgroundColor": tint(colour, 0.1), "bold": True}
-			put(f"{letter}{r}", None, look)
-	end = last + 2
-	for at in range(wide):
-		put(f"{letters(at)}{end}", None, {"bold": True, "backgroundColor": tint(colour, 0.14), "borderTop": {"style": "medium", "color": colour}})
+		put(value_of[at], formula, {"bold": True, "numberFormat": "text", "align": "left", "borderBottom": {"style": "thin", "color": LINE}})
+		merge(value_of[at], 1, 3)
+		if doctype:
+			rules[value_of[at]] = {"type": "link", "doctype": doctype}
 	for letter, value in totals.items():
-		put(f"{letter}{end}", value.replace("{first}", str(FIRST)).replace("{last}", str(last)))
+		put(f"{letter}{TOTALS}", value.replace("{first}", str(FIRST)))
+	for at in range(wide):
+		put(f"{letters(at)}{TOTALS + 1}", head[at], {"align": "center"})
+	worked, key = set(line), set(kinds.get("key", ""))
 	formats_cols, widths = {}, {}
 	for at in range(wide):
 		letter = letters(at)
 		kind = next((name for name, held in kinds.items() if letter in held and name in (*KINDS, "money")), None)
 		blank = ";" if letter in worked else ""
+		look = {}
 		if kind == "money":
-			formats_cols[str(at)] = {"numberFormat": (f"currency:{currency}:2" if currency else "number:us:2") + blank}
+			look["numberFormat"] = (f"currency:{currency}:2" if currency else "number:us:2") + blank
 		elif kind:
-			formats_cols[str(at)] = {"numberFormat": KINDS[kind] + blank}
+			look["numberFormat"] = KINDS[kind] + blank
+		if letter in key:
+			look.update({"backgroundColor": tint(colour, 0.1), "bold": True})
+		elif letter in worked:
+			look["backgroundColor"] = WORKED
+		if look:
+			formats_cols[str(at)] = look
 		widths[str(at)] = 300 if letter in kinds.get("wide", "") else 124 if kind == "money" else 76 if kind == "count" else 108
 	widths["0"] = max(widths.get("0", 96), 120)
+	plain = {"backgroundColor": "#FFFFFF", "bold": False}
 	return {
 		"rows": rows,
-		"formats": {"cells": cells, "cols": formats_cols, "rows": {}},
+		"formats": {
+			"cells": cells,
+			"cols": formats_cols,
+			"rows": {
+				**{str(r): plain for r in range(TOTALS - 1)},
+				str(TOTALS - 1): {"bold": True, "backgroundColor": tint(colour, 0.14), "borderBottom": {"style": "medium", "color": colour}},
+				str(TOTALS): header(colour),
+			},
+		},
 		"merge": {"masterMap": masters, "slaveMap": slaves},
-		"view": {"freezeRows": FIRST - 1, "freezeCols": 2, "colW": widths, "rowH": {"0": 30, "1": 24, "2": 24, "3": 5, "4": 44}},
+		"validation": rules,
+		"lines": {"from": FIRST, "key": "A", "formulas": dict(line)},
+		"view": {"freezeRows": TOTALS + 1, "freezeCols": 1, "colW": widths, "rowH": {"0": 30, "1": 24, "2": 24, "3": 28, "4": 44}},
 	}

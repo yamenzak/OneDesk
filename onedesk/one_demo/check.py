@@ -5404,8 +5404,8 @@ def a_record_table_opens_as_a_workbook():
 	"""Layla opens a draft quotation's items in a workbook, raises a quantity
 	and adds a line: the quotation saves itself and sends ids and figures
 	back. A word for a number and an unknown item are refused; a sheet that
-	missed a change on the form is refused and redrawn on opening; a copy is
-	a plain workbook. All of it is undone afterwards."""
+	missed a change on the form is refused and redrawn on opening; FIELD()
+	reads the quotation; a copy is a plain workbook. All undone afterwards."""
 	from unittest import mock
 
 	from onedesk.one_sheet import api, storage, table
@@ -5479,6 +5479,8 @@ def a_record_table_opens_as_a_workbook():
 			drawn = table.redrawn(book)
 			assert drawn["sheet"] == "Items" and drawn["cells"][f"{chr(65 + qty)}2"] == "5", "drawn again in place"
 			assert lines(book)[1][qty] == "5", "and kept"
+			read = api.records(json.dumps([["Quotation", quote], ["Quotation", "NO-SUCH-QUOTE"]]))
+			assert read["Quotation"][quote]["name"] == quote and "NO-SUCH-QUOTE" not in read["Quotation"], "FIELD() reads it"
 			file = frappe.get_doc("File", frappe.db.get_value(api.WORKBOOK, book, "file"))
 			copy = frappe.get_doc({"doctype": "File", "file_url": file.file_url, "file_name": "Items, a copy", "folder": "Home", "is_private": 1})
 			copy.flags.ignore_permissions = True

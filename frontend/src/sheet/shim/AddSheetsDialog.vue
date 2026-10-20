@@ -1,4 +1,4 @@
-<!-- Add a template's sheets to the workbook that is open (one_sheet/templates.py, sheets_of): the templates anyone can start from, and those made for this workbook's table. -->
+<!-- Add a template's sheets to the workbook that is open (one_sheet/templates.py, sheets_of): those made for this workbook's table first, then every other, a table's own sheet left out. -->
 <template>
 	<Dialog v-model:open="open" :title="__('Add Sheets From a Template')" size="md">
 		<template #default>
@@ -33,9 +33,10 @@ watch(open, async (now) => {
 	error.value = "";
 	loading.value = true;
 	try {
-		const plain = await call("onedesk.one_sheet.templates.listed");
+		const every = await call("onedesk.one_sheet.templates.listed", { every: 1 });
 		const mine = props.bound ? await call("onedesk.one_sheet.templates.listed", { doctype: props.bound.doctype, field: props.bound.field }) : [];
-		offered.value = [...(mine || []), ...(plain || [])];
+		const first = new Set((mine || []).map((one) => one.name));
+		offered.value = [...(mine || []), ...(every || []).filter((one) => !first.has(one.name))];
 	} catch (failed) {
 		error.value = failed?.message || __("The templates couldn’t be loaded.");
 	} finally {

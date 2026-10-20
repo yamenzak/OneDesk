@@ -32,16 +32,20 @@ def folder() -> str:
 
 @frappe.whitelist()
 @frappe.read_only()
-def listed(doctype: str | None = None, field: str | None = None, name: str | None = None) -> list[dict]:
+def listed(doctype: str | None = None, field: str | None = None, name: str | None = None, every: int = 0) -> list[dict]:
 	"""The templates the reader may use: for a record's table when one is
-	named, else those that are workbooks of their own. None for a record
-	whose table already has its workbook: that one opens."""
+	named, else those that are workbooks of their own, or, with `every`,
+	all of them, whose sheets beside a table any workbook can take. None
+	for a record whose table already has its workbook: that one opens."""
 	from onedesk.one_storage import namespace as ns
 
 	if name and frappe.db.exists(api.WORKBOOK, {"bound_doctype": doctype, "bound_name": name, "bound_field": field}):
 		return []
 	filters = {"is_template": 1}
-	filters.update({"template_for": doctype, "template_field": field} if doctype else {"template_for": ["is", "not set"]})
+	if doctype:
+		filters.update({"template_for": doctype, "template_field": field})
+	elif not frappe.utils.cint(every):
+		filters["template_for"] = ["is", "not set"]
 	out = []
 	for one in frappe.get_all(api.WORKBOOK, filters=filters, fields=["name", "title", "file"], order_by="title asc"):
 		item = ns.row(one.file) if one.file else None
@@ -54,7 +58,8 @@ def listed(doctype: str | None = None, field: str | None = None, name: str | Non
 @frappe.read_only()
 def sheets_of(template: str) -> list[dict]:
 	"""A template's sheets to add to a workbook already open, each by name
-	with its cells; a table's own sheet stays out, since a workbook has one."""
+	with its cells, formats, merges, view, link cells and the formulas each
+	line gets; a table's own sheet stays out, since a workbook has one."""
 	from onedesk.one_sheet import table
 	from onedesk.one_sheet.assist import letters
 
@@ -73,7 +78,12 @@ def sheets_of(template: str) -> list[dict]:
 			for col, value in enumerate(values or [])
 			if value not in (None, "")
 		}
-		out.append({"name": name, "cells": cells})
+		one = {"name": name, "cells": cells}
+		for part in ("formats", "merge", "view", "validation", "lines"):
+			found = (data.get(part) or {}).get(name)
+			if found:
+				one[part] = found
+		out.append(one)
 	return out
 
 

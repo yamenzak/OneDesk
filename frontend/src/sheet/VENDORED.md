@@ -50,6 +50,10 @@ Each is marked `One:` in the file.
 | `canvas/painters/cell-painter.js` (picture) | a spec with `image` is drawn as a picture fitted to the cell (`shim/pictures.js`); `canvas/index.js` repaints when one loads |
 | `utils/format-number.js` | `currency:` takes any ISO code (AED was shown as USD); a format ending in `;` shows a zero as blank |
 | `components/SheetEditor/usePersistence.js` (brand) | hands `get_sheet`'s `record` and `brand` to `setContext` on load |
+| `engine/sheet.js` (lines) | a sheet's `lines` rule gives a line its formulas when its key column is filled, as an Excel table's calculated columns do (`setLines`, `getLines`, kept through rename, copy and delete); `usePersistence.js` saves and restores it as `lines` |
+| `engine/formula.js` (fields) | `FIELD(doctype, name, field)` reads another record through `setContext`'s `field` (`shim/fields.js`); the editor draws again when the record comes |
+| `canvas/index.js` (edit) | Enter, F2, a double-click and `beginEdit` open the edit on what the cell holds (`getRaw`), not on what it shows: a formula cell opened and left unchanged was written back as its formatted result |
+| `components/SheetEditor/index.vue` (template sheets) | File › Add Sheets From a Template brings each sheet's formats, merges, view, link cells and lines with its cells |
 | `engine/xlsx-io.js` | an imported formula goes through `shim/excel.js`, which drops `_xlfn.` and maps `CEILING.MATH` and the like to the classic names |
 | every `.vue` and the menus' `.js` | the words go through `__` (imported from `kit/desk` in scripts) so they reach Arabic and German; not marked, since there are about 730 |
 

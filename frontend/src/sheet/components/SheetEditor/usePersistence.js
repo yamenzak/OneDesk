@@ -56,6 +56,8 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
       if (saved.pivot      && pivot?.restore)      pivot.restore(saved.pivot)
       if (saved.charts     && charts?.restore)     charts.restore(saved.charts)
       if (saved.namedRanges && namedRanges?.restore) namedRanges.restore(saved.namedRanges)
+      for (const name of Object.keys(sheet.getLines())) sheet.setLines(name, null) // One: the formulas each line gets
+      for (const [name, rule] of Object.entries(saved.lines || {})) sheet.setLines(name, rule)
       currentTitle.value = doc.title
       // Older backends predate `can_write`; treat its absence as writable so we
       // never lock out an editor on a stale server.
@@ -143,6 +145,7 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
         charts:     charts?.snapshot?.()     ?? null,
         namedRanges: namedRanges?.snapshot?.() ?? null,
         view:       getViewState?.()         ?? null,
+        lines:      sheet.getLines(), // One
       })
       const payload = await encodeForUpload(sheetsData)
       args = {

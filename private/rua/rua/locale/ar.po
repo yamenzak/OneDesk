@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Rua VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-19 19:01+0000\n"
+"POT-Creation-Date: 2026-10-20 22:56+0000\n"
 "PO-Revision-Date: 2026-10-19 16:11+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -198,6 +198,10 @@ msgstr "الفاتورة"
 #: rua/settle.py:33
 msgid "Is the client still holding retention on this project from invoices made outside One?"
 msgstr "هل ما زال العميل يحتجز محتجزات على هذا المشروع من فواتير صدرت خارج One؟"
+
+#: rua/setup.py:379
+msgid "Items"
+msgstr "البنود"
 
 #. Label of the kind (Select) field in DocType 'Rua Import Note'
 #: rua/rua/doctype/rua_import_note/rua_import_note.json

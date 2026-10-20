@@ -13,7 +13,7 @@ import { chipFont } from './chip-geometry.js'
 import { checkboxRect } from './checkbox-geometry.js'
 import { focused } from '../shim/focus.js' // One: focus inside the island's shadow root
 
-export function createGrid(canvas, { onSelect, onCommit, onInput, onCancel, getFormat, onFill, onBatchCommit, getMergeInfo, isSlave, getMasterId, getComment, getValidation, getCondFormat, getSparkline, getRightInset, onHyperlinkClick, onLinkHover, onDropdownClick, onCheckboxToggle, onPivotDrill, onResizeEnd, onColMove, getSheetNames, getCurrentSheet, getEditingHomeSheet, getDisplay, getCellIds, lazyValues = false, canEdit = () => true, isCellEditable, onBlockedEdit, onEditKey } = {}) {
+export function createGrid(canvas, { onSelect, onCommit, onInput, onCancel, getFormat, onFill, onBatchCommit, getMergeInfo, isSlave, getMasterId, getComment, getValidation, getCondFormat, getSparkline, getRightInset, onHyperlinkClick, onLinkHover, onDropdownClick, onCheckboxToggle, onPivotDrill, onResizeEnd, onColMove, getSheetNames, getCurrentSheet, getEditingHomeSheet, getDisplay, getCellIds, lazyValues = false, canEdit = () => true, isCellEditable, onBlockedEdit, onEditKey, getRaw } = {}) {
   const ctx = canvas.getContext('2d')
   const dpr = window.devicePixelRatio || 1
 
@@ -35,6 +35,9 @@ export function createGrid(canvas, { onSelect, onCommit, onInput, onCancel, getF
   let _lazyValues = lazyValues && typeof getDisplay === 'function'
   const getValue = id => _lazyValues ? getDisplay(id) : data[id]
   const hasVal   = id => !!getValue(id)
+  // One: an edit opens on what the cell holds (its formula, its plain number),
+  // never on what it shows, or committing it unchanged writes the shown text.
+  const editValue = id => String((getRaw ? getRaw(id) : getValue(id)) ?? '')
   const cellIds  = () => _lazyValues ? (getCellIds ? getCellIds() : []) : Object.keys(data)
   function setLazyValues(on) { _lazyValues = !!on && typeof getDisplay === 'function'; render() }
   function isLazyValues() { return _lazyValues }
@@ -1389,7 +1392,7 @@ export function createGrid(canvas, { onSelect, onCommit, onInput, onCancel, getF
     // instead of editing the (regenerated) cell. The handler returns true
     // when it took over.
     if (onPivotDrill?.(h.r, h.c)) return
-    showEditor(getValue(cellId(h.r, h.c)) ?? '', 'edit')
+    showEditor(editValue(cellId(h.r, h.c)), 'edit')
   })
 
   let _lastLinkHover = null   // 'r,c' of the linked cell the pointer is on
@@ -1658,7 +1661,7 @@ export function createGrid(canvas, { onSelect, onCommit, onInput, onCancel, getF
       return
     }
 
-    if (e.key === 'F2') { e.preventDefault(); showEditor(getValue(cellId(r, c)) ?? '', 'edit'); return }
+    if (e.key === 'F2') { e.preventDefault(); showEditor(editValue(cellId(r, c)), 'edit'); return }
 
     if ((e.key === 'Delete' || e.key === 'Backspace') && !mod) {
       e.preventDefault()
@@ -1743,7 +1746,7 @@ export function createGrid(canvas, { onSelect, onCommit, onInput, onCancel, getF
       const { r0, c0, r1, c1 } = getSelRange()
       const singleCell = r0 === r1 && c0 === c1
       if (singleCell && !e.shiftKey && !mod && !e.altKey && canEdit()) {
-        showEditor(getValue(cellId(r, c)) ?? '', 'edit')
+        showEditor(editValue(cellId(r, c)), 'edit')
         return
       }
       const anchorC = _tabAnchorCol ?? c
@@ -2053,7 +2056,7 @@ export function createGrid(canvas, { onSelect, onCommit, onInput, onCancel, getF
     getViewportSize: () => ({ w: _viewportW, h: _viewportH }),
     // One: end an edit with a value picked from the link search under it.
     commitWith: v => { if (!editing) return; overlay.el.value = v; _commitAndHide() },
-    beginEdit: () => { if (!editing) showEditor(String(getValue(cellId(sel.r, sel.c)) ?? ''), 'edit') },
+    beginEdit: () => { if (!editing) showEditor(editValue(cellId(sel.r, sel.c)), 'edit') },
     setDiffOverlay, setActiveDiffSheet,
     autoFitCol, autoFitRow, autoGrowRowFor,
     expandRows, getTotalRows, isNearBottom,

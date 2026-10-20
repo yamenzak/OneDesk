@@ -128,14 +128,18 @@ Rua's estimators price a job in a costing sheet, one line per opening.
 `setup.costing` makes one workbook template for a quotation's items per
 family of systems (`setup.COSTINGS`): **Costing (Alumil, Gutmann,
 Technal)** and **Costing (Gulf Extrusion)**. A template is the sheet's
-header, its formulas on 100 lines and its totals, and nothing a job types:
-no items, sizes, glass prices or kilos. It is laid out under the company's
-brand (`one_sheet/style.branded`): the logo and name on top, the
-quotation's number, customer, date, validity, currency and status beside
-them, the header on the company's colour, what the formulas work out in
-grey and the rate and overall price marked, money in dirhams. Gulf Extrusion's sizes are in
-centimetres and its aluminium is priced from its weight, powder coated or
-mill finish; Alumil's sizes are in millimetres.
+header, the formulas each line gets once its item is typed, and its
+totals, and nothing a job types: no items, sizes, glass prices or kilos. It
+is laid out under the company's logo (`one_sheet/style.branded`): beside
+it a project picker, the project's name and customer read from what is
+picked, and the quotation's number, date and validity when the workbook is
+a quotation's; the totals over the header, so they stay in view however
+long the list grows; the header in whichever of white or ink reads on the
+company's colour; what the formulas work out in grey and the rate and
+overall price marked, money in dirhams; only the item column frozen. Opened
+from a quotation, the project and customer are the quotation's own. Gulf
+Extrusion's sizes are in centimetres and its aluminium is priced from its
+weight, powder coated or mill finish; Alumil's sizes are in millimetres.
 
 Each has an Items sheet whose first line holds one formula a column, each
 filling its column down from the costing (`setup.costing_items`), a line
@@ -155,5 +159,3 @@ centre sheet it was taken from.
 - A second run that brings over only what changed on the old site since the
   first. It is safe to run again, but it only adds what is missing; it
   doesn't follow a record edited on the old site after it was brought over.
-- The costing sheet behind a quotation. Until OneSheet, the sheet stays
-  outside One and only its rates come in.

@@ -193,27 +193,35 @@ def test_a_table_sheet_keeps_its_formulas():
 
 
 def test_a_branded_sheet_is_laid_out_under_the_company():
+	from types import SimpleNamespace
+
 	room = {}
 	_lifted(SHEET / "assist.py", ("letters",), room)
-	_lifted(SHEET / "style.py", ("ON_COLOUR", "WORKED", "LINE", "MUTED", "FIRST", "KINDS", "tint", "header", "number_format", "width", "table", "branded"), room)
+	heads = _lifted(SHEET.parent / "one" / "letter_heads.py", ("INK", "_rgb", "_luminance", "_contrast", "on"), {})
+	_lifted(SHEET / "style.py", ("WORKED", "LINE", "MUTED", "TOTALS", "FIRST", "KINDS", "META", "tint", "header", "number_format", "width", "table", "branded"), room)
 	room["frappe"] = None
+	room["letter_heads"] = SimpleNamespace(on=heads["on"])
 	assert room["tint"]("#000000", 0.1) == "#E6E6E6" and room["tint"]("#FFF", 0.5) == "#FFFFFF"
 	head = ["Item", "Description", "Qty", "Width", "Height", "Area", "Rate", "Total"]
 	line = {"F": "=D{r}*E{r}/1000000", "H": "=C{r}*G{r}"}
 	kinds = {"money": "GH", "count": "C", "size": "DE", "area": "F", "key": "H", "wide": "B"}
-	laid = room["branded"]("Costing", head, line, {"G": "TOTAL", "H": "=SUM(H{first}:H{last})"}, kinds, "#1F6FEB", "AED", [("Quotation", '=RECORD("name")')], 3)
-	rows, cells = laid["rows"], laid["formats"]["cells"]
-	assert rows["0"][0] == '=IMAGE(BRAND("logo"))' and rows["0"][2] == '=BRAND("name")', "the logo and the name on top"
-	assert laid["merge"]["masterMap"]["A1"] == {"rowSpan": 3, "colSpan": 2, "r": 0, "c": 0} and laid["merge"]["slaveMap"]["B3"] == "A1"
-	assert rows["4"] == head and cells["A5"]["backgroundColor"] == "#1F6FEB" and cells["A5"]["color"] == "#FFFFFF"
-	assert rows["5"][5] == "=D6*E6/1000000" and rows["7"][7] == "=C8*G8"
-	assert "8" not in rows, "a blank row before the totals"
-	assert cells["F6"]["backgroundColor"] == "#F5F5F4" and cells["H6"]["bold"], "worked out in grey, the key figure marked"
-	assert "D6" not in cells, "what is typed stays plain"
-	assert rows["9"][7] == "=SUM(H6:H8)" and cells["A10"]["borderTop"]["color"] == "#1F6FEB"
-	assert laid["formats"]["cols"]["7"] == {"numberFormat": "currency:AED:2;"} and laid["formats"]["cols"]["5"] == {"numberFormat": "number:us:3;"}, "worked out: a zero is blank"
-	assert laid["formats"]["cols"]["6"] == {"numberFormat": "currency:AED:2"}, "typed: a zero shows"
-	assert laid["view"]["freezeRows"] == 5 and laid["view"]["colW"]["1"] == 300
+	meta = [("Project", '=RECORD("project")', "Project"), ("Name", '=FIELD("Project",{meta0},"project_name")')]
+	laid = room["branded"]("Costing", head, line, {"G": "TOTAL", "H": "=SUM(H{first}:H)"}, kinds, "#1F6FEB", "AED", meta)
+	rows, looks = laid["rows"], laid["formats"]
+	assert rows["0"][0] == '=IMAGE(BRAND("logo"))' and rows["0"][1] == "Costing", "the logo, and what the sheet is for beside it"
+	assert laid["merge"]["masterMap"]["A1"] == {"rowSpan": 3, "colSpan": 1, "r": 0, "c": 0} and laid["merge"]["slaveMap"]["A3"] == "A1"
+	assert rows["0"][3] == "Project" and rows["0"][4] == '=RECORD("project")' and rows["1"][4] == '=FIELD("Project",E1,"project_name")', "a project picked, its fields read"
+	assert laid["validation"] == {"E1": {"type": "link", "doctype": "Project"}}
+	assert rows["3"][7] == "=SUM(H6:H)" and looks["rows"]["3"]["borderBottom"]["color"] == "#1F6FEB", "the totals over the header"
+	assert rows["4"] == head and looks["rows"]["4"]["backgroundColor"] == "#1F6FEB" and looks["rows"]["4"]["color"] == "#ffffff"
+	assert room["header"]("#FDE68A")["color"] == "#111827", "ink on a light colour"
+	assert "5" not in rows, "no line laid out before it is used"
+	assert laid["lines"] == {"from": 6, "key": "A", "formulas": line}
+	assert looks["cols"]["7"] == {"numberFormat": "currency:AED:2;", "backgroundColor": "#E9F1FD", "bold": True}, "the key figure marked"
+	assert looks["cols"]["5"] == {"numberFormat": "number:us:3;", "backgroundColor": "#F5F5F4"}, "worked out: grey, a zero is blank"
+	assert looks["cols"]["6"] == {"numberFormat": "currency:AED:2"}, "typed: a zero shows"
+	assert looks["rows"]["0"]["backgroundColor"] == "#FFFFFF", "the top stays white"
+	assert laid["view"]["freezeRows"] == 5 and laid["view"]["freezeCols"] == 1 and laid["view"]["colW"]["1"] == 300
 	cols = [{"fieldname": "name", "fieldtype": "Data"}, {"fieldname": "qty", "fieldtype": "Float"}, {"fieldname": "amount", "fieldtype": "Currency", "read_only": True}]
 	look = room["table"](cols, "#1F6FEB", "AED", {"Currency": 2, "Float": 3})
 	assert look["formats"]["rows"]["0"]["backgroundColor"] == "#1F6FEB"

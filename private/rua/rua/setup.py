@@ -241,11 +241,10 @@ def accessory(code, description, uom="Nos"):
 	return item(code, uom, "Accessories", stock=1, description=description)
 
 
-COSTING_LINES = 100
 #: Rua's costing sheets, one a family of aluminium systems, each a template
-#: for a quotation's items laid out under the company's brand
-#: (one_sheet/style.branded): the header, the formulas on every line, the
-#: totals. Nothing a job types (a line's item, sizes, prices, kilos) is in a
+#: for a quotation's items laid out under the company's logo
+#: (one_sheet/style.branded): the totals over the header, and the formulas
+#: each line gets once its item is typed. Nothing a job types (a line's item, sizes, prices, kilos) is in a
 #: template. `scale` turns a size into millimetres; `kinds` says which
 #: columns hold money, counts, sizes, areas and kilos, which are the key
 #: figures and which is wide.
@@ -266,7 +265,7 @@ COSTINGS = (
 			"L": "=H{r}+J{r}", "M": "=L{r}*0.74", "N": "=L{r}+M{r}", "O": "=CEILING(N{r},5)", "P": "=O{r}*C{r}", "R": "=A{r}",
 			"V": "=S{r}+T{r}+U{r}", "W": "=V{r}*1.05", "X": "=W{r}*C{r}", "Y": "=W{r}*1.13",
 		},
-		"totals": {"O": "TOTAL", "P": "=SUM(P{first}:P{last})"},
+		"totals": {"O": "TOTAL", "P": "=SUM(P{first}:P)"},
 		"kinds": {"money": "GHIJKLMNOPSTUVWXY", "count": "C", "size": "DE", "area": "F", "key": "OP", "wide": "B"},
 	},
 	{
@@ -287,8 +286,8 @@ COSTINGS = (
 			"U": "=(R{r}*24)+(S{r}*19)+T{r}", "V": "=U{r}*C{r}",
 		},
 		"totals": {
-			"A": "GRAND TOTALS", "C": "=SUM(C{first}:C{last})", "I": "=SUM(I{first}:I{last})", "K": "=SUM(K{first}:K{last})",
-			"M": "=SUM(M{first}:M{last})", "P": "=SUM(P{first}:P{last})", "V": "=SUM(V{first}:V{last})",
+			"A": "GRAND TOTALS", "C": "=SUM(C{first}:C)", "I": "=SUM(I{first}:I)", "K": "=SUM(K{first}:K)",
+			"M": "=SUM(M{first}:M)", "P": "=SUM(P{first}:P)", "V": "=SUM(V{first}:V)",
 		},
 		"kinds": {"money": "GHIJKLMNOPTUV", "count": "C", "size": "DE", "area": "F", "kilos": "RS", "key": "OP", "wide": "B"},
 	},
@@ -337,33 +336,35 @@ def costing_items(first: int = 6, scale: int = 1) -> dict:
 	}
 
 
-#: What each costing sheet shows of the quotation it is for, beside the brand.
+#: What each costing sheet shows beside the logo: the project, picked in the
+#: sheet or the quotation's own, what it is called and whose it is, and the
+#: quotation the sheet is for when it is one.
 COSTING_META = (
-	("Quotation", '=RECORD("name")'),
-	("Customer", '=RECORD("customer_name")'),
-	("Date", '=RECORD("transaction_date")'),
-	("Valid Till", '=RECORD("valid_till")'),
-	("Currency", '=RECORD("currency")'),
-	("Status", '=RECORD("status")'),
+	("Project", '=RECORD("project")', "Project"),
+	("Project Name", '=FIELD("Project",{meta0},"project_name")', None),
+	("Customer", '=IF(RECORD("customer_name")="",FIELD("Project",{meta0},"customer"),RECORD("customer_name"))', None),
+	("Quotation", '=RECORD("name")', None),
+	("Date", '=RECORD("transaction_date")', None),
+	("Valid Till", '=RECORD("valid_till")', None),
 )
 
 
 def costing_sheet(spec: dict, colour: str, currency: str) -> dict:
-	"""A costing sheet laid out under the company's brand. Pure but for the
+	"""A costing sheet laid out under the company's logo. Pure but for the
 	labels' translation."""
 	from onedesk.one_sheet import style
 
-	meta = [(_(label), formula) for label, formula in COSTING_META]
-	return style.branded(spec["title"], list(spec["head"]), spec["line"], spec["totals"], spec["kinds"], colour, currency, meta, COSTING_LINES)
+	meta = [(_(label), formula, doctype) for label, formula, doctype in COSTING_META]
+	return style.branded(spec["title"], list(spec["head"]), spec["line"], spec["totals"], spec["kinds"], colour, currency, meta)
 
 
 def costing():
 	"""Rua's costing sheets as templates for a quotation's items: the
-	estimators' columns under the company's brand, a curtain wall's formulas
-	on every line, and the items sheet whose formulas read it. One already
-	there and laid out is left as it is, so what somebody changed in it
-	stays; one made under its old name or before it was laid out is made
-	again in place."""
+	estimators' columns under the company's logo, a curtain wall's formulas
+	on each line as it is filled, and the items sheet whose formulas read
+	it. One already there and laid out is left as it is, so what somebody changed in it
+	stays; one made under its old name or before its lines grew as they are
+	filled is made again in place."""
 	from onedesk.one_sheet import api, storage, style, table, templates
 
 	brand = style.brand()
@@ -371,7 +372,7 @@ def costing():
 		held = frappe.db.get_value(
 			api.WORKBOOK, {"is_template": 1, "title": ["in", [spec["title"], spec.get("was") or spec["title"]]]}, ["name", "title", "file", "sheets_data"], as_dict=True
 		)
-		if held and held.title == spec["title"] and "Costing" in (json.loads(storage.decode_sheets_data(held.sheets_data) or "{}").get("formats") or {}):
+		if held and held.title == spec["title"] and "Costing" in (json.loads(storage.decode_sheets_data(held.sheets_data) or "{}").get("lines") or {}):
 			continue
 		said = costing_items(style.FIRST, spec["scale"])
 		cols = table.columns([one.as_dict() for one in frappe.get_meta("Quotation Item").fields], list(said))
@@ -383,6 +384,8 @@ def costing():
 			"sheet": {"v": 2, "current": "Costing", "sheets": {sheet: {"rows": lines}, "Costing": {"rows": laid["rows"]}}},
 			"formats": {"Costing": laid["formats"], sheet: look["formats"]},
 			"merge": {"Costing": laid["merge"]},
+			"validation": {"Costing": laid["validation"]},
+			"lines": {"Costing": laid["lines"]},
 			"view": {"Costing": laid["view"], sheet: {"colW": look["colW"], "rowH": look["rowH"], "freezeRows": 1, "hiddenCols": [0]}},
 		}
 		if not held:
