@@ -2614,6 +2614,13 @@ def oneai_a_conversation_its_cards_and_its_settings():
 		assert asked.call_args.kwargs["chose"]["model"] is None
 		run.reset_action(chat.CHAT)
 		assert not frappe.db.exists("AI Action Setting", {"action": chat.CHAT})
+		changed = run.set_job("chat", "gemini-flash")
+		assert chat.CHAT in changed and "summarise" in changed, changed
+		assert {frappe.db.get_value("AI Action Setting", {"action": one}, "model") for one in changed} == {"gemini-flash"}
+		assert run.set_job("chat", "gemini-flash") == [], "the same pick changes nothing"
+		assert sorted(run.set_job("chat", "")) == sorted(changed)
+		for one in changed:
+			run.reset_action(one)
 		domain = sorted(logos.known())[0]
 		with mock.patch("onedesk.one_ai.logos.requests.get", return_value=mock.Mock(content=b"\x89PNG", raise_for_status=lambda: None)):
 			frappe.cache.delete_value(f"one_ai_logo:{domain}")

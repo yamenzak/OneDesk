@@ -1353,6 +1353,90 @@ def _devices() -> dict:
 	return devices.for_settings()
 
 
+#: What a workspace chooses models for: a few jobs a person recognises, each
+#: the actions it is made of. A job's model applies to the actions of the
+#: kind it `needs`; a scan or a recording follows it where the model can.
+JOBS = (
+	{
+		"key": "chat",
+		"label": _lt("Chat", context="OneAI work"),
+		"about": _lt("The OneAI panel: answers, look-ups and summaries."),
+		"needs": "Text Generation",
+		"actions": ("chat", "find", "summarise", "chat_title"),
+	},
+	{
+		"key": "reading",
+		"label": _lt("Reading", context="OneAI work"),
+		"about": _lt("What arrives: mail, documents, scans and recordings OneIntake reads and acts on, CVs and grievances."),
+		"needs": "Text Generation",
+		"actions": (
+			"intake_look",
+			"intake_read",
+			"intake_place",
+			"intake_explain",
+			"intake_audit",
+			"intake_fill",
+			"intake_act",
+			"read_pages",
+			"read_sound",
+			"screen",
+			"grievance",
+			"transcribe",
+		),
+	},
+	{
+		"key": "writing",
+		"label": _lt("Writing", context="OneAI work"),
+		"about": _lt("Drafts you edit before they go anywhere: replies and interview notes."),
+		"needs": "Text Generation",
+		"actions": ("reply", "interview"),
+	},
+	{
+		"key": "building",
+		"label": _lt("Building", context="OneAI work"),
+		"about": _lt("Extensions, collections, print designs and workspace setup, where the result has to fit exactly."),
+		"needs": "Text Generation",
+		"actions": ("studio", "studio_review", "studio_mend", "print_design", "workspace_setup"),
+	},
+	{
+		"key": "search",
+		"label": _lt("Search", context="OneAI work"),
+		"about": _lt("Finding what is meant, in Ctrl+K, OneCloud, OneMail and OneAI."),
+		"needs": "Embedding",
+		"actions": ("embed",),
+	},
+)
+
+
+def job_of(action: str) -> dict | None:
+	return next((job for job in JOBS if action in job["actions"]), None)
+
+
+def _jobs(rows: list[dict]) -> list[dict]:
+	"""Each job with its model (one, several, or the default) and what its
+	actions used in the last thirty days."""
+	out = []
+	for job in JOBS:
+		mine = [one for one in rows if one["name"] in job["actions"]]
+		if not mine:
+			continue
+		picked = {one["model"] for one in mine if one["capability"] == job["needs"]}
+		out.append(
+			{
+				"key": job["key"],
+				"label": str(job["label"]),
+				"about": str(job["about"]),
+				"needs": job["needs"],
+				"model": next(iter(picked)) if len(picked) == 1 else None,
+				"mixed": len(picked) > 1,
+				"actions": [one["name"] for one in mine],
+				"credits": round(sum(one["credits"] for one in mine), 2),
+				"calls": sum(one["calls"] for one in mine),
+			}
+		)
+	return out
+
+
 def _oneai() -> dict:
 	"""Every action, what it runs on, what it used in the last thirty days, and
 	the models it could run on instead, from the account's catalogue. The
@@ -1410,7 +1494,7 @@ def _oneai() -> dict:
 	for offered in catalogue.values():
 		for model in offered:
 			model["logo"] = logos.url(model.get("logo_domain"))
-	return {"actions": rows, "catalogue": catalogue}
+	return {"actions": rows, "jobs": _jobs(rows), "catalogue": catalogue}
 
 
 def _intake() -> dict:

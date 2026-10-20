@@ -456,6 +456,10 @@ What operators set:
   (Google).
 - A workspace whose own pick is withdrawn falls back the same way instead of
   failing. An action nothing can run shows on Home.
+- Search by meaning needs an embedding model on sale. When none is offered,
+  the nightly sync offers the cheapest priced one and makes it the default
+  for Embedding (`catalogue.searchable`). It is the only model the sync puts
+  on sale by itself.
 
 The list sorts offered first, then priced, then needing review, then
 withdrawn. A model's page shows its markup, which actions use it by default

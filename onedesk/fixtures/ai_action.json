@@ -324,7 +324,7 @@
   "about": "Turns documents, mail and records into vectors, so a search finds what is meant rather than only the words typed.",
   "may_use_tools": 0,
   "product": "OneAI",
-  "instruction": ""
+  "instruction": "Turn each text into a vector, so a search can find what it means."
  },
  {
   "doctype": "AI Action",

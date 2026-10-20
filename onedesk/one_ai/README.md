@@ -97,8 +97,18 @@ the model the workspace set for chat. Only administrators can choose another,
 unless an administrator turns on **Allow Model Choice** for the Chat
 action. Your choice applies only to your own conversations.
 
-Administrators set each action's model and extra instructions under OneAI ›
-**Actions**. One's guide covers it under OneAI Actions, for the Workspace.
+Administrators pick models under Workspace Settings › OneAI › **Models**, for
+five kinds of work: **Chat**, **Reading** (what OneIntake and OneHR read),
+**Writing** (drafts you edit), **Building** (extensions, print designs,
+workspace setup) and **Search**. Each list marks models **Fast**, **Balanced**
+or **Best** by price. One pick applies to every action of that kind the model
+can run; a scan or a recording keeps a model that can read it. **Show Each
+Action** opens the full list, where one action can have its own model and
+extra instructions. One's guide covers it under OneAI Actions, for the
+Workspace.
+
+Search needs no choice: when no search model is on sale, the account puts the
+cheapest one on sale itself.
 
 ## Credits
 

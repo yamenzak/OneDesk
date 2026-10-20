@@ -2520,18 +2520,41 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const params = frappe.utils.get_query_params();
 		const only = params.product || null;
 		const rows = (data.actions || []).filter((one) => !only || one.product === only);
+		const each = Boolean(only || params.action);
 		this.page.add_inner_button(__("Knowledge"), () => frappe.set_route("List", "AI Knowledge"));
 		this.page.add_inner_button(__("Credit Usage"), () => frappe.set_route("query-report", "AI Credits", { by: "Action" }));
 		const note = only
 			? __("Showing {0} actions only.", [only])
 			: "";
 		this.$content.html(
-			onedesk.shell.section(
+			`${only ? "" : onedesk.shell.section(__("Models"), '<div data-list="jobs"></div>', __("Pick a model for each kind of work. Default is the one One recommends."))}${onedesk.shell.section(
 				__("Actions"),
 				`${only ? `<div class="one-shell-note"><a class="one-record-link" data-all>${esc(__("Show All Actions"))}</a></div>` : ""}<div data-list="actions"></div>`,
 				note
-			)
+			)}`
 		);
+		const $each = this.$content.find('[data-list="actions"]').closest(".one-shell-section");
+		if (!only) {
+			$each.toggle(each);
+			this.$content
+				.find('[data-list="jobs"]')
+				.after(`<div class="one-shell-note"><a class="one-record-link" data-each>${esc(each ? __("Hide Each Action") : __("Show Each Action"))}</a></div>`);
+			this.$content.find("[data-each]").on("click", (event) => {
+				$each.toggle();
+				$(event.currentTarget).text($each.is(":visible") ? __("Hide Each Action") : __("Show Each Action"));
+			});
+			onedesk.shell.table(this.$content.find('[data-list="jobs"]'), {
+				rows: data.jobs || [],
+				icon: "sparkles",
+				empty: __("No actions"),
+				columns: [
+					{ label: __("Work"), render: (job) => `<div>${esc(job.label)}</div><div class="one-shell-quiet">${esc(job.about)}</div>` },
+					{ label: __("Model"), render: (job) => Settings.job_model_html(data.catalogue, job) },
+					{ label: __("Last 30 Days"), render: (job) => Settings.used_html(job) },
+				],
+				open: (job) => this.job_dialog(job, data),
+			});
+		}
 		this.$content.find("[data-all]").on("click", () => {
 			frappe.set_route("workspace-settings", { section: "oneai" });
 			this.open("oneai");
@@ -2550,13 +2573,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 						}`,
 				},
 				{ label: __("Model"), render: (one) => Settings.model_html(Settings.model_of(data.catalogue, one)) },
-				{
-					label: __("Last 30 Days"),
-					render: (one) =>
-						one.calls
-							? `<span title="${esc(__("{0} calls", [one.calls]))}">${esc(__("{0} credits", [format_number(one.credits, null, one.credits < 10 ? 2 : 0)]))}</span>`
-							: `<span class="text-muted">${esc(__("Not used"))}</span>`,
-				},
+				{ label: __("Last 30 Days"), render: (one) => Settings.used_html(one) },
 			],
 			open: (one) => this.action_dialog(one, data.catalogue),
 		});
@@ -2564,6 +2581,90 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			const one = rows.find((row) => row.name === params.action);
 			if (one) this.action_dialog(one, data.catalogue);
 		}
+	}
+
+	static used_html(one) {
+		const esc = frappe.utils.escape_html;
+		return one.calls
+			? `<span title="${esc(__("{0} calls", [one.calls]))}">${esc(__("{0} credits", [format_number(one.credits, null, one.credits < 10 ? 2 : 0)]))}</span>`
+			: `<span class="text-muted">${esc(__("Not used"))}</span>`;
+	}
+
+	static job_model_html(catalogue, job) {
+		if (job.mixed) return frappe.ui.badge.html({ label: __("Mixed"), theme: "orange" });
+		return Settings.model_html(Settings.model_of(catalogue, { capability: job.needs, model: job.model }));
+	}
+
+	/** Fast, Balanced or Best by what a model costs against the others on offer. */
+	static tiers(offered) {
+		const priced = offered.filter((m) => m.read != null && m.written != null);
+		const out = {};
+		if (priced.length < 3) return out;
+		const ranked = [...priced].sort((a, b) => a.read + a.written - (b.read + b.written));
+		ranked.forEach((m, at) => {
+			const third = Math.floor((at * 3) / ranked.length);
+			out[m.name] = [__("Fast"), __("Balanced"), __("Best")][third];
+		});
+		return out;
+	}
+
+	job_dialog(job, data) {
+		const esc = frappe.utils.escape_html;
+		const offered = ((data.catalogue || {})[job.needs] || []).slice();
+		const tiers = Settings.tiers(offered);
+		const cost = (m) => (m.read || 0) + (m.written || 0);
+		offered.sort((a, b) => cost(a) - cost(b));
+		const fallback = offered.find((m) => m.default);
+		const covered = (data.actions || []).filter((one) => job.actions.includes(one.name) && one.capability === job.needs);
+		const options = [
+			{ value: "", label: fallback ? __("Default: {0}", [fallback.label]) : __("Default") },
+			...offered.map((m) => ({ value: m.name, label: `${m.label} · ${m.maker}${tiers[m.name] ? ` (${tiers[m.name]})` : ""}` })),
+		];
+		const dialog = new frappe.ui.Dialog({
+			title: job.label,
+			fields: [
+				{ fieldname: "about", fieldtype: "HTML", options: `<div class="one-shell-quiet">${esc(job.about)}</div>` },
+				{
+					fieldname: "model",
+					fieldtype: "Select",
+					label: __("Model"),
+					options,
+					default: job.model || "",
+					onchange: () => dialog.fields_dict.picked.$wrapper.html(Settings.model_detail(offered.find((m) => m.name === dialog.get_value("model")) || fallback)),
+				},
+				{ fieldname: "picked", fieldtype: "HTML" },
+				{
+					fieldname: "covers",
+					fieldtype: "HTML",
+					options: `<div class="one-shell-quiet">${esc(
+						`${job.mixed ? `${__("Its actions use different models now. Saving gives this one to all of them.")} ` : ""}${__("Used for {0}.", [
+							covered.map((one) => one.label).join(", "),
+						])}`
+					)}</div>`,
+				},
+			],
+			primary_action_label: __("Save"),
+			primary_action: async (values) => {
+				await frappe.xcall("onedesk.one_ai.run.set_job", { job: job.key, model: values.model || "" });
+				dialog.hide();
+				frappe.show_alert({ message: __("Saved."), indicator: "green" });
+				this.refresh();
+			},
+		});
+		dialog.fields_dict.picked.$wrapper.html(Settings.model_detail(offered.find((m) => m.name === job.model) || fallback));
+		dialog.show();
+	}
+
+	static model_detail(m) {
+		const esc = frappe.utils.escape_html;
+		if (!m) return "";
+		const cost =
+			m.read != null && m.written != null
+				? __("About {0} credits per 1,000 words read and {1} per 1,000 written.", [format_number(m.read, null, 2), format_number(m.written, null, 2)])
+				: __("Priced per use.");
+		return `<div class="os-ai-picked">${Settings.model_html({ ...m, chosen: true })}<div class="one-shell-quiet">${esc(
+			__("Made by {0}, run by {1}.", [m.maker, String(m.company || "").replace(/\.$/, "")])
+		)} ${esc(cost)}</div></div>`;
 	}
 
 	static model_of(catalogue, one) {
@@ -2601,17 +2702,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			{ value: "", label: fallback ? __("Default: {0}", [fallback.label]) : __("Default") },
 			...offered.map((m) => ({ value: m.name, label: `${m.label} · ${m.maker}` })),
 		];
-		const describe = (name) => {
-			const m = offered.find((x) => x.name === name) || fallback;
-			if (!m) return "";
-			const cost =
-				m.read != null && m.written != null
-					? __("About {0} credits per 1,000 words read and {1} per 1,000 written.", [format_number(m.read, null, 2), format_number(m.written, null, 2)])
-					: __("Priced per use.");
-			return `<div class="os-ai-picked">${Settings.model_html({ ...m, chosen: true })}<div class="one-shell-quiet">${esc(
-				__("Made by {0}, run by {1}.", [m.maker, String(m.company || "").replace(/\.$/, "")])
-			)} ${esc(cost)}</div></div>`;
-		};
+		const describe = (name) => Settings.model_detail(offered.find((x) => x.name === name) || fallback);
 		const dialog = new frappe.ui.Dialog({
 			title: one.label,
 			fields: [

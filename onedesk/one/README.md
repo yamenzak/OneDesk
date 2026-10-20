@@ -1730,9 +1730,22 @@ addresses behind the workspace's own address stay the same.
 
 ### OneAI Actions, for the Workspace
 
-**Actions**, under OneAI in the sidebar, lists everything OneAI does in this
-workspace and the model each action uses. Only administrators see and change
-it.
+**Actions**, under OneAI in the sidebar, is where the workspace picks its
+models. Only administrators see and change it.
+
+**Models** lists five kinds of work: Chat, Reading, Writing, Building and
+Search. Each row shows its model and the credits it used in the last 30 days.
+**Mixed** means its actions were given different models one by one.
+
+- Click a row to pick a model. The list goes from cheapest to dearest and
+  marks each **Fast**, **Balanced** or **Best**. **Default** is the one One
+  recommends. Saving gives the model to every action of that kind that can
+  run on it, and the other administrators hear about it once.
+- Search usually needs no choice: One picks the cheapest search model.
+- **Show Each Action** opens the full list below, for one action that needs
+  something different.
+
+In the full list:
 
 - Each action shows a badge for its product (OneAI, OneIntake, OneHR,
   OneMail), a one-line description, its model with the maker's logo, and the

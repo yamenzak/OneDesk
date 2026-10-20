@@ -431,6 +431,7 @@ No doctypes yet.
 * `onedesk.one_ai.run.refuse`
 * `onedesk.one_ai.run.reset_action`
 * `onedesk.one_ai.run.set_action`
+* `onedesk.one_ai.run.set_job`
 * `onedesk.one_ai.run.took`
 * `onedesk.one_ai.run.tools`
 * `onedesk.one_ai.run.try_it`

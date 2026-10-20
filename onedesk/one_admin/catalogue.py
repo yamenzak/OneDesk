@@ -26,12 +26,34 @@ AT_A_TIME = 100
 
 
 def nightly() -> None:
-	"""Catch up on what the providers did while nobody was looking."""
+	"""Catch up on what the providers did while nobody was looking. Only the
+	account keeps a catalogue."""
+	if not site.is_admin():
+		return
 	for provider in PAGES:
 		try:
 			sync(provider)
 		except Exception:
 			frappe.log_error(f"catalogue sync: {provider}")
+	searchable()
+
+
+def searchable() -> str | None:
+	"""Search by meaning needs one embedding model on sale, and it is the one
+	kind nobody chooses between: when none is offered, the cheapest one that
+	could be priced is put on sale and made the default. Every other model
+	still waits for an operator."""
+	site.require_admin()
+	sold = {"capability": "Embedding", "status": "Priced"}
+	if frappe.db.exists("AI Model", {**sold, "offered": 1}):
+		return None
+	rows = frappe.get_all("AI Model", filters=sold, fields=["name", "input_per_million"])
+	rows = [one for one in rows if one.input_per_million]
+	if not rows:
+		return None
+	cheapest = min(rows, key=lambda one: (one.input_per_million, one.name)).name
+	frappe.db.set_value("AI Model", cheapest, {"offered": 1, "default_for": "Embedding"})
+	return cheapest
 
 
 def sync(provider: str) -> dict:

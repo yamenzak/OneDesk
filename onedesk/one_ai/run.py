@@ -472,6 +472,49 @@ def set_action(
 
 
 @frappe.whitelist(methods=["POST"])
+def set_job(job: str, model: str | None = None) -> list[str]:
+	"""One model for every action in a job that can run on it, keeping what
+	each adds; the other administrators hear about it once. Empty is back to
+	One's pick. The actions it changed."""
+	from onedesk.one.settings import JOBS
+
+	roles.require()
+	held = next((one for one in JOBS if one["key"] == job), None)
+	if not held:
+		frappe.throw(frappe._("There is no job called {0}.").format(job))
+	actions = frappe.get_all(
+		"AI Action", filters={"name": ("in", held["actions"]), "capability": held["needs"]}, pluck="name"
+	)
+	changed = []
+	for action in actions:
+		name = frappe.db.get_value("AI Action Setting", {"action": action}, "name")
+		setting = frappe.get_doc("AI Action Setting", name) if name else frappe.new_doc("AI Action Setting")
+		if (setting.model or None) == (model or None):
+			continue
+		setting.action = action
+		setting.model = model or None
+		setting.save() if name else setting.insert()
+		changed.append(action)
+	if changed:
+		_told_job(str(held["label"]), model)
+	return changed
+
+
+def _told_job(label: str, model: str | None) -> None:
+	"""The other administrators hear once that a job's model changed."""
+	from onedesk.one.account import _administrators
+	from onedesk.one_ai import tell
+
+	people = _administrators()
+	for user in people:
+		frappe.publish_realtime("one_oneai", {"job": label}, user=user, after_commit=True)
+	others = [one for one in people if one != frappe.session.user]
+	if others:
+		said = frappe._("the model to {0}").format(_model_name(model)) if model else frappe._("the model back to the default")
+		tell.action_changed(others, label, [said])
+
+
+@frappe.whitelist(methods=["POST"])
 def reset_action(action: str) -> dict:
 	"""Back to what One picked: the default model and nothing added."""
 	roles.require()
