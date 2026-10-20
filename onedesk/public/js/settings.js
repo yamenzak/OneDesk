@@ -2527,7 +2527,16 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			? __("Showing {0} actions only.", [only])
 			: "";
 		this.$content.html(
-			`${only ? "" : onedesk.shell.section(__("Models"), '<div data-list="jobs"></div>', __("Pick a model for each kind of work. Default is the one One recommends."))}${onedesk.shell.section(
+			`${
+				only
+					? ""
+					: onedesk.shell.section(
+							__("Models"),
+							'<div data-list="jobs"></div>',
+							__("Pick a model for each kind of work. Default is the one One recommends."),
+							onedesk.shell.button(each ? __("Hide Each Action") : __("Show Each Action"), { "data-each": "1" }, "subtle", "list")
+					  )
+			}${onedesk.shell.section(
 				__("Actions"),
 				`${only ? `<div class="one-shell-note"><a class="one-record-link" data-all>${esc(__("Show All Actions"))}</a></div>` : ""}<div data-list="actions"></div>`,
 				note
@@ -2536,12 +2545,9 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const $each = this.$content.find('[data-list="actions"]').closest(".one-shell-section");
 		if (!only) {
 			$each.toggle(each);
-			this.$content
-				.find('[data-list="jobs"]')
-				.after(`<div class="one-shell-note"><a class="one-record-link" data-each>${esc(each ? __("Hide Each Action") : __("Show Each Action"))}</a></div>`);
 			this.$content.find("[data-each]").on("click", (event) => {
 				$each.toggle();
-				$(event.currentTarget).text($each.is(":visible") ? __("Hide Each Action") : __("Show Each Action"));
+				$(event.currentTarget).find(".es-button__label").text($each.is(":visible") ? __("Hide Each Action") : __("Show Each Action"));
 			});
 			onedesk.shell.table(this.$content.find('[data-list="jobs"]'), {
 				rows: data.jobs || [],
