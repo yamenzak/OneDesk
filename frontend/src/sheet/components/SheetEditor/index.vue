@@ -76,6 +76,7 @@
         <Badge v-if="protectionNotice" theme="gray" variant="subtle" size="sm" :label="protectionNotice" :tooltip="protectionNotice" />
         <!-- One: why the record refused its table (one_sheet/table.py). -->
         <Badge v-if="tableNotice" theme="orange" variant="subtle" size="sm" class="sn-table-notice" :label="tableNotice" :tooltip="tableNotice" />
+        <Button v-if="tableMissing && canWrite" size="sm" :loading="makingMissing" @click="makeMissing">{{ __('Create Them') }}</Button>
         <!-- View-only indicator — shown up front so a viewer knows they can't
              edit before they try. Neutral gray (not an error) because read
              access is expected, not a failure. Uses the Frappe UI Badge so it
@@ -838,6 +839,7 @@
 
     <!-- Named ranges dialog -->
     <!-- One: templates, and the table's column map (one_sheet/templates.py, table.py). -->
+    <AddSheetsDialog v-model="addSheetsOpen" :bound="bound" @add="addTemplateSheets" />
     <TemplateDialog v-model="templateOpen" :workbook="props.id" :name="currentTitle" :bound="bound" @saved="onTemplateSaved" />
     <NamedRangesDialog
       v-model="namedRangesDialogOpen"
@@ -1121,6 +1123,8 @@
       </div>
     </div>
 
+    <LinkSearch v-if="linkPanel.open" :key="linkPanel.id + linkPanel.typing" :doctype="linkPanel.doctype" :query="linkPanel.query" :typing="linkPanel.typing"
+                :x="linkPanel.x" :y="linkPanel.y" :w="linkPanel.w" @pick="pickLink" @close="linkPanel.open = false; canvasRef?.focus?.()" />
     <!-- Validation dropdown panel -->
     <div v-if="dropdownPanel.open" class="sn-dropdown-panel"
          :style="{ left: dropdownPanel.x + 'px', top: dropdownPanel.y + 'px', minWidth: dropdownPanel.w + 'px' }">
@@ -1323,6 +1327,8 @@ import { createNamedRanges }   from '../../engine/named-ranges.js'
 import { getFunctionNames }    from '../../engine/formula.js'
 import NamedRangesDialog       from './NamedRangesDialog.vue'
 import { focused } from '../../shim/focus.js' // One: focus inside the island's shadow root
+import LinkSearch              from '../../shim/LinkSearch.vue' // One: a link column's records
+import AddSheetsDialog         from '../../shim/AddSheetsDialog.vue' // One: a template's sheets into this workbook
 import TemplateDialog          from '../../shim/TemplateDialog.vue' // One: templates
 import { useSmartFill }        from './useSmartFill.js'
 import { cellHistory as fetchCellHistory } from '../../services/versions.js'
@@ -1918,6 +1924,7 @@ const fileDropdownOptions = computed(() => [
   // One: start others from this workbook.
   { group: __('Template'), options: [
     { label: __('Save as Template'), icon: 'lucide-layout-template', onClick: () => { templateOpen.value = true } },
+    ...(!readOnly.value ? [{ label: __('Add Sheets From a Template'), icon: 'lucide-copy-plus', onClick: () => { addSheetsOpen.value = true } }] : []),
   ]},
   // Only shown to admins — gated server-side via the boot flag so non-admins
   // never see a settings entry they can't use.
@@ -1928,8 +1935,48 @@ const fileDropdownOptions = computed(() => [
     : []),
 ])
 
-// One: templates.
+// One: templates, and adding a template's sheets to this workbook, each
+// under its own name or with a number after it when that is taken.
 const templateOpen = ref(false)
+const addSheetsOpen = ref(false)
+function addTemplateSheets(sheets) {
+  let last = ''
+  for (const one of sheets || []) {
+    let name = one.name, n = 1
+    while (sheet.getSheetNames().includes(name)) name = `${one.name} ${++n}`
+    last = _addSheet(name)
+    sheet.batchSetCells(one.cells || {}, name, { replace: true })
+  }
+  if (!last) return
+  history.push()
+  isDirty.value = true
+  switchSheet(last)
+}
+
+// One: make the records the table names that aren't there yet, then save
+// again so the record takes the sheet.
+const makingMissing = ref(false)
+async function makeMissing() {
+  makingMissing.value = true
+  const failed = []
+  try {
+    for (const [doctype, values] of Object.entries(tableMissing.value || {})) {
+      const said = await call('onedesk.one_sheet.table.make_missing', { name: props.id, doctype, values: JSON.stringify(values) })
+      for (const [value, why] of Object.entries(said.failed || {})) failed.push(`${value}: ${why}`)
+    }
+  } catch (error) {
+    failed.push(error?.message || __('They couldn’t be made.'))
+  } finally {
+    makingMissing.value = false
+  }
+  if (failed.length) {
+    tableNotice.value = __('Not made: {0}', [failed.join('; ')])
+    return
+  }
+  tableMissing.value = null
+  isDirty.value = true
+  await _doAutoSave()
+}
 function onTemplateSaved(made) {
   window.frappe?.show_alert?.({ message: __('Saved as a template: {0}', [made.title]), indicator: 'green' })
 }
@@ -2470,7 +2517,7 @@ const textWrapDropdownOptions = computed(() => [
 // fallbacks only cover the impossible window where someone saves before
 // useSheetTabs has finished initializing.
 let _sheetTabs = null
-const { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, bound } =
+const { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableMissing, bound } =
   usePersistence({
     sheet, formats, merge, comments, validation, protection, condFormat, sortFilter, slicers, pivot,
     charts, namedRanges,
@@ -2482,6 +2529,31 @@ const { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCre
     currentTitle, emit,
     onTable: () => { grid?.render(); isDirty.value = true }, // One: the record's cells came back
   })
+
+// One: the record changed on its form while this is open: its table's sheet
+// is drawn again in place, formulas kept, unless there are edits not yet
+// saved, which the next save reports instead.
+let _tableWatch = null
+watch(bound, (now) => {
+  const rt = window.frappe?.realtime
+  if (!rt?.on || !now || _tableWatch) return
+  rt.doc_subscribe?.(now.doctype, now.name)
+  _tableWatch = async (said) => {
+    if (said?.workbook !== props.id || isDirty.value) return
+    const drawn = await call('onedesk.one_sheet.table.redrawn', { name: props.id })
+    if (!drawn?.sheet) return
+    sheet.batchSetCells(drawn.cells || {}, drawn.sheet, { replace: true })
+    tableNotice.value = ''
+    tableMissing.value = null
+    if (sheet.getCurrentSheet() === drawn.sheet) grid?.render()
+  }
+  rt.on('one_table_changed', _tableWatch)
+})
+onBeforeUnmount(() => {
+  if (!_tableWatch) return
+  window.frappe?.realtime?.off?.('one_table_changed', _tableWatch)
+  if (bound.value) window.frappe?.realtime?.doc_unsubscribe?.(bound.value.doctype, bound.value.name)
+})
 
 // View-only mode: the loaded sheet is shared with the current user at read
 // (not write) permission. Everything that mutates the doc keys off this — the
@@ -3209,6 +3281,7 @@ function _setupGridInstance() {
       }
     },
     onCommit(id, value) {
+      linkPanel.open = false   // One
       // Cross-sheet path: in-cell overlay was editing on `homeSheet`, user
       // hopped over to another sheet to pick a range, then pressed Enter.
       // Write the formula back to the home sheet and snap the canvas there
@@ -3293,8 +3366,9 @@ function _setupGridInstance() {
       isDirty.value = true
       recomputePivotsForSheet(writeSheet)
     },
-    onInput(id, value)  { formulaValue.value = value },
+    onInput(id, value)  { formulaValue.value = value; _linkUnder(id, value) },
     onCancel(id)        {
+      linkPanel.open = false   // One
       const homeSheet = editingHomeSheet.value
       if (homeSheet && homeSheet !== sheet.getCurrentSheet()) {
         switchSheet(homeSheet)  // full reset so canvas snaps back to home cell
@@ -4681,7 +4755,35 @@ function removeValidation() {
   isDirty.value = true
 }
 
+// One: a link column searches the records it can name, from a click or as
+// the cell is typed in; a pick is written like a dropdown's.
+const linkPanel = reactive({ open: false, id: '', doctype: '', query: '', typing: false, x: 0, y: 0, w: 120 })
+function _linkUnder(id, value) {
+  const rule = validation.get(id, sheet.getCurrentSheet())
+  if (rule?.type !== 'link' || String(value || '').startsWith('=') || !grid) { linkPanel.open = false; return }
+  const at = parseCellId(id), rect = canvasRef.value?.getBoundingClientRect()
+  if (!at || !rect) return
+  const cell = grid.getCellRect(at.row, at.col)
+  Object.assign(linkPanel, { open: true, id, doctype: rule.doctype, query: String(value || ''), typing: true,
+    x: rect.left + cell.x, y: rect.top + cell.y + cell.height, w: cell.width })
+}
+function pickLink(value) {
+  const id = linkPanel.id, sn = sheet.getCurrentSheet()
+  linkPanel.open = false
+  if (grid?.isEditing()) { grid.commitWith(value); return }
+  if (_cellBlocked(id, sn)) return
+  const before = { [id]: sheet.getCell(id, sn) }
+  sheet.setCell(id, value)
+  _pushEditOp(sn, before, 'Edit cell')
+  recomputePivotsForSheet(sn)
+  grid?.render()
+}
+
 function openDropdown(id, rule, pos = {}) {
+  if (rule?.type === 'link') {
+    Object.assign(linkPanel, { open: true, id, doctype: rule.doctype, query: '', typing: false, x: pos.x ?? 0, y: pos.y ?? 0, w: pos.w ?? 120 })
+    return
+  }
   if (rule?.type !== 'list') return
   dropdownPanel.id      = id
   dropdownPanel.options = rule.options

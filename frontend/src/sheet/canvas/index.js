@@ -558,7 +558,7 @@ export function createGrid(canvas, { onSelect, onCommit, onInput, onCancel, getF
 
   function _pickTarget() {
     const ae = focused()
-    if (!ae || ae.tagName !== 'INPUT') return null
+    if (!ae || (ae.tagName !== 'INPUT' && ae.tagName !== 'TEXTAREA')) return null // One: the cell's own editor is a textarea
     if (typeof ae.value !== 'string' || !ae.value.startsWith('=')) return null
     return ae
   }
@@ -1322,7 +1322,9 @@ export function createGrid(canvas, { onSelect, onCommit, onInput, onCancel, getF
     // so the click still falls through to select the cell / start a range-drag;
     // a drag or a double-click (which edits) cancels the open. Modifier-clicks
     // (shift/ctrl/cmd range ops) and non-list rules never open a dropdown.
-    if (vrule?.type === 'list' && canEdit() && e.detail === 1 &&
+    // One: a link cell searches from its caret only, so a click still selects it to type in.
+    const onCaret = vrule?.type === 'link' && (e.clientX - rect.left) / _zoom >= geo.colX(h.c) + geo.cw(h.c) - 24
+    if ((vrule?.type === 'list' || onCaret) && canEdit() && e.detail === 1 &&
         !e.shiftKey && !e.metaKey && !e.ctrlKey) {
       const x = geo.colX(h.c), y = geo.rowY(h.r), w = geo.cw(h.c)
       _pendingListOpen = {
@@ -2044,6 +2046,8 @@ export function createGrid(canvas, { onSelect, onCommit, onInput, onCancel, getF
     // CSS px. Cached in _applyCanvasSize, so reading it is reflow-free — used by
     // DOM overlays to clamp themselves to what's on screen.
     getViewportSize: () => ({ w: _viewportW, h: _viewportH }),
+    // One: end an edit with a value picked from the link search under it.
+    commitWith: v => { if (!editing) return; overlay.el.value = v; _commitAndHide() },
     setDiffOverlay, setActiveDiffSheet,
     autoFitCol, autoFitRow, autoGrowRowFor,
     expandRows, getTotalRows, isNearBottom,

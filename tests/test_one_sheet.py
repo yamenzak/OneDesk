@@ -92,7 +92,7 @@ def test_a_table_sheet_reads_back_as_the_table():
 	import html
 
 	room["html"] = html
-	names = ("NUMBER", "TEXT", "SHOWN", "MOST_COLUMNS", "MOST_ROWS", "SPARE", "LOCKED_TO", "MARK", "YES", "NO", "EPOCH")
+	names = ("NUMBER", "TEXT", "LONG", "SHOWN", "MOST_COLUMNS", "MOST_ROWS", "SPARE", "LOCKED_TO", "MARK", "YES", "NO", "EPOCH")
 	_lifted(SHEET / "table.py", (*names, "columns", "shown", "taken", "lined", "fingerprint", "_rule", "kept", "laid", "stored", "emptied", "placed", "read", "back"), room)
 	fields = [
 		{"fieldname": "item_code", "label": "Item", "fieldtype": "Link", "in_list_view": 1, "reqd": 1},
@@ -144,7 +144,7 @@ def test_a_table_sheet_keeps_its_formulas():
 
 	room = {"_": lambda text: text, "re": re, "html": html}
 	_lifted(SHEET / "assist.py", ("letters",), room)
-	names = ("NUMBER", "TEXT", "SHOWN", "MOST_COLUMNS", "MARK", "SPARE", "LOCKED_TO")
+	names = ("NUMBER", "TEXT", "LONG", "SHOWN", "MOST_COLUMNS", "MARK", "SPARE", "LOCKED_TO")
 	_lifted(SHEET / "table.py", (*names, "columns", "shown", "_rule", "kept", "laid", "stored", "emptied"), room)
 	fields = [
 		{"fieldname": "item_name", "label": "Item Name", "fieldtype": "Data", "in_list_view": 1},
@@ -153,6 +153,15 @@ def test_a_table_sheet_keeps_its_formulas():
 		{"fieldname": "rate", "label": "Rate", "fieldtype": "Currency", "in_list_view": 1},
 	]
 	assert [col["fieldname"] for col in room["columns"](fields)] == ["name", "item_name", "qty", "rate"], "formatted text only when asked for"
+	more = [
+		{"fieldname": "drawing", "label": "Drawing", "fieldtype": "Attach", "in_list_view": 1},
+		{"fieldname": "spec", "label": "Spec", "fieldtype": "Code", "in_list_view": 1},
+		{"fieldname": "supplier", "label": "Supplier", "fieldtype": "Link", "options": "Supplier", "in_list_view": 1},
+	]
+	cols = room["columns"](more, ["drawing", "spec", "supplier"])
+	assert [col["fieldname"] for col in cols] == ["name", "drawing", "spec", "supplier"] and cols[3]["link"] == "Supplier"
+	assert room["_rule"](cols[3]) == {"type": "link", "doctype": "Supplier"}, "a link column searches its records"
+	assert room["shown"]("<b>x</b>", "Code") == "<b>x</b>", "code is kept as it is written"
 	cols = room["columns"](fields, also=["description"])
 	assert [col["fieldname"] for col in cols] == ["name", "item_name", "qty", "rate", "description"]
 	lines = {

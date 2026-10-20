@@ -17,9 +17,12 @@ from frappe.utils import flt, strip_html
 from onedesk.one_sheet import api, storage
 from onedesk.one_sheet.assist import letters
 
-NUMBER = ("Int", "Float", "Currency", "Percent", "Rating")
-TEXT = ("Data", "Small Text", "Text", "Long Text", "Link", "Dynamic Link", "Read Only", "Phone", "Autocomplete")
-SHOWN = (*NUMBER, *TEXT, "Text Editor", "Select", "Check", "Date", "Datetime", "Time")
+NUMBER = ("Int", "Float", "Currency", "Percent", "Rating", "Duration")
+TEXT = ("Data", "Small Text", "Text", "Long Text", "Link", "Dynamic Link", "Read Only", "Phone", "Autocomplete", "Color", "Attach", "Attach Image")
+#: Long formatted text: a column only when the grid's gear picks it, shown
+#: and taken as plain text.
+LONG = ("Text Editor", "Code", "Markdown Editor", "HTML Editor")
+SHOWN = (*NUMBER, *TEXT, *LONG, "Select", "Check", "Date", "Datetime", "Time")
 
 MOST_COLUMNS, MOST_ROWS = 20, 1000
 
@@ -37,6 +40,9 @@ YES, NO = ("TRUE", "1", "YES", "Y"), ("FALSE", "0", "NO", "N", "")
 EPOCH = date(1899, 12, 30)
 SAVEPOINT = "one_sheet_table"
 
+#: Cache key of the record types some workbook has a table of.
+BOUND_KEY = "one_sheet_bound_doctypes"
+
 
 def columns(fields: list[dict], picked: list[str] | None = None, also: list[str] | None = None) -> list[dict]:
 	"""The hidden row id, then the table's columns as the form's grid shows
@@ -47,7 +53,7 @@ def columns(fields: list[dict], picked: list[str] | None = None, also: list[str]
 	usable = [
 		df
 		for df in fields
-		if df.get("fieldtype") in SHOWN and not df.get("hidden") and (df["fieldtype"] != "Text Editor" or df["fieldname"] in (picked or []) + (also or []))
+		if df.get("fieldtype") in SHOWN and not df.get("hidden") and (df["fieldtype"] not in LONG or df["fieldname"] in (picked or []) + (also or []))
 	]
 	by = {df["fieldname"]: df for df in usable}
 	if picked:
@@ -68,6 +74,7 @@ def columns(fields: list[dict], picked: list[str] | None = None, also: list[str]
 				"header": header,
 				"fieldtype": df["fieldtype"],
 				"options": [one for one in (df.get("options") or "").split("\n") if one] if df["fieldtype"] == "Select" else None,
+				"link": df.get("options") if df["fieldtype"] == "Link" else None,
 				"read_only": bool(df.get("read_only") or df["fieldtype"] == "Read Only" or (df.get("fetch_from") and not df.get("fetch_if_empty"))),
 			}
 		)
@@ -152,6 +159,8 @@ def fingerprint(docstatus: int, rows: list, cols: list[dict]) -> str:
 
 
 def _rule(col: dict) -> dict | None:
+	if col["fieldtype"] == "Link" and col.get("link"):
+		return {"type": "link", "doctype": col["link"]}
 	if col["fieldtype"] == "Select" and col.get("options"):
 		return {"type": "list", "options": col["options"], "message": _("Choose one from the list.")}
 	if col["fieldtype"] == "Check":
@@ -381,6 +390,7 @@ def open_table(doctype: str, name: str, field: str, template: str | None = None)
 	)
 	book.flags.ignore_permissions = True
 	book.insert()
+	frappe.cache.delete_value(BOUND_KEY)
 	file = frappe.get_doc(
 		{
 			"doctype": "File",
@@ -416,13 +426,50 @@ def refresh(name: str) -> None:
 	frappe.db.set_value(api.WORKBOOK, name, "sheets_data", storage.encode_sheets_data(json.dumps(data, default=str)), update_modified=False)
 
 
+def changed(doc, method=None) -> None:
+	"""doc_events: a record saved on its form tells the workbooks its table
+	is open in, which draw the table again in place. Its save from a
+	workbook tells nobody: that workbook already has it."""
+	if doc.flags.from_workbook or doc.doctype not in _bound_doctypes():
+		return
+	for book in frappe.get_all(api.WORKBOOK, filters={"bound_doctype": doc.doctype, "bound_name": doc.name}, pluck="name"):
+		frappe.publish_realtime("one_table_changed", {"workbook": book}, doctype=doc.doctype, docname=doc.name, after_commit=True)
+
+
+def _bound_doctypes() -> set:
+	held = frappe.cache.get_value(BOUND_KEY)
+	if held is None:
+		held = frappe.get_all(api.WORKBOOK, filters={"bound_doctype": ["is", "set"]}, distinct=True, pluck="bound_doctype")
+		frappe.cache.set_value(BOUND_KEY, held)
+	return set(held)
+
+
+@frappe.whitelist(methods=["POST"])
+def redrawn(name: str) -> dict:
+	"""The bound sheet drawn again from the record, as cells, for a workbook
+	that is open when the record changed on its form."""
+	api._may(name, "read")
+	refresh(name)
+	book = _held(name)
+	if not book or not book.bound_doctype:
+		return {"sheet": None, "cells": {}}
+	data = json.loads(storage.decode_sheets_data(book.sheets_data) or "{}")
+	cells = {
+		f"{letters(col)}{int(line) + 1}": value
+		for line, values in stored(data, book.bound_sheet).items()
+		for col, value in enumerate(values or [])
+		if value not in (None, "")
+	}
+	return {"sheet": book.bound_sheet, "cells": cells}
+
+
 def bound(name: str) -> dict | None:
 	"""What get_sheet tells the editor about the record behind it: the
 	sheet and the record."""
-	book = frappe.db.get_value(api.WORKBOOK, name, ["bound_doctype", "bound_name", "bound_sheet"], as_dict=True)
+	book = frappe.db.get_value(api.WORKBOOK, name, ["bound_doctype", "bound_name", "bound_field", "bound_sheet"], as_dict=True)
 	if not book or not book.bound_doctype:
 		return None
-	return {"sheet": book.bound_sheet, "doctype": book.bound_doctype, "name": book.bound_name}
+	return {"sheet": book.bound_sheet, "doctype": book.bound_doctype, "name": book.bound_name, "field": book.bound_field}
 
 
 def apply(name: str, sent: str) -> dict:
@@ -452,8 +499,12 @@ def apply(name: str, sent: str) -> dict:
 		return {"ok": False, "message": wrong[0] if len(wrong) == 1 else _("{0} (and {1} more)").format(wrong[0], len(wrong) - 1)}
 	if len(rows) > MOST_ROWS:
 		return {"ok": False, "message": _("A table takes at most {0} rows from a workbook.").format(MOST_ROWS)}
+	gone = missing(_links(cols, doc.meta.get_field(book.bound_field).options), rows)
+	if gone:
+		return {"ok": False, "message": _gone(gone), "missing": gone}
 	if _changed(table, rows):
 		_put(doc, book.bound_field, table, rows)
+		doc.flags.from_workbook = True
 		frappe.db.savepoint(SAVEPOINT)
 		try:
 			doc.save()
@@ -472,6 +523,100 @@ def apply(name: str, sent: str) -> dict:
 	return {"ok": True, "cells": back(lines, at, rows, table, cols, mark)}
 
 
+def _links(cols: list[dict], child: str) -> dict:
+	"""The table's link columns and the record type each names."""
+	meta = frappe.get_meta(child)
+	out = {}
+	for col in cols[1:]:
+		df = meta.get_field(col["fieldname"])
+		if df and df.fieldtype == "Link" and df.options and not col["read_only"]:
+			out[col["fieldname"]] = df.options
+	return out
+
+
+def missing(links: dict, rows: list[dict]) -> dict:
+	"""The names the rows give in link columns that aren't records yet, by
+	record type."""
+	wanted = {}
+	for row in rows:
+		for field, doctype in links.items():
+			value = row["values"].get(field)
+			if value:
+				wanted.setdefault(doctype, set()).add(str(value))
+	out = {}
+	for doctype, values in wanted.items():
+		held = set(frappe.get_all(doctype, filters={"name": ["in", list(values)]}, pluck="name"))
+		gone = sorted(value for value in values if value not in held)
+		if gone:
+			out[doctype] = gone
+	return out
+
+
+def _gone(gone: dict) -> str:
+	said = [_("No {0} called {1}").format(_(doctype), ", ".join(values[:5]) + (" …" if len(values) > 5 else "")) for doctype, values in gone.items()]
+	return "; ".join(said)
+
+
+@frappe.whitelist(methods=["POST"])
+def make_missing(name: str, doctype: str, values: str | list) -> dict:
+	"""Make the records a table sheet names that aren't there yet, each from
+	its name alone, as a new record of that type would start. Answers the
+	ones made and why each of the others wasn't."""
+	api._may(name, "write")
+	book = _held(name)
+	child = book and book.bound_doctype and frappe.get_meta(book.bound_doctype).get_field(book.bound_field)
+	if not child or doctype not in _links(json.loads(book.bound_columns or "[]"), child.options).values():
+		frappe.throw(_("This table doesn't name records of that type."))
+	frappe.has_permission(doctype, "create", throw=True)
+	values = frappe.parse_json(values) if isinstance(values, str) else values
+	made, failed = [], {}
+	for value in [str(one).strip() for one in values or [] if str(one).strip()][:MOST_ROWS]:
+		if frappe.db.exists(doctype, value):
+			made.append(value)
+			continue
+		frappe.db.savepoint(SAVEPOINT)
+		try:
+			made.append(_made(doctype, value))
+		except Exception as error:
+			frappe.db.rollback(save_point=SAVEPOINT)
+			frappe.clear_messages()
+			failed[value] = strip_html(str(error)) or _("It couldn't be made.")
+	return {"made": made, "failed": failed}
+
+
+def _made(doctype: str, value: str) -> str:
+	"""A record of `doctype` called `value`: its name, and its title, set
+	from it."""
+	meta = frappe.get_meta(doctype)
+	doc = frappe.new_doc(doctype)
+	named = (meta.autoname or "").removeprefix("field:") if (meta.autoname or "").startswith("field:") else None
+	for field in {named, meta.title_field, "item_code" if doctype == "Item" else None, "item_name" if doctype == "Item" else None} - {None}:
+		if meta.get_field(field):
+			doc.set(field, value)
+	for df in meta.fields:
+		if df.reqd and df.fieldtype == "Link" and df.options and not doc.get(df.fieldname):
+			doc.set(df.fieldname, _default(df.options, df.fieldname))
+	if not named:
+		doc.name = value
+		doc.flags.name_set = True
+	doc.insert()
+	return doc.name
+
+
+def _default(doctype: str, field: str) -> str | None:
+	"""What a required link starts as on a record made from its name: the
+	user's default for the field, the top of a tree, or the only one."""
+	said = frappe.defaults.get_user_default(field)
+	if said:
+		return said
+	if frappe.get_meta(doctype).is_tree:
+		from frappe.utils.nestedset import get_root_of
+
+		return get_root_of(doctype)
+	only = frappe.get_all(doctype, pluck="name", limit=2)
+	return only[0] if len(only) == 1 else None
+
+
 def _refusal(error) -> str:
 	"""What the record said. A missing required field raises with field
 	names only; the words it showed are in the message log."""
@@ -487,8 +632,9 @@ def _differs(child, field: str, value) -> bool:
 	if isinstance(value, float | int) and not isinstance(value, bool):
 		precision = child.precision(field)
 		return flt(value, precision) != flt(held, precision)
-	if child.meta.get_field(field) and child.meta.get_field(field).fieldtype == "Text Editor":
-		return shown(held, "Text Editor") != shown(value, "Text Editor")
+	kind = child.meta.get_field(field).fieldtype if child.meta.get_field(field) else None
+	if kind in LONG:
+		return shown(held, kind) != shown(value, kind)
 	return str(held if held is not None else "") != str(value if value is not None else "")
 
 

@@ -90,6 +90,9 @@ export function createCellPainter(ctx, { cw, rh, colX, rowY }) {
         // it's a plain caret so you know it's a dropdown.
         if (has) _drawValidationChip(x, y, w, h, String(val), fmt, !invalid, rule)
         else     _drawDropdownArrow(x, y, w, h)
+      } else if (rule.type === 'link') {
+        // One: a link column searches its records; empty, it shows the caret.
+        if (!has) _drawDropdownArrow(x, y, w, h)
       } else if (rule.type === 'checkbox') {
         // Checkbox rule → a tickbox that owns the cell (the text pass skips
         // it). Empty reads as unchecked; a value that isn't TRUE/FALSE still

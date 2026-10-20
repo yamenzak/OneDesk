@@ -50,6 +50,33 @@ def listed(doctype: str | None = None, field: str | None = None, name: str | Non
 	return out
 
 
+@frappe.whitelist()
+@frappe.read_only()
+def sheets_of(template: str) -> list[dict]:
+	"""A template's sheets to add to a workbook already open, each by name
+	with its cells; a table's own sheet stays out, since a workbook has one."""
+	from onedesk.one_sheet import table
+	from onedesk.one_sheet.assist import letters
+
+	held = frappe.db.get_value(api.WORKBOOK, template, ["is_template", "bound_sheet", "sheets_data"], as_dict=True)
+	if not held or not held.is_template:
+		frappe.throw(_("That isn't a template."))
+	api._may(template, "read")
+	data = json.loads(storage.decode_sheets_data(held.sheets_data) or "{}")
+	out = []
+	for name in ((data.get("sheet") or {}).get("sheets") or {}):
+		if name == held.bound_sheet:
+			continue
+		cells = {
+			f"{letters(col)}{int(line) + 1}": value
+			for line, values in table.stored(data, name).items()
+			for col, value in enumerate(values or [])
+			if value not in (None, "")
+		}
+		out.append({"name": name, "cells": cells})
+	return out
+
+
 def data_of(template: str, doctype: str | None = None, field: str | None = None, sheet: str | None = None) -> tuple[dict, str | None, dict]:
 	"""A template's sheets for a new workbook, the name its table's sheet
 	goes by, and the formulas under that table's header by line and field.

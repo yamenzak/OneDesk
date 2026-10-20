@@ -94,19 +94,31 @@ it the first time, and those are the columns.
   them: `=Rates!B4`.
 - The header and the columns the record works out are locked. A list
   column offers its choices.
+- A column that names other records, such as the item, searches them: type
+  in the cell and the matches show under it, or click the arrow at its
+  right to search. A name that isn't a record yet is refused when the
+  record saves, with **Create Them** beside the reason: it makes those
+  records from their names and saves again.
 - When somebody changes the table on the form while the workbook is open,
-  the workbook stops sending and says so. Open it again from the record and
-  the first sheet is drawn again from the table; the other sheets stay.
+  the first sheet is drawn again in place, formulas kept. If you have
+  changes not yet saved, the workbook says the record changed instead; open
+  it again from the record to bring the change in.
 - Once the record is submitted, the first sheet can only be read.
 
-What a column takes: numbers, money and percentages; text; links to other
-records (checked when the record saves); lists (a dropdown); tick boxes
-(TRUE or FALSE); dates (2026-10-21), dates with a time, and times. Fields
-that hold formatted text, code, files or pictures don't become columns.
+What a column takes: numbers, money, percentages and durations; text;
+links to other records (checked when the record saves); lists (a
+dropdown); tick boxes (TRUE or FALSE); dates (2026-10-21), dates with a
+time, and times; colours; files and pictures, by their address. Formatted
+text, code and Markdown become columns only when they are picked on the
+form's table, and are shown and taken as plain text.
 Rules a record keeps only on its form, as it is being typed, don't run
 from a workbook; every rule it checks when it saves does.
 
 ## Templates
+
+**File › Add Sheets From a Template** adds a template's sheets to the
+workbook that is open, such as a costing sheet, beside the ones it has; a
+sheet whose name is taken gets a number after it.
 
 **File › Save as Template** keeps a copy of the workbook in OneCloud ›
 Workbook Templates, where everyone in the company can start from it; you,
@@ -148,9 +160,9 @@ whoever can open that folder. Somebody who may read it but not change it sees
 
 ## What is not built yet
 
-- A record's table changed on its form doesn't reach a workbook that is
-  already open; opening it again does.
-- Formatted text, code, attachments and pictures as columns.
+- A picture column shows the picture's address, not the picture.
+- A link column searches every record of its type, not only the ones the
+  form would offer for that field.
 
 ## Connections
 
@@ -271,6 +283,22 @@ the ids of new rows, the worked-out columns, what the record filled where
 the sheet was empty. The editor writes them through the engine, so
 co-editors see them too, and saves again; that save finds nothing to do.
 
+A link column's rule is `{type: "link", doctype}` (`_rule`); the editor
+draws its caret and opens `shim/LinkSearch.vue` on `search_link`. Before
+the record is saved, `missing` looks up every name the sheet gives in a
+link column and answers them by type instead of saving; `make_missing`
+makes each from its name alone (`_made`: the name field and title set to
+it, and a required link left empty set from the user's default, the top of
+a tree, or the only record there is), as the person, so their own right to
+make one is checked.
+
+A record saved anywhere but from the workbook (`doc.flags.from_workbook`)
+calls `changed` from `doc_events`, which publishes `one_table_changed` to
+the record's own realtime room, the one its form already listens on; the
+open editor asks `redrawn` for the bound sheet drawn again and writes it
+through the engine. Which record types have a workbook at all is cached
+(`BOUND_KEY`) so a save of anything else costs one cache read.
+
 The hidden header holds `fingerprint`, a hash of the table as the sheet
 last matched it (its rows, the shown values, and whether it is
 submitted). A sheet whose mark doesn't match the record is refused, so a
@@ -287,7 +315,8 @@ member read it and only its owner or an administrator change it.
 `template_for` and `template_field` name the table it is for, and
 `bound_sheet` and `bound_columns` the table's sheet and the headers it was
 drawn with (`bound_doctype` stays empty, so it is no record's workbook).
-`save_as` copies the workbook, the table's sheet `emptied` down to its
+`sheets_of` answers a template's sheets as cells for File › Add Sheets
+From a Template, without a table's own sheet. `save_as` copies the workbook, the table's sheet `emptied` down to its
 header and formulas; `listed` offers the ones that fit, none for a record
 whose table already has its workbook; `data_of` refuses a table's template
 for anything but that table, and answers the formulas by line and field

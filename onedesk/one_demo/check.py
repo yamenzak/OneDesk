@@ -5367,6 +5367,8 @@ def a_table_keeps_its_formulas():
 			data["sheet"]["sheets"]["Costing"] = {"rows": {"3": ["CW01", "Wall", "10"]}}
 			frappe.db.set_value(api.WORKBOOK, book, "sheets_data", storage.encode_sheets_data(json.dumps(data)))
 			made = templates.save_as(book, "Glazing costing")
+			assert [one["name"] for one in templates.sheets_of(made["name"])] == ["Costing"], "a table's own sheet isn't added to another workbook"
+			assert templates.sheets_of(made["name"])[0]["cells"] == {"A4": "CW01", "B4": "Wall", "C4": "10"}
 			assert {"name": made["name"], "title": "Glazing costing"} in templates.listed("Quotation", "items")
 			assert templates.listed("Quotation", "items", quote) == [], "a table with its workbook just opens it"
 			kept = json.loads(storage.decode_sheets_data(frappe.db.get_value(api.WORKBOOK, made["name"], "sheets_data")))
@@ -5404,6 +5406,8 @@ def a_record_table_opens_as_a_workbook():
 	back. A word for a number and an unknown item are refused; a sheet that
 	missed a change on the form is refused and redrawn on opening; a copy is
 	a plain workbook. All of it is undone afterwards."""
+	from unittest import mock
+
 	from onedesk.one_sheet import api, storage, table
 
 	def lines(book):
@@ -5421,7 +5425,7 @@ def a_record_table_opens_as_a_workbook():
 			book = table.open_table("Quotation", quote, "items")
 			assert table.open_table("Quotation", quote, "items") == book, "one table, one workbook"
 			opened = api.get_sheet(book)
-			assert opened["table"] == {"sheet": "Items", "doctype": "Quotation", "name": quote}, opened["table"]
+			assert opened["table"] == {"sheet": "Items", "doctype": "Quotation", "name": quote, "field": "items"}, opened["table"]
 			assert json.loads(opened["sheets_data"])["view"]["Items"]["hiddenCols"] == [0]
 			rows = lines(book)
 			head = rows[0]
@@ -5448,15 +5452,33 @@ def a_record_table_opens_as_a_workbook():
 			assert not refused["ok"] and "Quantity" in refused["message"], refused
 			wrong[1][qty], wrong[1][code] = "1", "NO-SUCH-ITEM"
 			refused = table.apply(book, sent(wrong))
-			assert not refused["ok"] and "NO-SUCH-ITEM" in refused["message"], refused
+			assert not refused["ok"] and "NO-SUCH-ITEM" in refused["message"] and refused["missing"] == {"Item": ["NO-SUCH-ITEM"]}, refused
 			assert frappe.get_doc("Quotation", quote).items[0].qty == first.qty + 2, "a refused sheet changes nothing"
+			try:
+				table.make_missing(book, "Customer", '["NO-SUCH-ITEM"]')
+				raise AssertionError("made a record of a type the table doesn't name")
+			except frappe.ValidationError:
+				pass
+			assert table.make_missing(book, "Item", '["NO-SUCH-ITEM"]') == {"made": ["NO-SUCH-ITEM"], "failed": {}}
+			assert frappe.db.get_value("Item", "NO-SUCH-ITEM", "item_group"), "made with what a new item starts with"
+			for attempt in ("and the sheet goes in", first.item_code):
+				said = table.apply(book, sent(wrong))
+				assert said["ok"], (attempt, said)
+				for at, value in said["cells"].items():
+					wrong[int(at[1:]) - 1][ord(at[0]) - 65] = value
+				wrong[1][code] = first.item_code
+			rows = [list(one) for one in wrong]
 			changed = frappe.get_doc("Quotation", quote)
-			changed.items[0].qty = 1
-			changed.save()
+			changed.items[0].qty = 5
+			told = []
+			with mock.patch("frappe.publish_realtime", side_effect=lambda event, message, **kw: told.append((event, message, kw.get("docname")))):
+				changed.save()
+			assert ("one_table_changed", {"workbook": book}, quote) in told, "the open workbook hears of it"
 			stale = table.apply(book, sent(rows))
 			assert not stale["ok"] and "changed on the record" in stale["message"], stale
-			api.get_sheet(book)
-			assert lines(book)[1][qty] == "1", "opening it again draws the table again"
+			drawn = table.redrawn(book)
+			assert drawn["sheet"] == "Items" and drawn["cells"][f"{chr(65 + qty)}2"] == "5", "drawn again in place"
+			assert lines(book)[1][qty] == "5", "and kept"
 			file = frappe.get_doc("File", frappe.db.get_value(api.WORKBOOK, book, "file"))
 			copy = frappe.get_doc({"doctype": "File", "file_url": file.file_url, "file_name": "Items, a copy", "folder": "Home", "is_private": 1})
 			copy.flags.ignore_permissions = True

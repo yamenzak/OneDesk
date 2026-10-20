@@ -60,4 +60,16 @@ describe('spill', () => {
     sheet.setCell('A2', '=Costing!A9+1', 'Items')
     expect(column('A', 1, 2)).toEqual(['', '1'])
   })
+
+  it('reading an empty cell never leaves a neighbour at #CIRCULAR!', () => {
+    const line = { F2: '=(D2*E2)/10000', H2: '=F2*G2', J2: '=U2', K2: '=J2*C2', L2: '=H2+J2', U2: '=(R2*24)+(S2*19)+T2' }
+    for (const [id, v] of Object.entries(line)) sheet.setCell(id, v, 'Items')
+    expect(['K2', 'L2', 'J2', 'U2'].map(id => sheet.getDisplayValue(id, 'Items'))).toEqual(['0', '0', '0', '0'])
+  })
+
+  it('a real circle still says so', () => {
+    sheet.setCell('A1', '=B1', 'Items')
+    sheet.setCell('B1', '=A1', 'Items')
+    expect(sheet.getDisplayValue('A1', 'Items')).toBe('#CIRCULAR!')
+  })
 })

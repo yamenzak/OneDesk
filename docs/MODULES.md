@@ -709,9 +709,12 @@ No doctypes yet.
 * `onedesk.one_sheet.api.save_sheet`
 * `onedesk.one_sheet.assist.ai_assist`
 * `onedesk.one_sheet.live.admit`
+* `onedesk.one_sheet.table.make_missing`
 * `onedesk.one_sheet.table.open_table`
+* `onedesk.one_sheet.table.redrawn`
 * `onedesk.one_sheet.templates.listed`
 * `onedesk.one_sheet.templates.save_as`
+* `onedesk.one_sheet.templates.sheets_of`
 * `onedesk.one_sheet.versions.label_snapshot`
 * `onedesk.one_sheet.versions.make_copy`
 * `onedesk.one_sheet.versions.ops_for_cell`

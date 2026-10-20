@@ -389,6 +389,7 @@ doc_events = {
 			"onedesk.one_project.money.moved",
 			"onedesk.one.approvals.answered",
 			"onedesk.one_ai.brief.touched",
+			"onedesk.one_sheet.table.changed",
 		],
 		"after_insert": [
 			"onedesk.one.quiet.milestone",
@@ -404,6 +405,7 @@ doc_events = {
 			"onedesk.one.approvals.answered",
 			"onedesk.one_ai.index.changed",
 			"onedesk.one_ai.brief.touched",
+			"onedesk.one_sheet.table.changed",
 		],
 		"on_update_after_submit": ["onedesk.one.linked.save", "onedesk.one.approvals.answered", "onedesk.one_ai.index.changed"],
 		"on_cancel": [
@@ -412,6 +414,7 @@ doc_events = {
 			"onedesk.one_intake.steps.record_changed",
 			"onedesk.one_project.money.moved",
 			"onedesk.one_ai.brief.touched",
+			"onedesk.one_sheet.table.changed",
 		],
 		"before_rename": "onedesk.one_intake.mark.before_rename",
 		"after_rename": ["onedesk.one_intake.identity.renamed", "onedesk.one_intake.mark.after_rename"],

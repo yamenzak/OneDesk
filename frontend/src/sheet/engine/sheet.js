@@ -50,7 +50,9 @@ export function createSheet({ onCellChanged, onCellsChanged } = {}) {
 
 	const _memo = {}                                          // sheet → Map<cellId, result>
 	const VOLATILE_RE = /\b(RAND|RANDBETWEEN|TODAY|NOW)\s*\(/i
+	const RANGED_RE   = /:|\b(SEQUENCE|FILTER|SORT|UNIQUE|TRANSPOSE)\s*\(/i   // One: a formula that can spill
 	let   _memoHits = 0, _memoMisses = 0                      // diagnostic counters
+	let   _circleHits = 0                                     // One: see _evalFormula
 
 	function _ensureMemo(sheet) {
 		if (!_memo[sheet]) _memo[sheet] = new Map()
@@ -160,6 +162,9 @@ export function createSheet({ onCellChanged, onCellsChanged } = {}) {
 			if (circular.has(`${sheet}::${f.id}`)) continue
 			const raw = sheets[sheet]?.[f.id]
 			if (typeof raw !== 'string' || VOLATILE_RE.test(raw)) continue
+			// Reading ahead from inside another formula, only one that can
+			// come to a range is worked out.
+			if (!top && !RANGED_RE.test(raw)) continue
 			_evalFormula(raw.slice(1), sheet, f.id)
 		}
 		if (top) _ready[sheet] = true
@@ -257,8 +262,9 @@ export function createSheet({ onCellChanged, onCellsChanged } = {}) {
 		// arithmetic differences). Falls back to formula text for ad-hoc
 		// evaluate() calls that don't anchor to a cell.
 		const key = `${sheet}::${cellId || formula}`
-		if (circular.has(key)) return '#CIRCULAR!'
+		if (circular.has(key)) { _circleHits++; return '#CIRCULAR!' }
 		circular.add(key)
+		const hitsBefore = _circleHits
 		let result
 		try {
 			result = evaluate(
@@ -279,7 +285,10 @@ export function createSheet({ onCellChanged, onCellsChanged } = {}) {
 			circular.delete(key)
 		}
 		if (cellId) result = _spill(sheet, cellId, result)
-		if (cellId && !VOLATILE_RE.test(formula)) _ensureMemo(sheet).set(cellId, result)
+		// One: a value worked out while a cell it reads was itself being worked
+		// out (a circle, or a spill check reading ahead) isn't kept, or it would
+		// stay #CIRCULAR! after the circle is gone.
+		if (cellId && !VOLATILE_RE.test(formula) && _circleHits === hitsBefore) _ensureMemo(sheet).set(cellId, result)
 		return result
 	}
 

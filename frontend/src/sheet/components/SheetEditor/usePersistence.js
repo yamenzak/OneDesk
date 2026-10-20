@@ -29,6 +29,7 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
   // One: the record's table this workbook's first sheet is (one_sheet/table.py), and why the record last refused it.
   const bound = ref(null)
   const tableNotice = ref('')
+  const tableMissing = ref(null) // One: { doctype: [names] } the record can't find
 
   async function loadSheet(name) {
     loadError.value = null
@@ -207,8 +208,9 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
   // out, then save again) or refused it (say why; the workbook itself saved).
   function _tookTable(said) {
     tableNotice.value = said.ok === false ? __('Not in the record yet: {0}', [said.message]) : ''
+    tableMissing.value = said.ok === false && said.missing ? said.missing : null
     if (said.ok !== false && takeBack(sheet, bound.value, said.cells)) onTable?.()
   }
 
-  return { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, bound }
+  return { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableMissing, bound }
 }
