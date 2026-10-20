@@ -381,9 +381,10 @@ def apply(name: str, sent: str) -> dict:
 		try:
 			doc.save()
 		except (frappe.ValidationError, frappe.PermissionError) as error:
+			said = _refusal(error)
 			frappe.db.rollback(save_point=SAVEPOINT)
 			frappe.clear_messages()
-			return {"ok": False, "message": lined(strip_html(str(error)), rows) or _("The record didn't take this table.")}
+			return {"ok": False, "message": lined(said, rows) or _("The record didn't take this table.")}
 		except Exception:
 			frappe.db.rollback(save_point=SAVEPOINT)
 			frappe.clear_messages()
@@ -392,6 +393,16 @@ def apply(name: str, sent: str) -> dict:
 		table = doc.get(book.bound_field)
 		mark = fingerprint(doc.docstatus, table, cols)
 	return {"ok": True, "cells": back(lines, at, rows, table, cols, mark)}
+
+
+def _refusal(error) -> str:
+	"""What the record said. A missing required field raises with field
+	names only; the words it showed are in the message log."""
+	if isinstance(error, frappe.MandatoryError):
+		told = [strip_html(one.get("message") or "") for one in frappe.get_message_log() if isinstance(one, dict)]
+		if any(told):
+			return "; ".join(one for one in told if one)
+	return strip_html(str(error))
 
 
 def _differs(child, field: str, value) -> bool:
