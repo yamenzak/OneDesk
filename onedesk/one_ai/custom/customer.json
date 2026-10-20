@@ -1,0 +1,43 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Customer",
+   "fieldname": "one_ai_brief",
+   "fieldtype": "Small Text",
+   "label": "OneAI Summary",
+   "insert_after": "naming_series",
+   "read_only": 1,
+   "hidden": 1,
+   "no_copy": 1,
+   "module": "One AI",
+   "description": "Written by OneAI from what happened to this record, at most once a day. Shown at the top of the page."
+  },
+  {
+   "dt": "Customer",
+   "fieldname": "one_ai_brief_on",
+   "fieldtype": "Datetime",
+   "label": "Summarised On",
+   "insert_after": "one_ai_brief",
+   "read_only": 1,
+   "hidden": 1,
+   "no_copy": 1,
+   "module": "One AI"
+  },
+  {
+   "dt": "Customer",
+   "fieldname": "one_ai_brief_due",
+   "fieldtype": "Check",
+   "label": "Summary Due",
+   "insert_after": "one_ai_brief_on",
+   "read_only": 1,
+   "hidden": 1,
+   "no_copy": 1,
+   "default": "0",
+   "module": "One AI"
+  }
+ ],
+ "doctype": "Customer",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

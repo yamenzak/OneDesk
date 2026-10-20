@@ -2536,6 +2536,14 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 							__("Pick a model for each kind of work. Default is the one One recommends."),
 							onedesk.shell.button(each ? __("Hide Each Action") : __("Show Each Action"), { "data-each": "1" }, "subtle", "list")
 					  )
+			}${
+				only
+					? ""
+					: onedesk.shell.section(
+							__("Summaries"),
+							'<div data-list="briefs"></div>',
+							__("A few sentences at the top of each record, written again when something happens to it, at most once a day.")
+					  )
 			}${onedesk.shell.section(
 				__("Actions"),
 				`${only ? `<div class="one-shell-note"><a class="one-record-link" data-all>${esc(__("Show All Actions"))}</a></div>` : ""}<div data-list="actions"></div>`,
@@ -2559,6 +2567,24 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					{ label: __("Last 30 Days"), render: (job) => Settings.used_html(job) },
 				],
 				open: (job) => this.job_dialog(job, data),
+			});
+		}
+		if (!only) {
+			onedesk.shell.table(this.$content.find('[data-list="briefs"]'), {
+				rows: data.briefs || [],
+				icon: "sparkles",
+				columns: [
+					{ label: __("Record"), render: (one) => esc(one.label) },
+					{
+						label: __("Summarised"),
+						render: (one) => `<span class="one-shell-quiet">${esc(one.written === 1 ? __("1 record") : one.written ? __("{0} records", [format_number(one.written, null, 0)]) : __("None yet"))}</span>`,
+					},
+					{ label: "", render: (one) => Settings.read_switch(one.on) },
+				],
+				open: async (one) => {
+					await frappe.xcall("onedesk.one_ai.brief.switch", { doctype: one.doctype, on: one.on ? 0 : 1 });
+					this.refresh();
+				},
 			});
 		}
 		this.$content.find("[data-all]").on("click", () => {

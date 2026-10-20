@@ -1367,7 +1367,7 @@ JOBS = (
 	{
 		"key": "reading",
 		"label": _lt("Reading", context="OneAI work"),
-		"about": _lt("What arrives: mail, documents, scans and recordings OneIntake reads and acts on, CVs and grievances."),
+		"about": _lt("What arrives and what happened: mail, documents, scans and recordings, CVs and grievances, and the summaries on customers, suppliers, opportunities and projects."),
 		"needs": "Text Generation",
 		"actions": (
 			"intake_look",
@@ -1382,6 +1382,7 @@ JOBS = (
 			"screen",
 			"grievance",
 			"transcribe",
+			"brief",
 		),
 	},
 	{
@@ -1494,7 +1495,9 @@ def _oneai() -> dict:
 	for offered in catalogue.values():
 		for model in offered:
 			model["logo"] = logos.url(model.get("logo_domain"))
-	return {"actions": rows, "jobs": _jobs(rows), "catalogue": catalogue}
+	from onedesk.one_ai import brief
+
+	return {"actions": rows, "jobs": _jobs(rows), "catalogue": catalogue, "briefs": brief.settings()}
 
 
 def _intake() -> dict:

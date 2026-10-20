@@ -5186,6 +5186,55 @@ def an_announcement_is_the_administrators_and_reaches_everybody_once():
 
 
 @check
+def oneai_summarises_a_supplier_once_a_day():
+	"""A purchase invoice submitted for Gulf Office Supplies marks it due; a
+	draft saved does not. The hourly run writes its summary from what it is
+	owed and bought, shows it in the supplier's head, and leaves it for a day
+	however much happens. Switched off, nothing marks it due."""
+	from unittest import mock
+
+	from onedesk.one import head
+	from onedesk.one_ai import brief
+
+	supplier = frappe.db.sql(
+		"select supplier from `tabPurchase Invoice` where docstatus = 1 group by supplier order by count(*) desc limit 1"
+	)[0][0]
+	invoice = frappe.get_doc("Purchase Invoice", frappe.db.get_value("Purchase Invoice", {"supplier": supplier, "docstatus": 1}))
+	asked = []
+
+	def said(action, text, files=None, reference=None):
+		asked.append(text)
+		return "AED 788 is unpaid and not yet due. Nothing is late."
+
+	clear = {brief.BRIEF: None, brief.ON: None, brief.DUE: 0}
+	try:
+		frappe.db.set_value("Supplier", supplier, clear, update_modified=False)
+		for kind in brief.BRIEFS:
+			frappe.db.sql(f"update `tab{kind}` set `{brief.DUE}` = 0")
+		with mock.patch("onedesk.one_ai.run.once", side_effect=said), mock.patch("onedesk.one.account.configured", return_value=True):
+			brief.touched(invoice, "on_update")
+			assert not frappe.db.get_value("Supplier", supplier, brief.DUE), "a draft saved is not news"
+			brief.touched(invoice, "on_submit")
+			assert frappe.db.get_value("Supplier", supplier, brief.DUE)
+			assert brief.due() == 1
+			assert frappe.db.get_value("Supplier", supplier, brief.BRIEF) == "AED 788 is unpaid and not yet due. Nothing is late."
+			told = json.loads(asked[0].split("\n\n", 1)[1])
+			assert told["invoiced_this_year"] > 0 and "unpaid" in told, told
+			noticed = head.notices_of(frappe.get_doc("Supplier", supplier))
+			assert any(one["notice"] == "oneai.summary" and asked and one["lines"][0].startswith("AED 788") for one in noticed), noticed
+			brief.touched(invoice, "on_cancel")
+			assert brief.due() == 0 and frappe.db.get_value("Supplier", supplier, brief.DUE), "once a day, however much happens"
+			with as_user(OWNER):
+				brief.switch("Supplier", 0)
+			frappe.db.set_value("Supplier", supplier, brief.DUE, 0, update_modified=False)
+			brief.touched(invoice, "on_submit")
+			assert not frappe.db.get_value("Supplier", supplier, brief.DUE), "switched off"
+	finally:
+		frappe.db.set_value("Supplier", supplier, clear, update_modified=False)
+		frappe.db.set_default(brief.OFF, "[]")
+
+
+@check
 def oneai_lays_out_a_print_format_as_meant():
 	"""Layla's print format is laid out from sections a model wrote loosely:
 	Python's words for true and none, a table named just before its columns,

@@ -8,9 +8,9 @@ what the action runs on, so that anything added reads as added.
 
 import frappe
 from frappe import _, _lt
-from frappe.utils import escape_html
+from frappe.utils import escape_html, pretty_date
 
-from onedesk.one_ai import run
+from onedesk.one_ai import brief, run
 
 SAYS = {
 	"Proposed": ("orange", _lt("Waiting for you")),
@@ -73,6 +73,39 @@ def _applied(doc, **_values):
 	return _("Done. It wrote {0}.").format(out["record"]) if out.get("record") else None
 
 
+def summary(doc):
+	"""OneAI's summary, or what it waits for, while summaries are on here."""
+	if doc.is_new() or not (doc.get(brief.BRIEF) or brief.on(doc.doctype)):
+		return None
+	if not doc.get(brief.BRIEF):
+		return {
+			"text": _("OneAI Summary"),
+			"lines": [_("OneAI writes one here when something happens, such as an invoice, a payment or a mail.")],
+			"colour": "blue",
+		}
+	return {
+		"text": _("OneAI Summary"),
+		"lines": [doc.get(brief.BRIEF), _("Written {0}.").format(pretty_date(doc.get(brief.ON)))],
+		"colour": "blue",
+	}
+
+
+def _summarisable(doc) -> bool:
+	from onedesk.one import account, apps
+
+	return not doc.is_new() and apps.ai_on() and account.configured()
+
+
+def _summarise(doc, **_values):
+	brief.later(doc.doctype, doc.name)
+	return _("OneAI is writing it. It shows here in a minute.")
+
+
+NOTICES = {
+	"oneai.summary": {"doctypes": list(brief.BRIEFS), "said": summary, "verbs": ["oneai.summarise"]},
+}
+
+
 MEASURES = {
 	"proposal.state": proposal_state,
 	"proposal.said": proposal_said,
@@ -80,6 +113,12 @@ MEASURES = {
 }
 
 VERBS = {
+	"oneai.summarise": {
+		"doctypes": list(brief.BRIEFS),
+		"label": lambda doc: _("Summarise Again") if doc.get(brief.BRIEF) else _("Summarise Now"),
+		"when": _summarisable,
+		"run": _summarise,
+	},
 	"proposal.apply": {
 		"doctypes": ["AI Proposal"],
 		"label": lambda doc: _("Approve"),

@@ -196,7 +196,7 @@ Reports: Asset Activity (on a rail or a home); Asset Maintenance (opened by our 
 | Buying Settings | on a rail or a home | OneBook, OneInventory | untouched | no | general |  |  |  |  | ar 25, de 22 |  |
 | Purchase Order | on a rail or a home | OneInventory | a head, events, form script, list script, 5 fields, 8 settings | yes | taught |  | yes | ours |  |  | Order Late |
 | Request for Quotation | opened by our screens | OneInventory | a head, events, form script, 2 fields, 4 settings | yes | taught |  | yes | ours |  |  |  |
-| Supplier | on a rail or a home | OneBook, OneInventory | a head, events, list script, 3 fields, 2 settings | yes | taught | makes it | yes |  |  |  |  |
+| Supplier | on a rail or a home | OneBook, OneInventory | a head, events, list script, 6 fields, 2 settings | yes | taught | makes it | yes |  |  |  |  |
 | Supplier Quotation | on a rail or a home | OneInventory | a head, events, form script, 1 fields | yes | taught | makes it | yes |  |  |  | Quote Received |
 | Supplier Scorecard | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Supplier Scorecard Criteria | through a form's link (Supplier Scorecard: criteria_name) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
@@ -220,7 +220,7 @@ Reports: Item-wise Purchase History (under a list's related reports (Purchase Or
 | Email Campaign | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Lead | on a rail or a home | OneCRM | a head, events, form script, list script, 7 fields, 29 settings | yes | taught | makes it | yes |  |  |  | New Lead Waiting |
 | Market Segment | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Opportunity | on a rail or a home | OneCRM | a head, events, form script, list script, 2 fields, 35 settings | yes | taught |  | yes |  |  |  |  |
+| Opportunity | on a rail or a home | OneCRM | a head, events, form script, list script, 5 fields, 35 settings | yes | taught |  | yes |  |  |  |  |
 | Opportunity Lost Reason | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Opportunity Type | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Prospect | on a rail or a home | OneCRM | 2 settings | yes | general |  | yes |  |  |  |  |
@@ -331,7 +331,7 @@ Reports: Electronic Invoice Register (under a list's related reports (Sales Invo
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Customer | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, 3 fields, 7 settings | yes | taught | makes it | yes |  |  |  | Credit Limit Crossed |
+| Customer | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, 6 fields, 7 settings | yes | taught | makes it | yes |  |  |  | Credit Limit Crossed |
 | Delivery Schedule Item | through a form's connections (Sales Order's Connections) | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
 | Industry Type | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Installation Note | through a form's connections (Customer's Connections) | OneCRM | untouched | yes | general |  | **none** | ours |  |  |  |

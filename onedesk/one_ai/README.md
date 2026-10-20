@@ -83,6 +83,25 @@ card.
 
 The mail window has more, listed in OneMail's guide.
 
+## Summaries on a record
+
+A customer, a supplier, an opportunity and a project open on a short **OneAI
+Summary** at the top of the page: what matters now, such as money owed or
+overdue, orders that are late, what was raised in mail, and what needs doing
+next.
+
+- OneAI writes it again when something happens to the record: an invoice, an
+  order, a delivery or a payment submitted for it, a mail about it, a task on
+  the project moved, a quotation for the opportunity. Saving a draft doesn't
+  count.
+- It is written at most once a day per record, within the hour after the day
+  is up, however much happens. **Summarise Again** at the top writes it now.
+- A record nothing has happened to yet says that OneAI writes one when
+  something does. **Summarise Now** writes it straight away.
+- Administrators turn summaries on or off for each kind of record under
+  Workspace Settings › OneAI › **Summaries**, which also shows how many
+  records have one. Each summary uses OneAI credits.
+
 ## What OneAI remembers
 
 OneAI keeps short facts about you and your work when you ask it to, or when
@@ -374,6 +393,23 @@ deliberately not here.
   them. `one_intake/search.py` ranks the words' hits and the meaning's
   together (reciprocal rank) for Ctrl+K, OneCloud and OneMail. After
   OneApp's `oneai/index.py`.
+- `brief.py`: the summary at the top of a customer, supplier, opportunity or
+  project. Three hidden fields on each (`custom/*.json`): the text, when it
+  was written, and whether it is due. `touched`, on every record's save,
+  submit and cancel, marks what that record is about due (`WATCHED`: a
+  purchase invoice its supplier, a payment entry its party, a mail every
+  record it is linked to, a timesheet its projects); a submittable record's
+  draft save is not news. `due` runs hourly and writes the due ones whose
+  summary is a day old or missing, at most `AN_HOUR` a run, each in one
+  `run.once` call with facts gathered here (`party_facts` for a customer or
+  supplier, OneCRM's `_facts` for an opportunity, OneProject's
+  `project_facts` for a project, and the last mails and comments on each).
+  A field rather than a comment because forty invoices would be forty
+  comments, and a summary is only ever the latest one. It is shown as a
+  notice in the record's head (`heads.py`, `oneai.summary`) with the
+  `oneai.summarise` verb, which queues a write at once. The switches are a
+  system default (`one_ai_briefs_off`) listing the kinds turned off; on is
+  the default, like OneHR's. It is written in the workspace's language.
 - `touch.py`, `doctype/ai_touch`: writing in a field, and the mark. `AI Touch`
   keeps what was written, and the mark shows while the field still says it.
   OneIntake's `act.py` calls `wrote` for the fields it fills. Every field is

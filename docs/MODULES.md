@@ -412,6 +412,7 @@ No doctypes yet.
 * `onedesk.one_admin.signup.start`
 * `onedesk.one_admin.signup.state`
 * `onedesk.one_admin.stripe.webhook`
+* `onedesk.one_ai.brief.switch`
 * `onedesk.one_ai.chat.cards`
 * `onedesk.one_ai.chat.chats`
 * `onedesk.one_ai.chat.choose_model`

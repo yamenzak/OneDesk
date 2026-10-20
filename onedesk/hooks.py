@@ -204,6 +204,7 @@ scheduler_events = {
 		"onedesk.one_inventory.tell.reorder_failed",
 		"onedesk.one.tell.repeats_failed",
 		"onedesk.one_admin.tell.builds_slow",
+		"onedesk.one_ai.brief.due",
 	],
 	"weekly": ["onedesk.one_intake.digest.weekly", "onedesk.one_hr.tell.holidays_weekly"],
 	"monthly": [
@@ -385,6 +386,7 @@ doc_events = {
 			"onedesk.one.linked.save",
 			"onedesk.one_project.money.moved",
 			"onedesk.one.approvals.answered",
+			"onedesk.one_ai.brief.touched",
 		],
 		"after_insert": [
 			"onedesk.one.quiet.milestone",
@@ -399,6 +401,7 @@ doc_events = {
 			"onedesk.one.linked.save",
 			"onedesk.one.approvals.answered",
 			"onedesk.one_ai.index.changed",
+			"onedesk.one_ai.brief.touched",
 		],
 		"on_update_after_submit": ["onedesk.one.linked.save", "onedesk.one.approvals.answered", "onedesk.one_ai.index.changed"],
 		"on_cancel": [
@@ -406,6 +409,7 @@ doc_events = {
 			"onedesk.one_intake.mark.looked_at",
 			"onedesk.one_intake.steps.record_changed",
 			"onedesk.one_project.money.moved",
+			"onedesk.one_ai.brief.touched",
 		],
 		"before_rename": "onedesk.one_intake.mark.before_rename",
 		"after_rename": ["onedesk.one_intake.identity.renamed", "onedesk.one_intake.mark.after_rename"],
@@ -1281,6 +1285,7 @@ one_verbs = [
 	"onedesk.one_ai.heads.VERBS",
 	"onedesk.one_studio.heads.VERBS",
 ]
+one_record_notices = ["onedesk.one_ai.heads.NOTICES"]
 one_charts = [
 	"onedesk.one_inventory.heads.CHARTS",
 	"onedesk.one_book.heads.CHARTS",
