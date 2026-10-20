@@ -94,9 +94,10 @@ it the first time, and those are the columns.
   them: `=Rates!B4`.
 - The header and the columns the record works out are locked. A list
   column offers its choices.
-- A column that names other records, such as the item, searches them: type
-  in the cell and the matches show under it, or click the arrow at its
-  right to search. A name that isn't a record yet is refused when the
+- A column that names other records, such as the item, searches them the
+  way a field on a form does: type in the cell, or click the arrow at its
+  right, and the matches show under it, with **Create a new …** and
+  **Advanced Search** at the bottom. Up, Down and Enter pick one. A name that isn't a record yet is refused when the
   record saves, with **Create Them** beside the reason: it makes those
   records from their names and saves again.
 - When somebody changes the table on the form while the workbook is open,
@@ -284,7 +285,11 @@ the sheet was empty. The editor writes them through the engine, so
 co-editors see them too, and saves again; that save finds nothing to do.
 
 A link column's rule is `{type: "link", doctype}` (`_rule`); the editor
-draws its caret and opens `shim/LinkSearch.vue` on `search_link`. Before
+draws its caret, and `shim/LinkSearch.vue` lists `search_link`'s answers
+under the edit as the desk's link field does (its markup and its
+`awesomeplete.scss` look, through the desk's own colour variables, which
+reach into the editor), Create a new through the desk's quick entry and
+Advanced Search through its `LinkSelector`. Before
 the record is saved, `missing` looks up every name the sheet gives in a
 link column and answers them by type instead of saving; `make_missing`
 makes each from its name alone (`_made`: the name field and title set to

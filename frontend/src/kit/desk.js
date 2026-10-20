@@ -49,6 +49,17 @@ export function listen(event, heard) {
 
 export const newDoc = (doctype, values) => frappe().new_doc(doctype, values);
 
+// The desk's quick entry for a new record called `name`; `made` gets it once saved.
+export function quickEntry(doctype, name, made) {
+	frappe().route_options = { name_field: name };
+	frappe().ui.form.make_quick_entry(doctype, made);
+}
+
+// The desk's Advanced Search for a link; `picked` gets the name chosen.
+export function linkSelector(doctype, txt, picked) {
+	new (frappe().ui.form.LinkSelector)({ doctype, txt, target: { set_input: picked, $input: { trigger() {} } } });
+}
+
 export function newDocIn(doctype, values, projects) {
 	if (!projects || projects.length < 2) return newDoc(doctype, values);
 	const dialog = new (frappe().ui.Dialog)({

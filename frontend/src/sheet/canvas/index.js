@@ -12,7 +12,7 @@ import { chipFont } from './chip-geometry.js'
 import { checkboxRect } from './checkbox-geometry.js'
 import { focused } from '../shim/focus.js' // One: focus inside the island's shadow root
 
-export function createGrid(canvas, { onSelect, onCommit, onInput, onCancel, getFormat, onFill, onBatchCommit, getMergeInfo, isSlave, getMasterId, getComment, getValidation, getCondFormat, getSparkline, getRightInset, onHyperlinkClick, onLinkHover, onDropdownClick, onCheckboxToggle, onPivotDrill, onResizeEnd, onColMove, getSheetNames, getCurrentSheet, getEditingHomeSheet, getDisplay, getCellIds, lazyValues = false, canEdit = () => true, isCellEditable, onBlockedEdit } = {}) {
+export function createGrid(canvas, { onSelect, onCommit, onInput, onCancel, getFormat, onFill, onBatchCommit, getMergeInfo, isSlave, getMasterId, getComment, getValidation, getCondFormat, getSparkline, getRightInset, onHyperlinkClick, onLinkHover, onDropdownClick, onCheckboxToggle, onPivotDrill, onResizeEnd, onColMove, getSheetNames, getCurrentSheet, getEditingHomeSheet, getDisplay, getCellIds, lazyValues = false, canEdit = () => true, isCellEditable, onBlockedEdit, onEditKey } = {}) {
   const ctx = canvas.getContext('2d')
   const dpr = window.devicePixelRatio || 1
 
@@ -894,6 +894,8 @@ export function createGrid(canvas, { onSelect, onCommit, onInput, onCancel, getF
   })
 
   overlay.el.addEventListener('keydown', e => {
+    // One: a list open under the cell (a link column's search) takes its keys first.
+    if (onEditKey?.(e)) { e.preventDefault(); e.stopPropagation(); return }
     if (_acItems.length) {
       const cur = _acItems[_acIdx]
       // A range suggestion accepts on Tab only; Enter falls through to commit
@@ -2048,6 +2050,7 @@ export function createGrid(canvas, { onSelect, onCommit, onInput, onCancel, getF
     getViewportSize: () => ({ w: _viewportW, h: _viewportH }),
     // One: end an edit with a value picked from the link search under it.
     commitWith: v => { if (!editing) return; overlay.el.value = v; _commitAndHide() },
+    beginEdit: () => { if (!editing) showEditor(String(getValue(cellId(sel.r, sel.c)) ?? ''), 'edit') },
     setDiffOverlay, setActiveDiffSheet,
     autoFitCol, autoFitRow, autoGrowRowFor,
     expandRows, getTotalRows, isNearBottom,

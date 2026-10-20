@@ -1123,8 +1123,8 @@
       </div>
     </div>
 
-    <LinkSearch v-if="linkPanel.open" :key="linkPanel.id + linkPanel.typing" :doctype="linkPanel.doctype" :query="linkPanel.query" :typing="linkPanel.typing"
-                :x="linkPanel.x" :y="linkPanel.y" :w="linkPanel.w" @pick="pickLink" @close="linkPanel.open = false; canvasRef?.focus?.()" />
+    <LinkSearch v-if="linkPanel.open" ref="linkSearch" :key="linkPanel.id" :doctype="linkPanel.doctype" :query="linkPanel.query"
+                :x="linkPanel.x" :y="linkPanel.y" :w="linkPanel.w" @pick="pickLink" @close="linkPanel.open = false" />
     <!-- Validation dropdown panel -->
     <div v-if="dropdownPanel.open" class="sn-dropdown-panel"
          :style="{ left: dropdownPanel.x + 'px', top: dropdownPanel.y + 'px', minWidth: dropdownPanel.w + 'px' }">
@@ -3367,6 +3367,7 @@ function _setupGridInstance() {
       recomputePivotsForSheet(writeSheet)
     },
     onInput(id, value)  { formulaValue.value = value; _linkUnder(id, value) },
+    onEditKey: _linkKey,
     onCancel(id)        {
       linkPanel.open = false   // One
       const homeSheet = editingHomeSheet.value
@@ -4757,14 +4758,25 @@ function removeValidation() {
 
 // One: a link column searches the records it can name, from a click or as
 // the cell is typed in; a pick is written like a dropdown's.
-const linkPanel = reactive({ open: false, id: '', doctype: '', query: '', typing: false, x: 0, y: 0, w: 120 })
+const linkPanel = reactive({ open: false, id: '', doctype: '', query: '', x: 0, y: 0, w: 120 })
+const linkSearch = ref(null)
+// Up, Down, Enter, Tab and Esc work on the list while it is open, as in a
+// link field: Enter or Tab picks, Esc closes the list and keeps the edit.
+function _linkKey(e) {
+  if (!linkPanel.open || !linkSearch.value) return false
+  if (e.key === 'ArrowDown') { linkSearch.value.move(1); return true }
+  if (e.key === 'ArrowUp') { linkSearch.value.move(-1); return true }
+  if (e.key === 'Enter' || e.key === 'Tab') return linkSearch.value.choose()
+  if (e.key === 'Escape') { linkPanel.open = false; return true }
+  return false
+}
 function _linkUnder(id, value) {
   const rule = validation.get(id, sheet.getCurrentSheet())
   if (rule?.type !== 'link' || String(value || '').startsWith('=') || !grid) { linkPanel.open = false; return }
   const at = parseCellId(id), rect = canvasRef.value?.getBoundingClientRect()
   if (!at || !rect) return
   const cell = grid.getCellRect(at.row, at.col)
-  Object.assign(linkPanel, { open: true, id, doctype: rule.doctype, query: String(value || ''), typing: true,
+  Object.assign(linkPanel, { open: true, id, doctype: rule.doctype, query: String(value || ''),
     x: rect.left + cell.x, y: rect.top + cell.y + cell.height, w: cell.width })
 }
 function pickLink(value) {
@@ -4780,10 +4792,7 @@ function pickLink(value) {
 }
 
 function openDropdown(id, rule, pos = {}) {
-  if (rule?.type === 'link') {
-    Object.assign(linkPanel, { open: true, id, doctype: rule.doctype, query: '', typing: false, x: pos.x ?? 0, y: pos.y ?? 0, w: pos.w ?? 120 })
-    return
-  }
+  if (rule?.type === 'link') { grid?.beginEdit(); return }  // its list opens under the edit
   if (rule?.type !== 'list') return
   dropdownPanel.id      = id
   dropdownPanel.options = rule.options
