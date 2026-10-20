@@ -346,6 +346,24 @@ deliberately not here.
   carries the record's `modified` from when it was written; if the record has
   moved since, the proposal is stale and says so. Applying it anyway would be
   a model's diff quietly undoing a person's.
+- `index.py`, `doctype/ai_chunk`: search by meaning. A document OneIntake
+  read, a message, and the records people look for (`RECORDS`) are cut into
+  overlapping pieces (`pieces`), each embedded once through the account and
+  kept as an `AI Chunk` with a digest of its text, so a save that changed
+  nothing costs nothing. A search embeds the question and scans the newest
+  pieces (`MOST_SCANNED`) in pure Python: there is no vector type in
+  MariaDB 10.11 and no numpy on the bench, and vectors stored normalised make
+  each comparison a dot product, about 60ms per 2,000, held unpacked between
+  searches until the index changes. Every hit is checked against the reader
+  through what it came from, a document through its file or its message.
+  Vectors of two models never meet: a search compares only pieces of the
+  model that embedded the question. Saves queue a refresh after commit, one
+  per source however often it is saved; `catch_up` indexes the rest a
+  quarter of an hour at a time. `find_by_meaning` is the panel's tool:
+  passages and where each came from, which the model answers from, naming
+  them. `one_intake/search.py` ranks the words' hits and the meaning's
+  together (reciprocal rank) for Ctrl+K, OneCloud and OneMail. After
+  OneApp's `oneai/index.py`.
 - `touch.py`, `doctype/ai_touch`: writing in a field, and the mark. `AI Touch`
   keeps what was written, and the mark shows while the field still says it.
   OneIntake's `act.py` calls `wrote` for the fields it fills. Every field is
@@ -599,6 +617,13 @@ Two providers: Workers AI (`workers-ai`) and Gemini (`google-ai-studio`). Each
 is a row in a table of path, body and where the words are, not a branch in
 code. A 200 whose shape we don't recognise raises, so a changed response
 can't quietly come back blank.
+
+Text can also be turned into vectors for search by meaning (`EMBEDS`, then
+`embed`): several texts in one call, held priced as if every character were
+a token, settled on what Workers AI reports; Google's batch call reports
+nothing and is charged its hold. `proxy.ai_embed` is the workspace's door to
+it, through the `embed` action, whose model the workspace may pick like any
+other's.
 
 ### The catalogue
 

@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 75 | 4 | 22 | 0 |
+| onedesk | 75 | 4 | 23 | 0 |
 | frappe | 36 | 34 | 144 | 0 |
 | erpnext | 304 | 130 | 51 | 0 |
 | hrms | 103 | 19 | 8 | 0 |
@@ -886,6 +886,7 @@ Pages: masters (on a rail or a home); settings (on a rail or a home); workspace-
 | AI Action | through a form's link (AI Action Setting: action) | the administrator | untouched | no | taught |  | yes |  |  |  |  |
 | AI Action Setting | opened by our screens | the administrator | a head, form script | no | general |  | yes |  |  |  |  |
 | AI Chat | on a rail or a home | everybody | untouched | no | general |  | **none** |  |  |  |  |
+| AI Chunk | engine: pieces of documents, mail and records by meaning, which Ctrl+K, OneCloud, OneMail and OneAI search | not read | untouched | no | general |  | **none** |  |  |  |  |
 | AI Knowledge | on a rail or a home | everybody | untouched | no | taught |  | **none** |  |  |  |  |
 | AI Memory | inside: Workspace Settings › Privacy lists and forgets what OneAI remembers | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | AI Proposal | on a rail or a home | everybody | a head, list script | no | general |  | yes |  |  |  |  |

@@ -132,7 +132,7 @@ scheduler_events = {
 			"onedesk.one_mail.sync.sync_all",
 			"onedesk.one_intake.matters.due",
 		],
-		"*/15 * * * *": ["onedesk.one_intake.pipeline.again"],
+		"*/15 * * * *": ["onedesk.one_intake.pipeline.again", "onedesk.one_ai.index.catch_up"],
 		"*/5 * * * *": [
 			"onedesk.one_hr.tell.interviews_soon",
 			"onedesk.one_hr.tell.not_checked_in",
@@ -397,8 +397,9 @@ doc_events = {
 			"onedesk.one_intake.steps.record_changed",
 			"onedesk.one.linked.save",
 			"onedesk.one.approvals.answered",
+			"onedesk.one_ai.index.changed",
 		],
-		"on_update_after_submit": ["onedesk.one.linked.save", "onedesk.one.approvals.answered"],
+		"on_update_after_submit": ["onedesk.one.linked.save", "onedesk.one.approvals.answered", "onedesk.one_ai.index.changed"],
 		"on_cancel": [
 			"onedesk.one.approvals.answered",
 			"onedesk.one_intake.mark.looked_at",
@@ -413,6 +414,7 @@ doc_events = {
 			"onedesk.one_ai.touch.forget",
 			"onedesk.one_intake.identity.forget",
 			"onedesk.one_intake.filing.forget",
+			"onedesk.one_ai.index.removed",
 		],
 	},
 	"Budget": {

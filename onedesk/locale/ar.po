@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-19 22:14+0000\n"
+"POT-Creation-Date: 2026-10-20 05:55+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -1023,6 +1023,11 @@ msgstr "صورة شخص أو شعار جهة، يُبحث عنها مرة واح
 msgid "A phone line, mailbox or chat customers reach you on, and who answers it when."
 msgstr "خط هاتف أو بريد أو محادثة يصلك العملاء عبرها، ومن يرد ومتى."
 
+#. Description of a DocType
+#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json
+msgid "A piece of a document, a message or a record, and where it points in meaning, so a search finds what is meant."
+msgstr "جزء من مستند أو رسالة أو سجل، واتجاه معناه، حتى يجد البحث ما يُقصد."
+
 #: onedesk/one_hr/doctype/clock_place/clock_place.py:12
 msgid "A place belongs to a Shift Location or to one employee, not to both."
 msgstr "ينتمي الموقع إلى موقع مناوبة أو إلى موظف واحد، لا إلى كليهما."
@@ -1468,6 +1473,11 @@ msgstr "ملحق الذكاء الاصطناعي"
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 msgid "AI Chat"
 msgstr "محادثة ذكاء اصطناعي"
+
+#. Name of a DocType
+#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json
+msgid "AI Chunk"
+msgstr "جزء OneAI"
 
 #. Name of a report
 #: onedesk/one_ai/report/ai_credits/ai_credits.json
@@ -11098,6 +11108,11 @@ msgstr ""
 #: private/rua/rua/rua/doctype/rua_import_check/rua_import_check.json
 msgid "Differs"
 msgstr "مختلف"
+
+#. Label of the digest (Data) field in DocType 'AI Chunk'
+#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json
+msgid "Digest"
+msgstr "البصمة"
 
 #: onedesk/public/js/doctype_settings.js:967
 msgid "Digits"
@@ -21939,6 +21954,7 @@ msgstr ""
 #. Label of the model (Link) field in DocType 'Credit Ledger Entry'
 #. Label of the model (Select) field in DocType 'AI Action Setting'
 #. Label of the model (Data) field in DocType 'AI Chat'
+#. Label of the model (Data) field in DocType 'AI Chunk'
 #. Label of the model (Data) field in DocType 'Clock Attempt'
 #. Label of the model (Data) field in DocType 'Clock Device'
 #. Label in the One Vehicle Log print format
@@ -21949,6 +21965,7 @@ msgstr ""
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:94
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
+#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:39
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
@@ -23091,7 +23108,7 @@ msgstr "التالي: {0}"
 #. Label in the One Work Order print format
 #: onedesk/one/ai.py:2658 onedesk/one/ai.py:2661 onedesk/one/ai.py:3762
 #: onedesk/one/ai.py:3975 onedesk/one/print_blocks.py:409
-#: onedesk/one_ai/chat.py:700
+#: onedesk/one_ai/chat.py:701
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_book/print_format/one_pos_invoice/one_pos_invoice.json
@@ -24153,7 +24170,7 @@ msgstr "غير موجود لدى Cloudflare"
 msgid "Not built yet"
 msgstr "لم تُنشأ بعد"
 
-#: onedesk/one_ai/chat.py:1125
+#: onedesk/one_ai/chat.py:1126
 msgid "Not changed"
 msgstr "لم يتغير"
 
@@ -24821,7 +24838,7 @@ msgid "Of Whom"
 msgstr "ممن"
 
 #: onedesk/one/ai.py:2661 onedesk/one/settings.py:848
-#: onedesk/one_ai/chat.py:699
+#: onedesk/one_ai/chat.py:700
 #: onedesk/one_studio/doctype/extension/extension_list.js:10
 #: onedesk/one_studio/heads.py:22 onedesk/public/js/doctype_settings.js:180
 #: onedesk/public/js/doctype_settings.js:214
@@ -24950,7 +24967,7 @@ msgstr "تسليم المكتب القديم"
 msgid "Old system closed"
 msgstr "إغلاق النظام القديم"
 
-#: onedesk/one/ai.py:3762 onedesk/one/ai.py:3975 onedesk/one_ai/chat.py:699
+#: onedesk/one/ai.py:3762 onedesk/one/ai.py:3975 onedesk/one_ai/chat.py:700
 #: onedesk/one_studio/doctype/extension/extension_list.js:6
 #: onedesk/one_studio/heads.py:17 onedesk/public/js/doctype_settings.js:180
 #: onedesk/public/js/doctype_settings.js:214 onedesk/public/js/settings.js:510
@@ -25885,7 +25902,7 @@ msgstr "لا يستطيع ذلك إلا مسؤول مساحة العمل هذه.
 msgid "Only an administrator or the customer's or supplier's manager can do this."
 msgstr "لا يمكن القيام بذلك إلا لمسؤول أو لمدير العميل أو المورد."
 
-#: onedesk/one_ai/chat.py:1122
+#: onedesk/one_ai/chat.py:1123
 msgid "Only an administrator picks the model here."
 msgstr "المسؤول وحده يختار النموذج هنا."
 
@@ -27446,9 +27463,11 @@ msgstr "المشروع الأصل"
 msgid "Parent Task"
 msgstr ""
 
+#. Label of the part (Int) field in DocType 'AI Chunk'
 #. Label of the part (Data) field in DocType 'Reading'
 #. Label in the One BOM Creator print format
 #. Label in the One Repair Record print format
+#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_inventory/print_format/one_bom_creator/one_bom_creator.json
 #: onedesk/one_inventory/print_format/one_repair_record/one_repair_record.json
@@ -35586,9 +35605,11 @@ msgid "Sorted by"
 msgstr "مرتب حسب"
 
 #. Label of the source (Select) field in DocType 'Credit Ledger Entry'
+#. Label of the source_name (Dynamic Link) field in DocType 'AI Chunk'
 #: frontend/src/home/CrmStory.vue:37
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
-#: onedesk/one_crm/heads.py:302 onedesk/one_crm/heads.py:342
+#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json onedesk/one_crm/heads.py:302
+#: onedesk/one_crm/heads.py:342
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:63
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:22
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:192
@@ -35598,6 +35619,11 @@ msgstr ""
 #: onedesk/one_inventory/heads.py:1433
 msgid "Source Document"
 msgstr ""
+
+#. Label of the source_doctype (Link) field in DocType 'AI Chunk'
+#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json
+msgid "Source Type"
+msgstr "نوع المصدر"
 
 #: onedesk/public/js/settings.js:2720
 msgid "Sources"
@@ -36854,7 +36880,7 @@ msgstr "اقترح تغييراً على {0}"
 msgid "Suggested by {0} and approved by {1}"
 msgstr "اقترحه {0} ووافق عليه {1}"
 
-#: onedesk/one_ai/tools.py:646 onedesk/one_hr/ai.py:327
+#: onedesk/one_ai/tools.py:675 onedesk/one_hr/ai.py:327
 msgid "Suggested. It happens when somebody approves it."
 msgstr "اقتُرح. ويحدث حين يوافق عليه أحد."
 
@@ -37213,6 +37239,7 @@ msgstr "تعليمة النظام"
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
+#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
@@ -38066,10 +38093,12 @@ msgstr "الاختبار والتسليم والإغلاق"
 #. Label of the one_text_section (Section Break) field in DocType 'Notification
 #. Type'
 #. Label of the reads_text (Check) field in DocType 'AI Model'
+#. Label of the text (Long Text) field in DocType 'AI Chunk'
 #. Label of the section_text (Section Break) field in DocType 'Reading'
 #. Label of the text (Long Text) field in DocType 'Reading'
 #: onedesk/one/custom/notification_type.json
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/public/js/settings.js:2682
 msgid "Text"
@@ -38184,7 +38213,7 @@ msgstr "هذه {0} متغيّرات. أنشئ {1} على الأكثر في ال�
 msgid "That isn't on offer."
 msgstr "هذا غير معروض."
 
-#: onedesk/one_ai/chat.py:1125
+#: onedesk/one_ai/chat.py:1126
 msgid "That model is not offered."
 msgstr "هذا النموذج غير متاح."
 
@@ -40544,7 +40573,7 @@ msgstr "ليس لمساحة العمل هذه حساب فوترة بعد."
 msgid "This workspace has no mail domain yet."
 msgstr "لا تملك مساحة العمل هذه نطاق بريد بعد."
 
-#: onedesk/one_admin/proxy.py:445
+#: onedesk/one_admin/proxy.py:458
 msgid "This workspace has no mail route yet."
 msgstr "لا يوجد لمساحة العمل هذه مسار بريد بعد."
 
@@ -40572,7 +40601,7 @@ msgstr "مساحة العمل هذه غير مرتبطة بحساب، لذا ت�
 msgid "This workspace isn't linked to OneAdmin, so it can't add private apps."
 msgstr "مساحة العمل هذه غير مرتبطة بـ OneAdmin، لذا لا يمكنها إضافة تطبيقات خاصة."
 
-#: onedesk/one_admin/proxy.py:442
+#: onedesk/one_admin/proxy.py:455
 msgid "Those addresses aren't on this workspace."
 msgstr "هذه العناوين ليست على مساحة العمل هذه."
 
@@ -40782,6 +40811,7 @@ msgstr "مظلل"
 #. Label of the one_title (Data) field in DocType 'Deleted Document'
 #. Label of the title (Data) field in DocType 'Private App'
 #. Label of the title (Data) field in DocType 'AI Chat'
+#. Label of the title (Data) field in DocType 'AI Chunk'
 #. Label of the title (Data) field in DocType 'AI Knowledge'
 #. Label of the title (Data) field in DocType 'Reading'
 #. Label of the title (Data) field in DocType 'Legal Document Version'
@@ -40790,6 +40820,7 @@ msgstr "مظلل"
 #: onedesk/one/custom/deleted_document.json
 #: onedesk/one_admin/doctype/private_app/private_app.json
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
+#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
 #: onedesk/one_intake/bundle.py:74
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -42741,6 +42772,11 @@ msgstr "متغير من {0}"
 #: frontend/src/item/ItemOverview.vue:18 onedesk/public/js/item_actions.js:9
 msgid "Variants"
 msgstr "المتغيرات"
+
+#. Label of the vector (Long Text) field in DocType 'AI Chunk'
+#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json
+msgid "Vector"
+msgstr "المتجه"
 
 #. Label in the One Vehicle Log print format
 #. Label of a Link in the OneHR Setup Workspace
@@ -47367,7 +47403,7 @@ msgstr "سنوات الخدمة"
 
 #: frontend/src/item/ItemOverview.vue:112 onedesk/one/ai.py:2658
 #: onedesk/one/ai.py:2661 onedesk/one/ai.py:3762 onedesk/one/ai.py:3975
-#: onedesk/one_ai/chat.py:700 onedesk/public/js/bom_list.js:5
+#: onedesk/one_ai/chat.py:701 onedesk/public/js/bom_list.js:5
 #: onedesk/public/js/onecloud.js:660
 msgid "Yes"
 msgstr ""
@@ -47533,7 +47569,7 @@ msgstr "لا يمكنك تغيير توقيع {0}."
 msgid "You may not change {0}."
 msgstr "لا يمكنك تغيير {0}."
 
-#: onedesk/one_ai/tools.py:392
+#: onedesk/one_ai/tools.py:420
 msgid "You may not read {0} {1}."
 msgstr "لا يُسمح لك بقراءة {0} {1}."
 
@@ -47541,11 +47577,11 @@ msgstr "لا يُسمح لك بقراءة {0} {1}."
 msgid "You may not read {0}, so a webhook of yours cannot send it."
 msgstr "لا يمكنك قراءة {0}، لذا لا يستطيع ويب هوك خاص بك إرساله."
 
-#: onedesk/one_ai/tools.py:163 onedesk/one_ai/tools.py:368
+#: onedesk/one_ai/tools.py:163 onedesk/one_ai/tools.py:396
 msgid "You may not read {0}."
 msgstr "لا يجوز لك قراءة {0}."
 
-#: onedesk/one_ai/tools.py:449
+#: onedesk/one_ai/tools.py:477
 msgid "You may not run {0}."
 msgstr "لا يُسمح لك بتشغيل {0}."
 
@@ -48879,6 +48915,10 @@ msgstr "نقله شخص ما منذ ذلك الحين"
 msgid "someone has renamed it since"
 msgstr "أعاد شخص ما تسميته منذ ذلك الحين"
 
+#: onedesk/one_intake/search.py:186
+msgid "source_doctype"
+msgstr "نوع المصدر"
+
 #: frontend/src/project/ProjectActivity.vue:75
 msgid "started sub-project"
 msgstr "بدأ المشروع الفرعي"
@@ -49151,11 +49191,11 @@ msgstr "{0} (لـ {1} و{2} غيرها)"
 msgid "{0} (for {1})"
 msgstr "{0} (لـ {1})"
 
-#: onedesk/one_intake/search.py:111
+#: onedesk/one_intake/search.py:155
 msgid "{0} (in documents)"
 msgstr "{0} (في المستندات)"
 
-#: onedesk/one_intake/search.py:121
+#: onedesk/one_intake/search.py:165
 msgid "{0} (in mail)"
 msgstr "{0} (في البريد)"
 
@@ -49177,7 +49217,8 @@ msgid "{0} (was {1})"
 msgstr "{0} (كان {1})"
 
 #: onedesk/one/tell.py:525 onedesk/one/tell.py:666
-#: onedesk/one_studio/extensions.py:432 onedesk/public/js/privacy_copy.js:22
+#: onedesk/one_intake/search.py:186 onedesk/one_studio/extensions.py:432
+#: onedesk/public/js/privacy_copy.js:22
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
 
@@ -49536,7 +49577,7 @@ msgstr "لا يمكن أن يحمل {0} حالة الاعتماد."
 msgid "{0} cannot name each {1}: two records already have {2} in it."
 msgstr "لا يمكن أن يُسمّي {0} كل {1}: سجلّان يحملان {2} فيه بالفعل."
 
-#: onedesk/one_admin/actions.py:80
+#: onedesk/one_admin/actions.py:88
 msgid "{0} cannot read {1}."
 msgstr "{0} لا يستطيع قراءة {1}."
 
@@ -50341,7 +50382,7 @@ msgstr "{0} ليست مهمة في هذا المشروع."
 msgid "{0} is not a template for {1}."
 msgstr "{0} ليس قالبًا لـ {1}."
 
-#: onedesk/one_ai/tools.py:618
+#: onedesk/one_ai/tools.py:647
 msgid "{0} is not a tool."
 msgstr "{0} ليس أداة."
 
@@ -51522,7 +51563,7 @@ msgstr "{0}، لكل سجل"
 msgid "{0}, free until {1}"
 msgstr "{0}، مجانًا حتى {1}"
 
-#: onedesk/one_ai/chat.py:754
+#: onedesk/one_ai/chat.py:755
 msgid "{0}, from the card above"
 msgstr "{0}، من البطاقة أعلاه"
 

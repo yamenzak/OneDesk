@@ -96,7 +96,7 @@ def test_every_tool_is_a_function_a_schema_can_be_read_off():
 			for target in node.targets:
 				if isinstance(target, ast.Name) and target.id in ("READS", "SUGGESTS"):
 					named |= {e.id for e in node.value.elts if isinstance(e, ast.Name)}
-	assert len(named) == 16, named
+	assert len(named) == 17, named
 	for name in named:
 		fn = functions[name]
 		assert ast.get_docstring(fn), f"{name} tells a model nothing about itself"

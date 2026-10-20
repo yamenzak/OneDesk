@@ -58,6 +58,29 @@ PROVIDERS = {
 
 THINKS = 2000
 
+# Text to vectors, per provider: where, what is sent, where the vectors are.
+# Several texts go in one call; Workers AI speaks the OpenAI shape and says
+# what it used, Google's batch call says nothing and is billed its hold.
+EMBEDS = {
+	"workers-ai": {
+		"path": lambda model: "v1/embeddings",
+		"body": lambda model, texts: {"model": model, "input": texts},
+		"vectors": lambda body: [
+			one.get("embedding") or []
+			for one in sorted((body or {}).get("data") or [], key=lambda one: one.get("index", 0))
+		],
+	},
+	"google-ai-studio": {
+		"path": lambda model: f"v1beta/models/{model}:batchEmbedContents",
+		"body": lambda model, texts: {
+			"requests": [{"model": f"models/{model}", "content": {"parts": [{"text": one}]}} for one in texts]
+		},
+		"vectors": lambda body: [one.get("values") or [] for one in (body or {}).get("embeddings") or []],
+	},
+}
+
+MOST_TEXTS = 64
+
 ROUNDS = 8
 
 FIRST = ("workers-ai", "@cf/meta/llama-3.1-8b-instruct")
@@ -178,6 +201,61 @@ def call(
 			for u in used
 		],
 	}
+
+
+def embed(model: str, texts: list[str], tenant: str, reference: str | None = None, action: str | None = None) -> dict:
+	"""Texts as vectors, billed like any call: hold a ceiling priced as if
+	every character were a token, make it, settle what the provider reported."""
+	site.require_admin()
+	sold = _offered(model)
+	spoken = EMBEDS.get(sold.provider)
+	if not spoken:
+		raise Refused(f"{model} is not a model this gateway embeds with")
+	texts = [str(one or " ") for one in texts][:MOST_TEXTS]
+	rates, money = _rates(sold), _money()
+	markup, per_dollar = sold.markup or money["markup"], money["per_dollar"]
+	caps = {"input_tokens": sum(len(one) for one in texts)}
+	try:
+		most = pricing.ceiling(rates, caps, markup, per_dollar)
+	except pricing.Unpriceable as raised:
+		raise Refused(f"{model} cannot be priced: {raised}") from raised
+
+	holding = ledger.reserve(tenant, max(most.credits, _LEAST), why=model, reference=reference, action=action)
+	try:
+		body = _post(sold.provider, spoken["path"](sold.model), spoken["body"](sold.model, texts), tenant, model)
+		vectors = spoken["vectors"](body)
+		if len(vectors) != len(texts) or not all(vectors):
+			raise Refused(f"{model} answered {len(vectors)} vectors for {len(texts)} texts", 200, json.dumps(body)[: faults.KEPT])
+	except Exception:
+		ledger.release(holding)
+		raise
+
+	used, unmetered = meter.read(sold.provider, body)
+	spent = pricing.bill(rates, used, markup, per_dollar)
+	if unmetered or not spent.whole or not used:
+		charged = max(most.credits, _LEAST)
+		ledger.commit(holding, charged, spent.usd)
+		return {"vectors": vectors, "model": model, "credits": charged, "metered": False}
+	ledger.commit(holding, spent.credits, spent.usd)
+	return {"vectors": vectors, "model": model, "credits": spent.credits, "metered": True}
+
+
+def _post(provider: str, path: str, body: dict, tenant: str, model: str) -> dict:
+	settings = _settings()
+	where = f"{settings['url'].rstrip('/')}/{settings['account']}/{settings['gateway']}/{provider}/{path}"
+	headers = {HEADER: f"Bearer {settings['token']}", "Content-Type": "application/json", TAG: json.dumps({"tenant": tenant})}
+	try:
+		answer = requests.post(where, headers=headers, data=json.dumps(body), timeout=TIMEOUT)
+	except requests.Timeout as raised:
+		raise Again(f"{model} timed out") from raised
+	except requests.RequestException as raised:
+		raise Again(f"{model} could not be reached: {raised}") from raised
+	if answer.status_code != 200:
+		raise faults.raised(model, answer.status_code, _detail(answer))
+	try:
+		return answer.json()
+	except ValueError as raised:
+		raise Refused(f"{model} answered 200 with something that is not JSON", answer.status_code, answer.text[: faults.KEPT]) from raised
 
 
 _LEAST = 0.000001

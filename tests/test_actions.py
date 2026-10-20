@@ -165,6 +165,9 @@ def test_every_shipped_action_is_whole():
 	assert len(rows) >= 2, "one action proves nothing about the shape"
 	for row in rows:
 		assert row["capability"] in capability.WORDS, row["key"]
+		if row["capability"] == "Embedding":
+			assert row["max_input_tokens"] > 0, f"{row['key']} holds nothing before it calls"
+			continue
 		assert row["instruction"].strip(), row["key"]
 		assert row["max_output_tokens"] > 0, f"{row['key']} holds nothing before it calls"
 

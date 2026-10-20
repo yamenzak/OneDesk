@@ -46,7 +46,7 @@ def test_every_tool_is_in_one_group_or_the_core():
 	missing = _hooked() - core - set(grouped)
 	assert not missing, f"in no group, so never given to a request: {sorted(missing)}"
 	unknown = (core | set(grouped)) - _hooked() - {
-		"list_records", "read_record", "count_records", "describe_type", "find_records", "search_everywhere",
+		"list_records", "read_record", "count_records", "describe_type", "find_records", "find_by_meaning", "search_everywhere",
 		"about_field", "what_links_here", "what_can_happen", "run_report", "about_record", "recall",
 		"search_my_chats", "how_to", "remember", "create_record", "create_records", "edit_record", "delete_record", "move_record",
 		"more_tools",

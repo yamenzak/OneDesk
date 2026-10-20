@@ -14,6 +14,7 @@ CORE = (
 	"count_records",
 	"describe_type",
 	"find_records",
+	"find_by_meaning",
 	"search_everywhere",
 	"about_field",
 	"what_links_here",

@@ -183,6 +183,19 @@ def ai_run(
 
 @frappe.whitelist(allow_guest=True)
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def ai_embed(texts: list | str, model: str | None = None) -> dict:
+	"""Texts as vectors, for this workspace's search by meaning, billed to it."""
+	from onedesk.one_admin import actions
+
+	tenant = caller()
+	try:
+		return actions.embed(tenant.name, frappe.parse_json(texts) if isinstance(texts, str) else texts, model=model)
+	except faults.Refused as raised:
+		frappe.throw(str(raised), exc=type(raised))
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
 def credit_packs() -> list[dict]:
 	"""What a workspace may buy. A price list, not a calculator."""
 	from onedesk.one_admin import topup

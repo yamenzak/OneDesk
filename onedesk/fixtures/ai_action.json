@@ -311,5 +311,19 @@
   "about": "Reads an extension's code and the errors it ran into, says what went wrong in plain words and writes it fixed, which is then reviewed and kept off.",
   "product": "OneAI",
   "default_model": "workers-ai:@cf/google/gemma-4-26b-a4b-it"
+ },
+ {
+  "doctype": "AI Action",
+  "name": "embed",
+  "key": "embed",
+  "label": "Search by Meaning",
+  "capability": "Embedding",
+  "enabled": 1,
+  "max_output_tokens": 0,
+  "max_input_tokens": 8192,
+  "about": "Turns documents, mail and records into vectors, so a search finds what is meant rather than only the words typed.",
+  "may_use_tools": 0,
+  "product": "OneAI",
+  "instruction": ""
  }
 ]

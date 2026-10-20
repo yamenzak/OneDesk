@@ -1,7 +1,8 @@
-"""Finding a document by what is written in it.
+"""Finding a document by what is written in it, and by what it means.
 
-A FULLTEXT index over every Reading, asked by the awesome bar (Ctrl+K),
-OneCloud's search box and OneMail's, each hit checked against the reader.
+A FULLTEXT index over every Reading and OneAI's index by meaning, asked
+together by the awesome bar (Ctrl+K), OneCloud's search box and OneMail's,
+each hit checked against the reader.
 """
 
 import re
@@ -55,6 +56,49 @@ def found(text: str, most: int = 60) -> list[dict]:
 	)
 
 
+def meant(text: str, most: int = 30) -> list[dict]:
+	"""Readings by meaning, in the shape `found` answers in: what the words
+	may not say ("the invoice for the broken glass" finds "replacement pane"),
+	and only when the search is more than a word."""
+	from onedesk.one_ai import index
+
+	if len(words(text)) < 2:
+		return []
+	hits = index.nearest(text, ("Reading",), most)
+	if not hits:
+		return []
+	rows = {
+		row.name: row
+		for row in frappe.get_all(
+			"Reading",
+			filters={"name": ["in", [one["source_name"] for one in hits]]},
+			fields=["name", "title", "part", "part_of", "message_id", "source_doctype", "source_name", "key"],
+		)
+	}
+	return [
+		{**rows[one["source_name"]], "score": one["score"], "snippet": (one.get("text") or "")[:WIDTH]}
+		for one in hits
+		if one["source_name"] in rows
+	]
+
+
+def both(text: str, most: int = 60) -> list[dict]:
+	"""What the words match and what the meaning matches, one list: each
+	reading ranked by where it stands in either (reciprocal rank). Pure in
+	how it ranks; `found` and `meant` ask."""
+	return ranked_together([found(text, most), meant(text, most)])[:most]
+
+
+def ranked_together(lists: list[list[dict]], k: int = 60) -> list[dict]:
+	"""Several best-first lists as one, by reciprocal rank. Pure."""
+	score, kept = {}, {}
+	for hits in lists:
+		for at, hit in enumerate(hits):
+			score[hit["name"]] = score.get(hit["name"], 0) + 1 / (k + at + 1)
+			kept.setdefault(hit["name"], hit)
+	return [kept[name] for name in sorted(score, key=lambda one: -score[one])]
+
+
 def snippet(text: str) -> str:
 	return "…" + " ".join((text or "").split()) + "…" if text else ""
 
@@ -101,8 +145,8 @@ def messages_of(hit: dict) -> list[str]:
 
 def awesomebar(txt: str) -> list[dict]:
 	"""The awesome bar's "In documents": files and messages whose words match."""
-	out = []
-	for hit in sorted(found(txt, 30), key=lambda one: not one.get("part_of")):
+	out = _records_meant(txt)
+	for hit in sorted(both(txt, 30), key=lambda one: not one.get("part_of")):
 		top = root_of(hit)
 		where = f", {hit['part']}" if hit.get("part_of") and hit.get("part") else ""
 		for file in [one for one in files_of(top) if one.attached_to_doctype != "Communication"][:1]:
@@ -130,6 +174,24 @@ def awesomebar(txt: str) -> list[dict]:
 	return out
 
 
+def _records_meant(txt: str) -> list[dict]:
+	"""Records whose meaning matches, for the awesome bar: a customer found
+	by what they buy, a project by what it builds."""
+	from onedesk.one_ai import index
+
+	if len(words(txt)) < 2:
+		return []
+	return [
+		{
+			"label": _("{0} ({1})").format(one["title"], _(one["source_doctype"])),
+			"description": snippet((one.get("text") or "")[:WIDTH]),
+			"route": f"/app/{frappe.scrub(one['source_doctype']).replace('_', '-')}/{one['source_name']}",
+			"index": 50,
+		}
+		for one in index.nearest(txt, index.RECORDS, 5)
+	]
+
+
 def _once(items: list[dict]) -> list[dict]:
 	"""The best hit for each place: a scan found by two of its letters is one row."""
 	seen, out = set(), []
@@ -153,7 +215,7 @@ def in_files(text: str, under: list[str] | None = None, most: int = 100) -> list
 
 	out, seen = [], set()
 	folders = ns._folders()
-	for hit in found(text, most):
+	for hit in both(text, most):
 		for file in files_of(root_of(hit)):
 			if file.name in seen or file.attached_to_doctype in ns.UNLISTED:
 				continue
@@ -174,11 +236,17 @@ def in_files(text: str, under: list[str] | None = None, most: int = 100) -> list
 def in_mail(account: str, text: str, most: int = 200) -> list[str]:
 	"""OneMail's search, by content: the messages of one mailbox whose own
 	words or attachments match."""
+	from onedesk.one_ai import index
+
 	names = []
-	for hit in found(text, most):
+	for hit in both(text, most):
 		for name in messages_of(root_of(hit)):
 			if frappe.db.get_value("Communication", name, "email_account") == account:
 				names.append(name)
+	if len(words(text)) >= 2:
+		for one in index.nearest(text, ("Communication",), 30):
+			if frappe.db.get_value("Communication", one["source_name"], "email_account") == account:
+				names.append(one["source_name"])
 	return list(dict.fromkeys(names))
 
 

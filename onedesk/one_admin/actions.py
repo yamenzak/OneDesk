@@ -62,6 +62,14 @@ def run(
 	}
 
 
+def embed(tenant: str, texts: list[str], model: str | None = None) -> dict:
+	"""Texts as vectors for one workspace's search, billed to it. The model is
+	the workspace's pick for the embed action, checked, or the default; every
+	vector a search compares came from one model, so the caller is told which."""
+	asked = _action("embed")
+	return gateway.embed(_model(asked, model), list(texts or []), tenant, reference="embed", action=asked.key)
+
+
 def _may_read(sold: str, turns: list[dict]) -> None:
 	"""Refuse a file this model cannot read, before anything is reserved.
 

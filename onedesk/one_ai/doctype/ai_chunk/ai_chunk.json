@@ -1,0 +1,91 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-10-20 03:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "naming_rule": "Random",
+ "description": "A piece of a document, a message or a record, and where it points in meaning, so a search finds what is meant.",
+ "field_order": [
+  "source_doctype",
+  "source_name",
+  "part",
+  "title",
+  "text",
+  "digest",
+  "model",
+  "vector"
+ ],
+ "fields": [
+  {
+   "fieldname": "source_doctype",
+   "fieldtype": "Link",
+   "label": "Source Type",
+   "options": "DocType",
+   "search_index": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "source_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Source",
+   "options": "source_doctype",
+   "search_index": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "part",
+   "fieldtype": "Int",
+   "label": "Part"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title"
+  },
+  {
+   "fieldname": "text",
+   "fieldtype": "Long Text",
+   "label": "Text"
+  },
+  {
+   "fieldname": "digest",
+   "fieldtype": "Data",
+   "label": "Digest"
+  },
+  {
+   "fieldname": "model",
+   "fieldtype": "Data",
+   "label": "Model",
+   "search_index": 1
+  },
+  {
+   "fieldname": "vector",
+   "fieldtype": "Long Text",
+   "label": "Vector"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-20 03:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One AI",
+ "name": "AI Chunk",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "delete": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0,
+ "in_create": 1,
+ "read_only": 1
+}

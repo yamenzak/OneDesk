@@ -24,18 +24,27 @@ at no cost and with nothing to switch on. This covers:
 
 ## Finding a document by what it says
 
-Search finds documents by their content, not only by name.
+Search finds documents by their content, not only by name, and by what they
+mean, not only the words you type. Search for "the quote for the lobby glass"
+and it finds the quotation that says "reception area curtain wall".
+
+- Matching by meaning starts at two words. One word searches by the word.
 
 - **Ctrl+K** shows matching documents and messages under **In documents** and
-  **In mail**, with the matching line.
+  **In mail**, with the matching line, and records whose meaning matches
+  (a customer found by what they buy, a project by what it builds).
 - **OneCloud** search matches file contents as well as names, and shows the
   matching words.
-- **OneMail** search matches the text of attachments.
+- **OneMail** search matches the text of attachments, and messages by what
+  they are about.
 - **OneAI chat** finds documents from a description, such as "invoices from
   Stadtwerke this year" or "what did we pay Rheinwerk in September". It
   searches the text in the document's language and yours, plus the document
   type, party and dates. Each answer gives the document type, amount and a
   link. Totals are added up from the invoices.
+- **Asking OneAI a question about what your documents and mail say**, such
+  as "what did the landlord say about the parking spaces?", finds the
+  passages closest to the question and answers from them, naming each one.
 - **Asking OneAI about a record**, such as "what do we have on Stadtwerke?",
   includes the documents filed with it, what each says and what is still
   open.

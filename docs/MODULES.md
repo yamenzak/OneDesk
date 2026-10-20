@@ -79,6 +79,7 @@ No doctypes yet.
 | AI Action | 16 | document |
 | AI Action Setting | 7 | document |
 | AI Chat | 9 | document |
+| AI Chunk | 8 | document |
 | AI Knowledge | 6 | document |
 | AI Memory | 5 | document |
 | AI Proposal | 21 | document |
@@ -372,6 +373,7 @@ No doctypes yet.
 * `onedesk.one_admin.operator.try_the_gateway`
 * `onedesk.one_admin.operator.walk`
 * `onedesk.one_admin.private.new_code`
+* `onedesk.one_admin.proxy.ai_embed`
 * `onedesk.one_admin.proxy.ai_models`
 * `onedesk.one_admin.proxy.ai_models_for`
 * `onedesk.one_admin.proxy.ai_run`

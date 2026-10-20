@@ -350,6 +350,34 @@ def search_everywhere(
 MOST_FOUND = 10
 
 
+def find_by_meaning(
+	question: Annotated[str, "What to look for, in the person's own words: \"the quote for the glass on the Marina tower\"."],
+	kinds: Annotated[
+		list[str],
+		"Only these: Reading for documents and scans, Communication for mail, or a type of record such as Customer.",
+	]
+	| None = None,
+) -> list:
+	"""Find documents, mail and records by what they mean rather than the exact
+	words: the passages closest to the question, each with where it came from.
+	Answer from the passages and name each one you used; use it when the
+	person describes something rather than naming it."""
+	from onedesk.one_ai import index
+
+	out = []
+	for hit in index.nearest(question, kinds or None, 8):
+		out.append(
+			{
+				"kind": hit["source_doctype"],
+				"id": hit["source_name"],
+				"title": hit.get("title"),
+				"passage": (hit.get("text") or "")[:1200],
+				"closeness": hit["score"],
+			}
+		)
+	return out
+
+
 def find_records(
 	doctype: Annotated[str, "The type of record to search in."],
 	text: Annotated[str, "What to search for — a name, a code, part of a title."],
@@ -506,6 +534,7 @@ READS = (
 	count_records,
 	describe_type,
 	find_records,
+	find_by_meaning,
 	search_everywhere,
 	about_field,
 	what_links_here,
