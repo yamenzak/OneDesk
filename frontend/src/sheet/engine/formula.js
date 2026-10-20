@@ -15,6 +15,17 @@ const T = {
 }
 
 // ─── Tokenizer ────────────────────────────────────────────────────────────────
+// One: Excel's equality. An empty cell (read as 0) or "" equals "" and 0;
+// two numbers, or numbers written as text, compare as numbers; anything
+// else compares as text, without case.
+const _blank = (v) => v === '' || v === null || v === undefined
+const _numeric = (v) => typeof v === 'number' || (typeof v === 'string' && v.trim() !== '' && !isNaN(Number(v)))
+function _equal(l, r) {
+	if (_blank(l) || _blank(r)) return (_blank(l) || l === 0) && (_blank(r) || r === 0)
+	if (_numeric(l) && _numeric(r)) return Number(l) === Number(r)
+	return String(l).toLowerCase() === String(r).toLowerCase()
+}
+
 export function tokenize(src) {
 	const out = []
 	let i = 0
@@ -71,8 +82,8 @@ export function tokenize(src) {
 			if (src[i] !== '!') { out.push({ t: T.ERR, v: '#REF!' }); continue }
 			i++
 			let cell = ''
-			while (i < src.length && /[A-Za-z0-9]/.test(src[i])) cell += src[i++]
-			const cellUp = cell.toUpperCase()
+			while (i < src.length && /[A-Za-z0-9$]/.test(src[i])) cell += src[i++] // One: $ as Excel writes it
+			const cellUp = cell.replace(/\$/g, '').toUpperCase()
 			if (/^[A-Z]+[0-9]+$/.test(cellUp))      out.push({ t: T.SHEETREF, sheet: sheetName, v: cellUp })
 			else if (/^[A-Z]+$/.test(cellUp))        out.push({ t: T.SHEETCOL, sheet: sheetName, v: cellUp })
 			else                                      out.push({ t: T.ERR, v: '#REF!' })
@@ -105,8 +116,8 @@ export function tokenize(src) {
 			if (i < src.length && src[i] === '!') {
 				i++
 				let cell = ''
-				while (i < src.length && /[A-Za-z0-9]/.test(src[i])) cell += src[i++]
-				const cellUp = cell.toUpperCase()
+				while (i < src.length && /[A-Za-z0-9$]/.test(src[i])) cell += src[i++] // One: Sheet!$A4 as Excel writes it
+				const cellUp = cell.replace(/\$/g, '').toUpperCase()
 				const sheetName = s.trim()
 				if (/^[A-Z]+[0-9]+$/.test(cellUp))      out.push({ t: T.SHEETREF, sheet: sheetName, v: cellUp })
 				else if (/^[A-Z]+$/.test(cellUp))        out.push({ t: T.SHEETCOL, sheet: sheetName, v: cellUp })
@@ -947,8 +958,8 @@ function createParser(tokens, getCellValue, getRangeValues, getSheetCellValue, g
 		while (peek()?.t===T.OP && ['=','<>','>','<','>=','<='].includes(peek().v)) {
 			const op=next().v, r=concat()
 			switch(op) {
-				case '=':  l = _str(l).toLowerCase()===_str(r).toLowerCase() || toNum(l)===toNum(r); break
-				case '<>': l = _str(l).toLowerCase()!==_str(r).toLowerCase(); break
+				case '=':  l = _equal(l, r); break // One: "CW01"="" was true, both read as 0
+				case '<>': l = !_equal(l, r); break
 				case '>':  l = toNum(l)>toNum(r);  break
 				case '<':  l = toNum(l)<toNum(r);  break
 				case '>=': l = toNum(l)>=toNum(r); break

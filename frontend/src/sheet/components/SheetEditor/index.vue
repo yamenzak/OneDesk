@@ -837,6 +837,9 @@
     />
 
     <!-- Named ranges dialog -->
+    <!-- One: templates, and the table's column map (one_sheet/templates.py, table.py). -->
+    <TemplateDialog v-model="templateOpen" :workbook="props.id" :name="currentTitle" :bound="bound" @saved="onTemplateSaved" />
+    <FillDialog v-if="bound" v-model="fillOpen" :workbook="props.id" :bound="bound" :sheets="fillSheets" @filled="onFilled" />
     <NamedRangesDialog
       v-model="namedRangesDialogOpen"
       :named-ranges="namedRanges"
@@ -1320,6 +1323,9 @@ import { __ } from '../../../kit/desk'
 import { createNamedRanges }   from '../../engine/named-ranges.js'
 import { getFunctionNames }    from '../../engine/formula.js'
 import NamedRangesDialog       from './NamedRangesDialog.vue'
+import TemplateDialog          from '../../shim/TemplateDialog.vue' // One: templates
+import FillDialog              from '../../shim/FillDialog.vue' // One: the table's column map
+import { takeBack }            from '../../shim/table.js' // One
 import { useSmartFill }        from './useSmartFill.js'
 import { cellHistory as fetchCellHistory } from '../../services/versions.js'
 import {
@@ -1911,6 +1917,11 @@ const fileDropdownOptions = computed(() => [
     { label: __('Import CSV'),  icon: 'lucide-upload', onClick: () => csvInputRef.value?.click() },
     { label: __('Import XLSX'), icon: 'lucide-upload', onClick: () => xlsxInputRef.value?.click() },
   ]}]),
+  // One: start others from this workbook, and fill a record's table from a sheet.
+  { group: __('Template'), options: [
+    { label: __('Save as Template'), icon: 'lucide-layout-template', onClick: () => { templateOpen.value = true } },
+    ...(bound.value && !readOnly.value ? [{ label: __('Fill the Table From a Sheet'), icon: 'lucide-table-2', onClick: openFill }] : []),
+  ]},
   // Only shown to admins — gated server-side via the boot flag so non-admins
   // never see a settings entry they can't use.
   ...(window.frappe?.boot?.ai_assist_can_configure
@@ -1919,6 +1930,25 @@ const fileDropdownOptions = computed(() => [
       ]}]
     : []),
 ])
+
+// One: templates and the table's column map.
+const templateOpen = ref(false)
+const fillOpen = ref(false)
+const fillSheets = ref([])
+function openFill() {
+  fillSheets.value = sheet.getSheetNames()
+  fillOpen.value = true
+}
+function onFilled({ cells, fill_map }) {
+  bound.value = { ...bound.value, fill_map }
+  if (takeBack(sheet, bound.value, cells)) {
+    grid?.render()
+    isDirty.value = true
+  }
+}
+function onTemplateSaved(made) {
+  window.frappe?.show_alert?.({ message: __('Saved as a template: {0}', [made.title]), indicator: 'green' })
+}
 
 // ── AI Assist ─────────────────────────────────────────────────────────────────
 //
@@ -2456,7 +2486,7 @@ const textWrapDropdownOptions = computed(() => [
 // fallbacks only cover the impossible window where someone saves before
 // useSheetTabs has finished initializing.
 let _sheetTabs = null
-const { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice } =
+const { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, bound } =
   usePersistence({
     sheet, formats, merge, comments, validation, protection, condFormat, sortFilter, slicers, pivot,
     charts, namedRanges,

@@ -10,6 +10,7 @@
 //   f  a formula WITHOUT the leading '=' (Excel convention)
 //   z  a number-format code (Excel's grammar, e.g. '#,##0.00', '0.00%')
 
+import { plainFormula } from '../shim/excel.js' // One
 import { parseNumberFmt, CURRENCIES } from '../utils/format-number.js'
 
 // ── Number-format mapping ────────────────────────────────────────────────────
@@ -172,7 +173,7 @@ export function fromXlsxCell(cell) {
   if (!cell) return { value: '', fmt: '' }
   const fmt = cell.z ? zToNumFmt(cell.z) : ''
   let value
-  if (cell.f != null && cell.f !== '') value = '=' + cell.f
+  if (cell.f != null && cell.f !== '') value = '=' + plainFormula(cell.f) // One: Excel's newer names
   else if (cell.t === 'd' && cell.v instanceof Date) value = _iso(cell.v)
   else if (cell.t === 'b') value = cell.v ? 'TRUE' : 'FALSE'
   else if (cell.v == null) value = ''

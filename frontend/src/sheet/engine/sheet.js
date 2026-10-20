@@ -67,7 +67,9 @@ export function createSheet({ onCellChanged, onCellsChanged } = {}) {
 		if (raw === undefined || raw === null || raw === '') return 0
 		if (typeof raw === 'string' && raw.startsWith('='))
 			return _evalFormula(raw.slice(1), sheet, id)
-		const n = parseFloat(raw)
+		// One: a number only when the whole cell is one, as Excel reads it;
+		// parseFloat read "120cm Glass Handrail" as 120.
+		const n = typeof raw === 'number' ? raw : String(raw).trim() === '' ? NaN : Number(String(raw).trim())
 		return isNaN(n) ? raw : n
 	}
 

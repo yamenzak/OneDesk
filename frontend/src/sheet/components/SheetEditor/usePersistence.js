@@ -210,5 +210,5 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
     if (said.ok !== false && takeBack(sheet, bound.value, said.cells)) onTable?.()
   }
 
-  return { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice }
+  return { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, bound }
 }

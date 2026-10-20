@@ -89,8 +89,11 @@ def test_a_table_sheet_reads_back_as_the_table():
 
 	room = {"_": lambda text: text, "hashlib": hashlib, "json": json, "re": re, "date": date, "datetime": datetime, "time": time, "timedelta": timedelta}
 	_lifted(SHEET / "assist.py", ("letters",), room)
-	names = ("NUMBER", "TEXT", "SHOWN", "MOST_COLUMNS", "MOST_ROWS", "SPARE", "LOCKED_TO", "MARK", "YES", "NO", "EPOCH")
-	_lifted(SHEET / "table.py", (*names, "columns", "shown", "taken", "lined", "fingerprint", "_rule", "laid", "placed", "read", "back"), room)
+	import html
+
+	room["html"] = html
+	names = ("NUMBER", "TEXT", "SHOWN", "MOST_COLUMNS", "MOST_ROWS", "SPARE", "LOCKED_TO", "MARK", "YES", "NO", "EPOCH", "MAP_LINES")
+	_lifted(SHEET / "table.py", (*names, "columns", "shown", "taken", "lined", "fingerprint", "_rule", "_source", "filled", "laid", "placed", "read", "back"), room)
 	fields = [
 		{"fieldname": "item_code", "label": "Item", "fieldtype": "Link", "in_list_view": 1, "reqd": 1},
 		{"fieldname": "notes", "label": "Notes", "fieldtype": "Text Editor", "in_list_view": 1},
@@ -104,7 +107,7 @@ def test_a_table_sheet_reads_back_as_the_table():
 	assert cols[2]["options"] == ["Supply", "Fit"] and cols[4]["read_only"]
 	fields.append({"fieldname": "free", "label": "Free", "fieldtype": "Check"})
 	picked = room["columns"](fields, ["free", "qty", "notes"])
-	assert [col["fieldname"] for col in picked] == ["name", "free", "qty", "item_code"], "the grid's gear decides, and required stays"
+	assert [col["fieldname"] for col in picked] == ["name", "free", "qty", "notes", "item_code"], "the grid's gear decides, formatted text too, and required stays"
 
 	assert room["shown"](420.0, "Float") == "420" and room["shown"](6.75, "Currency") == "6.75" and room["shown"](0, "Check") == "FALSE"
 	assert room["taken"]("1,260", cols[3]) == (1260.0, None)
@@ -133,3 +136,43 @@ def test_a_table_sheet_reads_back_as_the_table():
 	cells = room["back"](moved, at, rows, after, cols, "new")
 	assert cells == {"C1": "#new", "F2": "800", "C3": "r2", "E3": "Fit", "F3": "200"}, cells
 	assert room["read"]([["#" + mark, "Item"]], cols)[2][0].startswith("The column Kind"), "a column gone is refused"
+
+
+def test_a_column_map_reads_the_source_sheet_line_by_line():
+	import html
+	import re
+
+	room = {"_": lambda text: text, "re": re, "html": html}
+	_lifted(SHEET / "assist.py", ("letters",), room)
+	_lifted(SHEET / "table.py", ("NUMBER", "TEXT", "SHOWN", "MOST_COLUMNS", "MARK", "MAP_LINES", "columns", "shown", "_source", "filled"), room)
+	fields = [
+		{"fieldname": "item_name", "label": "Item Name", "fieldtype": "Data", "in_list_view": 1},
+		{"fieldname": "description", "label": "Description", "fieldtype": "Text Editor"},
+		{"fieldname": "rate", "label": "Rate", "fieldtype": "Currency", "in_list_view": 1},
+	]
+	assert [col["fieldname"] for col in room["columns"](fields)] == ["name", "item_name", "rate"], "formatted text only when asked for"
+	cols = room["columns"](fields, also=["description"])
+	assert [col["fieldname"] for col in cols] == ["name", "item_name", "rate", "description"]
+	cells = room["filled"](cols, {"sheet": "Costing", "first": 4, "key": "A", "columns": {"item_name": "A", "rate": "=P{r}/C{r}", "description": "b"}}, lines=2)
+	assert cells == {
+		"B2": '=IF(Costing!$A4="","",Costing!A4)',
+		"C2": '=IF(Costing!$A4="","",Costing!P4/Costing!C4)',
+		"D2": '=IF(Costing!$A4="","",Costing!B4)',
+		"B3": '=IF(Costing!$A5="","",Costing!A5)',
+		"C3": '=IF(Costing!$A5="","",Costing!P5/Costing!C5)',
+		"D3": '=IF(Costing!$A5="","",Costing!B5)',
+	}, cells
+	assert room["filled"](cols, {"sheet": "C-28 costs", "first": 2, "columns": {"rate": "D"}}, lines=1) == {"C2": """=IF('C-28 costs'!$D2="","",'C-28 costs'!D2)"""}
+	assert room["shown"]("<p>Aluminum &amp; glass</p>", "Text Editor") == "Aluminum & glass"
+
+
+def test_a_template_of_a_table_leaves_the_table_out():
+	room = _lifted(SHEET / "templates.py", ("without",), {})
+	data = {
+		"sheet": {"v": 2, "current": "Items", "sheets": {"Items": {"rows": {}}, "Costing": {"rows": {"0": ["ITEM"]}}}},
+		"view": {"Items": {"hiddenCols": [0]}, "Costing": {"freezeRows": 3}},
+		"protection": {"Items": {"locked": False}},
+	}
+	kept = room["without"](data, "Items")
+	assert list(kept["sheet"]["sheets"]) == ["Costing"] and kept["sheet"]["current"] == "Costing"
+	assert kept["view"] == {"Costing": {"freezeRows": 3}} and kept["protection"] == {}

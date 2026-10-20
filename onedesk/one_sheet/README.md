@@ -106,6 +106,30 @@ that hold formatted text, code, files or pictures don't become columns.
 Rules a record keeps only on its form, as it is being typed, don't run
 from a workbook; every rule it checks when it saves does.
 
+## Templates
+
+**File › Save as Template** keeps a copy of the workbook in OneCloud ›
+Workbook Templates, where everyone in the company can start from it; you,
+and administrators, can change it there like any workbook. **New ›
+Workbook** in OneCloud then asks which template to start from, or a blank
+one.
+
+A template saved from a record's table workbook is for that table: it keeps
+the other sheets and where the table is filled from, but not the table
+itself, which each record has its own of. The first time someone opens that
+table in a workbook, they choose the template or the table as it is.
+
+## Filling the table from a sheet
+
+In a record's table workbook, **File › Fill the Table From a Sheet** makes
+the table follow another sheet of the workbook, such as a costing: say which
+sheet, the first row of its lines, the key column (a line whose key cell is
+empty isn't a row), and for each of the table's columns where it comes from.
+That is a column letter, such as `B`, or a formula reading the same line,
+with `{r}` for its row: `=P{r}/C{r}`. From then on every line of the source
+sheet is a row of the table, and changing a price in the source changes the
+record. **Stop Filling** leaves the table as it is.
+
 ## Who can open it
 
 The same people who can open the file in OneCloud. Your own files are yours
@@ -245,6 +269,35 @@ row somebody added on the form is never deleted by a sheet that never saw
 it; `refresh`, on every opening, draws the bound sheet again when the
 marks differ and keeps the other sheets and the column widths. A copy of
 the File is a plain workbook.
+
+### Templates and the column map, `templates.py`
+
+A template is a Workbook with `is_template` set, behind a public File in
+the company's Workbook Templates folder, so `namespace.may` lets every staff
+member read it and only its owner or an administrator change it.
+`template_for` and `template_field` name the table it is for; `fill_map`
+carries the map. `save_as` copies the workbook (`without` the bound sheet
+when it is a table's); `listed` offers the ones that fit, none for a
+record whose table already has its workbook; `data_of` refuses a table's
+template for anything but that table. `api.make` and `table.open_table`
+start from one.
+
+`table.filled` turns a map into the bound sheet's cells: on each of
+`MAP_LINES` lines, for each mapped column,
+`=IF(Source!$KEY{row}="","",<entry>)`, where a letter entry reads that
+column of the line and a formula entry has its bare references pointed at
+the source sheet. The map's fields are always columns (`columns(also=)`), a
+formatted-text field among them shown and saved as plain text. `set_map`
+stores the map and answers those cells, which the editor writes and saves
+like typing; `refresh` lays the formulas again when it redraws the bound
+sheet, so with a map the source sheet is what the table is.
+
+A real costing sheet showed three faults in the engine taken from Suite, mended
+in place (`VENDORED.md`): `"CW01"=""` was true, because both sides were
+read as the number 0; `Sheet!$A4` didn't read; and a cell such as "120cm
+Glass Handrail" was the number 120. Excel's `_xlfn.CEILING.MATH` and the
+other dotted names are read as the classic functions on import
+(`shim/excel.js`).
 
 ### History, `versions.py`
 

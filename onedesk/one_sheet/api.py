@@ -46,8 +46,9 @@ def _may(name: str, ptype: str = "read") -> dict:
 
 
 @frappe.whitelist(methods=["POST"])
-def make(parent: str, title: str | None = None) -> dict:
-	"""A new, empty workbook in a OneCloud folder, and the node the explorer draws."""
+def make(parent: str, title: str | None = None, template: str | None = None) -> dict:
+	"""A new workbook in a OneCloud folder, empty or a copy of a template's
+	sheets, and the node the explorer draws."""
 	from onedesk.one_storage import api as cloud
 	from onedesk.one_storage import namespace as ns
 
@@ -55,7 +56,12 @@ def make(parent: str, title: str | None = None) -> dict:
 	if where[0] == "mount":
 		frappe.throw(_("A workbook can't be made in a mounted drive."))
 	title = _titled(title) or _("Untitled Workbook")
-	book = frappe.get_doc({"doctype": WORKBOOK, "title": title, "sheets_data": storage.encode_sheets_data("{}")})
+	content = "{}"
+	if template:
+		from onedesk.one_sheet import templates
+
+		content = json.dumps(templates.data_of(template)[0], default=str)
+	book = frappe.get_doc({"doctype": WORKBOOK, "title": title, "sheets_data": storage.encode_sheets_data(content)})
 	book.flags.ignore_permissions = True
 	book.insert()
 	file = {

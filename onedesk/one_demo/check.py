@@ -5341,6 +5341,53 @@ def a_project_pays_for_stock_once():
 		raise AssertionError("no project bought anything into a store")
 
 @check
+def a_table_fills_from_a_template():
+	"""Layla maps a quotation's items onto a Costing sheet and saves the
+	workbook as a template for quotation items; the next time the items
+	are opened from it, the table's first sheet reads the Costing sheet
+	line by line. A plain workbook's template starts a plain workbook.
+	All of it is undone afterwards."""
+	from onedesk.one_sheet import api, storage, table, templates
+
+	def first_sheet(book):
+		held = table._held(book)
+		return json.loads(storage.decode_sheets_data(held.sheets_data))["sheet"]["sheets"][held.bound_sheet]["rows"]
+
+	quote = frappe.get_all("Quotation", filters={"docstatus": 0}, pluck="name", order_by="name", limit=1)[0]
+	frappe.db.savepoint("template_check")
+	try:
+		with as_user(OWNER):
+			book = table.open_table("Quotation", quote, "items")
+			mapped = {"sheet": "Costing", "first": 4, "key": "A", "columns": {"item_name": "A", "qty": "C", "rate": "=P{r}/C{r}"}}
+			cells = table.set_map(book, json.dumps(mapped))["cells"]
+			assert any(value == '=IF(Costing!$A4="","",Costing!P4/Costing!C4)' for value in cells.values()), cells
+			try:
+				table.set_map(book, json.dumps({**mapped, "columns": {"qty": "Q1"}}))
+				raise AssertionError("a map took Q1 for a column")
+			except frappe.ValidationError:
+				pass
+			made = templates.save_as(book, "Glazing costing")
+			assert {"name": made["name"], "title": "Glazing costing"} in templates.listed("Quotation", "items")
+			assert templates.listed("Quotation", "items", quote) == [], "a table with its workbook just opens it"
+			frappe.delete_doc("File", frappe.db.get_value(api.WORKBOOK, book, "file"), ignore_permissions=True, force=True)
+			again = table.open_table("Quotation", quote, "items", made["name"])
+			line = first_sheet(again)["1"]
+			assert any(str(one).startswith('=IF(Costing!$A4=""') for one in line), line
+			assert table._map(table._held(again)) == mapped
+			plain = api.make("@my", "Rates")
+			general = templates.save_as(plain["workbook"], "Rates sheet")
+			assert any(one["name"] == general["name"] for one in templates.listed())
+			copy = api.make("@my", "Rates for Bayview", general["name"])
+			assert copy["workbook"] != plain["workbook"]
+			try:
+				api.make("@my", "Wrong", made["name"])
+				raise AssertionError("a table's template started a plain workbook")
+			except frappe.ValidationError:
+				pass
+	finally:
+		frappe.db.rollback(save_point="template_check")
+
+@check
 def a_record_table_opens_as_a_workbook():
 	"""Layla opens a draft quotation's items in a workbook, raises a quantity
 	and adds a line: the quotation saves itself and sends ids and figures

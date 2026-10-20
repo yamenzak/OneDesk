@@ -9,6 +9,7 @@ import re
 import frappe
 from frappe.utils import flt
 
+from rua import setup
 from rua.importer.base import clean
 from rua.importer.parties import customer_of
 from rua.importer.projects import project_of, taxes
@@ -27,20 +28,6 @@ SECTIONS = (
 	("proposal_basis", "Proposal Basis"),
 	("notes", "Notes"),
 )
-PRODUCTS = (
-	("curtain", "Curtain Wall"),
-	("window", "Window"),
-	("door", "Door"),
-	("louver", "Louver"),
-	("louvre", "Louver"),
-	("skylight", "Skylight"),
-	("shower", "Shower Partition"),
-	("cladding", "ACP Cladding"),
-	("acp", "ACP Cladding"),
-	("handrail", "Glass Handrail"),
-)
-
-
 def run(run_):
 	for old in run_.docs(QUOTATION):
 		if run_.made(QUOTATION, old["name"], "Quotation"):
@@ -74,11 +61,9 @@ def run(run_):
 
 
 def product(description):
-	said = (description or "").lower()
-	for word, item in PRODUCTS:
-		if word in said:
-			return item
-	return "Aluminium Works"
+	"""The product a line is, by its description (setup.KINDS, which Rua's
+	costing template reads the same way)."""
+	return setup.kind(description)
 
 
 def millimetres(value) -> float:

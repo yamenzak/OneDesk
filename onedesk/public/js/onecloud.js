@@ -1108,7 +1108,9 @@ onedesk.OneCloud = class OneCloud {
 	}
 
 	async new_workbook() {
-		const made = await frappe.xcall("onedesk.one_sheet.api.make", { parent: this.node });
+		const template = await onedesk.table_workbook.pick(await frappe.xcall("onedesk.one_sheet.templates.listed"), __("Blank workbook"));
+		if (template === null) return;
+		const made = await frappe.xcall("onedesk.one_sheet.api.make", { parent: this.node, template: template || null });
 		this.forget_tree(this.node);
 		frappe.set_route("workbook", made.workbook);
 	}

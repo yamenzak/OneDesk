@@ -42,10 +42,22 @@ def test_a_size_is_read_in_millimetres_whatever_unit_the_old_app_wrote():
 
 
 def test_a_line_goes_under_the_product_its_words_name():
-	product = _load(IMPORTER / "quotations.py", {"product"})["product"]
+	product = _load(RUA / "setup.py", {"kind"})["kind"]
 	assert product("Aluminum Curtainwall Fix Panel With Sliding Window") == "Curtain Wall"
 	assert product("ACP cladding to the facade") == "ACP Cladding"
+	assert product("Metallic Bronze Colour Aluminum Composite Panel") == "ACP Cladding"
+	assert product("Steel Floor Mounted Handrail ( Staircase 1 & Staircase 2 )") == "Steel Handrail"
+	assert product("120cm Glass Handrail at Balcony Area (8mm+1.52pvb+8mm)") == "Glass Handrail"
+	assert product("Aluminum Double Leaf Louver at L.V. Room") == "Louver"
 	assert product("Something nobody named") == "Aluminium Works"
+
+
+def test_the_costing_template_asks_the_same_question_as_the_importer():
+	space = _load(RUA / "setup.py", {"kind_formula"})
+	said = space["kind_formula"]()
+	assert said.startswith('=IF(ISNUMBER(SEARCH("louv",B{r})),"Louver",')
+	assert 'IF(AND(ISNUMBER(SEARCH("steel",B{r})),ISNUMBER(SEARCH("handrail",B{r}))),"Steel Handrail",' in said
+	assert said.endswith('"Aluminium Works"' + ")" * len(space["KINDS"]))
 
 
 def test_a_trn_is_fifteen_digits_or_nothing():

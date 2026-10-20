@@ -18,7 +18,11 @@
   "bound_name",
   "bound_field",
   "bound_sheet",
-  "bound_columns"
+  "bound_columns",
+  "fill_map",
+  "is_template",
+  "template_for",
+  "template_field"
  ],
  "fields": [
   {
@@ -85,11 +89,37 @@
    "fieldtype": "JSON",
    "label": "Columns",
    "read_only": 1
+  },
+  {
+   "fieldname": "fill_map",
+   "fieldtype": "JSON",
+   "label": "Filled From",
+   "read_only": 1
+  },
+  {
+   "fieldname": "is_template",
+   "fieldtype": "Check",
+   "label": "Is Template",
+   "read_only": 1,
+   "default": "0"
+  },
+  {
+   "fieldname": "template_for",
+   "fieldtype": "Link",
+   "label": "Template For",
+   "options": "DocType",
+   "read_only": 1
+  },
+  {
+   "fieldname": "template_field",
+   "fieldtype": "Data",
+   "label": "Template Table",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-20 18:00:00.000000",
+ "modified": "2026-10-20 23:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Sheet",
  "name": "Workbook",

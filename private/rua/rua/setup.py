@@ -56,6 +56,7 @@ def run():
 	groups()
 	items(company)
 	store(company)
+	costing()
 	terms()
 	pay(company)
 	frappe.db.commit()
@@ -235,6 +236,88 @@ def profile(code, description, bar_length):
 def accessory(code, description, uom="Nos"):
 	"""An accessory: rubber by the metre, the rest by the piece."""
 	return item(code, uom, "Accessories", stock=1, description=description)
+
+
+COSTING = "Rua Costing"
+COSTING_LINES = 100
+COSTING_HEAD = (
+	"ITEM", "DESCRIPTION", "QTY", "WIDTH (mm)", "HEIGHT (mm)", "AREA (sqm)", "GLASS UNIT", "GLASS PRICE", "TOTAL GLASS",
+	"ALU UNIT", "TOTAL ALU", "ACT UNIT", "PROFIT 74%", "UNIT RATE", None, "OVERALL PRICE", None, None, "CW", "INSERTION",
+	"EXTRA", "ALUMIL PRICE", "VAT 5%", None, "ALL PRICE inc PC and VAT",
+)
+#: A curtain wall's line, as Rua's estimators price it: area, glass at 350 a
+#: square metre, Alumil's price with insertion and extras, VAT, 74% profit,
+#: and the rate rounded up to 5. Louvers, cladding and handrails are priced
+#: on their own lines by hand, as they were in Excel.
+COSTING_LINE = {
+	"F": "=(D{r}*E{r})/1000000", "G": "350", "H": "=G{r}*F{r}", "I": "=H{r}*C{r}", "J": "=Y{r}", "K": "=J{r}*C{r}",
+	"L": "=H{r}+J{r}", "M": "=L{r}*0.74", "N": "=L{r}+M{r}", "O": "=CEILING(N{r},5)", "P": "=O{r}*C{r}", "R": "=A{r}",
+	"V": "=S{r}+T{r}+U{r}", "W": "=V{r}*1.05", "X": "=W{r}*C{r}", "Y": "=W{r}*1.13",
+}
+#: Which product a line is, read from its description: the first that fits,
+#: "+" joining words that must all be there.
+KINDS = (
+	("louv", "Louver"), ("composite", "ACP Cladding"), ("cladding", "ACP Cladding"), ("acp", "ACP Cladding"),
+	("steel+handrail", "Steel Handrail"), ("handrail", "Glass Handrail"), ("curtain", "Curtain Wall"),
+	("window", "Window"), ("door", "Door"), ("skylight", "Skylight"), ("shower", "Shower Partition"),
+)
+
+
+def kind(description) -> str:
+	"""The product a description is, by KINDS. Pure."""
+	said = (description or "").lower()
+	return next((product for words, product in KINDS if all(one in said for one in words.split("+"))), "Aluminium Works")
+
+
+def kind_formula() -> str:
+	"""KINDS as one formula on the description in B, for the column map."""
+	said = '"Aluminium Works"'
+	for words, product in reversed(KINDS):
+		tests = [f'ISNUMBER(SEARCH("{one}",B{{r}}))' for one in words.split("+")]
+		test = tests[0] if len(tests) == 1 else f"AND({','.join(tests)})"
+		said = f'IF({test},"{product}",{said})'
+	return "=" + said
+
+
+def costing():
+	"""Rua's costing sheet as a template for a quotation's items: the
+	estimators' columns, a curtain wall's formulas on every line, and the map
+	that makes each line a quotation line. The rate is the line's overall
+	price over its quantity: O is a unit rate on a curtain wall's line but
+	the whole price on a cladding or handrail line, where P is just O."""
+	from onedesk.one_sheet import api, templates
+
+	if frappe.db.exists(api.WORKBOOK, {"is_template": 1, "title": COSTING}):
+		return
+	letter = [chr(65 + at) for at in range(26)]
+	rows = {"0": ["PROJECT"], "1": ["ALUMINUM AND GLAZING - ALUMIL"], "2": list(COSTING_HEAD)}
+	for line in range(COSTING_LINES):
+		r = line + 4
+		row = [None] * 25
+		for col, formula in COSTING_LINE.items():
+			row[letter.index(col)] = formula.replace("{r}", str(r))
+		rows[str(r - 1)] = row
+	last = COSTING_LINES + 3
+	rows[str(last + 1)] = [None] * 14 + ["TOTAL", f"=SUM(P4:P{last})"]
+	data = {
+		"sheet": {"v": 2, "current": "Costing", "sheets": {"Costing": {"rows": rows}}},
+		"view": {"Costing": {"freezeRows": 3, "colW": {"0": 150, "1": 320}}},
+	}
+	fill_map = {
+		"sheet": "Costing",
+		"first": 4,
+		"key": "A",
+		"columns": {
+			"item_code": kind_formula(),
+			"item_name": "A",
+			"description": "B",
+			"qty": "C",
+			"one_length": '=IF(ISNUMBER(D{r}),D{r},"")',
+			"one_width": '=IF(ISNUMBER(E{r}),E{r},"")',
+			"rate": "=P{r}/C{r}",
+		},
+	}
+	templates.make(COSTING, data, "Quotation", "items", fill_map)
 
 
 def items(company):
