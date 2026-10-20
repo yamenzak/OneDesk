@@ -5341,39 +5341,49 @@ def a_project_pays_for_stock_once():
 		raise AssertionError("no project bought anything into a store")
 
 @check
-def a_table_fills_from_a_template():
-	"""Layla maps a quotation's items onto a Costing sheet and saves the
-	workbook as a template for quotation items; the next time the items
-	are opened from it, the table's first sheet reads the Costing sheet
-	line by line. A plain workbook's template starts a plain workbook.
-	All of it is undone afterwards."""
+def a_table_keeps_its_formulas():
+	"""Layla types formulas under a quotation's items that read a Costing
+	sheet, and saves the workbook as a template for quotation items: it keeps
+	the Costing sheet and the formulas, not the rows. The table opened from
+	it again starts with the same formulas, and drawing the table again after
+	a change on the form keeps them. A plain workbook's template starts a
+	plain workbook. All of it is undone afterwards."""
 	from onedesk.one_sheet import api, storage, table, templates
 
 	def first_sheet(book):
 		held = table._held(book)
-		return json.loads(storage.decode_sheets_data(held.sheets_data))["sheet"]["sheets"][held.bound_sheet]["rows"]
+		return table.stored(json.loads(storage.decode_sheets_data(held.sheets_data)), held.bound_sheet)
 
 	quote = frappe.get_all("Quotation", filters={"docstatus": 0}, pluck="name", order_by="name", limit=1)[0]
 	frappe.db.savepoint("template_check")
 	try:
 		with as_user(OWNER):
 			book = table.open_table("Quotation", quote, "items")
-			mapped = {"sheet": "Costing", "first": 4, "key": "A", "columns": {"item_name": "A", "qty": "C", "rate": "=P{r}/C{r}"}}
-			cells = table.set_map(book, json.dumps(mapped))["cells"]
-			assert any(value == '=IF(Costing!$A4="","",Costing!P4/Costing!C4)' for value in cells.values()), cells
-			try:
-				table.set_map(book, json.dumps({**mapped, "columns": {"qty": "Q1"}}))
-				raise AssertionError("a map took Q1 for a column")
-			except frappe.ValidationError:
-				pass
+			held = table._held(book)
+			data = json.loads(storage.decode_sheets_data(held.sheets_data))
+			rows = table.stored(data, held.bound_sheet)
+			qty = rows["0"].index("Quantity")
+			rows["1"][qty] = "=Costing!C4:C"
+			data["sheet"]["sheets"]["Costing"] = {"rows": {"3": ["CW01", "Wall", "10"]}}
+			frappe.db.set_value(api.WORKBOOK, book, "sheets_data", storage.encode_sheets_data(json.dumps(data)))
 			made = templates.save_as(book, "Glazing costing")
 			assert {"name": made["name"], "title": "Glazing costing"} in templates.listed("Quotation", "items")
 			assert templates.listed("Quotation", "items", quote) == [], "a table with its workbook just opens it"
+			kept = json.loads(storage.decode_sheets_data(frappe.db.get_value(api.WORKBOOK, made["name"], "sheets_data")))
+			lines = table.stored(kept, "Items")
+			assert lines["1"][qty] == "=Costing!C4:C" and not any(one for one in lines["1"] if one != "=Costing!C4:C"), lines
+			assert "Costing" in kept["sheet"]["sheets"] and set(lines) == {"0", "1"}, "no rows"
 			frappe.delete_doc("File", frappe.db.get_value(api.WORKBOOK, book, "file"), ignore_permissions=True, force=True)
 			again = table.open_table("Quotation", quote, "items", made["name"])
 			line = first_sheet(again)["1"]
-			assert any(str(one).startswith('=IF(Costing!$A4=""') for one in line), line
-			assert table._map(table._held(again)) == mapped
+			assert line[qty] == "=Costing!C4:C" and line[0], line
+			assert all(first_sheet(again)[at][qty] is None for at in first_sheet(again) if at not in ("0", "1")), "the formula fills the column"
+			child = frappe.get_doc("Quotation", quote).items[0]
+			frappe.db.set_value(child.doctype, child.name, "qty", flt(child.qty) + 1)
+			was = first_sheet(again)["0"][0]
+			table.refresh(again)
+			assert first_sheet(again)["0"][0] != was, "drawn again"
+			assert first_sheet(again)["1"][qty] == "=Costing!C4:C", "and the formula stays"
 			plain = api.make("@my", "Rates")
 			general = templates.save_as(plain["workbook"], "Rates sheet")
 			assert any(one["name"] == general["name"] for one in templates.listed())

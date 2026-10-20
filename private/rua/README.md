@@ -128,11 +128,13 @@ Rua's estimators price a job in a costing sheet, one line per opening:
 area, glass at 350 a square metre, Alumil's price with insertion and
 extras, VAT, 74% profit, the rate rounded up to 5. `setup.costing` makes it
 a workbook template for a quotation's items, **Rua Costing**: their columns,
-a curtain wall's formulas on 100 lines and a total, and a column map that
-makes each line a quotation line. The product comes from the description
-(`setup.KINDS`, which the importer reads the same way), the mark is the
-item name, then the description, quantity, width and height, and the rate
-is the line's overall price (P) over its quantity (C): O is a unit rate on a
+a curtain wall's formulas on 100 lines and a total, and an Items sheet
+whose first line holds one formula a column, each filling its column down
+from the costing (`setup.COSTING_ITEMS`), a line for each costing line with
+an ITEM. The product comes from the description (`setup.kind_formula`, on
+`setup.KINDS`, which the importer reads the same way), the mark is the item
+name, then the description, quantity, width and height, and the rate is
+the line's overall price (P) over its quantity (C): O is a unit rate on a
 curtain wall's line but the whole price on a cladding or handrail line.
 
 Opening a quotation's items in a workbook offers it. Pasting the C-28

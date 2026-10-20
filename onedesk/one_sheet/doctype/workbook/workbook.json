@@ -19,7 +19,6 @@
   "bound_field",
   "bound_sheet",
   "bound_columns",
-  "fill_map",
   "is_template",
   "template_for",
   "template_field"
@@ -91,12 +90,6 @@
    "read_only": 1
   },
   {
-   "fieldname": "fill_map",
-   "fieldtype": "JSON",
-   "label": "Filled From",
-   "read_only": 1
-  },
-  {
    "fieldname": "is_template",
    "fieldtype": "Check",
    "label": "Is Template",
@@ -119,7 +112,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-20 23:00:00.000000",
+ "modified": "2026-10-20 20:32:26.175501",
  "modified_by": "Administrator",
  "module": "One Sheet",
  "name": "Workbook",

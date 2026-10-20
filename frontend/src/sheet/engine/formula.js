@@ -221,6 +221,41 @@ function makeCriteriaTest(c) {
 	return x => x === c
 }
 
+// One: arrays, cell by cell, as Excel's dynamic arrays and Google Sheets'
+// ARRAYFORMULA work them: =A2:A9*2 and =IF(A2:A9="","",B2:B9) are each a
+// range the cell spills. One side of one line or one column stretches over
+// the other; past the shorter side is #N/A.
+function _grid(v) { return Array.isArray(v) ? v.map(r => Array.isArray(r) ? r : [r]) : [[v]] }
+function _at(g, r, c) {
+	const row = g.length === 1 ? g[0] : g[r]
+	if (!row) return '#N/A'
+	const v = row.length === 1 ? row[0] : row[c]
+	return v === undefined ? '#N/A' : v
+}
+function _each(values, fn) {
+	if (!values.some(Array.isArray)) return fn(...values)
+	const grids = values.map(_grid)
+	if (grids.some(g => !g.length)) return '#N/A'
+	const rows = Math.max(...grids.map(g => g.length))
+	const cols = Math.max(...grids.map(g => Math.max(...g.map(r => r.length))))
+	const out = []
+	for (let r = 0; r < rows; r++) {
+		const line = []
+		for (let c = 0; c < cols; c++) line.push(fn(...grids.map(g => _at(g, r, c))))
+		out.push(line)
+	}
+	return out
+}
+// Functions that take one value per argument, worked cell by cell over a
+// range.
+const _BY_CELL = new Set([
+	'ROUND','ROUNDUP','ROUNDDOWN','ABS','INT','SQRT','POWER','MOD','LOG','LN','EXP','FLOOR','CEILING',
+	'TRUNC','SIGN','QUOTIENT','EVEN','ODD','IF','IFS','NOT','IFERROR','IFNA','LEN','UPPER','LOWER',
+	'PROPER','TRIM','CLEAN','LEFT','RIGHT','MID','REPT','EXACT','SUBSTITUTE','REPLACE','FIND','SEARCH',
+	'VALUE','TEXT','FIXED','NUMBERVALUE','CONCATENATE','DATE','YEAR','MONTH','DAY','EDATE','EOMONTH',
+	'DATEVALUE','ISBLANK','ISNUMBER','ISTEXT','ISERROR','ISERR','ISNA','ISLOGICAL','ISODD','ISEVEN','N','T',
+])
+
 // ─── Built-in functions ───────────────────────────────────────────────────────
 const FUNCTIONS = {
 	SUM:     args => flatten(args).reduce((s,v)=>isErr(v)?s:s+toNum(v), 0),
@@ -957,14 +992,14 @@ function createParser(tokens, getCellValue, getRangeValues, getSheetCellValue, g
 		let l = concat()
 		while (peek()?.t===T.OP && ['=','<>','>','<','>=','<='].includes(peek().v)) {
 			const op=next().v, r=concat()
-			switch(op) {
-				case '=':  l = _equal(l, r); break // One: "CW01"="" was true, both read as 0
-				case '<>': l = !_equal(l, r); break
-				case '>':  l = toNum(l)>toNum(r);  break
-				case '<':  l = toNum(l)<toNum(r);  break
-				case '>=': l = toNum(l)>=toNum(r); break
-				case '<=': l = toNum(l)<=toNum(r); break
-			}
+			l = _each([l, r], (l, r) => { switch(op) {
+				case '=':  return _equal(l, r) // One: "CW01"="" was true, both read as 0
+				case '<>': return !_equal(l, r)
+				case '>':  return toNum(l)>toNum(r)
+				case '<':  return toNum(l)<toNum(r)
+				case '>=': return toNum(l)>=toNum(r)
+				case '<=': return toNum(l)<=toNum(r)
+			} })
 		}
 		return l
 	}
@@ -974,7 +1009,7 @@ function createParser(tokens, getCellValue, getRangeValues, getSheetCellValue, g
 		while (peek()?.t===T.OP && peek().v==='&') {
 			next()
 			const r = add()
-			l = _str(l) + _str(r)
+			l = _each([l, r], (l, r) => _str(l) + _str(r))
 		}
 		return l
 	}
@@ -983,11 +1018,13 @@ function createParser(tokens, getCellValue, getRangeValues, getSheetCellValue, g
 		let l = mul()
 		while (peek()?.t===T.OP && (peek().v==='+'||peek().v==='-')) {
 			const op=next().v, r=mul()
-			if (isErr(l)) return l
-			if (isErr(r)) return r
-			const ln = toNumStrict(l); if (isErr(ln)) return ln
-			const rn = toNumStrict(r); if (isErr(rn)) return rn
-			l = op==='+' ? ln+rn : ln-rn
+			l = _each([l, r], (l, r) => {
+				if (isErr(l)) return l
+				if (isErr(r)) return r
+				const ln = toNumStrict(l); if (isErr(ln)) return ln
+				const rn = toNumStrict(r); if (isErr(rn)) return rn
+				return op==='+' ? ln+rn : ln-rn
+			})
 		}
 		return l
 	}
@@ -996,12 +1033,14 @@ function createParser(tokens, getCellValue, getRangeValues, getSheetCellValue, g
 		let l = pow()
 		while (peek()?.t===T.OP && (peek().v==='*'||peek().v==='/')) {
 			const op=next().v, r=pow()
-			if (isErr(l)) return l
-			if (isErr(r)) return r
-			const ln = toNumStrict(l); if (isErr(ln)) return ln
-			const rn = toNumStrict(r); if (isErr(rn)) return rn
-			if (op==='/') { if (rn===0) return '#DIV/0!'; l = ln/rn }
-			else l = ln*rn
+			l = _each([l, r], (l, r) => {
+				if (isErr(l)) return l
+				if (isErr(r)) return r
+				const ln = toNumStrict(l); if (isErr(ln)) return ln
+				const rn = toNumStrict(r); if (isErr(rn)) return rn
+				if (op==='/') return rn===0 ? '#DIV/0!' : ln/rn
+				return ln*rn
+			})
 		}
 		return l
 	}
@@ -1010,18 +1049,20 @@ function createParser(tokens, getCellValue, getRangeValues, getSheetCellValue, g
 		const b = unary()
 		if (peek()?.t===T.OP && peek().v==='^') {
 			next()
-			const bn = toNumStrict(b); if (isErr(bn)) return bn
-			const en = toNumStrict(unary()); if (isErr(en)) return en
-			return Math.pow(bn, en)
+			return _each([b, unary()], (b, e) => {
+				const bn = toNumStrict(b); if (isErr(bn)) return bn
+				const en = toNumStrict(e); if (isErr(en)) return en
+				return Math.pow(bn, en)
+			})
 		}
 		return b
 	}
 
 	function unary() {
-		if (peek()?.t===T.OP && peek().v==='-') { next(); const n = toNumStrict(primary()); return isErr(n) ? n : -n }
-		if (peek()?.t===T.OP && peek().v==='+') { next(); const n = toNumStrict(primary()); return n }
+		if (peek()?.t===T.OP && peek().v==='-') { next(); return _each([primary()], v => { const n = toNumStrict(v); return isErr(n) ? n : -n }) }
+		if (peek()?.t===T.OP && peek().v==='+') { next(); return _each([primary()], toNumStrict) }
 		let v = primary()
-		if (peek()?.t===T.OP && peek().v==='%') { next(); const n = toNumStrict(v); return isErr(n) ? n : n/100 }
+		if (peek()?.t===T.OP && peek().v==='%') { next(); return _each([v], v => { const n = toNumStrict(v); return isErr(n) ? n : n/100 }) }
 		return v
 	}
 
@@ -1041,7 +1082,7 @@ function createParser(tokens, getCellValue, getRangeValues, getSheetCellValue, g
 				const endTok = next()
 				if (!endTok || (endTok.t!==T.REF && endTok.t!==T.COLREF)) throw new Error('Bad range')
 				const endRef = endTok.t===T.COLREF
-					? `${endTok.v}${tok.v.match(/[0-9]+$/)[0]}`
+					? `${endTok.v}1048576` // One: A4:A runs to the end of the column, as in Google Sheets
 					: endTok.v
 				return getRangeValues(tok.v, endRef)
 			}
@@ -1102,7 +1143,9 @@ function createParser(tokens, getCellValue, getRangeValues, getSheetCellValue, g
 			expect(T.RP)
 			const fn = FUNCTIONS[tok.v]
 			if (!fn) return '#NAME?'
-			try { return fn(args) } catch(e) { return '#VALUE!' }
+			const call = a => { try { return fn(a) } catch(e) { return '#VALUE!' } }
+			if (_BY_CELL.has(tok.v) && args.some(Array.isArray)) return _each(args, (...a) => call(a))
+			return call(args)
 		}
 
 		if (tok.t===T.NAME) {

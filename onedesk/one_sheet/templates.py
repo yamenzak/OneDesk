@@ -2,8 +2,8 @@
 to start others from. Anyone in the company opens them; whoever made one, or
 an administrator, changes it, as with any company file. A template made from
 a record's table workbook is for that table: it carries the sheets beside
-the table and the column map, and is offered when that table is first
-opened in a workbook. README, Templates.
+the table and the formulas typed under the table's header, and is offered
+when that table is first opened in a workbook. README, Templates.
 """
 
 import json
@@ -50,21 +50,28 @@ def listed(doctype: str | None = None, field: str | None = None, name: str | Non
 	return out
 
 
-def data_of(template: str, doctype: str | None = None, field: str | None = None) -> tuple[dict, dict | None]:
-	"""A template's sheets and column map, for a new workbook. A template for
-	a table starts only that table's workbook."""
-	held = frappe.db.get_value(api.WORKBOOK, template, ["is_template", "template_for", "template_field", "fill_map", "sheets_data"], as_dict=True)
+def data_of(template: str, doctype: str | None = None, field: str | None = None, sheet: str | None = None) -> tuple[dict, str | None, dict]:
+	"""A template's sheets for a new workbook, the name its table's sheet
+	goes by, and the formulas under that table's header by line and field.
+	A template for a table starts only that table's workbook."""
+	from onedesk.one_sheet import table
+
+	held = frappe.db.get_value(
+		api.WORKBOOK, template, ["is_template", "template_for", "template_field", "bound_sheet", "bound_columns", "sheets_data"], as_dict=True
+	)
 	if not held or not held.is_template:
 		frappe.throw(_("That isn't a template."))
 	api._may(template, "read")
 	if held.template_for and (held.template_for, held.template_field) != (doctype, field):
 		frappe.throw(_("That template is for another table."))
 	data = json.loads(storage.decode_sheets_data(held.sheets_data) or "{}")
-	fill_map = json.loads(held.fill_map) if held.fill_map else None
-	return data, fill_map
+	if not held.bound_sheet:
+		return data, sheet, {}
+	formulas = table.kept(table.stored(data, held.bound_sheet), json.loads(held.bound_columns or "[]"))
+	return data, held.bound_sheet, formulas
 
 
-def make(title: str, data: dict, template_for: str | None = None, template_field: str | None = None, fill_map: dict | None = None) -> str:
+def make(title: str, data: dict, template_for: str | None = None, template_field: str | None = None, sheet: str | None = None, cols: list | None = None) -> str:
 	"""A template in the Workbook Templates folder; its name."""
 	from onedesk.one_storage import api as cloud
 	from onedesk.one_storage import namespace as ns
@@ -79,7 +86,8 @@ def make(title: str, data: dict, template_for: str | None = None, template_field
 			"is_template": 1,
 			"template_for": template_for,
 			"template_field": template_field,
-			"fill_map": json.dumps(fill_map) if fill_map else None,
+			"bound_sheet": sheet,
+			"bound_columns": json.dumps(cols) if cols else None,
 		}
 	)
 	book.flags.ignore_permissions = True
@@ -99,35 +107,27 @@ def make(title: str, data: dict, template_for: str | None = None, template_field
 	return book.name
 
 
-def without(data: dict, sheet: str) -> dict:
-	"""A workbook's content without one sheet and what belongs to it. Pure."""
-	held = dict(data.get("sheet") or {})
-	held["sheets"] = {name: one for name, one in (held.get("sheets") or {}).items() if name != sheet}
-	if held.get("current") == sheet:
-		held["current"] = next(iter(held["sheets"]), None)
-	out = {**data, "sheet": held}
-	for key in ("validation", "protection", "view", "formats", "comments", "condFormat", "sortFilter"):
-		if isinstance(out.get(key), dict) and sheet in out[key]:
-			out[key] = {name: one for name, one in out[key].items() if name != sheet}
-	return out
-
-
 @frappe.whitelist(methods=["POST"])
 def save_as(name: str, title: str) -> dict:
 	"""This workbook as a template. A record's table workbook gives one for
-	that table, without the table itself, which each record fills."""
+	that table: the table's sheet keeps its header and the formulas typed in
+	it, not the rows, which each record fills."""
+	from onedesk.one_sheet import table
+
 	api._may(name, "read")
 	held = frappe.db.get_value(
-		api.WORKBOOK, name, ["sheets_data", "bound_doctype", "bound_field", "bound_sheet", "fill_map"], as_dict=True
+		api.WORKBOOK, name, ["sheets_data", "bound_doctype", "bound_field", "bound_sheet", "bound_columns"], as_dict=True
 	)
 	data = json.loads(storage.decode_sheets_data(held.sheets_data) or "{}")
-	if held.bound_doctype:
-		data = without(data, held.bound_sheet)
-	made = make(
-		title,
-		data,
-		held.bound_doctype,
-		held.bound_field,
-		json.loads(held.fill_map) if held.fill_map else None,
-	)
+	if not held.bound_doctype:
+		made = make(title, data)
+	else:
+		made = make(
+			title,
+			table.emptied(data, held.bound_sheet),
+			held.bound_doctype,
+			held.bound_field,
+			held.bound_sheet,
+			json.loads(held.bound_columns or "[]"),
+		)
 	return {"name": made, "title": frappe.db.get_value(api.WORKBOOK, made, "title")}

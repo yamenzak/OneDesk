@@ -115,20 +115,29 @@ Workbook** in OneCloud then asks which template to start from, or a blank
 one.
 
 A template saved from a record's table workbook is for that table: it keeps
-the other sheets and where the table is filled from, but not the table
-itself, which each record has its own of. The first time someone opens that
-table in a workbook, they choose the template or the table as it is.
+the other sheets and the formulas in the table, but not the table's rows,
+which each record has its own of. The first time someone opens that table
+in a workbook, they choose the template or the table as it is.
 
-## Filling the table from a sheet
+## Filling the table from another sheet
 
-In a record's table workbook, **File › Fill the Table From a Sheet** makes
-the table follow another sheet of the workbook, such as a costing: say which
-sheet, the first row of its lines, the key column (a line whose key cell is
-empty isn't a row), and for each of the table's columns where it comes from.
-That is a column letter, such as `B`, or a formula reading the same line,
-with `{r}` for its row: `=P{r}/C{r}`. From then on every line of the source
-sheet is a row of the table, and changing a price in the source changes the
-record. **Stop Filling** leaves the table as it is.
+Type a formula in the table's first line that reads a whole column of
+another sheet, and it fills the column down, one line for each line there:
+
+- `=Costing!A4:A` puts Costing's column A, from line 4 to its last line, in
+  this column.
+- `=IF(Costing!A4:A="","",Costing!P4:P/Costing!C4:C)` works line by line:
+  P over C on every line that has something in A.
+
+This is what Google Sheets and Excel call a formula that spills. Add a line
+to Costing and the table gains a line; change a price there and the record
+follows when the workbook saves. If something is typed in a cell the
+formula wants to fill, the formula shows `#SPILL!` until it is cleared.
+Pasting values works as well, and so does a formula on each line.
+
+Formulas in the table stay when the table is drawn again after a change on
+the form. A column whose first line is a formula belongs to that formula;
+the record's values aren't written over it.
 
 ## Who can open it
 
@@ -270,27 +279,41 @@ it; `refresh`, on every opening, draws the bound sheet again when the
 marks differ and keeps the other sheets and the column widths. A copy of
 the File is a plain workbook.
 
-### Templates and the column map, `templates.py`
+### Templates, `templates.py`
 
 A template is a Workbook with `is_template` set, behind a public File in
 the company's Workbook Templates folder, so `namespace.may` lets every staff
 member read it and only its owner or an administrator change it.
-`template_for` and `template_field` name the table it is for; `fill_map`
-carries the map. `save_as` copies the workbook (`without` the bound sheet
-when it is a table's); `listed` offers the ones that fit, none for a
-record whose table already has its workbook; `data_of` refuses a table's
-template for anything but that table. `api.make` and `table.open_table`
-start from one.
+`template_for` and `template_field` name the table it is for, and
+`bound_sheet` and `bound_columns` the table's sheet and the headers it was
+drawn with (`bound_doctype` stays empty, so it is no record's workbook).
+`save_as` copies the workbook, the table's sheet `emptied` down to its
+header and formulas; `listed` offers the ones that fit, none for a record
+whose table already has its workbook; `data_of` refuses a table's template
+for anything but that table, and answers the formulas by line and field
+name (`kept`), so a template saved in English opens in Arabic. `api.make`
+and `table.open_table` start from one; the formulas' fields are always
+columns (`columns(also=)`).
 
-`table.filled` turns a map into the bound sheet's cells: on each of
-`MAP_LINES` lines, for each mapped column,
-`=IF(Source!$KEY{row}="","",<entry>)`, where a letter entry reads that
-column of the line and a formula entry has its bare references pointed at
-the source sheet. The map's fields are always columns (`columns(also=)`), a
-formatted-text field among them shown and saved as plain text. `set_map`
-stores the map and answers those cells, which the editor writes and saves
-like typing; `refresh` lays the formulas again when it redraws the bound
-sheet, so with a map the source sheet is what the table is.
+`laid` writes the formulas it is given back where they were. A column with
+one on its first line is fed by it, so `laid` leaves the record's values out
+of it and puts no rule on it, and `refresh` keeps every formula when it
+draws the sheet again. In the browser, `takeBack` writes nothing into a
+formula or a cell a formula spilled into, which would block it.
+
+The engine taken from Suite had no spill: a range in a cell showed its
+first value, `A4:A` meant A4 alone, and `Sheet!A4:A` meant a million lines.
+`engine/sheet.js` now lays a formula's range over the empty cells below and
+right of it (`_spill`), read through `getCellValue` and `getDisplayValue`
+without writing them, so the stored sheet keeps one formula; `_settle`
+works out the formulas that could spill over a cell before it is read,
+`getExtent` counts spilled lines for `tableValues`, and while anything
+spills an edit drops every worked-out value, since a cell reading a spilled
+one isn't in the dependency graph. A range to the end of a column stops at
+the sheet's last line in use. `engine/formula.js` works operators and the
+one-value functions (`_BY_CELL`) over a range cell by cell (`_each`). An
+empty cell now reads as `""`, so `=A7` shows blank as in Google Sheets, and
+`COUNT` no longer counts empty cells.
 
 A real costing sheet showed three faults in the engine taken from Suite, mended
 in place (`VENDORED.md`): `"CW01"=""` was true, because both sides were

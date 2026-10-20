@@ -5,7 +5,10 @@ Everything here is idempotent: it runs on install and again before every
 import, and a thing already there is left as it is.
 """
 
+import json
+
 import frappe
+from frappe import _
 from frappe.utils import flt, getdate, today
 
 COMPANY = "Rua Company"
@@ -270,24 +273,44 @@ def kind(description) -> str:
 
 
 def kind_formula() -> str:
-	"""KINDS as one formula on the description in B, for the column map."""
+	"""KINDS as one formula over the Costing sheet's descriptions, the
+	product of each line it fills down."""
 	said = '"Aluminium Works"'
 	for words, product in reversed(KINDS):
-		tests = [f'ISNUMBER(SEARCH("{one}",B{{r}}))' for one in words.split("+")]
-		test = tests[0] if len(tests) == 1 else f"AND({','.join(tests)})"
+		test = "*".join(f'ISNUMBER(SEARCH("{one}",Costing!B4:B))' for one in words.split("+"))
 		said = f'IF({test},"{product}",{said})'
-	return "=" + said
+	return _on_item(said)
+
+
+def _on_item(body: str) -> str:
+	return f'=IF(Costing!A4:A="","",{body})'
+
+
+#: The quotation's items, each column one formula that fills it down from
+#: the Costing sheet, a line for each line with an ITEM; the item is
+#: kind_formula. The rate is the
+#: line's overall price over its quantity: O is a unit rate on a curtain
+#: wall's line but the whole price on a cladding or handrail line, where P
+#: is just O.
+COSTING_ITEMS = {
+	"item_name": "=Costing!A4:A",
+	"description": '=IF(Costing!A4:A="","",Costing!B4:B)',
+	"qty": '=IF(Costing!A4:A="","",Costing!C4:C)',
+	"one_length": '=IF(Costing!A4:A="","",IF(ISNUMBER(Costing!D4:D),Costing!D4:D,""))',
+	"one_width": '=IF(Costing!A4:A="","",IF(ISNUMBER(Costing!E4:E),Costing!E4:E,""))',
+	"rate": '=IF(Costing!A4:A="","",Costing!P4:P/Costing!C4:C)',
+}
 
 
 def costing():
 	"""Rua's costing sheet as a template for a quotation's items: the
-	estimators' columns, a curtain wall's formulas on every line, and the map
-	that makes each line a quotation line. The rate is the line's overall
-	price over its quantity: O is a unit rate on a curtain wall's line but
-	the whole price on a cladding or handrail line, where P is just O."""
-	from onedesk.one_sheet import api, templates
+	estimators' columns, a curtain wall's formulas on every line, and the
+	items sheet whose formulas read it. One made before the items sheet
+	carried formulas is made again in place."""
+	from onedesk.one_sheet import api, storage, table, templates
 
-	if frappe.db.exists(api.WORKBOOK, {"is_template": 1, "title": COSTING}):
+	held = frappe.db.get_value(api.WORKBOOK, {"is_template": 1, "title": COSTING}, ["name", "bound_sheet"], as_dict=True)
+	if held and held.bound_sheet:
 		return
 	letter = [chr(65 + at) for at in range(26)]
 	rows = {"0": ["PROJECT"], "1": ["ALUMINUM AND GLAZING - ALUMIL"], "2": list(COSTING_HEAD)}
@@ -299,25 +322,22 @@ def costing():
 		rows[str(r - 1)] = row
 	last = COSTING_LINES + 3
 	rows[str(last + 1)] = [None] * 14 + ["TOTAL", f"=SUM(P4:P{last})"]
+	said = {"item_code": kind_formula(), **COSTING_ITEMS}
+	cols = table.columns([one.as_dict() for one in frappe.get_meta("Quotation Item").fields], list(said))
+	sheet = _("Items")
+	lines = {"0": [table.MARK] + [col["header"] for col in cols[1:]], "1": [None] + [said.get(col["fieldname"]) for col in cols[1:]]}
 	data = {
-		"sheet": {"v": 2, "current": "Costing", "sheets": {"Costing": {"rows": rows}}},
+		"sheet": {"v": 2, "current": "Costing", "sheets": {sheet: {"rows": lines}, "Costing": {"rows": rows}}},
 		"view": {"Costing": {"freezeRows": 3, "colW": {"0": 150, "1": 320}}},
 	}
-	fill_map = {
-		"sheet": "Costing",
-		"first": 4,
-		"key": "A",
-		"columns": {
-			"item_code": kind_formula(),
-			"item_name": "A",
-			"description": "B",
-			"qty": "C",
-			"one_length": '=IF(ISNUMBER(D{r}),D{r},"")',
-			"one_width": '=IF(ISNUMBER(E{r}),E{r},"")',
-			"rate": "=P{r}/C{r}",
-		},
-	}
-	templates.make(COSTING, data, "Quotation", "items", fill_map)
+	if not held:
+		templates.make(COSTING, data, "Quotation", "items", sheet, cols)
+		return
+	frappe.db.set_value(
+		api.WORKBOOK,
+		held.name,
+		{"sheets_data": storage.encode_sheets_data(json.dumps(data)), "bound_sheet": sheet, "bound_columns": json.dumps(cols)},
+	)
 
 
 def items(company):

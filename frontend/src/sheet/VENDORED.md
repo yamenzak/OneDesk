@@ -39,9 +39,9 @@ Each is marked `One:` in the file.
 | `components/SheetEditor/useVersionHistory.js` | a copy opens at `/desk/workbook/…` |
 | `services/versions.js` | calls `onedesk.one_sheet.versions`; Make a copy is `make_copy` |
 | `services/linkPreview.js` | calls `onedesk.one_sheet.api.get_link_preview` |
-| `components/SheetEditor/index.vue` (again) | File › Save as Template and Fill the Table From a Sheet, opening `shim/TemplateDialog.vue` and `shim/FillDialog.vue` |
-| `engine/formula.js` | `=` and `<>` compare as Excel does (`_equal`): text with text, numbers with numbers, empty with "" and 0; `Sheet!$A4` reads |
-| `engine/sheet.js` | a cell is a number only when all of it is one (`Number`, not `parseFloat`) |
+| `components/SheetEditor/index.vue` (again) | File › Save as Template, opening `shim/TemplateDialog.vue` |
+| `engine/formula.js` | `=` and `<>` compare as Excel does (`_equal`): text with text, numbers with numbers, empty with "" and 0; `Sheet!$A4` reads; `A4:A` runs to the end of the column, not to A4; operators and the one-value functions (`_BY_CELL`: `IF`, `ROUND`, `LEN`…) work a range cell by cell (`_each`) |
+| `engine/sheet.js` | a cell is a number only when all of it is one (`Number`, not `parseFloat`); an empty cell reads as `""`, so `=A7` shows blank; a formula that works out to a range spills into the empty cells below and right, `#SPILL!` when one holds something (`_spill`, `_settle`, `getExtent`, `isSpilled`); a range to the end of a column stops at the sheet's last line in use |
 | `components/SheetEditor/index.vue`, `useShortcuts.js`, `canvas/index.js` | `document.activeElement` read through `shim/focus.js`: in the island's shadow root the page only ever names the host, so paste and copy were dropped and some shortcuts misread focus |
 | `engine/xlsx-io.js` | an imported formula goes through `shim/excel.js`, which drops `_xlfn.` and maps `CEILING.MATH` and the like to the classic names |
 | every `.vue` and the menus' `.js` | the words go through `__` (imported from `kit/desk` in scripts) so they reach Arabic and German; not marked, since there are about 730 |

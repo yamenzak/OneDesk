@@ -57,16 +57,170 @@ export function createSheet({ onCellChanged, onCellsChanged } = {}) {
 		return _memo[sheet]
 	}
 	function _invalidateCellAndDependents(id, sheet) {
+		if (_anySpill) return _clearAllMemo()
 		_memo[sheet]?.delete(id)
 		for (const dep of deps.getDependents(id, sheet)) _memo[dep.sheet]?.delete(dep.cellId)
 	}
-	function _clearAllMemo() { for (const k of Object.keys(_memo)) _memo[k].clear() }
+	function _dropResults() { for (const k of Object.keys(_memo)) _memo[k].clear() }
+	function _clearAllMemo() {
+		_dropResults()
+		for (const k of Object.keys(_spills)) delete _spills[k]
+		for (const k of Object.keys(_covered)) delete _covered[k]
+		for (const k of Object.keys(_ready)) delete _ready[k]
+		for (const k of Object.keys(_formulas)) delete _formulas[k]
+		_anySpill = false
+	}
+
+	// One: spill. A formula that works out to a range fills the empty cells
+	// below and to its right, as Excel and Google Sheets do, and shows #SPILL!
+	// when one of them isn't empty. Nothing is written into those cells: each
+	// reads its value from the formula's, so the stored sheet keeps the one
+	// formula. While any formula spills, a change drops every worked-out
+	// value, since a cell that reads a spilled one isn't its formula's
+	// dependent in the graph.
+	const _spills   = {}   // sheet → Map<anchorId, {row, col, rows, cols}>
+	const _covered  = {}   // sheet → Map<cellId, anchorId>
+	const _ready    = {}   // sheet → every formula on it worked out since the last change
+	const _formulas = {}   // sheet → [{id, row, col}], built when first needed
+	let   _anySpill = false
+
+	function _formulaCells(sheet) {
+		if (_formulas[sheet]) return _formulas[sheet]
+		const out = []
+		for (const [id, raw] of Object.entries(sheets[sheet] || {})) {
+			if (typeof raw !== 'string' || raw[0] !== '=') continue
+			const p = parseCellId(id)
+			if (p) out.push({ id, row: p.row, col: p.col })
+		}
+		return (_formulas[sheet] = out)
+	}
+	function _matrix(v) { return v.map(r => Array.isArray(r) ? r : [r]) }
+	function _first(v) {
+		if (!Array.isArray(v)) return v
+		const r = v[0]
+		const x = Array.isArray(r) ? r[0] : r
+		return x === undefined ? '' : x
+	}
+	function _unspill(sheet, id) {
+		const old = _spills[sheet]?.get(id)
+		if (!old) return null
+		const cov = _covered[sheet]
+		for (let r = 0; r < old.rows; r++)
+			for (let c = 0; c < old.cols; c++) {
+				const cid = colLabel(old.col + c) + (old.row + r + 1)
+				if (cov?.get(cid) === id) cov.delete(cid)
+			}
+		_spills[sheet].delete(id)
+		return old
+	}
+	// The anchor's result as a matrix laid over the cells it covers, or
+	// #SPILL! when a covered cell holds something.
+	function _spill(sheet, id, result) {
+		const old = _unspill(sheet, id)
+		if (!Array.isArray(result)) {
+			if (old) _dropResults()
+			return result
+		}
+		const at = parseCellId(id)
+		const m = _matrix(result)
+		const rows = m.length
+		let cols = 0
+		for (const r of m) if (r.length > cols) cols = r.length
+		if (!at || !rows || !cols) return ''
+		const sh = sheets[sheet] || {}
+		const cov = (_covered[sheet] ||= new Map())
+		for (let r = 0; r < rows; r++)
+			for (let c = 0; c < cols; c++) {
+				if (!r && !c) continue
+				const cid = colLabel(at.col + c) + (at.row + r + 1)
+				const raw = sh[cid]
+				if ((raw !== undefined && raw !== null && raw !== '') || (cov.has(cid) && cov.get(cid) !== id)) {
+					if (old) _dropResults()
+					_anySpill = true   // freeing the cell must work it out again
+					return '#SPILL!'
+				}
+			}
+		for (let r = 0; r < rows; r++)
+			for (let c = 0; c < cols; c++) if (r || c) cov.set(colLabel(at.col + c) + (at.row + r + 1), id)
+		;(_spills[sheet] ||= new Map()).set(id, { row: at.row, col: at.col, rows, cols })
+		_anySpill = true
+		if (!old || old.rows !== rows || old.cols !== cols) _dropResults()
+		return m
+	}
+	// Work out the formulas that could spill over a cell: those above and to
+	// the left of it, or, from the top (nothing being worked out), all of
+	// them, after which the sheet's spills are known until the next change.
+	function _settle(sheet, row = Infinity, col = Infinity) {
+		if (_ready[sheet]) return
+		const top = circular.size === 0
+		const memo = _ensureMemo(sheet)
+		for (const f of _formulaCells(sheet)) {
+			if (memo.has(f.id)) continue
+			if (!top && (f.row > row || f.col > col)) continue
+			if (circular.has(`${sheet}::${f.id}`)) continue
+			const raw = sheets[sheet]?.[f.id]
+			if (typeof raw !== 'string' || VOLATILE_RE.test(raw)) continue
+			_evalFormula(raw.slice(1), sheet, f.id)
+		}
+		if (top) _ready[sheet] = true
+	}
+	function _spilled(id, sheet) {
+		let anchor = _covered[sheet]?.get(id)
+		if (!anchor && !_ready[sheet]) {
+			const at = parseCellId(id)
+			if (!at) return undefined
+			_settle(sheet, at.row, at.col)
+			anchor = _covered[sheet]?.get(id)
+		}
+		if (!anchor) return undefined
+		const raw = sheets[sheet]?.[anchor]
+		const m = typeof raw === 'string' ? _evalFormula(raw.slice(1), sheet, anchor) : null
+		const at = parseCellId(id), from = _spills[sheet]?.get(anchor)
+		if (!Array.isArray(m) || !at || !from) return undefined
+		const v = m[at.row - from.row]?.[at.col - from.col]
+		return v === undefined || v === null ? '' : v
+	}
+	// The last line a column range (`A4:A`) reaches: the sheet's last line in
+	// use, written or spilled, not line 1,048,576; the same for every column,
+	// so =A4:A&B4:B pairs line with line.
+	function _lastRow(sheet) {
+		_settle(sheet)
+		let last = -1
+		for (const id of Object.keys(sheets[sheet] || {})) {
+			const p = parseCellId(id)
+			if (p && p.row > last) last = p.row
+		}
+		for (const s of _spills[sheet]?.values() || []) last = Math.max(last, s.row + s.rows - 1)
+		return last
+	}
+	// Lines and columns in use, spilled cells included.
+	function getExtent(sheet = current) {
+		_settle(sheet)
+		let rows = 0, cols = 0
+		for (const id of Object.keys(sheets[sheet] || {})) {
+			const p = parseCellId(id)
+			if (!p) continue
+			rows = Math.max(rows, p.row + 1)
+			cols = Math.max(cols, p.col + 1)
+		}
+		for (const s of _spills[sheet]?.values() || []) {
+			rows = Math.max(rows, s.row + s.rows)
+			cols = Math.max(cols, s.col + s.cols)
+		}
+		return { rows, cols }
+	}
+
+	function isSpilled(id, sheet = current) {
+		const raw = sheets[sheet]?.[id]
+		return (raw === undefined || raw === null || raw === '') && _spilled(id, sheet) !== undefined
+	}
 
 	function getCellValue(id, sheet = current) {
 		const raw = sheets[sheet]?.[id]
-		if (raw === undefined || raw === null || raw === '') return 0
+		// One: an empty cell reads as "" (0 in arithmetic), so =A7 shows blank.
+		if (raw === undefined || raw === null || raw === '') return _spilled(id, sheet) ?? ''
 		if (typeof raw === 'string' && raw.startsWith('='))
-			return _evalFormula(raw.slice(1), sheet, id)
+			return _first(_evalFormula(raw.slice(1), sheet, id))
 		// One: a number only when the whole cell is one, as Excel reads it;
 		// parseFloat read "120cm Glass Handrail" as 120.
 		const n = typeof raw === 'number' ? raw : String(raw).trim() === '' ? NaN : Number(String(raw).trim())
@@ -76,6 +230,12 @@ export function createSheet({ onCellChanged, onCellsChanged } = {}) {
 	function getRangeValues(startId, endId, sheet = current) {
 		const s = parseCellId(startId), e = parseCellId(endId)
 		if (!s || !e) return []
+		// One: a range to the end of a column stops at the sheet's last line.
+		if (Math.max(s.row, e.row) >= 1048575) {
+			const top = Math.min(s.row, e.row)
+			const last = _lastRow(sheet)
+			e.row = Math.max(top, last); s.row = top
+		}
 		const rows = []
 		for (let r = Math.min(s.row, e.row); r <= Math.max(s.row, e.row); r++) {
 			const row = []
@@ -118,6 +278,7 @@ export function createSheet({ onCellChanged, onCellsChanged } = {}) {
 		} finally {
 			circular.delete(key)
 		}
+		if (cellId) result = _spill(sheet, cellId, result)
 		if (cellId && !VOLATILE_RE.test(formula)) _ensureMemo(sheet).set(cellId, result)
 		return result
 	}
@@ -125,11 +286,15 @@ export function createSheet({ onCellChanged, onCellsChanged } = {}) {
 	function getDisplayValue(id, sheet = current) {
 		const raw = sheets[sheet]?.[id] ?? ''
 		if (typeof raw === 'string' && raw.startsWith('=')) {
-			const result = _evalFormula(raw.slice(1), sheet, id)
+			const result = _first(_evalFormula(raw.slice(1), sheet, id))
 			if (result?.__spark) return ''   // a sparkline renders as a chart, not text
 			return result === null || result === undefined ? '' : String(result)
 		}
-		return raw === null || raw === undefined ? '' : String(raw)
+		if (raw === null || raw === undefined || raw === '') {
+			const v = _spilled(id, sheet)
+			return v === null || v === undefined ? '' : String(v)
+		}
+		return String(raw)
 	}
 
 	// ── Mutation ──────────────────────────────────────────────────────────────
@@ -147,8 +312,14 @@ export function createSheet({ onCellChanged, onCellsChanged } = {}) {
 		// the dependents list once and reuse it for both invalidation and
 		// notification so the BFS only runs once per setCell.
 		const dependents = deps.getDependents(id, sheet)
-		_memo[sheet]?.delete(id)
-		for (const dep of dependents) _memo[dep.sheet]?.delete(dep.cellId)
+		// One: a spill may now be blocked or freed, or a new formula may spill.
+		if (_anySpill) _clearAllMemo()
+		else {
+			_memo[sheet]?.delete(id)
+			for (const dep of dependents) _memo[dep.sheet]?.delete(dep.cellId)
+			delete _formulas[sheet]
+			for (const k of Object.keys(_ready)) delete _ready[k]
+		}
 		_notify(id, sheet)
 		// `getDependents` returns `{sheet, cellId}` so cross-sheet dependents
 		// (formulas on Sheet2 reading Sheet1!A1) get re-evaluated when the
@@ -466,7 +637,7 @@ export function createSheet({ onCellChanged, onCellsChanged } = {}) {
 	deps.rebuild({}, 'Sheet1')
 
 	return {
-		setCell, batchSetCells, getCell, getDisplayValue, getCellValue, getRangeValues,
+		setCell, batchSetCells, getCell, getDisplayValue, getCellValue, getRangeValues, getExtent, isSpilled,
 		switchSheet, addSheet, renameSheet, duplicateSheet, deleteSheet, reorderSheets,
 		getSheetNames, getCurrentSheet, getRawData, getAllRaw, consumeBounds,
 		insertRow, deleteRow, insertCol, deleteCol,

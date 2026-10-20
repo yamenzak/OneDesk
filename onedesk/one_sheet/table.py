@@ -37,16 +37,13 @@ YES, NO = ("TRUE", "1", "YES", "Y"), ("FALSE", "0", "NO", "N", "")
 EPOCH = date(1899, 12, 30)
 SAVEPOINT = "one_sheet_table"
 
-#: How many lines a column map fills: a line whose key cell is empty is no row.
-MAP_LINES = 300
-
 
 def columns(fields: list[dict], picked: list[str] | None = None, also: list[str] | None = None) -> list[dict]:
 	"""The hidden row id, then the table's columns as the form's grid shows
 	them: the ones chosen on the grid's gear when there are any (`picked`),
 	else the fields in its list view; the required ones either way; and those
-	a column map fills (`also`). Formatted text is a column only when asked
-	for. Pure."""
+	a template's sheet has formulas under (`also`). Formatted text is a
+	column only when asked for. Pure."""
 	usable = [
 		df
 		for df in fields
@@ -164,50 +161,43 @@ def _rule(col: dict) -> dict | None:
 	return None
 
 
-def _source(sheet: str) -> str:
-	return sheet + "!" if re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", sheet) else "'" + sheet.replace("'", "''") + "'!"
-
-
-def filled(cols: list[dict], fill_map: dict, lines: int = MAP_LINES) -> dict:
-	"""The bound sheet's cells a column map writes: on each line, for each
-	column it names, a formula reading that line's row of the source sheet,
-	empty while the key cell there is. An entry is a column letter, or a
-	formula whose references are the source sheet's, `{r}` for its row. Pure."""
-	where = {col["fieldname"]: at for at, col in enumerate(cols)}
-	ref = _source(fill_map["sheet"])
-	first = int(fill_map.get("first") or 2)
-	said = {field: str(entry or "").strip() for field, entry in (fill_map.get("columns") or {}).items()}
-	key = str(fill_map.get("key") or next((one for one in said.values() if re.fullmatch(r"[A-Za-z]{1,3}", one)), "A")).upper()
+def kept(stored: dict, cols: list[dict]) -> dict:
+	"""The formulas typed under the bound sheet's header, by line and the
+	field each column is: a table sheet keeps them when it is drawn again,
+	and a template carries them. Pure."""
+	header = [str(one if one is not None else "").strip() for one in (stored.get("0") or [])]
+	field = {header.index(col["header"]): col["fieldname"] for col in cols[1:] if col["header"] in header}
 	out = {}
-	for line in range(lines):
-		row = first + line
-		for field, entry in said.items():
-			if field not in where or not entry:
-				continue
-			if entry.startswith("="):
-				body = re.sub(r"(?<![A-Za-z!$])\$?([A-Za-z]{1,3})\{r\}", lambda found: f"{ref}{found.group(1).upper()}{{r}}", entry[1:])
-				body = body.replace("{r}", str(row))
-			else:
-				body = f"{ref}{entry.upper()}{row}"
-			out[f"{letters(where[field])}{line + 2}"] = f'=IF({ref}${key}{row}="","",{body})'
+	for line, values in stored.items():
+		if not str(line).isdigit() or int(line) < 1:
+			continue
+		for at, value in enumerate(values or []):
+			if at in field and isinstance(value, str) and value.startswith("="):
+				out[(int(line), field[at])] = value
 	return out
 
 
-def laid(cols: list[dict], rows: list, mark: str, locked: bool, fill_map: dict | None = None) -> dict:
+def laid(cols: list[dict], rows: list, mark: str, locked: bool, formulas: dict | None = None) -> dict:
 	"""The bound sheet as the editor keeps it: the header, a line a row, the
-	dropdowns and number rules, the header, row id and worked-out columns
-	locked, and the row id hidden. Pure."""
+	formulas kept from before, the dropdowns and number rules, the header,
+	row id and worked-out columns locked, and the row id hidden. A column
+	with a formula on its first line is that formula's, which fills it down,
+	so the table's values aren't written under it. Pure."""
+	formulas = formulas or {}
+	fed = {field for (line, field) in formulas if line == 1}
 	cells = {"0": [MARK + mark] + [col["header"] for col in cols[1:]]}
 	for at, row in enumerate(rows, 1):
-		cells[str(at)] = [row.get("name")] + [shown(row.get(col["fieldname"]), col["fieldtype"]) or None for col in cols[1:]]
-	for at, formula in (filled(cols, fill_map).items() if fill_map else ()):
-		line, col = int(re.sub(r"[A-Z]", "", at)) - 1, sum((ord(one) - 64) * 26**n for n, one in enumerate(reversed(re.sub(r"[0-9]", "", at)))) - 1
+		cells[str(at)] = [row.get("name")] + [None if col["fieldname"] in fed else shown(row.get(col["fieldname"]), col["fieldtype"]) or None for col in cols[1:]]
+	where = {col["fieldname"]: at for at, col in enumerate(cols)}
+	for (line, field), formula in formulas.items():
+		if field not in where:
+			continue
 		held = cells.setdefault(str(line), [])
-		held.extend([None] * (col + 1 - len(held)))
-		held[col] = formula
+		held.extend([None] * (where[field] + 1 - len(held)))
+		held[where[field]] = formula
 	rules = {}
 	for at, col in enumerate(cols):
-		rule = None if not at or col["read_only"] else _rule(col)
+		rule = None if not at or col["read_only"] or col["fieldname"] in fed else _rule(col)
 		for line in range(2, len(rows) + SPARE + 2) if rule else ():
 			rules[f"{letters(at)}{line}"] = rule
 	ranges = [(0, 0, 0, len(cols) - 1), (0, 0, LOCKED_TO, 0)]
@@ -221,6 +211,34 @@ def laid(cols: list[dict], rows: list, mark: str, locked: bool, fill_map: dict |
 		},
 		"view": {"freezeRows": 1, "hiddenCols": [0]},
 	}
+
+
+def stored(data: dict, sheet: str) -> dict:
+	"""A sheet's lines as the workbook keeps them. Pure."""
+	return ((((data.get("sheet") or {}).get("sheets") or {}).get(sheet) or {}).get("rows")) or {}
+
+
+def emptied(data: dict, sheet: str) -> dict:
+	"""A workbook's content with one sheet down to its header and formulas,
+	the record's rows and the sheet's rules left out: what a template of a
+	table keeps. Pure."""
+	held = dict(data.get("sheet") or {})
+	sheets = dict(held.get("sheets") or {})
+	kept = {}
+	for line, values in stored(data, sheet).items():
+		if str(line) == "0":
+			kept["0"] = [MARK, *list(values or [])[1:]]
+			continue
+		values = [one if isinstance(one, str) and one.startswith("=") else None for one in values or []]
+		if any(values):
+			kept[str(line)] = values
+	if sheet in sheets:
+		sheets[sheet] = {**sheets[sheet], "rows": kept}
+	out = {**data, "sheet": {**held, "sheets": sheets}}
+	for key in ("validation", "protection"):
+		if isinstance(out.get(key), dict) and sheet in out[key]:
+			out[key] = {name: one for name, one in out[key].items() if name != sheet}
+	return out
 
 
 def placed(data: dict, sheet: str, layout: dict) -> dict:
@@ -311,23 +329,17 @@ def _held(book) -> dict:
 	return frappe.db.get_value(
 		api.WORKBOOK,
 		book,
-		["name", "bound_doctype", "bound_name", "bound_field", "bound_sheet", "bound_columns", "fill_map", "sheets_data"],
+		["name", "bound_doctype", "bound_name", "bound_field", "bound_sheet", "bound_columns", "sheets_data"],
 		as_dict=True,
 	)
-
-
-def _map(book) -> dict | None:
-	said = book.get("fill_map")
-	said = json.loads(said) if isinstance(said, str) and said else said
-	return said if isinstance(said, dict) and said.get("sheet") and said.get("columns") else None
 
 
 @frappe.whitelist(methods=["POST"])
 def open_table(doctype: str, name: str, field: str, template: str | None = None) -> str:
 	"""The workbook a record's table is the first sheet of, made the first
 	time it is asked for, from a template made for this table when one is
-	named: its sheets beside the table, and its column map filling it.
-	Answers its name."""
+	named: its sheets beside the table, and the formulas under the table's
+	header. Answers its name."""
 	doc = frappe.get_doc(doctype, name)
 	doc.check_permission("read")
 	df = doc.meta.get_field(field)
@@ -341,21 +353,20 @@ def open_table(doctype: str, name: str, field: str, template: str | None = None)
 
 	from onedesk.one_sheet import templates
 
-	data, fill_map = {}, None
+	data, sheet, formulas = {}, _(df.label or field)[:31], {}
 	if template:
-		data, fill_map = templates.data_of(template, doctype, field)
+		data, sheet, formulas = templates.data_of(template, doctype, field, sheet)
 	grid = (json.loads(get_user_settings(doctype) or "{}").get("GridView") or {}).get(df.options) or []
 	cols = columns(
 		[one.as_dict() for one in frappe.get_meta(df.options).fields],
 		[one.get("fieldname") for one in grid if isinstance(one, dict)],
-		list((fill_map or {}).get("columns") or {}),
+		list(dict.fromkeys(field for (_line, field) in formulas)),
 	)
 	if len(cols) < 2:
 		frappe.throw(_("This table has no columns a sheet can hold."))
-	sheet = _(df.label or field)[:31]
 	table = doc.get(field)
-	data = placed(data, sheet, laid(cols, table, fingerprint(doc.docstatus, table, cols), doc.docstatus != 0, fill_map))
-	title = api._titled(f"{doc.name} {sheet}")
+	data = placed(data, sheet, laid(cols, table, fingerprint(doc.docstatus, table, cols), doc.docstatus != 0, formulas))
+	title = api._titled(f"{doc.name} {_(df.label or field)}")
 	book = frappe.get_doc(
 		{
 			"doctype": api.WORKBOOK,
@@ -366,7 +377,6 @@ def open_table(doctype: str, name: str, field: str, template: str | None = None)
 			"bound_field": field,
 			"bound_sheet": sheet,
 			"bound_columns": json.dumps(cols),
-			"fill_map": json.dumps(fill_map) if fill_map else None,
 		}
 	)
 	book.flags.ignore_permissions = True
@@ -389,8 +399,8 @@ def open_table(doctype: str, name: str, field: str, template: str | None = None)
 
 def refresh(name: str) -> None:
 	"""Before a bound workbook opens: when the record's table changed since
-	the sheet last matched it, the bound sheet is drawn again from the table.
-	The other sheets are kept as they are."""
+	the sheet last matched it, the bound sheet is drawn again from the table,
+	keeping the formulas typed in it. The other sheets are kept as they are."""
 	book = _held(name)
 	if not book or not book.bound_doctype or not frappe.db.exists(book.bound_doctype, book.bound_name):
 		return
@@ -399,58 +409,20 @@ def refresh(name: str) -> None:
 	table = doc.get(book.bound_field) or []
 	mark = fingerprint(doc.docstatus, table, cols)
 	data = json.loads(storage.decode_sheets_data(book.sheets_data) or "{}")
-	stored = ((((data.get("sheet") or {}).get("sheets") or {}).get(book.bound_sheet) or {}).get("rows") or {}).get("0") or []
-	if MARK + mark in stored:
+	lines = stored(data, book.bound_sheet)
+	if MARK + mark in (lines.get("0") or []):
 		return
-	data = placed(data, book.bound_sheet, laid(cols, table, mark, doc.docstatus != 0, _map(book)))
+	data = placed(data, book.bound_sheet, laid(cols, table, mark, doc.docstatus != 0, kept(lines, cols)))
 	frappe.db.set_value(api.WORKBOOK, name, "sheets_data", storage.encode_sheets_data(json.dumps(data, default=str)), update_modified=False)
 
 
 def bound(name: str) -> dict | None:
 	"""What get_sheet tells the editor about the record behind it: the
-	sheet, the record, the columns a map may fill, and the map."""
-	book = frappe.db.get_value(api.WORKBOOK, name, ["bound_doctype", "bound_name", "bound_sheet", "bound_columns", "fill_map"], as_dict=True)
+	sheet and the record."""
+	book = frappe.db.get_value(api.WORKBOOK, name, ["bound_doctype", "bound_name", "bound_sheet"], as_dict=True)
 	if not book or not book.bound_doctype:
 		return None
-	return {
-		"sheet": book.bound_sheet,
-		"doctype": book.bound_doctype,
-		"name": book.bound_name,
-		"columns": [{"fieldname": col["fieldname"], "header": col["header"]} for col in json.loads(book.bound_columns or "[]")[1:] if not col["read_only"]],
-		"fill_map": _map(book),
-	}
-
-
-@frappe.whitelist(methods=["POST"])
-def set_map(name: str, fill_map: str | None = None) -> dict:
-	"""Fill the record's table from another sheet of the workbook, or stop.
-	Answers the cells the bound sheet takes: the map's formulas, which the
-	editor writes and saves like any edit, so the record follows."""
-	api._may(name, "write")
-	book = _held(name)
-	if not book or not book.bound_doctype:
-		frappe.throw(_("This workbook isn't a record's table."))
-	said = frappe.parse_json(fill_map) if fill_map else None
-	if not said:
-		frappe.db.set_value(api.WORKBOOK, name, "fill_map", None)
-		return {"cells": {}}
-	cols = json.loads(book.bound_columns or "[]")
-	known = {col["fieldname"] for col in cols[1:] if not col["read_only"]}
-	said = {
-		"sheet": str(said.get("sheet") or "").strip(),
-		"first": max(1, int(said.get("first") or 2)),
-		"key": str(said.get("key") or "").strip().upper() or None,
-		"columns": {field: str(entry).strip() for field, entry in (said.get("columns") or {}).items() if field in known and str(entry or "").strip()},
-	}
-	if not said["sheet"] or said["sheet"] == book.bound_sheet:
-		frappe.throw(_("Choose the sheet the table is filled from."))
-	if not said["columns"]:
-		frappe.throw(_("Say where at least one column comes from."))
-	for entry in said["columns"].values():
-		if not entry.startswith("=") and not re.fullmatch(r"[A-Za-z]{1,3}", entry):
-			frappe.throw(_("{0} isn't a column letter or a formula.").format(entry))
-	frappe.db.set_value(api.WORKBOOK, name, "fill_map", json.dumps(said))
-	return {"cells": filled(cols, said)}
+	return {"sheet": book.bound_sheet, "doctype": book.bound_doctype, "name": book.bound_name}
 
 
 def apply(name: str, sent: str) -> dict:

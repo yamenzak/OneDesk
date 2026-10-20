@@ -53,11 +53,11 @@ def test_a_line_goes_under_the_product_its_words_name():
 
 
 def test_the_costing_template_asks_the_same_question_as_the_importer():
-	space = _load(RUA / "setup.py", {"kind_formula"})
+	space = _load(RUA / "setup.py", {"kind_formula", "_on_item"})
 	said = space["kind_formula"]()
-	assert said.startswith('=IF(ISNUMBER(SEARCH("louv",B{r})),"Louver",')
-	assert 'IF(AND(ISNUMBER(SEARCH("steel",B{r})),ISNUMBER(SEARCH("handrail",B{r}))),"Steel Handrail",' in said
-	assert said.endswith('"Aluminium Works"' + ")" * len(space["KINDS"]))
+	assert said.startswith('=IF(Costing!A4:A="","",IF(ISNUMBER(SEARCH("louv",Costing!B4:B)),"Louver",')
+	assert 'IF(ISNUMBER(SEARCH("steel",Costing!B4:B))*ISNUMBER(SEARCH("handrail",Costing!B4:B)),"Steel Handrail",' in said
+	assert said.endswith('"Aluminium Works"' + ")" * (len(space["KINDS"]) + 1))
 
 
 def test_a_trn_is_fifteen_digits_or_nothing():

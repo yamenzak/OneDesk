@@ -92,8 +92,8 @@ def test_a_table_sheet_reads_back_as_the_table():
 	import html
 
 	room["html"] = html
-	names = ("NUMBER", "TEXT", "SHOWN", "MOST_COLUMNS", "MOST_ROWS", "SPARE", "LOCKED_TO", "MARK", "YES", "NO", "EPOCH", "MAP_LINES")
-	_lifted(SHEET / "table.py", (*names, "columns", "shown", "taken", "lined", "fingerprint", "_rule", "_source", "filled", "laid", "placed", "read", "back"), room)
+	names = ("NUMBER", "TEXT", "SHOWN", "MOST_COLUMNS", "MOST_ROWS", "SPARE", "LOCKED_TO", "MARK", "YES", "NO", "EPOCH")
+	_lifted(SHEET / "table.py", (*names, "columns", "shown", "taken", "lined", "fingerprint", "_rule", "kept", "laid", "stored", "emptied", "placed", "read", "back"), room)
 	fields = [
 		{"fieldname": "item_code", "label": "Item", "fieldtype": "Link", "in_list_view": 1, "reqd": 1},
 		{"fieldname": "notes", "label": "Notes", "fieldtype": "Text Editor", "in_list_view": 1},
@@ -138,41 +138,46 @@ def test_a_table_sheet_reads_back_as_the_table():
 	assert room["read"]([["#" + mark, "Item"]], cols)[2][0].startswith("The column Kind"), "a column gone is refused"
 
 
-def test_a_column_map_reads_the_source_sheet_line_by_line():
+def test_a_table_sheet_keeps_its_formulas():
 	import html
 	import re
 
 	room = {"_": lambda text: text, "re": re, "html": html}
 	_lifted(SHEET / "assist.py", ("letters",), room)
-	_lifted(SHEET / "table.py", ("NUMBER", "TEXT", "SHOWN", "MOST_COLUMNS", "MARK", "MAP_LINES", "columns", "shown", "_source", "filled"), room)
+	names = ("NUMBER", "TEXT", "SHOWN", "MOST_COLUMNS", "MARK", "SPARE", "LOCKED_TO")
+	_lifted(SHEET / "table.py", (*names, "columns", "shown", "_rule", "kept", "laid", "stored", "emptied"), room)
 	fields = [
 		{"fieldname": "item_name", "label": "Item Name", "fieldtype": "Data", "in_list_view": 1},
 		{"fieldname": "description", "label": "Description", "fieldtype": "Text Editor"},
+		{"fieldname": "qty", "label": "Qty", "fieldtype": "Float", "in_list_view": 1},
 		{"fieldname": "rate", "label": "Rate", "fieldtype": "Currency", "in_list_view": 1},
 	]
-	assert [col["fieldname"] for col in room["columns"](fields)] == ["name", "item_name", "rate"], "formatted text only when asked for"
+	assert [col["fieldname"] for col in room["columns"](fields)] == ["name", "item_name", "qty", "rate"], "formatted text only when asked for"
 	cols = room["columns"](fields, also=["description"])
-	assert [col["fieldname"] for col in cols] == ["name", "item_name", "rate", "description"]
-	cells = room["filled"](cols, {"sheet": "Costing", "first": 4, "key": "A", "columns": {"item_name": "A", "rate": "=P{r}/C{r}", "description": "b"}}, lines=2)
-	assert cells == {
-		"B2": '=IF(Costing!$A4="","",Costing!A4)',
-		"C2": '=IF(Costing!$A4="","",Costing!P4/Costing!C4)',
-		"D2": '=IF(Costing!$A4="","",Costing!B4)',
-		"B3": '=IF(Costing!$A5="","",Costing!A5)',
-		"C3": '=IF(Costing!$A5="","",Costing!P5/Costing!C5)',
-		"D3": '=IF(Costing!$A5="","",Costing!B5)',
-	}, cells
-	assert room["filled"](cols, {"sheet": "C-28 costs", "first": 2, "columns": {"rate": "D"}}, lines=1) == {"C2": """=IF('C-28 costs'!$D2="","",'C-28 costs'!D2)"""}
-	assert room["shown"]("<p>Aluminum &amp; glass</p>", "Text Editor") == "Aluminum & glass"
-
-
-def test_a_template_of_a_table_leaves_the_table_out():
-	room = _lifted(SHEET / "templates.py", ("without",), {})
-	data = {
-		"sheet": {"v": 2, "current": "Items", "sheets": {"Items": {"rows": {}}, "Costing": {"rows": {"0": ["ITEM"]}}}},
-		"view": {"Items": {"hiddenCols": [0]}, "Costing": {"freezeRows": 3}},
-		"protection": {"Items": {"locked": False}},
+	assert [col["fieldname"] for col in cols] == ["name", "item_name", "qty", "rate", "description"]
+	lines = {
+		"0": ["#old", "Item Name", "Rate", "Qty", "Description"],
+		"1": ["r1", "=Costing!A4:A", "=Costing!P4:P/Costing!C4:C", "6", None],
+		"2": ["r2", None, None, "=C2*2", "Glass"],
 	}
-	kept = room["without"](data, "Items")
-	assert list(kept["sheet"]["sheets"]) == ["Costing"] and kept["sheet"]["current"] == "Costing"
-	assert kept["view"] == {"Costing": {"freezeRows": 3}} and kept["protection"] == {}
+	formulas = room["kept"](lines, cols)
+	assert formulas == {(1, "item_name"): "=Costing!A4:A", (1, "rate"): "=Costing!P4:P/Costing!C4:C", (2, "qty"): "=C2*2"}, "found by header"
+	table = [{"name": "r1", "item_name": "Wall", "qty": 6, "rate": 9}, {"name": "r2", "item_name": "Door", "qty": 3, "rate": 4}]
+	layout = room["laid"](cols, table, "new", False, formulas)
+	assert layout["rows"]["1"] == ["r1", "=Costing!A4:A", "6", "=Costing!P4:P/Costing!C4:C", None]
+	assert layout["rows"]["2"] == ["r2", None, "=C2*2", None, None], "a formula's column isn't written under, a lone formula replaces its cell"
+	assert "D2" not in layout["validation"] and layout["validation"]["C2"]["type"] == "number", "no rule under a formula that fills its column"
+	data = {
+		"sheet": {"v": 2, "current": "Items", "sheets": {"Items": {"rows": lines}, "Costing": {"rows": {"3": ["CW01"]}}}},
+		"view": {"Items": {"hiddenCols": [0]}},
+		"protection": {"Items": {"locked": False}},
+		"validation": {"Items": {"C2": {}}},
+	}
+	kept = room["emptied"](data, "Items")
+	assert room["stored"](kept, "Items") == {
+		"0": ["#", "Item Name", "Rate", "Qty", "Description"],
+		"1": [None, "=Costing!A4:A", "=Costing!P4:P/Costing!C4:C", None, None],
+		"2": [None, None, None, "=C2*2", None],
+	}, "the header and the formulas, not the rows"
+	assert room["stored"](kept, "Costing") == {"3": ["CW01"]} and "Items" not in kept["protection"] and kept["view"] == data["view"]
+	assert room["shown"]("<p>Aluminum &amp; glass</p>", "Text Editor") == "Aluminum & glass"
