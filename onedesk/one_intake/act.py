@@ -65,7 +65,7 @@ def level(action: Action, reading: dict, before: dict, floor: float = FLOOR, mar
 		overwritten = sorted(key for key, value in (action.values or {}).items() if key not in action.over and _filled(before.get(key)) and not _same(before.get(key), value))
 		if overwritten:
 			return "Proposed", "overwrite", overwritten
-	if action.kind in CHANGES and not action.sure:
+	if (action.kind in CHANGES or action.kind == "Link") and not action.sure:
 		if flt(action.confidence, 1) * 100 < floor:
 			return "Proposed", "unsure", []
 	return "Done", "", []

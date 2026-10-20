@@ -25,11 +25,15 @@ def ask(
 	chose: dict | None = None,
 	groups: list[str] | None = None,
 	pinned: str | None = None,
+	only: list[str] | None = None,
+	nudges: bool = True,
 ) -> dict:
 	"""Run one action, looking things up for the model where it asks.
 
 	`pinned` is the model the person picked for this conversation, and it wins.
 	`heard` is told each thing as it happens: a round starting, a tool it ran.
+	`only` offers these tools and no others; `nudges` off leaves out what a
+	conversation presses a model for, for a run nobody is reading.
 	"""
 	from onedesk.one import apps
 	from onedesk.one_ai import tools as surface
@@ -39,7 +43,7 @@ def ask(
 	if pinned:
 		chose = {**chose, "model": pinned}
 	given = list(groups) if groups is not None else None
-	offered = surface.declared(given)
+	offered = surface.declared_only(only) if only is not None else surface.declared(given)
 	turns = list(turns) if turns else None
 	spent, rounds, cards = 0.0, 0, []
 	asked: dict[str, dict] = {}
@@ -76,7 +80,7 @@ def ask(
 			tell({"handed": action})
 			rounds += 1
 			continue
-		if out.get("done") and not reminded and _unkept(text, called) and more:
+		if nudges and out.get("done") and not reminded and _unkept(text, called) and more:
 			reminded = True
 			turns = [*out["turns"], {"role": "user", "text": KEEP_IT.format(text), "calls": [], "context": True}]
 			rounds += 1
@@ -103,14 +107,15 @@ def ask(
 			turns = [*_unsaid(out["turns"]), {"role": "user", "text": GAVE_UP.format(mend), "calls": [], "context": True}]
 			rounds += 1
 			continue
-		if out.get("done") and tooled and not cards and not doubted and more and _claimed(out):
+		if nudges and out.get("done") and tooled and not cards and not doubted and more and _claimed(out):
 			doubted = True
 			said = OFFERED if _offered(out) else CLAIMED
 			turns = [*out["turns"], {"role": "user", "text": said, "calls": [], "context": True}]
 			rounds += 1
 			continue
 		if (
-			out.get("done")
+			nudges
+			and out.get("done")
 			and tooled
 			and not looked
 			and not cards
@@ -123,12 +128,12 @@ def ask(
 			turns = [*out["turns"], {"role": "user", "text": SEEK, "calls": [], "context": True}]
 			rounds += 1
 			continue
-		if out.get("done") and tooled and not called and not doubted and more and _figured(out) and not _asks(out):
+		if nudges and out.get("done") and tooled and not called and not doubted and more and _figured(out) and not _asks(out):
 			doubted = True
 			turns = [*out["turns"], {"role": "user", "text": LOOK, "calls": [], "context": True}]
 			rounds += 1
 			continue
-		if out.get("done") and _silent(out, cards) and not nudged and more:
+		if nudges and out.get("done") and _silent(out, cards) and not nudged and more:
 			nudged = True
 			said = NUDGE if _used(out) else ANSWER
 			turns = [*out["turns"], {"role": "user", "text": said, "calls": [], "context": True}]

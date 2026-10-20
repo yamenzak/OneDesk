@@ -321,7 +321,7 @@ def act_now(name: str) -> None:
 
 	if frappe.db.get_value("Reading", name, "acted_on"):
 		return
-	from onedesk.one_intake import planning
+	from onedesk.one_intake import agent, planning
 
 	frappe.db.set_value("Reading", name, "acted_on", now_datetime(), update_modified=False)
 	frappe.db.commit()
@@ -330,6 +330,7 @@ def act_now(name: str) -> None:
 		("filing", lambda: filing.run(name)),
 		("money", lambda: planning.run(name, "money")),
 		("the rest", lambda: planning.run(name, "rest")),
+		("the agent", lambda: agent.think(name)),
 	)
 	for step, then in steps:
 		try:

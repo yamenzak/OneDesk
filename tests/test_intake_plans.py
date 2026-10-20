@@ -280,3 +280,13 @@ def test_everyone_with_an_address_or_a_number_becomes_a_contact_once():
 
 def test_nobody_is_made_a_contact_from_history():
 	assert PLANS["people"](MAIL, {**CTX, "history": 1, "people": [{"name": "X", "email": "x@y.test", "contact": None}]}) == []
+
+
+def test_a_record_named_by_number_is_filed_with_the_message():
+	ctx = {**CTX, "carrier": {"message": "COMM-1"}, "referred": [("Purchase Order", "PUR-ORD-0004"), ("Purchase Invoice", "ACC-PINV-0009")]}
+	said = PLANS["referred"](MAIL, ctx)
+	assert [(one.kind, one.doctype, one.name, one.values, one.sure) for one in said] == [
+		("Link", "Purchase Order", "PUR-ORD-0004", {"message": "COMM-1"}, True),
+		("Link", "Purchase Invoice", "ACC-PINV-0009", {"message": "COMM-1"}, True),
+	]
+	assert PLANS["referred"](MAIL, {**ctx, "carrier": None}) == [], "nothing to file, nothing filed"

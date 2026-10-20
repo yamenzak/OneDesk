@@ -568,9 +568,18 @@ def hooked() -> tuple[tuple, tuple]:
 
 
 def _every() -> tuple[tuple, tuple]:
-	"""What runs now (reads, and keeping a memory) and what becomes a card."""
+	"""What runs now (reads, and keeping a memory, and the tools a run was
+	handed for itself, such as OneIntake's) and what becomes a card."""
 	reads, suggests = hooked()
-	return READS + KEEPS + reads, SUGGESTS + suggests
+	own = tuple((frappe.flags.get("one_ai_tools") or {}).values())
+	return READS + KEEPS + reads + own, SUGGESTS + suggests
+
+
+def declared_only(names: list[str]) -> list[dict]:
+	"""These tools and no others, as a provider's function declarations."""
+	reads, suggests = _every()
+	known = {fn.__name__: fn for fn in reads + suggests}
+	return [schema.of(known[name]) for name in names if name in known]
 
 
 def _unshown(tool: str | None) -> tuple:

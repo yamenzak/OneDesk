@@ -117,6 +117,8 @@ def context(reading, said: dict) -> dict:
 	}
 	_sender(ctx, mail, structured)
 	ctx["people"] = _people(ctx, mail, said)
+	ctx["referred"] = _referred(reading)
+	ctx["carrier"] = carrier(reading)
 	_about(ctx, reading)
 	_employee(ctx, reading)
 	_task(ctx, reading)
@@ -192,6 +194,58 @@ def _sender(ctx: dict, mail: dict, structured: dict) -> None:
 		elif best["doctype"] == "Lead":
 			ctx["sender_lead"] = best["name"]
 	ctx["sender_company"] = None
+
+
+#: Records a document may name by our own id.
+OURS_NAMED = (
+	"Purchase Order",
+	"Sales Order",
+	"Sales Invoice",
+	"Purchase Invoice",
+	"Quotation",
+	"Supplier Quotation",
+	"Request for Quotation",
+	"Material Request",
+	"Delivery Note",
+	"Purchase Receipt",
+	"Project",
+	"Task",
+	"Issue",
+	"Opportunity",
+	"Contract",
+)
+
+#: The other side's own numbers, where we keep them: the customer's order
+#: number on our sales order, the supplier's invoice number on their bill.
+THEIRS_NAMED = (("Sales Order", "po_no"), ("Sales Invoice", "po_no"), ("Purchase Invoice", "bill_no"))
+
+
+def _referred(reading) -> list[tuple[str, str]]:
+	"""The records a document names by number: ours by their id, and the
+	other side's by the number we keep of theirs."""
+	found = []
+	for ref in reading.get("refs") or []:
+		value = (ref.value or "").strip()
+		if len(value) < 4:
+			continue
+		for doctype in OURS_NAMED:
+			if frappe.db.exists(doctype, value):
+				found.append((doctype, value))
+		for doctype, field in THEIRS_NAMED:
+			if frappe.get_meta(doctype).has_field(field):
+				found += [(doctype, one) for one in frappe.get_all(doctype, filters={field: value, "docstatus": ["<", 2]}, pluck="name", limit=3)]
+	return list(dict.fromkeys(found))[:10]
+
+
+def carrier(reading) -> dict | None:
+	"""What a link files: the message a mail reading is, or the file a
+	document or an attachment came in, as filing files it."""
+	if reading.source_doctype == "Communication" and not reading.part_of:
+		return {"message": reading.source_name}
+	held = frappe.db.get_value("File", {"one_reading": reading.name}, "name") or (
+		reading.source_name if reading.source_doctype == "File" else None
+	)
+	return {"file": held, "reading": reading.name} if held else None
 
 
 MENTIONS = ("Sender", "Recipient", "Mentioned", "Paid To")

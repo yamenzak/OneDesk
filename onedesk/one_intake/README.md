@@ -111,6 +111,11 @@ understood.
 - **A message** is linked to every record it's about and shows on their
   timelines. Attachments are copied to the record under their new name and
   stay on the message too.
+- **A number in it finds the record.** An order, invoice, quotation or
+  project number links the message or file to that record, whether it's one
+  of your numbers (a purchase order you sent) or theirs that you keep (a
+  customer's order number on your sales order, a supplier's invoice number on
+  their bill).
 - **A message matching a mailbox rule** with an **About** topic, such as
   "soft drinks", goes to that rule's folder.
 - **Junk** sent straight to a mailbox leaves the Inbox. Spam and phishing go
@@ -209,6 +214,30 @@ document number are linked to it.
 through the form, OneAI's application is merged into the form's, which keeps
 its own values. If HR already worked on OneAI's application, it's flagged
 instead.
+
+## OneAI as your data-entry clerk
+
+Once the document is filed and its party, records and tasks are made, OneAI
+goes over it once more, as a clerk would, and does what is still left:
+
+- **Links it to what it's about** without a number to go on: the project a
+  site report describes, the order a delivery delay is about. It looks each
+  one up first.
+- **Fills in records it's about** with anything new it says: a phone, an
+  address, a tax number, a new delivery date.
+- **Makes what it calls for**, such as an issue a customer reported or an
+  opportunity from a request for a quote.
+- **Leaves a comment** on a record when the news matters to the people on it
+  but changes nothing, such as "The supplier moved delivery to 14 November".
+- **Gives a task** to whoever handles the record: the person it's assigned
+  to, its account or project manager, or its owner.
+
+It acts as the person OneAI reads for, so it can't touch anything they
+couldn't. Everything it does is marked as OneAI's and can be undone. When
+it's less sure than the **Confidence Floor** in Intake Settings, or it would
+change a value a person typed, it goes to the inbox as a suggestion instead.
+It leaves medical, pay, personal and legal documents, copies and old mail to
+the rules above, and never touches invoices, payments or orders.
 
 ## Money and goods
 
@@ -788,6 +817,36 @@ of it, numbered §1 to §16, which the code's docstrings cite.
   would run after it.
 
 What is not built yet is in `docs/BACKLOG.md`.
+
+### agent.py
+
+OneIntake as an employee. After `parties`, filing, `money` and `second`,
+`matters.act_now` calls `agent.think`, which runs the `intake_act` action on
+OneAI's own loop (`run.ask` with `only` and `nudges=False`) as the reading's
+`on_behalf_of`, so every lookup is that person's. The model is shown the
+reading (`told`): what it says, who it names, its references, asks and
+lines, and `already_done`, the Intake Actions the planners took. It reads
+with the chat's tools (`LOOKS`) and acts with six of its own (`HANDS`):
+`link_to`, `make_record`, `fill_in`, `add_comment`, `make_task` and
+`who_handles`. Each acting tool is one `act.Action` handed to `act.apply`,
+so it is keyed (never done twice), checked against the person, marked,
+undoable and levelled: a confidence below the floor, an overwrite or a
+lesson makes it Proposed, and a weak link waits like any unsure change. The
+tools are the run's own (`frappe.flags.one_ai_tools`), never offered to the
+chat. `_worth` leaves history, copies and anything not Ordinary to the
+planners.
+
+The model never decides a party, money or an order: the planners do, with
+rules that can be read, and the agent is told not to. What it adds is what
+those rules could not see: the record a sentence is about, the delivery date
+in a paragraph, the person who should answer.
+
+`plans.referred` is the half that needs no model: the records a reading's
+references name, by our id (`OURS_NAMED`) or by the number we keep of
+theirs (`THEIRS_NAMED`: a customer's PO number, a supplier's invoice
+number), each linked surely through `planning.carrier`, the message or file
+a link files. Measured on the demo: six readings that were filed only with
+their sender now also reach the order, request or invoice they name.
 
 ### bundle.py
 

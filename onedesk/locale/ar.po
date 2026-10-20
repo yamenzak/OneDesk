@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-20 06:01+0000\n"
+"POT-Creation-Date: 2026-10-20 06:09+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -578,11 +578,11 @@ msgstr "إشعار مدين من {0}."
 msgid "A discount or price for some customers, items or quantities."
 msgstr "خصم أو سعر لبعض العملاء أو الأصناف أو الكميات."
 
-#: onedesk/one_intake/planning.py:132
+#: onedesk/one_intake/planning.py:134
 msgid "A document arrived"
 msgstr "وصل مستند"
 
-#: onedesk/one_intake/planning.py:133
+#: onedesk/one_intake/planning.py:135
 msgid "A document arrived for {0}"
 msgstr "وصل مستند لـ {0}"
 
@@ -3152,7 +3152,7 @@ msgstr ""
 msgid "Already Paid"
 msgstr "مدفوع مسبقاً"
 
-#: onedesk/one_intake/planning.py:139
+#: onedesk/one_intake/planning.py:141
 msgid "Already paid."
 msgstr "مدفوعة مسبقًا."
 
@@ -3849,7 +3849,7 @@ msgstr "تعيين مقاولي الأعمال الميكانيكية والكه
 #: onedesk/one_crm/home.py:115 onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
-#: onedesk/one_intake/planning.py:135
+#: onedesk/one_intake/planning.py:137
 msgid "Appointment"
 msgstr "موعد"
 
@@ -4392,7 +4392,7 @@ msgstr "اسأل {0} عن هذا"
 msgid "Ask {0} for a copy of your data, or to delete it."
 msgstr "اطلب من {0} نسخة من بياناتك أو حذفها."
 
-#: onedesk/one_intake/planning.py:143
+#: onedesk/one_intake/planning.py:145
 msgid "Ask {1} for invoice {0}"
 msgstr "اطلب من {1} الفاتورة {0}"
 
@@ -6999,7 +6999,7 @@ msgstr "راجع الفاتورة إلى {0}"
 msgid "Check the site in Frappe Cloud."
 msgstr "تحقق من الموقع في Frappe Cloud."
 
-#: onedesk/one_intake/planning.py:146
+#: onedesk/one_intake/planning.py:148
 msgid "Check the unordered delivery from {0}"
 msgstr "تحقق من التسليم غير المطلوب من {0}"
 
@@ -9814,7 +9814,7 @@ msgstr "تاريخ الميلاد"
 msgid "Date: {0}"
 msgstr "التاريخ: {0}"
 
-#: onedesk/one_intake/planning.py:137
+#: onedesk/one_intake/planning.py:139
 msgid "Dated after the books closed on {0}."
 msgstr "مؤرخ بعد إغلاق الدفاتر في {0}."
 
@@ -10015,7 +10015,7 @@ msgstr ""
 msgid "Decide"
 msgstr "قرار"
 
-#: onedesk/one_intake/planning.py:145
+#: onedesk/one_intake/planning.py:147
 msgid "Decide whether to cancel the contract with {0} (last day {1})"
 msgstr "قرّر ما إذا كنت ستلغي العقد مع {0} (آخر يوم {1})"
 
@@ -15289,7 +15289,7 @@ msgstr "من سنة"
 msgid "From a receipt: {0}, {1}."
 msgstr "من إيصال: {0}، {1}."
 
-#: onedesk/one_intake/planning.py:131
+#: onedesk/one_intake/planning.py:133
 msgid "From a sick note that arrived by mail."
 msgstr "من شهادة مرضية وصلت بالبريد."
 
@@ -15327,7 +15327,7 @@ msgstr "من يوم الاستلام"
 msgid "From the request to the supplier's bill."
 msgstr "من الطلب إلى فاتورة المورد."
 
-#: onedesk/one_intake/planning.py:147
+#: onedesk/one_intake/planning.py:149
 msgid "From their timesheet."
 msgstr "من سجل وقتهم."
 
@@ -27365,7 +27365,7 @@ msgstr "دفع بعد الأرشفة"
 msgid "Paid With Payroll Of"
 msgstr "يُصرف مع رواتب"
 
-#: onedesk/one_intake/planning.py:138
+#: onedesk/one_intake/planning.py:140
 msgid "Paid by direct debit."
 msgstr "مدفوعة بالخصم المباشر."
 
@@ -31768,7 +31768,7 @@ msgstr "تذكير بالدفع"
 msgid "Reminder No"
 msgstr "رقم التذكير"
 
-#: onedesk/one_intake/planning.py:144
+#: onedesk/one_intake/planning.py:146
 msgid "Reminder for an unknown invoice. Ask for the invoice before paying."
 msgstr "تذكير بفاتورة غير معروفة. اطلب الفاتورة قبل الدفع."
 
@@ -31776,7 +31776,7 @@ msgstr "تذكير بفاتورة غير معروفة. اطلب الفاتورة
 msgid "Reminder sent to {0} people"
 msgstr "أُرسل تذكير إلى {0} أشخاص"
 
-#: onedesk/one_intake/planning.py:134
+#: onedesk/one_intake/planning.py:136
 msgid "Reminder: {0}"
 msgstr "تذكير: {0}"
 
@@ -31908,7 +31908,7 @@ msgstr "جدّده، أو خطّط ليومه الأخير."
 msgid "Renew the contract"
 msgstr "جدّد العقد"
 
-#: onedesk/one_intake/planning.py:129
+#: onedesk/one_intake/planning.py:131
 msgid "Renew the {0} of {1}"
 msgstr "جدد {0} الخاص بـ {1}"
 
@@ -33603,7 +33603,7 @@ msgstr "الأقسام"
 msgid "See the Page"
 msgstr "عرض الصفحة"
 
-#: onedesk/one_intake/planning.py:142
+#: onedesk/one_intake/planning.py:144
 msgid "See the attached document."
 msgstr "انظر المستند المرفق."
 
@@ -35505,7 +35505,7 @@ msgstr "في بعض البلدان عطلات تخص جزءًا من البلد 
 msgid "Some documents need your agreement."
 msgstr "بعض المستندات تحتاج إلى موافقتك."
 
-#: onedesk/one_intake/planning.py:141
+#: onedesk/one_intake/planning.py:143
 msgid "Some lines match no item."
 msgstr "بعض البنود لا تطابق أي صنف."
 
@@ -36887,7 +36887,7 @@ msgstr "اقترح تغييراً على {0}"
 msgid "Suggested by {0} and approved by {1}"
 msgstr "اقترحه {0} ووافق عليه {1}"
 
-#: onedesk/one_ai/tools.py:675 onedesk/one_hr/ai.py:327
+#: onedesk/one_ai/tools.py:684 onedesk/one_hr/ai.py:327
 msgid "Suggested. It happens when somebody approves it."
 msgstr "اقتُرح. ويحدث حين يوافق عليه أحد."
 
@@ -38309,7 +38309,7 @@ msgstr "الحقل"
 msgid "The Frappe Cloud root domain sites are created on, for example frappe.cloud."
 msgstr "النطاق الجذر في Frappe Cloud الذي تُنشأ عليه المواقع، مثل frappe.cloud."
 
-#: onedesk/one_intake/planning.py:456
+#: onedesk/one_intake/planning.py:510
 msgid "The IBAN isn't on file for {0}. Confirm it by phone before paying."
 msgstr "رقم IBAN غير مسجل لـ {0}. تأكد منه هاتفيًا قبل الدفع."
 
@@ -38919,7 +38919,7 @@ msgstr "الفاتورة مرفقة. إذا كنت قد دفعتها بالفع�
 msgid "The invoice that included the retention. The retention is credited from it."
 msgstr "الفاتورة التي تضمنت المحتجزات. تُقيَّد المحتجزات دائناً منها."
 
-#: onedesk/one_intake/planning.py:140
+#: onedesk/one_intake/planning.py:142
 msgid "The invoice this credits was not found."
 msgstr "لم يُعثر على الفاتورة التي يدين هذا الإشعار لها."
 
@@ -48346,7 +48346,7 @@ msgstr "محذوفًا"
 msgid "deployed"
 msgstr "نُشر"
 
-#: onedesk/one_intake/planning.py:130
+#: onedesk/one_intake/planning.py:132
 msgid "document"
 msgstr "مستند"
 
@@ -48962,11 +48962,11 @@ msgstr "بوابة الذكاء الاصطناعي"
 msgid "the account for costs included in stock value"
 msgstr "حساب التكاليف المضافة إلى قيمة المخزون"
 
-#: onedesk/one_ai/run.py:499
+#: onedesk/one_ai/run.py:504
 msgid "the added instructions"
 msgstr "التعليمات المضافة"
 
-#: onedesk/one_ai/run.py:499
+#: onedesk/one_ai/run.py:504
 msgid "the added instructions, to none"
 msgstr "التعليمات المضافة، فأزالها"
 
@@ -49010,11 +49010,11 @@ msgstr "الافتراضي لـ{0} الآن {1}"
 msgid "the fiscal year (.TFY. for the short form)"
 msgstr "السنة المالية (.TFY. للصيغة المختصرة)"
 
-#: onedesk/one_ai/run.py:496
+#: onedesk/one_ai/run.py:501
 msgid "the model back to the default"
 msgstr "النموذج إلى الافتراضي"
 
-#: onedesk/one_ai/run.py:496
+#: onedesk/one_ai/run.py:501
 msgid "the model to {0}"
 msgstr "النموذج إلى {0}"
 
@@ -49151,11 +49151,11 @@ msgstr "كان {0}"
 msgid "what {0} can do in {1}"
 msgstr "ما يستطيعه {0} في {1}"
 
-#: onedesk/one_ai/run.py:504
+#: onedesk/one_ai/run.py:509
 msgid "who picks the model, to administrators only"
 msgstr "من يختار النموذج، إلى المسؤولين فقط"
 
-#: onedesk/one_ai/run.py:502
+#: onedesk/one_ai/run.py:507
 msgid "who picks the model, to everybody"
 msgstr "من يختار النموذج، إلى الجميع"
 
@@ -49600,7 +49600,7 @@ msgstr "تغيّر {0} بعد اقتراح هذا، فلم يعد ينطبق."
 msgid "{0} changed in this save. Save it first, then edit what it links to."
 msgstr "تغيّر {0} في هذا الحفظ. احفظه أولًا، ثم حرر ما يرتبط به."
 
-#: onedesk/one_ai/run.py:453
+#: onedesk/one_ai/run.py:458
 msgid "{0} changed this since you opened it. Close it and open it again."
 msgstr "غيّر {0} هذا منذ أن فتحته. أغلقه وافتحه مرة أخرى."
 
@@ -50389,7 +50389,7 @@ msgstr "{0} ليست مهمة في هذا المشروع."
 msgid "{0} is not a template for {1}."
 msgstr "{0} ليس قالبًا لـ {1}."
 
-#: onedesk/one_ai/tools.py:647
+#: onedesk/one_ai/tools.py:656
 msgid "{0} is not a tool."
 msgstr "{0} ليس أداة."
 

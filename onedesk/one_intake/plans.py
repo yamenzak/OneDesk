@@ -147,6 +147,18 @@ def contact(reading: dict, ctx: dict) -> list[Action]:
 	return out
 
 
+def referred(reading: dict, ctx: dict) -> list[Action]:
+	"""The message or file filed with every record the document names by
+	number: an order it confirms, an invoice it chases. A number is not a
+	guess, so these are sure."""
+	if not real(reading, ctx) or not ctx.get("carrier"):
+		return []
+	return [
+		Action("Link", doctype, name, dict(ctx["carrier"]), key=f"link|{doctype}|{name}", sure=True)
+		for doctype, name in ctx.get("referred") or []
+	]
+
+
 def people(reading: dict, ctx: dict) -> list[Action]:
 	"""Everyone else in a message who can be reached, as a Contact: one that
 	holds their address or number is completed (the other one added, their
@@ -401,6 +413,7 @@ def second(reading: dict, ctx: dict) -> list[Action]:
 	return (
 		contact(reading, ctx)
 		+ people(reading, ctx)
+		+ referred(reading, ctx)
 		+ enrich(reading, ctx)
 		+ employee_documents(reading, ctx)
 		+ receipt(reading, ctx)
