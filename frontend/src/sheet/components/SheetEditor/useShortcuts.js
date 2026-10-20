@@ -1,6 +1,7 @@
 // Derived from frappe/suite@df7f341 (frontend/src/apps/sheets)/components/SheetEditor/useShortcuts.js. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md.
 import { useKeyboardShortcut } from 'frappe-ui'
 import { __ } from '../../../kit/desk'
+import { focused } from '../../shim/focus.js' // One: focus inside the island's shadow root
 
 /**
  * Keyboard shortcut dispatch for SheetEditor.
@@ -72,7 +73,7 @@ export function useShortcuts(actions) {
   const notReadOnly = () => !readOnly()
 
   function _isInInput() {
-    const ae = document.activeElement
+    const ae = focused()
     return ae?.tagName === 'INPUT' && ae !== formulaInputEl?.()
   }
 
@@ -87,7 +88,7 @@ export function useShortcuts(actions) {
       group: __('View'),
       allowInInput: true,
       handler: () => {
-        document.activeElement?.blur?.()
+        focused()?.blur?.()
         if (openFindReplace) openFindReplace()
         else if (showFindReplace) showFindReplace.value = true
       },

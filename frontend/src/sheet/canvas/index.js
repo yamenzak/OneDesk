@@ -10,6 +10,7 @@ import { autoCloseKey } from '../utils/formula-autoclose.js'
 import { isWrapText, getTextWrap, wrapLines, lineHeightFor } from '../utils/text-wrap.js'
 import { chipFont } from './chip-geometry.js'
 import { checkboxRect } from './checkbox-geometry.js'
+import { focused } from '../shim/focus.js' // One: focus inside the island's shadow root
 
 export function createGrid(canvas, { onSelect, onCommit, onInput, onCancel, getFormat, onFill, onBatchCommit, getMergeInfo, isSlave, getMasterId, getComment, getValidation, getCondFormat, getSparkline, getRightInset, onHyperlinkClick, onLinkHover, onDropdownClick, onCheckboxToggle, onPivotDrill, onResizeEnd, onColMove, getSheetNames, getCurrentSheet, getEditingHomeSheet, getDisplay, getCellIds, lazyValues = false, canEdit = () => true, isCellEditable, onBlockedEdit } = {}) {
   const ctx = canvas.getContext('2d')
@@ -556,7 +557,7 @@ export function createGrid(canvas, { onSelect, onCommit, onInput, onCancel, getF
   let _sugActive = false
 
   function _pickTarget() {
-    const ae = document.activeElement
+    const ae = focused()
     if (!ae || ae.tagName !== 'INPUT') return null
     if (typeof ae.value !== 'string' || !ae.value.startsWith('=')) return null
     return ae

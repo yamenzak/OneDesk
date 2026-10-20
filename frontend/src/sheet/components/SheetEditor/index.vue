@@ -1323,6 +1323,7 @@ import { __ } from '../../../kit/desk'
 import { createNamedRanges }   from '../../engine/named-ranges.js'
 import { getFunctionNames }    from '../../engine/formula.js'
 import NamedRangesDialog       from './NamedRangesDialog.vue'
+import { focused } from '../../shim/focus.js' // One: focus inside the island's shadow root
 import TemplateDialog          from '../../shim/TemplateDialog.vue' // One: templates
 import FillDialog              from '../../shim/FillDialog.vue' // One: the table's column map
 import { takeBack }            from '../../shim/table.js' // One
@@ -1702,7 +1703,7 @@ const showFindReplace   = ref(false)
 const findReplaceRef    = ref(null)
 
 function openFindReplace() {
-  document.activeElement?.blur?.()
+  focused()?.blur?.()
   showFindReplace.value = true
   const triggerFocus = () => findReplaceRef.value?.focusInput?.()
   nextTick(triggerFocus)
@@ -2690,7 +2691,7 @@ function addSheet() {
 // input, and call switchSheet with preserveEdit so activeCell + formulaValue
 // don't get clobbered by the switch.
 function _isEditingFormulaInBar() {
-  return document.activeElement === formulaInputRef.value
+  return focused() === formulaInputRef.value
     && typeof formulaValue.value === 'string'
     && formulaValue.value.startsWith('=')
 }
@@ -4116,7 +4117,7 @@ const { onGlobalKey } = useShortcuts({
 
 function _canvasActive() {
   return isCanvasClipboardTarget({
-    activeEl:  document.activeElement,
+    activeEl:  focused(),
     canvasEl:  canvasRef.value,
     formulaEl: formulaInputRef.value,
     gridWrap:  gridWrapRef.value,
@@ -4132,7 +4133,7 @@ function _canvasActive() {
 // cell editor, or an open dialog.
 function _refocusGridIfIdle() {
   if (document.visibilityState === 'hidden') return
-  const ae = document.activeElement
+  const ae = focused()
   if (ae && ae !== document.body) return
   canvasRef.value?.focus()
 }
