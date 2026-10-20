@@ -160,6 +160,14 @@ about.
 - **The sender** gets a **Contact**, linked to their company. The automatic
   contact for every email address is turned off for mailboxes OneAI reads.
   Contacts it already made are completed, not duplicated.
+- **Everyone else in a message who can be reached** gets a Contact too: the
+  people it was sent to and copied to, and the people named in the text or a
+  signature who come with an email or a phone. Their job title and
+  organisation go on the Contact, and it is linked to the customer or
+  supplier their email address belongs to. Someone it already has, by email
+  or phone, is completed rather than made again: a new number or address is
+  added, and the link to their organisation. A name with no email or phone
+  makes no Contact. Your own colleagues and addresses never become Contacts.
 - **An employee's own documents** go on their Employee record:
   - A passport or permit is added to their identity documents, with a task
     for HR before it expires (90 days ahead for a residence permit, 60 for a
@@ -688,7 +696,12 @@ of it, numbered §1 to §16, which the code's docstrings cite.
   invoice needs must exist before the invoice is filed with it: `parties`
   (the counterpart a document needs and does not have yet: a supplier for an
   invoice, a customer for an order, a lead for an inquiry, an applicant for a
-  CV), then `rematch`, then filing, then `second` (the sender's Contact, a
+  CV), then `rematch`, then filing, then `second` (the sender's Contact,
+  then `people`: everyone else in the message with an email or a phone, found
+  by `planning._people` from the To and Cc headers and the persons the
+  reading names, deduplicated against the identity registry by email or
+  phone, and linked to the one Customer, Supplier, Lead or Prospect holding
+  their email's domain, a
   person's documents on their Employee, a sick note's leave, an employee's
   receipt, one task per matter, an appointment's event, what our own mail
   promised). Keys are per matter for tasks and requests, per document for the

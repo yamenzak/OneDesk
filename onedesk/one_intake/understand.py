@@ -410,6 +410,8 @@ def matched(party: dict) -> dict:
 		"role": party.get("role") if party.get("role") in ROLES else "Mentioned",
 		"party_name": (party.get("name") or party.get("person_name") or "")[:140] or None,
 		"is_person": int(bool(party.get("person"))),
+		"job_title": (party.get("job_title") or "")[:140] or None,
+		"company": (party.get("company") or "")[:140] or None,
 		"email": ids.email(party.get("email")),
 		"phone": party.get("phone"),
 		"website": party.get("website"),

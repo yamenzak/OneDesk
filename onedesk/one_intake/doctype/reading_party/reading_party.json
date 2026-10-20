@@ -9,6 +9,8 @@
   "role",
   "party_name",
   "is_person",
+  "job_title",
+  "company",
   "email",
   "phone",
   "website",
@@ -45,6 +47,16 @@
    "fieldtype": "Check",
    "label": "Individual",
    "read_only": 1
+  },
+  {
+   "fieldname": "job_title",
+   "fieldtype": "Data",
+   "label": "Job Title"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Data",
+   "label": "Organisation"
   },
   {
    "fieldname": "email",
@@ -140,7 +152,7 @@
  "istable": 1,
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-26 15:00:00.000000",
+ "modified": "2026-10-20 04:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Intake",
  "name": "Reading Party",

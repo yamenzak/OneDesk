@@ -147,6 +147,39 @@ def contact(reading: dict, ctx: dict) -> list[Action]:
 	return out
 
 
+def people(reading: dict, ctx: dict) -> list[Action]:
+	"""Everyone else in a message who can be reached, as a Contact: one that
+	holds their address or number is completed (the other one added, their
+	organisation linked), and nobody is made twice."""
+	if not real(reading, ctx):
+		return []
+	out = []
+	for one in ctx.get("people") or []:
+		key = one.get("email") or one.get("phone")
+		link = {"link_doctype": one["org"][0], "link_name": one["org"][1]} if one.get("org") else None
+		if not one.get("contact"):
+			first, last = _split(one.get("name") or "")
+			values = {
+				"first_name": first or (one.get("email") or "").split("@")[0] or one.get("phone"),
+				"last_name": last,
+				"email_ids": [{"email_id": one["email"], "is_primary": 1}] if one.get("email") else [],
+				"phone_nos": [{"phone": one["phone"], "is_primary_phone": 1}] if one.get("phone") else [],
+				"links": [link] if link else [],
+				"designation": one.get("job_title"),
+				"company_name": one.get("company"),
+			}
+			out.append(Action("Create", "Contact", values={k: v for k, v in values.items() if v}, key=f"contact|{key}"))
+			continue
+		held = one["contact"]
+		if one.get("email") and one["email"] not in (one.get("emails") or []):
+			out.append(Action("Add", "Contact", held, {"table": "email_ids", "row": {"email_id": one["email"]}}, key=f"contact|{held}|{one['email']}"))
+		if one.get("phone") and one["phone"] not in (one.get("phones") or []):
+			out.append(Action("Add", "Contact", held, {"table": "phone_nos", "row": {"phone": one["phone"]}}, key=f"contact|{held}|{one['phone']}"))
+		if link and tuple(link.values()) not in {tuple(pair) for pair in one.get("links") or []}:
+			out.append(Action("Add", "Contact", held, {"table": "links", "row": link}, key=f"contact|{held}|{link['link_name']}"))
+	return out
+
+
 def employee_documents(reading: dict, ctx: dict) -> list[Action]:
 	"""A person's own documents, on their Employee: an identity document as
 	a row with a task before it runs out, a certificate as an education row,
@@ -367,6 +400,7 @@ def second(reading: dict, ctx: dict) -> list[Action]:
 	"""Everything after the parties, in the order the door should take it."""
 	return (
 		contact(reading, ctx)
+		+ people(reading, ctx)
 		+ enrich(reading, ctx)
 		+ employee_documents(reading, ctx)
 		+ receipt(reading, ctx)

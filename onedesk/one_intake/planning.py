@@ -116,6 +116,7 @@ def context(reading, said: dict) -> dict:
 		"subject": (mail.get("subject") or "").strip(),
 	}
 	_sender(ctx, mail, structured)
+	ctx["people"] = _people(ctx, mail, said)
 	_about(ctx, reading)
 	_employee(ctx, reading)
 	_task(ctx, reading)
@@ -191,6 +192,69 @@ def _sender(ctx: dict, mail: dict, structured: dict) -> None:
 		elif best["doctype"] == "Lead":
 			ctx["sender_lead"] = best["name"]
 	ctx["sender_company"] = None
+
+
+MENTIONS = ("Sender", "Recipient", "Mentioned", "Paid To")
+
+PARTY_KINDS = ("Supplier", "Customer", "Lead", "Prospect")
+
+
+def _people(ctx: dict, mail: dict, said: dict) -> list[dict]:
+	"""Everyone in a message who could be reached: the addresses it went to
+	and was copied to, and the people it names with an email or a phone,
+	each with the Contact that already holds them and the organisation their
+	address belongs to. Not the sender, whom `_sender` covers, and not us."""
+	from email.utils import getaddresses
+
+	land = identity.country()
+	found: list[dict] = []
+	heads = getaddresses([str(mail.get("to") or ""), str(mail.get("cc") or "")])
+	persons = [
+		one for one in said.get("parties") or [] if one.get("is_person") and one.get("role") in MENTIONS and not one.get("ours")
+	]
+	named = {ids.email(one.get("email")): one for one in persons if ids.email(one.get("email"))}
+	for name, address in heads:
+		found.append({"name": name, "email": ids.email(address), "phone": None})
+	for one in persons:
+		found.append(
+			{
+				"name": one.get("person_name") or one.get("party_name"),
+				"email": ids.email(one.get("email")),
+				"phone": ids.phone(one.get("phone"), land),
+				"job_title": one.get("job_title"),
+				"company": one.get("company"),
+			}
+		)
+	out, seen = [], {ctx.get("sender_email")}
+	for one in found:
+		keys = [key for key in (one["email"], one["phone"]) if key]
+		if not keys or seen & set(keys):
+			continue
+		also = named.get(one["email"]) or {}
+		one = {**one, "phone": one["phone"] or ids.phone(also.get("phone"), land), "job_title": one.get("job_title") or also.get("job_title"), "company": one.get("company") or also.get("company")}
+		keys = [key for key in (one["email"], one["phone"]) if key]
+		seen |= set(keys)
+		pairs = [(ids.EMAIL, one["email"])] if one["email"] else []
+		pairs += [(ids.PHONE, one["phone"])] if one["phone"] else []
+		if identity.ours(pairs + ([(ids.DOMAIN, ids.domain(one["email"]))] if one["email"] else [])):
+			continue
+		held = next((name for kind, value in pairs for doctype, name in identity.holders(kind, value) if doctype == "Contact"), None)
+		org = None
+		if one["email"] and ids.organisation_domain(one["email"]):
+			held_by = [
+				found for found in identity.match([(ids.DOMAIN, ids.organisation_domain(one["email"]))]) if found["doctype"] in PARTY_KINDS
+			]
+			org = (held_by[0]["doctype"], held_by[0]["name"]) if len(held_by) == 1 else None
+		person = {**one, "contact": held, "org": org}
+		if held:
+			person["emails"] = frappe.get_all("Contact Email", filters={"parent": held, "parenttype": "Contact"}, pluck="email_id")
+			person["phones"] = [ids.phone(number, land) for number in frappe.get_all("Contact Phone", filters={"parent": held, "parenttype": "Contact"}, pluck="phone")]
+			person["links"] = [(link.link_doctype, link.link_name) for link in frappe.get_all("Dynamic Link", filters={"parenttype": "Contact", "parent": held}, fields=["link_doctype", "link_name"])]
+		out.append(person)
+	return out[:MOST_PEOPLE]
+
+
+MOST_PEOPLE = 20
 
 
 def _about(ctx: dict, reading) -> None:

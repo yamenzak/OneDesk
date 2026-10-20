@@ -241,3 +241,42 @@ def test_a_colleagues_site_log_is_their_part_of_the_days_update():
 	assert made[0].values == {"project": "PROJ-1", "user": "rania@acme.test", "note": "Glazed the ground floor."}, "the mail's subject is left off"
 	assert kinds(PLANS["site_log"](SITE_LOG, {**ctx, "sender_colleague": None})) == [("Comment", "Project")]
 	assert PLANS["site_log"](SITE_LOG, {**ctx, "project": None}) == []
+
+
+MAIL = {"name": "m1", "kind": "Letter", "verdict": "Information", "title": "Re: site visit", "parties": []}
+
+
+def test_everyone_with_an_address_or_a_number_becomes_a_contact_once():
+	"""Not only the sender: who it went to, who was copied, and who the
+	message names with an email or a phone. One already held is completed
+	instead of made again."""
+	ctx = {
+		**CTX,
+		"people": [
+			{"name": "Rania Haddad", "email": "rania@gulfglass.test", "phone": None, "contact": None, "org": ("Supplier", "Gulf Glass")},
+			{"name": "Omar", "email": None, "phone": "+971501234567", "contact": None, "org": None},
+			{
+				"name": "Sara Lee",
+				"email": "sara@marina.test",
+				"phone": "+971509999999",
+				"contact": "Sara Lee",
+				"org": ("Customer", "Marina Towers"),
+				"emails": ["sara@marina.test"],
+				"phones": [],
+				"links": [],
+			},
+		],
+	}
+	said = PLANS["people"](MAIL, ctx)
+	made = [one for one in said if one.kind == "Create"]
+	assert [one.values["first_name"] for one in made] == ["Rania", "Omar"]
+	assert made[0].values["links"] == [{"link_doctype": "Supplier", "link_name": "Gulf Glass"}]
+	assert made[1].values["phone_nos"] == [{"phone": "+971501234567", "is_primary_phone": 1}] and "email_ids" not in made[1].values
+	added = [(one.values["table"], one.values["row"]) for one in said if one.kind == "Add"]
+	assert ("phone_nos", {"phone": "+971509999999"}) in added
+	assert ("links", {"link_doctype": "Customer", "link_name": "Marina Towers"}) in added
+	assert not any(table == "email_ids" for table, _row in added), "an address it holds is not added again"
+
+
+def test_nobody_is_made_a_contact_from_history():
+	assert PLANS["people"](MAIL, {**CTX, "history": 1, "people": [{"name": "X", "email": "x@y.test", "contact": None}]}) == []

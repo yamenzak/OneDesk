@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-20 05:55+0000\n"
-"PO-Revision-Date: 2026-10-20 05:55+0000\n"
+"POT-Creation-Date: 2026-10-20 06:01+0000\n"
+"PO-Revision-Date: 2026-10-20 06:01+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -576,11 +576,11 @@ msgstr ""
 msgid "A discount or price for some customers, items or quantities."
 msgstr ""
 
-#: onedesk/one_intake/planning.py:131
+#: onedesk/one_intake/planning.py:132
 msgid "A document arrived"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:132
+#: onedesk/one_intake/planning.py:133
 msgid "A document arrived for {0}"
 msgstr ""
 
@@ -3150,7 +3150,7 @@ msgstr ""
 msgid "Already Paid"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:138
+#: onedesk/one_intake/planning.py:139
 msgid "Already paid."
 msgstr ""
 
@@ -3847,7 +3847,7 @@ msgstr ""
 #: onedesk/one_crm/home.py:115 onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
-#: onedesk/one_intake/planning.py:134
+#: onedesk/one_intake/planning.py:135
 msgid "Appointment"
 msgstr ""
 
@@ -4390,7 +4390,7 @@ msgstr ""
 msgid "Ask {0} for a copy of your data, or to delete it."
 msgstr ""
 
-#: onedesk/one_intake/planning.py:142
+#: onedesk/one_intake/planning.py:143
 msgid "Ask {1} for invoice {0}"
 msgstr ""
 
@@ -6997,7 +6997,7 @@ msgstr ""
 msgid "Check the site in Frappe Cloud."
 msgstr ""
 
-#: onedesk/one_intake/planning.py:145
+#: onedesk/one_intake/planning.py:146
 msgid "Check the unordered delivery from {0}"
 msgstr ""
 
@@ -9812,7 +9812,7 @@ msgstr ""
 msgid "Date: {0}"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:136
+#: onedesk/one_intake/planning.py:137
 msgid "Dated after the books closed on {0}."
 msgstr ""
 
@@ -10013,7 +10013,7 @@ msgstr ""
 msgid "Decide"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:144
+#: onedesk/one_intake/planning.py:145
 msgid "Decide whether to cancel the contract with {0} (last day {1})"
 msgstr ""
 
@@ -15288,7 +15288,7 @@ msgstr ""
 msgid "From a receipt: {0}, {1}."
 msgstr ""
 
-#: onedesk/one_intake/planning.py:130
+#: onedesk/one_intake/planning.py:131
 msgid "From a sick note that arrived by mail."
 msgstr ""
 
@@ -15326,7 +15326,7 @@ msgstr ""
 msgid "From the request to the supplier's bill."
 msgstr ""
 
-#: onedesk/one_intake/planning.py:146
+#: onedesk/one_intake/planning.py:147
 msgid "From their timesheet."
 msgstr ""
 
@@ -19015,6 +19015,11 @@ msgstr ""
 #. Name of a notification
 #: onedesk/notifications/one_hr/job_requisition_asked.md
 msgid "Job Requisition Asked"
+msgstr ""
+
+#. Label of the job_title (Data) field in DocType 'Reading Party'
+#: onedesk/one_intake/doctype/reading_party/reading_party.json
+msgid "Job Title"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -26758,7 +26763,9 @@ msgstr ""
 msgid "Org Chart"
 msgstr ""
 
+#. Label of the company (Data) field in DocType 'Reading Party'
 #. Option for the 'Kind' (Select) field in DocType 'Face'
+#: onedesk/one_intake/doctype/reading_party/reading_party.json
 #: onedesk/one_mail/doctype/face/face.json onedesk/public/js/settings.js:767
 msgid "Organisation"
 msgstr ""
@@ -27364,7 +27371,7 @@ msgstr ""
 msgid "Paid With Payroll Of"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:137
+#: onedesk/one_intake/planning.py:138
 msgid "Paid by direct debit."
 msgstr ""
 
@@ -31770,7 +31777,7 @@ msgstr ""
 msgid "Reminder No"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:143
+#: onedesk/one_intake/planning.py:144
 msgid "Reminder for an unknown invoice. Ask for the invoice before paying."
 msgstr ""
 
@@ -31778,7 +31785,7 @@ msgstr ""
 msgid "Reminder sent to {0} people"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:133
+#: onedesk/one_intake/planning.py:134
 msgid "Reminder: {0}"
 msgstr ""
 
@@ -31910,7 +31917,7 @@ msgstr ""
 msgid "Renew the contract"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:128
+#: onedesk/one_intake/planning.py:129
 msgid "Renew the {0} of {1}"
 msgstr ""
 
@@ -33607,7 +33614,7 @@ msgstr ""
 msgid "See the Page"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:141
+#: onedesk/one_intake/planning.py:142
 msgid "See the attached document."
 msgstr ""
 
@@ -35522,7 +35529,7 @@ msgstr ""
 msgid "Some documents need your agreement."
 msgstr ""
 
-#: onedesk/one_intake/planning.py:140
+#: onedesk/one_intake/planning.py:141
 msgid "Some lines match no item."
 msgstr ""
 
@@ -38326,7 +38333,7 @@ msgstr ""
 msgid "The Frappe Cloud root domain sites are created on, for example frappe.cloud."
 msgstr ""
 
-#: onedesk/one_intake/planning.py:392
+#: onedesk/one_intake/planning.py:456
 msgid "The IBAN isn't on file for {0}. Confirm it by phone before paying."
 msgstr ""
 
@@ -38943,7 +38950,7 @@ msgstr ""
 msgid "The invoice that included the retention. The retention is credited from it."
 msgstr ""
 
-#: onedesk/one_intake/planning.py:139
+#: onedesk/one_intake/planning.py:140
 msgid "The invoice this credits was not found."
 msgstr ""
 
@@ -48375,7 +48382,7 @@ msgstr ""
 msgid "deployed"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:129
+#: onedesk/one_intake/planning.py:130
 msgid "document"
 msgstr ""
 
