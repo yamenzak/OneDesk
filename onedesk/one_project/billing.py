@@ -452,7 +452,8 @@ def costs(project: str) -> list[dict]:
 	"""What was bought for the project and those under it, on Time and
 	Materials projects billed to the same customer, not billed yet: supplier
 	bills' lines, stock issued to it and approved expense claims, each with
-	what it cost the company and what it's billed at."""
+	what it cost the company and what it's billed at. A bill line whose goods
+	went into a store is billed on when it is issued, not twice."""
 	from onedesk.one_project import kinds, tree
 
 	customer = frappe.db.get_value("Project", project, "customer")
@@ -467,12 +468,18 @@ def costs(project: str) -> list[dict]:
 	}
 	if not heads:
 		return []
+	from onedesk.one_project.materials import stocked
+
 	found = []
-	for row in frappe.get_all(
+	bought = frappe.get_all(
 		"Purchase Invoice Item",
 		filters={"project": ["in", list(heads)], "docstatus": 1, "parenttype": "Purchase Invoice"},
-		fields=["name", "parent", "project", "item_name", "base_net_amount as cost"],
-	):
+		fields=["name", "parent", "project", "item_name", "base_net_amount as cost", "pr_detail"],
+	)
+	kept = stocked(bought)
+	for row in bought:
+		if row.name in kept:
+			continue
 		supplier = frappe.db.get_value("Purchase Invoice", row.parent, "supplier_name")
 		found.append(_cost("Purchase Invoice Item", row, heads, f"{row.item_name} · {supplier}"))
 	for row in frappe.get_all(

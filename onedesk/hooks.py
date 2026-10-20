@@ -868,6 +868,7 @@ override_doctype_class = {
 	"Shift Request": "onedesk.one_hr.tell.ShiftRequest",
 	"Interview": "onedesk.one_hr.tell.Interview",
 	"Notification Log": "onedesk.one.notify.NotificationLog",
+	"Project": "onedesk.one_project.materials.OneProject",
 }
 
 write_file = "onedesk.one_storage.store.write"
@@ -1065,7 +1066,8 @@ one_makes_records = {
 	"Sales Stage": ["one_admin", "one_crm"],
 	"Shift Request": ["one_hr"],
 	"Shift Type": ["one", "one_hr"],
-	"Stock Entry": ["one_inventory"],
+	"Stock Entry": ["one_inventory", "one_project"],
+	"Stock Entry Type": ["one_project"],
 	"Stock Reconciliation": ["one_inventory"],
 	"Subcontracting Order": ["one_inventory"],
 	"Subcontracting Receipt": ["one_inventory"],

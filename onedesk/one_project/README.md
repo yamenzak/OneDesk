@@ -620,8 +620,8 @@ The main button is the kind's: **Bill Progress** on a Fixed Price contract,
 **Invoice Time** for Time and Materials, and **Post Update** otherwise.
 **···** has **Ask for Updates** and **Group Under New Project**. The other steps are where they belong. **Quote Extra Work** is
 under **Quotations** and **Draw Up Contract** under **Contracts** on the
-Overview, **Add Sub-project** under **Sub-projects**, **Issue Stock** and
-**New Expense Claim** on **Money**, and **Project Template** on **Tasks**. On a
+Overview, **Add Sub-project** under **Sub-projects**, **Issue Stock**,
+**Return to Store** and **New Expense Claim** on **Money**, and **Project Template** on **Tasks**. On a
 Fixed Price project with no contract yet, **New Quotation** takes the place
 of **Quote Extra Work**, and while one quotation is open **Make Order** is
 the main button.
@@ -822,7 +822,9 @@ sub-projects together. Click a row to see the documents behind it.
 - **Cost**: what's been **Ordered** from suppliers, **Received** and
   **Billed**, what they've been **Paid**, and the team's own **Time**,
   **Stock Used**, **Expense Claims** and **Journal Entries** (such as payroll
-  or depreciation charged to the project).
+  or depreciation charged to the project). **Into the Store** is what was
+  billed for the project but went onto a store's shelf; it isn't spent until
+  it's issued (see Materials).
 
 A row still at nothing isn't shown. Amounts are before tax, except payments,
 and in the company's currency. Everyone who reads the project sees its
@@ -866,6 +868,28 @@ hours*. It asks which item to bill the time as, remembering the last one, and
 opens the invoice unsaved for you to check. Submitting it marks the hours as
 invoiced, and the project's **Billed** goes up. A sub-project's time is
 invoiced from the sub-project.
+
+## Materials
+
+Things you keep in stock (an item with **Maintain Stock** ticked) are the
+project's cost when they leave the store for it, not when they're bought,
+even when the order was placed for the project. Everything else, such as a
+curtain wall bought in or a subcontract, is the project's cost when it's
+billed, as always.
+
+1. **Buy into the store.** Order for the project if you like; the goods are
+   received into a warehouse and wait there. They show under **Cost** as
+   **Into the Store**, not as spent.
+2. **Issue Stock** on **Money**: what goes to the project, from which
+   warehouse, how many, and in what unit. A profile kept in metres can be
+   issued by the bar. The project pays for it at what the store holds it at.
+3. **Return to Store** on **Money**: what comes back. A 6 m bar issued, 2 m
+   cut and 4 m returned, and the project pays for 2 m. It comes back at what
+   the project was charged for it.
+
+What's left in the store after a job is there for the next one, which pays
+for it when it's issued. An offcut nobody returns was used up, and the
+project paid for it.
 
 ## Budget by cost type
 
@@ -2565,3 +2589,24 @@ keeps attendance as it is:
 
 A day that can't be written (a timesheet already covering those hours, say)
 doesn't stop the attendance. It's logged in the Error Log for HR to see.
+
+### Materials, `materials.py`
+
+ERPNext adds every supplier bill line marked with a project to its
+`total_purchase_cost`, and every stock issue marked with it to its
+`total_consumed_material_cost`, so bars bought for a project into a store
+and then issued to it were the project's twice. `OneProject` (over HRMS's
+`EmployeeProject`, which already replaces ERPNext's class) takes off
+`into_store`: bill lines whose goods have a live Stock Ledger Entry, on the
+bill itself or on its receipt, so an item only later switched to stock
+keeps its history. **Money** shows them as **Into the Store** and leaves
+them out of spent, `billing.costs` doesn't rebill them, and open orders for
+stock items are left out of what's committed (`money._not_stocked`).
+
+A return is a Material Receipt of the type `Return to Store`, made by
+`give_back` at the rate the project was last charged for the item, booked
+by `money.issued` to the cost of goods account the issue was, with the
+project, so the budget by account goes down with it; `returned` takes it
+off `total_consumed_material_cost`. `stock_counted_once` sums the purchase
+cost again for projects that had stock in it. A return after the issue was
+rebilled to a Time and Materials customer isn't credited to them.

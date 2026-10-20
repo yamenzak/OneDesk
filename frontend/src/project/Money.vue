@@ -5,6 +5,7 @@
         <span class="lucide-wallet size-4 text-ink-gray-5" aria-hidden="true" />{{ __("Money") }}
       </h2>
       <Button v-if="can('create', 'Stock Entry')" size="sm" icon-left="lucide-package-minus" :label="__('Issue Stock')" @click="issueStock" />
+      <Button v-if="can('create', 'Stock Entry')" size="sm" icon-left="lucide-package-plus" :label="__('Return to Store')" @click="returnStock" />
       <Button v-if="can('create', 'Expense Claim')" size="sm" icon-left="lucide-plus" :label="__('New Expense Claim')" @click="newDocIn('Expense Claim', { project: said.name, company: said.company }, parts)" />
     </div>
     <PlaceSpot :said="spot" class="mb-3" />
@@ -91,6 +92,8 @@ const percent = (part, whole) => (whole ? Math.round((100 * part) / whole) : nul
 const frm = () => ({ doctype: "Project", doc: { name: props.said.name } });
 const issueStock = () =>
   requires(["/assets/onedesk/js/item_actions.js"]).then(() => onedesk().stock.issue({ project: props.said.name, title: props.said.title, done: () => emit("changed") }));
+const returnStock = () =>
+  requires(["/assets/onedesk/js/item_actions.js"]).then(() => onedesk().stock.give_back({ project: props.said.name, title: props.said.title, done: () => emit("changed") }));
 
 const selling = computed(() => Boolean(props.said.customer || cash.value.contract));
 const kind = computed(() => cash.value.kind);

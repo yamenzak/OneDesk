@@ -78,3 +78,4 @@ onedesk.one_project.patches.orders_say_how_retention_is_taxed
 onedesk.one_project.patches.claims_are_numbered
 onedesk.one.patches.options_are_names
 onedesk.one_book.patches.tax_return
+onedesk.one_project.patches.stock_counted_once

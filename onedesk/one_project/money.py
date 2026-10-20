@@ -185,6 +185,11 @@ def money(project: Annotated[str, "The project."]) -> dict:
 	cost.append(_figure(_("Received"), _lines("Purchase Receipt", projects), "Purchase Receipt", projects))
 	billed = _lines("Purchase Invoice", projects)
 	cost.append(_figure(_("Billed"), billed, "Purchase Invoice", projects))
+	from onedesk.one_project.materials import into_store
+
+	stored = into_store(projects)
+	if stored:
+		cost.append(_figure(_("Into the Store"), stored, "Purchase Receipt", projects))
 	paid = _paid_on(projects, "Purchase Invoice")
 	cost.append(_figure(_("Paid"), paid["paid"], "Payment Entry", projects) | _opens(paid))
 	time = flt(kept["total_costing_amount"])
@@ -202,7 +207,7 @@ def money(project: Annotated[str, "The project."]) -> dict:
 
 	kind = frappe.db.get_value("Project", project, "one_kind")
 	invoiced = _lines("Sales Invoice", projects)
-	spent = billed + time + stock + claims + journals
+	spent = billed - stored + time + stock + claims + journals
 	to_invoice = _to_invoice(project) if kind == kinds.TIME else 0.0
 	earned = invoiced + to_invoice
 	if kind == kinds.RETAINER:
@@ -718,7 +723,8 @@ def bought(lines: list) -> str | None:
 
 def _open_orders(projects: list[str]) -> float:
 	"""What suppliers still have to bill on the tree's orders. A closed order
-	won't be billed any further."""
+	won't be billed any further, and stock bought for a store isn't the
+	project's until it is issued."""
 	item = frappe.qb.DocType("Purchase Order Item")
 	po = frappe.qb.DocType("Purchase Order")
 	rows = (
@@ -726,18 +732,31 @@ def _open_orders(projects: list[str]) -> float:
 		.join(po)
 		.on(item.parent == po.name)
 		.select(item.amount, item.billed_amt, item.base_net_amount)
-		.where(item.project.isin(projects) & (po.docstatus == 1) & (po.status != "Closed"))
+		.where(item.project.isin(projects) & (po.docstatus == 1) & (po.status != "Closed") & _not_stocked(item))
 		.run(as_dict=True)
 	)
 	return unbilled(rows)
+
+
+def _not_stocked(item):
+	"""An order line that isn't for an item kept in stock: one that is goes
+	to a store, and is the project's when issued (materials.py)."""
+	stocked = frappe.qb.DocType("Item")
+	return item.item_code.isnull() | item.item_code.notin(
+		frappe.qb.from_(stocked).select(stocked.name).where(stocked.is_stock_item == 1)
+	)
 
 
 def issued(doc, method=None) -> None:
 	"""Stock Entry before_validate: stock issued to a project is a cost of
 	the job, so a line ERPNext would book to the company's Stock Adjustment,
 	as it does for an item with no expense account of its own, is booked to
-	the company's cost of goods instead, where a cost type can hold it."""
-	if doc.purpose != "Material Issue" or not doc.company:
+	the company's cost of goods instead, where a cost type can hold it. What
+	comes back from the project (materials.RETURN) is taken off the same
+	account, so the project's cost goes down by it."""
+	from onedesk.one_project.materials import RETURN
+
+	if not doc.company or not (doc.purpose == "Material Issue" or doc.get("stock_entry_type") == RETURN):
 		return
 	adjust, goods = frappe.get_cached_value("Company", doc.company, ["stock_adjustment_account", "default_expense_account"])
 	if not goods:

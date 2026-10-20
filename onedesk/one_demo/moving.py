@@ -1,6 +1,7 @@
 """Stock moved and counted: the villa's materials sent from the stores to its
 site with a transfer note, used there on the project, and a count of the
-stores that finds hinges short, posted to the books as a loss."""
+stores that finds hinges short, posted to the books as a loss. A bar of
+profile issued to the villa, cut, and 4 m of it back on the shelf."""
 
 import frappe
 from erpnext.stock.utils import get_stock_balance
@@ -31,6 +32,7 @@ def run(password=None):
 	_reposted()
 	_given()
 	_on_the_road()
+	_cut()
 
 
 def _site() -> str:
@@ -135,3 +137,25 @@ def _on_the_road():
 		doc.from_warehouse, doc.to_warehouse = wh("Stores"), wh("Goods In Transit")
 		doc.append("items", {"item_code": "GLS-DGU", "qty": 12, "s_warehouse": wh("Stores"), "t_warehouse": wh("Goods In Transit"), "project": project})
 		save(doc, submit=True)
+
+
+def _cut():
+	"""The profile is kept in metres and comes in 6 m bars: one bar issued
+	to the villa for a reveal, 2 m of it used and the other 4 m returned to
+	the Stores, so the villa pays for 2 m."""
+	from onedesk.one_inventory import stock
+	from onedesk.one_project import materials
+
+	if frappe.db.exists("Stock Entry", {"docstatus": 1, "stock_entry_type": materials.RETURN}):
+		return
+	item = frappe.get_doc("Item", "ALU-6063")
+	if not any(one.uom == "Bar" for one in item.uoms):
+		if not frappe.db.exists("UOM", "Bar"):
+			frappe.get_doc({"doctype": "UOM", "uom_name": "Bar"}).insert(ignore_permissions=True)
+		item.append("uoms", {"uom": "Bar", "conversion_factor": 6})
+		item.purchase_uom = "Bar"
+		item.save(ignore_permissions=True)
+	project = frappe.db.get_value("Project", {"project_name": VILLA})
+	with as_user(STORES):
+		stock.issue(wh("Stores"), [{"item": "ALU-6063", "qty": 1, "uom": "Bar"}], project, "One bar for the stair reveal.")
+		materials.give_back(wh("Stores"), [{"item": "ALU-6063", "qty": 4, "uom": "Meter"}], project, "The rest of the bar, 4 m.")

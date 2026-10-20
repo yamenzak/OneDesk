@@ -660,6 +660,7 @@ No doctypes yet.
 * `onedesk.one_project.kinds.settled_fields`
 * `onedesk.one_project.library.copy`
 * `onedesk.one_project.library.presets`
+* `onedesk.one_project.materials.give_back`
 * `onedesk.one_project.media.add`
 * `onedesk.one_project.media.featured`
 * `onedesk.one_project.members.joins`

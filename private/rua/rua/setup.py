@@ -6,7 +6,7 @@ import, and a thing already there is left as it is.
 """
 
 import frappe
-from frappe.utils import getdate, today
+from frappe.utils import flt, getdate, today
 
 COMPANY = "Rua Company"
 ABBR = "RC"
@@ -55,6 +55,7 @@ def run():
 	books(company)
 	groups()
 	items(company)
+	store(company)
 	terms()
 	pay(company)
 	frappe.db.commit()
@@ -154,8 +155,8 @@ def _uom(name):
 
 
 def item(code, uom="Nos", group="Products", measured_by=None, stock=0, description=None):
-	"""An item by its name, made when missing. Nothing Rua buys or sells is
-	kept in stock: it goes to a project as it comes."""
+	"""An item by its name, made when missing. Only profiles and accessories
+	are kept in stock (store); the rest goes to a project as it comes."""
 	if frappe.db.exists("Item", code):
 		return code
 	if not frappe.db.exists("Item Group", group):
@@ -178,6 +179,62 @@ def item(code, uom="Nos", group="Products", measured_by=None, stock=0, descripti
 		doc.one_measured_by = measured_by
 	doc.insert(ignore_permissions=True)
 	return code
+
+
+#: Kept in stock: profiles by the bar, accessories by the metre or the piece.
+#: Everything else Rua buys goes to a project as it comes.
+STOCKED = ("Profiles", "Accessories")
+STORE = "Store"
+
+
+def store(company):
+	"""Rua's one store, the two groups kept in it, and the units they're
+	counted in. A profile is kept in metres and bought and issued by the
+	bar, each with its own length (profile), so a cut piece can come back."""
+	for unit in ("Bar", "Meter", "Nos"):
+		_uom(unit)
+	warehouse = frappe.db.get_value("Warehouse", {"warehouse_name": STORE, "company": company})
+	if not warehouse:
+		warehouse = (
+			frappe.get_doc(
+				{
+					"doctype": "Warehouse",
+					"warehouse_name": STORE,
+					"company": company,
+					"parent_warehouse": frappe.db.get_value(
+						"Warehouse", {"company": company, "is_group": 1, "parent_warehouse": ["in", ["", None]]}
+					),
+				}
+			)
+			.insert(ignore_permissions=True)
+			.name
+		)
+	for name in STOCKED:
+		if not frappe.db.exists("Item Group", name):
+			frappe.get_doc(
+				{"doctype": "Item Group", "item_group_name": name, "parent_item_group": "All Item Groups"}
+			).insert(ignore_permissions=True)
+		group = frappe.get_doc("Item Group", name)
+		if not any(one.company == company for one in group.item_group_defaults):
+			group.append("item_group_defaults", {"company": company, "default_warehouse": warehouse})
+			group.save(ignore_permissions=True)
+	return warehouse
+
+
+def profile(code, description, bar_length):
+	"""A profile: kept in metres, bought and issued by the bar of its length."""
+	code = item(code, "Meter", "Profiles", stock=1, description=description)
+	doc = frappe.get_doc("Item", code)
+	doc.purchase_uom = _uom("Bar")
+	doc.set("uoms", [one for one in doc.uoms if one.uom != "Bar"])
+	doc.append("uoms", {"uom": "Bar", "conversion_factor": flt(bar_length)})
+	doc.save(ignore_permissions=True)
+	return code
+
+
+def accessory(code, description, uom="Nos"):
+	"""An accessory: rubber by the metre, the rest by the piece."""
+	return item(code, uom, "Accessories", stock=1, description=description)
 
 
 def items(company):

@@ -141,6 +141,7 @@ def _committed(projects: list[str], accounts: list[str], by_project: bool = Fals
 			& item.expense_account.isin(accounts)
 			& (po.docstatus == 1)
 			& (po.status != "Closed")
+			& money._not_stocked(item)
 		)
 		.run(as_dict=True)
 	)

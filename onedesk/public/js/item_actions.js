@@ -240,8 +240,7 @@ onedesk.stock.issue = ({ project, title, warehouse, done } = {}) => {
 				in_place_edit: true,
 				data: [{ item: "", qty: null }],
 				fields: [
-					{ fieldtype: "Link", fieldname: "item", label: __("Item"), options: "Item", in_list_view: 1, reqd: 1, columns: 7, get_query: () => ({ filters: { is_stock_item: 1, disabled: 0, has_variants: 0 } }) },
-					{ fieldtype: "Float", fieldname: "qty", label: __("Quantity"), in_list_view: 1, reqd: 1, columns: 3 },
+					...onedesk.stock.lines(),
 				],
 			},
 			{ fieldtype: "Section Break" },
@@ -264,6 +263,42 @@ onedesk.stock.issue = ({ project, title, warehouse, done } = {}) => {
 			const { source, project: on, remarks } = dialog.get_values(true) || {};
 			dialog.hide();
 			frappe.new_doc("Stock Entry", { stock_entry_type: "Material Issue", purpose: "Material Issue", from_warehouse: source, project: on, remarks });
+		},
+	});
+	dialog.show();
+};
+// An item kept in stock, how many, and the unit it's counted in here: a
+// profile kept in metres is issued by the bar, and comes back by the metre.
+onedesk.stock.lines = () => [
+	{ fieldtype: "Link", fieldname: "item", label: __("Item"), options: "Item", in_list_view: 1, reqd: 1, columns: 5, get_query: () => ({ filters: { is_stock_item: 1, disabled: 0, has_variants: 0 } }) },
+	{ fieldtype: "Float", fieldname: "qty", label: __("Quantity"), in_list_view: 1, reqd: 1, columns: 2 },
+	{ fieldtype: "Link", fieldname: "uom", label: __("Unit"), options: "UOM", in_list_view: 1, columns: 3, description: __("Empty is the item's own unit.") },
+];
+onedesk.stock.give_back = ({ project, title, warehouse, done } = {}) => {
+	if (project && title) frappe.utils.add_link_title("Project", project, title);
+	const dialog = new frappe.ui.Dialog({
+		title: __("Return to Store"),
+		size: "large",
+		fields: [
+			{ fieldtype: "Link", fieldname: "project", label: __("From Project"), options: "Project", reqd: 1, default: project, read_only: project ? 1 : 0 },
+			{ fieldtype: "Column Break" },
+			{ fieldtype: "Link", fieldname: "target", label: __("To"), options: "Warehouse", reqd: 1, default: warehouse, get_query: () => ({ filters: { is_group: 0, disabled: 0 } }) },
+			{ fieldtype: "Section Break" },
+			{ fieldtype: "Table", fieldname: "lines", label: __("Items"), reqd: 1, in_place_edit: true, data: [{ item: "", qty: null }], fields: onedesk.stock.lines() },
+			{ fieldtype: "Section Break" },
+			{ fieldtype: "Data", fieldname: "remarks", label: __("Remarks") },
+		],
+		primary_action_label: __("Return to Store"),
+		primary_action: async ({ project: from, target, lines, remarks }) => {
+			dialog.disable_primary_action();
+			try {
+				const name = await frappe.xcall("onedesk.one_project.materials.give_back", { target, lines, project: from, remarks });
+				dialog.hide();
+				frappe.show_alert({ message: `${__("Back in {0}", [frappe.utils.escape_html(target)])} · ${frappe.utils.get_form_link("Stock Entry", name, true)}`, indicator: "green" }, 7);
+				done?.();
+			} finally {
+				dialog.enable_primary_action();
+			}
 		},
 	});
 	dialog.show();

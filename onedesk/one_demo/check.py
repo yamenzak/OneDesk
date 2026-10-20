@@ -5295,6 +5295,52 @@ def onecloud_holds_a_workbook_with_its_history():
 
 
 @check
+def a_project_pays_for_stock_once():
+	"""The villa paid for the bar issued to it less the 4 m that came back,
+	at what it was charged, and the return is taken off its cost of goods in
+	the books. A supplier bill line whose goods went into a store isn't the
+	project's cost when billed, only when issued."""
+	from onedesk.one_project import materials, money
+
+	villa = frappe.db.get_value("Project", {"project_name": "Mansour Villa Windows and Doors"})
+	back = frappe.get_all("Stock Entry", filters={"docstatus": 1, "stock_entry_type": materials.RETURN, "project": villa}, pluck="name")
+	try:
+		materials.give_back(wh("Stores"), [{"item": "ALU-6063", "qty": 0}], villa)
+		raise AssertionError("a return of nothing was made")
+	except frappe.ValidationError:
+		pass
+	assert back, "the offcut came back"
+	row = frappe.get_all("Stock Entry Detail", filters={"parent": back[0]}, fields=["qty", "uom", "transfer_qty", "amount", "expense_account"])[0]
+	assert row.uom == "Meter" and flt(row.transfer_qty) == 4, row
+	bar = frappe.db.sql(
+		"""select line.valuation_rate from `tabStock Entry Detail` line join `tabStock Entry` entry on entry.name = line.parent
+		where entry.docstatus = 1 and line.project = %s and line.item_code = 'ALU-6063' and line.uom = 'Bar'""",
+		villa,
+	)
+	assert bar and abs(flt(row.amount) - 4 * flt(bar[0][0])) < 0.01, (row.amount, bar)
+	from erpnext.projects.doctype.project.project import Project
+
+	plain, project = frappe.get_doc("Project", villa), frappe.get_doc("Project", villa)
+	Project.set_consumed_material_cost(plain)
+	project.set_consumed_material_cost()
+	assert abs(flt(plain.total_consumed_material_cost) - flt(project.total_consumed_material_cost) - flt(row.amount)) < 0.01, "less what came back"
+	goods = frappe.get_cached_value("Company", project.company, "default_expense_account")
+	credited = frappe.db.get_value("GL Entry", {"voucher_no": back[0], "account": goods, "is_cancelled": 0}, ["credit", "project"], as_dict=True)
+	assert credited and abs(flt(credited.credit) - flt(row.amount)) < 0.01 and credited.project == villa, credited
+	for name in frappe.get_all("Project", pluck="name"):
+		stored = materials.into_store([name])
+		if not stored:
+			continue
+		bought = money._lines("Purchase Invoice", [name])
+		plain, doc = frappe.get_doc("Project", name), frappe.get_doc("Project", name)
+		Project.update_purchase_costing(plain)
+		doc.update_purchase_costing()
+		assert abs(flt(plain.total_purchase_cost) - flt(doc.total_purchase_cost) - stored) < 0.01 and stored <= bought, (name, stored)
+		break
+	else:
+		raise AssertionError("no project bought anything into a store")
+
+@check
 def a_record_table_opens_as_a_workbook():
 	"""Layla opens a draft quotation's items in a workbook, raises a quantity
 	and adds a line: the quotation saves itself and sends ids and figures

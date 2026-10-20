@@ -191,7 +191,7 @@ def transfer(
 @frappe.whitelist(methods=["POST"])
 def issue(
 	source: Annotated[str, "The warehouse the stock is taken from."],
-	lines: Annotated[list | str, "Each item and how many: [{item, qty}]."],
+	lines: Annotated[list | str, "Each item, how many, and in what unit when not its own: [{item, qty, uom}]."],
 	project: Annotated[str, "The project it is used on."] | None = None,
 	remarks: Annotated[str, "A note kept on the issue."] | None = None,
 ) -> str:
@@ -212,16 +212,19 @@ def _moved(purpose: str, source: str, target: str | None, lines, project, remark
 	entry.from_warehouse, entry.to_warehouse = source, target
 	entry.project, entry.remarks = project or None, remarks or None
 	for one in wanted:
-		entry.append(
-			"items",
-			{
-				"item_code": one["item"],
-				"qty": flt(one["qty"]),
-				"s_warehouse": source,
-				"t_warehouse": target,
-				"project": project or None,
-			},
-		)
+		row = {
+			"item_code": one["item"],
+			"qty": flt(one["qty"]),
+			"s_warehouse": source,
+			"t_warehouse": target,
+			"project": project or None,
+		}
+		if one.get("uom"):
+			from erpnext.stock.get_item_details import get_conversion_factor
+
+			row["uom"] = one["uom"]
+			row["conversion_factor"] = flt(get_conversion_factor(one["item"], one["uom"]).get("conversion_factor")) or 1
+		entry.append("items", row)
 	entry.set_stock_entry_type()
 	entry.insert()
 	entry.submit()
