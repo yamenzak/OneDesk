@@ -84,6 +84,8 @@ export function useExportImport({
   switchSheet,
   syncFlags,
   isDirty,
+  deleteSheet,
+  renameSheet,
 }) {
   function _diffRefs(before, after) {
     const ids = new Set([...Object.keys(before || {}), ...Object.keys(after || {})])
@@ -95,18 +97,22 @@ export function useExportImport({
   function exportCSV() {
     const sheet = getSheet()
     const rows  = _sheetToAoa(sheet.getCurrentSheet(), sheet)
-    const csv   = rows.map(row => row.map(v => {
+    const csv   = _csvOf(rows)
+    const blob = new Blob([csv], { type: 'text/csv' })
+    const a = Object.assign(document.createElement('a'), {
+      href: URL.createObjectURL(blob),
+      download: `${_bare(getCurrentTitle()) || 'sheet'}.csv`,
+    })
+    a.click()
+  }
+
+  function _csvOf(rows) {
+    return rows.map(row => row.map(v => {
       const s = String(v ?? '')
       return s.includes(',') || s.includes('"') || s.includes('\n')
         ? `"${s.replace(/"/g, '""')}"`
         : s
     }).join(',')).join('\n')
-    const blob = new Blob([csv], { type: 'text/csv' })
-    const a = Object.assign(document.createElement('a'), {
-      href: URL.createObjectURL(blob),
-      download: `${getCurrentTitle() || 'sheet'}.csv`,
-    })
-    a.click()
   }
 
   // Build a SheetJS worksheet from one sub-sheet, preserving value types,
@@ -134,18 +140,60 @@ export function useExportImport({
     return ws
   }
 
-  async function exportXLSX() {
+  async function _workbookOut() {
     const sheet   = getSheet()
     const formats = getFormats?.()
     const merge   = getMerge?.()
-    const { utils, writeFile } = await import('xlsx')
-    const wb = utils.book_new()
+    const xlsx = await import('xlsx')
+    const wb = xlsx.utils.book_new()
     const used = new Set()
     for (const sn of sheet.getSheetNames()) {
       const ws = _buildWorksheet(sheet, formats, merge, sn)
-      utils.book_append_sheet(wb, ws, _excelSheetName(sn, used))
+      xlsx.utils.book_append_sheet(wb, ws, _excelSheetName(sn, used))
     }
-    writeFile(wb, `${getCurrentTitle() || 'sheet'}.xlsx`)
+    return { xlsx, wb }
+  }
+
+  async function exportXLSX() {
+    const { xlsx, wb } = await _workbookOut()
+    xlsx.writeFile(wb, `${_bare(getCurrentTitle()) || 'sheet'}.xlsx`)
+  }
+
+  // One: a title that is a file's name ("Prices.xlsx") isn't given a second extension.
+  function _bare(title) {
+    return String(title || '').replace(/\.(xlsx|xlsm|xls|csv)$/i, '')
+  }
+
+  // One: the workbook as the bytes of an Excel file, or its first sheet as a
+  // CSV, base64, for writing back into the File it was opened from.
+  async function fileContent(kind) {
+    if (kind === 'csv') {
+      const sheet = getSheet()
+      const text = _csvOf(_sheetToAoa(sheet.getSheetNames()[0], sheet))
+      return btoa(unescape(encodeURIComponent(text)))
+    }
+    const { xlsx, wb } = await _workbookOut()
+    return xlsx.write(wb, { type: 'base64', bookType: 'xlsx' })
+  }
+
+  // One: an Excel or CSV File's content read in, replacing the empty sheet
+  // a new workbook starts with.
+  async function readSource(source) {
+    const answer = await fetch(source.url, { credentials: 'same-origin' })
+    if (!answer.ok) throw new Error(answer.statusText)
+    const sheet = getSheet()
+    const blank = sheet.getSheetNames().filter((sn) => !Object.keys(sheet.getRawData(sn)).length)
+    if (source.kind === 'csv') {
+      await _ingestRows(_parseCSV(await answer.text()), source.name)
+      return
+    }
+    const { read } = await import('xlsx')
+    const wb = read(await answer.arrayBuffer(), { type: 'array', cellFormula: true, cellDates: true, cellNF: true })
+    // The empty sheet a workbook starts with steps aside, so the file's own
+    // "Sheet1" keeps its name, and goes once the file's sheets are in.
+    const aside = blank.map((sn, n) => { const out = `~${n}~${sn}`; renameSheet?.(sn, out); return out })
+    await _ingestWorkbook(wb)
+    for (const sn of aside) if (sheet.getSheetNames().length > 1) deleteSheet?.(sn)
   }
 
   // Excel caps sheet names at 31 chars, bans []:*?/\ and duplicates. Coerce to
@@ -334,5 +382,5 @@ export function useExportImport({
     return fileName
   }
 
-  return { exportCSV, exportXLSX, exportPDF, importCSV, importXLSX }
+  return { exportCSV, exportXLSX, exportPDF, importCSV, importXLSX, fileContent, readSource }
 }

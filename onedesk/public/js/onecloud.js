@@ -24,6 +24,7 @@ onedesk.OneCloud = class OneCloud {
 		[["zip", "rar", "7z", "tar", "gz", "tgz"], "file-archive", __("Compressed folder")],
 		[["js", "ts", "py", "json", "html", "css", "xml", "sh", "yml", "yaml", "sql"], "file-code", __("Code")],
 	];
+	static SHEETS = ["xlsx", "xlsm", "xls", "csv"];
 	static PREVIEW_IMAGE = ["png", "jpg", "jpeg", "gif", "webp", "svg", "bmp", "avif", "ico"];
 	static PREVIEW_FRAME = ["pdf", "txt", "md", "csv", "tsv", "json", "xml", "html", "css", "js", "py", "yml", "yaml", "sql", "sh"];
 	static PREVIEW_VIDEO = ["mp4", "webm", "mov", "m4v"];
@@ -1025,6 +1026,9 @@ onedesk.OneCloud = class OneCloud {
 				return this.$root.find(".oc-pick-version").trigger("click");
 			case "download":
 				return this.download(chosen.filter((one) => !one.folder && one.url));
+			case "download-xlsx":
+			case "download-csv":
+				return frappe.set_route("workbook", chosen[0].workbook, { export: act.slice(9) });
 			case "copy-link":
 				return frappe.utils.copy_to_clipboard(chosen.map((one) => window.location.origin + one.url).join("\n"));
 			case "open":
@@ -1091,6 +1095,9 @@ onedesk.OneCloud = class OneCloud {
 		if (this.picker) return this.picker.on_pick(items.filter((one) => !one.folder));
 		const book = items.find((one) => one.workbook);
 		if (book && items.length === 1) return frappe.set_route("workbook", book.workbook);
+		// An Excel or CSV file opens in the editor, and is saved back into itself.
+		const sheet = items.length === 1 && !items[0].folder && OneCloud.SHEETS.includes(this.extension(items[0])) ? items[0] : null;
+		if (sheet) return frappe.xcall("onedesk.one_sheet.api.open_file", { file: sheet.id }).then((made) => frappe.set_route("workbook", made.workbook));
 		items.filter((one) => !one.folder && one.url).forEach((one) => window.open(one.url, "_blank", "noopener"));
 	}
 
@@ -1791,6 +1798,8 @@ onedesk.OneCloud = class OneCloud {
 				["open-location", "folder-open", __("Open file location"), !!(one && one.parent && this.search)],
 				["open-record", "external-link", __("Open record"), !!(one && one.record) && !this.room],
 				["download", "download", __("Download"), files.length === chosen.length],
+				["download-xlsx", "file-spreadsheet", __("Download as Excel"), !!(one && one.workbook && chosen.length === 1)],
+				["download-csv", "file-text", __("Download as CSV"), !!(one && one.workbook && chosen.length === 1)],
 				["copy-link", "link", __("Copy link"), files.length === chosen.length],
 			].filter((row) => row[3] || row[0] === "open"),
 			[

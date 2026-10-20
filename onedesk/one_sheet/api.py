@@ -102,7 +102,17 @@ def get_sheet(name: str, compressed: int = 0) -> dict:
 		"table": table.bound(name),
 		"brand": style.brand(),
 		"record": table.record_of(name),
+		"source": _source(doc, item),
 	}
+
+
+def _source(doc, item: dict) -> dict | None:
+	"""For a workbook editing an xlsx or csv File, what it is and where its
+	bytes are, so the editor reads it in the first time it opens."""
+	if not doc.get("source_kind"):
+		return None
+	fresh = not doc.sheets_data or storage.decode_sheets_data(doc.sheets_data) in ("", "{}")
+	return {"kind": doc.source_kind, "url": item.get("file_url"), "fresh": fresh, "name": item["file_name"]}
 
 
 #: The most records FIELD() asks for at once.
@@ -152,7 +162,8 @@ def save_sheet(title: str, sheets_data: str, name: str = "", ops: str = "", requ
 		WORKBOOK, name, {"sheets_data": stored, "byte_size": len(plain.encode("utf-8"))}, update_modified=True
 	)
 	_retitle(item, title)
-	frappe.db.set_value("File", item["name"], "file_size", len(stored), update_modified=True)
+	if not frappe.db.get_value(WORKBOOK, name, "source_kind"):
+		frappe.db.set_value("File", item["name"], "file_size", len(stored), update_modified=True)
 	versions.maybe_take(name)
 	said = {"name": name, "head_seq": head}
 	if table:
@@ -179,12 +190,86 @@ def _retitle(item: dict, title: str | None) -> None:
 		return
 	if item.get("folder") and not item.get("attached_to_doctype"):
 		title = ns.unique_name(title, cloud._taken(item["folder"], but=item["name"]))
+	kind = frappe.db.get_value(WORKBOOK, {"file": item["name"]}, "source_kind")
+	if kind and not title.lower().endswith(f".{kind}") and "." not in title[-5:]:
+		title = f"{title}.{kind}"
 	frappe.db.set_value("File", item["name"], "file_name", title)
-	frappe.db.set_value(WORKBOOK, workbook_of(item["file_url"]), "title", title)
+	frappe.db.set_value(WORKBOOK, workbook_of(item["file_url"]) or of_file(item["name"]), "title", title)
 
 
 def _titled(title: str | None) -> str:
 	return " ".join((title or "").replace("/", " ").split())[:MOST_TITLE]
+
+
+#: Files the editor opens in place, by their extension, and what is written
+#: back to them.
+OPENS = {"xlsx": "xlsx", "xlsm": "xlsx", "xls": "xlsx", "csv": "csv"}
+
+
+@frappe.whitelist(methods=["POST"])
+def open_file(file: str) -> dict:
+	"""The workbook that edits an xlsx or csv File in place, made the first
+	time it is opened: its sheets come from the File in the editor, and what
+	is changed is written back to it (write_back)."""
+	from onedesk.one_storage import namespace as ns
+
+	item = ns.row(file)
+	if not item or item.get("is_folder") or item.get("one_deleted_on") or not ns.may(item, "read"):
+		frappe.throw(_("This file can't be opened."), frappe.PermissionError)
+	kind = OPENS.get((item["file_name"] or "").rsplit(".", 1)[-1].lower())
+	if not kind:
+		frappe.throw(_("Only Excel and CSV files open as a workbook."))
+	held = frappe.db.get_value(WORKBOOK, {"file": file, "source_kind": ["is", "set"]}, "name")
+	if held:
+		return {"workbook": held}
+	book = frappe.get_doc({"doctype": WORKBOOK, "title": item["file_name"], "sheets_data": "{}", "file": file, "source_kind": kind})
+	book.flags.ignore_permissions = True
+	book.insert()
+	return {"workbook": book.name}
+
+
+@frappe.whitelist(methods=["POST"])
+def write_back(name: str, content: str) -> dict:
+	"""What the editor made of an xlsx or csv File, as that File's content:
+	what it held before is kept as a version (one_storage/history.py)."""
+	import base64
+
+	from onedesk.one_storage import history
+	from onedesk.one_storage import namespace as ns
+
+	item = _may(name, "write")
+	if not frappe.db.get_value(WORKBOOK, name, "source_kind"):
+		frappe.throw(_("This workbook isn't a file of its own to write back to."))
+	made = frappe.get_doc(
+		{
+			"doctype": "File",
+			"file_name": item["file_name"],
+			"content": base64.b64decode(content),
+			"is_private": item.get("is_private", 1),
+			"folder": item.get("folder") or None,
+		}
+	)
+	made.flags.ignore_permissions = True
+	made.insert()
+	frappe.flags.one_writing_back = True
+	try:
+		history.replace(ns.row(item["name"]), made.name)
+	finally:
+		frappe.flags.one_writing_back = False
+	return {"file": item["name"], "size": frappe.db.get_value("File", item["name"], "file_size")}
+
+
+def file_replaced(file: str) -> None:
+	"""A new version of an Excel or CSV File put in from outside the editor:
+	the workbook editing it reads it in again the next time it is opened."""
+	name = None if frappe.flags.one_writing_back else of_file(file)
+	if name:
+		frappe.db.set_value(WORKBOOK, name, "sheets_data", "{}")
+
+
+def of_file(file: str) -> str | None:
+	"""The workbook editing a File in place, if it has been opened."""
+	return frappe.db.get_value(WORKBOOK, {"file": file, "source_kind": ["is", "set"]}, "name")
 
 
 @frappe.whitelist()
@@ -220,8 +305,9 @@ def placed(doc, method=None) -> None:
 
 
 def file_gone(doc, method=None) -> None:
-	"""File on_trash: the workbook it held goes with it."""
-	name = workbook_of(doc.file_url)
+	"""File on_trash: the workbook it held, or that edited it in place, goes
+	with it."""
+	name = workbook_of(doc.file_url) or of_file(doc.name)
 	if name and frappe.db.exists(WORKBOOK, name):
 		for doctype in ("Workbook Change", "Workbook Version"):
 			frappe.db.delete(doctype, {"workbook": name})

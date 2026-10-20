@@ -32,6 +32,7 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
   const tableNotice = ref('')
   const tableFaults = ref({}) // One: { cell: { message, doctype?, value? } } the record refused
   const currency = ref('') // One: the workspace's currency, the $ button's first
+  const source = ref(null) // One: the Excel or CSV File this workbook edits in place
 
   async function loadSheet(name) {
     loadError.value = null
@@ -42,6 +43,7 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
       const saved  = JSON.parse(plain || '{}')
       setContext({ record: doc.record, brand: doc.brand }) // One: what RECORD() and BRAND() read
       currency.value = doc.brand?.currency || ''
+      source.value = doc.source || null
       if (saved.formats)    formats.restore(saved.formats)
       sheet.restore(
         unpackSheet(saved.sheet) ?? { sheets: { Sheet1: {} }, current: 'Sheet1' },
@@ -227,5 +229,5 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
     if (said.ok !== false && takeBack(sheet, bound.value, said.cells)) onTable?.()
   }
 
-  return { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableFaults, bound, currency }
+  return { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableFaults, bound, currency, source }
 }

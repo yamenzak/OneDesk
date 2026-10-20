@@ -18,6 +18,23 @@ A workbook sits in OneCloud like any file: you move, copy, star, share and
 delete it there. Copying a workbook makes a second workbook with the same
 content. Deleting it sends it to the Recycle Bin with everything else.
 
+## Excel and CSV files
+
+An Excel (.xlsx, .xls, .xlsm) or CSV file in OneCloud opens in OneWorkbook
+when you open it, sheets, formulas, number formats and merged cells and
+all. What you change is saved into the same file, a minute after you stop
+and again when you leave, so downloading it, or opening it in Excel, gets
+the file as it is now. What it held before each time is kept as a version,
+under **Versions** in OneCloud. A CSV keeps only the first sheet, as a CSV
+can hold only one.
+
+Upload a new version of the file and it is read in again the next time it
+is opened.
+
+Any workbook downloads as an Excel or CSV file from OneCloud: right-click
+it › **Download as Excel** or **Download as CSV**. It opens, works its
+formulas out, and the file downloads.
+
 ## Working in a workbook
 
 - Type into a cell, or into the bar above the grid. A value starting with
@@ -209,6 +226,10 @@ whoever can open that folder. Somebody who may read it but not change it sees
 **View only** at the top.
 
 ## What is not built yet
+
+- An Excel file's charts, pictures, colours and column widths aren't read
+  in, and aren't written back: its values, formulas, number formats and
+  merged cells are.
 
 - A picture column shows the picture's address, not the picture.
 - A link column searches every record of its type, not only the ones the
@@ -446,6 +467,23 @@ out, and the editor drops its results and draws again. File › Add Sheets
 From a Template brings each sheet with its formats, merges, view, link
 cells and lines (`templates.sheets_of`), from any template, a table's own
 sheet left out.
+
+### Excel and CSV files, `api.open_file`
+
+`open_file` makes a Workbook whose `file` is the Excel or CSV File itself
+(`source_kind` xlsx or csv), so it is that File's permissions that count,
+and answers the same one the next time. `get_sheet`'s `source` says where
+the File's bytes are and whether the workbook has read them yet (`fresh`);
+the editor reads them in through the importer it already had
+(`useExportImport.readSource`), then writes itself back a minute after a
+save and when it is left (`fileContent`, SheetJS) to `write_back`, which
+puts the bytes in a new File and hands them to OneCloud's
+`history.replace`, keeping what the File held as a Cloud File Version.
+`history.replace` calls `file_replaced`, which empties the workbook when
+the new version came from anywhere else, so it reads the file in again.
+`save_sheet` leaves such a File's size alone. OneCloud's Download as Excel
+or CSV opens the editor with `?export=`, which exports once the workbook has
+loaded: only the browser can work a workbook's formulas out.
 
 ### History, `versions.py`
 

@@ -5400,6 +5400,43 @@ def a_table_keeps_its_formulas():
 		frappe.db.rollback(save_point="template_check")
 
 @check
+def a_spreadsheet_file_opens_and_saves_back_into_itself():
+	"""A CSV in OneCloud opens as a workbook that reads it in the first time,
+	what is done to it is written back into the same File, what it held
+	before kept as a version, and a new version put in from outside is read
+	in again. All undone afterwards."""
+	import base64
+
+	from onedesk.one_sheet import api
+	from onedesk.one_storage import namespace as ns
+
+	frappe.db.savepoint("file_sheet_check")
+	try:
+		with as_user(OWNER):
+			made = frappe.get_doc({"doctype": "File", "file_name": "Prices check.csv", "content": b"Item,Rate\nGL,60\n", "is_private": 1, "folder": ns.HOME})
+			made.insert()
+			book = api.open_file(made.name)["workbook"]
+			assert api.open_file(made.name)["workbook"] == book, "one file, one workbook"
+			source = api.get_sheet(book)["source"]
+			assert source == {"kind": "csv", "url": made.file_url, "fresh": True, "name": "Prices check.csv"}, source
+			api.save_sheet("Prices check.csv", json.dumps({"sheet": {"v": 2, "current": "Sheet1", "sheets": {"Sheet1": {"rows": {"0": ["Item", "Rate"], "1": ["GL", "65"]}}}}}), book)
+			assert not api.get_sheet(book)["source"]["fresh"], "read in once"
+			api.write_back(book, base64.b64encode(b"Item,Rate\nGL,65\n").decode())
+			now = frappe.get_doc("File", made.name)
+			assert now.get_content() in (b"Item,Rate\nGL,65\n", "Item,Rate\nGL,65\n"), now.get_content()
+			assert frappe.db.count("Cloud File Version", {"file": made.name}) == 1, "what it held is a version"
+			api.file_replaced(made.name)
+			assert api.get_sheet(book)["source"]["fresh"], "a version from outside is read in again"
+			try:
+				api.open_file(frappe.get_doc({"doctype": "File", "file_name": "notes check.txt", "content": b"x", "is_private": 1, "folder": ns.HOME}).insert().name)
+				raise AssertionError("a text file opened as a workbook")
+			except frappe.ValidationError:
+				pass
+	finally:
+		frappe.db.rollback(save_point="file_sheet_check")
+
+
+@check
 def a_record_table_opens_as_a_workbook():
 	"""Layla opens a draft quotation's items in a workbook, raises a quantity
 	and adds a line: the quotation saves itself and sends ids and figures

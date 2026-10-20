@@ -291,7 +291,10 @@ Clicking a file anywhere in One opens it from cloud storage in a new tab.
 Downloading saves it under its own name.
 
 A workbook opens in OneWorkbook instead, in the same tab. **New › Workbook**
-makes one in the folder you are in (OneWorkbook's guide).
+makes one in the folder you are in (OneWorkbook's guide). So does an Excel
+or CSV file, and what is changed in it is saved back into the same file,
+what it held before kept as a version. A workbook's menu has **Download as
+Excel** and **Download as CSV**.
 
 A private file opens only for you and for people who can see the record it's
 attached to. Anyone else who gets the link sees nothing. Public files, such

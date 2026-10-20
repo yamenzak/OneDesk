@@ -1,7 +1,7 @@
 <!-- A workbook in the desk: Suite's editor, opened on the workbook the route names. Closing goes back to OneCloud. -->
 <template>
 	<div class="one-workbook">
-		<SheetEditor v-if="name" :key="name" :id="name" @close="go('onecloud')" />
+		<SheetEditor v-if="name" :key="name" :id="name" :export-as="query.export || ''" @close="go('onecloud')" />
 		<Dialogs />
 	</div>
 </template>

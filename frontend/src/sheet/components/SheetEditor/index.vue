@@ -1358,7 +1358,7 @@ import {
   Icon as FeatherIcon,
 } from 'frappe-ui/experimental'
 
-const props = defineProps({ id: { type: String, default: 'new' } })
+const props = defineProps({ id: { type: String, default: 'new' }, exportAs: { type: String, default: '' } }) // One: exportAs, from OneCloud's Download as
 const emit  = defineEmits(['close', 'saved'])
 const sessionStore = useSessionStore()
 const appsMenuOption = useAppSwitcher('sheets', async () => {
@@ -1981,6 +1981,55 @@ function addTemplateSheets(sheets) {
   switchSheet(last)
 }
 
+// One: a workbook opened from an Excel or CSV file reads the file in the
+// first time, and writes itself back into it a while after each save and
+// when it is left, so the file in OneCloud is always the workbook as it is.
+// OneCloud's Download as Excel or CSV opens it with `exportAs`.
+const WRITE_BACK_EVERY = 60_000
+let _writeBackTimer = null, _unwritten = false
+async function _openedFrom() {
+  if (source.value?.fresh) {
+    try {
+      await readSource(source.value)
+      isDirty.value = true
+      await flushSave()
+      _unwritten = false
+      clearTimeout(_writeBackTimer)
+    } catch (error) {
+      saveError.value = __('The file couldn’t be read: {0}', [error?.message || ''])
+    }
+  }
+  if (props.exportAs === 'xlsx') await exportXLSX()
+  else if (props.exportAs === 'csv') exportCSV()
+}
+function _saved() {
+  if (!source.value || readOnly.value) return
+  _unwritten = true
+  clearTimeout(_writeBackTimer)
+  _writeBackTimer = setTimeout(writeBack, WRITE_BACK_EVERY)
+}
+// A desk page stays mounted when it is left, so leaving is a route change,
+// or the tab going out of sight.
+const _leave = () => { if (_unwritten) flushSave().then(writeBack) }
+const _hidden = () => { if (document.visibilityState === 'hidden') _leave() }
+window.frappe?.router?.on?.('change', _leave)
+document.addEventListener('visibilitychange', _hidden)
+onBeforeUnmount(() => {
+  window.frappe?.router?.off?.('change', _leave)
+  document.removeEventListener('visibilitychange', _hidden)
+})
+async function writeBack() {
+  clearTimeout(_writeBackTimer)
+  if (!_unwritten || !source.value) return
+  _unwritten = false
+  try {
+    await call('onedesk.one_sheet.api.write_back', { name: props.id, content: await fileContent(source.value.kind) })
+  } catch (error) {
+    _unwritten = true
+    saveError.value = __('Couldn’t write {0} back: {1}', [source.value.name, error?.message || ''])
+  }
+}
+
 // One: what is wrong with the selected cell, under it (shim/CellProblem.vue):
 // a formula's error, or what the record refused on its table's sheet.
 const cellProblem = reactive({ open: false, problem: null, x: 0, y: 0 })
@@ -2164,7 +2213,7 @@ const unregisterPaletteGroups = useRootStore().registerPaletteGroups('sheets-edi
   }]
 })
 onScopeDispose(unregisterPaletteGroups)
-const { exportCSV, exportXLSX, exportPDF, importCSV, importXLSX } = useExportImport({
+const { exportCSV, exportXLSX, exportPDF, importCSV, importXLSX, fileContent, readSource } = useExportImport({
   getSheet:        () => sheet,
   getCurrentTitle: () => currentTitle.value,
   getGrid:         () => grid,
@@ -2177,6 +2226,8 @@ const { exportCSV, exportXLSX, exportPDF, importCSV, importXLSX } = useExportImp
   switchSheet:     (n) => switchSheet(n),
   syncFlags,
   isDirty,
+  deleteSheet:     (n) => _sheetTabs?.deleteSheet(n), // One
+  renameSheet:     (from, to) => _sheetTabs?.renameSheet(from, to),
 })
 
 // Filter panel state.
@@ -2549,7 +2600,7 @@ const textWrapDropdownOptions = computed(() => [
 // fallbacks only cover the impossible window where someone saves before
 // useSheetTabs has finished initializing.
 let _sheetTabs = null
-const { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableFaults, bound, currency: homeCurrency } =
+const { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableFaults, bound, currency: homeCurrency, source } =
   usePersistence({
     sheet, formats, merge, comments, validation, protection, condFormat, sortFilter, slicers, pivot,
     charts, namedRanges,
@@ -2587,6 +2638,7 @@ watch(bound, (now) => {
 setContext({ field: fieldOf })
 const _offFields = onFields(() => { sheet.invalidateMemo(); grid?.render() })
 onBeforeUnmount(() => {
+  _leave() // One: an Excel or CSV file gets what was done to it
   _offFields()
   forgetFields()
   if (!_tableWatch) return
@@ -3603,6 +3655,7 @@ async function _loadInitialData() {
     // blank the sheet on the first snapshot-based undo (e.g. insert column).
     history.reset()
     syncFlags()
+    await _openedFrom() // One
   } else if (props.id === 'new') {
     // Google-Sheets model: create the doc immediately so there is never an
     // "unsaved" state.  The parent swaps the URL to ?id=<name> via onSaved.
@@ -3997,6 +4050,7 @@ async function _doAutoSave() {
   }
   _opQueue.splice(0, batch.count)
   _pendingSaveBatch = null
+  _saved() // One
   isDirty.value = _dirtyRevision > batch.revision
   justSaved.value = true
   setTimeout(() => { justSaved.value = false }, 2500)
