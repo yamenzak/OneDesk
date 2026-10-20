@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-20 11:38+0000\n"
+"POT-Creation-Date: 2026-10-20 15:35+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -43,8 +43,8 @@ msgstr "% مُحوَّل"
 msgid "(1 row changed)"
 msgstr "(تغيّر صف واحد)"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:592
-#: frontend/src/sheet/components/SheetEditor/index.vue:1075
+#: frontend/src/sheet/components/SheetEditor/index.vue:594
+#: frontend/src/sheet/components/SheetEditor/index.vue:1077
 msgid "(Blanks)"
 msgstr "(فارغة)"
 
@@ -90,7 +90,7 @@ msgstr "+{0} أخرى"
 msgid ", holding passport number {0},"
 msgstr "، حامل جواز السفر رقم {0}،"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:422
+#: frontend/src/sheet/components/SheetEditor/index.vue:424
 msgid ", or use the button above. Notes appear here once added."
 msgstr "، أو استخدم الزر أعلاه. تظهر الملاحظات هنا بعد إضافتها."
 
@@ -355,7 +355,7 @@ msgstr "من 181 إلى 365 يومًا"
 msgid "2"
 msgstr "2"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4725
+#: frontend/src/sheet/components/SheetEditor/index.vue:4728
 msgid "2-colour (low → high)"
 msgstr "لونان (منخفض ← مرتفع)"
 
@@ -364,7 +364,7 @@ msgstr "لونان (منخفض ← مرتفع)"
 msgid "3"
 msgstr "3"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4726
+#: frontend/src/sheet/components/SheetEditor/index.vue:4729
 msgid "3-colour (low → mid → high)"
 msgstr "ثلاثة ألوان (منخفض ← متوسط ← مرتفع)"
 
@@ -1028,6 +1028,10 @@ msgstr "ملاحظة للأشخاص المطلوب منهم."
 msgid "A number a document refers to: an invoice, an order, a case."
 msgstr "رقم يشير إليه مستند: فاتورة أو طلب أو قضية."
 
+#: onedesk/one_sheet/table.py:120
+msgid "A number."
+msgstr "رقم."
+
 #: onedesk/one_hr/home.py:158
 msgid "A one-off earning or deduction in a month's pay."
 msgstr "استحقاق أو استقطاع لمرة واحدة في راتب شهر."
@@ -1352,8 +1356,8 @@ msgstr "جدول بيانات أو ملف CSV"
 
 #. Description of a DocType
 #: onedesk/one_sheet/doctype/workbook/workbook.json
-msgid "A spreadsheet's content, behind the File that puts it in OneCloud. Opened and saved only through one_sheet/api.py, which asks OneCloud whether the reader may."
-msgstr "محتوى جدول البيانات، خلف الملف الذي يضعه في OneCloud. لا يُفتح ولا يُحفظ إلا عبر one_sheet/api.py، الذي يسأل OneCloud إن كان القارئ مخوّلًا."
+msgid "A spreadsheet's content, behind the File that puts it in OneCloud. Opened and saved only through one_sheet/api.py, which asks OneCloud whether the reader may. A workbook bound to a record's table (one_sheet/table.py) names it in the bound fields."
+msgstr "محتوى جدول البيانات، خلف الملف الذي يضعه في OneCloud. يُفتح ويُحفظ فقط عبر one_sheet/api.py، الذي يسأل OneCloud إن كان القارئ مسموحًا له. المصنف المرتبط بجدول في سجل (one_sheet/table.py) يسمّيه في الحقول المرتبطة."
 
 #: onedesk/public/js/overtime.js:100
 msgid "A standard day is {0} hours. Time beyond that is overtime."
@@ -1382,6 +1386,10 @@ msgstr "تُقيِّم بطاقة أداء المورد على أساس {0}."
 #: onedesk/one/ai.py:2807
 msgid "A table block names its table: {table: 'items', columns: ['item_name:45', 'qty:15']}."
 msgstr "كتلة الجدول تسمّي جدولها: {table: 'items', columns: ['item_name:45', 'qty:15']}."
+
+#: onedesk/one_sheet/table.py:344
+msgid "A table takes at most {0} rows from a workbook."
+msgstr "يأخذ الجدول {0} صفًا على الأكثر من مصنف."
 
 #: onedesk/one_project/template_view.py:122
 msgid "A task cannot go under itself."
@@ -1527,7 +1535,7 @@ msgstr "لا يمكن أن يكون نموذج {0} الافتراضي لـ {1}."
 msgid "A {kind} request, {request}, wanted by {wanted}."
 msgstr "طلب {kind}، {request}، مطلوب بحلول {wanted}."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1915
+#: frontend/src/sheet/components/SheetEditor/index.vue:1917
 msgid "AI"
 msgstr "الذكاء الاصطناعي"
 
@@ -1608,8 +1616,8 @@ msgstr "لمسة الذكاء الاصطناعي"
 msgid "AI Usage"
 msgstr "استخدام الذكاء الاصطناعي"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1916
-#: frontend/src/sheet/components/SheetEditor/index.vue:2072
+#: frontend/src/sheet/components/SheetEditor/index.vue:1918
+#: frontend/src/sheet/components/SheetEditor/index.vue:2074
 msgid "AI settings"
 msgstr "إعدادات الذكاء الاصطناعي"
 
@@ -2104,7 +2112,7 @@ msgstr ""
 msgid "Active Sessions"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:307
+#: frontend/src/sheet/components/SheetEditor/index.vue:309
 msgid "Active cell {0}"
 msgstr "الخلية النشطة {0}"
 
@@ -2163,8 +2171,8 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:35
-#: frontend/src/sheet/components/SheetEditor/index.vue:626
-#: frontend/src/sheet/components/SheetEditor/index.vue:629
+#: frontend/src/sheet/components/SheetEditor/index.vue:628
+#: frontend/src/sheet/components/SheetEditor/index.vue:631
 #: frontend/src/task/TaskWaits.vue:18 onedesk/one/ai.py:1826
 #: onedesk/one_book/report/books_check/books_check.js:16
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
@@ -2351,7 +2359,7 @@ msgstr "إضافة مستودع"
 msgid "Add a Location"
 msgstr "إضافة موقع"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1110
+#: frontend/src/sheet/components/SheetEditor/index.vue:1112
 msgid "Add a comment…"
 msgstr "أضف تعليقًا…"
 
@@ -2454,7 +2462,7 @@ msgstr "إضافة من قالب"
 msgid "Add from a List"
 msgstr "إضافة من قائمة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:940
+#: frontend/src/sheet/components/SheetEditor/index.vue:942
 msgid "Add item"
 msgstr "إضافة عنصر"
 
@@ -2466,7 +2474,7 @@ msgstr "أضف عملاء محتملين من بطاقات العمل"
 msgid "Add named range"
 msgstr "إضافة نطاق مسمّى"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:417
+#: frontend/src/sheet/components/SheetEditor/index.vue:419
 msgid "Add note to {0}"
 msgstr "إضافة ملاحظة إلى {0}"
 
@@ -2483,7 +2491,7 @@ msgstr "إضافة أشخاص…"
 msgid "Add several at once"
 msgstr "أضف عدة قيم دفعة واحدة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:642
+#: frontend/src/sheet/components/SheetEditor/index.vue:644
 msgid "Add sheet"
 msgstr "إضافة ورقة"
 
@@ -3064,7 +3072,7 @@ msgstr "تغيّرت الاتفاقيات"
 msgid "Agrees"
 msgstr "متطابق"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:221
+#: frontend/src/sheet/components/SheetEditor/index.vue:223
 msgid "Alignment"
 msgstr "المحاذاة"
 
@@ -3297,7 +3305,7 @@ msgstr ""
 msgid "Allow notifications for this site in your browser settings."
 msgstr "اسمح بالإشعارات لهذا الموقع في إعدادات متصفحك."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:986
+#: frontend/src/sheet/components/SheetEditor/index.vue:988
 msgid "Allow, but show a warning"
 msgstr "السماح مع إظهار تحذير"
 
@@ -3765,7 +3773,7 @@ msgstr "رُفعت شكوى عاجلة"
 msgid "Analytics"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1163
+#: frontend/src/sheet/components/SheetEditor/index.vue:1165
 msgid "And"
 msgstr "و"
 
@@ -4008,11 +4016,11 @@ msgid "Applies to everyone from today, or from its start date. Used for leave, a
 msgstr "يسري على الجميع من اليوم أو من تاريخ بدئه. يُستخدم للإجازات والحضور وتسجيل الدخول والتقويم والمواعيد النهائية."
 
 #: frontend/src/sheet/components/SheetEditor/SplitTextPopover.vue:42
-#: frontend/src/sheet/components/SheetEditor/index.vue:617
-#: frontend/src/sheet/components/SheetEditor/index.vue:894
-#: frontend/src/sheet/components/SheetEditor/index.vue:993
-#: frontend/src/sheet/components/SheetEditor/index.vue:1042
-#: frontend/src/sheet/components/SheetEditor/index.vue:1235
+#: frontend/src/sheet/components/SheetEditor/index.vue:619
+#: frontend/src/sheet/components/SheetEditor/index.vue:896
+#: frontend/src/sheet/components/SheetEditor/index.vue:995
+#: frontend/src/sheet/components/SheetEditor/index.vue:1044
+#: frontend/src/sheet/components/SheetEditor/index.vue:1237
 #: onedesk/one_intake/doctype/intake_action/intake_action.js:6
 #: onedesk/one_intake/doctype/intake_action/intake_action.js:7
 #: onedesk/one_intake/page/intake/intake.js:204 onedesk/public/js/intake.js:203
@@ -4023,10 +4031,10 @@ msgstr ""
 msgid "Apply for Leave"
 msgstr "تقديم طلب إجازة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1181
-#: frontend/src/sheet/components/SheetEditor/index.vue:1208
-#: frontend/src/sheet/components/SheetEditor/index.vue:1222
-#: frontend/src/sheet/components/SheetEditor/index.vue:1228
+#: frontend/src/sheet/components/SheetEditor/index.vue:1183
+#: frontend/src/sheet/components/SheetEditor/index.vue:1210
+#: frontend/src/sheet/components/SheetEditor/index.vue:1224
+#: frontend/src/sheet/components/SheetEditor/index.vue:1230
 msgid "Apply to range: {0}"
 msgstr "تطبيق على النطاق: {0}"
 
@@ -4428,7 +4436,7 @@ msgstr "وصل عبر رابط، ملف واحد"
 msgid "Arrives"
 msgstr "الوصول"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4730
+#: frontend/src/sheet/components/SheetEditor/index.vue:4733
 msgid "Arrows (red/grey/green)"
 msgstr "أسهم (أحمر/رمادي/أخضر)"
 
@@ -4489,11 +4497,11 @@ msgstr "كما يسمّيه {0} الآن"
 msgid "Ask"
 msgstr "اطلب"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:95
+#: frontend/src/sheet/components/SheetEditor/index.vue:97
 msgid "Ask AI"
 msgstr "اسأل الذكاء الاصطناعي"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:96
+#: frontend/src/sheet/components/SheetEditor/index.vue:98
 msgid "Ask AI to work on your selection"
 msgstr "اطلب من الذكاء الاصطناعي العمل على تحديدك"
 
@@ -5211,7 +5219,7 @@ msgstr "خطاب من جهة رسمية"
 msgid "Authority inspection"
 msgstr "فحص الجهة الرسمية"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1823
+#: frontend/src/sheet/components/SheetEditor/index.vue:1825
 msgid "Auto (locale)"
 msgstr "تلقائي (حسب اللغة)"
 
@@ -5234,11 +5242,11 @@ msgstr "الرد التلقائي متوقف"
 msgid "Auto reply on"
 msgstr "الرد التلقائي مفعّل"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:774
+#: frontend/src/sheet/components/SheetEditor/index.vue:776
 msgid "Auto-fit height"
 msgstr "احتواء الارتفاع تلقائيًا"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:759
+#: frontend/src/sheet/components/SheetEditor/index.vue:761
 msgid "Auto-fit width"
 msgstr "احتواء العرض تلقائيًا"
 
@@ -5247,12 +5255,12 @@ msgstr "احتواء العرض تلقائيًا"
 msgid "Automated"
 msgstr "آلي"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1165
+#: frontend/src/sheet/components/SheetEditor/index.vue:1167
 #: onedesk/public/js/oneai/Panel.vue:201 onedesk/public/js/oneai/Panel.vue:491
 msgid "Automatic"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:922
+#: frontend/src/sheet/components/SheetEditor/index.vue:924
 msgid "Automatic colour"
 msgstr "لون تلقائي"
 
@@ -5318,7 +5326,7 @@ msgstr "متوسط قيمة الفرص الرابحة"
 msgid "Average of {0}"
 msgstr "متوسط {0}"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:710
+#: frontend/src/sheet/components/SheetEditor/index.vue:712
 msgid "Avg: {0}"
 msgstr "المتوسط: {0}"
 
@@ -5629,8 +5637,8 @@ msgstr ""
 msgid "Bar"
 msgstr "شريطي"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1214
-#: frontend/src/sheet/components/SheetEditor/index.vue:1215
+#: frontend/src/sheet/components/SheetEditor/index.vue:1216
+#: frontend/src/sheet/components/SheetEditor/index.vue:1217
 msgid "Bar colour"
 msgstr "لون الشريط"
 
@@ -5954,8 +5962,8 @@ msgstr "الأفضل"
 msgid "Beta with real users"
 msgstr "نسخة تجريبية مع مستخدمين حقيقيين"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:948
-#: frontend/src/sheet/components/SheetEditor/index.vue:4710
+#: frontend/src/sheet/components/SheetEditor/index.vue:950
+#: frontend/src/sheet/components/SheetEditor/index.vue:4713
 msgid "Between"
 msgstr "بين"
 
@@ -6250,7 +6258,7 @@ msgstr "المحتوى"
 msgid "Bold"
 msgstr "غامق"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:209
+#: frontend/src/sheet/components/SheetEditor/index.vue:211
 msgid "Bold (Ctrl+B)"
 msgstr "غامق (Ctrl+B)"
 
@@ -6297,7 +6305,7 @@ msgstr "تم قفل الدفاتر."
 msgid "Books unlocked."
 msgstr "تم فتح الدفاتر."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:273
+#: frontend/src/sheet/components/SheetEditor/index.vue:275
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:76
 msgid "Borders"
 msgstr "الحدود"
@@ -6356,6 +6364,11 @@ msgstr "شراء {0}"
 #: onedesk/one_mail/custom/email_unsubscribe.json
 msgid "Bounced"
 msgstr "مرتد"
+
+#. Label of the bound_doctype (Link) field in DocType 'Workbook'
+#: onedesk/one_sheet/doctype/workbook/workbook.json
+msgid "Bound To"
+msgstr "مرتبط بـ"
 
 #: onedesk/one_intake/page/intake/intake.js:20
 msgid "Box"
@@ -6499,7 +6512,7 @@ msgstr "البناء"
 msgid "Building permit"
 msgstr "رخصة البناء"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:373
+#: frontend/src/sheet/components/SheetEditor/index.vue:375
 msgid "Building pivot…"
 msgstr "جارٍ إنشاء الجدول المحوري…"
 
@@ -6855,12 +6868,12 @@ msgstr "يمكنه العرض"
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:33
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:145
 #: frontend/src/sheet/components/SheetEditor/SplitTextPopover.vue:41
-#: frontend/src/sheet/components/SheetEditor/index.vue:738
-#: frontend/src/sheet/components/SheetEditor/index.vue:896
-#: frontend/src/sheet/components/SheetEditor/index.vue:995
-#: frontend/src/sheet/components/SheetEditor/index.vue:1015
-#: frontend/src/sheet/components/SheetEditor/index.vue:1043
-#: frontend/src/sheet/components/SheetEditor/index.vue:1237
+#: frontend/src/sheet/components/SheetEditor/index.vue:740
+#: frontend/src/sheet/components/SheetEditor/index.vue:898
+#: frontend/src/sheet/components/SheetEditor/index.vue:997
+#: frontend/src/sheet/components/SheetEditor/index.vue:1017
+#: frontend/src/sheet/components/SheetEditor/index.vue:1045
+#: frontend/src/sheet/components/SheetEditor/index.vue:1239
 #: frontend/src/task/TaskWaits.vue:14
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
 #: onedesk/public/js/doctype_settings.js:254
@@ -7446,7 +7459,7 @@ msgstr "تُرفض تسجيلات الحضور التي تقل درجتها عن
 msgid "Check-ins scoring between this and Refuse Below Score are written, and marked Flagged for review."
 msgstr "تُكتب تسجيلات الحضور التي تقع درجتها بين هذا الحد وحد الرفض، وتُعلَّم بأنها مُشار إليها للمراجعة."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:908
+#: frontend/src/sheet/components/SheetEditor/index.vue:910
 msgid "Checkbox"
 msgstr "خانة اختيار"
 
@@ -7594,6 +7607,10 @@ msgstr "اختر ملفات"
 msgid "Choose from OneCloud"
 msgstr "اختر من OneCloud"
 
+#: onedesk/one_sheet/table.py:116
+msgid "Choose one from the list."
+msgstr "اختر واحدًا من القائمة."
+
 #: onedesk/one_book/report/books_check/books_check.js:47
 msgid "Choose the Tax Charged by Default"
 msgstr "اختر الضريبة المحتسبة افتراضيًا"
@@ -7663,7 +7680,7 @@ msgstr "النموذج المختار"
 msgid "Chosen transactions posted to the books again."
 msgstr "معاملات مختارة تُرحَّل إلى الحسابات من جديد."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4732
+#: frontend/src/sheet/components/SheetEditor/index.vue:4735
 msgid "Circles (empty → full)"
 msgstr "دوائر (فارغة ← ممتلئة)"
 
@@ -7723,10 +7740,10 @@ msgstr "مطالبات معتمدة لم تُسدّد بعد."
 msgid "Classic"
 msgstr "كلاسيكي"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:567
-#: frontend/src/sheet/components/SheetEditor/index.vue:618
-#: frontend/src/sheet/components/SheetEditor/index.vue:1069
-#: frontend/src/sheet/components/SheetEditor/index.vue:1132
+#: frontend/src/sheet/components/SheetEditor/index.vue:569
+#: frontend/src/sheet/components/SheetEditor/index.vue:620
+#: frontend/src/sheet/components/SheetEditor/index.vue:1071
+#: frontend/src/sheet/components/SheetEditor/index.vue:1134
 msgid "Clear"
 msgstr "مسح"
 
@@ -7740,7 +7757,7 @@ msgstr "مسح الخلية"
 msgid "Clear for a plan paid once. A pack is always once and an add-on always monthly."
 msgstr "أزل التحديد لخطة تُدفع مرة واحدة. الحزمة دائمًا مرة واحدة والإضافة دائمًا شهرية."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:258
+#: frontend/src/sheet/components/SheetEditor/index.vue:260
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:63
 msgid "Clear formatting"
 msgstr "مسح التنسيق"
@@ -7749,7 +7766,7 @@ msgstr "مسح التنسيق"
 msgid "Clear selection"
 msgstr "إلغاء التحديد"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:567
+#: frontend/src/sheet/components/SheetEditor/index.vue:569
 msgid "Clear shown"
 msgstr "مسح المعروض"
 
@@ -7758,7 +7775,7 @@ msgstr "مسح المعروض"
 msgid "Cleared On"
 msgstr "تاريخ التسوية"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:888
+#: frontend/src/sheet/components/SheetEditor/index.vue:890
 msgid "Click here"
 msgstr "انقر هنا"
 
@@ -7781,7 +7798,7 @@ msgstr "مراجعة العميل والتعديلات"
 msgid "Client's Representative"
 msgstr "ممثل العميل"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2446
+#: frontend/src/sheet/components/SheetEditor/index.vue:2448
 msgid "Clip"
 msgstr "قص"
 
@@ -7851,7 +7868,7 @@ msgstr "إشارة التسجيل"
 
 #: frontend/src/kit/Drawer.vue:9
 #: frontend/src/sheet/components/SheetEditor/AskBar.vue:27
-#: frontend/src/sheet/components/SheetEditor/index.vue:619
+#: frontend/src/sheet/components/SheetEditor/index.vue:621
 #: onedesk/public/js/oneai/Panel.vue:38 onedesk/public/js/onecloud.js:2114
 #: onedesk/public/js/opportunity.js:12
 msgid "Close"
@@ -8161,19 +8178,21 @@ msgstr "الألوان"
 msgid "Colour"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4719
-#: frontend/src/sheet/components/SheetEditor/index.vue:4859
+#: frontend/src/sheet/components/SheetEditor/index.vue:4722
+#: frontend/src/sheet/components/SheetEditor/index.vue:4862
 msgid "Colour scale"
 msgstr "مقياس ألوان"
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:328
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:404
-#: frontend/src/sheet/components/SheetEditor/index.vue:531
+#: frontend/src/sheet/components/SheetEditor/index.vue:533
 msgid "Column {0}"
 msgstr "العمود {0}"
 
+#. Label of the bound_columns (JSON) field in DocType 'Workbook'
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:64
 #: onedesk/one/ai_setup.py:226 onedesk/one/letter_heads.py:16
+#: onedesk/one_sheet/doctype/workbook/workbook.json
 msgid "Columns"
 msgstr ""
 
@@ -8192,8 +8211,8 @@ msgstr "فاصلة"
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
 #: frontend/src/kit/ActivityComposer.vue:10
-#: frontend/src/sheet/components/SheetEditor/index.vue:1085
-#: frontend/src/sheet/components/SheetEditor/index.vue:1114
+#: frontend/src/sheet/components/SheetEditor/index.vue:1087
+#: frontend/src/sheet/components/SheetEditor/index.vue:1116
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 msgid "Comment"
@@ -8421,19 +8440,19 @@ msgstr "التصميم المبدئي"
 msgid "Concept presented to the client"
 msgstr "عرض التصميم المبدئي على العميل"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:554
-#: frontend/src/sheet/components/SheetEditor/index.vue:946
-#: frontend/src/sheet/components/SheetEditor/index.vue:1159
+#: frontend/src/sheet/components/SheetEditor/index.vue:556
+#: frontend/src/sheet/components/SheetEditor/index.vue:948
+#: frontend/src/sheet/components/SheetEditor/index.vue:1161
 msgid "Condition"
 msgstr "الشرط"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:268
-#: frontend/src/sheet/components/SheetEditor/index.vue:1137
+#: frontend/src/sheet/components/SheetEditor/index.vue:270
+#: frontend/src/sheet/components/SheetEditor/index.vue:1139
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:70
 msgid "Conditional formatting"
 msgstr "التنسيق الشرطي"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:802
+#: frontend/src/sheet/components/SheetEditor/index.vue:804
 msgid "Conditional format…"
 msgstr "تنسيق شرطي…"
 
@@ -8759,8 +8778,8 @@ msgid "Contacts and addresses with your address"
 msgstr "جهات الاتصال والعناوين التي تحمل عنوانك"
 
 #. Label in the One Product Bundle print format
-#: frontend/src/sheet/components/SheetEditor/index.vue:1893
-#: frontend/src/sheet/components/SheetEditor/index.vue:4711
+#: frontend/src/sheet/components/SheetEditor/index.vue:1895
+#: frontend/src/sheet/components/SheetEditor/index.vue:4714
 #: onedesk/one_inventory/print_format/one_product_bundle/one_product_bundle.json
 msgid "Contains"
 msgstr "يحتوي على"
@@ -9123,7 +9142,7 @@ msgstr "التكاليف"
 msgid "Could Not Mark Left"
 msgstr "تعذر التعيين كمغادر"
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:64
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:69
 msgid "Could not open this sheet"
 msgstr "تعذّر فتح هذه الورقة"
 
@@ -9209,7 +9228,7 @@ msgstr "تعذّر تحديث كلمة المرور."
 msgid "Couldn't verify the server's certificate."
 msgstr "تعذّر التحقق من شهادة الخادم."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1476
+#: frontend/src/sheet/components/SheetEditor/index.vue:1478
 msgid "Couldn’t detect a pattern from your examples."
 msgstr "تعذّر اكتشاف نمط من أمثلتك."
 
@@ -9217,15 +9236,15 @@ msgstr "تعذّر اكتشاف نمط من أمثلتك."
 msgid "Couldn’t open this sheet"
 msgstr "تعذّر فتح هذه الورقة"
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:149
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:155
 msgid "Couldn’t prepare save payload."
 msgstr "تعذّر تجهيز بيانات الحفظ."
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:192
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:199
 msgid "Couldn’t save — check your connection, then click retry."
 msgstr "تعذّر الحفظ — تحقّق من اتصالك ثم انقر على إعادة المحاولة."
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:191
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:198
 msgid "Couldn’t save: {0}"
 msgstr "تعذّر الحفظ: {0}"
 
@@ -9258,7 +9277,7 @@ msgstr "احتساب الوقت حسب"
 msgid "Count of {0}"
 msgstr "عدد {0}"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:708
+#: frontend/src/sheet/components/SheetEditor/index.vue:710
 msgid "Count: {0}"
 msgstr "العدد: {0}"
 
@@ -9673,8 +9692,8 @@ msgstr "عملات مربوطة بعملة أخرى بسعر ثابت."
 #. Label in the One Income Tax Slab print format
 #. Label in the One Salary Structure print format
 #. Label of the currency (Link) field in DocType 'Reading'
-#: frontend/src/sheet/components/SheetEditor/index.vue:184
-#: frontend/src/sheet/components/SheetEditor/index.vue:1815
+#: frontend/src/sheet/components/SheetEditor/index.vue:186
+#: frontend/src/sheet/components/SheetEditor/index.vue:1817
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:105
@@ -9698,7 +9717,7 @@ msgstr "سعر صرف العملة"
 msgid "Currency Exchange Settings"
 msgstr "إعدادات أسعار الصرف"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2370
+#: frontend/src/sheet/components/SheetEditor/index.vue:2372
 msgid "Currency · {0}"
 msgstr "عملة · {0}"
 
@@ -9742,8 +9761,8 @@ msgid "Currently in Stage"
 msgstr "في المرحلة حالياً"
 
 #: frontend/src/sheet/components/SheetEditor/SplitTextPopover.vue:28
-#: frontend/src/sheet/components/SheetEditor/index.vue:2374
-#: frontend/src/sheet/components/SheetEditor/index.vue:2386
+#: frontend/src/sheet/components/SheetEditor/index.vue:2376
+#: frontend/src/sheet/components/SheetEditor/index.vue:2388
 #: onedesk/public/js/doctype_settings.js:274 onedesk/public/js/settings.js:1092
 msgid "Custom"
 msgstr "مخصص"
@@ -9781,7 +9800,7 @@ msgstr "معرّف اسم المضيف المخصص"
 msgid "Custom colour"
 msgstr "لون مخصص"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2387
+#: frontend/src/sheet/components/SheetEditor/index.vue:2389
 msgid "Custom format…"
 msgstr "تنسيق مخصص…"
 
@@ -9793,7 +9812,7 @@ msgstr "مستوى مخصص في {0}"
 msgid "Custom levels sit between User and Manager."
 msgstr "المستويات المخصصة تقع بين المستخدم والمدير."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1021
+#: frontend/src/sheet/components/SheetEditor/index.vue:1023
 msgid "Custom number format"
 msgstr "تنسيق أرقام مخصص"
 
@@ -10064,16 +10083,16 @@ msgstr "نسخ البيانات"
 msgid "Data Processing Addendum"
 msgstr "ملحق معالجة البيانات"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4720
-#: frontend/src/sheet/components/SheetEditor/index.vue:4860
+#: frontend/src/sheet/components/SheetEditor/index.vue:4723
+#: frontend/src/sheet/components/SheetEditor/index.vue:4863
 msgid "Data bars"
 msgstr "أشرطة البيانات"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:902
+#: frontend/src/sheet/components/SheetEditor/index.vue:904
 msgid "Data validation"
 msgstr "التحقق من صحة البيانات"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:801
+#: frontend/src/sheet/components/SheetEditor/index.vue:803
 msgid "Data validation…"
 msgstr "التحقق من صحة البيانات…"
 
@@ -10202,8 +10221,8 @@ msgstr "قاعدة البيانات المستخدمة"
 #. Label in the One Timesheet print format
 #: frontend/src/project/Invoices.vue:25 frontend/src/project/Suppliers.vue:80
 #: frontend/src/project/Suppliers.vue:133 frontend/src/project/Time.vue:25
-#: frontend/src/sheet/components/SheetEditor/index.vue:1822
-#: frontend/src/sheet/components/SheetEditor/index.vue:2371
+#: frontend/src/sheet/components/SheetEditor/index.vue:1824
+#: frontend/src/sheet/components/SheetEditor/index.vue:2373
 #: frontend/src/task/TaskTime.vue:19 onedesk/one/portal.py:99
 #: onedesk/one/portal.py:100 onedesk/one/portal.py:1038
 #: onedesk/one/print_blocks.py:41 onedesk/one/print_blocks.py:43
@@ -10320,8 +10339,8 @@ msgstr "قاعدة البيانات المستخدمة"
 msgid "Date"
 msgstr "التاريخ"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1836
-#: frontend/src/sheet/components/SheetEditor/index.vue:2373
+#: frontend/src/sheet/components/SheetEditor/index.vue:1838
+#: frontend/src/sheet/components/SheetEditor/index.vue:2375
 msgid "Date + Time"
 msgstr "التاريخ + الوقت"
 
@@ -10343,7 +10362,7 @@ msgstr "تاريخ التعديل"
 msgid "Date of Birth"
 msgstr "تاريخ الميلاد"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2371
+#: frontend/src/sheet/components/SheetEditor/index.vue:2373
 msgid "Date · {0}"
 msgstr "تاريخ · {0}"
 
@@ -10581,11 +10600,11 @@ msgstr "بتَّ فيه"
 msgid "Decided On"
 msgstr "تاريخ البتّ"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1811
+#: frontend/src/sheet/components/SheetEditor/index.vue:1813
 msgid "Decimal"
 msgstr "عشري"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1812
+#: frontend/src/sheet/components/SheetEditor/index.vue:1814
 msgid "Decimal — Indian ({0})"
 msgstr "عشري — هندي ({0})"
 
@@ -10640,7 +10659,7 @@ msgstr "رفضه {0} عبر البوابة."
 msgid "Declined on the portal."
 msgstr "رُفض عبر البوابة."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:190
+#: frontend/src/sheet/components/SheetEditor/index.vue:192
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:66
 msgid "Decrease decimal places"
 msgstr "إنقاص المنازل العشرية"
@@ -10757,7 +10776,7 @@ msgstr "هامش الربح الافتراضي."
 msgid "Default model"
 msgstr "النموذج الافتراضي"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:224
+#: frontend/src/sheet/components/SheetEditor/index.vue:226
 msgid "Default text color"
 msgstr "لون النص الافتراضي"
 
@@ -10803,9 +10822,9 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:59
-#: frontend/src/sheet/components/SheetEditor/index.vue:723
-#: frontend/src/sheet/components/SheetEditor/index.vue:1103
-#: frontend/src/sheet/components/SheetEditor/index.vue:1236
+#: frontend/src/sheet/components/SheetEditor/index.vue:725
+#: frontend/src/sheet/components/SheetEditor/index.vue:1105
+#: frontend/src/sheet/components/SheetEditor/index.vue:1238
 #: frontend/src/template/Tasks.vue:159
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:326
@@ -10850,7 +10869,7 @@ msgstr "حذف الصور بعد (أيام)"
 msgid "Delete Recording Audio After (Days)"
 msgstr "حذف صوت التسجيل بعد (أيام)"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1116
+#: frontend/src/sheet/components/SheetEditor/index.vue:1118
 msgid "Delete all"
 msgstr "حذف الكل"
 
@@ -10858,8 +10877,8 @@ msgstr "حذف الكل"
 msgid "Delete chart"
 msgstr "حذف المخطط"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:754
-#: frontend/src/sheet/components/SheetEditor/index.vue:794
+#: frontend/src/sheet/components/SheetEditor/index.vue:756
+#: frontend/src/sheet/components/SheetEditor/index.vue:796
 msgid "Delete column"
 msgstr "حذف العمود"
 
@@ -10879,8 +10898,8 @@ msgstr "حذف نهائيًا"
 msgid "Delete pivot"
 msgstr "حذف الجدول المحوري"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:772
-#: frontend/src/sheet/components/SheetEditor/index.vue:790
+#: frontend/src/sheet/components/SheetEditor/index.vue:774
+#: frontend/src/sheet/components/SheetEditor/index.vue:792
 msgid "Delete row"
 msgstr "حذف الصف"
 
@@ -10888,7 +10907,7 @@ msgstr "حذف الصف"
 msgid "Delete rows / columns"
 msgstr "حذف صفوف / أعمدة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1151
+#: frontend/src/sheet/components/SheetEditor/index.vue:1153
 msgid "Delete rule"
 msgstr "حذف القاعدة"
 
@@ -11678,7 +11697,7 @@ msgstr "اكتشاف تلقائي"
 msgid "Detect fields"
 msgstr "اكتشاف الحقول"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1477
+#: frontend/src/sheet/components/SheetEditor/index.vue:1479
 msgid "Detected a pattern but couldn’t apply it to any rows."
 msgstr "اكتُشف نمط لكن تعذّر تطبيقه على أي صف."
 
@@ -11883,11 +11902,11 @@ msgstr "مُتجاهَل"
 msgid "Dispatched By"
 msgstr "أُرسل بواسطة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:888
+#: frontend/src/sheet/components/SheetEditor/index.vue:890
 msgid "Display text"
 msgstr "النص المعروض"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:568
+#: frontend/src/sheet/components/SheetEditor/index.vue:570
 msgid "Displaying {0}"
 msgstr "يُعرض {0}"
 
@@ -12026,7 +12045,7 @@ msgstr "مستندات بانتظارك"
 msgid "Documents for the Tax Year"
 msgstr "مستندات السنة الضريبية"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4712
+#: frontend/src/sheet/components/SheetEditor/index.vue:4715
 msgid "Does not contain"
 msgstr "لا يحتوي على"
 
@@ -12561,7 +12580,7 @@ msgstr "موعد التسليم {0}."
 msgid "Dunning"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:717
+#: frontend/src/sheet/components/SheetEditor/index.vue:719
 #: onedesk/public/js/crm_record.js:38 onedesk/public/js/record.js:155
 msgid "Duplicate"
 msgstr ""
@@ -13754,7 +13773,7 @@ msgstr "أدخل مبلغ المحتجزات دون الضريبة."
 msgid "Enter the street address."
 msgstr "أدخل عنوان الشارع."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:321
+#: frontend/src/sheet/components/SheetEditor/index.vue:323
 msgid "Enter value or formula"
 msgstr "أدخل قيمة أو صيغة"
 
@@ -13777,12 +13796,12 @@ msgstr "رقم القيد"
 msgid "Envelope"
 msgstr "الغلاف الخارجي"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:954
-#: frontend/src/sheet/components/SheetEditor/index.vue:4708
+#: frontend/src/sheet/components/SheetEditor/index.vue:956
+#: frontend/src/sheet/components/SheetEditor/index.vue:4711
 msgid "Equal to"
 msgstr "يساوي"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1894
+#: frontend/src/sheet/components/SheetEditor/index.vue:1896
 msgid "Equals"
 msgstr "يساوي"
 
@@ -13829,7 +13848,7 @@ msgstr "المعدات التي تحتاج صيانة لها جدول"
 msgid "Error"
 msgstr "خطأ"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:977
+#: frontend/src/sheet/components/SheetEditor/index.vue:979
 msgid "Error message (optional)"
 msgstr "رسالة الخطأ (اختيارية)"
 
@@ -14675,21 +14694,21 @@ msgstr "جارٍ الشرح…"
 msgid "Explanation"
 msgstr "الشرح"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1902
+#: frontend/src/sheet/components/SheetEditor/index.vue:1904
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:24
 #: onedesk/public/js/doctype_settings.js:254
 msgid "Export"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1903
+#: frontend/src/sheet/components/SheetEditor/index.vue:1905
 msgid "Export as CSV"
 msgstr "تصدير بتنسيق CSV"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1905
+#: frontend/src/sheet/components/SheetEditor/index.vue:1907
 msgid "Export as PDF"
 msgstr "تصدير بتنسيق PDF"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1904
+#: frontend/src/sheet/components/SheetEditor/index.vue:1906
 msgid "Export as XLSX"
 msgstr "تصدير بتنسيق XLSX"
 
@@ -14856,7 +14875,7 @@ msgstr "فشل عند الخطوة {0} من {1}"
 msgid "Failed at step {number} of {steps}, {step}.<br>{error}"
 msgstr "فشل في الخطوة {number} من {steps}، {step}.<br>{error}"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4896
+#: frontend/src/sheet/components/SheetEditor/index.vue:4899
 msgid "Failed to load cell history"
 msgstr "فشل تحميل سجل الخلية"
 
@@ -15020,7 +15039,7 @@ msgstr "البند"
 #. Label of the item (Data) field in DocType 'Cloud File Request Upload'
 #. Label of the file (Link) field in DocType 'Cloud File Version'
 #. Label of the file (Link) field in DocType 'Cloud Link'
-#: frontend/src/sheet/components/SheetEditor/index.vue:103
+#: frontend/src/sheet/components/SheetEditor/index.vue:105
 #: onedesk/one_intake/bundle.py:74
 #: onedesk/one_intake/doctype/file_link/file_link.json
 #: onedesk/one_sheet/doctype/workbook/workbook.json
@@ -15174,10 +15193,10 @@ msgstr "تستخدم الملفات {0} غيغابايت والخطة تسمح �
 msgid "Filing"
 msgstr "الأرشفة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:236
 #: frontend/src/sheet/components/SheetEditor/index.vue:238
-#: frontend/src/sheet/components/SheetEditor/index.vue:1173
+#: frontend/src/sheet/components/SheetEditor/index.vue:240
 #: frontend/src/sheet/components/SheetEditor/index.vue:1175
+#: frontend/src/sheet/components/SheetEditor/index.vue:1177
 msgid "Fill colour"
 msgstr "لون التعبئة"
 
@@ -15185,7 +15204,7 @@ msgstr "لون التعبئة"
 msgid "Fill down"
 msgstr "تعبئة للأسفل"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1473
+#: frontend/src/sheet/components/SheetEditor/index.vue:1475
 msgid "Fill in 1–2 example cells first, then select the range and press {0}."
 msgstr "املأ خلية أو خليتين كمثال أولًا، ثم حدّد النطاق واضغط {0}."
 
@@ -15219,7 +15238,7 @@ msgstr "يمتلئ"
 msgid "Filter Based On"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1060
+#: frontend/src/sheet/components/SheetEditor/index.vue:1062
 msgid "Filter column"
 msgstr "تصفية العمود"
 
@@ -15227,7 +15246,7 @@ msgstr "تصفية العمود"
 msgid "Filter columns…"
 msgstr "تصفية الأعمدة…"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:542
+#: frontend/src/sheet/components/SheetEditor/index.vue:544
 msgid "Filter mode"
 msgstr "وضع التصفية"
 
@@ -15615,11 +15634,11 @@ msgstr "اتّباع إعدادات نظامي"
 msgid "Followed Records"
 msgstr "السجلات المتابَعة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:199
+#: frontend/src/sheet/components/SheetEditor/index.vue:201
 msgid "Font family"
 msgstr "نوع الخط"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:202
+#: frontend/src/sheet/components/SheetEditor/index.vue:204
 msgid "Font size"
 msgstr "حجم الخط"
 
@@ -15894,11 +15913,11 @@ msgstr "تنسيق كنسبة مئوية"
 msgid "Format as time"
 msgstr "تنسيق كوقت"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1026
+#: frontend/src/sheet/components/SheetEditor/index.vue:1028
 msgid "Format code"
 msgstr "رمز التنسيق"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:257
+#: frontend/src/sheet/components/SheetEditor/index.vue:259
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:62
 msgid "Format painter"
 msgstr "نسخ التنسيق"
@@ -16001,19 +16020,19 @@ msgstr "متاح للبيع"
 msgid "Free until {0}."
 msgstr "مجانًا حتى {0}."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:798
+#: frontend/src/sheet/components/SheetEditor/index.vue:800
 msgid "Freeze cols to here"
 msgstr "تجميد الأعمدة حتى هنا"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:796
+#: frontend/src/sheet/components/SheetEditor/index.vue:798
 msgid "Freeze rows to here"
 msgstr "تجميد الصفوف حتى هنا"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:763
+#: frontend/src/sheet/components/SheetEditor/index.vue:765
 msgid "Freeze up to this column"
 msgstr "تجميد حتى هذا العمود"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:778
+#: frontend/src/sheet/components/SheetEditor/index.vue:780
 msgid "Freeze up to this row"
 msgstr "تجميد حتى هذا الصف"
 
@@ -16400,9 +16419,9 @@ msgid "Genders"
 msgstr "الأجناس"
 
 #. Label of a Sidebar Item
-#: frontend/src/sheet/components/SheetEditor/index.vue:1806
-#: frontend/src/sheet/components/SheetEditor/index.vue:1807
-#: frontend/src/sheet/components/SheetEditor/index.vue:2367
+#: frontend/src/sheet/components/SheetEditor/index.vue:1808
+#: frontend/src/sheet/components/SheetEditor/index.vue:1809
+#: frontend/src/sheet/components/SheetEditor/index.vue:2369
 #: onedesk/one/settings.py:24 onedesk/one/sidebar/one/one.json
 msgid "General"
 msgstr "عام"
@@ -16782,17 +16801,17 @@ msgstr "مكافأة نهاية الخدمة"
 msgid "Gratuity Rule"
 msgstr "قاعدة مكافأة نهاية الخدمة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4706
+#: frontend/src/sheet/components/SheetEditor/index.vue:4709
 msgid "Greater or equal"
 msgstr "أكبر من أو يساوي"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:950
-#: frontend/src/sheet/components/SheetEditor/index.vue:1895
-#: frontend/src/sheet/components/SheetEditor/index.vue:4704
+#: frontend/src/sheet/components/SheetEditor/index.vue:952
+#: frontend/src/sheet/components/SheetEditor/index.vue:1897
+#: frontend/src/sheet/components/SheetEditor/index.vue:4707
 msgid "Greater than"
 msgstr "أكبر من"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:951
+#: frontend/src/sheet/components/SheetEditor/index.vue:953
 msgid "Greater than or equal"
 msgstr "أكبر من أو يساوي"
 
@@ -17248,11 +17267,11 @@ msgstr "إخفاء سجلات الوقت"
 msgid "Hide When Empty"
 msgstr "إخفاء عند الفراغ"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:760
+#: frontend/src/sheet/components/SheetEditor/index.vue:762
 msgid "Hide column"
 msgstr "إخفاء العمود"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:775
+#: frontend/src/sheet/components/SheetEditor/index.vue:777
 msgid "Hide row"
 msgstr "إخفاء الصف"
 
@@ -18051,9 +18070,9 @@ msgstr "إعداد تقنية المعلومات واختبارها"
 msgid "Icon"
 msgstr "الأيقونة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1227
-#: frontend/src/sheet/components/SheetEditor/index.vue:4721
-#: frontend/src/sheet/components/SheetEditor/index.vue:4861
+#: frontend/src/sheet/components/SheetEditor/index.vue:1229
+#: frontend/src/sheet/components/SheetEditor/index.vue:4724
+#: frontend/src/sheet/components/SheetEditor/index.vue:4864
 msgid "Icon set"
 msgstr "مجموعة أيقونات"
 
@@ -18184,15 +18203,15 @@ msgstr "صورة"
 msgid "Image Generation"
 msgstr "توليد الصور"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1908
+#: frontend/src/sheet/components/SheetEditor/index.vue:1910
 msgid "Import"
 msgstr "استيراد"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:103
+#: frontend/src/sheet/components/SheetEditor/index.vue:105
 msgid "Import / export"
 msgstr "استيراد / تصدير"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1909
+#: frontend/src/sheet/components/SheetEditor/index.vue:1911
 msgid "Import CSV"
 msgstr "استيراد CSV"
 
@@ -18200,7 +18219,7 @@ msgstr "استيراد CSV"
 msgid "Import Supplier Invoice"
 msgstr "استيراد فاتورة مورد"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1910
+#: frontend/src/sheet/components/SheetEditor/index.vue:1912
 msgid "Import XLSX"
 msgstr "استيراد XLSX"
 
@@ -18578,7 +18597,7 @@ msgstr "إعدادات المكالمات الواردة"
 msgid "Incorrect password."
 msgstr "كلمة المرور غير صحيحة."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:191
+#: frontend/src/sheet/components/SheetEditor/index.vue:193
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:67
 msgid "Increase decimal places"
 msgstr "زيادة المنازل العشرية"
@@ -18661,68 +18680,68 @@ msgstr "المدخلات"
 msgid "Inquiry"
 msgstr "استفسار"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1014
+#: frontend/src/sheet/components/SheetEditor/index.vue:1016
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:86
 msgid "Insert"
 msgstr "إدراج"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:753
+#: frontend/src/sheet/components/SheetEditor/index.vue:755
 msgid "Insert N columns…"
 msgstr "إدراج N أعمدة…"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:771
+#: frontend/src/sheet/components/SheetEditor/index.vue:773
 msgid "Insert N rows…"
 msgstr "إدراج N صفوف…"
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:3
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:189
-#: frontend/src/sheet/components/SheetEditor/index.vue:292
+#: frontend/src/sheet/components/SheetEditor/index.vue:294
 msgid "Insert chart"
 msgstr "إدراج مخطط"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:809
+#: frontend/src/sheet/components/SheetEditor/index.vue:811
 msgid "Insert chart…"
 msgstr "إدراج مخطط…"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:751
-#: frontend/src/sheet/components/SheetEditor/index.vue:792
+#: frontend/src/sheet/components/SheetEditor/index.vue:753
+#: frontend/src/sheet/components/SheetEditor/index.vue:794
 msgid "Insert column left"
 msgstr "إدراج عمود إلى اليسار"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:752
-#: frontend/src/sheet/components/SheetEditor/index.vue:793
+#: frontend/src/sheet/components/SheetEditor/index.vue:754
+#: frontend/src/sheet/components/SheetEditor/index.vue:795
 msgid "Insert column right"
 msgstr "إدراج عمود إلى اليمين"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1001
+#: frontend/src/sheet/components/SheetEditor/index.vue:1003
 msgid "Insert columns"
 msgstr "إدراج أعمدة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:885
+#: frontend/src/sheet/components/SheetEditor/index.vue:887
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:71
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:110
 msgid "Insert hyperlink"
 msgstr "إدراج ارتباط تشعبي"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:269
+#: frontend/src/sheet/components/SheetEditor/index.vue:271
 msgid "Insert hyperlink (Ctrl+L)"
 msgstr "إدراج ارتباط تشعبي (Ctrl+L)"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:808
+#: frontend/src/sheet/components/SheetEditor/index.vue:810
 msgid "Insert pivot table…"
 msgstr "إدراج جدول محوري…"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:769
-#: frontend/src/sheet/components/SheetEditor/index.vue:788
+#: frontend/src/sheet/components/SheetEditor/index.vue:771
+#: frontend/src/sheet/components/SheetEditor/index.vue:790
 msgid "Insert row above"
 msgstr "إدراج صف أعلاه"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:770
-#: frontend/src/sheet/components/SheetEditor/index.vue:789
+#: frontend/src/sheet/components/SheetEditor/index.vue:772
+#: frontend/src/sheet/components/SheetEditor/index.vue:791
 msgid "Insert row below"
 msgstr "إدراج صف أدناه"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1001
+#: frontend/src/sheet/components/SheetEditor/index.vue:1003
 msgid "Insert rows"
 msgstr "إدراج صفوف"
 
@@ -18730,7 +18749,7 @@ msgstr "إدراج صفوف"
 msgid "Insert rows / columns"
 msgstr "إدراج صفوف / أعمدة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:810
+#: frontend/src/sheet/components/SheetEditor/index.vue:812
 msgid "Insert slicer"
 msgstr "إدراج مقسِّم طرق العرض"
 
@@ -19341,8 +19360,8 @@ msgstr ""
 msgid "Is any numbering out of step?"
 msgstr "هل هناك ترقيم غير متسق؟"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1897
-#: frontend/src/sheet/components/SheetEditor/index.vue:4713
+#: frontend/src/sheet/components/SheetEditor/index.vue:1899
+#: frontend/src/sheet/components/SheetEditor/index.vue:4716
 msgid "Is empty"
 msgstr "فارغ"
 
@@ -19362,8 +19381,8 @@ msgstr "هل حسابي آمن؟"
 msgid "Is my account safe? Look at how I sign in and where I am signed in, and tell me what to do."
 msgstr "هل حسابي آمن؟ انظر كيف أسجّل الدخول وأين أنا مسجّل الدخول، وأخبرني ماذا أفعل."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1898
-#: frontend/src/sheet/components/SheetEditor/index.vue:4714
+#: frontend/src/sheet/components/SheetEditor/index.vue:1900
+#: frontend/src/sheet/components/SheetEditor/index.vue:4717
 msgid "Is not empty"
 msgstr "غير فارغ"
 
@@ -19637,7 +19656,7 @@ msgstr "سيؤدي ذلك إلى استبدال {0}."
 msgid "Italic"
 msgstr "مائل"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:210
+#: frontend/src/sheet/components/SheetEditor/index.vue:212
 msgid "Italic (Ctrl+I)"
 msgstr "مائل (Ctrl+I)"
 
@@ -19664,7 +19683,7 @@ msgstr "مائل (Ctrl+I)"
 #. Label of a Sidebar Item
 #: frontend/portal/src/pages/Rfq.vue:14 frontend/src/plant/PlantFloor.vue:62
 #: frontend/src/quotes/QuoteCompare.vue:5
-#: frontend/src/sheet/components/SheetEditor/index.vue:931
+#: frontend/src/sheet/components/SheetEditor/index.vue:933
 #: frontend/src/stock/StockOnHand.vue:23
 #: frontend/src/supplier/SupplierItems.vue:15
 #: frontend/src/to_order/ToOrderPage.vue:18
@@ -19885,7 +19904,7 @@ msgstr ""
 #: frontend/portal/src/pages/List.vue:23
 #: frontend/portal/src/pages/Record.vue:22 frontend/portal/src/pages/Rfq.vue:11
 #: frontend/src/lots/LotsPage.vue:109
-#: frontend/src/sheet/components/SheetEditor/index.vue:918
+#: frontend/src/sheet/components/SheetEditor/index.vue:920
 #: frontend/src/stock/StockOnHand.vue:153
 #: frontend/src/to_order/ToOrderPage.vue:140
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
@@ -20316,8 +20335,8 @@ msgstr "مجال النتائج الرئيسية"
 msgid "Key Result Areas"
 msgstr "مجالات النتائج الرئيسية"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:124
-#: frontend/src/sheet/components/SheetEditor/index.vue:1051
+#: frontend/src/sheet/components/SheetEditor/index.vue:126
+#: frontend/src/sheet/components/SheetEditor/index.vue:1053
 msgid "Keyboard shortcuts"
 msgstr "اختصارات لوحة المفاتيح"
 
@@ -20442,8 +20461,8 @@ msgstr "يعرف عن"
 msgid "Label"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:923
-#: frontend/src/sheet/components/SheetEditor/index.vue:928
+#: frontend/src/sheet/components/SheetEditor/index.vue:925
+#: frontend/src/sheet/components/SheetEditor/index.vue:930
 msgid "Label colour"
 msgstr "لون التسمية"
 
@@ -21312,17 +21331,17 @@ msgstr "مخصوم السلفة"
 msgid "Less Retention"
 msgstr "ناقص المحتجزات"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4707
+#: frontend/src/sheet/components/SheetEditor/index.vue:4710
 msgid "Less or equal"
 msgstr "أصغر من أو يساوي"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:952
-#: frontend/src/sheet/components/SheetEditor/index.vue:1896
-#: frontend/src/sheet/components/SheetEditor/index.vue:4705
+#: frontend/src/sheet/components/SheetEditor/index.vue:954
+#: frontend/src/sheet/components/SheetEditor/index.vue:1898
+#: frontend/src/sheet/components/SheetEditor/index.vue:4708
 msgid "Less than"
 msgstr "أصغر من"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:953
+#: frontend/src/sheet/components/SheetEditor/index.vue:955
 msgid "Less than or equal"
 msgstr "أصغر من أو يساوي"
 
@@ -21499,7 +21518,7 @@ msgstr "رمز الرابط"
 msgid "Link Shared"
 msgstr "رابط مشارك"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:889
+#: frontend/src/sheet/components/SheetEditor/index.vue:891
 msgid "Link URL"
 msgstr "عنوان URL للرابط"
 
@@ -21627,7 +21646,7 @@ msgstr "عرض كل من لم يُسجَّل"
 msgid "List Starts"
 msgstr "بداية القائمة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:909
+#: frontend/src/sheet/components/SheetEditor/index.vue:911
 msgid "List of items"
 msgstr "قائمة عناصر"
 
@@ -21759,7 +21778,7 @@ msgstr "تسجيل مكالمة"
 msgid "Log in to create a calendar link."
 msgstr "سجّل الدخول لإنشاء رابط تقويم."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1358
+#: frontend/src/sheet/components/SheetEditor/index.vue:1360
 msgid "Log out"
 msgstr "تسجيل الخروج"
 
@@ -22364,7 +22383,7 @@ msgstr "أنشئ قاعدة"
 msgid "Make a work order"
 msgstr "أنشئ أمر عمل"
 
-#: onedesk/one_sheet/api.py:102
+#: onedesk/one_sheet/api.py:106
 msgid "Make a workbook in OneCloud first."
 msgstr "أنشئ مصنفًا في OneCloud أولًا."
 
@@ -22588,7 +22607,7 @@ msgstr "تعليم كمقروء"
 msgid "Mark as unread"
 msgstr "تعليم كغير مقروء"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1091
+#: frontend/src/sheet/components/SheetEditor/index.vue:1093
 msgid "Mark resolved"
 msgstr "وضع علامة كمحلول"
 
@@ -22890,8 +22909,8 @@ msgstr "حالة الموضوع"
 
 #. Label in the One Quality Inspection print format
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:213
-#: frontend/src/sheet/components/SheetEditor/index.vue:970
-#: frontend/src/sheet/components/SheetEditor/index.vue:1198
+#: frontend/src/sheet/components/SheetEditor/index.vue:972
+#: frontend/src/sheet/components/SheetEditor/index.vue:1200
 #: onedesk/one_inventory/print_format/one_quality_inspection/one_quality_inspection.json
 msgid "Max"
 msgstr "الأعلى"
@@ -22900,7 +22919,7 @@ msgstr "الأعلى"
 msgid "Max Discount (%)"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1199
+#: frontend/src/sheet/components/SheetEditor/index.vue:1201
 msgid "Max colour"
 msgstr "لون الحد الأقصى"
 
@@ -22968,7 +22987,7 @@ msgstr "شهادة اللياقة الطبية"
 msgid "Medical Report"
 msgstr "تقرير طبي"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1855
+#: frontend/src/sheet/components/SheetEditor/index.vue:1857
 msgid "Medium"
 msgstr "متوسط"
 
@@ -23028,7 +23047,7 @@ msgstr "القائمة"
 msgid "Merge / unmerge"
 msgstr "دمج / إلغاء الدمج"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:278
+#: frontend/src/sheet/components/SheetEditor/index.vue:280
 msgid "Merge / unmerge cells"
 msgstr "دمج الخلايا / إلغاء دمجها"
 
@@ -23083,11 +23102,11 @@ msgstr ""
 msgid "Metres in One Unit"
 msgstr "عدد الأمتار في الوحدة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1194
+#: frontend/src/sheet/components/SheetEditor/index.vue:1196
 msgid "Mid"
 msgstr "الوسط"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1195
+#: frontend/src/sheet/components/SheetEditor/index.vue:1197
 msgid "Mid colour"
 msgstr "لون الوسط"
 
@@ -23126,13 +23145,13 @@ msgstr "المراحل الرئيسية"
 
 #. Label in the One Quality Inspection print format
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:212
-#: frontend/src/sheet/components/SheetEditor/index.vue:964
-#: frontend/src/sheet/components/SheetEditor/index.vue:1190
+#: frontend/src/sheet/components/SheetEditor/index.vue:966
+#: frontend/src/sheet/components/SheetEditor/index.vue:1192
 #: onedesk/one_inventory/print_format/one_quality_inspection/one_quality_inspection.json
 msgid "Min"
 msgstr "الأدنى"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1191
+#: frontend/src/sheet/components/SheetEditor/index.vue:1193
 msgid "Min colour"
 msgstr "لون الحد الأدنى"
 
@@ -23266,7 +23285,7 @@ msgstr "أموال مستلمة من العملاء ومدفوعة للمورد�
 msgid "Money somebody spent for work, paid back."
 msgstr "مال أنفقه أحدهم للعمل، يُسترد."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1791
+#: frontend/src/sheet/components/SheetEditor/index.vue:1793
 msgid "Mono"
 msgstr "أحادي المسافة"
 
@@ -23340,7 +23359,7 @@ msgid "Months Not Invoiced"
 msgstr "أشهر غير مفوترة"
 
 #: frontend/portal/src/App.vue:17
-#: frontend/src/sheet/components/SheetEditor/index.vue:299
+#: frontend/src/sheet/components/SheetEditor/index.vue:301
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:415
 #: onedesk/one_intake/page/intake/intake.js:30
 #: onedesk/public/js/project_actions.js:651
@@ -23411,11 +23430,11 @@ msgstr "نقل هذا الشريط إلى الأعلى"
 msgid "Move To"
 msgstr "نقل إلى"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:756
+#: frontend/src/sheet/components/SheetEditor/index.vue:758
 msgid "Move column left"
 msgstr "نقل العمود إلى اليسار"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:757
+#: frontend/src/sheet/components/SheetEditor/index.vue:759
 msgid "Move column right"
 msgstr "نقل العمود إلى اليمين"
 
@@ -23649,7 +23668,7 @@ msgstr "تسمية كل {0} جديد حسب {1}؟ تحتفظ السجلات ال
 msgid "Name for the copy"
 msgstr "اسم النسخة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:5294
+#: frontend/src/sheet/components/SheetEditor/index.vue:5297
 msgid "Name is empty or already used."
 msgstr "الاسم فارغ أو مستخدم بالفعل."
 
@@ -24210,7 +24229,7 @@ msgstr "يقرأ OneAI البريد الجديد في صندوق البريد ه
 msgid "New mail is not arriving. Reconnect it with its password."
 msgstr "البريد الجديد لا يصل. أعد ربطه بكلمة المرور."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:732
+#: frontend/src/sheet/components/SheetEditor/index.vue:734
 msgid "New name"
 msgstr "الاسم الجديد"
 
@@ -24690,7 +24709,7 @@ msgstr "لا يوجد رابط تقويم"
 msgid "No changes found in timings."
 msgstr "لم يتغير شيء في المواعيد."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1984
+#: frontend/src/sheet/components/SheetEditor/index.vue:1986
 msgid "No changes suggested for that."
 msgstr "لا توجد تغييرات مقترحة لذلك."
 
@@ -24794,7 +24813,7 @@ msgstr "لم تُسجَّل أي تعديلات لهذه الخلية بعد."
 msgid "No emails"
 msgstr "لا توجد رسائل"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1474
+#: frontend/src/sheet/components/SheetEditor/index.vue:1476
 msgid "No empty cells in the selection to fill."
 msgstr "لا توجد خلايا فارغة في التحديد لتعبئتها."
 
@@ -24822,8 +24841,8 @@ msgstr "لم يُرفع أي ملف."
 msgid "No files yet"
 msgstr "لا توجد ملفات بعد"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:235
-#: frontend/src/sheet/components/SheetEditor/index.vue:1173
+#: frontend/src/sheet/components/SheetEditor/index.vue:237
+#: frontend/src/sheet/components/SheetEditor/index.vue:1175
 msgid "No fill"
 msgstr "بلا تعبئة"
 
@@ -24959,7 +24978,7 @@ msgstr "لا توجد سجلات مطابقة"
 msgid "No matching templates"
 msgstr "لا توجد قوالب مطابقة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:594
+#: frontend/src/sheet/components/SheetEditor/index.vue:596
 msgid "No matching values"
 msgstr "لا توجد قيم مطابقة"
 
@@ -24988,7 +25007,7 @@ msgstr "لا توجد إصدارات مسمّاة بعد."
 msgid "No new mail is read from <b>{mailbox}</b> until it is connected again. Reconnect it from Settings › Mail."
 msgstr "لن يُقرأ بريد جديد من <b>{mailbox}</b> حتى يُعاد الاتصال به. أعد الاتصال من الإعدادات › البريد."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:420
+#: frontend/src/sheet/components/SheetEditor/index.vue:422
 msgid "No notes yet."
 msgstr "لا توجد ملاحظات بعد."
 
@@ -25560,7 +25579,7 @@ msgstr "لم يُجب بعد"
 msgid "Not at Cloudflare"
 msgstr "غير موجود لدى Cloudflare"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:949
+#: frontend/src/sheet/components/SheetEditor/index.vue:951
 msgid "Not between"
 msgstr "ليس بين"
 
@@ -25604,8 +25623,8 @@ msgstr "لم يُنجز بعد، وكان مطلوبًا منذ {0}."
 msgid "Not enough {0} for one"
 msgstr "لا يكفي {0} لقطعة واحدة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:955
-#: frontend/src/sheet/components/SheetEditor/index.vue:4709
+#: frontend/src/sheet/components/SheetEditor/index.vue:957
+#: frontend/src/sheet/components/SheetEditor/index.vue:4712
 msgid "Not equal to"
 msgstr "لا يساوي"
 
@@ -25633,6 +25652,10 @@ msgstr "خارج أنواع التكاليف"
 #: onedesk/public/js/intake.js:117
 msgid "Not in the document ({0})"
 msgstr "ليس في المستند ({0})"
+
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:209
+msgid "Not in the record yet: {0}"
+msgstr "لم يدخل السجل بعد: {0}"
 
 #: onedesk/one_inventory/heads.py:832
 msgid "Not in use; new work orders cannot pick it."
@@ -25826,7 +25849,7 @@ msgstr "رقم الإشعار"
 #. Label in the One Timesheet print format
 #. Label of the notes (Table) field in DocType 'Rua Import'
 #: frontend/portal/src/pages/Rfq.vue:78
-#: frontend/src/sheet/components/SheetEditor/index.vue:410
+#: frontend/src/sheet/components/SheetEditor/index.vue:412
 #: onedesk/one/portal.py:681
 #: onedesk/one_hr/print_format/one_leave_allocation/one_leave_allocation.json
 #: onedesk/one_inventory/print_format/one_bom_creator/one_bom_creator.json
@@ -25837,11 +25860,11 @@ msgstr "رقم الإشعار"
 msgid "Notes"
 msgstr "ملاحظات"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:114
+#: frontend/src/sheet/components/SheetEditor/index.vue:116
 msgid "Notes ({0}) — Shift+F2 to add"
 msgstr "الملاحظات ({0}) — Shift+F2 للإضافة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:114
+#: frontend/src/sheet/components/SheetEditor/index.vue:116
 msgid "Notes — Shift+F2 to add"
 msgstr "الملاحظات — Shift+F2 للإضافة"
 
@@ -26142,9 +26165,9 @@ msgstr "تذكير"
 #. Label of the number (Data) field in DocType 'Employee Document'
 #. Label in the One Serial and Batch Bundle print format
 #. Label in the One Stock Reservation Entry print format
-#: frontend/src/sheet/components/SheetEditor/index.vue:910
-#: frontend/src/sheet/components/SheetEditor/index.vue:1810
-#: frontend/src/sheet/components/SheetEditor/index.vue:2374
+#: frontend/src/sheet/components/SheetEditor/index.vue:912
+#: frontend/src/sheet/components/SheetEditor/index.vue:1812
+#: frontend/src/sheet/components/SheetEditor/index.vue:2376
 #: onedesk/one/portal.py:61 onedesk/one/portal.py:62
 #: onedesk/one/print_blocks.py:795
 #: onedesk/one_book/print_format/one_bank_transaction/one_bank_transaction.json
@@ -26165,7 +26188,7 @@ msgstr "تذكير"
 msgid "Number"
 msgstr "الرقم"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:179
+#: frontend/src/sheet/components/SheetEditor/index.vue:181
 msgid "Number format"
 msgstr "تنسيق الأرقام"
 
@@ -26178,7 +26201,7 @@ msgstr "رقّم الفواتير حسب السنة"
 msgid "Number of Shares"
 msgstr "عدد الأسهم"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1008
+#: frontend/src/sheet/components/SheetEditor/index.vue:1010
 msgid "Number of columns"
 msgstr "عدد الأعمدة"
 
@@ -26188,7 +26211,7 @@ msgstr "عدد الأعمدة"
 msgid "Number of distinct employees, and of check-ins each, before a Proposed network or location becomes Confirmed."
 msgstr "عدد الموظفين المختلفين، وعدد تسجيلات الحضور لكل منهم، قبل أن تصبح الشبكة أو الموقع المقترَح مؤكَّداً."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1008
+#: frontend/src/sheet/components/SheetEditor/index.vue:1010
 msgid "Number of rows"
 msgstr "عدد الصفوف"
 
@@ -27771,6 +27794,10 @@ msgstr "فتح موقع الملف"
 msgid "Open in Stripe"
 msgstr "فتح في Stripe"
 
+#: onedesk/public/js/table_workbook.js:25
+msgid "Open in a workbook"
+msgstr "افتح في مصنف"
+
 #: onedesk/www/welcome.html:27
 msgid "Open it"
 msgstr "افتحها"
@@ -28566,7 +28593,7 @@ msgstr "مهام متأخرة"
 msgid "Overdue · oldest {0} days"
 msgstr "متأخر · الأقدم {0} يومًا"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2445
+#: frontend/src/sheet/components/SheetEditor/index.vue:2447
 msgid "Overflow"
 msgstr "تجاوز"
 
@@ -29235,11 +29262,11 @@ msgstr "تجاوزت الساعات المتوقعة."
 msgid "Paste"
 msgstr "لصق"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:785
+#: frontend/src/sheet/components/SheetEditor/index.vue:787
 msgid "Paste formats only"
 msgstr "لصق التنسيقات فقط"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:786
+#: frontend/src/sheet/components/SheetEditor/index.vue:788
 msgid "Paste formulas only"
 msgstr "لصق الصيغ فقط"
 
@@ -29247,7 +29274,7 @@ msgstr "لصق الصيغ فقط"
 msgid "Paste into folder"
 msgstr "لصق في المجلد"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:784
+#: frontend/src/sheet/components/SheetEditor/index.vue:786
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:109
 msgid "Paste values only"
 msgstr "لصق القيم فقط"
@@ -29908,12 +29935,12 @@ msgstr "لكل مقعد"
 msgid "Per Workspace"
 msgstr "لكل مساحة عمل"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1813
-#: frontend/src/sheet/components/SheetEditor/index.vue:2374
+#: frontend/src/sheet/components/SheetEditor/index.vue:1815
+#: frontend/src/sheet/components/SheetEditor/index.vue:2376
 msgid "Percent"
 msgstr "نسبة مئوية"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:187
+#: frontend/src/sheet/components/SheetEditor/index.vue:189
 msgid "Percentage"
 msgstr "النسبة المئوية"
 
@@ -30322,7 +30349,7 @@ msgstr "مسار المبيعات"
 msgid "Pipeline Value"
 msgstr "قيمة خط المبيعات"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:522
+#: frontend/src/sheet/components/SheetEditor/index.vue:524
 msgid "Pivot table options"
 msgstr "خيارات الجدول المحوري"
 
@@ -30370,8 +30397,8 @@ msgstr "أعيد ترتيب الجميع بناءً على ما كتبته عن 
 msgid "Plaid Settings"
 msgstr "إعدادات Plaid"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1808
-#: frontend/src/sheet/components/SheetEditor/index.vue:2374
+#: frontend/src/sheet/components/SheetEditor/index.vue:1810
+#: frontend/src/sheet/components/SheetEditor/index.vue:2376
 msgid "Plain text"
 msgstr "نص عادي"
 
@@ -30815,7 +30842,7 @@ msgstr "معاينة"
 msgid "Preview pane"
 msgstr "جزء المعاينة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1031
+#: frontend/src/sheet/components/SheetEditor/index.vue:1033
 msgid "Preview:"
 msgstr "معاينة:"
 
@@ -31562,11 +31589,11 @@ msgstr ""
 msgid "Prospects Engaged But Not Converted"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:803
+#: frontend/src/sheet/components/SheetEditor/index.vue:805
 msgid "Protect range"
 msgstr "حماية النطاق"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:718
+#: frontend/src/sheet/components/SheetEditor/index.vue:720
 msgid "Protect sheet"
 msgstr "حماية الورقة"
 
@@ -32721,6 +32748,7 @@ msgstr "تمت إعادة الاتصال"
 #. Label of the record (Dynamic Link) field in DocType 'AI Touch'
 #. Label of the for_name (Dynamic Link) field in DocType 'Identifier'
 #. Label of the target_name (Dynamic Link) field in DocType 'Intake Action'
+#. Label of the bound_name (Dynamic Link) field in DocType 'Workbook'
 #. Label of the reference_name (Dynamic Link) field in DocType 'Cloud File
 #. Request'
 #. Label of the record_doctype (Link) field in DocType 'Extension'
@@ -32735,6 +32763,7 @@ msgstr "تمت إعادة الاتصال"
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/report/deadlines/deadlines.py:38
+#: onedesk/one_sheet/doctype/workbook/workbook.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_studio/ai.py:364
 #: onedesk/one_studio/doctype/extension/extension.json
@@ -32972,7 +33001,7 @@ msgstr "سلة المحذوفات"
 msgid "Redo"
 msgstr "إعادة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:251
+#: frontend/src/sheet/components/SheetEditor/index.vue:253
 msgid "Redo (Ctrl+Y)"
 msgstr "إعادة (Ctrl+Y)"
 
@@ -33196,7 +33225,7 @@ msgstr "رفض"
 msgid "Reject it? The check-in stays on the record and stops counting towards the day."
 msgstr "هل ترفضه؟ يبقى سجل الحضور محفوظاً ولا يُحتسب ضمن اليوم."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:985
+#: frontend/src/sheet/components/SheetEditor/index.vue:987
 msgid "Reject the input"
 msgstr "رفض الإدخال"
 
@@ -33384,7 +33413,7 @@ msgstr "الصور الخارجية مخفية."
 
 #: frontend/portal/src/parts/WebForm.vue:27
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:54
-#: frontend/src/sheet/components/SheetEditor/index.vue:895
+#: frontend/src/sheet/components/SheetEditor/index.vue:897
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:35
 #: onedesk/one/ai.py:1840 onedesk/one/page/masters/masters.js:232
 #: onedesk/public/js/oneai/Panel.vue:178 onedesk/public/js/onecloud.js:1251
@@ -33412,7 +33441,7 @@ msgstr "إزالة المستخدم"
 msgid "Remove access"
 msgstr "إزالة الوصول"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:934
+#: frontend/src/sheet/components/SheetEditor/index.vue:936
 msgid "Remove item"
 msgstr "إزالة العنصر"
 
@@ -33424,15 +33453,15 @@ msgstr "إزالة الرابط"
 msgid "Remove one {0}? This saves {1} a month and removes what it adds."
 msgstr "إزالة {0} واحد؟ يوفّر ذلك {1} شهريًا ويزيل ما يضيفه."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:804
+#: frontend/src/sheet/components/SheetEditor/index.vue:806
 msgid "Remove protection"
 msgstr "إزالة الحماية"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:994
+#: frontend/src/sheet/components/SheetEditor/index.vue:996
 msgid "Remove rule"
 msgstr "إزالة القاعدة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1064
+#: frontend/src/sheet/components/SheetEditor/index.vue:1066
 msgid "Remove slicer"
 msgstr "إزالة مقسِّم طرق العرض"
 
@@ -33489,8 +33518,8 @@ msgstr "إزالة العنوان"
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
 #: frontend/src/sheet/components/SheetEditor/VersionPreviewBanner.vue:37
-#: frontend/src/sheet/components/SheetEditor/index.vue:716
-#: frontend/src/sheet/components/SheetEditor/index.vue:737
+#: frontend/src/sheet/components/SheetEditor/index.vue:718
+#: frontend/src/sheet/components/SheetEditor/index.vue:739
 #: onedesk/one/ai.py:1826
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
@@ -33504,7 +33533,7 @@ msgstr "إعادة تسمية"
 msgid "Rename Conversation"
 msgstr "إعادة تسمية المحادثة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:730
+#: frontend/src/sheet/components/SheetEditor/index.vue:732
 msgid "Rename sheet"
 msgstr "إعادة تسمية الورقة"
 
@@ -33542,7 +33571,7 @@ msgstr "جدد {0} الخاص بـ {1}"
 msgid "Renews {0}"
 msgstr "يتجدد في {0}"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1091
+#: frontend/src/sheet/components/SheetEditor/index.vue:1093
 #: onedesk/public/js/onecloud.js:1648
 msgid "Reopen"
 msgstr ""
@@ -33689,7 +33718,7 @@ msgstr "تم الرد (%)"
 #. Option for the 'Asks To' (Select) field in DocType 'Reading Ask'
 #: frontend/src/project/Activity.vue:8
 #: frontend/src/project/ProjectActivity.vue:19
-#: frontend/src/sheet/components/SheetEditor/index.vue:1114
+#: frontend/src/sheet/components/SheetEditor/index.vue:1116
 #: onedesk/one_ai/chat.py:318
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
@@ -33710,7 +33739,7 @@ msgstr "رد على الكل"
 msgid "Reply saying…"
 msgstr "رد يقول…"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1110
+#: frontend/src/sheet/components/SheetEditor/index.vue:1112
 msgid "Reply…"
 msgstr "رد…"
 
@@ -34060,7 +34089,7 @@ msgstr "تاريخ الاستقالة"
 msgid "Resolution"
 msgstr "الحل"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1086
+#: frontend/src/sheet/components/SheetEditor/index.vue:1088
 msgid "Resolved"
 msgstr "تم الحل"
 
@@ -34596,6 +34625,10 @@ msgstr ""
 msgid "Row"
 msgstr ""
 
+#: onedesk/one_sheet/table.py:200
+msgid "Row {0}: {1}"
+msgstr "الصف {0}: {1}"
+
 #: onedesk/one_hr/doctype/employee_document/employee_document.py:20
 msgid "Row {0}: {1} expires before it was issued."
 msgstr "الصف {0}: تنتهي صلاحية {1} قبل تاريخ إصدارها."
@@ -34661,7 +34694,7 @@ msgstr "القاعدة"
 msgid "Rule added"
 msgstr "تمت إضافة القاعدة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1155
+#: frontend/src/sheet/components/SheetEditor/index.vue:1157
 msgid "Rule type"
 msgstr "نوع القاعدة"
 
@@ -34679,7 +34712,7 @@ msgstr "القواعد"
 msgid "Rules after this one are not tried on mail it matched."
 msgstr "لا تُجرَّب القواعد التالية على البريد الذي طابقته هذه."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1144
+#: frontend/src/sheet/components/SheetEditor/index.vue:1146
 msgid "Rules on this sheet"
 msgstr "القواعد في هذه الورقة"
 
@@ -35073,6 +35106,10 @@ msgstr "حفظ كقالب"
 msgid "Save before setting up Cloudflare."
 msgstr "احفظ قبل إعداد Cloudflare."
 
+#: onedesk/public/js/table_workbook.js:7
+msgid "Save this record first, so the workbook starts from what is saved."
+msgstr "احفظ هذا السجل أولًا، ليبدأ المصنف مما هو محفوظ."
+
 #: onedesk/public/js/onemail.js:487
 msgid "Save to My Files"
 msgstr "حفظ في ملفاتي"
@@ -35309,7 +35346,7 @@ msgstr "البحث في الحقول…"
 msgid "Search {0}"
 msgstr "البحث في {0}"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:574
+#: frontend/src/sheet/components/SheetEditor/index.vue:576
 msgid "Search…"
 msgstr "بحث…"
 
@@ -35378,7 +35415,7 @@ msgstr "تحديد"
 msgid "Select Checked-In Employees"
 msgstr "تحديد الموظفين المسجلين حضورهم"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:422
+#: frontend/src/sheet/components/SheetEditor/index.vue:424
 msgid "Select a cell and press"
 msgstr "حدّد خلية واضغط"
 
@@ -35387,8 +35424,8 @@ msgid "Select a record type first."
 msgstr "اختر نوع السجل أولًا."
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:450
-#: frontend/src/sheet/components/SheetEditor/index.vue:566
-#: frontend/src/sheet/components/SheetEditor/index.vue:1068
+#: frontend/src/sheet/components/SheetEditor/index.vue:568
+#: frontend/src/sheet/components/SheetEditor/index.vue:1070
 msgid "Select all"
 msgstr "تحديد الكل"
 
@@ -35412,7 +35449,7 @@ msgstr "اختر مجموعة واحدة"
 msgid "Select row"
 msgstr "تحديد الصف"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:566
+#: frontend/src/sheet/components/SheetEditor/index.vue:568
 msgid "Select shown"
 msgstr "تحديد المعروض"
 
@@ -35783,7 +35820,7 @@ msgstr "حُدّثت السلسلة"
 msgid "Series {0} already used in {1}"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1790
+#: frontend/src/sheet/components/SheetEditor/index.vue:1792
 msgid "Serif"
 msgstr "مذيّل"
 
@@ -36166,7 +36203,7 @@ msgstr "طوّع One لطريقة عملك بحقولك وأنواع سجلات�
 
 #. Label in the One Budget print format
 #. Label in the One Cost Center Allocation print format
-#: frontend/src/sheet/components/SheetEditor/index.vue:154
+#: frontend/src/sheet/components/SheetEditor/index.vue:156
 #: onedesk/one_book/print_format/one_budget/one_budget.json
 #: onedesk/one_book/print_format/one_cost_center_allocation/one_cost_center_allocation.json
 #: onedesk/public/js/onecloud.js:75 onedesk/public/js/onecloud.js:1233
@@ -36214,7 +36251,7 @@ msgstr "حصة من العقد"
 msgid "Share of the retention"
 msgstr "حصة من المحتجز"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:155
+#: frontend/src/sheet/components/SheetEditor/index.vue:157
 msgid "Share this sheet"
 msgstr "مشاركة هذه الورقة"
 
@@ -36222,7 +36259,7 @@ msgstr "مشاركة هذه الورقة"
 msgid "Share {0}"
 msgstr "مشاركة {0}"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:154
+#: frontend/src/sheet/components/SheetEditor/index.vue:156
 msgid "Share · {0}"
 msgstr "مشاركة · {0}"
 
@@ -36298,14 +36335,16 @@ msgstr "المشاركة"
 msgid "Sharing “{0}”"
 msgstr "مشاركة «{0}»"
 
+#. Label of the bound_sheet (Data) field in DocType 'Workbook'
 #. Label of the sub_sheet (Data) field in DocType 'Workbook Change'
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:19
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:51
+#: onedesk/one_sheet/doctype/workbook/workbook.json
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json
 msgid "Sheet"
 msgstr "الورقة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:732
+#: frontend/src/sheet/components/SheetEditor/index.vue:734
 msgid "Sheet name"
 msgstr "اسم الورقة"
 
@@ -36956,7 +36995,7 @@ msgstr "فاتورة ضريبية مبسطة"
 msgid "Since {0}"
 msgstr "منذ {0}"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4718
+#: frontend/src/sheet/components/SheetEditor/index.vue:4721
 msgid "Single colour rule"
 msgstr "قاعدة لون واحد"
 
@@ -37232,7 +37271,7 @@ msgstr "أعمال البناء الصغيرة"
 msgid "Smart Fill ({0})"
 msgstr "التعبئة الذكية ({0})"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1479
+#: frontend/src/sheet/components/SheetEditor/index.vue:1481
 msgid "Smart Fill could not run."
 msgstr "تعذّر تشغيل التعبئة الذكية."
 
@@ -37240,11 +37279,11 @@ msgstr "تعذّر تشغيل التعبئة الذكية."
 msgid "Smart Fill from examples"
 msgstr "تعبئة ذكية من الأمثلة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1475
+#: frontend/src/sheet/components/SheetEditor/index.vue:1477
 msgid "Smart Fill needs adjacent columns with source data."
 msgstr "تحتاج التعبئة الذكية إلى أعمدة مجاورة تحتوي على بيانات مصدر."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1472
+#: frontend/src/sheet/components/SheetEditor/index.vue:1474
 msgid "Smart Fill works on a single column at a time."
 msgstr "تعمل التعبئة الذكية على عمود واحد في كل مرة."
 
@@ -37423,7 +37462,7 @@ msgstr "شخص تقدّم."
 msgid "Somebody who got in touch, or somebody you want to reach."
 msgstr "شخص تواصل معك، أو شخص تريد الوصول إليه."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1100
+#: frontend/src/sheet/components/SheetEditor/index.vue:1102
 msgid "Someone"
 msgstr "شخص ما"
 
@@ -37456,7 +37495,7 @@ msgstr "شيء مَبيع تعطل، وهل يشمله الضمان."
 
 #: frontend/src/sheet/components/SheetEditor/AISettingsDialog.vue:100
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:206
-#: frontend/src/sheet/components/SheetEditor/index.vue:1986
+#: frontend/src/sheet/components/SheetEditor/index.vue:1988
 #: onedesk/www/error.py:20
 msgid "Something went wrong"
 msgstr "حدث خطأ ما"
@@ -37479,7 +37518,7 @@ msgstr "مكان لحفظ المخزون"
 msgid "Sort Key"
 msgstr "مفتاح الترتيب"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:533
+#: frontend/src/sheet/components/SheetEditor/index.vue:535
 msgid "Sort ascending"
 msgstr "فرز تصاعدي"
 
@@ -37499,7 +37538,7 @@ msgstr "الترتيب حسب الحجم"
 msgid "Sort by type"
 msgstr "الترتيب حسب النوع"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:534
+#: frontend/src/sheet/components/SheetEditor/index.vue:536
 msgid "Sort descending"
 msgstr "فرز تنازلي"
 
@@ -37609,7 +37648,7 @@ msgstr "تم الإنفاق بما يتجاوز الرصيد، لذا هو مس�
 msgid "Split between {0}"
 msgstr "مقسّم بين {0}"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:806
+#: frontend/src/sheet/components/SheetEditor/index.vue:808
 msgid "Split text to columns"
 msgstr "تقسيم النص إلى أعمدة"
 
@@ -38490,7 +38529,7 @@ msgstr "عنوان الشارع"
 msgid "Strikethrough"
 msgstr "يتوسطه خط"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:213
+#: frontend/src/sheet/components/SheetEditor/index.vue:215
 msgid "Strikethrough (Ctrl+Shift+X)"
 msgstr "يتوسطه خط (Ctrl+Shift+X)"
 
@@ -38836,7 +38875,7 @@ msgstr "الاقتراحات"
 msgid "Sum"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:709
+#: frontend/src/sheet/components/SheetEditor/index.vue:711
 msgid "Sum: {0}"
 msgstr "المجموع: {0}"
 
@@ -39206,7 +39245,7 @@ msgstr "متزامن عبر سلسلة مفاتيح iCloud أو مدير كلم�
 msgid "Syncing {0}…"
 msgstr "جارٍ مزامنة {0}…"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1792
+#: frontend/src/sheet/components/SheetEditor/index.vue:1794
 msgid "System"
 msgstr "النظام"
 
@@ -39251,11 +39290,17 @@ msgstr "الرقم الضريبي"
 msgid "TRN {0}"
 msgstr "رقم التسجيل الضريبي {0}"
 
+#: onedesk/one_sheet/table.py:118
+msgid "TRUE or FALSE."
+msgstr "TRUE أو FALSE."
+
 #: frontend/src/sheet/components/SheetEditor/SplitTextPopover.vue:65
 msgid "Tab"
 msgstr "علامة جدولة"
 
+#. Label of the bound_field (Data) field in DocType 'Workbook'
 #: frontend/src/project/ProjectPage.vue:164
+#: onedesk/one_sheet/doctype/workbook/workbook.json
 msgid "Table"
 msgstr "جدول"
 
@@ -40114,10 +40159,10 @@ msgstr "توليد النصوص"
 msgid "Text agreed to"
 msgstr "النص الموافق عليه"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:225
 #: frontend/src/sheet/components/SheetEditor/index.vue:227
-#: frontend/src/sheet/components/SheetEditor/index.vue:1165
+#: frontend/src/sheet/components/SheetEditor/index.vue:229
 #: frontend/src/sheet/components/SheetEditor/index.vue:1167
+#: frontend/src/sheet/components/SheetEditor/index.vue:1169
 msgid "Text colour"
 msgstr "لون النص"
 
@@ -40125,11 +40170,11 @@ msgstr "لون النص"
 msgid "Text document"
 msgstr "مستند نصي"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:911
+#: frontend/src/sheet/components/SheetEditor/index.vue:913
 msgid "Text length"
 msgstr "طول النص"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:264
+#: frontend/src/sheet/components/SheetEditor/index.vue:266
 msgid "Text wrapping"
 msgstr "التفاف النص"
 
@@ -40216,6 +40261,10 @@ msgstr "هذه {0} متغيّرات. أنشئ {1} على الأكثر في ال�
 #: onedesk/one_sheet/versions.py:209
 msgid "That isn't a cell."
 msgstr "هذه ليست خلية."
+
+#: onedesk/one_sheet/table.py:250
+msgid "That isn't a table on this record."
+msgstr "هذا ليس جدولًا في هذا السجل."
 
 #: onedesk/one_admin/signup.py:288
 msgid "That isn't on offer."
@@ -40565,6 +40614,10 @@ msgstr "آخر أربعة أحرف من الرمز، للتمييز بين ال�
 #: onedesk/one/custom/company.json
 msgid "The colour a letter head carries, in the company's name, its lines and a banner's band."
 msgstr "اللون الذي تحمله الترويسة، في اسم الشركة وخطوطها وشريط البانر."
+
+#: onedesk/one_sheet/table.py:184
+msgid "The column {0} isn't in the sheet any more. Undo, or open the workbook again from the record."
+msgstr "العمود {0} لم يعد في الورقة. تراجع، أو افتح المصنف مرة أخرى من السجل."
 
 #: onedesk/one_book/ready.py:184
 msgid "The company has no TRN, and a UAE tax invoice must show it."
@@ -41520,6 +41573,14 @@ msgstr "السعر بين عملتين في يوم معين."
 msgid "The record changed after this was suggested."
 msgstr "تغيّر السجل بعد تقديم هذا الاقتراح."
 
+#: onedesk/one_sheet/table.py:353
+msgid "The record didn't take this table."
+msgstr "لم يقبل السجل هذا الجدول."
+
+#: onedesk/one_sheet/table.py:358
+msgid "The record didn't take this table. The error is in the error log."
+msgstr "لم يقبل السجل هذا الجدول. الخطأ في سجل الأخطاء."
+
 #: onedesk/one/rules.py:212
 msgid "The record has no field {0}."
 msgstr "لا يحتوي السجل على الحقل {0}."
@@ -41596,6 +41657,10 @@ msgstr "رفض الخادم عنوان البريد الإلكتروني أو ك
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 msgid "The server's name or address."
 msgstr "اسم الخادم أو عنوانه."
+
+#: onedesk/one_sheet/table.py:179
+msgid "The sheet's hidden first column is gone. Undo, or open the workbook again from the record."
+msgstr "العمود الأول المخفي في الورقة اختفى. تراجع، أو افتح المصنف مرة أخرى من السجل."
 
 #. Description of the 'Archived For' (Int) field in DocType 'One Admin
 #. Settings'
@@ -42215,11 +42280,11 @@ msgstr "انضم في {joined}."
 msgid "They keep their price. Quota changes apply the next time they change their plan or add-ons."
 msgstr "يحتفظون بسعرهم. تُطبّق تغييرات الحصص في المرة القادمة التي يغيّرون فيها خطتهم أو إضافاتهم."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1856
+#: frontend/src/sheet/components/SheetEditor/index.vue:1858
 msgid "Thick"
 msgstr "سميك"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1854
+#: frontend/src/sheet/components/SheetEditor/index.vue:1856
 msgid "Thin"
 msgstr "رفيع"
 
@@ -42310,7 +42375,7 @@ msgstr "هذا الرمز غير صحيح أو انتهت صلاحيته."
 msgid "This copy is gone"
 msgstr "لم تعد هذه النسخة متاحة"
 
-#: onedesk/one_sheet/api.py:110
+#: onedesk/one_sheet/api.py:114
 msgid "This doesn't read as a workbook."
 msgstr "تعذّرت قراءة هذا كمصنف."
 
@@ -42489,7 +42554,7 @@ msgstr "سُجِّل مفتاح المرور هذا على متصفح مختلف
 msgid "This quotation can't be answered any more."
 msgstr "لم يعد بالإمكان الرد على عرض السعر هذا."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:3672
+#: frontend/src/sheet/components/SheetEditor/index.vue:3675
 msgid "This range is protected and can’t be edited"
 msgstr "هذا النطاق محمي ولا يمكن تحريره"
 
@@ -42536,7 +42601,7 @@ msgstr "رُفض هذا الطلب في {0}. اعتمده أولاً إن تغي
 msgid "This section could not be opened."
 msgstr "تعذّر فتح هذا القسم."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:3671
+#: frontend/src/sheet/components/SheetEditor/index.vue:3674
 msgid "This sheet is protected"
 msgstr "هذه الورقة محمية"
 
@@ -42565,6 +42630,10 @@ msgstr "هذا الموقع لا يدير مساحات العمل."
 msgid "This suggestion does not change how anything prints."
 msgstr "لا يغيّر هذا الاقتراح طريقة طباعة أي شيء."
 
+#: onedesk/one_sheet/table.py:257
+msgid "This table has no columns a sheet can hold."
+msgstr "لا يحتوي هذا الجدول على أعمدة يمكن أن تحملها ورقة."
+
 #: onedesk/www/welcome.html:29
 msgid "This takes a few minutes. This page updates by itself, and a link will be emailed to {0} when it is ready."
 msgstr "يستغرق ذلك بضع دقائق. تتحدّث هذه الصفحة تلقائيًا، وسيُرسل رابط إلى {0} عندما تصبح جاهزة."
@@ -42581,7 +42650,7 @@ msgstr "لا يحتوي هذا القالب على خصائص للاختيار �
 msgid "This upload expired. Try again."
 msgstr "انتهت صلاحية هذا الرفع. حاول مرة أخرى."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:978
+#: frontend/src/sheet/components/SheetEditor/index.vue:980
 msgid "This value is not allowed"
 msgstr "هذه القيمة غير مسموح بها"
 
@@ -42669,7 +42738,7 @@ msgstr "مساحة العمل هذه غير مرتبطة بـ OneAdmin، لذا 
 msgid "Those addresses aren't on this workspace."
 msgstr "هذه العناوين ليست على مساحة العمل هذه."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:188
+#: frontend/src/sheet/components/SheetEditor/index.vue:190
 msgid "Thousands separator"
 msgstr "فاصل الآلاف"
 
@@ -42738,8 +42807,8 @@ msgstr "نقطة البيع"
 #. Label in the One Timesheet print format
 #: frontend/portal/src/pages/Project.vue:96 frontend/src/home/HrStory.vue:20
 #: frontend/src/project/Overview.vue:293
-#: frontend/src/sheet/components/SheetEditor/index.vue:1830
-#: frontend/src/sheet/components/SheetEditor/index.vue:2372
+#: frontend/src/sheet/components/SheetEditor/index.vue:1832
+#: frontend/src/sheet/components/SheetEditor/index.vue:2374
 #: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_service_report/one_service_report.json
 #: onedesk/one_hr/attendance.py:15 onedesk/one_hr/home.py:22
@@ -42809,7 +42878,7 @@ msgstr "تم تسجيل الوقت"
 msgid "Time on a job card is added to what was made, against {0}."
 msgstr "يُضاف الوقت في بطاقة العمل إلى قيمة المصنوع، مقابل {0}."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2372
+#: frontend/src/sheet/components/SheetEditor/index.vue:2374
 msgid "Time · {0}"
 msgstr "وقت · {0}"
 
@@ -43186,7 +43255,7 @@ msgstr "أحداث اليوم"
 msgid "Today's Tasks"
 msgstr "مهام اليوم"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:260
+#: frontend/src/sheet/components/SheetEditor/index.vue:262
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:73
 msgid "Toggle filter"
 msgstr "تبديل التصفية"
@@ -43528,7 +43597,7 @@ msgstr "التتبع بالدفعة أو الرقم التسلسلي"
 msgid "Tracking"
 msgstr "التتبع"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4731
+#: frontend/src/sheet/components/SheetEditor/index.vue:4734
 msgid "Traffic lights"
 msgstr "إشارات المرور"
 
@@ -43938,7 +44007,7 @@ msgstr "تسجيل الدخول بخطوتين"
 #. Label in the One Stock Entry print format
 #. Label of the fieldtype (Data) field in DocType 'Workspace Field'
 #: frontend/src/plant/PlantFloor.vue:14 frontend/src/project/TaskPanel.vue:120
-#: frontend/src/sheet/components/SheetEditor/index.vue:906
+#: frontend/src/sheet/components/SheetEditor/index.vue:908
 #: frontend/src/task/TaskPage.vue:237 onedesk/one/portal.py:65
 #: onedesk/one/print_blocks.py:61 onedesk/one/print_blocks.py:100
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
@@ -44109,7 +44178,7 @@ msgstr "تحت العنوان"
 msgid "Underline"
 msgstr "تسطير"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:211
+#: frontend/src/sheet/components/SheetEditor/index.vue:213
 msgid "Underline (Ctrl+U)"
 msgstr "تسطير (Ctrl+U)"
 
@@ -44133,7 +44202,7 @@ msgstr "فُهم في"
 msgid "Undo"
 msgstr "تراجع"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:250
+#: frontend/src/sheet/components/SheetEditor/index.vue:252
 msgid "Undo (Ctrl+Z)"
 msgstr "تراجع (Ctrl+Z)"
 
@@ -44171,24 +44240,24 @@ msgstr "تم التراجع عنه {0} مرات من قبل لهذا الطرف.
 msgid "Unfollow"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:799
+#: frontend/src/sheet/components/SheetEditor/index.vue:801
 msgid "Unfreeze cols"
 msgstr "إلغاء تجميد الأعمدة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:764
+#: frontend/src/sheet/components/SheetEditor/index.vue:766
 msgid "Unfreeze columns"
 msgstr "إلغاء تجميد الأعمدة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:779
-#: frontend/src/sheet/components/SheetEditor/index.vue:797
+#: frontend/src/sheet/components/SheetEditor/index.vue:781
+#: frontend/src/sheet/components/SheetEditor/index.vue:799
 msgid "Unfreeze rows"
 msgstr "إلغاء تجميد الصفوف"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:761
+#: frontend/src/sheet/components/SheetEditor/index.vue:763
 msgid "Unhide all columns"
 msgstr "إظهار كل الأعمدة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:776
+#: frontend/src/sheet/components/SheetEditor/index.vue:778
 msgid "Unhide all rows"
 msgstr "إظهار كل الصفوف"
 
@@ -44376,7 +44445,7 @@ msgstr "إجازة غير مدفوعة"
 msgid "Unparsed Pricing"
 msgstr "أسعار لم تُقرأ"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:718
+#: frontend/src/sheet/components/SheetEditor/index.vue:720
 msgid "Unprotect sheet"
 msgstr "إلغاء حماية الورقة"
 
@@ -44443,10 +44512,10 @@ msgstr "حتى {0}"
 msgid "Untitled"
 msgstr "بلا عنوان"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1345
-#: frontend/src/sheet/components/SheetEditor/index.vue:1680
-#: frontend/src/sheet/components/SheetEditor/index.vue:3463
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:72
+#: frontend/src/sheet/components/SheetEditor/index.vue:1347
+#: frontend/src/sheet/components/SheetEditor/index.vue:1682
+#: frontend/src/sheet/components/SheetEditor/index.vue:3466
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:77
 msgid "Untitled Sheet"
 msgstr "جدول بلا عنوان"
 
@@ -44880,9 +44949,9 @@ msgstr ""
 #. Label of the value (Data) field in DocType 'Identifier'
 #. Label in the One Asset Capitalization print format
 #. Label in the One Shipment print format
-#: frontend/src/sheet/components/SheetEditor/index.vue:611
-#: frontend/src/sheet/components/SheetEditor/index.vue:964
-#: frontend/src/sheet/components/SheetEditor/index.vue:1161
+#: frontend/src/sheet/components/SheetEditor/index.vue:613
+#: frontend/src/sheet/components/SheetEditor/index.vue:966
+#: frontend/src/sheet/components/SheetEditor/index.vue:1163
 #: onedesk/one/automations.py:121
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
@@ -44909,11 +44978,11 @@ msgstr "تغير القيمة"
 msgid "Value by Asset Category"
 msgstr "القيمة حسب فئة الأصل"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:3235
+#: frontend/src/sheet/components/SheetEditor/index.vue:3238
 msgid "Value flagged by data validation rule"
 msgstr "القيمة مُعلَّمة بقاعدة التحقق من صحة البيانات"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:3223
+#: frontend/src/sheet/components/SheetEditor/index.vue:3226
 msgid "Value rejected by data validation rule"
 msgstr "رُفضت القيمة بقاعدة التحقق من صحة البيانات"
 
@@ -44923,12 +44992,12 @@ msgstr "مقيّم بطريقة {0}"
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:77
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:84
-#: frontend/src/sheet/components/SheetEditor/index.vue:547
+#: frontend/src/sheet/components/SheetEditor/index.vue:549
 #: onedesk/one/masters.py:47
 msgid "Values"
 msgstr "القيم"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1229
+#: frontend/src/sheet/components/SheetEditor/index.vue:1231
 msgid "Values are split into three equal buckets across the range."
 msgstr "تُقسَّم القيم إلى ثلاث فئات متساوية عبر النطاق."
 
@@ -44946,7 +45015,7 @@ msgstr "القيم، مفصولة بفواصل"
 msgid "Variable"
 msgstr "متغير"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1187
+#: frontend/src/sheet/components/SheetEditor/index.vue:1189
 msgid "Variant"
 msgstr "النوع"
 
@@ -45043,7 +45112,7 @@ msgid "Version"
 msgstr "الإصدار"
 
 #: frontend/src/sheet/components/SheetEditor/VersionHistory.vue:5
-#: frontend/src/sheet/components/SheetEditor/index.vue:122
+#: frontend/src/sheet/components/SheetEditor/index.vue:124
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:113
 msgid "Version history"
 msgstr "سجل الإصدارات"
@@ -45129,7 +45198,7 @@ msgstr "عرض مساحات العمل"
 msgid "View and Pay"
 msgstr "عرض ودفع"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:82
+#: frontend/src/sheet/components/SheetEditor/index.vue:84
 msgid "View only"
 msgstr "عرض فقط"
 
@@ -47665,7 +47734,7 @@ msgstr "عندما يتجاوز الوقت المسجّل على اشتراك س
 msgid "When the time or the place of an event you are on changes."
 msgstr "حين يتغير وقت أو مكان حدث أنت مدعو إليه."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:983
+#: frontend/src/sheet/components/SheetEditor/index.vue:985
 msgid "When the value is invalid"
 msgstr "عندما تكون القيمة غير صالحة"
 
@@ -49409,7 +49478,7 @@ msgstr "ما يجدر معرفته قبل الاتصال"
 msgid "Worth weighing"
 msgstr "يستحق النظر"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2447
+#: frontend/src/sheet/components/SheetEditor/index.vue:2449
 msgid "Wrap"
 msgstr "التفاف"
 
@@ -49839,7 +49908,7 @@ msgstr "لديك عطلات قادمة"
 msgid "You have unsaved changes. Leave anyway?"
 msgstr "لديك تغييرات غير محفوظة. هل تريد المغادرة على أي حال؟"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:81
+#: frontend/src/sheet/components/SheetEditor/index.vue:83
 msgid "You have view access. Ask the owner for edit access to make changes."
 msgstr "لديك صلاحية العرض. اطلب من المالك صلاحية التحرير لإجراء تغييرات."
 
@@ -50536,7 +50605,7 @@ msgstr "صوت"
 msgid "auto"
 msgstr "تلقائي"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4865
+#: frontend/src/sheet/components/SheetEditor/index.vue:4868
 msgid "between {0} and {1}"
 msgstr "بين {0} و{1}"
 
@@ -50646,7 +50715,7 @@ msgstr "العنوان الحالي"
 msgid "database"
 msgstr "قاعدة البيانات"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1035
+#: frontend/src/sheet/components/SheetEditor/index.vue:1037
 msgid "decimal"
 msgstr "الفاصلة العشرية"
 
@@ -50666,7 +50735,7 @@ msgstr "مستند"
 msgid "document number"
 msgstr "رقم الوثيقة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1036
+#: frontend/src/sheet/components/SheetEditor/index.vue:1038
 msgid "e.g."
 msgstr "مثلًا"
 
@@ -50678,8 +50747,8 @@ msgstr "مثلًا الإيرادات"
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:29
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:28
 #: frontend/src/sheet/components/SheetEditor/SplitTextPopover.vue:34
-#: frontend/src/sheet/components/SheetEditor/index.vue:1161
 #: frontend/src/sheet/components/SheetEditor/index.vue:1163
+#: frontend/src/sheet/components/SheetEditor/index.vue:1165
 msgid "e.g. {0}"
 msgstr "مثلًا {0}"
 
@@ -50748,7 +50817,7 @@ msgstr "من {0} إلى {1}"
 msgid "from {0}, with no end date"
 msgstr "من {0}، دون تاريخ انتهاء"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:310
+#: frontend/src/sheet/components/SheetEditor/index.vue:312
 msgid "fx"
 msgstr "fx"
 
@@ -50843,7 +50912,7 @@ msgstr "لم يعد ممكنًا قراءة سعره"
 msgid "jane@example.com"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4478
+#: frontend/src/sheet/components/SheetEditor/index.vue:4481
 msgid "just now"
 msgstr "الآن"
 
@@ -50876,7 +50945,7 @@ msgstr "لاحقًا"
 msgid "left early"
 msgstr "انصرف مبكراً"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1035
+#: frontend/src/sheet/components/SheetEditor/index.vue:1037
 msgid "literal."
 msgstr "نص حرفي."
 
@@ -50922,7 +50991,7 @@ msgstr "يمكنه الآن {0}"
 msgid "milestone"
 msgstr "محطة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:628
+#: frontend/src/sheet/components/SheetEditor/index.vue:630
 msgid "more rows at the bottom"
 msgstr "صفوف إضافية في الأسفل"
 
@@ -51106,7 +51175,7 @@ msgstr "فُتح {0} مرات"
 msgid "optional"
 msgstr "اختياري"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1034
+#: frontend/src/sheet/components/SheetEditor/index.vue:1036
 msgid "optional digit"
 msgstr "رقم اختياري"
 
@@ -51139,7 +51208,7 @@ msgstr "أخرى"
 msgid "output"
 msgstr "مخرجات"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1034
+#: frontend/src/sheet/components/SheetEditor/index.vue:1036
 msgid "padded digit"
 msgstr "رقم مع حشو بالأصفار"
 
@@ -51155,7 +51224,7 @@ msgstr "الصفحات {0}–{1}"
 msgid "password"
 msgstr "كلمة مرور"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1035
+#: frontend/src/sheet/components/SheetEditor/index.vue:1037
 msgid "percent"
 msgstr "نسبة مئوية"
 
@@ -51265,7 +51334,7 @@ msgstr "sections ليست JSON: {0}."
 msgid "shared it with {0}"
 msgstr "شاركه مع {0}"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:335
+#: frontend/src/sheet/components/SheetEditor/index.vue:337
 msgid "sheet"
 msgstr "ورقة"
 
@@ -51332,7 +51401,7 @@ msgstr "الرقم الضريبي"
 
 #. Option for the 'Modality' (Select) field in DocType 'AI Model Rate'
 #. Option for the 'Linked By' (Select) field in DocType 'Communication Link'
-#: frontend/src/sheet/components/SheetEditor/index.vue:1035
+#: frontend/src/sheet/components/SheetEditor/index.vue:1037
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 #: onedesk/one_mail/custom/communication_link.json
 msgid "text"
@@ -51454,7 +51523,7 @@ msgstr "تعذّر تفريغ هذا الجزء"
 msgid "this sheet doesn’t exist"
 msgstr "هذا الجدول غير موجود"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1034
+#: frontend/src/sheet/components/SheetEditor/index.vue:1036
 msgid "thousands"
 msgstr "الآلاف"
 
@@ -51577,6 +51646,10 @@ msgstr "حذف بياناتك"
 #: onedesk/one/portal_invite.py:46
 msgid "your quotations, orders and invoices"
 msgstr "عروض الأسعار والطلبات والفواتير الخاصة بك"
+
+#: onedesk/one_sheet/table.py:342
+msgid "{0} (and {1} more)"
+msgstr "{0} (و{1} غيرها)"
 
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:86
 msgid "{0} (changed)"
@@ -51999,6 +52072,10 @@ msgstr "تغيّر {0} بعد اقتراح هذا، فلم يعد ينطبق."
 #: onedesk/one/linked.py:270
 msgid "{0} changed in this save. Save it first, then edit what it links to."
 msgstr "تغيّر {0} في هذا الحفظ. احفظه أولًا، ثم حرر ما يرتبط به."
+
+#: onedesk/one_sheet/table.py:334
+msgid "{0} changed on the record since this sheet last matched it. Open the workbook again from the record to bring it in."
+msgstr "تغيّر {0} في السجل منذ آخر مرة طابقته هذه الورقة. افتح المصنف مرة أخرى من السجل لجلب التغييرات."
 
 #: onedesk/one_ai/run.py:458
 msgid "{0} changed this since you opened it. Close it and open it again."
@@ -52484,6 +52561,10 @@ msgstr "{0} مفوتر"
 #: frontend/src/project/Invoices.vue:110
 msgid "{0} invoices"
 msgstr "{0} فواتير"
+
+#: onedesk/one_sheet/table.py:82
+msgid "{0} is TRUE or FALSE."
+msgstr "{0} قيمته TRUE أو FALSE."
 
 #: onedesk/one_admin/hosts.py:111
 msgid "{0} is a One address and can't be added."
@@ -53104,7 +53185,7 @@ msgstr "{0} أشهر"
 #: frontend/src/home/BooksHome.vue:175 frontend/src/home/CrmHome.vue:194
 #: frontend/src/home/HrHome.vue:212 frontend/src/home/InventoryHome.vue:194
 #: frontend/src/project/ProjectActivity.vue:40
-#: frontend/src/sheet/components/SheetEditor/index.vue:701
+#: frontend/src/sheet/components/SheetEditor/index.vue:703
 msgid "{0} more"
 msgstr "{0} أخرى"
 
@@ -53112,7 +53193,7 @@ msgstr "{0} أخرى"
 msgid "{0} more on order"
 msgstr "{0} إضافية قيد الطلب"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:145
+#: frontend/src/sheet/components/SheetEditor/index.vue:147
 msgid "{0} more people"
 msgstr "{0} أشخاص آخرين"
 
@@ -53128,9 +53209,25 @@ msgstr "نُقل {0} من {1} إلى المحتجزات."
 msgid "{0} moved from {1} to {2}."
 msgstr "نُقل {0} من {1} إلى {2}."
 
+#: onedesk/one_sheet/table.py:101
+msgid "{0} must be a date, such as 2026-10-21."
+msgstr "يجب أن يكون {0} تاريخًا، مثل 2026-10-21."
+
+#: onedesk/one_sheet/table.py:89
+msgid "{0} must be a number."
+msgstr "يجب أن يكون {0} رقمًا."
+
+#: onedesk/one_sheet/table.py:91
+msgid "{0} must be a whole number."
+msgstr "يجب أن يكون {0} عددًا صحيحًا."
+
 #: onedesk/one_intake/keep.py:48
 msgid "{0} must be kept by law until {1}."
 msgstr "يجب الاحتفاظ بـ {0} قانونًا حتى {1}."
+
+#: onedesk/one_sheet/table.py:103
+msgid "{0} must be one of: {1}."
+msgstr "يجب أن يكون {0} أحد: {1}."
 
 #: onedesk/one/head.py:177
 msgid "{0} names the measure {1}, which no module has."
@@ -53905,7 +54002,7 @@ msgstr "{0} × {1}"
 msgid "{0} – running"
 msgstr "{0} – جارٍ"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:137
+#: frontend/src/sheet/components/SheetEditor/index.vue:139
 msgid "{0} — on {1}"
 msgstr "{0} — في {1}"
 
@@ -54214,11 +54311,11 @@ msgstr "{0}؛ لا يُنتظر عليه شيء آخر."
 msgid "{0}; nothing more will be made on it."
 msgstr "{0}؛ لن يُصنع عليه شيء آخر."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4480
+#: frontend/src/sheet/components/SheetEditor/index.vue:4483
 msgid "{0}h ago"
 msgstr "قبل {0} س"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4479
+#: frontend/src/sheet/components/SheetEditor/index.vue:4482
 msgid "{0}m ago"
 msgstr "قبل {0} د"
 

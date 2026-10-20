@@ -74,6 +74,8 @@
           />
         </template>
         <Badge v-if="protectionNotice" theme="gray" variant="subtle" size="sm" :label="protectionNotice" :tooltip="protectionNotice" />
+        <!-- One: why the record refused its table (one_sheet/table.py). -->
+        <Badge v-if="tableNotice" theme="orange" variant="subtle" size="sm" class="sn-table-notice" :label="tableNotice" :tooltip="tableNotice" />
         <!-- View-only indicator — shown up front so a viewer knows they can't
              edit before they try. Neutral gray (not an error) because read
              access is expected, not a failure. Uses the Frappe UI Badge so it
@@ -2454,7 +2456,7 @@ const textWrapDropdownOptions = computed(() => [
 // fallbacks only cover the impossible window where someone saves before
 // useSheetTabs has finished initializing.
 let _sheetTabs = null
-const { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave } =
+const { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice } =
   usePersistence({
     sheet, formats, merge, comments, validation, protection, condFormat, sortFilter, slicers, pivot,
     charts, namedRanges,
@@ -2464,6 +2466,7 @@ const { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCre
       else                         grid?.viewRestore?.(s)
     },
     currentTitle, emit,
+    onTable: () => { grid?.render(); isDirty.value = true }, // One: the record's cells came back
   })
 
 // View-only mode: the loaded sheet is shared with the current user at read

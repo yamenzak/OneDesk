@@ -5,11 +5,12 @@ import { call }                  from '../../utils/api.js'
 import { __ } from '../../../kit/desk'
 import { encodeForUpload, isDecompressionSupported, decodeFromDownload } from '../../utils/compress.js'
 import { packSheet, packSheetChunked, unpackSheet, boundsOf } from '../../utils/sheet-codec.js'
+import { tableValues, takeBack } from '../../shim/table.js' // One: a record's table
 
 // `merge` and the view-state getters/setters are optional — they were missing
 // from earlier versions and their absence caused merged cells / column widths /
 // freeze panes / hidden cols/rows to silently disappear after every save.
-export function usePersistence({ sheet, formats, merge, comments, validation, protection, condFormat, sortFilter, slicers, pivot, charts, namedRanges, getViewState, applyViewState, currentTitle, emit }) {
+export function usePersistence({ sheet, formats, merge, comments, validation, protection, condFormat, sortFilter, slicers, pivot, charts, namedRanges, getViewState, applyViewState, currentTitle, emit, onTable }) {
   const isSaving  = ref(false)
   const saveError = ref('')
   // Write permission for the currently-loaded sheet, from get_sheet's `can_write`.
@@ -25,6 +26,9 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
   // editor so it can render a proper error screen instead of mounting a
   // blank canvas. Shape: { kind: 'denied' | 'missing' | 'other', message }.
   const loadError = ref(null)
+  // One: the record's table this workbook's first sheet is (one_sheet/table.py), and why the record last refused it.
+  const bound = ref(null)
+  const tableNotice = ref('')
 
   async function loadSheet(name) {
     loadError.value = null
@@ -54,6 +58,7 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
       // never lock out an editor on a stale server.
       canWrite.value = doc.can_write !== false
       sheetOwner.value = doc.owner || ''
+      bound.value = doc.table || null // One
     } catch (err) {
       console.error('Load failed:', err)
       const t = err?.excType || ''
@@ -143,6 +148,7 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
         request_id: crypto.randomUUID(),
         ...(name ? { name } : {}),
         ...(ops && ops.length ? { ops: JSON.stringify(ops) } : {}),
+        ...(name && bound.value ? { table: tableValues(sheet, bound.value) || '' } : {}), // One
       }
     } catch (err) {
       isSaving.value = false
@@ -177,6 +183,7 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
           // First success clears any sticky error from a previous failure.
           saveError.value = ''
           _lastSaveArgs   = null
+          if (result?.table) _tookTable(result.table) // One
           return typeof result === 'string' ? result : result?.name
         } catch (err) {
           lastErr = err
@@ -196,5 +203,12 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
     }
   }
 
-  return { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave }
+  // One: the record took the sheet (write back its ids and what it worked
+  // out, then save again) or refused it (say why; the workbook itself saved).
+  function _tookTable(said) {
+    tableNotice.value = said.ok === false ? __('Not in the record yet: {0}', [said.message]) : ''
+    if (said.ok !== false && takeBack(sheet, bound.value, said.cells)) onTable?.()
+  }
+
+  return { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice }
 }

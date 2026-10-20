@@ -70,6 +70,33 @@ question costs credits like any other OneAI request, and Ask is there only
 when OneAI is on for the workspace. Somebody who may only read the workbook
 can't ask.
 
+## A record's table in a workbook
+
+Under every table on a saved record, beside **Add row**, is **Open in a
+workbook**. The first time, it makes a workbook attached to the record (it
+lists in the record's Files) whose first sheet is the table: a line for
+each row, a column for each column the table shows on the form. After that
+the same button opens the same workbook.
+
+- Change a cell, add a line or delete one, and the record saves itself
+  with it a moment later, the way typing saves the workbook. Amounts,
+  totals and anything else the record works out come back into the sheet.
+- A new line needs only what the record can't work out for itself, such as
+  the item; the rest fills in when it saves.
+- The record checks everything as if you had typed it on the form. When it
+  refuses (an item that doesn't exist, a quantity of nothing), the reason
+  shows at the top beside the name, and the record keeps what it had until
+  the sheet is right.
+- A formula is fine anywhere in the first sheet: the record gets what the
+  formula comes to. The other sheets are yours, and the first can read
+  them: `=Rates!B4`.
+- The header and the columns the record works out are locked. A list
+  column offers its choices.
+- When somebody changes the table on the form while the workbook is open,
+  the workbook stops sending and says so. Open it again from the record and
+  the first sheet is drawn again from the table; the other sheets stay.
+- Once the record is submitted, the first sheet can only be read.
+
 ## Who can open it
 
 The same people who can open the file in OneCloud. Your own files are yours
@@ -79,12 +106,16 @@ whoever can open that folder. Somebody who may read it but not change it sees
 
 ## What is not built yet
 
-- Filling a record's table from a workbook, or opening one in a workbook.
+- A record's table changed on its form doesn't reach a workbook that is
+  already open; opening it again does.
+- Fields a table doesn't show in its list on the form, beyond the required
+  ones, aren't columns.
 
 ## Connections
 
 - **From OneCloud**: A workbook is made, kept, moved, copied, shared and deleted in OneCloud, and opens from it.
 - **To OneCloud**: A workbook lists in its folder with the other files, and its history goes with it to the Recycle Bin.
+
 
 ## Under the hood
 
@@ -165,6 +196,44 @@ most 200 of them, and drops the rest. Nothing is written on the server: the
 editor applies the cells as one undoable edit and saves them like typing,
 so live co-editing and history see them too. `boot.ai_assist_enabled` shows
 the bar only when OneAI is on and the account is set up.
+
+### A record's table, `table.py`
+
+`open_table` makes a Workbook with `bound_doctype`, `bound_name`,
+`bound_field` and `bound_sheet` set, behind a File attached to the record,
+so who may open or save it is who may read or write the record
+(`namespace.may` already answers attached files that way). `columns` takes
+the child table's list-view and required fields, at most 20, with the row
+`name` first; their headers are stored in `bound_columns` once, so the
+sheet is read by the headers it was drawn with whatever language the next
+person reads in. `laid` draws the sheet: the row ids in a hidden first
+column, the header frozen, the header, id and worked-out columns (read
+only, or fetched) protected, a list rule on Select columns and a number
+rule on number columns for 200 lines past the end.
+
+The browser works formulas out, so a save of a bound workbook also sends
+the bound sheet's values (`shim/table.js`); `save_sheet` stores the
+workbook as always, then `apply` reads the values into the table. Columns
+are found by their header, so moving one or putting your own column
+between them changes nothing. `taken` checks each value against its field
+type before the record sees it; a line with nothing typed is skipped; a
+line whose id is a row keeps that row, every field the sheet doesn't show
+included, and a row no line names is removed. When anything differs, the
+record is saved with `doc.save()` under a savepoint, so its validation,
+links, server scripts and totals all run; a refusal rolls back to the
+savepoint and its message goes back to the editor (`tableNotice`), and the
+workbook's own save stands. `back` answers the cells the sheet should take:
+the ids of new rows, the worked-out columns, what the record filled where
+the sheet was empty. The editor writes them through the engine, so
+co-editors see them too, and saves again; that save finds nothing to do.
+
+The hidden header holds `fingerprint`, a hash of the table as the sheet
+last matched it (its rows, the shown values, and whether it is
+submitted). A sheet whose mark doesn't match the record is refused, so a
+row somebody added on the form is never deleted by a sheet that never saw
+it; `refresh`, on every opening, draws the bound sheet again when the
+marks differ and keeps the other sheets and the column widths. A copy of
+the File is a plain workbook.
 
 ### History, `versions.py`
 

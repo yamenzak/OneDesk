@@ -926,6 +926,7 @@ app_include_js = [
 	"/assets/onedesk/js/calendar_link.js",
 	"/assets/onedesk/js/record_tabs.js",
 	"/assets/onedesk/js/record_files.js",
+	"/assets/onedesk/js/table_workbook.js",
 	"/assets/onedesk/js/extension_errors.js",
 	"/assets/onedesk/js/record_mail.js",
 	"/assets/onedesk/js/record_activity.js",

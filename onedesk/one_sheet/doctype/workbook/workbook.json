@@ -7,13 +7,18 @@
  "editable_grid": 0,
  "engine": "InnoDB",
  "naming_rule": "Random",
- "description": "A spreadsheet's content, behind the File that puts it in OneCloud. Opened and saved only through one_sheet/api.py, which asks OneCloud whether the reader may.",
+ "description": "A spreadsheet's content, behind the File that puts it in OneCloud. Opened and saved only through one_sheet/api.py, which asks OneCloud whether the reader may. A workbook bound to a record's table (one_sheet/table.py) names it in the bound fields.",
  "field_order": [
   "title",
   "file",
   "sheets_data",
   "byte_size",
-  "head_seq"
+  "head_seq",
+  "bound_doctype",
+  "bound_name",
+  "bound_field",
+  "bound_sheet",
+  "bound_columns"
  ],
  "fields": [
   {
@@ -47,11 +52,44 @@
    "fieldtype": "Int",
    "label": "Head",
    "read_only": 1
+  },
+  {
+   "fieldname": "bound_doctype",
+   "fieldtype": "Link",
+   "label": "Bound To",
+   "options": "DocType",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "bound_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Record",
+   "options": "bound_doctype",
+   "read_only": 1
+  },
+  {
+   "fieldname": "bound_field",
+   "fieldtype": "Data",
+   "label": "Table",
+   "read_only": 1
+  },
+  {
+   "fieldname": "bound_sheet",
+   "fieldtype": "Data",
+   "label": "Sheet",
+   "read_only": 1
+  },
+  {
+   "fieldname": "bound_columns",
+   "fieldtype": "JSON",
+   "label": "Columns",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-20 14:00:00.000000",
+ "modified": "2026-10-20 18:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Sheet",
  "name": "Workbook",

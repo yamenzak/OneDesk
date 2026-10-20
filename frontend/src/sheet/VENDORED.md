@@ -33,8 +33,8 @@ Each is marked `One:` in the file.
 
 | File | Edit |
 |---|---|
-| `components/SheetEditor/index.vue` | Suite's brand menu replaced by the OneWorkbook mark, back to OneCloud; the breadcrumb starts at OneCloud; the Share button and dialog are off (OneCloud shares); Ask calls `onedesk.one_sheet.assist.ai_assist`, and AI settings never show (nothing sets `ai_assist_can_configure`) |
-| `components/SheetEditor/usePersistence.js` | calls `onedesk.one_sheet.api`; Drive's `track_visit` dropped |
+| `components/SheetEditor/index.vue` | Suite's brand menu replaced by the OneWorkbook mark, back to OneCloud; the breadcrumb starts at OneCloud; the Share button and dialog are off (OneCloud shares); Ask calls `onedesk.one_sheet.assist.ai_assist`, and AI settings never show (nothing sets `ai_assist_can_configure`); `tableNotice` says why the record refused its table |
+| `components/SheetEditor/usePersistence.js` | calls `onedesk.one_sheet.api`; Drive's `track_visit` dropped; a workbook bound to a record's table sends that sheet's values and takes back what the record answers (`shim/table.js`) |
 | `components/SheetEditor/useCollaboration.js` | starts only when `frappe.boot.one_sheet_live` is set (`one_sheet/live.py`) |
 | `components/SheetEditor/useVersionHistory.js` | a copy opens at `/desk/workbook/…` |
 | `services/versions.js` | calls `onedesk.one_sheet.versions`; Make a copy is `make_copy` |

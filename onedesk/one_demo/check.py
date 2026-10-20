@@ -5295,6 +5295,74 @@ def onecloud_holds_a_workbook_with_its_history():
 
 
 @check
+def a_record_table_opens_as_a_workbook():
+	"""Layla opens a draft quotation's items in a workbook, raises a quantity
+	and adds a line: the quotation saves itself and sends ids and figures
+	back. A word for a number and an unknown item are refused; a sheet that
+	missed a change on the form is refused and redrawn on opening; a copy is
+	a plain workbook. All of it is undone afterwards."""
+	from onedesk.one_sheet import api, storage, table
+
+	def lines(book):
+		held = table._held(book)
+		rows = json.loads(storage.decode_sheets_data(held.sheets_data))["sheet"]["sheets"][held.bound_sheet]["rows"]
+		return [[str(one) if one is not None else "" for one in rows[at]] for at in sorted(rows, key=int)]
+
+	def sent(rows):
+		return json.dumps({"sheet": "Items", "rows": rows})
+
+	quote = frappe.get_all("Quotation", filters={"docstatus": 0}, pluck="name", order_by="name", limit=1)[0]
+	frappe.db.savepoint("table_check")
+	try:
+		with as_user(OWNER):
+			book = table.open_table("Quotation", quote, "items")
+			assert table.open_table("Quotation", quote, "items") == book, "one table, one workbook"
+			opened = api.get_sheet(book)
+			assert opened["table"] == {"sheet": "Items", "doctype": "Quotation", "name": quote}, opened["table"]
+			assert json.loads(opened["sheets_data"])["view"]["Items"]["hiddenCols"] == [0]
+			rows = lines(book)
+			head = rows[0]
+			qty, code = head.index("Quantity"), head.index("Item Code")
+			first = frappe.get_doc("Quotation", quote).items[0]
+			assert rows[1][0] == first.name and rows[0][0].startswith(table.MARK)
+			rows[1][qty] = str(first.qty + 2)
+			added = [""] * len(head)
+			added[code], added[qty] = first.item_code, "3"
+			rows.append(added)
+			said = api.save_sheet("Items", json.dumps({"sheet": {"v": 2, "sheets": {}}}), book, "", "t1", sent(rows))["table"]
+			assert said["ok"], said
+			saved = frappe.get_doc("Quotation", quote)
+			assert [one.qty for one in saved.items][:1] == [first.qty + 2] and saved.items[-1].qty == 3, saved.items
+			assert said["cells"][f"A{len(rows)}"] == saved.items[-1].name, "the new line's id comes back"
+			assert saved.items[-1].rate and saved.items[-1].amount == saved.items[-1].rate * 3, "the quotation worked it out"
+			for at, value in said["cells"].items():
+				line, column = int(at[1:]) - 1, ord(at[0]) - 65
+				rows[line][column] = value
+			assert api.save_sheet("Items", "{}", book, "", "t2", sent(rows))["table"] == {"ok": True, "cells": {}}, "nothing left to do"
+			wrong = [list(one) for one in rows]
+			wrong[1][qty] = "lots"
+			refused = table.apply(book, sent(wrong))
+			assert not refused["ok"] and "Quantity" in refused["message"], refused
+			wrong[1][qty], wrong[1][code] = "1", "NO-SUCH-ITEM"
+			refused = table.apply(book, sent(wrong))
+			assert not refused["ok"] and "NO-SUCH-ITEM" in refused["message"], refused
+			assert frappe.get_doc("Quotation", quote).items[0].qty == first.qty + 2, "a refused sheet changes nothing"
+			changed = frappe.get_doc("Quotation", quote)
+			changed.items[0].qty = 1
+			changed.save()
+			stale = table.apply(book, sent(rows))
+			assert not stale["ok"] and "changed on the record" in stale["message"], stale
+			api.get_sheet(book)
+			assert lines(book)[1][qty] == "1", "opening it again draws the table again"
+			file = frappe.get_doc("File", frappe.db.get_value(api.WORKBOOK, book, "file"))
+			copy = frappe.get_doc({"doctype": "File", "file_url": file.file_url, "file_name": "Items, a copy", "folder": "Home", "is_private": 1})
+			copy.flags.ignore_permissions = True
+			copy.insert()
+			assert not frappe.db.get_value(api.WORKBOOK, api.workbook_of(copy.file_url), "bound_doctype"), "a copy is a plain workbook"
+	finally:
+		frappe.db.rollback(save_point="table_check")
+
+@check
 def oneai_lays_out_a_print_format_as_meant():
 	"""Layla's print format is laid out from sections a model wrote loosely:
 	Python's words for true and none, a table named just before its columns,

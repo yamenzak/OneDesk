@@ -190,7 +190,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Workbook | 5 | document |
+| Workbook | 10 | document |
 | Workbook Change | 10 | document |
 | Workbook Version | 9 | document |
 
@@ -708,6 +708,7 @@ No doctypes yet.
 * `onedesk.one_sheet.api.save_sheet`
 * `onedesk.one_sheet.assist.ai_assist`
 * `onedesk.one_sheet.live.admit`
+* `onedesk.one_sheet.table.open_table`
 * `onedesk.one_sheet.versions.label_snapshot`
 * `onedesk.one_sheet.versions.make_copy`
 * `onedesk.one_sheet.versions.ops_for_cell`

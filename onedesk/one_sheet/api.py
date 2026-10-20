@@ -75,12 +75,14 @@ def make(parent: str, title: str | None = None) -> dict:
 
 
 @frappe.whitelist()
-@frappe.read_only()
 def get_sheet(name: str, compressed: int = 0) -> dict:
-	"""The workbook as the editor loads it, and whether the reader may change it."""
+	"""The workbook as the editor loads it, and whether the reader may change it.
+	A workbook bound to a record's table is brought up to the table first."""
+	from onedesk.one_sheet import table
 	from onedesk.one_storage import namespace as ns
 
 	item = _may(name, "read")
+	table.refresh(name)
 	doc = frappe.get_doc(WORKBOOK, name)
 	raw = doc.sheets_data
 	return {
@@ -91,13 +93,15 @@ def get_sheet(name: str, compressed: int = 0) -> dict:
 		"can_write": ns.may(item, "write"),
 		"sheets_data": raw if frappe.utils.cint(compressed) else storage.decode_sheets_data(raw),
 		"owner": item.get("owner"),
+		"table": table.bound(name),
 	}
 
 
 @frappe.whitelist(methods=["POST"])
-def save_sheet(title: str, sheets_data: str, name: str = "", ops: str = "", request_id: str = "") -> dict:
+def save_sheet(title: str, sheets_data: str, name: str = "", ops: str = "", request_id: str = "", table: str = "") -> dict:
 	"""Keep what the editor sends as it is: the browser works the formulas out,
-	and this only checks the size and that it reads as a workbook."""
+	and this only checks the size and that it reads as a workbook. `table` is
+	the bound sheet's worked-out values, for the record behind it (table.py)."""
 	if not name:
 		frappe.throw(_("Make a workbook in OneCloud first."))
 	item = _may(name, "write")
@@ -118,7 +122,12 @@ def save_sheet(title: str, sheets_data: str, name: str = "", ops: str = "", requ
 	_retitle(item, title)
 	frappe.db.set_value("File", item["name"], "file_size", len(stored), update_modified=True)
 	versions.maybe_take(name)
-	return {"name": name, "head_seq": head}
+	said = {"name": name, "head_seq": head}
+	if table:
+		from onedesk.one_sheet import table as bound
+
+		said["table"] = bound.apply(name, table)
+	return said
 
 
 @frappe.whitelist(methods=["POST"])
@@ -156,13 +165,15 @@ def download(workbook: str) -> None:
 
 def copied(doc, method=None) -> None:
 	"""File before_insert: a File naming a workbook another File already holds
-	is a copy, so it holds a copy of the workbook rather than sharing it."""
+	is a copy, so it holds a copy of the workbook rather than sharing it. A
+	copy of a record's table is a plain workbook: one table, one workbook."""
 	name = workbook_of(doc.file_url)
 	if not name or not frappe.db.exists("File", {"file_url": doc.file_url}):
 		return
 	book = frappe.copy_doc(frappe.get_doc(WORKBOOK, name))
 	book.title = doc.file_name or book.title
 	book.file = None
+	book.update(dict.fromkeys(("bound_doctype", "bound_name", "bound_field", "bound_sheet", "bound_columns")))
 	book.flags.ignore_permissions = True
 	book.insert()
 	doc.file_url = URL + book.name

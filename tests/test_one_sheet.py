@@ -79,3 +79,49 @@ def test_the_relay_names_the_room_and_keeps_readers_from_writing():
 	assert '"yjs_update"' not in relay.split("READERS_MAY = new Set(")[1].split(")")[0], "a reader may not change cells"
 	assert "socket.to(room).emit" in relay, "a change is not echoed to its sender"
 	assert '"type": "commonjs"' in (tree.ROOT / "realtime" / "package.json").read_text(encoding="utf-8")
+
+
+def test_a_table_sheet_reads_back_as_the_table():
+	import hashlib
+	import json
+	from datetime import date, timedelta
+
+	room = {"_": lambda text: text, "hashlib": hashlib, "json": json, "date": date, "timedelta": timedelta}
+	_lifted(SHEET / "assist.py", ("letters",), room)
+	names = ("NUMBER", "TEXT", "SHOWN", "MOST_COLUMNS", "MOST_ROWS", "SPARE", "LOCKED_TO", "MARK", "YES", "NO", "EPOCH")
+	_lifted(SHEET / "table.py", (*names, "columns", "shown", "taken", "fingerprint", "_rule", "laid", "placed", "read", "back"), room)
+	fields = [
+		{"fieldname": "item_code", "label": "Item", "fieldtype": "Link", "in_list_view": 1, "reqd": 1},
+		{"fieldname": "notes", "label": "Notes", "fieldtype": "Text Editor", "in_list_view": 1},
+		{"fieldname": "kind", "label": "Kind", "fieldtype": "Select", "options": "\nSupply\nFit", "in_list_view": 1},
+		{"fieldname": "qty", "label": "Qty", "fieldtype": "Float", "in_list_view": 1},
+		{"fieldname": "amount", "label": "Amount", "fieldtype": "Currency", "in_list_view": 1, "read_only": 1},
+		{"fieldname": "secret", "label": "Secret", "fieldtype": "Data", "hidden": 1, "reqd": 1},
+	]
+	cols = room["columns"](fields)
+	assert [col["fieldname"] for col in cols] == ["name", "item_code", "kind", "qty", "amount"], "no editor fields, nothing hidden"
+	assert cols[2]["options"] == ["Supply", "Fit"] and cols[4]["read_only"]
+
+	assert room["shown"](420.0, "Float") == "420" and room["shown"](6.75, "Currency") == "6.75" and room["shown"](0, "Check") == "FALSE"
+	assert room["taken"]("1,260", cols[3]) == (1260.0, None)
+	assert room["taken"]("lots", cols[3])[1] == "Qty must be a number."
+	assert room["taken"]("Paint", cols[2])[1] == "Kind must be one of: Supply, Fit."
+	assert room["taken"]("46000", {"fieldtype": "Date", "header": "On"}) == ("2025-12-09", None), "a date the grid worked out as a number"
+
+	table = [{"name": "r1", "item_code": "GL", "kind": "Supply", "qty": 6, "amount": 600}]
+	mark = room["fingerprint"](0, table, cols)
+	layout = room["laid"](cols, table, mark, False)
+	assert layout["rows"]["0"][0] == "#" + mark and layout["rows"]["1"] == ["r1", "GL", "Supply", "6", "600"]
+	assert layout["validation"]["C2"]["type"] == "list" and "E2" not in layout["validation"], "no rule on a worked-out column"
+	assert {(one["c0"], one["c1"]) for one in layout["protection"]["ranges"]} == {(0, 4), (0, 0), (4, 4)}
+	kept = room["placed"]({"sheet": {"v": 2, "current": "Notes", "sheets": {"Notes": {"rows": {}}}}, "view": {"Items": {"colW": {"1": 180}}}}, "Items", layout)
+	assert list(kept["sheet"]["sheets"]) == ["Items", "Notes"] and kept["view"]["Items"]["colW"] == {"1": 180}
+
+	moved = [["Notes to self", "Qty", "#" + mark, "Item", "Kind", "Amount"], ["", "8", "r1", "GL", "Supply", "600"], ["", "2", "", "GL", "", ""], ["", "", "", "", "", ""]]
+	at, rows, wrong = room["read"](moved, cols)
+	assert not wrong and at["name"] == 2 and at["qty"] == 1, "columns are found by their headers wherever they moved"
+	assert [(row["name"], row["values"]["qty"]) for row in rows] == [("r1", 8.0), (None, 2.0)], "the empty line is skipped"
+	after = [{"name": "r1", "item_code": "GL", "kind": "Supply", "qty": 8, "amount": 800}, {"name": "r2", "item_code": "GL", "kind": "Fit", "qty": 2, "amount": 200}]
+	cells = room["back"](moved, at, rows, after, cols, "new")
+	assert cells == {"C1": "#new", "F2": "800", "C3": "r2", "E3": "Fit", "F3": "200"}, cells
+	assert room["read"]([["#" + mark, "Item"]], cols)[2][0].startswith("The column Kind"), "a column gone is refused"

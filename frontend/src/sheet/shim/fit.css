@@ -11,3 +11,8 @@
 	width: 24px;
 	height: 24px;
 }
+
+/* Why the record refused its table can be a long sentence; the tooltip has it whole. */
+.one-workbook .sn-table-notice {
+	max-width: 420px;
+}
