@@ -937,7 +937,13 @@ def _leave_type(said: str | None, offered: list[str], every: list[str] | None = 
 
 
 def page(said: dict) -> str | None:
-	"""The sentence the model is told on OneHR's Home."""
+	"""The sentence the model is told on OneHR's Home and on the Org Chart."""
+	if said.get("page") == "organizational-chart":
+		return (
+			"The reader is on the Org Chart: everybody in the company drawn under the person they report to, "
+			"each with their designation and how many report to them, from the top or from one person they "
+			"picked. list_records on Employee with reports_to reads who reports to whom."
+		)
 	if said.get("page") != "onehr":
 		return None
 	return (

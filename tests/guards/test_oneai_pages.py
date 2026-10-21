@@ -50,3 +50,32 @@ def test_every_answer_is_a_function_that_exists():
 		module, function = path.rsplit(".", 1)
 		source = (APP / (module.split(".", 1)[1].replace(".", "/") + ".py")).read_text(encoding="utf-8")
 		assert f"\ndef {function}(" in source, f"{path} does not exist"
+
+
+#: Each kind of rail entry, and how `where` in public/js/oneai.js knows it is
+#: there: the route it opens and what is sent for it.
+WHERE = {
+	"DocType": 'kind === "list"',
+	"Page": "frappe.pages[route[0]]",
+	"URL": "frappe.pages[route[0]]",
+	"Report": 'kind === "query-report"',
+	"Dashboard": 'kind === "dashboard-view"',
+	"Workspace": 'kind === "workspaces"',
+}
+
+
+def test_every_kind_of_rail_entry_is_sent_to_oneai():
+	"""The browser says where the reader is for every kind of entry a rail
+	has, and one_ai/here.py, which the demo check `oneai_is_told_what_every_place_shows` walks
+	every entry with, sends the same for each."""
+	kinds = set()
+	for path in APP.glob("*/sidebar/*/*.json"):
+		kinds |= {one.get("link_type") for one in json.loads(path.read_text())["items"] if one.get("type") == "Link"}
+	js = (APP / "public" / "js" / "oneai.js").read_text(encoding="utf-8")
+	where = js[js.index("where() {") : js.index("home() {")]
+	mirror = (APP / "one_ai" / "here.py").read_text(encoding="utf-8")
+	unknown = kinds - WHERE.keys()
+	assert not unknown, f"a rail entry of kind {sorted(unknown)}: say in oneai.js `where` what it shows, and in here.sent"
+	for kind in kinds:
+		assert WHERE[kind] in where, f"oneai.js `where` sends nothing for a {kind} entry"
+		assert f'kind == "{kind}"' in mirror, f"one_ai/here.py `sent` does not know a {kind} entry"

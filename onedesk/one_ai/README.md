@@ -22,6 +22,18 @@ It only offers what you could do there yourself.
   change it.
 - The panel shows how many credits the conversation has used.
 
+## Where the reader is
+
+Whatever page you open OneAI on, it is told what is on it, so "what am I
+looking at" has an answer everywhere. **Knows about** under the message box
+names it; × asks without it.
+
+- On a record or a list, its fields and what it says.
+- On a report, the filters you set; it reads the rows you see.
+- On a dashboard, each chart and number and what it counts.
+- On a space's home, what the home opens.
+- On any other page, what that page shows, written by the app it belongs to.
+
 ## Answers
 
 OneAI reads your records as you. It can't read anything you couldn't open
@@ -608,11 +620,19 @@ deliberately not here.
   shows, and a judge model would grade its own kind. Cards and memories a
   case made are taken away after it.
 - `public/js/oneai.js`, `public/js/oneai/`: the panel (`Panel.vue`), a card
-  (`Record.vue`), the records read (`Found.vue`) and the field marks.
+  (`Record.vue`), the records read (`Found.vue`) and the mark on a field it wrote.
 - `hooks.py`: each module declares what OneAI reads (`one_ai_reads`),
   suggests (`one_ai_suggests`) and offers on a page (`one_ai_suggestions`),
   and what it is told about the page (`one_ai_page`), the reader
   (`one_ai_reader`) and the workspace (`one_ai_workspace`).
+- `here.py`: what a report, a dashboard or a space's home that no module
+  answers for is told, and the walk the demo check
+  `oneai_is_told_what_every_place_shows` makes over every rail entry and desk
+  page. `sent` is the Python twin of `where` in `public/js/oneai.js`, what the
+  browser sends for each kind of entry; `tests/guards/test_oneai_pages.py`
+  fails when a rail carries a kind either does not know. A place told only
+  its title fails the check, which is how the Devices sentence was found
+  never to run (it sat below a return).
 
 ### doctype/ai_action
 

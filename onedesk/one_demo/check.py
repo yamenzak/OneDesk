@@ -2557,6 +2557,20 @@ def oneintake_layla_works_through_what_oneai_read():
 
 
 @check
+def oneai_is_told_what_every_place_shows():
+	"""Every entry on every space's rail and every desk page tells OneAI more
+	than its title: a report its filters, a dashboard its charts, a home what it
+	opens, a page what is on it (one_ai/here.py)."""
+	from onedesk.one_ai import here
+
+	frappe.set_user("Administrator")
+	missed = here.untold()
+	assert not missed, "OneAI is told only the title of: " + "; ".join(
+		f"{one['space']} › {one['label']} {one['sent']}" for one in missed
+	)
+
+
+@check
 def oneai_a_conversation_its_cards_and_its_settings():
 	"""Omar's conversation with OneAI from start to forgotten, the cards it
 	suggests waiting, refused, applied and taken into a form, and Layla's

@@ -4,8 +4,6 @@ const MARK = "/assets/onedesk/images/oneai.svg";
 
 const ONEAI = "OneAI";
 
-const NOWHERE = ["workspace", "workspaces", "dashboard-view"];
-
 onedesk.oneai = {
 	dial: null,
 	panel: null,
@@ -14,7 +12,7 @@ onedesk.oneai = {
 	where() {
 		const route = frappe.get_route() || [];
 		const kind = (route[0] || "").toLowerCase();
-		if (!route.length || NOWHERE.includes(kind)) return null;
+		if (!route.length) return null;
 
 		if (kind === "form" && route[1]) {
 			const single = !route[2] && frappe.get_meta(route[1]) && frappe.get_meta(route[1]).issingle;
@@ -35,7 +33,15 @@ onedesk.oneai = {
 			};
 		}
 		if (kind === "query-report" && route[1]) {
-			return { doctype: "", name: "", view: route[1], label: route[1] };
+			const report = frappe.query_report;
+			const shown = report && report.report_name === route[1] && report.get_filter_values ? report.get_filter_values(false) : null;
+			return { doctype: "", name: "", report: route[1], view: "Report", filters: shown, label: __(route[1]) };
+		}
+		if (kind === "dashboard-view" && route[1]) {
+			return { doctype: "", name: "", dashboard: route[1], view: "Dashboard", label: __(route[1]) };
+		}
+		if ((kind === "workspaces" || kind === "workspace") && route[1]) {
+			return { doctype: "", name: "", workspace: route[1], view: "Workspace", label: __(route[1]) };
 		}
 		if (frappe.pages[route[0]]) {
 			const params = frappe.utils.get_query_params();
@@ -45,7 +51,7 @@ onedesk.oneai = {
 				name: "",
 				page: route[0],
 				section: params.section || params.view || (cloud && cloud.file ? "file" : ""),
-				record: params.type || params.rule || params.thread || (cloud && cloud.file) || params.name || route[1] || "",
+				record: params.type || params.rule || params.thread || params.reading || (cloud && cloud.file) || params.name || route[1] || "",
 				box: params.box || params.doctype || "",
 				folder: params.folder || (cloud && cloud.folder) || "",
 				view: "Page",

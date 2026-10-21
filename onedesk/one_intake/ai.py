@@ -80,7 +80,21 @@ def find_documents(
 
 
 def page(said: dict) -> str | None:
-	"""The sentence the model is told on Ready to Submit."""
+	"""The sentence the model is told on Ready to Submit and in the inbox."""
+	if said.get("page") == "intake":
+		box = "Done, what OneAI filed by itself" if said.get("box") == "done" else "Waiting, what OneAI suggested and waits for a person"
+		reading = (said.get("record") or "").strip()
+		opened = (
+			f" The document {reading} is open beside it, with what was read from it and each thing done or suggested; "
+			f'read_record on Reading "{reading}" reads it.'
+			if reading and frappe.db.exists("Reading", reading)
+			else ""
+		)
+		return (
+			f"The reader is in OneIntake's inbox, on {box}: one line per document that arrived by mail, scan or "
+			f"upload, newest first.{opened} find_by_meaning with Reading finds a document by what it says. How "
+			"OneIntake works is in its documentation (how_to)."
+		)
 	if said.get("page") != "ready-to-submit":
 		return None
 	return (

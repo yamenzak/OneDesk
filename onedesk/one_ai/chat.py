@@ -10,7 +10,7 @@ import re
 import frappe
 from frappe.utils import now_datetime, strip_html_tags
 
-from onedesk.one_ai import kind, run
+from onedesk.one_ai import here, kind, run
 
 CHAT = "chat"
 
@@ -926,13 +926,19 @@ def _page(page: dict | str | None) -> str:
 		filters = page.get("filters")
 		narrowed = f", narrowed to {json.dumps(filters)}" if filters else ""
 		return f"The reader is looking at a {view or 'list'} of {doctype}{narrowed}.{_fields_said(doctype)}"
-	if page.get("page"):
-		for path in frappe.get_hooks("one_ai_page"):
-			said = frappe.get_attr(path)(page)
-			if said:
-				return said
-		return f"The reader is on the {(page.get('label') or page['page'])} page."
-	return f"The reader is on the {view} page." if view else ""
+	if not any(page.get(key) for key in ("page", "workspace", "report", "dashboard")):
+		return f"The reader is on the {view} page." if view else ""
+	for path in frappe.get_hooks("one_ai_page"):
+		said = frappe.get_attr(path)(page)
+		if said:
+			return said
+	if page.get("report"):
+		return here.report(page)
+	if page.get("dashboard"):
+		return here.dashboard(page)
+	if page.get("workspace"):
+		return here.home(page)
+	return here.title_only(page)
 
 
 def _brief(doctype: str, name: str) -> str:

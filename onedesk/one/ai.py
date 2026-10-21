@@ -482,10 +482,53 @@ SUGGESTIONS = {
 }
 
 
+#: The section a Settings page opens on when the address names none: its first.
+OPENS_ON = {"settings": "profile", "workspace-settings": "general"}
+
+
 def page(said: dict) -> str | None:
 	"""The sentence the model is told about a Settings section: which records
 	it is, and where its documentation is. Only the reader's own records, found
 	on the server rather than taken from the browser."""
+	said = {**said, "section": said.get("section") or OPENS_ON.get(said.get("page"), "")}
+	if said.get("page") == "workspace-settings" and said.get("section") == "devices":
+		return (
+			"The reader administers the workspace and is on Devices in Workspace Settings: every browser "
+			"somebody signed in on, with who signed in last, when and from where, and how many passkeys it "
+			"holds. They name one and set it Shared (nobody's passkey is made there) or Assigned to one "
+			"person (theirs may be), or mark it Lost or Retired. How it works is in One's documentation "
+			"under Devices (how_to)."
+		)
+	if said.get("page") == "workspace-settings" and said.get("section") == "numbering":
+		return (
+			"The reader administers this workspace and is on Workspace › Numbering: each kind of record named "
+			"from a series, the series it may take (the first is the default), the name the next one gets and the "
+			"number its counter has reached, and the naming rules. workspace_numbering reads it, for one kind or "
+			"all; change_numbering suggests a new series, a default or a counter as a card they approve. How is in "
+			"One's documentation under Numbering, for the Workspace (how_to)."
+		)
+	if said.get("page") == "workspace-settings" and said.get("section") == "printing":
+		return (
+			"The reader administers this workspace and is on Workspace › Printing: its letter heads (which is the "
+			"default and what each header and footer shows), and for each kind of record the formats it may print "
+			"with and the one it prints with by default. workspace_printing reads it; change_printing suggests a "
+			"change as a card they approve. How is in One's documentation under Printing, for the Workspace (how_to)."
+		)
+	if said.get("page") == "workspace-settings" and said.get("section") == "mail_templates":
+		return (
+			"The reader administers this workspace and is on Workspace › Mail Templates: each template's subject "
+			"and message, the kind of record it is for, which kinds start a new mail with it, and which setting "
+			"sends it. workspace_mail_templates reads them, with the fields a template for a kind of record may "
+			"name; write_mail_template suggests one as a card they approve. How is in One's documentation under "
+			"Mail Templates, for the Workspace (how_to)."
+		)
+	if said.get("page") == "workspace-settings" and said.get("section") == "approvals":
+		return (
+			"The reader administers this workspace and is on Workspace › Approvals: each approval, the kind of "
+			"record it moves, whether it is on, its states and its steps, who takes each and when. "
+			"workspace_approvals reads them; suggest_approval suggests one as a card they approve. How is in One's "
+			"documentation under Approvals, for the Workspace (how_to)."
+		)
 	if said.get("page") == "workspace-settings" and said.get("section") == "notification_types":
 		return _notifications_page(said.get("record"))
 	if said.get("page") == "workspace-settings" and said.get("section") == "people":
@@ -606,14 +649,6 @@ def page(said: dict) -> str | None:
 			"what the workspace's administrators wrote for everybody. recall, with no words, reads both. How it works "
 			"is in One's documentation under Settings › What OneAI Remembers (how_to)."
 		)
-	if said.get("page") == "workspace-settings" and said.get("section") == "devices":
-		return (
-			"The reader administers the workspace and is on Devices in Workspace Settings: every browser "
-			"somebody signed in on, with who signed in last, when and from where, and how many passkeys it "
-			"holds. They name one and set it Shared (nobody's passkey is made there) or Assigned to one "
-			"person (theirs may be), or mark it Lost or Retired. How it works is in One's documentation "
-			"under Devices (how_to)."
-		)
 	if said.get("section") == "signin":
 		return (
 			"The reader is on Sign-in in their own Settings: their password, their passkey, whether two-factor "
@@ -636,6 +671,13 @@ def page(said: dict) -> str | None:
 			"carries, and when an app last read it. They make it, copy it, replace it or switch it off "
 			"themselves. How to add it to each app is in One's documentation under Settings › Calendar, and "
 			"OneCalendar's under Subscribe (how_to)."
+		)
+	if said.get("section") == "reads":
+		return (
+			"The reader is on What OneAI Reads in their own Settings: the mailboxes they hold and the shared "
+			"folders they may change, each with a switch for whether OneIntake reads what arrives in it. They "
+			"switch them themselves; everything OneIntake reads, for every mailbox and folder, is an "
+			"administrator's, under OneIntake › Settings. How it works is in OneIntake's documentation (how_to)."
 		)
 	if said.get("section") == "agreements":
 		return (
