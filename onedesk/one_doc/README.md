@@ -41,6 +41,25 @@ Templates, where everyone in the company can start from it. **File › Insert
 a Template** puts a template's content where the cursor is; **New › Document**
 offers them too. A template is its own content and nothing else.
 
+## On a record
+
+A record's **Files** tab is OneCloud, so **New › Document** there files a
+document on the record: a covering letter on a quotation, minutes on a
+project. Whoever may open the record may open its documents, and whoever may
+change the record may change them.
+
+Every text with a formatting toolbar on a saved record, a quotation's terms
+or a project's notes, has **Open in OneWriter** under it. The text opens as
+a document filed on the record, and what is written there becomes the text
+through the record's own save, two seconds after you stop typing. The record
+checks it as it checks a save from its form; if it refuses, the reason shows
+under the head and nothing is written. A submitted record's text opens read
+only, unless the field may change after submitting.
+
+If the text is changed on the record while its document is open, the
+document does not write over it: it says so, and opening it again from the
+record starts from what the record says.
+
 ## Who can open it
 
 Whoever may open the File: its owner, whoever it is shared with, and, for a
@@ -76,13 +95,13 @@ until you approve.
 
 ## What is not built yet
 
-Open in OneWriter for a record's long text, printing under the letter head,
-record fields in a document, and `.docx` on the network drive, through links
+Printing under the letter head, record fields in a document, and `.docx` on the network drive, through links
 and in mail. Each is a stage of its own.
 
 ## Connections
 
 - **From OneCloud**: A document is made, kept, moved, copied, shared and deleted in OneCloud, and opens from it.
+- **From OneCRM**: A quotation's terms, like any record's formatted text, open in OneWriter and go back through the record's save.
 - **To OneCloud**: A document lists in its folder with the other files, and its pictures go with it to the Recycle Bin.
 
 ## Under the hood
@@ -155,3 +174,16 @@ the editor state cleared, so the next open builds from the HTML; the
 approver's open copy is told over `one_document_written` and draws it in
 straight away, which saves the state again. Somebody else with it open at
 that moment would save over the addition, which is the one gap here.
+
+### A record's text
+
+`field.py`. `open_field` finds or makes the Writer Document whose
+`bound_doctype`, `bound_name` and `bound_field` name the text, filed on the
+record as the workbook for a table is; only Text Editor fields that are not
+read only open, because they already hold HTML. `save_document` hands each
+save to `field.put`, which writes the field through `doc.save()` under a
+savepoint, and keeps as the document's HTML what the record kept, so the two
+compare equal next time. What the document held before the save is what the
+field held when it was opened; when they differ, the record was changed
+elsewhere and `put` refuses rather than write over it. An addition OneAI
+makes on a card goes through `put` too.

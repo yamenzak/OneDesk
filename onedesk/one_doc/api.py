@@ -105,14 +105,18 @@ def get_document(name: str) -> dict:
 	and the OneCloud folders above it for its breadcrumb."""
 	from onedesk.one_storage import namespace as ns
 
+	from onedesk.one_doc import field
+
 	item = _may(name, "read")
 	doc = frappe.get_doc(DOCUMENT, name)
+	bound = field.bound(name)
 	return {
 		"name": doc.name,
 		"title": item["file_name"],
 		"file": item["name"],
 		"folder": item.get("folder"),
-		"can_write": ns.may(item, "write"),
+		"can_write": ns.may(item, "write") and (not bound or bound["writable"]),
+		"bound": bound,
 		"owner": item.get("owner"),
 		"content": doc.content or "",
 		"html": doc.html or "",
@@ -139,14 +143,17 @@ def _settings(raw) -> dict:
 def save_document(name: str, content: str, html: str, title: str | None = None, manual: int = 0) -> dict:
 	"""Keep what the editor sends: its Yjs state, which it opens from, and
 	the same document as HTML, which everything else reads."""
+	from onedesk.one_doc import field
+
 	item = _may(name, "write")
 	size = len(content.encode("utf-8")) + len(html.encode("utf-8"))
 	if size > MOST_BYTES:
 		frappe.throw(_("This document is too large to save."))
-	frappe.db.set_value(DOCUMENT, name, {"content": content, "html": html, "byte_size": size}, update_modified=True)
+	put = field.put(name, frappe.db.get_value(DOCUMENT, name, "html"), html)
+	frappe.db.set_value(DOCUMENT, name, {"content": content, "html": put.get("html", html), "byte_size": size}, update_modified=True)
 	frappe.db.set_value("File", item["name"], "file_size", size, update_modified=True)
 	_retitle(item, title)
-	return {"name": name}
+	return {"name": name, **({} if put["ok"] else {"refused": put["message"]})}
 
 
 @frappe.whitelist(methods=["POST"])

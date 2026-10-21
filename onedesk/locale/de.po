@@ -55998,3 +55998,21 @@ msgstr "z. B. Kürzer und förmlicher formulieren"
 
 msgid "e.g. Write a paragraph on the payment terms"
 msgstr "z. B. Einen Absatz zu den Zahlungsbedingungen schreiben"
+
+msgid "Open in OneWriter"
+msgstr "In OneWriter öffnen"
+
+msgid "Save the record before opening its text in a document."
+msgstr "Speichern Sie den Datensatz, bevor Sie seinen Text in einem Dokument öffnen."
+
+msgid "This record has no such text."
+msgstr "Dieser Datensatz hat keinen solchen Text."
+
+msgid "{0} can no longer be changed on {1}."
+msgstr "{0} kann in {1} nicht mehr geändert werden."
+
+msgid "{0} was changed on the record after this document was opened. Reopen it from the record to load the changes."
+msgstr "{0} wurde im Datensatz geändert, nachdem dieses Dokument geöffnet wurde. Öffnen Sie es erneut aus dem Datensatz, um die Änderungen zu laden."
+
+msgid "The record refused this text."
+msgstr "Der Datensatz hat diesen Text abgelehnt."

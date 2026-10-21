@@ -55998,3 +55998,21 @@ msgstr "مثلًا: اجعل هذا أقصر وأكثر رسمية"
 
 msgid "e.g. Write a paragraph on the payment terms"
 msgstr "مثلًا: اكتب فقرة عن شروط الدفع"
+
+msgid "Open in OneWriter"
+msgstr "فتح في OneWriter"
+
+msgid "Save the record before opening its text in a document."
+msgstr "احفظ السجل قبل فتح نصه في مستند."
+
+msgid "This record has no such text."
+msgstr "لا يحتوي هذا السجل على هذا النص."
+
+msgid "{0} can no longer be changed on {1}."
+msgstr "لم يعد بالإمكان تغيير {0} في {1}."
+
+msgid "{0} was changed on the record after this document was opened. Reopen it from the record to load the changes."
+msgstr "تغيّر {0} في السجل بعد فتح هذا المستند. أعد فتحه من السجل لتحميل التغييرات."
+
+msgid "The record refused this text."
+msgstr "رفض السجل هذا النص."

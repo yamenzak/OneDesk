@@ -5620,6 +5620,55 @@ def a_document_keeps_its_versions_and_asks_oneai():
 
 
 @check
+def a_records_text_is_written_in_onewriter():
+	"""A draft quotation's terms open as a document filed on it. What Omar
+	writes there becomes the terms through the quotation's save; terms
+	changed on the quotation meanwhile are not written over, and opening it
+	again starts from them. A document made in the quotation's Files is
+	opened by whoever may open the quotation and nobody else, and a
+	submitted quotation's terms open read only. All undone afterwards."""
+	from onedesk.one_doc import api, field
+
+	frappe.db.savepoint("doc_field_check")
+	try:
+		quote = frappe.get_all("Quotation", filters={"docstatus": 0}, pluck="name", order_by="name", limit=1)[0]
+		with as_user("omar@one.test"):
+			name = field.open_field("Quotation", quote, "terms")
+			assert field.open_field("Quotation", quote, "terms") == name, "one text, one document"
+			said = api.get_document(name)
+			assert said["can_write"] and said["record"] == {"doctype": "Quotation", "name": quote} and said["bound"]["field"] == "terms", said
+			assert not api.save_document(name, "AAA=", "<p>Payment in 30 days.</p>").get("refused")
+			assert field.same(frappe.db.get_value("Quotation", quote, "terms"), "<p>Payment in 30 days.</p>"), "the terms are what was written"
+			frappe.db.set_value("Quotation", quote, "terms", "<p>Changed on the form.</p>")
+			refused = api.save_document(name, "BBB=", "<p>Payment in 45 days.</p>")["refused"]
+			assert "changed on the record" in refused, refused
+			assert field.same(frappe.db.get_value("Quotation", quote, "terms"), "<p>Changed on the form.</p>"), "and not written over"
+			field.open_field("Quotation", quote, "terms")
+			again = frappe.db.get_value(api.DOCUMENT, name, ["html", "content"], as_dict=True)
+			assert again.html == "<p>Changed on the form.</p>" and not again.content, "it starts again from the record"
+			try:
+				field.open_field("Quotation", quote, "address_display")
+				raise AssertionError("a text the record works out opened as a document")
+			except frappe.ValidationError:
+				pass
+			made = api.make(f"@records/Quotation/{quote}", "Covering letter")["document"]
+			assert api.get_document(made)["record"]["name"] == quote
+		with as_user("mariam@one.test"):
+			for one in (name, made):
+				try:
+					api.get_document(one)
+					raise AssertionError("somebody who may not open the quotation opened its document")
+				except frappe.PermissionError:
+					pass
+		sent = frappe.get_all("Quotation", filters={"docstatus": 1}, pluck="name", order_by="name", limit=1)
+		if sent:
+			with as_user(OWNER):
+				assert not api.get_document(field.open_field("Quotation", sent[0], "terms"))["can_write"], "a submitted record's terms are read only"
+	finally:
+		frappe.db.rollback(save_point="doc_field_check")
+
+
+@check
 def a_workbook_left_open_waits_on_the_bar():
 	"""A workbook left for another screen waits on the bar under its title;
 	one that is gone, or that the reader may not open, isn't named. All

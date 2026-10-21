@@ -25,6 +25,7 @@
 				</Dropdown>
 			</div>
 		</div>
+		<div v-if="refused" class="shrink-0 border-b border-outline-gray-2 bg-surface-gray-2 px-4 py-2 text-base text-ink-amber-3">{{ refused }}</div>
 		<div v-if="failed" class="flex flex-1 items-center justify-center text-base text-ink-gray-6">{{ failed }}</div>
 		<VersionsSidebar
 			v-if="state && showVersions"
@@ -82,6 +83,8 @@ const oneMark = mark("onedoc");
 
 const state = ref(null);
 const failed = ref("");
+// Why the record behind this document did not take what was written in it.
+const refused = ref("");
 const dirty = ref(false);
 const saving = ref(false);
 const savedOnce = ref(false);
@@ -122,7 +125,8 @@ const settingsDoc = reactive({
 		submit: ({ data, html }) => {
 			saving.value = true;
 			return call("onedesk.one_doc.api.save_document", { name: state.value.name, content: data, html })
-				.then(() => {
+				.then((said) => {
+					refused.value = said?.refused || "";
 					settingsDoc.saveDoc.error = null;
 					savedOnce.value = true;
 					dirty.value = false;

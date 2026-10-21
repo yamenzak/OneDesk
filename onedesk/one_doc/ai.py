@@ -159,6 +159,12 @@ def approved(changes: dict) -> str:
 	name = changes["document"]
 	api._may(name, "write")
 	held = frappe.db.get_value(api.DOCUMENT, name, "html") or ""
-	frappe.db.set_value(api.DOCUMENT, name, {"html": held + clean(changes["html"]), "content": None})
+	written = held + clean(changes["html"])
+	from onedesk.one_doc import field
+
+	put = field.put(name, held, written)
+	if not put["ok"]:
+		frappe.throw(put["message"])
+	frappe.db.set_value(api.DOCUMENT, name, {"html": put.get("html", written), "content": None})
 	frappe.publish_realtime("one_document_written", {"document": name, "html": clean(changes["html"])}, user=frappe.session.user, after_commit=True)
 	return name

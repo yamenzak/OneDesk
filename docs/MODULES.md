@@ -504,6 +504,7 @@ No doctypes yet.
 * `onedesk.one_doc.api.save_settings`
 * `onedesk.one_doc.api.titles`
 * `onedesk.one_doc.assist.ai_assist`
+* `onedesk.one_doc.field.open_field`
 * `onedesk.one_doc.templates.listed`
 * `onedesk.one_doc.templates.save_as`
 * `onedesk.one_doc.versions.listed`
