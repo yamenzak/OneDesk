@@ -382,7 +382,7 @@ def pdf(
 	item = api._may(name, "read")
 	if keep not in KEEP:
 		frappe.throw(_("A PDF can only be saved to OneCloud or attached to the record."))
-	title = frappe.db.get_value(api.WORKBOOK, name, "title") or item.get("file_name") or ""
+	title = item.get("file_name") or ""
 	said = _sheets(sheets)
 	html = page(title, said, bool(cint(landscape)), bool(cint(fit)), bool(cint(gridlines)), letter_head or None, _record(name))
 	options = {"orientation": "Landscape" if cint(landscape) else "Portrait"}

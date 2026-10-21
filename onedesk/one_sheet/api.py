@@ -283,10 +283,9 @@ def titles(names: str | list) -> dict:
 	out = {}
 	for name in (said or [])[:MOST_TITLES]:
 		try:
-			_may(str(name), "read")
+			out[name] = _may(str(name), "read")["file_name"]
 		except (frappe.PermissionError, frappe.DoesNotExistError):
 			continue
-		out[name] = frappe.db.get_value(WORKBOOK, name, "title")
 	return out
 
 

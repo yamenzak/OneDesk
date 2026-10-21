@@ -307,6 +307,15 @@ def get(token: str, item: str | None = None, download: int = 0):
 		raise NotFound
 	if cint(download) and not link.allow_download:
 		raise Forbidden
+	from onedesk.one_sheet import api as sheets
+	from onedesk.one_sheet import excel
+
+	if book := sheets.workbook_of(found.file_url):
+		frappe.local.response.filename = found.file_name + excel.SUFFIX
+		frappe.local.response.filecontent = excel.xlsx(book)
+		frappe.local.response.type = "download"
+		frappe.local.response.display_content_as = "attachment"
+		return None
 	if store.is_stored(found.file_url):
 		return redirect(store.signed(store.key_of(found.file_url), filename=found.file_name, inline=not cint(download)), 302)
 	doc = frappe.get_doc("File", found.name)

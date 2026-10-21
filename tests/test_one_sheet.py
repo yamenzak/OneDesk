@@ -310,3 +310,17 @@ def test_a_sheet_prints_as_it_is_drawn():
 	assert "zoom:0.5000" in narrow, "fitted to the page"
 	cut = room["_table"](sheet, 150, False, False)
 	assert cut.count("<table") == 3 and "page-break-before" in cut and "grid" not in cut
+
+
+def test_a_workbook_reads_as_excel_writes_it():
+	import re
+
+	room = _lifted(SHEET / "excel.py", ("OPEN_RANGE", "LAST_ROW", "CLOSED_RANGE", "DATE_Z", "TIME_Z", "to_excel", "from_excel", "number_format"), {"re": re})
+	assert room["to_excel"]("=SUM(H6:H)") == "=SUM(H6:H1048576)", "Excel has no open-ended range"
+	assert room["to_excel"]("=SUM(A1:B4)+Sheet2!C3") == "=SUM(A1:B4)+Sheet2!C3", "a closed range is left alone"
+	assert room["from_excel"]("=_xlfn.SUM(H6:H1048576)") == "=SUM(H6:H)", "and comes back open"
+	code = room["number_format"]
+	assert code("number:us:2") == "#,##0.00" and code("percentage") == "0.00%" and code("text") == "@"
+	assert code("currency:AED:2", lambda c: "AED") == '"AED "#,##0.00'
+	assert code("currency:EUR:2;", lambda c: "€") == '"€ "#,##0.00;-"€ "#,##0.00;;@', "a zero shown blank"
+	assert code("date:dmy") == "dd/mm/yyyy" and code("custom:0.0x") == "0.0x" and code("") is None

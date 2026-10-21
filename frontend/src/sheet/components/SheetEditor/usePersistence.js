@@ -123,6 +123,20 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
     return _send(args, keepalive)
   }
 
+  // One: every formula cell's worked-out value, by sheet.
+  function _formulaValues(sheets) {
+    const out = {}
+    for (const [sn, cells] of Object.entries(sheets || {})) {
+      for (const [id, raw] of Object.entries(cells || {})) {
+        if (typeof raw !== 'string' || !raw.startsWith('=')) continue
+        const v = sheet.getCellValue(id, sn)
+        if (v === null || v === undefined || typeof v === 'object') continue
+        ;(out[sn] ||= {})[id] = v
+      }
+    }
+    return out
+  }
+
   async function _persist(name, title, { keepalive = false, ops } = {}) {
     isSaving.value = true
     // Build the payload ONCE up-front. If we rebuilt on each retry the
@@ -153,6 +167,7 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
         view:       getViewState?.()         ?? null,
         lines:      sheet.getLines(), // One
         colours:    sheet.getColours(),
+        values:     _formulaValues(live.sheets), // One: what each formula showed, for the Excel file (one_sheet/excel.py)
       })
       const payload = await encodeForUpload(sheetsData)
       args = {

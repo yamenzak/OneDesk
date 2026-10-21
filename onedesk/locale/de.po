@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-21 08:05+0000\n"
+"POT-Creation-Date: 2026-10-21 08:23+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -1199,6 +1199,10 @@ msgstr "Ein nach Serie benannter Datensatztyp benötigt mindestens eine Serie."
 #: onedesk/one_studio/places.py:47
 msgid "A record's head is drawn on its form: each time the record is opened or saved."
 msgstr "Der Kopf eines Datensatzes wird in seinem Formular gezeichnet: jedes Mal, wenn der Datensatz geöffnet oder gespeichert wird."
+
+#: onedesk/one_sheet/excel.py:330
+msgid "A record's workbook can only be edited in OneWorkbook."
+msgstr "Die Arbeitsmappe eines Datensatzes kann nur in OneWorkbook bearbeitet werden."
 
 #: onedesk/one_book/home.py:309
 msgid "A reminder to a customer who is late paying, with any fee."
@@ -9300,15 +9304,15 @@ msgstr "Aus Ihren Beispielen konnte kein Muster erkannt werden."
 msgid "Couldn’t open this sheet"
 msgstr "Dieses Tabellenblatt konnte nicht geöffnet werden"
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:168
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:183
 msgid "Couldn’t prepare save payload."
 msgstr "Die Daten zum Speichern konnten nicht vorbereitet werden."
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:212
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:227
 msgid "Couldn’t save — check your connection, then click retry."
 msgstr "Speichern fehlgeschlagen – prüfen Sie Ihre Verbindung und klicken Sie dann auf Wiederholen."
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:211
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:226
 msgid "Couldn’t save: {0}"
 msgstr "Speichern fehlgeschlagen: {0}"
 
@@ -25879,15 +25883,15 @@ msgstr "In keiner Kostenart"
 msgid "Not in the document ({0})"
 msgstr "Nicht im Dokument ({0})"
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:225
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:240
 msgid "Not in the record yet: one cell needs a look"
 msgstr "Noch nicht im Datensatz: eine Zelle braucht einen Blick"
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:227
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:242
 msgid "Not in the record yet: {0}"
 msgstr "Noch nicht im Datensatz: {0}"
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:226
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:241
 msgid "Not in the record yet: {0} cells need a look"
 msgstr "Noch nicht im Datensatz: {0} Zellen brauchen einen Blick"
 
@@ -42818,7 +42822,7 @@ msgstr "Der Passkey dieses Mitarbeiters ist gesperrt. Die Personalabteilung muss
 msgid "This extension has not passed its review, so it cannot be turned on. Ask OneAI to change it."
 msgstr "Diese Erweiterung hat ihre Prüfung nicht bestanden und kann daher nicht eingeschaltet werden. Bitten Sie OneAI, sie zu ändern."
 
-#: onedesk/one_sheet/api.py:220
+#: onedesk/one_sheet/api.py:220 onedesk/one_sheet/excel.py:278
 msgid "This file cannot be opened."
 msgstr "Diese Datei kann nicht geöffnet werden."
 

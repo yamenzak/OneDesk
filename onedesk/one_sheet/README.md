@@ -69,6 +69,26 @@ cells, column widths, pictures. Hidden rows and columns aren't printed.
 saves it. **Save PDF to OneCloud** keeps it beside the workbook; a record's
 workbook has **Attach PDF to** the record instead.
 
+## On a network drive and through a link
+
+On a network drive connected to OneCloud, and through a public link, a
+workbook is an Excel file: `Glass prices.xlsx`. Excel, LibreOffice and
+Numbers open it with its formulas, number formats, merged cells and column
+widths. A formula only OneWorkbook knows (RECORD, FIELD, BRAND, IMAGE) is
+written as the value it last showed.
+
+Saving it from Excel saves into the workbook: values and formulas come back,
+the workbook's own formatting stays as it was, and the earlier state is kept
+in Version History. A formula Excel only saw as a value keeps its formula if
+the value was not changed. A record's workbook opens read-only on the drive;
+its table is edited in OneWorkbook.
+
+## Who can open a record's workbook
+
+A workbook made from a record's table is attached to that record, so whoever
+can read the record can open it and whoever can edit the record can edit it.
+Sharing its file on its own in OneCloud changes nothing.
+
 ## Leaving a workbook to look something up
 
 Go anywhere else: the workbook is saved as you go, and waits on the bar,
@@ -542,6 +562,26 @@ cuts the columns into runs that each fit (`bands`). `PX` is wkhtmltopdf's
 pixel as measured without smart shrinking (500px is 288pt), so a run is as
 wide as the paper. Kept, the PDF is a File beside the workbook's File, or on
 the bound record, under the reader's own permission to add there.
+
+### Excel on the drive, `excel.py`
+
+The editor saves each formula's worked-out value (`values`, in
+usePersistence) beside the cells, since only the browser can work a
+formula out. `excel.build` writes the workbook with XlsxWriter: a formula
+with that value cached, so a previewer that does not calculate still shows
+it; an open-ended range such as `H6:H`, which Excel does not have, closed at
+row 1,048,576; a OneWorkbook-only formula as its value. `xlsx` keeps the
+bytes in the cache until the workbook changes. `dav._as_file` names the
+node `Name.xlsx`, `Document` serves those bytes and sends a save to
+`excel.write`, and `links.get` hands them to a link. `excel.read` takes
+Excel's save back with openpyxl: values and formulas in, `_xlfn.` dropped
+and the range opened again, the other slices (formats, widths, notes)
+kept, and a OneWorkbook-only formula restored where Excel's value equals
+the one sent. `write` goes through `save_sheet`, so a change and a version
+are kept, and refuses a record's workbook. Tested with a direct save, as
+Windows' drive and LibreOffice save; an app that saves by writing a new
+file and swapping it in leaves a plain Excel file beside the workbook,
+which goes to the Recycle Bin.
 
 ### Back to a workbook, `public/js/workbooks.js`
 

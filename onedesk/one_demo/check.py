@@ -5534,6 +5534,53 @@ def a_workbook_left_open_waits_on_the_bar():
 
 
 @check
+def a_workbook_is_an_excel_file_on_the_drive():
+	"""On the network drive a workbook is "Name.xlsx": its formulas with the
+	values the editor last worked out, a OneWorkbook-only formula as its
+	value. Saved over from Excel, the values and formulas come back with a
+	version kept, and the formula Excel only saw as a value keeps its
+	formula. A record's workbook is not written from the drive. All undone
+	afterwards."""
+	import io
+
+	from openpyxl import load_workbook
+
+	from onedesk.one_sheet import api, excel, table
+	from onedesk.one_storage import dav
+	from onedesk.one_storage import namespace as ns
+
+	frappe.db.savepoint("excel_check")
+	try:
+		with as_user(OWNER):
+			made = api.make("@my", "Excel check")
+			book = made["workbook"]
+			rows = {"0": ["Item", "Qty", "Total"], "1": ["Glass", 3, "=B2*20"], "2": ["Sum", None, "=SUM(C2:C)"], "3": ["By", '=BRAND("name")']}
+			data = {"sheet": {"v": 2, "current": "Sheet1", "sheets": {"Sheet1": {"rows": rows}}}, "values": {"Sheet1": {"C2": 60, "C3": 60, "B4": "Sahara"}}}
+			api.save_sheet("Excel check", json.dumps(data), book)
+			assert dav._as_file(ns.node(ns.row(made["id"])))["name"] == "Excel check.xlsx"
+			sheet = load_workbook(io.BytesIO(excel.build(book))).active
+			assert sheet["C2"].value == "=B2*20" and sheet["C3"].value == f"=SUM(C2:C{excel.LAST_ROW})" and sheet["B4"].value == "Sahara", "formulas, and ours as values"
+			assert load_workbook(io.BytesIO(excel.build(book)), data_only=True).active["C2"].value == 60, "with what the editor worked out"
+			sheet["B2"] = 5
+			saved = io.BytesIO()
+			sheet.parent.save(saved)
+			before = frappe.db.count("Workbook Change", {"workbook": book})
+			excel.write(book, saved.getvalue())
+			back = excel._sheets(excel._data(book))["Sheet1"]["rows"]
+			assert back["1"][1] == 5 and back["2"][2] == "=SUM(C2:C)" and back["3"][1] == '=BRAND("name")', back
+			assert frappe.db.count("Workbook Change", {"workbook": book}) > before, "a version is kept"
+			quote = frappe.get_all("Quotation", filters={"docstatus": 0}, pluck="name", order_by="name", limit=1)[0]
+			bound = table.open_table("Quotation", quote, "items")
+			try:
+				excel.write(bound, excel.build(bound))
+				raise AssertionError("a record's workbook was written from the drive")
+			except frappe.PermissionError:
+				pass
+	finally:
+		frappe.db.rollback(save_point="excel_check")
+
+
+@check
 def a_record_table_opens_as_a_workbook():
 	"""Layla opens a draft quotation's items in a workbook, raises a quantity
 	and adds a line: the quotation saves itself and sends ids and figures

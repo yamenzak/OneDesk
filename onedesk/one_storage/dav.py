@@ -329,7 +329,18 @@ def walk(path: str) -> dict | None:
 def _children(node_id: str) -> list[dict]:
 	if node_id == ns.ROOT:
 		return [one for one in ns.roots() if one["id"] in TOP]
-	return ns.children(node_id)
+	return [_as_file(one) for one in ns.children(node_id)]
+
+
+def _as_file(node: dict) -> dict:
+	"""A workbook made in OneWorkbook is an Excel file on the drive
+	(one_sheet/excel.py)."""
+	from onedesk.one_sheet import excel
+
+	if not node.get("workbook") or node.get("folder"):
+		return node
+	name = node["name"] if node["name"].lower().endswith(excel.SUFFIX) else node["name"] + excel.SUFFIX
+	return {**node, "name": name}
 
 
 def _request_cache() -> dict:
@@ -364,7 +375,11 @@ def _place_for(dest_path: str) -> tuple[dict, str]:
 
 
 def _move_or_copy(item: dict, dest_path: str, is_move: bool) -> None:
+	from onedesk.one_sheet import excel
+
 	parent, name = _place_for(dest_path)
+	if item.get("workbook") and name.lower().endswith(excel.SUFFIX):
+		name = name[: -len(excel.SUFFIX)]
 	here = frappe.db.get_value("File", item["id"], "folder") if not item.get("virtual") else None
 	try:
 		if is_move and here == ns.folder_of(parent["id"]):
@@ -459,7 +474,14 @@ class Document(_DAVNonCollection):
 		self.item = item
 		self._spool = None
 
+	def _workbook(self) -> bytes:
+		from onedesk.one_sheet import excel
+
+		return excel.xlsx(self.item["workbook"])
+
 	def get_content_length(self):
+		if self.item.get("workbook"):
+			return len(self._workbook())
 		return int(self.item.get("size") or 0)
 
 	def get_content_type(self):
@@ -486,6 +508,8 @@ class Document(_DAVNonCollection):
 		return False
 
 	def get_content(self):
+		if self.item.get("workbook"):
+			return io.BytesIO(self._workbook())
 		url = self.item.get("url") or ""
 		if store.is_stored(url):
 			import requests
@@ -518,6 +542,19 @@ class Document(_DAVNonCollection):
 				content = written.read()
 		finally:
 			os.unlink(spool)
+		if self.item.get("workbook"):
+			from onedesk.one_sheet import excel
+
+			if not content:
+				return
+			try:
+				excel.write(self.item["workbook"], content)
+			except frappe.PermissionError:
+				raise _error(403) from None
+			except frappe.ValidationError:
+				raise _error(415) from None
+			_forget()
+			return
 		parent = self.item.get("parent") or walk(_parent_and_name(self.path)[0])
 		try:
 			upload._place(

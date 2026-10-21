@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-21 08:05+0000\n"
+"POT-Creation-Date: 2026-10-21 08:23+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -1199,6 +1199,10 @@ msgstr "نوع السجل المسمّى بسلسلة يحتاج إلى سلسل
 #: onedesk/one_studio/places.py:47
 msgid "A record's head is drawn on its form: each time the record is opened or saved."
 msgstr "يُرسم رأس السجل في نموذجه: في كل مرة يُفتح فيها السجل أو يُحفظ."
+
+#: onedesk/one_sheet/excel.py:330
+msgid "A record's workbook can only be edited in OneWorkbook."
+msgstr "لا يمكن تعديل مصنف السجل إلا في OneWorkbook."
 
 #: onedesk/one_book/home.py:309
 msgid "A reminder to a customer who is late paying, with any fee."
@@ -9300,15 +9304,15 @@ msgstr "تعذّر اكتشاف نمط من أمثلتك."
 msgid "Couldn’t open this sheet"
 msgstr "تعذّر فتح هذه الورقة"
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:168
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:183
 msgid "Couldn’t prepare save payload."
 msgstr "تعذّر تجهيز بيانات الحفظ."
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:212
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:227
 msgid "Couldn’t save — check your connection, then click retry."
 msgstr "تعذّر الحفظ — تحقّق من اتصالك ثم انقر على إعادة المحاولة."
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:211
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:226
 msgid "Couldn’t save: {0}"
 msgstr "تعذّر الحفظ: {0}"
 
@@ -25879,15 +25883,15 @@ msgstr "خارج أنواع التكاليف"
 msgid "Not in the document ({0})"
 msgstr "ليس في المستند ({0})"
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:225
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:240
 msgid "Not in the record yet: one cell needs a look"
 msgstr "لم يُسجَّل في السجل بعد: خلية واحدة تحتاج إلى مراجعة"
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:227
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:242
 msgid "Not in the record yet: {0}"
 msgstr "لم يدخل السجل بعد: {0}"
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:226
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:241
 msgid "Not in the record yet: {0} cells need a look"
 msgstr "لم يُسجَّل في السجل بعد: {0} خلايا تحتاج إلى مراجعة"
 
@@ -42818,7 +42822,7 @@ msgstr "مفتاح مرور هذا الموظف محظور. على الموار�
 msgid "This extension has not passed its review, so it cannot be turned on. Ask OneAI to change it."
 msgstr "لم تجتز هذه الإضافة مراجعتها، لذا لا يمكن تشغيلها. اطلب من OneAI تعديلها."
 
-#: onedesk/one_sheet/api.py:220
+#: onedesk/one_sheet/api.py:220 onedesk/one_sheet/excel.py:278
 msgid "This file cannot be opened."
 msgstr "لا يمكن فتح هذا الملف."
 

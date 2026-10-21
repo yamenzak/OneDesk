@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-21 08:05+0000\n"
-"PO-Revision-Date: 2026-10-21 08:05+0000\n"
+"POT-Creation-Date: 2026-10-21 08:23+0000\n"
+"PO-Revision-Date: 2026-10-21 08:23+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1196,6 +1196,10 @@ msgstr ""
 
 #: onedesk/one_studio/places.py:47
 msgid "A record's head is drawn on its form: each time the record is opened or saved."
+msgstr ""
+
+#: onedesk/one_sheet/excel.py:330
+msgid "A record's workbook can only be edited in OneWorkbook."
 msgstr ""
 
 #: onedesk/one_book/home.py:309
@@ -9298,15 +9302,15 @@ msgstr ""
 msgid "Couldn’t open this sheet"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:168
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:183
 msgid "Couldn’t prepare save payload."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:212
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:227
 msgid "Couldn’t save — check your connection, then click retry."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:211
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:226
 msgid "Couldn’t save: {0}"
 msgstr ""
 
@@ -25889,15 +25893,15 @@ msgstr ""
 msgid "Not in the document ({0})"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:225
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:240
 msgid "Not in the record yet: one cell needs a look"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:227
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:242
 msgid "Not in the record yet: {0}"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:226
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:241
 msgid "Not in the record yet: {0} cells need a look"
 msgstr ""
 
@@ -42860,7 +42864,7 @@ msgstr ""
 msgid "This extension has not passed its review, so it cannot be turned on. Ask OneAI to change it."
 msgstr ""
 
-#: onedesk/one_sheet/api.py:220
+#: onedesk/one_sheet/api.py:220 onedesk/one_sheet/excel.py:278
 msgid "This file cannot be opened."
 msgstr ""
 
