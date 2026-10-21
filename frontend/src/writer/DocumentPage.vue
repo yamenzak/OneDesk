@@ -19,9 +19,9 @@
 				<Button v-if="asking" variant="ghost" :label="__('Ask OneAI')" @click="showAsk = true">
 					<template #prefix><img :src="oneaiMark" class="size-4" alt="" /></template>
 				</Button>
-				<Button v-if="state?.can_write && settingsDoc.doc.settings.lock" icon="lock" variant="ghost" :tooltip="__('Unlock')" @click="lock(null)" />
+				<Button v-if="state?.can_write && settingsDoc.doc.settings.lock" icon="lucide-lock" variant="ghost" :tooltip="__('Unlock')" @click="lock(null)" />
 				<Dropdown v-if="state" :options="fileMenu" align="end">
-					<Button variant="ghost" icon-left="file" :label="__('File')" icon-right="chevron-down" />
+					<Button variant="ghost" icon-left="lucide-file" :label="__('File')" icon-right="lucide-chevron-down" />
 				</Dropdown>
 			</div>
 		</div>
@@ -278,27 +278,27 @@ const fileMenu = computed(() => [
 	{
 		group: __("Export"),
 		options: [
-			{ label: __("Download as HTML"), icon: "file-code", onClick: () => downloadZippedHTML(editor, title.value, settings.value) },
-			{ label: __("Download as Markdown"), icon: "file-text", onClick: () => downloadMD(editor, title.value) },
+			{ label: __("Download as HTML"), icon: "lucide-file-code", onClick: () => downloadZippedHTML(editor, title.value, settings.value) },
+			{ label: __("Download as Markdown"), icon: "lucide-file-text", onClick: () => downloadMD(editor, title.value) },
 		],
 	},
 	{
 		group: __("This document"),
 		options: [
-			{ label: __("Print"), icon: "printer", onClick: () => (showPrint.value = true) },
-			...(fielded.value ? [{ label: __("Insert a Field"), icon: "braces", onClick: () => (showFields.value = true) }] : []),
+			{ label: __("Print"), icon: "lucide-printer", onClick: () => (showPrint.value = true) },
+			...(fielded.value ? [{ label: __("Insert a Field"), icon: "lucide-braces", onClick: () => (showFields.value = true) }] : []),
 			...(state.value?.can_write
 				? [
-						{ label: __("Page Setup"), icon: "settings", onClick: () => (showSettings.value = true) },
-						{ label: __("Insert a Template"), icon: "layout-template", onClick: () => (showTemplates.value = true) },
-						{ label: __("Rename"), icon: "pencil", onClick: () => (renaming.value = true) },
+						{ label: __("Page Setup"), icon: "lucide-settings", onClick: () => (showSettings.value = true) },
+						{ label: __("Insert a Template"), icon: "lucide-layout-template", onClick: () => (showTemplates.value = true) },
+						{ label: __("Rename"), icon: "lucide-pencil", onClick: () => (renaming.value = true) },
 						settingsDoc.doc.settings?.lock
-							? { label: __("Unlock"), icon: "lock-open", onClick: () => lock(null) }
-							: { label: __("Lock"), icon: "lock", onClick: () => lock(true) },
+							? { label: __("Unlock"), icon: "lucide-lock-open", onClick: () => lock(null) }
+							: { label: __("Lock"), icon: "lucide-lock", onClick: () => lock(true) },
 					]
 				: []),
-			{ label: __("Version History"), icon: "history", onClick: () => (showVersions.value = true) },
-			{ label: __("Save as Template"), icon: "copy-plus", onClick: () => (savingTemplate.value = true) },
+			{ label: __("Version History"), icon: "lucide-history", onClick: () => (showVersions.value = true) },
+			{ label: __("Save as Template"), icon: "lucide-copy-plus", onClick: () => (savingTemplate.value = true) },
 		],
 	},
 ]);
