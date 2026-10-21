@@ -500,11 +500,13 @@ def record_of(name: str) -> dict:
 
 def bound(name: str) -> dict | None:
 	"""What get_sheet tells the editor about the record behind it: the
-	sheet and the record."""
+	sheet, the record and the table's label."""
 	book = frappe.db.get_value(api.WORKBOOK, name, ["bound_doctype", "bound_name", "bound_field", "bound_sheet"], as_dict=True)
 	if not book or not book.bound_doctype:
 		return None
-	return {"sheet": book.bound_sheet, "doctype": book.bound_doctype, "name": book.bound_name, "field": book.bound_field}
+	df = frappe.get_meta(book.bound_doctype).get_field(book.bound_field)
+	label = _(df.label) if df and df.label else book.bound_field
+	return {"sheet": book.bound_sheet, "doctype": book.bound_doctype, "name": book.bound_name, "field": book.bound_field, "label": label}
 
 
 def apply(name: str, sent: str) -> dict:

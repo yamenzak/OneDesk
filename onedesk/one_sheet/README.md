@@ -89,6 +89,14 @@ A workbook made from a record's table is attached to that record, so whoever
 can read the record can open it and whoever can edit the record can edit it.
 Sharing its file on its own in OneCloud changes nothing.
 
+## Going back
+
+The path at the top says where the workbook belongs, and each step is a
+way back. A record's workbook reads `Quotation / RC-QTN-2600002 / Items`:
+the record's number goes back to its form. Any other reads
+`OneCloud / My Files / Glass prices`: a folder opens OneCloud there.
+OneWorkbook's mark goes one step back, to the record or the folder.
+
 ## Leaving a workbook to look something up
 
 Go anywhere else: the workbook is saved as you go, and waits on the bar,

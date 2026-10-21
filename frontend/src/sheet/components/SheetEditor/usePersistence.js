@@ -29,6 +29,7 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
   const loadError = ref(null)
   // One: the record's table this workbook's first sheet is (one_sheet/table.py), and why the record last refused it.
   const bound = ref(null)
+  const trail = ref([]) // One: the OneCloud folders above the workbook
   const tableNotice = ref('')
   const tableFaults = ref({}) // One: { cell: { message, doctype?, value? } } the record refused
   const currency = ref('') // One: the workspace's currency, the $ button's first
@@ -70,6 +71,7 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
       canWrite.value = doc.can_write !== false
       sheetOwner.value = doc.owner || ''
       bound.value = doc.table || null // One
+      trail.value = doc.trail || [] // One
     } catch (err) {
       console.error('Load failed:', err)
       const t = err?.excType || ''
@@ -244,5 +246,5 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
     if (said.ok !== false && takeBack(sheet, bound.value, said.cells)) onTable?.()
   }
 
-  return { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableFaults, bound, currency, source }
+  return { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableFaults, bound, trail, currency, source }
 }

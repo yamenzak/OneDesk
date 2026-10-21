@@ -84,8 +84,9 @@ def make(parent: str, title: str | None = None, template: str | None = None) -> 
 
 @frappe.whitelist()
 def get_sheet(name: str, compressed: int = 0) -> dict:
-	"""The workbook as the editor loads it, and whether the reader may change it.
-	A workbook bound to a record's table is brought up to the table first."""
+	"""The workbook as the editor loads it, whether the reader may change it,
+	and the OneCloud folders above it for its breadcrumb. A workbook bound to a
+	record's table is brought up to the table first."""
 	from onedesk.one_sheet import style, table
 	from onedesk.one_storage import namespace as ns
 
@@ -102,6 +103,7 @@ def get_sheet(name: str, compressed: int = 0) -> dict:
 		"sheets_data": raw if frappe.utils.cint(compressed) else storage.decode_sheets_data(raw),
 		"owner": item.get("owner"),
 		"table": table.bound(name),
+		"trail": ns.trail(item["folder"]) if item.get("folder") and not doc.bound_doctype else [],
 		"brand": style.brand(),
 		"record": table.record_of(name),
 		"source": _source(doc, item),

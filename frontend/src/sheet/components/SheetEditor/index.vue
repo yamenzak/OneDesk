@@ -34,8 +34,8 @@
     <div class="sn-topbar">
       <div class="sn-topbar-left">
         <div class="sn-identity">
-          <!-- One: the OneWorkbook mark, back to OneCloud (Suite's app menu is the desk's here). -->
-          <a class="sn-app-menu-trigger" href="/desk/onecloud" :title="__('Back to OneCloud')" v-html="oneMark" />
+          <!-- One: the OneWorkbook mark, one step back (Suite's app menu is the desk's here). -->
+          <a class="sn-app-menu-trigger" href="#" :title="__('Back')" @click.prevent="goBack" v-html="oneMark" />
           <Breadcrumbs v-if="!isTitleEditing" :items="sheetBreadcrumbs"><template #prefix="{ item }"><span v-if="item.one" class="font-light">{{ ONE }}</span></template></Breadcrumbs>
           <template v-else>
             <div class="flex min-w-0 items-center">
@@ -1373,13 +1373,31 @@ const themeMenuOption = useThemeMenuOption()
 const settingsMenuOption = useSettingsMenuOption()
 const isTitleEditing = ref(false)
 const ONE = 'One' // One: a name, not a word to translate
-const sheetHomeBreadcrumbs = computed(() => [
-  { label: 'Cloud', one: true, onClick: () => window.frappe?.set_route('onecloud') }, // One: drawn as the desk draws a product's name
-])
+// One: where the workbook belongs, each crumb a way back: a record's
+// workbook under its doctype and record, any other under its OneCloud
+// folders, OneCloud's own name drawn as the desk draws a product's name.
+const sheetHomeBreadcrumbs = computed(() => {
+  const go = (...route) => window.frappe?.set_route(...route)
+  if (bound.value) return [
+    { label: __(bound.value.doctype), onClick: () => go('List', bound.value.doctype) },
+    { label: bound.value.name, onClick: () => go('Form', bound.value.doctype, bound.value.name) },
+  ]
+  const folders = trail.value.length ? trail.value : [{ id: '', name: 'OneCloud' }]
+  return folders.map((one, at) => ({
+    ...(at ? { label: one.name } : { label: 'Cloud', one: true }),
+    // set_route with route options fails from this page; OneCloud reads ?node=.
+    onClick: () => window.frappe?.router.push_state(one.id ? `/desk/onecloud?node=${encodeURIComponent(one.id)}` : '/desk/onecloud'),
+  }))
+})
+// One: the mark goes one step back, to the record or the folder.
+function goBack() {
+  const parents = sheetHomeBreadcrumbs.value
+  parents[parents.length - 1].onClick()
+}
 const oneMark = mark('onesheet')
 const sheetBreadcrumbs = computed(() => [
   ...sheetHomeBreadcrumbs.value,
-  { label: currentTitle.value || __('Untitled Sheet'), onClick: startTitleEditing },
+  bound.value ? { label: bound.value.label } : { label: currentTitle.value || __('Untitled Sheet'), onClick: startTitleEditing },
 ])
 const brandMenuOptions = computed(() => [
   {
@@ -2644,7 +2662,7 @@ const textWrapDropdownOptions = computed(() => [
 // fallbacks only cover the impossible window where someone saves before
 // useSheetTabs has finished initializing.
 let _sheetTabs = null
-const { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableFaults, bound, currency: homeCurrency, source } =
+const { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableFaults, bound, trail, currency: homeCurrency, source } =
   usePersistence({
     sheet, formats, merge, comments, validation, protection, condFormat, sortFilter, slicers, pivot,
     charts, namedRanges,
