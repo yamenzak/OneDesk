@@ -18,6 +18,8 @@ URL = "/api/method/onedesk.one_sheet.api.download?workbook="
 
 MOST_TITLE = 140
 
+MOST_TITLES = 10
+
 
 def workbook_of(url: str | None) -> str | None:
 	"""The workbook a File's URL names, or None. Pure."""
@@ -270,6 +272,22 @@ def file_replaced(file: str) -> None:
 def of_file(file: str) -> str | None:
 	"""The workbook editing a File in place, if it has been opened."""
 	return frappe.db.get_value(WORKBOOK, {"file": file, "source_kind": ["is", "set"]}, "name")
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def titles(names: str | list) -> dict:
+	"""The titles of the workbooks named that the reader may still open, for
+	the bar's way back to them (public/js/workbooks.js)."""
+	said = frappe.parse_json(names) if isinstance(names, str) else names
+	out = {}
+	for name in (said or [])[:MOST_TITLES]:
+		try:
+			_may(str(name), "read")
+		except (frappe.PermissionError, frappe.DoesNotExistError):
+			continue
+		out[name] = frappe.db.get_value(WORKBOOK, name, "title")
+	return out
 
 
 @frappe.whitelist()

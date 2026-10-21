@@ -709,6 +709,7 @@ No doctypes yet.
 * `onedesk.one_sheet.api.records`
 * `onedesk.one_sheet.api.rename_sheet`
 * `onedesk.one_sheet.api.save_sheet`
+* `onedesk.one_sheet.api.titles`
 * `onedesk.one_sheet.api.write_back`
 * `onedesk.one_sheet.assist.ai_assist`
 * `onedesk.one_sheet.live.admit`

@@ -5516,6 +5516,24 @@ def a_sheet_prints_under_the_letter_head():
 
 
 @check
+def a_workbook_left_open_waits_on_the_bar():
+	"""A workbook left for another screen waits on the bar under its title;
+	one that is gone, or that the reader may not open, isn't named. All
+	undone afterwards."""
+	from onedesk.one_sheet import api
+
+	frappe.db.savepoint("bar_check")
+	try:
+		with as_user(OWNER):
+			book = api.make("@my", "Bar check")["workbook"]
+			assert api.titles(json.dumps([book, "no-such-book"])) == {book: "Bar check"}
+		with as_user("Guest"):
+			assert api.titles([book]) == {}, "a reader who can't open it isn't told its name"
+	finally:
+		frappe.db.rollback(save_point="bar_check")
+
+
+@check
 def a_record_table_opens_as_a_workbook():
 	"""Layla opens a draft quotation's items in a workbook, raises a quantity
 	and adds a line: the quotation saves itself and sends ids and figures

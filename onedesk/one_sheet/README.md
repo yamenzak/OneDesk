@@ -69,6 +69,14 @@ cells, column widths, pictures. Hidden rows and columns aren't printed.
 saves it. **Save PDF to OneCloud** keeps it beside the workbook; a record's
 workbook has **Attach PDF to** the record instead.
 
+## Leaving a workbook to look something up
+
+Go anywhere else: the workbook is saved as you go, and waits on the bar at
+the top under its name. Click it to come back; × takes it off. Leave
+several and the bar says how many, with a list to pick from. The bar
+remembers the last five you left, in every tab and on every device you
+sign in on.
+
 ## Version history
 
 The clock at the top opens **Version history**: the workbook as it stood at
@@ -534,6 +542,18 @@ cuts the columns into runs that each fit (`bands`). `PX` is wkhtmltopdf's
 pixel as measured without smart shrinking (500px is 288pt), so a run is as
 wide as the paper. Kept, the PDF is a File beside the workbook's File, or on
 the bound record, under the reader's own permission to add there.
+
+### Back to a workbook, `public/js/workbooks.js`
+
+Desk's router tells `onedesk.workbooks.moved` of every route: the workbook
+just left goes to the front of a list kept in the person's Workbook user
+settings (`frappe.model.user_settings`, five at most), the one opened comes
+off it. `api.titles` names only the ones the reader may
+still open, so one deleted or unshared drops off. The tiles sit in the
+bar's first group, `open`, beside the date; one workbook is a tile and an
+×, several a tile that opens a list. Workbooks only: a record left half
+edited has frappe's own unsaved-changes guard and its own place in
+breadcrumbs.
 
 ### OneAI's tools, `ai.py`
 

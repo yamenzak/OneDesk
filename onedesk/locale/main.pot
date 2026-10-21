@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-21 06:43+0000\n"
-"PO-Revision-Date: 2026-10-21 06:43+0000\n"
+"POT-Creation-Date: 2026-10-21 06:56+0000\n"
+"PO-Revision-Date: 2026-10-21 06:56+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1112,7 +1112,7 @@ msgstr ""
 msgid "A price sent to a lead or a customer."
 msgstr ""
 
-#: onedesk/one_sheet/paper.py:359
+#: onedesk/one_sheet/paper.py:384
 msgid "A print can be kept in OneCloud or on its record."
 msgstr ""
 
@@ -1500,7 +1500,7 @@ msgstr ""
 msgid "A workbook as it stood at one point in its history, whole: taken as it is saved, kept thinner as it ages, and kept for ever once somebody names it."
 msgstr ""
 
-#: onedesk/one_sheet/api.py:57
+#: onedesk/one_sheet/api.py:59
 msgid "A workbook can't be made in a mounted drive."
 msgstr ""
 
@@ -3132,7 +3132,7 @@ msgstr ""
 msgid "All Agreements"
 msgstr ""
 
-#: onedesk/public/js/desk.js:278
+#: onedesk/public/js/desk.js:280
 msgid "All Announcements"
 msgstr ""
 
@@ -4586,7 +4586,7 @@ msgstr ""
 msgid "Ask again under Your Data if you still want your account deleted."
 msgstr ""
 
-#: onedesk/public/js/desk.js:473 onedesk/public/js/outside.js:228
+#: onedesk/public/js/desk.js:475 onedesk/public/js/outside.js:228
 #: onedesk/www/message.html:20
 msgid "Ask an administrator for access."
 msgstr ""
@@ -4637,7 +4637,7 @@ msgstr ""
 msgid "Ask the sender for a new one."
 msgstr ""
 
-#: onedesk/public/js/desk.js:197 onedesk/public/js/oneai.js:98
+#: onedesk/public/js/desk.js:198 onedesk/public/js/oneai.js:98
 #: onedesk/public/js/oneai.js:99 onedesk/public/js/oneai/Panel.vue:186
 msgid "Ask {0}"
 msgstr ""
@@ -5460,7 +5460,7 @@ msgstr ""
 msgid "Back to your account"
 msgstr ""
 
-#: onedesk/public/js/settings.js:3066
+#: onedesk/public/js/settings.js:3066 onedesk/public/js/workbooks.js:72
 msgid "Back to {0}"
 msgstr ""
 
@@ -5479,7 +5479,7 @@ msgstr ""
 msgid "Background"
 msgstr ""
 
-#: onedesk/public/js/desk.js:189
+#: onedesk/public/js/desk.js:190
 msgid "Background Tasks"
 msgstr ""
 
@@ -7358,8 +7358,8 @@ msgstr ""
 #. The button on a notification's mail
 #: frontend/src/home/HrHome.vue:237
 #: onedesk/notifications/one_hr/not_checked_in.md onedesk/public/js/desk.js:76
-#: onedesk/public/js/desk.js:148 onedesk/public/js/desk.js:360
-#: onedesk/public/js/desk.js:371 onedesk/public/js/desk.js:376
+#: onedesk/public/js/desk.js:149 onedesk/public/js/desk.js:362
+#: onedesk/public/js/desk.js:373 onedesk/public/js/desk.js:378
 msgid "Check In"
 msgstr ""
 
@@ -7397,8 +7397,8 @@ msgstr ""
 msgid "Check bill from {0}"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:237 onedesk/public/js/desk.js:369
-#: onedesk/public/js/desk.js:376
+#: frontend/src/home/HrHome.vue:237 onedesk/public/js/desk.js:371
+#: onedesk/public/js/desk.js:378
 msgid "Check in by {0}"
 msgstr ""
 
@@ -7531,11 +7531,11 @@ msgstr ""
 msgid "Checked By"
 msgstr ""
 
-#: onedesk/public/js/desk.js:376 onedesk/public/js/desk.js:419
+#: onedesk/public/js/desk.js:378 onedesk/public/js/desk.js:421
 msgid "Checked In"
 msgstr ""
 
-#: onedesk/public/js/desk.js:419
+#: onedesk/public/js/desk.js:421
 msgid "Checked Out"
 msgstr ""
 
@@ -7547,11 +7547,11 @@ msgstr ""
 msgid "Checked in"
 msgstr ""
 
-#: onedesk/public/js/desk.js:365
+#: onedesk/public/js/desk.js:367
 msgid "Checked in {0}"
 msgstr ""
 
-#: onedesk/public/js/desk.js:364
+#: onedesk/public/js/desk.js:366
 msgid "Checked in {0}, late"
 msgstr ""
 
@@ -7563,11 +7563,11 @@ msgstr ""
 msgid "Checked when someone sets or changes their password."
 msgstr ""
 
-#: onedesk/public/js/desk.js:390
+#: onedesk/public/js/desk.js:392
 msgid "Checking in…"
 msgstr ""
 
-#: onedesk/public/js/desk.js:390
+#: onedesk/public/js/desk.js:392
 msgid "Checking out…"
 msgstr ""
 
@@ -7644,7 +7644,7 @@ msgstr ""
 msgid "Choose a photo or a video from your computer."
 msgstr ""
 
-#: onedesk/one_sheet/paper.py:331
+#: onedesk/one_sheet/paper.py:356
 msgid "Choose a sheet to print."
 msgstr ""
 
@@ -7923,7 +7923,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/AskBar.vue:27
 #: frontend/src/sheet/components/SheetEditor/index.vue:621
 #: onedesk/public/js/oneai/Panel.vue:38 onedesk/public/js/onecloud.js:2125
-#: onedesk/public/js/opportunity.js:12
+#: onedesk/public/js/opportunity.js:12 onedesk/public/js/workbooks.js:106
 msgid "Close"
 msgstr ""
 
@@ -7948,6 +7948,10 @@ msgstr ""
 #. Task in the Year-End Audit project template
 #: onedesk/one_project/library/year_end_audit.json
 msgid "Close the Year"
+msgstr ""
+
+#: onedesk/public/js/workbooks.js:75 onedesk/public/js/workbooks.js:82
+msgid "Close {0}"
 msgstr ""
 
 #: onedesk/public/js/floor_actions.js:137
@@ -9249,7 +9253,7 @@ msgstr ""
 msgid "Couldn't reach the server."
 msgstr ""
 
-#: onedesk/public/js/desk.js:395
+#: onedesk/public/js/desk.js:397
 msgid "Couldn't record the check-in."
 msgstr ""
 
@@ -17417,7 +17421,7 @@ msgstr ""
 msgid "Hidden From Contacts"
 msgstr ""
 
-#: onedesk/public/js/desk.js:248
+#: onedesk/public/js/desk.js:250
 msgid "Hide"
 msgstr ""
 
@@ -20956,7 +20960,7 @@ msgstr ""
 #: frontend/src/project/group.js:39 frontend/src/sent_out/SentOutPage.vue:85
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:184
 #: onedesk/one_project/report/workload/workload.py:177
-#: onedesk/public/js/band.js:152 onedesk/public/js/desk.js:360
+#: onedesk/public/js/band.js:152 onedesk/public/js/desk.js:362
 msgid "Late"
 msgstr ""
 
@@ -20982,7 +20986,7 @@ msgid "Late from {0}"
 msgstr ""
 
 #: onedesk/one_crm/heads.py:256 onedesk/one_inventory/heads.py:380
-#: onedesk/one_inventory/heads.py:529 onedesk/public/js/desk.js:376
+#: onedesk/one_inventory/heads.py:529 onedesk/public/js/desk.js:378
 msgid "Late since {0}"
 msgstr ""
 
@@ -22591,7 +22595,7 @@ msgstr ""
 msgid "Make a work order"
 msgstr ""
 
-#: onedesk/one_sheet/api.py:148
+#: onedesk/one_sheet/api.py:150
 msgid "Make a workbook in OneCloud first."
 msgstr ""
 
@@ -23629,11 +23633,11 @@ msgstr ""
 msgid "Move Stock"
 msgstr ""
 
-#: onedesk/public/js/desk.js:205
+#: onedesk/public/js/desk.js:207
 msgid "Move This Bar to the Bottom"
 msgstr ""
 
-#: onedesk/public/js/desk.js:205
+#: onedesk/public/js/desk.js:207
 msgid "Move This Bar to the Top"
 msgstr ""
 
@@ -25676,7 +25680,7 @@ msgid "Not Booked"
 msgstr ""
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/not_checked_in.md onedesk/public/js/desk.js:411
+#: onedesk/notifications/one_hr/not_checked_in.md onedesk/public/js/desk.js:413
 msgid "Not Checked In"
 msgstr ""
 
@@ -25825,7 +25829,7 @@ msgstr ""
 msgid "Not checked until the workspace is linked to an account."
 msgstr ""
 
-#: onedesk/public/js/desk.js:372
+#: onedesk/public/js/desk.js:374
 msgid "Not checking in today"
 msgstr ""
 
@@ -26163,7 +26167,7 @@ msgid "Nothing has happened yet. It is checked against your own permissions when
 msgstr ""
 
 #: frontend/portal/src/pages/Home.vue:68 frontend/portal/src/pages/List.vue:84
-#: onedesk/one/page/masters/masters.js:124 onedesk/public/js/desk.js:472
+#: onedesk/one/page/masters/masters.js:124 onedesk/public/js/desk.js:474
 msgid "Nothing here yet"
 msgstr ""
 
@@ -26232,7 +26236,7 @@ msgstr ""
 msgid "Nothing shared with you"
 msgstr ""
 
-#: onedesk/public/js/desk.js:383
+#: onedesk/public/js/desk.js:385
 msgid "Nothing to check in. You're {0} today."
 msgstr ""
 
@@ -26327,7 +26331,7 @@ msgstr ""
 #. Task in the Mobile App project template
 #: onedesk/one/settings.py:17 onedesk/one/settings.py:113
 #: onedesk/one/sidebar/one/one.json onedesk/one_project/library/mobile_app.json
-#: onedesk/public/js/desk.js:178 onedesk/public/js/doctype_settings.js:234
+#: onedesk/public/js/desk.js:179 onedesk/public/js/doctype_settings.js:234
 #: onedesk/public/js/settings.js:3178 onedesk/public/js/settings.js:3272
 #: onedesk/public/js/settings.js:3329
 msgid "Notifications"
@@ -27420,7 +27424,7 @@ msgstr ""
 #: onedesk/one/sidebar/one/one.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_intake/page/intake/intake.js:3 onedesk/public/js/desk.js:84
-#: onedesk/public/js/desk.js:168 onedesk/public/js/desk.js:345
+#: onedesk/public/js/desk.js:169 onedesk/public/js/desk.js:347
 msgid "OneIntake"
 msgstr ""
 
@@ -27491,7 +27495,7 @@ msgstr ""
 msgid "OneWorkbook"
 msgstr ""
 
-#: onedesk/one_sheet/api.py:221
+#: onedesk/one_sheet/api.py:223
 msgid "Only Excel and CSV files open as a workbook."
 msgstr ""
 
@@ -33457,7 +33461,7 @@ msgstr ""
 msgid "Register a passkey before checking in."
 msgstr ""
 
-#: onedesk/public/js/desk.js:404
+#: onedesk/public/js/desk.js:406
 msgid "Register a passkey on this phone first?"
 msgstr ""
 
@@ -35611,8 +35615,8 @@ msgstr ""
 #: frontend/src/to_order/ToOrderPage.vue:9
 #: frontend/src/upkeep/UpkeepPage.vue:10
 #: onedesk/one_hr/custom/employee_attendance_tool.json
-#: onedesk/public/js/crumb_switch.js:110 onedesk/public/js/desk.js:140
-#: onedesk/public/js/desk.js:141 onedesk/public/js/onemail.js:67
+#: onedesk/public/js/crumb_switch.js:110 onedesk/public/js/desk.js:141
+#: onedesk/public/js/desk.js:142 onedesk/public/js/onemail.js:67
 msgid "Search"
 msgstr ""
 
@@ -40815,7 +40819,7 @@ msgstr ""
 msgid "The OneAI panel and Ask in a workbook: answers, look-ups, summaries and formulas."
 msgstr ""
 
-#: frontend/src/sheet/shim/PrintDialog.vue:144
+#: frontend/src/sheet/shim/PrintDialog.vue:155
 msgid "The PDF wasn’t kept."
 msgstr ""
 
@@ -42097,9 +42101,9 @@ msgstr ""
 msgid "The server's name or address."
 msgstr ""
 
-#: frontend/src/sheet/shim/PrintDialog.vue:118
-#: frontend/src/sheet/shim/PrintDialog.vue:128
-#: frontend/src/sheet/shim/PrintDialog.vue:130
+#: frontend/src/sheet/shim/PrintDialog.vue:129
+#: frontend/src/sheet/shim/PrintDialog.vue:139
+#: frontend/src/sheet/shim/PrintDialog.vue:141
 msgid "The sheet wasn’t printed."
 msgstr ""
 
@@ -42581,7 +42585,7 @@ msgid "There is no job called {0}."
 msgstr ""
 
 #: onedesk/one/printing.py:545 onedesk/one/printing.py:677
-#: onedesk/one_sheet/paper.py:272
+#: onedesk/one_sheet/paper.py:289
 msgid "There is no letter head {0}."
 msgstr ""
 
@@ -42642,7 +42646,7 @@ msgstr ""
 msgid "There is no {0} {1}."
 msgstr ""
 
-#: onedesk/one_sheet/paper.py:307
+#: onedesk/one_sheet/paper.py:332
 msgid "There is nothing on this sheet to print."
 msgstr ""
 
@@ -42849,7 +42853,7 @@ msgstr ""
 msgid "This copy is gone"
 msgstr ""
 
-#: onedesk/one_sheet/api.py:156
+#: onedesk/one_sheet/api.py:158
 msgid "This doesn't read as a workbook."
 msgstr ""
 
@@ -42865,7 +42869,7 @@ msgstr ""
 msgid "This extension has not passed its review, so it cannot be turned on. Ask OneAI to change it."
 msgstr ""
 
-#: onedesk/one_sheet/api.py:218
+#: onedesk/one_sheet/api.py:220
 msgid "This file can't be opened."
 msgstr ""
 
@@ -43184,7 +43188,7 @@ msgstr ""
 msgid "This was shared with specific people. Enter your email to get a code."
 msgstr ""
 
-#: onedesk/one_sheet/paper.py:397
+#: onedesk/one_sheet/paper.py:422
 msgid "This workbook has no folder to keep a print in."
 msgstr ""
 
@@ -43192,15 +43196,15 @@ msgstr ""
 msgid "This workbook is too large to save (over {0} MB). Formatting across a very large range is the usual cause: clear what you don't need, or split it across sheets."
 msgstr ""
 
-#: onedesk/one_sheet/api.py:242
+#: onedesk/one_sheet/api.py:244
 msgid "This workbook isn't a file of its own to write back to."
 msgstr ""
 
-#: onedesk/one_sheet/paper.py:386
+#: onedesk/one_sheet/paper.py:411
 msgid "This workbook isn't on a record."
 msgstr ""
 
-#: onedesk/one_sheet/api.py:35
+#: onedesk/one_sheet/api.py:37
 msgid "This workbook no longer exists."
 msgstr ""
 
@@ -43417,8 +43421,8 @@ msgid "Timeout (seconds)"
 msgstr ""
 
 #: frontend/src/task/Timers.vue:13 onedesk/one_task/page/timers/timers.js:2
-#: onedesk/public/js/desk.js:93 onedesk/public/js/desk.js:158
-#: onedesk/public/js/desk.js:313
+#: onedesk/public/js/desk.js:93 onedesk/public/js/desk.js:159
+#: onedesk/public/js/desk.js:315
 msgid "Timers"
 msgstr ""
 
@@ -43469,7 +43473,7 @@ msgstr ""
 msgid "Timesheets"
 msgstr ""
 
-#: onedesk/public/js/desk.js:313
+#: onedesk/public/js/desk.js:315
 msgid "Timing {0}"
 msgstr ""
 
@@ -45055,7 +45059,7 @@ msgstr ""
 msgid "Untitled Template"
 msgstr ""
 
-#: onedesk/one_sheet/api.py:58
+#: onedesk/one_sheet/api.py:60 onedesk/public/js/workbooks.js:49
 msgid "Untitled Workbook"
 msgstr ""
 
@@ -49774,7 +49778,7 @@ msgstr ""
 #: onedesk/one_sheet/doctype/workbook/workbook.json
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json
-#: onedesk/one_sheet/paper.py:336 onedesk/public/js/onecloud.js:450
+#: onedesk/one_sheet/paper.py:361 onedesk/public/js/onecloud.js:450
 #: onedesk/public/js/onecloud.js:1755
 msgid "Workbook"
 msgstr ""
@@ -49787,6 +49791,10 @@ msgstr ""
 #. Name of a DocType
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json
 msgid "Workbook Version"
+msgstr ""
+
+#: onedesk/public/js/workbooks.js:93
+msgid "Workbooks"
 msgstr ""
 
 #. Label in the One Compensatory Leave Request print format
@@ -50456,7 +50464,7 @@ msgstr ""
 msgid "You can't add items here."
 msgstr ""
 
-#: onedesk/one_sheet/paper.py:394 onedesk/one_storage/api.py:48
+#: onedesk/one_sheet/paper.py:419 onedesk/one_storage/api.py:48
 msgid "You can't add to this folder."
 msgstr ""
 
@@ -50468,7 +50476,7 @@ msgstr ""
 msgid "You can't make a passkey on {0} because it's shared. Use your phone."
 msgstr ""
 
-#: onedesk/one_sheet/api.py:44
+#: onedesk/one_sheet/api.py:46
 msgid "You can't open this workbook."
 msgstr ""
 
@@ -50983,7 +50991,7 @@ msgstr ""
 msgid "Your sessions are on the Sign-in page."
 msgstr ""
 
-#: onedesk/public/js/desk.js:368
+#: onedesk/public/js/desk.js:370
 msgid "Your shift started at {0}"
 msgstr ""
 
@@ -51725,7 +51733,7 @@ msgid "not known yet"
 msgstr ""
 
 #: onedesk/one/heads.py:28 onedesk/one/notify.py:321
-#: onedesk/public/js/desk.js:434
+#: onedesk/public/js/desk.js:436
 msgid "nothing"
 msgstr ""
 
@@ -53335,7 +53343,7 @@ msgstr ""
 msgid "{0} is assigned to somebody else."
 msgstr ""
 
-#: frontend/src/sheet/shim/PrintDialog.vue:141
+#: frontend/src/sheet/shim/PrintDialog.vue:152
 msgid "{0} is attached to {1}."
 msgstr ""
 
@@ -53379,7 +53387,7 @@ msgstr ""
 msgid "{0} is for less than the retention, before VAT."
 msgstr ""
 
-#: frontend/src/sheet/shim/PrintDialog.vue:142
+#: frontend/src/sheet/shim/PrintDialog.vue:153
 msgid "{0} is in OneCloud, beside this workbook."
 msgstr ""
 
@@ -54203,7 +54211,7 @@ msgstr ""
 msgid "{0} passkeys on it stopped working"
 msgstr ""
 
-#: onedesk/public/js/desk.js:313
+#: onedesk/public/js/desk.js:315
 msgid "{0} paused timers"
 msgstr ""
 
@@ -54520,7 +54528,7 @@ msgstr ""
 msgid "{0} variants made"
 msgstr ""
 
-#: onedesk/public/js/desk.js:345
+#: onedesk/public/js/desk.js:347
 msgid "{0} waiting in OneIntake"
 msgstr ""
 
@@ -54584,6 +54592,14 @@ msgstr ""
 
 #: frontend/src/floor/ShopFloor.vue:126
 msgid "{0} work orders"
+msgstr ""
+
+#: onedesk/public/js/workbooks.js:73
+msgid "{0} workbooks"
+msgstr ""
+
+#: onedesk/public/js/workbooks.js:72
+msgid "{0} workbooks open"
 msgstr ""
 
 #: onedesk/public/js/overtime_slip.js:65

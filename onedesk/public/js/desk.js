@@ -114,6 +114,7 @@ onedesk.dock.bar = () => {
 		<button class="one-bar-tool one-bar-now"></button>
 		<div class="one-bar-news hide" role="marquee" aria-label="${__("Announcements")}"></div>
 		<div class="one-bar-tools">
+			<div class="one-bar-group" data-group="open"></div>
 			<div class="one-bar-group" data-group="find"></div>
 			<div class="one-bar-group" data-group="day"></div>
 			<div class="one-bar-group" data-group="waiting"></div>
@@ -202,6 +203,7 @@ onedesk.dock.bar = () => {
 			group: "ai",
 		});
 	}
+	onedesk.workbooks.place(add);
 	const moved = () => (onedesk.dock.at === "bottom" ? __("Move This Bar to the Top") : __("Move This Bar to the Bottom"));
 	const $move = add({
 		label: moved(),
