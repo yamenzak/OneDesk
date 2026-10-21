@@ -82,7 +82,9 @@ OneAI, and the question is about that field: it explains it and suggests a
 value on a card. A field left more than a few seconds before you open OneAI
 is not taken as meant.
 
-The mail window has more, listed in OneMail's guide.
+With a mail window open, the OneAI dial shows above it, and opening OneAI
+writes in its message: around your signature and the mail you are replying
+to, never over them. The mail window draws no button of its own.
 
 ## Summaries on a record
 
@@ -159,7 +161,7 @@ person or day. Only administrators see it.
 - **To One**: Home counts the cards waiting for you. **Actions**, **Knowledge**, **Credits**, **Conversations** and **Suggestions** are under OneAI in One's sidebar, and **What OneAI Remembers** is in Settings.
 - **To OneIntake**: Each document, scan and photo that arrives is read with OneAI. Fields filled on a record show the OneAI mark.
 - **To OneHR**: Applicants are screened, interviews prepared, interview recordings written out and grievances sorted with OneAI.
-- **To OneMail**: The mail window has **Write with OneAI**, and a reply OneAI drafts opens there to edit and send.
+- **To OneMail**: Opening OneAI with a mail window open writes in its message, and a reply OneAI drafts opens there to edit and send.
 - **To OneStudio**: Every extension is reviewed by OneAI before it can be turned on, and mended when it runs into errors.
 - **To OneLegal**: The Subprocessors list names Cloudflare and Google, which run OneAI's models, and what they receive. The Privacy Policy says OneAI reads only what you can open.
 

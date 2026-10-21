@@ -121,8 +121,11 @@ export function aiSees(what) {
 	if (window.onedesk?.oneai) window.onedesk.oneai.seen = what || null;
 }
 
-// The same panel a desk form's text field opens, pointed at this field.
-export const writeWithOneAI = (field) => window.onedesk?.oneai?.open({ field });
+// The text field the reader just left: opening OneAI soon after writes in it
+// (public/js/oneai.js, justLeft).
+export function aiLeft(field) {
+	if (window.onedesk?.oneai) window.onedesk.oneai.left = { at: Date.now(), field };
+}
 
 export const setValue = (doctype, name, fieldname, value) =>
 	call("frappe.client.set_value", { doctype, name, fieldname, value });

@@ -1139,45 +1139,9 @@ button.one-ai-model:hover {
 	color: var(--ink-gray-8);
 }
 
-.one-ai-write {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	width: 20px;
-	height: 20px;
-	margin-left: 4px;
-	padding: 0;
-	border: 0;
-	border-radius: var(--radius-3);
-	background: transparent;
-	vertical-align: middle;
-	cursor: pointer;
-	transition: background 0.15s ease;
-}
-
-.one-ai-write img,
 .one-ai-touched {
 	width: 14px;
 	height: 14px;
-}
-
-.one-ai-write img {
-	filter: grayscale(1);
-	opacity: 0.55;
-	transition: filter 0.15s ease, opacity 0.15s ease;
-}
-
-.one-ai-write:hover img,
-.one-ai-write:focus-visible img {
-	filter: none;
-	opacity: 1;
-}
-
-.one-ai-write:hover {
-	background: var(--surface-gray-2);
-}
-
-.one-ai-touched {
 	margin-left: 5px;
 	vertical-align: middle;
 }
@@ -1293,8 +1257,8 @@ button.one-ai-model:hover {
 }
 
 
-body.one-ai-writing .one-ai-panel,
-body.one-ai-writing .one-ai-dial {
+body.one-ai-composing .one-ai-panel,
+body.one-ai-composing .one-ai-dial {
 	z-index: 1060;
 }
 

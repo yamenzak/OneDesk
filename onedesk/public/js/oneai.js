@@ -67,7 +67,7 @@ onedesk.oneai = {
 			await frappe.require("oneai.bundle.js");
 			this.panel = onedesk.oneai.mount(document.body);
 		}
-		this.panel.open(opening || this.justLeft() || {});
+		this.panel.open(opening || (await this.inMail()) || this.justLeft() || {});
 	},
 
 	async count() {
@@ -195,8 +195,9 @@ onedesk.oneai.follow = function (frm) {
 onedesk.oneai.justLeft = function () {
 	const left = onedesk.oneai.left;
 	onedesk.oneai.left = null;
-	if (!left || Date.now() - left.at > JUST_LEFT_MS || left.frm !== window.cur_frm) return null;
-	return left.field ? { field: { ...left.field, value: left.frm.doc[left.field.fieldname] || "" } } : { about: left.about };
+	if (!left || Date.now() - left.at > JUST_LEFT_MS || (left.frm && left.frm !== window.cur_frm)) return null;
+	if (!left.field) return { about: left.about };
+	return { field: left.frm ? { ...left.field, value: left.frm.doc[left.field.fieldname] || "" } : left.field };
 };
 
 onedesk.oneai.changed = function (frm, drawn) {
@@ -328,47 +329,52 @@ onedesk.oneai.beside = function (on) {
 	document.body.classList.toggle("one-ai-writing", !!on);
 };
 
+// An open mail window is what the panel writes in when it is opened: the
+// dial shows above the window and nothing is drawn in it.
 onedesk.oneai.compose = function (composer) {
-	if (!onedesk.apps.ai()) return;
-	const field = composer.dialog && composer.dialog.fields_dict.content;
-	const top = field && field.$wrapper.find(".clearfix").first();
-	if (!top || !top.length || top.find(".one-ai-write").length) return;
-	$(`<button type="button" class="one-ai-write" title="${__("Write with {0}", [ONEAI])}"><img src="${MARK}" alt="${ONEAI}"></button>`)
-		.appendTo(top)
-		.on("click", async (event) => {
-			event.preventDefault();
-			const sender = composer.dialog.get_value("sender") || "";
-			let signature = "";
-			try {
-				signature = await composer.get_signature(sender);
-			} catch (e) {
-				signature = "";
-			}
-			const writing = { composer, signature };
-			onedesk.oneai.writing = writing;
-			const parts = onedesk.oneai.parts(writing);
-			onedesk.oneai.beside(true);
-			onedesk.oneai.open({
-				field: {
-					doctype: "Communication",
-					name: "",
-					fieldname: "content",
-					label: __("Message"),
-					value: parts.written,
-					email: true,
-					subject: composer.dialog.get_value("subject") || "",
-					to: composer.dialog.get_value("recipients") || "",
-					quoted: parts.quoted,
-				},
-			});
-		});
+	if (!onedesk.apps.ai() || !composer.dialog) return;
+	onedesk.oneai.composing = composer;
+	document.body.classList.add("one-ai-composing");
 	const hidden = composer.dialog.onhide;
 	composer.dialog.onhide = function (...args) {
+		if (onedesk.oneai.composing === composer) {
+			onedesk.oneai.composing = null;
+			document.body.classList.remove("one-ai-composing");
+		}
 		if (onedesk.oneai.writing && onedesk.oneai.writing.composer === composer) {
 			onedesk.oneai.writing = null;
 			onedesk.oneai.beside(false);
 		}
 		return hidden && hidden.apply(this, args);
+	};
+};
+
+onedesk.oneai.inMail = async function () {
+	const composer = onedesk.oneai.composing;
+	if (!composer || !composer.dialog.display) return null;
+	const sender = composer.dialog.get_value("sender") || "";
+	let signature = "";
+	try {
+		signature = await composer.get_signature(sender);
+	} catch (e) {
+		signature = "";
+	}
+	const writing = { composer, signature };
+	onedesk.oneai.writing = writing;
+	const parts = onedesk.oneai.parts(writing);
+	onedesk.oneai.beside(true);
+	return {
+		field: {
+			doctype: "Communication",
+			name: "",
+			fieldname: "content",
+			label: __("Message"),
+			value: parts.written,
+			email: true,
+			subject: composer.dialog.get_value("subject") || "",
+			to: composer.dialog.get_value("recipients") || "",
+			quoted: parts.quoted,
+		},
 	};
 };
 

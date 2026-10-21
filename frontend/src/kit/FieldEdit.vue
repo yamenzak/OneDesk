@@ -5,18 +5,7 @@
     <template v-else>
       <span v-if="long && shown" class="min-w-0 text-start [&_p]:mb-2" v-html="shown" />
       <span v-else class="min-w-0 truncate" :class="{ 'text-ink-gray-4': !shown }" v-html="shown || placeholder || '–'" />
-      <img v-if="touched && !(writable && long && ai)" :src="oneaiMark" class="size-3.5 shrink-0" alt="OneAI" :title="__('Written by {0}', ['OneAI'])" />
-      <button
-        v-if="writable && long && ai"
-        type="button"
-        class="shrink-0 rounded-2 focus-visible:ring-2 focus-visible:ring-outline-gray-3"
-        :class="touched ? '' : 'opacity-50 hover:opacity-100'"
-        :aria-label="__('Write with {0}', ['OneAI'])"
-        :title="touched ? __('Rewrite with {0}', ['OneAI']) : __('Write with {0}', ['OneAI'])"
-        @click="write"
-      >
-        <img :src="oneaiMark" class="block size-3.5" alt="" />
-      </button>
+      <img v-if="touched" :src="oneaiMark" class="size-3.5 shrink-0" alt="OneAI" :title="__('Written by {0}', ['OneAI'])" />
       <button
         v-if="writable"
         type="button"
@@ -38,7 +27,7 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import { Button, Switch } from "frappe-ui";
 
-import { __, oneaiMark, oneaiOn, writeWithOneAI } from "./desk";
+import { __, aiLeft, oneaiMark, oneaiOn } from "./desk";
 
 const props = defineProps({
   form: { type: Object, required: true },
@@ -83,10 +72,11 @@ const touched = computed(() => {
   return !props.table && written !== undefined && words(source.value.value(props.field)) === words(written);
 });
 
-function write() {
+// A long text left for the OneAI dial is what the panel writes in.
+function noted() {
   const doc = props.form.frm.value?.doc;
-  if (!doc) return;
-  writeWithOneAI({
+  if (!doc || !long.value || !writable.value || !ai.value) return;
+  aiLeft({
     doctype: doc.doctype,
     name: doc.__islocal ? "" : doc.name,
     fieldname: props.field,
@@ -101,6 +91,7 @@ async function start() {
   editing.value = true;
   await nextTick();
   lent = source.value.lend(props.field, spot.value, { keys, left });
+  lent?.control?.$wrapper?.off("focusout.oneai").on("focusout.oneai", noted);
   const c = lent?.control;
   (c?.$input || c?.quill)?.focus?.();
 }
