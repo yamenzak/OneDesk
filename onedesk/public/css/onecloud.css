@@ -67,6 +67,14 @@
 	font-size: var(--text-base);
 }
 
+.oc-crumbs .es-breadcrumbs__item > svg.oc-crumb-mark {
+	flex: none;
+	font-size: inherit;
+	width: 1.05em;
+	height: 1.05em;
+	margin-inline-end: 4px;
+}
+
 .oc-search {
 	width: 240px;
 }

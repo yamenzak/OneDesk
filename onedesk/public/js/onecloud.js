@@ -370,6 +370,12 @@ onedesk.OneCloud = class OneCloud {
 			})),
 		});
 		this.$root.find(".oc-crumbs").children(".es-breadcrumbs").remove().end().prepend($crumbs);
+		const product = new RegExp(`^${onedesk.brand.NAME.source}$`);
+		$crumbs.find(".es-breadcrumbs__item").each((_, el) => {
+			const found = (el.textContent || "").trim().match(product);
+			const id = found && onedesk.brand.mark_of(found[1]);
+			if (id) $(el).prepend(frappe.utils.icon(id, { width: "1.05em", height: "1.05em" }, "", "", "one-mark oc-crumb-mark"));
+		});
 		this.$root.find("[data-act=back]").prop("disabled", !this.past.length);
 		this.$root.find("[data-act=forward]").prop("disabled", !this.ahead.length);
 		this.$root.find("[data-act=up]").prop("disabled", this.trail.length < 2);
