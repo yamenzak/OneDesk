@@ -162,7 +162,7 @@ function portal_dialog(frm, first) {
 				return frappe.show_alert({ message: __("Link sent"), indicator: "green" });
 			}
 			if (verb === "revoke") {
-				return frappe.confirm(__("Stop this link opening? Whoever has it can't use it any more."), async () => {
+				return frappe.confirm(__("Disable this link? Anyone who has it will no longer be able to open it."), async () => {
 					said.links = await frappe.xcall(portal_share("revoke_link"), { name: link });
 					draw();
 				});

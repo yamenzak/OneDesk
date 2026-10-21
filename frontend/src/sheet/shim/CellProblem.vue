@@ -1,7 +1,7 @@
 <!-- What is wrong with the selected cell, under it, and the fix when there is one: a record the table names that isn't there yet is made from here (one_sheet/table.py, make_missing). -->
 <template>
 	<div role="alert" :style="box" @mousedown.stop>
-		<p :style="{ margin: 0, fontWeight: 600, color: tone }">{{ problem.code || (problem.level === 'warn' ? __('Check this') : __('Not taken')) }}</p>
+		<p :style="{ margin: 0, fontWeight: 600, color: tone }">{{ problem.code || (problem.level === 'warn' ? __('Warning') : __('Not saved')) }}</p>
 		<p :style="{ margin: '4px 0 0' }">{{ problem.message }}</p>
 		<div v-if="problem.doctype && problem.value && canFix" :style="{ marginTop: '8px', display: 'flex', gap: '6px' }">
 			<Button size="sm" variant="solid" :loading="busy" @click="fix">{{ __("Create {0}", [__(problem.doctype)]) }}</Button>
@@ -58,7 +58,7 @@ async function fix() {
 		if (why) failed.value = why;
 		else emit("fixed", props.problem);
 	} catch (error) {
-		failed.value = error?.message || __("It couldn’t be made.");
+		failed.value = error?.message || __("Could not create the record.");
 	} finally {
 		busy.value = false;
 	}

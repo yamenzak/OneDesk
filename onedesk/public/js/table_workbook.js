@@ -43,7 +43,7 @@ onedesk.table_workbook.pick = (templates, plain) =>
 
 onedesk.table_workbook.open = async (frm, field) => {
 	if (frm.is_dirty()) {
-		frappe.msgprint(__("Save this record first, so the workbook starts from what is saved."));
+		frappe.msgprint(__("Save the record before opening its table in a workbook."));
 		return;
 	}
 	const templates = await frappe.xcall("onedesk.one_sheet.templates.listed", { doctype: frm.doctype, field, name: frm.doc.name });
@@ -64,7 +64,7 @@ frappe.ui.form.on("*", {
 		for (const df of frm.meta.fields) {
 			const grid = df.fieldtype === "Table" && frm.fields_dict[df.fieldname]?.grid;
 			if (!grid || grid.one_workbook) continue;
-			grid.one_workbook = grid.add_custom_button(__("Open in a workbook"), () =>
+			grid.one_workbook = grid.add_custom_button(__("Open in Workbook"), () =>
 				onedesk.table_workbook.open(frm, df.fieldname)
 			);
 		}

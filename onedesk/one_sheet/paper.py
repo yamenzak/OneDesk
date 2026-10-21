@@ -286,7 +286,7 @@ def _letter_head(chosen: str | None = None, doc: dict | None = None) -> tuple[st
 	where = {"name": chosen} if chosen else {"is_default": 1}
 	held = frappe.db.get_value("Letter Head", {**where, "disabled": 0}, ["content", "footer"], as_dict=True)
 	if chosen and not held:
-		frappe.throw(_("There is no letter head {0}.").format(chosen))
+		frappe.throw(_("Letter head {0} does not exist.").format(chosen))
 	if not held:
 		return drawing.draw(None), drawing.draw_foot(None)
 
@@ -329,7 +329,7 @@ def page(
 			f"{f'<h2>{name}</h2>' if named else ''}{drawn}</section>"
 		)
 	if not body:
-		body.append(f'<p class="empty">{escape_html(_("There is nothing on this sheet to print."))}</p>')
+		body.append(f'<p class="empty">{escape_html(_("This sheet is empty."))}</p>')
 	return f"""<!DOCTYPE html><html><head><meta charset="utf-8"><title>{escape_html(title)}</title>
 <style>
 body{{margin:0;font-family:{FONT};font-size:{FONT_SIZE}px;color:#111827;-webkit-print-color-adjust:exact}}
@@ -381,7 +381,7 @@ def pdf(
 
 	item = api._may(name, "read")
 	if keep not in KEEP:
-		frappe.throw(_("A print can be kept in OneCloud or on its record."))
+		frappe.throw(_("A PDF can only be saved to OneCloud or attached to the record."))
 	title = frappe.db.get_value(api.WORKBOOK, name, "title") or item.get("file_name") or ""
 	said = _sheets(sheets)
 	html = page(title, said, bool(cint(landscape)), bool(cint(fit)), bool(cint(gridlines)), letter_head or None, _record(name))
@@ -408,7 +408,7 @@ def _keep(name: str, item: dict, file_name: str, content: bytes, keep: str) -> d
 	if keep == "record":
 		book = frappe.db.get_value(api.WORKBOOK, name, ["bound_doctype", "bound_name"], as_dict=True)
 		if not book or not book.bound_doctype:
-			frappe.throw(_("This workbook isn't on a record."))
+			frappe.throw(_("This workbook is not linked to a record."))
 		frappe.has_permission(book.bound_doctype, "write", book.bound_name, throw=True)
 		where = ("record", book.bound_doctype, book.bound_name)
 	elif item.get("attached_to_doctype"):
@@ -419,7 +419,7 @@ def _keep(name: str, item: dict, file_name: str, content: bytes, keep: str) -> d
 			frappe.throw(_("You can't add to this folder."), frappe.PermissionError)
 		where = ("folder", item["folder"])
 	else:
-		frappe.throw(_("This workbook has no folder to keep a print in."))
+		frappe.throw(_("This workbook is not in a folder."))
 	if where[0] == "record":
 		taken = set(
 			frappe.get_all("File", filters={"attached_to_doctype": where[1], "attached_to_name": where[2]}, pluck="file_name")

@@ -589,7 +589,7 @@ def account(company: str, doctype: str) -> str:
 		return found
 	parent = frappe.db.get_value("Account", {"company": company, "account_type": near, "is_group": 0}, "parent_account")
 	if not parent:
-		frappe.throw(_("{0} has no account for its {1} to put {2} beside.").format(company, _(near), _(name)))
+		frappe.throw(_("{0} has no {1} account to create {2} under.").format(company, _(near), _(name)))
 	return (
 		frappe.get_doc(
 			{"doctype": "Account", "account_name": name, "parent_account": parent, "company": company, "account_type": ""}

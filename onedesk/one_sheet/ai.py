@@ -172,7 +172,7 @@ def draft_workbook(
 		return {"mend": "draft_workbook", "error": "A workbook has at least one sheet."}
 	changes = {
 		"what": "workbook",
-		"title": _("Make the workbook {0}").format(name),
+		"title": _("Create Workbook {0}").format(name),
 		"name": name,
 		"folder": folder or "",
 		"sheets": laid,
@@ -218,13 +218,13 @@ def write_cells(
 		return {"mend": "write_cells", "error": "Say which cells to write or how they look."}
 	changes = {
 		"what": "cells",
-		"title": _("Write in {0}, {1}").format(item["file_name"], sheet),
+		"title": _("Edit {0}, {1}").format(item["file_name"], sheet),
 		"workbook": workbook,
 		"sheet": sheet,
 		"cells": given,
 		"looks": styled,
 		"summary": [{"label": ref, "value": str(value)} for ref, value in list(given.items())[:8]]
-		+ ([{"label": _("And"), "value": _("{0} more cells").format(len(given) - 8)}] if len(given) > 8 else [])
+		+ ([{"label": _("More"), "value": _("{0} more cells").format(len(given) - 8)}] if len(given) > 8 else [])
 		+ ([{"label": _("Formatted"), "value": _("{0} cells").format(len(styled))}] if styled else []),
 	}
 	return {
@@ -254,7 +254,7 @@ def comment_on_cell(
 		return {"mend": "comment_on_cell", "error": f"{cell} isn't a cell. Name it as D14."}
 	changes = {
 		"what": "note",
-		"title": _("A note on {0} in {1}").format(cell.upper(), item["file_name"]),
+		"title": _("Comment on {0} in {1}").format(cell.upper(), item["file_name"]),
 		"workbook": workbook,
 		"sheet": sheet,
 		"cell": cell.upper(),

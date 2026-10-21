@@ -175,6 +175,30 @@ joining two clauses, no em dash, nothing over 140 characters, no "Open one
 to…" or "Click a…", and no note over 70 characters. The rest is
 checked on every screen of the passover.
 
+## A message
+
+An error, a confirmation, a toast and the line under a dialog say what
+happened or what to do, in the words any SaaS product uses.
+
+    Letter head {0} does not exist.
+    Could not save the template.
+    {0} saved to OneCloud, in the same folder as this workbook.
+    Column {0} was removed from the sheet. Undo the change, or reopen the workbook from the record.
+
+Not a person's turn of phrase. These were all on a screen:
+
+    This doesn't read as a workbook.
+    The record didn't take this table.
+    It goes in OneCloud › Workbook Templates, where everyone in the company can start from it.
+    This formula reads itself, through the cells it reads.
+
+`test_a_message_says_what_happened` reads every `_()` and `__()` in the app,
+the desk's scripts and the islands for the phrasings that keep coming back:
+"any more", "of its own", "doesn't read", "works out to", "didn't take",
+"beside", "couldn't be made", "wasn't kept", "where everyone", "isn't there",
+"No {0} called". It cannot judge the rest, so a person still reads every
+message on the screen it appears on.
+
 ## The guard
 
 `tests/guards/test_wording.py` holds every doctype and every custom field in the app

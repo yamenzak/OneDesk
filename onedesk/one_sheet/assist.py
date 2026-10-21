@@ -93,9 +93,9 @@ def ai_assist(name: str, prompt: str, selection: str | None = None) -> dict:
 	api._may(name, "write")
 	prompt = (prompt or "").strip()
 	if not prompt:
-		frappe.throw(_("Say what you would like done first."))
+		frappe.throw(_("Enter a request first."))
 	if len(prompt) > MOST_PROMPT:
-		frappe.throw(_("That request is too long."))
+		frappe.throw(_("The request is too long."))
 	chosen = frappe.parse_json(selection) if selection else {}
 	chosen = chosen if isinstance(chosen, dict) else {}
 	sheet = chosen.get("sheet") or "Sheet1"

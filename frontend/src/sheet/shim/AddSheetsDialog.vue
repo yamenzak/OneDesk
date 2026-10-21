@@ -38,7 +38,7 @@ watch(open, async (now) => {
 		const first = new Set((mine || []).map((one) => one.name));
 		offered.value = [...(mine || []), ...(every || []).filter((one) => !first.has(one.name))];
 	} catch (failed) {
-		error.value = failed?.message || __("The templates couldn’t be loaded.");
+		error.value = failed?.message || __("Could not load the templates.");
 	} finally {
 		loading.value = false;
 	}
@@ -51,7 +51,7 @@ async function pick(name) {
 		emit("add", await call("onedesk.one_sheet.templates.sheets_of", { template: name }));
 		open.value = false;
 	} catch (failed) {
-		error.value = failed?.message || __("The sheets weren’t added.");
+		error.value = failed?.message || __("Could not add the sheets.");
 	} finally {
 		busy.value = "";
 	}

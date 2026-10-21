@@ -158,7 +158,7 @@ function order() {
     chosen.every((one) => one.supplier)
       ? send(null)
       : prompt(
-          { fieldtype: "Link", fieldname: "supplier", label: __("Supplier"), options: "Supplier", reqd: 1, description: __("For the lines that have no supplier of their own.") },
+          { fieldtype: "Link", fieldname: "supplier", label: __("Supplier"), options: "Supplier", reqd: 1, description: __("Used for lines without a default supplier.") },
           ({ supplier }) => send(supplier),
           __("Who Supplies the Rest?"),
           __("Order")

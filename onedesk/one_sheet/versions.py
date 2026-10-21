@@ -55,9 +55,9 @@ def _ops(ops) -> list[dict]:
 		try:
 			ops = json.loads(ops)
 		except ValueError:
-			frappe.throw(_("The edits sent with this save don't read."))
+			frappe.throw(_("The edits in this save are invalid."))
 	if not isinstance(ops, list):
-		frappe.throw(_("The edits sent with this save don't read."))
+		frappe.throw(_("The edits in this save are invalid."))
 	if len(ops) > MOST_OPS:
 		frappe.throw(_("Too many edits in one save."))
 	return ops
@@ -66,7 +66,7 @@ def _ops(ops) -> list[dict]:
 def _insert(workbook: str, seq: int, op: dict, actor: str, request_id: str | None = None) -> None:
 	kind = op.get("op_type") or op.get("opType")
 	if not kind:
-		frappe.throw(_("Each edit says what kind it is."))
+		frappe.throw(_("Each edit must specify its type."))
 	refs = op.get("cell_refs") or op.get("cellRefs")
 	before = op.get("before") or op.get("before_json")
 	after = op.get("after") or op.get("after_json")
@@ -206,7 +206,7 @@ def ops_for_cell(sheet: str, cell_id: str, sub_sheet: str | None = None, limit: 
 	"""Every edit that touched one cell, newest first, with the cell before and after."""
 	api._may(sheet)
 	if not CELL.match(cell_id or ""):
-		frappe.throw(_("That isn't a cell."))
+		frappe.throw(_("Invalid cell reference."))
 	filters = {"workbook": sheet, "cell_refs": ["like", f'%"{cell_id}"%']}
 	if sub_sheet:
 		filters["sub_sheet"] = sub_sheet

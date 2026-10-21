@@ -135,7 +135,7 @@ def test_a_table_sheet_reads_back_as_the_table():
 	after = [{"name": "r1", "item_code": "GL", "kind": "Supply", "qty": 8, "amount": 800}, {"name": "r2", "item_code": "GL", "kind": "Fit", "qty": 2, "amount": 200}]
 	cells = room["back"](moved, at, rows, after, cols, "new")
 	assert cells == {"C1": "#new", "F2": "800", "C3": "r2", "E3": "Fit", "F3": "200"}, cells
-	assert room["read"]([["#" + mark, "Item"]], cols)[2][0].startswith("The column Kind"), "a column gone is refused"
+	assert room["read"]([["#" + mark, "Item"]], cols)[2][0].startswith("Column Kind was removed"), "a column gone is refused"
 	faults = []
 	room["read"]([moved[0], ["", "lots", "r1", "GL", "Supply", "600"]], cols, faults)
 	assert faults and faults[0]["cell"] == "B2", "a wrong cell is said where it is"

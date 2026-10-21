@@ -65,7 +65,7 @@ def sheets_of(template: str) -> list[dict]:
 
 	held = frappe.db.get_value(api.WORKBOOK, template, ["is_template", "bound_sheet", "sheets_data"], as_dict=True)
 	if not held or not held.is_template:
-		frappe.throw(_("That isn't a template."))
+		frappe.throw(_("This workbook is not a template."))
 	api._may(template, "read")
 	data = json.loads(storage.decode_sheets_data(held.sheets_data) or "{}")
 	out = []
@@ -97,10 +97,10 @@ def data_of(template: str, doctype: str | None = None, field: str | None = None,
 		api.WORKBOOK, template, ["is_template", "template_for", "template_field", "bound_sheet", "bound_columns", "sheets_data"], as_dict=True
 	)
 	if not held or not held.is_template:
-		frappe.throw(_("That isn't a template."))
+		frappe.throw(_("This workbook is not a template."))
 	api._may(template, "read")
 	if held.template_for and (held.template_for, held.template_field) != (doctype, field):
-		frappe.throw(_("That template is for another table."))
+		frappe.throw(_("This template belongs to a different table."))
 	data = json.loads(storage.decode_sheets_data(held.sheets_data) or "{}")
 	if not held.bound_sheet:
 		return data, sheet, {}

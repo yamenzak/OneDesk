@@ -53,10 +53,10 @@ def _throw_bomb(unreadable: bool = False) -> None:
 	import frappe
 
 	if unreadable:
-		frappe.throw(frappe._("This workbook's saved content doesn't read."))
+		frappe.throw(frappe._("This workbook's saved data is invalid."))
 	frappe.throw(
 		frappe._(
-			"This workbook is too large to save (over {0} MB). Formatting across a very large range is the usual cause: clear what you don't need, or split it across sheets."
+			"This workbook is too large to save (over {0} MB). Remove formatting from unused ranges, or split the data across sheets."
 		).format(MAX_SHEETS_DATA_BYTES // (1024 * 1024))
 	)
 

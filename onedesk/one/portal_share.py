@@ -389,7 +389,7 @@ def link_accept(token: str, wanted: str, reference: str | None = None, by: str |
 	"""A quotation accepted through its link (one/portal.py `accept`)."""
 	link, doc, said = _answering(token, "Quotation", by)
 	if not portal._answerable(doc):
-		frappe.throw(_("This quotation can't be answered any more."))
+		frappe.throw(_("This quotation can no longer be answered."))
 	order = portal.accept(doc, wanted, reference, "Guest", link.contact, said)
 	_answered(link, by)
 	return order
@@ -400,7 +400,7 @@ def link_decline(token: str, reason: str | None = None, by: str | None = None) -
 	"""A quotation declined through its link (one/portal.py `decline`)."""
 	link, doc, said = _answering(token, "Quotation", by)
 	if not portal._answerable(doc):
-		frappe.throw(_("This quotation can't be answered any more."))
+		frappe.throw(_("This quotation can no longer be answered."))
 	portal.decline(doc, reason, "Guest", said)
 	_answered(link, by)
 

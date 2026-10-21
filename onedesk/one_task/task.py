@@ -64,7 +64,7 @@ def tick(task: str, step: str, done: int | str = 1) -> float:
 	doc.check_permission("write")
 	row = next((one for one in doc.get("one_steps") or [] if one.name == step), None)
 	if not row:
-		frappe.throw(_("That step isn't on this task any more."))
+		frappe.throw(_("This step no longer exists on the task."))
 	row.done = 1 if str(done) in ("1", "true", "True") else 0
 	doc.save()
 	return flt(doc.progress)

@@ -1185,7 +1185,7 @@
             <FormControl v-if="!['empty','notempty'].includes(cfDialog.condType)"
                          v-model="cfDialog.condValue" :label="__('Value')" :placeholder="__('e.g. {0}', ['0'])" />
             <FormControl v-if="cfDialog.condType === 'between'"
-                         v-model="cfDialog.condValue2" :label="__('And')" :placeholder="__('e.g. {0}', ['100'])" />
+                         v-model="cfDialog.condValue2" :label="__('More')" :placeholder="__('e.g. {0}', ['100'])" />
             <div class="sn-cf-fmt">
               <ColorPicker v-model="cfDialog.fmtColor" allow-default :default-label="__('Automatic')" :title="__('Text colour')" fallback="#171717">
                 <template #trigger="{ toggle, open }">
@@ -2027,7 +2027,7 @@ function _saved() {
 // read it again when nothing here is waiting to be saved.
 const _written = async (said) => {
   if (said?.workbook !== props.id) return
-  if (isDirty.value) { tableNotice.value = __('OneAI changed this workbook. Open it again to see what it wrote.'); return }
+  if (isDirty.value) { tableNotice.value = __('OneAI edited this workbook. Reopen it to see the changes.'); return }
   await loadSheet(props.id)
   syncNames()
   _repopulateGrid()

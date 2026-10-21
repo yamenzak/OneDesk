@@ -2896,7 +2896,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			),
 			onedesk.shell.section(
 				__("Folders"),
-				folders.length ? '<div data-list="folders"></div>' : none(__("OneAI doesn't read any of your folders.")),
+				folders.length ? '<div data-list="folders"></div>' : none(__("OneAI has no access to any of your folders.")),
 				__("New files in the folder and the folders inside it are read, filed and acted on as you."),
 				onedesk.shell.button(__("Add Folder"), { "data-add-folder": "1" }, "subtle", "plus")
 			)

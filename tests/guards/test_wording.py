@@ -210,6 +210,34 @@ def test_what_a_screen_says_is_plain():
 	assert not found, "Write it plainly, as docs/WORDING.md says under On a Screen:\n" + "\n".join(found)
 
 
+#: Phrasings that read as a person talking rather than a product reporting
+#: (docs/WORDING.md, A message). Each was on a screen once.
+CHATTY = re.compile(
+	r"\bany more\b|\bof (its|their) own\b|\b(doesn|don)[’']t read\b|\bworks? out to\b"
+	r"|\bdidn[’']t take\b|\bbeside\b|\bcouldn[’']t be made\b|\bwasn[’']t kept\b"
+	r"|\bwhere everyone\b|\bisn[’']t there\b|\bholds something\b|^No \{0\} called\b",
+	re.I,
+)
+
+MESSAGE = re.compile(r"""\b_{1,2}\(\s*(?:"((?:[^"\\]|\\.)*)"|'((?:[^'\\]|\\.)*)')""")
+
+
+def test_a_message_says_what_happened():
+	"""Every translated string, in Python, the desk's scripts and the islands,
+	is held to the message rule: the plain wording a SaaS product uses, not
+	a person's turn of phrase."""
+	found = []
+	paths = [*tree.APP.rglob("*.py"), *(tree.APP / "public" / "js").rglob("*.js"), *(tree.APP.parent / "frontend" / "src").rglob("*.vue"), *(tree.APP.parent / "frontend" / "src").rglob("*.js")]
+	for path in sorted(paths):
+		if any(part in SKIPPED for part in path.parts) or tree.vendored(path) or path.name.startswith("test_"):
+			continue
+		for one in MESSAGE.finditer(path.read_text(encoding="utf-8")):
+			text = one.group(1) or one.group(2) or ""
+			if CHATTY.search(text):
+				found.append(f"  {path.relative_to(tree.APP.parent)}: {text}")
+	assert not found, "Say what happened, as docs/WORDING.md says under A message:\n" + "\n".join(found)
+
+
 def test_no_screen_text_reads_like_a_commit_message():
 	"""Field help is written the way frappe and erpnext write it.
 

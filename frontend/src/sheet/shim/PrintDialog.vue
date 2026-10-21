@@ -51,12 +51,12 @@ const kept = ref("");
 
 const whats = computed(() => [
 	{ label: __("This sheet ({0})", [props.current]), value: "sheet" },
-	...(props.count > 1 ? [{ label: __("Every sheet"), value: "all" }] : []),
+	...(props.count > 1 ? [{ label: __("All sheets"), value: "all" }] : []),
 ]);
 // The workspace's letter heads, the default first and chosen; with none,
 // the one paper.py draws from the company.
 const heads = computed(() => [
-	...(held.value.length ? held.value.map((one) => ({ label: one.is_default ? __("{0} (default)", [one.name]) : one.name, value: one.name })) : [{ label: __("From the company details"), value: "" }]),
+	...(held.value.length ? held.value.map((one) => ({ label: one.is_default ? __("{0} (default)", [one.name]) : one.name, value: one.name })) : [{ label: __("Company details"), value: "" }]),
 	{ label: __("None"), value: "none" },
 ]);
 
@@ -127,7 +127,7 @@ async function print() {
 		open.value = false;
 	} catch (failed) {
 		tab?.close();
-		error.value = failed?.message || __("The sheet wasn’t printed.");
+		error.value = failed?.message || __("Could not print the sheet.");
 	} finally {
 		busy.value = "";
 	}
@@ -137,9 +137,9 @@ async function refused(answer) {
 	try {
 		const said = await answer.json();
 		const first = JSON.parse(JSON.parse(said._server_messages || "[]")[0] || "{}");
-		return first.message || __("The sheet wasn’t printed.");
+		return first.message || __("Could not print the sheet.");
 	} catch {
-		return __("The sheet wasn’t printed.");
+		return __("Could not print the sheet.");
 	}
 }
 
@@ -150,10 +150,10 @@ async function keep(where) {
 	try {
 		const made = await call("onedesk.one_sheet.paper.pdf", args(where));
 		kept.value = where === "record"
-			? __("{0} is attached to {1}.", [made.name, props.bound.name])
-			: __("{0} is in OneCloud, beside this workbook.", [made.name]);
+			? __("{0} attached to {1}.", [made.name, props.bound.name])
+			: __("{0} saved to OneCloud, in the same folder as this workbook.", [made.name]);
 	} catch (failed) {
-		error.value = failed?.message || __("The PDF wasn’t kept.");
+		error.value = failed?.message || __("Could not save the PDF.");
 	} finally {
 		busy.value = "";
 	}

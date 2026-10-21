@@ -26,7 +26,7 @@ def add(tenant, raw: str) -> dict:
 			frappe.throw(frappe._("{0} is already on another workspace.").format(name))
 	else:
 		if frappe.db.count("Tenant Domain", {"tenant": tenant.name}) >= MOST:
-			frappe.throw(frappe._("A workspace may have at most {0} of its own domains.").format(MOST))
+			frappe.throw(frappe._("A workspace can have at most {0} custom domains.").format(MOST))
 		frappe.get_doc(
 			{
 				"doctype": "Tenant Domain",

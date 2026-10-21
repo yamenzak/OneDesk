@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-21 06:56+0000\n"
+"POT-Creation-Date: 2026-10-21 08:05+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -355,7 +355,7 @@ msgstr "من 181 إلى 365 يومًا"
 msgid "2"
 msgstr "2"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:5005
+#: frontend/src/sheet/components/SheetEditor/index.vue:5007
 msgid "2-colour (low → high)"
 msgstr "لونان (منخفض ← مرتفع)"
 
@@ -364,7 +364,7 @@ msgstr "لونان (منخفض ← مرتفع)"
 msgid "3"
 msgstr "3"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:5006
+#: frontend/src/sheet/components/SheetEditor/index.vue:5008
 msgid "3-colour (low → mid → high)"
 msgstr "ثلاثة ألوان (منخفض ← متوسط ← مرتفع)"
 
@@ -414,6 +414,10 @@ msgstr "<span class=\"h4\"><b>اليوم</b></span>"
 #: onedesk/one_admin/doctype/private_app/private_app.py:15
 msgid "A Frappe app's name is lowercase letters, digits and underscores."
 msgstr "يتكوّن اسم تطبيق Frappe من أحرف صغيرة وأرقام وشرطات سفلية."
+
+#: onedesk/one_sheet/paper.py:384
+msgid "A PDF can only be saved to OneCloud or attached to the record."
+msgstr "يمكن حفظ ملف PDF في OneCloud أو إرفاقه بالسجل فقط."
 
 #: onedesk/one_hr/heads.py:546
 msgid "A Shift Assignment is created and the employee works this shift."
@@ -611,10 +615,6 @@ msgstr "شكوى العميل أو سؤاله، إلى أن يُحل."
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 msgid "A date a document gives, and what it is for."
 msgstr "تاريخ يذكره مستند، وما الغرض منه."
-
-#: onedesk/one_sheet/table.py:190
-msgid "A date, such as 2026-10-21."
-msgstr "تاريخ، مثل 2026-10-21."
 
 #: onedesk/one_project/site_time.py:33
 msgid "A day on site wasn't written for {0}"
@@ -1021,10 +1021,6 @@ msgstr "تسجيل دخول جديد إلى حسابك"
 msgid "A note from One: {0}"
 msgstr "ملاحظة من One: {0}"
 
-#: onedesk/one_sheet/ai.py:257
-msgid "A note on {0} in {1}"
-msgstr "ملاحظة على {0} في {1}"
-
 #. Description of the 'Message' (Small Text) field in DocType 'Cloud File
 #. Request'
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
@@ -1035,10 +1031,6 @@ msgstr "ملاحظة للأشخاص المطلوب منهم."
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 msgid "A number a document refers to: an invoice, an order, a case."
 msgstr "رقم يشير إليه مستند: فاتورة أو طلب أو قضية."
-
-#: onedesk/one_sheet/table.py:188
-msgid "A number."
-msgstr "رقم."
 
 #: onedesk/one_hr/home.py:158
 msgid "A one-off earning or deduction in a month's pay."
@@ -1113,10 +1105,6 @@ msgstr "سعر متفق عليه مع مورد لمدة سنة."
 #: onedesk/one_crm/home.py:118
 msgid "A price sent to a lead or a customer."
 msgstr "سعر مرسل إلى عميل محتمل أو عميل."
-
-#: onedesk/one_sheet/paper.py:384
-msgid "A print can be kept in OneCloud or on its record."
-msgstr "يمكن حفظ الطباعة في OneCloud أو على سجلها."
 
 #: onedesk/one/printing.py:454
 msgid "A print format needs a name."
@@ -1400,8 +1388,8 @@ msgid "A table block names its table: {table: 'items', columns: ['item_name:45',
 msgstr "كتلة الجدول تسمّي جدولها: {table: 'items', columns: ['item_name:45', 'qty:15']}."
 
 #: onedesk/one_sheet/table.py:559
-msgid "A table takes at most {0} rows from a workbook."
-msgstr "يأخذ الجدول {0} صفًا على الأكثر من مصنف."
+msgid "A table can take at most {0} rows from a workbook."
+msgstr "يمكن للجدول أن يأخذ {0} صفًا كحد أقصى من المصنف."
 
 #: onedesk/one_project/template_view.py:122
 msgid "A task cannot go under itself."
@@ -1460,10 +1448,6 @@ msgstr "من أ إلى ي"
 msgid "A trip asked for, with what it will cost."
 msgstr "رحلة مطلوبة، مع تكلفتها."
 
-#: frontend/src/sheet/shim/problems.js:7
-msgid "A value in this formula is the wrong kind, such as text where a number was wanted."
-msgstr "قيمة في هذه الصيغة من نوع خاطئ، كنص حيث يُنتظر رقم."
-
 #: onedesk/one_inventory/home.py:118
 msgid "A van's round of deliveries."
 msgstr "جولة توصيل لشاحنة."
@@ -1493,22 +1477,18 @@ msgstr "يرسل الويب هوك هنا كل سجل. لإرسال بعضها �
 msgid "A webhook is sent over https."
 msgstr "يُرسل الويب هوك عبر https."
 
-#: onedesk/one_sheet/table.py:186
-msgid "A whole number."
-msgstr "عدد صحيح."
-
 #. Description of a DocType
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json
 msgid "A workbook as it stood at one point in its history, whole: taken as it is saved, kept thinner as it ages, and kept for ever once somebody names it."
 msgstr "المصنف كاملًا كما كان في لحظة من تاريخه: يُلتقط عند الحفظ، ويُخفَّف كلما تقادم، ويُحفظ إلى الأبد متى أطلق عليه أحد اسمًا."
 
-#: onedesk/one_sheet/api.py:59
-msgid "A workbook can't be made in a mounted drive."
-msgstr "لا يمكن إنشاء مصنف في محرك أقراص مُركَّب."
-
 #: onedesk/public/js/onemail.js:792
 msgid "A workspace address such as sales@. You choose who has access."
 msgstr "عنوان لمساحة العمل مثل sales@. أنت تختار من يمكنه الوصول إليه."
+
+#: onedesk/one_admin/domains.py:29
+msgid "A workspace can have at most {0} custom domains."
+msgstr "يمكن أن تحتوي مساحة العمل على {0} نطاقات مخصصة كحد أقصى."
 
 #: onedesk/one/layer.py:247
 msgid "A workspace customizes with fields and settings, never with code."
@@ -1517,10 +1497,6 @@ msgstr "تُخصص مساحة العمل بالحقول والإعدادات، �
 #: onedesk/one/printing.py:275
 msgid "A workspace makes its own letter heads."
 msgstr "تنشئ مساحة العمل ترويساتها الخاصة."
-
-#: onedesk/one_admin/domains.py:29
-msgid "A workspace may have at most {0} of its own domains."
-msgstr "لا يجوز لمساحة عمل أن تملك أكثر من {0} نطاقات خاصة بها."
 
 #: onedesk/one_admin/hosts.py:118
 msgid "A workspace needs a slug and a domain."
@@ -1555,7 +1531,7 @@ msgstr "لا يمكن أن يكون نموذج {0} الافتراضي لـ {1}."
 msgid "A {kind} request, {request}, wanted by {wanted}."
 msgstr "طلب {kind}، {request}، مطلوب بحلول {wanted}."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1958
+#: frontend/src/sheet/components/SheetEditor/index.vue:1960
 msgid "AI"
 msgstr "الذكاء الاصطناعي"
 
@@ -1636,8 +1612,8 @@ msgstr "لمسة الذكاء الاصطناعي"
 msgid "AI Usage"
 msgstr "استخدام الذكاء الاصطناعي"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1959
-#: frontend/src/sheet/components/SheetEditor/index.vue:2233
+#: frontend/src/sheet/components/SheetEditor/index.vue:1961
+#: frontend/src/sheet/components/SheetEditor/index.vue:2235
 msgid "AI settings"
 msgstr "إعدادات الذكاء الاصطناعي"
 
@@ -2312,7 +2288,7 @@ msgstr "إضافة قاعدة"
 msgid "Add Series"
 msgstr "إضافة سلسلة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1953
+#: frontend/src/sheet/components/SheetEditor/index.vue:1955
 #: frontend/src/sheet/shim/AddSheetsDialog.vue:3
 msgid "Add Sheets From a Template"
 msgstr "إضافة أوراق من قالب"
@@ -3134,7 +3110,7 @@ msgstr "الكل"
 msgid "All Agreements"
 msgstr "جميع الاتفاقيات"
 
-#: onedesk/public/js/desk.js:280
+#: onedesk/public/js/desk.js:282
 msgid "All Announcements"
 msgstr "كل الإعلانات"
 
@@ -3255,6 +3231,10 @@ msgstr "كل المقاعد مستخدمة"
 #: onedesk/one_admin/heads.py:400
 msgid "All settings are filled in."
 msgstr "جميع الإعدادات مكتملة."
+
+#: frontend/src/sheet/shim/PrintDialog.vue:54
+msgid "All sheets"
+msgstr "كل الأوراق"
 
 #: frontend/src/sheet/components/SheetEditor/VersionHistory.vue:90
 msgid "All versions"
@@ -3806,18 +3786,13 @@ msgstr "رُفعت شكوى عاجلة"
 msgid "Analytics"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1188
-#: onedesk/one_sheet/ai.py:227
-msgid "And"
-msgstr "و"
-
 #. Name of a notification
 #: onedesk/notifications/one/announcement.md
 msgid "Announcement"
 msgstr "إعلان"
 
 #. Label of a Sidebar Item
-#: onedesk/one/sidebar/one/one.json onedesk/public/js/desk.js:115
+#: onedesk/one/sidebar/one/one.json onedesk/public/js/desk.js:119
 msgid "Announcements"
 msgstr "الإعلانات"
 
@@ -4470,7 +4445,7 @@ msgstr "وصل عبر رابط، ملف واحد"
 msgid "Arrives"
 msgstr "الوصول"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:5010
+#: frontend/src/sheet/components/SheetEditor/index.vue:5012
 msgid "Arrows (red/grey/green)"
 msgstr "أسهم (أحمر/رمادي/أخضر)"
 
@@ -4588,7 +4563,7 @@ msgstr "اسأل عن {0}…  مثلًا «اجمع كل عمود في الأس�
 msgid "Ask again under Your Data if you still want your account deleted."
 msgstr "اطلب مرة أخرى من صفحة بياناتك إذا كنت لا تزال تريد حذف حسابك."
 
-#: onedesk/public/js/desk.js:475 onedesk/public/js/outside.js:228
+#: onedesk/public/js/desk.js:477 onedesk/public/js/outside.js:228
 #: onedesk/www/message.html:20
 msgid "Ask an administrator for access."
 msgstr "اطلب الوصول من أحد المسؤولين."
@@ -4639,7 +4614,7 @@ msgstr "اسأل الشخص الذي دعاك."
 msgid "Ask the sender for a new one."
 msgstr "اطلب رابطًا جديدًا من المرسل."
 
-#: onedesk/public/js/desk.js:198 onedesk/public/js/oneai.js:98
+#: onedesk/public/js/desk.js:200 onedesk/public/js/oneai.js:98
 #: onedesk/public/js/oneai.js:99 onedesk/public/js/oneai/Panel.vue:186
 msgid "Ask {0}"
 msgstr "اسأل {0}"
@@ -5257,7 +5232,7 @@ msgstr "خطاب من جهة رسمية"
 msgid "Authority inspection"
 msgstr "فحص الجهة الرسمية"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1858
+#: frontend/src/sheet/components/SheetEditor/index.vue:1860
 msgid "Auto (locale)"
 msgstr "تلقائي (حسب اللغة)"
 
@@ -5462,7 +5437,7 @@ msgstr "العودة إلى تسجيل الدخول"
 msgid "Back to your account"
 msgstr "العودة إلى حسابك"
 
-#: onedesk/public/js/settings.js:3066 onedesk/public/js/workbooks.js:72
+#: onedesk/public/js/settings.js:3066 onedesk/public/js/workbooks.js:67
 msgid "Back to {0}"
 msgstr "العودة إلى {0}"
 
@@ -5481,7 +5456,7 @@ msgstr "الخادم والبيانات"
 msgid "Background"
 msgstr "الخلفية"
 
-#: onedesk/public/js/desk.js:190
+#: onedesk/public/js/desk.js:192
 msgid "Background Tasks"
 msgstr "المهام في الخلفية"
 
@@ -6005,7 +5980,7 @@ msgid "Beta with real users"
 msgstr "نسخة تجريبية مع مستخدمين حقيقيين"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:969
-#: frontend/src/sheet/components/SheetEditor/index.vue:4990
+#: frontend/src/sheet/components/SheetEditor/index.vue:4992
 msgid "Between"
 msgstr "بين"
 
@@ -6246,14 +6221,14 @@ msgstr ""
 msgid "Birthday"
 msgstr "عيد ميلاد"
 
+#: onedesk/public/js/onecloud.js:1118
+msgid "Blank Workbook"
+msgstr "مصنف فارغ"
+
 #. Description of the 'Primary Domain' (Link) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Blank if the workspace still uses the address it was given."
 msgstr "يُترك فارغاً إذا كانت مساحة العمل ما زالت تستعمل العنوان الممنوح لها."
-
-#: onedesk/public/js/onecloud.js:1118
-msgid "Blank workbook"
-msgstr "مصنف فارغ"
 
 #. Label in the One Blanket Order print format
 #: onedesk/one/print_blocks.py:25 onedesk/one_crm/home.py:121
@@ -7360,8 +7335,8 @@ msgstr "تحقق مرة أخرى"
 #. The button on a notification's mail
 #: frontend/src/home/HrHome.vue:237
 #: onedesk/notifications/one_hr/not_checked_in.md onedesk/public/js/desk.js:76
-#: onedesk/public/js/desk.js:149 onedesk/public/js/desk.js:362
-#: onedesk/public/js/desk.js:373 onedesk/public/js/desk.js:378
+#: onedesk/public/js/desk.js:151 onedesk/public/js/desk.js:364
+#: onedesk/public/js/desk.js:375 onedesk/public/js/desk.js:380
 msgid "Check In"
 msgstr "تسجيل الحضور"
 
@@ -7399,8 +7374,8 @@ msgstr "مراجعة عرض سعر المورد"
 msgid "Check bill from {0}"
 msgstr "راجع فاتورة {0}"
 
-#: frontend/src/home/HrHome.vue:237 onedesk/public/js/desk.js:371
-#: onedesk/public/js/desk.js:378
+#: frontend/src/home/HrHome.vue:237 onedesk/public/js/desk.js:373
+#: onedesk/public/js/desk.js:380
 msgid "Check in by {0}"
 msgstr "سجّل حضورك قبل {0}"
 
@@ -7415,10 +7390,6 @@ msgstr "تحقق من الموقع في Frappe Cloud."
 #: onedesk/one_intake/planning.py:148
 msgid "Check the unordered delivery from {0}"
 msgstr "تحقق من التسليم غير المطلوب من {0}"
-
-#: frontend/src/sheet/shim/CellProblem.vue:4
-msgid "Check this"
-msgstr "تحقق من هذا"
 
 #: onedesk/one_hr/ai.py:188
 msgid "Check this payroll"
@@ -7533,11 +7504,11 @@ msgstr "خانة اختيار"
 msgid "Checked By"
 msgstr "راجعه"
 
-#: onedesk/public/js/desk.js:378 onedesk/public/js/desk.js:421
+#: onedesk/public/js/desk.js:380 onedesk/public/js/desk.js:423
 msgid "Checked In"
 msgstr "سجّل الحضور"
 
-#: onedesk/public/js/desk.js:421
+#: onedesk/public/js/desk.js:423
 msgid "Checked Out"
 msgstr "سجّل الانصراف"
 
@@ -7549,11 +7520,11 @@ msgstr "تمت مطابقتها مع المستند والطلب"
 msgid "Checked in"
 msgstr "سجّل الحضور"
 
-#: onedesk/public/js/desk.js:367
+#: onedesk/public/js/desk.js:369
 msgid "Checked in {0}"
 msgstr "سجّل الحضور {0}"
 
-#: onedesk/public/js/desk.js:366
+#: onedesk/public/js/desk.js:368
 msgid "Checked in {0}, late"
 msgstr "سجّلت حضورك {0}، متأخراً"
 
@@ -7565,11 +7536,11 @@ msgstr "سجّل الانصراف"
 msgid "Checked when someone sets or changes their password."
 msgstr "يُفحص عندما يعيّن شخص كلمة مروره أو يغيّرها."
 
-#: onedesk/public/js/desk.js:392
+#: onedesk/public/js/desk.js:394
 msgid "Checking in…"
 msgstr "جارٍ تسجيل الحضور…"
 
-#: onedesk/public/js/desk.js:392
+#: onedesk/public/js/desk.js:394
 msgid "Checking out…"
 msgstr "جارٍ تسجيل الانصراف…"
 
@@ -7662,10 +7633,6 @@ msgstr "اختر ملفات"
 msgid "Choose from OneCloud"
 msgstr "اختر من OneCloud"
 
-#: onedesk/one_sheet/table.py:182
-msgid "Choose one from the list."
-msgstr "اختر واحدًا من القائمة."
-
 #: onedesk/one_book/report/books_check/books_check.js:47
 msgid "Choose the Tax Charged by Default"
 msgstr "اختر الضريبة المحتسبة افتراضيًا"
@@ -7735,7 +7702,7 @@ msgstr "النموذج المختار"
 msgid "Chosen transactions posted to the books again."
 msgstr "معاملات مختارة تُرحَّل إلى الحسابات من جديد."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:5012
+#: frontend/src/sheet/components/SheetEditor/index.vue:5014
 msgid "Circles (empty → full)"
 msgstr "دوائر (فارغة ← ممتلئة)"
 
@@ -7853,7 +7820,7 @@ msgstr "مراجعة العميل والتعديلات"
 msgid "Client's Representative"
 msgstr "ممثل العميل"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2617
+#: frontend/src/sheet/components/SheetEditor/index.vue:2619
 msgid "Clip"
 msgstr "قص"
 
@@ -7925,7 +7892,7 @@ msgstr "إشارة التسجيل"
 #: frontend/src/sheet/components/SheetEditor/AskBar.vue:27
 #: frontend/src/sheet/components/SheetEditor/index.vue:621
 #: onedesk/public/js/oneai/Panel.vue:38 onedesk/public/js/onecloud.js:2125
-#: onedesk/public/js/opportunity.js:12 onedesk/public/js/workbooks.js:106
+#: onedesk/public/js/opportunity.js:12 onedesk/public/js/workbooks.js:101
 msgid "Close"
 msgstr "إغلاق"
 
@@ -7952,7 +7919,7 @@ msgstr "إغلاق الطلب"
 msgid "Close the Year"
 msgstr "إقفال السنة"
 
-#: onedesk/public/js/workbooks.js:75 onedesk/public/js/workbooks.js:82
+#: onedesk/public/js/workbooks.js:70 onedesk/public/js/workbooks.js:77
 msgid "Close {0}"
 msgstr "إغلاق {0}"
 
@@ -8237,8 +8204,8 @@ msgstr "الألوان"
 msgid "Colour"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4999
-#: frontend/src/sheet/components/SheetEditor/index.vue:5139
+#: frontend/src/sheet/components/SheetEditor/index.vue:5001
+#: frontend/src/sheet/components/SheetEditor/index.vue:5141
 msgid "Colour scale"
 msgstr "مقياس ألوان"
 
@@ -8247,6 +8214,10 @@ msgstr "مقياس ألوان"
 #: frontend/src/sheet/components/SheetEditor/index.vue:533
 msgid "Column {0}"
 msgstr "العمود {0}"
+
+#: onedesk/one_sheet/table.py:328
+msgid "Column {0} was removed from the sheet. Undo the change, or reopen the workbook from the record."
+msgstr "تمت إزالة العمود {0} من الورقة. تراجع عن التغيير أو أعد فتح المصنف من السجل."
 
 #. Label of the bound_columns (JSON) field in DocType 'Workbook'
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:64
@@ -8286,6 +8257,10 @@ msgstr "تعليق على مشروع"
 #: onedesk/notifications/one_task/comment_on_your_task.md
 msgid "Comment on Your Task"
 msgstr "تعليق على مهمتك"
+
+#: onedesk/one_sheet/ai.py:257
+msgid "Comment on {0} in {1}"
+msgstr "تعليق على {0} في {1}"
 
 #: onedesk/one_intake/panel.py:223
 msgid "Commented on {0}"
@@ -8374,6 +8349,10 @@ msgstr "ممتلكات الشركة"
 #: onedesk/one_hr/print_format/one_salary_certificate/one_salary_certificate.json
 msgid "Company Stamp"
 msgstr "ختم الشركة"
+
+#: frontend/src/sheet/shim/PrintDialog.vue:59
+msgid "Company details"
+msgstr "بيانات الشركة"
 
 #. Task in the ERP Rollout project template
 #: onedesk/one_project/library/erp_rollout.json
@@ -8837,8 +8816,8 @@ msgid "Contacts and addresses with your address"
 msgstr "جهات الاتصال والعناوين التي تحمل عنوانك"
 
 #. Label in the One Product Bundle print format
-#: frontend/src/sheet/components/SheetEditor/index.vue:1928
-#: frontend/src/sheet/components/SheetEditor/index.vue:4991
+#: frontend/src/sheet/components/SheetEditor/index.vue:1930
+#: frontend/src/sheet/components/SheetEditor/index.vue:4993
 #: onedesk/one_inventory/print_format/one_product_bundle/one_product_bundle.json
 msgid "Contains"
 msgstr "يحتوي على"
@@ -9201,6 +9180,18 @@ msgstr "التكاليف"
 msgid "Could Not Mark Left"
 msgstr "تعذر التعيين كمغادر"
 
+#: frontend/src/sheet/shim/AddSheetsDialog.vue:54
+msgid "Could not add the sheets."
+msgstr "تعذرت إضافة الأوراق."
+
+#: frontend/src/sheet/shim/CellProblem.vue:61 onedesk/one_sheet/table.py:661
+msgid "Could not create the record."
+msgstr "تعذر إنشاء السجل."
+
+#: frontend/src/sheet/shim/AddSheetsDialog.vue:41
+msgid "Could not load the templates."
+msgstr "تعذر تحميل القوالب."
+
 #: frontend/src/sheet/components/SheetEditor/usePersistence.js:80
 msgid "Could not open this sheet"
 msgstr "تعذّر فتح هذه الورقة"
@@ -9208,6 +9199,12 @@ msgstr "تعذّر فتح هذه الورقة"
 #: onedesk/one_storage/mounts.py:304
 msgid "Could not open {0}: {1}"
 msgstr "تعذّر فتح {0}: {1}"
+
+#: frontend/src/sheet/shim/PrintDialog.vue:130
+#: frontend/src/sheet/shim/PrintDialog.vue:140
+#: frontend/src/sheet/shim/PrintDialog.vue:142
+msgid "Could not print the sheet."
+msgstr "تعذرت طباعة الورقة."
 
 #: onedesk/one/heads.py:59
 msgid "Could not reach your account. Showing what was last known."
@@ -9221,6 +9218,14 @@ msgstr "تعذّر الوصول إلى {0}: {1}"
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:248
 msgid "Could not read range."
 msgstr "تعذّرت قراءة النطاق."
+
+#: frontend/src/sheet/shim/PrintDialog.vue:156
+msgid "Could not save the PDF."
+msgstr "تعذر حفظ ملف PDF."
+
+#: frontend/src/sheet/shim/TemplateDialog.vue:49
+msgid "Could not save the template."
+msgstr "تعذر حفظ القالب."
 
 #. Name of a notification
 #: onedesk/notifications/one_intake/couldn_t_read.md
@@ -9255,7 +9260,7 @@ msgstr "تعذّر تحميل السجل."
 msgid "Couldn't reach the server."
 msgstr "تعذّر الوصول إلى الخادم."
 
-#: onedesk/public/js/desk.js:397
+#: onedesk/public/js/desk.js:399
 msgid "Couldn't record the check-in."
 msgstr "تعذر تسجيل الحضور."
 
@@ -9287,7 +9292,7 @@ msgstr "تعذّر تحديث كلمة المرور."
 msgid "Couldn't verify the server's certificate."
 msgstr "تعذّر التحقق من شهادة الخادم."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1511
+#: frontend/src/sheet/components/SheetEditor/index.vue:1513
 msgid "Couldn’t detect a pattern from your examples."
 msgstr "تعذّر اكتشاف نمط من أمثلتك."
 
@@ -9307,7 +9312,7 @@ msgstr "تعذّر الحفظ — تحقّق من اتصالك ثم انقر ع�
 msgid "Couldn’t save: {0}"
 msgstr "تعذّر الحفظ: {0}"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2054
+#: frontend/src/sheet/components/SheetEditor/index.vue:2056
 msgid "Couldn’t write {0} back: {1}"
 msgstr "تعذّر حفظ {0} في الملف: {1}"
 
@@ -9464,6 +9469,10 @@ msgstr "إنشاء مفتاح مرور"
 msgid "Create Project"
 msgstr "إنشاء المشروع"
 
+#: onedesk/one_sheet/ai.py:175
+msgid "Create Workbook {0}"
+msgstr "إنشاء المصنف {0}"
+
 #: onedesk/one/automations.py:113
 msgid "Create a new document."
 msgstr "ينشئ سجلًا جديدًا."
@@ -9496,6 +9505,10 @@ msgstr "إنشاء جدول محوري"
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:5
 msgid "Create pivot table"
 msgstr "إنشاء جدول محوري"
+
+#: onedesk/one_sheet/api.py:150
+msgid "Create the workbook in OneCloud first."
+msgstr "أنشئ المصنف في OneCloud أولًا."
 
 #: frontend/src/sheet/shim/CellProblem.vue:7
 msgid "Create {0}"
@@ -9768,7 +9781,7 @@ msgstr "عملات مربوطة بعملة أخرى بسعر ثابت."
 #. Label in the One Salary Structure print format
 #. Label of the currency (Link) field in DocType 'Reading'
 #: frontend/src/sheet/components/SheetEditor/index.vue:186
-#: frontend/src/sheet/components/SheetEditor/index.vue:1850
+#: frontend/src/sheet/components/SheetEditor/index.vue:1852
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:105
@@ -9792,7 +9805,7 @@ msgstr "سعر صرف العملة"
 msgid "Currency Exchange Settings"
 msgstr "إعدادات أسعار الصرف"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2533
+#: frontend/src/sheet/components/SheetEditor/index.vue:2535
 msgid "Currency · {0}"
 msgstr "عملة · {0}"
 
@@ -9836,8 +9849,8 @@ msgid "Currently in Stage"
 msgstr "في المرحلة حالياً"
 
 #: frontend/src/sheet/components/SheetEditor/SplitTextPopover.vue:28
-#: frontend/src/sheet/components/SheetEditor/index.vue:2537
-#: frontend/src/sheet/components/SheetEditor/index.vue:2549
+#: frontend/src/sheet/components/SheetEditor/index.vue:2539
+#: frontend/src/sheet/components/SheetEditor/index.vue:2551
 #: onedesk/public/js/doctype_settings.js:274 onedesk/public/js/settings.js:1092
 msgid "Custom"
 msgstr "مخصص"
@@ -9875,7 +9888,7 @@ msgstr "معرّف اسم المضيف المخصص"
 msgid "Custom colour"
 msgstr "لون مخصص"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2550
+#: frontend/src/sheet/components/SheetEditor/index.vue:2552
 msgid "Custom format…"
 msgstr "تنسيق مخصص…"
 
@@ -10158,8 +10171,8 @@ msgstr "نسخ البيانات"
 msgid "Data Processing Addendum"
 msgstr "ملحق معالجة البيانات"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:5000
-#: frontend/src/sheet/components/SheetEditor/index.vue:5140
+#: frontend/src/sheet/components/SheetEditor/index.vue:5002
+#: frontend/src/sheet/components/SheetEditor/index.vue:5142
 msgid "Data bars"
 msgstr "أشرطة البيانات"
 
@@ -10296,8 +10309,8 @@ msgstr "قاعدة البيانات المستخدمة"
 #. Label in the One Timesheet print format
 #: frontend/src/project/Invoices.vue:25 frontend/src/project/Suppliers.vue:80
 #: frontend/src/project/Suppliers.vue:133 frontend/src/project/Time.vue:25
-#: frontend/src/sheet/components/SheetEditor/index.vue:1857
-#: frontend/src/sheet/components/SheetEditor/index.vue:2534
+#: frontend/src/sheet/components/SheetEditor/index.vue:1859
+#: frontend/src/sheet/components/SheetEditor/index.vue:2536
 #: frontend/src/task/TaskTime.vue:19 onedesk/one/portal.py:99
 #: onedesk/one/portal.py:100 onedesk/one/portal.py:1038
 #: onedesk/one/print_blocks.py:41 onedesk/one/print_blocks.py:43
@@ -10414,8 +10427,8 @@ msgstr "قاعدة البيانات المستخدمة"
 msgid "Date"
 msgstr "التاريخ"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1871
-#: frontend/src/sheet/components/SheetEditor/index.vue:2536
+#: frontend/src/sheet/components/SheetEditor/index.vue:1873
+#: frontend/src/sheet/components/SheetEditor/index.vue:2538
 msgid "Date + Time"
 msgstr "التاريخ + الوقت"
 
@@ -10437,7 +10450,7 @@ msgstr "تاريخ التعديل"
 msgid "Date of Birth"
 msgstr "تاريخ الميلاد"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2534
+#: frontend/src/sheet/components/SheetEditor/index.vue:2536
 msgid "Date · {0}"
 msgstr "تاريخ · {0}"
 
@@ -10675,11 +10688,11 @@ msgstr "بتَّ فيه"
 msgid "Decided On"
 msgstr "تاريخ البتّ"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1846
+#: frontend/src/sheet/components/SheetEditor/index.vue:1848
 msgid "Decimal"
 msgstr "عشري"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1847
+#: frontend/src/sheet/components/SheetEditor/index.vue:1849
 msgid "Decimal — Indian ({0})"
 msgstr "عشري — هندي ({0})"
 
@@ -11772,7 +11785,7 @@ msgstr "اكتشاف تلقائي"
 msgid "Detect fields"
 msgstr "اكتشاف الحقول"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1512
+#: frontend/src/sheet/components/SheetEditor/index.vue:1514
 msgid "Detected a pattern but couldn’t apply it to any rows."
 msgstr "اكتُشف نمط لكن تعذّر تطبيقه على أي صف."
 
@@ -11856,6 +11869,10 @@ msgstr "تعطيل الصنف"
 #: onedesk/one/home.py:173
 msgid "Disable someone or add seats to invite more people."
 msgstr "عطّل أحد المستخدمين أو أضف مقاعد لدعوة المزيد."
+
+#: onedesk/public/js/portal_share.js:165
+msgid "Disable this link? Anyone who has it will no longer be able to open it."
+msgstr "تعطيل هذا الرابط؟ لن يتمكن أي شخص لديه الرابط من فتحه بعد الآن."
 
 #: onedesk/public/js/settings.js:939
 msgid "Disable {0}? They're signed out and can't sign in. Their records stay."
@@ -12120,7 +12137,7 @@ msgstr "مستندات بانتظارك"
 msgid "Documents for the Tax Year"
 msgstr "مستندات السنة الضريبية"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4992
+#: frontend/src/sheet/components/SheetEditor/index.vue:4994
 msgid "Does not contain"
 msgstr "لا يحتوي على"
 
@@ -12750,8 +12767,8 @@ msgid "Each earning and deduction a slip can carry."
 msgstr "كل استحقاق واستقطاع يمكن أن تحمله القسيمة."
 
 #: onedesk/one_sheet/versions.py:69
-msgid "Each edit says what kind it is."
-msgstr "كل تعديل يذكر نوعه."
+msgid "Each edit must specify its type."
+msgstr "يجب أن يحدد كل تعديل نوعه."
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_hr/holidays_coming_up.md
@@ -13051,6 +13068,10 @@ msgstr "تحرير الجدول المحوري"
 #: onedesk/public/js/item_actions.js:28 onedesk/public/js/onecloud.js:1485
 msgid "Edit {0}"
 msgstr "تعديل {0}"
+
+#: onedesk/one_sheet/ai.py:221
+msgid "Edit {0}, {1}"
+msgstr "تعديل {0}، {1}"
 
 #: onedesk/public/js/settings.js:3139
 msgid "Edited"
@@ -13819,17 +13840,37 @@ msgstr "يكفي لـ {0}"
 msgid "Enough for {0}. {1} runs out first."
 msgstr "يكفي لـ {0}. ينفد {1} أولًا."
 
+#: onedesk/one_sheet/table.py:184
+msgid "Enter TRUE or FALSE."
+msgstr "أدخل TRUE أو FALSE."
+
+#: onedesk/one_sheet/table.py:190
+msgid "Enter a date, for example 2026-10-21."
+msgstr "أدخل تاريخًا، مثل 2026-10-21."
+
 #: onedesk/one_admin/hosts.py:63 onedesk/one_admin/hosts.py:71
 msgid "Enter a domain, such as office.example.com."
 msgstr "أدخل نطاقًا، مثل office.example.com."
+
+#: onedesk/one_sheet/table.py:188
+msgid "Enter a number."
+msgstr "أدخل رقمًا."
 
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:245
 msgid "Enter a range first."
 msgstr "أدخل نطاقًا أولًا."
 
+#: onedesk/one_sheet/assist.py:96
+msgid "Enter a request first."
+msgstr "أدخل طلبًا أولًا."
+
 #: onedesk/one/privacy_public.py:42
 msgid "Enter a valid email address."
 msgstr "أدخل عنوان بريد إلكتروني صالحًا."
+
+#: onedesk/one_sheet/table.py:186
+msgid "Enter a whole number."
+msgstr "أدخل عددًا صحيحًا."
 
 #: onedesk/one_admin/setup.py:340
 msgid "Enter the Cloudflare API token first."
@@ -13884,11 +13925,11 @@ msgid "Envelope"
 msgstr "الغلاف الخارجي"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:975
-#: frontend/src/sheet/components/SheetEditor/index.vue:4988
+#: frontend/src/sheet/components/SheetEditor/index.vue:4990
 msgid "Equal to"
 msgstr "يساوي"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1929
+#: frontend/src/sheet/components/SheetEditor/index.vue:1931
 msgid "Equals"
 msgstr "يساوي"
 
@@ -14274,10 +14315,6 @@ msgstr "كل رقم تسلسلي في المخزون ومكانه."
 #: onedesk/one_book/home.py:364
 msgid "Every share issued, moved and bought back."
 msgstr "كل سهم أُصدر أو نُقل أو أُعيد شراؤه."
-
-#: frontend/src/sheet/shim/PrintDialog.vue:53
-msgid "Every sheet"
-msgstr "كل الأوراق"
 
 #: onedesk/one_project/status.py:101
 msgid "Every task on {0} is done. Add a task to open it again."
@@ -14785,17 +14822,17 @@ msgstr "جارٍ الشرح…"
 msgid "Explanation"
 msgstr "الشرح"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1941
+#: frontend/src/sheet/components/SheetEditor/index.vue:1943
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:24
 #: onedesk/public/js/doctype_settings.js:254
 msgid "Export"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1942
+#: frontend/src/sheet/components/SheetEditor/index.vue:1944
 msgid "Export as CSV"
 msgstr "تصدير بتنسيق CSV"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1943
+#: frontend/src/sheet/components/SheetEditor/index.vue:1945
 msgid "Export as XLSX"
 msgstr "تصدير بتنسيق XLSX"
 
@@ -14962,7 +14999,7 @@ msgstr "فشل عند الخطوة {0} من {1}"
 msgid "Failed at step {number} of {steps}, {step}.<br>{error}"
 msgstr "فشل في الخطوة {number} من {steps}، {step}.<br>{error}"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:5176
+#: frontend/src/sheet/components/SheetEditor/index.vue:5178
 msgid "Failed to load cell history"
 msgstr "فشل تحميل سجل الخلية"
 
@@ -15291,7 +15328,7 @@ msgstr "لون التعبئة"
 msgid "Fill down"
 msgstr "تعبئة للأسفل"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1508
+#: frontend/src/sheet/components/SheetEditor/index.vue:1510
 msgid "Fill in 1–2 example cells first, then select the range and press {0}."
 msgstr "املأ خلية أو خليتين كمثال أولًا، ثم حدّد النطاق واضغط {0}."
 
@@ -15884,10 +15921,6 @@ msgstr "عن الشركة"
 msgid "For the actions we use most, is there a cheaper model on offer that would do the job, and what would it save?"
 msgstr "للإجراءات التي نستخدمها أكثر، هل يتوفر نموذج أرخص يؤدي المهمة، وكم سيوفّر؟"
 
-#: frontend/src/to_order/ToOrderPage.vue:161
-msgid "For the lines that have no supplier of their own."
-msgstr "للبنود التي ليس لها مورد خاص بها."
-
 #: onedesk/one_inventory/ai.py:175
 msgid "For the newest request for prices, who is cheapest on each line, and which quotes run out soon?"
 msgstr "في أحدث طلب أسعار، من الأرخص في كل بند، وأي العروض تنتهي قريبًا؟"
@@ -16348,10 +16381,6 @@ msgstr "لدى العميل"
 msgid "From the buyer"
 msgstr "من المشتري"
 
-#: frontend/src/sheet/shim/PrintDialog.vue:58
-msgid "From the company details"
-msgstr "من بيانات الشركة"
-
 #: onedesk/one_intake/understand.py:379
 msgid "From the day received"
 msgstr "من يوم الاستلام"
@@ -16522,9 +16551,9 @@ msgid "Genders"
 msgstr "الأجناس"
 
 #. Label of a Sidebar Item
-#: frontend/src/sheet/components/SheetEditor/index.vue:1841
-#: frontend/src/sheet/components/SheetEditor/index.vue:1842
-#: frontend/src/sheet/components/SheetEditor/index.vue:2530
+#: frontend/src/sheet/components/SheetEditor/index.vue:1843
+#: frontend/src/sheet/components/SheetEditor/index.vue:1844
+#: frontend/src/sheet/components/SheetEditor/index.vue:2532
 #: onedesk/one/settings.py:24 onedesk/one/sidebar/one/one.json
 msgid "General"
 msgstr "عام"
@@ -16904,13 +16933,13 @@ msgstr "مكافأة نهاية الخدمة"
 msgid "Gratuity Rule"
 msgstr "قاعدة مكافأة نهاية الخدمة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4986
+#: frontend/src/sheet/components/SheetEditor/index.vue:4988
 msgid "Greater or equal"
 msgstr "أكبر من أو يساوي"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:971
-#: frontend/src/sheet/components/SheetEditor/index.vue:1930
-#: frontend/src/sheet/components/SheetEditor/index.vue:4984
+#: frontend/src/sheet/components/SheetEditor/index.vue:1932
+#: frontend/src/sheet/components/SheetEditor/index.vue:4986
 msgid "Greater than"
 msgstr "أكبر من"
 
@@ -17416,7 +17445,7 @@ msgstr "مخفي"
 msgid "Hidden From Contacts"
 msgstr "مخفي عن جهات الاتصال"
 
-#: onedesk/public/js/desk.js:250
+#: onedesk/public/js/desk.js:252
 msgid "Hide"
 msgstr "إخفاء"
 
@@ -18241,8 +18270,8 @@ msgid "Icon"
 msgstr "الأيقونة"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1252
-#: frontend/src/sheet/components/SheetEditor/index.vue:5001
-#: frontend/src/sheet/components/SheetEditor/index.vue:5141
+#: frontend/src/sheet/components/SheetEditor/index.vue:5003
+#: frontend/src/sheet/components/SheetEditor/index.vue:5143
 msgid "Icon set"
 msgstr "مجموعة أيقونات"
 
@@ -18373,11 +18402,11 @@ msgstr "صورة"
 msgid "Image Generation"
 msgstr "توليد الصور"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1946
+#: frontend/src/sheet/components/SheetEditor/index.vue:1948
 msgid "Import"
 msgstr "استيراد"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1947
+#: frontend/src/sheet/components/SheetEditor/index.vue:1949
 msgid "Import CSV"
 msgstr "استيراد CSV"
 
@@ -18385,7 +18414,7 @@ msgstr "استيراد CSV"
 msgid "Import Supplier Invoice"
 msgstr "استيراد فاتورة مورد"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1948
+#: frontend/src/sheet/components/SheetEditor/index.vue:1950
 msgid "Import XLSX"
 msgstr "استيراد XLSX"
 
@@ -19223,6 +19252,10 @@ msgstr "المقدمة"
 msgid "Invalid Ledger Entries"
 msgstr "قيود دفتر غير صالحة"
 
+#: onedesk/one_sheet/versions.py:209
+msgid "Invalid cell reference."
+msgstr "مرجع خلية غير صالح."
+
 #: onedesk/one_storage/mounts.py:158
 msgid "Invalid private key."
 msgstr "مفتاح خاص غير صالح."
@@ -19535,8 +19568,8 @@ msgstr "قالب"
 msgid "Is any numbering out of step?"
 msgstr "هل هناك ترقيم غير متسق؟"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1932
-#: frontend/src/sheet/components/SheetEditor/index.vue:4993
+#: frontend/src/sheet/components/SheetEditor/index.vue:1934
+#: frontend/src/sheet/components/SheetEditor/index.vue:4995
 msgid "Is empty"
 msgstr "فارغ"
 
@@ -19556,8 +19589,8 @@ msgstr "هل حسابي آمن؟"
 msgid "Is my account safe? Look at how I sign in and where I am signed in, and tell me what to do."
 msgstr "هل حسابي آمن؟ انظر كيف أسجّل الدخول وأين أنا مسجّل الدخول، وأخبرني ماذا أفعل."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1933
-#: frontend/src/sheet/components/SheetEditor/index.vue:4994
+#: frontend/src/sheet/components/SheetEditor/index.vue:1935
+#: frontend/src/sheet/components/SheetEditor/index.vue:4996
 msgid "Is not empty"
 msgstr "غير فارغ"
 
@@ -19698,14 +19731,6 @@ msgstr "تغيّر للجميع. اطّلع عليه في OneStudio › الحق
 msgid "It could not be delivered to {to}. Open it to see why, and send it again."
 msgstr "تعذّر تسليمه إلى {to}. افتحه لترى السبب، ثم أرسله مجددًا."
 
-#: onedesk/one_sheet/table.py:661
-msgid "It couldn't be made."
-msgstr "تعذّر إنشاؤه."
-
-#: frontend/src/sheet/shim/CellProblem.vue:61
-msgid "It couldn’t be made."
-msgstr "تعذّر إنشاؤه."
-
 #: onedesk/one_admin/heads.py:306
 msgid "It expired on {0} with {1} of {2} credits unused."
 msgstr "انتهت صلاحيته في {0} وبقي {1} من {2} رصيد دون استخدام."
@@ -19713,10 +19738,6 @@ msgstr "انتهت صلاحيته في {0} وبقي {1} من {2} رصيد دون
 #: onedesk/one_intake/tell.py:104
 msgid "It failed more than once. Open it to read it yourself, or try again later."
 msgstr "فشلت القراءة أكثر من مرة. افتحه لتقرأه بنفسك، أو حاول لاحقاً."
-
-#: frontend/src/sheet/shim/TemplateDialog.vue:9
-msgid "It goes in OneCloud › Workbook Templates, where everyone in the company can start from it."
-msgstr "يُحفظ في OneCloud › قوالب المصنفات، حيث يمكن لكل من في الشركة البدء منه."
 
 #: onedesk/one_inventory/assets.py:59
 msgid "It has no asset category."
@@ -19730,6 +19751,10 @@ msgstr "وهي أيضًا في حسابك في One، مع فواتيرك."
 #: onedesk/notifications/one_studio/collection_deleted.md
 msgid "It is no longer in {app}."
 msgstr "لم تعد موجودة في {app}."
+
+#: frontend/src/sheet/shim/TemplateDialog.vue:9
+msgid "It is saved to OneCloud › Workbook Templates and is available to everyone in the company."
+msgstr "يُحفظ في OneCloud › قوالب المصنفات ويكون متاحًا لكل من في الشركة."
 
 #. Message of a notification
 #: onedesk/notifications/one_crm/given_to_you.md
@@ -19754,14 +19779,6 @@ msgstr "اليوم ذكرى انضمام {employee} للعمل"
 #: onedesk/notifications/one/approval_waiting.md
 msgid "It is {state}. Open it to {actions}."
 msgstr "حالته {state}. افتحه لـ {actions}."
-
-#: frontend/src/sheet/shim/TemplateDialog.vue:8
-msgid "It keeps every sheet and the formulas in the table, but not the table's rows."
-msgstr "يحتفظ بكل الأوراق وبالصيغ في الجدول، دون صفوف الجدول."
-
-#: frontend/src/sheet/shim/TemplateDialog.vue:8
-msgid "It keeps every sheet as it is now."
-msgstr "يحتفظ بكل الأوراق كما هي الآن."
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:26
 msgid "It may have been deleted, or the link is wrong."
@@ -20689,7 +20706,7 @@ msgstr "صفحة الهبوط"
 msgid "Landlord and authority approvals"
 msgstr "موافقات المالك والجهات الرسمية"
 
-#: frontend/src/sheet/shim/PrintDialog.vue:64
+#: frontend/src/sheet/shim/PrintDialog.vue:65
 msgid "Landscape"
 msgstr "أفقي"
 
@@ -20955,7 +20972,7 @@ msgstr "آخر {0} يومًا."
 #: frontend/src/project/group.js:39 frontend/src/sent_out/SentOutPage.vue:85
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:184
 #: onedesk/one_project/report/workload/workload.py:177
-#: onedesk/public/js/band.js:152 onedesk/public/js/desk.js:362
+#: onedesk/public/js/band.js:152 onedesk/public/js/desk.js:364
 msgid "Late"
 msgstr "متأخر"
 
@@ -20981,7 +20998,7 @@ msgid "Late from {0}"
 msgstr "متأخر من {0}"
 
 #: onedesk/one_crm/heads.py:256 onedesk/one_inventory/heads.py:380
-#: onedesk/one_inventory/heads.py:529 onedesk/public/js/desk.js:378
+#: onedesk/one_inventory/heads.py:529 onedesk/public/js/desk.js:380
 msgid "Late since {0}"
 msgstr "متأخر منذ {0}"
 
@@ -21528,13 +21545,13 @@ msgstr "مخصوم السلفة"
 msgid "Less Retention"
 msgstr "ناقص المحتجزات"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4987
+#: frontend/src/sheet/components/SheetEditor/index.vue:4989
 msgid "Less or equal"
 msgstr "أصغر من أو يساوي"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:973
-#: frontend/src/sheet/components/SheetEditor/index.vue:1931
-#: frontend/src/sheet/components/SheetEditor/index.vue:4985
+#: frontend/src/sheet/components/SheetEditor/index.vue:1933
+#: frontend/src/sheet/components/SheetEditor/index.vue:4987
 msgid "Less than"
 msgstr "أصغر من"
 
@@ -21629,6 +21646,10 @@ msgstr "تم إنشاء الترويسة"
 #: onedesk/public/js/settings.js:2064
 msgid "Letter head updated"
 msgstr "تم تحديث ترويسة الرسائل"
+
+#: onedesk/one_sheet/paper.py:289
+msgid "Letter head {0} does not exist."
+msgstr "الترويسة {0} غير موجودة."
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -21980,7 +22001,7 @@ msgstr "تسجيل مكالمة"
 msgid "Log in to create a calendar link."
 msgstr "سجّل الدخول لإنشاء رابط تقويم."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1393
+#: frontend/src/sheet/components/SheetEditor/index.vue:1395
 msgid "Log out"
 msgstr "تسجيل الخروج"
 
@@ -22585,10 +22606,6 @@ msgstr "أنشئ قاعدة"
 msgid "Make a work order"
 msgstr "أنشئ أمر عمل"
 
-#: onedesk/one_sheet/api.py:150
-msgid "Make a workbook in OneCloud first."
-msgstr "أنشئ مصنفًا في OneCloud أولًا."
-
 #: onedesk/one_hr/ai.py:23 onedesk/one_hr/ai.py:259
 msgid "Make an expense claim from this receipt."
 msgstr "أنشئ مطالبة مصروفات من هذا الإيصال."
@@ -22620,10 +22637,6 @@ msgstr "تصغير اللوحة"
 #: frontend/src/sent_out/SentOutPage.vue:95
 msgid "Make its subcontracting order to send the materials"
 msgstr "أنشئ أمر التصنيع لدى الغير لإرسال المواد"
-
-#: onedesk/one_sheet/ai.py:175
-msgid "Make the workbook {0}"
-msgstr "إنشاء المصنف {0}"
 
 #: onedesk/one_hr/passkey.py:82
 msgid "Make your passkey on your phone."
@@ -23193,7 +23206,7 @@ msgstr "شهادة اللياقة الطبية"
 msgid "Medical Report"
 msgstr "تقرير طبي"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1890
+#: frontend/src/sheet/components/SheetEditor/index.vue:1892
 msgid "Medium"
 msgstr "متوسط"
 
@@ -23491,7 +23504,7 @@ msgstr "أموال مستلمة من العملاء ومدفوعة للمورد�
 msgid "Money somebody spent for work, paid back."
 msgstr "مال أنفقه أحدهم للعمل، يُسترد."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1826
+#: frontend/src/sheet/components/SheetEditor/index.vue:1828
 msgid "Mono"
 msgstr "أحادي المسافة"
 
@@ -23566,8 +23579,9 @@ msgstr "أشهر غير مفوترة"
 
 #: frontend/portal/src/App.vue:17
 #: frontend/src/sheet/components/SheetEditor/index.vue:301
+#: frontend/src/sheet/components/SheetEditor/index.vue:1188
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:415
-#: onedesk/one_intake/page/intake/intake.js:30
+#: onedesk/one_intake/page/intake/intake.js:30 onedesk/one_sheet/ai.py:227
 #: onedesk/public/js/project_actions.js:651
 msgid "More"
 msgstr "المزيد"
@@ -23623,11 +23637,11 @@ msgstr "نقل"
 msgid "Move Stock"
 msgstr "نقل المخزون"
 
-#: onedesk/public/js/desk.js:207
+#: onedesk/public/js/desk.js:209
 msgid "Move This Bar to the Bottom"
 msgstr "نقل هذا الشريط إلى الأسفل"
 
-#: onedesk/public/js/desk.js:207
+#: onedesk/public/js/desk.js:209
 msgid "Move This Bar to the Top"
 msgstr "نقل هذا الشريط إلى الأعلى"
 
@@ -23875,7 +23889,7 @@ msgstr "تسمية كل {0} جديد حسب {1}؟ تحتفظ السجلات ال
 msgid "Name for the copy"
 msgstr "اسم النسخة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:5574
+#: frontend/src/sheet/components/SheetEditor/index.vue:5576
 msgid "Name is empty or already used."
 msgstr "الاسم فارغ أو مستخدم بالفعل."
 
@@ -24364,6 +24378,10 @@ msgstr "قالب جديد"
 msgid "New Work Order"
 msgstr "أمر عمل جديد"
 
+#: onedesk/public/js/onecloud.js:1830
+msgid "New Workbook"
+msgstr "مصنف جديد"
+
 #: onedesk/one_ai/chat.py:92 onedesk/public/js/oneai/Panel.vue:26
 #: onedesk/public/js/oneai/Panel.vue:28 onedesk/public/js/oneai/Panel.vue:32
 msgid "New conversation"
@@ -24453,10 +24471,6 @@ msgstr "إصدارات جديدة من: {documents}. اقرأ ما تغيّر؛ 
 #: onedesk/one_inventory/heads.py:834
 msgid "New work orders for {0} use this one."
 msgstr "أوامر العمل الجديدة لـ {0} تستخدم هذه."
-
-#: onedesk/public/js/onecloud.js:1830
-msgid "New workbook"
-msgstr "مصنف جديد"
 
 #: onedesk/one_admin/home.py:352
 msgid "New workspaces can't be built until a server is added."
@@ -24916,7 +24930,7 @@ msgstr "لا يوجد رابط تقويم"
 msgid "No changes found in timings."
 msgstr "لم يتغير شيء في المواعيد."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2145
+#: frontend/src/sheet/components/SheetEditor/index.vue:2147
 msgid "No changes suggested for that."
 msgstr "لا توجد تغييرات مقترحة لذلك."
 
@@ -25024,7 +25038,7 @@ msgstr "لم تُسجَّل أي تعديلات لهذه الخلية بعد."
 msgid "No emails"
 msgstr "لا توجد رسائل"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1509
+#: frontend/src/sheet/components/SheetEditor/index.vue:1511
 msgid "No empty cells in the selection to fill."
 msgstr "لا توجد خلايا فارغة في التحديد لتعبئتها."
 
@@ -25530,14 +25544,6 @@ msgstr "لم تنتهِ أي سنة بقيود مفتوحة."
 msgid "No {0} bucket is configured."
 msgstr "لم تُضبط حاوية {0}."
 
-#: onedesk/one_sheet/table.py:634
-msgid "No {0} called {1}"
-msgstr "لا يوجد {0} باسم {1}"
-
-#: onedesk/one_sheet/table.py:625
-msgid "No {0} called {1}."
-msgstr "لا يوجد {0} باسم {1}."
-
 #: onedesk/one/printing.py:521
 msgid "No."
 msgstr ""
@@ -25596,7 +25602,7 @@ msgid "Non Conformance"
 msgstr "عدم مطابقة"
 
 #: frontend/src/item/ItemVariantsMake.vue:11 frontend/src/project/Time.vue:90
-#: frontend/src/sheet/shim/PrintDialog.vue:59 onedesk/one/ai.py:2643
+#: frontend/src/sheet/shim/PrintDialog.vue:60 onedesk/one/ai.py:2643
 #: onedesk/one/ai_setup.py:128 onedesk/one_book/heads.py:517
 #: onedesk/public/js/settings.js:2183
 msgid "None"
@@ -25670,7 +25676,7 @@ msgid "Not Booked"
 msgstr "غير مسجّل"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/not_checked_in.md onedesk/public/js/desk.js:413
+#: onedesk/notifications/one_hr/not_checked_in.md onedesk/public/js/desk.js:415
 msgid "Not Checked In"
 msgstr "لم يسجّل الحضور"
 
@@ -25819,7 +25825,7 @@ msgstr "لم يسجّل الحضور"
 msgid "Not checked until the workspace is linked to an account."
 msgstr "لا يُفحص حتى تُربط مساحة العمل بحساب."
 
-#: onedesk/public/js/desk.js:374
+#: onedesk/public/js/desk.js:376
 msgid "Not checking in today"
 msgstr "لا تسجيل حضور اليوم"
 
@@ -25844,7 +25850,7 @@ msgid "Not enough {0} for one"
 msgstr "لا يكفي {0} لقطعة واحدة"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:976
-#: frontend/src/sheet/components/SheetEditor/index.vue:4989
+#: frontend/src/sheet/components/SheetEditor/index.vue:4991
 msgid "Not equal to"
 msgstr "لا يساوي"
 
@@ -25966,6 +25972,10 @@ msgstr "غير مسجّل"
 msgid "Not registered by itself: {0}"
 msgstr "لم يُسجّل تلقائيًا: {0}"
 
+#: frontend/src/sheet/shim/CellProblem.vue:4
+msgid "Not saved"
+msgstr "لم يُحفظ"
+
 #: onedesk/public/js/onemail.js:495
 msgid "Not saved, storage is full"
 msgstr "لم يُحفظ، التخزين ممتلئ"
@@ -26008,10 +26018,6 @@ msgstr "لم تتم المزامنة بعد"
 #: onedesk/public/js/calendar_link.js:12
 msgid "Not synced yet."
 msgstr "لم تتم المزامنة بعد."
-
-#: frontend/src/sheet/shim/CellProblem.vue:4
-msgid "Not taken"
-msgstr "لم يُقبل"
 
 #: onedesk/public/js/settings.js:2622
 msgid "Not used"
@@ -26157,7 +26163,7 @@ msgid "Nothing has happened yet. It is checked against your own permissions when
 msgstr "لم يحدث شيء بعد. ويُفحص مقابل صلاحياتك أنت عند تطبيقه."
 
 #: frontend/portal/src/pages/Home.vue:68 frontend/portal/src/pages/List.vue:84
-#: onedesk/one/page/masters/masters.js:124 onedesk/public/js/desk.js:474
+#: onedesk/one/page/masters/masters.js:124 onedesk/public/js/desk.js:476
 msgid "Nothing here yet"
 msgstr "لا شيء هنا بعد"
 
@@ -26226,7 +26232,7 @@ msgstr "لا شيء قيد التشغيل"
 msgid "Nothing shared with you"
 msgstr "لا شيء مُشارَك معك"
 
-#: onedesk/public/js/desk.js:385
+#: onedesk/public/js/desk.js:387
 msgid "Nothing to check in. You're {0} today."
 msgstr "لا يوجد ما تسجّل حضوره. أنت {0} اليوم."
 
@@ -26321,7 +26327,7 @@ msgstr "إشعار"
 #. Task in the Mobile App project template
 #: onedesk/one/settings.py:17 onedesk/one/settings.py:113
 #: onedesk/one/sidebar/one/one.json onedesk/one_project/library/mobile_app.json
-#: onedesk/public/js/desk.js:179 onedesk/public/js/doctype_settings.js:234
+#: onedesk/public/js/desk.js:181 onedesk/public/js/doctype_settings.js:234
 #: onedesk/public/js/settings.js:3178 onedesk/public/js/settings.js:3272
 #: onedesk/public/js/settings.js:3329
 msgid "Notifications"
@@ -26398,8 +26404,8 @@ msgstr "تذكير"
 #. Label in the One Serial and Batch Bundle print format
 #. Label in the One Stock Reservation Entry print format
 #: frontend/src/sheet/components/SheetEditor/index.vue:931
-#: frontend/src/sheet/components/SheetEditor/index.vue:1845
-#: frontend/src/sheet/components/SheetEditor/index.vue:2537
+#: frontend/src/sheet/components/SheetEditor/index.vue:1847
+#: frontend/src/sheet/components/SheetEditor/index.vue:2539
 #: onedesk/one/portal.py:61 onedesk/one/portal.py:62
 #: onedesk/one/print_blocks.py:795
 #: onedesk/one_book/print_format/one_bank_transaction/one_bank_transaction.json
@@ -27217,10 +27223,6 @@ msgstr "يضيف OneAI أسئلة إلى كل مقابلة جديدة."
 msgid "OneAI cannot answer"
 msgstr "لا يستطيع OneAI الإجابة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2028
-msgid "OneAI changed this workbook. Open it again to see what it wrote."
-msgstr "غيّر OneAI هذا المصنف. افتحه مجددًا لترى ما كتبه."
-
 #: onedesk/one_ai/chat.py:188
 msgid "OneAI could not answer just now. Try again in a moment."
 msgstr "تعذّر على OneAI الإجابة الآن. حاول مرة أخرى بعد قليل."
@@ -27272,13 +27274,17 @@ msgstr "لا يفعل OneAI هنا إلا ما يحق لهذا الشخص فعل
 msgid "OneAI does nothing more, and documents wait unread, until credits are added. Buy a pack or move to a bigger plan on Workspace › Plan and Credits."
 msgstr "يتوقف OneAI، وتنتظر المستندات دون قراءة، حتى تُضاف أرصدة. اشترِ حزمة أو انتقل إلى خطة أكبر في مساحة العمل › الخطة والأرصدة."
 
-#: onedesk/public/js/settings.js:2899
-msgid "OneAI doesn't read any of your folders."
-msgstr "لا يقرأ OneAI أيًّا من مجلداتك."
+#: frontend/src/sheet/components/SheetEditor/index.vue:2030
+msgid "OneAI edited this workbook. Reopen it to see the changes."
+msgstr "عدّل OneAI هذا المصنف. أعد فتحه لرؤية التغييرات."
 
 #: onedesk/one_intake/digest.py:43
 msgid "OneAI handled {0} of {1} documents this month. {2} needed review."
 msgstr "عالج OneAI {0} من {1} مستند هذا الشهر. احتاج {2} إلى مراجعة."
+
+#: onedesk/public/js/settings.js:2899
+msgid "OneAI has no access to any of your folders."
+msgstr "لا يملك OneAI صلاحية الوصول إلى أي من مجلداتك."
 
 #. Subject of a notification
 #: onedesk/notifications/one/credits_ran_out.md
@@ -27414,7 +27420,7 @@ msgstr "تُفتح الصفحة الرئيسية لـ OneHR، وفي كل مرة
 #: onedesk/one/sidebar/one/one.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_intake/page/intake/intake.js:3 onedesk/public/js/desk.js:84
-#: onedesk/public/js/desk.js:169 onedesk/public/js/desk.js:347
+#: onedesk/public/js/desk.js:171 onedesk/public/js/desk.js:349
 msgid "OneIntake"
 msgstr "OneIntake"
 
@@ -27486,8 +27492,8 @@ msgid "OneWorkbook"
 msgstr "OneWorkbook"
 
 #: onedesk/one_sheet/api.py:223
-msgid "Only Excel and CSV files open as a workbook."
-msgstr "تُفتح ملفات Excel وCSV فقط كمصنف."
+msgid "Only Excel and CSV files can be opened as a workbook."
+msgstr "يمكن فتح ملفات Excel وCSV فقط كمصنف."
 
 #. Description of the 'Sensitive' (Check) field in DocType 'Employee Grievance'
 #: onedesk/one_hr/custom/employee_grievance.json
@@ -28035,8 +28041,8 @@ msgid "Open in Stripe"
 msgstr "فتح في Stripe"
 
 #: onedesk/public/js/table_workbook.js:67
-msgid "Open in a workbook"
-msgstr "افتح في مصنف"
+msgid "Open in Workbook"
+msgstr "فتح في مصنف"
 
 #: onedesk/www/welcome.html:27
 msgid "Open it"
@@ -28842,7 +28848,7 @@ msgstr "مهام متأخرة"
 msgid "Overdue · oldest {0} days"
 msgstr "متأخر · الأقدم {0} يومًا"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2616
+#: frontend/src/sheet/components/SheetEditor/index.vue:2618
 msgid "Overflow"
 msgstr "تجاوز"
 
@@ -30184,8 +30190,8 @@ msgstr "لكل مقعد"
 msgid "Per Workspace"
 msgstr "لكل مساحة عمل"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1848
-#: frontend/src/sheet/components/SheetEditor/index.vue:2537
+#: frontend/src/sheet/components/SheetEditor/index.vue:1850
+#: frontend/src/sheet/components/SheetEditor/index.vue:2539
 msgid "Percent"
 msgstr "نسبة مئوية"
 
@@ -30646,8 +30652,8 @@ msgstr "أعيد ترتيب الجميع بناءً على ما كتبته عن 
 msgid "Plaid Settings"
 msgstr "إعدادات Plaid"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1843
-#: frontend/src/sheet/components/SheetEditor/index.vue:2537
+#: frontend/src/sheet/components/SheetEditor/index.vue:1845
+#: frontend/src/sheet/components/SheetEditor/index.vue:2539
 msgid "Plain text"
 msgstr "نص عادي"
 
@@ -30873,7 +30879,7 @@ msgstr "رابط البوابة"
 msgid "Portal access revoked."
 msgstr "تم إلغاء الوصول إلى البوابة."
 
-#: frontend/src/sheet/shim/PrintDialog.vue:63
+#: frontend/src/sheet/shim/PrintDialog.vue:64
 msgid "Portrait"
 msgstr "عمودي"
 
@@ -31208,8 +31214,8 @@ msgstr "أساسي"
 msgid "Primary Domain"
 msgstr "النطاق الرئيسي"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1938
-#: frontend/src/sheet/components/SheetEditor/index.vue:1939
+#: frontend/src/sheet/components/SheetEditor/index.vue:1940
+#: frontend/src/sheet/components/SheetEditor/index.vue:1941
 #: frontend/src/sheet/shim/PrintDialog.vue:3
 #: frontend/src/sheet/shim/PrintDialog.vue:17 onedesk/public/js/record.js:150
 msgid "Print"
@@ -33448,7 +33454,7 @@ msgstr "سجّل هذا الجهاز"
 msgid "Register a passkey before checking in."
 msgstr "سجّل مفتاح مرور قبل تسجيل الحضور."
 
-#: onedesk/public/js/desk.js:406
+#: onedesk/public/js/desk.js:408
 msgid "Register a passkey on this phone first?"
 msgstr "هل تريد تسجيل مفتاح مرور على هذا الهاتف أولاً؟"
 
@@ -35377,7 +35383,7 @@ msgid "Save PDF to OneCloud"
 msgstr "حفظ PDF في OneCloud"
 
 #: frontend/src/project/ProjectPage.vue:248
-#: frontend/src/sheet/components/SheetEditor/index.vue:1952
+#: frontend/src/sheet/components/SheetEditor/index.vue:1954
 #: frontend/src/sheet/shim/TemplateDialog.vue:3
 #: frontend/src/sheet/shim/TemplateDialog.vue:15
 #: onedesk/public/js/project.js:40 onedesk/public/js/project_actions.js:58
@@ -35389,8 +35395,8 @@ msgid "Save before setting up Cloudflare."
 msgstr "احفظ قبل إعداد Cloudflare."
 
 #: onedesk/public/js/table_workbook.js:46
-msgid "Save this record first, so the workbook starts from what is saved."
-msgstr "احفظ هذا السجل أولًا، ليبدأ المصنف مما هو محفوظ."
+msgid "Save the record before opening its table in a workbook."
+msgstr "احفظ السجل قبل فتح جدوله في مصنف."
 
 #: onedesk/public/js/onemail.js:487
 msgid "Save to My Files"
@@ -35409,7 +35415,7 @@ msgstr "تم الحفظ"
 msgid "Saved Reports"
 msgstr "التقارير المحفوظة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2079
+#: frontend/src/sheet/components/SheetEditor/index.vue:2081
 msgid "Saved as a template: {0}"
 msgstr "حُفظ كقالب: {0}"
 
@@ -35458,10 +35464,6 @@ msgstr "قل ما يجب أن يتذكره OneAI."
 #: onedesk/public/js/oneai/Panel.vue:60
 msgid "Say what to write in {0}, or pick one of these."
 msgstr "قل ماذا تريد أن يُكتب في {0}، أو اختر أحد هذه."
-
-#: onedesk/one_sheet/assist.py:96
-msgid "Say what you would like done first."
-msgstr "قل ما تريد إنجازه أولًا."
 
 #: onedesk/one_studio/extensions.py:135
 msgid "Say when it runs as a cron line, such as 0 8 * * 1-5 for eight each weekday morning."
@@ -35600,8 +35602,8 @@ msgstr "الإحكام والعزل ضد الطقس"
 #: frontend/src/to_order/ToOrderPage.vue:9
 #: frontend/src/upkeep/UpkeepPage.vue:10
 #: onedesk/one_hr/custom/employee_attendance_tool.json
-#: onedesk/public/js/crumb_switch.js:110 onedesk/public/js/desk.js:141
-#: onedesk/public/js/desk.js:142 onedesk/public/js/onemail.js:67
+#: onedesk/public/js/crumb_switch.js:110 onedesk/public/js/desk.js:143
+#: onedesk/public/js/desk.js:144 onedesk/public/js/onemail.js:67
 msgid "Search"
 msgstr "بحث"
 
@@ -35712,6 +35714,10 @@ msgstr "حدّد خلية واضغط"
 #: onedesk/public/js/settings.js:3376
 msgid "Select a record type first."
 msgstr "اختر نوع السجل أولًا."
+
+#: onedesk/one_sheet/table.py:182
+msgid "Select a value from the list."
+msgstr "اختر قيمة من القائمة."
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:450
 #: frontend/src/sheet/components/SheetEditor/index.vue:568
@@ -36110,7 +36116,7 @@ msgstr "حُدّثت السلسلة"
 msgid "Series {0} already used in {1}"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1825
+#: frontend/src/sheet/components/SheetEditor/index.vue:1827
 msgid "Serif"
 msgstr "مذيّل"
 
@@ -37289,7 +37295,7 @@ msgstr "فاتورة ضريبية مبسطة"
 msgid "Since {0}"
 msgstr "منذ {0}"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4998
+#: frontend/src/sheet/components/SheetEditor/index.vue:5000
 msgid "Single colour rule"
 msgstr "قاعدة لون واحد"
 
@@ -37639,7 +37645,7 @@ msgstr "أعمال البناء الصغيرة"
 msgid "Smart Fill ({0})"
 msgstr "التعبئة الذكية ({0})"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1514
+#: frontend/src/sheet/components/SheetEditor/index.vue:1516
 msgid "Smart Fill could not run."
 msgstr "تعذّر تشغيل التعبئة الذكية."
 
@@ -37647,11 +37653,11 @@ msgstr "تعذّر تشغيل التعبئة الذكية."
 msgid "Smart Fill from examples"
 msgstr "تعبئة ذكية من الأمثلة"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1510
+#: frontend/src/sheet/components/SheetEditor/index.vue:1512
 msgid "Smart Fill needs adjacent columns with source data."
 msgstr "تحتاج التعبئة الذكية إلى أعمدة مجاورة تحتوي على بيانات مصدر."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1507
+#: frontend/src/sheet/components/SheetEditor/index.vue:1509
 msgid "Smart Fill works on a single column at a time."
 msgstr "تعمل التعبئة الذكية على عمود واحد في كل مرة."
 
@@ -37863,7 +37869,7 @@ msgstr "شيء مَبيع تعطل، وهل يشمله الضمان."
 
 #: frontend/src/sheet/components/SheetEditor/AISettingsDialog.vue:100
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:206
-#: frontend/src/sheet/components/SheetEditor/index.vue:2147
+#: frontend/src/sheet/components/SheetEditor/index.vue:2149
 #: onedesk/www/error.py:20
 msgid "Something went wrong"
 msgstr "حدث خطأ ما"
@@ -38791,10 +38797,6 @@ msgstr "إيقاف الاستماع"
 msgid "Stop sending this"
 msgstr "أوقف إرسال هذا"
 
-#: onedesk/public/js/portal_share.js:165
-msgid "Stop this link opening? Whoever has it can't use it any more."
-msgstr "إيقاف فتح هذا الرابط؟ لن يتمكن من لديه من استخدامه بعد الآن."
-
 #: onedesk/public/js/ai_model_list.js:24
 msgid "Stop workspaces from picking this model"
 msgstr "منع مساحات العمل من اختيار هذا النموذج"
@@ -39614,7 +39616,7 @@ msgstr "متزامن عبر سلسلة مفاتيح iCloud أو مدير كلم�
 msgid "Syncing {0}…"
 msgstr "جارٍ مزامنة {0}…"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1827
+#: frontend/src/sheet/components/SheetEditor/index.vue:1829
 msgid "System"
 msgstr "النظام"
 
@@ -39658,10 +39660,6 @@ msgstr "الرقم الضريبي"
 #: onedesk/one/print_blocks.py:439 onedesk/one/print_blocks.py:547
 msgid "TRN {0}"
 msgstr "رقم التسجيل الضريبي {0}"
-
-#: onedesk/one_sheet/table.py:184
-msgid "TRUE or FALSE."
-msgstr "TRUE أو FALSE."
 
 #: frontend/src/sheet/components/SheetEditor/SplitTextPopover.vue:65
 msgid "Tab"
@@ -40258,7 +40256,7 @@ msgid "Tell us who you are and what you need, and we will get back to you."
 msgstr "أخبرنا من أنت وما تحتاجه، وسنعاود التواصل معك."
 
 #. Option for the 'status' (Select) field in DocType 'Task'
-#: frontend/src/sheet/components/SheetEditor/index.vue:1951
+#: frontend/src/sheet/components/SheetEditor/index.vue:1953
 #: frontend/src/task/TaskPage.vue:10 onedesk/one_project/ai.py:982
 #: onedesk/one_task/custom/task.json onedesk/public/js/doctype_settings.js:137
 #: onedesk/public/js/project_actions.js:67 onedesk/public/js/project_new.js:86
@@ -40643,18 +40641,6 @@ msgstr "هذه ليست كلمة مرورك."
 msgid "That is {0} variants. Make at most {1} at a time."
 msgstr "هذه {0} متغيّرات. أنشئ {1} على الأكثر في المرة الواحدة."
 
-#: onedesk/one_sheet/versions.py:209
-msgid "That isn't a cell."
-msgstr "هذه ليست خلية."
-
-#: onedesk/one_sheet/table.py:398
-msgid "That isn't a table on this record."
-msgstr "هذا ليس جدولًا في هذا السجل."
-
-#: onedesk/one_sheet/templates.py:68 onedesk/one_sheet/templates.py:100
-msgid "That isn't a template."
-msgstr "هذا ليس قالبًا."
-
 #: onedesk/one_admin/signup.py:288
 msgid "That isn't on offer."
 msgstr "هذا غير معروض."
@@ -40687,21 +40673,9 @@ msgstr "مفتاح المرور هذا غير مسجَّل في هذا المو�
 msgid "That plan is no longer on offer. Start again."
 msgstr "هذه الخطة لم تعد معروضة. ابدأ من جديد."
 
-#: onedesk/one_sheet/assist.py:98
-msgid "That request is too long."
-msgstr "هذا الطلب طويل جدًا."
-
-#: onedesk/one_task/task.py:67
-msgid "That step isn't on this task any more."
-msgstr "لم تعد هذه الخطوة ضمن هذه المهمة."
-
 #: onedesk/public/js/hiring.js:80
 msgid "That tab shared no sound, so only the microphone is recorded."
 msgstr "لم تشارك علامة التبويب أي صوت، لذا يُسجَّل الميكروفون فقط."
-
-#: onedesk/one_sheet/templates.py:103
-msgid "That template is for another table."
-msgstr "هذا القالب لجدول آخر."
 
 #: frontend/src/item/ItemVariantsMake.vue:123
 msgid "That variant already exists."
@@ -40783,10 +40757,6 @@ msgstr "نموذج OneAI الذي جرى عليه الطلب."
 #: onedesk/one/settings.py:1363
 msgid "The OneAI panel and Ask in a workbook: answers, look-ups, summaries and formulas."
 msgstr "لوحة OneAI وميزة «اسأل» في المصنف: إجابات وعمليات بحث وملخصات وصيغ."
-
-#: frontend/src/sheet/shim/PrintDialog.vue:155
-msgid "The PDF wasn’t kept."
-msgstr "لم يُحفظ ملف PDF."
 
 #: onedesk/one/settings.py:2101
 msgid "The Person on the Record"
@@ -41012,10 +40982,6 @@ msgstr "آخر أربعة أحرف من الرمز، للتمييز بين ال�
 msgid "The colour a letter head carries, in the company's name, its lines and a banner's band."
 msgstr "اللون الذي تحمله الترويسة، في اسم الشركة وخطوطها وشريط البانر."
 
-#: onedesk/one_sheet/table.py:328
-msgid "The column {0} isn't in the sheet any more. Undo, or open the workbook again from the record."
-msgstr "العمود {0} لم يعد في الورقة. تراجع، أو افتح المصنف مرة أخرى من السجل."
-
 #: onedesk/one_book/ready.py:184
 msgid "The company has no TRN, and a UAE tax invoice must show it."
 msgstr "ليس للشركة رقم ضريبي، والفاتورة الضريبية في الإمارات يجب أن تُظهره."
@@ -41195,8 +41161,8 @@ msgid "The document's key, such as terms or privacy."
 msgstr "مفتاح المستند، مثل terms أو privacy."
 
 #: onedesk/one_sheet/versions.py:58 onedesk/one_sheet/versions.py:60
-msgid "The edits sent with this save don't read."
-msgstr "تعذّرت قراءة التعديلات المرسلة مع هذا الحفظ."
+msgid "The edits in this save are invalid."
+msgstr "التعديلات في عملية الحفظ هذه غير صالحة."
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_hr/appraisal_started.md
@@ -41254,7 +41220,7 @@ msgstr "تُسجَّل المصروفات ويصبح المبلغ مستحقًا
 msgid "The figures a supplier's score is worked out from."
 msgstr "الأرقام التي يُحسب منها تقييم المورد."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2012
+#: frontend/src/sheet/components/SheetEditor/index.vue:2014
 msgid "The file couldn’t be read: {0}"
 msgstr "تعذّرت قراءة الملف: {0}"
 
@@ -41302,6 +41268,42 @@ msgstr "يجب أن يكون المجلد في صندوق بريد القاعد�
 #: onedesk/public/js/doctype_settings.js:774
 msgid "The format to copy. It opens in the builder."
 msgstr "التنسيق المراد نسخه. يُفتح في المصمم."
+
+#: frontend/src/sheet/shim/problems.js:9
+msgid "The formula contains an unknown function or range name. Check the spelling."
+msgstr "تحتوي الصيغة على اسم دالة أو نطاق غير معروف. تحقق من الإملاء."
+
+#: frontend/src/sheet/shim/problems.js:11
+msgid "The formula could not find the value it looks up."
+msgstr "لم تعثر الصيغة على القيمة التي تبحث عنها."
+
+#: frontend/src/sheet/shim/problems.js:10
+msgid "The formula divides by zero or by an empty cell."
+msgstr "تقسم الصيغة على صفر أو على خلية فارغة."
+
+#: frontend/src/sheet/shim/problems.js:15
+msgid "The formula has a syntax error. Check its brackets and commas."
+msgstr "في الصيغة خطأ في البناء. تحقق من الأقواس والفواصل."
+
+#: frontend/src/sheet/shim/problems.js:8
+msgid "The formula refers to a cell or sheet that no longer exists."
+msgstr "تشير الصيغة إلى خلية أو ورقة لم تعد موجودة."
+
+#: frontend/src/sheet/shim/problems.js:14
+msgid "The formula refers to its own cell, directly or through other cells."
+msgstr "تشير الصيغة إلى خليتها نفسها، مباشرة أو عبر خلايا أخرى."
+
+#: frontend/src/sheet/shim/problems.js:12
+msgid "The formula result is not a valid number."
+msgstr "نتيجة الصيغة ليست رقمًا صالحًا."
+
+#: frontend/src/sheet/shim/problems.js:13
+msgid "The formula results cannot be placed because a cell in the output range is not empty. Clear that cell."
+msgstr "لا يمكن وضع نتائج الصيغة لأن خلية في نطاق الإخراج ليست فارغة. امسح تلك الخلية."
+
+#: frontend/src/sheet/shim/problems.js:7
+msgid "The formula uses a value of the wrong type, such as text where a number is expected."
+msgstr "تستخدم الصيغة قيمة من نوع خاطئ، مثل نص حيث يُتوقع رقم."
 
 #. Description of the 'Site Plan' (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
@@ -41966,6 +41968,10 @@ msgstr "كلمة المزوّد نفسها. ولا شيء يحوّل بين ال
 msgid "The questions feedback asks."
 msgstr "الأسئلة التي تطرحها الملاحظات."
 
+#: frontend/src/sheet/shim/problems.js:16
+msgid "The ranges in this formula do not intersect."
+msgstr "النطاقات في هذه الصيغة لا تتقاطع."
+
 #: onedesk/one_book/home.py:402
 msgid "The rate between two currencies on a day."
 msgstr "السعر بين عملتين في يوم معين."
@@ -41973,14 +41979,6 @@ msgstr "السعر بين عملتين في يوم معين."
 #: onedesk/public/js/oneai/Record.vue:165
 msgid "The record changed after this was suggested."
 msgstr "تغيّر السجل بعد تقديم هذا الاقتراح."
-
-#: onedesk/one_sheet/table.py:574
-msgid "The record didn't take this table."
-msgstr "لم يقبل السجل هذا الجدول."
-
-#: onedesk/one_sheet/table.py:579
-msgid "The record didn't take this table. The error is in the error log."
-msgstr "لم يقبل السجل هذا الجدول. الخطأ في سجل الأخطاء."
 
 #: onedesk/one/rules.py:212
 msgid "The record has no field {0}."
@@ -41990,6 +41988,14 @@ msgstr "لا يحتوي السجل على الحقل {0}."
 #: onedesk/one_intake/doctype/identifier/identifier.json
 msgid "The record or the reading it was learned from."
 msgstr "السجل أو القراءة التي عُرف منها."
+
+#: onedesk/one_sheet/table.py:574
+msgid "The record rejected this table."
+msgstr "رفض السجل هذا الجدول."
+
+#: onedesk/one_sheet/table.py:579
+msgid "The record rejected this table. See the Error Log for details."
+msgstr "رفض السجل هذا الجدول. راجع سجل الأخطاء للتفاصيل."
 
 #. Description of the 'Through' (Data) field in DocType 'Record Head Band'
 #: onedesk/one/doctype/record_head_band/record_head_band.json
@@ -42009,6 +42015,10 @@ msgstr "توقّف تكرار {document}"
 #: onedesk/one_hr/heads.py:553
 msgid "The request is closed and nobody is assigned anything."
 msgstr "يُغلق الطلب ولا يُكلَّف أحد بشيء."
+
+#: onedesk/one_sheet/assist.py:98
+msgid "The request is too long."
+msgstr "الطلب طويل جدًا."
 
 #: onedesk/one_studio/heads.py:29
 msgid "The review refused it: {0}"
@@ -42059,19 +42069,9 @@ msgstr "رفض الخادم عنوان البريد الإلكتروني أو ك
 msgid "The server's name or address."
 msgstr "اسم الخادم أو عنوانه."
 
-#: frontend/src/sheet/shim/PrintDialog.vue:129
-#: frontend/src/sheet/shim/PrintDialog.vue:139
-#: frontend/src/sheet/shim/PrintDialog.vue:141
-msgid "The sheet wasn’t printed."
-msgstr "لم تُطبع الورقة."
-
 #: onedesk/one_sheet/table.py:323
-msgid "The sheet's hidden first column is gone. Undo, or open the workbook again from the record."
-msgstr "العمود الأول المخفي في الورقة اختفى. تراجع، أو افتح المصنف مرة أخرى من السجل."
-
-#: frontend/src/sheet/shim/AddSheetsDialog.vue:54
-msgid "The sheets weren’t added."
-msgstr "لم تُضَف الأوراق."
+msgid "The sheet's hidden first column was deleted. Undo the change, or reopen the workbook from the record."
+msgstr "حُذف العمود الأول المخفي في الورقة. تراجع عن التغيير أو أعد فتح المصنف من السجل."
 
 #. Description of the 'Archived For' (Int) field in DocType 'One Admin
 #. Settings'
@@ -42172,13 +42172,13 @@ msgstr "الضرائب التي تحملها عملية الشراء."
 msgid "The taxes a sale carries."
 msgstr "الضرائب التي تحملها عملية البيع."
 
-#: frontend/src/sheet/shim/TemplateDialog.vue:48
-msgid "The template wasn’t saved."
-msgstr "لم يُحفظ القالب."
+#: frontend/src/sheet/shim/TemplateDialog.vue:8
+msgid "The template includes all sheets and the table formulas, but not the table rows."
+msgstr "يتضمن القالب كل الأوراق وصيغ الجدول، لكن ليس صفوف الجدول."
 
-#: frontend/src/sheet/shim/AddSheetsDialog.vue:41
-msgid "The templates couldn’t be loaded."
-msgstr "تعذّر تحميل القوالب."
+#: frontend/src/sheet/shim/TemplateDialog.vue:8
+msgid "The template includes all sheets in their current state."
+msgstr "يتضمن القالب كل الأوراق بحالتها الحالية."
 
 #: onedesk/one_crm/home.py:177
 msgid "The terms a quotation and an order carry."
@@ -42220,10 +42220,6 @@ msgstr "موازين مراجعة عدة شركات كميزان واحد."
 msgid "The two passwords are not the same."
 msgstr "كلمتا المرور غير متطابقتين."
 
-#: frontend/src/sheet/shim/problems.js:11
-msgid "The value this formula looks for wasn’t found."
-msgstr "لم يُعثر على القيمة التي تبحث عنها هذه الصيغة."
-
 #: onedesk/one_crm/home.py:127
 msgid "The visits promised to keep what a customer bought working."
 msgstr "الزيارات الموعودة لإبقاء ما اشتراه العميل يعمل."
@@ -42251,6 +42247,10 @@ msgstr "العمل في المصنع، خطوة بخطوة."
 #: onedesk/one_project/custom/sales_invoice.json
 msgid "The work this invoice bills, before its retention."
 msgstr "العمل الذي تفوتره هذه الفاتورة، قبل خصم محتجزاته."
+
+#: onedesk/one_sheet/api.py:158
+msgid "The workbook data is invalid."
+msgstr "بيانات المصنف غير صالحة."
 
 #: onedesk/one_inventory/home.py:209
 msgid "The workshop's floors and their workstations."
@@ -42543,7 +42543,6 @@ msgid "There is no job called {0}."
 msgstr "لا يوجد عمل باسم {0}."
 
 #: onedesk/one/printing.py:545 onedesk/one/printing.py:677
-#: onedesk/one_sheet/paper.py:289
 msgid "There is no letter head {0}."
 msgstr "لا توجد ترويسة باسم {0}."
 
@@ -42603,10 +42602,6 @@ msgstr "لا يوجد {0} هنا."
 #: onedesk/one/access.py:565
 msgid "There is no {0} {1}."
 msgstr "لا يوجد {0} {1}."
-
-#: onedesk/one_sheet/paper.py:332
-msgid "There is nothing on this sheet to print."
-msgstr "لا يوجد في هذه الورقة ما يُطبع."
 
 #: onedesk/one_hr/clock.py:105
 msgid "There is nothing to check in: you are {0} today."
@@ -42716,11 +42711,11 @@ msgstr "انضم في {joined}."
 msgid "They keep their price. Quota changes apply the next time they change their plan or add-ons."
 msgstr "يحتفظون بسعرهم. تُطبّق تغييرات الحصص في المرة القادمة التي يغيّرون فيها خطتهم أو إضافاتهم."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1891
+#: frontend/src/sheet/components/SheetEditor/index.vue:1893
 msgid "Thick"
 msgstr "سميك"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1889
+#: frontend/src/sheet/components/SheetEditor/index.vue:1891
 msgid "Thin"
 msgstr "رفيع"
 
@@ -42811,10 +42806,6 @@ msgstr "هذا الرمز غير صحيح أو انتهت صلاحيته."
 msgid "This copy is gone"
 msgstr "لم تعد هذه النسخة متاحة"
 
-#: onedesk/one_sheet/api.py:158
-msgid "This doesn't read as a workbook."
-msgstr "تعذّرت قراءة هذا كمصنف."
-
 #: onedesk/one_hr/passkey.py:75
 msgid "This employee already has a passkey. HR must reset it before another can be registered."
 msgstr "لدى هذا الموظف مفتاح مرور بالفعل. على الموارد البشرية إعادة تعيينه قبل تسجيل مفتاح آخر."
@@ -42828,7 +42819,7 @@ msgid "This extension has not passed its review, so it cannot be turned on. Ask 
 msgstr "لم تجتز هذه الإضافة مراجعتها، لذا لا يمكن تشغيلها. اطلب من OneAI تعديلها."
 
 #: onedesk/one_sheet/api.py:220
-msgid "This file can't be opened."
+msgid "This file cannot be opened."
 msgstr "لا يمكن فتح هذا الملف."
 
 #: onedesk/www/r.py:17
@@ -42850,34 +42841,6 @@ msgstr "هذا التذييل بلغة HTML مخصصة. اختيار نمط جا
 #: onedesk/public/js/head.js:364 onedesk/public/js/shell.js:251
 msgid "This form has been modified after you have loaded it"
 msgstr "تم تعديل هذا النموذج بعد أن فتحته"
-
-#: frontend/src/sheet/shim/problems.js:15
-msgid "This formula can’t be read. Check its brackets and commas."
-msgstr "تعذّرت قراءة هذه الصيغة. تحقق من الأقواس والفواصل."
-
-#: frontend/src/sheet/shim/problems.js:10
-msgid "This formula divides by zero, or by an empty cell."
-msgstr "هذه الصيغة تقسم على صفر، أو على خلية فارغة."
-
-#: frontend/src/sheet/shim/problems.js:13
-msgid "This formula fills the cells below it, and one of them already holds something. Clear it."
-msgstr "هذه الصيغة تملأ الخلايا التي تحتها، وإحداها تحتوي على شيء بالفعل. امسحها."
-
-#: frontend/src/sheet/shim/problems.js:8
-msgid "This formula points at a cell or sheet that isn’t there any more."
-msgstr "هذه الصيغة تشير إلى خلية أو ورقة لم تعد موجودة."
-
-#: frontend/src/sheet/shim/problems.js:14
-msgid "This formula reads itself, through the cells it reads."
-msgstr "هذه الصيغة تقرأ نفسها عبر الخلايا التي تقرؤها."
-
-#: frontend/src/sheet/shim/problems.js:9
-msgid "This formula uses a name the sheet doesn’t know. Check the spelling of the function or range."
-msgstr "هذه الصيغة تستخدم اسمًا لا تعرفه الورقة. تحقق من تهجئة الدالة أو النطاق."
-
-#: frontend/src/sheet/shim/problems.js:12
-msgid "This formula works out to a number that can’t be shown."
-msgstr "نتيجة هذه الصيغة رقم لا يمكن عرضه."
 
 #: onedesk/public/js/settings.js:2175
 msgid "This header is custom HTML. Choosing a preset replaces it."
@@ -43019,16 +42982,20 @@ msgstr "سُجِّل مفتاح المرور هذا على متصفح مختلف
 
 #: onedesk/one/portal.py:864 onedesk/one/portal_share.py:392
 #: onedesk/one/portal_share.py:403
-msgid "This quotation can't be answered any more."
+msgid "This quotation can no longer be answered."
 msgstr "لم يعد بالإمكان الرد على عرض السعر هذا."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:3896
+#: frontend/src/sheet/components/SheetEditor/index.vue:3898
 msgid "This range is protected and can’t be edited"
 msgstr "هذا النطاق محمي ولا يمكن تحريره"
 
 #: onedesk/one/portal_share.py:191
 msgid "This record has no customer or supplier to send it to."
 msgstr "ليس لهذا السجل عميل أو مورد لإرساله إليه."
+
+#: onedesk/one_sheet/table.py:398
+msgid "This record has no such table."
+msgstr "لا يحتوي هذا السجل على هذا الجدول."
 
 #: onedesk/one/approvals.py:36 onedesk/one/automations.py:35
 #: onedesk/one/mail_templates.py:110 onedesk/one/numbering.py:53
@@ -43069,11 +43036,15 @@ msgstr "رُفض هذا الطلب في {0}. اعتمده أولاً إن تغي
 msgid "This section could not be opened."
 msgstr "تعذّر فتح هذا القسم."
 
-#: frontend/src/sheet/shim/PrintDialog.vue:52
+#: frontend/src/sheet/shim/PrintDialog.vue:53
 msgid "This sheet ({0})"
 msgstr "هذه الورقة ({0})"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:3895
+#: onedesk/one_sheet/paper.py:332
+msgid "This sheet is empty."
+msgstr "هذه الورقة فارغة."
+
+#: frontend/src/sheet/components/SheetEditor/index.vue:3897
 msgid "This sheet is protected"
 msgstr "هذه الورقة محمية"
 
@@ -43098,17 +43069,21 @@ msgstr "هذا الموقع لا يدير مساحة العمل هذه."
 msgid "This site doesn't manage workspaces."
 msgstr "هذا الموقع لا يدير مساحات العمل."
 
+#: onedesk/one_task/task.py:67
+msgid "This step no longer exists on the task."
+msgstr "لم تعد هذه الخطوة موجودة في المهمة."
+
 #: onedesk/one/printing.py:635
 msgid "This suggestion does not change how anything prints."
 msgstr "لا يغيّر هذا الاقتراح طريقة طباعة أي شيء."
 
 #: onedesk/one_sheet/table.py:647
-msgid "This table doesn't name records of that type."
-msgstr "هذا الجدول لا يشير إلى سجلات من هذا النوع."
+msgid "This table does not link to records of that type."
+msgstr "لا يرتبط هذا الجدول بسجلات من هذا النوع."
 
 #: onedesk/one_sheet/table.py:417
-msgid "This table has no columns a sheet can hold."
-msgstr "لا يحتوي هذا الجدول على أعمدة يمكن أن تحملها ورقة."
+msgid "This table has no columns that can be shown in a sheet."
+msgstr "لا يحتوي هذا الجدول على أعمدة يمكن عرضها في ورقة."
 
 #: onedesk/www/welcome.html:29
 msgid "This takes a few minutes. This page updates by itself, and a link will be emailed to {0} when it is ready."
@@ -43117,6 +43092,10 @@ msgstr "يستغرق ذلك بضع دقائق. تتحدّث هذه الصفحة 
 #: onedesk/one_admin/accounts.py:177
 msgid "This takes a few minutes. You'll get an email when it's ready."
 msgstr "يستغرق هذا بضع دقائق. ستصلك رسالة بريد إلكتروني عندما يصبح جاهزًا."
+
+#: onedesk/one_sheet/templates.py:103
+msgid "This template belongs to a different table."
+msgstr "ينتمي هذا القالب إلى جدول آخر."
 
 #: frontend/src/item/ItemVariantsMake.vue:5
 msgid "This template has no attributes to choose from."
@@ -43146,29 +43125,33 @@ msgstr "كان هذا {0} من قبل."
 msgid "This was shared with specific people. Enter your email to get a code."
 msgstr "تمت مشاركة هذا مع أشخاص محددين. أدخل بريدك الإلكتروني لتحصل على رمز."
 
+#: onedesk/one_sheet/templates.py:68 onedesk/one_sheet/templates.py:100
+msgid "This workbook is not a template."
+msgstr "هذا المصنف ليس قالبًا."
+
 #: onedesk/one_sheet/paper.py:422
-msgid "This workbook has no folder to keep a print in."
-msgstr "ليس لهذا المصنف مجلد تُحفظ فيه الطباعة."
-
-#: onedesk/one_sheet/storage.py:58
-msgid "This workbook is too large to save (over {0} MB). Formatting across a very large range is the usual cause: clear what you don't need, or split it across sheets."
-msgstr "هذا المصنف أكبر من أن يُحفظ (أكثر من {0} ميغابايت). السبب المعتاد هو التنسيق على نطاق كبير جدًا: امسح ما لا تحتاجه، أو وزّعه على عدة أوراق."
-
-#: onedesk/one_sheet/api.py:244
-msgid "This workbook isn't a file of its own to write back to."
-msgstr "هذا المصنف ليس ملفًا خاصًا يمكن الحفظ فيه."
+msgid "This workbook is not in a folder."
+msgstr "هذا المصنف ليس في مجلد."
 
 #: onedesk/one_sheet/paper.py:411
-msgid "This workbook isn't on a record."
-msgstr "هذا المصنف ليس على سجل."
+msgid "This workbook is not linked to a record."
+msgstr "هذا المصنف غير مرتبط بسجل."
+
+#: onedesk/one_sheet/api.py:244
+msgid "This workbook is not linked to an Excel or CSV file."
+msgstr "هذا المصنف غير مرتبط بملف Excel أو CSV."
+
+#: onedesk/one_sheet/storage.py:58
+msgid "This workbook is too large to save (over {0} MB). Remove formatting from unused ranges, or split the data across sheets."
+msgstr "هذا المصنف أكبر من أن يُحفظ (أكثر من {0} ميغابايت). أزل التنسيق من النطاقات غير المستخدمة أو وزّع البيانات على عدة أوراق."
 
 #: onedesk/one_sheet/api.py:37
 msgid "This workbook no longer exists."
 msgstr "هذا المصنف لم يعد موجودًا."
 
 #: onedesk/one_sheet/storage.py:56
-msgid "This workbook's saved content doesn't read."
-msgstr "تعذّرت قراءة المحتوى المحفوظ لهذا المصنف."
+msgid "This workbook's saved data is invalid."
+msgstr "البيانات المحفوظة لهذا المصنف غير صالحة."
 
 #: onedesk/one_admin/accounts.py:271
 msgid "This workspace cannot be moved."
@@ -43295,8 +43278,8 @@ msgstr "نقطة البيع"
 #. Label in the One Timesheet print format
 #: frontend/portal/src/pages/Project.vue:96 frontend/src/home/HrStory.vue:20
 #: frontend/src/project/Overview.vue:293
-#: frontend/src/sheet/components/SheetEditor/index.vue:1865
-#: frontend/src/sheet/components/SheetEditor/index.vue:2535
+#: frontend/src/sheet/components/SheetEditor/index.vue:1867
+#: frontend/src/sheet/components/SheetEditor/index.vue:2537
 #: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_service_report/one_service_report.json
 #: onedesk/one_hr/attendance.py:15 onedesk/one_hr/home.py:22
@@ -43366,7 +43349,7 @@ msgstr "تم تسجيل الوقت"
 msgid "Time on a job card is added to what was made, against {0}."
 msgstr "يُضاف الوقت في بطاقة العمل إلى قيمة المصنوع، مقابل {0}."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2535
+#: frontend/src/sheet/components/SheetEditor/index.vue:2537
 msgid "Time · {0}"
 msgstr "وقت · {0}"
 
@@ -43379,8 +43362,8 @@ msgid "Timeout (seconds)"
 msgstr "المهلة (بالثواني)"
 
 #: frontend/src/task/Timers.vue:13 onedesk/one_task/page/timers/timers.js:2
-#: onedesk/public/js/desk.js:93 onedesk/public/js/desk.js:159
-#: onedesk/public/js/desk.js:315
+#: onedesk/public/js/desk.js:93 onedesk/public/js/desk.js:161
+#: onedesk/public/js/desk.js:317
 msgid "Timers"
 msgstr "المؤقتات"
 
@@ -43431,7 +43414,7 @@ msgstr "رقم سجل الدوام"
 msgid "Timesheets"
 msgstr "سجلات الدوام"
 
-#: onedesk/public/js/desk.js:315
+#: onedesk/public/js/desk.js:317
 msgid "Timing {0}"
 msgstr "يتم توقيت {0}"
 
@@ -44086,7 +44069,7 @@ msgstr "التتبع بالدفعة أو الرقم التسلسلي"
 msgid "Tracking"
 msgstr "التتبع"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:5011
+#: frontend/src/sheet/components/SheetEditor/index.vue:5013
 msgid "Traffic lights"
 msgstr "إشارات المرور"
 
@@ -44472,10 +44455,6 @@ msgstr "قائمتا مواد جنبًا إلى جنب."
 #: onedesk/one_book/home.py:411
 msgid "Two or more accounts combined into one."
 msgstr "حسابان أو أكثر مدمجة في حساب واحد."
-
-#: frontend/src/sheet/shim/problems.js:16
-msgid "Two ranges in this formula don’t meet."
-msgstr "نطاقان في هذه الصيغة لا يتقاطعان."
 
 #: onedesk/public/js/settings.js:504
 msgid "Two-Factor Authentication"
@@ -45006,9 +44985,9 @@ msgstr "حتى {0}"
 msgid "Untitled"
 msgstr "بلا عنوان"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1380
-#: frontend/src/sheet/components/SheetEditor/index.vue:1715
-#: frontend/src/sheet/components/SheetEditor/index.vue:3687
+#: frontend/src/sheet/components/SheetEditor/index.vue:1382
+#: frontend/src/sheet/components/SheetEditor/index.vue:1717
+#: frontend/src/sheet/components/SheetEditor/index.vue:3689
 #: frontend/src/sheet/components/SheetEditor/usePersistence.js:88
 msgid "Untitled Sheet"
 msgstr "جدول بلا عنوان"
@@ -45017,7 +44996,7 @@ msgstr "جدول بلا عنوان"
 msgid "Untitled Template"
 msgstr "قالب بلا عنوان"
 
-#: onedesk/one_sheet/api.py:60 onedesk/public/js/workbooks.js:49
+#: onedesk/one_sheet/api.py:60 onedesk/public/js/workbooks.js:44
 msgid "Untitled Workbook"
 msgstr "مصنف بلا عنوان"
 
@@ -45257,6 +45236,10 @@ msgstr "استخدمه OneAI، {0} طلبات"
 msgid "Used by {0} projects"
 msgstr "مستخدم في {0} مشاريع"
 
+#: frontend/src/to_order/ToOrderPage.vue:161
+msgid "Used for lines without a default supplier."
+msgstr "يُستخدم للبنود التي ليس لها مورد افتراضي."
+
 #: onedesk/one/settings.py:785
 msgid "Used for the company name, lines and banner in letter heads."
 msgstr "يُستخدم لاسم الشركة والخطوط والشريط في الترويسات."
@@ -45476,11 +45459,11 @@ msgstr "تغير القيمة"
 msgid "Value by Asset Category"
 msgstr "القيمة حسب فئة الأصل"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:3443
+#: frontend/src/sheet/components/SheetEditor/index.vue:3445
 msgid "Value flagged by data validation rule"
 msgstr "القيمة مُعلَّمة بقاعدة التحقق من صحة البيانات"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:3431
+#: frontend/src/sheet/components/SheetEditor/index.vue:3433
 msgid "Value rejected by data validation rule"
 msgstr "رُفضت القيمة بقاعدة التحقق من صحة البيانات"
 
@@ -45931,6 +45914,10 @@ msgstr ""
 #: onedesk/public/js/project_actions.js:323
 msgid "Warn"
 msgstr "تنبيه"
+
+#: frontend/src/sheet/shim/CellProblem.vue:4
+msgid "Warning"
+msgstr "تحذير"
 
 #: frontend/src/lots/SerialRows.vue:9
 msgid "Warranty"
@@ -49735,9 +49722,13 @@ msgstr "تغيير المصنف"
 msgid "Workbook Version"
 msgstr "إصدار المصنف"
 
-#: onedesk/public/js/workbooks.js:93
+#: onedesk/public/js/workbooks.js:88
 msgid "Workbooks"
 msgstr "المصنفات"
+
+#: onedesk/one_sheet/api.py:59
+msgid "Workbooks cannot be created in a mounted drive."
+msgstr "لا يمكن إنشاء مصنفات في محرك أقراص مركّب."
 
 #. Label in the One Compensatory Leave Request print format
 #: onedesk/one_hr/print_format/one_compensatory_leave_request/one_compensatory_leave_request.json
@@ -50060,7 +50051,7 @@ msgstr "ما يجدر معرفته قبل الاتصال"
 msgid "Worth weighing"
 msgstr "يستحق النظر"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2618
+#: frontend/src/sheet/components/SheetEditor/index.vue:2620
 msgid "Wrap"
 msgstr "التفاف"
 
@@ -50153,10 +50144,6 @@ msgstr "اكتب الحضور في العطل الواقعة ضمن هذه ال�
 #: onedesk/public/js/doctype_settings.js:463
 msgid "Write in HTML"
 msgstr "الكتابة بلغة HTML"
-
-#: onedesk/one_sheet/ai.py:221
-msgid "Write in {0}, {1}"
-msgstr "الكتابة في {0}، {1}"
 
 #: onedesk/one/ai.py:27
 msgid "Write my bio"
@@ -50418,10 +50405,6 @@ msgstr "لا يمكنك تغيير {0}."
 msgid "You can't make a passkey on {0} because it's shared. Use your phone."
 msgstr "لا يمكنك إنشاء مفتاح مرور على {0} لأنه مشترك. استخدم هاتفك."
 
-#: onedesk/one_sheet/api.py:46
-msgid "You can't open this workbook."
-msgstr "لا يمكنك فتح هذا المصنف."
-
 #: onedesk/one_storage/api.py:267 onedesk/one_storage/api.py:288
 #: onedesk/one_storage/api.py:330
 msgid "You can't open {0}."
@@ -50460,6 +50443,10 @@ msgstr "لا يمكنك إيقاف نفسك."
 #: onedesk/notifications/one_hr/check_in_closed_for_you.md
 msgid "You checked in but never checked out, so a check out was written for you at the shift end. Tell HR if that is wrong."
 msgstr "سجّلت حضورك ولم تسجّل انصرافك، فكُتب لك سجل انصراف عند نهاية المناوبة. أبلغ الموارد البشرية إذا كان ذلك غير صحيح."
+
+#: onedesk/one_sheet/api.py:46
+msgid "You do not have permission to open this workbook."
+msgstr "ليست لديك صلاحية فتح هذا المصنف."
 
 #: onedesk/one_mail/actions.py:37
 msgid "You don't have access to the mailbox {0}."
@@ -50933,7 +50920,7 @@ msgstr "دورك"
 msgid "Your sessions are on the Sign-in page."
 msgstr "جلساتك موجودة في صفحة تسجيل الدخول."
 
-#: onedesk/public/js/desk.js:370
+#: onedesk/public/js/desk.js:372
 msgid "Your shift started at {0}"
 msgstr "بدأت مناوبتك الساعة {0}"
 
@@ -51191,7 +51178,7 @@ msgstr "صوت"
 msgid "auto"
 msgstr "تلقائي"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:5145
+#: frontend/src/sheet/components/SheetEditor/index.vue:5147
 msgid "between {0} and {1}"
 msgstr "بين {0} و{1}"
 
@@ -51502,7 +51489,7 @@ msgstr "لم يعد ممكنًا قراءة سعره"
 msgid "jane@example.com"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4722
+#: frontend/src/sheet/components/SheetEditor/index.vue:4724
 msgid "just now"
 msgstr "الآن"
 
@@ -51675,7 +51662,7 @@ msgid "not known yet"
 msgstr "غير معروف بعد"
 
 #: onedesk/one/heads.py:28 onedesk/one/notify.py:321
-#: onedesk/public/js/desk.js:436
+#: onedesk/public/js/desk.js:438
 msgid "nothing"
 msgstr "لا شيء"
 
@@ -52254,7 +52241,7 @@ msgstr "{0} (تغيّر)"
 msgid "{0} (copy)"
 msgstr "{0} (نسخة)"
 
-#: frontend/src/sheet/shim/PrintDialog.vue:58
+#: frontend/src/sheet/shim/PrintDialog.vue:59
 msgid "{0} (default)"
 msgstr "{0} (الافتراضي)"
 
@@ -52563,6 +52550,10 @@ msgstr "{0} في المستوى {1}"
 msgid "{0} at {1}"
 msgstr "{0} في {1}"
 
+#: frontend/src/sheet/shim/PrintDialog.vue:153
+msgid "{0} attached to {1}."
+msgstr "أُرفق {0} بـ {1}."
+
 #: onedesk/one/ai.py:3892
 msgid "{0} automation"
 msgstr "أتمتة {0}"
@@ -52675,10 +52666,6 @@ msgstr "تغيّر {0} بعد اقتراح هذا، فلم يعد ينطبق."
 #: onedesk/one/linked.py:270
 msgid "{0} changed in this save. Save it first, then edit what it links to."
 msgstr "تغيّر {0} في هذا الحفظ. احفظه أولًا، ثم حرر ما يرتبط به."
-
-#: onedesk/one_sheet/table.py:547
-msgid "{0} changed on the record since this sheet last matched it. Open the workbook again from the record to bring it in."
-msgstr "تغيّر {0} في السجل منذ آخر مرة طابقته هذه الورقة. افتح المصنف مرة أخرى من السجل لجلب التغييرات."
 
 #: onedesk/one_ai/run.py:458
 msgid "{0} changed this since you opened it. Close it and open it again."
@@ -53018,10 +53005,6 @@ msgstr "انتهت {0} ولم يُنقل ربحها بعد إلى الأرباح
 msgid "{0} has no OneAI summary."
 msgstr "لا يوجد ملخص OneAI لـ {0}."
 
-#: onedesk/one_project/retention.py:592
-msgid "{0} has no account for its {1} to put {2} beside."
-msgstr "لا يوجد لدى {0} حساب {1} لوضع {2} بجانبه."
-
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:45
 msgid "{0} has no attachment field called {1}."
 msgstr "لا يحتوي {0} على حقل مرفق باسم {1}."
@@ -53069,6 +53052,10 @@ msgstr "لا توجد في {0} مهام يُصنع منها قالب."
 #: onedesk/one_project/templates.py:134
 msgid "{0} has no tasks."
 msgstr "لا توجد مهام في {0}."
+
+#: onedesk/one_project/retention.py:592
+msgid "{0} has no {1} account to create {2} under."
+msgstr "لا يوجد لدى {0} حساب {1} لإنشاء {2} تحته."
 
 #: onedesk/one_admin/operator.py:113
 msgid "{0} has not failed."
@@ -53164,10 +53151,6 @@ msgstr "{0} مفوتر"
 #: frontend/src/project/Invoices.vue:110
 msgid "{0} invoices"
 msgstr "{0} فواتير"
-
-#: onedesk/one_sheet/table.py:107
-msgid "{0} is TRUE or FALSE."
-msgstr "{0} قيمته TRUE أو FALSE."
 
 #: onedesk/one_admin/hosts.py:111
 msgid "{0} is a One address and can't be added."
@@ -53285,10 +53268,6 @@ msgstr "{0} يقع بالفعل تحت {1}، لذا لا يمكن أن يكون 
 msgid "{0} is assigned to somebody else."
 msgstr "{0} مخصّص لشخص آخر."
 
-#: frontend/src/sheet/shim/PrintDialog.vue:152
-msgid "{0} is attached to {1}."
-msgstr "أُرفق {0} بـ {1}."
-
 #: onedesk/one/recycle.py:147
 msgid "{0} is back already."
 msgstr "{0} مستعاد بالفعل."
@@ -53328,10 +53307,6 @@ msgstr "{0} يمتلئ"
 #: private/rua/rua/rua/doctype/retention_before_one/retention_before_one.py:46
 msgid "{0} is for less than the retention, before VAT."
 msgstr "{0} أقل من المحتجزات، قبل الضريبة."
-
-#: frontend/src/sheet/shim/PrintDialog.vue:153
-msgid "{0} is in OneCloud, beside this workbook."
-msgstr "{0} موجود في OneCloud بجانب هذا المصنف."
 
 #: onedesk/one_storage/api.py:215
 msgid "{0} is in someone else's files. Copy it instead."
@@ -53824,6 +53799,10 @@ msgstr "نُقل {0} من {1} إلى المحتجزات."
 msgid "{0} moved from {1} to {2}."
 msgstr "نُقل {0} من {1} إلى {2}."
 
+#: onedesk/one_sheet/table.py:107
+msgid "{0} must be TRUE or FALSE."
+msgstr "يجب أن يكون {0} TRUE أو FALSE."
+
 #: onedesk/one_sheet/table.py:131
 msgid "{0} must be a date and time, such as 2026-10-21 09:30."
 msgstr "يجب أن يكون {0} تاريخًا ووقتًا، مثل 2026-10-21 09:30."
@@ -53876,6 +53855,10 @@ msgstr "{0} بلا تقدير"
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.py:150
 msgid "{0} not found"
 msgstr "{0} غير موجود"
+
+#: onedesk/one_sheet/table.py:634
+msgid "{0} not found: {1}"
+msgstr "لم يُعثر على {0}: {1}"
 
 #: onedesk/public/js/project_actions.js:101
 msgid "{0} not invoiced yet."
@@ -54153,7 +54136,7 @@ msgstr "{0} قطع، منها {1} جديدة"
 msgid "{0} passkeys on it stopped working"
 msgstr "توقفت {0} من مفاتيح المرور عليه عن العمل"
 
-#: onedesk/public/js/desk.js:315
+#: onedesk/public/js/desk.js:317
 msgid "{0} paused timers"
 msgstr "{0} مؤقتات متوقفة مؤقتًا"
 
@@ -54266,6 +54249,10 @@ msgstr "{0} مُرتجع"
 #: onedesk/one_ai/heads.py:58
 msgid "{0} runs on a model that can do {1}. Anything added below is added to the instruction it already carries, and never replaces it."
 msgstr "يعمل {0} على نموذج يستطيع {1}. وكل ما يُضاف أدناه يُضاف إلى التعليمة التي يحملها أصلاً، ولا يحلّ محلها أبداً."
+
+#: frontend/src/sheet/shim/PrintDialog.vue:154
+msgid "{0} saved to OneCloud, in the same folder as this workbook."
+msgstr "حُفظ {0} في OneCloud في المجلد نفسه الذي يوجد فيه هذا المصنف."
 
 #: frontend/src/sheet/components/SheetEditor/VersionHistory.vue:39
 msgid "{0} saves"
@@ -54470,7 +54457,7 @@ msgstr "مستخدمو {0}"
 msgid "{0} variants made"
 msgstr "تم إنشاء {0} متغيّرات"
 
-#: onedesk/public/js/desk.js:347
+#: onedesk/public/js/desk.js:349
 msgid "{0} waiting in OneIntake"
 msgstr "{0} بانتظارك في OneIntake"
 
@@ -54486,6 +54473,10 @@ msgstr "تمت إضافة {0} إلى {1}."
 #: onedesk/one_ai/proposals.py:278 onedesk/one_ai/touch.py:227
 msgid "{0} was already {1}."
 msgstr "{0} كانت بالفعل {1}."
+
+#: onedesk/one_sheet/table.py:547
+msgid "{0} was changed on the record after this sheet was last updated. Reopen the workbook from the record to load the changes."
+msgstr "تم تغيير {0} في السجل بعد آخر تحديث لهذه الورقة. أعد فتح المصنف من السجل لتحميل التغييرات."
 
 #: onedesk/one_mail/holders.py:174
 msgid "{0} was connected without Enable Outgoing, so it can't send."
@@ -54536,11 +54527,11 @@ msgstr "{0} بعدد {1} أرقام"
 msgid "{0} work orders"
 msgstr "{0} أوامر عمل"
 
-#: onedesk/public/js/workbooks.js:73
+#: onedesk/public/js/workbooks.js:68
 msgid "{0} workbooks"
 msgstr "{0} مصنفات"
 
-#: onedesk/public/js/workbooks.js:72
+#: onedesk/public/js/workbooks.js:67
 msgid "{0} workbooks open"
 msgstr "{0} مصنفات مفتوحة"
 
@@ -54580,6 +54571,10 @@ msgstr "تم اعتماد {0} {1}، ولا يمكن تغيير هذه الآن."
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:21
 msgid "{0} {1} not found"
 msgstr "{0} {1} غير موجود"
+
+#: onedesk/one_sheet/table.py:625
+msgid "{0} {1} not found."
+msgstr "لم يُعثر على {0} {1}."
 
 #: onedesk/public/js/ai_model.js:69
 msgid "{0} {1} of {2} {3}"
@@ -54942,11 +54937,11 @@ msgstr "{0}؛ لا يُنتظر عليه شيء آخر."
 msgid "{0}; nothing more will be made on it."
 msgstr "{0}؛ لن يُصنع عليه شيء آخر."
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4724
+#: frontend/src/sheet/components/SheetEditor/index.vue:4726
 msgid "{0}h ago"
 msgstr "قبل {0} س"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4723
+#: frontend/src/sheet/components/SheetEditor/index.vue:4725
 msgid "{0}m ago"
 msgstr "قبل {0} د"
 

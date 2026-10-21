@@ -104,7 +104,7 @@ def taken(text, column: dict) -> tuple:
 			return 1, None
 		if text.upper() in NO:
 			return 0, None
-		return None, _("{0} is TRUE or FALSE.").format(column["header"])
+		return None, _("{0} must be TRUE or FALSE.").format(column["header"])
 	if not text:
 		return (0 if kind in NUMBER else None), None
 	if kind in NUMBER:
@@ -179,15 +179,15 @@ def _rule(col: dict) -> dict | None:
 	if col["fieldtype"] == "Link" and col.get("link"):
 		return {"type": "link", "doctype": col["link"]}
 	if col["fieldtype"] == "Select" and col.get("options"):
-		return {"type": "list", "options": col["options"], "message": _("Choose one from the list.")}
+		return {"type": "list", "options": col["options"], "message": _("Select a value from the list.")}
 	if col["fieldtype"] == "Check":
-		return {"type": "checkbox", "message": _("TRUE or FALSE.")}
+		return {"type": "checkbox", "message": _("Enter TRUE or FALSE.")}
 	if col["fieldtype"] == "Int":
-		return {"type": "number", "operator": "between", "min": None, "max": None, "whole": True, "message": _("A whole number.")}
+		return {"type": "number", "operator": "between", "min": None, "max": None, "whole": True, "message": _("Enter a whole number.")}
 	if col["fieldtype"] in NUMBER:
-		return {"type": "number", "operator": "between", "min": None, "max": None, "message": _("A number.")}
+		return {"type": "number", "operator": "between", "min": None, "max": None, "message": _("Enter a number.")}
 	if col["fieldtype"] == "Date":
-		return {"type": "date", "message": _("A date, such as 2026-10-21.")}
+		return {"type": "date", "message": _("Enter a date, for example 2026-10-21.")}
 	return None
 
 
@@ -320,12 +320,12 @@ def read(sent: list, cols: list[dict], faults: list | None = None) -> tuple[dict
 		if text.startswith(MARK) and "name" not in at:
 			at["name"] = n
 	if "name" not in at:
-		return at, [], [_("The sheet's hidden first column is gone. Undo, or open the workbook again from the record.")]
+		return at, [], [_("The sheet's hidden first column was deleted. Undo the change, or reopen the workbook from the record.")]
 	for col in cols[1:]:
 		if col["header"] in header:
 			at[col["fieldname"]] = header.index(col["header"])
 		elif not col["read_only"]:
-			return at, [], [_("The column {0} isn't in the sheet any more. Undo, or open the workbook again from the record.").format(col["header"])]
+			return at, [], [_("Column {0} was removed from the sheet. Undo the change, or reopen the workbook from the record.").format(col["header"])]
 	editable = [col for col in cols[1:] if not col["read_only"]]
 	rows, wrong = [], []
 	for line, values in enumerate(sent[1:], 2):
@@ -395,7 +395,7 @@ def open_table(doctype: str, name: str, field: str, template: str | None = None)
 	doc.check_permission("read")
 	df = doc.meta.get_field(field)
 	if not df or df.fieldtype != "Table":
-		frappe.throw(_("That isn't a table on this record."))
+		frappe.throw(_("This record has no such table."))
 	held = frappe.db.get_value(api.WORKBOOK, {"bound_doctype": doctype, "bound_name": name, "bound_field": field}, "name")
 	if held and frappe.db.get_value(api.WORKBOOK, held, "file"):
 		refresh(held)
@@ -414,7 +414,7 @@ def open_table(doctype: str, name: str, field: str, template: str | None = None)
 		list(dict.fromkeys(field for (_line, field) in formulas)),
 	)
 	if len(cols) < 2:
-		frappe.throw(_("This table has no columns a sheet can hold."))
+		frappe.throw(_("This table has no columns that can be shown in a sheet."))
 	table = doc.get(field)
 	data = placed(data, sheet, laid(cols, table, fingerprint(doc.docstatus, table, cols), doc.docstatus != 0, formulas), _look(doc, cols), fresh=True)
 	title = api._titled(f"{doc.name} {_(df.label or field)}")
@@ -544,7 +544,7 @@ def apply(name: str, sent: str) -> dict:
 	if not any(str(one or "") == MARK + mark for one in (lines[0] if lines else [])):
 		return {
 			"ok": False,
-			"message": _("{0} changed on the record since this sheet last matched it. Open the workbook again from the record to bring it in.").format(
+			"message": _("{0} was changed on the record after this sheet was last updated. Reopen the workbook from the record to load the changes.").format(
 				book.bound_sheet
 			),
 		}
@@ -556,7 +556,7 @@ def apply(name: str, sent: str) -> dict:
 		said = wrong[0] if len(wrong) == 1 else _("{0} (and {1} more)").format(wrong[0], len(wrong) - 1)
 		return {"ok": False, "message": said, "faults": faults}
 	if len(rows) > MOST_ROWS:
-		return {"ok": False, "message": _("A table takes at most {0} rows from a workbook.").format(MOST_ROWS)}
+		return {"ok": False, "message": _("A table can take at most {0} rows from a workbook.").format(MOST_ROWS)}
 	links = _links(cols, doc.meta.get_field(book.bound_field).options)
 	gone = missing(links, rows)
 	if gone:
@@ -571,12 +571,12 @@ def apply(name: str, sent: str) -> dict:
 			said = lined(_refusal(error), rows)
 			frappe.db.rollback(save_point=SAVEPOINT)
 			frappe.clear_messages()
-			return {"ok": False, "message": said or _("The record didn't take this table."), "faults": pinned(said, rows, cols, at)}
+			return {"ok": False, "message": said or _("The record rejected this table."), "faults": pinned(said, rows, cols, at)}
 		except Exception:
 			frappe.db.rollback(save_point=SAVEPOINT)
 			frappe.clear_messages()
 			frappe.log_error(f"Workbook {name} into {doc.doctype} {doc.name}")
-			return {"ok": False, "message": _("The record didn't take this table. The error is in the error log.")}
+			return {"ok": False, "message": _("The record rejected this table. See the Error Log for details.")}
 		table = doc.get(book.bound_field)
 		mark = fingerprint(doc.docstatus, table, cols)
 	return {"ok": True, "cells": back(lines, at, rows, table, cols, mark)}
@@ -622,7 +622,7 @@ def unknown(links: dict, gone: dict, rows: list[dict], at: dict) -> list[dict]:
 				out.append(
 					{
 						"cell": f"{letters(at[field])}{row['line']}",
-						"message": _("No {0} called {1}.").format(_(doctype), value),
+						"message": _("{0} {1} not found.").format(_(doctype), value),
 						"doctype": doctype,
 						"value": str(value),
 					}
@@ -631,7 +631,7 @@ def unknown(links: dict, gone: dict, rows: list[dict], at: dict) -> list[dict]:
 
 
 def _gone(gone: dict) -> str:
-	said = [_("No {0} called {1}").format(_(doctype), ", ".join(values[:5]) + (" …" if len(values) > 5 else "")) for doctype, values in gone.items()]
+	said = [_("{0} not found: {1}").format(_(doctype), ", ".join(values[:5]) + (" …" if len(values) > 5 else "")) for doctype, values in gone.items()]
 	return "; ".join(said)
 
 
@@ -644,7 +644,7 @@ def make_missing(name: str, doctype: str, values: str | list) -> dict:
 	book = _held(name)
 	child = book and book.bound_doctype and frappe.get_meta(book.bound_doctype).get_field(book.bound_field)
 	if not child or doctype not in _links(json.loads(book.bound_columns or "[]"), child.options).values():
-		frappe.throw(_("This table doesn't name records of that type."))
+		frappe.throw(_("This table does not link to records of that type."))
 	frappe.has_permission(doctype, "create", throw=True)
 	values = frappe.parse_json(values) if isinstance(values, str) else values
 	made, failed = [], {}
@@ -658,7 +658,7 @@ def make_missing(name: str, doctype: str, values: str | list) -> dict:
 		except Exception as error:
 			frappe.db.rollback(save_point=SAVEPOINT)
 			frappe.clear_messages()
-			failed[value] = strip_html(str(error)) or _("It couldn't be made.")
+			failed[value] = strip_html(str(error)) or _("Could not create the record.")
 	return {"made": made, "failed": failed}
 
 

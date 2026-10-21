@@ -861,7 +861,7 @@ def _answer(kind: str, name: str):
 		raise frappe.PermissionError
 	doc = _opened("Quotation", name, order).doc
 	if not _answerable(doc):
-		frappe.throw(_("This quotation can't be answered any more."))
+		frappe.throw(_("This quotation can no longer be answered."))
 	return doc
 
 

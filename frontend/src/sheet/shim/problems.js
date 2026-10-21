@@ -4,16 +4,16 @@
 import { __ } from '../../kit/desk'
 
 const SAID = {
-	'#VALUE!': () => __('A value in this formula is the wrong kind, such as text where a number was wanted.'),
-	'#REF!': () => __('This formula points at a cell or sheet that isn’t there any more.'),
-	'#NAME?': () => __('This formula uses a name the sheet doesn’t know. Check the spelling of the function or range.'),
-	'#DIV/0!': () => __('This formula divides by zero, or by an empty cell.'),
-	'#N/A': () => __('The value this formula looks for wasn’t found.'),
-	'#NUM!': () => __('This formula works out to a number that can’t be shown.'),
-	'#SPILL!': () => __('This formula fills the cells below it, and one of them already holds something. Clear it.'),
-	'#CIRCULAR!': () => __('This formula reads itself, through the cells it reads.'),
-	'#ERROR!': () => __('This formula can’t be read. Check its brackets and commas.'),
-	'#NULL!': () => __('Two ranges in this formula don’t meet.'),
+	'#VALUE!': () => __('The formula uses a value of the wrong type, such as text where a number is expected.'),
+	'#REF!': () => __('The formula refers to a cell or sheet that no longer exists.'),
+	'#NAME?': () => __('The formula contains an unknown function or range name. Check the spelling.'),
+	'#DIV/0!': () => __('The formula divides by zero or by an empty cell.'),
+	'#N/A': () => __('The formula could not find the value it looks up.'),
+	'#NUM!': () => __('The formula result is not a valid number.'),
+	'#SPILL!': () => __('The formula results cannot be placed because a cell in the output range is not empty. Clear that cell.'),
+	'#CIRCULAR!': () => __('The formula refers to its own cell, directly or through other cells.'),
+	'#ERROR!': () => __('The formula has a syntax error. Check its brackets and commas.'),
+	'#NULL!': () => __('The ranges in this formula do not intersect.'),
 }
 
 export function isError(value) {

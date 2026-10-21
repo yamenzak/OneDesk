@@ -43,7 +43,7 @@ def _may(name: str, ptype: str = "read") -> dict:
 
 	item = _file(name)
 	if not ns.may(item, ptype):
-		frappe.throw(_("You can't open this workbook."), frappe.PermissionError)
+		frappe.throw(_("You do not have permission to open this workbook."), frappe.PermissionError)
 	return item
 
 
@@ -56,7 +56,7 @@ def make(parent: str, title: str | None = None, template: str | None = None) -> 
 
 	where = cloud._target(parent)
 	if where[0] == "mount":
-		frappe.throw(_("A workbook can't be made in a mounted drive."))
+		frappe.throw(_("Workbooks cannot be created in a mounted drive."))
 	title = _titled(title) or _("Untitled Workbook")
 	content = "{}"
 	if template:
@@ -147,7 +147,7 @@ def save_sheet(title: str, sheets_data: str, name: str = "", ops: str = "", requ
 	and this only checks the size and that it reads as a workbook. `table` is
 	the bound sheet's worked-out values, for the record behind it (table.py)."""
 	if not name:
-		frappe.throw(_("Make a workbook in OneCloud first."))
+		frappe.throw(_("Create the workbook in OneCloud first."))
 	item = _may(name, "write")
 	plain = storage.decode_sheets_data(sheets_data)
 	if len(plain.encode("utf-8")) > storage.MAX_SHEETS_DATA_BYTES:
@@ -155,7 +155,7 @@ def save_sheet(title: str, sheets_data: str, name: str = "", ops: str = "", requ
 	try:
 		json.loads(plain or "{}")
 	except ValueError:
-		frappe.throw(_("This doesn't read as a workbook."))
+		frappe.throw(_("The workbook data is invalid."))
 	from onedesk.one_sheet import versions
 
 	stored = sheets_data if sheets_data.startswith('{"_z"') else storage.encode_sheets_data(plain)
@@ -217,10 +217,10 @@ def open_file(file: str) -> dict:
 
 	item = ns.row(file)
 	if not item or item.get("is_folder") or item.get("one_deleted_on") or not ns.may(item, "read"):
-		frappe.throw(_("This file can't be opened."), frappe.PermissionError)
+		frappe.throw(_("This file cannot be opened."), frappe.PermissionError)
 	kind = OPENS.get((item["file_name"] or "").rsplit(".", 1)[-1].lower())
 	if not kind:
-		frappe.throw(_("Only Excel and CSV files open as a workbook."))
+		frappe.throw(_("Only Excel and CSV files can be opened as a workbook."))
 	held = frappe.db.get_value(WORKBOOK, {"file": file, "source_kind": ["is", "set"]}, "name")
 	if held:
 		return {"workbook": held}
@@ -241,7 +241,7 @@ def write_back(name: str, content: str) -> dict:
 
 	item = _may(name, "write")
 	if not frappe.db.get_value(WORKBOOK, name, "source_kind"):
-		frappe.throw(_("This workbook isn't a file of its own to write back to."))
+		frappe.throw(_("This workbook is not linked to an Excel or CSV file."))
 	made = frappe.get_doc(
 		{
 			"doctype": "File",
