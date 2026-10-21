@@ -28045,8 +28045,8 @@ msgid "Open in Stripe"
 msgstr "In Stripe öffnen"
 
 #: onedesk/public/js/table_workbook.js:67
-msgid "Open in Workbook"
-msgstr "In Arbeitsmappe öffnen"
+msgid "Open in OneWorkbook"
+msgstr "In OneWorkbook öffnen"
 
 #: onedesk/www/welcome.html:27
 msgid "Open it"
