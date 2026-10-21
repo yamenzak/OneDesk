@@ -56016,3 +56016,36 @@ msgstr "{0} wurde im Datensatz geändert, nachdem dieses Dokument geöffnet wurd
 
 msgid "The record refused this text."
 msgstr "Der Datensatz hat diesen Text abgelehnt."
+
+msgid "Insert a Field"
+msgstr "Feld einfügen"
+
+msgid "A field prints what {0} says when the document is printed."
+msgstr "Ein Feld druckt, was in {0} steht, wenn das Dokument gedruckt wird."
+
+msgid "Search fields"
+msgstr "Felder suchen"
+
+msgid "No field matches."
+msgstr "Kein Feld passt."
+
+msgid "The fields in this document are filled from {0}."
+msgstr "Die Felder in diesem Dokument werden aus {0} gefüllt."
+
+msgid "Could not print the document."
+msgstr "Das Dokument konnte nicht gedruckt werden."
+
+msgid "{0} saved to OneCloud, in the same folder as this document."
+msgstr "{0} wurde in OneCloud gespeichert, im selben Ordner wie dieses Dokument."
+
+msgid "Page [page] of [topage]"
+msgstr "Seite [page] von [topage]"
+
+msgid "{0} rows"
+msgstr "{0} Zeilen"
+
+msgid "This document is not on a record."
+msgstr "Dieses Dokument gehört zu keinem Datensatz."
+
+msgid "This document is not in a folder."
+msgstr "Dieses Dokument liegt in keinem Ordner."

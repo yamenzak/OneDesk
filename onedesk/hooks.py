@@ -913,6 +913,8 @@ app_include_css = [
 web_include_css = ["/assets/onedesk/css/portal.css", "/assets/onedesk/css/lost.css"]
 update_website_context = ["onedesk.one.portal.light_or_dark"]
 
+page_js = {"print": "public/js/print_documents.js"}
+
 app_include_js = [
 	"/assets/onedesk/js/theme.js",
 	"/assets/onedesk/js/brand.js",

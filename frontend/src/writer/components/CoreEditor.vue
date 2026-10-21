@@ -420,11 +420,8 @@ onKeyDown('s', (e) => {
 
 onKeyDown('Enter', autorename)
 
-emitter.on('print-file', () => {
-  if (editor.value) {
-    printDoc(editor.value.commands.getCurrentTabHTML(), props.settings)
-  }
-})
+// One: print-file opens the page's Print dialog (shim/PrintDialog.vue), which
+// prints under the letter head on the server, in place of the browser's print.
 emitter.on('manual-save', manualSave)
 
 onBeforeUnmount(() => {
@@ -432,7 +429,6 @@ onBeforeUnmount(() => {
     emit('save', false, editor.value.getHTML())
   }
   clearInterval(autoversionInterval)
-  emitter.off('print-file')
   emitter.off('manual-save')
   emit('cleanup')
 })

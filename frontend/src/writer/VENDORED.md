@@ -50,4 +50,8 @@ Each is marked `One:` where it is.
 - `utils/index.js`, `utils/docximporter.js`: Suite's endpoints for pictures
   in a document are `onedesk.one_doc.api.picture`, `add_picture`,
   `picture_extension` and `drop_pictures`.
+- `components/TextEditor.vue`: `shim/field.js`'s field block is among the
+  editor's extensions.
+- `components/CoreEditor.vue`: Ctrl+P's `print-file` no longer prints
+  through the browser; the page's Print dialog answers it.
 - Every word a template shows goes through `__()`.

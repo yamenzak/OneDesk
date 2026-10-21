@@ -62,7 +62,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | my_tasks (`frontend/src/task/MyTasks.vue`) | Task, Task Depends On, Timesheet, Timesheet Detail | – | – | – |
 | timers (`frontend/src/task/Timers.vue`) | Project, Task, Timesheet, Timesheet Detail | – | – | – |
 | workbook (`frontend/src/sheet/WorkbookPage.vue`) | Letter Head | – | – | – |
-| document (`frontend/src/writer/DocumentPage.vue`) | – | – | – | – |
+| document (`frontend/src/writer/DocumentPage.vue`) | Letter Head | – | – | – |
 
 ## erpnext / Accounts
 

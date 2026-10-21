@@ -56074,3 +56074,39 @@ msgstr ""
 
 msgid "The record refused this text."
 msgstr ""
+
+msgid "Insert a Field"
+msgstr ""
+
+msgid "A field prints what {0} says when the document is printed."
+msgstr ""
+
+msgid "Search fields"
+msgstr ""
+
+msgid "No field matches."
+msgstr ""
+
+msgid "The fields in this document are filled from {0}."
+msgstr ""
+
+msgid "Could not print the document."
+msgstr ""
+
+msgid "{0} saved to OneCloud, in the same folder as this document."
+msgstr ""
+
+msgid "Page [page] of [topage]"
+msgstr ""
+
+msgid "{0} rows"
+msgstr ""
+
+msgid "This document is not on a record."
+msgstr ""
+
+msgid "This document is not in a folder."
+msgstr ""
+
+msgid "ID"
+msgstr ""

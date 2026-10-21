@@ -5669,6 +5669,45 @@ def a_records_text_is_written_in_onewriter():
 
 
 @check
+def a_document_prints_with_its_records_fields():
+	"""A covering letter filed on a quotation names its customer, total and
+	lines as fields; on paper they are what the quotation says, the lines a
+	table, under the letter head. Page setup's header, page numbers and line
+	go to the PDF renderer. The quotation's print page lists the letter, and
+	its PDF is attached to the quotation. All undone afterwards."""
+	from onedesk.one_doc import api, paper
+
+	frappe.db.savepoint("doc_paper_check")
+	try:
+		quote = frappe.get_all("Quotation", filters={"docstatus": 0}, pluck="name", order_by="name", limit=1)[0]
+		held = frappe.get_doc("Quotation", quote)
+		with as_user("omar@one.test"):
+			name = api.make(f"@records/Quotation/{quote}", "Covering letter check")["document"]
+			offered = {one["field"]: one for one in paper.fields_of(name)}
+			assert {"party_name", "grand_total", "items"} <= set(offered) and offered["items"]["table"], sorted(offered)
+			html = (
+				'<p>To <span data-field="party_name">Customer</span>,</p><p>Total <span data-field="grand_total">Grand Total</span></p>'
+				'<p><span data-field="items">Items</span></p><p>Nobody sees <span data-field="no_such_field">this</span>.</p>'
+			)
+			api.save_document(name, "AAA=", html)
+			filled = paper.fill(html, paper.record_of(name))
+			assert frappe.utils.escape_html(held.party_name) in filled and frappe.format(held.grand_total, held.meta.get_field("grand_total"), held) in filled, filled
+			assert '<table class="rows">' in filled and "<p><table" not in filled and held.items[0].item_code in filled, "the lines as a table, out of their paragraph"
+			assert "Nobody sees ." in filled, "a field the record lacks prints nothing"
+			assert "[Customer]" in paper.fill(html, None), "with no record, the field's name"
+			api.save_settings(name, json.dumps({"print_header_left": "Sahara [x]", "print_show_pages": 1, "print_footer_separator": 1}))
+			told = paper.options(name)
+			assert told["header-left"] == "Sahara (x)" and "[page]" in told["footer-right"] and "footer-line" in told, told
+			assert {"document": name, "title": "Covering letter check"} in paper.on_record("Quotation", quote)
+			kept = paper.pdf(name, keep="record")
+			assert kept["where"] == ["Quotation", quote] and frappe.db.get_value("File", kept["id"], "attached_to_name") == quote, kept
+		with as_user("mariam@one.test"):
+			assert paper.on_record("Quotation", quote) == [], "nor are its documents listed to whoever may not open the quotation"
+	finally:
+		frappe.db.rollback(save_point="doc_paper_check")
+
+
+@check
 def a_workbook_left_open_waits_on_the_bar():
 	"""A workbook left for another screen waits on the bar under its title;
 	one that is gone, or that the reader may not open, isn't named. All

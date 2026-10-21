@@ -51,6 +51,8 @@
 			<TemplateDialog v-if="showTemplates" v-model="showTemplates" :editor="editor" />
 			<SaveTemplateDialog v-model="savingTemplate" :document="state.name" :name="state.title" />
 			<AskDialog v-if="asking" v-model="showAsk" :document="state.name" :editor="editor" />
+			<FieldDialog v-if="fielded" v-model="showFields" :document="state.name" :record="state.record" :editor="editor" />
+			<PrintDialog v-model="showPrint" :document="state.name" :record="state.record" />
 		</div>
 		<Dialogs />
 		<FDialogs />
@@ -73,6 +75,9 @@ import VersionsSidebar from "./components/VersionsSidebar.vue";
 import FDialogs from "./components/FDialogs.vue";
 import SaveTemplateDialog from "./shim/SaveTemplateDialog.vue";
 import AskDialog from "./shim/AskDialog.vue";
+import FieldDialog from "./shim/FieldDialog.vue";
+import PrintDialog from "./shim/PrintDialog.vue";
+import emitter from "./emitter";
 import { getTemplates } from "./shim/resources.js";
 import { setWriterRoot } from "./shim/root.js";
 import { downloadMD, downloadZippedHTML } from "./utils";
@@ -94,6 +99,11 @@ const savingTemplate = ref(false);
 const showVersions = ref(false);
 const showAsk = ref(false);
 const asking = computed(() => Boolean(state.value?.can_write && oneaiOn()));
+const showPrint = ref(false);
+const showFields = ref(false);
+// A document filed on a record can show the record's fields; a record's own
+// text cannot, since the record prints it as it is.
+const fielded = computed(() => Boolean(state.value?.can_write && state.value?.record && !state.value?.bound));
 const versionPreview = ref(null);
 const versionsKey = ref(0);
 watch(showVersions, (now) => !now && (versionPreview.value = null));
@@ -274,6 +284,8 @@ const fileMenu = computed(() => [
 	{
 		group: __("This document"),
 		options: [
+			{ label: __("Print"), icon: "printer", onClick: () => (showPrint.value = true) },
+			...(fielded.value ? [{ label: __("Insert a Field"), icon: "braces", onClick: () => (showFields.value = true) }] : []),
 			...(state.value?.can_write
 				? [
 						{ label: __("Page Setup"), icon: "settings", onClick: () => (showSettings.value = true) },
@@ -297,7 +309,12 @@ const stopWritten = listen("one_document_written", (said) => {
 	editor.value.commands.insertContentAt(editor.value.state.doc.content.size, said.html);
 });
 
+// Ctrl+P in the editor asks for the Print dialog.
+const printing = () => (showPrint.value = true);
+emitter.on("print-file", printing);
+
 onBeforeUnmount(() => {
+	emitter.off("print-file", printing);
 	stopWritten?.();
 	state.value = null;
 });

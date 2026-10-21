@@ -16,6 +16,7 @@ import { computed, onMounted, ref, provide } from 'vue'
 import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCaret from '@tiptap/extension-collaboration-caret'
 import CoreEditor from './CoreEditor.vue'
+import { RecordField } from '../shim/field.js' // One: a record's fields stand in a document
 
 
 import { useCurrentUser } from '@/boot/session'
@@ -69,6 +70,7 @@ defineExpose({ editor, users })
 watch(loaded, () => rebuild(editor.value))
 
 const extensions = [
+  RecordField,
   Collaboration.configure({
     document: doc,
     field: 'default',

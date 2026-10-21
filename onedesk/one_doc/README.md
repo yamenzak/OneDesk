@@ -60,6 +60,30 @@ If the text is changed on the record while its document is open, the
 document does not write over it: it says so, and opening it again from the
 record starts from what the record says.
 
+## Printing
+
+**File › Print**, or Ctrl+P, opens the Print dialog: pick a letter head (the
+default is chosen) and the orientation, then **Print** opens the PDF in a new
+tab to print from there. **Save PDF to OneCloud** keeps it beside the
+document; for a document on a record, **Attach PDF to** the record instead.
+
+Page setup's header and footer text, page numbers and separator lines print
+on every page. Pictures print as they are in the document; typefaces print
+as their nearest serif, fixed-width or sans.
+
+## A record's fields in a document
+
+A document filed on a record works like a print format for it. **File ›
+Insert a Field** lists the record's fields with what each says now; the one
+you pick goes in as a grey block with its label. On paper the block is what
+the record says at that moment, formatted as a print shows it: a total as an
+amount, a date as a date, and a table of lines as a table. So a covering
+letter on a quotation reads "Dear Mansour & Sons, … AED 9,135.00" and stays
+right when the quotation changes.
+
+The record's own print page lists its documents under the letter head, and
+each prints under the letter head chosen there.
+
 ## Who can open it
 
 Whoever may open the File: its owner, whoever it is shared with, and, for a
@@ -95,7 +119,7 @@ until you approve.
 
 ## What is not built yet
 
-Printing under the letter head, record fields in a document, and `.docx` on the network drive, through links
+`.docx` on the network drive, through links
 and in mail. Each is a stage of its own.
 
 ## Connections
@@ -187,3 +211,25 @@ compare equal next time. What the document held before the save is what the
 field held when it was opened; when they differ, the record was changed
 elsewhere and `put` refuses rather than write over it. An addition OneAI
 makes on a card goes through `put` too.
+
+### Paper
+
+`paper.py`. What prints is the document's stored HTML, cleaned again, never
+what the browser sends. The page is the letter head's top (from
+`one_sheet/paper._letter_head`, rendered with the record as `doc`), the
+document, and the foot; Frappe's `get_pdf` makes the PDF. Page setup's
+header, footer, page numbers and lines become wkhtmltopdf's own
+`header-left`, `footer-right`, `[page]` and `footer-line` options, which, as
+with Frappe's repeated headers, need the patched-Qt build of wkhtmltopdf.
+
+A field block is `<span data-field="…">label</span>` (`shim/field.js`, a
+TipTap node). `fill` swaps each for `value_of` the record: `frappe.format`
+of the field, or for a child table a table of its list-view columns, which
+replaces the paragraph it stood alone in. A field the reader may not see at
+its permlevel prints nothing; with no record, the label in brackets.
+`fields_of` offers every field that holds a value or rows, hidden ones
+included, since a quotation's customer sits in a field its own print hides.
+
+The record's print page (Frappe's `print` page) gets `public/js/print_documents.js`
+through `page_js`; it wraps `PrintView.show` to list `on_record`'s documents
+under the letter head.

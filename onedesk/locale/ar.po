@@ -56016,3 +56016,36 @@ msgstr "تغيّر {0} في السجل بعد فتح هذا المستند. أع
 
 msgid "The record refused this text."
 msgstr "رفض السجل هذا النص."
+
+msgid "Insert a Field"
+msgstr "إدراج حقل"
+
+msgid "A field prints what {0} says when the document is printed."
+msgstr "يطبع الحقل ما يقوله {0} عند طباعة المستند."
+
+msgid "Search fields"
+msgstr "ابحث في الحقول"
+
+msgid "No field matches."
+msgstr "لا يوجد حقل مطابق."
+
+msgid "The fields in this document are filled from {0}."
+msgstr "تُملأ الحقول في هذا المستند من {0}."
+
+msgid "Could not print the document."
+msgstr "تعذّرت طباعة المستند."
+
+msgid "{0} saved to OneCloud, in the same folder as this document."
+msgstr "حُفظ {0} في OneCloud، في المجلد نفسه الذي فيه هذا المستند."
+
+msgid "Page [page] of [topage]"
+msgstr "الصفحة [page] من [topage]"
+
+msgid "{0} rows"
+msgstr "{0} صفوف"
+
+msgid "This document is not on a record."
+msgstr "هذا المستند ليس على سجل."
+
+msgid "This document is not in a folder."
+msgstr "هذا المستند ليس في مجلد."
