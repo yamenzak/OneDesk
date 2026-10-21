@@ -71,8 +71,8 @@ workbook has **Attach PDF to** the record instead.
 
 ## On a network drive and through a link
 
-On a network drive connected to OneCloud, and through a public link, a
-workbook is an Excel file: `Glass prices.xlsx`. Excel, LibreOffice and
+On a network drive connected to OneCloud, through a public link, and
+attached to an email, a workbook is an Excel file: `Glass prices.xlsx`. Excel, LibreOffice and
 Numbers open it with its formulas, number formats, merged cells and column
 widths. A formula only OneWorkbook knows (RECORD, FIELD, BRAND, IMAGE) is
 written as the value it last showed.
@@ -573,7 +573,9 @@ it; an open-ended range such as `H6:H`, which Excel does not have, closed at
 row 1,048,576; a OneWorkbook-only formula as its value. `xlsx` keeps the
 bytes in the cache until the workbook changes. `dav._as_file` names the
 node `Name.xlsx`, `Document` serves those bytes and sends a save to
-`excel.write`, and `links.get` hands them to a link. `excel.read` takes
+`excel.write`, `links.get` hands them to a link, and `one_storage/file.py`'s
+`get_content` hands them to anything else that reads a File, an email
+attachment above all, naming it `Name.xlsx` while it is read. `excel.read` takes
 Excel's save back with openpyxl: values and formulas in, `_xlfn.` dropped
 and the range opened again, the other slices (formats, widths, notes)
 kept, and a OneWorkbook-only formula restored where Excel's value equals

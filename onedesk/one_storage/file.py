@@ -18,6 +18,11 @@ from onedesk.one_storage import store
 
 
 class CloudFile(File):
+	def validate(self):
+		if self.flags.one_named:
+			self.file_name, self.flags.one_named = self.flags.one_named, None
+		return super().validate()
+
 	def exists_on_disk(self):
 		"""A stored file exists wherever it is kept, which is how Frappe's
 		de-duplication by content finds it."""
@@ -67,6 +72,19 @@ class CloudFile(File):
 		return super().on_trash()
 
 	def get_content(self, encodings=None) -> bytes | str:
+		"""A workbook's content is its Excel file (one_sheet/excel.py), and
+		while it is being read it is named as one, so an email attachment or
+		a download says `Name.xlsx`; validate puts the name back."""
+		from onedesk.one_sheet import api as sheets
+
+		if not self.get("content") and (book := sheets.workbook_of(self.file_url)):
+			from onedesk.one_sheet import excel
+
+			if not (self.file_name or "").lower().endswith(excel.SUFFIX):
+				self.flags.one_named = self.file_name
+				self.file_name = (self.file_name or "") + excel.SUFFIX
+			self._content = excel.xlsx(book)
+			return self._content
 		if self.get("content") or not store.is_stored(self.file_url):
 			return super().get_content(encodings)
 		if self.is_folder:

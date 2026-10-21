@@ -5561,6 +5561,10 @@ def a_workbook_is_an_excel_file_on_the_drive():
 			sheet = load_workbook(io.BytesIO(excel.build(book))).active
 			assert sheet["C2"].value == "=B2*20" and sheet["C3"].value == f"=SUM(C2:C{excel.LAST_ROW})" and sheet["B4"].value == "Sahara", "formulas, and ours as values"
 			assert load_workbook(io.BytesIO(excel.build(book)), data_only=True).active["C2"].value == 60, "with what the editor worked out"
+			file = frappe.get_doc("File", made["id"])
+			assert file.get_content()[:2] == b"PK" and file.file_name == "Excel check.xlsx", "an attachment or a download is the Excel file"
+			file.save()
+			assert frappe.db.get_value("File", made["id"], "file_name") == "Excel check", "and the file keeps its name"
 			sheet["B2"] = 5
 			saved = io.BytesIO()
 			sheet.parent.save(saved)

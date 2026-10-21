@@ -85,7 +85,7 @@ frappe.require("file_uploader.bundle.js").then(() => {
 	Uploader.UploadOptions.push({
 		label: __("OneCloud"),
 		icon: `<circle cx="15" cy="15" r="15" fill="var(--subtle-fg)"></circle>
-			<use href="#icon-cloud" x="7" y="7" width="16" height="16" style="color: var(--ink-gray-8)"></use>`,
+			<use href="#icon-onestorage" x="6" y="6" width="18" height="18"></use>`,
 		action: (context) => onedesk.pick_from_onecloud(context),
 	});
 });

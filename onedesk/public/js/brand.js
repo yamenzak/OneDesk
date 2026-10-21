@@ -60,28 +60,51 @@ onedesk.brand.text = (node) => {
 	const solo = onedesk.brand.solo(text);
 	if (!named && !solo.length) return;
 	onedesk.brand.NAME.lastIndex = 0;
+	const alone = text.trim();
 	const found = [
-		...[...text.matchAll(onedesk.brand.NAME)].map((match) => ({ at: match.index, length: match[0].length, rest: match[1] })),
+		...[...text.matchAll(onedesk.brand.NAME)].map((match) => ({ at: match.index, length: match[0].length, rest: match[1], marked: alone !== match[0] })),
 		...solo.map((at) => ({ at, length: 3, rest: null })),
 	].sort((a, b) => a.at - b.at);
 	const into = document.createDocumentFragment();
 	let at = 0;
 	for (const one of found) {
 		if (one.at > at) into.append(text.slice(at, one.at));
-		into.append(one.rest === null ? onedesk.brand.mark() : onedesk.brand.named(one.rest));
+		into.append(one.rest === null ? onedesk.brand.mark() : onedesk.brand.named(one.rest, one.marked));
 		at = one.at + one.length;
 	}
 	into.append(text.slice(at));
 	parent.replaceChild(into, node);
 };
 
-onedesk.brand.named = (rest) => {
+/** The sprite's mark for a product: its name lowered, but for the three
+ * whose id is older than their name (scripts/gen_brand.py, ALIAS). */
+onedesk.brand.MARK_IDS = { Cloud: "onestorage", Writer: "onedoc", Workbook: "onesheet" };
+
+onedesk.brand.mark_of = (rest) => {
+	const id = onedesk.brand.MARK_IDS[rest] || `one${rest.toLowerCase()}`;
+	return document.getElementById(`icon-${id}`) ? id : null;
+};
+
+/** A product's name: One light. In a sentence its mark goes before it, as
+ * the lone One's does; a label that is only the name draws its own icon. */
+onedesk.brand.named = (rest, marked = false) => {
 	const name = document.createElement("span");
 	name.className = "one-name";
+	const id = marked && onedesk.brand.mark_of(rest);
+	if (id) {
+		name.className = "one-name one-solo";
+		name.innerHTML = frappe.utils.icon(id, { width: "1.05em", height: "1.05em" }, "", "", "one-mark");
+	}
 	const light = document.createElement("span");
 	light.className = "one-light";
 	light.textContent = "One";
-	name.append(light, rest);
+	if (!id) {
+		name.append(light, rest);
+		return name;
+	}
+	const word = document.createElement("span");
+	word.append(light, rest);
+	name.append(word);
 	return name;
 };
 
