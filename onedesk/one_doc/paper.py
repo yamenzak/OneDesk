@@ -23,6 +23,9 @@ KEEP = ("", "cloud", "record")
 SERIF = ("eb-garamond", "lora", "merriweather")
 FIXED = ("jetbrains", "ibm-plex")
 
+#: Columns whose figures, and headings, sit right.
+NUMBERS = ("Currency", "Float", "Int", "Percent")
+
 #: The most rows of a child table a field block prints.
 MOST_ROWS = 500
 
@@ -73,11 +76,13 @@ def _table(doc, df) -> str:
 	formatted."""
 	meta = frappe.get_meta(df.options)
 	cols = [one for one in meta.fields if one.in_list_view and _column(one)] or [one for one in meta.fields if _column(one)][:6]
-	head = "".join(f"<th>{escape_html(_(one.label or one.fieldname))}</th>" for one in cols)
+	head = "".join(
+		f'<th{" class=num" if one.fieldtype in NUMBERS else ""}>{escape_html(_(one.label or one.fieldname))}</th>' for one in cols
+	)
 	rows = []
 	for row in (doc.get(df.fieldname) or [])[:MOST_ROWS]:
 		cells = "".join(
-			f'<td{" class=num" if one.fieldtype in ("Currency", "Float", "Int", "Percent") else ""}>'
+			f'<td{" class=num" if one.fieldtype in NUMBERS else ""}>'
 			f"{frappe.format(row.get(one.fieldname), one, row)}</td>"
 			for one in cols
 		)
@@ -153,7 +158,7 @@ ul,ol{{padding-left:1.5em}}
 table{{border-collapse:collapse;width:100%;margin:8px 0}}
 td,th{{border:1px solid #d1d5db;padding:4px 6px;vertical-align:top;text-align:left}}
 th{{background:#f3f4f6;font-weight:600}}
-td.num{{text-align:right}}
+td.num,th.num{{text-align:right}}
 tr{{page-break-inside:avoid}}
 img{{max-width:100%}}
 blockquote{{border-left:3px solid #d1d5db;margin:0;padding-left:12px;color:#4b5563}}
