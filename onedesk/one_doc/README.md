@@ -21,6 +21,9 @@ at the end of it. **File › Rename** names it yourself.
 It saves itself two seconds after you stop typing, and when you leave it.
 The head says **Saving…** and then **Saved**.
 
+A document left for another screen waits on the bar under its title, with
+OneWriter's mark, as a workbook does; clicking it goes back, and × drops it.
+
 ## Writing
 
 The toolbar is Suite's Writer: headings, bold, italic, underline, strike,

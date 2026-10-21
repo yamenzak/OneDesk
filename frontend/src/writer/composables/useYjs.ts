@@ -1,4 +1,5 @@
 // Derived from frappe/suite@df7f341 (frontend/src/apps/writer)/composables/useYjs.ts. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md.
+import { __ } from '../../kit/desk' // One: the desk's translations
 import * as Y from 'yjs'
 import { IndexeddbPersistence } from 'y-indexeddb'
 import { WebrtcProvider } from 'y-webrtc'
@@ -132,7 +133,7 @@ export function useYjs(id, document, editor, edited) {
       if (isOffline.value) {
         console.warn('Skipping save as client is offline.')
       } else {
-        toast.error('Could not save the document.')
+        toast.error(__('Could not save the document.'))
         // ideally store in indexeddb
         localStorage.setItem('errored-save-out-' + id + '-' + Date.now(), html)
       }

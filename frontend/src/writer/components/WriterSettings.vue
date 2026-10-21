@@ -2,7 +2,7 @@
 <template>
   <Dialog
     v-model:open="open"
-    title="Settings"
+    :title="__('Settings')"
     @close="model = false"
   >
     <Tabs v-model="tab" :tabs>
@@ -15,31 +15,29 @@
                     v-model="settings.font_family"
                     variant="subtle"
                     :options="fontOptions"
-                    label="Font family"
-                    :description="`Choose the default font family for ${
-                      tab === 'doc' ? 'this document' : 'new documents'
-                    }.`"
+                    :label="__('Font family')"
+                    :description="tab === 'doc' ? __('Choose the default font family for this document.') : __('Choose the default font family for new documents.')"
                   />
                   <FormControl
                     v-model="settings.font_size"
                     type="number"
-                    label="Font size"
+                    :label="__('Font size')"
                     autocomplete="off"
-                    placeholder="Automatic"
-                    description="Set the font size of the editor (px)."
+                    :placeholder="__('Automatic')"
+                    :description="__('Set the font size of the editor (px).')"
                   />
                   <FormControl
                     v-model.number="lineSpacing"
                     type="number"
-                    label="Line spacing"
+                    :label="__('Line spacing')"
                     autocomplete="off"
                     :min="0.5"
                     :step="0.05"
-                    placeholder="Automatic"
-                    description="A multiple of single spacing, like 1.15 or 1.5."
+                    :placeholder="__('Automatic')"
+                    :description="__('A multiple of single spacing, like 1.15 or 1.5.')"
                   />
                   <div class="space-y-1.5">
-                    <FormLabel label="Paragraph spacing" size="md" />
+                    <FormLabel :label="__('Paragraph spacing')" size="md" />
                     <div class="grid grid-cols-2 gap-2">
                       <FormControl
                         v-model.number="settings.paragraph_spacing_before"
@@ -48,7 +46,7 @@
                         :min="0"
                         :step="1"
                         autocomplete="off"
-                        label="Above"
+                        :label="__('Above')"
                       />
                       <FormControl
                         v-model.number="settings.paragraph_spacing_after"
@@ -57,7 +55,7 @@
                         :min="0"
                         autocomplete="off"
                         :step="1"
-                        label="Below"
+                        :label="__('Below')"
                       />
                     </div>
                     <div class="text-p-sm text-ink-gray-5">
@@ -70,35 +68,35 @@
                 <div v-if="tab === 'doc'" class="flex flex-col gap-3 pb-5 pr-5">
                     <h3 class="text-base font-medium text-ink-gray-7">{{ __('Print settings') }}</h3>
                     <div class="space-y-2">
-                      <FormLabel label="Header & footer" size="md" />
+                      <FormLabel :label="__('Header & footer')" size="md" />
                       <div class="grid grid-cols-2 gap-2">
                         <FormControl
                           v-model="settings.print_header_left"
                           type="text"
-                          placeholder="Header left"
-                          label="Top left"
+                          :placeholder="__('Header left')"
+                          :label="__('Top left')"
                           autocomplete="off"
                         />
                         <FormControl
                           v-model="settings.print_header_right"
                           type="text"
-                          placeholder="Header right"
-                          label="Top right"
+                          :placeholder="__('Header right')"
+                          :label="__('Top right')"
                           autocomplete="off"
                         />
                         <FormControl
                           v-model="settings.print_footer_left"
                           type="text"
-                          placeholder="Footer left"
-                          label="Bottom left"
+                          :placeholder="__('Footer left')"
+                          :label="__('Bottom left')"
                           autocomplete="off"
                         />
                         <FormControl
                           v-model="settings.print_footer_right"
                           :disabled="settings.print_show_pages"
                           type="text"
-                          placeholder="Footer right"
-                          label="Bottom right"
+                          :placeholder="__('Footer right')"
+                          :label="__('Bottom right')"
                           autocomplete="off"
                         />
                       </div>
@@ -110,20 +108,20 @@
                       <FormControl
                         v-model="settings.print_show_pages"
                         type="checkbox"
-                        label="Show page numbers"
-                        description="Add a line below the header when printing."
+                        :label="__('Show page numbers')"
+                        :description="__('Number each page at the bottom right when printing.')"
                       />
                       <FormControl
                         v-model="settings.print_header_separator"
                         type="checkbox"
-                        label="Header separator line"
-                        description="Add a line below the header when printing."
+                        :label="__('Header separator line')"
+                        :description="__('Add a line below the header when printing.')"
                       />
                       <FormControl
                         v-model="settings.print_footer_separator"
                         type="checkbox"
-                        label="Footer separator line"
-                        description="Add a line above the footer when printing."
+                        :label="__('Footer separator line')"
+                        :description="__('Add a line above the footer when printing.')"
                       />
                     </div>
                 </div>
@@ -133,7 +131,7 @@
                   {{ error }}
                 </div>
                 <Button
-                  label="Update"
+                  :label="__('Update')"
                   variant="solid"
                   class="w-full mt-3"
                   :disabled="!dirty || error"
@@ -160,6 +158,7 @@
 </template>
 
 <script setup>
+import { __ } from '../../kit/desk' // One: the desk's translations
 import { computed, ref, reactive, watchEffect } from 'vue'
 import { Button, FormControl, Dialog, Tabs, FormLabel } from 'frappe-ui'
 import { FONT_FAMILIES, dynamicList } from '@/apps/writer/utils/'
@@ -179,15 +178,15 @@ const props = defineProps({
 })
 // iconLeft, not icon: `icon` makes an icon-only trigger and drops the label.
 const tabs = dynamicList([
-  { value: 'global', label: 'Everywhere', iconLeft: LucideGlobe2 },
-  { value: 'doc', label: 'This document', iconLeft: LucideFileText },
+  { value: 'global', label: __('Everywhere'), iconLeft: LucideGlobe2 },
+  { value: 'doc', label: __('This document'), iconLeft: LucideFileText },
 ])
 const tab = ref(props.editable ? 'doc' : 'global')
 
 const fontOptions = computed(() =>
   dynamicList([
     {
-      label: 'Automatic',
+      label: __('Automatic'),
       value: 'global',
       key: 'global',
       cond: tab.value === 'doc',

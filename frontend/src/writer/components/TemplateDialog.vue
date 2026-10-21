@@ -11,7 +11,7 @@
               v-model="query"
               @update:model-value="activeIndex = 0"
               type="text"
-              placeholder="Search templates..."
+              :placeholder="__('Search templates...')"
               @keydown="onKeyDown"
               autocomplete="off"
             >
@@ -92,6 +92,7 @@
 </template>
 
 <script setup lang="ts">
+import { __ } from '../../kit/desk' // One: the desk's translations
 import { ref, computed, watch, nextTick, useTemplateRef } from 'vue'
 import fuzzysort from 'fuzzysort'
 import { Dialog, TextInput } from 'frappe-ui'

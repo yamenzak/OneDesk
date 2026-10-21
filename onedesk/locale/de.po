@@ -56064,3 +56064,162 @@ msgstr "Vor einer Speicherung aus Word"
 
 msgid "Could not write {0} back: {1}"
 msgstr "{0} konnte nicht zurückgeschrieben werden: {1}"
+
+msgid "A multiple of single spacing, like 1.15 or 1.5."
+msgstr "Ein Vielfaches des einfachen Abstands, etwa 1,15 oder 1,5."
+
+msgid "Above"
+msgstr "Oberhalb"
+
+msgid "Add a line above the footer when printing."
+msgstr "Beim Drucken eine Linie über der Fußzeile einfügen."
+
+msgid "Add a line below the header when printing."
+msgstr "Beim Drucken eine Linie unter der Kopfzeile einfügen."
+
+msgid "Number each page at the bottom right when printing."
+msgstr "Beim Drucken jede Seite unten rechts nummerieren."
+
+msgid "Below"
+msgstr "Unterhalb"
+
+msgid "Bottom left"
+msgstr "Unten links"
+
+msgid "Bottom right"
+msgstr "Unten rechts"
+
+msgid "Could not save the document."
+msgstr "Das Dokument konnte nicht gespeichert werden."
+
+msgid "Custom Spacing"
+msgstr "Eigener Abstand"
+
+msgid "Dedent"
+msgstr "Einzug verkleinern"
+
+msgid "Everywhere"
+msgstr "Überall"
+
+msgid "Footer left"
+msgstr "Fußzeile links"
+
+msgid "Footer right"
+msgstr "Fußzeile rechts"
+
+msgid "Footer separator line"
+msgstr "Trennlinie der Fußzeile"
+
+msgid "Header & footer"
+msgstr "Kopf- und Fußzeile"
+
+msgid "Header left"
+msgstr "Kopfzeile links"
+
+msgid "Header right"
+msgstr "Kopfzeile rechts"
+
+msgid "Header separator line"
+msgstr "Trennlinie der Kopfzeile"
+
+msgid "It is saved to OneCloud › Document Templates and is available to everyone in the company."
+msgstr "Sie wird in OneCloud › Dokumentvorlagen gespeichert und steht allen im Unternehmen zur Verfügung."
+
+msgid "Line spacing"
+msgstr "Zeilenabstand"
+
+msgid "No documents found"
+msgstr "Keine Dokumente gefunden"
+
+msgid "Open Files"
+msgstr "Geöffnete Dateien"
+
+msgid "Paint Styles"
+msgstr "Format übertragen"
+
+msgid "Paragraph Spacing"
+msgstr "Absatzabstand"
+
+msgid "Paragraph spacing"
+msgstr "Absatzabstand"
+
+msgid "Print settings"
+msgstr "Druckeinstellungen"
+
+msgid "Replying to:"
+msgstr "Antwort auf:"
+
+msgid "Resolve"
+msgstr "Erledigen"
+
+msgid "Saved document"
+msgstr "Dokument gespeichert"
+
+msgid "Search templates..."
+msgstr "Vorlagen suchen..."
+
+msgid "Set the default spacing around paragraphs."
+msgstr "Legen Sie den Standardabstand um Absätze fest."
+
+msgid "Set the font size of the editor (px)."
+msgstr "Legen Sie die Schriftgröße des Editors fest (px)."
+
+msgid "Set the text to appear in headers and footers when printing."
+msgstr "Legen Sie den Text fest, der beim Drucken in Kopf- und Fußzeile erscheint."
+
+msgid "Show page numbers"
+msgstr "Seitenzahlen anzeigen"
+
+msgid "Something has gone wrong - please contact support."
+msgstr "Etwas ist schiefgelaufen, bitte wenden Sie sich an den Support."
+
+msgid "Start thinking..."
+msgstr "Schreiben Sie los..."
+
+msgid "Tab options"
+msgstr "Tab-Optionen"
+
+msgid "Table of Contents"
+msgstr "Inhaltsverzeichnis"
+
+msgid "Task List"
+msgstr "Aufgabenliste"
+
+msgid "Template {0} saved."
+msgstr "Vorlage {0} gespeichert."
+
+msgid "The template includes the whole document as it is now."
+msgstr "Die Vorlage enthält das ganze Dokument, wie es jetzt ist."
+
+msgid "Top left"
+msgstr "Oben links"
+
+msgid "Top right"
+msgstr "Oben rechts"
+
+msgid "Uh oh!"
+msgstr "Hoppla!"
+
+msgid "Unresolve"
+msgstr "Wieder öffnen"
+
+msgid "e.g. Cover letter"
+msgstr "z. B. Anschreiben"
+
+msgid "esc"
+msgstr "Esc"
+
+msgid "to insert"
+msgstr "zum Einfügen"
+
+msgid "{0} files"
+msgstr "{0} Dateien"
+
+msgid "{0} files open"
+msgstr "{0} Dateien geöffnet"
+
+msgid "Choose the default font family for this document."
+msgstr "Wählen Sie die Standardschrift für dieses Dokument."
+
+msgid "Choose the default font family for new documents."
+msgstr "Wählen Sie die Standardschrift für neue Dokumente."

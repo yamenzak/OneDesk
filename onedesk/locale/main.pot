@@ -56125,3 +56125,162 @@ msgstr ""
 
 msgid "Could not write {0} back: {1}"
 msgstr ""
+
+msgid "A multiple of single spacing, like 1.15 or 1.5."
+msgstr ""
+
+msgid "Above"
+msgstr ""
+
+msgid "Add a line above the footer when printing."
+msgstr ""
+
+msgid "Add a line below the header when printing."
+msgstr ""
+
+msgid "Number each page at the bottom right when printing."
+msgstr ""
+
+msgid "Below"
+msgstr ""
+
+msgid "Bottom left"
+msgstr ""
+
+msgid "Bottom right"
+msgstr ""
+
+msgid "Could not save the document."
+msgstr ""
+
+msgid "Custom Spacing"
+msgstr ""
+
+msgid "Dedent"
+msgstr ""
+
+msgid "Everywhere"
+msgstr ""
+
+msgid "Footer left"
+msgstr ""
+
+msgid "Footer right"
+msgstr ""
+
+msgid "Footer separator line"
+msgstr ""
+
+msgid "Header & footer"
+msgstr ""
+
+msgid "Header left"
+msgstr ""
+
+msgid "Header right"
+msgstr ""
+
+msgid "Header separator line"
+msgstr ""
+
+msgid "It is saved to OneCloud › Document Templates and is available to everyone in the company."
+msgstr ""
+
+msgid "Line spacing"
+msgstr ""
+
+msgid "No documents found"
+msgstr ""
+
+msgid "Open Files"
+msgstr ""
+
+msgid "Paint Styles"
+msgstr ""
+
+msgid "Paragraph Spacing"
+msgstr ""
+
+msgid "Paragraph spacing"
+msgstr ""
+
+msgid "Print settings"
+msgstr ""
+
+msgid "Replying to:"
+msgstr ""
+
+msgid "Resolve"
+msgstr ""
+
+msgid "Saved document"
+msgstr ""
+
+msgid "Search templates..."
+msgstr ""
+
+msgid "Set the default spacing around paragraphs."
+msgstr ""
+
+msgid "Set the font size of the editor (px)."
+msgstr ""
+
+msgid "Set the text to appear in headers and footers when printing."
+msgstr ""
+
+msgid "Show page numbers"
+msgstr ""
+
+msgid "Something has gone wrong - please contact support."
+msgstr ""
+
+msgid "Start thinking..."
+msgstr ""
+
+msgid "Tab options"
+msgstr ""
+
+msgid "Table of Contents"
+msgstr ""
+
+msgid "Task List"
+msgstr ""
+
+msgid "Template {0} saved."
+msgstr ""
+
+msgid "The template includes the whole document as it is now."
+msgstr ""
+
+msgid "Top left"
+msgstr ""
+
+msgid "Top right"
+msgstr ""
+
+msgid "Uh oh!"
+msgstr ""
+
+msgid "Unresolve"
+msgstr ""
+
+msgid "e.g. Cover letter"
+msgstr ""
+
+msgid "esc"
+msgstr ""
+
+msgid "to insert"
+msgstr ""
+
+msgid "{0} files"
+msgstr ""
+
+msgid "{0} files open"
+msgstr ""
+
+msgid "Choose the default font family for this document."
+msgstr ""
+
+msgid "Choose the default font family for new documents."
+msgstr ""

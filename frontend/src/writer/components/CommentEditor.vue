@@ -25,6 +25,7 @@
 </template>
 
 <script setup>
+import { __ } from '../../kit/desk' // One: the desk's translations
 import {
   Editor,
   EditorContent,
@@ -88,6 +89,6 @@ const bubbleItems = [
   InlineCode,
   Blockquote,
   Separator,
-  { type: 'group', label: 'List', icon: 'lucide-list', items: [BulletList, OrderedList] },
+  { type: 'group', label: __('List'), icon: 'lucide-list', items: [BulletList, OrderedList] },
 ]
 </script>

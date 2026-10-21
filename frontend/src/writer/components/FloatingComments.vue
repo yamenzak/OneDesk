@@ -97,13 +97,13 @@
                     'opacity-100'
                     " :options="dynamicList([
                       {
-                        label: 'Edit',
+                        label: __('Edit'),
                         icon: 'lucide-pencil',
                         onClick: () => (reply.edit = true),
                         cond: comment.owner == currentUserId && !reply.new,
                       },
                       {
-                        label: 'Delete',
+                        label: __('Delete'),
                         onClick: () => removeReply(comment.id, reply.id),
                         cond:
                           comment.owner == currentUserId &&
@@ -125,7 +125,7 @@
                   <LucideBadgeCheck v-if="comment.resolved" class="text-ink-gray-6 size-4" />
                 </div>
                 <div class="comment-content text-sm">
-                  <CommentEditor v-model="commentContents[reply.id]" placeholder="Edit" :disabled="isEmpty(commentContents[reply.id]) ||
+                  <CommentEditor v-model="commentContents[reply.id]" :placeholder="__('Edit')" :disabled="isEmpty(commentContents[reply.id]) ||
                     commentContents[reply.id] == reply.text
                     " :editable="!!(reply.edit || reply.new) &&
                       reply.owner === currentUserId
@@ -154,7 +154,7 @@
               <Avatar size="xl" class="self-center" :label="$user(currentUserId)?.full_name || currentUserId
                 " :image="$user(currentUserId)?.user_image" />
 
-              <CommentEditor v-model="newReplies[comment.id]" placeholder="Reply"
+              <CommentEditor v-model="newReplies[comment.id]" :placeholder="__('Reply')"
                 :is-empty="isEmpty(newReplies[comment.id])" @change="setCommentHeights"
                 @submit="(editor) => newReply(comment, editor)" @cancel="
                   (editor) => {
@@ -189,6 +189,7 @@
   </div>
 </template>
 <script setup>
+import { __ } from '../../kit/desk' // One: the desk's translations
 import { writerRoot } from '../shim/root.js' // One: the island's shadow root, not document
 import {
   computed,
@@ -330,9 +331,9 @@ const updateComment = (comment, thread, editor) => {
   // const usersMentioned = comment.mentions.filter((k) => k.id)
 
   // if (usersMentioned.length)
-  //   toast.info('Share with the tagged people?', {
+  //   toast.info(__('Share with the tagged people?'), {
   //     action: {
-  //       label: 'Go',
+  //       label: __('Go'),
   //       onClick: () => emitter.emit('share', usersMentioned),
   //     },
   //   })

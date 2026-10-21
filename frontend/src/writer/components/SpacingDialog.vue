@@ -6,7 +6,7 @@
          our own — same as DropdownMenuGroup.vue. It has to stay the direct child
          of #trigger: PopoverTrigger wires the click onto it via as-child. -->
     <template #trigger="{ open }">
-      <Button size="xs" variant="ghost" :icon="icon" label="Custom Spacing" tooltip="Custom Spacing"
+      <Button size="xs" variant="ghost" :icon="icon" :label="__('Custom Spacing')" :tooltip="__('Custom Spacing')"
         class="aria-pressed:bg-surface-gray-3" :aria-pressed="open" />
     </template>
     <template #default>
@@ -20,10 +20,10 @@
           max="10"
           step="0.05"
           @update:modelValue="applyLineSpacing"
-          label="Line spacing"
+          :label="__('Line spacing')"
         />
         <div class="space-y-1">
-          <FormLabel label="Paragraph Spacing" />
+          <FormLabel :label="__('Paragraph Spacing')" />
           <div class="grid grid-cols-2 gap-2">
             <FormControl
               type="number"
@@ -31,7 +31,7 @@
               v-model.number="local.spacingBefore"
               @update:modelValue="applySpacing"
               placeholder="0"
-              description="Above"
+              :description="__('Above')"
             />
             <FormControl
               type="number"
@@ -39,7 +39,7 @@
               v-model.number="local.spacingAfter"
               @update:modelValue="applySpacing"
               placeholder="0"
-              description="Below"
+              :description="__('Below')"
             />
           </div>
         </div>
@@ -49,6 +49,7 @@
 </template>
 
 <script setup>
+import { __ } from '../../kit/desk' // One: the desk's translations
 import { reactive, computed, watch } from 'vue'
 import { Popover, Button } from 'frappe-ui'
 import { FormControl, FormLabel } from 'frappe-ui'

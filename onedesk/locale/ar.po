@@ -56064,3 +56064,162 @@ msgstr "قبل حفظ من Word"
 
 msgid "Could not write {0} back: {1}"
 msgstr "تعذّر حفظ {0} في الملف: {1}"
+
+msgid "A multiple of single spacing, like 1.15 or 1.5."
+msgstr "مضاعف للتباعد المفرد، مثل 1.15 أو 1.5."
+
+msgid "Above"
+msgstr "فوق"
+
+msgid "Add a line above the footer when printing."
+msgstr "أضف خطًا فوق التذييل عند الطباعة."
+
+msgid "Add a line below the header when printing."
+msgstr "أضف خطًا تحت الترويسة عند الطباعة."
+
+msgid "Number each page at the bottom right when printing."
+msgstr "رقّم كل صفحة أسفل اليمين عند الطباعة."
+
+msgid "Below"
+msgstr "تحت"
+
+msgid "Bottom left"
+msgstr "أسفل اليسار"
+
+msgid "Bottom right"
+msgstr "أسفل اليمين"
+
+msgid "Could not save the document."
+msgstr "تعذّر حفظ المستند."
+
+msgid "Custom Spacing"
+msgstr "تباعد مخصص"
+
+msgid "Dedent"
+msgstr "إنقاص المسافة البادئة"
+
+msgid "Everywhere"
+msgstr "في كل مكان"
+
+msgid "Footer left"
+msgstr "التذييل يسارًا"
+
+msgid "Footer right"
+msgstr "التذييل يمينًا"
+
+msgid "Footer separator line"
+msgstr "خط فاصل للتذييل"
+
+msgid "Header & footer"
+msgstr "الترويسة والتذييل"
+
+msgid "Header left"
+msgstr "الترويسة يسارًا"
+
+msgid "Header right"
+msgstr "الترويسة يمينًا"
+
+msgid "Header separator line"
+msgstr "خط فاصل للترويسة"
+
+msgid "It is saved to OneCloud › Document Templates and is available to everyone in the company."
+msgstr "يُحفظ في OneCloud › قوالب المستندات ويكون متاحًا لكل من في الشركة."
+
+msgid "Line spacing"
+msgstr "تباعد الأسطر"
+
+msgid "No documents found"
+msgstr "لم يُعثر على مستندات"
+
+msgid "Open Files"
+msgstr "الملفات المفتوحة"
+
+msgid "Paint Styles"
+msgstr "نسخ التنسيق"
+
+msgid "Paragraph Spacing"
+msgstr "تباعد الفقرات"
+
+msgid "Paragraph spacing"
+msgstr "تباعد الفقرات"
+
+msgid "Print settings"
+msgstr "إعدادات الطباعة"
+
+msgid "Replying to:"
+msgstr "ردًا على:"
+
+msgid "Resolve"
+msgstr "حلّ"
+
+msgid "Saved document"
+msgstr "حُفظ المستند"
+
+msgid "Search templates..."
+msgstr "ابحث في القوالب..."
+
+msgid "Set the default spacing around paragraphs."
+msgstr "اضبط التباعد الافتراضي حول الفقرات."
+
+msgid "Set the font size of the editor (px)."
+msgstr "اضبط حجم خط المحرر (px)."
+
+msgid "Set the text to appear in headers and footers when printing."
+msgstr "اضبط النص الذي يظهر في الترويسة والتذييل عند الطباعة."
+
+msgid "Show page numbers"
+msgstr "إظهار أرقام الصفحات"
+
+msgid "Something has gone wrong - please contact support."
+msgstr "حدث خطأ، يرجى التواصل مع الدعم."
+
+msgid "Start thinking..."
+msgstr "ابدأ الكتابة..."
+
+msgid "Tab options"
+msgstr "خيارات علامة التبويب"
+
+msgid "Table of Contents"
+msgstr "جدول المحتويات"
+
+msgid "Task List"
+msgstr "قائمة مهام"
+
+msgid "Template {0} saved."
+msgstr "حُفظ القالب {0}."
+
+msgid "The template includes the whole document as it is now."
+msgstr "يتضمن القالب المستند كاملًا كما هو الآن."
+
+msgid "Top left"
+msgstr "أعلى اليسار"
+
+msgid "Top right"
+msgstr "أعلى اليمين"
+
+msgid "Uh oh!"
+msgstr "عذرًا!"
+
+msgid "Unresolve"
+msgstr "إعادة فتح"
+
+msgid "e.g. Cover letter"
+msgstr "مثلًا: خطاب تغطية"
+
+msgid "esc"
+msgstr "esc"
+
+msgid "to insert"
+msgstr "للإدراج"
+
+msgid "{0} files"
+msgstr "{0} ملفات"
+
+msgid "{0} files open"
+msgstr "{0} ملفات مفتوحة"
+
+msgid "Choose the default font family for this document."
+msgstr "اختر الخط الافتراضي لهذا المستند."
+
+msgid "Choose the default font family for new documents."
+msgstr "اختر الخط الافتراضي للمستندات الجديدة."

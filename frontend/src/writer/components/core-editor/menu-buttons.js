@@ -1,4 +1,5 @@
 // Derived from frappe/suite@df7f341 (frontend/src/apps/writer)/components/core-editor/menu-buttons.js. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md.
+import { __ } from '../../../kit/desk' // One: the desk's translations
 import { h, defineAsyncComponent } from 'vue'
 import ManageFont from '@/apps/writer/components/ManageFont.vue'
 import DropdownMenuGroup from '@/apps/writer/components/core-editor/DropdownMenuGroup.vue'
@@ -40,7 +41,7 @@ const SpacingDialogAsync = defineAsyncComponent(() =>
 )
 
 const Underline = {
-  label: 'Underline',
+  label: __('Underline'),
   icon: 'lucide-underline',
   action: (e) => e.chain().focus().toggleUnderline().run(),
   isActive: (e) => e.isActive('underline'),
@@ -48,28 +49,28 @@ const Underline = {
 }
 
 const TaskListItem = {
-  label: 'Task List',
+  label: __('Task List'),
   icon: 'lucide-list-checks',
   action: (e) => e.chain().focus().toggleTaskList().run(),
   isActive: (e) => e.isActive('taskList'),
 }
 
 const TableOfContentsItem = {
-  label: 'Table of Contents',
+  label: __('Table of Contents'),
   icon: 'lucide-table-of-contents',
   action: (e) => { e.commands.insertTableOfContentsNode(); return true },
   isAvailable: (e) => typeof e.commands.insertTableOfContentsNode === 'function',
 }
 
 const DedentList = {
-  label: 'Dedent',
+  label: __('Dedent'),
   icon: 'lucide-indent-decrease',
   action: (e) => e.chain().focus().liftListItem('listItem').run(),
   isAvailable: (e) => e.can().liftListItem('listItem'),
 }
 
 const IndentList = {
-  label: 'Indent',
+  label: __('Indent'),
   icon: 'lucide-indent-increase',
   action: (e) => e.chain().focus().sinkListItem('listItem').run(),
   isAvailable: (e) => e.can().sinkListItem('listItem'),
@@ -83,7 +84,7 @@ export function buildMenuButtons({ editor, settings, isPainting, openSettings })
   return [
     // Heading type selector — dropdown group
     {
-      label: 'Heading',
+      label: __('Heading'),
       icon: LucideHeading,
       component: h(DropdownMenuGroup, {
         items: headingItems,
@@ -101,7 +102,7 @@ export function buildMenuButtons({ editor, settings, isPainting, openSettings })
     FontColor,
     // Alignment — dropdown group
     {
-      label: 'Align',
+      label: __('Align'),
       icon: LucideAlignLeft,
       component: h(DropdownMenuGroup, {
         items: alignItems,
@@ -111,7 +112,7 @@ export function buildMenuButtons({ editor, settings, isPainting, openSettings })
       action: () => {},
     },
     {
-      label: 'Paint Styles',
+      label: __('Paint Styles'),
       icon: LucidePaintRoller,
       isActive: () => isPainting.value,
       action: (e) => {
@@ -120,7 +121,7 @@ export function buildMenuButtons({ editor, settings, isPainting, openSettings })
       },
     },
     {
-      label: 'Clear formatting',
+      label: __('Clear formatting'),
       icon: LucideBrushCleaning,
       isActive: () => false,
       action: (e) => {
@@ -154,12 +155,12 @@ export function buildMenuButtons({ editor, settings, isPainting, openSettings })
     TableOfContentsItem,
     Separator,
     {
-      label: 'Page Break',
+      label: __('Page Break'),
       icon: LucideForm,
       action: (e) => e.commands.setPageBreak(),
     },
     {
-      label: 'Custom Spacing',
+      label: __('Custom Spacing'),
       icon: LucideAlignVerticalSpacingAround,
       component: h(SpacingDialogAsync, {
         settings,
@@ -170,7 +171,7 @@ export function buildMenuButtons({ editor, settings, isPainting, openSettings })
     },
     {
       icon: LucideSettings,
-      label: 'Settings',
+      label: __('Settings'),
       action: openSettings,
     },
     Separator,
