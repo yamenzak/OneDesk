@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-21 06:05+0000\n"
+"POT-Creation-Date: 2026-10-21 06:43+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -1114,7 +1114,7 @@ msgstr "سعر متفق عليه مع مورد لمدة سنة."
 msgid "A price sent to a lead or a customer."
 msgstr "سعر مرسل إلى عميل محتمل أو عميل."
 
-#: onedesk/one_sheet/paper.py:340
+#: onedesk/one_sheet/paper.py:359
 msgid "A print can be kept in OneCloud or on its record."
 msgstr "يمكن حفظ الطباعة في OneCloud أو على سجلها."
 
@@ -7646,7 +7646,7 @@ msgstr "اختر شهراً وسنة."
 msgid "Choose a photo or a video from your computer."
 msgstr "اختر صورة أو فيديو من جهازك."
 
-#: onedesk/one_sheet/paper.py:312
+#: onedesk/one_sheet/paper.py:331
 msgid "Choose a sheet to print."
 msgstr "اختر ورقة لطباعتها."
 
@@ -14271,7 +14271,7 @@ msgstr "كل رقم تسلسلي في المخزون ومكانه."
 msgid "Every share issued, moved and bought back."
 msgstr "كل سهم أُصدر أو نُقل أو أُعيد شراؤه."
 
-#: frontend/src/sheet/shim/PrintDialog.vue:52
+#: frontend/src/sheet/shim/PrintDialog.vue:53
 msgid "Every sheet"
 msgstr "كل الأوراق"
 
@@ -16343,6 +16343,10 @@ msgstr "لدى العميل"
 #: frontend/portal/src/pages/Rfq.vue:8
 msgid "From the buyer"
 msgstr "من المشتري"
+
+#: frontend/src/sheet/shim/PrintDialog.vue:58
+msgid "From the company details"
+msgstr "من بيانات الشركة"
 
 #: onedesk/one_intake/understand.py:379
 msgid "From the day received"
@@ -20681,7 +20685,7 @@ msgstr "صفحة الهبوط"
 msgid "Landlord and authority approvals"
 msgstr "موافقات المالك والجهات الرسمية"
 
-#: frontend/src/sheet/shim/PrintDialog.vue:56
+#: frontend/src/sheet/shim/PrintDialog.vue:64
 msgid "Landscape"
 msgstr "أفقي"
 
@@ -25588,8 +25592,9 @@ msgid "Non Conformance"
 msgstr "عدم مطابقة"
 
 #: frontend/src/item/ItemVariantsMake.vue:11 frontend/src/project/Time.vue:90
-#: onedesk/one/ai.py:2643 onedesk/one/ai_setup.py:128
-#: onedesk/one_book/heads.py:517 onedesk/public/js/settings.js:2183
+#: frontend/src/sheet/shim/PrintDialog.vue:59 onedesk/one/ai.py:2643
+#: onedesk/one/ai_setup.py:128 onedesk/one_book/heads.py:517
+#: onedesk/public/js/settings.js:2183
 msgid "None"
 msgstr "لا شيء"
 
@@ -30864,7 +30869,7 @@ msgstr "رابط البوابة"
 msgid "Portal access revoked."
 msgstr "تم إلغاء الوصول إلى البوابة."
 
-#: frontend/src/sheet/shim/PrintDialog.vue:55
+#: frontend/src/sheet/shim/PrintDialog.vue:63
 msgid "Portrait"
 msgstr "عمودي"
 
@@ -40775,7 +40780,7 @@ msgstr "نموذج OneAI الذي جرى عليه الطلب."
 msgid "The OneAI panel and Ask in a workbook: answers, look-ups, summaries and formulas."
 msgstr "لوحة OneAI وميزة «اسأل» في المصنف: إجابات وعمليات بحث وملخصات وصيغ."
 
-#: frontend/src/sheet/shim/PrintDialog.vue:132
+#: frontend/src/sheet/shim/PrintDialog.vue:144
 msgid "The PDF wasn’t kept."
 msgstr "لم يُحفظ ملف PDF."
 
@@ -42050,9 +42055,9 @@ msgstr "رفض الخادم عنوان البريد الإلكتروني أو ك
 msgid "The server's name or address."
 msgstr "اسم الخادم أو عنوانه."
 
-#: frontend/src/sheet/shim/PrintDialog.vue:106
-#: frontend/src/sheet/shim/PrintDialog.vue:116
 #: frontend/src/sheet/shim/PrintDialog.vue:118
+#: frontend/src/sheet/shim/PrintDialog.vue:128
+#: frontend/src/sheet/shim/PrintDialog.vue:130
 msgid "The sheet wasn’t printed."
 msgstr "لم تُطبع الورقة."
 
@@ -42534,6 +42539,7 @@ msgid "There is no job called {0}."
 msgstr "لا يوجد عمل باسم {0}."
 
 #: onedesk/one/printing.py:545 onedesk/one/printing.py:677
+#: onedesk/one_sheet/paper.py:272
 msgid "There is no letter head {0}."
 msgstr "لا توجد ترويسة باسم {0}."
 
@@ -42594,7 +42600,7 @@ msgstr "لا يوجد {0} هنا."
 msgid "There is no {0} {1}."
 msgstr "لا يوجد {0} {1}."
 
-#: onedesk/one_sheet/paper.py:288
+#: onedesk/one_sheet/paper.py:307
 msgid "There is nothing on this sheet to print."
 msgstr "لا يوجد في هذه الورقة ما يُطبع."
 
@@ -43059,7 +43065,7 @@ msgstr "رُفض هذا الطلب في {0}. اعتمده أولاً إن تغي
 msgid "This section could not be opened."
 msgstr "تعذّر فتح هذا القسم."
 
-#: frontend/src/sheet/shim/PrintDialog.vue:51
+#: frontend/src/sheet/shim/PrintDialog.vue:52
 msgid "This sheet ({0})"
 msgstr "هذه الورقة ({0})"
 
@@ -43136,7 +43142,7 @@ msgstr "كان هذا {0} من قبل."
 msgid "This was shared with specific people. Enter your email to get a code."
 msgstr "تمت مشاركة هذا مع أشخاص محددين. أدخل بريدك الإلكتروني لتحصل على رمز."
 
-#: onedesk/one_sheet/paper.py:377
+#: onedesk/one_sheet/paper.py:397
 msgid "This workbook has no folder to keep a print in."
 msgstr "ليس لهذا المصنف مجلد تُحفظ فيه الطباعة."
 
@@ -43148,7 +43154,7 @@ msgstr "هذا المصنف أكبر من أن يُحفظ (أكثر من {0} م�
 msgid "This workbook isn't a file of its own to write back to."
 msgstr "هذا المصنف ليس ملفًا خاصًا يمكن الحفظ فيه."
 
-#: onedesk/one_sheet/paper.py:366
+#: onedesk/one_sheet/paper.py:386
 msgid "This workbook isn't on a record."
 msgstr "هذا المصنف ليس على سجل."
 
@@ -49710,7 +49716,7 @@ msgstr "عمل له بداية ونهاية وأشخاص يعملون عليه. 
 #: onedesk/one_sheet/doctype/workbook/workbook.json
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json
-#: onedesk/one_sheet/paper.py:317 onedesk/public/js/onecloud.js:450
+#: onedesk/one_sheet/paper.py:336 onedesk/public/js/onecloud.js:450
 #: onedesk/public/js/onecloud.js:1755
 msgid "Workbook"
 msgstr "المصنف"
@@ -50392,7 +50398,7 @@ msgstr "لا يمكنك إضافة ملفات إلى {0}."
 msgid "You can't add items here."
 msgstr "لا يمكنك إضافة عناصر هنا."
 
-#: onedesk/one_sheet/paper.py:371 onedesk/one_storage/api.py:48
+#: onedesk/one_sheet/paper.py:394 onedesk/one_storage/api.py:48
 msgid "You can't add to this folder."
 msgstr "لا يمكنك الإضافة إلى هذا المجلد."
 
@@ -52240,6 +52246,10 @@ msgstr "{0} (تغيّر)"
 msgid "{0} (copy)"
 msgstr "{0} (نسخة)"
 
+#: frontend/src/sheet/shim/PrintDialog.vue:58
+msgid "{0} (default)"
+msgstr "{0} (الافتراضي)"
+
 #: onedesk/one/access.py:334
 msgid "{0} (for {1} and {2} more)"
 msgstr "{0} (لـ {1} و{2} غيرها)"
@@ -53267,7 +53277,7 @@ msgstr "{0} يقع بالفعل تحت {1}، لذا لا يمكن أن يكون 
 msgid "{0} is assigned to somebody else."
 msgstr "{0} مخصّص لشخص آخر."
 
-#: frontend/src/sheet/shim/PrintDialog.vue:129
+#: frontend/src/sheet/shim/PrintDialog.vue:141
 msgid "{0} is attached to {1}."
 msgstr "أُرفق {0} بـ {1}."
 
@@ -53311,7 +53321,7 @@ msgstr "{0} يمتلئ"
 msgid "{0} is for less than the retention, before VAT."
 msgstr "{0} أقل من المحتجزات، قبل الضريبة."
 
-#: frontend/src/sheet/shim/PrintDialog.vue:130
+#: frontend/src/sheet/shim/PrintDialog.vue:142
 msgid "{0} is in OneCloud, beside this workbook."
 msgstr "{0} موجود في OneCloud بجانب هذا المصنف."
 

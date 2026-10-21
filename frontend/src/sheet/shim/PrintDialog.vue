@@ -7,7 +7,7 @@
 				<FormControl v-model="turn" type="select" :label="__('Orientation')" :options="turns" />
 				<FormControl v-model="fit" type="checkbox" :label="__('Fit to page width')" />
 				<FormControl v-model="gridlines" type="checkbox" :label="__('Gridlines')" />
-				<FormControl v-model="head" type="checkbox" :label="__('Letter head')" />
+				<FormControl v-model="head" type="select" :label="__('Letter head')" :options="heads" />
 				<p v-if="kept" class="text-sm text-ink-gray-5">{{ kept }}</p>
 				<p v-if="error" class="text-sm text-ink-red-4">{{ error }}</p>
 			</div>
@@ -24,8 +24,8 @@
 
 <script setup>
 import { Button, Dialog, FormControl } from "frappe-ui";
-import { computed, ref, watch } from "vue";
-import { __, csrf, openTab } from "../../kit/desk";
+import { computed, onBeforeUnmount, ref, watch } from "vue";
+import { __, csrf, followList, openTab } from "../../kit/desk";
 import { call } from "../utils/api.js";
 
 const props = defineProps({
@@ -42,7 +42,8 @@ const what = ref("sheet");
 const turn = ref("portrait");
 const fit = ref(true);
 const gridlines = ref(true);
-const head = ref(true);
+const head = ref("");
+const held = ref([]);
 const busy = ref("");
 const error = ref("");
 const kept = ref("");
@@ -51,6 +52,13 @@ const whats = computed(() => [
 	{ label: __("This sheet ({0})", [props.current]), value: "sheet" },
 	...(props.count > 1 ? [{ label: __("Every sheet"), value: "all" }] : []),
 ]);
+// The workspace's letter heads, the default first and chosen; with none,
+// the one paper.py draws from the company.
+const heads = computed(() => [
+	...(held.value.length ? held.value.map((one) => ({ label: one.is_default ? __("{0} (default)", [one.name]) : one.name, value: one.name })) : [{ label: __("From the company details"), value: "" }]),
+	{ label: __("None"), value: "none" },
+]);
+
 const turns = [
 	{ label: __("Portrait"), value: "portrait" },
 	{ label: __("Landscape"), value: "landscape" },
@@ -59,6 +67,8 @@ const turns = [
 // Wider than a portrait page (paper.py's room: 180mm, 884px there), it
 // starts on its side.
 const PORTRAIT = 884;
+
+let stop = null;
 
 watch(open, (now) => {
 	if (now) {
@@ -69,8 +79,21 @@ watch(open, (now) => {
 		let wide = 0;
 		for (let col = 0; col < (drawn?.size?.[1] || 0); col++) if (!hidden.has(col)) wide += drawn.widths[col] ?? 100;
 		turn.value = wide > PORTRAIT ? "landscape" : "portrait";
+		loadHeads();
+		stop = followList("Letter Head", loadHeads);
+	} else {
+		stop?.();
+		stop = null;
 	}
 });
+onBeforeUnmount(() => stop?.());
+
+function loadHeads() {
+	call("onedesk.one_sheet.paper.letter_heads").then((found) => {
+		held.value = found || [];
+		if (!heads.value.some((one) => one.value === head.value)) head.value = heads.value[0].value;
+	});
+}
 
 function args(keep = "") {
 	return {
@@ -79,7 +102,7 @@ function args(keep = "") {
 		landscape: turn.value === "landscape" ? 1 : 0,
 		fit: fit.value ? 1 : 0,
 		gridlines: gridlines.value ? 1 : 0,
-		head: head.value ? 1 : 0,
+		letter_head: head.value,
 		keep,
 	};
 }

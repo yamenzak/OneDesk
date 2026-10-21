@@ -61,7 +61,9 @@ cells, column widths, pictures. Hidden rows and columns aren't printed.
 - **Orientation**: a sheet wider than a portrait page starts on its side.
 - **Fit to page width** shrinks a wide sheet to the page. Without it, the
   columns that don't fit print on the next pages, as Excel does.
-- **Gridlines** and **Letter head** can be left off.
+- **Letter head** is the workspace's default, any other letter head, or
+  none. With no letter heads at all, one is drawn from the company details.
+- **Gridlines** can be left off.
 
 **Print** opens the PDF in a tab of its own, where the browser prints or
 saves it. **Save PDF to OneCloud** keeps it beside the workbook; a record's
@@ -523,9 +525,10 @@ print, merges, widths and heights from the sheet's own view, hidden rows and
 columns, and the frozen rows (`shim/printing.js`). `paper.style` turns only
 those keys into CSS and only safe values through (a colour, a font name, a
 border style); text is escaped; a picture prints only from this site's
-files (`printing.FILE_URL`). `paper.page` writes the page under the default
-Letter Head's top and foot, or one drawn from the company when there is
-none (`letter_heads.draw`), and `pdf` renders it with frappe's `get_pdf`,
+files (`printing.FILE_URL`). `paper.page` writes the page under the chosen
+Letter Head's top and foot (`letter_heads()` lists them, the default
+first), the default when none is named, nothing for `NO_HEAD`, or one drawn
+from the company when the workspace has none (`letter_heads.draw`), and `pdf` renders it with frappe's `get_pdf`,
 the wkhtmltopdf every record print uses. Fitting is CSS `zoom`; not fitting
 cuts the columns into runs that each fit (`bands`). `PX` is wkhtmltopdf's
 pixel as measured without smart shrinking (500px is 288pt), so a run is as

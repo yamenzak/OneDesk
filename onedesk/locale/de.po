@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-21 06:05+0000\n"
+"POT-Creation-Date: 2026-10-21 06:43+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -1114,7 +1114,7 @@ msgstr "Ein mit einem Lieferanten für ein Jahr vereinbarter Preis."
 msgid "A price sent to a lead or a customer."
 msgstr "Ein an einen Lead oder Kunden gesendeter Preis."
 
-#: onedesk/one_sheet/paper.py:340
+#: onedesk/one_sheet/paper.py:359
 msgid "A print can be kept in OneCloud or on its record."
 msgstr "Ein Ausdruck kann in OneCloud oder an seinem Datensatz abgelegt werden."
 
@@ -7646,7 +7646,7 @@ msgstr "Wählen Sie Monat und Jahr."
 msgid "Choose a photo or a video from your computer."
 msgstr "Wählen Sie ein Foto oder Video von Ihrem Computer."
 
-#: onedesk/one_sheet/paper.py:312
+#: onedesk/one_sheet/paper.py:331
 msgid "Choose a sheet to print."
 msgstr "Wählen Sie ein Blatt zum Drucken."
 
@@ -14271,7 +14271,7 @@ msgstr "Jede Seriennummer im Bestand, und wo."
 msgid "Every share issued, moved and bought back."
 msgstr "Jede ausgegebene, übertragene und zurückgekaufte Aktie."
 
-#: frontend/src/sheet/shim/PrintDialog.vue:52
+#: frontend/src/sheet/shim/PrintDialog.vue:53
 msgid "Every sheet"
 msgstr "Alle Blätter"
 
@@ -16343,6 +16343,10 @@ msgstr "Beim Kunden"
 #: frontend/portal/src/pages/Rfq.vue:8
 msgid "From the buyer"
 msgstr "Vom Käufer"
+
+#: frontend/src/sheet/shim/PrintDialog.vue:58
+msgid "From the company details"
+msgstr "Aus den Firmendaten"
 
 #: onedesk/one_intake/understand.py:379
 msgid "From the day received"
@@ -20681,7 +20685,7 @@ msgstr "Landingpage"
 msgid "Landlord and authority approvals"
 msgstr "Freigaben von Vermieter und Behörden"
 
-#: frontend/src/sheet/shim/PrintDialog.vue:56
+#: frontend/src/sheet/shim/PrintDialog.vue:64
 msgid "Landscape"
 msgstr "Querformat"
 
@@ -25588,8 +25592,9 @@ msgid "Non Conformance"
 msgstr "Abweichung"
 
 #: frontend/src/item/ItemVariantsMake.vue:11 frontend/src/project/Time.vue:90
-#: onedesk/one/ai.py:2643 onedesk/one/ai_setup.py:128
-#: onedesk/one_book/heads.py:517 onedesk/public/js/settings.js:2183
+#: frontend/src/sheet/shim/PrintDialog.vue:59 onedesk/one/ai.py:2643
+#: onedesk/one/ai_setup.py:128 onedesk/one_book/heads.py:517
+#: onedesk/public/js/settings.js:2183
 msgid "None"
 msgstr "Keine"
 
@@ -30864,7 +30869,7 @@ msgstr "Portal-Link"
 msgid "Portal access revoked."
 msgstr "Portalzugang entzogen."
 
-#: frontend/src/sheet/shim/PrintDialog.vue:55
+#: frontend/src/sheet/shim/PrintDialog.vue:63
 msgid "Portrait"
 msgstr "Hochformat"
 
@@ -40775,7 +40780,7 @@ msgstr "Das OneAI-Modell, auf dem der Aufruf lief."
 msgid "The OneAI panel and Ask in a workbook: answers, look-ups, summaries and formulas."
 msgstr "Das OneAI-Panel und „Fragen“ in einer Arbeitsmappe: Antworten, Nachschlagen, Zusammenfassungen und Formeln."
 
-#: frontend/src/sheet/shim/PrintDialog.vue:132
+#: frontend/src/sheet/shim/PrintDialog.vue:144
 msgid "The PDF wasn’t kept."
 msgstr "Das PDF wurde nicht gespeichert."
 
@@ -42050,9 +42055,9 @@ msgstr "Der Server hat die E-Mail-Adresse oder das Passwort abgelehnt."
 msgid "The server's name or address."
 msgstr "Name oder Adresse des Servers."
 
-#: frontend/src/sheet/shim/PrintDialog.vue:106
-#: frontend/src/sheet/shim/PrintDialog.vue:116
 #: frontend/src/sheet/shim/PrintDialog.vue:118
+#: frontend/src/sheet/shim/PrintDialog.vue:128
+#: frontend/src/sheet/shim/PrintDialog.vue:130
 msgid "The sheet wasn’t printed."
 msgstr "Das Blatt wurde nicht gedruckt."
 
@@ -42534,6 +42539,7 @@ msgid "There is no job called {0}."
 msgstr "Es gibt keine Arbeit namens {0}."
 
 #: onedesk/one/printing.py:545 onedesk/one/printing.py:677
+#: onedesk/one_sheet/paper.py:272
 msgid "There is no letter head {0}."
 msgstr "Es gibt keinen Briefkopf {0}."
 
@@ -42594,7 +42600,7 @@ msgstr "Hier gibt es kein {0}."
 msgid "There is no {0} {1}."
 msgstr "Es gibt kein(e) {0} {1}."
 
-#: onedesk/one_sheet/paper.py:288
+#: onedesk/one_sheet/paper.py:307
 msgid "There is nothing on this sheet to print."
 msgstr "Auf diesem Blatt gibt es nichts zu drucken."
 
@@ -43059,7 +43065,7 @@ msgstr "Dieser Antrag wurde am {0} abgelehnt. Genehmigen Sie ihn zuerst, falls s
 msgid "This section could not be opened."
 msgstr "Dieser Bereich konnte nicht geöffnet werden."
 
-#: frontend/src/sheet/shim/PrintDialog.vue:51
+#: frontend/src/sheet/shim/PrintDialog.vue:52
 msgid "This sheet ({0})"
 msgstr "Dieses Blatt ({0})"
 
@@ -43136,7 +43142,7 @@ msgstr "Das war bereits {0}."
 msgid "This was shared with specific people. Enter your email to get a code."
 msgstr "Dies wurde mit bestimmten Personen geteilt. Geben Sie Ihre E-Mail-Adresse ein, um einen Code zu erhalten."
 
-#: onedesk/one_sheet/paper.py:377
+#: onedesk/one_sheet/paper.py:397
 msgid "This workbook has no folder to keep a print in."
 msgstr "Diese Arbeitsmappe hat keinen Ordner, in dem ein Ausdruck abgelegt werden kann."
 
@@ -43148,7 +43154,7 @@ msgstr "Diese Arbeitsmappe ist zu groß zum Speichern (über {0} MB). Die üblic
 msgid "This workbook isn't a file of its own to write back to."
 msgstr "Diese Arbeitsmappe ist keine eigene Datei, in die zurückgeschrieben werden kann."
 
-#: onedesk/one_sheet/paper.py:366
+#: onedesk/one_sheet/paper.py:386
 msgid "This workbook isn't on a record."
 msgstr "Diese Arbeitsmappe gehört zu keinem Datensatz."
 
@@ -49710,7 +49716,7 @@ msgstr "Arbeit mit Anfang, Ende und beteiligten Personen. Aufgaben hängen an ei
 #: onedesk/one_sheet/doctype/workbook/workbook.json
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json
-#: onedesk/one_sheet/paper.py:317 onedesk/public/js/onecloud.js:450
+#: onedesk/one_sheet/paper.py:336 onedesk/public/js/onecloud.js:450
 #: onedesk/public/js/onecloud.js:1755
 msgid "Workbook"
 msgstr "Arbeitsmappe"
@@ -50392,7 +50398,7 @@ msgstr "Sie können keine Dateien zu {0} hinzufügen."
 msgid "You can't add items here."
 msgstr "Sie können hier keine Elemente hinzufügen."
 
-#: onedesk/one_sheet/paper.py:371 onedesk/one_storage/api.py:48
+#: onedesk/one_sheet/paper.py:394 onedesk/one_storage/api.py:48
 msgid "You can't add to this folder."
 msgstr "Sie können diesem Ordner nichts hinzufügen."
 
@@ -52240,6 +52246,10 @@ msgstr "{0} (geändert)"
 msgid "{0} (copy)"
 msgstr "{0} (Kopie)"
 
+#: frontend/src/sheet/shim/PrintDialog.vue:58
+msgid "{0} (default)"
+msgstr "{0} (Standard)"
+
 #: onedesk/one/access.py:334
 msgid "{0} (for {1} and {2} more)"
 msgstr "{0} (für {1} und {2} weitere)"
@@ -53267,7 +53277,7 @@ msgstr "{0} liegt bereits unter {1} und kann daher nicht sein übergeordnetes Pr
 msgid "{0} is assigned to somebody else."
 msgstr "{0} ist jemand anderem zugewiesen."
 
-#: frontend/src/sheet/shim/PrintDialog.vue:129
+#: frontend/src/sheet/shim/PrintDialog.vue:141
 msgid "{0} is attached to {1}."
 msgstr "{0} ist an {1} angehängt."
 
@@ -53311,7 +53321,7 @@ msgstr "{0} wird voll"
 msgid "{0} is for less than the retention, before VAT."
 msgstr "{0} lautet auf weniger als den Einbehalt, vor Umsatzsteuer."
 
-#: frontend/src/sheet/shim/PrintDialog.vue:130
+#: frontend/src/sheet/shim/PrintDialog.vue:142
 msgid "{0} is in OneCloud, beside this workbook."
 msgstr "{0} liegt in OneCloud neben dieser Arbeitsmappe."
 

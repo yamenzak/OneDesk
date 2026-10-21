@@ -246,33 +246,77 @@ def _table(sheet: dict, room: float, fit: bool, gridlines: bool) -> str:
 	return "".join(out)
 
 
-def _letter_head() -> tuple[str, str]:
-	"""The default letter head's top and foot, or one drawn from the company
-	when the workspace has none."""
-	from onedesk.one import letter_heads
+#: The letter head a print asks for to have none.
+NO_HEAD = "none"
 
-	held = frappe.db.get_value("Letter Head", {"is_default": 1, "disabled": 0}, ["content", "footer"], as_dict=True)
+
+@frappe.whitelist()
+@frappe.read_only()
+def letter_heads() -> list[dict]:
+	"""The letter heads a print can go under, the default first."""
+	return frappe.get_all(
+		"Letter Head", filters={"disabled": 0}, fields=["name", "is_default"], order_by="is_default desc, name asc"
+	)
+
+
+def _record(name: str | None) -> dict:
+	"""What a letter head's template reads as `doc`: the record a workbook
+	belongs to when the reader may open it, else the company and its
+	address, so a head written for record prints still finds them."""
+	from onedesk.one import settings
+
+	book = frappe.db.get_value(api.WORKBOOK, name, ["bound_doctype", "bound_name"], as_dict=True) if name else None
+	if book and book.bound_doctype and frappe.has_permission(book.bound_doctype, "read", book.bound_name):
+		return frappe.get_doc(book.bound_doctype, book.bound_name)
+	company = settings._company()
+	address = settings._company_address(company)
+	return frappe._dict(
+		doctype="", name="", company=company.name if company else "", company_address=address.name if address else ""
+	)
+
+
+def _letter_head(chosen: str | None = None, doc: dict | None = None) -> tuple[str, str]:
+	"""A letter head's top and foot: the one chosen, else the default, else
+	one drawn from the company when the workspace has none. `doc` is what
+	its template reads."""
+	from onedesk.one import letter_heads as drawing
+
+	if chosen == NO_HEAD:
+		return "", ""
+	where = {"name": chosen} if chosen else {"is_default": 1}
+	held = frappe.db.get_value("Letter Head", {**where, "disabled": 0}, ["content", "footer"], as_dict=True)
+	if chosen and not held:
+		frappe.throw(_("There is no letter head {0}.").format(chosen))
 	if not held:
-		return letter_heads.draw(None), letter_heads.draw_foot(None)
+		return drawing.draw(None), drawing.draw_foot(None)
 
 	def drawn(html: str | None) -> str:
 		if not html:
 			return ""
 		try:
-			return frappe.render_template(html, {"doc": frappe._dict(), "letter_head": held})
+			return frappe.render_template(html, {"doc": doc if doc is not None else frappe._dict(), "letter_head": held})
 		except Exception:
 			return html
 
 	return drawn(held.content), drawn(held.footer)
 
 
-def page(title: str, sheets: list[dict], landscape: bool = False, fit: bool = True, gridlines: bool = True, head: bool = True) -> str:
+def page(
+	title: str,
+	sheets: list[dict],
+	landscape: bool = False,
+	fit: bool = True,
+	gridlines: bool = True,
+	letter_head: str | None = None,
+	doc: dict | None = None,
+) -> str:
 	"""The whole print as HTML: the letter head's top, each sheet under its
-	name, then the foot."""
+	name, then the foot. `letter_head` is one by name, NO_HEAD, or None for
+	the default; `doc` is what its template reads (_record)."""
 	size = frappe.db.get_single_value("Print Settings", "pdf_page_size") or "A4"
 	short, long = PAPER.get(size, PAPER["A4"])
 	room = ((long if landscape else short) - 2 * MARGIN) * PX
-	top, foot = _letter_head() if head else ("", "")
+	top, foot = _letter_head(letter_head, doc)
 	named = len(sheets) > 1
 	body = []
 	for n, sheet in enumerate(sheets):
@@ -327,12 +371,12 @@ def pdf(
 	landscape: int = 0,
 	fit: int = 1,
 	gridlines: int = 1,
-	head: int = 1,
+	letter_head: str | None = None,
 	keep: str = "",
 ) -> dict | None:
 	"""A workbook's sheets as a PDF. With no `keep` it is the answer; with
 	"cloud" it is a file beside the workbook; with "record" it is attached
-	to the record the workbook is bound to."""
+	to the record the workbook is bound to. `letter_head` as page() takes it."""
 	from frappe.utils.pdf import get_pdf
 
 	item = api._may(name, "read")
@@ -340,7 +384,7 @@ def pdf(
 		frappe.throw(_("A print can be kept in OneCloud or on its record."))
 	title = frappe.db.get_value(api.WORKBOOK, name, "title") or item.get("file_name") or ""
 	said = _sheets(sheets)
-	html = page(title, said, bool(cint(landscape)), bool(cint(fit)), bool(cint(gridlines)), bool(cint(head)))
+	html = page(title, said, bool(cint(landscape)), bool(cint(fit)), bool(cint(gridlines)), letter_head or None, _record(name))
 	options = {"orientation": "Landscape" if cint(landscape) else "Portrait"}
 	for side in ("top", "bottom", "left", "right"):
 		options[f"margin-{side}"] = f"{MARGIN}mm"

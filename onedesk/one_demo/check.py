@@ -5474,9 +5474,10 @@ def a_spreadsheet_file_opens_and_saves_back_into_itself():
 
 @check
 def a_sheet_prints_under_the_letter_head():
-	"""A sheet prints as a PDF under the workspace's letter head, drawn as it
-	is on screen and never from HTML the editor sends; kept, it lands beside
-	the workbook in OneCloud. All undone afterwards."""
+	"""A sheet prints as a PDF under the workspace's letter head, or another
+	one chosen, or none, drawn as it is on screen and never from HTML the
+	editor sends; kept, it lands beside the workbook in OneCloud. All undone
+	afterwards."""
 	from onedesk.one_sheet import api, paper
 
 	frappe.db.savepoint("paper_check")
@@ -5487,6 +5488,17 @@ def a_sheet_prints_under_the_letter_head():
 			top = frappe.db.get_value("Letter Head", {"is_default": 1}, "content") or ""
 			drawn = paper.page("Paper check", [sheet])
 			assert top[:40] in drawn and "&lt;script&gt;" in drawn and "<script>" not in drawn, "under the letter head, text as text"
+			other = frappe.get_doc({"doctype": "Letter Head", "letter_head_name": "Paper check head", "source": "HTML", "content": "<p>Paper check head</p>"})
+			other.insert(ignore_permissions=True)
+			assert next(one.name for one in paper.letter_heads()) == frappe.db.get_value("Letter Head", {"is_default": 1}), "the default first"
+			assert "Paper check head" in paper.page("Paper check", [sheet], letter_head=other.name), "the letter head chosen"
+			assert paper._record(book).company == COMPANY, "a head written for record prints finds the company"
+			assert top[:40] not in paper.page("Paper check", [sheet], letter_head=paper.NO_HEAD), "or none"
+			try:
+				paper.page("Paper check", [sheet], letter_head="No such head")
+				raise AssertionError("a letter head that isn't there printed")
+			except frappe.ValidationError:
+				pass
 			paper.pdf(book, json.dumps([sheet]))
 			assert frappe.local.response.filecontent[:4] == b"%PDF" and frappe.local.response.filename == "Paper check - Sheet1.pdf"
 			kept = paper.pdf(book, json.dumps([sheet]), keep="cloud")
