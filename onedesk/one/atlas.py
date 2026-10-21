@@ -31,6 +31,7 @@ ANSWERS = {
 	("DocType", "Workbook Version"): (ENGINE, "a workbook as it stood; its Version History lists them"),
 	("Page", "workbook"): (INSIDE, "a workbook opens on it from OneCloud"),
 	("DocType", "Writer Document"): (ENGINE, "a document's content, behind its File in OneCloud; it opens on the document page"),
+	("DocType", "Writer Document Version"): (ENGINE, "what a document said at a moment, listed and restored from its history panel"),
 	("DocType", "DocShare"): (INSIDE, "a record's Share"),
 	("DocType", "Document Share Key"): (ENGINE, "the key a shared record's link carries"),
 	("Report", "Document Share Report"): (INSIDE, "a record's Share, which says who it is shared with"),

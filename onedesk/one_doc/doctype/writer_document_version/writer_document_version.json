@@ -1,0 +1,72 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-10-21 17:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "naming_rule": "Random",
+ "description": "A document as it stood, kept by its version history: named by somebody, or taken while it was being written.",
+ "field_order": [
+  "document",
+  "title",
+  "manual",
+  "snapshot"
+ ],
+ "fields": [
+  {
+   "fieldname": "document",
+   "fieldtype": "Link",
+   "label": "Document",
+   "options": "Writer Document",
+   "reqd": 1,
+   "search_index": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "manual",
+   "fieldtype": "Check",
+   "label": "Named",
+   "default": "0"
+  },
+  {
+   "fieldname": "snapshot",
+   "fieldtype": "Long Text",
+   "label": "Snapshot",
+   "description": "The document as HTML when the version was taken."
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-21 17:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Doc",
+ "name": "Writer Document Version",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "role": "System Manager",
+   "report": 1,
+   "email": 0,
+   "print": 0,
+   "export": 0,
+   "share": 0
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "title",
+ "track_changes": 0
+}

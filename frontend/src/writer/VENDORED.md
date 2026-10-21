@@ -39,6 +39,12 @@ Each is marked `One:` where it is.
   (`shim/root.js`), because the page draws inside the island's shadow root.
 - `components/CoreEditor.vue`, `VersionsSidebar.vue`: their CSS `@import`
   is relative, because CSS imports do not go through the seams.
+- `components/VersionsSidebar.vue`: the versions come from
+  `onedesk.one_doc.versions.listed`, named ones sort by when they were made and
+  take a row each, the preview's classes sit on a div because this
+  frappe-ui's `Editor` draws no element, and its words in script go through the kit's `__`.
+- `components/NewVersionDialog.vue`: the made version isn't pushed onto a
+  list; the page draws the panel again.
 - `components/FloatingComments.vue`: `$store` is null; Suite's global store
   is not here and the template never reads it.
 - `utils/index.js`, `utils/docximporter.js`: Suite's endpoints for pictures

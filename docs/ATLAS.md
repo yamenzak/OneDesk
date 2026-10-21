@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 77 | 4 | 27 | 0 |
+| onedesk | 77 | 4 | 28 | 0 |
 | frappe | 36 | 35 | 143 | 0 |
 | erpnext | 304 | 130 | 51 | 0 |
 | hrms | 103 | 19 | 8 | 0 |
@@ -942,6 +942,7 @@ Pages: onecalendar (on a rail or a home).
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Writer Document | engine: a document's content, behind its File in OneCloud; it opens on the document page | not read | untouched | yes | general |  | **none** |  |  |  |  |
+| Writer Document Version | engine: what a document said at a moment, listed and restored from its history panel | not read | untouched | yes | general |  | **none** |  |  |  |  |
 
 Pages: document (opened by our screens).
 

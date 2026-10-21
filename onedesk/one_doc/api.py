@@ -333,4 +333,7 @@ def file_gone(doc, method=None) -> None:
 	"""File on_trash: the document it held goes with it."""
 	name = document_of(doc.file_url)
 	if name and frappe.db.exists(DOCUMENT, name):
+		from onedesk.one_doc import versions
+
+		versions.forget(name)
 		frappe.delete_doc(DOCUMENT, name, ignore_permissions=True, force=True)

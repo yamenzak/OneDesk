@@ -47,12 +47,38 @@ Whoever may open the File: its owner, whoever it is shared with, and, for a
 document on a record, whoever may open the record. Reading is enough to
 comment.
 
+## Version history
+
+**File › Version History** lists what the document said: under
+**Automatic**, one taken every ten minutes while somebody writes; under
+**Manual**, the ones somebody named with **+**. Clicking one shows what
+changed since the one before; **Restore** puts it back as an edit everyone
+sees, which undo takes back. Unnamed versions past the newest
+hundred go each night; named ones stay.
+
+## Writing together
+
+Everybody with the document open writes in the same copy. Each sees the
+others' cursors and selections in their colour, and their faces in the head.
+Somebody who may only read sees the writing as it happens and can comment.
+
+## Asking OneAI
+
+**Ask OneAI** in the head takes a request about the selection, or about the
+whole document when nothing is selected. OneAI either writes words, which go
+in place of the selection or at the cursor as one edit undo takes back, or
+answers in the dialog. It is charged to the account's credits like any other
+request.
+
+In the OneAI panel it finds documents by name, reads them, and suggests a new
+document or something to add at the end of one, as a card nothing happens
+until you approve.
+
 ## What is not built yet
 
-Version history, live editing together, OneAI in the document, Open in
-OneWriter for a record's long text, printing under the letter head, record
-fields in a document, and `.docx` on the network drive, through links and in
-mail. Each is a stage of its own.
+Open in OneWriter for a record's long text, printing under the letter head,
+record fields in a document, and `.docx` on the network drive, through links
+and in mail. Each is a stage of its own.
 
 ## Connections
 
@@ -106,3 +132,26 @@ server and kept a copy in the browser. Here `shim/yjs.js` saves through
 `save_document` and shares changes, cursors and comments over the same relay
 the workbook uses (`realtime/handlers.js`, a `document` room that
 `one_sheet/live.admit` lets a reader into, and a writer write in).
+
+### History, the relay and OneAI
+
+A version is a **Writer Document Version** row holding the document's HTML
+at that moment (`versions.py`). The editor offers one every ten minutes of
+writing and `new_version` keeps it only if the last unnamed one is ten
+minutes old; Suite's history panel restores by setting the HTML into the
+editor, so a restore is an ordinary edit and travels to everybody.
+
+Live writing is Yjs over Frappe's socketio, not y-webrtc: `shim/yjs.js`
+sends updates, awareness (cursors) and comment state to the `document` room,
+asks whoever is there for the current state when it joins, and saves two
+seconds after the last change. Two people saving the same state is harmless
+because each save is the whole document.
+
+`assist.ai_assist` sends the document's text, the selection's text and the
+request through the `doc_assist` action and returns sanitised HTML or an
+answer; the editor inserts it, so nothing is written server-side. The panel's
+tools are `ai.py`. An approved addition is appended to the stored HTML and
+the editor state cleared, so the next open builds from the HTML; the
+approver's open copy is told over `one_document_written` and draws it in
+straight away, which saves the state again. Somebody else with it open at
+that moment would save over the addition, which is the one gap here.

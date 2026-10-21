@@ -201,6 +201,7 @@ No doctypes yet.
 | Doctype | Fields | Kind |
 |---|--:|---|
 | Writer Document | 12 | document |
+| Writer Document Version | 4 | document |
 
 ## Desk records shipped as fixtures
 
@@ -502,8 +503,11 @@ No doctypes yet.
 * `onedesk.one_doc.api.save_document`
 * `onedesk.one_doc.api.save_settings`
 * `onedesk.one_doc.api.titles`
+* `onedesk.one_doc.assist.ai_assist`
 * `onedesk.one_doc.templates.listed`
 * `onedesk.one_doc.templates.save_as`
+* `onedesk.one_doc.versions.listed`
+* `onedesk.one_doc.versions.new_version`
 * `onedesk.one_hr.clock.punch`
 * `onedesk.one_hr.clock.ready`
 * `onedesk.one_hr.employee.get_assignable_masters`

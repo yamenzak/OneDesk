@@ -40794,7 +40794,7 @@ msgid "The OneAI model the call ran on."
 msgstr ""
 
 #: onedesk/one/settings.py:1363
-msgid "The OneAI panel and Ask in a workbook: answers, look-ups, summaries and formulas."
+msgid "The OneAI panel and Ask in a workbook or a document: answers, look-ups, summaries, formulas and writing."
 msgstr ""
 
 #: onedesk/one/settings.py:2101
@@ -55946,3 +55946,113 @@ msgstr ""
 msgid "{workspace}: {state}"
 msgstr ""
 
+msgid "About the selected text."
+msgstr ""
+
+msgid "About the whole document. What comes back goes in at the cursor."
+msgstr ""
+
+msgid "Adds"
+msgstr ""
+
+msgid "Create Document {0}"
+msgstr ""
+
+msgid "Create Version"
+msgstr ""
+
+msgid "Documents cannot be created in a mounted drive."
+msgstr ""
+
+msgid "Download as HTML"
+msgstr ""
+
+msgid "Download as Markdown"
+msgstr ""
+
+msgid "Editing is disabled until you exit."
+msgstr ""
+
+msgid "Exit"
+msgstr ""
+
+msgid "Insert a Template"
+msgstr ""
+
+msgid "Manual"
+msgstr ""
+
+msgid "No file was sent."
+msgstr ""
+
+msgid "None yet."
+msgstr ""
+
+msgid "OneAI could not answer."
+msgstr ""
+
+msgid "OneAI had nothing to add."
+msgstr ""
+
+msgid "Opens with"
+msgstr ""
+
+msgid "Page Setup"
+msgstr ""
+
+msgid "Read only"
+msgstr ""
+
+msgid "Restore this version?"
+msgstr ""
+
+msgid "Restored {0}"
+msgstr ""
+
+msgid "This document"
+msgstr ""
+
+msgid "This document could not be opened."
+msgstr ""
+
+msgid "This document is not a template."
+msgstr ""
+
+msgid "This document is too large to save."
+msgstr ""
+
+msgid "This document no longer exists."
+msgstr ""
+
+msgid "This file is too large to put into a document."
+msgstr ""
+
+msgid "This is an automatic snapshot of this document from {0}."
+msgstr ""
+
+msgid "This is the current version."
+msgstr ""
+
+msgid "Untitled Document"
+msgstr ""
+
+msgid "Version History"
+msgstr ""
+
+msgid "You are restoring the document to how it was at {0}."
+msgstr ""
+
+msgid "You are restoring to a previous version: {0}."
+msgstr ""
+
+msgid "You are viewing the version history of"
+msgstr ""
+
+msgid "You do not have permission to open this document."
+msgstr ""
+
+msgid "e.g. Make this shorter and more formal"
+msgstr ""
+
+msgid "e.g. Write a paragraph on the payment terms"
+msgstr ""

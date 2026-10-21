@@ -40759,8 +40759,8 @@ msgid "The OneAI model the call ran on."
 msgstr "نموذج OneAI الذي جرى عليه الطلب."
 
 #: onedesk/one/settings.py:1363
-msgid "The OneAI panel and Ask in a workbook: answers, look-ups, summaries and formulas."
-msgstr "لوحة OneAI وميزة «اسأل» في المصنف: إجابات وعمليات بحث وملخصات وصيغ."
+msgid "The OneAI panel and Ask in a workbook or a document: answers, look-ups, summaries, formulas and writing."
+msgstr "لوحة OneAI وميزة «اسأل» في المصنف أو المستند: إجابات وعمليات بحث وملخصات وصيغ وكتابة."
 
 #: onedesk/one/settings.py:2101
 msgid "The Person on the Record"
@@ -55888,3 +55888,113 @@ msgstr "أُوقفت {workspace} ولم تُدفع، لذا أصبحت غير م
 msgid "{workspace}: {state}"
 msgstr "{workspace}: {state}"
 
+msgid "About the selected text."
+msgstr "عن النص المحدد."
+
+msgid "About the whole document. What comes back goes in at the cursor."
+msgstr "عن المستند كله. ما يعود يُدرج عند المؤشر."
+
+msgid "Adds"
+msgstr "يضيف"
+
+msgid "Create Document {0}"
+msgstr "إنشاء المستند {0}"
+
+msgid "Create Version"
+msgstr "إنشاء نسخة"
+
+msgid "Documents cannot be created in a mounted drive."
+msgstr "لا يمكن إنشاء المستندات في محرك مُركّب."
+
+msgid "Download as HTML"
+msgstr "تنزيل بصيغة HTML"
+
+msgid "Download as Markdown"
+msgstr "تنزيل بصيغة Markdown"
+
+msgid "Editing is disabled until you exit."
+msgstr "التحرير معطّل حتى تخرج."
+
+msgid "Exit"
+msgstr "خروج"
+
+msgid "Insert a Template"
+msgstr "إدراج قالب"
+
+msgid "Manual"
+msgstr "يدوية"
+
+msgid "No file was sent."
+msgstr "لم يُرسل أي ملف."
+
+msgid "None yet."
+msgstr "لا شيء بعد."
+
+msgid "OneAI could not answer."
+msgstr "لم يتمكن OneAI من الإجابة."
+
+msgid "OneAI had nothing to add."
+msgstr "لم يكن لدى OneAI ما يضيفه."
+
+msgid "Opens with"
+msgstr "يبدأ بـ"
+
+msgid "Page Setup"
+msgstr "إعداد الصفحة"
+
+msgid "Read only"
+msgstr "للقراءة فقط"
+
+msgid "Restore this version?"
+msgstr "استعادة هذه النسخة؟"
+
+msgid "Restored {0}"
+msgstr "استُعيدت {0}"
+
+msgid "This document"
+msgstr "هذا المستند"
+
+msgid "This document could not be opened."
+msgstr "تعذّر فتح هذا المستند."
+
+msgid "This document is not a template."
+msgstr "هذا المستند ليس قالبًا."
+
+msgid "This document is too large to save."
+msgstr "هذا المستند أكبر من أن يُحفظ."
+
+msgid "This document no longer exists."
+msgstr "هذا المستند لم يعد موجودًا."
+
+msgid "This file is too large to put into a document."
+msgstr "هذا الملف أكبر من أن يوضع في مستند."
+
+msgid "This is an automatic snapshot of this document from {0}."
+msgstr "هذه لقطة تلقائية لهذا المستند من {0}."
+
+msgid "This is the current version."
+msgstr "هذه هي النسخة الحالية."
+
+msgid "Untitled Document"
+msgstr "مستند بلا عنوان"
+
+msgid "Version History"
+msgstr "سجل النسخ"
+
+msgid "You are restoring the document to how it was at {0}."
+msgstr "ستعيد المستند إلى ما كان عليه في {0}."
+
+msgid "You are restoring to a previous version: {0}."
+msgstr "ستستعيد نسخة سابقة: {0}."
+
+msgid "You are viewing the version history of"
+msgstr "أنت تعرض سجل نسخ"
+
+msgid "You do not have permission to open this document."
+msgstr "ليس لديك إذن بفتح هذا المستند."
+
+msgid "e.g. Make this shorter and more formal"
+msgstr "مثلًا: اجعل هذا أقصر وأكثر رسمية"
+
+msgid "e.g. Write a paragraph on the payment terms"
+msgstr "مثلًا: اكتب فقرة عن شروط الدفع"

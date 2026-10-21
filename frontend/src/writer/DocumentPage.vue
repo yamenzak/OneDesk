@@ -16,6 +16,9 @@
 			<span class="text-sm text-ink-gray-5">{{ status }}</span>
 			<div class="ml-auto flex items-center gap-2">
 				<UsersBar v-if="collaborators.length" :users="collaborators" />
+				<Button v-if="asking" variant="ghost" :label="__('Ask OneAI')" @click="showAsk = true">
+					<template #prefix><img :src="oneaiMark" class="size-4" alt="" /></template>
+				</Button>
 				<Button v-if="state?.can_write && settingsDoc.doc.settings.lock" icon="lock" variant="ghost" :tooltip="__('Unlock')" @click="lock(null)" />
 				<Dropdown v-if="state" :options="fileMenu" align="end">
 					<Button variant="ghost" icon-left="file" :label="__('File')" icon-right="chevron-down" />
@@ -23,7 +26,16 @@
 			</div>
 		</div>
 		<div v-if="failed" class="flex flex-1 items-center justify-center text-base text-ink-gray-6">{{ failed }}</div>
-		<div v-else-if="state && rooted" class="flex min-h-0 w-full flex-1 overflow-hidden">
+		<VersionsSidebar
+			v-if="state && showVersions"
+			:key="versionsKey"
+			v-model="versionPreview"
+			v-model:show-versions="showVersions"
+			:settings="settings"
+			:document="settingsDoc"
+			:editor="editor"
+		/>
+		<div v-if="state && rooted" v-show="!showVersions" class="flex min-h-0 w-full flex-1 overflow-hidden">
 			<TextEditor
 				ref="editorEl"
 				:key="state.name"
@@ -37,8 +49,10 @@
 			<WriterSettings v-if="showSettings" v-model="showSettings" :doc-settings="settingsDoc" :global-settings="everywhere" :editable="editable" />
 			<TemplateDialog v-if="showTemplates" v-model="showTemplates" :editor="editor" />
 			<SaveTemplateDialog v-model="savingTemplate" :document="state.name" :name="state.title" />
+			<AskDialog v-if="asking" v-model="showAsk" :document="state.name" :editor="editor" />
 		</div>
 		<Dialogs />
+		<FDialogs />
 	</div>
 </template>
 
@@ -46,7 +60,7 @@
 import { computed, onBeforeUnmount, onMounted, provide, reactive, ref, watch } from "vue";
 import { Breadcrumbs, Button, Dialogs, Dropdown } from "frappe-ui";
 
-import { __, call, goTo, goToUrl, me, userSettings } from "../kit/desk";
+import { __, call, goTo, goToUrl, listen, me, oneaiMark, oneaiOn, userSettings } from "../kit/desk";
 import InlineRenameInput from "../sheet/shim/InlineRenameInput.vue";
 import { mark } from "../sheet/shim/mark.js";
 import "../sheet/shim/fit.css";
@@ -54,7 +68,10 @@ import TextEditor from "./components/TextEditor.vue";
 import WriterSettings from "./components/WriterSettings.vue";
 import TemplateDialog from "./components/TemplateDialog.vue";
 import UsersBar from "./components/UsersBar.vue";
+import VersionsSidebar from "./components/VersionsSidebar.vue";
+import FDialogs from "./components/FDialogs.vue";
 import SaveTemplateDialog from "./shim/SaveTemplateDialog.vue";
+import AskDialog from "./shim/AskDialog.vue";
 import { getTemplates } from "./shim/resources.js";
 import { setWriterRoot } from "./shim/root.js";
 import { downloadMD, downloadZippedHTML } from "./utils";
@@ -71,6 +88,12 @@ const savedOnce = ref(false);
 const showSettings = ref(false);
 const showTemplates = ref(false);
 const savingTemplate = ref(false);
+const showVersions = ref(false);
+const showAsk = ref(false);
+const asking = computed(() => Boolean(state.value?.can_write && oneaiOn()));
+const versionPreview = ref(null);
+const versionsKey = ref(0);
+watch(showVersions, (now) => !now && (versionPreview.value = null));
 const renaming = ref(false);
 const title = ref("");
 const editorEl = ref(null);
@@ -111,7 +134,23 @@ const settingsDoc = reactive({
 				.finally(() => (saving.value = false));
 		},
 	},
-	newVersion: { error: null, submit: () => Promise.resolve() },
+	// A version taken while writing, or one named in the history panel, which
+	// is drawn again to list it.
+	newVersion: {
+		error: null,
+		loading: false,
+		submit: ({ data, title }) => {
+			settingsDoc.newVersion.loading = true;
+			return call("onedesk.one_doc.versions.new_version", { name: state.value.name, data, title: title || null })
+				.then((made) => {
+					settingsDoc.newVersion.error = null;
+					if (made && title) versionsKey.value += 1;
+					return made;
+				})
+				.catch((err) => (settingsDoc.newVersion.error = err))
+				.finally(() => (settingsDoc.newVersion.loading = false));
+		},
+	},
 	updateSettings: {
 		submit: ({ data }) => call("onedesk.one_doc.api.save_settings", { name: state.value.name, settings: data }),
 	},
@@ -156,7 +195,7 @@ async function load(name) {
 	try {
 		const said = await call("onedesk.one_doc.api.get_document", { name });
 		file.doc = { name: said.name, file_name: said.title, write: said.can_write, breadcrumbs: [{ file_name: said.title }] };
-		settingsDoc.doc = { name: said.name, content: said.content, ycomments: said.comments, settings: said.settings || {}, owner: said.owner, collab: 1 };
+		settingsDoc.doc = { name: said.name, content: said.content, ycomments: said.comments, settings: said.settings || {}, owner: said.owner, collab: 1, versions: [] };
 		state.value = said;
 		title.value = said.title;
 		const held = await userSettings.get("Writer Document");
@@ -169,11 +208,16 @@ async function load(name) {
 watch(() => props.route[0], (name) => name && load(name), { immediate: true });
 
 // A document made from Word or from a template's HTML has no editor state
-// yet: it starts from its HTML, once.
+// yet: it starts from its HTML, once. Somebody else in it already has,
+// and their state arrives over the relay first, so it waits for that.
+const SEED_AFTER_MS = 1500;
 watch(editor, (now) => {
 	if (!now || !state.value || state.value.content || !state.value.html) return;
-	now.commands.setContent(state.value.html);
-	dirty.value = true;
+	setTimeout(() => {
+		if (now.isDestroyed || !now.isEmpty) return;
+		now.commands.setContent(state.value.html);
+		dirty.value = true;
+	}, SEED_AFTER_MS);
 });
 
 // Where the document belongs, each step a way back: a record's document under
@@ -236,10 +280,21 @@ const fileMenu = computed(() => [
 							: { label: __("Lock"), icon: "lock", onClick: () => lock(true) },
 					]
 				: []),
+			{ label: __("Version History"), icon: "history", onClick: () => (showVersions.value = true) },
 			{ label: __("Save as Template"), icon: "copy-plus", onClick: () => (savingTemplate.value = true) },
 		],
 	},
 ]);
 
-onBeforeUnmount(() => (state.value = null));
+// What OneAI added on a card the reader approved goes in at the end of the
+// open copy, which saves it with the rest.
+const stopWritten = listen("one_document_written", (said) => {
+	if (said?.document !== state.value?.name || !said.html || !editor.value) return;
+	editor.value.commands.insertContentAt(editor.value.state.doc.content.size, said.html);
+});
+
+onBeforeUnmount(() => {
+	stopWritten?.();
+	state.value = null;
+});
 </script>

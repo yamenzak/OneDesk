@@ -86,6 +86,14 @@ GROUPS = {
 			"formel", "zelle", "جدول", "ورقة", "صيغة", "خلية", "مصنف",
 		),
 	},
+	"documents": {
+		"about": "documents written in OneCloud: find one, read what it says, write a new one, add to one",
+		"tools": ("my_documents", "read_document", "draft_document", "write_document"),
+		"words": (
+			"document", "letter", "scope", "minutes", "write", "draft", "report", "proposal", "dokument", "brief", "schreiben",
+			"مستند", "خطاب", "رسالة", "اكتب", "تقرير",
+		),
+	},
 	"crm": {
 		"about": "sales: deals and leads, what has gone quiet, why deals are lost, next steps, writing up a call",
 		"tools": ("crm_facts", "gone_quiet", "why_we_lose", "add_lead", "plan_next_step", "write_up_call"),
@@ -298,6 +306,7 @@ PAGES = {
 	"onemail": "mail",
 	"onecloud": "files",
 	"workbook": "workbooks",
+	"document": "documents",
 	"workspace-settings": "workspace",
 	"masters": "workspace",
 	"one-admin": "console",

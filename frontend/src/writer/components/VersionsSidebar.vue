@@ -12,22 +12,21 @@
         <span class="font-medium">{{ versionPreview[0].title }}</span>
       </div>
       <div v-else>
-        This is an automatic snapshot of this document from
-        {{ formatDateDDMMYY(versionPreview[0].title) }}.
+        {{ __('This is an automatic snapshot of this document from {0}.', [formatDateDDMMYY(versionPreview[0].title)]) }}
       </div>
       <div class="text-xs text-ink-gray-5">{{ __('Editing is disabled until you exit.') }}</div>
     </div>
     <div class="flex gap-2">
       <Button
         variant="ghost"
-        label="Exit"
+        :label="__('Exit')"
         class="hover:!bg-surface-gray-2 hover:underline"
         @click="showVersions = false"
       />
       <Button
         v-if="versionPreview"
         variant="solid"
-        label="Restore"
+        :label="__('Restore')"
         @click="restore(versionPreview[0])"
       />
     </div>
@@ -40,8 +39,8 @@
           class="w-full"
           as="div"
           :tabs="[
-            { value: 'automatic', label: 'Automatic' },
-            { value: 'manual', label: 'Manual' },
+            { value: 'automatic', label: __('Automatic') },
+            { value: 'manual', label: __('Manual') },
           ]"
         />
         <Button
@@ -60,7 +59,7 @@
           @click="
             () =>
               createDialog({
-                title: 'Create Version',
+                title: __('Create Version'),
                 size: 'sm',
                 component: h(NewVersionDialog, {
                   data: editor.getHTML(),
@@ -86,7 +85,7 @@
           <div v-if="title !== 'Manual'" class="text-ink-gray-5 text-sm font-medium mb-1 my-2">
             {{ title }}
           </div>
-          <div class="grid grid-cols-3 gap-0.5">
+          <div :class="tab === 'manual' ? 'flex flex-col gap-0.5' : 'grid grid-cols-3 gap-0.5'"><!-- One: a name gets the whole row -->
             <Button
               v-for="(version, i) in group"
               :key="version.name"
@@ -107,9 +106,11 @@
       <div v-if="!versionPreview" class="text-base border-b text-ink-gray-8 p-3 select-none">
         {{ __('This is the current version.') }}
       </div>
+      <!-- One: this frappe-ui's Editor draws no element of its own, so its classes go on a div -->
+      <div class="h-full overflow-y-auto">
+      <div class="diff-view prose prose-sm md:min-w-[48rem] md:max-w-[48rem] mx-auto py-8 px-10">
       <Editor
         v-if="editor?.getHTML"
-        class="diff-view prose prose-sm md:min-w-[48rem] md:max-w-[48rem] mx-auto py-8 px-10 h-full overflow-y-auto"
         :extensions="[RichTextKit, ...COMMON_EXTENSIONS, DiffTag]"
         :editable="false"
         :model-value="
@@ -130,6 +131,8 @@
           />
         </template>
       </Editor>
+      </div>
+      </div>
     </div>
   </div>
 </template>
@@ -220,6 +223,7 @@ import { Button, createResource, Tabs, toast } from 'frappe-ui'
 import { Editor, EditorContent, RichTextKit } from 'frappe-ui/editor'
 import { clearDialogs, createDialog } from '@/apps/writer/utils/dialogs'
 import NewVersionDialog from './NewVersionDialog.vue'
+import { __ } from '../../kit/desk' // One: the desk's translations
 
 const props = defineProps({
   settings: Object,
@@ -232,7 +236,7 @@ const showVersions = defineModel('showVersions')
 
 const file = inject('file')
 const versions = createResource({
-  url: 'suite.writer.api.general.get_versions',
+  url: 'onedesk.one_doc.versions.listed', // One: the history through one_doc/versions.py
   params: { id: file.doc.name },
   cache: ['versions', file.doc?.name],
   initialData: [],
@@ -272,7 +276,7 @@ const groupedVersions = computed(() => {
   } else {
     return {
       Manual: [...manualVersions.value].sort((a, b) => {
-        return new Date(b.title) - new Date(a.title)
+          return new Date(b.creation) - new Date(a.creation) // One: a named version's title is not a date
       }),
     }
   }
@@ -292,19 +296,19 @@ const getPrevious = (version) => {
 
 const restore = (version) => {
   createDialog({
-    title: 'Are you sure?',
+    title: __('Restore this version?'),
     size: 'sm',
     message: version.manual
-      ? `You are restoring to a previous version: ${version.title}.`
-      : `You are restoring the document to how it was at ${formatDateDDMMYY(version.title)}.`,
+      ? __('You are restoring to a previous version: {0}.', [version.title])
+      : __('You are restoring the document to how it was at {0}.', [formatDateDDMMYY(version.title)]),
     actions: [
       {
-        label: 'Confirm',
+        label: __('Restore'),
         variant: 'solid',
         onClick: () => {
           props.editor.commands.setContent(version.snapshot)
           toast.success(
-            `Restored a previous version - ${version.manual ? version.title : formatDateDDMMYY(version.title)}`,
+            __('Restored {0}', [version.manual ? version.title : formatDateDDMMYY(version.title)]),
           )
           showVersions.value = false
           clearDialogs()

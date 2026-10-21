@@ -40759,8 +40759,8 @@ msgid "The OneAI model the call ran on."
 msgstr "Das OneAI-Modell, auf dem der Aufruf lief."
 
 #: onedesk/one/settings.py:1363
-msgid "The OneAI panel and Ask in a workbook: answers, look-ups, summaries and formulas."
-msgstr "Das OneAI-Panel und „Fragen“ in einer Arbeitsmappe: Antworten, Nachschlagen, Zusammenfassungen und Formeln."
+msgid "The OneAI panel and Ask in a workbook or a document: answers, look-ups, summaries, formulas and writing."
+msgstr "Das OneAI-Panel und „Fragen“ in einer Arbeitsmappe oder einem Dokument: Antworten, Nachschlagen, Zusammenfassungen, Formeln und Texte."
 
 #: onedesk/one/settings.py:2101
 msgid "The Person on the Record"
@@ -55888,3 +55888,113 @@ msgstr "{workspace} war gesperrt und wurde nicht bezahlt, daher ist er jetzt off
 msgid "{workspace}: {state}"
 msgstr "{workspace}: {state}"
 
+msgid "About the selected text."
+msgstr "Zum markierten Text."
+
+msgid "About the whole document. What comes back goes in at the cursor."
+msgstr "Zum ganzen Dokument. Was zurückkommt, wird an der Einfügemarke eingefügt."
+
+msgid "Adds"
+msgstr "Fügt hinzu"
+
+msgid "Create Document {0}"
+msgstr "Dokument {0} erstellen"
+
+msgid "Create Version"
+msgstr "Version erstellen"
+
+msgid "Documents cannot be created in a mounted drive."
+msgstr "In einem eingebundenen Laufwerk können keine Dokumente erstellt werden."
+
+msgid "Download as HTML"
+msgstr "Als HTML herunterladen"
+
+msgid "Download as Markdown"
+msgstr "Als Markdown herunterladen"
+
+msgid "Editing is disabled until you exit."
+msgstr "Bearbeiten ist deaktiviert, bis Sie den Verlauf verlassen."
+
+msgid "Exit"
+msgstr "Verlassen"
+
+msgid "Insert a Template"
+msgstr "Vorlage einfügen"
+
+msgid "Manual"
+msgstr "Manuell"
+
+msgid "No file was sent."
+msgstr "Es wurde keine Datei gesendet."
+
+msgid "None yet."
+msgstr "Noch keine."
+
+msgid "OneAI could not answer."
+msgstr "OneAI konnte nicht antworten."
+
+msgid "OneAI had nothing to add."
+msgstr "OneAI hatte nichts hinzuzufügen."
+
+msgid "Opens with"
+msgstr "Beginnt mit"
+
+msgid "Page Setup"
+msgstr "Seite einrichten"
+
+msgid "Read only"
+msgstr "Nur lesen"
+
+msgid "Restore this version?"
+msgstr "Diese Version wiederherstellen?"
+
+msgid "Restored {0}"
+msgstr "{0} wiederhergestellt"
+
+msgid "This document"
+msgstr "Dieses Dokument"
+
+msgid "This document could not be opened."
+msgstr "Dieses Dokument konnte nicht geöffnet werden."
+
+msgid "This document is not a template."
+msgstr "Dieses Dokument ist keine Vorlage."
+
+msgid "This document is too large to save."
+msgstr "Dieses Dokument ist zu groß zum Speichern."
+
+msgid "This document no longer exists."
+msgstr "Dieses Dokument existiert nicht mehr."
+
+msgid "This file is too large to put into a document."
+msgstr "Diese Datei ist zu groß, um sie in ein Dokument einzufügen."
+
+msgid "This is an automatic snapshot of this document from {0}."
+msgstr "Dies ist eine automatische Momentaufnahme dieses Dokuments vom {0}."
+
+msgid "This is the current version."
+msgstr "Dies ist die aktuelle Version."
+
+msgid "Untitled Document"
+msgstr "Unbenanntes Dokument"
+
+msgid "Version History"
+msgstr "Versionsverlauf"
+
+msgid "You are restoring the document to how it was at {0}."
+msgstr "Sie stellen das Dokument so wieder her, wie es am {0} war."
+
+msgid "You are restoring to a previous version: {0}."
+msgstr "Sie stellen eine frühere Version wieder her: {0}."
+
+msgid "You are viewing the version history of"
+msgstr "Sie sehen den Versionsverlauf von"
+
+msgid "You do not have permission to open this document."
+msgstr "Sie haben keine Berechtigung, dieses Dokument zu öffnen."
+
+msgid "e.g. Make this shorter and more formal"
+msgstr "z. B. Kürzer und förmlicher formulieren"
+
+msgid "e.g. Write a paragraph on the payment terms"
+msgstr "z. B. Einen Absatz zu den Zahlungsbedingungen schreiben"

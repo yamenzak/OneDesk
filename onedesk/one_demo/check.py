@@ -5569,6 +5569,57 @@ def a_document_is_written_in_onecloud():
 
 
 @check
+def a_document_keeps_its_versions_and_asks_oneai():
+	"""Layla's document keeps a version taken while writing and one she
+	names, but not two taken within ten minutes. Ask in the document puts
+	OneAI's words in or answers; OneAI finds and reads it, suggests a new
+	one and adds to this one as cards, and a reader who may not open it is
+	not told it exists. All undone afterwards."""
+	from unittest import mock
+
+	from onedesk.one_ai import proposals, tools
+	from onedesk.one_doc import ai, api, assist, versions
+
+	frappe.db.savepoint("doc_ai_check")
+	try:
+		with as_user(OWNER):
+			name = api.make("@my", "Minutes check")["document"]
+			api.save_document(name, "AAA=", "<h1>Minutes</h1><p>Glass arrives Monday.</p>")
+			assert versions.new_version(name, "<p>First</p>")["manual"] == 0
+			assert versions.new_version(name, "<p>Second</p>") is None, "not two within ten minutes"
+			assert versions.new_version(name, "<p>Second</p>", "Before review")["title"] == "Before review"
+			assert [one["title"] for one in versions.listed(name)][-1] == "Before review"
+			asked = []
+			with mock.patch("onedesk.one_ai.run.once", side_effect=lambda action, text, **kw: asked.append(text) or '{"html": "<p>Glass <script>x</script>arrives Tuesday.</p>"}'):
+				told = assist.ai_assist(name, "Make it Tuesday", "<p>Glass arrives Monday.</p>")
+			assert told == {"html": "<p>Glass arrives Tuesday.</p>"}, told
+			assert "Glass arrives Monday" in asked[0] and "The request: Make it Tuesday" in asked[0], asked
+			with mock.patch("onedesk.one_ai.run.once", return_value='{"answer": "Monday."}'):
+				assert assist.ai_assist(name, "When does glass arrive?") == {"answer": "Monday."}
+			found = ai.my_documents("Minutes check")
+			assert [one["document"] for one in found] == [name], found
+			assert "Glass arrives Monday." in ai.read_document(name)["text"]
+			assert "send its words" in ai.draft_document("Empty", "<p> </p>")["error"]
+			said = tools.run("draft_document", {"name": "Agenda check", "html": "<h1>Agenda</h1><p>Glass.</p>"})
+			assert not said["ran"] and said["answer"]["state"] == "Proposed", said
+			made = proposals.apply(said["answer"]["proposal"])["record"]
+			assert "<h1>Agenda</h1>" in frappe.db.get_value(api.DOCUMENT, made, "html")
+			added = ai.write_document(name, "<p>Next meeting Friday.</p>")
+			proposals.apply(added["proposal"])
+			held = frappe.db.get_value(api.DOCUMENT, name, ["html", "content"], as_dict=True)
+			assert held.html.endswith("<p>Next meeting Friday.</p>") and not held.content, "added at the end, opened from its HTML"
+		with as_user("rania@one.test"):
+			assert ai.my_documents("Minutes check") == [] and "error" in ai.read_document(name)
+			try:
+				versions.listed(name)
+				raise AssertionError("Rania read Layla's versions")
+			except frappe.PermissionError:
+				pass
+	finally:
+		frappe.db.rollback(save_point="doc_ai_check")
+
+
+@check
 def a_workbook_left_open_waits_on_the_bar():
 	"""A workbook left for another screen waits on the bar under its title;
 	one that is gone, or that the reader may not open, isn't named. All
