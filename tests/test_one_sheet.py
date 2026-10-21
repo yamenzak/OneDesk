@@ -265,3 +265,48 @@ def test_oneai_writes_cells_formats_and_notes_into_the_saved_shape():
 	assert data["sheet"]["sheets"]["Costing"]["rows"]["0"] == [None], "an empty value clears the cell"
 	data = room["noted"](data, "Costing", "C2", "Check this rate", "a@b.c", "A B", "2026-10-21")
 	assert data["comments"]["Costing"]["C2"]["thread"][0]["text"] == "Check this rate"
+
+
+def test_a_sheet_prints_as_it_is_drawn():
+	import html
+	import re
+
+	room = {"re": re, "escape_html": html.escape, "cint": lambda v: int(float(v or 0))}
+	_lifted(
+		SHEET / "paper.py",
+		("COL_W", "ROW_H", "FONT_SIZE", "GRID", "MOST_CELLS", "MOST_TEXT", "COLOUR", "FAMILY", "ALIGN", "VALIGN", "LINE", "SIDES", "_colour", "_px", "style", "_cells", "_merges", "bands", "_guess", "_table"),
+		room,
+	)
+	room["_picture"] = lambda url: url if url and url.startswith("/files/") else None
+	style = room["style"]
+	assert style({"bold": True, "color": "#ff0000", "align": "right"}) == "font-weight:bold;color:#ff0000;text-align:right"
+	assert style({"color": "red;background:url(x)", "fontFamily": "x;}</style>", "align": "justify"}) == "", "only the keys that print, and only safe values"
+	assert style({"borderTop": {"style": "medium", "color": "#123456"}}, gridlines=False) == (
+		"border-top:2px solid #123456;border-bottom:0;border-left:0;border-right:0"
+	)
+	assert room["bands"]([(0, 300), (1, 300), (2, 300), (3, 900)], 700) == [[(0, 300), (1, 300)], [(2, 300)], [(3, 900)]], "over, then down"
+	sheet = {
+		"size": [3, 4],
+		"cells": [
+			[0, 0, "A title that runs over the empty cells beside it", {"bold": True}],
+			[1, 0, "<b>x</b>", {}],
+			[1, 2, "under the merge", {}],
+			[2, 0, "", {}, "/files/logo.png"],
+			[2, 1, "", {}, "https://elsewhere.example/p.png"],
+		],
+		"merges": [[1, 1, 1, 2]],
+		"widths": {"0": 100},
+		"hidden_cols": [3],
+		"head": 1,
+	}
+	drawn = room["_table"](sheet, 10_000, True, True)
+	assert drawn.count("<table") == 1 and "<thead>" in drawn and "zoom" not in drawn
+	assert 'colspan="3"' in drawn, "a long text spills over its empty neighbours"
+	assert "&lt;b&gt;x&lt;/b&gt;" in drawn and "<b>x</b>" not in drawn
+	assert "under the merge" not in drawn and 'colspan="2"' in drawn, "a merge spans, and what is under it is hidden"
+	assert '<img src="/files/logo.png"' in drawn and "elsewhere" not in drawn, "pictures only from this site's files"
+	assert drawn.count("<col ") == 3, "a hidden column isn't printed"
+	narrow = room["_table"](sheet, 150, True, True)
+	assert "zoom:0.5000" in narrow, "fitted to the page"
+	cut = room["_table"](sheet, 150, False, False)
+	assert cut.count("<table") == 3 and "page-break-before" in cut and "grid" not in cut

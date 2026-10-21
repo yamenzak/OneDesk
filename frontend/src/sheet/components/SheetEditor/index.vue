@@ -102,7 +102,7 @@
         </template>
         <Dropdown :options="fileDropdownOptions" align="end">
           <template #default="{ open }">
-            <Button :variant="open ? 'subtle' : 'ghost'" size="sm" iconLeft="lucide-file-text" iconRight="lucide-chevron-down" :label="__('File')" :tooltip="__('Import / export')" />
+            <Button :variant="open ? 'subtle' : 'ghost'" size="sm" iconLeft="lucide-file-text" iconRight="lucide-chevron-down" :label="__('File')" :tooltip="__('Print, export and import')" />
           </template>
         </Dropdown>
         <input ref="csvInputRef"  name="csv-import"  type="file" accept=".csv"                   style="display:none" @change="importCSV" />
@@ -855,6 +855,7 @@
     <!-- One: templates, and the table's column map (one_sheet/templates.py, table.py). -->
     <AddSheetsDialog v-model="addSheetsOpen" :bound="bound" @add="addTemplateSheets" />
     <TemplateDialog v-model="templateOpen" :workbook="props.id" :name="currentTitle" :bound="bound" @saved="onTemplateSaved" />
+    <PrintDialog v-model="printOpen" :workbook="props.id" :current="currentSheet" :count="sheetNames.length" :bound="bound" :build="printSheets" />
     <NamedRangesDialog
       v-model="namedRangesDialogOpen"
       :named-ranges="namedRanges"
@@ -1350,6 +1351,8 @@ import { setContext }          from '../../engine/formula.js' // One: RECORD() a
 import { field as fieldOf, onFields, forget as forgetFields } from '../../shim/fields.js' // One: what FIELD() reads
 import AddSheetsDialog         from '../../shim/AddSheetsDialog.vue' // One: a template's sheets into this workbook
 import TemplateDialog          from '../../shim/TemplateDialog.vue' // One: templates
+import PrintDialog             from '../../shim/PrintDialog.vue' // One: printed under the letter head
+import { printable }           from '../../shim/printing.js' // One
 import { useSmartFill }        from './useSmartFill.js'
 import { cellHistory as fetchCellHistory } from '../../services/versions.js'
 import {
@@ -1931,10 +1934,13 @@ const FILTER_OPERATOR_OPTIONS = [
 ]
 
 const fileDropdownOptions = computed(() => [
+  // One: printed under the letter head (shim/PrintDialog.vue, one_sheet/paper.py).
+  { group: __('Print'), hideLabel: true, options: [
+    { label: __('Print'), icon: 'lucide-printer', onClick: () => { printOpen.value = true } },
+  ]},
   { group: __('Export'), options: [
     { label: __('Export as CSV'),  icon: 'lucide-download', onClick: () => exportCSV() },
     { label: __('Export as XLSX'), icon: 'lucide-download', onClick: () => exportXLSX() },
-    { label: __('Export as PDF'),  icon: 'lucide-printer',  onClick: () => exportPDF() },
   ]},
   // Import writes cells — hide it for viewers (export/read stays available).
   ...(readOnly.value ? [] : [{ group: __('Import'), options: [
@@ -1958,6 +1964,13 @@ const fileDropdownOptions = computed(() => [
 // One: templates, and adding a template's sheets to this workbook, each
 // under its own name or with a number after it when that is taken.
 const templateOpen = ref(false)
+const printOpen = ref(false) // One
+// One: what each sheet prints, from its own view (widths, hidden, frozen rows).
+function printSheets(all) {
+  const views = _sheetTabs?.viewSnapshot?.() || {}
+  const names = all ? sheet.getSheetNames() : [sheet.getCurrentSheet()]
+  return names.map((sn) => printable({ sheet, formats, merge, condFormat, validation }, sn, views[sn] || {}))
+}
 const addSheetsOpen = ref(false)
 function addTemplateSheets(sheets) {
   let last = ''
@@ -2225,7 +2238,7 @@ const unregisterPaletteGroups = useRootStore().registerPaletteGroups('sheets-edi
   }]
 })
 onScopeDispose(unregisterPaletteGroups)
-const { exportCSV, exportXLSX, exportPDF, importCSV, importXLSX, fileContent, readSource } = useExportImport({
+const { exportCSV, exportXLSX, importCSV, importXLSX, fileContent, readSource } = useExportImport({
   getSheet:        () => sheet,
   getCurrentTitle: () => currentTitle.value,
   getGrid:         () => grid,

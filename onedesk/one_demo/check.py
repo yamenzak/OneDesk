@@ -5473,6 +5473,37 @@ def a_spreadsheet_file_opens_and_saves_back_into_itself():
 
 
 @check
+def a_sheet_prints_under_the_letter_head():
+	"""A sheet prints as a PDF under the workspace's letter head, drawn as it
+	is on screen and never from HTML the editor sends; kept, it lands beside
+	the workbook in OneCloud. All undone afterwards."""
+	from onedesk.one_sheet import api, paper
+
+	frappe.db.savepoint("paper_check")
+	try:
+		with as_user(OWNER):
+			book = api.make("@my", "Paper check")["workbook"]
+			sheet = {"name": "Sheet1", "size": [2, 2], "cells": [[0, 0, "Item", {"bold": True}], [0, 1, "<script>x</script>", {}], [1, 0, "Glass", {}]], "head": 1}
+			top = frappe.db.get_value("Letter Head", {"is_default": 1}, "content") or ""
+			drawn = paper.page("Paper check", [sheet])
+			assert top[:40] in drawn and "&lt;script&gt;" in drawn and "<script>" not in drawn, "under the letter head, text as text"
+			paper.pdf(book, json.dumps([sheet]))
+			assert frappe.local.response.filecontent[:4] == b"%PDF" and frappe.local.response.filename == "Paper check - Sheet1.pdf"
+			kept = paper.pdf(book, json.dumps([sheet]), keep="cloud")
+			item = frappe.db.get_value("File", kept["id"], ["folder", "file_name"], as_dict=True)
+			assert item.folder == frappe.db.get_value("File", frappe.db.get_value("Workbook", book, "file"), "folder") and item.file_name.endswith(".pdf"), item
+			try:
+				paper.pdf(book, json.dumps([sheet]), keep="record")
+				raise AssertionError("a workbook on no record kept a print on one")
+			except frappe.ValidationError:
+				pass
+	finally:
+		for key in ("filecontent", "filename", "type"):
+			frappe.local.response.pop(key, None)
+		frappe.db.rollback(save_point="paper_check")
+
+
+@check
 def a_record_table_opens_as_a_workbook():
 	"""Layla opens a draft quotation's items in a workbook, raises a quantity
 	and adds a line: the quotation saves itself and sends ids and figures

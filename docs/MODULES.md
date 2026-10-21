@@ -712,6 +712,7 @@ No doctypes yet.
 * `onedesk.one_sheet.api.write_back`
 * `onedesk.one_sheet.assist.ai_assist`
 * `onedesk.one_sheet.live.admit`
+* `onedesk.one_sheet.paper.pdf`
 * `onedesk.one_sheet.table.make_missing`
 * `onedesk.one_sheet.table.open_table`
 * `onedesk.one_sheet.table.redrawn`

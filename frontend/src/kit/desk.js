@@ -167,6 +167,10 @@ export const quantity = (value, uom) => {
 
 export const requires = (paths) => frappe().require(paths);
 
+export const csrf = () => window.csrf_token || frappe().csrf_token || "";
+
+export const openTab = (url = "") => window.open(url, "_blank");
+
 export const jq = (el) => window.$(el);
 
 export const viewWidth = () => window.innerWidth;

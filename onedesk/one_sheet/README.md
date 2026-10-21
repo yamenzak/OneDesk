@@ -44,13 +44,28 @@ formulas out, and the file downloads.
   copy, hide or protect it.
 - The toolbar formats numbers, text and cells, merges cells, adds borders,
   filters and sorts, and inserts charts and pivot tables.
-- **File** imports a CSV or an Excel file and exports to CSV, Excel or PDF.
+- **File** prints, imports a CSV or an Excel file, and exports to CSV or Excel.
 - **Notes** (the speech bubble) lists every note in the workbook; Shift+F2
   adds one to the cell you are on.
 - **?** lists the keyboard shortcuts.
 
 Everything is saved as you type. "Saving…" and "Saved" beside the name say
 where it stands; if a save fails, **Retry** sends it again.
+
+## Printing
+
+**File › Print** prints this sheet or every sheet under the company's letter
+head, drawn as it looks: the numbers as they show, colours, borders, merged
+cells, column widths, pictures. Hidden rows and columns aren't printed.
+
+- **Orientation**: a sheet wider than a portrait page starts on its side.
+- **Fit to page width** shrinks a wide sheet to the page. Without it, the
+  columns that don't fit print on the next pages, as Excel does.
+- **Gridlines** and **Letter head** can be left off.
+
+**Print** opens the PDF in a tab of its own, where the browser prints or
+saves it. **Save PDF to OneCloud** keeps it beside the workbook; a record's
+workbook has **Attach PDF to** the record instead.
 
 ## Version history
 
@@ -243,6 +258,10 @@ whoever can open that folder. Somebody who may read it but not change it sees
   merged cells are.
 
 - A picture column shows the picture's address, not the picture.
+- Frozen rows are meant to head every printed page, as Excel's print titles
+  do; the wkhtmltopdf on the dev bench prints them once, at the top.
+- A print has no page numbers, and the letter head's foot comes after the
+  last sheet rather than at the foot of every page.
 - A link column searches every record of its type, not only the ones the
   form would offer for that field.
 
@@ -495,6 +514,23 @@ the new version came from anywhere else, so it reads the file in again.
 `save_sheet` leaves such a File's size alone. OneCloud's Download as Excel
 or CSV opens the editor with `?export=`, which exports once the workbook has
 loaded: only the browser can work a workbook's formulas out.
+
+### Printing, `paper.py`
+
+The editor sends what it draws, never HTML: for each sheet the text every
+cell shows (number formats applied, a tickbox as ✓), the format keys that
+print, merges, widths and heights from the sheet's own view, hidden rows and
+columns, and the frozen rows (`shim/printing.js`). `paper.style` turns only
+those keys into CSS and only safe values through (a colour, a font name, a
+border style); text is escaped; a picture prints only from this site's
+files (`printing.FILE_URL`). `paper.page` writes the page under the default
+Letter Head's top and foot, or one drawn from the company when there is
+none (`letter_heads.draw`), and `pdf` renders it with frappe's `get_pdf`,
+the wkhtmltopdf every record print uses. Fitting is CSS `zoom`; not fitting
+cuts the columns into runs that each fit (`bands`). `PX` is wkhtmltopdf's
+pixel as measured without smart shrinking (500px is 288pt), so a run is as
+wide as the paper. Kept, the PDF is a File beside the workbook's File, or on
+the bound record, under the reader's own permission to add there.
 
 ### OneAI's tools, `ai.py`
 
