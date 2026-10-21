@@ -56235,3 +56235,6 @@ msgstr "يكتب"
 
 msgid "From the template"
 msgstr "من القالب"
+
+msgid "Stop asking about this field"
+msgstr "التوقف عن السؤال عن هذا الحقل"

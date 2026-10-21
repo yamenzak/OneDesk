@@ -58,16 +58,19 @@ def test_a_workspaces_credits_are_its_administrators_and_its_own():
 	assert "tenant=" not in said.split("caller()")[0], "the tenant comes from the token, not the body"
 
 
-def test_a_settings_page_is_a_record_with_help_on_every_field():
-	"""A Single's route has no name, so it was read as a list; and every field
-	on one gets a mark that asks what it is for."""
+def test_a_settings_page_is_a_record_and_no_field_carries_a_mark():
+	"""A Single's route has no name, so it was read as a list. No field carries
+	a OneAI button: the field the reader was in when they opened the panel is
+	what it writes, or what the question is about."""
 	js = (tree.APP / "public" / "js" / "oneai.js").read_text()
 	assert "single ? route[1]" in js
-	assert "frm.meta.issingle && !PROSE.includes(df.fieldtype)" in js and "onedesk.oneai.explain" in js
+	fields = js[js.index("onedesk.oneai.fields = function"):js.index("onedesk.oneai.made = function")]
+	assert "<button" not in fields and "one-ai-help" not in js, "a button beside a field's label"
+	assert "this.justLeft()" in js and "JUST_LEFT_MS" in js
 	suggest = (tree.APP / "one_ai" / "suggest.py").read_text()
 	assert "issingle" in suggest and "Help me set this up" in suggest
 	panel = (tree.APP / "public" / "js" / "oneai" / "Panel.vue").read_text()
-	assert "opening && opening.ask" in panel
+	assert "opening && opening.ask" in panel and "opening && opening.about" in panel
 
 
 def test_no_oneai_button_on_a_page():

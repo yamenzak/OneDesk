@@ -56235,3 +56235,6 @@ msgstr "Schreibt"
 
 msgid "From the template"
 msgstr "Aus der Vorlage"
+
+msgid "Stop asking about this field"
+msgstr "Nicht mehr nach diesem Feld fragen"

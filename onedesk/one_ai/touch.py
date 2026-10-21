@@ -1,7 +1,7 @@
 """The field tools, and the badge on what OneAI wrote.
 
-One path, not two: a field's control opens the same panel and makes the same
-card. The badge shows while the field still says what `AI Touch` holds.
+One path, not two: opening the panel from a text field the reader was just
+in (public/js/oneai.js, justLeft) makes the same card any other edit makes. The badge shows while the field still says what `AI Touch` holds.
 """
 
 import json

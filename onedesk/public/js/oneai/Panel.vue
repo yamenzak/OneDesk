@@ -169,6 +169,10 @@
 				>
 					{{ here.label }}
 				</button>
+				<span v-if="about && useHere" class="one-ai-here__chip one-ai-here__chip--target">
+					{{ about.label }}
+					<button class="one-ai-waiting__off" :title="__('Stop asking about this field')" @click="about = null">×</button>
+				</span>
 			</div>
 
 			<div class="one-ai-ask" :class="{ 'one-ai-ask--busy': busy }" @click="box && box.focus()">
@@ -265,6 +269,10 @@ const listening = ref(false);
 
 const target = ref(null);
 
+// The field the reader was in when they opened the panel, when it is not one
+// OneAI writes: what a question is about (oneai.js, justLeft).
+const about = ref(null);
+
 const steps = ref([]);
 
 const offered = ref([]);
@@ -350,6 +358,11 @@ defineExpose({
 			target.value = opening.field;
 			return;
 		}
+		if (opening && opening.about) {
+			fresh();
+			about.value = opening.about;
+			return;
+		}
 		fresh();
 	},
 });
@@ -377,6 +390,7 @@ function fresh() {
 	stop();
 	busy.value = false;
 	target.value = null;
+	about.value = null;
 	chat.value = { name: null, title: null, said: [], spent: 0 };
 	cards.value = {};
 	view.value = "chat";
@@ -617,7 +631,7 @@ async function send(again) {
 		const started = await frappe.xcall("onedesk.one_ai.chat.say", {
 			text: asked,
 			chat: chat.value.name,
-			page: aimed.value || (useHere.value && props.here ? seeing(props.here) : null),
+			page: aimed.value || (useHere.value && props.here ? { ...seeing(props.here), ...(about.value ? { field: about.value.fieldname } : {}) } : null),
 			files: sending.map((one) => one.url),
 			field: target.value ? { ...target.value, value: current(), ...latest() } : null,
 		});

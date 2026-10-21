@@ -1168,24 +1168,13 @@ button.one-ai-model:hover {
 }
 
 .one-ai-write:hover img,
-.one-ai-write:focus-visible img,
-.one-ai-write--wrote img {
+.one-ai-write:focus-visible img {
 	filter: none;
 	opacity: 1;
 }
 
 .one-ai-write:hover {
 	background: var(--surface-gray-2);
-}
-
-.one-ai-help {
-	opacity: 0;
-	transition: opacity 0.15s ease, background 0.15s ease;
-}
-
-.frappe-control:hover .one-ai-help,
-.one-ai-help:focus-visible {
-	opacity: 1;
 }
 
 .one-ai-touched {

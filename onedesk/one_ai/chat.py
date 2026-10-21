@@ -986,10 +986,10 @@ def _field_asked(page) -> str | None:
 
 def _about(doctype: str, record: str, fieldname: str) -> str:
 	"""The one field a question is about, handed over with the question: what
-	it is for, what it holds, and what it may hold. Asked for by the mark beside
-	a settings field, whose question a small model otherwise answered from the
-	field list alone — "no change suggested" for an empty template field with
-	the obvious template sitting there."""
+	it is for, what it holds, and what it may hold. Sent when the panel is
+	opened from a field, a setting say, whose question a small model otherwise
+	answered from the field list alone — "no change suggested" for an empty
+	template field with the obvious template sitting there."""
 	if not fieldname:
 		return ""
 	from onedesk.one_ai import tools

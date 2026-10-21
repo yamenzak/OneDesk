@@ -594,9 +594,3 @@ a.one-shell-row:hover {
 	position: relative;
 }
 
-.one-field-float .one-ai-write {
-	position: absolute;
-	top: 6px;
-	right: 6px;
-	z-index: 1;
-}

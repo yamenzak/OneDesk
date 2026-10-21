@@ -56296,3 +56296,6 @@ msgstr ""
 
 msgid "From the template"
 msgstr ""
+
+msgid "Stop asking about this field"
+msgstr ""

@@ -60,8 +60,8 @@ you**, **Done**, **Refused** or **Out of date**. A card's own page has
 
 ## Writing in a field
 
-A text field, such as a description or a note, has the OneAI mark beside its
-label. Click it to **Write with OneAI**.
+Click in a text field, such as a description or a note, then open OneAI. It
+opens writing that field, named under the box with × to stop.
 
 - An empty field offers **Write a first draft**.
 - A field with text offers **Improve it**, **Make it shorter** and **Fix
@@ -69,17 +69,18 @@ label. Click it to **Write with OneAI**.
 - You can also say what to write in your own words.
 
 The text goes into the form, next to anything you haven't saved. Save as
-usual. While the field still says what OneAI wrote, the mark is in full colour
-(**Written by OneAI**). Once you change the text, it turns grey again.
+usual. While the field still says what OneAI wrote, its label carries the
+OneAI mark (**Written by OneAI**). Once you change the text, the mark goes.
 
 Any other field OneAI filled, such as a date, an amount or a customer, shows
 the same mark beside its label while it still holds what OneAI put there. A
 record made from a card says **Made by OneAI** under who created it. A record
 OneIntake made says so in a note at the top until somebody marks it checked.
 
-On a settings page, a field you may not know has a small mark beside its
-label. **Ask OneAI about this** explains the field and suggests a value on a
-card.
+Click in any other field, a setting you are not sure of say, then open
+OneAI, and the question is about that field: it explains it and suggests a
+value on a card. A field left more than a few seconds before you open OneAI
+is not taken as meant.
 
 The mail window has more, listed in OneMail's guide.
 

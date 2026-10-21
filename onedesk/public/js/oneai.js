@@ -67,7 +67,7 @@ onedesk.oneai = {
 			await frappe.require("oneai.bundle.js");
 			this.panel = onedesk.oneai.mount(document.body);
 		}
-		this.panel.open(opening || {});
+		this.panel.open(opening || this.justLeft() || {});
 	},
 
 	async count() {
@@ -118,34 +118,10 @@ onedesk.oneai.fields = function (frm) {
 	onedesk.oneai.landing(frm);
 	onedesk.oneai.unchanged(frm);
 
+	onedesk.oneai.follow(frm);
 	for (const field of frm.fields || []) {
 		const df = field.df || {};
-		if (frm.meta.issingle && !PROSE.includes(df.fieldtype)) onedesk.oneai.explain(frm, field);
 		if (!PROSE.includes(df.fieldtype) || !field.$wrapper) continue;
-		const top = field.$wrapper.find(".clearfix").first();
-		if (!top.length) continue;
-
-		const writable = frappe.perm.get_field_display_status(df, frm.doc, frm.perm) === "Write";
-		const drawn = top.find(".one-ai-write");
-		if (writable && !drawn.length) {
-			$(`<button type="button" class="one-ai-write"><img src="${MARK}" alt="${ONEAI}"></button>`)
-				.appendTo(top)
-				.on("click", (event) => {
-					event.preventDefault();
-					onedesk.oneai.open({
-						field: {
-							doctype: frm.doctype,
-							name: frm.is_new() ? "" : frm.docname,
-							fieldname: df.fieldname,
-							label: __(df.label || df.fieldname),
-							value: frm.doc[df.fieldname] || "",
-						},
-					});
-				});
-		} else if (!writable) {
-			drawn.remove();
-		}
-
 		onedesk.oneai.badge(frm, df.fieldname);
 		onedesk.oneai.watch(frm.doctype, df.fieldname);
 	}
@@ -193,26 +169,34 @@ $(document).on("click", "[data-one-ai-ask]", (event) => {
 	onedesk.oneai.open({ ask: $button.attr("data-one-ai-ask") });
 });
 
+// The field the reader was in when they opened the panel: a text field they
+// may change is written into, any other is what the question is about. A
+// field left more than a few seconds before is not meant.
 const ASKABLE = ["Check", "Select", "Link", "Data", "Int", "Float", "Currency", "Percent", "Duration", "Time", "Date", "Table MultiSelect", "Rating"];
+const JUST_LEFT_MS = 5000;
 
-onedesk.oneai.explain = function (frm, field) {
-	const df = field.df || {};
-	if (!ASKABLE.includes(df.fieldtype) || !field.$wrapper || df.hidden || df.read_only) return;
-	const top = field.$wrapper.find(".clearfix, .checkbox label").first();
-	if (!top.length || top.find(".one-ai-help").length) return;
-	$(`<button type="button" class="one-ai-write one-ai-help" title="${__("Ask {0} about this", [ONEAI])}"><img src="${MARK}" alt="${ONEAI}"></button>`)
-		.appendTo(top)
-		.on("click", (event) => {
-			event.preventDefault();
-			event.stopPropagation();
-			onedesk.oneai.open({
-				about: df.fieldname,
-				ask: __('What is "{0}" in {1} for? Suggest a value.', [
-					__(df.label || df.fieldname),
-					__(frm.doctype),
-				]),
-			});
-		});
+onedesk.oneai.follow = function (frm) {
+	if (!frm.wrapper || frm.__one_ai_follows) return;
+	frm.__one_ai_follows = true;
+	$(frm.wrapper).on("focusout", "[data-fieldname]", (event) => {
+		const fieldname = $(event.currentTarget).attr("data-fieldname");
+		const df = (frm.fields_dict[fieldname] || {}).df;
+		if (!df || df.hidden) return;
+		const writable = frappe.perm.get_field_display_status(df, frm.doc, frm.perm) === "Write";
+		const label = __(df.label || df.fieldname);
+		if (PROSE.includes(df.fieldtype) && writable) {
+			onedesk.oneai.left = { at: Date.now(), frm, field: { doctype: frm.doctype, name: frm.is_new() ? "" : frm.docname, fieldname, label, value: frm.doc[fieldname] || "" } };
+		} else if (ASKABLE.includes(df.fieldtype)) {
+			onedesk.oneai.left = { at: Date.now(), frm, about: { fieldname, label } };
+		}
+	});
+};
+
+onedesk.oneai.justLeft = function () {
+	const left = onedesk.oneai.left;
+	onedesk.oneai.left = null;
+	if (!left || Date.now() - left.at > JUST_LEFT_MS || left.frm !== window.cur_frm) return null;
+	return left.field ? { field: { ...left.field, value: left.frm.doc[left.field.fieldname] || "" } } : { about: left.about };
 };
 
 onedesk.oneai.changed = function (frm, drawn) {
@@ -252,19 +236,11 @@ onedesk.oneai.badge = function (frm, fieldname) {
 	const written = ((frm.doc.__onload || {}).ai_touched || {})[fieldname];
 	const still = written !== undefined && words(frm.doc[fieldname]) === words(written);
 
-	const button = top.find(".one-ai-write");
-	button
-		.toggleClass("one-ai-write--wrote", still)
-		.attr(
-			"title",
-			still ? __("Rewrite with {0}", [ONEAI]) : __("Write with {0}", [ONEAI]),
-		);
-
 	const mark = top.find(".one-ai-touched");
-	if (still && !button.length && !mark.length) {
+	if (still && !mark.length) {
 		$(`<img class="one-ai-touched" src="${MARK}" alt="${ONEAI}"
 				title="${__("Written by {0}", [ONEAI])}">`).appendTo(top);
-	} else if (!still || button.length) {
+	} else if (!still) {
 		mark.remove();
 	}
 };
