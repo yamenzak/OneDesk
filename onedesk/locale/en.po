@@ -54,6 +54,9 @@ msgstr "OneCloud"
 msgid "One Sheet"
 msgstr "OneWorkbook"
 
+msgid "One Doc"
+msgstr "OneWriter"
+
 msgid "One Mail"
 msgstr "OneMail"
 

@@ -1,0 +1,132 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-10-21 15:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "naming_rule": "Random",
+ "description": "A document's content, behind the File that puts it in OneCloud. Opened and saved only through one_doc/api.py, which asks OneCloud whether the reader may.",
+ "field_order": [
+  "title",
+  "file",
+  "content",
+  "html",
+  "settings",
+  "comments",
+  "byte_size",
+  "bound_doctype",
+  "bound_name",
+  "bound_field",
+  "is_template",
+  "source_kind"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "in_list_view": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "file",
+   "fieldtype": "Link",
+   "label": "File",
+   "options": "File",
+   "search_index": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "content",
+   "fieldtype": "Long Text",
+   "label": "Content",
+   "description": "The editor's Yjs state in base64, which the editor opens from."
+  },
+  {
+   "fieldname": "html",
+   "fieldtype": "Long Text",
+   "label": "HTML",
+   "description": "The same document as HTML, written on every save. Printing, search, exports and mail read it."
+  },
+  {
+   "fieldname": "settings",
+   "fieldtype": "JSON",
+   "label": "Page Setup"
+  },
+  {
+   "fieldname": "comments",
+   "fieldtype": "Long Text",
+   "label": "Comments",
+   "description": "The comments' Yjs state in base64."
+  },
+  {
+   "fieldname": "byte_size",
+   "fieldtype": "Int",
+   "label": "Size",
+   "read_only": 1
+  },
+  {
+   "fieldname": "bound_doctype",
+   "fieldtype": "Link",
+   "label": "Bound To",
+   "options": "DocType",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "bound_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Record",
+   "options": "bound_doctype",
+   "read_only": 1
+  },
+  {
+   "fieldname": "bound_field",
+   "fieldtype": "Data",
+   "label": "Field",
+   "read_only": 1
+  },
+  {
+   "fieldname": "is_template",
+   "fieldtype": "Check",
+   "label": "Is Template",
+   "read_only": 1,
+   "default": "0"
+  },
+  {
+   "fieldname": "source_kind",
+   "fieldtype": "Data",
+   "label": "Opened From",
+   "read_only": 1,
+   "description": "docx when this edits that File in place, its content written back to it."
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-21 15:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Doc",
+ "name": "Writer Document",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "role": "System Manager",
+   "report": 1,
+   "email": 0,
+   "print": 0,
+   "export": 0,
+   "share": 0
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "title",
+ "track_changes": 0
+}

@@ -22,6 +22,7 @@ export const SCREENS = [
 	{ who: "rania@one.test", path: "/desk/my-tasks", page: "my-tasks", sees: ["OneTask"] },
 	{ who: "rania@one.test", path: "/desk/timers", page: "timers", sees: ["Timers"] },
 	{ who: "wsadmin@one.test", path: "/desk/workbook/bayview-costing", page: "workbook", sees: ["Bayview tower costing"] },
+	{ who: "wsadmin@one.test", path: "/desk/document/bayview-scope", page: "document", sees: ["Bayview tower scope of works", "Curtain wall"] },
 	{ who: "samir@one.test", path: "/desk/onecalendar", page: "onecalendar", sees: ["Weekly site meeting"] },
 	{ who: "karim@one.test", path: "/desk/stock-on-hand", page: "stock-on-hand", sees: ["Stock on Hand", "Structural Silicone", "All Warehouses"], panel: true },
 	{ who: "karim@one.test", path: "/desk/item/ALU-6063", page: "item-view", sees: ["Aluminium Profile 6063", "On Hand", "Al Noor Aluminium", "Assign", "Files"], panel: false },

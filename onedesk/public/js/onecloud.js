@@ -442,6 +442,7 @@ onedesk.OneCloud = class OneCloud {
 	icon_of(item) {
 		if (item.icon) return item.icon;
 		if (item.workbook) return "file-spreadsheet";
+		if (item.document) return "file-text";
 		if (item.folder) return item.record ? "folder-open" : "folder";
 		const ext = this.extension(item);
 		const found = OneCloud.KINDS.find(([exts]) => exts.includes(ext));
@@ -454,6 +455,7 @@ onedesk.OneCloud = class OneCloud {
 		if (String(item.id).startsWith("@request/")) return __("File request");
 		if (item.folder) return __("Folder");
 		if (item.workbook) return __("Workbook");
+		if (item.document) return __("Document");
 		const ext = this.extension(item);
 		const found = OneCloud.KINDS.find(([exts]) => exts.includes(ext));
 		if (found) return found[2];
@@ -967,6 +969,8 @@ onedesk.OneCloud = class OneCloud {
 				return this.new_folder();
 			case "new-workbook":
 				return this.new_workbook();
+			case "new-document":
+				return this.new_document();
 			case "new-library":
 				return this.new_library();
 			case "new-mount":
@@ -1101,6 +1105,8 @@ onedesk.OneCloud = class OneCloud {
 		if (this.picker) return this.picker.on_pick(items.filter((one) => !one.folder));
 		const book = items.find((one) => one.workbook);
 		if (book && items.length === 1) return frappe.set_route("workbook", book.workbook);
+		const writing = items.find((one) => one.document);
+		if (writing && items.length === 1) return frappe.set_route("document", writing.document);
 		// An Excel or CSV file opens in the editor, and is saved back into itself.
 		const sheet = items.length === 1 && !items[0].folder && OneCloud.SHEETS.includes(this.extension(items[0])) ? items[0] : null;
 		if (sheet) return frappe.xcall("onedesk.one_sheet.api.open_file", { file: sheet.id }).then((made) => frappe.set_route("workbook", made.workbook));
@@ -1126,6 +1132,14 @@ onedesk.OneCloud = class OneCloud {
 		const made = await frappe.xcall("onedesk.one_sheet.api.make", { parent: this.node, template: template || null });
 		this.forget_tree(this.node);
 		frappe.set_route("workbook", made.workbook);
+	}
+
+	async new_document() {
+		const template = await onedesk.table_workbook.pick(await frappe.xcall("onedesk.one_doc.templates.listed"), __("Blank Document"));
+		if (template === null) return;
+		const made = await frappe.xcall("onedesk.one_doc.api.make", { parent: this.node, template: template || null });
+		this.forget_tree(this.node);
+		frappe.set_route("document", made.document);
 	}
 
 	async new_folder() {
@@ -1759,6 +1773,7 @@ onedesk.OneCloud = class OneCloud {
 			[
 				["new-folder", "folder-plus", __("Folder"), this.can_make_folder, "Ctrl+Shift+N"],
 				["new-workbook", "file-spreadsheet", __("Workbook"), this.can_add && !this.node.startsWith("@mount")],
+				["new-document", "file-text", __("Document"), this.can_add && !this.node.startsWith("@mount")],
 			],
 			[
 				["upload-files", "upload", __("Upload files"), this.can_add],
@@ -1834,6 +1849,7 @@ onedesk.OneCloud = class OneCloud {
 			[
 				["new-folder", "folder-plus", __("New folder"), this.can_make_folder, "Ctrl+Shift+N"],
 				["new-workbook", "file-spreadsheet", __("New Workbook"), this.can_add && !this.node.startsWith("@mount")],
+				["new-document", "file-text", __("New Document"), this.can_add && !this.node.startsWith("@mount")],
 				["upload-files", "upload", __("Upload files"), this.can_add],
 				["upload-folder", "folder-up", __("Upload folder"), this.can_add && this.kind() !== "record"],
 				["paste", "clipboard-paste", __("Paste"), this.can_add && !!this.clipboard, "Ctrl+V"],

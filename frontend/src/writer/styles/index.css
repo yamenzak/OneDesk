@@ -1,0 +1,6 @@
+/* Derived from frappe/suite@df7f341 (frontend/src/apps/writer)/styles/index.css. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md. */
+/* frappe ui includes Inter*/
+@import 'frappe-ui/style.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

@@ -12,16 +12,18 @@ SOURCE_SUFFIXES = {".py", ".js", ".ts", ".vue", ".css", ".scss"}
 #: Code taken whole from another project, held to that project's own rules and
 #: refreshed by copying (frontend/src/sheet/VENDORED.md). What we wrote around
 #: it, the page and the shims, is ours and checked like the rest.
-VENDORED = ROOT / "frontend" / "src" / "sheet"
-OURS_IN_VENDORED = ("WorkbookPage.vue", "seams.mjs", "shim/")
+VENDORED = (ROOT / "frontend" / "src" / "sheet", ROOT / "frontend" / "src" / "writer")
+OURS_IN_VENDORED = ("WorkbookPage.vue", "DocumentPage.vue", "seams.mjs", "shim/")
 
 
 def vendored(path: Path) -> bool:
-	try:
-		rest = str(Path(path).resolve().relative_to(VENDORED.resolve()))
-	except ValueError:
-		return False
-	return not any(rest == one or rest.startswith(one) for one in OURS_IN_VENDORED)
+	for root in VENDORED:
+		try:
+			rest = str(Path(path).resolve().relative_to(root.resolve()))
+		except ValueError:
+			continue
+		return not any(rest == one or rest.startswith(one) for one in OURS_IN_VENDORED)
+	return False
 
 
 def sources() -> list[Path]:

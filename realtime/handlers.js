@@ -1,5 +1,5 @@
 /**
- * Two people in one workbook, over the socket the bench already runs.
+ * Two people in one workbook or document, over the socket the bench already runs.
  *
  * Frappe's socketio process loads apps/<app>/realtime/handlers.js and calls it
  * once a connection (frappe/realtime/index.js), so this needs no second
@@ -9,11 +9,12 @@
  */
 
 // What a client may ask to join; what each means is one_sheet/live.py's.
-const KINDS = new Set(["workbook"]);
+const KINDS = new Set(["workbook", "document"]);
 
-// Events a reader may send: asking for the state, and being seen. Changing
-// cells, or answering with a whole state, needs the right to write.
-const READERS_MAY = new Set(["yjs_state_request", "yjs_awareness", "yjs_awareness_bye"]);
+// Events a reader may send: asking for the state, being seen, and a
+// document's comments, which reading is enough for. Changing cells or text,
+// or answering with a whole state, needs the right to write.
+const READERS_MAY = new Set(["yjs_state_request", "yjs_awareness", "yjs_awareness_bye", "yjs_comments"]);
 
 const MAX_BYTES = 2 * 1024 * 1024;
 const BURST = 300;

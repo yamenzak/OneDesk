@@ -27,6 +27,17 @@ export const colors = (el, ...names) => {
 
 export const go = (route) => frappe().set_route(route);
 
+export const goTo = (...route) => frappe().set_route(...route);
+
+// A desk URL with a query string, which set_route's options cannot carry
+// from every page (OneCloud's ?node=).
+export const goToUrl = (url) => frappe().router.push_state(url);
+
+export const userSettings = {
+	get: (doctype) => frappe().model.user_settings.get(doctype),
+	save: (doctype, key, value) => frappe().model.user_settings.save(doctype, key, value),
+};
+
 export const can = (action, doctype) => Boolean(frappe().model[`can_${action}`]?.(doctype));
 
 export const canReport = (name) => Boolean(frappe().boot.allowed_reports?.[name]);

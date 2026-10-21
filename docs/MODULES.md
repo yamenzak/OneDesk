@@ -194,6 +194,14 @@ No doctypes yet.
 | Workbook Change | 10 | document |
 | Workbook Version | 9 | document |
 
+## One Doc
+
+`onedesk/one_doc`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Writer Document | 12 | document |
+
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
@@ -481,6 +489,21 @@ No doctypes yet.
 * `onedesk.one_crm.record.log_call`
 * `onedesk.one_crm.record.overview`
 * `onedesk.one_crm.story.read`
+* `onedesk.one_doc.api.add_picture`
+* `onedesk.one_doc.api.download`
+* `onedesk.one_doc.api.drop_pictures`
+* `onedesk.one_doc.api.get_document`
+* `onedesk.one_doc.api.make`
+* `onedesk.one_doc.api.people`
+* `onedesk.one_doc.api.picture`
+* `onedesk.one_doc.api.picture_extension`
+* `onedesk.one_doc.api.rename_document`
+* `onedesk.one_doc.api.save_comments`
+* `onedesk.one_doc.api.save_document`
+* `onedesk.one_doc.api.save_settings`
+* `onedesk.one_doc.api.titles`
+* `onedesk.one_doc.templates.listed`
+* `onedesk.one_doc.templates.save_as`
 * `onedesk.one_hr.clock.punch`
 * `onedesk.one_hr.clock.ready`
 * `onedesk.one_hr.employee.get_assignable_masters`

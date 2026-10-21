@@ -36,6 +36,7 @@ STEPS = (
 	"studio",
 	"storage",
 	"workbook",
+	"document",
 	"intake",
 	"mail",
 )

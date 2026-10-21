@@ -1,0 +1,85 @@
+/* Derived from frappe/suite@df7f341 (frontend/src/apps/writer)/styles/editor.css. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md. */
+@import url('./fonts.css');
+@import url('./comment.css');
+@import url('./print.css');
+
+.prose.ProseMirror {
+  font-size: var(--editor-font-size, 15px);
+  line-height: var(--editor-line-height, 1.5);
+}
+
+/* frappe-ui's editor stylesheet puts `word-break: break-word` on .ProseMirror.
+   CSS Text 3 keeps that keyword only for legacy content, and engines disagree
+   on it: a word can be cut at the end of a line even though the whole word
+   fits on the next one. A document must move the word down instead. The class
+   is repeated to outrank the frappe-ui rule without !important. overflow-wrap
+   still keeps a long unbreakable string, such as a URL, inside the page. */
+.ProseMirror.ProseMirror {
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+.prose-v3 p + p {
+  margin-top: var(--paragraph-spacing-before, 0);
+}
+
+.prose-v3 p {
+  margin-bottom: var(--paragraph-spacing-after, 0);
+}
+
+.prose strong,
+b {
+  color: inherit !important;
+}
+
+.collaboration-carets__caret {
+  border-left: 1px solid #0d0d0d;
+  border-right: 1px solid #0d0d0d;
+  margin-left: -1px;
+  margin-right: -1px;
+  pointer-events: none;
+  position: relative;
+  word-break: normal;
+}
+
+/* Render the username above the caret */
+.collaboration-carets__label {
+  border-radius: 3px 3px 3px 0;
+  color: var(--ink-base);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 600;
+  left: -1px;
+  line-height: normal;
+  padding: 0.15rem 0.3rem;
+  position: absolute;
+  top: -1.4em;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.selection {
+  background: rgba(175, 204, 246, 0.95);
+  padding: 0.2em 0;
+}
+
+/* tiptap's Selection extension injects a rule that makes ::selection
+   transparent while the editor is unfocused, then redraws it as a decoration
+   only when editable — leaving read-only docs with no visible selection.
+   Restore the browser's native selection highlight there. */
+.ProseMirror[contenteditable='false'] *::selection {
+  background: Highlight !important;
+  color: HighlightText !important;
+}
+
+.ProseMirror[contenteditable='false'] *::-moz-selection {
+  background: Highlight !important;
+  color: HighlightText !important;
+}
+
+div[data-page-break='true'] {
+  page-break-after: always;
+  break-after: always;
+  border: 2px dashed lightgray;
+  margin: 25px 0px;
+}

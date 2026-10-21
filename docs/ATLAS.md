@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 76 | 4 | 26 | 0 |
+| onedesk | 77 | 4 | 27 | 0 |
 | frappe | 36 | 35 | 143 | 0 |
 | erpnext | 304 | 130 | 51 | 0 |
 | hrms | 103 | 19 | 8 | 0 |
@@ -62,6 +62,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | my_tasks (`frontend/src/task/MyTasks.vue`) | Task, Task Depends On, Timesheet, Timesheet Detail | – | – | – |
 | timers (`frontend/src/task/Timers.vue`) | Project, Task, Timesheet, Timesheet Detail | – | – | – |
 | workbook (`frontend/src/sheet/WorkbookPage.vue`) | Letter Head | – | – | – |
+| document (`frontend/src/writer/DocumentPage.vue`) | – | – | – | – |
 
 ## erpnext / Accounts
 
@@ -935,6 +936,14 @@ Pages: onecrm (on a rail or a home).
 | Calendar Feed | on a rail or a home | the administrator | untouched | yes | general |  | **none** |  |  |  |  |
 
 Pages: onecalendar (on a rail or a home).
+
+## onedesk / One Doc
+
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Writer Document | engine: a document's content, behind its File in OneCloud; it opens on the document page | not read | untouched | yes | general |  | **none** |  |  |  |  |
+
+Pages: document (opened by our screens).
 
 ## onedesk / One HR
 

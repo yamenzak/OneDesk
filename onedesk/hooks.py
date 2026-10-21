@@ -485,10 +485,11 @@ doc_events = {
 		"on_update": "onedesk.one_hr.tell.grievance_answered",
 	},
 	"File": {
-		"before_insert": "onedesk.one_sheet.api.copied",
+		"before_insert": ["onedesk.one_sheet.api.copied", "onedesk.one_doc.api.copied"],
 		"validate": ["onedesk.one_intake.switches.file_switched", "onedesk.one_project.media.kept_shown"],
 		"after_insert": [
 			"onedesk.one_sheet.api.placed",
+			"onedesk.one_doc.api.placed",
 			"onedesk.one_intake.pipeline.file_added",
 			"onedesk.one_project.media.changed",
 		],
@@ -504,6 +505,7 @@ doc_events = {
 			"onedesk.one_storage.live.changed",
 			"onedesk.one_project.media.changed",
 			"onedesk.one_sheet.api.file_gone",
+			"onedesk.one_doc.api.file_gone",
 		]
 	},
 	"Employee Onboarding": {
@@ -996,6 +998,7 @@ one_module_heirs = {
 	"EDI": ["OneBook"],
 	"ERPNext Integrations": ["OneBook"],
 	"One Sheet": ["OneCloud"],
+	"One Doc": ["OneCloud"],
 }
 
 one_makes_records = {

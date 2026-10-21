@@ -1,0 +1,50 @@
+<!-- Derived from frappe/suite@df7f341 (frontend/src/apps/writer)/components/ManageFont.vue. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md. -->
+<template>
+  <div class="flex gap-2">
+    <FormControl
+      class="w-15"
+      variant="outline"
+      type="number"
+      v-model="size"
+      @focus="$event.target.select()"
+      @update:modelValue="(val) => val && props.editor.commands.setFontSize(val + 'px')"
+    />
+    <FontSelect v-model="selected" :font_family :editor />
+  </div>
+</template>
+<script setup>
+import { FormControl } from 'frappe-ui'
+import { ref, watch } from 'vue'
+import { FONT_FAMILIES } from '@/apps/writer/utils'
+import FontSelect from './FontSelect.vue'
+
+const props = defineProps({
+  editor: Object,
+  font_size: Number,
+  font_family: String,
+})
+
+const selected = ref(props.font_family)
+const size = ref(props.font_size)
+
+// The editor is plain @tiptap/core (not reactive), so state reads don't
+// trigger re-runs — sync on transactions instead.
+const sync = () => {
+  selected.value =
+    FONT_FAMILIES.find((opt) => opt.isActive(props.editor))?.key || props.font_family
+  let fontSize = props.editor.getAttributes('textStyle')?.fontSize || props.font_size
+  if (typeof fontSize !== 'number') fontSize = parseFloat(fontSize)
+  if (!Number.isNaN(fontSize)) size.value = fontSize
+}
+
+watch(
+  () => props.editor,
+  (editor, _old, onCleanup) => {
+    if (typeof editor?.on !== 'function') return
+    sync()
+    editor.on('transaction', sync)
+    onCleanup(() => editor.off('transaction', sync))
+  },
+  { immediate: true },
+)
+</script>

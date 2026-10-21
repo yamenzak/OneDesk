@@ -1918,18 +1918,23 @@ html[dir="rtl"] body > div[style*="left: -9999px"] {
 	margin-bottom: 0;
 }
 
-.one-workbook-page .page-head {
+.one-workbook-page .page-head,
+.one-document-page .page-head {
 	display: none;
 }
 
 .one-workbook-page .page-body,
 .one-workbook-page .layout-main-section-wrapper,
-.one-workbook-page .layout-main-section {
+.one-workbook-page .layout-main-section,
+.one-document-page .page-body,
+.one-document-page .layout-main-section-wrapper,
+.one-document-page .layout-main-section {
 	max-width: none;
 	margin: 0;
 	padding: 0;
 }
 
-.one-workbook-page .one-island {
+.one-workbook-page .one-island,
+.one-document-page .one-island {
 	height: calc(100dvh - var(--one-bar-offset, 0px));
 }

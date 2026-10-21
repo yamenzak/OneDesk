@@ -5497,6 +5497,77 @@ def a_sheet_prints_under_the_letter_head():
 		frappe.db.rollback(save_point="paper_check")
 
 
+#: A one-pixel PNG, for a picture put into a document.
+DOT_PNG = (
+	b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x06\x00\x00\x00\x1f\x15\xc4\x89"
+	b"\x00\x00\x00\rIDATx\x9cc\xf8\x0f\x00\x00\x01\x01\x00\x05\x18\xd8N\x00\x00\x00\x00IEND\xaeB`\x82"
+)
+
+
+@check
+def a_document_is_written_in_onecloud():
+	"""Layla writes a scope of works in her files. It opens with what she
+	saved and keeps its page setup, takes a new name, carries a picture only
+	its readers see, becomes a template another starts from, and a copy of it
+	is a document of its own. Somebody who may not open it learns nothing of
+	it. All undone afterwards."""
+	import io
+
+	from werkzeug.test import EnvironBuilder
+	from werkzeug.wrappers import Request
+
+	from onedesk.one_doc import api, templates
+
+	was = getattr(frappe.local, "request", None)
+	frappe.db.savepoint("doc_check")
+	try:
+		with as_user(OWNER):
+			name = api.make("@my", "Scope check")["document"]
+			api.save_document(name, "AAA=", "<h1>Scope</h1><p>Curtain wall.</p>")
+			said = api.get_document(name)
+			assert said["html"].startswith("<h1>Scope") and said["content"] == "AAA=" and said["can_write"], said
+			assert said["trail"][-1]["id"] == "@my", "the path back is its folder"
+			api.save_settings(name, json.dumps({"font_size": 17, "made_up": 1}))
+			assert api.get_document(name)["settings"] == {"font_size": 17}, "only what a page may be set to"
+			api.save_comments(name, "BBB=")
+			assert api.get_document(name)["comments"] == "BBB="
+			assert api.rename_document(name, "Scope of works check")["title"] == "Scope of works check"
+			assert api.titles(json.dumps([name, "no-such-document"])) == {name: "Scope of works check"}
+			assert any(one["email"] == OWNER for one in api.people()), "who may be mentioned"
+			sent = EnvironBuilder(path="/api/method/onedesk.one_doc.api.add_picture", method="POST", data={"file": (io.BytesIO(DOT_PNG), "dot.png")})
+			frappe.local.request = Request(sent.get_environ())
+			picture = api.add_picture(name)
+			assert picture["file_url"] == api.PICTURE + picture["name"]
+			assert api.picture_extension(picture["name"]) == "png"
+			api.picture(picture["name"])
+			assert frappe.local.response["filecontent"] == DOT_PNG
+			api.drop_pictures(json.dumps([picture["name"]]))
+			assert not frappe.db.exists("File", picture["name"])
+			api.download(name)
+			assert frappe.local.response["location"] == f"/desk/document/{name}"
+			template = templates.save_as(name, "Scope template")
+			assert any(one["name"] == template["name"] for one in templates.listed())
+			started = api.make("@my", "From the template", template["name"])["document"]
+			assert frappe.db.get_value(api.DOCUMENT, started, "html").startswith("<h1>Scope"), "a template's content"
+			copy = frappe.get_doc({"doctype": "File", "file_url": api.URL + name, "folder": frappe.db.get_value("File", said["file"], "folder"), "file_name": "Scope copy"})
+			copy.flags.ignore_permissions = True
+			copy.insert()
+			held = api.document_of(copy.file_url)
+			assert held != name and frappe.db.get_value(api.DOCUMENT, held, "file") == copy.name, "a copy is a document of its own"
+			frappe.delete_doc("File", copy.name, ignore_permissions=True)
+			assert not frappe.db.exists(api.DOCUMENT, held), "and goes with its File"
+		with as_user("Guest"):
+			assert api.titles([name]) == {}, "a reader who can't open it isn't told its name"
+			try:
+				api.get_document(name)
+				raise AssertionError("somebody who may not open the document opened it")
+			except frappe.PermissionError:
+				pass
+	finally:
+		frappe.local.request = was
+		frappe.db.rollback(save_point="doc_check")
+
+
 @check
 def a_workbook_left_open_waits_on_the_bar():
 	"""A workbook left for another screen waits on the bar under its title;
