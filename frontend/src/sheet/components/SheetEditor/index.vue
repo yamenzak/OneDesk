@@ -36,10 +36,10 @@
         <div class="sn-identity">
           <!-- One: the OneWorkbook mark, back to OneCloud (Suite's app menu is the desk's here). -->
           <a class="sn-app-menu-trigger" href="/desk/onecloud" :title="__('Back to OneCloud')" v-html="oneMark" />
-          <Breadcrumbs v-if="!isTitleEditing" :items="sheetBreadcrumbs" />
+          <Breadcrumbs v-if="!isTitleEditing" :items="sheetBreadcrumbs"><template #prefix="{ item }"><span v-if="item.one" class="font-light">{{ ONE }}</span></template></Breadcrumbs>
           <template v-else>
             <div class="flex min-w-0 items-center">
-              <Breadcrumbs class="sn-parent-breadcrumb" :items="sheetHomeBreadcrumbs" />
+              <Breadcrumbs class="sn-parent-breadcrumb" :items="sheetHomeBreadcrumbs"><template #prefix="{ item }"><span v-if="item.one" class="font-light">{{ ONE }}</span></template></Breadcrumbs>
               <span class="mx-0.5 text-base text-ink-gray-4" aria-hidden="true">/</span>
               <InlineRenameInput
                 v-model="currentTitle"
@@ -75,7 +75,7 @@
         </template>
         <Badge v-if="protectionNotice" theme="gray" variant="subtle" size="sm" :label="protectionNotice" :tooltip="protectionNotice" />
         <!-- One: why the record refused its table (one_sheet/table.py). -->
-        <Badge v-if="tableNotice" theme="orange" variant="subtle" size="sm" class="sn-table-notice" :label="tableNotice" :tooltip="tableNotice" />
+        <Badge v-if="tableNotice" theme="orange" variant="subtle" size="sm" class="sn-table-notice" :label="tableNotice" :tooltip="tableNotice"><Branded :text="tableNotice" /></Badge>
         <!-- View-only indicator — shown up front so a viewer knows they can't
              edit before they try. Neutral gray (not an error) because read
              access is expected, not a failure. Uses the Frappe UI Badge so it
@@ -1351,6 +1351,7 @@ import { setContext }          from '../../engine/formula.js' // One: RECORD() a
 import { field as fieldOf, onFields, forget as forgetFields } from '../../shim/fields.js' // One: what FIELD() reads
 import AddSheetsDialog         from '../../shim/AddSheetsDialog.vue' // One: a template's sheets into this workbook
 import TemplateDialog          from '../../shim/TemplateDialog.vue' // One: templates
+import Branded                 from '../../../kit/Branded.vue' // One: product names as the desk draws them
 import PrintDialog             from '../../shim/PrintDialog.vue' // One: printed under the letter head
 import { printable }           from '../../shim/printing.js' // One
 import { useSmartFill }        from './useSmartFill.js'
@@ -1371,8 +1372,9 @@ const appsMenuOption = useAppSwitcher('sheets', async () => {
 const themeMenuOption = useThemeMenuOption()
 const settingsMenuOption = useSettingsMenuOption()
 const isTitleEditing = ref(false)
+const ONE = 'One' // One: a name, not a word to translate
 const sheetHomeBreadcrumbs = computed(() => [
-  { label: 'OneCloud', onClick: () => window.frappe?.set_route('onecloud') },
+  { label: 'Cloud', one: true, onClick: () => window.frappe?.set_route('onecloud') }, // One: drawn as the desk draws a product's name
 ])
 const oneMark = mark('onesheet')
 const sheetBreadcrumbs = computed(() => [

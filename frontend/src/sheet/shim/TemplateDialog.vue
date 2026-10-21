@@ -6,7 +6,7 @@
 				<FormControl v-model="title" type="text" :label="__('Name')" :placeholder="__('e.g. Costing')" />
 				<p class="text-sm text-ink-gray-5">
 					{{ bound ? __("It keeps every sheet and the formulas in the table, but not the table's rows.") : __("It keeps every sheet as it is now.") }}
-					{{ __("It goes in OneCloud › Workbook Templates, where everyone in the company can start from it.") }}
+					<Branded :text="__('It goes in OneCloud › Workbook Templates, where everyone in the company can start from it.')" />
 				</p>
 				<p v-if="error" class="text-sm text-ink-red-4">{{ error }}</p>
 			</div>
@@ -20,6 +20,7 @@
 <script setup>
 import { Button, Dialog, FormControl } from "frappe-ui";
 import { computed, ref, watch } from "vue";
+import Branded from "../../kit/Branded.vue";
 import { __ } from "../../kit/desk";
 import { call } from "../utils/api.js";
 

@@ -8,14 +8,14 @@
 				<FormControl v-model="fit" type="checkbox" :label="__('Fit to page width')" />
 				<FormControl v-model="gridlines" type="checkbox" :label="__('Gridlines')" />
 				<FormControl v-model="head" type="select" :label="__('Letter head')" :options="heads" />
-				<p v-if="kept" class="text-sm text-ink-gray-5">{{ kept }}</p>
+				<p v-if="kept" class="text-sm text-ink-gray-5"><Branded :text="kept" /></p>
 				<p v-if="error" class="text-sm text-ink-red-4">{{ error }}</p>
 			</div>
 		</template>
 		<template #actions>
 			<div class="flex flex-col gap-2">
 				<Button variant="solid" class="w-full" :loading="busy === 'print'" :disabled="!!busy" @click="print">{{ __("Print") }}</Button>
-				<Button v-if="!bound" class="w-full" :loading="busy === 'cloud'" :disabled="!!busy" @click="keep('cloud')">{{ __("Save PDF to OneCloud") }}</Button>
+				<Button v-if="!bound" class="w-full" :loading="busy === 'cloud'" :disabled="!!busy" @click="keep('cloud')"><Branded :text="__('Save PDF to OneCloud')" /></Button>
 				<Button v-else class="w-full" :loading="busy === 'record'" :disabled="!!busy" @click="keep('record')">{{ __("Attach PDF to {0}", [bound.name]) }}</Button>
 			</div>
 		</template>
@@ -25,6 +25,7 @@
 <script setup>
 import { Button, Dialog, FormControl } from "frappe-ui";
 import { computed, onBeforeUnmount, ref, watch } from "vue";
+import Branded from "../../kit/Branded.vue";
 import { __, csrf, followList, openTab } from "../../kit/desk";
 import { call } from "../utils/api.js";
 
