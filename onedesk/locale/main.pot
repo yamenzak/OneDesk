@@ -40794,7 +40794,7 @@ msgid "The OneAI model the call ran on."
 msgstr ""
 
 #: onedesk/one/settings.py:1363
-msgid "The OneAI panel and Ask in a workbook or a document: answers, look-ups, summaries, formulas and writing."
+msgid "The OneAI panel: answers, look-ups, summaries, and what it writes in records, workbooks and documents."
 msgstr ""
 
 #: onedesk/one/settings.py:2101
@@ -56283,4 +56283,16 @@ msgid "Choose the default font family for this document."
 msgstr ""
 
 msgid "Choose the default font family for new documents."
+msgstr ""
+
+msgid "Rewrite in {0}"
+msgstr ""
+
+msgid "In place of"
+msgstr ""
+
+msgid "Writes"
+msgstr ""
+
+msgid "From the template"
 msgstr ""

@@ -559,6 +559,13 @@ function titled(said) {
 
 const aimed = ref(null);
 
+// The page as it is when the question is sent: what is selected in a
+// document or a workbook now, not when the page was opened (kit/desk.js, aiSees).
+const seeing = (here) => {
+	const seen = onedesk.oneai.seen;
+	return { ...here, selection: seen && here.page && seen.page === here.page ? seen : null };
+};
+
 function toMemory() {
 	frappe.set_route("settings", { section: "memory" });
 }
@@ -610,7 +617,7 @@ async function send(again) {
 		const started = await frappe.xcall("onedesk.one_ai.chat.say", {
 			text: asked,
 			chat: chat.value.name,
-			page: aimed.value || (useHere.value && props.here ? props.here : null),
+			page: aimed.value || (useHere.value && props.here ? seeing(props.here) : null),
 			files: sending.map((one) => one.url),
 			field: target.value ? { ...target.value, value: current(), ...latest() } : null,
 		});

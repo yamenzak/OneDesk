@@ -16,9 +16,6 @@
 			<span class="text-sm text-ink-gray-5">{{ status }}</span>
 			<div class="ml-auto flex items-center gap-2">
 				<UsersBar v-if="collaborators.length" :users="collaborators" />
-				<Button v-if="asking" variant="ghost" :label="__('Ask OneAI')" @click="showAsk = true">
-					<template #prefix><img :src="oneaiMark" class="size-4" alt="" /></template>
-				</Button>
 				<Button v-if="state?.can_write && settingsDoc.doc.settings.lock" icon="lucide-lock" variant="ghost" :tooltip="__('Unlock')" @click="lock(null)" />
 				<Dropdown v-if="state" :options="fileMenu" align="end">
 					<Button variant="ghost" icon-left="lucide-file" :label="__('File')" icon-right="lucide-chevron-down" />
@@ -50,7 +47,6 @@
 			<WriterSettings v-if="showSettings" v-model="showSettings" :doc-settings="settingsDoc" :global-settings="everywhere" :editable="editable" />
 			<TemplateDialog v-if="showTemplates" v-model="showTemplates" :editor="editor" />
 			<SaveTemplateDialog v-model="savingTemplate" :document="state.name" :name="state.title" />
-			<AskDialog v-if="asking" v-model="showAsk" :document="state.name" :editor="editor" />
 			<FieldDialog v-if="fielded" v-model="showFields" :document="state.name" :record="state.record" :editor="editor" />
 			<PrintDialog v-model="showPrint" :document="state.name" :record="state.record" />
 		</div>
@@ -63,7 +59,7 @@
 import { computed, onBeforeUnmount, onMounted, provide, reactive, ref, watch } from "vue";
 import { Breadcrumbs, Button, Dialogs, Dropdown } from "frappe-ui";
 
-import { __, call, goTo, goToUrl, listen, me, oneaiMark, oneaiOn, onLeave, userSettings } from "../kit/desk";
+import { __, aiSees, call, goTo, goToUrl, listen, me, onLeave, userSettings } from "../kit/desk";
 import InlineRenameInput from "../sheet/shim/InlineRenameInput.vue";
 import { mark } from "../sheet/shim/mark.js";
 import "../sheet/shim/fit.css";
@@ -74,7 +70,6 @@ import UsersBar from "./components/UsersBar.vue";
 import VersionsSidebar from "./components/VersionsSidebar.vue";
 import FDialogs from "./components/FDialogs.vue";
 import SaveTemplateDialog from "./shim/SaveTemplateDialog.vue";
-import AskDialog from "./shim/AskDialog.vue";
 import FieldDialog from "./shim/FieldDialog.vue";
 import PrintDialog from "./shim/PrintDialog.vue";
 import emitter from "./emitter";
@@ -97,8 +92,6 @@ const showSettings = ref(false);
 const showTemplates = ref(false);
 const savingTemplate = ref(false);
 const showVersions = ref(false);
-const showAsk = ref(false);
-const asking = computed(() => Boolean(state.value?.can_write && oneaiOn()));
 const showPrint = ref(false);
 const showFields = ref(false);
 // A document filed on a record can show the record's fields; a record's own
@@ -303,11 +296,71 @@ const fileMenu = computed(() => [
 	},
 ]);
 
-// What OneAI added on a card the reader approved goes in at the end of the
-// open copy, which saves it with the rest.
+// OneAI is asked in its own panel, which is told what is selected here, or
+// the paragraph the cursor is in, so "this" means the selection.
+let seenAt = null;
+function tellOneAI() {
+	clearTimeout(seenAt);
+	seenAt = setTimeout(() => {
+		const now = editor.value;
+		if (!now || !state.value) return aiSees(null);
+		const { from, to, $from } = now.state.selection;
+		aiSees({
+			page: "document",
+			document: state.value.name,
+			text: from === to ? "" : now.state.doc.textBetween(from, to, "\n").slice(0, 4000),
+			block: $from.parent.textContent.slice(0, 1000),
+		});
+	}, 300);
+}
+watch(editor, (now, was) => {
+	was?.off?.("selectionUpdate", tellOneAI);
+	now?.on?.("selectionUpdate", tellOneAI);
+});
+
+// The block a card's words go in place of, or after: where the reader left
+// it if it still says the same, else the first one that does.
+function blockSaying(text) {
+	const wanted = (text || "").split(/\s+/).join(" ").trim();
+	let found = null;
+	editor.value.state.doc.descendants((node, pos) => {
+		if (found || !node.isTextblock) return !found;
+		if (node.textContent.split(/\s+/).join(" ").trim() === wanted) found = { from: pos, to: pos + node.nodeSize };
+		return false;
+	});
+	return found;
+}
+
+function textAt(text) {
+	const doc = editor.value.state.doc;
+	const { from, to } = editor.value.state.selection;
+	if (from !== to && doc.textBetween(from, to, "\n") === text) return { from, to };
+	let found = null;
+	doc.descendants((node, pos) => {
+		if (found || !node.isText) return !found;
+		const at = node.text.indexOf(text);
+		if (at >= 0) found = { from: pos + at, to: pos + at + text.length };
+		return false;
+	});
+	return found || blockSaying(text);
+}
+
+// What OneAI wrote on a card the reader approved goes into the open copy, in
+// place of the selection, after the cursor's paragraph, or at the end, as
+// one edit undo takes back; the copy saves it with the rest.
 const stopWritten = listen("one_document_written", (said) => {
 	if (said?.document !== state.value?.name || !said.html || !editor.value) return;
-	editor.value.commands.insertContentAt(editor.value.state.doc.content.size, said.html);
+	const chain = editor.value.chain().focus();
+	const end = editor.value.state.doc.content.size;
+	if (said.where === "selection" && said.replacing) {
+		const at = textAt(said.replacing);
+		if (at) return chain.insertContentAt(at, said.html).run();
+	}
+	if (said.where === "after" && said.after) {
+		const at = blockSaying(said.after);
+		if (at) return chain.insertContentAt(at.to, said.html).run();
+	}
+	chain.insertContentAt(end, said.html).run();
 });
 
 // A Word file opened from OneCloud is written back into itself when it is
@@ -333,6 +386,7 @@ const printing = () => (showPrint.value = true);
 emitter.on("print-file", printing);
 
 onBeforeUnmount(() => {
+	aiSees(null);
 	writeBack();
 	stopLeaving();
 	emitter.off("print-file", printing);

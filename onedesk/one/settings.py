@@ -1360,9 +1360,9 @@ JOBS = (
 	{
 		"key": "chat",
 		"label": _lt("Chat", context="OneAI work"),
-		"about": _lt("The OneAI panel and Ask in a workbook or a document: answers, look-ups, summaries, formulas and writing."),
+		"about": _lt("The OneAI panel: answers, look-ups, summaries, and what it writes in records, workbooks and documents."),
 		"needs": "Text Generation",
-		"actions": ("chat", "find", "summarise", "chat_title", "sheet_assist", "doc_assist"),
+		"actions": ("chat", "find", "summarise", "chat_title"),
 	},
 	{
 		"key": "reading",

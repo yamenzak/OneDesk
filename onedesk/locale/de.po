@@ -40759,8 +40759,8 @@ msgid "The OneAI model the call ran on."
 msgstr "Das OneAI-Modell, auf dem der Aufruf lief."
 
 #: onedesk/one/settings.py:1363
-msgid "The OneAI panel and Ask in a workbook or a document: answers, look-ups, summaries, formulas and writing."
-msgstr "Das OneAI-Panel und „Fragen“ in einer Arbeitsmappe oder einem Dokument: Antworten, Nachschlagen, Zusammenfassungen, Formeln und Texte."
+msgid "The OneAI panel: answers, look-ups, summaries, and what it writes in records, workbooks and documents."
+msgstr "Das OneAI-Panel: Antworten, Nachschlagen, Zusammenfassungen und was es in Datensätze, Arbeitsmappen und Dokumente schreibt."
 
 #: onedesk/one/settings.py:2101
 msgid "The Person on the Record"
@@ -56223,3 +56223,15 @@ msgstr "Wählen Sie die Standardschrift für dieses Dokument."
 
 msgid "Choose the default font family for new documents."
 msgstr "Wählen Sie die Standardschrift für neue Dokumente."
+
+msgid "Rewrite in {0}"
+msgstr "Umschreiben in {0}"
+
+msgid "In place of"
+msgstr "Anstelle von"
+
+msgid "Writes"
+msgstr "Schreibt"
+
+msgid "From the template"
+msgstr "Aus der Vorlage"

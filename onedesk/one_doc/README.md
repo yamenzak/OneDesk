@@ -126,15 +126,19 @@ Somebody who may only read sees the writing as it happens and can comment.
 
 ## Asking OneAI
 
-**Ask OneAI** in the head takes a request about the selection, or about the
-whole document when nothing is selected. OneAI either writes words, which go
-in place of the selection or at the cursor as one edit undo takes back, or
-answers in the dialog. It is charged to the account's credits like any other
-request.
+OneAI is asked in its own panel, at the bottom right, as everywhere else. On
+a document it is told which document is open, what it says, the record it
+is on with that record's fields, and what you have selected, or the
+paragraph your cursor is in. So "make this shorter", "translate this into
+Arabic" or "add a paragraph on the payment terms after this" is about your
+selection. What it writes is a card you approve: in place of the
+selection, after the paragraph, or at the end. Approving puts it in the
+open document as one edit undo takes back.
 
-In the OneAI panel it finds documents by name, reads them, and suggests a new
-document or something to add at the end of one, as a card nothing happens
-until you approve.
+It also finds documents by name and reads them, and makes new ones: in a
+folder or on a record, from a template or not. "Make a covering letter on
+this quotation from the template" makes one whose fields print what the
+quotation says. Each question costs credits like any other OneAI request.
 
 ## What is not built yet
 
@@ -209,14 +213,19 @@ asks whoever is there for the current state when it joins, and saves two
 seconds after the last change. Two people saving the same state is harmless
 because each save is the whole document.
 
-`assist.ai_assist` sends the document's text, the selection's text and the
-request through the `doc_assist` action and returns sanitised HTML or an
-answer; the editor inserts it, so nothing is written server-side. The panel's
-tools are `ai.py`. An approved addition is appended to the stored HTML and
-the editor state cleared, so the next open builds from the HTML; the
-approver's open copy is told over `one_document_written` and draws it in
-straight away, which saves the state again. Somebody else with it open at
-that moment would save over the addition, which is the one gap here.
+The page tells the panel the selection and the cursor's paragraph on every
+selection change (`kit/desk.js`, `aiSees`), the panel sends it with the
+question, and `ai.page` tells the model the document, what it says, its
+record's fields and the selection. `chat._ran` keeps the page in
+`frappe.flags.one_ai_page`, so `write_document` takes the selected text from
+it rather than from the model. On approval, `ai.placed` puts the words into
+the stored HTML where it can find the place (a whole paragraph, or text
+inside one) and clears the editor state; the approver's open copy is told
+over `one_document_written` and puts them in at the selection, after the
+paragraph, or at the end, which saves the state again. A selection across
+paragraphs is put in by the open copy alone. Somebody else with the document
+open at that moment would save over a change the server made, which is the
+one gap here.
 
 ### A record's text
 

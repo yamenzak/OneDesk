@@ -77,3 +77,16 @@ def find_documents(
 		if len(out) >= MOST_FOUND:
 			break
 	return {"documents": out}
+
+
+def page(said: dict) -> str | None:
+	"""The sentence the model is told on Ready to Submit."""
+	if said.get("page") != "ready-to-submit":
+		return None
+	return (
+		"The reader is on Ready to Submit, which lists the drafts OneAI made from bills, receipts and payment "
+		"advices that the reader may submit, where the facts checked out, the party is known and the total "
+		"matches the document; a draft that disagrees with its order or looks like a duplicate shows in red. "
+		"Each is submitted from its own page. list_records on Purchase Invoice with docstatus 0 reads the "
+		"drafts. How OneIntake works is in its documentation (how_to)."
+	)

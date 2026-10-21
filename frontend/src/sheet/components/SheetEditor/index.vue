@@ -87,19 +87,7 @@
         </Tooltip>
       </div>
       <div class="sn-topbar-right">
-        <!-- AI Assist entry point — shown only when an admin has configured a
-             key and enabled it (gated server-side via the boot flag). -->
-        <template v-if="aiEnabled && !readOnly">
-          <Button
-            variant="ghost"
-            size="sm"
-            icon="lucide-sparkles"
-            :label="__('Ask AI')"
-            :tooltip="__('Ask AI to work on your selection')"
-            @click="openAskBar"
-          />
-          <span class="sn-topbar-divider" aria-hidden="true" />
-        </template>
+        <!-- One: OneAI is asked from its own panel, which is told the selection (aiSees) -->
         <Dropdown :options="fileDropdownOptions" align="end">
           <template #default="{ open }">
             <Button :variant="open ? 'subtle' : 'ghost'" size="sm" iconLeft="lucide-file-text" iconRight="lucide-chevron-down" :label="__('File')" :tooltip="__('Print, export and import')" />
@@ -874,22 +862,6 @@
       @shares-changed="shareCount = $event"
     />
 
-    <!-- AI Assist settings (in-app, never the desk form) -->
-    <AISettingsDialog v-model="aiSettingsOpen" @saved="onAiSettingsSaved" />
-
-    <!-- AI Assist "Ask" command bar -->
-    <AskBar
-      v-if="askOpen"
-      :busy="askBusy"
-      :selection-label="askSelectionLabel"
-      :error="askError"
-      :answer="askAnswer"
-      :pending="aiPending"
-      @submit="onAskSubmit"
-      @keep="onAskKeep"
-      @undo="onAskUndo"
-      @close="closeAskBar"
-    />
 
     <!-- Find & Replace panel -->
     <FindReplace
@@ -1328,8 +1300,6 @@ import CellHistoryPopover      from './CellHistoryPopover.vue'
 import SplitTextPopover        from './SplitTextPopover.vue'
 import LinkPreviewCard         from './LinkPreviewCard.vue'
 import ShareDialog             from './ShareDialog.vue'
-import AISettingsDialog        from './AISettingsDialog.vue'
-import AskBar                  from './AskBar.vue'
 import PivotDialog             from './PivotDialog.vue'
 import ColorPicker             from './ColorPicker.vue'
 import { createPivotEngine } from '../../engine/pivot.js'
@@ -1339,7 +1309,7 @@ import ChartDialog             from './ChartDialog.vue'
 import ChartOverlay            from './ChartOverlay.vue'
 import InlineRenameInput       from '@/apps/drive/components/InlineRenameInput.vue'
 import { mark } from '../../shim/mark.js' // One: the OneWorkbook mark
-import { __ } from '../../../kit/desk'
+import { __, aiSees } from '../../../kit/desk'
 import { createNamedRanges }   from '../../engine/named-ranges.js'
 import { getFunctionNames }    from '../../engine/formula.js'
 import NamedRangesDialog       from './NamedRangesDialog.vue'
@@ -1972,13 +1942,6 @@ const fileDropdownOptions = computed(() => [
     { label: __('Save as Template'), icon: 'lucide-layout-template', onClick: () => { templateOpen.value = true } },
     ...(!readOnly.value ? [{ label: __('Add Sheets From a Template'), icon: 'lucide-copy-plus', onClick: () => { addSheetsOpen.value = true } }] : []),
   ]},
-  // Only shown to admins — gated server-side via the boot flag so non-admins
-  // never see a settings entry they can't use.
-  ...(window.frappe?.boot?.ai_assist_can_configure
-    ? [{ group: __('AI'), options: [
-        { label: __('AI settings'), icon: 'lucide-cpu', onClick: () => { aiSettingsOpen.value = true } },
-      ]}]
-    : []),
 ])
 
 // One: templates, and adding a template's sheets to this workbook, each
@@ -2116,131 +2079,6 @@ function onTemplateSaved(made) {
   window.frappe?.show_alert?.({ message: __('Saved as a template: {0}', [made.title]), indicator: 'green' })
 }
 
-// ── AI Assist ─────────────────────────────────────────────────────────────────
-//
-// One primitive: select → ask in plain words → see it applied → Keep or Undo.
-// The backend returns a validated action plan; the model emits formulas, the
-// engine computes. Applying goes through the same pushOp + _queueOp path that
-// fill/paste use, so a single Undo reverts the whole batch and the change
-// joins the existing op-log / autosave / collab pipeline.
-
-const aiEnabled  = ref(!!window.frappe?.boot?.ai_assist_enabled)
-const askOpen    = ref(false)
-const askBusy    = ref(false)
-const askError   = ref('')
-const askAnswer  = ref('')
-const aiPending  = ref(null)              // null | { count }
-const askSelectionLabel = ref('')
-
-// After saving AI settings, refresh the boot flag + reactive ref in-place so
-// the "Ask" entry point appears/disappears without a full reload.
-function onAiSettingsSaved(s) {
-  // The keyless "mock"/"demo" model counts as configured too.
-  const isMock = ['mock', 'demo'].includes(String(s?.model || '').trim().toLowerCase())
-  const on = !!(s?.enabled && (s?.keyIsSet || isMock))
-  if (window.frappe?.boot) window.frappe.boot.ai_assist_enabled = on
-  aiEnabled.value = on
-}
-
-function openAskBar() {
-  askError.value = ''
-  askAnswer.value = ''
-  aiPending.value = null
-  askSelectionLabel.value = grid?.getActiveCell?.() || ''
-  askOpen.value = true
-}
-
-function closeAskBar() {
-  // Closing with a pending change is an implicit Keep — it's already applied
-  // and queued.
-  askOpen.value = false
-  askError.value = ''
-  askAnswer.value = ''
-  aiPending.value = null
-}
-
-async function onAskSubmit(promptText) {
-  askError.value = ''
-  askAnswer.value = ''
-  aiPending.value = null
-  askBusy.value = true
-  try {
-    const sel = grid?.getSelection?.() || { r0: 0, c0: 0, r1: 0, c1: 0 }
-    const selection = JSON.stringify({
-      sheet:  sheet.getCurrentSheet(),
-      r0: sel.r0, c0: sel.c0, r1: sel.r1, c1: sel.c1,
-      active: grid?.getActiveCell?.() || '',
-    })
-    const res = await call('onedesk.one_sheet.assist.ai_assist', { // One: through OneAI
-      name: props.id, prompt: promptText, selection,
-    })
-    const actions = Array.isArray(res?.actions) ? res.actions : []
-    const answers = actions.filter(a => a.type === 'answer')
-    if (answers.length) askAnswer.value = answers.map(a => a.text).join('\n\n')
-    const applied = _applyAiActions(actions)
-    if (applied > 0) aiPending.value = { count: applied }
-    else if (!answers.length) askAnswer.value = __('No changes suggested for that.')
-  } catch (e) {
-    askError.value = (e && e.message) ? String(e.message) : __('Something went wrong')
-  } finally {
-    askBusy.value = false
-  }
-}
-
-// Apply setCell actions as ONE undoable op (mirrors the fill/paste path).
-// Returns the number of cells written.
-function _applyAiActions(actions) {
-  const sn = sheet.getCurrentSheet()
-  let setCells = actions.filter(a => a.type === 'setCell')
-  // Drop writes that land on protected cells (rest still apply).
-  const allowed = setCells.filter(a => !_cellSilentlyProtected(a.cell, sn))
-  if (allowed.length !== setCells.length) _flashProtected(sn)
-  setCells = allowed
-  if (!setCells.length) return 0
-
-  const before = {}
-  const after  = {}
-  for (const a of setCells) before[a.cell] = sheet.getCell(a.cell, sn) ?? ''
-  for (const a of setCells) {
-    sheet.setCell(a.cell, a.formula, sn)
-    after[a.cell] = a.formula
-  }
-  const refs = setCells.map(a => a.cell)
-
-  // Undo (op-based, like fill) + server sync (op-log on next save).
-  history.pushOp({ opType: 'ai_assist', subSheet: sn, cellRefs: refs, before, after })
-  _queueOp({
-    opType: 'ai_assist', subSheet: sn, cellRefs: refs, before, after,
-    summary: `AI: ${refs.length} cell${refs.length === 1 ? '' : 's'}`,
-  })
-
-  grid?.render()
-  refreshActiveFormat()
-  syncFlags()
-  isDirty.value = true
-  return refs.length
-}
-
-function onAskKeep() {
-  // Already applied + queued; just dismiss and close.
-  closeAskBar()
-}
-
-function onAskUndo() {
-  // Reverts the whole batch in one step (single op). Drop the still-queued
-  // op so a stale ai_assist entry isn't persisted on the next save.
-  undo()
-  _popLastOp('ai_assist')
-  aiPending.value = null
-}
-
-// Remove the most recently queued op of a given type (used when an AI change
-// is undone before it has been flushed to the server).
-function _popLastOp(opType) {
-  for (let i = _opQueue.length - 1; i >= 0; i--) {
-    if (_opQueue[i].opType === opType) { _opQueue.splice(i, 1); return }
-  }
-}
 
 const hAlignIcon = computed(() => {
   if (activeFormat.value?.align === 'center') return 'lucide-align-center'
@@ -2260,21 +2098,6 @@ const userInitial = computed(() => userInitials(userFullName.value, userEmail.va
 // Collaboration — presence + sharing
 const shareOpen   = ref(false)
 const shareCount  = ref(0)   // explicit share count (excluding owner); updated by ShareDialog
-const aiSettingsOpen = ref(false)
-const unregisterPaletteGroups = useRootStore().registerPaletteGroups('sheets-editor-settings', () => {
-  if (!window.frappe?.boot?.ai_assist_can_configure) return []
-
-  return [{
-    commands: [{
-      id: 'sheets-settings',
-      label: __('AI settings'),
-      icon: 'lucide-cpu',
-      keywords: ['AI', 'assist', 'configure'],
-      run: () => (aiSettingsOpen.value = true),
-    }],
-  }]
-})
-onScopeDispose(unregisterPaletteGroups)
 const { exportCSV, exportXLSX, importCSV, importXLSX, fileContent, readSource } = useExportImport({
   getSheet:        () => sheet,
   getCurrentTitle: () => currentTitle.value,
@@ -3413,6 +3236,8 @@ function _previewSeriesKind(src) {
 
 // ── Mount phases ─────────────────────────────────────────────────────────────
 
+onBeforeUnmount(() => aiSees(null)) // One
+
 function _setupGridInstance() {
   grid = createGrid(canvasRef.value, {
     onSelect(id) {
@@ -3432,6 +3257,8 @@ function _setupGridInstance() {
           ? { r0: sel.r0, c0: sel.c0, r1: sel.r1, c1: sel.c1 }
           : null
         broadcastCursor(p.row, p.col, sheet.getCurrentSheet(), range)
+        // One: the OneAI panel is told what is selected (kit/desk.js, aiSees).
+        if (range) aiSees({ page: 'workbook', workbook: props.id, sheet: sheet.getCurrentSheet(), range: `${cellId(range.r0, range.c0)}:${cellId(range.r1, range.c1)}`, active: id })
       }
     },
     onCommit(id, value) {

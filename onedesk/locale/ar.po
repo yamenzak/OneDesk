@@ -40759,8 +40759,8 @@ msgid "The OneAI model the call ran on."
 msgstr "نموذج OneAI الذي جرى عليه الطلب."
 
 #: onedesk/one/settings.py:1363
-msgid "The OneAI panel and Ask in a workbook or a document: answers, look-ups, summaries, formulas and writing."
-msgstr "لوحة OneAI وميزة «اسأل» في المصنف أو المستند: إجابات وعمليات بحث وملخصات وصيغ وكتابة."
+msgid "The OneAI panel: answers, look-ups, summaries, and what it writes in records, workbooks and documents."
+msgstr "لوحة OneAI: إجابات وعمليات بحث وملخصات، وما تكتبه في السجلات والمصنفات والمستندات."
 
 #: onedesk/one/settings.py:2101
 msgid "The Person on the Record"
@@ -56223,3 +56223,15 @@ msgstr "اختر الخط الافتراضي لهذا المستند."
 
 msgid "Choose the default font family for new documents."
 msgstr "اختر الخط الافتراضي للمستندات الجديدة."
+
+msgid "Rewrite in {0}"
+msgstr "إعادة صياغة في {0}"
+
+msgid "In place of"
+msgstr "بدلًا من"
+
+msgid "Writes"
+msgstr "يكتب"
+
+msgid "From the template"
+msgstr "من القالب"

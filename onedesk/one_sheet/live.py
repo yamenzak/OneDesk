@@ -39,9 +39,5 @@ def admit(kind: str, name: str) -> dict:
 
 
 def boot(bootinfo) -> None:
-	"""extend_bootinfo: workbooks open live wherever the desk has its socket,
-	and offer Ask where OneAI may answer."""
-	from onedesk.one import account, apps
-
+	"""extend_bootinfo: workbooks open live wherever the desk has its socket."""
 	bootinfo.one_sheet_live = frappe.session.user != "Guest"
-	bootinfo.ai_assist_enabled = bootinfo.one_sheet_live and apps.ai_on() and account.configured()

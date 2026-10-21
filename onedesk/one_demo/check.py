@@ -5241,9 +5241,8 @@ def onecloud_holds_a_workbook_with_its_history():
 	before and after. Rania can't open it. A copy of the first version is a
 	workbook of its own; restoring that version brings 100 back; deleting
 	the File takes the workbook and its history with it."""
-	from unittest import mock
-
-	from onedesk.one_sheet import api, assist, live, versions
+	from onedesk.one_sheet import ai as sheet_ai
+	from onedesk.one_sheet import api, live, versions
 
 	def held(value):
 		return json.dumps({"sheet": {"v": 2, "current": "Sheet1", "sheets": {"Sheet1": {"rows": {"1": [None, value]}}}}})
@@ -5275,12 +5274,8 @@ def onecloud_holds_a_workbook_with_its_history():
 		assert frappe.local.response["location"] == f"/desk/workbook/{book}"
 		admitted = live.admit("workbook", book)
 		assert admitted["ok"] and admitted["write"] and admitted["who"]["user"] == OWNER, admitted
-		asked = []
-		answer = '{"actions": [{"type": "setCell", "cell": "c2", "formula": "=B2*1.05"}, {"type": "setCell", "cell": "ZZZZ1", "formula": "1"}, {"type": "answer", "text": "Five per cent on top."}]}'
-		with mock.patch("onedesk.one_ai.run.once", side_effect=lambda action, text, **kw: asked.append(text) or answer):
-			told = assist.ai_assist(book, "Add 5% beside it", json.dumps({"sheet": "Sheet1", "r0": 1, "c0": 1, "r1": 1, "c1": 1, "active": "B2"}))
-		assert told["actions"] == [{"type": "setCell", "cell": "C2", "formula": "=B2*1.05"}, {"type": "answer", "text": "Five per cent on top."}], told
-		assert '"B2": "100"' in asked[0] and '"selection": "B2:B2"' in asked[0], asked
+		told = sheet_ai.page({"page": "workbook", "record": book, "selection": {"page": "workbook", "workbook": book, "sheet": "Sheet1", "range": "B2:B2", "active": "B2"}})
+		assert "Sheet1 with B2:B2 selected" in told and '"B2": "100"' in told, "OneAI is told the workbook and what is selected"
 	with as_user("rania@one.test"):
 		try:
 			api.get_sheet(book)
@@ -5571,45 +5566,56 @@ def a_document_is_written_in_onecloud():
 @check
 def a_document_keeps_its_versions_and_asks_oneai():
 	"""Layla's document keeps a version taken while writing and one she
-	names, but not two taken within ten minutes. Ask in the document puts
-	OneAI's words in or answers; OneAI finds and reads it, suggests a new
-	one and adds to this one as cards, and a reader who may not open it is
-	not told it exists. All undone afterwards."""
-	from unittest import mock
-
+	names, but not two taken within ten minutes. In the OneAI panel on the
+	document, OneAI is told what it says and what she selected; it rewrites
+	the selection, writes after the paragraph her cursor is in and at the
+	end, each as a card; finds and reads documents, and makes a covering
+	letter on a quotation from the template. A reader who may not open the
+	document is not told it exists. All undone afterwards."""
 	from onedesk.one_ai import proposals, tools
-	from onedesk.one_doc import ai, api, assist, versions
+	from onedesk.one_doc import ai, api, versions
 
 	frappe.db.savepoint("doc_ai_check")
 	try:
 		with as_user(OWNER):
 			name = api.make("@my", "Minutes check")["document"]
-			api.save_document(name, "AAA=", "<h1>Minutes</h1><p>Glass arrives Monday.</p>")
+			api.save_document(name, "AAA=", "<h1>Minutes</h1><p>Glass arrives <strong>Monday</strong> at nine.</p><p>Frames follow.</p>")
 			assert versions.new_version(name, "<p>First</p>")["manual"] == 0
 			assert versions.new_version(name, "<p>Second</p>") is None, "not two within ten minutes"
 			assert versions.new_version(name, "<p>Second</p>", "Before review")["title"] == "Before review"
 			assert [one["title"] for one in versions.listed(name)][-1] == "Before review"
-			asked = []
-			with mock.patch("onedesk.one_ai.run.once", side_effect=lambda action, text, **kw: asked.append(text) or '{"html": "<p>Glass <script>x</script>arrives Tuesday.</p>"}'):
-				told = assist.ai_assist(name, "Make it Tuesday", "<p>Glass arrives Monday.</p>")
-			assert told == {"html": "<p>Glass arrives Tuesday.</p>"}, told
-			assert "Glass arrives Monday" in asked[0] and "The request: Make it Tuesday" in asked[0], asked
-			with mock.patch("onedesk.one_ai.run.once", return_value='{"answer": "Monday."}'):
-				assert assist.ai_assist(name, "When does glass arrive?") == {"answer": "Monday."}
+			page = {"page": "document", "record": name, "selection": {"page": "document", "document": name, "text": "at nine", "block": "Frames follow."}}
+			told = ai.page(page)
+			assert "Glass arrives **Monday** at nine." in told and 'selected: """at nine"""' in told, told
+			frappe.flags.one_ai_page = page
+			try:
+				for where, html in (("selection", "<p>at noon</p>"), ("after", "<p>Fixings last.</p>"), ("end", "<p>Next meeting Friday.</p>")):
+					said = tools.run("write_document", {"document": name, "html": html, "where": where})
+					assert not said["ran"] and said["answer"]["state"] == "Proposed", said
+					proposals.apply(said["answer"]["proposal"])
+			finally:
+				frappe.flags.one_ai_page = None
+			held = frappe.db.get_value(api.DOCUMENT, name, ["html", "content"], as_dict=True)
+			assert "Glass arrives <strong>Monday</strong> at noon." in held.html, held.html
+			assert "<p>Frames follow.</p><p>Fixings last.</p>" in held.html and held.html.endswith("<p>Next meeting Friday.</p>"), held.html
+			assert not held.content, "the editor opens from the HTML"
+			assert "Nothing is selected" in ai.write_document(name, "<p>x</p>", "selection")["error"]
 			found = ai.my_documents("Minutes check")
 			assert [one["document"] for one in found] == [name], found
-			assert "Glass arrives Monday." in ai.read_document(name)["text"]
+			assert "Next meeting Friday." in ai.read_document(name)["text"]
 			assert "send its words" in ai.draft_document("Empty", "<p> </p>")["error"]
 			said = tools.run("draft_document", {"name": "Agenda check", "html": "<h1>Agenda</h1><p>Glass.</p>"})
-			assert not said["ran"] and said["answer"]["state"] == "Proposed", said
 			made = proposals.apply(said["answer"]["proposal"])["record"]
 			assert "<h1>Agenda</h1>" in frappe.db.get_value(api.DOCUMENT, made, "html")
-			added = ai.write_document(name, "<p>Next meeting Friday.</p>")
-			proposals.apply(added["proposal"])
-			held = frappe.db.get_value(api.DOCUMENT, name, ["html", "content"], as_dict=True)
-			assert held.html.endswith("<p>Next meeting Friday.</p>") and not held.content, "added at the end, opened from its HTML"
+			quote = frappe.get_all("Quotation", filters={"docstatus": 0}, pluck="name", order_by="name", limit=1)[0]
+			said = tools.run("draft_document", {"name": "Letter check", "record_doctype": "Quotation", "record_name": quote, "template": "Quotation covering letter"})
+			assert said["answer"]["state"] == "Proposed", said
+			letter = proposals.apply(said["answer"]["proposal"])["record"]
+			assert api.get_document(letter)["record"] == {"doctype": "Quotation", "name": quote}, "filed on the quotation"
+			assert 'data-field="grand_total"' in frappe.db.get_value(api.DOCUMENT, letter, "html"), "from the template"
 		with as_user("rania@one.test"):
 			assert ai.my_documents("Minutes check") == [] and "error" in ai.read_document(name)
+			assert ai.page({"page": "document", "record": name}) == "The reader is on a document's page in OneWriter."
 			try:
 				versions.listed(name)
 				raise AssertionError("Rania read Layla's versions")

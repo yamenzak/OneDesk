@@ -15,7 +15,7 @@ from frappe import _
 from frappe.utils import flt, strip_html
 
 from onedesk.one_sheet import api, storage
-from onedesk.one_sheet.assist import letters
+from onedesk.one_sheet.cells import letters
 
 NUMBER = ("Int", "Float", "Currency", "Percent", "Rating", "Duration")
 TEXT = ("Data", "Small Text", "Text", "Long Text", "Link", "Dynamic Link", "Read Only", "Phone", "Autocomplete", "Color", "Attach", "Attach Image")

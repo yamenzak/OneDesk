@@ -82,28 +82,61 @@ def read_document(document: Annotated[str, "The document's id, from my_documents
 	}
 
 
+def _template(said: str | None) -> str | None:
+	"""A template by its id or its title, when the reader may use it."""
+	from onedesk.one_doc import templates
+
+	if not said:
+		return None
+	for one in templates.listed():
+		if said in (one["name"], one["title"]):
+			return one["name"]
+	return None
+
+
 def draft_document(
 	name: Annotated[str, "What to call it."],
-	html: Annotated[str, HTML],
-	folder: Annotated[str, "The OneCloud folder to make it in, as its path. Defaults to the reader's own files."] | None = None,
+	html: Annotated[str, HTML] | None = None,
+	folder: Annotated[str, "The OneCloud folder to make it in, as its id. Defaults to the reader's own files."] | None = None,
+	record_doctype: Annotated[str, "To file it on a record instead, the record's type, such as Quotation."] | None = None,
+	record_name: Annotated[str, "And that record's id."] | None = None,
+	template: Annotated[str, "A template to start from, by its title or id (Document Templates in OneCloud)."] | None = None,
 	why: Annotated[str, "In a sentence, why."] | None = None,
 ) -> dict:
-	"""Suggest a new document, as a card the reader approves. Approving makes
-	it in OneCloud as New › Document does and opens nothing."""
+	"""Suggest a new document, as a card the reader approves: in a folder or
+	filed on a record (a covering letter on a quotation), from a template or
+	from the HTML given, or both, the HTML then following the template.
+	Approving makes it as New › Document does. On a record, the template's
+	field blocks print what that record says."""
 	from onedesk.one_ai import proposals
 
 	written = clean(html)
-	if not text_of(written):
-		return {"mend": "draft_document", "error": "A document says something; send its words as HTML."}
+	chosen = _template(template)
+	if template and not chosen:
+		return {"mend": "draft_document", "error": f"There is no template called {template} the reader may use."}
+	if not chosen and not text_of(written):
+		return {"mend": "draft_document", "error": "A document says something; send its words as HTML, or name a template."}
 	if len(written) > MOST_HTML:
 		return {"mend": "draft_document", "error": "That is too long for one document."}
+	if record_doctype or record_name:
+		if not (record_doctype and record_name and frappe.db.exists(record_doctype, record_name)):
+			return {"mend": "draft_document", "error": f"There is no {record_doctype} {record_name}."}
+		if not frappe.has_permission(record_doctype, "write", record_name):
+			return {"error": f"The reader may not add documents to {record_doctype} {record_name}."}
+	shown = [{"label": _("Opens with"), "value": text_of(written)[:200]}] if text_of(written) else []
 	changes = {
 		"what": "document",
 		"title": _("Create Document {0}").format(name),
 		"name": name,
 		"folder": folder or "",
+		"record": [record_doctype, record_name] if record_doctype else None,
+		"template": chosen,
 		"html": written,
-		"summary": [{"label": _("Opens with"), "value": text_of(written)[:200]}],
+		"summary": [
+			*([{"label": _("On"), "value": f"{_(record_doctype)} {record_name}"}] if record_doctype else []),
+			*([{"label": _("From the template"), "value": template}] if chosen else []),
+			*shown,
+		],
 	}
 	return {
 		"proposal": proposals.propose("Setup", api.DOCUMENT, changes=changes, why=why),
@@ -112,14 +145,34 @@ def draft_document(
 	}
 
 
+#: Where write_document puts its words.
+WHERE = ("selection", "after", "end")
+
+
+def _selection(document: str) -> dict:
+	"""What the reader has selected in this document, as the page said when
+	the question was asked: the selected text and the paragraph the cursor
+	is in."""
+	page = frappe.flags.one_ai_page or {}
+	said = page.get("selection") if isinstance(page.get("selection"), dict) else {}
+	return said if said.get("document") == document else {}
+
+
 def write_document(
-	document: Annotated[str, "The document's id, from my_documents."],
+	document: Annotated[str, "The document's id, from my_documents or the page the reader is on."],
 	html: Annotated[str, HTML],
+	where: Annotated[
+		str,
+		"selection to put it in place of what the reader has selected; after to put it after the paragraph "
+		"the reader's cursor is in; end (the default) to add it at the end.",
+	] = "end",
 	why: Annotated[str, "In a sentence, why."] | None = None,
 ) -> dict:
-	"""Suggest adding to the end of a document, as a card the reader
-	approves. Read it first so what is added follows from what is there.
-	Approving adds it as the reader would, and an open copy shows it."""
+	"""Suggest writing into a document, as a card the reader approves: in
+	place of the selection (to rewrite, shorten, translate or fix it), after
+	the paragraph the cursor is in, or at the end. Read it first so what is
+	written follows from what is there. A record's field goes in as
+	<span data-field="fieldname">Label</span>."""
 	from onedesk.one_ai import proposals
 
 	item = _readable(document)
@@ -129,42 +182,151 @@ def write_document(
 		api._may(document, "write")
 	except frappe.PermissionError:
 		return {"error": "The reader may not change this document."}
+	if where not in WHERE:
+		return {"mend": "write_document", "error": f"where is one of {', '.join(WHERE)}."}
 	written = clean(html)
 	if not text_of(written):
-		return {"mend": "write_document", "error": "Send the words to add as HTML."}
+		return {"mend": "write_document", "error": "Send the words to write as HTML."}
+	selected = _selection(document)
+	if where == "selection" and not (selected.get("text") or "").strip():
+		return {"mend": "write_document", "error": "Nothing is selected in that document; use after or end, or ask the reader to select the words."}
+	if where == "after" and not (selected.get("block") or "").strip():
+		where = "end"
+	titles = {"selection": _("Rewrite in {0}"), "after": _("Add to {0}"), "end": _("Add to {0}")}
 	changes = {
 		"what": "writing",
-		"title": _("Add to {0}").format(item["file_name"]),
+		"title": titles[where].format(item["file_name"]),
 		"document": document,
 		"html": written,
-		"summary": [{"label": _("Adds"), "value": text_of(written)[:200]}],
+		"where": where,
+		"replacing": (selected.get("text") or "")[:MOST_TEXT] if where == "selection" else "",
+		"after": (selected.get("block") or "")[:MOST_TEXT] if where == "after" else "",
+		"summary": [
+			*([{"label": _("In place of"), "value": (selected.get("text") or "")[:200]}] if where == "selection" else []),
+			{"label": _("Writes"), "value": text_of(written)[:200]},
+		],
 	}
 	return {
 		"proposal": proposals.propose("Setup", api.DOCUMENT, changes=changes, record=document, why=why),
 		"state": "Proposed",
-		"next": "Say in one sentence what approving it adds. Nothing changes until they approve it.",
+		"next": "Say in one sentence what approving it writes and where. Nothing changes until they approve it.",
 	}
+
+
+def _blocks(soup):
+	return soup.find_all(["p", "h1", "h2", "h3", "h4", "h5", "h6", "li", "td", "th", "blockquote"])
+
+
+def _said(tag) -> str:
+	return " ".join(tag.get_text().split())
+
+
+def placed(held: str, written: str, where: str, replacing: str = "", after: str = "") -> str | None:
+	"""The document's HTML with `written` put where the card said, or None
+	when the place can't be found in the stored HTML (the selection ran
+	across paragraphs, or changed since); the open editor puts it in then.
+	Pure but for BeautifulSoup."""
+	from bs4 import BeautifulSoup
+
+	if where == "end":
+		return held + written
+	soup = BeautifulSoup(held or "", "html.parser")
+	new = BeautifulSoup(written, "html.parser")
+	if where == "after":
+		found = [one for one in _blocks(soup) if one.name in ("p", "h1", "h2", "h3", "h4", "h5", "h6", "li") and _said(one) == " ".join(after.split())]
+		if len(found) != 1:
+			return None
+		found[0].insert_after(new)
+		return str(soup)
+	wanted = " ".join(replacing.split())
+	whole = [one for one in _blocks(soup) if _said(one) == wanted]
+	if len(whole) == 1:
+		whole[0].replace_with(new)
+		return str(soup)
+	hits = [node for node in soup.find_all(string=True) if replacing and replacing in node]
+	if len(hits) != 1 or str(hits[0]).count(replacing) != 1:
+		return None
+	top = new.find_all(recursive=False)
+	inline = list((top[0] if len(top) == 1 and top[0].name == "p" else new).contents)
+	node = hits[0]
+	before, _, rest = str(node).partition(replacing)
+	for part in (before, *inline, rest):
+		node.insert_before(part)
+	node.extract()
+	return str(soup)
 
 
 def approved(changes: dict) -> str:
 	"""A document card approved, as the person who pressed Approve. What is
-	written is HTML, which the editor turns into its own state the next time
-	the document opens; an open copy is told to draw it in now."""
+	written goes into the stored HTML where it can be found there, and the
+	editor builds itself from it the next time the document opens; an open
+	copy is told to put it in now, where the reader left the selection."""
 	if changes["what"] == "document":
 		from onedesk.one_storage import namespace as ns
 
-		made = api.make(changes.get("folder") or ns.HOME, changes["name"])
-		frappe.db.set_value(api.DOCUMENT, made["document"], "html", clean(changes["html"]))
+		where = "@records/{}/{}".format(*changes["record"]) if changes.get("record") else changes.get("folder") or ns.HOME
+		made = api.make(where, changes["name"], changes.get("template"))
+		if changes.get("html"):
+			held = frappe.db.get_value(api.DOCUMENT, made["document"], "html") or ""
+			frappe.db.set_value(api.DOCUMENT, made["document"], {"html": held + clean(changes["html"]), "content": None})
 		return made["document"]
 	name = changes["document"]
 	api._may(name, "write")
+	where = changes.get("where") or "end"
 	held = frappe.db.get_value(api.DOCUMENT, name, "html") or ""
-	written = held + clean(changes["html"])
-	from onedesk.one_doc import field
+	written = clean(changes["html"])
+	result = placed(held, written, where, changes.get("replacing") or "", changes.get("after") or "")
+	if result is not None:
+		from onedesk.one_doc import field
 
-	put = field.put(name, held, written)
-	if not put["ok"]:
-		frappe.throw(put["message"])
-	frappe.db.set_value(api.DOCUMENT, name, {"html": put.get("html", written), "content": None})
-	frappe.publish_realtime("one_document_written", {"document": name, "html": clean(changes["html"])}, user=frappe.session.user, after_commit=True)
+		put = field.put(name, held, result)
+		if not put["ok"]:
+			frappe.throw(put["message"])
+		frappe.db.set_value(api.DOCUMENT, name, {"html": put.get("html", result), "content": None})
+	frappe.publish_realtime(
+		"one_document_written",
+		{"document": name, "html": written, "where": where, "replacing": changes.get("replacing") or "", "after": changes.get("after") or ""},
+		user=frappe.session.user,
+		after_commit=True,
+	)
 	return name
+
+
+#: How much of the open document the panel is told up front.
+MOST_SEEN = 3000
+
+
+def page(said: dict) -> str | None:
+	"""The sentence the model is told on a document's page: which document,
+	what it says, the record it is on and that record's fields, and what the
+	reader has selected or where their cursor is."""
+	if said.get("page") != "document":
+		return None
+	name = (said.get("record") or "").strip()
+	item = _readable(name) if name else None
+	if not item:
+		return "The reader is on a document's page in OneWriter."
+	from onedesk.one_doc import paper
+
+	held = frappe.db.get_value(api.DOCUMENT, name, ["html", "bound_doctype", "bound_field"], as_dict=True)
+	text = text_of(held.html)
+	where = f'The reader has the document "{item["file_name"]}" open in OneWriter (its id is {name})'
+	record = paper.record_of(name)
+	if held.bound_doctype and record is not None:
+		where += f", which is the {held.bound_field} text of {record.doctype} {record.name}; what is written there goes into that field"
+	elif record is not None:
+		fields = ", ".join(f"{one['field']} ({one['label']})" for one in paper.fields_of(name)[:60])
+		where += (
+			f", filed on {record.doctype} {record.name}. A field of that record goes into the document as "
+			f'<span data-field="fieldname">Label</span> and prints what the record says; its fields are {fields}'
+		)
+	where += f'. It says:\n"""\n{text[:MOST_SEEN]}\n"""' + (" (and more; read_document reads it all)" if len(text) > MOST_SEEN else "")
+	selected = said.get("selection") if isinstance(said.get("selection"), dict) else {}
+	if selected.get("document") == name and (selected.get("text") or "").strip():
+		where += f'\nThe reader has selected: """{selected["text"][:MOST_SEEN]}""". A request about "this" or "it" means the selection; write_document with where=selection puts new words in its place.'
+	elif selected.get("document") == name and (selected.get("block") or "").strip():
+		where += f'\nThe reader\'s cursor is in the paragraph: """{selected["block"][:500]}"""; write_document with where=after puts new words after it.'
+	return where + (
+		"\nwrite_document writes into it as a card; draft_document makes a new one, in a folder or on a record, "
+		"from a template or not. How OneWriter works is in its documentation (how_to)."
+	)

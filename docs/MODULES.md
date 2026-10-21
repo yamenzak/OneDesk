@@ -503,7 +503,6 @@ No doctypes yet.
 * `onedesk.one_doc.api.save_document`
 * `onedesk.one_doc.api.save_settings`
 * `onedesk.one_doc.api.titles`
-* `onedesk.one_doc.assist.ai_assist`
 * `onedesk.one_doc.field.open_field`
 * `onedesk.one_doc.paper.fields_of`
 * `onedesk.one_doc.paper.on_record`
@@ -744,7 +743,6 @@ No doctypes yet.
 * `onedesk.one_sheet.api.save_sheet`
 * `onedesk.one_sheet.api.titles`
 * `onedesk.one_sheet.api.write_back`
-* `onedesk.one_sheet.assist.ai_assist`
 * `onedesk.one_sheet.live.admit`
 * `onedesk.one_sheet.paper.letter_heads`
 * `onedesk.one_sheet.paper.pdf`

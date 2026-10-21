@@ -131,16 +131,13 @@ any.
 
 ## Asking OneAI
 
-**Ask AI**, at the top beside **File**, opens the Ask bar. Select the cells it is about,
-then say what you want: "total this column", "a formula for the margin in
-F2:F5", "which line costs the most?". OneAI either answers in words or fills
-cells, and what it fills is one edit: **Undo** takes it all back. It sees the
-sheet you are on, up to 25 rows and 40 columns of it, and nothing else. Each
-question costs credits like any other OneAI request, and Ask is there only
-when OneAI is on for the workspace. Somebody who may only read the workbook
-can't ask.
+OneAI is asked in its own panel, at the bottom right, as everywhere else.
+On a workbook it is told which workbook is open, its sheets, and the cells
+you have selected with what they hold, so "total this column" or "a margin
+formula in F2:F5" is about what you selected. Writing cells is a card you
+approve. Each question costs credits like any other OneAI request.
 
-OneAI's own chat knows workbooks too, from any page: "find the C-28
+From any page it also knows workbooks: "find the C-28
 costing", "what does the Gulf sheet charge for powder coating?", "make me a
 workbook for this week's deliveries with a total", "put a margin formula in
 column G and make the header bold", "leave a note on D14 that the rate is
@@ -378,19 +375,13 @@ every open copy the same, so the saves agree. `boot.one_sheet_live` turns it
 on for everybody signed in. A late joiner loads the saved workbook, then asks
 the room and is answered by whoever is there.
 
-### Ask, `assist.py`
+### OneAI on the page, `ai.py`
 
-The editor's Ask bar is Suite's; only the call is ours. `ai_assist` checks
-the person may write, reads the saved workbook, and shows the model the
-sheet's used range (at most 25 rows by 40 columns and 12 KB, `context`) with
-the selection, through `run.once("sheet_assist", …)`, so the account's
-gateway, credits and logs apply like every other OneAI job. The model
-answers JSON, `{"actions": [...]}`; `cleaned` keeps only `setCell` on a real
-cell address with a formula under 1,000 characters and `answer` text, at
-most 200 of them, and drops the rest. Nothing is written on the server: the
-editor applies the cells as one undoable edit and saves them like typing,
-so live co-editing and history see them too. `boot.ai_assist_enabled` shows
-the bar only when OneAI is on and the account is set up.
+The editor tells the panel the sheet and range selected on every selection
+(`kit/desk.js`, `aiSees`); the panel sends it with the question, and
+`ai.page` tells the model the workbook, its sheets, a record's table sheet,
+and the selected cells with what they hold, up to 200. Suite's own Ask bar
+and AI settings are taken out; `cells.py` keeps the cell helpers they shared.
 
 ### A record's table, `table.py`
 
@@ -640,9 +631,9 @@ Cell history is a `LIKE` on `cell_refs`, filtered exactly in Python.
 
 - **Suite's sharing dialog.** A workbook is a File, and two share models for
   one object is the bug; OneCloud shares it.
-- **Suite's AI settings.** Suite calls a model provider with a key typed
-  into a settings form. Ask goes through the account's gateway and credits
-  instead, so the form is gone.
+- **Suite's Ask bar and AI settings.** Suite calls a model provider with a
+  key typed into a settings form, from a bar of its own. OneAI is asked in
+  its panel, through the account's gateway and credits, so both are gone.
 - **Suite's two co-editing transports.** One is a Hocuspocus server of its
   own: a second process, an nginx route and a shared secret. The other relays
   through `publish_realtime` with no room, which sends every workbook's edits

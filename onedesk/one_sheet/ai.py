@@ -12,7 +12,7 @@ import frappe
 from frappe import _
 
 from onedesk.one_sheet import api, storage
-from onedesk.one_sheet.assist import CELL, letters
+from onedesk.one_sheet.cells import CELL, letters
 
 #: The most cells a read answers with, and a card writes.
 MOST_CELLS = 2000
@@ -95,7 +95,7 @@ def read_workbook(
 	sheet = sheet or (names[0] if names else None)
 	if sheet not in names:
 		return {"error": f"{workbook} has no sheet called {sheet}. It has: {', '.join(names)}."}
-	from onedesk.one_sheet.assist import cells_of
+	from onedesk.one_sheet.cells import cells_of
 
 	held = cells_of(data, sheet)
 	wanted = set(_span(cells)) if cells else None
@@ -328,3 +328,40 @@ def approved(changes: dict) -> str:
 	api.save_sheet(item["file_name"], json.dumps(data), name)
 	frappe.publish_realtime("one_workbook_written", {"workbook": name}, user=frappe.session.user, after_commit=True)
 	return name
+
+
+#: How many cells the panel is told up front about a selection.
+MOST_SEEN = 200
+
+
+def page(said: dict) -> str | None:
+	"""The sentence the model is told on a workbook's page: which workbook,
+	its sheets, the record whose table it shows, and the cells the reader has
+	selected with what they hold."""
+	if said.get("page") != "workbook":
+		return None
+	name = (said.get("record") or "").strip()
+	item = _readable(name) if name else None
+	if not item:
+		return "The reader is on a workbook's page in OneWorkbook."
+	from onedesk.one_sheet import table
+
+	data = _data(name)
+	names = _sheets(data)
+	where = f'The reader has the workbook "{item["file_name"]}" open in OneWorkbook (its id is {name}); its sheets are {", ".join(names)}'
+	bound = table.bound(name)
+	if bound:
+		where += f'. The sheet {bound["sheet"]} is the {bound["label"]} table of {bound["doctype"]} {bound["name"]}, changed from the record, never by write_cells'
+	selected = said.get("selection") if isinstance(said.get("selection"), dict) else {}
+	if selected.get("workbook") == name and selected.get("sheet") in names and selected.get("range"):
+		read = read_workbook(name, selected["sheet"], selected["range"])
+		held = dict(list((read.get("cells") or {}).items())[:MOST_SEEN])
+		where += (
+			f'. The reader is on the sheet {selected["sheet"]} with {selected["range"]} selected'
+			+ (f' (the active cell is {selected["active"]})' if selected.get("active") else "")
+			+ f"; those cells hold {json.dumps(held, default=str)}. A request about \"this\" or \"these\" means the selection"
+		)
+	return where + (
+		". read_workbook reads any sheet; write_cells writes values, formulas and formatting, and comment_on_cell "
+		"leaves a note, each as a card. How OneWorkbook works is in its documentation (how_to)."
+	)

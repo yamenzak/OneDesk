@@ -416,6 +416,7 @@ def _ran(doc, text: str, turns: list[dict], heard=None, page: dict | str | None 
 
 		if isinstance(page, str):
 			page = frappe.parse_json(page) if page.strip() else None
+		frappe.flags.one_ai_page = page if isinstance(page, dict) else None
 		return run.ask(
 			CHAT,
 			text,

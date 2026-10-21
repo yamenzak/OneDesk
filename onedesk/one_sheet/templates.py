@@ -50,7 +50,7 @@ def sheets_of(template: str) -> list[dict]:
 	with its cells, formats, merges, view, link cells and the formulas each
 	line gets."""
 	from onedesk.one_sheet import table
-	from onedesk.one_sheet.assist import letters
+	from onedesk.one_sheet.cells import letters
 
 	data = data_of(template)
 	out = []

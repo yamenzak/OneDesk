@@ -52,23 +52,14 @@ def test_unnamed_versions_thin_as_they_age():
 	assert set(gone) == {"week-b", "old"}, "the newest of each hour stays; nothing past three months"
 
 
-def test_ask_shows_the_sheet_and_keeps_only_whole_actions():
-	import json
+def test_cells_are_named_and_read_as_the_sheet_holds_them():
 	import re
 
-	room = _lifted(
-		SHEET / "assist.py",
-		("MOST_ROWS", "MOST_COLS", "MOST_BYTES", "MOST_ACTIONS", "MOST_FORMULA", "MOST_ANSWER", "CELL", "letters", "cells_of", "context", "cleaned"),
-		{"json": json, "re": re},
-	)
+	room = _lifted(SHEET / "cells.py", ("CELL", "letters", "cells_of"), {"re": re})
 	assert [room["letters"](n) for n in (0, 25, 26, 701)] == ["A", "Z", "AA", "ZZ"]
-	data = {"sheet": {"v": 2, "sheets": {"Sheet1": {"rows": {"0": ["Item", "Qty"], "1": ["Glass", "4"]}}}}}
-	cells = room["cells_of"](data, "Sheet1")
-	said = room["context"](cells, "Sheet1", {"r0": 1, "c0": 1, "r1": 1, "c1": 1, "active": "B2"})
-	assert said["used"] == "A1:B2" and said["selection"] == "B2:B2"
-	assert said["cells"] == [{"A1": "Item", "B1": "Qty"}, {"A2": "Glass", "B2": "4"}]
-	kept = room["cleaned"]([{"type": "setCell", "cell": "b3", "formula": "=B2*2"}, {"type": "setCell", "cell": "B"}, {"type": "drop"}, {"type": "answer", "text": " "}])
-	assert kept == [{"type": "setCell", "cell": "B3", "formula": "=B2*2"}]
+	data = {"sheet": {"v": 2, "sheets": {"Sheet1": {"rows": {"0": ["Item", "Qty"], "1": ["Glass", "4", ""]}}}}}
+	assert room["cells_of"](data, "Sheet1") == {(0, 0): "Item", (0, 1): "Qty", (1, 0): "Glass", (1, 1): "4"}
+	assert room["CELL"].match("B12") and not room["CELL"].match("B0")
 
 
 def test_the_relay_names_the_room_and_keeps_readers_from_writing():
@@ -88,7 +79,7 @@ def test_a_table_sheet_reads_back_as_the_table():
 	from datetime import date, datetime, time, timedelta
 
 	room = {"_": lambda text: text, "hashlib": hashlib, "json": json, "re": re, "date": date, "datetime": datetime, "time": time, "timedelta": timedelta}
-	_lifted(SHEET / "assist.py", ("letters",), room)
+	_lifted(SHEET / "cells.py", ("letters",), room)
 	import html
 
 	room["html"] = html
@@ -150,7 +141,7 @@ def test_a_table_sheet_keeps_its_formulas():
 	import re
 
 	room = {"_": lambda text: text, "re": re, "html": html}
-	_lifted(SHEET / "assist.py", ("letters",), room)
+	_lifted(SHEET / "cells.py", ("letters",), room)
 	names = ("NUMBER", "TEXT", "LONG", "SHOWN", "MOST_COLUMNS", "MARK", "SPARE", "LOCKED_TO")
 	_lifted(SHEET / "table.py", (*names, "columns", "shown", "_rule", "kept", "laid", "stored", "without"), room)
 	fields = [
@@ -199,7 +190,7 @@ def test_a_branded_sheet_is_laid_out_under_the_company():
 	from types import SimpleNamespace
 
 	room = {}
-	_lifted(SHEET / "assist.py", ("letters",), room)
+	_lifted(SHEET / "cells.py", ("letters",), room)
 	heads = _lifted(SHEET.parent / "one" / "letter_heads.py", ("INK", "_rgb", "_luminance", "_contrast", "on"), {})
 	_lifted(SHEET / "style.py", ("WORKED", "LINE", "MUTED", "TOTALS", "FIRST", "KINDS", "META", "tint", "header", "number_format", "width", "table", "branded"), room)
 	room["frappe"] = None
@@ -247,7 +238,7 @@ def test_a_table_cell_is_checked_as_its_field():
 
 
 def test_oneai_writes_cells_formats_and_notes_into_the_saved_shape():
-	room = _lifted(SHEET / "assist.py", ("CELL", "letters"), {"re": __import__("re")})
+	room = _lifted(SHEET / "cells.py", ("CELL", "letters"), {"re": __import__("re")})
 	_lifted(SHEET / "ai.py", ("MOST_CELLS", "LOOKS", "_at", "_span", "_cells_given", "written", "noted"), room)
 	assert room["_at"]("B12") == (11, 1) and room["_at"]("AA1") == (0, 26) and room["_at"]("12B") is None
 	assert room["_span"]("A1:B2") == [(0, 0), (0, 1), (1, 0), (1, 1)] and room["_span"]("nonsense") == []

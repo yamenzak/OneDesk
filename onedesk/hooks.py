@@ -1283,6 +1283,10 @@ one_ai_page = [
 	"onedesk.one_crm.ai.page",
 	"onedesk.one_hr.ai.page",
 	"onedesk.one_book.ai.page",
+	"onedesk.one_doc.ai.page",
+	"onedesk.one_sheet.ai.page",
+	"onedesk.one_intake.ai.page",
+	"onedesk.one_legal.ai.page",
 ]
 
 one_homes = ["onedesk.one.masters.homes", "onedesk.one_project.rates.homes"]

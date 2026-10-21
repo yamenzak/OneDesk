@@ -32,3 +32,14 @@ def agreement(
 		"next": "Answer from this text alone, in the person's language, and name the document. "
 		"It is our own drafting, not legal advice: say so if they ask for advice.",
 	}
+
+
+def page(said: dict) -> str | None:
+	"""The sentence the model is told on the Agreements page."""
+	if said.get("page") != "legal":
+		return None
+	return (
+		"The reader is on Agreements, which shows the agreements One runs under and the versions they or "
+		"their organisation agreed to. agreement reads one's current text: terms, aup, privacy, cookies, dpa, "
+		"subprocessors, ai or licences. Answer from what it returns and say which document it is from."
+	)

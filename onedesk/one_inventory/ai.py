@@ -319,6 +319,12 @@ def page(said: dict) -> str | None:
 			"lots_and_numbers reads it as the page shows it. How the page works is in OneInventory's "
 			"documentation (how_to)."
 		)
+	if said.get("page") == "to-order":
+		return (
+			"The reader is on Reorder, which lists the items at or below their reorder level in each warehouse, "
+			"with what is on hand, already ordered and promised, and orders for them. running_low reads it as the "
+			"page shows it. How the page works is in OneInventory's documentation (how_to)."
+		)
 	if said.get("page") == QUOTES:
 		return (
 			"The reader is on Quotes, which lists each request for prices with which suppliers answered and "

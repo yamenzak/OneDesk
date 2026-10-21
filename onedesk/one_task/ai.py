@@ -110,6 +110,13 @@ def page(said: dict) -> str | None:
 			"as the page's Assign does. Nothing is changed until "
 			"the reader approves. How a task's page works is in OneTask's documentation (how_to)."
 		)
+	if said.get("page") == "timers":
+		return (
+			"The reader is on Timers, the phone's page for their task timers: the one running with its time "
+			"today, and the paused ones; pausing or stopping adds the time to their timesheet for the week. "
+			"my_tasks reads their tasks and task_facts one task with the time logged on it. How timers work is "
+			"in OneTask's documentation (how_to)."
+		)
 	if said.get("page") != "my-tasks":
 		return None
 	where = (
