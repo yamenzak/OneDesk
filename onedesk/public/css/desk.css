@@ -788,6 +788,26 @@ html[dir="rtl"] .one-bar-news-moving .one-bar-news-track {
 
 .one-bar [data-group="open"] {
 	position: relative;
+	gap: 0;
+	margin-inline-start: 4px;
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius-sm);
+	background: var(--surface-base);
+}
+
+.one-bar [data-group="open"] .one-bar-tool {
+	height: 20px;
+	border-radius: 0;
+}
+
+.one-bar [data-group="open"] .one-bar-tool:first-child {
+	border-start-start-radius: var(--radius-sm);
+	border-end-start-radius: var(--radius-sm);
+}
+
+.one-bar [data-group="open"] .one-bar-tool:not(.hide):nth-last-child(1 of .one-bar-tool:not(.hide)) {
+	border-start-end-radius: var(--radius-sm);
+	border-end-end-radius: var(--radius-sm);
 }
 
 .one-bar .one-workbooks svg {
