@@ -449,32 +449,6 @@ def open_table(doctype: str, name: str, field: str, template: str | None = None)
 	return book.name
 
 
-@frappe.whitelist(methods=["POST"])
-def widened(name: str, fields: str | list, mark: str) -> dict:
-	"""The bound sheet with a column for each of `fields`, for the formulas a
-	template puts under them: the columns it had stay where they are and the
-	new ones go after. `mark` is the one the sheet carries; when the record
-	changed since, nothing is added. Answers each field's [column, header]
-	and the sheet's new mark."""
-	api._may(name, "write")
-	book = _held(name)
-	if not book or not book.bound_doctype:
-		frappe.throw(_("This workbook does not belong to a record's table."))
-	fields = frappe.parse_json(fields) if isinstance(fields, str) else fields
-	doc = frappe.get_doc(book.bound_doctype, book.bound_name)
-	table = doc.get(book.bound_field) or []
-	cols = json.loads(book.bound_columns or "[]")
-	if fingerprint(doc.docstatus, table, cols) != mark:
-		frappe.throw(_("{0} was changed on the record after this sheet was last updated. Reopen the workbook from the record to load the changes.").format(book.bound_sheet))
-	held = [col["fieldname"] for col in cols]
-	child = doc.meta.get_field(book.bound_field).options
-	more = [col for col in columns([df.as_dict() for df in frappe.get_meta(child).fields], held[1:], list(fields or [])) if col["fieldname"] not in held]
-	if more:
-		cols += more
-		frappe.db.set_value(api.WORKBOOK, name, "bound_columns", json.dumps(cols), update_modified=False)
-	return {"at": {col["fieldname"]: [n, col["header"]] for n, col in enumerate(cols)}, "mark": fingerprint(doc.docstatus, table, cols)}
-
-
 def refresh(name: str) -> None:
 	"""Before a bound workbook opens: when the record's table changed since
 	the sheet last matched it, the bound sheet is drawn again from the table,

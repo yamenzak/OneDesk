@@ -5347,9 +5347,7 @@ def a_table_keeps_its_formulas():
 	the Costing sheet and the formulas, not the rows. The table opened from
 	it again starts with the same formulas, and drawing the table again after
 	a change on the form keeps them. A plain workbook's template starts a
-	plain workbook. Added to a table's workbook later, the template brings
-	its formulas, and a column the table lacks is added after the others.
-	All of it is undone afterwards."""
+	plain workbook. All of it is undone afterwards."""
 	from onedesk.one_sheet import api, storage, table, templates
 
 	def first_sheet(book):
@@ -5373,11 +5371,6 @@ def a_table_keeps_its_formulas():
 			assert templates.sheets_of(made["name"])[0]["cells"] == {"A4": "CW01", "B4": "Wall", "C4": "10"}
 			assert {"name": made["name"], "title": "Glazing costing"} in templates.listed("Quotation", "items")
 			assert templates.listed("Quotation", "items", quote) == [], "a table with its workbook just opens it"
-			assert templates.table_of(made["name"], book) == {"sheet": "Items", "formulas": [[1, "qty", qty, "=Costing!C4:C"]]}, "added later, it brings its formulas"
-			assert templates.table_of(templates.save_as(api.make("@my", "Loose")["workbook"], "Loose sheet")["name"], book) is None, "a template for no table brings none"
-			mark = table.stored(json.loads(storage.decode_sheets_data(table._held(book).sheets_data)), held.bound_sheet)["0"][0][1:]
-			wider = table.widened(book, ["description"], mark)
-			assert wider["at"]["description"][0] == len(json.loads(held.bound_columns)) and wider["mark"] != mark, "a column the table lacks goes after the others"
 			kept = json.loads(storage.decode_sheets_data(frappe.db.get_value(api.WORKBOOK, made["name"], "sheets_data")))
 			lines = table.stored(kept, "Items")
 			assert lines["1"][qty] == "=Costing!C4:C" and not any(one for one in lines["1"] if one != "=Costing!C4:C"), lines

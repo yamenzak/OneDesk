@@ -199,7 +199,10 @@ from a workbook; every rule it checks when it saves does.
 
 **File › Add Sheets From a Template** adds a template's sheets to the
 workbook that is open, such as a costing sheet, beside the ones it has; a
-sheet whose name is taken gets a number after it.
+sheet whose name is taken gets a number after it, and the template's
+formulas that read it read the numbered one. To bring a costing sheet's
+lines into a record's table, type the formula in the table, such as
+`=Costing!C6:C` under Quantity.
 
 **File › Save as Template** keeps a copy of the workbook in OneCloud ›
 Workbook Templates, where everyone in the company can start from it; you,
@@ -210,18 +213,7 @@ one.
 A template saved from a record's table workbook is for that table: it keeps
 the other sheets and the formulas in the table, but not the table's rows,
 which each record has its own of. **Open in OneWorkbook** under a table
-always opens the table as it is; adding that template from inside the
-workbook brings its sheets and puts its formulas back under the table's
-columns, adding a column the table lacks. When the template's formulas
-fill the table from its sheets, the table's rows come from there, so the
-rows it had are cleared, after the person says yes. A second template for
-the same table comes in beside the first, its sheets numbered and its
-formulas pointed at them, and replaces the first one's formulas in the
-table, since a column has one formula.
-
-Choosing a template when the workbook was first made used to be a dialog
-of its own. It is gone because it was the same thing as adding the
-template afterwards, asked once and never again.
+always opens the table as it is; templates are added from inside.
 
 ## Branded sheets
 
@@ -469,12 +461,7 @@ member read it and only its owner or an administrator change it.
 `bound_sheet` and `bound_columns` the table's sheet and the headers it was
 drawn with (`bound_doctype` stays empty, so it is no record's workbook).
 `sheets_of` answers a template's sheets as cells for File › Add Sheets
-From a Template, without a table's own sheet; `table_of` answers, for a
-template made for the open workbook's table, the formulas it puts under
-the table and the column each takes, and `table.widened` adds the columns
-the workbook lacks, after the ones it has, and answers the sheet's new mark
-(the mark covers the columns, so the next save would otherwise be refused
-as a changed record). `save_as` copies the workbook, the table's sheet `emptied` down to its
+From a Template, without a table's own sheet. `save_as` copies the workbook, the table's sheet `emptied` down to its
 header and formulas; `listed` offers the ones that fit, none for a record
 whose table already has its workbook; `data_of` refuses a table's template
 for anything but that table, and answers the formulas by line and field

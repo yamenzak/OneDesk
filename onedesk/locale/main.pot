@@ -55946,14 +55946,3 @@ msgstr ""
 msgid "{workspace}: {state}"
 msgstr ""
 
-#: onedesk/one_sheet/table.py
-msgid "This workbook does not belong to a record's table."
-msgstr ""
-
-#: frontend/src/sheet/components/SheetEditor/index.vue
-msgid "This template fills {0} from its own sheets. Replace what those columns hold now?"
-msgstr ""
-
-#: frontend/src/sheet/components/SheetEditor/index.vue
-msgid "With this template, the rows of {0} come from its own sheets. Replace the rows it has now?"
-msgstr ""

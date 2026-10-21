@@ -2,8 +2,8 @@
 to start others from. Anyone in the company opens them; whoever made one, or
 an administrator, changes it, as with any company file. A template made from
 a record's table workbook is for that table: it carries the sheets beside
-the table and the formulas typed under the table's header, and adding it
-to that table's workbook on another record brings both. README, Templates.
+the table and the formulas typed under the table's header. README,
+Templates.
 """
 
 import json
@@ -85,27 +85,6 @@ def sheets_of(template: str) -> list[dict]:
 				one[part] = found
 		out.append(one)
 	return out
-
-
-@frappe.whitelist()
-@frappe.read_only()
-def table_of(template: str, workbook: str) -> dict | None:
-	"""What a template made for a table puts under that table's header, for
-	the workbook of the same table on another record: the name the template
-	gives the table's sheet, so the sheets it adds can be pointed at this
-	workbook's, and each formula as [line, field, column, formula], the
-	column None where the sheet has no column for the field yet. None for a
-	template made for no table or another one."""
-	api._may(workbook, "read")
-	book = frappe.db.get_value(api.WORKBOOK, workbook, ["bound_doctype", "bound_field", "bound_columns"], as_dict=True)
-	held = frappe.db.get_value(api.WORKBOOK, template, ["is_template", "template_for", "template_field", "bound_sheet"], as_dict=True)
-	if not book or not book.bound_doctype or not held or not held.is_template or not held.bound_sheet:
-		return None
-	if (held.template_for, held.template_field) != (book.bound_doctype, book.bound_field):
-		return None
-	_data, sheet, formulas = data_of(template, book.bound_doctype, book.bound_field)
-	at = {col["fieldname"]: n for n, col in enumerate(json.loads(book.bound_columns or "[]"))}
-	return {"sheet": sheet, "formulas": [[line, field, at.get(field), formula] for (line, field), formula in sorted(formulas.items())]}
 
 
 def data_of(template: str, doctype: str | None = None, field: str | None = None, sheet: str | None = None) -> tuple[dict, str | None, dict]:

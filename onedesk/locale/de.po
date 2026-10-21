@@ -55888,14 +55888,3 @@ msgstr "{workspace} war gesperrt und wurde nicht bezahlt, daher ist er jetzt off
 msgid "{workspace}: {state}"
 msgstr "{workspace}: {state}"
 
-#: onedesk/one_sheet/table.py
-msgid "This workbook does not belong to a record's table."
-msgstr "Diese Arbeitsmappe gehört zu keiner Tabelle eines Datensatzes."
-
-#: frontend/src/sheet/components/SheetEditor/index.vue
-msgid "This template fills {0} from its own sheets. Replace what those columns hold now?"
-msgstr "Diese Vorlage füllt {0} aus ihren eigenen Blättern. Den aktuellen Inhalt dieser Spalten ersetzen?"
-
-#: frontend/src/sheet/components/SheetEditor/index.vue
-msgid "With this template, the rows of {0} come from its own sheets. Replace the rows it has now?"
-msgstr "Mit dieser Vorlage kommen die Zeilen von {0} aus ihren eigenen Blättern. Die aktuellen Zeilen ersetzen?"

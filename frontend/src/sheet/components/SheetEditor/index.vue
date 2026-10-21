@@ -853,7 +853,7 @@
 
     <!-- Named ranges dialog -->
     <!-- One: templates, and the table's column map (one_sheet/templates.py, table.py). -->
-    <AddSheetsDialog v-model="addSheetsOpen" :workbook="props.id" :bound="bound" @add="addTemplateSheets" />
+    <AddSheetsDialog v-model="addSheetsOpen" :bound="bound" @add="addTemplateSheets" />
     <TemplateDialog v-model="templateOpen" :workbook="props.id" :name="currentTitle" :bound="bound" @saved="onTemplateSaved" />
     <PrintDialog v-model="printOpen" :workbook="props.id" :current="currentSheet" :count="sheetNames.length" :bound="bound" :build="printSheets" />
     <NamedRangesDialog
@@ -1339,7 +1339,7 @@ import ChartDialog             from './ChartDialog.vue'
 import ChartOverlay            from './ChartOverlay.vue'
 import InlineRenameInput       from '@/apps/drive/components/InlineRenameInput.vue'
 import { mark } from '../../shim/mark.js' // One: the OneWorkbook mark
-import { __, andList, ask } from '../../../kit/desk'
+import { __ } from '../../../kit/desk'
 import { createNamedRanges }   from '../../engine/named-ranges.js'
 import { getFunctionNames }    from '../../engine/formula.js'
 import NamedRangesDialog       from './NamedRangesDialog.vue'
@@ -1974,9 +1974,9 @@ function printSheets(all) {
   return names.map((sn) => printable({ sheet, formats, merge, condFormat, validation }, sn, views[sn] || {}))
 }
 const addSheetsOpen = ref(false)
-async function addTemplateSheets({ sheets, table }) {
-  // Each sheet's name in this workbook, and the formulas pointed at it: a
-  // taken name gets a number, and the template's table sheet is this one's.
+function addTemplateSheets(sheets) {
+  // A taken name gets a number, and the template's formulas that read a
+  // renamed sheet are pointed at it, so a second Costing reads Costing 2.
   const taken = new Set(sheet.getSheetNames()), named = {}
   for (const one of sheets || []) {
     let name = one.name, n = 1
@@ -1984,17 +1984,14 @@ async function addTemplateSheets({ sheets, table }) {
     taken.add(name)
     named[one.name] = name
   }
-  if (table && bound.value && table.sheet !== bound.value.sheet) named[table.sheet] = bound.value.sheet
   const moves = Object.entries(named).filter(([from, to]) => from !== to)
-  const pointed = (formula) => {
-    let out = formula
+  const repoint = (value) => {
+    if (typeof value !== 'string' || !value.startsWith('=')) return value
+    let out = value
     moves.forEach(([from], n) => { out = renameSheetInFormula(out, from, `\u0001${n}\u0001`) })
     moves.forEach(([, to], n) => { out = renameSheetInFormula(out, `\u0001${n}\u0001`, to) })
     return out
   }
-  const repoint = (value) => (typeof value === 'string' && value.startsWith('=') ? pointed(value) : value)
-  const fills = table && bound.value && (table.formulas || []).length ? await _tableFills(table.formulas, repoint) : null
-
   let last = ''
   const views = _sheetTabs?.viewSnapshot?.() || {}
   for (const one of sheets || []) {
@@ -2009,60 +2006,11 @@ async function addTemplateSheets({ sheets, table }) {
     sheet.setLines(name, lines || null)
     sheet.batchSetCells(Object.fromEntries(Object.entries(one.cells || {}).map(([id, v]) => [id, repoint(v)])), name, { replace: true })
   }
-  if (fills) sheet.batchSetCells(fills, bound.value.sheet, { replace: false })
-  if (!last && !fills) return
+  if (!last) return
   _sheetTabs?.viewRestore?.(views)
   history.push()
   isDirty.value = true
-  switchSheet(fills ? bound.value.sheet : last)
-}
-
-// One: the cells a template made for this table writes into it: its
-// formulas under the table's columns, the column added first when the sheet
-// has none for the field (one_sheet/table.py, widened). A formula on the
-// first line fills its column down, so the table's rows come from the
-// template's sheets and the rows it has are cleared, their ids kept. When
-// what is replaced holds anything, the person is asked first; null when
-// they say no.
-async function _tableFills(formulas, repoint) {
-  const at = bound.value.sheet, header = (col) => sheet.getCell(`${colLabel(col)}1`, at)
-  const { rows, cols } = sheet.getExtent(at)
-  const held = (col, line) => {
-    const id = `${colLabel(col)}${line + 1}`
-    return sheet.getCell(id, at) !== '' || sheet.getDisplayValue(id, at) !== ''
-  }
-  const drives = formulas.some(([line]) => line === 1)
-  let filled = false
-  for (let line = 1; line < rows && !filled; line++) for (let col = 1; col < cols && !filled; col++) filled = held(col, line)
-  const replaced = new Set()
-  if (!drives) {
-    for (const [line, , col, formula] of formulas) {
-      if (col != null && held(col, line) && sheet.getCell(`${colLabel(col)}${line + 1}`, at) !== repoint(formula)) replaced.add(header(col))
-    }
-  }
-  const asked = drives
-    ? filled && __('With this template, the rows of {0} come from its own sheets. Replace the rows it has now?', [at])
-    : replaced.size && __('This template fills {0} from its own sheets. Replace what those columns hold now?', [andList([...replaced])])
-  if (asked && !(await ask(asked))) return null
-  const fills = {}
-  const place = Object.fromEntries(formulas.filter(([, , col]) => col != null).map(([, field, col]) => [field, col]))
-  const missing = formulas.filter(([, , col]) => col == null).map(([, field]) => field)
-  if (missing.length) {
-    const widened = await call('onedesk.one_sheet.table.widened', { name: props.id, fields: JSON.stringify(missing), mark: String(header(0)).slice(1) })
-    for (const field of missing) {
-      const [col, text] = widened.at[field] || []
-      if (col == null) continue
-      place[field] = col
-      fills[`${colLabel(col)}1`] = text
-    }
-    fills.A1 = `#${widened.mark}`
-  }
-  if (drives) for (let line = 1; line < rows; line++) for (let col = 1; col < cols; col++) fills[`${colLabel(col)}${line + 1}`] = ''
-  for (const [line, field, , formula] of formulas) {
-    const col = place[field]
-    if (col != null) fills[`${colLabel(col)}${line + 1}`] = repoint(formula)
-  }
-  return fills
+  switchSheet(last)
 }
 
 // One: a workbook opened from an Excel or CSV file reads the file in the

@@ -55888,14 +55888,3 @@ msgstr "أُوقفت {workspace} ولم تُدفع، لذا أصبحت غير م
 msgid "{workspace}: {state}"
 msgstr "{workspace}: {state}"
 
-#: onedesk/one_sheet/table.py
-msgid "This workbook does not belong to a record's table."
-msgstr "هذا المصنف لا يخص جدول سجل."
-
-#: frontend/src/sheet/components/SheetEditor/index.vue
-msgid "This template fills {0} from its own sheets. Replace what those columns hold now?"
-msgstr "يملأ هذا القالب {0} من أوراقه. هل تريد استبدال ما تحتويه هذه الأعمدة الآن؟"
-
-#: frontend/src/sheet/components/SheetEditor/index.vue
-msgid "With this template, the rows of {0} come from its own sheets. Replace the rows it has now?"
-msgstr "مع هذا القالب، تأتي صفوف {0} من أوراقه. هل تريد استبدال الصفوف الموجودة فيه الآن؟"
