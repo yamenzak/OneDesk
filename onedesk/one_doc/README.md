@@ -84,6 +84,22 @@ right when the quotation changes.
 The record's own print page lists its documents under the letter head, and
 each prints under the letter head chosen there.
 
+## Word
+
+On the network drive a document is a Word file, `Scope of works.docx`, and so
+is a document downloaded through a link or attached to a mail. Its headings,
+lists, tables, pictures and page breaks come with it, and a record's fields
+are filled in as on paper. Open it in Word, change it and save: the document
+takes Word's version, and what it said before is kept in Version History as
+**Before a Word save**. A document with a record's fields in it opens in Word
+but can only be changed in OneWriter, since Word would keep the values and
+lose the fields.
+
+A Word file put into OneCloud opens in OneWriter, and what you write is saved
+back into the same file when you leave it, its old content kept in the file's
+versions. A new version of it put in from Word is read in the next time it
+opens.
+
 ## Who can open it
 
 Whoever may open the File: its owner, whoever it is shared with, and, for a
@@ -119,8 +135,8 @@ until you approve.
 
 ## What is not built yet
 
-`.docx` on the network drive, through links
-and in mail. Each is a stage of its own.
+A Word file's comments and tracked changes do not come into OneWriter, and
+older `.doc`, `.odt` and `.rtf` files do not open in it; they open as files.
 
 ## Connections
 
@@ -233,3 +249,23 @@ included, since a quotation's customer sits in a field its own print hides.
 The record's print page (Frappe's `print` page) gets `public/js/print_documents.js`
 through `page_js`; it wraps `PrintView.show` to list `on_record`'s documents
 under the letter head.
+
+### Word
+
+`word.py`, with python-docx (MIT) to write and mammoth (BSD-2) to read,
+the converter Suite's writer runs in the browser. `build` walks the stored
+HTML, filled as on paper, into paragraphs in python-docx's own styles
+(Heading n, List Bullet, List Number, Quote, Table Grid), with pictures read
+from their Files; `docx` keeps it in the cache until the document changes.
+The drive (`one_storage/dav.py`), a File's content (`one_storage/file.py`)
+and a link (`one_storage/links.py`) ask for it where they ask the workbook
+for its Excel file. `write` is Word's save: `read` turns it into HTML, its
+pictures into the document's pictures, the old HTML becomes a version and
+the editor state is cleared so the next open builds from the HTML.
+
+A `.docx` File opened from OneCloud gets a Writer Document whose `file` is
+that File and `source_kind` is `docx` (`open_file`); its title keeps the
+`.docx`. The page calls `write_back` when it is left, which builds the file
+and puts it in through `one_storage/history.replace`, so the File keeps its
+versions; `file_replaced` empties the HTML when a version comes in from
+outside, and `get_document` reads the file again.

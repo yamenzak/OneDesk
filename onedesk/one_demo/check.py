@@ -5708,6 +5708,84 @@ def a_document_prints_with_its_records_fields():
 
 
 @check
+def a_document_is_a_word_file_on_the_drive():
+	"""On the network drive a document is "Name.docx", with its headings,
+	lists, table, picture and page break; a download or a mail attachment is
+	that Word file. Saved over from Word, it reads back in with a version
+	kept; one with a record's fields in it is not written from Word. A Word
+	file in OneCloud opens as a document and is written back into itself,
+	its old content kept as a version, and a new version put in from outside
+	is read in again. All undone afterwards."""
+	import io
+
+	from docx import Document
+
+	from onedesk.one_doc import api, versions, word
+	from onedesk.one_storage import dav
+	from onedesk.one_storage import namespace as ns
+
+	frappe.db.savepoint("doc_word_check")
+	try:
+		with as_user(OWNER):
+			made = api.make("@my", "Word check")
+			name = made["document"]
+			from PIL import Image
+
+			drawn = io.BytesIO()
+			Image.new("RGB", (4, 4), "white").save(drawn, "PNG")
+			picture = frappe.get_doc({"doctype": "File", "file_name": "dot.png", "content": drawn.getvalue(), "is_private": 1, "attached_to_doctype": api.DOCUMENT, "attached_to_name": name})
+			picture.insert(ignore_permissions=True)
+			html = (
+				'<h1>Scope</h1><p style="text-align: center"><strong>Curtain</strong> wall.</p><ul><li><p>Glass</p></li><li><p>Frames</p></li></ul>'
+				f'<table><tr><th>Item</th><th>Qty</th></tr><tr><td>Glass</td><td>4</td></tr></table><p><img src="{api.PICTURE}{picture.name}"></p>'
+				'<div data-page-break="true"></div><p>Page two.</p>'
+			)
+			api.save_document(name, "AAA=", html)
+			assert dav._as_file(ns.node(ns.row(made["id"])))["name"] == "Word check.docx"
+			doc = Document(io.BytesIO(word.build(name)))
+			said = [(one.style.name, one.text) for one in doc.paragraphs if one.text]
+			assert ("Heading 1", "Scope") in said and ("List Bullet", "Glass") in said and ("Normal", "Page two.") in said, said
+			assert doc.tables[0].cell(1, 0).text == "Glass" and doc.inline_shapes, "the table and the picture"
+			assert doc.paragraphs[1].alignment == 1 and doc.paragraphs[1].runs[0].bold
+			file = frappe.get_doc("File", made["id"])
+			assert file.get_content()[:2] == b"PK" and file.file_name == "Word check.docx", "an attachment or a download is the Word file"
+			file.save()
+			assert frappe.db.get_value("File", made["id"], "file_name") == "Word check", "and the file keeps its name"
+			saved = Document()
+			saved.add_heading("Scope", 1)
+			saved.add_paragraph("Changed in Word.")
+			out = io.BytesIO()
+			saved.save(out)
+			word.write(name, out.getvalue())
+			held = frappe.db.get_value(api.DOCUMENT, name, ["html", "content"], as_dict=True)
+			assert "Changed in Word." in held.html and not held.content, held
+			assert any(one["title"] == "Before a Word save" and "Curtain" in one["snapshot"] for one in versions.listed(name)), "a version is kept"
+			api.save_document(name, "BBB=", '<p>To <span data-field="customer_name">Customer</span></p>')
+			try:
+				word.write(name, out.getvalue())
+				raise AssertionError("a document with a record's fields was written from Word")
+			except frappe.PermissionError:
+				pass
+			upload = frappe.get_doc({"doctype": "File", "file_name": "Letter check.docx", "content": out.getvalue(), "is_private": 1, "folder": ns.HOME})
+			upload.insert()
+			opened = word.open_file(upload.name)["document"]
+			assert word.open_file(upload.name)["document"] == opened, "one file, one document"
+			assert "Changed in Word." in api.get_document(opened)["html"] and api.get_document(opened)["word"]
+			api.save_document(opened, "CCC=", "<p>Written in OneWriter.</p>")
+			assert api.rename_document(opened, "Letter checked")["title"] == "Letter checked.docx", "a Word file keeps its .docx"
+			word.write_back(opened)
+			back = Document(io.BytesIO(frappe.get_doc("File", upload.name).get_content()))
+			assert [one.text for one in back.paragraphs] == ["Written in OneWriter."], "written back into itself"
+			assert frappe.db.count("Cloud File Version", {"file": upload.name}) == 1, "what it held kept as a version"
+			word.file_replaced(upload.name)
+			assert "Written in OneWriter." in api.get_document(opened)["html"], "a new version from outside is read in again"
+			frappe.delete_doc("File", upload.name, ignore_permissions=True, force=True)
+			assert not frappe.db.exists(api.DOCUMENT, opened), "and its document goes with the file"
+	finally:
+		frappe.db.rollback(save_point="doc_word_check")
+
+
+@check
 def a_workbook_left_open_waits_on_the_bar():
 	"""A workbook left for another screen waits on the bar under its title;
 	one that is gone, or that the reader may not open, isn't named. All

@@ -191,6 +191,18 @@ export function onResize(changed) {
 	return () => window.removeEventListener("resize", changed);
 }
 
+// The page is being left: the desk routes elsewhere, or the tab goes out of
+// sight (a desk page stays mounted when it is left).
+export function onLeave(left) {
+	const hidden = () => document.visibilityState === "hidden" && left();
+	frappe().router?.on?.("change", left);
+	document.addEventListener("visibilitychange", hidden);
+	return () => {
+		frappe().router?.off?.("change", left);
+		document.removeEventListener("visibilitychange", hidden);
+	};
+}
+
 export const userInfo = (user) => {
 	const info = frappe().user_info(user) || {};
 	return { name: info.fullname || user, image: info.image };

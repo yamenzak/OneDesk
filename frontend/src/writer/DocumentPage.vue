@@ -63,7 +63,7 @@
 import { computed, onBeforeUnmount, onMounted, provide, reactive, ref, watch } from "vue";
 import { Breadcrumbs, Button, Dialogs, Dropdown } from "frappe-ui";
 
-import { __, call, goTo, goToUrl, listen, me, oneaiMark, oneaiOn, userSettings } from "../kit/desk";
+import { __, call, goTo, goToUrl, listen, me, oneaiMark, oneaiOn, onLeave, userSettings } from "../kit/desk";
 import InlineRenameInput from "../sheet/shim/InlineRenameInput.vue";
 import { mark } from "../sheet/shim/mark.js";
 import "../sheet/shim/fit.css";
@@ -137,6 +137,7 @@ const settingsDoc = reactive({
 			return call("onedesk.one_doc.api.save_document", { name: state.value.name, content: data, html })
 				.then((said) => {
 					refused.value = said?.refused || "";
+					unwritten = Boolean(state.value?.word);
 					settingsDoc.saveDoc.error = null;
 					savedOnce.value = true;
 					dirty.value = false;
@@ -309,11 +310,31 @@ const stopWritten = listen("one_document_written", (said) => {
 	editor.value.commands.insertContentAt(editor.value.state.doc.content.size, said.html);
 });
 
+// A Word file opened from OneCloud is written back into itself when it is
+// left, once the last save is in (one_doc/word.py, write_back).
+let unwritten = false;
+async function writeBack() {
+	if (!unwritten || !state.value?.word) return;
+	emitter.emit("manual-save");
+	await new Promise((done) => setTimeout(done, 50));
+	while (saving.value) await new Promise((done) => setTimeout(done, 200));
+	unwritten = false;
+	try {
+		await call("onedesk.one_doc.word.write_back", { name: state.value.name });
+	} catch (failed) {
+		unwritten = true;
+		refused.value = __("Could not write {0} back: {1}", [state.value.title, failed?.message || ""]);
+	}
+}
+const stopLeaving = onLeave(writeBack);
+
 // Ctrl+P in the editor asks for the Print dialog.
 const printing = () => (showPrint.value = true);
 emitter.on("print-file", printing);
 
 onBeforeUnmount(() => {
+	writeBack();
+	stopLeaving();
 	emitter.off("print-file", printing);
 	stopWritten?.();
 	state.value = null;

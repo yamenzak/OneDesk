@@ -56049,3 +56049,18 @@ msgstr "Dieses Dokument gehört zu keinem Datensatz."
 
 msgid "This document is not in a folder."
 msgstr "Dieses Dokument liegt in keinem Ordner."
+
+msgid "Only Word files can be opened as a document."
+msgstr "Nur Word-Dateien können als Dokument geöffnet werden."
+
+msgid "This document is not linked to a Word file."
+msgstr "Dieses Dokument ist mit keiner Word-Datei verknüpft."
+
+msgid "A document with a record's fields in it can only be edited in OneWriter."
+msgstr "Ein Dokument mit Feldern eines Datensatzes kann nur in OneWriter bearbeitet werden."
+
+msgid "Before a Word save"
+msgstr "Vor einer Speicherung aus Word"
+
+msgid "Could not write {0} back: {1}"
+msgstr "{0} konnte nicht zurückgeschrieben werden: {1}"

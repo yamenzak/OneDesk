@@ -56110,3 +56110,18 @@ msgstr ""
 
 msgid "ID"
 msgstr ""
+
+msgid "Only Word files can be opened as a document."
+msgstr ""
+
+msgid "This document is not linked to a Word file."
+msgstr ""
+
+msgid "A document with a record's fields in it can only be edited in OneWriter."
+msgstr ""
+
+msgid "Before a Word save"
+msgstr ""
+
+msgid "Could not write {0} back: {1}"
+msgstr ""

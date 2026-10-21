@@ -109,6 +109,11 @@ def get_document(name: str) -> dict:
 
 	item = _may(name, "read")
 	doc = frappe.get_doc(DOCUMENT, name)
+	if doc.source_kind == "docx" and not doc.html and not doc.content:
+		from onedesk.one_doc import word
+
+		word.open_file(item["name"])
+		doc.reload()
 	bound = field.bound(name)
 	return {
 		"name": doc.name,
@@ -117,6 +122,7 @@ def get_document(name: str) -> dict:
 		"folder": item.get("folder"),
 		"can_write": ns.may(item, "write") and (not bound or bound["writable"]),
 		"bound": bound,
+		"word": doc.source_kind == "docx",
 		"owner": item.get("owner"),
 		"content": doc.content or "",
 		"html": doc.html or "",
@@ -152,7 +158,7 @@ def save_document(name: str, content: str, html: str, title: str | None = None, 
 	put = field.put(name, frappe.db.get_value(DOCUMENT, name, "html"), html)
 	frappe.db.set_value(DOCUMENT, name, {"content": content, "html": put.get("html", html), "byte_size": size}, update_modified=True)
 	frappe.db.set_value("File", item["name"], "file_size", size, update_modified=True)
-	_retitle(item, title)
+	_retitle(name, item, title)
 	return {"name": name, **({} if put["ok"] else {"refused": put["message"]})}
 
 
@@ -179,22 +185,26 @@ def save_comments(name: str, data: str) -> dict:
 @frappe.whitelist(methods=["POST"])
 def rename_document(name: str, title: str) -> dict:
 	item = _may(name, "write")
-	_retitle(item, title)
+	_retitle(name, item, title)
 	return {"name": name, "title": frappe.db.get_value("File", item["name"], "file_name")}
 
 
-def _retitle(item: dict, title: str | None) -> None:
-	"""The File's name is the document's title, kept unique in its folder."""
+def _retitle(name: str, item: dict, title: str | None) -> None:
+	"""The File's name is the document's title, kept unique in its folder; a
+	Word file's keeps its .docx."""
+	from onedesk.one_doc import word
 	from onedesk.one_storage import api as cloud
 	from onedesk.one_storage import namespace as ns
 
 	title = _titled(title)
+	if title and frappe.db.get_value(DOCUMENT, name, "source_kind") == "docx" and not title.lower().endswith(word.SUFFIX):
+		title += word.SUFFIX
 	if not title or title == item["file_name"]:
 		return
 	if item.get("folder") and not item.get("attached_to_doctype"):
 		title = ns.unique_name(title, cloud._taken(item["folder"], but=item["name"]))
 	frappe.db.set_value("File", item["name"], "file_name", title)
-	frappe.db.set_value(DOCUMENT, document_of(item["file_url"]), "title", title)
+	frappe.db.set_value(DOCUMENT, name, "title", title)
 
 
 def _titled(title: str | None) -> str:
@@ -337,7 +347,10 @@ def placed(doc, method=None) -> None:
 
 
 def file_gone(doc, method=None) -> None:
-	"""File on_trash: the document it held goes with it."""
+	"""File on_trash: the document it held, or that edited it, goes with it."""
+	from onedesk.one_doc import word
+
+	word.file_gone(doc.name)
 	name = document_of(doc.file_url)
 	if name and frappe.db.exists(DOCUMENT, name):
 		from onedesk.one_doc import versions

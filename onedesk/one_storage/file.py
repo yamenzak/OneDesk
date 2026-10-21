@@ -72,11 +72,22 @@ class CloudFile(File):
 		return super().on_trash()
 
 	def get_content(self, encodings=None) -> bytes | str:
-		"""A workbook's content is its Excel file (one_sheet/excel.py), and
-		while it is being read it is named as one, so an email attachment or
-		a download says `Name.xlsx`; validate puts the name back."""
+		"""A workbook's content is its Excel file (one_sheet/excel.py), and a
+		document's its Word file (one_doc/word.py); while it is being read it
+		is named as one, so an email attachment or a download says
+		`Name.xlsx` or `Name.docx`; validate puts the name back."""
 		from onedesk.one_sheet import api as sheets
 
+		from onedesk.one_doc import api as writer
+
+		if not self.get("content") and (written := writer.document_of(self.file_url)):
+			from onedesk.one_doc import word
+
+			if not (self.file_name or "").lower().endswith(word.SUFFIX):
+				self.flags.one_named = self.file_name
+				self.file_name = (self.file_name or "") + word.SUFFIX
+			self._content = word.docx(written)
+			return self._content
 		if not self.get("content") and (book := sheets.workbook_of(self.file_url)):
 			from onedesk.one_sheet import excel
 

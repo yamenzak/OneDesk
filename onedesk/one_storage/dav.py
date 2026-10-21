@@ -334,12 +334,17 @@ def _children(node_id: str) -> list[dict]:
 
 def _as_file(node: dict) -> dict:
 	"""A workbook made in OneWorkbook is an Excel file on the drive
-	(one_sheet/excel.py)."""
+	(one_sheet/excel.py), and a document made in OneWriter a Word file
+	(one_doc/word.py)."""
+	from onedesk.one_doc import word
 	from onedesk.one_sheet import excel
 
-	if not node.get("workbook") or node.get("folder"):
+	if node.get("folder"):
 		return node
-	name = node["name"] if node["name"].lower().endswith(excel.SUFFIX) else node["name"] + excel.SUFFIX
+	suffix = excel.SUFFIX if node.get("workbook") else word.SUFFIX if node.get("document") else None
+	if not suffix:
+		return node
+	name = node["name"] if node["name"].lower().endswith(suffix) else node["name"] + suffix
 	return {**node, "name": name}
 
 
@@ -377,9 +382,13 @@ def _place_for(dest_path: str) -> tuple[dict, str]:
 def _move_or_copy(item: dict, dest_path: str, is_move: bool) -> None:
 	from onedesk.one_sheet import excel
 
+	from onedesk.one_doc import word
+
 	parent, name = _place_for(dest_path)
 	if item.get("workbook") and name.lower().endswith(excel.SUFFIX):
 		name = name[: -len(excel.SUFFIX)]
+	if item.get("document") and name.lower().endswith(word.SUFFIX):
+		name = name[: -len(word.SUFFIX)]
 	here = frappe.db.get_value("File", item["id"], "folder") if not item.get("virtual") else None
 	try:
 		if is_move and here == ns.folder_of(parent["id"]):
@@ -475,12 +484,15 @@ class Document(_DAVNonCollection):
 		self._spool = None
 
 	def _workbook(self) -> bytes:
+		from onedesk.one_doc import word
 		from onedesk.one_sheet import excel
 
+		if self.item.get("document"):
+			return word.docx(self.item["document"])
 		return excel.xlsx(self.item["workbook"])
 
 	def get_content_length(self):
-		if self.item.get("workbook"):
+		if self.item.get("workbook") or self.item.get("document"):
 			return len(self._workbook())
 		return int(self.item.get("size") or 0)
 
@@ -508,7 +520,7 @@ class Document(_DAVNonCollection):
 		return False
 
 	def get_content(self):
-		if self.item.get("workbook"):
+		if self.item.get("workbook") or self.item.get("document"):
 			return io.BytesIO(self._workbook())
 		url = self.item.get("url") or ""
 		if store.is_stored(url):
@@ -542,13 +554,17 @@ class Document(_DAVNonCollection):
 				content = written.read()
 		finally:
 			os.unlink(spool)
-		if self.item.get("workbook"):
+		if self.item.get("workbook") or self.item.get("document"):
+			from onedesk.one_doc import word
 			from onedesk.one_sheet import excel
 
 			if not content:
 				return
 			try:
-				excel.write(self.item["workbook"], content)
+				if self.item.get("document"):
+					word.write(self.item["document"], content)
+				else:
+					excel.write(self.item["workbook"], content)
 			except frappe.PermissionError:
 				raise _error(403) from None
 			except frappe.ValidationError:

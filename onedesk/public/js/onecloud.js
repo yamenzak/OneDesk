@@ -1110,6 +1110,9 @@ onedesk.OneCloud = class OneCloud {
 		// An Excel or CSV file opens in the editor, and is saved back into itself.
 		const sheet = items.length === 1 && !items[0].folder && OneCloud.SHEETS.includes(this.extension(items[0])) ? items[0] : null;
 		if (sheet) return frappe.xcall("onedesk.one_sheet.api.open_file", { file: sheet.id }).then((made) => frappe.set_route("workbook", made.workbook));
+		// So does a Word file, in OneWriter.
+		const word = items.length === 1 && !items[0].folder && this.extension(items[0]) === "docx" ? items[0] : null;
+		if (word) return frappe.xcall("onedesk.one_doc.word.open_file", { file: word.id }).then((made) => frappe.set_route("document", made.document));
 		items.filter((one) => !one.folder && one.url).forEach((one) => window.open(one.url, "_blank", "noopener"));
 	}
 

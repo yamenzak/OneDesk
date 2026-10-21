@@ -512,6 +512,8 @@ No doctypes yet.
 * `onedesk.one_doc.templates.save_as`
 * `onedesk.one_doc.versions.listed`
 * `onedesk.one_doc.versions.new_version`
+* `onedesk.one_doc.word.open_file`
+* `onedesk.one_doc.word.write_back`
 * `onedesk.one_hr.clock.punch`
 * `onedesk.one_hr.clock.ready`
 * `onedesk.one_hr.employee.get_assignable_masters`

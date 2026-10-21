@@ -56049,3 +56049,18 @@ msgstr "هذا المستند ليس على سجل."
 
 msgid "This document is not in a folder."
 msgstr "هذا المستند ليس في مجلد."
+
+msgid "Only Word files can be opened as a document."
+msgstr "لا يمكن فتح سوى ملفات Word كمستند."
+
+msgid "This document is not linked to a Word file."
+msgstr "هذا المستند غير مرتبط بملف Word."
+
+msgid "A document with a record's fields in it can only be edited in OneWriter."
+msgstr "لا يمكن تحرير مستند يحتوي على حقول سجل إلا في OneWriter."
+
+msgid "Before a Word save"
+msgstr "قبل حفظ من Word"
+
+msgid "Could not write {0} back: {1}"
+msgstr "تعذّر حفظ {0} في الملف: {1}"
