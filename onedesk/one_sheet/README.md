@@ -210,10 +210,10 @@ and administrators, can change it there like any workbook. **New ›
 Workbook** in OneCloud then asks which template to start from, or a blank
 one.
 
-A template saved from a record's table workbook is for that table: it keeps
-the other sheets and the formulas in the table, but not the table's rows,
-which each record has its own of. **Open in OneWorkbook** under a table
-always opens the table as it is; templates are added from inside.
+A template is its own sheets and nothing else. Saved from a record's table
+workbook, it keeps the sheets beside the table and leaves the table out,
+since the table is the record's. **Open in OneWorkbook** under a table
+opens the table as it is; templates are added from inside.
 
 ## Branded sheets
 
@@ -457,19 +457,16 @@ the File is a plain workbook.
 A template is a Workbook with `is_template` set, behind a public File in
 the company's Workbook Templates folder, so `namespace.may` lets every staff
 member read it and only its owner or an administrator change it.
-`template_for` and `template_field` name the table it is for, and
-`bound_sheet` and `bound_columns` the table's sheet and the headers it was
-drawn with (`bound_doctype` stays empty, so it is no record's workbook).
-`sheets_of` answers a template's sheets as cells for File › Add Sheets
-From a Template, without a table's own sheet. `save_as` copies the workbook, the table's sheet `emptied` down to its
-header and formulas; `listed` offers the ones that fit, none for a record
-whose table already has its workbook; `data_of` refuses a table's template
-for anything but that table, and answers the formulas by line and field
-name (`kept`), so a template saved in English opens in Arabic. `api.make`
-and `table.open_table` start from one; the formulas' fields are always
-columns (`columns(also=)`).
+`listed` answers every template the reader may open, `data_of` one's
+content, which `api.make` starts a workbook from, and `sheets_of` its
+sheets as cells for File › Add Sheets From a Template. `save_as` copies
+the workbook; from a record's table workbook, the table's sheet and
+everything kept for it are left out (`table.without`). Until October 2026
+a table's template kept the table's sheet, its header and the formulas
+under it, and was offered only for that table; the patch
+`templates_are_their_sheets` took those sheets out.
 
-`laid` writes the formulas it is given back where they were. A column with
+`laid` writes the formulas typed in the table back where they were. A column with
 one on its first line is fed by it, so `laid` leaves the record's values out
 of it and puts no rule on it, and `refresh` keeps every formula when it
 draws the sheet again. In the browser, `takeBack` writes nothing into a

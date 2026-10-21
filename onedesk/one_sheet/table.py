@@ -44,16 +44,15 @@ SAVEPOINT = "one_sheet_table"
 BOUND_KEY = "one_sheet_bound_doctypes"
 
 
-def columns(fields: list[dict], picked: list[str] | None = None, also: list[str] | None = None) -> list[dict]:
+def columns(fields: list[dict], picked: list[str] | None = None) -> list[dict]:
 	"""The hidden row id, then the table's columns as the form's grid shows
 	them: the ones chosen on the grid's gear when there are any (`picked`),
-	else the fields in its list view; the required ones either way; and those
-	a template's sheet has formulas under (`also`). Formatted text is a
-	column only when asked for. Pure."""
+	else the fields in its list view; and the required ones either way.
+	Formatted text is a column only when asked for. Pure."""
 	usable = [
 		df
 		for df in fields
-		if df.get("fieldtype") in SHOWN and not df.get("hidden") and (df["fieldtype"] not in LONG or df["fieldname"] in (picked or []) + (also or []))
+		if df.get("fieldtype") in SHOWN and not df.get("hidden") and (df["fieldtype"] not in LONG or df["fieldname"] in (picked or []))
 	]
 	by = {df["fieldname"]: df for df in usable}
 	if picked:
@@ -61,7 +60,6 @@ def columns(fields: list[dict], picked: list[str] | None = None, also: list[str]
 		chosen += [df for df in usable if df.get("reqd") and df["fieldname"] not in picked]
 	else:
 		chosen = [df for df in usable if df.get("in_list_view") or df.get("reqd")] or usable[:8]
-	chosen += [by[name] for name in also or [] if name in by and by[name] not in chosen]
 	out, seen = [{"fieldname": "name", "header": MARK, "fieldtype": "Data", "read_only": True}], set()
 	for df in chosen[:MOST_COLUMNS]:
 		header = _(df.get("label")) if df.get("label") else df["fieldname"]
@@ -248,35 +246,23 @@ def stored(data: dict, sheet: str) -> dict:
 	return ((((data.get("sheet") or {}).get("sheets") or {}).get(sheet) or {}).get("rows")) or {}
 
 
-def emptied(data: dict, sheet: str) -> dict:
-	"""A workbook's content with one sheet down to its header and formulas,
-	the record's rows and the sheet's rules left out: what a template of a
-	table keeps. Pure."""
+def without(data: dict, sheet: str) -> dict:
+	"""A workbook's content without one sheet and what it keeps per sheet:
+	a table workbook's other sheets, as its template keeps them. Pure."""
 	held = dict(data.get("sheet") or {})
-	sheets = dict(held.get("sheets") or {})
-	kept = {}
-	for line, values in stored(data, sheet).items():
-		if str(line) == "0":
-			kept["0"] = [MARK, *list(values or [])[1:]]
-			continue
-		values = [one if isinstance(one, str) and one.startswith("=") else None for one in values or []]
-		if any(values):
-			kept[str(line)] = values
-	if sheet in sheets:
-		sheets[sheet] = {**sheets[sheet], "rows": kept}
-	out = {**data, "sheet": {**held, "sheets": sheets}}
-	for key in ("validation", "protection"):
-		if isinstance(out.get(key), dict) and sheet in out[key]:
-			out[key] = {name: one for name, one in out[key].items() if name != sheet}
+	held["sheets"] = {name: one for name, one in (held.get("sheets") or {}).items() if name != sheet}
+	if held.get("current") not in held["sheets"]:
+		held["current"] = next(iter(held["sheets"]), None)
+	out = {key: ({name: one for name, one in part.items() if name != sheet} if isinstance(part, dict) else part) for key, part in data.items()}
+	out["sheet"] = held
 	return out
 
 
-def placed(data: dict, sheet: str, layout: dict, look: dict | None = None, fresh: bool = False) -> dict:
+def placed(data: dict, sheet: str, layout: dict, look: dict | None = None) -> dict:
 	"""A workbook's content with the bound sheet drawn in, first; the other
 	sheets, and the bound sheet's column widths, are kept. `look`
 	(style.table) formats the bound sheet the first time only, so what
-	somebody formatted since stays; `fresh`, for a workbook just made from a
-	template whose columns may lie in another order, formats it anew. Pure."""
+	somebody formatted since stays. Pure."""
 	held = data.get("sheet")
 	if not isinstance(held, dict) or held.get("v") != 2:
 		held = {"v": 2, "current": sheet, "sheets": {}}
@@ -289,13 +275,13 @@ def placed(data: dict, sheet: str, layout: dict, look: dict | None = None, fresh
 		part = data.get(key)
 		if not isinstance(part, dict) or (key == "view" and "colW" in part):
 			part = {}
-		was = part.get(sheet) if key == "view" and isinstance(part.get(sheet), dict) and not fresh else {}
+		was = part.get(sheet) if key == "view" and isinstance(part.get(sheet), dict) else {}
 		first = {"colW": look["colW"], "rowH": look["rowH"]} if look and key == "view" else {}
 		part[sheet] = {**first, **was, **layout[key]}
 		data[key] = part
 	if look:
 		formats = data.get("formats") if isinstance(data.get("formats"), dict) else {}
-		if fresh or not formats.get(sheet):
+		if not formats.get(sheet):
 			formats[sheet] = look["formats"]
 		data["formats"] = formats
 	return data
@@ -386,11 +372,9 @@ def _held(book) -> dict:
 
 
 @frappe.whitelist(methods=["POST"])
-def open_table(doctype: str, name: str, field: str, template: str | None = None) -> str:
+def open_table(doctype: str, name: str, field: str) -> str:
 	"""The workbook a record's table is the first sheet of, made the first
-	time it is asked for, from a template made for this table when one is
-	named: its sheets beside the table, and the formulas under the table's
-	header. Answers its name."""
+	time it is asked for. Answers its name."""
 	doc = frappe.get_doc(doctype, name)
 	doc.check_permission("read")
 	df = doc.meta.get_field(field)
@@ -402,21 +386,16 @@ def open_table(doctype: str, name: str, field: str, template: str | None = None)
 		return held
 	from frappe.model.utils.user_settings import get_user_settings
 
-	from onedesk.one_sheet import templates
-
-	data, sheet, formulas = {}, _(df.label or field)[:31], {}
-	if template:
-		data, sheet, formulas = templates.data_of(template, doctype, field, sheet)
+	sheet = _(df.label or field)[:31]
 	grid = (json.loads(get_user_settings(doctype) or "{}").get("GridView") or {}).get(df.options) or []
 	cols = columns(
 		[one.as_dict() for one in frappe.get_meta(df.options).fields],
 		[one.get("fieldname") for one in grid if isinstance(one, dict)],
-		list(dict.fromkeys(field for (_line, field) in formulas)),
 	)
 	if len(cols) < 2:
 		frappe.throw(_("This table has no columns that can be shown in a sheet."))
 	table = doc.get(field)
-	data = placed(data, sheet, laid(cols, table, fingerprint(doc.docstatus, table, cols), doc.docstatus != 0, formulas), _look(doc, cols), fresh=True)
+	data = placed({}, sheet, laid(cols, table, fingerprint(doc.docstatus, table, cols), doc.docstatus != 0), _look(doc, cols))
 	title = api._titled(f"{doc.name} {_(df.label or field)}")
 	book = frappe.get_doc(
 		{

@@ -853,7 +853,7 @@
 
     <!-- Named ranges dialog -->
     <!-- One: templates, and the table's column map (one_sheet/templates.py, table.py). -->
-    <AddSheetsDialog v-model="addSheetsOpen" :bound="bound" @add="addTemplateSheets" />
+    <AddSheetsDialog v-model="addSheetsOpen" @add="addTemplateSheets" />
     <TemplateDialog v-model="templateOpen" :workbook="props.id" :name="currentTitle" :bound="bound" @saved="onTemplateSaved" />
     <PrintDialog v-model="printOpen" :workbook="props.id" :current="currentSheet" :count="sheetNames.length" :bound="bound" :build="printSheets" />
     <NamedRangesDialog

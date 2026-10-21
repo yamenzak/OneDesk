@@ -5,7 +5,7 @@
 			<div class="flex flex-col gap-3">
 				<FormControl v-model="title" type="text" :label="__('Name')" :placeholder="__('e.g. Costing')" />
 				<p class="text-sm text-ink-gray-5">
-					{{ bound ? __("The template includes all sheets and the table formulas, but not the table rows.") : __("The template includes all sheets in their current state.") }}
+					{{ bound ? __("The template includes every sheet except {0}, which belongs to the record.", [bound.sheet]) : __("The template includes all sheets in their current state.") }}
 					<Branded :text="__('It is saved to OneCloud › Workbook Templates and is available to everyone in the company.')" />
 				</p>
 				<p v-if="error" class="text-sm text-ink-red-4">{{ error }}</p>

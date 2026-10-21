@@ -52,25 +52,14 @@ def test_a_line_goes_under_the_product_its_words_name():
 	assert product("Something nobody named") == "Aluminium Works"
 
 
-def test_the_costing_template_asks_the_same_question_as_the_importer():
-	space = _load(RUA / "setup.py", {"kind_formula", "_on_item"})
-	said = space["kind_formula"]()
-	assert said.startswith('=IF(Costing!A6:A="","",IF(ISNUMBER(SEARCH("louv",Costing!B6:B)),"Louver",')
-	assert 'IF(ISNUMBER(SEARCH("steel",Costing!B6:B))*ISNUMBER(SEARCH("handrail",Costing!B6:B)),"Steel Handrail",' in said
-	assert said.endswith('"Aluminium Works"' + ")" * (len(space["KINDS"]) + 1))
-
-
 def test_a_costing_template_is_headers_and_formulas_only():
-	space = _load(RUA / "setup.py", {"kind_formula", "costing_items"})
+	space = _load(RUA / "setup.py", set())
 	for spec in space["COSTINGS"]:
 		assert all(one is None or not one[:1].isdigit() for one in spec["head"]), "headers, not figures"
 		assert all(formula.startswith("=") for formula in spec["line"].values()), "nothing typed, only formulas"
 		marked = set("".join(spec["kinds"].values()))
 		assert marked <= {chr(65 + at) for at in range(len(spec["head"]))}, "every marked column is a column"
 		assert set(spec["kinds"]["key"]) <= set(spec["kinds"]["money"])
-	items = space["costing_items"](6, 10)
-	assert items["one_length"] == '=IF(Costing!A6:A="","",IF(ISNUMBER(Costing!D6:D),Costing!D6:D*10,""))', "centimetres to millimetres"
-	assert items["rate"] == '=IF(Costing!A6:A="","",Costing!P6:P/Costing!C6:C)'
 
 
 def test_a_trn_is_fifteen_digits_or_nothing():

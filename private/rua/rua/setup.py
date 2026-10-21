@@ -307,35 +307,6 @@ def kind(description) -> str:
 	return next((product for words, product in KINDS if all(one in said for one in words.split("+"))), "Aluminium Works")
 
 
-def kind_formula(first: int = 6) -> str:
-	"""KINDS as one formula over the Costing sheet's descriptions, the
-	product of each line it fills down. Pure."""
-	said = '"Aluminium Works"'
-	for words, product in reversed(KINDS):
-		test = "*".join(f'ISNUMBER(SEARCH("{one}",Costing!B{first}:B))' for one in words.split("+"))
-		said = f'IF({test},"{product}",{said})'
-	return f'=IF(Costing!A{first}:A="","",{said})'
-
-
-def costing_items(first: int = 6, scale: int = 1) -> dict:
-	"""The quotation's items, each column one formula that fills it down
-	from the Costing sheet, a line for each line with an ITEM. The rate is
-	the line's overall price over its quantity: O is a unit rate on a
-	curtain wall's line but the whole price on a cladding or handrail line,
-	where P is just O. Pure."""
-	key = f'=IF(Costing!A{first}:A="","",'
-	size = f"*{scale}" if scale != 1 else ""
-	return {
-		"item_code": kind_formula(first),
-		"item_name": f"=Costing!A{first}:A",
-		"description": f"{key}Costing!B{first}:B)",
-		"qty": f"{key}Costing!C{first}:C)",
-		"one_length": f'{key}IF(ISNUMBER(Costing!D{first}:D),Costing!D{first}:D{size},""))',
-		"one_width": f'{key}IF(ISNUMBER(Costing!E{first}:E),Costing!E{first}:E{size},""))',
-		"rate": f"{key}Costing!P{first}:P/Costing!C{first}:C)",
-	}
-
-
 #: What each costing sheet shows beside the logo: the project, picked in the
 #: sheet or the quotation's own, what it is called and whose it is, and the
 #: quotation the sheet is for when it is one.
@@ -359,13 +330,12 @@ def costing_sheet(spec: dict, colour: str, currency: str) -> dict:
 
 
 def costing():
-	"""Rua's costing sheets as templates for a quotation's items: the
-	estimators' columns under the company's logo, a curtain wall's formulas
-	on each line as it is filled, and the items sheet whose formulas read
-	it. One already there and laid out is left as it is, so what somebody changed in it
-	stays; one made under its old name or before its lines grew as they are
-	filled is made again in place."""
-	from onedesk.one_sheet import api, storage, style, table, templates
+	"""Rua's costing sheets as templates: the estimators' columns under the
+	company's logo and a curtain wall's formulas on each line as it is
+	filled. One already there and laid out is left as it is, so what
+	somebody changed in it stays; one made under its old name or before its
+	lines grew as they are filled is made again in place."""
+	from onedesk.one_sheet import api, storage, style, templates
 
 	brand = style.brand()
 	for spec in COSTINGS:
@@ -374,31 +344,21 @@ def costing():
 		)
 		if held and held.title == spec["title"] and "Costing" in (json.loads(storage.decode_sheets_data(held.sheets_data) or "{}").get("lines") or {}):
 			continue
-		said = costing_items(style.FIRST, spec["scale"])
-		cols = table.columns([one.as_dict() for one in frappe.get_meta("Quotation Item").fields], list(said))
-		sheet = _("Items")
-		lines = {"0": [table.MARK] + [col["header"] for col in cols[1:]], "1": [None] + [said.get(col["fieldname"]) for col in cols[1:]]}
 		laid = costing_sheet(spec, brand["colour"], brand["currency"])
-		look = style.table(cols, brand["colour"], brand["currency"], style.precisions())
 		data = {
-			"sheet": {"v": 2, "current": "Costing", "sheets": {sheet: {"rows": lines}, "Costing": {"rows": laid["rows"]}}},
-			"formats": {"Costing": laid["formats"], sheet: look["formats"]},
+			"sheet": {"v": 2, "current": "Costing", "sheets": {"Costing": {"rows": laid["rows"]}}},
+			"formats": {"Costing": laid["formats"]},
 			"merge": {"Costing": laid["merge"]},
 			"validation": {"Costing": laid["validation"]},
 			"lines": {"Costing": laid["lines"]},
-			"view": {"Costing": laid["view"], sheet: {"colW": look["colW"], "rowH": look["rowH"], "freezeRows": 1, "hiddenCols": [0]}},
+			"view": {"Costing": laid["view"]},
 		}
 		if not held:
-			templates.make(spec["title"], data, "Quotation", "items", sheet, cols)
+			templates.make(spec["title"], data)
 			continue
-		frappe.db.set_value(
-			api.WORKBOOK,
-			held.name,
-			{"title": spec["title"], "sheets_data": storage.encode_sheets_data(json.dumps(data)), "bound_sheet": sheet, "bound_columns": json.dumps(cols)},
-		)
+		frappe.db.set_value(api.WORKBOOK, held.name, {"title": spec["title"], "sheets_data": storage.encode_sheets_data(json.dumps(data))})
 		if held.file:
 			frappe.db.set_value("File", held.file, "file_name", spec["title"])
-
 
 def items(company):
 	for code, uom, measured_by in PRODUCTS:

@@ -93,7 +93,7 @@ def test_a_table_sheet_reads_back_as_the_table():
 
 	room["html"] = html
 	names = ("NUMBER", "TEXT", "LONG", "SHOWN", "MOST_COLUMNS", "MOST_ROWS", "SPARE", "LOCKED_TO", "MARK", "YES", "NO", "EPOCH")
-	_lifted(SHEET / "table.py", (*names, "columns", "shown", "taken", "lined", "fingerprint", "_rule", "kept", "laid", "stored", "emptied", "placed", "read", "back", "unknown", "pinned"), room)
+	_lifted(SHEET / "table.py", (*names, "columns", "shown", "taken", "lined", "fingerprint", "_rule", "kept", "laid", "stored", "without", "placed", "read", "back", "unknown", "pinned"), room)
 	fields = [
 		{"fieldname": "item_code", "label": "Item", "fieldtype": "Link", "in_list_view": 1, "reqd": 1},
 		{"fieldname": "notes", "label": "Notes", "fieldtype": "Text Editor", "in_list_view": 1},
@@ -152,7 +152,7 @@ def test_a_table_sheet_keeps_its_formulas():
 	room = {"_": lambda text: text, "re": re, "html": html}
 	_lifted(SHEET / "assist.py", ("letters",), room)
 	names = ("NUMBER", "TEXT", "LONG", "SHOWN", "MOST_COLUMNS", "MARK", "SPARE", "LOCKED_TO")
-	_lifted(SHEET / "table.py", (*names, "columns", "shown", "_rule", "kept", "laid", "stored", "emptied"), room)
+	_lifted(SHEET / "table.py", (*names, "columns", "shown", "_rule", "kept", "laid", "stored", "without"), room)
 	fields = [
 		{"fieldname": "item_name", "label": "Item Name", "fieldtype": "Data", "in_list_view": 1},
 		{"fieldname": "description", "label": "Description", "fieldtype": "Text Editor"},
@@ -169,7 +169,7 @@ def test_a_table_sheet_keeps_its_formulas():
 	assert [col["fieldname"] for col in cols] == ["name", "drawing", "spec", "supplier"] and cols[3]["link"] == "Supplier"
 	assert room["_rule"](cols[3]) == {"type": "link", "doctype": "Supplier"}, "a link column searches its records"
 	assert room["shown"]("<b>x</b>", "Code") == "<b>x</b>", "code is kept as it is written"
-	cols = room["columns"](fields, also=["description"])
+	cols = room["columns"](fields, ["item_name", "qty", "rate", "description"])
 	assert [col["fieldname"] for col in cols] == ["name", "item_name", "qty", "rate", "description"]
 	lines = {
 		"0": ["#old", "Item Name", "Rate", "Qty", "Description"],
@@ -189,13 +189,9 @@ def test_a_table_sheet_keeps_its_formulas():
 		"protection": {"Items": {"locked": False}},
 		"validation": {"Items": {"C2": {}}},
 	}
-	kept = room["emptied"](data, "Items")
-	assert room["stored"](kept, "Items") == {
-		"0": ["#", "Item Name", "Rate", "Qty", "Description"],
-		"1": [None, "=Costing!A4:A", "=Costing!P4:P/Costing!C4:C", None, None],
-		"2": [None, None, None, "=C2*2", None],
-	}, "the header and the formulas, not the rows"
-	assert room["stored"](kept, "Costing") == {"3": ["CW01"]} and "Items" not in kept["protection"] and kept["view"] == data["view"]
+	kept = room["without"](data, "Items")
+	assert list(kept["sheet"]["sheets"]) == ["Costing"] and kept["sheet"]["current"] == "Costing", "a template keeps the other sheets, not the table"
+	assert room["stored"](kept, "Costing") == {"3": ["CW01"]} and kept["view"] == {} and kept["protection"] == {} and kept["validation"] == {}
 	assert room["shown"]("<p>Aluminum &amp; glass</p>", "Text Editor") == "Aluminum & glass"
 
 

@@ -20,8 +20,6 @@
   "bound_sheet",
   "bound_columns",
   "is_template",
-  "template_for",
-  "template_field",
   "source_kind"
  ],
  "fields": [
@@ -98,19 +96,6 @@
    "default": "0"
   },
   {
-   "fieldname": "template_for",
-   "fieldtype": "Link",
-   "label": "Template For",
-   "options": "DocType",
-   "read_only": 1
-  },
-  {
-   "fieldname": "template_field",
-   "fieldtype": "Data",
-   "label": "Template Table",
-   "read_only": 1
-  },
-  {
    "fieldname": "source_kind",
    "fieldtype": "Data",
    "label": "Opened From",
@@ -120,7 +105,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-21 03:40:00.000000",
+ "modified": "2026-10-21 13:30:00.000000",
  "modified_by": "Administrator",
  "module": "One Sheet",
  "name": "Workbook",

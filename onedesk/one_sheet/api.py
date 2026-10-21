@@ -62,7 +62,7 @@ def make(parent: str, title: str | None = None, template: str | None = None) -> 
 	if template:
 		from onedesk.one_sheet import templates
 
-		content = json.dumps(templates.data_of(template)[0], default=str)
+		content = json.dumps(templates.data_of(template), default=str)
 	book = frappe.get_doc({"doctype": WORKBOOK, "title": title, "sheets_data": storage.encode_sheets_data(content)})
 	book.flags.ignore_permissions = True
 	book.insert()

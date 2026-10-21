@@ -42219,7 +42219,7 @@ msgid "The taxes a sale carries."
 msgstr ""
 
 #: frontend/src/sheet/shim/TemplateDialog.vue:8
-msgid "The template includes all sheets and the table formulas, but not the table rows."
+msgid "The template includes every sheet except {0}, which belongs to the record."
 msgstr ""
 
 #: frontend/src/sheet/shim/TemplateDialog.vue:8

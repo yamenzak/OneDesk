@@ -5342,12 +5342,11 @@ def a_project_pays_for_stock_once():
 
 @check
 def a_table_keeps_its_formulas():
-	"""Layla types formulas under a quotation's items that read a Costing
-	sheet, and saves the workbook as a template for quotation items: it keeps
-	the Costing sheet and the formulas, not the rows. The table opened from
-	it again starts with the same formulas, and drawing the table again after
-	a change on the form keeps them. A plain workbook's template starts a
-	plain workbook. All of it is undone afterwards."""
+	"""Layla types a formula under a quotation's items that reads a Costing
+	sheet; drawing the table again after a change on the form keeps it. She
+	saves the workbook as a template: it keeps the Costing sheet and leaves
+	the table out, and it starts a plain workbook like any other template.
+	All of it is undone afterwards."""
 	from onedesk.one_sheet import api, storage, table, templates
 
 	def first_sheet(book):
@@ -5366,36 +5365,19 @@ def a_table_keeps_its_formulas():
 			rows["1"][qty] = "=Costing!C4:C"
 			data["sheet"]["sheets"]["Costing"] = {"rows": {"3": ["CW01", "Wall", "10"]}}
 			frappe.db.set_value(api.WORKBOOK, book, "sheets_data", storage.encode_sheets_data(json.dumps(data)))
-			made = templates.save_as(book, "Glazing costing")
-			assert [one["name"] for one in templates.sheets_of(made["name"])] == ["Costing"], "a table's own sheet isn't added to another workbook"
-			assert templates.sheets_of(made["name"])[0]["cells"] == {"A4": "CW01", "B4": "Wall", "C4": "10"}
-			assert {"name": made["name"], "title": "Glazing costing"} in templates.listed("Quotation", "items")
-			assert templates.listed("Quotation", "items", quote) == [], "a table with its workbook just opens it"
-			kept = json.loads(storage.decode_sheets_data(frappe.db.get_value(api.WORKBOOK, made["name"], "sheets_data")))
-			lines = table.stored(kept, "Items")
-			assert lines["1"][qty] == "=Costing!C4:C" and not any(one for one in lines["1"] if one != "=Costing!C4:C"), lines
-			assert "Costing" in kept["sheet"]["sheets"] and set(lines) == {"0", "1"}, "no rows"
-			frappe.delete_doc("File", frappe.db.get_value(api.WORKBOOK, book, "file"), ignore_permissions=True, force=True)
-			again = table.open_table("Quotation", quote, "items", made["name"])
-			line = first_sheet(again)["1"]
-			assert line[qty] == "=Costing!C4:C" and line[0], line
-			assert all(first_sheet(again)[at][qty] is None for at in first_sheet(again) if at not in ("0", "1")), "the formula fills the column"
 			child = frappe.get_doc("Quotation", quote).items[0]
 			frappe.db.set_value(child.doctype, child.name, "qty", flt(child.qty) + 1)
-			was = first_sheet(again)["0"][0]
-			table.refresh(again)
-			assert first_sheet(again)["0"][0] != was, "drawn again"
-			assert first_sheet(again)["1"][qty] == "=Costing!C4:C", "and the formula stays"
-			plain = api.make("@my", "Rates")
-			general = templates.save_as(plain["workbook"], "Rates sheet")
-			assert any(one["name"] == general["name"] for one in templates.listed())
-			copy = api.make("@my", "Rates for Bayview", general["name"])
-			assert copy["workbook"] != plain["workbook"]
-			try:
-				api.make("@my", "Wrong", made["name"])
-				raise AssertionError("a table's template started a plain workbook")
-			except frappe.ValidationError:
-				pass
+			was = first_sheet(book)["0"][0]
+			table.refresh(book)
+			assert first_sheet(book)["0"][0] != was, "drawn again"
+			assert first_sheet(book)["1"][qty] == "=Costing!C4:C", "and the formula stays"
+			made = templates.save_as(book, "Glazing costing")
+			kept = json.loads(storage.decode_sheets_data(frappe.db.get_value(api.WORKBOOK, made["name"], "sheets_data")))
+			assert list(kept["sheet"]["sheets"]) == ["Costing"], "a template is its own sheets, not the record's table"
+			assert templates.sheets_of(made["name"]) == [{"name": "Costing", "cells": {"A4": "CW01", "B4": "Wall", "C4": "10"}}]
+			assert {"name": made["name"], "title": "Glazing costing"} in templates.listed()
+			copy = api.make("@my", "Glazing for Bayview", made["name"])
+			assert copy["workbook"] != book
 	finally:
 		frappe.db.rollback(save_point="template_check")
 

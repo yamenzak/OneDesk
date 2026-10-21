@@ -42177,8 +42177,8 @@ msgid "The taxes a sale carries."
 msgstr "الضرائب التي تحملها عملية البيع."
 
 #: frontend/src/sheet/shim/TemplateDialog.vue:8
-msgid "The template includes all sheets and the table formulas, but not the table rows."
-msgstr "يتضمن القالب كل الأوراق وصيغ الجدول، لكن ليس صفوف الجدول."
+msgid "The template includes every sheet except {0}, which belongs to the record."
+msgstr "يتضمن القالب كل الأوراق ما عدا {0}، فهي تخص السجل."
 
 #: frontend/src/sheet/shim/TemplateDialog.vue:8
 msgid "The template includes all sheets in their current state."

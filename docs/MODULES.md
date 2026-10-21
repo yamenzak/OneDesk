@@ -190,7 +190,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Workbook | 14 | document |
+| Workbook | 12 | document |
 | Workbook Change | 10 | document |
 | Workbook Version | 9 | document |
 

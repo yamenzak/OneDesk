@@ -1,4 +1,4 @@
-<!-- Add a template's sheets to the workbook that is open (one_sheet/templates.py, sheets_of): those made for this workbook's table first, then every other, a table's own sheet left out. -->
+<!-- Add a template's sheets to the workbook that is open (one_sheet/templates.py, sheets_of). -->
 <template>
 	<Dialog v-model:open="open" :title="__('Add Sheets From a Template')" size="md">
 		<template #default>
@@ -20,7 +20,7 @@ import { computed, ref, watch } from "vue";
 import { __ } from "../../kit/desk";
 import { call } from "../utils/api.js";
 
-const props = defineProps({ modelValue: Boolean, bound: { type: Object, default: null } });
+const props = defineProps({ modelValue: Boolean });
 const emit = defineEmits(["update:modelValue", "add"]);
 const open = computed({ get: () => props.modelValue, set: (said) => emit("update:modelValue", said) });
 const offered = ref([]);
@@ -33,10 +33,7 @@ watch(open, async (now) => {
 	error.value = "";
 	loading.value = true;
 	try {
-		const every = await call("onedesk.one_sheet.templates.listed", { every: 1 });
-		const mine = props.bound ? await call("onedesk.one_sheet.templates.listed", { doctype: props.bound.doctype, field: props.bound.field }) : [];
-		const first = new Set((mine || []).map((one) => one.name));
-		offered.value = [...(mine || []), ...(every || []).filter((one) => !first.has(one.name))];
+		offered.value = (await call("onedesk.one_sheet.templates.listed")) || [];
 	} catch (failed) {
 		error.value = failed?.message || __("Could not load the templates.");
 	} finally {
