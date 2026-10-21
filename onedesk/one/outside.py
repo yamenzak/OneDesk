@@ -10,6 +10,11 @@ APP = "onedesk"
 
 FIRST = "One"
 
+#: Modules whose work lives in another app's sidebar, so frappe's own
+#: sidebar for them, which lists their doctypes raw, is never shown. Where
+#: their records open is `one_module_heirs`.
+UNSHELLED = ("One Sheet",)
+
 
 def keep(bootinfo) -> None:
 	"""`extend_bootinfo`: One's sidebars and workspaces, and nobody else's."""
@@ -53,7 +58,7 @@ def kept(said: dict) -> None:
 	ours = {
 		name: sidebar
 		for name, sidebar in sidebars.items()
-		if (sidebar or {}).get("app") in held and name not in off
+		if (sidebar or {}).get("app") in held and name not in off and name not in UNSHELLED
 	}
 	order = sorted(ours, key=lambda name: name != FIRST)
 	said["module_sidebars"] = {name: ours[name] for name in order}

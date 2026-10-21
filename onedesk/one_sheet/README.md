@@ -71,8 +71,8 @@ workbook has **Attach PDF to** the record instead.
 
 ## Leaving a workbook to look something up
 
-Go anywhere else: the workbook is saved as you go, and waits on the bar at
-the top under its name. Click it to come back; × takes it off. Leave
+Go anywhere else: the workbook is saved as you go, and waits on the bar,
+after the date, under OneWorkbook's mark and its name. Click it to come back; × takes it off. Leave
 several and the bar says how many, with a list to pick from. The bar
 remembers the last five you left, in every tab and on every device you
 sign in on.
@@ -545,12 +545,17 @@ the bound record, under the reader's own permission to add there.
 
 ### Back to a workbook, `public/js/workbooks.js`
 
+OneWorkbook has no sidebar of its own: frappe would make one listing
+Workbook, Workbook Change and Workbook Version raw, so `outside.UNSHELLED`
+leaves it out and `one_module_heirs` opens its records in OneCloud.
+
+
 Desk's router tells `onedesk.workbooks.moved` of every route: the workbook
 just left goes to the front of a list kept in the person's Workbook user
 settings (`frappe.model.user_settings`, five at most), the one opened comes
 off it. `api.titles` names only the ones the reader may
 still open, so one deleted or unshared drops off. The tiles sit in the
-bar's first group, `open`, beside the date; one workbook is a tile and an
+bar's lead, the `open` group after the date; one workbook is a tile and an
 ×, several a tile that opens a list. Workbooks only: a record left half
 edited has frappe's own unsaved-changes guard and its own place in
 breadcrumbs.

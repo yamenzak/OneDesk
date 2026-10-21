@@ -86,7 +86,7 @@ onedesk.workbooks.place = (add) => {
 	const $group = $('.one-bar [data-group="open"]');
 	add({
 		label: __("Workbooks"),
-		icon: "file-spreadsheet",
+		icon: "onesheet",
 		css: "one-workbooks hide",
 		text: `<span class="one-workbooks-text"></span>`,
 		group: "open",

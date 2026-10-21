@@ -995,6 +995,7 @@ one_module_heirs = {
 	"Communication": ["OneCRM"],
 	"EDI": ["OneBook"],
 	"ERPNext Integrations": ["OneBook"],
+	"One Sheet": ["OneCloud"],
 }
 
 one_makes_records = {

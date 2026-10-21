@@ -574,8 +574,15 @@ body:not(.one-bar-bottom) .one-bar [data-group="ai"] {
 	display: none;
 }
 
-.one-bar-news + .one-bar-tools {
+.one-bar-news:not(.hide) + .one-bar-tools {
 	margin-inline-start: 0;
+}
+
+.one-bar-lead {
+	display: flex;
+	flex: none;
+	align-items: center;
+	gap: 4px;
 }
 
 .one-bar-news-icon {
@@ -781,6 +788,10 @@ html[dir="rtl"] .one-bar-news-moving .one-bar-news-track {
 
 .one-bar [data-group="open"] {
 	position: relative;
+}
+
+.one-bar .one-workbooks svg {
+	stroke: none;
 }
 
 .one-bar .one-workbooks-text {

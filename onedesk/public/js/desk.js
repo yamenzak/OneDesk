@@ -111,15 +111,17 @@ onedesk.dock.rows = (sidebar) => {
 onedesk.dock.bar = () => {
 	if (frappe.session.user === "Guest" || $(".one-bar").length) return;
 	const $bar = $(`<header class="one-bar" role="toolbar" aria-label="${__("Tools")}">
-		<button class="one-bar-tool one-bar-now"></button>
+		<div class="one-bar-lead">
+			<div class="one-bar-group" data-group="dock"></div>
+			<button class="one-bar-tool one-bar-now"></button>
+			<div class="one-bar-group" data-group="open"></div>
+		</div>
 		<div class="one-bar-news hide" role="marquee" aria-label="${__("Announcements")}"></div>
 		<div class="one-bar-tools">
-			<div class="one-bar-group" data-group="open"></div>
 			<div class="one-bar-group" data-group="find"></div>
 			<div class="one-bar-group" data-group="day"></div>
 			<div class="one-bar-group" data-group="waiting"></div>
 			<div class="one-bar-group" data-group="ai"></div>
-			<div class="one-bar-group" data-group="bar"></div>
 		</div>
 	</header>`).prependTo(document.body);
 	$("body").addClass("one-barred");
@@ -209,7 +211,7 @@ onedesk.dock.bar = () => {
 		label: moved(),
 		icon: onedesk.dock.at === "bottom" ? "panel-top" : "panel-bottom",
 		css: "one-bar-move",
-		group: "bar",
+		group: "dock",
 		click: async () => {
 			const at = onedesk.dock.at === "bottom" ? "top" : "bottom";
 			onedesk.dock.place(at);
