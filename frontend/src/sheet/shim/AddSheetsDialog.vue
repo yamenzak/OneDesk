@@ -1,4 +1,4 @@
-<!-- Add a template's sheets to the workbook that is open (one_sheet/templates.py, sheets_of): those made for this workbook's table first, then every other, a table's own sheet left out. -->
+<!-- Add a template's sheets to the workbook that is open (one_sheet/templates.py, sheets_of): those made for this workbook's table first, then every other, a table's own sheet left out. One made for this workbook's table also brings the formulas it puts under the table (table_of). -->
 <template>
 	<Dialog v-model:open="open" :title="__('Add Sheets From a Template')" size="md">
 		<template #default>
@@ -20,7 +20,7 @@ import { computed, ref, watch } from "vue";
 import { __ } from "../../kit/desk";
 import { call } from "../utils/api.js";
 
-const props = defineProps({ modelValue: Boolean, bound: { type: Object, default: null } });
+const props = defineProps({ modelValue: Boolean, workbook: { type: String, default: "" }, bound: { type: Object, default: null } });
 const emit = defineEmits(["update:modelValue", "add"]);
 const open = computed({ get: () => props.modelValue, set: (said) => emit("update:modelValue", said) });
 const offered = ref([]);
@@ -48,7 +48,11 @@ async function pick(name) {
 	busy.value = name;
 	error.value = "";
 	try {
-		emit("add", await call("onedesk.one_sheet.templates.sheets_of", { template: name }));
+		const [sheets, table] = await Promise.all([
+			call("onedesk.one_sheet.templates.sheets_of", { template: name }),
+			props.bound ? call("onedesk.one_sheet.templates.table_of", { template: name, workbook: props.workbook }) : null,
+		]);
+		emit("add", { sheets, table });
 		open.value = false;
 	} catch (failed) {
 		error.value = failed?.message || __("Could not add the sheets.");

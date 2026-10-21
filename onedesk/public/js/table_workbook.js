@@ -41,18 +41,17 @@ onedesk.table_workbook.pick = (templates, plain) =>
 		dialog.show();
 	});
 
-onedesk.table_workbook.open = async (frm, field) => {
+// The table as it is; a template's sheets, and the formulas it puts under
+// the table, are added from inside the workbook (Add Sheets From a Template).
+onedesk.table_workbook.open = (frm, field) => {
 	if (frm.is_dirty()) {
 		frappe.msgprint(__("Save the record before opening its table in a workbook."));
 		return;
 	}
-	const templates = await frappe.xcall("onedesk.one_sheet.templates.listed", { doctype: frm.doctype, field, name: frm.doc.name });
-	const template = await onedesk.table_workbook.pick(templates, __("The table as it is"));
-	if (template === null) return;
 	frappe
 		.call({
 			method: "onedesk.one_sheet.table.open_table",
-			args: { doctype: frm.doctype, name: frm.doc.name, field, template: template || null },
+			args: { doctype: frm.doctype, name: frm.doc.name, field },
 			freeze: true,
 		})
 		.then((r) => r.message && frappe.set_route("workbook", r.message));
