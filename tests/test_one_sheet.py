@@ -192,7 +192,7 @@ def test_a_branded_sheet_is_laid_out_under_the_company():
 	room = {}
 	_lifted(SHEET / "cells.py", ("letters",), room)
 	heads = _lifted(SHEET.parent / "one" / "letter_heads.py", ("INK", "_rgb", "_luminance", "_contrast", "on"), {})
-	_lifted(SHEET / "style.py", ("WORKED", "LINE", "MUTED", "TOTALS", "FIRST", "KINDS", "META", "tint", "header", "number_format", "width", "table", "branded"), room)
+	_lifted(SHEET / "style.py", ("WORKED", "LINE", "MUTED", "TOTALS", "FIRST", "KINDS", "META", "TYPED_FIELD", "WORKED_FIELD", "tint", "header", "number_format", "width", "table", "branded"), room)
 	room["frappe"] = None
 	room["letter_heads"] = SimpleNamespace(on=heads["on"])
 	assert room["tint"]("#000000", 0.1) == "#E6E6E6" and room["tint"]("#FFF", 0.5) == "#FFFFFF"
@@ -206,6 +206,10 @@ def test_a_branded_sheet_is_laid_out_under_the_company():
 	assert laid["merge"]["masterMap"]["A1"] == {"rowSpan": 3, "colSpan": 1, "r": 0, "c": 0} and laid["merge"]["slaveMap"]["A3"] == "A1"
 	assert rows["0"][3] == "Project" and rows["0"][4] == '=RECORD("project")' and rows["1"][4] == '=FIELD("Project",E1,"project_name")', "a project picked, its fields read"
 	assert laid["validation"] == {"E1": {"type": "link", "doctype": "Project"}}
+	assert "borderTop" in looks["cells"]["E1"] and looks["cells"]["E2"]["backgroundColor"] == "#F5F5F4", "picked in a box, worked out in grey"
+	typed = [("Kilos", "", None, {"typed": True, "numberFormat": "number:us:0"})]
+	weighed = room["branded"]("Costing", head, {"H": "=G{r}*{meta0}"}, {}, kinds, "#1F6FEB", "AED", typed)
+	assert weighed["lines"]["formulas"] == {"H": "=G{r}*E1"} and "borderTop" in weighed["formats"]["cells"]["E1"], "a figure typed beside the logo, read by each line"
 	assert rows["3"][7] == "=SUM(H6:H)" and looks["rows"]["3"]["borderBottom"]["color"] == "#1F6FEB", "the totals over the header"
 	assert rows["4"] == head and looks["rows"]["4"]["backgroundColor"] == "#1F6FEB" and looks["rows"]["4"]["color"] == "#ffffff"
 	assert room["header"]("#FDE68A")["color"] == "#111827", "ink on a light colour"

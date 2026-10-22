@@ -241,12 +241,6 @@ def accessory(code, description, uom="Nos"):
 	return item(code, uom, "Accessories", stock=1, description=description)
 
 
-#: How a label typed among a costing's totals looks.
-LABEL = {"align": "right", "numberFormat": "text", "color": "#57534E"}
-
-#: How a figure typed among a costing's totals looks: a white box to type in.
-TYPED = {"backgroundColor": "#FFFFFF", "borderBottom": {"style": "thin", "color": "#A8A29E"}}
-
 #: Rua's costing sheets, one a family of aluminium systems, each a template
 #: for a quotation's items laid out under the company's logo
 #: (one_sheet/style.branded): the totals over the header, and the formulas
@@ -258,7 +252,7 @@ COSTINGS = (
 	{
 		"title": "Costing (Alumil, Gutmann, Technal)",
 		"was": "Rua Costing",
-		"made": 2,
+		"made": 3,
 		"scale": 1,
 		"head": (
 			"ITEM", "DESCRIPTION", "QTY", "WIDTH (mm)", "HEIGHT (mm)", "AREA (sqm)", "GLASS UNIT", "GLASS PRICE",
@@ -269,23 +263,26 @@ COSTINGS = (
 		# extras, VAT, powder coating, 74% profit, and the rate rounded up to
 		# 5. Coating is the job's aluminium weight at a rate a kilo (5 on
 		# average, more for some colours), spread over the lines by their
-		# price: X4 is (aluminium + kilos x rate) / aluminium, which on C-28
+		# price: the multiplier beside the logo is (aluminium + kilos x
+		# rate) / aluminium, which on C-28
 		# (20,000 kg at 5 over 757,903) was the 1.13 its lines were typed with.
 		"line": {
 			"F": "=(D{r}*E{r})/1000000", "H": "=G{r}*F{r}", "I": "=H{r}*C{r}", "J": "=Y{r}", "K": "=J{r}*C{r}",
 			"L": "=H{r}+J{r}", "M": "=L{r}*0.74", "N": "=L{r}+M{r}", "O": "=CEILING(N{r},5)", "P": "=O{r}*C{r}", "R": "=A{r}",
-			"V": "=S{r}+T{r}+U{r}", "W": "=V{r}*1.05", "X": "=W{r}*C{r}", "Y": "=W{r}*X4",
+			"V": "=S{r}+T{r}+U{r}", "W": "=V{r}*1.05", "X": "=W{r}*C{r}", "Y": "=W{r}*{meta8}",
 		},
-		"totals": {
-			"O": "TOTAL",
-			"P": "=SUM(P{first}:P)",
-			"S": ("ALU KG", LABEL),
-			"T": ("", {**TYPED, "numberFormat": "number:us:0"}),
-			"U": ("AED / KG", LABEL),
-			"V": ("5", TYPED),
-			"W": ("COATING ×", LABEL),
-			"X": ("=IF(SUM(X{first}:X)=0,1,(SUM(X{first}:X)+T4*V4)/SUM(X{first}:X))", {"numberFormat": "number:us:4"}),
-		},
+		"totals": {"O": "TOTAL", "P": "=SUM(P{first}:P)"},
+		"meta": (
+			("Aluminium kg", "", None, {"typed": True, "numberFormat": "number:us:0"}),
+			("Coating AED/kg", "5", None, {"typed": True, "numberFormat": "number:us:2"}),
+			(
+				"Coating multiplier",
+				"=IF(SUM(X{first}:X)=0,1,(SUM(X{first}:X)+{meta6}*{meta7})/SUM(X{first}:X))",
+				None,
+				{"numberFormat": "number:us:4"},
+			),
+		),
+
 		"kinds": {"money": "GHIJKLMNOPSTUVWXY", "count": "C", "size": "DE", "area": "F", "key": "OP", "wide": "B"},
 	},
 	{
@@ -345,7 +342,7 @@ def costing_sheet(spec: dict, colour: str, currency: str) -> dict:
 	labels' translation."""
 	from onedesk.one_sheet import style
 
-	meta = [(_(label), formula, doctype) for label, formula, doctype in COSTING_META]
+	meta = [(_(label), formula, doctype, *how) for label, formula, doctype, *how in (*COSTING_META, *spec.get("meta", ()))]
 	return style.branded(spec["title"], list(spec["head"]), spec["line"], spec["totals"], spec["kinds"], colour, currency, meta)
 
 
@@ -362,11 +359,11 @@ def costing():
 		held = frappe.db.get_value(
 			api.WORKBOOK, {"is_template": 1, "title": ["in", [spec["title"], spec.get("was") or spec["title"]]]}, ["name", "title", "file", "sheets_data"], as_dict=True
 		)
-		lines = (json.loads(storage.decode_sheets_data(held.sheets_data) or "{}").get("lines") or {}) if held else {}
-		made = (json.loads(storage.decode_sheets_data(held.sheets_data) or "{}").get("made") or 1) if held else 0
-		if held and held.title == spec["title"] and made == spec.get("made", 1) and (lines.get("Costing") or {}).get("formulas") == spec["line"]:
-			continue
 		laid = costing_sheet(spec, brand["colour"], brand["currency"])
+		kept = json.loads(storage.decode_sheets_data(held.sheets_data) or "{}") if held else {}
+		same = ((kept.get("lines") or {}).get("Costing") or {}).get("formulas") == laid["lines"]["formulas"]
+		if held and held.title == spec["title"] and (kept.get("made") or 1) == spec.get("made", 1) and same:
+			continue
 		data = {
 			"sheet": {"v": 2, "current": "Costing", "sheets": {"Costing": {"rows": laid["rows"]}}},
 			"formats": {"Costing": laid["formats"]},

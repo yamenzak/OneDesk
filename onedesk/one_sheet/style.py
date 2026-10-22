@@ -143,6 +143,16 @@ FIRST = 6
 #: What each kind of column holds, as the editor formats it.
 KINDS = {"count": "number:us:0", "size": "number:us:0", "area": "number:us:3", "kilos": "number:us:2"}
 
+#: A field beside the logo that is picked or typed: a box to type in.
+TYPED_FIELD = {
+	"align": "left",
+	"backgroundColor": "#FFFFFF",
+	**{side: {"style": "thin", "color": "#A8A29E"} for side in ("borderTop", "borderBottom", "borderLeft", "borderRight")},
+}
+
+#: A field beside the logo worked out from the others or from the record.
+WORKED_FIELD = {"align": "left", "backgroundColor": WORKED, "color": "#292524"}
+
 #: Where the facts beside the logo start: a label, then its value over three
 #: columns, three to a group.
 META = 3
@@ -150,7 +160,9 @@ META = 3
 
 def branded(title: str, head: list, line: dict, totals: dict, kinds: dict, colour: str, currency: str = "", meta: list | None = None) -> dict:
 	"""A sheet laid out under the company's logo: `meta` (label, formula,
-	doctype or None) beside it, `totals` over the header (a value, or a value
+	doctype or None, and {"typed", "numberFormat"} or None) beside it, up to
+	three columns of three, a field picked or typed in a box and one worked
+	out in grey; `{metaN}` in a formula is the Nth field's cell; `totals` over the header (a value, or a value
 	and its own look, for a figure typed there), and `line`'s
 	formulas as the rule each line takes when its first column is filled;
 	`kinds` names the columns holding money, counts, sizes, areas, kilos,
@@ -182,14 +194,21 @@ def branded(title: str, head: list, line: dict, totals: dict, kinds: dict, colou
 	put("A1", '=IMAGE(BRAND("logo"))', {"align": "left"})
 	merge("A1", 3, 1)
 	put("B1", title, {"bold": True, "fontSize": 13, "valign": "middle", "numberFormat": "text", "align": "left"})
-	meta = [(*one, None)[:3] for one in (meta or [])[:6]]
+	meta = [(*one, None, None)[:4] for one in (meta or [])[:9]]
 	value_of = [f"{letters(META + (at // 3) * 4 + 1)}{at % 3 + 1}" for at in range(len(meta))]
-	for at, (label, formula, doctype) in enumerate(meta):
-		label_col, row = META + (at // 3) * 4, at % 3 + 1
+
+	def placed(formula):
 		for n, ref in enumerate(value_of):
 			formula = formula.replace(f"{{meta{n}}}", ref)
+		return formula.replace("{first}", str(FIRST))
+
+	line = {letter: placed(formula) for letter, formula in line.items()}
+	for at, (label, formula, doctype, how) in enumerate(meta):
+		label_col, row = META + (at // 3) * 4, at % 3 + 1
+		how = how or {}
+		typed = bool(doctype) or how.get("typed")
 		put(f"{letters(label_col)}{row}", label, {"color": MUTED, "fontSize": 11, "align": "right", "numberFormat": "text"})
-		put(value_of[at], formula, {"bold": True, "numberFormat": "text", "align": "left", "borderBottom": {"style": "thin", "color": LINE}})
+		put(value_of[at], placed(formula), {**(TYPED_FIELD if typed else WORKED_FIELD), "numberFormat": how.get("numberFormat") or "text"})
 		merge(value_of[at], 1, 3)
 		if doctype:
 			rules[value_of[at]] = {"type": "link", "doctype": doctype}
