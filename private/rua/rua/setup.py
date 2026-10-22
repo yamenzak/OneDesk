@@ -241,6 +241,9 @@ def accessory(code, description, uom="Nos"):
 	return item(code, uom, "Accessories", stock=1, description=description)
 
 
+#: How a label typed among a costing's totals looks.
+LABEL = {"align": "right", "numberFormat": "text", "color": "#57534E"}
+
 #: Rua's costing sheets, one a family of aluminium systems, each a template
 #: for a quotation's items laid out under the company's logo
 #: (one_sheet/style.branded): the totals over the header, and the formulas
@@ -259,13 +262,26 @@ COSTINGS = (
 			None, None, "CW", "INSERTION", "EXTRA", "ALUMIL PRICE", "VAT 5%", "TOTAL", "ALL PRICE inc PC and VAT",
 		),
 		# Area, glass by the square metre, Alumil's price with insertion and
-		# extras, VAT, 74% profit, and the rate rounded up to 5.
+		# extras, VAT, powder coating, 74% profit, and the rate rounded up to
+		# 5. Coating is the job's aluminium weight at a rate a kilo (5 on
+		# average, more for some colours), spread over the lines by their
+		# price: X4 is (aluminium + kilos x rate) / aluminium, which on C-28
+		# (20,000 kg at 5 over 757,903) was the 1.13 its lines were typed with.
 		"line": {
 			"F": "=(D{r}*E{r})/1000000", "H": "=G{r}*F{r}", "I": "=H{r}*C{r}", "J": "=Y{r}", "K": "=J{r}*C{r}",
 			"L": "=H{r}+J{r}", "M": "=L{r}*0.74", "N": "=L{r}+M{r}", "O": "=CEILING(N{r},5)", "P": "=O{r}*C{r}", "R": "=A{r}",
-			"V": "=S{r}+T{r}+U{r}", "W": "=V{r}*1.05", "X": "=W{r}*C{r}", "Y": "=W{r}*1.13",
+			"V": "=S{r}+T{r}+U{r}", "W": "=V{r}*1.05", "X": "=W{r}*C{r}", "Y": "=W{r}*X4",
 		},
-		"totals": {"O": "TOTAL", "P": "=SUM(P{first}:P)"},
+		"totals": {
+			"O": "TOTAL",
+			"P": "=SUM(P{first}:P)",
+			"S": ("ALU KG", LABEL),
+			"T": ("", {"numberFormat": "number:us:0"}),
+			"U": ("AED / KG", LABEL),
+			"V": "5",
+			"W": ("COATING ×", LABEL),
+			"X": ("=IF(SUM(X{first}:X)=0,1,(SUM(X{first}:X)+T4*V4)/SUM(X{first}:X))", {"numberFormat": "number:us:4"}),
+		},
 		"kinds": {"money": "GHIJKLMNOPSTUVWXY", "count": "C", "size": "DE", "area": "F", "key": "OP", "wide": "B"},
 	},
 	{
@@ -332,9 +348,9 @@ def costing_sheet(spec: dict, colour: str, currency: str) -> dict:
 def costing():
 	"""Rua's costing sheets as templates: the estimators' columns under the
 	company's logo and a curtain wall's formulas on each line as it is
-	filled. One already there and laid out is left as it is, so what
-	somebody changed in it stays; one made under its old name or before its
-	lines grew as they are filled is made again in place."""
+	filled. One already there with these formulas is left as it is, so what
+	somebody changed in it stays; one made under its old name or with other
+	formulas is made again in place."""
 	from onedesk.one_sheet import api, storage, style, templates
 
 	brand = style.brand()
@@ -342,7 +358,8 @@ def costing():
 		held = frappe.db.get_value(
 			api.WORKBOOK, {"is_template": 1, "title": ["in", [spec["title"], spec.get("was") or spec["title"]]]}, ["name", "title", "file", "sheets_data"], as_dict=True
 		)
-		if held and held.title == spec["title"] and "Costing" in (json.loads(storage.decode_sheets_data(held.sheets_data) or "{}").get("lines") or {}):
+		lines = (json.loads(storage.decode_sheets_data(held.sheets_data) or "{}").get("lines") or {}) if held else {}
+		if held and held.title == spec["title"] and (lines.get("Costing") or {}).get("formulas") == spec["line"]:
 			continue
 		laid = costing_sheet(spec, brand["colour"], brand["currency"])
 		data = {

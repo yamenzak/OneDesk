@@ -141,6 +141,17 @@ from a quotation, the project and customer are the quotation's own. Gulf
 Extrusion's sizes are in centimetres and its aluminium is priced from its
 weight, powder coated or mill finish; Alumil's sizes are in millimetres.
 
+Alumil's aluminium is the supplier's price with VAT and powder coating. The
+coating is paid by the kilo (5 dirhams on average, more for some colours),
+so over the header sit the job's aluminium weight (ALU KG, typed), the rate
+(AED / KG, 5 until changed) and what they make of the aluminium
+(COATING ×): (aluminium + kilos × rate) ÷ aluminium, which every line's
+ALL PRICE is multiplied by. C-28's sheet worked it out the same way below
+its lines (20,000 kg at 5 over 757,903, so 1.1319) and then typed 1.13 into
+each line; the template carried that 1.13 as if it were a rule, which was
+right for C-28 alone. With C-28's weight typed in it gives 2,652,395, its
+sheet 2,649,795 at the rounded 1.13; with no weight, coating adds nothing.
+
 Each has an Items sheet whose first line holds one formula a column, each
 filling its column down from the costing (`setup.costing_items`), a line
 for each costing line with an item. The product comes from the description

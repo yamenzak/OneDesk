@@ -150,7 +150,8 @@ META = 3
 
 def branded(title: str, head: list, line: dict, totals: dict, kinds: dict, colour: str, currency: str = "", meta: list | None = None) -> dict:
 	"""A sheet laid out under the company's logo: `meta` (label, formula,
-	doctype or None) beside it, `totals` over the header, and `line`'s
+	doctype or None) beside it, `totals` over the header (a value, or a value
+	and its own look, for a figure typed there), and `line`'s
 	formulas as the rule each line takes when its first column is filled;
 	`kinds` names the columns holding money, counts, sizes, areas, kilos,
 	the key figures and wide text. README, Under the hood. Pure."""
@@ -193,7 +194,8 @@ def branded(title: str, head: list, line: dict, totals: dict, kinds: dict, colou
 		if doctype:
 			rules[value_of[at]] = {"type": "link", "doctype": doctype}
 	for letter, value in totals.items():
-		put(f"{letter}{TOTALS}", value.replace("{first}", str(FIRST)))
+		value, look = value if isinstance(value, tuple) else (value, None)
+		put(f"{letter}{TOTALS}", value.replace("{first}", str(FIRST)), look)
 	for at in range(wide):
 		put(f"{letters(at)}{TOTALS + 1}", head[at], {"align": "center"})
 	worked, key = set(line), set(kinds.get("key", ""))
