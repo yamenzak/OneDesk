@@ -207,6 +207,7 @@ def test_a_branded_sheet_is_laid_out_under_the_company():
 	assert rows["0"][3] == "Project" and rows["0"][4] == '=RECORD("project")' and rows["1"][4] == '=FIELD("Project",E1,"project_name")', "a project picked, its fields read"
 	assert laid["validation"] == {"E1": {"type": "link", "doctype": "Project"}}
 	assert "borderTop" in looks["cells"]["E1"] and looks["cells"]["E2"]["backgroundColor"] == "#F5F5F4", "picked in a box, worked out in grey"
+	assert looks["cells"]["D1"]["backgroundColor"] == "#1F6FEB" and looks["cells"]["D1"]["color"] == "#ffffff", "each label on the company's colour"
 	typed = [("Kilos", "", None, {"typed": True, "numberFormat": "number:us:0"})]
 	weighed = room["branded"]("Costing", head, {"H": "=G{r}*{meta0}"}, {}, kinds, "#1F6FEB", "AED", typed)
 	assert weighed["lines"]["formulas"] == {"H": "=G{r}*E1"} and "borderTop" in weighed["formats"]["cells"]["E1"], "a figure typed beside the logo, read by each line"

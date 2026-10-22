@@ -161,8 +161,9 @@ META = 3
 def branded(title: str, head: list, line: dict, totals: dict, kinds: dict, colour: str, currency: str = "", meta: list | None = None) -> dict:
 	"""A sheet laid out under the company's logo: `meta` (label, formula,
 	doctype or None, and {"typed", "numberFormat"} or None) beside it, up to
-	three columns of three, a field picked or typed in a box and one worked
-	out in grey; `{metaN}` in a formula is the Nth field's cell; `totals` over the header (a value, or a value
+	three columns of three, each label on the company's colour as the column
+	headings are, a
+	field picked or typed in a box and one worked out in grey; `{metaN}` in a formula is the Nth field's cell; `totals` over the header (a value, or a value
 	and its own look, for a figure typed there), and `line`'s
 	formulas as the rule each line takes when its first column is filled;
 	`kinds` names the columns holding money, counts, sizes, areas, kilos,
@@ -207,7 +208,7 @@ def branded(title: str, head: list, line: dict, totals: dict, kinds: dict, colou
 		label_col, row = META + (at // 3) * 4, at % 3 + 1
 		how = how or {}
 		typed = bool(doctype) or how.get("typed")
-		put(f"{letters(label_col)}{row}", label, {"color": MUTED, "fontSize": 11, "align": "right", "numberFormat": "text"})
+		put(f"{letters(label_col)}{row}", label, {**header(colour), "textWrap": "clip", "fontSize": 11, "align": "right", "numberFormat": "text"})
 		put(value_of[at], placed(formula), {**(TYPED_FIELD if typed else WORKED_FIELD), "numberFormat": how.get("numberFormat") or "text"})
 		merge(value_of[at], 1, 3)
 		if doctype:
