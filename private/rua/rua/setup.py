@@ -244,6 +244,9 @@ def accessory(code, description, uom="Nos"):
 #: How a label typed among a costing's totals looks.
 LABEL = {"align": "right", "numberFormat": "text", "color": "#57534E"}
 
+#: How a figure typed among a costing's totals looks: a white box to type in.
+TYPED = {"backgroundColor": "#FFFFFF", "borderBottom": {"style": "thin", "color": "#A8A29E"}}
+
 #: Rua's costing sheets, one a family of aluminium systems, each a template
 #: for a quotation's items laid out under the company's logo
 #: (one_sheet/style.branded): the totals over the header, and the formulas
@@ -255,6 +258,7 @@ COSTINGS = (
 	{
 		"title": "Costing (Alumil, Gutmann, Technal)",
 		"was": "Rua Costing",
+		"made": 2,
 		"scale": 1,
 		"head": (
 			"ITEM", "DESCRIPTION", "QTY", "WIDTH (mm)", "HEIGHT (mm)", "AREA (sqm)", "GLASS UNIT", "GLASS PRICE",
@@ -276,9 +280,9 @@ COSTINGS = (
 			"O": "TOTAL",
 			"P": "=SUM(P{first}:P)",
 			"S": ("ALU KG", LABEL),
-			"T": ("", {"numberFormat": "number:us:0"}),
+			"T": ("", {**TYPED, "numberFormat": "number:us:0"}),
 			"U": ("AED / KG", LABEL),
-			"V": "5",
+			"V": ("5", TYPED),
 			"W": ("COATING ×", LABEL),
 			"X": ("=IF(SUM(X{first}:X)=0,1,(SUM(X{first}:X)+T4*V4)/SUM(X{first}:X))", {"numberFormat": "number:us:4"}),
 		},
@@ -348,9 +352,9 @@ def costing_sheet(spec: dict, colour: str, currency: str) -> dict:
 def costing():
 	"""Rua's costing sheets as templates: the estimators' columns under the
 	company's logo and a curtain wall's formulas on each line as it is
-	filled. One already there with these formulas is left as it is, so what
-	somebody changed in it stays; one made under its old name or with other
-	formulas is made again in place."""
+	filled. One already there with these formulas and this `made` is left as
+	it is, so what somebody changed in it stays; one made under its old name,
+	with other formulas or by an earlier `made` is made again in place."""
 	from onedesk.one_sheet import api, storage, style, templates
 
 	brand = style.brand()
@@ -359,7 +363,8 @@ def costing():
 			api.WORKBOOK, {"is_template": 1, "title": ["in", [spec["title"], spec.get("was") or spec["title"]]]}, ["name", "title", "file", "sheets_data"], as_dict=True
 		)
 		lines = (json.loads(storage.decode_sheets_data(held.sheets_data) or "{}").get("lines") or {}) if held else {}
-		if held and held.title == spec["title"] and (lines.get("Costing") or {}).get("formulas") == spec["line"]:
+		made = (json.loads(storage.decode_sheets_data(held.sheets_data) or "{}").get("made") or 1) if held else 0
+		if held and held.title == spec["title"] and made == spec.get("made", 1) and (lines.get("Costing") or {}).get("formulas") == spec["line"]:
 			continue
 		laid = costing_sheet(spec, brand["colour"], brand["currency"])
 		data = {
@@ -369,6 +374,7 @@ def costing():
 			"validation": {"Costing": laid["validation"]},
 			"lines": {"Costing": laid["lines"]},
 			"view": {"Costing": laid["view"]},
+			"made": spec.get("made", 1),
 		}
 		if not held:
 			templates.make(spec["title"], data)
