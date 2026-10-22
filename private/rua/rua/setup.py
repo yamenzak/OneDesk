@@ -252,7 +252,7 @@ COSTINGS = (
 	{
 		"title": "Costing (Alumil, Gutmann, Technal)",
 		"was": "Rua Costing",
-		"made": 5,
+		"made": 6,
 		"scale": 1,
 		"head": (
 			"ITEM", "DESCRIPTION", "QTY", "WIDTH (mm)", "HEIGHT (mm)", "AREA (sqm)", "GLASS UNIT", "GLASS PRICE",

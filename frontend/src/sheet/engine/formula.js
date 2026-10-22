@@ -90,7 +90,10 @@ export function tokenize(src) {
 			continue
 		}
 
-		if (/[A-Za-z_]/.test(src[i])) {
+		// One: a reference may start with `$` ($A$1, $A1), as Excel writes it;
+		// before, a leading `$` fell through and was dropped, so `$A1` read
+		// as A1 by accident and `$A$1` as the name `A$1` (#NAME?).
+		if (/[A-Za-z_$]/.test(src[i])) {
 			let s = ''
 			while (i < src.length && /[A-Za-z0-9_$ ]/.test(src[i])) {
 				if (src[i] === ' ') {
@@ -126,8 +129,8 @@ export function tokenize(src) {
 			}
 
 			if (isCall)                                  out.push({ t: T.FN, v: up })
-			else if (/^[A-Z]+[0-9]+$/.test(up))         out.push({ t: T.REF, v: up })
-			else if (/^[A-Z]+$/.test(up))               out.push({ t: T.COLREF, v: up })
+			else if (/^\$?[A-Z]+\$?[0-9]+$/.test(up))     out.push({ t: T.REF, v: up.replace(/\$/g, '') })
+			else if (/^\$?[A-Z]+$/.test(up))             out.push({ t: T.COLREF, v: up.replace(/\$/g, '') })
 			// Bare identifier not followed by `(` — candidate named range.
 			// The parser resolves it via `resolveNamedRange`; if unresolved
 			// the expression evaluates to `#NAME?`.

@@ -505,10 +505,14 @@ repaints). `table` is a record's table sheet's formats, laid in by
 `table.placed` the first time only, or anew (`fresh`) for a workbook just
 made from a template whose columns may lie in another order. `branded` lays
 out a sheet under the company's logo: the logo over three rows, what the
-sheet is for beside it, up to six label and formula pairs from column D (a
-doctype makes that cell a link cell, and `{meta0}` names the first value's
-cell in the others, so `FIELD()` can read the record picked there), the
-totals on row 4 summing open ranges, the header on row 5 in whichever of
+sheet is for beside it, up to nine fields from column D in columns of
+three, each a label on the company's colour and a value: a doctype makes it
+a link cell, `{"typed": True}` a figure somebody types, and both are a white
+box; any other is worked out and grey, as the worked-out columns are, in its
+own `numberFormat` or text. `{meta0}` names the first field's cell in another
+field's formula, so `FIELD()` can read the record picked there, and in a
+line's formula as `$E$1`, so a line copied by hand still reads it. The
+totals on row 4 sum open ranges (a total may carry its own look), the header on row 5 in whichever of
 white or ink reads on the company's colour (`letter_heads.on`, also
 `BRAND("on_colour")`), and a `lines` rule rather than lines: what each
 line works out, in grey, and the key figures marked, are column formats,

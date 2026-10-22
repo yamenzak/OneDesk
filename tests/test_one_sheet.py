@@ -2,6 +2,7 @@
 thins, and what Ask shows the model and keeps of its answer."""
 
 import ast
+import re
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -189,7 +190,7 @@ def test_a_table_sheet_keeps_its_formulas():
 def test_a_branded_sheet_is_laid_out_under_the_company():
 	from types import SimpleNamespace
 
-	room = {}
+	room = {"re": re}
 	_lifted(SHEET / "cells.py", ("letters",), room)
 	heads = _lifted(SHEET.parent / "one" / "letter_heads.py", ("INK", "_rgb", "_luminance", "_contrast", "on"), {})
 	_lifted(SHEET / "style.py", ("WORKED", "LINE", "MUTED", "TOTALS", "FIRST", "KINDS", "META", "TYPED_FIELD", "WORKED_FIELD", "tint", "header", "number_format", "width", "table", "branded"), room)
@@ -210,7 +211,7 @@ def test_a_branded_sheet_is_laid_out_under_the_company():
 	assert looks["cells"]["D1"]["backgroundColor"] == "#1F6FEB" and looks["cells"]["D1"]["color"] == "#ffffff", "each label on the company's colour"
 	typed = [("Kilos", "", None, {"typed": True, "numberFormat": "number:us:0"})]
 	weighed = room["branded"]("Costing", head, {"H": "=G{r}*{meta0}"}, {}, kinds, "#1F6FEB", "AED", typed)
-	assert weighed["lines"]["formulas"] == {"H": "=G{r}*E1"} and "borderTop" in weighed["formats"]["cells"]["E1"], "a figure typed beside the logo, read by each line"
+	assert weighed["lines"]["formulas"] == {"H": "=G{r}*$E$1"} and "borderTop" in weighed["formats"]["cells"]["E1"], "a figure typed beside the logo, read by each line"
 	assert rows["3"][7] == "=SUM(H6:H)" and looks["rows"]["3"]["borderBottom"]["color"] == "#1F6FEB", "the totals over the header"
 	assert rows["4"] == head and looks["rows"]["4"]["backgroundColor"] == "#1F6FEB" and looks["rows"]["4"]["color"] == "#ffffff"
 	assert room["header"]("#FDE68A")["color"] == "#111827", "ink on a light colour"

@@ -5,6 +5,8 @@ record's table sheet and a template's sheets, in the editor's own shapes
 utils/format-number.js). README, Branded sheets.
 """
 
+import re
+
 import frappe
 from frappe.utils import cint, strip_html
 
@@ -159,15 +161,11 @@ META = 3
 
 
 def branded(title: str, head: list, line: dict, totals: dict, kinds: dict, colour: str, currency: str = "", meta: list | None = None) -> dict:
-	"""A sheet laid out under the company's logo: `meta` (label, formula,
-	doctype or None, and {"typed", "numberFormat"} or None) beside it, up to
-	three columns of three, each label on the company's colour as the column
-	headings are, a
-	field picked or typed in a box and one worked out in grey; `{metaN}` in a formula is the Nth field's cell; `totals` over the header (a value, or a value
-	and its own look, for a figure typed there), and `line`'s
-	formulas as the rule each line takes when its first column is filled;
-	`kinds` names the columns holding money, counts, sizes, areas, kilos,
-	the key figures and wide text. README, Under the hood. Pure."""
+	"""A sheet laid out under the company's logo: up to nine `meta` fields
+	beside it (label, formula, doctype, how), `totals` over the header, and
+	`line`'s formulas as the rule each line takes once its first column is
+	filled; `kinds` names the columns holding money, counts, sizes, areas,
+	kilos, the key figures and wide text. README, Under the hood. Pure."""
 	wide = len(head)
 	rows, cells, masters, slaves, rules = {}, {}, {}, {}, {}
 	col = {letters(at): at for at in range(max(wide, META + 8, 26))}
@@ -198,12 +196,12 @@ def branded(title: str, head: list, line: dict, totals: dict, kinds: dict, colou
 	meta = [(*one, None, None)[:4] for one in (meta or [])[:9]]
 	value_of = [f"{letters(META + (at // 3) * 4 + 1)}{at % 3 + 1}" for at in range(len(meta))]
 
-	def placed(formula):
+	def placed(formula, fixed=False):
 		for n, ref in enumerate(value_of):
-			formula = formula.replace(f"{{meta{n}}}", ref)
+			formula = formula.replace(f"{{meta{n}}}", re.sub(r"([A-Z]+)(\d+)", r"$\1$\2", ref) if fixed else ref)
 		return formula.replace("{first}", str(FIRST))
 
-	line = {letter: placed(formula) for letter, formula in line.items()}
+	line = {letter: placed(formula, fixed=True) for letter, formula in line.items()}
 	for at, (label, formula, doctype, how) in enumerate(meta):
 		label_col, row = META + (at // 3) * 4, at % 3 + 1
 		how = how or {}
