@@ -166,6 +166,30 @@ sheet made a quotation of 65 lines totalling 6,903,715, the sheet's own
 TOTAL; the Gulf Extrusion template gives the 140,000 of the NAD community
 centre sheet it was taken from.
 
+## The LPO
+
+Rua's purchase orders are the LPOs it sent as Excel files: profiles by the
+bar and its length with no prices (the extruder prices them on its invoice),
+glass by the square metre with the panes counted, and materials by the piece
+or the area, priced with 5% VAT. One Purchase Order holds all of them: the
+quantity in whichever unit the line is bought by, the pieces, length, width
+and height One's lines already carry, and two fields of Rua's own
+(`rua/custom`): **Colour / Finish** on each line, which the Excel sheets wrote
+once in the header (RAL 7045, Mill Finish, Black Foil), and the **Supplier's
+Quote No.** on the order. A workbook was weighed and left out: the LPOs in
+the old app had a median of one line and the longest 67, and their sheets
+worked out nothing an order does not (quantity × rate, VAT, totals).
+
+**Rua LPO** (`rua/print_format/rua_lpo`) prints them as Local Purchase
+Orders, built from One's bordered purchase order in the builder's own pieces:
+the order, its date and project, the supplier's TRN and quote number, the
+lines, and Prepared By and Material Received in Good Condition to sign. An
+order with no price leaves out the price columns and the totals and gives the
+total quantity; a column no line fills (finish, size) is left out.
+`setup.printing` makes it the default for purchase orders unless the
+workspace chose a format of its own (`patches/lpo_print` for a workspace set
+up before it). The company stamp the Excel LPOs carried is not printed.
+
 ## What is not built
 
 - A second run that brings over only what changed on the old site since the

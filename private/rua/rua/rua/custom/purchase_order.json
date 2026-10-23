@@ -1,0 +1,20 @@
+{
+ "custom_fields": [
+  {
+   "fieldname": "rua_quote_ref",
+   "fieldtype": "Data",
+   "label": "Supplier's Quote No.",
+   "description": "The number on the supplier's own quotation, as they wrote it (Q-12548 Rev 2).",
+   "insert_after": "schedule_date",
+   "allow_on_submit": 1,
+   "in_standard_filter": 0,
+   "length": 140,
+   "dt": "Purchase Order",
+   "module": "Rua"
+  }
+ ],
+ "doctype": "Purchase Order",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

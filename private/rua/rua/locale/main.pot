@@ -496,3 +496,34 @@ msgstr ""
 msgid "{0} recorded as retention."
 msgstr ""
 
+#: rua/rua/custom/purchase_order_item.json
+msgid "Colour / Finish"
+msgstr ""
+
+#: rua/rua/custom/purchase_order_item.json
+msgid "The colour or finish ordered, as the supplier reads it: RAL 7045, Mill Finish, Black Foil."
+msgstr ""
+
+#: rua/rua/custom/purchase_order.json
+msgid "Supplier's Quote No."
+msgstr ""
+
+#: rua/rua/custom/purchase_order.json
+msgid "The number on the supplier's own quotation, as they wrote it (Q-12548 Rev 2)."
+msgstr ""
+
+#: rua/rua/print_format/rua_lpo/rua_lpo.json
+msgid "Local Purchase Order"
+msgstr ""
+
+#: rua/rua/print_format/rua_lpo/rua_lpo.json
+msgid "LPO No"
+msgstr ""
+
+#: rua/rua/print_format/rua_lpo/rua_lpo.json
+msgid "Material Received in Good Condition"
+msgstr ""
+
+#: rua/rua/print_format/rua_lpo/rua_lpo.json
+msgid "Name, signature and date"
+msgstr ""

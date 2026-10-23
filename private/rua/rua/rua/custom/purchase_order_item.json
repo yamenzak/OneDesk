@@ -1,0 +1,20 @@
+{
+ "custom_fields": [
+  {
+   "fieldname": "rua_finish",
+   "fieldtype": "Data",
+   "label": "Colour / Finish",
+   "description": "The colour or finish ordered, as the supplier reads it: RAL 7045, Mill Finish, Black Foil.",
+   "insert_after": "item_name",
+   "in_list_view": 1,
+   "columns": 2,
+   "length": 140,
+   "dt": "Purchase Order Item",
+   "module": "Rua"
+  }
+ ],
+ "doctype": "Purchase Order Item",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

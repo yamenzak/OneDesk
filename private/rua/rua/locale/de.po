@@ -498,3 +498,34 @@ msgstr "{0} von {1} in den Einbehalt verschoben."
 msgid "{0} recorded as retention."
 msgstr "{0} als Einbehalt erfasst."
 
+#: rua/rua/custom/purchase_order_item.json
+msgid "Colour / Finish"
+msgstr "Farbe / Oberfläche"
+
+#: rua/rua/custom/purchase_order_item.json
+msgid "The colour or finish ordered, as the supplier reads it: RAL 7045, Mill Finish, Black Foil."
+msgstr "Die bestellte Farbe oder Oberfläche, wie der Lieferant sie liest: RAL 7045, Mill Finish, Black Foil."
+
+#: rua/rua/custom/purchase_order.json
+msgid "Supplier's Quote No."
+msgstr "Angebotsnr. des Lieferanten"
+
+#: rua/rua/custom/purchase_order.json
+msgid "The number on the supplier's own quotation, as they wrote it (Q-12548 Rev 2)."
+msgstr "Die Nummer auf dem Angebot des Lieferanten, wie er sie geschrieben hat (Q-12548 Rev 2)."
+
+#: rua/rua/print_format/rua_lpo/rua_lpo.json
+msgid "Local Purchase Order"
+msgstr "Lokale Bestellung"
+
+#: rua/rua/print_format/rua_lpo/rua_lpo.json
+msgid "LPO No"
+msgstr "Bestellnr."
+
+#: rua/rua/print_format/rua_lpo/rua_lpo.json
+msgid "Material Received in Good Condition"
+msgstr "Ware in gutem Zustand erhalten"
+
+#: rua/rua/print_format/rua_lpo/rua_lpo.json
+msgid "Name, signature and date"
+msgstr "Name, Unterschrift und Datum"

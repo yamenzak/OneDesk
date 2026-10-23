@@ -498,3 +498,34 @@ msgstr "نُقل {0} من {1} إلى المحتجزات."
 msgid "{0} recorded as retention."
 msgstr "سُجل {0} كمحتجزات."
 
+#: rua/rua/custom/purchase_order_item.json
+msgid "Colour / Finish"
+msgstr "اللون / التشطيب"
+
+#: rua/rua/custom/purchase_order_item.json
+msgid "The colour or finish ordered, as the supplier reads it: RAL 7045, Mill Finish, Black Foil."
+msgstr "اللون أو التشطيب المطلوب كما يقرؤه المورد: RAL 7045، Mill Finish، Black Foil."
+
+#: rua/rua/custom/purchase_order.json
+msgid "Supplier's Quote No."
+msgstr "رقم عرض سعر المورد"
+
+#: rua/rua/custom/purchase_order.json
+msgid "The number on the supplier's own quotation, as they wrote it (Q-12548 Rev 2)."
+msgstr "الرقم المكتوب على عرض سعر المورد كما كتبه هو (Q-12548 Rev 2)."
+
+#: rua/rua/print_format/rua_lpo/rua_lpo.json
+msgid "Local Purchase Order"
+msgstr "أمر شراء محلي"
+
+#: rua/rua/print_format/rua_lpo/rua_lpo.json
+msgid "LPO No"
+msgstr "رقم أمر الشراء"
+
+#: rua/rua/print_format/rua_lpo/rua_lpo.json
+msgid "Material Received in Good Condition"
+msgstr "استُلمت المواد بحالة جيدة"
+
+#: rua/rua/print_format/rua_lpo/rua_lpo.json
+msgid "Name, signature and date"
+msgstr "الاسم والتوقيع والتاريخ"

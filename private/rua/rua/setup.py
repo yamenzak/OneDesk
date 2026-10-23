@@ -60,6 +60,7 @@ def run():
 	items(company)
 	store(company)
 	costing()
+	printing()
 	terms()
 	pay(company)
 	frappe.db.commit()
@@ -380,6 +381,20 @@ def costing():
 		frappe.db.set_value(api.WORKBOOK, held.name, {"title": spec["title"], "sheets_data": storage.encode_sheets_data(json.dumps(data))})
 		if held.file:
 			frappe.db.set_value("File", held.file, "file_name", spec["title"])
+
+#: Rua's own purchase order, as its LPOs were laid out (rua/print_format).
+LPO = "Rua LPO"
+
+
+def printing():
+	"""Purchase orders print as Rua's LPO, unless the workspace already
+	chose a format of its own over One's."""
+	from onedesk.one import layer
+
+	held = frappe.db.get_value("Property Setter", {"doc_type": "Purchase Order", "property": "default_print_format"}, "value")
+	if frappe.db.exists("Print Format", LPO) and (not held or held.startswith("One ")):
+		layer.set_default("Purchase Order", "default_print_format", LPO)
+
 
 def items(company):
 	for code, uom, measured_by in PRODUCTS:
