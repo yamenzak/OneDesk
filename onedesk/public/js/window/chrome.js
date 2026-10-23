@@ -1,8 +1,10 @@
 // The frame around every screen (docs/WINDOW.md): frappe's rail down the left,
 // a bar across the top and a bar across the bottom, in the frame's colour,
-// with the screen inset between them. The top bar says where and when (the
-// time, announcements, search, what is waiting); the bottom bar is what is
-// running (open files, the day's clock and timers, OneAI). The look is
+// with the screen inset between them. The top bar is the workspace and what
+// reaches you (its name, announcements, search, OneIntake, notifications);
+// the bottom bar is this window and what is running, as a taskbar is (the
+// window's count and paging, open files, Check In and timers, OneAI, and the
+// date and time at its end). The look is
 // window/chrome.css; the colour is the workspace's (Workspace › General › Contact and
 // Branding › Frame Colour), and frame() applies it.
 $.extend(onedesk.window, {
@@ -28,7 +30,7 @@ $.extend(onedesk.window, {
 	bars() {
 		if (frappe.session.user === "Guest" || $(".one-bar").length) return;
 		const $top = $(`<header class="one-bar" data-at="top" role="toolbar" aria-label="${__("Tools")}">
-			<div class="one-bar-lead"><button class="one-bar-tool one-bar-now"></button></div>
+			<div class="one-bar-lead"><span class="one-bar-name"></span></div>
 			<div class="one-bar-news hide" role="marquee" aria-label="${__("Announcements")}"></div>
 			<div class="one-bar-tools">
 				<div class="one-bar-group" data-group="find"></div>
@@ -36,12 +38,17 @@ $.extend(onedesk.window, {
 			</div>
 		</header>`).prependTo(document.body);
 		const $bottom = $(`<footer class="one-bar" data-at="bottom" role="toolbar" aria-label="${__("Running")}">
-			<div class="one-bar-lead"><div class="one-bar-group" data-group="open"></div></div>
+			<div class="one-bar-lead">
+				<div class="one-bar-status"></div>
+				<div class="one-bar-group" data-group="open"></div>
+			</div>
 			<div class="one-bar-tools">
 				<div class="one-bar-group" data-group="day"></div>
 				<div class="one-bar-group" data-group="ai"></div>
+				<div class="one-bar-group" data-group="when"><button class="one-bar-tool one-bar-now"></button></div>
 			</div>
 		</footer>`).appendTo(document.body);
+		$top.find(".one-bar-name").text(frappe.boot.one_workspace_name || frappe.boot.sysdefaults?.company || "");
 		$("body").addClass("one-barred");
 		const $bars = $top.add($bottom);
 		const tip = (el) =>
@@ -131,11 +138,12 @@ $.extend(onedesk.window, {
 			});
 		}
 		onedesk.workbooks.place(add);
-		const $now = $top.find(".one-bar-now");
+		const $now = $bottom.find(".one-bar-now");
 		if (!(frappe.boot.one_hidden?.apps || []).includes("OneCalendar")) $now.on("click", () => frappe.set_route("onecalendar"));
 		onedesk.window.now($now);
 		$now.data("one-tip", tip($now[0]));
 		onedesk.window.news(frappe.boot.one_announcements || []);
+		onedesk.window.place_status();
 		clearInterval(onedesk.window._ticking);
 		onedesk.window._ticking = setInterval(() => onedesk.window.now($now), 15 * 1000);
 	},

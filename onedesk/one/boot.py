@@ -20,6 +20,7 @@ def boot_session(bootinfo) -> None:
 	from onedesk.one import company
 
 	bootinfo["one_frame_colour"] = company.frame_colour()
+	bootinfo["one_workspace_name"] = frappe.db.get_single_value("Workspace Account", "workspace_name")
 
 	from onedesk.one import outside
 

@@ -237,3 +237,17 @@ def test_the_frame_wears_the_workspaces_colour():
 	chrome_css = (WINDOW_CSS / "chrome.css").read_text(encoding="utf-8")
 	assert ':root[data-theme="dark"][data-one-frame="brand"]' in chrome_css
 	assert ':root[data-one-frame-ink="dark"]:not([data-theme="dark"])' in chrome_css
+
+
+def test_the_bottom_bar_is_a_taskbar():
+	"""The window on screen shows its status (count, paging) at the start of
+	the bottom bar, and the date and time close it, where Windows keeps its
+	clock; the top bar opens with the workspace's name."""
+	bottom = CHROME.split('data-at="bottom"', 1)[1].split("</footer>", 1)[0]
+	assert bottom.index('class="one-bar-status"') < bottom.index('data-group="open"') < bottom.index('data-group="day"')
+	assert bottom.rstrip().endswith('<div class="one-bar-group" data-group="when"><button class="one-bar-tool one-bar-now"></button></div>\n\t\t\t</div>')
+	top = CHROME.split('data-at="top"', 1)[1].split("</header>", 1)[0]
+	assert "one-bar-name" in top and "one-bar-now" not in top
+	place = FRAME.split("\tplace_status() {", 1)[1].split("\n\t},", 1)[0]
+	assert "current.$status.appendTo($slot)" in place and "win.$status.appendTo(win.$wrapper)" in place
+	assert "onedesk.window.place_status();" in FRAME.split('$(document).on("page-change"', 1)[1]

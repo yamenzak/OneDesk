@@ -60,9 +60,11 @@ keep working, because nothing of theirs was replaced.
 - **Details pane** (`window.details()`) sits right of the view, can be
   dragged wider, and is switched from the command row; both are kept per
   view kind. A form's own sidebar is already there.
-- **Status row** (`window.status()`) is pinned at the foot: what is here,
-  what is chosen, and on the right whatever the view puts there (a list's
-  paging).
+- **Status** (`window.status()`): what is here, what is chosen, and
+  whatever the view puts beside it (a list's paging). The window on screen
+  shows it at the start of the frame's bottom bar, as a taskbar would
+  (`onedesk.window.place_status`, on every page change); without the bars,
+  on a phone, it is a row pinned at the window's foot.
 
 Every row of the window sits on one gutter, the command row's 8px: Back,
 New, the quick filters, a list's checkboxes, OneCloud's file icons and the
@@ -84,10 +86,13 @@ which `chrome.css` points at the frame's), a bar across the top and one
 across the bottom (`chrome.js`), and the window inset between them, its
 corners rounded, with a strip of the frame on its far side.
 
-- **Top bar**: where and when. The date and time (OneCalendar), the
-  announcements, Search, OneIntake, Notifications, Background Tasks.
-- **Bottom bar**: what is running. Open workbooks on the left; Check In,
-  Timers and OneAI on the right. OneAI's floating dial is not drawn while
+- **Top bar**: the workspace and what reaches you. Its name on the left,
+  the announcements in the middle, then Search (an icon, which opens the
+  address box), OneIntake, Notifications and Background Tasks.
+- **Bottom bar**: this window and what is running, as a taskbar. The
+  window's status (its count and paging) and open workbooks on the left;
+  Check In, Timers, OneAI, and the date and time (OneCalendar) at the end,
+  where Windows keeps its clock. OneAI's floating dial is not drawn while
   the bars are.
 
 The frame's colour is `--one-frame`: frappe-ui's darkest grey in a light

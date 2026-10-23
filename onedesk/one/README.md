@@ -71,16 +71,19 @@ bar across the top and one across the bottom. The screen itself is inset in
 it, its corners rounded. The frame is dark when the theme is light, and a
 shade lighter than the page when the theme is dark.
 
-The top bar says where and when. On the left are today's date and the time,
-which open OneCalendar. In the middle run the announcements. On the right
-are **Search**, then **OneIntake** and **Notifications**.
+The top bar is the workspace and what reaches you. On the left is the
+workspace's name. In the middle run the announcements. On the right are
+**Search**, then **OneIntake** and **Notifications**.
 
-The bottom bar shows what is running. On the left is any workbook you left
-for another screen, under OneWorkbook's mark (OneWorkbook's README). On the
-right are **Check In** and **Timers**, then **OneAI**. A number on an icon
-says how much waits there. **Check In** says *Check In* when your shift has
-started and you haven't, and *Late* once you are late. On a phone there are
-no bars, and their tools are at the top of the panel instead.
+The bottom bar is the screen you are on and what is running, like a taskbar.
+On the left is what the screen says about itself: how many rows a list
+shows and its paging, or how many files a folder holds. Then any workbook
+you left for another screen, under OneWorkbook's mark (OneWorkbook's
+README). On the right are **Check In** and **Timers**, then **OneAI**, and
+at the end today's date and the time, which open OneCalendar. A number on
+an icon says how much waits there. **Check In** says *Check In* when your
+shift has started and you haven't, and *Late* once you are late. On a phone
+there are no bars, and their tools are at the top of the panel instead.
 
 The frame's colour is the workspace's to choose: **Frame Colour** under
 Workspace › General › Contact and Branding. Its writing turns dark on a light

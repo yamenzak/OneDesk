@@ -485,3 +485,80 @@ html[dir="rtl"] .one-bar-news-moving .one-bar-news-track {
 	margin-top: 0;
 	margin-bottom: 4px;
 }
+
+/* The workspace's name, at the top bar's start. */
+.one-bar-name {
+	padding: 0 6px;
+	color: var(--one-frame-ink-strong);
+	font-size: var(--text-xs);
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+/* The window on screen tells the bottom bar what is here and pages through
+   it (frame.js place_status): frappe's own count and paging, on the frame. */
+.one-bar-status {
+	display: flex;
+	align-items: center;
+	min-width: 0;
+	padding-inline-start: 6px;
+}
+
+.one-bar-status:empty,
+.one-bar-status:not(:has(> .one-window-status:not([hidden]))) {
+	display: none;
+}
+
+.one-bar-status > .one-window-status {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 3);
+	min-width: 0;
+	font-size: var(--text-xs);
+	color: var(--one-frame-ink);
+}
+
+.one-bar-status > .one-window-status[hidden] {
+	display: none;
+}
+
+.one-bar-status .one-window-said {
+	color: var(--one-frame-ink-strong);
+	white-space: nowrap;
+}
+
+.one-bar-status .one-window-more,
+.one-bar-status .list-paging-area,
+.one-bar-status .list-paging-area .level-left,
+.one-bar-status .list-paging-area .level-right {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+}
+
+.one-bar-status .es-tab-buttons {
+	background: transparent;
+}
+
+.one-bar-status .es-pill,
+.one-bar-status .es-button {
+	height: 20px;
+	background: transparent;
+	color: var(--one-frame-ink);
+	font-size: var(--text-xs);
+}
+
+.one-bar-status .es-pill:hover,
+.one-bar-status .es-button:hover {
+	background: var(--one-frame-hover);
+	color: var(--one-frame-ink-strong);
+}
+
+.one-bar-status .es-pill[data-state="active"] {
+	background: var(--one-frame-hover);
+	color: var(--one-frame-ink-strong);
+}

@@ -72,6 +72,19 @@ $.extend(onedesk.window, {
 		});
 	},
 
+	// The window on screen shows its status (what is here, its paging) in the
+	// frame's bottom bar, as a taskbar does; any other window keeps its own,
+	// out of sight. Without the bars (a phone) it stays the window's row.
+	place_status() {
+		const $slot = $(".one-bar-status");
+		const current = onedesk.window.current();
+		$slot.children(".one-window-status").each((_, el) => {
+			const win = $(el).data("one-window");
+			if (win && win !== current) win.$status.appendTo(win.$wrapper);
+		});
+		if (current && $slot.length) current.$status.appendTo($slot);
+	},
+
 	// Up from a list, a report or a tree: the home of the app it is in.
 	home() {
 		const sidebar = frappe.app && frappe.app.sidebar;
@@ -201,8 +214,10 @@ onedesk.window.Window = class Window {
 		).insertBefore($content.children(".standard-items-section"));
 		this.$switch = $(button("details", "panel-right", __("Details pane"))).addClass("one-window-switch").appendTo($content).hide();
 		this.$status = $(
-			`<footer class="one-window-status" hidden><span class="one-window-said"></span><span class="one-window-more"></span></footer>`
-		).appendTo(this.$wrapper);
+			`<div class="one-window-status" hidden><span class="one-window-said"></span><span class="one-window-more"></span></div>`
+		)
+			.data("one-window", this)
+			.appendTo(this.$wrapper);
 		this.$tools.find("[data-window=refresh]").hide();
 		$content.on("click", "[data-window]", (e) => {
 			e.preventDefault();
@@ -529,6 +544,7 @@ onedesk.window.current = () => {
 		$("body").toggleClass("full-height-page", !!(current && current.window && current.window.fit));
 		if (current && current.window) setTimeout(() => current.window.can(), 0);
 		onedesk.window.nav.place();
+		onedesk.window.place_status();
 	});
 	$(document).on("app_ready", () => onedesk.window.nav.setup());
 	$(() => setTimeout(() => onedesk.window.nav.setup(), 0));
