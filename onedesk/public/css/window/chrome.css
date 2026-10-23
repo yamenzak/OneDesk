@@ -595,3 +595,9 @@ body.one-barred .dock-item:hover::before {
 body.one-barred .dock-item.active::before {
 	height: 20px;
 }
+
+/* Folded, the announcements are their megaphone and how many there are, at
+   the start of the space the strip runs in. */
+.one-bar-news.one-bar-news-folded {
+	flex: 1 1 auto;
+}

@@ -235,6 +235,7 @@ No doctypes yet.
 * `onedesk.one.account.wake`
 * `onedesk.one.announcements.current`
 * `onedesk.one.announcements.hide`
+* `onedesk.one.announcements.show`
 * `onedesk.one.apps.read`
 * `onedesk.one.apps.save`
 * `onedesk.one.apps.search_link`

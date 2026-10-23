@@ -2,7 +2,8 @@
 administrators.
 
 An announcement is frappe's own Note, made public and shown on sign-in, and
-running along the top bar until it expires.
+running along the top bar until it expires. A person may fold them to the
+bar's megaphone, with how many there are; it opens them again.
 """
 
 import json
@@ -22,7 +23,7 @@ ON_THE_BAR = 5
 #: How long one with no Show Until stays on the bar, as the sign-in pop-up does.
 FRESH_DAYS = 7
 
-#: The announcements a person put away from their bar, as a user default.
+#: The announcements running when a person folded them to the bar's icon, as a user default.
 HIDDEN = "one_news_hidden"
 
 
@@ -66,16 +67,25 @@ def _rerun() -> None:
 
 
 @frappe.whitelist()
-def current() -> list[dict]:
-	"""What this person's top bar runs: what is running, less what they hid."""
-	hidden = set(json.loads(frappe.defaults.get_user_default(HIDDEN) or "[]"))
-	return [one for one in _running() if one["name"] not in hidden]
+def current() -> dict:
+	"""What this person's top bar shows: every announcement running, and
+	whether they folded it to its icon. Folding holds until one is posted
+	that was not there when they folded."""
+	running = _running()
+	folded = set(json.loads(frappe.defaults.get_user_default(HIDDEN) or "[]"))
+	return {"running": running, "folded": bool(running) and all(one["name"] in folded for one in running)}
 
 
 @frappe.whitelist(methods=["POST"])
 def hide() -> None:
-	"""Put away what is on the bar now; the next one posted brings it back."""
+	"""Fold the announcements to the bar's icon; the next one posted opens them again."""
 	frappe.defaults.set_user_default(HIDDEN, json.dumps([one["name"] for one in _running()]))
+
+
+@frappe.whitelist(methods=["POST"])
+def show() -> None:
+	"""Open the folded announcements again."""
+	frappe.defaults.clear_user_default(HIDDEN)
 
 
 def _running() -> list[dict]:

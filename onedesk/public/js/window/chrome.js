@@ -142,7 +142,7 @@ $.extend(onedesk.window, {
 		if (!(frappe.boot.one_hidden?.apps || []).includes("OneCalendar")) $now.on("click", () => frappe.set_route("onecalendar"));
 		onedesk.window.now($now);
 		$now.data("one-tip", tip($now[0]));
-		onedesk.window.news(frappe.boot.one_announcements || []);
+		onedesk.window.news(frappe.boot.one_announcements);
 		onedesk.window.place_status();
 		clearInterval(onedesk.window._ticking);
 		onedesk.window._ticking = setInterval(() => onedesk.window.now($now), 15 * 1000);
@@ -158,15 +158,38 @@ $.extend(onedesk.window, {
 		onedesk.dock.name($now, now.format("dddd D MMMM YYYY"));
 	},
 
-	/** Announcements run along the top bar until they expire; one click opens
-	 * one, and Hide puts away those on it now, for this person; a new one
-	 * still runs. */
-	news(all) {
+	/** Announcements run along the top bar until they expire, and one click
+	 * opens one. ✕ folds them to the megaphone with how many there are, for
+	 * this person; the megaphone opens them again, and so does a new one. */
+	news(said) {
 		const esc = frappe.utils.escape_html;
 		const $news = $(".one-bar-news");
+		const all = (said && said.running) || [];
 		onedesk.window._news = all;
-		$news.toggleClass("hide", !all.length).empty();
+		if (!onedesk.window._listening_news) {
+			onedesk.window._listening_news = true;
+			const listen = () =>
+				frappe.realtime.on("one_announcements", () =>
+					frappe.xcall("onedesk.one.announcements.current").then((now) => onedesk.window.news(now))
+				);
+			frappe.realtime.socket ? listen() : $(document).one("app_ready", listen);
+		}
+		$news.toggleClass("hide", !all.length).removeClass("one-bar-news-moving one-bar-news-folded").empty();
 		if (!all.length) return;
+		const icon = `<span class="one-bar-icon">${frappe.utils.icon("megaphone", "sm")}</span>`;
+		if (said.folded) {
+			$news.addClass("one-bar-news-folded").html(
+				`<button class="one-bar-tool one-bar-news-open" aria-label="${esc(__("Announcements"))}">${icon.replace(
+					"</span>",
+					`<span class="one-bar-badge">${all.length}</span></span>`
+				)}</button>`
+			);
+			$news.find(".one-bar-news-open").on("click", () => {
+				frappe.xcall("onedesk.one.announcements.show");
+				onedesk.window.news({ running: all, folded: false });
+			});
+			return;
+		}
 		const items = all
 			.map(
 				(one) =>
@@ -189,17 +212,9 @@ $.extend(onedesk.window, {
 		}
 		$news.find("[data-note]").on("click", (event) => onedesk.window.announcement($(event.currentTarget).attr("data-note")));
 		$news.find(".one-bar-news-hide").on("click", () => {
-			$news.addClass("hide");
 			frappe.xcall("onedesk.one.announcements.hide");
+			onedesk.window.news({ running: all, folded: true });
 		});
-		if (!onedesk.window._listening_news) {
-			onedesk.window._listening_news = true;
-			const listen = () =>
-				frappe.realtime.on("one_announcements", () =>
-					frappe.xcall("onedesk.one.announcements.current").then((now) => onedesk.window.news(now || []))
-				);
-			frappe.realtime.socket ? listen() : $(document).one("app_ready", listen);
-		}
 	},
 
 	async announcement(name) {

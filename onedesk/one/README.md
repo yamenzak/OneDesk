@@ -755,10 +755,11 @@ new expense policy.
 
 To post one, click **Add**, enter a title and write the message.
 
-- Every public announcement runs along the top bar, beside the date, until
-  **Show Until** (a week after it was posted if left empty). The newest five
-  run at once. Hover to stop it, click one to read it all, and **×** hides
-  the ones on the bar now, for you only. A new one still shows.
+- Every public announcement runs along the top bar until **Show Until** (a
+  week after it was posted if left empty). The newest five run at once.
+  Hover to stop it, and click one to read it all. **×** folds them to the
+  megaphone with how many there are, for you only, and they stay folded
+  until you click the megaphone or a new one is posted.
 - New announcements are **Public** and **Show When People Sign In** by
   default. Untick **Show When People Sign In** for one that only runs on the
   bar.
