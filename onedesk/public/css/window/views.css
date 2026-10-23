@@ -203,4 +203,71 @@
 	.one-window .form-sidebar .one-viewers:has(.form-viewers:empty) {
 		display: none;
 	}
+
+	/* The record panel: Overview, Activity and Mail as tabs under Assign, Tags
+	   and Share. Everything in it is laid out by the panel's own width, so it
+	   reads the same at any width the edge is dragged to. */
+	.one-window .form-sidebar .one-panel {
+		padding-block: calc(var(--spacing) * 2) 0;
+		border-bottom: 0;
+	}
+
+	.one-window .one-panel[hidden] {
+		display: none;
+	}
+
+	.one-window .one-panel-pane {
+		container-type: inline-size;
+		padding-block: calc(var(--spacing) * 3);
+	}
+
+	/* The widget standard. A record's head in the panel is one column: its
+	   charts and its track across the whole width, its figures as cards that
+	   fill the width two to a row, or three once there is room. */
+	.one-window .one-panel-pane .one-band,
+	.one-window .one-panel-pane .one-band-charted {
+		display: flex;
+		flex-direction: column;
+		gap: calc(var(--spacing) * 4);
+		padding: 0;
+	}
+
+	.one-window .one-panel-pane .one-band-charts {
+		flex-direction: column;
+	}
+
+	.one-window .one-panel-pane .one-band-chart {
+		width: 100%;
+	}
+
+	.one-window .one-panel-pane .one-stats {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: calc(var(--spacing) * 2);
+		padding: 0;
+		border: 0;
+	}
+
+	@container (min-width: 520px) {
+		.one-window .one-panel-pane .one-stats {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+	}
+
+	.one-window .one-panel-pane .one-stats > .one-steps,
+	.one-window .one-panel-pane .one-stats > :not(.one-stat-link, .es-stat-card) {
+		grid-column: 1 / -1;
+	}
+
+	.one-window .one-panel-pane .es-stat-card {
+		min-width: 0;
+	}
+
+	/* frappe's comments and timeline, at the panel's width. */
+	.one-window .one-panel-pane .form-footer,
+	.one-window .one-panel-pane .comment-box,
+	.one-window .one-panel-pane .new-timeline {
+		margin: 0;
+		padding: 0;
+	}
 }

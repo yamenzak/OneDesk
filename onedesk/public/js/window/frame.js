@@ -383,28 +383,42 @@ onedesk.window.Window = class Window {
 	}
 
 	// The pane right of the view, its width and whether it is open kept per
-	// kind of view.
-	details({ key, width = 280 } = {}) {
+	// kind of view. A view that already has a pane of its own there (a form's
+	// sidebar) hands it over as `pane`, and it becomes this one: the switch in
+	// the command row folds it, its edge drags it as wide as most of the window.
+	details({ key, width = 280, pane = null } = {}) {
 		if (this.$details) return this.$details;
 		this.details_key = `details:${key || "page"}`;
 		const kept = onedesk.window.kept(this.details_key, { open: true, width });
 		const $main = this.$wrapper.find(".layout-main").first();
-		const $pane = $(`<aside class="one-window-details" role="complementary"><div class="one-window-details-edge"></div><div class="one-window-details-body"></div></aside>`).appendTo(
-			$main
-		);
+		const $pane = pane
+			? pane.addClass("one-window-details one-window-details-own")
+			: $(`<aside class="one-window-details" role="complementary"><div class="one-window-details-body"></div></aside>`).appendTo($main);
 		this.$details_pane = $pane;
-		this.$details = $pane.find(".one-window-details-body");
-		const size = (px) => Math.round(Math.min(560, Math.max(200, px)));
-		$pane.css("--one-details-width", `${size(kept.width || width)}px`);
-		onedesk.window.drag($pane.find(".one-window-details-edge")[0], {
-			leading: true,
-			from: () => $pane[0].getBoundingClientRect().width,
-			to: (px) => $pane.css("--one-details-width", `${size(px)}px`),
-			done: () => this.remember_details({ width: $pane[0].getBoundingClientRect().width }),
-		});
+		this.$details = pane ? $pane : $pane.find(".one-window-details-body");
+		this.details_size = (px) => Math.round(Math.min(Math.max(320, this.$wrapper.width() * 0.6), Math.max(200, px)));
+		$pane.css("--one-details-width", `${this.details_size(kept.width || width)}px`);
+		this.details_edge();
 		this.$switch.show();
 		this.show_details(kept.open !== false);
 		return this.$details;
+	}
+
+	// The pane's edge, dragged to size it. A pane the view rebuilds (frappe
+	// empties a form's sidebar when it makes it) is given it back.
+	details_edge() {
+		const $pane = this.$details_pane;
+		if (!$pane || $pane.children(".one-window-details-edge").length) return;
+		const $edge = $(`<div class="one-window-details-edge"></div>`).prependTo($pane);
+		onedesk.window.drag($edge[0], {
+			leading: true,
+			from: () => $pane[0].getBoundingClientRect().width,
+			to: (px) => $pane.css("--one-details-width", `${this.details_size(px)}px`),
+			done: () => {
+				this.remember_details({ width: $pane[0].getBoundingClientRect().width });
+				window.dispatchEvent(new Event("resize"));
+			},
+		});
 	}
 
 	remember_details(change) {

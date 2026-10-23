@@ -58,6 +58,7 @@ onedesk.head.draw = (frm, drawn = null) => {
 	if (!head && !frm.one_headed) return;
 	frm.one_headed = !!head;
 	frm.layout.message.children(".form-message:has(.one-head-sentence, .one-band), .one-record-changed, .one-notice").remove();
+	if (frm.one_panel && !head) onedesk.band.put(frm, "");
 	if (!head) return;
 	for (const notice of head.notices || []) onedesk.head.notice(frm, notice);
 	if (head.indicator) frm.page.set_indicator(head.indicator.label, head.indicator.colour);

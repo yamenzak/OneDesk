@@ -11,15 +11,22 @@ onedesk.record_tabs.FIELD = (name) => `__one_${name}`;
 
 onedesk.record_tabs.declared = () => frappe.boot.one_record_tabs || [];
 
+// Whether a declared tab belongs on this record's form at all, wherever it is
+// drawn (a record tab, or the window's record panel).
+onedesk.record_tabs.applies = (frm, name) => {
+	const tab = onedesk.record_tabs.declared().find((one) => one.name === name);
+	if (!tab || !onedesk.record_tabs.drawers[tab.name] || !frm || !frm.meta) return false;
+	if (tab.doctypes && !tab.doctypes.includes(frm.doctype)) return false;
+	return !(tab.leaves_out || []).includes(frm.doctype);
+};
+
 onedesk.record_tabs.on = (layout) => {
 	const frm = layout.frm;
 	const meta = frm && frm.meta;
 	if (!meta || layout.is_child_table || layout.doctype !== frm.doctype || meta.istable || meta.issingle) return [];
 	return onedesk.record_tabs.declared().filter((tab) => {
 		const drawer = onedesk.record_tabs.drawers[tab.name];
-		if (!drawer) return false;
-		if (tab.doctypes && !tab.doctypes.includes(frm.doctype)) return false;
-		if ((tab.leaves_out || []).includes(frm.doctype)) return false;
+		if (!onedesk.record_tabs.applies(frm, tab.name)) return false;
 		return !drawer.wanted || drawer.wanted(frm);
 	});
 };
@@ -43,6 +50,7 @@ onedesk.record_tabs.tab = (frm, name) =>
 	((frm.layout && frm.layout.tabs) || []).find((one) => one.df.fieldname === onedesk.record_tabs.TAB(name));
 
 onedesk.record_tabs.count = (frm, name, count) => {
+	if (onedesk.window.panel_count) onedesk.window.panel_count(frm, name, count);
 	const tab = onedesk.record_tabs.tab(frm, name);
 	if (!tab) return;
 	const $link = tab.tab_link.find(".nav-link");

@@ -120,6 +120,35 @@ in that ink with its white parts cut back to the frame, generated beside the
 coloured one by `scripts/icons.py` as `NAME-flat`, the app you are in as
 well. Saving it reaches open screens at once (`one_frame`).
 
+## The record panel
+
+A form's sidebar is the window's details pane (`details({ pane })`): the
+switch at the end of the command row folds it, as it folds OneCloud's, and
+its edge drags it from 200px to most of the window, kept per person. Under
+Assign, Tags and Share it holds the **record panel**, three tabs drawn with
+frappe's own `frappe.ui.Tabs`:
+
+- **Overview**: the record's head (its charts, its track, its figures),
+  drawn here by `onedesk.band.put` instead of above the fields, so a record
+  opens on its fields.
+- **Activity**: frappe's comments and timeline (`frm.footer`), moved here.
+- **Mail**: the record's mail (`onedesk.record_mail.open`), drawn when the
+  tab is first shown.
+
+A tab with nothing for the record is not shown; a new record has no panel.
+The tab somebody picks is kept per doctype. The Activity and Mail record
+tabs leave the tab row while the panel holds them. All of it only where the
+window covers forms and the screen is wide enough for frappe's sidebar
+(992px); below that each part stays where it was.
+
+**The widget standard.** Whatever the Overview holds is laid out by the
+panel's own width (a CSS container), never the screen's, so it reads the
+same at any width the edge is dragged to: charts, the track and anything
+that is not a figure take the whole width; figures are frappe's stat cards,
+two to a row, three once the panel is 520px wide. A new widget for a record
+is a stat card or a chart in the head (`one/head.py`), and it lands in the
+panel already styled; nothing is laid out for it by hand.
+
 ## Where it lives
 
 The window is two folders, and nothing of it is anywhere else:

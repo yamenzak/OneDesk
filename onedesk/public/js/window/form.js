@@ -4,7 +4,8 @@
 // record's own solid button, such as Record Payment), its other buttons
 // follow, then frappe's menu. Cancel stays at the row's far end. The ‹ › to
 // the record before and after go beside Up, the tabs are the row under the
-// commands, and who edited it last is the status.
+// commands, and who edited it last is the status. Its sidebar is the window's
+// details pane, and holds the record panel.
 onedesk.window.adapt("form", () => {
 	const Form = frappe.ui.form && frappe.ui.form.Form;
 	if (!Form || Object.hasOwn(Form.prototype, "one_window")) return;
@@ -23,6 +24,8 @@ onedesk.window.adapt("form", () => {
 				refresh: () => !this.is_new() && this.reload_doc(),
 				up: () => frappe.set_route("List", this.doctype),
 			});
+			const $side = this.page.wrapper.find(".layout-main > .layout-side-section").first();
+			if (onedesk.window.panelled(this) && $side.length) win.details({ key: "form", width: 400, pane: $side });
 		}
 		return said;
 	};
@@ -53,11 +56,91 @@ onedesk.window.adapt("form", () => {
 			if (win) {
 				win.view({ status: onedesk.window.edited(this.frm.doc) });
 				onedesk.window.viewers(this.frm, this.sidebar);
+				win.details_edge();
+				onedesk.window.panel(this.frm, this.sidebar);
+				onedesk.window.panel_refresh(this.frm);
 			}
 			return said;
 		};
 	}
 });
+
+// The record panel: a form's sidebar, as the window's details pane, holds the
+// record's Overview (its head: cards, charts, the track), its Activity
+// (frappe's comments and timeline) and its Mail, as tabs under Assign, Tags
+// and Share. Only where the window covers forms and the screen is wide
+// enough for frappe to show its sidebar; elsewhere each stays where it was.
+onedesk.window.panelled = (frm) =>
+	!!(frm && frm.page && frm.page.window && onedesk.window.covers("form") && window.innerWidth >= 992);
+
+onedesk.window.PANEL = ["overview", "activity", "mail"];
+
+onedesk.window.panel = (frm, $sidebar) => {
+	if (frm.one_panel || !onedesk.window.panelled(frm)) return frm.one_panel || null;
+	const names = onedesk.window.PANEL;
+	const labels = { overview: __("Overview"), activity: __("Activity"), mail: __("Mail") };
+	const panes = Object.fromEntries(names.map((name) => [name, $(`<div class="one-panel-pane" data-pane="${name}"></div>`)]));
+	const tabs = new frappe.ui.Tabs({
+		css_class: "one-panel-tabs",
+		tabs: names.map((name) => ({ label: labels[name], content: panes[name][0] })),
+		on_change: (i) => {
+			if (!frm.one_panel.picking) onedesk.window.keep(`panel:${frm.doctype}`, names[i]);
+			onedesk.window.panel_show(frm, names[i]);
+		},
+	});
+	const $panel = $(`<div class="sidebar-section one-panel"></div>`).append(tabs.$el);
+	const $after = $sidebar.find(".form-shared").first();
+	$after.length ? $panel.insertAfter($after) : $panel.appendTo($sidebar);
+	frm.one_panel = { tabs, panes, $panel };
+	return frm.one_panel;
+};
+
+// What the panel has for this record: its head where it has one, its activity
+// where frappe keeps a timeline, its mail where the Mail tab is declared.
+onedesk.window.panel_refresh = (frm) => {
+	const panel = frm.one_panel;
+	if (!panel) return;
+	panel.$panel.prop("hidden", frm.is_new());
+	if (frm.is_new()) return;
+	const footer = frm.footer && frm.footer.wrapper;
+	if (footer && footer.length && !$.contains(panel.panes.activity[0], footer[0])) panel.panes.activity.append(footer);
+	const has = {
+		overview: panel.panes.overview.children().length > 0,
+		activity: !!(footer && footer.length),
+		mail: onedesk.record_tabs.applies(frm, "mail"),
+	};
+	const names = onedesk.window.PANEL;
+	names.forEach((name, i) => (panel.tabs.tabs[i].button.hidden = !has[name]));
+	const shown = names.filter((name) => has[name]);
+	panel.$panel.toggle(shown.length > 0);
+	if (!shown.length) return;
+	// The tab somebody last chose for this kind of record, where it has
+	// something; else the first that does. Choosing for them is not kept.
+	const now = panel.tabs.active === null || panel.tabs.active === undefined ? null : names[panel.tabs.active];
+	const kept = onedesk.window.kept(`panel:${frm.doctype}`, null);
+	const want = has[kept] ? kept : shown[0];
+	if (want === now) return onedesk.window.panel_show(frm, want);
+	panel.picking = true;
+	panel.tabs.set_active(names.indexOf(want));
+	panel.picking = false;
+};
+
+onedesk.window.panel_show = (frm, name) => {
+	const panel = frm.one_panel;
+	if (!panel) return;
+	if (name === "mail") onedesk.record_mail.open(frm, panel.panes.mail);
+	if (name === "overview") requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
+};
+
+// A count beside a panel tab's name, as a record tab carries one.
+onedesk.window.panel_count = (frm, name, count) => {
+	const panel = frm.one_panel;
+	const i = onedesk.window.PANEL.indexOf(name);
+	if (!panel || i < 0) return;
+	const button = panel.tabs.tabs[i].button;
+	$(button).find(".one-files-count").remove();
+	if (count) $(button).append(`<span class="one-files-count">${cint(count)}</span>`);
+};
 
 // Who made a record and who changed it last, for the status row.
 onedesk.window.edited = (doc) => {

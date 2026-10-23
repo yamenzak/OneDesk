@@ -56,36 +56,48 @@ onedesk.band.meter = (meter) => {
 	);
 };
 
+// Where a record's head is drawn: the record panel's Overview where the
+// window gives the form one, otherwise frappe's headline above the fields.
+onedesk.band.put = (frm, html) => {
+	const pane = frm.one_panel && frm.one_panel.panes.overview;
+	if (pane) {
+		pane.html(html || "");
+		onedesk.window.panel_refresh(frm);
+		return pane;
+	}
+	if (html) frm.dashboard.set_headline(html, null, true);
+	else frm.dashboard.clear_headline();
+	return frm.layout.message;
+};
+
 onedesk.band.show = async (frm, said, charts = []) => {
-	if (!said.length && !charts.length) return frm.dashboard.clear_headline();
+	if (!said.length && !charts.length) return onedesk.band.put(frm, "");
 	if (said.some((one) => typeof one !== "string")) await frappe.require(["desk_charts.bundle.js", "desk_charts.bundle.css"]);
 	const stats = said.map((one) => (typeof one === "string" ? one : onedesk.band.card(one)));
 	frm.layout.message.children(".form-message:has(.one-band)").remove();
 	const heat = charts.find((chart) => chart.kind === "heat");
 	if (heat) {
 		const drawn = onedesk.band.heat(heat.days);
-		frm.dashboard.set_headline(
+		const $home = onedesk.band.put(
+			frm,
 			`<div class="one-band">` +
 				(drawn ? drawn.months : "") +
 				`<div class="one-stats es-stat-card-grid">${stats.join("")}</div>` +
 				(drawn ? drawn.legend : "") +
-				`</div>`,
-			null,
-			true
+				`</div>`
 		);
-		return onedesk.band.tip(frm.layout.message);
+		return onedesk.band.tip($home);
 	}
 	const key = frappe.scrub(frm.doctype);
-	frm.dashboard.set_headline(
+	const $home = onedesk.band.put(
+		frm,
 		`<div class="one-band ${charts.length ? "one-band-charted" : "one-band-plain"}">` +
 			(charts.length
 				? `<div class="one-band-charts">${charts.map((chart, i) => onedesk.band.panel(chart, `${key}-${i}`)).join("")}</div>`
 				: "") +
-			`<div class="one-stats es-stat-card-grid">${stats.join("")}</div></div>`,
-		null,
-		true
+			`<div class="one-stats es-stat-card-grid">${stats.join("")}</div></div>`
 	);
-	const $band = frm.layout.message.find(".one-band").last();
+	const $band = $home.find(".one-band").last();
 	charts.forEach((chart, i) => onedesk.band.chart($band.find(`#one-chart-${key}-${i} .one-chart-body`)[0], chart));
 	onedesk.band.tip($band);
 };

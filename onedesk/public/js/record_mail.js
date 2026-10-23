@@ -5,9 +5,10 @@ onedesk.record_mail.doctypes = () =>
 
 onedesk.record_mail.tab = (frm) => onedesk.record_tabs.tab(frm, "mail");
 
-onedesk.record_mail.open = async (frm) => {
+onedesk.record_mail.open = async (frm, $into = null) => {
 	const field = frm.fields_dict[onedesk.record_tabs.FIELD("mail")];
-	if (!field || frm.is_new()) return;
+	const $wrapper = $into || (field && field.$wrapper);
+	if (!$wrapper || !$wrapper.length || frm.is_new()) return;
 	await frappe.require("/assets/onedesk/css/onemail.css");
 	const esc = frappe.utils.escape_html;
 	const rows = await frappe.xcall("onedesk.one_mail.linking.record", { doctype: frm.doctype, name: frm.doc.name });
@@ -29,17 +30,20 @@ onedesk.record_mail.open = async (frm) => {
 			});
 		})
 		.join("");
-	field.$wrapper.html(`<div class="om-record">
+	$wrapper.html(`<div class="om-record">
 		<div class="om-record-head">
 			<button class="es-button" data-variant="subtle" data-act="write">${frappe.utils.icon("pencil", "sm")}<span class="es-button__label">${__("New Email")}</span></button>
 		</div>
 		${list ? onedesk.shell.list(list) : onedesk.shell.empty(__("No emails"), "", { icon: "mail" })}
 	</div>`);
-	field.$wrapper.find("[data-act=write]").on("click", () => {
+	$wrapper.find("[data-act=write]").on("click", () => {
 		const composer = new frappe.views.CommunicationComposer({ frm, doc: frm.doc });
-		composer.dialog.$wrapper.on("hidden.bs.modal", () => setTimeout(() => onedesk.record_mail.open(frm), 1500));
+		composer.dialog.$wrapper.on("hidden.bs.modal", () => setTimeout(() => onedesk.record_mail.open(frm, $into), 1500));
 	});
 	onedesk.record_tabs.count(frm, "mail", rows.length);
 };
 
-onedesk.record_tabs.register("mail", { open: (frm) => onedesk.record_mail.open(frm) });
+onedesk.record_tabs.register("mail", {
+	wanted: (frm) => !(onedesk.window.panelled && onedesk.window.panelled(frm)),
+	open: (frm) => onedesk.record_mail.open(frm),
+});

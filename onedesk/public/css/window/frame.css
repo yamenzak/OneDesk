@@ -244,6 +244,26 @@
 	.one-window-details-edge:hover {
 		background: var(--outline-gray-2);
 	}
+
+	/* A view's own pane handed over (a form's sidebar): frappe sizes it by
+	   its own variables and scrolls it, so the window's width wins and the
+	   edge sits inside its box. */
+	.one-window .layout-main > .one-window-details-own {
+		flex: 0 0 var(--one-details-width);
+		width: var(--one-details-width);
+		min-width: 0;
+		max-width: none;
+	}
+
+	body .one-window .one-window-details-own .form-sidebar {
+		width: auto;
+		max-width: none;
+	}
+
+	.one-window .one-window-details-own > .one-window-details-edge {
+		inset-inline-start: 0;
+		width: 6px;
+	}
 }
 
 /* Below a tablet frappe's own phone head stays. */
