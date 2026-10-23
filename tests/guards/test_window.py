@@ -312,3 +312,34 @@ def test_a_forms_sidebar_is_the_details_pane_and_holds_the_record_panel():
 	assert "details_edge()" in frame
 	assert "onedesk.band.put(" in band and "frm.dashboard.set_headline(" not in band.replace("if (html) frm.dashboard.set_headline(html, null, true);", "")
 	assert "container-type: inline-size" in views and "@container (min-width: 520px)" in views
+
+
+# The one doctype the engine reads by name: the top bar's news is frappe's
+# Note, which belongs to the frame, not to any screen.
+ENGINE_READS = {"Note"}
+SPECIFIC = [
+	r'data-(?:page-)?route="',
+	r'data-doctype="[A-Z]',
+	r'data-fieldname="',
+	r'\bdoctype\s*[!=]==?\s*["\'][A-Z]',
+	r'\bfieldname\s*[!=]==?\s*["\']',
+	r'(?:get_doc|get_value|get_list|new_doc)\(\s*["\']([A-Z][\w ]*)',
+	r'set_route\(\s*["\'](?:List|Form)["\']\s*,\s*["\']([A-Z][\w ]*)',
+	r'\bfrm\.doc\.(?!name\b|doctype\b|docstatus\b|__)[a-z_]+',
+]
+
+
+def test_the_engine_names_no_doctype():
+	"""The window and the record panel are the engine: they work from what
+	frappe says a screen has, so every doctype gets them the same. A doctype,
+	a field or a route of one screen named in them is a specific, and it goes
+	to the module that owns that screen."""
+	files = [*WINDOW_JS.glob("*.js"), *WINDOW_CSS.glob("*.css"), tree.APP / "public" / "js" / "band.js"]
+	found = []
+	for path in files:
+		for n, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+			for pattern in SPECIFIC:
+				hit = re.search(pattern, line)
+				if hit and not (hit.groups() and hit.group(1) in ENGINE_READS):
+					found.append(f"{path.relative_to(tree.APP)}:{n}: {line.strip()}")
+	assert not found, "the engine names a screen's own doctype, field or route:\n" + "\n".join(found)

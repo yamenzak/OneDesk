@@ -322,3 +322,9 @@ actions where frappe made them); only `css/window/` styles `.one-window-*`; OneC
 address bar, tree or status of its own; the nav width stays inside its
 limits and is kept; the trial switch is the only thing that puts lists and
 forms on it.
+
+The engine names no screen. `window/` and `band.js` work from what frappe
+says a screen has, so no doctype, field or route of one screen appears in
+them (`test_the_engine_names_no_doctype`); the only doctype read by name is
+frappe's `Note`, which is the top bar's news. A rule for one screen goes to
+the module that owns it.
