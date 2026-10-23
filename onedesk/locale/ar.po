@@ -263,10 +263,6 @@ msgstr "دقيقة واحدة"
 msgid "1 month"
 msgstr "شهر واحد"
 
-#: onedesk/public/js/intake.js:322
-msgid "1 not checked"
-msgstr "1 غير مُراجَع"
-
 #: frontend/src/project/ProjectPage.vue:234
 msgid "1 open sub-project"
 msgstr "مشروع فرعي واحد مفتوح"
@@ -54022,10 +54018,6 @@ msgstr "{0} يذكر {1}، وهو غير موجود في {2}."
 #: onedesk/one_studio/record_types.py:116
 msgid "{0} needs its choices, one a line."
 msgstr "{0} يحتاج إلى خياراته، خيار في كل سطر."
-
-#: onedesk/public/js/intake.js:322
-msgid "{0} not checked"
-msgstr "{0} غير مُراجَعة"
 
 #: frontend/src/workload/WorkloadList.vue:37
 msgid "{0} not estimated"

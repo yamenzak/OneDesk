@@ -275,55 +275,6 @@ onedesk.intake.undone = (said) => {
 	});
 };
 
-(() => {
-	const List = frappe.views && frappe.views.ListView;
-	if (!List || List.prototype.one_intake_marked) return;
-	List.prototype.one_intake_marked = true;
-
-	const mark = () => {
-		const img = document.createElement("img");
-		img.className = "one-intake-mark";
-		img.src = onedesk.intake.MARK;
-		img.alt = __("Made by OneAI");
-		img.title = __("Made by OneAI. Not checked yet.");
-		return img;
-	};
-
-	const subject = List.prototype.get_subject_element;
-	List.prototype.get_subject_element = function (doc, title) {
-		const div = subject.call(this, doc, title);
-		const link = div.querySelector("a");
-		if (link && this.one_unchecked && this.one_unchecked.has(doc.name)) link.before(mark());
-		return div;
-	};
-
-	const render = List.prototype.render;
-	List.prototype.render = function () {
-		render.call(this);
-		if (!(frappe.boot.one_intake_marked || []).includes(this.doctype)) return;
-		frappe
-			.xcall("onedesk.one_intake.mark.unchecked", { doctype: this.doctype, names: (this.data || []).map((doc) => doc.name) })
-			.then((said) => {
-				this.one_unchecked = new Set(said.names);
-				for (const name of said.names) {
-					const $box = this.$result.find(`.list-row-checkbox[data-name="${CSS.escape(name)}"]`);
-					const $subject = $box.closest(".list-subject");
-					if ($subject.length && !$subject.find(".one-intake-mark").length) $subject.find("a").first().before(mark());
-				}
-				onedesk.intake.unchecked_button(this, said);
-			});
-	};
-})();
-
-onedesk.intake.unchecked_button = (list, said) => {
-	if (list.one_unchecked_label) list.page.remove_inner_button(list.one_unchecked_label);
-	list.one_unchecked_label = null;
-	if (!said.total) return;
-	const label = said.total === 1 ? __("1 not checked") : __("{0} not checked", [said.total]);
-	list.one_unchecked_label = label;
-	list.page.add_inner_button(label, () => list.filter_area.add([[list.doctype, "name", "in", said.all]]));
-};
-
 $(document).on("form-refresh", (event, frm) => {
 	const held = (frm.doc.__onload || {}).one_intake_mark;
 	if (!held) return;

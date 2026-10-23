@@ -103,6 +103,20 @@
 		padding-inline: calc(var(--spacing) * 2);
 	}
 
+	/* A line between New and frappe's menu, as OneCloud draws between its
+	   commands; gone with the menu when frappe hides it. */
+	.one-window .one-window-commands > .one-window-sep {
+		width: 1px;
+		height: 20px;
+		margin-inline: calc(var(--spacing) * 1);
+		background: var(--outline-gray-2);
+	}
+
+	.one-window .one-window-commands > .one-window-sep:has(+ .menu-btn-group.hide),
+	.one-window .one-window-commands > .primary-action.hide ~ .one-window-sep {
+		display: none;
+	}
+
 	.one-window .page-head-content > .standard-items-section {
 		order: 6;
 		min-height: 44px;
@@ -136,6 +150,12 @@
 	.one-window .page-head-content > .one-window-switch {
 		order: 8;
 		margin-inline-end: calc(var(--spacing) * 2);
+	}
+
+	@media (min-width: 992px) {
+		.one-window .one-window-commands > .one-window-sep:has(+ .menu-btn-group.hidden-xl) {
+			display: none;
+		}
 	}
 
 	.one-window .page-head-content > .one-window-switch[data-state="on"],

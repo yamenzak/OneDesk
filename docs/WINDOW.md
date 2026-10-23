@@ -41,9 +41,11 @@ keep working, because nothing of theirs was replaced.
   moved into the address row with its click and its tooltip. The window
   draws its own Refresh only where frappe has none (OneCloud, a form).
 - **Command row** is the rest of frappe's page head: the view's own
-  commands on the left, led by New (OneCloud's New, a list's primary
-  button, which is frappe's own node, moved; a form's Save stays right) (`window.$commands`), frappe's actions, menu and
-  primary button on the right, and the details pane's switch last.
+  commands on the left (`window.$commands`), led by New (OneCloud's New,
+  a list's primary button, which is frappe's own node, moved; a form's
+  Save stays right). A list's menu (…), frappe's node too, follows New
+  after a line, as OneCloud's commands do. frappe's other actions stay on
+  the right, and the details pane's switch is last.
 - **Views** sit at the command row's far end, beside the details switch:
   OneCloud's Details and Tiles, and a list's List, Report, Dashboard,
   Kanban, Image... as one toggle each, from frappe's own view switcher

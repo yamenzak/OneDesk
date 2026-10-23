@@ -480,6 +480,12 @@ onedesk.window.current = () => {
 				// OneCloud's New does. It is frappe's own node, which frappe
 				// still shows, hides and relabels through page.btn_primary.
 				if (this.page.btn_primary && this.page.btn_primary.length) win.$commands.prepend(this.page.btn_primary);
+				// frappe's menu (…) follows New after a line, as OneCloud's
+				// commands do; it opens from its left edge now.
+				if (this.page.menu_btn_group && this.page.menu_btn_group.length) {
+					win.$commands.append($('<span class="one-window-sep"></span>'), this.page.menu_btn_group);
+					if (this.page.menu_dropdown) this.page.menu_dropdown.align = "start";
+				}
 				win.handle({
 					up: () => frappe.app.sidebar && frappe.app.sidebar.current_module && frappe.app.sidebar.open_module(frappe.app.sidebar.current_module),
 				}).can({ up: true });

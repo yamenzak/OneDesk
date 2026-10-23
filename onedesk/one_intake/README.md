@@ -527,9 +527,9 @@ permission to do. Anything else is logged as **Not allowed** and not done.
 
 ## The OneAI mark on a record
 
-Records OneAI created show the OneAI mark next to their title in every list.
-A **{n} not checked** button above the list filters to those. The form shows
-**Made by OneAI from …** with the document, **Mark as Checked** and **Undo**.
+A record OneAI created shows **Made by OneAI from …** at the top of its
+form, with the document, **Mark as Checked** and **Undo**. Lists show
+nothing of it.
 
 The mark stays until someone saves a change, submits, cancels, clicks **Mark
 as Checked** or merges another record into it. Opening the record doesn't
@@ -1264,7 +1264,6 @@ wrote (`AI Touch`, a comparison rather than a flag). Intake extends that
 from a field to a whole record: **a record OneAI made on its own carries the
 mark until a person has looked at it**.
 
-- In every list, the mark beside the title, and a **{n} not checked** filter.
 - On the form, a banner saying what made it and from which document, with
   **Mark as Checked**, **Undo** and the document itself.
 - On tasks and calendar events OneAI made.

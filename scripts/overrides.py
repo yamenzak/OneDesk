@@ -59,8 +59,8 @@ OVERRIDES = [
 		"highlight_active_item() {",
 	),
 	(
-		"A list in the window searches its title and tells the address row Refresh and Up",
-		"the trial only; window.js wraps ListView.setup_page after frappe makes the page",
+		"A list in the window searches its title, leads with New and its menu, and tells the address row Up",
+		"the trial only; window.js wraps ListView.setup_page after frappe makes the page, and moves frappe's own New and menu nodes, which frappe keeps references to",
 		"onedesk/public/js/window.js",
 		"frappe/frappe/public/js/frappe/list/list_view.js",
 		"setup_page() {",
@@ -778,13 +778,6 @@ OVERRIDES = [
 		"onedesk/public/js/doctype_settings.js",
 		"frappe/frappe/public/js/frappe/form/doctype_settings/tabs/notification.js",
 		'frappe.doctype_settings.register("notifications", function (panel, doctype) {',
-	),
-	(
-		"A record OneAI made carries the OneAI mark in every list",
-		"intake.js wraps ListView.get_subject_element to put the mark before the title, and render to ask once per page which rows carry it; the long list draws rows as it scrolls, so the title is the one place every row passes",
-		"onedesk/public/js/intake.js",
-		"frappe/frappe/public/js/frappe/list/list_view.js",
-		"get_subject_element(doc, title) {",
 	),
 	(
 		"OneAI tags a file with Frappe's own tags",

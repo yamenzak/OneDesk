@@ -584,7 +584,6 @@ No doctypes yet.
 * `onedesk.one_intake.inbox.listing`
 * `onedesk.one_intake.inbox.seen_all`
 * `onedesk.one_intake.mark.looks_right`
-* `onedesk.one_intake.mark.unchecked`
 * `onedesk.one_intake.panel.for_file`
 * `onedesk.one_intake.panel.for_message`
 * `onedesk.one_intake.switches.folder_state`

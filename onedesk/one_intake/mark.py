@@ -13,8 +13,6 @@ WHOLE = "*"
 
 CACHE = "one_intake_marked_doctypes"
 
-MOST_LISTED = 500
-
 
 def marked_doctypes() -> set[str]:
 	held = frappe.cache.get_value(CACHE)
@@ -116,19 +114,6 @@ def _action_of(doctype: str, name: str) -> str | None:
 	return frappe.db.get_value(
 		"Intake Action", {"target_doctype": doctype, "target_name": name, "kind": "Create", "level": "Done"}, "name"
 	)
-
-
-@frappe.whitelist()
-def unchecked(doctype: str, names=None) -> dict:
-	"""Which of a list page's records carry the mark, and how many of those
-	the reader may see there are in all."""
-	if not frappe.has_permission(doctype, "read") or doctype not in marked_doctypes():
-		return {"names": [], "total": 0, "all": []}
-	names = frappe.parse_json(names) if isinstance(names, str) else names or []
-	held = frappe.get_all("AI Touch", filters={"for_doctype": doctype, "fieldname": WHOLE}, pluck="record")
-	visible = frappe.get_list(doctype, filters={"name": ["in", held]}, pluck="name", limit_page_length=MOST_LISTED) if held else []
-	shown = set(names)
-	return {"names": [name for name in visible if name in shown], "total": len(visible), "all": visible}
 
 
 @frappe.whitelist(methods=["POST"])

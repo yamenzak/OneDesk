@@ -90,13 +90,6 @@
 	vertical-align: middle;
 }
 
-.one-intake-mark {
-	width: 14px;
-	height: 14px;
-	margin-inline-end: calc(var(--spacing) * 1.5);
-	flex: none;
-	vertical-align: -2px;
-}
 
 .oi-banner {
 	display: flex;

@@ -111,9 +111,12 @@ def test_each_wrapped_class_has_its_own_mark():
 
 def test_a_lists_new_leads_the_command_row():
 	"""A list's primary button (New) is frappe's own node moved to the start of
-	the command row, as OneCloud's New is; a form's Save stays with its actions."""
+	the command row, as OneCloud's New is, and frappe's menu (…) follows it
+	after a line; a form's Save stays with its actions."""
 	list_setup = JS.split("List.prototype.setup_page = function", 1)[1].split("};", 1)[0]
 	assert "win.$commands.prepend(this.page.btn_primary)" in list_setup
+	assert 'win.$commands.append($(\'<span class="one-window-sep"></span>\'), this.page.menu_btn_group)' in list_setup
+	assert 'this.page.menu_dropdown.align = "start"' in list_setup
 	form_setup = JS.split("Form.prototype.setup = function", 1)[1].split("};", 1)[0]
 	assert "btn_primary" not in form_setup
 

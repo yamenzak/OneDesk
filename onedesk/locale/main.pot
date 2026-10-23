@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-23 15:29+0000\n"
-"PO-Revision-Date: 2026-10-23 15:29+0000\n"
+"POT-Creation-Date: 2026-10-23 16:04+0000\n"
+"PO-Revision-Date: 2026-10-23 16:04+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -259,10 +259,6 @@ msgstr ""
 
 #: onedesk/one_project/view.py:563
 msgid "1 month"
-msgstr ""
-
-#: onedesk/public/js/intake.js:322
-msgid "1 not checked"
 msgstr ""
 
 #: frontend/src/project/ProjectPage.vue:234
@@ -22352,15 +22348,15 @@ msgid "Made To"
 msgstr ""
 
 #. Label of the ai_generated (Check) field in DocType 'File'
-#: onedesk/one_ai/custom/file.json onedesk/public/js/intake.js:287
+#: onedesk/one_ai/custom/file.json
 msgid "Made by OneAI"
 msgstr ""
 
-#: onedesk/public/js/intake.js:335
+#: onedesk/public/js/intake.js:286
 msgid "Made by OneAI from {0}. Not checked yet."
 msgstr ""
 
-#: onedesk/public/js/intake.js:288 onedesk/public/js/intake.js:335
+#: onedesk/public/js/intake.js:286
 msgid "Made by OneAI. Not checked yet."
 msgstr ""
 
@@ -22893,7 +22889,7 @@ msgstr ""
 msgid "Mark a day for many people at once."
 msgstr ""
 
-#: onedesk/public/js/intake.js:336
+#: onedesk/public/js/intake.js:287
 msgid "Mark as Checked"
 msgstr ""
 
@@ -22931,7 +22927,7 @@ msgstr ""
 msgid "Marked Maintenance Required with no schedule: {0}. Add one under Assets › Maintenance."
 msgstr ""
 
-#: onedesk/public/js/intake.js:345
+#: onedesk/public/js/intake.js:296
 msgid "Marked as checked"
 msgstr ""
 
@@ -23685,7 +23681,7 @@ msgstr ""
 msgid "More than one supplier has retention held here. Pay it from each bill."
 msgstr ""
 
-#: onedesk/public/js/window.js:338
+#: onedesk/public/js/window.js:349
 msgid "More views"
 msgstr ""
 
@@ -35717,7 +35713,7 @@ msgid "Search templates..."
 msgstr ""
 
 #: onedesk/public/js/crumb_switch.js:135 onedesk/public/js/onecloud.js:352
-#: onedesk/public/js/window.js:457
+#: onedesk/public/js/window.js:494
 msgid "Search {0}"
 msgstr ""
 
@@ -44890,7 +44886,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:103
 #: onedesk/one_intake/doctype/intake_action/intake_action.js:11
 #: onedesk/one_intake/page/intake/intake.js:206 onedesk/public/js/intake.js:218
-#: onedesk/public/js/intake.js:337 onedesk/public/js/oneai/Panel.vue:121
+#: onedesk/public/js/intake.js:288 onedesk/public/js/oneai/Panel.vue:121
 #: onedesk/public/js/onemail.js:619
 msgid "Undo"
 msgstr ""
@@ -44907,7 +44903,7 @@ msgstr ""
 msgid "Undo this?"
 msgstr ""
 
-#: onedesk/public/js/intake.js:348
+#: onedesk/public/js/intake.js:299
 msgid "Undo what OneAI did here?"
 msgstr ""
 
@@ -44916,7 +44912,7 @@ msgstr ""
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_intake/page/intake/intake.js:231 onedesk/public/js/intake.js:269
-#: onedesk/public/js/intake.js:354 onedesk/public/js/settings.js:2786
+#: onedesk/public/js/intake.js:305 onedesk/public/js/settings.js:2786
 msgid "Undone"
 msgstr ""
 
@@ -45883,7 +45879,7 @@ msgstr ""
 #: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/public/js/onecloud.js:171 onedesk/public/js/onecloud.js:1334
 #: onedesk/public/js/project.js:8 onedesk/public/js/project.js:13
-#: onedesk/public/js/window.js:330 onedesk/www/account_invoices.html:39
+#: onedesk/public/js/window.js:341 onedesk/www/account_invoices.html:39
 msgid "View"
 msgstr ""
 
@@ -53505,7 +53501,7 @@ msgstr ""
 msgid "{0} is already a lead: {1}"
 msgstr ""
 
-#: onedesk/one_intake/mark.py:139
+#: onedesk/one_intake/mark.py:124
 msgid "{0} is already checked."
 msgstr ""
 
@@ -54119,10 +54115,6 @@ msgstr ""
 
 #: onedesk/one_studio/record_types.py:116
 msgid "{0} needs its choices, one a line."
-msgstr ""
-
-#: onedesk/public/js/intake.js:322
-msgid "{0} not checked"
 msgstr ""
 
 #: frontend/src/workload/WorkloadList.vue:37

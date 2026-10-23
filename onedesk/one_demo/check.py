@@ -2515,10 +2515,10 @@ def oneintake_layla_works_through_what_oneai_read():
 		task = frappe.db.get_value("Intake Action", {"reading": drawings, "target_doctype": "Task", "level": "Done"}, "target_name")
 		assert act.undo(drawings)["undone"] >= 1 and not frappe.db.exists("Task", task)
 
-		marked = mark.unchecked("Task")
-		assert marked["total"]
-		mark.looks_right("Task", marked["all"][0])
-		assert mark.unchecked("Task")["total"] == marked["total"] - 1
+		marked = frappe.get_all("AI Touch", filters={"for_doctype": "Task", "fieldname": mark.WHOLE}, pluck="record", limit=1)
+		assert marked
+		mark.looks_right("Task", marked[0])
+		assert not mark.is_marked("Task", marked[0])
 
 		listed = drafts.listed()
 		ready = listed["ready"]

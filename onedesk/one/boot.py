@@ -54,10 +54,6 @@ def boot_session(bootinfo) -> None:
 
 	bootinfo["one_passkey_ask"] = passkey.ask()
 
-	from onedesk.one_intake import mark
-
-	bootinfo["one_intake_marked"] = sorted(mark.marked_doctypes())
-
 	from onedesk.one import linked
 
 	bootinfo["one_linked"] = linked.for_boot(bootinfo)
