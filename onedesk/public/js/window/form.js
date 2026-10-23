@@ -83,14 +83,22 @@ onedesk.window.panel = (frm, $sidebar) => {
 	if (frm.one_panel || !onedesk.window.panelled(frm)) return frm.one_panel || null;
 	const names = onedesk.window.PANEL;
 	const labels = { overview: __("Overview"), activity: __("Activity"), mail: __("Mail"), connections: __("Connections") };
+	// frappe's own icons for these, where it has one (Tab's ICON_MAP).
+	const icons = { overview: "layout-dashboard", activity: "rotate-ccw-clock", mail: "mail", connections: "waypoints" };
 	const panes = Object.fromEntries(names.map((name) => [name, $(`<div class="one-panel-pane" data-pane="${name}"></div>`)]));
 	const tabs = new frappe.ui.Tabs({
 		css_class: "one-panel-tabs",
-		tabs: names.map((name) => ({ label: labels[name], content: panes[name][0] })),
+		tabs: names.map((name) => ({ label: "", icon: icons[name], content: panes[name][0] })),
 		on_change: (i) => {
 			if (!frm.one_panel.picking) onedesk.window.keep(`panel:${frm.doctype}`, names[i]);
 			onedesk.window.panel_show(frm, names[i]);
 		},
+	});
+	// The bar shows icons; the name is the tab's tooltip and what a screen
+	// reader says.
+	tabs.tabs.forEach(({ button }, i) => {
+		button.title = labels[names[i]];
+		button.setAttribute("aria-label", labels[names[i]]);
 	});
 	// Overview holds our head and, under it, frappe's dashboard sections.
 	const head = $(`<div class="one-panel-head"></div>`).appendTo(panes.overview);

@@ -126,7 +126,8 @@ A form's sidebar is the window's details pane (`details({ pane })`): the
 switch at the end of the command row folds it, as it folds OneCloud's, and
 its edge drags it from 200px to most of the window, kept per person. Under
 Assign, Tags and Share it holds the **record panel**, four tabs drawn with
-frappe's own `frappe.ui.Tabs`:
+frappe's own `frappe.ui.Tabs`, sharing the bar's width, each an icon
+(frappe's own for it) with its name as the tooltip and the screen reader's:
 
 - **Overview**: the record's head (its charts, its track, its figures),
   drawn here by `onedesk.band.put` instead of above the fields, so a record

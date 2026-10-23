@@ -218,13 +218,17 @@
 		display: none;
 	}
 
+	/* The panel's tabs share the bar's width, an icon each. */
 	.one-window .one-panel-tabs > .es-tabs__list {
-		padding: 0 15px;
+		padding: 0;
 		border-bottom: 1px solid var(--outline-gray-1);
 	}
 
 	.one-window .one-panel-tabs .es-tabs__tab {
-		padding-block: calc(var(--spacing) * 2);
+		flex: 1 1 0;
+		justify-content: center;
+		min-width: 0;
+		padding-block: calc(var(--spacing) * 2.5);
 	}
 
 	/* --one-open is the word after an open count, set translated by the panel. */
