@@ -145,7 +145,8 @@ window covers forms and the screen is wide enough for frappe's sidebar
 beside the record, never the stage, and it is laid out by the panel's own
 width (a CSS container), never the screen's, so it reads the same at any
 width the edge is dragged to. In order: where the record stands (the
-track); then its figures, each a row with its name on the left and its
+track, upright: a step a line, its note on the right, its mark joined to
+the next); then its figures, each a row with its name on the left and its
 value on the right and a hairline under it, no box and no large number,
 two columns of rows from 520px; then its charts as a short strip (120px,
 no value axis: its shape and the bar marked say it, the numbers are on

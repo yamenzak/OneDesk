@@ -277,9 +277,55 @@
 		}
 	}
 
+	/* The track stands upright in the panel: a step a line, its mark joined
+	   to the next by its own colour, its name on the left and its note (a
+	   date, a share, how late) on the right, as a figure's value is. */
 	.one-window .one-panel-pane .one-stats > .one-steps {
 		grid-column: 1 / -1;
-		margin-bottom: calc(var(--spacing) * 2);
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+		margin-bottom: calc(var(--spacing) * 3);
+	}
+
+	.one-window .one-panel-pane .one-step {
+		align-items: flex-start;
+		gap: calc(var(--spacing) * 2.5);
+		padding: 0 0 calc(var(--spacing) * 3);
+	}
+
+	.one-window .one-panel-pane .one-step:last-child {
+		padding-bottom: 0;
+	}
+
+	.one-window .one-panel-pane .one-step::before {
+		top: 20px;
+		bottom: 2px;
+		left: 8px;
+		right: auto;
+		width: 2px;
+		height: auto;
+		border-radius: var(--radius-full);
+	}
+
+	.one-window .one-panel-pane .one-step:last-child::before {
+		display: none;
+	}
+
+	.one-window .one-panel-pane .one-step-text {
+		flex: 1;
+		flex-direction: row;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: calc(var(--spacing) * 3);
+	}
+
+	.one-window .one-panel-pane .one-step-label {
+		font-weight: var(--weight-medium);
+	}
+
+	.one-window .one-panel-pane .one-step-note {
+		text-align: end;
 	}
 
 	.one-window .one-panel-pane .es-stat-card {
