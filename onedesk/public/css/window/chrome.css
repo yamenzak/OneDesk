@@ -41,7 +41,7 @@
 	--dock-ink: var(--one-frame-ink);
 	--dock-ink-strong: var(--one-frame-ink-strong);
 	--dock-tile-hover: var(--one-frame-hover);
-	--dock-tile-active: var(--one-frame-active);
+	--dock-tile-active: transparent;
 	--dock-rule: var(--one-frame-line);
 }
 
@@ -561,4 +561,37 @@ html[dir="rtl"] .one-bar-news-moving .one-bar-news-track {
 .one-bar-status .es-pill[data-state="active"] {
 	background: var(--one-frame-hover);
 	color: var(--one-frame-ink-strong);
+}
+
+/* The app you are in, marked on the rail as Discord marks a server: a bar of
+   the frame's strongest ink on the rail's edge beside its tile, and a short
+   one beside the tile under the pointer. The tile itself is not filled. */
+/* The list of tiles scrolls, which clips to its box; it reaches the rail's
+   edges, padded back to where the tiles were, so the bar has room there. */
+body.one-barred .dock-items {
+	width: calc(100% + 16px);
+	margin-inline: -8px;
+	padding-inline: 8px;
+}
+
+body.one-barred .dock-item::before {
+	content: "";
+	position: absolute;
+	inset-inline-start: -8px;
+	top: 50%;
+	width: 4px;
+	height: 0;
+	border-start-end-radius: var(--radius-full);
+	border-end-end-radius: var(--radius-full);
+	background: var(--one-frame-ink-strong);
+	transform: translateY(-50%);
+	transition: height 0.15s ease;
+}
+
+body.one-barred .dock-item:hover::before {
+	height: 8px;
+}
+
+body.one-barred .dock-item.active::before {
+	height: 20px;
 }

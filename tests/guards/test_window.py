@@ -220,7 +220,7 @@ def test_the_frame_is_a_top_bar_a_bottom_bar_and_the_rail():
 	settings = (tree.APP / "one" / "settings.py").read_text(encoding="utf-8")
 	assert "def place_bar" not in settings
 	chrome_css = (WINDOW_CSS / "chrome.css").read_text(encoding="utf-8")
-	for token in ("--dock-bg: var(--one-frame);", "--dock-ink: var(--one-frame-ink);", "--dock-tile-active: var(--one-frame-active);"):
+	for token in ("--dock-bg: var(--one-frame);", "--dock-ink: var(--one-frame-ink);", "--dock-tile-active: transparent;"):
 		assert token in chrome_css, token
 	assert "border-start-end-radius: var(--radius-lg);" in chrome_css and "border-end-start-radius: var(--radius-lg);" in chrome_css
 	desk_css = (tree.APP / "public" / "css" / "desk.css").read_text(encoding="utf-8")
@@ -251,3 +251,14 @@ def test_the_bottom_bar_is_a_taskbar():
 	place = FRAME.split("\tplace_status() {", 1)[1].split("\n\t},", 1)[0]
 	assert "current.$status.appendTo($slot)" in place and "win.$status.appendTo(win.$wrapper)" in place
 	assert "onedesk.window.place_status();" in FRAME.split('$(document).on("page-change"', 1)[1]
+
+
+def test_the_app_you_are_in_is_marked_on_the_rails_edge():
+	"""As Discord marks a server: a bar of the frame's strongest ink on the
+	rail's edge beside the active tile, a short one beside a hovered tile,
+	and the tile itself unfilled. The tile list reaches the rail's edges so
+	its scrolling box does not clip the bar."""
+	chrome_css = (WINDOW_CSS / "chrome.css").read_text(encoding="utf-8")
+	assert "body.one-barred .dock-item.active::before {\n\theight: 20px;" in chrome_css
+	assert "body.one-barred .dock-item:hover::before {\n\theight: 8px;" in chrome_css
+	assert "width: calc(100% + 16px);\n\tmargin-inline: -8px;" in chrome_css

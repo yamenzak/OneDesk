@@ -82,7 +82,8 @@ scroll-to-field and restored positions are untouched.
 
 Around every window is the frame, which is the shell: frappe's rail of apps
 down the left (frappe's own `.dock`, drawn from its own `--dock-*` tokens,
-which `chrome.css` points at the frame's), a bar across the top and one
+which `chrome.css` points at the frame's; the app you are in is marked by a
+bar on the rail's edge, as Discord marks a server), a bar across the top and one
 across the bottom (`chrome.js`), and the window inset between them, its
 corners rounded, with a strip of the frame on its far side.
 
