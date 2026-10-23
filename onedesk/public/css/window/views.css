@@ -28,26 +28,32 @@
 		padding-inline-end: calc(var(--spacing) * 2);
 	}
 
-	.one-window .one-window-filters > * {
+	/* frappe's own buttons keep their padding; only the boxes around them
+	   lose theirs. */
+	.one-window .one-window-filters > :not(.es-button) {
 		margin: 0;
 		padding: 0;
 	}
 
-	/* The quick filters are the view row, set like the rows above it. */
-	.one-window .list-page-form {
+	/* The quick filters are the view row, set like the rows above it: a
+	   list's, and a tree's (its ID, its company, Show all). */
+	.one-window .list-page-form,
+	.one-window[data-one-view="tree"] .page-form {
 		min-height: 44px;
 		border-bottom: 1px solid var(--outline-gray-1);
 		align-items: center;
 		padding-inline: calc(var(--spacing) * 2);
 	}
 
-	.one-window .list-page-form .standard-filter-section {
+	.one-window .list-page-form .standard-filter-section,
+	.one-window[data-one-view="tree"] .page-form .standard-filter-section {
 		align-items: center;
 		margin: 0;
 		padding: 0;
 	}
 
-	.one-window .list-page-form .frappe-control {
+	.one-window .list-page-form .frappe-control,
+	.one-window[data-one-view="tree"] .page-form .frappe-control {
 		margin: 0;
 	}
 
@@ -85,6 +91,13 @@
 		margin: 0;
 		padding: 0;
 		border: 0;
+	}
+
+	/* frappe sets a tree in a centred column of the page's width; on the
+	   window it runs on the gutter as a list does. */
+	.one-window[data-one-view="tree"] .layout-main-section-wrapper > .layout-main-section {
+		max-width: none;
+		margin-inline: 0;
 	}
 
 	/* A query report's footer (the filter hint, the time it took, a tree's

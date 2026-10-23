@@ -195,3 +195,12 @@ def test_only_views_of_pages_show_a_count_and_paging():
 	for view in ("List", "Report", "Image"):
 		assert f'"{view}"' in counted, view
 	assert "counted(this)) win.view({ status" in source
+
+
+def test_a_tree_is_laid_out_as_a_list():
+	"""A tree's Sort and Expand/Collapse sit before its view toggles, as a
+	list's Filter and Sort do; its filters are the view row on the gutter, and
+	frappe's centred column gives way to the window's width."""
+	assert 'controls: this.page.page_form.children(".tree-toolbar-actions")' in ADAPTERS["tree"]
+	assert '.one-window[data-one-view="tree"] .page-form {' in CSS
+	assert '.one-window[data-one-view="tree"] .layout-main-section-wrapper > .layout-main-section {\n\t\tmax-width: none;' in CSS
