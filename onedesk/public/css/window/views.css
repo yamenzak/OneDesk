@@ -218,20 +218,30 @@
 		display: none;
 	}
 
-	/* OneCloud's mark beside frappe's print and like, the record's file
-	   count after it. */
+	/* OneCloud's mark beside frappe's print and like, as they are: an icon
+	   centred in a 28px box, the boxes 2px apart; the record's file count
+	   after it, when there is one. The mark is drawn for an app icon, with a
+	   margin round it inside its canvas, so it is drawn a third larger for
+	   the cloud to read as large as frappe's 16px line icons, without moving
+	   the row, which frappe lines up by baseline. */
 	.one-window .form-stats-likes .one-cloud-open {
 		display: inline-flex;
 		align-items: center;
+		justify-content: center;
 		gap: 2px;
-		margin-inline-end: calc(var(--spacing) * 1);
+		min-width: 28px;
+		height: 28px;
+		margin: 0;
+		padding: 0;
 		background: transparent;
 		color: var(--ink-gray-5);
 	}
 
 	.one-window .form-stats-likes .one-cloud-open > svg {
-		width: 18px;
-		height: 18px;
+		width: 16px;
+		height: 16px;
+		margin: 0;
+		transform: scale(1.33);
 	}
 
 	.one-window .form-stats-likes .one-cloud-open:hover {
