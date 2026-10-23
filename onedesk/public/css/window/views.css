@@ -134,6 +134,12 @@
 		gap: calc(var(--spacing) * 1);
 	}
 
+	/* Where frappe has no Save or Submit to lead with, the record's own solid
+	   button is the main action, and leads its run. */
+	.one-window .one-window-commands .custom-actions > [data-variant="solid"] {
+		order: -1;
+	}
+
 	.one-window .one-window-row > .form-tabs-list {
 		position: static;
 		margin: 0;

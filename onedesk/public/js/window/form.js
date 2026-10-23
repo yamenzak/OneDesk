@@ -1,8 +1,10 @@
 // A form on the window (docs/WINDOW.md): frappe's Form, saying what it has
-// through `window.view`. The record's own buttons lead the command row and
-// frappe's menu follows them, as on a list; its Save and Submit stay at the
-// row's end. The ‹ › to the record before and after go beside Up, the tabs
-// are the row under the commands, and who edited it last is the status.
+// through `window.view`. Its one main action leads the command row as New
+// does on a list (frappe's Save, Submit or Update; when frappe has none, the
+// record's own solid button, such as Record Payment), its other buttons
+// follow, then frappe's menu. Cancel stays at the row's far end. The ‹ › to
+// the record before and after go beside Up, the tabs are the row under the
+// commands, and who edited it last is the status.
 onedesk.window.adapt("form", () => {
 	const Form = frappe.ui.form && frappe.ui.form.Form;
 	if (!Form || Object.hasOwn(Form.prototype, "one_window")) return;
@@ -14,6 +16,7 @@ onedesk.window.adapt("form", () => {
 		if (win) {
 			win.view({
 				kind: "form",
+				primary: this.page.btn_primary,
 				commands: this.page.custom_actions,
 				menu: { $button: this.page.menu_btn_group, dropdown: this.page.menu_dropdown },
 				steps: this.page.icon_group,

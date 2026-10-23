@@ -145,7 +145,8 @@ def test_each_wrapped_class_has_its_own_mark():
 def test_a_lists_new_leads_the_command_row():
 	"""A list's primary button (New) is frappe's own node moved to the start of
 	the command row, as OneCloud's New is, and frappe's menu (…) follows it
-	after a line; a form's Save stays with its actions."""
+	after a line. A form's Save leads the same way
+	(test_the_main_action_is_always_first_on_the_left)."""
 	list_setup = ADAPTERS["list"].split("List.prototype.setup_page = function", 1)[1].split("\n\t};", 1)[0]
 	assert "primary: this.page.btn_primary" in list_setup
 	assert "menu: { $button: this.page.menu_btn_group, dropdown: this.page.menu_dropdown }" in list_setup
@@ -154,7 +155,6 @@ def test_a_lists_new_leads_the_command_row():
 	order = re.findall(r'data-group="(\w+)"', FRAME)
 	assert order == ["primary", "own", "menu"], order
 	assert "~ .one-window-group:has(" in CSS and "::before" in CSS
-	assert "btn_primary" not in ADAPTERS["form"]
 
 
 def test_filter_and_sort_are_commands_and_the_heads_are_flat():
@@ -283,3 +283,14 @@ def test_the_rails_marks_go_flat_on_a_workspace_colour():
 	for icon in icons:
 		if icon["name"].endswith("-flat"):
 			assert "filter" not in icon["svg"] and "Gradient" not in icon["svg"], icon["name"]
+
+
+def test_the_main_action_is_always_first_on_the_left():
+	"""One rule for the command row: the solid main action leads it on the
+	left, a list's New and a form's Save, Submit or Update alike; where a form
+	has none, its own solid button (Record Payment) leads its run."""
+	lists = (WINDOW_JS / "list.js").read_text(encoding="utf-8")
+	forms = (WINDOW_JS / "form.js").read_text(encoding="utf-8")
+	views = (WINDOW_CSS / "views.css").read_text(encoding="utf-8")
+	assert "primary: this.page.btn_primary" in lists and "primary: this.page.btn_primary" in forms
+	assert '.custom-actions > [data-variant="solid"] {\n\t\torder: -1;' in views

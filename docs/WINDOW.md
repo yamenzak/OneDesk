@@ -43,9 +43,13 @@ keep working, because nothing of theirs was replaced.
 - **Command row** is the rest of frappe's page head: the view's own
   commands on the left (`window.$commands`), led by New (OneCloud's New,
   a list's primary button, which is frappe's own node, moved; a form's
-  own buttons, Record Payment, Create and the rest, with its Save and
-  Submit staying right). A list's or a form's menu (…), frappe's node too,
-  follows them after a line, as OneCloud's commands do. frappe's other actions stay on
+  Save, Submit or Update, or where it has none its own solid button, such
+  as Record Payment). The rule everywhere: the one main action, solid, is
+  first on the left; the view's other actions follow; a list's or a form's
+  menu (…), frappe's node too, follows them after a line, as OneCloud's
+  commands do. The right end is only for ways of looking (views, Filter,
+  Sort, the details switch) and a form's Cancel, last, away from the main
+  action. frappe's other actions stay on
   the right, and the details pane's switch is last.
 - **Views** sit at the command row's far end, beside the details switch:
   OneCloud's Details and Tiles, and a list's List, Report, Dashboard,
