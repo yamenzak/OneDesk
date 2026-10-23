@@ -241,7 +241,8 @@ onedesk.window.Window = class Window {
 	//   controls  what narrows the view (a list's Filter and Sort): before its views
 	//   views     its ways of looking (frappe's view switcher, or toggles of its own)
 	//   search    { placeholder, on_input, on_key } for the address row's box
-	//   steps     its own ‹ › to the one before and after (a form's records): after Up
+	//   steps     its own ‹ › to the one before and after (a form's records): at
+	//             the address row's end, away from Back, Forward and Up
 	//   row       what it shows across the window under the commands (a form's tabs)
 	//   status    what is here, in the status row; `more` beside it (paging)
 	//   back, forward, up, refresh, path: what it does for those itself
@@ -262,7 +263,7 @@ onedesk.window.Window = class Window {
 		}
 		if (controls && controls.length) this.views_slot().prepend(controls.addClass("one-window-filters"));
 		if (search) this.search(search);
-		if (steps && steps.length) this.$nav.append(steps.addClass("one-window-steps"));
+		if (steps && steps.length) this.$tools.append(steps.addClass("one-window-steps"));
 		if (row && row.length) this.row().empty().append(row);
 		if (status !== undefined || more) this.status(status, { more });
 		if (Object.keys(handlers).length) {

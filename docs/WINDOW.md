@@ -211,7 +211,7 @@ page.window.view({
   controls,   // what narrows it (a list's Filter and Sort): before its views
   views,      // its ways of looking: frappe's view switcher, or its own toggles
   search,     // { placeholder, on_input, on_key } for the address row's box
-  steps,      // its own ‹ › to the one before and after: beside Up
+  steps,      // its own ‹ › to the one before and after: at the address row's end
   row,        // what it shows across the window under the commands (a form's tabs)
   status, more,                     // the status row
   back, forward, up, refresh, path, // what it does for those itself
@@ -311,7 +311,7 @@ else changes for anybody who has not.
 |---|---|---|---|---|---|
 | OneCloud | its own history; Up is the parent folder | re-lists | the folder, or everywhere | items, chosen, size | the chosen file's preview, versions, OneIntake |
 | A list | the browser's; Up is the app's Home | `list.refresh()` | the title field, as a filter | frappe's count, chosen | (next) the chosen record |
-| A form | the browser's; Up is the list; ‹ › its records, beside Up | `frm.reload_doc()` | none | who edited it and when, who made it | frappe's form sidebar, as frappe draws it, less who edited and made it (the status says) and its files (the Files tab holds them); who else has it open (frappe's avatars) as a row above Assign |
+| A form | the browser's; Up is the list; ‹ › its records, at the address row's end | `frm.reload_doc()` | none | who edited it and when, who made it | frappe's form sidebar, as frappe draws it, less who edited and made it (the status says); who else has it open (frappe's avatars) as a row above Assign; OneCloud's mark beside print and like for its files; the record panel |
 
 ## What it replaces, when every view is on it
 

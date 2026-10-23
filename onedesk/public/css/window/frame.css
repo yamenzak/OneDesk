@@ -384,7 +384,7 @@ body.one-window-dragging * {
 		--page-head-height: 131px;
 	}
 
-	.one-window-nav > .one-window-steps {
+	.one-window-tools > .one-window-steps {
 		display: flex;
 		align-items: center;
 		gap: 2px;
@@ -393,7 +393,7 @@ body.one-window-dragging * {
 		border-inline-start: 1px solid var(--outline-gray-2);
 	}
 
-	.one-window-nav > .one-window-steps:not(:has(> *)) {
+	.one-window-tools > .one-window-steps:not(:has(> *)) {
 		display: none;
 	}
 }

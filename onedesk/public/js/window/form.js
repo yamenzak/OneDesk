@@ -3,7 +3,7 @@
 // does on a list (frappe's Save, Submit or Update; when frappe has none, the
 // record's own solid button, such as Record Payment), its other buttons
 // follow, then frappe's menu. Cancel stays at the row's far end. The ‹ › to
-// the record before and after go beside Up, the tabs are the row under the
+// the record before and after end the address row, the tabs are the row under the
 // commands, and who edited it last is the status. Its sidebar is the window's
 // details pane, and holds the record panel.
 onedesk.window.adapt("form", () => {

@@ -121,7 +121,8 @@
 }
 
 /* A form: its tabs are the window's row, set on its gutter, those that do not
-   fit folded into More; its ‹ › sit beside Up as the window's own buttons do.
+   fit folded into More; its ‹ › sit at the address row's end, styled as the
+   window's own buttons.
    Its sidebar is frappe's, as frappe draws it, without who edited and made
    the record, which the status says, and without its files where the Files
    tab holds them; who else has it open is a row above Assign. */
