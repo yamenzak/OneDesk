@@ -601,3 +601,14 @@ body.one-barred .dock-item.active::before {
 .one-bar-news.one-bar-news-folded {
 	flex: 1 1 auto;
 }
+
+/* An app's mark is drawn for a light page, and on a frame of its own hue (a
+   red OneMail on a red frame) it all but disappears. On a workspace's own
+   colour each mark sits on a plate of the page's surface inside its tile, as
+   a dock's icons do. One's own dark frame keeps them bare, and so does a dark
+   theme, where the colour is deepened toward black. */
+:root[data-one-frame="brand"]:not([data-theme="dark"]) body.one-barred .dock-items .dock-item {
+	padding: 4px;
+	background-color: var(--surface-base);
+	background-clip: content-box;
+}

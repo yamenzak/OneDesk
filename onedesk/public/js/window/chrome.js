@@ -9,22 +9,19 @@
 // Branding › Frame Colour), and frame() applies it.
 $.extend(onedesk.window, {
 	// The workspace's frame colour, as the frame's own token, and the ink that
-	// reads on it: dark on a light colour, light on a dark one.
-	frame(colour = frappe.boot.one_frame_colour) {
+	// reads on it, which the server works out by the letter heads' rule
+	// (company.frame_ink): dark on a light colour, light on a dark one.
+	frame(colour = frappe.boot.one_frame_colour, ink = frappe.boot.one_frame_ink) {
 		const root = document.documentElement;
-		const hex = /^#([0-9a-f]{6})$/i.exec(colour || "");
-		if (!hex) {
+		if (!/^#[0-9a-f]{6}$/i.test(colour || "")) {
 			root.style.removeProperty("--one-frame-brand");
 			delete root.dataset.oneFrame;
 			delete root.dataset.oneFrameInk;
 			return;
 		}
-		const [r, g, b] = [0, 2, 4].map((at) => parseInt(hex[1].slice(at, at + 2), 16) / 255);
-		const lit = (c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
-		const luminance = 0.2126 * lit(r) + 0.7152 * lit(g) + 0.0722 * lit(b);
 		root.style.setProperty("--one-frame-brand", colour);
 		root.dataset.oneFrame = "brand";
-		root.dataset.oneFrameInk = luminance > 0.4 ? "dark" : "light";
+		root.dataset.oneFrameInk = ink === "dark" ? "dark" : "light";
 	},
 
 	bars() {
@@ -238,4 +235,4 @@ $.extend(onedesk.window, {
 });
 
 onedesk.window.frame();
-$(document).on("app_ready", () => frappe.realtime.on("one_frame", (said) => onedesk.window.frame(said.colour)));
+$(document).on("app_ready", () => frappe.realtime.on("one_frame", (said) => onedesk.window.frame(said.colour, said.ink)));

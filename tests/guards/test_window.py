@@ -234,6 +234,9 @@ def test_the_frame_wears_the_workspaces_colour():
 	assert '"one_frame_colour"' in (tree.APP / "one" / "settings.py").read_text(encoding="utf-8")
 	assert 'bootinfo["one_frame_colour"]' in (tree.APP / "one" / "boot.py").read_text(encoding="utf-8")
 	assert "root.dataset.oneFrameInk" in CHROME and '"one_frame"' in CHROME
+	company = (tree.APP / "one" / "company.py").read_text(encoding="utf-8")
+	assert "letter_heads.on(colour)" in company, "the frame's ink is the letter heads' rule, not a second one"
+	assert "luminance" not in CHROME.lower()
 	chrome_css = (WINDOW_CSS / "chrome.css").read_text(encoding="utf-8")
 	assert ':root[data-theme="dark"][data-one-frame="brand"]' in chrome_css
 	assert ':root[data-one-frame-ink="dark"]:not([data-theme="dark"])' in chrome_css
@@ -262,3 +265,13 @@ def test_the_app_you_are_in_is_marked_on_the_rails_edge():
 	assert "body.one-barred .dock-item.active::before {\n\theight: 20px;" in chrome_css
 	assert "body.one-barred .dock-item:hover::before {\n\theight: 8px;" in chrome_css
 	assert "width: calc(100% + 16px);\n\tmargin-inline: -8px;" in chrome_css
+
+
+def test_the_rails_marks_stand_out_on_any_frame_colour():
+	"""An app's mark on a frame of its own hue all but disappears, so on a
+	workspace's colour (light theme) the marks on the rail's app list sit on
+	plates of the page's surface. The rail's other tiles (the apps grid) draw
+	in the frame's ink, which already flips with the colour, and keep none."""
+	chrome_css = (WINDOW_CSS / "chrome.css").read_text(encoding="utf-8")
+	assert ':root[data-one-frame="brand"]:not([data-theme="dark"]) body.one-barred .dock-items .dock-item {' in chrome_css
+	assert "background-clip: content-box;" in chrome_css

@@ -103,7 +103,11 @@ sidebar takes the page's colour, so the inset reads as one surface. A workspace'
 **Frame Colour** (Company `one_frame_colour`, Workspace › General › Contact and
 Branding) replaces it for everyone: `chrome.js` sets `--one-frame-brand`
 and marks the root `data-one-frame="brand"`, with `data-one-frame-ink`
-dark on a light colour; a dark theme mixes it toward the page. Saving it
+dark on a light colour, by the rule the letter heads use for text on the
+Brand Colour (`company.frame_ink`, `letter_heads.on`); a dark theme mixes it
+toward the page. Everything on the frame (text, icons, the rail's marker,
+badges) draws in that ink, and on a workspace's colour the apps' own marks
+sit on light plates, since a mark of the frame's hue would vanish. Saving it
 reaches open screens at once (`one_frame`).
 
 ## Where it lives

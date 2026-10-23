@@ -854,7 +854,13 @@ def _save_general(values: dict) -> None:
 			_as_opened(company).update(changed)
 			company.save(ignore_permissions=True)
 		if "one_frame_colour" in changed:
-			frappe.publish_realtime("one_frame", {"colour": company.one_frame_colour or ""}, after_commit=True)
+			from onedesk.one import company as workspace_company
+
+			frappe.publish_realtime(
+				"one_frame",
+				{"colour": company.one_frame_colour or "", "ink": workspace_company.frame_ink(company.one_frame_colour)},
+				after_commit=True,
+			)
 		_save_company_address(company, values)
 	_save_amounts(values)
 	system = _as_opened(frappe.get_single("System Settings"))
