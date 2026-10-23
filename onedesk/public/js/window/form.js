@@ -30,6 +30,33 @@ onedesk.window.adapt("form", () => {
 		return said;
 	};
 
+	// A form's Check fields are frappe's own Switch, which is Check with a
+	// switch's markup: the same 0/1, the same df, so every script that reads a
+	// checkbox still reads it. Only a form's own fields; a table's rows and a
+	// dialog keep their boxes. On a form frappe also draws its read-only tick
+	// (a disabled checkbox) inside the switch's label, before the real one, so
+	// a click on the label went to it and did nothing. The track says the
+	// value instead, read-only too, where frappe builds no checkbox to read.
+	const make = frappe.ui.form.make_control;
+	const Switch =
+		frappe.ui.form.ControlSwitch &&
+		class extends frappe.ui.form.ControlSwitch {
+			set_disp_area(value) {
+				if (this.disp_area) this.disp_area.innerHTML = "";
+				this.$wrapper.find(".switch-control").toggleClass("one-on", !!cint(value));
+			}
+		};
+	if (make && Switch && !make.one_window) {
+		frappe.ui.form.make_control = function (opts) {
+			const frm = opts && opts.frm;
+			if (opts && opts.df && opts.df.fieldtype === "Check" && frm && opts.layout && opts.layout === frm.layout && frm.page && frm.page.window) {
+				return new Switch(opts);
+			}
+			return make.call(this, opts);
+		};
+		frappe.ui.form.make_control.one_window = true;
+	}
+
 	const Layout = frappe.ui.form.Layout;
 	if (Layout && !Object.hasOwn(Layout.prototype, "one_window")) {
 		Layout.prototype.one_window = true;

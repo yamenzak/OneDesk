@@ -197,8 +197,27 @@
 
 	.one-window[data-one-view="form"] .form-sidebar .modified-by,
 	.one-window[data-one-view="form"] .form-sidebar .created-by,
-	.one-window[data-one-view="form"] .form-sidebar .form-attachments.one-files-side {
+	.one-window[data-one-view="form"] .form-sidebar:has(.one-cloud-open) .form-attachments {
 		display: none;
+	}
+
+	/* A form's checkboxes are frappe's switch (window/form.js). Its track says
+	   the value, read-only too (dimmed), so frappe's read-only tick under the
+	   label is not drawn a second time. */
+	.one-window[data-one-view="form"] .switch-control .disp-area {
+		display: none !important;
+	}
+
+	.one-window[data-one-view="form"] .switch-control:not(:has(.input-area input)) .switch-visual {
+		opacity: 0.6;
+	}
+
+	.one-window[data-one-view="form"] .switch-control.one-on:not(:has(.input-area input)) .switch-visual {
+		background-color: var(--ink-gray-8);
+	}
+
+	.one-window[data-one-view="form"] .switch-control.one-on:not(:has(.input-area input)) .switch-thumb {
+		transform: translateX(10px);
 	}
 
 	.one-window .form-sidebar .one-viewers:has(.form-viewers:empty) {

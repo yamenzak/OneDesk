@@ -150,6 +150,13 @@ frappe's own `frappe.ui.Tabs`, sharing the bar's width, each an icon
   clicks and + still work, and its Connections tab, left with nothing,
   hides itself.
 
+A form's checkboxes are frappe's own switch (`ControlSwitch`, its Check with
+a switch's markup and the same 0/1), built by a wrap of `make_control` for
+the form's own fields only; a table's rows and a dialog keep their boxes.
+The track says the value, read-only too (dimmed), where frappe builds no
+checkbox to read; frappe's read-only tick is not drawn, since on a form it
+sat inside the switch's label ahead of the real checkbox and took its clicks.
+
 The record's files are not a tab in the row: beside frappe's print and
 like in the sidebar's head, OneCloud's mark, with the file count, opens the
 record's folder (`@records/<doctype>/<name>`) in a dialog over the record

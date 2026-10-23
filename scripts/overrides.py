@@ -1809,6 +1809,13 @@ OVERRIDES = [
 		"setup_tabbed_layout() {",
 	),
 	(
+		"A form's checkboxes are frappe's own switch",
+		"their make_control builds ControlCheck for a Check field; window/form.js wraps it so a form on the window builds ControlSwitch, frappe's Check with a switch's markup and the same 0/1, for the form's own fields only; its set_disp_area is emptied, since on a form it puts a disabled checkbox inside the switch's label, ahead of the real one, and the label's click went to that",
+		"onedesk/public/js/window/form.js",
+		"frappe/frappe/public/js/frappe/form/controls/control.js",
+		"frappe.ui.form.make_control = function (opts) {",
+	),
+	(
 		"A form's alerts carry a round icon in their colour",
 		"their show_message draws an alert as a band of its colour; head.js wraps Layout.show_message and puts a round icon at its start, and desk.css draws every alert as one grey card with the colour in the icon",
 		"onedesk/public/js/head.js",
