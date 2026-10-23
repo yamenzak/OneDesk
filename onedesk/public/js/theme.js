@@ -1,3 +1,14 @@
+// frappe.require asks for our files by their plain address, which Frappe Cloud
+// serves as immutable for a year; boot carries each one's hash (one/stamp.py).
+if (frappe.assets && !frappe.assets.__one_stamped) {
+	frappe.assets.__one_stamped = true;
+	const theirs = frappe.assets.bundled_asset.bind(frappe.assets);
+	frappe.assets.bundled_asset = (path, is_rtl) => {
+		const held = (frappe.boot.one_assets || {})[path];
+		return held && !path.includes("?") ? `${path}?v=${held}` : theirs(path, is_rtl);
+	};
+}
+
 frappe.ui.ThemeSwitcher = class OneThemeSwitcher extends frappe.ui.ThemeSwitcher {
 	setup_dialog() {
 		super.setup_dialog();

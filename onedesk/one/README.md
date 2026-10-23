@@ -3550,6 +3550,17 @@ ago", this one marked, each with Sign Out. And telling them, always by mail,
 when their password changes or a passkey is added, because that is how
 somebody learns their account was taken.
 
+### stamp.py
+
+Frappe Cloud serves `/assets` as immutable for a year, and only frappe's
+bundles have a hash in their names. Our includes are plain files, so without
+this a deploy reached nobody who had opened One before: the browser kept last
+week's script for a year. hooks.py wraps every include in `stamped`, which
+adds `?v=` and the first ten characters of the file's md5, and boot carries
+the same hashes so theme.js can add them to what `frappe.require` loads later
+(OneCloud, a record's mail). A file that did not change keeps its address and
+stays cached.
+
 ### tabs.py
 
 Each tab is declared by the module that draws it, under `one_record_tabs` in

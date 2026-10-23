@@ -460,6 +460,17 @@ onedesk.shell.Editor = class Editor {
 		Header.prototype.__one_still = true;
 		Header.prototype.setup_menu = function () {};
 	}
+
+	// The rail's mark goes to One's Home, not frappe's apps screen.
+	const Dock = frappe.ui.Dock;
+	if (Dock && !Dock.prototype.__one_home) {
+		Dock.prototype.__one_home = true;
+		const made = Dock.prototype.make;
+		Dock.prototype.make = function (...args) {
+			made.apply(this, args);
+			this.$header && this.$header.attr("href", "/desk/one");
+		};
+	}
 }
 
 {

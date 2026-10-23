@@ -15,6 +15,10 @@ def platform() -> bool:
 
 
 def boot_session(bootinfo) -> None:
+	from onedesk.one import stamp
+
+	bootinfo["one_assets"] = stamp.versions()
+
 	from onedesk.one import outside
 
 	outside.keep(bootinfo)

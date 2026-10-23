@@ -1,3 +1,5 @@
+from onedesk.one.stamp import stamped
+
 app_name = "onedesk"
 app_title = "One"
 app_publisher = "One"
@@ -903,12 +905,12 @@ add_to_apps_screen = [
 
 get_website_user_home_page = "onedesk.one_admin.accounts.home_page"
 
-web_include_js = ["/assets/onedesk/js/login.js"]
+web_include_js = stamped(["/assets/onedesk/js/login.js"])
 
-setup_wizard_requires = "assets/onedesk/js/setup_wizard.js"
+setup_wizard_requires = stamped("/assets/onedesk/js/setup_wizard.js")
 setup_wizard_stages = "onedesk.one.setup_wizard.get_setup_stages"
 
-app_include_css = [
+app_include_css = stamped([
 	"/assets/onedesk/css/theme.css",
 	"/assets/onedesk/css/desk.css",
 	"/assets/onedesk/css/shell.css",
@@ -916,13 +918,14 @@ app_include_css = [
 	"/assets/onedesk/css/legal.css",
 	"/assets/onedesk/css/intake.css",
 	"/assets/onedesk/css/lost.css",
-]
-web_include_css = ["/assets/onedesk/css/portal.css", "/assets/onedesk/css/lost.css"]
+])
+
+web_include_css = stamped(["/assets/onedesk/css/portal.css", "/assets/onedesk/css/lost.css"])
 update_website_context = ["onedesk.one.portal.light_or_dark"]
 
 page_js = {"print": "public/js/print_documents.js"}
 
-app_include_js = [
+app_include_js = stamped([
 	"/assets/onedesk/js/theme.js",
 	"/assets/onedesk/js/brand.js",
 	"/assets/onedesk/js/check.js",
@@ -972,7 +975,7 @@ app_include_js = [
 	"/assets/onedesk/js/oneai.js",
 	"/assets/onedesk/js/intake.js",
 	"/assets/onedesk/js/legal.js",
-]
+])
 
 company_data_to_be_ignored = [
 	"UAE VAT Settings",
