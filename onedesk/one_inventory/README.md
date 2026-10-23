@@ -421,6 +421,9 @@ Order** starts one with them.
    An order's page says the **Project**, its **Grand Total** while it is a
    draft, the **Blanket Order** it is agreed on, and under **Progress** how
    far it has got: Ordered, Received (in red once late) and Billed.
+   **Supplier's Quote No** keeps the number on the supplier's own
+   quotation as they wrote it (Q-12548 Rev 2), changeable after submit, and
+   the order's print says it beside Required By.
    **Submit** sends nothing by itself. Print it or
    mail it from its menu. The list gives the supplier room for its name and
    the status room for "To Receive and Bill", without the number, and a

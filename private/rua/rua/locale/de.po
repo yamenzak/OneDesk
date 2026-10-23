@@ -85,6 +85,10 @@ msgstr "Wählen Sie die Rechnung, die den Einbehalt enthält."
 msgid "Client Balance"
 msgstr "Kundensaldo"
 
+#: rua/rua/custom/purchase_order_item.json
+msgid "Colour / Finish"
+msgstr "Farbe / Oberfläche"
+
 #. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
 msgid "Contract Counted Twice"
@@ -425,6 +429,10 @@ msgstr "Systemverwalter"
 msgid "Taken From"
 msgstr "Abgezogen von"
 
+#: rua/rua/custom/purchase_order_item.json
+msgid "The colour or finish ordered, as the supplier reads it: RAL 7045, Mill Finish, Black Foil."
+msgstr "Die bestellte Farbe oder Oberfläche, wie der Lieferant sie liest: RAL 7045, Mill Finish, Black Foil."
+
 #. Description of the 'Taken From' (Link) field in DocType 'Retention Before
 #. One'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
@@ -497,23 +505,4 @@ msgstr "{0} von {1} in den Einbehalt verschoben."
 #: rua/settle.py:209
 msgid "{0} recorded as retention."
 msgstr "{0} als Einbehalt erfasst."
-
-#: rua/rua/custom/purchase_order_item.json
-msgid "Colour / Finish"
-msgstr "Farbe / Oberfläche"
-
-#: rua/rua/custom/purchase_order_item.json
-msgid "The colour or finish ordered, as the supplier reads it: RAL 7045, Mill Finish, Black Foil."
-msgstr "Die bestellte Farbe oder Oberfläche, wie der Lieferant sie liest: RAL 7045, Mill Finish, Black Foil."
-
-#: rua/rua/custom/purchase_order.json
-msgid "Supplier's Quote No."
-msgstr "Angebotsnr. des Lieferanten"
-
-#: rua/rua/custom/purchase_order.json
-msgid "The number on the supplier's own quotation, as they wrote it (Q-12548 Rev 2)."
-msgstr "Die Nummer auf dem Angebot des Lieferanten, wie er sie geschrieben hat (Q-12548 Rev 2)."
-
-
-
 

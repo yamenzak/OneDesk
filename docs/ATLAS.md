@@ -196,7 +196,7 @@ Reports: Asset Activity (on a rail or a home); Asset Maintenance (opened by our 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Buying Settings | on a rail or a home | OneBook, OneInventory | untouched | no | general |  |  |  |  | ar 25, de 22 |  |
-| Purchase Order | on a rail or a home | OneInventory | a head, events, form script, list script, 5 fields, 8 settings | yes | taught |  | yes | ours |  |  | Order Late |
+| Purchase Order | on a rail or a home | OneInventory | a head, events, form script, list script, 6 fields, 8 settings | yes | taught |  | yes | ours |  |  | Order Late |
 | Request for Quotation | opened by our screens | OneInventory | a head, events, form script, 2 fields, 4 settings | yes | taught |  | yes | ours |  |  |  |
 | Supplier | on a rail or a home | OneBook, OneInventory | a head, events, list script, 6 fields, 2 settings | yes | taught | makes it | yes |  |  |  |  |
 | Supplier Quotation | on a rail or a home | OneInventory | a head, events, form script, 1 fields | yes | taught | makes it | yes |  |  |  | Quote Received |

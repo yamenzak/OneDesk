@@ -15369,7 +15369,6 @@ msgstr ""
 #. Description of the 'Shown When' (Code) field in DocType 'Record Head Band'
 #. Description of the 'Shown When' (Code) field in DocType 'Record Head
 #. Indicator'
-#. Description of the 'Shown When' (Code) field in DocType 'Record Head
 #. Sentence'
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 #: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
@@ -17359,16 +17358,12 @@ msgstr ""
 #. Label of the one_height (Float) field in DocType 'Stock Reconciliation Item'
 #. Label of the one_height (Float) field in DocType 'Subcontracting Inward
 #. Order Item'
-#. Label of the one_height (Float) field in DocType 'Subcontracting Inward
 #. Order Service Item'
 #. Label of the one_height (Float) field in DocType 'Subcontracting Order Item'
 #. Label of the one_height (Float) field in DocType 'Subcontracting Order
-#. Service Item'
 #. Label of the one_height (Float) field in DocType 'Subcontracting Receipt
-#. Item'
 #. Label of the one_height (Float) field in DocType 'Supplier Quotation Item'
 #. Label of the one_height (Float) field in DocType 'Work Order Additional
-#. Item'
 #. Label in the One Shipment print format
 #: onedesk/one_inventory/custom/asset_capitalization_service_item.json
 #: onedesk/one_inventory/custom/blanket_order_item.json
@@ -17451,7 +17446,6 @@ msgstr ""
 #. Label of the one_portal_hidden (Small Text) field in DocType 'Delivery Note'
 #. Label of the one_portal_hidden (Small Text) field in DocType 'Purchase
 #. Invoice'
-#. Label of the one_portal_hidden (Small Text) field in DocType 'Purchase
 #. Order'
 #. Label of the one_portal_hidden (Small Text) field in DocType 'Quotation'
 #. Label of the one_portal_hidden (Small Text) field in DocType 'Request for
@@ -17459,7 +17453,6 @@ msgstr ""
 #. Label of the one_portal_hidden (Small Text) field in DocType 'Sales Invoice'
 #. Label of the one_portal_hidden (Small Text) field in DocType 'Sales Order'
 #. Label of the one_portal_hidden (Small Text) field in DocType 'Supplier
-#. Quotation'
 #: onedesk/one/custom/delivery_note.json
 #: onedesk/one/custom/purchase_invoice.json
 #: onedesk/one/custom/purchase_order.json onedesk/one/custom/quotation.json
@@ -21518,16 +21511,12 @@ msgstr ""
 #. Label of the one_length (Float) field in DocType 'Stock Reconciliation Item'
 #. Label of the one_length (Float) field in DocType 'Subcontracting Inward
 #. Order Item'
-#. Label of the one_length (Float) field in DocType 'Subcontracting Inward
 #. Order Service Item'
 #. Label of the one_length (Float) field in DocType 'Subcontracting Order Item'
 #. Label of the one_length (Float) field in DocType 'Subcontracting Order
-#. Service Item'
 #. Label of the one_length (Float) field in DocType 'Subcontracting Receipt
-#. Item'
 #. Label of the one_length (Float) field in DocType 'Supplier Quotation Item'
 #. Label of the one_length (Float) field in DocType 'Work Order Additional
-#. Item'
 #. Label in the One Shipment print format
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.json
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
@@ -22337,7 +22326,6 @@ msgstr ""
 #. Description of the 'Made Here' (Check) field in DocType 'Record Head
 #. Indicator'
 #. Description of the 'Made Here' (Check) field in DocType 'Record Head Linked'
-#. Description of the 'Made Here' (Check) field in DocType 'Record Head
 #. Sentence'
 #. Description of the 'Made Here' (Check) field in DocType 'Record Head Verb'
 #: onedesk/one/doctype/record_head_band/record_head_band.json
@@ -30629,12 +30617,9 @@ msgstr ""
 #. Label of the one_pieces (Int) field in DocType 'Stock Entry Detail'
 #. Label of the one_pieces (Int) field in DocType 'Stock Reconciliation Item'
 #. Label of the one_pieces (Int) field in DocType 'Subcontracting Inward Order
-#. Item'
-#. Label of the one_pieces (Int) field in DocType 'Subcontracting Inward Order
 #. Service Item'
 #. Label of the one_pieces (Int) field in DocType 'Subcontracting Order Item'
 #. Label of the one_pieces (Int) field in DocType 'Subcontracting Order Service
-#. Item'
 #. Label of the one_pieces (Int) field in DocType 'Subcontracting Receipt Item'
 #. Label of the one_pieces (Int) field in DocType 'Supplier Quotation Item'
 #. Label of the one_pieces (Int) field in DocType 'Work Order Additional Item'
@@ -34581,7 +34566,6 @@ msgstr ""
 #. Label of the one_retention (Percent) field in DocType 'Purchase Order'
 #. Label of the one_retention (Percent) field in DocType 'Sales Invoice'
 #. Option for the 'Retention Held' (Select) field in DocType 'Sales Invoice
-#. Item'
 #. Label of the one_retention (Percent) field in DocType 'Sales Order'
 #: frontend/src/project/Overview.vue:91 frontend/src/project/Overview.vue:301
 #: frontend/src/project/Suppliers.vue:211
@@ -34649,7 +34633,6 @@ msgstr ""
 #. Option for the 'Retention Held' (Select) field in DocType 'Purchase Invoice
 #. Item'
 #. Option for the 'Retention Held' (Select) field in DocType 'Sales Invoice
-#. Item'
 #: onedesk/one_project/custom/purchase_invoice_item.json
 #: onedesk/one_project/custom/sales_invoice_item.json
 #: onedesk/one_project/progress.py:206 onedesk/one_project/progress.py:257
@@ -36591,7 +36574,6 @@ msgstr ""
 
 #. Description of the 'Released at Handover' (Percent) field in DocType
 #. 'Project Template'
-#. Description of the 'Released at Handover' (Percent) field in DocType
 #. 'Purchase Order'
 #. Description of the 'Released at Handover' (Percent) field in DocType 'Sales
 #. Order'
@@ -37470,12 +37452,9 @@ msgstr ""
 #. Label of the one_size (Data) field in DocType 'Stock Entry Detail'
 #. Label of the one_size (Data) field in DocType 'Stock Reconciliation Item'
 #. Label of the one_size (Data) field in DocType 'Subcontracting Inward Order
-#. Item'
-#. Label of the one_size (Data) field in DocType 'Subcontracting Inward Order
 #. Service Item'
 #. Label of the one_size (Data) field in DocType 'Subcontracting Order Item'
 #. Label of the one_size (Data) field in DocType 'Subcontracting Order Service
-#. Item'
 #. Label of the one_size (Data) field in DocType 'Subcontracting Receipt Item'
 #. Label of the one_size (Data) field in DocType 'Supplier Quotation Item'
 #. Label of the one_size (Data) field in DocType 'Work Order Additional Item'
@@ -37615,21 +37594,14 @@ msgstr ""
 #. Label of the one_size_uom (Link) field in DocType 'Sales Order Item'
 #. Label of the one_size_uom (Link) field in DocType 'Stock Entry Detail'
 #. Label of the one_size_uom (Link) field in DocType 'Stock Reconciliation
-#. Item'
 #. Label of the one_size_uom (Link) field in DocType 'Stock Settings'
 #. Label of the one_size_uom (Link) field in DocType 'Subcontracting Inward
 #. Order Item'
-#. Label of the one_size_uom (Link) field in DocType 'Subcontracting Inward
 #. Order Service Item'
 #. Label of the one_size_uom (Link) field in DocType 'Subcontracting Order
-#. Item'
-#. Label of the one_size_uom (Link) field in DocType 'Subcontracting Order
-#. Service Item'
 #. Label of the one_size_uom (Link) field in DocType 'Subcontracting Receipt
-#. Item'
 #. Label of the one_size_uom (Link) field in DocType 'Supplier Quotation Item'
 #. Label of the one_size_uom (Link) field in DocType 'Work Order Additional
-#. Item'
 #: frontend/src/item/ItemOverview.vue:110
 #: onedesk/one_inventory/custom/asset_capitalization_service_item.json
 #: onedesk/one_inventory/custom/blanket_order_item.json
@@ -37797,26 +37769,17 @@ msgstr ""
 #. Label of the one_measured_by (Data) field in DocType 'Purchase Receipt Item'
 #. Label of the one_measured_by (Data) field in DocType 'Quotation Item'
 #. Label of the one_measured_by (Data) field in DocType 'Request for Quotation
-#. Item'
 #. Label of the one_measured_by (Data) field in DocType 'Sales Invoice Item'
 #. Label of the one_measured_by (Data) field in DocType 'Sales Order Item'
 #. Label of the one_measured_by (Data) field in DocType 'Stock Entry Detail'
 #. Label of the one_measured_by (Data) field in DocType 'Stock Reconciliation
-#. Item'
 #. Label of the one_measured_by (Data) field in DocType 'Subcontracting Inward
 #. Order Item'
-#. Label of the one_measured_by (Data) field in DocType 'Subcontracting Inward
 #. Order Service Item'
 #. Label of the one_measured_by (Data) field in DocType 'Subcontracting Order
-#. Item'
-#. Label of the one_measured_by (Data) field in DocType 'Subcontracting Order
-#. Service Item'
 #. Label of the one_measured_by (Data) field in DocType 'Subcontracting Receipt
-#. Item'
 #. Label of the one_measured_by (Data) field in DocType 'Supplier Quotation
-#. Item'
 #. Label of the one_measured_by (Data) field in DocType 'Work Order Additional
-#. Item'
 #: frontend/src/item/ItemOverview.vue:109
 #: onedesk/one_inventory/custom/asset_capitalization_service_item.json
 #: onedesk/one_inventory/custom/blanket_order_item.json
@@ -39561,6 +39524,10 @@ msgstr ""
 msgid "Supplier bills paid"
 msgstr ""
 
+#: onedesk/one_inventory/custom/purchase_order.json
+msgid "Supplier's Quote No"
+msgstr ""
+
 #. Label in the One Request for Quotation print format
 #. Label in the One Request for Quotation Bordered print format
 #. Label in the One Request for Quotation Classic print format
@@ -41158,19 +41125,12 @@ msgstr ""
 
 #. Description of the 'Hidden From Contacts' (Small Text) field in DocType
 #. 'Delivery Note'
-#. Description of the 'Hidden From Contacts' (Small Text) field in DocType
 #. 'Purchase Invoice'
-#. Description of the 'Hidden From Contacts' (Small Text) field in DocType
 #. 'Purchase Order'
-#. Description of the 'Hidden From Contacts' (Small Text) field in DocType
 #. 'Quotation'
-#. Description of the 'Hidden From Contacts' (Small Text) field in DocType
 #. 'Request for Quotation'
-#. Description of the 'Hidden From Contacts' (Small Text) field in DocType
 #. 'Sales Invoice'
-#. Description of the 'Hidden From Contacts' (Small Text) field in DocType
 #. 'Sales Order'
-#. Description of the 'Hidden From Contacts' (Small Text) field in DocType
 #. 'Supplier Quotation'
 #: onedesk/one/custom/delivery_note.json
 #: onedesk/one/custom/purchase_invoice.json
@@ -41683,6 +41643,10 @@ msgstr ""
 
 #: onedesk/one/settings.py:2055
 msgid "The notification detail and the email body. Optional."
+msgstr ""
+
+#: onedesk/one_inventory/custom/purchase_order.json
+msgid "The number on the supplier's own quotation, as they wrote it (Q-12548 Rev 2)."
 msgstr ""
 
 #. Description of the 'Band' (Table) field in DocType 'Record Head'
@@ -46925,19 +46889,15 @@ msgstr ""
 #. Description of the 'Size Unit' (Link) field in DocType 'Installation Note
 #. Item'
 #. Description of the 'Size Unit' (Link) field in DocType 'Material Request
-#. Item'
 #. Description of the 'Size Unit' (Link) field in DocType 'Opportunity Item'
 #. Description of the 'Size Unit' (Link) field in DocType 'Packing Slip Item'
 #. Description of the 'Size Unit' (Link) field in DocType 'Pick List Item'
 #. Description of the 'Size Unit' (Link) field in DocType 'POS Invoice Item'
 #. Description of the 'Size Unit' (Link) field in DocType 'Product Bundle Item'
 #. Description of the 'Size Unit' (Link) field in DocType 'Proforma Invoice
-#. Item'
 #. Description of the 'Size Unit' (Link) field in DocType 'Purchase Invoice
-#. Item'
 #. Description of the 'Size Unit' (Link) field in DocType 'Purchase Order Item'
 #. Description of the 'Size Unit' (Link) field in DocType 'Purchase Receipt
-#. Item'
 #. Description of the 'Size Unit' (Link) field in DocType 'Quotation Item'
 #. Description of the 'Size Unit' (Link) field in DocType 'Request for
 #. Quotation Item'
@@ -46945,19 +46905,12 @@ msgstr ""
 #. Description of the 'Size Unit' (Link) field in DocType 'Sales Order Item'
 #. Description of the 'Size Unit' (Link) field in DocType 'Stock Entry Detail'
 #. Description of the 'Size Unit' (Link) field in DocType 'Stock Reconciliation
-#. Item'
 #. Description of the 'Size Unit' (Link) field in DocType 'Subcontracting
 #. Inward Order Item'
-#. Description of the 'Size Unit' (Link) field in DocType 'Subcontracting
 #. Inward Order Service Item'
 #. Description of the 'Size Unit' (Link) field in DocType 'Subcontracting Order
-#. Item'
-#. Description of the 'Size Unit' (Link) field in DocType 'Subcontracting Order
-#. Service Item'
-#. Description of the 'Size Unit' (Link) field in DocType 'Subcontracting
 #. Receipt Item'
 #. Description of the 'Size Unit' (Link) field in DocType 'Supplier Quotation
-#. Item'
 #. Description of the 'Size Unit' (Link) field in DocType 'Work Order
 #. Additional Item'
 #: onedesk/one_inventory/custom/asset_capitalization_service_item.json
@@ -47416,7 +47369,6 @@ msgstr ""
 #. Description of the 'Tax on Retention' (Select) field in DocType 'Purchase
 #. Order'
 #. Description of the 'Tax on Retention' (Select) field in DocType 'Sales
-#. Order'
 #: onedesk/one_project/custom/purchase_order.json
 #: onedesk/one_project/custom/sales_order.json
 msgid "When Released taxes each bill on the work less its retention, and the retention when it's released."
@@ -49537,13 +49489,9 @@ msgstr ""
 #. Label of the one_width (Float) field in DocType 'Stock Reconciliation Item'
 #. Label of the one_width (Float) field in DocType 'Subcontracting Inward Order
 #. Item'
-#. Label of the one_width (Float) field in DocType 'Subcontracting Inward Order
-#. Service Item'
 #. Label of the one_width (Float) field in DocType 'Subcontracting Order Item'
 #. Label of the one_width (Float) field in DocType 'Subcontracting Order
-#. Service Item'
 #. Label of the one_width (Float) field in DocType 'Subcontracting Receipt
-#. Item'
 #. Label of the one_width (Float) field in DocType 'Supplier Quotation Item'
 #. Label of the one_width (Float) field in DocType 'Work Order Additional Item'
 #. Label in the One Shipment print format

@@ -173,10 +173,11 @@ bar and its length with no prices (the extruder prices them on its invoice),
 glass by the square metre with the panes counted, and materials by the piece
 or the area, priced with 5% VAT. One Purchase Order holds all of them: the
 quantity in whichever unit the line is bought by, the pieces, length, width
-and height One's lines already carry, and two fields of Rua's own
-(`rua/custom`): **Colour / Finish** on each line, which the Excel sheets wrote
-once in the header (RAL 7045, Mill Finish, Black Foil), and the **Supplier's
-Quote No.** on the order. A workbook was weighed and left out: the LPOs in
+and height One's lines already carry, One's **Supplier's Quote No** on the
+order (Rua's own at first; `patches/quote_ref_to_one` moved what it held
+into One's and removed it), and a field of Rua's own (`rua/custom`):
+**Colour / Finish** on each line, which the Excel sheets wrote once in the
+header (RAL 7045, Mill Finish, Black Foil). A workbook was weighed and left out: the LPOs in
 the old app had a median of one line and the longest 67, and their sheets
 worked out nothing an order does not (quantity × rate, VAT, totals).
 

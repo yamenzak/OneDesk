@@ -39526,6 +39526,10 @@ msgstr "كشف حساب المورد"
 msgid "Supplier bills paid"
 msgstr "سداد فواتير الموردين"
 
+#: onedesk/one_inventory/custom/purchase_order.json
+msgid "Supplier's Quote No"
+msgstr "رقم عرض سعر المورد"
+
 #. Label in the One Request for Quotation print format
 #. Label in the One Request for Quotation Bordered print format
 #. Label in the One Request for Quotation Classic print format
@@ -41642,6 +41646,10 @@ msgstr "تعذّر إنشاء {kind} التالي، فأُوقف التكرار.
 #: onedesk/one/settings.py:2055
 msgid "The notification detail and the email body. Optional."
 msgstr "تفاصيل الإشعار ونص البريد. اختياري."
+
+#: onedesk/one_inventory/custom/purchase_order.json
+msgid "The number on the supplier's own quotation, as they wrote it (Q-12548 Rev 2)."
+msgstr "الرقم المكتوب على عرض سعر المورد كما كتبه هو (Q-12548 Rev 2)."
 
 #. Description of the 'Band' (Table) field in DocType 'Record Head'
 #: onedesk/one/doctype/record_head/record_head.json

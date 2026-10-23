@@ -39526,6 +39526,10 @@ msgstr "Lieferantenkontoauszug"
 msgid "Supplier bills paid"
 msgstr "Lieferantenrechnungen bezahlt"
 
+#: onedesk/one_inventory/custom/purchase_order.json
+msgid "Supplier's Quote No"
+msgstr "Angebotsnr. des Lieferanten"
+
 #. Label in the One Request for Quotation print format
 #. Label in the One Request for Quotation Bordered print format
 #. Label in the One Request for Quotation Classic print format
@@ -41642,6 +41646,10 @@ msgstr "Der nächste Beleg ({kind}) konnte nicht erstellt werden, daher ist die 
 #: onedesk/one/settings.py:2055
 msgid "The notification detail and the email body. Optional."
 msgstr "Details der Benachrichtigung und Text der E-Mail. Optional."
+
+#: onedesk/one_inventory/custom/purchase_order.json
+msgid "The number on the supplier's own quotation, as they wrote it (Q-12548 Rev 2)."
+msgstr "Die Nummer auf dem Angebot des Lieferanten, wie er sie geschrieben hat (Q-12548 Rev 2)."
 
 #. Description of the 'Band' (Table) field in DocType 'Record Head'
 #: onedesk/one/doctype/record_head/record_head.json

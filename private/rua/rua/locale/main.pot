@@ -83,6 +83,10 @@ msgstr ""
 msgid "Client Balance"
 msgstr ""
 
+#: rua/rua/custom/purchase_order_item.json
+msgid "Colour / Finish"
+msgstr ""
+
 #. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
 msgid "Contract Counted Twice"
@@ -423,6 +427,10 @@ msgstr ""
 msgid "Taken From"
 msgstr ""
 
+#: rua/rua/custom/purchase_order_item.json
+msgid "The colour or finish ordered, as the supplier reads it: RAL 7045, Mill Finish, Black Foil."
+msgstr ""
+
 #. Description of the 'Taken From' (Link) field in DocType 'Retention Before
 #. One'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
@@ -495,23 +503,4 @@ msgstr ""
 #: rua/settle.py:209
 msgid "{0} recorded as retention."
 msgstr ""
-
-#: rua/rua/custom/purchase_order_item.json
-msgid "Colour / Finish"
-msgstr ""
-
-#: rua/rua/custom/purchase_order_item.json
-msgid "The colour or finish ordered, as the supplier reads it: RAL 7045, Mill Finish, Black Foil."
-msgstr ""
-
-#: rua/rua/custom/purchase_order.json
-msgid "Supplier's Quote No."
-msgstr ""
-
-#: rua/rua/custom/purchase_order.json
-msgid "The number on the supplier's own quotation, as they wrote it (Q-12548 Rev 2)."
-msgstr ""
-
-
-
 

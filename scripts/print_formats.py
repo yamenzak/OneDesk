@@ -93,7 +93,7 @@ def title_section(words=TITLES):
 		titles(words=words) + pills(),
 		[
 			field("name", "Data", "Number", show_label="hide", align="right", bold=1, font_size=14),
-			field("company_tax_id", "Data", "TRN", align="right", hide_colon=1, custom_style="margin-top:4px;"),
+			field("company_tax_id", "Data", "Tax ID", align="right", hide_colon=1, custom_style="margin-top:4px;"),
 		],
 		widths=[60, 40], top=6, field_orientation="left-right",
 	)
@@ -114,7 +114,7 @@ def bill_to():
 		heading("Bill To"),
 		field("customer_name", "Data", "Customer", show_label="hide", bold=1, font_size=13),
 		field("address_display", "Small Text", "Address", show_label="hide", custom_style="color:#374151;line-height:1.5;margin-top:2px;"),
-		field("tax_id", "Data", "TRN", hide_colon=1, custom_style="margin-top:6px;"),
+		field("tax_id", "Data", "Tax ID", hide_colon=1, custom_style="margin-top:6px;"),
 		*contact_lines(),
 	]
 
@@ -161,8 +161,8 @@ def line_columns(image=False, code=False):
 			"merged_fields": [{"fieldname": "uom", "fieldtype": "Link", "label": "UOM", "style": "muted-sm"}]},
 		{"fieldname": "rate", "fieldtype": "Currency", "label": "Unit Price", "width": 13, "align": "right"},
 		{"fieldname": "net_amount", "fieldtype": "Currency", "label": "Taxable", "width": 14, "align": "right"},
-		{"fieldname": "one_vat_amount", "fieldtype": "Currency", "label": "VAT", "width": 12, "align": "right", "column_condition": TAXED,
-			"merged_fields": [{"fieldname": "one_vat_rate", "fieldtype": "Percent", "label": "VAT Rate", "style": "muted-sm"}]},
+		{"fieldname": "one_vat_amount", "fieldtype": "Currency", "label": "Tax", "width": 12, "align": "right", "column_condition": TAXED,
+			"merged_fields": [{"fieldname": "one_vat_rate", "fieldtype": "Percent", "label": "Tax Rate", "style": "muted-sm"}]},
 		{"fieldname": "one_line_total", "fieldtype": "Currency", "label": "Amount", "width": 16, "align": "right", "column_condition": TAXED},
 	]
 
@@ -209,7 +209,7 @@ def total_rows(words=True):
 		row("one_work_billed", "Currency", "Work Billed", visible_if="doc.one_work_billed"),
 		row("one_retention_held", "Currency", "Less Retention", visible_if="doc.one_work_billed"),
 		row("net_total", "Currency", "Subtotal"),
-		row("total_taxes_and_charges", "Currency", "VAT"),
+		row("total_taxes_and_charges", "Currency", "Tax"),
 		row("grand_total", "Currency", "Total", bold=1, label_color=INK, font_size=15, custom_style=f"border-bottom:2px solid {INK};padding:8px 0;"),
 		row("one_retention_held", "Currency", "Retention Held", visible_if="doc.one_retention_held and not doc.one_work_billed"),
 		row("one_due_now", "Currency", "Due Now", bold=1, visible_if="doc.one_due_now and doc.one_retention_held and doc.outstanding_amount == (doc.rounded_total or doc.grand_total)"),
@@ -222,6 +222,16 @@ def total_rows(words=True):
 
 def totals_section(left=None, words=True, **look):
 	return section(left if left is not None else schedule(**look), total_rows(words), widths=[52, 48], gap=48, top=14, keep_together=1, field_orientation="left-right")
+
+
+def claim_section():
+	"""A progress invoice's claim: its number and the contract statement
+	(the One Claim field template)."""
+	return {
+		"label": "", "show_label": "hide",
+		"columns": [{"label": "", "fields": [{"label": "One Claim", "fieldname": "one_claim_template", "fieldtype": "Field Template", "field_template": "One Claim", "show_label": "hide"}]}],
+		"margin": {"top": 4, "right": 0, "bottom": 0, "left": 0}, "keep_together": 1,
+	}
 
 
 def bank_section():
@@ -247,7 +257,7 @@ def layout(*sections):
 
 def master():
 	"""ERPNext's Modern, its UAE Tax Invoice and its Return, in one."""
-	return layout(title_section(), party_section(), lines_section(), time_section(), totals_section(), bank_section(), terms_section())
+	return layout(title_section(), party_section(), lines_section(), time_section(), totals_section(), claim_section(), bank_section(), terms_section())
 
 
 def classic():
@@ -259,7 +269,7 @@ def classic():
 		bill_to(),
 		titles(size=17) + pills() + [
 			row("name", "Data", "Number", bold=1),
-			row("company_tax_id", "Data", "Our TRN"),
+			row("company_tax_id", "Data", "Our Tax ID"),
 			*detail_rows(),
 		],
 		widths=[52, 48], gap=40, top=8, field_orientation="left-right",
@@ -267,7 +277,7 @@ def classic():
 	panel["columns"][1]["fields"][-1]["custom_style"] = "padding:5px 0;"
 	words = section([field("in_words", "Data", "In Words", hide_colon=1, label_gap=10)], top=14, background=SOFT, radius=6,
 		padding={"top": 9, "right": 12, "bottom": 9, "left": 12}, field_orientation="left-right")
-	return layout(panel, lines_section(line_columns(code=True), **look), time_section(**look), totals_section(words=False, **look), words, bank_section(), terms_section())
+	return layout(panel, lines_section(line_columns(code=True), **look), time_section(**look), totals_section(words=False, **look), claim_section(), words, bank_section(), terms_section())
 
 
 def bordered():
@@ -282,20 +292,20 @@ def bordered():
 	parties = section(
 		[heading("Bill From"), field("company", "Link", "Company", show_label="hide", bold=1),
 			field("company_address_display", "Small Text", "Address", show_label="hide", custom_style="color:#374151;line-height:1.5;"),
-			field("company_tax_id", "Data", "TRN", hide_colon=1, show_label="inline")],
+			field("company_tax_id", "Data", "Tax ID", hide_colon=1, show_label="inline")],
 		[heading("Bill To"), field("customer_name", "Data", "Customer", show_label="hide", bold=1),
 			field("address_display", "Small Text", "Address", show_label="hide", custom_style="color:#374151;line-height:1.5;"),
-			field("tax_id", "Data", "TRN", hide_colon=1, show_label="inline")],
+			field("tax_id", "Data", "Tax ID", hide_colon=1, show_label="inline")],
 		widths=[50, 50], gap=24, top=10, radius=6, padding={"top": 14, "right": 16, "bottom": 14, "left": 16},
 		custom_style=f"border:1px solid {LINE};",
 	)
 	look = {"table_bordered": True, "table_header": "styled", "table_header_bg": SOFT, "table_radius": 6}
-	return layout(section(titles() + pills(), top=6), facts, parties, lines_section(**look), time_section(**look), totals_section(**look), bank_section(), terms_section())
+	return layout(section(titles() + pills(), top=6), facts, parties, lines_section(**look), time_section(**look), totals_section(**look), claim_section(), bank_section(), terms_section())
 
 
 def with_images():
 	"""ERPNext's Modern with Images: the master, each line led by its item's picture."""
-	return layout(title_section(), party_section(), lines_section(line_columns(image=True)), time_section(), totals_section(), bank_section(), terms_section())
+	return layout(title_section(), party_section(), lines_section(line_columns(image=True)), time_section(), totals_section(), claim_section(), bank_section(), terms_section())
 
 
 SIMPLE = (
@@ -312,17 +322,17 @@ def simplified():
 		titles(size=20, words=SIMPLE),
 		[field("name", "Data", "Number", show_label="hide", align="right", bold=1, font_size=13),
 			field("posting_date", "Date", "Date", align="right", hide_colon=1, date_format=DATE, custom_style="margin-top:4px;"),
-			field("company_tax_id", "Data", "TRN", align="right", hide_colon=1, custom_style="margin-top:2px;")],
+			field("company_tax_id", "Data", "Tax ID", align="right", hide_colon=1, custom_style="margin-top:2px;")],
 		widths=[60, 40], top=6, field_orientation="left-right",
 	)
 	sold = table("items", "Items", [
 		{"fieldname": "item_name", "fieldtype": "Data", "label": "Description", "width": 60},
 		{"fieldname": "qty", "fieldtype": "Float", "label": "Qty", "width": 15, "align": "right"},
-		{"fieldname": "one_line_total", "fieldtype": "Currency", "label": "Amount incl. VAT", "width": 25, "align": "right"},
+		{"fieldname": "one_line_total", "fieldtype": "Currency", "label": "Amount incl. Tax", "width": 25, "align": "right"},
 	], row_condition="not row.one_held")
 	end = section([], [
-		row("grand_total", "Currency", "Total incl. VAT", bold=1, label_color=INK, font_size=15, custom_style=f"border-bottom:2px solid {INK};padding:8px 0;"),
-		row("total_taxes_and_charges", "Currency", "VAT Included"),
+		row("grand_total", "Currency", "Total incl. Tax", bold=1, label_color=INK, font_size=15, custom_style=f"border-bottom:2px solid {INK};padding:8px 0;"),
+		row("total_taxes_and_charges", "Currency", "Tax Included"),
 	], widths=[52, 48], gap=48, top=14, keep_together=1, field_orientation="left-right")
 	return layout(head, section([field("customer_name", "Data", "Customer", hide_colon=1)], top=18, field_orientation="left-right", visible_if="doc.customer_name"), section([sold], top=16), end)
 
@@ -343,7 +353,7 @@ def detailed():
 	base = section([], [
 		heading("In Company Currency"),
 		row("base_net_total", "Currency", "Subtotal"),
-		row("base_total_taxes_and_charges", "Currency", "VAT"),
+		row("base_total_taxes_and_charges", "Currency", "Tax"),
 		row("base_grand_total", "Currency", "Total", bold=1),
 		row("conversion_rate", "Float", "Exchange Rate"),
 	], widths=[52, 48], gap=48, top=12, field_orientation="left-right", visible_if="doc.conversion_rate != 1")
@@ -465,6 +475,7 @@ TRADE.update({
 		"details": (
 			("transaction_date", "Date", "Date"),
 			("schedule_date", "Date", "Required By"),
+			("one_quote_ref", "Data", "Supplier's Quote No"),
 			("project", "Project", "Project"),
 			("payment_terms_template", "Link", "Payment Terms"),
 			("incoterm", "Link", "Delivery Terms"),
@@ -543,7 +554,7 @@ def _titles(spec, size=24):
 
 
 def _company_trn(**kw):
-	return linked("company.tax_id", "TRN", hide_colon=1, **kw)
+	return linked("company.tax_id", "Tax ID", hide_colon=1, **kw)
 
 
 def trade_title(spec):
@@ -569,7 +580,7 @@ def trade_party(spec):
 	else:
 		found.append(field("address_display", "Small Text", "Address", show_label="hide", custom_style=style))
 	if spec.get("tax", "tax_id"):
-		found.append(field(spec.get("tax", "tax_id"), "Data", "TRN", hide_colon=1, custom_style="margin-top:6px;"))
+		found.append(field(spec.get("tax", "tax_id"), "Data", "Tax ID", hide_colon=1, custom_style="margin-top:6px;"))
 	if spec.get("contacts", True):
 		found += contact_lines()
 	if spec.get("deliver"):
@@ -624,7 +635,7 @@ def trade_totals(spec, words=True, **look):
 	rows = [
 		row("total", "Currency", "Subtotal"),
 		row("discount_amount", "Currency", "Discount", visible_if="doc.discount_amount"),
-		row("total_taxes_and_charges", "Currency", "VAT", visible_if="doc.total_taxes_and_charges"),
+		row("total_taxes_and_charges", "Currency", "Tax", visible_if="doc.total_taxes_and_charges"),
 		row("grand_total", "Currency", "Total", bold=1, label_color=INK, font_size=15, custom_style=f"border-bottom:2px solid {INK};padding:8px 0;"),
 	]
 	if spec.get("advance"):
@@ -686,7 +697,7 @@ def trade_classic(spec):
 	look = {"table_header": "styled", "table_header_bg": "#f3f4f6", "table_bordered": True, "table_radius": 8}
 	panel = section(
 		trade_party(spec),
-		[*_titles(spec, size=17), row("name", "Data", spec["number"], bold=1), linked("company.tax_id", "Our TRN", label_justify="space-between", hide_colon=1, custom_style=f"padding:5px 0;border-bottom:1px solid {LINE};"), *trade_details(spec)],
+		[*_titles(spec, size=17), row("name", "Data", spec["number"], bold=1), linked("company.tax_id", "Our Tax ID", label_justify="space-between", hide_colon=1, custom_style=f"padding:5px 0;border-bottom:1px solid {LINE};"), *trade_details(spec)],
 		widths=[52, 48], gap=40, top=8, field_orientation="left-right",
 	)
 	found = [panel, trade_lines(spec, trade_columns(spec, code=True), **look), *trade_count(spec)]
@@ -2850,7 +2861,7 @@ def _statement(words, name):
 		section([text(words, font_size=24, bold=1, custom_style="letter-spacing:-0.01em;line-height:1.1;")],
 			[], widths=[60, 40], top=6, field_orientation="left-right"),
 		_pair([heading("Statement For"), field(name, "Data", "Name", show_label="hide", bold=1, font_size=14),
-				_muted("primary_address", "Text", "Address"), _line("tax_id", "Data", "TRN"), _line("email_id", "Data", "Email"),
+				_muted("primary_address", "Text", "Address"), _line("tax_id", "Data", "Tax ID"), _line("email_id", "Data", "Email"),
 				_line("mobile_no", "Data", "Phone")], [], top=22),
 		section([_block("One Statement")], top=22))
 

@@ -85,6 +85,10 @@ msgstr "اختر الفاتورة التي تتضمن المحتجزات."
 msgid "Client Balance"
 msgstr "رصيد العميل"
 
+#: rua/rua/custom/purchase_order_item.json
+msgid "Colour / Finish"
+msgstr "اللون / التشطيب"
+
 #. Option for the 'Kind' (Select) field in DocType 'Rua Import Note'
 #: rua/rua/doctype/rua_import_note/rua_import_note.json
 msgid "Contract Counted Twice"
@@ -425,6 +429,10 @@ msgstr "مدير النظام"
 msgid "Taken From"
 msgstr "مخصومة من"
 
+#: rua/rua/custom/purchase_order_item.json
+msgid "The colour or finish ordered, as the supplier reads it: RAL 7045, Mill Finish, Black Foil."
+msgstr "اللون أو التشطيب المطلوب كما يقرؤه المورد: RAL 7045، Mill Finish، Black Foil."
+
 #. Description of the 'Taken From' (Link) field in DocType 'Retention Before
 #. One'
 #: rua/rua/doctype/retention_before_one/retention_before_one.json
@@ -497,23 +505,4 @@ msgstr "نُقل {0} من {1} إلى المحتجزات."
 #: rua/settle.py:209
 msgid "{0} recorded as retention."
 msgstr "سُجل {0} كمحتجزات."
-
-#: rua/rua/custom/purchase_order_item.json
-msgid "Colour / Finish"
-msgstr "اللون / التشطيب"
-
-#: rua/rua/custom/purchase_order_item.json
-msgid "The colour or finish ordered, as the supplier reads it: RAL 7045, Mill Finish, Black Foil."
-msgstr "اللون أو التشطيب المطلوب كما يقرؤه المورد: RAL 7045، Mill Finish، Black Foil."
-
-#: rua/rua/custom/purchase_order.json
-msgid "Supplier's Quote No."
-msgstr "رقم عرض سعر المورد"
-
-#: rua/rua/custom/purchase_order.json
-msgid "The number on the supplier's own quotation, as they wrote it (Q-12548 Rev 2)."
-msgstr "الرقم المكتوب على عرض سعر المورد كما كتبه هو (Q-12548 Rev 2)."
-
-
-
 
