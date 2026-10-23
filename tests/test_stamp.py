@@ -38,5 +38,5 @@ def test_an_address_carries_its_files_hash():
 
 def test_what_is_required_later_is_stamped_too():
 	theme = (APP / "public" / "js" / "theme.js").read_text()
-	assert "frappe.assets.bundled_asset = " in theme and "frappe.boot.one_assets" in theme
+	assert "frappe.assets.load_asset = " in theme and "bundled_asset" not in theme and "frappe.boot.one_assets" in theme
 	assert 'bootinfo["one_assets"] = stamp.versions()' in (APP / "one" / "boot.py").read_text()

@@ -1,11 +1,16 @@
 // frappe.require asks for our files by their plain address, which Frappe Cloud
 // serves as immutable for a year; boot carries each one's hash (one/stamp.py).
+// The hash goes on the URL, never the path: frappe reads a file's kind from
+// the text after "?" in the path, so "x.js?v=1" would have no loader.
 if (frappe.assets && !frappe.assets.__one_stamped) {
 	frappe.assets.__one_stamped = true;
-	const theirs = frappe.assets.bundled_asset.bind(frappe.assets);
-	frappe.assets.bundled_asset = (path, is_rtl) => {
+	const theirs = frappe.assets.load_asset.bind(frappe.assets);
+	frappe.assets.load_asset = (path, url) => {
 		const held = (frappe.boot.one_assets || {})[path];
-		return held && !path.includes("?") ? `${path}?v=${held}` : theirs(path, is_rtl);
+		if (!held) return theirs(path, url);
+		const stamped = new URL(url, window.location.origin);
+		stamped.searchParams.set("v", held);
+		return theirs(path, stamped.toString());
 	};
 }
 
