@@ -50,10 +50,7 @@ onedesk.window.adapt("form", () => {
 		Sidebar.prototype.refresh = function (...args) {
 			const said = refresh.apply(this, args);
 			const win = this.frm.page && this.frm.page.window;
-			if (win) {
-				win.view({ status: onedesk.window.edited(this.frm.doc) });
-				onedesk.window.tags_beside(this.sidebar);
-			}
+			if (win) win.view({ status: onedesk.window.edited(this.frm.doc) });
 			return said;
 		};
 	}
@@ -66,14 +63,6 @@ onedesk.window.edited = (doc) => {
 	const created = __("Created {0} by {1}", [frappe.datetime.prettyDate(doc.creation), by(doc.owner)]);
 	if (!doc.modified || doc.modified === doc.creation) return created;
 	return [__("Edited {0} by {1}", [frappe.datetime.prettyDate(doc.modified), by(doc.modified_by)]), created].join(" · ");
-};
-
-// A form's tags sit on a line of their own under its title, on every record,
-// with or without a picture. frappe's TagEditor moves with them.
-onedesk.window.tags_beside = ($sidebar) => {
-	const $tags = $sidebar.find(".form-tags").addClass("one-side-tags");
-	const $meta = $sidebar.find(".sidebar-meta-details");
-	if ($tags.length && $meta.length && $tags.parent()[0] !== $meta[0]) $tags.appendTo($meta);
 };
 
 // A form's tabs on one row: those that do not fit fold into More at its end,
