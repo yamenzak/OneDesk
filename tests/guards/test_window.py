@@ -37,6 +37,7 @@ def test_the_window_is_one_folder_loaded_after_the_shell():
 	styles = re.findall(r'"/assets/onedesk/css/(window/[\w.]+)"', HOOKS)
 	assert styles[0] == "window/frame.css"
 	assert sorted(styles) == sorted(f"window/{path.name}" for path in WINDOW_CSS.glob("*.css"))
+	assert {"page", "list", "board", "report", "tree", "form", "print", "workspace"} <= set(ADAPTERS)
 	assert not (tree.APP / "public" / "js" / "window.js").exists()
 
 
@@ -50,7 +51,7 @@ def test_a_view_says_what_it_has_and_the_frame_places_it():
 		assert part in view, part
 	for kind, source in ADAPTERS.items():
 		assert f'onedesk.window.adapt("{kind}", () => {{' in source, kind
-		assert "win.view(" in source, kind
+		assert ".view({" in source, kind
 		for reach in ("$commands", "views_slot(", "win.handle(", "win.search(", "win.status(", "win.can("):
 			assert reach not in source, f"{kind}.js reaches into the frame: {reach}"
 	assert set(ADAPTERS) <= set(re.findall(r'"(\w+)"', FRAME.split("ON: [", 1)[1].split("covers(", 1)[0]))
@@ -100,7 +101,8 @@ def test_onecloud_on_its_page_draws_none_of_the_windows_parts():
 
 
 def test_only_the_trial_puts_lists_and_forms_on_the_window():
-	assert 'TRIAL: ["list", "form"]' in FRAME and 'ON: ["page"]' in FRAME
+	trial = re.findall(r'"(\w+)"', FRAME.split("TRIAL: [", 1)[1].split("]", 1)[0])
+	assert set(trial) == set(ADAPTERS) - {"page"} and 'ON: ["page"]' in FRAME
 	assert "onedesk.window.trial() && onedesk.window.TRIAL.includes(kind)" in FRAME
 	assert "frappe.views.ListView" in ADAPTERS["list"] and "frappe.ui.form.Form" in ADAPTERS["form"]
 	assert "frappe.views.ListView" not in FRAME and "frappe.ui.form.Form" not in FRAME
@@ -170,3 +172,26 @@ def test_every_row_sits_on_one_gutter():
 	assert ".one-window[data-one-view=\"list\"] .list-row-container,\n" in CSS
 	cloud_css = (tree.APP / "public" / "css" / "onecloud.css").read_text(encoding="utf-8")
 	assert ".oc-windowed .oc-head {\n\tpadding-inline: calc(var(--spacing) * 2);" in cloud_css
+
+
+def test_a_view_frappe_loads_late_is_waited_for():
+	"""Kanban v2 and the print view are defined when their code first loads,
+	after ours; their adapters wait for frappe to assign the class rather
+	than looking for it once and finding nothing."""
+	assert 'onedesk.window.when(frappe.views, "KanbanV2Page"' in ADAPTERS["board"]
+	assert 'onedesk.window.when(frappe.ui.form, "PrintView"' in ADAPTERS["print"]
+	when = FRAME.split("\twhen(owner, name, then) {", 1)[1].split("\n\t},", 1)[0]
+	assert "Object.defineProperty(owner, name" in when and "then(value)" in when
+
+
+def test_only_views_of_pages_show_a_count_and_paging():
+	"""A board, a calendar and a dashboard show all they hold, so the status
+	row carries no count or paging for them; a list, a report and an image
+	grid do."""
+	source = ADAPTERS["list"]
+	counted = source.split("const COUNTED = [", 1)[1].split("]", 1)[0]
+	for view in ("Kanban", "Calendar", "Dashboard"):
+		assert f'"{view}"' not in counted, view
+	for view in ("List", "Report", "Image"):
+		assert f'"{view}"' in counted, view
+	assert "counted(this)) win.view({ status" in source

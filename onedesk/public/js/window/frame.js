@@ -45,7 +45,7 @@ $.extend(onedesk.window, {
 	// the rest while the trial is on. A kind leaves the trial by moving from
 	// TRIAL to ON, and that is the whole of it.
 	ON: ["page"],
-	TRIAL: ["list", "form"],
+	TRIAL: ["list", "board", "report", "tree", "form", "print", "workspace"],
 
 	covers(kind) {
 		return onedesk.window.ON.includes(kind) || (onedesk.window.trial() && onedesk.window.TRIAL.includes(kind));
@@ -55,6 +55,27 @@ $.extend(onedesk.window, {
 	// only where the kind is covered, so nothing changes for anybody else.
 	adapt(kind, install) {
 		if (onedesk.window.covers(kind)) install();
+	},
+
+	// frappe defines some views only when their bundle loads (Kanban v2):
+	// `then` is given the class as soon as frappe assigns it.
+	when(owner, name, then) {
+		if (owner[name]) return then(owner[name]);
+		Object.defineProperty(owner, name, {
+			configurable: true,
+			enumerable: true,
+			get: () => undefined,
+			set: (value) => {
+				Object.defineProperty(owner, name, { value, writable: true, configurable: true, enumerable: true });
+				then(value);
+			},
+		});
+	},
+
+	// Up from a list, a report or a tree: the home of the app it is in.
+	home() {
+		const sidebar = frappe.app && frappe.app.sidebar;
+		return sidebar && sidebar.current_module && sidebar.open_module(sidebar.current_module);
 	},
 
 	of(page, options = {}) {

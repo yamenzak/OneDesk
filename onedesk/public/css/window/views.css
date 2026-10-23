@@ -1,6 +1,5 @@
-/* A list on the window (docs/WINDOW.md, js/window/list.js): frappe's list,
-   report and board, set in the frame's rows and on its gutter. The frame's
-   own rows are frame.css. */
+/* What a view brings into the frame's rows (docs/WINDOW.md): a list's rows
+   and filters, a query report's footer. The frame's own rows are frame.css. */
 
 @media (min-width: 768px) {
 	/* frappe's view menu, after the toggles: only its chevron, since the
@@ -86,5 +85,24 @@
 		margin: 0;
 		padding: 0;
 		border: 0;
+	}
+
+	/* A query report's footer (the filter hint, the time it took, a tree's
+	   Expand All) beside its row count, on one line. */
+	.one-window .one-window-more .report-footer,
+	.one-window .one-window-more .report-footer > div {
+		display: flex;
+		align-items: center;
+		gap: calc(var(--spacing) * 3);
+		width: auto;
+		margin: 0;
+		padding: 0;
+		border: 0;
+	}
+
+	/* frappe writes the hint as `<span">`, so the time sits inside it. */
+	.one-window .one-window-more .report-footer .pull-right {
+		float: none;
+		margin-inline-start: calc(var(--spacing) * 3);
 	}
 }

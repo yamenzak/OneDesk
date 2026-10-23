@@ -81,11 +81,18 @@ scroll-to-field and restored positions are untouched.
 The window is two folders, and nothing of it is anywhere else:
 
 ```
-public/js/window/frame.js    the frame, and the one place that decides where anything goes
-public/js/window/list.js     frappe's lists (list, report, board...) said to the frame
-public/js/window/form.js     frappe's forms said to the frame
-public/css/window/frame.css  the frame's rows, panes and address box
-public/css/window/list.css   a list set in those rows and on their gutter
+public/js/window/frame.js      the frame, and the one place that decides where anything goes
+public/js/window/page.js       any desk page frappe loads by name: its primary button and menu
+public/js/window/list.js       frappe's list and every view made from it (report, kanban,
+                               calendar, gantt, image, map, dashboard, inbox, file)
+public/js/window/board.js      a Kanban v2 board
+public/js/window/report.js     a query report: its rows and footer in the status row
+public/js/window/tree.js       a tree (accounts, cost centres...): views and search as a list's
+public/js/window/form.js       a form
+public/js/window/print.js      a record's print: Up goes back to the record
+public/js/window/workspace.js  an app's workspace
+public/css/window/frame.css    the frame's rows, panes and address box
+public/css/window/views.css    what a view brings into those rows (list rows, a report's footer)
 ```
 
 A view tells the window what it has in one call, and the frame decides where
@@ -114,10 +121,30 @@ An adapter is one file per kind of frappe view. It wraps the one frappe
 method where that view has what the window wants, hands those nodes (frappe's
 own, which frappe still shows, hides and relabels) to `view`, and installs
 through `onedesk.window.adapt(kind)`, which runs it only where the kind is
-covered: `ON` (pages that ask) for everybody, `TRIAL` (lists, forms) for
-whoever turned the preview on. A kind leaves the trial by moving from one
-list to the other. The next kinds are a report page, a tree, a dashboard and
-a calendar, each its own adapter.
+covered: `ON` (pages that ask) for everybody, `TRIAL` (every other kind)
+for whoever turned the preview on. A kind leaves the trial by moving from
+one list to the other.
+
+Two of frappe's views are defined only when their code first loads, after
+ours: Kanban v2 and the print view. Their adapters wait with
+`onedesk.window.when(owner, name, then)`, which runs `then` as soon as
+frappe assigns the class.
+
+Every kind gets the same parts where it has them. Where one differs it is
+because the view does:
+
+| | primary · menu | views | search | status | Up |
+|---|---|---|---|---|---|
+| A list, report, image, gantt, map | New, … | toggles | the title field | count, paging | the app's home |
+| A calendar, a dashboard, the older board | New, … | toggles | the title field (not a dashboard) | none: it shows all it holds | the app's home |
+| A Kanban v2 board | Add, … | toggles | none | none | the app's home |
+| A query report | its primary (Generate), … | none | none | rows, frappe's footer | the app's home |
+| A tree | New, … | toggles | the tree's own search | none | the app's home |
+| A print | Print, … | none | none | none | the record |
+| A workspace, a dashboard page, a page of ours | its primary, … | none | none | none | the breadcrumb |
+
+A board keeps Filter, Group and Settings in its own filter row: it places
+its quick filters beside them, so moving them would move those too.
 
 So a change to how every screen looks is made in frame.js or frame.css, once.
 

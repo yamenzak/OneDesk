@@ -1,8 +1,17 @@
-// A list on the window (docs/WINDOW.md): frappe's ListView, its report, board
-// and other views, saying what they have through `window.view`. Every node
+// A list on the window (docs/WINDOW.md): frappe's ListView and every view
+// made from it (Report, Kanban, Calendar, Gantt, Image, Map, Dashboard,
+// Inbox, File), saying what they have through `window.view`. Every node
 // handed over is frappe's own, which frappe keeps a reference to, so it still
 // shows, hides and relabels them.
 onedesk.window.adapt("list", () => {
+	// Views drawn as frappe's list rows, which the stylesheet sets as rows.
+	const ROWS = ["List", "File", "Inbox"];
+	// Views that show a page of records, so a count and paging mean something;
+	// a board, a calendar and a dashboard show all of theirs.
+	const COUNTED = ["List", "Report", "Image", "Gantt", "Map", "Inbox", "File"];
+	const kind = (view) => (ROWS.includes(view.view_name) ? "list" : String(view.view_name || "list").toLowerCase());
+	const counted = (view) => COUNTED.includes(view.view_name);
+
 	const Base = frappe.views && frappe.views.BaseList;
 	if (Base && !Object.hasOwn(Base.prototype, "one_window")) {
 		Base.prototype.one_window = true;
@@ -30,21 +39,23 @@ onedesk.window.adapt("list", () => {
 		const win = this.page && this.page.window;
 		if (!win) return said;
 		const field = this.meta.title_field || "name";
-		const sidebar = frappe.app && frappe.app.sidebar;
 		win.view({
-			kind: "list",
+			kind: kind(this),
 			primary: this.page.btn_primary,
 			menu: { $button: this.page.menu_btn_group, dropdown: this.page.menu_dropdown },
-			up: () => sidebar && sidebar.current_module && sidebar.open_module(sidebar.current_module),
-			search: {
-				placeholder: __("Search {0}", [__(this.doctype)]),
-				on_input: (text) => {
-					const had = this.filter_area.get().find((one) => one[1] === field && one[2] === "like");
-					if (had) this.filter_area.remove(field);
-					if (text) this.filter_area.add([[this.doctype, field, "like", `%${text}%`]]);
-					else if (had) this.refresh();
-				},
-			},
+			up: onedesk.window.home,
+			search:
+				this.view_name === "Dashboard"
+					? null
+					: {
+							placeholder: __("Search {0}", [__(this.doctype)]),
+							on_input: (text) => {
+								const had = this.filter_area.get().find((one) => one[1] === field && one[2] === "like");
+								if (had) this.filter_area.remove(field);
+								if (text) this.filter_area.add([[this.doctype, field, "like", `%${text}%`]]);
+								else if (had) this.refresh();
+							},
+					  },
 		});
 		return said;
 	};
@@ -53,7 +64,7 @@ onedesk.window.adapt("list", () => {
 	List.prototype.setup_paging_area = function (...args) {
 		const said = paging.apply(this, args);
 		const win = this.page && this.page.window;
-		if (win && this.$paging_area) win.view({ status: "", more: this.$paging_area });
+		if (win && this.$paging_area && counted(this)) win.view({ status: "", more: this.$paging_area });
 		return said;
 	};
 
@@ -61,7 +72,7 @@ onedesk.window.adapt("list", () => {
 	List.prototype.get_count_str = function (...args) {
 		return count.apply(this, args).then((text) => {
 			const win = this.page && this.page.window;
-			if (win) win.view({ status: $("<div>").html(String(text)).text() });
+			if (win && counted(this)) win.view({ status: $("<div>").html(String(text)).text() });
 			return text;
 		});
 	};
