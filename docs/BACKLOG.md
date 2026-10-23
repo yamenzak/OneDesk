@@ -138,10 +138,11 @@ Checked against ERPNext while passing OneProject's Time tab.
 
 ## OneAdmin and the account
 
-- **The hostname**: where a workspace lives by default, `<slug>.t.4dl.app`
-  behind Cloudflare with a Worker rewriting Host. Needs Cloudflare's Advanced
-  Certificate Manager. If the rewrite fails, provisioning could fall back to
-  press's add-domain for the same name.
+- **The hostname**: `<slug>.t.4dl.app`'s certificate is ordered by Set up
+  Cloudflare (`setup.certificate`), which needs Advanced Certificate Manager,
+  a paid add-on, enabled on the zone by hand first. Until it is, that step
+  says so and no workspace's address has a certificate. If the rewrite fails,
+  provisioning could fall back to press's add-domain for the same name.
 - **Warm sites**: a pool built ahead of demand and claimed at signup, so a
   paid signup does not wait minutes for `create_site`.
 - **A card-less trial**: a workspace with no Stripe customer. Only

@@ -142,17 +142,19 @@ def owing(tenant, rung: str, why: str) -> None:
 
 
 @_quietly
-def owner(tenant, rung: str, was: str | None) -> None:
+def owner(tenant, rung: str, was: str | None, why: str | None = None) -> None:
 	"""Whoever pays for the workspace, mailed when its payment fails, and when
 	it is suspended, archived or restored (steps._arrive): the payer need not
-	be anybody on the site, and a suspended one cannot tell them anything."""
-	to = tenant.get("account") or tenant.get("owner_email")
-	if not to:
-		return
+	be anybody on the site, and a suspended one cannot tell them anything.
+	Not when a cancelled subscription starts the fall, which no card caused,
+	nor when a build that failed is archived, which they never had."""
 	from frappe.utils import add_days, formatdate, today
 
-	from onedesk.one_admin import lifecycle
+	from onedesk.one_admin import lifecycle, log
 
+	to = tenant.get("account") or tenant.get("owner_email")
+	if not to or (rung == "Overdue" and why == log.said("cancelled")) or (rung == "Archived" and was == "Failed"):
+		return
 	days = lifecycle._days()
 	said = {
 		"workspace": tenant.workspace_name or tenant.name,

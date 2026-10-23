@@ -31,6 +31,9 @@ def arrive(said: dict) -> str | None:
 	)
 	user.insert(ignore_permissions=True)
 	from onedesk.one import invite
+	from onedesk.one_mail import addresses
+
+	addresses.ensure_workspace()
 
 	invite.send(user.name, inviter="One")
 	return user.name

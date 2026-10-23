@@ -3503,21 +3503,29 @@ is kept are HR's policy, and stay in HR Settings.
 
 ### setup_wizard.py
 
-`_leave_period` makes this calendar year's Leave Period. Nothing in HRMS
-creates one and four things need it. `Employee Leave Balance` asks
-`get_leave_period` for the dates to run between, gets `None`, and its
-`onload` dies on `data.message[0]` — so both mandatory date filters stay
-empty and the report shows nothing at all, with no hint why. Leave Policy
-Assignment and the two allocation tools want one too.
+The wizard is frappe's and erpnext's, with One's two slides in place of
+erpnext's persona slide (which only fed telemetry). Four things are changed
+so that it works for a workspace owner anywhere:
 
-The calendar year rather than a financial one: a leave year that is not the
-calendar year is a decision a workspace makes deliberately, and this is the
-answer for everybody who has not made it.
+- **The owner can run it.** Frappe's page is System Manager's only, and its
+  stages save System Settings as whoever is signed in, and nobody on a
+  workspace has System Manager. `setup-wizard` is opened to Workspace
+  Administrator (access.py `PAGES`), and `setup_complete` runs frappe's own as
+  Administrator: only while setup is unfinished, and only for somebody who
+  administers the workspace. The theme still lands on the owner.
+- **The Standard chart is the one picked.** erpnext lists the country's
+  charts first and a Select takes the first; none of them carries both
+  payroll accounts (docs/ACCOUNTS.md). The slide puts Standard first and says
+  why; a country's chart is still one click away.
+- **Days off are the country's, and can be two.** The `holidays` package
+  knows each country's weekend (Friday and Saturday in Saudi Arabia, Friday in
+  Iran); boot carries the map while setup is unfinished and the slide ticks
+  them.
+- **The leave and payroll years are the fiscal year** (one_hr/periods.py).
 
-The period is named for its year rather than left as HR-LPR-2026-00001. Leave
-Period is a Link on Leave Policy Assignment, Leave Encashment and three report
-filters, and none of them has a title field to read instead, so the serial is
-what a person sees in all five places.
+`settle` re-runs every `after_sync` hook once the company exists. Each runs
+under a savepoint, so one that fails is logged and left to the next migrate
+instead of rolling back the whole setup.
 
 `_assign` tells hrms about the holiday list, which is not the same as telling
 erpnext. `hrms.utils.holiday_list.get_holiday_list_for_employee` replaces

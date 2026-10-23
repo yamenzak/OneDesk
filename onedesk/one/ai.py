@@ -612,6 +612,8 @@ def page(said: dict) -> str | None:
 			"The reader administers this workspace and is on Workspace › Domains: the addresses it opens at in a "
 			"browser. The one One gives it always works; their own domain works once a CNAME record points it at "
 			"that address, as the page shows, and Cloudflare has issued its certificate, usually minutes later. A "
+			"TXT record at _one.<domain> with the same value proves the domain is theirs where the CNAME cannot "
+			"be read, as behind a proxy; until one of the two is read the domain is not routed. A "
 			"bare domain such as acme.com needs a DNS provider that flattens a CNAME (ALIAS); otherwise use a "
 			"subdomain. "
 			"The main address is the one sign-in, invitations and links in mail use. workspace_plan reads each "
@@ -1978,8 +1980,9 @@ def workspace_oneai() -> dict:
 
 DOMAIN_STATES = {
 	"Active": "working",
-	"Pending": "added; waiting for its CNAME to point at the workspace's own address (cname_target) and for "
-	"Cloudflare to issue its certificate, which it does by itself within minutes of the record being right",
+	"Pending": "added; waiting for its CNAME, or a TXT record at _one.<domain>, to name the workspace's own address "
+	"(cname_target), and for Cloudflare to issue its certificate, which it does by itself within minutes of the "
+	"record being right",
 	"Broken": "Cloudflare gave up issuing its certificate, almost always because the CNAME was never made or "
 	"points elsewhere; fix the record, then remove the domain and add it again",
 	"Gone": "Cloudflare no longer has it; remove it and add it again",

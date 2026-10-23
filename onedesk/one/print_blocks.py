@@ -312,16 +312,21 @@ REPLACES = {
 
 
 def settle() -> None:
-	"""The blocks, ERPNext's formats One's replace turned off, and One's
-	format as each record's default where nobody has chosen one or the default
-	is the one ERPNext set when it was installed. A format the workspace
-	chose (Printing, or frappe's own Set as Default) is kept."""
+	"""The blocks, a country's formats offered only there, ERPNext's formats
+	One's replace turned off, and One's format as each record's default where
+	nobody has chosen one or the default is the one ERPNext set when it was
+	installed. A format the workspace chose (Printing, or frappe's own Set as
+	Default) is kept."""
+	from onedesk.one import countries
+
 	_sync_blocks()
+	here = offered()
 	for ours, theirs in REPLACES.items():
 		ready = frappe.db.exists("Print Format", {"name": ours, "disabled": 0})
 		for one in theirs:
 			if frappe.db.exists("Print Format", one):
-				frappe.db.set_value("Print Format", one, "disabled", 0 if not ready else 1, update_modified=False)
+				off = ready or not countries.shown(ours, here)
+				frappe.db.set_value("Print Format", one, "disabled", 1 if off else 0, update_modified=False)
 	for doctype, (name, _module) in FORMATS.items():
 		if not frappe.db.exists("Print Format", name):
 			continue
@@ -345,6 +350,19 @@ def settle() -> None:
 		)
 		frappe.clear_cache(doctype=doctype)
 	_proforma()
+
+
+def offered(*_args) -> set[str]:
+	"""after_migrate, and when a company is saved: a format that is one
+	country's (one/countries.py) is offered only where a company is in it."""
+	from onedesk.one import countries
+
+	here = countries.ours()
+	for name in countries.ONLY_IN:
+		if frappe.db.exists("Print Format", name):
+			off = 0 if countries.shown(name, here) else 1
+			frappe.db.set_value("Print Format", name, "disabled", off, update_modified=False)
+	return here
 
 
 def _proforma() -> None:
@@ -423,9 +441,9 @@ def title(doc) -> dict:
 		said = _("Issue Note")
 	elif doc.doctype == "Payment Entry" and doc.get("payment_type") == "Internal Transfer":
 		said, number = _("Transfer"), _("Transfer No")
-	trn = _trn(doc)
+	tax = _taxed(doc)
 	heading = doc.get("select_print_heading")
-	if trn and doc.doctype in SOLD:
+	if tax:
 		said = _("Tax Credit Note") if doc.get("is_return") else _("Tax Invoice")
 		if doc.get("is_return"):
 			number = _("Credit Note No")
@@ -436,7 +454,7 @@ def title(doc) -> dict:
 		"title": _(heading) if heading else str(said),
 		"label": str(number),
 		"name": name or doc.name,
-		"tax": _("TRN {0}").format(trn) if trn else None,
+		"tax": (_("TRN {0}") if _trn(doc) else _("Tax ID {0}")).format(tax) if tax else None,
 		"status": _status(doc),
 	}
 
@@ -465,17 +483,25 @@ def _status(doc) -> dict | None:
 AUTOMATIC = ("Credit Note", "Debit Note")
 
 
-def _trn(doc) -> str | None:
-	"""The company's TRN, where an invoice must carry it: a sales invoice of a
-	company in the UAE that has one."""
+def _taxed(doc) -> str | None:
+	"""The company's tax number, where a sales invoice carrying it is a tax
+	invoice: in a country one/countries.py lists, when the company has one."""
 	if doc.doctype not in SOLD:
 		return None
-	from onedesk.one_book import vat
+	from onedesk.one import countries
 
 	company = _company(doc)
-	if not company or not vat.in_uae(company):
+	if not countries.tax_invoice(company):
 		return None
 	return frappe.get_cached_value("Company", company, "tax_id") or None
+
+
+def _trn(doc) -> str | None:
+	"""The company's TRN: its tax number on a tax invoice, in the UAE."""
+	from onedesk.one_book import vat
+
+	found = _taxed(doc)
+	return found if found and vat.in_uae(_company(doc)) else None
 
 
 def _made_for(doc, heading) -> dict:

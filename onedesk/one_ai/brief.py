@@ -8,7 +8,7 @@ import json
 
 import frappe
 from frappe import _
-from frappe.utils import add_days, flt, get_first_day, getdate, now_datetime, nowdate, strip_html
+from frappe.utils import add_days, flt, getdate, now_datetime, nowdate, strip_html
 
 ACTION = "brief"
 
@@ -243,13 +243,15 @@ SIDES = {
 
 def party_facts(doctype: str, name: str) -> dict:
 	"""A customer or supplier as somebody about to deal with them would want
-	it: what they are worth this year and last, what is owed and overdue,
+	it: what they are worth this fiscal year and last, what is owed and overdue,
 	orders late or open, what they buy or sell, and what was said lately."""
 	side = SIDES[doctype]
 	doc = frappe.get_doc(doctype, name)
+	from onedesk.one_book import closing
+
 	today = getdate()
-	year = get_first_day(today).replace(month=1)
-	last_year = year.replace(year=year.year - 1)
+	year = closing.year_began(today)
+	last_year = closing.year_began(add_days(year, -1))
 	invoice, party = side["invoice"], side["party"]
 	from erpnext import get_default_currency
 

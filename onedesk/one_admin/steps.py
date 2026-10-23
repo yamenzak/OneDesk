@@ -197,11 +197,14 @@ def create_site(job, tenant) -> None:
 
 	`tenant.site` is written the moment press answers, which is what makes this
 	idempotent: a retry after a lost response finds the name already recorded
-	and does nothing. The window where press has created a site and we have not
-	recorded it is one database write wide, and `site_is_up` closes it by
-	looking the slug up rather than trusting our own record.
+	and does nothing. One whose answer was lost asks press first, and a site
+	press already holds for us by that name is the one it made.
 	"""
 	if tenant.site:
+		return
+	name = f"{tenant.slug}.{_press_domain()}"
+	if _ours_already(name):
+		tenant.db_set("site", name)
 		return
 	group = press.call("press.api.bench.get", name=tenant.bench) or {}
 	answered = press.call(
@@ -218,6 +221,18 @@ def create_site(job, tenant) -> None:
 		},
 	)
 	tenant.db_set("site", (answered or {}).get("site") or tenant.slug)
+
+
+def _ours_already(name: str) -> bool:
+	"""Whether press holds this site for our team. Only press's yes is a yes;
+	a refusal (not there, not ours) is a no, and no answer is asked again."""
+	try:
+		found = press.call("press.api.site.get", timeout=press.READ_TIMEOUT, name=name) or {}
+	except faults.Again:
+		raise
+	except faults.Refused:
+		return False
+	return found.get("name") == name
 
 
 def site_is_up(job, tenant) -> str | None:
@@ -343,6 +358,7 @@ def deactivate_site(job, tenant) -> None:
 	"""
 	if not tenant.site:
 		raise faults.Refused("there is no site to suspend")
+	_still_going(job, tenant)
 	press.call("press.api.site.deactivate", name=tenant.site)
 
 
@@ -369,9 +385,10 @@ def mark_live(job, tenant) -> None:
 def note_backup(job, tenant) -> None:
 	"""Write down which backup press is holding, before the site goes.
 
-	Recorded and not copied. A workspace with no backup is not a reason to stop.
+	Recorded and not copied. A workspace with no backup, or no site, is not a
+	reason to stop.
 	"""
-	if tenant.archived_backup:
+	if tenant.archived_backup or not tenant.site:
 		return
 	held = press.call("press.api.site.backups", name=tenant.site) or []
 	newest = next(
@@ -385,8 +402,10 @@ def archive_site(job, tenant) -> None:
 	"""Press destroys the site, taking its own offsite backup first.
 
 	`force` is false: a site press will not archive is a site somebody should
-	look at rather than one we should insist on.
+	look at rather than one we should insist on. The last step that can still
+	be called off (_still_going); after it the job finishes whatever happens.
 	"""
+	_still_going(job, tenant)
 	if not tenant.site:
 		return
 	press.call("press.api.site.archive", name=tenant.site, force=False)
@@ -431,6 +450,7 @@ def empty_storage(job, tenant) -> None:
 	one. It is idempotent in the way that matters: emptying an empty prefix
 	succeeds, so a retry after a half-finished sweep finishes the job.
 	"""
+	_still_going(job, tenant)
 	from onedesk.one_admin import storage
 
 	storage.empty(tenant)
@@ -438,6 +458,27 @@ def empty_storage(job, tenant) -> None:
 
 def mark_dropped(job, tenant) -> None:
 	_arrive(tenant, "Dropped", log.said("dropped"), job)
+
+
+class CalledOff(Exception):
+	"""The workspace is no longer meant to go where this job takes it. The
+	job ends without doing the rest (runner._called_off)."""
+
+
+STILL = {"Suspend": ("Overdue",), "Archive": ("Suspended", "Failed"), "Drop": ("Archived",)}
+
+
+def _still_going(job, tenant) -> None:
+	"""Before a step that cannot be undone, ask again whether the workspace is
+	still meant to go down. The job may be days old: paid since, a restore
+	queued, or a closing taken back. An Archive from a closing day goes from
+	Live or Overdue while the day stands."""
+	closing = job.kind == "Archive" and tenant.get("closing_on") and tenant.status in ("Live", "Overdue")
+	restoring = frappe.db.exists(
+		"Provisioning Job", {"tenant": tenant.name, "kind": "Restore", "status": ["in", ("Pending", "Waiting")]}
+	)
+	if restoring or not (closing or tenant.status in STILL.get(job.kind, ())):
+		raise CalledOff(f"{tenant.name} is {tenant.status}{' and being restored' if restoring else ''}, so nothing was done")
 
 
 CALLED = {"Live": "Restored"}
@@ -456,4 +497,4 @@ def _arrive(tenant, rung: str, why: str, job=None) -> None:
 	from onedesk.one_admin import tell
 
 	tell.owing(tenant, rung, why)
-	tell.owner(tenant, rung, was)
+	tell.owner(tenant, rung, was, why)

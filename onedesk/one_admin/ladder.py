@@ -10,6 +10,10 @@ OWING = ("Overdue", "Suspended", "Archived")
 
 PAID = "Live"
 
+BUILDING = ("Requested", "Provisioning", "Failed")
+
+BY_HAND_ONLY = {"Failed": "Archived"}
+
 DAYS = {"Overdue": 7, "Suspended": 14, "Archived": 30}
 
 NOTICE_DAYS = 14
@@ -41,6 +45,12 @@ def below(status: str) -> str | None:
 	if after >= len(RUNGS):
 		return None
 	return RUNGS[after]
+
+
+def by_hand(status: str) -> str | None:
+	"""The rung an operator may send a workspace to: the next one down, or
+	Archived for a build that failed, which no clock ever moves."""
+	return below(status) or BY_HAND_ONLY.get(status)
 
 
 def due(status: str, since, now, days: dict | None = None) -> str | None:
@@ -78,17 +88,28 @@ def falls(status: str, since, now, days: dict | None = None) -> list[str]:
 		at = rung
 
 
-def climbing(status: str) -> str:
-	"""Where paying puts a workspace, or a refusal.
+def climbing(status: str) -> str | None:
+	"""Where paying puts a workspace, None while it is being built, or a refusal.
 
 	Dropped is not a rung anybody climbs off. The site is gone, the files are
 	gone, and answering "Live" would be a lie that a screen would then draw.
 	"""
+	if status in BUILDING:
+		return None
 	if status == "Dropped":
 		raise Unreachable("a dropped workspace cannot be restored — nothing is left of it")
 	if status not in RUNGS:
 		raise Unreachable(f"{status} is not a rung")
 	return PAID
+
+
+def settled(paid_for: str | None, held: str | None, unpaid: int) -> bool:
+	"""Whether a paid invoice clears what a workspace owes: one of its own
+	subscription, when it has one, with no other invoice of it left open. A
+	proration paid while the renewal that failed is still open clears nothing."""
+	if held and paid_for != held:
+		return False
+	return unpaid <= 0
 
 
 def days_left(status: str, since, now, days: dict | None = None) -> int | None:

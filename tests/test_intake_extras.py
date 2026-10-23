@@ -41,6 +41,11 @@ def test_a_girocode_is_the_epc_text_and_nothing_else():
 	assert PAY["epc"]("A", "DE02120300000000202051", None).split("\n")[-1] == "DE02120300000000202051", "no amount lets the payer type it"
 
 
+def test_a_girocode_is_offered_only_for_euros_read_off_the_document():
+	source = (ROOT / "pay.py").read_text()
+	assert 'if doc.currency == "EUR":' in source and '(doc.currency or "EUR")' not in source
+
+
 def test_an_explanation_is_cut_to_what_the_panel_draws():
 	said = EXPLAIN["shaped"]({"explanation": "x" * 5000, "todo": [{"what": "Pay", "by": "2026-10-01"}, "junk", {"by": "2026-10-02"}], "reply": "Sehr geehrte", "reply_language": "de"})
 	assert len(said["explanation"]) == 3000

@@ -5,6 +5,7 @@ No `stripe` package. The webhook has three guards, in order: the signature
 request's own state. The clock is `time.time()`, a Unix timestamp like Stripe's.
 """
 
+import hashlib
 import json
 import time
 
@@ -12,7 +13,7 @@ import frappe
 import requests
 from frappe.database.database import savepoint
 
-from onedesk.one_admin import faults, lifecycle, signing, signup, site
+from onedesk.one_admin import faults, ladder, lifecycle, signing, signup, site
 
 STRIPE = "https://api.stripe.com/v1"
 PATIENCE = 20
@@ -21,6 +22,7 @@ ACTED_ON = "checkout.session.completed"
 
 OWED = "invoice.payment_failed"
 SETTLED = "invoice.paid"
+ENDED = "customer.subscription.deleted"
 
 REFUNDED = "charge.refunded"
 
@@ -76,7 +78,7 @@ def webhook():
 	kind = event.get("type")
 	body = (event.get("data") or {}).get("object") or {}
 
-	if kind in (OWED, SETTLED):
+	if kind in (OWED, SETTLED, ENDED):
 		try:
 			answer = _ladder(kind, body)
 		except Exception as raised:
@@ -110,8 +112,14 @@ def webhook():
 		return {"tenant": meta.get("tenant"), "entry": entry}
 
 	request = body.get("client_reference_id")
+	if not request or not frappe.db.exists("Account Request", request):
+		seen.db_set({"handled": 1, "error": None})
+		return {"ignored": kind, "request": request}
 	try:
 		tenant = signup.accept(request)
+	except signup.NotBuilt as raised:
+		seen.db_set({"handled": 1, "error": str(raised)[:500], "request": request})
+		return {"failed": request}
 	except Exception as raised:
 		seen.db_set({"error": str(raised)[:500], "request": request})
 		raise
@@ -182,42 +190,60 @@ def _remember_customer(tenant: str, body: dict) -> None:
 
 	Written once, at the first completed checkout, because an invoice event
 	names a customer and nothing else — there is no request id on it, and no
-	route back to a workspace without this.
+	route back to a workspace without this. A second checkout never replaces
+	what the first wrote.
 	"""
 	if not tenant:
 		return
+	held = frappe.db.get_value("Tenant", tenant, ["stripe_customer", "stripe_subscription"], as_dict=True) or {}
 	frappe.db.set_value(
 		"Tenant",
 		tenant,
 		{
-			"stripe_customer": body.get("customer") or "",
-			"stripe_subscription": body.get("subscription") or "",
+			"stripe_customer": held.get("stripe_customer") or body.get("customer") or "",
+			"stripe_subscription": held.get("stripe_subscription") or body.get("subscription") or "",
 		},
 		update_modified=False,
 	)
 
 
 def _ladder(kind: str, body: dict) -> dict:
-	"""An invoice failed or settled, so a workspace moves.
+	"""An invoice failed or settled, or a subscription ended, so a workspace moves.
 
-	An invoice for a customer we do not know is not an error. It may be a
+	An event for a customer we do not know is not an error. It may be a
 	checkout still in flight, whose `checkout.session.completed` has not arrived
 	or has arrived and not yet been acted on; answering 200 and ignoring it is
 	right, because the alternative is Stripe redelivering forever.
 	"""
 	customer = body.get("customer")
-	slug = (
-		frappe.db.get_value("Tenant", {"stripe_customer": customer}, "name")
-		if customer
-		else None
-	)
+	if kind == ENDED:
+		found = {"stripe_subscription": body.get("id")} if body.get("id") else None
+	else:
+		found = {"stripe_customer": customer} if customer else None
+	slug = frappe.db.get_value("Tenant", found, "name") if found else None
 	if not slug:
 		return {"ignored": kind, "customer": customer}
 
 	tenant = frappe.get_doc("Tenant", slug)
 	if kind == OWED:
 		return {"tenant": slug, "rung": lifecycle.owed(tenant)}
+	if kind == ENDED:
+		return {"tenant": slug, "rung": lifecycle.ended(tenant)}
+	if tenant.status in ("Overdue", "Suspended") and not _settles(tenant, body):
+		return {"tenant": slug, "rung": None, "still_owing": True}
 	return {"tenant": slug, "rung": lifecycle.paid(tenant)}
+
+
+def _settles(tenant, body: dict) -> bool:
+	"""Whether a paid invoice clears what this workspace owes (ladder.settled):
+	its own subscription's, with nothing else of the customer's still open.
+	The subscription is on the invoice, or under `parent` since 2025-03-31."""
+	paid_for = body.get("subscription") or (
+		((body.get("parent") or {}).get("subscription_details") or {}).get("subscription")
+	)
+	still = _call("get", "invoices", params={"customer": body.get("customer"), "status": "open", "limit": 100})
+	unpaid = [one for one in still.get("data") or [] if one.get("id") != body.get("id")]
+	return ladder.settled(paid_for, tenant.get("stripe_subscription"), len(unpaid))
 
 
 def _remember(event: dict):
@@ -315,19 +341,59 @@ def set_item(sub: str, item: str | None, price: str, quantity: int) -> str | Non
 	).get("id")
 
 
+MADE_BY_POST = ("checkout/sessions", "prices", "subscription_items", "billing_portal/configurations")
+
+ONCE_MINUTES = 10
+
+
 def _post(path: str, form: dict) -> dict:
-	return _call("post", path, data=form)
+	"""A POST that makes something carries an Idempotency-Key of what it asks
+	and the ten minutes it is asked in: a retry after a lost answer gets the
+	first answer rather than a second thing."""
+	if path not in MADE_BY_POST:
+		return _call("post", path, data=form)
+	asked = json.dumps([path, form, int(time.time() // (ONCE_MINUTES * 60))], sort_keys=True, default=str)
+	return _call("post", path, data=form, headers={"Idempotency-Key": hashlib.sha256(asked.encode()).hexdigest()})
 
 
 def _get(path: str) -> dict:
 	return _call("get", path)
 
 
+PORTAL = "one-portal-1"
+
+
 def portal(customer: str, back: str) -> str:
 	"""A billing portal session for a customer: Stripe's own page for their
 	card, billing address and receipts, coming back to `back`."""
 	site.require_admin()
-	return _post("billing_portal/sessions", {"customer": customer, "return_url": back}).get("url")
+	return _post(
+		"billing_portal/sessions", {"customer": customer, "return_url": back, "configuration": _portal()}
+	).get("url")
+
+
+def _portal() -> str:
+	"""The portal as One allows it, whatever the account's default says: no
+	cancelling and no plan change there, which would bypass billing.take and
+	closing.ask. Found by its metadata, or made once."""
+	held = _call("get", "billing_portal/configurations", params={"active": "true", "limit": 100})
+	found = next((one for one in held.get("data") or [] if (one.get("metadata") or {}).get("one") == PORTAL), None)
+	if found:
+		return found["id"]
+	return _post(
+		"billing_portal/configurations",
+		{
+			"metadata[one]": PORTAL,
+			"features[payment_method_update][enabled]": "true",
+			"features[invoice_history][enabled]": "true",
+			"features[customer_update][enabled]": "true",
+			"features[customer_update][allowed_updates][0]": "address",
+			"features[customer_update][allowed_updates][1]": "name",
+			"features[customer_update][allowed_updates][2]": "tax_id",
+			"features[subscription_cancel][enabled]": "false",
+			"features[subscription_update][enabled]": "false",
+		},
+	).get("id")
 
 
 def fetch(path: str, params: dict | None = None) -> dict:

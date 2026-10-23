@@ -69,7 +69,7 @@ def organisation_domain(raw: str | None) -> str | None:
 	return found if found and found not in PROVIDERS else None
 
 
-def phone(raw: str | None, country: str | None = "DE") -> str | None:
+def phone(raw: str | None, country: str | None = None) -> str | None:
 	"""E.164: +49221123456."""
 	said = (raw or "").strip()
 	if not re.search(r"\d", said):
@@ -77,7 +77,7 @@ def phone(raw: str | None, country: str | None = "DE") -> str | None:
 	try:
 		import phonenumbers
 
-		parsed = phonenumbers.parse(said, (country or "DE").upper())
+		parsed = phonenumbers.parse(said, (country or "").upper() or None)
 		if phonenumbers.is_possible_number(parsed):
 			return phonenumbers.format_number(parsed, phonenumbers.PhoneNumberFormat.E164)
 		return None
@@ -159,7 +159,7 @@ CANONICAL = {
 }
 
 
-def canonical(kind: str, raw, country: str | None = "DE") -> str | None:
+def canonical(kind: str, raw, country: str | None = None) -> str | None:
 	if kind == PHONE:
 		return phone(raw, country)
 	if kind == "Tax ID":
@@ -167,7 +167,7 @@ def canonical(kind: str, raw, country: str | None = "DE") -> str | None:
 	return CANONICAL[kind](raw) if kind in CANONICAL else None
 
 
-def found(pairs, country: str | None = "DE") -> list[tuple[str, str]]:
+def found(pairs, country: str | None = None) -> list[tuple[str, str]]:
 	"""(kind, raw) pairs as distinct canonical (kind, value) pairs, the
 	unreadable dropped. An email also says its organisation's domain, and a
 	website its domain."""

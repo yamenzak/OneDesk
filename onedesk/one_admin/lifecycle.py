@@ -40,35 +40,66 @@ def paid(tenant) -> str | None:
 	"""Money arrived. Climb.
 
 	From Overdue this is a field; from Suspended it is a job, because press has
-	to be asked to serve the site again. From Archived or Dropped the site was
-	destroyed, and putting a new one in its place from a backup is somebody's
-	decision rather than a webhook's: the operators are told (Paid While
-	Archived), and the webhook answers as handled.
+	to be asked to serve the site again. Once the site may be gone (Archived,
+	Dropped, or an Archive job past its first step) the operators are told
+	(Paid While Archived) instead. A workspace being built has nothing to climb.
 	"""
 	if tenant.status == "Live":
 		return None
-	if tenant.status in ("Archived", "Dropped"):
+	if tenant.status in ("Archived", "Dropped") or archiving(tenant.name):
 		from onedesk.one_admin import tell
 
 		tell.paid_while_archived(tenant)
 		return None
 	rung = ladder.climbing(tenant.status)
+	if rung is None:
+		return None
 	if tenant.status == "Overdue":
 		_arrive(tenant, rung, log.said("paid"))
 		return rung
 	return _job(tenant, rung)
 
 
+def ended(tenant) -> str | None:
+	"""Its subscription was cancelled in Stripe, so nothing will bill it again.
+
+	A Live workspace starts the fall at Overdue, as an unpaid one does, unless
+	it is already going: a closing day was asked for, or an Archive job (whose
+	`stop_billing` is what cancelled it) is running.
+	"""
+	if tenant.status != "Live" or tenant.get("closing_on") or _open(tenant.name, "Archive"):
+		return None
+	_arrive(tenant, "Overdue", log.said("cancelled"))
+	return "Overdue"
+
+
+def archiving(slug: str) -> bool:
+	"""Whether an Archive job has got past its first step, after which the
+	site may be gone and only a person brings it back."""
+	from onedesk.one_admin import steps
+
+	return any(one.step != steps.WALKS["Archive"][0] for one in _open(slug, "Archive"))
+
+
+def _open(slug: str, kind: str) -> list:
+	return frappe.get_all(
+		"Provisioning Job",
+		filters={"tenant": slug, "kind": kind, "status": ["in", ("Pending", "Waiting")]},
+		fields=["name", "step"],
+	)
+
+
 def fall(tenant, rung: str | None = None, why: str | None = None) -> str | None:
 	"""Move one rung down, doing whatever that rung needs.
 
-	`rung` is for an operator doing it by hand. Left out, the clock decides, and
-	a workspace that is not due stays where it is.
+	`rung` is for an operator doing it by hand, who may also archive a build
+	that failed (ladder.by_hand). Left out, the clock decides, and a workspace
+	that is not due stays where it is.
 	"""
 	rung = rung or ladder.due(tenant.status, tenant.status_since, now_datetime(), _days())
 	if rung is None:
 		return None
-	if rung != ladder.below(tenant.status):
+	if rung != ladder.by_hand(tenant.status):
 		frappe.throw(
 			frappe._("{0} is {1} and can't move to {2}.").format(
 				tenant.name, tenant.status, rung

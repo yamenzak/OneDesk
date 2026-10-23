@@ -12,7 +12,7 @@
         <span class="font-medium">{{ versionPreview[0].title }}</span>
       </div>
       <div v-else>
-        {{ __('This is an automatic snapshot of this document from {0}.', [formatDateDDMMYY(versionPreview[0].title)]) }}
+        {{ __('This is an automatic snapshot of this document from {0}.', [formatStamp(versionPreview[0].title)]) }}
       </div>
       <div class="text-xs text-ink-gray-5">{{ __('Editing is disabled until you exit.') }}</div>
     </div>
@@ -91,7 +91,7 @@
               :key="version.name"
               :variant="version.name === versionPreview?.[0]?.name ? 'solid' : 'ghost'"
               class="text-start text-sm py-4"
-              :label="version.manual ? version.title : formatDateDDMMYY(version.title).slice(9, 14)"
+              :label="version.manual ? version.title : formatDate(version.title).split(', ')[1]"
               @click="
                 version.name === versionPreview?.[0]?.name
                   ? (versionPreview = null)
@@ -224,6 +224,7 @@ import { Editor, EditorContent, RichTextKit } from 'frappe-ui/editor'
 import { clearDialogs, createDialog } from '@/apps/writer/utils/dialogs'
 import NewVersionDialog from './NewVersionDialog.vue'
 import { __ } from '../../kit/desk' // One: the desk's translations
+import { formatDate } from '@/apps/writer/utils/format' // One: the workspace's date and time formats
 
 const props = defineProps({
   settings: Object,
@@ -246,16 +247,7 @@ const versions = createResource({
 const manualVersions = computed(() => versions.data.filter((v) => v.manual))
 const autoVersions = computed(() => versions.data.filter((v) => !v.manual))
 
-function formatDateDDMMYY(dateStr) {
-  const date = new Date(dateStr)
-  const day = String(date.getDate()).padStart(2, '0')
-  const month = String(date.getMonth() + 1).padStart(2, '0')
-  const year = String(date.getFullYear()).slice(-2)
-  const hours = String(date.getHours()).padStart(2, '0')
-  const minutes = String(date.getMinutes()).padStart(2, '0')
-  const seconds = String(date.getSeconds()).padStart(2, '0')
-  return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`
-}
+const formatStamp = (dateStr) => formatDate(dateStr).replace(', ', ' ')
 
 const groupedVersions = computed(() => {
   if (tab.value === 'automatic') {
@@ -264,7 +256,7 @@ const groupedVersions = computed(() => {
     })
 
     const grouped = sortedAutoVersions.reduce((acc, version) => {
-      const date = formatDateDDMMYY(version.title).slice(0, 8)
+      const date = formatDate(version.title).split(', ')[0]
       if (!acc[date]) {
         acc[date] = []
       }
@@ -300,7 +292,7 @@ const restore = (version) => {
     size: 'sm',
     message: version.manual
       ? __('You are restoring to a previous version: {0}.', [version.title])
-      : __('You are restoring the document to how it was at {0}.', [formatDateDDMMYY(version.title)]),
+      : __('You are restoring the document to how it was at {0}.', [formatStamp(version.title)]),
     actions: [
       {
         label: __('Restore'),
@@ -308,7 +300,7 @@ const restore = (version) => {
         onClick: () => {
           props.editor.commands.setContent(version.snapshot)
           toast.success(
-            __('Restored {0}', [version.manual ? version.title : formatDateDDMMYY(version.title)]),
+            __('Restored {0}', [version.manual ? version.title : formatStamp(version.title)]),
           )
           showVersions.value = false
           clearDialogs()

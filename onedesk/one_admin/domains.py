@@ -7,7 +7,7 @@ It is a custom hostname on our Cloudflare zone, routed to the same Worker as
 import frappe
 from frappe.utils import now_datetime
 
-from onedesk.one_admin import cloudflare, hosts, press
+from onedesk.one_admin import cloudflare, faults, hosts, press
 
 SETTLED = ("Active",)
 
@@ -15,10 +15,11 @@ MOST = 10
 
 
 def add(tenant, raw: str) -> dict:
-	"""Claim a name: the row, the custom hostname, the route and the KV key.
+	"""Claim a name: the row, then the custom hostname, the route and the KV
+	key once its DNS proves it is the customer's (_route).
 
-	Nothing waits on the customer's DNS. Cloudflare keeps checking and issues
-	the certificate once the CNAME is there, and `refresh` notices.
+	Nothing waits on the customer's DNS. A name not proven yet waits unrouted
+	and `refresh` looks again; once routed, Cloudflare issues the certificate.
 	"""
 	name = _claimable(raw)
 	if frappe.db.exists("Tenant Domain", name):
@@ -37,10 +38,30 @@ def add(tenant, raw: str) -> dict:
 			}
 		).insert(ignore_permissions=True)
 
+	_route(tenant, name)
+	return _as_said(name)
+
+
+def _route(tenant, name: str) -> None:
+	"""Route a name once DNS proves the customer meant it for this workspace
+	(hosts.proven). Until then it is Pending and Cloudflare is not told, so a
+	name somebody else's DNS points at never reaches this workspace's site."""
+	if not _proven(name, tenant.domain):
+		return
 	said = cloudflare.hostname_add(name)
 	cloudflare.host_route(name, tenant.site)
 	_keep(name, said)
-	return _as_said(name)
+
+
+def _proven(name: str, target: str) -> bool:
+	"""A TXT at `_one.<name>`, or the name's CNAME. A resolver that does not
+	answer proves nothing, and the nightly asks again."""
+	try:
+		return hosts.proven(cloudflare.answers(hosts.proof_name(name), "TXT"), target) or hosts.proven(
+			cloudflare.answers(name, "CNAME"), target
+		)
+	except faults.Again:
+		return False
 
 
 def drop(tenant, raw: str) -> dict:
@@ -107,10 +128,13 @@ def mine(tenant) -> list[dict]:
 
 
 def refresh(tenant) -> list[dict]:
-	"""Ask Cloudflare where each name has got to, and keep its answer."""
+	"""Ask Cloudflare where each name has got to, and keep its answer. One
+	not routed yet is looked up in DNS instead (_route)."""
 	for row in frappe.get_all("Tenant Domain", filters={"tenant": tenant.name}, fields=["domain", "cloudflare_id"]):
-		said = cloudflare.hostname(row.cloudflare_id) if row.cloudflare_id else cloudflare.hostname_find(row.domain)
-		_keep(row.domain, said)
+		if row.cloudflare_id:
+			_keep(row.domain, cloudflare.hostname(row.cloudflare_id))
+		else:
+			_route(tenant, row.domain)
 	return mine(frappe.get_doc("Tenant", tenant.name))
 
 

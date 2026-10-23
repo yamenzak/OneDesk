@@ -339,13 +339,15 @@ invoice. Rates are kept under **Home › Setup › Currency Exchange**.
 ## Printing invoices and statements
 
 **Print** on a sales invoice offers **One Sales Invoice** and its
-**Classic**, **Bordered** and **with Images** looks, **One Simplified Tax
-Invoice**, **One Detailed Tax Invoice** and **One Sales Voucher** (what was
-posted to which account). Each line shows its tax rate
+**Classic**, **Bordered** and **with Images** looks, **One Detailed Tax
+Invoice**, **One Sales Voucher** (what was posted to which account) and, in
+the UAE, **One Simplified Tax Invoice**. Each line shows its tax rate
 and tax, and the invoice names the company's bank account to pay into (the
-one ticked **Is Default Account**). For a VAT-registered company in the UAE
-it is headed **Tax Invoice**, or **Tax Credit Note** for a return, with the
-company's TRN. A bill, a payment (**One Payment Receipt**), a journal entry
+one ticked **Is Default Account**). It is headed **Invoice**, or **Credit
+Note** for a return. Where the law calls it a tax invoice (the UAE, Saudi
+Arabia, Bahrain, Oman, India, Australia, New Zealand, Kenya, South Africa and
+Singapore) and the company has a tax ID, it is headed **Tax Invoice**, or
+**Tax Credit Note**, with the tax ID. A bill, a payment (**One Payment Receipt**), a journal entry
 and a payment reminder print the same way.
 
 **Print** on a customer gives their **Statement of Account**: this fiscal
@@ -397,7 +399,7 @@ as you may see them and never posts, pays or changes anything in them.
 - **From OneHR**: Approved expense claims and payroll runs are posted to the books. The tax on expense claims counts in the Tax Return.
 - **From OneIntake**: A supplier's bill read from mail or a file becomes a draft bill, matched to its purchase order. A customer's payment advice becomes a draft payment, and a bank statement's lines are ready to match.
 - **To OneProject**: Invoices, bills and payments that name a project count in its Billed, Paid and Cost figures. A payment takes the project its invoices name.
-- **To OneCRM**: A customer's page shows what they owe, what is overdue, what was billed this year and their last invoice.
+- **To OneCRM**: A customer's page shows what they owe, what is overdue, what was billed this fiscal year and their last invoice.
 - **To OneInventory**: Suppliers are kept in OneBook. A supplier billed in another currency gets the purchase orders made from To Order in that currency. A supplier's **Items** tab is OneInventory's: what is bought from them, item by item.
 
 ## Under the hood
@@ -436,18 +438,20 @@ fails a small business on first use or leaves a question unanswered.
   Frappe Books' lists show what is still due beside the total; **Paid
   Amount** a column of the payments, in place of the two accounts; and
   **Posting Date** a column of the journal entries.
-- `one/print_blocks.py`, a UAE invoice — a VAT-registered company's sales
-  invoice prints as a **Tax Invoice** and a return as a **Tax Credit Note**,
-  each with the company's **TRN** under its number, as the FTA asks (its
-  Executive Regulation, Article 59). ERPNext heads every return "Credit Note"
+- `one/print_blocks.py`, a tax invoice — where the company's country calls
+  it one (`one/countries.py` `TAX_INVOICE`), a sales invoice of a company
+  with a tax ID prints as a **Tax Invoice** and a return as a **Tax Credit
+  Note**, each with the tax ID under its number (the **TRN** in the UAE, as
+  the FTA asks in its Executive Regulation, Article 59). ERPNext heads every return "Credit Note"
   by itself; that automatic heading gives way, and one somebody chose is
   kept. A tax line says its rate once ("VAT 5%", not "VAT 5% @ 5.0").
 - `print_format/one_sales_invoice` — the first format made only of the
   builder's own pieces: fields, ERPNext's tables, linked fields and static
   text, each shown or hidden by a condition, so a workspace changes any of it
   in the builder rather than in a template. The title reads Tax Invoice, Tax
-  Credit Note, Invoice or Credit Note by the company's TRN and the return
-  flag; the standing is a pill per status. What the builder could not reach
+  Credit Note, Invoice or Credit Note by `doc.flags.one_tax_invoice`, which
+  `paper.titled` sets before printing from the company's tax ID and country,
+  and the return flag; the standing is a pill per status. What the builder could not reach
   became fields on the record, filled on save by `paper.py`: each line's
   **Tax Rate**, **Tax Amount** and **Amount incl. Tax**, from ERPNext's own Item
   Wise Tax Detail (Article 59 asks for the tax per supply), and **Pay Into**,
@@ -469,7 +473,9 @@ fails a small business on first use or leaves a question unanswered.
   **Bordered**, the heading facts in ruled boxes and from whom and to whom
   side by side; **with Images**, each line led by its item's picture; **One
   Simplified Tax Invoice**, what the FTA asks of a simplified one (Article
-  60: the seller, its TRN, the date, what, and the total with its tax);
+  60: the seller, its TRN, the date, what, and the total with its tax),
+  offered only where a company is in the UAE (`one/countries.py` `ONLY_IN`,
+  `print_blocks.offered`);
   **One Detailed Tax Invoice**, with each tax and the amounts in the
   company's currency; and **One Sales Voucher** for ERPNext's auditing
   voucher, what was posted where, from the invoice's own lines and taxes,
@@ -683,7 +689,9 @@ of its own, and frappe's builder can't add one up. ERPNext's six
     number being entered twice unless told to.
   - **The year.** A date outside every fiscal year stops every document on
     it. ERPNext makes next year's three days before this one ends, when the
-    scheduler runs; the check catches a site where it did not.
+    scheduler runs; the check catches a site where it did not. Its fix
+    follows the last year, or, where there is none, begins when the
+    country's does, as ERPNext's setup wizard proposes it (`ready.begins`).
   - **Reminding a late customer.** The Payment Reminder (`paid.py`) is
     shipped off, since it writes to customers; the fix turns it on.
   - **The UAE's VAT** (`vat.py`): the VAT accounts the return reads, the TRN

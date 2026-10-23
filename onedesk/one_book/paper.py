@@ -1,10 +1,10 @@
 """What a printed invoice says that ERPNext keeps nowhere a print format can
-read it from: each line's VAT, and the account the customer pays into.
+read it from: each line's VAT, the account the customer pays into, and whether
+it is a tax invoice.
 
-ERPNext works out each line's tax (Item Wise Tax Detail) but keeps it in a
-table of its own, by row id, which frappe's print format builder cannot join
-to the lines. Written onto each line as it is saved, it is three fields the
-builder places like any other.
+ERPNext keeps each line's tax (Item Wise Tax Detail) in a table of its own,
+which frappe's print format builder cannot join to the lines. Written onto
+each line as it is saved, it is three fields the builder places like any other.
 """
 
 import re
@@ -40,6 +40,15 @@ def pay_into(doc, method=None) -> None:
 		"name",
 		order_by="is_default desc, creation asc",
 	)
+
+
+def titled(doc, *_args) -> None:
+	"""before_print: whether the invoice prints as a tax invoice, which it does
+	carrying the company's tax number where the law calls it one
+	(one/countries.py). The print formats read `doc.flags.one_tax_invoice`."""
+	from onedesk.one import countries
+
+	doc.flags.one_tax_invoice = bool(doc.get("company_tax_id")) and countries.tax_invoice(doc.get("company"))
 
 
 DIRHAM = ("د.إ", "AED")

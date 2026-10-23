@@ -67,6 +67,11 @@ def boot_session(bootinfo) -> None:
 
 	bootinfo["one_heads_live"] = head.live()
 
+	if not frappe.is_setup_complete():
+		from onedesk.one import setup_wizard
+
+		bootinfo["one_weekends"] = setup_wizard.weekends()
+
 	from onedesk.one_admin import site as admin
 
 	if admin.is_admin():

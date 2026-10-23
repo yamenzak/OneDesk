@@ -176,6 +176,7 @@ scheduler_events = {
 		"onedesk.one_project.billing.bills_due",
 		"onedesk.one_intake.steps.daily",
 		"onedesk.one.holidays.daily",
+		"onedesk.one_hr.periods.daily",
 		"onedesk.one_mail.faces.again",
 		"onedesk.one_storage.api.purge_old",
 		"onedesk.one_storage.file_requests.remind_due",
@@ -259,6 +260,7 @@ doc_events = {
 			"onedesk.one.letter_heads.redraw",
 			"onedesk.one_mail.faces.dress_later",
 			"onedesk.one_hr.papers.company_saved",
+			"onedesk.one.print_blocks.offered",
 		],
 	},
 	"Address": {"on_update": "onedesk.one.letter_heads.redraw"},
@@ -313,6 +315,7 @@ doc_events = {
 	"Bank Account": {"on_update": "onedesk.one_book.ready.wired"},
 	"Sales Invoice": {
 		"on_recurring": "onedesk.one_book.repeat.repeated",
+		"before_print": "onedesk.one_book.paper.titled",
 		"on_submit": "onedesk.one_project.claims.numbered",
 		"before_insert": ["onedesk.one_project.chain.customers_one", "onedesk.one_project.terms.carried"],
 		"after_insert": "onedesk.one_project.progress.drafted",
@@ -678,6 +681,7 @@ doc_events = {
 }
 
 override_whitelisted_methods = {
+	"frappe.desk.page.setup_wizard.setup_wizard.setup_complete": "onedesk.one.setup_wizard.setup_complete",
 	"erpnext.stock.doctype.material_request.material_request.update_status": "onedesk.one_inventory.tell.update_status",
 	"frappe.desk.form.load.getdoc": "onedesk.one_mail.linking.getdoc",
 	"frappe.desk.form.load.get_docinfo": "onedesk.one_mail.linking.get_docinfo",
@@ -1054,7 +1058,7 @@ one_makes_records = {
 	"Lead": ["one_admin", "one_crm"],
 	"Leave Application": ["one_hr"],
 	"Leave Encashment": ["one_hr"],
-	"Leave Period": ["one"],
+	"Leave Period": ["one_hr"],
 	"Location": ["one_inventory"],
 	"Material Request": ["one_inventory"],
 	"Mode of Payment": ["one_admin"],
@@ -1065,7 +1069,7 @@ one_makes_records = {
 	"Payment Term": ["one_project"],
 	"Payment Terms Template": ["one_project"],
 	"Payroll Entry": ["one_hr"],
-	"Payroll Period": ["one"],
+	"Payroll Period": ["one_hr"],
 	"Period Closing Voucher": ["one_book"],
 	"Project": ["one_project"],
 	"Project Template": ["one_project"],

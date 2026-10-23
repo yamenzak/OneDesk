@@ -11,6 +11,7 @@ from onedesk.one_admin import site
 
 SAID = {
 	"owed": _lt("A payment failed"),
+	"cancelled": _lt("Its subscription was cancelled in Stripe"),
 	"paid": _lt("Paid"),
 	"clock": _lt("Grace period ended"),
 	"by_hand": _lt("Set by an operator"),

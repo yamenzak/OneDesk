@@ -80,16 +80,17 @@ def before(end: date, number: int, unit: str) -> date:
 	return date(year, month, min(end.day, calendar.monthrange(year, month)[1]))
 
 
-def working(day: date, holidays: set) -> tuple[date, bool]:
-	"""The day itself, or the next working day when it falls on a weekend or
-	a holiday (§ 193 BGB), and whether it moved."""
+def working(day: date, holidays: set, weekend=(5, 6)) -> tuple[date, bool]:
+	"""The day itself, or the next working day when it falls on a weekend
+	(`weekend`, the country's days of rest as weekday numbers) or a holiday
+	(§ 193 BGB), and whether it moved."""
 	moved = False
-	while day.weekday() >= 5 or day in holidays:
+	while day.weekday() in weekend or day in holidays:
 		day, moved = day + timedelta(days=1), True
 	return day, moved
 
 
-def count(about: str | None, posted: date | None, kind: str | None, country: str | None, holidays: set, arrived: date | None = None) -> dict | None:
+def count(about: str | None, posted: date | None, kind: str | None, country: str | None, holidays: set, arrived: date | None = None, weekend=(5, 6)) -> dict | None:
 	"""A deadline written as a period, counted: the date, the day it was
 	counted from, and what the rule is made of, which the caller says in
 	words a person can check."""
@@ -100,5 +101,5 @@ def count(about: str | None, posted: date | None, kind: str | None, country: str
 	number, unit = found
 	origin, posted_rule = received(start, kind, country, arrived)
 	end = add(origin, number, unit)
-	end, moved = working(end, holidays)
+	end, moved = working(end, holidays, weekend)
 	return {"date": end, "counted_from": origin, "number": number, "unit": unit, "posted": posted_rule, "moved": moved}

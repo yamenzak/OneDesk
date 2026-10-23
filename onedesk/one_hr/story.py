@@ -11,6 +11,7 @@ from datetime import date
 import frappe
 from frappe.utils import add_days, add_months, flt, get_first_day, get_last_day, getdate, today
 
+from onedesk.one_book import closing
 from onedesk.one_hr.home import is_hr
 
 MONTHS = 12
@@ -195,8 +196,21 @@ def _attendance(company) -> list[dict]:
 	]
 
 
+def _leave_year(company) -> date:
+	"""The first day of the leave period today is in: the active Leave Period,
+	or the fiscal year where there is none."""
+	found = frappe.get_all(
+		"Leave Period",
+		filters={"company": company, "is_active": 1, "from_date": ["<=", today()], "to_date": [">=", today()]},
+		pluck="from_date",
+		order_by="from_date desc",
+		limit=1,
+	)
+	return getdate(found[0]) if found else closing.year_began(company=company)
+
+
 def _leave(company) -> list[dict]:
-	"""This year's approved leave, in days, kind by kind."""
+	"""This leave period's approved leave, in days, kind by kind."""
 	if not _may("Leave Application"):
 		return []
 	taken = Counter()
@@ -206,7 +220,7 @@ def _leave(company) -> list[dict]:
 			"company": company,
 			"status": "Approved",
 			"docstatus": 1,
-			"from_date": [">=", f"{getdate(today()).year}-01-01"],
+			"from_date": [">=", _leave_year(company)],
 		},
 		fields=["leave_type", "total_leave_days"],
 		limit_page_length=0,
@@ -232,7 +246,7 @@ def _payroll(company, months) -> list[dict]:
 
 
 def _expenses(company) -> list[dict]:
-	"""This year's claims, by what they were for."""
+	"""This fiscal year's claims, by what they were for."""
 	if not _may("Expense Claim"):
 		return []
 	spent = Counter()
@@ -241,7 +255,7 @@ def _expenses(company) -> list[dict]:
 		filters={
 			"company": company,
 			"docstatus": 1,
-			"posting_date": [">=", f"{getdate(today()).year}-01-01"],
+			"posting_date": [">=", closing.year_began(company=company)],
 		},
 		pluck="name",
 		limit_page_length=0,

@@ -75,6 +75,22 @@ def test_a_missing_fiscal_year_follows_the_last_and_covers_today():
 	assert covering(date(2025, 12, 31), date(2026, 9, 23)) == (date(2026, 1, 1), date(2026, 12, 31))
 	assert covering(date(2025, 3, 31), date(2026, 9, 23)) == (date(2026, 4, 1), date(2027, 3, 31))
 	assert covering(date(2023, 12, 31), date(2026, 9, 23)) == (date(2026, 1, 1), date(2026, 12, 31))
+	assert covering(None, date(2026, 9, 23), (4, 1)) == (date(2026, 4, 1), date(2027, 3, 31))
+	assert covering(None, date(2026, 2, 23), (4, 1)) == (date(2025, 4, 1), date(2026, 3, 31))
+
+
+def test_a_first_fiscal_year_begins_when_the_countrys_does():
+	"""As ERPNext's setup wizard proposes it, read from its own map."""
+	import re
+
+	begins = _load(READY, ("begins",), re=re)["begins"]
+	wizard = 'erpnext.setup.fiscal_years = {\n\tAustralia: ["07-01", "06-30"],\n\t"New Zealand": ["04-01", "03-31"],\n};'
+	assert begins(wizard, "Australia") == (7, 1)
+	assert begins(wizard, "New Zealand") == (4, 1)
+	assert begins(wizard, "Germany") == (1, 1)
+	theirs = Path("/home/frappe/bench1/apps/erpnext/erpnext/public/js/setup_wizard.js")
+	if theirs.exists():
+		assert begins(theirs.read_text(encoding="utf-8"), "India") == (4, 1)
 
 
 def test_a_company_bank_account_wires_the_bank_modes_of_payment():
@@ -235,3 +251,17 @@ def test_a_tax_line_says_its_rate_once():
 	assert tax_label("VAT 5% @ 5.0", 5) == "VAT 5%"
 	assert tax_label("VAT @ 5.0", 5) == "VAT @ 5%"
 	assert tax_label("Customs Duty", 0) == "Customs Duty"
+
+
+def test_an_invoice_is_a_tax_invoice_only_where_the_law_calls_it_one():
+	"""Not wherever the company has a tax ID: by its country (one/countries.py),
+	which paper.titled tells the builder's formats before printing."""
+	assert '"before_print": "onedesk.one_book.paper.titled"' in HOOKS
+	assert '"onedesk.one.print_blocks.offered"' in HOOKS, "a company saved in the UAE is offered its simplified invoice"
+	countries = (tree.APP / "one" / "countries.py").read_text(encoding="utf-8")
+	listed = countries.split("TAX_INVOICE = (", 1)[1].split(")", 1)[0]
+	assert '"United Arab Emirates"' in listed and '"Germany"' not in listed and '"United States"' not in listed
+	assert '"One Simplified Tax Invoice": "United Arab Emirates"' in countries
+	for name in ("one_sales_invoice", "one_sales_invoice_classic", "one_sales_invoice_bordered", "one_sales_invoice_with_images", "one_detailed_tax_invoice"):
+		shown = json.loads((BOOK / "print_format" / name / f"{name}.json").read_text())["format_data"]
+		assert "doc.flags.one_tax_invoice and not doc.is_return" in shown and "doc.company_tax_id and" not in shown, name

@@ -48,7 +48,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | home (`frontend/src/home/InventoryHome.vue`) | Asset, Asset Maintenance, Asset Maintenance Log, Bin, Item, Job Card, Material Request, Purchase Order, Purchase Receipt, Stock Entry, Stock Ledger Entry, Warehouse, Work Order | – | – | – |
 | books (`frontend/src/home/BooksHome.vue`) | Account, Bank Transaction, GL Entry, Payment Schedule | – | – | – |
 | crm (`frontend/src/home/CrmHome.vue`) | Lead, Opportunity, Opportunity Lost Reason Detail, Quotation | – | – | – |
-| hr (`frontend/src/home/HrHome.vue`) | Attendance, Clock Attempt, Employee, Employee Checkin, Employee Document, Expense Claim, Expense Claim Detail, Interview, Interview Detail, Job Applicant, Job Offer, Job Opening, Leave Allocation, Leave Application, Salary Slip | – | – | – |
+| hr (`frontend/src/home/HrHome.vue`) | Attendance, Clock Attempt, Employee, Employee Checkin, Employee Document, Expense Claim, Expense Claim Detail, Interview, Interview Detail, Job Applicant, Job Offer, Job Opening, Leave Allocation, Leave Application, Leave Period, Salary Slip | – | – | – |
 | lots (`frontend/src/lots/LotsPage.vue`) | Batch, Item, Serial No | – | – | – |
 | to_order (`frontend/src/to_order/ToOrderPage.vue`) | Bin, Item, Item Reorder, Material Request, Material Request Item, Project, Purchase Order, Purchase Order Item, Supplier, UOM, Warehouse | – | – | – |
 | supplier_items (`frontend/src/supplier/SupplierItems.vue`) | Blanket Order, Item, Item Default, Item Supplier, Purchase Order, Supplier Quotation, UOM | – | – | – |
@@ -609,7 +609,7 @@ Reports: Audit System Hooks (the platform's: the site's own workings, which the 
 | Dashboard | on a rail or a home | everybody | events, form script | no | taught |  | yes |  |  |  |  |
 | Dashboard Chart | through a form's link (Workspace: chart_name) | everybody | events | no | taught |  | yes |  |  |  |  |
 | Dashboard Chart Source | through a form's link (Dashboard Chart: source) | the administrator | untouched | no | general |  | yes |  |  |  |  |
-| Dashboard Settings | engine: a person's own dashboard charts, kept from the dashboard | everybody | untouched | no | general |  | **none** |  |  |  |  |
+| Dashboard Settings | engine: a person's own dashboard charts, kept from the dashboard | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Desktop Icon | replaced: One's dock | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | Desktop Layout | replaced: One's dock | everybody | untouched | no | general |  | **none** |  |  | ar 1 |  |
 | Desktop Settings | replaced: One's dock | **nobody** | untouched | no | general |  |  |  |  | ar 1, de 1 |  |
@@ -941,8 +941,8 @@ Pages: onecalendar (on a rail or a home).
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Writer Document | engine: a document's content, behind its File in OneCloud; it opens on the document page | not read | untouched | yes | general |  | **none** |  |  |  |  |
-| Writer Document Version | engine: what a document said at a moment, listed and restored from its history panel | not read | untouched | yes | general |  | **none** |  |  |  |  |
+| Writer Document | engine: a document's content, behind its File in OneCloud; it opens on the document page | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
+| Writer Document Version | engine: what a document said at a moment, listed and restored from its history panel | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
 
 Pages: document (opened by our screens).
 

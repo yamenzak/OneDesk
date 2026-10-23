@@ -2394,7 +2394,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			) +
 				(target
 					? onedesk.shell.section(
-							__("DNS Record"),
+							__("DNS Records"),
 							Settings.dns_records(waiting.length ? waiting : [null], target) + Settings.dns_note(waiting),
 							waiting.length ? __("Takes effect a few minutes after it's added.") : ""
 					  )
@@ -2459,14 +2459,13 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const esc = frappe.utils.escape_html;
 		const copy = (value) =>
 			`<button type="button" class="os-dns-copy" data-copy="${esc(value)}" title="${esc(__("Copy"))}" aria-label="${esc(__("Copy"))}">${frappe.utils.icon("copy", "sm")}</button>`;
-		const rows = names
-			.map(
-				(name) => `<tr>
-					<td><span class="os-dns-value">CNAME</span></td>
-					<td>${name ? `<span class="os-dns-value">${esc(name)}</span>${copy(name)}` : `<span class="text-muted">${esc(__("Your domain, such as office.example.com"))}</span>`}</td>
+		const row = (kind, name, placeholder) => `<tr>
+					<td><span class="os-dns-value">${kind}</span></td>
+					<td>${name ? `<span class="os-dns-value">${esc(name)}</span>${copy(name)}` : `<span class="text-muted">${esc(placeholder)}</span>`}</td>
 					<td><span class="os-dns-value">${esc(target)}</span>${copy(target)}</td>
-				</tr>`
-			)
+				</tr>`;
+		const rows = names
+			.map((name) => row("CNAME", name, __("Your domain, such as office.example.com")) + (name ? row("TXT", `_one.${name}`) : ""))
 			.join("");
 		return `<table class="os-dns"><thead><tr><th>${esc(__("Type"))}</th><th>${esc(__("Name"))}</th><th>${esc(__("Value"))}</th></tr></thead><tbody>${rows}</tbody></table>`;
 	}
@@ -2504,7 +2503,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const draw = () => {
 			const name = (dialog.get_value("domain") || "").trim().toLowerCase() || null;
 			dialog.fields_dict.record.$wrapper.html(
-				`<div class="one-shell-quiet os-dns-lead">${frappe.utils.escape_html(__("Add this record at your DNS provider."))}</div>${Settings.dns_records(
+				`<div class="one-shell-quiet os-dns-lead">${frappe.utils.escape_html(__("Add these records at your DNS provider."))}</div>${Settings.dns_records(
 					[name],
 					target
 				)}${Settings.dns_note([name])}`

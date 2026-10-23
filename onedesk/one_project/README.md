@@ -1453,14 +1453,14 @@ Using it again uses your copy. Every task in it has its hours, the work it
 usually takes, so a project started from it shows its load on **Workload**
 from the first day.
 
+- **New Client Onboarding**, **Marketing Campaign**, **Event**, **Office
+  Move**, **Website**, **Mobile App**, **ERP Rollout** and **Year-End Audit**,
+  first, since they suit any business.
+- **Architectural Design Stages**, **Interior Fit-Out** and **Small Building
+  Works**.
 - **Aluminium & Glazing**: five phases, from contract review and approvals,
   through ordering, fabrication and installation, to testing, handover and
   the final account. Twenty-five tasks, and each phase ends in a milestone.
-- **Interior Fit-Out**, **Small Building Works** and **Architectural Design
-  Stages**.
-- **Website**, **Mobile App**, **Marketing Campaign** and **ERP Rollout**.
-- **Office Move**, **Event**, **New Client Onboarding** and **Year-End
-  Audit**.
 
 Each preset also brings its payment terms and terms and conditions, such as
 **Net 30** and **Construction Works** for Aluminium & Glazing. The building

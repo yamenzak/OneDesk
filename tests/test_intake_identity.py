@@ -36,6 +36,7 @@ def test_phones_have_their_country():
 	assert ids.phone("0049 221 123456") == "+49221123456"
 	assert ids.phone("050 123 4567", "AE") == "+971501234567"
 	assert ids.phone("call me") is None
+	assert ids.phone("0221 123456") is None, "a national number is read only in the country it is in"
 
 
 def test_emails_domains_and_websites():
@@ -65,7 +66,8 @@ def test_found_reads_a_records_values_into_canonical_pairs():
 			(ids.PHONE, "0221 123456"),
 			(ids.IBAN, "wrong"),
 			(ids.EMAIL, "someone@gmail.com"),
-		]
+		],
+		"DE",
 	)
 	assert said == [
 		(ids.VAT, "DE123456789"),

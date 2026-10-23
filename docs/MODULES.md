@@ -366,6 +366,7 @@ No doctypes yet.
 * `onedesk.one.settings.set_enabled`
 * `onedesk.one.settings.sign_out_elsewhere`
 * `onedesk.one.settings.sign_out_everywhere`
+* `onedesk.one.setup_wizard.setup_complete`
 * `onedesk.one.signin.sign_out`
 * `onedesk.one.signin.update_password`
 * `onedesk.one.start_again.start`

@@ -39,6 +39,14 @@ def test_a_weekend_or_holiday_moves_it_to_the_next_working_day():
 	assert deadlines.working(date(2026, 10, 3), set()) == (date(2026, 10, 5), True), "a Saturday is Monday"
 
 
+def test_the_weekend_is_the_countrys():
+	friday = date(2026, 10, 2)
+	assert deadlines.working(friday, set(), (4, 5)) == (date(2026, 10, 4), True), "a Friday is Sunday where Friday rests"
+	assert deadlines.working(date(2026, 10, 4), set(), (4, 5)) == (date(2026, 10, 4), False)
+	said = deadlines.count("within 14 days", date(2026, 9, 18), "Letter", "SA", set(), weekend=(4, 5))
+	assert said["date"] == date(2026, 10, 4) and said["moved"]
+
+
 def test_notice_is_counted_back_from_the_end():
 	assert deadlines.before(date(2026, 12, 31), 3, "months") == date(2026, 9, 30)
 	assert deadlines.before(date(2027, 3, 31), 1, "months") == date(2027, 2, 28)

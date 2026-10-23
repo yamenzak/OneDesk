@@ -352,7 +352,7 @@ def counted(reading, said: dict) -> list[dict]:
 			continue
 		posted = getdate(said.get("issued")) if said.get("issued") else None
 		arrived = getdate(reading.creation) if reading.creation else None
-		result = deadlines.count(one.get("about"), posted, said.get("kind"), identity.country(), _holidays(), arrived)
+		result = deadlines.count(one.get("about"), posted, said.get("kind"), identity.country(), _holidays(), arrived, _weekend())
 		if result:
 			out.append({"date": result["date"], "what": one.get("what") if one.get("what") in DATES else "Deadline", "about": (one.get("about") or "")[:140], "found": 0, "counted_from": result["counted_from"], "rule": rule(result)[:140]})
 	return out
@@ -387,6 +387,17 @@ def _holidays() -> set:
 	from onedesk.one import holidays
 
 	return holidays.all_dates()
+
+
+def _weekend() -> tuple:
+	"""The weekdays the company's country rests, from the holidays package;
+	its own Saturday and Sunday where it has no calendar for the country."""
+	from holidays import country_holidays
+
+	try:
+		return tuple(sorted(country_holidays(identity.country()).weekend))
+	except NotImplementedError:
+		return (5, 6)
 
 
 def learned(shop: str | None, text: str | None) -> str | None:

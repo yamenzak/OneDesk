@@ -2,6 +2,9 @@
 row of the Books Check, with the fix beside it.
 """
 
+import re
+from pathlib import Path
+
 import frappe
 from frappe import _
 from frappe.utils import add_days, add_years, flt, getdate, nowdate
@@ -105,6 +108,8 @@ def _bank_modes(one) -> dict:
 
 def _tax(one, doctype: str, key: str, check: str) -> dict:
 	templates = frappe.get_all(doctype, filters={"company": one.name, "disabled": 0}, fields=["name", "is_default"])
+	if not templates and one.tax_id:
+		return _row(key, check, TO_DO, _("The company has a tax ID but no tax template, so nothing is charged. Add one."))
 	if not templates:
 		return _row(key, check, READY, _("No tax templates, so nothing is charged. Add one if you charge tax."))
 	default = next((template.name for template in templates if template.is_default), None)
@@ -299,9 +304,12 @@ def fix(key: str, **values) -> None:
 
 
 def add_year(company_name: str) -> str:
-	"""A fiscal year covering today, as long as a year and following the last."""
+	"""A fiscal year covering today, as long as a year and following the last;
+	the first begins when the company's country's does."""
 	last = frappe.get_all("Fiscal Year", fields=["year_end_date"], order_by="year_end_date desc", limit=1)
-	starts, ends = covering(last[0].year_end_date if last else None, getdate(nowdate()))
+	wizard = Path(frappe.get_app_path("erpnext", "public", "js", "setup_wizard.js")).read_text(encoding="utf-8")
+	country = frappe.get_cached_value("Company", company_name, "country")
+	starts, ends = covering(last[0].year_end_date if last else None, getdate(nowdate()), begins(wizard, country))
 	year = frappe.get_doc(
 		{
 			"doctype": "Fiscal Year",
@@ -314,11 +322,25 @@ def add_year(company_name: str) -> str:
 	return year.name
 
 
-def covering(last_ends, today):
+def begins(wizard: str, country: str | None) -> tuple[int, int]:
+	"""The month and day a fiscal year begins in the country, as ERPNext's setup
+	wizard proposes it (`erpnext.setup.fiscal_years`); 1 January where it
+	names none. Pure."""
+	years = wizard.partition("erpnext.setup.fiscal_years = {")[2].partition("};")[0]
+	for name, month, day in re.findall(r'^\s*"?([^":\n]+?)"?: \["(\d\d)-(\d\d)"', years, re.M):
+		if name == country:
+			return int(month), int(day)
+	return 1, 1
+
+
+def covering(last_ends, today, start=(1, 1)):
 	"""The first and last day of the fiscal year after `last_ends` that holds
-	`today`; the calendar year when there has been none. Pure."""
+	`today`; when there has been none, the one that begins on `start` (month,
+	day) and holds `today`. Pure."""
 	if not last_ends:
-		starts = today.replace(month=1, day=1)
+		starts = today.replace(month=start[0], day=start[1])
+		if starts > today:
+			starts = starts.replace(year=starts.year - 1)
 	else:
 		starts = add_days(getdate(last_ends), 1)
 		while add_days(add_years(starts, 1), -1) < today:

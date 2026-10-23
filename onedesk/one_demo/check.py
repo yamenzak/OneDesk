@@ -2557,6 +2557,27 @@ def oneintake_layla_works_through_what_oneai_read():
 
 
 @check
+def the_owner_runs_the_setup_wizard():
+	"""The wizard opens to whoever administers the workspace, asking again once
+	it is done changes nothing, and this year's leave and payroll periods
+	cover today (one/setup_wizard.py, one_hr/periods.py)."""
+	from frappe.desk import desk_page
+
+	from onedesk.one import roles, setup_wizard
+
+	owner = roles.administrators()[0]
+	frappe.set_user(owner)
+	try:
+		assert desk_page.get("setup-wizard"), "the wizard does not open for the workspace's administrator"
+		assert setup_wizard.setup_complete("{}") == {"status": "ok"}
+	finally:
+		frappe.set_user("Administrator")
+	day = frappe.utils.today()
+	assert frappe.db.exists("Leave Period", {"from_date": ("<=", day), "to_date": (">=", day)}), "no leave year today"
+	assert frappe.db.exists("Payroll Period", {"start_date": ("<=", day), "end_date": (">=", day)}), "no payroll year today"
+
+
+@check
 def oneai_is_told_what_every_place_shows():
 	"""Every entry on every space's rail and every desk page tells OneAI more
 	than its title: a report its filters, a dashboard its charts, a home what it
@@ -5900,7 +5921,7 @@ def a_record_table_opens_as_a_workbook():
 			book = table.open_table("Quotation", quote, "items")
 			assert table.open_table("Quotation", quote, "items") == book, "one table, one workbook"
 			opened = api.get_sheet(book)
-			assert opened["table"] == {"sheet": "Items", "doctype": "Quotation", "name": quote, "field": "items"}, opened["table"]
+			assert opened["table"] == {"sheet": "Items", "doctype": "Quotation", "name": quote, "field": "items", "label": "Items"}, opened["table"]
 			assert json.loads(opened["sheets_data"])["view"]["Items"]["hiddenCols"] == [0]
 			rows = lines(book)
 			head = rows[0]

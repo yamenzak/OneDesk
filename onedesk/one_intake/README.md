@@ -326,8 +326,9 @@ by the legal rules, never the model.
   after posting (§ 122 AO).
 - A month ends on the same day of the later month, or its last day (§ 188
   BGB).
-- A deadline on a weekend or a public holiday in the workspace's Holiday List
-  moves to the next working day (§ 193 BGB).
+- A deadline on a weekend (the company's country's: Friday and Saturday in
+  Saudi Arabia, Saturday and Sunday in Germany) or a public holiday in the
+  workspace's Holiday List moves to the next working day (§ 193 BGB).
 
 Each calculated date shows the start date and the rule used, so anyone can
 check it.
@@ -360,8 +361,8 @@ For a contract with a cancellation date, **Write Cancellation** drafts a
 letter that must arrive by that date.
 
 **Pay** appears on a bill paid by transfer. It shows the payee, IBAN, amount
-and reference, each copied with a click, and a GiroCode that any European
-banking app can scan. Nothing is paid from One. If the supplier's bank
+and reference, each copied with a click, and, for a bill in euros, a GiroCode
+that any European banking app can scan. Nothing is paid from One. If the supplier's bank
 accounts are on file and the bill's IBAN isn't one of them, there's no code,
 only a red warning to confirm the IBAN on a number you already know.
 
@@ -928,9 +929,9 @@ books and has no keeping periods, and neither has a country not listed here.
 ### pay.py
 
 A bill that asks to be paid by transfer shows, in the Intake panel, whom to
-pay, the IBAN, the amount and the reference, each ready to copy, and a
-GiroCode: the EPC QR code every European banking app scans into a filled-in
-transfer. Nothing is paid from here; the bank does that, as the person.
+pay, the IBAN, the amount and the reference, each ready to copy, and, when
+the currency read off the bill is the euro, a GiroCode: the EPC QR code every
+European banking app scans into a filled-in transfer. Nothing is paid from here; the bank does that, as the person.
 
 **A changed IBAN stops it.** When the payee is a supplier we already hold bank
 accounts for and the document's IBAN is none of them, there is no code, and
@@ -1482,7 +1483,8 @@ and One counts it the way the law does (`deadlines.py`):
   number, or the month's last day when there is none (§ 188 BGB): 31 January
   plus one month is 28 February;
 - a deadline on a weekend or a public holiday moves to the next working day
-  (§ 193 BGB), by the workspace's Holiday List;
+  (§ 193 BGB): the weekend is the company's country's, from the `holidays`
+  package, and the holidays the workspace's Holiday List;
 - the date it was counted from and the rule used are kept beside it, so a
   person can check.
 

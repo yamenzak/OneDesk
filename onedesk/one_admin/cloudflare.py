@@ -14,6 +14,8 @@ from onedesk.one_admin import faults
 
 API = "https://api.cloudflare.com/client/v4"
 
+RESOLVER = "https://cloudflare-dns.com/dns-query"
+
 TIMEOUT = 15
 
 
@@ -108,6 +110,18 @@ def hostname(ident: str) -> dict | None:
 
 def hostname_drop(ident: str) -> None:
 	_zone("DELETE", f"custom_hostnames/{ident}", missing_ok=True)
+
+
+def answers(name: str, kind: str) -> list[dict]:
+	"""What public DNS answers for a name, from Cloudflare's resolver over
+	HTTPS: no library, and the view a browser gets (domains._proven)."""
+	try:
+		said = requests.get(
+			RESOLVER, params={"name": name, "type": kind}, headers={"accept": "application/dns-json"}, timeout=TIMEOUT
+		)
+		return said.json().get("Answer") or []
+	except (requests.RequestException, ValueError) as reason:
+		raise faults.Again(f"DNS did not answer: {reason}") from reason
 
 
 def _zone(method: str, path: str, json: dict | None = None, params: dict | None = None, missing_ok: bool = False):

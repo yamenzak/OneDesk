@@ -3025,6 +3025,12 @@
 ],
 "Workstation Type": [
 "Manufacturing User"
+],
+"Writer Document": [
+"System Manager"
+],
+"Writer Document Version": [
+"System Manager"
 ]
 },
 "kept": [
@@ -3114,6 +3120,7 @@
 "Dashboard",
 "Dashboard Chart",
 "Dashboard Chart Source",
+"Dashboard Settings",
 "Deleted Document",
 "Delivery Note",
 "Delivery Trip",
@@ -3411,7 +3418,9 @@
 "Workflow State",
 "Workspace",
 "Workstation",
-"Workstation Operating Component"
+"Workstation Operating Component",
+"Writer Document",
+"Writer Document Version"
 ],
 "pages": {
 "backups": [
@@ -3432,6 +3441,9 @@
 "dashboard-view": [],
 "desktop": [
 "All"
+],
+"document": [
+"Desk User"
 ],
 "floor": [
 "Manufacturing Manager",
@@ -3565,7 +3577,8 @@
 "Desk User"
 ],
 "setup-wizard": [
-"System Manager"
+"System Manager",
+"Workspace Administrator"
 ],
 "shop-floor": [
 "Manufacturing Manager",

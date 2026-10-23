@@ -206,12 +206,12 @@ Then its views, each only where the item has it:
   the row, and **Set Reorder Level** gives a warehouse one. Each row's menu
   has **Transfer Stock**, which asks where to and how many, and **Count
   Stock**, which starts the count with the item and that warehouse filled in. Then its batches, and its last moves in
-  plain words ("Moved 120 from Stores to Mansour Villa Site", "Used 80 on
-  Mansour Villa Windows and Doors"), each with who made it. A move from one
+  plain words ("Moved 120 from Stores to Branch Store", "Used 80 on
+  Head Office Move"), each with who made it. A move from one
   warehouse to another is one row.
 - **Buying**: who it is bought from, each with their picture, the last
   price ordered and the one before it in their own currency (with the
-  dirhams under it when it is another), what they agreed for the year and
+  company's currency under it when it is another), what they agreed for the year and
   their part number, changed on the row. **Add Supplier** puts one on the
   item's list, and each supplier's menu has **Order from Them**, **Request
   for Quotation** and **Make Default**. Then the quotes still open, the cheapest
@@ -229,7 +229,7 @@ Then its views, each only where the item has it:
   orders soonest due first, so a row says **Can Go Now** or how many it is
   short. Each order's menu has **Deliver**, and **Invoice** while some of it
   is not billed yet. Then the quotes still open, in the customer's own
-  currency with the dirhams under it, and until when (red within a week),
+  currency with the company's currency under it, and until when (red within a week),
   with **Make Order** for a customer's quote. Then who bought it in the last
   twelve months with returns taken off, each with their picture, what they
   paid in their own currency, their last price and their own code for the
@@ -400,8 +400,8 @@ Order** starts one with them.
    answers and the orders made from it, until when it holds, and its total
    in its own money, with **All**, **To Decide**, **Draft** and **Expiring**
    above it. **Comparison** sets one request's quotes side by side: each
-   supplier's rate on each line, in their own money and in dirhams for one
-   in another money, with the cheapest live rate marked **Cheapest** and a
+   supplier's rate on each line, in their own money and in the company's
+   currency for one in another money, with the cheapest live rate marked **Cheapest** and a
    line ordered already said as ordered. Under each supplier, **Add
    Supplier Quotation** types in the quote of a supplier who answered by
    mail, **Check Supplier Quotation** opens one still a draft, and

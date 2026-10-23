@@ -62,3 +62,13 @@ def test_the_mail_worker_refuses_what_is_not_ours_and_stores_before_telling():
 	assert js.index("await bucket.put(") < js.index("ctx.waitUntil(")
 	assert "`${at}.${notice}`" in js, "the signature covers the notice's exact bytes"
 	assert "bare.lastIndexOf(\".\")" in js, "the slug is after the last dot"
+
+
+def test_the_workspace_certificate_is_ordered_once():
+	"""`*.t.4dl.app` is two labels down, which the zone's free certificate does
+	not cover. A pack that names both hosts, issued or pending, is kept."""
+	certificate = _method("certificate")
+	assert certificate.index("certificate_packs'") < certificate.index("certificate_packs/order")
+	assert "'status': 'all'" in certificate and "wanted <= set(" in certificate
+	assert "'type': 'advanced'" in certificate and "f'*.{domain}'" in certificate
+	assert "self.certificate," in SOURCE

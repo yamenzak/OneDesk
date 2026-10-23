@@ -173,3 +173,58 @@ def test_a_trialling_customer_is_never_told_a_payment_landed():
 	assert claims, "SAYS no longer says this, so this guard is reading the wrong thing"
 	assert claims <= set(on_trial), f"{claims - set(on_trial)} would tell a trial it paid"
 	assert not any("Payment received" in said for said in on_trial.values())
+
+
+def _webhook() -> str:
+	source = STRIPE.read_text(encoding="utf-8")
+	return source[source.index("def webhook("):source.index("def _book(")]
+
+
+def test_a_signup_that_could_not_be_built_is_kept_and_answered():
+	"""Raising rolled back the Failed status, the notice and the error, and
+	Stripe redelivered into the same failure."""
+	webhook = _webhook()
+	caught = webhook[webhook.index("except signup.NotBuilt"):webhook.index("except Exception as raised:\n\t\tseen.db_set({\"error\"")]
+	assert 'return {"failed": request}' in caught and "\traise\n" not in caught
+	accept = SIGNUP.read_text(encoding="utf-8")
+	assert "raise NotBuilt(str(raised)) from raised" in accept
+	assert "class NotBuilt(frappe.ValidationError)" in accept
+
+
+def test_a_checkout_naming_no_request_we_have_is_ignored():
+	webhook = _webhook()
+	assert webhook.index('frappe.db.exists("Account Request", request)') < webhook.index("signup.accept(")
+
+
+def test_a_cancelled_subscription_moves_the_workspace():
+	"""Nothing is invoiced after a cancellation, so nothing fails, and the
+	workspace stayed Live for ever."""
+	source = STRIPE.read_text(encoding="utf-8")
+	assert 'ENDED = "customer.subscription.deleted"' in source
+	assert "(OWED, SETTLED, ENDED)" in source
+	assert "lifecycle.ended(tenant)" in source
+	assert '{"stripe_subscription": body.get("id")}' in source
+
+
+def test_the_portal_cannot_cancel_or_change_the_plan():
+	source = STRIPE.read_text(encoding="utf-8")
+	assert '"configuration": _portal()' in source
+	assert '"features[subscription_cancel][enabled]": "false"' in source
+	assert '"features[subscription_update][enabled]": "false"' in source
+
+
+def test_a_payment_restores_only_once_nothing_is_left_unpaid():
+	source = STRIPE.read_text(encoding="utf-8")
+	assert "not _settles(tenant, body)" in source and "ladder.settled(" in source
+
+
+def test_a_second_checkout_never_replaces_the_first_subscription():
+	source = STRIPE.read_text(encoding="utf-8")
+	remember = source[source.index("def _remember_customer("):source.index("def _ladder(")]
+	assert 'held.get("stripe_subscription") or body.get("subscription")' in remember
+
+
+def test_what_a_post_makes_it_makes_once():
+	source = STRIPE.read_text(encoding="utf-8")
+	post = source[source.index("def _post("):source.index("def _get(")]
+	assert '"Idempotency-Key"' in post and "if path not in MADE_BY_POST" in post

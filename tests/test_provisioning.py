@@ -123,3 +123,49 @@ def test_a_tenant_site_runs_no_provisioning():
 	source = RUNNER.read_text(encoding="utf-8")
 	tick = source[source.index("def tick()") : source.index("def _due()")]
 	assert "site.is_admin()" in tick, "tick() must ask what kind of site this is first"
+
+
+def _source(path, name: str) -> str:
+	for node in ast.parse(path.read_text(encoding="utf-8")).body:
+		if isinstance(node, ast.FunctionDef) and node.name == name:
+			return ast.unparse(node)
+	raise AssertionError(name)
+
+
+def test_each_job_is_committed_and_a_throw_counts_as_an_attempt():
+	"""Five jobs in one transaction lost every earlier job's step to one throw,
+	and a throw that was never counted ran every two minutes for ever."""
+	tick = _source(RUNNER, "tick")
+	assert "frappe.db.commit()" in tick and "_counted(name, raised)" in tick
+	counted = _source(RUNNER, "_counted")
+	assert counted.index("frappe.db.rollback()") < counted.index("frappe.log_error(")
+	assert "_later(" in counted
+
+
+def test_a_lost_answer_does_not_ask_press_for_a_second_site():
+	create = _source(STEPS, "create_site")
+	assert create.index("_ours_already(") < create.index("press.api.site.new")
+
+
+def test_nothing_is_destroyed_without_asking_again():
+	"""A job queued before a payment or a restore must not suspend, archive or
+	empty the workspace it no longer applies to."""
+	for name, acts in (
+		("deactivate_site", "press.api.site.deactivate"),
+		("archive_site", "press.api.site.archive"),
+		("empty_storage", "storage.empty"),
+	):
+		step = _source(STEPS, name)
+		assert "_still_going(job, tenant)" in step and step.index("_still_going(") < step.index(acts), name
+	still = _source(STEPS, "_still_going")
+	assert "'Restore'" in still and "closing_on" in still
+	assert "except steps.CalledOff" in _source(RUNNER, "advance")
+
+
+def test_a_failed_build_can_be_closed():
+	lifecycle = (tree.APP / "one_admin" / "lifecycle.py").read_text(encoding="utf-8")
+	operator = (tree.APP / "one_admin" / "operator.py").read_text(encoding="utf-8")
+	assert "ladder.by_hand(tenant.status)" in lifecycle
+	assert "ladder.by_hand(held.status)" in operator
+	still = STEPS.read_text(encoding="utf-8").split("STILL = ", 1)[1].split("\n", 1)[0]
+	assert '"Archive": ("Suspended", "Failed")' in still

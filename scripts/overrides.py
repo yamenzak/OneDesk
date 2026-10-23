@@ -45,8 +45,8 @@ OVERRIDES = [
 		'var indicator = [__(doc.status), frappe.utils.guess_colour(doc.status), "status,=," + doc.status];',
 	),
 	(
-		"A UAE invoice prints as a Tax Invoice with the company's TRN",
-		"ERPNext heads every return Credit Note by itself and leaves an invoice's title to a Print Heading somebody picks, so a VAT-registered company's invoices printed as Invoice with the TRN only in the footer; print_blocks.py titles a UAE company's sales invoice Tax Invoice and a return Tax Credit Note, with the TRN under the number, letting ERPNext's automatic heading give way",
+		"An invoice prints as a Tax Invoice where the law calls it one",
+		"ERPNext heads every return Credit Note by itself and leaves an invoice's title to a Print Heading somebody picks, so a VAT-registered company's invoices printed as Invoice with the tax number only in the footer; print_blocks.py titles a sales invoice Tax Invoice and a return Tax Credit Note where the company's country calls it so (one/countries.py TAX_INVOICE), with the tax number under the number, letting ERPNext's automatic heading give way",
 		"onedesk/one/print_blocks.py",
 		"erpnext/erpnext/controllers/sales_and_purchase_return.py",
 		'doc.select_print_heading = frappe.get_cached_value("Print Heading", "Credit Note")',
@@ -1485,6 +1485,13 @@ OVERRIDES = [
 		"onedesk/one/setup_wizard.py",
 		"hrms/hrms/hr/report/employee_leave_balance/employee_leave_balance.js",
 		"data.message[0].from_date",
+	),
+	(
+		"A fiscal year the Books Check adds begins when the country's does",
+		"ERPNext keeps each country's fiscal year start only in its setup wizard's JavaScript; ready.begins reads `erpnext.setup.fiscal_years` from it, so the year ready.add_year makes, where there is none, is the one the wizard would have proposed",
+		"onedesk/one_book/ready.py",
+		"erpnext/erpnext/public/js/setup_wizard.js",
+		"erpnext.setup.fiscal_years = {",
 	),
 	(
 		"The setup wizard's persona slide is replaced",

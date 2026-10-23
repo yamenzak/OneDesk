@@ -9,7 +9,7 @@ import json
 import frappe
 from frappe.utils import add_to_date, now_datetime
 
-from onedesk.one_admin import faults, site, steps
+from onedesk.one_admin import faults, ladder, site, steps
 
 BACKOFF = (10, 30, 60, 120, 300)
 
@@ -19,15 +19,31 @@ AT_A_TIME = 5
 
 
 def tick() -> None:
-	"""The cron entry. Never raises: one bad job must not stop the queue."""
+	"""The cron entry. Never raises: one bad job must not stop the queue.
+
+	Each job is committed on its own, so one that throws loses only its own
+	step, and a throw is an attempt like any other (_counted).
+	"""
 	if not site.is_admin():
 		return
 	for name in _due():
 		try:
 			advance(name)
-		except Exception:
-			frappe.log_error(title=f"Provisioning {name}")
-			frappe.db.rollback()
+		except Exception as raised:
+			_counted(name, raised)
+		frappe.db.commit()
+
+
+def _counted(name: str, raised: Exception) -> None:
+	"""A step that threw what no step should: undone, logged, and counted, so
+	it backs off and in the end stops rather than running every tick for ever."""
+	frappe.db.rollback()
+	frappe.log_error(title=f"Provisioning {name}")
+	try:
+		_later(frappe.get_doc("Provisioning Job", name), str(raised)[: faults.KEPT])
+	except Exception:
+		frappe.db.rollback()
+		frappe.log_error(title=f"Provisioning {name}, counting the attempt")
 
 
 def _due() -> list[str]:
@@ -56,9 +72,16 @@ def advance(name: str) -> str:
 	walk = _walk(job)
 	step = job.step or walk[0]
 	tenant = frappe.get_doc("Tenant", job.tenant)
+	if job.kind in (None, "", "Provision"):
+		if tenant.status not in ladder.BUILDING:
+			return _called_off(job, f"{tenant.name} is {tenant.status}, so it is not built again")
+		if tenant.status == "Failed":
+			tenant.db_set("status", "Provisioning", notify=True)
 
 	try:
 		waiting = getattr(steps, step)(job, tenant) == steps.WAIT
+	except steps.CalledOff as off:
+		return _called_off(job, str(off))
 	except faults.Refused as refused:
 		if isinstance(refused, faults.Again):
 			return _later(job, str(refused))
@@ -119,6 +142,14 @@ def _later(job, why: str | None) -> str:
 		notify=True,
 	)
 	return "Waiting"
+
+
+def _called_off(job, why: str) -> str:
+	"""Nothing left to do: the workspace is no longer going where the job was
+	taking it (steps.CalledOff). Done, saying why on the step it stopped at,
+	and nobody is told, because nothing failed."""
+	job.db_set({"status": "Done", "finished_at": now_datetime(), "error": why}, notify=True)
+	return "Done"
 
 
 WAIT_SECONDS = 60

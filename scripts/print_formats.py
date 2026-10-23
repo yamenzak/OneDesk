@@ -73,10 +73,10 @@ STATES = (
 	("Credit Note Issued", "#f3f4f6", "#374151"),
 )
 TITLES = (
-	("Tax Invoice", "doc.company_tax_id and not doc.is_return"),
-	("Tax Credit Note", "doc.company_tax_id and doc.is_return"),
-	("Invoice", "not doc.company_tax_id and not doc.is_return"),
-	("Credit Note", "not doc.company_tax_id and doc.is_return"),
+	("Tax Invoice", "doc.flags.one_tax_invoice and not doc.is_return"),
+	("Tax Credit Note", "doc.flags.one_tax_invoice and doc.is_return"),
+	("Invoice", "not doc.flags.one_tax_invoice and not doc.is_return"),
+	("Credit Note", "not doc.flags.one_tax_invoice and doc.is_return"),
 )
 
 

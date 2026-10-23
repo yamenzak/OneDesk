@@ -55,7 +55,11 @@ def test_the_library_has_every_preset_asked_for():
 	}
 	orders = [one["order"] for one in _presets().values()]
 	assert len(orders) == len(set(orders)), "each preset has its own place in the list"
-	assert _presets()["aluminium_and_glazing"]["order"] == 1
+	assert _presets()["client_onboarding"]["order"] == 1
+	building = ("architectural_design", "interior_fit_out", "small_building_works", "aluminium_and_glazing")
+	assert min(_presets()[key]["order"] for key in building) > max(
+		one["order"] for key, one in _presets().items() if key not in building
+	), "a business of any trade meets the general presets first"
 
 
 def test_aluminium_and_glazing_is_five_phases_of_25_tasks_each_ending_in_a_milestone():

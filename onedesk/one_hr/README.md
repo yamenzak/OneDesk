@@ -846,7 +846,7 @@ erpnext:
   process-after date and a last sync; `Holiday List Assignment` is required
   and nothing creates one.
 - No Leave Period or Payroll Period is ever created, so the balance report and
-  two tax reports opened on nothing.
+  two tax reports opened on nothing (periods.py makes them).
 - Every approval shows a stray "HR Telemetry Milestone already exists"
   message; `one/quiet.py` drops it.
 - `validate_distance_from_shift_location` checks only the first of several
@@ -1777,6 +1777,20 @@ reason for one.
 Verification is `py_webauthn`'s. Writing CBOR parsing and COSE key handling
 ourselves would be security-critical code with no reason to be ours.
 
+### periods.py
+
+The leave year and the payroll year, which HRMS never makes. They are the
+company's fiscal year rather than the calendar one: an Indian payroll runs
+April to March, an Australian one July to June, and a Payroll Period on the
+wrong dates spreads a year's income tax across the wrong twelve months. The
+wizard makes the first pair from the year it was told (`fy_start_date`); after
+that `daily` makes next year's pair once this one has thirty days left, so
+1 January (or 1 April) never arrives on a workspace with no period.
+
+Both are named for their year, `2026` or `2026-2027`, rather than
+HR-LPR-2026-00001: Leave Period is a Link in five places with no title field,
+so the name is what a person reads.
+
 ### policy.py
 
 What this workspace has asked for, read from HR Settings in one place.
@@ -1975,8 +1989,9 @@ as OneCRM's is `onecrm`; the workspace it replaces went with
   directory, each row called what it opens.
 - `story.read` is HR's only, and None for anybody else, since how many people
   work here and what they cost are not theirs to read: the headcount month by
-  month, who joined and left, attendance over thirty days, leave taken, the
-  payroll, expense claims and the hiring funnel, in the company's currency.
+  month, who joined and left, attendance over thirty days, leave taken in
+  the active Leave Period, the payroll, expense claims since the fiscal year
+  began and the hiring funnel, in the company's currency.
 
 Home is a place (`onehr_home.shown`), so an extension may add a note or a
 button, and OneAI is told what it shows (`ai.page`). HRMS's own phone app at

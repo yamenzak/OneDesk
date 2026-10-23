@@ -788,7 +788,7 @@ ADMINISTRATOR = {
 	"Workflow Transition Tasks": ("read", "write", "create"),
 }
 
-PAGES = ("workflow-builder", "print-format-builder")
+PAGES = ("workflow-builder", "print-format-builder", "setup-wizard")
 
 NOTE_LEVELS = {1: ("read", "write"), 2: ("read",)}
 

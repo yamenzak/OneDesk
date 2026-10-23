@@ -15,6 +15,8 @@ from onedesk.one_admin import faults, site
 
 SERVING = ("Live", "Overdue")
 
+INTRODUCED = (*SERVING, "Provisioning")
+
 HEADER = "X-One-Token"
 
 A_MINUTE = 60
@@ -23,12 +25,12 @@ AN_HOUR = 3600
 CLAIMS_AN_HOUR = 20
 
 
-def caller():
+def caller(serving: tuple = SERVING):
 	"""The tenant making this call, or a refusal.
 
 	Reads the slug from the request rather than taking it as an argument, so
 	every endpoint gets the same check and none of them can be written to trust
-	a slug a caller sent in the body.
+	a slug a caller sent in the body. `serving` is the statuses that may call.
 	"""
 	site.require_admin()
 	slug = frappe.form_dict.get("tenant")
@@ -43,7 +45,7 @@ def caller():
 		_refuse()
 	if not hmac.compare_digest(held.token_hash, _hashed(offered)):
 		_refuse()
-	if held.status not in SERVING:
+	if held.status not in serving:
 		_refuse()
 	return held
 
@@ -78,9 +80,10 @@ def hello(database_bytes: int | None = None) -> dict:
 
 	The tenant caches the whole answer in its own `Workspace Account`, so it
 	returns the whole picture, including `standing`, the ladder. It returns what
-	exists: anything not built yet is left out.
+	exists: anything not built yet is left out. A workspace still being built
+	may ask, because its build's `invite_owner` step is this call.
 	"""
-	tenant = caller()
+	tenant = caller(INTRODUCED)
 	if database_bytes is not None:
 		frappe.db.set_value("Tenant", tenant.name, "database_bytes", cint(database_bytes), update_modified=False)
 	known = frappe.db.get_value(

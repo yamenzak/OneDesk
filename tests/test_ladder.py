@@ -125,3 +125,30 @@ def test_days_left_never_goes_negative():
 def test_days_left_is_none_off_the_ladder():
 	assert ladder.days_left("Dropped", ago(1), NOW) is None
 	assert ladder.days_left("Overdue", None, NOW) is None
+
+
+def test_a_failed_build_may_only_be_archived_by_hand():
+	"""It never paid for a period and no clock moves it, but an operator has to
+	be able to close it, or its subscription bills for ever."""
+	assert ladder.by_hand("Failed") == "Archived"
+	assert ladder.below("Failed") is None
+	assert ladder.due("Failed", ago(999), NOW) is None
+	assert ladder.by_hand("Overdue") == "Suspended"
+	for building in ("Requested", "Provisioning", "Dropped"):
+		assert ladder.by_hand(building) is None
+
+
+def test_paying_while_it_is_being_built_climbs_nowhere():
+	"""An invoice paid during a build used to raise, and Stripe redelivered it."""
+	for building in ("Requested", "Provisioning", "Failed"):
+		assert ladder.climbing(building) is None
+	with pytest.raises(ladder.Unreachable):
+		ladder.climbing("Nonsense")
+
+
+def test_only_its_own_subscription_paid_in_full_settles_it():
+	assert ladder.settled("sub_1", "sub_1", 0) is True
+	assert ladder.settled("sub_1", "sub_1", 1) is False, "the renewal that failed is still open"
+	assert ladder.settled("sub_2", "sub_1", 0) is False, "somebody else's subscription"
+	assert ladder.settled(None, "sub_1", 0) is False, "a one-off invoice"
+	assert ladder.settled(None, None, 0) is True, "a workspace with no subscription"

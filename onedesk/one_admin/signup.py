@@ -14,6 +14,11 @@ HOLDING = ("New", "Paying", "Paid", "Provisioning", "Done")
 ABANDONED_DAYS = 7
 
 
+class NotBuilt(frappe.ValidationError):
+	"""Paid for, and no workspace could be made: the request says Failed and
+	the operators were told, which the webhook keeps rather than rolls back."""
+
+
 def tidy_slug(raw: str) -> str:
 	try:
 		return keys.slug(raw)
@@ -51,7 +56,8 @@ def accept(request: str) -> str:
 
 	Idempotent in the way that counts: a request that already has a tenant
 	returns it rather than making a second one, because the caller is a webhook
-	and a webhook is delivered more than once.
+	and a webhook is delivered more than once. Raises `NotBuilt` once the
+	failure is written down.
 	"""
 	site.require_admin()
 	asked = frappe.get_doc("Account Request", request)
@@ -71,7 +77,7 @@ def accept(request: str) -> str:
 	except Exception as raised:
 		asked.db_set({"status": "Failed", "failed_reason": str(raised)[:500]}, notify=True)
 		tell.signup_not_built(asked, str(raised))
-		raise
+		raise NotBuilt(str(raised)) from raised
 
 	asked.db_set({"tenant": tenant, "status": "Provisioning", "failed_reason": None}, notify=True)
 	from onedesk.one_admin import accounts

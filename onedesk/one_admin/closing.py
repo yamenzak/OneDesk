@@ -51,11 +51,12 @@ def ask(slug: str, by: str) -> dict:
 
 
 def keep(slug: str, by: str) -> dict:
-	"""Changed their mind before the day: it stays open and billed."""
+	"""Changed their mind before the day: it stays open and billed. Not once
+	the Archive job has started on the site (lifecycle.archiving)."""
 	tenant = frappe.get_doc("Tenant", slug)
 	if not tenant.closing_on:
 		return {}
-	if tenant.status not in OPEN:
+	if tenant.status not in OPEN or lifecycle.archiving(slug):
 		raise faults.Refused(f"{slug} has closed; ask us to restore it from its backup")
 	tenant.db_set({"closing_on": None, "closing_asked_by": None}, notify=True)
 	_renewal(tenant, ends=False)

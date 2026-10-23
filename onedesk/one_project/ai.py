@@ -913,7 +913,7 @@ def draft_template(
 
 
 def draft_project(
-	title: Annotated[str, "What the job is called, as the team will say it: Mansour Pool House."],
+	title: Annotated[str, "What the job is called, as the team will say it: Head Office Move."],
 	kind: Annotated[str, "Fixed Price, Time and Materials, Retainer or Internal."],
 	customer: Annotated[str, "Who it is for, by the customer's name. None for an Internal project."]
 	| None = None,

@@ -1,5 +1,6 @@
-"""Screens that belong to one country, shown where a company of the workspace
-is in it, as ERPNext switches its own regional features on by country."""
+"""Screens and print formats that belong to one country, shown where a company
+of the workspace is in it, as ERPNext switches its own regional features on by
+country; and the countries whose law calls a sales invoice a tax invoice."""
 
 import frappe
 
@@ -10,7 +11,21 @@ ONLY_IN = {
 	"South Africa VAT Settings": "South Africa",
 	"VAT Audit Report": "South Africa",
 	"Import Supplier Invoice": "Italy",
+	"One Simplified Tax Invoice": "United Arab Emirates",
 }
+
+TAX_INVOICE = (
+	"Australia",
+	"Bahrain",
+	"India",
+	"Kenya",
+	"New Zealand",
+	"Oman",
+	"Saudi Arabia",
+	"Singapore",
+	"South Africa",
+	"United Arab Emirates",
+)
 
 
 def ours() -> set[str]:
@@ -22,3 +37,9 @@ def shown(target: str, here: set[str] | None = None) -> bool:
 	"""Whether a screen is for everybody or for a country one of the companies is in."""
 	country = ONLY_IN.get(target)
 	return not country or country in (ours() if here is None else here)
+
+
+def tax_invoice(company: str | None) -> bool:
+	"""Whether the law where the company is calls its sales invoice, carrying
+	its tax number, a tax invoice."""
+	return bool(company) and frappe.get_cached_value("Company", company, "country") in TAX_INVOICE

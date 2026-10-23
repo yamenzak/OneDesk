@@ -150,3 +150,29 @@ def test_a_custom_hostname_that_gave_up_is_broken_and_says_why():
 
 def test_a_custom_hostname_cloudflare_no_longer_has_is_gone():
 	assert hosts.standing(None) == ("Gone", None)
+
+
+def test_a_name_is_proven_by_dns_naming_this_workspace():
+	"""The TXT at `_one.<name>` arrives quoted, a CNAME with its trailing dot."""
+	target = "acme.t.4dl.app"
+	assert hosts.proof_name("crm.acme.com") == "_one.crm.acme.com"
+	assert hosts.proven([{"type": 16, "data": '"acme.t.4dl.app"'}], target)
+	assert hosts.proven([{"type": 5, "data": "ACME.t.4dl.app."}, {"type": 1, "data": "104.16.0.1"}], target)
+
+
+def test_a_name_pointed_at_another_workspace_is_not_proven():
+	"""The squat: a name whose DNS names somebody else's address, or nothing."""
+	target = "evil.t.4dl.app"
+	assert not hosts.proven([{"data": '"acme.t.4dl.app"'}], target)
+	assert not hosts.proven([{"data": '"xacme.t.4dl.app"'}], "acme.t.4dl.app")
+	assert not hosts.proven([], target)
+	assert not hosts.proven(None, target)
+	assert not hosts.proven([{"data": '""'}], "")
+
+
+def test_no_name_is_routed_before_it_is_proven():
+	source = (Path(__file__).resolve().parent.parent / "onedesk" / "one_admin" / "domains.py").read_text()
+	route = source[source.index("def _route("):source.index("def _proven(")]
+	assert route.index("_proven(") < route.index("cloudflare.hostname_add(")
+	add = source[source.index("def add("):source.index("def _route(")]
+	assert "hostname_add" not in add and "host_route" not in add

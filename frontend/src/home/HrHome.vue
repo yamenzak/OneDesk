@@ -82,6 +82,7 @@ const soon = () => {
 const stop = [
   "Leave Application",
   "Leave Allocation",
+  "Leave Period",
   "Expense Claim",
   "Shift Request",
   "Attendance Request",

@@ -242,9 +242,11 @@ def party_overdue(doc):
 
 
 def party_this_year(doc):
-	"""Billed since the first of January, against the same days last year."""
+	"""Billed since the fiscal year began, against the same days last year."""
+	from onedesk.one_book import closing
+
 	day = getdate()
-	start = day.replace(month=1, day=1)
+	start = closing.year_began(day)
 	before = figures.same_day_last_year(start)
 	rows = _bills(doc.doctype, doc.name, since=before)
 	if rows is None:

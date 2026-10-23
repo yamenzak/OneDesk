@@ -331,7 +331,7 @@ def search_everywhere(
 	doctype: Annotated[str, "Only this type of record, if known."] | None = None,
 ) -> list:
 	"""Search every kind of record at once, the way the desk's search bar does.
-	Use it when you do not know what type something is — "Omar", "the Dubai
+	Use it when you do not know what type something is — "Omar", "the head
 	office", "INV-0042" — then read what it finds."""
 	from frappe.utils.global_search import search
 
@@ -351,7 +351,7 @@ MOST_FOUND = 10
 
 
 def find_by_meaning(
-	question: Annotated[str, "What to look for, in the person's own words: \"the quote for the glass on the Marina tower\"."],
+	question: Annotated[str, "What to look for, in the person's own words: \"the quote we sent after the first meeting\"."],
 	kinds: Annotated[
 		list[str],
 		"Only these: Reading for documents and scans, Communication for mail, or a type of record such as Customer.",

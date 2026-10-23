@@ -32,20 +32,50 @@ def get_setup_stages(args=None):
 	]
 
 
+@frappe.whitelist()
+def setup_complete(args):
+	"""frappe's own, for the workspace's administrator. Its stages save System
+	Settings and the rest as whoever is signed in, and nobody on a workspace
+	holds the role frappe's pages ask for (one/roles.py), so they run as
+	Administrator: only while setup is unfinished, and only for somebody who
+	administers it."""
+	from frappe.desk.page.setup_wizard import setup_wizard as frappes
+
+	from onedesk.one import roles
+
+	user = frappe.session.user
+	if frappe.is_setup_complete() or not roles.administers():
+		return frappes.setup_complete(args)
+	said = frappe.parse_json(args) if isinstance(args, str) else dict(args or {})
+	said["onedesk_owner"] = user
+	frappe.set_user("Administrator")
+	try:
+		return frappes.setup_complete(said)
+	finally:
+		frappe.set_user(user)
+
+
 def settle(args=None):
 	"""Everything an install sets up, again once the wizard has made the
 	company. Much of it is about the company (its accounts, its fiscal year,
 	its letter head), and a new site has none until now, so without this a
-	workspace waits for its first migrate. Each is safe to run twice."""
+	workspace waits for its first migrate. Each is safe to run twice, and one
+	that fails is logged and left to the next migrate rather than undoing the
+	whole setup."""
 	for method in frappe.get_hooks("after_sync", app_name="onedesk"):
-		frappe.get_attr(method)()
+		frappe.db.savepoint("one_settle")
+		try:
+			frappe.get_attr(method)()
+		except Exception:
+			frappe.db.rollback(save_point="one_settle")
+			frappe.log_error(f"setup: {method}")
 
 
 def set_appearance(args):
 	chosen = THEMES.get((args or {}).get("onedesk_theme", ""))
 	if not chosen:
 		return
-	frappe.db.set_value("User", frappe.session.user, "desk_theme", chosen)
+	frappe.db.set_value("User", args.get("onedesk_owner") or frappe.session.user, "desk_theme", chosen)
 
 
 def set_the_working_day(args):
@@ -64,115 +94,61 @@ def set_the_working_day(args):
 		return
 
 	company = args.get("company_name") or frappe.db.get_value("Company", {}, "name")
-	holidays = _holiday_list(company, args.get("onedesk_weekly_off"))
+	holidays = _holiday_list(company, days_off(args.get("onedesk_weekly_off")))
 
 	hours = time_diff_in_hours(f"{nowdate()} {get_time(ends)}", f"{nowdate()} {get_time(starts)}")
 	frappe.db.set_single_value("HR Settings", "standard_working_hours", abs(hours))
 
 	_shift(starts, ends, holidays)
-	_leave_period(company, holidays)
-	_payroll_period(company)
+	if company:
+		from onedesk.one_hr import periods
+
+		start, end = (
+			periods.year_from(args["fy_start_date"]) if args.get("fy_start_date") else periods.in_force(company)
+		)
+		periods.make(company, start, end)
 
 
-def _leave_period(company: str | None, holidays: str | None) -> None:
-	"""This calendar year, so leave has a year to be counted against.
-
-	Nothing in HRMS creates one, and Employee Leave Balance, Leave Policy
-	Assignment and the two allocation tools need it.
-	"""
-	if not company or frappe.db.exists("Leave Period", {"company": company, "is_active": 1}):
-		return
-
-	year = getdate().year
-	period = frappe.new_doc("Leave Period")
-	period.company = company
-	period.from_date = f"{year}-01-01"
-	period.to_date = f"{year}-12-31"
-	period.is_active = 1
-	period.optional_holiday_list = holidays
-	period.insert(ignore_permissions=True)
-
-	frappe.rename_doc("Leave Period", period.name, str(year), force=True)
+def days_off(said) -> list[str]:
+	"""The week's days off as the slide sends them: a list of day names, or
+	one name as an older wizard did. Pure."""
+	if isinstance(said, str):
+		said = frappe.parse_json(said) if said.startswith("[") else [said]
+	return [one for one in (said or []) if one in WEEK]
 
 
-def _payroll_period(company: str | None) -> None:
-	"""The same calendar year again, for the other half of the framework.
-
-	Nothing in HRMS creates a Payroll Period either, and a salary slip asks for
-	one the moment a workspace has an Income Tax Slab: `Salary Slip.payroll_period`
-	is `get_payroll_period(start, end, company)`, and without one there is no
-	period to spread a year's tax across. Its autoname is `Prompt`, so unlike the
-	leave period this one is named at birth rather than renamed after.
-	"""
-	if not company:
-		return
-	year = getdate().year
-	if frappe.db.exists("Payroll Period", {"company": company, "start_date": f"{year}-01-01"}):
-		return
-
-	period = frappe.new_doc("Payroll Period")
-	period.name = str(year)
-	period.company = company
-	period.start_date = f"{year}-01-01"
-	period.end_date = f"{year}-12-31"
-	period.insert(ignore_permissions=True)
+WEEK = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 
 
-def _holiday_list(company: str | None, weekly_off: str | None) -> str | None:
-	"""This year's list: the week's day off, plus the country's public holidays.
+def weekends() -> dict:
+	"""Each country's usual days off, by the name the wizard's country field
+	holds, from the `holidays` package; the slide ticks them. Cached, since it
+	reads every country."""
+	return frappe.cache.get_value("one_weekends", generator=_weekends)
 
-	The public holidays come from the `holidays` package by country code, in
-	the language of whoever sets the workspace up (one/holidays.py, `local`). A country it does not know
-	leaves the list with the weekly off alone, which is still better than a
-	workspace where every Sunday is an absence.
-	"""
-	if not (company and weekly_off):
-		return None
 
-	year = getdate(nowdate()).year
-	name = f"{company} {year}"
-	if frappe.db.exists("Holiday List", name):
-		return name
+def _weekends() -> dict:
+	from holidays import country_holidays
 
-	doc = frappe.new_doc("Holiday List")
-	doc.holiday_list_name = name
-	doc.from_date = f"{year}-01-01"
-	doc.to_date = f"{year}-12-31"
-	doc.weekly_off = weekly_off
-	doc.country = _country_code(company)
-	if doc.country:
-		from onedesk.one import holidays
-
+	out = {}
+	for name, code in frappe.get_all("Country", fields=["name", "code"], as_list=True):
 		try:
-			for one in holidays.local(doc.country, None, doc.from_date, doc.to_date):
-				doc.append("holidays", {**one, "weekly_off": 0})
+			out[name] = [WEEK[one] for one in sorted(country_holidays((code or "").upper()).weekend)]
 		except Exception:
-			frappe.clear_last_message()
-	doc.get_weekly_off_dates()
-	doc.insert(ignore_permissions=True)
-
-	_assign(doc.name, company, f"{year}-01-01")
-	return doc.name
+			continue
+	return out
 
 
-def _assign(holidays: str, company: str, from_date: str) -> None:
-	"""Tell hrms about the list, which is not the same as telling erpnext.
+def _holiday_list(company: str | None, weekly_offs: list[str]) -> str | None:
+	"""This year's list: the week's days off, plus the country's public
+	holidays (one/holidays.py, `make`), put in force for the company."""
+	if not company:
+		return None
+	from onedesk.one import holidays
 
-	hrms reads only a submitted `Holiday List Assignment`; erpnext's own reports
-	read `Company.default_holiday_list`, so both are set.
-	"""
-	frappe.db.set_value("Company", company, "default_holiday_list", holidays)
-
-	if frappe.db.exists("Holiday List Assignment", {"assigned_to": company, "docstatus": 1}):
-		return
-
-	doc = frappe.new_doc("Holiday List Assignment")
-	doc.holiday_list = holidays
-	doc.applicable_for = "Company"
-	doc.assigned_to = company
-	doc.from_date = from_date
-	doc.insert(ignore_permissions=True)
-	doc.submit()
+	name = holidays.make(company, getdate(nowdate()).year, weekly_offs, _country_code(company))
+	holidays.assign(name, company)
+	return name
 
 
 def _country_code(company: str) -> str | None:

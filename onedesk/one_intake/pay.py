@@ -57,7 +57,7 @@ def of(doc) -> dict | None:
 		if known and iban.replace(" ", "").upper() not in known:
 			out["warn"] = _("This IBAN isn't on file for {0}. Confirm it by phone before paying.").format(supplier)
 			return out
-	if (doc.currency or "EUR") == "EUR":
+	if doc.currency == "EUR":
 		text = epc(name, iban, doc.gross, out["reference"])
 		out["code"] = _svg(text) if text else None
 	return out

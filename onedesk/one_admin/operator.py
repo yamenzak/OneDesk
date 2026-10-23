@@ -6,7 +6,7 @@ nightly ladder does, behind two gates (`require_admin`, `only_for`).
 
 import frappe
 
-from onedesk.one_admin import lifecycle, runner, site
+from onedesk.one_admin import ladder, lifecycle, runner, site
 
 BY_HAND = {
 	"Overdue": "",
@@ -38,7 +38,7 @@ def standing(tenant: str) -> dict:
 	_may()
 	held = frappe.get_doc("Tenant", tenant)
 	where = lifecycle.standing(held)
-	below = where["next"]
+	below = ladder.by_hand(held.status)
 	where["next"] = below if below in BY_HAND else None
 	where["warning"] = BY_HAND.get(below or "", "")
 	where["verb"] = frappe._(CALLED[below]) if below in CALLED else None

@@ -506,7 +506,7 @@ def item_facts(item: Annotated[str, "The item's code, such as ALU-6063."]) -> di
 
 
 def stock_on_hand(
-	warehouse: Annotated[str, "Only this warehouse, as named, such as Stores - SGA."] | None = None,
+	warehouse: Annotated[str, "Only this warehouse, as named, such as Stores - ABC."] | None = None,
 	search: Annotated[str, "Only items whose name or code has this in it."] | None = None,
 ) -> dict:
 	"""What the stores hold now, as Stock on Hand shows it: each item's
@@ -905,7 +905,7 @@ def plan_delivery(
 
 
 def plan_transfer(
-	to: Annotated[str, "The warehouse the goods go to, such as Mansour Villa Site - SGA."],
+	to: Annotated[str, "The warehouse the goods go to, such as Branch Store - ABC."],
 	lines: Annotated[list[dict], "What goes: each {item: code, qty: how many}."],
 	source: Annotated[str, "The warehouse they come from. The company's default one when not said."] | None = None,
 	project: Annotated[str, "The project they are for, when they are for one."] | None = None,
@@ -997,7 +997,7 @@ def late_orders() -> dict:
 
 def plan_quote_request(
 	request: Annotated[str, "The material request to ask prices for, such as MAT-MR-2026-00006."],
-	suppliers: Annotated[list[str], "The suppliers to ask, by name, such as Al Noor Aluminium."],
+	suppliers: Annotated[list[str], "The suppliers to ask, by name, such as Northwind Supplies."],
 	message: Annotated[str, "What the suppliers are told, in a sentence or two."] | None = None,
 	why: Annotated[str, "In a sentence, why this request."] | None = None,
 ) -> dict:

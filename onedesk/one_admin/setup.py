@@ -66,6 +66,7 @@ class Setup:
 			self.buckets,
 			self.r2_keys,
 			self.router,
+			self.certificate,
 			self.custom_hostnames,
 			self.mailer,
 			self.mail_routing,
@@ -155,6 +156,37 @@ class Setup:
 		self.deploy(ROUTER, DEPLOY / "edge" / "worker.js", bindings)
 		self.dns("A", f"*.{domain}", NOWHERE)
 		self.route(f"*.{domain}/*", ROUTER)
+
+	def certificate(self) -> None:
+		"""The certificate for `*.t.4dl.app`, which the zone's free one does not
+		cover: an Advanced Certificate Manager pack, ordered once, naming the
+		zone's apex too as Cloudflare requires. A pack that already names both,
+		issued or on its way, is kept. Needs ACM enabled on the zone, a paid
+		add-on, and SSL and Certificates: Edit."""
+		domain = self.settings.tenant_domain
+		wanted = {domain, f"*.{domain}"}
+		zone = self.zone["id"]
+		held = self.call("GET", f"/zones/{zone}/ssl/certificate_packs", params={"status": "all"})["result"] or []
+		found = next((one for one in held if wanted <= set(one.get("hosts") or [])), None)
+		if found:
+			return self.note("certificate", OURS if found.get("status") == "active" else WAITING, found.get("status") or "")
+		try:
+			made = self.call(
+				"POST",
+				f"/zones/{zone}/ssl/certificate_packs/order",
+				json={
+					"type": "advanced",
+					"hosts": sorted(wanted | {self.zone["name"]}),
+					"validation_method": "txt",
+					"validity_days": 90,
+					"certificate_authority": "lets_encrypt",
+				},
+			)["result"] or {}
+		except Refused as reason:
+			return self.note(
+				"certificate", WAITING, _("{0}. Enable Advanced Certificate Manager on the zone, then set up again.").format(reason)
+			)
+		self.note("certificate", MADE, made.get("status") or "")
 
 	def custom_hostnames(self) -> None:
 		"""Cloudflare for SaaS on the zone, for customers' own domains

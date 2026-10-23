@@ -2516,9 +2516,8 @@ msgstr "Legen Sie zuerst die Lager für laufende Arbeit und Fertigwaren an."
 msgid "Add the contact's email first."
 msgstr "Fügen Sie zuerst die E-Mail-Adresse des Kontakts hinzu."
 
-#: onedesk/public/js/settings.js:2507
-msgid "Add this record at your DNS provider."
-msgstr "Fügen Sie diesen Eintrag bei Ihrem DNS-Anbieter hinzu."
+msgid "Add these records at your DNS provider."
+msgstr "Fügen Sie diese Einträge bei Ihrem DNS-Anbieter hinzu."
 
 #: onedesk/public/js/settings.js:1644
 msgid "Add to OneBook"
@@ -10122,9 +10121,8 @@ msgstr "{0} Elemente ausgeschnitten"
 msgid "Cycle"
 msgstr "Zyklus"
 
-#: onedesk/public/js/settings.js:2397
-msgid "DNS Record"
-msgstr "DNS-Eintrag"
+msgid "DNS Records"
+msgstr "DNS-Einträge"
 
 #. Label of the dns_target (Data) field in DocType 'Workspace Account'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
@@ -20302,6 +20300,9 @@ msgstr "Ihre Site auf Frappe Cloud in der kleinsten Größe und ihre E-Mail."
 #: onedesk/notifications/one_inventory/stock_account_wrong.md
 msgid "Its stock is posted to {account}, which is not a stock account. Set a stock account on the warehouse."
 msgstr "Sein Bestand wird auf {account} gebucht, das kein Bestandskonto ist. Hinterlege ein Bestandskonto am Lager."
+
+msgid "Its subscription was cancelled in Stripe"
+msgstr "Sein Abonnement wurde in Stripe gekündigt"
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:25
 msgid "Jan"
@@ -38157,6 +38158,9 @@ msgstr "Standardfreibetrag"
 msgid "Standard Working Hours (Per Day)"
 msgstr "Standardarbeitszeit (pro Tag)"
 
+msgid "Standard works for payroll in every country. Pick your country's chart only if your accountant files from it."
+msgstr "Standard funktioniert für die Lohnabrechnung in jedem Land. Wählen Sie den Kontenrahmen Ihres Landes nur, wenn Ihr Steuerberater damit arbeitet."
+
 #. Label of the one_standing (Int) field in DocType 'Employee'
 #. Label of the one_ai_standing (Percent) field in DocType 'Job Applicant'
 #: onedesk/one/heads.py:84 onedesk/one_hr/custom/employee.json
@@ -41041,6 +41045,9 @@ msgstr "Die Farbe eines Briefkopfs, im Firmennamen, in seinen Linien und im Band
 #: onedesk/one_doc/doctype/writer_document/writer_document.json
 msgid "The comments' Yjs state in base64."
 msgstr "Der Yjs-Zustand der Kommentare in Base64."
+
+msgid "The company has a tax ID but no tax template, so nothing is charged. Add one."
+msgstr "Das Unternehmen hat eine Steuernummer, aber keine Steuervorlage, daher wird nichts berechnet. Fügen Sie eine hinzu."
 
 #: onedesk/one_book/ready.py:184
 msgid "The company has no TRN, and a UAE tax invoice must show it."
@@ -54938,6 +54945,9 @@ msgstr "{0}, {1} — {2}."
 #: onedesk/one_hr/heads.py:337
 msgid "{0}, {1}. Nothing has been rated yet, so the score is not a verdict."
 msgstr "{0}, {1}. Es wurde noch nichts bewertet, die Punktzahl ist also kein Urteil."
+
+msgid "{0}. Enable Advanced Certificate Manager on the zone, then set up again."
+msgstr "{0}. Aktivieren Sie den Advanced Certificate Manager für die Zone und richten Sie dann erneut ein."
 
 #: onedesk/one_admin/setup.py:170
 msgid "{0}. The key needs SSL and Certificates: Edit on the zone."

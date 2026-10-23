@@ -85,7 +85,8 @@ Month**. Placement and Site are collapsed. Open them when something breaks.
 
 ### Statuses
 
-A workspace is built, then **Live**. When a payment fails:
+A workspace is built, then **Live**. When a payment fails, or its
+subscription is cancelled in Stripe:
 
 1. **Payment overdue** for 7 days. It keeps working.
 2. **Suspended** for 14 days. No one can sign in, and nothing is changed.
@@ -93,8 +94,12 @@ A workspace is built, then **Live**. When a payment fails:
 4. Then its files are deleted.
 
 It moves one step a night. The periods are set in **Settings**. Paying before
-the files are deleted brings it back: at once from overdue, and from
-suspended by a job that serves the site again.
+the site is deleted brings it back once nothing is left unpaid: at once from
+overdue, and from suspended by a job that serves the site again. A payment
+after that is sent to the operators (Paid While Archived).
+
+A workspace whose build **Failed** stays as it is until an operator resumes
+its job or archives it.
 
 ### Buttons
 
@@ -102,6 +107,8 @@ Each button moves the workspace one step and asks first.
 
 - **Mark Overdue**, **Suspend**, **Archive** and **Delete Files** move it to
   the next status now. Archiving and deleting files can't be undone.
+  **Archive** also closes a workspace whose build failed, and cancels its
+  subscription; its owner isn't emailed.
 - **Restore** brings back an overdue or suspended workspace.
 - **Refresh** › **Measure Storage** or **Refresh Domains**.
 - **Billing** › **Invoices**, **Give Credits** (with a note and an optional
@@ -164,6 +171,9 @@ step and last update. Jobs run every two minutes.
   hours.
 - **Failed**: a step that errors is retried, less often each time. After
   twelve tries the job fails and operators are notified.
+- **Done** with a note: a Suspend, Archive or Delete Files job checks again
+  before the step that can't be undone, and stops there if the workspace was
+  paid for, restored or kept open since it was queued.
 
 Open a job to see every step, with done steps ticked, the current one marked
 and a failed step's error under it. **Resume** runs a failed job again from
@@ -501,13 +511,17 @@ working**), Cloudflare's reason when it isn't working, and which is the
 (`acme.t.4dl.app`), which always works and isn't listed here.
 
 Customers manage domains on their own workspace, under **Workspace ›
-Domains**. They add a domain, create one CNAME record in their DNS pointing
+Domains**. They add a domain, create a CNAME record in their DNS pointing
 to their One address, and choose the main address used in links and emails.
-Operators can't add, remove or set the main domain for them, because it's
-the customer's DNS.
+The page also shows a TXT record, `_one.<domain>` with the same value: it
+proves the domain is theirs where the CNAME can't be read, as behind a
+proxy. Operators can't add, remove or set the main domain for them, because
+it's the customer's DNS.
 
-A domain stays **Waiting** until its DNS record is right. Cloudflare keeps
-checking and issues the certificate once it is. One checks each waiting
+A domain stays **Waiting** until its DNS record is right. Until One reads the
+CNAME or the TXT record the domain isn't routed at all, so nobody can claim
+a domain whose DNS they don't run. Then Cloudflare keeps checking and issues
+the certificate. One checks each waiting
 domain nightly, and **Check Again** checks now. A domain's page shows the
 CNAME record it needs, Cloudflare's error and how long it has waited. A
 domain **Not at Cloudflare** has been lost there, and the customer can remove
@@ -551,7 +565,10 @@ next to its changes, and a job lists the rows it wrote.
   each site (one of the provider's free Unlimited plans, which only sets daily
   CPU time), and **Servers** (below).
 - **Cloudflare**: one token. **Set Up Cloudflare** finds or creates the rest
-  and shows the result under **Last Setup**.
+  and shows the result under **Last Setup**, including the certificate for
+  every workspace's address. That needs **Advanced Certificate Manager**, a
+  paid add-on, turned on for the zone in Cloudflare first; until it is, the
+  certificate step needs attention and workspaces don't open.
 - The R2 buckets and keys, Stripe's keys and the AI Gateway.
 - **Sender Email** (noreply@4dl.app): where One's own emails come from, such
   as sign-in links, signups and customer notices. Set Up Cloudflare turns on
@@ -961,7 +978,9 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   `proxy.hello` names the owner and a workspace with no administrator yet
   makes them one and invites them. `steps.invite_owner` posts to the new
   site's `account.wake`, which only makes it ask, and waits until it says it
-  has an administrator. `tell.ready` mails Workspace Ready from `steps.live`.
+  has an administrator. `hello` answers a Provisioning workspace for this
+  (`proxy.INTRODUCED`); no other endpoint does. `tell.ready` mails Workspace
+  Ready from `steps.live`.
 - **Jobs**: `runner.py` drives a Provisioning Job forward on a cron rather
   than in a request. A site takes minutes to build. Doing that inline would
   hold a worker open for the whole of it and lose the lot to a restart, so
@@ -975,7 +994,14 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   step and grows.** A site press has not finished building is worth asking
   about again in a few seconds; a call that failed for a reason we cannot see
   is worth leaving longer each time. The cap stops a stuck job from being
-  asked about once a day and finishing a week late.
+  asked about once a day and finishing a week late. `tick` commits after each
+  job, so one that throws loses only its own step, and a throw that is not a
+  `faults.Refused` is rolled back, logged and counted like a failed attempt
+  (`_counted`), so it gives up rather than running every two minutes for
+  ever. A step that raises `steps.CalledOff` ends its job Done, with the
+  reason as its error (`_called_off`). A Provision job on a tenant that is no
+  longer being built is called off; a resumed one on a Failed tenant puts it
+  back to Provisioning, so its `hello` answers.
   `runner.py` publishes every write (`notify=True`); the form's
   walk is `operator.walk`, drawn by `provisioning_job.js`; `home._stalled_jobs`
   and `operator.run_now` are the job that has not moved. `ai.job_facts` is the
@@ -1109,7 +1135,8 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   Two names reach a workspace. `<slug>.t.4dl.app` is given at provisioning
   and lives entirely at the edge: a proxied wildcard, a Worker that rewrites
   `Host` to the Frappe Cloud site name, and the Advanced Certificate Manager
-  wildcard on the zone. Frappe Cloud is never told that name exists.
+  pack Set up Cloudflare orders (`setup.certificate`). Frappe Cloud is never
+  told that name exists.
 
   **A customer's own name goes the same way.** It is a *custom hostname* on
   our zone (Cloudflare for SaaS). The customer makes one CNAME record, from
@@ -1131,6 +1158,17 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   trip. Status is Cloudflare's to decide (`hosts.standing` puts it in our
   words), and `refresh` is what asks: when the screen's Check Again is
   pressed and nightly for names not yet working.
+
+  **Proof before routing** (`_route`, `hosts.proven`). A name is only given a
+  custom hostname, a route and a KV key once public DNS, asked over HTTPS at
+  Cloudflare's resolver (`cloudflare.answers`), shows the CNAME or a TXT at
+  `_one.<name>` naming this workspace's own address. Before this, any
+  workspace could claim any name, and a name whose DNS still pointed at us
+  after its owner left was anybody's to take. The value is the workspace's
+  address rather than a token of ours because only the domain's DNS can say
+  it, and the screen already shows it. Until then the row is Pending with no
+  Cloudflare id, and `refresh` looks again; a resolver that does not answer
+  proves nothing.
 
   **A refusal here is thrown rather than raised.** It is something a customer
   has to act on, the name is taken or is ours, and `frappe.throw` is the
@@ -1333,6 +1371,10 @@ for an archived workspace that pays.
 falls in the notice; the Archive job cancels it outright. What was paid for the
 current period is not refunded, as the Terms say.
 
+**Too late to keep.** `keep` refuses once the Archive job is past its first
+step (`lifecycle.archiving`): the site may already be gone. Kept before that,
+`archive_site` finds no closing day and the job is called off.
+
 ### cloudflare.py
 
 A workspace is reached at `<slug>.t.4dl.app`. That name resolves to one proxied
@@ -1348,8 +1390,10 @@ means an admin outage is an outage for every workspace, which is exactly the
 coupling the rest of this design avoids. KV is Cloudflare's own edge store:
 once the key is written, serving a workspace needs nothing of ours at all.
 
-**Certificates.** `*.t.4dl.app` is covered by the Advanced Certificate Manager
-wildcard on the zone, a one-time purchase rather than a per-tenant call. A
+**Certificates.** `*.t.4dl.app` is covered by an Advanced Certificate Manager
+pack on the zone, which `setup.certificate` orders once, rather than a
+per-tenant call: the zone's free certificate covers `*.4dl.app` and not a
+name two labels down. A
 customer's own domain is a **custom hostname** on the same zone (Cloudflare for
 SaaS): the customer points a CNAME at their `<slug>.t.4dl.app`, Cloudflare
 validates it over HTTP and issues its certificate, and a route for that name
@@ -1640,6 +1684,12 @@ the rung it is on, and if we do not know, the answer is to do nothing and let
 somebody look. A clock that deletes data on a missing field is a clock that
 deletes data on a failed migration.
 
+**A failed build is off the ladder,** and no clock moves it. `by_hand` gives
+it one rung, Archived, for an operator closing it; `below` stays the ladder.
+`climbing` answers None while a workspace is being built: an invoice paid then
+has nothing to restore. `settled` is whether a paid invoice clears the debt:
+one of the workspace's own subscription, with nothing else left open.
+
 **A period of zero means never.** Not "immediately". An operator who clears the
 grace period is asking for the ladder to stop, not for every overdue workspace
 to be suspended tonight, and the reading that loses data is the wrong one.
@@ -1681,7 +1731,13 @@ on that rung, which is the forgiving direction.
 - `paid`, on an archived workspace: the site is gone, so a payment cannot bring
   it back on its own; and throwing there made Stripe redeliver the event for
   days while nobody was told. The operators hear it (Paid While Archived) and
-  decide: rebuild from the backup, or refund.
+  decide: rebuild from the backup, or refund. The same once an Archive job is
+  past `note_backup` (`archiving`), since `archive_site` may have run. Before
+  that, the Restore job it queues makes the Archive job call itself off.
+- `ended`: a subscription cancelled in Stripe starts a Live workspace's fall
+  at Overdue, with the grace period, the way a failed payment does — unless a
+  closing day was asked for or an Archive job is running, since those cancel
+  it themselves. The owner is not mailed Payment Failed for it.
 - `standing` carries `days`, how long this rung lasts, so a screen drawing a
   bar has a denominator without keeping its own copy of the periods. A second
   copy in JavaScript is a second copy to be wrong the day somebody lengthens
@@ -1931,6 +1987,11 @@ means ours has to be the careful kind.
 What is *not* here: anything that carries bytes. Admin checks, signs and
 records; R2 and Cloudflare carry. A file never passes through this process.
 
+- `INTRODUCED`: what `hello` alone answers, which is `SERVING` and
+  Provisioning, because the build's `invite_owner` step is a `hello`: the new
+  site asks it to learn its owner. Marking it Live first instead would mail
+  Workspace Ready before anybody can sign in, and an invitation that then
+  failed would turn a Live workspace Failed.
 - `SERVING`: Live and Overdue, and nothing below. Overdue is here because
   Overdue is defined as nothing happening to the workspace — somebody is told
   and that is all. Leaving it out would mean a failed card silently broke every
@@ -2040,6 +2101,12 @@ made here:
 - the KV namespace both Workers read;
 - the two R2 buckets and the S3 keys to them;
 - the web router and the mail Worker, with their routes and DNS;
+- the certificate for `*.t.4dl.app` (`certificate`): an Advanced Certificate
+  Manager pack, ordered only when no pack, issued or pending, names both
+  `t.4dl.app` and `*.t.4dl.app`; the order names the zone's apex as well,
+  which Cloudflare requires of every pack. ACM is a paid add-on and has to be enabled
+  on the zone first, and the key needs SSL and Certificates: Edit; without
+  either, the step says so and nothing is ordered;
 - mail routing and sending for the mail domain.
 
 **It never takes what is somebody else's.** A resource that exists under our
@@ -2142,6 +2209,16 @@ that it is taking longer than it should.
   So the config key is written directly, and press's own `Site.host_name`
   stays the press name. Nothing overwrites this unless a customer later makes
   one of their own domains primary, which is exactly when it should change.
+- `create_site`: a retry whose first answer was lost asks press for
+  `<slug>.<press domain>` first (`_ours_already`), and records it rather than
+  asking for a second site, which press would refuse.
+- `_still_going`: Suspend, Archive and Drop each ask again, before the step
+  that cannot be undone (`deactivate_site`, `archive_site`, `empty_storage`),
+  whether the workspace is still meant to go down — on the rung the job left
+  from (`STILL`), or Live or Overdue with a closing day for an Archive, and
+  with no Restore queued. If not, `CalledOff` ends the job. After
+  `archive_site` the Archive job finishes whatever happens: the site is gone,
+  and leaving it billed would be worse.
 - `invite_owner`: we cannot sign in to the site we built, and we hold only a
   hash of its token, so the site does it: `account.wake` makes it ask
   `proxy.hello`, which names the owner, and a workspace nobody administers yet
@@ -2215,14 +2292,38 @@ reinterprets it as the server's local time and lands an offset out — measured
 here at four hours, which refused every real delivery. Stripe's `t` is a Unix
 timestamp, so it has to be compared against one.
 
-- `OWED` and `SETTLED`: a subscription's invoice failing is what starts a fall;
-  one being paid is what ends it. Deliberately these two and no more. Stripe
-  sends dozens of event types and an endpoint that grows a branch per type is
-  an endpoint nobody can reason about. `customer.subscription.deleted` is *not*
-  there on purpose: a subscription cancelled at the end of its period stops
-  paying invoices, and the ladder notices that by itself and carries the
-  customer through the grace period — which is the right way to treat somebody
-  who cancelled, rather than suspending them the same afternoon.
+- `OWED`, `SETTLED` and `ENDED`: a subscription's invoice failing is what
+  starts a fall; one being paid is what ends it; the subscription being
+  cancelled starts one too (`lifecycle.ended`). Deliberately these three and
+  no more. Stripe sends dozens of event types and an endpoint that grows a
+  branch per type is an endpoint nobody can reason about. `ENDED` is needed
+  because the ladder does *not* notice a cancelled subscription by itself: no
+  invoice is sent, so none fails, and the workspace stayed Live for ever. It
+  is matched by the subscription's id, not the customer's. The endpoint in
+  Stripe has to send all five kinds acted on: `checkout.session.completed`,
+  `invoice.paid`, `invoice.payment_failed`, `customer.subscription.deleted`
+  and `charge.refunded`.
+- `_settles`: an invoice paid while a workspace is Overdue or Suspended
+  restores it only when it is the workspace's own subscription's and Stripe
+  holds no other open invoice for the customer (`ladder.settled`). An add-on's
+  proration paid while the renewal that failed is still open restores
+  nothing. Since API version 2025-03-31 the subscription is under
+  `parent.subscription_details`, so both places are read.
+- `_portal`: the billing portal is opened with a configuration of ours, found
+  by `metadata[one]` or made once, that turns off cancelling and changing
+  plan: either would bypass `billing.take` and `closing.ask`, and the account's
+  default configuration may allow both. So `customer.subscription.updated` is
+  not handled: nothing but our own calls changes a plan.
+- `_post`: a POST that makes something (`MADE_BY_POST`) carries an
+  Idempotency-Key, the hash of what it asks and the ten minutes it is asked
+  in, so a retry after a lost answer gets the first price, session or item
+  rather than a second. Updates carry none: asking the same change twice is
+  harmless, and a replayed answer to a change made, undone and made again
+  would be wrong.
+- A signup that cannot be built (`signup.NotBuilt`) is answered 200 and kept
+  handled: raising rolled back the Failed status, the operators' notice and
+  the error, and Stripe redelivered into the same failure. Retry Signup is
+  the way on. A completed checkout naming no request we have is ignored.
 - A trial changes nothing downstream. Stripe still takes the card, still
   completes the session, and still sends `checkout.session.completed` — the
   subscription simply starts in `trialing` with a zero invoice. So the

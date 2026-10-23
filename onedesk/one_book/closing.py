@@ -3,7 +3,7 @@
 
 import frappe
 from frappe import _
-from frappe.utils import add_days, getdate, nowdate
+from frappe.utils import add_days, add_years, getdate, nowdate
 
 CLOSERS = ("Accounts Manager", "Workspace Administrator")
 
@@ -12,6 +12,16 @@ def _company() -> str:
 	from erpnext import get_default_company
 
 	return get_default_company()
+
+
+def year_began(day=None, company: str | None = None):
+	"""The first day of the fiscal year `day` (today) is in; the day after the
+	same day last year when the books have no year for it."""
+	from erpnext.accounts.utils import get_fiscal_year
+
+	day = getdate(day or nowdate())
+	found = get_fiscal_year(day, company=company or _company(), raise_on_missing=False)
+	return getdate(found[1]) if found else add_days(add_years(day, -1), 1)
 
 
 def locked(company: str | None = None):

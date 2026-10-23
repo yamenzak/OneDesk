@@ -136,6 +136,29 @@ GAVE_UP = frozenset(
 )
 
 
+PROOF = "_one"
+
+
+def proof_name(name: str) -> str:
+	"""Where a TXT record proves a name is its customer's to give."""
+	return f"{PROOF}.{name}"
+
+
+def proven(answers: list | None, target: str) -> bool:
+	"""Whether DNS says the name's owner meant it for this workspace: an
+	answer (a TXT at `_one.<name>`, or the name's own CNAME) that is the
+	workspace's own address. Only whoever runs a domain's DNS can write
+	either, which is what stops one workspace claiming another's name."""
+	want = (target or "").strip().lower().rstrip(".")
+	if not want:
+		return False
+	for one in answers or []:
+		said = str((one or {}).get("data") or "").strip().strip('"').strip().lower().rstrip(".")
+		if said == want:
+			return True
+	return False
+
+
 def standing(said: dict | None) -> tuple[str, str | None]:
 	"""A custom hostname as Cloudflare answers it, in our three words, with
 	Cloudflare's own sentence about what is stopping it when there is one.
