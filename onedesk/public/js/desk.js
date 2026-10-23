@@ -1,6 +1,20 @@
 frappe.provide("onedesk");
 frappe.provide("onedesk.dock");
 
+// frappe.set_route("onecloud", { node }) names a page that is also an app's
+// shell, and frappe asks whether the options after it name something before
+// it sets them aside, which throws on an object. Every folder OneCloud opened
+// that way went nowhere. Only a word can name something.
+(() => {
+	const router = frappe.router;
+	if (!router || router.segment_kind.one_words) return;
+	const kind = router.segment_kind;
+	router.segment_kind = function (segment) {
+		return typeof segment === "string" ? kind.call(this, segment) : null;
+	};
+	router.segment_kind.one_words = true;
+})();
+
 frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
 	shell_for_route(route) {
 		if (this.kept(route) && frappe.boot.module_sidebars?.One) return "One";
