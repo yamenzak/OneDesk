@@ -69,9 +69,10 @@ onedesk.window.adapt("form", () => {
 });
 
 // The record panel: a form's sidebar, as the window's details pane, holds the
-// record's Overview (its head: cards, charts, the track), its Activity
-// (frappe's comments and timeline), its Mail and its Connections (frappe's
-// links to the records made from it), as tabs under Assign, Tags and Share. Only where the window covers forms and the screen is wide
+// record's Overview (its head: cards, charts, the track, and frappe's own
+// stats, heatmap and graph), its Activity (frappe's comments and timeline),
+// its Mail and its Connections (frappe's links to the records made from it),
+// as tabs under Assign, Tags and Share. Only where the window covers forms and the screen is wide
 // enough for frappe to show its sidebar; elsewhere each stays where it was.
 onedesk.window.panelled = (frm) =>
 	!!(frm && frm.page && frm.page.window && onedesk.window.covers("form") && window.innerWidth >= 992);
@@ -91,10 +92,14 @@ onedesk.window.panel = (frm, $sidebar) => {
 			onedesk.window.panel_show(frm, names[i]);
 		},
 	});
+	// Overview holds our head and, under it, frappe's dashboard sections.
+	const head = $(`<div class="one-panel-head"></div>`).appendTo(panes.overview);
+	const sections = $(`<div class="one-panel-sections"></div>`).appendTo(panes.overview);
+	panes.connections[0].style.setProperty("--one-open", JSON.stringify(__("open")));
 	const $panel = $(`<div class="sidebar-section one-panel"></div>`).append(tabs.$el);
 	const $after = $sidebar.find(".form-shared").first();
 	$after.length ? $panel.insertAfter($after) : $panel.appendTo($sidebar);
-	frm.one_panel = { tabs, panes, $panel };
+	frm.one_panel = { tabs, panes, head, sections, $panel };
 	return frm.one_panel;
 };
 
@@ -107,16 +112,20 @@ onedesk.window.panel_refresh = (frm) => {
 	if (frm.is_new()) return;
 	const footer = frm.footer && frm.footer.wrapper;
 	if (footer && footer.length && !$.contains(panel.panes.activity[0], footer[0])) panel.panes.activity.append(footer);
-	// Frappe's dashboard (its connections, and the stats and charts it shows
-	// above them) leaves its tab for the panel, and the tab, with nothing left
-	// in it, hides itself.
-	const links = frm.dashboard && frm.dashboard.parent;
+	// Frappe's dashboard leaves its tab for the panel: its connections to
+	// Connections, every other section (stats, heatmap, graph, progress, and
+	// any a doctype adds) to Overview under the head. The tab, with nothing
+	// left in it, hides itself.
+	const dashboard = frm.dashboard;
+	const links = dashboard && dashboard.links_area && dashboard.links_area.wrapper;
 	if (links && links.length && !$.contains(panel.panes.connections[0], links[0])) panel.panes.connections.append(links);
+	if (dashboard && dashboard.parent) panel.sections.append(dashboard.parent.children(".form-dashboard-section"));
+	onedesk.window.indicators(panel.sections, panel.head);
 	const has = {
-		overview: panel.panes.overview.children().length > 0,
+		overview: panel.head.children().length > 0 || panel.sections.children(":not(.hide-control)").length > 0,
 		activity: !!(footer && footer.length),
 		mail: onedesk.record_tabs.applies(frm, "mail"),
-		connections: !!(links && links.find(".form-dashboard-section:not(.hide-control)").length),
+		connections: !!(links && links.length && !links.hasClass("hide-control")),
 	};
 	// New Email is the Mail tab's, which has its own; the timeline's goes
 	// where the Mail tab is there to write from instead.
@@ -146,6 +155,25 @@ onedesk.window.panel_show = (frm, name) => {
 	if (!panel) return;
 	if (name === "mail") onedesk.record_mail.open(frm, panel.panes.mail);
 	if (name === "overview") requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
+};
+
+// frappe's stats say "Annual Billing: 92,400.00" in one span; in the
+// panel they are figures, the name on the left and the value on the right,
+// and one the head already shows is not shown twice.
+onedesk.window.indicators = ($in, $head) => {
+	$in.find(".indicator-column > .indicator:not([data-one-split])").each((_, el) => {
+		el.dataset.oneSplit = "1";
+		if (el.children.length) return;
+		const text = el.textContent;
+		const at = text.indexOf(": ");
+		if (at < 0) return;
+		$(el).empty().append($(`<span class="one-indicator-label">`).text(text.slice(0, at)), $(`<span class="one-indicator-value">`).text(text.slice(at + 2)));
+	});
+	const said = new Set($head.find(".es-stat-card__label").map((_, el) => el.textContent.trim().toLowerCase()).get());
+	$in.find(".indicator-column").each((_, el) => {
+		const label = $(el).find(".one-indicator-label").text().trim().toLowerCase();
+		$(el).toggleClass("one-said", !!label && said.has(label));
+	});
 };
 
 // A count beside a panel tab's name, as a record tab carries one.

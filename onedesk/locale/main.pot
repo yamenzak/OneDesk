@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-23 21:43+0000\n"
-"PO-Revision-Date: 2026-10-23 21:43+0000\n"
+"POT-Creation-Date: 2026-10-23 22:53+0000\n"
+"PO-Revision-Date: 2026-10-23 22:53+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -64,7 +64,7 @@ msgid "(first 6 rows)"
 msgstr ""
 
 #: onedesk/public/js/onemail.js:300 onedesk/public/js/onemail.js:366
-#: onedesk/public/js/record_mail.js:27
+#: onedesk/public/js/record_mail.js:28
 msgid "(no subject)"
 msgstr ""
 
@@ -1693,7 +1693,7 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/presence.py:207
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:175
-#: onedesk/public/js/band.js:155
+#: onedesk/public/js/band.js:169
 msgid "Absent"
 msgstr ""
 
@@ -2124,7 +2124,7 @@ msgstr ""
 #: onedesk/one_project/ai.py:677
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/public/js/onecloud.js:749 onedesk/public/js/project_actions.js:359
-#: onedesk/public/js/task_actions.js:82
+#: onedesk/public/js/task_actions.js:82 onedesk/public/js/window/form.js:85
 msgid "Activity"
 msgstr ""
 
@@ -2891,7 +2891,7 @@ msgstr ""
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_project/library/event.json
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json
-#: onedesk/public/js/head.js:166
+#: onedesk/public/js/head.js:167
 msgid "After"
 msgstr ""
 
@@ -8610,7 +8610,7 @@ msgstr ""
 #. Settings'
 #. Label of the one_connections_tab (Tab Break) field in DocType 'Timesheet'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-#: onedesk/one_hr/custom/timesheet.json
+#: onedesk/one_hr/custom/timesheet.json onedesk/public/js/window/form.js:85
 msgid "Connections"
 msgstr ""
 
@@ -9515,7 +9515,7 @@ msgstr ""
 msgid "Created By"
 msgstr ""
 
-#: onedesk/public/js/window/form.js:66
+#: onedesk/public/js/window/form.js:193
 msgid "Created {0} by {1}"
 msgstr ""
 
@@ -9800,7 +9800,7 @@ msgstr ""
 msgid "Currency · {0}"
 msgstr ""
 
-#: onedesk/public/js/head.js:165 onedesk/public/js/onecloud.js:750
+#: onedesk/public/js/head.js:166 onedesk/public/js/onecloud.js:750
 #: onedesk/public/js/settings.js:1658
 msgid "Current"
 msgstr ""
@@ -13097,7 +13097,7 @@ msgstr ""
 msgid "Edited text is no longer translated."
 msgstr ""
 
-#: onedesk/public/js/window/form.js:68
+#: onedesk/public/js/window/form.js:195
 msgid "Edited {0} by {1}"
 msgstr ""
 
@@ -13140,7 +13140,7 @@ msgstr ""
 msgid "Edits are autosaved continuously — your data is safe. Versions appear here after each save (rapid edits are grouped)."
 msgstr ""
 
-#: onedesk/public/js/head.js:156
+#: onedesk/public/js/head.js:157
 msgid "Effect"
 msgstr ""
 
@@ -15160,7 +15160,7 @@ msgstr ""
 msgid "Fieldwork"
 msgstr ""
 
-#: onedesk/public/js/head.js:164
+#: onedesk/public/js/head.js:165
 msgid "Figure"
 msgstr ""
 
@@ -16393,7 +16393,7 @@ msgstr ""
 msgid "From contains \"{0}\""
 msgstr ""
 
-#: onedesk/public/js/band.js:151
+#: onedesk/public/js/band.js:165
 msgid "From home"
 msgstr ""
 
@@ -17199,7 +17199,7 @@ msgstr ""
 msgid "Half Day On"
 msgstr ""
 
-#: onedesk/one_hr/presence.py:111 onedesk/public/js/band.js:153
+#: onedesk/one_hr/presence.py:111 onedesk/public/js/band.js:167
 msgid "Half day"
 msgstr ""
 
@@ -17596,7 +17596,7 @@ msgstr ""
 
 #: onedesk/one/settings.py:1586 onedesk/one/settings.py:1631
 #: onedesk/one_hr/employee.py:105 onedesk/one_hr/employee.py:252
-#: onedesk/one_hr/presence.py:139 onedesk/public/js/band.js:156
+#: onedesk/one_hr/presence.py:139 onedesk/public/js/band.js:170
 msgid "Holiday"
 msgstr ""
 
@@ -21056,7 +21056,7 @@ msgstr ""
 #: frontend/src/project/group.js:39 frontend/src/sent_out/SentOutPage.vue:85
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:184
 #: onedesk/one_project/report/workload/workload.py:177
-#: onedesk/public/js/band.js:152 onedesk/public/js/desk.js:190
+#: onedesk/public/js/band.js:166 onedesk/public/js/desk.js:190
 msgid "Late"
 msgstr ""
 
@@ -22434,7 +22434,7 @@ msgstr ""
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_mail/cloud.py:65 onedesk/one_mail/linking.py:23
 #: onedesk/one_mail/sidebar/onemail/onemail.json
-#: onedesk/one_storage/namespace.py:364
+#: onedesk/one_storage/namespace.py:364 onedesk/public/js/window/form.js:85
 msgid "Mail"
 msgstr ""
 
@@ -23676,7 +23676,8 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:1160
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:415
 #: onedesk/one_intake/page/intake/intake.js:30 onedesk/one_sheet/ai.py:227
-#: onedesk/public/js/project_actions.js:651 onedesk/public/js/window/form.js:89
+#: onedesk/public/js/project_actions.js:651
+#: onedesk/public/js/window/form.js:216
 msgid "More"
 msgstr ""
 
@@ -23696,7 +23697,7 @@ msgstr ""
 msgid "More than one supplier has retention held here. Pay it from each bill."
 msgstr ""
 
-#: onedesk/public/js/window/frame.js:464
+#: onedesk/public/js/window/frame.js:478
 msgid "More views"
 msgstr ""
 
@@ -24290,8 +24291,8 @@ msgid "New Document"
 msgstr ""
 
 #: frontend/src/kit/ActivityComposer.vue:18 onedesk/public/js/onemail.js:58
-#: onedesk/public/js/onemail.js:705 onedesk/public/js/record_mail.js:34
-#: onedesk/www/account_profile.html:36
+#: onedesk/public/js/onemail.js:705 onedesk/public/js/record_mail.js:35
+#: onedesk/public/js/window/form.js:134 onedesk/www/account_profile.html:36
 msgid "New Email"
 msgstr ""
 
@@ -25118,7 +25119,7 @@ msgstr ""
 msgid "No edits recorded for this cell yet."
 msgstr ""
 
-#: onedesk/public/js/record_mail.js:36
+#: onedesk/public/js/record_mail.js:37
 msgid "No emails"
 msgstr ""
 
@@ -26009,7 +26010,7 @@ msgstr ""
 msgid "Not mailed in this workspace."
 msgstr ""
 
-#: onedesk/public/js/band.js:201
+#: onedesk/public/js/band.js:215
 msgid "Not marked"
 msgstr ""
 
@@ -26870,7 +26871,7 @@ msgid "On in this browser"
 msgstr ""
 
 #: onedesk/one_hr/employee.py:120 onedesk/one_hr/presence.py:111
-#: onedesk/one_hr/presence.py:210 onedesk/public/js/band.js:154
+#: onedesk/one_hr/presence.py:210 onedesk/public/js/band.js:168
 msgid "On leave"
 msgstr ""
 
@@ -28991,7 +28992,7 @@ msgstr ""
 #: frontend/src/home/HrHome.vue:106 frontend/src/home/InventoryHome.vue:103
 #: frontend/src/item/ItemPage.vue:184 frontend/src/project/ProjectPage.vue:171
 #: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/public/js/page_views.js:73
-#: onedesk/public/js/page_views.js:85
+#: onedesk/public/js/page_views.js:85 onedesk/public/js/window/form.js:85
 msgid "Overview"
 msgstr ""
 
@@ -31188,7 +31189,7 @@ msgstr ""
 #: frontend/src/home/HrStory.vue:86
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:174
-#: onedesk/public/js/band.js:150
+#: onedesk/public/js/band.js:164
 msgid "Present"
 msgstr ""
 
@@ -33473,7 +33474,7 @@ msgid "Reflections"
 msgstr ""
 
 #: onedesk/one_admin/heads.py:586 onedesk/one_admin/heads.py:593
-#: onedesk/public/js/head.js:380 onedesk/public/js/onecloud.js:109
+#: onedesk/public/js/head.js:381 onedesk/public/js/onecloud.js:109
 #: onedesk/public/js/onecloud.js:1928 onedesk/public/js/onecloud.js:1929
 #: onedesk/public/js/onecloud.js:1951 onedesk/public/js/onemail.js:69
 #: onedesk/public/js/window/frame.js:208
@@ -43046,7 +43047,7 @@ msgstr ""
 msgid "This footer is custom HTML. Choosing a preset replaces it."
 msgstr ""
 
-#: onedesk/public/js/head.js:387 onedesk/public/js/shell.js:246
+#: onedesk/public/js/head.js:388 onedesk/public/js/shell.js:246
 msgid "This form has been modified after you have loaded it"
 msgstr ""
 
@@ -43904,7 +43905,7 @@ msgstr ""
 msgid "To reclaim"
 msgstr ""
 
-#: onedesk/public/js/onemail.js:279 onedesk/public/js/record_mail.js:20
+#: onedesk/public/js/onemail.js:279 onedesk/public/js/record_mail.js:21
 msgid "To {0}"
 msgstr ""
 
@@ -45891,7 +45892,7 @@ msgstr ""
 #: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/public/js/account_tree.js:14 onedesk/public/js/onecloud.js:173
 #: onedesk/public/js/onecloud.js:1337 onedesk/public/js/project.js:8
-#: onedesk/public/js/project.js:13 onedesk/public/js/window/frame.js:456
+#: onedesk/public/js/project.js:13 onedesk/public/js/window/frame.js:470
 #: onedesk/www/account_invoices.html:39
 msgid "View"
 msgstr ""
@@ -45924,7 +45925,7 @@ msgstr ""
 msgid "View only"
 msgstr ""
 
-#: onedesk/public/js/window/form.js:78
+#: onedesk/public/js/window/form.js:205
 msgid "Viewing now"
 msgstr ""
 
@@ -51724,11 +51725,11 @@ msgstr ""
 msgid "image"
 msgstr ""
 
-#: onedesk/public/js/band.js:205
+#: onedesk/public/js/band.js:219
 msgid "in late"
 msgstr ""
 
-#: onedesk/public/js/band.js:204
+#: onedesk/public/js/band.js:218
 msgid "in late, left early"
 msgstr ""
 
@@ -51799,7 +51800,7 @@ msgid "later"
 msgstr ""
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:109
-#: onedesk/public/js/band.js:206
+#: onedesk/public/js/band.js:220
 msgid "left early"
 msgstr ""
 
@@ -52022,6 +52023,10 @@ msgstr ""
 
 #: onedesk/one/ai_setup.py:701
 msgid "only the records of {0} {1}, {2}"
+msgstr ""
+
+#: onedesk/public/js/window/form.js:98
+msgid "open"
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:1416
@@ -53401,7 +53406,7 @@ msgid "{0} holidays added. Save to keep them."
 msgstr ""
 
 #: frontend/portal/src/pages/Project.vue:96 onedesk/one/settings.py:765
-#: onedesk/one_crm/heads.py:30 onedesk/public/js/band.js:207
+#: onedesk/one_crm/heads.py:30 onedesk/public/js/band.js:221
 msgid "{0} hours"
 msgstr ""
 
@@ -54870,7 +54875,7 @@ msgstr ""
 msgid "{0} {1} was changed by somebody else after you opened this. Refresh to see it; nothing was saved."
 msgstr ""
 
-#: onedesk/public/js/head.js:372
+#: onedesk/public/js/head.js:373
 msgid "{0} {1} was changed by someone else. Refresh to see the latest."
 msgstr ""
 

@@ -51919,6 +51919,10 @@ msgstr "سجلات {0} {1} فقط"
 msgid "only the records of {0} {1}, {2}"
 msgstr "سجلات {0} {1} فقط، {2}"
 
+#: onedesk/public/js/window/form.js:98
+msgid "open"
+msgstr "مفتوح"
+
 #: onedesk/public/js/onecloud.js:1337
 msgid "opened {0} times"
 msgstr "فُتح {0} مرات"

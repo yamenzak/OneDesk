@@ -51919,6 +51919,10 @@ msgstr "nur die Datensätze von {0} {1}"
 msgid "only the records of {0} {1}, {2}"
 msgstr "nur die Datensätze von {0} {1}, {2}"
 
+#: onedesk/public/js/window/form.js:98
+msgid "open"
+msgstr "offen"
+
 #: onedesk/public/js/onecloud.js:1337
 msgid "opened {0} times"
 msgstr "{0}-mal geöffnet"

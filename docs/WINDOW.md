@@ -130,15 +130,20 @@ frappe's own `frappe.ui.Tabs`:
 
 - **Overview**: the record's head (its charts, its track, its figures),
   drawn here by `onedesk.band.put` instead of above the fields, so a record
-  opens on its fields.
+  opens on its fields; under it frappe's own dashboard sections (its stats,
+  heatmap, graph and progress, and any a doctype adds), its stats as figure
+  rows, and a stat the head already shows by the same name left out.
 - **Activity**: frappe's comments and timeline (`frm.footer`), moved here.
 - **Mail**: the record's mail (`onedesk.record_mail.open`), drawn when the
   tab is first shown.
-- **Connections**: frappe's form dashboard (`frm.dashboard.parent`): the
-  records made from this one, with their counts and a + to make another,
-  and the stats frappe shows above them. Its Connections tab in the tab
-  row, left with nothing, hides itself. Each kind of record is a row, as a
-  figure is.
+- **Connections**: frappe's links to the records made from this one
+  (`frm.dashboard.links_area`), grouped as the doctype's dashboard file
+  groups them: a row per group, its name on the left and its kinds of
+  record as chips. A kind with records is a filled chip with its count and,
+  in amber, how many are still open; one with none is a dashed chip whose +
+  makes the first. They are frappe's own nodes restyled, so its counts,
+  clicks and + still work, and its Connections tab, left with nothing,
+  hides itself.
 
 A tab with nothing for the record is not shown; a new record has no panel.
 The tab somebody picks is kept per doctype. The Activity and Mail record

@@ -227,7 +227,9 @@
 		padding-block: calc(var(--spacing) * 2);
 	}
 
+	/* --one-open is the word after an open count, set translated by the panel. */
 	.one-window .one-panel-pane {
+		--one-open: "open";
 		container-type: inline-size;
 		padding: calc(var(--spacing) * 3) 15px calc(var(--spacing) * 4);
 	}
@@ -388,10 +390,15 @@
 		margin: 0;
 		padding: 0;
 	}
-	/* frappe's connections as the panel's figures are: a group's name, then
-	   a row per kind of record, the count and the plus at its end, a hairline
-	   under, no box. One column, two from 520px. */
-	.one-window .one-panel-pane .form-dashboard {
+
+	/* frappe's dashboard in the panel. Its sections (stats, heatmap, graph)
+	   stand under the head in Overview, their names small and muted, the
+	   stats as figure rows. */
+	.one-window .one-panel-head:not(:empty) + .one-panel-sections:has(> :not(.hide-control)) {
+		margin-top: calc(var(--spacing) * 4);
+	}
+
+	.one-window .one-panel-sections {
 		display: grid;
 		gap: calc(var(--spacing) * 4);
 	}
@@ -401,27 +408,6 @@
 		margin: 0;
 		padding: 0;
 		border: 0;
-	}
-
-	.one-window .one-panel-pane .form-documents {
-		display: grid;
-		gap: calc(var(--spacing) * 4) calc(var(--spacing) * 6);
-	}
-
-	@container (min-width: 520px) {
-		.one-window .one-panel-pane .form-documents {
-			grid-template-columns: 1fr 1fr;
-		}
-	}
-
-	.one-window .one-panel-pane .form-documents > .row {
-		display: contents;
-	}
-
-	.one-window .one-panel-pane .form-documents .col-md-4 {
-		width: auto;
-		max-width: none;
-		padding: 0;
 	}
 
 	.one-window .one-panel-pane .form-dashboard-section .section-head {
@@ -440,15 +426,67 @@
 		margin: 0;
 	}
 
+	.one-window .one-panel-pane .form-stats .indicator-column.one-said,
+	.one-window .one-panel-pane .form-stats:not(:has(.indicator-column:not(.one-said))) {
+		display: none;
+	}
+
 	.one-window .one-panel-pane .form-stats .indicator-column {
 		flex: 0 0 100%;
 		max-width: none;
-		padding: calc(var(--spacing) * 1) 0;
+		padding: calc(var(--spacing) * 2) 0;
 		border-bottom: 1px solid var(--outline-gray-1);
 	}
 
+	.one-window .one-panel-pane .form-stats .indicator {
+		display: flex;
+		width: 100%;
+		color: var(--ink-gray-5);
+		font-size: var(--text-sm);
+	}
+
+	.one-window .one-panel-pane .form-stats .indicator::before {
+		display: none;
+	}
+
+	.one-window .one-panel-pane .one-indicator-value {
+		margin-inline-start: auto;
+		color: var(--ink-gray-8);
+		font-size: var(--text-base);
+		font-weight: var(--font-weight-medium);
+	}
+
+	/* Connections: a row per group, its name on the left and its kinds of
+	   record as chips on the right. A kind with records is a filled chip with
+	   its count, and in amber how many are still open; one with none is a
+	   dashed chip whose + makes the first. frappe's own nodes, so its counts,
+	   clicks and + still work. */
+	.one-window .one-panel-pane .form-documents > .row {
+		display: contents;
+	}
+
+	.one-window .one-panel-pane .form-documents .col-md-4 {
+		position: relative;
+		display: flex;
+		flex-wrap: wrap;
+		gap: calc(var(--spacing) * 1.5);
+		width: auto;
+		max-width: none;
+		padding-block: calc(var(--spacing) * 2.5);
+		padding-inline: 96px 0;
+		border-bottom: 1px solid var(--outline-gray-1);
+	}
+
+	.one-window .one-panel-pane .form-documents > .row:first-child > .col-md-4:first-child {
+		padding-top: 0;
+	}
+
 	.one-window .one-panel-pane .form-link-title {
-		margin: 0 0 calc(var(--spacing) * 1);
+		position: absolute;
+		inset-inline-start: 0;
+		width: 88px;
+		margin: 0;
+		padding-top: 3px;
 		color: var(--ink-gray-5);
 		font-size: var(--text-sm);
 		font-weight: var(--font-weight-regular);
@@ -456,38 +494,82 @@
 
 	.one-window .one-panel-pane .document-link,
 	.one-window .one-panel-pane .document-link:hover {
-		border-color: var(--outline-gray-1);
+		display: inline-flex;
+		align-items: center;
+		gap: calc(var(--spacing) * 1.5);
+		max-width: none;
+		height: 26px;
+		margin: 0;
+		padding: 0 calc(var(--spacing) * 2);
+		border: 1px solid transparent;
+		border-radius: var(--radius);
+		background: var(--surface-gray-2);
 	}
 
-	.one-window .one-panel-pane .document-link {
-		min-height: 33px;
-		max-width: none;
-		margin: 0;
-		padding: calc(var(--spacing) * 1) 0;
-		border: 0;
-		border-bottom: 1px solid var(--outline-gray-1);
-		border-radius: 0;
+	.one-window .one-panel-pane .document-link:has(.count.hidden),
+	.one-window .one-panel-pane .document-link:has(.count.hidden):hover {
+		border: 1px dashed var(--outline-gray-2);
 		background: transparent;
 	}
 
 	.one-window .one-panel-pane .document-link .document-link-badge {
-		display: flex;
-		flex: 1;
+		display: inline-flex;
 		align-items: center;
-		justify-content: space-between;
+		gap: calc(var(--spacing) * 1.5);
 		padding: 0;
+		font-size: var(--text-sm);
+	}
+
+	.one-window .one-panel-pane .document-link .badge-link {
 		color: var(--ink-gray-8);
-		font-size: var(--text-base);
+	}
+
+	.one-window .one-panel-pane .document-link:has(.count.hidden) .badge-link {
+		color: var(--ink-gray-5);
+	}
+
+	.one-window .one-panel-pane .document-link .count {
+		margin: 0;
+		padding: 0;
+		background: transparent;
+		color: var(--ink-gray-8);
+		font-size: var(--text-sm);
+		font-weight: var(--font-weight-medium);
+	}
+
+	.one-window .one-panel-pane .document-link .open-notification {
+		gap: calc(var(--spacing) * 1);
+		margin: 0;
+		padding: 0;
+		background: transparent;
+		color: var(--ink-amber-6);
+		font-size: var(--text-sm);
+	}
+
+	.one-window .one-panel-pane .document-link .open-notification::before {
+		content: "·";
+	}
+
+	.one-window .one-panel-pane .document-link .open-notification::after {
+		content: var(--one-open);
+	}
+
+	.one-window .one-panel-pane .document-link:not(:has(.count.hidden)) .btn-new {
+		display: none;
 	}
 
 	.one-window .one-panel-pane .document-link .btn-new {
+		order: -1;
+		width: auto;
+		height: auto;
+		margin: 0;
+		padding: 0;
 		border: 0;
 		background: transparent;
 		color: var(--ink-gray-5);
 	}
 
 	.one-window .one-panel-pane .document-link .btn-new:hover {
-		background: var(--surface-gray-2);
 		color: var(--ink-gray-8);
 	}
 }

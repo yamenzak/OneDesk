@@ -299,7 +299,7 @@ def test_the_main_action_is_always_first_on_the_left():
 def test_a_forms_sidebar_is_the_details_pane_and_holds_the_record_panel():
 	"""A form's sidebar is the window's details pane (one switch, one drag
 	edge, as OneCloud's), and its Overview, Activity, Mail and Connections
-	are frappe's own tabs, frappe's form dashboard moved into the last, with the head drawn there through one place (band.put) and laid
+	are frappe's own tabs, frappe's dashboard split between the first and last, with the head drawn there through one place (band.put) and laid
 	out by the panel's width, not the screen's."""
 	forms = (WINDOW_JS / "form.js").read_text(encoding="utf-8")
 	views = (WINDOW_CSS / "views.css").read_text(encoding="utf-8")
@@ -307,7 +307,8 @@ def test_a_forms_sidebar_is_the_details_pane_and_holds_the_record_panel():
 	frame = (WINDOW_JS / "frame.js").read_text(encoding="utf-8")
 	assert 'win.details({ key: "form", width: 400, pane: $side })' in forms
 	assert "new frappe.ui.Tabs(" in forms and 'onedesk.window.PANEL = ["overview", "activity", "mail", "connections"]' in forms
-	assert "frm.dashboard.parent" in forms and "panel.panes.connections" in forms
+	assert "dashboard.links_area.wrapper" in forms and "panel.panes.connections" in forms
+	assert "panel.sections.append(dashboard.parent.children(" in forms and "frm.one_panel.head" in band
 	assert "details_edge()" in frame
 	assert "onedesk.band.put(" in band and "frm.dashboard.set_headline(" not in band.replace("if (html) frm.dashboard.set_headline(html, null, true);", "")
 	assert "container-type: inline-size" in views and "@container (min-width: 520px)" in views

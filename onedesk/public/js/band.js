@@ -59,7 +59,7 @@ onedesk.band.meter = (meter) => {
 // Where a record's head is drawn: the record panel's Overview where the
 // window gives the form one, otherwise frappe's headline above the fields.
 onedesk.band.put = (frm, html) => {
-	const pane = frm.one_panel && frm.one_panel.panes.overview;
+	const pane = frm.one_panel && frm.one_panel.head;
 	if (pane) {
 		pane.html(html || "");
 		onedesk.window.panel_refresh(frm);
