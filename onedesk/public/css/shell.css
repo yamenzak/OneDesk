@@ -509,6 +509,14 @@ a.one-shell-row:hover {
 	pointer-events: none;
 }
 
+/* frappe's field wrapper keeps its form margin under the input, which made
+   the box taller than the input and put the icon below the text's middle. */
+.one-shell-search > .form-group.frappe-control {
+	flex: 1;
+	min-width: 0;
+	margin: 0;
+}
+
 .one-shell-search .form-control {
 	height: 30px;
 	padding-inline-start: calc(var(--spacing) * 7);
