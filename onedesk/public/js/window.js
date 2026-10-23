@@ -207,8 +207,19 @@ onedesk.window.Window = class Window {
 	// not say is the browser's (Back, Forward) or the breadcrumb's (Up).
 	handle(handlers) {
 		Object.assign(this.handlers, handlers);
-		this.$tools.find("[data-window=refresh]").toggle(!!this.handlers.refresh);
+		this.$tools.find("[data-window=refresh]").toggle(!!this.handlers.refresh && !this.$reload);
 		return this;
+	}
+
+	// frappe's own reload button, which a list, a report, a board and a tree
+	// add with page.add_action_icon("refresh-cw"), goes where the window keeps
+	// Refresh, and the window's own Refresh steps aside. The button is
+	// frappe's, with its click and its tooltip.
+	adopt_reload($button) {
+		this.$reload = $button;
+		this.$tools.find("[data-window=refresh]").hide().after($button);
+		$button.addClass("one-window-reload");
+		if (!this.page.icon_group.children().length) this.page.icon_group.addClass("hide");
 	}
 
 	// What can be pressed. Back and Forward are the browser's history unless
@@ -393,6 +404,18 @@ onedesk.window.current = () => {
 })();
 
 (() => {
+	const Page = frappe.ui.Page;
+	if (!Page || Object.hasOwn(Page.prototype, "one_window")) return;
+	Page.prototype.one_window = true;
+	const icon = Page.prototype.add_action_icon;
+	Page.prototype.add_action_icon = function (name, ...rest) {
+		const $button = icon.call(this, name, ...rest);
+		if (this.window && name === "refresh-cw") this.window.adopt_reload($button);
+		return $button;
+	};
+})();
+
+(() => {
 	if (frappe.ui.make_app_page.one_window) return;
 	const make = frappe.ui.make_app_page;
 	frappe.ui.make_app_page = function (opts) {
@@ -403,7 +426,7 @@ onedesk.window.current = () => {
 	frappe.ui.make_app_page.one_window = true;
 
 	const Sidebar = frappe.ui.Sidebar;
-	if (Sidebar && !Sidebar.prototype.one_window) {
+	if (Sidebar && !Object.hasOwn(Sidebar.prototype, "one_window")) {
 		Sidebar.prototype.one_window = true;
 		const highlight = Sidebar.prototype.highlight_active_item;
 		Sidebar.prototype.highlight_active_item = function (...args) {
@@ -428,7 +451,7 @@ onedesk.window.current = () => {
 	$("body").addClass("one-window-trial");
 
 	const Base = frappe.views && frappe.views.BaseList;
-	if (Base && !Base.prototype.one_window) {
+	if (Base && !Object.hasOwn(Base.prototype, "one_window")) {
 		Base.prototype.one_window = true;
 		const menu = Base.prototype.setup_view_menu;
 		Base.prototype.setup_view_menu = function (...args) {
@@ -440,7 +463,7 @@ onedesk.window.current = () => {
 	}
 
 	const List = frappe.views && frappe.views.ListView;
-	if (List && !List.prototype.one_window) {
+	if (List && !Object.hasOwn(List.prototype, "one_window")) {
 		List.prototype.one_window = true;
 		const setup_page = List.prototype.setup_page;
 		List.prototype.setup_page = function (...args) {
@@ -449,7 +472,6 @@ onedesk.window.current = () => {
 			if (win) {
 				win.$wrapper.attr("data-one-view", "list");
 				win.handle({
-					refresh: () => this.refresh(),
 					up: () => frappe.app.sidebar && frappe.app.sidebar.current_module && frappe.app.sidebar.open_module(frappe.app.sidebar.current_module),
 				}).can({ up: true });
 				const field = this.meta.title_field || "name";
@@ -483,7 +505,7 @@ onedesk.window.current = () => {
 	}
 
 	const Form = frappe.ui.form && frappe.ui.form.Form;
-	if (Form && !Form.prototype.one_window) {
+	if (Form && !Object.hasOwn(Form.prototype, "one_window")) {
 		Form.prototype.one_window = true;
 		const setup = Form.prototype.setup;
 		Form.prototype.setup = function (...args) {

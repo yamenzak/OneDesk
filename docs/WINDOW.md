@@ -36,6 +36,10 @@ keep working, because nothing of theirs was replaced.
   Up, then frappe's breadcrumbs and status pill where they already were,
   then Refresh and the view's search. Back and Forward are the browser's;
   Up is the breadcrumb before the last; a view may answer all three itself.
+- **Refresh** is frappe's own reload button wherever frappe makes one (a
+  list, a report, a board, a tree: `page.add_action_icon("refresh-cw")`),
+  moved into the address row with its click and its tooltip. The window
+  draws its own Refresh only where frappe has none (OneCloud, a form).
 - **Command row** is the rest of frappe's page head: the view's own
   commands on the left (`window.$commands`), frappe's actions, menu and
   primary button on the right, and the details pane's switch last.

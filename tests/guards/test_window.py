@@ -90,3 +90,20 @@ def test_the_address_box_is_frappes_search_bar():
 	assert '"onedesk.one.outside.awesomebar"' in hooks
 	outside = (tree.APP / "one" / "outside.py").read_text(encoding="utf-8")
 	assert "del frappe.local.message_log[said:]" in outside
+
+
+def test_frappes_reload_is_the_one_in_the_address_row():
+	"""Where frappe makes a reload button, that button is moved to the address
+	row and the window's own Refresh steps aside; nothing duplicates it."""
+	assert 'name === "refresh-cw"' in JS and "this.window.adopt_reload($button)" in JS
+	assert "!!this.handlers.refresh && !this.$reload" in JS
+	list_setup = JS.split("List.prototype.setup_page = function", 1)[1].split("};", 1)[0]
+	assert "refresh:" not in list_setup
+
+
+def test_each_wrapped_class_has_its_own_mark():
+	"""ListView inherits from BaseList, so a mark set on BaseList's prototype
+	reads as set on ListView's and skipped its wrappers: the list lost its
+	search and its count. Each mark is asked of the prototype itself."""
+	marks = re.findall(r"if \(!?\w+ (?:&&|\|\|) !?(Object\.hasOwn\(\w+\.prototype, \"one_window\"\)|\w+\.prototype\.one_window)\)", JS)
+	assert marks and all(one.startswith("Object.hasOwn") for one in marks), marks
