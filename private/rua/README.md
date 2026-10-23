@@ -180,15 +180,11 @@ Quote No.** on the order. A workbook was weighed and left out: the LPOs in
 the old app had a median of one line and the longest 67, and their sheets
 worked out nothing an order does not (quantity × rate, VAT, totals).
 
-**Rua LPO** (`rua/print_format/rua_lpo`) prints them as Local Purchase
-Orders, built from One's bordered purchase order in the builder's own pieces:
-the order, its date and project, the supplier's TRN and quote number, the
-lines, and Prepared By and Material Received in Good Condition to sign. An
-order with no price leaves out the price columns and the totals and gives the
-total quantity; a column no line fills (finish, size) is left out.
-`setup.printing` makes it the default for purchase orders unless the
-workspace chose a format of its own (`patches/lpo_print` for a workspace set
-up before it). The company stamp the Excel LPOs carried is not printed.
+They print with One's own purchase order formats. A print of Rua's own,
+laid out like the Excel LPOs, was made and taken out again: One's read
+better, and with a letter head chosen under Workspace › Printing they carry
+the logo, address and TRN the Excel sheets did (`patches/lpo_print_gone`
+puts One's back as the default where it had been set).
 
 ## What is not built
 

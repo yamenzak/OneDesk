@@ -514,18 +514,6 @@ msgstr "Angebotsnr. des Lieferanten"
 msgid "The number on the supplier's own quotation, as they wrote it (Q-12548 Rev 2)."
 msgstr "Die Nummer auf dem Angebot des Lieferanten, wie er sie geschrieben hat (Q-12548 Rev 2)."
 
-#: rua/rua/print_format/rua_lpo/rua_lpo.json
-msgid "Local Purchase Order"
-msgstr "Lokale Bestellung"
 
-#: rua/rua/print_format/rua_lpo/rua_lpo.json
-msgid "LPO No"
-msgstr "Bestellnr."
 
-#: rua/rua/print_format/rua_lpo/rua_lpo.json
-msgid "Material Received in Good Condition"
-msgstr "Ware in gutem Zustand erhalten"
 
-#: rua/rua/print_format/rua_lpo/rua_lpo.json
-msgid "Name, signature and date"
-msgstr "Name, Unterschrift und Datum"

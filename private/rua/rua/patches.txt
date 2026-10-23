@@ -1,4 +1,4 @@
 [pre_model_sync]
 
 [post_model_sync]
-rua.patches.lpo_print
+rua.patches.lpo_print_gone
