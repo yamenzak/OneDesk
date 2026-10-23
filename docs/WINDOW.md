@@ -43,8 +43,9 @@ keep working, because nothing of theirs was replaced.
 - **Command row** is the rest of frappe's page head: the view's own
   commands on the left (`window.$commands`), led by New (OneCloud's New,
   a list's primary button, which is frappe's own node, moved; a form's
-  Save stays right). A list's menu (…), frappe's node too, follows New
-  after a line, as OneCloud's commands do. frappe's other actions stay on
+  own buttons, Record Payment, Create and the rest, with its Save and
+  Submit staying right). A list's or a form's menu (…), frappe's node too,
+  follows them after a line, as OneCloud's commands do. frappe's other actions stay on
   the right, and the details pane's switch is last.
 - **Views** sit at the command row's far end, beside the details switch:
   OneCloud's Details and Tiles, and a list's List, Report, Dashboard,
@@ -54,8 +55,11 @@ keep working, because nothing of theirs was replaced.
 - **Filter and Sort** are commands, as in Explorer: frappe's own buttons
   (its filter popover, its sort menu), moved before the view toggles.
 - **View row** is what frappe already draws under the head for the view: a
-  list's quick filters (Filter and Sort went up to the commands), a form's
-  tabs. Styled as a row, not moved. A list's column heads are drawn as
+  list's quick filters (Filter and Sort went up to the commands). Styled as a
+  row, not moved. A form's tabs are moved into it instead (`row`), so they sit
+  in the same place on a new record and a saved one, above its alerts and
+  head, and stay on screen as it scrolls; tabs that do not fit fold into More
+  at its end, and the tab you are on is always shown. A list's column heads are drawn as
   OneCloud's: words with a line under them, not a grey box.
 - **Details pane** (`window.details()`) sits right of the view, can be
   dragged wider, and is switched from the command row; both are kept per
@@ -145,6 +149,8 @@ page.window.view({
   controls,   // what narrows it (a list's Filter and Sort): before its views
   views,      // its ways of looking: frappe's view switcher, or its own toggles
   search,     // { placeholder, on_input, on_key } for the address row's box
+  steps,      // its own ‹ › to the one before and after: beside Up
+  row,        // what it shows across the window under the commands (a form's tabs)
   status, more,                     // the status row
   back, forward, up, refresh, path, // what it does for those itself
 });
@@ -243,7 +249,7 @@ else changes for anybody who has not.
 |---|---|---|---|---|---|
 | OneCloud | its own history; Up is the parent folder | re-lists | the folder, or everywhere | items, chosen, size | the chosen file's preview, versions, OneIntake |
 | A list | the browser's; Up is the app's Home | `list.refresh()` | the title field, as a filter | frappe's count, chosen | (next) the chosen record |
-| A form | the browser's; Up is the list | `frm.reload_doc()` | none | (next) saved, by whom | frappe's form sidebar |
+| A form | the browser's; Up is the list; ‹ › its records, beside Up | `frm.reload_doc()` | none | who edited it and when, who made it | frappe's form sidebar, without the name and number the address row says |
 
 ## What it replaces, when every view is on it
 

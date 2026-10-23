@@ -119,3 +119,78 @@
 		margin-inline-start: calc(var(--spacing) * 3);
 	}
 }
+
+/* A form: its tabs are the window's row, set on its gutter, those that do not
+   fit folded into More; its ‹ › sit beside Up as the window's own buttons do;
+   its sidebar leaves out the name and number the address row already says,
+   and who edited it, which the status says. */
+@media (min-width: 768px) {
+	/* A form's own buttons (frappe's custom actions and their groups) as one
+	   run in the command row. */
+	.one-window .one-window-commands .custom-actions,
+	.one-window .one-window-commands .custom-actions > .inner-group-button {
+		display: flex;
+		align-items: center;
+		gap: calc(var(--spacing) * 1);
+	}
+
+	.one-window .one-window-row > .form-tabs-list {
+		position: static;
+		margin: 0;
+		padding-inline: calc(var(--spacing) * 1);
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+	}
+
+	.one-window .one-window-row .form-tabs {
+		overflow: hidden;
+	}
+
+	.one-window .one-window-row .form-tabs .nav-link {
+		margin-inline: calc(var(--spacing) * 2);
+		background: transparent;
+	}
+
+	.one-window .one-window-row .form-tabs > .one-folded {
+		display: none;
+	}
+
+	.one-window .one-window-row .one-tabs-more-button {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+		margin-inline: calc(var(--spacing) * 2);
+		padding: 10px 0;
+		border: 0;
+		background: transparent;
+		color: var(--ink-gray-5);
+	}
+
+	.one-window .form-tab-content {
+		scroll-margin-top: calc(var(--navbar-height) + var(--page-head-height));
+	}
+
+	.one-window .one-window-steps .btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 28px;
+		height: 28px;
+		padding: 0;
+		border: 0;
+		background: transparent;
+		color: var(--ink-gray-7);
+	}
+
+	.one-window .one-window-steps .btn:hover {
+		background: var(--surface-gray-2);
+	}
+
+	.one-window[data-one-view="form"] .form-sidebar .form-title-text,
+	.one-window[data-one-view="form"] .form-sidebar .form-name-container,
+	.one-window[data-one-view="form"] .form-sidebar .modified-by,
+	.one-window[data-one-view="form"] .form-sidebar .created-by {
+		display: none;
+	}
+}

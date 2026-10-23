@@ -9512,6 +9512,10 @@ msgstr ""
 msgid "Created By"
 msgstr "أنشأه"
 
+#: onedesk/public/js/window/form.js:60
+msgid "Created {0} by {1}"
+msgstr "أنشأه {1} {0}"
+
 #: onedesk/public/js/settings.js:1529
 msgid "Created {0}, {1}."
 msgstr "أُنشئ {0}، {1}."
@@ -13084,6 +13088,10 @@ msgstr "معدّل"
 #: onedesk/public/js/settings.js:3239
 msgid "Edited text is no longer translated."
 msgstr "النص المعدّل لا يُترجم بعد ذلك."
+
+#: onedesk/public/js/window/form.js:62
+msgid "Edited {0} by {1}"
+msgstr "عدّله {1} {0}"
 
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:103
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:104

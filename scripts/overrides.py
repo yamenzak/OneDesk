@@ -1802,6 +1802,13 @@ OVERRIDES = [
 		'<div class="dock-user">',
 	),
 	(
+		"A form's tabs are the window's row under its commands",
+		"their setup_tabbed_layout puts the tabs above the form's fields, below its head; window/form.js wraps it and hands the same list to the window's row, where those that do not fit fold into More",
+		"onedesk/public/js/window/form.js",
+		"frappe/frappe/public/js/frappe/form/layout.js",
+		"setup_tabbed_layout() {",
+	),
+	(
 		"A form's alerts carry a round icon in their colour",
 		"their show_message draws an alert as a band of its colour; head.js wraps Layout.show_message and puts a round icon at its start, and desk.css draws every alert as one grey card with the colour in the icon",
 		"onedesk/public/js/head.js",

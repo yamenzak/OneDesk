@@ -9512,6 +9512,10 @@ msgstr ""
 msgid "Created By"
 msgstr "Erstellt von"
 
+#: onedesk/public/js/window/form.js:60
+msgid "Created {0} by {1}"
+msgstr "Erstellt {0} von {1}"
+
 #: onedesk/public/js/settings.js:1529
 msgid "Created {0}, {1}."
 msgstr "Erstellt {0}, {1}."
@@ -13084,6 +13088,10 @@ msgstr "Bearbeitet"
 #: onedesk/public/js/settings.js:3239
 msgid "Edited text is no longer translated."
 msgstr "Bearbeiteter Text wird nicht mehr übersetzt."
+
+#: onedesk/public/js/window/form.js:62
+msgid "Edited {0} by {1}"
+msgstr "Bearbeitet {0} von {1}"
 
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:103
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:104

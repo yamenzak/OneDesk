@@ -195,7 +195,7 @@ onedesk.window.Window = class Window {
 		page.window = this;
 		this.handlers = {};
 		this.$wrapper = page.wrapper.addClass("one-window").toggleClass("one-window-fit", !!fit);
-		const $content = this.$wrapper.find(".page-head-content").first();
+		const $content = (this.$content = this.$wrapper.find(".page-head-content").first());
 		const button = (act, icon, label) =>
 			frappe.ui.button.html({ variant: "ghost", icon, title: label, attrs: { "data-window": act, "aria-label": label } });
 		this.$nav = $(
@@ -241,12 +241,14 @@ onedesk.window.Window = class Window {
 	//   controls  what narrows the view (a list's Filter and Sort): before its views
 	//   views     its ways of looking (frappe's view switcher, or toggles of its own)
 	//   search    { placeholder, on_input, on_key } for the address row's box
+	//   steps     its own ‹ › to the one before and after (a form's records): after Up
+	//   row       what it shows across the window under the commands (a form's tabs)
 	//   status    what is here, in the status row; `more` beside it (paging)
 	//   back, forward, up, refresh, path: what it does for those itself
 	//
 	// Between groups of commands the window draws a line, as OneCloud does.
 	view(parts = {}) {
-		const { kind, primary, commands, menu, controls, views, search, status, more, ...handlers } = parts;
+		const { kind, primary, commands, menu, controls, views, search, steps, row, status, more, ...handlers } = parts;
 		if (kind) this.$wrapper.attr("data-one-view", kind);
 		if (primary) this.group("primary").append(primary);
 		if (commands) this.group("own").empty().append(commands);
@@ -260,6 +262,8 @@ onedesk.window.Window = class Window {
 		}
 		if (controls && controls.length) this.views_slot().prepend(controls.addClass("one-window-filters"));
 		if (search) this.search(search);
+		if (steps && steps.length) this.$nav.append(steps.addClass("one-window-steps"));
+		if (row && row.length) this.row().empty().append(row);
 		if (status !== undefined || more) this.status(status, { more });
 		if (Object.keys(handlers).length) {
 			this.handle(handlers);
@@ -270,6 +274,13 @@ onedesk.window.Window = class Window {
 
 	group(name) {
 		return this.$commands.children(`[data-group=${name}]`);
+	}
+
+	// A row across the window under the commands, for what a view shows over
+	// all of itself (a form's tabs), held with the head as the page scrolls.
+	row() {
+		if (!this.$row) this.$row = $(`<div class="one-window-row"></div>`).appendTo(this.$content);
+		return this.$row;
 	}
 
 	// The address box: frappe's breadcrumbs while at rest; clicked, or Ctrl+K,
@@ -366,6 +377,8 @@ onedesk.window.Window = class Window {
 	status(text, { more = null } = {}) {
 		this.$status.prop("hidden", false).find(".one-window-said").text(text || "");
 		if (more) this.$status.find(".one-window-more").empty().append(more);
+		// A view made after the page changed (a form) says its status late.
+		if (!$.contains($(".one-bar-status")[0] || document.body, this.$status[0]) && onedesk.window.current() === this) onedesk.window.place_status();
 		return this.$status;
 	}
 

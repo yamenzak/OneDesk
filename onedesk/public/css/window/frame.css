@@ -345,3 +345,35 @@ body.one-window-dragging * {
 	background: var(--surface-base);
 	box-shadow: none;
 }
+
+/* A view's row across the window under the commands (a form's tabs), part
+   of the head, so it stays on screen as the page scrolls. */
+@media (min-width: 768px) {
+	.one-window .page-head-content > .one-window-row {
+		order: 9;
+		flex-basis: 100%;
+		min-width: 0;
+		border-top: 1px solid var(--outline-gray-1);
+	}
+
+	.one-window .page-head-content > .one-window-row:empty {
+		display: none;
+	}
+
+	.one-window:has(> .page-head .one-window-row:not(:empty)) {
+		--page-head-height: 131px;
+	}
+
+	.one-window-nav > .one-window-steps {
+		display: flex;
+		align-items: center;
+		gap: 2px;
+		margin-inline-start: calc(var(--spacing) * 1);
+		padding-inline-start: calc(var(--spacing) * 1);
+		border-inline-start: 1px solid var(--outline-gray-2);
+	}
+
+	.one-window-nav > .one-window-steps:not(:has(> *)) {
+		display: none;
+	}
+}
