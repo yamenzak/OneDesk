@@ -66,6 +66,5 @@ onedesk.record_tabs.register("files", {
 		onedesk.record_files.count(frm, ((frm.get_docinfo() || {}).attachments || []).length);
 	},
 	open: (frm) => onedesk.record_files.open(frm),
-	wanted: (frm) => !(onedesk.window.panelled && onedesk.window.panelled(frm)),
 	opened: (frm, field) => Boolean(field && field.onecloud),
 });

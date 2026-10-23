@@ -199,21 +199,31 @@ onedesk.window.indicators = ($in, $head) => {
 	});
 };
 
-// The record's files are OneCloud's, not a tab's: beside frappe's print and
-// like, OneCloud's mark (in its colours, as One names a product) opens the
-// record's folder there, with how many files it holds.
+// The record's files are OneCloud's, not a tab in the row: beside frappe's
+// print and like, OneCloud's mark (in its colours, as One names a product),
+// with how many files it holds, opens the record's folder under the tabs,
+// in the Files tab's place, which leaves the row; any tab leads back.
 onedesk.window.cloud = (frm, $sidebar) => {
 	const $likes = $sidebar.find(".form-stats-likes").first();
 	$likes.find(".one-cloud-open").remove();
-	if (!onedesk.window.panelled(frm) || frm.is_new() || !onedesk.record_tabs.applies(frm, "files")) return;
+	const tab = onedesk.record_files.tab(frm);
+	if (!onedesk.window.panelled(frm) || frm.is_new() || !tab) return;
+	tab.tab_link.addClass("one-tab-off");
 	const button = frappe.ui.button({
 		icon: "onestorage",
 		variant: "ghost",
 		size: "sm",
 		title: __("Open in OneCloud"),
 		css_class: "one-cloud-open",
-		onclick: () => frappe.set_route("onecloud", { node: onedesk.record_files.room(frm) }),
+		onclick: () => onedesk.record_files.show(frm),
 	}).append(`<span class="one-files-count"></span>`);
+	// The mark is pressed while the files are what is shown.
+	const $link = tab.tab_link.find(".nav-link");
+	const pressed = () => button.attr("data-state", $link.hasClass("active") ? "on" : "off");
+	pressed();
+	tab.one_pressed ||= new MutationObserver(() => tab.one_pressed_now && tab.one_pressed_now());
+	tab.one_pressed_now = pressed;
+	tab.one_pressed.observe($link[0], { attributes: true, attributeFilter: ["class"] });
 	const $print = $likes.children(".form-print");
 	$print.length ? button.insertBefore($print) : button.prependTo($likes);
 	onedesk.window.cloud_count(frm, ((frm.get_docinfo() || {}).attachments || []).length);

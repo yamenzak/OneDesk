@@ -248,6 +248,16 @@
 		color: var(--ink-gray-8);
 	}
 
+	.one-window .form-stats-likes .one-cloud-open[data-state="on"] {
+		background: var(--surface-gray-3);
+	}
+
+	/* A record tab the window shows elsewhere (Files, behind OneCloud's mark):
+	   built and opened as ever, only not in the row. */
+	.one-window .form-tabs > .nav-item.one-tab-off {
+		display: none;
+	}
+
 	.one-window .one-cloud-open .one-files-count {
 		margin: 0;
 		font-size: var(--text-xs);
