@@ -165,7 +165,42 @@ onedesk.window.Window = class Window {
 			e.preventDefault();
 			this.act(e.currentTarget.dataset.window);
 		});
+		page.$title_area.on("click", (e) => {
+			if (!$(e.target).closest("a, button, input, .one-crumb-switch, .one-window-address").length) this.address();
+		});
 		this.can({});
+	}
+
+	// The address box: frappe's breadcrumbs while at rest; clicked, or Ctrl+K,
+	// a box to type a place, a record or a command in, answered by frappe's
+	// own search bar (`AddressBar`). A view that has paths of its own
+	// (OneCloud's folders) is asked first when what is typed has a "/" in it.
+	address() {
+		if (this.$address) return this.$address.find("input").trigger("focus");
+		const $area = this.page.$title_area.addClass("one-window-typing");
+		this.$address = $(`<div class="one-window-address"><input type="text" spellcheck="false" autocomplete="off"></div>`).appendTo($area);
+		const $input = this.$address
+			.find("input")
+			.attr({ "aria-label": __("Address"), placeholder: __("Go to a place, a record or a command") });
+		$input.on("keydown", (e) => {
+			const typed = $input.val().trim();
+			if (e.key !== "Enter" || !this.handlers.path || !typed.includes("/")) return;
+			e.preventDefault();
+			e.stopImmediatePropagation();
+			Promise.resolve(this.handlers.path(typed)).then((went) => went && this.close_address());
+		});
+		let leaving = null;
+		$input.on("blur", () => (leaving = setTimeout(() => this.close_address(), 200)));
+		$input.on("focus", () => clearTimeout(leaving));
+		new onedesk.window.AddressBar(this.$address, $input, () => this.close_address());
+		$input.trigger("focus");
+	}
+
+	close_address() {
+		if (!this.$address) return;
+		this.$address.remove();
+		this.$address = null;
+		this.page.$title_area.removeClass("one-window-typing");
 	}
 
 	// What the view does for Back, Forward, Up and Refresh; anything it does
@@ -273,6 +308,53 @@ onedesk.window.Window = class Window {
 		return this.$slot;
 	}
 };
+
+// frappe's search bar, answering in the address box rather than its modal:
+// the same options, the same `awesomebar_search` hooks, the same filters of
+// what One shows. Only where it draws differs.
+onedesk.window.AddressBar = class AddressBar extends frappe.search.AwesomeBar {
+	constructor($host, $input, done) {
+		super();
+		this.options = [];
+		this.global_results = [];
+		const find = $host.find.bind($host);
+		$host.find = (selector) => (selector === "#navbar-search" ? $input : find(selector));
+		$host.modal = () => done();
+		this.search_modal = $host;
+		this.setup_event_listeners($host);
+	}
+};
+
+// The current page's window, if it has one and the screen is wide enough
+// for its address row.
+onedesk.window.current = () => {
+	const page = frappe.container && frappe.container.page && frappe.container.page.page;
+	return page && page.window && window.innerWidth >= 768 ? page.window : null;
+};
+
+(() => {
+	if (frappe.search.open_awesomebar_from_global_search_shortcut && !frappe.search.one_window) {
+		frappe.search.one_window = true;
+		const theirs = frappe.search.open_awesomebar_from_global_search_shortcut;
+		frappe.search.open_awesomebar_from_global_search_shortcut = function (e) {
+			const win = onedesk.window.current();
+			if (!win) return theirs.call(this, e);
+			win.address();
+			return false;
+		};
+		document.addEventListener(
+			"click",
+			(e) => {
+				const win = e.target.closest && e.target.closest(".navbar-modal-search-mobile") && onedesk.window.current();
+				if (!win) return;
+				e.stopPropagation();
+				e.preventDefault();
+				win.address();
+			},
+			{ capture: true }
+		);
+	}
+})();
 
 (() => {
 	if (frappe.ui.make_app_page.one_window) return;

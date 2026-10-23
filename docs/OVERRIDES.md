@@ -5,6 +5,7 @@ Each row is something that would still run but stop working if upstream moved. `
 
 | What | Why | Ours | Upstream | Must still contain |
 |---|---|---|---|---|
+| Ctrl+K and the top bar's search open the window's address box | on a page in the window, window.js answers frappe's Ctrl+K shortcut, and a click on the search button, with the address box; frappe's search modal stays for every other page and below 768 px | `onedesk/public/js/window.js` | `frappe/frappe/public/js/frappe/ui/toolbar/search_utils.js` | `frappe.search.open_awesomebar_from_global_search_shortcut = function (e) {` |
 | A page asks for the window, or the trial puts every page in it | frappe.ui.make_app_page builds every page; window.js gives the page made a window of frappe's own parts (docs/WINDOW.md) and changes nothing it made | `onedesk/public/js/window.js` | `frappe/frappe/public/js/frappe/ui/page.js` | `frappe.ui.make_app_page = function (opts) {` |
 | A view's own tree sits under its row in the nav pane | frappe redraws the sidebar's rows and lights the active one in highlight_active_item; window.js puts the page's nav slot back under that row after it | `onedesk/public/js/window.js` | `frappe/frappe/public/js/frappe/ui/sidebar/sidebar.js` | `highlight_active_item() {` |
 | A list in the window searches its title and tells the address row Refresh and Up | the trial only; window.js wraps ListView.setup_page after frappe makes the page | `onedesk/public/js/window.js` | `frappe/frappe/public/js/frappe/list/list_view.js` | `setup_page() {` |
@@ -400,7 +401,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | A notification's mail is One's mail | NotificationLog (hooks override_doctype_class) repeats frappe's after_insert, the realtime push and unseen mark, and mails through mail_log in place of send_notification_email; a change to frappe's after_insert has to be carried here | `onedesk/one/notify.py` | `frappe/frappe/desk/doctype/notification_log/notification_log.py` | `send_notification_email(self)` |
 | Remind Me is told as One's Reminder | Reminder (hooks override_doctype_class) repeats frappe's send_reminder guard, marking it notified once, and tells through notify rather than writing an Alert, which neither pushes nor mails | `onedesk/one/tell.py` | `frappe/frappe/automation/doctype/reminder/reminder.py` | `self.db_set("notified", 1, update_modified=False)` |
 
-394 overrides.
+395 overrides.
 
 ## What we would ask upstream
 

@@ -147,14 +147,19 @@ onedesk.OneCloud = class OneCloud {
 		this.$tree = win.nav_slot().addClass("oc-tree").attr("aria-label", __("Folders"));
 		this.$preview = win.details({ key: "onecloud" }).addClass("oc-preview");
 		this.$search = win.search();
-		win.handle({ up: () => this.act("up"), refresh: () => this.act("refresh") });
+		win.handle({
+			up: () => this.act("up"),
+			refresh: () => this.act("refresh"),
+			path: (typed) =>
+				frappe
+					.xcall(OneCloud.API + "resolve", { path: typed })
+					.then((node) => (this.go(node), true))
+					.catch(() => false),
+		});
 		this.page.wrapper.on("one-window-details", (e, open) => {
 			if (!open) return;
 			this.previewing = null;
 			this.draw_preview();
-		});
-		this.page.$title_area.on("click", (e) => {
-			if (!$(e.target).closest("a, button, li.es-breadcrumbs__item").length) this.type_path();
 		});
 		this.make_views();
 	}

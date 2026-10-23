@@ -16776,6 +16776,9 @@ msgstr "Geh diese Einstellungen mit mir durch: welche für ein Unternehmen wie u
 msgid "Go to"
 msgstr "Gehe zu"
 
+msgid "Go to a place, a record or a command"
+msgstr "Zu einem Ort, einem Datensatz oder einem Befehl"
+
 #. Label in the One Appraisal print format
 #. Label of a Sidebar Item
 #: onedesk/one_hr/home.py:275

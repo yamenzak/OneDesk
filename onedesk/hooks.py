@@ -774,7 +774,7 @@ permission_query_conditions = {
 	"Tenant Event": "onedesk.one_admin.site.nothing_on_a_tenant",
 }
 
-awesomebar_search = ["onedesk.one_intake.search.awesomebar"]
+awesomebar_search = ["onedesk.one.outside.awesomebar", "onedesk.one_intake.search.awesomebar"]
 
 fixtures = [
 	"Custom Icon",

@@ -247,3 +247,63 @@ body.one-window-dragging * {
 .body-sidebar-container:not(.expanded) .one-window-nav-slot {
 	display: none;
 }
+
+/* The address box: frappe's breadcrumbs at rest, a box to type in when
+   clicked, with frappe's search bar's answers under it. */
+.one-window .title-area.one-window-typing > :not(.one-window-address) {
+	display: none !important;
+}
+
+.one-window .title-area.one-window-typing {
+	overflow: visible;
+	border-color: var(--outline-gray-3);
+	background: var(--surface-base);
+}
+
+.one-window-address {
+	flex: 1;
+	min-width: 0;
+	height: 100%;
+}
+
+.one-window-address .awesomplete,
+.one-window-address .awesomebar-input-row {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+	height: 100%;
+	position: static;
+}
+
+.one-window-address .awesomebar-search-icon {
+	display: flex;
+	color: var(--ink-gray-5);
+}
+
+.one-window-address input {
+	flex: 1;
+	min-width: 0;
+	height: 100%;
+	padding: 0;
+	border: 0;
+	outline: none;
+	background: transparent;
+	color: var(--ink-gray-8);
+	font-size: var(--text-base);
+}
+
+.one-window .page-title .title-area {
+	position: relative;
+}
+
+.one-window-address .awesomplete > [role="listbox"] {
+	top: calc(100% + 6px);
+	inset-inline: -1px;
+	width: auto;
+	max-height: min(60vh, 480px);
+	z-index: 1030;
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius-lg);
+	background: var(--surface-base);
+	box-shadow: none;
+}

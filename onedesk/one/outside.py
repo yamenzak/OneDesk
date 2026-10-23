@@ -6,6 +6,7 @@ modules reach, and search, pickers and global search offer nothing else.
 """
 
 import frappe
+from frappe import _
 
 APP = "onedesk"
 
@@ -208,8 +209,61 @@ def _among(kind: str, names: set, txt, start, page_len, filters) -> list:
 
 @frappe.whitelist()
 def search(text: str, start: int = 0, limit: int = 20, doctype: str = ""):
-	"""frappe's global search, over the record types One shows."""
+	"""frappe's global search, over the record types One shows. It leaves out
+	a record the reader may not read, and says so in a message each time,
+	which popped a dialog on every key typed in the address box; the
+	records are still left out, the messages are not kept."""
 	from frappe.utils.global_search import search as theirs
 
 	kinds = shown()["DocType"]
-	return [row for row in theirs(text, start=start, limit=limit, doctype=doctype) if row.get("doctype") in kinds]
+	said = len(frappe.local.message_log)
+	found = theirs(text, start=start, limit=limit, doctype=doctype)
+	del frappe.local.message_log[said:]
+	return [row for row in found if row.get("doctype") in kinds]
+
+
+#: Where a record stands among the search bar's answers, against frappe's
+#: fuzzy scores (a record type typed from its start scores about 180 to 260,
+#: one whose letters are only scattered through its name about 140 to 150).
+PREFIX = 300
+WITHIN = 160
+
+
+def awesomebar(txt: str) -> list[dict]:
+	"""`awesomebar_search`: records named like what was typed, from frappe's
+	global search over the record types One shows, so typing a customer's
+	name in the address box goes to the customer. A record whose name starts
+	with it comes first, a record named by it (a customer, an item) before a
+	document about it (their invoice), then one whose name has it; one that only says it
+	somewhere is frappe's own "Search for" row."""
+	typed = (txt or "").strip().lower()
+	if len(typed) < 2:
+		return []
+	out = []
+	for row in search(txt, limit=40):
+		title = row.get("title") or row["name"]
+		kind = row["doctype"]
+		label = title if title == row["name"] else f"{title} · {row['name']}"
+		said = f"{title} {row['name']}".lower()
+		if typed not in said:
+			continue
+		index = PREFIX if title.lower().startswith(typed) else WITHIN
+		if row["name"].lower().startswith(typed):
+			index += 20
+		out.append(
+			{
+				"label": f"{label} ({_(kind)})",
+				"description": _said(row.get("content"), {title, row["name"]}),
+				"route": ["Form", row["doctype"], row["name"]],
+				"index": index,
+			}
+		)
+	return sorted(out, key=lambda one: -one["index"])[:10]
+
+
+def _said(content: str | None, known: set) -> str:
+	"""A record's indexed fields as one line, less the ones that only repeat
+	its title or name."""
+	parts = [part.strip() for part in (content or "").split("|||")]
+	kept = [part for part in parts if part and part.split(" : ", 1)[-1].strip() not in known]
+	return " · ".join(kept)[:120]

@@ -77,3 +77,16 @@ def test_only_the_trial_puts_lists_and_forms_on_the_window():
 	assert "frappe.views.ListView" not in JS.split("// The trial:", 1)[0]
 	outside = (tree.APP / "public" / "js" / "outside.js").read_text(encoding="utf-8")
 	assert 'label: __("Window Preview")' in outside and "onedesk.window.set_trial(" in outside
+
+
+def test_the_address_box_is_frappes_search_bar():
+	"""The address box is the breadcrumbs at rest and frappe's own search bar
+	when typed in, so one place goes anywhere; Ctrl+K opens it."""
+	assert "class AddressBar extends frappe.search.AwesomeBar" in JS and "this.setup_event_listeners($host)" in JS
+	assert "frappe.search.open_awesomebar_from_global_search_shortcut = function" in JS
+	assert ".navbar-modal-search-mobile" in JS
+	assert "this.handlers.path" in JS and "path: (typed) =>" in CLOUD
+	hooks = HOOKS.split("awesomebar_search = ", 1)[1].split("\n", 1)[0]
+	assert '"onedesk.one.outside.awesomebar"' in hooks
+	outside = (tree.APP / "one" / "outside.py").read_text(encoding="utf-8")
+	assert "del frappe.local.message_log[said:]" in outside

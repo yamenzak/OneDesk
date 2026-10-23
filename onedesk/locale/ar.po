@@ -16776,6 +16776,9 @@ msgstr "راجع معي هذه الإعدادات: أيها مهم لشركة م
 msgid "Go to"
 msgstr "انتقل إلى"
 
+msgid "Go to a place, a record or a command"
+msgstr "انتقل إلى مكان أو سجل أو أمر"
+
 #. Label in the One Appraisal print format
 #. Label of a Sidebar Item
 #: onedesk/one_hr/home.py:275

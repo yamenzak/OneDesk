@@ -71,6 +71,33 @@ the trial is on, to every page.
 Below 992 px nothing moves: frappe's own phone and tablet head stay, and
 the window's buttons hide.
 
+## The address box
+
+At rest the address box is frappe's breadcrumbs, each crumb a link. Clicked
+in an empty part, or with Ctrl+K, or with the search button in the top bar,
+it becomes a box to type in, answered by frappe's own search bar
+(`onedesk.window.AddressBar`, a `frappe.search.AwesomeBar` that draws under
+the box instead of in its modal): the record types, reports, pages and
+"New ..." rows it always offered, filtered to what One shows
+(one/outside.py `shown`), and its `awesomebar_search` hooks. Two of those
+are ours: records named like what was typed (`outside.awesomebar`, frappe's
+global search ranked so a record whose name starts with it comes first, and
+a record named by it, a customer, before a document about it, their
+invoice), and OneIntake's search by meaning. Esc puts the breadcrumbs back.
+
+A view with paths of its own is asked first when what is typed has a "/":
+OneCloud opens `Company/Document Templates` as a folder.
+
+So there is one way to go somewhere (the address box) and one way to narrow
+what is here (the search box beside it, which filters this list or this
+folder). Below 768 px, where the address row is not drawn, Ctrl+K opens
+frappe's own search as before.
+
+frappe's global search tells the reader, in a message, about every record
+it leaves out because they may not read it. Typed into a box that searches
+on every key, that was a dialog on every key, so `outside.search` keeps the
+records left out and drops the messages.
+
 ## The trial
 
 OneCloud is on the window for everybody. Lists and forms are on it for
