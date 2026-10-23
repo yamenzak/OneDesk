@@ -1802,6 +1802,13 @@ OVERRIDES = [
 		'<div class="dock-user">',
 	),
 	(
+		"A form's alerts carry a round icon in their colour",
+		"their show_message draws an alert as a band of its colour; head.js wraps Layout.show_message and puts a round icon at its start, and desk.css draws every alert as one grey card with the colour in the icon",
+		"onedesk/public/js/head.js",
+		"frappe/frappe/public/js/frappe/form/layout.js",
+		"show_message(html, color, permanent = false) {",
+	),
+	(
 		"On a workspace's colour the rail shows each app's flat mark",
 		"their dock draws every entry's icon as it is; window/chrome.js wraps Dock.make_dock_item and adds the mark's flat twin beside it, which chrome.css shows on a workspace's frame colour",
 		"onedesk/public/js/window/chrome.js",

@@ -90,14 +90,37 @@ onedesk.head.draw = (frm, drawn = null) => {
 };
 
 onedesk.head.notice = (frm, notice) => {
-	const $notice = $(`<div class="form-message one-notice ${notice.colour}"><div class="one-notice-text"></div><div class="one-notice-verbs"></div></div>`);
+	const $notice = $(`<div class="form-message one-notice ${notice.colour}">${onedesk.head.marked(notice.colour)}<div class="one-notice-text"></div><div class="one-notice-verbs"></div></div>`);
 	$notice.find(".one-notice-text").text(notice.text);
 	for (const line of notice.lines || []) $("<div>").text(line).appendTo($notice.find(".one-notice-text"));
 	for (const verb of notice.verbs) {
-		$notice.find(".one-notice-verbs").append(frappe.ui.button({ label: verb.label, variant: "subtle", onclick: () => onedesk.head.act(frm, verb) }));
+		$notice.find(".one-notice-verbs").append(frappe.ui.button({ label: verb.label, variant: "outline", onclick: () => onedesk.head.act(frm, verb) }));
 	}
 	frm.layout.message.append($notice).removeClass("hidden");
 };
+
+// An alert's round icon, by its colour: what card in desk.css it sits in.
+onedesk.head.marked = (colour) => {
+	const icon = { red: "circle-alert", orange: "triangle-alert", yellow: "triangle-alert", green: "circle-check" }[colour] || "info";
+	return `<span class="one-alert-icon">${frappe.utils.icon(icon, "sm")}</span>`;
+};
+
+// frappe's own alerts (set_intro, the dashboard's headline) take the same icon.
+{
+	const Layout = frappe.ui.form.Layout;
+	if (Layout && !Layout.prototype.__one_marked) {
+		Layout.prototype.__one_marked = true;
+		const shown = Layout.prototype.show_message;
+		Layout.prototype.show_message = function (html, color, permanent) {
+			const $html = shown.call(this, html, color, permanent);
+			if ($html && !$html.find(".one-band").length) {
+				const colour = ["yellow", "blue", "red", "green", "orange", "white"].includes(color) ? color : "blue";
+				$html.prepend(onedesk.head.marked(colour));
+			}
+			return $html;
+		};
+	}
+}
 
 onedesk.head.act = (frm, verb) => {
 	const go = (values) =>
@@ -352,9 +375,9 @@ onedesk.head.updated = (data) => {
 
 onedesk.head.warn = (frm, title) => {
 	frm.layout.message.children(".one-record-changed").remove();
-	const $block = $(`<div class="form-message one-record-changed"></div>`).append(
-		onedesk.shell.changed(title, () => frm.reload_doc()),
-	);
+	const $block = $(`<div class="form-message one-record-changed yellow">${onedesk.head.marked("yellow")}<div></div><div class="one-notice-verbs"></div></div>`);
+	$block.children("div").first().text(title);
+	$block.find(".one-notice-verbs").append(frappe.ui.button({ label: __("Refresh"), variant: "outline", onclick: () => frm.reload_doc() }));
 	frm.layout.message.removeClass("hidden").prepend($block);
 };
 

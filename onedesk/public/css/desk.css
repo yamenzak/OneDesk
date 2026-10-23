@@ -46,34 +46,85 @@
 
 .form-message:has(.one-band) {
 	padding: var(--padding-md) var(--padding-xl);
-	background: var(--surface-elevation-1) !important;
+	background: transparent !important;
 	border: none !important;
 	border-bottom: 1px solid var(--outline-gray-1) !important;
 	color: var(--ink-gray-7) !important;
 }
 
-.form-message:has(.one-head-sentence) {
-	padding-left: var(--padding-xl);
-	padding-right: var(--padding-lg);
-}
-
-.form-message.white:has(.one-head-sentence) {
-	border: 1px solid var(--surface-gray-2);
-	background: var(--surface-gray-2);
-	color: var(--ink-gray-7);
-}
-
-.form-message.one-notice {
+/* A form's alerts (frappe's set_intro and headline, and the head's sentence
+   and notices) are one card each: soft grey, the colour only in a round icon
+   at the start (onedesk.head.marked), and the fix, where there is one, as an
+   outline button at the end. The head's band shares frappe's box and is not
+   an alert. */
+.form-message-container > .form-message:not(:has(.one-band)) {
 	display: flex;
-	flex-wrap: wrap;
 	align-items: center;
-	justify-content: space-between;
 	gap: var(--padding-sm);
-	padding: var(--padding-sm) var(--padding-lg) var(--padding-sm) var(--padding-xl);
+	margin: var(--margin-md) var(--margin-md) 0;
+	padding: var(--padding-sm) var(--padding-md);
+	border: none;
+	border-radius: var(--radius-xl);
+	background: var(--surface-gray-1);
+	color: var(--ink-gray-8);
+}
+
+.form-message-container > .form-message:not(:has(.one-band)) > :not(.one-alert-icon, .close-message, .one-notice-verbs) {
+	flex: 1;
+	min-width: 0;
+}
+
+.form-message-container > .form-message:not(:has(.one-band)) a {
+	color: inherit;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.form-message-container > .form-message .close-message {
+	position: static;
+	flex: none;
+	margin-inline-start: auto;
+	padding: 0;
+	color: var(--ink-gray-5);
+}
+
+.one-alert-icon {
+	display: flex;
+	flex: none;
+	align-items: center;
+	justify-content: center;
+	align-self: flex-start;
+	width: 28px;
+	height: 28px;
+	border-radius: var(--radius-full);
+	background: var(--ink-blue-6);
+	color: var(--surface-gray-1);
+}
+
+.form-message.red > .one-alert-icon {
+	background: var(--ink-red-6);
+}
+
+.form-message.orange > .one-alert-icon,
+.form-message.yellow > .one-alert-icon {
+	background: var(--ink-amber-6);
+}
+
+.form-message.green > .one-alert-icon {
+	background: var(--ink-green-6);
+}
+
+.form-message.white > .one-alert-icon {
+	background: var(--ink-gray-6);
+}
+
+.one-alert-icon .icon {
+	stroke: currentColor;
 }
 
 .one-notice-verbs {
 	display: flex;
+	flex: none;
 	flex-wrap: wrap;
 	gap: var(--padding-xs);
 }

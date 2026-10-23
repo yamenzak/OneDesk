@@ -211,18 +211,6 @@ $.extend(onedesk.shell, {
 	quiet(text) {
 		return `<div class="one-shell-quiet">${frappe.utils.escape_html(text)}</div>`;
 	},
-
-	changed(title, refresh, css_class = "") {
-		const $refresh = $(onedesk.shell.button(__("Refresh"), {}, "ghost")).on("click", refresh);
-		return $(
-			frappe.ui.alert({
-				title,
-				theme: "yellow",
-				footer: $refresh,
-				css_class: `one-shell-alert-row ${css_class}`.trim(),
-			})
-		);
-	},
 });
 
 onedesk.shell.Editor = class Editor {

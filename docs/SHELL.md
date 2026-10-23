@@ -244,8 +244,9 @@ the linked fields, and where it goes). `head.js` puts the fields into the
 layout where frappe builds it, named `one_linked__link__field`, and the
 changes are gathered in `frappe.ui.form.save`, which Save, Submit and Update
 all pass through. `linked.save` runs on `on_update`, `on_update_after_submit`
-and `on_submit`. A clash is drawn as frappe-ui's row alert
-(`onedesk.shell.changed`), as frappe's own conflict message now is. This is
+and `on_submit`. A clash is drawn as every form alert is (a grey
+card, a round icon, Refresh as its button: `onedesk.head.warn`), as frappe's
+own conflict message now is. This is
 the only second save path. No module ships a section; a workspace adds its
 own.
 

@@ -169,21 +169,6 @@
 	font-size: var(--text-sm);
 }
 
-.es-alert.one-shell-alert-row {
-	align-items: center;
-	padding-block: calc(var(--spacing) * 1.5);
-	padding-inline-end: calc(var(--spacing) * 1.5);
-}
-
-.es-alert.one-shell-alert-row > .es-alert__footer {
-	grid-column: 3;
-	grid-row: 1;
-}
-
-.es-alert.one-shell-alert-row[data-theme="yellow"] .es-button {
-	color: var(--ink-amber-6);
-}
-
 .one-shell-row-link {
 	cursor: pointer;
 	margin-inline: calc(var(--spacing) * -2);
