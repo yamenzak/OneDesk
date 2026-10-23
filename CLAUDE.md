@@ -259,6 +259,10 @@ it still catches its own example. Every guard is listed by the passover point
 it serves in `tests/guards/registry.py` and lives in `tests/guards/`, except
 the two below that sit in `tests/` and are not in the registry.
 
+The editors' own tests (`frontend/src/**/*.test.*`, taken with OneWorkbook and
+OneWriter) run with `cd frontend && npx -p vitest@5 -p jsdom@26 vitest run`;
+`frontend/vitest.config.mjs` gives them the same seams the build does.
+
 - `test_borrowing.py` — a named list of what the framework does for us, and the
   pattern that must not appear. Add a rule when you find another.
 - `test_declarative.py` — desk furniture is fixture JSON, and `modules.txt`

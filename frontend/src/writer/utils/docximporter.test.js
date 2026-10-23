@@ -165,7 +165,7 @@ describe('_convertDocxToHtml', () => {
       expect.any(File),
       expect.objectContaining({
         params: { file_id: 'file-1' },
-        upload_endpoint: '/api/method/suite.writer.api.embed.add',
+        upload_endpoint: '/api/method/onedesk.one_doc.api.add_picture',
       }),
     )
     expect(html).toContain('src="/api/method/suite.writer.api.embed.get?id=embed-1"')
@@ -307,7 +307,7 @@ describe('importDocx', () => {
 
     await importDocx(fakeFile('sample.docx'), { editor: { value: editor }, currentFileId: 'file-1' })
 
-    expect(callMock).toHaveBeenCalledWith('suite.drive.api.files.delete_entities', {
+    expect(callMock).toHaveBeenCalledWith('onedesk.one_doc.api.drop_pictures', {
       entity_names: ['embed-1'],
     })
     expect(toastMock.error).toHaveBeenCalled()

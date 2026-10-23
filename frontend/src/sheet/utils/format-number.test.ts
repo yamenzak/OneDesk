@@ -141,8 +141,12 @@ describe('applyNumberFmt — currency variants', () => {
     expect(out).not.toContain('.')
   })
 
-  it('unknown currency variant falls back to USD', () => {
-    expect(applyNumberFmt(10, 'currency:XYZ:0')).toBe('$10')
+  it('a currency code without a symbol shows its letters', () => {
+    expect(applyNumberFmt(10, 'currency:XYZ:0')).toMatch(/^XYZ\s10$/)
+  })
+
+  it('a variant that is not a currency code falls back to USD', () => {
+    expect(applyNumberFmt(10, 'currency:xyz:0')).toBe('$10')
   })
 
   it('bare `currency` still defaults to USD (backwards-compat)', () => {
