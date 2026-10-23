@@ -92,7 +92,8 @@ corners rounded, with a strip of the frame on its far side.
 
 The frame's colour is `--one-frame`: frappe-ui's darkest grey in a light
 theme, and in a dark one a grey a step lighter than the page (which is
-already the darkest surface), with the inset's edge drawn. A workspace's
+already the darkest surface), with the inset's edge drawn; there frappe's
+sidebar takes the page's colour, so the inset reads as one surface. A workspace's
 **Frame Colour** (Company `one_frame_colour`, Workspace › General › Contact and
 Branding) replaces it for everyone: `chrome.js` sets `--one-frame-brand`
 and marks the root `data-one-frame="brand"`, with `data-one-frame-ink`

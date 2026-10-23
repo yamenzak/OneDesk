@@ -145,6 +145,16 @@
 		border-end-start-radius: var(--radius-lg);
 	}
 
+	/* In a dark theme the inset is one surface: frappe's sidebar takes the
+	   page's colour rather than the frame's, with a line between them. */
+	:root[data-theme="dark"] body.one-barred.dock-pinned {
+		--desk-sidebar-bg: var(--surface-base);
+	}
+
+	:root[data-theme="dark"] body.one-barred.dock-pinned .body-sidebar-container.expanded:not([style*="display: none"]) + .main-section {
+		border-inline-start: 1px solid var(--outline-gray-1);
+	}
+
 	/* A dark inset in a dark frame needs its edge drawn. */
 	:root[data-theme="dark"] body.one-barred.dock-pinned .main-section {
 		border: 1px solid var(--outline-gray-1);
@@ -155,9 +165,6 @@
 		border-inline-end: 0;
 	}
 
-	:root[data-theme="dark"] body.one-barred.dock-pinned .body-sidebar-container.expanded:not([style*="display: none"]) + .main-section {
-		border-inline-start: 0;
-	}
 }
 
 .one-bar-tools {
