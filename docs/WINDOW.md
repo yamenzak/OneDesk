@@ -49,8 +49,12 @@ keep working, because nothing of theirs was replaced.
   Kanban, Image... as one toggle each, from frappe's own view switcher
   (its views, icons and actions). frappe's menu follows as a chevron, for
   what is inside a view: saved layouts, kanban boards, saved reports.
+- **Filter and Sort** are commands, as in Explorer: frappe's own buttons
+  (its filter popover, its sort menu), moved before the view toggles.
 - **View row** is what frappe already draws under the head for the view: a
-  list's filters and sort, a form's tabs. Styled as a row, not moved.
+  list's quick filters (Filter and Sort went up to the commands), a form's
+  tabs. Styled as a row, not moved. A list's column heads are drawn as
+  OneCloud's: words with a line under them, not a grey box.
 - **Details pane** (`window.details()`) sits right of the view, can be
   dragged wider, and is switched from the command row; both are kept per
   view kind. A form's own sidebar is already there.

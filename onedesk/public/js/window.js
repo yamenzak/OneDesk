@@ -458,6 +458,11 @@ onedesk.window.current = () => {
 			const said = menu.apply(this, args);
 			const win = this.page && this.page.window;
 			if (win && this.views_list) win.views_of(this.views_list);
+			// Filter and Sort are commands, as Explorer has them: frappe's own
+			// buttons, moved before the view toggles. The quick filters stay as
+			// the row under the commands.
+			const $filters = win && this.$page && this.$page.find(".filter-section").first();
+			if (win && $filters && $filters.length) win.views_slot().prepend($filters.addClass("one-window-filters"));
 			return said;
 		};
 	}

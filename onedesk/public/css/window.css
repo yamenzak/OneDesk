@@ -153,6 +153,53 @@
 		display: none;
 	}
 
+	/* Filter and Sort among the commands, as plain buttons in the row. */
+	.one-window .one-window-views > .one-window-filters {
+		display: flex;
+		align-items: center;
+		gap: calc(var(--spacing) * 1);
+		margin: 0;
+		padding: 0;
+		padding-inline-end: calc(var(--spacing) * 2);
+	}
+
+	.one-window .one-window-filters > * {
+		margin: 0;
+		padding: 0;
+	}
+
+	/* The quick filters are the view row, set like the rows above it. */
+	.one-window .list-page-form {
+		min-height: 44px;
+		align-items: center;
+		padding-inline: calc(var(--spacing) * 2);
+	}
+
+	.one-window .list-page-form .standard-filter-section {
+		align-items: center;
+		margin: 0;
+		padding: 0;
+	}
+
+	.one-window .list-page-form .frappe-control {
+		margin: 0;
+	}
+
+	/* A list's column heads, as OneCloud's: words on the page with a line
+	   under them, not a box. */
+	.one-window[data-one-view="list"] .list-row-head {
+		background: transparent;
+		border-radius: 0;
+		border-bottom: 1px solid var(--outline-gray-1);
+		color: var(--ink-gray-5);
+	}
+
+	/* frappe holds the head's right end (count, likes) over the rows as they
+	   scroll sideways, on the head's own grey; on the page's surface now. */
+	.one-window[data-one-view="list"] .list-row-head .level-right {
+		background: var(--surface-base);
+	}
+
 	/* The status row, held at the foot of the screen while the page scrolls. */
 	.one-window {
 		display: flex;

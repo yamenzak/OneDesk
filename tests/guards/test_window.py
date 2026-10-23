@@ -116,3 +116,11 @@ def test_a_lists_new_leads_the_command_row():
 	assert "win.$commands.prepend(this.page.btn_primary)" in list_setup
 	form_setup = JS.split("Form.prototype.setup = function", 1)[1].split("};", 1)[0]
 	assert "btn_primary" not in form_setup
+
+
+def test_filter_and_sort_are_commands_and_the_heads_are_flat():
+	"""A list's Filter and Sort are frappe's own buttons moved among the
+	commands, before the view toggles; the column heads are drawn as
+	OneCloud's are, words with a line under them."""
+	assert 'win.views_slot().prepend($filters.addClass("one-window-filters"))' in JS
+	assert '.one-window[data-one-view="list"] .list-row-head {' in CSS and "border-radius: 0;" in CSS
