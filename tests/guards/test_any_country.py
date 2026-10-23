@@ -17,6 +17,7 @@ COUNTRY = re.compile(r"\bAED\b|\bUAE\b|United Arab Emirates|\bVAT\b|Emirat|\bTRN
 REGIONAL = {
 	"hooks.py": "UAE VAT Settings, homed in OneBook",
 	"one/countries.py": "which regional doctypes and reports each country sees",
+	"one/shown.json": "what the rails show, generated, and the rails gate them by country",
 	"one/holidays.py": "the holiday names a country's calendar ships",
 	"one/patches/holiday_names.py": "the same, renamed once",
 	"one/letter_heads.py": "a UAE company's tax number is called TRN",

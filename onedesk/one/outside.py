@@ -1,7 +1,8 @@
 """Frappe's, erpnext's and hrms's own desk, kept out of a workspace's.
 
-The boot carries One's sidebars and workspaces only; the platform's own people
-(`boot.platform`) keep frappe's whole desk.
+The boot carries One's sidebars and workspaces only, for everybody, a System
+Manager included: what One shows (`shown`) is what its rails and its own
+modules reach, and search, pickers and global search offer nothing else.
 """
 
 import frappe
@@ -18,11 +19,8 @@ UNSHELLED = ("One Sheet",)
 
 def keep(bootinfo) -> None:
 	"""`extend_bootinfo`: One's sidebars and workspaces, and nobody else's."""
-	from onedesk.one.boot import platform
-
-	if platform():
-		return
 	kept(bootinfo)
+	bootinfo["one_shown"] = {kind: sorted(names) for kind, names in shown().items()}
 	if isinstance(bootinfo.get("user"), dict):
 		bootinfo["user"]["can_import"] = []
 	pages = (bootinfo.get("workspaces") or {}).get("pages")
@@ -44,10 +42,6 @@ def kept(said: dict) -> None:
 	apps the workspace turned off (one/apps.py), whose records then open in
 	another app that lists them. Also what `reports.sidebars` swaps in when a
 	sidebar changes."""
-	from onedesk.one.boot import platform
-
-	if platform():
-		return
 	sidebars = said.get("module_sidebars")
 	if not isinstance(sidebars, dict):
 		return
@@ -118,3 +112,104 @@ def kind_of(name: str) -> bool:
 	then says No access rather than Not Found (outside.js)."""
 	name = (name or "").replace("-", " ").strip()
 	return bool(name) and bool(frappe.db.exists("DocType", name))
+
+
+#: frappe's record types a picker offers though no rail lists them: what a
+#: record of One's links to by the person's own choice.
+PICKED = ("Country", "Currency", "Gender", "Language", "Salutation", "User", "Role")
+
+KINDS = ("DocType", "Report", "Page", "Dashboard", "Workspace")
+
+
+def shown() -> dict:
+	"""What One offers somebody on its own, by kind: `shown.json`, which the
+	atlas writes from what One's rails, workspaces, Homes and screens reach
+	(scripts/atlas.py `shown`), and whatever the workspace's private apps
+	bring. Cached until the next migrate; what a person may open is still
+	their roles'."""
+	return frappe.cache.get_value("one_shown", generator=_shown)
+
+
+def forget() -> None:
+	"""`clear_cache`: a migrate or an installed private app is read again."""
+	frappe.cache.delete_value("one_shown")
+
+
+def _shown() -> dict:
+	import json
+	import os
+
+	from onedesk.one import private
+
+	with open(os.path.join(os.path.dirname(__file__), "shown.json")) as f:
+		said = json.load(f)
+	out = {kind: set(said.get(kind) or ()) for kind in KINDS}
+	for app in private.names():
+		brought(app, out)
+	return out
+
+
+def brought(app: str, out: dict) -> None:
+	"""What a private app adds: its rails' and workspaces' links, and its own
+	modules' record types, reports, pages and dashboards."""
+	import glob
+	import json
+	import os
+
+	from frappe.desk.doctype.sidebar.sidebar import linked_entities
+
+	root = frappe.get_app_path(app)
+	for path in glob.glob(os.path.join(root, "*", "sidebar", "*", "*.json")):
+		with open(path) as f:
+			for item in json.load(f).get("items") or []:
+				kind = item.get("link_type") or "DocType"
+				if item.get("type") == "Link" and kind in out:
+					out[kind].update(linked_entities(item))
+	for path in glob.glob(os.path.join(root, "*", "workspace", "*", "*.json")):
+		with open(path) as f:
+			out["Workspace"].add(json.load(f).get("name"))
+	modules = frappe.get_module_list(app)
+	for kind, filters in (("DocType", {"istable": 0}), ("Report", {}), ("Page", {}), ("Dashboard", {})):
+		out[kind].update(frappe.get_all(kind, filters={"module": ["in", modules], **filters}, pluck="name"))
+
+
+def pickable() -> set:
+	"""The record types a picker of record types offers: what One shows, and
+	what a record of One's may link to (`PICKED`)."""
+	return shown()["DocType"] | set(PICKED)
+
+
+@frappe.whitelist()
+def doctype_query(doctype, txt, searchfield, start, page_len, filters):
+	"""`standard_queries` for DocType: a picker of record types offers One's,
+	never frappe's own machinery (DocType, Module Def, Workspace...)."""
+	return _among("DocType", pickable(), txt, start, page_len, filters)
+
+
+@frappe.whitelist()
+def report_query(doctype, txt, searchfield, start, page_len, filters):
+	"""`standard_queries` for Report: the reports One shows."""
+	return _among("Report", shown()["Report"], txt, start, page_len, filters)
+
+
+def _among(kind: str, names: set, txt, start, page_len, filters) -> list:
+	held = frappe.parse_json(filters) if isinstance(filters, str) else filters
+	conditions = [[kind, "name", "in", sorted(names)]]
+	if isinstance(held, dict):
+		conditions += [[kind, key, *(value if isinstance(value, list) else ["=", value])] for key, value in held.items()]
+	elif isinstance(held, list):
+		conditions += held
+	if txt:
+		conditions.append([kind, "name", "like", f"%{txt}%"])
+	return frappe.get_all(
+		kind, filters=conditions, fields=["name"], as_list=True, order_by="name", start=start, page_length=page_len
+	)
+
+
+@frappe.whitelist()
+def search(text: str, start: int = 0, limit: int = 20, doctype: str = ""):
+	"""frappe's global search, over the record types One shows."""
+	from frappe.utils.global_search import search as theirs
+
+	kinds = shown()["DocType"]
+	return [row for row in theirs(text, start=start, limit=limit, doctype=doctype) if row.get("doctype") in kinds]

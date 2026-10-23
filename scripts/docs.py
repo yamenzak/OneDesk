@@ -160,7 +160,12 @@ def upstream_page() -> str:
 	return "".join(out)
 
 
-PAGES = {"MODULES.md": modules_page, "UPSTREAM.md": upstream_page, "ATLAS.md": atlas.page}
+PAGES = {
+	DOCS / "MODULES.md": modules_page,
+	DOCS / "UPSTREAM.md": upstream_page,
+	DOCS / "ATLAS.md": atlas.page,
+	atlas.SHOWN: atlas.shown_json,
+}
 
 
 def main() -> int:
@@ -170,9 +175,9 @@ def main() -> int:
 
 	DOCS.mkdir(exist_ok=True)
 	stale = []
-	for name, build in PAGES.items():
+	for where, build in PAGES.items():
 		want = build()
-		where = DOCS / name
+		name = str(where.relative_to(tree.ROOT))
 		if opts.check:
 			if not where.exists() or where.read_text() != want:
 				stale.append(name)
@@ -183,7 +188,7 @@ def main() -> int:
 		print(f"stale: {', '.join(stale)}. Run `python scripts/docs.py`.")
 		return 1
 	if not opts.check:
-		print(f"wrote {', '.join(PAGES)}")
+		print(f"wrote {', '.join(str(where.relative_to(tree.ROOT)) for where in PAGES)}")
 	return 0
 
 

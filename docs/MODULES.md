@@ -288,7 +288,10 @@ No doctypes yet.
 * `onedesk.one.numbering.series`
 * `onedesk.one.numbering.set_current`
 * `onedesk.one.numbering.set_naming_by`
+* `onedesk.one.outside.doctype_query`
 * `onedesk.one.outside.kind_of`
+* `onedesk.one.outside.report_query`
+* `onedesk.one.outside.search`
 * `onedesk.one.portal.accept_quote`
 * `onedesk.one.portal.apps`
 * `onedesk.one.portal.decline_quote`

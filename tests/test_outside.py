@@ -1,9 +1,10 @@
 """A workspace's desk is One's (one/outside.py): frappe's, erpnext's and
-hrms's own sidebars and workspaces are left out of the boot for everyone but
-the platform's own people, and their addresses and frappe's apps screen go to
+hrms's own sidebars and workspaces are left out of the boot for everyone, a
+System Manager included, and their addresses and frappe's apps screen go to
 One's Home. These read the code that says so."""
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -16,7 +17,7 @@ SOURCE = (tree.APP / "one" / "outside.py").read_text()
 
 def test_the_boot_carries_ones_sidebars_and_workspaces_only():
 	assert 'APP = "onedesk"' in SOURCE and 'FIRST = "One"' in SOURCE
-	assert SOURCE.count("if platform():") == 2
+	assert "platform()" not in SOURCE and "def platform" not in (tree.APP / "one" / "boot.py").read_text()
 	assert 'page.get("app") in held' in SOURCE and "held = {APP, *private.names()}" in SOURCE and '["has_create_access"] = False' in SOURCE
 	assert "outside.keep(bootinfo)" in (tree.APP / "one" / "boot.py").read_text()
 	assert "outside.kept(said)" in (tree.APP / "one" / "reports.py").read_text()
@@ -78,8 +79,7 @@ def test_help_mail_and_search_are_ones():
 	js = (tree.APP / "public" / "js" / "outside.js").read_text()
 	assert "new frappe.ui.ThemeSwitcher().show()" in js
 	assert 'return !name || name === "view" ? ["onemail"] : null;' in js
-	assert "utils.get_pages = function" in js and "utils.get_reports = function" in js
-	assert 'app_of(info[name]?.module) === "onedesk"' in js
+	assert "for (const name of onedesk.outside.SOURCES)" in js and "found.filter(onedesk.outside.offered)" in js
 
 
 def test_frappes_error_pages_are_ones():
@@ -143,3 +143,64 @@ def test_a_kind_of_record_not_readable_is_no_access_and_a_missing_page_404():
 	error = (tree.APP / "www" / "error.py").read_text()
 	assert "if code == 404:" in error
 	assert '{% if error and code.startswith("5") %}' in (tree.APP / "www" / "error.html").read_text()
+
+
+SEARCH = Path("/home/frappe/bench1/apps/frappe/frappe/public/js/frappe/ui/toolbar/search_utils.js")
+OUTSIDE_JS = (tree.APP / "public" / "js" / "outside.js").read_text()
+
+
+def _listed(name: str) -> list[str]:
+	body = OUTSIDE_JS.split(f"onedesk.outside.{name} = ", 1)[1].split(";\n", 1)[0]
+	return re.findall(r'"?(get_\w+)"?\s*[:,\]]', body)
+
+
+def test_every_source_of_frappes_search_bar_is_filtered():
+	"""A source frappe adds to its search bar is either filtered by what One
+	shows or named, with why, as left out of it."""
+	if not SEARCH.exists():
+		return
+	theirs = set(re.findall(r"^\t(get_\w+)(?::\s*function)?\s*\(", SEARCH.read_text(), re.M))
+	ours = set(_listed("SOURCES")) | set(_listed("UNFILTERED"))
+	assert theirs and theirs <= ours, f"frappe's search bar draws from {sorted(theirs - ours)}: add it to SOURCES in outside.js"
+
+
+def test_pickers_and_global_search_offer_what_one_shows():
+	"""A picker of record types or reports, which is also what a Dynamic Link
+	asks first, and frappe's global search offer only `shown`."""
+	hooks = (tree.APP / "hooks.py").read_text()
+	assert '"DocType": "onedesk.one.outside.doctype_query"' in hooks and '"Report": "onedesk.one.outside.report_query"' in hooks
+	assert '"frappe.utils.global_search.search": "onedesk.one.outside.search"' in hooks
+	assert 'clear_cache = ["onedesk.one.outside.forget"]' in hooks
+
+
+MACHINERY = (
+	"DocType", "DocField", "Module Def", "Workspace", "Workspace Sidebar", "Custom Field", "Property Setter",
+	"Server Script", "Client Script", "Report", "Page", "Scheduled Job Type", "RQ Job", "Error Log",
+	"Installed Application", "Patch Log", "Data Import", "Form Tour", "Onboarding Step", "Module Onboarding",
+	"Website Settings", "Web Page", "System Settings", "Role Permission for Page and Report",
+)
+
+
+def test_frappes_machinery_is_never_shown():
+	"""`shown.json` is written by the atlas (scripts/docs.py keeps it current);
+	none of frappe's own building blocks is in it."""
+	said = json.loads((tree.APP / "one" / "shown.json").read_text())
+	assert set(said) == {"_", "DocType", "Report", "Page", "Dashboard", "Workspace"}
+	assert not set(MACHINERY) & set(said["DocType"])
+	assert said["Workspace"] and all(name in ("One",) or name.startswith("One") for name in said["Workspace"])
+
+
+def test_a_rails_dashboard_stays_in_its_rail():
+	"""OneHR's Recruitment Overview opens in OneHR; a tool's record no rail
+	lists opens in One, under Workspace Settings."""
+	js = (tree.APP / "public" / "js" / "desk.js").read_text()
+	assert "this.get_modules_linking(entity, super.link_type_from_route(route)).length" in js
+	assert "OneSidebar.workspace(route) &&" not in js and "if (OneSidebar.workspace(route)) return" not in js
+
+
+def test_frappes_documentation_links_are_gone():
+	"""An empty list, a list's and a form's menu, a report and a field's help
+	link to frappe's, erpnext's and hrms's documentation; the meta loses them
+	before anything draws."""
+	assert "delete doc.documentation;" in OUTSIDE_JS and "delete field.documentation_url;" in OUTSIDE_JS
+	assert "delete doc.documentation_url;" in OUTSIDE_JS and "frappe.model.sync = function" in OUTSIDE_JS

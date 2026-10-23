@@ -2206,7 +2206,7 @@ For the people who build One. OneAI does not read past this heading.
 | `customize.py`, `layer.py`, `doctype/workspace_customization`, `../one_studio/doctype/workspace_field` | What a workspace changes on a form (written by OneAI's card), the holds on it, and the Custom Fields list |
 | `../public/js/crumb_switch.js`, `../public/js/panel_menu.js` | Every crumb with somewhere to go is a switcher: a frappe.ui.Popover with a search box over frappe's menu rows, as frappe-ui's Combobox draws one with `trigger="button"`. The place's crumb lists the panel's rows (`onedesk.panel.options`), a record's crumb (a form's last, or the one `shell.trail` marks `one_record`) searches its doctype with `frappe.desk.search.search_link`, with `onedesk.crumbs.suggest[doctype]` before anything is typed (a project's: the reader's open projects), and a crumb a page gave a `menu` filters that. **All …** stays pinned under the rows |
 | `../public/js/phone_head.js` | Below 768 wide the page head is two bars, each its own height with a line under it (desk.css), and the trail splits over them: the place stays in the first with the panel's button and search, and phone_head.js moves the page's buttons there too, before search; crumb_switch.js draws the record's crumb and any after it (a project's All Work) as buttons in the second, beside the status and the view switch. The head is marked `one-head-actions` when it has any, its height is set as `--page-head-height` for frappe's sticky parts, and the status pill moves to the second row with its word, which frappe shrinks to a dot on a phone |
-| `outside.py`, `boot.py`, `../public/js/desk.js`, `../public/js/outside.js` | One's sidebars and workspaces only, for everyone but the platform's own people: frappe's, erpnext's and hrms's are left out of the boot, their addresses and frappe's apps screen go to One's Home. No menu item ends on a screen the reader cannot open (Import, View Audit Trail, Setup Auto Email, System Health), the print page has no Print Settings, and frappe's Edit Sidebar and Manage Dock are not offered. Frappe's own screens for notification settings, people, files, to-dos, mail and printing open One's. Help is Ask OneAI, the theme is in the user menu, and search offers One's pages and reports. A page not found or not permitted keeps the rail. Search, Check In, OneIntake, Timers and Notifications are frappe's own buttons in the bar across the top of the shell (`desk.js` `bar`, Discord's and Slack's title bar), since a page with a sidebar of its own hides the panel's band they were in; frappe's full-height boxes are each the window less the bar (`desk.css`), beside the bar the band is hidden, the bar and the pinned rail are one frame with the rest inset in it, its first panel's corner rounded, and on a phone there is no bar and the band keeps them |
+| `outside.py`, `boot.py`, `../public/js/desk.js`, `../public/js/outside.js` | One's sidebars and workspaces only, for everyone: frappe's, erpnext's and hrms's are left out of the boot, their addresses and frappe's apps screen go to One's Home. No menu item ends on a screen the reader cannot open (Import, View Audit Trail, Setup Auto Email, System Health), the print page has no Print Settings, and frappe's Edit Sidebar and Manage Dock are not offered. Frappe's own screens for notification settings, people, files, to-dos, mail and printing open One's. Help is Ask OneAI, the theme is in the user menu, and search, pickers of record types and reports, and global search offer only what One shows (`shown.json`); frappe's documentation links are dropped. A page not found or not permitted keeps the rail. Search, Check In, OneIntake, Timers and Notifications are frappe's own buttons in the bar across the top of the shell (`desk.js` `bar`, Discord's and Slack's title bar), since a page with a sidebar of its own hides the panel's band they were in; frappe's full-height boxes are each the window less the bar (`desk.css`), beside the bar the band is hidden, the bar and the pinned rail are one frame with the rest inset in it, its first panel's corner rounded, and on a phone there is no bar and the band keeps them |
 | `private.py` | Private apps on this workspace: the installed apps whose hooks.py says `one_private_app` (`names`, `about`), mounted on the rail by `companions.apply` and kept in the boot by `outside.kept`; always-on cards in Apps; `claim` hands a typed code to the control plane (`proxy.app_claim`), `waiting` asks how far each claimed install has got; `after_app_install` relayers the rail at once, and `before_app_uninstall` refuses one |
 | `apps.py`, `companions.py`, `../public/js/apps.js` | Apps a workspace turns off (`one_hidden_apps`, a global default): the site's Dock layer hides their rows (`companions.layer`), `outside.kept` leaves their sidebars out of the boot so their records open in another app that lists them or on Home (`apps.rehome`), and the record types only they list (`apps.doctypes`) leave the awesomebar (`AwesomeBar.build_options`), DocType pickers (`apps.search_link` wraps frappe's) and empty Link fields on forms. Nothing touches permissions, so OneIntake's `has_permission` check before it files still passes; frappe's own disabled-app switch would refuse. OneAI and OneIntake are cards too, not rail rows: `NEEDS` turns OneIntake off with OneAI, `apps.refuse_ai` in `run.ask` and `run.once` refuses every model call, `apps.intake_on` stops `pipeline.later`, `again`, the scheduled jobs and the switches, and `apps.trim` takes their sections out of One's sidebar and their links out of others |
 | `portal.py`, `../www/portal.py`, `../../frontend/portal/` | The portal a workspace's customers and suppliers sign in to, a frappe-ui app at `/portal`: its tabs (Portal Settings by role), its home, every list, record, quote request and account page, read through frappe's and erpnext's own contexts and answered as JSON. erpnext's and frappe's old portal addresses lead into it. A contact invited as a user becomes a portal user of their customer or supplier |
@@ -3001,7 +3001,39 @@ the reader's first sidebar. erpnext's Projects goes to OneProject, so
 Projects Settings, Rates and Project Types open beside OneProject's rail even
 for somebody who also has OneHR.
 
-The platform's own people (`boot.platform`) keep frappe's whole desk.
+Everybody gets this desk, a System Manager included. A tenant has no System
+Manager, and the platform's own people work in OneAdmin, not in frappe's
+desk, so an exception for them only hid what a tenant would see.
+
+What One offers on its own is one list, `shown.json`, which the atlas writes
+(scripts/atlas.py `shown`, through scripts/docs.py, so `--check` fails when it
+is stale): what a rail, a workspace or a Home names, what our screens open,
+and those record types' reports, less what one/atlas.py answers is somewhere
+else. What is only reached through a Link field or a Connections tab is found
+from a record and never offered by itself. Private apps add their own rails
+and modules when the cache is filled (`brought`), and `forget` empties it on
+every clear-cache, so a migrate or a newly installed app is read again.
+
+Four things read that list. The search bar: every source frappe's draws from
+is filtered by where its result goes (outside.js `SOURCES`, `offered`), and
+test_outside.py fails when frappe adds a source neither in `SOURCES` nor in
+`UNFILTERED`. A picker of record types or reports, which is also what a
+Dynamic Link asks first (`standard_queries`, `doctype_query`, `report_query`;
+the record types somebody links to by choice, `PICKED`, are added). Global
+search (`search`, over frappe's). And the demo check
+`one_offers_only_what_it_shows`, which also holds every rail's links to it.
+
+What is not done: an address typed by hand still opens whatever the person's
+roles let them read. That is permissions' job (one/access.py), and a list
+here would only hide the door, not lock it.
+
+Two more of frappe's that lead out. A record type's or report's
+documentation link, on an empty list, in a list's or form's menu, on a report
+and in a field's help, is dropped as the meta arrives (outside.js
+`undocumented`, wrapping `frappe.model.sync`). And a dashboard or a tool's
+record that a rail lists opens in that rail; desk.js `kept` sends one to One's
+Workspace Settings only when no rail lists it, where it used to send every
+dashboard there, so OneHR's Recruitment Overview left OneHR.
 
 ### owner.py
 

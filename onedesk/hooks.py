@@ -685,7 +685,15 @@ doc_events = {
 	},
 }
 
+clear_cache = ["onedesk.one.outside.forget"]
+
+standard_queries = {
+	"DocType": "onedesk.one.outside.doctype_query",
+	"Report": "onedesk.one.outside.report_query",
+}
+
 override_whitelisted_methods = {
+	"frappe.utils.global_search.search": "onedesk.one.outside.search",
 	"frappe.desk.page.setup_wizard.setup_wizard.setup_complete": "onedesk.one.setup_wizard.setup_complete",
 	"erpnext.stock.doctype.material_request.material_request.update_status": "onedesk.one_inventory.tell.update_status",
 	"frappe.desk.form.load.getdoc": "onedesk.one_mail.linking.getdoc",

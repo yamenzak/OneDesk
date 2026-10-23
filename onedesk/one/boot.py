@@ -1,17 +1,12 @@
-"""What the apps screen shows.
+"""What the apps screen shows, and what else the boot carries for One.
 
-Frappe's own Framework tile is taken off it, for everyone it is of no use to.
+Frappe's own Framework tile is taken off it, for everyone, a System Manager
+included: the desk is One's (one/outside.py).
 """
 
 import frappe
 
 ADMIN_APPS = ("frappe",)
-
-
-def platform() -> bool:
-	"""Whether the reader is the platform's own (System Manager), who keeps
-	frappe's whole desk. Nobody on a workspace is."""
-	return "System Manager" in frappe.get_roles()
 
 
 def boot_session(bootinfo) -> None:
@@ -82,9 +77,6 @@ def boot_session(bootinfo) -> None:
 		from onedesk.one_admin import steps
 
 		bootinfo["one_steps"] = {name: str(said) for name, said in steps.SAID.items()}
-
-	if platform():
-		return
 
 	for app in bootinfo.get("app_data") or []:
 		if app.get("app_name") in ADMIN_APPS:

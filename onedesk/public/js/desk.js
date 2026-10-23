@@ -3,7 +3,7 @@ frappe.provide("onedesk.dock");
 
 frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
 	shell_for_route(route) {
-		if (OneSidebar.workspace(route) && frappe.boot.module_sidebars?.One) return "One";
+		if (this.kept(route) && frappe.boot.module_sidebars?.One) return "One";
 		return super.shell_for_route(route);
 	}
 
@@ -14,12 +14,12 @@ frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
 	}
 
 	entity_from_route(route) {
-		if (OneSidebar.workspace(route)) return "workspace-settings";
+		if (this.kept(route)) return "workspace-settings";
 		return route[0] === "print" && route[1] ? route[1] : super.entity_from_route(route);
 	}
 
 	link_type_from_route(route) {
-		if (OneSidebar.workspace(route)) return "Page";
+		if (this.kept(route)) return "Page";
 		return route[0] === "print" && route[1] ? "DocType" : super.link_type_from_route(route);
 	}
 
@@ -36,6 +36,14 @@ frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
 		"Personal Data Deletion Request",
 		"Personal Data Download Request",
 	];
+
+	// A dashboard or a tool's record a rail lists opens in that rail; one no
+	// rail lists opens in One, under Workspace Settings.
+	kept(route) {
+		if (!OneSidebar.workspace(route)) return false;
+		const entity = super.entity_from_route(route);
+		return !entity || !this.get_modules_linking(entity, super.link_type_from_route(route)).length;
+	}
 
 	static workspace(route) {
 		return (

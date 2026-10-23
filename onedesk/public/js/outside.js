@@ -21,6 +21,33 @@ onedesk.outside.without = (groups, names) =>
 			: group.options,
 	}));
 
+// frappe's, erpnext's and hrms's record types and reports link to their own
+// documentation, from an empty list, a list's and a form's menu, a report's
+// and a field's help. One's help is OneAI, so the links go before anything
+// that draws them reads them.
+onedesk.outside.undocumented = (docs) => {
+	for (const doc of docs || []) {
+		if (!doc) continue;
+		if (doc.doctype === "DocType") {
+			delete doc.documentation;
+			for (const field of doc.fields || []) delete field.documentation_url;
+		} else if (doc.doctype === "Report") {
+			delete doc.documentation_url;
+		}
+	}
+};
+
+(() => {
+	if (frappe.model.sync.one_outside) return;
+	const sync = frappe.model.sync;
+	frappe.model.sync = function (r) {
+		const docs = r && (r.docs || (r.docinfo ? null : r));
+		onedesk.outside.undocumented(Array.isArray(docs) ? docs : [docs]);
+		return sync.call(this, r);
+	};
+	frappe.model.sync.one_outside = true;
+})();
+
 (() => {
 	const Toolbar = frappe.ui.form && frappe.ui.form.Toolbar;
 	if (!Toolbar || Toolbar.prototype.one_outside) return;
@@ -125,32 +152,60 @@ if (frappe.boot.one_elsewhere) {
 	};
 }
 
-onedesk.outside.ours = (kind) => {
-	const named = new Set();
-	for (const sidebar of Object.values(frappe.boot.module_sidebars || {})) {
-		for (const item of sidebar.items || []) if (item.link_type === kind && item.link_to) named.add(item.link_to);
-	}
-	return named;
+// What One offers on its own (boot `one_shown`, one/outside.py `shown`): a
+// search result that opens anything else is not offered.
+onedesk.outside.shown = (kind, name) => {
+	const said = frappe.boot.one_shown;
+	if (!said || !name || !said[kind]) return true;
+	onedesk.outside.held ||= Object.fromEntries(Object.entries(said).map(([one, names]) => [one, new Set(names)]));
+	return onedesk.outside.held[kind].has(name);
 };
 
-if (frappe.boot.one_elsewhere && frappe.search?.utils) {
+onedesk.outside.ROUTED = { List: "DocType", Form: "DocType", Tree: "DocType", "query-report": "Report", "dashboard-view": "Dashboard" };
+
+onedesk.outside.offered = (one) => {
+	if (!one) return false;
+	if (one.type === "New") return onedesk.outside.shown("DocType", one.match);
+	const route = typeof one.route === "string" ? one.route.split("/") : one.route;
+	if (!Array.isArray(route) || !route.length) return true;
+	const [first, second] = route.map((part) => (typeof part === "string" ? decodeURIComponent(part) : part));
+	if (onedesk.outside.ROUTED[first]) return onedesk.outside.shown(onedesk.outside.ROUTED[first], second);
+	if (first === "Workspaces") return onedesk.outside.shown("Workspace", route.at(-1));
+	if (frappe.boot.page_info?.[first]) return onedesk.outside.shown("Page", first);
+	return true;
+};
+
+// Every source frappe's search bar draws from, each filtered; what is left
+// out of it is `onedesk.outside.UNFILTERED`, and test_outside.py holds the two
+// lists against frappe's own.
+onedesk.outside.SOURCES = [
+	"get_recent_pages",
+	"get_frequent_links",
+	"get_search_in_list",
+	"get_creatables",
+	"get_doctypes",
+	"get_doctype_layouts",
+	"get_reports",
+	"get_pages",
+	"get_workspaces",
+	"get_dashboards",
+];
+onedesk.outside.UNFILTERED = { get_global_results: "frappe.utils.global_search.search, filtered on the server", get_executables: "functions, which open nothing" };
+
+if (frappe.boot.one_shown && frappe.search?.utils && !frappe.search.utils.one_outside) {
 	const utils = frappe.search.utils;
-	const app_of = (module) => (frappe.boot.module_app || {})[frappe.scrub(module || "")];
-	const keep = (kind, info, found) => {
-		const named = onedesk.outside.ours(kind);
-		return found.filter((one) => {
-			const name = (one.route || []).at(-1);
-			return named.has(name) || app_of(info[name]?.module) === "onedesk";
-		});
-	};
+	utils.one_outside = true;
+	for (const name of onedesk.outside.SOURCES) {
+		const theirs = utils[name];
+		if (typeof theirs !== "function") continue;
+		utils[name] = function (...args) {
+			const found = theirs.apply(this, args);
+			return Array.isArray(found) ? found.filter(onedesk.outside.offered) : found;
+		};
+	}
 	const pages = utils.get_pages;
 	utils.get_pages = function (keywords) {
-		const found = pages.call(this, keywords).filter((one) => one.type !== "Calendar");
-		return keep("Page", frappe.boot.page_info || {}, found);
-	};
-	const reports = utils.get_reports;
-	utils.get_reports = function (keywords) {
-		return keep("Report", frappe.boot.allowed_reports || {}, reports.call(this, keywords));
+		return pages.call(this, keywords).filter((one) => !["Calendar", "Hub", "Inbox"].includes(one.type));
 	};
 }
 

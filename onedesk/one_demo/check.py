@@ -2559,6 +2559,33 @@ def oneintake_layla_works_through_what_oneai_read():
 
 
 @check
+def one_offers_only_what_it_shows():
+	"""A picker of record types or reports, which is also what a Dynamic Link
+	asks first, and global search offer what One's rails, Homes and screens
+	reach and never frappe's machinery; a dashboard a rail lists opens in that
+	rail (one/outside.py, shown.json)."""
+	from frappe.desk.doctype.sidebar.sidebar import linked_entities
+
+	from onedesk.one import outside
+
+	shown = outside.shown()
+	picked = {row[0] for row in outside.doctype_query("DocType", "", "name", 0, 5000, {})}
+	assert "Customer" in picked and "Employee" in picked, "a picker of record types leaves out One's own"
+	assert not picked & {"DocType", "Module Def", "Workspace", "Custom Field", "Server Script"}, "a picker offers frappe's machinery"
+	reports = {row[0] for row in outside.report_query("Report", "", "name", 0, 5000, {})}
+	assert reports and reports <= shown["Report"], "a picker of reports offers one One does not show"
+	found = outside.search("a", limit=50)
+	assert all(row["doctype"] in shown["DocType"] for row in found), "global search finds a record type One does not show"
+	ours = frappe.get_all("Sidebar", filters={"app": "onedesk"}, pluck="name")
+	for item in frappe.get_all("Sidebar Item", filters={"parenttype": "Sidebar", "parent": ["in", ours]}, fields=["*"]):
+		if item.type == "Link" and item.link_type in ("DocType", "Report", "Page", "Dashboard"):
+			named = {one.split("/")[0] for one in linked_entities(item)}
+			named = {one for one in named if frappe.db.exists(item.link_type, one)}
+			missing = named - shown[item.link_type]
+			assert not missing, f"{item.parent}'s rail links {sorted(missing)}, which One does not show"
+
+
+@check
 def the_owner_runs_the_setup_wizard():
 	"""The wizard opens to whoever administers the workspace, asking again once
 	it is done changes nothing, and this year's leave and payroll periods
