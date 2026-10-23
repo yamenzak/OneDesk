@@ -1,6 +1,10 @@
 // The window (docs/WINDOW.md): every screen in one frame, built from frappe's
 // own parts. Nothing here redraws what frappe draws; it places it, and adds
 // Back, Forward, Up, Refresh, a search box, a status row and a details pane.
+//
+// This file is the frame and the one place that decides where anything goes.
+// A view says what it has through `window.view({...})`; the files beside this
+// one (list.js, form.js) are adapters that say it for frappe's own views.
 frappe.provide("onedesk.window");
 
 $.extend(onedesk.window, {
@@ -35,6 +39,22 @@ $.extend(onedesk.window, {
 
 	set_trial(on) {
 		onedesk.window.keep("trial", !!on).then(() => window.location.reload());
+	},
+
+	// Which kinds of view are on the window: a page that asks for it always,
+	// the rest while the trial is on. A kind leaves the trial by moving from
+	// TRIAL to ON, and that is the whole of it.
+	ON: ["page"],
+	TRIAL: ["list", "form"],
+
+	covers(kind) {
+		return onedesk.window.ON.includes(kind) || (onedesk.window.trial() && onedesk.window.TRIAL.includes(kind));
+	},
+
+	// An adapter puts one kind of frappe's views on the window. It installs
+	// only where the kind is covered, so nothing changes for anybody else.
+	adapt(kind, install) {
+		if (onedesk.window.covers(kind)) install();
 	},
 
 	of(page, options = {}) {
@@ -155,7 +175,9 @@ onedesk.window.Window = class Window {
 			$content.children(".page-title")
 		);
 		$(`<div class="one-window-break"></div>`).insertAfter(this.$tools);
-		this.$commands = $(`<div class="one-window-commands"></div>`).insertBefore($content.children(".standard-items-section"));
+		this.$commands = $(
+			`<div class="one-window-commands"><span class="one-window-group" data-group="primary"></span><span class="one-window-group" data-group="own"></span><span class="one-window-group" data-group="menu"></span></div>`
+		).insertBefore($content.children(".standard-items-section"));
 		this.$switch = $(button("details", "panel-right", __("Details pane"))).addClass("one-window-switch").appendTo($content).hide();
 		this.$status = $(
 			`<footer class="one-window-status" hidden><span class="one-window-said"></span><span class="one-window-more"></span></footer>`
@@ -169,6 +191,49 @@ onedesk.window.Window = class Window {
 			if (!$(e.target).closest("a, button, input, .one-crumb-switch, .one-window-address").length) this.address();
 		});
 		this.can({});
+	}
+
+	// What a view tells the window, and the only way it tells it. Every part
+	// is optional and may be said again (a list knows its count only after it
+	// loads); where each part goes is decided here, so every view on the
+	// window is laid out alike and changes in one place.
+	//
+	//   kind      what the view is, for the stylesheet (data-one-view)
+	//   primary   its one main command (a list's New): leads the command row
+	//   commands  its own commands, after the primary
+	//   menu      frappe's … menu ({ $button, dropdown }): last, opening rightwards
+	//   controls  what narrows the view (a list's Filter and Sort): before its views
+	//   views     its ways of looking (frappe's view switcher, or toggles of its own)
+	//   search    { placeholder, on_input, on_key } for the address row's box
+	//   status    what is here, in the status row; `more` beside it (paging)
+	//   back, forward, up, refresh, path: what it does for those itself
+	//
+	// Between groups of commands the window draws a line, as OneCloud does.
+	view(parts = {}) {
+		const { kind, primary, commands, menu, controls, views, search, status, more, ...handlers } = parts;
+		if (kind) this.$wrapper.attr("data-one-view", kind);
+		if (primary) this.group("primary").append(primary);
+		if (commands) this.group("own").empty().append(commands);
+		if (menu && menu.$button && menu.$button.length) {
+			this.group("menu").append(menu.$button);
+			if (menu.dropdown) menu.dropdown.align = "start";
+		}
+		if (views) {
+			if (typeof views.get_views === "function") this.views_of(views);
+			else this.views_slot().append(views);
+		}
+		if (controls && controls.length) this.views_slot().prepend(controls.addClass("one-window-filters"));
+		if (search) this.search(search);
+		if (status !== undefined || more) this.status(status, { more });
+		if (Object.keys(handlers).length) {
+			this.handle(handlers);
+			if ("up" in handlers) this.can({ up: !!handlers.up });
+		}
+		return this;
+	}
+
+	group(name) {
+		return this.$commands.children(`[data-group=${name}]`);
 	}
 
 	// The address box: frappe's breadcrumbs while at rest; clicked, or Ctrl+K,
@@ -311,8 +376,6 @@ onedesk.window.Window = class Window {
 		this.remember_details({ open: this.details_open });
 	}
 
-	// A container in the nav pane, under this view's row, for a tree of its
-	// own (`onedesk.window.nav.place`).
 	// The view's ways of looking at what is here (OneCloud's Details and
 	// Tiles, a list's List, Report, Kanban...), at the command row's far end
 	// beside the details switch, where Explorer keeps them.
@@ -333,7 +396,10 @@ onedesk.window.Window = class Window {
 				const label = select.label_map[view] || __(view);
 				return { value: view, icon: select.icon_map[view] || "list", label, title: label };
 			});
-		const $slot = this.views_slot().empty();
+		const $slot = this.views_slot();
+		// Said again, the toggles are drawn again; frappe's menu is its own
+		// node and is only moved, never removed, so its handlers stay.
+		$slot.children(".es-tab-buttons").remove();
 		if (options.length > 1) {
 			frappe.ui
 				.tab_buttons({
@@ -349,6 +415,8 @@ onedesk.window.Window = class Window {
 		select.$trigger.attr({ title: __("More views"), "aria-label": __("More views"), "data-variant": "ghost" });
 	}
 
+	// A container in the nav pane, under this view's row, for a tree of its
+	// own (`onedesk.window.nav.place`).
 	nav_slot() {
 		if (!this.$slot) this.$slot = $(`<div class="one-window-nav-slot" role="tree"></div>`);
 		onedesk.window.nav.place();
@@ -445,95 +513,4 @@ onedesk.window.current = () => {
 	$(() => setTimeout(() => onedesk.window.nav.setup(), 0));
 })();
 
-// The trial: lists and forms on the window for whoever turned it on.
-(() => {
-	if (!onedesk.window.trial()) return;
-	$("body").addClass("one-window-trial");
-
-	const Base = frappe.views && frappe.views.BaseList;
-	if (Base && !Object.hasOwn(Base.prototype, "one_window")) {
-		Base.prototype.one_window = true;
-		const menu = Base.prototype.setup_view_menu;
-		Base.prototype.setup_view_menu = function (...args) {
-			const said = menu.apply(this, args);
-			const win = this.page && this.page.window;
-			if (win && this.views_list) win.views_of(this.views_list);
-			// Filter and Sort are commands, as Explorer has them: frappe's own
-			// buttons, moved before the view toggles. The quick filters stay as
-			// the row under the commands.
-			const $filters = win && this.$page && this.$page.find(".filter-section").first();
-			if (win && $filters && $filters.length) win.views_slot().prepend($filters.addClass("one-window-filters"));
-			return said;
-		};
-	}
-
-	const List = frappe.views && frappe.views.ListView;
-	if (List && !Object.hasOwn(List.prototype, "one_window")) {
-		List.prototype.one_window = true;
-		const setup_page = List.prototype.setup_page;
-		List.prototype.setup_page = function (...args) {
-			const said = setup_page.apply(this, args);
-			const win = this.page && this.page.window;
-			if (win) {
-				win.$wrapper.attr("data-one-view", "list");
-				// A list's primary button is New: it leads the command row, as
-				// OneCloud's New does. It is frappe's own node, which frappe
-				// still shows, hides and relabels through page.btn_primary.
-				if (this.page.btn_primary && this.page.btn_primary.length) win.$commands.prepend(this.page.btn_primary);
-				// frappe's menu (…) follows New after a line, as OneCloud's
-				// commands do; it opens from its left edge now.
-				if (this.page.menu_btn_group && this.page.menu_btn_group.length) {
-					win.$commands.append($('<span class="one-window-sep"></span>'), this.page.menu_btn_group);
-					if (this.page.menu_dropdown) this.page.menu_dropdown.align = "start";
-				}
-				win.handle({
-					up: () => frappe.app.sidebar && frappe.app.sidebar.current_module && frappe.app.sidebar.open_module(frappe.app.sidebar.current_module),
-				}).can({ up: true });
-				const field = this.meta.title_field || "name";
-				win.search({
-					placeholder: __("Search {0}", [__(this.doctype)]),
-					on_input: (text) => {
-						const had = this.filter_area.get().find((one) => one[1] === field && one[2] === "like");
-						if (had) this.filter_area.remove(field);
-						if (text) this.filter_area.add([[this.doctype, field, "like", `%${text}%`]]);
-						else if (had) this.refresh();
-					},
-				});
-			}
-			return said;
-		};
-		const paging = List.prototype.setup_paging_area;
-		List.prototype.setup_paging_area = function (...args) {
-			const said = paging.apply(this, args);
-			const win = this.page && this.page.window;
-			if (win && this.$paging_area) win.status("", { more: this.$paging_area });
-			return said;
-		};
-		const count = List.prototype.get_count_str;
-		List.prototype.get_count_str = function (...args) {
-			return count.apply(this, args).then((text) => {
-				const win = this.page && this.page.window;
-				if (win) win.status(frappe.utils.html2text ? frappe.utils.html2text(String(text)) : $("<div>").html(text).text());
-				return text;
-			});
-		};
-	}
-
-	const Form = frappe.ui.form && frappe.ui.form.Form;
-	if (Form && !Object.hasOwn(Form.prototype, "one_window")) {
-		Form.prototype.one_window = true;
-		const setup = Form.prototype.setup;
-		Form.prototype.setup = function (...args) {
-			const said = setup.apply(this, args);
-			const win = this.page && this.page.window;
-			if (win) {
-				win.$wrapper.attr("data-one-view", "form");
-				win.handle({
-					refresh: () => !this.is_new() && this.reload_doc(),
-					up: () => frappe.set_route("List", this.doctype),
-				}).can({ up: true });
-			}
-			return said;
-		};
-	}
-})();
+if (onedesk.window.trial()) $("body").addClass("one-window-trial");

@@ -142,12 +142,10 @@ onedesk.OneCloud = class OneCloud {
 		const win = this.win;
 		this.$root = $(`<div class="oc oc-windowed" tabindex="-1"><div class="oc-main">${main}</div>${files}</div>`).appendTo(this.page.$shell);
 		this.$frame = this.page.wrapper.addClass("oc-frame");
-		win.$commands.html(commands);
-		this.$items = this.$frame.find(".oc-items");
-		this.$tree = win.nav_slot().addClass("oc-tree").attr("aria-label", __("Folders"));
-		this.$preview = win.details({ key: "onecloud" }).addClass("oc-preview");
-		this.$search = win.search();
-		win.handle({
+		win.view({
+			kind: "files",
+			commands,
+			search: {},
 			up: () => this.act("up"),
 			refresh: () => this.act("refresh"),
 			path: (typed) =>
@@ -156,6 +154,10 @@ onedesk.OneCloud = class OneCloud {
 					.then((node) => (this.go(node), true))
 					.catch(() => false),
 		});
+		this.$items = this.$frame.find(".oc-items");
+		this.$tree = win.nav_slot().addClass("oc-tree").attr("aria-label", __("Folders"));
+		this.$preview = win.details({ key: "onecloud" }).addClass("oc-preview");
+		this.$search = win.$search;
 		this.page.wrapper.on("one-window-details", (e, open) => {
 			if (!open) return;
 			this.previewing = null;
@@ -174,8 +176,9 @@ onedesk.OneCloud = class OneCloud {
 					{ value: "tiles", icon: "layout-grid", label: __("Tiles"), title: __("Tiles") },
 				],
 				on_change: (value) => this.act(value === "tiles" ? "view-tiles" : "view-details"),
-			})
-			.appendTo(this.win ? this.win.views_slot() : this.$frame.find(".oc-views"));
+			});
+		if (this.win) this.win.view({ views: this.$views });
+		else this.$views.appendTo(this.$frame.find(".oc-views"));
 	}
 
 	preview_on() {

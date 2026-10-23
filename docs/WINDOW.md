@@ -76,6 +76,51 @@ window (a list, a form) scrolls the page as frappe always has, with the head
 held at the top and the status row at the foot, so frappe's infinite scroll,
 scroll-to-field and restored positions are untouched.
 
+## Where it lives
+
+The window is two folders, and nothing of it is anywhere else:
+
+```
+public/js/window/frame.js    the frame, and the one place that decides where anything goes
+public/js/window/list.js     frappe's lists (list, report, board...) said to the frame
+public/js/window/form.js     frappe's forms said to the frame
+public/css/window/frame.css  the frame's rows, panes and address box
+public/css/window/list.css   a list set in those rows and on their gutter
+```
+
+A view tells the window what it has in one call, and the frame decides where
+each part goes:
+
+```js
+page.window.view({
+  kind,       // what the view is, for the stylesheet (data-one-view)
+  primary,    // its one main command (a list's New): leads the command row
+  commands,   // its own commands, after the primary
+  menu,       // frappe's … menu, { $button, dropdown }: last, opening rightwards
+  controls,   // what narrows it (a list's Filter and Sort): before its views
+  views,      // its ways of looking: frappe's view switcher, or its own toggles
+  search,     // { placeholder, on_input, on_key } for the address row's box
+  status, more,                     // the status row
+  back, forward, up, refresh, path, // what it does for those itself
+});
+```
+
+Every part is optional and may be said again. Between two groups of
+commands that are shown the frame draws a line, as OneCloud does. OneCloud
+is a view like any other: it says its commands, views, search, Up, Refresh
+and paths through `view`, and asks for a nav slot and a details pane.
+
+An adapter is one file per kind of frappe view. It wraps the one frappe
+method where that view has what the window wants, hands those nodes (frappe's
+own, which frappe still shows, hides and relabels) to `view`, and installs
+through `onedesk.window.adapt(kind)`, which runs it only where the kind is
+covered: `ON` (pages that ask) for everybody, `TRIAL` (lists, forms) for
+whoever turned the preview on. A kind leaves the trial by moving from one
+list to the other. The next kinds are a report page, a tree, a dashboard and
+a calendar, each its own adapter.
+
+So a change to how every screen looks is made in frame.js or frame.css, once.
+
 ## How it is placed
 
 The head's rows are one CSS grid on frappe's `.page-head-content`, so
@@ -144,9 +189,11 @@ window now has once.
 
 ## The guards
 
-`tests/guards/test_window.py`: the window adds and never replaces frappe's
-head (it keeps `page.$title_area` and the actions where frappe made them);
-only `window.css` styles `.one-window-*`; OneCloud on a page draws no bar,
+`tests/guards/test_window.py`: the window is its two folders, every file of
+them loaded and the frame first; an adapter installs through `adapt` and
+only hands parts to `view`, never reaching into the frame's rows; the window
+adds and never replaces frappe's head (it keeps `page.$title_area` and the
+actions where frappe made them); only `css/window/` styles `.one-window-*`; OneCloud on a page draws no bar,
 address bar, tree or status of its own; the nav width stays inside its
 limits and is kept; the trial switch is the only thing that puts lists and
 forms on it.

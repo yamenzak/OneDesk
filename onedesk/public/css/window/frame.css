@@ -103,18 +103,27 @@
 		padding-inline: calc(var(--spacing) * 2);
 	}
 
-	/* A line between New and frappe's menu, as OneCloud draws between its
-	   commands; gone with the menu when frappe hides it. */
-	.one-window .one-window-commands > .one-window-sep {
-		width: 1px;
-		height: 20px;
-		margin-inline: calc(var(--spacing) * 1);
-		background: var(--outline-gray-2);
+	/* The command row's groups (the view's primary, its own commands, frappe's
+	   menu), each a run of buttons, with a line between two that are shown,
+	   as OneCloud draws between its commands. A group with nothing shown in
+	   it is not there. */
+	.one-window .one-window-commands > .one-window-group {
+		display: flex;
+		align-items: center;
+		gap: calc(var(--spacing) * 1);
 	}
 
-	.one-window .one-window-commands > .one-window-sep:has(+ .menu-btn-group.hide),
-	.one-window .one-window-commands > .primary-action.hide ~ .one-window-sep {
+	.one-window .one-window-commands > .one-window-group:not(:has(> :not(.hide, [hidden], [style*="display: none"]))) {
 		display: none;
+	}
+
+	.one-window .one-window-commands > .one-window-group:has(> :not(.hide, [hidden], [style*="display: none"]))
+		~ .one-window-group:has(> :not(.hide, [hidden], [style*="display: none"]))::before {
+		content: "";
+		width: 1px;
+		height: 20px;
+		margin-inline-end: calc(var(--spacing) * 1);
+		background: var(--outline-gray-2);
 	}
 
 	.one-window .page-head-content > .standard-items-section {
@@ -136,24 +145,15 @@
 		display: none;
 	}
 
-	/* frappe's view menu, after the toggles: only its chevron, since the
-	   toggle pressed already says which view this is. */
-	.one-window .one-window-variants .es-button__label,
-	.one-window .one-window-variants .es-button > svg:first-of-type {
-		display: none;
-	}
-
-	.one-window .one-window-variants .es-button {
-		padding-inline: calc(var(--spacing) * 1);
-	}
-
 	.one-window .page-head-content > .one-window-switch {
 		order: 8;
 		margin-inline-end: calc(var(--spacing) * 2);
 	}
 
+	/* frappe hides its menu on a wide screen when all it holds is what the
+	   row already shows (hidden-xl). */
 	@media (min-width: 992px) {
-		.one-window .one-window-commands > .one-window-sep:has(+ .menu-btn-group.hidden-xl) {
+		.one-window .one-window-commands > [data-group="menu"]:not(:has(> :not(.hide, [hidden], .hidden-xl))) {
 			display: none;
 		}
 	}
@@ -161,78 +161,6 @@
 	.one-window .page-head-content > .one-window-switch[data-state="on"],
 	.one-window .one-window-commands .es-button[data-state="on"] {
 		background: var(--surface-gray-3);
-	}
-
-	/* A list's filters and sort are the view row; its count is in the status
-	   row and its Refresh in the address row. */
-	.one-window .list-page-form {
-		border-bottom: 1px solid var(--outline-gray-1);
-	}
-
-	.one-window[data-one-view="list"] .list-row-head .list-count {
-		display: none;
-	}
-
-	/* Filter and Sort among the commands, as plain buttons in the row. */
-	.one-window .one-window-views > .one-window-filters {
-		display: flex;
-		align-items: center;
-		gap: calc(var(--spacing) * 1);
-		margin: 0;
-		padding: 0;
-		padding-inline-end: calc(var(--spacing) * 2);
-	}
-
-	.one-window .one-window-filters > * {
-		margin: 0;
-		padding: 0;
-	}
-
-	/* The quick filters are the view row, set like the rows above it. */
-	.one-window .list-page-form {
-		min-height: 44px;
-		align-items: center;
-		padding-inline: calc(var(--spacing) * 2);
-	}
-
-	.one-window .list-page-form .standard-filter-section {
-		align-items: center;
-		margin: 0;
-		padding: 0;
-	}
-
-	.one-window .list-page-form .frappe-control {
-		margin: 0;
-	}
-
-	/* One gutter for every row of the window (the command row's), so a list's
-	   checkboxes, its quick filters, New and the status line start on one
-	   edge and end on the other. frappe's list keeps its own side margin and
-	   inset rows; in the window it runs edge to edge. */
-	.one-window[data-one-view="list"] .frappe-list {
-		margin-inline: 0;
-	}
-
-	.one-window[data-one-view="list"] .list-row-head,
-	.one-window[data-one-view="list"] .list-row-container,
-	.one-window[data-one-view="list"] .list-row-container .list-row {
-		margin-inline: 0;
-		padding-inline: 0;
-	}
-
-	/* A list's column heads, as OneCloud's: words on the page with a line
-	   under them, not a box. */
-	.one-window[data-one-view="list"] .list-row-head {
-		background: transparent;
-		border-radius: 0;
-		border-bottom: 1px solid var(--outline-gray-1);
-		color: var(--ink-gray-5);
-	}
-
-	/* frappe holds the head's right end (count, likes) over the rows as they
-	   scroll sideways, on the head's own grey; on the page's surface now. */
-	.one-window[data-one-view="list"] .list-row-head .level-right {
-		background: var(--surface-base);
 	}
 
 	/* The status row, held at the foot of the screen while the page scrolls. */
@@ -264,12 +192,6 @@
 
 	.one-window > .one-window-status[hidden] {
 		display: none;
-	}
-
-	.one-window .one-window-more .list-paging-area {
-		margin: 0;
-		padding: 0;
-		border: 0;
 	}
 
 	/* A fitted window is the screen, and its view scrolls inside (frappe's

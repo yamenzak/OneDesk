@@ -11,8 +11,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 
 import tree
 
-JS = (tree.APP / "public" / "js" / "window.js").read_text(encoding="utf-8")
-CSS = (tree.APP / "public" / "css" / "window.css").read_text(encoding="utf-8")
+WINDOW_JS = tree.APP / "public" / "js" / "window"
+WINDOW_CSS = tree.APP / "public" / "css" / "window"
+FRAME = (WINDOW_JS / "frame.js").read_text(encoding="utf-8")
+ADAPTERS = {path.stem: path.read_text(encoding="utf-8") for path in WINDOW_JS.glob("*.js") if path.stem != "frame"}
+JS = FRAME + "".join(ADAPTERS.values())
+CSS = "".join(path.read_text(encoding="utf-8") for path in sorted(WINDOW_CSS.glob("*.css")))
 HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
 CLOUD = (tree.APP / "public" / "js" / "onecloud.js").read_text(encoding="utf-8")
 
@@ -21,10 +25,35 @@ def _method(source: str, name: str) -> str:
 	return source.split(f"\t{name}(", 1)[1].split("\n\t}\n", 1)[0]
 
 
-def test_the_window_is_loaded_everywhere_after_the_shell():
-	scripts = re.findall(r'"/assets/onedesk/js/([\w.]+)"', HOOKS)
-	assert scripts.index("window.js") > scripts.index("shell.js")
-	assert '"/assets/onedesk/css/window.css"' in HOOKS
+def test_the_window_is_one_folder_loaded_after_the_shell():
+	"""The window is js/window and css/window: the frame first, then one
+	adapter per kind of view, every file of the folder loaded and nothing of
+	it anywhere else."""
+	scripts = re.findall(r'"/assets/onedesk/js/([\w./]+)"', HOOKS)
+	assert scripts.index("window/frame.js") > scripts.index("shell.js")
+	loaded = [one for one in scripts if one.startswith("window/")]
+	assert loaded[0] == "window/frame.js"
+	assert sorted(loaded) == sorted(f"window/{path.name}" for path in WINDOW_JS.glob("*.js"))
+	styles = re.findall(r'"/assets/onedesk/css/(window/[\w.]+)"', HOOKS)
+	assert styles[0] == "window/frame.css"
+	assert sorted(styles) == sorted(f"window/{path.name}" for path in WINDOW_CSS.glob("*.css"))
+	assert not (tree.APP / "public" / "js" / "window.js").exists()
+
+
+def test_a_view_says_what_it_has_and_the_frame_places_it():
+	"""One place decides where a view's parts go: `view()` in frame.js. An
+	adapter installs through `adapt(kind)` and hands over parts; it never
+	reaches into the frame's rows itself, so a change to the layout is made
+	once and every view follows."""
+	view = _method(FRAME, "view")
+	for part in ("primary", "commands", "menu", "controls", "views", "search", "status"):
+		assert part in view, part
+	for kind, source in ADAPTERS.items():
+		assert f'onedesk.window.adapt("{kind}", () => {{' in source, kind
+		assert "win.view(" in source, kind
+		for reach in ("$commands", "views_slot(", "win.handle(", "win.search(", "win.status(", "win.can("):
+			assert reach not in source, f"{kind}.js reaches into the frame: {reach}"
+	assert set(ADAPTERS) <= set(re.findall(r'"(\w+)"', FRAME.split("ON: [", 1)[1].split("covers(", 1)[0]))
 
 
 def test_the_window_adds_to_frappes_head_and_moves_none_of_it():
@@ -39,7 +68,7 @@ def test_the_window_adds_to_frappes_head_and_moves_none_of_it():
 
 def test_only_the_window_styles_the_window():
 	for path in tree.APP.rglob("*.css"):
-		if path.name == "window.css" or "dist" in path.parts:
+		if "window" in path.parent.parts[-1:] or "dist" in path.parts:
 			continue
 		for line in path.read_text(encoding="utf-8").splitlines():
 			if "{" not in line or ".one-window" not in line.split("{")[0]:
@@ -64,17 +93,17 @@ def test_onecloud_on_its_page_draws_none_of_the_windows_parts():
 	windowed = _method(CLOUD, "build_in_window")
 	for part in ("oc-bar", "oc-address", "oc-status", "oc-crumbs", "oc-search", "shell.panes", "shell.fit"):
 		assert part not in windowed, part
-	for asked in ("win.nav_slot()", "win.details(", "win.search(", "win.handle("):
+	for asked in ("win.nav_slot()", "win.details(", "win.view("):
 		assert asked in windowed, asked
 	page = (tree.APP / "one_storage" / "page" / "onecloud" / "onecloud.js").read_text(encoding="utf-8")
 	assert "window: true, fit: true" in page and "hide_sidebar" not in page
 
 
 def test_only_the_trial_puts_lists_and_forms_on_the_window():
-	trial = JS.split("// The trial:", 1)[1]
-	assert "(() => {\n\tif (!onedesk.window.trial()) return;" in trial
-	assert "frappe.views.ListView" in trial and "frappe.ui.form.Form" in trial
-	assert "frappe.views.ListView" not in JS.split("// The trial:", 1)[0]
+	assert 'TRIAL: ["list", "form"]' in FRAME and 'ON: ["page"]' in FRAME
+	assert "onedesk.window.trial() && onedesk.window.TRIAL.includes(kind)" in FRAME
+	assert "frappe.views.ListView" in ADAPTERS["list"] and "frappe.ui.form.Form" in ADAPTERS["form"]
+	assert "frappe.views.ListView" not in FRAME and "frappe.ui.form.Form" not in FRAME
 	outside = (tree.APP / "public" / "js" / "outside.js").read_text(encoding="utf-8")
 	assert 'label: __("Window Preview")' in outside and "onedesk.window.set_trial(" in outside
 
@@ -97,7 +126,7 @@ def test_frappes_reload_is_the_one_in_the_address_row():
 	row and the window's own Refresh steps aside; nothing duplicates it."""
 	assert 'name === "refresh-cw"' in JS and "this.window.adopt_reload($button)" in JS
 	assert "!!this.handlers.refresh && !this.$reload" in JS
-	list_setup = JS.split("List.prototype.setup_page = function", 1)[1].split("};", 1)[0]
+	list_setup = ADAPTERS["list"].split("List.prototype.setup_page = function", 1)[1].split("\n\t};", 1)[0]
 	assert "refresh:" not in list_setup
 
 
@@ -113,19 +142,23 @@ def test_a_lists_new_leads_the_command_row():
 	"""A list's primary button (New) is frappe's own node moved to the start of
 	the command row, as OneCloud's New is, and frappe's menu (…) follows it
 	after a line; a form's Save stays with its actions."""
-	list_setup = JS.split("List.prototype.setup_page = function", 1)[1].split("};", 1)[0]
-	assert "win.$commands.prepend(this.page.btn_primary)" in list_setup
-	assert 'win.$commands.append($(\'<span class="one-window-sep"></span>\'), this.page.menu_btn_group)' in list_setup
-	assert 'this.page.menu_dropdown.align = "start"' in list_setup
-	form_setup = JS.split("Form.prototype.setup = function", 1)[1].split("};", 1)[0]
-	assert "btn_primary" not in form_setup
+	list_setup = ADAPTERS["list"].split("List.prototype.setup_page = function", 1)[1].split("\n\t};", 1)[0]
+	assert "primary: this.page.btn_primary" in list_setup
+	assert "menu: { $button: this.page.menu_btn_group, dropdown: this.page.menu_dropdown }" in list_setup
+	view = _method(FRAME, "view")
+	assert 'menu.dropdown.align = "start"' in view
+	order = re.findall(r'data-group="(\w+)"', FRAME)
+	assert order == ["primary", "own", "menu"], order
+	assert "~ .one-window-group:has(" in CSS and "::before" in CSS
+	assert "btn_primary" not in ADAPTERS["form"]
 
 
 def test_filter_and_sort_are_commands_and_the_heads_are_flat():
 	"""A list's Filter and Sort are frappe's own buttons moved among the
 	commands, before the view toggles; the column heads are drawn as
 	OneCloud's are, words with a line under them."""
-	assert 'win.views_slot().prepend($filters.addClass("one-window-filters"))' in JS
+	assert 'this.views_slot().prepend(controls.addClass("one-window-filters"))' in FRAME
+	assert 'controls: this.$page && this.$page.find(".filter-section").first()' in ADAPTERS["list"]
 	assert '.one-window[data-one-view="list"] .list-row-head {' in CSS and "border-radius: 0;" in CSS
 
 
