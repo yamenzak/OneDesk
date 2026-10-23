@@ -63,22 +63,25 @@ onedesk.window.adapt("form", () => {
 			return said;
 		};
 	}
+
+	// Frappe draws a record's connections after its sidebar.
+	$(document).on("form-refresh", (_, frm) => frm && frm.one_panel && onedesk.window.panel_refresh(frm));
 });
 
 // The record panel: a form's sidebar, as the window's details pane, holds the
 // record's Overview (its head: cards, charts, the track), its Activity
-// (frappe's comments and timeline) and its Mail, as tabs under Assign, Tags
-// and Share. Only where the window covers forms and the screen is wide
+// (frappe's comments and timeline), its Mail and its Connections (frappe's
+// links to the records made from it), as tabs under Assign, Tags and Share. Only where the window covers forms and the screen is wide
 // enough for frappe to show its sidebar; elsewhere each stays where it was.
 onedesk.window.panelled = (frm) =>
 	!!(frm && frm.page && frm.page.window && onedesk.window.covers("form") && window.innerWidth >= 992);
 
-onedesk.window.PANEL = ["overview", "activity", "mail"];
+onedesk.window.PANEL = ["overview", "activity", "mail", "connections"];
 
 onedesk.window.panel = (frm, $sidebar) => {
 	if (frm.one_panel || !onedesk.window.panelled(frm)) return frm.one_panel || null;
 	const names = onedesk.window.PANEL;
-	const labels = { overview: __("Overview"), activity: __("Activity"), mail: __("Mail") };
+	const labels = { overview: __("Overview"), activity: __("Activity"), mail: __("Mail"), connections: __("Connections") };
 	const panes = Object.fromEntries(names.map((name) => [name, $(`<div class="one-panel-pane" data-pane="${name}"></div>`)]));
 	const tabs = new frappe.ui.Tabs({
 		css_class: "one-panel-tabs",
@@ -104,10 +107,16 @@ onedesk.window.panel_refresh = (frm) => {
 	if (frm.is_new()) return;
 	const footer = frm.footer && frm.footer.wrapper;
 	if (footer && footer.length && !$.contains(panel.panes.activity[0], footer[0])) panel.panes.activity.append(footer);
+	// Frappe's dashboard (its connections, and the stats and charts it shows
+	// above them) leaves its tab for the panel, and the tab, with nothing left
+	// in it, hides itself.
+	const links = frm.dashboard && frm.dashboard.parent;
+	if (links && links.length && !$.contains(panel.panes.connections[0], links[0])) panel.panes.connections.append(links);
 	const has = {
 		overview: panel.panes.overview.children().length > 0,
 		activity: !!(footer && footer.length),
 		mail: onedesk.record_tabs.applies(frm, "mail"),
+		connections: !!(links && links.find(".form-dashboard-section:not(.hide-control)").length),
 	};
 	// New Email is the Mail tab's, which has its own; the timeline's goes
 	// where the Mail tab is there to write from instead.
@@ -117,6 +126,7 @@ onedesk.window.panel_refresh = (frm) => {
 		.toggle(!has.mail);
 	const names = onedesk.window.PANEL;
 	names.forEach((name, i) => (panel.tabs.tabs[i].button.hidden = !has[name]));
+	panel.tabs.position_indicator();
 	const shown = names.filter((name) => has[name]);
 	panel.$panel.toggle(shown.length > 0);
 	if (!shown.length) return;

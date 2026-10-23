@@ -388,4 +388,106 @@
 		margin: 0;
 		padding: 0;
 	}
+	/* frappe's connections as the panel's figures are: a group's name, then
+	   a row per kind of record, the count and the plus at its end, a hairline
+	   under, no box. One column, two from 520px. */
+	.one-window .one-panel-pane .form-dashboard {
+		display: grid;
+		gap: calc(var(--spacing) * 4);
+	}
+
+	.one-window .one-panel-pane .form-dashboard-section,
+	.one-window .one-panel-pane .form-dashboard-section .section-body {
+		margin: 0;
+		padding: 0;
+		border: 0;
+	}
+
+	.one-window .one-panel-pane .form-documents {
+		display: grid;
+		gap: calc(var(--spacing) * 4) calc(var(--spacing) * 6);
+	}
+
+	@container (min-width: 520px) {
+		.one-window .one-panel-pane .form-documents {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	.one-window .one-panel-pane .form-documents > .row {
+		display: contents;
+	}
+
+	.one-window .one-panel-pane .form-documents .col-md-4 {
+		width: auto;
+		max-width: none;
+		padding: 0;
+	}
+
+	.one-window .one-panel-pane .form-dashboard-section .section-head {
+		margin: 0 0 calc(var(--spacing) * 1);
+		padding: 0;
+		color: var(--ink-gray-5);
+		font-size: var(--text-sm);
+		font-weight: var(--font-weight-regular);
+	}
+
+	.one-window .one-panel-pane .form-dashboard-section .collapse-indicator {
+		display: none;
+	}
+
+	.one-window .one-panel-pane .form-stats .row {
+		margin: 0;
+	}
+
+	.one-window .one-panel-pane .form-stats .indicator-column {
+		flex: 0 0 100%;
+		max-width: none;
+		padding: calc(var(--spacing) * 1) 0;
+		border-bottom: 1px solid var(--outline-gray-1);
+	}
+
+	.one-window .one-panel-pane .form-link-title {
+		margin: 0 0 calc(var(--spacing) * 1);
+		color: var(--ink-gray-5);
+		font-size: var(--text-sm);
+		font-weight: var(--font-weight-regular);
+	}
+
+	.one-window .one-panel-pane .document-link,
+	.one-window .one-panel-pane .document-link:hover {
+		border-color: var(--outline-gray-1);
+	}
+
+	.one-window .one-panel-pane .document-link {
+		min-height: 33px;
+		max-width: none;
+		margin: 0;
+		padding: calc(var(--spacing) * 1) 0;
+		border: 0;
+		border-bottom: 1px solid var(--outline-gray-1);
+		border-radius: 0;
+		background: transparent;
+	}
+
+	.one-window .one-panel-pane .document-link .document-link-badge {
+		display: flex;
+		flex: 1;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0;
+		color: var(--ink-gray-8);
+		font-size: var(--text-base);
+	}
+
+	.one-window .one-panel-pane .document-link .btn-new {
+		border: 0;
+		background: transparent;
+		color: var(--ink-gray-5);
+	}
+
+	.one-window .one-panel-pane .document-link .btn-new:hover {
+		background: var(--surface-gray-2);
+		color: var(--ink-gray-8);
+	}
 }

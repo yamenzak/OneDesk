@@ -125,7 +125,7 @@ well. Saving it reaches open screens at once (`one_frame`).
 A form's sidebar is the window's details pane (`details({ pane })`): the
 switch at the end of the command row folds it, as it folds OneCloud's, and
 its edge drags it from 200px to most of the window, kept per person. Under
-Assign, Tags and Share it holds the **record panel**, three tabs drawn with
+Assign, Tags and Share it holds the **record panel**, four tabs drawn with
 frappe's own `frappe.ui.Tabs`:
 
 - **Overview**: the record's head (its charts, its track, its figures),
@@ -134,6 +134,11 @@ frappe's own `frappe.ui.Tabs`:
 - **Activity**: frappe's comments and timeline (`frm.footer`), moved here.
 - **Mail**: the record's mail (`onedesk.record_mail.open`), drawn when the
   tab is first shown.
+- **Connections**: frappe's form dashboard (`frm.dashboard.parent`): the
+  records made from this one, with their counts and a + to make another,
+  and the stats frappe shows above them. Its Connections tab in the tab
+  row, left with nothing, hides itself. Each kind of record is a row, as a
+  figure is.
 
 A tab with nothing for the record is not shown; a new record has no panel.
 The tab somebody picks is kept per doctype. The Activity and Mail record
