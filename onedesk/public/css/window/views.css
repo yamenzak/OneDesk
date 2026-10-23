@@ -208,6 +208,16 @@
 		display: none !important;
 	}
 
+	/* The switch sits level with the label's first line, not the middle of
+	   a label and description that run to several lines. */
+	.one-window[data-one-view="form"] label.switch-control {
+		align-items: flex-start;
+	}
+
+	.one-window[data-one-view="form"] .switch-control .switch-visual {
+		margin-top: 2px;
+	}
+
 	.one-window[data-one-view="form"] .switch-control:not(:has(.input-area input)) .switch-visual {
 		opacity: 0.6;
 	}
