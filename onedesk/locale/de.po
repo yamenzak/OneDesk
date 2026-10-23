@@ -23658,6 +23658,9 @@ msgstr "Hier hält mehr als ein Kunde Einbehalte. Gib sie auf jeder Rechnung fre
 msgid "More than one supplier has retention held here. Pay it from each bill."
 msgstr "Hier sind Einbehalte von mehr als einem Lieferanten offen. Zahle sie auf jeder Eingangsrechnung."
 
+msgid "More views"
+msgstr "Weitere Ansichten"
+
 #: onedesk/one_inventory/home.py:197
 msgid "More ways to split stock, such as a shelf or a project."
 msgstr "Weitere Arten, Bestand aufzuteilen, etwa nach Regal oder Projekt."

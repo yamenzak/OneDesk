@@ -109,8 +109,32 @@
 		padding-inline: calc(var(--spacing) * 2);
 	}
 
-	.one-window .page-head-content > .one-window-switch {
+	.one-window .page-head-content > .one-window-views {
 		order: 7;
+		display: flex;
+		align-items: center;
+		gap: 2px;
+		min-height: 44px;
+		padding-inline-end: calc(var(--spacing) * 1);
+	}
+
+	.one-window .page-head-content > .one-window-views:empty {
+		display: none;
+	}
+
+	/* frappe's view menu, after the toggles: only its chevron, since the
+	   toggle pressed already says which view this is. */
+	.one-window .one-window-variants .es-button__label,
+	.one-window .one-window-variants .es-button > svg:first-of-type {
+		display: none;
+	}
+
+	.one-window .one-window-variants .es-button {
+		padding-inline: calc(var(--spacing) * 1);
+	}
+
+	.one-window .page-head-content > .one-window-switch {
+		order: 8;
 		margin-inline-end: calc(var(--spacing) * 2);
 	}
 

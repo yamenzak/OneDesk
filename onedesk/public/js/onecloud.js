@@ -80,8 +80,7 @@ onedesk.OneCloud = class OneCloud {
 				${button("empty-bin", "trash-2", __("Empty Recycle Bin"), { "data-bin": "1" })}
 				${button("open-record", "external-link", __("Open record"), { "data-record": "1" })}
 				${button("members", "users", __("Members"), { "data-library": "1" })}
-				<span class="oc-grow"></span>
-				<span class="oc-views"></span>`;
+				<span class="oc-grow"></span>`;
 		const main = `<div class="oc-head">
 				<button data-sort="name">${__("Name")}</button>
 				<button data-sort="where" class="oc-col-where">${__("Folder")}</button>
@@ -99,6 +98,7 @@ onedesk.OneCloud = class OneCloud {
 		this.$root = $(`<div class="oc${this.room ? " oc-room" : ""}${this.picker ? " oc-pick" : ""}" tabindex="-1">
 			<div class="oc-bar">
 				${commands}
+				<span class="oc-views"></span>
 				${bare("toggle-preview", "panel-right", __("Preview pane"))}
 			</div>
 			<div class="oc-address">
@@ -175,7 +175,7 @@ onedesk.OneCloud = class OneCloud {
 				],
 				on_change: (value) => this.act(value === "tiles" ? "view-tiles" : "view-details"),
 			})
-			.appendTo(this.$frame.find(".oc-views"));
+			.appendTo(this.win ? this.win.views_slot() : this.$frame.find(".oc-views"));
 	}
 
 	preview_on() {

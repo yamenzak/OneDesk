@@ -302,6 +302,42 @@ onedesk.window.Window = class Window {
 
 	// A container in the nav pane, under this view's row, for a tree of its
 	// own (`onedesk.window.nav.place`).
+	// The view's ways of looking at what is here (OneCloud's Details and
+	// Tiles, a list's List, Report, Kanban...), at the command row's far end
+	// beside the details switch, where Explorer keeps them.
+	views_slot() {
+		if (!this.$views) this.$views = $(`<div class="one-window-views"></div>`).insertBefore(this.$switch);
+		return this.$views;
+	}
+
+	// frappe's view switcher drawn as the window draws views: one toggle per
+	// view it offers, from its own list, icons and actions. Its own menu stays,
+	// as a chevron after them, for what a view has inside it (saved layouts,
+	// kanban boards, saved reports, calendars).
+	views_of(select) {
+		const views = select.get_views();
+		const options = frappe.views.view_modes
+			.filter((view) => views[view] && views[view].condition)
+			.map((view) => {
+				const label = select.label_map[view] || __(view);
+				return { value: view, icon: select.icon_map[view] || "list", label, title: label };
+			});
+		const $slot = this.views_slot().empty();
+		if (options.length > 1) {
+			frappe.ui
+				.tab_buttons({
+					type: "ghost",
+					label: __("View"),
+					value: select.current_view,
+					options,
+					on_change: (view) => views[view].action(),
+				})
+				.appendTo($slot);
+		}
+		select.$wrapper.addClass("one-window-variants").appendTo($slot);
+		select.$trigger.attr({ title: __("More views"), "aria-label": __("More views"), "data-variant": "ghost" });
+	}
+
 	nav_slot() {
 		if (!this.$slot) this.$slot = $(`<div class="one-window-nav-slot" role="tree"></div>`);
 		onedesk.window.nav.place();
@@ -390,6 +426,18 @@ onedesk.window.current = () => {
 (() => {
 	if (!onedesk.window.trial()) return;
 	$("body").addClass("one-window-trial");
+
+	const Base = frappe.views && frappe.views.BaseList;
+	if (Base && !Base.prototype.one_window) {
+		Base.prototype.one_window = true;
+		const menu = Base.prototype.setup_view_menu;
+		Base.prototype.setup_view_menu = function (...args) {
+			const said = menu.apply(this, args);
+			const win = this.page && this.page.window;
+			if (win && this.views_list) win.views_of(this.views_list);
+			return said;
+		};
+	}
 
 	const List = frappe.views && frappe.views.ListView;
 	if (List && !List.prototype.one_window) {

@@ -23658,6 +23658,9 @@ msgstr "يحتجز أكثر من عميل محتجزات هنا. أفرج عنه
 msgid "More than one supplier has retention held here. Pay it from each bill."
 msgstr "هناك محتجزات لأكثر من مورد هنا. ادفعها من كل فاتورة مورد."
 
+msgid "More views"
+msgstr "طرق عرض أخرى"
+
 #: onedesk/one_inventory/home.py:197
 msgid "More ways to split stock, such as a shelf or a project."
 msgstr "طرق إضافية لتقسيم المخزون، كالرف أو المشروع."

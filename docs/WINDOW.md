@@ -39,6 +39,11 @@ keep working, because nothing of theirs was replaced.
 - **Command row** is the rest of frappe's page head: the view's own
   commands on the left (`window.$commands`), frappe's actions, menu and
   primary button on the right, and the details pane's switch last.
+- **Views** sit at the command row's far end, beside the details switch:
+  OneCloud's Details and Tiles, and a list's List, Report, Dashboard,
+  Kanban, Image... as one toggle each, from frappe's own view switcher
+  (its views, icons and actions). frappe's menu follows as a chevron, for
+  what is inside a view: saved layouts, kanban boards, saved reports.
 - **View row** is what frappe already draws under the head for the view: a
   list's filters and sort, a form's tabs. Styled as a row, not moved.
 - **Details pane** (`window.details()`) sits right of the view, can be
