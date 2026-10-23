@@ -35,6 +35,7 @@ onedesk.OneCloud = class OneCloud {
 		this.room = room;
 		this.picker = picker;
 		this.parent = parent;
+		this.win = !room && !picker && page && page.window ? page.window : null;
 		this.listed = listed;
 		this.node = null;
 		this.items = [];
@@ -65,9 +66,7 @@ onedesk.OneCloud = class OneCloud {
 			frappe.ui.button.html({ variant: "ghost", icon: name, label, title: label, attrs: { "data-act": act, ...more } });
 		const bare = (act, name, label) =>
 			frappe.ui.button.html({ variant: "ghost", icon: name, title: label, attrs: { "data-act": act } });
-		this.$root = $(`<div class="oc${this.room ? " oc-room" : ""}${this.picker ? " oc-pick" : ""}" tabindex="-1">
-			<div class="oc-bar">
-				${frappe.ui.button.html({ variant: "solid", icon: "plus", icon_right: "chevron-down", label: __("New"), attrs: { "data-act": "new-menu" } })}
+		const commands = `${frappe.ui.button.html({ variant: "solid", icon: "plus", icon_right: "chevron-down", label: __("New"), attrs: { "data-act": "new-menu" } })}
 				<span class="oc-sep"></span>
 				${bare("cut", "scissors", __("Cut"))}
 				${bare("copy", "copy", __("Copy"))}
@@ -82,7 +81,24 @@ onedesk.OneCloud = class OneCloud {
 				${button("open-record", "external-link", __("Open record"), { "data-record": "1" })}
 				${button("members", "users", __("Members"), { "data-library": "1" })}
 				<span class="oc-grow"></span>
-				<span class="oc-views"></span>
+				<span class="oc-views"></span>`;
+		const main = `<div class="oc-head">
+				<button data-sort="name">${__("Name")}</button>
+				<button data-sort="where" class="oc-col-where">${__("Folder")}</button>
+				<button data-sort="modified" class="oc-col-date">${__("Date modified")}</button>
+				<button data-sort="type" class="oc-col-type">${__("Type")}</button>
+				<button data-sort="size" class="oc-col-size">${__("Size")}</button>
+			</div>
+			<div class="oc-scope" hidden></div>
+			<div class="oc-items" tabindex="0" role="listbox" aria-multiselectable="true"></div>`;
+		const files = `<input type="file" class="oc-pick-files" multiple hidden>
+			<input type="file" class="oc-pick-folder" webkitdirectory hidden>
+			<input type="file" class="oc-pick-version" hidden>
+			<div class="oc-uploads" hidden></div>`;
+		if (this.win) return this.build_in_window(commands, main, files);
+		this.$root = $(`<div class="oc${this.room ? " oc-room" : ""}${this.picker ? " oc-pick" : ""}" tabindex="-1">
+			<div class="oc-bar">
+				${commands}
 				${bare("toggle-preview", "panel-right", __("Preview pane"))}
 			</div>
 			<div class="oc-address">
@@ -95,13 +111,11 @@ onedesk.OneCloud = class OneCloud {
 			</div>
 			<div class="oc-body"></div>
 			<div class="oc-status"></div>
-			<input type="file" class="oc-pick-files" multiple hidden>
-			<input type="file" class="oc-pick-folder" webkitdirectory hidden>
-			<input type="file" class="oc-pick-version" hidden>
-			<div class="oc-uploads" hidden></div>
+			${files}
 		</div>`).appendTo(this.parent || this.page.$shell);
+		this.$frame = this.$root;
 		const panes = onedesk.shell.panes(
-			this.$root.find(".oc-body"),
+			this.$frame.find(".oc-body"),
 			[
 				{ key: "tree", width: 230 },
 				{ key: "main" },
@@ -110,18 +124,42 @@ onedesk.OneCloud = class OneCloud {
 			{ fit: false }
 		);
 		this.$tree = panes.tree.addClass("oc-tree").attr({ role: "navigation", "aria-label": __("Folders") }).prop("hidden", !!this.room);
-		panes.main.addClass("oc-main").html(`<div class="oc-head">
-				<button data-sort="name">${__("Name")}</button>
-				<button data-sort="where" class="oc-col-where">${__("Folder")}</button>
-				<button data-sort="modified" class="oc-col-date">${__("Date modified")}</button>
-				<button data-sort="type" class="oc-col-type">${__("Type")}</button>
-				<button data-sort="size" class="oc-col-size">${__("Size")}</button>
-			</div>
-			<div class="oc-scope" hidden></div>
-			<div class="oc-items" tabindex="0" role="listbox" aria-multiselectable="true"></div>`);
+		panes.main.addClass("oc-main").html(main);
 		this.$preview = panes.preview.addClass("oc-preview").attr("role", "complementary");
-		this.$items = this.$root.find(".oc-items");
-		this.$search = onedesk.shell.search(this.$root.find(".oc-search"));
+		this.$items = this.$frame.find(".oc-items");
+		this.$search = onedesk.shell.search(this.$frame.find(".oc-search"));
+		this.make_views();
+		if (!this.room && !this.picker) onedesk.shell.fit(this.$root);
+	}
+
+	// OneCloud on its own page sits in the window (docs/WINDOW.md): its
+	// commands in the window's command row, its path in frappe's breadcrumbs,
+	// Back, Forward, Up, Refresh and search in the address row, its folders
+	// under its row in the nav pane, the chosen file in the details pane and
+	// the count in the status row. Inside a record or a picker it keeps all of
+	// them in itself.
+	build_in_window(commands, main, files) {
+		const win = this.win;
+		this.$root = $(`<div class="oc oc-windowed" tabindex="-1"><div class="oc-main">${main}</div>${files}</div>`).appendTo(this.page.$shell);
+		this.$frame = this.page.wrapper.addClass("oc-frame");
+		win.$commands.html(commands);
+		this.$items = this.$frame.find(".oc-items");
+		this.$tree = win.nav_slot().addClass("oc-tree").attr("aria-label", __("Folders"));
+		this.$preview = win.details({ key: "onecloud" }).addClass("oc-preview");
+		this.$search = win.search();
+		win.handle({ up: () => this.act("up"), refresh: () => this.act("refresh") });
+		this.page.wrapper.on("one-window-details", (e, open) => {
+			if (!open) return;
+			this.previewing = null;
+			this.draw_preview();
+		});
+		this.page.$title_area.on("click", (e) => {
+			if (!$(e.target).closest("a, button, li.es-breadcrumbs__item").length) this.type_path();
+		});
+		this.make_views();
+	}
+
+	make_views() {
 		this.$views = frappe.ui
 			.tab_buttons({
 				type: "ghost",
@@ -132,16 +170,20 @@ onedesk.OneCloud = class OneCloud {
 				],
 				on_change: (value) => this.act(value === "tiles" ? "view-tiles" : "view-details"),
 			})
-			.appendTo(this.$root.find(".oc-views"));
-		if (!this.room && !this.picker) onedesk.shell.fit(this.$root);
+			.appendTo(this.$frame.find(".oc-views"));
+	}
+
+	preview_on() {
+		return this.win ? !!this.win.details_open : !!cint(this.settings.preview);
 	}
 
 	apply_settings() {
+		this.$frame.attr("data-view", this.settings.view);
 		this.$root.attr("data-view", this.settings.view);
-		this.$preview.prop("hidden", !cint(this.settings.preview));
+		if (!this.win) this.$preview.prop("hidden", !cint(this.settings.preview));
 		this.$views && this.$views.data("es-tab-buttons").set_value(this.settings.view, { silent: true });
-		this.$root.find("[data-act=toggle-preview]").attr("data-state", cint(this.settings.preview) ? "on" : null);
-		this.$root.find(".oc-head button").each((_, el) => {
+		this.$frame.find("[data-act=toggle-preview]").attr("data-state", cint(this.settings.preview) ? "on" : null);
+		this.$frame.find(".oc-head button").each((_, el) => {
 			const on = el.dataset.sort === this.settings.sort;
 			$(el).attr("data-sorted", on ? (cint(this.settings.asc) ? "asc" : "desc") : null);
 		});
@@ -165,7 +207,7 @@ onedesk.OneCloud = class OneCloud {
 	}
 
 	redraw() {
-		if (this.menu_open() || this.dragging || this.$root.find("input.oc-rename, input.oc-path").length) {
+		if (this.menu_open() || this.dragging || this.$frame.find("input.oc-rename, input.oc-path").length) {
 			return setTimeout(() => this.redraw(), 1500);
 		}
 		this.forget_tree(this.node);
@@ -304,12 +346,13 @@ onedesk.OneCloud = class OneCloud {
 		const global = this.everywhere || this.kind() === "root";
 		this.$search.attr("placeholder", global ? __("Search everywhere") : __("Search {0}", [here ? here.name : __("Files")]));
 		this.draw_scope(here);
+		this.$frame.attr("data-kind", this.kind());
 		this.$root.attr("data-kind", this.kind());
 		const where_head = { shared: __("Shared by"), libraries: __("Your role"), recent: __("Folder"), starred: __("Folder"), network: __("Type"), requests: __("Progress"), request: __("File · From") }[this.kind()];
 		this.$root.toggleClass("oc-searching", !!this.search || !!where_head);
-		this.$root.find(".oc-head .oc-col-where").text(where_head && !this.search ? where_head : __("Folder"));
+		this.$frame.find(".oc-head .oc-col-where").text(where_head && !this.search ? where_head : __("Folder"));
 		if (this.kind() === "libraries") this.items.forEach((one) => (one.where = one.role ? __(one.role) : ""));
-		this.$root.find(".oc-head .oc-col-date").text(this.kind() === "bin" ? __("Date deleted") : __("Date modified"));
+		this.$frame.find(".oc-head .oc-col-date").text(this.kind() === "bin" ? __("Date deleted") : __("Date modified"));
 		const sorted = this.sorted();
 		if (!sorted.length) {
 			this.$items.html(onedesk.shell.empty(this.empty_text()));
@@ -321,7 +364,7 @@ onedesk.OneCloud = class OneCloud {
 	}
 
 	draw_scope(here) {
-		const $scope = this.$root.find(".oc-scope");
+		const $scope = this.$frame.find(".oc-scope");
 		const scoped = !!this.search && this.kind() !== "root" && !this.room;
 		$scope.prop("hidden", !scoped);
 		if (!scoped) return;
@@ -357,6 +400,17 @@ onedesk.OneCloud = class OneCloud {
 
 	draw_crumbs() {
 		const last = this.trail.length - 1;
+		if (this.win) {
+			this.page.set_breadcrumbs(
+				this.trail.map((one, at) => ({
+					label: one.name,
+					...(at < last ? { href: `/desk/onecloud?node=${encodeURIComponent(one.id)}` } : {}),
+				}))
+			);
+			frappe.utils.set_title(this.trail.length ? this.trail[last].name : __("OneCloud"));
+			this.win.can({ up: this.trail.length > 1 });
+			return;
+		}
 		const $crumbs = frappe.ui.breadcrumbs({
 			items: this.trail.map((one, at) => ({
 				label: one.name,
@@ -369,20 +423,20 @@ onedesk.OneCloud = class OneCloud {
 						: undefined,
 			})),
 		});
-		this.$root.find(".oc-crumbs").children(".es-breadcrumbs").remove().end().prepend($crumbs);
+		this.$frame.find(".oc-crumbs").children(".es-breadcrumbs").remove().end().prepend($crumbs);
 		const product = new RegExp(`^${onedesk.brand.NAME.source}$`);
 		$crumbs.find(".es-breadcrumbs__item").each((_, el) => {
 			const found = (el.textContent || "").trim().match(product);
 			const id = found && onedesk.brand.mark_of(found[1]);
 			if (id) $(el).prepend(frappe.utils.icon(id, { width: "1.05em", height: "1.05em" }, "", "", "one-mark oc-crumb-mark"));
 		});
-		this.$root.find("[data-act=back]").prop("disabled", !this.past.length);
-		this.$root.find("[data-act=forward]").prop("disabled", !this.ahead.length);
-		this.$root.find("[data-act=up]").prop("disabled", this.trail.length < 2);
+		this.$frame.find("[data-act=back]").prop("disabled", !this.past.length);
+		this.$frame.find("[data-act=forward]").prop("disabled", !this.ahead.length);
+		this.$frame.find("[data-act=up]").prop("disabled", this.trail.length < 2);
 	}
 
 	type_path() {
-		const $crumbs = this.$root.find(".oc-crumbs");
+		const $crumbs = this.win ? this.page.$title_area : this.$frame.find(".oc-crumbs");
 		if ($crumbs.find("input").length) return;
 		const path = this.trail
 			.slice(1)
@@ -545,9 +599,9 @@ onedesk.OneCloud = class OneCloud {
 		const chosen = this.chosen();
 		const kind = this.kind();
 		const all_stored = chosen.length && chosen.every((one) => this.stored(one));
-		const set = (act, on) => this.$root.find(`[data-act=${act}]`).prop("disabled", !on);
+		const set = (act, on) => this.$frame.find(`[data-act=${act}]`).prop("disabled", !on);
 		set("new-menu", this.can_add || this.can_make_library || this.can_make_mount || kind === "requests");
-		this.$root.find("[data-library]").toggle(!!this.library_here());
+		this.$frame.find("[data-library]").toggle(!!this.library_here());
 		set("cut", all_stored && kind !== "bin");
 		set("copy", all_stored && kind !== "bin");
 		set("paste", this.can_add && !!this.clipboard);
@@ -558,8 +612,8 @@ onedesk.OneCloud = class OneCloud {
 		set("restore", kind === "bin" && chosen.length);
 		set("empty-bin", kind === "bin" && this.items.length);
 		set("open-record", !!this.record_of(chosen[0]) || kind === "record");
-		this.$root.find("[data-bin]").toggle(kind === "bin");
-		this.$root.find("[data-record]").toggle(!this.room && (kind === "record" || kind === "records" || chosen.some((one) => one.record)));
+		this.$frame.find("[data-bin]").toggle(kind === "bin");
+		this.$frame.find("[data-record]").toggle(!this.room && (kind === "record" || kind === "records" || chosen.some((one) => one.record)));
 	}
 
 	draw_status() {
@@ -571,11 +625,12 @@ onedesk.OneCloud = class OneCloud {
 			text += "  ·  " + this.count(chosen.length, __("1 item selected"), __("{0} items selected"));
 			if (bytes) text += "  " + this.size_text(bytes);
 		}
-		this.$root.find(".oc-status").text(text);
+		if (this.win) this.win.status(text);
+		else this.$frame.find(".oc-status").text(text);
 	}
 
 	draw_preview() {
-		if (!cint(this.settings.preview)) return;
+		if (!this.preview_on()) return;
 		const chosen = this.chosen();
 		const esc = frappe.utils.escape_html;
 		if (chosen.length > 1) {
@@ -747,7 +802,7 @@ onedesk.OneCloud = class OneCloud {
 	}
 
 	bind() {
-		const $r = this.$root;
+		const $r = this.$frame;
 		this.new_dropdown = new frappe.ui.Dropdown({
 			trigger: $r.find("[data-act=new-menu]"),
 			options: () => this.as_menu(this.new_menu()),
@@ -941,10 +996,12 @@ onedesk.OneCloud = class OneCloud {
 		const ids = chosen.filter((one) => this.stored(one)).map((one) => one.id);
 		switch (act) {
 			case "back":
+				if (this.win) return window.history.back();
 				if ((this.picker || this.room) && this.past.length) return this.ahead.push(this.node), this.open(this.past.pop());
 				if (this.past.length) window.history.back();
 				return;
 			case "forward":
+				if (this.win) return window.history.forward();
 				if ((this.picker || this.room) && this.ahead.length) return this.past.push(this.node), this.open(this.ahead.pop());
 				if (this.ahead.length) window.history.forward();
 				return;
@@ -959,6 +1016,7 @@ onedesk.OneCloud = class OneCloud {
 			case "view-tiles":
 				return this.remember({ view: "tiles" });
 			case "toggle-preview":
+				if (this.win) return this.win.toggle_details();
 				this.previewing = null;
 				this.remember({ preview: cint(this.settings.preview) ? 0 : 1 });
 				return this.draw_preview();
@@ -993,9 +1051,9 @@ onedesk.OneCloud = class OneCloud {
 				return;
 			}
 			case "upload-files":
-				return this.$root.find(".oc-pick-files").trigger("click");
+				return this.$frame.find(".oc-pick-files").trigger("click");
 			case "upload-folder":
-				return this.$root.find(".oc-pick-folder").trigger("click");
+				return this.$frame.find(".oc-pick-folder").trigger("click");
 			case "cut":
 			case "copy":
 				if (!ids.length || this.kind() === "bin") return;
@@ -1033,7 +1091,7 @@ onedesk.OneCloud = class OneCloud {
 			case "new-version":
 				if (chosen.length !== 1 || chosen[0].folder) return;
 				this.version_of = chosen[0];
-				return this.$root.find(".oc-pick-version").trigger("click");
+				return this.$frame.find(".oc-pick-version").trigger("click");
 			case "download":
 				return this.download(chosen.filter((one) => !one.folder && one.url));
 			case "download-xlsx":
@@ -1918,7 +1976,7 @@ onedesk.OneCloud = class OneCloud {
 
 	bind_drag() {
 		if (this.picker) return;
-		const $r = this.$root;
+		const $r = this.win ? this.$frame.add(this.$tree) : this.$root;
 		let over = null;
 		const light = (target) => {
 			if (over && (!target || over[0] !== target.$el[0])) over.removeClass("oc-drop");
@@ -2133,7 +2191,7 @@ onedesk.OneCloud = class OneCloud {
 	}
 
 	draw_uploads() {
-		const $box = this.$root.find(".oc-uploads");
+		const $box = this.$frame.find(".oc-uploads");
 		const rows = this.uploads || [];
 		if (!rows.length) return $box.attr("hidden", true);
 		const esc = frappe.utils.escape_html;

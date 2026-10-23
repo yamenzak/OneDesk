@@ -2,8 +2,15 @@
 frappe.provide("onedesk.shell");
 
 $.extend(onedesk.shell, {
-	page(wrapper, title, { hide_sidebar = false, mark = null } = {}) {
-		const page = frappe.ui.make_app_page({ parent: wrapper, title, single_column: true, hide_sidebar });
+	page(wrapper, title, { hide_sidebar = false, mark = null, window: in_window = false, fit = false } = {}) {
+		const page = frappe.ui.make_app_page({
+			parent: wrapper,
+			title,
+			single_column: true,
+			hide_sidebar,
+			one_window: in_window,
+			one_window_fit: fit,
+		});
 		if (mark) page.$title_area.prepend(`<span class="one-shell-mark">${frappe.utils.icon(mark, "md")}</span>`);
 		page.$shell = $(`<section class="one-shell"></section>`).appendTo(page.main);
 		return page;

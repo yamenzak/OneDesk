@@ -152,6 +152,10 @@ explorer. They take the shell's head, the panes body, its rows, empty states
 and buttons, and keep their own reading pane, tree, grid and upload tray.
 That is the difference between "bespoke" and "a different app".
 
+OneCloud on its own page now sits in the window (docs/WINDOW.md), which
+takes over its bar, address bar, tree, status line and preview pane; inside a
+record or a picker it keeps them. Every other page follows.
+
 ### 4. Record Head: the part above the fields, as data
 
 One doctype of ours, **Record Head** (module One), one per doctype, holding

@@ -11773,6 +11773,9 @@ msgstr "Einzelheit"
 msgid "Details"
 msgstr "Details"
 
+msgid "Details pane"
+msgstr "Detailbereich"
+
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:18
 msgid "Detect"
 msgstr "Erkennen"
@@ -12484,6 +12487,9 @@ msgstr "Entwürfe"
 #: onedesk/one/settings.py:1391
 msgid "Drafts you edit before they go anywhere: replies and interview notes."
 msgstr "Entwürfe, die Sie bearbeiten, bevor sie irgendwohin gehen: Antworten und Gesprächsnotizen."
+
+msgid "Drag to resize, click to fold"
+msgstr "Zum Ändern der Größe ziehen, zum Einklappen klicken"
 
 #: frontend/src/project/Overview.vue:95
 #: onedesk/public/js/project_actions.js:151
@@ -49550,6 +49556,9 @@ msgstr "Gewinnquote (90 Tage)"
 #: onedesk/one/letter_heads.py:21
 msgid "Window"
 msgstr "Fenster"
+
+msgid "Window Preview"
+msgstr "Fenstervorschau"
 
 #: onedesk/public/js/onecloud.js:1699
 msgid "Windows"

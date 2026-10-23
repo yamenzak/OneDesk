@@ -32,8 +32,21 @@
 	flex: 1;
 }
 
-.oc:not([data-kind="bin"]) .oc-in-bin {
+.oc:not([data-kind="bin"]) .oc-in-bin,
+.oc-frame:not([data-kind="bin"]) .oc-in-bin {
 	display: none;
+}
+
+.oc-windowed {
+	height: 100%;
+	min-height: 0;
+}
+
+.oc-windowed > .oc-main {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-height: 0;
 }
 
 .oc-crumbs {

@@ -14,6 +14,10 @@ def boot_session(bootinfo) -> None:
 
 	bootinfo["one_assets"] = stamp.versions()
 
+	from frappe.model.utils.user_settings import get_user_settings
+
+	bootinfo["one_window"] = frappe.parse_json(get_user_settings("One Window")) or {}
+
 	from onedesk.one import outside
 
 	outside.keep(bootinfo)

@@ -439,7 +439,8 @@ def test_a_tenant_is_limited_by_storage_not_by_file_size():
 def test_the_explorer_is_its_own_navigation():
 	js = (PAGE / "onecloud.js").read_text()
 	page = (tree.APP / "one_storage" / "page" / "onecloud" / "onecloud.js").read_text()
-	assert "hide_sidebar: true" in page, "the panel starts closed; the tree takes its place"
+	assert "window: true" in page and "hide_sidebar" not in page, "OneCloud sits in the window, its tree in the nav pane"
+	assert "win.nav_slot()" in js
 	assert '"storage-check"' in js and 'has_role("Workspace Administrator")' in js
 
 

@@ -1,0 +1,249 @@
+/* The window (docs/WINDOW.md). frappe's page head becomes two rows by
+   wrapping, so nothing frappe holds moves: the address row (Back, Forward, Up,
+   frappe's breadcrumbs and pill, Refresh, search) and the command row (the
+   view's commands, frappe's actions, the details switch). */
+
+:root {
+	--one-details-width: 280px;
+}
+
+@media (min-width: 768px) {
+	.one-window {
+		--page-head-height: 89px;
+	}
+
+	.one-window > .page-head {
+		height: auto;
+		border-bottom: 1px solid var(--outline-gray-1);
+	}
+
+	.one-window > .page-head > .container {
+		max-width: none;
+		padding: 0;
+	}
+
+	/* frappe marks the head `flex-nowrap`, which is !important. */
+	.one-window .page-head .page-head-content {
+		display: flex;
+		flex-wrap: wrap !important;
+		align-items: center;
+		gap: 0;
+		height: auto;
+		margin: 0;
+		padding: 0;
+	}
+
+	.one-window .page-head-content > .one-window-nav,
+	.one-window .page-head-content > .page-title,
+	.one-window .page-head-content > .one-window-tools {
+		align-self: stretch;
+		min-height: 44px;
+		border-bottom: 1px solid var(--outline-gray-1);
+	}
+
+	.one-window .page-head-content > .one-window-nav {
+		order: 1;
+		display: flex;
+		align-items: center;
+		gap: 2px;
+		padding-inline: calc(var(--spacing) * 2) calc(var(--spacing) * 1);
+	}
+
+	.one-window .page-head-content > .page-title {
+		order: 2;
+		flex: 1 1 0;
+		display: flex;
+		align-items: center;
+		min-width: 0;
+		margin: 0;
+		padding-inline: calc(var(--spacing) * 1);
+	}
+
+	.one-window .page-head-content > .page-title .title-area {
+		flex: 1;
+		min-width: 0;
+		height: 30px;
+		padding-inline: calc(var(--spacing) * 2);
+		border: 1px solid var(--outline-gray-2);
+		border-radius: var(--radius);
+		background: var(--surface-gray-1);
+		align-items: center;
+	}
+
+	.one-window .page-head-content > .one-window-tools {
+		order: 3;
+		display: flex;
+		align-items: center;
+		gap: calc(var(--spacing) * 1);
+		padding-inline: calc(var(--spacing) * 1) calc(var(--spacing) * 2);
+	}
+
+	.one-window .page-head-content > .one-window-break {
+		order: 4;
+		flex-basis: 100%;
+		height: 0;
+	}
+
+	.one-window .one-window-search {
+		width: 240px;
+	}
+
+	.one-window .one-window-search:empty {
+		display: none;
+	}
+
+	.one-window .page-head-content > .one-window-commands {
+		order: 5;
+		flex: 1 1 0;
+		display: flex;
+		align-items: center;
+		gap: calc(var(--spacing) * 1);
+		min-width: 0;
+		min-height: 44px;
+		padding-inline: calc(var(--spacing) * 2);
+	}
+
+	.one-window .page-head-content > .standard-items-section {
+		order: 6;
+		min-height: 44px;
+		padding-inline: calc(var(--spacing) * 2);
+	}
+
+	.one-window .page-head-content > .one-window-switch {
+		order: 7;
+		margin-inline-end: calc(var(--spacing) * 2);
+	}
+
+	.one-window .page-head-content > .one-window-switch[data-state="on"],
+	.one-window .one-window-commands .es-button[data-state="on"] {
+		background: var(--surface-gray-3);
+	}
+
+	/* A list's filters and sort are the view row; its count is in the status
+	   row and its Refresh in the address row. */
+	.one-window .list-page-form {
+		border-bottom: 1px solid var(--outline-gray-1);
+	}
+
+	.one-window[data-one-view="list"] .list-row-head .list-count,
+	.one-window[data-one-view="list"] .page-icon-group {
+		display: none;
+	}
+
+	/* The status row, held at the foot of the screen while the page scrolls. */
+	.one-window {
+		display: flex;
+		flex-direction: column;
+		min-height: calc(100dvh - var(--one-bar-offset, 0px));
+	}
+
+	.one-window > .page-body {
+		flex: 1 0 auto;
+	}
+
+	.one-window > .one-window-status {
+		position: sticky;
+		bottom: 0;
+		z-index: 3;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: calc(var(--spacing) * 3);
+		min-height: 32px;
+		padding-inline: calc(var(--spacing) * 4);
+		border-top: 1px solid var(--outline-gray-1);
+		background: var(--surface-base);
+		color: var(--ink-gray-5);
+		font-size: var(--text-sm);
+	}
+
+	.one-window > .one-window-status[hidden] {
+		display: none;
+	}
+
+	.one-window .one-window-more .list-paging-area {
+		margin: 0;
+		padding: 0;
+		border: 0;
+	}
+
+	/* A fitted window is the screen, and its view scrolls inside (frappe's
+	   full-height-page box). */
+	.one-window.one-window-fit {
+		min-height: 0;
+	}
+
+	.one-window.one-window-fit > .one-window-status {
+		position: static;
+	}
+
+	/* The details pane, right of the view. */
+	.one-window .layout-main:has(> .one-window-details) {
+		display: flex;
+		min-height: 0;
+	}
+
+	.one-window .layout-main:has(> .one-window-details) > .layout-main-section-wrapper {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.one-window-details {
+		position: relative;
+		flex: 0 0 var(--one-details-width);
+		min-width: 0;
+		border-inline-start: 1px solid var(--outline-gray-1);
+		background: var(--surface-base);
+	}
+
+	.one-window-details[hidden] {
+		display: none;
+	}
+
+	.one-window-details-body {
+		height: 100%;
+		overflow: auto;
+	}
+
+	.one-window-details-edge {
+		position: absolute;
+		inset-block: 0;
+		inset-inline-start: -4px;
+		z-index: 2;
+		width: 8px;
+		cursor: col-resize;
+	}
+
+	.one-window-details-edge:hover {
+		background: var(--outline-gray-2);
+	}
+}
+
+/* Below a tablet frappe's own phone head stays. */
+@media (max-width: 767px) {
+	.one-window-nav,
+	.one-window-switch,
+	.one-window-details-edge {
+		display: none !important;
+	}
+}
+
+/* The nav pane: frappe's sidebar, with a view's own tree under its row. */
+.body-sidebar-container .sidebar-edge {
+	cursor: col-resize;
+}
+
+body.one-window-dragging,
+body.one-window-dragging * {
+	cursor: col-resize !important;
+	user-select: none !important;
+}
+
+.one-window-nav-slot {
+	padding-block: 2px;
+	padding-inline-start: calc(var(--spacing) * 3);
+}
+
+.body-sidebar-container:not(.expanded) .one-window-nav-slot {
+	display: none;
+}

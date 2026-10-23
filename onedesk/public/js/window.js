@@ -1,0 +1,372 @@
+// The window (docs/WINDOW.md): every screen in one frame, built from frappe's
+// own parts. Nothing here redraws what frappe draws; it places it, and adds
+// Back, Forward, Up, Refresh, a search box, a status row and a details pane.
+frappe.provide("onedesk.window");
+
+$.extend(onedesk.window, {
+	// What the window remembers for each person (the trial, the nav pane's
+	// width, each details pane), in frappe's user settings under one name,
+	// read from the boot so nothing jumps when a page opens.
+	SETTINGS: "One Window",
+	NAV: { min: 180, max: 440, key: "nav" },
+
+	settings() {
+		if (!onedesk.window.held) {
+			onedesk.window.held = $.extend(true, {}, frappe.boot.one_window || {});
+			frappe.model.user_settings[onedesk.window.SETTINGS] =
+				frappe.model.user_settings[onedesk.window.SETTINGS] || $.extend(true, {}, onedesk.window.held);
+		}
+		return onedesk.window.held;
+	},
+
+	kept(key, fallback) {
+		const said = onedesk.window.settings()[key];
+		return said === undefined || said === null ? fallback : said;
+	},
+
+	keep(key, value) {
+		onedesk.window.settings()[key] = value;
+		return frappe.model.user_settings.save(onedesk.window.SETTINGS, key, value);
+	},
+
+	trial() {
+		return !!onedesk.window.kept("trial", false);
+	},
+
+	set_trial(on) {
+		onedesk.window.keep("trial", !!on).then(() => window.location.reload());
+	},
+
+	of(page, options = {}) {
+		if (!page) return null;
+		return page.window || new onedesk.window.Window(page, options);
+	},
+
+	// A drag along an edge, as a width: `edge` is the handle, `from` reads the
+	// width when the drag starts, `to` is told each new one. The pointer's
+	// own direction is reversed in a right-to-left page and for a pane whose
+	// handle is on its leading side.
+	drag(edge, { from, to, done, leading = false }) {
+		$(edge).on("pointerdown", (e) => {
+			if (e.button !== 0) return;
+			const start = e.clientX;
+			const width = from();
+			const way = (document.dir === "rtl" ? -1 : 1) * (leading ? -1 : 1);
+			let moved = false;
+			const move = (m) => {
+				const dx = (m.clientX - start) * way;
+				if (!moved && Math.abs(dx) < 4) return;
+				moved = true;
+				document.body.classList.add("one-window-dragging");
+				to(width + dx);
+			};
+			const up = () => {
+				document.removeEventListener("pointermove", move);
+				document.removeEventListener("pointerup", up);
+				document.body.classList.remove("one-window-dragging");
+				if (!moved) return;
+				done && done();
+				const swallow = (c) => {
+					c.stopImmediatePropagation();
+					c.preventDefault();
+				};
+				document.addEventListener("click", swallow, { capture: true, once: true });
+				setTimeout(() => document.removeEventListener("click", swallow, { capture: true }), 0);
+			};
+			document.addEventListener("pointermove", move);
+			document.addEventListener("pointerup", up);
+		});
+	},
+});
+
+// The nav pane is frappe's sidebar. Its edge folds it when clicked, as
+// frappe made it; dragged, it sets frappe's own --sidebar-width.
+onedesk.window.nav = {
+	width(px) {
+		const { min, max } = onedesk.window.NAV;
+		const value = Math.round(Math.min(max, Math.max(min, px)));
+		document.documentElement.style.setProperty("--sidebar-width", `${value}px`);
+		return value;
+	},
+
+	setup() {
+		const kept = onedesk.window.kept(onedesk.window.NAV.key, null);
+		if (kept) onedesk.window.nav.width(kept);
+		const $container = $(".body-sidebar-container");
+		const edge = $container.find(".sidebar-edge")[0];
+		if (!edge || edge.one_window) return;
+		edge.one_window = true;
+		let now = null;
+		onedesk.window.drag(edge, {
+			from: () => {
+				$container.addClass("no-transition");
+				return $container.find(".body-sidebar")[0].getBoundingClientRect().width;
+			},
+			to: (px) => {
+				if (!$container.hasClass("expanded")) return;
+				now = onedesk.window.nav.width(px);
+			},
+			done: () => {
+				$container.removeClass("no-transition");
+				if (now) onedesk.window.keep(onedesk.window.NAV.key, now);
+			},
+		});
+		$(edge).attr("title", __("Drag to resize, click to fold"));
+	},
+
+	// A view's own tree goes under its row in the pane, and only while that
+	// view is on screen.
+	place() {
+		const current = frappe.container && frappe.container.page && frappe.container.page.page;
+		const win = current && current.window;
+		$(".one-window-nav-slot").each((_, el) => {
+			if (!win || el !== (win.$slot && win.$slot[0])) $(el).detach();
+		});
+		if (!win || !win.$slot) return;
+		const $items = frappe.app && frappe.app.sidebar && frappe.app.sidebar.$sidebar;
+		if (!$items || !$items.length) return;
+		const $at = $items.find(".standard-sidebar-item.active-sidebar").first().closest(".sidebar-item-container");
+		if ($at.length) {
+			if ($at.next()[0] !== win.$slot[0]) win.$slot.insertAfter($at);
+		} else if (!$.contains($items[0], win.$slot[0])) {
+			win.$slot.appendTo($items);
+		}
+	},
+};
+
+onedesk.window.Window = class Window {
+	constructor(page, { fit = false } = {}) {
+		this.page = page;
+		this.fit = !!fit;
+		page.window = this;
+		this.handlers = {};
+		this.$wrapper = page.wrapper.addClass("one-window").toggleClass("one-window-fit", !!fit);
+		const $content = this.$wrapper.find(".page-head-content").first();
+		const button = (act, icon, label) =>
+			frappe.ui.button.html({ variant: "ghost", icon, title: label, attrs: { "data-window": act, "aria-label": label } });
+		this.$nav = $(
+			`<div class="one-window-nav">${button("back", "arrow-left", __("Back"))}${button("forward", "arrow-right", __("Forward"))}${button(
+				"up",
+				"arrow-up",
+				__("Up")
+			)}</div>`
+		).prependTo($content);
+		this.$tools = $(`<div class="one-window-tools">${button("refresh", "refresh-cw", __("Refresh"))}<div class="one-window-search"></div></div>`).insertAfter(
+			$content.children(".page-title")
+		);
+		$(`<div class="one-window-break"></div>`).insertAfter(this.$tools);
+		this.$commands = $(`<div class="one-window-commands"></div>`).insertBefore($content.children(".standard-items-section"));
+		this.$switch = $(button("details", "panel-right", __("Details pane"))).addClass("one-window-switch").appendTo($content).hide();
+		this.$status = $(
+			`<footer class="one-window-status" hidden><span class="one-window-said"></span><span class="one-window-more"></span></footer>`
+		).appendTo(this.$wrapper);
+		this.$tools.find("[data-window=refresh]").hide();
+		$content.on("click", "[data-window]", (e) => {
+			e.preventDefault();
+			this.act(e.currentTarget.dataset.window);
+		});
+		this.can({});
+	}
+
+	// What the view does for Back, Forward, Up and Refresh; anything it does
+	// not say is the browser's (Back, Forward) or the breadcrumb's (Up).
+	handle(handlers) {
+		Object.assign(this.handlers, handlers);
+		this.$tools.find("[data-window=refresh]").toggle(!!this.handlers.refresh);
+		return this;
+	}
+
+	// What can be pressed. Back and Forward are the browser's history unless
+	// the view keeps its own, so the browser is asked (the Navigation API
+	// where it has one); Up is the breadcrumb's unless the view says.
+	can({ back, forward, up } = {}) {
+		if (up !== undefined) this.up_said = up;
+		const history = window.navigation && "canGoBack" in window.navigation ? window.navigation : null;
+		const $find = (act) => this.$nav.find(`[data-window=${act}]`);
+		$find("back").prop("disabled", !(back !== undefined ? back : history ? history.canGoBack : true));
+		$find("forward").prop("disabled", !(forward !== undefined ? forward : history ? history.canGoForward : true));
+		$find("up").prop("disabled", this.up_said === undefined || this.up_said === null ? !this.up_route() : !this.up_said);
+		return this;
+	}
+
+	up_route() {
+		const links = this.page.$title_area ? this.page.$title_area.find(".es-breadcrumbs a[href]").toArray() : [];
+		const last = links[links.length - 1];
+		return last ? last.getAttribute("href") : null;
+	}
+
+	act(name) {
+		if (this.handlers[name]) return this.handlers[name]();
+		if (name === "back") return window.history.back();
+		if (name === "forward") return window.history.forward();
+		if (name === "up") {
+			const route = this.up_route();
+			return route && frappe.set_route(route);
+		}
+		if (name === "details") return this.toggle_details();
+	}
+
+	search({ placeholder = "", on_input, on_key } = {}) {
+		if (!this.$search) {
+			this.$search = onedesk.shell.search(this.$tools.find(".one-window-search"), { placeholder });
+			if (on_input) this.$search.on("input", frappe.utils.debounce(() => on_input(this.$search.val().trim()), 300));
+			if (on_key) this.$search.on("keydown", on_key);
+		}
+		this.$search.attr("placeholder", placeholder);
+		return this.$search;
+	}
+
+	status(text, { more = null } = {}) {
+		this.$status.prop("hidden", false).find(".one-window-said").text(text || "");
+		if (more) this.$status.find(".one-window-more").empty().append(more);
+		return this.$status;
+	}
+
+	// The pane right of the view, its width and whether it is open kept per
+	// kind of view.
+	details({ key, width = 280 } = {}) {
+		if (this.$details) return this.$details;
+		this.details_key = `details:${key || "page"}`;
+		const kept = onedesk.window.kept(this.details_key, { open: true, width });
+		const $main = this.$wrapper.find(".layout-main").first();
+		const $pane = $(`<aside class="one-window-details" role="complementary"><div class="one-window-details-edge"></div><div class="one-window-details-body"></div></aside>`).appendTo(
+			$main
+		);
+		this.$details_pane = $pane;
+		this.$details = $pane.find(".one-window-details-body");
+		const size = (px) => Math.round(Math.min(560, Math.max(200, px)));
+		$pane.css("--one-details-width", `${size(kept.width || width)}px`);
+		onedesk.window.drag($pane.find(".one-window-details-edge")[0], {
+			leading: true,
+			from: () => $pane[0].getBoundingClientRect().width,
+			to: (px) => $pane.css("--one-details-width", `${size(px)}px`),
+			done: () => this.remember_details({ width: $pane[0].getBoundingClientRect().width }),
+		});
+		this.$switch.show();
+		this.show_details(kept.open !== false);
+		return this.$details;
+	}
+
+	remember_details(change) {
+		const kept = onedesk.window.kept(this.details_key, {});
+		onedesk.window.keep(this.details_key, { ...kept, ...change });
+	}
+
+	show_details(open) {
+		this.details_open = !!open;
+		this.$details_pane.prop("hidden", !open);
+		this.$switch.attr("data-state", open ? "on" : null).attr("aria-pressed", open ? "true" : "false");
+		this.$wrapper.trigger("one-window-details", [open]);
+	}
+
+	toggle_details() {
+		if (!this.$details_pane) return;
+		this.show_details(!this.details_open);
+		this.remember_details({ open: this.details_open });
+	}
+
+	// A container in the nav pane, under this view's row, for a tree of its
+	// own (`onedesk.window.nav.place`).
+	nav_slot() {
+		if (!this.$slot) this.$slot = $(`<div class="one-window-nav-slot" role="tree"></div>`);
+		onedesk.window.nav.place();
+		return this.$slot;
+	}
+};
+
+(() => {
+	if (frappe.ui.make_app_page.one_window) return;
+	const make = frappe.ui.make_app_page;
+	frappe.ui.make_app_page = function (opts) {
+		const page = make.call(this, opts);
+		if (page && (opts.one_window || onedesk.window.trial())) onedesk.window.of(page, { fit: !!opts.one_window_fit });
+		return page;
+	};
+	frappe.ui.make_app_page.one_window = true;
+
+	const Sidebar = frappe.ui.Sidebar;
+	if (Sidebar && !Sidebar.prototype.one_window) {
+		Sidebar.prototype.one_window = true;
+		const highlight = Sidebar.prototype.highlight_active_item;
+		Sidebar.prototype.highlight_active_item = function (...args) {
+			const said = highlight.apply(this, args);
+			onedesk.window.nav.place();
+			return said;
+		};
+	}
+	$(document).on("page-change", () => {
+		const current = frappe.container && frappe.container.page && frappe.container.page.page;
+		$("body").toggleClass("full-height-page", !!(current && current.window && current.window.fit));
+		if (current && current.window) setTimeout(() => current.window.can(), 0);
+		onedesk.window.nav.place();
+	});
+	$(document).on("app_ready", () => onedesk.window.nav.setup());
+	$(() => setTimeout(() => onedesk.window.nav.setup(), 0));
+})();
+
+// The trial: lists and forms on the window for whoever turned it on.
+(() => {
+	if (!onedesk.window.trial()) return;
+	$("body").addClass("one-window-trial");
+
+	const List = frappe.views && frappe.views.ListView;
+	if (List && !List.prototype.one_window) {
+		List.prototype.one_window = true;
+		const setup_page = List.prototype.setup_page;
+		List.prototype.setup_page = function (...args) {
+			const said = setup_page.apply(this, args);
+			const win = this.page && this.page.window;
+			if (win) {
+				win.$wrapper.attr("data-one-view", "list");
+				win.handle({
+					refresh: () => this.refresh(),
+					up: () => frappe.app.sidebar && frappe.app.sidebar.current_module && frappe.app.sidebar.open_module(frappe.app.sidebar.current_module),
+				}).can({ up: true });
+				const field = this.meta.title_field || "name";
+				win.search({
+					placeholder: __("Search {0}", [__(this.doctype)]),
+					on_input: (text) => {
+						const had = this.filter_area.get().find((one) => one[1] === field && one[2] === "like");
+						if (had) this.filter_area.remove(field);
+						if (text) this.filter_area.add([[this.doctype, field, "like", `%${text}%`]]);
+						else if (had) this.refresh();
+					},
+				});
+			}
+			return said;
+		};
+		const paging = List.prototype.setup_paging_area;
+		List.prototype.setup_paging_area = function (...args) {
+			const said = paging.apply(this, args);
+			const win = this.page && this.page.window;
+			if (win && this.$paging_area) win.status("", { more: this.$paging_area });
+			return said;
+		};
+		const count = List.prototype.get_count_str;
+		List.prototype.get_count_str = function (...args) {
+			return count.apply(this, args).then((text) => {
+				const win = this.page && this.page.window;
+				if (win) win.status(frappe.utils.html2text ? frappe.utils.html2text(String(text)) : $("<div>").html(text).text());
+				return text;
+			});
+		};
+	}
+
+	const Form = frappe.ui.form && frappe.ui.form.Form;
+	if (Form && !Form.prototype.one_window) {
+		Form.prototype.one_window = true;
+		const setup = Form.prototype.setup;
+		Form.prototype.setup = function (...args) {
+			const said = setup.apply(this, args);
+			const win = this.page && this.page.window;
+			if (win) {
+				win.$wrapper.attr("data-one-view", "form");
+				win.handle({
+					refresh: () => !this.is_new() && this.reload_doc(),
+					up: () => frappe.set_route("List", this.doctype),
+				}).can({ up: true });
+			}
+			return said;
+		};
+	}
+})();

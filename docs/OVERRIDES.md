@@ -5,6 +5,13 @@ Each row is something that would still run but stop working if upstream moved. `
 
 | What | Why | Ours | Upstream | Must still contain |
 |---|---|---|---|---|
+| A page asks for the window, or the trial puts every page in it | frappe.ui.make_app_page builds every page; window.js gives the page made a window of frappe's own parts (docs/WINDOW.md) and changes nothing it made | `onedesk/public/js/window.js` | `frappe/frappe/public/js/frappe/ui/page.js` | `frappe.ui.make_app_page = function (opts) {` |
+| A view's own tree sits under its row in the nav pane | frappe redraws the sidebar's rows and lights the active one in highlight_active_item; window.js puts the page's nav slot back under that row after it | `onedesk/public/js/window.js` | `frappe/frappe/public/js/frappe/ui/sidebar/sidebar.js` | `highlight_active_item() {` |
+| A list in the window searches its title and tells the address row Refresh and Up | the trial only; window.js wraps ListView.setup_page after frappe makes the page | `onedesk/public/js/window.js` | `frappe/frappe/public/js/frappe/list/list_view.js` | `setup_page() {` |
+| A list's paging sits in the window's status row | the trial only; window.js moves the paging node frappe made, which frappe keeps a reference to, after setup_paging_area | `onedesk/public/js/window.js` | `frappe/frappe/public/js/frappe/list/list_view.js` | `setup_paging_area() {` |
+| A list's count is the window's status | the trial only; window.js reads what get_count_str answers and hands it on unchanged | `onedesk/public/js/window.js` | `frappe/frappe/public/js/frappe/list/list_view.js` | `get_count_str() {` |
+| A form in the window: Refresh reloads it, Up is its list | the trial only; window.js wraps Form.setup after frappe makes the form's page | `onedesk/public/js/window.js` | `frappe/frappe/public/js/frappe/form/form.js` | `setup() {` |
+| A page named like an app takes options after its name | frappe.set_route("onecloud", { node }) asked segment_kind about the options object before make_url set it aside, which threw; desk.js answers null for anything but a word | `onedesk/public/js/desk.js` | `frappe/frappe/public/js/frappe/router.js` | `segment_kind(segment) {` |
 | An appointment's meeting is on its maker's calendar | theirs makes every Appointment's meeting a Public event, which One lets only a Workspace Administrator or HR Manager make, so a salesperson could not book one; events.booking marks the Appointment's save and events.validate makes its meeting Private | `onedesk/one_calendar/events.py` | `erpnext/erpnext/crm/doctype/appointment/appointment.py` | `"event_type": "Public",` |
 | An opportunity's status is the colour of what it means | theirs colour a status by frappe's guess from its word, which paints Open red as if something were wrong; opportunity_list.js replaces get_indicator with a colour per status, as Frappe CRM's statuses carry one: open blue, waiting on them orange, quoted purple, won green, closed grey | `onedesk/public/js/opportunity_list.js` | `erpnext/erpnext/crm/doctype/opportunity/opportunity_list.js` | `var indicator = [__(doc.status), frappe.utils.guess_colour(doc.status), "status,=," + doc.status];` |
 | A lead's status is the colour of what it means | theirs colour a lead's status by frappe's guess from its word, so Open reads red; lead_list.js replaces get_indicator with a colour per status | `onedesk/public/js/lead_list.js` | `erpnext/erpnext/crm/doctype/lead/lead_list.js` | `var indicator = [__(doc.status), frappe.utils.guess_colour(doc.status), "status,=," + doc.status];` |
@@ -393,7 +400,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | A notification's mail is One's mail | NotificationLog (hooks override_doctype_class) repeats frappe's after_insert, the realtime push and unseen mark, and mails through mail_log in place of send_notification_email; a change to frappe's after_insert has to be carried here | `onedesk/one/notify.py` | `frappe/frappe/desk/doctype/notification_log/notification_log.py` | `send_notification_email(self)` |
 | Remind Me is told as One's Reminder | Reminder (hooks override_doctype_class) repeats frappe's send_reminder guard, marking it notified once, and tells through notify rather than writing an Alert, which neither pushes nor mails | `onedesk/one/tell.py` | `frappe/frappe/automation/doctype/reminder/reminder.py` | `self.db_set("notified", 1, update_modified=False)` |
 
-387 overrides.
+394 overrides.
 
 ## What we would ask upstream
 
