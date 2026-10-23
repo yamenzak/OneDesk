@@ -122,7 +122,8 @@
 
 /* A form: its tabs are the window's row, set on its gutter, those that do not
    fit folded into More; its ‹ › sit beside Up as the window's own buttons do.
-   Its sidebar is frappe's, as frappe draws it. */
+   Its sidebar is frappe's, as frappe draws it, without who edited and made
+   the record, which the status says. */
 @media (min-width: 768px) {
 	/* A form's own buttons (frappe's custom actions and their groups) as one
 	   run in the command row. */
@@ -190,5 +191,10 @@
 
 	.one-window .one-window-steps .btn:hover {
 		background: var(--surface-gray-2);
+	}
+
+	.one-window[data-one-view="form"] .form-sidebar .modified-by,
+	.one-window[data-one-view="form"] .form-sidebar .created-by {
+		display: none;
 	}
 }
