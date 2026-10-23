@@ -584,13 +584,6 @@ OVERRIDES = [
 		"if (this.re_route(sub_path)) return;",
 	),
 	(
-		"Help on One's desk is Ask OneAI",
-		"frappe's header Help lists the help links registered for the page, erpnext's to its documentation, then the site's help rows; outside.js overrides SidebarHeader.get_custom_help_links to give Ask OneAI in place of the links, and frappe's get_help_siblings keeps the site's rows",
-		"onedesk/public/js/outside.js",
-		"frappe/frappe/public/js/frappe/ui/sidebar/sidebar_header.js",
-		'{ group: "", options: this.get_custom_help_links() },',
-	),
-	(
 		"Search offers the pages and reports of One's desk",
 		"frappe's awesome bar lists every page and report in the boot; outside.js wraps frappe.search.utils.get_pages and get_reports to keep those a One sidebar lists or One's own modules hold, read from the route each result carries",
 		"onedesk/public/js/outside.js",
@@ -682,11 +675,11 @@ OVERRIDES = [
 		"def get_customers_suppliers(doctype, user):",
 	),
 	(
-		"One's desk has no Edit Sidebar",
-		"frappe's sidebar header offers its arrangement editor to everyone; outside.js leaves the option named edit-sidebar out of SidebarHeader.menu_items",
-		"onedesk/public/js/outside.js",
+		"The sidebar's header opens no menu",
+		"frappe's sidebar header opens a menu of other apps, frappe's own desk, Edit Sidebar and Help; shell.js makes SidebarHeader.setup_menu do nothing, for everyone, and desk.css hides its chevron",
+		"onedesk/public/js/shell.js",
 		"frappe/frappe/public/js/frappe/ui/sidebar/sidebar_header.js",
-		'name: "edit-sidebar",',
+		"this.menu = this.attach_menu(this.wrapper);",
 	),
 	(
 		"One's desk has no Manage Dock",

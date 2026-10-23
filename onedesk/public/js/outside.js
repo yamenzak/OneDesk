@@ -62,24 +62,7 @@ onedesk.outside.without = (groups, names) =>
 	});
 })();
 
-if (frappe.boot.one_elsewhere && frappe.ui.SidebarHeader && frappe.ui.Sidebar) {
-	frappe.ui.SidebarHeader = class OneSidebarHeader extends frappe.ui.SidebarHeader {
-		menu_items() {
-			return onedesk.outside.without(super.menu_items(), ["edit-sidebar", "all-apps"]);
-		}
-
-		get_custom_help_links() {
-			if (!onedesk.apps.ai()) return [];
-			return [
-				{
-					name: "ask-oneai",
-					label: __("Ask OneAI"),
-					icon: "sparkles",
-					onclick: () => onedesk.oneai.open({ ask: __("How does this page work?") }),
-				},
-			];
-		}
-	};
+if (frappe.boot.one_elsewhere && frappe.ui.Sidebar) {
 	frappe.ui.Sidebar = class OneUserMenuSidebar extends frappe.ui.Sidebar {
 		create_user_menu(args) {
 			const Dropdown = frappe.ui.Dropdown;

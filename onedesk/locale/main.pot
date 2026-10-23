@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-23 08:15+0000\n"
-"PO-Revision-Date: 2026-10-23 08:15+0000\n"
+"POT-Creation-Date: 2026-10-23 09:33+0000\n"
+"PO-Revision-Date: 2026-10-23 09:33+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2576,7 +2576,7 @@ msgid "Add-ons"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Workspace Field'
-#: onedesk/one/account.py:256
+#: onedesk/one/account.py:264
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:8
 #: onedesk/public/js/settings.js:679
@@ -3024,7 +3024,7 @@ msgstr ""
 msgid "Aggregate slices"
 msgstr ""
 
-#: onedesk/public/js/legal.js:68
+#: onedesk/public/js/legal.js:71
 msgid "Agree"
 msgstr ""
 
@@ -4449,7 +4449,7 @@ msgstr ""
 msgid "As Written"
 msgstr ""
 
-#: onedesk/public/js/legal.js:48
+#: onedesk/public/js/legal.js:51
 msgid "As a workspace administrator, you agree to some of these for your organisation."
 msgstr ""
 
@@ -4502,7 +4502,7 @@ msgstr ""
 msgid "Ask HR to reset your passkey."
 msgstr ""
 
-#: onedesk/public/js/outside.js:76 onedesk/public/js/settings.js:3166
+#: onedesk/public/js/settings.js:3166
 msgid "Ask OneAI"
 msgstr ""
 
@@ -4530,7 +4530,7 @@ msgstr ""
 msgid "Ask again under Your Data if you still want your account deleted."
 msgstr ""
 
-#: onedesk/public/js/desk.js:477 onedesk/public/js/outside.js:228
+#: onedesk/public/js/desk.js:477 onedesk/public/js/outside.js:211
 #: onedesk/www/message.html:20
 msgid "Ask an administrator for access."
 msgstr ""
@@ -5779,7 +5779,7 @@ msgstr ""
 msgid "Before Validate"
 msgstr ""
 
-#: onedesk/public/js/legal.js:65
+#: onedesk/public/js/legal.js:68
 msgid "Before You Continue"
 msgstr ""
 
@@ -6353,7 +6353,7 @@ msgstr ""
 msgid "Bought in a Year"
 msgstr ""
 
-#: onedesk/one/account.py:243
+#: onedesk/one/account.py:251
 msgid "Bought {0}"
 msgstr ""
 
@@ -7302,7 +7302,7 @@ msgid "Check"
 msgstr ""
 
 #: onedesk/one_admin/heads.py:620 onedesk/one_admin/home.py:464
-#: onedesk/public/js/legal.js:68 onedesk/public/js/settings.js:1393
+#: onedesk/public/js/legal.js:71 onedesk/public/js/settings.js:1393
 #: onedesk/public/js/settings.js:2376
 msgid "Check Again"
 msgstr ""
@@ -9456,7 +9456,7 @@ msgstr ""
 msgid "Create Next Year's List"
 msgstr ""
 
-#: onedesk/public/js/passkey.js:128
+#: onedesk/public/js/passkey.js:129
 msgid "Create Passkey"
 msgstr ""
 
@@ -12185,7 +12185,7 @@ msgstr ""
 
 #. Label of the domains (Table) field in DocType 'Workspace Account'
 #. Label of a Sidebar Item
-#: onedesk/one/account.py:522
+#: onedesk/one/account.py:530
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one/settings.py:34 onedesk/one/sidebar/one/one.json
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
@@ -15920,11 +15920,11 @@ msgstr ""
 msgid "For video calls. The browser asks which tab to share."
 msgstr ""
 
-#: onedesk/public/js/legal.js:28
+#: onedesk/public/js/legal.js:31
 msgid "For you"
 msgstr ""
 
-#: onedesk/public/js/legal.js:28
+#: onedesk/public/js/legal.js:31
 msgid "For your organisation"
 msgstr ""
 
@@ -16676,7 +16676,7 @@ msgstr ""
 msgid "Given On"
 msgstr ""
 
-#: onedesk/one/account.py:249
+#: onedesk/one/account.py:257
 msgid "Given by One"
 msgstr ""
 
@@ -16728,13 +16728,13 @@ msgid "Go"
 msgstr ""
 
 #: frontend/src/writer/components/ErrorPage.vue:29
-#: onedesk/public/js/outside.js:207 onedesk/www/404.html:18
+#: onedesk/public/js/outside.js:190 onedesk/www/404.html:18
 #: onedesk/www/error.html:19
 msgid "Go Back"
 msgstr ""
 
 #: frontend/src/writer/components/ErrorPage.vue:39
-#: onedesk/public/js/outside.js:208 onedesk/www/404.html:19
+#: onedesk/public/js/outside.js:191 onedesk/www/404.html:19
 #: onedesk/www/error.html:21 onedesk/www/message.html:21
 #: onedesk/www/message.html:25
 msgid "Go Home"
@@ -17825,10 +17825,6 @@ msgstr ""
 msgid "How does mail work here?"
 msgstr ""
 
-#: onedesk/public/js/outside.js:78
-msgid "How does this page work?"
-msgstr ""
-
 #: onedesk/one_inventory/home.py:132
 msgid "How each supplier delivers, scored."
 msgstr ""
@@ -18163,7 +18159,7 @@ msgstr ""
 msgid "I have just spoken to them on the phone. Ask me what was said, then write it up as a call on this opportunity and suggest the next step it leads to."
 msgstr ""
 
-#: onedesk/public/js/legal.js:52
+#: onedesk/public/js/legal.js:55
 msgid "I have read and agree to these"
 msgstr ""
 
@@ -24643,7 +24639,7 @@ msgstr ""
 msgid "Next on {0}"
 msgstr ""
 
-#: onedesk/public/js/passkey.js:123
+#: onedesk/public/js/passkey.js:124
 msgid "Next time, sign in with your face, fingerprint or screen lock instead of typing your password. It takes a few seconds to set up."
 msgstr ""
 
@@ -24889,7 +24885,7 @@ msgstr ""
 
 #: frontend/portal/src/pages/Project.vue:5
 #: frontend/portal/src/pages/Record.vue:17 frontend/portal/src/pages/Rfq.vue:5
-#: frontend/portal/src/parts/WebForm.vue:12 onedesk/public/js/outside.js:227
+#: frontend/portal/src/parts/WebForm.vue:12 onedesk/public/js/outside.js:210
 #: onedesk/www/message.html:16
 msgid "No access"
 msgstr ""
@@ -25737,6 +25733,10 @@ msgstr ""
 msgid "Not Checked In"
 msgstr ""
 
+#: onedesk/one/account.py:43
+msgid "Not Connected Yet"
+msgstr ""
+
 #: onedesk/one/print_blocks.py:752
 msgid "Not Due"
 msgstr ""
@@ -25760,7 +25760,7 @@ msgstr ""
 msgid "Not Matched"
 msgstr ""
 
-#: onedesk/public/js/passkey.js:140
+#: onedesk/public/js/passkey.js:141
 msgid "Not Now"
 msgstr ""
 
@@ -27091,7 +27091,7 @@ msgstr ""
 msgid "One movement of credit. Submitted on insert and never edited in place."
 msgstr ""
 
-#: onedesk/public/js/legal.js:59
+#: onedesk/public/js/legal.js:62
 msgid "One opens once your workspace administrator agrees to {0}."
 msgstr ""
 
@@ -27810,7 +27810,7 @@ msgstr ""
 msgid "Only you and HR see these."
 msgstr ""
 
-#: onedesk/public/js/legal.js:49 onedesk/public/js/settings.js:764
+#: onedesk/public/js/legal.js:52 onedesk/public/js/settings.js:764
 msgid "Only you can agree to these."
 msgstr ""
 
@@ -29056,7 +29056,7 @@ msgstr ""
 msgid "Page [page] of [topage]"
 msgstr ""
 
-#: onedesk/public/js/outside.js:220 onedesk/www/404.html:15
+#: onedesk/public/js/outside.js:203 onedesk/www/404.html:15
 #: onedesk/www/error.py:17
 msgid "Page not found"
 msgstr ""
@@ -29496,7 +29496,7 @@ msgstr ""
 msgid "Passkey Turned Off"
 msgstr ""
 
-#: onedesk/public/js/passkey.js:135
+#: onedesk/public/js/passkey.js:136
 msgid "Passkey created. Use it next time you sign in."
 msgstr ""
 
@@ -33453,7 +33453,7 @@ msgstr ""
 msgid "Refund"
 msgstr ""
 
-#: onedesk/one/account.py:254 onedesk/public/js/credit_ledger_entry_list.js:14
+#: onedesk/one/account.py:262 onedesk/public/js/credit_ledger_entry_list.js:14
 msgid "Refunded"
 msgstr ""
 
@@ -37127,12 +37127,12 @@ msgstr ""
 msgid "Sign In"
 msgstr ""
 
-#: onedesk/public/js/passkey.js:119
+#: onedesk/public/js/passkey.js:120
 msgid "Sign In with a Passkey"
 msgstr ""
 
 #: frontend/portal/src/pages/Menu.vue:23
-#: frontend/portal/src/parts/PortalSidebar.vue:40 onedesk/public/js/legal.js:86
+#: frontend/portal/src/parts/PortalSidebar.vue:40 onedesk/public/js/legal.js:89
 #: onedesk/public/js/settings.js:546
 msgid "Sign Out"
 msgstr ""
@@ -40670,7 +40670,7 @@ msgstr ""
 msgid "Thank customers who pay"
 msgstr ""
 
-#: onedesk/public/js/legal.js:80
+#: onedesk/public/js/legal.js:83
 msgid "Thank you"
 msgstr ""
 
@@ -41589,7 +41589,7 @@ msgstr ""
 msgid "The letter a new joiner signs."
 msgstr ""
 
-#: onedesk/public/js/outside.js:221 onedesk/www/404.html:16
+#: onedesk/public/js/outside.js:204 onedesk/www/404.html:16
 #: onedesk/www/error.py:18
 msgid "The link may be broken, or the page has moved."
 msgstr ""
@@ -41970,7 +41970,7 @@ msgstr ""
 msgid "The plan and its add-ons."
 msgstr ""
 
-#: onedesk/one/account.py:430
+#: onedesk/one/account.py:438
 msgid "The plan was not changed"
 msgstr ""
 
@@ -41979,11 +41979,11 @@ msgstr ""
 msgid "The plan's and the add-ons'. Zero means no limit."
 msgstr ""
 
-#: onedesk/one/account.py:247
+#: onedesk/one/account.py:255
 msgid "The plan's monthly credits"
 msgstr ""
 
-#: onedesk/one/account.py:245
+#: onedesk/one/account.py:253
 msgid "The plan's monthly credits, until {0}"
 msgstr ""
 
@@ -42600,7 +42600,7 @@ msgstr ""
 msgid "Their shift approver, or HR when none is set"
 msgstr ""
 
-#: onedesk/public/js/outside.js:92
+#: onedesk/public/js/outside.js:75
 msgid "Theme"
 msgstr ""
 
@@ -43387,6 +43387,10 @@ msgstr ""
 msgid "This workspace is not linked to an account, so files are kept on the server's disk."
 msgstr ""
 
+#: onedesk/one/account.py:41
+msgid "This workspace isn't connected to its account yet, so this isn't available."
+msgstr ""
+
 #: onedesk/one/private.py:93
 msgid "This workspace isn't linked to OneAdmin, so it can't add private apps."
 msgstr ""
@@ -43417,7 +43421,7 @@ msgstr ""
 msgid "Thursday"
 msgstr ""
 
-#: onedesk/public/js/legal.js:71
+#: onedesk/public/js/legal.js:74
 msgid "Tick the box to agree."
 msgstr ""
 
@@ -45263,7 +45267,7 @@ msgstr ""
 msgid "Update pivot"
 msgstr ""
 
-#: onedesk/public/js/legal.js:33 onedesk/public/js/settings.js:736
+#: onedesk/public/js/legal.js:36 onedesk/public/js/settings.js:736
 msgid "Updated"
 msgstr ""
 
@@ -45421,11 +45425,11 @@ msgstr ""
 msgid "Used by 1 project"
 msgstr ""
 
-#: onedesk/one/account.py:264
+#: onedesk/one/account.py:272
 msgid "Used by OneAI, one call"
 msgstr ""
 
-#: onedesk/one/account.py:266
+#: onedesk/one/account.py:274
 msgid "Used by OneAI, {0} calls"
 msgstr ""
 
@@ -49161,7 +49165,7 @@ msgstr ""
 msgid "Who owns shares in the company."
 msgstr ""
 
-#: onedesk/one/account.py:447
+#: onedesk/one/account.py:455
 msgid "Who pays was not changed"
 msgstr ""
 
@@ -51484,7 +51488,7 @@ msgstr ""
 msgid "created the project"
 msgstr ""
 
-#: onedesk/one/account.py:243
+#: onedesk/one/account.py:251
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:24
 msgid "credits"
 msgstr ""

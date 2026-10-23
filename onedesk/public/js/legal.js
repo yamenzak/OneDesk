@@ -1,7 +1,10 @@
 
 frappe.provide("onedesk.legal");
 
-onedesk.legal.here = () => (frappe.get_route() || [])[0] || "";
+// Read from the address too: at app_ready, a tab opened on the page from the
+// dialog's own link has no route yet, and was asked again over the page.
+onedesk.legal.here = () =>
+	(frappe.get_route() || [])[0] || (location.pathname.split("/").includes("legal") ? "legal" : "");
 
 onedesk.legal.check = async function () {
 	const user = frappe.session.user;

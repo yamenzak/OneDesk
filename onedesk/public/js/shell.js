@@ -452,6 +452,14 @@ onedesk.shell.Editor = class Editor {
 			return light(this, found_row && $(found_row).parent());
 		};
 	}
+
+	// The sidebar's header names the space and opens nothing: frappe's menu on
+	// it switched to other apps and frappe's own desk, which One does not show.
+	const Header = frappe.ui.SidebarHeader;
+	if (Header && !Header.prototype.__one_still) {
+		Header.prototype.__one_still = true;
+		Header.prototype.setup_menu = function () {};
+	}
 }
 
 {

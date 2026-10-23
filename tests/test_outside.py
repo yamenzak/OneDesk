@@ -43,10 +43,14 @@ def test_menus_offer_no_screen_the_reader_cannot_open():
 
 
 def test_frappes_furniture_editors_are_not_offered():
-	"""Gap 6: Edit Sidebar and Manage Dock arrange frappe's sidebars and dock."""
+	"""Gap 6: Edit Sidebar and Manage Dock arrange frappe's sidebars and dock,
+	and the sidebar's header opens no menu at all: frappe's switched to other
+	apps and frappe's own desk."""
 	js = (tree.APP / "public" / "js" / "outside.js").read_text()
-	assert '"edit-sidebar"' in js and '["workspace-selector"]' in js
-	assert "if (frappe.boot.one_elsewhere && frappe.ui.SidebarHeader && frappe.ui.Sidebar)" in js
+	assert '["workspace-selector"]' in js
+	assert "if (frappe.boot.one_elsewhere && frappe.ui.Sidebar)" in js
+	shell = (tree.APP / "public" / "js" / "shell.js").read_text()
+	assert "Header.prototype.setup_menu = function () {};" in shell
 
 
 def test_frappes_screens_open_ones_own():
@@ -69,12 +73,10 @@ def test_frappes_screens_open_ones_own():
 
 
 def test_help_mail_and_search_are_ones():
-	"""Gaps 7 to 9: Help asks OneAI, the theme sits in the user menu, frappe's
-	mail list and Inbox view open OneMail, and search offers One's pages and
-	reports."""
+	"""Gaps 7 to 9: the theme sits in the user menu, frappe's mail list and
+	Inbox view open OneMail, and search offers One's pages and reports."""
 	js = (tree.APP / "public" / "js" / "outside.js").read_text()
-	assert "get_custom_help_links()" in js and '__("Ask OneAI")' in js
-	assert "new frappe.ui.ThemeSwitcher().show()" in js and '["edit-sidebar", "all-apps"]' in js
+	assert "new frappe.ui.ThemeSwitcher().show()" in js
 	assert 'return !name || name === "view" ? ["onemail"] : null;' in js
 	assert "utils.get_pages = function" in js and "utils.get_reports = function" in js
 	assert 'app_of(info[name]?.module) === "onedesk"' in js

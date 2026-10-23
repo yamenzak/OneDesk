@@ -112,7 +112,8 @@ onedesk.passkey.renderer = () => {
 $(document).on("app_ready", () => {
 	if (!frappe.boot.one_passkey_ask || !onedesk.passkey.supported()) return;
 	const offer = () => {
-		if ($(".modal:visible").length) return setTimeout(offer, 4000);
+		const reading = onedesk.legal && onedesk.legal.here() === "legal";
+		if (reading || $(".modal:visible").length) return setTimeout(offer, 4000);
 		let chose = false;
 		const declined = () => frappe.xcall("onedesk.one_hr.passkey.not_now");
 		const dialog = new frappe.ui.Dialog({

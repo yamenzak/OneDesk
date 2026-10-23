@@ -138,8 +138,7 @@ Click your picture at the bottom of the rail for your menu:
 - **Reload** reloads One, for when a page looks out of date.
 - **Logout** signs you out.
 
-The menu under the app's name at the top of the panel has **Help** ›
-**Ask OneAI**, which asks OneAI how the page you're on works.
+The space's name at the top of the panel is a title, not a menu.
 
 ## Contacts and addresses
 

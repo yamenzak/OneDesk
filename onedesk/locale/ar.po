@@ -17818,10 +17818,6 @@ msgstr "كيف يعمل التخصيص؟"
 msgid "How does mail work here?"
 msgstr "كيف يعمل البريد هنا؟"
 
-#: onedesk/public/js/outside.js:78
-msgid "How does this page work?"
-msgstr "كيف تعمل هذه الصفحة؟"
-
 #: onedesk/one_inventory/home.py:132
 msgid "How each supplier delivers, scored."
 msgstr "تقييم أداء كل مورد في التوريد."
@@ -25723,6 +25719,9 @@ msgstr "غير مسجّل"
 #: onedesk/notifications/one_hr/not_checked_in.md onedesk/public/js/desk.js:415
 msgid "Not Checked In"
 msgstr "لم يسجّل الحضور"
+
+msgid "Not Connected Yet"
+msgstr "غير متصل بعد"
 
 #: onedesk/one/print_blocks.py:726
 msgid "Not Due"
@@ -43330,6 +43329,9 @@ msgstr "مساحة العمل هذه ليست في حسابك."
 #: onedesk/one_storage/ready.py:29
 msgid "This workspace is not linked to an account, so files are kept on the server's disk."
 msgstr "مساحة العمل هذه غير مرتبطة بحساب، لذا تُحفظ الملفات على قرص الخادم."
+
+msgid "This workspace isn't connected to its account yet, so this isn't available."
+msgstr "مساحة العمل هذه غير متصلة بحسابها بعد، لذا هذا غير متاح."
 
 #: onedesk/one/private.py:93
 msgid "This workspace isn't linked to OneAdmin, so it can't add private apps."

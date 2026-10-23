@@ -36,6 +36,14 @@
 	}
 }
 
+.body-sidebar .sidebar-header {
+	cursor: default;
+}
+
+.body-sidebar .sidebar-header .drop-icon {
+	display: none;
+}
+
 .form-message:has(.one-band) {
 	padding: var(--padding-md) var(--padding-xl);
 	background: var(--surface-elevation-1) !important;

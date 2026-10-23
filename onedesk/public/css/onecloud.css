@@ -810,6 +810,11 @@
 	border: 0;
 }
 
+.std-form-layout .form-section.one-files-section .section-body {
+	max-width: none !important;
+	margin: 0 !important;
+}
+
 .form-tab-content:has(> .tab-pane.active .one-files-section) {
 	margin-top: 0;
 }

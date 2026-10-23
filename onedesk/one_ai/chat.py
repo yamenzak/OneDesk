@@ -1099,7 +1099,7 @@ def models() -> dict:
 	from onedesk.one import account
 	from onedesk.one_ai import logos
 
-	if not may_choose():
+	if not may_choose() or not account.configured():
 		return {"models": [], "chosen": "", "usual": ""}
 	key = "one_ai_chat_models"
 	offered = frappe.cache.get_value(key)

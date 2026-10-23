@@ -17,6 +17,11 @@ PATIENCE = 10
 NEEDED = ("one_admin_url", "one_tenant", "one_token")
 
 
+class Unlinked(faults.Refused, frappe.ValidationError):
+	"""A workspace with no account yet: a refusal to callers that catch one,
+	and a plain message to a person, not a server error."""
+
+
 def configured() -> bool:
 	return all(frappe.conf.get(key) for key in NEEDED)
 
@@ -32,8 +37,11 @@ def ask(endpoint: str, **params):
 	`Authorization` is one Frappe reads for itself.
 	"""
 	if not configured():
-		missing = [key for key in NEEDED if not frappe.conf.get(key)]
-		raise faults.Refused(f"This workspace is not linked to an account: {', '.join(missing)}")
+		frappe.throw(
+			frappe._("This workspace isn't connected to its account yet, so this isn't available."),
+			Unlinked,
+			title=frappe._("Not Connected Yet"),
+		)
 
 	url = f"{frappe.conf.get('one_admin_url').rstrip('/')}/api/method/{endpoint}"
 	try:
