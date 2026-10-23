@@ -157,8 +157,19 @@ def classes(text: str) -> list[str]:
 	return wrong
 
 
+#: The one shadow of ours, and why: on a workspace's own frame colour an app's
+#: mark of the same hue (a red OneMail on a red frame) disappears, and a soft
+#: shadow lifts it off whatever colour was chosen.
+LIFTED = {
+	"onedesk/public/css/window/chrome.css": "drop-shadow(0 1px 2px var(--one-over-black-500))",
+}
+
+
 def problems(path: Path, text: str) -> list[str]:
 	out = []
+	lifted = LIFTED.get(str(path.relative_to(tree.ROOT)))
+	if lifted:
+		text = text.replace(f"filter: {lifted};", "")
 	if str(path.relative_to(tree.ROOT)) in SANDBOXED:
 		text = re.sub(r"<style[^>]*>.*?</style>", "", text, flags=re.S)
 	for css in _css(path, text):

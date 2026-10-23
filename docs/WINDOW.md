@@ -107,8 +107,8 @@ dark on a light colour, by the rule the letter heads use for text on the
 Brand Colour (`company.frame_ink`, `letter_heads.on`); a dark theme mixes it
 toward the page. Everything on the frame (text, icons, the rail's marker,
 badges) draws in that ink, and on a workspace's colour the apps' own marks
-wear a thin light outline that follows their shape (an SVG filter), since a
-mark of the frame's hue would vanish. Saving it
+cast a soft shadow, since a mark of the frame's hue would vanish (the one
+shadow of ours, `LIFTED` in tests/guards/test_tokens.py). Saving it
 reaches open screens at once (`one_frame`).
 
 ## Where it lives

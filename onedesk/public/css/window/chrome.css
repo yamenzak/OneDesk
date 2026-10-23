@@ -27,6 +27,7 @@
 	--one-over-white-950: oklch(1 0 0 / 0.949);
 	--one-over-black-100: oklch(0 0 0 / 0.18);
 	--one-over-black-200: oklch(0 0 0 / 0.271);
+	--one-over-black-500: oklch(0 0 0 / 0.541);
 	--one-over-black-700: oklch(0 0 0 / 0.722);
 	--one-over-black-950: oklch(0 0 0 / 0.949);
 
@@ -604,17 +605,10 @@ body.one-barred .dock-item.active::before {
 
 /* An app's mark is drawn for a light page, and on a frame of its own hue (a
    red OneMail on a red frame) it all but disappears. On a workspace's own
-   colour each mark wears a thin outline of the page's surface that follows
-   its own shape, as a sticker's edge does (#one-mark-edge, chrome.js). One's
-   own dark frame keeps them bare, and so does a dark theme, where the colour
-   is deepened toward black. */
-.one-mark-edge {
-	position: absolute;
-	width: 0;
-	height: 0;
-	color: var(--surface-base);
-}
-
+   colour each mark casts a soft shadow, which lifts it off the frame whatever
+   the colour. The one shadow of ours (tests/guards/test_tokens.py, LIFTED).
+   One's own dark frame keeps the marks bare, and so does a dark theme, where
+   the colour is deepened toward black. */
 :root[data-one-frame="brand"]:not([data-theme="dark"]) body.one-barred .dock-items .dock-item-icon {
-	filter: url(#one-mark-edge);
+	filter: drop-shadow(0 1px 2px var(--one-over-black-500));
 }
