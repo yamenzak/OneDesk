@@ -109,6 +109,12 @@ onedesk.window.panel_refresh = (frm) => {
 		activity: !!(footer && footer.length),
 		mail: onedesk.record_tabs.applies(frm, "mail"),
 	};
+	// New Email is the Mail tab's, which has its own; the timeline's goes
+	// where the Mail tab is there to write from instead.
+	panel.panes.activity
+		.find(".timeline-actions .action-btn")
+		.filter((_, button) => $(button).text().trim() === __("New Email"))
+		.toggle(!has.mail);
 	const names = onedesk.window.PANEL;
 	names.forEach((name, i) => (panel.tabs.tabs[i].button.hidden = !has[name]));
 	const shown = names.filter((name) => has[name]);
