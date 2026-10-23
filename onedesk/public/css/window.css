@@ -115,7 +115,7 @@
 		align-items: center;
 		gap: 2px;
 		min-height: 44px;
-		padding-inline-end: calc(var(--spacing) * 1);
+		padding-inline-end: calc(var(--spacing) * 2);
 	}
 
 	.one-window .page-head-content > .one-window-views:empty {
@@ -185,6 +185,21 @@
 		margin: 0;
 	}
 
+	/* One gutter for every row of the window (the command row's), so a list's
+	   checkboxes, its quick filters, New and the status line start on one
+	   edge and end on the other. frappe's list keeps its own side margin and
+	   inset rows; in the window it runs edge to edge. */
+	.one-window[data-one-view="list"] .frappe-list {
+		margin-inline: 0;
+	}
+
+	.one-window[data-one-view="list"] .list-row-head,
+	.one-window[data-one-view="list"] .list-row-container,
+	.one-window[data-one-view="list"] .list-row-container .list-row {
+		margin-inline: 0;
+		padding-inline: 0;
+	}
+
 	/* A list's column heads, as OneCloud's: words on the page with a line
 	   under them, not a box. */
 	.one-window[data-one-view="list"] .list-row-head {
@@ -220,7 +235,7 @@
 		justify-content: space-between;
 		gap: calc(var(--spacing) * 3);
 		min-height: 32px;
-		padding-inline: calc(var(--spacing) * 4);
+		padding-inline: calc(var(--spacing) * 2);
 		border-top: 1px solid var(--outline-gray-1);
 		background: var(--surface-base);
 		color: var(--ink-gray-5);

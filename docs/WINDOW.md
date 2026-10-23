@@ -62,6 +62,12 @@ keep working, because nothing of theirs was replaced.
   what is chosen, and on the right whatever the view puts there (a list's
   paging).
 
+Every row of the window sits on one gutter, the command row's 8px: Back,
+New, the quick filters, a list's checkboxes, OneCloud's file icons and the
+status line all start on one edge and end on the other. frappe's list keeps a
+side margin of its own and insets its rows; in the window it runs edge to
+edge instead.
+
 Two ways to fill the height. A **fitted** window (OneCloud, OneMail, the
 calendar) is exactly the screen, and its view scrolls inside. A **flowing**
 window (a list, a form) scrolls the page as frappe always has, with the head

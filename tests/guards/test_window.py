@@ -124,3 +124,13 @@ def test_filter_and_sort_are_commands_and_the_heads_are_flat():
 	OneCloud's are, words with a line under them."""
 	assert 'win.views_slot().prepend($filters.addClass("one-window-filters"))' in JS
 	assert '.one-window[data-one-view="list"] .list-row-head {' in CSS and "border-radius: 0;" in CSS
+
+
+def test_every_row_sits_on_one_gutter():
+	"""A list's own side margin and inset rows are taken away in the window,
+	and the status row uses the command row's gutter, so every row starts and
+	ends on the same edge; OneCloud's files sit on it too."""
+	assert '.one-window[data-one-view="list"] .frappe-list {\n\t\tmargin-inline: 0;' in CSS
+	assert ".one-window[data-one-view=\"list\"] .list-row-container,\n" in CSS
+	cloud_css = (tree.APP / "public" / "css" / "onecloud.css").read_text(encoding="utf-8")
+	assert ".oc-windowed .oc-head {\n\tpadding-inline: calc(var(--spacing) * 2);" in cloud_css

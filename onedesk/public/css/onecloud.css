@@ -50,6 +50,21 @@
 	min-height: 0;
 }
 
+/* In the window the files sit on its one gutter: the column heads, each
+   row's icon and the commands above start on the same edge. */
+.oc-windowed .oc-head {
+	padding-inline: calc(var(--spacing) * 2);
+}
+
+.oc-windowed .oc-items {
+	padding-inline: 0;
+}
+
+.oc-windowed[data-view="details"] .oc-item {
+	padding-inline: calc(var(--spacing) * 2);
+	border-radius: 0;
+}
+
 .oc-crumbs {
 	display: flex;
 	align-items: center;
