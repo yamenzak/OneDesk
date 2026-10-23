@@ -68,7 +68,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Account | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | yes | taught |  | yes |  |  |  |  |
+| Account | on a rail or a home | OneBook, OneCRM, OneInventory | tree script | yes | taught |  | yes |  |  |  |  |
 | Account Category | through a form's link (Account: account_category) | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Account Closing Balance | engine: each account's balance as a Period Closing Voucher closed it | OneBook | untouched | yes | general |  | **none** |  |  | ar 1 |  |
 | Accounting Dimension | on a rail or a home | OneBook | untouched | yes | general |  | **none** |  |  |  |  |

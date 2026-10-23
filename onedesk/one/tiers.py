@@ -112,6 +112,7 @@ COLLECTIONS = {
 		"Tree": "a template's tasks left out, each task its subject and where it stands",
 	},
 	"Warehouse": {"Tree": "opened all the way down, without ERPNext's Company filter"},
+	"Account": {"Tree": "ERPNext's menu of places says Go to, without ERPNext's Company filter"},
 	"Purchase Receipt": {"List": "the supplier with room for its name, without the number or the returned column"},
 	"Delivery Note": {"List": "the customer with room for its name, without the number, the returned column or the target warehouse filter"},
 	"Purchase Order": {"List": "the supplier with room for its name, without the number, the supplier link filter or the advance filter"},

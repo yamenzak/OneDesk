@@ -838,6 +838,7 @@ doctype_js = {
 }
 
 doctype_tree_js = {
+	"Account": "public/js/account_tree.js",
 	"Project": "public/js/project_tree.js",
 	"Task": "public/js/task_tree.js",
 	"Warehouse": "public/js/warehouse_tree.js",
