@@ -76,12 +76,36 @@ window (a list, a form) scrolls the page as frappe always has, with the head
 held at the top and the status row at the foot, so frappe's infinite scroll,
 scroll-to-field and restored positions are untouched.
 
+## The frame
+
+Around every window is the frame, which is the shell: frappe's rail of apps
+down the left (frappe's own `.dock`, drawn from its own `--dock-*` tokens,
+which `chrome.css` points at the frame's), a bar across the top and one
+across the bottom (`chrome.js`), and the window inset between them, its
+corners rounded, with a strip of the frame on its far side.
+
+- **Top bar**: where and when. The date and time (OneCalendar), the
+  announcements, Search, OneIntake, Notifications, Background Tasks.
+- **Bottom bar**: what is running. Open workbooks on the left; Check In,
+  Timers and OneAI on the right. OneAI's floating dial is not drawn while
+  the bars are.
+
+The frame's colour is `--one-frame`: frappe-ui's darkest grey in a light
+theme, and in a dark one a grey a step lighter than the page (which is
+already the darkest surface), with the inset's edge drawn. A workspace's
+**Frame Colour** (Company `one_frame_colour`, Workspace › General › Contact and
+Branding) replaces it for everyone: `chrome.js` sets `--one-frame-brand`
+and marks the root `data-one-frame="brand"`, with `data-one-frame-ink`
+dark on a light colour; a dark theme mixes it toward the page. Saving it
+reaches open screens at once (`one_frame`).
+
 ## Where it lives
 
 The window is two folders, and nothing of it is anywhere else:
 
 ```
-public/js/window/frame.js      the frame, and the one place that decides where anything goes
+public/js/window/frame.js      the window, and the one place that decides where anything goes
+public/js/window/chrome.js     the frame around it: the top and bottom bars, the frame colour
 public/js/window/page.js       any desk page frappe loads by name: its primary button and menu
 public/js/window/list.js       frappe's list and every view made from it (report, kanban,
                                calendar, gantt, image, map, dashboard, inbox, file)
@@ -91,7 +115,8 @@ public/js/window/tree.js       a tree (accounts, cost centres...): views and sea
 public/js/window/form.js       a form
 public/js/window/print.js      a record's print: Up goes back to the record
 public/js/window/workspace.js  an app's workspace
-public/css/window/frame.css    the frame's rows, panes and address box
+public/css/window/chrome.css   the frame: its colour, the bars, the rail's tokens, the inset
+public/css/window/frame.css    the window's rows, panes and address box
 public/css/window/views.css    what a view brings into those rows (list rows, a report's footer)
 ```
 

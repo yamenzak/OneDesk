@@ -102,7 +102,7 @@ onedesk.workbooks.draw = () => {
 	if (list.length < 2) onedesk.workbooks.close();
 };
 
-/** The tiles on the bar, drawn once it is there (desk.js, onedesk.dock.bar). */
+/** The tiles on the bottom bar, drawn once it is there (window/chrome.js). */
 onedesk.workbooks.place = (add) => {
 	const $group = $('.one-bar [data-group="open"]');
 	add({

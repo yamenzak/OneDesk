@@ -8,6 +8,15 @@
    "insert_after": "company_logo",
    "label": "Brand Colour",
    "module": "One"
+  },
+  {
+   "description": "The colour of the rail and the bars around every screen. Empty is One's own.",
+   "dt": "Company",
+   "fieldname": "one_frame_colour",
+   "fieldtype": "Color",
+   "insert_after": "one_brand_colour",
+   "label": "Frame Colour",
+   "module": "One"
   }
  ],
  "doctype": "Company",

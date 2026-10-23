@@ -358,7 +358,7 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Authorization Rule | replaced: Approvals in Workspace Settings, where a step can ask a manager to approve above an amount | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
 | Branch | on a rail or a home | OneHR, the administrator | untouched | yes | general |  | **none** |  |  |  |  |
 | Brand | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events, 1 fields | yes | general |  | **none** |  |  |  |  |
-| Company | on a rail or a home | everybody | events, 1 fields | yes | taught |  | yes |  |  |  |  |
+| Company | on a rail or a home | everybody | events, 2 fields | yes | taught |  | yes |  |  |  |  |
 | Currency Exchange | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Customer Group | on a rail or a home | OneBook, OneCRM, the administrator | events | yes | general |  | yes |  |  |  |  |
 | Department | on a rail or a home | OneHR, the administrator | events | yes | general |  | yes |  |  |  |  |

@@ -32,6 +32,7 @@ OVER = {
 	f"{tone}-{step}": f"oklch({1 if tone == 'white' else 0} 0 0 / {alpha})"
 	for tone in ("white", "black")
 	for step, alpha in (
+		("100", "0.18"),
 		("200", "0.271"),
 		("300", "0.361"),
 		("500", "0.541"),

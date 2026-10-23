@@ -3691,24 +3691,19 @@ def one_oneai_turned_off_asks_nothing_and_oneintake_reads_nothing():
 
 
 @check
-def one_the_bar_stays_where_each_person_put_it():
-	"""Rania moves the bar to the bottom: it is her default, nobody else's,
-	and the next page draws it there. Anything but top or bottom is refused."""
-	from onedesk.one import settings
+def one_the_frame_wears_the_workspace_colour():
+	"""Frame Colour in Workspace › General › Contact and Branding is the rail and the bars
+	around every screen, for everyone; saved empty, the frame is One's own."""
+	from onedesk.one import company, settings
 
-	with as_user("rania@one.test"):
-		settings.place_bar("bottom")
-		assert frappe.defaults.get_user_default("one_bar") == "bottom"
-		try:
-			settings.place_bar("left")
-		except frappe.ValidationError:
-			pass
-		else:
-			raise AssertionError("the bar went somewhere it cannot be drawn")
-	with as_user(OWNER):
-		assert frappe.defaults.get_user_default("one_bar") != "bottom", "one person's bar moved another's"
-	with as_user("rania@one.test"):
-		settings.place_bar("top")
+	was = frappe.db.get_value("Company", COMPANY, "one_frame_colour")
+	try:
+		settings._save_general({"one_frame_colour": "#7C2D12"})
+		assert company.frame_colour() == "#7C2D12", "the frame did not take the workspace's colour"
+		settings._save_general({"one_frame_colour": ""})
+		assert not company.frame_colour(), "an emptied Frame Colour still coloured the frame"
+	finally:
+		frappe.db.set_value("Company", COMPANY, "one_frame_colour", was)
 
 
 @check

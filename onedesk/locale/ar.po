@@ -16098,6 +16098,9 @@ msgstr "الأساسات"
 msgid "Four Degree Labs' own workspace. Nobody bills it, its OneAI is never refused for credits, and its AI use is a cost, not a sale."
 msgstr "مساحة العمل الخاصة بـFour Degree Labs. لا يُفوترها أحد، ولا يُرفض OneAI فيها بسبب الأرصدة، واستخدامها للذكاء الاصطناعي كلفة لا بيع."
 
+msgid "Frame Colour"
+msgstr "لون الإطار"
+
 #. Label of the app (Data) field in DocType 'Private App'
 #: onedesk/one_admin/doctype/private_app/private_app.json
 msgid "Frappe App"
@@ -23691,14 +23694,6 @@ msgstr "نقل"
 #: frontend/src/plant/PlantFloor.vue:133 onedesk/public/js/plant_actions.js:42
 msgid "Move Stock"
 msgstr "نقل المخزون"
-
-#: onedesk/public/js/desk.js:209
-msgid "Move This Bar to the Bottom"
-msgstr "نقل هذا الشريط إلى الأسفل"
-
-#: onedesk/public/js/desk.js:209
-msgid "Move This Bar to the Top"
-msgstr "نقل هذا الشريط إلى الأعلى"
 
 #. Label of the move_to (Link) field in DocType 'Mail Rule'
 #: onedesk/one_mail/ai.py:262 onedesk/one_mail/doctype/mail_rule/mail_rule.json
@@ -40972,10 +40967,6 @@ msgstr "تغيّرت الموافقات على {0} منذ اقتراح هذا، 
 msgid "The authenticator's own counter. A value lower than the one stored means the passkey has been cloned."
 msgstr "العدّاد الخاص بأداة المصادقة. القيمة الأقل من المخزَّنة تعني أن مفتاح المرور قد استُنسخ."
 
-#: onedesk/one/settings.py:206
-msgid "The bar goes at the top or the bottom."
-msgstr "يكون الشريط في الأعلى أو في الأسفل."
-
 #. Description of the 'Channels' (Section Break) field in DocType 'Notification
 #. Type'
 #: onedesk/one/custom/notification_type.json
@@ -41049,6 +41040,9 @@ msgstr "آخر أربعة أحرف من الرمز، للتمييز بين ال�
 #: onedesk/one/custom/company.json
 msgid "The colour a letter head carries, in the company's name, its lines and a banner's band."
 msgstr "اللون الذي تحمله الترويسة، في اسم الشركة وخطوطها وشريط البانر."
+
+msgid "The colour of the rail and the bars around every screen. Empty is One's own."
+msgstr "لون الشريط الجانبي والشريطين حول كل شاشة. إذا تُرك فارغًا فهو لون One."
 
 #. Description of the 'Comments' (Long Text) field in DocType 'Writer Document'
 #: onedesk/one_doc/doctype/writer_document/writer_document.json
@@ -42047,6 +42041,9 @@ msgstr "كلمة المزوّد نفسها. ولا شيء يحوّل بين ال
 #: onedesk/one_inventory/home.py:214
 msgid "The questions feedback asks."
 msgstr "الأسئلة التي تطرحها الملاحظات."
+
+msgid "The rail and the bars around every screen, for everyone. Leave it empty for One's own."
+msgstr "الشريط الجانبي والشريطان حول كل شاشة، للجميع. اتركه فارغًا لاستخدام لون One."
 
 #: frontend/src/sheet/shim/problems.js:16
 msgid "The ranges in this formula do not intersect."

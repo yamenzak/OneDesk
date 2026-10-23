@@ -197,16 +197,6 @@ def load(
 
 
 @frappe.whitelist(methods=["POST"])
-def place_bar(at: Annotated[str, "top or bottom"]) -> str:
-	"""Where the reader keeps the thin bar of tools: across the top of the
-	screen, or the bottom. Theirs alone, and kept with their other defaults."""
-	if at not in ("top", "bottom"):
-		frappe.throw(_("The bar goes at the top or the bottom."))
-	frappe.defaults.set_user_default("one_bar", at)
-	return at
-
-
-@frappe.whitelist(methods=["POST"])
 def save(
 	section: Annotated[str, "Which section."],
 	values: Annotated[str | dict, "What was changed."],
@@ -621,7 +611,7 @@ def _general() -> dict:
 	defaults = frappe.get_single("Global Defaults")
 	address = _company_address(company)
 	fields = (
-		_fields("Company", ("company_logo", *ON_DOCUMENTS))
+		_fields("Company", ("company_logo", *ON_DOCUMENTS, *ON_SCREEN))
 		+ _fields("Address", ADDRESS)
 		+ _zones(_switches(_fields("System Settings", ("language", "time_zone", *SYSTEM, *SIGNING_IN, *FOOTER))))
 		+ _switches(_fields("Global Defaults", AMOUNTS))
@@ -634,7 +624,7 @@ def _general() -> dict:
 		"fields": [{**one, **_said_on_general(one["fieldname"], system)} for one in fields] + _signing_in_fields() + _sharing_fields(),
 		"values": {
 			"company_logo": company.company_logo if company else None,
-			**{name: company.get(name) if company else None for name in ON_DOCUMENTS},
+			**{name: company.get(name) if company else None for name in (*ON_DOCUMENTS, *ON_SCREEN)},
 			**{name: address.get(name) if address else None for name in ADDRESS},
 			"language": system.language,
 			"time_zone": system.time_zone,
@@ -653,6 +643,7 @@ def _general() -> dict:
 AMOUNTS = ("hide_currency_symbol", "disable_rounded_total", "disable_in_words")
 
 ON_DOCUMENTS = ("one_brand_colour", "phone_no", "email", "website", "tax_id")
+ON_SCREEN = ("one_frame_colour",)
 ADDRESS = ("address_line1", "address_line2", "city", "state", "pincode")
 
 
@@ -730,6 +721,7 @@ EXPIRY = (
 GENERAL_SAID = {
 	"company_logo": _lt("On printed and sent invoices, quotes and orders."),
 	"one_brand_colour": _lt("Used for the company name, lines and banner in letter heads."),
+	"one_frame_colour": _lt("The rail and the bars around every screen, for everyone. Leave it empty for One's own."),
 	"language": _lt("For everyone who hasn't chosen their own in Profile."),
 	"time_zone": _lt("For everyone who hasn't chosen their own in Profile."),
 	"one_login_with_passkey": _lt("People sign in with the passkey on their own device, without a password."),
@@ -855,12 +847,14 @@ def _save_general(values: dict) -> None:
 	if company:
 		changed = {
 			name: values[name] or None
-			for name in ("company_logo", *ON_DOCUMENTS)
+			for name in ("company_logo", *ON_DOCUMENTS, *ON_SCREEN)
 			if name in values and (values[name] or None) != (company.get(name) or None)
 		}
 		if changed:
 			_as_opened(company).update(changed)
 			company.save(ignore_permissions=True)
+		if "one_frame_colour" in changed:
+			frappe.publish_realtime("one_frame", {"colour": company.one_frame_colour or ""}, after_commit=True)
 		_save_company_address(company, values)
 	_save_amounts(values)
 	system = _as_opened(frappe.get_single("System Settings"))

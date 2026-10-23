@@ -14,7 +14,8 @@ import tree
 WINDOW_JS = tree.APP / "public" / "js" / "window"
 WINDOW_CSS = tree.APP / "public" / "css" / "window"
 FRAME = (WINDOW_JS / "frame.js").read_text(encoding="utf-8")
-ADAPTERS = {path.stem: path.read_text(encoding="utf-8") for path in WINDOW_JS.glob("*.js") if path.stem != "frame"}
+CHROME = (WINDOW_JS / "chrome.js").read_text(encoding="utf-8")
+ADAPTERS = {path.stem: path.read_text(encoding="utf-8") for path in WINDOW_JS.glob("*.js") if path.stem not in ("frame", "chrome")}
 JS = FRAME + "".join(ADAPTERS.values())
 CSS = "".join(path.read_text(encoding="utf-8") for path in sorted(WINDOW_CSS.glob("*.css")))
 HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
@@ -32,10 +33,10 @@ def test_the_window_is_one_folder_loaded_after_the_shell():
 	scripts = re.findall(r'"/assets/onedesk/js/([\w./]+)"', HOOKS)
 	assert scripts.index("window/frame.js") > scripts.index("shell.js")
 	loaded = [one for one in scripts if one.startswith("window/")]
-	assert loaded[0] == "window/frame.js"
+	assert loaded[:2] == ["window/frame.js", "window/chrome.js"]
 	assert sorted(loaded) == sorted(f"window/{path.name}" for path in WINDOW_JS.glob("*.js"))
 	styles = re.findall(r'"/assets/onedesk/css/(window/[\w.]+)"', HOOKS)
-	assert styles[0] == "window/frame.css"
+	assert styles[:2] == ["window/chrome.css", "window/frame.css"]
 	assert sorted(styles) == sorted(f"window/{path.name}" for path in WINDOW_CSS.glob("*.css"))
 	assert {"page", "list", "board", "report", "tree", "form", "print", "workspace"} <= set(ADAPTERS)
 	assert not (tree.APP / "public" / "js" / "window.js").exists()
@@ -204,3 +205,35 @@ def test_a_tree_is_laid_out_as_a_list():
 	assert 'controls: this.page.page_form.children(".tree-toolbar-actions")' in ADAPTERS["tree"]
 	assert '.one-window[data-one-view="tree"] .page-form {' in CSS
 	assert '.one-window[data-one-view="tree"] .layout-main-section-wrapper > .layout-main-section {\n\t\tmax-width: none;' in CSS
+
+
+def test_the_frame_is_a_top_bar_a_bottom_bar_and_the_rail():
+	"""The shell's rail and bars are the window's frame: one bar across the
+	top (where and when) and one across the bottom (what is running), never
+	one that moves; frappe's rail draws from the frame's tokens; and the
+	screen between them is inset with its corners rounded."""
+	assert 'data-at="top"' in CHROME and 'data-at="bottom"' in CHROME
+	for gone in ("place_bar", "one_bar", "Move This Bar"):
+		assert gone not in CHROME, gone
+	desk = (tree.APP / "public" / "js" / "desk.js").read_text(encoding="utf-8")
+	assert "onedesk.dock.bar = " not in desk and "onedesk.window.bars()" in desk
+	settings = (tree.APP / "one" / "settings.py").read_text(encoding="utf-8")
+	assert "def place_bar" not in settings
+	chrome_css = (WINDOW_CSS / "chrome.css").read_text(encoding="utf-8")
+	for token in ("--dock-bg: var(--one-frame);", "--dock-ink: var(--one-frame-ink);", "--dock-tile-active: var(--one-frame-active);"):
+		assert token in chrome_css, token
+	assert "border-start-end-radius: var(--radius-lg);" in chrome_css and "border-end-start-radius: var(--radius-lg);" in chrome_css
+	desk_css = (tree.APP / "public" / "css" / "desk.css").read_text(encoding="utf-8")
+	assert ".one-bar {" not in desk_css and "one-bar-bottom" not in desk_css
+
+
+def test_the_frame_wears_the_workspaces_colour():
+	"""Frame Colour (Workspace › General › Contact and Branding, on the Company) is the
+	frame's colour for everyone, with the ink that reads on it; a dark theme
+	deepens it. Empty is One's own."""
+	assert '"one_frame_colour"' in (tree.APP / "one" / "settings.py").read_text(encoding="utf-8")
+	assert 'bootinfo["one_frame_colour"]' in (tree.APP / "one" / "boot.py").read_text(encoding="utf-8")
+	assert "root.dataset.oneFrameInk" in CHROME and '"one_frame"' in CHROME
+	chrome_css = (WINDOW_CSS / "chrome.css").read_text(encoding="utf-8")
+	assert ':root[data-theme="dark"][data-one-frame="brand"]' in chrome_css
+	assert ':root[data-one-frame-ink="dark"]:not([data-theme="dark"])' in chrome_css

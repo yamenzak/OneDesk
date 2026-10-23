@@ -75,3 +75,10 @@ def _written(doctype: str, prop: str) -> bool:
 			"Property Setter", {"doc_type": doctype, "field_name": FIELD, "property": prop}
 		)
 	)
+
+
+def frame_colour() -> str | None:
+	"""The workspace's Frame Colour (Workspace › General › Contact and Branding), for the
+	rail and the bars around every screen; None is One's own."""
+	company = frappe.defaults.get_global_default("company")
+	return frappe.get_cached_value("Company", company, "one_frame_colour") if company else None

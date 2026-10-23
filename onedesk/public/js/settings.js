@@ -742,6 +742,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			["email_footer_address", ""],
 			{ heading: __("Contact and Branding") },
 			["company_logo", "one_brand_colour"],
+			["one_frame_colour", ""],
 			["phone_no", "email"],
 			["website", "tax_id"],
 			["address_line1", "address_line2"],

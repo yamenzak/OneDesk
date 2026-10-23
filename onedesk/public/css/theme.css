@@ -9,15 +9,6 @@
 }
 
 :root {
-	--one-bar-height: 28px;
-	--one-bar-offset: 0px;
-	--one-bar-bg: var(--desk-sidebar-bg);
-	--one-bar-ink: var(--ink-gray-6);
-	--one-bar-ink-strong: var(--ink-gray-9);
-	--one-bar-hover: var(--surface-gray-3);
-}
-
-:root {
 	--one-ai-1: #22d3ee;
 	--one-ai-2: #38bdf8;
 	--one-ai-3: #818cf8;

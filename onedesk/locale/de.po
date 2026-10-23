@@ -16098,6 +16098,9 @@ msgstr "Fundamente"
 msgid "Four Degree Labs' own workspace. Nobody bills it, its OneAI is never refused for credits, and its AI use is a cost, not a sale."
 msgstr "Der eigene Arbeitsbereich von Four Degree Labs. Niemand stellt ihn in Rechnung, sein OneAI wird nie wegen Credits abgelehnt, und seine KI-Nutzung ist Kosten, kein Verkauf."
 
+msgid "Frame Colour"
+msgstr "Rahmenfarbe"
+
 #. Label of the app (Data) field in DocType 'Private App'
 #: onedesk/one_admin/doctype/private_app/private_app.json
 msgid "Frappe App"
@@ -23691,14 +23694,6 @@ msgstr "Verschieben"
 #: frontend/src/plant/PlantFloor.vue:133 onedesk/public/js/plant_actions.js:42
 msgid "Move Stock"
 msgstr "Bestand umlagern"
-
-#: onedesk/public/js/desk.js:209
-msgid "Move This Bar to the Bottom"
-msgstr "Diese Leiste nach unten verschieben"
-
-#: onedesk/public/js/desk.js:209
-msgid "Move This Bar to the Top"
-msgstr "Diese Leiste nach oben verschieben"
 
 #. Label of the move_to (Link) field in DocType 'Mail Rule'
 #: onedesk/one_mail/ai.py:262 onedesk/one_mail/doctype/mail_rule/mail_rule.json
@@ -40972,10 +40967,6 @@ msgstr "Die Freigaben für {0} haben sich seit diesem Vorschlag geändert, er gi
 msgid "The authenticator's own counter. A value lower than the one stored means the passkey has been cloned."
 msgstr "Der eigene Zähler des Authenticators. Ein niedrigerer Wert als der gespeicherte bedeutet, dass der Passkey geklont wurde."
 
-#: onedesk/one/settings.py:206
-msgid "The bar goes at the top or the bottom."
-msgstr "Die Leiste gehört nach oben oder nach unten."
-
 #. Description of the 'Channels' (Section Break) field in DocType 'Notification
 #. Type'
 #: onedesk/one/custom/notification_type.json
@@ -41049,6 +41040,9 @@ msgstr "Die letzten vier Zeichen des Codes, um Codes zu unterscheiden. Der Code 
 #: onedesk/one/custom/company.json
 msgid "The colour a letter head carries, in the company's name, its lines and a banner's band."
 msgstr "Die Farbe eines Briefkopfs, im Firmennamen, in seinen Linien und im Band eines Banners."
+
+msgid "The colour of the rail and the bars around every screen. Empty is One's own."
+msgstr "Die Farbe der Leiste und der Balken um jeden Bildschirm. Leer ist die von One."
 
 #. Description of the 'Comments' (Long Text) field in DocType 'Writer Document'
 #: onedesk/one_doc/doctype/writer_document/writer_document.json
@@ -42047,6 +42041,9 @@ msgstr "Das Wort des Anbieters. Nichts rechnet zwischen Einheiten um."
 #: onedesk/one_inventory/home.py:214
 msgid "The questions feedback asks."
 msgstr "Die Fragen, die ein Feedback stellt."
+
+msgid "The rail and the bars around every screen, for everyone. Leave it empty for One's own."
+msgstr "Die Leiste und die Balken um jeden Bildschirm, für alle. Leer lassen für die Farbe von One."
 
 #: frontend/src/sheet/shim/problems.js:16
 msgid "The ranges in this formula do not intersect."

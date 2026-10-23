@@ -64,23 +64,30 @@ and its card says *Installing…* until it is on the rail. A private app
 can't be turned off, now or later. How one is written and delivered is
 `docs/PRIVATE-APPS.md`.
 
-### The bar across the top
+### The frame: the rail and two bars
 
-The thin bar across every page has three parts. On the left, the first
-button moves the bar to the bottom of the screen, or back to the top; then
-today's date and the time, which open OneCalendar; then any workbook you
-left for another screen, under OneWorkbook's mark (OneWorkbook's README). In
-the middle run the announcements. On the right are **Search**, then
-**Check In** and **Timers**, then **OneIntake** and **Notifications**. A
-number on an icon says how much waits there. **Check In** says *Check In*
-when your shift has started and you haven't, and *Late* once you are late.
-At the bottom, the round OneAI button in the corner moves into the bar, at
-its right end. That choice is yours alone and is remembered. With the rail
-the bar makes one frame, and the rest of the screen sits inset in it, its
-corner rounded. On a phone there is no bar, and its tools are at the top of
-the panel instead.
+Every screen sits inside one frame: the rail of apps down the left, a thin
+bar across the top and one across the bottom. The screen itself is inset in
+it, its corners rounded. The frame is dark when the theme is light, and a
+shade lighter than the page when the theme is dark.
 
-**Background Tasks** shows in the bar only while a long job you started is
+The top bar says where and when. On the left are today's date and the time,
+which open OneCalendar. In the middle run the announcements. On the right
+are **Search**, then **OneIntake** and **Notifications**.
+
+The bottom bar shows what is running. On the left is any workbook you left
+for another screen, under OneWorkbook's mark (OneWorkbook's README). On the
+right are **Check In** and **Timers**, then **OneAI**. A number on an icon
+says how much waits there. **Check In** says *Check In* when your shift has
+started and you haven't, and *Late* once you are late. On a phone there are
+no bars, and their tools are at the top of the panel instead.
+
+The frame's colour is the workspace's to choose: **Frame Colour** under
+Workspace › General › Contact and Branding. Its writing turns dark on a light
+colour, and in a dark theme the colour is deepened. Leave it empty for One's
+own.
+
+**Background Tasks** shows in the top bar only while a long job you started is
 still running. Click it to see what is running.
 
 ### Moving between places and records
@@ -489,7 +496,8 @@ administrators see it. Save from the top right.
   the bottom of every email the workspace sends.
 - **Contact and Branding**: what invoices, quotations and orders show about the
   company, printed or emailed. That's the **Company Logo**, the **Brand
-  Colour** (used at the top of letter heads), **Phone**, **Email**,
+  Colour** (used at the top of letter heads), the **Frame Colour** (the rail
+  and the bars around every screen, for everyone), **Phone**, **Email**,
   **Website**, **Tax ID** and the company address. Fill these in once and
   printing never stops to ask for them. The address is saved as the company's
   own, so new invoices use it. The Company Logo doesn't replace One's own logo.

@@ -1,0 +1,480 @@
+/* The frame around every screen (docs/WINDOW.md, js/window/chrome.js):
+   frappe's rail down the left, a bar across the top and one across the
+   bottom, all in the frame's colour, and the screen between them inset with
+   rounded corners. The frame is dark in a light theme and a step off the
+   inset in a dark one; a workspace's Frame Colour takes its place. */
+
+:root {
+	--one-bar-height: 28px;
+	--one-bar-offset: 0px;
+	--one-frame-gutter: 6px;
+
+	/* The workspace's colour when it set one (chrome.js), else frappe-ui's
+	   darkest grey. */
+	--one-frame-brand: var(--surface-gray-10);
+	--one-frame: var(--one-frame-brand);
+
+	/* Light ink on the frame; dark on a light Frame Colour, below. */
+	--one-frame-ink: var(--one-over-white-700);
+	--one-frame-ink-strong: var(--one-over-white-950);
+	--one-frame-hover: var(--one-over-white-100);
+	--one-frame-active: var(--one-over-white-200);
+	--one-frame-line: var(--one-over-white-200);
+
+	--one-over-white-100: oklch(1 0 0 / 0.18);
+	--one-over-white-200: oklch(1 0 0 / 0.271);
+	--one-over-white-700: oklch(1 0 0 / 0.722);
+	--one-over-white-950: oklch(1 0 0 / 0.949);
+	--one-over-black-100: oklch(0 0 0 / 0.18);
+	--one-over-black-200: oklch(0 0 0 / 0.271);
+	--one-over-black-700: oklch(0 0 0 / 0.722);
+	--one-over-black-950: oklch(0 0 0 / 0.949);
+
+	/* The bar's own names for the frame's. */
+	--one-bar-bg: var(--one-frame);
+	--one-bar-ink: var(--one-frame-ink);
+	--one-bar-ink-strong: var(--one-frame-ink-strong);
+	--one-bar-hover: var(--one-frame-hover);
+
+	/* frappe's rail draws from its own tokens; they are the frame's. */
+	--dock-bg: var(--one-frame);
+	--dock-ink: var(--one-frame-ink);
+	--dock-ink-strong: var(--one-frame-ink-strong);
+	--dock-tile-hover: var(--one-frame-hover);
+	--dock-tile-active: var(--one-frame-active);
+	--dock-rule: var(--one-frame-line);
+}
+
+/* In a dark theme the page is frappe-ui's darkest surface already, so the
+   frame steps the other way: a grey a step lighter, and the workspace's
+   colour deepened into the dark. */
+:root[data-theme="dark"] {
+	--one-frame: var(--surface-gray-1);
+}
+
+:root[data-theme="dark"][data-one-frame="brand"] {
+	--one-frame: color-mix(in oklab, var(--one-frame-brand) 40%, var(--surface-base));
+}
+
+:root[data-one-frame-ink="dark"]:not([data-theme="dark"]) {
+	--one-frame-ink: var(--one-over-black-700);
+	--one-frame-ink-strong: var(--one-over-black-950);
+	--one-frame-hover: var(--one-over-black-100);
+	--one-frame-active: var(--one-over-black-200);
+	--one-frame-line: var(--one-over-black-200);
+}
+
+.one-bar {
+	display: none;
+}
+
+@media (min-width: 768px) {
+	body.one-barred {
+		--one-bar-offset: calc(2 * var(--one-bar-height));
+		padding-top: var(--one-bar-height) !important;
+		padding-bottom: var(--one-bar-height) !important;
+		background: var(--one-frame);
+	}
+
+	.one-bar {
+		position: fixed;
+		left: 0;
+		right: 0;
+		z-index: 1031;
+		display: flex;
+		align-items: center;
+		height: var(--one-bar-height);
+		padding: 0 8px;
+		background: var(--one-frame);
+		color: var(--one-frame-ink);
+	}
+
+	.one-bar[data-at="top"] {
+		top: 0;
+	}
+
+	.one-bar[data-at="bottom"] {
+		bottom: 0;
+	}
+
+	/* OneAI lives in the bottom bar, so its floating dial does not. */
+	body.one-barred .one-ai-dial {
+		display: none;
+	}
+
+	body.one-barred .main-section,
+	body.one-barred.dock-pinned .dock,
+	body.one-barred .body-sidebar,
+	body.one-barred .sidebar-panel {
+		height: calc(100dvh - var(--one-bar-offset));
+	}
+
+	body.one-barred .sidebar-panel {
+		min-height: 0;
+	}
+
+	body.one-barred:not(.dock-pinned) .dock {
+		max-height: calc(100dvh - 32px - var(--one-bar-offset));
+	}
+
+	body.one-barred .report-view .layout-main-section,
+	body.one-barred[data-route^="Form"] .layout-side-section {
+		height: calc(100dvh - var(--page-head-height) - var(--one-bar-offset));
+	}
+
+	body.one-barred .body-sidebar .standard-items-band {
+		display: none;
+	}
+
+	body.one-barred.dock-pinned .dock {
+		border-right: 0;
+	}
+
+	/* The inset: frappe's sidebar and the screen beside it, one rounded
+	   surface in the frame, with a strip of the frame on its far side. */
+	body.one-barred.dock-pinned .main-section {
+		margin-inline-end: var(--one-frame-gutter);
+		border-start-end-radius: var(--radius-lg);
+		border-end-end-radius: var(--radius-lg);
+		background: var(--surface-base);
+	}
+
+	body.one-barred.dock-pinned .body-sidebar-container.expanded:not([style*="display: none"]) > .body-sidebar,
+	body.one-barred.dock-pinned .body-sidebar-container:is(:not(.expanded), [style*="display: none"]) + .main-section {
+		border-start-start-radius: var(--radius-lg);
+		border-end-start-radius: var(--radius-lg);
+	}
+
+	/* A dark inset in a dark frame needs its edge drawn. */
+	:root[data-theme="dark"] body.one-barred.dock-pinned .main-section {
+		border: 1px solid var(--outline-gray-1);
+	}
+
+	:root[data-theme="dark"] body.one-barred.dock-pinned .body-sidebar-container.expanded:not([style*="display: none"]) > .body-sidebar {
+		border: 1px solid var(--outline-gray-1);
+		border-inline-end: 0;
+	}
+
+	:root[data-theme="dark"] body.one-barred.dock-pinned .body-sidebar-container.expanded:not([style*="display: none"]) + .main-section {
+		border-inline-start: 0;
+	}
+}
+
+.one-bar-tools {
+	display: flex;
+	align-items: center;
+	margin-inline-start: auto;
+}
+
+.one-bar-group {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.one-bar-group:not(:has(> .one-bar-tool:not(.hide, .hidden))) {
+	display: none;
+}
+
+.one-bar-group + .one-bar-group::before {
+	content: "";
+	width: 1px;
+	height: 14px;
+	margin: 0 6px;
+	background: var(--one-bar-hover);
+}
+
+.one-bar-icon {
+	position: relative;
+	display: inline-flex;
+}
+
+.one-bar-tool:has(.one-bar-badge:not(.hide, .hidden)) {
+	padding-inline-end: 11px;
+}
+
+.one-bar .one-ai-row svg {
+	width: 18px;
+	height: 18px;
+}
+
+.one-bar-now {
+	flex: none;
+	white-space: nowrap;
+	font-variant-numeric: tabular-nums;
+}
+
+.one-bar-news {
+	display: flex;
+	flex: 1 1 auto;
+	align-items: center;
+	gap: 6px;
+	min-width: 0;
+	margin: 0 12px;
+	font-size: var(--text-xs);
+}
+
+.one-bar-news.hide {
+	display: none;
+}
+
+.one-bar-news:not(.hide) + .one-bar-tools {
+	margin-inline-start: 0;
+}
+
+.one-bar-lead {
+	display: flex;
+	flex: none;
+	align-items: center;
+	gap: 4px;
+}
+
+.one-bar-news-icon {
+	display: inline-flex;
+	flex: none;
+	color: var(--one-bar-ink-strong);
+}
+
+.one-bar-news-icon svg {
+	stroke: currentColor;
+}
+
+.one-bar-news-window {
+	flex: 1 1 auto;
+	min-width: 0;
+	overflow: hidden;
+}
+
+.one-bar-news-moving .one-bar-news-window {
+	mask-image: linear-gradient(to right, transparent, var(--one-bar-bg) 16px, var(--one-bar-bg) calc(100% - 16px), transparent);
+}
+
+.one-bar-news-track {
+	display: inline-flex;
+	gap: 32px;
+	white-space: nowrap;
+}
+
+.one-bar-news-moving .one-bar-news-track {
+	animation: one-news 30s linear infinite;
+}
+
+html[dir="rtl"] .one-bar-news-moving .one-bar-news-track {
+	animation-name: one-news-rtl;
+}
+
+.one-bar-news:hover .one-bar-news-track,
+.one-bar-news:focus-within .one-bar-news-track {
+	animation-play-state: paused;
+}
+
+@keyframes one-news {
+	to {
+		transform: translateX(calc(-50% - 16px));
+	}
+}
+
+@keyframes one-news-rtl {
+	to {
+		transform: translateX(calc(50% + 16px));
+	}
+}
+
+.one-bar-news-run {
+	display: inline-flex;
+	gap: 32px;
+}
+
+.one-bar-news-item {
+	display: inline-flex;
+	gap: 6px;
+	height: 22px;
+	align-items: center;
+	padding: 0 4px;
+	border: 0;
+	border-radius: var(--radius-sm);
+	background: transparent;
+	color: inherit;
+	font-size: var(--text-xs);
+	cursor: pointer;
+}
+
+.one-bar-news-item:hover {
+	background: var(--one-bar-hover);
+	color: var(--one-bar-ink-strong);
+}
+
+.one-bar-news-item:focus-visible {
+	outline: 2px solid var(--one-bar-ink-strong);
+	outline-offset: -2px;
+}
+
+.one-bar-news-title {
+	color: var(--one-bar-ink-strong);
+	font-weight: 600;
+}
+
+.one-bar-news-hide {
+	flex: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.one-bar-news-moving .one-bar-news-track {
+		animation: none;
+	}
+
+	.one-bar-news-track > [aria-hidden="true"] {
+		display: none;
+	}
+
+	.one-bar-news-window {
+		text-overflow: ellipsis;
+	}
+}
+
+.one-bar-now .one-bar-time {
+	color: var(--one-bar-ink-strong);
+	font-weight: 600;
+}
+
+.one-bar-tool {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	height: 22px;
+	border: 0;
+	border-radius: var(--radius-sm);
+	background: transparent;
+	color: inherit;
+	font-size: var(--text-xs);
+	cursor: pointer;
+}
+
+.one-bar-tool {
+	justify-content: center;
+	min-width: 28px;
+	padding: 0 6px;
+}
+
+.one-bar-tool.hide,
+.one-bar-tool.hidden {
+	display: none;
+}
+
+.one-bar-tool:hover {
+	background: var(--one-bar-hover);
+	color: var(--one-bar-ink-strong);
+}
+
+.one-bar-tool:focus-visible {
+	outline: 2px solid var(--one-bar-ink-strong);
+	outline-offset: -2px;
+}
+
+.one-bar-tool svg {
+	stroke: currentColor;
+}
+
+.one-bar .one-bar-badge {
+	position: absolute;
+	top: -4px;
+	inset-inline-start: 12px;
+	min-width: 11px;
+	height: 11px;
+	padding: 0 2px;
+	border-radius: var(--radius-full);
+	outline: 2px solid var(--one-bar-bg);
+	background: var(--one-bar-ink-strong);
+	color: var(--one-bar-bg);
+	font-size: 8px;
+	font-weight: 600;
+	line-height: 11px;
+	text-align: center;
+}
+
+.one-bar .one-bar-badge.hide,
+.one-bar .one-bar-badge.hidden {
+	display: none;
+}
+
+.one-bar .one-bar-badge.one-intake-dot {
+	top: -3px;
+	inset-inline-start: 13px;
+	min-width: 6px;
+	width: 6px;
+	height: 6px;
+	padding: 0;
+}
+
+.one-timers-count.one-timers-on,
+.one-bar .one-bar-badge.one-timers-on {
+	background: var(--surface-green-7);
+	color: var(--ink-base);
+}
+
+.one-bar .one-clock .one-clock-dot {
+	position: absolute;
+	bottom: -2px;
+	inset-inline-end: -4px;
+	width: 6px;
+	height: 6px;
+	outline: 1.5px solid var(--one-bar-bg);
+	background: var(--surface-gray-4);
+}
+
+.one-bar .one-clock .one-clock-dot.one-clock-on {
+	background: var(--surface-green-5);
+}
+
+.one-bar [data-group="open"] {
+	position: relative;
+	gap: 0;
+	border: 1px solid var(--one-frame-line);
+	border-radius: var(--radius-sm);
+}
+
+.one-bar [data-group="open"] .one-bar-tool {
+	height: 20px;
+	border-radius: 0;
+}
+
+.one-bar [data-group="open"] .one-bar-tool:first-child {
+	border-start-start-radius: var(--radius-sm);
+	border-end-start-radius: var(--radius-sm);
+}
+
+.one-bar [data-group="open"] .one-bar-tool:not(.hide):nth-last-child(1 of .one-bar-tool:not(.hide)) {
+	border-start-end-radius: var(--radius-sm);
+	border-end-end-radius: var(--radius-sm);
+}
+
+.one-bar .one-workbooks svg {
+	stroke: none;
+}
+
+.one-bar .one-workbooks-text {
+	max-width: 180px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.one-bar .one-workbooks-x {
+	min-width: 22px;
+	padding: 0 3px;
+}
+
+.one-bar .one-workbooks-list {
+	inset-inline-start: 0;
+	top: 100%;
+	min-width: 220px;
+	max-width: 320px;
+	margin-top: 4px;
+}
+
+.one-bar[data-at="bottom"] .one-workbooks-list {
+	top: auto;
+	bottom: 100%;
+	margin-top: 0;
+	margin-bottom: 4px;
+}
