@@ -240,8 +240,19 @@ body.one-window-dragging * {
 }
 
 .one-window-nav-slot {
-	padding-block: 2px;
+	padding-block: 0 2px;
 	padding-inline-start: calc(var(--spacing) * 3);
+}
+
+/* Where a view's own tree has the row you are on, the sidebar row it hangs
+   from says only which section you are in: one pill on screen, not two. */
+.body-sidebar-container .sidebar-item-container:has(+ .one-window-nav-slot .active-sidebar) > .standard-sidebar-item.active-sidebar {
+	background: transparent;
+	box-shadow: none;
+}
+
+.body-sidebar-container .sidebar-item-container:has(+ .one-window-nav-slot .active-sidebar) > .standard-sidebar-item .sidebar-item-label {
+	font-weight: var(--font-weight-medium);
 }
 
 .body-sidebar-container:not(.expanded) .one-window-nav-slot {

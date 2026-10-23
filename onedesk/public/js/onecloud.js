@@ -792,10 +792,19 @@ onedesk.OneCloud = class OneCloud {
 				.map((one) => {
 					const open = this.open_in_tree.has(one.id);
 					const leaf = one.id === "@bin" || (one.record && !one.doctype);
+					const twisty = `<button class="oc-twisty" ${leaf ? "disabled" : ""} aria-label="${open ? __("Collapse") : __("Expand")}">${leaf ? "" : frappe.utils.icon(open ? "chevron-down" : "chevron-right", "xs")}</button>`;
+					const kids = open && this.kids[one.id] ? draw(this.kids[one.id], depth + 1) : "";
+					if (this.win) {
+						return `<div class="standard-sidebar-item oc-node${one.id === this.node ? " active-sidebar" : ""}" data-node="${esc(one.id)}" style="--depth:${depth}">
+							<a class="item-anchor" href="/desk/onecloud?node=${encodeURIComponent(one.id)}">${twisty}<span class="sidebar-item-icon">${frappe.utils.icon(
+								this.icon_of(one),
+								"sm"
+							)}</span><span class="sidebar-item-label">${esc(one.name)}</span></a>
+						</div>${kids}`;
+					}
 					return `<div class="oc-node${one.id === this.node ? " oc-here" : ""}" data-node="${esc(one.id)}" style="--depth:${depth}">
-						<button class="oc-twisty" ${leaf ? "disabled" : ""} aria-label="${open ? __("Collapse") : __("Expand")}">${leaf ? "" : frappe.utils.icon(open ? "chevron-down" : "chevron-right", "xs")}</button>
-						${frappe.utils.icon(this.icon_of(one), "sm")}<span>${esc(one.name)}</span>
-					</div>${open && this.kids[one.id] ? draw(this.kids[one.id], depth + 1) : ""}`;
+						${twisty}${frappe.utils.icon(this.icon_of(one), "sm")}<span>${esc(one.name)}</span>
+					</div>${kids}`;
 				})
 				.join("");
 		this.$tree.html(draw(this.kids["@root"], 0));
@@ -825,12 +834,16 @@ onedesk.OneCloud = class OneCloud {
 
 		this.$tree.on("click", ".oc-twisty", async (e) => {
 			e.stopPropagation();
+			e.preventDefault();
 			const id = $(e.currentTarget).closest(".oc-node").attr("data-node");
 			if (this.open_in_tree.has(id)) this.open_in_tree.delete(id);
 			else this.open_in_tree.add(id);
 			this.draw_tree();
 		});
-		this.$tree.on("click", ".oc-node", (e) => this.go(e.currentTarget.dataset.node));
+		this.$tree.on("click", ".oc-node", (e) => {
+			e.preventDefault();
+			this.go(e.currentTarget.dataset.node);
+		});
 
 		this.$items.on("mousedown", ".oc-item", (e) => {
 			if (e.button === 2 && this.selected.has(e.currentTarget.dataset.id)) return;

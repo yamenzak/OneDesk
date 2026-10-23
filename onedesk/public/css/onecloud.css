@@ -99,11 +99,22 @@
 	min-height: 0;
 }
 
-.oc-tree {
+.oc .oc-tree {
 	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 1);
 }
 
-.oc-node {
+/* In the window's nav pane a folder is one of the sidebar's own rows
+   (standard-sidebar-item, frappe's height, hover and pill), indented by its
+   depth, with its twisty before its icon. */
+.one-window-nav-slot .oc-node .item-anchor {
+	padding-inline-start: calc(var(--depth) * 14px + 2px);
+}
+
+.one-window-nav-slot .oc-node .sidebar-item-label {
+	margin-inline-start: 6px;
+}
+
+.oc .oc-node {
 	display: flex;
 	align-items: center;
 	gap: calc(var(--spacing) * 1.5);
@@ -116,12 +127,12 @@
 	font-size: var(--text-base);
 }
 
-.oc-node > svg,
-.oc-node > span {
+.oc .oc-node > svg,
+.oc .oc .oc-node > span {
 	margin: 0;
 }
 
-.oc-node > svg {
+.oc .oc-node > svg {
 	flex-shrink: 0;
 }
 
@@ -130,11 +141,11 @@
 	text-overflow: ellipsis;
 }
 
-.oc-node:hover {
+.oc .oc-node:hover {
 	background: var(--surface-gray-2);
 }
 
-.oc-node.oc-here {
+.oc .oc-node.oc-here {
 	background: var(--surface-gray-3);
 	color: var(--ink-gray-9);
 	font-weight: var(--font-weight-medium);
