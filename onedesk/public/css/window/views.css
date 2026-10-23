@@ -123,7 +123,8 @@
 /* A form: its tabs are the window's row, set on its gutter, those that do not
    fit folded into More; its ‹ › sit beside Up as the window's own buttons do.
    Its sidebar is frappe's, as frappe draws it, without who edited and made
-   the record, which the status says. */
+   the record, which the status says, and without its files where the Files
+   tab holds them; its tags move up under the icons. */
 @media (min-width: 768px) {
 	/* A form's own buttons (frappe's custom actions and their groups) as one
 	   run in the command row. */
@@ -194,7 +195,56 @@
 	}
 
 	.one-window[data-one-view="form"] .form-sidebar .modified-by,
-	.one-window[data-one-view="form"] .form-sidebar .created-by {
+	.one-window[data-one-view="form"] .form-sidebar .created-by,
+	.one-window[data-one-view="form"] .form-sidebar .form-attachments.one-files-side {
+		display: none;
+	}
+
+	/* The tags under the icons: beside the picture, or on a line of their own
+	   under the title; the pills, then the add button, then the box to type a
+	   tag in when it opens. */
+	.one-window .form-sidebar .one-side-corner {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		gap: calc(var(--spacing) * 2);
+		min-width: 0;
+	}
+
+	.one-window .form-sidebar .one-side-tags {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+		align-items: center;
+		gap: calc(var(--spacing) * 1);
+		margin: 0;
+		padding: 0;
+		border: 0;
+	}
+
+	.one-window .form-sidebar .sidebar-meta-details > .one-side-tags {
+		margin-top: calc(var(--spacing) * 2);
+	}
+
+	.one-window .form-sidebar .one-side-tags > :first-child {
+		order: 2;
+	}
+
+	.one-window .form-sidebar .one-side-tags > .form-tag-row {
+		order: 1;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+		gap: calc(var(--spacing) * 1);
+		margin: 0;
+	}
+
+	.one-window .form-sidebar .one-side-tags > :not(:first-child, .form-tag-row) {
+		order: 3;
+		flex-basis: 100%;
+	}
+
+	.one-window .form-sidebar .one-side-tags .form-sidebar-label {
 		display: none;
 	}
 }
