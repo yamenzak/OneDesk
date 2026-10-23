@@ -106,10 +106,12 @@ and marks the root `data-one-frame="brand"`, with `data-one-frame-ink`
 dark on a light colour, by the rule the letter heads use for text on the
 Brand Colour (`company.frame_ink`, `letter_heads.on`); a dark theme mixes it
 toward the page. Everything on the frame (text, icons, the rail's marker,
-badges) draws in that ink, and on a workspace's colour the apps' own marks
-cast a soft shadow, since a mark of the frame's hue would vanish (the one
-shadow of ours, `LIFTED` in tests/guards/test_tokens.py). Saving it
-reaches open screens at once (`one_frame`).
+badges) draws in that ink, and on a workspace's colour the rail shows each
+app's flat mark, since a mark of the frame's hue would vanish: the same shape
+in that ink with its white parts cut back to the frame, generated beside the
+coloured one by `scripts/icons.py` as `NAME-flat`. The app you are in and the
+tile under the pointer keep their colours. Saving it reaches open screens at
+once (`one_frame`).
 
 ## Where it lives
 

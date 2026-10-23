@@ -3,6 +3,7 @@ parts. It adds to frappe's page head and never replaces it, styles itself in
 one file, and OneCloud on its own page draws none of the parts the window
 has. These read the code that says so."""
 
+import json
 import re
 import sys
 from pathlib import Path
@@ -267,10 +268,18 @@ def test_the_app_you_are_in_is_marked_on_the_rails_edge():
 	assert "width: calc(100% + 16px);\n\tmargin-inline: -8px;" in chrome_css
 
 
-def test_the_rails_marks_stand_out_on_any_frame_colour():
+def test_the_rails_marks_go_flat_on_a_workspace_colour():
 	"""An app's mark on a frame of its own hue all but disappears, so on a
-	workspace's colour (light theme) each mark on the rail's app list casts a
-	soft shadow: no box behind it, no outline drawn round it."""
+	workspace's colour the rail shows each mark's flat twin, generated beside it
+	from the same SVG: no filter, no shadow, no box behind it."""
 	chrome_css = (WINDOW_CSS / "chrome.css").read_text(encoding="utf-8")
-	assert ':root[data-one-frame="brand"]:not([data-theme="dark"]) body.one-barred .dock-items .dock-item-icon {\n\tfilter: drop-shadow(0 1px 2px var(--one-over-black-500));' in chrome_css
-	assert "background-clip: content-box;" not in chrome_css and "one-mark-edge" not in chrome_css + CHROME
+	assert ':root[data-one-frame="brand"] body.one-barred .dock-item:not(.active):not(:hover) .dock-item-icon > svg.one-flat' in chrome_css
+	assert "drop-shadow" not in chrome_css and "background-clip: content-box;" not in chrome_css
+	assert 'frappe.utils.icon(`${entry.icon}-flat`' in CHROME
+	icons = json.loads((tree.APP / "fixtures" / "custom_icon.json").read_text(encoding="utf-8"))
+	names = {icon["name"] for icon in icons}
+	for mark in (tree.ROOT / "brand").glob("*.svg"):
+		assert f"{mark.stem}-flat" in names, mark.stem
+	for icon in icons:
+		if icon["name"].endswith("-flat"):
+			assert "filter" not in icon["svg"] and "Gradient" not in icon["svg"], icon["name"]

@@ -234,5 +234,29 @@ $.extend(onedesk.window, {
 	},
 });
 
+// A mark with a flat twin (scripts/icons.py) carries both on the rail, and
+// chrome.css shows the twin on a workspace's own frame colour.
+{
+	const Dock = frappe.ui.Dock;
+	if (Dock && !Dock.prototype.__one_flat) {
+		Dock.prototype.__one_flat = true;
+		const made = Dock.prototype.make_dock_item;
+		const flat = () =>
+			(Dock.flat ??= new Set(
+				(frappe.boot.custom_icons || [])
+					.filter(({ name }) => name.endsWith("-flat"))
+					.map(({ name }) => name.slice(0, -5))
+			));
+		Dock.prototype.make_dock_item = function (entry) {
+			const $item = made.call(this, entry);
+			if ($item && flat().has(entry.icon)) {
+				const twin = frappe.utils.icon(`${entry.icon}-flat`, "md", "", "", "one-flat");
+				$item.find(".dock-item-icon").append(twin);
+			}
+			return $item;
+		};
+	}
+}
+
 onedesk.window.frame();
 $(document).on("app_ready", () => frappe.realtime.on("one_frame", (said) => onedesk.window.frame(said.colour, said.ink)));

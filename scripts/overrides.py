@@ -1802,6 +1802,13 @@ OVERRIDES = [
 		'<div class="dock-user">',
 	),
 	(
+		"On a workspace's colour the rail shows each app's flat mark",
+		"their dock draws every entry's icon as it is; window/chrome.js wraps Dock.make_dock_item and adds the mark's flat twin beside it, which chrome.css shows on a workspace's frame colour",
+		"onedesk/public/js/window/chrome.js",
+		"frappe/frappe/public/js/frappe/ui/sidebar/dock.js",
+		'<span class="dock-item-icon">${icon}</span>',
+	),
+	(
 		"Search leaves out the record types only apps turned off list",
 		"their awesomebar offers every record type the reader may read; apps.js wraps AwesomeBar.build_options and drops a result whose route names one of them",
 		"onedesk/public/js/apps.js",
