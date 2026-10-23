@@ -47,7 +47,9 @@ BOUND_KEY = "one_sheet_bound_doctypes"
 def columns(fields: list[dict], picked: list[str] | None = None) -> list[dict]:
 	"""The hidden row id, then the table's columns as the form's grid shows
 	them: the ones chosen on the grid's gear when there are any (`picked`),
-	else the fields in its list view; and the required ones either way.
+	else the fields in its list view. A required field the grid does not show
+	is left to the record's save, which fills it as it does for the grid (an
+	item's name, units, dates, company-currency twins) or refuses naming it.
 	Formatted text is a column only when asked for. Pure."""
 	usable = [
 		df
@@ -57,9 +59,8 @@ def columns(fields: list[dict], picked: list[str] | None = None) -> list[dict]:
 	by = {df["fieldname"]: df for df in usable}
 	if picked:
 		chosen = [by[name] for name in picked if name in by]
-		chosen += [df for df in usable if df.get("reqd") and df["fieldname"] not in picked]
 	else:
-		chosen = [df for df in usable if df.get("in_list_view") or df.get("reqd")] or usable[:8]
+		chosen = [df for df in usable if df.get("in_list_view")] or usable[:8]
 	out, seen = [{"fieldname": "name", "header": MARK, "fieldtype": "Data", "read_only": True}], set()
 	for df in chosen[:MOST_COLUMNS]:
 		header = _(df.get("label")) if df.get("label") else df["fieldname"]
@@ -75,6 +76,7 @@ def columns(fields: list[dict], picked: list[str] | None = None) -> list[dict]:
 				"link": df.get("options") if df["fieldtype"] == "Link" else None,
 				"precision": int(df["precision"]) if str(df.get("precision") or "").strip().isdigit() else None,
 				"read_only": bool(df.get("read_only") or df["fieldtype"] == "Read Only" or (df.get("fetch_from") and not df.get("fetch_if_empty"))),
+				"reqd": bool(df.get("reqd")),
 			}
 		)
 	return out

@@ -99,7 +99,10 @@ def test_a_table_sheet_reads_back_as_the_table():
 	assert cols[2]["options"] == ["Supply", "Fit"] and cols[4]["read_only"]
 	fields.append({"fieldname": "free", "label": "Free", "fieldtype": "Check"})
 	picked = room["columns"](fields, ["free", "qty", "notes"])
-	assert [col["fieldname"] for col in picked] == ["name", "free", "qty", "notes", "item_code"], "the grid's gear decides, formatted text too, and required stays"
+	assert [col["fieldname"] for col in picked] == ["name", "free", "qty", "notes"], "the grid's gear decides, formatted text too"
+	fields.append({"fieldname": "base_amount", "label": "Amount (Company Currency)", "fieldtype": "Currency", "reqd": 1, "read_only": 1})
+	assert "base_amount" not in [col["fieldname"] for col in room["columns"](fields)], "a required field the grid hides is the record's to fill"
+	assert cols[1]["reqd"] and not cols[3]["reqd"]
 
 	assert room["shown"](420.0, "Float") == "420" and room["shown"](6.75, "Currency") == "6.75" and room["shown"](0, "Check") == "FALSE"
 	assert room["taken"]("1,260", cols[3]) == (1260.0, None)
@@ -193,7 +196,7 @@ def test_a_branded_sheet_is_laid_out_under_the_company():
 	room = {"re": re}
 	_lifted(SHEET / "cells.py", ("letters",), room)
 	heads = _lifted(SHEET.parent / "one" / "letter_heads.py", ("INK", "_rgb", "_luminance", "_contrast", "on"), {})
-	_lifted(SHEET / "style.py", ("WORKED", "LINE", "MUTED", "TOTALS", "FIRST", "KINDS", "META", "TYPED_FIELD", "WORKED_FIELD", "tint", "header", "number_format", "width", "table", "branded"), room)
+	_lifted(SHEET / "style.py", ("WORKED", "LINE", "MUTED", "TOTALS", "FIRST", "KINDS", "META", "TYPED_FIELD", "WORKED_FIELD", "UNSET_AT_ZERO", "tint", "header", "number_format", "width", "table", "branded"), room)
 	room["frappe"] = None
 	room["letter_heads"] = SimpleNamespace(on=heads["on"])
 	assert room["tint"]("#000000", 0.1) == "#E6E6E6" and room["tint"]("#FFF", 0.5) == "#FFFFFF"
@@ -222,11 +225,13 @@ def test_a_branded_sheet_is_laid_out_under_the_company():
 	assert looks["cols"]["6"] == {"numberFormat": "currency:AED:2"}, "typed: a zero shows"
 	assert looks["rows"]["0"]["backgroundColor"] == "#FFFFFF", "the top stays white"
 	assert laid["view"]["freezeRows"] == 5 and laid["view"]["freezeCols"] == 1 and laid["view"]["colW"]["1"] == 300
-	cols = [{"fieldname": "name", "fieldtype": "Data"}, {"fieldname": "qty", "fieldtype": "Float"}, {"fieldname": "amount", "fieldtype": "Currency", "read_only": True}]
+	cols = [{"fieldname": "name", "fieldtype": "Data"}, {"fieldname": "qty", "fieldtype": "Float", "reqd": True}, {"fieldname": "amount", "fieldtype": "Currency", "read_only": True}]
 	look = room["table"](cols, "#1F6FEB", "AED", {"Currency": 2, "Float": 3})
 	assert room["table"]([cols[0], {**cols[2], "precision": 4}], "#1F6FEB", "AED", {"Currency": 2})["formats"]["cols"]["1"]["numberFormat"] == "currency:AED:4", "a field's own precision first"
 	assert look["formats"]["rows"]["0"]["backgroundColor"] == "#1F6FEB"
 	assert look["formats"]["cols"]["1"] == {"numberFormat": "number:us:3"}
+	sized = room["table"]([cols[0], {"fieldname": "one_width", "fieldtype": "Float"}], "#1F6FEB", "AED", {"Float": 3})
+	assert sized["formats"]["cols"]["1"]["numberFormat"] == "number:us:3;", "a size a line does not use is blank, a required number shows its zero"
 	assert look["formats"]["cols"]["2"]["numberFormat"] == "currency:AED:2" and look["formats"]["cols"]["2"]["backgroundColor"] == "#F5F5F4"
 
 

@@ -104,10 +104,17 @@ def header(colour: str) -> dict:
 	return {"bold": True, "color": letter_heads.on(colour), "backgroundColor": colour, "valign": "middle", "textWrap": "wrap"}
 
 
+#: Numbers a line leaves at zero when it has none, a size or a count it does
+#: not use: blank in a table sheet, as on the form. A required one and money
+#: show their zero.
+UNSET_AT_ZERO = ("Int", "Float", "Percent")
+
+
 def table(cols: list[dict], colour: str, currency: str = "", precisions: dict | None = None) -> dict:
 	"""A record's table sheet: the header on the company's colour, numbers
-	formatted as their fields are (a field's own precision first), what the record works out in grey, and
-	widths by kind. Answers {"formats", "colW", "rowH"}. Pure."""
+	formatted as their fields are (a field's own precision first; an optional
+	one blank at zero), what the record works out in grey, and widths by kind.
+	Answers {"formats", "colW", "rowH"}. Pure."""
 	precisions = precisions or {}
 	formats = {"cells": {}, "cols": {}, "rows": {"0": header(colour)}}
 	widths = {"0": 40}
@@ -118,7 +125,7 @@ def table(cols: list[dict], colour: str, currency: str = "", precisions: dict | 
 		own = col.get("precision")
 		kind = number_format(col["fieldtype"], currency, own if own is not None else precisions.get(col["fieldtype"]))
 		if kind:
-			held["numberFormat"] = kind
+			held["numberFormat"] = kind + (";" if col["fieldtype"] in UNSET_AT_ZERO and not col.get("reqd") else "")
 		if col.get("read_only"):
 			held["color"] = MUTED
 			held["backgroundColor"] = WORKED

@@ -390,8 +390,15 @@ and AI settings are taken out; `cells.py` keeps the cell helpers they shared.
 so who may open or save it is who may read or write the record
 (`namespace.may` already answers attached files that way). `columns` takes
 the columns the opener chose on the grid's gear (`GridView` in their user
-settings), else the child table's list-view fields, and the required ones
-either way, at most 20, with the row `name` first; their headers are stored in `bound_columns` once, so the
+settings), else the child table's list-view fields, at most 20, with the
+row `name` first: the grid's columns and no more. A required field the grid
+does not show is left to the record's save, which fills it as it does for
+the grid (on a purchase order line the item's name, units, conversion
+factor, date, warehouse and company-currency twins) or refuses naming it,
+and the gear adds it; adding every required field put Stock UOM and the
+company-currency rate and amount in every order's sheet. `style.table`
+leaves an optional Int, Float or Percent blank at zero (`;` on its format),
+so a profile's unused width and height are empty, not 0.000; their headers are stored in `bound_columns` once, so the
 sheet is read by the headers it was drawn with whatever language the next
 person reads in. `laid` draws the sheet: the row ids in a hidden first
 column, the header frozen, the header, id and worked-out columns (read
