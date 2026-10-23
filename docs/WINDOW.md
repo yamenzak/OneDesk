@@ -109,9 +109,8 @@ toward the page. Everything on the frame (text, icons, the rail's marker,
 badges) draws in that ink, and on a workspace's colour the rail shows each
 app's flat mark, since a mark of the frame's hue would vanish: the same shape
 in that ink with its white parts cut back to the frame, generated beside the
-coloured one by `scripts/icons.py` as `NAME-flat`. The app you are in and the
-tile under the pointer keep their colours. Saving it reaches open screens at
-once (`one_frame`).
+coloured one by `scripts/icons.py` as `NAME-flat`, the app you are in as
+well. Saving it reaches open screens at once (`one_frame`).
 
 ## Where it lives
 

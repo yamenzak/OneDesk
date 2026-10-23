@@ -273,7 +273,7 @@ def test_the_rails_marks_go_flat_on_a_workspace_colour():
 	workspace's colour the rail shows each mark's flat twin, generated beside it
 	from the same SVG: no filter, no shadow, no box behind it."""
 	chrome_css = (WINDOW_CSS / "chrome.css").read_text(encoding="utf-8")
-	assert ':root[data-one-frame="brand"] body.one-barred .dock-item:not(.active):not(:hover) .dock-item-icon > svg.one-flat' in chrome_css
+	assert ':root[data-one-frame="brand"] body.one-barred .dock-item .dock-item-icon > svg.one-flat' in chrome_css
 	assert "drop-shadow" not in chrome_css and "background-clip: content-box;" not in chrome_css
 	assert 'frappe.utils.icon(`${entry.icon}-flat`' in CHROME
 	icons = json.loads((tree.APP / "fixtures" / "custom_icon.json").read_text(encoding="utf-8"))

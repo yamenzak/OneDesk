@@ -606,8 +606,8 @@ body.one-barred .dock-item.active::before {
 /* An app's mark is drawn for a light page, and on a frame of its own hue (a
    red OneMail on a red frame) it all but disappears. On a workspace's own
    colour the rail shows each mark's flat twin instead (scripts/icons.py): the
-   shape in the frame's ink with its white parts cut back to the frame. The app
-   you are in, and the tile under the pointer, keep their colours. One's own
+   shape in the frame's ink with its white parts cut back to the frame, the app
+   you are in as well; the marker beside it says which one that is. One's own
    dark frame keeps every mark in colour. */
 .one-fill-ground {
 	fill: var(--one-frame);
@@ -621,14 +621,14 @@ body.one-barred .dock-item-icon .one-flat {
 	display: none;
 }
 
-:root[data-one-frame="brand"] body.one-barred .dock-item:not(.active):not(:hover) .dock-item-icon:has(.one-flat) {
+:root[data-one-frame="brand"] body.one-barred .dock-item .dock-item-icon:has(.one-flat) {
 	color: var(--one-frame-ink-strong);
 }
 
-:root[data-one-frame="brand"] body.one-barred .dock-item:not(.active):not(:hover) .dock-item-icon:has(.one-flat) > svg {
+:root[data-one-frame="brand"] body.one-barred .dock-item .dock-item-icon:has(.one-flat) > svg {
 	display: none;
 }
 
-:root[data-one-frame="brand"] body.one-barred .dock-item:not(.active):not(:hover) .dock-item-icon > svg.one-flat {
+:root[data-one-frame="brand"] body.one-barred .dock-item .dock-item-icon > svg.one-flat {
 	display: block;
 }
