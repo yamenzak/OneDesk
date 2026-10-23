@@ -488,7 +488,7 @@ Reports: YouTube Interactions (left out: ERPNext's library of YouTube help video
 | Auto Repeat | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  | Repeat Failed |
 | Automation Event Subscription | engine: what an Automation listens for | **nobody** | untouched | no | general |  | **none** |  |  | ar 6, de 6 |  |
 | Automation Flow | on a rail or a home | the administrator | events, form script | no | taught |  | **none** |  |  |  |  |
-| Automation Run | engine: each time an Automation ran | **nobody** | untouched | no | general |  | **none** |  |  | ar 9, de 9 |  |
+| Automation Run | engine: each time an Automation ran | **nobody** | untouched | no | general |  | **none** |  |  | ar 8, de 8 |  |
 | Automation Settings | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  | ar 13, de 12 |  |
 | Automation Trigger Queue | engine: Automations waiting to run | **nobody** | untouched | no | general |  | **none** |  |  | ar 9, de 9 |  |
 | Milestone | engine: when a record reached each status, for the reports that time them | **nobody** | untouched | no | taught |  | yes |  |  |  |  |

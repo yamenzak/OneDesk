@@ -52,3 +52,25 @@ def test_a_private_app_stays():
 	assert "(*COMPANIONS, *private.names())" in companions and "| private.rail()" in companions
 	proxy = (tree.APP / "one_admin" / "proxy.py").read_text()
 	assert "limit=CLAIMS_AN_HOUR" in proxy and "def app_claim(" in proxy
+
+
+def test_one_never_reaches_into_a_private_app():
+	"""A private app plugs into One through One's hooks; One knows none of
+	them. Its code never names one, its tests live in the app, and One's
+	translations are not extracted from it (babel_extractors.csv)."""
+	import re
+
+	private = tree.ROOT / "private"
+	names = sorted(path.name for path in private.iterdir() if (path / path.name / "hooks.py").exists())
+	assert names, "no private app to check against"
+	said = re.compile(r"\b(?:import|from)\s+(?:" + "|".join(map(re.escape, names)) + r")\b|[\"'](?:" + "|".join(map(re.escape, names)) + r")\.")
+	found = [
+		str(path.relative_to(tree.ROOT))
+		for root in (tree.APP, tree.ROOT / "frontend" / "src", tree.ROOT / "scripts")
+		for path in root.rglob("*")
+		if path.suffix in (".py", ".js", ".vue", ".ts") and "node_modules" not in path.parts and "dist" not in path.parts
+		and said.search(path.read_text(encoding="utf-8", errors="ignore"))
+	]
+	assert not found, f"One reaches into a private app: {found}"
+	assert not [path.name for path in (tree.ROOT / "tests").rglob("test_*.py") if any(name in path.stem for name in names)], "a private app's tests belong in the app"
+	assert (tree.ROOT / "babel_extractors.csv").read_text().splitlines()[0] == "private/**,ignore"

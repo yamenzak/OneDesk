@@ -137,8 +137,8 @@ you have selected with what they hold, so "total this column" or "a margin
 formula in F2:F5" is about what you selected. Writing cells is a card you
 approve. Each question costs credits like any other OneAI request.
 
-From any page it also knows workbooks: "find the C-28
-costing", "what does the Gulf sheet charge for powder coating?", "make me a
+From any page it also knows workbooks: "find the school
+job's costing", "what does the aluminium sheet charge for powder coating?", "make me a
 workbook for this week's deliveries with a total", "put a margin formula in
 column G and make the header bold", "leave a note on D14 that the rate is
 from June". It finds and reads a workbook as it answers. Making one,
@@ -524,7 +524,7 @@ white or ink reads on the company's colour (`letter_heads.on`, also
 `BRAND("on_colour")`), and a `lines` rule rather than lines: what each
 line works out, in grey, and the key figures marked, are column formats,
 and a zero there is blank (`;` at the end of a number format). Only the
-item column is frozen. Rua's costing templates are built with it. Formats are the
+item column is frozen. A private app's costing templates are built with it. Formats are the
 editor's own shapes: `formats` per sheet as `cells`, `cols` and `rows`;
 `merge` as `masterMap` and `slaveMap`; `view` as widths, heights and frozen
 rows and columns; `lines` as `{from, key, formulas}`, `{r}` the line, which

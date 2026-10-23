@@ -15,6 +15,15 @@ repository under `private/<app>`, beside One, so a change to One and the
 app it breaks land in one commit; `private/rua` is the first. On a bench,
 `apps/<app>` is a link to that folder.
 
+The line between them runs one way. The app reaches into One through the
+hooks One declares (`one_verbs`, `one_record_notices`, its own fields and
+records); One never names the app: no import, no hook path, no example in
+its docs. The app's tests live in `private/<app>/tests` (a plain `pytest`
+from the root runs them), its words in its own `locale`, and One's
+catalogue skips `private/` (`private/**,ignore`, first in
+`babel_extractors.csv`), so One ships none of a customer's strings.
+`tests/test_private.py` holds the line.
+
 - **`hooks.py`** says it needs One, and that it is a private app:
 
   ```python

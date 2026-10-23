@@ -2245,8 +2245,9 @@ sentences under it and a colour, or nothing, and the names of the verbs that
 are its buttons. `head.js` draws it as a strip above the fields, and a
 record's own page that draws no head shows it too (the project's Overview,
 from `view.said`'s `notices`). `head.run` takes a notice's verbs as it takes
-the head's. The first is Rua's (private/rua, `rua/settle.py`): whether a client
-still holds retention from invoices made before One, until it is answered.
+the head's. The first came from a private app (docs/PRIVATE-APPS.md): whether
+a client still holds retention from invoices made before One, until it is
+answered.
 
 A verb whose dialog changes money can say what it would change before it is
 done: `live`, a function of the record and the dialog's values, answers rows
@@ -2254,7 +2255,7 @@ of a figure now and after, and a few sentences. `head.foresee` runs it as
 the fields are typed, saving nothing, and the dialog draws it as a Table
 field of figures under the fields, or where the verb's fields put a field
 named `one_live`, with the sentences as its description.
-Rua's Retention Held is the first to use it.
+A private app's Retention Held is the first to use it.
 
 A form of ours used to say all this in a script per doctype: an overview
 method worked the numbers out, and the script drew them under the title and

@@ -3,14 +3,9 @@ old app meant them. See private/rua/README.md."""
 
 import ast
 import re
-import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
-
-import tree
-
-RUA = tree.APP.parent / "private" / "rua" / "rua"
+RUA = Path(__file__).resolve().parents[1] / "rua"
 IMPORTER = RUA / "importer"
 
 
