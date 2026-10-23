@@ -152,10 +152,10 @@ frappe's own `frappe.ui.Tabs`, sharing the bar's width, each an icon
 
 The record's files are not a tab in the row: beside frappe's print and
 like in the sidebar's head, OneCloud's mark, with the file count, opens the
-record's folder (`@records/<doctype>/<name>`) under the tabs, in the Files
-record tab's place. That tab is still built and opened as ever, only kept
-out of the row (`.one-tab-off`), so the mark is pressed while the files
-show and any tab leads back to what was being done; the row gets the room.
+record's folder (`@records/<doctype>/<name>`) in a dialog over the record
+(`onedesk.record_files.dialog`), OneCloud edge to edge under its title;
+closing it leaves the record exactly as it was. The Files record tab is not
+built while the panel is there, which gives the record's own tabs the room.
 
 A tab with nothing for the record is not shown; a new record has no panel.
 The tab somebody picks is kept per doctype. The Activity and Mail record

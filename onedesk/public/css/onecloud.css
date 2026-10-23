@@ -859,6 +859,18 @@
 	margin-top: 0;
 }
 
+/* A record's folder in its dialog: OneCloud fills the dialog under its
+   title, edge to edge, with no frame of its own inside the dialog's. */
+.one-files-dialog .modal-body,
+.one-files-dialog .form-section .section-body {
+	padding: 0;
+}
+
+.one-files-dialog .oc.oc-room {
+	height: min(640px, calc(100vh - 160px));
+	border-bottom: 0;
+}
+
 .oc-room:not(.oc-deep) [data-act="back"],
 .oc-room:not(.oc-deep) [data-act="forward"],
 .oc-room:not(.oc-deep) [data-act="up"] {

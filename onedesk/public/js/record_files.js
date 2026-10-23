@@ -45,6 +45,26 @@ onedesk.record_files.listed = (frm, count) => {
 	if (count !== known && frm.sidebar && frm.sidebar.reload_docinfo) frm.sidebar.reload_docinfo();
 };
 
+// The record's folder over the record, in a dialog: closing it leaves the
+// record as it was. Where the record panel is, this is how its files open.
+onedesk.record_files.dialog = (frm) => {
+	const dialog = new frappe.ui.Dialog({
+		title: __("Files of {0}", [frm.get_title() || frm.doc.name]),
+		size: "extra-large",
+		fields: [{ fieldtype: "HTML", fieldname: "files" }],
+	});
+	dialog.$wrapper.addClass("one-files-dialog");
+	dialog.show();
+	frappe.require(["/assets/onedesk/css/onecloud.css", "/assets/onedesk/js/onecloud.js"]).then(() => {
+		new onedesk.OneCloud(null, {
+			room: onedesk.record_files.room(frm),
+			parent: dialog.fields_dict.files.$wrapper,
+			listed: (count) => onedesk.record_files.listed(frm, count),
+		});
+	});
+	return dialog;
+};
+
 onedesk.record_files.open = (frm) => {
 	const field = frm.fields_dict[onedesk.record_tabs.FIELD("files")];
 	if (!field || frm.is_new()) return;
@@ -66,5 +86,6 @@ onedesk.record_tabs.register("files", {
 		onedesk.record_files.count(frm, ((frm.get_docinfo() || {}).attachments || []).length);
 	},
 	open: (frm) => onedesk.record_files.open(frm),
+	wanted: (frm) => !(onedesk.window.panelled && onedesk.window.panelled(frm)),
 	opened: (frm, field) => Boolean(field && field.onecloud),
 });
