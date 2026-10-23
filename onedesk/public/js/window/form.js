@@ -68,21 +68,12 @@ onedesk.window.edited = (doc) => {
 	return [__("Edited {0} by {1}", [frappe.datetime.prettyDate(doc.modified), by(doc.modified_by)]), created].join(" · ");
 };
 
-// A form's tags sit under its edit, print and like icons: beside its picture
-// where it has one, in the space the picture leaves there, and otherwise on a
-// line of their own under its title. frappe's TagEditor moves with them.
+// A form's tags sit on a line of their own under its title, on every record,
+// with or without a picture. frappe's TagEditor moves with them.
 onedesk.window.tags_beside = ($sidebar) => {
 	const $tags = $sidebar.find(".form-tags").addClass("one-side-tags");
-	const $likes = $sidebar.find(".sidebar-image-section:not(.hide) > .form-stats-likes, .sidebar-image-section:not(.hide) > .one-side-corner > .form-stats-likes").first();
-	if (!$tags.length) return;
-	if (!$likes.length) {
-		const $meta = $sidebar.find(".sidebar-meta-details");
-		if ($tags.parent()[0] !== $meta[0]) $tags.appendTo($meta);
-		return;
-	}
-	let $corner = $likes.parent(".one-side-corner");
-	if (!$corner.length) $corner = $(`<div class="one-side-corner"></div>`).insertBefore($likes).append($likes);
-	if ($tags.parent()[0] !== $corner[0]) $corner.append($tags);
+	const $meta = $sidebar.find(".sidebar-meta-details");
+	if ($tags.length && $meta.length && $tags.parent()[0] !== $meta[0]) $tags.appendTo($meta);
 };
 
 // A form's tabs on one row: those that do not fit fold into More at its end,
