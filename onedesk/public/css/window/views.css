@@ -426,8 +426,7 @@
 		margin: 0;
 	}
 
-	.one-window .one-panel-pane .form-stats .indicator-column.one-said,
-	.one-window .one-panel-pane .form-stats:not(:has(.indicator-column:not(.one-said))) {
+	.one-window .one-panel-head .one-stats > .one-said {
 		display: none;
 	}
 

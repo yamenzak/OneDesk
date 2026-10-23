@@ -132,7 +132,11 @@ frappe's own `frappe.ui.Tabs`:
   drawn here by `onedesk.band.put` instead of above the fields, so a record
   opens on its fields; under it frappe's own dashboard sections (its stats,
   heatmap, graph and progress, and any a doctype adds), its stats as figure
-  rows, and a stat the head already shows by the same name left out.
+  rows. Where our head declares a figure frappe's dashboard already shows
+  by the same name, frappe's is kept and ours steps aside: the framework's
+  answer wins, and our copy is left for the doctype pass to delete. It is
+  all automatic, for every doctype, and styled once by frappe's own classes
+  (`.form-stats`, `.form-heatmap`, `.form-graph`).
 - **Activity**: frappe's comments and timeline (`frm.footer`), moved here.
 - **Mail**: the record's mail (`onedesk.record_mail.open`), drawn when the
   tab is first shown.

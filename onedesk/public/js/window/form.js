@@ -99,7 +99,14 @@ onedesk.window.panel = (frm, $sidebar) => {
 	const $panel = $(`<div class="sidebar-section one-panel"></div>`).append(tabs.$el);
 	const $after = $sidebar.find(".form-shared").first();
 	$after.length ? $panel.insertAfter($after) : $panel.appendTo($sidebar);
-	frm.one_panel = { tabs, panes, head, sections, $panel };
+	// frappe's stats arrive from a doctype's refresh, after the panel has drawn.
+	const watch = new MutationObserver(() => {
+		onedesk.window.indicators(sections, head);
+		const i = names.indexOf("overview");
+		tabs.tabs[i].button.hidden = !(head.children().length || sections.children(":not(.hide-control)").length);
+		tabs.position_indicator();
+	});
+	frm.one_panel = { tabs, panes, head, sections, $panel, watch };
 	return frm.one_panel;
 };
 
@@ -121,6 +128,7 @@ onedesk.window.panel_refresh = (frm) => {
 	if (links && links.length && !$.contains(panel.panes.connections[0], links[0])) panel.panes.connections.append(links);
 	if (dashboard && dashboard.parent) panel.sections.append(dashboard.parent.children(".form-dashboard-section"));
 	onedesk.window.indicators(panel.sections, panel.head);
+	panel.watch.observe(panel.sections[0], { childList: true, subtree: true });
 	const has = {
 		overview: panel.head.children().length > 0 || panel.sections.children(":not(.hide-control)").length > 0,
 		activity: !!(footer && footer.length),
@@ -158,8 +166,9 @@ onedesk.window.panel_show = (frm, name) => {
 };
 
 // frappe's stats say "Annual Billing: 92,400.00" in one span; in the
-// panel they are figures, the name on the left and the value on the right,
-// and one the head already shows is not shown twice.
+// panel they are figures, the name on the left and the value on the right.
+// Where our head shows a figure by the same name, frappe's is the one kept
+// and ours steps aside.
 onedesk.window.indicators = ($in, $head) => {
 	$in.find(".indicator-column > .indicator:not([data-one-split])").each((_, el) => {
 		el.dataset.oneSplit = "1";
@@ -169,9 +178,14 @@ onedesk.window.indicators = ($in, $head) => {
 		if (at < 0) return;
 		$(el).empty().append($(`<span class="one-indicator-label">`).text(text.slice(0, at)), $(`<span class="one-indicator-value">`).text(text.slice(at + 2)));
 	});
-	const said = new Set($head.find(".es-stat-card__label").map((_, el) => el.textContent.trim().toLowerCase()).get());
-	$in.find(".indicator-column").each((_, el) => {
-		const label = $(el).find(".one-indicator-label").text().trim().toLowerCase();
+	const said = new Set(
+		$in
+			.find(".form-stats:not(.hide-control) .one-indicator-label")
+			.map((_, el) => el.textContent.trim().toLowerCase())
+			.get()
+	);
+	$head.find(".one-stats > *").each((_, el) => {
+		const label = $(el).find(".es-stat-card__label").first().text().trim().toLowerCase();
 		$(el).toggleClass("one-said", !!label && said.has(label));
 	});
 };
