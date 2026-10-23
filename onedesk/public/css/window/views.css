@@ -124,7 +124,7 @@
    fit folded into More; its ‹ › sit beside Up as the window's own buttons do.
    Its sidebar is frappe's, as frappe draws it, without who edited and made
    the record, which the status says, and without its files where the Files
-   tab holds them. */
+   tab holds them; who else has it open is a row above Assign. */
 @media (min-width: 768px) {
 	/* A form's own buttons (frappe's custom actions and their groups) as one
 	   run in the command row. */
@@ -197,6 +197,10 @@
 	.one-window[data-one-view="form"] .form-sidebar .modified-by,
 	.one-window[data-one-view="form"] .form-sidebar .created-by,
 	.one-window[data-one-view="form"] .form-sidebar .form-attachments.one-files-side {
+		display: none;
+	}
+
+	.one-window .form-sidebar .one-viewers:has(.form-viewers:empty) {
 		display: none;
 	}
 }

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-23 19:42+0000\n"
-"PO-Revision-Date: 2026-10-23 19:42+0000\n"
+"POT-Creation-Date: 2026-10-23 21:43+0000\n"
+"PO-Revision-Date: 2026-10-23 21:43+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -9515,7 +9515,7 @@ msgstr ""
 msgid "Created By"
 msgstr ""
 
-#: onedesk/public/js/window/form.js:60
+#: onedesk/public/js/window/form.js:66
 msgid "Created {0} by {1}"
 msgstr ""
 
@@ -13097,7 +13097,7 @@ msgstr ""
 msgid "Edited text is no longer translated."
 msgstr ""
 
-#: onedesk/public/js/window/form.js:62
+#: onedesk/public/js/window/form.js:68
 msgid "Edited {0} by {1}"
 msgstr ""
 
@@ -23676,7 +23676,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:1160
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:415
 #: onedesk/one_intake/page/intake/intake.js:30 onedesk/one_sheet/ai.py:227
-#: onedesk/public/js/project_actions.js:651 onedesk/public/js/window/form.js:70
+#: onedesk/public/js/project_actions.js:651 onedesk/public/js/window/form.js:89
 msgid "More"
 msgstr ""
 
@@ -45922,6 +45922,10 @@ msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:84
 msgid "View only"
+msgstr ""
+
+#: onedesk/public/js/window/form.js:78
+msgid "Viewing now"
 msgstr ""
 
 #: frontend/src/task/MyTasks.vue:4

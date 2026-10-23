@@ -50,7 +50,10 @@ onedesk.window.adapt("form", () => {
 		Sidebar.prototype.refresh = function (...args) {
 			const said = refresh.apply(this, args);
 			const win = this.frm.page && this.frm.page.window;
-			if (win) win.view({ status: onedesk.window.edited(this.frm.doc) });
+			if (win) {
+				win.view({ status: onedesk.window.edited(this.frm.doc) });
+				onedesk.window.viewers(this.frm, this.sidebar);
+			}
 			return said;
 		};
 	}
@@ -63,6 +66,19 @@ onedesk.window.edited = (doc) => {
 	const created = __("Created {0} by {1}", [frappe.datetime.prettyDate(doc.creation), by(doc.owner)]);
 	if (!doc.modified || doc.modified === doc.creation) return created;
 	return [__("Edited {0} by {1}", [frappe.datetime.prettyDate(doc.modified), by(doc.modified_by)]), created].join(" · ");
+};
+
+// Who else has the record open: frappe's own avatars (frm.viewers, kept live
+// over realtime), moved out of the command row into a sidebar row above
+// Assign, shown only while somebody is there.
+onedesk.window.viewers = (frm, $sidebar) => {
+	const $viewers = frm.viewers && frm.viewers.parent;
+	if (!$viewers || !$viewers.length || $viewers.closest(".one-viewers").length) return;
+	const $row = $(
+		`<div class="sidebar-section one-viewers"><div><span class="form-sidebar-items"><span class="form-sidebar-label">${frappe.utils.icon("eye")}<span class="ellipsis">${__("Viewing now")}</span></span></span></div></div>`
+	);
+	$row.find(".form-sidebar-items").append($viewers);
+	$row.insertBefore($sidebar.find(".form-assignments").first());
 };
 
 // A form's tabs on one row: those that do not fit fold into More at its end,

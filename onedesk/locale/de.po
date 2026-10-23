@@ -45835,6 +45835,10 @@ msgstr "Ansehen und bezahlen"
 msgid "View only"
 msgstr "Nur Ansicht"
 
+#: onedesk/public/js/window/form.js:78
+msgid "Viewing now"
+msgstr "Sehen gerade zu"
+
 #: frontend/src/task/MyTasks.vue:4
 msgid "Views"
 msgstr "Ansichten"
