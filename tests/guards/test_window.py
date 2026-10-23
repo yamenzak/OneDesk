@@ -269,9 +269,10 @@ def test_the_app_you_are_in_is_marked_on_the_rails_edge():
 
 def test_the_rails_marks_stand_out_on_any_frame_colour():
 	"""An app's mark on a frame of its own hue all but disappears, so on a
-	workspace's colour (light theme) the marks on the rail's app list sit on
-	plates of the page's surface. The rail's other tiles (the apps grid) draw
-	in the frame's ink, which already flips with the colour, and keep none."""
+	workspace's colour (light theme) each mark on the rail's app list wears a
+	thin outline of the page's surface that follows its shape: an SVG filter,
+	never a box behind it and never a CSS shadow."""
 	chrome_css = (WINDOW_CSS / "chrome.css").read_text(encoding="utf-8")
-	assert ':root[data-one-frame="brand"]:not([data-theme="dark"]) body.one-barred .dock-items .dock-item {' in chrome_css
-	assert "background-clip: content-box;" in chrome_css
+	assert ':root[data-one-frame="brand"]:not([data-theme="dark"]) body.one-barred .dock-items .dock-item-icon {\n\tfilter: url(#one-mark-edge);' in chrome_css
+	assert "background-clip: content-box;" not in chrome_css
+	assert '<filter id="one-mark-edge"' in CHROME and 'operator="dilate"' in CHROME and 'flood-color="currentColor"' in CHROME

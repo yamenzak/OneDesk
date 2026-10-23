@@ -47,6 +47,15 @@ $.extend(onedesk.window, {
 		</footer>`).appendTo(document.body);
 		$top.find(".one-bar-name").text(frappe.boot.one_workspace_name || frappe.boot.sysdefaults?.company || "");
 		$("body").addClass("one-barred");
+		// The outline an app's mark wears on a workspace's colour (chrome.css):
+		// its own shape grown by a pixel and a half, in the page's surface,
+		// under the mark.
+		$(`<svg class="one-mark-edge" aria-hidden="true" focusable="false"><filter id="one-mark-edge" x="-20%" y="-20%" width="140%" height="140%">
+			<feMorphology in="SourceAlpha" operator="dilate" radius="1.5" result="grown"></feMorphology>
+			<feFlood flood-color="currentColor"></feFlood>
+			<feComposite in2="grown" operator="in" result="edge"></feComposite>
+			<feMerge><feMergeNode in="edge"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+		</filter></svg>`).appendTo(document.body);
 		const $bars = $top.add($bottom);
 		const tip = (el) =>
 			new frappe.ui.Tooltip(el, {
