@@ -20,7 +20,6 @@ SECTIONS = [
 	("signin", _lt("Sign-in"), "key-round", "you"),
 	("memory", _lt("What OneAI Remembers"), "brain", "you"),
 	("reads", _lt("What OneAI Reads"), "oneintake", "you"),
-	("agreements", _lt("Agreements"), "scale", "you"),
 	("general", _lt("General"), "building-2", "workspace"),
 	("people", _lt("People"), "users", "workspace"),
 	("access", _lt("Access"), "shield-check", "workspace"),
@@ -175,7 +174,6 @@ def load(
 		"signin": _signin,
 		"memory": _memory,
 		"reads": _reads,
-		"agreements": _agreements,
 		"general": _general,
 		"people": _people,
 		"access": _access,
@@ -607,57 +605,6 @@ def forget_all() -> dict:
 	for name in frappe.get_all("AI Memory", filters={"owner": frappe.session.user}, pluck="name"):
 		frappe.delete_doc("AI Memory", name)
 	return _memory()
-
-
-def _agreements() -> dict:
-	"""Every agreement: what the reader agreed to themselves, what the
-	organisation agreed to and who agreed for it, and what is only published.
-	Read from the rows OneLegal's own gate writes, never a second copy."""
-	from onedesk.one_legal import assemble, gate
-	from onedesk.one_legal.documents import DOCUMENTS
-
-	def last(key: str, party: str) -> dict | None:
-		filters = {"document": key, "party": party}
-		if party == gate.USER:
-			filters["user"] = frappe.session.user
-		rows = frappe.get_all(
-			"Legal Acceptance",
-			filters=filters,
-			fields=["version", "user", "accepted_on"],
-			order_by="creation desc",
-			limit=1,
-			ignore_permissions=True,
-		)
-		if not rows:
-			return None
-		row = rows[0]
-		return {
-			"version": row.version,
-			"owed": not gate.agreed(row.version, assemble.version_of(key)),
-			"on": frappe.utils.formatdate(row.accepted_on),
-			"by": frappe.utils.get_fullname(row.user) if party == gate.WORKSPACE else None,
-		}
-
-	documents = []
-	for key, one in DOCUMENTS.items():
-		version = assemble.version_of(key)
-		parties = gate.AUDIENCE.get(one["audience"], ())
-		title, summary = one["title"], one["summary"]
-		documents.append(
-			{
-				"key": key,
-				"title": _(title),
-				"summary": _(summary),
-				"version": version,
-				"you": {"current": version, "owed": True, **(last(key, gate.USER) or {})}
-				if gate.USER in parties
-				else None,
-				"organisation": {"current": version, "owed": True, **(last(key, gate.WORKSPACE) or {})}
-				if gate.WORKSPACE in parties
-				else None,
-			}
-		)
-	return {"documents": documents, "admin": roles.administers()}
 
 
 def _company():

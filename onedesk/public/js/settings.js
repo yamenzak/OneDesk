@@ -29,7 +29,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this.route = group === "workspace" ? "workspace-settings" : "settings";
 		this.$section = page.$shell;
 		this.kept = {};
-		$(document).on("legal-agreed", () => this.key === "agreements" && this.open("agreements"));
 		frappe.realtime.on("one_mailbox", () => this.key === "mail" && this.$content && this.$content.is(":visible") && this.refresh());
 		frappe.realtime.on("one_memory", () => this.key === "memory" && this.$content && this.$content.is(":visible") && this.refresh());
 		frappe.realtime.on("one_privacy", () => this.key === "profile" && this.$content && this.$content.is(":visible") && this.refresh());
@@ -42,6 +41,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		if (!this.said) this.said = await frappe.xcall(Settings.API + "sections");
 		const mine = this.said.sections.filter((one) => one.group === this.group_name);
 		const params = frappe.utils.get_query_params();
+		if (params.section === "agreements") return frappe.set_route("legal");
 		const found = mine.find((one) => one.key === params.section) || mine[0];
 		this.for_doctype = params.rule === "new" ? params.for || null : null;
 		if (found)
@@ -722,57 +722,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			},
 		});
 		dialog.show();
-	}
-
-	draw_agreements(data) {
-		const esc = frappe.utils.escape_html;
-		const read = (key, version) =>
-			`/app/legal?document=${encodeURIComponent(key)}${version ? `&version=${encodeURIComponent(version)}` : ""}`;
-		const state = (one, whose) => {
-			if (!one.version) return frappe.ui.badge.html({ label: __("Not Agreed"), theme: "orange" });
-			const when = whose === "organisation" ? __("by {0} on {1}", [one.by, one.on]) : __("on {0}", [one.on]);
-			const was = one.version === one.current ? "" : ` <a href="${read(one.key, one.version)}" target="_blank" rel="noopener" onclick="event.stopPropagation();">${esc(__("View Agreed Version"))}</a>`;
-			if (!one.owed) return `${frappe.ui.badge.html({ label: __("Agreed"), theme: "green" })} <span class="one-shell-quiet">${esc(when)}</span>${was}`;
-			return `${frappe.ui.badge.html({ label: __("Updated"), theme: "orange" })} <span class="one-shell-quiet">${esc(when)}</span>${was}`;
-		};
-		const yours = data.documents.filter((doc) => doc.you);
-		const ours = data.documents.filter((doc) => doc.organisation);
-		const published = data.documents.filter((doc) => !doc.you && !doc.organisation);
-		const owed = data.documents.some((doc) => (doc.you && doc.you.owed) || (data.admin && doc.organisation && doc.organisation.owed));
-		this.$content.html(
-			(owed
-				? `<div class="one-shell-section">${frappe.ui.alert.html({ title: __("Some documents need your agreement."), theme: "yellow" })}
-					<div class="one-shell-actions">${onedesk.shell.button(__("Agree Now"), { "data-agree": "1" }, "solid")}</div></div>`
-				: "") +
-				'<div class="one-shell-section" data-list="you"></div><div class="one-shell-section" data-list="organisation"></div><div class="one-shell-section" data-list="published"></div>'
-		);
-		const table = (key, title, note, docs, whose, actions = "") =>
-			docs.length &&
-			onedesk.shell.table(this.$content.find(`[data-list="${key}"]`), {
-				title,
-				note,
-				rows: docs,
-				icon: "scale",
-				actions,
-				open: (doc) => window.open(read(doc.key), "_blank"),
-				columns: [
-					{ label: __("Document"), render: (doc) => esc(doc.title) },
-					{ label: __("Summary"), render: (doc) => `<span class="one-shell-quiet" title="${esc(doc.summary)}">${esc(doc.summary)}</span>` },
-					...(whose ? [{ label: __("Agreed"), render: (doc) => state({ ...doc[whose], key: doc.key }, whose) }] : []),
-				],
-			});
-		table("you", __("Personal"), __("Only you can agree to these."), yours, "you");
-		table(
-			"organisation",
-			__("Organisation"),
-			__("An administrator agrees for everyone."),
-			ours,
-			"organisation",
-			data.admin ? onedesk.shell.button(__("All Agreements"), { "data-everybody": "1" }, "ghost", "list") : ""
-		);
-		table("published", __("Published"), __("No agreement needed."), published, null);
-		this.$content.find("[data-agree]").on("click", () => onedesk.legal.check());
-		this.$content.find('[data-list="organisation"]').on("click", "[data-everybody]", () => frappe.set_route("List", "Legal Acceptance"));
 	}
 
 	// signing in. Every field is System Settings', Company's or Global Defaults' own.

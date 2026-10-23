@@ -992,7 +992,7 @@ Pages: floor (on a rail or a home); inventory (on a rail or a home); item-view (
 | Legal Acceptance | opened by our screens | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Legal Document Version | engine: each agreement as it was agreed to | the administrator | untouched | no | general |  | yes |  |  |  |  |
 
-Pages: legal (opened by our screens).
+Pages: legal (on a rail or a home).
 
 ## onedesk / One Mail
 

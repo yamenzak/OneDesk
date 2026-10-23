@@ -178,13 +178,11 @@
    "keep_closed": 0,
    "type": "Link",
    "label": "Agreements",
-   "link_to": "settings",
+   "link_to": "legal",
    "link_type": "Page",
    "icon": "scale",
    "child": 1,
-   "route_options": "{\"section\": \"agreements\"}",
-   "idx": 15,
-   "filters": "{\"section\": \"agreements\"}"
+   "idx": 15
   },
   {
    "keep_closed": 0,
@@ -642,7 +640,7 @@
    "filters": "{\"section\": \"intake\"}"
   }
  ],
- "modified": "2026-10-19 05:55:20.075777",
+ "modified": "2026-10-23 13:50:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

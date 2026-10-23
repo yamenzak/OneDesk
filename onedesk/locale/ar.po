@@ -3029,10 +3029,6 @@ msgstr "تجميع الشرائح"
 msgid "Agree"
 msgstr "موافق"
 
-#: onedesk/public/js/settings.js:745
-msgid "Agree Now"
-msgstr "وافق الآن"
-
 #. Label in the One Blanket Order print format
 #: onedesk/one_inventory/print_format/one_blanket_order/one_blanket_order.json
 #: onedesk/public/js/settings.js:735 onedesk/public/js/settings.js:761
@@ -3050,6 +3046,12 @@ msgstr "متفق عليه مع"
 #: frontend/src/item/ItemSuppliers.vue:73
 msgid "Agreed at {0}, {1} left until {2}"
 msgstr "متفق عليه بسعر {0}، يتبقى {1} حتى {2}"
+
+msgid "Agreed on {0}"
+msgstr "تمت الموافقة في {0}"
+
+msgid "Agreed to {0}"
+msgstr "تمت الموافقة على {0}"
 
 #: frontend/src/supplier/SupplierItems.vue:124
 msgid "Agreed until {0}"
@@ -3102,10 +3104,6 @@ msgstr "المحاذاة"
 #: onedesk/public/js/item_list.js:4 onedesk/public/js/settings.js:1303
 msgid "All"
 msgstr "الكل"
-
-#: onedesk/public/js/settings.js:771
-msgid "All Agreements"
-msgstr "جميع الاتفاقيات"
 
 #: onedesk/public/js/desk.js:282
 msgid "All Announcements"
@@ -3571,10 +3569,6 @@ msgstr "يمكن لقالب العنوان أن يذكر حقلًا من حقو�
 #: onedesk/one_admin/tell.py:293
 msgid "An administrator"
 msgstr "أحد المسؤولين"
-
-#: onedesk/public/js/settings.js:768
-msgid "An administrator agrees for everyone."
-msgstr "يوافق مسؤول نيابة عن الجميع."
 
 #. Message of a notification
 #: onedesk/notifications/one/deletion_on_hold.md
@@ -9824,6 +9818,9 @@ msgstr "كلمة المرور الحالية"
 msgid "Current Value"
 msgstr "القيمة الحالية"
 
+msgid "Current Version"
+msgstr "النسخة الحالية"
+
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:55
 msgid "Current plan"
 msgstr "الخطة الحالية"
@@ -12947,6 +12944,9 @@ msgstr "كل محطة عمل، وما يعمل عليها."
 msgid "Earlier"
 msgstr "أقدم"
 
+msgid "Earlier Versions"
+msgstr "نسخ سابقة"
+
 #: frontend/src/project/Money.vue:151
 msgid "Earned"
 msgstr "المكتسب"
@@ -14418,6 +14418,9 @@ msgstr "كل من يعمل هنا يحتاج إلى حساب. أضفهم الآ�
 msgid "Everyone's"
 msgstr "للجميع"
 
+msgid "Everyone's Agreements"
+msgstr "موافقات الجميع"
+
 #: frontend/src/home/BooksHome.vue:89 frontend/src/home/CrmHome.vue:89
 #: frontend/src/home/HrHome.vue:107 frontend/src/home/InventoryHome.vue:105
 #: onedesk/public/js/settings.js:702
@@ -15849,6 +15852,12 @@ msgstr "عن شهر"
 #: onedesk/one_inventory/print_format/one_production_plan/one_production_plan.json
 msgid "For Orders"
 msgstr "للطلبات"
+
+msgid "For You"
+msgstr "لك"
+
+msgid "For Your Organisation"
+msgstr "لمؤسستك"
 
 #: onedesk/one_project/ai.py:54
 msgid "For each subcontractor on this project, what is left to bill, the retention held, any advance not yet set off, and what has been paid."
@@ -24901,10 +24910,6 @@ msgstr "بلا نشاط"
 msgid "No add-ons available"
 msgstr "لا توجد إضافات متاحة"
 
-#: onedesk/public/js/settings.js:773
-msgid "No agreement needed."
-msgstr "لا تلزم موافقة."
-
 #: onedesk/public/js/doctype_settings.js:168 onedesk/public/js/settings.js:1906
 msgid "No approvals"
 msgstr "لا توجد موافقات"
@@ -25621,6 +25626,9 @@ msgstr "لا أحد لديه."
 msgid "Nobody has signed in yet"
 msgstr "لم يسجّل أحد الدخول بعد"
 
+msgid "Nobody has to agree to this. It is here to read."
+msgstr "لا يلزم أحد بالموافقة على هذا. إنه هنا للقراءة."
+
 #: frontend/src/workload/WorkloadList.vue:14
 msgid "Nobody has work this week"
 msgstr "لا أحد لديه عمل هذا الأسبوع"
@@ -25696,10 +25704,6 @@ msgstr "الساعات العادية"
 #: frontend/src/item/ItemMaking.vue:115
 msgid "Not Active"
 msgstr "غير نشط"
-
-#: onedesk/public/js/settings.js:732
-msgid "Not Agreed"
-msgstr "لم تتم الموافقة"
 
 #: frontend/src/project/Time.vue:85
 msgid "Not Billable"
@@ -25819,6 +25823,9 @@ msgstr "ليست مرحلة رئيسية"
 #: onedesk/public/js/settings.js:977
 msgid "Not active recently"
 msgstr "غير نشط مؤخرًا"
+
+msgid "Not agreed yet"
+msgstr "لم تتم الموافقة بعد"
 
 #: onedesk/one_inventory/heads.py:639
 msgid "Not all ordered yet, and it was wanted {0} ago."
@@ -31991,10 +31998,6 @@ msgstr "العطلات الرسمية"
 msgid "Public Key"
 msgstr "المفتاح العام"
 
-#: onedesk/public/js/settings.js:773
-msgid "Published"
-msgstr "منشورة"
-
 #. Label of the rates_section (Section Break) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "Published Prices"
@@ -32715,6 +32718,9 @@ msgstr "اقرأ رسالتي الموافقة على الإجازة وحالة 
 #: onedesk/one_project/ai.py:63
 msgid "Read this project, then suggest the tasks it still needs, each with a due date before its end, as cards I can approve."
 msgstr "اقرأ هذا المشروع، ثم اقترح المهام التي ما زال يحتاجها، لكل منها موعد قبل نهايته، كبطاقات أستطيع اعتمادها."
+
+msgid "Read version {0}"
+msgstr "اقرأ النسخة {0}"
 
 #: onedesk/one_mail/ai.py:268 onedesk/public/js/onecloud.js:1841
 msgid "Read with OneAI"
@@ -37850,10 +37856,6 @@ msgstr "لم يتم إرسال بعض المسودات"
 msgid "Some countries have holidays only in part of the country."
 msgstr "في بعض البلدان عطلات تخص جزءًا من البلد فقط."
 
-#: onedesk/public/js/settings.js:744
-msgid "Some documents need your agreement."
-msgstr "بعض المستندات تحتاج إلى موافقتك."
-
 #: onedesk/one_intake/planning.py:143
 msgid "Some lines match no item."
 msgstr "بعض البنود لا تطابق أي صنف."
@@ -41112,10 +41114,6 @@ msgstr "نسخة بياناتك التي طلبتها جاهزة للتنزيل 
 msgid "The currency can't change once there are transactions."
 msgstr "لا يمكن تغيير العملة بعد وجود معاملات."
 
-#: onedesk/one_legal/page/legal/legal.js:39
-msgid "The current text"
-msgstr "النص الحالي"
-
 #. Description of the 'By' (Select) field in DocType 'Tenant Event'
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 msgid "The customer from their own workspace, an operator here, or One on its own."
@@ -42262,10 +42260,6 @@ msgstr "يتضمن القالب المستند كاملًا كما هو الآن
 #: onedesk/one_crm/home.py:177
 msgid "The terms a quotation and an order carry."
 msgstr "الشروط التي يحملها عرض السعر والطلب."
-
-#: onedesk/one_legal/page/legal/legal.js:39
-msgid "The text as it was agreed to"
-msgstr "النص كما وُوفق عليه"
 
 #: onedesk/public/js/doctype_settings.js:965
 msgid "The text before the number, such as {0}"
@@ -43669,6 +43663,9 @@ msgstr "مُسمّاة"
 msgid "To"
 msgstr "إلى"
 
+msgid "To Agree"
+msgstr "للموافقة"
+
 #. Label in the One Contract print format
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
 msgid "To Be Fulfilled"
@@ -43748,6 +43745,9 @@ msgstr "إلى عناوين خارجية"
 #: onedesk/one_hr/print_format/one_expense_claim/one_expense_claim.json
 msgid "To Pay"
 msgstr "للدفع"
+
+msgid "To Read"
+msgstr "للقراءة"
 
 #. Label of a number card
 #: frontend/src/home/InventoryHome.vue:120
@@ -45794,10 +45794,6 @@ msgstr "توليد الفيديو"
 msgid "View"
 msgstr "عرض"
 
-#: onedesk/public/js/settings.js:734
-msgid "View Agreed Version"
-msgstr "عرض النسخة الموافق عليها"
-
 #: frontend/src/project/Hero.vue:39
 msgid "View All {0}"
 msgstr "عرض الكل ({0})"
@@ -45952,6 +45948,9 @@ msgstr "بانتظار الأسعار"
 #: onedesk/public/js/privacy_request_list.js:8
 msgid "Waiting for You"
 msgstr "بانتظارك"
+
+msgid "Waiting for an administrator"
+msgstr "بانتظار مسؤول"
 
 #. Description of the 'Request Status' (Select) field in DocType 'Personal Data
 #. Download Request'
@@ -50781,6 +50780,9 @@ msgstr "يسجّل حسابك في One الدخول الآن باستخدام {a
 msgid "Your One account, the workspace's first administrator, and where the receipt goes."
 msgstr "حسابك في One، والمسؤول الأول عن مساحة العمل، والعنوان الذي يُرسل إليه الإيصال."
 
+msgid "Your Organisation"
+msgstr "مؤسستك"
+
 #: frontend/portal/src/pages/YourData.vue:32 onedesk/public/js/settings.js:233
 #: onedesk/public/js/settings.js:1602
 msgid "Your Password"
@@ -51354,10 +51356,6 @@ msgstr "بواسطة العميل"
 #: onedesk/public/js/intake.js:106 onedesk/public/js/intake.js:174
 msgid "by {0}"
 msgstr "بحلول {0}"
-
-#: onedesk/public/js/settings.js:733
-msgid "by {0} on {1}"
-msgstr "من {0} في {1}"
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
@@ -52618,6 +52616,9 @@ msgstr "تمت إضافة {0}"
 #: onedesk/public/js/task_timer.js:6
 msgid "{0} added to your timesheet."
 msgstr "أُضيف {0} إلى جدول ساعاتك."
+
+msgid "{0} agreed on {1}"
+msgstr "وافق {0} في {1}"
 
 #: onedesk/one_hr/overtime.py:76
 msgid "{0} allows at most {1} overtime hours a day."

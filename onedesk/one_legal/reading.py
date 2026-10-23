@@ -9,7 +9,7 @@ by name as well.
 import frappe
 from frappe import _
 
-from . import assemble
+from . import assemble, gate
 from .documents import PARTY
 
 
@@ -55,3 +55,56 @@ def history(key: str = "") -> list[dict]:
 		order_by="creation desc",
 		ignore_permissions=True,
 	)
+
+
+@frappe.whitelist(methods=["GET"])
+def overview() -> dict:
+	"""Every document and where it stands: what the reader agreed to
+	themselves, what the organisation agreed to and who agreed for it, and what
+	is only published. Read from the rows the gate writes, never a second copy."""
+	from onedesk.one import roles
+
+	from .documents import DOCUMENTS
+
+	def last(key: str, party: str) -> dict | None:
+		filters = {"document": key, "party": party}
+		if party == gate.USER:
+			filters["user"] = frappe.session.user
+		rows = frappe.get_all(
+			"Legal Acceptance",
+			filters=filters,
+			fields=["version", "user", "accepted_on"],
+			order_by="creation desc",
+			limit=1,
+			ignore_permissions=True,
+		)
+		if not rows:
+			return None
+		row = rows[0]
+		return {
+			"version": row.version,
+			"owed": not gate.agreed(row.version, assemble.version_of(key)),
+			"on": frappe.utils.formatdate(row.accepted_on),
+			"by": frappe.utils.get_fullname(row.user) if party == gate.WORKSPACE else None,
+		}
+
+	documents = []
+	for key, one in DOCUMENTS.items():
+		version = assemble.version_of(key)
+		parties = gate.AUDIENCE.get(one["audience"], ())
+		title, summary = one["title"], one["summary"]
+		documents.append(
+			{
+				"key": key,
+				"title": _(title),
+				"summary": _(summary),
+				"version": version,
+				"you": {"current": version, "owed": True, **(last(key, gate.USER) or {})}
+				if gate.USER in parties
+				else None,
+				"organisation": {"current": version, "owed": True, **(last(key, gate.WORKSPACE) or {})}
+				if gate.WORKSPACE in parties
+				else None,
+			}
+		)
+	return {"party": PARTY, "documents": documents, "admin": roles.administers(), "may_bind": gate._may_bind()}

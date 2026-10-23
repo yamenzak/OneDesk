@@ -39,7 +39,8 @@ def page(said: dict) -> str | None:
 	if said.get("page") != "legal":
 		return None
 	return (
-		"The reader is on Agreements, which shows the agreements One runs under and the versions they or "
-		"their organisation agreed to. agreement reads one's current text: terms, aup, privacy, cookies, dpa, "
-		"subprocessors, ai or licences. Answer from what it returns and say which document it is from."
+		"The reader is on Agreements: every agreement One runs under, listed with where it stands for them "
+		"and for their organisation, one open beside the list, and who agreed to it and when. agreement "
+		"reads one's current text: terms, aup, privacy, cookies, dpa, subprocessors, ai or licences. Answer "
+		"from what it returns and say which document it is from."
 	)

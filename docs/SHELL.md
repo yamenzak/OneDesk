@@ -114,13 +114,13 @@ composes them rather than drawing its own:
   one place: a heading and a note, search past five, a row opening its
   record, buttons beside the search, a Select narrowing it by one value
   (`choose`: Forms by app), Load More. That holds for every list
-  of things: forms, extensions, mailboxes, browsers, agreements, add-ons,
+  of things: forms, extensions, mailboxes, browsers, add-ons,
   never rows under a heading per group (a group is a column). A **row**
   (`onedesk.shell.row`) is one fact and what to do about it (Password and
   Change Password, Passkey, where an extension runs), never one per record,
   never a link, and never drawn by hand; `onedesk.shell.list` of rows, and a
   row that opens something, belong only to a pane beside them (OneMail,
-  OneIntake, a record's Mail). The guard (`tests/guards/test_shell.py`)
+  OneIntake, a record's Mail, Agreements). The guard (`tests/guards/test_shell.py`)
   refuses a list of rows, a row that goes anywhere, rows made one per
   record, and the row's markup written by hand.
 - **Dialogs** are frappe.ui.Dialog; nothing draws a modal of its own.

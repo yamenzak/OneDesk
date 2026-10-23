@@ -1247,6 +1247,8 @@ def onelegal_every_person_has_agreed_and_reads_what_to():
 	with as_user(OWNER):
 		listed = reading.catalogue()["documents"]
 		assert {"terms", "privacy"} <= {one["key"] for one in listed}, listed
+		standing = {one["key"]: one for one in reading.overview()["documents"]}
+		assert not standing["terms"]["organisation"]["owed"], standing["terms"]
 		said = reading.document("terms")
 		assert said["html"] and said["version"]
 		agreed = reading.history("terms")

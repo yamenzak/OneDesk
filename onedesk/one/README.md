@@ -453,23 +453,23 @@ OneAI offers **How do I add it?**, also the **How Do I Add It?** button.
 
 ### Agreements
 
-Every agreement One runs under, and whether you and your organisation have
-agreed to it. Click a title or **Read** to open it in a new tab.
+**Agreements**, under You, is every agreement One runs under, laid out like
+OneMail: the list on the left, the one you open in the middle, and who agreed
+to it and when on the right.
 
-- **Personal**: the Acceptable Use Policy, Privacy Policy and Cookie Policy.
-  They cover your own personal data, so only you can agree to them. Each shows
-  **Agreed** with the date, or **Not Agreed**.
-- **Organisation**: the Terms of Service, Acceptable Use Policy, Data
-  Processing Addendum, Subprocessors list and AI Addendum. An administrator
-  agrees to them once for everyone. Each shows who agreed and when.
-- **Published**: the open source notices. No one is asked to agree to them.
+- **For You**: the Acceptable Use Policy, Privacy Policy and Cookie Policy.
+  They cover your own personal data, so only you can agree to them.
+- **For Your Organisation**: the Terms of Service, Data Processing Addendum,
+  Subprocessors list and AI Addendum. An administrator agrees to them once
+  for everyone, and the right side says who did and when.
+- **To Read**: the open source notices. No one is asked to agree to them.
 
-**Updated** means the document changed after it was agreed to. **View Agreed
-Version** opens the exact version that was agreed. If anything is
-waiting for you, **Agree Now** asks you, the same way One does at sign-in.
-
-Administrators also see **All Agreements**, with every acceptance in
-the workspace: who agreed to which version, when and from where.
+Each document in the list says **Agreed**, **To Agree**, **Updated** (it changed
+after it was agreed to) or **Waiting** (an administrator still has to agree).
+A document waiting for you has **Agree** above its text, and agreeing opens
+the next one still waiting. The right side links to the exact version that was
+agreed and to every earlier version, and administrators also see
+**Everyone's Agreements**: who agreed to which version, when and from where.
 
 OneAI reads the full agreements, not a summary. It offers:
 

@@ -633,6 +633,7 @@ No doctypes yet.
 * `onedesk.one_legal.reading.catalogue`
 * `onedesk.one_legal.reading.document`
 * `onedesk.one_legal.reading.history`
+* `onedesk.one_legal.reading.overview`
 * `onedesk.one_mail.actions.create_folder`
 * `onedesk.one_mail.actions.delete`
 * `onedesk.one_mail.actions.delete_folder`

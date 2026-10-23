@@ -152,7 +152,7 @@ def test_a_record_a_page_opens_on_is_drawn_as_a_docview():
 			)
 
 
-PANE_LISTS = {"onemail.js", "intake.js", "record_mail.js"}
+PANE_LISTS = {"onemail.js", "intake.js", "record_mail.js", "legal.js"}
 
 
 def _ours(*patterns):
