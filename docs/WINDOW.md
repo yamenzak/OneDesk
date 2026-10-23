@@ -253,7 +253,7 @@ else changes for anybody who has not.
 |---|---|---|---|---|---|
 | OneCloud | its own history; Up is the parent folder | re-lists | the folder, or everywhere | items, chosen, size | the chosen file's preview, versions, OneIntake |
 | A list | the browser's; Up is the app's Home | `list.refresh()` | the title field, as a filter | frappe's count, chosen | (next) the chosen record |
-| A form | the browser's; Up is the list; ‹ › its records, beside Up | `frm.reload_doc()` | none | who edited it and when, who made it | frappe's form sidebar: its title, and its picture where it has one; not the number the address row says |
+| A form | the browser's; Up is the list; ‹ › its records, beside Up | `frm.reload_doc()` | none | who edited it and when, who made it | frappe's form sidebar, as frappe draws it |
 
 ## What it replaces, when every view is on it
 

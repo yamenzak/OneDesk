@@ -121,10 +121,8 @@
 }
 
 /* A form: its tabs are the window's row, set on its gutter, those that do not
-   fit folded into More; its ‹ › sit beside Up as the window's own buttons do;
-   its sidebar keeps the title and the record's picture where it has one, and
-   leaves out the number the address row says, the letters drawn when there
-   is no picture, and who edited it, which the status says. */
+   fit folded into More; its ‹ › sit beside Up as the window's own buttons do.
+   Its sidebar is frappe's, as frappe draws it. */
 @media (min-width: 768px) {
 	/* A form's own buttons (frappe's custom actions and their groups) as one
 	   run in the command row. */
@@ -192,16 +190,5 @@
 
 	.one-window .one-window-steps .btn:hover {
 		background: var(--surface-gray-2);
-	}
-
-	.one-window[data-one-view="form"] .form-sidebar .sidebar-image-wrapper:has(> .sidebar-image.hide),
-	.one-window[data-one-view="form"] .form-sidebar .form-name-container,
-	.one-window[data-one-view="form"] .form-sidebar .modified-by,
-	.one-window[data-one-view="form"] .form-sidebar .created-by {
-		display: none;
-	}
-
-	.one-window[data-one-view="form"] .form-sidebar .sidebar-image-section > .form-stats-likes {
-		margin-inline-start: auto;
 	}
 }
