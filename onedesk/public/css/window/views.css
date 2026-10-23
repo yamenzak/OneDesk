@@ -205,10 +205,12 @@
 	}
 
 	/* The record panel: Overview, Activity and Mail as tabs under Assign, Tags
-	   and Share. Everything in it is laid out by the panel's own width, so it
-	   reads the same at any width the edge is dragged to. */
+	   and Share. Its tab bar runs edge to edge with no room above it; what is
+	   under a tab keeps the sidebar's gutter. Everything in it is laid out by
+	   the panel's own width, so it reads the same at any width the edge is
+	   dragged to. */
 	.one-window .form-sidebar .one-panel {
-		padding-block: calc(var(--spacing) * 2) 0;
+		padding: 0;
 		border-bottom: 0;
 	}
 
@@ -216,14 +218,25 @@
 		display: none;
 	}
 
-	.one-window .one-panel-pane {
-		container-type: inline-size;
-		padding-block: calc(var(--spacing) * 3);
+	.one-window .one-panel-tabs > .es-tabs__list {
+		padding: 0 15px;
+		border-bottom: 1px solid var(--outline-gray-1);
 	}
 
-	/* The widget standard. A record's head in the panel is one column: its
-	   charts and its track across the whole width, its figures as cards that
-	   fill the width two to a row, or three once there is room. */
+	.one-window .one-panel-tabs .es-tabs__tab {
+		padding-block: calc(var(--spacing) * 2);
+	}
+
+	.one-window .one-panel-pane {
+		container-type: inline-size;
+		padding: calc(var(--spacing) * 3) 15px calc(var(--spacing) * 4);
+	}
+
+	/* The widget standard. In the panel a record's head is quiet context, not
+	   the stage: where it stands first (the track), then its figures as rows,
+	   each a name and its value on one line with a hairline under it, then
+	   its charts as a short strip. Colour only says what needs somebody (a red
+	   amount overdue). From 520px the rows run in two columns. */
 	.one-window .one-panel-pane .one-band,
 	.one-window .one-panel-pane .one-band-charted {
 		display: flex;
@@ -233,34 +246,93 @@
 	}
 
 	.one-window .one-panel-pane .one-band-charts {
+		order: 2;
+		display: flex;
 		flex-direction: column;
+		gap: calc(var(--spacing) * 4);
 	}
 
 	.one-window .one-panel-pane .one-band-chart {
 		width: 100%;
+		gap: calc(var(--spacing) * 1);
+	}
+
+	/* A strip of context reads by its shape and the bar marked; the numbers
+	   are on hover, so its value axis and grid lines are left out. */
+	.one-window .one-panel-pane .one-chart-body g.y.axis {
+		display: none;
 	}
 
 	.one-window .one-panel-pane .one-stats {
 		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: calc(var(--spacing) * 2);
+		grid-template-columns: minmax(0, 1fr);
+		gap: 0 calc(var(--spacing) * 6);
 		padding: 0;
 		border: 0;
 	}
 
 	@container (min-width: 520px) {
 		.one-window .one-panel-pane .one-stats {
-			grid-template-columns: repeat(3, minmax(0, 1fr));
+			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
 	}
 
-	.one-window .one-panel-pane .one-stats > .one-steps,
-	.one-window .one-panel-pane .one-stats > :not(.one-stat-link, .es-stat-card) {
+	.one-window .one-panel-pane .one-stats > .one-steps {
 		grid-column: 1 / -1;
+		margin-bottom: calc(var(--spacing) * 2);
 	}
 
 	.one-window .one-panel-pane .es-stat-card {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, max-content);
+		align-items: baseline;
+		gap: 2px calc(var(--spacing) * 3);
 		min-width: 0;
+		padding: calc(var(--spacing) * 2) 0;
+		border: 0;
+		border-bottom: 1px solid var(--outline-gray-1);
+		border-radius: 0;
+		background: transparent;
+	}
+
+	.one-window .one-panel-pane .es-stat-card > * {
+		grid-column: 1 / -1;
+		min-width: 0;
+		margin: 0;
+	}
+
+	.one-window .one-panel-pane .es-stat-card > .es-stat-card__head {
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	.one-window .one-panel-pane .es-stat-card__label {
+		font-size: var(--text-sm);
+		color: var(--ink-gray-5);
+		white-space: normal;
+	}
+
+	.one-window .one-panel-pane .es-stat-card > .es-stat-card__value {
+		grid-column: 2;
+		grid-row: 1;
+		font-size: var(--text-base);
+		font-weight: var(--weight-medium);
+		line-height: 1.4;
+		text-align: end;
+		white-space: normal;
+		overflow-wrap: anywhere;
+	}
+
+	.one-window .one-panel-pane .es-stat-card > .es-stat-card__caption {
+		font-size: var(--text-xs);
+		color: var(--ink-gray-5);
+		text-align: end;
+		white-space: normal;
+	}
+
+	.one-window .one-panel-pane .one-stat-link:hover .es-stat-card__value {
+		text-decoration: underline;
+		text-underline-offset: 3px;
 	}
 
 	/* frappe's comments and timeline, at the panel's width. */

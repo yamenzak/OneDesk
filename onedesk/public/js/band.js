@@ -98,7 +98,9 @@ onedesk.band.show = async (frm, said, charts = []) => {
 			`<div class="one-stats es-stat-card-grid">${stats.join("")}</div></div>`
 	);
 	const $band = $home.find(".one-band").last();
-	charts.forEach((chart, i) => onedesk.band.chart($band.find(`#one-chart-${key}-${i} .one-chart-body`)[0], chart));
+	// In the record panel a chart is a short strip of context under the figures.
+	const height = frm.one_panel ? 120 : 132;
+	charts.forEach((chart, i) => onedesk.band.chart($band.find(`#one-chart-${key}-${i} .one-chart-body`)[0], chart, height));
 	onedesk.band.tip($band);
 };
 
@@ -128,7 +130,7 @@ onedesk.band.hue = () => {
 	return (style.getPropertyValue(dark ? "--blue-400" : "--blue-500") || "").trim() || "blue";
 };
 
-onedesk.band.chart = (el, chart) => {
+onedesk.band.chart = (el, chart, height = 132) => {
 	if (!el) return null;
 	const said = chart.currency
 		? (value) => format_currency(value, chart.currency, 0)
@@ -137,7 +139,7 @@ onedesk.band.chart = (el, chart) => {
 		Math.abs(value) >= 1000 ? frappe.utils.format_chart_axis_number(value) : String(Math.round(value * 10) / 10);
 	const options = {
 		type: chart.kind,
-		height: 132,
+		height,
 		animate: 0,
 		disableEntryAnimation: 1,
 		showLegend: 0,

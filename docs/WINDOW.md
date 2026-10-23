@@ -141,13 +141,19 @@ tabs leave the tab row while the panel holds them. All of it only where the
 window covers forms and the screen is wide enough for frappe's sidebar
 (992px); below that each part stays where it was.
 
-**The widget standard.** Whatever the Overview holds is laid out by the
-panel's own width (a CSS container), never the screen's, so it reads the
-same at any width the edge is dragged to: charts, the track and anything
-that is not a figure take the whole width; figures are frappe's stat cards,
-two to a row, three once the panel is 520px wide. A new widget for a record
-is a stat card or a chart in the head (`one/head.py`), and it lands in the
-panel already styled; nothing is laid out for it by hand.
+**The widget standard.** In the panel a record's head is quiet context
+beside the record, never the stage, and it is laid out by the panel's own
+width (a CSS container), never the screen's, so it reads the same at any
+width the edge is dragged to. In order: where the record stands (the
+track); then its figures, each a row with its name on the left and its
+value on the right and a hairline under it, no box and no large number,
+two columns of rows from 520px; then its charts as a short strip (120px,
+no value axis: its shape and the bar marked say it, the numbers are on
+hover). Colour only says what needs somebody: a red amount overdue, an
+amber one waiting. The tab bar runs edge to edge with no room above it. A
+new widget for a record is a figure or a chart in its head (`one/head.py`),
+and it lands in the panel already in this form; nothing is laid out for it
+by hand.
 
 ## Where it lives
 
