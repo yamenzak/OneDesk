@@ -218,6 +218,35 @@
 		display: none;
 	}
 
+	/* OneCloud's mark beside frappe's print and like, the record's file
+	   count after it. */
+	.one-window .form-stats-likes .one-cloud-open {
+		display: inline-flex;
+		align-items: center;
+		gap: 2px;
+		margin-inline-end: calc(var(--spacing) * 1);
+		background: transparent;
+		color: var(--ink-gray-5);
+	}
+
+	.one-window .form-stats-likes .one-cloud-open > svg {
+		width: 18px;
+		height: 18px;
+	}
+
+	.one-window .form-stats-likes .one-cloud-open:hover {
+		color: var(--ink-gray-8);
+	}
+
+	.one-window .one-cloud-open .one-files-count {
+		margin: 0;
+		font-size: var(--text-xs);
+	}
+
+	.one-window .one-cloud-open .one-files-count:empty {
+		display: none;
+	}
+
 	/* The panel's tabs share the bar's width, an icon each. */
 	.one-window .one-panel-tabs > .es-tabs__list {
 		padding: 0;

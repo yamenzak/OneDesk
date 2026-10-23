@@ -150,6 +150,12 @@ frappe's own `frappe.ui.Tabs`, sharing the bar's width, each an icon
   clicks and + still work, and its Connections tab, left with nothing,
   hides itself.
 
+The record's files are not a tab: beside frappe's print and like in the
+sidebar's head, OneCloud's mark opens the record's folder in OneCloud
+(`@records/<doctype>/<name>`), with its file count, and the Files record
+tab leaves the tab row while the panel is there, which gives the record's
+own tabs that room.
+
 A tab with nothing for the record is not shown; a new record has no panel.
 The tab somebody picks is kept per doctype. The Activity and Mail record
 tabs leave the tab row while the panel holds them. All of it only where the

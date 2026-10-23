@@ -28079,6 +28079,10 @@ msgstr "فتح ملفك الشخصي"
 msgid "Open file location"
 msgstr "فتح موقع الملف"
 
+#: onedesk/public/js/window/form.js:212
+msgid "Open in OneCloud"
+msgstr "افتح في OneCloud"
+
 #: onedesk/public/js/table_workbook.js:66
 msgid "Open in OneWorkbook"
 msgstr "فتح في OneWorkbook"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-23 22:53+0000\n"
-"PO-Revision-Date: 2026-10-23 22:53+0000\n"
+"POT-Creation-Date: 2026-10-23 23:12+0000\n"
+"PO-Revision-Date: 2026-10-23 23:12+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2124,7 +2124,7 @@ msgstr ""
 #: onedesk/one_project/ai.py:677
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/public/js/onecloud.js:749 onedesk/public/js/project_actions.js:359
-#: onedesk/public/js/task_actions.js:82 onedesk/public/js/window/form.js:85
+#: onedesk/public/js/task_actions.js:82 onedesk/public/js/window/form.js:86
 msgid "Activity"
 msgstr ""
 
@@ -8610,7 +8610,7 @@ msgstr ""
 #. Settings'
 #. Label of the one_connections_tab (Tab Break) field in DocType 'Timesheet'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-#: onedesk/one_hr/custom/timesheet.json onedesk/public/js/window/form.js:85
+#: onedesk/one_hr/custom/timesheet.json onedesk/public/js/window/form.js:86
 msgid "Connections"
 msgstr ""
 
@@ -9515,7 +9515,7 @@ msgstr ""
 msgid "Created By"
 msgstr ""
 
-#: onedesk/public/js/window/form.js:193
+#: onedesk/public/js/window/form.js:239
 msgid "Created {0} by {1}"
 msgstr ""
 
@@ -13097,7 +13097,7 @@ msgstr ""
 msgid "Edited text is no longer translated."
 msgstr ""
 
-#: onedesk/public/js/window/form.js:195
+#: onedesk/public/js/window/form.js:241
 msgid "Edited {0} by {1}"
 msgstr ""
 
@@ -22434,7 +22434,7 @@ msgstr ""
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_mail/cloud.py:65 onedesk/one_mail/linking.py:23
 #: onedesk/one_mail/sidebar/onemail/onemail.json
-#: onedesk/one_storage/namespace.py:364 onedesk/public/js/window/form.js:85
+#: onedesk/one_storage/namespace.py:364 onedesk/public/js/window/form.js:86
 msgid "Mail"
 msgstr ""
 
@@ -23677,7 +23677,7 @@ msgstr ""
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:415
 #: onedesk/one_intake/page/intake/intake.js:30 onedesk/one_sheet/ai.py:227
 #: onedesk/public/js/project_actions.js:651
-#: onedesk/public/js/window/form.js:216
+#: onedesk/public/js/window/form.js:262
 msgid "More"
 msgstr ""
 
@@ -24292,7 +24292,7 @@ msgstr ""
 
 #: frontend/src/kit/ActivityComposer.vue:18 onedesk/public/js/onemail.js:58
 #: onedesk/public/js/onemail.js:705 onedesk/public/js/record_mail.js:35
-#: onedesk/public/js/window/form.js:134 onedesk/www/account_profile.html:36
+#: onedesk/public/js/window/form.js:151 onedesk/www/account_profile.html:36
 msgid "New Email"
 msgstr ""
 
@@ -28115,6 +28115,10 @@ msgstr ""
 msgid "Open file location"
 msgstr ""
 
+#: onedesk/public/js/window/form.js:212
+msgid "Open in OneCloud"
+msgstr ""
+
 #: onedesk/public/js/table_workbook.js:66
 msgid "Open in OneWorkbook"
 msgstr ""
@@ -28992,7 +28996,7 @@ msgstr ""
 #: frontend/src/home/HrHome.vue:106 frontend/src/home/InventoryHome.vue:103
 #: frontend/src/item/ItemPage.vue:184 frontend/src/project/ProjectPage.vue:171
 #: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/public/js/page_views.js:73
-#: onedesk/public/js/page_views.js:85 onedesk/public/js/window/form.js:85
+#: onedesk/public/js/page_views.js:85 onedesk/public/js/window/form.js:86
 msgid "Overview"
 msgstr ""
 
@@ -45925,7 +45929,7 @@ msgstr ""
 msgid "View only"
 msgstr ""
 
-#: onedesk/public/js/window/form.js:205
+#: onedesk/public/js/window/form.js:251
 msgid "Viewing now"
 msgstr ""
 
@@ -52025,7 +52029,7 @@ msgstr ""
 msgid "only the records of {0} {1}, {2}"
 msgstr ""
 
-#: onedesk/public/js/window/form.js:98
+#: onedesk/public/js/window/form.js:107
 msgid "open"
 msgstr ""
 

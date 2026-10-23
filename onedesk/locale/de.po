@@ -28079,6 +28079,10 @@ msgstr "Ihr Profil öffnen"
 msgid "Open file location"
 msgstr "Dateispeicherort öffnen"
 
+#: onedesk/public/js/window/form.js:212
+msgid "Open in OneCloud"
+msgstr "In OneCloud öffnen"
+
 #: onedesk/public/js/table_workbook.js:66
 msgid "Open in OneWorkbook"
 msgstr "In OneWorkbook öffnen"

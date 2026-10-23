@@ -56,6 +56,7 @@ onedesk.window.adapt("form", () => {
 			if (win) {
 				win.view({ status: onedesk.window.edited(this.frm.doc) });
 				onedesk.window.viewers(this.frm, this.sidebar);
+				onedesk.window.cloud(this.frm, this.sidebar);
 				win.details_edge();
 				onedesk.window.panel(this.frm, this.sidebar);
 				onedesk.window.panel_refresh(this.frm);
@@ -198,8 +199,34 @@ onedesk.window.indicators = ($in, $head) => {
 	});
 };
 
+// The record's files are OneCloud's, not a tab's: beside frappe's print and
+// like, OneCloud's mark (in its colours, as One names a product) opens the
+// record's folder there, with how many files it holds.
+onedesk.window.cloud = (frm, $sidebar) => {
+	const $likes = $sidebar.find(".form-stats-likes").first();
+	$likes.find(".one-cloud-open").remove();
+	if (!onedesk.window.panelled(frm) || frm.is_new() || !onedesk.record_tabs.applies(frm, "files")) return;
+	const button = frappe.ui.button({
+		icon: "onestorage",
+		variant: "ghost",
+		size: "sm",
+		title: __("Open in OneCloud"),
+		css_class: "one-cloud-open",
+		onclick: () => frappe.set_route("onecloud", { node: onedesk.record_files.room(frm) }),
+	}).append(`<span class="one-files-count"></span>`);
+	const $print = $likes.children(".form-print");
+	$print.length ? button.insertBefore($print) : button.prependTo($likes);
+	onedesk.window.cloud_count(frm, ((frm.get_docinfo() || {}).attachments || []).length);
+};
+
+onedesk.window.cloud_count = (frm, count) => {
+	const $count = frm.sidebar && frm.sidebar.sidebar && frm.sidebar.sidebar.find(".one-cloud-open .one-files-count");
+	if ($count && $count.length) $count.text(count ? cint(count) : "");
+};
+
 // A count beside a panel tab's name, as a record tab carries one.
 onedesk.window.panel_count = (frm, name, count) => {
+	if (name === "files") onedesk.window.cloud_count(frm, count);
 	const panel = frm.one_panel;
 	const i = onedesk.window.PANEL.indexOf(name);
 	if (!panel || i < 0) return;
