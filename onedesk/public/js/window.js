@@ -471,6 +471,10 @@ onedesk.window.current = () => {
 			const win = this.page && this.page.window;
 			if (win) {
 				win.$wrapper.attr("data-one-view", "list");
+				// A list's primary button is New: it leads the command row, as
+				// OneCloud's New does. It is frappe's own node, which frappe
+				// still shows, hides and relabels through page.btn_primary.
+				if (this.page.btn_primary && this.page.btn_primary.length) win.$commands.prepend(this.page.btn_primary);
 				win.handle({
 					up: () => frappe.app.sidebar && frappe.app.sidebar.current_module && frappe.app.sidebar.open_module(frappe.app.sidebar.current_module),
 				}).can({ up: true });

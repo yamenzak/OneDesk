@@ -107,3 +107,12 @@ def test_each_wrapped_class_has_its_own_mark():
 	search and its count. Each mark is asked of the prototype itself."""
 	marks = re.findall(r"if \(!?\w+ (?:&&|\|\|) !?(Object\.hasOwn\(\w+\.prototype, \"one_window\"\)|\w+\.prototype\.one_window)\)", JS)
 	assert marks and all(one.startswith("Object.hasOwn") for one in marks), marks
+
+
+def test_a_lists_new_leads_the_command_row():
+	"""A list's primary button (New) is frappe's own node moved to the start of
+	the command row, as OneCloud's New is; a form's Save stays with its actions."""
+	list_setup = JS.split("List.prototype.setup_page = function", 1)[1].split("};", 1)[0]
+	assert "win.$commands.prepend(this.page.btn_primary)" in list_setup
+	form_setup = JS.split("Form.prototype.setup = function", 1)[1].split("};", 1)[0]
+	assert "btn_primary" not in form_setup
