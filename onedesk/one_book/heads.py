@@ -184,29 +184,6 @@ def _party_money(value) -> str:
 	return fmt_money(flt(value), currency=_currency())
 
 
-def party_outstanding(doc):
-	rows = _bills(doc.doctype, doc.name, fields=["outstanding_amount", "conversion_rate", "due_date"])
-	if rows is None:
-		return None
-	owed = sum(flt(row.outstanding_amount) * flt(row.conversion_rate or 1) for row in rows)
-	late = any(
-		flt(row.outstanding_amount) > 0 and row.due_date and getdate(row.due_date) < getdate() for row in rows
-	)
-	return {
-		"value": _party_money(owed),
-		"tone": "quiet" if owed <= 0 else ("alarm" if late else None),
-		"meter": _credit(doc, owed),
-	}
-
-
-def _credit(doc, owed: float) -> dict | None:
-	"""How much of a customer's credit limit is used, where one is set."""
-	if doc.doctype != "Customer":
-		return None
-	limit = max((flt(row.credit_limit) for row in doc.get("credit_limits") or []), default=0)
-	return {"value": owed, "of": limit} if limit else None
-
-
 def party_overdue(doc):
 	"""What is past due, part by part as each invoice's payment schedule falls
 	due (home.parts), as ERPNext's Overdue status and OneBook's Home read it."""
@@ -238,29 +215,6 @@ def party_overdue(doc):
 		"value": _party_money(sum(part["outstanding_amount"] for part in late)),
 		"label": _("Overdue · oldest {0} days").format(oldest),
 		"tone": "alarm",
-	}
-
-
-def party_this_year(doc):
-	"""Billed since the fiscal year began, against the same days last year."""
-	from onedesk.one_book import closing
-
-	day = getdate()
-	start = closing.year_began(day)
-	before = figures.same_day_last_year(start)
-	rows = _bills(doc.doctype, doc.name, since=before)
-	if rows is None:
-		return None
-	now = sum(flt(row.base_grand_total) for row in rows if getdate(row.posting_date) >= start)
-	then = sum(
-		flt(row.base_grand_total)
-		for row in rows
-		if before <= getdate(row.posting_date) <= figures.same_day_last_year(day)
-	)
-	return {
-		"value": _party_money(now),
-		"tone": None if now else "quiet",
-		"delta": {"change": figures.change(now, then), "against": _("since last year")},
 	}
 
 
@@ -540,9 +494,7 @@ def account_last_line(doc):
 
 
 MEASURES = {
-	"party.outstanding": party_outstanding,
 	"party.overdue": party_overdue,
-	"party.this_year": party_this_year,
 	"party.last_bill": party_last_bill,
 	"invoice.progress": progress,
 	"invoice.said": said,
@@ -738,9 +690,7 @@ HEADS = [
 	{
 		"doctype": "Customer",
 		"band": [
-			{"label": _lt("Total Unpaid"), "source": "Measure", "measure": "party.outstanding"},
 			{"label": _lt("Overdue"), "source": "Measure", "measure": "party.overdue"},
-			{"label": _lt("Annual Billing"), "source": "Measure", "measure": "party.this_year"},
 			{"label": _lt("Last Sales Invoice"), "source": "Measure", "measure": "party.last_bill"},
 			{
 				"label": _lt("Open Orders"),
@@ -761,9 +711,7 @@ HEADS = [
 	{
 		"doctype": "Supplier",
 		"band": [
-			{"label": _lt("Total Unpaid"), "source": "Measure", "measure": "party.outstanding"},
 			{"label": _lt("Overdue"), "source": "Measure", "measure": "party.overdue"},
-			{"label": _lt("Annual Billing"), "source": "Measure", "measure": "party.this_year"},
 			{"label": _lt("Last Purchase Invoice"), "source": "Measure", "measure": "party.last_bill"},
 			{
 				"label": _lt("Open Orders"),

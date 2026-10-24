@@ -3781,10 +3781,6 @@ msgstr "إعلان"
 msgid "Announcements"
 msgstr "الإعلانات"
 
-#: onedesk/one_book/heads.py:741 onedesk/one_book/heads.py:764
-msgid "Annual Billing"
-msgstr "الفوترة السنوية"
-
 #: onedesk/one/privacy.py:233
 msgid "Another administrator approves deleting your own account."
 msgstr "يوافق مسؤول آخر على حذف حسابك أنت."
@@ -44162,10 +44158,6 @@ msgstr "إجمالي الكمية"
 msgid "Total Time in Mins"
 msgstr ""
 
-#: onedesk/one_book/heads.py:739 onedesk/one_book/heads.py:762
-msgid "Total Unpaid"
-msgstr "إجمالي غير المدفوع"
-
 #: onedesk/one_inventory/heads.py:1548
 msgid "Total Value"
 msgstr ""
@@ -52078,10 +52070,6 @@ msgstr "ظاهر"
 #: onedesk/one/portal_share.py:169
 msgid "shown on the portal to {0} again"
 msgstr "أُظهر في البوابة لـ {0} مجدداً"
-
-#: onedesk/one_book/heads.py:261
-msgid "since last year"
-msgstr ""
 
 #: onedesk/one/ai_setup.py:220
 msgid "smallest first"

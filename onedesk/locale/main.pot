@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-24 01:29+0000\n"
-"PO-Revision-Date: 2026-10-24 01:29+0000\n"
+"POT-Creation-Date: 2026-10-24 01:35+0000\n"
+"PO-Revision-Date: 2026-10-24 01:35+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -677,7 +677,7 @@ msgstr ""
 msgid "A draft. Submit it to make {0} from it."
 msgstr ""
 
-#: onedesk/one_book/heads.py:352
+#: onedesk/one_book/heads.py:306
 msgid "A draft. Submit it to move the money."
 msgstr ""
 
@@ -689,7 +689,7 @@ msgstr ""
 msgid "A draft. Submit it to plan making {0}."
 msgstr ""
 
-#: onedesk/one_book/heads.py:392
+#: onedesk/one_book/heads.py:346
 msgid "A draft. Submit it to post it to the books."
 msgstr ""
 
@@ -701,15 +701,15 @@ msgstr ""
 msgid "A draft. Submit it to put these into stock."
 msgstr ""
 
-#: onedesk/one_book/heads.py:447
+#: onedesk/one_book/heads.py:401
 msgid "A draft. Submit it to reconcile it."
 msgstr ""
 
-#: onedesk/one_book/heads.py:349
+#: onedesk/one_book/heads.py:303
 msgid "A draft. Submit it to record the money paid to {0}."
 msgstr ""
 
-#: onedesk/one_book/heads.py:346
+#: onedesk/one_book/heads.py:300
 msgid "A draft. Submit it to record the money received from {0}."
 msgstr ""
 
@@ -1917,11 +1917,11 @@ msgstr ""
 msgid "Account Number"
 msgstr ""
 
-#: onedesk/one_book/heads.py:593 onedesk/one_book/heads.py:725
+#: onedesk/one_book/heads.py:545 onedesk/one_book/heads.py:677
 msgid "Account Paid From"
 msgstr ""
 
-#: onedesk/one_book/heads.py:593 onedesk/one_book/heads.py:719
+#: onedesk/one_book/heads.py:545 onedesk/one_book/heads.py:671
 msgid "Account Paid To"
 msgstr ""
 
@@ -3782,10 +3782,6 @@ msgstr ""
 msgid "Announcements"
 msgstr ""
 
-#: onedesk/one_book/heads.py:743 onedesk/one_book/heads.py:766
-msgid "Annual Billing"
-msgstr ""
-
 #: onedesk/one/privacy.py:233
 msgid "Another administrator approves deleting your own account."
 msgstr ""
@@ -5193,7 +5189,7 @@ msgid "Auto Close Open Check-ins at Shift End"
 msgstr ""
 
 #. Label of the auto_repeat (Link) field in DocType 'Task'
-#: onedesk/one_book/heads.py:635 onedesk/one_book/home.py:311
+#: onedesk/one_book/heads.py:587 onedesk/one_book/home.py:311
 #: onedesk/one_task/custom/task.json
 msgid "Auto Repeat"
 msgstr ""
@@ -5427,7 +5423,7 @@ msgstr ""
 #. Label in the One Exchange Rate Revaluation print format
 #. Label in the One Leave Encashment print format
 #: onedesk/one/doctype/workspace_account/workspace_account.json
-#: onedesk/one/print_blocks.py:821 onedesk/one_book/heads.py:696
+#: onedesk/one/print_blocks.py:821 onedesk/one_book/heads.py:648
 #: onedesk/one_book/print_format/one_exchange_rate_revaluation/one_exchange_rate_revaluation.json
 #: onedesk/one_hr/print_format/one_leave_encashment/one_leave_encashment.json
 #: onedesk/public/js/settings.js:1398
@@ -5519,7 +5515,7 @@ msgstr ""
 
 #. Label in the One Invoice Discounting print format
 #. Label of a Sidebar Item
-#: onedesk/one_book/heads.py:682 onedesk/one_book/home.py:325
+#: onedesk/one_book/heads.py:634 onedesk/one_book/home.py:325
 #: onedesk/one_book/print_format/one_invoice_discounting/one_invoice_discounting.json
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Bank Account"
@@ -5553,7 +5549,7 @@ msgid "Bank Reconciliation Statement"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/home/BooksHome.vue:217 onedesk/one_book/heads.py:690
+#: frontend/src/home/BooksHome.vue:217 onedesk/one_book/heads.py:642
 #: onedesk/one_book/home.py:322 onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Bank Reconciliation Tool"
 msgstr ""
@@ -6066,7 +6062,7 @@ msgstr ""
 #: frontend/src/project/Overview.vue:447 frontend/src/project/Suppliers.vue:48
 #: frontend/src/project/Suppliers.vue:183
 #: frontend/src/project/Suppliers.vue:206 onedesk/one/print_blocks.py:817
-#: onedesk/one_book/heads.py:101 onedesk/one_book/heads.py:641
+#: onedesk/one_book/heads.py:101 onedesk/one_book/heads.py:593
 #: onedesk/one_crm/heads.py:129 onedesk/one_crm/heads.py:319
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:180
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:212
@@ -6102,7 +6098,7 @@ msgstr ""
 msgid "Billed by the hour at agreed rates, plus what's bought for it."
 msgstr ""
 
-#: onedesk/one_book/heads.py:649
+#: onedesk/one_book/heads.py:601
 msgid "Billed by {0}"
 msgstr ""
 
@@ -6110,7 +6106,7 @@ msgstr ""
 msgid "Billed to Date"
 msgstr ""
 
-#: onedesk/one_book/heads.py:647
+#: onedesk/one_book/heads.py:599
 msgid "Billed to {0}"
 msgstr ""
 
@@ -6315,7 +6311,7 @@ msgid "Bottom right"
 msgstr ""
 
 #: frontend/src/home/InventoryStory.vue:142
-#: frontend/src/home/InventoryStory.vue:150 onedesk/one_book/heads.py:641
+#: frontend/src/home/InventoryStory.vue:150 onedesk/one_book/heads.py:593
 msgid "Bought"
 msgstr ""
 
@@ -7545,7 +7541,7 @@ msgstr ""
 msgid "Cheque Print Template"
 msgstr ""
 
-#: onedesk/one_book/heads.py:602 onedesk/one_book/heads.py:731
+#: onedesk/one_book/heads.py:554 onedesk/one_book/heads.py:683
 msgid "Cheque/Reference No"
 msgstr ""
 
@@ -16917,7 +16913,7 @@ msgstr ""
 msgid "Grade"
 msgstr ""
 
-#: frontend/src/home/BooksStory.vue:32 onedesk/one_book/heads.py:634
+#: frontend/src/home/BooksStory.vue:32 onedesk/one_book/heads.py:586
 #: onedesk/one_inventory/heads.py:1472 onedesk/one_inventory/heads.py:1501
 #: onedesk/one_inventory/heads.py:1536
 msgid "Grand Total"
@@ -19162,7 +19158,7 @@ msgstr ""
 msgid "Internal"
 msgstr ""
 
-#: onedesk/one_book/heads.py:372
+#: onedesk/one_book/heads.py:326
 msgid "Internal Transfer"
 msgstr ""
 
@@ -20821,7 +20817,7 @@ msgstr ""
 msgid "Last Answer"
 msgstr ""
 
-#: onedesk/one_book/heads.py:698
+#: onedesk/one_book/heads.py:650
 msgid "Last Bank Transaction"
 msgstr ""
 
@@ -20920,7 +20916,7 @@ msgstr ""
 msgid "Last Priced"
 msgstr ""
 
-#: onedesk/one_book/heads.py:281 onedesk/one_book/heads.py:767
+#: onedesk/one_book/heads.py:235 onedesk/one_book/heads.py:715
 msgid "Last Purchase Invoice"
 msgstr ""
 
@@ -20954,7 +20950,7 @@ msgstr ""
 msgid "Last Said On"
 msgstr ""
 
-#: onedesk/one_book/heads.py:281 onedesk/one_book/heads.py:744
+#: onedesk/one_book/heads.py:235 onedesk/one_book/heads.py:694
 msgid "Last Sales Invoice"
 msgstr ""
 
@@ -23074,7 +23070,7 @@ msgstr ""
 msgid "Matched Type"
 msgstr ""
 
-#: onedesk/one_book/heads.py:453
+#: onedesk/one_book/heads.py:407
 msgid "Matched in the books."
 msgstr ""
 
@@ -23504,7 +23500,7 @@ msgstr ""
 msgid "Modality"
 msgstr ""
 
-#: onedesk/one_book/heads.py:717 onedesk/one_book/home.py:387
+#: onedesk/one_book/heads.py:669 onedesk/one_book/home.py:387
 msgid "Mode of Payment"
 msgstr ""
 
@@ -25683,7 +25679,7 @@ msgstr ""
 #: frontend/src/item/ItemVariantsMake.vue:11 frontend/src/project/Time.vue:90
 #: frontend/src/sheet/shim/PrintDialog.vue:60
 #: frontend/src/writer/shim/PrintDialog.vue:48 onedesk/one/ai.py:2656
-#: onedesk/one/ai_setup.py:128 onedesk/one_book/heads.py:519
+#: onedesk/one/ai_setup.py:128 onedesk/one_book/heads.py:473
 #: onedesk/public/js/settings.js:2133
 msgid "None"
 msgstr ""
@@ -25708,7 +25704,7 @@ msgstr ""
 msgid "None planned"
 msgstr ""
 
-#: onedesk/one_book/heads.py:279 onedesk/one_book/heads.py:535
+#: onedesk/one_book/heads.py:233 onedesk/one_book/heads.py:489
 #: onedesk/one_crm/heads.py:231 onedesk/one_inventory/heads.py:1017
 #: onedesk/public/js/settings.js:2529
 msgid "None yet"
@@ -25948,7 +25944,7 @@ msgstr ""
 msgid "Not in Document"
 msgstr ""
 
-#: onedesk/one_book/heads.py:380 onedesk/one_book/heads.py:421
+#: onedesk/one_book/heads.py:334 onedesk/one_book/heads.py:375
 msgid "Not in a bank statement yet"
 msgstr ""
 
@@ -26000,7 +25996,7 @@ msgstr ""
 msgid "Not marked"
 msgstr ""
 
-#: onedesk/one_book/heads.py:457
+#: onedesk/one_book/heads.py:411
 msgid "Not matched to a payment yet."
 msgstr ""
 
@@ -27871,7 +27867,7 @@ msgstr ""
 #: frontend/src/sent_out/SentOutPage.vue:83
 #: onedesk/notifications/one_storage/link_shared.md
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json
-#: onedesk/one_book/heads.py:491
+#: onedesk/one_book/heads.py:445
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:321
 #: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -27985,7 +27981,7 @@ msgstr ""
 msgid "Open Order"
 msgstr ""
 
-#: onedesk/one_book/heads.py:746 onedesk/one_book/heads.py:769
+#: onedesk/one_book/heads.py:696 onedesk/one_book/heads.py:717
 msgid "Open Orders"
 msgstr ""
 
@@ -28287,7 +28283,7 @@ msgstr ""
 #: frontend/src/home/CrmHome.vue:203 frontend/src/home/CrmHome.vue:221
 #: frontend/src/home/CrmStory.vue:79
 #: onedesk/one_admin/doctype/account_request/account_request.json
-#: onedesk/one_book/heads.py:757 onedesk/one_crm/heads.py:126
+#: onedesk/one_book/heads.py:707 onedesk/one_crm/heads.py:126
 #: onedesk/one_crm/heads.py:341 onedesk/one_crm/home.py:111
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Opportunity"
@@ -28836,7 +28832,7 @@ msgstr ""
 msgid "Outstanding"
 msgstr ""
 
-#: frontend/src/home/BooksStory.vue:29 onedesk/one_book/heads.py:628
+#: frontend/src/home/BooksStory.vue:29 onedesk/one_book/heads.py:580
 msgid "Outstanding Amount"
 msgstr ""
 
@@ -28901,7 +28897,7 @@ msgstr ""
 #: frontend/src/upkeep/UpkeepPage.vue:83 frontend/src/upkeep/UpkeepRows.vue:182
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
-#: onedesk/one_book/heads.py:742 onedesk/one_book/heads.py:765
+#: onedesk/one_book/heads.py:693 onedesk/one_book/heads.py:714
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_payment_reminder/one_payment_reminder.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
@@ -28922,7 +28918,7 @@ msgstr ""
 msgid "Overdue Tasks"
 msgstr ""
 
-#: onedesk/one_book/heads.py:239
+#: onedesk/one_book/heads.py:216
 msgid "Overdue · oldest {0} days"
 msgstr ""
 
@@ -29110,7 +29106,7 @@ msgstr ""
 #: onedesk/one_admin/accounts.py:206
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/log.py:15 onedesk/one_book/heads.py:102
-#: onedesk/one_book/heads.py:372
+#: onedesk/one_book/heads.py:326
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
 #: onedesk/one_book/print_format/one_payment_voucher/one_payment_voucher.json
@@ -29127,7 +29123,7 @@ msgstr ""
 msgid "Paid"
 msgstr ""
 
-#: onedesk/one_book/heads.py:584
+#: onedesk/one_book/heads.py:536
 msgid "Paid Amount"
 msgstr ""
 
@@ -29830,18 +29826,18 @@ msgstr ""
 msgid "Payment Advice"
 msgstr ""
 
-#: onedesk/one_book/heads.py:633
+#: onedesk/one_book/heads.py:585
 msgid "Payment Due Date"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_book/heads.py:482 onedesk/one_book/heads.py:689
+#: onedesk/one_book/heads.py:436 onedesk/one_book/heads.py:641
 #: onedesk/one_book/home.py:317 onedesk/one_book/home.py:497
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Payment Entry"
 msgstr ""
 
-#: onedesk/one_book/heads.py:482
+#: onedesk/one_book/heads.py:436
 msgid "Payment Entry · Draft"
 msgstr ""
 
@@ -30060,7 +30056,7 @@ msgstr ""
 msgid "Payment received. {workspace} is open again at {address}. Thank you."
 msgstr ""
 
-#: onedesk/one_book/heads.py:610
+#: onedesk/one_book/heads.py:562
 msgid "Payment {0} recorded."
 msgstr ""
 
@@ -31046,11 +31042,11 @@ msgstr ""
 msgid "Post your update on the project's page, or reply if this came by mail."
 msgstr ""
 
-#: onedesk/one_book/heads.py:417
+#: onedesk/one_book/heads.py:371
 msgid "Posted"
 msgstr ""
 
-#: onedesk/one_book/heads.py:589
+#: onedesk/one_book/heads.py:541
 msgid "Posting Date"
 msgstr ""
 
@@ -31607,8 +31603,8 @@ msgstr ""
 #: frontend/portal/src/pages/Project.vue:71
 #: frontend/src/project/Overview.vue:289 frontend/src/project/Tasks.vue:21
 #: frontend/src/task/TaskPage.vue:229 onedesk/one/portal.py:63
-#: onedesk/one/print_blocks.py:681 onedesk/one_book/heads.py:625
-#: onedesk/one_book/heads.py:705 onedesk/one_book/heads.py:715
+#: onedesk/one/print_blocks.py:681 onedesk/one_book/heads.py:577
+#: onedesk/one_book/heads.py:657 onedesk/one_book/heads.py:667
 #: onedesk/one_crm/heads.py:294 onedesk/one_inventory/heads.py:1470
 #: onedesk/one_inventory/heads.py:1481 onedesk/one_inventory/heads.py:1520
 #: onedesk/one_inventory/heads.py:1533 onedesk/one_inventory/heads.py:1562
@@ -31676,8 +31672,8 @@ msgstr ""
 #: frontend/src/kit/desk.js:86 frontend/src/project/ProjectPage.vue:192
 #: frontend/src/project/TaskPanel.vue:40 frontend/src/project/Time.vue:90
 #: onedesk/one/portal.py:63 onedesk/one/print_blocks.py:35
-#: onedesk/one/print_blocks.py:636 onedesk/one_book/heads.py:626
-#: onedesk/one_book/heads.py:716
+#: onedesk/one/print_blocks.py:636 onedesk/one_book/heads.py:578
+#: onedesk/one_book/heads.py:668
 #: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_book/print_format/one_budget/one_budget.json
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
@@ -32978,7 +32974,7 @@ msgstr ""
 #: frontend/src/home/InventoryStory.vue:150
 #: frontend/src/home/InventoryStory.vue:162 frontend/src/sent_out/OutRows.vue:9
 #: frontend/src/sent_out/SentOutPage.vue:77 onedesk/one/portal.py:813
-#: onedesk/one_book/heads.py:100 onedesk/one_book/heads.py:372
+#: onedesk/one_book/heads.py:100 onedesk/one_book/heads.py:326
 #: onedesk/one_inventory/heads.py:523 onedesk/one_inventory/heads.py:606
 #: onedesk/one_inventory/heads.py:618 onedesk/one_inventory/heads.py:701
 #: onedesk/one_inventory/heads.py:804
@@ -33092,7 +33088,7 @@ msgstr ""
 msgid "Recipients who haven't sent everything"
 msgstr ""
 
-#: onedesk/one_book/heads.py:378 onedesk/one_book/heads.py:419
+#: onedesk/one_book/heads.py:332 onedesk/one_book/heads.py:373
 msgid "Reconciled"
 msgstr ""
 
@@ -33125,7 +33121,7 @@ msgstr ""
 #: onedesk/one/doctype/record_head/record_head.json
 #: onedesk/one/doctype/workspace_customization/workspace_customization.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/one_ai/doctype/ai_touch/ai_touch.json onedesk/one_book/heads.py:617
+#: onedesk/one_ai/doctype/ai_touch/ai_touch.json onedesk/one_book/heads.py:569
 #: onedesk/one_doc/doctype/writer_document/writer_document.json
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
@@ -33214,7 +33210,7 @@ msgid "Record Overtime"
 msgstr ""
 
 #: frontend/src/project/Invoices.vue:138 frontend/src/project/Suppliers.vue:241
-#: onedesk/one_book/heads.py:616
+#: onedesk/one_book/heads.py:568
 msgid "Record Payment"
 msgstr ""
 
@@ -33413,11 +33409,11 @@ msgstr ""
 msgid "Reference Date"
 msgstr ""
 
-#: onedesk/one_book/heads.py:706
+#: onedesk/one_book/heads.py:658
 msgid "Reference Name"
 msgstr ""
 
-#: onedesk/one_book/heads.py:684 onedesk/one_book/heads.py:707
+#: onedesk/one_book/heads.py:636 onedesk/one_book/heads.py:659
 msgid "Reference Number"
 msgstr ""
 
@@ -34747,11 +34743,11 @@ msgstr ""
 msgid "Return"
 msgstr ""
 
-#: onedesk/one_book/heads.py:656
+#: onedesk/one_book/heads.py:608
 msgid "Return Against"
 msgstr ""
 
-#: onedesk/one_book/heads.py:657
+#: onedesk/one_book/heads.py:609
 msgid "Return Against Purchase Invoice"
 msgstr ""
 
@@ -41090,7 +41086,7 @@ msgstr ""
 msgid "The check was rejected, so the operation stays open."
 msgstr ""
 
-#: onedesk/one_book/heads.py:603
+#: onedesk/one_book/heads.py:555
 msgid "The cheque or transfer number. The invoice's number when left empty."
 msgstr ""
 
@@ -44181,7 +44177,7 @@ msgid "Total Credit"
 msgstr ""
 
 #. Label in the One Journal Voucher print format
-#: onedesk/one_book/heads.py:708
+#: onedesk/one_book/heads.py:660
 #: onedesk/one_book/print_format/one_journal_voucher/one_journal_voucher.json
 msgid "Total Debit"
 msgstr ""
@@ -44247,10 +44243,6 @@ msgstr ""
 
 #: onedesk/one_inventory/heads.py:1584
 msgid "Total Time in Mins"
-msgstr ""
-
-#: onedesk/one_book/heads.py:741 onedesk/one_book/heads.py:764
-msgid "Total Unpaid"
 msgstr ""
 
 #: onedesk/one_inventory/heads.py:1548
@@ -45156,7 +45148,7 @@ msgstr ""
 msgid "Unreadable"
 msgstr ""
 
-#: onedesk/one_book/heads.py:697
+#: onedesk/one_book/heads.py:649
 msgid "Unreconciled"
 msgstr ""
 
@@ -52187,10 +52179,6 @@ msgstr ""
 msgid "shown on the portal to {0} again"
 msgstr ""
 
-#: onedesk/one_book/heads.py:263
-msgid "since last year"
-msgstr ""
-
 #: onedesk/one/ai_setup.py:220
 msgid "smallest first"
 msgstr ""
@@ -52714,7 +52702,7 @@ msgstr ""
 msgid "{0} a {1}"
 msgstr ""
 
-#: onedesk/one_book/heads.py:401
+#: onedesk/one_book/heads.py:355
 msgid "{0} across {1} accounts."
 msgstr ""
 
@@ -53219,7 +53207,7 @@ msgstr ""
 msgid "{0} from {1}"
 msgstr ""
 
-#: onedesk/one_book/heads.py:399
+#: onedesk/one_book/heads.py:353
 msgid "{0} from {1} to {2}."
 msgstr ""
 
@@ -53397,7 +53385,7 @@ msgstr ""
 msgid "{0} hours, {1}"
 msgstr ""
 
-#: frontend/src/item/ItemCustomers.vue:60 onedesk/one_book/heads.py:313
+#: frontend/src/item/ItemCustomers.vue:60 onedesk/one_book/heads.py:267
 #: onedesk/one_inventory/heads.py:1171
 msgid "{0} in 12 months"
 msgstr ""
@@ -53410,7 +53398,7 @@ msgstr ""
 msgid "{0} in all"
 msgstr ""
 
-#: onedesk/one_book/heads.py:451
+#: onedesk/one_book/heads.py:405
 msgid "{0} in on {1}."
 msgstr ""
 
@@ -53834,7 +53822,7 @@ msgstr ""
 msgid "{0} is not printed from formats this workspace sets."
 msgstr ""
 
-#: onedesk/one_book/heads.py:361
+#: onedesk/one_book/heads.py:315
 msgid "{0} is not set against an invoice yet."
 msgstr ""
 
@@ -54069,7 +54057,7 @@ msgstr ""
 msgid "{0} more promised than on hand"
 msgstr ""
 
-#: onedesk/one_book/heads.py:353
+#: onedesk/one_book/heads.py:307
 msgid "{0} moved from {1} to {2}."
 msgstr ""
 
@@ -54358,7 +54346,7 @@ msgstr ""
 msgid "{0} out of 5"
 msgstr ""
 
-#: onedesk/one_book/heads.py:451
+#: onedesk/one_book/heads.py:405
 msgid "{0} out on {1}."
 msgstr ""
 
@@ -54386,7 +54374,7 @@ msgstr ""
 msgid "{0} paid in advance"
 msgstr ""
 
-#: onedesk/one_book/heads.py:350
+#: onedesk/one_book/heads.py:304
 msgid "{0} paid to {1}."
 msgstr ""
 
@@ -54484,7 +54472,7 @@ msgstr ""
 msgid "{0} recalculations after back-dated entries stopped with an error, so what they change is not in the books yet. Fix tries them again."
 msgstr ""
 
-#: onedesk/one_book/heads.py:347
+#: onedesk/one_book/heads.py:301
 msgid "{0} received from {1}."
 msgstr ""
 
@@ -54613,7 +54601,7 @@ msgstr ""
 msgid "{0} still to come"
 msgstr ""
 
-#: onedesk/one_book/heads.py:456
+#: onedesk/one_book/heads.py:410
 msgid "{0} still to match."
 msgstr ""
 
@@ -54878,7 +54866,7 @@ msgstr ""
 msgid "{0} · waiting for you"
 msgstr ""
 
-#: onedesk/one_book/heads.py:283 onedesk/one_crm/heads.py:91
+#: onedesk/one_book/heads.py:237 onedesk/one_crm/heads.py:91
 msgid "{0} · {1}"
 msgstr ""
 

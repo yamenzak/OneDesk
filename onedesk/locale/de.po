@@ -3781,10 +3781,6 @@ msgstr "Ankündigung"
 msgid "Announcements"
 msgstr "Ankündigungen"
 
-#: onedesk/one_book/heads.py:741 onedesk/one_book/heads.py:764
-msgid "Annual Billing"
-msgstr "Jahresumsatz"
-
 #: onedesk/one/privacy.py:233
 msgid "Another administrator approves deleting your own account."
 msgstr "Das Löschen Ihres eigenen Kontos genehmigt ein anderer Administrator."
@@ -44162,10 +44158,6 @@ msgstr "Gesamtmenge"
 msgid "Total Time in Mins"
 msgstr ""
 
-#: onedesk/one_book/heads.py:739 onedesk/one_book/heads.py:762
-msgid "Total Unpaid"
-msgstr "Summe unbezahlt"
-
 #: onedesk/one_inventory/heads.py:1548
 msgid "Total Value"
 msgstr ""
@@ -52078,10 +52070,6 @@ msgstr "angezeigt"
 #: onedesk/one/portal_share.py:169
 msgid "shown on the portal to {0} again"
 msgstr "im Portal wieder für {0} sichtbar"
-
-#: onedesk/one_book/heads.py:261
-msgid "since last year"
-msgstr ""
 
 #: onedesk/one/ai_setup.py:220
 msgid "smallest first"

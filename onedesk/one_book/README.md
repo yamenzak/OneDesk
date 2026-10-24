@@ -168,14 +168,12 @@ their bill. **Credit Note** and **Debit Note** in the rail list these returns.
 
 ### A customer's and a supplier's page
 
-**A customer's page** answers first their **Total Unpaid** (red when any of it
-is late, and against their credit limit when one is set), what is
-**Overdue** and how old the oldest is, their **Annual Billing** (with
-how much more or less than by this day last year), the **Last Sales Invoice**, and
-their **Open Orders**. Beside them, **Billed** is their year, a bar a month.
-A supplier's page says the same from the other side: **Total Unpaid**,
-**Overdue**, **Annual Billing**, the **Last Purchase Invoice**, **Open Orders** and
-**Bought**. Every figure is worked out from the invoices your own list would
+**A customer's page** answers first their **Annual Billing** and **Total
+Unpaid**, then what is **Overdue** and how old the oldest is, the **Last Sales
+Invoice**, and their **Open Orders**. Beside them, **Billed** is their year, a
+bar a month. A supplier's page says the same from the other side: **Annual
+Billing**, **Total Unpaid**, **Overdue**, the **Last Purchase Invoice**, **Open
+Orders** and **Bought**. Every figure is worked out from the invoices your own list would
 show you.
 
 ### Late payers and being told
