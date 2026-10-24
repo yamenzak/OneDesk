@@ -94,7 +94,7 @@ Privacy Policy and the Subprocessors list change with it.
 | `assemble.py` | Declarations into text and HTML, and the version |
 | `gate.py` | Who has agreed to what; `outstanding`, `accept`, `require` |
 | `reading.py` | What the Agreements page asks for |
-| `page/legal`, `../public/js/legal.js` | The Agreements page, and the dialog that asks |
+| `page/legal`, `frontend/src/legal/Agreements.vue`, `../public/js/legal.js` | The Agreements page (an island), and the dialog that asks |
 | `Legal Document Version`, `Legal Acceptance` | Every agreed version's text; every acceptance |
 
 **A version is `revision.hash`.** `revision` is a number in `documents.py`, bumped

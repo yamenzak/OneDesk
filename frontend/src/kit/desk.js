@@ -8,6 +8,9 @@ export function __(text, args, context) {
 
 export const call = (method, args = {}) => frappe().xcall(method, args);
 
+// A method that answers GET only (frappe.whitelist(methods=["GET"])).
+export const get = (method, args = {}) => frappe().xcall(method, args, "GET");
+
 export function money(value, currency, decimals) {
 	const said = window.format_currency(value || 0, currency, decimals);
 	return window.onedesk?.shell?.ltr ? window.onedesk.shell.ltr(said) : said;

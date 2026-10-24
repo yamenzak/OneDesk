@@ -48,13 +48,15 @@ onedesk.brand.wrap = (root) => {
 	});
 	const found = [];
 	while (walker.nextNode()) found.push(walker.currentNode);
-	found.forEach(onedesk.brand.text);
+	found.forEach((node) => onedesk.brand.text(node));
 };
 
-onedesk.brand.text = (node) => {
+// `inside`: an island drawing its own text asks for it by name, which the
+// observer, kept out of islands by LEAVE, never does.
+onedesk.brand.text = (node, inside = false) => {
 	const text = node.nodeValue;
 	const parent = node.parentElement;
-	if (!parent || parent.closest(onedesk.brand.LEAVE)) return;
+	if (!parent || (!inside && parent.closest(onedesk.brand.LEAVE))) return;
 	onedesk.brand.NAME.lastIndex = 0;
 	const named = onedesk.brand.NAME.test(text);
 	const solo = onedesk.brand.solo(text);

@@ -33,6 +33,7 @@ export const ISLANDS = {
 	"onedesk.timers": "src/islands/timers.js",
 	"onedesk.workbook": "src/islands/workbook.js",
 	"onedesk.document": "src/islands/document.js",
+	"onedesk.legal": "src/islands/legal.js",
 };
 
 await buildIslands({

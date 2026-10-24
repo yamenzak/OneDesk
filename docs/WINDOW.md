@@ -44,7 +44,7 @@ shell, lists that only shrink; when they are empty the shell is deleted.
 | Masters | 1, moved: each kind's frappe list, the kinds as a tree in the nav pane |
 | Ready to Submit | 1, moved: a script report with a checkbox column and Submit |
 | Intake | sorted when reached |
-| Agreements (legal) | sorted when reached |
+| Agreements (legal) | 2, moved: a reader, the island `onedesk.legal` |
 | OneCalendar | 2: a product |
 | OneMail | 2: a product |
 | OneCloud | 2: a product |
