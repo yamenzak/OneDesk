@@ -184,6 +184,62 @@ def kinds(app: str) -> list[str]:
 	return said
 
 
+def _matrix(app: str, tier: str) -> set:
+	"""The kinds a level's record matrix shows: the app's, and any the level
+	was given, less those an app's abilities live on (one/abilities.py)."""
+	from onedesk.one import abilities
+
+	return (set(kinds(app)) | _written(_carriers(app, tier))) - abilities.doctypes()
+
+
+def ability_role(app: str, tier: str) -> str:
+	"""The role a level's abilities are written on: the app's first User
+	role, its first Manager role, or a level of the workspace's own itself.
+	Every level holds the User roles, so User's abilities reach them all."""
+	used, managed = _apps()[app]
+	return {"User": used[0] if used else companion(app), "Manager": managed[0]}.get(tier, tier)
+
+
+def abilities_of(app: str, tier: str) -> list[dict]:
+	"""A level's abilities as its page shows them: each declared ability, what
+	the level has of it with User's included, and the least it can be set to
+	(User's own) for a level above User."""
+	from onedesk.one import abilities
+
+	declared = abilities.of_app(app)
+	if not declared:
+		return []
+	mine = abilities.of(app, ability_role(app, tier))
+	base = abilities.of(app, ability_role(app, "User")) if tier != "User" else {}
+	order = abilities.SCOPES
+	said = []
+	for one in declared.ABILITIES:
+		key = one["key"]
+		if one["kind"] == "switch":
+			value = int(bool(mine.get(key)) or bool(base.get(key)))
+			least = int(bool(base.get(key)))
+		else:
+			value = max(mine.get(key, "none"), base.get(key, "none"), key=order.index)
+			least = base.get(key, "none")
+		said.append(
+			{
+				**{name: str(text) if name in ("group", "label", "about", "none") else text for name, text in one.items()},
+				"value": value,
+				"least": least,
+			}
+		)
+	return said
+
+
+def save_abilities(app: str, tier: str, values: dict) -> bool:
+	"""A level's abilities saved on its role; True when anything changed."""
+	from onedesk.one import abilities
+
+	if not abilities.of_app(app):
+		return False
+	return abilities.save(app, ability_role(app, tier), values)
+
+
 def _written(roles_: tuple | set) -> set:
 	"""Every kind the given roles have a rule of the workspace's own on."""
 	return set(frappe.get_all("Custom DocPerm", filters={"role": ["in", list(roles_)]}, pluck="parent"))
@@ -210,7 +266,7 @@ def _picks(doctype: str) -> set:
 def app_of(level: str) -> str:
 	app = frappe.db.get_value("Role", level, "one_app")
 	if not app or app not in _apps() or level == companion(app):
-		frappe.throw(_("{0} is not one of the workspace's levels.").format(level))
+		frappe.throw(_("{0} is not one of the workspace's roles.").format(level))
 	return app
 
 
@@ -220,7 +276,7 @@ def tier_of(key: str) -> tuple[str, str]:
 	app, sep, tier = key.partition(":")
 	if sep:
 		if app not in _apps() or tier not in BASE:
-			frappe.throw(_("{0} is not one of the workspace's levels.").format(key))
+			frappe.throw(_("{0} is not one of the workspace's roles.").format(key))
 		return app, tier
 	return app_of(key), key
 
@@ -255,7 +311,7 @@ def level(key: str) -> dict:
 	app, tier = tier_of(key)
 	held = _holds(app, tier)
 	rows = []
-	for doctype in sorted(set(kinds(app)) | _written(_carriers(app, tier))):
+	for doctype in sorted(_matrix(app, tier)):
 		has = _rights(doctype, held)
 		if has & set(RIGHTS):
 			rows.append({"doctype": doctype, **{right: int(right in has) for right in RIGHTS}})
@@ -265,11 +321,12 @@ def level(key: str) -> dict:
 		"app": app,
 		"own": int(tier not in BASE),
 		"rows": rows,
+		"abilities": abilities_of(app, tier),
 		"people": people_at(app, tier),
 	}
 
 
-def save_level(key: str, title: str | None, rows: list[dict]) -> str:
+def save_level(key: str, title: str | None, rows: list[dict], abilities: dict | None = None) -> str:
 	"""A level's name, for one of the workspace's own, and everything it may do:
 	`rows` are {doctype, right: 0/1, ...}, one per kind. What a right needs
 	comes with it, and a kind somebody at the level may make or change gives
@@ -279,16 +336,16 @@ def save_level(key: str, title: str | None, rows: list[dict]) -> str:
 	if tier not in BASE:
 		title = (title or "").strip()
 		if not title:
-			frappe.throw(_("Give the level a name."))
+			frappe.throw(_("Give the role a name."))
 		if ":" in title:
-			frappe.throw(_("A level's name cannot have a colon in it."))
+			frappe.throw(_("A role's name cannot have a colon in it."))
 		if title != tier:
 			if frappe.db.exists("Role", title):
 				frappe.throw(_("There is already a role called {0}.").format(title))
 			frappe.rename_doc("Role", tier, title, force=True)
 			tier = title
 	held = _holds(app, tier)
-	allowed = set(kinds(app)) | _written(_carriers(app, tier))
+	allowed = _matrix(app, tier)
 	chosen = {}
 	for row in rows or []:
 		doctype = row.get("doctype")
@@ -320,6 +377,8 @@ def save_level(key: str, title: str | None, rows: list[dict]) -> str:
 		doctype for doctype in sorted(wanted) if wanted[doctype] != had.get(doctype, _rights(doctype, held))
 	]
 	_set(app, tier, {doctype: wanted[doctype] for doctype in changed})
+	if abilities is not None and save_abilities(app, tier, abilities):
+		changed.append("abilities")
 	if changed:
 		for user in people_at(app, tier):
 			tell.access_changed(
@@ -412,9 +471,9 @@ def new_level(app: str, title: str, start: str = "User") -> str:
 		frappe.throw(_("That cannot be set."))
 	title = (title or "").strip()
 	if not title:
-		frappe.throw(_("Give the level a name."))
+		frappe.throw(_("Give the role a name."))
 	if ":" in title:
-		frappe.throw(_("A level's name cannot have a colon in it."))
+		frappe.throw(_("A role's name cannot have a colon in it."))
 	if frappe.db.exists("Role", title):
 		frappe.throw(_("There is already a role called {0}.").format(title))
 	frappe.get_doc(
@@ -422,12 +481,13 @@ def new_level(app: str, title: str, start: str = "User") -> str:
 	).insert(ignore_permissions=True)
 	held = _holds(app, start)
 	wanted = {}
-	for doctype in sorted(set(kinds(app)) | _written(_carriers(app, start))):
+	for doctype in sorted(_matrix(app, start)):
 		has = _rights(doctype, held)
 		if has != _rights(doctype, _holds(app, title)):
 			wanted[doctype] = has
 	_set(app, title, wanted)
 	_guarded(app, start, title)
+	save_abilities(app, title, {one["key"]: one["value"] for one in abilities_of(app, start)})
 	return title
 
 
@@ -465,7 +525,7 @@ def delete_level(name: str) -> None:
 	app_of(name)
 	people = people_at(app_of(name), name)
 	if people:
-		frappe.throw(_("{0} people are at this level. Move them to another first.").format(len(people)))
+		frappe.throw(_("{0} people have this role. Give them another first.").format(len(people)))
 	from frappe.core.doctype.doctype.doctype import validate_permissions_for_doctype
 
 	touched = _written({name})
@@ -618,9 +678,9 @@ def profiles() -> list[dict]:
 
 
 def _levels_in(held: set, own: dict) -> dict:
-	from onedesk.one.settings import level_of
+	from onedesk.one.settings import app_level
 
-	return {app: level_of(held, used, managed, own.get(app, ())) for app, (used, managed) in _apps().items()}
+	return {app: app_level(app, held, used, managed, own.get(app, ())) for app, (used, managed) in _apps().items()}
 
 
 def profile(name: str) -> dict:
@@ -638,7 +698,7 @@ def profile(name: str) -> dict:
 def save_profile(name: str | None, title: str, levels: dict) -> str:
 	"""A profile made or changed, as the levels it sets, and set again on
 	everybody on it, keeping what else they hold."""
-	from onedesk.one.settings import LEVELS, roles_for
+	from onedesk.one.settings import ALWAYS, LEVELS, roles_for
 
 	roles.require()
 	title = (title or "").strip()
@@ -648,6 +708,8 @@ def save_profile(name: str | None, title: str, levels: dict) -> str:
 	wanted = {"Desk User"}
 	for app, (used, managed) in _apps().items():
 		level = levels.get(app) or "None"
+		if app in ALWAYS and level == "None":
+			level = "User"
 		if level not in LEVELS and level not in own.get(app, ()):
 			frappe.throw(_("That cannot be set."))
 		wanted |= roles_for(level, used, managed, own.get(app, ()), (companion(app),))

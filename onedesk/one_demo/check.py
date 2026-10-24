@@ -3001,6 +3001,55 @@ def onemail_people_ask_and_mail_managers_decide():
 
 
 @check
+def onemail_roles_and_one_mailbox_grants():
+	"""Layla makes a OneMail role that may change signatures on every
+	mailbox and nothing else, and one that may change only a person's own
+	address; and lets Samir change the workspace mailbox's signature alone,
+	without a role, from its Users tab. Taking Samir off the mailbox takes
+	that away too."""
+	from onedesk.one import access
+	from onedesk.one_mail import addresses, holders
+
+	ours = holders.workspace()
+	made = []
+	with as_user(OWNER):
+		if not frappe.db.exists("Email Account", {"email_id": addresses.person_address("rania")}):
+			addresses.give("rania@one.test", "rania")
+		theirs = frappe.db.get_value("Email Account", {"email_id": addresses.person_address("rania")})
+		brand = access.new_level("OneMail", "Brand Team", "User")
+		made.append(brand)
+		access.save_level(brand, brand, [], {"signature": "all"})
+		own = access.new_level("OneMail", "Own Address", "User")
+		made.append(own)
+		access.save_level(own, own, [], {"signature": "own", "away": "own"})
+		assert {one["key"]: one["value"] for one in access.level(brand)["abilities"]}["signature"] == "all"
+	try:
+		frappe.get_doc("User", "tariq@one.test").add_roles(brand)
+		frappe.get_doc("User", "rania@one.test").add_roles(own)
+		with as_user("tariq@one.test"):
+			assert holders.may(ours, "signature") and holders.may(theirs, "signature")
+			assert not holders.may(ours, "rules") and not holders.may(ours, "away")
+		with as_user("rania@one.test"):
+			assert holders.may(theirs, "signature") and holders.may(theirs, "away"), "her own address"
+			assert not holders.may(ours, "signature") and not holders.may(theirs, "rules")
+		with as_user(OWNER):
+			holders.grant(ours, "samir@one.test", 1)
+			assert holders.give(ours, "samir@one.test", ["signature"]) == ["signature"]
+		with as_user("samir@one.test"):
+			assert holders.may(ours, "signature") and not holders.may(ours, "away"), "one mailbox, one thing"
+		with as_user(OWNER):
+			holders.revoke(ours, "samir@one.test")
+		with as_user("samir@one.test"):
+			assert not holders.may(ours, "signature"), "off the mailbox, off what it gave"
+	finally:
+		frappe.get_doc("User", "tariq@one.test").remove_roles(brand)
+		frappe.get_doc("User", "rania@one.test").remove_roles(own)
+		with as_user(OWNER):
+			for role in made:
+				access.delete_level(role)
+
+
+@check
 def onemail_a_shared_mailbox_is_connected_given_and_let_go():
 	"""Layla connects the company's sales mailbox for the team, chooses who
 	holds it, makes it the workspace's and back, gives its password again and

@@ -885,10 +885,6 @@ msgstr "ترويسة الرسالة تحتاج إلى شيء لطباعته."
 msgid "A letter head's name may not contain quotes or angle brackets."
 msgstr "لا يجوز أن يحتوي اسم ترويسة الرسائل على علامات اقتباس أو أقواس زاوية."
 
-#: onedesk/one/access.py:284 onedesk/one/access.py:417
-msgid "A level's name cannot have a colon in it."
-msgstr "لا يمكن أن يحتوي اسم المستوى على نقطتين."
-
 #: onedesk/one_storage/library.py:32
 msgid "A library needs a name."
 msgstr "تحتاج المكتبة إلى اسم."
@@ -1256,6 +1252,10 @@ msgstr "الطلب الذي يملأ حقول السجل يُرسَل إلى ش�
 msgid "A retried webhook meets this index rather than a check somebody remembered to write."
 msgstr "يصطدم الويب هوك المُعاد بهذا الفهرس بدل فحص تذكّر أحدهم كتابته."
 
+#: onedesk/public/js/settings.js:1044
+msgid "A role above User has everything User has."
+msgstr "الدور الأعلى من المستخدم لديه كل ما لدى المستخدم."
+
 #: onedesk/one_hr/home.py:236
 msgid "A role being hired for, and its applicants."
 msgstr "وظيفة يجري التوظيف لها ومتقدّموها."
@@ -1263,6 +1263,10 @@ msgstr "وظيفة يجري التوظيف لها ومتقدّموها."
 #: onedesk/one_hr/home.py:259
 msgid "A role somebody asked to hire for."
 msgstr "وظيفة طلب أحدهم التوظيف لها."
+
+#: onedesk/one/access.py:341 onedesk/one/access.py:476
+msgid "A role's name cannot have a colon in it."
+msgstr "لا يمكن أن يحتوي اسم الدور على نقطتين."
 
 #: onedesk/one_hr/home.py:281
 msgid "A round of appraisals, and who is in it."
@@ -4548,6 +4552,10 @@ msgstr "اطلب مرة أخرى من صفحة بياناتك إذا كنت لا
 msgid "Ask an administrator for access."
 msgstr "اطلب الوصول من أحد المسؤولين."
 
+#: onedesk/one_mail/abilities.py:46
+msgid "Ask for Approval"
+msgstr "طلب الموافقة"
+
 #: frontend/src/project/Suppliers.vue:124
 #: frontend/src/quotes/QuotesPage.vue:155 onedesk/public/js/quotes_actions.js:8
 msgid "Ask for Prices"
@@ -6812,9 +6820,17 @@ msgstr ""
 msgid "Campaign live"
 msgstr "الحملة قيد التشغيل"
 
+#: onedesk/public/js/onemail_settings.js:593
+msgid "Can Change"
+msgstr "يمكنه التغيير"
+
 #: frontend/src/item/ItemSelling.vue:60
 msgid "Can Go Now"
 msgstr "جاهز للتسليم"
+
+#: onedesk/public/js/onemail_settings.js:567
+msgid "Can change {0}"
+msgstr "يمكنه تغيير {0}"
 
 #. Label of the allow_download (Check) field in DocType 'Cloud Link'
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
@@ -6837,10 +6853,6 @@ msgstr "يمكن أن يتضمن حقلًا من السجل، مثل {0}."
 #: onedesk/one/settings.py:1063
 msgid "Can manage people, the plan, domains and OneAI. Other administrators are notified."
 msgstr "يمكنه إدارة الأشخاص والخطة والنطاقات وOneAI. يُشعَر المسؤولون الآخرون."
-
-#: onedesk/one/settings.py:1004
-msgid "Can manage the workspace's mailboxes: who holds them, signatures, sender names, out of office and rules."
-msgstr "يمكنه إدارة صناديق بريد مساحة العمل: من يستخدمها والتواقيع وأسماء المرسلين والرد أثناء الغياب والقواعد."
 
 #: onedesk/public/js/doctype_settings.js:409
 msgid "Can only go up, and not below {0}, used by {1} {2}."
@@ -8599,6 +8611,10 @@ msgstr "ربط صندوق بريد"
 msgid "Connect Shared Mailbox"
 msgstr "ربط صندوق بريد مشترك"
 
+#: onedesk/one_mail/abilities.py:83
+msgid "Connect Shared Mailboxes"
+msgstr "ربط صناديق البريد المشتركة"
+
 #: onedesk/public/js/onecloud.js:1840 onedesk/public/js/onecloud.js:1871
 msgid "Connect as a drive…"
 msgstr "الاتصال كمحرك أقراص…"
@@ -9923,17 +9939,17 @@ msgstr "لون مخصص"
 msgid "Custom format…"
 msgstr "تنسيق مخصص…"
 
-#: onedesk/public/js/settings.js:1155
-msgid "Custom level of {0}"
-msgstr "مستوى مخصص في {0}"
-
-#: onedesk/public/js/settings.js:1084
-msgid "Custom levels sit between User and Manager."
-msgstr "المستويات المخصصة تقع بين المستخدم والمدير."
-
 #: frontend/src/sheet/components/SheetEditor/index.vue:1014
 msgid "Custom number format"
 msgstr "تنسيق أرقام مخصص"
+
+#: onedesk/public/js/settings.js:1007
+msgid "Custom role of {0}"
+msgstr "دور مخصص في {0}"
+
+#: onedesk/public/js/settings.js:936
+msgid "Custom roles sit between User and Manager."
+msgstr "تقع الأدوار المخصصة بين المستخدم والمدير."
 
 #. Label of the customer (Link) field in DocType 'Tenant'
 #. Option for the 'By' (Select) field in DocType 'Tenant Event'
@@ -14111,6 +14127,10 @@ msgstr "كل ساعة"
 msgid "Every Mail Manager and administrator"
 msgstr "كل مدير بريد ومسؤول"
 
+#: onedesk/one_mail/abilities.py:20
+msgid "Every Mailbox"
+msgstr "كل صناديق البريد"
+
 #. Option for the 'When' (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Every Month"
@@ -16691,13 +16711,25 @@ msgstr "إعطاء إلى…"
 msgid "Give Up After"
 msgstr "التوقف بعد"
 
+#: onedesk/one_mail/abilities.py:78
+msgid "Give a connected mailbox its password again, or disconnect it."
+msgstr "أعد إدخال كلمة مرور صندوق بريد مربوط، أو افصله."
+
 #: onedesk/one/automation_steps.py:54
 msgid "Give a subject or a mail template"
 msgstr "أدخل موضوعًا أو قالب بريد"
 
+#: onedesk/one_mail/abilities.py:70
+msgid "Give and take away a shared mailbox, and what each person may do in it."
+msgstr "منح صندوق بريد مشترك وسحبه، وتحديد ما يمكن لكل شخص فعله فيه."
+
 #: onedesk/one_project/progress.py:92 onedesk/one_project/progress.py:97
 msgid "Give each line a share done between 0 and 100, and at least one above 0."
 msgstr "أعطِ كل بند نسبة إنجاز بين 0 و100، وبندًا واحدًا على الأقل فوق 0."
+
+#: onedesk/one_mail/abilities.py:93
+msgid "Give people their workspace address, and choose which mailboxes they may connect."
+msgstr "امنح الأشخاص عنوان مساحة العمل، واختر صناديق البريد التي يمكنهم ربطها."
 
 #: onedesk/one_project/budget.py:199
 msgid "Give the cost type a budget."
@@ -16707,13 +16739,13 @@ msgstr "حدّد ميزانية لنوع التكلفة."
 msgid "Give the group a name."
 msgstr "أعطِ المجموعة اسمًا."
 
-#: onedesk/one/access.py:282 onedesk/one/access.py:415
-msgid "Give the level a name."
-msgstr "أعطِ المستوى اسمًا."
-
 #: onedesk/one/access.py:646
 msgid "Give the profile a name."
 msgstr "أعطِ الملف الوظيفي اسمًا."
+
+#: onedesk/one/access.py:339 onedesk/one/access.py:474
+msgid "Give the role a name."
+msgstr "أعطِ الدور اسمًا."
 
 #: onedesk/one/settings.py:2155
 msgid "Give the rule a name."
@@ -18778,6 +18810,10 @@ msgstr "في {0}"
 #: onedesk/one_project/view.py:636
 msgid "In {0} days"
 msgstr "خلال {0} يوم"
+
+#: onedesk/public/js/onemail_settings.js:577
+msgid "In {0} only, beyond what their role allows."
+msgstr "في {0} فقط، إضافة إلى ما يسمح به دوره."
 
 #: frontend/src/item/ItemPage.vue:237
 msgid "In {0} warehouses"
@@ -21812,10 +21848,6 @@ msgstr "مستوى من"
 msgid "Level {0}"
 msgstr "المستوى {0}"
 
-#: onedesk/public/js/settings.js:1083
-msgid "Levels"
-msgstr "المستويات"
-
 #: onedesk/one_storage/namespace.py:361 onedesk/one_storage/namespace.py:606
 #: onedesk/one_storage/namespace.py:845
 msgid "Libraries"
@@ -22515,10 +22547,6 @@ msgstr "نطاق البريد"
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 msgid "Mail Folder"
 msgstr "مجلد البريد"
-
-#: onedesk/one/settings.py:1003
-msgid "Mail Manager"
-msgstr "مدير البريد"
 
 #. Label of the one_mail_name (Data) field in DocType 'User'
 #: onedesk/one_mail/custom/user.json
@@ -24467,11 +24495,6 @@ msgstr "عميل محتمل جديد ينتظر"
 msgid "New Letter Head"
 msgstr "ترويسة رسائل جديدة"
 
-#: onedesk/public/js/doctype_settings.js:262 onedesk/public/js/settings.js:1038
-#: onedesk/public/js/settings.js:1107
-msgid "New Level"
-msgstr "مستوى جديد"
-
 #: onedesk/public/js/calendar_link.js:24 onedesk/public/js/calendar_link.js:66
 msgid "New Link"
 msgstr "رابط جديد"
@@ -24549,6 +24572,11 @@ msgstr "عرض سعر جديد"
 #: onedesk/one_book/print_format/one_exchange_rate_revaluation/one_exchange_rate_revaluation.json
 msgid "New Rate"
 msgstr "السعر الجديد"
+
+#: onedesk/public/js/doctype_settings.js:262 onedesk/public/js/settings.js:890
+#: onedesk/public/js/settings.js:959
+msgid "New Role"
+msgstr "دور جديد"
 
 #: onedesk/one/ai.py:2355 onedesk/one/ai.py:2446
 #: onedesk/public/js/doctype_settings.js:235
@@ -25055,10 +25083,6 @@ msgstr "بلا مناوبة"
 msgid "No access"
 msgstr "لا يوجد وصول"
 
-#: onedesk/public/js/doctype_settings.js:264
-msgid "No access levels"
-msgstr "لا توجد مستويات وصول"
-
 #: onedesk/public/js/portal_share.js:69
 msgid "No account needed. It opens until {0}."
 msgstr "لا حاجة إلى حساب. يفتح حتى {0}."
@@ -25385,10 +25409,6 @@ msgstr "لا توجد موافقات مطابقة"
 msgid "No matching fields"
 msgstr "لا توجد حقول مطابقة"
 
-#: onedesk/public/js/settings.js:1087
-msgid "No matching levels"
-msgstr "لا توجد مستويات مطابقة"
-
 #: onedesk/public/js/settings.js:667
 msgid "No matching memories"
 msgstr "لا توجد ذكريات مطابقة"
@@ -25404,6 +25424,10 @@ msgstr "لا يوجد أشخاص مطابقون"
 #: onedesk/public/js/settings.js:1879
 msgid "No matching records"
 msgstr "لا توجد سجلات مطابقة"
+
+#: onedesk/public/js/settings.js:939
+msgid "No matching roles"
+msgstr "لا توجد أدوار مطابقة"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:584
 msgid "No matching values"
@@ -25567,6 +25591,10 @@ msgstr "لا توجد نتائج"
 #: onedesk/one_project/retention.py:405 onedesk/one_project/retention.py:457
 msgid "No retention is held here."
 msgstr "لا توجد محتجزات هنا."
+
+#: onedesk/public/js/doctype_settings.js:264
+msgid "No roles"
+msgstr "لا توجد أدوار"
 
 #: onedesk/public/js/doctype_settings.js:237
 #: onedesk/public/js/onemail_settings.js:510 onedesk/public/js/settings.js:2989
@@ -26990,6 +27018,10 @@ msgstr "في إجازة"
 msgid "On printed and sent invoices, quotes and orders."
 msgstr "على الفواتير وعروض الأسعار والطلبات المطبوعة والمرسلة."
 
+#: onedesk/one_mail/abilities.py:62
+msgid "On shared mailboxes."
+msgstr "على صناديق البريد المشتركة."
+
 #: onedesk/one_studio/doctype/extension/extension.js:46
 msgid "On the OneCRM pipeline board"
 msgstr "على لوحة مسار المبيعات في OneCRM"
@@ -27386,6 +27418,10 @@ msgstr "تقييم OneAI"
 msgid "OneAI Reads To"
 msgstr "يقرأ OneAI حتى"
 
+#: onedesk/one_mail/abilities.py:51
+msgid "OneAI Settings"
+msgstr "إعدادات OneAI"
+
 #. Label of a number card
 #. Label of a number card in the One Workspace
 #: onedesk/one/number_card/oneai_suggestions/oneai_suggestions.json
@@ -27746,14 +27782,6 @@ msgstr "لا يمكن فتح سوى ملفات Word كمستند."
 #: onedesk/public/js/onemail_settings.js:122
 msgid "Only a Mail Manager or an administrator can change this."
 msgstr "لا يمكن تغيير هذا إلا لمدير البريد أو المسؤول."
-
-#: onedesk/one_mail/holders.py:79
-msgid "Only a Mail Manager or an administrator can change {0}."
-msgstr "لا يمكن تغيير {0} إلا لمدير البريد أو المسؤول."
-
-#: onedesk/one/roles.py:70
-msgid "Only a Mail Manager or an administrator can do this."
-msgstr "لا يمكن القيام بهذا إلا لمدير البريد أو المسؤول."
 
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.py:14
 msgid "Only a Workspace Administrator can share a server with everyone."
@@ -33444,6 +33472,10 @@ msgstr "مشاركة السجلات"
 msgid "Record Type"
 msgstr "نوع السجل"
 
+#: onedesk/public/js/settings.js:1050
+msgid "Record Types"
+msgstr "أنواع السجلات"
+
 #. Label of the applied_doc (Data) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "Record Written"
@@ -37591,6 +37623,10 @@ msgstr "نمط التوقيع"
 msgid "Signature Shows"
 msgstr "ما يظهر في التوقيع"
 
+#: onedesk/one_mail/abilities.py:26
+msgid "Signature and Sender Name"
+msgstr "التوقيع واسم المرسل"
+
 #: onedesk/one_ai/proposals.py:620 onedesk/public/js/oneai/Record.vue:141
 #: onedesk/public/js/onemail.js:847
 msgid "Signature for {0}"
@@ -38658,9 +38694,9 @@ msgstr "يبدأ عند التسجيل"
 msgid "Starts with https://"
 msgstr "يبدأ بـ https://"
 
-#: onedesk/public/js/settings.js:1130
-msgid "Starts with this level's permissions."
-msgstr "يبدأ بصلاحيات هذا المستوى."
+#: onedesk/public/js/settings.js:982
+msgid "Starts with this role's abilities and permissions."
+msgstr "يبدأ بقدرات هذا الدور وصلاحياته."
 
 #. Label of the state (Select) field in DocType 'Credit Reservation'
 #. Label of the state (Select) field in DocType 'AI Proposal'
@@ -42853,6 +42889,10 @@ msgstr "موادهم في"
 #: onedesk/public/js/settings.js:1677
 msgid "Their One account becomes the owner and receives invoices and payment notices."
 msgstr "يصبح حسابه في One المالك ويتلقى الفواتير وإشعارات الدفع."
+
+#: onedesk/one_mail/abilities.py:20
+msgid "Their Own Address"
+msgstr "عنوانه الخاص"
 
 #. Label in the One Supplier Quotation print format
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
@@ -47620,6 +47660,10 @@ msgstr "ما عليك لكل مورد، حسب مدة التأخير."
 msgid "What you will have once orders come and go."
 msgstr "ما سيكون لديك بعد أن تأتي الطلبات وتذهب."
 
+#: onedesk/public/js/onemail_settings.js:570
+msgid "What {0} Can Change"
+msgstr "ما يمكن لـ{0} تغييره"
+
 #: onedesk/one/ai_setup.py:713
 msgid "What {0} sees"
 msgstr "ما يراه {0}"
@@ -49351,6 +49395,10 @@ msgstr "من"
 msgid "Who Supplies the Rest?"
 msgstr "من يورّد الباقي؟"
 
+#: onedesk/one_mail/abilities.py:67
+msgid "Who Uses a Mailbox"
+msgstr "من يستخدم صندوق البريد"
+
 #: onedesk/one_crm/home.py:186
 msgid "Who answers calls to a number, on which days and hours."
 msgstr "من يرد على مكالمات رقم ما، في أي أيام وساعات."
@@ -50495,6 +50543,10 @@ msgstr "عُلّقت مساحة العمل"
 msgid "Workspace administrators"
 msgstr "مسؤولو مساحة العمل"
 
+#: onedesk/one_mail/abilities.py:90
+msgid "Workspace and External Addresses"
+msgstr "عناوين مساحة العمل والعناوين الخارجية"
+
 #: onedesk/public/js/settings.js:1610
 msgid "Workspace closing. Everyone is notified."
 msgstr "مساحة العمل قيد الإغلاق. يتلقى الجميع إشعارًا."
@@ -51463,6 +51515,14 @@ msgstr "طلب التوظيف لـ {designation}: {status}"
 msgid "Your role"
 msgstr "دورك"
 
+#: onedesk/one_mail/holders.py:88
+msgid "Your role doesn't allow changing this on {0}."
+msgstr "لا يسمح لك دورك بتغيير هذا في {0}."
+
+#: onedesk/one_mail/holders.py:41
+msgid "Your role doesn't allow this."
+msgstr "لا يسمح دورك بهذا."
+
 #: onedesk/public/js/settings.js:994
 msgid "Your sessions are on the Sign-in page."
 msgstr "جلساتك موجودة في صفحة تسجيل الدخول."
@@ -52102,10 +52162,6 @@ msgstr "أنشأ قائمة العام القادم، {0}"
 msgid "made {0} the holiday list for everyone"
 msgstr "جعل {0} قائمة العطلات للجميع"
 
-#: onedesk/one/settings.py:1115
-msgid "manager of the workspace's mail"
-msgstr "مدير بريد مساحة العمل"
-
 #. Option for the 'Linked By' (Select) field in DocType 'Communication Link'
 #: onedesk/one_mail/custom/communication_link.json
 msgid "manual"
@@ -52168,10 +52224,6 @@ msgstr "دون تاريخ"
 #: onedesk/one_admin/heads.py:367
 msgid "no file can be kept"
 msgstr "لا يمكن حفظ أي ملف"
-
-#: onedesk/one/settings.py:1115
-msgid "no longer a mail manager"
-msgstr "لم يعد مدير بريد"
 
 #: onedesk/one/settings.py:1158
 msgid "no longer an administrator"
@@ -53436,6 +53488,10 @@ msgstr "لا يدعم {0} موافقات مساحة العمل."
 msgid "{0} doesn't support workspace automations."
 msgstr "لا يدعم {0} أتمتة مساحة العمل."
 
+#: onedesk/one_mail/holders.py:355
+msgid "{0} doesn't use this mailbox."
+msgstr "{0} لا يستخدم صندوق البريد هذا."
+
 #: onedesk/one_intake/page/intake/intake.js:109
 msgid "{0} done"
 msgstr "{0} منجز"
@@ -53633,6 +53689,10 @@ msgstr "لا يحتوي {0} على الخاصية {1}. يقبل {2}."
 #: onedesk/one/linked.py:267
 msgid "{0} has no section through {1}."
 msgstr "لا يوجد في {0} قسم عبر {1}."
+
+#: onedesk/one/abilities.py:32
+msgid "{0} has no such ability."
+msgstr "لا توجد هذه القدرة في {0}."
 
 #: onedesk/one_project/templates.py:82
 msgid "{0} has no tasks to make a template from."
@@ -54125,9 +54185,9 @@ msgstr "{0} ليس على مساحة العمل هذه."
 msgid "{0} is not one of the masters you manage."
 msgstr "{0} ليس من البيانات الأساسية التي تديرها."
 
-#: onedesk/one/access.py:213 onedesk/one/access.py:223
-msgid "{0} is not one of the workspace's levels."
-msgstr "{0} ليس من مستويات مساحة العمل."
+#: onedesk/one/access.py:269 onedesk/one/access.py:279
+msgid "{0} is not one of the workspace's roles."
+msgstr "{0} ليس من أدوار مساحة العمل."
 
 #: onedesk/one_project/template_view.py:182
 msgid "{0} is not one of this template's tasks."
@@ -54723,10 +54783,6 @@ msgstr "{0} قيد الانتظار"
 msgid "{0} people"
 msgstr "{0} أشخاص"
 
-#: onedesk/one/access.py:468
-msgid "{0} people are at this level. Move them to another first."
-msgstr "يوجد {0} أشخاص في هذا المستوى. انقلهم إلى مستوى آخر أولًا."
-
 #: onedesk/one/ai_setup.py:542
 msgid "{0} people at this level, who are notified"
 msgstr "{0} أشخاص في هذا المستوى، وسيتم إشعارهم"
@@ -54734,6 +54790,10 @@ msgstr "{0} أشخاص في هذا المستوى، وسيتم إشعارهم"
 #: onedesk/one_admin/billing.py:152
 msgid "{0} people have seats and the plan allows {1}. Deactivate someone first."
 msgstr "لدى {0} أشخاص مقاعد والخطة تسمح بـ {1}. أوقف أحدهم أولًا."
+
+#: onedesk/one/access.py:528
+msgid "{0} people have this role. Give them another first."
+msgstr "لدى {0} أشخاص هذا الدور. امنحهم دورًا آخر أولًا."
 
 #: frontend/src/workload/WorkloadList.vue:7
 msgid "{0} people over capacity"

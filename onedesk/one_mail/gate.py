@@ -188,7 +188,7 @@ def settings_of(account: str) -> dict:
 		"attachments": bool(held.one_ai_attachments),
 		"limit": held.one_ai_limit or 0,
 		"used": round(used(held), 2),
-		"may_manage": holders.may_manage(account),
+		"may_manage": holders.may(account, "ai"),
 	}
 
 
@@ -206,7 +206,7 @@ def set_settings(
 	from onedesk.one_intake import switches
 	from onedesk.one_mail import holders
 
-	holders.manages(account)
+	holders.must(account, "ai")
 	values = {}
 	if on is not None:
 		values["one_ai_off"] = 0 if int(on) else 1

@@ -19,11 +19,35 @@ WORKSPACE = "one_mail_workspace"
 ORDER = ("Inbox", "Drafts", "Sent", "Archive", "Junk", "Trash", "Other")
 
 
-def _admin() -> None:
-	"""Refuse anyone who doesn't manage the workspace's mail (one/roles.py)."""
-	from onedesk.one import roles
+def _ability(key: str) -> dict:
+	from onedesk.one_mail import abilities as declared
 
-	roles.require_mail()
+	return next(one for one in declared.ABILITIES if one["key"] == key)
+
+
+def may_do(key: str, user: str | None = None) -> bool:
+	"""Whether somebody's roles let them do a workspace-wide thing in
+	OneMail: connect shared mailboxes, set the address policy, keep the mail
+	templates (one_mail/abilities.py)."""
+	from onedesk.one import abilities
+	from onedesk.one_mail.abilities import DOCTYPE
+
+	return abilities.held(DOCTYPE, _ability(key)["all"], user)
+
+
+def _admin(*keys: str) -> None:
+	"""Refuse anyone whose roles allow none of `keys`."""
+	if not any(may_do(key) for key in keys):
+		frappe.throw(_("Your role doesn't allow this."), frappe.PermissionError)
+
+
+def may_open_others() -> bool:
+	"""Whether somebody's roles reach other people's mailboxes at all: any
+	ability on every mailbox, or the address policy. What opens People's
+	Mailboxes."""
+	from onedesk.one_mail import abilities as declared
+
+	return any(may_do(key) for key in (*declared.SHARED, "policy"))
 
 
 def workspace() -> str | None:
@@ -34,59 +58,72 @@ def workspace() -> str | None:
 	return addresses.ensure_workspace()
 
 
-def may_manage(account: str) -> bool:
-	"""Whether the reader may change a mailbox's signature, sender name,
-	replies, rules, OneAI and connection. The workspace's mailboxes, shared
-	and issued alike, are a Mail Manager's or an administrator's, holding
-	them or not: the team writes from a shared one, and an issued address
-	speaks for the company. A mailbox somebody connected for themselves is
-	theirs, and a Mail Manager's too. Connecting a shared mailbox doesn't
-	make it the connector's."""
-	from onedesk.one import roles
+def may(account: str, key: str, user: str | None = None) -> bool:
+	"""Whether somebody may change one part of a mailbox (`key`, one of
+	one_mail/abilities.py SHARED): a mailbox they connected for themselves is
+	theirs; any other through their roles (every mailbox, or for an ability
+	with a scope, the address the workspace issued them), or through a share
+	of that one mailbox. Workspace administrators may do everything."""
+	from onedesk.one import abilities, roles
 	from onedesk.one_mail import actions
+	from onedesk.one_mail.abilities import DOCTYPE
 
-	if roles.manages_mail():
+	user = user or frappe.session.user
+	if user == "Administrator" or roles.administers(user):
 		return True
 	shared, hosted = frappe.db.get_value("Email Account", account, ["one_shared", "one_hosted"]) or (0, 0)
-	if shared or hosted:
-		return False
-	return actions.holds(account)
+	holds = actions.holds(account, user)
+	if holds and not shared and not hosted:
+		return True
+	one = _ability(key)
+	if abilities.may(DOCTYPE, one["all"], account, user):
+		return True
+	return bool(one.get("own") and holds and hosted and not shared and abilities.held(DOCTYPE, one["own"], user))
+
+
+def must(account: str, key: str) -> None:
+	"""Refuse a reader who may not change this part of the mailbox."""
+	if not may(account, key):
+		email = frappe.db.get_value("Email Account", account, "email_id") or account
+		frappe.throw(_("Your role doesn't allow changing this on {0}.").format(email), frappe.PermissionError)
+
+
+def may_manage(account: str) -> bool:
+	"""Whether the reader may change any part of a mailbox: what opens its
+	settings to them."""
+	from onedesk.one_mail.abilities import SHARED
+
+	return any(may(account, key) for key in SHARED)
+
+
+def mays(account: str) -> dict:
+	"""{key: 0/1} for every part of a mailbox, for its settings' tabs."""
+	from onedesk.one_mail.abilities import SHARED
+
+	return {key: int(may(account, key)) for key in SHARED}
 
 
 def issued_to_them(account: str) -> bool:
 	"""Whether the mailbox is the reader's own address from the workspace,
-	which they hold but don't manage: a rule they make on it waits for a
-	Mail Manager (rules.save_rule)."""
+	whose rules they may not change: a rule they make on it waits for
+	whoever may (rules.save_rule)."""
 	from onedesk.one_mail import actions
 
 	shared, hosted = frappe.db.get_value("Email Account", account, ["one_shared", "one_hosted"]) or (0, 0)
-	return bool(hosted and not shared and actions.holds(account) and not may_manage(account))
+	return bool(hosted and not shared and actions.holds(account) and not may(account, "rules"))
 
 
 def sees(account: str):
-	"""Refuse a reader who neither holds nor manages this mailbox."""
+	"""Refuse a reader who neither holds nor may change this mailbox."""
 	from onedesk.one_mail import actions
 
 	if not (actions.holds(account) or may_manage(account)):
 		actions.require(account)
 
 
-def manages(account: str):
-	"""Refuse a reader who may not manage this mailbox (may_manage)."""
-	if not may_manage(account):
-		email, shared = frappe.db.get_value("Email Account", account, ["email_id", "one_shared"]) or (account, 0)
-		said = (
-			_("Only a Mail Manager or an administrator can change {0}.")
-			if shared or frappe.db.get_value("Email Account", account, "one_hosted")
-			else _("You don't have access to the mailbox {0}.")
-		)
-		frappe.throw(said.format(email), frappe.PermissionError)
-
-
 def may_sign(account: str) -> bool:
-	"""Whether the reader may change how a mailbox signs: one that sends and
-	that they manage."""
-	return bool(frappe.db.get_value("Email Account", account, "enable_outgoing")) and may_manage(account)
+	"""Whether the reader may change how a mailbox signs: one that sends."""
+	return bool(frappe.db.get_value("Email Account", account, "enable_outgoing")) and may(account, "signature")
 
 
 def sending_rows(user: str | None = None) -> dict:
@@ -177,8 +214,9 @@ def _box(account, rows: dict, ours: str | None, listed: list) -> dict:
 		"may_sign": int(may_sign(account.name)),
 		"auto_reply": int(bool(account.get("enable_auto_reply"))),
 		"signed": first_line(account.signature),
-		"may_manage": int(may_manage(account.name)),
-		"may_reconnect": int(bool(account.one_connected) and may_manage(account.name)),
+		"may": (held := mays(account.name)),
+		"may_manage": int(any(held.values())),
+		"may_reconnect": int(bool(account.one_connected) and held["connection"]),
 		"unread": sum(one.unread or 0 for one in listed if one.kind in ("Inbox", "Other")),
 		"folders": listed,
 	}
@@ -197,19 +235,28 @@ def mailbox(account: str) -> dict:
 def shared() -> dict:
 	"""The workspace's mailboxes, who reads and who sends from each, and
 	whether people may send from their own address: OneMail's settings,
-	for an administrator."""
-	_admin()
+	for whoever's role reaches the workspace's mailboxes."""
+	if not (may_do("connect_shared") or may_open_others()):
+		_admin("connect_shared", "policy")
 	accounts = frappe.get_all(
 		"Email Account",
 		filters={"one_shared": 1},
 		fields=["name", "email_id", "one_hosted", "one_connected", "enable_outgoing"],
 		order_by="email_id asc",
 	)
+	from onedesk.one import abilities
+
 	ours = workspace()
 	names = dict(frappe.get_all("User", filters={"user_type": "System User"}, fields=["name", "full_name"], as_list=True))
 	for account in accounts:
+		given = abilities.grants("OneMail", account.name)
 		account["people"] = [
-			{"user": row.parent, "name": names.get(row.parent) or row.parent, "sends": int(row.one_sends is None or bool(row.one_sends))}
+			{
+				"user": row.parent,
+				"name": names.get(row.parent) or row.parent,
+				"sends": int(row.one_sends is None or bool(row.one_sends)),
+				"may": given.get(row.parent, []),
+			}
 			for row in frappe.get_all(
 				"User Email",
 				filters={"email_account": account.name},
@@ -219,8 +266,13 @@ def shared() -> dict:
 		]
 		account["workspace"] = int(account.name == ours)
 	accounts.sort(key=lambda one: -one["workspace"])
+	from onedesk.one_mail import abilities as declared
+
 	return {
 		"mailboxes": accounts,
+		"abilities": [
+			{"key": one["key"], "label": str(one["label"])} for one in declared.ABILITIES if one["key"] in declared.SHARED
+		],
 		"personal_sends": int(addresses.personal_sends()),
 		"allowed_domains": addresses.allowed_domains(),
 		"external": int(addresses.external()),
@@ -234,7 +286,8 @@ def addresses_of_people() -> list[dict]:
 	"""Every person's own mailbox, the address the workspace issued them and
 	those they connected, with whose it is: what a Mail Manager opens to set
 	a signature, a sender name or an away reply for somebody."""
-	_admin()
+	if not may_open_others():
+		_admin("policy")
 	held = {
 		row.email_account: row.parent
 		for row in frappe.get_all("User Email", fields=["email_account", "parent"], order_by="parent asc")
@@ -263,8 +316,9 @@ def addresses_of_people() -> list[dict]:
 @frappe.whitelist(methods=["POST"])
 def set_access(account: str, people) -> list[dict]:
 	"""Exactly these people hold one of the workspace's mailboxes, each
-	reading it and, where `sends`, sending from it: [{user, sends}]."""
-	_admin()
+	reading it and, where `sends`, sending from it: [{user, sends}]. Who
+	no longer holds it loses what they were given in it too."""
+	must(account, "holders")
 	if not frappe.db.get_value("Email Account", account, "one_shared"):
 		frappe.throw(_("{0} is a personal mailbox and can't be shared.").format(account))
 	rows = json.loads(people) if isinstance(people, str) else people or []
@@ -275,8 +329,11 @@ def set_access(account: str, people) -> list[dict]:
 	now = set(frappe.get_all("User Email", filters={"email_account": account}, pluck="parent"))
 	for user in set(wanted) - now:
 		addresses.hold(account, user)
+	from onedesk.one import abilities
+
 	for user in now - set(wanted):
 		frappe.db.delete("User Email", {"parent": user, "email_account": account})
+		abilities.grant("OneMail", account, user, [])
 	for user, sends in wanted.items():
 		frappe.db.set_value("User Email", {"parent": user, "email_account": account}, "one_sends", sends, update_modified=False)
 	from onedesk.one_mail import tell
@@ -284,6 +341,20 @@ def set_access(account: str, people) -> list[dict]:
 	tell.mailbox_shared(account, sorted(set(wanted) - now))
 	frappe.publish_realtime("one_mailbox", after_commit=True)
 	return [{"user": user, "sends": sends} for user, sends in sorted(wanted.items())]
+
+
+@frappe.whitelist(methods=["POST"])
+def give(account: str, user: str, keys: str | list) -> list[str]:
+	"""What one person who holds a mailbox may change in it, beyond what
+	their role allows: [key, ...] of one_mail/abilities.py SHARED, kept as a
+	share of the mailbox (one/abilities.py grant)."""
+	from onedesk.one import abilities
+
+	must(account, "holders")
+	if not frappe.db.exists("User Email", {"parent": user, "email_account": account}):
+		frappe.throw(_("{0} doesn't use this mailbox.").format(user))
+	keys = frappe.parse_json(keys) if isinstance(keys, str) else keys or []
+	return abilities.grant("OneMail", account, user, list(keys))
 
 
 @frappe.whitelist(methods=["POST"])
@@ -312,7 +383,7 @@ def _people(account: str) -> list[dict]:
 def set_personal_sends(on: int) -> int:
 	"""Whether people may send from their own address. Every personal address
 	follows at once, and so does each one made after."""
-	_admin()
+	_admin("policy")
 	on = int(bool(int(on)))
 	frappe.db.set_default(addresses.PERSONAL_SENDS, str(on))
 	for name in frappe.get_all("Email Account", filters={"one_hosted": 1, "one_shared": 0}, pluck="name"):
@@ -325,7 +396,7 @@ def set_personal_sends(on: int) -> int:
 def set_external(on: int) -> int:
 	"""Whether people may connect a mailbox of their own. Mailboxes already
 	connected stay connected."""
-	_admin()
+	_admin("policy")
 	on = int(bool(int(on)))
 	frappe.db.set_default(addresses.EXTERNAL, str(on))
 	return on
@@ -336,7 +407,7 @@ def set_allowed_domains(domains) -> list[str]:
 	"""The domains people may connect a personal mailbox at; an empty list
 	lets them connect any. A shared mailbox, an administrator's, is not held
 	to it."""
-	_admin()
+	_admin("policy")
 	rows = json.loads(domains) if isinstance(domains, str) else domains or []
 	clean = []
 	for one in rows:
@@ -379,7 +450,7 @@ def sending(doc, method=None) -> None:
 def replace(account: str, sends: int = 1) -> str:
 	"""A connected mailbox of the workspace's becomes the workspace's mailbox,
 	and, with `sends`, what the workspace sends from."""
-	_admin()
+	_admin("policy")
 	doc = frappe.get_doc("Email Account", account)
 	if not (doc.one_shared and doc.one_connected):
 		frappe.throw(_("Only a shared mailbox can be the workspace mailbox."))
@@ -399,7 +470,7 @@ def replace(account: str, sends: int = 1) -> str:
 def restore() -> str | None:
 	"""The workspace's address on the mail domain is its mailbox again, for
 	receiving and sending."""
-	_admin()
+	_admin("policy")
 	frappe.db.set_default(WORKSPACE, None)
 	own = addresses.ensure_workspace()
 	if own:
@@ -427,11 +498,10 @@ def signature_of(account: str) -> str | None:
 
 @frappe.whitelist(methods=["POST"])
 def set_signature(account: str, signature: str | None = None) -> None:
-	"""Change a mailbox's signature: whoever holds it, and for one of the
-	workspace's, which everybody sends under, a workspace administrator."""
+	"""Change a mailbox's signature: whoever may (may, "signature")."""
 	if not frappe.db.get_value("Email Account", account, "enable_outgoing"):
 		frappe.throw(_("Enable Outgoing is disabled for {0}.").format(account))
-	manages(account)
+	must(account, "signature")
 	frappe.db.set_value(
 		"Email Account",
 		account,

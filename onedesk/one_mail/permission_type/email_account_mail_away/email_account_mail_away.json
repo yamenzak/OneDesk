@@ -1,0 +1,10 @@
+{
+ "doctype": "Permission Type",
+ "name": "email_account_mail_away",
+ "doc_type": "Email Account",
+ "perm_type": "mail_away",
+ "modified": "2026-10-24 18:00:00.000000",
+ "owner": "Administrator",
+ "modified_by": "Administrator",
+ "creation": "2026-10-24 18:00:00.000000"
+}

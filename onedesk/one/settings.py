@@ -45,7 +45,12 @@ APPS = [
 	),
 	("OneProject", "oneproject", ("Projects User",), ("Projects Manager",)),
 	("OneHR", "onehr", ("HR User",), ("HR Manager",)),
+	("OneMail", "onemail", ("OneMail User",), ("Mail Manager",)),
 ]
+
+# Apps everybody uses: no None, and User is not worth saying on the list
+# of people (one/abilities.py `always`).
+ALWAYS = ("OneMail",)
 
 APP_SAID = {
 	"OneCRM": _lt("Follow every lead from first call to signed quote, and keep each customer's story in one place."),
@@ -912,10 +917,27 @@ def roles_for(level: str, used: tuple, managed: tuple, levels: tuple | list = ()
 	return {"None": set(), "User": set(used) | set(alone), "Manager": set(used) | set(managed)}[level]
 
 
+def app_level(app: str, held: set, used: tuple, managed: tuple, levels: tuple | list = ()) -> str:
+	"""level_of, where an app everybody uses is at least User."""
+	said = level_of(held, used, managed, levels)
+	return "User" if said == "None" and app in ALWAYS else said
+
+
+def _listed(held: set, own: dict) -> dict:
+	"""A person's role in each app, as the list of people shows it: User in
+	an app everybody uses goes without saying."""
+	said = {}
+	for name, _icon, used, managed in APPS:
+		level = app_level(name, held, used, managed, own.get(name, ()))
+		if not (name in ALWAYS and level == "User"):
+			said[name] = level
+	return said
+
+
 def _levels(app: str, own: dict) -> list[dict]:
-	"""What People offers for one app: None, User, the workspace's own levels
-	between, and Manager."""
-	return [{"value": one, "label": _(one)} for one in ("None", "User")] + [
+	"""What People offers for one app: None, User, the workspace's own roles
+	between, and Manager. An app everybody uses has no None."""
+	return [{"value": one, "label": _(one)} for one in ("None", "User") if not (one == "None" and app in ALWAYS)] + [
 		{"value": one, "label": one} for one in own.get(app, [])
 	] + [{"value": "Manager", "label": _("Manager")}]
 
@@ -944,10 +966,7 @@ def _people(record: str | None = None) -> dict:
 			{
 				**one,
 				"admin": roles.ADMINISTRATOR in held.get(one.name, set()),
-				"access": {
-					name: level_of(held.get(one.name, set()), used, managed, own.get(name, ()))
-					for name, _icon, used, managed in APPS
-				},
+				"access": _listed(held.get(one.name, set()), own),
 				"employee": employees.get(one.name),
 			}
 			for one in users
@@ -998,14 +1017,6 @@ def _person_page(user: str) -> dict:
 	)
 	fields.append(
 		{
-			"fieldname": "mail",
-			"fieldtype": "Switch",
-			"label": _("Mail Manager"),
-			"description": _("Can manage the workspace's mailboxes: who holds them, signatures, sender names, out of office and rules."),
-		}
-	)
-	fields.append(
-		{
 			"fieldname": "admin",
 			"fieldtype": "Switch",
 			"label": _("Administrator"),
@@ -1032,9 +1043,8 @@ def _person_page(user: str) -> dict:
 		"apps": [{"name": name, "icon": icon, "levels": _levels(name, own)} for name, icon, _used, _managed in APPS],
 		"fields": fields,
 		"values": {
-			**{f"app_{icon}": level_of(held, used, managed, own.get(name, ())) for name, icon, used, managed in APPS},
+			**{f"app_{icon}": app_level(name, held, used, managed, own.get(name, ())) for name, icon, used, managed in APPS},
 			"admin": 1 if roles.ADMINISTRATOR in held else 0,
-			"mail": 1 if roles.MAIL_MANAGER in held else 0,
 			"profile": doc.get("one_profile") or "",
 		},
 		"opened": _opened(doc),
@@ -1049,12 +1059,11 @@ def _save_person(record: str, values: dict) -> None:
 	doc = _as_opened(_one_of_the_people(record))
 	chosen = {name: values.get(f"app_{icon}") for name, icon, _used, _managed in APPS if values.get(f"app_{icon}")}
 	admin = frappe.utils.cint(values.get("admin")) if "admin" in values else int(roles.ADMINISTRATOR in {one.role for one in doc.roles})
-	mail = frappe.utils.cint(values.get("mail")) if "mail" in values else None
 	if values.get("profile") and values["profile"] != doc.get("one_profile"):
-		_set_access(doc, profiles.profile(values["profile"])["levels"], admin, mail=mail)
+		_set_access(doc, profiles.profile(values["profile"])["levels"], admin)
 		frappe.db.set_value("User", doc.name, "one_profile", values["profile"], update_modified=False)
 		return
-	_set_access(doc, chosen, admin, mail=mail)
+	_set_access(doc, chosen, admin)
 	on = values.get("profile", doc.get("one_profile"))
 	if on and any(level != profiles.profile(on)["levels"].get(name) for name, level in chosen.items()):
 		on = None
@@ -1062,10 +1071,10 @@ def _save_person(record: str, values: dict) -> None:
 		frappe.db.set_value("User", doc.name, "one_profile", on or None, update_modified=False)
 
 
-def _set_access(doc, access: dict, admin: int, told: bool = True, mail: int | None = None) -> None:
+def _set_access(doc, access: dict, admin: int, told: bool = True) -> None:
 	"""What a person may use, as frappe's roles, in one save. They are told
-	what changed, and every administrator is told of a new administrator.
-	`mail` gives or takes Mail Manager; left out, it stays as it was."""
+	what changed, and every administrator is told of a new administrator. An
+	app everybody uses is never None."""
 	own = all_levels()
 	if any(level not in LEVELS and level not in own.get(name, ()) for name, level in access.items()):
 		frappe.throw(_("That cannot be set."))
@@ -1076,14 +1085,14 @@ def _set_access(doc, access: dict, admin: int, told: bool = True, mail: int | No
 		levels = own.get(name, ())
 		alone = (companion(name),)
 		ours |= set(used) | set(managed) | set(levels) | set(alone)
-		wanted |= roles_for(access.get(name) or level_of(before, used, managed, levels), used, managed, levels, alone)
+		level = access.get(name) or level_of(before, used, managed, levels)
+		if name in ALWAYS and level == "None":
+			level = "User"
+		wanted |= roles_for(level, used, managed, levels, alone)
 	if admin:
 		wanted.add(roles.ADMINISTRATOR)
 	elif roles.ADMINISTRATOR in before:
 		_not_the_last_administrator(doc.name)
-	ours.add(roles.MAIL_MANAGER)
-	if roles.MAIL_MANAGER in before if mail is None else mail:
-		wanted.add(roles.MAIL_MANAGER)
 	after = (before - ours) | {role for role in wanted | {"Desk User"} if frappe.db.exists("Role", role)}
 	if after != before:
 		doc.set("roles", [{"role": role} for role in sorted(after)])
@@ -1105,14 +1114,12 @@ def _told_of_access(doc, before: set, after: set) -> None:
 	own = all_levels()
 	for name, _icon, used, managed in APPS:
 		levels = own.get(name, ())
-		was, now = level_of(before, used, managed, levels), level_of(after, used, managed, levels)
+		was, now = app_level(name, before, used, managed, levels), app_level(name, after, used, managed, levels)
 		if was != now:
 			plain = {"None": _("no longer {0}"), "User": _("{0} as a user"), "Manager": _("{0} as a manager")}
 			said.append(plain[now].format(name) if now in plain else _("{0} as {1}").format(name, now))
 	if (roles.ADMINISTRATOR in after) != (roles.ADMINISTRATOR in before):
 		said.append(_("administrator of the workspace") if roles.ADMINISTRATOR in after else _("no longer an administrator"))
-	if (roles.MAIL_MANAGER in after) != (roles.MAIL_MANAGER in before):
-		said.append(_("manager of the workspace's mail") if roles.MAIL_MANAGER in after else _("no longer a mail manager"))
 	if said:
 		tell.access_changed(doc.name, ", ".join(said))
 	if roles.ADMINISTRATOR in after and roles.ADMINISTRATOR not in before:
@@ -1741,7 +1748,10 @@ def _level_page(key: str) -> dict:
 	from onedesk.one import access
 
 	said = access.level(key)
-	options = sorted(({"value": one, "label": _(one)} for one in access.kinds(said["app"])), key=lambda one: one["label"])
+	options = sorted(
+		({"value": one, "label": _(one)} for one in set(access.kinds(said["app"])) - abilities_doctypes()),
+		key=lambda one: one["label"],
+	)
 	table = {
 		"fieldname": "rows",
 		"fieldtype": "Table",
@@ -1756,16 +1766,60 @@ def _level_page(key: str) -> dict:
 	}
 	table["data"] = [dict(one) for one in said["rows"]]
 	people = frappe.get_all("User", filters={"name": ["in", said["people"] or [""]]}, fields=["name", "full_name", "user_image"])
-	fields = [table]
+	fields = [table, *_ability_fields(said["app"], said["abilities"])]
 	if said["own"]:
 		fields.insert(0, {"fieldname": "title", "fieldtype": "Data", "label": _("Name"), "reqd": 1})
 	carrier = said["name"] if said["own"] else None
 	return {
 		"level": {**said, "people": people, "icon": next(icon for app, icon, _u, _m in APPS if app == said["app"])},
 		"fields": fields,
-		"values": {"title": said["name"], "rows": said["rows"]},
+		"values": {
+			"title": said["name"],
+			"rows": said["rows"],
+			**{f"ability_{one['key']}": one["value"] for one in said["abilities"]},
+		},
+		"abilities": [
+			{"fieldname": f"ability_{one['key']}", "group": one["group"]} for one in said["abilities"]
+		],
+		"matrix": int(bool(options or said["rows"])),
 		"opened": [{"doctype": "Role", "name": carrier, "modified": str(frappe.db.get_value("Role", carrier, "modified"))}] if carrier else [],
 	}
+
+
+def abilities_doctypes() -> set:
+	from onedesk.one import abilities
+
+	return abilities.doctypes()
+
+
+def _ability_fields(app: str, held: list[dict]) -> list[dict]:
+	"""A level's abilities as fields: a switch, or a choice of scope from the
+	least the level can have (User's) up."""
+	from onedesk.one import abilities
+
+	declared = abilities.of_app(app)
+	if not declared:
+		return []
+	names = getattr(declared, "SCOPE_LABELS", {})
+	fields = []
+	for one in held:
+		field = {"fieldname": f"ability_{one['key']}", "label": one["label"], "description": str(one.get("about") or "")}
+		if one["kind"] == "switch":
+			fields.append({**field, "fieldtype": "Switch", "read_only": int(bool(one["least"]))})
+			continue
+		order = abilities.SCOPES
+		said = {**names, **({"none": one["none"]} if one.get("none") else {})}
+		fields.append(
+			{
+				**field,
+				"fieldtype": "Select",
+				"options": [
+					{"value": scope, "label": str(said.get(scope) or scope)}
+					for scope in order[order.index(one["least"]) :]
+				],
+			}
+		)
+	return fields
 
 
 def _save_access(record: str | None, values: dict) -> str:
@@ -1775,8 +1829,12 @@ def _save_access(record: str | None, values: dict) -> str:
 
 	kind, _sep, name = (record or "").partition(":")
 	if kind == "level":
-		rows = values["rows"] if "rows" in values else access.level(name)["rows"]
-		return "level:" + access.save_level(name, values.get("title") or name, rows)
+		said = access.level(name)
+		rows = values["rows"] if "rows" in values else said["rows"]
+		held = {
+			one["key"]: values.get(f"ability_{one['key']}", one["value"]) for one in said["abilities"]
+		}
+		return "level:" + access.save_level(name, values.get("title") or name, rows, held if held else None)
 	if kind == "profile":
 		levels = access.profile(name)["levels"]
 		levels.update({app: values[f"app_{icon}"] for app, icon, _used, _managed in APPS if values.get(f"app_{icon}")})

@@ -234,7 +234,7 @@ def set_preset(
 	the default; left out, unchanged)."""
 	from onedesk.one_mail import holders
 
-	holders.manages(account)
+	holders.must(account, "signature")
 	if preset and preset not in PRESETS:
 		frappe.throw(frappe._("There is no such signature."))
 	shown = shows_of(show)

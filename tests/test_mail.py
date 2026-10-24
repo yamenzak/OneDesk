@@ -299,7 +299,8 @@ def test_everyone_gets_an_address_named_by_whoever_adds_them():
 def test_only_the_workspaces_mailboxes_are_shared_out():
 	source = (MAIL / "holders.py").read_text()
 	assert 'if not frappe.db.get_value("Email Account", account, "one_shared")' in source
-	assert source.count("_admin()") >= 4, "holders, replacing and restoring are an administrator's"
+	assert source.count('_admin("policy")') >= 4, "replacing, restoring and the address policy are the policy's"
+	assert 'must(account, "holders")' in source.split("def set_access(", 1)[1].split("\ndef ", 1)[0], "who holds a mailbox is its Who Uses ability's"
 	ordered = _load(MAIL / "holders.py", ("ORDER", "ordered"))["ordered"]
 	folders = [
 		{"kind": "Other", "path": "b"},
@@ -672,9 +673,9 @@ def test_a_rule_on_an_issued_address_waits_for_a_mail_manager():
 	save = rules.split("def save_rule(", 1)[1].split("\ndef ", 1)[0]
 	assert "doc.enabled = 0" in save and "doc.requested_by = frappe.session.user" in save
 	assert "tell.rule_requested(doc)" in save
-	assert "holders.manages(doc.account)" in rules.split("def decide_rule(", 1)[1]
+	assert 'holders.must(doc.account, "rules")' in rules.split("def decide_rule(", 1)[1]
 	holders = (MAIL / "holders.py").read_text()
-	assert "not may_manage(account)" in holders.split("def issued_to_them(", 1)[1].split("\ndef ", 1)[0]
+	assert 'not may(account, "rules")' in holders.split("def issued_to_them(", 1)[1].split("\ndef ", 1)[0]
 
 
 def test_a_signature_is_shown_by_its_first_line(monkeypatch):
@@ -689,17 +690,18 @@ def test_a_signature_is_shown_by_its_first_line(monkeypatch):
 	assert first("") == "" and first(None) == ""
 
 
-def test_the_workspaces_mailboxes_are_managed_by_a_mail_manager():
+def test_who_may_change_a_mailbox_is_its_holder_a_role_or_a_share():
 	holders = (MAIL / "holders.py").read_text()
-	manage = holders.split("def may_manage(", 1)[1].split("\ndef ", 1)[0]
-	assert "if roles.manages_mail():\n\t\treturn True" in manage and "owner" not in manage, "the workspace's, not the connector's"
-	assert "if shared or hosted:\n\t\treturn False" in manage, "an issued address is the workspace's too"
-	assert "actions.holds(account)" in manage, "a mailbox of one's own is its holder's"
+	may = holders.split("def may(", 1)[1].split("\ndef ", 1)[0]
+	assert "owner" not in may, "the workspace's, not the connector's"
+	assert "if holds and not shared and not hosted:\n\t\treturn True" in may, "a mailbox of one's own is its holder's"
+	assert "abilities.may(DOCTYPE, one[\"all\"], account, user)" in may, "a role, or a share of this mailbox"
+	assert "holds and hosted and not shared and abilities.held(DOCTYPE, one[\"own\"], user)" in may, "their own address"
 	assert "enable_outgoing" in holders.split("def may_sign(", 1)[1].split("\ndef ", 1)[0]
 	setter = holders.split("def set_signature(", 1)[1].split("\ndef ", 1)[0]
-	assert "manages(account)" in setter, "the server holds the line, not only the page"
+	assert 'must(account, "signature")' in setter, "the server holds the line, not only the page"
 	rules = (MAIL / "rules.py").read_text()
-	assert "holders.manages(account)" in rules.split("def set_away(", 1)[1].split("\ndef ", 1)[0]
+	assert 'holders.must(account, "away")' in rules.split("def set_away(", 1)[1].split("\ndef ", 1)[0]
 	assert "one.may_sign ?" in PAGE_JS
 
 
@@ -711,7 +713,7 @@ def test_a_mailbox_that_breaks_is_told_once_and_can_be_given_its_password_again(
 	assert '"Mailbox Not Reachable"' in told and "Mailbox Not Reachable" in tree.notifications()
 	connect = (MAIL / "connect.py").read_text()
 	again = connect.split("def reconnect(", 1)[1].split("\ndef ", 1)[0]
-	assert "holders.manages(account)" in again, "its holder, or for a shared one its connector or an administrator"
+	assert 'holders.must(account, "connection")' in again, "whoever may change its connection"
 	assert "reach(doc.email_id, password, login, {key: doc.get(key) for key in WHERE})" in again
 
 
@@ -738,7 +740,7 @@ def test_a_shared_mailbox_acknowledges_only_a_new_conversation_from_a_person():
 	source = (MAIL / "rules.py").read_text()
 	assert 'account.get("one_shared") and account.get("enable_auto_reply")' in source, "only a shared mailbox, frappe's own field"
 	assert "if not away(made, arrival.mail) and" in source, "an out-of-office reply wins over the acknowledgement"
-	assert "holders.manages(account)" in source.split("def set_auto_reply")[1].split("def ")[0]
+	assert 'holders.must(account, "auto_reply")' in source.split("def set_auto_reply")[1].split("def ")[0]
 
 
 def test_a_rule_replies_once_never_to_a_machine_and_oneai_waits_when_unsure():

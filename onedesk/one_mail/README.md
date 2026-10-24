@@ -77,17 +77,34 @@ A mailbox's **…** in the sidebar (or right-click) has **New Folder**,
 **Mailbox Settings**. A folder you made has **New Folder**, **Rename** and
 **Delete**; deleting it moves its messages to Trash.
 
-**Who manages what.** The workspace's mailboxes, its own address, the
-shared ones and the address it issues each person, are managed by a **Mail
-Manager** or a Workspace Administrator: signature, sender name, out of
-office, auto reply, OneAI, rules and who holds them. Give somebody in HR or
-PR **Mail Manager** in People, beside Administrator, and they manage mail
-without managing the workspace. A mailbox somebody connected for themselves,
-such as their Gmail, is theirs to manage, and a Mail Manager's too.
-Connecting a shared mailbox doesn't make it the connector's.
+**Who manages what** depends on each person's OneMail role, chosen on their
+page in Workspace › People:
 
-A Mail Manager finds everybody's own mailboxes under **Personal Addresses ›
-People's Mailboxes**, and opens one to set its signature or sender name.
+- **User**, which everyone has: their own connected mailboxes, such as their
+  Gmail, are theirs to manage. On the address the workspace issued them,
+  they ask for rules and a Mail Manager approves them.
+- **Manager**: everything on every mailbox, as well as connecting shared
+  mailboxes, the address policy and mail templates. Give it to the people in
+  HR or PR who look after the company's mail.
+- **Your own roles**, made under Workspace › Access › **New Role** with OneMail
+  as the app. A role's page lists what OneMail lets it do: signatures and
+  sender names, out of office, mail rules and OneAI settings, each set to
+  **No**, **Their Own Address** or **Every Mailbox**; and switches for auto
+  reply, who uses a mailbox, connections, connecting shared mailboxes, the
+  address policy and mail templates. For example, a Brand role that keeps
+  every signature and nothing else.
+
+Workspace Administrators can do everything. Connecting a shared mailbox
+doesn't make it the connector's.
+
+**One mailbox only.** On a shared mailbox's **Users** tab, **Can Change**
+beside a person lets them change some parts of that one mailbox, such as
+its signature or rules, whatever their role. Taking them off the mailbox
+takes that away too.
+
+Whoever's role reaches other people's mailboxes finds them under
+**Personal Addresses › People's Mailboxes**, and opens one to set its
+signature or sender name.
 
 **Sender Name**, at the top of **Signature**, is the name people see beside
 the address. Left empty, mail from a person's own address goes out under
@@ -98,8 +115,8 @@ run, each with a switch to turn it off. **New Rule**, or a rule clicked,
 opens it in the same tab.
 
 On the address the workspace issued you, a rule is asked for: **Request
-Rule**, then **Send Request**. It shows **Waiting for Approval** and every
-Mail Manager hears of it. When one approves it, it runs and you're told; if
+Rule**, then **Send Request**. It shows **Waiting for Approval** and
+everybody who may change that mailbox's rules hears of it. When one approves it, it runs and you're told; if
 one declines it, it's removed and you're told. Changing a rule that runs
 asks again, and it pauses until it's approved. You can delete a request
 while it waits.

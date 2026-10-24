@@ -29,6 +29,13 @@ def boot_session(bootinfo) -> None:
 
 	from onedesk.one_mail import holders
 
+	bootinfo["one_mail_may"] = {
+		"connect_shared": int(holders.may_do("connect_shared")),
+		"holders": int(holders.may_do("holders")),
+		"policy": int(holders.may_do("policy")),
+		"templates": int(holders.may_do("templates")),
+		"others": int(holders.may_open_others()),
+	}
 	sends = holders.sending_rows()
 	for one in bootinfo.get("email_accounts") or []:
 		if one.get("email_account") in sends and not sends[one["email_account"]]:

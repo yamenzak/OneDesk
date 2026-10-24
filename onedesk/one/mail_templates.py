@@ -11,7 +11,7 @@ from typing import Annotated
 import frappe
 from frappe import _
 
-from onedesk.one import layer, roles, rules
+from onedesk.one import layer, rules
 from onedesk.one.customize import REFUSED_MODULES
 
 TAG = re.compile(r"\{\{.*?\}\}|\{%.*?%\}", re.S)
@@ -120,7 +120,7 @@ def set_default(
 	template: Annotated[str, "The template the composer starts with for it."],
 ) -> None:
 	"""The template the mail composer starts with for a kind of record."""
-	roles.require_mail()
+	_may_keep()
 	_doctype(doctype)
 	if frappe.get_meta(doctype).custom:
 		frappe.throw(_("{0} is not mailed from templates this workspace sets.").format(_(doctype)))
@@ -132,7 +132,7 @@ def set_default(
 @frappe.whitelist()
 def default(doctype: Annotated[str, "The kind of record."]) -> str | None:
 	"""The template the composer starts with for a kind of record."""
-	roles.require_mail()
+	_may_keep()
 	_doctype(doctype)
 	return frappe.get_meta(doctype).default_email_template
 
@@ -141,7 +141,7 @@ def default(doctype: Annotated[str, "The kind of record."]) -> str | None:
 def templates() -> list[dict]:
 	"""Every mail template, for Workspace > Mail Templates, with the kinds of
 	record each is the default for."""
-	roles.require_mail()
+	_may_keep()
 	defaults = {}
 	for row in frappe.get_all(
 		"Property Setter",
@@ -217,3 +217,11 @@ def filled(template_name: str, doc) -> dict:
 	fills it in: for one sent by an automation (one/automations.py)."""
 	template = frappe.get_doc("Email Template", template_name)
 	return template.get_formatted_email(frappe._dict(_shown(template, doc.as_dict() if doc else {})))
+
+
+def _may_keep() -> None:
+	"""Refuse anyone whose role doesn't keep the mail templates (OneMail's
+	Mail Templates ability)."""
+	from onedesk.one_mail import holders
+
+	holders._admin("templates")

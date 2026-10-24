@@ -835,7 +835,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			{ heading: __("Apps"), note: __("Everyone has One, OneCloud, OneMail, OneTask and OneCalendar.") },
 			["profile", ""],
 			...Settings.pairs(apps),
-			{ stack: ["mail", "admin"] },
+			{ stack: ["admin"] },
 			{
 				heading: __("User Permissions"),
 			},
@@ -887,7 +887,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			});
 			dialog.show();
 		};
-		this.page.set_primary_action(__("New Level"), () => this.new_level(data), "plus");
+		this.page.set_primary_action(__("New Role"), () => this.new_level(data), "plus");
 		this.$content.html(
 			`<div class="one-shell-section" data-list="levels"></div><div class="one-shell-section" data-list="profiles"></div><div class="one-shell-section" data-list="groups"></div>`
 		);
@@ -932,15 +932,15 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 		const tier = (one) => (one.own ? esc(one.name) : esc(__(one.name)));
 		onedesk.shell.table(this.$content.find('[data-list="levels"]'), {
-			title: __("Levels"),
-			note: __("Custom levels sit between User and Manager."),
+			title: __("Roles"),
+			note: __("Custom roles sit between User and Manager."),
 			rows: data.levels,
 			icon: "shield-check",
-			none: __("No matching levels"),
+			none: __("No matching roles"),
 			open: (one) => frappe.set_route("workspace-settings", { section: "access", level: one.key }),
 			columns: [
 				{
-					label: __("Level"),
+					label: __("Role"),
 					render: (one) => tier(one) + (one.own ? " " + frappe.ui.badge.html({ label: __("Custom"), theme: "purple" }) : ""),
 				},
 				{ label: __("App"), render: (one) => onedesk.shell.app(one.app, one.icon) },
@@ -956,7 +956,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			{ value: "Manager", label: __("Manager") },
 		];
 		const dialog = new frappe.ui.Dialog({
-			title: __("New Level"),
+			title: __("New Role"),
 			fields: [
 				{ fieldname: "title", fieldtype: "Data", label: __("Name"), reqd: 1, description: __("For example, Senior Sales.") },
 				{
@@ -979,7 +979,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					reqd: 1,
 					default: "User",
 					options: starts(data.apps[0].name),
-					description: __("Starts with this level's permissions."),
+					description: __("Starts with this role's abilities and permissions."),
 				},
 			],
 			primary_action_label: __("Create"),
@@ -1004,7 +1004,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			side: onedesk.shell.side({
 				mark: level.icon,
 				title,
-				sub: esc(level.own ? __("Custom level of {0}", [level.app]) : level.name === "User" ? __("Everyone who uses {0}", [level.app]) : __("Everyone who manages {0}", [level.app])),
+				sub: esc(level.own ? __("Custom role of {0}", [level.app]) : level.name === "User" ? __("Everyone who uses {0}", [level.app]) : __("Everyone who manages {0}", [level.app])),
 				groups: [
 					{
 						label: __("People"),
@@ -1030,14 +1030,29 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					]
 				: [],
 		});
+		// What the role may do in the module, grouped as the module groups
+		// it (one/abilities.py), then its record types.
+		const groups = [];
+		for (const one of data.abilities || []) {
+			const group = groups.find((g) => g.label === one.group) || groups[groups.push({ label: one.group, fields: [] }) - 1];
+			group.fields.push(one.fieldname);
+		}
 		this.form(data, {
 			rows: [
 				...(level.own ? [{ stack: ["title"] }] : []),
-				{
-					heading: __("Permissions"),
-					note: __("Every permission includes Read."),
-				},
-				{ stack: ["rows"] },
+				...groups.flatMap((group, i) => [
+					{ heading: group.label, note: i || level.name === "User" ? "" : __("A role above User has everything User has.") },
+					...Settings.pairs(group.fields),
+				]),
+				...(data.matrix
+					? [
+							{
+								heading: __("Record Types"),
+								note: __("Every permission includes Read."),
+							},
+							{ stack: ["rows"] },
+					  ]
+					: []),
 			],
 		});
 	}

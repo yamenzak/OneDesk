@@ -652,6 +652,7 @@ No doctypes yet.
 * `onedesk.one_mail.gate.set_settings`
 * `onedesk.one_mail.gate.settings_of`
 * `onedesk.one_mail.holders.addresses_of_people`
+* `onedesk.one_mail.holders.give`
 * `onedesk.one_mail.holders.grant`
 * `onedesk.one_mail.holders.mailbox`
 * `onedesk.one_mail.holders.mailboxes`

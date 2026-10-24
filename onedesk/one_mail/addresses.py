@@ -124,9 +124,9 @@ def give(user: str, name: str) -> str:
 	"""A person's own address, `<name>.<slug>@`, chosen by a workspace
 	administrator. It sends as well as receives while the workspace lets
 	people send from their own address (personal_sends)."""
-	from onedesk.one import roles
+	from onedesk.one_mail import holders
 
-	roles.require_mail()
+	holders._admin("policy")
 	held = frappe.db.get_value(
 		"User Email", {"parent": user, "email_account": ["like", f"%.{slug()}@{domain()}"]}, "email_account"
 	)

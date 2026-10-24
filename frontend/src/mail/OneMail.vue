@@ -275,10 +275,10 @@ function folderMenu(id) {
   ];
 }
 
-// A mailbox's own menu. Signature and Out of Office open its view in
-// OneMail's settings; the workspace's mailboxes, shared and issued, are a
-// Mail Manager's (holders.may_manage). Out of Office still shows on one's
-// own issued address, where approved leave answers on its own.
+// A mailbox's own menu. Each part opens its view in OneMail's settings,
+// for whoever's role or share lets them change it (holders.may). Out of
+// Office still shows on one's own issued address, where approved leave
+// answers on its own.
 function boxMenu(one) {
   if (!one) return [];
   const at = (section) => () => settings(`mailbox:${one.name}${section ? ":" + section : ""}`);
@@ -286,9 +286,9 @@ function boxMenu(one) {
   return [
     { label: __("New Folder"), icon: "folder-plus", onClick: () => newFolder(one.name) },
     one.may_sign ? { label: __("Signature"), icon: "signature", onClick: at("signature") } : null,
-    one.may_manage || issued ? { label: __("Out of Office"), icon: "plane", onClick: at("away") } : null,
-    one.shared && one.may_manage ? { label: __("Auto Reply"), icon: "reply", onClick: at("auto") } : null,
-    one.may_manage ? { label: __("OneAI"), icon: "sparkles", onClick: at("oneai") } : null,
+    one.may?.away || issued ? { label: __("Out of Office"), icon: "plane", onClick: at("away") } : null,
+    one.shared && one.may?.auto_reply ? { label: __("Auto Reply"), icon: "reply", onClick: at("auto") } : null,
+    one.may?.ai ? { label: __("OneAI"), icon: "sparkles", onClick: at("oneai") } : null,
     { label: __("Rules"), icon: "list-filter", onClick: at("rules") },
     { label: __("Attachments in OneCloud"), icon: "paperclip", onClick: () => goTo("onecloud", { node: `@mail/${one.name}` }) },
     { label: __("Mailbox Settings"), icon: "settings", onClick: at("") },

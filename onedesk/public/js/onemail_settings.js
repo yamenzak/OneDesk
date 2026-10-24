@@ -13,7 +13,9 @@ onedesk.mail.settings = (tab) => {
 	const esc = frappe.utils.escape_html;
 	// Whoever manages the workspace's mail: a Mail Manager or an
 	// administrator (one/roles.py).
-	const admin = frappe.user.has_role("Workspace Administrator") || frappe.user.has_role("Mail Manager");
+	// What the reader's role lets them do across the workspace's mail
+	// (one/boot.py `one_mail_may`, one_mail/abilities.py).
+	const can = frappe.boot.one_mail_may || {};
 	const saved = () => frappe.show_alert({ message: __("Saved"), indicator: "green" });
 
 	const heading = (title, description) =>
@@ -329,12 +331,12 @@ onedesk.mail.settings = (tab) => {
 		label: __("Out of Office"),
 		icon: "plane",
 		title: __("Out of Office"),
-		description: box.may_manage
+		description: box.may.away
 			? __("Sent once every 4 days per sender. Not sent to mailing lists.")
 			: box.hosted && !box.shared
 			? __("Sent while you're on approved leave, with the Away Message from your leave request.")
 			: managed,
-		actions: box.may_manage
+		actions: box.may.away
 			? [
 					{
 						label: __("Save"),
@@ -352,11 +354,11 @@ onedesk.mail.settings = (tab) => {
 			// An issued address answers on its own while its person is on
 			// approved leave (rules.on_leave); said here, beside the switch.
 			const issued = box.hosted && !box.shared;
-			if (!box.may_manage && !issued) return;
+			if (!box.may.away && !issued) return;
 			const away = (await frappe.xcall(R + "away_of", { account: box.name })) || {};
 			const $heading = panel.$header.find(".settings-dialog-panel-heading");
 			$heading.find(".oms-leave").remove();
-			if (issued && (box.may_manage || away.leave_until))
+			if (issued && (box.may.away || away.leave_until))
 				$heading.append(
 					`<div class="oms-help oms-leave">${esc(
 						away.leave_until
@@ -364,7 +366,7 @@ onedesk.mail.settings = (tab) => {
 							: __("Also sent on its own while the person is on approved leave.")
 					)}</div>`
 				);
-			if (!box.may_manage) return;
+			if (!box.may.away) return;
 			panel.add_fields([
 				{ fieldname: "until", fieldtype: "Date", label: __("Until"), default: away.one_away_until },
 				{ fieldname: "message", fieldtype: "Small Text", label: __("Message"), default: away.one_away_message },
@@ -382,8 +384,8 @@ onedesk.mail.settings = (tab) => {
 		label: __("Auto Reply"),
 		icon: "reply",
 		title: __("Auto Reply"),
-		description: box.may_manage ? __("Sent to the first message of each new conversation. Not sent to replies or mailing lists.") : managed,
-		actions: box.may_manage
+		description: box.may.auto_reply ? __("Sent to the first message of each new conversation. Not sent to replies or mailing lists.") : managed,
+		actions: box.may.auto_reply
 			? [
 					{
 						label: __("Save"),
@@ -402,7 +404,7 @@ onedesk.mail.settings = (tab) => {
 			  ]
 			: [],
 		async render(panel) {
-			if (!box.may_manage) return;
+			if (!box.may.auto_reply) return;
 			const said = (await frappe.xcall(R + "auto_reply_of", { account: box.name })) || {};
 			panel.add_fields([
 				{
@@ -429,8 +431,8 @@ onedesk.mail.settings = (tab) => {
 		label: __("OneAI"),
 		icon: "sparkles",
 		title: __("OneAI"),
-		description: box.may_manage ? __("If disabled, OneAI can't read this mailbox, including in the OneAI panel.") : managed,
-		actions: box.may_manage
+		description: box.may.ai ? __("If disabled, OneAI can't read this mailbox, including in the OneAI panel.") : managed,
+		actions: box.may.ai
 			? [
 					{
 						label: __("Save"),
@@ -516,7 +518,7 @@ onedesk.mail.settings = (tab) => {
 			if (!one_box) return;
 			const again = () => panel.refresh();
 			const actions = [];
-			if (one_box.one_connected && !one_box.workspace) {
+			if (one_box.one_connected && !one_box.workspace && can.policy) {
 				actions.push({
 					label: __("Set as Workspace Mailbox"),
 					click: () =>
@@ -526,7 +528,7 @@ onedesk.mail.settings = (tab) => {
 						}),
 				});
 			}
-			if (one_box.one_connected && one_box.workspace) {
+			if (one_box.one_connected && one_box.workspace && can.policy) {
 				actions.push({
 					label: __("Restore Default Address"),
 					click: () =>
@@ -559,10 +561,38 @@ onedesk.mail.settings = (tab) => {
 				.appendTo($add);
 			const $list = $(`<div class="oms-list"></div>`).appendTo(panel.body);
 			if (!one_box.people.length) $list.append(empty(__("No users")));
+			// Beyond reading and sending, what each person may change in this
+			// one mailbox (holders.give, a share of it).
+			const labelled = Object.fromEntries((said.abilities || []).map((one) => [one.key, one.label]));
+			const may_sub = (one) => (one.may.length ? __("Can change {0}", [one.may.map((key) => labelled[key]).join(", ")]) : one.user);
+			const choose = (one, $row) => {
+				const dialog = new frappe.ui.Dialog({
+					title: __("What {0} Can Change", [one.name]),
+					fields: [
+						{
+							fieldname: "keys",
+							fieldtype: "MultiCheck",
+							columns: 2,
+							options: (said.abilities || []).map((ability) => ({ label: ability.label, value: ability.key, checked: one.may.includes(ability.key) })),
+							description: __("In {0} only, beyond what their role allows.", [box.email]),
+						},
+					],
+					primary_action_label: __("Save"),
+					primary_action: async ({ keys }) => {
+						one.may = await frappe.xcall(H + "give", { account: box.name, user: one.user, keys: keys || [] });
+						$row.find(".oms-sub").text(may_sub(one));
+						dialog.hide();
+						saved();
+					},
+				});
+				dialog.show();
+			};
 			one_box.people.forEach((one) => {
-				const $end = row({ lead: frappe.ui.avatar.html({ label: one.name, size: "md" }), title: one.name, sub: esc(one.user) })
-					.appendTo($list)
-					.find(".oms-end");
+				const $row = row({ lead: frappe.ui.avatar.html({ label: one.name, size: "md" }), title: one.name, sub: esc(may_sub(one)) }).appendTo($list);
+				const $end = $row.find(".oms-end");
+				button({ label: __("Can Change"), variant: "ghost", size: "sm" })
+					.on("click", () => choose(one, $row))
+					.appendTo($end);
 				const send = frappe.ui.form.make_control({
 					df: { fieldtype: "Switch", fieldname: "sends", label: __("Send"), read_only: !one_box.enable_outgoing },
 					parent: $(`<span class="oms-switch"></span>`).appendTo($end),
@@ -643,16 +673,16 @@ onedesk.mail.settings = (tab) => {
 		label: __("Mail Rules"),
 		icon: "list-filter",
 		title: __("Mail Rules"),
-		description: box.may_manage
+		description: box.may.rules
 			? __("Run in order on each new message.")
 			: box.hosted && !box.shared
 			? __("Run in order on each new message. A rule you ask for runs once a Mail Manager approves it.")
 			: managed,
 		actions:
-			box.may_manage || (box.hosted && !box.shared)
+			box.may.rules || (box.hosted && !box.shared)
 				? [
 						{
-							label: box.may_manage ? __("New Rule") : __("Request Rule"),
+							label: box.may.rules ? __("New Rule") : __("Request Rule"),
 							icon: "plus",
 							click: (panel) => rule_view(panel, box, null),
 						},
@@ -709,9 +739,9 @@ onedesk.mail.settings = (tab) => {
 			saved();
 			panel.refresh();
 		};
-		const asking = !box.may_manage;
+		const asking = !box.may.rules;
 		const actions = [{ label: asking ? __("Send Request") : __("Save"), variant: "solid", click: save }];
-		if (rule && rule.requested_by && box.may_manage) {
+		if (rule && rule.requested_by && box.may.rules) {
 			actions.splice(0, 1, { label: __("Decline"), theme: "red", click: decide(false) }, { label: __("Approve"), variant: "solid", click: decide(true) });
 		}
 		if (rule && (asking ? rule.requested_by : !rule.requested_by)) {
@@ -757,7 +787,7 @@ onedesk.mail.settings = (tab) => {
 		items.push(away_tab(box));
 		if (box.shared) items.push(auto_tab(box));
 		items.push(oneai_tab(box));
-		if (box.shared && admin) items.push(users_tab(box, from));
+		if (box.shared && box.may.holders) items.push(users_tab(box, from));
 		if (box.connected && box.may_reconnect) items.push(connection_tab(box, from));
 		items.push(rules_tab(box));
 		dialog.reset(
@@ -827,13 +857,15 @@ onedesk.mail.settings = (tab) => {
 		label: __("Shared Mailboxes"),
 		icon: "users",
 		title: __("Shared Mailboxes"),
-		actions: [
-			{
-				label: __("Connect Shared Mailbox"),
-				icon: "plus",
-				click: (panel) => connect(panel, { shared: true }),
-			},
-		],
+		actions: can.connect_shared
+			? [
+					{
+						label: __("Connect Shared Mailbox"),
+						icon: "plus",
+						click: (panel) => connect(panel, { shared: true }),
+					},
+			  ]
+			: [],
 		async render(panel) {
 			const was = panel.shown;
 			const said = await frappe.xcall(H + "shared");
@@ -939,6 +971,10 @@ onedesk.mail.settings = (tab) => {
 			typed.$input.on("keydown", (e) => e.key === "Enter" && add());
 			button({ label: __("Add"), variant: "solid" }).on("click", add).appendTo($add);
 
+			// The address policy is for a role with it (Workspace and External
+			// Addresses); People's Mailboxes for any role that reaches them.
+			if (!can.policy) $body.empty();
+
 			// Everybody's own mailboxes, opened to set a signature, a sender
 			// name or an away reply for them (holders.addresses_of_people).
 			$body.append(heading(__("People's Mailboxes"), __("Their workspace addresses and the mailboxes they connected.")));
@@ -1004,12 +1040,17 @@ onedesk.mail.settings = (tab) => {
 	};
 
 	const tabs = [{ group: __("Your Mail"), items: [mailboxes] }];
-	if (admin) tabs.push({ group: __("Workspace"), items: [shared, personal, templates] });
+	const workspace_tabs = [
+		(can.connect_shared || can.holders || can.others) && shared,
+		(can.policy || can.others) && personal,
+		can.templates && templates,
+	].filter(Boolean);
+	if (workspace_tabs.length) tabs.push({ group: __("Workspace"), items: workspace_tabs });
 	if (onedesk.mail._settings) onedesk.mail._settings.$wrapper.remove();
 	// `connect` and `connect-shared` open a tab on its Connect view, and
 	// `mailbox:<name>[:signature|away]` on one mailbox.
 	const [opening, named, focus] = String(tab || "").split(":");
-	const joining = { connect: "mailboxes", "connect-shared": admin ? "shared" : "mailboxes", mailbox: "mailboxes" }[opening];
+	const joining = { connect: "mailboxes", "connect-shared": can.connect_shared ? "shared" : "mailboxes", mailbox: "mailboxes" }[opening];
 	const first = joining || tab;
 	const dialog = new frappe.ui.SettingsDialog({
 		title: __("OneMail Settings"),

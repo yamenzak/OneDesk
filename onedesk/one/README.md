@@ -561,8 +561,8 @@ administrators see it.
 Everyone gets One, OneCloud, OneMail, OneTask and OneCalendar. For each
 person, the list shows:
 
-- their access to OneCRM, OneBook, OneInventory, OneProject and OneHR, as User
-  or Manager
+- their role in OneCRM, OneBook, OneInventory, OneProject and OneHR, and in
+  OneMail where it's more than User
 - whether they're an administrator
 - when they were last active
 
@@ -604,23 +604,23 @@ signed in and their recent sign-ins. Under **Actions** at the top right:
   Everything they created stays.
 - **Enable** lets them sign in again.
 
-For anything finer than None, User or Manager, see Access, for the Workspace.
+For roles of your own, see Access, for the Workspace.
 
 ### Access, for the Workspace
 
-People gives each person None, User or Manager in OneCRM, OneBook,
-OneInventory, OneProject and OneHR. **Access**, under Workspace, is for
-anything finer: levels, profiles, groups and user permissions, each below.
-Only administrators see it.
+People gives each person a role in OneCRM, OneBook, OneInventory, OneProject,
+OneHR and OneMail. **Access**, under Workspace, is where roles are made and
+changed, with profiles, groups and user permissions, each below. Only
+administrators see it.
 
-A record's **Settings › Access** shows what each app's users, levels and
-managers can do with that record type, and opens any of them to change it.
+A record's **Settings › Access** shows what each app's roles can do with
+that record type, and opens any of them to change it.
 
 OneAI offers **Who can do what?** and **Who sees only part?**
 
 You can also ask OneAI to set things up, for example:
 
-- "a level of OneCRM that can't delete quotations"
+- "a role in OneCRM that can't delete quotations"
 - "a profile for bookkeepers"
 - "a group for the Gulf sales team"
 - "limit Rania to the UAE territory"
@@ -628,44 +628,55 @@ You can also ask OneAI to set things up, for example:
 
 OneAI shows a card listing every permission it would add or remove, every
 person it would add or remove, and who is notified. Nothing changes until an
-administrator clicks **Approve**. If the level changed after the card was
+administrator clicks **Approve**. If the role changed after the card was
 made, the card says so and makes no change.
 
-### Access levels and permissions
+### Roles
 
-Each app's **User** and **Manager** levels are listed under Workspace ›
-Access, and work like any other level. Tick or untick permissions on any
-record type the app uses: Select, Read, Edit, Create, Delete, Submit, Cancel
-and Export. For example, remove Delete from Manager, or hide a record type
-from User.
+Each app has a **User** and a **Manager** role, listed under Workspace ›
+Access with each one's people, and a workspace can add its own between them.
+OneMail has roles too; everyone is at least its User.
 
-To add your own level, such as Senior Sales:
+A role's page has two parts:
 
-1. Click **New Level**.
-2. Name it, and choose its app and the level it **Based On**.
-3. Change its permissions on its page.
+- **What the role may do in the app**, for an app that has more to give than
+  records. OneMail's are its mailbox abilities: signatures and sender names,
+  out of office, mail rules and OneAI settings, each **No**, **Their Own
+  Address** or **Every Mailbox**, and switches for auto reply, who uses a
+  mailbox, connections, connecting shared mailboxes, the address policy and
+  mail templates. A role above User always has everything User has.
+- **Record Types**: tick or untick permissions on any record type the app
+  uses: Select, Read, Edit, Create, Delete, Submit, Cancel and Export. For
+  example, remove Delete from Manager, or hide a record type from User.
 
-The new level appears on each person's page, in that app's list between User
+To add your own role, such as Senior Sales or Brand Team:
+
+1. Click **New Role**.
+2. Name it, and choose its app and the role it's **Based On**.
+3. Change what it may do on its page.
+
+The new role appears on each person's page, in that app's list between User
 and Manager.
 
-When you save a level:
+When you save a role:
 
 - Permissions add the ones they depend on. Delete adds Read, and Cancel adds
   Submit and Edit.
 - Select is added for the records a record type links to, such as an invoice's
   customer. People can then choose those records even if they can't open them.
-- Everyone at that level is notified.
+- Everyone with that role is notified.
 
-Permissions are saved the way Role Permissions Manager saves them. Once you
-change a record type's permissions here, app updates no longer change its
-standard permissions. Everyone at any level of an app still counts as one of
-its users. They get the notifications its users get, and can open its
-reports, which show only what their level can read.
+Permissions and abilities are saved the way Role Permissions Manager saves
+them, so it shows both. Once you change a record type's permissions here, app
+updates no longer change its standard permissions. Everyone at any role of
+an app still counts as one of its users. They get the notifications its
+users get, and can open its reports, which show only what their role can
+read.
 
 ### Access profiles for a job
 
-A profile is a job's apps and levels in one, such as Accountant with OneBook
-as Manager and OneInventory as User. Make one under Workspace › Access, then
+A profile is a job's role in every app at once, such as Accountant with
+OneBook as Manager and OneInventory as User. Make one under Workspace › Access, then
 choose it under **Profile** on a person's page to set every app at once.
 
 - Changing the profile later updates everyone on it.

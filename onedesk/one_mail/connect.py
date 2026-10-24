@@ -174,10 +174,10 @@ def connect(
 	administrator chooses who else holds it (holders.py)."""
 	from frappe.utils import validate_email_address
 
-	from onedesk.one import roles
-
 	if int(shared):
-		roles.require_mail()
+		from onedesk.one_mail import holders
+
+		holders._admin("connect_shared")
 	email = (validate_email_address(email or "", throw=True) or "").strip().lower()
 	allowed = addresses.allowed_domains()
 	if not int(shared) and not addresses.external():
@@ -250,15 +250,13 @@ WHERE = (
 def reconnect(account: str, password: str, login: str | None = None) -> str:
 	"""A connected mailbox that stopped letting us in, given its password
 	again: tried on the servers it already has before it is kept, then read
-	again at once. A shared one is its connector's or an administrator's
-	(holders.manages)."""
+	again at once: whoever may (holders.may, "connection")."""
 	from onedesk.one_mail import holders
 
-	holders.manages(account)
+	holders.must(account, "connection")
 	doc = frappe.get_doc("Email Account", account)
 	if not doc.one_connected:
 		frappe.throw(_("Only a connected mailbox has a password to update."))
-	holders.manages(account)
 	login = (login or "").strip() or (doc.login_id if doc.login_id_is_different else None)
 	reach(doc.email_id, password, login, {key: doc.get(key) for key in WHERE})
 	doc.update({"password": password, "login_id_is_different": int(bool(login)), "login_id": login})
@@ -283,15 +281,10 @@ def reconnect(account: str, password: str, login: str | None = None) -> str:
 def disconnect(account: str) -> None:
 	"""Stop reading a connected mailbox. What was read stays, linked to what
 	it was linked to; only the account and its folders go."""
-	from onedesk.one_mail import actions, holders
+	from onedesk.one_mail import holders
 
-	connected, shared = frappe.db.get_value("Email Account", account, ["one_connected", "one_shared"])
-	if shared:
-		from onedesk.one import roles
-
-		roles.require_mail()
-	elif not actions.holds(account):
-		holders.manages(account)
+	connected = frappe.db.get_value("Email Account", account, "one_connected")
+	holders.must(account, "connection")
 	if not connected:
 		frappe.throw(_("Only a connected mailbox can be disconnected."))
 	frappe.db.set_value("Communication", {"email_account": account}, {"uid": 0}, update_modified=False)

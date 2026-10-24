@@ -259,9 +259,9 @@ onedesk.doctype_settings.adapt = () => {
 		};
 		table(panel, {
 			title: __("Access"),
-			add: { label: __("New Level"), click: () => level(null) },
+			add: { label: __("New Role"), click: () => level(null) },
 			icon: "shield-check",
-			empty: __("No access levels"),
+			empty: __("No roles"),
 			load: () =>
 				frappe
 					.xcall("onedesk.one.access.doctype_levels", { doctype })
@@ -270,7 +270,7 @@ onedesk.doctype_settings.adapt = () => {
 			columns: [
 				{ label: __("App"), render: (row) => esc(row.app) },
 				{
-					label: __("Level"),
+					label: __("Role"),
 					render: (row) => named(row.own ? row.level : __(row.level), row.own && { label: __("Custom"), theme: "purple" }),
 				},
 				{

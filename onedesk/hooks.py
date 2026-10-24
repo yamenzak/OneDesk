@@ -16,6 +16,8 @@ after_sync = [
 	"onedesk.one.notify.install",
 	"onedesk.one_legal.gate.told_of_changes",
 	"onedesk.one.access.settle",
+	"onedesk.one.abilities.settle",
+	"onedesk.one.abilities.everyone",
 	"onedesk.one_calendar.feed.settle",
 	"onedesk.one.print_blocks.settle",
 	"onedesk.one_book.paper.settle",
@@ -789,7 +791,7 @@ fixtures = [
 	{"dt": "Quotation Lost Reason", "filters": [["name", "in", ["Price", "Went With a Competitor", "No Budget", "No Decision", "Timing", "Not a Fit", "Other"]]]},
 	{"dt": "UTM Source", "filters": [["name", "=", "Website"]]},
 	{"dt": "Custom HTML Block", "filters": [["name", "in", ["One Needs You", "OneAdmin Needs You"]]]},
-	{"dt": "Role", "filters": [["name", "=", "Mail Manager"]]},
+	{"dt": "Role", "filters": [["name", "in", ["Mail Manager", "OneMail User"]]]},
 ]
 
 
@@ -1329,6 +1331,8 @@ one_ai_page = [
 one_homes = ["onedesk.one.masters.homes", "onedesk.one_project.rates.homes"]
 
 one_notification_types = ["onedesk.notifications.TYPES"]
+
+one_abilities = ["onedesk.one_mail.abilities"]
 
 one_record_heads = [
 	"onedesk.one_inventory.heads.HEADS",
