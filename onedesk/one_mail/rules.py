@@ -1044,6 +1044,7 @@ def rules_of_mailbox(account: str) -> dict:
 	for one in rows:
 		one["steps"] = flow_of(one)
 		one["when"], one["then"] = flow.summary(one["steps"], folders, names)
+		one["needs_ai"] = int(flow.needs_ai(one["steps"]))
 		one["requested_by_name"] = frappe.utils.get_fullname(one.requested_by) if one.requested_by else None
 	return {
 		"may": True,
@@ -1059,6 +1060,7 @@ def rules_of_mailbox(account: str) -> dict:
 		],
 		"people": [{"value": one, "label": names[one]} for one in people],
 		"ai": int(bool(gate.may_read(account))),
+		"reads": int(gate.reads(account)),
 	}
 
 

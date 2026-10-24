@@ -23,7 +23,72 @@ FIELDS = [
 	"one_ai_limit",
 	"one_ai_spent",
 	"one_ai_month",
+	"one_ai_skips",
 ]
+
+#: What OneIntake does with a mailbox's mail, each its own switch on the
+#: mailbox's OneAI tab, by the level it starts at. All are on until switched
+#: off (`one_ai_skips`); `job_of` says which one an Intake Action is.
+JOBS = {
+	SORT: ("junk", "newsletters"),
+	FILE: ("link", "attach", "tidy"),
+	ACT: ("parties", "contacts", "enrich", "tasks", "events", "money", "hr", "projects", "agent"),
+}
+
+HEADS = {
+	"junk": "junk",
+	"newsletters": "newsletters",
+	"advertising": "newsletters",
+	"link": "link",
+	"back": "link",
+	"attach": "attach",
+	"name": "tidy",
+	"tags": "tidy",
+	"file away": "tidy",
+	"cut": "tidy",
+	"party": "parties",
+	"contact": "contacts",
+	"enrich": "enrich",
+	"employee": "hr",
+	"document": "hr",
+	"education": "hr",
+	"leave": "hr",
+	"resignation": "hr",
+	"expense": "hr",
+	"task": "tasks",
+	"promise": "tasks",
+	"event": "events",
+	"books": "money",
+	"project": "projects",
+}
+
+TWO = {"task|renew": "hr", "task|unordered": "money", "task|contract": "money", "task|never-received": "money"}
+
+
+def job_of(key: str) -> str | None:
+	"""The job an Intake Action's key says it is (JOBS), or None for one
+	no switch covers. A key may start with its reading's or its matter's
+	key. Pure."""
+	parts = (key or "").split("|")
+	if "agent" in parts:
+		return "agent"
+	for at in range(min(2, len(parts))):
+		said = TWO.get("|".join(parts[at : at + 2])) or HEADS.get(parts[at])
+		if said:
+			return said
+	return None
+
+
+def skips(account: str | None) -> set[str]:
+	"""The jobs switched off for a mailbox."""
+	held = of(account)
+	return set(frappe.parse_json(held.one_ai_skips) or []) if held and held.one_ai_skips else set()
+
+
+def does(account: str | None, job: str | None) -> bool:
+	"""Whether OneIntake may do this job with this mailbox's mail: always for
+	a job no switch covers, and for anything not from a mailbox."""
+	return not job or not account or job not in skips(account)
 
 
 def month() -> str:
@@ -40,6 +105,16 @@ def may_read(account: str | None) -> bool:
 	"""Whether OneAI may read this mailbox at all, asked or on its own."""
 	held = of(account)
 	return bool(held) and not held.one_ai_off
+
+
+def reads(account: str | None) -> bool:
+	"""Whether a mailbox's new mail is read at all, so its Ask OneAI rules
+	can run (flow.needs_ai): OneAI may read it, New Mail is not Not Read,
+	and OneIntake is on for the workspace."""
+	from onedesk.one import apps
+
+	held = of(account)
+	return bool(held) and not held.one_ai_off and bool(held.one_intake) and apps.intake_on()
 
 
 def used(held: dict) -> float:
@@ -188,8 +263,18 @@ def settings_of(account: str) -> dict:
 		"attachments": bool(held.one_ai_attachments),
 		"limit": held.one_ai_limit or 0,
 		"used": round(used(held), 2),
+		"skips": sorted(skips(account)),
+		"asks": asks_of(account),
 		"may_manage": holders.may(account, "ai"),
 	}
+
+
+def asks_of(account: str) -> list[str]:
+	"""The titles of a mailbox's rules that ask OneAI, which only run while
+	its new mail is read."""
+	from onedesk.one_mail import rules
+
+	return [one.title or one.name for one in rules.rules_of(account, True)]
 
 
 @frappe.whitelist(methods=["POST"])
@@ -200,6 +285,7 @@ def set_settings(
 	level: str | None = None,
 	attachments: int | None = None,
 	limit: int | None = None,
+	skips: list | str | None = None,
 ) -> dict:
 	"""Change a mailbox's OneAI tab. Its manager may (holders.may_manage); new
 	mail is then read on behalf of whoever turned reading on."""
@@ -226,6 +312,10 @@ def set_settings(
 		values["one_ai_attachments"] = int(attachments)
 	if limit is not None:
 		values["one_ai_limit"] = max(0, int(limit or 0))
+	if skips is not None:
+		known = {job for jobs in JOBS.values() for job in jobs}
+		said = frappe.parse_json(skips) if isinstance(skips, str) else skips
+		values["one_ai_skips"] = frappe.as_json(sorted(set(said or []) & known), indent=None)
 	if values:
 		frappe.db.set_value("Email Account", account, values, update_modified=False)
 		frappe.local.one_ai_off = frappe.local.one_ai_unindexed = None

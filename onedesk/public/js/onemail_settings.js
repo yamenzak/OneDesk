@@ -434,10 +434,65 @@ onedesk.mail.settings = (tab) => {
 	// How far OneAI may go with this mailbox (one_mail/gate.py). Off reaches
 	// everything that reads mail, the OneAI panel included.
 	const G = "onedesk.one_mail.gate.";
+	// What OneIntake does with a mailbox's mail, each its own switch, by the
+	// level it starts at (one_mail/gate.py JOBS).
+	const NOT_READ = "Not Read";
+	const LEVELS = [
+		[NOT_READ, __("Not Read")],
+		["Sort Only", __("Sorted")],
+		["Read and File", __("Read and Filed")],
+		["Read, File and Act", __("Read, Filed and Acted On")],
+	];
+	const JOBS = [
+		{
+			level: "Sort Only",
+			title: __("When Sorted"),
+			about: __("Each message gets a quick look. It also answers the Ask OneAI steps in this mailbox's Automation."),
+			jobs: [
+				["junk", __("Junk and Phishing"), __("Moved to Junk. Phishing also warns whoever reads the mailbox.")],
+				["newsletters", __("Newsletters and Ads"), __("Moved to a Newsletters folder, made the first time it's needed.")],
+			],
+		},
+		{
+			level: "Read and File",
+			title: __("When Read and Filed"),
+			about: __("Each message is read in full and filed where it belongs."),
+			jobs: [
+				["link", __("Links to Records"), __("Each message is linked to the customers, suppliers, orders and invoices it's about, and shows on their timelines.")],
+				["attach", __("Attachments on Records"), __("An attachment is filed on the record it belongs to. A payslip or an ID only ever goes on the employee.")],
+				["tidy", __("File Names and Tags"), __("Filed attachments are named by kind and date and tagged, and a scan of several letters is split into one file each.")],
+			],
+		},
+		{
+			level: "Read, File and Act",
+			title: __("When Acted On"),
+			about: __("OneAI also does what each message asks for. What it isn't sure of waits for a person in OneIntake."),
+			jobs: [
+				["parties", __("New Customers and Suppliers"), __("Customers, suppliers, leads and job applicants are made for senders the workspace doesn't know yet.")],
+				["contacts", __("Contacts"), __("A contact for the sender and for the people in To, Cc and signatures, kept up to date.")],
+				["enrich", __("Missing Details"), __("Empty fields such as a tax ID or a phone are filled in. A changed value is only suggested, and a bank account is never changed.")],
+				["tasks", __("Tasks and Follow-Ups"), __("A task for what a message asks, given to whoever handles it and kept up to date as replies come. Your own promises become tasks too.")],
+				["events", __("Calendar Events"), __("Appointments and meetings in a message go in the calendar.")],
+				["money", __("Bills, Orders and Payments"), __("Purchase invoices, sales orders, quotations, receipts, payments and bank lines, made as drafts that wait in Ready to Submit.")],
+				["hr", __("Employee Documents"), __("IDs with a task before they expire, certificates, leave, resignations and expense claims go on the employee.")],
+				["projects", __("Site Logs"), __("A site report becomes an update on its project.")],
+				["agent", __("Anything Else"), __("OneAI works out what else a message needs, such as a comment on a record or a record of another kind.")],
+			],
+		},
+	];
+	const at = (level) => LEVELS.findIndex((one) => one[0] === level);
+	const credits = (said) => {
+		const used = format_number(said.used, null, said.used % 1 ? 2 : 0);
+		if (!said.limit) return `<div class="oms-meter-said">${esc(__("{0} credits used this month. There is no limit.", [used]))}</div>`;
+		const share = Math.min(100, Math.round((said.used / said.limit) * 100));
+		return `<div class="oms-meter${share >= 90 ? " oms-meter-full" : ""}" role="meter" aria-valuemin="0" aria-valuemax="${said.limit}" aria-valuenow="${said.used}"><span style="width: ${share}%"></span></div>
+			<div class="oms-meter-said">${esc(__("{0} of {1} credits used this month.", [used, format_number(said.limit, null, 0)]))}</div>`;
+	};
+
 	const oneai_tab = (box) => ({
 		id: "oneai",
 		label: __("OneAI"),
-		icon: "sparkles",
+		icon: "oneai",
 		title: __("OneAI"),
 		description: box.may.ai ? __("If disabled, OneAI can't read this mailbox, including in the OneAI panel.") : managed,
 		actions: box.may.ai
@@ -449,64 +504,93 @@ onedesk.mail.settings = (tab) => {
 						click: async (panel) => {
 							const values = panel.get_values();
 							if (!values) return;
-							panel.said = await frappe.xcall(G + "set_settings", {
-								account: box.name,
-								reads: values.reads ? 1 : 0,
-								level: values.level,
-								attachments: values.attachments ? 1 : 0,
-								limit: values.limit || 0,
-							});
-							saved();
-							panel.clean();
+							const save = async () => {
+								const reads = values.mail !== NOT_READ;
+								panel.said = await frappe.xcall(G + "set_settings", {
+									account: box.name,
+									reads: reads ? 1 : 0,
+									level: reads ? values.mail : undefined,
+									attachments: values.attachments ? 1 : 0,
+									limit: values.limit || 0,
+									skips: JOBS.flatMap((group) => group.jobs.map((job) => job[0])).filter((key) => !values[`job_${key}`]),
+								});
+								saved();
+								panel.clean();
+							};
+							const stops = values.mail === NOT_READ && panel.said?.reads ? panel.said.asks || [] : [];
+							if (!stops.length) return save();
+							frappe.confirm(
+								__("{0} ask OneAI, and stop running while new mail isn't read. Save anyway?", [stops.map(esc).join(", ")]),
+								save
+							);
 						},
 					},
 			  ]
 			: [],
 		async render(panel) {
-			const said = await frappe.xcall(G + "settings_of", { account: box.name });
+			const said = (panel.said = await frappe.xcall(G + "settings_of", { account: box.name }));
 			if (!said.ai) {
 				panel.set_header({ title: __("OneAI"), description: __("OneAI is turned off for this workspace in Apps.") });
 				return;
 			}
 			if (!said.may_manage) return;
-			panel.add_fields([
+			const reading = (level) => `eval:doc.mail && doc.mail !== "${NOT_READ}"` + (level ? ` && ${at(level)} <= ${JSON.stringify(LEVELS.map((one) => one[0]))}.indexOf(doc.mail)` : "");
+			const fields = [
 				{
-					fieldname: "reads",
-					fieldtype: "Switch",
-					label: __("Read New Mail"),
-					default: said.reads,
-					description: said.reads && said.for ? __("Reads with the permissions of {0}.", [said.for]) : __("Each new message is read and acted on. Uses OneAI credits."),
-				},
-				{
-					fieldname: "level",
+					fieldname: "mail",
 					fieldtype: "Select",
-					label: __("Reads To"),
-					options: [
-						{ value: "Sort Only", label: __("Sort Only") },
-						{ value: "Read and File", label: __("Read and File") },
-						{ value: "Read, File and Act", label: __("Read, File and Act") },
-					],
-					default: said.level,
-					depends_on: "reads",
-					description: __("Sort Only moves junk and runs About rules. Act also makes tasks, events and records."),
+					label: __("New Mail"),
+					options: LEVELS.map(([value, label]) => ({ value, label })),
+					default: said.reads ? said.level : NOT_READ,
+					change: () => levelled(panel),
+					description:
+						said.reads && said.for
+							? __("How far OneAI reads each new message on its own. It works with the permissions of {0}, who turned it on.", [said.for])
+							: __("How far OneAI reads each new message on its own. Each level does everything the one before it does. Uses OneAI credits."),
 				},
 				{
 					fieldname: "attachments",
 					fieldtype: "Switch",
 					label: __("Read Attachments"),
 					default: said.attachments,
-					depends_on: "reads",
-					description: __("Scans, photos and recordings use the most credits."),
+					depends_on: reading(),
+					description: __("Scans, photos and recordings are read too. They use the most credits."),
 				},
+			];
+			JOBS.forEach((group) => {
+				fields.push(
+					{ fieldname: `group_${at(group.level)}`, fieldtype: "Section Break", label: group.title, depends_on: reading() },
+					{
+						fieldname: `about_${at(group.level)}`,
+						fieldtype: "HTML",
+						options: `<p class="oms-group-about">${esc(group.about)} <span class="oms-later">${esc(
+							__("Set New Mail to {0} for these.", [LEVELS[at(group.level)][1]])
+						)}</span></p>`,
+					}
+				);
+				group.jobs.forEach(([key, label, about]) =>
+					fields.push({
+						fieldname: `job_${key}`,
+						fieldtype: "Switch",
+						label,
+						description: about,
+						default: said.skips.includes(key) ? 0 : 1,
+					})
+				);
+			});
+			fields.push(
+				{ fieldname: "credits_break", fieldtype: "Section Break", label: __("Credits"), depends_on: reading() },
+				{ fieldname: "used", fieldtype: "HTML", options: credits(said) },
 				{
 					fieldname: "limit",
 					fieldtype: "Int",
 					label: __("Monthly Credit Limit"),
 					default: said.limit || "",
-					depends_on: "reads",
-					description: __("{0} used this month. Leave empty for no limit.", [format_number(said.used, null, said.used % 1 ? 2 : 0)]),
-				},
-			]);
+					description: __("When it is reached, OneAI stops reading new mail until the month turns. Leave empty for no limit."),
+				}
+			);
+			panel.add_fields(fields);
+			levelled(panel);
 			track(panel);
 			panel.on = header_switch(panel, said.on, async (on) => {
 				await frappe.xcall(G + "set_settings", { account: box.name, on });
@@ -514,6 +598,21 @@ onedesk.mail.settings = (tab) => {
 			});
 		},
 	});
+
+	// A job past the level New Mail is set to stays in view, greyed and
+	// out of reach, with its group saying which level brings it.
+	const levelled = (panel) => {
+		const now = at(panel.fieldgroup.get_value("mail"));
+		JOBS.forEach((group) => {
+			const later = at(group.level) > now;
+			panel.fieldgroup.get_field(`about_${at(group.level)}`).$wrapper.find(".oms-later").toggle(later);
+			group.jobs.forEach(([key]) => {
+				const field = panel.fieldgroup.get_field(`job_${key}`);
+				field.$wrapper.toggleClass("oms-job-later", later);
+				field.$input && field.$input.prop("disabled", later);
+			});
+		});
+	};
 
 	const users_tab = (box, from) => ({
 		id: "users",
@@ -697,6 +796,13 @@ onedesk.mail.settings = (tab) => {
 					$end.prepend(frappe.ui.badge.html({ label: __("Waiting for Approval"), theme: "orange" }));
 					return;
 				}
+				if (rule.needs_ai && rule.enabled && !said.reads)
+					$end.prepend(
+						$(frappe.ui.badge.html({ label: __("Not Running"), theme: "gray" })).attr(
+							"title",
+							__("It asks OneAI, which only answers while this mailbox's new mail is read.")
+						)
+					);
 				if (!said.manages) return;
 				const on = frappe.ui.form.make_control({
 					df: { fieldtype: "Switch", fieldname: "enabled", label: "" },
@@ -717,7 +823,7 @@ onedesk.mail.settings = (tab) => {
 	// whether OneAI may read it.
 	const context_of = async (panel, box) => {
 		const said = panel.said || (await frappe.xcall(R + "rules_of_mailbox", { account: box.name }));
-		return { email: box.email, folders: said.folders || [], people: said.people || [], ai: !!said.ai };
+		return { email: box.email, folders: said.folders || [], people: said.people || [], ai: !!said.ai, reads: !!said.reads };
 	};
 
 	// A new rule starts from one of the examples, in groups, or from nothing.

@@ -577,6 +577,10 @@ msgstr "Eine Beschwerde, eingereicht, geprüft und gelöst."
 msgid "A conference, launch or company event, from the idea to the thank-you mails."
 msgstr "Eine Konferenz, ein Launch oder ein Firmenevent, von der Idee bis zu den Dankesmails."
 
+#: onedesk/public/js/onemail_settings.js:472
+msgid "A contact for the sender and for the people in To, Cc and signatures, kept up to date."
+msgstr "Ein Kontakt für den Absender und für die Personen in An, Cc und Signaturen, stets aktuell."
+
 #: onedesk/one_studio/places.py:27
 msgid "A conversation is opened in OneMail's reading pane."
 msgstr "Eine Unterhaltung wird im Lesebereich von OneMail geöffnet."
@@ -1388,6 +1392,10 @@ msgstr "Eine Schicht, die jemand arbeiten möchte."
 msgid "A signup from the public sign-up page."
 msgstr "Eine Anmeldung von der öffentlichen Anmeldeseite."
 
+#: onedesk/public/js/onemail_settings.js:478
+msgid "A site report becomes an update on its project."
+msgstr "Ein Baustellenbericht wird zu einem Update im Projekt."
+
 #: onedesk/one_studio/places.py:318
 msgid "A space's home page is opened: One, OneCRM, OneHR, OneBook and every other."
 msgstr "Die Startseite eines Bereichs wird geöffnet: One, OneCRM, OneHR, OneBook und jeder andere."
@@ -1440,6 +1448,10 @@ msgstr "Eine Aufgabe kann nicht unter sich selbst stehen."
 #: onedesk/one_project/template_view.py:144
 msgid "A task cannot wait on itself."
 msgstr "Eine Aufgabe kann nicht auf sich selbst warten."
+
+#: onedesk/public/js/onemail_settings.js:474
+msgid "A task for what a message asks, given to whoever handles it and kept up to date as replies come. Your own promises become tasks too."
+msgstr "Eine Aufgabe für das, worum eine Nachricht bittet, zugewiesen an die zuständige Person und aktuell gehalten, wenn Antworten kommen. Deine eigenen Zusagen werden auch zu Aufgaben."
 
 #: onedesk/one_project/naming.py:18
 msgid "A task prefix is 2 to 10 letters and digits, starting with a letter."
@@ -3667,6 +3679,10 @@ msgstr "Der Wert eines Anlageguts richtiggestellt."
 msgid "An attachment field on the record, which the file fills."
 msgstr "Ein Anhangsfeld im Datensatz, das die Datei füllt."
 
+#: onedesk/public/js/onemail_settings.js:462
+msgid "An attachment is filed on the record it belongs to. A payslip or an ID only ever goes on the employee."
+msgstr "Ein Anhang wird beim Datensatz abgelegt, zu dem er gehört. Eine Gehaltsabrechnung oder ein Ausweis kommt immer nur zum Mitarbeiter."
+
 #: onedesk/one/settings.py:790
 msgid "An authenticator app on their phone, or a code by email."
 msgstr "Eine Authenticator-App auf dem Handy oder ein Code per E-Mail."
@@ -3951,6 +3967,10 @@ msgstr "Jeder mit dem Link kann diese Datei öffnen"
 msgid "Anyone with the link can read your calendar."
 msgstr "Wer den Link hat, kann Ihren Kalender lesen."
 
+#: onedesk/public/js/onemail_settings.js:479
+msgid "Anything Else"
+msgstr "Alles andere"
+
 #. Description of the 'Other Facts' (JSON) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Anything else worth having at hand, each written in the document as it is here."
@@ -4127,6 +4147,10 @@ msgstr ""
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Appointment Letter Template"
 msgstr ""
+
+#: onedesk/public/js/onemail_settings.js:475
+msgid "Appointments and meetings in a message go in the calendar."
+msgstr "Termine und Besprechungen aus einer Nachricht kommen in den Kalender."
 
 #. Label in the One Appraisal print format
 #. Label of a Sidebar Item
@@ -4565,6 +4589,10 @@ msgstr "Bitten Sie die Personalabteilung, Ihren Passkey zurückzusetzen."
 #: onedesk/public/js/outside.js:76 onedesk/public/js/settings.js:3167
 msgid "Ask OneAI"
 msgstr "OneAI fragen"
+
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.py:28
+msgid "Ask OneAI only runs while this mailbox's new mail is read. Set New Mail in its OneAI tab first."
+msgstr "OneAI fragen läuft nur, solange neue E-Mails dieses Postfachs gelesen werden. Stelle zuerst Neue E-Mails im OneAI-Tab ein."
 
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.py:138
 msgid "Ask OneAI to add a field."
@@ -5028,6 +5056,10 @@ msgstr "Anhänge nicht gespeichert"
 #: onedesk/public/js/onemail.js:943
 msgid "Attachments in OneCloud"
 msgstr "Anhänge in OneCloud"
+
+#: onedesk/public/js/onemail_settings.js:462
+msgid "Attachments on Records"
+msgstr "Anhänge an Datensätzen"
 
 #. Description of the 'Not Saved' (Small Text) field in DocType 'Communication'
 #: onedesk/one_mail/custom/communication.json
@@ -6267,6 +6299,10 @@ msgstr "Stücklisten"
 msgid "Bills read from mail and scans, waiting to be submitted."
 msgstr "Rechnungen aus E-Mails und Scans, die auf die Buchung warten."
 
+#: onedesk/public/js/onemail_settings.js:476
+msgid "Bills, Orders and Payments"
+msgstr "Rechnungen, Bestellungen und Zahlungen"
+
 #. Label of the 'bio' field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
 msgid "Bio"
@@ -6828,6 +6864,10 @@ msgstr "Lebenslauf"
 #: onedesk/public/js/record_calendar.js:5
 msgid "Calendar"
 msgstr ""
+
+#: onedesk/public/js/onemail_settings.js:475
+msgid "Calendar Events"
+msgstr "Kalendertermine"
 
 #. Name of a DocType
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
@@ -10267,6 +10307,10 @@ msgstr "Kunden, letzte 12 Monate"
 msgid "Customers, items, people and settings stay."
 msgstr "Kunden, Artikel, Personen und Einstellungen bleiben."
 
+#: onedesk/public/js/onemail_settings.js:471
+msgid "Customers, suppliers, leads and job applicants are made for senders the workspace doesn't know yet."
+msgstr "Für Absender, die der Arbeitsbereich noch nicht kennt, werden Kunden, Lieferanten, Leads und Bewerber angelegt."
+
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/public/js/record.js:171
@@ -13023,13 +13067,21 @@ msgstr "Jede Zeile des Kontoauszugs."
 msgid "Each lost opportunity, and why."
 msgstr "Jede verlorene Chance und warum."
 
+#: onedesk/public/js/onemail_settings.js:450
+msgid "Each message gets a quick look. It also answers the Ask OneAI steps in this mailbox's Automation."
+msgstr "Jede Nachricht wird kurz angesehen. Das beantwortet auch die Schritte OneAI fragen in der Automatisierung dieses Postfachs."
+
+#: onedesk/public/js/onemail_settings.js:461
+msgid "Each message is linked to the customers, suppliers, orders and invoices it's about, and shows on their timelines."
+msgstr "Jede Nachricht wird mit den Kunden, Lieferanten, Bestellungen und Rechnungen verknüpft, um die es geht, und erscheint in deren Verlauf."
+
+#: onedesk/public/js/onemail_settings.js:459
+msgid "Each message is read in full and filed where it belongs."
+msgstr "Jede Nachricht wird vollständig gelesen und dort abgelegt, wo sie hingehört."
+
 #: onedesk/one_inventory/home.py:192
 msgid "Each month's depreciation."
 msgstr "Die Abschreibung jedes Monats."
-
-#: onedesk/public/js/onemail_settings.js:323
-msgid "Each new message is read and acted on. Uses OneAI credits."
-msgstr "Jede neue Nachricht wird gelesen und bearbeitet. Verbraucht OneAI-Credits."
 
 #: onedesk/one_inventory/ready.py:205
 msgid "Each new work order asks where to work and where to put what it makes. Fix sets the company's Work In Progress and Finished Goods."
@@ -13752,6 +13804,10 @@ msgstr "Mitarbeiterdaten geändert"
 msgid "Employee Document"
 msgstr "Mitarbeiterdokument"
 
+#: onedesk/public/js/onemail_settings.js:477
+msgid "Employee Documents"
+msgstr "Mitarbeiterdokumente"
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/home.py:459 onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Employee Exits"
@@ -13911,6 +13967,10 @@ msgstr "Papierkorb leeren"
 #: onedesk/public/js/onecloud.js:1077
 msgid "Empty Recycle Bin? Everything in it is deleted permanently."
 msgstr "Papierkorb leeren? Alles darin wird endgültig gelöscht."
+
+#: onedesk/public/js/onemail_settings.js:473
+msgid "Empty fields such as a tax ID or a phone are filled in. A changed value is only suggested, and a bank account is never changed."
+msgstr "Leere Felder wie Steuernummer oder Telefon werden ausgefüllt. Ein geänderter Wert wird nur vorgeschlagen, und eine Bankverbindung wird nie geändert."
 
 #. Description of the 'Record' (Data) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
@@ -15406,6 +15466,10 @@ msgstr "Datei"
 msgid "File Link"
 msgstr "Dateiverknüpfung"
 
+#: onedesk/public/js/onemail_settings.js:463
+msgid "File Names and Tags"
+msgstr "Dateinamen und Tags"
+
 #. Name of a notification
 #: onedesk/notifications/one_storage/file_request.md
 msgid "File Request"
@@ -15461,6 +15525,10 @@ msgstr "Datei {0} nicht gefunden"
 #: onedesk/public/js/onecloud.js:308
 msgid "File · From"
 msgstr "Datei · Von"
+
+#: onedesk/public/js/onemail_settings.js:463
+msgid "Filed attachments are named by kind and date and tagged, and a scan of several letters is split into one file each."
+msgstr "Abgelegte Anhänge werden nach Art und Datum benannt und getaggt, und ein Scan mehrerer Briefe wird in je eine Datei aufgeteilt."
 
 #. Task in the Year-End Audit project template
 #: onedesk/one_project/library/year_end_audit.json
@@ -18129,6 +18197,14 @@ msgstr "Wie jeder Lieferant liefert, bewertet."
 msgid "How far OneAI goes with each new message."
 msgstr "Wie weit OneAI mit jeder neuen Nachricht geht."
 
+#: onedesk/public/js/onemail_settings.js:549
+msgid "How far OneAI reads each new message on its own. Each level does everything the one before it does. Uses OneAI credits."
+msgstr "Wie weit OneAI jede neue Nachricht von sich aus liest. Jede Stufe macht alles, was die vorige macht. Verbraucht OneAI-Guthaben."
+
+#: onedesk/public/js/onemail_settings.js:548
+msgid "How far OneAI reads each new message on its own. It works with the permissions of {0}, who turned it on."
+msgstr "Wie weit OneAI jede neue Nachricht von sich aus liest. Es arbeitet mit den Berechtigungen von {0}, der es eingeschaltet hat."
+
 #: onedesk/one_inventory/ai.py:218
 msgid "How far along is it?"
 msgstr "Wie weit ist er?"
@@ -18574,6 +18650,10 @@ msgstr "Ausweisdokumentart"
 #: onedesk/one/masters.py:42
 msgid "ID Document Types"
 msgstr "Ausweisdokumentarten"
+
+#: onedesk/public/js/onemail_settings.js:477
+msgid "IDs with a task before they expire, certificates, leave, resignations and expense claims go on the employee."
+msgstr "Ausweise mit einer Aufgabe vor ihrem Ablauf, Zeugnisse, Urlaub, Kündigungen und Spesenabrechnungen kommen zum Mitarbeiter."
 
 #: onedesk/public/js/onemail.js:797 onedesk/public/js/onemail_settings.js:216
 msgid "IMAP Port"
@@ -20091,6 +20171,10 @@ msgstr "Eröffnete, beantwortete und gelöste Anfragen, nach Bearbeiter."
 msgid "Issuing Country"
 msgstr "Ausstellungsland"
 
+#: onedesk/public/js/onemail_settings.js:803
+msgid "It asks OneAI, which only answers while this mailbox's new mail is read."
+msgstr "Sie fragt OneAI, das nur antwortet, solange neue E-Mails dieses Postfachs gelesen werden."
+
 #: onedesk/public/js/doctype_settings.js:829
 msgid "It becomes required and unique."
 msgstr "Es wird erforderlich und eindeutig."
@@ -20819,6 +20903,10 @@ msgstr ""
 #: onedesk/public/js/onemail.js:20
 msgid "Junk"
 msgstr "Spam"
+
+#: onedesk/public/js/onemail_settings.js:452
+msgid "Junk and Phishing"
+msgstr "Spam und Phishing"
 
 #. Label of the jurisdiction (Data) field in DocType 'Workspace Account'
 #. Label of the jurisdiction (Select) field in DocType 'Account Request'
@@ -22234,6 +22322,10 @@ msgstr "Mit {0} verknüpft"
 #: onedesk/public/js/settings.js:973 onedesk/public/js/settings.js:1376
 msgid "Links"
 msgstr "Links"
+
+#: onedesk/public/js/onemail_settings.js:461
+msgid "Links to Records"
+msgstr "Verknüpfungen mit Datensätzen"
 
 #: onedesk/public/js/onecloud.js:1316
 msgid "Links to {0}"
@@ -23856,6 +23948,10 @@ msgstr ""
 msgid "Minutes"
 msgstr ""
 
+#: onedesk/public/js/onemail_settings.js:473
+msgid "Missing Details"
+msgstr "Fehlende Angaben"
+
 #: onedesk/public/js/settings.js:2626
 msgid "Mixed"
 msgstr "Gemischt"
@@ -24212,9 +24308,17 @@ msgstr "Zurückverschoben"
 msgid "Moved down from {0}% to {1}%."
 msgstr "Von {0} % auf {1} % abgestuft."
 
+#: onedesk/public/js/onemail_settings.js:452
+msgid "Moved to Junk. Phishing also warns whoever reads the mailbox."
+msgstr "In den Spam verschoben. Bei Phishing wird zusätzlich gewarnt, wer das Postfach liest."
+
 #: onedesk/public/js/onemail.js:614
 msgid "Moved to Trash"
 msgstr "In den Papierkorb verschoben"
+
+#: onedesk/public/js/onemail_settings.js:453
+msgid "Moved to a Newsletters folder, made the first time it's needed."
+msgstr "In einen Newsletter-Ordner verschoben, der beim ersten Bedarf angelegt wird."
 
 #: onedesk/one_intake/panel.py:218 onedesk/one_intake/panel.py:219
 #: onedesk/one_studio/doctype/record_type/record_type_list.js:76
@@ -24707,6 +24811,10 @@ msgstr "Neukunden-Onboarding"
 msgid "New Code"
 msgstr "Neuer Code"
 
+#: onedesk/public/js/onemail_settings.js:471
+msgid "New Customers and Suppliers"
+msgstr "Neue Kunden und Lieferanten"
+
 #: onedesk/public/js/onecloud.js:1855
 msgid "New Document"
 msgstr "Neues Dokument"
@@ -24786,6 +24894,10 @@ msgstr "Neuer Briefkopf"
 #: onedesk/public/js/calendar_link.js:24 onedesk/public/js/calendar_link.js:66
 msgid "New Link"
 msgstr "Neuer Link"
+
+#: onedesk/public/js/onemail_settings.js:542
+msgid "New Mail"
+msgstr "Neue E-Mails"
 
 #: onedesk/public/js/onemail_settings.js:558
 msgid "New Mail Rule"
@@ -25033,6 +25145,10 @@ msgstr "Newsletter"
 #: onedesk/one_intake/filing.py:172
 msgid "Newsletters"
 msgstr "Newsletter"
+
+#: onedesk/public/js/onemail_settings.js:453
+msgid "Newsletters and Ads"
+msgstr "Newsletter und Werbung"
 
 #: onedesk/public/js/rule_builder.js:498
 msgid "Newsletters to a Folder"
@@ -26246,6 +26362,10 @@ msgstr "Nicht jetzt"
 msgid "Not Permitted"
 msgstr "Nicht erlaubt"
 
+#: onedesk/public/js/onemail_settings.js:441
+msgid "Not Read"
+msgstr "Nicht gelesen"
+
 #: frontend/src/sent_out/SentOutPage.vue:15
 msgid "Not Ready to Send"
 msgstr "Noch nicht versandbereit"
@@ -26254,6 +26374,10 @@ msgstr "Noch nicht versandbereit"
 #: onedesk/one_crm/measure.py:90
 msgid "Not Recorded"
 msgstr "Nicht erfasst"
+
+#: onedesk/public/js/onemail_settings.js:801
+msgid "Not Running"
+msgstr "Läuft nicht"
 
 #. Label of the one_unsaved (Small Text) field in DocType 'Communication'
 #: onedesk/one_mail/custom/communication.json
@@ -27705,6 +27829,10 @@ msgstr "OneAI geändert"
 msgid "OneAI Credits"
 msgstr "OneAI-Guthaben"
 
+#: onedesk/one_intake/custom/email_account.json
+msgid "OneAI Leaves Alone"
+msgstr "Was OneAI auslässt"
+
 #. Label of the one_ai_rating (Rating) field in DocType 'Job Applicant'
 #: onedesk/one_hr/custom/job_applicant.json
 msgid "OneAI Rating"
@@ -27749,6 +27877,10 @@ msgstr "OneAI ausgeschaltet"
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "OneAI adds questions to each new interview."
 msgstr "OneAI fügt jedem neuen Gespräch Fragen hinzu."
+
+#: onedesk/public/js/onemail_settings.js:469
+msgid "OneAI also does what each message asks for. What it isn't sure of waits for a person in OneIntake."
+msgstr "OneAI erledigt auch, worum jede Nachricht bittet. Was es nicht sicher weiß, wartet in OneIntake auf eine Person."
 
 #: onedesk/public/js/rule_builder.js:724
 msgid "OneAI answers customers' questions about orders, deliveries and prices from their own records."
@@ -27871,6 +28003,10 @@ msgstr "OneAI hat sich {extension} angesehen"
 msgid "OneAI may read the orders, invoices and deliveries the sender sees on the portal. Only when the sender's address is verified."
 msgstr "OneAI darf die Bestellungen, Rechnungen und Lieferungen lesen, die der Absender im Portal sieht. Nur wenn die Adresse des Absenders bestätigt ist."
 
+#: onedesk/public/js/rule_builder.js:364
+msgid "OneAI only answers this while this mailbox's new mail is read. Set New Mail in its OneAI tab."
+msgstr "OneAI beantwortet das nur, solange neue E-Mails dieses Postfachs gelesen werden. Stelle Neue E-Mails im OneAI-Tab ein."
+
 #. Description of the 'Screen New Applicants' (Check) field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -27898,6 +28034,10 @@ msgstr "OneAI liest neue Mails in {0} und ihre Anhänge, legt sie ab und bearbei
 #: onedesk/public/js/settings.js:2966
 msgid "OneAI will read, file and act on new files in this folder and its subfolders. Scans and photos use OneAI credits."
 msgstr "OneAI liest, ordnet und bearbeitet neue Dateien in diesem Ordner und seinen Unterordnern. Scans und Fotos verbrauchen OneAI-Credits."
+
+#: onedesk/public/js/onemail_settings.js:479
+msgid "OneAI works out what else a message needs, such as a comment on a record or a record of another kind."
+msgstr "OneAI erkennt, was eine Nachricht sonst noch braucht, etwa einen Kommentar an einem Datensatz oder einen Datensatz anderer Art."
 
 #: onedesk/one_ai/heads.py:83
 msgid "OneAI writes one here when something happens, such as an invoice, a payment or a mail."
@@ -32673,6 +32813,10 @@ msgstr ""
 msgid "Purchase Voucher"
 msgstr "Einkaufsbeleg"
 
+#: onedesk/public/js/onemail_settings.js:476
+msgid "Purchase invoices, sales orders, quotations, receipts, payments and bank lines, made as drafts that wait in Ready to Submit."
+msgstr "Eingangsrechnungen, Kundenaufträge, Angebote, Wareneingänge, Zahlungen und Bankbuchungen, angelegt als Entwürfe, die in Bereit zum Buchen warten."
+
 #. Who a notification is sent to
 #: onedesk/notifications/one_inventory/material_request_asked.md
 #: onedesk/notifications/one_inventory/material_request_raised.md
@@ -33255,10 +33399,6 @@ msgstr "Lesen"
 msgid "Read List"
 msgstr "Liste lesen"
 
-#: onedesk/public/js/onemail_settings.js:321
-msgid "Read New Mail"
-msgstr "Neue E-Mails lesen"
-
 #. Label of the read_on (Datetime) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Read On"
@@ -33268,6 +33408,10 @@ msgstr "Gelesen am"
 #: onedesk/public/js/onemail_settings.js:331
 msgid "Read and File"
 msgstr "Lesen und ablegen"
+
+#: onedesk/public/js/onemail_settings.js:443
+msgid "Read and Filed"
+msgstr "Gelesen und abgelegt"
 
 #: onedesk/public/js/onemail_settings.js:92
 msgid "Read and Send"
@@ -33331,6 +33475,10 @@ msgstr "{0} mit OneAI lesen? OneAI legt die Datei ab und bearbeitet sie. Scans u
 #: onedesk/public/js/onemail_settings.js:332
 msgid "Read, File and Act"
 msgstr "Lesen, ablegen und handeln"
+
+#: onedesk/public/js/onemail_settings.js:444
+msgid "Read, Filed and Acted On"
+msgstr "Gelesen, abgelegt und erledigt"
 
 #: onedesk/public/js/onecloud.js:1430
 msgid "Reader"
@@ -33401,14 +33549,6 @@ msgstr "Liest, was es gefunden hat…"
 #: onedesk/one_inventory/print_format/one_quality_inspection/one_quality_inspection.json
 msgid "Readings"
 msgstr "Messwerte"
-
-#: onedesk/public/js/onemail_settings.js:328
-msgid "Reads To"
-msgstr "Liest bis"
-
-#: onedesk/public/js/onemail_settings.js:323
-msgid "Reads with the permissions of {0}."
-msgstr "Liest mit den Berechtigungen von {0}."
 
 #. Option for the 'Request Status' (Select) field in DocType 'Personal Data
 #. Download Request'
@@ -36178,6 +36318,10 @@ msgstr "Mit der Banking-App scannen"
 msgid "Scans and photos attached on a form are read too, on behalf of whoever attached them."
 msgstr "Auch Scans und Fotos, die in einem Formular angehängt werden, werden gelesen, im Namen der Person, die sie angehängt hat."
 
+#: onedesk/public/js/onemail_settings.js:557
+msgid "Scans, photos and recordings are read too. They use the most credits."
+msgstr "Scans, Fotos und Aufnahmen werden auch gelesen. Sie verbrauchen das meiste Guthaben."
+
 #: onedesk/one_intake/custom/email_account.json
 #: onedesk/public/js/onemail_settings.js:344
 msgid "Scans, photos and recordings use the most credits."
@@ -36983,6 +37127,10 @@ msgstr "Zustand festlegen"
 #: frontend/src/project/TaskPanel.vue:31 frontend/src/task/TaskPage.vue:26
 msgid "Set Hours"
 msgstr "Stunden festlegen"
+
+#: onedesk/public/js/onemail_settings.js:567
+msgid "Set New Mail to {0} for these."
+msgstr "Stelle Neue E-Mails dafür auf {0}."
 
 #: onedesk/public/js/next_step.js:11 onedesk/public/js/next_step.js:17
 msgid "Set Next Step"
@@ -38093,6 +38241,10 @@ msgstr "Montage vor Ort & Logistik"
 msgid "Site Log"
 msgstr "Baustellenbericht"
 
+#: onedesk/public/js/onemail_settings.js:478
+msgid "Site Logs"
+msgstr "Baustellenberichte"
+
 #. Label of the press_plan (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Site Plan"
@@ -38674,10 +38826,6 @@ msgstr "Sortierschlüssel"
 msgid "Sort Only"
 msgstr "Nur sortieren"
 
-#: onedesk/public/js/onemail_settings.js:336
-msgid "Sort Only moves junk and runs About rules. Act also makes tasks, events and records."
-msgstr "Nur sortieren verschiebt Junk und führt Themenregeln aus. Handeln erstellt auch Aufgaben, Termine und Datensätze."
-
 #: frontend/src/sheet/components/SheetEditor/index.vue:523
 msgid "Sort ascending"
 msgstr "Aufsteigend sortieren"
@@ -38709,6 +38857,10 @@ msgstr "Absteigend sortieren"
 #: onedesk/one_mail/ai.py:281
 msgid "Sort mail into {0}"
 msgstr "E-Mails nach {0} sortieren"
+
+#: onedesk/public/js/onemail_settings.js:442
+msgid "Sorted"
+msgstr "Sortiert"
 
 #: onedesk/one/ai_setup.py:228
 msgid "Sorted by"
@@ -40677,6 +40829,10 @@ msgstr "Fällige oder überfällige Aufgaben"
 #: onedesk/public/js/rule_builder.js:602 onedesk/public/js/rule_builder.js:605
 msgid "Tasks From Mail"
 msgstr "Aufgaben aus E-Mails"
+
+#: onedesk/public/js/onemail_settings.js:474
+msgid "Tasks and Follow-Ups"
+msgstr "Aufgaben und Nachverfolgung"
 
 #. Label in the One Detailed Tax Invoice print format
 #. Label in the One Payment Voucher print format
@@ -47192,6 +47348,10 @@ msgstr "Was OneAI sich merkt"
 msgid "What OneAI did"
 msgstr "Was OneAI getan hat"
 
+#: onedesk/one_intake/custom/email_account.json
+msgid "What OneAI does not do with this mailbox's mail, by job (one_mail/gate.py JOBS)."
+msgstr "Was OneAI mit den E-Mails dieses Postfachs nicht tut, nach Aufgabe."
+
 #. Description of a DocType
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "What OneAI read in one file or message. One per content, however many places it is in."
@@ -48179,6 +48339,10 @@ msgstr "Was nicht ausgegeben und nicht zurückgegeben wird, wird von meinem Geha
 msgid "When"
 msgstr "Zeitraum"
 
+#: onedesk/public/js/onemail_settings.js:468
+msgid "When Acted On"
+msgstr "Beim Erledigen"
+
 #. When a notification is sent
 #: onedesk/notifications/one_book/new_fiscal_year.md
 msgid "When ERPNext makes next year's fiscal year on its own, so somebody checks it."
@@ -48249,6 +48413,10 @@ msgstr "Wenn OneAI eine neue Beschwerde als heikel einstuft."
 msgid "When OneAI reads a new grievance as urgent."
 msgstr "Wenn OneAI eine neue Beschwerde als dringend einstuft."
 
+#: onedesk/public/js/onemail_settings.js:458
+msgid "When Read and Filed"
+msgstr "Beim Lesen und Ablegen"
+
 #. Option for the 'Tax on Retention' (Select) field in DocType 'Projects
 #. Settings'
 #. Option for the 'Tax on Retention' (Select) field in DocType 'Purchase Order'
@@ -48266,6 +48434,10 @@ msgstr "Bei Freigabe"
 #: onedesk/one_project/custom/sales_order.json
 msgid "When Released taxes each bill on the work less its retention, and the retention when it's released."
 msgstr "„Bei Freigabe“ besteuert jede Rechnung auf die Leistung abzüglich des Einbehalts und den Einbehalt bei seiner Freigabe."
+
+#: onedesk/public/js/onemail_settings.js:449
+msgid "When Sorted"
+msgstr "Beim Sortieren"
 
 #: onedesk/notifications/one_mail/mail_rule_approved.md
 msgid "When a Mail Manager approves a mail rule you asked for."
@@ -48880,6 +49052,10 @@ msgstr "Wenn Waren einer Bestellung das gewünschte Datum überschritten haben u
 #: onedesk/one_crm/home.py:181
 msgid "When issues close by themselves, and what the help page shows."
 msgstr "Wann Anfragen von selbst schließen, und was die Hilfeseite zeigt."
+
+#: onedesk/public/js/onemail_settings.js:589
+msgid "When it is reached, OneAI stops reading new mail until the month turns. Leave empty for no limit."
+msgstr "Wenn es erreicht ist, liest OneAI bis zum Monatswechsel keine neuen E-Mails. Leer lassen für kein Limit."
 
 #. Description of the 'Schedule' (Data) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
@@ -53913,6 +54089,10 @@ msgstr "{0} als Benutzer"
 msgid "{0} as {1}"
 msgstr "{0} als {1}"
 
+#: onedesk/public/js/onemail_settings.js:523
+msgid "{0} ask OneAI, and stop running while new mail isn't read. Save anyway?"
+msgstr "{0} fragen OneAI und laufen nicht, solange neue E-Mails nicht gelesen werden. Trotzdem speichern?"
+
 #: onedesk/public/js/privacy_copy.js:7
 msgid "{0} asked for a copy of their data. Send it within one month."
 msgstr "{0} hat eine Kopie seiner Daten angefordert. Senden Sie sie innerhalb eines Monats."
@@ -54143,6 +54323,10 @@ msgstr "{0} Guthaben in dieser Unterhaltung"
 #: onedesk/public/js/tenant.js:66
 msgid "{0} credits left"
 msgstr "{0} Credits übrig"
+
+#: onedesk/public/js/onemail_settings.js:486
+msgid "{0} credits used this month. There is no limit."
+msgstr "{0} Guthaben in diesem Monat verbraucht. Es gibt kein Limit."
 
 #: onedesk/public/js/settings.js:1850
 msgid "{0} credits · {1}"
@@ -55334,6 +55518,10 @@ msgstr "{0} von {1} Credits übrig, läuft ab am {2}."
 msgid "{0} of {1} credits left. No expiry."
 msgstr "{0} von {1} Credits übrig. Kein Ablaufdatum."
 
+#: onedesk/public/js/onemail_settings.js:489
+msgid "{0} of {1} credits used this month."
+msgstr "{0} von {1} Guthaben in diesem Monat verbraucht."
+
 #: frontend/src/home/HrHome.vue:138
 msgid "{0} of {1} days"
 msgstr "{0} von {1} Tagen"
@@ -55856,10 +56044,6 @@ msgstr "{0} hochgeladen, {1} fehlgeschlagen"
 #: onedesk/one_storage/api.py:140
 msgid "{0} used"
 msgstr "{0} belegt"
-
-#: onedesk/public/js/onemail_settings.js:352
-msgid "{0} used this month. Leave empty for no limit."
-msgstr "{0} in diesem Monat verbraucht. Leer lassen für kein Limit."
 
 #: onedesk/public/js/settings.js:1401
 msgid "{0} used, no limit"

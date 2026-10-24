@@ -158,6 +158,10 @@ def maybe_submit(reading) -> None:
 	order, and ready. Off unless the workspace switched it on."""
 	if not frappe.db.get_single_value("Intake Settings", "submit_einvoices") or reading.how != "E-invoice":
 		return
+	from onedesk.one_mail import gate
+
+	if not gate.does(gate.account_of("Reading", reading.name), "money"):
+		return
 	made = frappe.db.get_value("Intake Action", {"reading": reading.name, "kind": "Create", "target_doctype": "Purchase Invoice", "level": "Done"}, "target_name")
 	if not made:
 		return

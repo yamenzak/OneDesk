@@ -24,6 +24,8 @@ class MailRule(Document):
 		)
 		if uses_ai and not gate.may_read(self.account):
 			frappe.throw(_("OneAI is turned off for this mailbox."))
+		if flow.needs_ai(steps) and self.enabled and not gate.reads(self.account):
+			frappe.throw(_("Ask OneAI only runs while this mailbox's new mail is read. Set New Mail in its OneAI tab first."))
 		self.steps = frappe.as_json(steps, indent=None)
 		self.title = (self.title or "").strip() or _("Mail Rule")
 

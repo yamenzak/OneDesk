@@ -3061,8 +3061,9 @@ def onemail_rules_are_steps_that_branch_and_ask_oneai():
 	wrote, with a group of Any inside, stars and files mail from a customer
 	and tells her; an Acknowledge rule answers a new conversation from
 	outside once a day, not twice; an Ask OneAI rule waits for OneAI's
-	reading and takes the branch of the label it picked, or Otherwise. A
-	rule needs an action, and a folder in its own mailbox."""
+	reading and takes the branch of the label it picked, or Otherwise, and is
+	refused on a mailbox whose new mail is not read. A rule needs an action,
+	and a folder in its own mailbox."""
 	from unittest import mock
 
 	from onedesk.one_mail import flow, holders, rules
@@ -3105,6 +3106,14 @@ def onemail_rules_are_steps_that_branch_and_ask_oneai():
 			made.append(customers)
 			ack = rules.save_rule(ours, {"title": "Acknowledge", "steps": rules_are_steps.acknowledge(""), "priority": 20})
 			made.append(ack)
+			asking = {"title": "Asks", "steps": [{"type": "ask", "id": "a", "ask": "yes", "question": "a complaint", "then": [{"type": "star"}], "else": []}]}
+			frappe.db.set_value("Email Account", ours, "one_intake", 0)
+			try:
+				rules.save_rule(ours, asking)
+				raise AssertionError("an Ask OneAI rule was saved on a mailbox whose new mail is not read")
+			except frappe.ValidationError:
+				pass
+			frappe.db.set_value("Email Account", ours, "one_intake", 1)
 			sort = rules.save_rule(
 				ours,
 				{
@@ -9699,3 +9708,39 @@ def onemail_oneai_tells_a_sender_only_their_own_records():
 	assert all("SINV" not in one and "could not be confirmed" in one for one in asked[1:2])
 	assert "SINV" not in asked[2] and "Say nothing about any order" in asked[2]
 	assert "SINV" not in asked[3] and "Nothing is known" in asked[3]
+
+
+@check
+def onemail_a_mailbox_says_what_oneai_may_do_with_its_mail():
+	"""Layla switches off Tasks and Follow-Ups for the workspace mailbox:
+	OneIntake then makes no task from its mail, while a link it still makes;
+	an unknown job, or a reading from no mailbox, is never held back. Setting
+	New Mail to Not Read names the rules that ask OneAI, which then show as
+	not running."""
+	from onedesk.one_intake import act
+	from onedesk.one_mail import gate, holders, rules
+
+	ours = holders.workspace()
+	reading = frappe.get_doc("Reading", frappe.db.get_value("Reading", {"source_doctype": "Communication"}, "name", order_by="creation desc"))
+	account = gate.account_of("Reading", reading.name)
+	assert account, "a reading of mail knows its mailbox"
+	reading.on_behalf_of, reading.history = OWNER, 0
+	with as_user(OWNER):
+		said = gate.set_settings(account, skips=["tasks", "made up"])
+	assert said["skips"] == ["tasks"], said["skips"]
+	frappe.local.flags.one_intake_mailbox = {}
+	task = act.Action("Create", "Task", values={"subject": "Call back"}, key="task", sure=True)
+	assert act.apply(task, reading) is None, "a job switched off makes nothing"
+	assert gate.does(account, "link") and gate.does(None, "tasks") and gate.does(account, None)
+	with as_user(OWNER):
+		gate.set_settings(account, skips=[])
+	frappe.local.flags.one_intake_mailbox = {}
+	assert act.apply(task, reading), "switched back on, it is done or proposed"
+
+	frappe.db.set_value("Email Account", ours, "one_intake", 1)
+	with as_user(OWNER):
+		rules.save_rule(ours, {"title": "Complaints", "steps": [{"type": "ask", "id": "a", "ask": "yes", "question": "a complaint", "then": [{"type": "star"}], "else": []}]})
+		assert "Complaints" in gate.settings_of(ours)["asks"]
+		gate.set_settings(ours, reads=0)
+		listed = rules.rules_of_mailbox(ours)
+	assert not listed["reads"] and any(one["needs_ai"] and one["title"] == "Complaints" for one in listed["rules"])

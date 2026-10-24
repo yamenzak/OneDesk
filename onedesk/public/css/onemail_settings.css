@@ -372,3 +372,39 @@
 	margin-top: calc(var(--spacing) * 0.5);
 	color: var(--ink-gray-5);
 }
+
+/* The OneAI tab's credits this month, against the limit. */
+.oms .oms-meter {
+	height: 6px;
+	margin: calc(var(--spacing) * 1) 0 calc(var(--spacing) * 1.5);
+	overflow: hidden;
+	border-radius: var(--radius-full);
+	background: var(--surface-gray-2);
+}
+
+.oms .oms-meter > span {
+	display: block;
+	height: 100%;
+	border-radius: inherit;
+	background: var(--surface-gray-7);
+}
+
+.oms .oms-meter-full > span {
+	background: var(--surface-red-5);
+}
+
+.oms .oms-meter-said,
+.oms .oms-group-about {
+	margin: 0 0 calc(var(--spacing) * 3);
+	color: var(--ink-gray-5);
+	font-size: var(--text-sm);
+}
+
+.oms .oms-job-later {
+	opacity: 0.5;
+}
+
+.oms .oms-later {
+	color: var(--ink-gray-7);
+	font-weight: var(--weight-medium);
+}

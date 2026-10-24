@@ -274,7 +274,7 @@ onedesk.rules.builder = ($into, rule, context) => {
 				step.with === "OneAI"
 					? [
 							words(__("Have OneAI write a reply that follows")),
-							quote(step.instruction, __("your instruction"), () => reply_dialog(step)).prepend(`${frappe.utils.icon("sparkles", "xs")} `),
+							quote(step.instruction, __("your instruction"), () => reply_dialog(step)).prepend(`${frappe.utils.icon("oneai", "xs")} `),
 							chip(
 								[
 									["1", __("reading their records")],
@@ -358,7 +358,11 @@ onedesk.rules.builder = ($into, rule, context) => {
 		} else {
 			$line = line(words(__("Ask OneAI")), mode, blank(step.question, (v) => (step.question = v), __("a complaint")));
 		}
-		const { $node, $body } = node(list, step, "sparkles", $line, "rb-node-ai");
+		const { $node, $body } = node(list, step, "oneai", $line, "rb-node-ai");
+		if (!context.reads)
+			$body.prepend(
+				$(`<div class="rb-unread"></div>`).text(__("OneAI only answers this while this mailbox's new mail is read. Set New Mail in its OneAI tab."))
+			);
 		if (step.ask === "pick") {
 			for (const one of step.labels) {
 				one.then = one.then || [];
@@ -400,7 +404,7 @@ onedesk.rules.builder = ($into, rule, context) => {
 		const checks = [
 			{ label: __("If"), icon: "split", onclick: add(() => ({ type: "if", id: id(), test: { any: false, items: [{ field: "from", op: "contains", value: "" }] }, then: [], else: [] })) },
 		];
-		if (context.ai) checks.push({ label: __("Ask OneAI"), icon: "sparkles", onclick: add(() => ({ type: "ask", id: id(), ask: "yes", question: "", then: [], else: [] })) });
+		if (context.ai) checks.push({ label: __("Ask OneAI"), icon: "oneai", onclick: add(() => ({ type: "ask", id: id(), ask: "yes", question: "", then: [], else: [] })) });
 		const $add = $(`<button type="button" class="rb-add-step"></button>`).html(`${frappe.utils.icon("plus", "sm")}<span>${esc(__("Add Step"))}</span>`);
 		new frappe.ui.Dropdown({
 			trigger: $add,
@@ -675,7 +679,7 @@ onedesk.rules.starters = (context) => {
 			{
 				group: __("With OneAI"),
 				key: "sort",
-				icon: "sparkles",
+				icon: "oneai",
 				title: __("Sort by Topic"),
 				about: __("OneAI reads each message and picks a label. Each label has its own steps."),
 				rule: {

@@ -101,6 +101,19 @@
    "name": "Email Account-one_ai_month",
    "read_only": 1,
    "hidden": 1
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Email Account",
+   "fieldname": "one_ai_skips",
+   "fieldtype": "Small Text",
+   "insert_after": "one_ai_month",
+   "label": "OneAI Leaves Alone",
+   "hidden": 1,
+   "read_only": 1,
+   "module": "One Intake",
+   "name": "Email Account-one_ai_skips",
+   "description": "What OneAI does not do with this mailbox's mail, by job (one_mail/gate.py JOBS)."
   }
  ],
  "doctype": "Email Account",

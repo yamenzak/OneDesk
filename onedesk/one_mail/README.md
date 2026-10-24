@@ -31,21 +31,43 @@ needs a Cloudflare key with Zone Settings: Edit.
   (shared mailboxes, administrators), **Connection** (connected mailboxes)
   and **Automation**. Each tab has its own **Save**.
 
-**OneAI** in a mailbox's settings:
+**OneAI** in a mailbox's settings is OneIntake for that mailbox, the virtual
+employee that reads its mail:
 
 - The switch beside the title decides whether OneAI may read the mailbox at
   all. Off, nothing reads it: not new mail, not search by meaning, and not
   the OneAI panel, which can't open its conversations or draft replies.
-- **Read New Mail** reads each new message as it arrives, with the
-  permissions of whoever turned it on. **Reads To** sets how far it goes:
-  **Sort Only** moves junk and runs About rules; **Read and File** also
-  reads each message and links it to its records; **Read, File and Act**
-  also makes the tasks, events and records it asks for.
+- **New Mail** says how far each new message is read on its own, with the
+  permissions of whoever set it: **Not Read**, **Sorted** (a quick look,
+  which also answers the Automation's Ask OneAI steps), **Read and Filed**
+  (read in full and filed where it belongs) or **Read, Filed and Acted On**
+  (it also does what the message asks for). Each level does everything the
+  one before it does.
+- Under it, everything OneAI does at each level is listed with what it means,
+  each with its own switch, all on until switched off (`gate.JOBS`):
+  - Sorted: **Junk and Phishing**, **Newsletters and Ads**.
+  - Read and Filed: **Links to Records**, **Attachments on Records**,
+    **File Names and Tags**.
+  - Acted On: **New Customers and Suppliers**, **Contacts**, **Missing
+    Details**, **Tasks and Follow-Ups**, **Calendar Events**, **Bills,
+    Orders and Payments** (drafts in Ready to Submit), **Employee
+    Documents**, **Site Logs** and **Anything Else** (what the agent works
+    out for itself).
+
+  A job past the level New Mail is set to stays in view, greyed, and its
+  group says which level brings it. Every OneIntake write goes through
+  `act.apply`, which asks `gate.does` for the job its key names
+  (`gate.job_of`), so a switched-off job is never done or proposed; the
+  e-invoice submit asks the same for Bills.
 - **Read Attachments** off leaves attachments to the reading that costs
   nothing: scans, photos and recordings are not sent to OneAI.
-- **Monthly Credit Limit** caps what reading this mailbox may spend in a
-  month. When it is reached, new mail is read without OneAI until the month
-  turns, and whoever OneAI reads it for hears once.
+- **Credits** shows what reading this mailbox spent this month, against the
+  **Monthly Credit Limit** when there is one. When it is reached, OneAI stops
+  reading new mail until the month turns, and whoever it reads for hears once.
+- Ask OneAI steps only run while new mail is read, since they ride on that
+  quick look. A rule with one can't be switched on otherwise, the step says
+  so in the builder, and setting New Mail to Not Read names those rules
+  first; they then show **Not Running** in Automation.
 - **Shared Mailboxes** (administrators): the workspace mailbox and every
   shared one. Opening one shows the same tabs; **Users** adds or removes
   people, turns **Send** on or off per user, and sets it as the workspace

@@ -111,6 +111,8 @@ def apply(action: Action, reading) -> str | None:
 	if not person or cint(reading.history):
 		return None
 	key = key_of(reading.key, action)
+	if not _does(reading, key):
+		return None
 	held = frappe.db.get_value("Intake Action", {"key": key}, "name")
 	if held:
 		return held
@@ -169,6 +171,17 @@ def apply(action: Action, reading) -> str | None:
 		if action.kind == "Create":
 			mark.mark(action.doctype, row.target_name, reading.name)
 	return _insert(row)
+
+
+def _does(reading, key: str) -> bool:
+	"""Whether the mailbox a reading came from lets OneAI do this job
+	(one_mail/gate.py JOBS); anything not from a mailbox, always."""
+	from onedesk.one_mail import gate
+
+	cache = frappe.local.flags.setdefault("one_intake_mailbox", {})
+	if reading.name not in cache:
+		cache[reading.name] = gate.account_of("Reading", reading.name)
+	return gate.does(cache[reading.name], gate.job_of(key))
 
 
 def _insert(row) -> str:

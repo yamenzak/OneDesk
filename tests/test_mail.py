@@ -828,3 +828,18 @@ def test_a_sender_is_verified_only_by_the_receiving_servers_own_results():
 	forged = Mail([("Authentication-Results", "mx.google.com; dkim=fail header.d=shop.example; spf=softfail"), ("Authentication-Results", passed)])
 	assert not theirs["verified"](forged, "ana@shop.example"), "only the topmost, the receiving server's own"
 	assert not theirs["verified"](Mail([]), "ana@shop.example") and not theirs["verified"](None, "ana@shop.example")
+
+
+def test_every_intake_action_belongs_to_a_job_a_mailbox_can_switch_off():
+	gate = _load(MAIL / "gate.py", ("HEADS", "TWO", "job_of"))
+	intake = MAIL.parent / "one_intake"
+	keys = set()
+	for name in ("filing.py", "plans.py", "money.py"):
+		keys |= set(re.findall(r'key=f?"([^"{|]+(?:\|[^"{|]+)?)', (intake / name).read_text()))
+	unknown = {key for key in keys if gate["job_of"](key) is None}
+	assert not unknown, f"a planner's key no switch covers: {sorted(unknown)}"
+	assert gate["job_of"]("mail-abc|agent|Create|Task||x") == "agent"
+	assert gate["job_of"]("MAT-0001|task|renew|A123") == "hr" and gate["job_of"]("MAT-0001|task") == "tasks"
+	assert gate["job_of"]("mail-abc|cut") == "tidy" and gate["job_of"]("mail-abc|back|Customer|X") == "link"
+	assert gate["job_of"]("mail-abc|Create|0f3e") is None, "a key no switch covers is always allowed"
+	assert "_does(reading, key)" in (intake / "act.py").read_text(), "act.apply asks the mailbox"
