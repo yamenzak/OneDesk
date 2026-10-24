@@ -28,7 +28,6 @@ ON_THE_SHELL = {
 		"one_calendar/page/onecalendar/onecalendar.js",
 		"one_calendar/page/onecalendar/onecalendar.css",
 	),
-	"onemail": ("public/js/onemail.js", "public/css/onemail.css"),
 	"onecloud": ("public/js/onecloud.js", "public/css/onecloud.css"),
 }
 
@@ -42,7 +41,6 @@ USE_THE_SHELL = {
 	"one/page/settings/settings.js",
 	"one/page/workspace_settings/workspace_settings.js",
 	"one_calendar/page/onecalendar/onecalendar.js",
-	"one_mail/page/onemail/onemail.js",
 	"one_storage/page/onecloud/onecloud.js",
 	"public/js/band.js",
 	"public/js/calendar_link.js",
@@ -51,7 +49,6 @@ USE_THE_SHELL = {
 	"public/js/extension_errors.js",
 	"public/js/island_page.js",
 	"public/js/onecloud.js",
-	"public/js/onemail.js",
 	"public/js/record_mail.js",
 	"public/js/settings.js",
 	"public/js/window/frame.js",
@@ -61,7 +58,7 @@ USE_THE_SHELL = {
 # home's link), and draw nothing.
 OPENS_A_VIEW = {"masters"}
 
-ISLAND_PAGES = {"project_view", "project_template_view", "task_view", "item_view", "stock_on_hand", "inventory", "books", "onecrm", "onehr", "lots", "to_order", "quotes", "sent_out", "upkeep", "floor", "plant", "my_tasks", "timers", "workbook", "document", "legal", "intake"}
+ISLAND_PAGES = {"project_view", "project_template_view", "task_view", "item_view", "stock_on_hand", "inventory", "books", "onecrm", "onehr", "lots", "to_order", "quotes", "sent_out", "upkeep", "floor", "plant", "my_tasks", "timers", "workbook", "document", "legal", "intake", "onemail"}
 
 PARTS = re.compile(r"\.[a-z]+-(row|empty|quiet|card|content|section|chevron)(-[a-z]+)?\b(?![-\w])")
 
@@ -213,7 +210,7 @@ def test_a_record_a_page_opens_on_is_drawn_as_a_docview():
 			)
 
 
-PANE_LISTS = {"onemail.js", "intake.js", "record_mail.js", "legal.js"}
+PANE_LISTS = {"record_mail.js"}
 
 
 def _ours(*patterns):

@@ -235,7 +235,7 @@ def _customized(doctypes: dict) -> None:
 _SLUG = re.compile(r"/desk/([a-z0-9-]+)")
 _REPORT_URL = re.compile(r"query-report/([^\"'`?#/]+)")
 _ROUTED = re.compile(
-	r"""set_route\(\s*["'](?:List|Form|Tree|Report|query-report)["']\s*,\s*["']([^"']+)["']"""
+	r"""(?:set_route|goTo)\(\s*["'](?:List|Form|Tree|Report|query-report)["']\s*,\s*["']([^"']+)["']"""
 )
 _NEW = re.compile(r"""new_doc\(\s*["']([^"']+)["']""")
 _PAGE = re.compile(r"""set_route\(\s*["']([a-z0-9-]+)["']\s*\)""")

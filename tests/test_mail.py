@@ -310,14 +310,15 @@ def test_only_the_workspaces_mailboxes_are_shared_out():
 	assert [one["path"] for one in ordered(folders)] == ["INBOX", "T", "A", "b"]
 
 
-PAGE_JS = (tree.APP / "public" / "js" / "onemail.js").read_text()
+MAIL_UI = tree.ROOT / "frontend" / "src" / "mail"
+PAGE_JS = "\n".join(path.read_text() for path in sorted(MAIL_UI.glob("*")))
 
 
 def test_a_message_is_drawn_without_scripts_or_pictures_from_elsewhere():
 	sandbox = re.search(r'sandbox="([^"]*)"', PAGE_JS).group(1)
 	assert "allow-scripts" not in sandbox, "a message never runs code"
 	assert "default-src 'none'" in PAGE_JS
-	assert "Show pictures" in PAGE_JS and "this.pictures.has(" in PAGE_JS, (
+	assert "Show pictures" in PAGE_JS and "framePage(props.content, allowed.value)" in PAGE_JS, (
 		"remote pictures wait to be asked for"
 	)
 	assert 'querySelectorAll("script' in PAGE_JS
@@ -627,7 +628,7 @@ def test_the_workspaces_signature_is_its_administrators():
 	assert "enable_outgoing" in may and "actions.holds(account)" in may and "roles.administers()" in may
 	setter = holders.split("def set_signature(", 1)[1].split("\ndef ", 1)[0]
 	assert "may_sign(account)" in setter, "the server holds the line, not only the page"
-	assert "this.box.may_sign ?" in (tree.APP / "public" / "js" / "onemail.js").read_text()
+	assert "box.value?.may_sign ?" in PAGE_JS
 
 
 def test_a_mailbox_that_breaks_is_told_once_and_can_be_given_its_password_again():

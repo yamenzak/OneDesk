@@ -218,8 +218,7 @@ async function answer(what) {
 		if (what === "apply" && kind.value === "Reply") {
 			const out = await frappe.xcall("onedesk.one_ai.run.apply", { proposal: props.suggested.name });
 			const said = out.reply || {};
-			await frappe.require(["/assets/onedesk/css/onemail.css", "/assets/onedesk/js/onemail.js"]);
-			await onedesk.OneMail.reply_to(said.account, said.thread, { text: said.text });
+			await onedesk.mail.reply_to(said.account, said.thread, { text: said.text });
 		} else if (what === "apply" && kind.value === "Mail") {
 			const out = await frappe.xcall("onedesk.one_ai.run.apply", { proposal: props.suggested.name });
 			const said = out.mail || {};

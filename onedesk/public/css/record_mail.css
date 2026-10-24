@@ -1,0 +1,49 @@
+/* A record's Mail tab (public/js/record_mail.js). */
+
+.om-who {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.om-thread-count {
+	font-size: var(--text-xs);
+	color: var(--ink-gray-5);
+}
+
+.om-when {
+	flex: none;
+	margin-inline-start: auto;
+	font-weight: normal;
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-size: var(--text-xs);
+	color: var(--ink-gray-5);
+	font-variant-numeric: tabular-nums;
+}
+
+.om-subject {
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: var(--ink-gray-8);
+}
+
+.is-unread .om-subject {
+	font-weight: var(--font-weight-semibold);
+	color: var(--ink-gray-9);
+}
+
+.om-record-head {
+	display: flex;
+	justify-content: flex-end;
+	padding-bottom: calc(var(--spacing) * 2);
+}
+
+.om-record svg.icon {
+	margin: 0;
+	flex: none;
+}

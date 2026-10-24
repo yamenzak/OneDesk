@@ -324,3 +324,47 @@ export const intakeOn = () => Boolean(window.onedesk?.apps?.intake?.());
 export const recordRoute = (doctype, name) => `/desk/${frappe().router.slug(doctype)}/${encodeURIComponent(name)}`;
 
 export const hasRole = (role) => Boolean(frappe().user.has_role(role));
+
+export const dateTime = (value) => (value ? frappe().datetime.str_to_user(value) : "");
+
+export const fileSize = (bytes) => (window.onedesk?.size ? window.onedesk.size(bytes) : "");
+
+// frappe's mail composer, told when it closes.
+export function compose(options, closed) {
+	const composer = new (frappe().views.CommunicationComposer)(options);
+	if (closed) composer.dialog.$wrapper.on("hidden.bs.modal", closed);
+	return composer;
+}
+
+// frappe's toast, with one action on it.
+export function toast(message, action = null, duration = 8000) {
+	const shown = frappe().ui.toast({
+		message,
+		duration,
+		...(action ? { action: { label: action.label, onclick: () => (shown.dismiss(), action.onClick()) } } : {}),
+	});
+	return shown;
+}
+
+// The window's own search box, in its address row.
+export function windowSearch(win, { placeholder = "", title = "", onInput, onKey } = {}) {
+	if (!win) return null;
+	const $input = win.search({
+		placeholder,
+		on_input: onInput,
+		on_key: onKey,
+	});
+	if (title) $input.attr("title", title);
+	return {
+		set: (value) => $input.val(value || ""),
+		focus: () => $input.trigger("focus"),
+		placeholder: (text) => $input.attr("placeholder", text),
+		element: $input[0],
+	};
+}
+
+// What the window does for its own Up, Refresh and typed paths, and its
+// status row.
+export const windowHandles = (win, handlers) => win && win.view(handlers);
+export const windowStatus = (win, text) => win && win.status(text);
+export const windowCan = (win, can) => win && win.can(can);

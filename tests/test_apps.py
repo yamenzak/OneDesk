@@ -87,6 +87,6 @@ def test_oneai_off_refuses_every_model_call_and_oneintake_needs_it():
 
 
 def test_reading_switches_live_in_one_not_in_onemail_or_onecloud():
-	for name in ("onemail.js", "onecloud.js"):
-		source = (tree.APP / "public" / "js" / name).read_text()
-		assert "switches.set_mailbox" not in source and "switches.set_folder" not in source, name
+	for path in (tree.ROOT / "frontend" / "src" / "mail" / "OneMail.vue", tree.APP / "public" / "js" / "onecloud.js"):
+		source = path.read_text()
+		assert "switches.set_mailbox" not in source and "switches.set_folder" not in source, path.name

@@ -128,6 +128,7 @@ that exists.
 | `src/home/HrHome.vue` | HRMS's own phone app's Home (check in, your requests, your team's requests, the leave you have left) for everybody, and laid out as OneCRM's and OneBook's Homes for HR; like them a place an extension may add to |
 | `src/home/InventoryHome.vue` | Shopify's admin Home: the figures that matter with their trend, then what needs somebody, then where everything is |
 | `src/intake/IntakeInbox.vue` | Gmail's and Outlook's inbox with the reading pane: one line per document, unread in bold, two boxes, the one open beside the list with what waits for a decision |
+| `src/mail/OneMail.vue` | Gmail and Outlook: the mailboxes and their folders down the side, the conversations, the one open beside them read as a thread, and Gmail's keys |
 | `src/item/ItemPage.vue` | Shopify's product page and Odoo's product form: what kind of thing it is, what it is called, the one thing worth saying, what it is and how much of it there is, then a view each for its stock, buying, selling and making |
 | `src/legal/Agreements.vue` | Stripe's legal centre and GitHub's site policy: the documents down the side with where each stands, the one open in the middle, and who agreed to it and when beside it |
 | `src/lots/LotsPage.vue` | Odoo's Lots and Serial Numbers and Katana's batch tracking: a table of lots with one status each, filtered by state above it |

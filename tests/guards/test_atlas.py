@@ -154,6 +154,10 @@ def test_nothing_upstream_says_names_them():
 
 UNHEARD = {
 	"project": 2,
+	# OneMail hears its own event, onemail_change (one_mail/live.py), which
+	# names the mailbox a sync or an action changed; a list follow on
+	# Communication would wake it for every mail in the workspace.
+	"onemail": 6,
 }
 
 BARE = {}

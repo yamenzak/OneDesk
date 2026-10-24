@@ -204,6 +204,13 @@
 		position: static;
 	}
 
+	/* An island on a fitted window (OneMail, OneCloud) is the view's height,
+	   and scrolls inside its own panes. */
+	.one-window-fit .one-island {
+		height: 100%;
+		min-height: 0;
+	}
+
 	/* The details pane, right of the view. */
 	.one-window .layout-main:has(> .one-window-details) {
 		display: flex;

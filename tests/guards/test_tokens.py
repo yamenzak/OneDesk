@@ -22,7 +22,7 @@ FRONTEND = tree.ROOT / "frontend" / "src"
 NOT_A_SCREEN = ("one_print", "print_format", "letter_head", "/notifications/", "templates/emails")
 
 SANDBOXED = {
-	"onedesk/public/js/onemail.js": "a received mail, in a frame",
+	"frontend/src/mail/mail.js": "a received mail, in a frame",
 	"onedesk/public/js/settings.js": "a letter head as it prints, in a frame",
 }
 

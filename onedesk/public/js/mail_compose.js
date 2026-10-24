@@ -61,3 +61,73 @@
 	};
 	Composer.prototype.one_extended = true;
 })();
+
+// A reply and a forward of a conversation, written into frappe's composer:
+// for OneMail and for OneAI's reply card, which approves a reply OneAI wrote.
+frappe.provide("onedesk.mail");
+
+onedesk.mail.sender = (boxes, box) => {
+	const sends = boxes.filter((one) => one.sends);
+	const pick = (box && box.sends && box) || sends.find((one) => one.workspace) || sends[0];
+	return pick ? pick.email : null;
+};
+
+onedesk.mail.record_of = (messages) => {
+	const record = messages.find((one) => one.reference_doctype && one.reference_name);
+	return record ? { doctype: record.reference_doctype, name: record.reference_name } : undefined;
+};
+
+onedesk.mail.reply = (boxes, messages, sender, { all = false, text = "" } = {}) => {
+	const message = messages[messages.length - 1];
+	const subject = message.subject || "";
+	const mine = boxes.map((one) => one.email.toLowerCase());
+	const others = (list) =>
+		(list || "")
+			.split(",")
+			.map((one) => one.trim())
+			.filter((one) => one && !mine.some((me) => one.toLowerCase().includes(me)));
+	const from_me = mine.includes((message.sender || "").toLowerCase());
+	const recipients = from_me ? message.recipients : message.sender;
+	const cc = all ? [...others(message.recipients), ...others(message.cc)].filter((one) => !recipients.includes(one)).join(", ") : "";
+	const esc = frappe.utils.escape_html;
+	const written = (text || "")
+		.split(/\n{2,}/)
+		.map((one) => `<p>${esc(one.trim()).replace(/\n/g, "<br>")}</p>`)
+		.join("");
+	return new frappe.views.CommunicationComposer({
+		sender,
+		doc: onedesk.mail.record_of(messages),
+		subject: /^re:/i.test(subject) ? subject : `Re: ${subject}`,
+		recipients,
+		cc,
+		is_a_reply: true,
+		last_email: message,
+		...(written ? { message: written } : {}),
+	});
+};
+
+onedesk.mail.forward = (messages, sender, when) => {
+	const message = messages[messages.length - 1];
+	const subject = message.subject || "";
+	const esc = frappe.utils.escape_html;
+	const header = `<p><br></p><p>${__("Forwarded message")}<br>${__("From")}: ${esc(message.sender)}<br>${__("Date")}: ${esc(when)}<br>${__(
+		"Subject"
+	)}: ${esc(subject)}<br>${__("To")}: ${esc(message.recipients || "")}</p>`;
+	return new frappe.views.CommunicationComposer({
+		sender,
+		doc: onedesk.mail.record_of(messages),
+		subject: /^fwd?:/i.test(subject) ? subject : `Fwd: ${subject}`,
+		forward: true,
+		message: header + `<blockquote>${message.content || ""}</blockquote>`,
+	});
+};
+
+onedesk.mail.reply_to = async (account, thread, { text = "" } = {}) => {
+	const [boxes, said] = await Promise.all([
+		frappe.xcall("onedesk.one_mail.api.mailboxes"),
+		frappe.xcall("onedesk.one_mail.api.conversation", { account, thread }),
+	]);
+	const sender = onedesk.mail.sender(boxes, boxes.find((one) => one.name === account));
+	if (!sender) return frappe.msgprint(__("None of your mailboxes can send email"));
+	return onedesk.mail.reply(boxes, said.messages, sender, { text });
+};

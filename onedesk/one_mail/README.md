@@ -432,9 +432,12 @@ Stage 4, holders, is built.
 Stage 5, the page, is built. Large attachments sent as links, and saving an
 attachment to OneCloud, come with stage 6.
 
-- **page/onemail** loads **public/js/onemail.js** and **onemail.css** the
-  first time it opens, as OneCloud's page does. The rail entry is the
-  OneMail sidebar.
+- **page/onemail** is the island `onedesk.onemail` (frontend/src/mail): the
+  mailboxes and their folders in the window's nav pane, the conversations
+  and the one open in the view, its commands in the command row and its
+  search in the address row. A reply and a forward are written by
+  public/js/mail_compose.js, which OneAI's reply card uses too. The rail
+  entry is the OneMail sidebar.
 - **api.py** is what it reads. `conversations` groups a folder's messages
   by thread, newest first, fifty at a time. A search covers the whole
   mailbox. `conversation` returns every message of a thread in the mailbox,
@@ -807,7 +810,7 @@ answer.
 A reply is never sent from here. `draft_reply` writes a card. Approving it
 opens frappe's own email window with the reply written in, the recipients
 and the quoted conversation filled as Reply fills them, and the person
-reads it, changes it and sends it (onemail.js `reply_to`).
+reads it, changes it and sends it (mail_compose.js, `onedesk.mail.reply_to`).
 
 ### room.py
 

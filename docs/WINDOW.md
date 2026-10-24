@@ -46,7 +46,7 @@ shell, lists that only shrink; when they are empty the shell is deleted.
 | Intake | 2, moved: the island `onedesk.intake`, the document open in the details pane |
 | Agreements (legal) | 2, moved: a reader, the island `onedesk.legal` |
 | OneCalendar | 2: a product |
-| OneMail | 2: a product |
+| OneMail | 2, moved: the island `onedesk.onemail`, its mailboxes in the nav pane |
 | OneCloud | 2: a product |
 | Settings, Workspace Settings | not sorted: `public/js/settings.js` is 3,355 lines and over twenty sections, several of them a frappe document already (User, Notification Settings, System Settings), so each section is sorted on its own |
 
