@@ -137,6 +137,7 @@ def default(doctype: Annotated[str, "The kind of record."]) -> str | None:
 	return frappe.get_meta(doctype).default_email_template
 
 
+@frappe.whitelist()
 def templates() -> list[dict]:
 	"""Every mail template, for Workspace > Mail Templates, with the kinds of
 	record each is the default for."""

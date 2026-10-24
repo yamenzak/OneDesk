@@ -143,3 +143,23 @@ onedesk.window.Window.prototype.head_action = function ({ icon, title, click }) 
 	onedesk.window.nav.place();
 	return this;
 };
+
+// A row at the foot of the rail while this view is on screen, drawn as the
+// rail's own rows are, for where the view is set up (OneMail's Settings):
+// { icon, label, click }.
+onedesk.window.Window.prototype.foot_action = function ({ icon, label, click }) {
+	if (!this.$foot_action) {
+		const esc = frappe.utils.escape_html;
+		this.$foot_action = $(
+			`<div class="one-window-foot-action"><div class="standard-sidebar-item"><a class="item-anchor" href="#" role="button"><span class="sidebar-item-icon">${frappe.utils.icon(
+				icon,
+				"sm"
+			)}</span><span class="sidebar-item-label">${esc(label)}</span></a></div></div>`
+		).on("click", ".item-anchor", (e) => {
+			e.preventDefault();
+			click();
+		});
+	}
+	onedesk.window.nav.place();
+	return this;
+};

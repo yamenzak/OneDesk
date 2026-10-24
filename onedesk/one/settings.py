@@ -32,14 +32,7 @@ SECTIONS = [
 	("oneai", _lt("OneAI Actions"), "sparkles", "workspace"),
 	("intake", _lt("OneIntake Settings"), "oneintake", "workspace"),
 	("holidays", _lt("Holidays"), "calendar-days", "workspace"),
-	("mail", _lt("Your Mailboxes"), "mail", "onemail"),
-	("mail_access", _lt("Workspace Mailboxes"), "users", "onemail"),
-	("mail_templates", _lt("Mail Templates"), "mails", "onemail"),
 ]
-
-# OneMail's settings (page/onemail_settings) are a group of their own; these
-# of them are a workspace administrator's, as the workspace group is.
-OURS = ("mail_access", "mail_templates")
 
 APPS = [
 	("OneCRM", "onecrm", ("Sales User",), ("Sales Manager",)),
@@ -174,7 +167,6 @@ def load(
 	loaders = {
 		"profile": _profile,
 		"notifications": _notifications,
-		"mail": _mail,
 		"calendar": _calendar,
 		"signin": _signin,
 		"memory": _memory,
@@ -191,8 +183,6 @@ def load(
 		"notification_types": _notification_types,
 		"numbering": _numbering,
 		"printing": _printing,
-		"mail_templates": _mail_templates,
-		"mail_access": _mail_access,
 		"approvals": _approvals,
 	}
 	if section not in loaders:
@@ -258,7 +248,7 @@ def _group(section: str) -> str:
 
 
 def _needs_admin(section: str) -> bool:
-	return _group(section) == "workspace" or section in OURS
+	return _group(section) == "workspace"
 
 
 def _fields(doctype: str, names: tuple) -> list[dict]:
@@ -495,12 +485,6 @@ def _save_notifications(values: dict) -> None:
 		kept = [row.notification_type for row in doc.get(field) or [] if row.notification_type not in chosen]
 		doc.set(field, [{"notification_type": name} for name in kept + [name for name, on in chosen.items() if on]])
 	doc.save(ignore_permissions=True)
-
-
-def _mail() -> dict:
-	from onedesk.one_mail import holders
-
-	return {"mailboxes": holders.mailboxes()}
 
 
 def _calendar() -> dict:
@@ -1800,21 +1784,6 @@ def _approvals() -> dict:
 	from onedesk.one import approvals
 
 	return {"rows": approvals.approvals()}
-
-
-def _mail_access() -> dict:
-	"""The workspace's mailboxes, who reads and who sends from each, and
-	whether people send from their own address (one_mail/holders.py)."""
-	from onedesk.one_mail import holders
-
-	return holders.shared()
-
-
-def _mail_templates() -> dict:
-	"""Every mail template, and what each is the default for (one/mail_templates.py)."""
-	from onedesk.one import mail_templates
-
-	return {"rows": mail_templates.templates()}
 
 
 def _printing() -> dict:

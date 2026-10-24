@@ -3825,10 +3825,6 @@ msgstr "Beantwortet von {0}, {1}."
 msgid "Answers from your own records"
 msgstr "Antwortet aus Ihren eigenen Datensätzen"
 
-#: onedesk/public/js/settings.js:1940
-msgid "Any"
-msgstr "Beliebig"
-
 #. Option for the 'Matching Mail' (Select) field in DocType 'Mail Rule'
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 msgid "Any Condition"
@@ -11884,10 +11880,6 @@ msgstr "Trennen Sie stattdessen den Server."
 #: onedesk/public/js/onecloud.js:985
 msgid "Disconnect {0}? Files on the server stay as they are."
 msgstr "{0} trennen? Die Dateien auf dem Server bleiben unverändert."
-
-#: onedesk/public/js/settings.js:394
-msgid "Disconnected"
-msgstr "Getrennt"
 
 #. Label in the One POS Invoice print format
 #. Label in the One Purchase Invoice print format
@@ -25211,10 +25203,6 @@ msgstr "Keine passenden Personen"
 msgid "No matching records"
 msgstr "Keine passenden Datensätze"
 
-#: onedesk/public/js/settings.js:1931
-msgid "No matching templates"
-msgstr "Keine passenden Vorlagen"
-
 #: frontend/src/sheet/components/SheetEditor/index.vue:584
 msgid "No matching values"
 msgstr "Keine passenden Werte"
@@ -32981,10 +32969,6 @@ msgstr "{0} vom Subunternehmer erhalten"
 msgid "Received, billed and paid."
 msgstr "Erhalten, berechnet und bezahlt."
 
-#: onedesk/public/js/settings.js:381
-msgid "Receives Only"
-msgstr "Nur Empfang"
-
 #: frontend/portal/src/pages/Home.vue:48 onedesk/one_storage/namespace.py:358
 msgid "Recent"
 msgstr "Zuletzt verwendet"
@@ -33015,10 +32999,6 @@ msgstr ""
 #: onedesk/public/js/settings.js:395 onedesk/public/js/settings.js:440
 msgid "Reconnect"
 msgstr "Neu verbinden"
-
-#: onedesk/public/js/settings.js:429
-msgid "Reconnect {0}"
-msgstr "{0} neu verbinden"
 
 #: onedesk/public/js/settings.js:446
 msgid "Reconnected"
@@ -50151,10 +50131,6 @@ msgstr "Schreibe eine Antwort, die sagt: "
 #: onedesk/one/ai.py:28 onedesk/public/js/settings.js:137
 msgid "Write a short bio for my profile from my job, my department and what I work on, and suggest it as a change to my profile I can approve."
 msgstr "Schreibe eine kurze Biografie für mein Profil aus meiner Stelle, meiner Abteilung und meiner Arbeit, und schlage sie als Änderung an meinem Profil vor, die ich bestätigen kann."
-
-#: onedesk/public/js/settings.js:408
-msgid "Write a short email signature with my name, job title and contact details for me to approve."
-msgstr "Schreibe eine kurze E-Mail-Signatur mit meinem Namen, meiner Position und meinen Kontaktdaten zur Freigabe."
 
 #: onedesk/one_project/ai.py:35
 msgid "Write a short update on this project for its customer: what was done, what comes next and when it should be finished. Plain words. Leave out hours, costs and who in the team does what."

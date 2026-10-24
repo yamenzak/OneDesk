@@ -198,6 +198,28 @@ def set_access(account: str, people) -> list[dict]:
 
 
 @frappe.whitelist(methods=["POST"])
+def grant(account: str, user: str, sends: int = 1) -> None:
+	"""One person reads one of the workspace's mailboxes, and with `sends`
+	sends from it too; given again, only `sends` changes."""
+	rows = {row["user"]: row["sends"] for row in _people(account)}
+	rows[user] = int(bool(int(sends)))
+	set_access(account, [{"user": one, "sends": on} for one, on in rows.items()])
+
+
+@frappe.whitelist(methods=["POST"])
+def revoke(account: str, user: str) -> None:
+	"""One person no longer reads one of the workspace's mailboxes."""
+	set_access(account, [row for row in _people(account) if row["user"] != user])
+
+
+def _people(account: str) -> list[dict]:
+	return [
+		{"user": row.parent, "sends": int(row.one_sends is None or bool(row.one_sends))}
+		for row in frappe.get_all("User Email", filters={"email_account": account}, fields=["parent", "one_sends"])
+	]
+
+
+@frappe.whitelist(methods=["POST"])
 def set_personal_sends(on: int) -> int:
 	"""Whether people may send from their own address. Every personal address
 	follows at once, and so does each one made after."""

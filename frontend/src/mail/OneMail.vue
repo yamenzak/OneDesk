@@ -81,11 +81,14 @@ import {
   goToUrl,
   hasRole,
   listen,
+  onedesk,
   setQuery,
   toast,
   userSettings,
   windowHandles,
   windowSearch,
+  requires,
+  windowFootAction,
   windowHeadAction,
   windowTree,
 } from "../kit";
@@ -237,6 +240,14 @@ const treeRows = computed(() => {
 
 windowHeadAction(props.win, { icon: "plus", title: __("Connect Mailbox"), onClick: () => connect() });
 
+// OneMail's settings: frappe's settings dialog, public/js/onemail_settings.js.
+const SETTINGS = ["/assets/onedesk/js/onemail_settings.js", "/assets/onedesk/css/onemail_settings.css"];
+async function settings(tab) {
+  await requires(SETTINGS);
+  onedesk().mail.settings(tab);
+}
+windowFootAction(props.win, { icon: "settings", label: __("Settings"), onClick: () => settings() });
+
 const tree = windowTree(props.win, {
   label: __("Mailboxes"),
   twist: (id) => fold(id.slice(BOX.length)),
@@ -264,6 +275,7 @@ async function load() {
   folder.value = folders.find((one) => one.name === want.folder) || folders.find((one) => one.kind === "Inbox") || folders[0] || null;
   loading.value = false;
   if (want.connect) connect();
+  if (want.settings) settings(want.settings);
   if (!box.value) return;
   await list();
   if (want.thread) open(want.thread, { quiet: true });

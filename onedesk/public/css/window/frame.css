@@ -441,13 +441,13 @@ body.one-window-dragging * {
 	font-size: var(--text-xs);
 }
 
-/* A rail's settings row, moved to the foot of the nav pane
-   (onedesk.window.nav.foot). */
-.body-sidebar-bottom .one-window-foot {
+/* A view's own row at the foot of the nav pane (win.foot_action): its
+   settings, drawn as the rail's own rows are. */
+.body-sidebar-bottom .one-window-foot-action {
 	padding: calc(var(--spacing) * 1) calc(var(--spacing) * 2);
 }
 
-.body-sidebar-container:not(.expanded) .one-window-foot .sidebar-item-label {
+.body-sidebar-container:not(.expanded) .one-window-foot-action .sidebar-item-label {
 	display: none;
 }
 

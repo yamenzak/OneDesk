@@ -161,29 +161,6 @@ onedesk.window.nav = {
 		$(edge).attr("title", __("Drag to resize, click to fold"));
 	},
 
-	// A rail's settings (a row that opens a page named `…-settings`, such as
-	// OneMail's) is drawn at the rail's foot rather than among its places:
-	// it is where the rail is set up, not somewhere to go in it.
-	footed(item) {
-		return item.type === "Link" && item.link_type === "Page" && /-settings$/.test(item.link_to || "");
-	},
-
-	foot() {
-		const sidebar = frappe.app && frappe.app.sidebar;
-		if (!sidebar || !sidebar.wrapper) return;
-		const $bottom = sidebar.wrapper.find(".body-sidebar-bottom").first();
-		const rail = sidebar.current_module || "";
-		$bottom.children(".one-window-foot").filter((_, el) => el.dataset.rail !== rail).remove();
-		sidebar.wrapper
-			.find(".sidebar-items .item-anchor")
-			.filter((_, el) => /^\/desk\/([\w-]+\/)?[\w-]+-settings(\?|$)/.test(el.getAttribute("href") || ""))
-			.closest(".sidebar-item-container")
-			.each((_, el) => {
-				$bottom.children(".one-window-foot").remove();
-				$(el).addClass("one-window-foot").attr("data-rail", rail).appendTo($bottom);
-			});
-	},
-
 	// A view's own tree goes under its row in the pane, and only while that
 	// view is on screen.
 	place() {
@@ -192,12 +169,16 @@ onedesk.window.nav = {
 		$(".one-window-nav-slot").each((_, el) => {
 			if (!win || el !== (win.$slot && win.$slot[0])) $(el).detach();
 		});
-		onedesk.window.nav.foot();
 		$(".one-window-meters").each((_, el) => {
 			if (!win || el !== (win.$meters && win.$meters[0])) $(el).detach();
 		});
 		const $bottom = win && win.$meters && frappe.app && frappe.app.sidebar && frappe.app.sidebar.wrapper.find(".body-sidebar-bottom");
 		if ($bottom && $bottom.length && !$.contains($bottom[0], win.$meters[0])) win.$meters.prependTo($bottom);
+		$(".one-window-foot-action").each((_, el) => {
+			if (!win || el !== (win.$foot_action && win.$foot_action[0])) $(el).detach();
+		});
+		const $foot = win && win.$foot_action && frappe.app && frappe.app.sidebar && frappe.app.sidebar.wrapper.find(".body-sidebar-bottom");
+		if ($foot && $foot.length && !$.contains($foot[0], win.$foot_action[0])) win.$foot_action.appendTo($foot);
 		$(".one-window-head-action").each((_, el) => {
 			if (!win || el !== (win.$head_action && win.$head_action[0])) $(el).detach();
 		});
@@ -210,7 +191,7 @@ onedesk.window.nav = {
 		if (!win || !win.$slot) return;
 		const $items = frappe.app && frappe.app.sidebar && frappe.app.sidebar.$sidebar;
 		if (!$items || !$items.length) return;
-		const said = (frappe.app.sidebar.sidebar_items || []).filter((item) => !onedesk.window.nav.footed(item));
+		const said = frappe.app.sidebar.sidebar_items || [];
 		const one = said.length === 1 && !(said[0].nested_items || []).length;
 		let $at = $items.find(".standard-sidebar-item.active-sidebar").not(".one-window-nav-slot *").first().closest(".sidebar-item-container");
 		// A rail whose one row is this screen (OneCloud's Files, OneMail's

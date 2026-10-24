@@ -23,16 +23,18 @@ needs a Cloudflare key with Zone Settings: Edit.
 
 ## Settings
 
-**Settings** at the foot of OneMail's rail holds everything OneMail is set up
-with:
+**Settings** at the foot of OneMail's rail opens OneMail's settings, a tab for
+each part:
 
-- **Your Mailboxes**: the mailboxes you hold, what each signs with, and any
-  that stopped connecting.
+- **Your Mailboxes**: every mailbox you read. Open one to write its
+  signature (or have OneAI write it), set an out-of-office reply, open its
+  rules, reconnect it when it stops connecting, or disconnect it.
 - **Workspace Mailboxes** (administrators): the workspace's mailbox and every
-  shared one. Open one to choose who reads it and tick **May Send** for those
-  who may also send from it; a connected mailbox can be made the workspace's
-  mailbox, and back. **Own Addresses** turns sending from people's own
-  address on or off.
+  shared one. Open one to see who reads it, turn **Send** on for those who may
+  also send from it, add or remove people, make a connected mailbox the
+  workspace's mailbox (and back), or disconnect it.
+- **Own Addresses** (administrators): whether people send from their own
+  address.
 - **Mail Templates** (administrators): reusable email text.
 
 ## Connecting a mailbox

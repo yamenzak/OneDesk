@@ -85,3 +85,4 @@ onedesk.one_ai.patches.asked_in_the_panel
 onedesk.one_intake.patches.ready_to_submit_is_a_report
 onedesk.one_storage.patches.no_storage_check
 onedesk.one_mail.patches.people_send_from_their_own
+onedesk.one_mail.patches.no_settings_page

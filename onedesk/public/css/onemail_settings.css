@@ -1,0 +1,125 @@
+/* OneMail's settings dialog (public/js/onemail_settings.js): frappe's settings
+   dialog, with lists whose rows open a mailbox, a person or a template. */
+.oms .oms-list {
+	display: flex;
+	flex-direction: column;
+	margin-top: calc(var(--spacing) * 2);
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+}
+
+.oms .oms-row {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 3);
+	min-height: 52px;
+	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 3);
+	border-bottom: 1px solid var(--outline-gray-1);
+}
+
+.oms .oms-row:last-child {
+	border-bottom: 0;
+}
+
+.oms .oms-row-open {
+	cursor: pointer;
+}
+
+.oms .oms-row-open:hover,
+.oms .oms-row-open:focus-visible {
+	background: var(--surface-gray-1);
+	outline: none;
+}
+
+.oms .oms-lead {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+}
+
+.oms .oms-glyph {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: var(--radius);
+	background: var(--surface-gray-2);
+	color: var(--ink-gray-6);
+}
+
+.oms .oms-text {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.oms .oms-title {
+	overflow: hidden;
+	color: var(--ink-gray-8);
+	font-size: var(--text-base);
+	font-weight: var(--weight-medium);
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.oms .oms-sub {
+	overflow: hidden;
+	color: var(--ink-gray-5);
+	font-size: var(--text-sm);
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.oms .oms-end {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+}
+
+.oms .oms-chevron {
+	display: flex;
+	color: var(--ink-gray-4);
+}
+
+.oms .oms-switch .form-group {
+	margin: 0;
+}
+
+.oms .oms-empty {
+	padding: calc(var(--spacing) * 4);
+	color: var(--ink-gray-5);
+	font-size: var(--text-sm);
+	text-align: center;
+}
+
+.oms .oms-buttons,
+.oms .oms-add {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+	margin-top: calc(var(--spacing) * 2);
+}
+
+.oms .oms-add-pick {
+	flex: 1;
+	max-width: 320px;
+}
+
+.oms .oms-add-pick .form-group {
+	margin: 0;
+}
+
+.oms .oms-add-pick .control-label,
+.oms .oms-add-pick .help-box {
+	display: none;
+}
+
+.oms .oms-add-pick .control-input-wrapper {
+	margin: 0;
+}

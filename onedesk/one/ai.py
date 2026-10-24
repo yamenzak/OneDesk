@@ -504,14 +504,6 @@ def page(said: dict) -> str | None:
 			"with and the one it prints with by default. workspace_printing reads it; change_printing suggests a "
 			"change as a card they approve. How is in One's documentation under Printing, for the Workspace (how_to)."
 		)
-	if said.get("page") == "onemail-settings" and said.get("section") == "mail_templates":
-		return (
-			"The reader administers this workspace and is on OneMail Settings › Mail Templates: each template's subject "
-			"and message, the kind of record it is for, which kinds start a new mail with it, and which setting "
-			"sends it. workspace_mail_templates reads them, with the fields a template for a kind of record may "
-			"name; write_mail_template suggests one as a card they approve. How is in One's documentation under "
-			"Mail Templates, for the Workspace (how_to)."
-		)
 	if said.get("page") == "workspace-settings" and said.get("section") == "approvals":
 		return (
 			"The reader administers this workspace and is on Workspace › Approvals: each approval, the kind of "
@@ -611,13 +603,6 @@ def page(said: dict) -> str | None:
 			"receive, which all reach their bell, and ticks for each they also want by email or pushed to the "
 			"browsers they turned push on in. my_notifications reads what they get and how. They change the ticks themselves and save; how is in One's "
 			"documentation under Settings › Notifications (how_to)."
-		)
-	if said.get("section") == "mail":
-		return (
-			"The reader is on Your Mailboxes in OneMail's settings: the mailboxes they hold, which of them they send "
-			"from and what each signs with, and any that stopped connecting. my_mailboxes reads them, with "
-			"what a signature is made of; sign_mailbox suggests a signature as a card they approve. How it "
-			"works is in One's documentation under Settings › Mail (how_to)."
 		)
 	if said.get("section") == "memory":
 		return (

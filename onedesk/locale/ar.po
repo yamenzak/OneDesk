@@ -3825,10 +3825,6 @@ msgstr "رد {0}، {1}."
 msgid "Answers from your own records"
 msgstr "يجيب من سجلاتك"
 
-#: onedesk/public/js/settings.js:1940
-msgid "Any"
-msgstr "أي"
-
 #. Option for the 'Matching Mail' (Select) field in DocType 'Mail Rule'
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 msgid "Any Condition"
@@ -11884,10 +11880,6 @@ msgstr "اقطع الاتصال بالخادم بدلًا من ذلك."
 #: onedesk/public/js/onecloud.js:985
 msgid "Disconnect {0}? Files on the server stay as they are."
 msgstr "فصل {0}؟ تبقى الملفات على الخادم كما هي."
-
-#: onedesk/public/js/settings.js:394
-msgid "Disconnected"
-msgstr "غير متصل"
 
 #. Label in the One POS Invoice print format
 #. Label in the One Purchase Invoice print format
@@ -25211,10 +25203,6 @@ msgstr "لا يوجد أشخاص مطابقون"
 msgid "No matching records"
 msgstr "لا توجد سجلات مطابقة"
 
-#: onedesk/public/js/settings.js:1931
-msgid "No matching templates"
-msgstr "لا توجد قوالب مطابقة"
-
 #: frontend/src/sheet/components/SheetEditor/index.vue:584
 msgid "No matching values"
 msgstr "لا توجد قيم مطابقة"
@@ -32981,10 +32969,6 @@ msgstr "استُلم {0} من المقاول من الباطن"
 msgid "Received, billed and paid."
 msgstr "تم الاستلام والفوترة والدفع."
 
-#: onedesk/public/js/settings.js:381
-msgid "Receives Only"
-msgstr "استقبال فقط"
-
 #: frontend/portal/src/pages/Home.vue:48 onedesk/one_storage/namespace.py:358
 msgid "Recent"
 msgstr "الأخيرة"
@@ -33015,10 +32999,6 @@ msgstr ""
 #: onedesk/public/js/settings.js:395 onedesk/public/js/settings.js:440
 msgid "Reconnect"
 msgstr "إعادة الاتصال"
-
-#: onedesk/public/js/settings.js:429
-msgid "Reconnect {0}"
-msgstr "إعادة الاتصال بـ {0}"
 
 #: onedesk/public/js/settings.js:446
 msgid "Reconnected"
@@ -50151,10 +50131,6 @@ msgstr "اكتب ردًّا يقول: "
 #: onedesk/one/ai.py:28 onedesk/public/js/settings.js:137
 msgid "Write a short bio for my profile from my job, my department and what I work on, and suggest it as a change to my profile I can approve."
 msgstr "اكتب نبذة قصيرة لملفي الشخصي من وظيفتي وقسمي وما أعمل عليه، واقترحها كتغيير في ملفي أستطيع الموافقة عليه."
-
-#: onedesk/public/js/settings.js:408
-msgid "Write a short email signature with my name, job title and contact details for me to approve."
-msgstr "اكتب توقيع بريد إلكتروني قصيرًا يتضمن اسمي ومسماي الوظيفي وبيانات الاتصال بي لأوافق عليه."
 
 #: onedesk/one_project/ai.py:35
 msgid "Write a short update on this project for its customer: what was done, what comes next and when it should be finished. Plain words. Leave out hours, costs and who in the team does what."

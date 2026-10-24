@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 71 | 3 | 35 | 0 |
+| onedesk | 70 | 3 | 35 | 0 |
 | frappe | 23 | 37 | 154 | 0 |
 | erpnext | 303 | 131 | 51 | 0 |
 | hrms | 102 | 20 | 8 | 0 |
@@ -530,23 +530,23 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | Data Import Log | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  | ar 1, de 1 |  |
 | Deleted Document | on a rail or a home | everybody | form script, list script, 1 fields, 2 settings | no | taught |  | yes |  |  |  |  |
 | DocShare | inside: a record's Share | **nobody** | events | no | taught |  | yes |  |  |  |  |
-| DocType | through a form's link (Email Account: append_to) | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
+| DocType | through a form's link (Transaction Deletion Record: doctype_name) | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
 | DocType Layout | through a form's link (Workspace: doctype_layout) | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | DocType Settings Map | engine: which settings record holds a kind's settings | **nobody** | untouched | no | general |  | yes |  |  | ar 3, de 3 |  |
 | Document Naming Rule | inside: Workspace Settings › Numbering, which writes it | the administrator | events | no | taught |  | **none** |  |  |  |  |
 | Document Naming Settings | replaced: Workspace Settings › Numbering | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Document Share Key | engine: the key a shared record's link carries | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Domain | through a form's link (Module Def: restrict_to_domain) | **nobody** | untouched | no | general |  | yes |  |  |  |  |
+| Domain | through a form's link (DocType: restrict_to_domain) | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 | Domain Settings | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | DuckDB Sync | engine: the copy frappe's analytics reads from | OneBook, OneCRM | untouched | no | general |  | **none** |  |  | ar 3, de 2 |  |
 | Error Log | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | taught |  | yes |  |  | ar 1, de 1 |  |
 | File | through a form's link (Workbook: file) | everybody | class, events, 10 fields | no | taught |  | yes |  |  |  | Added to a Library, Shared With You |
 | Installed Applications | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Language | through a form's link (User: language) | everybody | untouched | no | general |  | yes |  |  |  |  |
+| Language | through a form's link (Print Format: default_print_language) | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Log Settings | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | MapReduce Job | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  | ar 4, de 4 |  |
 | MapReduce Task | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  | ar 4, de 4 |  |
-| Module Def | through a form's link (User Type: module) | everybody | untouched | no | general |  | yes |  |  |  |  |
+| Module Def | through a form's link (DocType: module) | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Module Profile | through a form's link (User: module_profile) | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Navbar Settings | replaced: One's top bar | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Package | through a form's link (Module Def: package) | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
@@ -561,8 +561,8 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | RQ Job | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | RQ Worker | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Recorder | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  | ar 2, de 1 |  |
-| Report | through a form's link (Number Card: report_name) | everybody | events | no | taught |  | yes |  |  |  |  |
-| Role | through a form's link (User Type: role) | OneHR | 1 fields | no | taught |  | yes |  |  |  |  |
+| Report | through a form's link (Print Format: report) | everybody | events | no | taught |  | yes |  |  |  |  |
+| Role | through a form's link (DocType: role) | OneHR | 1 fields | no | taught |  | yes |  |  |  |  |
 | Role Permission for Page and Report | replaced: each app's own grants, which open its pages and reports (one/roles.py) | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Role Profile | through a form's link (User: role_profile) | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
 | SMS Log | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  | **only an ID** |  |  |
@@ -577,7 +577,7 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | Success Action | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 | System Settings | inside: Workspace Settings › General | **nobody** | events, 2 fields | no | taught |  |  |  |  | ar 8, de 5 |  |
 | Translation | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| User | through a form's link (Email Account: connected_user) | **nobody** | events, 2 fields, 1 settings | no | taught |  | yes |  |  |  |  |
+| User | through a form's link (Project Update: user) | **nobody** | events, 2 fields, 1 settings | no | taught |  | yes |  |  |  |  |
 | User Group | inside: Workspace Settings › Access, which writes it | everybody | untouched | no | taught |  | **none** |  |  |  |  |
 | User Invitation | replaced: Workspace Settings › People, Invite People | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | User Permission | inside: Workspace Settings › Access, holding a person to some records | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
@@ -652,14 +652,14 @@ Pages: backups (the platform's: backups, which the platform takes and keeps); de
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Auto Email Report | on a rail or a home | the administrator | events | no | taught |  | **none** |  |  |  |  |
 | Document Follow | left out: waits in docs/BACKLOG.md | everybody | untouched | no | general |  | **none** |  |  |  |  |
-| Email Account | through a form's link (Mail Rule: account) | OneHR | events, 9 fields | no | taught |  | yes |  |  |  |  |
+| Email Account | through a form's link (User: email_account) | OneHR | events, 9 fields | no | taught |  | yes |  |  |  |  |
 | Email Domain | through a form's link (Email Account: domain) | the administrator | untouched | no | general |  | **none** |  |  |  |  |
 | Email Flag Queue | engine: read and unread marks on their way to the mail server | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Email Group | on a rail or a home | OneCRM | untouched | no | general |  | yes |  |  |  |  |
 | Email Group Member | inside: an Email Group's members, in OneCRM | OneCRM | untouched | no | general |  | yes |  |  |  |  |
 | Email Queue | engine: mail on its way out | **nobody** | untouched | no | general |  | yes |  | **only an ID** | ar 1, de 1 |  |
 | Email Rule | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Email Template | through a form's link (DocType Layout: default_email_template) | everybody | events | no | taught |  | yes |  |  |  |  |
+| Email Template | through a form's link (DocType: default_email_template) | everybody | events | no | taught |  | yes |  |  |  |  |
 | Email Unsubscribe | engine: who asked for no more mail, which OneMail's rules honour | **nobody** | 1 fields | no | general |  | yes |  |  |  |  |
 | Notification | inside: Workspace Settings › Workspace Notifications, which writes it | the administrator | class, events, 1 fields, 1 settings | no | taught |  | yes |  |  |  |  |
 | Unhandled Email | engine: mail a mailbox could not file, kept for the platform | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
@@ -700,7 +700,7 @@ Pages: backups (the platform's: backups, which the platform takes and keeps); de
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Letter Head | through a form's link (Report: default_letter_head) | everybody | events, 2 fields, 2 settings | no | taught |  | yes |  |  |  |  |
 | Network Printer Settings | left out: printing straight to a printer on the network; One prints from the browser | everybody | untouched | no | general |  | **none** |  |  |  |  |
-| Print Format | through a form's link (Report: default_print_format) | the administrator | events | no | taught |  | yes |  |  |  |  |
+| Print Format | through a form's link (Customize Form: default_print_format) | the administrator | events | no | taught |  | yes |  |  |  |  |
 | Print Format Field Template | inside: One's print blocks, laid out in Printing's builder | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Print Format Snippet | inside: Workspace Settings › Printing | the administrator | events | no | general |  | **none** |  |  | ar 2, de 2 |  |
 | Print Heading | through a form's link (Subcontracting Order: select_print_heading) | everybody | untouched | no | general |  | yes |  |  |  |  |
@@ -1006,7 +1006,7 @@ Pages: legal (on a rail or a home).
 | Mail Folder | through a form's link (Mail Rule: move_to) | the administrator | untouched | yes | taught |  | yes |  |  |  |  |
 | Mail Rule | opened by our screens | **nobody** | untouched | yes | taught |  | **none** |  |  |  |  |
 
-Pages: onemail (on a rail or a home); onemail-settings (on a rail or a home).
+Pages: onemail (on a rail or a home).
 
 ## onedesk / One Project
 

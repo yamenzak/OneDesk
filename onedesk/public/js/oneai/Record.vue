@@ -179,7 +179,7 @@ async function see_page() {
 
 function open(name) {
 	if (kind.value === "Customize") frappe.set_route("List", "Workspace Field", { form: doctype.value });
-	else if (kind.value === "Signature") frappe.set_route("onemail-settings", { section: "mail" });
+	else if (kind.value === "Signature") frappe.set_route("onemail", { settings: "mailboxes" });
 	else if (kind.value === "Holidays") frappe.set_route("workspace-settings", { section: "holidays" });
 	else if (kind.value === "Reply") frappe.set_route("onemail");
 	else if (kind.value === "Numbering") onedesk.doctype_settings.open(doctype.value, "naming");
