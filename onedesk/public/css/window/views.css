@@ -658,6 +658,40 @@
 	display: none !important;
 }
 
+/* The panels' column: the open tab's panel above, Save fixed at its foot. */
+.one-create .settings-dialog-panels {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+}
+
+.one-create .settings-dialog-panels > .settings-dialog-panel {
+	flex: 1;
+	height: auto;
+	min-height: 0;
+	padding-bottom: 0;
+}
+
+.one-create .one-create-foot {
+	display: flex;
+	flex: none;
+	align-items: center;
+	justify-content: flex-end;
+	gap: calc(var(--spacing) * 3);
+	padding: calc(var(--spacing) * 3) 1.5rem;
+	border-top: 1px solid var(--outline-gray-1);
+}
+
+.one-create .one-create-missing {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	color: var(--ink-gray-5);
+	font-size: var(--text-sm);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
 .one-create .settings-dialog-panel > .settings-dialog-panel-body:empty {
 	display: none;
 }

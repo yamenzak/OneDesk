@@ -38585,6 +38585,10 @@ msgstr "Noch Entwürfe"
 msgid "Still in Draft"
 msgstr "Noch im Entwurf"
 
+#: onedesk/public/js/window/form.js:444
+msgid "Still needed: {0}"
+msgstr "Noch erforderlich: {0}"
+
 #. Label in the One Asset Capitalization print format
 #: frontend/src/item/ItemPage.vue:185 onedesk/one_inventory/home.py:14
 #: onedesk/one_inventory/home.py:23 onedesk/one_inventory/home.py:67

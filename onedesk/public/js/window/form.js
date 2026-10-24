@@ -360,7 +360,15 @@ onedesk.window.create = (doctype, { after_insert = null, init_callback = null, d
 		frappe.model.with_doctype(doctype, () => {
 			const dialog = new frappe.ui.SettingsDialog({ title: __("New {0}", [__(doctype)]), tabs: [] });
 			dialog.$wrapper.addClass("one-create");
+			// Each dialog's own listeners: one made over another must not take
+			// the other's away when it closes.
+			const ns = `.one-create-${frappe.utils.get_random(6)}`;
 			const $host = $(`<div class="one-create-form"></div>`).appendTo(dialog.$panels);
+			// Save stays at the foot of the dialog whatever tab is open, and says
+			// what is still missing while it cannot save.
+			const $missing = $(`<div class="one-create-missing"></div>`);
+			const $save = frappe.ui.button({ label: __("Save"), variant: "solid", onclick: () => save() });
+			const $foot = $(`<div class="one-create-foot"></div>`).append($missing, $save);
 			dialog.show();
 
 			const before = window.cur_frm;
@@ -398,15 +406,14 @@ onedesk.window.create = (doctype, { after_insert = null, init_callback = null, d
 				id: one ? one.df.fieldname : "__details",
 				label: one ? __(one.label, null, doctype) : __("Details"),
 				title: one ? __(one.label, null, doctype) : __("Details"),
-				actions: [
-					{ label: __("Save"), variant: "solid", click: save },
-					{ icon: "x", variant: "ghost", click: () => dialog.hide() },
-				],
+				actions: [{ icon: "x", variant: "ghost", click: () => dialog.hide() }],
 				// Beside the panel's body, not in it: the SettingsDialog styles a
 				// body's fields as settings rows (a line between switches, a line
 				// over each headed section), and this is a form, drawn as on the page.
 				on_activate: (panel) => {
 					$host.appendTo(panel.$el);
+					// A tab's panel is made when first opened, after the foot.
+					if ($foot.parent().length) $foot.appendTo(dialog.$panels);
 					if (one) one.set_active();
 				},
 			});
@@ -414,29 +421,44 @@ onedesk.window.create = (doctype, { after_insert = null, init_callback = null, d
 			const rail = () => [{ group: __("New {0}", [__(doctype)]), items: (tabs().length ? tabs() : [null]).map(tab) }];
 			const drawn = () => tabs().map((one) => one.df.fieldname).join();
 			let shown = drawn();
-			// reset() empties the panels, the form's among them: it is taken out
-			// first and put back by the tab that opens.
-			$host.detach();
-			dialog.reset(rail());
+			// reset() empties the panels, the form and the foot among them: they
+			// are taken out first, the form put back by the tab that opens.
+			const reset = (at = null) => {
+				$host.detach();
+				$foot.detach();
+				dialog.reset(rail(), at);
+				$foot.appendTo(dialog.$panels);
+			};
+			reset();
 			// A tab can come or go as the record is filled in (depends_on).
 			const redraw = () => {
 				if (drawn() === shown) return;
 				shown = drawn();
 				const at = dialog.active_tab;
-				$host.detach();
-				dialog.reset(rail(), tabs().some((one) => one.df.fieldname === at) ? at : null);
+				reset(tabs().some((one) => one.df.fieldname === at) ? at : null);
 			};
-			$(document).on("form-refresh.one-create", (_, refreshed) => refreshed === frm && redraw());
-			frm.$wrapper.on("change.one-create", () => requestAnimationFrame(redraw));
+			// Values change by typing and by scripts (a fetch, a default), which
+			// fire nothing on the page: what is missing is read again as the
+			// person works and twice a second while the dialog is open.
+			const check = () => {
+				const missing = onedesk.window.missing(frm);
+				$save.prop("disabled", missing.length > 0);
+				$missing.text(missing.length ? __("Still needed: {0}", [missing.join(", ")]) : "");
+			};
+			const watch = setInterval(check, 500);
+			check();
+			$(document).on(`form-refresh${ns}`, (_, refreshed) => refreshed === frm && (redraw(), check()));
+			frm.$wrapper.on(`change${ns} input${ns}`, () => requestAnimationFrame(() => (redraw(), check())));
 
-			dialog.$wrapper.on("keydown.one-create", (e) => {
-				if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+			dialog.$wrapper.on(`keydown${ns}`, (e) => {
+				if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s" && !$save.prop("disabled")) {
 					e.preventDefault();
 					save();
 				}
 			});
 			dialog.$wrapper.on("hide.bs.modal", () => {
-				$(document).off(".one-create");
+				clearInterval(watch);
+				$(document).off(ns);
 				removeEventListener("beforeunload", frm.beforeUnloadListener, { capture: true });
 				if (window.cur_frm === frm) window.cur_frm = before || null;
 				if (!saved && frm.doc && frm.doc.__islocal) frappe.model.clear_doc(doctype, frm.doc.name);
@@ -444,3 +466,43 @@ onedesk.window.create = (doctype, { after_insert = null, init_callback = null, d
 			});
 		})
 	);
+
+// What a record being made still lacks before frappe will save it, read as
+// frappe's check_mandatory reads it (every row of it, reqd or
+// mandatory_depends_on, frappe's has_value, a name to type where the doctype
+// asks for one), only without its scrolling, unfolding and message: a label
+// for each, a table's as "Items: Item Code".
+onedesk.window.missing = (frm) => {
+	if (!frm || !frm.doc) return [];
+	const out = [];
+	const mandatory = (doc, df) => {
+		const rule = df.mandatory_depends_on;
+		if (!rule) return !!df.reqd;
+		if (typeof rule === "boolean") return rule;
+		if (typeof rule === "function") return !!rule(doc);
+		if (rule.startsWith("eval:")) {
+			try {
+				return !!frappe.utils.eval(rule.slice(5), { doc, parent: frm.doc });
+			} catch (e) {
+				return false;
+			}
+		}
+		const value = doc[rule];
+		return Array.isArray(value) ? !!value.length : !!value;
+	};
+	if (frm.is_new() && frm.meta.autoname === "Prompt" && !frm.doc.__newname) out.push(__("Name"));
+	for (const doc of frappe.model.get_all_docs(frm.doc)) {
+		const fields = frappe.meta.get_docfield_copy(doc.doctype, doc.name) || {};
+		for (const listed of frappe.meta.docfield_list[doc.doctype] || []) {
+			const df = listed.fieldname && fields[listed.fieldname];
+			if (!df || df.fieldtype === "Fold" || (!df.reqd && !df.mandatory_depends_on)) continue;
+			if (!mandatory(doc, df) || frappe.model.has_value(doc.doctype, doc.name, df.fieldname)) continue;
+			const label = __(df.label, null, df.parent);
+			const table = doc.parentfield && frappe.meta.get_docfield(frm.doctype, doc.parentfield);
+			const said = table ? `${__(table.label, null, frm.doctype)}: ${label}` : label;
+			if (!out.includes(said)) out.push(said);
+		}
+	}
+	return out;
+};
+

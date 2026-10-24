@@ -195,7 +195,12 @@ and it is wrapped there. The dialog is frappe's own form mounted in frappe's
 so the doctype's scripts, depends_on and validation run as on the page and a
 refused save leaves the dialog open. The form's tabs that show are the
 dialog's rail (one, Details, for a form without tabs), redrawn when a tab
-comes or goes; Save and close are each panel's head; Ctrl+S saves.
+comes or goes; close is each panel's head. Save is fixed at the foot of
+the dialog, whatever tab is open, and stays disabled while anything frappe
+would refuse for is still empty (`onedesk.window.missing`, frappe's
+`check_mandatory` read without its scrolling and message, rows of tables
+and `mandatory_depends_on` included), the foot saying what is still
+needed; Ctrl+S saves when it can.
 
 Saved, it does what quick entry did: fills the link field it was opened
 from and leaves the person on their record, else hands the record to
