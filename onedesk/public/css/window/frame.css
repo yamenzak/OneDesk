@@ -391,6 +391,13 @@ body.one-window-dragging * {
 	margin-inline-start: auto;
 }
 
+/* The head keeps room at its end for frappe's menu button, which the shell
+   hides; with a button of the view's there instead, that end lines up with
+   the rows' own end. */
+.body-sidebar-container.expanded .body-sidebar .sidebar-header:has(> .one-window-head-action) {
+	padding-inline-end: 4px;
+}
+
 .one-window-tree .one-window-strong .sidebar-item-label {
 	color: var(--ink-gray-8);
 	font-weight: var(--font-weight-semibold);
