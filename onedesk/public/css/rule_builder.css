@@ -338,6 +338,15 @@
 	font-weight: var(--weight-medium);
 }
 
+.rb-starter .rb-starter-name {
+	flex: 1;
+	min-width: 0;
+}
+
+.rb-starter .rb-starter-title .es-badge {
+	flex: none;
+}
+
 .rb-starter .rb-starter-title .icon {
 	flex: none;
 	margin: 0;

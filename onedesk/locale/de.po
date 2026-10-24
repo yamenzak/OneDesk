@@ -3864,9 +3864,9 @@ msgstr "Auf E-Mails antworten, die außerhalb der Arbeitszeit oder an einem Feie
 msgid "Answer new conversations from outside, once a day to each sender."
 msgstr "Auf neue Unterhaltungen von außen antworten, einmal täglich pro Absender."
 
-#: onedesk/public/js/rule_builder.js:704
-msgid "Answer the question politely from what the workspace knows. Say we will follow up if something is unclear."
-msgstr "Beantworte die Frage höflich mit dem, was der Arbeitsbereich weiß. Sag, dass wir nachfassen, wenn etwas unklar ist."
+#: onedesk/public/js/rule_builder.js:751
+msgid "Answer the question from their records where they answer it. If they don't, say we will follow up within a day."
+msgstr "Beantworte die Frage aus ihren Datensätzen, wo diese sie beantworten. Wenn nicht, sag, dass wir uns innerhalb eines Tages melden."
 
 #: onedesk/one/portal_share.py:20
 msgid "Answer the quote request"
@@ -5282,9 +5282,9 @@ msgstr "Automatische Antwort"
 msgid "Auto Reply On"
 msgstr "Automatische Antwort an"
 
-#: onedesk/public/js/rule_builder.js:720 onedesk/public/js/rule_builder.js:723
-msgid "Auto Reply With OneAI"
-msgstr "Automatische Antwort mit OneAI"
+#: onedesk/public/js/rule_builder.js:768 onedesk/public/js/rule_builder.js:771
+msgid "Auto Reply in Their Language"
+msgstr "Automatische Antwort in ihrer Sprache"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:779
 msgid "Auto-fit height"
@@ -12555,9 +12555,9 @@ msgstr "Anlagen im Entwurf"
 msgid "Draft No"
 msgstr "Entwurfs-Nr."
 
-#: onedesk/public/js/rule_builder.js:687 onedesk/public/js/rule_builder.js:690
-msgid "Draft Replies With OneAI"
-msgstr "Antwortentwürfe mit OneAI"
+#: onedesk/public/js/rule_builder.js:734 onedesk/public/js/rule_builder.js:737
+msgid "Draft Replies"
+msgstr "Antwortentwürfe"
 
 #: frontend/src/quotes/QuotesPage.vue:113
 msgid "Draft Supplier Quotations"
@@ -17557,6 +17557,10 @@ msgstr "Sind bei dieser Erweiterung zuletzt Fehler aufgetreten, und was ist schi
 #: onedesk/one_studio/ai.py:74
 msgid "Has this one run into errors?"
 msgstr "Sind hier Fehler aufgetreten?"
+
+#: onedesk/public/js/rule_builder.js:279
+msgid "Have OneAI write a reply that follows"
+msgstr "OneAI eine Antwort schreiben lassen nach"
 
 #: onedesk/www/start.html:25
 msgid "Have a One account?"
@@ -27751,6 +27755,10 @@ msgstr "OneAI ausgeschaltet"
 msgid "OneAI adds questions to each new interview."
 msgstr "OneAI fügt jedem neuen Gespräch Fragen hinzu."
 
+#: onedesk/public/js/rule_builder.js:735
+msgid "OneAI answers customers' questions from their own orders and invoices, and you check the reply before it goes."
+msgstr "OneAI beantwortet Fragen von Kunden aus ihren eigenen Bestellungen und Rechnungen, und du prüfst die Antwort, bevor sie rausgeht."
+
 #: onedesk/public/js/rule_builder.js:721
 msgid "OneAI answers new conversations from outside, in the sender's language."
 msgstr "OneAI beantwortet neue Unterhaltungen von außen in der Sprache des Absenders."
@@ -27864,6 +27872,10 @@ msgstr "OneAI schreibt sie gerade. Sie erscheint hier in einer Minute."
 msgid "OneAI looked at {extension}"
 msgstr "OneAI hat sich {extension} angesehen"
 
+#: onedesk/public/js/rule_builder.js:246
+msgid "OneAI may read the orders, invoices and deliveries the sender sees on the portal. Only when the sender's address is verified."
+msgstr "OneAI darf die Bestellungen, Rechnungen und Lieferungen lesen, die der Absender im Portal sieht. Nur wenn die Adresse des Absenders bestätigt ist."
+
 #. Description of the 'Screen New Applicants' (Check) field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -27891,10 +27903,6 @@ msgstr "OneAI liest neue Mails in {0} und ihre Anhänge, legt sie ab und bearbei
 #: onedesk/public/js/settings.js:2966
 msgid "OneAI will read, file and act on new files in this folder and its subfolders. Scans and photos use OneAI credits."
 msgstr "OneAI liest, ordnet und bearbeitet neue Dateien in diesem Ordner und seinen Unterordnern. Scans und Fotos verbrauchen OneAI-Credits."
-
-#: onedesk/public/js/rule_builder.js:688
-msgid "OneAI writes a reply to customers' questions, and someone reads it before it goes."
-msgstr "OneAI schreibt eine Antwort auf Fragen von Kunden, und jemand liest sie, bevor sie rausgeht."
 
 #: onedesk/one_ai/heads.py:83
 msgid "OneAI writes one here when something happens, such as an invoice, a payment or a mail."
@@ -36609,6 +36617,10 @@ msgstr ""
 msgid "Sender Name"
 msgstr "Absendername"
 
+#: onedesk/one_mail/custom/communication.json
+msgid "Sender Verified"
+msgstr "Absender bestätigt"
+
 #: onedesk/one_mail/flow.py:290
 msgid "Sender is a {0}"
 msgstr "Absender ist ein {0}"
@@ -38675,13 +38687,13 @@ msgstr "Nur sortieren"
 msgid "Sort Only moves junk and runs About rules. Act also makes tasks, events and records."
 msgstr "Nur sortieren verschiebt Junk und führt Themenregeln aus. Handeln erstellt auch Aufgaben, Termine und Datensätze."
 
-#: onedesk/public/js/rule_builder.js:429 onedesk/public/js/rule_builder.js:432
-msgid "Sort With OneAI"
-msgstr "Mit OneAI sortieren"
-
 #: frontend/src/sheet/components/SheetEditor/index.vue:523
 msgid "Sort ascending"
 msgstr "Aufsteigend sortieren"
+
+#: onedesk/public/js/rule_builder.js:690 onedesk/public/js/rule_builder.js:693
+msgid "Sort by Topic"
+msgstr "Nach Thema sortieren"
 
 #: onedesk/public/js/onecloud.js:1866
 msgid "Sort by date"
@@ -39998,10 +40010,6 @@ msgstr "Zwischensumme"
 #: onedesk/public/js/rule_builder.js:290
 msgid "Such as Quote Request."
 msgstr "Z. B. Angebotsanfrage."
-
-#: onedesk/public/js/rule_builder.js:185
-msgid "Such as sending the price list and promising an answer within a day."
-msgstr "Z. B. die Preisliste senden und eine Antwort innerhalb eines Tages zusagen."
 
 #: onedesk/one/ai.py:118
 msgid "Suggest a letter head"
@@ -42872,6 +42880,10 @@ msgstr "Die Bereiche in dieser Formel überschneiden sich nicht."
 msgid "The rate between two currencies on a day."
 msgstr "Der Kurs zwischen zwei Währungen an einem Tag."
 
+#: onedesk/one_mail/custom/communication.json
+msgid "The receiving server confirmed the sender's address, because DMARC passed, or DKIM or SPF passed for the sender's own domain."
+msgstr "Der empfangende Server hat die Adresse des Absenders bestätigt, weil DMARC erfolgreich war, oder DKIM oder SPF für die eigene Domain des Absenders."
+
 #: onedesk/public/js/oneai/Record.vue:165
 msgid "The record changed after this was suggested."
 msgstr "Der Datensatz hat sich nach diesem Vorschlag geändert."
@@ -43327,6 +43339,10 @@ msgstr "Die eigene Adresse"
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
 msgid "Their Quotation No"
 msgstr "Ihre Angebotsnr."
+
+#: onedesk/public/js/rule_builder.js:243
+msgid "Their Records"
+msgstr "Ihre Datensätze"
 
 #. Label in the One Blanket Order print format
 #: onedesk/one_inventory/print_format/one_blanket_order/one_blanket_order.json
@@ -47202,6 +47218,10 @@ msgstr "Was OneAI über Sie weiß"
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "What OneAI said when asked to explain it, per language."
 msgstr "Was OneAI sagte, als es um eine Erklärung gebeten wurde, je Sprache."
+
+#: onedesk/public/js/rule_builder.js:238
+msgid "What OneAI's reply should do, such as answering from their orders and promising an answer within a day. OneAI writes the reply itself."
+msgstr "Was die Antwort von OneAI tun soll, etwa aus ihren Bestellungen antworten und eine Antwort innerhalb eines Tages zusagen. OneAI schreibt die Antwort selbst."
 
 #: onedesk/public/js/onemail_settings.js:362
 msgid "What They Get"
@@ -52384,6 +52404,10 @@ msgstr "hat abgesagt"
 msgid "changed"
 msgstr "hat geändert"
 
+#: onedesk/public/js/rule_builder.js:291
+msgid "checked before sending"
+msgstr "vor dem Senden geprüft"
+
 #: frontend/src/project/ProjectActivity.vue:47
 msgid "completed"
 msgstr "hat erledigt"
@@ -53115,6 +53139,10 @@ msgstr ""
 msgid "quiet"
 msgstr "ruhig"
 
+#: onedesk/public/js/rule_builder.js:283
+msgid "reading their records"
+msgstr "mit ihren Datensätzen"
+
 #. Option for the 'Colour' (Select) field in DocType 'Record Head Indicator'
 #. Option for the 'Colour' (Select) field in DocType 'Record Head Sentence'
 #: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
@@ -53190,6 +53218,10 @@ msgstr "sections ist eine Liste von Abschnitten, jeder eine Liste von Spalten."
 #: onedesk/one/ai.py:2962
 msgid "sections is not JSON: {0}."
 msgstr "sections ist kein JSON: {0}."
+
+#: onedesk/public/js/rule_builder.js:292
+msgid "sent straight away"
+msgstr "sofort gesendet"
 
 #: onedesk/one_storage/share.py:100
 msgid "shared it with {0}"
@@ -53521,10 +53553,6 @@ msgstr "wartend"
 msgid "was {0}"
 msgstr "vorher {0}"
 
-#: onedesk/public/js/rule_builder.js:264
-msgid "what OneAI should say"
-msgstr "was OneAI sagen soll"
-
 #: onedesk/one/access.py:326
 msgid "what {0} can do in {1}"
 msgstr "was {0} in {1} darf"
@@ -53544,6 +53572,10 @@ msgstr "wer das Modell wählt, auf nur Administratoren"
 #: onedesk/one_ai/run.py:550
 msgid "who picks the model, to everybody"
 msgstr "wer das Modell wählt, auf alle"
+
+#: onedesk/public/js/rule_builder.js:284
+msgid "without their records"
+msgstr "ohne ihre Datensätze"
 
 #: onedesk/public/js/rule_builder.js:159
 msgid "words, with commas"
@@ -53576,6 +53608,10 @@ msgstr "gestern"
 #: onedesk/one/tell.py:341
 msgid "your data to be deleted"
 msgstr "die Löschung Ihrer Daten"
+
+#: onedesk/public/js/rule_builder.js:280
+msgid "your instruction"
+msgstr "deiner Anweisung"
 
 #: onedesk/public/js/rule_builder.js:265
 msgid "your message"

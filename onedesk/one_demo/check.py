@@ -9641,3 +9641,39 @@ def oneai_suggests_a_customer_and_its_quotation_together():
 		assert held.get_onload().get("ai_made"), "the record says OneAI made it"
 		assert "customer_type" in (held.get_onload().get("ai_touched") or {}), "a field that is not prose is marked too"
 		assert proposals.apply_all([first, second]) == [], "approving twice does nothing"
+
+
+@check
+def onemail_oneai_tells_a_sender_only_their_own_records():
+	"""A rule's OneAI reply reading their records is given what the portal
+	shows the sender, only when the receiving server verified them: Khalid
+	of Mansour & Sons gets his own quotations, orders, invoices with what is
+	still to pay, and deliveries, and nobody else's; the same address with a
+	forged From line, or a stranger, gets nothing, and a reply not set to
+	read records is told to say nothing about them."""
+	from unittest import mock
+
+	from onedesk.one_mail import rules, theirs
+
+	passed = "mx.example; dkim=pass header.d=mansour.example; dmarc=pass header.from=mansour.example"
+	forged = "mx.example; dkim=fail header.d=mansour.example; dmarc=fail header.from=mansour.example"
+	assert theirs.verified({"Authentication-Results": passed}, "khalid@mansour.example")
+	assert not theirs.verified({"Authentication-Results": forged}, "khalid@mansour.example")
+
+	rows = theirs.records("khalid@mansour.example", "About ACC-SINV-2026-00001")
+	assert rows and {row["party"] for row in rows} == {"Mansour & Sons"}, rows
+	assert {row["doctype"] for row in rows} >= {"Sales Order", "Sales Invoice"}
+	assert any(row["name"] == "ACC-SINV-2026-00001" for row in rows), "a record the message names"
+	assert any(row.get("owed") for row in rows if row["doctype"] == "Sales Invoice"), "what is still to pay"
+
+	asked = []
+	with mock.patch("onedesk.one_ai.run.once", side_effect=lambda kind, text, reference=None: asked.append(text) or "ok"):
+		mail = frappe._dict(name=None, sender="khalid@mansour.example", subject="Invoice", content="How much do we owe?")
+		rules._drafted({"instruction": "Answer from their records.", "records": 1}, frappe._dict(mail, one_verified=1))
+		rules._drafted({"instruction": "Answer from their records.", "records": 1}, frappe._dict(mail, one_verified=0))
+		rules._drafted({"instruction": "Answer from their records.", "records": 0}, frappe._dict(mail, one_verified=1))
+		rules._drafted({"instruction": "Answer.", "records": 1}, frappe._dict(mail, sender="nobody@stranger.example", one_verified=1))
+	assert "ACC-SINV-2026-00001" in asked[0] and "Mansour & Sons" in asked[0]
+	assert all("SINV" not in one and "could not be confirmed" in one for one in asked[1:2])
+	assert "SINV" not in asked[2] and "Say nothing about any order" in asked[2]
+	assert "SINV" not in asked[3] and "Nothing is known" in asked[3]

@@ -736,7 +736,9 @@ onedesk.mail.settings = (tab) => {
 					}
 					$(`<button type="button" class="rb-starter"></button>`)
 						.html(
-							`<span class="rb-starter-title">${frappe.utils.icon(one.icon, "sm")}${esc(one.title)}</span><span class="rb-starter-about">${esc(one.about)}</span>`
+							`<span class="rb-starter-title">${frappe.utils.icon(one.icon, "sm")}<span class="rb-starter-name">${esc(one.title)}</span>${
+								onedesk.rules.uses_ai(one.rule.steps) ? onedesk.oneai.tag("OneAI") : ""
+							}</span><span class="rb-starter-about">${esc(one.about)}</span>`
 						)
 						.on("click", () => rule_view(panel, box, null, one.rule))
 						.appendTo(groups[one.group]);

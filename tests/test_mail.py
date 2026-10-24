@@ -807,3 +807,24 @@ def test_a_rule_replies_once_never_to_a_machine_and_oneai_waits_when_unsure():
 	assert 'step.get("review") or "[" in text' in said, "a blank left for a person always waits as a card"
 	assert "gate.over(held)" in said and "held.one_ai_off" in said, "OneAI replies only where it may read and spend"
 	assert '"day": 24 * 3600' in source and 'once == "conversation"' in said, "once per conversation, or per sender"
+
+
+def _theirs():
+	return _load(MAIL / "theirs.py", ("verified", "_results", "_aligned"), re=re)
+
+
+def test_a_sender_is_verified_only_by_the_receiving_servers_own_results():
+	theirs = _theirs()
+
+	class Mail(list):
+		def items(self):
+			return self
+
+	passed = "mx.google.com; dkim=pass header.i=@shop.example header.s=s1; spf=pass (google.com: designates) smtp.mailfrom=ana@shop.example; dmarc=pass (p=NONE) header.from=shop.example"
+	assert theirs["verified"](Mail([("Authentication-Results", passed)]), "ana@shop.example")
+	assert theirs["verified"](Mail([("ARC-Authentication-Results", "i=1; mx.cloudflare.net; dkim=pass header.d=mail.shop.example")]), "ana@shop.example")
+	assert not theirs["verified"](Mail([("Authentication-Results", "mx.google.com; spf=pass smtp.mailfrom=x@other.example")]), "ana@shop.example"), "SPF for another domain"
+	assert not theirs["verified"](Mail([("Authentication-Results", "mx; dkim=pass header.d=shop.example; dmarc=fail header.from=shop.example")]), "ana@shop.example"), "DMARC fail wins"
+	forged = Mail([("Authentication-Results", "mx.google.com; dkim=fail header.d=shop.example; spf=softfail"), ("Authentication-Results", passed)])
+	assert not theirs["verified"](forged, "ana@shop.example"), "only the topmost, the receiving server's own"
+	assert not theirs["verified"](Mail([]), "ana@shop.example") and not theirs["verified"](None, "ana@shop.example")

@@ -125,11 +125,31 @@ asks again, and it pauses until it's approved. You can delete a request
 while it waits.
 
 **Replying by a rule.** A rule's **Reply** step answers in your own words,
-where `{sender_name}` and `{subject}` fill in, or **OneAI Writes It** from
-what it should say, such as "send our price list and say we answer within a
-day". OneAI's reply waits as a card for whoever made the rule when **Review
-Before Sending** is on, and always when it left a blank for a person to fill
-in; it needs OneAI on for the mailbox and counts against its monthly limit.
+where `{sender_name}` and `{subject}` fill in, or OneAI writes the reply
+itself. What you type for OneAI is an instruction, never the reply: "answer
+from their orders and say we follow up within a day". OneAI's reply waits as
+a card for whoever made the rule when it is **checked before sending**, and
+always when it left a blank for a person to fill in; it needs OneAI on for
+the mailbox and counts against its monthly limit.
+
+**What OneAI may tell the sender.** Nothing about the workspace's records,
+unless the reply is set to **reading their records**. Then OneAI is given,
+and told to use nothing else, what the portal shows that person
+(`theirs.py`): for each customer or supplier the address is a contact of,
+the latest five of each kind the portal lists (quotations, orders,
+invoices, deliveries; supplier quotations, purchase orders and invoices),
+and any the message names, as the portal's own rows (status, total, due or
+delivery date, items), leaving out what was hidden from that contact. The
+portal is the one place that decides what a customer may see, so there is
+no second list to keep in step with it.
+
+That needs the sender to be who they say. A From line is free to write, so
+the server that received the message must have confirmed it: DMARC passed,
+or DKIM or SPF passed for the sender's own domain (`theirs.verified`, kept
+on the message as **Sender Verified**). Only the topmost
+`Authentication-Results` counts, since each server adds its own above what
+it received and a forger can write any below it. Where the receiving server
+writes none, nothing is verified and OneAI says nothing about records.
 
 Connecting signs in to both servers before anything is saved: the incoming
 one, and with **Enable Outgoing** on, the outgoing one too. A guessed
@@ -255,9 +275,12 @@ between them they use every condition and every action:
 - **People and Records**: **Support Requests** (an issue, assigned),
   **New Leads**, **Tasks From Mail**, **Forward Supplier Bills** and
   **Urgent After Hours**.
-- **With OneAI**, only where OneAI may read the mailbox: **Sort With
-  OneAI**, **Upset or Urgent**, **Draft Replies With OneAI** and **Auto
-  Reply With OneAI**.
+- **With OneAI**, only where OneAI may read the mailbox: **Sort by
+  Topic**, **Upset or Urgent**, **Draft Replies** (reading the sender's
+  records, checked before sending) and **Auto Reply in Their Language**.
+
+Every example that asks OneAI something or has OneAI write a reply carries
+the OneAI badge.
 
 An example with a blank to fill (an address, a domain) can't be saved until
 it is filled: a condition with nothing to look for would match all mail.

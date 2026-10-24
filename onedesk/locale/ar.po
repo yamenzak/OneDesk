@@ -3864,9 +3864,9 @@ msgstr "الرد على البريد الذي يصل خارج ساعات الع�
 msgid "Answer new conversations from outside, once a day to each sender."
 msgstr "الرد على المحادثات الجديدة من الخارج، مرة يوميًا لكل مرسل."
 
-#: onedesk/public/js/rule_builder.js:704
-msgid "Answer the question politely from what the workspace knows. Say we will follow up if something is unclear."
-msgstr "أجب عن السؤال بلطف مما تعرفه مساحة العمل. وقل إننا سنتابع إن كان شيء غير واضح."
+#: onedesk/public/js/rule_builder.js:751
+msgid "Answer the question from their records where they answer it. If they don't, say we will follow up within a day."
+msgstr "أجب عن السؤال من سجلاتهم حيث تجيب عنه. وإن لم تجب، فقل إننا سنتابع خلال يوم."
 
 #: onedesk/one/portal_share.py:20
 msgid "Answer the quote request"
@@ -5282,9 +5282,9 @@ msgstr "رد تلقائي"
 msgid "Auto Reply On"
 msgstr "الرد التلقائي مفعّل"
 
-#: onedesk/public/js/rule_builder.js:720 onedesk/public/js/rule_builder.js:723
-msgid "Auto Reply With OneAI"
-msgstr "رد تلقائي باستخدام OneAI"
+#: onedesk/public/js/rule_builder.js:768 onedesk/public/js/rule_builder.js:771
+msgid "Auto Reply in Their Language"
+msgstr "رد تلقائي بلغتهم"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:779
 msgid "Auto-fit height"
@@ -12555,9 +12555,9 @@ msgstr "أصول مسودة"
 msgid "Draft No"
 msgstr "رقم المسودة"
 
-#: onedesk/public/js/rule_builder.js:687 onedesk/public/js/rule_builder.js:690
-msgid "Draft Replies With OneAI"
-msgstr "مسودات ردود باستخدام OneAI"
+#: onedesk/public/js/rule_builder.js:734 onedesk/public/js/rule_builder.js:737
+msgid "Draft Replies"
+msgstr "مسودات الردود"
 
 #: frontend/src/quotes/QuotesPage.vue:113
 msgid "Draft Supplier Quotations"
@@ -17557,6 +17557,10 @@ msgstr "هل وقعت هذه الإضافة في أخطاء مؤخرًا، وم�
 #: onedesk/one_studio/ai.py:74
 msgid "Has this one run into errors?"
 msgstr "هل وقعت هذه في أخطاء؟"
+
+#: onedesk/public/js/rule_builder.js:279
+msgid "Have OneAI write a reply that follows"
+msgstr "اجعل OneAI يكتب ردًا يتبع"
 
 #: onedesk/www/start.html:25
 msgid "Have a One account?"
@@ -27751,6 +27755,10 @@ msgstr "OneAI متوقف"
 msgid "OneAI adds questions to each new interview."
 msgstr "يضيف OneAI أسئلة إلى كل مقابلة جديدة."
 
+#: onedesk/public/js/rule_builder.js:735
+msgid "OneAI answers customers' questions from their own orders and invoices, and you check the reply before it goes."
+msgstr "يجيب OneAI عن أسئلة العملاء من طلباتهم وفواتيرهم، وتراجع أنت الرد قبل إرساله."
+
 #: onedesk/public/js/rule_builder.js:721
 msgid "OneAI answers new conversations from outside, in the sender's language."
 msgstr "يرد OneAI على المحادثات الجديدة من الخارج بلغة المرسل."
@@ -27864,6 +27872,10 @@ msgstr "يكتبه OneAI الآن. سيظهر هنا خلال دقيقة."
 msgid "OneAI looked at {extension}"
 msgstr "فحص OneAI الإضافة {extension}"
 
+#: onedesk/public/js/rule_builder.js:246
+msgid "OneAI may read the orders, invoices and deliveries the sender sees on the portal. Only when the sender's address is verified."
+msgstr "يمكن لـ OneAI قراءة الطلبات والفواتير والتسليمات التي يراها المرسل على البوابة. فقط عندما يكون عنوان المرسل موثقًا."
+
 #. Description of the 'Screen New Applicants' (Check) field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -27891,10 +27903,6 @@ msgstr "سيقرأ OneAI البريد الجديد في {0} ومرفقاته، �
 #: onedesk/public/js/settings.js:2966
 msgid "OneAI will read, file and act on new files in this folder and its subfolders. Scans and photos use OneAI credits."
 msgstr "سيقرأ OneAI الملفات الجديدة في هذا المجلد ومجلداته الفرعية ويحفظها ويتصرف بناءً عليها. تستهلك المستندات الممسوحة والصور أرصدة OneAI."
-
-#: onedesk/public/js/rule_builder.js:688
-msgid "OneAI writes a reply to customers' questions, and someone reads it before it goes."
-msgstr "يكتب OneAI ردًا على أسئلة العملاء، ويقرؤه شخص قبل إرساله."
 
 #: onedesk/one_ai/heads.py:83
 msgid "OneAI writes one here when something happens, such as an invoice, a payment or a mail."
@@ -36609,6 +36617,10 @@ msgstr ""
 msgid "Sender Name"
 msgstr "اسم المرسل"
 
+#: onedesk/one_mail/custom/communication.json
+msgid "Sender Verified"
+msgstr "المرسل موثق"
+
 #: onedesk/one_mail/flow.py:290
 msgid "Sender is a {0}"
 msgstr "المرسل {0}"
@@ -38675,13 +38687,13 @@ msgstr "الفرز فقط"
 msgid "Sort Only moves junk and runs About rules. Act also makes tasks, events and records."
 msgstr "الفرز فقط ينقل البريد غير المرغوب ويشغّل قواعد الموضوع. التنفيذ ينشئ أيضًا مهامًا وأحداثًا وسجلات."
 
-#: onedesk/public/js/rule_builder.js:429 onedesk/public/js/rule_builder.js:432
-msgid "Sort With OneAI"
-msgstr "الفرز بواسطة OneAI"
-
 #: frontend/src/sheet/components/SheetEditor/index.vue:523
 msgid "Sort ascending"
 msgstr "فرز تصاعدي"
+
+#: onedesk/public/js/rule_builder.js:690 onedesk/public/js/rule_builder.js:693
+msgid "Sort by Topic"
+msgstr "الفرز حسب الموضوع"
 
 #: onedesk/public/js/onecloud.js:1866
 msgid "Sort by date"
@@ -39998,10 +40010,6 @@ msgstr "المجموع الفرعي"
 #: onedesk/public/js/rule_builder.js:290
 msgid "Such as Quote Request."
 msgstr "مثل طلب عرض سعر."
-
-#: onedesk/public/js/rule_builder.js:185
-msgid "Such as sending the price list and promising an answer within a day."
-msgstr "مثل إرسال قائمة الأسعار والوعد بالرد خلال يوم."
 
 #: onedesk/one/ai.py:118
 msgid "Suggest a letter head"
@@ -42872,6 +42880,10 @@ msgstr "النطاقات في هذه الصيغة لا تتقاطع."
 msgid "The rate between two currencies on a day."
 msgstr "السعر بين عملتين في يوم معين."
 
+#: onedesk/one_mail/custom/communication.json
+msgid "The receiving server confirmed the sender's address, because DMARC passed, or DKIM or SPF passed for the sender's own domain."
+msgstr "أكد الخادم المستلم عنوان المرسل، لأن DMARC نجح، أو نجح DKIM أو SPF لنطاق المرسل نفسه."
+
 #: onedesk/public/js/oneai/Record.vue:165
 msgid "The record changed after this was suggested."
 msgstr "تغيّر السجل بعد تقديم هذا الاقتراح."
@@ -43327,6 +43339,10 @@ msgstr "عنوانه الخاص"
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
 msgid "Their Quotation No"
 msgstr "رقم عرض السعر الخاص بهم"
+
+#: onedesk/public/js/rule_builder.js:243
+msgid "Their Records"
+msgstr "سجلاتهم"
 
 #. Label in the One Blanket Order print format
 #: onedesk/one_inventory/print_format/one_blanket_order/one_blanket_order.json
@@ -47202,6 +47218,10 @@ msgstr "ما يتذكّره OneAI عنك"
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "What OneAI said when asked to explain it, per language."
 msgstr "ما قاله OneAI عندما طُلب منه شرحه، لكل لغة."
+
+#: onedesk/public/js/rule_builder.js:238
+msgid "What OneAI's reply should do, such as answering from their orders and promising an answer within a day. OneAI writes the reply itself."
+msgstr "ما ينبغي أن يفعله رد OneAI، مثل الإجابة من طلباتهم والوعد بالرد خلال يوم. يكتب OneAI الرد بنفسه."
 
 #: onedesk/public/js/onemail_settings.js:362
 msgid "What They Get"
@@ -52384,6 +52404,10 @@ msgstr "ألغى"
 msgid "changed"
 msgstr "غيّر"
 
+#: onedesk/public/js/rule_builder.js:291
+msgid "checked before sending"
+msgstr "تُراجع قبل الإرسال"
+
 #: frontend/src/project/ProjectActivity.vue:47
 msgid "completed"
 msgstr "أنجز"
@@ -53115,6 +53139,10 @@ msgstr ""
 msgid "quiet"
 msgstr "هادئ"
 
+#: onedesk/public/js/rule_builder.js:283
+msgid "reading their records"
+msgstr "مع قراءة سجلاتهم"
+
 #. Option for the 'Colour' (Select) field in DocType 'Record Head Indicator'
 #. Option for the 'Colour' (Select) field in DocType 'Record Head Sentence'
 #: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
@@ -53190,6 +53218,10 @@ msgstr "sections قائمة أقسام، كل منها قائمة أعمدة."
 #: onedesk/one/ai.py:2962
 msgid "sections is not JSON: {0}."
 msgstr "sections ليست JSON: {0}."
+
+#: onedesk/public/js/rule_builder.js:292
+msgid "sent straight away"
+msgstr "تُرسل فورًا"
 
 #: onedesk/one_storage/share.py:100
 msgid "shared it with {0}"
@@ -53521,10 +53553,6 @@ msgstr "منتظر"
 msgid "was {0}"
 msgstr "كان {0}"
 
-#: onedesk/public/js/rule_builder.js:264
-msgid "what OneAI should say"
-msgstr "ما يجب أن يقوله OneAI"
-
 #: onedesk/one/access.py:326
 msgid "what {0} can do in {1}"
 msgstr "ما يستطيعه {0} في {1}"
@@ -53544,6 +53572,10 @@ msgstr "من يختار النموذج، إلى المسؤولين فقط"
 #: onedesk/one_ai/run.py:550
 msgid "who picks the model, to everybody"
 msgstr "من يختار النموذج، إلى الجميع"
+
+#: onedesk/public/js/rule_builder.js:284
+msgid "without their records"
+msgstr "دون سجلاتهم"
 
 #: onedesk/public/js/rule_builder.js:159
 msgid "words, with commas"
@@ -53576,6 +53608,10 @@ msgstr "أمس"
 #: onedesk/one/tell.py:341
 msgid "your data to be deleted"
 msgstr "حذف بياناتك"
+
+#: onedesk/public/js/rule_builder.js:280
+msgid "your instruction"
+msgstr "تعليماتك"
 
 #: onedesk/public/js/rule_builder.js:265
 msgid "your message"

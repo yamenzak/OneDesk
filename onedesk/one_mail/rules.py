@@ -82,6 +82,10 @@ def after(made, arrival) -> None:
 	if not made or not made.name:
 		return
 	try:
+		from onedesk.one_mail import theirs
+
+		if theirs.verified(arrival.mail, made.sender):
+			frappe.db.set_value("Communication", made.name, "one_verified", 1, update_modified=False)
 		bounce(made, arrival.mail)
 		if getattr(arrival, "fresh", True) and _in_inbox(made):
 			frappe.local.one_rule_replied = None
@@ -265,7 +269,7 @@ def answer(rule, step: dict, name: str, headers=None) -> str | None:
 	comm = frappe.db.get_value(
 		"Communication",
 		name,
-		["name", "sender", "sender_full_name", "subject", "content", "one_thread", "message_id", "email_account"],
+		["name", "sender", "sender_full_name", "subject", "content", "one_thread", "message_id", "email_account", "one_verified"],
 		as_dict=True,
 	)
 	account = frappe.get_doc("Email Account", comm.email_account)
@@ -409,10 +413,18 @@ def _drafted(step: dict, comm) -> str:
 	"""OneAI's reply (the "reply" action), counted against the mailbox."""
 	from onedesk.one_ai import run
 
+	from onedesk.one_mail import theirs
+
 	text = frappe.utils.strip_html_tags(comm.content or "")[:MOST_ASKED]
+	known = (
+		theirs.told(comm)
+		if step.get("records")
+		else "Say nothing about any order, invoice, delivery or other record, and invent none."
+	)
 	asked = (
 		f"What the reply should say, from the mailbox's owner: {step.get('instruction')}\n\n"
 		f"The message, from {comm.sender_full_name or ''} <{comm.sender}>, subject \"{comm.subject or ''}\":\n\n{text}\n\n"
+		f"{known}\n\n"
 		"Write the reply in the message's language, as plain text, paragraphs apart by a blank line."
 	)
 	return (run.once("reply", asked, reference=comm.name) or "").strip()

@@ -216,6 +216,7 @@ onedesk.rules.builder = ($into, rule, context) => {
 									dialog.set_df_property("text", "hidden", on);
 									dialog.set_df_property("instruction", "hidden", !on);
 									dialog.set_df_property("review", "hidden", !on);
+									dialog.set_df_property("records", "hidden", !on);
 								},
 							},
 					  ]
@@ -234,13 +235,27 @@ onedesk.rules.builder = ($into, rule, context) => {
 					label: __("Instruction"),
 					default: step.instruction || "",
 					hidden: !ai,
-					description: __("Such as sending the price list and promising an answer within a day."),
+					description: __("What OneAI's reply should do, such as answering from their orders and promising an answer within a day. OneAI writes the reply itself."),
+				},
+				{
+					fieldname: "records",
+					fieldtype: "Check",
+					label: __("Their Records"),
+					default: step.records ? 1 : 0,
+					hidden: !ai,
+					description: __("OneAI may read the orders, invoices and deliveries the sender sees on the portal. Only when the sender's address is verified."),
 				},
 				{ fieldname: "review", fieldtype: "Check", label: __("Review Before Sending"), default: step.review === 0 ? 0 : 1, hidden: !ai },
 			],
 			primary_action_label: __("Done"),
 			primary_action: (values) => {
-				Object.assign(step, { with: values.with || "Text", text: values.text || "", instruction: values.instruction || "", review: values.review ? 1 : 0 });
+				Object.assign(step, {
+					with: values.with || "Text",
+					text: values.text || "",
+					instruction: values.instruction || "",
+					review: values.review ? 1 : 0,
+					records: values.records ? 1 : 0,
+				});
 				dialog.hide();
 				draw();
 			},
@@ -258,13 +273,34 @@ onedesk.rules.builder = ($into, rule, context) => {
 			read: () => [words(__("Mark it as read"))],
 			star: () => [words(__("Star it"))],
 			junk: () => [words(__("Move it to Junk"))],
-			reply: () => [
-				words(__("Reply with")),
+			reply: () =>
 				step.with === "OneAI"
-					? quote(step.instruction, __("what OneAI should say"), () => reply_dialog(step)).prepend(`${frappe.utils.icon("sparkles", "xs")} `)
-					: quote(step.text, __("your message"), () => reply_dialog(step)),
-				chip(ONCE, (step.once = step.once || "conversation"), (v) => ((step.once = v), draw())),
-			],
+					? [
+							words(__("Have OneAI write a reply that follows")),
+							quote(step.instruction, __("your instruction"), () => reply_dialog(step)).prepend(`${frappe.utils.icon("sparkles", "xs")} `),
+							chip(
+								[
+									["1", __("reading their records")],
+									["0", __("without their records")],
+								],
+								step.records ? "1" : "0",
+								(v) => ((step.records = Number(v)), draw())
+							),
+							chip(
+								[
+									["1", __("checked before sending")],
+									["0", __("sent straight away")],
+								],
+								step.review === 0 ? "0" : "1",
+								(v) => ((step.review = Number(v)), draw())
+							),
+							chip(ONCE, (step.once = step.once || "conversation"), (v) => ((step.once = v), draw())),
+					  ]
+					: [
+							words(__("Reply with")),
+							quote(step.text, __("your message"), () => reply_dialog(step)),
+							chip(ONCE, (step.once = step.once || "conversation"), (v) => ((step.once = v), draw())),
+					  ],
 			forward: () => [words(__("Forward it to")), blank(step.to, (v) => (step.to = v), "name@example.com")],
 			assign: () => [
 				words(__("Assign it to")),
@@ -422,6 +458,17 @@ onedesk.rules.strip = (steps) =>
 	});
 
 // Rules to start from: what a mailbox most often wants, ready to change.
+// Whether a rule asks OneAI anything or has OneAI write a reply.
+onedesk.rules.uses_ai = (steps) =>
+	(steps || []).some(
+		(step) =>
+			step.type === "ask" ||
+			(step.type === "reply" && step.with === "OneAI") ||
+			onedesk.rules.uses_ai(step.then) ||
+			onedesk.rules.uses_ai(step.else) ||
+			(step.labels || []).some((label) => onedesk.rules.uses_ai(label.then))
+	);
+
 onedesk.rules.starters = (context) => {
 	const make = () => Math.random().toString(36).slice(2, 8);
 	const folder = (...names) => {
@@ -640,10 +687,10 @@ onedesk.rules.starters = (context) => {
 				group: __("With OneAI"),
 				key: "sort",
 				icon: "sparkles",
-				title: __("Sort With OneAI"),
+				title: __("Sort by Topic"),
 				about: __("OneAI reads each message and picks a label. Each label has its own steps."),
 				rule: {
-					title: __("Sort With OneAI"),
+					title: __("Sort by Topic"),
 					steps: [
 						{
 							type: "ask",
@@ -684,10 +731,10 @@ onedesk.rules.starters = (context) => {
 				group: __("With OneAI"),
 				key: "draft",
 				icon: "pen-line",
-				title: __("Draft Replies With OneAI"),
-				about: __("OneAI writes a reply to customers' questions, and someone reads it before it goes."),
+				title: __("Draft Replies"),
+				about: __("OneAI answers customers' questions from their own orders and invoices, and you check the reply before it goes."),
 				rule: {
-					title: __("Draft Replies With OneAI"),
+					title: __("Draft Replies"),
 					steps: [
 						when(
 							[{ field: "sender_is", op: "is", value: "Customer" }],
@@ -701,8 +748,9 @@ onedesk.rules.starters = (context) => {
 										{
 											type: "reply",
 											with: "OneAI",
-											instruction: __("Answer the question politely from what the workspace knows. Say we will follow up if something is unclear."),
+											instruction: __("Answer the question from their records where they answer it. If they don't, say we will follow up within a day."),
 											review: 1,
+											records: 1,
 											once: "conversation",
 										},
 									],
@@ -717,10 +765,10 @@ onedesk.rules.starters = (context) => {
 				group: __("With OneAI"),
 				key: "ai_reply",
 				icon: "bot",
-				title: __("Auto Reply With OneAI"),
+				title: __("Auto Reply in Their Language"),
 				about: __("OneAI answers new conversations from outside, in the sender's language."),
 				rule: {
-					title: __("Auto Reply With OneAI"),
+					title: __("Auto Reply in Their Language"),
 					steps: [
 						when(
 							[{ field: "starts", value: true }, { field: "outside", value: true }],

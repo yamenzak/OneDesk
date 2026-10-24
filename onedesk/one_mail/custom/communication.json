@@ -86,6 +86,18 @@
    "read_only": 1,
    "module": "One Mail",
    "name": "Communication-one_unsaved"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Communication",
+   "fieldname": "one_verified",
+   "fieldtype": "Check",
+   "insert_after": "one_unsaved",
+   "label": "Sender Verified",
+   "description": "The receiving server confirmed the sender's address, because DMARC passed, or DKIM or SPF passed for the sender's own domain.",
+   "read_only": 1,
+   "module": "One Mail",
+   "name": "Communication-one_verified"
   }
  ],
  "doctype": "Communication",
