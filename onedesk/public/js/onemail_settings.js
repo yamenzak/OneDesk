@@ -19,6 +19,12 @@ onedesk.mail.settings = (tab) => {
 			description ? `<div class="settings-dialog-section-description">${esc(description)}</div>` : ""
 		}</div>`;
 
+	// A section heading with a control at its end, such as a picker and Add.
+	const heading_with = (title, description) => {
+		const $row = $(`<div class="oms-heading">${heading(title, description)}<span class="oms-heading-end"></span></div>`);
+		return { $row, $end: $row.find(".oms-heading-end") };
+	};
+
 	const kind_of = (box) =>
 		box.workspace ? __("Workspace") : box.shared ? __("Shared") : box.connected ? __("External") : __("Personal");
 	const icon_of = (box) => (box.workspace ? "building-2" : box.shared ? "users" : box.connected ? "plug" : "at-sign");
@@ -104,26 +110,40 @@ onedesk.mail.settings = (tab) => {
 		},
 	};
 
-	const mailbox = (panel, box) =>
+	// One Save in the header, as frappe's own settings do: it writes the
+	// signature, the auto reply and, when a password is typed, reconnects.
+	const mailbox = (panel, box) => {
+		let sign = null;
+		let reply = null;
+		let again = null;
+		const save = async () => {
+			if (sign) await frappe.xcall(H + "set_signature", { account: box.name, signature: sign.get_value("signature") || "" });
+			if (reply) await frappe.xcall("onedesk.one_mail.rules.set_away", { account: box.name, ...reply.get_values() });
+			const login = again && again.get_values();
+			if (login && login.password) {
+				await frappe.xcall("onedesk.one_mail.connect.reconnect", { account: box.name, ...login });
+				saved();
+				return mailbox(panel, { ...box, error: null });
+			}
+			saved();
+		};
+		const actions = [{ label: __("Save"), variant: "solid", click: save }];
+		if (box.connected && box.may_reconnect) {
+			actions.unshift({ label: __("Disconnect"), theme: "red", click: () => disconnect(panel, box.name, box.email) });
+		}
 		view(panel, {
 			title: box.email,
 			description: kind_of(box),
+			actions,
 			render: async (shown) => {
 				const $body = shown.body;
 				$body.append(heading(__("Signature"), box.sends ? "" : __("Requires Send access.")));
 				if (box.sends && box.may_sign) {
 					const signature = await frappe.xcall(H + "signature_of", { account: box.name });
-					const group = fields($(`<div></div>`).appendTo($body), [
+					sign = fields($(`<div></div>`).appendTo($body), [
 						{ fieldname: "signature", fieldtype: "Text Editor", default: signature || "" },
 					]);
-					const $row = buttons($body);
-					button({ label: __("Save"), variant: "solid" })
-						.on("click", async () => {
-							await frappe.xcall(H + "set_signature", { account: box.name, signature: group.get_value("signature") || "" });
-							saved();
-						})
-						.appendTo($row);
-					$row.append(
+					buttons($body).append(
 						onedesk.oneai.button(
 							__("Write With OneAI"),
 							__("Write a short email signature for {0} with my name, job title and contact details for me to approve.", [box.email])
@@ -133,17 +153,19 @@ onedesk.mail.settings = (tab) => {
 
 				$body.append(heading(__("Out of Office"), __("Sent once every 4 days per sender. Not sent to mailing lists.")));
 				const away = (await frappe.xcall("onedesk.one_mail.rules.away_of", { account: box.name })) || {};
-				const reply = fields($(`<div></div>`).appendTo($body), [
+				reply = fields($(`<div></div>`).appendTo($body), [
 					{ fieldname: "away", fieldtype: "Switch", label: __("Enable Auto Reply"), default: away.one_away },
 					{ fieldname: "until", fieldtype: "Date", label: __("Until"), default: away.one_away_until, depends_on: "away" },
 					{ fieldname: "message", fieldtype: "Small Text", label: __("Message"), default: away.one_away_message, depends_on: "away" },
 				]);
-				button({ label: __("Save") })
-					.on("click", async () => {
-						await frappe.xcall("onedesk.one_mail.rules.set_away", { account: box.name, ...reply.get_values() });
-						saved();
-					})
-					.appendTo(buttons($body));
+
+				if (box.connected && box.may_reconnect && box.error) {
+					$body.append(heading(__("Connection"), __("Disconnected. {0}", [box.error])));
+					again = fields($(`<div></div>`).appendTo($body), [
+						{ fieldname: "password", fieldtype: "Password", label: __("Password"), description: __("Gmail and Outlook require an app password.") },
+						{ fieldname: "login", fieldtype: "Data", label: __("Login ID"), description: __("Leave empty to use the email address.") },
+					]);
+				}
 
 				$body.append(heading(__("Mail Rules")));
 				button({ label: __("Open Mail Rules"), icon_right: "arrow-up-right" })
@@ -152,34 +174,9 @@ onedesk.mail.settings = (tab) => {
 						frappe.set_route("List", "Mail Rule", { account: box.name });
 					})
 					.appendTo(buttons($body));
-
-				if (box.connected && box.may_reconnect) {
-					$body.append(heading(__("Connection"), box.error ? __("Disconnected. {0}", [box.error]) : __("Connected")));
-					let again = null;
-					if (box.error) {
-						again = fields($(`<div></div>`).appendTo($body), [
-							{ fieldname: "password", fieldtype: "Password", label: __("Password"), description: __("Gmail and Outlook require an app password.") },
-							{ fieldname: "login", fieldtype: "Data", label: __("Login ID"), description: __("Leave empty to use the email address.") },
-						]);
-					}
-					const $row = buttons($body);
-					if (again) {
-						button({ label: __("Reconnect"), variant: "solid" })
-							.on("click", async () => {
-								const values = again.get_values();
-								if (!values || !values.password) return;
-								await frappe.xcall("onedesk.one_mail.connect.reconnect", { account: box.name, ...values });
-								saved();
-								panel.refresh();
-							})
-							.appendTo($row);
-					}
-					button({ label: __("Disconnect"), theme: "red" })
-						.on("click", () => disconnect(panel, box.name, box.email))
-						.appendTo($row);
-				}
 			},
 		});
+	};
 
 	// ── Shared Mailboxes ────────────────────────────────────────────────────
 	const shared = {
@@ -254,12 +251,31 @@ onedesk.mail.settings = (tab) => {
 			description: box.workspace ? __("Workspace Mailbox") : __("Shared Mailbox"),
 			actions,
 			render: (shown) => {
-				shown.body.append(
-					heading(
-						__("Users"),
-						box.enable_outgoing ? __("Everyone listed can read. Send allows sending from this mailbox.") : __("Connected without outgoing mail.")
-					)
+				const users = heading_with(
+					__("Users"),
+					box.enable_outgoing ? __("Everyone listed can read. Send allows sending from this mailbox.") : __("Connected without outgoing mail.")
 				);
+				users.$row.appendTo(shown.body);
+				const $add = $(`<div class="oms-add"></div>`).appendTo(users.$end);
+				const pick = frappe.ui.form.make_control({
+					df: {
+						fieldtype: "Link",
+						fieldname: "user",
+						options: "User",
+						placeholder: __("Select User"),
+						get_query: () => ({ filters: { user_type: "System User", enabled: 1 } }),
+					},
+					parent: $(`<span class="oms-add-pick"></span>`).appendTo($add),
+					render_input: true,
+				});
+				button({ label: __("Add"), variant: "solid" })
+					.on("click", async () => {
+						const user = pick.get_value();
+						if (!user) return;
+						await frappe.xcall(H + "grant", { account: box.name, user, sends: box.enable_outgoing ? 1 : 0 });
+						again();
+					})
+					.appendTo($add);
 				const $list = $(`<div class="oms-list"></div>`).appendTo(shown.body);
 				if (!box.people.length) $list.append(empty(__("No users")));
 				box.people.forEach((one) => {
@@ -283,26 +299,6 @@ onedesk.mail.settings = (tab) => {
 						})
 					).appendTo($end);
 				});
-				const $add = $(`<div class="oms-add"></div>`).appendTo(shown.body);
-				const pick = frappe.ui.form.make_control({
-					df: {
-						fieldtype: "Link",
-						fieldname: "user",
-						options: "User",
-						placeholder: __("Select User"),
-						get_query: () => ({ filters: { user_type: "System User", enabled: 1 } }),
-					},
-					parent: $(`<span class="oms-add-pick"></span>`).appendTo($add),
-					render_input: true,
-				});
-				button({ label: __("Add"), variant: "solid" })
-					.on("click", async () => {
-						const user = pick.get_value();
-						if (!user) return;
-						await frappe.xcall(H + "grant", { account: box.name, user, sends: box.enable_outgoing ? 1 : 0 });
-						again();
-					})
-					.appendTo($add);
 			},
 		});
 	};
@@ -345,8 +341,10 @@ onedesk.mail.settings = (tab) => {
 				saved();
 			});
 			$domains.toggleClass("hide", !said.external);
-			$domains.append(`<div class="oms-label">${esc(__("Allowed Domains"))}</div>`);
-			$domains.append(`<div class="oms-help">${esc(__("Leave empty to allow any domain."))}</div>`);
+			const $top = $(`<div class="oms-heading">
+				<div><div class="oms-label">${esc(__("Allowed Domains"))}</div><div class="oms-help">${esc(__("Leave empty to allow any domain."))}</div></div>
+				<span class="oms-heading-end"></span>
+			</div>`).appendTo($domains);
 			let domains = said.allowed_domains || [];
 			const $list = $(`<div class="oms-list"></div>`).appendTo($domains);
 			const save = async (next) => {
@@ -362,7 +360,7 @@ onedesk.mail.settings = (tab) => {
 				});
 			};
 			draw();
-			const $add = $(`<div class="oms-add"></div>`).appendTo($domains);
+			const $add = $(`<div class="oms-add"></div>`).appendTo($top.find(".oms-heading-end"));
 			const typed = frappe.ui.form.make_control({
 				df: { fieldtype: "Data", fieldname: "domain", placeholder: "gmail.com" },
 				parent: $(`<span class="oms-add-pick"></span>`).appendTo($add),

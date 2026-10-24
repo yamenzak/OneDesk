@@ -27,6 +27,7 @@ needs a Cloudflare key with Zone Settings: Edit.
 
 - **Mailboxes**: every mailbox you read. Open one to edit its signature,
   set an out-of-office reply, open its rules, reconnect or disconnect it.
+  One **Save** at the top saves the signature, the reply and a new password.
 - **Shared Mailboxes** (administrators): the workspace mailbox and every
   shared one. Open one to add or remove users, turn **Send** on or off per
   user, set it as the workspace mailbox, or disconnect it.

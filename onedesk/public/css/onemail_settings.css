@@ -167,3 +167,25 @@
 	color: var(--ink-gray-5);
 	margin-top: calc(var(--spacing) * 0.5);
 }
+
+/* A heading with its picker and Add at the end (Users, Allowed Domains). */
+.oms .oms-heading {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: calc(var(--spacing) * 4);
+	margin-bottom: calc(var(--spacing) * 2);
+}
+
+.oms .oms-heading > :first-child {
+	flex: 1;
+	min-width: 0;
+}
+
+.oms .oms-heading-end .oms-add {
+	margin-top: 0;
+}
+
+.oms .oms-heading-end .oms-add-pick {
+	width: 220px;
+}
