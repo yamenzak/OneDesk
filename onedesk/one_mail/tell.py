@@ -130,6 +130,20 @@ def mailbox_shared(account: str, users: list[str]) -> None:
 		)
 
 
+def covering(account: str, person: str, user: str, until) -> None:
+	"""Whoever covers for a person on leave hears that their mail is in
+	OneMail until they are back."""
+	notify.notify(
+		"Covering Mail",
+		user,
+		link=f"/desk/onemail?box={account}",
+		sender="Administrator",
+		who=frappe.utils.get_fullname(person),
+		mailbox=frappe.db.get_value("Email Account", account, "email_id") or account,
+		until=frappe.utils.formatdate(until),
+	)
+
+
 def not_sent() -> None:
 	"""Every five minutes: mail somebody sent that frappe gave up on after
 	its retries, told once to whoever sent it."""

@@ -1344,6 +1344,10 @@ msgstr "الإضافة المجدولة تعمل مرة واحدة في السا
 msgid "A second agent checks each document's actions, approves what is right and sends what is wrong to a person."
 msgstr "وكيل ثانٍ يراجع إجراءات كل مستند، ويعتمد الصحيح منها ويحيل الخاطئ إلى شخص."
 
+#: onedesk/one_mail/custom/email_account.json
+msgid "A second language the standard reply is written in too."
+msgstr "لغة ثانية يُكتب بها الرد القياسي أيضًا."
+
 #: onedesk/one_book/home.py:374
 msgid "A second set of books, such as for tax depreciation."
 msgstr "مجموعة دفاتر ثانية، مثل الإهلاك الضريبي."
@@ -1369,6 +1373,10 @@ msgstr "مجموعة خطوات يستخدمها أكثر من منتج."
 #: onedesk/one/doctype/device/device.json
 msgid "A shared device can't hold a passkey."
 msgstr "لا يمكن للجهاز المشترك أن يحمل مفتاح مرور."
+
+#: onedesk/one_mail/rules.py:627
+msgid "A shared mailbox answers with Auto Reply instead."
+msgstr "صندوق البريد المشترك يرد بالرد التلقائي بدلًا من ذلك."
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:142
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:54
@@ -3375,6 +3383,10 @@ msgstr "مضاف أيضًا إلى"
 msgid "Also Allow Check-in From"
 msgstr "السماح أيضاً بتسجيل الحضور من"
 
+#: onedesk/public/js/onemail_settings.js:424
+msgid "Also In"
+msgstr "أيضًا بـ"
+
 #: onedesk/public/js/project_actions.js:28
 msgid "Also Move"
 msgstr "نقل أيضاً"
@@ -3392,10 +3404,6 @@ msgstr "أيضًا في {0}"
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Also propose networks and locations belonging to a single employee, such as a home."
 msgstr "اقتراح الشبكات والمواقع التي تخص موظفاً واحداً أيضاً، مثل المنزل."
-
-#: onedesk/public/js/onemail_settings.js:364
-msgid "Also sent on its own while the person is on approved leave."
-msgstr "يُرسل تلقائياً أيضاً أثناء إجازة الشخص المعتمدة."
 
 #. Name of a project template
 #: onedesk/one_project/library/aluminium_and_glazing.json
@@ -3835,6 +3843,10 @@ msgstr "سجّل موظف آخر حضوره من هذا المتصفح اليو�
 #: onedesk/one/portal.py:488 onedesk/one_intake/doctype/reading/reading.json
 msgid "Answer"
 msgstr "رد"
+
+#: onedesk/one_hr/custom/leave_application.json
+msgid "Answer mail on its own while you're on leave, until the day you're back."
+msgstr "الرد على البريد تلقائيًا أثناء إجازتك حتى يوم عودتك."
 
 #: onedesk/one/portal_share.py:20
 msgid "Answer the quote request"
@@ -5349,11 +5361,27 @@ msgstr "بانتظار الدفع"
 msgid "Away"
 msgstr "غائب"
 
+#: onedesk/one_mail/custom/email_account.json
+msgid "Away From"
+msgstr "غائب من"
+
 #. Label of the one_away_message (Small Text) field in DocType 'Email Account'
 #: onedesk/one_hr/custom/leave_application.json
 #: onedesk/one_mail/custom/email_account.json
 msgid "Away Message"
 msgstr "رسالة الغياب"
+
+#: onedesk/one_mail/custom/email_account.json
+msgid "Away Replies To"
+msgstr "يُرسل رد الغياب إلى"
+
+#: onedesk/one_mail/custom/email_account.json
+msgid "Away Reply Also In"
+msgstr "رد الغياب أيضًا بـ"
+
+#: onedesk/one_mail/custom/email_account.json
+msgid "Away Since"
+msgstr "غائب منذ"
 
 #. Label of the one_away_until (Date) field in DocType 'Email Account'
 #: onedesk/one_mail/custom/email_account.json
@@ -9455,6 +9483,26 @@ msgstr "صورة الغلاف"
 msgid "Cover Holidays Too"
 msgstr "شمول العطل أيضاً"
 
+#: onedesk/notifications/one_mail/covering_mail.md
+msgid "Covering Mail"
+msgstr "تغطية البريد"
+
+#: onedesk/one_hr/custom/leave_application.json
+msgid "Covering Person"
+msgstr "الشخص البديل"
+
+#: onedesk/one_hr/custom/leave_application.json
+msgid "Covering Person Reads My Mail"
+msgstr "الشخص البديل يقرأ بريدي"
+
+#: onedesk/one_mail/custom/user_email.json
+msgid "Covering Until"
+msgstr "يغطي حتى"
+
+#: frontend/src/mail/OneMail.vue:209 onedesk/public/js/onemail_settings.js:104
+msgid "Covering until {0}"
+msgstr "يغطي حتى {0}"
+
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
@@ -12972,6 +13020,10 @@ msgstr "يحتاج كل سعر إلى وحدة وكمية وسعر."
 msgid "Each recipient"
 msgstr "كل مستلم"
 
+#: onedesk/public/js/onemail_settings.js:379
+msgid "Each sender gets it once every 4 days. Never sent to mailing lists or automatic mail."
+msgstr "يتلقاه كل مرسل مرة كل 4 أيام. لا يُرسل أبدًا إلى القوائم البريدية أو البريد التلقائي."
+
 #. Description of the 'Away' (Check) field in DocType 'Email Account'
 #: onedesk/one_mail/custom/email_account.json
 msgid "Each sender gets one out-of-office reply in four days, from this mailbox."
@@ -15969,6 +16021,10 @@ msgstr "لك"
 msgid "For Your Organisation"
 msgstr "لمؤسستك"
 
+#: onedesk/one_mail/rules.py:490
+msgid "For anything urgent, please write to {0} at {1}."
+msgstr "للأمور العاجلة، يرجى مراسلة {0} على {1}."
+
 #: onedesk/one_project/ai.py:54
 msgid "For each subcontractor on this project, what is left to bill, the retention held, any advance not yet set off, and what has been paid."
 msgstr "لكل مقاول من الباطن في هذا المشروع: المتبقي للفوترة، والمحتجز، وأي دفعة مقدمة لم تُخصم بعد، وما دُفع."
@@ -16826,6 +16882,10 @@ msgstr "مُسندة إلى"
 #: onedesk/notifications/one_crm/given_to_you.md
 msgid "Given to You"
 msgstr "أُسند إليك"
+
+#: onedesk/one_mail/custom/user_email.json
+msgid "Given while its person is on leave, and taken away the day after."
+msgstr "يُمنح أثناء إجازة صاحبه ويُسحب في اليوم التالي لانتهائها."
 
 #: onedesk/one_inventory/heads.py:1324
 msgid "Given."
@@ -21506,9 +21566,17 @@ msgstr "اتركه فارغًا للسماح بأي نطاق."
 msgid "Leave empty to apply everywhere."
 msgstr "اتركه فارغًا للتطبيق في كل مكان."
 
+#: onedesk/public/js/onemail_settings.js:407
+msgid "Leave empty to keep it on until you turn it off."
+msgstr "اتركه فارغًا ليبقى مفعّلًا حتى توقفه."
+
 #: onedesk/public/js/onecloud.js:1532
 msgid "Leave empty to keep the saved password."
 msgstr "اتركه فارغًا للإبقاء على كلمة المرور المحفوظة."
+
+#: onedesk/public/js/onemail_settings.js:405
+msgid "Leave empty to start now."
+msgstr "اتركه فارغًا للبدء الآن."
 
 #: onedesk/public/js/doctype_settings.js:461
 msgid "Leave empty to use it for any record type."
@@ -22629,6 +22697,10 @@ msgstr "البريد الوارد إلى صندوق الوارد والمطاب�
 #: onedesk/notifications/one_mail/attachments_not_saved.md
 msgid "Mail to <b>{mailbox}</b> still arrives, but its attachments wait until there is room. Free some space or add storage in Plan and Credits, and they are saved within the hour."
 msgstr "ما زال البريد إلى <b>{mailbox}</b> يصل، لكن مرفقاته تنتظر حتى تتوفر مساحة. أفرغ بعض المساحة أو أضف تخزينًا من الخطة والأرصدة، فتُحفظ خلال ساعة."
+
+#: onedesk/notifications/one_mail/covering_mail.md
+msgid "Mail to {mailbox} is in OneMail with your own while they're on leave. You can read it and reply from your own address, but not send from theirs."
+msgstr "بريد {mailbox} موجود في OneMail مع بريدك أثناء إجازتهم. يمكنك قراءته والرد من عنوانك، لكن لا يمكنك الإرسال من عنوانهم."
 
 #: onedesk/one/privacy_copy.py:22
 msgid "Mail you sent or received"
@@ -24192,6 +24264,10 @@ msgstr "مسمّى حسب"
 msgid "Named in code. Do not change it once anything calls it."
 msgstr "يُسمّى في الشيفرة. لا تغيّره بعد أن يستدعيه شيء."
 
+#: onedesk/one_hr/custom/leave_application.json
+msgid "Named in the reply, for anything urgent."
+msgstr "يُذكر في الرد للأمور العاجلة."
+
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:3
 msgid "Named ranges"
 msgstr "النطاقات المسمّاة"
@@ -25079,6 +25155,10 @@ msgstr "شهادة عدم ممانعة"
 #: frontend/src/project/Suppliers.vue:16
 msgid "No Order Yet"
 msgstr "لا طلب بعد"
+
+#: onedesk/public/js/onemail_settings.js:426
+msgid "No Second Language"
+msgstr "بلا لغة ثانية"
 
 #: frontend/src/lots/LotsPage.vue:26
 msgid "No Serial Nos match"
@@ -26934,6 +27014,10 @@ msgstr "في إجازة"
 msgid "On Leave Today"
 msgstr "في إجازة اليوم"
 
+#: frontend/src/mail/OneMail.vue:211 onedesk/public/js/onemail_settings.js:105
+msgid "On Leave until {0}"
+msgstr "في إجازة حتى {0}"
+
 #. Label of the one_hosted (Check) field in DocType 'Email Account'
 #: onedesk/one_mail/custom/email_account.json
 msgid "On Mail Domain"
@@ -26990,10 +27074,6 @@ msgstr "حسب جدول الحملة، بالقوالب التي تحددها."
 #: onedesk/public/js/doctype_settings.js:564
 msgid "On a schedule"
 msgstr "حسب جدول"
-
-#: onedesk/public/js/onemail_settings.js:363
-msgid "On approved leave until {0}. Replies go out on their own."
-msgstr "في إجازة معتمدة حتى {0}. تُرسل الردود تلقائياً."
 
 #. When a notification is sent
 #: onedesk/notifications/one/report_by_mail.md
@@ -28973,6 +29053,14 @@ msgstr "من 100. وتحت حد التأكيد يُعلَّم السجل للم�
 #: onedesk/public/js/onemail.js:945
 msgid "Out of Office"
 msgstr "خارج المكتب"
+
+#: onedesk/one_hr/custom/leave_application.json
+msgid "Out of Office Replies"
+msgstr "ردود الغياب"
+
+#: frontend/src/mail/OneMail.vue:212 onedesk/public/js/onemail_settings.js:106
+msgid "Out of Office until {0}"
+msgstr "خارج المكتب حتى {0}"
 
 #: frontend/src/upkeep/UpkeepPage.vue:84 frontend/src/upkeep/UpkeepRows.vue:186
 #: onedesk/public/js/asset_list.js:6
@@ -36363,10 +36451,6 @@ msgstr "يرسله {0}"
 msgid "Sent by {0}."
 msgstr "أرسله {0}."
 
-#: onedesk/public/js/onemail_settings.js:134
-msgid "Sent once every 4 days per sender. Not sent to mailing lists."
-msgstr "يُرسل مرة كل 4 أيام لكل مرسل. لا يُرسل إلى القوائم البريدية."
-
 #: onedesk/public/js/settings.js:3256
 msgid "Sent to addresses outside the workspace, so there's no channel to choose."
 msgstr "يُرسل إلى عناوين خارج مساحة العمل، لذا لا توجد قناة للاختيار."
@@ -36386,10 +36470,6 @@ msgstr "يُرسل إلى {0}."
 #: onedesk/public/js/privacy_request.js:30
 msgid "Sent to {0}. For example, payroll for the month has to close first."
 msgstr "يُرسل إلى {0}. مثلًا، يجب إغلاق رواتب الشهر أولًا."
-
-#: onedesk/public/js/onemail_settings.js:335
-msgid "Sent while you're on approved leave, with the Away Message from your leave request."
-msgstr "يُرسل أثناء إجازتك المعتمدة، برسالة الغياب من طلب إجازتك."
 
 #: onedesk/www/s.py:39
 msgid "Sent {0} files. Thank you."
@@ -41514,6 +41594,10 @@ msgstr "ينتهي العقد مع {party} في {date}"
 msgid "The copy of your data you asked for is ready to download from your profile. Withheld: {withheld}"
 msgstr "نسخة بياناتك التي طلبتها جاهزة للتنزيل من ملفك الشخصي. ما استُبعد: {withheld}"
 
+#: onedesk/notifications/one_mail/covering_mail.md
+msgid "The covering person"
+msgstr "الشخص البديل"
+
 #: onedesk/public/js/settings.js:791
 msgid "The currency can't change once there are transactions."
 msgstr "لا يمكن تغيير العملة بعد وجود معاملات."
@@ -41578,6 +41662,10 @@ msgstr "في اليوم التالي لموعد إرجاع بضائع التعا
 #: onedesk/notifications/one_hr/exit_interview_scheduled.md
 msgid "The day before your exit interview."
 msgstr "في اليوم السابق لمقابلة خروجك."
+
+#: onedesk/one_mail/rules.py:631
+msgid "The day it ends can't be before the day it starts."
+msgstr "لا يمكن أن يكون يوم الانتهاء قبل يوم البدء."
 
 #. Description of the 'Deleted On' (Date) field in DocType 'Workspace Account'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
@@ -42601,6 +42689,10 @@ msgstr "البرمجيات التي بُني منها One، والتراخيص �
 msgid "The stages an opportunity moves through, and their probability."
 msgstr "المراحل التي تمر بها الفرصة، واحتماليتها."
 
+#: onedesk/public/js/onemail_settings.js:427
+msgid "The standard reply is written in this language too."
+msgstr "يُكتب الرد القياسي بهذه اللغة أيضًا."
+
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:38
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:52
 msgid "The start date is after the end date."
@@ -43176,6 +43268,10 @@ msgstr "تُستخدم قبل غيرها، فلا حاجة لأي إجراء إ�
 msgid "They can answer through it once."
 msgstr "يمكنهم الرد من خلاله مرة واحدة."
 
+#: onedesk/one_hr/custom/leave_application.json
+msgid "They can read your workspace address while you're away, but not send from it."
+msgstr "يمكنهم قراءة عنوانك في مساحة العمل أثناء غيابك، لكن لا يمكنهم الإرسال منه."
+
 #. Message of a notification
 #: onedesk/notifications/one/oneai_changed.md
 msgid "They changed {what}. This applies to everyone and may change its cost. See OneAI › Actions."
@@ -43215,6 +43311,10 @@ msgstr "انضم في {joined}."
 #: onedesk/one_admin/heads.py:470
 msgid "They keep their price. Quota changes apply the next time they change their plan or add-ons."
 msgstr "يحتفظون بسعرهم. تُطبّق تغييرات الحصص في المرة القادمة التي يغيّرون فيها خطتهم أو إضافاتهم."
+
+#: onedesk/public/js/onemail_settings.js:369
+msgid "They name {0} for anything urgent."
+msgstr "وتذكر {0} للأمور العاجلة."
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1881
 msgid "Thick"
@@ -46776,6 +46876,10 @@ msgstr "ما يتذكّره OneAI عنك"
 msgid "What OneAI said when asked to explain it, per language."
 msgstr "ما قاله OneAI عندما طُلب منه شرحه، لكل لغة."
 
+#: onedesk/public/js/onemail_settings.js:362
+msgid "What They Get"
+msgstr "ما يصلهم"
+
 #. Label in the One Maintenance Record print format
 #. Label in the One Repair Record print format
 #: onedesk/one_inventory/print_format/one_maintenance_record/one_maintenance_record.json
@@ -48806,6 +48910,10 @@ msgstr "عندما تصبح نسخة بياناتك التي طلبتها من �
 msgid "When the current status was set."
 msgstr "متى ضُبطت الحالة الحالية."
 
+#: onedesk/one_mail/custom/email_account.json
+msgid "When the current time away began. Each sender is answered once again from then."
+msgstr "متى بدأت فترة الغياب الحالية. يُرد على كل مرسل مرة أخرى منذ ذلك الحين."
+
 #. When a notification is sent
 #: onedesk/notifications/one/database_nearly_full.md
 #, python-format
@@ -48935,6 +49043,10 @@ msgstr "متى يمكنك التسليم، وأي شيء يجب أن يعرفه 
 #: onedesk/notifications/one_hr/check_in_closed_for_you.md
 msgid "When you checked in, never checked out, and One checked you out at the end of the shift."
 msgstr "عندما سجّلت حضورك ولم تسجّل انصرافك، فسجّله One لك في نهاية المناوبة."
+
+#: onedesk/notifications/one_mail/covering_mail.md
+msgid "When you cover for somebody on leave, and their leave says you read their mail."
+msgstr "عندما تغطي عن شخص في إجازة وتنص إجازته على أن تقرأ بريده."
 
 #. When a notification is sent
 #: onedesk/notifications/one/new_sign_in.md
@@ -49402,6 +49514,10 @@ msgstr "ما مساحات العمل التي لديها هذا، وكم منه�
 #: onedesk/one_inventory/ai.py:201
 msgid "Which workstations are making, which are stopped and why, and what is running on each?"
 msgstr "ما محطات العمل التي تُنتج، وأيها متوقفة ولماذا، وما الذي يعمل على كل منها؟"
+
+#: onedesk/public/js/onemail_settings.js:372
+msgid "While you're on approved leave, replies go out on their own until you're back, with the Away Message from your leave request."
+msgstr "أثناء إجازتك المعتمدة، تُرسل الردود تلقائيًا حتى عودتك، مع رسالة الغياب من طلب إجازتك."
 
 #. Label in the One Employee Onboarding print format
 #. Label in the One Employee Separation print format
@@ -50525,6 +50641,10 @@ msgstr "اسم مساحة العمل"
 msgid "Workspace Notifications"
 msgstr "إشعارات مساحة العمل"
 
+#: onedesk/public/js/onemail_settings.js:416
+msgid "Workspace Only"
+msgstr "مساحة العمل فقط"
+
 #. Name of a notification
 #: onedesk/notifications/one_admin/workspace_owing.md
 msgid "Workspace Owing"
@@ -50567,6 +50687,10 @@ msgstr "عُلّقت مساحة العمل"
 #: onedesk/one/approvals.py:300
 msgid "Workspace administrators"
 msgstr "مسؤولو مساحة العمل"
+
+#: onedesk/public/js/onemail_settings.js:417
+msgid "Workspace and Contacts"
+msgstr "مساحة العمل وجهات الاتصال"
 
 #: onedesk/one_mail/abilities.py:90
 msgid "Workspace and External Addresses"
@@ -51175,10 +51299,18 @@ msgstr "ستتلقى رسالة بريد إلكتروني فيها رابط لل
 msgid "You're all caught up."
 msgstr "لا يوجد ما يتطلب انتباهك."
 
+#: onedesk/notifications/one_mail/covering_mail.md
+msgid "You're covering {who}'s mail until {until}"
+msgstr "أنت تغطي بريد {who} حتى {until}"
+
 #. Subject of a notification
 #: onedesk/notifications/one_hr/interview_scheduled.md
 msgid "You're interviewing {applicant} on {when}"
 msgstr "ستُجري مقابلة مع {applicant} في {when}"
+
+#: onedesk/public/js/onemail_settings.js:368
+msgid "You're on approved leave until {0}. Replies go out on their own, saying you're back on {1}."
+msgstr "أنت في إجازة معتمدة حتى {0}. تُرسل الردود تلقائيًا وتقول إنك ستعود في {1}."
 
 #: onedesk/one/privacy.py:110
 msgid "You're the only administrator. Make someone else an administrator first."
@@ -51464,6 +51596,10 @@ msgstr "قاعدة بريدك على {mailbox} تعمل الآن"
 #: onedesk/notifications/one_mail/mail_rule_declined.md
 msgid "Your mail rule on {mailbox} was declined"
 msgstr "رُفضت قاعدة بريدك على {mailbox}"
+
+#: onedesk/one_mail/rules.py:688
+msgid "Your message"
+msgstr "رسالتك"
 
 #: frontend/portal/src/pages/Record.vue:108
 #: frontend/portal/src/pages/Record.vue:119
@@ -53946,6 +54082,14 @@ msgstr "{0} يقع بالفعل تحت {1}، لذا لا يمكن أن يكون 
 msgid "{0} is assigned to somebody else."
 msgstr "{0} مخصّص لشخص آخر."
 
+#: onedesk/public/js/mail_compose.js:223
+msgid "{0} is away until {1}."
+msgstr "{0} غائب حتى {1}."
+
+#: onedesk/public/js/mail_compose.js:224
+msgid "{0} is away."
+msgstr "{0} غائب."
+
 #: onedesk/one/recycle.py:147
 msgid "{0} is back already."
 msgstr "{0} مستعاد بالفعل."
@@ -53973,6 +54117,10 @@ msgstr "{0} مفوتر {1} مرات ومطلوب {2}."
 #: onedesk/one_project/milestones.py:145 onedesk/one_project/tree.py:105
 msgid "{0} is cancelled. Open it again to add work to it."
 msgstr "{0} ملغى. افتحه من جديد لإضافة عمل إليه."
+
+#: onedesk/public/js/mail_compose.js:225
+msgid "{0} is covering."
+msgstr "{0} يغطي عنه."
 
 #: onedesk/public/js/upkeep_actions.js:14
 msgid "{0} is done"
@@ -54269,6 +54417,10 @@ msgstr "{0} لا يعمل."
 #: onedesk/one_storage/mounts.py:89
 msgid "{0} is on a private network. OneCloud can't connect to it."
 msgstr "{0} على شبكة خاصة. لا يمكن لـ OneCloud الاتصال به."
+
+#: onedesk/public/js/mail_compose.js:222
+msgid "{0} is on leave until {1}."
+msgstr "{0} في إجازة حتى {1}."
 
 #: onedesk/one_project/view.py:807
 msgid "{0} is over budget"

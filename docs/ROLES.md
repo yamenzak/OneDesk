@@ -111,7 +111,7 @@ Profiles take OneMail like any other app.
 | Ability | Kind | Default: User | Default: Manager |
 | --- | --- | --- | --- |
 | Signature and sender name | No / Their own address / Every mailbox | No | Every mailbox |
-| Out of office | No / Their own address / Every mailbox | No | Every mailbox |
+| Out of office | No / Their own address / Every mailbox | Their own address | Every mailbox |
 | Mail rules | Ask for approval / Their own address / Every mailbox | Ask | Every mailbox |
 | OneAI settings | No / Their own address / Every mailbox | No | Every mailbox |
 | Auto reply | Switch | Off | On |

@@ -1344,6 +1344,10 @@ msgstr "Eine geplante Erweiterung läuft höchstens einmal pro Stunde."
 msgid "A second agent checks each document's actions, approves what is right and sends what is wrong to a person."
 msgstr "Ein zweiter Agent prüft die Aktionen zu jedem Dokument, genehmigt, was stimmt, und gibt Falsches an einen Menschen weiter."
 
+#: onedesk/one_mail/custom/email_account.json
+msgid "A second language the standard reply is written in too."
+msgstr "Eine zweite Sprache, in der die Standardantwort zusätzlich geschrieben wird."
+
 #: onedesk/one_book/home.py:374
 msgid "A second set of books, such as for tax depreciation."
 msgstr "Ein zweiter Satz Bücher, etwa für die steuerliche Abschreibung."
@@ -1369,6 +1373,10 @@ msgstr "Eine Reihe von Schritten für mehr als ein Produkt."
 #: onedesk/one/doctype/device/device.json
 msgid "A shared device can't hold a passkey."
 msgstr "Ein gemeinsames Gerät kann keinen Passkey enthalten."
+
+#: onedesk/one_mail/rules.py:627
+msgid "A shared mailbox answers with Auto Reply instead."
+msgstr "Ein gemeinsames Postfach antwortet stattdessen mit der automatischen Antwort."
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:142
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:54
@@ -3375,6 +3383,10 @@ msgstr "Auch hinzugefügt zu"
 msgid "Also Allow Check-in From"
 msgstr "Einchecken auch erlauben von"
 
+#: onedesk/public/js/onemail_settings.js:424
+msgid "Also In"
+msgstr "Auch auf"
+
 #: onedesk/public/js/project_actions.js:28
 msgid "Also Move"
 msgstr "Ebenfalls verschieben"
@@ -3392,10 +3404,6 @@ msgstr "Auch auf {0}"
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Also propose networks and locations belonging to a single employee, such as a home."
 msgstr "Auch Netzwerke und Orte vorschlagen, die einem einzelnen Mitarbeiter gehören, etwa ein Zuhause."
-
-#: onedesk/public/js/onemail_settings.js:364
-msgid "Also sent on its own while the person is on approved leave."
-msgstr "Wird auch automatisch gesendet, während die Person genehmigten Urlaub hat."
 
 #. Name of a project template
 #: onedesk/one_project/library/aluminium_and_glazing.json
@@ -3835,6 +3843,10 @@ msgstr "Ein anderer Mitarbeiter hat sich heute bereits von diesem Browser aus ei
 #: onedesk/one/portal.py:488 onedesk/one_intake/doctype/reading/reading.json
 msgid "Answer"
 msgstr "Antwort"
+
+#: onedesk/one_hr/custom/leave_application.json
+msgid "Answer mail on its own while you're on leave, until the day you're back."
+msgstr "Während deines Urlaubs automatisch auf E-Mails antworten, bis zu dem Tag, an dem du zurück bist."
 
 #: onedesk/one/portal_share.py:20
 msgid "Answer the quote request"
@@ -5349,11 +5361,27 @@ msgstr "Wartet auf Zahlung"
 msgid "Away"
 msgstr "Abwesend"
 
+#: onedesk/one_mail/custom/email_account.json
+msgid "Away From"
+msgstr "Abwesend ab"
+
 #. Label of the one_away_message (Small Text) field in DocType 'Email Account'
 #: onedesk/one_hr/custom/leave_application.json
 #: onedesk/one_mail/custom/email_account.json
 msgid "Away Message"
 msgstr "Abwesenheitsnachricht"
+
+#: onedesk/one_mail/custom/email_account.json
+msgid "Away Replies To"
+msgstr "Abwesenheitsantwort an"
+
+#: onedesk/one_mail/custom/email_account.json
+msgid "Away Reply Also In"
+msgstr "Abwesenheitsantwort auch auf"
+
+#: onedesk/one_mail/custom/email_account.json
+msgid "Away Since"
+msgstr "Abwesend seit"
 
 #. Label of the one_away_until (Date) field in DocType 'Email Account'
 #: onedesk/one_mail/custom/email_account.json
@@ -9455,6 +9483,26 @@ msgstr "Titelbild"
 msgid "Cover Holidays Too"
 msgstr "Feiertage einschließen"
 
+#: onedesk/notifications/one_mail/covering_mail.md
+msgid "Covering Mail"
+msgstr "Vertretung für E-Mails"
+
+#: onedesk/one_hr/custom/leave_application.json
+msgid "Covering Person"
+msgstr "Vertretung"
+
+#: onedesk/one_hr/custom/leave_application.json
+msgid "Covering Person Reads My Mail"
+msgstr "Vertretung liest meine E-Mails"
+
+#: onedesk/one_mail/custom/user_email.json
+msgid "Covering Until"
+msgstr "Vertritt bis"
+
+#: frontend/src/mail/OneMail.vue:209 onedesk/public/js/onemail_settings.js:104
+msgid "Covering until {0}"
+msgstr "Vertritt bis {0}"
+
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
@@ -12972,6 +13020,10 @@ msgstr "Jeder Tarif braucht eine Einheit, eine Menge und einen Preis."
 msgid "Each recipient"
 msgstr "Jeder Empfänger"
 
+#: onedesk/public/js/onemail_settings.js:379
+msgid "Each sender gets it once every 4 days. Never sent to mailing lists or automatic mail."
+msgstr "Jeder Absender erhält sie einmal alle 4 Tage. Nie an Mailinglisten oder automatische E-Mails."
+
 #. Description of the 'Away' (Check) field in DocType 'Email Account'
 #: onedesk/one_mail/custom/email_account.json
 msgid "Each sender gets one out-of-office reply in four days, from this mailbox."
@@ -15969,6 +16021,10 @@ msgstr "Für Sie"
 msgid "For Your Organisation"
 msgstr "Für Ihre Organisation"
 
+#: onedesk/one_mail/rules.py:490
+msgid "For anything urgent, please write to {0} at {1}."
+msgstr "Bei dringenden Anliegen schreibe bitte an {0} unter {1}."
+
 #: onedesk/one_project/ai.py:54
 msgid "For each subcontractor on this project, what is left to bill, the retention held, any advance not yet set off, and what has been paid."
 msgstr "Für jeden Nachunternehmer dieses Projekts: was noch abzurechnen ist, der Einbehalt, jede noch nicht verrechnete Anzahlung und was bezahlt wurde."
@@ -16826,6 +16882,10 @@ msgstr "Übergeben an"
 #: onedesk/notifications/one_crm/given_to_you.md
 msgid "Given to You"
 msgstr "Ihnen übergeben"
+
+#: onedesk/one_mail/custom/user_email.json
+msgid "Given while its person is on leave, and taken away the day after."
+msgstr "Wird während des Urlaubs der Person vergeben und am Tag danach entzogen."
 
 #: onedesk/one_inventory/heads.py:1324
 msgid "Given."
@@ -21506,9 +21566,17 @@ msgstr "Leer lassen, um jede Domain zu erlauben."
 msgid "Leave empty to apply everywhere."
 msgstr "Leer lassen, um es überall anzuwenden."
 
+#: onedesk/public/js/onemail_settings.js:407
+msgid "Leave empty to keep it on until you turn it off."
+msgstr "Leer lassen, damit sie aktiv bleibt, bis du sie ausschaltest."
+
 #: onedesk/public/js/onecloud.js:1532
 msgid "Leave empty to keep the saved password."
 msgstr "Leer lassen, um das gespeicherte Passwort beizubehalten."
+
+#: onedesk/public/js/onemail_settings.js:405
+msgid "Leave empty to start now."
+msgstr "Leer lassen, um jetzt zu beginnen."
 
 #: onedesk/public/js/doctype_settings.js:461
 msgid "Leave empty to use it for any record type."
@@ -22629,6 +22697,10 @@ msgstr "Passende Mails, die im Posteingang eines Postfachs ankommen, werden vers
 #: onedesk/notifications/one_mail/attachments_not_saved.md
 msgid "Mail to <b>{mailbox}</b> still arrives, but its attachments wait until there is room. Free some space or add storage in Plan and Credits, and they are saved within the hour."
 msgstr "E-Mails an <b>{mailbox}</b> kommen weiterhin an, aber ihre Anhänge warten, bis Platz ist. Geben Sie Speicher frei oder fügen Sie unter Tarif und Guthaben Speicher hinzu, dann werden sie innerhalb einer Stunde gespeichert."
+
+#: onedesk/notifications/one_mail/covering_mail.md
+msgid "Mail to {mailbox} is in OneMail with your own while they're on leave. You can read it and reply from your own address, but not send from theirs."
+msgstr "E-Mails an {mailbox} sind während des Urlaubs zusammen mit deinen eigenen in OneMail. Du kannst sie lesen und von deiner eigenen Adresse antworten, aber nicht von ihrer senden."
 
 #: onedesk/one/privacy_copy.py:22
 msgid "Mail you sent or received"
@@ -24192,6 +24264,10 @@ msgstr "Benannt nach"
 msgid "Named in code. Do not change it once anything calls it."
 msgstr "Wird im Code genannt. Nicht mehr ändern, sobald etwas sie aufruft."
 
+#: onedesk/one_hr/custom/leave_application.json
+msgid "Named in the reply, for anything urgent."
+msgstr "Wird in der Antwort für dringende Anliegen genannt."
+
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:3
 msgid "Named ranges"
 msgstr "Benannte Bereiche"
@@ -25079,6 +25155,10 @@ msgstr "Unbedenklichkeitsbescheinigung"
 #: frontend/src/project/Suppliers.vue:16
 msgid "No Order Yet"
 msgstr "Noch keine Bestellung"
+
+#: onedesk/public/js/onemail_settings.js:426
+msgid "No Second Language"
+msgstr "Keine zweite Sprache"
 
 #: frontend/src/lots/LotsPage.vue:26
 msgid "No Serial Nos match"
@@ -26934,6 +27014,10 @@ msgstr "Im Urlaub"
 msgid "On Leave Today"
 msgstr "Heute im Urlaub"
 
+#: frontend/src/mail/OneMail.vue:211 onedesk/public/js/onemail_settings.js:105
+msgid "On Leave until {0}"
+msgstr "Im Urlaub bis {0}"
+
 #. Label of the one_hosted (Check) field in DocType 'Email Account'
 #: onedesk/one_mail/custom/email_account.json
 msgid "On Mail Domain"
@@ -26990,10 +27074,6 @@ msgstr "Nach dem Zeitplan einer Kampagne, in den Vorlagen, die sie nennt."
 #: onedesk/public/js/doctype_settings.js:564
 msgid "On a schedule"
 msgstr "Nach Zeitplan"
-
-#: onedesk/public/js/onemail_settings.js:363
-msgid "On approved leave until {0}. Replies go out on their own."
-msgstr "In genehmigtem Urlaub bis {0}. Antworten gehen automatisch raus."
 
 #. When a notification is sent
 #: onedesk/notifications/one/report_by_mail.md
@@ -28973,6 +29053,14 @@ msgstr "Von 100. Unter der Bestätigungsschwelle wird der Eintrag zur Prüfung m
 #: onedesk/public/js/onemail.js:945
 msgid "Out of Office"
 msgstr "Abwesenheit"
+
+#: onedesk/one_hr/custom/leave_application.json
+msgid "Out of Office Replies"
+msgstr "Abwesenheitsantworten"
+
+#: frontend/src/mail/OneMail.vue:212 onedesk/public/js/onemail_settings.js:106
+msgid "Out of Office until {0}"
+msgstr "Abwesend bis {0}"
 
 #: frontend/src/upkeep/UpkeepPage.vue:84 frontend/src/upkeep/UpkeepRows.vue:186
 #: onedesk/public/js/asset_list.js:6
@@ -36363,10 +36451,6 @@ msgstr "Gesendet von {0}"
 msgid "Sent by {0}."
 msgstr "Gesendet von {0}."
 
-#: onedesk/public/js/onemail_settings.js:134
-msgid "Sent once every 4 days per sender. Not sent to mailing lists."
-msgstr "Alle 4 Tage einmal pro Absender gesendet. Nicht an Mailinglisten."
-
 #: onedesk/public/js/settings.js:3256
 msgid "Sent to addresses outside the workspace, so there's no channel to choose."
 msgstr "Wird an Adressen außerhalb des Arbeitsbereichs gesendet, daher gibt es keinen Kanal zu wählen."
@@ -36386,10 +36470,6 @@ msgstr "Wird an {0} gesendet."
 #: onedesk/public/js/privacy_request.js:30
 msgid "Sent to {0}. For example, payroll for the month has to close first."
 msgstr "Wird an {0} gesendet. Zum Beispiel: Die Gehaltsabrechnung des Monats muss zuerst abgeschlossen werden."
-
-#: onedesk/public/js/onemail_settings.js:335
-msgid "Sent while you're on approved leave, with the Away Message from your leave request."
-msgstr "Wird während Ihres genehmigten Urlaubs gesendet, mit der Abwesenheitsnachricht aus Ihrem Urlaubsantrag."
 
 #: onedesk/www/s.py:39
 msgid "Sent {0} files. Thank you."
@@ -41514,6 +41594,10 @@ msgstr "Der Vertrag mit {party} endet am {date}"
 msgid "The copy of your data you asked for is ready to download from your profile. Withheld: {withheld}"
 msgstr "Die angeforderte Kopie Ihrer Daten steht in Ihrem Profil zum Herunterladen bereit. Zurückgehalten: {withheld}"
 
+#: onedesk/notifications/one_mail/covering_mail.md
+msgid "The covering person"
+msgstr "Die Vertretung"
+
 #: onedesk/public/js/settings.js:791
 msgid "The currency can't change once there are transactions."
 msgstr "Die Währung kann nach ersten Buchungen nicht mehr geändert werden."
@@ -41578,6 +41662,10 @@ msgstr "Am Tag, nachdem Lohnfertigungsware zurück sein sollte und nicht alles z
 #: onedesk/notifications/one_hr/exit_interview_scheduled.md
 msgid "The day before your exit interview."
 msgstr "Am Tag vor deinem Austrittsgespräch."
+
+#: onedesk/one_mail/rules.py:631
+msgid "The day it ends can't be before the day it starts."
+msgstr "Das Enddatum kann nicht vor dem Startdatum liegen."
 
 #. Description of the 'Deleted On' (Date) field in DocType 'Workspace Account'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
@@ -42601,6 +42689,10 @@ msgstr "Die Software, aus der One besteht, und ihre Lizenzen."
 msgid "The stages an opportunity moves through, and their probability."
 msgstr "Die Phasen, die eine Chance durchläuft, und ihre Wahrscheinlichkeit."
 
+#: onedesk/public/js/onemail_settings.js:427
+msgid "The standard reply is written in this language too."
+msgstr "Die Standardantwort wird auch in dieser Sprache geschrieben."
+
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:38
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:52
 msgid "The start date is after the end date."
@@ -43176,6 +43268,10 @@ msgstr "Sie werden vor allen anderen verbraucht, es ist also nichts zu tun, es s
 msgid "They can answer through it once."
 msgstr "Sie können darüber einmal antworten."
 
+#: onedesk/one_hr/custom/leave_application.json
+msgid "They can read your workspace address while you're away, but not send from it."
+msgstr "Sie können deine Arbeitsbereich-Adresse lesen, während du weg bist, aber nicht davon senden."
+
 #. Message of a notification
 #: onedesk/notifications/one/oneai_changed.md
 msgid "They changed {what}. This applies to everyone and may change its cost. See OneAI › Actions."
@@ -43215,6 +43311,10 @@ msgstr "Eingetreten am {joined}."
 #: onedesk/one_admin/heads.py:470
 msgid "They keep their price. Quota changes apply the next time they change their plan or add-ons."
 msgstr "Sie behalten ihren Preis. Kontingentänderungen gelten, wenn sie das nächste Mal ihren Plan oder ihre Add-ons ändern."
+
+#: onedesk/public/js/onemail_settings.js:369
+msgid "They name {0} for anything urgent."
+msgstr "Sie nennen {0} für dringende Anliegen."
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1881
 msgid "Thick"
@@ -46776,6 +46876,10 @@ msgstr "Was OneAI über Sie weiß"
 msgid "What OneAI said when asked to explain it, per language."
 msgstr "Was OneAI sagte, als es um eine Erklärung gebeten wurde, je Sprache."
 
+#: onedesk/public/js/onemail_settings.js:362
+msgid "What They Get"
+msgstr "Was sie erhalten"
+
 #. Label in the One Maintenance Record print format
 #. Label in the One Repair Record print format
 #: onedesk/one_inventory/print_format/one_maintenance_record/one_maintenance_record.json
@@ -48806,6 +48910,10 @@ msgstr "Wenn die in Ihrem Profil angeforderte Kopie Ihrer Daten fertig ist."
 msgid "When the current status was set."
 msgstr "Wann der aktuelle Status gesetzt wurde."
 
+#: onedesk/one_mail/custom/email_account.json
+msgid "When the current time away began. Each sender is answered once again from then."
+msgstr "Wann die aktuelle Abwesenheit begann. Ab dann erhält jeder Absender erneut eine Antwort."
+
 #. When a notification is sent
 #: onedesk/notifications/one/database_nearly_full.md
 #, python-format
@@ -48935,6 +49043,10 @@ msgstr "Wann Sie liefern können und was der Käufer wissen sollte."
 #: onedesk/notifications/one_hr/check_in_closed_for_you.md
 msgid "When you checked in, never checked out, and One checked you out at the end of the shift."
 msgstr "Wenn du eingecheckt, aber nie ausgecheckt hast und One dich am Schichtende ausgecheckt hat."
+
+#: onedesk/notifications/one_mail/covering_mail.md
+msgid "When you cover for somebody on leave, and their leave says you read their mail."
+msgstr "Wenn du jemanden im Urlaub vertrittst und dessen Urlaub vorsieht, dass du seine E-Mails liest."
 
 #. When a notification is sent
 #: onedesk/notifications/one/new_sign_in.md
@@ -49402,6 +49514,10 @@ msgstr "Welche Arbeitsbereiche haben das, wie viele sind live und was zahlen sie
 #: onedesk/one_inventory/ai.py:201
 msgid "Which workstations are making, which are stopped and why, and what is running on each?"
 msgstr "Welche Arbeitsplätze fertigen, welche stehen still und warum, und was läuft an jedem?"
+
+#: onedesk/public/js/onemail_settings.js:372
+msgid "While you're on approved leave, replies go out on their own until you're back, with the Away Message from your leave request."
+msgstr "Während deines genehmigten Urlaubs gehen Antworten automatisch raus, bis du zurück bist, mit der Abwesenheitsnachricht aus deinem Urlaubsantrag."
 
 #. Label in the One Employee Onboarding print format
 #. Label in the One Employee Separation print format
@@ -50525,6 +50641,10 @@ msgstr "Name des Arbeitsbereichs"
 msgid "Workspace Notifications"
 msgstr "Benachrichtigungen des Arbeitsbereichs"
 
+#: onedesk/public/js/onemail_settings.js:416
+msgid "Workspace Only"
+msgstr "Nur Arbeitsbereich"
+
 #. Name of a notification
 #: onedesk/notifications/one_admin/workspace_owing.md
 msgid "Workspace Owing"
@@ -50567,6 +50687,10 @@ msgstr "Arbeitsbereich gesperrt"
 #: onedesk/one/approvals.py:300
 msgid "Workspace administrators"
 msgstr "Arbeitsbereich-Administratoren"
+
+#: onedesk/public/js/onemail_settings.js:417
+msgid "Workspace and Contacts"
+msgstr "Arbeitsbereich und Kontakte"
 
 #: onedesk/one_mail/abilities.py:90
 msgid "Workspace and External Addresses"
@@ -51175,10 +51299,18 @@ msgstr "Sie erhalten eine E-Mail mit einem Bestätigungslink."
 msgid "You're all caught up."
 msgstr "Alles erledigt."
 
+#: onedesk/notifications/one_mail/covering_mail.md
+msgid "You're covering {who}'s mail until {until}"
+msgstr "Du vertrittst die E-Mails von {who} bis {until}"
+
 #. Subject of a notification
 #: onedesk/notifications/one_hr/interview_scheduled.md
 msgid "You're interviewing {applicant} on {when}"
 msgstr "Sie führen am {when} ein Gespräch mit {applicant}"
+
+#: onedesk/public/js/onemail_settings.js:368
+msgid "You're on approved leave until {0}. Replies go out on their own, saying you're back on {1}."
+msgstr "Du bist bis {0} im genehmigten Urlaub. Antworten gehen automatisch raus und sagen, dass du am {1} zurück bist."
 
 #: onedesk/one/privacy.py:110
 msgid "You're the only administrator. Make someone else an administrator first."
@@ -51464,6 +51596,10 @@ msgstr "Ihre E-Mail-Regel für {mailbox} ist aktiv"
 #: onedesk/notifications/one_mail/mail_rule_declined.md
 msgid "Your mail rule on {mailbox} was declined"
 msgstr "Ihre E-Mail-Regel für {mailbox} wurde abgelehnt"
+
+#: onedesk/one_mail/rules.py:688
+msgid "Your message"
+msgstr "Deine Nachricht"
 
 #: frontend/portal/src/pages/Record.vue:108
 #: frontend/portal/src/pages/Record.vue:119
@@ -53946,6 +54082,14 @@ msgstr "{0} liegt bereits unter {1} und kann daher nicht sein übergeordnetes Pr
 msgid "{0} is assigned to somebody else."
 msgstr "{0} ist jemand anderem zugewiesen."
 
+#: onedesk/public/js/mail_compose.js:223
+msgid "{0} is away until {1}."
+msgstr "{0} ist bis {1} abwesend."
+
+#: onedesk/public/js/mail_compose.js:224
+msgid "{0} is away."
+msgstr "{0} ist abwesend."
+
 #: onedesk/one/recycle.py:147
 msgid "{0} is back already."
 msgstr "{0} ist bereits zurück."
@@ -53973,6 +54117,10 @@ msgstr "{0} ist {1}-mal berechnet, bestellt {2}."
 #: onedesk/one_project/milestones.py:145 onedesk/one_project/tree.py:105
 msgid "{0} is cancelled. Open it again to add work to it."
 msgstr "{0} ist abgebrochen. Öffne es wieder, um Arbeit hinzuzufügen."
+
+#: onedesk/public/js/mail_compose.js:225
+msgid "{0} is covering."
+msgstr "{0} vertritt."
 
 #: onedesk/public/js/upkeep_actions.js:14
 msgid "{0} is done"
@@ -54269,6 +54417,10 @@ msgstr "{0} funktioniert nicht."
 #: onedesk/one_storage/mounts.py:89
 msgid "{0} is on a private network. OneCloud can't connect to it."
 msgstr "{0} befindet sich in einem privaten Netzwerk. OneCloud kann sich nicht damit verbinden."
+
+#: onedesk/public/js/mail_compose.js:222
+msgid "{0} is on leave until {1}."
+msgstr "{0} ist bis {1} im Urlaub."
 
 #: onedesk/one_project/view.py:807
 msgid "{0} is over budget"

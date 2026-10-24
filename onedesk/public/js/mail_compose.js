@@ -189,3 +189,58 @@ onedesk.mail.reply_to = async (account, thread, { text = "" } = {}) => {
 	if (!sender) return frappe.msgprint(__("None of your mailboxes can send email"));
 	return onedesk.mail.reply(boxes, said.messages, sender, { text });
 };
+
+// Writing to a colleague who is away says so above the message, and who
+// covers for them, as their mailbox would answer (one_mail/rules.py
+// who_is_away).
+(() => {
+	const Composer = frappe.views && frappe.views.CommunicationComposer;
+	if (!Composer || Composer.prototype.one_warns_away) return;
+	const make = Composer.prototype.make;
+	Composer.prototype.make = function () {
+		const made = make.apply(this, arguments);
+		const dialog = this.dialog;
+		if (!dialog || !dialog.fields_dict.content) return made;
+		const $note = $(`<div class="one-compose-away hide"></div>`).insertBefore(dialog.fields_dict.content.$wrapper);
+		let waiting = null;
+		const check = () => {
+			clearTimeout(waiting);
+			waiting = setTimeout(async () => {
+				const emails = ["recipients", "cc", "bcc"]
+					.map((name) => dialog.get_value(name) || "")
+					.join(",")
+					.split(/[,;]/)
+					.map((one) => one.trim())
+					.filter(Boolean);
+				const away = emails.length ? await frappe.xcall("onedesk.one_mail.rules.who_is_away", { emails }) : [];
+				$note.toggleClass("hide", !away.length).html(
+					away
+						.map((one) => {
+							const until = frappe.datetime.str_to_user(one.until);
+							let said = one.until
+								? one.leave
+									? __("{0} is on leave until {1}.", [one.name, until])
+									: __("{0} is away until {1}.", [one.name, until])
+								: __("{0} is away.", [one.name]);
+							if (one.covering) said += " " + __("{0} is covering.", [one.covering.name]);
+							return `<div>${frappe.utils.icon("plane", "sm")}<span>${frappe.utils.escape_html(said)}</span></div>`;
+						})
+						.join("")
+				);
+			}, 400);
+		};
+		for (const name of ["recipients", "cc", "bcc"]) {
+			const field = dialog.fields_dict[name];
+			if (!field) continue;
+			const changed = field.df.onchange;
+			field.df.onchange = (...args) => {
+				if (changed) changed.apply(field, args);
+				check();
+			};
+			field.$wrapper.on("blur change", "input", check);
+		}
+		dialog.$wrapper.one("shown.bs.modal", check);
+		return made;
+	};
+	Composer.prototype.one_warns_away = true;
+})();

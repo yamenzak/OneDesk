@@ -185,6 +185,7 @@ scheduler_events = {
 		"onedesk.one.holidays.daily",
 		"onedesk.one_hr.periods.daily",
 		"onedesk.one_mail.faces.again",
+		"onedesk.one_mail.rules.cover",
 		"onedesk.one_storage.api.purge_old",
 		"onedesk.one_storage.store.daily",
 		"onedesk.one_storage.file_requests.remind_due",
@@ -467,6 +468,9 @@ doc_events = {
 	"Leave Application": {
 		"before_validate": "onedesk.one_hr.decision.kept",
 		"before_submit": "onedesk.one_hr.leave.before_submit",
+		"on_submit": "onedesk.one_mail.rules.covered",
+		"on_update_after_submit": "onedesk.one_mail.rules.covered",
+		"on_cancel": "onedesk.one_mail.rules.covered",
 	},
 	"Expense Claim": {
 		"before_validate": "onedesk.one_hr.expense.before_validate",

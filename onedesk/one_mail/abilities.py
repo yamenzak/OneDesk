@@ -108,7 +108,7 @@ SHARED = ("signature", "away", "rules", "ai", "auto_reply", "holders", "connecti
 # What OneMail's own roles start with, written once on migrate for a role
 # with nothing on Email Account yet (abilities.settle).
 DEFAULTS = {
-	"OneMail User": {},
+	"OneMail User": {"away": "own"},
 	"Mail Manager": {
 		"signature": "all",
 		"away": "all",

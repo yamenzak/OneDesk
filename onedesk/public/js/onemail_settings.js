@@ -100,6 +100,10 @@ onedesk.mail.settings = (tab) => {
 			boxes.forEach((box) => {
 				const said = [kind_of(box), box.sends ? __("Read and Send") : __("Read Only")];
 				if (box.sends && box.signed) said.push(box.signed);
+				const day = (value) => frappe.datetime.str_to_user(value);
+				if (box.covering_until) said.push(__("Covering until {0}", [day(box.covering_until)]));
+				else if (box.away?.leave) said.push(__("On Leave until {0}", [day(box.away.until)]));
+				else if (box.away) said.push(box.away.until ? __("Out of Office until {0}", [day(box.away.until)]) : __("Out of Office"));
 				$list.append(
 					row({
 						lead: glyph(icon_of(box)),
@@ -325,58 +329,118 @@ onedesk.mail.settings = (tab) => {
 		};
 	};
 
-	const away_tab = (box) => ({
-		id: "away",
-		label: __("Out of Office"),
-		icon: "plane",
-		title: __("Out of Office"),
-		description: box.may.away
-			? __("Sent once every 4 days per sender. Not sent to mailing lists.")
-			: box.hosted && !box.shared
-			? __("Sent while you're on approved leave, with the Away Message from your leave request.")
-			: managed,
-		actions: box.may.away
-			? [
-					{
-						label: __("Save"),
-						variant: "solid",
-						class: "oms-save",
-						click: async (panel) => {
-							await frappe.xcall(R + "set_away", { account: box.name, away: panel.on.get_value() ? 1 : 0, ...panel.get_values() });
-							saved();
-							panel.clean();
+	// A person's out-of-office, on any mailbox of their own: dates, who it
+	// answers, a second language, the message (the standard one until it is
+	// changed) and the reply as a sender gets it. Approved leave answers on
+	// its own, said at the top whether or not the switch is on.
+	const away_tab = (box) => {
+		let standard = "";
+		const values = (panel) => {
+			const said = panel.get_values() || {};
+			const message = (said.message || "").trim();
+			return {
+				account: box.name,
+				from_date: said.from_date || null,
+				until: said.until || null,
+				to: said.to || "Everyone",
+				also: said.also || null,
+				message: message === standard.trim() ? "" : message,
+			};
+		};
+		let waiting = null;
+		const preview = (panel) => {
+			clearTimeout(waiting);
+			waiting = setTimeout(async () => {
+				const said = values(panel);
+				const drawn = await frappe.xcall(R + "away_preview", { account: box.name, message: panel.get_value("message") || "", also: said.also });
+				const untouched = !(panel.get_value("message") || "").trim() || panel.get_value("message").trim() === standard.trim();
+				standard = drawn.default;
+				if (untouched && panel.get_value("message") !== standard) panel.fieldgroup.set_value("message", standard);
+				panel.fieldgroup
+					.get_field("preview")
+					.$wrapper.empty()
+					.append(`<div class="oms-label">${esc(__("What They Get"))}</div>`)
+					.append($(`<div class="oms-signature"></div>`).append(framed(drawn.html)));
+			}, 300);
+		};
+		const note = (away) => {
+			if (away.leave_until) {
+				const words = [__("You're on approved leave until {0}. Replies go out on their own, saying you're back on {1}.", [frappe.datetime.str_to_user(away.leave_until), frappe.datetime.str_to_user(away.leave_back)])];
+				if (away.covering) words.push(__("They name {0} for anything urgent.", [away.covering.name]));
+				return words.join(" ");
+			}
+			return __("While you're on approved leave, replies go out on their own until you're back, with the Away Message from your leave request.");
+		};
+		return {
+			id: "away",
+			label: __("Out of Office"),
+			icon: "plane",
+			title: __("Out of Office"),
+			description: box.may.away ? __("Each sender gets it once every 4 days. Never sent to mailing lists or automatic mail.") : "",
+			actions: box.may.away
+				? [
+						{
+							label: __("Save"),
+							variant: "solid",
+							class: "oms-save",
+							click: async (panel) => {
+								await frappe.xcall(R + "set_away", { ...values(panel), away: panel.on.get_value() ? 1 : 0 });
+								saved();
+								panel.clean();
+							},
 						},
+				  ]
+				: [],
+			async render(panel) {
+				const view = panel.shown;
+				const away = (await frappe.xcall(R + "away_of", { account: box.name })) || {};
+				if (view !== panel.shown) return;
+				// The leave note sits between the heading and the fields, so it
+				// shows whether the switch is on or off.
+				panel.$header.siblings(".oms-leave").remove();
+				$(`<div class="oms-note oms-leave">${frappe.utils.icon("calendar-off", "sm")}<span>${esc(note(away))}</span></div>`).insertAfter(panel.$header);
+				if (!box.may.away) return;
+				const others = (away.languages || []).filter((one) => one.value !== away.lang);
+				panel.add_fields([
+					{ fieldname: "from_date", fieldtype: "Date", label: __("From"), default: away.one_away_from, description: __("Leave empty to start now.") },
+					{ fieldtype: "Column Break" },
+					{ fieldname: "until", fieldtype: "Date", label: __("Until"), default: away.one_away_until, description: __("Leave empty to keep it on until you turn it off.") },
+					{ fieldtype: "Section Break" },
+					{
+						fieldname: "to",
+						fieldtype: "Select",
+						label: __("Sent To"),
+						default: away.one_away_to || "Everyone",
+						options: [
+							{ value: "Everyone", label: __("Everyone") },
+							{ value: "Workspace", label: __("Workspace Only") },
+							{ value: "Contacts", label: __("Workspace and Contacts") },
+						],
 					},
-			  ]
-			: [],
-		async render(panel) {
-			// An issued address answers on its own while its person is on
-			// approved leave (rules.on_leave); said here, beside the switch.
-			const issued = box.hosted && !box.shared;
-			if (!box.may.away && !issued) return;
-			const away = (await frappe.xcall(R + "away_of", { account: box.name })) || {};
-			const $heading = panel.$header.find(".settings-dialog-panel-heading");
-			$heading.find(".oms-leave").remove();
-			if (issued && (box.may.away || away.leave_until))
-				$heading.append(
-					`<div class="oms-help oms-leave">${esc(
-						away.leave_until
-							? __("On approved leave until {0}. Replies go out on their own.", [frappe.datetime.str_to_user(away.leave_until)])
-							: __("Also sent on its own while the person is on approved leave.")
-					)}</div>`
-				);
-			if (!box.may.away) return;
-			panel.add_fields([
-				{ fieldname: "until", fieldtype: "Date", label: __("Until"), default: away.one_away_until },
-				{ fieldname: "message", fieldtype: "Small Text", label: __("Message"), default: away.one_away_message },
-			]);
-			track(panel);
-			panel.on = header_switch(panel, away.one_away, async (on) => {
-				await frappe.xcall(R + "set_away", { account: box.name, away: on, ...panel.get_values() });
-				panel.clean();
-			});
-		},
-	});
+					{ fieldtype: "Column Break" },
+					{
+						fieldname: "also",
+						fieldtype: "Select",
+						label: __("Also In"),
+						default: away.one_away_also || "",
+						options: [{ value: "", label: __("No Second Language") }, ...others],
+						description: __("The standard reply is written in this language too."),
+						change: () => preview(panel),
+					},
+					{ fieldtype: "Section Break" },
+					{ fieldname: "message", fieldtype: "Small Text", label: __("Message"), default: away.one_away_message || "" },
+					{ fieldname: "preview", fieldtype: "HTML" },
+				]);
+				track(panel);
+				panel.body.off("input.oms-away").on("input.oms-away", "textarea", () => preview(panel));
+				preview(panel);
+				panel.on = header_switch(panel, away.one_away, async (on) => {
+					await frappe.xcall(R + "set_away", { ...values(panel), away: on });
+					panel.clean();
+				});
+			},
+		};
+	};
 
 	const auto_tab = (box) => ({
 		id: "auto",
@@ -783,7 +847,7 @@ onedesk.mail.settings = (tab) => {
 		const box = await frappe.xcall(H + "mailbox", { account: name });
 		const items = [];
 		if (box.sends || box.may_sign) items.push(signature_tab(box));
-		items.push(away_tab(box));
+		if (!box.shared && !box.covering_until) items.push(away_tab(box));
 		if (box.shared) items.push(auto_tab(box));
 		items.push(oneai_tab(box));
 		if (box.shared && box.may.holders) items.push(users_tab(box, from));

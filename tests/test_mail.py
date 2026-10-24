@@ -638,34 +638,66 @@ def test_a_signature_keeps_its_layout_and_carries_its_logo():
 	assert "embed" not in received.content, "only what is sent"
 
 
-def test_an_issued_address_answers_while_its_person_is_on_leave():
-	"""The mailbox's own switch wins; else the leave's message; else the
-	mailbox's; else the day they are back."""
+def test_a_person_s_mailbox_answers_while_they_are_away():
+	"""The mailbox's own switch wins, within its dates; else the leave's
+	message; else the mailbox's; else the day they are back. Whoever covers
+	is named, unless the message names them already; a second language is
+	written under the first; the half day of a half-day leave answers
+	nothing."""
 	import datetime
 	import types
 
 	today = datetime.date(2026, 10, 24)
 	space = _load(
 		MAIL / "rules.py",
-		("away_message",),
-		_=lambda text: text,
+		("away_message", "switched_on", "standard_away", "cover_line", "default_away", "half_day_today"),
+		_=lambda text, lang=None: f"[{lang}] {text}" if lang else text,
 		getdate=lambda value: value if isinstance(value, datetime.date) else today,
 		today=lambda: today,
-		add_days=lambda day, n: day + datetime.timedelta(days=n),
 		formatdate=lambda day: day.isoformat(),
 	)
 	said = space["away_message"]
 	box = lambda **values: types.SimpleNamespace(get=lambda key: values.get(key))  # noqa: E731
-	leave = {"to_date": datetime.date(2026, 10, 30), "one_away_message": None}
+	back = datetime.date(2026, 11, 2)
+	leave = {"back": back, "one_away_message": None, "covering": None}
+	samir = {"name": "Samir", "email": "samir@one.test"}
 	assert said(box(), None) is None, "nobody away, no reply"
 	assert said(box(one_away=1, one_away_message="Back Monday."), leave) == "Back Monday."
 	assert said(box(one_away=1, one_away_until=datetime.date(2026, 10, 1)), None) is None, "a switch past its date"
+	assert said(box(one_away=1, one_away_from=datetime.date(2026, 10, 25)), None) is None, "a switch not begun"
 	assert said(box(), {**leave, "one_away_message": "On a site visit."}) == "On a site visit."
 	assert said(box(one_away_message="Away."), leave) == "Away."
-	assert said(box(), leave) == "I'm on leave and back on 2026-10-31. I'll reply then."
+	assert said(box(), leave) == "I'm on leave and back on 2026-11-02. I'll reply then."
+	covered = said(box(), {**leave, "covering": samir})
+	assert covered.endswith("please write to Samir at samir@one.test."), covered
+	assert said(box(), {**leave, "covering": samir, "one_away_message": "Ask samir@one.test."}) == "Ask samir@one.test."
+	assert said(box(one_away_message="Away."), {**leave, "covering": samir}).startswith("Away.\n\n")
+	both = said(box(one_away=1, one_away_also="ar"), None, "en")
+	assert both == "[en] I'm away and will reply when I'm back.\n\n[ar] I'm away and will reply when I'm back."
+	half = space["half_day_today"]
+	assert half({"half_day": 1, "from_date": today, "to_date": today, "half_day_date": None})
+	assert half({"half_day": 1, "from_date": today, "to_date": back, "half_day_date": today})
+	assert not half({"half_day": 1, "from_date": today, "to_date": back, "half_day_date": back})
+	assert not half({"half_day": 0, "from_date": today, "to_date": today})
 	rules = (MAIL / "rules.py").read_text()
 	assert '"status": "Approved"' in rules.split("def on_leave(", 1)[1].split("\ndef ", 1)[0]
-	assert "on_leave(account.name) if issued else None" in rules, "only an issued address answers for leave"
+	away = rules.split("def away(", 1)[1].split("\ndef ", 1)[0]
+	assert 'if account.get("one_shared"):' in away, "a shared mailbox answers with Auto Reply"
+	assert "reaches(account, sender)" in away and "period" in away
+
+
+def test_whoever_covers_reads_but_never_owns():
+	"""A covering person's row is marked, and what decides who a mailbox
+	belongs to and who may change it ignores marked rows."""
+	actions = (MAIL / "actions.py").read_text()
+	assert '"one_cover_until": ["is", "not set"]' in actions.split("def owns(", 1)[1].split("\ndef ", 1)[0]
+	holders = (MAIL / "holders.py").read_text()
+	assert "holds = actions.owns(account, user)" in holders.split("def may(", 1)[1].split("\ndef ", 1)[0]
+	signatures = (MAIL / "signatures.py").read_text()
+	assert '"one_cover_until": ["is", "not set"]' in signatures.split("def person_of(", 1)[1].split("\ndef ", 1)[0]
+	rules = (MAIL / "rules.py").read_text()
+	covered = rules.split("def covered(", 1)[1].split("\ndef ", 1)[0]
+	assert '"one_sends": 0' in covered, "never sends from their address"
 
 
 def test_a_rule_on_an_issued_address_waits_for_a_mail_manager():

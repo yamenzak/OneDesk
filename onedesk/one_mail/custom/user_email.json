@@ -12,6 +12,18 @@
    "label": "May Send",
    "module": "One Mail",
    "name": "User Email-one_sends"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "User Email",
+   "fieldname": "one_cover_until",
+   "fieldtype": "Date",
+   "label": "Covering Until",
+   "module": "One Mail",
+   "insert_after": "one_sends",
+   "name": "User Email-one_cover_until",
+   "read_only": 1,
+   "description": "Given while its person is on leave, and taken away the day after."
   }
  ],
  "doctype": "User Email",

@@ -73,6 +73,7 @@ import {
   ask,
   call,
   compose,
+  date,
   escape,
   goTo,
   goToUrl,
@@ -202,6 +203,15 @@ function folded(one) {
   return !(box.value && box.value.name === one.name);
 }
 
+// A person's own mailbox says when it is answering for them, and one the
+// reader covers for a colleague on leave says until when.
+function awayNote(one) {
+  if (one.covering_until) return __("Covering until {0}", [date(one.covering_until)]);
+  if (!one.away) return "";
+  if (one.away.leave) return __("On Leave until {0}", [date(one.away.until)]);
+  return one.away.until ? __("Out of Office until {0}", [date(one.away.until)]) : __("Out of Office");
+}
+
 const treeRows = computed(() => {
   const out = [];
   for (const one of boxes.value) {
@@ -209,7 +219,7 @@ const treeRows = computed(() => {
     out.push({
       id: BOX + one.name,
       label: called(one),
-      note: called(one) !== one.email ? one.email : "",
+      note: awayNote(one) || (called(one) !== one.email ? one.email : ""),
       title: one.email,
       icon: one.workspace ? "building-2" : one.shared ? "users" : "at-sign",
       depth: 0,
@@ -277,16 +287,15 @@ function folderMenu(id) {
 
 // A mailbox's own menu. Each part opens its view in OneMail's settings,
 // for whoever's role or share lets them change it (holders.may). Out of
-// Office still shows on one's own issued address, where approved leave
-// answers on its own.
+// Office shows on every mailbox of a person's own, where approved leave
+// answers on its own; a shared one answers with Auto Reply.
 function boxMenu(one) {
   if (!one) return [];
   const at = (section) => () => settings(`mailbox:${one.name}${section ? ":" + section : ""}`);
-  const issued = one.hosted && !one.shared;
   return [
     { label: __("New Folder"), icon: "folder-plus", onClick: () => newFolder(one.name) },
     one.may_sign ? { label: __("Signature"), icon: "signature", onClick: at("signature") } : null,
-    one.may?.away || issued ? { label: __("Out of Office"), icon: "plane", onClick: at("away") } : null,
+    !one.shared && !one.covering_until ? { label: __("Out of Office"), icon: "plane", onClick: at("away") } : null,
     one.shared && one.may?.auto_reply ? { label: __("Auto Reply"), icon: "reply", onClick: at("auto") } : null,
     one.may?.ai ? { label: __("OneAI"), icon: "sparkles", onClick: at("oneai") } : null,
     { label: __("Rules"), icon: "list-filter", onClick: at("rules") },

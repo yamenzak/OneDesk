@@ -10,6 +10,7 @@ from frappe import _
 from frappe.utils import add_days, formatdate, getdate, today
 
 AWAY_ONCE_IN = 4 * 24 * 3600
+AWAY_TO = ("Everyone", "Workspace", "Contacts")
 ACK_ONCE_IN = 24 * 3600
 RULE_REPLY_ONCE_IN = 30 * 24 * 3600
 MOST_ASKED = 6000
@@ -320,7 +321,15 @@ def _reply(account, made, text: str, html: str | None = None) -> None:
 
 	sender = (made.sender or "").lower()
 	reply = EmailMessage()
-	reply["From"] = email.utils.formataddr((account.email_account_name or "", account.email_id))
+	from onedesk.one_mail import signatures
+
+	name = (
+		signatures.sender_name_for(account.name, None)
+		or signatures.default_sender_name(account.name)
+		or account.email_account_name
+		or ""
+	)
+	reply["From"] = email.utils.formataddr((name, account.email_id))
 	reply["To"] = sender
 	reply["Subject"] = f"Re: {made.subject or ''}".strip()
 	reply["Date"] = email.utils.formatdate(localtime=True)
@@ -369,10 +378,12 @@ def acknowledge(made, message) -> bool:
 
 
 def on_leave(account: str) -> dict | None:
-	"""The approved leave the person an issued address belongs to is on
-	today, if any: OneHR's leave is their out-of-office, read as mail
-	arrives, so nobody turns it on or off and a cancelled leave stops
-	replying at once."""
+	"""The approved leave the person a mailbox belongs to is on today, if any:
+	OneHR's leave is their out-of-office on every mailbox of their own, read
+	as mail arrives, so nobody turns it on or off and a cancelled leave stops
+	replying at once. A leave that asks for no replies, and the half day of a
+	half-day leave, answer nothing. With it: the day they are back, and who
+	covers for them."""
 	from onedesk.one_mail import signatures
 
 	user = signatures.person_of(account)
@@ -381,7 +392,7 @@ def on_leave(account: str) -> dict | None:
 	employee = frappe.db.get_value("Employee", {"user_id": user, "status": "Active"}, "name")
 	if not employee:
 		return None
-	return frappe.db.get_value(
+	leave = frappe.db.get_value(
 		"Leave Application",
 		{
 			"employee": employee,
@@ -390,80 +401,417 @@ def on_leave(account: str) -> dict | None:
 			"from_date": ["<=", today()],
 			"to_date": [">=", today()],
 		},
-		["name", "to_date", "one_away_message"],
+		[
+			"name",
+			"from_date",
+			"to_date",
+			"half_day",
+			"half_day_date",
+			"one_away_message",
+			"one_away_replies",
+			"one_covering",
+		],
 		as_dict=True,
 		order_by="to_date desc",
 	)
+	if not leave or leave.one_away_replies == 0 or half_day_today(leave):
+		return None
+	leave["back"] = back_on(employee, leave.to_date)
+	leave["covering"] = covering_of(leave.one_covering)
+	return leave
 
 
-def away_message(account, leave: dict | None) -> str | None:
+def half_day_today(leave) -> bool:
+	"""Whether today is the half day of a half-day leave, which the person
+	works too. Pure."""
+	if not leave.get("half_day"):
+		return False
+	day = leave.get("half_day_date") or (leave.get("from_date") if leave.get("from_date") == leave.get("to_date") else None)
+	return bool(day) and getdate(day) == getdate(today())
+
+
+def back_on(employee: str, to_date) -> object:
+	"""The first working day after a leave, past the weekends and holidays
+	of the person's holiday list."""
+	from erpnext.setup.doctype.employee.employee import get_holiday_list_for_employee
+
+	day = getdate(add_days(to_date, 1))
+	holidays = get_holiday_list_for_employee(employee, raise_exception=False)
+	if not holidays:
+		return day
+	off = {
+		getdate(one)
+		for one in frappe.get_all(
+			"Holiday",
+			filters={"parent": holidays, "holiday_date": ["between", [day, add_days(day, 60)]]},
+			pluck="holiday_date",
+		)
+	}
+	while day in off:
+		day = getdate(add_days(day, 1))
+	return day
+
+
+def covering_of(employee: str | None) -> dict | None:
+	"""Who covers for a person on leave, as a reply names them."""
+	if not employee:
+		return None
+	said = frappe.db.get_value(
+		"Employee", employee, ["employee_name", "user_id", "company_email", "prefered_email"], as_dict=True
+	)
+	if not said:
+		return None
+	address = said.prefered_email or said.company_email or said.user_id
+	return {"name": said.employee_name, "email": address, "user": said.user_id} if address else None
+
+
+def switched_on(account) -> bool:
+	"""Whether a mailbox's own Out of Office is on today, within its dates. Pure."""
+	if not account.get("one_away"):
+		return False
+	now = getdate(today())
+	if account.get("one_away_from") and now < getdate(account.get("one_away_from")):
+		return False
+	return not (account.get("one_away_until") and now > getdate(account.get("one_away_until")))
+
+
+def standard_away(back=None, covering: dict | None = None, lang: str | None = None) -> str:
+	"""The reply nobody wrote, in one language. Pure."""
+	said = (
+		_("I'm on leave and back on {0}. I'll reply then.", lang=lang).format(formatdate(back))
+		if back
+		else _("I'm away and will reply when I'm back.", lang=lang)
+	)
+	return f"{said} {cover_line(covering, lang)}" if covering else said
+
+
+def cover_line(covering: dict, lang: str | None = None) -> str:
+	"""The sentence naming who covers. Pure."""
+	return _("For anything urgent, please write to {0} at {1}.", lang=lang).format(covering["name"], covering["email"])
+
+
+def default_away(account, back=None, covering: dict | None = None, lang: str | None = None) -> str:
+	"""The standard reply in the person's language, and in the mailbox's
+	second one under it when it has one. Pure."""
+	first = standard_away(back, covering, lang)
+	also = account.get("one_away_also")
+	return f"{first}\n\n{standard_away(back, covering, also)}" if also and also != lang else first
+
+
+def away_message(account, leave: dict | None, lang: str | None = None) -> str | None:
 	"""What an out-of-office reply says, or None when nobody is away: the
 	mailbox's own reply while it is on, else the leave's message, else the
-	mailbox's message with the day they are back. Pure."""
-	set_on = account.get("one_away") and not (
-		account.get("one_away_until") and getdate(today()) > getdate(account.get("one_away_until"))
-	)
-	if set_on:
-		return account.get("one_away_message") or _("I'm away and will reply when I'm back.")
+	mailbox's, else the standard one with the day they are back. Whoever
+	covers is named unless the message names them already. Pure."""
+	if switched_on(account):
+		return account.get("one_away_message") or default_away(account, lang=lang)
 	if not leave:
 		return None
-	back = formatdate(add_days(leave["to_date"], 1))
-	return (
-		leave.get("one_away_message")
-		or account.get("one_away_message")
-		or _("I'm on leave and back on {0}. I'll reply then.").format(back)
+	covering = leave.get("covering")
+	written = leave.get("one_away_message") or account.get("one_away_message")
+	if not written:
+		return default_away(account, leave.get("back"), covering, lang)
+	if covering and covering["email"].lower() not in written.lower():
+		written += "\n\n" + cover_line(covering, lang)
+	return written
+
+
+def inside(sender: str) -> bool:
+	"""Whether an address is one of the workspace's own: a person's, or one
+	of its mailboxes."""
+	return bool(
+		frappe.db.exists("User", {"name": sender, "enabled": 1, "user_type": "System User"})
+		or frappe.db.exists("Email Account", {"email_id": sender})
 	)
+
+
+def reaches(account, sender: str) -> bool:
+	"""Whether a mailbox's out-of-office answers this sender, as its Away
+	Replies To says: everyone, only the workspace's people, or them and the
+	workspace's contacts."""
+	to = account.get("one_away_to") or "Everyone"
+	if to == "Everyone":
+		return True
+	if inside(sender):
+		return True
+	return to == "Contacts" and bool(frappe.db.exists("Contact Email", {"email_id": sender}))
+
+
+def language_of(account: str) -> str | None:
+	"""The language a person's replies are written in: their own."""
+	from onedesk.one_mail import signatures
+
+	user = signatures.person_of(account)
+	return (frappe.db.get_value("User", user, "language") if user else None) or frappe.db.get_default("lang")
+
+
+def signed(account, text: str) -> str:
+	"""A reply as mail: its lines, then the mailbox's signature, its logo
+	reachable from outside."""
+	from frappe.utils import escape_html, get_url
+
+	from onedesk.one_mail import signatures
+
+	body = "".join(f'<p dir="auto">{escape_html(one).replace(chr(10), "<br>")}</p>' for one in text.split("\n\n"))
+	signature = signatures.written(account.get("signature")) if account.get("add_signature") else ""
+	if signature:
+		signature = re.sub(r'src="/', f'src="{get_url()}/', signature)
+		body += f"<br>{signature}"
+	return f'<div style="font-family:Arial,Helvetica,sans-serif;font-size:14px">{body}</div>'
 
 
 def away(made, message) -> bool:
-	"""An out-of-office reply, if the mailbox's holder is away: by its own
-	switch, or on approved leave."""
+	"""An out-of-office reply, if the person a mailbox belongs to is away: by
+	its own switch, or on approved leave. Never from a shared mailbox, whose
+	answer is Auto Reply. Each sender is answered once in AWAY_ONCE_IN, and
+	once again when a new time away begins."""
 	account = frappe.get_doc("Email Account", made.email_account)
-	issued = account.get("one_hosted") and not account.get("one_shared")
-	said = away_message(account, on_leave(account.name) if issued else None)
+	if account.get("one_shared"):
+		return False
+	leave = None if switched_on(account) else on_leave(account.name)
+	said = away_message(account, leave, language_of(account.name))
 	if not said:
 		return False
 	sender = (made.sender or "").lower()
 	if automatic(message, sender) or sender == (account.email_id or "").lower():
 		return False
-	key = f"one_away:{account.name}:{sender}"
+	if not reaches(account, sender):
+		return False
+	period = leave["name"] if leave else str(account.get("one_away_since") or account.get("one_away_from") or "")
+	key = f"one_away:{account.name}:{period}:{sender}"
 	if frappe.cache.get_value(key):
 		return False
 	frappe.cache.set_value(key, 1, expires_in_sec=AWAY_ONCE_IN)
-	_reply(account, made, said)
+	_reply(account, made, said, signed(account, said))
 	return True
 
 
+def away_state(account: str) -> dict | None:
+	"""Whether a person's mailbox is answering for them now, and until when:
+	{"until", "leave"}, or None. What the mailbox lists show."""
+	doc = frappe.db.get_value(
+		"Email Account",
+		account,
+		["one_away", "one_away_from", "one_away_until", "one_shared"],
+		as_dict=True,
+	)
+	if not doc or doc.one_shared:
+		return None
+	if switched_on(doc):
+		return {"until": doc.one_away_until, "leave": 0}
+	leave = on_leave(account)
+	return {"until": leave.to_date, "leave": 1} if leave else None
+
+
 @frappe.whitelist(methods=["POST"])
-def set_away(account: str, away: int = 0, until: str | None = None, message: str | None = None) -> None:
-	"""Turn a mailbox's out-of-office reply on or off: whoever may
-	(holders.may, "away"). A person's approved leave answers on its own
-	(on_leave)."""
+def set_away(
+	account: str,
+	away: int = 0,
+	until: str | None = None,
+	message: str | None = None,
+	from_date: str | None = None,
+	to: str | None = None,
+	also: str | None = None,
+) -> None:
+	"""Turn a person's out-of-office reply on or off, with its dates, who it
+	answers and a second language: whoever may (holders.may, "away"). A
+	shared mailbox answers with Auto Reply instead, and a person's approved
+	leave answers on its own (on_leave)."""
 	from onedesk.one_mail import holders
 
 	holders.must(account, "away")
-	frappe.db.set_value(
-		"Email Account",
-		account,
-		{"one_away": int(away), "one_away_until": until or None, "one_away_message": message or None},
-		update_modified=False,
+	was = frappe.db.get_value(
+		"Email Account", account, ["one_shared", "one_away", "one_away_from"], as_dict=True
 	)
+	if was.one_shared:
+		frappe.throw(_("A shared mailbox answers with Auto Reply instead."))
+	if to and to not in AWAY_TO:
+		frappe.throw(_("That cannot be set."))
+	if until and from_date and getdate(until) < getdate(from_date):
+		frappe.throw(_("The day it ends can't be before the day it starts."))
+	values = {
+		"one_away": int(bool(int(away))),
+		"one_away_until": until or None,
+		"one_away_from": from_date or None,
+		"one_away_message": (message or "").strip() or None,
+		"one_away_to": to or "Everyone",
+		"one_away_also": also or None,
+	}
+	if values["one_away"] and (not was.one_away or str(was.one_away_from or "") != str(from_date or "")):
+		values["one_away_since"] = frappe.utils.now_datetime()
+	frappe.db.set_value("Email Account", account, values, update_modified=False)
+	frappe.publish_realtime("one_mailbox", after_commit=True)
 
 
 @frappe.whitelist()
 def away_of(account: str) -> dict:
+	"""A mailbox's out-of-office as its tab shows it, with the standard reply
+	and the leave answering now, if any."""
 	from onedesk.one_mail import holders
 
 	holders.sees(account)
 	said = frappe.db.get_value(
 		"Email Account",
 		account,
-		["one_away", "one_away_until", "one_away_message", "one_shared", "one_hosted"],
+		[
+			"one_away",
+			"one_away_from",
+			"one_away_until",
+			"one_away_message",
+			"one_away_to",
+			"one_away_also",
+			"one_shared",
+			"one_hosted",
+		],
 		as_dict=True,
 	)
-	leave = on_leave(account) if said.one_hosted and not said.one_shared else None
+	leave = on_leave(account) if not said.one_shared else None
 	said["leave_until"] = leave.to_date if leave else None
+	said["leave_back"] = leave.back if leave else None
+	said["covering"] = leave.covering if leave else None
+	said["languages"] = languages()
+	said["lang"] = language_of(account)
 	return said
+
+
+@frappe.whitelist(methods=["POST"])
+def away_preview(account: str, message: str | None = None, also: str | None = None) -> dict:
+	"""The reply as a sender gets it, signed, and the standard reply in the
+	languages chosen, which an untouched message follows."""
+	from onedesk.one_mail import holders
+
+	holders.sees(account)
+	doc = frappe.get_doc("Email Account", account)
+	doc.one_away_also = also or None
+	standard = default_away(doc, lang=language_of(account))
+	said = (message or "").strip() or standard
+	return {"default": standard, "html": signed(doc, said), "subject": _("Re: {0}").format(_("Your message"))}
+
+
+def languages() -> list[dict]:
+	"""The languages One is written in, for a reply's second language."""
+	from pathlib import Path
+
+	codes = ["en", *sorted({path.stem for path in Path(frappe.get_app_path("onedesk", "locale")).glob("*.po")} - {"en"})]
+	names = dict(frappe.get_all("Language", filters={"name": ["in", codes]}, fields=["name", "language_name"], as_list=True))
+	return [{"value": code, "label": names.get(code) or code} for code in codes]
+
+
+@frappe.whitelist()
+def who_is_away(emails: str | list) -> list[dict]:
+	"""Of the workspace's people a message is being written to, who is away
+	now, until when, and who covers: what the composer warns of."""
+	emails = frappe.parse_json(emails) if isinstance(emails, str) and emails.startswith("[") else emails
+	if isinstance(emails, str):
+		emails = [one.strip() for one in re.split(r"[,;]", emails)]
+	said = []
+	for address in {(one or "").strip().lower() for one in emails or [] if one}:
+		account = frappe.db.get_value("Email Account", {"email_id": address, "one_shared": 0}, "name")
+		if not account and frappe.db.exists("User", {"name": address, "enabled": 1}):
+			account = next(
+				(
+					one
+					for one in frappe.get_all("User Email", filters={"parent": address, "one_cover_until": ["is", "not set"]}, pluck="email_account")
+					if not frappe.db.get_value("Email Account", one, "one_shared")
+				),
+				None,
+			)
+		state = away_state(account) if account else None
+		if not state:
+			continue
+		from onedesk.one_mail import signatures
+
+		person = signatures.person_of(account)
+		leave = on_leave(account) if state["leave"] else None
+		said.append(
+			{
+				"email": address,
+				"name": frappe.utils.get_fullname(person) if person else address,
+				"until": state["until"],
+				"leave": state["leave"],
+				"covering": (leave or {}).get("covering"),
+			}
+		)
+	return said
+
+
+def cover(*_args) -> None:
+	"""Daily: whoever covers for a person on approved leave, where the leave
+	says so, reads that person's workspace address until the leave ends, and
+	not a day after. They never send from it."""
+	for row in frappe.get_all("User Email", filters={"one_cover_until": ["<", today()]}, pluck="name"):
+		frappe.db.delete("User Email", {"name": row})
+	for leave in frappe.get_all(
+		"Leave Application",
+		filters={
+			"docstatus": 1,
+			"status": "Approved",
+			"from_date": ["<=", today()],
+			"to_date": [">=", today()],
+			"one_covering_reads": 1,
+		},
+		pluck="name",
+	):
+		covered(frappe.get_doc("Leave Application", leave))
+
+
+def covered(leave, method=None) -> None:
+	"""Leave Application on_submit, on_update_after_submit and on_cancel:
+	whoever covers reads the address while the leave is approved and under
+	way, and stops when it is cancelled, changed or over."""
+	person = frappe.db.get_value("Employee", leave.employee, "user_id")
+	cover = covering_of(leave.get("one_covering"))
+	address = _issued_to(person)
+	if not person or not address:
+		return
+	for row in frappe.get_all(
+		"User Email",
+		filters={"email_account": address, "one_cover_until": ["is", "set"]},
+		fields=["name", "parent"],
+	):
+		if not cover or row.parent != cover["user"] or not _covers_now(leave):
+			frappe.db.delete("User Email", {"name": row.name})
+	if not cover or not cover["user"] or cover["user"] == person or not _covers_now(leave):
+		return
+	if frappe.db.exists("User Email", {"parent": cover["user"], "email_account": address, "one_cover_until": ["is", "not set"]}):
+		return
+	fresh = not frappe.db.exists("User Email", {"parent": cover["user"], "email_account": address})
+	if fresh:
+		from onedesk.one_mail import addresses
+
+		addresses.hold(address, cover["user"])
+	frappe.db.set_value(
+		"User Email",
+		{"parent": cover["user"], "email_account": address},
+		{"one_cover_until": leave.to_date, "one_sends": 0},
+		update_modified=False,
+	)
+	if fresh:
+		from onedesk.one_mail import tell
+
+		tell.covering(address, person, cover["user"], leave.to_date)
+	frappe.publish_realtime("one_mailbox", after_commit=True)
+
+
+def _covers_now(leave) -> bool:
+	return bool(
+		leave.docstatus == 1
+		and leave.status == "Approved"
+		and leave.get("one_covering_reads")
+		and getdate(leave.from_date) <= getdate(today()) <= getdate(leave.to_date)
+	)
+
+
+def _issued_to(user: str | None) -> str | None:
+	"""A person's workspace address: the one the workspace issued them."""
+	if not user:
+		return None
+	for account in frappe.get_all(
+		"User Email", filters={"parent": user, "one_cover_until": ["is", "not set"]}, pluck="email_account"
+	):
+		if frappe.db.get_value("Email Account", account, ["one_hosted", "one_shared"]) == (1, 0):
+			return account
+	return None
 
 
 @frappe.whitelist(methods=["POST"])

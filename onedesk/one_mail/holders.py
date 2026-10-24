@@ -72,7 +72,7 @@ def may(account: str, key: str, user: str | None = None) -> bool:
 	if user == "Administrator" or roles.administers(user):
 		return True
 	shared, hosted = frappe.db.get_value("Email Account", account, ["one_shared", "one_hosted"]) or (0, 0)
-	holds = actions.holds(account, user)
+	holds = actions.owns(account, user)
 	if holds and not shared and not hosted:
 		return True
 	one = _ability(key)
@@ -200,6 +200,8 @@ BOX_FIELDS = [
 
 def _box(account, rows: dict, ours: str | None, listed: list) -> dict:
 	"""What OneMail shows of one mailbox to the reader."""
+	from onedesk.one_mail import rules
+
 	return {
 		"name": account.name,
 		"email": account.email_id,
@@ -219,6 +221,10 @@ def _box(account, rows: dict, ours: str | None, listed: list) -> dict:
 		"may_reconnect": int(bool(account.one_connected) and held["connection"]),
 		"unread": sum(one.unread or 0 for one in listed if one.kind in ("Inbox", "Other")),
 		"folders": listed,
+		"away": None if account.one_shared else rules.away_state(account.name),
+		"covering_until": frappe.db.get_value(
+			"User Email", {"parent": frappe.session.user, "email_account": account.name}, "one_cover_until"
+		),
 	}
 
 

@@ -58,6 +58,45 @@
    "allow_on_submit": 1,
    "description": "Sent to anyone who emails you while you're on leave. Leave empty for the standard message.",
    "name": "Leave Application-one_away_message"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Leave Application",
+   "fieldname": "one_away_replies",
+   "fieldtype": "Check",
+   "label": "Out of Office Replies",
+   "module": "One HR",
+   "insert_after": "one_away_message",
+   "name": "Leave Application-one_away_replies",
+   "default": "1",
+   "allow_on_submit": 1,
+   "description": "Answer mail on its own while you're on leave, until the day you're back."
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Leave Application",
+   "fieldname": "one_covering",
+   "fieldtype": "Link",
+   "label": "Covering Person",
+   "module": "One HR",
+   "insert_after": "one_away_replies",
+   "name": "Leave Application-one_covering",
+   "options": "Employee",
+   "allow_on_submit": 1,
+   "description": "Named in the reply, for anything urgent."
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Leave Application",
+   "fieldname": "one_covering_reads",
+   "fieldtype": "Check",
+   "label": "Covering Person Reads My Mail",
+   "module": "One HR",
+   "insert_after": "one_covering",
+   "name": "Leave Application-one_covering_reads",
+   "allow_on_submit": 1,
+   "depends_on": "eval:doc.one_covering",
+   "description": "They can read your workspace address while you're away, but not send from it."
   }
  ],
  "doctype": "Leave Application",

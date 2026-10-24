@@ -46,7 +46,9 @@ def person_of(account: str) -> str | None:
 	anyone else's as its one holder."""
 	if frappe.db.get_value("Email Account", account, "one_shared"):
 		return None
-	held = frappe.get_all("User Email", filters={"email_account": account}, pluck="parent", limit=2)
+	held = frappe.get_all(
+		"User Email", filters={"email_account": account, "one_cover_until": ["is", "not set"]}, pluck="parent", limit=2
+	)
 	return held[0] if len(held) == 1 else None
 
 

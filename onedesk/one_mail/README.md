@@ -82,7 +82,8 @@ page in Workspace › People:
 
 - **User**, which everyone has: their own connected mailboxes, such as their
   Gmail, are theirs to manage. On the address the workspace issued them,
-  they ask for rules and a Mail Manager approves them.
+  they set their own out of office, and ask for rules, which a Mail Manager
+  approves.
 - **Manager**: everything on every mailbox, as well as connecting shared
   mailboxes, the address policy and mail templates. Give it to the people in
   HR or PR who look after the company's mail.
@@ -264,16 +265,43 @@ the rule on a card. When you approve it:
 - the rule is created
 - for a rule by words, matching mail already in the Inbox can be moved too
 
-**Out of Office**, in the same menu, sends an automatic reply until the date
-you set. Each sender gets one reply every four days. Mailing lists,
-newsletters, other automatic replies and no-reply addresses get none.
+**Out of Office** is on every mailbox of your own: the address the
+workspace issued you and any you connected. Shared mailboxes don't have it;
+they answer with **Auto Reply**. Everyone can set their own, unless their
+OneMail role says otherwise.
 
-**On leave.** The address the workspace issued you answers on its own on
-every day of your approved leave in OneHR, so nobody has to turn it on or
-off. The reply says the **Away Message** you wrote on the leave request, or
-else the mailbox's own message, or else that you're on leave and back on
-the day after it ends. A leave that's cancelled stops the replies at once
-(`rules.on_leave`, read as each message arrives).
+- **From** and **Until** set it up ahead of time; leave From empty to start
+  now and Until empty to keep it on.
+- **Sent To**: everyone, only people in the workspace, or them and the
+  workspace's contacts.
+- **Also In** writes the standard reply in a second language under the
+  first, such as English and Arabic.
+- **Message** starts as the standard reply; change it, and **What They Get**
+  shows it as the sender will, signed and under the mailbox's sender name.
+
+Each sender gets one reply every four days, and one again when a new time
+away begins. Mailing lists, newsletters, other automatic replies and
+no-reply addresses get none. While it's on, the mailbox says **Out of
+Office until …** in OneMail's rail and in Settings › Mailboxes, and anyone
+writing to you sees that you're away above their message, and who covers.
+
+**On leave.** Every mailbox of your own answers on its own on each day of
+your approved leave in OneHR, so nobody turns it on or off. On the leave
+request:
+
+- **Away Message** is what the reply says. Left empty, it's the mailbox's
+  own message, or else that you're on leave and back on the first working
+  day after it, past weekends and holidays.
+- **Out of Office Replies** off means no replies for this leave.
+- **Covering Person** is named in the reply for anything urgent, and with
+  **Covering Person Reads My Mail** they can read your workspace address
+  in OneMail until the leave ends (never send from it). They're told when
+  it starts.
+
+The half day of a half-day leave gets no replies, since you're working
+too. A leave that's cancelled stops the replies, and the covering, at once
+(`rules.on_leave` as each message arrives, `rules.covered` as a leave is
+decided, `rules.cover` each day).
 
 **Bounces:** when mail to an address bounces permanently, OneMail stops
 sending to it and marks the message that bounced.
@@ -321,7 +349,8 @@ up space or add storage in Plan and Credits.
 or to every administrator when nobody does (**Mailbox Not Reachable**). Mail
 you sent that could not be delivered after every retry is told to you, on
 the bell and by push (**Mail Not Sent**). Being given a shared mailbox is told
-to you (**Mailbox Shared With You**).
+to you (**Mailbox Shared With You**), and so is covering for somebody on leave
+(**Covering Mail**).
 
 **Sender pictures:** people who write to you show with their contact
 picture, their Gravatar photo or their organization's logo. Contacts, leads,

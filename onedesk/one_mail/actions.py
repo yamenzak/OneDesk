@@ -30,6 +30,17 @@ def holds(account: str, user: str | None = None) -> bool:
 	)
 
 
+def owns(account: str, user: str | None = None) -> bool:
+	"""Holding a mailbox as its own, not only covering for its person while
+	they are on leave (rules.cover)."""
+	return bool(
+		frappe.db.exists(
+			"User Email",
+			{"parent": user or frappe.session.user, "email_account": account, "one_cover_until": ["is", "not set"]},
+		)
+	)
+
+
 def require(account: str) -> None:
 	if frappe.flags.one_mail_rules:
 		return

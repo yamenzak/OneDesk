@@ -652,7 +652,7 @@ Pages: backups (the platform's: backups, which the platform takes and keeps); de
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Auto Email Report | on a rail or a home | the administrator | events | no | taught |  | **none** |  |  |  |  |
 | Document Follow | left out: waits in docs/BACKLOG.md | everybody | untouched | no | general |  | **none** |  |  |  |  |
-| Email Account | through a form's link (User: email_account) | OneHR | events, 18 fields | no | taught |  | yes |  |  |  |  |
+| Email Account | through a form's link (User: email_account) | OneHR | events, 22 fields | no | taught |  | yes |  |  |  |  |
 | Email Domain | through a form's link (Email Account: domain) | the administrator | untouched | no | general |  | **none** |  |  |  |  |
 | Email Flag Queue | engine: read and unread marks on their way to the mail server | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Email Group | on a rail or a home | OneCRM | untouched | no | general |  | yes |  |  |  |  |
@@ -805,7 +805,7 @@ Pages: workflow-builder (opened by our screens).
 | KRA | through a form's link (Appraisal Template: key_result_area) | OneHR, the administrator | untouched | yes | taught |  | yes |  |  |  |  |
 | Leave Adjustment | through a form's connections (Leave Allocation's Connections) | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Leave Allocation | on a rail or a home | OneHR | 10 settings | yes | general |  | yes |  |  |  | Leave Expiring |
-| Leave Application | on a rail or a home | everybody | a head, class, events, 6 fields, 7 settings | yes | taught | makes it | yes |  |  |  |  |
+| Leave Application | on a rail or a home | everybody | a head, class, events, 9 fields, 7 settings | yes | taught | makes it | yes |  |  |  |  |
 | Leave Block List | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Leave Control Panel | on a rail or a home | OneHR | form script | no | general |  |  |  |  | ar 5 |  |
 | Leave Encashment | on a rail or a home | everybody | a head, 5 settings | yes | general |  | yes |  |  |  |  |

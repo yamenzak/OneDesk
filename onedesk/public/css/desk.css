@@ -1592,3 +1592,28 @@ html[dir="rtl"] body > div[style*="left: -9999px"] {
 	height: 48px;
 	border: 0;
 }
+
+/* Writing to a colleague who is away (public/js/mail_compose.js). */
+.one-compose-away {
+	display: flex;
+	flex-direction: column;
+	gap: var(--padding-xs);
+	margin-bottom: var(--margin-sm);
+	padding: var(--padding-sm);
+	border-radius: var(--radius-lg);
+	background: var(--surface-gray-1);
+	color: var(--ink-gray-7);
+	font-size: var(--text-sm);
+}
+
+.one-compose-away > div {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: var(--padding-xs);
+	text-align: start;
+}
+
+.one-compose-away > div > span {
+	flex: 1;
+}

@@ -2954,8 +2954,8 @@ def onemail_people_ask_and_mail_managers_decide():
 	can't turn it on herself; Layla approves it and it runs. Tariq, made a
 	Mail Manager, manages the workspace's mailbox and Rania's address
 	without holding either, and gives Rania's address a sender name.
-	Rania's own address answers by itself only while she is on approved
-	leave."""
+	Rania sets her own address's out-of-office, and it answers by itself
+	while she is on approved leave."""
 	from onedesk.one import roles
 	from onedesk.one_mail import addresses, holders, rules, signatures
 
@@ -2964,7 +2964,8 @@ def onemail_people_ask_and_mail_managers_decide():
 			addresses.give("rania@one.test", "rania")
 	theirs = frappe.db.get_value("Email Account", {"email_id": addresses.person_address("rania")})
 	with as_user("rania@one.test"):
-		assert not holders.may_manage(theirs) and holders.issued_to_them(theirs), "an issued address is the workspace's"
+		assert holders.issued_to_them(theirs), "an issued address is the workspace's"
+		assert holders.may(theirs, "away") and not holders.may(theirs, "signature"), "her own out-of-office, nothing more"
 		asked = rules.save_rule(theirs, {"subject_contains": "invoice", "star": 1})
 		assert frappe.db.get_value("Mail Rule", asked, ["enabled", "requested_by"]) == (0, "rania@one.test")
 		try:
@@ -2974,11 +2975,13 @@ def onemail_people_ask_and_mail_managers_decide():
 		else:
 			raise AssertionError("Rania turned on a rule nobody approved")
 		try:
-			rules.set_away(theirs, 1, None, "Away")
+			signatures.set_preset(theirs, "simple", ["email"])
 		except frappe.PermissionError:
 			pass
 		else:
 			raise AssertionError("Rania changed the workspace's address")
+		rules.set_away(theirs, 1, None, "Away")
+		rules.set_away(theirs, 0)
 		assert rules.on_leave(theirs) is None or rules.away_of(theirs)["leave_until"]
 	with as_user(OWNER):
 		rules.decide_rule(asked, 1)
@@ -3053,6 +3056,97 @@ def onemail_roles_and_one_mailbox_grants():
 		with as_user(OWNER):
 			for role in made:
 				access.delete_level(role)
+
+
+@check
+def onemail_out_of_office_answers_for_its_person():
+	"""Rania sets her own address's out-of-office: from tomorrow it is not on
+	today; on today, to the workspace only, it answers Samir once and a
+	buyer outside not at all, in English and Arabic, under her name. On
+	leave her reply says the day she is back and that Samir covers, and
+	Samir reads her address while she is away without owning it, until the
+	leave is cancelled. A shared mailbox has no out-of-office; the half day
+	of a half-day leave answers nothing."""
+	import types
+	from unittest import mock
+
+	from onedesk.one_mail import actions, addresses, holders, rules, signatures
+
+	with as_user(OWNER):
+		if not frappe.db.exists("Email Account", {"email_id": addresses.person_address("rania")}):
+			addresses.give("rania@one.test", "rania")
+	theirs = frappe.db.get_value("Email Account", {"email_id": addresses.person_address("rania")})
+	sent = []
+
+	def arrived(sender):
+		return types.SimpleNamespace(email_account=theirs, sender=sender, subject="Quote", message_id=f"<{sender}>")
+
+	replied = mock.patch(
+		"onedesk.one_mail.rules._reply", side_effect=lambda account, made, text, html=None: sent.append((made.sender, text, html))
+	)
+	leave = frappe._dict(
+		name="LEAVE-CHECK",
+		employee=_employee("Rania"),
+		one_covering=_employee("Samir"),
+		one_covering_reads=1,
+		docstatus=1,
+		status="Approved",
+		from_date=today(),
+		to_date=add_days(today(), 2),
+	)
+	try:
+		with as_user("rania@one.test"):
+			rules.set_away(theirs, 1, None, "", str(add_days(today(), 1)))
+			assert not rules.switched_on(frappe.get_doc("Email Account", theirs)), "it starts tomorrow"
+			rules.set_away(theirs, 1, str(add_days(today(), 3)), "", None, "Workspace", "ar")
+			assert rules.away_state(theirs)["until"]
+			drawn = rules.away_preview(theirs, "", "ar")
+			assert drawn["default"].count("\n\n") == 1 and 'dir="auto"' in drawn["html"]
+		with as_user("samir@one.test"):
+			assert [one["email"] for one in rules.who_is_away([addresses.person_address("rania")])] == [
+				addresses.person_address("rania")
+			], "who writes to her is told"
+		with replied, mock.patch("onedesk.one_mail.rules.on_leave", return_value=None):
+			assert not rules.away(arrived("buyer@outside.test"), {}), "only the workspace"
+			assert rules.away(arrived("samir@one.test"), {})
+			assert not rules.away(arrived("samir@one.test"), {}), "once per sender"
+		assert "أنا" in sent[-1][1] and 'dir="auto"' in sent[-1][2], "English, then Arabic"
+		with as_user(OWNER):
+			try:
+				rules.set_away(holders.workspace(), 1)
+				raise AssertionError("a shared mailbox took an out-of-office")
+			except frappe.ValidationError:
+				pass
+		with as_user("rania@one.test"):
+			rules.set_away(theirs, 0)
+
+		rules.covered(leave)
+		assert actions.holds(theirs, "samir@one.test") and not actions.owns(theirs, "samir@one.test")
+		assert signatures.person_of(theirs) == "rania@one.test", "covering is not owning"
+		with as_user("samir@one.test"):
+			assert not holders.may(theirs, "away")
+			assert {one["name"]: one["covering_until"] for one in holders.mailboxes()}[theirs]
+		back = rules.back_on(leave.employee, leave.to_date)
+		said = rules.away_message(
+			frappe.get_doc("Email Account", theirs),
+			{"back": back, "covering": rules.covering_of(leave.one_covering), "one_away_message": "Off to Beirut."},
+			"en",
+		)
+		assert said.startswith("Off to Beirut.") and "Samir" in said, "her words, then who covers"
+		assert back > frappe.utils.getdate(leave.to_date)
+		assert rules.half_day_today(frappe._dict(half_day=1, from_date=today(), to_date=today(), half_day_date=None))
+		leave.docstatus = 2
+		rules.covered(leave)
+		assert not actions.holds(theirs, "samir@one.test"), "cancelled, and he no longer reads it"
+	finally:
+		frappe.db.delete("User Email", {"email_account": theirs, "one_cover_until": ["is", "set"]})
+		frappe.db.set_value(
+			"Email Account",
+			theirs,
+			{"one_away": 0, "one_away_from": None, "one_away_until": None, "one_away_to": "Everyone", "one_away_also": None},
+			update_modified=False,
+		)
+		frappe.db.delete("Notification Log", {"for_user": "samir@one.test", "subject": ["like", "%covering%"]})
 
 
 @check
