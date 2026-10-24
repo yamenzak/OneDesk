@@ -35,6 +35,21 @@ def mailbox_not_reachable(doc, said: str, holders: list[str]) -> None:
 	)
 
 
+def oneai_limit_reached(held) -> None:
+	"""A mailbox's OneAI credits for the month are spent: whoever OneAI reads
+	it for and whoever connected it hear once."""
+	owner = frappe.db.get_value("Email Account", held.name, "owner")
+	people = [one for one in {held.one_intake_for, owner} if one and one not in ("Administrator", "Guest")]
+	notify.notify(
+		"Mailbox OneAI Limit Reached",
+		people or _admins(),
+		link=f"/desk/onemail?settings=mailbox:{held.name}:oneai",
+		sender="Administrator",
+		mailbox=held.email_id,
+		limit=held.one_ai_limit,
+	)
+
+
 def _admins() -> list[str]:
 	from onedesk.one.roles import administrators
 

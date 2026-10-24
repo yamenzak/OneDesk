@@ -346,6 +346,14 @@ who can see the folder and whether OneAI reads it.
 
 For the people who build OneCloud. OneAI does not read past this heading.
 
+### The bars at the foot of the rail (api.capacity)
+
+A linked workspace's files are what the account measured in R2 last night
+(one_admin/storage.measure), the only count that sees every object; an
+unlinked one keeps them on this server's disk, and they are added up there.
+The database is asked when the bars are drawn, as the nightly report to the
+account asks it (account.database_bytes).
+
 ### What it is made of
 
 Frappe's own **File**. Every attachment in the framework is a File row —

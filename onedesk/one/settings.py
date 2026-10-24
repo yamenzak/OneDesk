@@ -187,7 +187,7 @@ def load(
 	}
 	if section not in loaders:
 		frappe.throw(_("There is no such section."))
-	if _needs_admin(section):
+	if _group(section) == "workspace":
 		roles.require()
 	return loaders[section](record) if section in ON_A_RECORD else loaders[section]()
 
@@ -213,7 +213,7 @@ def save(
 	}
 	if section not in savers:
 		frappe.throw(_("There is nothing to save here."))
-	if _needs_admin(section):
+	if _group(section) == "workspace":
 		roles.require()
 	if section in ON_A_RECORD:
 		record = savers[section](record, values) or record

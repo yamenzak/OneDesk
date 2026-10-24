@@ -114,6 +114,10 @@ def open_file(
 	item, refused = _file(file)
 	if refused:
 		return refused
+	from onedesk.one_mail import gate
+
+	if not gate.readable("File", item.name):
+		return {"error": "OneAI is turned off for the mailbox this file came with."}
 	said = {
 		"name": item.file_name,
 		"size": cint(item.file_size),

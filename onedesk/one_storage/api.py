@@ -115,14 +115,8 @@ def folders(node: str = ns.ROOT) -> list[dict]:
 @frappe.read_only()
 def capacity() -> list[dict]:
 	"""How full the workspace is, for the bars at the foot of OneCloud's rail:
-	its files against its plan, and its database against its plan.
-
-	A linked workspace's files are what the account measured in R2 last night
-	(one_admin/storage.measure), the only count that sees every object; an
-	unlinked one keeps them on this server's disk, and they are added up here.
-	The database is asked now, as the nightly report to the account asks it
-	(account.database_bytes). A limit of nothing is no limit, and draws a size
-	with no bar."""
+	files and database against the plan. A limit of nothing draws a size with
+	no bar. Where each number comes from is in the README, Under the hood."""
 	from frappe.utils import cint
 
 	from onedesk.one import account, heads

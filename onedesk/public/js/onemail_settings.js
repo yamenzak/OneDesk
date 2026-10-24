@@ -152,13 +152,14 @@ onedesk.mail.settings = (tab) => {
 		});
 		control.set_value(value ? 1 : 0);
 		control.$input.attr("aria-label", panel.item.title);
-		const shown = () => panel.body.toggleClass("hide", !control.get_value());
+		const shown = (on) => panel.body.toggleClass("hide", !on);
 		control.$input.on("change", async () => {
-			shown();
-			await change(control.get_value() ? 1 : 0);
+			const on = control.get_value() ? 1 : 0;
+			shown(on);
+			await change(on);
 			saved();
 		});
-		shown();
+		shown(value);
 		return control;
 	};
 
@@ -270,6 +271,90 @@ onedesk.mail.settings = (tab) => {
 			track(panel);
 			panel.on = header_switch(panel, said.enable_auto_reply, async (on) => {
 				await frappe.xcall(R + "set_auto_reply", { account: box.name, on, message: panel.get_value("message") || "" });
+				panel.clean();
+			});
+		},
+	});
+
+	// How far OneAI may go with this mailbox (one_mail/gate.py). Off reaches
+	// everything that reads mail, the OneAI panel included.
+	const G = "onedesk.one_mail.gate.";
+	const oneai_tab = (box) => ({
+		id: "oneai",
+		label: __("OneAI"),
+		icon: "sparkles",
+		title: __("OneAI"),
+		description: box.may_manage ? __("If disabled, OneAI can't read this mailbox, including in the OneAI panel.") : managed,
+		actions: box.may_manage
+			? [
+					{
+						label: __("Save"),
+						variant: "solid",
+						class: "oms-save",
+						click: async (panel) => {
+							const values = panel.get_values();
+							if (!values) return;
+							panel.said = await frappe.xcall(G + "set_settings", {
+								account: box.name,
+								reads: values.reads ? 1 : 0,
+								level: values.level,
+								attachments: values.attachments ? 1 : 0,
+								limit: values.limit || 0,
+							});
+							saved();
+							panel.clean();
+						},
+					},
+			  ]
+			: [],
+		async render(panel) {
+			const said = await frappe.xcall(G + "settings_of", { account: box.name });
+			if (!said.ai) {
+				panel.set_header({ title: __("OneAI"), description: __("OneAI is turned off for this workspace in Apps.") });
+				return;
+			}
+			if (!said.may_manage) return;
+			panel.add_fields([
+				{
+					fieldname: "reads",
+					fieldtype: "Switch",
+					label: __("Read New Mail"),
+					default: said.reads,
+					description: said.reads && said.for ? __("Reads with the permissions of {0}.", [said.for]) : __("Each new message is read and acted on. Uses OneAI credits."),
+				},
+				{
+					fieldname: "level",
+					fieldtype: "Select",
+					label: __("Reads To"),
+					options: [
+						{ value: "Sort Only", label: __("Sort Only") },
+						{ value: "Read and File", label: __("Read and File") },
+						{ value: "Read, File and Act", label: __("Read, File and Act") },
+					],
+					default: said.level,
+					depends_on: "reads",
+					description: __("Sort Only moves junk and runs About rules. Act also makes tasks, events and records."),
+				},
+				{
+					fieldname: "attachments",
+					fieldtype: "Switch",
+					label: __("Read Attachments"),
+					default: said.attachments,
+					depends_on: "reads",
+					description: __("Scans, photos and recordings use the most credits."),
+				},
+				{
+					fieldname: "limit",
+					fieldtype: "Int",
+					label: __("Monthly Credit Limit"),
+					default: said.limit || "",
+					depends_on: "reads",
+					description: __("{0} used this month. Leave empty for no limit.", [format_number(said.used, null, said.used % 1 ? 2 : 0)]),
+				},
+			]);
+			track(panel);
+			panel.on = header_switch(panel, said.on, async (on) => {
+				await frappe.xcall(G + "set_settings", { account: box.name, on });
 				panel.clean();
 			});
 		},
@@ -406,6 +491,7 @@ onedesk.mail.settings = (tab) => {
 		if (box.sends || box.may_sign) items.push(signature_tab(box));
 		items.push(away_tab(box));
 		if (box.shared) items.push(auto_tab(box));
+		items.push(oneai_tab(box));
 		if (box.shared && admin) items.push(users_tab(box, from));
 		if (box.connected && box.may_reconnect) items.push(connection_tab(box, from));
 		items.push(rules_tab(box));

@@ -20,11 +20,13 @@ def of_folder(folder: str | None) -> tuple[str | None, str | None]:
 
 
 def of_mailbox(account: str | None) -> str | None:
-	"""On whose behalf a mailbox is read, when it is."""
-	if not account:
+	"""On whose behalf a mailbox is read, when it is: switched on, OneAI not
+	turned off for it and its month's credits not spent (one_mail/gate.py)."""
+	from onedesk.one_mail import gate
+
+	if not gate.level(account):
 		return None
-	held = frappe.db.get_value("Email Account", account, ["one_intake", "one_intake_for"], as_dict=True)
-	return held.one_intake_for if held and held.one_intake else None
+	return gate.of(account).one_intake_for
 
 
 def of_file(doc) -> str | None:
@@ -32,8 +34,10 @@ def of_file(doc) -> str | None:
 	covers it."""
 	if doc.attached_to_doctype and doc.attached_to_name:
 		if doc.attached_to_doctype == "Communication":
+			from onedesk.one_mail import gate
+
 			account = frappe.db.get_value("Communication", doc.attached_to_name, "email_account")
-			return of_mailbox(account)
+			return of_mailbox(account) if gate.reads_attachments(account) else None
 		return doc.owner if frappe.db.get_single_value("Intake Settings", "records") else None
 	return of_folder(doc.folder)[1]
 

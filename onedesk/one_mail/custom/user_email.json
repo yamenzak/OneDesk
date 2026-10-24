@@ -2,7 +2,7 @@
  "custom_fields": [
   {
    "default": "1",
-   "description": "Whether they may send from this mailbox as well as read it. A workspace administrator chooses, in OneMail's settings.",
+   "description": "If disabled, they can read this mailbox but not send from it.",
    "doctype": "Custom Field",
    "dt": "User Email",
    "fieldname": "one_sends",

@@ -21,6 +21,9 @@ def readable(name: str):
 	root = search.root_of(doc.as_dict())
 	if not (search.files_of(root) or search.messages_of(root)):
 		frappe.throw(_("Document not found"), frappe.DoesNotExistError)
+	from onedesk.one_mail import gate
+
+	gate.refuse(gate.account_of("Reading", name))
 	return doc
 
 

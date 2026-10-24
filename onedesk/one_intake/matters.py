@@ -174,7 +174,7 @@ def _place(reading) -> None:
 		_join(reading, found, "Party")
 		return
 	starts = bool(compact(new.get("number"))) and new.get("kind") not in FOLLOWERS
-	if reading.on_behalf_of and not cint(reading.history) and new["party"] and not starts:
+	if reading.on_behalf_of and not cint(reading.history) and new["party"] and not starts and not _halted(reading.name):
 		shortlist = [one for one in open_matters if one.get("party") == new["party"]][:SHORTLIST]
 		if shortlist:
 			said = _ask(reading, new, shortlist)
@@ -332,6 +332,8 @@ def act_now(name: str) -> None:
 		("the rest", lambda: planning.run(name, "rest")),
 		("the agent", lambda: agent.think(name)),
 	)
+	if _files_only(name) or _halted(name):
+		steps = tuple(step for step in steps if step[0] == "filing")
 	for step, then in steps:
 		try:
 			then()
@@ -339,6 +341,21 @@ def act_now(name: str) -> None:
 			frappe.db.rollback()
 			frappe.log_error(title=f"Intake could not act on {name}: {step}")
 	after(name)
+
+
+def _halted(name: str) -> bool:
+	from onedesk.one_mail import gate
+
+	return gate.halted(name)
+
+
+def _files_only(name: str) -> bool:
+	"""A mailbox held to reading and filing: what arrives is linked to the
+	records it is about, and nothing is made from it (one_mail/gate.py)."""
+	from onedesk.one_mail import gate
+
+	account = gate.account_of("Reading", name)
+	return bool(account) and gate.level(account) != gate.ACT
 
 
 def after(name: str) -> None:

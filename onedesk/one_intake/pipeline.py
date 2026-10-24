@@ -23,6 +23,7 @@ SKIPPED = frozenset(
 MOST_TEXT = 2_000_000
 
 SIGNATURE = 20 * 1024
+SCREENSHOT = 100 * 1024
 
 DEEPEST = 3
 
@@ -194,6 +195,13 @@ def _fill(reading, name: str, content: bytes, said: read.Text, person: str | Non
 			said.documents = split.documents(seen["pages"], seen["starts"]) if ext == "pdf" else []
 			said.how, reading.model = said.how or "Scan", vision.PAGES
 			said.needs = None
+		elif said.unseen and person and ext == "pdf":
+			seen = vision.see_pages(name, content, said.unseen, _most_pages(), reading.name)
+			if seen:
+				said.pages = [seen.get(index) or page for index, page in enumerate(said.pages)]
+				said.text = "\n\n".join(said.pages).strip()
+				said.documents = split.documents(said.pages)
+				reading.model = vision.PAGES
 		elif said.needs == "ears":
 			said.text, said.how, reading.model, said.needs = (
 				vision.hear(name, content, ext, reading.name),
@@ -373,10 +381,13 @@ def read_mail(name: str, history: int = 0, automatic: int = 0) -> str | None:
 
 
 def _worth_reading(file, content: str | None) -> bool:
-	"""Not a signature's logo: a small picture, or one drawn inline in the
-	message itself."""
+	"""Not a signature's logo: a small picture, or a modest one drawn inline in
+	the message itself. A large picture in the body is a pasted screenshot,
+	such as an invoice, and is read like an attachment."""
 	if read.extension(file.file_name) in read.IMAGES:
-		if cint(file.file_size) < SIGNATURE or (file.file_url and file.file_url in (content or "")):
+		if cint(file.file_size) < SIGNATURE:
+			return False
+		if file.file_url and file.file_url in (content or "") and cint(file.file_size) < SCREENSHOT:
 			return False
 	return True
 

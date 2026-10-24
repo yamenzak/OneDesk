@@ -11,7 +11,7 @@
         :disabled="!items.length"
         @click="emit('all', !every)"
       >
-        <span class="flex size-4 items-center justify-center rounded-1 border" :class="picked.size ? 'border-outline-gray-5 bg-surface-gray-7 text-ink-white' : 'border-outline-gray-3 bg-surface-white'">
+        <span class="flex size-4 items-center justify-center rounded-1 border" :class="picked.size ? 'border-outline-gray-5 bg-surface-gray-7 text-ink-white' : 'border-outline-gray-3 bg-surface-base'">
           <span v-if="picked.size" :class="every ? 'lucide-check' : 'lucide-minus'" class="size-3" aria-hidden="true" />
         </span>
       </button>

@@ -119,8 +119,19 @@ def embedded(texts: list[str]) -> dict:
 	return {"vectors": vectors, "model": model}
 
 
+def _indexed_mail(doctype: str, name: str) -> bool:
+	"""Mail is embedded only from a mailbox OneAI reads on its own, so a
+	mailbox nobody switched on costs nothing here (one_mail/gate.py)."""
+	from onedesk.one_mail import gate
+
+	account = gate.account_of(doctype, name)
+	return not account or account not in gate.not_indexed()
+
+
 def said_of(doctype: str, name: str) -> tuple[str, str]:
 	"""A source's title and the text that is embedded for it."""
+	if doctype in ("Reading", "Communication") and not _indexed_mail(doctype, name):
+		return "", ""
 	if doctype == "Reading":
 		held = frappe.db.get_value(
 			"Reading", name, ["title", "summary", "text", "state", "kind"], as_dict=True
@@ -228,6 +239,27 @@ def refresh(doctype: str, name: str) -> None:
 		frappe.log_error(title="Search by meaning could not index", reference_doctype=doctype, reference_name=name)
 
 
+def _off_mailboxes() -> list[str]:
+	from onedesk.one_mail import gate
+
+	return gate.not_indexed() or ["\0"]
+
+
+def _not_unread_mail(doctype: str) -> str:
+	"""Leaves out mail from mailboxes that are not embedded, so they never
+	crowd the newest rows the catch-up looks at."""
+	if doctype == "Communication":
+		return "and coalesce(src.email_account, '') not in %(off)s"
+	if doctype == "Reading":
+		return """and not (src.source_doctype = 'Communication' and src.source_name in
+				(select m.name from `tabCommunication` m where m.email_account in %(off)s))
+			and not (src.source_doctype = 'File' and src.source_name in
+				(select f.name from `tabFile` f join `tabCommunication` m
+					on f.attached_to_doctype = 'Communication' and f.attached_to_name = m.name
+				where m.email_account in %(off)s))"""
+	return ""
+
+
 def catch_up() -> int:
 	"""Every quarter of an hour: the newest sources with no pieces yet."""
 	if not on():
@@ -238,9 +270,10 @@ def catch_up() -> int:
 			continue
 		rows = frappe.db.sql(
 			f"""select name from `tab{doctype}` src
-			where not exists (select 1 from `tabAI Chunk` c where c.source_doctype = %s and c.source_name = src.name)
-			order by modified desc limit %s""",
-			(doctype, CATCH_UP - done),
+			where not exists (select 1 from `tabAI Chunk` c where c.source_doctype = %(doctype)s and c.source_name = src.name)
+			{_not_unread_mail(doctype)}
+			order by modified desc limit %(most)s""",
+			{"doctype": doctype, "most": CATCH_UP - done, "off": _off_mailboxes()},
 		)
 		for (name,) in rows:
 			try:
@@ -300,7 +333,12 @@ def nearest(text: str, doctypes: list[str] | tuple | None = None, most: int = 10
 
 def _may(doctype: str, name: str) -> bool:
 	"""Whether the reader may open what a piece came from. A document is the
-	reader's when its file or its message is."""
+	reader's when its file or its message is, and never from a mailbox OneAI
+	is turned off for."""
+	from onedesk.one_mail import gate
+
+	if doctype in ("Reading", "Communication", "File") and not gate.readable(doctype, name):
+		return False
 	if doctype == "Reading":
 		from onedesk.one_intake import search
 

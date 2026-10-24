@@ -649,6 +649,8 @@ No doctypes yet.
 * `onedesk.one_mail.connect.connect`
 * `onedesk.one_mail.connect.disconnect`
 * `onedesk.one_mail.connect.reconnect`
+* `onedesk.one_mail.gate.set_settings`
+* `onedesk.one_mail.gate.settings_of`
 * `onedesk.one_mail.holders.grant`
 * `onedesk.one_mail.holders.mailbox`
 * `onedesk.one_mail.holders.mailboxes`

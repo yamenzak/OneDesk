@@ -52,13 +52,13 @@ def run(name: str) -> None:
 	said = known(structured)
 	dropped: list[str] = []
 	if said is None:
-		if not reading.on_behalf_of or reading.history:
+		if not reading.on_behalf_of or reading.history or _halted(reading):
 			return
 		try:
 			topics = topics_of(reading, structured)
 			reading.verdict, about = look(reading, structured, topics)
 			_sorted(reading, about)
-			if reading.verdict not in READ_IN_FULL:
+			if reading.verdict not in READ_IN_FULL or _sorting_only(reading):
 				_done(reading)
 				return
 			said, dropped = facts.check(ask(reading, structured), _checked_text(reading, structured), identity.country())
@@ -69,6 +69,21 @@ def run(name: str) -> None:
 			return
 	apply(reading, said, dropped, structured)
 	_done(reading)
+
+
+def _halted(reading) -> bool:
+	from onedesk.one_mail import gate
+
+	return gate.halted(reading.name)
+
+
+def _sorting_only(reading) -> bool:
+	"""A mailbox held to sorting: junk is moved and About rules run, and
+	nothing is read in full (one_mail/gate.py)."""
+	from onedesk.one_mail import gate
+
+	account = gate.account_of("Reading", reading.name)
+	return bool(account) and gate.level(account) == gate.SORT
 
 
 def _checked_text(reading, structured: dict) -> str:

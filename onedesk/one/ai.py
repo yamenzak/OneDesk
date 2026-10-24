@@ -137,31 +137,6 @@ SUGGESTIONS = {
 			"expects": "workspace_printing",
 		},
 	],
-	"page:workspace-settings/mail_templates": [
-		{
-			"label": _lt("Write a payment reminder"),
-			"ask": _lt(
-				"Write a polite mail template for Sales Invoice reminding the customer that an invoice is due, "
-				"with its number, amount and due date."
-			),
-			"expects": "write_mail_template",
-		},
-		{
-			"label": _lt("Tidy the leave mails"),
-			"ask": _lt(
-				"Read the leave approval and leave status mails and suggest clearer, friendlier wording for each, "
-				"keeping what they already fill in."
-			),
-			"expects": "write_mail_template",
-		},
-		{
-			"label": _lt("Which mails use a template?"),
-			"ask": _lt(
-				"Which of our mail templates does a setting send, and which are only picked in the composer?"
-			),
-			"expects": "workspace_mail_templates",
-		},
-	],
 	"page:workspace-settings/approvals": [
 		{
 			"label": _lt("Approve bills by amount"),
@@ -408,28 +383,6 @@ SUGGESTIONS = {
 		{
 			"label": _lt("How do I add it?"),
 			"ask": _lt("How do I add my calendar to Google Calendar, Apple Calendar or Outlook?"),
-			"expects": "how_to",
-		},
-	],
-	"page:settings/mail": [
-		{
-			"label": _lt("Write my signature"),
-			"ask": _lt(
-				"Write a signature for the mailbox I send from, from my name, my job and how to reach me. Keep "
-				"it short, and suggest it as a card I can approve."
-			),
-			"expects": "sign_mailbox",
-		},
-		{
-			"label": _lt("Why is a mailbox not working?"),
-			"ask": _lt("Are any of my mailboxes not working, why, and what do I do about it?"),
-			"expects": "my_mailboxes",
-		},
-		{
-			"label": _lt("How does mail work here?"),
-			"ask": _lt(
-				"How do my mailboxes work in One: which I have, which I send from, and how they sign?"
-			),
 			"expects": "how_to",
 		},
 	],

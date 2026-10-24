@@ -53,9 +53,16 @@ You only find documents you have permission to open.
 
 ## Letting OneAI read a folder or a mailbox
 
+A mailbox is set up in OneMail: **Settings**, open the mailbox, then
+**OneAI**. Turn on **Read New Mail**, choose how far it reads, whether it
+reads attachments and a monthly credit limit. Turning OneAI off there keeps
+it out of the mailbox entirely, the OneAI panel included.
+
+For a folder:
+
 1. In One, open **What OneAI Reads** in the OneIntake group. An administrator
    can open **Settings** there instead, which lists every mailbox and folder.
-2. Click a mailbox to turn reading on, or **Add Folder** to pick a folder.
+2. Click **Add Folder** to pick a folder.
 
 New files and mail there are then read by OneAI as well. Scans and photos
 are read, recordings are transcribed and a scan of the day's post is split

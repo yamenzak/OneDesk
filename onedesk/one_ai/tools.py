@@ -48,13 +48,18 @@ def list_records(
 	if fields and all(isinstance(one, str) and one.isidentifier() for one in fields):
 		title = frappe.get_meta(doctype).title_field
 		fields = list(dict.fromkeys(["name", *([title] if title else []), *fields]))
-	return frappe.get_list(
+	rows = frappe.get_list(
 		doctype,
 		filters=filters or {},
 		fields=fields or _shown(doctype),
 		order_by=order_by,
 		limit_page_length=min(int(limit or 20), MOST),
 	)
+	if doctype in ("Communication", "File", "Reading"):
+		from onedesk.one_mail import gate
+
+		rows = [one for one in rows if not one.get("name") or gate.readable(doctype, one["name"])]
+	return rows
 
 
 def _known(doctype: str, filters=None, fields=None, order_by: str | None = None) -> None:
@@ -136,7 +141,17 @@ def read_record(
 	doctype = _type(doctype, name)
 	held = frappe.get_doc(doctype, name)
 	held.check_permission("read")
+	_mail_allowed(doctype, name)
 	return _without_secrets(doctype, held.as_dict())
+
+
+def _mail_allowed(doctype: str, name: str) -> None:
+	"""Mail, and what came with it, is never read from a mailbox OneAI is
+	turned off for (one_mail/gate.py)."""
+	from onedesk.one_mail import gate
+
+	if doctype in ("Communication", "File", "Reading") and not gate.readable(doctype, name):
+		gate.refuse(gate.account_of(doctype, name))
 
 
 def count_records(

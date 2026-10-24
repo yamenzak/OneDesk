@@ -67,6 +67,26 @@ def has_text(texts: list[str]) -> bool:
 	return sum(1 for size in written if size >= WORDY) >= max(1, round(len(written) * 0.6))
 
 
+def unwritten(content: bytes, texts: list[str], password: str | None = None) -> list[int]:
+	"""The pages of a PDF that has text where a page carries a picture and
+	next to no words: a scanned page inside a typed file. A blank page has no
+	picture, so it is not one of them."""
+	quiet = [index for index, text in enumerate(texts) if len("".join(text.split())) < WORDY]
+	if not quiet:
+		return []
+	reader = _reader(content, password)
+	return [index for index in quiet if index < len(reader.pages) and _pictured(reader.pages[index])]
+
+
+def _pictured(page) -> bool:
+	try:
+		resources = page.get("/Resources") or {}
+		objects = resources.get("/XObject") or {}
+		return any(objects[key].get_object().get("/Subtype") == "/Image" for key in objects)
+	except Exception:
+		return False
+
+
 def pieces(content: bytes, per_piece: int, password: str | None = None) -> list[tuple[int, bytes]]:
 	"""The PDF in pieces of `per_piece` pages, each as (first page, bytes)."""
 	from pypdf import PdfWriter

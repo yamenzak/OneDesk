@@ -2900,6 +2900,41 @@ def onemail_a_mailbox_is_its_holders_and_threads_by_what_was_answered():
 	assert not frappe.db.exists("Email Unsubscribe", {"email": "hessa@bayview.example"}), "a late delivery stopped mail to Hessa"
 
 @check
+def onemail_a_mailbox_is_set_up_in_its_own_tabs():
+	"""Layla manages the workspace mailbox from OneMail's settings: who holds
+	it, an acknowledgement to new conversations, how far OneAI reads it and a
+	monthly limit; then the workspace's rules for outside mailboxes. Turning
+	OneAI off for her own mailbox stops even the OneAI panel reading it."""
+	from onedesk.one import mail_templates
+	from onedesk.one_mail import ai, gate, holders, rules
+	from onedesk.one_storage import api
+
+	with as_user(OWNER):
+		ours = holders.workspace()
+		assert holders.mailbox(ours)["may_manage"]
+		holders.grant(ours, "omar@one.test", 0)
+		assert any(one["user"] == "omar@one.test" for one in holders._people(ours))
+		holders.revoke(ours, "omar@one.test")
+		rules.set_auto_reply(ours, 1, "<p>Thanks {{ sender_name }}, we have it.</p>")
+		assert rules.auto_reply_of(ours).enable_auto_reply == 1
+		rules.set_auto_reply(ours, 0, "")
+		said = gate.set_settings(ours, level=gate.FILE, limit=500)
+		assert said["level"] == gate.FILE and said["limit"] == 500
+		gate.set_settings(ours, level=gate.ACT, limit=0)
+		own = next(one["name"] for one in holders.mailboxes() if not one["shared"])
+		gate.set_settings(own, on=0)
+		assert not gate.settings_of(own)["on"]
+		assert "error" in ai.open_conversation(own, "anything"), "the panel can't read a mailbox OneAI is off for"
+		gate.set_settings(own, on=1)
+		holders.set_external(0)
+		holders.set_allowed_domains(["gmail.com"])
+		holders.set_allowed_domains([])
+		holders.set_external(1)
+		assert isinstance(mail_templates.templates(), list)
+		assert {one["label"] for one in api.capacity()}
+
+
+@check
 def onemail_a_shared_mailbox_is_connected_given_and_let_go():
 	"""Layla connects the company's sales mailbox for the team, chooses who
 	holds it, makes it the workspace's and back, gives its password again and

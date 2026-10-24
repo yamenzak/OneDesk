@@ -339,16 +339,23 @@ def party_facts(doctype: str, name: str) -> dict:
 	return {**said, **lately(doctype, name)}
 
 
+def _off() -> list[str]:
+	"""Mailboxes OneAI is turned off for (one_mail/gate.py)."""
+	from onedesk.one_mail import gate
+
+	return gate.turned_off() or ["\0"]
+
+
 def lately(doctype: str, name: str) -> dict:
 	"""The last few mails and comments on a record, newest first."""
 	mails = frappe.db.sql(
 		"""select c.subject, c.sent_or_received, c.communication_date, c.content from `tabCommunication` c
-		where c.communication_type = 'Communication' and (
+		where c.communication_type = 'Communication' and coalesce(c.email_account, '') not in %(off)s and (
 			(c.reference_doctype = %(kind)s and c.reference_name = %(name)s)
 			or exists (select 1 from `tabCommunication Link` l where l.parent = c.name
 				and l.link_doctype = %(kind)s and l.link_name = %(name)s))
 		order by c.communication_date desc limit %(most)s""",
-		{"kind": doctype, "name": name, "most": MAILS},
+		{"kind": doctype, "name": name, "most": MAILS, "off": _off()},
 		as_dict=True,
 	)
 	comments = frappe.get_all(

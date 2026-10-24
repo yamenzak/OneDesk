@@ -7589,6 +7589,10 @@ msgstr "Dateien auswählen"
 msgid "Choose from OneCloud"
 msgstr "Aus OneCloud wählen"
 
+#: onedesk/one_mail/gate.py:219
+msgid "Choose one of {0}."
+msgstr "Wählen Sie eines von {0}."
+
 #: onedesk/one_book/report/books_check/books_check.js:47
 msgid "Choose the Tax Charged by Default"
 msgstr "Standardmäßig berechnete Steuer wählen"
@@ -9713,6 +9717,10 @@ msgstr "Guthaben wird knapp"
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 msgid "Credits Spent"
 msgstr "Verbrauchtes Guthaben"
+
+#: onedesk/one_intake/custom/email_account.json
+msgid "Credits Used"
+msgstr "Verbrauchte Credits"
 
 #. Description of the 'In, per 1M Tokens' (Float) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
@@ -12837,6 +12845,10 @@ msgstr "Jede verlorene Chance und warum."
 #: onedesk/one_inventory/home.py:192
 msgid "Each month's depreciation."
 msgstr "Die Abschreibung jedes Monats."
+
+#: onedesk/public/js/onemail_settings.js:323
+msgid "Each new message is read and acted on. Uses OneAI credits."
+msgstr "Jede neue Nachricht wird gelesen und bearbeitet. Verbraucht OneAI-Credits."
 
 #: onedesk/one_inventory/ready.py:205
 msgid "Each new work order asks where to work and where to put what it makes. Fix sets the company's Work In Progress and Finished Goods."
@@ -17831,10 +17843,6 @@ msgstr "Wie füge ich meinen Kalender zu Google Kalender, Apple Kalender oder Ou
 msgid "How do I fill this in?"
 msgstr "Wie fülle ich das aus?"
 
-#: onedesk/one/ai.py:445
-msgid "How do my mailboxes work in One: which I have, which I send from, and how they sign?"
-msgstr "Wie funktionieren meine Postfächer in One: welche ich habe, von welchen ich sende und wie sie signieren?"
-
 #: onedesk/one/ai.py:478
 msgid "How do notifications work in One, and what can I change on this page?"
 msgstr "Wie funktionieren Benachrichtigungen in One, und was kann ich auf dieser Seite ändern?"
@@ -17863,13 +17871,13 @@ msgstr "Wie funktioniert das Anpassen eines Formulars in One, und was lässt sic
 msgid "How does customizing work?"
 msgstr "Wie funktioniert das Anpassen?"
 
-#: onedesk/one/ai.py:444
-msgid "How does mail work here?"
-msgstr "Wie funktioniert Mail hier?"
-
 #: onedesk/one_inventory/home.py:132
 msgid "How each supplier delivers, scored."
 msgstr "Wie jeder Lieferant liefert, bewertet."
+
+#: onedesk/one_intake/custom/email_account.json
+msgid "How far OneAI goes with each new message."
+msgstr "Wie weit OneAI mit jeder neuen Nachricht geht."
 
 #: onedesk/one_inventory/ai.py:218
 msgid "How far along is it?"
@@ -18382,11 +18390,23 @@ msgstr "Wenn ich diese Anfrage genehmige: Was wird gelöscht, was bleibt ohne de
 msgid "If a payment went through, the receipt is in your email and somebody will be in touch."
 msgstr "Falls eine Zahlung durchging, liegt die Quittung in Ihrem Postfach und jemand meldet sich."
 
+#: onedesk/public/js/onemail_settings.js:287
+msgid "If disabled, OneAI can't read this mailbox, including in the OneAI panel."
+msgstr "Wenn deaktiviert, kann OneAI dieses Postfach nicht lesen, auch nicht im OneAI-Bereich."
+
 #. Description of the 'allow_geolocation_tracking' field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "If disabled, no check-in records where it came from and the location gate cannot run."
 msgstr "Ist dies deaktiviert, erfasst kein Einchecken seine Herkunft und die Standortprüfung kann nicht laufen."
+
+#: onedesk/one_mail/custom/user_email.json
+msgid "If disabled, they can read this mailbox but not send from it."
+msgstr "Wenn deaktiviert, kann die Person dieses Postfach lesen, aber nicht daraus senden."
+
+#: onedesk/one_intake/custom/email_account.json
+msgid "If enabled, OneAI can't read this mailbox, including in the OneAI panel."
+msgstr "Wenn aktiviert, kann OneAI dieses Postfach nicht lesen, auch nicht im OneAI-Bereich."
 
 #. Description of the 'ignore_user_time_overlap' field in DocType 'Projects
 #. Settings'
@@ -21383,6 +21403,10 @@ msgstr "Leer lassen für eine Standardantwort. {{ sender_name }} fügt den Namen
 msgid "Leave empty for no expiry."
 msgstr "Leer lassen für kein Ablaufdatum."
 
+#: onedesk/one_intake/custom/email_account.json
+msgid "Leave empty for no limit."
+msgstr "Leer lassen für kein Limit."
+
 #: onedesk/public/js/onemail_settings.js:349
 msgid "Leave empty to allow any domain."
 msgstr "Leer lassen, um jede Domain zu erlauben."
@@ -22520,6 +22544,10 @@ msgstr "Postfach"
 msgid "Mailbox Not Reachable"
 msgstr "Postfach nicht erreichbar"
 
+#: onedesk/notifications/one_mail/mailbox_oneai_limit_reached.md
+msgid "Mailbox OneAI Limit Reached"
+msgstr "OneAI-Limit des Postfachs erreicht"
+
 #: frontend/src/mail/OneMail.vue:290
 msgid "Mailbox Settings"
 msgstr "Postfach-Einstellungen"
@@ -23254,6 +23282,10 @@ msgstr "Farbe für Maximum"
 msgid "May"
 msgstr ""
 
+#: onedesk/one_mail/custom/user_email.json
+msgid "May Send"
+msgstr "Darf senden"
+
 #. Label of the may_use_tools (Check) field in DocType 'AI Action'
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "May Use Tools"
@@ -23622,6 +23654,10 @@ msgstr "Monospace"
 msgid "Month"
 msgstr "Monat"
 
+#: onedesk/one_intake/custom/email_account.json
+msgid "Month Counted"
+msgstr "Gezählter Monat"
+
 #. Label of the monthly (Float) field in DocType 'Workspace Account'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:162
@@ -23640,6 +23676,11 @@ msgstr "Monatliche Anwesenheit"
 #: onedesk/one_hr/home.py:349
 msgid "Monthly Attendance Sheet"
 msgstr "Monatliche Anwesenheitsliste"
+
+#: onedesk/one_intake/custom/email_account.json
+#: onedesk/public/js/onemail_settings.js:349
+msgid "Monthly Credit Limit"
+msgstr "Monatliches Credit-Limit"
 
 #. Label of the credits_a_month (Int) field in DocType 'Offering'
 #. Label of the credits_a_month (Int) field in DocType 'Tenant'
@@ -24551,6 +24592,10 @@ msgstr "Neuer Link erstellt"
 msgid "New mail and its attachments are read, filed and acted on as you."
 msgstr "Neue Mails und ihre Anhänge werden in Ihrem Namen gelesen, abgelegt und bearbeitet."
 
+#: onedesk/notifications/one_mail/mailbox_oneai_limit_reached.md
+msgid "New mail in <b>{mailbox}</b> is only read without OneAI until next month. Raise the limit in OneMail › Settings › {mailbox} › OneAI."
+msgstr "Neue E-Mails in <b>{mailbox}</b> werden bis zum nächsten Monat ohne OneAI gelesen. Erhöhen Sie das Limit unter OneMail › Einstellungen › {mailbox} › OneAI."
+
 #. Description of the 'Read by OneAI' (Check) field in DocType 'Email Account'
 #: onedesk/one_intake/custom/email_account.json
 msgid "New mail in this mailbox is read, filed and acted on by OneAI."
@@ -25311,6 +25356,10 @@ msgstr "Noch keine benannten Bereiche definiert."
 #: frontend/src/sheet/components/SheetEditor/VersionHistory.vue:17
 msgid "No named versions yet."
 msgstr "Noch keine benannten Versionen."
+
+#: onedesk/notifications/one_mail/mailbox_not_reachable.md
+msgid "No new mail is read from <b>{mailbox}</b> until it is connected again. Reconnect it from OneMail › Settings › Mailboxes."
+msgstr "Aus <b>{mailbox}</b> werden keine neuen E-Mails gelesen, bis es wieder verbunden ist. Verbinden Sie es unter OneMail › Einstellungen › Postfächer neu."
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:410
 msgid "No notes yet."
@@ -27243,6 +27292,10 @@ msgstr "OneAI-Guthaben"
 msgid "OneAI Rating"
 msgstr "OneAI-Bewertung"
 
+#: onedesk/one_intake/custom/email_account.json
+msgid "OneAI Reads To"
+msgstr "OneAI liest bis"
+
 #. Label of a number card
 #. Label of a number card in the One Workspace
 #: onedesk/one/number_card/oneai_suggestions/oneai_suggestions.json
@@ -27264,6 +27317,10 @@ msgstr "OneAI-Vorschläge"
 #: onedesk/one_hr/custom/job_applicant.json
 msgid "OneAI Summary"
 msgstr "OneAI-Zusammenfassung"
+
+#: onedesk/one_intake/custom/email_account.json
+msgid "OneAI Turned Off"
+msgstr "OneAI ausgeschaltet"
 
 #. Description of the 'Prepare Interviews' (Check) field in DocType 'HR
 #. Settings'
@@ -27355,9 +27412,17 @@ msgstr "OneAI ist aus"
 msgid "OneAI is reading {0}."
 msgstr "OneAI liest {0}."
 
+#: onedesk/public/js/onemail_settings.js:313
+msgid "OneAI is turned off for this workspace in Apps."
+msgstr "OneAI ist für diesen Arbeitsbereich unter Apps ausgeschaltet."
+
 #: onedesk/one/apps.py:51 onedesk/one_ai/chat.py:117
 msgid "OneAI is turned off for this workspace."
 msgstr "OneAI ist für diesen Arbeitsbereich ausgeschaltet."
+
+#: onedesk/one_mail/gate.py:125
+msgid "OneAI is turned off for {0}."
+msgstr "OneAI ist für {0} ausgeschaltet."
 
 #: onedesk/one_ai/heads.py:101
 msgid "OneAI is writing it. It shows here in a minute."
@@ -32687,6 +32752,11 @@ msgstr "Lesen"
 msgid "Read As"
 msgstr "Gelesen als"
 
+#: onedesk/one_intake/custom/email_account.json
+#: onedesk/public/js/onemail_settings.js:341
+msgid "Read Attachments"
+msgstr "Anhänge lesen"
+
 #: onedesk/public/js/overtime_slip.js:9
 msgid "Read Attendance"
 msgstr "Anwesenheit auswerten"
@@ -32719,10 +32789,19 @@ msgstr "Lesen"
 msgid "Read List"
 msgstr "Liste lesen"
 
+#: onedesk/public/js/onemail_settings.js:321
+msgid "Read New Mail"
+msgstr "Neue E-Mails lesen"
+
 #. Label of the read_on (Datetime) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Read On"
 msgstr "Gelesen am"
+
+#: onedesk/one_intake/custom/email_account.json
+#: onedesk/public/js/onemail_settings.js:331
+msgid "Read and File"
+msgstr "Lesen und ablegen"
 
 #: onedesk/public/js/onemail_settings.js:92
 msgid "Read and Send"
@@ -32767,10 +32846,6 @@ msgstr "Gelesen im Namen von {0}"
 msgid "Read only"
 msgstr "Nur lesen"
 
-#: onedesk/one/ai.py:166
-msgid "Read the leave approval and leave status mails and suggest clearer, friendlier wording for each, keeping what they already fill in."
-msgstr "Lies die Mails zur Urlaubsgenehmigung und zum Urlaubsstatus und schlage für jede eine klarere, freundlichere Formulierung vor, wobei alles, was sie bereits ausfüllen, erhalten bleibt."
-
 #: onedesk/one_project/ai.py:63
 msgid "Read this project, then suggest the tasks it still needs, each with a due date before its end, as cards I can approve."
 msgstr "Lesen Sie dieses Projekt und schlagen Sie die Aufgaben vor, die noch fehlen, jede mit einem Fälligkeitsdatum vor seinem Ende, als Karten, die ich genehmigen kann."
@@ -32785,6 +32860,11 @@ msgstr "Mit OneAI lesen"
 #: onedesk/public/js/onecloud.js:1761
 msgid "Read {0} with OneAI? OneAI files it and acts on it. Scans and photos use credits."
 msgstr "{0} mit OneAI lesen? OneAI legt die Datei ab und bearbeitet sie. Scans und Fotos verbrauchen Guthaben."
+
+#: onedesk/one_intake/custom/email_account.json
+#: onedesk/public/js/onemail_settings.js:332
+msgid "Read, File and Act"
+msgstr "Lesen, ablegen und handeln"
 
 #: onedesk/public/js/onecloud.js:1430
 msgid "Reader"
@@ -32855,6 +32935,14 @@ msgstr "Liest, was es gefunden hat…"
 #: onedesk/one_inventory/print_format/one_quality_inspection/one_quality_inspection.json
 msgid "Readings"
 msgstr "Messwerte"
+
+#: onedesk/public/js/onemail_settings.js:328
+msgid "Reads To"
+msgstr "Liest bis"
+
+#: onedesk/public/js/onemail_settings.js:323
+msgid "Reads with the permissions of {0}."
+msgstr "Liest mit den Berechtigungen von {0}."
 
 #. Option for the 'Request Status' (Select) field in DocType 'Personal Data
 #. Download Request'
@@ -35588,6 +35676,11 @@ msgstr "Mit der Banking-App scannen"
 msgid "Scans and photos attached on a form are read too, on behalf of whoever attached them."
 msgstr "Auch Scans und Fotos, die in einem Formular angehängt werden, werden gelesen, im Namen der Person, die sie angehängt hat."
 
+#: onedesk/one_intake/custom/email_account.json
+#: onedesk/public/js/onemail_settings.js:344
+msgid "Scans, photos and recordings use the most credits."
+msgstr "Scans, Fotos und Aufnahmen verbrauchen die meisten Credits."
+
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:221
 msgid "Scatter"
 msgstr "Punkt (XY)"
@@ -38023,6 +38116,15 @@ msgstr "Ein Ort für den Bestand"
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Sort Key"
 msgstr "Sortierschlüssel"
+
+#: onedesk/one_intake/custom/email_account.json
+#: onedesk/public/js/onemail_settings.js:330
+msgid "Sort Only"
+msgstr "Nur sortieren"
+
+#: onedesk/public/js/onemail_settings.js:336
+msgid "Sort Only moves junk and runs About rules. Act also makes tasks, events and records."
+msgstr "Nur sortieren verschiebt Junk und führt Themenregeln aus. Handeln erstellt auch Aufgaben, Termine und Datensätze."
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:523
 msgid "Sort ascending"
@@ -43437,10 +43539,6 @@ msgstr "{0} von {1} angekreuzt"
 msgid "Tidy our footer"
 msgstr "Unsere Fußzeile aufräumen"
 
-#: onedesk/one/ai.py:165
-msgid "Tidy the leave mails"
-msgstr "Urlaubsmails aufräumen"
-
 #: onedesk/public/js/onecloud.js:131 onedesk/public/js/onecloud.js:1862
 msgid "Tiles"
 msgstr "Kacheln"
@@ -47533,6 +47631,10 @@ msgstr "Wenn ein Lead ohne Verantwortlichen eintrifft, über die Website oder de
 msgid "When a link is shared with an email address."
 msgstr "Wenn ein Link mit einer E-Mail-Adresse geteilt wird."
 
+#: onedesk/notifications/one_mail/mailbox_oneai_limit_reached.md
+msgid "When a mailbox uses its OneAI credits for the month. Once a month."
+msgstr "Wenn ein Postfach seine OneAI-Credits für den Monat verbraucht. Einmal im Monat."
+
 #. When a notification is sent
 #: onedesk/notifications/one_mail/mailbox_not_reachable.md
 msgid "When a mailbox you hold stops connecting. Once, when it breaks."
@@ -48861,10 +48963,6 @@ msgstr "Welche Chargen laufen bald ab?"
 msgid "Which lots go off within a month or have gone off, how much is left of each and where is it?"
 msgstr "Welche Chargen laufen innerhalb eines Monats ab oder sind abgelaufen, wie viel ist von jeder übrig und wo liegt sie?"
 
-#: onedesk/one/ai.py:173
-msgid "Which mails use a template?"
-msgstr "Welche Mails nutzen eine Vorlage?"
-
 #: onedesk/one_inventory/ai.py:213
 msgid "Which numbered pieces are in stock and where, which went to a customer, and whose warranty ends soon?"
 msgstr "Welche nummerierten Stücke sind auf Lager und wo, welche gingen an einen Kunden, und wessen Garantie endet bald?"
@@ -48872,10 +48970,6 @@ msgstr "Welche nummerierten Stücke sind auf Lager und wo, welche gingen an eine
 #: onedesk/one/ai.py:359
 msgid "Which of OneAI's actions used the most credits in the last thirty days, and on which models?"
 msgstr "Welche OneAI-Aktionen haben in den letzten dreißig Tagen die meisten Credits verbraucht, und auf welchen Modellen?"
-
-#: onedesk/one/ai.py:174
-msgid "Which of our mail templates does a setting send, and which are only picked in the composer?"
-msgstr "Welche unserer Mailvorlagen versendet eine Einstellung, und welche werden nur beim Schreiben ausgewählt?"
 
 #: onedesk/one/ai.py:349
 msgid "Which of our own domains are not working, and what should we check or change in the DNS to fix each one?"
@@ -49225,6 +49319,10 @@ msgstr "An wen Sie verkaufen, und was jeder schuldet."
 msgid "Who's Off"
 msgstr "Wer ist abwesend"
 
+#: onedesk/notifications/one_mail/mailbox_oneai_limit_reached.md
+msgid "Whoever OneAI reads it for and whoever connected it, or every administrator"
+msgstr "Für wen OneAI liest und wer es verbunden hat, oder jeder Administrator"
+
 #. Who a notification is sent to
 #: onedesk/notifications/one_hr/job_requisition_answered.md
 #: onedesk/notifications/one_inventory/material_request_done.md
@@ -49479,7 +49577,7 @@ msgstr "Warum haben in den letzten zwölf Monaten Leute gekündigt, und wie viel
 msgid "Why have we lost opportunities this year?"
 msgstr "Warum haben wir dieses Jahr Chancen verloren?"
 
-#: onedesk/one/ai.py:439
+#: onedesk/one/ai.py:439 onedesk/one_mail/ai.py:40
 msgid "Why is a mailbox not working?"
 msgstr "Warum funktioniert ein Postfach nicht?"
 
@@ -50267,13 +50365,13 @@ msgstr "Schreibe einen Brief über diese Person – frag mich, welche Art und f�
 msgid "Write a letter for this person"
 msgstr "Einen Brief für diese Person schreiben"
 
-#: onedesk/one/ai.py:157
-msgid "Write a payment reminder"
-msgstr "Zahlungserinnerung schreiben"
+#: onedesk/one_mail/ai.py:45
+msgid "Write a mail template"
+msgstr "E-Mail-Vorlage schreiben"
 
-#: onedesk/one/ai.py:158
-msgid "Write a polite mail template for Sales Invoice reminding the customer that an invoice is due, with its number, amount and due date."
-msgstr "Schreibe eine höfliche Mailvorlage für Ausgangsrechnungen, die den Kunden an eine fällige Rechnung erinnert, mit Nummer, Betrag und Fälligkeitsdatum."
+#: onedesk/one_mail/ai.py:46
+msgid "Write a mail template for: "
+msgstr "Schreibe eine E-Mail-Vorlage für: "
 
 #: onedesk/public/js/oneai/Panel.vue:299
 msgid "Write a reply that says: "
@@ -50294,10 +50392,6 @@ msgstr "Schreiben Sie ein kurzes Update zu diesem Projekt für den Kunden: was e
 #: onedesk/one_hr/ai.py:90
 msgid "Write a short, kind note telling this applicant they were not chosen, that thanks them for something specific in their application. Do not give reasons."
 msgstr "Schreibe eine kurze, freundliche Nachricht, dass diese Bewerbung nicht ausgewählt wurde, und bedanke dich für etwas Bestimmtes darin. Nenne keine Gründe."
-
-#: onedesk/one/ai.py:432
-msgid "Write a signature for the mailbox I send from, from my name, my job and how to reach me. Keep it short, and suggest it as a card I can approve."
-msgstr "Schreibe eine Signatur für das Postfach, von dem ich sende, aus meinem Namen, meiner Stelle und wie man mich erreicht. Halte sie kurz und schlage sie als Karte vor, die ich bestätigen kann."
 
 #: onedesk/one_studio/ai.py:54
 msgid "Write an extension that "
@@ -50328,10 +50422,6 @@ msgstr "In HTML schreiben"
 #: onedesk/one/ai.py:27
 msgid "Write my bio"
 msgstr "Meine Biografie schreiben"
-
-#: onedesk/one/ai.py:431
-msgid "Write my signature"
-msgstr "Meine Signatur schreiben"
 
 #: onedesk/one_project/ai.py:34
 msgid "Write the customer an update"
@@ -54680,6 +54770,14 @@ msgstr "{0} hochgeladen"
 msgid "{0} uploaded, {1} failed"
 msgstr "{0} hochgeladen, {1} fehlgeschlagen"
 
+#: onedesk/one_storage/api.py:140
+msgid "{0} used"
+msgstr "{0} belegt"
+
+#: onedesk/public/js/onemail_settings.js:352
+msgid "{0} used this month. Leave empty for no limit."
+msgstr "{0} in diesem Monat verbraucht. Leer lassen für kein Limit."
+
 #: onedesk/public/js/settings.js:1401
 msgid "{0} used, no limit"
 msgstr "{0} belegt, ohne Grenze"
@@ -55596,6 +55694,10 @@ msgstr "{logged} Std. von {planned} Std. geplant erfasst."
 #: onedesk/notifications/one_mail/mailbox_not_reachable.md
 msgid "{mailbox} is not connecting: {reason}"
 msgstr "{mailbox} verbindet sich nicht: {reason}"
+
+#: onedesk/notifications/one_mail/mailbox_oneai_limit_reached.md
+msgid "{mailbox} used its {limit} OneAI credits for this month"
+msgstr "{mailbox} hat seine {limit} OneAI-Credits für diesen Monat verbraucht"
 
 #. Subject of a notification
 #: onedesk/notifications/one_project/milestone_late.md

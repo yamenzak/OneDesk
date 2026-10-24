@@ -74,6 +74,26 @@ def see(name: str, content: bytes, ext: str, most_pages: int, reference: str) ->
 	return {"pages": pages, "starts": starts, "language": language}
 
 
+def see_pages(name: str, content: bytes, unseen: list[int], most_pages: int, reference: str) -> dict:
+	"""Only the scanned pages of a PDF that otherwise has text: {index: text}.
+	Each run of neighbouring pages goes as its own small PDF, so a typed file
+	with one scanned delivery note costs one page, not the file."""
+	runs: list[list[int]] = []
+	for index in sorted(one for one in unseen if one < most_pages):
+		if runs and index == runs[-1][-1] + 1 and len(runs[-1]) < PER_PIECE:
+			runs[-1].append(index)
+		else:
+			runs.append([index])
+	out: dict[int, str] = {}
+	for run in runs:
+		piece = pdf.cut(content, run)
+		said = _pages(_ask(PAGES, ASK_PAGES.format(first=run[0] + 1), name, piece, MIME["pdf"], reference))
+		for offset, page in enumerate(said.get("pages") or []):
+			if offset < len(run):
+				out[run[offset]] = str(page.get("text") or "") if isinstance(page, dict) else str(page)
+	return out
+
+
 def hear(name: str, content: bytes, ext: str, reference: str) -> str:
 	return _ask(
 		SOUND,

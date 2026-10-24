@@ -38,6 +38,11 @@ def about_record(
 	info = frappe.response.pop("docinfo", None) or {}
 	if held is not None:
 		frappe.response["docinfo"] = held
+	from onedesk.one_mail import gate
+
+	info["communications"] = [
+		one for one in info.get("communications") or [] if gate.readable("Communication", one.get("name"))
+	]
 
 	counted = {
 		f.fieldname for f in frappe.get_meta(doctype).fields if f.fieldtype in ("Currency", "Float", "Int", "Percent")

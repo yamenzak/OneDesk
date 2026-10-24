@@ -27,9 +27,25 @@ needs a Cloudflare key with Zone Settings: Edit.
 
 - **Mailboxes**: every mailbox you read. Opening one turns the sidebar into
   its own tabs, with **All Mailboxes** above them to go back: **Signature**,
-  **Out of Office**, **Auto Reply** (shared mailboxes), **Users** (shared
-  mailboxes, administrators), **Connection** (connected mailboxes) and
-  **Mail Rules**. Each tab has its own **Save**.
+  **Out of Office**, **Auto Reply** (shared mailboxes), **OneAI**, **Users**
+  (shared mailboxes, administrators), **Connection** (connected mailboxes)
+  and **Mail Rules**. Each tab has its own **Save**.
+
+**OneAI** in a mailbox's settings:
+
+- The switch beside the title decides whether OneAI may read the mailbox at
+  all. Off, nothing reads it: not new mail, not search by meaning, and not
+  the OneAI panel, which can't open its conversations or draft replies.
+- **Read New Mail** reads each new message as it arrives, with the
+  permissions of whoever turned it on. **Reads To** sets how far it goes:
+  **Sort Only** moves junk and runs About rules; **Read and File** also
+  reads each message and links it to its records; **Read, File and Act**
+  also makes the tasks, events and records it asks for.
+- **Read Attachments** off leaves attachments to the reading that costs
+  nothing: scans, photos and recordings are not sent to OneAI.
+- **Monthly Credit Limit** caps what reading this mailbox may spend in a
+  month. When it is reached, new mail is read without OneAI until the month
+  turns, and whoever OneAI reads it for hears once.
 - **Shared Mailboxes** (administrators): the workspace mailbox and every
   shared one. Opening one shows the same tabs; **Users** adds or removes
   people, turns **Send** on or off per user, and sets it as the workspace
@@ -69,8 +85,7 @@ conversation, such as "We received your message and will reply soon." It
 is not sent to replies in a thread, to mailing lists or automated mail, or
 more than once a day to the same sender, and an out-of-office reply takes
 its place when both are on. `{{ sender_name }}` and `{{ subject }}` fill in
-from the message. It uses frappe's own Enable Auto Reply and Auto Reply
-Message fields on the mailbox.
+from the message.
 
 Connecting signs in to both servers before anything is saved: the incoming
 one, and with **Enable Outgoing** on, the outgoing one too. A guessed

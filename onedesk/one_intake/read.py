@@ -34,6 +34,7 @@ class Text:
 	inner: list[dict] = field(default_factory=list)
 	documents: list[list[int]] = field(default_factory=list)
 	language: str | None = None
+	unseen: list[int] = field(default_factory=list)
 
 
 def extension(name: str) -> str:
@@ -104,7 +105,13 @@ def _pdf(content: bytes, password: str | None) -> Text:
 		)
 	if not pdf.has_text(texts):
 		return Text(how="Scan", pages=texts, needs="eyes")
-	return Text(text="\n\n".join(texts).strip(), how="PDF", pages=texts, documents=split.documents(texts))
+	try:
+		unseen = pdf.unwritten(content, texts, password)
+	except Exception:
+		unseen = []
+	return Text(
+		text="\n\n".join(texts).strip(), how="PDF", pages=texts, documents=split.documents(texts), unseen=unseen
+	)
 
 
 def _xml(content: bytes) -> Text:

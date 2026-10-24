@@ -10,6 +10,8 @@ import frappe
 from frappe import _, _lt
 from frappe.utils import strip_html
 
+from onedesk.one_mail import gate
+
 MOST_TEXT = 4000
 
 MOST_MESSAGES = 15
@@ -34,6 +36,17 @@ SUGGESTIONS = {
 			"ask": _lt("Which conversations in this folder are waiting for an answer from us? Oldest first."),
 			"expects": "waiting_for_answer",
 		},
+		{
+			"label": _lt("Why is a mailbox not working?"),
+			"ask": _lt("Are any of my mailboxes not working, why, and what do I do about it?"),
+			"expects": "my_mailboxes",
+		},
+		{
+			"label": _lt("Write a mail template"),
+			"ask": _lt("Write a mail template for: "),
+			"fill": True,
+			"expects": "write_mail_template",
+		},
 	],
 }
 
@@ -47,6 +60,8 @@ def page(said: dict) -> str | None:
 
 	account, thread = said.get("box") or "", said.get("record") or ""
 	where = "The reader is in OneMail"
+	if account and not gate.may_read(account):
+		return where + f", in the mailbox {account}, which OneAI is turned off for: nothing in it can be read or drafted."
 	if account and actions.holds(account):
 		where += f", in the mailbox {account} (the folder id is {said.get('folder') or 'not open'})"
 		subject = _subject(account, thread) if thread else None
@@ -88,6 +103,8 @@ def open_conversation(
 
 	if not actions.holds(account):
 		return {"error": f"The reader does not hold {account}."}
+	if not gate.may_read(account):
+		return {"error": f"OneAI is turned off for {account}: its mail can't be read."}
 	said = api.conversation(account, thread)
 	messages = said["messages"][-MOST_MESSAGES:]
 	if not messages:
@@ -121,6 +138,8 @@ def waiting_for_answer(
 
 	if not actions.holds(account):
 		return {"error": f"The reader does not hold {account}."}
+	if not gate.may_read(account):
+		return {"error": f"OneAI is turned off for {account}: its mail can't be read."}
 	listed = api.conversations(account, folder)["items"]
 	waiting = [one for one in listed if not one["sent"]]
 	return {
@@ -158,6 +177,8 @@ def draft_reply(
 
 	if not actions.holds(account):
 		return {"error": f"The reader does not hold {account}."}
+	if not gate.may_read(account):
+		return {"error": f"OneAI is turned off for {account}: its mail can't be read."}
 	messages = api.conversation(account, thread)["messages"]
 	if not messages:
 		return {"error": "There is no such conversation in that mailbox."}

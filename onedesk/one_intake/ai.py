@@ -53,7 +53,11 @@ def find_documents(
 		as_dict=True,
 	)
 	out = []
+	from onedesk.one_mail import gate
+
 	for row in rows:
+		if not gate.readable("Reading", row.name):
+			continue
 		top = root_of(row)
 		files = [one for one in files_of({**top, "name": row.name}) if one.get("attached_to_doctype") != "Communication"]
 		messages = messages_of(top)

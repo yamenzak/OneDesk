@@ -70,6 +70,7 @@ def ask(
 			tools=offered,
 		)
 		spent += float(out.get("credits") or 0)
+		_counted(reference, out.get("credits"))
 		more = rounds < ROUNDS and not last
 		wanted = {surface.action_of(want.get("tool")) for want in out.get("wants") or []} - {None, action}
 		if wanted and not handed and rounds < ROUNDS:
@@ -411,7 +412,16 @@ def once(action: str, text: str, files: list[dict] | None = None, reference: str
 		turns=[{"role": "user", "text": text, "calls": [], "files": files or []}],
 		tools=None,
 	)
+	_counted(reference, (out or {}).get("credits"))
 	return (out or {}).get("said") or ""
+
+
+def _counted(reference: str | None, credits) -> None:
+	"""A call made for a reading of mail counts against its mailbox's month
+	(one_mail/gate.py)."""
+	from onedesk.one_mail import gate
+
+	gate.spent(reference, credits)
 
 
 def mine(action: str) -> dict:

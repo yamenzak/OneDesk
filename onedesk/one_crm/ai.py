@@ -13,6 +13,7 @@ from frappe.utils import add_days, cint, flt, get_datetime, getdate, now_datetim
 from onedesk.one_ai import files, proposals
 from onedesk.one_crm import capture, measure, record, stages
 from onedesk.one_crm import next as next_step
+from onedesk.one_mail import gate
 
 SUGGESTIONS = {
 	"Opportunity": [
@@ -218,10 +219,12 @@ def history(doctype: str, name: str) -> list[dict]:
 	for one in frappe.get_all(
 		"Communication",
 		filters={"reference_doctype": doctype, "reference_name": name, "communication_type": "Communication"},
-		fields=["communication_date", "sent_or_received", "sender", "subject", "content"],
+		fields=["communication_date", "sent_or_received", "sender", "subject", "content", "email_account"],
 		order_by="communication_date desc",
 		limit_page_length=MOST_EVENTS,
 	):
+		if one.email_account and one.email_account in gate.turned_off():
+			continue
 		events.append(
 			{
 				"at": one.communication_date,
