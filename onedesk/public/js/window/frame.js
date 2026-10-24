@@ -178,6 +178,14 @@ onedesk.window.nav = {
 		} else if (!$.contains($items[0], win.$slot[0])) {
 			win.$slot.appendTo($items);
 		}
+		// A rail whose one row is this screen (OneCloud's Files, OneMail's
+		// Mail) keeps the row, which is what claims the page for the rail, and
+		// draws only the tree under it.
+		const said = frappe.app.sidebar.sidebar_items || [];
+		const alone = $at.length && said.length === 1 && !(said[0].nested_items || []).length;
+		$items.find(".one-window-nav-alone").not($at).removeClass("one-window-nav-alone");
+		$at.toggleClass("one-window-nav-alone", !!alone);
+		win.$slot.toggleClass("one-window-nav-whole", !!alone);
 	},
 };
 

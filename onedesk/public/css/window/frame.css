@@ -298,15 +298,79 @@ body.one-window-dragging * {
 	padding-inline-start: calc(var(--spacing) * 3);
 }
 
-/* A view's tree in the nav pane is the sidebar's own rows (frappe's
-   standard-sidebar-item: its height, hover and pill), indented by depth,
-   a twisty before a row that holds others and a count at a row's end. */
-.one-window-nav-slot .standard-sidebar-item .item-anchor {
-	padding-inline-start: calc(var(--depth, 0) * 14px + 2px);
+.sidebar-item-container.one-window-nav-alone {
+	display: none;
 }
 
-.one-window-nav-slot .standard-sidebar-item .sidebar-item-label {
+.one-window-nav-slot.one-window-nav-whole {
+	padding-inline-start: 0;
+}
+
+/* The window's tree (window/nav_tree.js) is the sidebar's own rows (frappe's
+   standard-sidebar-item: its height, hover and pill), indented by depth,
+   a twisty before a row that holds others and a count at a row's end. The
+   row is said again here for a tree outside the rail (OneCloud's picker),
+   where frappe's sidebar rules do not reach. */
+.one-window-tree .standard-sidebar-item {
+	display: flex;
+	margin-bottom: 2px;
+	border-radius: var(--radius);
+}
+
+.one-window-tree .standard-sidebar-item:not(.active-sidebar):hover {
+	background: var(--surface-gray-2);
+}
+
+.one-window-tree .standard-sidebar-item .item-anchor {
+	display: flex;
+	flex: 1;
+	align-items: center;
+	min-width: 0;
+	height: 28px;
+	padding-inline: calc(var(--depth, 0) * 14px + 2px) 0;
+	border-radius: var(--radius);
+	color: var(--ink-gray-6);
+	text-decoration: none;
+}
+
+.one-window-tree .active-sidebar .item-anchor {
+	color: var(--ink-gray-8);
+}
+
+.one-window-tree .sidebar-item-icon {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+}
+
+.one-window-tree .sidebar-item-icon svg {
+	width: 16px;
+	height: 16px;
+}
+
+.one-window-tree .standard-sidebar-item .sidebar-item-label {
+	flex: 1 1 auto;
+	min-width: 0;
 	margin-inline-start: 6px;
+	overflow: hidden;
+	font-size: var(--text-sm);
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.one-window-tree .one-window-strong .sidebar-item-label {
+	color: var(--ink-gray-8);
+	font-weight: var(--font-weight-semibold);
+}
+
+.one-window-tree .one-window-drop {
+	background: var(--surface-blue-2);
+}
+
+.one-window-tree .one-window-warn {
+	display: flex;
+	color: var(--ink-amber-7);
 }
 
 .one-window-twisty {
@@ -318,17 +382,22 @@ body.one-window-dragging * {
 	height: 16px;
 	padding: 0;
 	border: 0;
+	border-radius: var(--radius-sm);
 	background: transparent;
 	color: var(--ink-gray-5);
+}
+
+.one-window-twisty[data-twist]:hover {
+	background: var(--surface-gray-3);
 }
 
 [dir="rtl"] .one-window-twisty svg {
 	transform: scaleX(-1);
 }
 
-.one-window-nav-slot .one-window-count {
+.one-window-tree .one-window-count {
 	margin-inline-start: auto;
-	padding-inline-end: calc(var(--spacing) * 1);
+	padding-inline: calc(var(--spacing) * 1);
 	color: var(--ink-gray-5);
 	font-size: var(--text-xs);
 }

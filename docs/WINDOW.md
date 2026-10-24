@@ -23,7 +23,7 @@ in the same places everywhere and a change to one is a change to all.
    Form, on the window. What we need on top is a small piece inside it,
    never a page beside it: a head (`one_head`, its figures and track), a
    record tab, a client script, a column, a nav tree under the view's row in
-   the nav pane (`win.nav_slot()`), a button. Making a record is the create
+   the nav pane (`win.tree()`), a button. Making a record is the create
    dialog; its files are OneCloud's dialog; its checkboxes are frappe's
    switch. Nothing here names a doctype (`test_the_engine_names_no_doctype`).
 2. **A Vue island.** Only for a screen that is genuinely more than a list or
@@ -67,8 +67,13 @@ shell, lists that only shrink; when they are empty the shell is deleted.
   what it lists. Its edge, which frappe uses to fold it to the rail, can also
   be dragged: a drag sets `--sidebar-width` (frappe's own variable) between
   180 and 440 px and keeps it per browser; a click still folds. A view that
-  has a tree of its own (OneCloud's folders) puts it under its row in the
-  pane (`window.nav_slot()`), so there is one place to go somewhere.
+  has a tree (OneCloud's folders, OneMail's mailboxes, Masters' kinds) hands
+  its rows to the window's tree (`win.tree()`, `window/nav_tree.js`, and
+  `windowTree` from an island), which draws them as the rail's own rows
+  under the view's row, so there is one place to go somewhere and one way
+  it looks. Where that row is the rail's only one (OneCloud, OneMail) the
+  row is kept, since it is what claims the page for the rail, and only the
+  tree is shown.
 - **Address row** is the first line of frappe's page head: Back, Forward,
   Up, then frappe's breadcrumbs and status pill where they already were,
   then Refresh and the view's search. Back and Forward are the browser's;

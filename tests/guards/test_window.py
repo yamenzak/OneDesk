@@ -16,7 +16,7 @@ WINDOW_JS = tree.APP / "public" / "js" / "window"
 WINDOW_CSS = tree.APP / "public" / "css" / "window"
 FRAME = (WINDOW_JS / "frame.js").read_text(encoding="utf-8")
 CHROME = (WINDOW_JS / "chrome.js").read_text(encoding="utf-8")
-ADAPTERS = {path.stem: path.read_text(encoding="utf-8") for path in WINDOW_JS.glob("*.js") if path.stem not in ("frame", "chrome")}
+ADAPTERS = {path.stem: path.read_text(encoding="utf-8") for path in WINDOW_JS.glob("*.js") if path.stem not in ("frame", "chrome", "nav_tree")}
 JS = FRAME + "".join(ADAPTERS.values())
 CSS = "".join(path.read_text(encoding="utf-8") for path in sorted(WINDOW_CSS.glob("*.css")))
 HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
@@ -96,8 +96,9 @@ def test_onecloud_on_its_page_draws_none_of_the_windows_parts():
 	"""Its own bar, address and status are drawn only off the window (a
 	record's files, the picker); on its page each goes to the window's part."""
 	assert '<template v-if="!win">' in CLOUD and '<div v-if="!win" class="border-t' in CLOUD
-	for part in ("commands", "views", "nav", "details"):
+	for part in ("commands", "views", "details"):
 		assert f'part="{part}"' in CLOUD, part
+	assert "windowTree(props.win" in CLOUD
 	assert "windowSearch(props.win" in CLOUD and "windowStatus(props.win" in CLOUD and "windowHandles(props.win" in CLOUD
 	page = (tree.APP / "one_storage" / "page" / "onecloud" / "onecloud.js").read_text(encoding="utf-8")
 	assert "fit: true" in page and "hide_sidebar" not in page
@@ -345,3 +346,22 @@ def test_the_engine_names_no_doctype():
 				if hit and not (hit.groups() and hit.group(1) in ENGINE_READS):
 					found.append(f"{path.relative_to(tree.APP)}:{n}: {line.strip()}")
 	assert not found, "the engine names a screen's own doctype, field or route:\n" + "\n".join(found)
+
+
+def test_a_screen_with_a_tree_hands_its_rows_to_the_windows():
+	"""OneCloud's folders, OneMail's mailboxes and Masters' kinds are one tree,
+	the window's (window/nav_tree.js), drawn as the rail's own rows; no screen
+	draws a tree of its own, and a rail whose one row is the screen shows only
+	the tree."""
+	nav = (WINDOW_JS / "nav_tree.js").read_text(encoding="utf-8")
+	assert "onedesk.window.Tree = class Tree" in nav and "Window.prototype.tree" in nav
+	assert 'class="standard-sidebar-item' in nav and "active-sidebar" in nav and "one-window-count" in nav
+	assert HOOKS.index('"/assets/onedesk/js/window/frame.js"') < HOOKS.index('"/assets/onedesk/js/window/nav_tree.js"')
+	mail = (tree.ROOT / "frontend" / "src" / "mail" / "OneMail.vue").read_text(encoding="utf-8")
+	masters = (tree.APP / "public" / "js" / "masters.js").read_text(encoding="utf-8")
+	assert "windowTree(props.win" in mail and "windowTree(props.win" in CLOUD and "win.tree(" in masters
+	for gone in ("cloud/CloudTree.vue", "mail/MailBoxes.vue"):
+		assert not (tree.ROOT / "frontend" / "src" / gone).exists(), gone
+	for path in (tree.ROOT / "frontend" / "src").rglob("*.vue"):
+		assert 'role="tree"' not in path.read_text(encoding="utf-8"), path.name
+	assert "one-window-nav-alone" in FRAME and ".sidebar-item-container.one-window-nav-alone" in CSS

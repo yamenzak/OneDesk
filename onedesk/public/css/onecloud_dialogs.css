@@ -7,6 +7,25 @@
 	height: min(70vh, 640px);
 }
 
+/* The picker: the folders, as the window's tree, beside the island. */
+.one-cloud-picker {
+	display: flex;
+}
+
+.one-cloud-picker-nav {
+	flex-shrink: 0;
+	width: 14rem;
+	height: min(70vh, 640px);
+	padding: calc(var(--spacing) * 1) calc(var(--spacing) * 2);
+	overflow: auto;
+	border-inline-end: 1px solid var(--outline-gray-1);
+}
+
+.one-cloud-picker-body {
+	flex: 1;
+	min-width: 0;
+}
+
 .one-files-dialog .modal-body,
 .one-files-dialog .form-section .section-body {
 	padding: 0;

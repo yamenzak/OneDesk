@@ -57,9 +57,14 @@ onedesk.pick_from_onecloud = ({ dialog, uploader, doctype, docname, fieldname })
 	};
 	picker.show();
 	picker.get_primary_btn().prop("disabled", true);
-	const $host = picker.fields_dict.explorer.$wrapper;
-	onedesk.mount_cloud($host, {
+	// The folders are the window's tree (window/nav_tree.js), in a box of the
+	// dialog's own beside the island.
+	const $box = picker.fields_dict.explorer.$wrapper
+		.addClass("one-cloud-picker")
+		.html(`<div class="one-cloud-picker-nav"></div><div class="one-cloud-picker-body"></div>`);
+	onedesk.mount_cloud($box.children(".one-cloud-picker-body"), {
 		picker: {
+			nav: $box.children(".one-cloud-picker-nav")[0],
 			start: "@my",
 			onSelect: (items) => {
 				chosen = items;

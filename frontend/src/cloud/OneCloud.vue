@@ -16,9 +16,6 @@
   <WindowPart v-if="win" :win="win" part="views" inline>
     <TabButtons :model-value="settings.view" :options="views" @update:model-value="(view) => remember({ view })" />
   </WindowPart>
-  <WindowPart v-if="win" :win="win" part="nav">
-    <CloudTree :kids="kids" :open="openInTree" :here="node" :drop-on="dropOn" @go="go" @twist="twist" @dragover="over" @dragleave="leave" @drop="drop" />
-  </WindowPart>
   <WindowPart v-if="win" :win="win" part="details" details-key="onecloud">
     <CloudPreview :chosen="chosen" :items="items" :node="node" :here-name="here?.name || ''" @changed="refresh" />
   </WindowPart>
@@ -61,9 +58,6 @@
     </template>
 
     <div class="flex min-h-0 flex-1">
-      <div v-if="!win && picker" class="w-56 shrink-0 overflow-auto border-e border-outline-gray-1">
-        <CloudTree :kids="kids" :open="openInTree" :here="node" @go="go" @twist="twist" />
-      </div>
       <ContextMenu :options="picker ? [] : menu" class="min-w-0 flex-1">
         <template #trigger>
           <div class="h-full min-w-0 flex-1">
@@ -153,11 +147,11 @@ import {
   windowHandles,
   windowSearch,
   windowStatus,
+  windowTree,
 } from "../kit";
-import { API, SHEETS, UPLOAD, across, count, emptyText, extension, filed, kindOf, sizeText, stored, takes, typeOf } from "./cloud";
+import { API, SHEETS, UPLOAD, across, count, emptyText, extension, filed, iconOf, kindOf, sizeText, stored, takes, typeOf } from "./cloud";
 import CloudItems from "./CloudItems.vue";
 import CloudPreview from "./CloudPreview.vue";
-import CloudTree from "./CloudTree.vue";
 import CloudUploads from "./CloudUploads.vue";
 
 const props = defineProps({
@@ -381,6 +375,49 @@ watch([node, chosen], () => {
 watch(chosen, (now) => props.picker?.onSelect?.(now.filter((one) => !one.folder)));
 
 // ---- the tree ----
+// The window's (window/nav_tree.js), in the nav pane on the page and in the
+// box the picker's dialog gives it: the places at the top (My Files, Company,
+// Libraries, Records, the Recycle Bin), each folder opened as far as the
+// reader opened it.
+
+const treeRows = computed(() => {
+  const out = [];
+  const walk = (list, depth) => {
+    for (const one of list || []) {
+      const leaf = one.id === "@bin" || (one.record && !one.doctype);
+      const open = openInTree.has(one.id);
+      out.push({
+        id: one.id,
+        label: one.name,
+        icon: iconOf(one),
+        depth,
+        open: leaf ? undefined : open,
+        active: one.id === node.value,
+        href: props.win ? `/desk/onecloud?node=${encodeURIComponent(one.id)}` : "",
+      });
+      if (open && !leaf && kids[one.id]) walk(kids[one.id], depth + 1);
+    }
+  };
+  walk(kids["@root"], 0);
+  return out;
+});
+
+const tree = room
+  ? null
+  : windowTree(props.win || (props.picker && props.picker.nav), {
+      label: __("Folders"),
+      pick: (id) => go(id),
+      twist,
+      over: props.picker
+        ? null
+        : (id, event) => {
+            over(event, id);
+            return Boolean(dropOn.value) && dropOn.value === targetOf(id);
+          },
+      leave: () => (dropOn.value = null),
+      drop: props.picker ? null : (id, event) => drop(event, id),
+    });
+if (tree) watch(treeRows, (rows) => tree.set(rows), { immediate: true });
 
 async function drawTree() {
   if (!kids["@root"]) kids["@root"] = await call(API + "folders", { node: "@root" });

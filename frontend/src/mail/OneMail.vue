@@ -20,10 +20,6 @@
     </span>
   </WindowPart>
 
-  <component :is="win ? WindowPart : 'div'" v-bind="win ? { win, part: 'nav' } : {}">
-    <MailBoxes :boxes="boxes" :box="box" :folder="folder" :folds="folds" :searching="!!search" @fold="fold" @choose="choose" @connect="connect" />
-  </component>
-
   <div ref="root" class="flex h-full min-h-0 text-ink-gray-8 outline-none" tabindex="-1" @keydown="key">
     <div class="w-96 shrink-0 border-e border-outline-gray-1 max-md:w-full" :class="{ 'max-md:hidden': thread }">
       <Loading v-if="loading && !items.length" />
@@ -78,9 +74,9 @@ import {
   userSettings,
   windowHandles,
   windowSearch,
+  windowTree,
 } from "../kit";
-import { ACT, API, folderLabel, forward, names, noSender, reply, sender } from "./mail";
-import MailBoxes from "./MailBoxes.vue";
+import { ACT, API, called, depth, folderLabel, forward, kindOf, names, noSender, reply, sender } from "./mail";
 import MailConversation from "./MailConversation.vue";
 import MailList from "./MailList.vue";
 
@@ -121,6 +117,60 @@ windowHandles(props.win, { refresh: () => refresh() });
 props.onTitle?.(__("OneMail"));
 
 userSettings.get("OneMail").then((said) => (folds.value = (said && said.folds) || {}));
+
+// The mailboxes the reader may read, each with its folders, folded as the
+// reader left them: the window's tree (window/nav_tree.js) in the nav pane.
+const BOX = "box:";
+const FOLDER = "folder:";
+
+function folded(one) {
+  if (one.name in folds.value) return folds.value[one.name];
+  return !(box.value && box.value.name === one.name);
+}
+
+const treeRows = computed(() => {
+  const out = [];
+  for (const one of boxes.value) {
+    const shut = folded(one);
+    out.push({
+      id: BOX + one.name,
+      label: called(one),
+      title: one.email,
+      icon: one.workspace ? "building-2" : one.shared ? "users" : "at-sign",
+      depth: 0,
+      open: !shut,
+      warn: one.error || "",
+      count: shut && one.unread ? one.unread : "",
+    });
+    if (shut) continue;
+    for (const each of one.folders || []) {
+      const here = !search.value && box.value?.name === one.name && folder.value?.name === each.name;
+      out.push({
+        id: FOLDER + JSON.stringify([one.name, each.name]),
+        label: folderLabel(each),
+        icon: kindOf(each)[0],
+        depth: 1 + depth(each),
+        active: here,
+        strong: Boolean(each.unread),
+        count: each.unread && each.kind !== "Sent" && each.kind !== "Trash" ? each.unread : "",
+        href: `/desk/onemail?box=${encodeURIComponent(one.name)}&folder=${encodeURIComponent(each.name)}`,
+      });
+    }
+  }
+  out.push({ id: "connect", label: __("Connect Mailbox"), icon: "plug", depth: 0 });
+  return out;
+});
+
+const tree = windowTree(props.win, {
+  label: __("Mailboxes"),
+  twist: (id) => fold(id.slice(BOX.length)),
+  pick: (id) => {
+    if (id === "connect") return connect();
+    if (id.startsWith(BOX)) return fold(id.slice(BOX.length));
+    choose(...JSON.parse(id.slice(FOLDER.length)));
+  },
+});
+if (tree) watch(treeRows, (rows) => tree.set(rows), { immediate: true });
 
 function fold(name) {
   const one = boxes.value.find((row) => row.name === name);

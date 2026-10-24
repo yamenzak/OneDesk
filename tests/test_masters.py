@@ -87,7 +87,7 @@ def test_the_kinds_are_a_tree_beside_any_of_them():
 	assert 'bootinfo["one_masters"] = masters.listed()' in (tree.APP / "one" / "boot.py").read_text()
 	assert "onedesk.window.trees.push({ covers: onedesk.masters.covers, draw: onedesk.masters.draw })" in TREE
 	assert '"/assets/onedesk/js/masters.js"' in HOOKS
-	assert 'class="standard-sidebar-item' in TREE and "one-window-count" in TREE and "active-sidebar" in TREE
+	assert "win.tree({" in TREE and "count:" in TREE and "active:" in TREE
 	homes = SOURCE.split("def homes(", 1)[1].split("\ndef ", 1)[0]
 	assert '"route": "/desk/masters"' in homes and "f\"/desk/{doctype.lower()" in homes
 
@@ -155,4 +155,4 @@ def test_oneai_offers_on_every_kinds_list():
 
 def test_each_group_has_its_apps_mark_and_folds():
 	assert '"mark": settings._mark("" if group == "Shared" else group)' in SOURCE
-	assert 'frappe.model.user_settings.save("Masters", "closed"' in TREE and 'aria-expanded="${open}"' in TREE
+	assert 'frappe.model.user_settings.save("Masters", "closed"' in TREE and "open });" in TREE and "twist: fold" in TREE
