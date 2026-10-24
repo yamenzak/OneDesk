@@ -98,14 +98,21 @@ def shown_kinds() -> set[str]:
 
 
 def records(sender: str, text: str = "") -> list[dict]:
-	"""What the portal shows the sender: for each customer or supplier they
-	are a contact of, the latest few of each kind the portal lists, and any
-	the message names, as the portal's rows, leaving out a record hidden
-	from that contact (portal.mine)."""
-	from onedesk.one import portal
-
+	"""What the portal shows the sender, as the portal's rows, leaving out a
+	record hidden from that contact (portal.mine): the records the message
+	names when it names any of theirs, and otherwise, for each customer or
+	supplier they are a contact of, the latest few of each kind the portal
+	lists."""
 	kinds = shown_kinds()
 	named = set(NAMED.findall(text or ""))
+	said = _of(sender, kinds, named, only_named=bool(named))
+	return said or (_of(sender, kinds, named, only_named=False) if named else said)
+
+
+def _of(sender: str, kinds: set, named: set, only_named: bool) -> list[dict]:
+	"""`records` for one choice: only the named ones, or the latest too."""
+	from onedesk.one import portal
+
 	said = []
 	for party_type, party, contact in parties_of(sender):
 		for doctype, field in PARTY.items():
@@ -114,7 +121,11 @@ def records(sender: str, text: str = "") -> list[dict]:
 			filters = {field: party, "docstatus": 1}
 			if doctype == "Quotation":
 				filters["quotation_to"] = "Customer"
-			names = frappe.get_all(doctype, filters=filters, pluck="name", order_by="modified desc", limit=RECENT)
+			names = (
+				[]
+				if only_named
+				else frappe.get_all(doctype, filters=filters, pluck="name", order_by="modified desc", limit=RECENT)
+			)
 			if named:
 				names += frappe.get_all(doctype, filters={**filters, "name": ("in", list(named))}, pluck="name")
 			for name in dict.fromkeys(names):
@@ -155,7 +166,8 @@ def told(comm) -> str:
 		for row in rows
 	]
 	return (
-		"These are the sender's own records, as the workspace's portal shows them. Use them where they "
-		"answer the message; say nothing else about the workspace's records, and invent no number, date "
-		"or amount.\n" + "\n".join(f"- {one}" for one in lines)
+		"These are the sender's own records, as the workspace's portal shows them. Mention only the ones "
+		"the message asks about, and bring up no other: not an overdue invoice when they asked about a "
+		"delivery. Say nothing else about the workspace's records, and invent no number, date or amount.\n"
+		+ "\n".join(f"- {one}" for one in lines)
 	)

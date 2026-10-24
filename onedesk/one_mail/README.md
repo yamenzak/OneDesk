@@ -136,10 +136,14 @@ the mailbox and counts against its monthly limit.
 unless the reply is set to **reading their records**. Then OneAI is given,
 and told to use nothing else, what the portal shows that person
 (`theirs.py`): for each customer or supplier the address is a contact of,
-the latest five of each kind the portal lists (quotations, orders,
-invoices, deliveries; supplier quotations, purchase orders and invoices),
-and any the message names, as the portal's own rows (status, total, due or
-delivery date, items), leaving out what was hidden from that contact. The
+only the records the message names when it names any of theirs, and
+otherwise the latest five of each kind the portal lists (quotations,
+orders, invoices, deliveries; supplier quotations, purchase orders and
+invoices), as the portal's own rows (status, total, due or
+delivery date, items), leaving out what was hidden from that contact. It is
+told to mention only the ones the message asks about, and bring up no
+other, so a question about a delivery is not answered with a reminder of
+an overdue invoice. The
 portal is the one place that decides what a customer may see, so there is
 no second list to keep in step with it.
 
