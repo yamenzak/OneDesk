@@ -2787,7 +2787,7 @@ def onemail_layla_reads_sorts_and_files_her_mail():
 
 		runs.apply(rule)
 		taxis = frappe.db.get_value("Mail Folder", {"account": account, "label": "Taxis"}, "path")
-		assert frappe.db.exists("Mail Rule", {"account": account, "body_contains": "taxi"})
+		assert frappe.db.exists("Mail Rule", {"account": account, "steps": ["like", "%taxi%"]})
 		assert frappe.db.count("Communication", {"email_account": account, "one_folder": taxis}) >= 2
 
 		rules.set_away(account, 1, str(add_days(today(), 7)), "Back next week.")
@@ -2916,9 +2916,6 @@ def onemail_a_mailbox_is_set_up_in_its_own_tabs():
 		holders.grant(ours, "omar@one.test", 0)
 		assert any(one["user"] == "omar@one.test" for one in holders._people(ours))
 		holders.revoke(ours, "omar@one.test")
-		rules.set_auto_reply(ours, 1, "<p>Thanks {{ sender_name }}, we have it.</p>")
-		assert rules.auto_reply_of(ours).enable_auto_reply == 1
-		rules.set_auto_reply(ours, 0, "")
 		said = gate.set_settings(ours, level=gate.FILE, limit=500)
 		assert said["level"] == gate.FILE and said["limit"] == 500
 		gate.set_settings(ours, level=gate.ACT, limit=0)
@@ -2935,7 +2932,7 @@ def onemail_a_mailbox_is_set_up_in_its_own_tabs():
 		frappe.db.set_value(
 			"Email Account", own, dict(zip(("signature", "one_signature_preset", "one_signature_show"), was, strict=True)), update_modified=False
 		)
-		made = rules.save_rule(own, {"subject_contains": "invoice", "star": 1, "reply": 1, "reply_with": "Text", "reply_text": "<p>Thanks, we have it.</p>"})
+		made = rules.save_rule(own, {"title": "Invoices", "steps": [{"type": "if", "id": "i1", "test": {"items": [{"field": "subject", "op": "contains", "value": "invoice"}]}, "then": [{"type": "star"}], "else": []}]})
 		assert any(one["name"] == made for one in rules.rules_of_mailbox(own)["rules"])
 		rules.enable_rule(made, 0)
 		assert not frappe.db.get_value("Mail Rule", made, "enabled")
@@ -2966,7 +2963,7 @@ def onemail_people_ask_and_mail_managers_decide():
 	with as_user("rania@one.test"):
 		assert holders.issued_to_them(theirs), "an issued address is the workspace's"
 		assert holders.may(theirs, "away") and not holders.may(theirs, "signature"), "her own out-of-office, nothing more"
-		asked = rules.save_rule(theirs, {"subject_contains": "invoice", "star": 1})
+		asked = rules.save_rule(theirs, {"title": "Invoices", "steps": [{"type": "if", "id": "i1", "test": {"items": [{"field": "subject", "op": "contains", "value": "invoice"}]}, "then": [{"type": "star"}], "else": []}]})
 		assert frappe.db.get_value("Mail Rule", asked, ["enabled", "requested_by"]) == (0, "rania@one.test")
 		try:
 			rules.enable_rule(asked, 1)
@@ -3029,7 +3026,7 @@ def onemail_roles_and_one_mailbox_grants():
 		said = access.change_ability(own, "away", "own")
 		assert access.ability_matrix("OneMail")["values"] == said["values"]
 		assert [role["name"] for role in said["roles"]] == ["User", brand, own, "Manager"]
-		assert said["values"][own]["signature"] == "own" and said["values"][own]["auto_reply"] == 0
+		assert said["values"][own]["signature"] == "own" and said["values"][own]["holders"] == 0
 		assert {one["key"]: one["value"] for one in access.level(brand)["abilities"]}["signature"] == "all"
 		assert said["least"][own]["rules"] == "none", "User asks for approval"
 	try:
@@ -3056,6 +3053,98 @@ def onemail_roles_and_one_mailbox_grants():
 		with as_user(OWNER):
 			for role in made:
 				access.delete_level(role)
+
+
+@check
+def onemail_rules_are_steps_that_branch_and_ask_oneai():
+	"""Layla builds rules on the workspace mailbox as steps: an If on who
+	wrote, with a group of Any inside, stars and files mail from a customer
+	and tells her; an Acknowledge rule answers a new conversation from
+	outside once a day, not twice; an Ask OneAI rule waits for OneAI's
+	reading and takes the branch of the label it picked, or Otherwise. A
+	rule needs an action, and a folder in its own mailbox."""
+	from unittest import mock
+
+	from onedesk.one_mail import flow, holders, rules
+	from onedesk.one_mail.patches import rules_are_steps
+
+	ours = holders.workspace()
+	message = frappe.db.get_value(
+		"Communication", {"email_account": ours, "sent_or_received": "Received", "sender": ["like", "%marinahotels%"]}, "name"
+	)
+	made, sent = [], []
+	was = frappe.db.get_value("Communication", message, ["one_flagged", "one_folder"])
+	archive = frappe.db.get_value("Mail Folder", {"account": ours, "kind": "Archive"})
+	try:
+		with as_user(OWNER):
+			try:
+				rules.save_rule(ours, {"title": "Nothing", "steps": [{"type": "if", "id": "i", "test": {}, "then": [], "else": []}]})
+				raise AssertionError("a rule that does nothing was saved")
+			except frappe.ValidationError:
+				pass
+			customers = rules.save_rule(
+				ours,
+				{
+					"title": "Customers",
+					"steps": [
+						{
+							"type": "if",
+							"id": "i1",
+							"test": {
+								"items": [
+									{"field": "sender_is", "op": "is", "value": "Customer"},
+									{"any": True, "items": [{"field": "subject", "op": "contains", "value": "balcony, glass"}, {"field": "attachment", "value": True}]},
+								]
+							},
+							"then": [{"type": "star"}, {"type": "link"}, {"type": "notify", "user": OWNER}],
+							"else": [],
+						}
+					],
+				},
+			)
+			made.append(customers)
+			ack = rules.save_rule(ours, {"title": "Acknowledge", "steps": rules_are_steps.acknowledge(""), "priority": 20})
+			made.append(ack)
+			sort = rules.save_rule(
+				ours,
+				{
+					"title": "Sort",
+					"priority": 30,
+					"steps": [
+						{
+							"type": "ask",
+							"id": "a1",
+							"ask": "pick",
+							"labels": [{"label": "Maintenance", "then": [{"type": "move", "folder": archive}]}, {"label": "Quote", "then": []}],
+							"else": [{"type": "read"}],
+						}
+					],
+				},
+			)
+			made.append(sort)
+			listed = {one["name"]: one for one in rules.rules_of_mailbox(ours)["rules"]}
+			assert "Customer" in listed[customers]["when"] and "Star" in listed[customers]["then"]
+		replied = mock.patch("onedesk.one_mail.rules._send", side_effect=lambda account, comm, html: sent.append(comm.name))
+		made_ = frappe.get_doc("Communication", message)
+		with replied:
+			done = rules.run_rules(made_, headers={})
+			assert customers in done and ack in done and sort not in done, done
+			assert frappe.db.get_value("Communication", message, "one_flagged") == 1
+			assert sent == [message], "acknowledged once"
+			rules.run_rules(made_, headers={})
+			assert sent == [message], "not twice in a day"
+		topics = rules.topics_of_mailbox(ours)
+		assert (f"{sort}#a1#0", "Maintenance") in topics
+		assert rules.run_rules(made_, {f"{sort}#a1#0"}) == [sort]
+		assert frappe.db.get_value("Communication", message, "one_folder") == frappe.db.get_value("Mail Folder", archive, "path")
+		steps = rules.flow_of(frappe.get_doc("Mail Rule", sort))
+		assert flow.walk(steps, rules.facts_of(message), flow.answers_of(sort, steps, set()))[0] == [{"type": "read"}], "Otherwise"
+	finally:
+		with as_user(OWNER):
+			for one in made:
+				rules.delete_rule(one)
+		frappe.db.set_value("Communication", message, {"one_flagged": was[0], "one_folder": was[1]}, update_modified=False)
+		frappe.db.delete("Notification Log", {"for_user": OWNER, "subject": ["like", "%marinahotels%"]})
 
 
 @check

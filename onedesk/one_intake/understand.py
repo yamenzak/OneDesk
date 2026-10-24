@@ -57,7 +57,7 @@ def run(name: str) -> None:
 		try:
 			topics = topics_of(reading, structured)
 			reading.verdict, about = look(reading, structured, topics)
-			_sorted(reading, about)
+			_sorted(reading, about if topics else None)
 			if reading.verdict not in READ_IN_FULL or _sorting_only(reading):
 				_done(reading)
 				return
@@ -205,8 +205,9 @@ def _party(role: str, said: dict) -> dict:
 
 
 def look(reading, structured: dict, topics: list | None = None) -> tuple[str, set]:
-	"""The first look: junk, or something to read, and which of its mailbox's
-	About rules (`topics`, as (rule, about)) a new message is about. Mail a
+	"""The first look: junk, or something to read, and which of the questions
+	and labels its mailbox's rules ask (`topics`, as (key, words)) a new
+	message is about. Mail a
 	machine sent in bulk is a newsletter with no model asked, unless there
 	are topics to read it for."""
 	bulk = bool(cint(reading.automatic) or (structured.get("mail") or {}).get("automatic"))
@@ -228,22 +229,23 @@ def about_of(said, topics: list) -> set:
 
 
 def topics_of(reading, structured: dict) -> list:
-	"""What a new message straight to a mailbox could be about: the About of
-	each of its mailbox's rules that are on (one_mail/rules.py)."""
+	"""What a new message straight to a mailbox is read for: each question
+	and label its mailbox's rules ask OneAI (one_mail/flow.py topics)."""
 	from onedesk.one_mail import rules
 
 	if reading.source_doctype != "Communication" or reading.part_of or structured.get("forwarded"):
 		return []
 	account = frappe.db.get_value("Communication", {"name": reading.source_name, "sent_or_received": "Received"}, "email_account")
-	return [(one.name, one.about) for one in rules.rules_of(account, by_meaning=True)] if account else []
+	return rules.topics_of_mailbox(account) if account else []
 
 
-def _sorted(reading, about: set) -> None:
-	"""A new message moved by the About rules it is about. Junk that could
-	harm goes to Junk whatever it is about."""
+def _sorted(reading, about: set | None) -> None:
+	"""A new message through the rules that waited for OneAI's reading, with
+	what it found, an empty set taking each rule's Otherwise. Junk that
+	could harm goes to Junk whatever it is about."""
 	from onedesk.one_mail import rules
 
-	if not about or reading.verdict in ("Spam", "Phishing"):
+	if about is None or reading.verdict in ("Spam", "Phishing"):
 		return
 	try:
 		rules.by_meaning(reading.source_name, about)

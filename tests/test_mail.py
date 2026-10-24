@@ -519,37 +519,61 @@ def test_links_say_how_they_were_made_and_the_timeline_is_narrowed():
 def _rules():
 	import email as email_module
 
-	names = ("MACHINES", "matches", "automatic", "failures", "bounced_id")
+	names = ("MACHINES", "automatic", "failures", "bounced_id")
 	return _load(MAIL / "rules.py", names, re=re, email=email_module)
 
 
-def test_a_rule_matches_all_or_any_of_what_it_names():
-	matches = _rules()["matches"]
-	message = {
-		"sender": "News <news@shop.example>",
-		"recipients": "sales@acme.com",
-		"subject": "Weekly Newsletter",
-		"has_attachment": 0,
-	}
-	assert matches({"from_contains": "shop.example", "subject_contains": "newsletter"}, message)
-	assert not matches({"from_contains": "shop.example", "has_attachment": 1}, message), "all, by default"
-	assert matches(
-		{"from_contains": "nobody", "subject_contains": "weekly", "match": "Any Condition"}, message
+def _flow():
+	names = (
+		"TEXT", "FLAGS", "KINDS", "ACTIONS", "CREATES", "ONCE", "test", "holds", "said", "walk", "_answered",
+		"asks", "needs_ai", "topics", "answers_of", "actions_in", "problems", "from_fields",
 	)
-	assert not matches({}, message), "a rule that names nothing matches nothing"
+	return _load(MAIL / "flow.py", names, re=re, _=lambda text: text)
 
 
-def test_a_rule_finds_words_in_the_text_and_waits_for_oneai_on_what_mail_is_about():
-	matches = _rules()["matches"]
-	message = {"sender": "a@b.example", "subject": "Order", "text": "Two crates of Coca-Cola, please."}
-	assert matches({"body_contains": "cola"}, message), "the text, whatever its case"
-	assert matches({"body_contains": "order"}, message), "and the subject"
-	assert not matches({"body_contains": "pepsi"}, message)
-	about = {"name": "R1", "about": "soft drinks"}
-	assert not matches(about, message), "on arrival an About rule waits for OneAI"
-	assert matches(about, message, {"R1"})
-	assert not matches(about, message, {"R2"})
-	assert not matches({**about, "from_contains": "nobody"}, message, {"R1"}), "all, by default"
+def test_conditions_nest_in_groups_of_all_or_any():
+	flow = _flow()
+	facts = {"from": "News news@shop.example", "subject": "Weekly Newsletter", "attachment": False, "sender_is": {"Customer"}, "outside": True}
+	both = {"items": [{"field": "from", "value": "shop.example"}, {"field": "subject", "value": "newsletter"}]}
+	assert flow["test"](both, facts)
+	assert not flow["test"]({"items": [{"field": "from", "value": "shop"}, {"field": "attachment", "value": True}]}, facts), "all, by default"
+	nested = {"items": [{"field": "outside", "value": True}, {"any": True, "items": [{"field": "subject", "value": "invoice"}, {"field": "sender_is", "op": "is", "value": "Customer"}]}]}
+	assert flow["test"](nested, facts)
+	assert flow["test"]({"items": []}, facts), "no conditions: every message"
+	assert flow["holds"]({"field": "subject", "op": "not_contains", "value": "invoice, quote"}, facts)
+	assert flow["holds"]({"field": "sender_is", "op": "is_not", "value": "Supplier"}, facts)
+	assert flow["said"]("Order 12", "starts_with", "order") and not flow["said"]("Order 12", "is", "order")
+
+
+def test_steps_branch_stop_and_take_oneai_s_answer():
+	flow = _flow()
+	steps = [
+		{"type": "if", "id": "i", "test": {"items": [{"field": "outside", "value": True}]}, "then": [{"type": "star"}], "else": [{"type": "read"}]},
+		{"type": "ask", "id": "a", "ask": "pick", "labels": [{"label": "Quote", "then": [{"type": "stop"}]}, {"label": "Complaint", "then": [{"type": "notify", "user": "x"}]}], "else": [{"type": "junk"}]},
+		{"type": "move", "folder": "F"},
+	]
+	assert flow["needs_ai"](steps) and not flow["needs_ai"](steps[:1])
+	assert flow["topics"]("R", steps) == [("R#a#0", "Quote"), ("R#a#1", "Complaint")]
+	done, stopped = flow["walk"](steps, {"outside": True}, flow["answers_of"]("R", steps, {"R#a#0"}))
+	assert [one["type"] for one in done] == ["star"] and stopped, "Quote says stop"
+	done, stopped = flow["walk"](steps, {"outside": False}, flow["answers_of"]("R", steps, {"R#a#1"}))
+	assert [one["type"] for one in done] == ["read", "notify", "move"] and not stopped
+	done, _ = flow["walk"](steps, {}, flow["answers_of"]("R", steps, set()))
+	assert [one["type"] for one in done] == ["read", "junk", "move"], "nothing found: Otherwise"
+
+
+def test_a_rule_must_do_something_and_old_rules_become_steps():
+	flow = _flow()
+	assert flow["problems"]([{"type": "if", "test": {}, "then": [], "else": []}]) == ["Add at least one action."]
+	assert "Choose the folder to move to." in flow["problems"]([{"type": "move"}])
+	assert "Write the address to forward to." in flow["problems"]([{"type": "forward", "to": "nobody"}])
+	assert "Give OneAI at least two labels to pick from." in flow["problems"]([{"type": "ask", "ask": "pick", "labels": [{"label": "A"}], "then": [{"type": "star"}]}])
+	old = {"from_contains": "shop", "subject_contains": "news", "match": "Any Condition", "move_to": "F", "star": 1, "stop": 1}
+	steps = flow["from_fields"](old)
+	assert steps[0]["test"] == {"any": True, "items": [{"field": "from", "op": "contains", "value": "shop"}, {"field": "subject", "op": "contains", "value": "news"}]}
+	assert [one["type"] for one in steps[0]["then"]] == ["move", "star", "stop"]
+	about = flow["from_fields"]({"about": "soft drinks", "move_to": "F"})
+	assert about[0]["type"] == "ask" and about[0]["question"] == "soft drinks" and flow["needs_ai"](about)
 
 
 def test_nothing_automatic_gets_an_away_reply():
@@ -761,16 +785,15 @@ def test_oneai_suggests_a_mail_rule_as_a_card():
 	assert 'if what == "mail_rule":' in setup and "ai.make_rule(changes)" in setup
 
 
-def test_a_shared_mailbox_acknowledges_only_a_new_conversation_from_a_person():
+def test_a_new_conversation_from_a_person_is_what_acknowledging_means():
 	space = _load(MAIL / "rules.py", ("MACHINES", "automatic", "starts_conversation"), re=re)
 	assert space["starts_conversation"]({})
 	assert not space["starts_conversation"]({"In-Reply-To": "<a@x>"}), "a reply in a thread gets none"
 	assert not space["starts_conversation"]({"References": "<a@x>"})
 	assert space["automatic"]({"Auto-Submitted": "auto-replied"}, "a@x.com"), "never answer a machine"
 	source = (MAIL / "rules.py").read_text()
-	assert 'account.get("one_shared") and account.get("enable_auto_reply")' in source, "only a shared mailbox, frappe's own field"
-	assert "if not away(made, arrival.mail) and" in source, "an out-of-office reply wins over the acknowledgement"
-	assert 'holders.must(account, "auto_reply")' in source.split("def set_auto_reply")[1].split("def ")[0]
+	assert "if not frappe.local.one_rule_replied:\n\t\t\t\taway(" in source, "a rule's reply stands in for out of office"
+	assert "def acknowledge(" not in source and "def set_auto_reply(" not in source, "Auto Reply is a rule"
 
 
 def test_a_rule_replies_once_never_to_a_machine_and_oneai_waits_when_unsure():
@@ -778,6 +801,6 @@ def test_a_rule_replies_once_never_to_a_machine_and_oneai_waits_when_unsure():
 	said = source.split("def answer(", 1)[1].split("\ndef ", 1)[0]
 	assert "automatic(headers or {}, sender)" in said, "never answer a machine"
 	assert "one_rule_reply:" in said and "RULE_REPLY_ONCE_IN" in said, "once per conversation"
-	assert 'rule.reply_review or "[" in text' in said, "a blank left for a person always waits as a card"
+	assert 'step.get("review") or "[" in text' in said, "a blank left for a person always waits as a card"
 	assert "gate.over(held)" in said and "held.one_ai_off" in said, "OneAI replies only where it may read and spend"
-	assert "not frappe.local.one_rule_replied" in source, "a rule's reply stands in for the acknowledgement"
+	assert '"day": 24 * 3600' in source and 'once == "conversation"' in said, "once per conversation, or per sender"

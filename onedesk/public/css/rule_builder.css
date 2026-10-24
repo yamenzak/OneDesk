@@ -1,0 +1,228 @@
+/* A mail rule as steps, top to bottom (public/js/rule_builder.js): cards
+   for each step, branches indented under a line in their tone. */
+.rb {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--spacing) * 3);
+}
+
+.rb .rb-steps {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--spacing) * 2);
+}
+
+.rb .rb-card {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--spacing) * 3);
+	padding: calc(var(--spacing) * 3);
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius-lg);
+	background: var(--surface-base);
+}
+
+.rb .rb-card-start {
+	background: var(--surface-gray-1);
+}
+
+.rb .rb-card-head {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+	min-height: 28px;
+}
+
+.rb .rb-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	border-radius: var(--radius);
+	background: var(--surface-gray-2);
+	color: var(--ink-gray-7);
+}
+
+.rb .rb-title {
+	flex: 1;
+	color: var(--ink-gray-9);
+	font-weight: var(--weight-medium);
+}
+
+.rb .rb-tools {
+	display: flex;
+	gap: calc(var(--spacing) * 0.5);
+}
+
+.rb .rb-group {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--spacing) * 2);
+}
+
+.rb .rb-group-nested {
+	padding: calc(var(--spacing) * 3);
+	border: 1px dashed var(--outline-gray-3);
+	border-radius: var(--radius-lg);
+}
+
+.rb .rb-group-head {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+}
+
+.rb .rb-group-head select {
+	width: auto;
+}
+
+.rb .rb-condition {
+	display: grid;
+	grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1.6fr) auto;
+	gap: calc(var(--spacing) * 2);
+	align-items: center;
+}
+
+.rb .rb-label-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) auto;
+	gap: calc(var(--spacing) * 2);
+	align-items: center;
+}
+
+.rb .rb-adds {
+	display: flex;
+	gap: calc(var(--spacing) * 2);
+}
+
+.rb .rb-fields {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--spacing) * 3);
+}
+
+.rb .rb-field {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--spacing) * 1);
+	margin: 0;
+	font-weight: var(--weight-regular, 400);
+}
+
+.rb .rb-field input[type="checkbox"] {
+	align-self: flex-start;
+}
+
+.rb .rb-label {
+	color: var(--ink-gray-6);
+	font-size: var(--text-sm);
+}
+
+.rb .rb-help,
+.rb .rb-quiet {
+	color: var(--ink-gray-5);
+	font-size: var(--text-sm);
+}
+
+.rb .rb-area {
+	min-height: 88px;
+	resize: vertical;
+}
+
+.rb .rb-branch {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--spacing) * 2);
+	padding-inline-start: calc(var(--spacing) * 4);
+	border-inline-start: 1px solid var(--outline-gray-3);
+}
+
+.rb .rb-branch-yes {
+	border-inline-start-color: var(--ink-green-3);
+}
+
+.rb .rb-branch-no {
+	border-inline-start-color: var(--outline-gray-3);
+}
+
+.rb .rb-branch-label {
+	color: var(--ink-gray-6);
+	font-size: var(--text-sm);
+	font-weight: var(--weight-medium);
+}
+
+.rb .rb-link {
+	align-self: flex-start;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: var(--ink-gray-6);
+	font-size: var(--text-sm);
+	cursor: pointer;
+}
+
+.rb .rb-link:hover,
+.rb .rb-link:focus-visible {
+	color: var(--ink-gray-9);
+	text-decoration: underline;
+}
+
+.rb .rb-add {
+	align-self: flex-start;
+}
+
+/* The rule starters, a grid of cards to pick one from. */
+.rb-starters {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	gap: calc(var(--spacing) * 3);
+}
+
+.rb-starter {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--spacing) * 1);
+	padding: calc(var(--spacing) * 3);
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius-lg);
+	background: var(--surface-base);
+	text-align: start;
+	cursor: pointer;
+}
+
+.rb-starter:hover,
+.rb-starter:focus-visible {
+	border-color: var(--outline-gray-4);
+	outline: none;
+}
+
+.rb-starter .rb-starter-title {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: calc(var(--spacing) * 2);
+	color: var(--ink-gray-9);
+	font-weight: var(--weight-medium);
+}
+
+.rb-starter .rb-starter-title .icon {
+	flex: none;
+	margin: 0;
+}
+
+.rb-starter .rb-starter-about {
+	color: var(--ink-gray-5);
+	font-size: var(--text-sm);
+}
+
+@media (max-width: 640px) {
+	.rb .rb-condition,
+	.rb .rb-label-row {
+		grid-template-columns: minmax(0, 1fr) auto;
+	}
+}
+
+.rb .rb-fields > button {
+	align-self: flex-start;
+}

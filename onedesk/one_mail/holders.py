@@ -194,7 +194,6 @@ BOX_FIELDS = [
 	"one_error",
 	"one_intake",
 	"signature",
-	"enable_auto_reply",
 ]
 
 
@@ -214,7 +213,7 @@ def _box(account, rows: dict, ours: str | None, listed: list) -> dict:
 		"intake": account.one_intake,
 		"receives_only": int(bool(account.one_hosted and not account.enable_outgoing)),
 		"may_sign": int(may_sign(account.name)),
-		"auto_reply": int(bool(account.get("enable_auto_reply"))),
+		"replies": int(rules.replies(account.name)),
 		"signed": first_line(account.signature),
 		"may": (held := mays(account.name)),
 		"may_manage": int(any(held.values())),

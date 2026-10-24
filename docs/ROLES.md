@@ -114,7 +114,6 @@ Profiles take OneMail like any other app.
 | Out of office | No / Their own address / Every mailbox | Their own address | Every mailbox |
 | Mail rules | Ask for approval / Their own address / Every mailbox | Ask | Every mailbox |
 | OneAI settings | No / Their own address / Every mailbox | No | Every mailbox |
-| Auto reply | Switch | Off | On |
 | Who holds a mailbox | Switch | Off | On |
 | Connection | Switch | Off | On |
 | Connect shared mailboxes | Switch | Off | On |
@@ -127,7 +126,7 @@ Workspace Administrators can do everything.
 
 The per-mailbox layer is the **Users** tab of a shared mailbox: beside Send,
 each person can be given the mailbox's signature, out of office, rules, OneAI,
-auto reply, who holds it, and its connection. Each is a share.
+who holds it, and its connection. Each is a share.
 
 ## Stages
 

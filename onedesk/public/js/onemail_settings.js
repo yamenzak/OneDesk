@@ -3,7 +3,7 @@ frappe.provide("onedesk.mail");
 // OneMail's settings, in frappe's own settings dialog (frappe.ui.SettingsDialog),
 // opened from Settings at the foot of OneMail's rail. Mailboxes is everyone's:
 // each mailbox they hold, opened into its own tabs (signature, out-of-office
-// reply, auto reply, users, connection, rules). Shared Mailboxes, Personal Addresses and Mail Templates are a
+// reply, users, connection, rules). Shared Mailboxes, Personal Addresses and Mail Templates are a
 // Workspace Administrator's: who reads and sends from each shared mailbox, the
 // address the workspace gives each person, which outside mailboxes people may
 // connect, and the templates. Roles is an administrator's: OneMail's role
@@ -104,6 +104,7 @@ onedesk.mail.settings = (tab) => {
 				if (box.covering_until) said.push(__("Covering until {0}", [day(box.covering_until)]));
 				else if (box.away?.leave) said.push(__("On Leave until {0}", [day(box.away.until)]));
 				else if (box.away) said.push(box.away.until ? __("Out of Office until {0}", [day(box.away.until)]) : __("Out of Office"));
+				else if (box.replies) said.push(__("Auto Reply On"));
 				$list.append(
 					row({
 						lead: glyph(icon_of(box)),
@@ -430,50 +431,6 @@ onedesk.mail.settings = (tab) => {
 		};
 	};
 
-	const auto_tab = (box) => ({
-		id: "auto",
-		label: __("Auto Reply"),
-		icon: "reply",
-		title: __("Auto Reply"),
-		description: box.may.auto_reply ? __("Sent to the first message of each new conversation. Not sent to replies or mailing lists.") : managed,
-		actions: box.may.auto_reply
-			? [
-					{
-						label: __("Save"),
-						variant: "solid",
-						class: "oms-save",
-						click: async (panel) => {
-							await frappe.xcall(R + "set_auto_reply", {
-								account: box.name,
-								on: panel.on.get_value() ? 1 : 0,
-								message: panel.get_value("message") || "",
-							});
-							saved();
-							panel.clean();
-						},
-					},
-			  ]
-			: [],
-		async render(panel) {
-			if (!box.may.auto_reply) return;
-			const said = (await frappe.xcall(R + "auto_reply_of", { account: box.name })) || {};
-			panel.add_fields([
-				{
-					fieldname: "message",
-					fieldtype: "Text Editor",
-					label: __("Message"),
-					default: said.auto_reply_message || "",
-					description: __("Leave empty for a standard reply. {{ sender_name }} adds the sender's name."),
-				},
-			]);
-			track(panel);
-			panel.on = header_switch(panel, said.enable_auto_reply, async (on) => {
-				await frappe.xcall(R + "set_auto_reply", { account: box.name, on, message: panel.get_value("message") || "" });
-				panel.clean();
-			});
-		},
-	});
-
 	// How far OneAI may go with this mailbox (one_mail/gate.py). Off reaches
 	// everything that reads mail, the OneAI panel included.
 	const G = "onedesk.one_mail.gate.";
@@ -692,33 +649,12 @@ onedesk.mail.settings = (tab) => {
 		],
 	});
 
-	// A mailbox's rules, in the order they run, each opened in the tab to
-	// change it (rules.py: rules_of_mailbox, save_rule, enable_rule,
-	// delete_rule, decide_rule). Whoever manages the mailbox changes them;
-	// the person a workspace address is issued to asks, and a Mail Manager
-	// approves.
-	const said_when = (rule) =>
-		[
-			rule.from_contains && __("From {0}", [rule.from_contains]),
-			rule.to_contains && __("To {0}", [rule.to_contains]),
-			rule.subject_contains && __("Subject has {0}", [rule.subject_contains]),
-			rule.body_contains && __("Text has {0}", [rule.body_contains]),
-			rule.has_attachment && __("Has Attachment"),
-			rule.about && __("About {0}", [rule.about]),
-		]
-			.filter(Boolean)
-			.join(rule.match === "Any Condition" ? __(" or ") : " · ");
-	const said_then = (rule) =>
-		[
-			rule.move_to && __("Move to {0}", [rule.move_to_label || rule.move_to]),
-			rule.mark_read && __("Mark as Read"),
-			rule.star && __("Star"),
-			rule.reply && (rule.reply_with === "OneAI" ? __("Reply With OneAI") : __("Reply")),
-			rule.stop && __("Stop Here"),
-		]
-			.filter(Boolean)
-			.join(" · ");
-
+	// A mailbox's rules, in the order they run, each opened in the tab as
+	// steps (public/js/rule_builder.js; rules.py: rules_of_mailbox,
+	// save_rule, enable_rule, delete_rule, decide_rule). Whoever manages the
+	// mailbox changes them; the person a workspace address is issued to
+	// asks, and a Mail Manager approves.
+	const builder_files = ["/assets/onedesk/js/rule_builder.js", "/assets/onedesk/css/rule_builder.css"];
 	const rules_tab = (box) => ({
 		id: "rules",
 		label: __("Mail Rules"),
@@ -735,7 +671,7 @@ onedesk.mail.settings = (tab) => {
 						{
 							label: box.may.rules ? __("New Rule") : __("Request Rule"),
 							icon: "plus",
-							click: (panel) => rule_view(panel, box, null),
+							click: (panel) => starters_view(panel, box),
 						},
 				  ]
 				: [],
@@ -743,14 +679,15 @@ onedesk.mail.settings = (tab) => {
 			const was = panel.shown;
 			const said = await frappe.xcall(R + "rules_of_mailbox", { account: box.name });
 			if (panel.shown !== was) return;
+			panel.said = said;
 			if (!said.may) return;
 			const $list = $(`<div class="oms-list"></div>`).appendTo(panel.body.empty());
 			if (!said.rules.length) $list.append(empty(__("No rules")));
 			said.rules.forEach((rule) => {
 				const $end = row({
-					lead: glyph(rule.reply ? "reply" : rule.move_to ? "folder-input" : "list-filter"),
-					title: said_when(rule) || __("Mail Rule"),
-					sub: esc(said_then(rule)),
+					lead: glyph("list-filter"),
+					title: rule.title || __("Mail Rule"),
+					sub: esc([rule.when, rule.then].filter(Boolean).join(" → ")),
 					end: chevron(),
 					open: () => rule_view(panel, box, rule),
 				})
@@ -776,12 +713,40 @@ onedesk.mail.settings = (tab) => {
 		},
 	});
 
-	// One rule, in the tab: Mail Rule's own fields, without its mailbox.
-	const rule_view = (panel, box, rule) => {
+	// What the builder offers in this mailbox: its folders and people, and
+	// whether OneAI may read it.
+	const context_of = async (panel, box) => {
+		const said = panel.said || (await frappe.xcall(R + "rules_of_mailbox", { account: box.name }));
+		return { email: box.email, folders: said.folders || [], people: said.people || [], ai: !!said.ai };
+	};
+
+	// A new rule starts from one of a few common ones, or from nothing.
+	const starters_view = async (panel, box) => {
+		await frappe.require(builder_files);
+		const context = await context_of(panel, box);
+		view(panel, {
+			title: box.may.rules ? __("New Mail Rule") : __("Request Mail Rule"),
+			description: __("Start from one of these, and change anything."),
+			render: (shown) => {
+				const $grid = $(`<div class="rb-starters"></div>`).appendTo(shown.body);
+				for (const one of onedesk.rules.starters(context))
+					$(`<button type="button" class="rb-starter"></button>`)
+						.html(
+							`<span class="rb-starter-title">${frappe.utils.icon(one.icon, "sm")}${esc(one.title)}</span><span class="rb-starter-about">${esc(one.about)}</span>`
+						)
+						.on("click", () => rule_view(panel, box, null, one.rule))
+						.appendTo($grid);
+			},
+		});
+	};
+
+	// One rule as steps, in the tab.
+	const rule_view = async (panel, box, rule, starter = null) => {
+		await frappe.require(builder_files);
+		const context = await context_of(panel, box);
+		let built = null;
 		const save = async () => {
-			const values = panel.get_values();
-			if (!values) return;
-			await frappe.xcall(R + "save_rule", { account: box.name, values, name: rule ? rule.name : null });
+			await frappe.xcall(R + "save_rule", { account: box.name, values: built.value(), name: rule ? rule.name : null });
 			saved();
 			panel.refresh();
 		};
@@ -807,25 +772,14 @@ onedesk.mail.settings = (tab) => {
 			});
 		}
 		view(panel, {
-			title: rule ? __("Mail Rule") : asking ? __("Request Mail Rule") : __("New Mail Rule"),
+			title: rule ? rule.title || __("Mail Rule") : asking ? __("Request Mail Rule") : __("New Mail Rule"),
 			description:
 				rule && rule.requested_by
 					? __("{0} asked for this rule. It runs once approved.", [rule.requested_by_name || rule.requested_by])
 					: undefined,
 			actions,
 			render: (shown) => {
-				frappe.model.with_doctype("Mail Rule", () => {
-					const fields = frappe
-						.get_meta("Mail Rule")
-						.fields.filter((df) => !["account", "enabled", "requested_by"].includes(df.fieldname))
-						.map((df) => ({
-							...df,
-							fieldtype: df.fieldtype === "Check" ? "Switch" : df.fieldtype,
-							default: rule && rule[df.fieldname] != null ? rule[df.fieldname] : df.default,
-							get_query: df.fieldname === "move_to" ? () => ({ filters: { account: box.name } }) : undefined,
-						}));
-					shown.add_fields(fields);
-				});
+				built = onedesk.rules.builder($(`<div></div>`).appendTo(shown.body), rule || starter || { title: "", steps: [] }, context);
 			},
 		});
 	};
@@ -836,7 +790,6 @@ onedesk.mail.settings = (tab) => {
 		const items = [];
 		if (box.sends || box.may_sign) items.push(signature_tab(box));
 		if (!box.shared && !box.covering_until) items.push(away_tab(box));
-		if (box.shared) items.push(auto_tab(box));
 		items.push(oneai_tab(box));
 		if (box.shared && box.may.holders) items.push(users_tab(box, from));
 		if (box.connected && box.may_reconnect) items.push(connection_tab(box, from));

@@ -3,7 +3,7 @@
  "allow_rename": 0,
  "autoname": "hash",
  "creation": "2026-09-25 12:00:00.000000",
- "description": "Mail that arrives in a mailbox's Inbox and matches is moved, marked read or starred, on the server too.",
+ "description": "What happens to mail arriving in a mailbox's Inbox: conditions, OneAI's reading and actions, top to bottom.",
  "doctype": "DocType",
  "editable_grid": 0,
  "engine": "InnoDB",
@@ -12,24 +12,9 @@
   "enabled",
   "priority",
   "column_break_when",
-  "match",
-  "section_when",
-  "from_contains",
-  "to_contains",
-  "subject_contains",
-  "body_contains",
-  "has_attachment",
-  "about",
-  "section_then",
-  "move_to",
-  "mark_read",
-  "star",
-  "reply",
-  "reply_with",
-  "reply_text",
-  "reply_instruction",
-  "reply_review",
-  "stop",
+  "title",
+  "section_steps",
+  "steps",
   "requested_by"
  ],
  "fields": [
@@ -61,114 +46,22 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "match",
-   "fieldtype": "Select",
-   "label": "Matching Mail",
-   "options": "All Conditions\nAny Condition",
-   "default": "All Conditions"
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Name",
+   "in_list_view": 1,
+   "description": "What the rule is for, such as Quotes from customers."
   },
   {
-   "fieldname": "section_when",
+   "fieldname": "section_steps",
    "fieldtype": "Section Break",
-   "label": "When"
+   "label": "Steps"
   },
   {
-   "fieldname": "from_contains",
-   "fieldtype": "Data",
-   "label": "From Contains",
-   "in_list_view": 1
-  },
-  {
-   "fieldname": "to_contains",
-   "fieldtype": "Data",
-   "label": "To or Cc Contains"
-  },
-  {
-   "fieldname": "subject_contains",
-   "fieldtype": "Data",
-   "label": "Subject Contains",
-   "in_list_view": 1
-  },
-  {
-   "fieldname": "body_contains",
-   "fieldtype": "Data",
-   "label": "Subject or Text Contains",
-   "description": "In the subject or anywhere in the message."
-  },
-  {
-   "fieldname": "has_attachment",
-   "fieldtype": "Check",
-   "label": "Has Attachment"
-  },
-  {
-   "fieldname": "about",
-   "fieldtype": "Small Text",
-   "label": "About",
-   "description": "What the mail is about, in plain words, such as soft drinks. OneAI reads each new mail for it."
-  },
-  {
-   "fieldname": "section_then",
-   "fieldtype": "Section Break",
-   "label": "Then"
-  },
-  {
-   "fieldname": "move_to",
-   "fieldtype": "Link",
-   "options": "Mail Folder",
-   "label": "Move To",
-   "in_list_view": 1
-  },
-  {
-   "fieldname": "mark_read",
-   "fieldtype": "Check",
-   "label": "Mark as Read"
-  },
-  {
-   "fieldname": "star",
-   "fieldtype": "Check",
-   "label": "Star"
-  },
-  {
-   "fieldname": "reply",
-   "fieldtype": "Check",
-   "label": "Reply",
-   "description": "Once per conversation, never to automated mail."
-  },
-  {
-   "fieldname": "reply_with",
-   "fieldtype": "Select",
-   "label": "Reply With",
-   "options": "Text\nOneAI",
-   "default": "Text",
-   "depends_on": "reply"
-  },
-  {
-   "fieldname": "reply_text",
-   "fieldtype": "Text Editor",
-   "label": "Reply Text",
-   "depends_on": "eval:doc.reply && doc.reply_with=='Text'",
-   "description": "{{ sender_name }} and {{ subject }} fill in from the message."
-  },
-  {
-   "fieldname": "reply_instruction",
-   "fieldtype": "Small Text",
-   "label": "Instruction",
-   "depends_on": "eval:doc.reply && doc.reply_with=='OneAI'",
-   "description": "What the reply says, such as sending the price list and promising an answer within a day."
-  },
-  {
-   "fieldname": "reply_review",
-   "fieldtype": "Check",
-   "label": "Review Before Sending",
-   "default": "1",
-   "depends_on": "eval:doc.reply && doc.reply_with=='OneAI'",
-   "description": "If enabled, the reply waits as a card for whoever made the rule to approve."
-  },
-  {
-   "fieldname": "stop",
-   "fieldtype": "Check",
-   "label": "Stop Here",
-   "description": "Rules after this one are not tried on mail it matched."
+   "fieldname": "steps",
+   "fieldtype": "JSON",
+   "label": "Steps",
+   "description": "What the rule checks and does, top to bottom, as OneMail's rule builder draws it."
   },
   {
    "fieldname": "requested_by",
@@ -181,7 +74,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-02 20:00:00.000000",
+ "modified": "2026-10-25 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Mail",
  "name": "Mail Rule",
@@ -199,6 +92,6 @@
  "sort_field": "priority",
  "sort_order": "ASC",
  "states": [],
- "title_field": "subject_contains",
+ "title_field": "title",
  "track_changes": 0
 }

@@ -203,11 +203,12 @@ function folded(one) {
   return !(box.value && box.value.name === one.name);
 }
 
-// A person's own mailbox says when it is answering for them, and one the
-// reader covers for a colleague on leave says until when.
+// A person's own mailbox says when it is answering for them, one the
+// reader covers for a colleague on leave says until when, and one a rule
+// replies from says so.
 function awayNote(one) {
   if (one.covering_until) return __("Covering until {0}", [date(one.covering_until)]);
-  if (!one.away) return "";
+  if (!one.away) return one.replies ? __("Auto Reply On") : "";
   if (one.away.leave) return __("On Leave until {0}", [date(one.away.until)]);
   return one.away.until ? __("Out of Office until {0}", [date(one.away.until)]) : __("Out of Office");
 }
@@ -288,7 +289,7 @@ function folderMenu(id) {
 // A mailbox's own menu. Each part opens its view in OneMail's settings,
 // for whoever's role or share lets them change it (holders.may). Out of
 // Office shows on every mailbox of a person's own, where approved leave
-// answers on its own; a shared one answers with Auto Reply.
+// answers on its own; a shared one answers by a mail rule.
 function boxMenu(one) {
   if (!one) return [];
   const at = (section) => () => settings(`mailbox:${one.name}${section ? ":" + section : ""}`);
@@ -296,7 +297,6 @@ function boxMenu(one) {
     { label: __("New Folder"), icon: "folder-plus", onClick: () => newFolder(one.name) },
     one.may_sign ? { label: __("Signature"), icon: "signature", onClick: at("signature") } : null,
     !one.shared && !one.covering_until ? { label: __("Out of Office"), icon: "plane", onClick: at("away") } : null,
-    one.shared && one.may?.auto_reply ? { label: __("Auto Reply"), icon: "reply", onClick: at("auto") } : null,
     one.may?.ai ? { label: __("OneAI"), icon: "sparkles", onClick: at("oneai") } : null,
     { label: __("Rules"), icon: "list-filter", onClick: at("rules") },
     { label: __("Attachments in OneCloud"), icon: "paperclip", onClick: () => goTo("onecloud", { node: `@mail/${one.name}` }) },

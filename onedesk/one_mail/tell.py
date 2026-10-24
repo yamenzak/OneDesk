@@ -55,14 +55,41 @@ def rule_requested(rule) -> None:
 	hears what it would do."""
 	from onedesk.one import abilities
 
+	when, then = said_of(rule)
 	notify.notify(
 		"Mail Rule Requested",
 		abilities.people_with("Email Account", "mail_rules", rule.account),
 		link=f"/desk/onemail?settings=mailbox:{rule.account}:rules",
 		who=frappe.utils.get_fullname(frappe.session.user),
 		mailbox=frappe.db.get_value("Email Account", rule.account, "email_id") or rule.account,
-		when=_said(rule, WHEN),
-		then=_said(rule, THEN),
+		when=frappe.utils.escape_html(when),
+		then=frappe.utils.escape_html(then),
+	)
+
+
+def said_of(rule) -> tuple[str, str]:
+	"""A rule's steps in words (one_mail/flow.py summary), with its folders'
+	and people's names."""
+	from onedesk.one_mail import flow, rules
+
+	steps = rules.flow_of(rule)
+	folders = dict(frappe.get_all("Mail Folder", filters={"account": rule.account}, fields=["name", "label"], as_list=True))
+	people = {one.get("user"): frappe.utils.get_fullname(one.get("user")) for one in flow.actions_in(steps) if one.get("user")}
+	return flow.summary(steps, folders, people)
+
+
+def rule_notice(rule, user: str, name: str) -> None:
+	"""A rule's Tell: somebody hears that mail it was waiting for arrived."""
+	comm = frappe.db.get_value("Communication", name, ["sender", "sender_full_name", "subject", "email_account"], as_dict=True)
+	notify.notify(
+		"Mail Rule Notice",
+		user,
+		link=f"/desk/onemail?box={comm.email_account}",
+		sender="Administrator",
+		who=comm.sender_full_name or comm.sender,
+		mailbox=frappe.db.get_value("Email Account", comm.email_account, "email_id") or comm.email_account,
+		subject=comm.subject or "",
+		rule=rule.title or rule.name,
 	)
 
 
@@ -75,40 +102,6 @@ def rule_decided(account: str, asker: str, approved: bool) -> None:
 		who=frappe.utils.get_fullname(frappe.session.user),
 		mailbox=frappe.db.get_value("Email Account", account, "email_id") or account,
 	)
-
-
-WHEN = (
-	("from_contains", "From {0}"),
-	("to_contains", "To {0}"),
-	("subject_contains", "Subject has {0}"),
-	("body_contains", "Text has {0}"),
-	("has_attachment", "Has Attachment"),
-	("about", "About {0}"),
-)
-
-THEN = (
-	("move_to", "Move to {0}"),
-	("mark_read", "Mark as Read"),
-	("star", "Star"),
-	("reply", "Reply"),
-	("stop", "Stop Here"),
-)
-
-
-def _said(rule, parts) -> str:
-	"""A rule's conditions or actions in words, as its row in Mail Rules
-	says them."""
-	from frappe import _
-
-	said = []
-	for field, words in parts:
-		value = rule.get(field)
-		if not value:
-			continue
-		if field == "move_to":
-			value = frappe.db.get_value("Mail Folder", value, "label") or value
-		said.append(_(words).format(frappe.utils.escape_html(str(value))))
-	return " · ".join(said)
 
 
 def _admins() -> list[str]:

@@ -11,41 +11,12 @@ from frappe.utils import add_days, formatdate, getdate, today
 
 AWAY_ONCE_IN = 4 * 24 * 3600
 AWAY_TO = ("Everyone", "Workspace", "Contacts")
-ACK_ONCE_IN = 24 * 3600
 RULE_REPLY_ONCE_IN = 30 * 24 * 3600
 MOST_ASKED = 6000
 
 MACHINES = re.compile(
 	r"^(no-?reply|do-?not-?reply|mailer-daemon|postmaster|bounces?)([+.@-]|$)", re.IGNORECASE
 )
-
-
-def matches(rule: dict, message: dict, about: set | None = None) -> bool:
-	"""Whether a message is one a rule is for. Pure.
-
-	`about` is the rules OneAI read the message to be about. A rule with an
-	About is not for the arrival at all (`about` None): it waits for OneAI,
-	which reads the message a moment later (`by_meaning`)."""
-	if rule.get("about") and about is None:
-		return False
-	tests = []
-	if rule.get("from_contains"):
-		tests.append(rule["from_contains"].lower() in (message.get("sender") or "").lower())
-	if rule.get("to_contains"):
-		people = f"{message.get('recipients') or ''} {message.get('cc') or ''}".lower()
-		tests.append(rule["to_contains"].lower() in people)
-	if rule.get("subject_contains"):
-		tests.append(rule["subject_contains"].lower() in (message.get("subject") or "").lower())
-	if rule.get("body_contains"):
-		said = f"{message.get('subject') or ''} {message.get('text') or ''}".lower()
-		tests.append(rule["body_contains"].lower() in said)
-	if rule.get("has_attachment"):
-		tests.append(bool(message.get("has_attachment")))
-	if rule.get("about"):
-		tests.append(rule.get("name") in about)
-	if not tests:
-		return False
-	return any(tests) if (rule.get("match") or "").startswith("Any") else all(tests)
 
 
 def automatic(headers, sender: str) -> bool:
@@ -115,8 +86,8 @@ def after(made, arrival) -> None:
 		if getattr(arrival, "fresh", True) and _in_inbox(made):
 			frappe.local.one_rule_replied = None
 			run_rules(made, headers=arrival.mail)
-			if not away(made, arrival.mail) and not frappe.local.one_rule_replied:
-				acknowledge(made, arrival.mail)
+			if not frappe.local.one_rule_replied:
+				away(made, arrival.mail)
 	except Exception:
 		frappe.log_error(title=f"OneMail could not sort {made.name}")
 
@@ -130,48 +101,166 @@ def _in_inbox(made) -> bool:
 
 def run_rules(made, about: set | None = None, headers=None) -> list[str]:
 	"""The rules of a message's mailbox, in order, until one says stop. On
-	arrival `about` is None and only the rules without an About run; OneAI's
-	reading runs those with one (`by_meaning`). `headers` are the message's,
-	when it is arriving, so a rule's Reply never answers a machine."""
-	from onedesk.one_mail import actions
+	arrival `about` is None and only the rules without an Ask OneAI run;
+	OneAI's reading runs those with one, `about` being the topics it found
+	(`by_meaning`, flow.topics). `headers` are the message's when it is
+	arriving, so a reply never answers a machine."""
+	from onedesk.one_mail import flow
 
 	done = []
-	message = frappe.db.get_value(
-		"Communication",
-		made.name,
-		["name", "sender", "recipients", "cc", "subject", "has_attachment", "content"],
-		as_dict=True,
-	)
-	message["text"] = frappe.utils.strip_html_tags(message.pop("content") or "")
+	facts = facts_of(made.name, headers)
 	for rule in rules_of(made.email_account, about is not None):
-		if not matches(rule, message, about):
-			continue
-		frappe.flags.one_mail_rules = True
-		try:
-			if rule.mark_read:
-				actions.mark([made.name], 1)
-			if rule.star:
-				actions.star([made.name], 1)
-			if rule.move_to:
-				actions.move([made.name], rule.move_to)
-		finally:
-			frappe.flags.one_mail_rules = False
-		if rule.reply:
-			try:
-				answer(rule, made.name, headers)
-			except Exception:
-				frappe.log_error(title=f"OneMail could not reply by the rule {rule.name}")
-		done.append(rule.name)
-		if rule.stop:
+		steps = flow_of(rule)
+		answers = flow.answers_of(rule.name, steps, about) if about is not None else None
+		todo, stopped = flow.walk(steps, facts, answers)
+		if todo:
+			perform(rule, made.name, todo, headers)
+			done.append(rule.name)
+		if stopped:
 			break
 	return done
 
 
-def answer(rule, name: str, headers=None) -> str | None:
+def flow_of(rule) -> list:
+	said = frappe.parse_json(rule.steps) if isinstance(rule.steps, str) else rule.steps
+	return said if isinstance(said, list) else []
+
+
+def facts_of(name: str, headers=None) -> dict:
+	"""What a rule's conditions are tested against (flow.holds): the
+	message's words, who sent it and whether they are the workspace's or one
+	of its customers, suppliers, leads, contacts or people, whether it starts
+	a conversation, and whether it came after hours or on a holiday."""
+	comm = frappe.db.get_value(
+		"Communication",
+		name,
+		["name", "sender", "sender_full_name", "recipients", "cc", "subject", "has_attachment", "content", "one_thread", "communication_date"],
+		as_dict=True,
+	)
+	sender = (comm.sender or "").lower()
+	return {
+		"from": f"{comm.sender_full_name or ''} {sender}",
+		"to": f"{comm.recipients or ''} {comm.cc or ''}",
+		"subject": comm.subject or "",
+		"text": f"{comm.subject or ''} {frappe.utils.strip_html_tags(comm.content or '')}",
+		"domain": sender.rsplit("@", 1)[-1],
+		"attachment": bool(comm.has_attachment),
+		"starts": starts_conversation(headers) if headers is not None else not _earlier(comm),
+		"outside": not inside(sender),
+		"sender_is": kinds_of(sender),
+		"holiday": holiday_today(),
+		"after_hours": after_hours(),
+	}
+
+
+def _earlier(comm) -> bool:
+	"""Whether a message's conversation began before it."""
+	return bool(
+		comm.one_thread
+		and frappe.db.exists(
+			"Communication",
+			{"one_thread": comm.one_thread, "name": ["!=", comm.name], "communication_date": ["<", comm.communication_date]},
+		)
+	)
+
+
+def kinds_of(sender: str) -> set:
+	"""What an address is to the workspace: Customer, Supplier, Contact, Lead
+	or Employee, as many as are true."""
+	said = set()
+	if not sender:
+		return said
+	contacts = frappe.get_all("Contact Email", filters={"email_id": sender}, pluck="parent")
+	if contacts:
+		said.add("Contact")
+		said |= set(
+			frappe.get_all(
+				"Dynamic Link",
+				filters={"parenttype": "Contact", "parent": ["in", contacts], "link_doctype": ["in", ["Customer", "Supplier"]]},
+				pluck="link_doctype",
+			)
+		)
+	if frappe.db.exists("Lead", {"email_id": sender}):
+		said.add("Lead")
+	for field in ("user_id", "company_email", "personal_email", "prefered_email"):
+		if frappe.db.exists("Employee", {field: sender, "status": "Active"}):
+			said.add("Employee")
+			break
+	return said
+
+
+def holiday_today() -> bool:
+	"""Whether today is a day off on the company's holiday list, weekly days
+	off included."""
+	from onedesk.one import holidays
+
+	held = holidays.in_force()
+	return bool(held and frappe.db.exists("Holiday", {"parent": held, "holiday_date": today()}))
+
+
+def after_hours() -> bool:
+	"""Whether it is now outside the workspace's working day, the hours of its
+	shift (one/setup_wizard.py SHIFT)."""
+	from onedesk.one.setup_wizard import SHIFT
+
+	hours = frappe.db.get_value("Shift Type", SHIFT, ["start_time", "end_time"])
+	if not hours or not all(hours):
+		return False
+	from frappe.utils import get_time, now_datetime
+
+	now = now_datetime().time()
+	start, end = get_time(hours[0]), get_time(hours[1])
+	return not (start <= now < end) if start < end else end <= now < start
+
+
+def perform(rule, name: str, todo: list, headers=None) -> None:
+	"""What a rule's steps said to do with one message, in order. Each is
+	tried on its own: one that fails is logged and the rest still happen."""
+	from onedesk.one_mail import actions
+
+	for step in todo:
+		kind = step.get("type")
+		frappe.flags.one_mail_rules = True
+		try:
+			if kind == "read":
+				actions.mark([name], 1)
+			elif kind == "star":
+				actions.star([name], 1)
+			elif kind == "move":
+				actions.move([name], step["folder"])
+			elif kind == "junk":
+				junk = actions.folder_of(frappe.db.get_value("Communication", name, "email_account"), "Junk")
+				if junk:
+					actions.move([name], junk)
+			elif kind == "reply":
+				answer(rule, step, name, headers)
+			elif kind == "forward":
+				forward(rule, step, name)
+			elif kind == "assign":
+				assign(rule, step, name)
+			elif kind == "notify":
+				from onedesk.one_mail import tell
+
+				tell.rule_notice(rule, step["user"], name)
+			elif kind == "link":
+				link(name)
+			elif kind == "create":
+				create(rule, step, name)
+		except Exception:
+			frappe.log_error(title=f"OneMail could not {kind} by the rule {rule.name}")
+		finally:
+			frappe.flags.one_mail_rules = False
+
+
+ONCE_IN = {"day": 24 * 3600, "week": 7 * 24 * 3600, "month": 30 * 24 * 3600}
+
+
+def answer(rule, step: dict, name: str, headers=None) -> str | None:
 	"""A rule's Reply: its own text, or OneAI's answer from the rule's
-	instruction. Once per conversation, never to a machine or to the mailbox
-	itself. OneAI's answer waits as a card for whoever made the rule when the
-	rule asks for review, and always when it left a blank in brackets for a
+	instruction. Once per conversation, or once a day, a week or a month to
+	each sender (`once`), never to a machine or to the mailbox itself.
+	OneAI's answer waits as a card for whoever made the rule when the rule
+	asks for review, and always when it left a blank in brackets for a
 	person to fill in. Answers "sent", "card" or None."""
 	comm = frappe.db.get_value(
 		"Communication",
@@ -181,42 +270,148 @@ def answer(rule, name: str, headers=None) -> str | None:
 	)
 	account = frappe.get_doc("Email Account", comm.email_account)
 	sender = (comm.sender or "").lower()
-	if automatic(headers or {}, sender) or sender == (account.email_id or "").lower():
+	if automatic(headers or {}, sender) or MACHINES.match(sender) or sender == (account.email_id or "").lower():
 		return None
-	key = f"one_rule_reply:{rule.name}:{comm.one_thread or comm.message_id or name}"
+	once = step.get("once") or "conversation"
+	key = (
+		f"one_rule_reply:{rule.name}:{comm.one_thread or comm.message_id or name}"
+		if once == "conversation"
+		else f"one_rule_reply:{rule.name}:{sender}"
+	)
 	if frappe.cache.get_value(key):
 		return None
-	if rule.reply_with == "OneAI":
+	lasts = ONCE_IN.get(once, RULE_REPLY_ONCE_IN)
+	if step.get("with") == "OneAI":
 		from onedesk.one_mail import gate
 
 		held = gate.of(account.name)
 		if not held or held.one_ai_off or gate.over(held):
 			return None
-		text = _drafted(rule, comm)
+		text = _drafted(step, comm)
 		if not text:
 			return None
-		frappe.cache.set_value(key, 1, expires_in_sec=RULE_REPLY_ONCE_IN)
-		if rule.reply_review or "[" in text:
+		frappe.cache.set_value(key, 1, expires_in_sec=lasts)
+		if step.get("review") or "[" in text:
 			_card(rule, comm, account, text)
 			return "card"
 		_send(account, comm, _paragraphs(text))
 		return "sent"
-	frappe.cache.set_value(key, 1, expires_in_sec=RULE_REPLY_ONCE_IN)
-	html = frappe.render_template(
-		rule.reply_text or "",
-		{"sender_name": comm.sender_full_name or "", "subject": comm.subject or "", "mailbox": account.email_id},
-	)
-	_send(account, comm, html)
+	frappe.cache.set_value(key, 1, expires_in_sec=lasts)
+	text = (step.get("text") or "").replace("{sender_name}", comm.sender_full_name or "").replace("{subject}", comm.subject or "")
+	_send(account, comm, _paragraphs(text) if "<" not in text else text)
 	return "sent"
 
 
-def _drafted(rule, comm) -> str:
+def forward(rule, step: dict, name: str) -> None:
+	"""A message sent on to an address, from its mailbox, with what it was
+	sent with, once."""
+	from frappe.core.doctype.communication.email import make
+
+	key = f"one_rule_forward:{rule.name}:{name}"
+	if frappe.cache.get_value(key):
+		return
+	comm = frappe.db.get_value(
+		"Communication", name, ["sender", "sender_full_name", "subject", "content", "communication_date", "email_account"], as_dict=True
+	)
+	account = frappe.db.get_value("Email Account", comm.email_account, ["email_id", "enable_outgoing"], as_dict=True)
+	if not account.enable_outgoing:
+		return
+	frappe.cache.set_value(key, 1, expires_in_sec=RULE_REPLY_ONCE_IN)
+	said = _("From: {0}").format(frappe.utils.escape_html(f"{comm.sender_full_name or ''} <{comm.sender}>"))
+	head = f"<p>---------- {_('Forwarded message')} ----------<br>{said}<br>{_('Subject: {0}').format(frappe.utils.escape_html(comm.subject or ''))}</p>"
+	make(
+		recipients=step["to"].strip(),
+		subject=f"Fwd: {comm.subject or ''}".strip(),
+		content=head + (comm.content or ""),
+		sender=account.email_id,
+		send_email=1,
+		communication_medium="Email",
+		attachments=frappe.get_all("File", filters={"attached_to_doctype": "Communication", "attached_to_name": name}, pluck="name"),
+	)
+
+
+def assign(rule, step: dict, name: str) -> None:
+	"""A message given to one of its mailbox's people, as frappe assigns."""
+	from frappe.desk.form import assign_to
+
+	if frappe.db.exists("ToDo", {"reference_type": "Communication", "reference_name": name, "allocated_to": step["user"], "status": "Open"}):
+		return
+	assign_to.add(
+		{
+			"doctype": "Communication",
+			"name": name,
+			"assign_to": [step["user"]],
+			"description": frappe.db.get_value("Communication", name, "subject") or "",
+			"assigned_by": rule.owner,
+		},
+		ignore_permissions=True,
+	)
+
+
+def link(name: str) -> None:
+	"""A message filed on the customer, supplier or lead its sender is."""
+	from onedesk.one_mail import linking
+
+	sender = (frappe.db.get_value("Communication", name, "sender") or "").lower()
+	for doctype, docname in records_of(sender):
+		linking.add(name, doctype, docname, "contact")
+
+
+def records_of(sender: str) -> list[tuple[str, str]]:
+	"""The customers and suppliers an address is a contact of, and the lead
+	it is."""
+	said = []
+	contacts = frappe.get_all("Contact Email", filters={"email_id": sender}, pluck="parent")
+	if contacts:
+		said += [
+			(one.link_doctype, one.link_name)
+			for one in frappe.get_all(
+				"Dynamic Link",
+				filters={"parenttype": "Contact", "parent": ["in", contacts], "link_doctype": ["in", ["Customer", "Supplier"]]},
+				fields=["link_doctype", "link_name"],
+			)
+		]
+	lead = frappe.db.get_value("Lead", {"email_id": sender}, "name")
+	if lead:
+		said.append(("Lead", lead))
+	return list(dict.fromkeys(said))
+
+
+def create(rule, step: dict, name: str) -> str | None:
+	"""A lead, an issue or a task made from a message, owned by whoever made
+	the rule and filed with the message. A lead is not made twice for one
+	address."""
+	from onedesk.one_mail import linking
+
+	comm = frappe.db.get_value("Communication", name, ["sender", "sender_full_name", "subject", "content"], as_dict=True)
+	kind = step.get("doctype")
+	sender = (comm.sender or "").lower()
+	if kind == "Lead":
+		if frappe.db.exists("Lead", {"email_id": sender}) or frappe.db.exists("Contact Email", {"email_id": sender}):
+			return None
+		values = {"lead_name": comm.sender_full_name or sender.split("@")[0], "email_id": sender}
+	elif kind == "Issue":
+		values = {"subject": comm.subject or _("(no subject)"), "raised_by": sender, "description": comm.content or ""}
+	elif kind == "Task":
+		values = {"subject": comm.subject or _("(no subject)"), "description": comm.content or ""}
+	else:
+		return None
+	doc = frappe.get_doc({"doctype": kind, **values})
+	doc.flags.ignore_permissions = True
+	doc.flags.ignore_mandatory = True
+	doc.insert()
+	frappe.db.set_value(kind, doc.name, "owner", rule.owner, update_modified=False)
+	linking.add(name, kind, doc.name, "manual")
+	return doc.name
+
+
+def _drafted(step: dict, comm) -> str:
 	"""OneAI's reply (the "reply" action), counted against the mailbox."""
 	from onedesk.one_ai import run
 
 	text = frappe.utils.strip_html_tags(comm.content or "")[:MOST_ASKED]
 	asked = (
-		f"What the reply should say, from the mailbox's owner: {rule.reply_instruction}\n\n"
+		f"What the reply should say, from the mailbox's owner: {step.get('instruction')}\n\n"
 		f"The message, from {comm.sender_full_name or ''} <{comm.sender}>, subject \"{comm.subject or ''}\":\n\n{text}\n\n"
 		"Write the reply in the message's language, as plain text, paragraphs apart by a blank line."
 	)
@@ -270,28 +465,49 @@ def _card(rule, comm, account, text: str) -> None:
 
 
 def rules_of(account: str, by_meaning: bool = False) -> list:
-	"""A mailbox's rules that are on, in order: those without an About, or
-	only those with one."""
+	"""A mailbox's rules that are on, in order: those that run on arrival, or
+	only those that wait for OneAI's reading (flow.needs_ai)."""
+	from onedesk.one_mail import flow
+
 	return [
 		rule
 		for rule in frappe.get_all(
 			"Mail Rule",
 			filters={"account": account, "enabled": 1},
-			fields=["*"],
+			fields=["name", "title", "steps", "owner"],
 			order_by="priority asc, creation asc",
 		)
-		if bool(rule.about) == by_meaning
+		if flow.needs_ai(flow_of(rule)) == by_meaning
 	]
 
 
+def replies(account: str) -> bool:
+	"""Whether a mailbox answers mail by itself: a rule that is on replies."""
+	from onedesk.one_mail import flow
+
+	return any(
+		one.get("type") == "reply"
+		for rule in frappe.get_all("Mail Rule", filters={"account": account, "enabled": 1}, fields=["steps"])
+		for one in flow.actions_in(flow_of(rule))
+	)
+
+
+def topics_of_mailbox(account: str) -> list[tuple[str, str]]:
+	"""Everything a mailbox's rules ask OneAI of a new message (flow.topics),
+	for its reading (one_intake/understand.py)."""
+	from onedesk.one_mail import flow
+
+	return [one for rule in rules_of(account, True) for one in flow.topics(rule.name, flow_of(rule))]
+
+
 def by_meaning(message: str, about: set) -> list[str]:
-	"""The About rules OneAI read a new message to be about, run once it has
-	read it (one_intake/understand.py), on a message still in the Inbox:
-	a rule that already moved it on arrival wins."""
+	"""The rules that wait for OneAI, run once it has read a new message
+	(one_intake/understand.py) with what it found, on a message still in the
+	Inbox: a rule that already moved it on arrival wins."""
 	made = frappe.get_doc("Communication", message)
-	if not about or not _in_inbox(made):
+	if not _in_inbox(made):
 		return []
-	return run_rules(made, about)
+	return run_rules(made, set(about or ()))
 
 
 def bounce(made, message) -> list[str]:
@@ -348,33 +564,6 @@ def starts_conversation(headers) -> bool:
 	"""Whether a message opens a conversation rather than answering one.
 	`headers` is anything with .get(). Pure."""
 	return not (headers.get("In-Reply-To") or headers.get("References"))
-
-
-def acknowledge(made, message) -> bool:
-	"""A shared mailbox's Auto Reply (frappe's own enable_auto_reply and
-	auto_reply_message on Email Account): to the first message of each new
-	conversation, never to a machine, at most once a day per sender."""
-	account = frappe.get_doc("Email Account", made.email_account)
-	if not (account.get("one_shared") and account.get("enable_auto_reply")):
-		return False
-	sender = (made.sender or "").lower()
-	if automatic(message, sender) or sender == (account.email_id or "").lower():
-		return False
-	if not starts_conversation(message):
-		return False
-	key = f"one_ack:{account.name}:{sender}"
-	if frappe.cache.get_value(key):
-		return False
-	frappe.cache.set_value(key, 1, expires_in_sec=ACK_ONCE_IN)
-	said = account.get("auto_reply_message") or ""
-	if frappe.utils.strip_html_tags(said).strip():
-		html = frappe.render_template(
-			said, {"sender_name": made.sender_full_name or "", "subject": made.subject or "", "mailbox": account.email_id}
-		)
-		_reply(account, made, frappe.utils.to_markdown(html), html)
-	else:
-		_reply(account, made, _("We received your message and will reply soon."))
-	return True
 
 
 def on_leave(account: str) -> dict | None:
@@ -560,7 +749,7 @@ def signed(account, text: str) -> str:
 def away(made, message) -> bool:
 	"""An out-of-office reply, if the person a mailbox belongs to is away: by
 	its own switch, or on approved leave. Never from a shared mailbox, whose
-	answer is Auto Reply. Each sender is answered once in AWAY_ONCE_IN, and
+	answer is a mail rule. Each sender is answered once in AWAY_ONCE_IN, and
 	once again when a new time away begins."""
 	account = frappe.get_doc("Email Account", made.email_account)
 	if account.get("one_shared"):
@@ -611,7 +800,7 @@ def set_away(
 ) -> None:
 	"""Turn a person's out-of-office reply on or off, with its dates and who
 	it answers: whoever may (holders.may, "away"). A
-	shared mailbox answers with Auto Reply instead, and a person's approved
+	shared mailbox answers by a mail rule instead, and a person's approved
 	leave answers on its own (on_leave)."""
 	from onedesk.one_mail import holders
 
@@ -620,7 +809,7 @@ def set_away(
 		"Email Account", account, ["one_shared", "one_away", "one_away_from"], as_dict=True
 	)
 	if was.one_shared:
-		frappe.throw(_("A shared mailbox answers with Auto Reply instead."))
+		frappe.throw(_("A shared mailbox answers by a mail rule instead."))
 	if to and to not in AWAY_TO:
 		frappe.throw(_("That cannot be set."))
 	if until and from_date and getdate(until) < getdate(from_date):
@@ -796,30 +985,6 @@ def _issued_to(user: str | None) -> str | None:
 	return None
 
 
-@frappe.whitelist(methods=["POST"])
-def set_auto_reply(account: str, on: int = 0, message: str | None = None) -> None:
-	"""Turn a shared mailbox's Auto Reply on or off (acknowledge)."""
-	from onedesk.one_mail import holders
-
-	holders.must(account, "auto_reply")
-	if not frappe.db.get_value("Email Account", account, "one_shared"):
-		frappe.throw(_("Only a shared mailbox has an Auto Reply."))
-	frappe.db.set_value(
-		"Email Account",
-		account,
-		{"enable_auto_reply": int(on), "auto_reply_message": message or None},
-		update_modified=False,
-	)
-
-
-@frappe.whitelist()
-def auto_reply_of(account: str) -> dict:
-	from onedesk.one_mail import holders
-
-	holders.sees(account)
-	return frappe.db.get_value("Email Account", account, ["enable_auto_reply", "auto_reply_message"], as_dict=True)
-
-
 def rule_allowed(doc, ptype=None, user=None, debug=False) -> bool:
 	"""A mailbox's rules are seen by its holders and whoever may change them
 	(holders.may, "rules"); rules_of_mailbox and save_rule say who changes
@@ -848,36 +1013,17 @@ def rule_query(user=None) -> str:
 	)
 
 
-RULE_FIELDS = (
-	"enabled",
-	"priority",
-	"match",
-	"from_contains",
-	"to_contains",
-	"subject_contains",
-	"body_contains",
-	"has_attachment",
-	"about",
-	"move_to",
-	"mark_read",
-	"star",
-	"reply",
-	"reply_with",
-	"reply_text",
-	"reply_instruction",
-	"reply_review",
-	"stop",
-	"requested_by",
-)
+RULE_FIELDS = ("enabled", "priority", "title", "steps")
 
 
 @frappe.whitelist()
 def rules_of_mailbox(account: str) -> dict:
 	"""A mailbox's rules in the order they run, for its Mail Rules tab in
-	OneMail's settings. Whoever manages the mailbox changes them; the person
-	a workspace address is issued to asks for them (`asks`), and each waits
-	for a Mail Manager (save_rule)."""
-	from onedesk.one_mail import holders
+	OneMail's settings, and what the rule builder offers: the mailbox's
+	folders and people, and whether OneAI may read it. Whoever manages the
+	mailbox changes them; the person a workspace address is issued to asks
+	for them (`asks`), and each waits for a Mail Manager (save_rule)."""
+	from onedesk.one_mail import actions, gate, holders
 
 	manages = holders.may(account, "rules")
 	asks = not manages and holders.issued_to_them(account)
@@ -886,18 +1032,33 @@ def rules_of_mailbox(account: str) -> dict:
 	rows = frappe.get_all(
 		"Mail Rule",
 		filters={"account": account},
-		fields=["name", *RULE_FIELDS],
+		fields=["name", "requested_by", *RULE_FIELDS],
 		order_by="priority asc, creation asc",
 	)
-	labels = dict(
-		frappe.get_all(
-			"Mail Folder", filters={"name": ["in", [one.move_to for one in rows if one.move_to] or [""]]}, fields=["name", "label"], as_list=True
-		)
-	)
+	from onedesk.one_mail import flow
+
+	people = frappe.get_all("User Email", filters={"email_account": account, "one_cover_until": ["is", "not set"]}, pluck="parent")
+	folders = dict(frappe.get_all("Mail Folder", filters={"account": account}, fields=["name", "label"], as_list=True))
+	names = {one: frappe.utils.get_fullname(one) for one in people}
 	for one in rows:
-		one["move_to_label"] = labels.get(one.move_to) if one.move_to else None
+		one["steps"] = flow_of(one)
+		one["when"], one["then"] = flow.summary(one["steps"], folders, names)
 		one["requested_by_name"] = frappe.utils.get_fullname(one.requested_by) if one.requested_by else None
-	return {"may": True, "manages": int(manages), "asks": int(asks), "rules": rows}
+	return {
+		"may": True,
+		"manages": int(manages),
+		"asks": int(asks),
+		"rules": rows,
+		"folders": [
+			{"value": one.name, "label": _(one.label) if one.kind != "Other" else one.label}
+			for one in frappe.get_all(
+				"Mail Folder", filters={"account": account, "hidden": 0}, fields=["name", "label", "kind"], order_by="kind asc, label asc"
+			)
+			if one.name != actions.folder_of(account, "Inbox")
+		],
+		"people": [{"value": one, "label": names[one]} for one in people],
+		"ai": int(bool(gate.may_read(account))),
+	}
 
 
 def _changer(account: str) -> bool:
@@ -924,7 +1085,9 @@ def save_rule(account: str, values: dict | str, name: str | None = None) -> str:
 	doc = frappe.get_doc("Mail Rule", name) if name else frappe.new_doc("Mail Rule")
 	if name and doc.account != account:
 		frappe.throw(_("That rule is not in this mailbox."))
-	doc.update({key: values.get(key) for key in RULE_FIELDS if key in values and key != "requested_by"})
+	doc.update({key: values.get(key) for key in RULE_FIELDS if key in values})
+	if isinstance(doc.steps, list):
+		doc.steps = frappe.as_json(doc.steps, indent=None)
 	doc.account = account
 	if not outright:
 		doc.enabled = 0

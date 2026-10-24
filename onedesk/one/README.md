@@ -641,7 +641,7 @@ OneMail has roles too; everyone is at least its User.
 with what OneMail lets a role do down the side and its roles across the top,
 each cell a dropdown or a switch that saves as it changes. Signatures and
 sender names, out of office, mail rules and OneAI settings are each **No**,
-**Their Own Address** or **Every Mailbox**; auto reply, who uses a mailbox,
+**Their Own Address** or **Every Mailbox**; who uses a mailbox,
 connections, connecting shared mailboxes, the address policy and mail
 templates are switches. A role above User always has everything User has.
 **New Role** adds a column; click a role's name to rename or delete it,

@@ -27,7 +27,7 @@ needs a Cloudflare key with Zone Settings: Edit.
 
 - **Mailboxes**: every mailbox you read. Opening one turns the sidebar into
   its own tabs, with **All Mailboxes** above them to go back: **Signature**,
-  **Out of Office**, **Auto Reply** (shared mailboxes), **OneAI**, **Users**
+  **Out of Office** (your own mailboxes), **OneAI**, **Users**
   (shared mailboxes, administrators), **Connection** (connected mailboxes)
   and **Mail Rules**. Each tab has its own **Save**.
 
@@ -91,7 +91,7 @@ page in Workspace › People:
   Roles**. It's one table: what OneMail lets a role do down the side, every
   role across the top. Signatures and sender names, out of office, mail rules
   and OneAI settings are each **No**, **Their Own Address** or **Every
-  Mailbox**; auto reply, who uses a mailbox, connections, connecting shared
+  Mailbox**; who uses a mailbox, connections, connecting shared
   mailboxes, the address policy and mail templates are switches. Each cell
   saves as it changes. **New Role** adds a column, and a role's name renames
   or deletes it. **Show Roles** hides the columns you don't need. For example, a Brand role that keeps every signature and
@@ -124,23 +124,12 @@ one declines it, it's removed and you're told. Changing a rule that runs
 asks again, and it pauses until it's approved. You can delete a request
 while it waits.
 
-**Replying by a rule.** A mail rule can **Reply** as one of its actions:
-with a fixed **Reply Text**, where `{{ sender_name }}` and `{{ subject }}`
-fill in, or with **OneAI**, from an **Instruction** such as "send our price
-list and say we answer within a day". A rule replies once per conversation
-and never to automated mail. OneAI's reply waits as a card for whoever made
-the rule when **Review Before Sending** is on, and always when it left a
-blank for a person to fill in; it needs OneAI on for the mailbox and counts
-against its monthly limit. A message a rule replied to gets no Auto Reply.
-With an **About** condition, the rule answers by what a message is about,
-such as "a customer asking for a price".
-
-**Auto Reply** on a shared mailbox answers the first message of each new
-conversation, such as "We received your message and will reply soon." It
-is not sent to replies in a thread, to mailing lists or automated mail, or
-more than once a day to the same sender, and an out-of-office reply takes
-its place when both are on. `{{ sender_name }}` and `{{ subject }}` fill in
-from the message.
+**Replying by a rule.** A rule's **Reply** step answers in your own words,
+where `{sender_name}` and `{subject}` fill in, or **OneAI Writes It** from
+what it should say, such as "send our price list and say we answer within a
+day". OneAI's reply waits as a card for whoever made the rule when **Review
+Before Sending** is on, and always when it left a blank for a person to fill
+in; it needs OneAI on for the mailbox and counts against its monthly limit.
 
 Connecting signs in to both servers before anything is saved: the incoming
 one, and with **Enable Outgoing** on, the outgoing one too. A guessed
@@ -222,52 +211,56 @@ clients block until asked: the signature keeps only the logo's path, and
 
 ## Rules and out of office
 
-**Rules**, in a mailbox's **⋯** menu, sort new mail as it arrives in the
-Inbox. A rule can move mail to a folder, mark it as read or star it.
+**Rules**, in a mailbox's **⋯** menu, decide what happens to new mail as it
+arrives in the Inbox. A rule is a list of steps, read top to bottom:
 
-It can match mail by:
+- **If** checks the message. Its conditions sit in groups, each **All of
+  These Are True** or **Any of These Is True**, and a group can hold
+  another. It can check who it's from or to, the subject, any words in it,
+  the sender's domain, whether it has an attachment, whether it starts a
+  conversation, whether it's from outside the workspace, whether the
+  sender is a customer, supplier, lead, contact or employee, and whether it
+  arrives after hours or on a holiday (the workspace's shift and holiday
+  list). An If has **Then** steps, and **Otherwise** steps if you add them.
+  With no conditions, it's every message.
+- **Ask OneAI**, on a mailbox OneAI reads, asks a yes-or-no question ("is
+  it a complaint?") or picks one of your labels ("Quote Request",
+  "Complaint"). Each answer has its own steps. A rule with Ask OneAI runs
+  once OneAI has read the message, a moment after it arrives.
+- **Actions:** move to a folder, mark as read, star, move to Junk, reply
+  (your own words, or OneAI writes it and you review it first), forward,
+  assign to someone who uses the mailbox, tell them on the bell, link the
+  message to the sender's customer, supplier or lead, create a lead, issue
+  or task from it, and **Stop Here**, which keeps the rules after this one
+  off the message.
 
-- who it's from or to
-- the subject
-- a word anywhere in it (**Subject or Text Contains**)
-- whether it has attachments
-- what it's about (**About**, in plain words such as "soft drinks")
+A reply goes **once per conversation**, or once a day, week or month to
+each sender, never to automatic mail or mailing lists, and with the
+mailbox's signature. A rule's reply stands in for an out-of-office reply
+to the same message.
 
-**To make a rule:**
+**To make a rule:** **New Rule**, then start from **Blank** or one of the
+common ones (**Acknowledge New Mail**, **We're Closed**, **Customers to a
+Folder**, **Sort With OneAI**), change anything, and save. Rules run in
+order; switch one off in the list to pause it. Moves happen on the mail
+server too, so your phone matches. Rules only apply to new mail.
 
-1. Open the mailbox, then **Rules** in its **⋯** menu.
-2. Click **Add Mail Rule**.
-3. Under **When**, fill in what to match. **Matching Mail** says whether
-   mail must match all of them or any one.
-4. Under **Then**, pick a **Move To** folder, or tick **Mark as Read** or
-   **Star**.
-5. Save.
-
-When several rules match, the lowest **Order** runs first. **Stop Here**
-keeps later rules off mail this one matched. Untick **Enabled** to pause a
-rule.
-
-On a connected mailbox, the rule is also set up on the mail server, so your
-phone matches. Rules only apply to new mail, not to mail that was there when
-the mailbox was connected.
-
-**About rules** need OneAI to read the mailbox, which is turned on in One,
-under **OneIntake › What OneAI Reads**.
-OneAI reads each new message and moves it a moment later. Spam and phishing
-always go to Junk.
+**Auto Reply** is a rule now: **Acknowledge New Mail** answers new
+conversations from outside, once a day to each sender. A shared mailbox
+that answers by a rule says **Auto Reply On** in the rail.
 
 You can also ask OneAI, for example "move any mail with the word cola into a
 CocaCola folder" or "put mail about soft drinks in Beverages". It suggests
 the rule on a card. When you approve it:
 
 - the folder is created if it doesn't exist
-- OneAI starts reading the mailbox, for an About rule
+- OneAI starts reading the mailbox, for a rule about what mail says
 - the rule is created
 - for a rule by words, matching mail already in the Inbox can be moved too
 
 **Out of Office** is on every mailbox of your own: the address the
 workspace issued you and any you connected. Shared mailboxes don't have it;
-they answer with **Auto Reply**. Everyone can set their own, unless their
+they answer by a mail rule. Everyone can set their own, unless their
 OneMail role says otherwise.
 
 - **From** and **Until** set it up ahead of time; leave From empty to start

@@ -54,14 +54,6 @@ ABILITIES = [
 		"own": "mail_ai_own",
 	},
 	{
-		"key": "auto_reply",
-		"group": MAILBOXES,
-		"label": _lt("Auto Reply"),
-		"kind": "switch",
-		"all": "mail_auto_reply",
-		"about": _lt("On shared mailboxes."),
-	},
-	{
 		"key": "holders",
 		"group": MAILBOXES,
 		"label": _lt("Who Uses a Mailbox"),
@@ -103,7 +95,7 @@ ABILITIES = [
 
 # The abilities a mailbox's share can carry: what someone may do in that one
 # mailbox (the Users tab of a shared mailbox).
-SHARED = ("signature", "away", "rules", "ai", "auto_reply", "holders", "connection")
+SHARED = ("signature", "away", "rules", "ai", "holders", "connection")
 
 # What OneMail's own roles start with, written once on migrate for a role
 # with nothing on Email Account yet (abilities.settle).
@@ -114,7 +106,6 @@ DEFAULTS = {
 		"away": "all",
 		"rules": "all",
 		"ai": "all",
-		"auto_reply": 1,
 		"holders": 1,
 		"connection": 1,
 		"connect_shared": 1,

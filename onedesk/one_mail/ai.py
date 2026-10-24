@@ -316,7 +316,7 @@ def make_rule(changes: dict) -> str:
 	is about what mail says, the rule, and what is in the Inbox now sorted
 	if that was asked."""
 	from onedesk.one_intake import switches
-	from onedesk.one_mail import actions, rules
+	from onedesk.one_mail import actions, flow, rules
 
 	account = changes["account"]
 	actions.require(account)
@@ -327,18 +327,24 @@ def make_rule(changes: dict) -> str:
 		folder = actions.create_folder(account, changes["label"])
 	if changes.get("read"):
 		switches.set_mailbox(account, 1)
+	steps = flow.from_fields(
+		{
+			"from_contains": changes.get("from_contains"),
+			"subject_contains": changes.get("subject_contains"),
+			"body_contains": changes.get("body_contains"),
+			"about": changes.get("about"),
+			"move_to": folder,
+		}
+	)
 	rule = frappe.get_doc(
 		{
 			"doctype": "Mail Rule",
 			"account": account,
-			"from_contains": changes.get("from_contains") or None,
-			"subject_contains": changes.get("subject_contains") or None,
-			"body_contains": changes.get("body_contains") or None,
-			"about": changes.get("about") or None,
-			"move_to": folder,
+			"title": changes.get("title") or changes["label"],
+			"steps": frappe.as_json(steps, indent=None),
 		}
 	).insert()
-	if changes.get("now"):
+	if changes.get("now") and not flow.needs_ai(steps):
 		found = []
 		for one in frappe.get_all(
 			"Communication",
@@ -347,13 +353,12 @@ def make_rule(changes: dict) -> str:
 				"one_folder": actions.folder_of(account, "Inbox"),
 				"sent_or_received": "Received",
 			},
-			fields=["name", "sender", "recipients", "cc", "subject", "has_attachment", "content"],
+			pluck="name",
 			order_by="communication_date desc",
 			limit=MOST_NOW,
 		):
-			one["text"] = strip_html(one.pop("content") or "")
-			if rules.matches(rule.as_dict(), one):
-				found.append(one.name)
+			if flow.walk(steps, rules.facts_of(one))[0]:
+				found.append(one)
 		if found:
 			actions.move(found, folder)
 	return rule.name

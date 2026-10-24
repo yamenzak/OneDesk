@@ -88,3 +88,5 @@ onedesk.one_mail.patches.people_send_from_their_own
 onedesk.one_mail.patches.no_settings_page
 onedesk.one_mail.patches.everyone_sets_their_own_away
 onedesk.one_mail.patches.no_second_away_language
+onedesk.one_mail.patches.rules_are_steps
+onedesk.one_mail.patches.no_auto_reply_ability
