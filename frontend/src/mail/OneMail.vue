@@ -1,20 +1,15 @@
 <template>
   <WindowPart :win="win" part="commands" inline>
-    <span class="inline-flex items-center gap-1">
+    <span class="inline-flex items-center gap-0.5">
       <Button variant="solid" icon-left="lucide-pencil" :label="__('New Email')" :disabled="!from" @click="write()" />
-      <template v-if="picked.size">
-        <span class="mx-1 h-5 w-px bg-surface-gray-4" />
-        <Button variant="ghost" icon="lucide-mail-open" :aria-label="__('Mark as read')" :title="__('Mark as read')" @click="run('read', [...picked])" />
-        <Button variant="ghost" icon="lucide-mail" :aria-label="__('Mark as unread')" :title="__('Mark as unread')" @click="run('unread', [...picked])" />
-        <Button variant="ghost" icon="lucide-star" :aria-label="__('Star')" :title="__('Star')" @click="run(pickedItems.every((one) => one.flagged) ? 'unstar' : 'star', [...picked])" />
-        <Dropdown :options="moveTo((folder) => run(`move:${folder}`, [...picked]))">
-          <template #trigger><Button variant="ghost" icon="lucide-folder-input" :aria-label="__('Move to')" :title="__('Move to')" /></template>
+      <span class="mx-1 h-5 w-px bg-surface-gray-4" />
+      <template v-for="one in commands" :key="one.act">
+        <Dropdown v-if="one.act === 'move'" :options="moveTo((target) => run(`move:${target}`, these))">
+          <template #trigger><Button variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" :disabled="one.off" /></template>
         </Dropdown>
-        <Button variant="ghost" icon="lucide-archive" :aria-label="__('Archive')" :title="__('Archive')" @click="run('archive', [...picked])" />
-        <Button variant="ghost" icon="lucide-trash-2" :aria-label="__('Delete')" :title="__('Delete')" @click="run('delete', [...picked])" />
-        <Button variant="ghost" icon="lucide-x" :aria-label="__('Clear selection')" :title="__('Clear selection')" @click="picked.clear()" />
+        <Button v-else variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" :disabled="one.off" @click="command(one.act)" />
       </template>
-      <Dropdown v-else-if="box" :options="boxMenu">
+      <Dropdown v-if="box" :options="boxMenu">
         <template #trigger><Button variant="ghost" icon="lucide-ellipsis" :aria-label="__('This mailbox')" :title="__('This mailbox')" /></template>
       </Dropdown>
     </span>
@@ -23,26 +18,31 @@
   <div ref="root" class="flex h-full min-h-0 text-ink-gray-8 outline-none" tabindex="-1" @keydown="key">
     <div class="w-96 shrink-0 border-e border-outline-gray-1 max-md:w-full" :class="{ 'max-md:hidden': thread }">
       <Loading v-if="loading && !items.length" />
-      <MailList
-        v-else
-        :title="search ? __('Results for {0}', [search]) : folder ? folderLabel(folder) : ''"
-        :items="items"
-        :picked="picked"
-        :open="thread"
-        :more="more"
-        :searching="!!search"
-        @open="open"
-        @toggle="toggle"
-        @star="(item) => run(item.flagged ? 'unstar' : 'star', [item.thread])"
-        @more="list({ more: true, keep: true })"
-      />
+      <ContextMenu v-else :options="menu" class="h-full">
+        <template #trigger>
+          <MailList
+            :title="heading"
+            :items="items"
+            :picked="picked"
+            :open="thread"
+            :more="more"
+            :searching="!!search"
+            @open="open"
+            @toggle="toggle"
+            @all="(on) => (on ? items.forEach((one) => picked.add(one.thread)) : picked.clear())"
+            @star="(item) => run(item.flagged ? 'unstar' : 'star', [item.thread])"
+            @more="list({ more: true, keep: true })"
+            @menu="menuFor"
+          />
+        </template>
+      </ContextMenu>
     </div>
     <div class="min-w-0 flex-1" :class="{ 'max-md:hidden': !thread }">
       <div v-if="!boxes.length && !loading" class="flex h-full flex-col items-center justify-center gap-2 text-ink-gray-5">
         <span class="lucide-mail size-6" aria-hidden="true" />
         <span class="text-base">{{ __("No mailboxes") }}</span>
       </div>
-      <MailConversation v-else :messages="messages" :box="box" :folder="folder" @run="(what) => run(what, thread ? [thread] : [])" @write="write" />
+      <MailConversation v-else ref="conversation" :messages="picked.size > 1 ? [] : messages" :box="box" :folder="folder" :selected="picked.size" @write="write" />
     </div>
   </div>
 </template>
@@ -54,7 +54,7 @@
 // delete, r, a and f to answer, s to star, u for unread, c to write, / to
 // search.
 import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
-import { Button, Dropdown } from "frappe-ui";
+import { Button, ContextMenu, Dropdown } from "frappe-ui";
 
 import {
   Loading,
@@ -102,7 +102,67 @@ const root = ref(null);
 let anchor = null;
 
 const from = computed(() => sender(boxes.value, box.value));
-const pickedItems = computed(() => items.value.filter((one) => picked.has(one.thread)));
+const conversation = ref(null);
+const menu = ref([]);
+
+// What the command row acts on: the ticked conversations, or the open one.
+const these = computed(() => (picked.size ? [...picked] : thread.value ? [thread.value] : []));
+const theseItems = computed(() => items.value.filter((one) => these.value.includes(one.thread)));
+
+const heading = computed(() => {
+  if (search.value) return __("Results for {0}", [search.value]);
+  if (!folder.value) return "";
+  return boxes.value.length > 1 && box.value ? `${folderLabel(folder.value)} · ${called(box.value)}` : folderLabel(folder.value);
+});
+
+// As OneCloud's: each command an icon beside New, off when there is nothing
+// to act on, and the read and star ones saying what a click would do.
+const commands = computed(() => {
+  const none = !these.value.length;
+  const unread = theseItems.value.some((one) => one.unread);
+  const starred = theseItems.value.length > 0 && theseItems.value.every((one) => one.flagged);
+  const out = [
+    unread
+      ? { act: "read", icon: "lucide-mail-open", title: __("Mark as read"), off: none }
+      : { act: "unread", icon: "lucide-mail", title: __("Mark as unread"), off: none },
+    starred ? { act: "unstar", icon: "lucide-star-off", title: __("Unstar"), off: none } : { act: "star", icon: "lucide-star", title: __("Star"), off: none },
+    { act: "move", icon: "lucide-folder-input", title: __("Move to"), off: none },
+    { act: "archive", icon: "lucide-archive", title: __("Archive"), off: none },
+    { act: "delete", icon: "lucide-trash-2", title: __("Delete"), off: none },
+    { act: "link", icon: "lucide-link", title: __("Link to Record"), off: !thread.value || picked.size > 1 },
+  ];
+  if (picked.size) out.push({ act: "clear", icon: "lucide-x", title: __("Clear selection"), off: false });
+  return out;
+});
+
+function command(what) {
+  if (what === "link") return conversation.value?.fileOn();
+  if (what === "clear") return picked.clear();
+  run(what, these.value);
+}
+
+// A right-click acts on the ticked conversations when it lands on one of
+// them, and on the one under it otherwise.
+function menuFor(name) {
+  const targets = picked.has(name) ? [...picked] : [name];
+  const rows = items.value.filter((one) => targets.includes(one.thread));
+  const unread = rows.some((one) => one.unread);
+  const starred = rows.length > 0 && rows.every((one) => one.flagged);
+  const option = (label, icon, onClick, theme) => ({ label, icon, onClick, theme });
+  menu.value = [
+    targets.length === 1 ? { group: "", hideLabel: true, options: [option(__("Open"), "lucide-mail-open", () => open(name))] } : null,
+    {
+      group: "",
+      hideLabel: true,
+      options: [
+        unread ? option(__("Mark as read"), "lucide-mail-open", () => run("read", targets)) : option(__("Mark as unread"), "lucide-mail", () => run("unread", targets)),
+        starred ? option(__("Unstar"), "lucide-star-off", () => run("unstar", targets)) : option(__("Star"), "lucide-star", () => run("star", targets)),
+        option(__("Archive"), "lucide-archive", () => run("archive", targets)),
+      ],
+    },
+    { group: "", hideLabel: true, options: [option(__("Delete"), "lucide-trash-2", () => run("delete", targets), "red")] },
+  ].filter(Boolean);
+}
 
 const searchBox = windowSearch(props.win, {
   placeholder: __("Search"),
@@ -413,7 +473,6 @@ async function signature() {
 function key(event) {
   if (event.target.closest?.("input, textarea, [contenteditable]") || event.metaKey || event.ctrlKey || event.altKey) return;
   const at = items.value.findIndex((one) => one.thread === thread.value);
-  const these = picked.size ? [...picked] : thread.value ? [thread.value] : [];
   const step = (by) => {
     const next = items.value[Math.min(items.value.length - 1, Math.max(0, at + by))];
     if (next) open(next.thread);
@@ -424,9 +483,9 @@ function key(event) {
     k: () => step(-1),
     ArrowDown: () => step(1),
     ArrowUp: () => step(-1),
-    e: () => run("archive", these),
-    "#": () => run("delete", these),
-    Delete: () => run("delete", these),
+    e: () => run("archive", these.value),
+    "#": () => run("delete", these.value),
+    Delete: () => run("delete", these.value),
     r: () => thread.value && write({ reply: true }),
     a: () => thread.value && write({ reply: true, all: true }),
     f: () => thread.value && write({ forward: true }),

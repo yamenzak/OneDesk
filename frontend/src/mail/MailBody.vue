@@ -7,7 +7,7 @@
     </div>
     <iframe
       ref="frame"
-      class="block w-full [border:none]"
+      class="block w-full border-0"
       sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin"
       referrerpolicy="no-referrer"
       :title="__('Message')"

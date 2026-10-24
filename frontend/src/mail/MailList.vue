@@ -1,8 +1,22 @@
 <template>
   <div class="flex h-full min-h-0 flex-col">
-    <div class="flex items-center gap-2 border-b border-outline-gray-1 px-4 py-2.5">
+    <div class="flex items-center gap-3 border-b border-outline-gray-1 px-4 py-2.5">
+      <button
+        type="button"
+        role="checkbox"
+        class="flex size-8 shrink-0 items-center justify-center"
+        :aria-checked="every ? 'true' : picked.size ? 'mixed' : 'false'"
+        :aria-label="every ? __('Clear selection') : __('Select all')"
+        :title="every ? __('Clear selection') : __('Select all')"
+        :disabled="!items.length"
+        @click="emit('all', !every)"
+      >
+        <span class="flex size-4 items-center justify-center rounded-1 border" :class="picked.size ? 'border-outline-gray-5 bg-surface-gray-7 text-ink-white' : 'border-outline-gray-3 bg-surface-white'">
+          <span v-if="picked.size" :class="every ? 'lucide-check' : 'lucide-minus'" class="size-3" aria-hidden="true" />
+        </span>
+      </button>
       <span class="min-w-0 flex-1 truncate font-semibold text-ink-gray-9">{{ title }}</span>
-      <span v-if="picked.size" class="text-sm text-ink-gray-5">{{ __("{0} selected", [picked.size]) }}</span>
+      <span v-if="picked.size" class="shrink-0 text-sm text-ink-gray-5">{{ __("{0} selected", [picked.size]) }}</span>
     </div>
     <div class="min-h-0 flex-1 overflow-auto" role="listbox" aria-multiselectable="true" :aria-label="__('Conversations')">
       <div v-if="!items.length" class="py-16 text-center text-base text-ink-gray-5">{{ searching ? __("No results") : __("No conversations") }}</div>
@@ -12,20 +26,28 @@
         role="option"
         :aria-selected="picked.has(item.thread)"
         class="group flex cursor-pointer gap-3 border-b border-outline-gray-1 px-4 py-3"
-        :class="item.thread === open ? 'bg-surface-gray-2' : picked.has(item.thread) ? 'bg-surface-blue-1' : 'hover:bg-surface-gray-1'"
+        :class="picked.has(item.thread) ? 'bg-surface-blue-2' : item.thread === open ? 'bg-surface-gray-2' : 'hover:bg-surface-gray-1'"
         @click="clicked(item, $event)"
+        @contextmenu="emit('menu', item.thread)"
       >
-        <span class="relative">
-          <MailFace :name="item.sender_name" :email="item.sender" :picture="item.face" />
-          <input
-            type="checkbox"
-            class="absolute -start-1 -top-1 size-4 opacity-0 group-hover:opacity-100"
-            :class="{ 'opacity-100': picked.has(item.thread) }"
-            :checked="picked.has(item.thread)"
-            :aria-label="__('Select')"
-            @click.stop="emit('toggle', item.thread, $event.shiftKey)"
-          />
-        </span>
+        <button
+          type="button"
+          role="checkbox"
+          class="relative size-8 shrink-0"
+          :aria-checked="picked.has(item.thread)"
+          :aria-label="__('Select')"
+          @click.stop="emit('toggle', item.thread, $event.shiftKey)"
+        >
+          <MailFace :name="item.sender_name" :email="item.sender" :picture="item.face" :class="picked.size ? 'invisible' : 'group-hover:invisible'" />
+          <span class="absolute inset-0 items-center justify-center" :class="picked.size ? 'flex' : 'hidden group-hover:flex'">
+            <span
+              class="flex size-4 items-center justify-center rounded-1 border"
+              :class="picked.has(item.thread) ? 'border-outline-gray-5 bg-surface-gray-7 text-ink-white' : 'border-outline-gray-3 bg-surface-white'"
+            >
+              <span v-if="picked.has(item.thread)" class="lucide-check size-3" aria-hidden="true" />
+            </span>
+          </span>
+        </button>
         <span class="flex min-w-0 flex-1 flex-col gap-0.5">
           <span class="flex items-center gap-1.5">
             <span v-if="item.unread" class="size-2 shrink-0 rounded-full bg-surface-blue-6" />
@@ -56,13 +78,17 @@
 
 <script setup>
 // One line per conversation: who, when, what it is about and how it starts.
+// Its picture turns into a box to tick when pointed at, and every picture
+// does while any is ticked; a click then ticks rather than opens, as Ctrl and
+// Shift do. What is ticked is what the command row acts on.
+import { computed } from "vue";
 import { Button } from "frappe-ui";
 
 import { __, count } from "../kit";
 import { when, who } from "./mail";
 import MailFace from "./MailFace.vue";
 
-defineProps({
+const props = defineProps({
   title: String,
   items: { type: Array, default: () => [] },
   picked: { type: Set, required: true },
@@ -70,10 +96,12 @@ defineProps({
   more: Boolean,
   searching: Boolean,
 });
-const emit = defineEmits(["open", "toggle", "star", "more"]);
+const emit = defineEmits(["open", "toggle", "all", "star", "more", "menu"]);
+
+const every = computed(() => props.items.length > 0 && props.items.every((one) => props.picked.has(one.thread)));
 
 function clicked(item, event) {
-  if (event.shiftKey || event.metaKey || event.ctrlKey) return emit("toggle", item.thread, event.shiftKey);
+  if (event.shiftKey || event.metaKey || event.ctrlKey || props.picked.size) return emit("toggle", item.thread, event.shiftKey);
   emit("open", item.thread);
 }
 </script>

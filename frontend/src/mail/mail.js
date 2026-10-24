@@ -1,6 +1,6 @@
 // What OneMail's parts share: the kinds of folder, and how a date and a
 // sender are said (one_mail/api.py).
-import { __, call, clock, date, dateTime, msgprint, onedesk, today } from "../kit";
+import { __, call, clock, date, dateTime, msgprint, onedesk, shortDate, today } from "../kit";
 
 export const API = "onedesk.one_mail.api.";
 export const ACT = "onedesk.one_mail.actions.";
@@ -47,6 +47,7 @@ export function when(value, long = false) {
 	if (!value) return "";
 	if (long) return dateTime(value);
 	if (value.slice(0, 10) === today()) return clock(value);
+	if (value.slice(0, 4) === today().slice(0, 4)) return shortDate(value.slice(0, 10));
 	return date(value.slice(0, 10));
 }
 

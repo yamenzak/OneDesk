@@ -177,17 +177,20 @@ onedesk.window.nav = {
 		if (!win || !win.$slot) return;
 		const $items = frappe.app && frappe.app.sidebar && frappe.app.sidebar.$sidebar;
 		if (!$items || !$items.length) return;
-		const $at = $items.find(".standard-sidebar-item.active-sidebar").not(".one-window-nav-slot *").first().closest(".sidebar-item-container");
+		const said = frappe.app.sidebar.sidebar_items || [];
+		const one = said.length === 1 && !(said[0].nested_items || []).length;
+		let $at = $items.find(".standard-sidebar-item.active-sidebar").not(".one-window-nav-slot *").first().closest(".sidebar-item-container");
+		// A rail whose one row is this screen (OneCloud's Files, OneMail's
+		// Mail) keeps the row, which is what claims the page for the rail, and
+		// draws only the tree under it; frappe stops lighting the row once the
+		// address carries a query, so it is found by being the only one.
+		if (!$at.length && one) $at = $items.find(".sidebar-items > .sidebar-item-container").first();
 		if ($at.length) {
 			if ($at.next()[0] !== win.$slot[0]) win.$slot.insertAfter($at);
 		} else if (!$.contains($items[0], win.$slot[0])) {
 			win.$slot.appendTo($items);
 		}
-		// A rail whose one row is this screen (OneCloud's Files, OneMail's
-		// Mail) keeps the row, which is what claims the page for the rail, and
-		// draws only the tree under it.
-		const said = frappe.app.sidebar.sidebar_items || [];
-		const alone = $at.length && said.length === 1 && !(said[0].nested_items || []).length;
+		const alone = $at.length && one;
 		$items.find(".one-window-nav-alone").not($at).removeClass("one-window-nav-alone");
 		$at.toggleClass("one-window-nav-alone", !!alone);
 		win.$slot.toggleClass("one-window-nav-whole", !!alone);

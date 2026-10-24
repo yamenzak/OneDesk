@@ -438,7 +438,8 @@ onBeforeUnmount(() => {
 <style>
 @import url('../styles/editor.css'); /* One: relative, CSS imports resolve no aliases here */
 
-iframe {
+/* One: an embed inside a document, not every iframe in every island */
+.ProseMirror iframe {
   border: 1px solid var(--surface-gray-4) !important;
 }
 </style>

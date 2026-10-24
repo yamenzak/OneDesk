@@ -2,23 +2,11 @@
   <div class="flex h-full min-h-0 flex-col">
     <div v-if="!messages.length" class="flex flex-1 flex-col items-center justify-center gap-2 text-ink-gray-5">
       <span class="lucide-mail-open size-6" aria-hidden="true" />
-      <span class="text-base">{{ __("No conversation selected") }}</span>
+      <span class="text-base">{{ selected > 1 ? __("{0} conversations selected", [selected]) : __("No conversation selected") }}</span>
     </div>
     <div v-else ref="scroller" class="min-h-0 flex-1 overflow-auto">
       <div class="border-b border-outline-gray-1 px-5 py-3">
-        <div class="flex items-start gap-2">
-          <h2 class="min-w-0 flex-1 text-lg font-semibold text-ink-gray-9">{{ messages[0].subject || __("(no subject)") }}</h2>
-          <div class="flex shrink-0 items-center gap-0.5">
-            <Button variant="ghost" icon="lucide-star" :class="{ 'text-ink-amber-6': flagged }" :aria-label="flagged ? __('Unstar') : __('Star')" :title="flagged ? __('Unstar') : __('Star')" @click="emit('run', flagged ? 'unstar' : 'star')" />
-            <Button variant="ghost" icon="lucide-mail" :aria-label="__('Mark as unread')" :title="__('Mark as unread')" @click="emit('run', 'unread')" />
-            <Dropdown :options="moves">
-              <template #trigger><Button variant="ghost" icon="lucide-folder-input" :aria-label="__('Move to')" :title="__('Move to')" /></template>
-            </Dropdown>
-            <Button variant="ghost" icon="lucide-archive" :aria-label="__('Archive')" :title="__('Archive')" @click="emit('run', 'archive')" />
-            <Button variant="ghost" icon="lucide-trash-2" :aria-label="__('Delete')" :title="__('Delete')" @click="emit('run', 'delete')" />
-            <Button variant="ghost" icon="lucide-link" :aria-label="__('Link to Record')" :title="__('Link to Record')" @click="fileOn" />
-          </div>
-        </div>
+        <h2 class="text-lg font-semibold text-ink-gray-9">{{ messages[0].subject || __("(no subject)") }}</h2>
         <div v-if="records.length" class="mt-2 flex flex-wrap gap-1.5">
           <span
             v-for="row in records"
@@ -96,11 +84,11 @@
 // A conversation, its newest message open and the older ones read folded to
 // a line; the records it is filed on, and reply, reply all and forward.
 import { computed, nextTick, reactive, ref, watch } from "vue";
-import { Button, Dropdown } from "frappe-ui";
+import { Button } from "frappe-ui";
 
 import { PlaceSpot, __, alert, call, dialog, fileSize, onedesk, recordRoute } from "../kit";
 import IntakePanel from "../intake/IntakePanel.vue";
-import { FILED_BY, depth, folderLabel, when } from "./mail";
+import { FILED_BY, when } from "./mail";
 import MailBody from "./MailBody.vue";
 import MailFace from "./MailFace.vue";
 
@@ -108,8 +96,10 @@ const props = defineProps({
   messages: { type: Array, default: () => [] },
   box: { type: Object, default: null },
   folder: { type: Object, default: null },
+  selected: { type: Number, default: 0 },
 });
-const emit = defineEmits(["run", "write"]);
+const emit = defineEmits(["write"]);
+defineExpose({ fileOn });
 
 const fullNote = __("Storage is full. Saved automatically once there's space.");
 const records = ref([]);
@@ -118,15 +108,8 @@ const placed = reactive({ notes: [], actions: [] });
 const scroller = ref(null);
 let openEl = null;
 
-const flagged = computed(() => props.messages.some((one) => one.one_flagged));
 const firstOpen = computed(() => props.messages.findIndex((one, at) => !folded(one, at)));
 const folded = (message, at) => at < props.messages.length - 1 && message.seen && !unfolded.has(message.name);
-
-const moves = computed(() =>
-  (props.box?.folders || [])
-    .filter((one) => !props.folder || one.name !== props.folder.name)
-    .map((one) => ({ label: `${"  ".repeat(depth(one))}${folderLabel(one)}`, onClick: () => emit("run", `move:${one.name}`) }))
-);
 
 async function loadRecords() {
   const names = props.messages.map((one) => one.name);
