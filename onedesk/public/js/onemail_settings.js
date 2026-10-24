@@ -657,9 +657,9 @@ onedesk.mail.settings = (tab) => {
 	const builder_files = ["/assets/onedesk/js/rule_builder.js", "/assets/onedesk/css/rule_builder.css"];
 	const rules_tab = (box) => ({
 		id: "rules",
-		label: __("Mail Rules"),
-		icon: "list-filter",
-		title: __("Mail Rules"),
+		label: __("Automation"),
+		icon: "workflow",
+		title: __("Automation"),
 		description: box.may.rules
 			? __("Run in order on each new message.")
 			: box.hosted && !box.shared

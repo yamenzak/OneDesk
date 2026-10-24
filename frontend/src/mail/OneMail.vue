@@ -298,7 +298,7 @@ function boxMenu(one) {
     one.may_sign ? { label: __("Signature"), icon: "signature", onClick: at("signature") } : null,
     !one.shared && !one.covering_until ? { label: __("Out of Office"), icon: "plane", onClick: at("away") } : null,
     one.may?.ai ? { label: __("OneAI"), icon: "sparkles", onClick: at("oneai") } : null,
-    { label: __("Rules"), icon: "list-filter", onClick: at("rules") },
+    { label: __("Automation"), icon: "workflow", onClick: at("rules") },
     { label: __("Attachments in OneCloud"), icon: "paperclip", onClick: () => goTo("onecloud", { node: `@mail/${one.name}` }) },
     { label: __("Mailbox Settings"), icon: "settings", onClick: at("") },
   ].filter(Boolean);

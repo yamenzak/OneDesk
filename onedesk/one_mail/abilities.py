@@ -39,7 +39,7 @@ ABILITIES = [
 	{
 		"key": "rules",
 		"group": MAILBOXES,
-		"label": _lt("Mail Rules"),
+		"label": _lt("Automation"),
 		"kind": "scope",
 		"all": "mail_rules",
 		"own": "mail_rules_own",

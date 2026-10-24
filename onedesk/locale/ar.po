@@ -5321,7 +5321,10 @@ msgid "Automatically Create New Batch"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one/sidebar/one/one.json onedesk/public/js/doctype_settings.js:213
+#: frontend/src/mail/OneMail.vue:301 onedesk/one/sidebar/one/one.json
+#: onedesk/one_mail/abilities.py:42 onedesk/public/js/doctype_settings.js:213
+#: onedesk/public/js/onemail_settings.js:660
+#: onedesk/public/js/onemail_settings.js:662
 msgid "Automation"
 msgstr "الأتمتة"
 
@@ -22803,10 +22806,6 @@ msgstr "تنبيه قاعدة البريد"
 #: onedesk/notifications/one_mail/mail_rule_requested.md
 msgid "Mail Rule Requested"
 msgstr "طلب قاعدة بريد"
-
-#: onedesk/public/js/onemail_settings.js:148
-msgid "Mail Rules"
-msgstr "قواعد البريد"
 
 #: onedesk/one/automation_steps.py:37
 msgid "Mail Template"

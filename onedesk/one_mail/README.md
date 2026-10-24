@@ -29,7 +29,7 @@ needs a Cloudflare key with Zone Settings: Edit.
   its own tabs, with **All Mailboxes** above them to go back: **Signature**,
   **Out of Office** (your own mailboxes), **OneAI**, **Users**
   (shared mailboxes, administrators), **Connection** (connected mailboxes)
-  and **Mail Rules**. Each tab has its own **Save**.
+  and **Automation**. Each tab has its own **Save**.
 
 **OneAI** in a mailbox's settings:
 
@@ -73,7 +73,7 @@ you make here, such as reading, starring, moving, deleting and new folders,
 happen on the mail server too, so your phone stays in sync.
 
 A mailbox's **…** in the sidebar (or right-click) has **New Folder**,
-**Signature**, **Out of Office**, **Rules**, **Attachments in OneCloud** and
+**Signature**, **Out of Office**, **Automation**, **Attachments in OneCloud** and
 **Mailbox Settings**. A folder you made has **New Folder**, **Rename** and
 **Delete**; deleting it moves its messages to Trash.
 
@@ -113,7 +113,7 @@ signature or sender name.
 the address. Left empty, mail from a person's own address goes out under
 their name, and from a shared mailbox under whoever writes.
 
-**Mail Rules** in a mailbox's settings lists its rules in the order they
+**Automation** in a mailbox's settings lists its rules in the order they
 run, each with a switch to turn it off. **New Rule**, or a rule clicked,
 opens it in the same tab.
 
@@ -240,7 +240,7 @@ clients block until asked: the signature keeps only the logo's path, and
 
 ## Rules and out of office
 
-**Rules**, in a mailbox's **⋯** menu, decide what happens to new mail as it
+Rules, under **Automation** in a mailbox's **⋯** menu, decide what happens to new mail as it
 arrives in the Inbox. A rule reads as sentences on a line down the side,
 such as "If the sender **is a Customer** and **it arrives after hours**,
 then **star it** and tell **Layla** on the bell". Each bold part is a chip:
