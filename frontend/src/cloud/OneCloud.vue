@@ -22,31 +22,14 @@
 
   <div ref="root" class="relative flex h-full min-h-0 flex-col text-ink-gray-8 outline-none" tabindex="-1" @keydown="key">
     <template v-if="!win">
-      <div class="flex flex-wrap items-center gap-0.5 border-b border-outline-gray-1 px-2 py-1.5">
-        <Dropdown v-if="!picker" :options="newMenu">
-          <template #trigger>
-            <Button variant="solid" icon-left="lucide-plus" icon-right="lucide-chevron-down" :label="__('New')" :disabled="!canNew" />
-          </template>
-        </Dropdown>
-        <template v-if="!picker">
-          <span class="mx-1 h-5 w-px bg-surface-gray-4" />
-          <template v-for="one in commands" :key="one.act">
-            <Button v-if="one.label" variant="ghost" :icon-left="one.icon" :label="one.label" :disabled="one.off" @click="act(one.act)" />
-            <Button v-else variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" :disabled="one.off" @click="act(one.act)" />
-          </template>
-        </template>
-        <span class="flex-1" />
-        <TabButtons :model-value="settings.view" :options="views" @update:model-value="(view) => remember({ view })" />
-        <Button variant="ghost" icon="lucide-panel-right" :aria-label="__('Preview pane')" :title="__('Preview pane')" @click="remember({ preview: settings.preview ? 0 : 1 })" />
-      </div>
       <div class="flex items-center gap-0.5 border-b border-outline-gray-1 px-2 py-1">
         <Button variant="ghost" icon="lucide-arrow-left" :aria-label="__('Back')" :title="__('Back')" :disabled="!past.length" @click="act('back')" />
         <Button variant="ghost" icon="lucide-arrow-right" :aria-label="__('Forward')" :title="__('Forward')" :disabled="!ahead.length" @click="act('forward')" />
         <Button v-if="!room || node !== room" variant="ghost" icon="lucide-arrow-up" :aria-label="__('Up')" :title="__('Up')" :disabled="trail.length < 2" @click="act('up')" />
         <nav class="flex min-w-0 flex-1 items-center gap-1 overflow-hidden px-2 text-base" :aria-label="__('Path')">
-          <template v-for="(one, at) in trail" :key="one.id">
+          <template v-for="(one, at) in crumbs" :key="one.id">
             <span v-if="at" class="text-ink-gray-4">/</span>
-            <button v-if="at < trail.length - 1" type="button" class="truncate text-ink-gray-6 hover:text-ink-gray-9" @click="go(one.id)">{{ one.name }}</button>
+            <button v-if="at < crumbs.length - 1" type="button" class="truncate text-ink-gray-6 hover:text-ink-gray-9" @click="go(one.id)">{{ one.name }}</button>
             <span v-else class="truncate font-medium text-ink-gray-9">{{ one.name }}</span>
           </template>
         </nav>
@@ -54,6 +37,26 @@
         <TextInput ref="searchInput" v-model="typed" class="w-56" type="search" :placeholder="searchPlaceholder" @keydown="searchKey">
           <template #prefix><span class="lucide-search size-4 text-ink-gray-5" aria-hidden="true" /></template>
         </TextInput>
+        <template v-if="picker">
+          <span class="mx-1 h-5 w-px bg-surface-gray-4" />
+          <TabButtons :model-value="settings.view" :options="views" @update:model-value="(view) => remember({ view })" />
+          <Button variant="ghost" icon="lucide-panel-right" :aria-label="__('Preview pane')" :title="__('Preview pane')" @click="remember({ preview: settings.preview ? 0 : 1 })" />
+        </template>
+      </div>
+      <div v-if="!picker" class="flex flex-wrap items-center gap-0.5 border-b border-outline-gray-1 px-2 py-1.5">
+        <Dropdown :options="newMenu">
+          <template #trigger>
+            <Button variant="solid" icon-left="lucide-plus" icon-right="lucide-chevron-down" :label="__('New')" :disabled="!canNew" />
+          </template>
+        </Dropdown>
+        <span class="mx-1 h-5 w-px bg-surface-gray-4" />
+        <template v-for="one in commands" :key="one.act">
+          <Button v-if="one.label" variant="ghost" :icon-left="one.icon" :label="one.label" :disabled="one.off" @click="act(one.act)" />
+          <Button v-else variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" :disabled="one.off" @click="act(one.act)" />
+        </template>
+        <span class="flex-1" />
+        <TabButtons :model-value="settings.view" :options="views" @update:model-value="(view) => remember({ view })" />
+        <Button variant="ghost" icon="lucide-panel-right" :aria-label="__('Preview pane')" :title="__('Preview pane')" @click="remember({ preview: settings.preview ? 0 : 1 })" />
       </div>
     </template>
 
@@ -120,7 +123,8 @@
 // tree in the nav pane, the commands in the command row, the chosen file in
 // the details pane, the path in the breadcrumbs and the count in the status
 // row. In a record's files dialog (`room`) and in the picker (`picker`) it
-// keeps all of them in itself.
+// keeps them in itself, in the window's order: the address row, then the
+// commands (none in the picker, whose view toggles end the address row).
 import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Button, ContextMenu, Dropdown, TabButtons, TextInput } from "frappe-ui";
 
@@ -200,6 +204,14 @@ let room = props.room;
 const kind = computed(() => kindOf(node.value || ""));
 const here = computed(() => trail.value[trail.value.length - 1] || null);
 const chosen = computed(() => items.value.filter((one) => selected.has(one.id)));
+// The path off the window: in a record's files it starts at the record, which
+// the dialog's title already names the way in to.
+const crumbs = computed(() => {
+  if (!room) return trail.value;
+  const from = trail.value.findIndex((one) => same(one.id));
+  return from < 0 ? trail.value : trail.value.slice(from);
+});
+
 const cutIds = computed(() => new Set(clipboard.value?.mode === "cut" ? clipboard.value.ids : []));
 const canNew = computed(() => can.add || can.library || can.mount || kind.value === "requests");
 const searchPlaceholder = computed(() =>
