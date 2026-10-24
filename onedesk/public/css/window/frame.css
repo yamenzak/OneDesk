@@ -402,6 +402,32 @@ body.one-window-dragging * {
 	font-size: var(--text-xs);
 }
 
+/* A view's meters (win.meters) at the foot of the nav pane: frappe's
+   progress bars, amber when nearly full and red when over; a size with no
+   limit is said without a bar. */
+.one-window-meters {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--spacing) * 3);
+	padding: calc(var(--spacing) * 3) calc(var(--spacing) * 2);
+}
+
+.one-window-meters .one-meter-free .es-progress__track {
+	display: none;
+}
+
+.one-window-meters .one-meter-near .es-progress__fill {
+	background: var(--surface-amber-5);
+}
+
+.one-window-meters .one-meter-over .es-progress__fill {
+	background: var(--surface-red-5);
+}
+
+.body-sidebar-container:not(.expanded) .one-window-meters {
+	display: none;
+}
+
 /* Where a view's own tree has the row you are on, the sidebar row it hangs
    from says only which section you are in: one pill on screen, not two. */
 .body-sidebar-container .sidebar-item-container:has(+ .one-window-nav-slot .active-sidebar) > .standard-sidebar-item.active-sidebar {

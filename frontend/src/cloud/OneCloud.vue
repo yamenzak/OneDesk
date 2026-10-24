@@ -137,6 +137,7 @@ import {
   confirm,
   copyText,
   csrf,
+  get,
   goTo,
   goToUrl,
   hasRole,
@@ -149,6 +150,7 @@ import {
   userSettings,
   windowCan,
   windowHandles,
+  windowMeters,
   windowSearch,
   windowStatus,
   windowTree,
@@ -430,6 +432,13 @@ const tree = room
       drop: props.picker ? null : (id, event) => drop(event, id),
     });
 if (tree) watch(treeRows, (rows) => tree.set(rows), { immediate: true });
+
+// How full the workspace is, at the foot of the rail (api.capacity); asked
+// again when its files change.
+async function measure() {
+  if (props.win) windowMeters(props.win, await get(API + "capacity"));
+}
+measure();
 
 async function drawTree() {
   if (!kids["@root"]) kids["@root"] = await call(API + "folders", { node: "@root" });
@@ -1224,6 +1233,7 @@ const stop = listenIn("File", "onecloud_change", (data) => {
     if (renaming.value || dragging.value) return (soon = setTimeout(again, 1500));
     forget(node.value);
     refresh();
+    measure();
   }, 600);
 });
 onBeforeUnmount(() => {

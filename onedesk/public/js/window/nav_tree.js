@@ -99,3 +99,23 @@ onedesk.window.Window.prototype.tree = function (spec) {
 	else this._tree.set(spec);
 	return this._tree;
 };
+
+// How full something is, at the foot of the nav pane while this view is on
+// screen (OneCloud's storage and database): [{ label, used, limit, said,
+// near, over }], frappe's own progress bar each. With no limit the size is
+// said with no bar.
+onedesk.window.Window.prototype.meters = function (rows) {
+	if (!this.$meters) this.$meters = $(`<div class="one-window-meters"></div>`);
+	const html = (rows || []).map((row) =>
+		frappe.ui.progress.html({
+			label: row.label,
+			value: row.limit ? Math.min(100, Math.round((100 * row.used) / row.limit)) : 0,
+			hint: () => row.said,
+			size: "md",
+			css_class: [row.over ? "one-meter-over" : row.near ? "one-meter-near" : "", row.limit ? "" : "one-meter-free"].filter(Boolean).join(" "),
+		})
+	);
+	this.$meters.html(html.join(""));
+	onedesk.window.nav.place();
+	return this;
+};

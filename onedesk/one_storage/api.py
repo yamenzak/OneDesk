@@ -111,6 +111,46 @@ def folders(node: str = ns.ROOT) -> list[dict]:
 	return [one for one in ns.children(node) if one.get("folder")]
 
 
+@frappe.whitelist(methods=["GET"])
+@frappe.read_only()
+def capacity() -> list[dict]:
+	"""How full the workspace is, for the bars at the foot of OneCloud's rail:
+	its files against its plan, and its database against its plan.
+
+	A linked workspace's files are what the account measured in R2 last night
+	(one_admin/storage.measure), the only count that sees every object; an
+	unlinked one keeps them on this server's disk, and they are added up here.
+	The database is asked now, as the nightly report to the account asks it
+	(account.database_bytes). A limit of nothing is no limit, and draws a size
+	with no bar."""
+	from frappe.utils import cint
+
+	from onedesk.one import account, heads
+
+	held = frappe.get_single("Workspace Account")
+	linked = account.configured()
+	if linked:
+		files = cint(held.storage_bytes)
+	else:
+		files = cint(frappe.db.sql("select coalesce(sum(file_size), 0) from `tabFile` where is_folder = 0")[0][0])
+	rows = (
+		("storage", _("Storage"), files, cint(held.storage_limit) if linked else 0),
+		("database", _("Database"), account.database_bytes(), cint(held.database_limit) if linked else 0),
+	)
+	return [
+		{
+			"key": key,
+			"label": label,
+			"used": used,
+			"limit": limit,
+			"said": _("{0} of {1}").format(heads.size(used), heads.size(limit)) if limit else _("{0} used").format(heads.size(used)),
+			"near": bool(limit) and used >= limit * account.NEARLY_FULL,
+			"over": bool(limit) and used > limit,
+		}
+		for key, label, used, limit in rows
+	]
+
+
 @frappe.whitelist()
 @frappe.read_only()
 def resolve(path: str) -> str:

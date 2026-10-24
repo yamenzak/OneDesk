@@ -274,6 +274,16 @@ Attaching and opening files works the same as before.
 Files added before cloud storage was turned on stay on the server until
 they're moved, which happens by itself each night.
 
+## How full the workspace is
+
+At the foot of OneCloud's rail are two bars: Storage and Database, each
+against what the plan allows, amber from 90% and red when over. Storage is
+what the account measured in cloud storage last night, so a file added
+today shows tomorrow; the database is measured when the page opens. A
+workspace with no plan limit, or not yet linked to an account, shows the
+size without a bar. The same numbers are on Settings › Plan, and
+administrators are told by mail at 90%.
+
 ## How big a file can be
 
 Up to 5 GB per file, the most R2 accepts in one upload. This applies however

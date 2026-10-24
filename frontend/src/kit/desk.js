@@ -376,6 +376,9 @@ export function windowTree(at, { label = "", pick, twist, over, leave, drop } = 
 	};
 }
 
+// Meters at the foot of this view's nav pane (window/nav_tree.js).
+export const windowMeters = (win, rows) => win && win.meters(rows);
+
 // What the window does for its own Up, Refresh and typed paths, and its
 // status row.
 export const windowHandles = (win, handlers) => win && win.view(handlers);

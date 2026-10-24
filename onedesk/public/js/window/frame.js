@@ -169,6 +169,11 @@ onedesk.window.nav = {
 		$(".one-window-nav-slot").each((_, el) => {
 			if (!win || el !== (win.$slot && win.$slot[0])) $(el).detach();
 		});
+		$(".one-window-meters").each((_, el) => {
+			if (!win || el !== (win.$meters && win.$meters[0])) $(el).detach();
+		});
+		const $bottom = win && win.$meters && frappe.app && frappe.app.sidebar && frappe.app.sidebar.wrapper.find(".body-sidebar-bottom");
+		if ($bottom && $bottom.length && !$.contains($bottom[0], win.$meters[0])) win.$meters.prependTo($bottom);
 		if (!win || !win.$slot) return;
 		const $items = frappe.app && frappe.app.sidebar && frappe.app.sidebar.$sidebar;
 		if (!$items || !$items.length) return;
