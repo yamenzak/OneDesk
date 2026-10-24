@@ -584,3 +584,29 @@ body.one-window-dragging * {
 		display: none;
 	}
 }
+
+/* A row's … (nav_tree.js `menu`): shown on hover, or while its menu is open,
+   in place of the count. */
+.one-window-tree .one-window-more {
+	display: none;
+	align-items: center;
+	justify-content: center;
+	margin-inline-start: auto;
+	width: 20px;
+	height: 20px;
+	border-radius: var(--radius-sm);
+	color: var(--ink-gray-6);
+}
+
+.one-window-tree .one-window-more:hover {
+	background: var(--surface-gray-3);
+	color: var(--ink-gray-8);
+}
+
+.one-window-tree .standard-sidebar-item:is(:hover, :focus-within, .one-window-menu) .one-window-more {
+	display: inline-flex;
+}
+
+.one-window-tree .standard-sidebar-item:is(:hover, :focus-within, .one-window-menu):has(.one-window-more) .one-window-count {
+	display: none;
+}

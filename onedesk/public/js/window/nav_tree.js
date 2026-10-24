@@ -48,6 +48,9 @@ onedesk.window.Tree = class Tree {
 					: `<span class="one-window-twisty"></span>`;
 				const warn = row.warn ? `<span class="one-window-warn" title="${esc(row.warn)}">${icon("triangle-alert")}</span>` : "";
 				const count = row.count ? `<span class="one-window-count">${esc(String(row.count))}</span>` : "";
+				const more = this.spec.menu
+					? `<span class="one-window-more" data-more role="button" aria-label="${__("More")}" title="${__("More")}">${icon("ellipsis")}</span>`
+					: "";
 				const lit = `${row.active ? " active-sidebar" : ""}${row.strong ? " one-window-strong" : ""}${row.note ? " one-window-noted" : ""}`;
 				const label = row.note
 					? `<span class="one-window-label"><span class="sidebar-item-label">${esc(row.label)}</span><span class="one-window-note">${esc(
@@ -58,7 +61,7 @@ onedesk.window.Tree = class Tree {
 					holds ? ` aria-expanded="${row.open}"` : ""
 				}${row.active ? ` aria-current="page"` : ""}><a class="item-anchor" href="${esc(row.href || "#")}" title="${esc(
 					row.title || row.label
-				)}">${twisty}<span class="sidebar-item-icon">${icon(row.icon)}</span>${label}${warn}${count}</a></div>`;
+				)}">${twisty}<span class="sidebar-item-icon">${icon(row.icon)}</span>${label}${warn}${count}${more}</a></div>`;
 			})
 			.join("");
 		this.$host.html(html);
@@ -71,6 +74,12 @@ onedesk.window.Tree = class Tree {
 				e.preventDefault();
 				e.stopPropagation();
 				if (this.spec.twist) this.spec.twist(id(e));
+			})
+			.on("click", "[data-more]", (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				const box = e.currentTarget.getBoundingClientRect();
+				this.open_menu($(e.currentTarget).closest("[data-id]"), box.left, box.bottom + 4);
 			})
 			.on("click", ".item-anchor", (e) => {
 				if ($(e.currentTarget).attr("href") !== "#" && (e.ctrlKey || e.metaKey || e.shiftKey)) return;
@@ -96,19 +105,25 @@ onedesk.window.Tree = class Tree {
 	}
 
 	// frappe's own right-click menu, for the row under the pointer, which is
-	// lit while it is open.
+	// lit while it is open. A row's … opens the same menu under it.
 	make_menu() {
 		this.menu = new frappe.ui.ContextMenu({
 			target: this.$host,
-			on_open: (e) => {
-				const $row = $(e.target).closest("[data-id]");
-				this.menu_id = $row.attr("data-id") || null;
-				this.$host.find(".one-window-menu").removeClass("one-window-menu");
-				$row.addClass("one-window-menu");
-			},
+			on_open: (e) => this.mark($(e.target).closest("[data-id]")),
 			on_close: () => this.$host.find(".one-window-menu").removeClass("one-window-menu"),
 			options: () => (this.menu_id && this.spec.menu(this.menu_id)) || [],
 		});
+	}
+
+	mark($row) {
+		this.menu_id = $row.attr("data-id") || null;
+		this.$host.find(".one-window-menu").removeClass("one-window-menu");
+		$row.addClass("one-window-menu");
+	}
+
+	open_menu($row, x, y) {
+		this.mark($row);
+		this.menu.open_at(x, y);
 	}
 
 	light(row) {
