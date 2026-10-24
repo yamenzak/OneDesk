@@ -2,6 +2,7 @@
 The servers are found for them, and each is tried before it is kept."""
 
 import imaplib
+import smtplib
 import ssl
 
 import frappe
@@ -116,6 +117,45 @@ def reach(address: str, password: str, login: str | None = None, where: dict | N
 	frappe.throw(imap.refused(last) if last else _("Couldn't find a mail server for {0}.").format(address))
 
 
+def _smtp(address: str, password: str, login: str | None, where: dict):
+	"""Sign in to the outgoing server and leave. Raises smtplib's errors."""
+	dial = smtplib.SMTP_SSL if int(where["use_ssl_for_outgoing"]) else smtplib.SMTP
+	with dial(where["smtp_server"], int(where["smtp_port"]), timeout=GUESS_PATIENCE) as session:
+		if int(where["use_tls"]):
+			session.starttls(context=ssl.create_default_context())
+		session.login(login or address, password)
+
+
+def sends_through(address: str, password: str, login: str | None, where: dict, guessed: bool = True) -> dict:
+	"""The outgoing server that lets this address send. A guessed server is
+	also tried on the other usual port. Raises with what to tell the person
+	when none does, rather than frappe's own check on save failing later."""
+	tried = [where]
+	if guessed:
+		other = 465 if int(where["smtp_port"]) == 587 else 587
+		tried.append({**where, "smtp_port": other, "use_tls": int(other == 587), "use_ssl_for_outgoing": int(other == 465)})
+	last = None
+	for one in tried:
+		try:
+			_smtp(address, password, login, one)
+			return one
+		except smtplib.SMTPAuthenticationError as error:
+			last = error
+			break
+		except (smtplib.SMTPException, OSError, ssl.SSLError) as error:
+			last = error
+	reason = (
+		_("The server rejected the email address or password.")
+		if isinstance(last, smtplib.SMTPAuthenticationError)
+		else imap.refused(last)
+	)
+	frappe.throw(
+		_("Couldn't send through {0}. {1} Fill in Server, or turn off Enable Outgoing.").format(
+			where["smtp_server"], reason
+		)
+	)
+
+
 @frappe.whitelist(methods=["POST"])
 def connect(
 	email: str,
@@ -161,6 +201,8 @@ def connect(
 			"use_ssl_for_outgoing": int(port_out == 465),
 		}
 	found = reach(email, password, login, where)
+	if int(sends):
+		found = sends_through(email, password, login, found, guessed=not where)
 	doc = frappe.get_doc(
 		{
 			"doctype": "Email Account",

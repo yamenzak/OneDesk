@@ -317,7 +317,8 @@ body.one-window-dragging * {
 	border-radius: var(--radius);
 }
 
-.one-window-tree .standard-sidebar-item:not(.active-sidebar):hover {
+.one-window-tree .standard-sidebar-item:not(.active-sidebar):hover,
+.one-window-tree .standard-sidebar-item.one-window-menu:not(.active-sidebar) {
 	background: var(--surface-gray-2);
 }
 

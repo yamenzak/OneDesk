@@ -16,6 +16,8 @@
 //          the row is lit until the drag leaves or drops.
 //   leave  (id) the drag left a row.
 //   drop   (id, event) it was dropped there.
+//   menu   (id) a row was right-clicked; answers frappe.ui.ContextMenu's
+//          items for it ({ label, icon, theme, onclick }), or none.
 onedesk.window.Tree = class Tree {
 	constructor($host, spec = {}) {
 		this.$host = $host.addClass("one-window-tree").attr("role", "tree");
@@ -26,6 +28,7 @@ onedesk.window.Tree = class Tree {
 
 	set(spec) {
 		Object.assign(this.spec, spec);
+		if (this.spec.menu && !this.menu) this.make_menu();
 		if (spec.label !== undefined) this.$host.attr("aria-label", spec.label);
 		this.draw();
 		return this;
@@ -90,6 +93,22 @@ onedesk.window.Tree = class Tree {
 				e.preventDefault();
 				this.spec.drop(id(e), e.originalEvent);
 			});
+	}
+
+	// frappe's own right-click menu, for the row under the pointer, which is
+	// lit while it is open.
+	make_menu() {
+		this.menu = new frappe.ui.ContextMenu({
+			target: this.$host,
+			on_open: (e) => {
+				const $row = $(e.target).closest("[data-id]");
+				this.menu_id = $row.attr("data-id") || null;
+				this.$host.find(".one-window-menu").removeClass("one-window-menu");
+				$row.addClass("one-window-menu");
+			},
+			on_close: () => this.$host.find(".one-window-menu").removeClass("one-window-menu"),
+			options: () => (this.menu_id && this.spec.menu(this.menu_id)) || [],
+		});
 	}
 
 	light(row) {

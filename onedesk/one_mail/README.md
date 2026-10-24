@@ -53,6 +53,14 @@ All of its folders appear, including Sent, Junk, Drafts and your own. Changes
 you make here, such as reading, starring, moving, deleting and new folders,
 happen on the mail server too, so your phone stays in sync.
 
+Right-click a mailbox or folder in the sidebar for **New Folder**, and a
+folder you made for **Rename** and **Delete**. Deleting a folder moves its
+messages to Trash.
+
+Connecting signs in to both servers before anything is saved: the incoming
+one, and with **Enable Outgoing** on, the outgoing one too. A guessed
+outgoing server is also tried on its other usual port.
+
 **Who can connect what:**
 
 - Anyone can connect their own mailbox, unless an administrator has

@@ -77,10 +77,12 @@ import {
   call,
   compose,
   dialog,
+  escape,
   goTo,
   goToUrl,
   listen,
   onedesk,
+  prompt,
   setQuery,
   toast,
   userSettings,
@@ -254,7 +256,49 @@ const tree = windowTree(props.win, {
     if (id.startsWith(BOX)) return fold(id.slice(BOX.length));
     choose(...JSON.parse(id.slice(FOLDER.length)));
   },
+  menu: folderMenu,
 });
+
+// Right-click in the nav pane: a folder in a mailbox or in a folder, and
+// renaming or deleting one of the user's own. The server does the same on
+// the mail server (actions.py).
+function folderMenu(id) {
+  if (id.startsWith(BOX)) return [{ label: __("New Folder"), icon: "folder-plus", onClick: () => newFolder(id.slice(BOX.length)) }];
+  const [boxName, folderName] = JSON.parse(id.slice(FOLDER.length));
+  const each = boxes.value.find((one) => one.name === boxName)?.folders.find((one) => one.name === folderName);
+  if (!each) return [];
+  const items = [{ label: __("New Folder"), icon: "folder-plus", onClick: () => newFolder(boxName, folderName) }];
+  if (each.kind !== "Other") return items;
+  return [
+    ...items,
+    { label: __("Rename"), icon: "pencil", onClick: () => renameFolder(each) },
+    { label: __("Delete"), icon: "trash-2", theme: "red", onClick: () => deleteFolder(boxName, each) },
+  ];
+}
+
+const askFolderName = (title, label, value, done) =>
+  prompt([{ fieldname: "label", fieldtype: "Data", label: __("Folder Name"), reqd: 1, default: value }], ({ label: typed }) => done(typed.trim()), title, label);
+
+function newFolder(account, parent = null) {
+  askFolderName(__("New Folder"), __("Create"), "", async (label) => {
+    await call(ACT + "create_folder", { account, label, parent });
+    refresh();
+  });
+}
+
+function renameFolder(each) {
+  askFolderName(__("Rename Folder"), __("Rename"), folderLabel(each), async (label) => {
+    await call(ACT + "rename_folder", { folder: each.name, label });
+    refresh();
+  });
+}
+
+async function deleteFolder(account, each) {
+  if (!(await ask(__("Delete {0}? Its messages move to Trash.", [escape(folderLabel(each))])))) return;
+  await call(ACT + "delete_folder", { folder: each.name });
+  if (folder.value?.name === each.name) return choose(account, box.value.folders.find((one) => one.kind === "Inbox")?.name);
+  refresh();
+}
 if (tree) watch(treeRows, (rows) => tree.set(rows), { immediate: true });
 
 function fold(name) {

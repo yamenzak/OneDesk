@@ -367,9 +367,11 @@ export function windowSearch(win, { placeholder = "", title = "", onInput, onKey
 // with no window, in a box of the desk's own that the host gave (OneCloud's
 // picker). Rows and handlers as nav_tree.js says; `lucide-` is dropped from
 // an icon, since the desk names its sprite's icons bare. Returns `set(rows)`.
-export function windowTree(at, { label = "", pick, twist, over, leave, drop } = {}) {
+export function windowTree(at, { label = "", pick, twist, over, leave, drop, menu } = {}) {
 	if (!at) return null;
-	const spec = { label, pick, twist, over, leave, drop, rows: [] };
+	// `menu(id)` answers [{ label, icon, theme, onClick }] for a right-clicked row.
+	const items = menu && ((id) => (menu(id) || []).map((one) => ({ label: one.label, icon: one.icon && one.icon.replace(/^lucide-/, ""), theme: one.theme, onclick: one.onClick })));
+	const spec = { label, pick, twist, over, leave, drop, menu: items, rows: [] };
 	const tree = at.tree ? at.tree(spec) : new window.onedesk.window.Tree(window.$(at), spec);
 	return {
 		set: (rows) => tree.set({ rows: rows.map((row) => ({ ...row, icon: row.icon && row.icon.replace(/^lucide-/, "") })) }),

@@ -9250,6 +9250,10 @@ msgstr "Test konnte nicht gesendet werden"
 msgid "Couldn't send the quote."
 msgstr "Das Angebot konnte nicht gesendet werden."
 
+#: onedesk/one_mail/connect.py:153
+msgid "Couldn't send through {0}. {1} Fill in Server, or turn off Enable Outgoing."
+msgstr "Senden über {0} nicht möglich. {1} Server ausfüllen oder Ausgehende E-Mails deaktivieren."
+
 #: onedesk/public/js/hiring.js:57
 msgid "Couldn't start recording. {0}"
 msgstr "Aufnahme konnte nicht gestartet werden. {0}"
@@ -11039,6 +11043,10 @@ msgstr "Konto von {0} löschen? Dies kann nicht rückgängig gemacht werden."
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:331
 msgid "Delete {0}? Everyone invited is notified that it's cancelled."
 msgstr "{0} löschen? Alle Eingeladenen werden über die Absage benachrichtigt."
+
+#: frontend/src/mail/OneMail.vue:297
+msgid "Delete {0}? Its messages move to Trash."
+msgstr "{0} löschen? Die Nachrichten werden in den Papierkorb verschoben."
 
 #: onedesk/public/js/settings.js:1251
 msgid "Delete {0}? Records assigned to it stay with the people who had them."
@@ -15729,6 +15737,10 @@ msgstr "Ablauf"
 #: onedesk/public/js/settings.js:3005
 msgid "Folder"
 msgstr "Ordner"
+
+#: frontend/src/mail/OneMail.vue:280
+msgid "Folder Name"
+msgstr "Ordnername"
 
 #: onedesk/one_mail/actions.py:266
 msgid "Folder name can't contain {0}."
@@ -24298,6 +24310,11 @@ msgstr "Neue Spesenabrechnung"
 #: onedesk/notifications/one_book/new_fiscal_year.md
 msgid "New Fiscal Year"
 msgstr "Neues Geschäftsjahr"
+
+#: frontend/src/mail/OneMail.vue:266 frontend/src/mail/OneMail.vue:270
+#: frontend/src/mail/OneMail.vue:283
+msgid "New Folder"
+msgstr "Neuer Ordner"
 
 #: onedesk/one/ai.py:3438
 msgid "New Format"
@@ -33872,6 +33889,10 @@ msgstr "Umbenennen"
 #: onedesk/public/js/oneai/Panel.vue:563
 msgid "Rename Conversation"
 msgstr "Unterhaltung umbenennen"
+
+#: frontend/src/mail/OneMail.vue:290
+msgid "Rename Folder"
+msgstr "Ordner umbenennen"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:735
 msgid "Rename sheet"

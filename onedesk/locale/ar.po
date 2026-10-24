@@ -9250,6 +9250,10 @@ msgstr "تعذّر إرسال التجربة"
 msgid "Couldn't send the quote."
 msgstr "تعذّر إرسال عرض السعر."
 
+#: onedesk/one_mail/connect.py:153
+msgid "Couldn't send through {0}. {1} Fill in Server, or turn off Enable Outgoing."
+msgstr "تعذّر الإرسال عبر {0}. {1} املأ قسم الخادم، أو أوقف تفعيل البريد الصادر."
+
 #: onedesk/public/js/hiring.js:57
 msgid "Couldn't start recording. {0}"
 msgstr "تعذّر بدء التسجيل. {0}"
@@ -11039,6 +11043,10 @@ msgstr "حذف حساب {0}؟ لا يمكن التراجع عن ذلك."
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:331
 msgid "Delete {0}? Everyone invited is notified that it's cancelled."
 msgstr "حذف {0}؟ سيُبلَّغ كل المدعوين بإلغائه."
+
+#: frontend/src/mail/OneMail.vue:297
+msgid "Delete {0}? Its messages move to Trash."
+msgstr "حذف {0}؟ تنتقل رسائله إلى المهملات."
 
 #: onedesk/public/js/settings.js:1251
 msgid "Delete {0}? Records assigned to it stay with the people who had them."
@@ -15729,6 +15737,10 @@ msgstr "المسار"
 #: onedesk/public/js/settings.js:3005
 msgid "Folder"
 msgstr "المجلد"
+
+#: frontend/src/mail/OneMail.vue:280
+msgid "Folder Name"
+msgstr "اسم المجلد"
 
 #: onedesk/one_mail/actions.py:266
 msgid "Folder name can't contain {0}."
@@ -24298,6 +24310,11 @@ msgstr "مطالبة نفقات جديدة"
 #: onedesk/notifications/one_book/new_fiscal_year.md
 msgid "New Fiscal Year"
 msgstr "سنة مالية جديدة"
+
+#: frontend/src/mail/OneMail.vue:266 frontend/src/mail/OneMail.vue:270
+#: frontend/src/mail/OneMail.vue:283
+msgid "New Folder"
+msgstr "مجلد جديد"
 
 #: onedesk/one/ai.py:3438
 msgid "New Format"
@@ -33872,6 +33889,10 @@ msgstr "إعادة تسمية"
 #: onedesk/public/js/oneai/Panel.vue:563
 msgid "Rename Conversation"
 msgstr "إعادة تسمية المحادثة"
+
+#: frontend/src/mail/OneMail.vue:290
+msgid "Rename Folder"
+msgstr "إعادة تسمية المجلد"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:735
 msgid "Rename sheet"
