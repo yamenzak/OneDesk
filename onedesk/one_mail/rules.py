@@ -406,12 +406,15 @@ def create(rule, step: dict, name: str) -> str | None:
 
 
 def _drafted(step: dict, comm) -> str:
-	"""OneAI's reply (the "reply" action), counted against the mailbox."""
+	"""OneAI's reply (the "reply" action), counted against the mailbox. Set
+	to read the sender's records and sent by one the receiving server
+	verified, it is handed their records in short and may open any of them
+	in full (theirs.TOOLS), and nothing else."""
 	from onedesk.one_ai import run
-
 	from onedesk.one_mail import theirs
 
 	text = frappe.utils.strip_html_tags(comm.content or "")[:MOST_ASKED]
+	reads = bool(step.get("records") and comm.get("one_verified") and theirs.parties_of(comm.sender))
 	known = (
 		theirs.told(comm)
 		if step.get("records")
@@ -424,7 +427,16 @@ def _drafted(step: dict, comm) -> str:
 		"Write the reply in the message's language, as plain text, paragraphs apart by a blank line. "
 		"It is sent as it is, so leave no blank or placeholder for a person to fill in."
 	)
-	return (run.once("reply", asked, reference=comm.name) or "").strip()
+	if not reads:
+		return (run.once("reply", asked, reference=comm.name) or "").strip()
+	frappe.flags.one_ai_tools = {fn.__name__: fn for fn in theirs.TOOLS}
+	frappe.flags.one_mail_sender = comm.sender
+	try:
+		out = run.ask("reply", asked, reference=comm.name, only=[fn.__name__ for fn in theirs.TOOLS], nudges=False)
+	finally:
+		frappe.flags.one_ai_tools = None
+		frappe.flags.one_mail_sender = None
+	return (out.get("said") or "").strip()
 
 
 def _paragraphs(text: str) -> str:

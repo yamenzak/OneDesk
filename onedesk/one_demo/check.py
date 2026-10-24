@@ -9651,7 +9651,8 @@ def onemail_oneai_tells_a_sender_only_their_own_records():
 	still to pay, and deliveries, and nobody else's: all that is still open
 	and the latest of the rest; the same address with a
 	forged From line, or a stranger, gets nothing, and a reply not set to
-	read records is told to say nothing about them."""
+	read records is told to say nothing about them. Verified, OneAI may open
+	one of his records in full, and is refused anyone else's."""
 	from unittest import mock
 
 	from onedesk.one_mail import rules, theirs
@@ -9670,14 +9671,31 @@ def onemail_oneai_tells_a_sender_only_their_own_records():
 	assert any(row.get("owed") for row in rows), "what is still to pay on a part-paid one"
 	assert len(theirs.records("khalid@mansour.example", "About ACC-PINV-2026-00019")) == len(rows), "a name not theirs adds nothing"
 
-	asked = []
-	with mock.patch("onedesk.one_ai.run.once", side_effect=lambda kind, text, reference=None: asked.append(text) or "ok"):
+	asked, looked = [], []
+
+	def ask(action, text, reference=None, only=None, nudges=True):
+		from onedesk.one_ai import tools as surface
+
+		asked.append(text)
+		looked.append(surface.run("their_record", {"doctype": "Sales Invoice", "name": "ACC-SINV-2026-00001"})["answer"]["totals"])
+		try:
+			surface.run("their_record", {"doctype": "Purchase Invoice", "name": "ACC-PINV-2026-00019"})
+			looked.append("leaked")
+		except frappe.ValidationError:
+			pass
+		return {"said": "ok"}
+
+	with mock.patch("onedesk.one_ai.run.once", side_effect=lambda kind, text, reference=None: asked.append(text) or "ok"), mock.patch(
+		"onedesk.one_ai.run.ask", side_effect=ask
+	):
 		mail = frappe._dict(name=None, sender="khalid@mansour.example", subject="Invoice", content="How much do we owe?")
 		rules._drafted({"instruction": "Answer from their records.", "records": 1}, frappe._dict(mail, one_verified=1))
 		rules._drafted({"instruction": "Answer from their records.", "records": 1}, frappe._dict(mail, one_verified=0))
 		rules._drafted({"instruction": "Answer from their records.", "records": 0}, frappe._dict(mail, one_verified=1))
 		rules._drafted({"instruction": "Answer.", "records": 1}, frappe._dict(mail, sender="nobody@stranger.example", one_verified=1))
 	assert "ACC-SINV-2026-00001" in asked[0] and "Mansour & Sons" in asked[0]
+	assert len(looked) == 1 and any(one.get("label") == "To pay" for one in looked[0]), "one record in full, only theirs"
+	assert not frappe.flags.one_ai_tools and not frappe.flags.one_mail_sender, "the tools go with the run"
 	assert all("SINV" not in one and "could not be confirmed" in one for one in asked[1:2])
 	assert "SINV" not in asked[2] and "Say nothing about any order" in asked[2]
 	assert "SINV" not in asked[3] and "Nothing is known" in asked[3]

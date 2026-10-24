@@ -135,18 +135,20 @@ a blank for a person to fill is not sent at all. It needs OneAI on for the
 mailbox and counts against its monthly limit.
 
 **What OneAI may tell the sender.** Nothing about the workspace's records,
-unless the reply is set to **reading their records**. Then OneAI is given,
-and told to use nothing else, what the portal shows that person
-(`theirs.py`): for each customer or supplier the address is a contact of,
-everything still open (quotations not yet ordered, orders not yet
-delivered, invoices not yet paid, and the supplier's side of the same), the
-latest three of each kind the portal lists, and any the message names, as
-the portal's own rows (status, total, what is still to pay, due or
-delivery date, items), leaving out what was hidden from that contact. A
-customer never writes "SAL-ORD-2026-00003"; they write "where is my
-order", so OneAI works out which records the message is about and is told
-to mention only those, not an overdue invoice when they asked about a
-delivery. The
+unless the reply is set to **reading their records**. Then OneAI is
+handed, in short, everything the portal shows that person (`theirs.py`):
+for each customer or supplier the address is a contact of, every record
+still open (quotations not yet ordered, orders not yet delivered, invoices
+not yet paid, the supplier's side of the same), the latest ten of the rest
+of each kind, and any the message names, one line each (number, date,
+status, total, what is left to pay, due or delivery date, items). For the
+rest it calls two tools that exist only in that run: `their_record` opens
+one of them in full as the portal page shows it (steps, facts, items with
+prices, totals), and `their_records` lists older ones of a kind. Both
+refuse anything that is not the sender's. A customer never writes
+"SAL-ORD-2026-00003"; they write "where is my order", so OneAI works out
+which records the message is about and is told to mention only those, not
+an overdue invoice when they asked about a delivery. The
 portal is the one place that decides what a customer may see, so there is
 no second list to keep in step with it.
 

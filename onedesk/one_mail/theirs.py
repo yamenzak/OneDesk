@@ -4,6 +4,7 @@ receiving server confirmed the sender's address (`verified`), since a From
 line is free to write. Used by a rule's OneAI reply (rules._drafted)."""
 
 import re
+from typing import Annotated
 
 import frappe
 
@@ -17,9 +18,9 @@ PARTY = {
 	"Purchase Invoice": "supplier",
 }
 
-RECENT = 3
+DIGEST = 10
 
-MOST = 20
+MOST = 50
 
 OPEN = {
 	"Quotation": {"status": ("in", ("Open", "Replied", "Partially Ordered"))},
@@ -109,37 +110,134 @@ def shown_kinds() -> set[str]:
 	}
 
 
-def records(sender: str, text: str = "") -> list[dict]:
-	"""What the portal shows the sender, as the portal's rows, leaving out a
-	record hidden from that contact (portal.mine): for each customer or
-	supplier they are a contact of, every record still open (OPEN), the
-	latest few of each kind the portal lists, and any the message names.
-	OneAI picks what the question is about (`told`)."""
+def _scope(doctype: str, filters: dict | None, contact_of: dict) -> list:
+	"""(doctype, party filter) pairs a sender may see: the portal's kinds, on
+	the side (customer or supplier) of each party they are a contact of."""
+	pairs = []
+	for party_type, party in contact_of:
+		for kind, field in PARTY.items():
+			if (doctype and kind != doctype) or kind not in shown_kinds():
+				continue
+			if (party_type == "Customer") != (field != "supplier"):
+				continue
+			said = {field: party, "docstatus": 1, **(filters or {})}
+			if kind == "Quotation":
+				said["quotation_to"] = "Customer"
+			pairs.append((kind, party, said))
+	return pairs
+
+
+def _rows(sender: str, doctype: str | None = None, filters: dict | None = None, limit: int = MOST, text: str = "") -> list[dict]:
+	"""The portal's rows of the sender's records, newest first, a record
+	hidden from their contact left out (portal.mine): what is still open
+	(OPEN), the latest of the rest, and any `text` names."""
 	from onedesk.one import portal
 
-	kinds = shown_kinds()
+	contacts = {(t, p): c for t, p, c in parties_of(sender)}
 	named = set(NAMED.findall(text or ""))
 	said = []
-	for party_type, party, contact in parties_of(sender):
-		for doctype, field in PARTY.items():
-			if doctype not in kinds or (party_type == "Customer") != (field != "supplier"):
+	for kind, party, where in _scope(doctype, filters, contacts):
+		names = frappe.get_all(kind, filters={**where, **OPEN.get(kind, {})}, pluck="name", order_by="modified desc", limit=limit)
+		names += frappe.get_all(kind, filters=where, pluck="name", order_by="modified desc", limit=limit)
+		if named:
+			names += frappe.get_all(kind, filters={**where, "name": ("in", list(named))}, pluck="name")
+		for name in dict.fromkeys(names):
+			doc = frappe.get_doc(kind, name)
+			if contacts[(_party_type(kind), party)] in portal._hidden(kind, doc):
 				continue
-			filters = {field: party, "docstatus": 1}
-			if doctype == "Quotation":
-				filters["quotation_to"] = "Customer"
-			names = frappe.get_all(doctype, filters={**filters, **OPEN.get(doctype, {})}, pluck="name", order_by="modified desc", limit=MOST)
-			names += frappe.get_all(doctype, filters=filters, pluck="name", order_by="modified desc", limit=RECENT)
-			if named:
-				names += frappe.get_all(doctype, filters={**filters, "name": ("in", list(named))}, pluck="name")
-			for name in dict.fromkeys(names):
-				doc = frappe.get_doc(doctype, name)
-				if contact in portal._hidden(doctype, doc):
-					continue
-				row = portal._row("", doctype, doc)
-				if doctype in portal.OWED and 0 < (doc.get("outstanding_amount") or 0) < (doc.get("grand_total") or 0):
-					row["owed"] = doc.get_formatted("outstanding_amount")
-				said.append({"party": party, "doctype": doctype, **row})
+			row = portal._row("", kind, doc)
+			if kind in portal.OWED and 0 < (doc.get("outstanding_amount") or 0) < (doc.get("grand_total") or 0):
+				row["owed"] = doc.get_formatted("outstanding_amount")
+			said.append({"party": party, "doctype": kind, **row})
 	return said
+
+
+def _party_type(doctype: str) -> str:
+	return "Supplier" if PARTY[doctype] == "supplier" else "Customer"
+
+
+def records(sender: str, text: str = "") -> list[dict]:
+	"""Everything the portal shows the sender, as its rows: for each customer
+	or supplier they are a contact of, every record still open and the latest
+	DIGEST of the rest of each kind, and any the message names."""
+	return _rows(sender, limit=DIGEST, text=text)
+
+
+def _line(row: dict) -> str:
+	"""One record, short: what OneAI is handed for each of them."""
+	return " · ".join(
+		one
+		for one in (
+			row["name"],
+			row.get("date"),
+			row.get("status"),
+			row.get("figure"),
+			f"{row['owed']} to pay" if row.get("owed") else "",
+			(row.get("when") or {}).get("text"),
+			row.get("item") + (f" +{row['others']}" if row.get("others") else "") if row.get("item") else "",
+		)
+		if one
+	)
+
+
+def digest(rows: list[dict]) -> str:
+	"""The sender's records, grouped by whom they are for and by kind, a line
+	each."""
+	out, last = [], None
+	for row in rows:
+		if (row["party"], row["doctype"]) != last:
+			if not last or last[0] != row["party"]:
+				out.append(f"{row['party']}:")
+			out.append(f"  {row['doctype']}:")
+			last = (row["party"], row["doctype"])
+		out.append(f"    {_line(row)}")
+	return "\n".join(out)
+
+
+def _sender() -> str:
+	said = frappe.flags.get("one_mail_sender")
+	if not said:
+		frappe.throw("This is only for a reply to a verified sender.")
+	return said
+
+
+def their_records(
+	doctype: Annotated[str, "One of: " + ", ".join(PARTY) + "."],
+	status: Annotated[str, "Only those in this state, as the list says it, such as Overdue or To Deliver."] | None = None,
+	limit: Annotated[int, "At most this many, newest first."] = 50,
+) -> list[dict]:
+	"""More of the sender's own records of one kind than the list you were
+	given: older ones, or all in one state. Only what the sender sees on the
+	workspace's portal."""
+	if doctype not in PARTY:
+		frappe.throw(f"Only these: {', '.join(PARTY)}.")
+	rows = _rows(_sender(), doctype=doctype, limit=min(int(limit or 50), 200))
+	return [_line(row) for row in rows if not status or (row.get("status") or "").lower() == status.lower()]
+
+
+def their_record(
+	doctype: Annotated[str, "One of: " + ", ".join(PARTY) + "."],
+	name: Annotated[str, "Its id, as the list says it."],
+) -> dict:
+	"""One of the sender's own records in full, as their portal page shows
+	it: its state, its steps (ordered, delivered, invoiced, paid), its
+	facts, its items with quantities and prices, and its totals and what is
+	left to pay."""
+	from onedesk.one import portal
+
+	sender = _sender()
+	contacts = {(t, p): c for t, p, c in parties_of(sender)}
+	doc = frappe.get_doc(doctype, name) if doctype in PARTY and frappe.db.exists(doctype, name) else None
+	key = (_party_type(doctype), doc.get(PARTY[doctype])) if doc else None
+	if not doc or doc.docstatus != 1 or key not in contacts or doctype not in shown_kinds():
+		frappe.throw("That is not one of the sender's records.")
+	if contacts[key] in portal._hidden(doctype, doc):
+		frappe.throw("That is not one of the sender's records.")
+	said = portal._record(doctype, frappe._dict(doc=doc, print_format="Standard"), pdf="-")
+	return {key: said[key] for key in ("name", "status", "summary", "steps", "facts", "items", "totals")}
+
+
+TOOLS = (their_records, their_record)
 
 
 def told(comm) -> str:
@@ -152,25 +250,11 @@ def told(comm) -> str:
 	rows = records(comm.sender, f"{comm.subject or ''}\n{frappe.utils.strip_html_tags(comm.content or '')}")
 	if not rows:
 		return "Nothing is known about this sender's records. Say nothing about orders, invoices or deliveries, and invent none."
-	lines = [
-		" · ".join(
-			one
-			for one in (
-				f"{row['doctype']} {row['name']} for {row['party']}",
-				row.get("date"),
-				row.get("status"),
-				row.get("figure"),
-				f"{row['owed']} still to pay" if row.get("owed") else "",
-				(row.get("when") or {}).get("text"),
-				row.get("item") + (f" and {row['others']} more" if row.get("others") else "") if row.get("item") else "",
-			)
-			if one
-		)
-		for row in rows
-	]
 	return (
 		"These are the sender's own records, as the workspace's portal shows them: everything still open, "
 		"and the latest of the rest. Work out which ones the message is about, even when it names none, "
-		"and mention only those: not an overdue invoice when they asked about a delivery. Say nothing else about the workspace's records, and invent no number, date or amount.\n"
-		+ "\n".join(f"- {one}" for one in lines)
+		"and mention only those: not an overdue invoice when they asked about a delivery. To see one in "
+		"full (its items, prices, steps and what is left to pay) call their_record; for older ones, "
+		"their_records. Say nothing else about the workspace's records, and invent no number, date or "
+		"amount.\n" + digest(rows)
 	)
