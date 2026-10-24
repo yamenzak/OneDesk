@@ -119,6 +119,49 @@ onedesk.mail.settings = (tab) => {
 	const R = "onedesk.one_mail.rules.";
 	const managed = __("Only the user who connected it or a Workspace Administrator can change this.");
 
+	// A tab's Save shows only once something in it changed, and goes again
+	// once saved (panel.clean). The editor settles its value after drawing,
+	// so the starting values are read a moment later.
+	const track = (panel) => {
+		const $save = panel.$header.find(".oms-save").addClass("hide");
+		const now = () => JSON.stringify(panel.fieldgroup ? panel.fieldgroup.get_values(true) : {});
+		let was = null;
+		setTimeout(() => (was = now()), 600);
+		const check = () => was !== null && $save.toggleClass("hide", now() === was);
+		(panel.fieldgroup?.fields_list || []).forEach((field) => {
+			const before = field.df.change;
+			field.df.change = function () {
+				if (before) before.apply(this, arguments);
+				check();
+			};
+		});
+		panel.body.on("input", check);
+		panel.clean = () => {
+			was = now();
+			$save.addClass("hide");
+		};
+	};
+
+	// A tab's on/off as a switch after its title, saved as it changes; the
+	// tab's fields show only while it is on.
+	const header_switch = (panel, value, change) => {
+		const control = frappe.ui.form.make_control({
+			df: { fieldtype: "Switch", fieldname: "on", label: "" },
+			parent: $(`<span class="oms-switch oms-head-switch"></span>`).appendTo(panel.$header.find(".settings-dialog-panel-title")),
+			render_input: true,
+		});
+		control.set_value(value ? 1 : 0);
+		control.$input.attr("aria-label", panel.item.title);
+		const shown = () => panel.body.toggleClass("hide", !control.get_value());
+		control.$input.on("change", async () => {
+			shown();
+			await change(control.get_value() ? 1 : 0);
+			saved();
+		});
+		shown();
+		return control;
+	};
+
 	const signature_tab = (box) => ({
 		id: "signature",
 		label: __("Signature"),
@@ -130,9 +173,11 @@ onedesk.mail.settings = (tab) => {
 					{
 						label: __("Save"),
 						variant: "solid",
+						class: "oms-save",
 						click: async (panel) => {
 							await frappe.xcall(H + "set_signature", { account: box.name, signature: panel.get_value("signature") || "" });
 							saved();
+							panel.clean();
 						},
 					},
 			  ]
@@ -141,6 +186,7 @@ onedesk.mail.settings = (tab) => {
 			if (!box.may_sign) return;
 			const signature = await frappe.xcall(H + "signature_of", { account: box.name });
 			panel.add_fields([{ fieldname: "signature", fieldtype: "Text Editor", default: signature || "" }]);
+			track(panel);
 			buttons(panel.body).append(
 				onedesk.oneai.button(
 					__("Write With OneAI"),
@@ -161,9 +207,11 @@ onedesk.mail.settings = (tab) => {
 					{
 						label: __("Save"),
 						variant: "solid",
+						class: "oms-save",
 						click: async (panel) => {
-							await frappe.xcall(R + "set_away", { account: box.name, ...panel.get_values() });
+							await frappe.xcall(R + "set_away", { account: box.name, away: panel.on.get_value() ? 1 : 0, ...panel.get_values() });
 							saved();
+							panel.clean();
 						},
 					},
 			  ]
@@ -172,10 +220,14 @@ onedesk.mail.settings = (tab) => {
 			if (!box.may_manage) return;
 			const away = (await frappe.xcall(R + "away_of", { account: box.name })) || {};
 			panel.add_fields([
-				{ fieldname: "away", fieldtype: "Switch", label: __("Enable Out of Office"), default: away.one_away },
-				{ fieldname: "until", fieldtype: "Date", label: __("Until"), default: away.one_away_until, depends_on: "away" },
-				{ fieldname: "message", fieldtype: "Small Text", label: __("Message"), default: away.one_away_message, depends_on: "away" },
+				{ fieldname: "until", fieldtype: "Date", label: __("Until"), default: away.one_away_until },
+				{ fieldname: "message", fieldtype: "Small Text", label: __("Message"), default: away.one_away_message },
 			]);
+			track(panel);
+			panel.on = header_switch(panel, away.one_away, async (on) => {
+				await frappe.xcall(R + "set_away", { account: box.name, away: on, ...panel.get_values() });
+				panel.clean();
+			});
 		},
 	});
 
@@ -190,13 +242,15 @@ onedesk.mail.settings = (tab) => {
 					{
 						label: __("Save"),
 						variant: "solid",
+						class: "oms-save",
 						click: async (panel) => {
 							await frappe.xcall(R + "set_auto_reply", {
 								account: box.name,
-								on: panel.get_value("on") ? 1 : 0,
+								on: panel.on.get_value() ? 1 : 0,
 								message: panel.get_value("message") || "",
 							});
 							saved();
+							panel.clean();
 						},
 					},
 			  ]
@@ -205,16 +259,19 @@ onedesk.mail.settings = (tab) => {
 			if (!box.may_manage) return;
 			const said = (await frappe.xcall(R + "auto_reply_of", { account: box.name })) || {};
 			panel.add_fields([
-				{ fieldname: "on", fieldtype: "Switch", label: __("Enable Auto Reply"), default: said.enable_auto_reply },
 				{
 					fieldname: "message",
 					fieldtype: "Text Editor",
 					label: __("Message"),
 					default: said.auto_reply_message || "",
-					depends_on: "on",
 					description: __("Leave empty for a standard reply. {{ sender_name }} adds the sender's name."),
 				},
 			]);
+			track(panel);
+			panel.on = header_switch(panel, said.enable_auto_reply, async (on) => {
+				await frappe.xcall(R + "set_auto_reply", { account: box.name, on, message: panel.get_value("message") || "" });
+				panel.clean();
+			});
 		},
 	});
 

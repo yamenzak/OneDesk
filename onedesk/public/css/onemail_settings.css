@@ -210,3 +210,14 @@
 .oms .oms-add-top {
 	margin: 0 0 calc(var(--spacing) * 3);
 }
+
+/* A tab's on/off switch after its title (onemail_settings.js `header_switch`). */
+.oms .oms-head-switch {
+	display: inline-flex;
+	align-items: center;
+	margin-inline-start: calc(var(--spacing) * 2);
+}
+
+.oms .oms-head-switch .switch-text {
+	display: none;
+}
