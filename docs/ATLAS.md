@@ -64,6 +64,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | workbook (`frontend/src/sheet/WorkbookPage.vue`) | Letter Head | – | – | – |
 | document (`frontend/src/writer/DocumentPage.vue`) | Letter Head | – | – | – |
 | legal (`frontend/src/legal/Agreements.vue`) | Legal Acceptance, Legal Document Version | – | – | – |
+| intake (`frontend/src/intake/IntakeInbox.vue`) | – | – | – | – |
 
 ## erpnext / Accounts
 

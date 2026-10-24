@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-24 01:35+0000\n"
-"PO-Revision-Date: 2026-10-24 01:35+0000\n"
+"POT-Creation-Date: 2026-10-24 08:01+0000\n"
+"PO-Revision-Date: 2026-10-24 08:01+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -559,7 +559,7 @@ msgstr ""
 msgid "A conversation is opened in OneMail's reading pane."
 msgstr ""
 
-#: onedesk/public/js/intake.js:188
+#: frontend/src/intake/IntakeFacts.vue:51
 msgid "A copy of {0}"
 msgstr ""
 
@@ -1671,7 +1671,7 @@ msgstr ""
 msgid "About Type"
 msgstr ""
 
-#: onedesk/one_mail/ai.py:256 onedesk/public/js/intake.js:188
+#: frontend/src/intake/IntakeFacts.vue:51 onedesk/one_mail/ai.py:256
 msgid "About {0}"
 msgstr ""
 
@@ -3119,7 +3119,7 @@ msgstr ""
 msgid "All Day"
 msgstr ""
 
-#: onedesk/one_intake/page/intake/intake.js:174
+#: frontend/src/intake/IntakeReading.vue:48
 msgid "All Details"
 msgstr ""
 
@@ -3441,8 +3441,9 @@ msgstr ""
 #. Label in the One Subcontracting Order print format
 #. Label in the One Subcontracting Receipt print format
 #. Label in the One Supplier Quotation print format
-#: frontend/portal/src/pages/Rfq.vue:19 frontend/src/project/Suppliers.vue:135
-#: frontend/src/project/Time.vue:30 onedesk/one/automations.py:124
+#: frontend/portal/src/pages/Rfq.vue:19 frontend/src/intake/IntakePay.vue:35
+#: frontend/src/project/Suppliers.vue:135 frontend/src/project/Time.vue:30
+#: onedesk/one/automations.py:124
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
@@ -3498,7 +3499,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
 #: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
-#: onedesk/public/js/intake.js:150 onedesk/public/js/settings.js:1586
+#: onedesk/public/js/intake.js:127 onedesk/public/js/settings.js:1586
 msgid "Amount"
 msgstr ""
 
@@ -3992,6 +3993,7 @@ msgstr ""
 msgid "Applies to everyone from today, or from its start date. Used for leave, attendance, check-ins, the calendar and deadlines."
 msgstr ""
 
+#: frontend/src/intake/IntakeReading.vue:31
 #: frontend/src/sheet/components/SheetEditor/SplitTextPopover.vue:42
 #: frontend/src/sheet/components/SheetEditor/index.vue:607
 #: frontend/src/sheet/components/SheetEditor/index.vue:887
@@ -4000,7 +4002,6 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:1232
 #: onedesk/one_intake/doctype/intake_action/intake_action.js:6
 #: onedesk/one_intake/doctype/intake_action/intake_action.js:7
-#: onedesk/one_intake/page/intake/intake.js:204 onedesk/public/js/intake.js:203
 msgid "Apply"
 msgstr ""
 
@@ -4659,8 +4660,9 @@ msgid "Asking…"
 msgstr ""
 
 #. Label of the asks (Table) field in DocType 'Reading'
+#: frontend/src/intake/IntakeFacts.vue:77
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/one_intake/panel.py:154 onedesk/public/js/intake.js:105
+#: onedesk/one_intake/panel.py:154 onedesk/public/js/intake.js:100
 msgid "Asks"
 msgstr ""
 
@@ -4932,7 +4934,7 @@ msgstr ""
 msgid "Attachment"
 msgstr ""
 
-#: onedesk/public/js/intake.js:113
+#: frontend/src/intake/IntakeFacts.vue:87 onedesk/public/js/intake.js:108
 msgid "Attachments"
 msgstr ""
 
@@ -5115,11 +5117,11 @@ msgstr ""
 msgid "Audit plan agreed with the auditors"
 msgstr ""
 
-#: onedesk/one_intake/page/intake/intake.js:192
+#: frontend/src/intake/IntakeReading.vue:96
 msgid "Auditor Approved"
 msgstr ""
 
-#: onedesk/one_intake/page/intake/intake.js:186
+#: frontend/src/intake/IntakeReading.vue:93
 msgid "Auditor Disagrees"
 msgstr ""
 
@@ -6356,10 +6358,6 @@ msgstr ""
 #: onedesk/one_doc/doctype/writer_document/writer_document.json
 #: onedesk/one_sheet/doctype/workbook/workbook.json
 msgid "Bound To"
-msgstr ""
-
-#: onedesk/one_intake/page/intake/intake.js:20
-msgid "Box"
 msgstr ""
 
 #. Label in the One Bank Guarantee print format
@@ -8959,9 +8957,11 @@ msgid "Copied {0} items"
 msgstr ""
 
 #. Option for the 'Placed By' (Select) field in DocType 'Reading'
+#: frontend/src/intake/IntakeExplain.vue:19
+#: frontend/src/intake/IntakePay.vue:10
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:153
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/public/js/intake.js:145 onedesk/public/js/intake.js:178
+#: onedesk/public/js/intake.js:122 onedesk/public/js/intake.js:148
 #: onedesk/public/js/onecloud.js:72 onedesk/public/js/onecloud.js:1708
 #: onedesk/public/js/onecloud.js:1801 onedesk/public/js/onecloud.js:1910
 #: onedesk/public/js/portal_share.js:108 onedesk/public/js/settings.js:2411
@@ -11756,10 +11756,11 @@ msgstr ""
 #. Label of the said (Small Text) field in DocType 'Intake Lesson'
 #. Label of the section_details (Section Break) field in DocType 'Reading'
 #: frontend/portal/src/pages/Record.vue:66
-#: frontend/portal/src/pages/Rfq.vue:109 frontend/src/item/ItemBuying.vue:31
-#: frontend/src/item/ItemMaking.vue:36 frontend/src/item/ItemOverview.vue:28
-#: frontend/src/item/ItemSelling.vue:22 frontend/src/item/ItemStock.vue:20
-#: frontend/src/task/TaskPage.vue:96 frontend/src/task/TaskPage.vue:192
+#: frontend/portal/src/pages/Rfq.vue:109 frontend/src/intake/IntakePanel.vue:25
+#: frontend/src/item/ItemBuying.vue:31 frontend/src/item/ItemMaking.vue:36
+#: frontend/src/item/ItemOverview.vue:28 frontend/src/item/ItemSelling.vue:22
+#: frontend/src/item/ItemStock.vue:20 frontend/src/task/TaskPage.vue:96
+#: frontend/src/task/TaskPage.vue:192
 #: onedesk/one_hr/print_format/one_travel_request/one_travel_request.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -11972,8 +11973,8 @@ msgstr ""
 msgid "Discrimination"
 msgstr ""
 
+#: frontend/src/intake/IntakeReading.vue:32
 #: onedesk/one_intake/doctype/intake_action/intake_action.js:8
-#: onedesk/one_intake/page/intake/intake.js:204 onedesk/public/js/intake.js:204
 msgid "Dismiss"
 msgstr ""
 
@@ -12028,7 +12029,7 @@ msgstr ""
 msgid "Distinct employees, each verified another way, who have checked in from this address."
 msgstr ""
 
-#: onedesk/public/js/intake.js:48
+#: frontend/src/intake/IntakePanel.vue:24 onedesk/public/js/intake.js:48
 msgid "Do Not Pay Yet"
 msgstr ""
 
@@ -12102,8 +12103,8 @@ msgstr ""
 msgid "Document Type"
 msgstr ""
 
-#: onedesk/one_intake/explain.py:23 onedesk/one_intake/inbox.py:131
-#: onedesk/one_intake/page/intake/intake.js:133 onedesk/one_intake/panel.py:24
+#: frontend/src/intake/IntakeReading.vue:7 onedesk/one_intake/explain.py:23
+#: onedesk/one_intake/inbox.py:131 onedesk/one_intake/panel.py:24
 msgid "Document not found"
 msgstr ""
 
@@ -12113,12 +12114,13 @@ msgstr ""
 
 #. Label in the One Repost Accounting Ledger print format
 #. Label in the One Repost Payment Ledger print format
-#: frontend/src/legal/Agreements.vue:4
+#: frontend/src/intake/IntakeFacts.vue:83
+#: frontend/src/intake/IntakeInbox.vue:11 frontend/src/legal/Agreements.vue:4
 #: onedesk/one_book/print_format/one_repost_accounting_ledger/one_repost_accounting_ledger.json
 #: onedesk/one_book/print_format/one_repost_payment_ledger/one_repost_payment_ledger.json
 #: onedesk/one_intake/bundle.py:33
 #: onedesk/one_intake/report/spending/spending.py:34
-#: onedesk/public/js/intake.js:109 onedesk/public/js/print_documents.js:14
+#: onedesk/public/js/intake.js:104 onedesk/public/js/print_documents.js:14
 msgid "Documents"
 msgstr ""
 
@@ -12206,6 +12208,7 @@ msgstr ""
 #. Label in the One Job Card print format
 #. Label in the One Work Order print format
 #. Label of the done (Check) field in DocType 'Task Step'
+#: frontend/src/intake/IntakeInbox.vue:83
 #: frontend/src/project/MilestoneLanes.vue:92
 #: frontend/src/project/ProjectPage.vue:21
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:69
@@ -12218,7 +12221,6 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:32
 #: onedesk/one_hr/print_format/one_appraisal/one_appraisal.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
-#: onedesk/one_intake/page/intake/intake.js:23
 #: onedesk/one_inventory/print_format/one_delivery_trip/one_delivery_trip.json
 #: onedesk/one_inventory/print_format/one_job_card/one_job_card.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
@@ -14425,7 +14427,7 @@ msgstr ""
 msgid "Everyone who works here needs an account. Add them now and they can sign in while you finish setting up."
 msgstr ""
 
-#: onedesk/one_intake/page/intake/intake.js:38
+#: frontend/src/intake/IntakeInbox.vue:79
 msgid "Everyone's"
 msgstr ""
 
@@ -14794,12 +14796,12 @@ msgstr ""
 msgid "Expiry Date"
 msgstr ""
 
-#: onedesk/public/js/intake.js:56 onedesk/public/js/intake.js:159
+#: frontend/src/intake/IntakeExplain.vue:4 onedesk/public/js/intake.js:56
 msgid "Explain"
 msgstr ""
 
-#: onedesk/public/js/intake.js:56 onedesk/public/js/intake.js:159
-#: onedesk/public/js/intake.js:244
+#: frontend/src/intake/IntakeExplain.vue:4 onedesk/public/js/intake.js:56
+#: onedesk/public/js/intake.js:175
 msgid "Explain Again"
 msgstr ""
 
@@ -14808,7 +14810,7 @@ msgstr ""
 msgid "Explained"
 msgstr ""
 
-#: onedesk/public/js/intake.js:236
+#: frontend/src/intake/IntakeExplain.vue:7 onedesk/public/js/intake.js:167
 msgid "Explaining…"
 msgstr ""
 
@@ -18267,7 +18269,7 @@ msgstr ""
 #. Label in the One Sales Order with Images print format
 #. Option for the 'Kind' (Select) field in DocType 'Identifier'
 #. Label of the iban (Data) field in DocType 'Reading Party'
-#: onedesk/one/print_blocks.py:844
+#: frontend/src/intake/IntakePay.vue:34 onedesk/one/print_blocks.py:844
 #: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
@@ -18285,7 +18287,7 @@ msgstr ""
 #: onedesk/one_crm/print_format/one_sales_order_with_images/one_sales_order_with_images.json
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
-#: onedesk/public/js/crm_record.js:33 onedesk/public/js/intake.js:149
+#: onedesk/public/js/crm_record.js:33 onedesk/public/js/intake.js:126
 msgid "IBAN"
 msgstr ""
 
@@ -20534,7 +20536,7 @@ msgstr ""
 msgid "Kanban Board"
 msgstr ""
 
-#: onedesk/one_intake/page/intake/intake.js:206
+#: frontend/src/intake/IntakeReading.vue:35
 msgid "Keep"
 msgstr ""
 
@@ -21669,10 +21671,11 @@ msgstr ""
 #. Label in the One Payment Reminder print format
 #. Label of the body_section (Section Break) field in DocType 'Employee Letter'
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
+#: frontend/src/intake/IntakeExplain.vue:18
 #: onedesk/one_book/print_format/one_payment_reminder/one_payment_reminder.json
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/public/js/intake.js:178
+#: onedesk/public/js/intake.js:148
 msgid "Letter"
 msgstr ""
 
@@ -22359,11 +22362,11 @@ msgstr ""
 msgid "Made by OneAI"
 msgstr ""
 
-#: onedesk/public/js/intake.js:286
+#: onedesk/public/js/intake.js:192
 msgid "Made by OneAI from {0}. Not checked yet."
 msgstr ""
 
-#: onedesk/public/js/intake.js:286
+#: onedesk/public/js/intake.js:192
 msgid "Made by OneAI. Not checked yet."
 msgstr ""
 
@@ -22871,7 +22874,7 @@ msgstr ""
 msgid "Margin So Far"
 msgstr ""
 
-#: onedesk/one_intake/page/intake/intake.js:33
+#: frontend/src/intake/IntakeInbox.vue:5
 msgid "Mark All as Read"
 msgstr ""
 
@@ -22896,7 +22899,7 @@ msgstr ""
 msgid "Mark a day for many people at once."
 msgstr ""
 
-#: onedesk/public/js/intake.js:287
+#: onedesk/public/js/intake.js:193
 msgid "Mark as Checked"
 msgstr ""
 
@@ -22934,7 +22937,7 @@ msgstr ""
 msgid "Marked Maintenance Required with no schedule: {0}. Add one under Assets › Maintenance."
 msgstr ""
 
-#: onedesk/public/js/intake.js:296
+#: onedesk/public/js/intake.js:202
 msgid "Marked as checked"
 msgstr ""
 
@@ -23662,12 +23665,11 @@ msgstr ""
 msgid "Months Not Invoiced"
 msgstr ""
 
-#: frontend/portal/src/App.vue:17
+#: frontend/portal/src/App.vue:17 frontend/src/intake/IntakeInbox.vue:42
 #: frontend/src/sheet/components/SheetEditor/index.vue:289
 #: frontend/src/sheet/components/SheetEditor/index.vue:1160
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:415
-#: onedesk/one_intake/page/intake/intake.js:30 onedesk/one_sheet/ai.py:227
-#: onedesk/public/js/project_actions.js:651
+#: onedesk/one_sheet/ai.py:227 onedesk/public/js/project_actions.js:651
 #: onedesk/public/js/window/form.js:316
 msgid "More"
 msgstr ""
@@ -24122,12 +24124,11 @@ msgid "Needs Attention"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'AI Model'
+#: frontend/src/intake/IntakeReading.vue:94
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_intake/doctype/intake_action/intake_action_list.js:4
-#: onedesk/one_intake/page/intake/intake.js:188
 #: onedesk/one_intake/report/ready_to_submit/ready_to_submit.py:23
 #: onedesk/one_intake/report/ready_to_submit/ready_to_submit.py:34
-#: onedesk/public/js/intake.js:207
 msgid "Needs Review"
 msgstr ""
 
@@ -25082,11 +25083,11 @@ msgstr ""
 msgid "No description"
 msgstr ""
 
-#: onedesk/one_intake/page/intake/intake.js:49
+#: frontend/src/intake/IntakeReading.vue:5
 msgid "No document selected"
 msgstr ""
 
-#: onedesk/one_intake/page/intake/intake.js:95
+#: frontend/src/intake/IntakeInbox.vue:15
 msgid "No documents"
 msgstr ""
 
@@ -25864,7 +25865,7 @@ msgstr ""
 msgid "Not all transferred yet"
 msgstr ""
 
-#: onedesk/one_intake/page/intake/intake.js:190 onedesk/public/js/intake.js:209
+#: frontend/src/intake/IntakeReading.vue:95
 msgid "Not allowed"
 msgstr ""
 
@@ -25952,7 +25953,7 @@ msgstr ""
 msgid "Not in a cost type"
 msgstr ""
 
-#: onedesk/public/js/intake.js:117
+#: frontend/src/intake/IntakeFacts.vue:29 onedesk/public/js/intake.js:112
 msgid "Not in the document ({0})"
 msgstr ""
 
@@ -26172,9 +26173,9 @@ msgstr ""
 msgid "Notes — Shift+F2 to add"
 msgstr ""
 
-#: frontend/src/task/TaskWaits.vue:10 onedesk/one/privacy_copy.py:366
+#: frontend/src/intake/IntakeReading.vue:21 frontend/src/task/TaskWaits.vue:10
+#: onedesk/one/privacy_copy.py:366
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:44
-#: onedesk/one_intake/page/intake/intake.js:173
 msgid "Nothing"
 msgstr ""
 
@@ -26339,8 +26340,7 @@ msgstr ""
 msgid "Nothing to show"
 msgstr ""
 
-#: frontend/src/plant/PlantFloor.vue:49
-#: onedesk/one_intake/page/intake/intake.js:94
+#: frontend/src/intake/IntakeInbox.vue:15 frontend/src/plant/PlantFloor.vue:49
 msgid "Nothing waiting"
 msgstr ""
 
@@ -27304,11 +27304,11 @@ msgstr ""
 msgid "OneAI credits were added"
 msgstr ""
 
-#: onedesk/public/js/intake.js:41
+#: frontend/src/intake/IntakePanel.vue:21 onedesk/public/js/intake.js:41
 msgid "OneAI did 1 thing with it"
 msgstr ""
 
-#: onedesk/public/js/intake.js:41
+#: frontend/src/intake/IntakePanel.vue:21 onedesk/public/js/intake.js:41
 msgid "OneAI did {0} things with it"
 msgstr ""
 
@@ -27467,9 +27467,9 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #. Option for the 'Product' (Select) field in DocType 'AI Action'
-#: onedesk/one/sidebar/one/one.json
+#: frontend/src/intake/IntakeInbox.vue:129 onedesk/one/sidebar/one/one.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
-#: onedesk/one_intake/page/intake/intake.js:3 onedesk/public/js/desk.js:106
+#: onedesk/one_intake/page/intake/intake.js:2 onedesk/public/js/desk.js:106
 #: onedesk/public/js/desk.js:175 onedesk/public/js/window/chrome.js:81
 msgid "OneIntake"
 msgstr ""
@@ -27862,7 +27862,9 @@ msgstr ""
 #. Option for the 'Matter State' (Select) field in DocType 'Reading'
 #. Option for the 'Status' (Select) field in DocType 'Cloud File Request'
 #. Option for the 'status' (Select) field in DocType 'Task'
-#: frontend/src/floor/ShopFloor.vue:119 frontend/src/sent_out/OutRows.vue:85
+#: frontend/src/floor/ShopFloor.vue:119
+#: frontend/src/intake/IntakeReading.vue:27
+#: frontend/src/sent_out/OutRows.vue:85
 #: frontend/src/sent_out/SentOutPage.vue:76
 #: frontend/src/sent_out/SentOutPage.vue:83
 #: onedesk/notifications/one_storage/link_shared.md
@@ -27871,11 +27873,10 @@ msgstr ""
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:321
 #: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/one_intake/page/intake/intake.js:181
 #: onedesk/one_project/status.py:14
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_task/custom/task.json onedesk/public/js/audit_list.js:6
-#: onedesk/public/js/doctype_settings.js:793 onedesk/public/js/intake.js:198
+#: onedesk/public/js/doctype_settings.js:793
 #: onedesk/public/js/oneai/Record.vue:15 onedesk/public/js/onecloud.js:751
 #: onedesk/public/js/onecloud.js:1876 onedesk/public/js/onecloud.js:1884
 #: onedesk/public/js/onecloud.js:1900 onedesk/public/js/project_actions.js:55
@@ -27898,7 +27899,7 @@ msgstr ""
 msgid "Open Deadlines"
 msgstr ""
 
-#: onedesk/one_intake/page/intake/intake.js:164
+#: frontend/src/intake/IntakeReading.vue:14
 msgid "Open Document"
 msgstr ""
 
@@ -29661,7 +29662,7 @@ msgstr ""
 #. Label of a Card Break in the OneHR Setup Workspace
 #. Option for the 'Sensitivity' (Select) field in DocType 'Reading'
 #. Option for the 'Asks To' (Select) field in DocType 'Reading Ask'
-#: frontend/src/home/HrStory.vue:31
+#: frontend/src/home/HrStory.vue:31 frontend/src/intake/IntakePanel.vue:24
 #: onedesk/one_hr/custom/employee_grievance.json onedesk/one_hr/home.py:24
 #: onedesk/one_hr/home.py:36 onedesk/one_hr/home.py:43
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -29815,9 +29816,10 @@ msgid "Payload"
 msgstr ""
 
 #. Label in the One Payment Receipt print format
-#: onedesk/one/print_blocks.py:437 onedesk/one/print_blocks.py:745
+#: frontend/src/intake/IntakePay.vue:3 onedesk/one/print_blocks.py:437
+#: onedesk/one/print_blocks.py:745
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
-#: onedesk/public/js/intake.js:143 onedesk/public/js/intake.js:154
+#: onedesk/public/js/intake.js:120 onedesk/public/js/intake.js:131
 msgid "Payment"
 msgstr ""
 
@@ -32716,12 +32718,13 @@ msgstr ""
 
 #. Label of the one_intake (Check) field in DocType 'Email Account'
 #. Label of the one_intake (Check) field in DocType 'File'
+#: frontend/src/intake/IntakePanel.vue:5
 #: onedesk/one_intake/custom/email_account.json
 #: onedesk/one_intake/custom/file.json onedesk/public/js/intake.js:50
-#: onedesk/public/js/intake.js:70 onedesk/public/js/intake.js:121
-#: onedesk/public/js/onecloud.js:558 onedesk/public/js/onecloud.js:734
-#: onedesk/public/js/settings.js:380 onedesk/public/js/settings.js:2859
-#: onedesk/public/js/settings.js:2870 onedesk/public/js/settings.js:2941
+#: onedesk/public/js/intake.js:70 onedesk/public/js/onecloud.js:558
+#: onedesk/public/js/onecloud.js:734 onedesk/public/js/settings.js:380
+#: onedesk/public/js/settings.js:2859 onedesk/public/js/settings.js:2870
+#: onedesk/public/js/settings.js:2941
 msgid "Read by OneAI"
 msgstr ""
 
@@ -33383,7 +33386,7 @@ msgstr ""
 #. Label in the One Payment Voucher print format
 #. Option for the 'Placed By' (Select) field in DocType 'Reading'
 #. Label of the value (Data) field in DocType 'Reading Reference'
-#: onedesk/one/print_blocks.py:83
+#: frontend/src/intake/IntakePay.vue:36 onedesk/one/print_blocks.py:83
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
 #: onedesk/one_admin/print_format/one_credit_ledger_entry/one_credit_ledger_entry.json
@@ -33395,7 +33398,7 @@ msgstr ""
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 #: onedesk/one_intake/panel.py:104 onedesk/one_intake/panel.py:130
-#: onedesk/public/js/intake.js:151
+#: onedesk/public/js/intake.js:128
 msgid "Reference"
 msgstr ""
 
@@ -35549,7 +35552,7 @@ msgstr ""
 msgid "Scan"
 msgstr ""
 
-#: onedesk/public/js/intake.js:153
+#: frontend/src/intake/IntakePay.vue:16 onedesk/public/js/intake.js:130
 msgid "Scan with your banking app"
 msgstr ""
 
@@ -37894,10 +37897,6 @@ msgstr ""
 
 #: frontend/src/item/ItemStock.vue:73
 msgid "Sold {0}"
-msgstr ""
-
-#: onedesk/public/js/intake.js:273
-msgid "Some Changes Kept"
 msgstr ""
 
 #: onedesk/public/js/overtime_slip.js:72
@@ -43172,7 +43171,7 @@ msgstr ""
 msgid "This overtime type has no rate set, so it pays nothing."
 msgstr ""
 
-#: onedesk/public/js/island_page.js:69
+#: onedesk/public/js/island_page.js:70
 msgid "This page has not been built"
 msgstr ""
 
@@ -43705,8 +43704,9 @@ msgstr ""
 #. Label in the One Stock Entry print format
 #. Label in the One Supplier Scorecard Period print format
 #. Label in the One Timesheet print format
-#: onedesk/one/ai_setup.py:411 onedesk/one/print_blocks.py:63
-#: onedesk/one/print_blocks.py:77 onedesk/one_ai/chat.py:327
+#: frontend/src/intake/IntakePay.vue:33 onedesk/one/ai_setup.py:411
+#: onedesk/one/print_blocks.py:63 onedesk/one/print_blocks.py:77
+#: onedesk/one_ai/chat.py:327
 #: onedesk/one_book/print_format/one_budget/one_budget.json
 #: onedesk/one_book/print_format/one_cost_center_allocation/one_cost_center_allocation.json
 #: onedesk/one_book/print_format/one_journal_credit_note/one_journal_credit_note.json
@@ -43743,7 +43743,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_inventory/print_format/one_supplier_scorecard_period/one_supplier_scorecard_period.json
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
-#: onedesk/public/js/intake.js:148 onedesk/public/js/item_actions.js:186
+#: onedesk/public/js/intake.js:125 onedesk/public/js/item_actions.js:186
 #: onedesk/public/js/item_actions.js:285 onedesk/public/js/onemail.js:504
 #: onedesk/public/js/onemail.js:716
 msgid "To"
@@ -44880,10 +44880,10 @@ msgstr ""
 msgid "Understood On"
 msgstr ""
 
+#: frontend/src/intake/IntakeReading.vue:36
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:103
 #: onedesk/one_intake/doctype/intake_action/intake_action.js:11
-#: onedesk/one_intake/page/intake/intake.js:206 onedesk/public/js/intake.js:218
-#: onedesk/public/js/intake.js:288 onedesk/public/js/oneai/Panel.vue:121
+#: onedesk/public/js/intake.js:194 onedesk/public/js/oneai/Panel.vue:121
 #: onedesk/public/js/onemail.js:619
 msgid "Undo"
 msgstr ""
@@ -44892,24 +44892,20 @@ msgstr ""
 msgid "Undo (Ctrl+Z)"
 msgstr ""
 
-#: onedesk/public/js/intake.js:258
-msgid "Undo everything OneAI did with this document?"
-msgstr ""
-
-#: onedesk/one_intake/page/intake/intake.js:228
+#: frontend/src/intake/IntakeReading.vue:123
 msgid "Undo this?"
 msgstr ""
 
-#: onedesk/public/js/intake.js:299
+#: onedesk/public/js/intake.js:205
 msgid "Undo what OneAI did here?"
 msgstr ""
 
 #. Option for the 'Outcome' (Select) field in DocType 'Intake Action'
 #. Option for the 'Correction' (Select) field in DocType 'Intake Lesson'
+#: frontend/src/intake/IntakeReading.vue:126
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
-#: onedesk/one_intake/page/intake/intake.js:231 onedesk/public/js/intake.js:269
-#: onedesk/public/js/intake.js:305 onedesk/public/js/settings.js:2787
+#: onedesk/public/js/intake.js:211 onedesk/public/js/settings.js:2787
 msgid "Undone"
 msgstr ""
 
@@ -45139,6 +45135,7 @@ msgid "Unprotect sheet"
 msgstr ""
 
 #. Label of the unread (Int) field in DocType 'Mail Folder'
+#: frontend/src/intake/IntakeInbox.vue:29
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 msgid "Unread"
 msgstr ""
@@ -45166,9 +45163,10 @@ msgstr ""
 
 #. Option for the 'Audit' (Select) field in DocType 'Intake Action'
 #. Label of the unsure (Check) field in DocType 'Reading'
+#: frontend/src/intake/IntakePanel.vue:8
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/public/js/intake.js:45 onedesk/public/js/intake.js:80
+#: onedesk/public/js/intake.js:45
 msgid "Unsure"
 msgstr ""
 
@@ -45990,8 +45988,8 @@ msgstr ""
 #. Option for the 'State' (Select) field in DocType 'Interview Recording Part'
 #. Option for the 'State' (Select) field in DocType 'Cloud File Request
 #. Recipient'
-#: frontend/src/legal/Agreements.vue:102 frontend/src/quotes/RequestRows.vue:65
-#: frontend/src/task/MyTasks.vue:54
+#: frontend/src/intake/IntakeInbox.vue:82 frontend/src/legal/Agreements.vue:102
+#: frontend/src/quotes/RequestRows.vue:65 frontend/src/task/MyTasks.vue:54
 #: onedesk/one/custom/personal_data_download_request.json
 #: onedesk/one/print_blocks.py:943
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
@@ -45999,11 +45997,14 @@ msgstr ""
 #: onedesk/one_admin/heads.py:46
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:232
-#: onedesk/one_intake/page/intake/intake.js:22
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 #: onedesk/public/js/onecloud.js:1732 onedesk/public/js/settings.js:2353
 #: onedesk/public/js/settings.js:2786
 msgid "Waiting"
+msgstr ""
+
+#: frontend/src/intake/IntakeInbox.vue:82
+msgid "Waiting ({0})"
 msgstr ""
 
 #: onedesk/one_crm/heads.py:195
@@ -46408,7 +46409,7 @@ msgstr ""
 msgid "What OneAI Remembers"
 msgstr ""
 
-#: onedesk/one_intake/page/intake/intake.js:172 onedesk/public/js/intake.js:219
+#: frontend/src/intake/IntakeReading.vue:19
 msgid "What OneAI did"
 msgstr ""
 
@@ -47177,7 +47178,7 @@ msgstr ""
 msgid "What ticks this step by itself, written by OneAI. Empty for a step a person ticks."
 msgstr ""
 
-#: onedesk/public/js/intake.js:173
+#: frontend/src/intake/IntakeExplain.vue:11 onedesk/public/js/intake.js:143
 msgid "What to do"
 msgstr ""
 
@@ -47373,8 +47374,9 @@ msgstr ""
 #. Label of the accepted_on (Datetime) field in DocType 'Legal Acceptance'
 #. Label of the section_when (Section Break) field in DocType 'Mail Rule'
 #. Label of the event (Select) field in DocType 'Extension'
-#: frontend/src/template/Tasks.vue:6 onedesk/one/ai.py:3977
-#: onedesk/one/settings.py:1997 onedesk/one_hr/custom/timesheet_detail.json
+#: frontend/src/intake/IntakeFacts.vue:73 frontend/src/template/Tasks.vue:6
+#: onedesk/one/ai.py:3977 onedesk/one/settings.py:1997
+#: onedesk/one_hr/custom/timesheet_detail.json
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_mail/ai.py:260 onedesk/one_mail/doctype/mail_rule/mail_rule.json
 #: onedesk/one_studio/doctype/extension/extension.json
@@ -47382,7 +47384,7 @@ msgstr ""
 #: onedesk/public/js/doctype_settings.js:248
 #: onedesk/public/js/doctype_settings.js:944
 #: onedesk/public/js/doctype_settings.js:971
-#: onedesk/public/js/extension_errors.js:14 onedesk/public/js/intake.js:101
+#: onedesk/public/js/extension_errors.js:14 onedesk/public/js/intake.js:96
 #: onedesk/public/js/settings.js:633 onedesk/public/js/settings.js:3230
 msgid "When"
 msgstr ""
@@ -49053,12 +49055,12 @@ msgstr ""
 #. Label in the One Employee Separation print format
 #. Label in the One Job Card print format
 #. Label in the One Project Update print format
-#: frontend/src/upkeep/UpkeepRows.vue:8
+#: frontend/src/intake/IntakeFacts.vue:71 frontend/src/upkeep/UpkeepRows.vue:8
 #: onedesk/one_hr/print_format/one_employee_onboarding/one_employee_onboarding.json
 #: onedesk/one_hr/print_format/one_employee_separation/one_employee_separation.json
 #: onedesk/one_inventory/print_format/one_job_card/one_job_card.json
 #: onedesk/one_project/print_format/one_project_update/one_project_update.json
-#: onedesk/public/js/intake.js:99
+#: onedesk/public/js/intake.js:94
 msgid "Who"
 msgstr ""
 
@@ -50276,7 +50278,7 @@ msgstr ""
 msgid "Wrap text"
 msgstr ""
 
-#: onedesk/public/js/intake.js:57 onedesk/public/js/intake.js:160
+#: frontend/src/intake/IntakeExplain.vue:5 onedesk/public/js/intake.js:57
 msgid "Write Cancellation"
 msgstr ""
 
@@ -50437,7 +50439,7 @@ msgstr ""
 msgid "Writing it down again. The transcript and my remarks follow when I am done."
 msgstr ""
 
-#: onedesk/public/js/intake.js:236
+#: frontend/src/intake/IntakeExplain.vue:7 onedesk/public/js/intake.js:167
 msgid "Writing…"
 msgstr ""
 
@@ -51285,7 +51287,7 @@ msgstr ""
 msgid "a Python expression of doc (and row, for rows), such as doc.discount_amount > 0"
 msgstr ""
 
-#: onedesk/public/js/intake.js:94
+#: frontend/src/intake/IntakeFacts.vue:68 onedesk/public/js/intake.js:89
 msgid "a colleague"
 msgstr ""
 
@@ -51449,9 +51451,11 @@ msgstr ""
 msgid "by the customer"
 msgstr ""
 
-#: frontend/portal/src/pages/Rfq.vue:27 onedesk/one/ai_setup.py:305
+#: frontend/portal/src/pages/Rfq.vue:27
+#: frontend/src/intake/IntakeExplain.vue:13
+#: frontend/src/intake/IntakeFacts.vue:79 onedesk/one/ai_setup.py:305
 #: onedesk/one_admin/log.py:105 onedesk/one_intake/panel.py:153
-#: onedesk/public/js/intake.js:106 onedesk/public/js/intake.js:174
+#: onedesk/public/js/intake.js:101 onedesk/public/js/intake.js:144
 msgid "by {0}"
 msgstr ""
 
@@ -51627,7 +51631,7 @@ msgstr ""
 msgid "feedback"
 msgstr ""
 
-#: onedesk/one_crm/heads.py:67 onedesk/one_intake/page/intake/intake.js:169
+#: frontend/src/intake/IntakeReading.vue:13 onedesk/one_crm/heads.py:67
 msgid "for {0}"
 msgstr ""
 
@@ -51910,7 +51914,7 @@ msgstr ""
 msgid "not in the list"
 msgstr ""
 
-#: onedesk/public/js/intake.js:95
+#: frontend/src/intake/IntakeFacts.vue:68 onedesk/public/js/intake.js:90
 msgid "not known yet"
 msgstr ""
 
@@ -52421,7 +52425,7 @@ msgstr ""
 msgid "uploaded a new version"
 msgstr ""
 
-#: onedesk/public/js/intake.js:94
+#: frontend/src/intake/IntakeFacts.vue:68 onedesk/public/js/intake.js:89
 msgid "us"
 msgstr ""
 
@@ -53113,7 +53117,7 @@ msgstr ""
 msgid "{0} doesn't support workspace automations."
 msgstr ""
 
-#: onedesk/one_intake/page/intake/intake.js:109
+#: frontend/src/intake/IntakeInbox.vue:36
 msgid "{0} done"
 msgstr ""
 
@@ -54648,7 +54652,8 @@ msgstr ""
 msgid "{0} tasks, {1} days"
 msgstr ""
 
-#: onedesk/one_intake/page/intake/intake.js:108 onedesk/public/js/intake.js:40
+#: frontend/src/intake/IntakeInbox.vue:35
+#: frontend/src/intake/IntakePanel.vue:20 onedesk/public/js/intake.js:40
 msgid "{0} to decide"
 msgstr ""
 

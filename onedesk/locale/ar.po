@@ -6356,10 +6356,6 @@ msgstr "مرتد"
 msgid "Bound To"
 msgstr "مرتبط بـ"
 
-#: onedesk/one_intake/page/intake/intake.js:20
-msgid "Box"
-msgstr ""
-
 #. Label in the One Bank Guarantee print format
 #. Label in the One Payment Order print format
 #: onedesk/one/masters.py:37
@@ -37835,10 +37831,6 @@ msgstr "يُباع للعملاء"
 msgid "Sold {0}"
 msgstr "بِيع {0}"
 
-#: onedesk/public/js/intake.js:273
-msgid "Some Changes Kept"
-msgstr "تم الإبقاء على بعض التغييرات"
-
 #: onedesk/public/js/overtime_slip.js:72
 msgid "Some Days Were Trimmed"
 msgstr "اقتُطعت بعض الأيام"
@@ -44804,10 +44796,6 @@ msgstr "تراجع"
 msgid "Undo (Ctrl+Z)"
 msgstr "تراجع (Ctrl+Z)"
 
-#: onedesk/public/js/intake.js:258
-msgid "Undo everything OneAI did with this document?"
-msgstr "التراجع عن كل ما فعله OneAI بهذا المستند؟"
-
 #: onedesk/one_intake/page/intake/intake.js:228
 msgid "Undo this?"
 msgstr "التراجع عن هذا؟"
@@ -45915,6 +45903,10 @@ msgstr "انتظار حدث"
 #: onedesk/public/js/settings.js:2837
 msgid "Waiting"
 msgstr "قيد الانتظار"
+
+#: frontend/src/intake/IntakeInbox.vue:82
+msgid "Waiting ({0})"
+msgstr "قيد الانتظار ({0})"
 
 #: onedesk/one_crm/heads.py:195
 msgid "Waiting For a Reply"

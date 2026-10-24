@@ -55,6 +55,7 @@ onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], h
 			else {
 				handle = frappe.ui.mount_island(island, $body[0], {
 					...where(),
+					win: page.window || null,
 					onTitle: (said) => {
 						chrome.title = typeof said === "string" ? said : said?.title;
 						chrome.between = (typeof said === "object" && said?.between) || [];

@@ -146,7 +146,7 @@ def test_each_page_fires_its_events_with_only_its_powers():
 		"onecalendar.event": (APP / "one_calendar" / "page" / "onecalendar" / "onecalendar.js").read_text(),
 		"onetask.listed": (ROOT / "frontend" / "src" / "task" / "MyTasks.vue").read_text(),
 		"onecloud.file": (public / "onecloud.js").read_text(),
-		"intake.reading": (APP / "one_intake" / "page" / "intake" / "intake.js").read_text(),
+		"intake.reading": (ROOT / "frontend" / "src" / "intake" / "IntakeReading.vue").read_text(),
 		"onecrm.board": (public / "opportunity_list.js").read_text(),
 		"space.home": (public / "places.js").read_text(),
 		"oneproject.project": (ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text(),

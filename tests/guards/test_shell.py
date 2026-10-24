@@ -24,7 +24,6 @@ HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
 ON_THE_SHELL = {
 	"settings": ("public/js/settings.js", "public/css/settings.css"),
 	"workspace_settings": ("public/js/settings.js", "public/css/settings.css"),
-	"intake": ("one_intake/page/intake/intake.js", "public/css/intake.css"),
 	"onecalendar": (
 		"one_calendar/page/onecalendar/onecalendar.js",
 		"one_calendar/page/onecalendar/onecalendar.css",
@@ -43,7 +42,6 @@ USE_THE_SHELL = {
 	"one/page/settings/settings.js",
 	"one/page/workspace_settings/workspace_settings.js",
 	"one_calendar/page/onecalendar/onecalendar.js",
-	"one_intake/page/intake/intake.js",
 	"one_mail/page/onemail/onemail.js",
 	"one_storage/page/onecloud/onecloud.js",
 	"public/js/band.js",
@@ -63,7 +61,7 @@ USE_THE_SHELL = {
 # home's link), and draw nothing.
 OPENS_A_VIEW = {"masters"}
 
-ISLAND_PAGES = {"project_view", "project_template_view", "task_view", "item_view", "stock_on_hand", "inventory", "books", "onecrm", "onehr", "lots", "to_order", "quotes", "sent_out", "upkeep", "floor", "plant", "my_tasks", "timers", "workbook", "document", "legal"}
+ISLAND_PAGES = {"project_view", "project_template_view", "task_view", "item_view", "stock_on_hand", "inventory", "books", "onecrm", "onehr", "lots", "to_order", "quotes", "sent_out", "upkeep", "floor", "plant", "my_tasks", "timers", "workbook", "document", "legal", "intake"}
 
 PARTS = re.compile(r"\.[a-z]+-(row|empty|quiet|card|content|section|chevron)(-[a-z]+)?\b(?![-\w])")
 

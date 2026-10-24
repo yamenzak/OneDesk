@@ -90,7 +90,6 @@
 	vertical-align: middle;
 }
 
-
 .oi-banner {
 	display: flex;
 	flex-wrap: wrap;
@@ -101,20 +100,6 @@
 .oi-banner img {
 	width: 16px;
 	height: 16px;
-}
-
-.oi-change {
-	color: var(--ink-gray-7);
-	font-variant-numeric: tabular-nums;
-}
-
-.oi-change s {
-	color: var(--ink-gray-5);
-}
-
-.oi-matter {
-	margin-top: calc(var(--spacing) * 2);
-	color: var(--ink-gray-7);
 }
 
 .oi-pay {
@@ -181,59 +166,6 @@
 	font-family: inherit;
 	font-size: var(--text-sm);
 	white-space: pre-wrap;
-}
-
-.oi-inbox-more {
-	padding: calc(var(--spacing) * 2);
-	text-align: center;
-}
-
-.oi-read {
-	max-width: 760px;
-	font-size: var(--text-sm);
-	color: var(--ink-gray-8);
-}
-
-.oi-read-title {
-	color: var(--ink-gray-9);
-	font-size: var(--text-lg);
-	font-weight: var(--font-weight-semibold);
-}
-
-.oi-read .oi-summary {
-	margin-top: calc(var(--spacing) * 3);
-}
-
-.oi-acts {
-	margin: calc(var(--spacing) * 1) 0 0;
-	padding: 0;
-	list-style: none;
-}
-
-.oi-act {
-	padding: calc(var(--spacing) * 2.5) 0;
-	border-bottom: 1px solid var(--outline-gray-1);
-}
-
-.oi-act-line {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: space-between;
-	gap: calc(var(--spacing) * 2);
-}
-
-.oi-more {
-	margin-top: calc(var(--spacing) * 5);
-}
-
-.oi-more > summary {
-	color: var(--ink-gray-6);
-	cursor: pointer;
-}
-
-.oi-more .oi-panel {
-	margin-top: calc(var(--spacing) * 2);
 }
 
 .oi-panel dl.oi-quick {

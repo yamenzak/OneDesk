@@ -299,3 +299,28 @@ export const symbol = (name) => {
   const found = document.getElementById(`icon-${name}`);
   return found ? { viewBox: found.getAttribute("viewBox"), html: found.innerHTML } : null;
 };
+
+// Where on the window a part of an island goes (docs/WINDOW.md, The parts):
+// the nav pane under the view's row, the details pane, the command row or the
+// views at its end. Null when the island is not on a window (in a dialog).
+export function windowPart(win, part, { key = "page", width } = {}) {
+	if (!win) return null;
+	const $at = {
+		nav: () => win.nav_slot(),
+		details: () => win.details({ key, width }),
+		commands: () => win.group("own"),
+		views: () => win.views_slot(),
+	}[part]?.();
+	return $at && $at[0] ? $at[0] : null;
+}
+
+export const copyText = (text) => frappe().utils.copy_to_clipboard(text);
+
+export const msgprint = (message, title) => frappe().msgprint(title ? { title, message } : message);
+
+export const intakeOn = () => Boolean(window.onedesk?.apps?.intake?.());
+
+// A record's desk address, as frappe's router writes it.
+export const recordRoute = (doctype, name) => `/desk/${frappe().router.slug(doctype)}/${encodeURIComponent(name)}`;
+
+export const hasRole = (role) => Boolean(frappe().user.has_role(role));
