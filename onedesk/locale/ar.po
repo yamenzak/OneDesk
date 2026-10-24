@@ -4590,10 +4590,6 @@ msgstr "اطلب من شؤون الموظفين إعادة تعيين مفتاح
 msgid "Ask OneAI"
 msgstr "اسأل OneAI"
 
-#: onedesk/one_mail/doctype/mail_rule/mail_rule.py:28
-msgid "Ask OneAI only runs while this mailbox's new mail is read. Set New Mail in its OneAI tab first."
-msgstr "لا تعمل خطوة اسأل OneAI إلا أثناء قراءة البريد الجديد لهذا الصندوق. اضبط البريد الجديد في تبويب OneAI أولًا."
-
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.py:138
 msgid "Ask OneAI to add a field."
 msgstr "اطلب من OneAI إضافة حقل."
@@ -18720,6 +18716,10 @@ msgstr "إذا"
 msgid "If I approve this request, what is deleted, what is kept without their name, and is anything still theirs that somebody should take over first?"
 msgstr "إذا وافقت على هذا الطلب، ما الذي يُحذف، وما الذي يُحتفظ به دون اسمه، وهل لا يزال شيء باسمه ينبغي أن يتولاه أحد أولاً؟"
 
+#: onedesk/public/js/onemail_settings.js:523
+msgid "If OneAI stops reading new mail, {0} stop running. Save anyway?"
+msgstr "إذا توقف OneAI عن قراءة البريد الجديد، تتوقف {0} عن العمل. هل تحفظ على أي حال؟"
+
 #: onedesk/www/welcome.html:21
 msgid "If a payment went through, the receipt is in your email and somebody will be in touch."
 msgstr "إن تمت دفعة، فالإيصال في بريدك وسيتواصل معك أحد."
@@ -20171,10 +20171,6 @@ msgstr "البلاغات المفتوحة والمردود عليها والمح
 msgid "Issuing Country"
 msgstr "بلد الإصدار"
 
-#: onedesk/public/js/onemail_settings.js:803
-msgid "It asks OneAI, which only answers while this mailbox's new mail is read."
-msgstr "تسأل OneAI، الذي لا يجيب إلا أثناء قراءة البريد الجديد لهذا الصندوق."
-
 #: onedesk/public/js/doctype_settings.js:829
 msgid "It becomes required and unique."
 msgstr "يصبح إلزاميًا وفريدًا."
@@ -20321,6 +20317,10 @@ msgstr "كانت من {from_date} إلى {to_date}. سيعمل في تلك ال�
 #: onedesk/notifications/one_calendar/taken_off_an_event.md
 msgid "It was {when}. It is gone from your calendar."
 msgstr "كان في {when}. أُزيل من تقويمك."
+
+#: onedesk/public/js/onemail_settings.js:803
+msgid "It won't run until OneAI reads this mailbox's new mail."
+msgstr "لن تعمل حتى يقرأ OneAI البريد الجديد لهذا الصندوق."
 
 #: onedesk/one_intake/act.py:80
 msgid "It would end someone's employment."
@@ -28002,10 +28002,6 @@ msgstr "فحص OneAI الإضافة {extension}"
 #: onedesk/public/js/rule_builder.js:246
 msgid "OneAI may read the orders, invoices and deliveries the sender sees on the portal. Only when the sender's address is verified."
 msgstr "يمكن لـ OneAI قراءة الطلبات والفواتير والتسليمات التي يراها المرسل على البوابة. فقط عندما يكون عنوان المرسل موثقًا."
-
-#: onedesk/public/js/rule_builder.js:364
-msgid "OneAI only answers this while this mailbox's new mail is read. Set New Mail in its OneAI tab."
-msgstr "لا يجيب OneAI عن هذا إلا أثناء قراءة البريد الجديد لهذا الصندوق. اضبط البريد الجديد في تبويب OneAI."
 
 #. Description of the 'Screen New Applicants' (Check) field in DocType 'HR
 #. Settings'
@@ -44162,6 +44158,10 @@ msgstr "لم يُرسل هذا الطلب إليك، أو أنه مغلق."
 msgid "This request was turned down on {0}. Approve it first if that has changed."
 msgstr "رُفض هذا الطلب في {0}. اعتمده أولاً إن تغيّر ذلك."
 
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.py:28
+msgid "This rule can't run yet, because OneAI doesn't read this mailbox's new mail. Turn it on in the OneAI tab first."
+msgstr "لا يمكن تشغيل هذه القاعدة بعد، لأن OneAI لا يقرأ البريد الجديد لهذا الصندوق. شغّله في تبويب OneAI أولًا."
+
 #: onedesk/public/js/settings.js:69
 msgid "This section could not be opened."
 msgstr "تعذّر فتح هذا القسم."
@@ -44202,6 +44202,10 @@ msgstr "هذا الموقع لا يدير مساحات العمل."
 #: onedesk/one_task/task.py:67
 msgid "This step no longer exists on the task."
 msgstr "لم تعد هذه الخطوة موجودة في المهمة."
+
+#: onedesk/public/js/rule_builder.js:364
+msgid "This step won't run yet, because OneAI doesn't read this mailbox's new mail."
+msgstr "لن تعمل هذه الخطوة بعد، لأن OneAI لا يقرأ البريد الجديد لهذا الصندوق."
 
 #: onedesk/one/printing.py:635
 msgid "This suggestion does not change how anything prints."
@@ -45505,6 +45509,10 @@ msgstr "جرّب {0}"
 #: frontend/src/home/InventoryStory.vue:132
 msgid "Tuesday"
 msgstr "الثلاثاء"
+
+#: onedesk/public/js/rule_builder.js:367
+msgid "Turn It On"
+msgstr "شغّله"
 
 #: onedesk/one_studio/heads.py:88 onedesk/public/js/settings.js:299
 msgid "Turn Off"
@@ -54088,10 +54096,6 @@ msgstr "{0} كمستخدم"
 #: onedesk/one/settings.py:1156 onedesk/one/settings.py:1248
 msgid "{0} as {1}"
 msgstr "{0} بصفة {1}"
-
-#: onedesk/public/js/onemail_settings.js:523
-msgid "{0} ask OneAI, and stop running while new mail isn't read. Save anyway?"
-msgstr "{0} تسأل OneAI، وتتوقف عن العمل أثناء عدم قراءة البريد الجديد. هل تحفظ على أي حال؟"
 
 #: onedesk/public/js/privacy_copy.js:7
 msgid "{0} asked for a copy of their data. Send it within one month."

@@ -520,7 +520,7 @@ onedesk.mail.settings = (tab) => {
 							const stops = values.mail === NOT_READ && panel.said?.reads ? panel.said.asks || [] : [];
 							if (!stops.length) return save();
 							frappe.confirm(
-								__("{0} ask OneAI, and stop running while new mail isn't read. Save anyway?", [stops.map(esc).join(", ")]),
+								__("If OneAI stops reading new mail, {0} stop running. Save anyway?", [stops.map(esc).join(", ")]),
 								save
 							);
 						},
@@ -800,7 +800,7 @@ onedesk.mail.settings = (tab) => {
 					$end.prepend(
 						$(frappe.ui.badge.html({ label: __("Not Running"), theme: "gray" })).attr(
 							"title",
-							__("It asks OneAI, which only answers while this mailbox's new mail is read.")
+							__("It won't run until OneAI reads this mailbox's new mail.")
 						)
 					);
 				if (!said.manages) return;
@@ -823,7 +823,14 @@ onedesk.mail.settings = (tab) => {
 	// whether OneAI may read it.
 	const context_of = async (panel, box) => {
 		const said = panel.said || (await frappe.xcall(R + "rules_of_mailbox", { account: box.name }));
-		return { email: box.email, folders: said.folders || [], people: said.people || [], ai: !!said.ai, reads: !!said.reads };
+		return {
+			email: box.email,
+			folders: said.folders || [],
+			people: said.people || [],
+			ai: !!said.ai,
+			reads: !!said.reads,
+			to_oneai: box.may.ai ? () => dialog.activate("oneai") : null,
+		};
 	};
 
 	// A new rule starts from one of the examples, in groups, or from nothing.

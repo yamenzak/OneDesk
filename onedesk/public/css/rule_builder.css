@@ -156,6 +156,21 @@
 	background: var(--surface-amber-2);
 	color: var(--ink-amber-8);
 	font-size: var(--text-sm);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: calc(var(--spacing) * 3);
+}
+
+.rb .rb-unread-go {
+	flex: none;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: var(--ink-amber-8);
+	font-weight: var(--weight-medium);
+	text-decoration: underline;
+	cursor: pointer;
 }
 
 .rb .rb-muted {
