@@ -13744,17 +13744,9 @@ msgstr "تركه فارغاً يستخدم النموذج الذي حدّده ا
 msgid "Enable"
 msgstr ""
 
-#: onedesk/public/js/onemail.js:827 onedesk/public/js/onemail_settings.js:208
-msgid "Enable Auto Reply"
-msgstr "تفعيل الرد التلقائي"
-
 #: frontend/src/item/ItemPage.vue:304
 msgid "Enable Item"
 msgstr "تفعيل الصنف"
-
-#: onedesk/public/js/onemail_settings.js:175
-msgid "Enable Out of Office"
-msgstr "تفعيل خارج المكتب"
 
 #: onedesk/public/js/onemail.js:786 onedesk/public/js/onemail_settings.js:212
 msgid "Enable Outgoing"
