@@ -196,6 +196,13 @@ def on_disk() -> list:
 	)
 
 
+def daily() -> None:
+	"""Files from before the workspace was linked to storage move by themselves,
+	a batch a night, with nobody asked to press anything."""
+	if enabled() and on_disk():
+		frappe.enqueue("onedesk.one_storage.store.move", queue="long", timeout=3600, limit=5000, job_id="onestorage-move", deduplicate=True)
+
+
 def move(limit: int = 500) -> dict:
 	"""Copy files on the disk to R2 and point their rows at it.
 

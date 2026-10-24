@@ -1454,10 +1454,6 @@ msgstr "يمكن للقالب أن يذكر حقلًا من السجل، مثل 
 msgid "A template task begins on or after the project's first day, and lasts 0 days or more."
 msgstr "تبدأ مهمة القالب في أول يوم للمشروع أو بعده، وتستمر 0 يوم أو أكثر."
 
-#: onedesk/one_storage/ready.py:41
-msgid "A test file was stored and read back."
-msgstr "تم حفظ ملف اختبار وقراءته."
-
 #: onedesk/one/ai_setup.py:222
 msgid "A to Z"
 msgstr "من أ إلى ي"
@@ -8019,10 +8015,6 @@ msgstr "مدعو إلى رابط سحابي"
 msgid "Cloud Mount"
 msgstr "خادم متصل"
 
-#: onedesk/one_storage/ready.py:33
-msgid "Cloud storage answers"
-msgstr "التخزين السحابي يستجيب"
-
 #. Label of the cloudflare_section (Section Break) field in DocType 'One Admin
 #. Settings'
 #. Label of the said_section (Section Break) field in DocType 'Tenant Domain'
@@ -14156,14 +14148,6 @@ msgstr "يحتاج كل حقل إلى تسمية."
 #: onedesk/public/js/doctype_settings.js:763
 msgid "Every field of {0}"
 msgstr "كل حقول {0}"
-
-#: onedesk/one_storage/ready.py:48
-msgid "Every file is in cloud storage."
-msgstr "كل الملفات في التخزين السحابي."
-
-#: onedesk/one_storage/ready.py:28
-msgid "Every file uploaded anywhere in One is kept in cloud storage."
-msgstr "كل ملف يُرفع في أي مكان في One يُحفظ في التخزين السحابي."
 
 #: onedesk/one_studio/doctype/extension/extension.js:32
 msgid "Every hour"
@@ -23799,10 +23783,6 @@ msgstr "رقم الحركة"
 msgid "Movers booked"
 msgstr "حجز شركة النقل"
 
-#: onedesk/one_storage/ready.py:59
-msgid "Moving files to cloud storage"
-msgstr "جارٍ نقل الملفات إلى التخزين السحابي"
-
 #: onedesk/one_admin/offerings.py:172
 msgid "Moving from {lower} to {upper} costs {step} more a month, but the same as add-ons costs {alone}."
 msgstr "الانتقال من {lower} إلى {upper} يكلّف {step} إضافية شهريًا، لكن الشيء نفسه كإضافات يكلّف {alone}."
@@ -24456,10 +24436,6 @@ msgstr "حقل جديد"
 msgid "New file request"
 msgstr "طلب ملفات جديد"
 
-#: onedesk/one_storage/ready.py:26
-msgid "New files go to cloud storage"
-msgstr "الملفات الجديدة تذهب إلى التخزين السحابي"
-
 #: onedesk/public/js/settings.js:2900
 msgid "New files in the folder and the folders inside it are read, filed and acted on as you."
 msgstr "تُقرأ الملفات الجديدة في المجلد والمجلدات التي بداخله، وتُحفظ ويُتصرّف بشأنها باسمك."
@@ -25089,10 +25065,6 @@ msgstr "لا توجد أحداث"
 #: frontend/src/writer/shim/FieldDialog.vue:18
 msgid "No field matches."
 msgstr "لا يوجد حقل مطابق."
-
-#: onedesk/one_storage/ready.py:45
-msgid "No file is left on the server's disk"
-msgstr "لم يتبقَّ أي ملف على قرص الخادم"
 
 #: onedesk/public/js/onecloud.js:348
 msgid "No file requests"
@@ -25859,10 +25831,6 @@ msgstr "لم يتغير"
 #: onedesk/one_hr/employee.py:147
 msgid "Not checked in"
 msgstr "لم يسجّل الحضور"
-
-#: onedesk/one_storage/ready.py:35
-msgid "Not checked until the workspace is linked to an account."
-msgstr "لا يُفحص حتى تُربط مساحة العمل بحساب."
 
 #: onedesk/public/js/desk.js:376
 msgid "Not checking in today"
@@ -38883,14 +38851,6 @@ msgstr "التخزين"
 msgid "Storage (GB)"
 msgstr "التخزين (غيغابايت)"
 
-#. Name of a report
-#. Label of a Sidebar Item
-#: onedesk/one_storage/report/storage_check/storage_check.json
-#: onedesk/one_storage/sidebar/onecloud/onecloud.json
-#: onedesk/public/js/onecloud.js:1874
-msgid "Storage Check"
-msgstr "فحص التخزين"
-
 #. Name of a notification
 #: onedesk/notifications/one/storage_full.md
 msgid "Storage Full"
@@ -38932,10 +38892,6 @@ msgstr "تخزين أو قاعدة بيانات أو مقاعد"
 #: onedesk/one_project/library/mobile_app.json
 msgid "Store listings and screenshots"
 msgstr "صفحات المتجر ولقطات الشاشة"
-
-#: onedesk/one_storage/ready.py:40
-msgid "Storing and reading back a test file failed: {0}"
-msgstr "فشل حفظ ملف اختبار وقراءته: {0}"
 
 #: onedesk/one_book/report/books_check/books_check.js:35
 msgid "Street Address"
@@ -43308,10 +43264,6 @@ msgstr "لم يُدفع ثمن مساحة العمل هذه بعد."
 #: onedesk/one_admin/accounts.py:199
 msgid "This workspace is not in your account."
 msgstr "مساحة العمل هذه ليست في حسابك."
-
-#: onedesk/one_storage/ready.py:29
-msgid "This workspace is not linked to an account, so files are kept on the server's disk."
-msgstr "مساحة العمل هذه غير مرتبطة بحساب، لذا تُحفظ الملفات على قرص الخادم."
 
 msgid "This workspace isn't connected to its account yet, so this isn't available."
 msgstr "مساحة العمل هذه غير متصلة بحسابها بعد، لذا هذا غير متاح."
@@ -53042,17 +52994,9 @@ msgstr "ملف {0}"
 msgid "{0} files"
 msgstr "{0} ملفات"
 
-#: onedesk/one_storage/ready.py:50
-msgid "{0} files are on the disk, which is where this workspace keeps them."
-msgstr "{0} ملفات على القرص، وهو المكان الذي تحفظ فيه مساحة العمل ملفاتها."
-
 #: onedesk/one/tell.py:161
 msgid "{0} files could not be read and are listed in it."
 msgstr "تعذّرت قراءة {0} ملفات وهي مدرجة فيه."
-
-#: onedesk/one_storage/ready.py:51
-msgid "{0} files from before cloud storage are still on the server's disk."
-msgstr "{0} ملفات من قبل التخزين السحابي لا تزال على قرص الخادم."
 
 #: onedesk/public/js/workbooks.js:87
 msgid "{0} files open"

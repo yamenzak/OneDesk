@@ -184,6 +184,7 @@ scheduler_events = {
 		"onedesk.one_hr.periods.daily",
 		"onedesk.one_mail.faces.again",
 		"onedesk.one_storage.api.purge_old",
+		"onedesk.one_storage.store.daily",
 		"onedesk.one_storage.file_requests.remind_due",
 		"onedesk.one.account.nightly",
 		"onedesk.one_admin.domains.nightly",

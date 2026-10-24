@@ -1454,10 +1454,6 @@ msgstr "Eine Vorlage kann ein Feld des Datensatzes nennen, etwa {{ customer_name
 msgid "A template task begins on or after the project's first day, and lasts 0 days or more."
 msgstr "Eine Vorlagenaufgabe beginnt am ersten Tag des Projekts oder danach und dauert 0 Tage oder länger."
 
-#: onedesk/one_storage/ready.py:41
-msgid "A test file was stored and read back."
-msgstr "Eine Testdatei wurde gespeichert und zurückgelesen."
-
 #: onedesk/one/ai_setup.py:222
 msgid "A to Z"
 msgstr "A bis Z"
@@ -8019,10 +8015,6 @@ msgstr "Cloud-Link-Eingeladene"
 msgid "Cloud Mount"
 msgstr "Verbundener Server"
 
-#: onedesk/one_storage/ready.py:33
-msgid "Cloud storage answers"
-msgstr "Der Cloud-Speicher antwortet"
-
 #. Label of the cloudflare_section (Section Break) field in DocType 'One Admin
 #. Settings'
 #. Label of the said_section (Section Break) field in DocType 'Tenant Domain'
@@ -14156,14 +14148,6 @@ msgstr "Jedes Feld braucht eine Bezeichnung."
 #: onedesk/public/js/doctype_settings.js:763
 msgid "Every field of {0}"
 msgstr "Alle Felder von {0}"
-
-#: onedesk/one_storage/ready.py:48
-msgid "Every file is in cloud storage."
-msgstr "Alle Dateien sind im Cloud-Speicher."
-
-#: onedesk/one_storage/ready.py:28
-msgid "Every file uploaded anywhere in One is kept in cloud storage."
-msgstr "Jede in One hochgeladene Datei wird im Cloud-Speicher abgelegt."
 
 #: onedesk/one_studio/doctype/extension/extension.js:32
 msgid "Every hour"
@@ -23799,10 +23783,6 @@ msgstr "Bewegungsnr."
 msgid "Movers booked"
 msgstr "Umzugsfirma gebucht"
 
-#: onedesk/one_storage/ready.py:59
-msgid "Moving files to cloud storage"
-msgstr "Dateien werden in den Cloud-Speicher verschoben"
-
 #: onedesk/one_admin/offerings.py:172
 msgid "Moving from {lower} to {upper} costs {step} more a month, but the same as add-ons costs {alone}."
 msgstr "Der Wechsel von {lower} zu {upper} kostet {step} mehr im Monat, dasselbe als Add-ons kostet aber {alone}."
@@ -24456,10 +24436,6 @@ msgstr "Neues Feld"
 msgid "New file request"
 msgstr "Neue Dateianfrage"
 
-#: onedesk/one_storage/ready.py:26
-msgid "New files go to cloud storage"
-msgstr "Neue Dateien gehen in den Cloud-Speicher"
-
 #: onedesk/public/js/settings.js:2900
 msgid "New files in the folder and the folders inside it are read, filed and acted on as you."
 msgstr "Neue Dateien im Ordner und in den Ordnern darin werden in Ihrem Namen gelesen, abgelegt und bearbeitet."
@@ -25089,10 +25065,6 @@ msgstr "Keine Termine"
 #: frontend/src/writer/shim/FieldDialog.vue:18
 msgid "No field matches."
 msgstr "Kein Feld passt."
-
-#: onedesk/one_storage/ready.py:45
-msgid "No file is left on the server's disk"
-msgstr "Keine Datei liegt mehr auf der Festplatte des Servers"
 
 #: onedesk/public/js/onecloud.js:348
 msgid "No file requests"
@@ -25859,10 +25831,6 @@ msgstr "Nicht geändert"
 #: onedesk/one_hr/employee.py:147
 msgid "Not checked in"
 msgstr "Nicht eingecheckt"
-
-#: onedesk/one_storage/ready.py:35
-msgid "Not checked until the workspace is linked to an account."
-msgstr "Wird erst geprüft, wenn der Arbeitsbereich mit einem Konto verknüpft ist."
 
 #: onedesk/public/js/desk.js:376
 msgid "Not checking in today"
@@ -38883,14 +38851,6 @@ msgstr "Speicher"
 msgid "Storage (GB)"
 msgstr "Speicher (GB)"
 
-#. Name of a report
-#. Label of a Sidebar Item
-#: onedesk/one_storage/report/storage_check/storage_check.json
-#: onedesk/one_storage/sidebar/onecloud/onecloud.json
-#: onedesk/public/js/onecloud.js:1874
-msgid "Storage Check"
-msgstr "Speicherprüfung"
-
 #. Name of a notification
 #: onedesk/notifications/one/storage_full.md
 msgid "Storage Full"
@@ -38932,10 +38892,6 @@ msgstr "Speicher, Datenbank oder Plätze"
 #: onedesk/one_project/library/mobile_app.json
 msgid "Store listings and screenshots"
 msgstr "Store-Einträge und Screenshots"
-
-#: onedesk/one_storage/ready.py:40
-msgid "Storing and reading back a test file failed: {0}"
-msgstr "Speichern und Zurücklesen einer Testdatei schlug fehl: {0}"
 
 #: onedesk/one_book/report/books_check/books_check.js:35
 msgid "Street Address"
@@ -43308,10 +43264,6 @@ msgstr "Dieser Arbeitsbereich wurde noch nicht bezahlt."
 #: onedesk/one_admin/accounts.py:199
 msgid "This workspace is not in your account."
 msgstr "Dieser Arbeitsbereich ist nicht in Ihrem Konto."
-
-#: onedesk/one_storage/ready.py:29
-msgid "This workspace is not linked to an account, so files are kept on the server's disk."
-msgstr "Dieser Arbeitsbereich ist mit keinem Konto verbunden, daher liegen Dateien auf der Festplatte des Servers."
 
 msgid "This workspace isn't connected to its account yet, so this isn't available."
 msgstr "Dieser Arbeitsbereich ist noch nicht mit seinem Konto verbunden, daher ist dies nicht verfügbar."
@@ -53042,17 +52994,9 @@ msgstr "{0}-Datei"
 msgid "{0} files"
 msgstr "{0} Dateien"
 
-#: onedesk/one_storage/ready.py:50
-msgid "{0} files are on the disk, which is where this workspace keeps them."
-msgstr "{0} Dateien liegen auf der Festplatte, wo dieser Arbeitsbereich sie aufbewahrt."
-
 #: onedesk/one/tell.py:161
 msgid "{0} files could not be read and are listed in it."
 msgstr "{0} Dateien konnten nicht gelesen werden und sind darin aufgeführt."
-
-#: onedesk/one_storage/ready.py:51
-msgid "{0} files from before cloud storage are still on the server's disk."
-msgstr "{0} Dateien aus der Zeit vor dem Cloud-Speicher liegen noch auf der Festplatte des Servers."
 
 #: onedesk/public/js/workbooks.js:87
 msgid "{0} files open"

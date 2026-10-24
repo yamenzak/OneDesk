@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 71 | 3 | 35 | 0 |
+| onedesk | 70 | 3 | 35 | 0 |
 | frappe | 23 | 37 | 154 | 0 |
 | erpnext | 303 | 131 | 51 | 0 |
 | hrms | 102 | 20 | 8 | 0 |
@@ -1034,8 +1034,6 @@ Pages: workbook (inside: a workbook opens on it from OneCloud).
 | Cloud File Version | inside: a OneCloud file's Versions | the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Cloud Link | inside: a OneCloud file's Share | everybody | untouched | yes | general |  | yes |  |  |  |  |
 | Cloud Mount | engine: a mounted folder, which OneCloud keeps and shows as a folder | everybody | untouched | yes | general |  | **none** |  |  |  |  |
-
-Reports: Storage Check (on a rail or a home).
 
 Pages: onecloud (on a rail or a home).
 

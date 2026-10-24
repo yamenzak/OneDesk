@@ -15,10 +15,6 @@ server.
 **OneCloud** in the dock opens the explorer at full width. The folder tree on
 the left is the navigation, so the side panel starts closed.
 
-Workspace administrators can open **Storage Check** by right-clicking an
-empty space in the explorer. It shows whether files are going to cloud
-storage and moves any still on the server.
-
 ## What is in OneCloud
 
 - **My Files**: your own folders and files. No one else sees them unless you
@@ -276,7 +272,7 @@ straight from cloud storage, so large files don't slow the workspace down.
 Attaching and opening files works the same as before.
 
 Files added before cloud storage was turned on stay on the server until
-they're moved. **Setup › Storage Check › Fix** moves them all.
+they're moved, which happens by itself each night.
 
 ## How big a file can be
 
@@ -378,8 +374,8 @@ not a second R2 integration.
   instead of the disk: `get_content`, `exists_on_disk` (so de-duplication
   finds a stored twin) and `make_thumbnail` (made from the bytes and stored
   beside them).
-- `ready.py` and `report/storage_check` — the Storage Check, on the shared
-  check page (`public/js/check.js`). **Move** copies files still on the disk
+- `store.daily` — files still on the disk once the workspace is linked to
+  storage move by themselves, a batch each night. `store.move` copies them
   to R2 and points their rows, and the attach field each came through, at
   the stored copy; the copy on disk stays, because a public file's old URL
   may be written into a web page or an email template no row knows about.
@@ -771,8 +767,8 @@ repositories, which will be folders with history.
 ### The plan
 
 1. **The place and the store.** OneCloud in the dock; every new file kept in
-   R2 through admin's signed URLs; files already on the server moved by the
-   Storage Check. *Done.*
+   R2 through admin's signed URLs; files already on the server moved each
+   night. *Done.*
 2. **The namespace.** My Files, Shared with Me, Libraries and Records as one
    tree of paths; create, rename, move, copy, delete to a recycle bin and
    restore; who may do what, decided in one place. *Done.*

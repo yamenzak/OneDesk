@@ -597,7 +597,6 @@ function spaceMenu() {
       ["drive-here", "lucide-hard-drive", __("Connect as a drive…"), true],
       ["refresh", "lucide-refresh-cw", __("Refresh"), true],
     ],
-    hasRole("Workspace Administrator") ? [["storage-check", "lucide-shield-check", __("Storage Check"), true]] : [],
   ]);
 }
 
@@ -697,8 +696,6 @@ async function act(name) {
       const shown = ["@root", "@recent", "@starred", "@bin", "@mounts"].includes(node.value) || node.value.startsWith("@mount/") ? "@root" : node.value;
       return cloud().drive(shown, here.value ? here.value.name : __("Files"));
     }
-    case "storage-check":
-      return goTo("query-report", "Storage Check");
     case "star":
     case "unstar":
       await call("onedesk.one_storage.history.star", { nodes: ids, on: name === "star" ? 1 : 0 });

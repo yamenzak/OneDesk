@@ -443,7 +443,14 @@ def test_the_explorer_is_its_own_navigation():
 	page = (tree.APP / "one_storage" / "page" / "onecloud" / "onecloud.js").read_text()
 	assert '"onedesk.onecloud"' in page and "hide_sidebar" not in page, "OneCloud sits in the window, its tree in the nav pane"
 	assert 'part="nav"' in js and 'part="details"' in js
-	assert '"storage-check"' in js and 'hasRole("Workspace Administrator")' in js
+	assert "storage-check" not in js, "nobody in a workspace can link storage, so there is no check to open"
+
+
+def test_files_left_on_the_disk_move_by_themselves():
+	hooks = (tree.APP / "hooks.py").read_text()
+	store = (tree.APP / "one_storage" / "store.py").read_text()
+	assert '"onedesk.one_storage.store.daily"' in hooks
+	assert "def daily()" in store and "enabled() and on_disk()" in store
 
 
 REQUESTS = tree.APP / "one_storage" / "file_requests.py"
