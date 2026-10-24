@@ -39,15 +39,32 @@ def workspace() -> str | None:
 	return addresses.ensure_workspace()
 
 
-def may_sign(account: str) -> bool:
-	"""Whether the reader may change how a mailbox signs: a mailbox that
-	sends, which they hold, and when it is the workspace's, which everybody
-	sends under, only as a workspace administrator."""
+def may_manage(account: str) -> bool:
+	"""Whether the reader may change a mailbox's signature, out-of-office
+	reply and connection: one they hold, and when it is shared, only if they
+	connected it or administer the workspace."""
 	from onedesk.one import roles
 	from onedesk.one_mail import actions
 
-	sends, shared = frappe.db.get_value("Email Account", account, ["enable_outgoing", "one_shared"]) or (0, 0)
-	return bool(sends) and actions.holds(account) and (not shared or roles.administers())
+	shared, owner = frappe.db.get_value("Email Account", account, ["one_shared", "owner"]) or (0, None)
+	return actions.holds(account) and (not shared or owner == frappe.session.user or roles.administers())
+
+
+def manages(account: str):
+	"""Refuse a reader who may not manage this mailbox (may_manage)."""
+	if not may_manage(account):
+		frappe.throw(
+			_("Only the user who connected {0} or a Workspace Administrator can change this.").format(
+				frappe.db.get_value("Email Account", account, "email_id")
+			),
+			frappe.PermissionError,
+		)
+
+
+def may_sign(account: str) -> bool:
+	"""Whether the reader may change how a mailbox signs: one that sends and
+	that they manage."""
+	return bool(frappe.db.get_value("Email Account", account, "enable_outgoing")) and may_manage(account)
 
 
 def sending_rows(user: str | None = None) -> dict:
@@ -132,9 +149,8 @@ def mailboxes() -> list[dict]:
 				"receives_only": int(bool(account.one_hosted and not account.enable_outgoing)),
 				"may_sign": int(may_sign(account.name)) if account.enable_outgoing and rows.get(account.name) else 0,
 				"signed": first_line(account.signature),
-				"may_reconnect": int(
-					bool(account.one_connected) and (not account.one_shared or _administers())
-				),
+				"may_manage": int(may_manage(account.name)),
+				"may_reconnect": int(bool(account.one_connected) and may_manage(account.name)),
 				"unread": sum(one.unread or 0 for one in listed if one.kind in ("Inbox", "Other")),
 				"folders": listed,
 			}
@@ -354,11 +370,7 @@ def set_signature(account: str, signature: str | None = None) -> None:
 	actions.require(account)
 	if not frappe.db.get_value("Email Account", account, "enable_outgoing"):
 		frappe.throw(_("Enable Outgoing is disabled for {0}.").format(account))
-	if not may_sign(account):
-		frappe.throw(
-			_("Only a Workspace Administrator can change the signature of {0}.").format(account),
-			frappe.PermissionError,
-		)
+	manages(account)
 	frappe.db.set_value(
 		"Email Account",
 		account,

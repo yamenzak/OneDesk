@@ -2,9 +2,6 @@
   <WindowPart :win="win" part="commands" inline>
     <span class="inline-flex items-center gap-0.5">
       <Button variant="solid" icon-left="lucide-pencil" :label="__('New Email')" :disabled="!from" @click="write()" />
-      <Dropdown v-if="box" :options="boxMenu">
-        <template #trigger><Button variant="ghost" icon="lucide-ellipsis" :aria-label="__('This mailbox')" :title="__('This mailbox')" /></template>
-      </Dropdown>
       <template v-if="picked.size">
         <span class="mx-1 h-5 w-px bg-surface-gray-4" />
         <template v-for="one in commands" :key="one.act">
@@ -76,7 +73,6 @@ import {
   ask,
   call,
   compose,
-  dialog,
   escape,
   goTo,
   goToUrl,
@@ -266,7 +262,7 @@ const tree = windowTree(props.win, {
 // other standard folders have none. The server does the same on the mail
 // server (actions.py).
 function folderMenu(id) {
-  if (id.startsWith(BOX)) return [{ label: __("New Folder"), icon: "folder-plus", onClick: () => newFolder(id.slice(BOX.length)) }];
+  if (id.startsWith(BOX)) return boxMenu(boxes.value.find((one) => one.name === id.slice(BOX.length)));
   const [boxName, folderName] = JSON.parse(id.slice(FOLDER.length));
   const each = boxes.value.find((one) => one.name === boxName)?.folders.find((one) => one.name === folderName);
   if (!each) return [];
@@ -277,6 +273,22 @@ function folderMenu(id) {
     { label: __("Rename"), icon: "pencil", onClick: () => renameFolder(each) },
     { label: __("Delete"), icon: "trash-2", theme: "red", onClick: () => deleteFolder(boxName, each) },
   ];
+}
+
+// A mailbox's own menu. Signature and Out of Office open its view in
+// OneMail's settings; a shared mailbox's are its connector's or an
+// administrator's (holders.may_manage).
+function boxMenu(one) {
+  if (!one) return [];
+  const at = (section) => () => settings(`mailbox:${one.name}${section ? ":" + section : ""}`);
+  return [
+    { label: __("New Folder"), icon: "folder-plus", onClick: () => newFolder(one.name) },
+    one.may_sign ? { label: __("Signature"), icon: "signature", onClick: at("signature") } : null,
+    one.may_manage ? { label: __("Out of Office"), icon: "plane", onClick: at("away") } : null,
+    { label: __("Rules"), icon: "list-filter", onClick: () => goTo("List", "Mail Rule", { account: one.name }) },
+    { label: __("Attachments in OneCloud"), icon: "paperclip", onClick: () => goTo("onecloud", { node: `@mail/${one.name}` }) },
+    { label: __("Mailbox Settings"), icon: "settings", onClick: at("") },
+  ].filter(Boolean);
 }
 
 const askFolderName = (title, label, value, done) =>
@@ -399,15 +411,6 @@ function toggle(name, range) {
 const moveTo = (then) =>
   (box.value?.folders || []).filter((one) => !folder.value || one.name !== folder.value.name).map((one) => ({ label: folderLabel(one), onClick: () => then(one.name) }));
 
-const boxMenu = computed(() =>
-  [
-    { label: __("Attachments in OneCloud"), onClick: () => goTo("onecloud", { node: `@mail/${box.value.name}` }) },
-    { label: __("Rules"), onClick: () => goTo("List", "Mail Rule", { account: box.value.name }) },
-    { label: __("Out of Office"), onClick: away },
-    box.value?.may_sign ? { label: __("Signature"), onClick: signature } : null,
-  ].filter(Boolean)
-);
-
 async function act(method, args, threads) {
   const found = await names(box.value.name, threads);
   if (found.length) await call(ACT + method, { names: found, ...args });
@@ -460,48 +463,6 @@ function write({ reply: answering = false, all = false, forward: passing = false
   if (!messages.value.length) return;
   if (passing) return forward(messages.value, from.value, done);
   reply(boxes.value, messages.value, from.value, { all }, done);
-}
-
-async function away() {
-  const now = (await call("onedesk.one_mail.rules.away_of", { account: box.value.name })) || {};
-  const asking = dialog({
-    title: __("Out of office for {0}", [box.value.email]),
-    fields: [
-      {
-        fieldname: "away",
-        fieldtype: "Check",
-        label: __("Enable Auto Reply"),
-        default: now.one_away,
-        description: __("Each sender gets one reply every four days. Mailing lists get none."),
-      },
-      { fieldname: "until", fieldtype: "Date", label: __("Until"), default: now.one_away_until, depends_on: "away" },
-      { fieldname: "message", fieldtype: "Small Text", label: __("Message"), default: now.one_away_message, depends_on: "away" },
-    ],
-    primary_action_label: __("Save"),
-    primary_action: async (values) => {
-      await call("onedesk.one_mail.rules.set_away", { account: box.value.name, ...values });
-      asking.hide();
-      alert(values.away ? __("Auto reply on") : __("Auto reply off"));
-    },
-  });
-  asking.show();
-}
-
-async function signature() {
-  const now = await call("onedesk.one_mail.holders.signature_of", { account: box.value.name });
-  const asking = dialog({
-    title: __("Signature for {0}", [box.value.email]),
-    fields: [
-      { fieldname: "signature", fieldtype: "Text Editor", label: __("Signature"), default: now || "", description: __("Added to every email sent from this address.") },
-    ],
-    primary_action_label: __("Save"),
-    primary_action: async (values) => {
-      await call("onedesk.one_mail.holders.set_signature", { account: box.value.name, signature: values.signature });
-      asking.hide();
-      alert(__("Signature saved"));
-    },
-  });
-  asking.show();
 }
 
 function key(event) {

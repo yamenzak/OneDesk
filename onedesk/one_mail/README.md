@@ -53,9 +53,13 @@ All of its folders appear, including Sent, Junk, Drafts and your own. Changes
 you make here, such as reading, starring, moving, deleting and new folders,
 happen on the mail server too, so your phone stays in sync.
 
-Right-click a mailbox or folder in the sidebar for **New Folder**, and a
-folder you made for **Rename** and **Delete**. Deleting a folder moves its
-messages to Trash.
+A mailbox's **…** in the sidebar (or right-click) has **New Folder**,
+**Signature**, **Out of Office**, **Rules**, **Attachments in OneCloud** and
+**Mailbox Settings**. A folder you made has **New Folder**, **Rename** and
+**Delete**; deleting it moves its messages to Trash.
+
+A shared mailbox's signature, out-of-office reply and connection are
+changed only by the user who connected it or a Workspace Administrator.
 
 Connecting signs in to both servers before anything is saved: the incoming
 one, and with **Enable Outgoing** on, the outgoing one too. A guessed

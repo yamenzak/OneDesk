@@ -112,7 +112,8 @@ onedesk.mail.settings = (tab) => {
 
 	// One Save in the header, as frappe's own settings do: it writes the
 	// signature, the auto reply and, when a password is typed, reconnects.
-	const mailbox = (panel, box) => {
+	// `focus` scrolls to a section: signature or away.
+	const mailbox = (panel, box, focus = null) => {
 		let sign = null;
 		let reply = null;
 		let again = null;
@@ -127,7 +128,7 @@ onedesk.mail.settings = (tab) => {
 			}
 			saved();
 		};
-		const actions = [{ label: __("Save"), variant: "solid", click: save }];
+		const actions = box.may_manage ? [{ label: __("Save"), variant: "solid", click: save }] : [];
 		if (box.connected && box.may_reconnect) {
 			actions.unshift({ label: __("Disconnect"), theme: "red", click: () => disconnect(panel, box.name, box.email) });
 		}
@@ -137,7 +138,9 @@ onedesk.mail.settings = (tab) => {
 			actions,
 			render: async (shown) => {
 				const $body = shown.body;
-				$body.append(heading(__("Signature"), box.sends ? "" : __("Requires Send access.")));
+				const managed = __("Only the user who connected it or a Workspace Administrator can change this.");
+				const section = (name, title, description) => $(heading(title, description)).attr("data-section", name).appendTo($body);
+				section("signature", __("Signature"), !box.sends ? __("Requires Send access.") : box.may_sign ? "" : managed);
 				if (box.sends && box.may_sign) {
 					const signature = await frappe.xcall(H + "signature_of", { account: box.name });
 					sign = fields($(`<div></div>`).appendTo($body), [
@@ -151,13 +154,15 @@ onedesk.mail.settings = (tab) => {
 					);
 				}
 
-				$body.append(heading(__("Out of Office"), __("Sent once every 4 days per sender. Not sent to mailing lists.")));
-				const away = (await frappe.xcall("onedesk.one_mail.rules.away_of", { account: box.name })) || {};
-				reply = fields($(`<div></div>`).appendTo($body), [
-					{ fieldname: "away", fieldtype: "Switch", label: __("Enable Auto Reply"), default: away.one_away },
-					{ fieldname: "until", fieldtype: "Date", label: __("Until"), default: away.one_away_until, depends_on: "away" },
-					{ fieldname: "message", fieldtype: "Small Text", label: __("Message"), default: away.one_away_message, depends_on: "away" },
-				]);
+				section("away", __("Out of Office"), box.may_manage ? __("Sent once every 4 days per sender. Not sent to mailing lists.") : managed);
+				if (box.may_manage) {
+					const away = (await frappe.xcall("onedesk.one_mail.rules.away_of", { account: box.name })) || {};
+					reply = fields($(`<div></div>`).appendTo($body), [
+						{ fieldname: "away", fieldtype: "Switch", label: __("Enable Auto Reply"), default: away.one_away },
+						{ fieldname: "until", fieldtype: "Date", label: __("Until"), default: away.one_away_until, depends_on: "away" },
+						{ fieldname: "message", fieldtype: "Small Text", label: __("Message"), default: away.one_away_message, depends_on: "away" },
+					]);
+				}
 
 				if (box.connected && box.may_reconnect && box.error) {
 					$body.append(heading(__("Connection"), __("Disconnected. {0}", [box.error])));
@@ -174,6 +179,10 @@ onedesk.mail.settings = (tab) => {
 						frappe.set_route("List", "Mail Rule", { account: box.name });
 					})
 					.appendTo(buttons($body));
+
+				// After the signature's editor has drawn, which changes the height above.
+				const $at = focus && $body.find(`[data-section="${focus}"]`);
+				if ($at && $at.length) setTimeout(() => $at.get(0).scrollIntoView({ block: "start", behavior: "smooth" }), 300);
 			},
 		});
 	};
@@ -478,8 +487,10 @@ onedesk.mail.settings = (tab) => {
 	const tabs = [{ group: __("Your Mail"), items: [mailboxes] }];
 	if (admin) tabs.push({ group: __("Workspace"), items: [shared, personal, templates] });
 	if (onedesk.mail._settings) onedesk.mail._settings.$wrapper.remove();
-	// `connect` and `connect-shared` open a tab on its Connect view.
-	const joining = { connect: "mailboxes", "connect-shared": admin ? "shared" : "mailboxes" }[tab];
+	// `connect` and `connect-shared` open a tab on its Connect view, and
+	// `mailbox:<name>[:signature|away]` on one mailbox.
+	const [opening, named, focus] = String(tab || "").split(":");
+	const joining = { connect: "mailboxes", "connect-shared": admin ? "shared" : "mailboxes", mailbox: "mailboxes" }[opening];
 	const first = joining || tab;
 	const dialog = new frappe.ui.SettingsDialog({
 		title: __("OneMail Settings"),
@@ -489,6 +500,11 @@ onedesk.mail.settings = (tab) => {
 	onedesk.mail._settings = dialog;
 	dialog.$wrapper.addClass("oms");
 	dialog.show();
-	if (joining) connect(dialog.get_panel(joining), { shared: joining === "shared" });
+	if (opening === "mailbox") {
+		frappe.xcall(H + "mailboxes").then((boxes) => {
+			const box = (boxes || []).find((one) => one.name === named);
+			if (box) mailbox(dialog.get_panel("mailboxes"), box, focus);
+		});
+	} else if (joining) connect(dialog.get_panel(joining), { shared: joining === "shared" });
 	return dialog;
 };

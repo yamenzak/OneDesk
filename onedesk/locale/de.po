@@ -2608,10 +2608,6 @@ msgstr "Zu einem Projekt hinzugefügt"
 msgid "Added to a Library"
 msgstr "Zu einer Bibliothek hinzugefügt"
 
-#: onedesk/public/js/onemail.js:854
-msgid "Added to every email sent from this address."
-msgstr "Wird jeder E-Mail hinzugefügt, die von dieser Adresse gesendet wird."
-
 #. Description of the 'Added Instructions' (Small Text) field in DocType 'AI
 #. Action Setting'
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
@@ -5196,14 +5192,6 @@ msgstr "Offene Eincheckungen zum Schichtende automatisch schließen"
 #: onedesk/one_task/custom/task.json
 msgid "Auto Repeat"
 msgstr ""
-
-#: onedesk/public/js/onemail.js:838
-msgid "Auto reply off"
-msgstr "Automatische Antwort aus"
-
-#: onedesk/public/js/onemail.js:838
-msgid "Auto reply on"
-msgstr "Automatische Antwort an"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:779
 msgid "Auto-fit height"
@@ -12905,10 +12893,6 @@ msgstr "Jeder Empfänger"
 #: onedesk/one_mail/custom/email_account.json
 msgid "Each sender gets one out-of-office reply in four days, from this mailbox."
 msgstr "Jeder Absender erhält alle vier Tage eine Abwesenheitsantwort aus diesem Postfach."
-
-#: onedesk/public/js/onemail.js:829
-msgid "Each sender gets one reply every four days. Mailing lists get none."
-msgstr "Jeder Absender erhält alle vier Tage eine Antwort. Mailinglisten erhalten keine."
 
 #: onedesk/one_inventory/home.py:157
 msgid "Each service, due and done."
@@ -22517,6 +22501,10 @@ msgstr "Postfach"
 msgid "Mailbox Not Reachable"
 msgstr "Postfach nicht erreichbar"
 
+#: frontend/src/mail/OneMail.vue:290
+msgid "Mailbox Settings"
+msgstr "Postfach-Einstellungen"
+
 #. Name of a notification
 #: onedesk/notifications/one_mail/mailbox_shared_with_you.md
 msgid "Mailbox Shared With You"
@@ -27573,10 +27561,6 @@ msgstr "Nur OneAI schreibt Erweiterungen. Bitte OneAI, diese zu ändern; ein- un
 msgid "Only Word files can be opened as a document."
 msgstr "Nur Word-Dateien können als Dokument geöffnet werden."
 
-#: onedesk/one_mail/holders.py:226
-msgid "Only a Workspace Administrator can change the signature of {0}."
-msgstr "Nur ein Arbeitsbereich-Administrator kann die Signatur von {0} ändern."
-
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.py:14
 msgid "Only a Workspace Administrator can share a server with everyone."
 msgstr "Nur ein Arbeitsbereich-Administrator kann einen Server mit allen teilen."
@@ -27822,6 +27806,14 @@ msgstr "Nur die Person, die einen Bericht gespeichert hat, oder ein Administrato
 #: onedesk/one/portal_share.py:155
 msgid "Only the record's own contacts can be hidden from."
 msgstr "Nur vor den eigenen Kontakten des Datensatzes kann er verborgen werden."
+
+#: onedesk/public/js/onemail_settings.js:141
+msgid "Only the user who connected it or a Workspace Administrator can change this."
+msgstr "Nur der Benutzer, der es verbunden hat, oder ein Arbeitsbereich-Administrator kann dies ändern."
+
+#: onedesk/one_mail/holders.py:57
+msgid "Only the user who connected {0} or a Workspace Administrator can change this."
+msgstr "Nur der Benutzer, der {0} verbunden hat, oder ein Arbeitsbereich-Administrator kann dies ändern."
 
 #: onedesk/public/js/settings.js:157
 msgid "Only you and HR see these."
@@ -28766,10 +28758,6 @@ msgstr "Lagerabgang, Monat für Monat"
 #: onedesk/one_ai/heads.py:19
 msgid "Out of date"
 msgstr "Veraltet"
-
-#: onedesk/public/js/onemail.js:822
-msgid "Out of office for {0}"
-msgstr "Abwesenheit für {0}"
 
 #: onedesk/one_inventory/heads.py:851
 msgid "Out of order; it cannot be used until it is mended."
@@ -37320,10 +37308,6 @@ msgstr "Signatur"
 msgid "Signature for {0}"
 msgstr "Signatur für {0}"
 
-#: onedesk/public/js/onemail.js:861
-msgid "Signature saved"
-msgstr "Signatur gespeichert"
-
 #: frontend/src/project/Overview.vue:306 frontend/src/project/Overview.vue:410
 msgid "Signed"
 msgstr "Unterschrieben"
@@ -43101,10 +43085,6 @@ msgstr "Dieser Link funktioniert nicht mehr. Bitten Sie den Absender um einen ne
 #: onedesk/public/js/settings.js:3058
 msgid "This list ends on {0}, in {1} days"
 msgstr "Diese Liste endet am {0}, in {1} Tagen"
-
-#: onedesk/public/js/onemail.js:68
-msgid "This mailbox"
-msgstr "Dieses Postfach"
 
 #: onedesk/public/js/crm_record.js:37
 msgid "This may be {0} {1}: the same {2}."

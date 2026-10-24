@@ -250,17 +250,15 @@ WHERE = (
 def reconnect(account: str, password: str, login: str | None = None) -> str:
 	"""A connected mailbox that stopped letting us in, given its password
 	again: tried on the servers it already has before it is kept, then read
-	again at once. The workspace's are a workspace administrator's, as
-	connecting one is."""
-	from onedesk.one import roles
-	from onedesk.one_mail import actions
+	again at once. A shared one is its connector's or an administrator's
+	(holders.manages)."""
+	from onedesk.one_mail import actions, holders
 
 	actions.require(account)
 	doc = frappe.get_doc("Email Account", account)
 	if not doc.one_connected:
 		frappe.throw(_("Only a connected mailbox has a password to update."))
-	if doc.one_shared:
-		frappe.only_for(roles.ADMINISTRATOR)
+	holders.manages(account)
 	login = (login or "").strip() or (doc.login_id if doc.login_id_is_different else None)
 	reach(doc.email_id, password, login, {key: doc.get(key) for key in WHERE})
 	doc.update({"password": password, "login_id_is_different": int(bool(login)), "login_id": login})

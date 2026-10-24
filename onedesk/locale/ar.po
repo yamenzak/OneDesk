@@ -2608,10 +2608,6 @@ msgstr "أُضفت إلى مشروع"
 msgid "Added to a Library"
 msgstr "أُضفت إلى مكتبة"
 
-#: onedesk/public/js/onemail.js:854
-msgid "Added to every email sent from this address."
-msgstr "تُضاف إلى كل رسالة تُرسل من هذا العنوان."
-
 #. Description of the 'Added Instructions' (Small Text) field in DocType 'AI
 #. Action Setting'
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
@@ -5196,14 +5192,6 @@ msgstr "إغلاق تسجيلات الحضور المفتوحة تلقائياً
 #: onedesk/one_task/custom/task.json
 msgid "Auto Repeat"
 msgstr ""
-
-#: onedesk/public/js/onemail.js:838
-msgid "Auto reply off"
-msgstr "الرد التلقائي متوقف"
-
-#: onedesk/public/js/onemail.js:838
-msgid "Auto reply on"
-msgstr "الرد التلقائي مفعّل"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:779
 msgid "Auto-fit height"
@@ -12905,10 +12893,6 @@ msgstr "كل مستلم"
 #: onedesk/one_mail/custom/email_account.json
 msgid "Each sender gets one out-of-office reply in four days, from this mailbox."
 msgstr "يتلقى كل مرسل رد غياب واحدًا كل أربعة أيام، من صندوق البريد هذا."
-
-#: onedesk/public/js/onemail.js:829
-msgid "Each sender gets one reply every four days. Mailing lists get none."
-msgstr "يتلقى كل مرسل ردًا واحدًا كل أربعة أيام. ولا تتلقى القوائم البريدية أي رد."
 
 #: onedesk/one_inventory/home.py:157
 msgid "Each service, due and done."
@@ -22517,6 +22501,10 @@ msgstr "صندوق البريد"
 msgid "Mailbox Not Reachable"
 msgstr "صندوق البريد غير متاح"
 
+#: frontend/src/mail/OneMail.vue:290
+msgid "Mailbox Settings"
+msgstr "إعدادات صندوق البريد"
+
 #. Name of a notification
 #: onedesk/notifications/one_mail/mailbox_shared_with_you.md
 msgid "Mailbox Shared With You"
@@ -27573,10 +27561,6 @@ msgstr "OneAI وحده يكتب الإضافات. اطلب منه تغيير ه�
 msgid "Only Word files can be opened as a document."
 msgstr "لا يمكن فتح سوى ملفات Word كمستند."
 
-#: onedesk/one_mail/holders.py:226
-msgid "Only a Workspace Administrator can change the signature of {0}."
-msgstr "لا يمكن تغيير توقيع {0} إلا لمسؤول مساحة العمل."
-
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.py:14
 msgid "Only a Workspace Administrator can share a server with everyone."
 msgstr "لا يمكن مشاركة خادم مع الجميع إلا لمسؤول مساحة العمل."
@@ -27822,6 +27806,14 @@ msgstr "لا يمكن نقل التقرير إلا لمن حفظه أو لأحد
 #: onedesk/one/portal_share.py:155
 msgid "Only the record's own contacts can be hidden from."
 msgstr "لا يمكن الإخفاء إلا عن جهات اتصال السجل نفسه."
+
+#: onedesk/public/js/onemail_settings.js:141
+msgid "Only the user who connected it or a Workspace Administrator can change this."
+msgstr "لا يمكن تغيير هذا إلا للمستخدم الذي ربطه أو لمسؤول مساحة العمل."
+
+#: onedesk/one_mail/holders.py:57
+msgid "Only the user who connected {0} or a Workspace Administrator can change this."
+msgstr "لا يمكن تغيير هذا إلا للمستخدم الذي ربط {0} أو لمسؤول مساحة العمل."
 
 #: onedesk/public/js/settings.js:157
 msgid "Only you and HR see these."
@@ -28766,10 +28758,6 @@ msgstr "الخارج من المخزون، شهرًا بشهر"
 #: onedesk/one_ai/heads.py:19
 msgid "Out of date"
 msgstr "متقادم"
-
-#: onedesk/public/js/onemail.js:822
-msgid "Out of office for {0}"
-msgstr "خارج المكتب لـ {0}"
 
 #: onedesk/one_inventory/heads.py:851
 msgid "Out of order; it cannot be used until it is mended."
@@ -37320,10 +37308,6 @@ msgstr "التوقيع"
 msgid "Signature for {0}"
 msgstr "التوقيع لـ {0}"
 
-#: onedesk/public/js/onemail.js:861
-msgid "Signature saved"
-msgstr "تم حفظ التوقيع"
-
 #: frontend/src/project/Overview.vue:306 frontend/src/project/Overview.vue:410
 msgid "Signed"
 msgstr "موقّع"
@@ -43101,10 +43085,6 @@ msgstr "لم يعد هذا الرابط يعمل. اطلب رابطاً جديد
 #: onedesk/public/js/settings.js:3058
 msgid "This list ends on {0}, in {1} days"
 msgstr "تنتهي هذه القائمة في {0}، بعد {1} يومًا"
-
-#: onedesk/public/js/onemail.js:68
-msgid "This mailbox"
-msgstr "صندوق البريد هذا"
 
 #: onedesk/public/js/crm_record.js:37
 msgid "This may be {0} {1}: the same {2}."

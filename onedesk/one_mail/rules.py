@@ -234,10 +234,11 @@ def away(made, message) -> bool:
 
 @frappe.whitelist(methods=["POST"])
 def set_away(account: str, away: int = 0, until: str | None = None, message: str | None = None) -> None:
-	"""Turn a mailbox's out-of-office reply on or off."""
-	from onedesk.one_mail import actions
+	"""Turn a mailbox's out-of-office reply on or off. A shared mailbox's is
+	its connector's or an administrator's (holders.manages)."""
+	from onedesk.one_mail import holders
 
-	actions.require(account)
+	holders.manages(account)
 	frappe.db.set_value(
 		"Email Account",
 		account,
