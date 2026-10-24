@@ -1496,9 +1496,9 @@ msgstr "Ein Webhook wird über https gesendet."
 msgid "A workbook as it stood at one point in its history, whole: taken as it is saved, kept thinner as it ages, and kept for ever once somebody names it."
 msgstr "Eine Arbeitsmappe vollständig so, wie sie zu einem Zeitpunkt ihrer Geschichte war: beim Speichern erfasst, mit zunehmendem Alter ausgedünnt und für immer aufbewahrt, sobald jemand sie benennt."
 
-#: onedesk/public/js/onemail.js:792
-msgid "A workspace address such as sales@. You choose who has access."
-msgstr "Eine Adresse des Arbeitsbereichs wie sales@. Sie legen fest, wer Zugriff hat."
+#: onedesk/public/js/onemail_settings.js:187
+msgid "A workspace address such as sales@. Add its users after connecting."
+msgstr "Eine Arbeitsbereich-Adresse wie sales@. Benutzer nach dem Verbinden hinzufügen."
 
 #: onedesk/one_admin/domains.py:29
 msgid "A workspace can have at most {0} custom domains."
@@ -8557,7 +8557,8 @@ msgstr "Bestätigungen an Banken, Kunden und Lieferanten verschickt"
 msgid "Confirmed"
 msgstr "Bestätigt"
 
-#: onedesk/public/js/onecloud.js:1550 onedesk/public/js/onemail.js:803
+#: onedesk/public/js/onecloud.js:1550 onedesk/public/js/onecloud_dialogs.js:319
+#: onedesk/public/js/onemail.js:803 onedesk/public/js/onemail_settings.js:190
 msgid "Connect"
 msgstr "Verbinden"
 
@@ -13740,7 +13741,7 @@ msgstr "Automatische Antwort aktivieren"
 msgid "Enable Item"
 msgstr "Artikel aktivieren"
 
-#: onedesk/public/js/onemail.js:786
+#: onedesk/public/js/onemail.js:786 onedesk/public/js/onemail_settings.js:212
 msgid "Enable Outgoing"
 msgstr "Ausgehend aktivieren"
 
@@ -16752,10 +16753,6 @@ msgstr "Global"
 msgid "Global Bucket"
 msgstr "Globaler Bucket"
 
-#: onedesk/public/js/onemail.js:784 onedesk/public/js/settings.js:436
-msgid "Gmail and Outlook need an app password."
-msgstr "Gmail und Outlook benötigen ein App-Passwort."
-
 #: onedesk/public/js/onemail_settings.js:161
 msgid "Gmail and Outlook require an app password."
 msgstr "Gmail und Outlook erfordern ein App-Passwort."
@@ -18305,11 +18302,11 @@ msgstr "Ausweisdokumentart"
 msgid "ID Document Types"
 msgstr "Ausweisdokumentarten"
 
-#: onedesk/public/js/onemail.js:797
+#: onedesk/public/js/onemail.js:797 onedesk/public/js/onemail_settings.js:216
 msgid "IMAP Port"
 msgstr "IMAP-Port"
 
-#: onedesk/public/js/onemail.js:796
+#: onedesk/public/js/onemail.js:796 onedesk/public/js/onemail_settings.js:215
 msgid "IMAP Server"
 msgstr "IMAP-Server"
 
@@ -18373,10 +18370,6 @@ msgstr "Wenn ich diese Anfrage genehmige: Was wird gelöscht, was bleibt ohne de
 #: onedesk/www/welcome.html:21
 msgid "If a payment went through, the receipt is in your email and somebody will be in touch."
 msgstr "Falls eine Zahlung durchging, liegt die Quittung in Ihrem Postfach und jemand meldet sich."
-
-#: onedesk/public/js/onemail.js:795
-msgid "If different from the email address"
-msgstr "Falls abweichend von der E-Mail-Adresse"
 
 #. Description of the 'allow_geolocation_tracking' field in DocType 'HR
 #. Settings'
@@ -22517,7 +22510,7 @@ msgstr "Postfach nicht erreichbar"
 msgid "Mailbox Shared With You"
 msgstr "Postfach mit Ihnen geteilt"
 
-#: onedesk/public/js/onemail.js:809
+#: onedesk/public/js/onemail.js:809 onedesk/public/js/onemail_settings.js:198
 msgid "Mailbox connected"
 msgstr "Postfach verbunden"
 
@@ -35142,11 +35135,11 @@ msgstr "Nur SFTP. Wird anstelle eines Passworts verwendet."
 msgid "SHA-256 of the token written into the site's config."
 msgstr "SHA-256 des Tokens, das in die Site-Konfiguration geschrieben wurde."
 
-#: onedesk/public/js/onemail.js:801
+#: onedesk/public/js/onemail.js:801 onedesk/public/js/onemail_settings.js:220
 msgid "SMTP Port"
 msgstr "SMTP-Port"
 
-#: onedesk/public/js/onemail.js:800
+#: onedesk/public/js/onemail.js:800 onedesk/public/js/onemail_settings.js:219
 msgid "SMTP Server"
 msgstr "SMTP-Server"
 
@@ -45344,7 +45337,7 @@ msgstr "Liste verwenden"
 msgid "Use My Location"
 msgstr "Meinen Standort verwenden"
 
-#: onedesk/public/js/onemail.js:798
+#: onedesk/public/js/onemail.js:798 onedesk/public/js/onemail_settings.js:217
 msgid "Use SSL"
 msgstr "SSL verwenden"
 

@@ -196,3 +196,12 @@
 	padding-top: var(--padding-sm);
 	border-top: 1px solid var(--outline-gray-2);
 }
+
+/* A switch at a heading's end sits on the title's line, not the description's. */
+.oms .oms-heading:has(> .oms-heading-end .oms-switch) {
+	align-items: flex-start;
+}
+
+.oms .oms-heading-end:has(.oms-switch) {
+	margin-top: calc(var(--margin-md) + (var(--text-lg) * 1.5 - 20px) / 2);
+}

@@ -66,6 +66,7 @@ onedesk.mail.settings = (tab) => {
 	// A view inside a tab (one mailbox): frappe's panel view, with Back before
 	// its title.
 	const view = (panel, opts) => {
+		panel.shown = (panel.shown || 0) + 1;
 		panel.set_view(opts);
 		button({ variant: "ghost", icon: "arrow-left", title: __("Back"), attrs: { "aria-label": __("Back") } })
 			.addClass("oms-back")
@@ -84,14 +85,13 @@ onedesk.mail.settings = (tab) => {
 			{
 				label: __("Connect Mailbox"),
 				icon: "plus",
-				click: () => {
-					dialog.hide();
-					frappe.set_route("onemail", { connect: 1 });
-				},
+				click: (panel) => connect(panel),
 			},
 		],
 		async render(panel) {
+			const was = panel.shown;
 			const boxes = (await frappe.xcall(H + "mailboxes")) || [];
+			if (panel.shown !== was) return;
 			const $list = $(`<div class="oms-list"></div>`).appendTo(panel.body.empty());
 			if (!boxes.length) $list.append(empty(__("No mailboxes")));
 			boxes.forEach((box) => {
@@ -178,6 +178,53 @@ onedesk.mail.settings = (tab) => {
 		});
 	};
 
+	// Connecting an IMAP mailbox: the user's own from Mailboxes, the
+	// workspace's from Shared Mailboxes, which then opens its users.
+	const connect = (panel, { shared = false } = {}) => {
+		let form = null;
+		view(panel, {
+			title: shared ? __("Connect Shared Mailbox") : __("Connect Mailbox"),
+			description: shared ? __("A workspace address such as sales@. Add its users after connecting.") : "",
+			actions: [
+				{
+					label: __("Connect"),
+					variant: "solid",
+					click: async () => {
+						const values = form.get_values();
+						if (!values) return;
+						const $go = panel.$header.find(".settings-dialog-panel-actions button").prop("disabled", true);
+						try {
+							const account = await frappe.xcall("onedesk.one_mail.connect.connect", { ...values, shared: shared ? 1 : 0 });
+							frappe.show_alert({ message: __("Mailbox connected"), indicator: "green" });
+							if (shared) return access(panel, account);
+							dialog.hide();
+							frappe.set_route("onemail", { box: account });
+						} finally {
+							$go.prop("disabled", false);
+						}
+					},
+				},
+			],
+			render: (shown) => {
+				form = fields($(`<div></div>`).appendTo(shown.body), [
+					{ fieldname: "email", fieldtype: "Data", options: "Email", label: __("Email Address"), reqd: 1 },
+					{ fieldname: "password", fieldtype: "Password", label: __("Password"), reqd: 1, description: __("Gmail and Outlook require an app password.") },
+					{ fieldname: "sends", fieldtype: "Switch", label: __("Enable Outgoing"), default: 1 },
+					{ fieldtype: "Section Break", fieldname: "server", label: __("Server"), collapsible: 1 },
+					{ fieldname: "login", fieldtype: "Data", label: __("Login ID"), description: __("Leave empty to use the email address.") },
+					{ fieldname: "email_server", fieldtype: "Data", label: __("IMAP Server") },
+					{ fieldname: "incoming_port", fieldtype: "Int", label: __("IMAP Port") },
+					{ fieldname: "use_ssl", fieldtype: "Check", label: __("Use SSL"), default: 1 },
+					{ fieldtype: "Column Break" },
+					{ fieldname: "smtp_server", fieldtype: "Data", label: __("SMTP Server") },
+					{ fieldname: "smtp_port", fieldtype: "Int", label: __("SMTP Port") },
+				]);
+				// Only needed when the server isn't found on its own.
+				form.sections_dict.server?.collapse(true);
+			},
+		});
+	};
+
 	// ── Shared Mailboxes ────────────────────────────────────────────────────
 	const shared = {
 		id: "shared",
@@ -188,14 +235,13 @@ onedesk.mail.settings = (tab) => {
 			{
 				label: __("Connect Shared Mailbox"),
 				icon: "plus",
-				click: () => {
-					dialog.hide();
-					frappe.set_route("onemail", { connect: 1 });
-				},
+				click: (panel) => connect(panel, { shared: true }),
 			},
 		],
 		async render(panel) {
+			const was = panel.shown;
 			const said = await frappe.xcall(H + "shared");
+			if (panel.shown !== was) return;
 			const $list = $(`<div class="oms-list"></div>`).appendTo(panel.body.empty());
 			if (!(said.mailboxes || []).length) $list.append(empty(__("No shared mailboxes")));
 			(said.mailboxes || []).forEach((box) => {
@@ -432,13 +478,17 @@ onedesk.mail.settings = (tab) => {
 	const tabs = [{ group: __("Your Mail"), items: [mailboxes] }];
 	if (admin) tabs.push({ group: __("Workspace"), items: [shared, personal, templates] });
 	if (onedesk.mail._settings) onedesk.mail._settings.$wrapper.remove();
+	// `connect` and `connect-shared` open a tab on its Connect view.
+	const joining = { connect: "mailboxes", "connect-shared": admin ? "shared" : "mailboxes" }[tab];
+	const first = joining || tab;
 	const dialog = new frappe.ui.SettingsDialog({
 		title: __("OneMail Settings"),
-		default_tab: tabs.some((group) => group.items.some((one) => one.id === tab)) ? tab : "mailboxes",
+		default_tab: tabs.some((group) => group.items.some((one) => one.id === first)) ? first : "mailboxes",
 		tabs,
 	});
 	onedesk.mail._settings = dialog;
 	dialog.$wrapper.addClass("oms");
 	dialog.show();
+	if (joining) connect(dialog.get_panel(joining), { shared: joining === "shared" });
 	return dialog;
 };

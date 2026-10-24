@@ -42,7 +42,8 @@ needs a Cloudflare key with Zone Settings: Edit.
 You can connect any mailbox that supports IMAP. Gmail and Outlook need an app
 password, made in the account's security settings.
 
-1. Click **Connect Mailbox**.
+1. Click **+** beside OneMail's heading, or **Connect Mailbox** in
+   **Settings › Mailboxes**.
 2. Enter the **Email Address** and **Password**.
 3. Leave **Enable Outgoing** on to send from it too.
 4. Open **Server** only if the server isn't found on its own, or the login
@@ -57,9 +58,9 @@ happen on the mail server too, so your phone stays in sync.
 - Anyone can connect their own mailbox, unless an administrator has
   turned off **External Mailboxes**. No one else can see into it, not
   even administrators.
-- A Workspace Administrator can tick **Shared Mailbox** to connect a
-  workspace address such as `sales@yourcompany.com`, then choose in
-  **Settings › Shared Mailboxes** who reads it and who may send from it.
+- A Workspace Administrator connects a workspace address such as
+  `sales@yourcompany.com` from **Settings › Shared Mailboxes › Connect
+  Shared Mailbox**, then adds its users and who may send from it.
 
 ## Reading and writing
 

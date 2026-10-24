@@ -79,7 +79,6 @@ import {
   dialog,
   goTo,
   goToUrl,
-  hasRole,
   listen,
   onedesk,
   setQuery,
@@ -238,7 +237,7 @@ const treeRows = computed(() => {
   return out;
 });
 
-windowHeadAction(props.win, { icon: "plus", title: __("Connect Mailbox"), onClick: () => connect() });
+windowHeadAction(props.win, { icon: "plus", title: __("Connect Mailbox"), onClick: () => settings("connect") });
 
 // OneMail's settings: frappe's settings dialog, public/js/onemail_settings.js.
 const SETTINGS = ["/assets/onedesk/js/onemail_settings.js", "/assets/onedesk/css/onemail_settings.css"];
@@ -274,7 +273,7 @@ async function load() {
   const folders = box.value?.folders || [];
   folder.value = folders.find((one) => one.name === want.folder) || folders.find((one) => one.kind === "Inbox") || folders[0] || null;
   loading.value = false;
-  if (want.connect) connect();
+  if (want.connect) settings("connect");
   if (want.settings) settings(want.settings);
   if (!box.value) return;
   await list();
@@ -414,45 +413,6 @@ function write({ reply: answering = false, all = false, forward: passing = false
   if (!messages.value.length) return;
   if (passing) return forward(messages.value, from.value, done);
   reply(boxes.value, messages.value, from.value, { all }, done);
-}
-
-function connect() {
-  const asking = dialog({
-    title: __("Connect Mailbox"),
-    fields: [
-      { fieldname: "email", fieldtype: "Data", options: "Email", label: __("Email Address"), reqd: 1 },
-      { fieldname: "password", fieldtype: "Password", label: __("Password"), reqd: 1, description: __("Gmail and Outlook need an app password.") },
-      { fieldname: "sends", fieldtype: "Check", label: __("Enable Outgoing"), default: 1 },
-      {
-        fieldname: "shared",
-        fieldtype: "Check",
-        label: __("Shared Mailbox"),
-        hidden: !hasRole("Workspace Administrator"),
-        description: __("A workspace address such as sales@. You choose who has access."),
-      },
-      { fieldtype: "Section Break", label: __("Server"), collapsible: 1 },
-      { fieldname: "login", fieldtype: "Data", label: __("Login ID"), description: __("If different from the email address") },
-      { fieldname: "email_server", fieldtype: "Data", label: __("IMAP Server") },
-      { fieldname: "incoming_port", fieldtype: "Int", label: __("IMAP Port") },
-      { fieldname: "use_ssl", fieldtype: "Check", label: __("Use SSL"), default: 1 },
-      { fieldtype: "Column Break" },
-      { fieldname: "smtp_server", fieldtype: "Data", label: __("SMTP Server") },
-      { fieldname: "smtp_port", fieldtype: "Int", label: __("SMTP Port") },
-    ],
-    primary_action_label: __("Connect"),
-    primary_action: async (values) => {
-      asking.get_primary_btn().prop("disabled", true);
-      try {
-        const account = await call("onedesk.one_mail.connect.connect", values);
-        asking.hide();
-        alert(__("Mailbox connected"));
-        goToUrl(`/desk/onemail?box=${encodeURIComponent(account)}`);
-      } finally {
-        asking.get_primary_btn().prop("disabled", false);
-      }
-    },
-  });
-  asking.show();
 }
 
 async function away() {

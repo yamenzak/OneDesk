@@ -1496,9 +1496,9 @@ msgstr "يُرسل الويب هوك عبر https."
 msgid "A workbook as it stood at one point in its history, whole: taken as it is saved, kept thinner as it ages, and kept for ever once somebody names it."
 msgstr "المصنف كاملًا كما كان في لحظة من تاريخه: يُلتقط عند الحفظ، ويُخفَّف كلما تقادم، ويُحفظ إلى الأبد متى أطلق عليه أحد اسمًا."
 
-#: onedesk/public/js/onemail.js:792
-msgid "A workspace address such as sales@. You choose who has access."
-msgstr "عنوان لمساحة العمل مثل sales@. أنت تختار من يمكنه الوصول إليه."
+#: onedesk/public/js/onemail_settings.js:187
+msgid "A workspace address such as sales@. Add its users after connecting."
+msgstr "عنوان لمساحة العمل مثل sales@. أضف مستخدميه بعد الربط."
 
 #: onedesk/one_admin/domains.py:29
 msgid "A workspace can have at most {0} custom domains."
@@ -8557,7 +8557,8 @@ msgstr "إرسال طلبات التأكيد إلى البنوك والعملا�
 msgid "Confirmed"
 msgstr "تم التأكيد"
 
-#: onedesk/public/js/onecloud.js:1550 onedesk/public/js/onemail.js:803
+#: onedesk/public/js/onecloud.js:1550 onedesk/public/js/onecloud_dialogs.js:319
+#: onedesk/public/js/onemail.js:803 onedesk/public/js/onemail_settings.js:190
 msgid "Connect"
 msgstr "اتصال"
 
@@ -13740,7 +13741,7 @@ msgstr "تفعيل الرد التلقائي"
 msgid "Enable Item"
 msgstr "تفعيل الصنف"
 
-#: onedesk/public/js/onemail.js:786
+#: onedesk/public/js/onemail.js:786 onedesk/public/js/onemail_settings.js:212
 msgid "Enable Outgoing"
 msgstr "تفعيل الإرسال"
 
@@ -16752,10 +16753,6 @@ msgstr "عالمي"
 msgid "Global Bucket"
 msgstr "الحاوية العالمية"
 
-#: onedesk/public/js/onemail.js:784 onedesk/public/js/settings.js:436
-msgid "Gmail and Outlook need an app password."
-msgstr "يحتاج Gmail وOutlook إلى كلمة مرور تطبيق."
-
 #: onedesk/public/js/onemail_settings.js:161
 msgid "Gmail and Outlook require an app password."
 msgstr "يتطلب Gmail وOutlook كلمة مرور تطبيق."
@@ -18305,11 +18302,11 @@ msgstr "نوع وثيقة الهوية"
 msgid "ID Document Types"
 msgstr "أنواع وثائق الهوية"
 
-#: onedesk/public/js/onemail.js:797
+#: onedesk/public/js/onemail.js:797 onedesk/public/js/onemail_settings.js:216
 msgid "IMAP Port"
 msgstr "منفذ IMAP"
 
-#: onedesk/public/js/onemail.js:796
+#: onedesk/public/js/onemail.js:796 onedesk/public/js/onemail_settings.js:215
 msgid "IMAP Server"
 msgstr "خادم IMAP"
 
@@ -18373,10 +18370,6 @@ msgstr "إذا وافقت على هذا الطلب، ما الذي يُحذف، 
 #: onedesk/www/welcome.html:21
 msgid "If a payment went through, the receipt is in your email and somebody will be in touch."
 msgstr "إن تمت دفعة، فالإيصال في بريدك وسيتواصل معك أحد."
-
-#: onedesk/public/js/onemail.js:795
-msgid "If different from the email address"
-msgstr "إن كان مختلفًا عن عنوان البريد الإلكتروني"
 
 #. Description of the 'allow_geolocation_tracking' field in DocType 'HR
 #. Settings'
@@ -22517,7 +22510,7 @@ msgstr "صندوق البريد غير متاح"
 msgid "Mailbox Shared With You"
 msgstr "صندوق بريد مشترك معك"
 
-#: onedesk/public/js/onemail.js:809
+#: onedesk/public/js/onemail.js:809 onedesk/public/js/onemail_settings.js:198
 msgid "Mailbox connected"
 msgstr "تم ربط صندوق البريد"
 
@@ -35142,11 +35135,11 @@ msgstr "لـ SFTP فقط. يُستخدم بدلًا من كلمة المرور."
 msgid "SHA-256 of the token written into the site's config."
 msgstr "بصمة SHA-256 للرمز المكتوب في إعدادات الموقع."
 
-#: onedesk/public/js/onemail.js:801
+#: onedesk/public/js/onemail.js:801 onedesk/public/js/onemail_settings.js:220
 msgid "SMTP Port"
 msgstr "منفذ SMTP"
 
-#: onedesk/public/js/onemail.js:800
+#: onedesk/public/js/onemail.js:800 onedesk/public/js/onemail_settings.js:219
 msgid "SMTP Server"
 msgstr "خادم SMTP"
 
@@ -45344,7 +45337,7 @@ msgstr "استخدام القائمة"
 msgid "Use My Location"
 msgstr "استخدام موقعي"
 
-#: onedesk/public/js/onemail.js:798
+#: onedesk/public/js/onemail.js:798 onedesk/public/js/onemail_settings.js:217
 msgid "Use SSL"
 msgstr "استخدام SSL"
 
