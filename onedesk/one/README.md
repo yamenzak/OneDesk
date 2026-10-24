@@ -1418,7 +1418,7 @@ OneAI offers **Approve bills by amount** and **Who approves what?** It
 suggests a new or changed approval as a card you approve. The approval then
 opens in the builder, laid out, to edit like any other.
 
-A bill OneIntake drafted waits in **Ready to Submit**. **Submit All** takes
+A bill OneIntake drafted waits in **Ready to Submit**. **Submit** takes
 the approval's step when the step is waiting on your role. Otherwise it says
 who it's waiting for. OneAI never takes a step itself.
 

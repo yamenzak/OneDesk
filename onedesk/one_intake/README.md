@@ -298,9 +298,11 @@ permission to submit, where:
   hours carry no tax and the bill takes the workspace's)
 - for a bill from an order, quantities and prices match the order
 
-**Submit All** submits them as you. Drafts that fail a check, including a bill
-with an IBAN that isn't on file for the supplier, are listed in red under
-**Needs Review** with the reason, and stay there until someone opens them.
+It is a report, one line per draft, the ready ones first. Tick the ones to
+post and press **Submit**: they are submitted as you. Drafts that fail a
+check, including a bill with an IBAN that isn't on file for the supplier, are
+marked **Needs Review** with the reason, can't be submitted from the report,
+and stay there until someone opens them.
 
 A workspace can let OneAI submit e-invoices from known suppliers that are
 billed from an order and ready (**Submit Matching E-Invoices** in Intake
@@ -772,7 +774,7 @@ of it, numbered §1 to §16, which the code's docstrings cite.
   check, the party is known, the total is the document's, and for a bill from
   an order, ERPNext's own three-way match says what it bills was ordered and
   received. A document IBAN we do not have for the supplier, or any other
-  failed check, makes it red, and red drafts stay out of Submit All until
+  failed check, makes it red, and red drafts stay out of Submit until
   somebody opens them. Submitting is the person's own act, under their own
   permission. The optional e-invoice submit (off by default) is here too.
 - `plans.enrich` fills a matched party's empty fields from the reading,
@@ -1172,7 +1174,7 @@ order, an invoice to both (ERPNext's three-way match). A billed quantity or
 price that differs from what was received or ordered is red. Posting stays a
 person's act: OneBook's **Ready to Submit** lists every OneAI draft whose
 facts all passed, whose party is known and whose amounts match, and a person
-reads down it and presses **Submit All**. Anything red stays out until
+ticks down it and presses **Submit**. Anything marked for review stays out until
 somebody opens it.
 
 **How it is paid matters.** An invoice paid by direct debit, or a receipt
@@ -1272,7 +1274,7 @@ mark until a person has looked at it**.
 
 It is one `AI Touch` row per record, with `*` for the field. **What clears
 it**: a person saving a change, submitting, cancelling, pressing Mark as
-Checked or Submit All, or merging another record into it. **What does not**:
+Checked or Submit on Ready to Submit, or merging another record into it. **What does not**:
 opening it, ERPNext updating it in the background (`db_set` runs no save
 hooks), or another OneAI action. So the mark means exactly "nobody has
 looked at this".

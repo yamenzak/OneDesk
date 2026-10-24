@@ -312,7 +312,7 @@ EVERYTHING = (
 	("payables", _lt("Purchase Invoice"), "DocType", "Purchase Invoice", _lt("What suppliers have billed you.")),
 	("payables", _lt("Debit Note"), "DocType", "Purchase Invoice", _lt("Money a supplier gives back, against their invoice."), {"is_return": 1}),
 	("payables", _lt("Supplier"), "DocType", "Supplier", _lt("Who you buy from, and what you owe each.")),
-	("payables", _lt("Ready to Submit"), "Page", "ready-to-submit", _lt("Bills read from mail and scans, waiting to be submitted.")),
+	("payables", _lt("Ready to Submit"), "Report", "Ready to Submit", _lt("Bills read from mail and scans, waiting to be submitted.")),
 	("payables", _lt("Import Supplier Invoice"), "DocType", "Import Supplier Invoice", _lt("Suppliers' electronic invoices read in from a zip file.")),
 	("payments", _lt("Payment Entry"), "DocType", "Payment Entry", _lt("Money received from customers and paid to suppliers.")),
 	("payments", _lt("Journal Entry"), "DocType", "Journal Entry", _lt("Anything that is not an invoice or a payment: corrections, accruals, opening balances.")),

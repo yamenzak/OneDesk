@@ -7478,10 +7478,6 @@ msgstr "سجّل الحضور"
 msgid "Checked Out"
 msgstr "سجّل الانصراف"
 
-#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:46
-msgid "Checked against the document and order"
-msgstr "تمت مطابقتها مع المستند والطلب"
-
 #: onedesk/one_hr/employee.py:130 onedesk/one_hr/presence.py:169
 msgid "Checked in"
 msgstr "سجّل الحضور"
@@ -16634,10 +16630,6 @@ msgstr "أدخل موضوعًا أو قالب بريد"
 msgid "Give each line a share done between 0 and 100, and at least one above 0."
 msgstr "أعطِ كل بند نسبة إنجاز بين 0 و100، وبندًا واحدًا على الأقل فوق 0."
 
-#: onedesk/one/masters.py:190 onedesk/one/masters.py:232
-msgid "Give it a name."
-msgstr "أعطه اسمًا."
-
 #: onedesk/one_project/budget.py:199
 msgid "Give the cost type a budget."
 msgstr "حدّد ميزانية لنوع التكلفة."
@@ -25082,10 +25074,6 @@ msgstr "لا توجد مستندات هذا الشهر"
 msgid "No domains"
 msgstr "لا توجد نطاقات"
 
-#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:45
-msgid "No drafts to submit"
-msgstr "لا توجد مسودات للإرسال"
-
 #: frontend/src/sheet/components/SheetEditor/CellHistoryPopover.vue:8
 msgid "No edits recorded for this cell yet."
 msgstr "لم تُسجَّل أي تعديلات لهذه الخلية بعد."
@@ -25224,10 +25212,6 @@ msgstr "لا توجد شركة مصنّعة"
 #: onedesk/one_admin/heads.py:503
 msgid "No markup is set, so this model can't be called."
 msgstr "لم يُحدد هامش ربح، لذا لا يمكن استدعاء هذا النموذج."
-
-#: onedesk/one/page/masters/masters.js:74
-msgid "No masters"
-msgstr "لا توجد بيانات أساسية"
 
 #: frontend/src/sheet/components/SheetEditor/FindReplace.vue:86
 #: onedesk/one/page/masters/masters.js:125 onedesk/public/js/crumb_switch.js:56
@@ -26085,10 +26069,6 @@ msgstr "لم تتم المزامنة بعد."
 #: onedesk/public/js/settings.js:2622
 msgid "Not used"
 msgstr "غير مستخدم"
-
-#: onedesk/one/page/masters/masters.js:157
-msgid "Not used on any record"
-msgstr "غير مستخدم في أي سجل"
 
 #: frontend/src/template/TemplatePage.vue:11
 msgid "Not used yet"
@@ -39169,10 +39149,6 @@ msgstr "الموضوع أو النص يحتوي على \"{0}\""
 msgid "Submit"
 msgstr ""
 
-#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:15
-msgid "Submit All"
-msgstr "اعتماد الكل"
-
 #. Label of the submit_einvoices (Check) field in DocType 'Intake Settings'
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
 msgid "Submit Matching E-Invoices"
@@ -43386,6 +43362,10 @@ msgstr "الخميس"
 msgid "Tick the box to agree."
 msgstr "ضع علامة في المربع للموافقة."
 
+#: onedesk/one_intake/report/ready_to_submit/ready_to_submit.js:20
+msgid "Tick the ready drafts to submit"
+msgstr "حدّد المسودات الجاهزة لتقديمها"
+
 #. Description of the 'completed' field in DocType 'Timesheet Detail'
 #: onedesk/one_hr/custom/timesheet_detail.json
 msgid "Ticked when the timer finished this block, or by hand. An unticked row with no To Time is the one the timer resumes."
@@ -45421,14 +45401,6 @@ msgstr "يُستخدم لـ {0}."
 msgid "Used in URLs. Do not change it once the offering has been sold."
 msgstr "يُستعمل في الروابط. لا تغيّره بعد بيع العرض."
 
-#: onedesk/one/page/masters/masters.js:157
-msgid "Used on 1 record"
-msgstr "مستخدم في سجل واحد"
-
-#: onedesk/one/page/masters/masters.js:157
-msgid "Used on {0} records"
-msgstr "مستخدم في {0} سجل"
-
 #: onedesk/public/js/settings.js:530
 msgid "Used to check in."
 msgstr "يُستخدم لتسجيل الحضور."
@@ -46237,10 +46209,6 @@ msgstr "أسبوعي"
 #: onedesk/public/js/settings.js:3083
 msgid "Weekly Days Off"
 msgstr "أيام العطلة الأسبوعية"
-
-#: onedesk/public/js/setup_wizard.js:51
-msgid "Weekly Off"
-msgstr ""
 
 #: onedesk/one_hr/employee.py:250
 msgid "Weekly off"
@@ -49579,9 +49547,6 @@ msgstr "نسبة الفوز (90 يوماً)"
 #: onedesk/one/letter_heads.py:21
 msgid "Window"
 msgstr "نافذة"
-
-msgid "Window Preview"
-msgstr "معاينة النافذة"
 
 #: onedesk/public/js/onecloud.js:1699
 msgid "Windows"

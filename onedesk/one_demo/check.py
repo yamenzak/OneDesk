@@ -3679,7 +3679,7 @@ def one_oneai_turned_off_asks_nothing_and_oneintake_reads_nothing():
 			labels = {item.get("label") for item in sidebars["One"]["items"] if item.get("type") == "Section Break"}
 			assert not labels & {"OneAI", "OneIntake"}, labels
 			assert "One Intake" not in sidebars
-			assert all(item.get("link_to") != "ready-to-submit" for item in (sidebars.get("OneBook") or {}).get("items", []))
+			assert all(item.get("link_to") != "Ready to Submit" for item in (sidebars.get("OneBook") or {}).get("items", []))
 			apps.save(["OneIntake"])
 			assert apps.ai_on() and not apps.intake_on()
 			apps.save([])

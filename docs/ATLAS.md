@@ -974,9 +974,9 @@ Pages: onehr (on a rail or a home).
 | Intake Settings | inside: Workspace Settings › OneIntake | the administrator | untouched | no | general |  |  |  |  |  |  |
 | Reading | inside: a OneIntake document's Reading | the administrator | untouched | yes | taught |  | yes |  |  |  | Couldn't Read, Phishing |
 
-Reports: Deadlines (on a rail or a home); Spending (on a rail or a home).
+Reports: Deadlines (on a rail or a home); Ready to Submit (on a rail or a home); Spending (on a rail or a home).
 
-Pages: intake (on a rail or a home); ready-to-submit (on a rail or a home).
+Pages: intake (on a rail or a home).
 
 ## onedesk / One Inventory
 

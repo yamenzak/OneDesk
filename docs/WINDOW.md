@@ -42,7 +42,7 @@ shell, lists that only shrink; when they are empty the shell is deleted.
 | Page on the shell | Becomes |
 |---|---|
 | Masters | 1, moved: each kind's frappe list, the kinds as a tree in the nav pane |
-| Ready to Submit | sorted when reached |
+| Ready to Submit | 1, moved: a script report with a checkbox column and Submit |
 | Intake | sorted when reached |
 | Agreements (legal) | sorted when reached |
 | OneCalendar | 2: a product |

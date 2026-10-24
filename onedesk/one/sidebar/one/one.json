@@ -588,8 +588,8 @@
    "child": 1,
    "type": "Link",
    "label": "Ready to Submit",
-   "link_type": "Page",
-   "link_to": "ready-to-submit",
+   "link_type": "Report",
+   "link_to": "Ready to Submit",
    "icon": "file-check",
    "idx": 51
   },

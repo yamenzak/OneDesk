@@ -26,7 +26,6 @@ ON_THE_SHELL = {
 	"workspace_settings": ("public/js/settings.js", "public/css/settings.css"),
 	"legal": ("one_legal/page/legal/legal.js", "public/css/legal.css"),
 	"intake": ("one_intake/page/intake/intake.js", "public/css/intake.css"),
-	"ready_to_submit": ("one_intake/page/ready_to_submit/ready_to_submit.js", "public/css/intake.css"),
 	"onecalendar": (
 		"one_calendar/page/onecalendar/onecalendar.js",
 		"one_calendar/page/onecalendar/onecalendar.css",
@@ -46,7 +45,6 @@ USE_THE_SHELL = {
 	"one/page/workspace_settings/workspace_settings.js",
 	"one_calendar/page/onecalendar/onecalendar.js",
 	"one_intake/page/intake/intake.js",
-	"one_intake/page/ready_to_submit/ready_to_submit.js",
 	"one_legal/page/legal/legal.js",
 	"one_mail/page/onemail/onemail.js",
 	"one_storage/page/onecloud/onecloud.js",

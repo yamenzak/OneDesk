@@ -7478,10 +7478,6 @@ msgstr "Eingecheckt"
 msgid "Checked Out"
 msgstr "Ausgecheckt"
 
-#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:46
-msgid "Checked against the document and order"
-msgstr "Mit Dokument und Bestellung abgeglichen"
-
 #: onedesk/one_hr/employee.py:130 onedesk/one_hr/presence.py:169
 msgid "Checked in"
 msgstr "Eingecheckt"
@@ -16634,10 +16630,6 @@ msgstr "Gib einen Betreff oder eine Mailvorlage an"
 msgid "Give each line a share done between 0 and 100, and at least one above 0."
 msgstr "Gib jeder Zeile einen erledigten Anteil zwischen 0 und 100, und mindestens einer über 0."
 
-#: onedesk/one/masters.py:190 onedesk/one/masters.py:232
-msgid "Give it a name."
-msgstr "Geben Sie ihm einen Namen."
-
 #: onedesk/one_project/budget.py:199
 msgid "Give the cost type a budget."
 msgstr "Geben Sie der Kostenart ein Budget."
@@ -25082,10 +25074,6 @@ msgstr "Keine Dokumente in diesem Monat"
 msgid "No domains"
 msgstr "Keine Domains"
 
-#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:45
-msgid "No drafts to submit"
-msgstr "Keine Entwürfe zum Buchen"
-
 #: frontend/src/sheet/components/SheetEditor/CellHistoryPopover.vue:8
 msgid "No edits recorded for this cell yet."
 msgstr "Für diese Zelle wurden noch keine Bearbeitungen erfasst."
@@ -25224,10 +25212,6 @@ msgstr "Kein Hersteller"
 #: onedesk/one_admin/heads.py:503
 msgid "No markup is set, so this model can't be called."
 msgstr "Es ist kein Aufschlag festgelegt, daher kann dieses Modell nicht aufgerufen werden."
-
-#: onedesk/one/page/masters/masters.js:74
-msgid "No masters"
-msgstr "Keine Stammdaten"
 
 #: frontend/src/sheet/components/SheetEditor/FindReplace.vue:86
 #: onedesk/one/page/masters/masters.js:125 onedesk/public/js/crumb_switch.js:56
@@ -26085,10 +26069,6 @@ msgstr "Noch nicht synchronisiert."
 #: onedesk/public/js/settings.js:2622
 msgid "Not used"
 msgstr "Nicht genutzt"
-
-#: onedesk/one/page/masters/masters.js:157
-msgid "Not used on any record"
-msgstr "In keinem Datensatz verwendet"
 
 #: frontend/src/template/TemplatePage.vue:11
 msgid "Not used yet"
@@ -39169,10 +39149,6 @@ msgstr "Betreff oder Text enthält \"{0}\""
 msgid "Submit"
 msgstr ""
 
-#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:15
-msgid "Submit All"
-msgstr "Alle buchen"
-
 #. Label of the submit_einvoices (Check) field in DocType 'Intake Settings'
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
 msgid "Submit Matching E-Invoices"
@@ -43386,6 +43362,10 @@ msgstr "Donnerstag"
 msgid "Tick the box to agree."
 msgstr "Setze das Häkchen, um zuzustimmen."
 
+#: onedesk/one_intake/report/ready_to_submit/ready_to_submit.js:20
+msgid "Tick the ready drafts to submit"
+msgstr "Wählen Sie die fertigen Entwürfe zum Buchen aus"
+
 #. Description of the 'completed' field in DocType 'Timesheet Detail'
 #: onedesk/one_hr/custom/timesheet_detail.json
 msgid "Ticked when the timer finished this block, or by hand. An unticked row with no To Time is the one the timer resumes."
@@ -45421,14 +45401,6 @@ msgstr "Verwendet für {0}."
 msgid "Used in URLs. Do not change it once the offering has been sold."
 msgstr "Wird in URLs verwendet. Nach dem ersten Verkauf nicht mehr ändern."
 
-#: onedesk/one/page/masters/masters.js:157
-msgid "Used on 1 record"
-msgstr "In 1 Datensatz verwendet"
-
-#: onedesk/one/page/masters/masters.js:157
-msgid "Used on {0} records"
-msgstr "In {0} Datensätzen verwendet"
-
 #: onedesk/public/js/settings.js:530
 msgid "Used to check in."
 msgstr "Zum Einstempeln."
@@ -46237,10 +46209,6 @@ msgstr "Wöchentlich"
 #: onedesk/public/js/settings.js:3083
 msgid "Weekly Days Off"
 msgstr "Wöchentliche freie Tage"
-
-#: onedesk/public/js/setup_wizard.js:51
-msgid "Weekly Off"
-msgstr ""
 
 #: onedesk/one_hr/employee.py:250
 msgid "Weekly off"
@@ -49579,9 +49547,6 @@ msgstr "Gewinnquote (90 Tage)"
 #: onedesk/one/letter_heads.py:21
 msgid "Window"
 msgstr "Fenster"
-
-msgid "Window Preview"
-msgstr "Fenstervorschau"
 
 #: onedesk/public/js/onecloud.js:1699
 msgid "Windows"

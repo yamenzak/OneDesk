@@ -82,3 +82,4 @@ onedesk.one_project.patches.stock_counted_once
 onedesk.one_inventory.patches.sizes_say_their_unit
 onedesk.one_sheet.patches.templates_are_their_sheets
 onedesk.one_ai.patches.asked_in_the_panel
+onedesk.one_intake.patches.ready_to_submit_is_a_report

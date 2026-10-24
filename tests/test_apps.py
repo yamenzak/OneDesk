@@ -61,13 +61,13 @@ def test_oneai_and_oneintake_off_leave_ones_sidebar_and_others_links():
 		{"type": "Section Break", "label": "OneAI"},
 		{"type": "Link", "label": "Actions", "link_to": "workspace-settings", "route_options": '{"section": "oneai"}'},
 		{"type": "Section Break", "label": "OneIntake"},
-		{"type": "Link", "label": "Ready to Submit", "link_to": "ready-to-submit"},
+		{"type": "Link", "label": "Ready to Submit", "link_to": "Ready to Submit"},
 		{"type": "Section Break", "label": "Audit Log"},
 		{"type": "Link", "label": "Changes", "link_to": "Version"},
 	]
 	kept, gone = space["sectioned"](items, {"OneIntake"})
 	assert [one["label"] for one in kept] == ["What OneAI Remembers", "OneAI", "Actions", "Audit Log", "Changes"]
-	assert gone == {("ready-to-submit", "null")}
+	assert gone == {("Ready to Submit", "null")}
 	kept, gone = space["sectioned"](items, {"OneAI", "OneIntake"})
 	assert [one["label"] for one in kept] == ["Audit Log", "Changes"], "What OneAI Remembers goes with OneAI"
 	assert ("workspace-settings", '{"section": "oneai"}') in gone

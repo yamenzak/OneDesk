@@ -2811,7 +2811,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				["quiet_minutes", "_"],
 				{ heading: __("OneBook"), mark: marks.OneBook },
 				{ stack: ["household", "submit_einvoices"] },
-				{ html: links([["/desk/ready-to-submit", __("Ready to Submit")], ["/desk/query-report/Spending", __("Spending")]]) },
+				{ html: links([["/desk/query-report/Ready to Submit", __("Ready to Submit")], ["/desk/query-report/Spending", __("Spending")]]) },
 				...((data.hr || []).length
 					? [
 							{ heading: __("OneHR"), note: __("Each uses OneAI credits."), mark: marks.OneHR },

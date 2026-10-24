@@ -97,10 +97,10 @@
    "is_default_module": 1,
    "keep_closed": 0,
    "label": "Ready to Submit",
-   "link_type": "Page",
+   "link_type": "Report",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "ready-to-submit",
+   "link_to": "Ready to Submit",
    "icon": "list-checks",
    "idx": 7
   },

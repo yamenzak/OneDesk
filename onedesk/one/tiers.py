@@ -167,7 +167,6 @@ SCREENS = {
 	"onecalendar": "everybody's calendar (Event, and the dated records shown on it)",
 	"onecloud": "the files (File)",
 	"intake": "what Intake read and did (Reading, Intake Action)",
-	"ready-to-submit": "drafts waiting to be submitted, across doctypes",
 	"masters": "the simple lists, one home each",
 	"legal": "the agreements a person has agreed to",
 	"settings": "the reader's own settings",

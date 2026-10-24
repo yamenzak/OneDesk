@@ -117,15 +117,6 @@
 	color: var(--ink-gray-7);
 }
 
-.oi-ready-table tr[data-tone="red"] td {
-	color: var(--ink-gray-7);
-}
-
-.oi-red-why {
-	color: var(--ink-red-7);
-	font-size: var(--text-xs);
-}
-
 .oi-pay {
 	display: flex;
 	flex-wrap: wrap;
