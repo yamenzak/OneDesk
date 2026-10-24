@@ -3278,10 +3278,6 @@ msgstr "رقم التخصيص"
 msgid "Allow Employees to Check In Themselves"
 msgstr "السماح للموظفين بتسجيل حضورهم بأنفسهم"
 
-#: onedesk/public/js/onemail_settings.js:338
-msgid "Allow External Mailboxes"
-msgstr "السماح بصناديق البريد الخارجية"
-
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:35
 msgid "Allow Grace Period"
 msgstr "السماح بفترة السماح"
@@ -3308,10 +3304,6 @@ msgstr ""
 #: frontend/src/item/ItemOverview.vue:112
 msgid "Allow Sales"
 msgstr ""
-
-#: onedesk/public/js/onemail_settings.js:326
-msgid "Allow Sending From Workspace Address"
-msgstr "السماح بالإرسال من عنوان مساحة العمل"
 
 #: onedesk/public/js/settings.js:305
 msgid "Allow notifications for this site in your browser settings."
@@ -8590,10 +8582,6 @@ msgstr "ربط خادم"
 msgid "Connect {0} as a drive"
 msgstr "توصيل {0} كمحرك أقراص"
 
-#: onedesk/public/js/settings.js:377 onedesk/public/js/settings.js:397
-msgid "Connected"
-msgstr "مرتبط"
-
 #. Label of the one_connected (Check) field in DocType 'Email Account'
 #: onedesk/one_mail/custom/email_account.json
 msgid "Connected to OneMail"
@@ -12942,9 +12930,9 @@ msgstr "في كل مرة يُحفظ فيها {0}، قبل التحقق منه"
 msgid "Each time a {0} is saved, before it is written"
 msgstr "في كل مرة يُحفظ فيها {0}، قبل كتابته"
 
-#: onedesk/public/js/onemail_settings.js:321
-msgid "Each user gets an address such as {0}."
-msgstr "يحصل كل مستخدم على عنوان مثل {0}."
+#: onedesk/public/js/onemail_settings.js:335
+msgid "Each user gets an address such as {0}. If disabled, it only receives mail."
+msgstr "يحصل كل مستخدم على عنوان مثل {0}. عند التعطيل، يستقبل البريد فقط."
 
 #: onedesk/public/js/settings.js:2868
 msgid "Each uses OneAI credits."
@@ -18395,10 +18383,6 @@ msgstr "إن كان مختلفًا عن عنوان البريد الإلكترو
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "If disabled, no check-in records where it came from and the location gate cannot run."
 msgstr "إذا عُطِّل، لا يسجّل أي تسجيل حضور مصدره ولا يمكن تشغيل التحقق من الموقع."
-
-#: onedesk/public/js/onemail_settings.js:327
-msgid "If disabled, the address only receives mail."
-msgstr "عند التعطيل، يستقبل العنوان البريد فقط."
 
 #. Description of the 'ignore_user_time_overlap' field in DocType 'Projects
 #. Settings'
@@ -33105,10 +33089,6 @@ msgstr "المستلمون الذين لم يرسلوا كل شيء"
 msgid "Reconciled"
 msgstr ""
 
-#: onedesk/public/js/settings.js:395 onedesk/public/js/settings.js:440
-msgid "Reconnect"
-msgstr "إعادة الاتصال"
-
 #. Label of the reference_name (Dynamic Link) field in DocType 'Portal Link'
 #. Label of the record_doctype (Link) field in DocType 'Record Head'
 #. Label of the record_doctype (Link) field in DocType 'Workspace
@@ -35900,6 +35880,10 @@ msgstr "فاصلة منقوطة"
 #: onedesk/www/r.html:47 onedesk/www/s.html:107
 msgid "Send"
 msgstr "إرسال"
+
+#: onedesk/public/js/onemail_settings.js:334
+msgid "Send From Workspace Addresses"
+msgstr "الإرسال من عناوين مساحة العمل"
 
 #: onedesk/public/js/portal_share.js:62 onedesk/www/your_data.html:37
 msgid "Send Link"
@@ -50008,10 +49992,6 @@ msgstr "حساب مساحة العمل"
 #: onedesk/one/doctype/workspace_add_on/workspace_add_on.json
 msgid "Workspace Add-on"
 msgstr "إضافة مساحة العمل"
-
-#: onedesk/public/js/onemail_settings.js:321
-msgid "Workspace Addresses"
-msgstr "عناوين مساحة العمل"
 
 #. Name of a role
 #: onedesk/one/doctype/device/device.json

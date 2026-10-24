@@ -31,10 +31,10 @@ needs a Cloudflare key with Zone Settings: Edit.
 - **Shared Mailboxes** (administrators): the workspace mailbox and every
   shared one. Open one to add or remove users, turn **Send** on or off per
   user, set it as the workspace mailbox, or disconnect it.
-- **Personal Addresses** (administrators): **Allow Sending From Workspace
-  Address**, and **Allow External Mailboxes** for mailboxes users connect
-  themselves. When allowed, **Allowed Domains** limits them to the domains
-  listed; leave it empty to allow any. Shared mailboxes are not affected.
+- **Personal Addresses** (administrators): **Send From Workspace
+  Addresses**, and **External Mailboxes** for mailboxes users connect
+  themselves. When on, **Allowed Domains** limits them to the domains listed;
+  leave it empty to allow any. Shared mailboxes are not affected.
 - **Mail Templates** (administrators): reusable email text.
 
 ## Connecting a mailbox
@@ -55,7 +55,7 @@ happen on the mail server too, so your phone stays in sync.
 **Who can connect what:**
 
 - Anyone can connect their own mailbox, unless an administrator has
-  turned off **Allow External Mailboxes**. No one else can see into it, not
+  turned off **External Mailboxes**. No one else can see into it, not
   even administrators.
 - A Workspace Administrator can tick **Shared Mailbox** to connect a
   workspace address such as `sales@yourcompany.com`, then choose in

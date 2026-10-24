@@ -314,32 +314,38 @@ onedesk.mail.settings = (tab) => {
 			const $body = panel.body.empty();
 			const example = `name.${said.slug || "workspace"}@${said.mail_domain}`;
 
-			$body.append(heading(__("Workspace Addresses"), __("Each user gets an address such as {0}.", [example])));
-			const own = fields($(`<div></div>`).appendTo($body), [
-				{
-					fieldname: "sends",
-					fieldtype: "Switch",
-					label: __("Allow Sending From Workspace Address"),
-					description: __("If disabled, the address only receives mail."),
-					default: said.personal_sends,
-				},
-			]);
-			own.get_field("sends").$input.on("change", async () => {
-				await frappe.xcall(H + "set_personal_sends", { on: own.get_value("sends") ? 1 : 0 });
-				saved();
-			});
+			// A heading with its switch at the end, saved as it changes.
+			const switched = (title, description, value, change) => {
+				const top = heading_with(title, description);
+				top.$row.appendTo($body);
+				const control = frappe.ui.form.make_control({
+					df: { fieldtype: "Switch", fieldname: "on", label: "" },
+					parent: $(`<span class="oms-switch"></span>`).appendTo(top.$end),
+					render_input: true,
+				});
+				control.set_value(value ? 1 : 0);
+				control.$input.on("change", async () => {
+					await change(control.get_value() ? 1 : 0);
+					saved();
+				});
+			};
 
-			$body.append(heading(__("External Mailboxes"), __("Mailboxes users connect themselves, such as Gmail or Outlook.")));
-			const outside = fields($(`<div></div>`).appendTo($body), [
-				{ fieldname: "external", fieldtype: "Switch", label: __("Allow External Mailboxes"), default: said.external },
-			]);
+			switched(
+				__("Send From Workspace Addresses"),
+				__("Each user gets an address such as {0}. If disabled, it only receives mail.", [example]),
+				said.personal_sends,
+				(on) => frappe.xcall(H + "set_personal_sends", { on })
+			);
+			switched(
+				__("External Mailboxes"),
+				__("Mailboxes users connect themselves, such as Gmail or Outlook."),
+				said.external,
+				async (on) => {
+					await frappe.xcall(H + "set_external", { on });
+					$domains.toggleClass("hide", !on);
+				}
+			);
 			const $domains = $(`<div class="oms-domains"></div>`).appendTo($body);
-			outside.get_field("external").$input.on("change", async () => {
-				const on = outside.get_value("external") ? 1 : 0;
-				await frappe.xcall(H + "set_external", { on });
-				$domains.toggleClass("hide", !on);
-				saved();
-			});
 			$domains.toggleClass("hide", !said.external);
 			const $top = $(`<div class="oms-heading">
 				<div><div class="oms-label">${esc(__("Allowed Domains"))}</div><div class="oms-help">${esc(__("Leave empty to allow any domain."))}</div></div>

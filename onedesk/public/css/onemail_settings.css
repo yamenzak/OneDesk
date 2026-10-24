@@ -189,3 +189,10 @@
 .oms .oms-heading-end .oms-add-pick {
 	width: 220px;
 }
+
+/* A later section whose heading carries a control keeps frappe's rule above it. */
+.oms .settings-dialog-panel-body > .oms-heading:not(:first-child) {
+	margin-top: var(--margin-md);
+	padding-top: var(--padding-sm);
+	border-top: 1px solid var(--outline-gray-2);
+}

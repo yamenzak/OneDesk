@@ -3278,10 +3278,6 @@ msgstr "Zuteilungs-Nr."
 msgid "Allow Employees to Check In Themselves"
 msgstr "Mitarbeitern erlauben, sich selbst einzuchecken"
 
-#: onedesk/public/js/onemail_settings.js:338
-msgid "Allow External Mailboxes"
-msgstr "Externe Postfächer erlauben"
-
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:35
 msgid "Allow Grace Period"
 msgstr "Kulanzzeit erlauben"
@@ -3308,10 +3304,6 @@ msgstr ""
 #: frontend/src/item/ItemOverview.vue:112
 msgid "Allow Sales"
 msgstr ""
-
-#: onedesk/public/js/onemail_settings.js:326
-msgid "Allow Sending From Workspace Address"
-msgstr "Senden von Arbeitsbereich-Adresse erlauben"
 
 #: onedesk/public/js/settings.js:305
 msgid "Allow notifications for this site in your browser settings."
@@ -8590,10 +8582,6 @@ msgstr "Server verbinden"
 msgid "Connect {0} as a drive"
 msgstr "{0} als Laufwerk verbinden"
 
-#: onedesk/public/js/settings.js:377 onedesk/public/js/settings.js:397
-msgid "Connected"
-msgstr "Verbunden"
-
 #. Label of the one_connected (Check) field in DocType 'Email Account'
 #: onedesk/one_mail/custom/email_account.json
 msgid "Connected to OneMail"
@@ -12942,9 +12930,9 @@ msgstr "Jedes Mal, wenn ein Datensatz vom Typ {0} gespeichert wird, bevor er gep
 msgid "Each time a {0} is saved, before it is written"
 msgstr "Jedes Mal, wenn ein Datensatz vom Typ {0} gespeichert wird, bevor er geschrieben wird"
 
-#: onedesk/public/js/onemail_settings.js:321
-msgid "Each user gets an address such as {0}."
-msgstr "Jeder Benutzer erhält eine Adresse wie {0}."
+#: onedesk/public/js/onemail_settings.js:335
+msgid "Each user gets an address such as {0}. If disabled, it only receives mail."
+msgstr "Jeder Benutzer erhält eine Adresse wie {0}. Wenn deaktiviert, empfängt sie nur E-Mails."
 
 #: onedesk/public/js/settings.js:2868
 msgid "Each uses OneAI credits."
@@ -18395,10 +18383,6 @@ msgstr "Falls abweichend von der E-Mail-Adresse"
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "If disabled, no check-in records where it came from and the location gate cannot run."
 msgstr "Ist dies deaktiviert, erfasst kein Einchecken seine Herkunft und die Standortprüfung kann nicht laufen."
-
-#: onedesk/public/js/onemail_settings.js:327
-msgid "If disabled, the address only receives mail."
-msgstr "Wenn deaktiviert, empfängt die Adresse nur E-Mails."
 
 #. Description of the 'ignore_user_time_overlap' field in DocType 'Projects
 #. Settings'
@@ -33105,10 +33089,6 @@ msgstr "Empfänger, die noch nicht alles gesendet haben"
 msgid "Reconciled"
 msgstr ""
 
-#: onedesk/public/js/settings.js:395 onedesk/public/js/settings.js:440
-msgid "Reconnect"
-msgstr "Neu verbinden"
-
 #. Label of the reference_name (Dynamic Link) field in DocType 'Portal Link'
 #. Label of the record_doctype (Link) field in DocType 'Record Head'
 #. Label of the record_doctype (Link) field in DocType 'Workspace
@@ -35900,6 +35880,10 @@ msgstr "Semikolon"
 #: onedesk/www/r.html:47 onedesk/www/s.html:107
 msgid "Send"
 msgstr "Senden"
+
+#: onedesk/public/js/onemail_settings.js:334
+msgid "Send From Workspace Addresses"
+msgstr "Von Arbeitsbereich-Adressen senden"
 
 #: onedesk/public/js/portal_share.js:62 onedesk/www/your_data.html:37
 msgid "Send Link"
@@ -50008,10 +49992,6 @@ msgstr "Arbeitsbereich-Konto"
 #: onedesk/one/doctype/workspace_add_on/workspace_add_on.json
 msgid "Workspace Add-on"
 msgstr "Arbeitsbereichs-Zusatzpaket"
-
-#: onedesk/public/js/onemail_settings.js:321
-msgid "Workspace Addresses"
-msgstr "Arbeitsbereich-Adressen"
 
 #. Name of a role
 #: onedesk/one/doctype/device/device.json
