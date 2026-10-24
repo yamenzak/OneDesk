@@ -220,6 +220,7 @@ const treeRows = computed(() => {
       open: !shut,
       warn: one.error || "",
       count: shut && one.unread ? one.unread : "",
+      actions: true,
     });
     if (shut) continue;
     for (const each of one.folders || []) {
@@ -233,6 +234,7 @@ const treeRows = computed(() => {
         strong: Boolean(each.unread),
         count: each.unread && each.kind !== "Sent" && each.kind !== "Trash" ? each.unread : "",
         href: `/desk/onemail?box=${encodeURIComponent(one.name)}&folder=${encodeURIComponent(each.name)}`,
+        actions: each.kind === "Other",
       });
     }
   }
@@ -259,9 +261,10 @@ const tree = windowTree(props.win, {
   menu: folderMenu,
 });
 
-// Right-click in the nav pane: a folder in a mailbox or in a folder, and
-// renaming or deleting one of the user's own. The server does the same on
-// the mail server (actions.py).
+// A mailbox's … in the nav pane makes a folder in it; a folder the user
+// made can also hold one, be renamed or be deleted. Inbox, Sent and the
+// other standard folders have none. The server does the same on the mail
+// server (actions.py).
 function folderMenu(id) {
   if (id.startsWith(BOX)) return [{ label: __("New Folder"), icon: "folder-plus", onClick: () => newFolder(id.slice(BOX.length)) }];
   const [boxName, folderName] = JSON.parse(id.slice(FOLDER.length));

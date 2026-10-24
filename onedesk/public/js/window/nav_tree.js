@@ -4,7 +4,7 @@
 // tree; a screen hands it rows and is told what was done to them.
 //
 //   rows   [{ id, label, note, icon, depth, open, active, count, href, title,
-//             strong, warn }] in order, as deep as the screen opened them.
+//             strong, warn, actions }] in order, as deep as the screen opened them.
 //          `note` is a second, quieter line under the label (a mailbox's
 //          address).
 //          `open` is true or false on a row that holds others and absent
@@ -16,8 +16,10 @@
 //          the row is lit until the drag leaves or drops.
 //   leave  (id) the drag left a row.
 //   drop   (id, event) it was dropped there.
-//   menu   (id) a row was right-clicked; answers frappe.ui.ContextMenu's
-//          items for it ({ label, icon, theme, onclick }), or none.
+//   menu   (id) a row with `actions` was right-clicked or its … clicked;
+//          answers frappe.ui.ContextMenu's items ({ label, icon, theme,
+//          onclick }). A row without `actions` has no … and keeps the
+//          browser's own right-click.
 onedesk.window.Tree = class Tree {
 	constructor($host, spec = {}) {
 		this.$host = $host.addClass("one-window-tree").attr("role", "tree");
@@ -48,7 +50,7 @@ onedesk.window.Tree = class Tree {
 					: `<span class="one-window-twisty"></span>`;
 				const warn = row.warn ? `<span class="one-window-warn" title="${esc(row.warn)}">${icon("triangle-alert")}</span>` : "";
 				const count = row.count ? `<span class="one-window-count">${esc(String(row.count))}</span>` : "";
-				const more = this.spec.menu
+				const more = this.spec.menu && row.actions
 					? `<span class="one-window-more" data-more role="button" aria-label="${__("More")}" title="${__("More")}">${icon("ellipsis")}</span>`
 					: "";
 				const lit = `${row.active ? " active-sidebar" : ""}${row.strong ? " one-window-strong" : ""}${row.note ? " one-window-noted" : ""}`;
@@ -57,7 +59,7 @@ onedesk.window.Tree = class Tree {
 							row.note
 					  )}</span></span>`
 					: `<span class="sidebar-item-label">${esc(row.label)}</span>`;
-				return `<div class="standard-sidebar-item${lit}" role="treeitem" data-id="${esc(row.id)}" style="--depth:${cint(row.depth)}"${
+				return `<div class="standard-sidebar-item${lit}" role="treeitem" data-id="${esc(row.id)}"${row.actions ? " data-actions" : ""} style="--depth:${cint(row.depth)}"${
 					holds ? ` aria-expanded="${row.open}"` : ""
 				}${row.active ? ` aria-current="page"` : ""}><a class="item-anchor" href="${esc(row.href || "#")}" title="${esc(
 					row.title || row.label
@@ -70,6 +72,7 @@ onedesk.window.Tree = class Tree {
 	bind() {
 		const id = (e) => $(e.currentTarget).closest("[data-id]").attr("data-id");
 		this.$host
+			.on("contextmenu", "[data-id]:not([data-actions])", (e) => e.stopImmediatePropagation())
 			.on("click", "[data-twist]", (e) => {
 				e.preventDefault();
 				e.stopPropagation();
