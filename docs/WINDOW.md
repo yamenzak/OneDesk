@@ -302,9 +302,7 @@ An adapter is one file per kind of frappe view. It wraps the one frappe
 method where that view has what the window wants, hands those nodes (frappe's
 own, which frappe still shows, hides and relabels) to `view`, and installs
 through `onedesk.window.adapt(kind)`, which runs it only where the kind is
-covered: `ON` (pages that ask) for everybody, `TRIAL` (every other kind)
-for whoever turned the preview on. A kind leaves the trial by moving from
-one list to the other.
+covered: `ON`, which now holds every kind, for everybody.
 
 Two of frappe's views are defined only when their code first loads, after
 ours: Kanban v2 and the print view. Their adapters wait with
@@ -339,9 +337,8 @@ own wrapper. A list's paging is moved into the status row as a node, which
 frappe keeps a reference to, so its buttons keep their handlers.
 
 `onedesk.window.of(page)` makes or returns a page's window.
-`frappe.ui.make_app_page` gives one to every page that asks
-(`{ one_window: true }`, which `onedesk.shell.page` passes on) and, while
-the trial is on, to every page.
+`frappe.ui.make_app_page` gives one to every page but one inside a dialog
+(a record being made), whose page is the dialog's.
 
 Below 992 px nothing moves: frappe's own phone and tablet head stay, and
 the window's buttons hide.
@@ -373,12 +370,12 @@ it leaves out because they may not read it. Typed into a box that searches
 on every key, that was a dialog on every key, so `outside.search` keeps the
 records left out and drops the messages.
 
-## The trial
+## Who it covers
 
-OneCloud is on the window for everybody. Lists and forms are on it for
-whoever turns on **Window Preview** in the user menu (kept per browser),
-until each kind has been walked like the screen walks before it. Nothing
-else changes for anybody who has not.
+Everybody, on every kind of view: page, list, board, report, tree, form,
+print and workspace. Each was walked before it joined, and the Window
+Preview switch that held them back is gone. Below 992 px frappe's own
+phone and tablet head stay, as before.
 
 ## What each view tells the window
 
@@ -403,8 +400,8 @@ only hands parts to `view`, never reaching into the frame's rows; the window
 adds and never replaces frappe's head (it keeps `page.$title_area` and the
 actions where frappe made them); only `css/window/` styles `.one-window-*`; OneCloud on a page draws no bar,
 address bar, tree or status of its own; the nav width stays inside its
-limits and is kept; the trial switch is the only thing that puts lists and
-forms on it.
+limits and is kept; every kind of view is on it, for everybody, with no
+preview left to turn on.
 
 The engine names no screen. `window/` and `band.js` work from what frappe
 says a screen has, so no doctype, field or route of one screen appears in

@@ -33,22 +33,12 @@ $.extend(onedesk.window, {
 		return frappe.model.user_settings.save(onedesk.window.SETTINGS, key, value);
 	},
 
-	trial() {
-		return !!onedesk.window.kept("trial", false);
-	},
-
-	set_trial(on) {
-		onedesk.window.keep("trial", !!on).then(() => window.location.reload());
-	},
-
-	// Which kinds of view are on the window: a page that asks for it always,
-	// the rest while the trial is on. A kind leaves the trial by moving from
-	// TRIAL to ON, and that is the whole of it.
-	ON: ["page"],
-	TRIAL: ["list", "board", "report", "tree", "form", "print", "workspace"],
+	// The kinds of view on the window, for everybody: each was walked before
+	// it joined (docs/WINDOW.md).
+	ON: ["page", "list", "board", "report", "tree", "form", "print", "workspace"],
 
 	covers(kind) {
-		return onedesk.window.ON.includes(kind) || (onedesk.window.trial() && onedesk.window.TRIAL.includes(kind));
+		return onedesk.window.ON.includes(kind);
 	},
 
 	// An adapter puts one kind of frappe's views on the window. It installs
@@ -554,7 +544,7 @@ onedesk.window.current = () => {
 		const page = make.call(this, opts);
 		// A page in a dialog (a record being made) is the dialog's, not a window.
 		const in_dialog = opts && opts.parent && $(opts.parent).closest(".modal").length > 0;
-		if (page && !in_dialog && (opts.one_window || onedesk.window.trial())) onedesk.window.of(page, { fit: !!opts.one_window_fit });
+		if (page && !in_dialog) onedesk.window.of(page, { fit: !!opts.one_window_fit });
 		return page;
 	};
 	frappe.ui.make_app_page.one_window = true;
@@ -580,4 +570,3 @@ onedesk.window.current = () => {
 	$(() => setTimeout(() => onedesk.window.nav.setup(), 0));
 })();
 
-if (onedesk.window.trial()) $("body").addClass("one-window-trial");

@@ -102,14 +102,15 @@ def test_onecloud_on_its_page_draws_none_of_the_windows_parts():
 	assert "window: true, fit: true" in page and "hide_sidebar" not in page
 
 
-def test_only_the_trial_puts_lists_and_forms_on_the_window():
-	trial = re.findall(r'"(\w+)"', FRAME.split("TRIAL: [", 1)[1].split("]", 1)[0])
-	assert set(trial) == set(ADAPTERS) - {"page"} and 'ON: ["page"]' in FRAME
-	assert "onedesk.window.trial() && onedesk.window.TRIAL.includes(kind)" in FRAME
+def test_every_view_is_on_the_window_for_everybody():
+	"""Each kind was walked and joined; there is no preview left to turn on."""
+	on = re.findall(r'"(\w+)"', FRAME.split("ON: [", 1)[1].split("]", 1)[0])
+	assert set(on) == set(ADAPTERS) | {"page"}, sorted(set(ADAPTERS) ^ set(on))
+	assert "TRIAL" not in FRAME and "trial()" not in JS
 	assert "frappe.views.ListView" in ADAPTERS["list"] and "frappe.ui.form.Form" in ADAPTERS["form"]
 	assert "frappe.views.ListView" not in FRAME and "frappe.ui.form.Form" not in FRAME
 	outside = (tree.APP / "public" / "js" / "outside.js").read_text(encoding="utf-8")
-	assert 'label: __("Window Preview")' in outside and "onedesk.window.set_trial(" in outside
+	assert "Window Preview" not in outside and "set_trial" not in outside
 
 
 def test_the_address_box_is_frappes_search_bar():

@@ -103,12 +103,6 @@ if (frappe.boot.one_elsewhere && frappe.ui.Sidebar) {
 						icon: "sun-moon",
 						onclick: () => new frappe.ui.ThemeSwitcher().show(),
 					});
-					group?.options.splice(group.options.findIndex((o) => o.name === "reload"), 0, {
-						name: "window",
-						label: __("Window Preview"),
-						icon: onedesk.window && onedesk.window.trial() ? "check" : "app-window",
-						onclick: () => onedesk.window.set_trial(!onedesk.window.trial()),
-					});
 					super({ ...opts, options });
 				}
 			};
