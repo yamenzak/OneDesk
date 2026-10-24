@@ -80,6 +80,17 @@ A mailbox's **…** in the sidebar (or right-click) has **New Folder**,
 A shared mailbox's signature, out-of-office reply and connection are
 changed only by the user who connected it or a Workspace Administrator.
 
+**Replying by a rule.** A mail rule can **Reply** as one of its actions:
+with a fixed **Reply Text**, where `{{ sender_name }}` and `{{ subject }}`
+fill in, or with **OneAI**, from an **Instruction** such as "send our price
+list and say we answer within a day". A rule replies once per conversation
+and never to automated mail. OneAI's reply waits as a card for whoever made
+the rule when **Review Before Sending** is on, and always when it left a
+blank for a person to fill in; it needs OneAI on for the mailbox and counts
+against its monthly limit. A message a rule replied to gets no Auto Reply.
+With an **About** condition, the rule answers by what a message is about,
+such as "a customer asking for a price".
+
 **Auto Reply** on a shared mailbox answers the first message of each new
 conversation, such as "We received your message and will reply soon." It
 is not sent to replies in a thread, to mailing lists or automated mail, or

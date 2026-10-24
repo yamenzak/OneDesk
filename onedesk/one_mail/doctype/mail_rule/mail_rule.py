@@ -26,5 +26,14 @@ class MailRule(Document):
 					"A rule with About needs Read with OneAI turned on for this mailbox."
 				)
 			)
-		if not any((self.move_to, self.mark_read, self.star)):
+		if not any((self.move_to, self.mark_read, self.star, self.reply)):
 			frappe.throw(_("Set at least one action under Then."))
+		if self.reply and self.reply_with == "OneAI":
+			from onedesk.one_mail import gate
+
+			if not self.reply_instruction:
+				frappe.throw(_("Write the Instruction for OneAI's reply."))
+			if not gate.may_read(self.account):
+				frappe.throw(_("OneAI is turned off for this mailbox."))
+		elif self.reply and not frappe.utils.strip_html_tags(self.reply_text or "").strip():
+			frappe.throw(_("Write the Reply Text."))

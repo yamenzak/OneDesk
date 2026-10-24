@@ -669,5 +669,15 @@ def test_a_shared_mailbox_acknowledges_only_a_new_conversation_from_a_person():
 	assert space["automatic"]({"Auto-Submitted": "auto-replied"}, "a@x.com"), "never answer a machine"
 	source = (MAIL / "rules.py").read_text()
 	assert 'account.get("one_shared") and account.get("enable_auto_reply")' in source, "only a shared mailbox, frappe's own field"
-	assert "if not away(made, arrival.mail):" in source, "an out-of-office reply wins over the acknowledgement"
+	assert "if not away(made, arrival.mail) and" in source, "an out-of-office reply wins over the acknowledgement"
 	assert "holders.manages(account)" in source.split("def set_auto_reply")[1].split("def ")[0]
+
+
+def test_a_rule_replies_once_never_to_a_machine_and_oneai_waits_when_unsure():
+	source = (MAIL / "rules.py").read_text()
+	said = source.split("def answer(", 1)[1].split("\ndef ", 1)[0]
+	assert "automatic(headers or {}, sender)" in said, "never answer a machine"
+	assert "one_rule_reply:" in said and "RULE_REPLY_ONCE_IN" in said, "once per conversation"
+	assert 'rule.reply_review or "[" in text' in said, "a blank left for a person always waits as a card"
+	assert "gate.over(held)" in said and "held.one_ai_off" in said, "OneAI replies only where it may read and spend"
+	assert "not frappe.local.one_rule_replied" in source, "a rule's reply stands in for the acknowledgement"

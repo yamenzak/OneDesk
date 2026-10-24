@@ -18426,6 +18426,10 @@ msgstr "إذا فُعّل، يمكن للموظف تسجيل صفين في سج�
 msgid "If enabled, choosing a project on a sales invoice adds its billable timesheets. Invoice Time on a project adds them either way."
 msgstr "إذا فُعّل، يضيف اختيار مشروع في فاتورة المبيعات سجلات الوقت القابلة للفوترة. وزر فوترة الوقت في المشروع يضيفها في الحالتين."
 
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+msgid "If enabled, the reply waits as a card for whoever made the rule to approve."
+msgstr "عند التفعيل، ينتظر الرد كبطاقة ليوافق عليها من أنشأ القاعدة."
+
 #: onedesk/www/s.py:21
 msgid "If this address was invited, a code has been sent to it."
 msgstr "إذا كان هذا العنوان مدعوًّا، فقد أُرسل إليه رمز."
@@ -19111,6 +19115,7 @@ msgstr "بدلًا من كلمة المرور، لخادم يسجّل الدخو
 #. Label of the instruction_section (Section Break) field in DocType 'AI
 #. Action'
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 msgid "Instruction"
 msgstr ""
 
@@ -22506,6 +22511,10 @@ msgstr "قوالب البريد"
 #: onedesk/one/settings.py:65
 msgid "Mail and files read as they arrive, filed on the right record and acted on."
 msgstr "البريد والملفات تُقرأ فور وصولها، وتُحفظ في السجل الصحيح ويُتصرّف بشأنها."
+
+#: onedesk/one_mail/rules.py:264
+msgid "Mail rule: {0}"
+msgstr "قاعدة البريد: {0}"
 
 #: onedesk/one_crm/home.py:123
 msgid "Mail sent to a lead or a contact on a schedule."
@@ -27006,6 +27015,10 @@ msgstr "تهيئة: {0}"
 msgid "Once a week, with what arrived, what OneAI handled and what's waiting."
 msgstr "مرة في الأسبوع، بما وصل وما عالجه OneAI وما ينتظر."
 
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+msgid "Once per conversation, never to automated mail."
+msgstr "مرة لكل محادثة، ولا يُرد على البريد الآلي."
+
 #. Title of a Sidebar
 #. Name of a Workspace
 #. Option for the 'By' (Select) field in DocType 'Tenant Event'
@@ -27411,6 +27424,10 @@ msgstr "OneAI متوقف"
 #: onedesk/public/js/onecloud.js:1766
 msgid "OneAI is reading {0}."
 msgstr "يقرأ OneAI الآن {0}."
+
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.py:37
+msgid "OneAI is turned off for this mailbox."
+msgstr "OneAI متوقف لصندوق البريد هذا."
 
 #: onedesk/public/js/onemail_settings.js:313
 msgid "OneAI is turned off for this workspace in Apps."
@@ -34184,6 +34201,7 @@ msgstr "تم الرد (%)"
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Asks To' (Select) field in DocType 'Reading Ask'
+#: frontend/src/mail/MailConversation.vue:75
 #: frontend/src/project/Activity.vue:8
 #: frontend/src/project/ProjectActivity.vue:19
 #: frontend/src/sheet/components/SheetEditor/index.vue:1107
@@ -34191,6 +34209,7 @@ msgstr "تم الرد (%)"
 #: onedesk/one_ai/chat.py:318
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 #: onedesk/public/js/onemail.js:380 onedesk/public/js/record.js:118
 msgid "Reply"
 msgstr "رد"
@@ -34199,6 +34218,14 @@ msgstr "رد"
 #: frontend/src/project/ProjectActivity.vue:20
 msgid "Reply All"
 msgstr "الرد على الكل"
+
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+msgid "Reply Text"
+msgstr "نص الرد"
+
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+msgid "Reply With"
+msgstr "الرد بـ"
 
 #: onedesk/public/js/onemail.js:381
 msgid "Reply all"
@@ -34907,6 +34934,10 @@ msgstr "رقم إعادة التقييم"
 #: onedesk/public/js/task_actions.js:7
 msgid "Review"
 msgstr "المراجعة"
+
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+msgid "Review Before Sending"
+msgstr "المراجعة قبل الإرسال"
 
 #: frontend/src/task/TaskPage.vue:241
 msgid "Review Date"
@@ -47165,6 +47196,10 @@ msgstr "ما فوترة المزوّد عن الطلب، قبل الهامش."
 msgid "What the receiving server said when mail to this address failed for good."
 msgstr "ما قاله خادم الاستقبال عندما فشل البريد إلى هذا العنوان نهائيًا."
 
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+msgid "What the reply says, such as sending the price list and promising an answer within a day."
+msgstr "ما يقوله الرد، مثل إرسال قائمة الأسعار والوعد بالرد خلال يوم."
+
 #. Description of the 'Files' (Code) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "What the suggestion was made from. Attached to the record it makes."
@@ -50422,6 +50457,14 @@ msgstr "الكتابة بلغة HTML"
 #: onedesk/one/ai.py:27
 msgid "Write my bio"
 msgstr "اكتب نبذتي"
+
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.py:35
+msgid "Write the Instruction for OneAI's reply."
+msgstr "اكتب التعليمات لرد OneAI."
+
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.py:39
+msgid "Write the Reply Text."
+msgstr "اكتب نص الرد."
 
 #: onedesk/one_project/ai.py:34
 msgid "Write the customer an update"
@@ -56215,4 +56258,8 @@ msgstr "أُوقفت {workspace} ولم تُدفع، لذا أصبحت غير م
 #: onedesk/notifications/one_admin/workspace_owing.md
 msgid "{workspace}: {state}"
 msgstr "{workspace}: {state}"
+
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+msgid "{{ sender_name }} and {{ subject }} fill in from the message."
+msgstr "يُملأ {{ sender_name }} و{{ subject }} من الرسالة."
 

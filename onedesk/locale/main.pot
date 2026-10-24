@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-24 11:53+0000\n"
-"PO-Revision-Date: 2026-10-24 11:53+0000\n"
+"POT-Creation-Date: 2026-10-24 12:03+0000\n"
+"PO-Revision-Date: 2026-10-24 12:03+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -7604,7 +7604,7 @@ msgstr ""
 msgid "Choose from OneCloud"
 msgstr ""
 
-#: onedesk/one_mail/gate.py:219
+#: onedesk/one_mail/gate.py:223
 msgid "Choose one of {0}."
 msgstr ""
 
@@ -18323,7 +18323,7 @@ msgstr ""
 msgid "I will paste an email signature. Add the person in it as a lead."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:274
+#: onedesk/one_mail/rules.py:385
 msgid "I'm away and will reply when I'm back."
 msgstr ""
 
@@ -18488,6 +18488,12 @@ msgstr ""
 #. 'Projects Settings'
 #: onedesk/one_project/custom/projects_settings.json
 msgid "If enabled, choosing a project on a sales invoice adds its billable timesheets. Invoice Time on a project adds them either way."
+msgstr ""
+
+#. Description of the 'Review Before Sending' (Check) field in DocType 'Mail
+#. Rule'
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+msgid "If enabled, the reply waits as a card for whoever made the rule to approve."
 msgstr ""
 
 #: onedesk/www/s.py:21
@@ -19173,7 +19179,9 @@ msgstr ""
 
 #. Label of the instruction_section (Section Break) field in DocType 'AI
 #. Action'
+#. Label of the reply_instruction (Small Text) field in DocType 'Mail Rule'
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 msgid "Instruction"
 msgstr ""
 
@@ -22579,6 +22587,10 @@ msgstr ""
 
 #: onedesk/one/settings.py:62
 msgid "Mail and files read as they arrive, filed on the right record and acted on."
+msgstr ""
+
+#: onedesk/one_mail/rules.py:264
+msgid "Mail rule: {0}"
 msgstr ""
 
 #: onedesk/one_crm/home.py:123
@@ -27093,6 +27105,11 @@ msgstr ""
 msgid "Once a week, with what arrived, what OneAI handled and what's waiting."
 msgstr ""
 
+#. Description of the 'Reply' (Check) field in DocType 'Mail Rule'
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+msgid "Once per conversation, never to automated mail."
+msgstr ""
+
 #. Title of a Sidebar
 #. Name of a Workspace
 #. Option for the 'By' (Select) field in DocType 'Tenant Event'
@@ -27344,6 +27361,7 @@ msgstr ""
 #. Group in Interview's connections
 #. Label of the one_ai_section (Section Break) field in DocType 'Job Applicant'
 #. Option for the 'Placed By' (Select) field in DocType 'Reading'
+#. Option for the 'Reply With' (Select) field in DocType 'Mail Rule'
 #: frontend/src/mail/OneMail.vue:289 onedesk/one/sidebar/one/one.json
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
@@ -27352,6 +27370,7 @@ msgstr ""
 #: onedesk/one_hr/custom/hr_settings.json onedesk/one_hr/custom/interview.json
 #: onedesk/one_hr/custom/job_applicant.json
 #: onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 #: onedesk/public/js/onemail_settings.js:284
 #: onedesk/public/js/onemail_settings.js:286
 #: onedesk/public/js/onemail_settings.js:313 onedesk/public/js/settings.js:275
@@ -27501,6 +27520,10 @@ msgstr ""
 
 #: onedesk/public/js/onecloud_dialogs.js:532
 msgid "OneAI is reading {0}."
+msgstr ""
+
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.py:37
+msgid "OneAI is turned off for this mailbox."
 msgstr ""
 
 #: onedesk/public/js/onemail_settings.js:313
@@ -27806,7 +27829,7 @@ msgstr ""
 msgid "Only a shared mailbox can be the workspace mailbox."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:310
+#: onedesk/one_mail/rules.py:421
 msgid "Only a shared mailbox has an Auto Reply."
 msgstr ""
 
@@ -34299,6 +34322,7 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Asks To' (Select) field in DocType 'Reading Ask'
+#. Label of the reply (Check) field in DocType 'Mail Rule'
 #: frontend/src/mail/MailConversation.vue:75
 #: frontend/src/project/Activity.vue:8
 #: frontend/src/project/ProjectActivity.vue:19
@@ -34307,6 +34331,7 @@ msgstr ""
 #: onedesk/one_ai/chat.py:318
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 #: onedesk/public/js/record.js:118
 msgid "Reply"
 msgstr ""
@@ -34314,6 +34339,16 @@ msgstr ""
 #: frontend/src/project/Activity.vue:9
 #: frontend/src/project/ProjectActivity.vue:20
 msgid "Reply All"
+msgstr ""
+
+#. Label of the reply_text (Text Editor) field in DocType 'Mail Rule'
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+msgid "Reply Text"
+msgstr ""
+
+#. Label of the reply_with (Select) field in DocType 'Mail Rule'
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+msgid "Reply With"
 msgstr ""
 
 #: frontend/src/mail/MailConversation.vue:76
@@ -35024,6 +35059,11 @@ msgstr ""
 #: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/public/js/task_actions.js:7
 msgid "Review"
+msgstr ""
+
+#. Label of the reply_review (Check) field in DocType 'Mail Rule'
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+msgid "Review Before Sending"
 msgstr ""
 
 #: frontend/src/task/TaskPage.vue:241
@@ -40904,10 +40944,12 @@ msgstr ""
 #. Label of the text (Long Text) field in DocType 'AI Chunk'
 #. Label of the section_text (Section Break) field in DocType 'Reading'
 #. Label of the text (Long Text) field in DocType 'Reading'
+#. Option for the 'Reply With' (Select) field in DocType 'Mail Rule'
 #: onedesk/one/custom/notification_type.json
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json
 #: onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 #: onedesk/public/js/settings.js:2631
 msgid "Text"
 msgstr ""
@@ -46472,7 +46514,7 @@ msgstr ""
 msgid "We have your payment for {workspace}, but setup hit a problem on our side. We're working on it.<br><br>We'll email you when it's ready. You don't need to do anything. If you have a question, reply to this email."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:256
+#: onedesk/one_mail/rules.py:367
 msgid "We received your message and will reply soon."
 msgstr ""
 
@@ -47362,6 +47404,11 @@ msgstr ""
 #. Unsubscribe'
 #: onedesk/one_mail/custom/email_unsubscribe.json
 msgid "What the receiving server said when mail to this address failed for good."
+msgstr ""
+
+#. Description of the 'Instruction' (Small Text) field in DocType 'Mail Rule'
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+msgid "What the reply says, such as sending the price list and promising an answer within a day."
 msgstr ""
 
 #. Description of the 'Files' (Code) field in DocType 'AI Proposal'
@@ -50629,6 +50676,14 @@ msgstr ""
 
 #: onedesk/one/ai.py:27
 msgid "Write my bio"
+msgstr ""
+
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.py:35
+msgid "Write the Instruction for OneAI's reply."
+msgstr ""
+
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.py:39
+msgid "Write the Reply Text."
 msgstr ""
 
 #: onedesk/one_project/ai.py:34
@@ -56432,5 +56487,10 @@ msgstr ""
 #. Subject of a notification
 #: onedesk/notifications/one_admin/workspace_owing.md
 msgid "{workspace}: {state}"
+msgstr ""
+
+#. Description of the 'Reply Text' (Text Editor) field in DocType 'Mail Rule'
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+msgid "{{ sender_name }} and {{ subject }} fill in from the message."
 msgstr ""
 

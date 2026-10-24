@@ -128,11 +128,15 @@ def refuse(account: str | None) -> None:
 
 
 def spent(reference: str | None, credits) -> None:
-	"""A model call made for a reading of mail adds to its mailbox's month, and
+	"""A model call made for a reading of mail, or for a message (a rule's
+	reply), adds to its mailbox's month, and
 	the mailbox's holders hear once when the limit is reached."""
-	if not reference or not flt(credits) or not frappe.db.exists("Reading", reference):
+	if not reference or not flt(credits):
 		return
-	account = account_of("Reading", reference)
+	kind = next((one for one in ("Reading", "Communication") if frappe.db.exists(one, reference)), None)
+	if not kind:
+		return
+	account = account_of(kind, reference)
 	held = of(account)
 	if not held:
 		return

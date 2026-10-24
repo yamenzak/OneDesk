@@ -24,6 +24,11 @@
   "move_to",
   "mark_read",
   "star",
+  "reply",
+  "reply_with",
+  "reply_text",
+  "reply_instruction",
+  "reply_review",
   "stop"
  ],
  "fields": [
@@ -121,6 +126,42 @@
    "fieldname": "star",
    "fieldtype": "Check",
    "label": "Star"
+  },
+  {
+   "fieldname": "reply",
+   "fieldtype": "Check",
+   "label": "Reply",
+   "description": "Once per conversation, never to automated mail."
+  },
+  {
+   "fieldname": "reply_with",
+   "fieldtype": "Select",
+   "label": "Reply With",
+   "options": "Text\nOneAI",
+   "default": "Text",
+   "depends_on": "reply"
+  },
+  {
+   "fieldname": "reply_text",
+   "fieldtype": "Text Editor",
+   "label": "Reply Text",
+   "depends_on": "eval:doc.reply && doc.reply_with=='Text'",
+   "description": "{{ sender_name }} and {{ subject }} fill in from the message."
+  },
+  {
+   "fieldname": "reply_instruction",
+   "fieldtype": "Small Text",
+   "label": "Instruction",
+   "depends_on": "eval:doc.reply && doc.reply_with=='OneAI'",
+   "description": "What the reply says, such as sending the price list and promising an answer within a day."
+  },
+  {
+   "fieldname": "reply_review",
+   "fieldtype": "Check",
+   "label": "Review Before Sending",
+   "default": "1",
+   "depends_on": "eval:doc.reply && doc.reply_with=='OneAI'",
+   "description": "If enabled, the reply waits as a card for whoever made the rule to approve."
   },
   {
    "fieldname": "stop",

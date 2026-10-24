@@ -145,7 +145,7 @@ No doctypes yet.
 |---|--:|---|
 | Face | 5 | document |
 | Mail Folder | 15 | document |
-| Mail Rule | 17 | document |
+| Mail Rule | 22 | document |
 
 ## One Intake
 

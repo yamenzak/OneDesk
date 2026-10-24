@@ -18426,6 +18426,10 @@ msgstr "Wenn aktiviert, darf ein Mitarbeiter zwei Zeiterfassungszeilen für dies
 msgid "If enabled, choosing a project on a sales invoice adds its billable timesheets. Invoice Time on a project adds them either way."
 msgstr "Wenn aktiviert, fügt die Wahl eines Projekts in einer Ausgangsrechnung dessen abrechenbare Zeiterfassungen hinzu. Zeit abrechnen im Projekt fügt sie in jedem Fall hinzu."
 
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+msgid "If enabled, the reply waits as a card for whoever made the rule to approve."
+msgstr "Wenn aktiviert, wartet die Antwort als Karte auf die Freigabe durch die Person, die die Regel erstellt hat."
+
 #: onedesk/www/s.py:21
 msgid "If this address was invited, a code has been sent to it."
 msgstr "Wenn diese Adresse eingeladen wurde, wurde ein Code an sie gesendet."
@@ -19111,6 +19115,7 @@ msgstr "Statt eines Passworts, für einen Server, der sich mit einem Schlüssel 
 #. Label of the instruction_section (Section Break) field in DocType 'AI
 #. Action'
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 msgid "Instruction"
 msgstr ""
 
@@ -22506,6 +22511,10 @@ msgstr "E-Mail-Vorlagen"
 #: onedesk/one/settings.py:65
 msgid "Mail and files read as they arrive, filed on the right record and acted on."
 msgstr "Mails und Dateien werden beim Eintreffen gelesen, beim richtigen Datensatz abgelegt und bearbeitet."
+
+#: onedesk/one_mail/rules.py:264
+msgid "Mail rule: {0}"
+msgstr "E-Mail-Regel: {0}"
 
 #: onedesk/one_crm/home.py:123
 msgid "Mail sent to a lead or a contact on a schedule."
@@ -27006,6 +27015,10 @@ msgstr "Einarbeitung: {0}"
 msgid "Once a week, with what arrived, what OneAI handled and what's waiting."
 msgstr "Einmal pro Woche, mit dem, was eingegangen ist, was OneAI bearbeitet hat und was wartet."
 
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+msgid "Once per conversation, never to automated mail."
+msgstr "Einmal pro Unterhaltung, nie auf automatische E-Mails."
+
 #. Title of a Sidebar
 #. Name of a Workspace
 #. Option for the 'By' (Select) field in DocType 'Tenant Event'
@@ -27411,6 +27424,10 @@ msgstr "OneAI ist aus"
 #: onedesk/public/js/onecloud.js:1766
 msgid "OneAI is reading {0}."
 msgstr "OneAI liest {0}."
+
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.py:37
+msgid "OneAI is turned off for this mailbox."
+msgstr "OneAI ist für dieses Postfach ausgeschaltet."
 
 #: onedesk/public/js/onemail_settings.js:313
 msgid "OneAI is turned off for this workspace in Apps."
@@ -34184,6 +34201,7 @@ msgstr "Beantwortet (%)"
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Asks To' (Select) field in DocType 'Reading Ask'
+#: frontend/src/mail/MailConversation.vue:75
 #: frontend/src/project/Activity.vue:8
 #: frontend/src/project/ProjectActivity.vue:19
 #: frontend/src/sheet/components/SheetEditor/index.vue:1107
@@ -34191,6 +34209,7 @@ msgstr "Beantwortet (%)"
 #: onedesk/one_ai/chat.py:318
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 #: onedesk/public/js/onemail.js:380 onedesk/public/js/record.js:118
 msgid "Reply"
 msgstr "Antworten"
@@ -34199,6 +34218,14 @@ msgstr "Antworten"
 #: frontend/src/project/ProjectActivity.vue:20
 msgid "Reply All"
 msgstr "Allen antworten"
+
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+msgid "Reply Text"
+msgstr "Antworttext"
+
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+msgid "Reply With"
+msgstr "Antworten mit"
 
 #: onedesk/public/js/onemail.js:381
 msgid "Reply all"
@@ -34907,6 +34934,10 @@ msgstr "Neubewertungs-Nr."
 #: onedesk/public/js/task_actions.js:7
 msgid "Review"
 msgstr "Prüfung"
+
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+msgid "Review Before Sending"
+msgstr "Vor dem Senden prüfen"
 
 #: frontend/src/task/TaskPage.vue:241
 msgid "Review Date"
@@ -47165,6 +47196,10 @@ msgstr "Was der Anbieter für den Aufruf berechnet hat, vor dem Aufschlag."
 msgid "What the receiving server said when mail to this address failed for good."
 msgstr "Was der empfangende Server sagte, als Mail an diese Adresse endgültig scheiterte."
 
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+msgid "What the reply says, such as sending the price list and promising an answer within a day."
+msgstr "Was die Antwort sagt, z. B. die Preisliste senden und eine Antwort innerhalb eines Tages zusagen."
+
 #. Description of the 'Files' (Code) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "What the suggestion was made from. Attached to the record it makes."
@@ -50422,6 +50457,14 @@ msgstr "In HTML schreiben"
 #: onedesk/one/ai.py:27
 msgid "Write my bio"
 msgstr "Meine Biografie schreiben"
+
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.py:35
+msgid "Write the Instruction for OneAI's reply."
+msgstr "Schreiben Sie die Anweisung für die Antwort von OneAI."
+
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.py:39
+msgid "Write the Reply Text."
+msgstr "Schreiben Sie den Antworttext."
 
 #: onedesk/one_project/ai.py:34
 msgid "Write the customer an update"
@@ -56215,4 +56258,8 @@ msgstr "{workspace} war gesperrt und wurde nicht bezahlt, daher ist er jetzt off
 #: onedesk/notifications/one_admin/workspace_owing.md
 msgid "{workspace}: {state}"
 msgstr "{workspace}: {state}"
+
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+msgid "{{ sender_name }} and {{ subject }} fill in from the message."
+msgstr "{{ sender_name }} und {{ subject }} werden aus der Nachricht übernommen."
 

@@ -11,6 +11,8 @@ from frappe.utils import getdate, today
 
 AWAY_ONCE_IN = 4 * 24 * 3600
 ACK_ONCE_IN = 24 * 3600
+RULE_REPLY_ONCE_IN = 30 * 24 * 3600
+MOST_ASKED = 6000
 
 MACHINES = re.compile(
 	r"^(no-?reply|do-?not-?reply|mailer-daemon|postmaster|bounces?)([+.@-]|$)", re.IGNORECASE
@@ -110,8 +112,9 @@ def after(made, arrival) -> None:
 	try:
 		bounce(made, arrival.mail)
 		if getattr(arrival, "fresh", True) and _in_inbox(made):
-			run_rules(made)
-			if not away(made, arrival.mail):
+			frappe.local.one_rule_replied = None
+			run_rules(made, headers=arrival.mail)
+			if not away(made, arrival.mail) and not frappe.local.one_rule_replied:
 				acknowledge(made, arrival.mail)
 	except Exception:
 		frappe.log_error(title=f"OneMail could not sort {made.name}")
@@ -124,10 +127,11 @@ def _in_inbox(made) -> bool:
 	return kind == "Inbox" or made.one_folder == "INBOX"
 
 
-def run_rules(made, about: set | None = None) -> list[str]:
+def run_rules(made, about: set | None = None, headers=None) -> list[str]:
 	"""The rules of a message's mailbox, in order, until one says stop. On
 	arrival `about` is None and only the rules without an About run; OneAI's
-	reading runs those with one (`by_meaning`)."""
+	reading runs those with one (`by_meaning`). `headers` are the message's,
+	when it is arriving, so a rule's Reply never answers a machine."""
 	from onedesk.one_mail import actions
 
 	done = []
@@ -151,10 +155,117 @@ def run_rules(made, about: set | None = None) -> list[str]:
 				actions.move([made.name], rule.move_to)
 		finally:
 			frappe.flags.one_mail_rules = False
+		if rule.reply:
+			try:
+				answer(rule, made.name, headers)
+			except Exception:
+				frappe.log_error(title=f"OneMail could not reply by the rule {rule.name}")
 		done.append(rule.name)
 		if rule.stop:
 			break
 	return done
+
+
+def answer(rule, name: str, headers=None) -> str | None:
+	"""A rule's Reply: its own text, or OneAI's answer from the rule's
+	instruction. Once per conversation, never to a machine or to the mailbox
+	itself. OneAI's answer waits as a card for whoever made the rule when the
+	rule asks for review, and always when it left a blank in brackets for a
+	person to fill in. Answers "sent", "card" or None."""
+	comm = frappe.db.get_value(
+		"Communication",
+		name,
+		["name", "sender", "sender_full_name", "subject", "content", "one_thread", "message_id", "email_account"],
+		as_dict=True,
+	)
+	account = frappe.get_doc("Email Account", comm.email_account)
+	sender = (comm.sender or "").lower()
+	if automatic(headers or {}, sender) or sender == (account.email_id or "").lower():
+		return None
+	key = f"one_rule_reply:{rule.name}:{comm.one_thread or comm.message_id or name}"
+	if frappe.cache.get_value(key):
+		return None
+	if rule.reply_with == "OneAI":
+		from onedesk.one_mail import gate
+
+		held = gate.of(account.name)
+		if not held or held.one_ai_off or gate.over(held):
+			return None
+		text = _drafted(rule, comm)
+		if not text:
+			return None
+		frappe.cache.set_value(key, 1, expires_in_sec=RULE_REPLY_ONCE_IN)
+		if rule.reply_review or "[" in text:
+			_card(rule, comm, account, text)
+			return "card"
+		_send(account, comm, _paragraphs(text))
+		return "sent"
+	frappe.cache.set_value(key, 1, expires_in_sec=RULE_REPLY_ONCE_IN)
+	html = frappe.render_template(
+		rule.reply_text or "",
+		{"sender_name": comm.sender_full_name or "", "subject": comm.subject or "", "mailbox": account.email_id},
+	)
+	_send(account, comm, html)
+	return "sent"
+
+
+def _drafted(rule, comm) -> str:
+	"""OneAI's reply (the "reply" action), counted against the mailbox."""
+	from onedesk.one_ai import run
+
+	text = frappe.utils.strip_html_tags(comm.content or "")[:MOST_ASKED]
+	asked = (
+		f"What the reply should say, from the mailbox's owner: {rule.reply_instruction}\n\n"
+		f"The message, from {comm.sender_full_name or ''} <{comm.sender}>, subject \"{comm.subject or ''}\":\n\n{text}\n\n"
+		"Write the reply in the message's language, as plain text, paragraphs apart by a blank line."
+	)
+	return (run.once("reply", asked, reference=comm.name) or "").strip()
+
+
+def _paragraphs(text: str) -> str:
+	return "".join(
+		f"<p>{frappe.utils.escape_html(one).replace(chr(10), '<br>')}</p>" for one in text.split("\n\n") if one.strip()
+	)
+
+
+def _send(account, comm, html: str) -> None:
+	"""The reply, sent from the mailbox in the conversation's thread, signed
+	as the mailbox signs."""
+	from frappe.core.doctype.communication.email import make
+
+	if account.get("add_signature") and account.get("signature"):
+		html += f"<br>{account.signature}"
+	subject = comm.subject or ""
+	make(
+		recipients=comm.sender,
+		subject=subject if subject.lower().startswith("re:") else f"Re: {subject}".strip(),
+		content=html,
+		sender=account.email_id,
+		send_email=1,
+		in_reply_to=comm.name,
+		communication_medium="Email",
+	)
+	frappe.local.one_rule_replied = comm.name
+
+
+def _card(rule, comm, account, text: str) -> None:
+	"""OneAI's reply as a card for whoever made the rule, the same card the
+	OneAI panel's draft_reply makes: approving opens it in the email window."""
+	from onedesk.one_ai import proposals
+
+	was = frappe.session.user
+	frappe.set_user(rule.owner)
+	try:
+		proposals.propose(
+			"Reply",
+			"Communication",
+			changes={"account": account.name, "thread": comm.one_thread or comm.name, "subject": comm.subject, "text": text},
+			record=comm.name,
+			why=_("Mail rule: {0}").format(rule.name),
+		)
+	finally:
+		frappe.set_user(was)
+	frappe.local.one_rule_replied = comm.name
 
 
 def rules_of(account: str, by_meaning: bool = False) -> list:
