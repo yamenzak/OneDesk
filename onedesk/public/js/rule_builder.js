@@ -215,7 +215,6 @@ onedesk.rules.builder = ($into, rule, context) => {
 									const on = dialog.get_value("with") === "OneAI";
 									dialog.set_df_property("text", "hidden", on);
 									dialog.set_df_property("instruction", "hidden", !on);
-									dialog.set_df_property("review", "hidden", !on);
 									dialog.set_df_property("records", "hidden", !on);
 								},
 							},
@@ -245,7 +244,6 @@ onedesk.rules.builder = ($into, rule, context) => {
 					hidden: !ai,
 					description: __("OneAI may read the orders, invoices and deliveries the sender sees on the portal. Only when the sender's address is verified."),
 				},
-				{ fieldname: "review", fieldtype: "Check", label: __("Review Before Sending"), default: step.review === 0 ? 0 : 1, hidden: !ai },
 			],
 			primary_action_label: __("Done"),
 			primary_action: (values) => {
@@ -253,7 +251,6 @@ onedesk.rules.builder = ($into, rule, context) => {
 					with: values.with || "Text",
 					text: values.text || "",
 					instruction: values.instruction || "",
-					review: values.review ? 1 : 0,
 					records: values.records ? 1 : 0,
 				});
 				dialog.hide();
@@ -285,14 +282,6 @@ onedesk.rules.builder = ($into, rule, context) => {
 								],
 								step.records ? "1" : "0",
 								(v) => ((step.records = Number(v)), draw())
-							),
-							chip(
-								[
-									["1", __("checked before sending")],
-									["0", __("sent straight away")],
-								],
-								step.review === 0 ? "0" : "1",
-								(v) => ((step.review = Number(v)), draw())
 							),
 							chip(ONCE, (step.once = step.once || "conversation"), (v) => ((step.once = v), draw())),
 					  ]
@@ -731,10 +720,10 @@ onedesk.rules.starters = (context) => {
 				group: __("With OneAI"),
 				key: "draft",
 				icon: "pen-line",
-				title: __("Draft Replies"),
-				about: __("OneAI answers customers' questions from their own orders and invoices, and you check the reply before it goes."),
+				title: __("Answer From Their Records"),
+				about: __("OneAI answers customers' questions about orders, deliveries and prices from their own records."),
 				rule: {
-					title: __("Draft Replies"),
+					title: __("Answer From Their Records"),
 					steps: [
 						when(
 							[{ field: "sender_is", op: "is", value: "Customer" }],
@@ -749,7 +738,6 @@ onedesk.rules.starters = (context) => {
 											type: "reply",
 											with: "OneAI",
 											instruction: __("Answer the question from their records where they answer it. If they don't, say we will follow up within a day."),
-											review: 1,
 											records: 1,
 											once: "conversation",
 										},
@@ -777,7 +765,6 @@ onedesk.rules.starters = (context) => {
 									type: "reply",
 									with: "OneAI",
 									instruction: __("Thank them, say what you understood they need, and say we will reply soon."),
-									review: 0,
 									once: "conversation",
 								},
 							]

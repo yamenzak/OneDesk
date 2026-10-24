@@ -799,12 +799,12 @@ def test_a_new_conversation_from_a_person_is_what_acknowledging_means():
 	assert "def acknowledge(" not in source and "def set_auto_reply(" not in source, "Auto Reply is a rule"
 
 
-def test_a_rule_replies_once_never_to_a_machine_and_oneai_waits_when_unsure():
+def test_a_rule_replies_once_never_to_a_machine_and_oneai_sends_as_it_is():
 	source = (MAIL / "rules.py").read_text()
 	said = source.split("def answer(", 1)[1].split("\ndef ", 1)[0]
 	assert "automatic(headers or {}, sender)" in said, "never answer a machine"
 	assert "one_rule_reply:" in said and "RULE_REPLY_ONCE_IN" in said, "once per conversation"
-	assert 'step.get("review") or "[" in text' in said, "a blank left for a person always waits as a card"
+	assert 'if not text or "[" in text:' in said and "_card(" not in source, "sent as it is, or not at all"
 	assert "gate.over(held)" in said and "held.one_ai_off" in said, "OneAI replies only where it may read and spend"
 	assert '"day": 24 * 3600' in source and 'once == "conversation"' in said, "once per conversation, or per sender"
 

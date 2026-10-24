@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-24 21:59+0000\n"
-"PO-Revision-Date: 2026-10-24 21:59+0000\n"
+"POT-Creation-Date: 2026-10-24 22:14+0000\n"
+"PO-Revision-Date: 2026-10-24 22:14+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid " in the {0} department"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:278
+#: onedesk/one_mail/flow.py:277
 msgid " or "
 msgstr ""
 
@@ -68,7 +68,7 @@ msgid "(first 6 rows)"
 msgstr ""
 
 #: frontend/src/mail/MailConversation.vue:9 frontend/src/mail/MailList.vue:64
-#: onedesk/one_mail/rules.py:398 onedesk/one_mail/rules.py:400
+#: onedesk/one_mail/rules.py:394 onedesk/one_mail/rules.py:396
 #: onedesk/public/js/record_mail.js:28
 msgid "(no subject)"
 msgstr ""
@@ -423,7 +423,7 @@ msgstr ""
 msgid "A Frappe app's name is lowercase letters, digits and underscores."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:1120 onedesk/one_mail/rules.py:1132
+#: onedesk/one_mail/rules.py:1097 onedesk/one_mail/rules.py:1109
 msgid "A Mail Manager approves the rules of this mailbox."
 msgstr ""
 
@@ -472,7 +472,7 @@ msgstr ""
 msgid "A bill on {project} is due today"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:702
+#: onedesk/public/js/rule_builder.js:691
 msgid "A bill, an invoice or a statement to pay."
 msgstr ""
 
@@ -1371,7 +1371,7 @@ msgstr ""
 msgid "A shared device can't hold a passkey."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:824
+#: onedesk/one_mail/rules.py:801
 msgid "A shared mailbox answers by a mail rule instead."
 msgstr ""
 
@@ -2056,7 +2056,7 @@ msgid "Accurate to about {0} metres."
 msgstr ""
 
 #: onedesk/one_mail/patches/rules_are_steps.py:34
-#: onedesk/public/js/rule_builder.js:502 onedesk/public/js/rule_builder.js:505
+#: onedesk/public/js/rule_builder.js:491 onedesk/public/js/rule_builder.js:494
 msgid "Acknowledge New Mail"
 msgstr ""
 
@@ -2323,7 +2323,7 @@ msgid "Add Sheets From a Template"
 msgstr ""
 
 #: frontend/src/project/TaskPanel.vue:67 frontend/src/task/TaskPage.vue:61
-#: onedesk/public/js/rule_builder.js:415
+#: onedesk/public/js/rule_builder.js:404
 msgid "Add Step"
 msgstr ""
 
@@ -2947,7 +2947,7 @@ msgstr ""
 msgid "After Delete"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:305
+#: onedesk/one_mail/flow.py:304
 msgid "After Hours"
 msgstr ""
 
@@ -3256,7 +3256,7 @@ msgstr ""
 msgid "All made."
 msgstr ""
 
-#: onedesk/one_mail/flow.py:271
+#: onedesk/one_mail/flow.py:270
 msgid "All mail"
 msgstr ""
 
@@ -3857,7 +3857,11 @@ msgstr ""
 msgid "Answer"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:495
+#: onedesk/public/js/rule_builder.js:723 onedesk/public/js/rule_builder.js:726
+msgid "Answer From Their Records"
+msgstr ""
+
+#: onedesk/public/js/rule_builder.js:484
 msgid "Answer every message with the same words, once in each conversation."
 msgstr ""
 
@@ -3867,15 +3871,15 @@ msgstr ""
 msgid "Answer mail on its own while you're on leave, until the day you're back."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:514
+#: onedesk/public/js/rule_builder.js:503
 msgid "Answer mail that arrives after hours or on a holiday."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:503
+#: onedesk/public/js/rule_builder.js:492
 msgid "Answer new conversations from outside, once a day to each sender."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:751
+#: onedesk/public/js/rule_builder.js:740
 msgid "Answer the question from their records where they answer it. If they don't, say we will follow up within a day."
 msgstr ""
 
@@ -3906,7 +3910,7 @@ msgstr ""
 msgid "Answered by {0}, {1}."
 msgstr ""
 
-#: onedesk/one_mail/flow.py:302
+#: onedesk/one_mail/flow.py:301
 msgid "Answers a Conversation"
 msgstr ""
 
@@ -4572,8 +4576,8 @@ msgstr ""
 msgid "Ask HR to reset your passkey."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:368 onedesk/public/js/rule_builder.js:370
-#: onedesk/public/js/rule_builder.js:414 onedesk/public/js/settings.js:3015
+#: onedesk/public/js/rule_builder.js:357 onedesk/public/js/rule_builder.js:359
+#: onedesk/public/js/rule_builder.js:403 onedesk/public/js/settings.js:3015
 msgid "Ask OneAI"
 msgstr ""
 
@@ -4911,7 +4915,7 @@ msgstr ""
 msgid "Assign a Salary Structure"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:306
+#: onedesk/public/js/rule_builder.js:295
 msgid "Assign it to"
 msgstr ""
 
@@ -4923,7 +4927,7 @@ msgstr ""
 msgid "Assign to User"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:323
+#: onedesk/one_mail/flow.py:322
 msgid "Assign to {0}"
 msgstr ""
 
@@ -5291,7 +5295,7 @@ msgstr ""
 msgid "Auto Repeat"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:494 onedesk/public/js/rule_builder.js:496
+#: onedesk/public/js/rule_builder.js:483 onedesk/public/js/rule_builder.js:485
 msgid "Auto Reply"
 msgstr ""
 
@@ -5299,7 +5303,7 @@ msgstr ""
 msgid "Auto Reply On"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:768 onedesk/public/js/rule_builder.js:771
+#: onedesk/public/js/rule_builder.js:756 onedesk/public/js/rule_builder.js:759
 msgid "Auto Reply in Their Language"
 msgstr ""
 
@@ -6295,7 +6299,7 @@ msgstr ""
 msgid "Birthday"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:486
+#: onedesk/public/js/rule_builder.js:475
 msgid "Blank"
 msgstr ""
 
@@ -6323,7 +6327,7 @@ msgstr ""
 msgid "Block"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:603 onedesk/public/js/rule_builder.js:605
+#: onedesk/public/js/rule_builder.js:592 onedesk/public/js/rule_builder.js:594
 msgid "Block a Sender"
 msgstr ""
 
@@ -7422,7 +7426,7 @@ msgstr ""
 #: onedesk/one_book/report/books_check/books_check.py:15
 #: onedesk/one_hr/doctype/clock_signal/clock_signal.json
 #: onedesk/one_inventory/print_format/one_quality_inspection/one_quality_inspection.json
-#: onedesk/public/js/rule_builder.js:419
+#: onedesk/public/js/rule_builder.js:408
 msgid "Check"
 msgstr ""
 
@@ -8512,7 +8516,7 @@ msgstr ""
 msgid "Competitor"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:701
+#: onedesk/public/js/rule_builder.js:690
 msgid "Complaint"
 msgstr ""
 
@@ -8651,7 +8655,7 @@ msgstr ""
 msgid "Confirm Deletion"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:529 onedesk/public/js/rule_builder.js:532
+#: onedesk/public/js/rule_builder.js:518 onedesk/public/js/rule_builder.js:521
 msgid "Confirm Documents Received"
 msgstr ""
 
@@ -9676,7 +9680,7 @@ msgstr ""
 msgid "Create Workbook {0}"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:315
+#: onedesk/public/js/rule_builder.js:304
 msgid "Create a"
 msgstr ""
 
@@ -9722,7 +9726,7 @@ msgstr ""
 msgid "Create the workbook in OneCloud first."
 msgstr ""
 
-#: frontend/src/sheet/shim/CellProblem.vue:7 onedesk/one_mail/flow.py:327
+#: frontend/src/sheet/shim/CellProblem.vue:7 onedesk/one_mail/flow.py:326
 msgid "Create {0}"
 msgstr ""
 
@@ -10285,7 +10289,7 @@ msgstr ""
 msgid "Customer's Feedback"
 msgstr ""
 
-#: onedesk/one_inventory/story.py:430 onedesk/public/js/rule_builder.js:584
+#: onedesk/one_inventory/story.py:430 onedesk/public/js/rule_builder.js:573
 msgid "Customers"
 msgstr ""
 
@@ -10293,7 +10297,7 @@ msgstr ""
 msgid "Customers Without Any Sales Transactions"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:581
+#: onedesk/public/js/rule_builder.js:570
 msgid "Customers to a Folder"
 msgstr ""
 
@@ -12285,7 +12289,7 @@ msgstr ""
 msgid "Distinct employees, each verified another way, who have checked in from this address."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:420
+#: onedesk/public/js/rule_builder.js:409
 msgid "Do"
 msgstr ""
 
@@ -12488,8 +12492,8 @@ msgstr ""
 #: onedesk/one_project/portal.py:13
 #: onedesk/one_task/doctype/task_step/task_step.json
 #: onedesk/public/js/learned.js:31 onedesk/public/js/progress.js:46
-#: onedesk/public/js/progress.js:77 onedesk/public/js/rule_builder.js:250
-#: onedesk/public/js/rule_builder.js:329
+#: onedesk/public/js/progress.js:77 onedesk/public/js/rule_builder.js:248
+#: onedesk/public/js/rule_builder.js:318
 msgid "Done"
 msgstr ""
 
@@ -12618,10 +12622,6 @@ msgstr ""
 #. Label in the One BOM Creator print format
 #: onedesk/one_inventory/print_format/one_bom_creator/one_bom_creator.json
 msgid "Draft No"
-msgstr ""
-
-#: onedesk/public/js/rule_builder.js:734 onedesk/public/js/rule_builder.js:737
-msgid "Draft Replies"
 msgstr ""
 
 #: frontend/src/quotes/QuotesPage.vue:113
@@ -16183,7 +16183,7 @@ msgstr ""
 msgid "For Your Organisation"
 msgstr ""
 
-#: onedesk/one_mail/rules.py:691
+#: onedesk/one_mail/rules.py:668
 msgid "For anything urgent, please write to {0} at {1}."
 msgstr ""
 
@@ -16403,19 +16403,19 @@ msgstr ""
 msgid "Forward"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:660 onedesk/public/js/rule_builder.js:663
+#: onedesk/public/js/rule_builder.js:649 onedesk/public/js/rule_builder.js:652
 msgid "Forward Supplier Bills"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:304
+#: onedesk/public/js/rule_builder.js:293
 msgid "Forward it to"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:321
+#: onedesk/one_mail/flow.py:320
 msgid "Forward to {0}"
 msgstr ""
 
-#: onedesk/one_mail/rules.py:325 onedesk/public/js/mail_compose.js:171
+#: onedesk/one_mail/rules.py:321 onedesk/public/js/mail_compose.js:171
 msgid "Forwarded message"
 msgstr ""
 
@@ -16633,7 +16633,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
 #: onedesk/one_inventory/print_format/one_supplier_scorecard_period/one_supplier_scorecard_period.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
-#: onedesk/one_mail/flow.py:284
+#: onedesk/one_mail/flow.py:283
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/public/js/item_actions.js:184 onedesk/public/js/item_actions.js:231
 #: onedesk/public/js/mail_compose.js:171
@@ -16684,7 +16684,7 @@ msgstr ""
 msgid "From One, invoice {0}. Paid by card through Stripe."
 msgstr ""
 
-#: onedesk/one_mail/flow.py:303
+#: onedesk/one_mail/flow.py:302
 msgid "From Outside the Workspace"
 msgstr ""
 
@@ -16727,7 +16727,7 @@ msgstr ""
 msgid "From the Customer"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:303
+#: onedesk/one_mail/flow.py:302
 msgid "From the Workspace"
 msgstr ""
 
@@ -16816,7 +16816,7 @@ msgstr ""
 msgid "From {workspace}.<br><br>The link works until {until}. You don't need an account to open it."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:324
+#: onedesk/one_mail/rules.py:320
 msgid "From: {0}"
 msgstr ""
 
@@ -17618,7 +17618,7 @@ msgstr ""
 msgid "Hard to guess"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:301
+#: onedesk/one_mail/flow.py:300
 msgid "Has Attachment"
 msgstr ""
 
@@ -17647,7 +17647,7 @@ msgstr ""
 msgid "Has this one run into errors?"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:279
+#: onedesk/public/js/rule_builder.js:276
 msgid "Have OneAI write a reply that follows"
 msgstr ""
 
@@ -17836,7 +17836,7 @@ msgstr ""
 msgid "Help me set up a notification rule. Ask me what should happen and who should be told, then suggest the rule."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:327
+#: onedesk/public/js/rule_builder.js:316
 msgid "Helps OneAI tell it apart. Optional."
 msgstr ""
 
@@ -18607,11 +18607,11 @@ msgstr ""
 msgid "I will paste an email signature. Add the person in it as a lead."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:684
+#: onedesk/one_mail/rules.py:661
 msgid "I'm away and will reply when I'm back."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:682
+#: onedesk/one_mail/rules.py:659
 msgid "I'm on leave and back on {0}. I'll reply then."
 msgstr ""
 
@@ -18728,7 +18728,7 @@ msgid "Identity Documents"
 msgstr ""
 
 #: onedesk/public/js/doctype_settings.js:539
-#: onedesk/public/js/rule_builder.js:391 onedesk/public/js/rule_builder.js:412
+#: onedesk/public/js/rule_builder.js:380 onedesk/public/js/rule_builder.js:401
 msgid "If"
 msgstr ""
 
@@ -18779,15 +18779,15 @@ msgstr ""
 msgid "If enabled, choosing a project on a sales invoice adds its billable timesheets. Invoice Time on a project adds them either way."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:378
+#: onedesk/public/js/rule_builder.js:367
 msgid "If it's none of these"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:376
+#: onedesk/public/js/rule_builder.js:365
 msgid "If it's {0}"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:381
+#: onedesk/public/js/rule_builder.js:370
 msgid "If not"
 msgstr ""
 
@@ -18805,7 +18805,7 @@ msgstr ""
 msgid "If unchecked, a missing passkey is only flagged."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:380
+#: onedesk/public/js/rule_builder.js:369
 msgid "If yes"
 msgstr ""
 
@@ -18866,7 +18866,7 @@ msgstr ""
 msgid "Import XLSX"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:592 onedesk/public/js/rule_builder.js:595
+#: onedesk/public/js/rule_builder.js:581 onedesk/public/js/rule_builder.js:584
 msgid "Important Sender"
 msgstr ""
 
@@ -19020,7 +19020,7 @@ msgstr ""
 msgid "In Words"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:305
+#: onedesk/one_mail/flow.py:304
 msgid "In Working Hours"
 msgstr ""
 
@@ -19485,7 +19485,7 @@ msgstr ""
 #. Label of the instruction_section (Section Break) field in DocType 'AI
 #. Action'
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
-#: onedesk/public/js/rule_builder.js:235
+#: onedesk/public/js/rule_builder.js:234
 msgid "Instruction"
 msgstr ""
 
@@ -19843,7 +19843,7 @@ msgstr ""
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 #: onedesk/one_inventory/print_format/one_repair_record/one_repair_record.json
-#: onedesk/public/js/rule_builder.js:702
+#: onedesk/public/js/rule_builder.js:691
 msgid "Invoice"
 msgstr ""
 
@@ -19969,7 +19969,7 @@ msgstr ""
 #: frontend/src/project/Invoices.vue:7 frontend/src/project/ProjectPage.vue:175
 #: onedesk/one/print_blocks.py:700
 #: onedesk/one_book/print_format/one_invoice_discounting/one_invoice_discounting.json
-#: onedesk/public/js/rule_builder.js:568 onedesk/public/js/settings.js:1316
+#: onedesk/public/js/rule_builder.js:557 onedesk/public/js/settings.js:1316
 #: onedesk/public/js/tenant.js:9
 #: onedesk/templates/includes/one_account_tabs.html:3
 #: onedesk/www/account_invoices.html:2 onedesk/www/account_invoices.html:17
@@ -20002,7 +20002,7 @@ msgstr ""
 msgid "Invoices not paid yet"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:565
+#: onedesk/public/js/rule_builder.js:554
 msgid "Invoices to a Folder"
 msgstr ""
 
@@ -20080,7 +20080,7 @@ msgstr ""
 msgid "Is signing in to this workspace safe enough? Look at our rules and at how people sign in, and say what to change."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:723
+#: onedesk/public/js/rule_builder.js:712
 msgid "Is the sender upset, or do they need an answer today?"
 msgstr ""
 
@@ -20088,7 +20088,7 @@ msgstr ""
 msgid "Is there a cheaper model that would do?"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:746
+#: onedesk/public/js/rule_builder.js:735
 msgid "Is this a question about an order, a delivery or a price?"
 msgstr ""
 
@@ -21155,8 +21155,8 @@ msgstr ""
 #: onedesk/one/doctype/workspace_add_on/workspace_add_on.json
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
-#: onedesk/public/js/rule_builder.js:324 onedesk/public/js/rule_builder.js:326
-#: onedesk/public/js/rule_builder.js:366
+#: onedesk/public/js/rule_builder.js:313 onedesk/public/js/rule_builder.js:315
+#: onedesk/public/js/rule_builder.js:355
 msgid "Label"
 msgstr ""
 
@@ -22254,7 +22254,7 @@ msgstr ""
 msgid "Link expired"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:314
+#: onedesk/public/js/rule_builder.js:303
 msgid "Link it to the sender's customer, supplier or lead"
 msgstr ""
 
@@ -22278,7 +22278,7 @@ msgstr ""
 msgid "Link to Record"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:332 onedesk/public/js/rule_builder.js:47
+#: onedesk/one_mail/flow.py:331 onedesk/public/js/rule_builder.js:47
 msgid "Link to Their Record"
 msgstr ""
 
@@ -22946,10 +22946,6 @@ msgstr ""
 msgid "Mail and files read as they arrive, filed on the right record and acted on."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:472
-msgid "Mail rule: {0}"
-msgstr ""
-
 #: onedesk/one_crm/home.py:123
 msgid "Mail sent to a lead or a contact on a schedule."
 msgstr ""
@@ -23167,7 +23163,7 @@ msgstr ""
 msgid "Make a copy"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:628
+#: onedesk/public/js/rule_builder.js:617
 msgid "Make a lead from a first message by someone the workspace doesn't know yet."
 msgstr ""
 
@@ -23179,7 +23175,7 @@ msgstr ""
 msgid "Make a rule"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:650
+#: onedesk/public/js/rule_builder.js:639
 msgid "Make a task from mail whose subject starts with Task."
 msgstr ""
 
@@ -23191,7 +23187,7 @@ msgstr ""
 msgid "Make an expense claim from this receipt."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:612
+#: onedesk/public/js/rule_builder.js:601
 msgid "Make an issue from mail asking for help, and assign it to someone."
 msgstr ""
 
@@ -23402,7 +23398,7 @@ msgstr ""
 msgid "Mark as Checked"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:329 onedesk/public/js/rule_builder.js:40
+#: onedesk/one_mail/flow.py:328 onedesk/public/js/rule_builder.js:40
 msgid "Mark as Read"
 msgstr ""
 
@@ -23414,7 +23410,7 @@ msgstr ""
 msgid "Mark as unread"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:273
+#: onedesk/public/js/rule_builder.js:270
 msgid "Mark it as read"
 msgstr ""
 
@@ -23746,7 +23742,7 @@ msgstr ""
 msgid "Maybe the same as {0} {1}, by {2}."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:327
+#: onedesk/public/js/rule_builder.js:316
 msgid "Meaning"
 msgstr ""
 
@@ -23892,7 +23888,7 @@ msgstr ""
 #: onedesk/public/js/doctype_settings.js:465 onedesk/public/js/oneai.js:377
 #: onedesk/public/js/onecloud_dialogs.js:343
 #: onedesk/public/js/onemail_settings.js:420
-#: onedesk/public/js/quotes_actions.js:33 onedesk/public/js/rule_builder.js:227
+#: onedesk/public/js/quotes_actions.js:33 onedesk/public/js/rule_builder.js:226
 #: onedesk/public/js/settings.js:3087 onedesk/public/js/settings.js:3200
 #: onedesk/www/message.html:2
 msgid "Message"
@@ -24273,19 +24269,19 @@ msgstr ""
 msgid "Move date agreed"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:270
+#: onedesk/public/js/rule_builder.js:267
 msgid "Move it to"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:275
+#: onedesk/public/js/rule_builder.js:272
 msgid "Move it to Junk"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:582
+#: onedesk/public/js/rule_builder.js:571
 msgid "Move mail from customers into a folder and file it on their record."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:546
+#: onedesk/public/js/rule_builder.js:535
 msgid "Move newsletters and notices out of the Inbox, already read."
 msgstr ""
 
@@ -24304,7 +24300,7 @@ msgstr ""
 msgid "Move to Folder"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:331 onedesk/public/js/rule_builder.js:42
+#: onedesk/one_mail/flow.py:330 onedesk/public/js/rule_builder.js:42
 msgid "Move to Junk"
 msgstr ""
 
@@ -24312,7 +24308,7 @@ msgstr ""
 msgid "Move to the Top"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:317
+#: onedesk/one_mail/flow.py:316
 msgid "Move to {0}"
 msgstr ""
 
@@ -24508,7 +24504,7 @@ msgstr ""
 #: onedesk/public/js/oneai/Panel.vue:558
 #: onedesk/public/js/onecloud_dialogs.js:279
 #: onedesk/public/js/project_new.js:85 onedesk/public/js/role_matrix.js:120
-#: onedesk/public/js/role_matrix.js:143 onedesk/public/js/rule_builder.js:431
+#: onedesk/public/js/role_matrix.js:143 onedesk/public/js/rule_builder.js:420
 #: onedesk/public/js/settings.js:886 onedesk/public/js/settings.js:967
 #: onedesk/public/js/settings.js:1879 onedesk/public/js/settings.js:1893
 #: onedesk/public/js/settings.js:2108 onedesk/public/js/settings.js:2192
@@ -24563,7 +24559,7 @@ msgstr ""
 msgid "Name the template."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:431
+#: onedesk/public/js/rule_builder.js:420
 msgid "Name this rule"
 msgstr ""
 
@@ -24901,7 +24897,7 @@ msgstr ""
 msgid "New Journal Entry"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:324
+#: onedesk/public/js/rule_builder.js:313
 msgid "New Label"
 msgstr ""
 
@@ -24914,7 +24910,7 @@ msgstr ""
 msgid "New Lead Waiting"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:627 onedesk/public/js/rule_builder.js:630
+#: onedesk/public/js/rule_builder.js:616 onedesk/public/js/rule_builder.js:619
 msgid "New Leads"
 msgstr ""
 
@@ -25173,11 +25169,11 @@ msgstr ""
 msgid "Newsletter"
 msgstr ""
 
-#: onedesk/one_intake/filing.py:172 onedesk/public/js/rule_builder.js:548
+#: onedesk/one_intake/filing.py:172 onedesk/public/js/rule_builder.js:537
 msgid "Newsletters"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:545
+#: onedesk/public/js/rule_builder.js:534
 msgid "Newsletters to a Folder"
 msgstr ""
 
@@ -25461,7 +25457,7 @@ msgstr ""
 msgid "No Asset Maintenance yet"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:301
+#: onedesk/one_mail/flow.py:300
 msgid "No Attachment"
 msgstr ""
 
@@ -26227,7 +26223,7 @@ msgstr ""
 msgid "Nobody Applied"
 msgstr ""
 
-#: onedesk/one_mail/rules.py:1146
+#: onedesk/one_mail/rules.py:1123
 msgid "Nobody asked for this rule."
 msgstr ""
 
@@ -26604,7 +26600,7 @@ msgstr ""
 msgid "Not offered"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:304
+#: onedesk/one_mail/flow.py:303
 msgid "Not on a Holiday"
 msgstr ""
 
@@ -27415,7 +27411,7 @@ msgstr ""
 msgid "On Track"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:304
+#: onedesk/one_mail/flow.py:303
 msgid "On a Holiday"
 msgstr ""
 
@@ -27900,11 +27896,11 @@ msgstr ""
 msgid "OneAI adds questions to each new interview."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:735
-msgid "OneAI answers customers' questions from their own orders and invoices, and you check the reply before it goes."
+#: onedesk/public/js/rule_builder.js:724
+msgid "OneAI answers customers' questions about orders, deliveries and prices from their own records."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:769
+#: onedesk/public/js/rule_builder.js:757
 msgid "OneAI answers new conversations from outside, in the sender's language."
 msgstr ""
 
@@ -28017,7 +28013,7 @@ msgstr ""
 msgid "OneAI looked at {extension}"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:246
+#: onedesk/public/js/rule_builder.js:245
 msgid "OneAI may read the orders, invoices and deliveries the sender sees on the portal. Only when the sender's address is verified."
 msgstr ""
 
@@ -28027,11 +28023,11 @@ msgstr ""
 msgid "OneAI rates and ranks each new job applicant against the opening."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:691
+#: onedesk/public/js/rule_builder.js:680
 msgid "OneAI reads each message and picks a label. Each label has its own steps."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:715
+#: onedesk/public/js/rule_builder.js:704
 msgid "OneAI says whether the sender is upset or in a hurry, and someone is told."
 msgstr ""
 
@@ -28057,7 +28053,7 @@ msgstr ""
 msgid "OneAI's fixed version was not kept: {0}"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:268
+#: onedesk/one_mail/flow.py:267
 msgid "OneAI: {0}"
 msgstr ""
 
@@ -29364,7 +29360,7 @@ msgstr ""
 msgid "Other sessions signed out"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:393 onedesk/public/js/rule_builder.js:397
+#: onedesk/public/js/rule_builder.js:382 onedesk/public/js/rule_builder.js:386
 msgid "Otherwise"
 msgstr ""
 
@@ -30917,9 +30913,9 @@ msgstr ""
 msgid "People With the Role"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:608 onedesk/public/js/rule_builder.js:624
-#: onedesk/public/js/rule_builder.js:646 onedesk/public/js/rule_builder.js:657
-#: onedesk/public/js/rule_builder.js:668
+#: onedesk/public/js/rule_builder.js:597 onedesk/public/js/rule_builder.js:613
+#: onedesk/public/js/rule_builder.js:635 onedesk/public/js/rule_builder.js:646
+#: onedesk/public/js/rule_builder.js:657
 msgid "People and Records"
 msgstr ""
 
@@ -33216,7 +33212,7 @@ msgstr ""
 msgid "Quote Received"
 msgstr ""
 
-#: onedesk/one/portal.py:110 onedesk/public/js/rule_builder.js:700
+#: onedesk/one/portal.py:110 onedesk/public/js/rule_builder.js:689
 msgid "Quote Request"
 msgstr ""
 
@@ -33376,7 +33372,7 @@ msgstr ""
 msgid "Ratings"
 msgstr ""
 
-#: onedesk/one_mail/rules.py:880
+#: onedesk/one_mail/rules.py:857
 msgid "Re: {0}"
 msgstr ""
 
@@ -34535,7 +34531,7 @@ msgstr ""
 #: onedesk/public/js/onemail_settings.js:62
 #: onedesk/public/js/project_actions.js:335
 #: onedesk/public/js/project_actions.js:457
-#: onedesk/public/js/rule_builder.js:117 onedesk/public/js/rule_builder.js:336
+#: onedesk/public/js/rule_builder.js:117 onedesk/public/js/rule_builder.js:325
 #: onedesk/public/js/settings.js:331 onedesk/public/js/settings.js:433
 #: onedesk/public/js/settings.js:1182 onedesk/public/js/settings.js:1350
 #: onedesk/public/js/settings.js:2285
@@ -34844,8 +34840,8 @@ msgstr ""
 msgid "Replied (%)"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:491 onedesk/public/js/rule_builder.js:499
-#: onedesk/public/js/rule_builder.js:510 onedesk/public/js/rule_builder.js:526
+#: onedesk/public/js/rule_builder.js:480 onedesk/public/js/rule_builder.js:488
+#: onedesk/public/js/rule_builder.js:499 onedesk/public/js/rule_builder.js:515
 msgid "Replies"
 msgstr ""
 
@@ -34859,7 +34855,7 @@ msgstr ""
 #: onedesk/one_ai/chat.py:318
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
-#: onedesk/one_mail/flow.py:319 onedesk/public/js/record.js:118
+#: onedesk/one_mail/flow.py:318 onedesk/public/js/record.js:118
 #: onedesk/public/js/rule_builder.js:43 onedesk/public/js/rule_builder.js:201
 msgid "Reply"
 msgstr ""
@@ -34869,7 +34865,7 @@ msgstr ""
 msgid "Reply All"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:319
+#: onedesk/one_mail/flow.py:318
 msgid "Reply With OneAI"
 msgstr ""
 
@@ -34881,7 +34877,7 @@ msgstr ""
 msgid "Reply saying…"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:300
+#: onedesk/public/js/rule_builder.js:289
 msgid "Reply with"
 msgstr ""
 
@@ -35596,10 +35592,6 @@ msgstr ""
 #: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/public/js/task_actions.js:7
 msgid "Review"
-msgstr ""
-
-#: onedesk/public/js/rule_builder.js:248
-msgid "Review Before Sending"
 msgstr ""
 
 #: frontend/src/task/TaskPage.vue:241
@@ -36753,7 +36745,7 @@ msgstr ""
 msgid "Send This"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:661
+#: onedesk/public/js/rule_builder.js:650
 msgid "Send a copy of supplier mail with an attachment to another address."
 msgstr ""
 
@@ -36773,7 +36765,7 @@ msgstr ""
 msgid "Send invoices, pay bills, match the bank and see where the money stands."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:604
+#: onedesk/public/js/rule_builder.js:593
 msgid "Send mail from an address or domain to Junk, and run no other rule on it."
 msgstr ""
 
@@ -36826,15 +36818,15 @@ msgstr ""
 msgid "Sender Verified"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:310
+#: onedesk/one_mail/flow.py:309
 msgid "Sender is a {0}"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:310
+#: onedesk/one_mail/flow.py:309
 msgid "Sender isn't a {0}"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:288
+#: onedesk/one_mail/flow.py:287
 msgid "Sender's Domain"
 msgstr ""
 
@@ -38854,7 +38846,7 @@ msgstr ""
 msgid "Someone"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:700
+#: onedesk/public/js/rule_builder.js:689
 msgid "Someone asks for a price or a quotation."
 msgstr ""
 
@@ -38866,7 +38858,7 @@ msgstr ""
 msgid "Someone else…"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:701
+#: onedesk/public/js/rule_builder.js:690
 msgid "Someone is unhappy with what they got or how they were treated."
 msgstr ""
 
@@ -38930,7 +38922,7 @@ msgstr ""
 msgid "Sort ascending"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:690 onedesk/public/js/rule_builder.js:693
+#: onedesk/public/js/rule_builder.js:679 onedesk/public/js/rule_builder.js:682
 msgid "Sort by Topic"
 msgstr ""
 
@@ -38962,9 +38954,9 @@ msgstr ""
 msgid "Sorted by"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:542 onedesk/public/js/rule_builder.js:562
-#: onedesk/public/js/rule_builder.js:578 onedesk/public/js/rule_builder.js:589
-#: onedesk/public/js/rule_builder.js:600
+#: onedesk/public/js/rule_builder.js:531 onedesk/public/js/rule_builder.js:551
+#: onedesk/public/js/rule_builder.js:567 onedesk/public/js/rule_builder.js:578
+#: onedesk/public/js/rule_builder.js:589
 msgid "Sorting"
 msgstr ""
 
@@ -39161,19 +39153,19 @@ msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:621 frontend/src/mail/MailList.vue:69
 #: frontend/src/mail/OneMail.vue:143 frontend/src/mail/OneMail.vue:174
-#: onedesk/one_mail/flow.py:330 onedesk/public/js/rule_builder.js:41
+#: onedesk/one_mail/flow.py:329 onedesk/public/js/rule_builder.js:41
 msgid "Star"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:274
+#: onedesk/public/js/rule_builder.js:271
 msgid "Star it"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:593
+#: onedesk/public/js/rule_builder.js:582
 msgid "Star mail from one address or domain and tell someone on the bell."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:566
+#: onedesk/public/js/rule_builder.js:555
 msgid "Star mail with an invoice attached and move it to a folder."
 msgstr ""
 
@@ -39233,7 +39225,7 @@ msgstr ""
 msgid "Start another workspace"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:487
+#: onedesk/public/js/rule_builder.js:476
 msgid "Start from nothing."
 msgstr ""
 
@@ -39313,7 +39305,7 @@ msgstr ""
 msgid "Starts On"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:302
+#: onedesk/one_mail/flow.py:301
 msgid "Starts a Conversation"
 msgstr ""
 
@@ -39827,7 +39819,7 @@ msgstr ""
 msgid "Stop"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:333 onedesk/public/js/rule_builder.js:49
+#: onedesk/one_mail/flow.py:332 onedesk/public/js/rule_builder.js:49
 msgid "Stop Here"
 msgstr ""
 
@@ -39881,7 +39873,7 @@ msgstr ""
 msgid "Stop writing this field"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:316
+#: onedesk/public/js/rule_builder.js:305
 msgid "Stop, and skip the rules after this one"
 msgstr ""
 
@@ -40133,7 +40125,7 @@ msgstr ""
 #: onedesk/one_ai/chat.py:328
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:385
 #: onedesk/one_hr/print_format/one_employee_grievance/one_employee_grievance.json
-#: onedesk/one_mail/flow.py:286 onedesk/public/js/doctype_settings.js:138
+#: onedesk/one_mail/flow.py:285 onedesk/public/js/doctype_settings.js:138
 #: onedesk/public/js/doctype_settings.js:454
 #: onedesk/public/js/mail_compose.js:171
 msgid "Subject"
@@ -40147,7 +40139,7 @@ msgstr ""
 msgid "Subject or text contains \"{0}\""
 msgstr ""
 
-#: onedesk/one_mail/rules.py:325
+#: onedesk/one_mail/rules.py:321
 msgid "Subject: {0}"
 msgstr ""
 
@@ -40252,7 +40244,7 @@ msgstr ""
 msgid "Subtotal"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:326
+#: onedesk/public/js/rule_builder.js:315
 msgid "Such as Quote Request."
 msgstr ""
 
@@ -40596,7 +40588,7 @@ msgstr ""
 msgid "Support Hour Distribution"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:611 onedesk/public/js/rule_builder.js:614
+#: onedesk/public/js/rule_builder.js:600 onedesk/public/js/rule_builder.js:603
 msgid "Support Requests"
 msgstr ""
 
@@ -40861,7 +40853,7 @@ msgstr ""
 #: onedesk/one_task/ai.py:325 onedesk/one_task/page/task_view/task_view.js:5
 #: onedesk/one_task/sidebar/onetask/onetask.json
 #: onedesk/public/js/project_actions.js:363
-#: onedesk/public/js/rule_builder.js:653 onedesk/public/js/task_actions.js:57
+#: onedesk/public/js/rule_builder.js:642 onedesk/public/js/task_actions.js:57
 #: onedesk/public/js/task_new.js:10 onedesk/public/js/timesheet.js:41
 msgid "Task"
 msgstr ""
@@ -40935,7 +40927,7 @@ msgstr ""
 msgid "Tasks Due or Late"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:649 onedesk/public/js/rule_builder.js:652
+#: onedesk/public/js/rule_builder.js:638 onedesk/public/js/rule_builder.js:641
 msgid "Tasks From Mail"
 msgstr ""
 
@@ -41337,7 +41329,7 @@ msgstr ""
 msgid "Telephony Call Type"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:310
+#: onedesk/public/js/rule_builder.js:299
 msgid "Tell"
 msgstr ""
 
@@ -41349,11 +41341,11 @@ msgstr ""
 msgid "Tell Someone"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:672
+#: onedesk/public/js/rule_builder.js:661
 msgid "Tell someone when customer mail marked urgent arrives after hours."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:530
+#: onedesk/public/js/rule_builder.js:519
 msgid "Tell suppliers their attached documents arrived."
 msgstr ""
 
@@ -41362,7 +41354,7 @@ msgstr ""
 msgid "Tell us who you are and what you need, and we will get back to you."
 msgstr ""
 
-#: onedesk/one_mail/flow.py:325
+#: onedesk/one_mail/flow.py:324
 msgid "Tell {0}"
 msgstr ""
 
@@ -41620,7 +41612,7 @@ msgstr ""
 #: onedesk/one/custom/notification_type.json
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json
-#: onedesk/one_intake/doctype/reading/reading.json onedesk/one_mail/flow.py:287
+#: onedesk/one_intake/doctype/reading/reading.json onedesk/one_mail/flow.py:286
 #: onedesk/public/js/settings.js:2653
 msgid "Text"
 msgstr ""
@@ -41669,7 +41661,7 @@ msgstr ""
 msgid "Thank customers who pay"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:779
+#: onedesk/public/js/rule_builder.js:767
 msgid "Thank them, say what you understood they need, and say we will reply soon."
 msgstr ""
 
@@ -41677,15 +41669,15 @@ msgstr ""
 msgid "Thank you"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:520
+#: onedesk/public/js/rule_builder.js:509
 msgid "Thank you for your message. Our office is closed now, and we will reply when we open."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:496 onedesk/public/js/rule_builder.js:506
+#: onedesk/public/js/rule_builder.js:485 onedesk/public/js/rule_builder.js:495
 msgid "Thank you for your message. We received it and will reply soon."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:536
+#: onedesk/public/js/rule_builder.js:525
 msgid "Thank you. We received your documents and will review them."
 msgstr ""
 
@@ -41710,7 +41702,7 @@ msgstr ""
 #: onedesk/one/ai_setup.py:823 onedesk/one/reports.py:202
 #: onedesk/one/reports.py:234 onedesk/one/settings.py:990
 #: onedesk/one/settings.py:1080 onedesk/one_mail/flow.py:200
-#: onedesk/one_mail/rules.py:826
+#: onedesk/one_mail/rules.py:803
 msgid "That cannot be set."
 msgstr ""
 
@@ -41796,7 +41788,7 @@ msgstr ""
 msgid "That plan is no longer on offer. Start again."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:1099
+#: onedesk/one_mail/rules.py:1076
 msgid "That rule is not in this mailbox."
 msgstr ""
 
@@ -42256,7 +42248,7 @@ msgstr ""
 msgid "The day before your exit interview."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:828
+#: onedesk/one_mail/rules.py:805
 msgid "The day it ends can't be before the day it starts."
 msgstr ""
 
@@ -43611,7 +43603,7 @@ msgstr ""
 msgid "Their Quotation No"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:243
+#: onedesk/public/js/rule_builder.js:242
 msgid "Their Records"
 msgstr ""
 
@@ -43664,7 +43656,7 @@ msgstr ""
 msgid "Theme"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:392
+#: onedesk/public/js/rule_builder.js:381
 msgid "Then"
 msgstr ""
 
@@ -44788,7 +44780,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_stock_closing_entry/one_stock_closing_entry.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_inventory/print_format/one_supplier_scorecard_period/one_supplier_scorecard_period.json
-#: onedesk/one_mail/flow.py:285
+#: onedesk/one_mail/flow.py:284
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/public/js/item_actions.js:186 onedesk/public/js/item_actions.js:285
 #: onedesk/public/js/mail_compose.js:173
@@ -46389,7 +46381,7 @@ msgstr ""
 msgid "Uploading {0} of {1}"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:714 onedesk/public/js/rule_builder.js:717
+#: onedesk/public/js/rule_builder.js:703 onedesk/public/js/rule_builder.js:706
 msgid "Upset or Urgent"
 msgstr ""
 
@@ -46402,7 +46394,7 @@ msgstr ""
 msgid "Urgent"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:671 onedesk/public/js/rule_builder.js:674
+#: onedesk/public/js/rule_builder.js:660 onedesk/public/js/rule_builder.js:663
 msgid "Urgent After Hours"
 msgstr ""
 
@@ -47291,7 +47283,7 @@ msgstr ""
 msgid "We'll prepare your order for {0} and confirm it with you."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:513 onedesk/public/js/rule_builder.js:516
+#: onedesk/public/js/rule_builder.js:502 onedesk/public/js/rule_builder.js:505
 msgid "We're Closed"
 msgstr ""
 
@@ -47502,7 +47494,7 @@ msgstr ""
 msgid "What OneAI said when asked to explain it, per language."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:238
+#: onedesk/public/js/rule_builder.js:237
 msgid "What OneAI's reply should do, such as answering from their orders and promising an answer within a day. OneAI writes the reply itself."
 msgstr ""
 
@@ -48689,7 +48681,7 @@ msgstr ""
 msgid "When a mailbox you hold stops connecting. Once, when it breaks."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:439
+#: onedesk/public/js/rule_builder.js:428
 msgid "When a message arrives in {0}"
 msgstr ""
 
@@ -50831,8 +50823,8 @@ msgstr ""
 msgid "With Invoice"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:687 onedesk/public/js/rule_builder.js:711
-#: onedesk/public/js/rule_builder.js:731 onedesk/public/js/rule_builder.js:765
+#: onedesk/public/js/rule_builder.js:676 onedesk/public/js/rule_builder.js:700
+#: onedesk/public/js/rule_builder.js:720 onedesk/public/js/rule_builder.js:753
 msgid "With OneAI"
 msgstr ""
 
@@ -52301,7 +52293,7 @@ msgstr ""
 msgid "Your mail rule on {mailbox} was declined"
 msgstr ""
 
-#: onedesk/one_mail/rules.py:880
+#: onedesk/one_mail/rules.py:857
 msgid "Your message"
 msgstr ""
 
@@ -52525,7 +52517,7 @@ msgstr ""
 msgid "a column"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:370
+#: onedesk/public/js/rule_builder.js:359
 msgid "a complaint"
 msgstr ""
 
@@ -52731,10 +52723,6 @@ msgstr ""
 msgid "changed"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:291
-msgid "checked before sending"
-msgstr ""
-
 #: frontend/src/project/ProjectActivity.vue:47
 msgid "completed"
 msgstr ""
@@ -52865,7 +52853,7 @@ msgstr ""
 msgid "ends with"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:296
+#: onedesk/one_mail/flow.py:295
 msgid "ends with {0}"
 msgstr ""
 
@@ -52901,7 +52889,7 @@ msgstr ""
 msgid "for {0} · usually {1}"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:315
+#: onedesk/public/js/rule_builder.js:304
 msgid "from it"
 msgstr ""
 
@@ -52954,15 +52942,15 @@ msgstr ""
 msgid "h"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:291
+#: onedesk/one_mail/flow.py:290
 msgid "has {0}"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:292
+#: onedesk/one_mail/flow.py:291
 msgid "hasn't {0}"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:617
+#: onedesk/public/js/rule_builder.js:606
 msgid "help, problem, not working, broken"
 msgstr ""
 
@@ -53004,7 +52992,7 @@ msgstr ""
 msgid "invites you to"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:571
+#: onedesk/public/js/rule_builder.js:560
 msgid "invoice, receipt, statement"
 msgstr ""
 
@@ -53016,7 +53004,7 @@ msgstr ""
 msgid "is a"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:293
+#: onedesk/one_mail/flow.py:292
 msgid "is {0}"
 msgstr ""
 
@@ -53028,7 +53016,7 @@ msgstr ""
 msgid "isn't a"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:294
+#: onedesk/one_mail/flow.py:293
 msgid "isn't {0}"
 msgstr ""
 
@@ -53314,7 +53302,7 @@ msgstr ""
 msgid "on hold"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:312
+#: onedesk/public/js/rule_builder.js:301
 msgid "on the bell"
 msgstr ""
 
@@ -53470,7 +53458,7 @@ msgstr ""
 msgid "quiet"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:283
+#: onedesk/public/js/rule_builder.js:280
 msgid "reading their records"
 msgstr ""
 
@@ -53550,10 +53538,6 @@ msgstr ""
 msgid "sections is not JSON: {0}."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:292
-msgid "sent straight away"
-msgstr ""
-
 #: onedesk/one_storage/share.py:100
 msgid "shared it with {0}"
 msgstr ""
@@ -53606,7 +53590,7 @@ msgstr ""
 msgid "starts with"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:295
+#: onedesk/one_mail/flow.py:294
 msgid "starts with {0}"
 msgstr ""
 
@@ -53840,7 +53824,7 @@ msgstr ""
 msgid "unlimited storage"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:553
+#: onedesk/public/js/rule_builder.js:542
 msgid "unsubscribe"
 msgstr ""
 
@@ -53853,7 +53837,7 @@ msgstr ""
 msgid "uploaded a new version"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:677
+#: onedesk/public/js/rule_builder.js:666
 msgid "urgent, asap"
 msgstr ""
 
@@ -53889,11 +53873,11 @@ msgstr ""
 msgid "what {0} can do in {1}"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:347
+#: onedesk/public/js/rule_builder.js:336
 msgid "whether it's"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:348
+#: onedesk/public/js/rule_builder.js:337
 msgid "which of these it is:"
 msgstr ""
 
@@ -53905,7 +53889,7 @@ msgstr ""
 msgid "who picks the model, to everybody"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:284
+#: onedesk/public/js/rule_builder.js:281
 msgid "without their records"
 msgstr ""
 
@@ -53941,11 +53925,11 @@ msgstr ""
 msgid "your data to be deleted"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:280
+#: onedesk/public/js/rule_builder.js:277
 msgid "your instruction"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:301
+#: onedesk/public/js/rule_builder.js:290
 msgid "your message"
 msgstr ""
 
@@ -57238,7 +57222,7 @@ msgstr ""
 msgid "{request} raised for items running low"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:230
+#: onedesk/public/js/rule_builder.js:229
 msgid "{sender_name} and {subject} fill in from the message."
 msgstr ""
 

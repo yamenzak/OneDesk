@@ -3848,6 +3848,10 @@ msgstr "Ein anderer Mitarbeiter hat sich heute bereits von diesem Browser aus ei
 msgid "Answer"
 msgstr "Antwort"
 
+#: onedesk/public/js/rule_builder.js:723 onedesk/public/js/rule_builder.js:726
+msgid "Answer From Their Records"
+msgstr "Aus ihren Datensätzen antworten"
+
 #: onedesk/public/js/rule_builder.js:448
 msgid "Answer every message with the same words, once in each conversation."
 msgstr "Jede Nachricht mit denselben Worten beantworten, einmal pro Unterhaltung."
@@ -12554,10 +12558,6 @@ msgstr "Anlagen im Entwurf"
 #: onedesk/one_inventory/print_format/one_bom_creator/one_bom_creator.json
 msgid "Draft No"
 msgstr "Entwurfs-Nr."
-
-#: onedesk/public/js/rule_builder.js:734 onedesk/public/js/rule_builder.js:737
-msgid "Draft Replies"
-msgstr "Antwortentwürfe"
 
 #: frontend/src/quotes/QuotesPage.vue:113
 msgid "Draft Supplier Quotations"
@@ -22823,10 +22823,6 @@ msgstr "E-Mail-Vorlagen"
 msgid "Mail and files read as they arrive, filed on the right record and acted on."
 msgstr "Mails und Dateien werden beim Eintreffen gelesen, beim richtigen Datensatz abgelegt und bearbeitet."
 
-#: onedesk/one_mail/rules.py:264
-msgid "Mail rule: {0}"
-msgstr "E-Mail-Regel: {0}"
-
 #: onedesk/one_crm/home.py:123
 msgid "Mail sent to a lead or a contact on a schedule."
 msgstr "E-Mails, die nach Zeitplan an einen Lead oder Kontakt gesendet werden."
@@ -27755,9 +27751,9 @@ msgstr "OneAI ausgeschaltet"
 msgid "OneAI adds questions to each new interview."
 msgstr "OneAI fügt jedem neuen Gespräch Fragen hinzu."
 
-#: onedesk/public/js/rule_builder.js:735
-msgid "OneAI answers customers' questions from their own orders and invoices, and you check the reply before it goes."
-msgstr "OneAI beantwortet Fragen von Kunden aus ihren eigenen Bestellungen und Rechnungen, und du prüfst die Antwort, bevor sie rausgeht."
+#: onedesk/public/js/rule_builder.js:724
+msgid "OneAI answers customers' questions about orders, deliveries and prices from their own records."
+msgstr "OneAI beantwortet Fragen von Kunden zu Bestellungen, Lieferungen und Preisen aus ihren eigenen Datensätzen."
 
 #: onedesk/public/js/rule_builder.js:721
 msgid "OneAI answers new conversations from outside, in the sender's language."
@@ -35411,10 +35407,6 @@ msgstr "Neubewertungs-Nr."
 #: onedesk/public/js/task_actions.js:7
 msgid "Review"
 msgstr "Prüfung"
-
-#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
-msgid "Review Before Sending"
-msgstr "Vor dem Senden prüfen"
 
 #: frontend/src/task/TaskPage.vue:241
 msgid "Review Date"
@@ -52404,10 +52396,6 @@ msgstr "hat abgesagt"
 msgid "changed"
 msgstr "hat geändert"
 
-#: onedesk/public/js/rule_builder.js:291
-msgid "checked before sending"
-msgstr "vor dem Senden geprüft"
-
 #: frontend/src/project/ProjectActivity.vue:47
 msgid "completed"
 msgstr "hat erledigt"
@@ -53218,10 +53206,6 @@ msgstr "sections ist eine Liste von Abschnitten, jeder eine Liste von Spalten."
 #: onedesk/one/ai.py:2962
 msgid "sections is not JSON: {0}."
 msgstr "sections ist kein JSON: {0}."
-
-#: onedesk/public/js/rule_builder.js:292
-msgid "sent straight away"
-msgstr "sofort gesendet"
 
 #: onedesk/one_storage/share.py:100
 msgid "shared it with {0}"

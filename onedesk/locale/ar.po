@@ -3848,6 +3848,10 @@ msgstr "سجّل موظف آخر حضوره من هذا المتصفح اليو�
 msgid "Answer"
 msgstr "رد"
 
+#: onedesk/public/js/rule_builder.js:723 onedesk/public/js/rule_builder.js:726
+msgid "Answer From Their Records"
+msgstr "الإجابة من سجلاتهم"
+
 #: onedesk/public/js/rule_builder.js:448
 msgid "Answer every message with the same words, once in each conversation."
 msgstr "الرد على كل رسالة بالكلمات نفسها، مرة واحدة في كل محادثة."
@@ -12554,10 +12558,6 @@ msgstr "أصول مسودة"
 #: onedesk/one_inventory/print_format/one_bom_creator/one_bom_creator.json
 msgid "Draft No"
 msgstr "رقم المسودة"
-
-#: onedesk/public/js/rule_builder.js:734 onedesk/public/js/rule_builder.js:737
-msgid "Draft Replies"
-msgstr "مسودات الردود"
 
 #: frontend/src/quotes/QuotesPage.vue:113
 msgid "Draft Supplier Quotations"
@@ -22823,10 +22823,6 @@ msgstr "قوالب البريد"
 msgid "Mail and files read as they arrive, filed on the right record and acted on."
 msgstr "البريد والملفات تُقرأ فور وصولها، وتُحفظ في السجل الصحيح ويُتصرّف بشأنها."
 
-#: onedesk/one_mail/rules.py:264
-msgid "Mail rule: {0}"
-msgstr "قاعدة البريد: {0}"
-
 #: onedesk/one_crm/home.py:123
 msgid "Mail sent to a lead or a contact on a schedule."
 msgstr "بريد يُرسل إلى عميل محتمل أو جهة اتصال وفق جدول."
@@ -27755,9 +27751,9 @@ msgstr "OneAI متوقف"
 msgid "OneAI adds questions to each new interview."
 msgstr "يضيف OneAI أسئلة إلى كل مقابلة جديدة."
 
-#: onedesk/public/js/rule_builder.js:735
-msgid "OneAI answers customers' questions from their own orders and invoices, and you check the reply before it goes."
-msgstr "يجيب OneAI عن أسئلة العملاء من طلباتهم وفواتيرهم، وتراجع أنت الرد قبل إرساله."
+#: onedesk/public/js/rule_builder.js:724
+msgid "OneAI answers customers' questions about orders, deliveries and prices from their own records."
+msgstr "يجيب OneAI عن أسئلة العملاء حول الطلبات والتسليمات والأسعار من سجلاتهم."
 
 #: onedesk/public/js/rule_builder.js:721
 msgid "OneAI answers new conversations from outside, in the sender's language."
@@ -35411,10 +35407,6 @@ msgstr "رقم إعادة التقييم"
 #: onedesk/public/js/task_actions.js:7
 msgid "Review"
 msgstr "المراجعة"
-
-#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
-msgid "Review Before Sending"
-msgstr "المراجعة قبل الإرسال"
 
 #: frontend/src/task/TaskPage.vue:241
 msgid "Review Date"
@@ -52404,10 +52396,6 @@ msgstr "ألغى"
 msgid "changed"
 msgstr "غيّر"
 
-#: onedesk/public/js/rule_builder.js:291
-msgid "checked before sending"
-msgstr "تُراجع قبل الإرسال"
-
 #: frontend/src/project/ProjectActivity.vue:47
 msgid "completed"
 msgstr "أنجز"
@@ -53218,10 +53206,6 @@ msgstr "sections قائمة أقسام، كل منها قائمة أعمدة."
 #: onedesk/one/ai.py:2962
 msgid "sections is not JSON: {0}."
 msgstr "sections ليست JSON: {0}."
-
-#: onedesk/public/js/rule_builder.js:292
-msgid "sent straight away"
-msgstr "تُرسل فورًا"
 
 #: onedesk/one_storage/share.py:100
 msgid "shared it with {0}"

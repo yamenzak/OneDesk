@@ -244,7 +244,6 @@ def from_fields(row: dict) -> list:
 				"with": row.get("reply_with") or "Text",
 				"text": row.get("reply_text") or "",
 				"instruction": row.get("reply_instruction") or "",
-				"review": int(bool(row.get("reply_review"))),
 				"once": "conversation",
 			}
 		)

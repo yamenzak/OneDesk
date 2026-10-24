@@ -263,9 +263,8 @@ def answer(rule, step: dict, name: str, headers=None) -> str | None:
 	"""A rule's Reply: its own text, or OneAI's answer from the rule's
 	instruction. Once per conversation, or once a day, a week or a month to
 	each sender (`once`), never to a machine or to the mailbox itself.
-	OneAI's answer waits as a card for whoever made the rule when the rule
-	asks for review, and always when it left a blank in brackets for a
-	person to fill in. Answers "sent", "card" or None."""
+	OneAI's answer goes out as it is, or not at all when it left a blank in
+	brackets that only a person could fill. Answers "sent" or None."""
 	comm = frappe.db.get_value(
 		"Communication",
 		name,
@@ -292,12 +291,9 @@ def answer(rule, step: dict, name: str, headers=None) -> str | None:
 		if not held or held.one_ai_off or gate.over(held):
 			return None
 		text = _drafted(step, comm)
-		if not text:
+		if not text or "[" in text:
 			return None
 		frappe.cache.set_value(key, 1, expires_in_sec=lasts)
-		if step.get("review") or "[" in text:
-			_card(rule, comm, account, text)
-			return "card"
 		_send(account, comm, _paragraphs(text))
 		return "sent"
 	frappe.cache.set_value(key, 1, expires_in_sec=lasts)
@@ -425,7 +421,8 @@ def _drafted(step: dict, comm) -> str:
 		f"What the reply should say, from the mailbox's owner: {step.get('instruction')}\n\n"
 		f"The message, from {comm.sender_full_name or ''} <{comm.sender}>, subject \"{comm.subject or ''}\":\n\n{text}\n\n"
 		f"{known}\n\n"
-		"Write the reply in the message's language, as plain text, paragraphs apart by a blank line."
+		"Write the reply in the message's language, as plain text, paragraphs apart by a blank line. "
+		"It is sent as it is, so leave no blank or placeholder for a person to fill in."
 	)
 	return (run.once("reply", asked, reference=comm.name) or "").strip()
 
@@ -453,26 +450,6 @@ def _send(account, comm, html: str) -> None:
 		in_reply_to=comm.name,
 		communication_medium="Email",
 	)
-	frappe.local.one_rule_replied = comm.name
-
-
-def _card(rule, comm, account, text: str) -> None:
-	"""OneAI's reply as a card for whoever made the rule, the same card the
-	OneAI panel's draft_reply makes: approving opens it in the email window."""
-	from onedesk.one_ai import proposals
-
-	was = frappe.session.user
-	frappe.set_user(rule.owner)
-	try:
-		proposals.propose(
-			"Reply",
-			"Communication",
-			changes={"account": account.name, "thread": comm.one_thread or comm.name, "subject": comm.subject, "text": text},
-			record=comm.name,
-			why=_("Mail rule: {0}").format(rule.name),
-		)
-	finally:
-		frappe.set_user(was)
 	frappe.local.one_rule_replied = comm.name
 
 

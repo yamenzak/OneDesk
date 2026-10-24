@@ -17,7 +17,19 @@ PARTY = {
 	"Purchase Invoice": "supplier",
 }
 
-RECENT = 5
+RECENT = 3
+
+MOST = 20
+
+OPEN = {
+	"Quotation": {"status": ("in", ("Open", "Replied", "Partially Ordered"))},
+	"Sales Order": {"status": ("not in", ("Completed", "Closed", "Cancelled"))},
+	"Sales Invoice": {"outstanding_amount": (">", 0)},
+	"Delivery Note": {"status": ("not in", ("Completed", "Closed", "Cancelled", "Return Issued"))},
+	"Supplier Quotation": {"status": ("in", ("Submitted",))},
+	"Purchase Order": {"status": ("not in", ("Completed", "Closed", "Cancelled"))},
+	"Purchase Invoice": {"outstanding_amount": (">", 0)},
+}
 
 NAMED = re.compile(r"\b[A-Z][A-Z0-9]*(?:[-/.][A-Z0-9]+)+\b")
 
@@ -99,20 +111,14 @@ def shown_kinds() -> set[str]:
 
 def records(sender: str, text: str = "") -> list[dict]:
 	"""What the portal shows the sender, as the portal's rows, leaving out a
-	record hidden from that contact (portal.mine): the records the message
-	names when it names any of theirs, and otherwise, for each customer or
-	supplier they are a contact of, the latest few of each kind the portal
-	lists."""
-	kinds = shown_kinds()
-	named = set(NAMED.findall(text or ""))
-	said = _of(sender, kinds, named, only_named=bool(named))
-	return said or (_of(sender, kinds, named, only_named=False) if named else said)
-
-
-def _of(sender: str, kinds: set, named: set, only_named: bool) -> list[dict]:
-	"""`records` for one choice: only the named ones, or the latest too."""
+	record hidden from that contact (portal.mine): for each customer or
+	supplier they are a contact of, every record still open (OPEN), the
+	latest few of each kind the portal lists, and any the message names.
+	OneAI picks what the question is about (`told`)."""
 	from onedesk.one import portal
 
+	kinds = shown_kinds()
+	named = set(NAMED.findall(text or ""))
 	said = []
 	for party_type, party, contact in parties_of(sender):
 		for doctype, field in PARTY.items():
@@ -121,11 +127,8 @@ def _of(sender: str, kinds: set, named: set, only_named: bool) -> list[dict]:
 			filters = {field: party, "docstatus": 1}
 			if doctype == "Quotation":
 				filters["quotation_to"] = "Customer"
-			names = (
-				[]
-				if only_named
-				else frappe.get_all(doctype, filters=filters, pluck="name", order_by="modified desc", limit=RECENT)
-			)
+			names = frappe.get_all(doctype, filters={**filters, **OPEN.get(doctype, {})}, pluck="name", order_by="modified desc", limit=MOST)
+			names += frappe.get_all(doctype, filters=filters, pluck="name", order_by="modified desc", limit=RECENT)
 			if named:
 				names += frappe.get_all(doctype, filters={**filters, "name": ("in", list(named))}, pluck="name")
 			for name in dict.fromkeys(names):
@@ -166,8 +169,8 @@ def told(comm) -> str:
 		for row in rows
 	]
 	return (
-		"These are the sender's own records, as the workspace's portal shows them. Mention only the ones "
-		"the message asks about, and bring up no other: not an overdue invoice when they asked about a "
-		"delivery. Say nothing else about the workspace's records, and invent no number, date or amount.\n"
+		"These are the sender's own records, as the workspace's portal shows them: everything still open, "
+		"and the latest of the rest. Work out which ones the message is about, even when it names none, "
+		"and mention only those: not an overdue invoice when they asked about a delivery. Say nothing else about the workspace's records, and invent no number, date or amount.\n"
 		+ "\n".join(f"- {one}" for one in lines)
 	)

@@ -127,23 +127,26 @@ while it waits.
 **Replying by a rule.** A rule's **Reply** step answers in your own words,
 where `{sender_name}` and `{subject}` fill in, or OneAI writes the reply
 itself. What you type for OneAI is an instruction, never the reply: "answer
-from their orders and say we follow up within a day". OneAI's reply waits as
-a card for whoever made the rule when it is **checked before sending**, and
-always when it left a blank for a person to fill in; it needs OneAI on for
-the mailbox and counts against its monthly limit.
+from their orders and say we follow up within a day". A rule's reply is an
+automatic reply, so OneAI's goes out as it is, with no one checking it
+first; a reply that needs a person belongs in the conversation, not in a
+rule. OneAI is told the reply is sent as written, and one that still leaves
+a blank for a person to fill is not sent at all. It needs OneAI on for the
+mailbox and counts against its monthly limit.
 
 **What OneAI may tell the sender.** Nothing about the workspace's records,
 unless the reply is set to **reading their records**. Then OneAI is given,
 and told to use nothing else, what the portal shows that person
 (`theirs.py`): for each customer or supplier the address is a contact of,
-only the records the message names when it names any of theirs, and
-otherwise the latest five of each kind the portal lists (quotations,
-orders, invoices, deliveries; supplier quotations, purchase orders and
-invoices), as the portal's own rows (status, total, due or
-delivery date, items), leaving out what was hidden from that contact. It is
-told to mention only the ones the message asks about, and bring up no
-other, so a question about a delivery is not answered with a reminder of
-an overdue invoice. The
+everything still open (quotations not yet ordered, orders not yet
+delivered, invoices not yet paid, and the supplier's side of the same), the
+latest three of each kind the portal lists, and any the message names, as
+the portal's own rows (status, total, what is still to pay, due or
+delivery date, items), leaving out what was hidden from that contact. A
+customer never writes "SAL-ORD-2026-00003"; they write "where is my
+order", so OneAI works out which records the message is about and is told
+to mention only those, not an overdue invoice when they asked about a
+delivery. The
 portal is the one place that decides what a customer may see, so there is
 no second list to keep in step with it.
 
@@ -256,7 +259,7 @@ small window. A rule is a list of steps, read top to bottom:
   "Complaint"). Each answer has its own steps. A rule with Ask OneAI runs
   once OneAI has read the message, a moment after it arrives.
 - **Actions:** move to a folder, mark as read, star, move to Junk, reply
-  (your own words, or OneAI writes it and you review it first), forward,
+  (your own words, or written by OneAI and sent as it is), forward,
   assign to someone who uses the mailbox, tell them on the bell, link the
   message to the sender's customer, supplier or lead, create a lead, issue
   or task from it, and **Stop Here**, which keeps the rules after this one
@@ -280,8 +283,7 @@ between them they use every condition and every action:
   **New Leads**, **Tasks From Mail**, **Forward Supplier Bills** and
   **Urgent After Hours**.
 - **With OneAI**, only where OneAI may read the mailbox: **Sort by
-  Topic**, **Upset or Urgent**, **Draft Replies** (reading the sender's
-  records, checked before sending) and **Auto Reply in Their Language**.
+  Topic**, **Upset or Urgent**, **Answer From Their Records** and **Auto Reply in Their Language**.
 
 Every example that asks OneAI something or has OneAI write a reply carries
 the OneAI badge.

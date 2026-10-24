@@ -9648,8 +9648,8 @@ def onemail_oneai_tells_a_sender_only_their_own_records():
 	"""A rule's OneAI reply reading their records is given what the portal
 	shows the sender, only when the receiving server verified them: Khalid
 	of Mansour & Sons gets his own quotations, orders, invoices with what is
-	still to pay, and deliveries, and nobody else's, or only the one his
-	message names; the same address with a
+	still to pay, and deliveries, and nobody else's: all that is still open
+	and the latest of the rest; the same address with a
 	forged From line, or a stranger, gets nothing, and a reply not set to
 	read records is told to say nothing about them."""
 	from unittest import mock
@@ -9664,10 +9664,11 @@ def onemail_oneai_tells_a_sender_only_their_own_records():
 	rows = theirs.records("khalid@mansour.example", "When does my order arrive?")
 	assert rows and {row["party"] for row in rows} == {"Mansour & Sons"}, rows
 	assert {row["doctype"] for row in rows} >= {"Sales Order", "Sales Invoice"}
-	named = theirs.records("khalid@mansour.example", "How much is left on ACC-SINV-2026-00001?")
-	assert [row["name"] for row in named] == ["ACC-SINV-2026-00001"], "only the record the message names"
-	assert named[0].get("owed"), "what is still to pay"
-	assert len(theirs.records("khalid@mansour.example", "About ACC-PINV-2026-00019")) == len(rows), "not theirs: the latest"
+	owed = [row["name"] for row in rows if row["doctype"] == "Sales Invoice" and row["status"] != "Paid"]
+	open_ = frappe.get_all("Sales Invoice", filters={"customer": "Mansour & Sons", "docstatus": 1, "outstanding_amount": (">", 0)}, pluck="name")
+	assert set(open_) <= set(owed), "every invoice still to pay, however old"
+	assert any(row.get("owed") for row in rows), "what is still to pay on a part-paid one"
+	assert len(theirs.records("khalid@mansour.example", "About ACC-PINV-2026-00019")) == len(rows), "a name not theirs adds nothing"
 
 	asked = []
 	with mock.patch("onedesk.one_ai.run.once", side_effect=lambda kind, text, reference=None: asked.append(text) or "ok"):
