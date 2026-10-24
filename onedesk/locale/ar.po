@@ -27694,6 +27694,14 @@ msgstr "OneAI وحده يكتب الإضافات. اطلب منه تغيير ه�
 msgid "Only Word files can be opened as a document."
 msgstr "لا يمكن فتح سوى ملفات Word كمستند."
 
+#: onedesk/public/js/onemail_settings.js:120
+msgid "Only a Workspace Administrator can change this."
+msgstr "لا يمكن تغيير هذا إلا لمسؤول مساحة العمل."
+
+#: onedesk/one_mail/holders.py:68
+msgid "Only a Workspace Administrator can change {0}."
+msgstr "لا يمكن تغيير {0} إلا لمسؤول مساحة العمل."
+
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.py:14
 msgid "Only a Workspace Administrator can share a server with everyone."
 msgstr "لا يمكن مشاركة خادم مع الجميع إلا لمسؤول مساحة العمل."
@@ -27943,14 +27951,6 @@ msgstr "لا يمكن نقل التقرير إلا لمن حفظه أو لأحد
 #: onedesk/one/portal_share.py:155
 msgid "Only the record's own contacts can be hidden from."
 msgstr "لا يمكن الإخفاء إلا عن جهات اتصال السجل نفسه."
-
-#: onedesk/public/js/onemail_settings.js:141
-msgid "Only the user who connected it or a Workspace Administrator can change this."
-msgstr "لا يمكن تغيير هذا إلا للمستخدم الذي ربطه أو لمسؤول مساحة العمل."
-
-#: onedesk/one_mail/holders.py:57
-msgid "Only the user who connected {0} or a Workspace Administrator can change this."
-msgstr "لا يمكن تغيير هذا إلا للمستخدم الذي ربط {0} أو لمسؤول مساحة العمل."
 
 #: onedesk/public/js/onemail_settings.js:506
 msgid "Only the users of this mailbox can change its rules."

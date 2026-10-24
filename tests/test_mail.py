@@ -649,10 +649,10 @@ def test_a_signature_is_shown_by_its_first_line(monkeypatch):
 	assert first("") == "" and first(None) == ""
 
 
-def test_a_shared_mailbox_is_managed_by_whoever_connected_it_or_an_administrator():
+def test_a_shared_mailbox_is_managed_by_an_administrator_only():
 	holders = (MAIL / "holders.py").read_text()
 	manage = holders.split("def may_manage(", 1)[1].split("\ndef ", 1)[0]
-	assert 'owner == frappe.session.user or roles.administers()' in manage
+	assert "return roles.administers()" in manage and "owner" not in manage, "the workspace's, not the connector's"
 	assert "actions.holds(account)" in manage, "a mailbox of one's own is its holder's"
 	assert "enable_outgoing" in holders.split("def may_sign(", 1)[1].split("\ndef ", 1)[0]
 	setter = holders.split("def set_signature(", 1)[1].split("\ndef ", 1)[0]

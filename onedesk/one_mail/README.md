@@ -77,8 +77,9 @@ A mailbox's **…** in the sidebar (or right-click) has **New Folder**,
 **Mailbox Settings**. A folder you made has **New Folder**, **Rename** and
 **Delete**; deleting it moves its messages to Trash.
 
-A shared mailbox's signature, out-of-office reply and connection are
-changed only by the user who connected it or a Workspace Administrator.
+A shared mailbox's signature, out-of-office reply, auto reply, OneAI and
+connection are changed only by a Workspace Administrator, whoever connected
+it.
 
 **Mail Rules** in a mailbox's settings lists its rules in the order they
 run, each with a switch to turn it off. **New Rule**, or a rule clicked,

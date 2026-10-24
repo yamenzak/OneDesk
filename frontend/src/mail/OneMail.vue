@@ -276,8 +276,8 @@ function folderMenu(id) {
 }
 
 // A mailbox's own menu. Signature and Out of Office open its view in
-// OneMail's settings; a shared mailbox's are its connector's or an
-// administrator's (holders.may_manage).
+// OneMail's settings; a shared mailbox's are an administrator's
+// (holders.may_manage).
 function boxMenu(one) {
   if (!one) return [];
   const at = (section) => () => settings(`mailbox:${one.name}${section ? ":" + section : ""}`);

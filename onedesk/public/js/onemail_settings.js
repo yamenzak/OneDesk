@@ -114,10 +114,10 @@ onedesk.mail.settings = (tab) => {
 	// Opening a mailbox turns the dialog's tabs into its own, with All
 	// Mailboxes above them to go back to the tab it was opened from
 	// (frappe's SettingsDialog.reset). Each tab saves on its own, as
-	// frappe's settings do. A shared mailbox's settings are its connector's
-	// or an administrator's (holders.may_manage).
+	// frappe's settings do. A shared mailbox's settings are an
+	// administrator's (holders.may_manage).
 	const R = "onedesk.one_mail.rules.";
-	const managed = __("Only the user who connected it or a Workspace Administrator can change this.");
+	const managed = __("Only a Workspace Administrator can change this.");
 
 	// A tab's Save shows only once something in it changed, and goes again
 	// once saved (panel.clean). The editor settles its value after drawing,

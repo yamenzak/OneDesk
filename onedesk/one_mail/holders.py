@@ -41,14 +41,14 @@ def workspace() -> str | None:
 
 def may_manage(account: str) -> bool:
 	"""Whether the reader may change a mailbox's signature, replies and
-	connection: their own one, and a shared one only if they connected it
-	or administer the workspace, holding it or not."""
+	connection: their own one, and a shared one only if they administer the
+	workspace, holding it or not. Connecting a shared mailbox doesn't make it
+	the connector's: the team writes from it, so the workspace decides."""
 	from onedesk.one import roles
 	from onedesk.one_mail import actions
 
-	shared, owner = frappe.db.get_value("Email Account", account, ["one_shared", "owner"]) or (0, None)
-	if shared:
-		return owner == frappe.session.user or roles.administers()
+	if frappe.db.get_value("Email Account", account, "one_shared"):
+		return roles.administers()
 	return actions.holds(account)
 
 
@@ -63,12 +63,13 @@ def sees(account: str):
 def manages(account: str):
 	"""Refuse a reader who may not manage this mailbox (may_manage)."""
 	if not may_manage(account):
-		frappe.throw(
-			_("Only the user who connected {0} or a Workspace Administrator can change this.").format(
-				frappe.db.get_value("Email Account", account, "email_id")
-			),
-			frappe.PermissionError,
+		email, shared = frappe.db.get_value("Email Account", account, ["email_id", "one_shared"]) or (account, 0)
+		said = (
+			_("Only a Workspace Administrator can change {0}.")
+			if shared
+			else _("You don't have access to the mailbox {0}.")
 		)
+		frappe.throw(said.format(email), frappe.PermissionError)
 
 
 def may_sign(account: str) -> bool:
