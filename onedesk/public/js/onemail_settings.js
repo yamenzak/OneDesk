@@ -11,7 +11,9 @@ frappe.provide("onedesk.mail");
 onedesk.mail.settings = (tab) => {
 	const H = "onedesk.one_mail.holders.";
 	const esc = frappe.utils.escape_html;
-	const admin = frappe.user.has_role("Workspace Administrator");
+	// Whoever manages the workspace's mail: a Mail Manager or an
+	// administrator (one/roles.py).
+	const admin = frappe.user.has_role("Workspace Administrator") || frappe.user.has_role("Mail Manager");
 	const saved = () => frappe.show_alert({ message: __("Saved"), indicator: "green" });
 
 	const heading = (title, description) =>
@@ -117,7 +119,7 @@ onedesk.mail.settings = (tab) => {
 	// frappe's settings do. A shared mailbox's settings are an
 	// administrator's (holders.may_manage).
 	const R = "onedesk.one_mail.rules.";
-	const managed = __("Only a Workspace Administrator can change this.");
+	const managed = __("Only a Mail Manager or an administrator can change this.");
 
 	// A tab's Save shows only once something in it changed, and goes again
 	// once saved (panel.clean). The editor settles its value after drawing,
@@ -202,7 +204,12 @@ onedesk.mail.settings = (tab) => {
 		let state = null;
 		let was = "";
 		const now = (panel) =>
-			JSON.stringify([state.preset, state.preset ? state.shown : [], state.preset ? "" : panel.get_value("custom") || ""]);
+			JSON.stringify([
+				panel.get_value("sender_name") || "",
+				state.preset,
+				state.preset ? state.shown : [],
+				state.preset ? "" : panel.get_value("custom") || "",
+			]);
 		const dirty = (panel) => panel.$header.find(".oms-save").toggleClass("hide", now(panel) === was);
 		const html_of = (preset) => (state.presets.find((one) => one.preset === preset) || {}).html;
 		const show = (panel, preset = state.preset) => {
@@ -261,7 +268,7 @@ onedesk.mail.settings = (tab) => {
 			label: __("Signature"),
 			icon: "signature",
 			title: __("Signature"),
-			description: !box.sends ? __("Requires Send access.") : box.may_sign ? __("Added to every email sent from this mailbox.") : managed,
+			description: box.may_sign ? __("Added to every email sent from this mailbox.") : !box.sends ? __("Requires Send access.") : managed,
 			actions: box.may_sign
 				? [
 						{
@@ -274,6 +281,7 @@ onedesk.mail.settings = (tab) => {
 									preset: state.preset,
 									show: JSON.stringify(state.shown),
 									signature: panel.get_value("custom") || "",
+									sender_name: panel.get_value("sender_name") || "",
 								});
 								saved();
 								was = now(panel);
@@ -288,6 +296,14 @@ onedesk.mail.settings = (tab) => {
 				state = await frappe.xcall(SIGN + "presets_of", { account: box.name });
 				if (view !== panel.shown) return;
 				panel.add_fields([
+					{
+						fieldname: "sender_name",
+						fieldtype: "Data",
+						label: __("Sender Name"),
+						default: state.sender_name,
+						placeholder: state.default_sender_name || __("The writer's name"),
+						description: __("The name shown with the address on every email sent from this mailbox. Leave empty to use the default."),
+					},
 					{ fieldname: "look", fieldtype: "HTML" },
 					{ fieldname: "custom", fieldtype: "Text Editor", default: state.preset ? "" : state.signature, hidden: !!state.preset },
 					{ fieldname: "styles", fieldtype: "HTML" },
@@ -302,6 +318,7 @@ onedesk.mail.settings = (tab) => {
 					dirty(panel);
 				}, 600);
 				panel.fieldgroup.get_field("custom").df.change = () => dirty(panel);
+				panel.fieldgroup.get_field("sender_name").df.change = () => dirty(panel);
 				panel.body.off("input.oms-signature").on("input.oms-signature", () => dirty(panel));
 			},
 		};
@@ -312,7 +329,11 @@ onedesk.mail.settings = (tab) => {
 		label: __("Out of Office"),
 		icon: "plane",
 		title: __("Out of Office"),
-		description: box.may_manage ? __("Sent once every 4 days per sender. Not sent to mailing lists.") : managed,
+		description: box.may_manage
+			? __("Sent once every 4 days per sender. Not sent to mailing lists.")
+			: box.hosted && !box.shared
+			? __("Sent while you're on approved leave, with the Away Message from your leave request.")
+			: managed,
 		actions: box.may_manage
 			? [
 					{
@@ -328,8 +349,22 @@ onedesk.mail.settings = (tab) => {
 			  ]
 			: [],
 		async render(panel) {
-			if (!box.may_manage) return;
+			// An issued address answers on its own while its person is on
+			// approved leave (rules.on_leave); said here, beside the switch.
+			const issued = box.hosted && !box.shared;
+			if (!box.may_manage && !issued) return;
 			const away = (await frappe.xcall(R + "away_of", { account: box.name })) || {};
+			const $heading = panel.$header.find(".settings-dialog-panel-heading");
+			$heading.find(".oms-leave").remove();
+			if (issued && (box.may_manage || away.leave_until))
+				$heading.append(
+					`<div class="oms-help oms-leave">${esc(
+						away.leave_until
+							? __("On approved leave until {0}. Replies go out on their own.", [frappe.datetime.str_to_user(away.leave_until)])
+							: __("Also sent on its own while the person is on approved leave.")
+					)}</div>`
+				);
+			if (!box.may_manage) return;
 			panel.add_fields([
 				{ fieldname: "until", fieldtype: "Date", label: __("Until"), default: away.one_away_until },
 				{ fieldname: "message", fieldtype: "Small Text", label: __("Message"), default: away.one_away_message },
@@ -578,7 +613,9 @@ onedesk.mail.settings = (tab) => {
 
 	// A mailbox's rules, in the order they run, each opened in the tab to
 	// change it (rules.py: rules_of_mailbox, save_rule, enable_rule,
-	// delete_rule). They are its holders'.
+	// delete_rule, decide_rule). Whoever manages the mailbox changes them;
+	// the person a workspace address is issued to asks, and a Mail Manager
+	// approves.
 	const said_when = (rule) =>
 		[
 			rule.from_contains && __("From {0}", [rule.from_contains]),
@@ -606,16 +643,26 @@ onedesk.mail.settings = (tab) => {
 		label: __("Mail Rules"),
 		icon: "list-filter",
 		title: __("Mail Rules"),
-		description: __("Run in order on each new message."),
-		actions: [{ label: __("New Rule"), icon: "plus", click: (panel) => rule_view(panel, box, null) }],
+		description: box.may_manage
+			? __("Run in order on each new message.")
+			: box.hosted && !box.shared
+			? __("Run in order on each new message. A rule you ask for runs once a Mail Manager approves it.")
+			: managed,
+		actions:
+			box.may_manage || (box.hosted && !box.shared)
+				? [
+						{
+							label: box.may_manage ? __("New Rule") : __("Request Rule"),
+							icon: "plus",
+							click: (panel) => rule_view(panel, box, null),
+						},
+				  ]
+				: [],
 		async render(panel) {
 			const was = panel.shown;
 			const said = await frappe.xcall(R + "rules_of_mailbox", { account: box.name });
 			if (panel.shown !== was) return;
-			if (!said.may) {
-				panel.set_header({ title: __("Mail Rules"), description: __("Only the users of this mailbox can change its rules.") });
-				return;
-			}
+			if (!said.may) return;
 			const $list = $(`<div class="oms-list"></div>`).appendTo(panel.body.empty());
 			if (!said.rules.length) $list.append(empty(__("No rules")));
 			said.rules.forEach((rule) => {
@@ -628,6 +675,11 @@ onedesk.mail.settings = (tab) => {
 				})
 					.appendTo($list)
 					.find(".oms-end");
+				if (rule.requested_by) {
+					$end.prepend(frappe.ui.badge.html({ label: __("Waiting for Approval"), theme: "orange" }));
+					return;
+				}
+				if (!said.manages) return;
 				const on = frappe.ui.form.make_control({
 					df: { fieldtype: "Switch", fieldname: "enabled", label: "" },
 					parent: $(`<span class="oms-switch oms-head-switch"></span>`).prependTo($end),
@@ -652,8 +704,17 @@ onedesk.mail.settings = (tab) => {
 			saved();
 			panel.refresh();
 		};
-		const actions = [{ label: __("Save"), variant: "solid", click: save }];
-		if (rule) {
+		const decide = (approve) => async () => {
+			await frappe.xcall(R + "decide_rule", { name: rule.name, approve: approve ? 1 : 0 });
+			saved();
+			panel.refresh();
+		};
+		const asking = !box.may_manage;
+		const actions = [{ label: asking ? __("Send Request") : __("Save"), variant: "solid", click: save }];
+		if (rule && rule.requested_by && box.may_manage) {
+			actions.splice(0, 1, { label: __("Decline"), theme: "red", click: decide(false) }, { label: __("Approve"), variant: "solid", click: decide(true) });
+		}
+		if (rule && (asking ? rule.requested_by : !rule.requested_by)) {
 			actions.unshift({
 				label: __("Delete"),
 				theme: "red",
@@ -665,13 +726,17 @@ onedesk.mail.settings = (tab) => {
 			});
 		}
 		view(panel, {
-			title: rule ? __("Mail Rule") : __("New Mail Rule"),
+			title: rule ? __("Mail Rule") : asking ? __("Request Mail Rule") : __("New Mail Rule"),
+			description:
+				rule && rule.requested_by
+					? __("{0} asked for this rule. It runs once approved.", [rule.requested_by_name || rule.requested_by])
+					: undefined,
 			actions,
 			render: (shown) => {
 				frappe.model.with_doctype("Mail Rule", () => {
 					const fields = frappe
 						.get_meta("Mail Rule")
-						.fields.filter((df) => !["account", "enabled"].includes(df.fieldname))
+						.fields.filter((df) => !["account", "enabled", "requested_by"].includes(df.fieldname))
 						.map((df) => ({
 							...df,
 							fieldtype: df.fieldtype === "Check" ? "Switch" : df.fieldtype,
@@ -873,6 +938,22 @@ onedesk.mail.settings = (tab) => {
 			};
 			typed.$input.on("keydown", (e) => e.key === "Enter" && add());
 			button({ label: __("Add"), variant: "solid" }).on("click", add).appendTo($add);
+
+			// Everybody's own mailboxes, opened to set a signature, a sender
+			// name or an away reply for them (holders.addresses_of_people).
+			$body.append(heading(__("People's Mailboxes"), __("Their workspace addresses and the mailboxes they connected.")));
+			const $people = $(`<div class="oms-list"></div>`).appendTo($body);
+			const people = (await frappe.xcall(H + "addresses_of_people")) || [];
+			if (!people.length) $people.append(empty(__("No mailboxes")));
+			people.forEach((one) =>
+				row({
+					lead: frappe.ui.avatar.html({ label: one.full_name, size: "md" }),
+					title: one.full_name,
+					sub: esc([one.email, one.issued ? __("Workspace") : __("External")].join(" · ")),
+					end: chevron(),
+					open: () => open(one.name, "personal"),
+				}).appendTo($people)
+			);
 		},
 	};
 

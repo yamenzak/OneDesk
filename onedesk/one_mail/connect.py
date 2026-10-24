@@ -177,7 +177,7 @@ def connect(
 	from onedesk.one import roles
 
 	if int(shared):
-		frappe.only_for(roles.ADMINISTRATOR)
+		roles.require_mail()
 	email = (validate_email_address(email or "", throw=True) or "").strip().lower()
 	allowed = addresses.allowed_domains()
 	if not int(shared) and not addresses.external():
@@ -283,14 +283,15 @@ def reconnect(account: str, password: str, login: str | None = None) -> str:
 def disconnect(account: str) -> None:
 	"""Stop reading a connected mailbox. What was read stays, linked to what
 	it was linked to; only the account and its folders go."""
-	from onedesk.one_mail import actions
+	from onedesk.one_mail import actions, holders
 
-	actions.require(account)
 	connected, shared = frappe.db.get_value("Email Account", account, ["one_connected", "one_shared"])
 	if shared:
 		from onedesk.one import roles
 
-		frappe.only_for(roles.ADMINISTRATOR)
+		roles.require_mail()
+	elif not actions.holds(account):
+		holders.manages(account)
 	if not connected:
 		frappe.throw(_("Only a connected mailbox can be disconnected."))
 	frappe.db.set_value("Communication", {"email_account": account}, {"uid": 0}, update_modified=False)

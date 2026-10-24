@@ -401,6 +401,10 @@ msgstr "8 ساعات"
 msgid "91 to 180 Days"
 msgstr "من 91 إلى 180 يومًا"
 
+#: onedesk/notifications/one_mail/mail_rule_requested.md
+msgid "<b>When</b> {when}<br><b>Then</b> {then}<br>It runs once you approve it in OneMail › Settings › {mailbox} › Mail Rules."
+msgstr "<b>متى</b> {when}<br><b>ثم</b> {then}<br>تعمل بعد موافقتك عليها في OneMail › الإعدادات › {mailbox} › قواعد البريد."
+
 #. Header text in the One Admin Workspace
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "<span class=\"h4\"><b>Right now</b></span>"
@@ -414,6 +418,10 @@ msgstr "<span class=\"h4\"><b>اليوم</b></span>"
 #: onedesk/one_admin/doctype/private_app/private_app.py:15
 msgid "A Frappe app's name is lowercase letters, digits and underscores."
 msgstr "يتكوّن اسم تطبيق Frappe من أحرف صغيرة وأرقام وشرطات سفلية."
+
+#: onedesk/one_mail/rules.py:607 onedesk/one_mail/rules.py:619
+msgid "A Mail Manager approves the rules of this mailbox."
+msgstr "يوافق مدير البريد على قواعد هذا الصندوق."
 
 #: onedesk/one_doc/paper.py:217 onedesk/one_sheet/paper.py:384
 msgid "A PDF can only be saved to OneCloud or attached to the record."
@@ -3373,6 +3381,10 @@ msgstr "أيضًا في {0}"
 msgid "Also propose networks and locations belonging to a single employee, such as a home."
 msgstr "اقتراح الشبكات والمواقع التي تخص موظفاً واحداً أيضاً، مثل المنزل."
 
+#: onedesk/public/js/onemail_settings.js:364
+msgid "Also sent on its own while the person is on approved leave."
+msgstr "يُرسل تلقائياً أيضاً أثناء إجازة الشخص المعتمدة."
+
 #. Name of a project template
 #: onedesk/one_project/library/aluminium_and_glazing.json
 msgid "Aluminium & Glazing"
@@ -5322,6 +5334,7 @@ msgid "Away"
 msgstr "غائب"
 
 #. Label of the one_away_message (Small Text) field in DocType 'Email Account'
+#: onedesk/one_hr/custom/leave_application.json
 #: onedesk/one_mail/custom/email_account.json
 msgid "Away Message"
 msgstr "رسالة الغياب"
@@ -6824,6 +6837,10 @@ msgstr "يمكن أن يتضمن حقلًا من السجل، مثل {0}."
 #: onedesk/one/settings.py:1063
 msgid "Can manage people, the plan, domains and OneAI. Other administrators are notified."
 msgstr "يمكنه إدارة الأشخاص والخطة والنطاقات وOneAI. يُشعَر المسؤولون الآخرون."
+
+#: onedesk/one/settings.py:1004
+msgid "Can manage the workspace's mailboxes: who holds them, signatures, sender names, out of office and rules."
+msgstr "يمكنه إدارة صناديق بريد مساحة العمل: من يستخدمها والتواقيع وأسماء المرسلين والرد أثناء الغياب والقواعد."
 
 #: onedesk/public/js/doctype_settings.js:409
 msgid "Can only go up, and not below {0}, used by {1} {2}."
@@ -14090,6 +14107,10 @@ msgstr "كل يوم"
 msgid "Every Hour"
 msgstr "كل ساعة"
 
+#: onedesk/notifications/one_mail/mail_rule_requested.md
+msgid "Every Mail Manager and administrator"
+msgstr "كل مدير بريد ومسؤول"
+
 #. Option for the 'When' (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Every Month"
@@ -18274,6 +18295,10 @@ msgstr "سألصق توقيع بريد إلكتروني. أضف الشخص ال�
 #: onedesk/one_mail/rules.py:228
 msgid "I'm away and will reply when I'm back."
 msgstr "أنا غائب وسأرد عند عودتي."
+
+#: onedesk/one_mail/rules.py:414
+msgid "I'm on leave and back on {0}. I'll reply then."
+msgstr "أنا في إجازة وأعود في {0}. سأرد حينها."
 
 #. Label in the One Bank Guarantee print format
 #. Label in the One Detailed Tax Invoice print format
@@ -22491,6 +22516,10 @@ msgstr "نطاق البريد"
 msgid "Mail Folder"
 msgstr "مجلد البريد"
 
+#: onedesk/one/settings.py:1003
+msgid "Mail Manager"
+msgstr "مدير البريد"
+
 #. Label of the one_mail_name (Data) field in DocType 'User'
 #: onedesk/one_mail/custom/user.json
 msgid "Mail Name"
@@ -22507,6 +22536,18 @@ msgstr "لم يُرسل البريد"
 #: onedesk/public/js/onemail_settings.js:558
 msgid "Mail Rule"
 msgstr "قاعدة بريد"
+
+#: onedesk/notifications/one_mail/mail_rule_approved.md
+msgid "Mail Rule Approved"
+msgstr "تمت الموافقة على قاعدة البريد"
+
+#: onedesk/notifications/one_mail/mail_rule_declined.md
+msgid "Mail Rule Declined"
+msgstr "رُفضت قاعدة البريد"
+
+#: onedesk/notifications/one_mail/mail_rule_requested.md
+msgid "Mail Rule Requested"
+msgstr "طلب قاعدة بريد"
 
 #: onedesk/public/js/onemail_settings.js:148
 msgid "Mail Rules"
@@ -25718,6 +25759,10 @@ msgstr "لا أحد"
 msgid "Nobody Applied"
 msgstr "لم يتقدم أحد"
 
+#: onedesk/one_mail/rules.py:633
+msgid "Nobody asked for this rule."
+msgstr "لم يطلب أحد هذه القاعدة."
+
 #: onedesk/public/js/portal_share.js:78
 msgid "Nobody at {0} signs in to the portal yet."
 msgstr "لا أحد لدى {0} يسجّل الدخول إلى البوابة بعد."
@@ -26902,6 +26947,10 @@ msgstr "حسب جدول الحملة، بالقوالب التي تحددها."
 msgid "On a schedule"
 msgstr "حسب جدول"
 
+#: onedesk/public/js/onemail_settings.js:363
+msgid "On approved leave until {0}. Replies go out on their own."
+msgstr "في إجازة معتمدة حتى {0}. تُرسل الردود تلقائياً."
+
 #. When a notification is sent
 #: onedesk/notifications/one/report_by_mail.md
 msgid "On each report's own schedule, as it was set from the report's menu."
@@ -27694,13 +27743,17 @@ msgstr "OneAI وحده يكتب الإضافات. اطلب منه تغيير ه�
 msgid "Only Word files can be opened as a document."
 msgstr "لا يمكن فتح سوى ملفات Word كمستند."
 
-#: onedesk/public/js/onemail_settings.js:120
-msgid "Only a Workspace Administrator can change this."
-msgstr "لا يمكن تغيير هذا إلا لمسؤول مساحة العمل."
+#: onedesk/public/js/onemail_settings.js:122
+msgid "Only a Mail Manager or an administrator can change this."
+msgstr "لا يمكن تغيير هذا إلا لمدير البريد أو المسؤول."
 
-#: onedesk/one_mail/holders.py:68
-msgid "Only a Workspace Administrator can change {0}."
-msgstr "لا يمكن تغيير {0} إلا لمسؤول مساحة العمل."
+#: onedesk/one_mail/holders.py:79
+msgid "Only a Mail Manager or an administrator can change {0}."
+msgstr "لا يمكن تغيير {0} إلا لمدير البريد أو المسؤول."
+
+#: onedesk/one/roles.py:70
+msgid "Only a Mail Manager or an administrator can do this."
+msgstr "لا يمكن القيام بهذا إلا لمدير البريد أو المسؤول."
 
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.py:14
 msgid "Only a Workspace Administrator can share a server with everyone."
@@ -27952,10 +28005,6 @@ msgstr "لا يمكن نقل التقرير إلا لمن حفظه أو لأحد
 msgid "Only the record's own contacts can be hidden from."
 msgstr "لا يمكن الإخفاء إلا عن جهات اتصال السجل نفسه."
 
-#: onedesk/public/js/onemail_settings.js:506
-msgid "Only the users of this mailbox can change its rules."
-msgstr "لا يمكن تغيير قواعد صندوق البريد هذا إلا لمستخدميه."
-
 #: onedesk/public/js/settings.js:157
 msgid "Only you and HR see these."
 msgstr "لا يراها إلا أنت والموارد البشرية."
@@ -28085,6 +28134,12 @@ msgstr "فتح القائمة"
 #: onedesk/notifications/one_mail/mailbox_shared_with_you.md
 msgid "Open Mail"
 msgstr "فتح البريد"
+
+#: onedesk/notifications/one_mail/mail_rule_approved.md
+#: onedesk/notifications/one_mail/mail_rule_declined.md
+#: onedesk/notifications/one_mail/mail_rule_requested.md
+msgid "Open Mail Rules"
+msgstr "فتح قواعد البريد"
 
 #. The button on a notification's mail
 #: onedesk/notifications/one_mail/mailbox_not_reachable.md
@@ -30376,6 +30431,10 @@ msgstr "أصحاب دور الخطوة ممن يمكنهم فتح السجل"
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
 msgid "People write in bursts. OneAI acts once a matter has been quiet this long, except on money or deadlines due within a day."
 msgstr "يكتب الناس على دفعات. يتصرف OneAI بعد هدوء الموضوع هذه المدة، إلا في المال أو المواعيد المستحقة خلال يوم."
+
+#: onedesk/public/js/onemail_settings.js:944
+msgid "People's Mailboxes"
+msgstr "صناديق بريد الأشخاص"
 
 #. Label of the per (Int) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
@@ -34373,6 +34432,10 @@ msgstr ""
 msgid "Request Leave"
 msgstr "طلب إجازة"
 
+#: onedesk/public/js/onemail_settings.js:729
+msgid "Request Mail Rule"
+msgstr "طلب قاعدة بريد"
+
 #: frontend/src/item/ItemPage.vue:298
 msgid "Request Material"
 msgstr "طلب مواد"
@@ -34408,6 +34471,10 @@ msgstr "طلب نسخة جديدة"
 #: onedesk/one_inventory/print_format/one_request_for_quotation_with_images/one_request_for_quotation_with_images.json
 msgid "Request No"
 msgstr "رقم الطلب"
+
+#: onedesk/public/js/onemail_settings.js:655
+msgid "Request Rule"
+msgstr "طلب قاعدة"
 
 #. Label of the one_status (Select) field in DocType 'Personal Data Download
 #. Request'
@@ -34455,6 +34522,7 @@ msgstr "مطلوب"
 #. Label in the One Material Request print format
 #: onedesk/one_inventory/heads.py:1483
 #: onedesk/one_inventory/print_format/one_material_request/one_material_request.json
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 msgid "Requested By"
 msgstr "طلبه"
 
@@ -35261,6 +35329,10 @@ msgstr "التشغيل باسم المستلم"
 #: onedesk/public/js/onemail_settings.js:499
 msgid "Run in order on each new message."
 msgstr "تعمل بالترتيب على كل رسالة جديدة."
+
+#: onedesk/public/js/onemail_settings.js:649
+msgid "Run in order on each new message. A rule you ask for runs once a Mail Manager approves it."
+msgstr "تعمل بالترتيب على كل رسالة جديدة. القاعدة التي تطلبها تعمل بعد موافقة مدير البريد."
 
 #. Task in the Event project template
 #: onedesk/one_project/library/event.json
@@ -36094,6 +36166,10 @@ msgstr "إرسال الطلب"
 msgid "Send Quote"
 msgstr "إرسال عرض السعر"
 
+#: onedesk/public/js/onemail_settings.js:713
+msgid "Send Request"
+msgstr "إرسال الطلب"
+
 #: onedesk/public/js/settings.js:299
 msgid "Send Test"
 msgstr "إرسال تجربة"
@@ -36155,6 +36231,11 @@ msgstr "المرسل"
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Sender Email"
 msgstr ""
+
+#: onedesk/one_mail/custom/email_account.json
+#: onedesk/public/js/onemail_settings.js:302
+msgid "Sender Name"
+msgstr "اسم المرسل"
 
 #: onedesk/www/r.html:47 onedesk/www/s.html:107
 msgid "Sending…"
@@ -36242,6 +36323,10 @@ msgstr "يُرسل مرة كل 4 أيام لكل مرسل. لا يُرسل إل�
 msgid "Sent to addresses outside the workspace, so there's no channel to choose."
 msgstr "يُرسل إلى عناوين خارج مساحة العمل، لذا لا توجد قناة للاختيار."
 
+#: onedesk/one_hr/custom/leave_application.json
+msgid "Sent to anyone who emails you while you're on leave. Leave empty for the standard message."
+msgstr "يُرسل لكل من يراسلك أثناء إجازتك. اتركه فارغاً للرسالة المعتادة."
+
 #: onedesk/public/js/onemail_settings.js:187
 msgid "Sent to the first message of each new conversation. Not sent to replies or mailing lists."
 msgstr "يُرسل إلى أول رسالة في كل محادثة جديدة. لا يُرسل إلى الردود أو القوائم البريدية."
@@ -36253,6 +36338,10 @@ msgstr "يُرسل إلى {0}."
 #: onedesk/public/js/privacy_request.js:30
 msgid "Sent to {0}. For example, payroll for the month has to close first."
 msgstr "يُرسل إلى {0}. مثلًا، يجب إغلاق رواتب الشهر أولًا."
+
+#: onedesk/public/js/onemail_settings.js:335
+msgid "Sent while you're on approved leave, with the Away Message from your leave request."
+msgstr "يُرسل أثناء إجازتك المعتمدة، برسالة الغياب من طلب إجازتك."
 
 #: onedesk/www/s.py:39
 msgid "Sent {0} files. Thank you."
@@ -41865,6 +41954,10 @@ msgstr "أقصى ما يدفعه هذا النوع من العمل الإضاف�
 msgid "The name before the workspace in their own address, which only receives. Left empty, their first name is used."
 msgstr "الاسم الذي يسبق مساحة العمل في عنوانه الخاص، وهو للاستقبال فقط. إن تُرك فارغًا، يُستخدم الاسم الأول."
 
+#: onedesk/public/js/onemail_settings.js:305
+msgid "The name shown with the address on every email sent from this mailbox. Leave empty to use the default."
+msgstr "الاسم الذي يظهر مع العنوان في كل بريد يُرسل من هذا الصندوق. اتركه فارغاً لاستخدام الافتراضي."
+
 #: onedesk/public/js/settings.js:2090
 msgid "The name, logo, address, contacts and colour come from Workspace › General."
 msgstr "يأتي الاسم والشعار والعنوان وبيانات الاتصال واللون من مساحة العمل › عام."
@@ -42096,6 +42189,11 @@ msgstr "الشخص الذي يسجل الدخول"
 #: onedesk/notifications/one/your_request_is_on_hold.md
 msgid "The person who asked"
 msgstr "الشخص الذي طلب"
+
+#: onedesk/notifications/one_mail/mail_rule_approved.md
+#: onedesk/notifications/one_mail/mail_rule_declined.md
+msgid "The person who asked for it"
+msgstr "الشخص الذي طلبها"
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_storage/arrived_through_a_link.md
@@ -42697,6 +42795,10 @@ msgstr "مالك مساحة العمل"
 msgid "The writer promises to do this, rather than asking somebody else."
 msgstr "يتعهد الكاتب بفعل هذا بنفسه بدل أن يطلبه من غيره."
 
+#: onedesk/public/js/onemail_settings.js:304
+msgid "The writer's name"
+msgstr "اسم الكاتب"
+
 #. What a project template is for
 #: onedesk/one_project/library/year_end_audit.json
 msgid "The year's books closed and audited, from the last invoice to the signed accounts."
@@ -42797,6 +42899,10 @@ msgstr "أُنهي مفتاح مروره وتكليفات الورديات، ل�
 #: onedesk/notifications/one_hr/shift_asked.md
 msgid "Their shift approver, or HR when none is set"
 msgstr "معتمد الورديات، أو الموارد البشرية إن لم يُحدَّد"
+
+#: onedesk/public/js/onemail_settings.js:944
+msgid "Their workspace addresses and the mailboxes they connected."
+msgstr "عناوينهم في مساحة العمل والصناديق التي ربطوها."
 
 #: onedesk/public/js/outside.js:92
 msgid "Theme"
@@ -46182,6 +46288,10 @@ msgstr "قيد الانتظار ({0})"
 msgid "Waiting For a Reply"
 msgstr "بانتظار الرد"
 
+#: onedesk/public/js/onemail_settings.js:679
+msgid "Waiting for Approval"
+msgstr "بانتظار الموافقة"
+
 #. Option for the 'State' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Waiting for Credits"
@@ -47643,6 +47753,14 @@ msgstr "عند الإفراج"
 msgid "When Released taxes each bill on the work less its retention, and the retention when it's released."
 msgstr "«عند الإفراج» تُفرض الضريبة على كل فاتورة على قيمة العمل ناقص المحتجزات، وعلى المحتجزات عند الإفراج عنها."
 
+#: onedesk/notifications/one_mail/mail_rule_approved.md
+msgid "When a Mail Manager approves a mail rule you asked for."
+msgstr "عندما يوافق مدير البريد على قاعدة بريد طلبتها."
+
+#: onedesk/notifications/one_mail/mail_rule_declined.md
+msgid "When a Mail Manager declines a mail rule you asked for."
+msgstr "عندما يرفض مدير البريد قاعدة بريد طلبتها."
+
 #. When a notification is sent
 #: onedesk/notifications/one_inventory/expiring_soon.md
 msgid "When a batch with some still in stock expires within a month."
@@ -48331,6 +48449,10 @@ msgstr "حين يضيفك أحد إلى حدث."
 #: onedesk/notifications/one_hr/leave_asked.md
 msgid "When somebody applies for leave."
 msgstr "عندما يتقدّم أحد بطلب إجازة."
+
+#: onedesk/notifications/one_mail/mail_rule_requested.md
+msgid "When somebody asks for a mail rule on the workspace address issued to them."
+msgstr "عندما يطلب شخص قاعدة بريد على عنوان مساحة العمل الصادر له."
 
 #. When a notification is sent
 #: onedesk/notifications/one/password_reset_link.md
@@ -49236,6 +49358,10 @@ msgstr "من يرد على مكالمات رقم ما، في أي أيام وس�
 #: onedesk/one/ai.py:190
 msgid "Who approves what?"
 msgstr "من يعتمد ماذا؟"
+
+#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+msgid "Who asked for this rule on their own workspace address. It runs once a Mail Manager approves it."
+msgstr "من طلب هذه القاعدة على عنوانه في مساحة العمل. تعمل بعد موافقة مدير البريد."
 
 #: onedesk/one_hr/home.py:360
 msgid "Who came on each shift, late or early."
@@ -51254,6 +51380,14 @@ msgstr "مقابلتك في {when}"
 msgid "Your mail \"{subject}\" was not sent"
 msgstr "لم يُرسل بريدك \"{subject}\""
 
+#: onedesk/notifications/one_mail/mail_rule_approved.md
+msgid "Your mail rule on {mailbox} is on"
+msgstr "قاعدة بريدك على {mailbox} تعمل الآن"
+
+#: onedesk/notifications/one_mail/mail_rule_declined.md
+msgid "Your mail rule on {mailbox} was declined"
+msgstr "رُفضت قاعدة بريدك على {mailbox}"
+
 #: frontend/portal/src/pages/Record.vue:108
 #: frontend/portal/src/pages/Record.vue:119
 #: frontend/portal/src/pages/Rfq.vue:81
@@ -51968,6 +52102,10 @@ msgstr "أنشأ قائمة العام القادم، {0}"
 msgid "made {0} the holiday list for everyone"
 msgstr "جعل {0} قائمة العطلات للجميع"
 
+#: onedesk/one/settings.py:1115
+msgid "manager of the workspace's mail"
+msgstr "مدير بريد مساحة العمل"
+
 #. Option for the 'Linked By' (Select) field in DocType 'Communication Link'
 #: onedesk/one_mail/custom/communication_link.json
 msgid "manual"
@@ -52030,6 +52168,10 @@ msgstr "دون تاريخ"
 #: onedesk/one_admin/heads.py:367
 msgid "no file can be kept"
 msgstr "لا يمكن حفظ أي ملف"
+
+#: onedesk/one/settings.py:1115
+msgid "no longer a mail manager"
+msgstr "لم يعد مدير بريد"
 
 #: onedesk/one/settings.py:1158
 msgid "no longer an administrator"
@@ -52967,6 +53109,10 @@ msgstr "{0} بصفة {1}"
 #: onedesk/public/js/privacy_copy.js:7
 msgid "{0} asked for a copy of their data. Send it within one month."
 msgstr "طلب {0} نسخة من بياناته. أرسلها خلال شهر واحد."
+
+#: onedesk/public/js/onemail_settings.js:732
+msgid "{0} asked for this rule. It runs once approved."
+msgstr "طلب {0} هذه القاعدة. تعمل بعد الموافقة."
 
 #: onedesk/public/js/privacy_request.js:6
 msgid "{0} asked to delete their account. Approving signs them out and erases their data. Kept records are anonymised."
@@ -56039,6 +56185,14 @@ msgstr "أضافك {who} إلى {project}"
 msgid "{who} added {collection}"
 msgstr "أضاف {who} المجموعة {collection}"
 
+#: onedesk/notifications/one_mail/mail_rule_approved.md
+msgid "{who} approved it. It runs on each new message from now on."
+msgstr "وافق {who} عليها. تعمل على كل رسالة جديدة من الآن."
+
+#: onedesk/notifications/one_mail/mail_rule_requested.md
+msgid "{who} asked for a mail rule on {mailbox}"
+msgstr "طلب {who} قاعدة بريد على {mailbox}"
+
 #. Subject of a notification
 #: onedesk/notifications/one_inventory/material_request_asked.md
 #: onedesk/notifications/one_inventory/stock_asked.md
@@ -56120,6 +56274,10 @@ msgstr "أنجز {who} {milestone} في {project}"
 #: onedesk/notifications/one_task/task_done.md
 msgid "{who} completed {task}"
 msgstr "أكمل {who} {task}"
+
+#: onedesk/notifications/one_mail/mail_rule_declined.md
+msgid "{who} declined it, so it was removed. Ask them if you'd like to know why."
+msgstr "رفضها {who} فأُزيلت. اسأله إن أردت معرفة السبب."
 
 #. Subject of a notification
 #: onedesk/notifications/one_studio/collection_deleted.md

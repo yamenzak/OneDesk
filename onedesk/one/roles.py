@@ -1,21 +1,32 @@
-"""Who administers a workspace.
+"""Who administers a workspace, and who manages its mail.
 
-Workspace Administrator: exactly what somebody running their own workspace
-needs, in place of System Manager, which nobody on a workspace is ever given.
+Workspace Administrator in place of System Manager, which nobody on a
+workspace is ever given; Mail Manager for the workspace's mailboxes alone
+(one_mail/README.md).
 """
 
 import frappe
 
 ADMINISTRATOR = "Workspace Administrator"
 
+MAIL_MANAGER = "Mail Manager"
+
 
 def ensure(*_args) -> None:
-	"""The role exists on every site, workspace or admin alike."""
+	"""The role exists on every site, workspace or admin alike. Mail Manager
+	is a fixture (fixtures/role.json)."""
 	if frappe.db.exists("Role", ADMINISTRATOR):
 		return
 	frappe.get_doc(
 		{"doctype": "Role", "role_name": ADMINISTRATOR, "desk_access": 1, "is_custom": 0}
 	).insert(ignore_permissions=True)
+
+
+def manages_mail(user: str | None = None) -> bool:
+	"""Whether somebody manages the workspace's mailboxes: a Mail Manager or
+	an administrator."""
+	held = frappe.get_roles(user)
+	return ADMINISTRATOR in held or MAIL_MANAGER in held
 
 
 def administers(user: str | None = None) -> bool:
@@ -36,6 +47,28 @@ def administrators() -> list[str]:
 		distinct=True,
 	)
 	return frappe.get_all("User", filters={"name": ["in", held or [""]], "enabled": 1}, pluck="name")
+
+
+def mail_managers() -> list[str]:
+	"""Everybody turned on who manages the workspace's mail: who hears of a
+	rule waiting for approval."""
+	held = frappe.get_all(
+		"Has Role",
+		filters={
+			"role": ["in", (ADMINISTRATOR, MAIL_MANAGER)],
+			"parenttype": "User",
+			"parent": ["not in", ("Administrator", "Guest")],
+		},
+		pluck="parent",
+		distinct=True,
+	)
+	return frappe.get_all("User", filters={"name": ["in", held or [""]], "enabled": 1}, pluck="name")
+
+
+def require_mail() -> None:
+	"""Refuse anyone who doesn't manage the workspace's mail."""
+	if not manages_mail():
+		frappe.throw(frappe._("Only a Mail Manager or an administrator can do this."), frappe.PermissionError)
 
 
 def require() -> None:

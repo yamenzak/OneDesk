@@ -2949,6 +2949,58 @@ def onemail_a_mailbox_is_set_up_in_its_own_tabs():
 
 
 @check
+def onemail_people_ask_and_mail_managers_decide():
+	"""Rania asks for a rule on the address the workspace issued her and
+	can't turn it on herself; Layla approves it and it runs. Tariq, made a
+	Mail Manager, manages the workspace's mailbox and Rania's address
+	without holding either, and gives Rania's address a sender name.
+	Rania's own address answers by itself only while she is on approved
+	leave."""
+	from onedesk.one import roles
+	from onedesk.one_mail import addresses, holders, rules, signatures
+
+	with as_user(OWNER):
+		if not frappe.db.exists("Email Account", {"email_id": addresses.person_address("rania")}):
+			addresses.give("rania@one.test", "rania")
+	theirs = frappe.db.get_value("Email Account", {"email_id": addresses.person_address("rania")})
+	with as_user("rania@one.test"):
+		assert not holders.may_manage(theirs) and holders.issued_to_them(theirs), "an issued address is the workspace's"
+		asked = rules.save_rule(theirs, {"subject_contains": "invoice", "star": 1})
+		assert frappe.db.get_value("Mail Rule", asked, ["enabled", "requested_by"]) == (0, "rania@one.test")
+		try:
+			rules.enable_rule(asked, 1)
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("Rania turned on a rule nobody approved")
+		try:
+			rules.set_away(theirs, 1, None, "Away")
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("Rania changed the workspace's address")
+		assert rules.on_leave(theirs) is None or rules.away_of(theirs)["leave_until"]
+	with as_user(OWNER):
+		rules.decide_rule(asked, 1)
+		assert frappe.db.get_value("Mail Rule", asked, ["enabled", "requested_by"]) == (1, None)
+		rules.delete_rule(asked)
+	frappe.get_doc("User", "tariq@one.test").add_roles(roles.MAIL_MANAGER)
+	try:
+		with as_user("tariq@one.test"):
+			assert holders.may_manage(holders.workspace()) and holders.may_manage(theirs)
+			assert any(one["name"] == theirs for one in holders.addresses_of_people())
+			signatures.set_preset(theirs, "simple", ["email"], sender_name="Rania at Sahara Glass")
+			assert signatures.sender_name_for(None, addresses.person_address("rania")) == "Rania at Sahara Glass"
+			signatures.set_preset(theirs, "simple", ["email"], sender_name="")
+			assert signatures.sender_name_for(theirs, None) is None
+	finally:
+		frappe.get_doc("User", "tariq@one.test").remove_roles(roles.MAIL_MANAGER)
+		frappe.db.set_value(
+			"Email Account", theirs, {"signature": None, "add_signature": 0, "one_signature_preset": None, "one_signature_show": None}
+		)
+
+
+@check
 def onemail_a_shared_mailbox_is_connected_given_and_let_go():
 	"""Layla connects the company's sales mailbox for the team, chooses who
 	holds it, makes it the workspace's and back, gives its password again and
@@ -2962,7 +3014,9 @@ def onemail_a_shared_mailbox_is_connected_given_and_let_go():
 
 	where = {key: value for key, value in connect.guesses("saharaglass.test")[0].items()}
 	smtp = "frappe.email.doctype.email_account.email_account.EmailAccount.validate_smtp_conn"
-	with as_user(OWNER), mock.patch("onedesk.one_mail.connect.reach", return_value=where), mock.patch(smtp), mock.patch("frappe.enqueue"):
+	with as_user(OWNER), mock.patch("onedesk.one_mail.connect.reach", return_value=where), mock.patch(
+		"onedesk.one_mail.connect._smtp"
+	), mock.patch(smtp), mock.patch("frappe.enqueue"):
 		sales = connect.connect("sales@saharaglass.test", "app-password", shared=1)
 		assert frappe.db.get_value("Email Account", sales, ["one_connected", "one_shared"]) == (1, 1)
 		holders.set_access(sales, [{"user": OWNER, "sends": 1}, {"user": "omar@one.test", "sends": 1}])

@@ -210,10 +210,16 @@ def with_references(raw: bytes) -> bytes:
 
 def file_sent(doc, method=None) -> None:
 	"""Communication before_insert: mail sent from here is in Sent, in the
-	thread of what it answers, and signed only as the composer signed it."""
+	thread of what it answers, signed only as the composer signed it, and
+	under the mailbox's Sender Name where it has one (signatures.py)."""
 	if doc.communication_medium != "Email" or doc.sent_or_received != "Sent":
 		return
 	doc.flags.skip_add_signature = True
+	from onedesk.one_mail import signatures
+
+	named = signatures.sender_name_for(doc.email_account, doc.sender)
+	if named:
+		doc.sender_full_name = named
 	doc.one_folder = doc.one_folder or "Sent"
 	if not doc.one_thread and doc.in_reply_to:
 		parent = frappe.db.get_value(

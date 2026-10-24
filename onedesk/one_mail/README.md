@@ -77,13 +77,32 @@ A mailbox's **…** in the sidebar (or right-click) has **New Folder**,
 **Mailbox Settings**. A folder you made has **New Folder**, **Rename** and
 **Delete**; deleting it moves its messages to Trash.
 
-A shared mailbox's signature, out-of-office reply, auto reply, OneAI and
-connection are changed only by a Workspace Administrator, whoever connected
-it.
+**Who manages what.** The workspace's mailboxes, its own address, the
+shared ones and the address it issues each person, are managed by a **Mail
+Manager** or a Workspace Administrator: signature, sender name, out of
+office, auto reply, OneAI, rules and who holds them. Give somebody in HR or
+PR **Mail Manager** in People, beside Administrator, and they manage mail
+without managing the workspace. A mailbox somebody connected for themselves,
+such as their Gmail, is theirs to manage, and a Mail Manager's too.
+Connecting a shared mailbox doesn't make it the connector's.
+
+A Mail Manager finds everybody's own mailboxes under **Personal Addresses ›
+People's Mailboxes**, and opens one to set its signature or sender name.
+
+**Sender Name**, at the top of **Signature**, is the name people see beside
+the address. Left empty, mail from a person's own address goes out under
+their name, and from a shared mailbox under whoever writes.
 
 **Mail Rules** in a mailbox's settings lists its rules in the order they
 run, each with a switch to turn it off. **New Rule**, or a rule clicked,
 opens it in the same tab.
+
+On the address the workspace issued you, a rule is asked for: **Request
+Rule**, then **Send Request**. It shows **Waiting for Approval** and every
+Mail Manager hears of it. When one approves it, it runs and you're told; if
+one declines it, it's removed and you're told. Changing a rule that runs
+asks again, and it pauses until it's approved. You can delete a request
+while it waits.
 
 **Replying by a rule.** A mail rule can **Reply** as one of its actions:
 with a fixed **Reply Text**, where `{{ sender_name }}` and `{{ subject }}`
@@ -229,6 +248,13 @@ the rule on a card. When you approve it:
 **Out of Office**, in the same menu, sends an automatic reply until the date
 you set. Each sender gets one reply every four days. Mailing lists,
 newsletters, other automatic replies and no-reply addresses get none.
+
+**On leave.** The address the workspace issued you answers on its own on
+every day of your approved leave in OneHR, so nobody has to turn it on or
+off. The reply says the **Away Message** you wrote on the leave request, or
+else the mailbox's own message, or else that you're on leave and back on
+the day after it ends. A leave that's cancelled stops the replies at once
+(`rules.on_leave`, read as each message arrives).
 
 **Bounces:** when mail to an address bounces permanently, OneMail stops
 sending to it and marks the message that bounced.

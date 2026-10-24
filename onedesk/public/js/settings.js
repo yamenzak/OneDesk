@@ -835,7 +835,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			{ heading: __("Apps"), note: __("Everyone has One, OneCloud, OneMail, OneTask and OneCalendar.") },
 			["profile", ""],
 			...Settings.pairs(apps),
-			{ stack: ["admin"] },
+			{ stack: ["mail", "admin"] },
 			{
 				heading: __("User Permissions"),
 			},

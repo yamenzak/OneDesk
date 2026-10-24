@@ -29,7 +29,8 @@
   "reply_text",
   "reply_instruction",
   "reply_review",
-  "stop"
+  "stop",
+  "requested_by"
  ],
  "fields": [
   {
@@ -168,6 +169,14 @@
    "fieldtype": "Check",
    "label": "Stop Here",
    "description": "Rules after this one are not tried on mail it matched."
+  },
+  {
+   "fieldname": "requested_by",
+   "fieldtype": "Link",
+   "options": "User",
+   "label": "Requested By",
+   "read_only": 1,
+   "description": "Who asked for this rule on their own workspace address. It runs once a Mail Manager approves it."
   }
  ],
  "index_web_pages_for_search": 0,

@@ -120,7 +120,7 @@ def set_default(
 	template: Annotated[str, "The template the composer starts with for it."],
 ) -> None:
 	"""The template the mail composer starts with for a kind of record."""
-	roles.require()
+	roles.require_mail()
 	_doctype(doctype)
 	if frappe.get_meta(doctype).custom:
 		frappe.throw(_("{0} is not mailed from templates this workspace sets.").format(_(doctype)))
@@ -132,7 +132,7 @@ def set_default(
 @frappe.whitelist()
 def default(doctype: Annotated[str, "The kind of record."]) -> str | None:
 	"""The template the composer starts with for a kind of record."""
-	roles.require()
+	roles.require_mail()
 	_doctype(doctype)
 	return frappe.get_meta(doctype).default_email_template
 
@@ -141,7 +141,7 @@ def default(doctype: Annotated[str, "The kind of record."]) -> str | None:
 def templates() -> list[dict]:
 	"""Every mail template, for Workspace > Mail Templates, with the kinds of
 	record each is the default for."""
-	roles.require()
+	roles.require_mail()
 	defaults = {}
 	for row in frappe.get_all(
 		"Property Setter",

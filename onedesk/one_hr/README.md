@@ -308,6 +308,11 @@ Annual Leave for Rania Sabbagh, 01-10-2026 to 03-10-2026, leaving them 18.* The
 employee is emailed the answer, with the note. Requests waiting for you are
 under **Waiting for You** on Home's Today.
 
+While an approved leave runs, the person's workspace address answers new
+mail on its own with the **Away Message** they wrote on the request, or a
+standard one saying when they're back. Nothing is switched on or off: a
+cancelled leave stops it at once (one_mail/README.md, On leave).
+
 ### Giving people their leave
 
 **The leave year** is created by the setup wizard, named after its year.

@@ -7,7 +7,7 @@ from email.message import EmailMessage
 
 import frappe
 from frappe import _
-from frappe.utils import getdate, today
+from frappe.utils import add_days, formatdate, getdate, today
 
 AWAY_ONCE_IN = 4 * 24 * 3600
 ACK_ONCE_IN = 24 * 3600
@@ -368,12 +368,60 @@ def acknowledge(made, message) -> bool:
 	return True
 
 
+def on_leave(account: str) -> dict | None:
+	"""The approved leave the person an issued address belongs to is on
+	today, if any: OneHR's leave is their out-of-office, read as mail
+	arrives, so nobody turns it on or off and a cancelled leave stops
+	replying at once."""
+	from onedesk.one_mail import signatures
+
+	user = signatures.person_of(account)
+	if not user or not frappe.db.table_exists("Leave Application"):
+		return None
+	employee = frappe.db.get_value("Employee", {"user_id": user, "status": "Active"}, "name")
+	if not employee:
+		return None
+	return frappe.db.get_value(
+		"Leave Application",
+		{
+			"employee": employee,
+			"docstatus": 1,
+			"status": "Approved",
+			"from_date": ["<=", today()],
+			"to_date": [">=", today()],
+		},
+		["name", "to_date", "one_away_message"],
+		as_dict=True,
+		order_by="to_date desc",
+	)
+
+
+def away_message(account, leave: dict | None) -> str | None:
+	"""What an out-of-office reply says, or None when nobody is away: the
+	mailbox's own reply while it is on, else the leave's message, else the
+	mailbox's message with the day they are back. Pure."""
+	set_on = account.get("one_away") and not (
+		account.get("one_away_until") and getdate(today()) > getdate(account.get("one_away_until"))
+	)
+	if set_on:
+		return account.get("one_away_message") or _("I'm away and will reply when I'm back.")
+	if not leave:
+		return None
+	back = formatdate(add_days(leave["to_date"], 1))
+	return (
+		leave.get("one_away_message")
+		or account.get("one_away_message")
+		or _("I'm on leave and back on {0}. I'll reply then.").format(back)
+	)
+
+
 def away(made, message) -> bool:
-	"""An out-of-office reply, if the mailbox's holder is away."""
+	"""An out-of-office reply, if the mailbox's holder is away: by its own
+	switch, or on approved leave."""
 	account = frappe.get_doc("Email Account", made.email_account)
-	if not account.get("one_away"):
-		return False
-	if account.get("one_away_until") and getdate(today()) > getdate(account.one_away_until):
+	issued = account.get("one_hosted") and not account.get("one_shared")
+	said = away_message(account, on_leave(account.name) if issued else None)
+	if not said:
 		return False
 	sender = (made.sender or "").lower()
 	if automatic(message, sender) or sender == (account.email_id or "").lower():
@@ -382,14 +430,15 @@ def away(made, message) -> bool:
 	if frappe.cache.get_value(key):
 		return False
 	frappe.cache.set_value(key, 1, expires_in_sec=AWAY_ONCE_IN)
-	_reply(account, made, account.get("one_away_message") or _("I'm away and will reply when I'm back."))
+	_reply(account, made, said)
 	return True
 
 
 @frappe.whitelist(methods=["POST"])
 def set_away(account: str, away: int = 0, until: str | None = None, message: str | None = None) -> None:
-	"""Turn a mailbox's out-of-office reply on or off. A shared mailbox's is
-	its connector's or an administrator's (holders.manages)."""
+	"""Turn a mailbox's out-of-office reply on or off: whoever manages the
+	mailbox (holders.manages). A person's approved leave answers on its own
+	(on_leave)."""
 	from onedesk.one_mail import holders
 
 	holders.manages(account)
@@ -406,9 +455,15 @@ def away_of(account: str) -> dict:
 	from onedesk.one_mail import holders
 
 	holders.sees(account)
-	return frappe.db.get_value(
-		"Email Account", account, ["one_away", "one_away_until", "one_away_message"], as_dict=True
+	said = frappe.db.get_value(
+		"Email Account",
+		account,
+		["one_away", "one_away_until", "one_away_message", "one_shared", "one_hosted"],
+		as_dict=True,
 	)
+	leave = on_leave(account) if said.one_hosted and not said.one_shared else None
+	said["leave_until"] = leave.to_date if leave else None
+	return said
 
 
 @frappe.whitelist(methods=["POST"])
@@ -436,16 +491,22 @@ def auto_reply_of(account: str) -> dict:
 
 
 def rule_allowed(doc, ptype=None, user=None, debug=False) -> bool:
-	"""A mailbox's rules are its holders'."""
+	"""A mailbox's rules are seen by its holders and whoever manages it;
+	rules_of_mailbox and save_rule say who may change them."""
+	from onedesk.one import roles
 	from onedesk.one_mail import actions
 
 	user = user or frappe.session.user
-	return user == "Administrator" or not doc.account or actions.holds(doc.account, user)
+	return (
+		user == "Administrator" or not doc.account or roles.manages_mail(user) or actions.holds(doc.account, user)
+	)
 
 
 def rule_query(user=None) -> str:
+	from onedesk.one import roles
+
 	user = user or frappe.session.user
-	if user == "Administrator":
+	if user == "Administrator" or roles.manages_mail(user):
 		return ""
 	return f"""`tabMail Rule`.account in (select email_account from `tabUser Email` where parent = {frappe.db.escape(user)})"""
 
@@ -469,16 +530,21 @@ RULE_FIELDS = (
 	"reply_instruction",
 	"reply_review",
 	"stop",
+	"requested_by",
 )
 
 
 @frappe.whitelist()
 def rules_of_mailbox(account: str) -> dict:
 	"""A mailbox's rules in the order they run, for its Mail Rules tab in
-	OneMail's settings. They are its holders' (rule_allowed)."""
-	from onedesk.one_mail import actions
+	OneMail's settings. Whoever manages the mailbox changes them; the person
+	a workspace address is issued to asks for them (`asks`), and each waits
+	for a Mail Manager (save_rule)."""
+	from onedesk.one_mail import holders
 
-	if not actions.holds(account):
+	manages = holders.may_manage(account)
+	asks = not manages and holders.issued_to_them(account)
+	if not (manages or asks):
 		return {"may": False, "rules": []}
 	rows = frappe.get_all(
 		"Mail Rule",
@@ -493,29 +559,84 @@ def rules_of_mailbox(account: str) -> dict:
 	)
 	for one in rows:
 		one["move_to_label"] = labels.get(one.move_to) if one.move_to else None
-	return {"may": True, "rules": rows}
+		one["requested_by_name"] = frappe.utils.get_fullname(one.requested_by) if one.requested_by else None
+	return {"may": True, "manages": int(manages), "asks": int(asks), "rules": rows}
+
+
+def _changer(account: str) -> bool:
+	"""Whether the reader changes a mailbox's rules outright (True) or asks
+	for them (False); anyone else is refused."""
+	from onedesk.one_mail import holders
+
+	if holders.may_manage(account):
+		return True
+	if holders.issued_to_them(account):
+		return False
+	holders.manages(account)
+	return False
 
 
 @frappe.whitelist(methods=["POST"])
 def save_rule(account: str, values: dict | str, name: str | None = None) -> str:
-	"""Make or change one of a mailbox's rules, with its holder's permission."""
+	"""Make or change one of a mailbox's rules. On a workspace address the
+	person holds but doesn't manage, the rule is saved off and asked for, and
+	every Mail Manager hears of it; a change to a running rule is asked for
+	again."""
 	values = frappe.parse_json(values) if isinstance(values, str) else values
+	outright = _changer(account)
 	doc = frappe.get_doc("Mail Rule", name) if name else frappe.new_doc("Mail Rule")
 	if name and doc.account != account:
 		frappe.throw(_("That rule is not in this mailbox."))
-	doc.update({key: values.get(key) for key in RULE_FIELDS if key in values})
+	doc.update({key: values.get(key) for key in RULE_FIELDS if key in values and key != "requested_by"})
 	doc.account = account
+	if not outright:
+		doc.enabled = 0
+		doc.requested_by = frappe.session.user
+	doc.flags.ignore_permissions = True
 	doc.save() if name else doc.insert()
+	if not outright:
+		from onedesk.one_mail import tell
+
+		tell.rule_requested(doc)
 	return doc.name
 
 
 @frappe.whitelist(methods=["POST"])
 def enable_rule(name: str, enabled: int = 1) -> None:
 	doc = frappe.get_doc("Mail Rule", name)
+	if not _changer(doc.account):
+		frappe.throw(_("A Mail Manager approves the rules of this mailbox."), frappe.PermissionError)
 	doc.enabled = int(enabled)
+	doc.flags.ignore_permissions = True
 	doc.save()
 
 
 @frappe.whitelist(methods=["POST"])
 def delete_rule(name: str) -> None:
-	frappe.delete_doc("Mail Rule", name)
+	"""Delete a rule: whoever manages its mailbox, or the person who asked
+	for it while it still waits."""
+	doc = frappe.get_doc("Mail Rule", name)
+	if not _changer(doc.account) and doc.requested_by != frappe.session.user:
+		frappe.throw(_("A Mail Manager approves the rules of this mailbox."), frappe.PermissionError)
+	frappe.delete_doc("Mail Rule", name, ignore_permissions=True)
+
+
+@frappe.whitelist(methods=["POST"])
+def decide_rule(name: str, approve: int = 1) -> None:
+	"""A Mail Manager approves a rule somebody asked for, which turns it on,
+	or declines it, which deletes it. The person who asked hears either way."""
+	from onedesk.one_mail import holders, tell
+
+	doc = frappe.get_doc("Mail Rule", name)
+	holders.manages(doc.account)
+	asker = doc.requested_by
+	if not asker:
+		frappe.throw(_("Nobody asked for this rule."))
+	if int(approve):
+		doc.enabled = 1
+		doc.requested_by = None
+		doc.flags.ignore_permissions = True
+		doc.save()
+	else:
+		frappe.delete_doc("Mail Rule", name, ignore_permissions=True)
+	tell.rule_decided(doc.account, asker, bool(int(approve)))

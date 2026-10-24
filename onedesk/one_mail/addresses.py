@@ -126,7 +126,7 @@ def give(user: str, name: str) -> str:
 	people send from their own address (personal_sends)."""
 	from onedesk.one import roles
 
-	frappe.only_for(roles.ADMINISTRATOR)
+	roles.require_mail()
 	held = frappe.db.get_value(
 		"User Email", {"parent": user, "email_account": ["like", f"%.{slug()}@{domain()}"]}, "email_account"
 	)

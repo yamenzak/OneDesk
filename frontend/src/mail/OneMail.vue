@@ -276,15 +276,17 @@ function folderMenu(id) {
 }
 
 // A mailbox's own menu. Signature and Out of Office open its view in
-// OneMail's settings; a shared mailbox's are an administrator's
-// (holders.may_manage).
+// OneMail's settings; the workspace's mailboxes, shared and issued, are a
+// Mail Manager's (holders.may_manage). Out of Office still shows on one's
+// own issued address, where approved leave answers on its own.
 function boxMenu(one) {
   if (!one) return [];
   const at = (section) => () => settings(`mailbox:${one.name}${section ? ":" + section : ""}`);
+  const issued = one.hosted && !one.shared;
   return [
     { label: __("New Folder"), icon: "folder-plus", onClick: () => newFolder(one.name) },
     one.may_sign ? { label: __("Signature"), icon: "signature", onClick: at("signature") } : null,
-    one.may_manage ? { label: __("Out of Office"), icon: "plane", onClick: at("away") } : null,
+    one.may_manage || issued ? { label: __("Out of Office"), icon: "plane", onClick: at("away") } : null,
     one.shared && one.may_manage ? { label: __("Auto Reply"), icon: "reply", onClick: at("auto") } : null,
     one.may_manage ? { label: __("OneAI"), icon: "sparkles", onClick: at("oneai") } : null,
     { label: __("Rules"), icon: "list-filter", onClick: at("rules") },

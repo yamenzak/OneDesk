@@ -145,7 +145,7 @@ No doctypes yet.
 |---|--:|---|
 | Face | 5 | document |
 | Mail Folder | 15 | document |
-| Mail Rule | 22 | document |
+| Mail Rule | 23 | document |
 
 ## One Intake
 
@@ -651,6 +651,7 @@ No doctypes yet.
 * `onedesk.one_mail.connect.reconnect`
 * `onedesk.one_mail.gate.set_settings`
 * `onedesk.one_mail.gate.settings_of`
+* `onedesk.one_mail.holders.addresses_of_people`
 * `onedesk.one_mail.holders.grant`
 * `onedesk.one_mail.holders.mailbox`
 * `onedesk.one_mail.holders.mailboxes`
@@ -675,6 +676,7 @@ No doctypes yet.
 * `onedesk.one_mail.linking.unfile`
 * `onedesk.one_mail.rules.auto_reply_of`
 * `onedesk.one_mail.rules.away_of`
+* `onedesk.one_mail.rules.decide_rule`
 * `onedesk.one_mail.rules.delete_rule`
 * `onedesk.one_mail.rules.enable_rule`
 * `onedesk.one_mail.rules.rules_of_mailbox`

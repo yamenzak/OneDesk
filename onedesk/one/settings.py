@@ -998,6 +998,14 @@ def _person_page(user: str) -> dict:
 	)
 	fields.append(
 		{
+			"fieldname": "mail",
+			"fieldtype": "Switch",
+			"label": _("Mail Manager"),
+			"description": _("Can manage the workspace's mailboxes: who holds them, signatures, sender names, out of office and rules."),
+		}
+	)
+	fields.append(
+		{
 			"fieldname": "admin",
 			"fieldtype": "Switch",
 			"label": _("Administrator"),
@@ -1026,6 +1034,7 @@ def _person_page(user: str) -> dict:
 		"values": {
 			**{f"app_{icon}": level_of(held, used, managed, own.get(name, ())) for name, icon, used, managed in APPS},
 			"admin": 1 if roles.ADMINISTRATOR in held else 0,
+			"mail": 1 if roles.MAIL_MANAGER in held else 0,
 			"profile": doc.get("one_profile") or "",
 		},
 		"opened": _opened(doc),
@@ -1040,11 +1049,12 @@ def _save_person(record: str, values: dict) -> None:
 	doc = _as_opened(_one_of_the_people(record))
 	chosen = {name: values.get(f"app_{icon}") for name, icon, _used, _managed in APPS if values.get(f"app_{icon}")}
 	admin = frappe.utils.cint(values.get("admin")) if "admin" in values else int(roles.ADMINISTRATOR in {one.role for one in doc.roles})
+	mail = frappe.utils.cint(values.get("mail")) if "mail" in values else None
 	if values.get("profile") and values["profile"] != doc.get("one_profile"):
-		_set_access(doc, profiles.profile(values["profile"])["levels"], admin)
+		_set_access(doc, profiles.profile(values["profile"])["levels"], admin, mail=mail)
 		frappe.db.set_value("User", doc.name, "one_profile", values["profile"], update_modified=False)
 		return
-	_set_access(doc, chosen, admin)
+	_set_access(doc, chosen, admin, mail=mail)
 	on = values.get("profile", doc.get("one_profile"))
 	if on and any(level != profiles.profile(on)["levels"].get(name) for name, level in chosen.items()):
 		on = None
@@ -1052,9 +1062,10 @@ def _save_person(record: str, values: dict) -> None:
 		frappe.db.set_value("User", doc.name, "one_profile", on or None, update_modified=False)
 
 
-def _set_access(doc, access: dict, admin: int, told: bool = True) -> None:
+def _set_access(doc, access: dict, admin: int, told: bool = True, mail: int | None = None) -> None:
 	"""What a person may use, as frappe's roles, in one save. They are told
-	what changed, and every administrator is told of a new administrator."""
+	what changed, and every administrator is told of a new administrator.
+	`mail` gives or takes Mail Manager; left out, it stays as it was."""
 	own = all_levels()
 	if any(level not in LEVELS and level not in own.get(name, ()) for name, level in access.items()):
 		frappe.throw(_("That cannot be set."))
@@ -1070,6 +1081,9 @@ def _set_access(doc, access: dict, admin: int, told: bool = True) -> None:
 		wanted.add(roles.ADMINISTRATOR)
 	elif roles.ADMINISTRATOR in before:
 		_not_the_last_administrator(doc.name)
+	ours.add(roles.MAIL_MANAGER)
+	if roles.MAIL_MANAGER in before if mail is None else mail:
+		wanted.add(roles.MAIL_MANAGER)
 	after = (before - ours) | {role for role in wanted | {"Desk User"} if frappe.db.exists("Role", role)}
 	if after != before:
 		doc.set("roles", [{"role": role} for role in sorted(after)])
@@ -1097,6 +1111,8 @@ def _told_of_access(doc, before: set, after: set) -> None:
 			said.append(plain[now].format(name) if now in plain else _("{0} as {1}").format(name, now))
 	if (roles.ADMINISTRATOR in after) != (roles.ADMINISTRATOR in before):
 		said.append(_("administrator of the workspace") if roles.ADMINISTRATOR in after else _("no longer an administrator"))
+	if (roles.MAIL_MANAGER in after) != (roles.MAIL_MANAGER in before):
+		said.append(_("manager of the workspace's mail") if roles.MAIL_MANAGER in after else _("no longer a mail manager"))
 	if said:
 		tell.access_changed(doc.name, ", ".join(said))
 	if roles.ADMINISTRATOR in after and roles.ADMINISTRATOR not in before:

@@ -637,6 +637,46 @@ def test_a_signature_keeps_its_layout_and_carries_its_logo():
 	assert "embed" not in received.content, "only what is sent"
 
 
+def test_an_issued_address_answers_while_its_person_is_on_leave():
+	"""The mailbox's own switch wins; else the leave's message; else the
+	mailbox's; else the day they are back."""
+	import datetime
+	import types
+
+	today = datetime.date(2026, 10, 24)
+	space = _load(
+		MAIL / "rules.py",
+		("away_message",),
+		_=lambda text: text,
+		getdate=lambda value: value if isinstance(value, datetime.date) else today,
+		today=lambda: today,
+		add_days=lambda day, n: day + datetime.timedelta(days=n),
+		formatdate=lambda day: day.isoformat(),
+	)
+	said = space["away_message"]
+	box = lambda **values: types.SimpleNamespace(get=lambda key: values.get(key))  # noqa: E731
+	leave = {"to_date": datetime.date(2026, 10, 30), "one_away_message": None}
+	assert said(box(), None) is None, "nobody away, no reply"
+	assert said(box(one_away=1, one_away_message="Back Monday."), leave) == "Back Monday."
+	assert said(box(one_away=1, one_away_until=datetime.date(2026, 10, 1)), None) is None, "a switch past its date"
+	assert said(box(), {**leave, "one_away_message": "On a site visit."}) == "On a site visit."
+	assert said(box(one_away_message="Away."), leave) == "Away."
+	assert said(box(), leave) == "I'm on leave and back on 2026-10-31. I'll reply then."
+	rules = (MAIL / "rules.py").read_text()
+	assert '"status": "Approved"' in rules.split("def on_leave(", 1)[1].split("\ndef ", 1)[0]
+	assert "on_leave(account.name) if issued else None" in rules, "only an issued address answers for leave"
+
+
+def test_a_rule_on_an_issued_address_waits_for_a_mail_manager():
+	rules = (MAIL / "rules.py").read_text()
+	save = rules.split("def save_rule(", 1)[1].split("\ndef ", 1)[0]
+	assert "doc.enabled = 0" in save and "doc.requested_by = frappe.session.user" in save
+	assert "tell.rule_requested(doc)" in save
+	assert "holders.manages(doc.account)" in rules.split("def decide_rule(", 1)[1]
+	holders = (MAIL / "holders.py").read_text()
+	assert "not may_manage(account)" in holders.split("def issued_to_them(", 1)[1].split("\ndef ", 1)[0]
+
+
 def test_a_signature_is_shown_by_its_first_line(monkeypatch):
 	import types
 
@@ -649,10 +689,11 @@ def test_a_signature_is_shown_by_its_first_line(monkeypatch):
 	assert first("") == "" and first(None) == ""
 
 
-def test_a_shared_mailbox_is_managed_by_an_administrator_only():
+def test_the_workspaces_mailboxes_are_managed_by_a_mail_manager():
 	holders = (MAIL / "holders.py").read_text()
 	manage = holders.split("def may_manage(", 1)[1].split("\ndef ", 1)[0]
-	assert "return roles.administers()" in manage and "owner" not in manage, "the workspace's, not the connector's"
+	assert "if roles.manages_mail():\n\t\treturn True" in manage and "owner" not in manage, "the workspace's, not the connector's"
+	assert "if shared or hosted:\n\t\treturn False" in manage, "an issued address is the workspace's too"
 	assert "actions.holds(account)" in manage, "a mailbox of one's own is its holder's"
 	assert "enable_outgoing" in holders.split("def may_sign(", 1)[1].split("\ndef ", 1)[0]
 	setter = holders.split("def set_signature(", 1)[1].split("\ndef ", 1)[0]

@@ -1,0 +1,13 @@
+[
+ {
+  "doctype": "Role",
+  "name": "Mail Manager",
+  "role_name": "Mail Manager",
+  "desk_access": 1,
+  "is_custom": 0,
+  "disabled": 0,
+  "two_factor_auth": 0,
+  "home_page": null,
+  "restrict_to_domain": null
+ }
+]

@@ -47,6 +47,17 @@
    "read_only": 1,
    "allow_on_submit": 1,
    "description": "What the person deciding wrote, if anything."
+  },
+  {
+   "dt": "Leave Application",
+   "fieldname": "one_away_message",
+   "fieldtype": "Small Text",
+   "label": "Away Message",
+   "module": "One HR",
+   "insert_after": "description",
+   "allow_on_submit": 1,
+   "description": "Sent to anyone who emails you while you're on leave. Leave empty for the standard message.",
+   "name": "Leave Application-one_away_message"
   }
  ],
  "doctype": "Leave Application",

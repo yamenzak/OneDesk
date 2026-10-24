@@ -168,6 +168,25 @@ def shows_of(raw) -> list[str]:
 	return [one for one in (said if isinstance(said, list) else SHOWN) if one in SHOWS]
 
 
+def sender_name_for(account: str | None, sender: str | None) -> str | None:
+	"""The name a mailbox sends under, if it has one set: what people see
+	beside its address. Without one, mail goes under the writer's name."""
+	if not account and sender:
+		from email.utils import parseaddr
+
+		account = frappe.db.get_value("Email Account", {"email_id": parseaddr(sender)[1]}, "name")
+	if not account:
+		return None
+	return (frappe.db.get_value("Email Account", account, "one_sender_name") or "").strip() or None
+
+
+def default_sender_name(account: str) -> str:
+	"""Who mail from a mailbox goes out as with no Sender Name: the person an
+	address belongs to, or for a shared one, whoever writes."""
+	user = person_of(account)
+	return frappe.utils.get_fullname(user) if user else ""
+
+
 @frappe.whitelist()
 def presets_of(account: str, show: str | list | None = None) -> dict:
 	"""Every preset drawn for this mailbox, the one chosen, and what it shows."""
@@ -194,6 +213,8 @@ def presets_of(account: str, show: str | list | None = None) -> dict:
 			for key, label in SHOWS.items()
 		],
 		"colour": said["colour"],
+		"sender_name": frappe.db.get_value("Email Account", account, "one_sender_name") or "",
+		"default_sender_name": default_sender_name(account),
 		"preset": held.one_signature_preset or ("" if written(held.signature) else "simple"),
 		"shown": shown,
 		"signature": written(held.signature),
@@ -202,10 +223,15 @@ def presets_of(account: str, show: str | list | None = None) -> dict:
 
 @frappe.whitelist(methods=["POST"])
 def set_preset(
-	account: str, preset: str | None = None, show: str | list | None = None, signature: str | None = None
+	account: str,
+	preset: str | None = None,
+	show: str | list | None = None,
+	signature: str | None = None,
+	sender_name: str | None = None,
 ) -> None:
 	"""Sign with a preset, drawn now, or with a signature written by hand
-	(Custom, when `preset` is empty)."""
+	(Custom, when `preset` is empty), and send under `sender_name` (empty for
+	the default; left out, unchanged)."""
 	from onedesk.one_mail import holders
 
 	holders.manages(account)
@@ -217,7 +243,11 @@ def set_preset(
 	frappe.db.set_value(
 		"Email Account",
 		account,
-		{"one_signature_preset": preset or None, "one_signature_show": json.dumps(shown)},
+		{
+			"one_signature_preset": preset or None,
+			"one_signature_show": json.dumps(shown),
+			**({"one_sender_name": sender_name.strip() or None} if sender_name is not None else {}),
+		},
 		update_modified=False,
 	)
 

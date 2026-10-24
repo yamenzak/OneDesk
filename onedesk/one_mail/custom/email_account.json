@@ -101,6 +101,17 @@
    "insert_after": "one_signature_preset",
    "label": "Signature Shows",
    "hidden": 1
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Email Account",
+   "module": "One Mail",
+   "name": "Email Account-one_sender_name",
+   "fieldname": "one_sender_name",
+   "fieldtype": "Data",
+   "insert_after": "one_signature_show",
+   "label": "Sender Name",
+   "hidden": 1
   }
  ],
  "doctype": "Email Account",

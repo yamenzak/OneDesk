@@ -50,6 +50,67 @@ def oneai_limit_reached(held) -> None:
 	)
 
 
+def rule_requested(rule) -> None:
+	"""A rule asked for on an issued address: every Mail Manager hears what
+	it would do."""
+	from onedesk.one import roles
+
+	notify.notify(
+		"Mail Rule Requested",
+		roles.mail_managers(),
+		link=f"/desk/onemail?settings=mailbox:{rule.account}:rules",
+		who=frappe.utils.get_fullname(frappe.session.user),
+		mailbox=frappe.db.get_value("Email Account", rule.account, "email_id") or rule.account,
+		when=_said(rule, WHEN),
+		then=_said(rule, THEN),
+	)
+
+
+def rule_decided(account: str, asker: str, approved: bool) -> None:
+	"""The person who asked for a rule hears whether it is on or gone."""
+	notify.notify(
+		"Mail Rule Approved" if approved else "Mail Rule Declined",
+		asker,
+		link=f"/desk/onemail?settings=mailbox:{account}:rules",
+		who=frappe.utils.get_fullname(frappe.session.user),
+		mailbox=frappe.db.get_value("Email Account", account, "email_id") or account,
+	)
+
+
+WHEN = (
+	("from_contains", "From {0}"),
+	("to_contains", "To {0}"),
+	("subject_contains", "Subject has {0}"),
+	("body_contains", "Text has {0}"),
+	("has_attachment", "Has Attachment"),
+	("about", "About {0}"),
+)
+
+THEN = (
+	("move_to", "Move to {0}"),
+	("mark_read", "Mark as Read"),
+	("star", "Star"),
+	("reply", "Reply"),
+	("stop", "Stop Here"),
+)
+
+
+def _said(rule, parts) -> str:
+	"""A rule's conditions or actions in words, as its row in Mail Rules
+	says them."""
+	from frappe import _
+
+	said = []
+	for field, words in parts:
+		value = rule.get(field)
+		if not value:
+			continue
+		if field == "move_to":
+			value = frappe.db.get_value("Mail Folder", value, "label") or value
+		said.append(_(words).format(frappe.utils.escape_html(str(value))))
+	return " · ".join(said)
+
+
 def _admins() -> list[str]:
 	from onedesk.one.roles import administrators
 
