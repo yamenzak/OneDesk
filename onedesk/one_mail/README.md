@@ -93,7 +93,7 @@ page in Workspace › People:
   Mailbox**; auto reply, who uses a mailbox, connections, connecting shared
   mailboxes, the address policy and mail templates are switches. Each cell
   saves as it changes. **New Role** adds a column, and a role's name renames
-  or deletes it. For example, a Brand role that keeps every signature and
+  or deletes it. **Show Roles** hides the columns you don't need. For example, a Brand role that keeps every signature and
   nothing else.
 
 Workspace Administrators can do everything. Connecting a shared mailbox

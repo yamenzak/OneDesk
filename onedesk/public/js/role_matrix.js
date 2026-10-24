@@ -4,7 +4,14 @@ frappe.provide("onedesk.roles");
 // module's abilities as rows, in its groups, and its roles as columns, User,
 // the workspace's own, Manager (one/access.py matrix_of, docs/ROLES.md).
 // Each cell saves as it changes. A role above User never offers less than
-// User has, so its cell starts at User's value.
+// User has, so its cell starts at User's value. The abilities' column stays
+// put while the roles scroll under it, and which roles show is the reader's
+// own choice, kept in their user settings (onedesk.roles.pick).
+onedesk.roles.hidden = async (app) => {
+	const said = (await frappe.model.user_settings.get("One Roles")) || {};
+	return said[app] || [];
+};
+
 onedesk.roles.draw = async (panel, app, said = null) => {
 	const A = "onedesk.one.access.";
 	const esc = frappe.utils.escape_html;
@@ -12,6 +19,10 @@ onedesk.roles.draw = async (panel, app, said = null) => {
 	said = said || (await frappe.xcall(A + "ability_matrix", { app }));
 	if (panel.shown !== was) return;
 	const named = (role) => (role.own ? role.name : __(role.name));
+	const hidden = await onedesk.roles.hidden(app);
+	if (panel.shown !== was) return;
+	const shown = said.roles.filter((role) => !hidden.includes(role.key));
+	said = { ...said, roles: shown.length ? shown : said.roles };
 	const $body = panel.body.empty();
 	const $table = $(`<table class="rm-table"></table>`).appendTo($(`<div class="rm-scroll"></div>`).appendTo($body));
 
@@ -35,7 +46,7 @@ onedesk.roles.draw = async (panel, app, said = null) => {
 	};
 	const $rows = $(`<tbody></tbody>`).appendTo($table);
 	said.groups.forEach((group) => {
-		$rows.append(`<tr class="rm-group"><th colspan="${said.roles.length + 1}" scope="colgroup">${esc(group.label)}</th></tr>`);
+		$rows.append(`<tr class="rm-group"><th colspan="${said.roles.length + 1}" scope="colgroup"><span class="rm-group-label">${esc(group.label)}</span></th></tr>`);
 		group.rows.forEach((row) => {
 			const $tr = $(`<tr></tr>`).appendTo($rows);
 			$tr.append(
@@ -71,6 +82,35 @@ onedesk.roles.draw = async (panel, app, said = null) => {
 			});
 		});
 	});
+};
+
+onedesk.roles.pick = async (panel, app) => {
+	const said = await frappe.xcall("onedesk.one.access.ability_matrix", { app });
+	const hidden = await onedesk.roles.hidden(app);
+	const dialog = new frappe.ui.Dialog({
+		title: __("Show Roles"),
+		fields: [
+			{
+				fieldname: "roles",
+				fieldtype: "MultiCheck",
+				columns: 2,
+				sort_options: false,
+				options: said.roles.map((role) => ({
+					label: role.own ? role.name : __(role.name),
+					value: role.key,
+					checked: !hidden.includes(role.key),
+				})),
+			},
+		],
+		primary_action_label: __("Show"),
+		primary_action: async ({ roles }) => {
+			if (!roles.length) return frappe.show_alert({ message: __("Choose at least one role."), indicator: "orange" });
+			await frappe.model.user_settings.save("One Roles", app, said.roles.map((role) => role.key).filter((key) => !roles.includes(key)));
+			dialog.hide();
+			onedesk.roles.draw(panel, app);
+		},
+	});
+	dialog.show();
 };
 
 onedesk.roles.create = (panel, app) => {

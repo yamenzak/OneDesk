@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-24 17:43+0000\n"
-"PO-Revision-Date: 2026-10-24 17:43+0000\n"
+"POT-Creation-Date: 2026-10-24 18:03+0000\n"
+"PO-Revision-Date: 2026-10-24 18:03+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -156,7 +156,7 @@ msgstr ""
 msgid "1 Overdue Sales Invoice"
 msgstr ""
 
-#: onedesk/public/js/role_matrix.js:21
+#: onedesk/public/js/role_matrix.js:34
 msgid "1 Person"
 msgstr ""
 
@@ -830,7 +830,7 @@ msgstr ""
 msgid "A grant can't be drawn from another entry."
 msgstr ""
 
-#: onedesk/one/access.py:870
+#: onedesk/one/access.py:872
 msgid "A group holds people of the workspace."
 msgstr ""
 
@@ -1092,7 +1092,7 @@ msgstr ""
 msgid "A period closed to new entries."
 msgstr ""
 
-#: onedesk/one/access.py:703
+#: onedesk/one/access.py:705
 msgid "A person can be held to a territory, a customer group, a customer, a supplier, a department, a branch, a project or a warehouse."
 msgstr ""
 
@@ -1255,7 +1255,7 @@ msgstr ""
 msgid "A retried webhook meets this index rather than a check somebody remembered to write."
 msgstr ""
 
-#: onedesk/one/access.py:617 onedesk/public/js/role_matrix.js:59
+#: onedesk/one/access.py:619 onedesk/public/js/role_matrix.js:72
 #: onedesk/public/js/settings.js:1051
 msgid "A role above User has everything User has."
 msgstr ""
@@ -1268,7 +1268,7 @@ msgstr ""
 msgid "A role somebody asked to hire for."
 msgstr ""
 
-#: onedesk/one/access.py:271 onedesk/one/access.py:480
+#: onedesk/one/access.py:271 onedesk/one/access.py:482
 msgid "A role's name cannot have a colon in it."
 msgstr ""
 
@@ -1652,7 +1652,7 @@ msgstr ""
 msgid "Abandoned"
 msgstr ""
 
-#: onedesk/public/js/role_matrix.js:18
+#: onedesk/public/js/role_matrix.js:31
 msgid "Ability"
 msgstr ""
 
@@ -2474,7 +2474,7 @@ msgstr ""
 msgid "Add at least one email address."
 msgstr ""
 
-#: onedesk/one/access.py:868
+#: onedesk/one/access.py:870
 msgid "Add at least one person to the group."
 msgstr ""
 
@@ -5694,7 +5694,7 @@ msgstr ""
 
 #. Label in the One Leave Policy Assignment print format
 #: onedesk/one_hr/print_format/one_leave_policy_assignment/one_leave_policy_assignment.json
-#: onedesk/public/js/role_matrix.js:81 onedesk/public/js/settings.js:984
+#: onedesk/public/js/role_matrix.js:127 onedesk/public/js/settings.js:984
 msgid "Based On"
 msgstr ""
 
@@ -7646,6 +7646,10 @@ msgstr ""
 msgid "Choose an employee and a posting date first."
 msgstr ""
 
+#: onedesk/public/js/role_matrix.js:109
+msgid "Choose at least one role."
+msgstr ""
+
 #: onedesk/templates/includes/one_drop.html:6
 msgid "Choose files"
 msgstr ""
@@ -9503,9 +9507,9 @@ msgstr ""
 #: onedesk/public/js/plant_actions.js:43 onedesk/public/js/progress.js:30
 #: onedesk/public/js/progress.js:81 onedesk/public/js/project_actions.js:33
 #: onedesk/public/js/project_actions.js:123
-#: onedesk/public/js/project_actions.js:503 onedesk/public/js/role_matrix.js:83
-#: onedesk/public/js/settings.js:887 onedesk/public/js/settings.js:991
-#: onedesk/public/js/settings.js:1899
+#: onedesk/public/js/project_actions.js:503
+#: onedesk/public/js/role_matrix.js:129 onedesk/public/js/settings.js:887
+#: onedesk/public/js/settings.js:991 onedesk/public/js/settings.js:1899
 msgid "Create"
 msgstr ""
 
@@ -11027,7 +11031,7 @@ msgstr ""
 #: onedesk/public/js/doctype_settings.js:490
 #: onedesk/public/js/doctype_settings.js:1021
 #: onedesk/public/js/onemail_settings.js:748 onedesk/public/js/record.js:162
-#: onedesk/public/js/role_matrix.js:110 onedesk/public/js/settings.js:1029
+#: onedesk/public/js/role_matrix.js:156 onedesk/public/js/settings.js:1029
 #: onedesk/public/js/settings.js:1091 onedesk/public/js/settings.js:1122
 #: onedesk/public/js/settings.js:2076 onedesk/public/js/settings.js:3187
 msgid "Delete"
@@ -11164,7 +11168,7 @@ msgstr ""
 msgid "Delete {0}? The people on it keep their apps."
 msgstr ""
 
-#: onedesk/public/js/role_matrix.js:112 onedesk/public/js/settings.js:1032
+#: onedesk/public/js/role_matrix.js:158 onedesk/public/js/settings.js:1032
 msgid "Delete {0}? This removes its permissions."
 msgstr ""
 
@@ -13205,7 +13209,7 @@ msgstr ""
 
 #: onedesk/public/js/item_actions.js:28
 #: onedesk/public/js/onecloud_dialogs.js:277
-#: onedesk/public/js/role_matrix.js:25
+#: onedesk/public/js/role_matrix.js:38
 msgid "Edit {0}"
 msgstr ""
 
@@ -16054,7 +16058,7 @@ msgstr ""
 msgid "For example {0}"
 msgstr ""
 
-#: onedesk/public/js/role_matrix.js:80
+#: onedesk/public/js/role_matrix.js:126
 msgid "For example, HR Team."
 msgstr ""
 
@@ -16818,15 +16822,15 @@ msgstr ""
 msgid "Give the cost type a budget."
 msgstr ""
 
-#: onedesk/one/access.py:861
+#: onedesk/one/access.py:863
 msgid "Give the group a name."
 msgstr ""
 
-#: onedesk/one/access.py:789
+#: onedesk/one/access.py:791
 msgid "Give the profile a name."
 msgstr ""
 
-#: onedesk/one/access.py:269 onedesk/one/access.py:478
+#: onedesk/one/access.py:269 onedesk/one/access.py:480
 msgid "Give the role a name."
 msgstr ""
 
@@ -24222,8 +24226,8 @@ msgstr ""
 #: onedesk/public/js/leave_control_panel.js:11
 #: onedesk/public/js/oneai/Panel.vue:558
 #: onedesk/public/js/onecloud_dialogs.js:279
-#: onedesk/public/js/project_new.js:85 onedesk/public/js/role_matrix.js:80
-#: onedesk/public/js/role_matrix.js:103 onedesk/public/js/settings.js:886
+#: onedesk/public/js/project_new.js:85 onedesk/public/js/role_matrix.js:126
+#: onedesk/public/js/role_matrix.js:149 onedesk/public/js/settings.js:886
 #: onedesk/public/js/settings.js:967 onedesk/public/js/settings.js:1879
 #: onedesk/public/js/settings.js:1893 onedesk/public/js/settings.js:2108
 #: onedesk/public/js/settings.js:2192 onedesk/public/js/settings.js:2319
@@ -24700,8 +24704,8 @@ msgid "New Rate"
 msgstr ""
 
 #: onedesk/public/js/doctype_settings.js:262
-#: onedesk/public/js/onemail_settings.js:1051
-#: onedesk/public/js/role_matrix.js:78 onedesk/public/js/settings.js:896
+#: onedesk/public/js/onemail_settings.js:1059
+#: onedesk/public/js/role_matrix.js:124 onedesk/public/js/settings.js:896
 #: onedesk/public/js/settings.js:965
 msgid "New Role"
 msgstr ""
@@ -27850,7 +27854,7 @@ msgstr ""
 msgid "OneMail"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1080
+#: onedesk/public/js/onemail_settings.js:1088
 msgid "OneMail Settings"
 msgstr ""
 
@@ -35881,7 +35885,7 @@ msgstr ""
 #: onedesk/public/js/project_actions.js:451
 #: onedesk/public/js/project_actions.js:624
 #: onedesk/public/js/project_actions.js:677 onedesk/public/js/reports.js:297
-#: onedesk/public/js/role_matrix.js:104 onedesk/public/js/settings.js:624
+#: onedesk/public/js/role_matrix.js:150 onedesk/public/js/settings.js:624
 #: onedesk/public/js/settings.js:2207 onedesk/public/js/settings.js:2526
 #: onedesk/public/js/settings.js:2618 onedesk/public/js/shell.js:342
 #: onedesk/public/js/task_actions.js:25 onedesk/public/js/window/form.js:370
@@ -35930,7 +35934,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:63
 #: frontend/src/writer/DocumentPage.vue:189
 #: onedesk/public/js/onemail_settings.js:18 onedesk/public/js/reports.js:306
-#: onedesk/public/js/role_matrix.js:33 onedesk/public/js/shell.js:387
+#: onedesk/public/js/role_matrix.js:46 onedesk/public/js/shell.js:387
 msgid "Saved"
 msgstr ""
 
@@ -37462,7 +37466,8 @@ msgid "Should I order more?"
 msgstr ""
 
 #: frontend/src/project/ProjectPage.vue:267
-#: onedesk/public/js/onemail_settings.js:265 onedesk/public/js/settings.js:1930
+#: onedesk/public/js/onemail_settings.js:265
+#: onedesk/public/js/role_matrix.js:107 onedesk/public/js/settings.js:1930
 #: onedesk/public/js/settings.js:1949
 msgid "Show"
 msgstr ""
@@ -37551,6 +37556,11 @@ msgstr ""
 
 #: frontend/src/quotes/QuotesPage.vue:111
 msgid "Show Requests for Quotation"
+msgstr ""
+
+#: onedesk/public/js/onemail_settings.js:1051
+#: onedesk/public/js/role_matrix.js:93
+msgid "Show Roles"
 msgstr ""
 
 #: frontend/src/to_order/ToOrderPage.vue:142
@@ -38324,7 +38334,7 @@ msgstr ""
 msgid "So Far"
 msgstr ""
 
-#: onedesk/one/access.py:393
+#: onedesk/one/access.py:395
 msgid "So they can fill those in, they may also pick from {0}."
 msgstr ""
 
@@ -38916,7 +38926,7 @@ msgstr ""
 msgid "Starts with https://"
 msgstr ""
 
-#: onedesk/public/js/role_matrix.js:93 onedesk/public/js/settings.js:988
+#: onedesk/public/js/role_matrix.js:139 onedesk/public/js/settings.js:988
 msgid "Starts with this role's abilities and permissions."
 msgstr ""
 
@@ -41258,9 +41268,9 @@ msgid "That address already has an account. Sign in with it instead."
 msgstr ""
 
 #: onedesk/one/abilities.py:86 onedesk/one/abilities.py:177
-#: onedesk/one/access.py:475 onedesk/one/access.py:573
-#: onedesk/one/access.py:676 onedesk/one/access.py:713
-#: onedesk/one/access.py:738 onedesk/one/access.py:797
+#: onedesk/one/access.py:477 onedesk/one/access.py:575
+#: onedesk/one/access.py:678 onedesk/one/access.py:715
+#: onedesk/one/access.py:740 onedesk/one/access.py:799
 #: onedesk/one/ai_setup.py:823 onedesk/one/reports.py:202
 #: onedesk/one/reports.py:234 onedesk/one/settings.py:990
 #: onedesk/one/settings.py:1080
@@ -43220,7 +43230,7 @@ msgstr ""
 msgid "There before OneAI was switched on, so it is only filed and searchable."
 msgstr ""
 
-#: onedesk/one/access.py:878
+#: onedesk/one/access.py:880
 msgid "There is already a group called {0}."
 msgstr ""
 
@@ -43228,11 +43238,11 @@ msgstr ""
 msgid "There is already a notification called {0}."
 msgstr ""
 
-#: onedesk/one/access.py:806
+#: onedesk/one/access.py:808
 msgid "There is already a profile called {0}."
 msgstr ""
 
-#: onedesk/one/access.py:274 onedesk/one/access.py:482
+#: onedesk/one/access.py:274 onedesk/one/access.py:484
 msgid "There is already a role called {0}."
 msgstr ""
 
@@ -43333,7 +43343,7 @@ msgstr ""
 msgid "There is no {0} here."
 msgstr ""
 
-#: onedesk/one/access.py:708
+#: onedesk/one/access.py:710
 msgid "There is no {0} {1}."
 msgstr ""
 
@@ -50673,7 +50683,7 @@ msgstr ""
 #: onedesk/public/js/onemail_settings.js:32
 #: onedesk/public/js/onemail_settings.js:882
 #: onedesk/public/js/onemail_settings.js:987
-#: onedesk/public/js/onemail_settings.js:1072 onedesk/public/js/settings.js:639
+#: onedesk/public/js/onemail_settings.js:1080 onedesk/public/js/settings.js:639
 msgid "Workspace"
 msgstr ""
 
@@ -51490,7 +51500,7 @@ msgstr ""
 msgid "Your Instructions"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1065
+#: onedesk/public/js/onemail_settings.js:1073
 msgid "Your Mail"
 msgstr ""
 
@@ -52527,7 +52537,7 @@ msgstr ""
 msgid "no longer an administrator"
 msgstr ""
 
-#: onedesk/one/access.py:741 onedesk/one/ai_setup.py:699
+#: onedesk/one/access.py:743 onedesk/one/ai_setup.py:699
 msgid "no longer only the records of {0} {1}"
 msgstr ""
 
@@ -52645,7 +52655,7 @@ msgstr ""
 msgid "only on {0}"
 msgstr ""
 
-#: onedesk/one/access.py:729
+#: onedesk/one/access.py:731
 msgid "only the records of {0} {1}"
 msgstr ""
 
@@ -53107,7 +53117,7 @@ msgstr ""
 msgid "was {0}"
 msgstr ""
 
-#: onedesk/one/access.py:389
+#: onedesk/one/access.py:391
 msgid "what {0} can do in {1}"
 msgstr ""
 
@@ -53168,11 +53178,11 @@ msgstr ""
 msgid "{0} (default)"
 msgstr ""
 
-#: onedesk/one/access.py:397
+#: onedesk/one/access.py:399
 msgid "{0} (for {1} and {2} more)"
 msgstr ""
 
-#: onedesk/one/access.py:395
+#: onedesk/one/access.py:397
 msgid "{0} (for {1})"
 msgstr ""
 
@@ -53310,7 +53320,7 @@ msgstr ""
 msgid "{0} Overdue Sales Invoices"
 msgstr ""
 
-#: onedesk/public/js/role_matrix.js:21
+#: onedesk/public/js/role_matrix.js:34
 msgid "{0} People"
 msgstr ""
 
@@ -54376,7 +54386,7 @@ msgstr ""
 msgid "{0} is not a plan on sale."
 msgstr ""
 
-#: onedesk/one/access.py:359
+#: onedesk/one/access.py:361
 msgid "{0} is not a record type {1} uses."
 msgstr ""
 
@@ -54488,7 +54498,7 @@ msgstr ""
 msgid "{0} is not one of the masters you manage."
 msgstr ""
 
-#: onedesk/one/access.py:282 onedesk/one/access.py:292
+#: onedesk/one/access.py:284 onedesk/one/access.py:294
 msgid "{0} is not one of the workspace's roles."
 msgstr ""
 
@@ -55095,7 +55105,7 @@ msgstr ""
 msgid "{0} people have seats and the plan allows {1}. Deactivate someone first."
 msgstr ""
 
-#: onedesk/one/access.py:532
+#: onedesk/one/access.py:534
 msgid "{0} people have this role. Give them another first."
 msgstr ""
 

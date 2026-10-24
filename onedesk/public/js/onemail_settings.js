@@ -1048,6 +1048,14 @@ onedesk.mail.settings = (tab) => {
 		description: __("What each role can do in OneMail. Give people a role on their page in People."),
 		actions: [
 			{
+				label: __("Show Roles"),
+				icon: "eye",
+				click: async (panel) => {
+					await frappe.require(role_files);
+					onedesk.roles.pick(panel, "OneMail");
+				},
+			},
+			{
 				label: __("New Role"),
 				icon: "plus",
 				click: async (panel) => {

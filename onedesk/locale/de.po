@@ -7624,6 +7624,10 @@ msgstr "Wählen Sie ein Blatt zum Drucken."
 msgid "Choose an employee and a posting date first."
 msgstr "Wählen Sie zuerst eine Person und ein Buchungsdatum."
 
+#: onedesk/public/js/role_matrix.js:109
+msgid "Choose at least one role."
+msgstr "Wähle mindestens eine Rolle."
+
 #: onedesk/templates/includes/one_drop.html:6
 msgid "Choose files"
 msgstr "Dateien auswählen"
@@ -37366,6 +37370,11 @@ msgstr "Angefordertes anzeigen"
 #: frontend/src/quotes/QuotesPage.vue:111
 msgid "Show Requests for Quotation"
 msgstr "Angebotsanfragen anzeigen"
+
+#: onedesk/public/js/onemail_settings.js:1051
+#: onedesk/public/js/role_matrix.js:93
+msgid "Show Roles"
+msgstr "Rollen anzeigen"
 
 #: frontend/src/to_order/ToOrderPage.vue:142
 msgid "Show Running Low"

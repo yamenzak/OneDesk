@@ -87,6 +87,8 @@ workspace's own, Manager). A scope is a dropdown, a switch is a switch, and
 each cell saves as it changes (`access.set_ability`). A cell above User
 starts at User's value, since every role holds User's roles. **New Role**
 adds a column based on another; a custom role's name renames or deletes it.
+The abilities' column stays put while the roles scroll sideways under it,
+and **Show Roles** picks which columns show, kept for each person.
 `public/js/role_matrix.js` draws it for any module that declares abilities,
 from `access.matrix_of`.
 

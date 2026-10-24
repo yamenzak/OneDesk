@@ -644,7 +644,8 @@ sender names, out of office, mail rules and OneAI settings are each **No**,
 **Their Own Address** or **Every Mailbox**; auto reply, who uses a mailbox,
 connections, connecting shared mailboxes, the address policy and mail
 templates are switches. A role above User always has everything User has.
-**New Role** adds a column; click a role's name to rename or delete it.
+**New Role** adds a column; click a role's name to rename or delete it,
+and **Show Roles** to choose which columns show.
 Clicking a OneMail role here opens that table.
 
 For the other apps, a role's page here has:

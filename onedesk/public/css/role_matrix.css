@@ -1,6 +1,10 @@
 /* A module's role builder (public/js/role_matrix.js): abilities down the
    side, roles across the top, one control per cell. */
+/* width 0 with min-width 100% keeps the table from widening the panel: it
+   scrolls inside its box instead. */
 .rm-scroll {
+	width: 0;
+	min-width: 100%;
 	overflow-x: auto;
 	border: 1px solid var(--outline-gray-2);
 	border-radius: var(--radius-lg);
@@ -32,8 +36,23 @@
 }
 
 .rm-table .rm-ability {
+	position: sticky;
+	inset-inline-start: 0;
+	z-index: 1;
 	min-width: 220px;
+	max-width: 300px;
+	background: var(--surface-base);
+	border-inline-end: 1px solid var(--outline-gray-2);
 	font-weight: var(--weight-regular, 400);
+}
+
+.rm-table thead .rm-ability {
+	z-index: 2;
+}
+
+.rm-table .rm-group-label {
+	position: sticky;
+	inset-inline-start: calc(var(--spacing) * 3);
 }
 
 .rm-table .rm-label {
