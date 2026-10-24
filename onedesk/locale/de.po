@@ -44159,7 +44159,7 @@ msgid "This request was turned down on {0}. Approve it first if that has changed
 msgstr "Dieser Antrag wurde am {0} abgelehnt. Genehmigen Sie ihn zuerst, falls sich das geändert hat."
 
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.py:28
-msgid "This rule can't run yet, because OneAI doesn't read this mailbox's new mail. Turn it on in the OneAI tab first."
+msgid "This rule can't run yet, because OneAI isn't reading this mailbox's new mail. Turn it on in the OneAI tab first."
 msgstr "Diese Regel kann noch nicht laufen, weil OneAI die neuen E-Mails dieses Postfachs nicht liest. Schalte es zuerst im OneAI-Tab ein."
 
 #: onedesk/public/js/settings.js:69
@@ -44204,7 +44204,7 @@ msgid "This step no longer exists on the task."
 msgstr "Dieser Schritt existiert in der Aufgabe nicht mehr."
 
 #: onedesk/public/js/rule_builder.js:364
-msgid "This step won't run yet, because OneAI doesn't read this mailbox's new mail."
+msgid "This step won't run yet, because OneAI isn't reading this mailbox's new mail."
 msgstr "Dieser Schritt läuft noch nicht, weil OneAI die neuen E-Mails dieses Postfachs nicht liest."
 
 #: onedesk/one/printing.py:635

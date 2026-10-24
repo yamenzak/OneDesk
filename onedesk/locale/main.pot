@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-24 22:45+0000\n"
-"PO-Revision-Date: 2026-10-24 22:45+0000\n"
+"POT-Creation-Date: 2026-10-24 22:47+0000\n"
+"PO-Revision-Date: 2026-10-24 22:47+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -44430,7 +44430,7 @@ msgid "This request was turned down on {0}. Approve it first if that has changed
 msgstr ""
 
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.py:28
-msgid "This rule can't run yet, because OneAI doesn't read this mailbox's new mail. Turn it on in the OneAI tab first."
+msgid "This rule can't run yet, because OneAI isn't reading this mailbox's new mail. Turn it on in the OneAI tab first."
 msgstr ""
 
 #: onedesk/public/js/settings.js:74
@@ -44475,7 +44475,7 @@ msgid "This step no longer exists on the task."
 msgstr ""
 
 #: onedesk/public/js/rule_builder.js:364
-msgid "This step won't run yet, because OneAI doesn't read this mailbox's new mail."
+msgid "This step won't run yet, because OneAI isn't reading this mailbox's new mail."
 msgstr ""
 
 #: onedesk/one/printing.py:635
