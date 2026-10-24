@@ -43,12 +43,12 @@ shell, lists that only shrink; when they are empty the shell is deleted.
 |---|---|
 | Masters | 1, moved: each kind's frappe list, the kinds as a tree in the nav pane |
 | Ready to Submit | 1, moved: a script report with a checkbox column and Submit |
-| Intake | sorted when reached |
+| Intake | 2: an inbox; moves with OneMail and OneCloud, which draw the same intake panel (`public/js/intake.js`) |
 | Agreements (legal) | 2, moved: a reader, the island `onedesk.legal` |
 | OneCalendar | 2: a product |
 | OneMail | 2: a product |
 | OneCloud | 2: a product |
-| Settings, Workspace Settings | sorted when reached |
+| Settings, Workspace Settings | not sorted: `public/js/settings.js` is 3,355 lines and over twenty sections, several of them a frappe document already (User, Notification Settings, System Settings), so each section is sorted on its own |
 
 ## The parts
 
