@@ -123,3 +123,30 @@
 .oms .oms-add-pick .control-input-wrapper {
 	margin: 0;
 }
+
+/* Back, before a view's title (onemail_settings.js `view`). */
+.oms .settings-dialog-panel-title {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 1);
+}
+
+.oms .oms-back {
+	margin-inline-start: calc(var(--spacing) * -2);
+}
+
+.oms .oms-search {
+	margin-top: calc(var(--spacing) * 2);
+}
+
+.oms .oms-search .form-group {
+	margin: 0;
+}
+
+.oms .oms-search .control-label {
+	display: none;
+}
+
+.oms .settings-dialog-panel-heading:has(.oms-back) .settings-dialog-panel-description {
+	padding-inline-start: calc(var(--spacing) * 6);
+}

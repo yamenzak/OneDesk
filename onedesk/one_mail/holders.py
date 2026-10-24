@@ -168,7 +168,13 @@ def shared() -> dict:
 		]
 		account["workspace"] = int(account.name == ours)
 	accounts.sort(key=lambda one: -one["workspace"])
-	return {"mailboxes": accounts, "personal_sends": int(addresses.personal_sends())}
+	return {
+		"mailboxes": accounts,
+		"personal_sends": int(addresses.personal_sends()),
+		"allowed_domains": addresses.allowed_domains(),
+		"mail_domain": addresses.domain(),
+		"slug": addresses.slug(),
+	}
 
 
 @frappe.whitelist(methods=["POST"])
@@ -230,6 +236,24 @@ def set_personal_sends(on: int) -> int:
 		frappe.db.set_value("Email Account", name, "enable_outgoing", on, update_modified=False)
 	frappe.publish_realtime("one_mailbox", after_commit=True)
 	return on
+
+
+@frappe.whitelist(methods=["POST"])
+def set_allowed_domains(domains) -> list[str]:
+	"""The domains people may connect a personal mailbox at; an empty list
+	lets them connect any. A shared mailbox, an administrator's, is not held
+	to it."""
+	_admin()
+	rows = json.loads(domains) if isinstance(domains, str) else domains or []
+	clean = []
+	for one in rows:
+		domain = addresses.domain_of(one)
+		if not re.fullmatch(r"[a-z0-9-]+(\.[a-z0-9-]+)+", domain):
+			frappe.throw(_("{0} isn't a domain, such as gmail.com.").format(one))
+		if domain not in clean:
+			clean.append(domain)
+	frappe.db.set_default(addresses.ALLOWED_DOMAINS, ",".join(clean))
+	return clean
 
 
 def sending(doc, method=None) -> None:

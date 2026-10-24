@@ -3,10 +3,11 @@ frappe.provide("onedesk.mail");
 // OneMail's settings, in frappe's own settings dialog (frappe.ui.SettingsDialog):
 // a tab for each part, opened from Settings at the foot of OneMail's rail.
 // Your Mailboxes is everyone's: each mailbox they hold, its signature, its
-// out-of-office reply, its rules and its connection. Workspace Mailboxes, Own
-// Addresses and Mail Templates are a workspace administrator's: who reads and
-// who sends from each of the workspace's mailboxes, whether people send from
-// their own address, and the templates. Everything here is a call to
+// out-of-office reply, its rules and its connection. Workspace Mailboxes,
+// Personal Addresses and Mail Templates are a workspace administrator's: who
+// reads and who sends from each of the workspace's mailboxes, whether people
+// send from the address the workspace gives them and at which domains they may
+// connect one of their own, and the templates. Everything here is a call to
 // one_mail/holders.py, connect.py and rules.py, or to one/mail_templates.py.
 onedesk.mail.settings = (tab) => {
 	const H = "onedesk.one_mail.holders.";
@@ -46,7 +47,17 @@ onedesk.mail.settings = (tab) => {
 		return group;
 	};
 	const button = (opts) => $(frappe.ui.button.html(opts));
-	const back = { label: __("Back"), icon: "arrow-left", click: (panel) => panel.refresh() };
+	// A view inside a tab (one mailbox, one shared mailbox): frappe's panel
+	// view, with a way back to the tab's list before its title, where Back is.
+	const view = (panel, opts) => {
+		panel.set_view(opts);
+		const $title = panel.$header.find(".settings-dialog-panel-title");
+		button({ variant: "ghost", icon: "arrow-left", title: __("Back"), attrs: { "aria-label": __("Back") } })
+			.addClass("oms-back")
+			.on("click", () => panel.refresh())
+			.prependTo($title);
+		return panel;
+	};
 
 	// ── Your Mailboxes ──────────────────────────────────────────────────────
 	const mailboxes = {
@@ -87,10 +98,9 @@ onedesk.mail.settings = (tab) => {
 	};
 
 	const mailbox = (panel, box) =>
-		panel.set_view({
+		view(panel, {
 			title: box.email,
 			description: kind_of(box),
-			actions: [back],
 			render: async (view) => {
 				const $body = view.body;
 				if (box.sends && box.may_sign) {
@@ -229,7 +239,7 @@ onedesk.mail.settings = (tab) => {
 		const box = (said.mailboxes || []).find((one) => one.name === name);
 		if (!box) return panel.refresh();
 		const again = () => access(panel, name);
-		const actions = [back];
+		const actions = [];
 		if (box.one_connected && !box.workspace) {
 			actions.push({
 				label: __("Make Workspace Mailbox"),
@@ -261,7 +271,7 @@ onedesk.mail.settings = (tab) => {
 					}),
 			});
 		}
-		panel.set_view({
+		view(panel, {
 			title: box.email_id,
 			description: box.workspace ? __("The workspace's mailbox") : __("A shared mailbox"),
 			actions,
@@ -327,21 +337,24 @@ onedesk.mail.settings = (tab) => {
 		});
 	};
 
-	// ── Own Addresses ───────────────────────────────────────────────────────
-	const own = {
-		id: "own",
-		label: __("Own Addresses"),
+	// ── Personal Addresses ──────────────────────────────────────────────────
+	const personal = {
+		id: "personal",
+		label: __("Personal Addresses"),
 		icon: "at-sign",
-		title: __("Own Addresses"),
-		description: __("Everyone in the workspace has an address of their own, such as name.workspace@m.4dl.app."),
+		title: __("Personal Addresses"),
+		description: __("The address the workspace gives each person, and the mailboxes of their own people may connect."),
 		async render(panel) {
 			const said = await frappe.xcall(H + "shared");
-			const group = fields($(`<div></div>`).appendTo(panel.body.empty()), [
+			const $body = panel.body.empty();
+			const example = `name.${said.slug || "workspace"}@${said.mail_domain}`;
+			$body.append(heading(__("Workspace Addresses"), __("Everyone gets an address such as {0} when they join the workspace.", [example])));
+			const group = fields($(`<div></div>`).appendTo($body), [
 				{
 					fieldname: "sends",
 					fieldtype: "Switch",
-					label: __("People send from their own address"),
-					description: __("Off, their own address only receives, and they send from a mailbox they may send from."),
+					label: __("People send from their workspace address"),
+					description: __("Off, it only receives, and they send from a mailbox they may send from."),
 					default: said.personal_sends,
 				},
 			]);
@@ -349,6 +362,44 @@ onedesk.mail.settings = (tab) => {
 				await frappe.xcall(H + "set_personal_sends", { on: group.get_value("sends") ? 1 : 0 });
 				frappe.show_alert({ message: __("Saved."), indicator: "green" });
 			});
+
+			$body.append(
+				heading(
+					__("Allowed Domains"),
+					__("The domains people may connect a mailbox of their own at, such as gmail.com. With none listed, they may connect any.")
+				)
+			);
+			let domains = said.allowed_domains || [];
+			const $list = $(`<div class="oms-list"></div>`).appendTo($body);
+			const save = async (next) => {
+				domains = await frappe.xcall(H + "set_allowed_domains", { domains: next });
+				draw();
+			};
+			const draw = () => {
+				$list.empty();
+				if (!domains.length) $list.append(`<div class="oms-empty">${esc(__("Any domain is allowed."))}</div>`);
+				domains.forEach((one) => {
+					const $row = row({ lead: glyph("globe"), title: "@" + one, sub: "", end: "" }).appendTo($list);
+					button({ variant: "ghost", icon: "x", title: __("Remove"), attrs: { "aria-label": __("Remove") } })
+						.on("click", () => save(domains.filter((other) => other !== one)))
+						.appendTo($row.find(".oms-end"));
+				});
+			};
+			draw();
+			const $add = $(`<div class="oms-add"></div>`).appendTo($body);
+			const typed = frappe.ui.form.make_control({
+				df: { fieldtype: "Data", fieldname: "domain", placeholder: __("@gmail.com") },
+				parent: $(`<span class="oms-add-pick"></span>`).appendTo($add),
+				render_input: true,
+			});
+			const add = () => {
+				const value = (typed.get_value() || "").trim();
+				if (!value) return;
+				typed.set_value("");
+				save([...domains, value]);
+			};
+			typed.$input.on("keydown", (e) => e.key === "Enter" && add());
+			button({ label: __("Allow"), variant: "solid" }).on("click", add).appendTo($add);
 		},
 	};
 
@@ -364,8 +415,25 @@ onedesk.mail.settings = (tab) => {
 		],
 		async render(panel) {
 			const rows = (await frappe.xcall("onedesk.one.mail_templates.templates")) || [];
-			const $list = $(`<div class="oms-list"></div>`).appendTo(panel.body.empty());
+			const $body = panel.body.empty();
+			const search = frappe.ui.form.make_control({
+				df: { fieldtype: "Data", fieldname: "search", placeholder: __("Search templates") },
+				parent: $(`<div class="oms-search"></div>`).appendTo($body),
+				render_input: true,
+			});
+			const $list = $(`<div class="oms-list"></div>`).appendTo($body);
 			if (!rows.length) $list.append(`<div class="oms-empty">${esc(__("No mail templates yet."))}</div>`);
+			const $none = $(`<div class="oms-empty hide">${esc(__("No template matches."))}</div>`).appendTo($list);
+			search.$input.on("input", () => {
+				const words = (search.get_input_value ? search.get_input_value() : search.$input.val()).trim().toLowerCase();
+				let shown = 0;
+				$list.children(".oms-row").each((_, el) => {
+					const match = !words || el.dataset.find.includes(words);
+					$(el).toggleClass("hide", !match);
+					shown += match ? 1 : 0;
+				});
+				$none.toggleClass("hide", !rows.length || shown > 0);
+			});
 			rows.forEach((one) => {
 				const said = [one.subject, one.label || __("Any record")];
 				if ((one.default_for || []).length) said.push(__("Default for {0}", [one.default_for.join(", ")]));
@@ -376,14 +444,14 @@ onedesk.mail.settings = (tab) => {
 						sub: esc(said.filter(Boolean).join(" · ")),
 						end: chevron(),
 						open: () => onedesk.mail_templates.edit(one.name, { done: () => panel.refresh() }),
-					})
+					}).attr("data-find", [one.name, one.subject, one.label, ...(one.default_for || [])].join(" ").toLowerCase())
 				);
 			});
 		},
 	};
 
 	const tabs = [{ group: __("You"), items: [mailboxes] }];
-	if (admin) tabs.push({ group: __("Workspace"), items: [shared, own, templates] });
+	if (admin) tabs.push({ group: __("Workspace"), items: [shared, personal, templates] });
 	if (onedesk.mail._settings) onedesk.mail._settings.$wrapper.remove();
 	const dialog = new frappe.ui.SettingsDialog({
 		title: __("OneMail Settings"),

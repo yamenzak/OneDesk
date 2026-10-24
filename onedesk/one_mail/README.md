@@ -33,8 +33,10 @@ each part:
   shared one. Open one to see who reads it, turn **Send** on for those who may
   also send from it, add or remove people, make a connected mailbox the
   workspace's mailbox (and back), or disconnect it.
-- **Own Addresses** (administrators): whether people send from their own
-  address.
+- **Personal Addresses** (administrators): whether people send from the
+  address the workspace gives them, and **Allowed Domains**, the domains
+  they may connect a mailbox of their own at, such as gmail.com. With none
+  listed they may connect any; a shared mailbox is not held to the list.
 - **Mail Templates** (administrators): reusable email text.
 
 ## Connecting a mailbox
