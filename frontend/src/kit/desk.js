@@ -376,6 +376,11 @@ export function windowTree(at, { label = "", pick, twist, over, leave, drop } = 
 	};
 }
 
+// A button at the end of the rail's head while this view is on screen
+// (window/nav_tree.js); `icon` is a lucide name.
+export const windowHeadAction = (win, { icon, title, onClick }) =>
+	win && win.head_action({ icon: icon.replace(/^lucide-/, ""), title, click: onClick });
+
 // Meters at the foot of this view's nav pane (window/nav_tree.js).
 export const windowMeters = (win, rows) => win && win.meters(rows);
 

@@ -86,6 +86,7 @@ import {
   userSettings,
   windowHandles,
   windowSearch,
+  windowHeadAction,
   windowTree,
 } from "../kit";
 import { ACT, API, called, depth, folderLabel, forward, kindOf, names, noSender, reply, sender } from "./mail";
@@ -208,6 +209,7 @@ const treeRows = computed(() => {
     out.push({
       id: BOX + one.name,
       label: called(one),
+      note: called(one) !== one.email ? one.email : "",
       title: one.email,
       icon: one.workspace ? "building-2" : one.shared ? "users" : "at-sign",
       depth: 0,
@@ -230,15 +232,15 @@ const treeRows = computed(() => {
       });
     }
   }
-  out.push({ id: "connect", label: __("Connect Mailbox"), icon: "plug", depth: 0 });
   return out;
 });
+
+windowHeadAction(props.win, { icon: "plus", title: __("Connect Mailbox"), onClick: () => connect() });
 
 const tree = windowTree(props.win, {
   label: __("Mailboxes"),
   twist: (id) => fold(id.slice(BOX.length)),
   pick: (id) => {
-    if (id === "connect") return connect();
     if (id.startsWith(BOX)) return fold(id.slice(BOX.length));
     choose(...JSON.parse(id.slice(FOLDER.length)));
   },

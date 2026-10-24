@@ -3,8 +3,10 @@
 // OneCloud's folders, OneMail's mailboxes and Masters' kinds are this one
 // tree; a screen hands it rows and is told what was done to them.
 //
-//   rows   [{ id, label, icon, depth, open, active, count, href, title,
+//   rows   [{ id, label, note, icon, depth, open, active, count, href, title,
 //             strong, warn }] in order, as deep as the screen opened them.
+//          `note` is a second, quieter line under the label (a mailbox's
+//          address).
 //          `open` is true or false on a row that holds others and absent
 //          on a leaf; `icon` is a lucide name; with an `href` a row opens in
 //          a new tab, and a plain click is still the screen's.
@@ -43,14 +45,17 @@ onedesk.window.Tree = class Tree {
 					: `<span class="one-window-twisty"></span>`;
 				const warn = row.warn ? `<span class="one-window-warn" title="${esc(row.warn)}">${icon("triangle-alert")}</span>` : "";
 				const count = row.count ? `<span class="one-window-count">${esc(String(row.count))}</span>` : "";
-				const lit = `${row.active ? " active-sidebar" : ""}${row.strong ? " one-window-strong" : ""}`;
+				const lit = `${row.active ? " active-sidebar" : ""}${row.strong ? " one-window-strong" : ""}${row.note ? " one-window-noted" : ""}`;
+				const label = row.note
+					? `<span class="one-window-label"><span class="sidebar-item-label">${esc(row.label)}</span><span class="one-window-note">${esc(
+							row.note
+					  )}</span></span>`
+					: `<span class="sidebar-item-label">${esc(row.label)}</span>`;
 				return `<div class="standard-sidebar-item${lit}" role="treeitem" data-id="${esc(row.id)}" style="--depth:${cint(row.depth)}"${
 					holds ? ` aria-expanded="${row.open}"` : ""
 				}${row.active ? ` aria-current="page"` : ""}><a class="item-anchor" href="${esc(row.href || "#")}" title="${esc(
 					row.title || row.label
-				)}">${twisty}<span class="sidebar-item-icon">${icon(row.icon)}</span><span class="sidebar-item-label">${esc(
-					row.label
-				)}</span>${warn}${count}</a></div>`;
+				)}">${twisty}<span class="sidebar-item-icon">${icon(row.icon)}</span>${label}${warn}${count}</a></div>`;
 			})
 			.join("");
 		this.$host.html(html);
@@ -116,6 +121,25 @@ onedesk.window.Window.prototype.meters = function (rows) {
 		})
 	);
 	this.$meters.html(html.join(""));
+	onedesk.window.nav.place();
+	return this;
+};
+
+// A button at the end of the rail's head while this view is on screen, for
+// what adds to the rail itself (OneMail's Connect Mailbox): { icon, title,
+// click }.
+onedesk.window.Window.prototype.head_action = function ({ icon, title, click }) {
+	if (!this.$head_action) {
+		this.$head_action = $(
+			frappe.ui.button.html({ variant: "ghost", icon, title, attrs: { "aria-label": title } })
+		)
+			.addClass("one-window-head-action")
+			.on("click", (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				click();
+			});
+	}
 	onedesk.window.nav.place();
 	return this;
 };

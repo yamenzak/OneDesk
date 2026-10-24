@@ -174,6 +174,15 @@ onedesk.window.nav = {
 		});
 		const $bottom = win && win.$meters && frappe.app && frappe.app.sidebar && frappe.app.sidebar.wrapper.find(".body-sidebar-bottom");
 		if ($bottom && $bottom.length && !$.contains($bottom[0], win.$meters[0])) win.$meters.prependTo($bottom);
+		$(".one-window-head-action").each((_, el) => {
+			if (!win || el !== (win.$head_action && win.$head_action[0])) $(el).detach();
+		});
+		const $head = win && win.$head_action && frappe.app && frappe.app.sidebar && frappe.app.sidebar.wrapper.find(".sidebar-header").first();
+		if ($head && $head.length && !$.contains($head[0], win.$head_action[0])) {
+			const $menu = $head.children(".drop-icon");
+			if ($menu.length) win.$head_action.insertBefore($menu);
+			else win.$head_action.appendTo($head);
+		}
 		if (!win || !win.$slot) return;
 		const $items = frappe.app && frappe.app.sidebar && frappe.app.sidebar.$sidebar;
 		if (!$items || !$items.length) return;
