@@ -15304,6 +15304,10 @@ msgstr "Dateien in R2."
 msgid "Files not meant for a record land here, in a folder per person when several are asked."
 msgstr "Dateien, die nicht für einen Datensatz bestimmt sind, landen hier, in einem Ordner pro Person, wenn mehrere angefragt werden."
 
+#: onedesk/public/js/record_files.js:52
+msgid "Files of {0}"
+msgstr "Dateien von {0}"
+
 #. Description of the 'Leave Unmatched Files in Place' (Check) field in DocType
 #. 'Intake Settings'
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
