@@ -490,12 +490,9 @@ def cover_line(covering: dict, lang: str | None = None) -> str:
 	return _("For anything urgent, please write to {0} at {1}.", lang=lang).format(covering["name"], covering["email"])
 
 
-def default_away(account, back=None, covering: dict | None = None, lang: str | None = None) -> str:
-	"""The standard reply in the person's language, and in the mailbox's
-	second one under it when it has one. Pure."""
-	first = standard_away(back, covering, lang)
-	also = account.get("one_away_also")
-	return f"{first}\n\n{standard_away(back, covering, also)}" if also and also != lang else first
+def default_away(back=None, covering: dict | None = None, lang: str | None = None) -> str:
+	"""The standard reply, in the person's language. Pure."""
+	return standard_away(back, covering, lang)
 
 
 def away_message(account, leave: dict | None, lang: str | None = None) -> str | None:
@@ -504,13 +501,13 @@ def away_message(account, leave: dict | None, lang: str | None = None) -> str | 
 	mailbox's, else the standard one with the day they are back. Whoever
 	covers is named unless the message names them already. Pure."""
 	if switched_on(account):
-		return account.get("one_away_message") or default_away(account, lang=lang)
+		return account.get("one_away_message") or default_away(lang=lang)
 	if not leave:
 		return None
 	covering = leave.get("covering")
 	written = leave.get("one_away_message") or account.get("one_away_message")
 	if not written:
-		return default_away(account, leave.get("back"), covering, lang)
+		return default_away(leave.get("back"), covering, lang)
 	if covering and covering["email"].lower() not in written.lower():
 		written += "\n\n" + cover_line(covering, lang)
 	return written
@@ -611,10 +608,9 @@ def set_away(
 	message: str | None = None,
 	from_date: str | None = None,
 	to: str | None = None,
-	also: str | None = None,
 ) -> None:
-	"""Turn a person's out-of-office reply on or off, with its dates, who it
-	answers and a second language: whoever may (holders.may, "away"). A
+	"""Turn a person's out-of-office reply on or off, with its dates and who
+	it answers: whoever may (holders.may, "away"). A
 	shared mailbox answers with Auto Reply instead, and a person's approved
 	leave answers on its own (on_leave)."""
 	from onedesk.one_mail import holders
@@ -635,7 +631,6 @@ def set_away(
 		"one_away_from": from_date or None,
 		"one_away_message": (message or "").strip() or None,
 		"one_away_to": to or "Everyone",
-		"one_away_also": also or None,
 	}
 	if values["one_away"] and (not was.one_away or str(was.one_away_from or "") != str(from_date or "")):
 		values["one_away_since"] = frappe.utils.now_datetime()
@@ -659,7 +654,6 @@ def away_of(account: str) -> dict:
 			"one_away_until",
 			"one_away_message",
 			"one_away_to",
-			"one_away_also",
 			"one_shared",
 			"one_hosted",
 		],
@@ -669,32 +663,20 @@ def away_of(account: str) -> dict:
 	said["leave_until"] = leave.to_date if leave else None
 	said["leave_back"] = leave.back if leave else None
 	said["covering"] = leave.covering if leave else None
-	said["languages"] = languages()
-	said["lang"] = language_of(account)
 	return said
 
 
 @frappe.whitelist(methods=["POST"])
-def away_preview(account: str, message: str | None = None, also: str | None = None) -> dict:
-	"""The reply as a sender gets it, signed, and the standard reply in the
-	languages chosen, which an untouched message follows."""
+def away_preview(account: str, message: str | None = None) -> dict:
+	"""The reply as a sender gets it, signed, and the standard reply, which
+	an untouched message follows."""
 	from onedesk.one_mail import holders
 
 	holders.sees(account)
 	doc = frappe.get_doc("Email Account", account)
-	doc.one_away_also = also or None
-	standard = default_away(doc, lang=language_of(account))
+	standard = default_away(lang=language_of(account))
 	said = (message or "").strip() or standard
 	return {"default": standard, "html": signed(doc, said), "subject": _("Re: {0}").format(_("Your message"))}
-
-
-def languages() -> list[dict]:
-	"""The languages One is written in, for a reply's second language."""
-	from pathlib import Path
-
-	codes = ["en", *sorted({path.stem for path in Path(frappe.get_app_path("onedesk", "locale")).glob("*.po")} - {"en"})]
-	names = dict(frappe.get_all("Language", filters={"name": ["in", codes]}, fields=["name", "language_name"], as_list=True))
-	return [{"value": code, "label": names.get(code) or code} for code in codes]
 
 
 @frappe.whitelist()

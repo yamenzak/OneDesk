@@ -1344,10 +1344,6 @@ msgstr "Eine geplante Erweiterung läuft höchstens einmal pro Stunde."
 msgid "A second agent checks each document's actions, approves what is right and sends what is wrong to a person."
 msgstr "Ein zweiter Agent prüft die Aktionen zu jedem Dokument, genehmigt, was stimmt, und gibt Falsches an einen Menschen weiter."
 
-#: onedesk/one_mail/custom/email_account.json
-msgid "A second language the standard reply is written in too."
-msgstr "Eine zweite Sprache, in der die Standardantwort zusätzlich geschrieben wird."
-
 #: onedesk/one_book/home.py:374
 msgid "A second set of books, such as for tax depreciation."
 msgstr "Ein zweiter Satz Bücher, etwa für die steuerliche Abschreibung."
@@ -3383,10 +3379,6 @@ msgstr "Auch hinzugefügt zu"
 msgid "Also Allow Check-in From"
 msgstr "Einchecken auch erlauben von"
 
-#: onedesk/public/js/onemail_settings.js:424
-msgid "Also In"
-msgstr "Auch auf"
-
 #: onedesk/public/js/project_actions.js:28
 msgid "Also Move"
 msgstr "Ebenfalls verschieben"
@@ -5374,10 +5366,6 @@ msgstr "Abwesenheitsnachricht"
 #: onedesk/one_mail/custom/email_account.json
 msgid "Away Replies To"
 msgstr "Abwesenheitsantwort an"
-
-#: onedesk/one_mail/custom/email_account.json
-msgid "Away Reply Also In"
-msgstr "Abwesenheitsantwort auch auf"
 
 #: onedesk/one_mail/custom/email_account.json
 msgid "Away Since"
@@ -25156,10 +25144,6 @@ msgstr "Unbedenklichkeitsbescheinigung"
 msgid "No Order Yet"
 msgstr "Noch keine Bestellung"
 
-#: onedesk/public/js/onemail_settings.js:426
-msgid "No Second Language"
-msgstr "Keine zweite Sprache"
-
 #: frontend/src/lots/LotsPage.vue:26
 msgid "No Serial Nos match"
 msgstr "Keine passenden Seriennummern"
@@ -42688,10 +42672,6 @@ msgstr "Die Software, aus der One besteht, und ihre Lizenzen."
 #: onedesk/one_crm/home.py:163
 msgid "The stages an opportunity moves through, and their probability."
 msgstr "Die Phasen, die eine Chance durchläuft, und ihre Wahrscheinlichkeit."
-
-#: onedesk/public/js/onemail_settings.js:427
-msgid "The standard reply is written in this language too."
-msgstr "Die Standardantwort wird auch in dieser Sprache geschrieben."
 
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:38
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:52

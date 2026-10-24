@@ -105,22 +105,11 @@
   {
    "doctype": "Custom Field",
    "dt": "Email Account",
-   "fieldname": "one_away_also",
-   "fieldtype": "Data",
-   "label": "Away Reply Also In",
-   "module": "One Mail",
-   "insert_after": "one_away_to",
-   "name": "Email Account-one_away_also",
-   "description": "A second language the standard reply is written in too."
-  },
-  {
-   "doctype": "Custom Field",
-   "dt": "Email Account",
    "fieldname": "one_away_since",
    "fieldtype": "Datetime",
    "label": "Away Since",
    "module": "One Mail",
-   "insert_after": "one_away_also",
+   "insert_after": "one_away_to",
    "name": "Email Account-one_away_since",
    "read_only": 1,
    "description": "When the current time away began. Each sender is answered once again from then."

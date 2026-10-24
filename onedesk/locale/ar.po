@@ -1344,10 +1344,6 @@ msgstr "الإضافة المجدولة تعمل مرة واحدة في السا
 msgid "A second agent checks each document's actions, approves what is right and sends what is wrong to a person."
 msgstr "وكيل ثانٍ يراجع إجراءات كل مستند، ويعتمد الصحيح منها ويحيل الخاطئ إلى شخص."
 
-#: onedesk/one_mail/custom/email_account.json
-msgid "A second language the standard reply is written in too."
-msgstr "لغة ثانية يُكتب بها الرد القياسي أيضًا."
-
 #: onedesk/one_book/home.py:374
 msgid "A second set of books, such as for tax depreciation."
 msgstr "مجموعة دفاتر ثانية، مثل الإهلاك الضريبي."
@@ -3383,10 +3379,6 @@ msgstr "مضاف أيضًا إلى"
 msgid "Also Allow Check-in From"
 msgstr "السماح أيضاً بتسجيل الحضور من"
 
-#: onedesk/public/js/onemail_settings.js:424
-msgid "Also In"
-msgstr "أيضًا بـ"
-
 #: onedesk/public/js/project_actions.js:28
 msgid "Also Move"
 msgstr "نقل أيضاً"
@@ -5374,10 +5366,6 @@ msgstr "رسالة الغياب"
 #: onedesk/one_mail/custom/email_account.json
 msgid "Away Replies To"
 msgstr "يُرسل رد الغياب إلى"
-
-#: onedesk/one_mail/custom/email_account.json
-msgid "Away Reply Also In"
-msgstr "رد الغياب أيضًا بـ"
 
 #: onedesk/one_mail/custom/email_account.json
 msgid "Away Since"
@@ -25156,10 +25144,6 @@ msgstr "شهادة عدم ممانعة"
 msgid "No Order Yet"
 msgstr "لا طلب بعد"
 
-#: onedesk/public/js/onemail_settings.js:426
-msgid "No Second Language"
-msgstr "بلا لغة ثانية"
-
 #: frontend/src/lots/LotsPage.vue:26
 msgid "No Serial Nos match"
 msgstr "لا أرقام تسلسلية مطابقة"
@@ -42688,10 +42672,6 @@ msgstr "البرمجيات التي بُني منها One، والتراخيص �
 #: onedesk/one_crm/home.py:163
 msgid "The stages an opportunity moves through, and their probability."
 msgstr "المراحل التي تمر بها الفرصة، واحتماليتها."
-
-#: onedesk/public/js/onemail_settings.js:427
-msgid "The standard reply is written in this language too."
-msgstr "يُكتب الرد القياسي بهذه اللغة أيضًا."
 
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:38
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:52

@@ -3062,7 +3062,7 @@ def onemail_roles_and_one_mailbox_grants():
 def onemail_out_of_office_answers_for_its_person():
 	"""Rania sets her own address's out-of-office: from tomorrow it is not on
 	today; on today, to the workspace only, it answers Samir once and a
-	buyer outside not at all, in English and Arabic, under her name. On
+	buyer outside not at all, under her name. On
 	leave her reply says the day she is back and that Samir covers, and
 	Samir reads her address while she is away without owning it, until the
 	leave is cancelled. A shared mailbox has no out-of-office; the half day
@@ -3098,10 +3098,10 @@ def onemail_out_of_office_answers_for_its_person():
 		with as_user("rania@one.test"):
 			rules.set_away(theirs, 1, None, "", str(add_days(today(), 1)))
 			assert not rules.switched_on(frappe.get_doc("Email Account", theirs)), "it starts tomorrow"
-			rules.set_away(theirs, 1, str(add_days(today(), 3)), "", None, "Workspace", "ar")
+			rules.set_away(theirs, 1, str(add_days(today(), 3)), "", None, "Workspace")
 			assert rules.away_state(theirs)["until"]
-			drawn = rules.away_preview(theirs, "", "ar")
-			assert drawn["default"].count("\n\n") == 1 and 'dir="auto"' in drawn["html"]
+			drawn = rules.away_preview(theirs, "")
+			assert drawn["default"] and 'dir="auto"' in drawn["html"]
 		with as_user("samir@one.test"):
 			assert [one["email"] for one in rules.who_is_away([addresses.person_address("rania")])] == [
 				addresses.person_address("rania")
@@ -3110,7 +3110,7 @@ def onemail_out_of_office_answers_for_its_person():
 			assert not rules.away(arrived("buyer@outside.test"), {}), "only the workspace"
 			assert rules.away(arrived("samir@one.test"), {})
 			assert not rules.away(arrived("samir@one.test"), {}), "once per sender"
-		assert "أنا" in sent[-1][1] and 'dir="auto"' in sent[-1][2], "English, then Arabic"
+		assert sent[-1][1] == "I'm away and will reply when I'm back." and 'dir="auto"' in sent[-1][2]
 		with as_user(OWNER):
 			try:
 				rules.set_away(holders.workspace(), 1)
@@ -3143,7 +3143,7 @@ def onemail_out_of_office_answers_for_its_person():
 		frappe.db.set_value(
 			"Email Account",
 			theirs,
-			{"one_away": 0, "one_away_from": None, "one_away_until": None, "one_away_to": "Everyone", "one_away_also": None},
+			{"one_away": 0, "one_away_from": None, "one_away_until": None, "one_away_to": "Everyone"},
 			update_modified=False,
 		)
 		frappe.db.delete("Notification Log", {"for_user": "samir@one.test", "subject": ["like", "%covering%"]})

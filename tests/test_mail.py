@@ -641,8 +641,7 @@ def test_a_signature_keeps_its_layout_and_carries_its_logo():
 def test_a_person_s_mailbox_answers_while_they_are_away():
 	"""The mailbox's own switch wins, within its dates; else the leave's
 	message; else the mailbox's; else the day they are back. Whoever covers
-	is named, unless the message names them already; a second language is
-	written under the first; the half day of a half-day leave answers
+	is named, unless the message names them already; the half day of a half-day leave answers
 	nothing."""
 	import datetime
 	import types
@@ -672,8 +671,7 @@ def test_a_person_s_mailbox_answers_while_they_are_away():
 	assert covered.endswith("please write to Samir at samir@one.test."), covered
 	assert said(box(), {**leave, "covering": samir, "one_away_message": "Ask samir@one.test."}) == "Ask samir@one.test."
 	assert said(box(one_away_message="Away."), {**leave, "covering": samir}).startswith("Away.\n\n")
-	both = said(box(one_away=1, one_away_also="ar"), None, "en")
-	assert both == "[en] I'm away and will reply when I'm back.\n\n[ar] I'm away and will reply when I'm back."
+	assert said(box(one_away=1), None, "ar") == "[ar] I'm away and will reply when I'm back.", "in their language"
 	half = space["half_day_today"]
 	assert half({"half_day": 1, "from_date": today, "to_date": today, "half_day_date": None})
 	assert half({"half_day": 1, "from_date": today, "to_date": back, "half_day_date": today})

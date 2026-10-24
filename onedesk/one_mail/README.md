@@ -274,8 +274,6 @@ OneMail role says otherwise.
   now and Until empty to keep it on.
 - **Sent To**: everyone, only people in the workspace, or them and the
   workspace's contacts.
-- **Also In** writes the standard reply in a second language under the
-  first, such as English and Arabic.
 - **Message** starts as the standard reply; change it, and **What They Get**
   shows it as the sender will, signed and under the mailbox's sender name.
 

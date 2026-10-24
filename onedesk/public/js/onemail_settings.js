@@ -330,7 +330,7 @@ onedesk.mail.settings = (tab) => {
 	};
 
 	// A person's out-of-office, on any mailbox of their own: dates, who it
-	// answers, a second language, the message (the standard one until it is
+	// answers, the message (the standard one until it is
 	// changed) and the reply as a sender gets it. Approved leave answers on
 	// its own, said at the top whether or not the switch is on.
 	const away_tab = (box) => {
@@ -343,7 +343,6 @@ onedesk.mail.settings = (tab) => {
 				from_date: said.from_date || null,
 				until: said.until || null,
 				to: said.to || "Everyone",
-				also: said.also || null,
 				message: message === standard.trim() ? "" : message,
 			};
 		};
@@ -352,7 +351,7 @@ onedesk.mail.settings = (tab) => {
 			clearTimeout(waiting);
 			waiting = setTimeout(async () => {
 				const said = values(panel);
-				const drawn = await frappe.xcall(R + "away_preview", { account: box.name, message: panel.get_value("message") || "", also: said.also });
+				const drawn = await frappe.xcall(R + "away_preview", { account: box.name, message: panel.get_value("message") || "" });
 				const untouched = !(panel.get_value("message") || "").trim() || panel.get_value("message").trim() === standard.trim();
 				standard = drawn.default;
 				if (untouched && panel.get_value("message") !== standard) panel.fieldgroup.set_value("message", standard);
@@ -400,7 +399,6 @@ onedesk.mail.settings = (tab) => {
 				panel.$header.siblings(".oms-leave").remove();
 				$(`<div class="oms-note oms-leave">${frappe.utils.icon("calendar-off", "sm")}<span>${esc(note(away))}</span></div>`).insertAfter(panel.$header);
 				if (!box.may.away) return;
-				const others = (away.languages || []).filter((one) => one.value !== away.lang);
 				panel.add_fields([
 					{ fieldname: "from_date", fieldtype: "Date", label: __("From"), default: away.one_away_from, description: __("Leave empty to start now.") },
 					{ fieldtype: "Column Break" },
@@ -416,16 +414,6 @@ onedesk.mail.settings = (tab) => {
 							{ value: "Workspace", label: __("Workspace Only") },
 							{ value: "Contacts", label: __("Workspace and Contacts") },
 						],
-					},
-					{ fieldtype: "Column Break" },
-					{
-						fieldname: "also",
-						fieldtype: "Select",
-						label: __("Also In"),
-						default: away.one_away_also || "",
-						options: [{ value: "", label: __("No Second Language") }, ...others],
-						description: __("The standard reply is written in this language too."),
-						change: () => preview(panel),
 					},
 					{ fieldtype: "Section Break" },
 					{ fieldname: "message", fieldtype: "Small Text", label: __("Message"), default: away.one_away_message || "" },
