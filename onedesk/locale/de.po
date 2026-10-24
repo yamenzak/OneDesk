@@ -22171,6 +22171,10 @@ msgstr "Logo oben"
 msgid "Logo Alignment"
 msgstr "Logo-Ausrichtung"
 
+#: onedesk/one_mail/signatures.py:17
+msgid "Logo Beside"
+msgstr "Logo daneben"
+
 #: onedesk/public/js/settings.js:2087
 msgid "Logo Height"
 msgstr "Logohöhe"
@@ -27093,6 +27097,10 @@ msgstr "OneIntake"
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 msgid "One Inventory"
 msgstr "OneInventory"
+
+#: onedesk/one_mail/signatures.py:20
+msgid "One Line"
+msgstr "Eine Zeile"
 
 #. Option for the 'App' (Select) field in DocType 'Workspace Field'
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
@@ -37486,6 +37494,14 @@ msgstr "Freigabe für den Livegang"
 msgid "Signature"
 msgstr "Signatur"
 
+#: onedesk/one_mail/custom/email_account.json
+msgid "Signature Preset"
+msgstr "Signaturstil"
+
+#: onedesk/one_mail/custom/email_account.json
+msgid "Signature Shows"
+msgstr "Inhalt der Signatur"
+
 #: onedesk/one_ai/proposals.py:620 onedesk/public/js/oneai/Record.vue:141
 #: onedesk/public/js/onemail.js:847
 msgid "Signature for {0}"
@@ -37563,6 +37579,10 @@ msgstr "Anmeldung nicht angelegt"
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 msgid "Signups"
 msgstr "Anmeldungen"
+
+#: onedesk/one_mail/signatures.py:16
+msgid "Simple"
+msgstr "Schlicht"
 
 #. Label in the One Simplified Tax Invoice print format
 #: onedesk/one_book/print_format/one_simplified_tax_invoice/one_simplified_tax_invoice.json
@@ -42896,6 +42916,10 @@ msgstr "Es gibt keine solche Partei."
 #: onedesk/one/settings.py:195
 msgid "There is no such section."
 msgstr "Diesen Bereich gibt es nicht."
+
+#: onedesk/one_mail/signatures.py:205
+msgid "There is no such signature."
+msgstr "Diese Signatur gibt es nicht."
 
 #: onedesk/one_project/library.py:42
 msgid "There is no template called {0} in the library."
@@ -50458,10 +50482,6 @@ msgstr "Schreibe eine Antwort, die sagt: "
 #: onedesk/one/ai.py:28 onedesk/public/js/settings.js:137
 msgid "Write a short bio for my profile from my job, my department and what I work on, and suggest it as a change to my profile I can approve."
 msgstr "Schreibe eine kurze Biografie für mein Profil aus meiner Stelle, meiner Abteilung und meiner Arbeit, und schlage sie als Änderung an meinem Profil vor, die ich bestätigen kann."
-
-#: onedesk/public/js/onemail_settings.js:129
-msgid "Write a short email signature for {0} with my name, job title and contact details for me to approve."
-msgstr "Schreibe eine kurze E-Mail-Signatur für {0} mit meinem Namen, meiner Position und meinen Kontaktdaten zur Freigabe."
 
 #: onedesk/one_project/ai.py:35
 msgid "Write a short update on this project for its customer: what was done, what comes next and when it should be finished. Plain words. Leave out hours, costs and who in the team does what."

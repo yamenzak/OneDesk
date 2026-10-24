@@ -681,6 +681,8 @@ No doctypes yet.
 * `onedesk.one_mail.rules.save_rule`
 * `onedesk.one_mail.rules.set_auto_reply`
 * `onedesk.one_mail.rules.set_away`
+* `onedesk.one_mail.signatures.presets_of`
+* `onedesk.one_mail.signatures.set_preset`
 * `onedesk.one_project.activity.activity`
 * `onedesk.one_project.agreement.draw_up`
 * `onedesk.one_project.agreement.parties`

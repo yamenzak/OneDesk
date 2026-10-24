@@ -162,6 +162,15 @@ receipt or a copy to yourself from **⋯**, and link it to a record.
 from that address, and you can edit it before sending. Only a Workspace
 Administrator can change the signature of a workspace mailbox.
 
+A signature is one of six styles drawn from what One already knows: the
+holder's name, job title and numbers, and the company's name, logo, colour,
+website and address. **Show** picks which of those appear, and every style is
+previewed as a mail client shows it. A shared mailbox signs as the company.
+The two logo styles are offered only once the company has a logo. **Custom**
+is written by hand, starting from the style that was chosen, and is never
+redrawn. A style is drawn when it's saved, so a later change to the company
+or the person shows up the next time it's saved (`signatures.py`).
+
 ## Rules and out of office
 
 **Rules**, in a mailbox's **⋯** menu, sort new mail as it arrives in the

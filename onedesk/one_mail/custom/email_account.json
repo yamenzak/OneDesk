@@ -79,6 +79,28 @@
    "depends_on": "one_away",
    "module": "One Mail",
    "name": "Email Account-one_away_message"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Email Account",
+   "module": "One Mail",
+   "name": "Email Account-one_signature_preset",
+   "fieldname": "one_signature_preset",
+   "fieldtype": "Data",
+   "insert_after": "one_away_message",
+   "label": "Signature Preset",
+   "hidden": 1
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Email Account",
+   "module": "One Mail",
+   "name": "Email Account-one_signature_show",
+   "fieldname": "one_signature_show",
+   "fieldtype": "Small Text",
+   "insert_after": "one_signature_preset",
+   "label": "Signature Shows",
+   "hidden": 1
   }
  ],
  "doctype": "Email Account",

@@ -2903,10 +2903,11 @@ def onemail_a_mailbox_is_its_holders_and_threads_by_what_was_answered():
 def onemail_a_mailbox_is_set_up_in_its_own_tabs():
 	"""Layla manages the workspace mailbox from OneMail's settings: who holds
 	it, an acknowledgement to new conversations, how far OneAI reads it and a
-	monthly limit; then the workspace's rules for outside mailboxes. Turning
+	monthly limit; then her own signature from a preset with her name on it,
+	and the workspace's rules for outside mailboxes. Turning
 	OneAI off for her own mailbox stops even the OneAI panel reading it."""
 	from onedesk.one import mail_templates
-	from onedesk.one_mail import ai, gate, holders, rules
+	from onedesk.one_mail import ai, gate, holders, rules, signatures
 	from onedesk.one_storage import api
 
 	with as_user(OWNER):
@@ -2926,6 +2927,14 @@ def onemail_a_mailbox_is_set_up_in_its_own_tabs():
 		assert not gate.settings_of(own)["on"]
 		assert "error" in ai.open_conversation(own, "anything"), "the panel can't read a mailbox OneAI is off for"
 		gate.set_settings(own, on=1)
+		was = frappe.db.get_value("Email Account", own, ["signature", "one_signature_preset", "one_signature_show"])
+		drawn = signatures.presets_of(own, ["title", "email"])
+		assert drawn["presets"] and all(one["html"] for one in drawn["presets"])
+		signatures.set_preset(own, "accent", ["email"])
+		assert "Layla" in holders.signature_of(own), "her signature doesn't carry her name"
+		frappe.db.set_value(
+			"Email Account", own, dict(zip(("signature", "one_signature_preset", "one_signature_show"), was, strict=True)), update_modified=False
+		)
 		made = rules.save_rule(own, {"subject_contains": "invoice", "star": 1, "reply": 1, "reply_with": "Text", "reply_text": "<p>Thanks, we have it.</p>"})
 		assert any(one["name"] == made for one in rules.rules_of_mailbox(own)["rules"])
 		rules.enable_rule(made, 0)

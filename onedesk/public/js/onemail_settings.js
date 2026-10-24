@@ -163,39 +163,129 @@ onedesk.mail.settings = (tab) => {
 		return control;
 	};
 
-	const signature_tab = (box) => ({
-		id: "signature",
-		label: __("Signature"),
-		icon: "signature",
-		title: __("Signature"),
-		description: !box.sends ? __("Requires Send access.") : box.may_sign ? __("Added to every email sent from this mailbox.") : managed,
-		actions: box.may_sign
-			? [
-					{
-						label: __("Save"),
-						variant: "solid",
-						class: "oms-save",
-						click: async (panel) => {
-							await frappe.xcall(H + "set_signature", { account: box.name, signature: panel.get_value("signature") || "" });
-							saved();
-							panel.clean();
+	// A signature is a preset drawn from the person and the company, showing
+	// what is ticked, or Custom: written by hand and never redrawn.
+	const S = "onedesk.one_mail.signatures.";
+	// As a mail client shows it: on white, whatever the theme, and a little
+	// smaller. Every card takes the tallest one's height, so rows line up.
+	const framed = (html) =>
+		$(`<iframe class="oms-preset-frame" sandbox="allow-same-origin" tabindex="-1" aria-hidden="true"></iframe>`)
+			.attr(
+				"srcdoc",
+				`<style>html,body{height:100%;margin:0}body{display:flex;align-items:center;padding:0 14px;background:#fff;zoom:0.85}</style><div>${html}</div>`
+			)
+			.on("load", function () {
+				const drawn = this.contentDocument.body.firstElementChild;
+				const $all = $(this).closest(".oms-presets").find(".oms-preset-frame");
+				const tall = Math.max(drawn.offsetHeight * 0.85 + 28, ...$all.map((i, el) => el._tall || 0).get());
+				this._tall = tall;
+				$all.css("height", `${Math.max(tall, 88)}px`);
+			});
+	const signature_tab = (box) => {
+		let state = null;
+		let was = "";
+		const now = (panel) =>
+			JSON.stringify([state.preset, state.preset ? state.shown : [], state.preset ? "" : panel.get_value("custom") || ""]);
+		const dirty = (panel) => panel.$header.find(".oms-save").toggleClass("hide", now(panel) === was);
+		const draw = async (panel) => {
+			const drawn = await frappe.xcall(S + "presets_of", { account: box.name, show: JSON.stringify(state.shown) });
+			state.presets = drawn.presets;
+			styles(panel);
+		};
+		const styles = (panel) => {
+			const $grid = $(`<div class="oms-presets"></div>`);
+			const card = (preset, label, html) =>
+				$(`<button type="button" class="oms-preset"><span class="oms-preset-look"></span><span class="oms-preset-name"></span></button>`)
+					.toggleClass("oms-preset--chosen", state.preset === preset)
+					.attr("aria-pressed", state.preset === preset)
+					.find(".oms-preset-look")
+					.append(html ? framed(html) : `<span class="oms-preset-custom">${frappe.utils.icon("pencil", "md")}</span>`)
+					.end()
+					.find(".oms-preset-name")
+					.text(label)
+					.end()
+					.on("click", () => {
+						// Custom starts from the style it was on, to change by hand.
+						const from = state.presets.find((one) => one.preset === state.preset);
+						if (!preset && from && !panel.get_value("custom")) panel.fieldgroup.set_value("custom", from.html);
+						state.preset = preset;
+						styles(panel);
+						shows(panel);
+						dirty(panel);
+					});
+			for (const one of state.presets) $grid.append(card(one.preset, one.label, one.html));
+			$grid.append(card("", __("Custom"), ""));
+			panel.fieldgroup.get_field("styles").$wrapper.empty().append($grid);
+		};
+		const shows = (panel) => {
+			const $wrapper = panel.fieldgroup.get_field("shows").$wrapper.empty();
+			panel.fieldgroup.set_df_property("custom", "hidden", !!state.preset);
+			if (!state.preset) return;
+			const $chips = $(`<div class="oms-chips"></div>`);
+			for (const one of state.shows.filter((show) => show.has)) {
+				const on = state.shown.includes(one.key);
+				$(`<button type="button" class="oms-chip"></button>`)
+					.toggleClass("oms-chip--on", on)
+					.attr("aria-pressed", on)
+					.html(`${on ? frappe.utils.icon("check", "xs") : ""}<span>${esc(one.label)}</span>`)
+					.on("click", async () => {
+						state.shown = on ? state.shown.filter((key) => key !== one.key) : [...state.shown, one.key];
+						shows(panel);
+						await draw(panel);
+						dirty(panel);
+					})
+					.appendTo($chips);
+			}
+			$wrapper.append(`<div class="oms-label">${esc(__("Show"))}</div>`).append($chips);
+		};
+		return {
+			id: "signature",
+			label: __("Signature"),
+			icon: "signature",
+			title: __("Signature"),
+			description: !box.sends ? __("Requires Send access.") : box.may_sign ? __("Added to every email sent from this mailbox.") : managed,
+			actions: box.may_sign
+				? [
+						{
+							label: __("Save"),
+							variant: "solid",
+							class: "oms-save",
+							click: async (panel) => {
+								await frappe.xcall(S + "set_preset", {
+									account: box.name,
+									preset: state.preset,
+									show: JSON.stringify(state.shown),
+									signature: panel.get_value("custom") || "",
+								});
+								saved();
+								was = now(panel);
+								dirty(panel);
+							},
 						},
-					},
-			  ]
-			: [],
-		async render(panel) {
-			if (!box.may_sign) return;
-			const signature = await frappe.xcall(H + "signature_of", { account: box.name });
-			panel.add_fields([{ fieldname: "signature", fieldtype: "Text Editor", default: signature || "" }]);
-			track(panel);
-			buttons(panel.body).append(
-				onedesk.oneai.button(
-					__("Write With OneAI"),
-					__("Write a short email signature for {0} with my name, job title and contact details for me to approve.", [box.email])
-				)
-			);
-		},
-	});
+				  ]
+				: [],
+			async render(panel) {
+				if (!box.may_sign) return;
+				const view = panel.shown;
+				state = await frappe.xcall(S + "presets_of", { account: box.name });
+				if (view !== panel.shown) return;
+				panel.add_fields([
+					{ fieldname: "shows", fieldtype: "HTML" },
+					{ fieldname: "styles", fieldtype: "HTML" },
+					{ fieldname: "custom", fieldtype: "Text Editor", default: state.preset ? "" : state.signature, hidden: !!state.preset },
+				]);
+				styles(panel);
+				shows(panel);
+				panel.$header.find(".oms-save").addClass("hide");
+				setTimeout(() => {
+					was = now(panel);
+					dirty(panel);
+				}, 600);
+				panel.fieldgroup.get_field("custom").df.change = () => dirty(panel);
+				panel.body.off("input.oms-signature").on("input.oms-signature", () => dirty(panel));
+			},
+		};
+	};
 
 	const away_tab = (box) => ({
 		id: "away",
