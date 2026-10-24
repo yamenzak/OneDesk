@@ -211,6 +211,8 @@ No doctypes yet.
 
 ## Whitelisted methods
 
+* `onedesk.one.access.ability_matrix`
+* `onedesk.one.access.change_ability`
 * `onedesk.one.access.doctype_levels`
 * `onedesk.one.access.hold`
 * `onedesk.one.access.let_go`
@@ -220,6 +222,7 @@ No doctypes yet.
 * `onedesk.one.access.remove_group`
 * `onedesk.one.access.remove_level`
 * `onedesk.one.access.remove_profile`
+* `onedesk.one.access.rename_role`
 * `onedesk.one.account.buy_credits`
 * `onedesk.one.account.check_again`
 * `onedesk.one.account.credit_packs`

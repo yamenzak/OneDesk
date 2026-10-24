@@ -1,0 +1,110 @@
+/* A module's role builder (public/js/role_matrix.js): abilities down the
+   side, roles across the top, one control per cell. */
+.rm-scroll {
+	overflow-x: auto;
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius-lg);
+}
+
+.rm-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: var(--text-base);
+}
+
+.rm-table th,
+.rm-table td {
+	padding: calc(var(--spacing) * 2.5) calc(var(--spacing) * 3);
+	border-bottom: 1px solid var(--outline-gray-1);
+	vertical-align: middle;
+	text-align: start;
+}
+
+.rm-table tbody tr:last-child > * {
+	border-bottom: 0;
+}
+
+.rm-table thead th {
+	position: sticky;
+	top: 0;
+	background: var(--surface-base);
+	border-bottom: 1px solid var(--outline-gray-2);
+}
+
+.rm-table .rm-ability {
+	min-width: 220px;
+	font-weight: var(--weight-regular, 400);
+}
+
+.rm-table .rm-label {
+	display: block;
+	color: var(--ink-gray-8);
+}
+
+.rm-table .rm-about {
+	display: block;
+	margin-top: calc(var(--spacing) * 0.5);
+	color: var(--ink-gray-5);
+	font-size: var(--text-sm);
+}
+
+.rm-table .rm-role {
+	min-width: 175px;
+}
+
+.rm-table .rm-role-name {
+	display: inline-flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 1);
+	color: var(--ink-gray-9);
+	font-weight: var(--weight-medium);
+}
+
+.rm-table .rm-role-edit {
+	padding: 0;
+	border: 0;
+	background: none;
+	cursor: pointer;
+}
+
+.rm-table .rm-role-edit:hover,
+.rm-table .rm-role-edit:focus-visible {
+	color: var(--ink-gray-7);
+	text-decoration: underline;
+}
+
+.rm-table .rm-people {
+	display: block;
+	color: var(--ink-gray-5);
+	font-size: var(--text-xs);
+	font-weight: var(--weight-regular, 400);
+}
+
+.rm-table .rm-group th {
+	padding-top: calc(var(--spacing) * 2);
+	padding-bottom: calc(var(--spacing) * 2);
+	background: var(--surface-gray-1);
+	color: var(--ink-gray-6);
+	font-size: var(--text-sm);
+	font-weight: var(--weight-medium);
+}
+
+.rm-table .rm-cell .frappe-control,
+.rm-table .rm-cell .form-group {
+	margin: 0;
+}
+
+.rm-table .rm-cell .control-label,
+.rm-table .rm-cell .help-box,
+.rm-table .rm-cell .switch-text {
+	display: none;
+}
+
+.rm-table .rm-cell .switch-control {
+	justify-content: flex-start;
+	margin: 0;
+}
+
+.rm-table .rm-cell select {
+	min-width: 140px;
+}

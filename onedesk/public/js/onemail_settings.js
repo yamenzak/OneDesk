@@ -6,13 +6,12 @@ frappe.provide("onedesk.mail");
 // reply, auto reply, users, connection, rules). Shared Mailboxes, Personal Addresses and Mail Templates are a
 // Workspace Administrator's: who reads and sends from each shared mailbox, the
 // address the workspace gives each person, which outside mailboxes people may
-// connect, and the templates. Wording follows docs/WORDING.md. Every change is
+// connect, and the templates. Roles is an administrator's: OneMail's role
+// builder (public/js/role_matrix.js). Wording follows docs/WORDING.md. Every change is
 // a call to one_mail/holders.py, connect.py and rules.py, or one/mail_templates.py.
 onedesk.mail.settings = (tab) => {
 	const H = "onedesk.one_mail.holders.";
 	const esc = frappe.utils.escape_html;
-	// Whoever manages the workspace's mail: a Mail Manager or an
-	// administrator (one/roles.py).
 	// What the reader's role lets them do across the workspace's mail
 	// (one/boot.py `one_mail_may`, one_mail/abilities.py).
 	const can = frappe.boot.one_mail_may || {};
@@ -1039,11 +1038,36 @@ onedesk.mail.settings = (tab) => {
 		},
 	};
 
+	// ── Roles ───────────────────────────────────────────────────────────────
+	const role_files = ["/assets/onedesk/js/role_matrix.js", "/assets/onedesk/css/role_matrix.css"];
+	const roles = {
+		id: "roles",
+		label: __("Roles"),
+		icon: "shield-check",
+		title: __("Roles"),
+		description: __("What each role can do in OneMail. Give people a role on their page in People."),
+		actions: [
+			{
+				label: __("New Role"),
+				icon: "plus",
+				click: async (panel) => {
+					await frappe.require(role_files);
+					onedesk.roles.create(panel, "OneMail");
+				},
+			},
+		],
+		async render(panel) {
+			await frappe.require(role_files);
+			onedesk.roles.draw(panel, "OneMail");
+		},
+	};
+
 	const tabs = [{ group: __("Your Mail"), items: [mailboxes] }];
 	const workspace_tabs = [
 		(can.connect_shared || can.holders || can.others) && shared,
 		(can.policy || can.others) && personal,
 		can.templates && templates,
+		can.roles && roles,
 	].filter(Boolean);
 	if (workspace_tabs.length) tabs.push({ group: __("Workspace"), items: workspace_tabs });
 	if (onedesk.mail._settings) onedesk.mail._settings.$wrapper.remove();

@@ -3003,8 +3003,8 @@ def onemail_people_ask_and_mail_managers_decide():
 @check
 def onemail_roles_and_one_mailbox_grants():
 	"""Layla makes a OneMail role that may change signatures on every
-	mailbox and nothing else, and one that may change only a person's own
-	address; and lets Samir change the workspace mailbox's signature alone,
+	mailbox and nothing else, and one, cell by cell in the role builder,
+	that may change only a person's own address; and lets Samir change the workspace mailbox's signature alone,
 	without a role, from its Users tab. Taking Samir off the mailbox takes
 	that away too."""
 	from onedesk.one import access
@@ -3021,8 +3021,14 @@ def onemail_roles_and_one_mailbox_grants():
 		access.save_level(brand, brand, [], {"signature": "all"})
 		own = access.new_level("OneMail", "Own Address", "User")
 		made.append(own)
-		access.save_level(own, own, [], {"signature": "own", "away": "own"})
+		own = made[-1] = access.rename_role(own, "Their Own Mailbox")
+		access.change_ability(own, "signature", "own")
+		said = access.change_ability(own, "away", "own")
+		assert access.ability_matrix("OneMail")["values"] == said["values"]
+		assert [role["name"] for role in said["roles"]] == ["User", brand, own, "Manager"]
+		assert said["values"][own]["signature"] == "own" and said["values"][own]["auto_reply"] == 0
 		assert {one["key"]: one["value"] for one in access.level(brand)["abilities"]}["signature"] == "all"
+		assert said["least"][own]["rules"] == "none", "User asks for approval"
 	try:
 		frappe.get_doc("User", "tariq@one.test").add_roles(brand)
 		frappe.get_doc("User", "rania@one.test").add_roles(own)

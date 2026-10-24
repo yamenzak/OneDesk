@@ -263,6 +263,21 @@ def _picks(doctype: str) -> set:
 	}
 
 
+def _rename(tier: str, title: str | None) -> str:
+	title = (title or "").strip()
+	if not title:
+		frappe.throw(_("Give the role a name."))
+	if ":" in title:
+		frappe.throw(_("A role's name cannot have a colon in it."))
+	if title != tier:
+		if frappe.db.exists("Role", title):
+			frappe.throw(_("There is already a role called {0}.").format(title))
+		from frappe.model.rename_doc import rename_doc
+
+		rename_doc("Role", tier, title, force=True, ignore_permissions=True, show_alert=False)
+	return title
+
+
 def app_of(level: str) -> str:
 	app = frappe.db.get_value("Role", level, "one_app")
 	if not app or app not in _apps() or level == companion(app):
@@ -334,16 +349,7 @@ def save_level(key: str, title: str | None, rows: list[dict], abilities: dict | 
 	roles.require()
 	app, tier = tier_of(key)
 	if tier not in BASE:
-		title = (title or "").strip()
-		if not title:
-			frappe.throw(_("Give the role a name."))
-		if ":" in title:
-			frappe.throw(_("A role's name cannot have a colon in it."))
-		if title != tier:
-			if frappe.db.exists("Role", title):
-				frappe.throw(_("There is already a role called {0}.").format(title))
-			frappe.rename_doc("Role", tier, title, force=True)
-			tier = title
+		tier = _rename(tier, title)
 	held = _holds(app, tier)
 	allowed = _matrix(app, tier)
 	chosen = {}
@@ -555,6 +561,85 @@ def for_doctype(doctype: str) -> list[dict]:
 		if any(row["rights"] for row in rows):
 			said.append({"app": app, "rows": rows})
 	return said
+
+
+def matrix_of(app: str) -> dict:
+	"""A module's role builder (one/abilities.py): its roles as columns, User,
+	the workspace's own, Manager; its abilities as rows, in the module's
+	groups; and what each role holds of each."""
+	from onedesk.one import abilities
+
+	roles.require()
+	declared = abilities.of_app(app)
+	if not declared or app not in _apps():
+		frappe.throw(_("That cannot be set."))
+	names = getattr(declared, "SCOPE_LABELS", {})
+	columns, values, least = [], {}, {}
+	for tier in tiers(app):
+		key = key_of(app, tier)
+		held = abilities_of(app, tier)
+		columns.append({"key": key, "name": tier, "own": int(tier not in BASE), "people": len(people_at(app, tier))})
+		values[key] = {one["key"]: one["value"] for one in held}
+		least[key] = {one["key"]: one["least"] for one in held if tier != "User"}
+	groups = []
+	for one in declared.ABILITIES:
+		group = str(one["group"])
+		if not groups or groups[-1]["label"] != group:
+			groups.append({"label": group, "rows": []})
+		said = {**names, **({"none": one["none"]} if one.get("none") else {})}
+		groups[-1]["rows"].append(
+			{
+				"key": one["key"],
+				"label": str(one["label"]),
+				"about": str(one.get("about") or ""),
+				"kind": one["kind"],
+				"options": [] if one["kind"] == "switch" else [
+					{"value": scope, "label": str(said.get(scope) or scope)} for scope in abilities.SCOPES
+				],
+			}
+		)
+	return {"app": app, "roles": columns, "groups": groups, "values": values, "least": least}
+
+
+def set_ability(key: str, ability: str, value) -> dict:
+	"""One cell of the role builder: what one role holds of one ability. A
+	role above User never holds less than User does."""
+	from onedesk.one import abilities
+
+	roles.require()
+	app, tier = tier_of(key)
+	one = abilities.ability(app, ability)
+	held = {row["key"]: row for row in abilities_of(app, tier)}
+	if one["kind"] == "switch":
+		value = frappe.utils.cint(value)
+		too_little = value < held[ability]["least"]
+	else:
+		too_little = value not in abilities.SCOPES or abilities.SCOPES.index(value) < abilities.SCOPES.index(held[ability]["least"])
+	if too_little:
+		frappe.throw(_("A role above User has everything User has."))
+	save_abilities(app, tier, {**{name: row["value"] for name, row in held.items()}, ability: value})
+	return matrix_of(app)
+
+
+def rename_level(name: str, title: str) -> str:
+	roles.require()
+	app_of(name)
+	return _rename(name, title)
+
+
+@frappe.whitelist()
+def ability_matrix(app: str) -> dict:
+	return matrix_of(app)
+
+
+@frappe.whitelist(methods=["POST"])
+def change_ability(key: str, ability: str, value) -> dict:
+	return set_ability(key, ability, value)
+
+
+@frappe.whitelist(methods=["POST"])
+def rename_role(name: str, title: str) -> str:
+	return rename_level(name, title)
 
 
 @frappe.whitelist(methods=["POST"])

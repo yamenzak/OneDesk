@@ -637,14 +637,18 @@ Each app has a **User** and a **Manager** role, listed under Workspace ›
 Access with each one's people, and a workspace can add its own between them.
 OneMail has roles too; everyone is at least its User.
 
-A role's page has two parts:
+**OneMail's roles are built in OneMail**, under **Settings › Roles**: a table
+with what OneMail lets a role do down the side and its roles across the top,
+each cell a dropdown or a switch that saves as it changes. Signatures and
+sender names, out of office, mail rules and OneAI settings are each **No**,
+**Their Own Address** or **Every Mailbox**; auto reply, who uses a mailbox,
+connections, connecting shared mailboxes, the address policy and mail
+templates are switches. A role above User always has everything User has.
+**New Role** adds a column; click a role's name to rename or delete it.
+Clicking a OneMail role here opens that table.
 
-- **What the role may do in the app**, for an app that has more to give than
-  records. OneMail's are its mailbox abilities: signatures and sender names,
-  out of office, mail rules and OneAI settings, each **No**, **Their Own
-  Address** or **Every Mailbox**, and switches for auto reply, who uses a
-  mailbox, connections, connecting shared mailboxes, the address policy and
-  mail templates. A role above User always has everything User has.
+For the other apps, a role's page here has:
+
 - **Record Types**: tick or untick permissions on any record type the app
   uses: Select, Read, Edit, Create, Delete, Submit, Cancel and Export. For
   example, remove Delete from Manager, or hide a record type from User.
@@ -653,7 +657,8 @@ To add your own role, such as Senior Sales or Brand Team:
 
 1. Click **New Role**.
 2. Name it, and choose its app and the role it's **Based On**.
-3. Change what it may do on its page.
+3. Change what it may do on its page, or in OneMail's table for a OneMail
+   role.
 
 The new role appears on each person's page, in that app's list between User
 and Manager.

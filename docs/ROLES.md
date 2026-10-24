@@ -77,15 +77,23 @@ an update, the same rule the record matrix keeps.
 
 ### The role builder
 
-A role's page in Workspace › Access becomes two parts:
+A module's roles are built in the module's own settings, because that is
+where somebody thinking "who can change signatures" goes. For OneMail it is
+the **Roles** tab of its settings dialog, a Workspace Administrator's.
 
-- **Abilities**: one row per ability of the module, with a switch or a
-  dropdown, grouped as the module groups them.
-- **Record types**: the matrix there was, for the record types the module's
-  roles have rules on, minus the doctypes the abilities live on.
+It is one matrix rather than a page per role: the module's abilities down
+the side, in its groups, and its roles across the top (User, the
+workspace's own, Manager). A scope is a dropdown, a switch is a switch, and
+each cell saves as it changes (`access.set_ability`). A cell above User
+starts at User's value, since every role holds User's roles. **New Role**
+adds a column based on another; a custom role's name renames or deletes it.
+`public/js/role_matrix.js` draws it for any module that declares abilities,
+from `access.matrix_of`.
 
-New Role asks for a name, a module and the role it starts from, as New Level
-did.
+Workspace › Access keeps what crosses modules: every app's roles in one
+list, profiles, groups and people. Clicking a role of a module with its own
+builder opens the builder (`Settings.ROLES_IN`); the business apps' roles
+still open a page here with the record-type matrix, until their stage.
 
 ### Modules everyone has
 
@@ -122,9 +130,9 @@ auto reply, who holds it, and its connection. Each is a share.
 ## Stages
 
 1. **Engine and OneMail.** Permission types, `one/abilities.py`, roles in
-   place of levels, OneMail as an app with roles, the builder's Abilities
-   part, the Users tab's per-mailbox abilities, OneMail's checks moved onto
-   `abilities.may`. Guide, tests, demo checks.
+   place of levels, OneMail as an app with roles, the role builder as a
+   matrix in OneMail's settings, the Users tab's per-mailbox abilities,
+   OneMail's checks moved onto `abilities.may`. Guide, tests, demo checks.
 2. **OneCloud.** Sharing outside the workspace, deleting others' files,
    storage settings; per-folder grants on Drive's own model.
 3. **OneTask and OneCalendar.** Assigning to others, others' calendars.
@@ -133,5 +141,6 @@ auto reply, who holds it, and its connection. Each is a share.
 5. **The five business apps.** Their abilities beside their record matrix:
    approving, discounts past a limit, seeing cost and margin.
 
-Each stage is the same three steps: a module's `abilities.py`, its permission
-types, and its own checks moved onto `abilities.may`.
+Each stage is the same four steps: a module's `abilities.py`, its permission
+types, its own checks moved onto `abilities.may`, and a Roles tab in its
+settings drawing `role_matrix.js`.

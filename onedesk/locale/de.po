@@ -158,6 +158,10 @@ msgstr "1 Chance über ihrem Abschlussdatum"
 msgid "1 Overdue Sales Invoice"
 msgstr "1 überfällige Ausgangsrechnung"
 
+#: onedesk/public/js/role_matrix.js:21
+msgid "1 Person"
+msgstr "1 Person"
+
 #: frontend/src/home/BooksHome.vue:137
 msgid "1 Purchase Invoice Due"
 msgstr "1 fällige Eingangsrechnung"
@@ -1647,6 +1651,10 @@ msgstr "API-Token"
 #: onedesk/one_admin/heads.py:42
 msgid "Abandoned"
 msgstr "Aufgegeben"
+
+#: onedesk/public/js/role_matrix.js:18
+msgid "Ability"
+msgstr "Fähigkeit"
 
 #. Label of the one_about (Small Text) field in DocType 'Notification Type'
 #. Label of the about_section (Section Break) field in DocType 'Private App'
@@ -15977,6 +15985,10 @@ msgstr "Zum Beispiel SN-.#####. Leer gelassen, wird jede Nummer eingetippt."
 #: onedesk/public/js/doctype_settings.js:378
 msgid "For example {0}"
 msgstr "Zum Beispiel {0}"
+
+#: onedesk/public/js/role_matrix.js:80
+msgid "For example, HR Team."
+msgstr "Zum Beispiel HR-Team."
 
 #: onedesk/public/js/settings.js:1109
 msgid "For example, Senior Sales."
@@ -46974,6 +46986,10 @@ msgstr "Was jede Charge über die Zeit enthält."
 msgid "What each person costs, part by part."
 msgstr "Was jede Person kostet, Teil für Teil."
 
+#: onedesk/public/js/onemail_settings.js:1048
+msgid "What each role can do in OneMail. Give people a role on their page in People."
+msgstr "Was jede Rolle in OneMail darf. Personen erhalten eine Rolle auf ihrer Seite unter Personen."
+
 #: onedesk/one_book/home.py:349
 msgid "What each sale made over what it cost."
 msgstr "Was jeder Verkauf über seine Kosten hinaus einbrachte."
@@ -53011,6 +53027,10 @@ msgstr "{0} Chancen über ihrem Abschlussdatum"
 #: frontend/src/home/BooksHome.vue:136
 msgid "{0} Overdue Sales Invoices"
 msgstr "{0} überfällige Ausgangsrechnungen"
+
+#: onedesk/public/js/role_matrix.js:21
+msgid "{0} People"
+msgstr "{0} Personen"
 
 #: frontend/src/home/BooksHome.vue:137
 msgid "{0} Purchase Invoices Due"

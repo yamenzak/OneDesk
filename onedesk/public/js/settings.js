@@ -6,6 +6,12 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 
 	static WIDE = ["people", "oneai", "intake", "numbering", "printing", "approvals"];
 	static theirs = (one) => one.standard === "Yes";
+	// A module whose roles are built in its own settings (docs/ROLES.md)
+	// opens them there rather than on a role's page here.
+	static ROLES_IN = {
+		OneMail: () =>
+			frappe.require(["/assets/onedesk/js/onemail_settings.js", "/assets/onedesk/css/onemail_settings.css"]).then(() => onedesk.mail.settings("roles")),
+	};
 
 	static SHEET = 794;
 	static PAGE = 1123;
@@ -937,7 +943,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			rows: data.levels,
 			icon: "shield-check",
 			none: __("No matching roles"),
-			open: (one) => frappe.set_route("workspace-settings", { section: "access", level: one.key }),
+			open: (one) => (Settings.ROLES_IN[one.app] ? Settings.ROLES_IN[one.app]() : frappe.set_route("workspace-settings", { section: "access", level: one.key })),
 			columns: [
 				{
 					label: __("Role"),
@@ -986,6 +992,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			primary_action: async ({ title, app, start }) => {
 				const name = await frappe.xcall("onedesk.one.access.make_level", { app, title, start });
 				dialog.hide();
+				if (Settings.ROLES_IN[app]) return Settings.ROLES_IN[app]();
 				frappe.set_route("workspace-settings", { section: "access", level: name });
 			},
 		});

@@ -86,13 +86,15 @@ page in Workspace › People:
 - **Manager**: everything on every mailbox, as well as connecting shared
   mailboxes, the address policy and mail templates. Give it to the people in
   HR or PR who look after the company's mail.
-- **Your own roles**, made under Workspace › Access › **New Role** with OneMail
-  as the app. A role's page lists what OneMail lets it do: signatures and
-  sender names, out of office, mail rules and OneAI settings, each set to
-  **No**, **Their Own Address** or **Every Mailbox**; and switches for auto
-  reply, who uses a mailbox, connections, connecting shared mailboxes, the
-  address policy and mail templates. For example, a Brand role that keeps
-  every signature and nothing else.
+- **Your own roles**, made by a Workspace Administrator in **Settings ›
+  Roles**. It's one table: what OneMail lets a role do down the side, every
+  role across the top. Signatures and sender names, out of office, mail rules
+  and OneAI settings are each **No**, **Their Own Address** or **Every
+  Mailbox**; auto reply, who uses a mailbox, connections, connecting shared
+  mailboxes, the address policy and mail templates are switches. Each cell
+  saves as it changes. **New Role** adds a column, and a role's name renames
+  or deletes it. For example, a Brand role that keeps every signature and
+  nothing else.
 
 Workspace Administrators can do everything. Connecting a shared mailbox
 doesn't make it the connector's.

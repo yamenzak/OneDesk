@@ -27,6 +27,7 @@ def boot_session(bootinfo) -> None:
 
 	outside.keep(bootinfo)
 
+	from onedesk.one import roles
 	from onedesk.one_mail import holders
 
 	bootinfo["one_mail_may"] = {
@@ -35,6 +36,7 @@ def boot_session(bootinfo) -> None:
 		"policy": int(holders.may_do("policy")),
 		"templates": int(holders.may_do("templates")),
 		"others": int(holders.may_open_others()),
+		"roles": int(roles.administers()),
 	}
 	sends = holders.sending_rows()
 	for one in bootinfo.get("email_accounts") or []:
