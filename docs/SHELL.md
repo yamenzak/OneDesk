@@ -70,6 +70,12 @@ name.
 
 ### 2. Our pages get one shell, on `frappe.ui.Page`
 
+**Replaced by the screen contract (docs/WINDOW.md).** Every screen is now
+frappe's own list or form, or a Vue island; the pages below leave the shell
+one at a time, each deleting its old code, and the shell goes when none is
+left (`tests/guards/test_shell.py`). Until a page moves it keeps the rules
+that follow.
+
 `onedesk.shell` (one JS file, one CSS file with `.one-shell-*`), taken out of
 `settings.js` rather than written new. It has exactly these parts, and a page
 composes them rather than drawing its own:

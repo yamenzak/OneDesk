@@ -13,6 +13,43 @@ pane. So socket updates, the frappe object, formatting, permissions, keyboard
 shortcuts, Customize, Record Head, record tabs and anything frappe ships next
 keep working, because nothing of theirs was replaced.
 
+## The screen contract
+
+Every screen of One is one of two kinds, so a person meets the same parts
+in the same places everywhere and a change to one is a change to all.
+
+1. **Frappe's own list or form.** The default, and nearly everything: a
+   doctype's List, Report, Kanban, Calendar, Gantt, Tree or Dashboard, and its
+   Form, on the window. What we need on top is a small piece inside it,
+   never a page beside it: a head (`one_head`, its figures and track), a
+   record tab, a client script, a column, a nav tree under the view's row in
+   the nav pane (`win.nav_slot()`), a button. Making a record is the create
+   dialog; its files are OneCloud's dialog; its checkboxes are frappe's
+   switch. Nothing here names a doctype (`test_the_engine_names_no_doctype`).
+2. **A Vue island.** Only for a screen that is genuinely more than a list or
+   a form: a product (OneMail, OneCloud, OneCalendar), a space's home, an
+   editor (OneWorkbook, OneWriter), a record page that is run from all day
+   (`tiers.PAGES`). It is built from frappe's Vue parts first (frappe-ui,
+   `@framework/ui`), ours last, mounted by `island_page`, and declared in
+   `tiers.SCREENS` with the reason it is not a list or a form.
+
+A screen that does not pass the test for 2 is 1. Our own JavaScript pages on
+`onedesk.shell` (`docs/SHELL.md` decision 2) go away: each page moves in one
+commit that deletes its old code, so there is never a page in two versions,
+and `tests/guards/test_shell.py` keeps the pages and the files still on the
+shell, lists that only shrink; when they are empty the shell is deleted.
+
+| Page on the shell | Becomes |
+|---|---|
+| Masters | 1: each kind's frappe list, the kinds as a tree in the nav pane |
+| Ready to Submit | sorted when reached |
+| Intake | sorted when reached |
+| Agreements (legal) | sorted when reached |
+| OneCalendar | 2: a product |
+| OneMail | 2: a product |
+| OneCloud | 2: a product |
+| Settings, Workspace Settings | sorted when reached |
+
 ## The parts
 
 ```

@@ -71,8 +71,14 @@ GUARDS = [
 	Guard(
 		"pages-on-shell",
 		4,
-		"a desk page neither on the shell nor an island",
-		"tests/guards/test_shell.py::test_every_page_is_on_the_shell_or_an_island",
+		"a desk page that is neither an island nor one still leaving the shell",
+		"tests/guards/test_shell.py::test_every_page_is_an_island_or_still_on_the_shell",
+	),
+	Guard(
+		"shell-only-shrinks",
+		4,
+		"a page put on the shell, or a new user of it, after the screen contract",
+		"tests/guards/test_shell.py::test_who_still_uses_the_shell_is_known_and_only_shrinks",
 	),
 	Guard(
 		"heads-declared",

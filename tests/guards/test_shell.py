@@ -1,11 +1,12 @@
-"""Every page of ours is built in the shell (docs/SHELL.md).
+"""The shell is on its way out (docs/WINDOW.md, the screen contract).
 
-A page composes the shell's parts rather than drawing its own: its head is
-frappe's page head, its body the shell's column or wide, and its sections,
-rows, empty states and quiet lines are the shell's, styled once in
-`public/css/shell.css`. A record edited on a page is the shell's Editor, so
-dirty, leaving, saving against `modified` and hearing another save are written
-once. These fail when a page draws a part the shell has.
+Every screen is one of two kinds: frappe's own list or form, with small
+pieces added, or a Vue island, for a screen that is more than a list or a
+form. Our own JavaScript pages on `onedesk.shell` go away, each in the
+commit that moves it, so the two lists here only shrink, and the shell
+itself goes when they are empty. Until a page moves it keeps the shell's
+rules: its head is frappe's page head, its body the shell's column or wide,
+and its sections, rows, empty states and quiet lines are the shell's.
 """
 
 import re
@@ -35,6 +36,35 @@ ON_THE_SHELL = {
 	"masters": ("one/page/masters/masters.js", "one/page/masters/masters.css"),
 }
 
+# The pages on the shell when the contract was written; the list above only
+# ever loses one.
+WERE_ON_THE_SHELL = {"settings", "workspace_settings", "legal", "intake", "ready_to_submit", "onecalendar", "onemail", "onecloud", "masters"}
+
+# Every file that still calls a part of the shell. It only shrinks too; when
+# it is empty, shell.js and shell.css are deleted.
+USE_THE_SHELL = {
+	"one/page/masters/masters.js",
+	"one/page/settings/settings.js",
+	"one/page/workspace_settings/workspace_settings.js",
+	"one_calendar/page/onecalendar/onecalendar.js",
+	"one_intake/page/intake/intake.js",
+	"one_intake/page/ready_to_submit/ready_to_submit.js",
+	"one_legal/page/legal/legal.js",
+	"one_mail/page/onemail/onemail.js",
+	"one_storage/page/onecloud/onecloud.js",
+	"public/js/band.js",
+	"public/js/calendar_link.js",
+	"public/js/desk.js",
+	"public/js/doctype_settings.js",
+	"public/js/extension_errors.js",
+	"public/js/island_page.js",
+	"public/js/onecloud.js",
+	"public/js/onemail.js",
+	"public/js/record_mail.js",
+	"public/js/settings.js",
+	"public/js/window/frame.js",
+}
+
 ISLAND_PAGES = {"project_view", "project_template_view", "task_view", "item_view", "stock_on_hand", "inventory", "books", "onecrm", "onehr", "lots", "to_order", "quotes", "sent_out", "upkeep", "floor", "plant", "my_tasks", "timers", "workbook", "document"}
 
 PARTS = re.compile(r"\.[a-z]+-(row|empty|quiet|card|content|section|chevron)(-[a-z]+)?\b(?![-\w])")
@@ -48,11 +78,35 @@ def _pages():
 	}
 
 
-def test_every_page_is_on_the_shell_or_an_island():
+def test_every_page_is_an_island_or_still_on_the_shell():
 	pages = _pages()
 	assert pages, "no pages found"
 	unknown = set(pages) - set(ON_THE_SHELL) - ISLAND_PAGES
-	assert not unknown, f"a new page goes on the shell (onedesk.shell.page): {sorted(unknown)}"
+	assert not unknown, (
+		"a new page is a Vue island (ISLAND_PAGES, declared in tiers.SCREENS) or not a page at all: "
+		f"frappe's own list or form (docs/WINDOW.md, the screen contract): {sorted(unknown)}"
+	)
+
+
+def test_the_shell_only_loses_pages():
+	"""No page goes onto the shell any more; one leaves it in the commit that
+	moves it, with its old code."""
+	assert set(ON_THE_SHELL) <= WERE_ON_THE_SHELL, sorted(set(ON_THE_SHELL) - WERE_ON_THE_SHELL)
+
+
+def test_who_still_uses_the_shell_is_known_and_only_shrinks():
+	"""The files that call a part of the shell are exactly USE_THE_SHELL: one
+	that stops is taken off it, and none is added. When none is left the
+	shell is deleted."""
+	using = {
+		str(path.relative_to(tree.APP))
+		for path in tree.APP.rglob("*.js")
+		if "public/dist" not in str(path) and path != SHELL_JS and "onedesk.shell." in path.read_text(encoding="utf-8")
+	}
+	assert using <= USE_THE_SHELL, f"new users of the shell: {sorted(using - USE_THE_SHELL)}"
+	assert USE_THE_SHELL <= using, f"no longer use the shell, take them off USE_THE_SHELL: {sorted(USE_THE_SHELL - using)}"
+	if not using:
+		assert not SHELL_JS.exists() and not SHELL_CSS.exists(), "nothing uses the shell: delete shell.js and shell.css"
 
 
 def test_a_page_on_the_shell_is_made_by_it():
