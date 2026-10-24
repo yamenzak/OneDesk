@@ -159,17 +159,26 @@ receipt or a copy to yourself from **⋯**, and link it to a record.
 
 **Signatures** belong to the address, not the person. Set one under
 **Signature** in the mailbox's **⋯** menu. It's added to every email sent
-from that address, and you can edit it before sending. Only a Workspace
+from that address. Only a Workspace
 Administrator can change the signature of a workspace mailbox.
 
 A signature is one of six styles drawn from what One already knows: the
 holder's name, job title and numbers, and the company's name, logo, colour,
-website and address. **Show** picks which of those appear, and every style is
-previewed as a mail client shows it. A shared mailbox signs as the company.
-The two logo styles are offered only once the company has a logo. **Custom**
-is written by hand, starting from the style that was chosen, and is never
+website and address. The tab shows the chosen style large, with a small card
+for each style under it; pointing at a card shows that style. **Show** picks
+which details appear, Company Name among them. A shared mailbox signs as the
+company. The two logo styles are offered only once the company has a logo.
+**Custom** is written by hand, starting from Simple's lines, and is never
 redrawn. A style is drawn when it's saved, so a later change to the company
 or the person shows up the next time it's saved (`signatures.py`).
+
+The signature isn't put in the compose window's editor, which would flatten
+its layout into paragraphs. It shows under the editor as it will be sent,
+with **Remove** to leave it off one email, and goes in above the quoted mail
+as the email is sent (`mail_compose.js`). The company logo goes inside the
+email as an inline image rather than as a link to the workspace, which mail
+clients block until asked: the signature keeps only the logo's path, and
+`signatures.inline_logo` marks it to be embedded in the copy that is queued.
 
 ## Rules and out of office
 
@@ -700,10 +709,10 @@ across:
   save with the sender's own User signature or the default outgoing
   account's, after the composer has closed, so a reply from sales@ went out
   signed by somebody else and nobody saw it. `file_sent` sets
-  `skip_add_signature`, and mail_compose.js makes the composer put in the
+  `skip_add_signature`, and mail_compose.js makes the composer show the
   sending address's own signature (`holders.signature_for`, since Email
-  Account is not readable to its holders) before the writer's, where it
-  can be seen and changed.
+  Account is not readable to its holders) under the editor, where it can be
+  seen and left off, and put it in as the email is sent.
 - **Search operators** (`api.operators`), each narrowing the search further.
   The body is still a LIKE: there is no full-text index behind it.
 - **Undo.** `move` and `delete` answer where each message was, and

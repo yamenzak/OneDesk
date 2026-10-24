@@ -222,75 +222,92 @@
 	display: none;
 }
 
-.oms .oms-presets {
-	display: grid;
-	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: calc(var(--spacing) * 3);
+.oms .oms-signature {
 	margin-bottom: calc(var(--spacing) * 4);
-}
-
-.oms .oms-preset {
-	display: flex;
-	flex-direction: column;
-	gap: calc(var(--spacing) * 2);
-	min-width: 0;
-	padding: 0;
-	border: 0;
-	background: transparent;
-	text-align: left;
-	cursor: pointer;
-}
-
-.oms .oms-preset-look {
-	display: flex;
-	flex: 1;
-	align-items: center;
-	min-height: 88px;
 	overflow: hidden;
 	border: 1px solid var(--outline-gray-2);
 	border-radius: var(--radius-lg);
-	background: var(--surface-gray-1);
-	pointer-events: none;
 }
 
-.oms .oms-preset-frame {
+.oms .oms-signature-frame {
+	display: block;
 	width: 100%;
-	height: 88px;
+	height: 96px;
 	border: 0;
 }
 
-.oms .oms-preset:hover .oms-preset-look {
-	border-color: var(--outline-gray-3);
+.oms .oms-styles {
+	display: flex;
+	flex-wrap: wrap;
+	gap: calc(var(--spacing) * 2);
+	margin-bottom: calc(var(--spacing) * 4);
 }
 
-.oms .oms-preset--chosen .oms-preset-look,
-.oms .oms-preset--chosen:hover .oms-preset-look {
-	border-color: var(--outline-gray-5);
-	outline: 1px solid var(--outline-gray-5);
+.oms .oms-style {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: calc(var(--spacing) * 1.5);
+	width: 88px;
+	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 1.5);
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius-lg);
+	background: transparent;
+	cursor: pointer;
 }
 
-.oms .oms-preset:focus-visible {
-	outline: none;
+.oms .oms-style:hover {
+	background: var(--surface-gray-1);
 }
 
-.oms .oms-preset:focus-visible .oms-preset-look {
+.oms .oms-style:focus-visible {
 	outline: 2px solid var(--outline-gray-3);
 }
 
-.oms .oms-preset-custom {
+.oms .oms-style--chosen,
+.oms .oms-style--chosen:hover {
+	border-color: var(--outline-gray-5);
+	outline: 1px solid var(--outline-gray-5);
+	background: var(--surface-gray-1);
+}
+
+.oms .oms-sketch {
 	display: flex;
-	width: 100%;
+	align-items: center;
 	justify-content: center;
+	width: 60px;
+	height: 36px;
+	border-radius: var(--radius);
+	background: var(--surface-base);
 	color: var(--ink-gray-5);
 }
 
-.oms .oms-preset-name {
-	padding: 0 calc(var(--spacing) * 1);
-	color: var(--ink-gray-7);
-	font-size: var(--text-sm);
+.oms .oms-sketch:not(.oms-sketch-custom) {
+	position: relative;
+	display: block;
 }
 
-.oms .oms-preset--chosen .oms-preset-name {
+.oms .oms-sketch-bit {
+	position: absolute;
+	border-radius: var(--radius-sm);
+}
+
+.oms .oms-sketch-name {
+	background: var(--ink-gray-7);
+}
+
+.oms .oms-sketch-text {
+	background: var(--ink-gray-3);
+}
+
+.oms .oms-style-name {
+	color: var(--ink-gray-7);
+	font-size: var(--text-xs);
+	line-height: 1.2;
+	text-align: center;
+}
+
+.oms .oms-style--chosen .oms-style-name {
 	color: var(--ink-gray-9);
 	font-weight: var(--weight-medium);
 }

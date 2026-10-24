@@ -844,10 +844,17 @@ OVERRIDES = [
 	),
 	(
 		"The email composer signs as the sending address, not the writer",
-		"mail_compose.js wraps CommunicationComposer.get_signature, which prefers the writer's own User signature, so a shared address signs the same whoever writes",
+		"mail_compose.js replaces CommunicationComposer.get_signature, which prefers the writer's own User signature and puts it in the editor, so a shared address signs the same whoever writes and the signature shows under the editor instead",
 		"onedesk/public/js/mail_compose.js",
 		"frappe/frappe/public/js/frappe/views/communication.js",
 		"async get_signature(sender_email) {",
+	),
+	(
+		"A signature goes into the email as it is sent, keeping its layout",
+		"mail_compose.js wraps CommunicationComposer.get_email_content and send_email, because the editor flattens a drawn signature's tables and inline styles into paragraphs; only while sending is the signature put in, above the quoted mail, so drafts and templates never carry it",
+		"onedesk/public/js/mail_compose.js",
+		"frappe/frappe/public/js/frappe/views/communication.js",
+		"get_email_content() {",
 	),
 	(
 		"The email composer offers the templates of the record it is about, form or none",

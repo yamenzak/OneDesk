@@ -25,6 +25,7 @@ SANDBOXED = {
 	"frontend/src/mail/mail.js": "a received mail, in a frame",
 	"onedesk/public/js/settings.js": "a letter head as it prints, in a frame",
 	"onedesk/public/js/onemail_settings.js": "a signature as it sends, in a frame",
+	"onedesk/public/js/mail_compose.js": "a signature as it sends, in a frame",
 }
 
 MARK = re.compile(r"--one-(suite|ai|over)-[\w-]+")

@@ -5,10 +5,11 @@ with inline styles, since that is what every mail client keeps. A
 signature written by hand is Custom and is never redrawn."""
 
 import json
+import re
 
 import frappe
 from frappe import _lt
-from frappe.utils import escape_html, get_url, strip_html_tags
+from frappe.utils import escape_html, strip_html_tags
 
 from onedesk.one import letter_heads
 
@@ -22,6 +23,7 @@ PRESETS = {
 }
 
 SHOWS = {
+	"company": _lt("Company Name"),
 	"title": _lt("Job Title"),
 	"phone": _lt("Phone"),
 	"mobile": _lt("Mobile"),
@@ -31,7 +33,7 @@ SHOWS = {
 	"logo": _lt("Logo"),
 }
 
-SHOWN = ("title", "phone", "email", "website", "logo")
+SHOWN = ("company", "title", "phone", "email", "website", "logo")
 
 WITH_LOGO = ("beside", "above")
 
@@ -55,7 +57,7 @@ def details(account: str) -> dict:
 	out = {
 		"company": company.get("name") or "",
 		"colour": company.get("colour") or letter_heads.INK,
-		"logo": get_url(company["logo"]) if company.get("logo") else "",
+		"logo": company.get("logo") or "",
 		"website": company.get("website") or "",
 		"address": ", ".join(company.get("address") or []),
 		"phone": company.get("phone") or "",
@@ -89,7 +91,7 @@ def draw(preset: str, said: dict, shown: set | list) -> str:
 	e = lambda key: escape_html(str(said.get(key) or ""))  # noqa: E731
 	colour = said.get("colour") or letter_heads.INK
 	name = e("name") or e("company")
-	company = e("company") if said.get("name") else ""
+	company = e("company") if said.get("name") and "company" in shown else ""
 	title = e("title") if "title" in shown else ""
 	reach = [
 		e(key) if key != "website" else e(key).removeprefix("https://").removeprefix("http://")
@@ -184,8 +186,14 @@ def presets_of(account: str, show: str | list | None = None) -> dict:
 			if key not in WITH_LOGO or said.get("logo")
 		],
 		"shows": [
-			{"key": key, "label": str(label), "has": bool(said.get(key))} for key, label in SHOWS.items()
+			{
+				"key": key,
+				"label": str(label),
+				"has": bool(said.get(key)) and (key != "company" or bool(said.get("name"))),
+			}
+			for key, label in SHOWS.items()
 		],
+		"colour": said["colour"],
 		"preset": held.one_signature_preset or ("" if written(held.signature) else "simple"),
 		"shown": shown,
 		"signature": written(held.signature),
@@ -212,3 +220,18 @@ def set_preset(
 		{"one_signature_preset": preset or None, "one_signature_show": json.dumps(shown)},
 		update_modified=False,
 	)
+
+
+def inline_logo(doc, method=None) -> None:
+	"""Communication after_insert: the company's logo in a sent mail goes as
+	part of the mail (frappe's `embed`, sent as an inline image) rather than
+	a link to this site, which a mail client blocks until asked. A signature
+	holds only the logo's path, so it is never a link to the wrong host. Only
+	the copy about to be queued changes; the stored mail keeps the path,
+	which is what One shows in Sent."""
+	if doc.communication_medium != "Email" or doc.sent_or_received != "Sent" or not doc.content:
+		return
+	logo = letter_heads.company().get("logo")
+	if not logo or not logo.startswith(("/files/", "/private/files/")) or logo not in doc.content:
+		return
+	doc.content = re.sub(rf'src="[^"]*{re.escape(logo)}"', f'embed="{logo[1:]}"', doc.content)

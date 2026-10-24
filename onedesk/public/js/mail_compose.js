@@ -1,16 +1,74 @@
+// A mailbox's signature is drawn with tables and inline styles, which the
+// editor would flatten, so it stays out of the editor: it shows under it, as
+// the mail client will show it, and goes in above the quoted mail as it is
+// sent. Remove leaves it off this one mail.
 (() => {
 	const Composer = frappe.views && frappe.views.CommunicationComposer;
 	if (!Composer || Composer.prototype.one_signed) return;
-	const own = Composer.prototype.get_signature;
+	const QUOTE = /<(?:div|p)(?:\s[^>]*)?>---<\/(?:div|p)>/i;
+	// Signatures belong to the address, so there is none until one is chosen,
+	// and frappe's own (the person's, or any mailbox's) is never put in.
 	Composer.prototype.get_signature = async function (sender_email) {
-		if (sender_email) {
-			let signature = await frappe.xcall("onedesk.one_mail.holders.signature_for", { email: sender_email });
-			if (signature) {
-				if (!frappe.utils.is_html(signature)) signature = signature.replace(/\n/g, "<br>");
-				return "<br>" + signature;
-			}
+		const email = (this.dialog && this.dialog.get_value("sender")) || sender_email || this.sender;
+		this.one_show_signature(
+			email ? await frappe.xcall("onedesk.one_mail.holders.signature_for", { email }) : null
+		);
+		return "";
+	};
+	Composer.prototype.one_show_signature = function (signature) {
+		this.one_signature = signature || "";
+		const content = this.dialog && this.dialog.fields_dict.content;
+		if (!content) return;
+		let $shown = content.$wrapper.siblings(".one-compose-signature");
+		if (!$shown.length) {
+			$shown = $(`<div class="one-compose-signature">
+				<iframe sandbox="allow-same-origin" tabindex="-1" aria-hidden="true"></iframe>
+				${frappe.ui.button.html({ label: __("Remove"), variant: "ghost", size: "xs" })}
+			</div>`).insertAfter(content.$wrapper);
+			$shown.find("button").on("click", () => {
+				this.one_signature = "";
+				$shown.addClass("hide");
+			});
 		}
-		return own.call(this, sender_email);
+		$shown.toggleClass("hide", !this.one_signature);
+		if (!this.one_signature) return;
+		$shown
+			.find("iframe")
+			.off("load")
+			.on("load", function () {
+				this.style.height = `${this.contentDocument.body.scrollHeight}px`;
+			})
+			.attr("srcdoc", `<style>body{margin:0;padding:8px 0;background:#fff}</style>${frappe.dom.remove_script_and_style(this.one_signature)}`);
+	};
+	const make = Composer.prototype.make;
+	Composer.prototype.make = function () {
+		const made = make.apply(this, arguments);
+		const sender = this.dialog && this.dialog.fields_dict.sender;
+		if (sender) {
+			const changed = sender.df.onchange;
+			sender.df.onchange = (...args) => {
+				if (changed) changed.apply(sender, args);
+				this.get_signature(this.dialog.get_value("sender"));
+			};
+		}
+		return made;
+	};
+	const send = Composer.prototype.send_email;
+	Composer.prototype.send_email = function () {
+		this.one_sending = true;
+		try {
+			return send.apply(this, arguments);
+		} finally {
+			this.one_sending = false;
+		}
+	};
+	const content = Composer.prototype.get_email_content;
+	Composer.prototype.get_email_content = function () {
+		const said = content.call(this);
+		if (!this.one_sending || !this.one_signature) return said;
+		const signature = `<br>${this.one_signature}`;
+		const at = said.search(QUOTE);
+		return at < 0 ? said + signature : said.slice(0, at) + signature + said.slice(at);
 	};
 	Composer.prototype.one_signed = true;
 })();

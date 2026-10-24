@@ -610,6 +610,33 @@ def test_a_message_is_signed_as_the_address_it_is_sent_from():
 	assert "/assets/onedesk/js/mail_compose.js" in HOOKS
 
 
+def test_a_signature_keeps_its_layout_and_carries_its_logo():
+	"""The editor flattens a drawn signature, so it stays out of it and goes
+	in as the mail is sent; the logo goes inside the mail, not as a link."""
+	import types
+
+	compose = (tree.APP / "public" / "js" / "mail_compose.js").read_text()
+	assert "if (!this.one_sending || !this.one_signature) return said;" in compose, "drafts don't carry it"
+	assert 'return "";' in compose.split("Composer.prototype.get_signature", 1)[1].split("};", 1)[0], (
+		"nothing is put in the editor"
+	)
+	assert "said.slice(0, at) + signature + said.slice(at)" in compose, "above the quoted mail"
+	assert "onedesk.one_mail.signatures.inline_logo" in HOOKS
+	logo = "/files/sahara.png"
+	company = types.SimpleNamespace(company=lambda: {"logo": logo})
+	inline = _load(MAIL / "signatures.py", ("inline_logo",), re=re, letter_heads=company)["inline_logo"]
+	doc = types.SimpleNamespace(
+		communication_medium="Email",
+		sent_or_received="Sent",
+		content=f'<p>Hi</p><img src="{logo}" height="44"><img src="https://x.test{logo}">',
+	)
+	inline(doc)
+	assert doc.content == '<p>Hi</p><img embed="files/sahara.png" height="44"><img embed="files/sahara.png">'
+	received = types.SimpleNamespace(communication_medium="Email", sent_or_received="Received", content=f'<img src="{logo}">')
+	inline(received)
+	assert "embed" not in received.content, "only what is sent"
+
+
 def test_a_signature_is_shown_by_its_first_line(monkeypatch):
 	import types
 

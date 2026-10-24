@@ -647,6 +647,7 @@ doc_events = {
 			"onedesk.one_crm.capture.replied",
 			"onedesk.one_crm.tell.they_replied",
 			"onedesk.one_project.updates.answered",
+			"onedesk.one_mail.signatures.inline_logo",
 		],
 	},
 	"Call Log": {"after_insert": "onedesk.one_crm.capture.replied"},

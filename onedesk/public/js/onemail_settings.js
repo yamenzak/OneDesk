@@ -163,63 +163,79 @@ onedesk.mail.settings = (tab) => {
 		return control;
 	};
 
-	// A signature is a preset drawn from the person and the company, showing
-	// what is ticked, or Custom: written by hand and never redrawn.
-	const S = "onedesk.one_mail.signatures.";
-	// As a mail client shows it: on white, whatever the theme, and a little
-	// smaller. Every card takes the tallest one's height, so rows line up.
+	// A signature is shown as a mail client shows it: on white, whatever the
+	// theme. The frame grows to what it holds.
 	const framed = (html) =>
-		$(`<iframe class="oms-preset-frame" sandbox="allow-same-origin" tabindex="-1" aria-hidden="true"></iframe>`)
-			.attr(
-				"srcdoc",
-				`<style>html,body{height:100%;margin:0}body{display:flex;align-items:center;padding:0 14px;background:#fff;zoom:0.85}</style><div>${html}</div>`
-			)
+		$(`<iframe class="oms-signature-frame" sandbox="allow-same-origin" tabindex="-1" aria-hidden="true"></iframe>`)
+			.attr("srcdoc", `<style>body{margin:0;padding:20px 24px;background:#fff}</style>${html}`)
 			.on("load", function () {
-				const drawn = this.contentDocument.body.firstElementChild;
-				const $all = $(this).closest(".oms-presets").find(".oms-preset-frame");
-				const tall = Math.max(drawn.offsetHeight * 0.85 + 28, ...$all.map((i, el) => el._tall || 0).get());
-				this._tall = tall;
-				$all.css("height", `${Math.max(tall, 88)}px`);
+				this.style.height = `${this.contentDocument.body.scrollHeight}px`;
 			});
+
+	// Each style's card is a sketch of it: bars for lines of text, a square
+	// for the logo, in the company's colour where the style uses it.
+	const sketch = (preset, colour) => {
+		const at = (x, y, w, h, kind = "", look = "") =>
+			`<i class="oms-sketch-bit ${kind}" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;${look}"></i>`;
+		const bar = (x, y, w) => at(x, y, w, 3, "oms-sketch-text");
+		const name = (x, y, w = 22) => at(x, y, w, 4, "oms-sketch-name");
+		const branded = (x, y, w, h, look = "") => at(x, y, w, h, "", `background:${colour};${look}`);
+		const lines = (x, y) => name(x, y) + bar(x, y + 8, 30) + bar(x, y + 14, 24);
+		const drawn = {
+			simple: lines(10, 9),
+			beside: branded(8, 13, 10, 10) + branded(22, 9, 1, 18) + lines(27, 9),
+			above: branded(10, 4, 8, 8) + lines(10, 15),
+			accent: branded(8, 8, 2, 20) + branded(14, 9, 22, 4) + bar(14, 17, 30) + bar(14, 23, 24),
+			line: name(6, 16, 12) + bar(21, 16.5, 10) + bar(34, 16.5, 10) + bar(47, 16.5, 7),
+			tinted: branded(5, 5, 50, 26, "opacity:0.12") + lines(11, 10),
+		}[preset];
+		return drawn
+			? `<span class="oms-sketch" aria-hidden="true">${drawn}</span>`
+			: `<span class="oms-sketch oms-sketch-custom">${frappe.utils.icon("pencil", "sm")}</span>`;
+	};
+
+	// A signature is a style drawn from the person and the company, showing
+	// what is ticked, or Custom: written by hand and never redrawn. The big
+	// frame shows the chosen style, or the one under the pointer.
+	const SIGN = "onedesk.one_mail.signatures.";
 	const signature_tab = (box) => {
 		let state = null;
 		let was = "";
 		const now = (panel) =>
 			JSON.stringify([state.preset, state.preset ? state.shown : [], state.preset ? "" : panel.get_value("custom") || ""]);
 		const dirty = (panel) => panel.$header.find(".oms-save").toggleClass("hide", now(panel) === was);
-		const draw = async (panel) => {
-			const drawn = await frappe.xcall(S + "presets_of", { account: box.name, show: JSON.stringify(state.shown) });
-			state.presets = drawn.presets;
-			styles(panel);
+		const html_of = (preset) => (state.presets.find((one) => one.preset === preset) || {}).html;
+		const show = (panel, preset = state.preset) => {
+			const $look = panel.fieldgroup.get_field("look").$wrapper.empty();
+			panel.fieldgroup.set_df_property("custom", "hidden", !!state.preset);
+			if (preset) $look.append($(`<div class="oms-signature"></div>`).append(framed(html_of(preset))));
 		};
-		const styles = (panel) => {
-			const $grid = $(`<div class="oms-presets"></div>`);
-			const card = (preset, label, html) =>
-				$(`<button type="button" class="oms-preset"><span class="oms-preset-look"></span><span class="oms-preset-name"></span></button>`)
-					.toggleClass("oms-preset--chosen", state.preset === preset)
-					.attr("aria-pressed", state.preset === preset)
-					.find(".oms-preset-look")
-					.append(html ? framed(html) : `<span class="oms-preset-custom">${frappe.utils.icon("pencil", "md")}</span>`)
-					.end()
-					.find(".oms-preset-name")
-					.text(label)
-					.end()
+		const cards = (panel) => {
+			const $row = $(`<div class="oms-styles" role="radiogroup"></div>`).attr("aria-label", __("Style"));
+			const card = (preset, label) =>
+				$(`<button type="button" class="oms-style" role="radio"></button>`)
+					.toggleClass("oms-style--chosen", state.preset === preset)
+					.attr("aria-checked", state.preset === preset)
+					.html(`${sketch(preset, state.colour)}<span class="oms-style-name">${esc(label)}</span>`)
+					.on("mouseenter focus", () => preset && state.preset && show(panel, preset))
+					.on("mouseleave blur", () => state.preset && show(panel))
 					.on("click", () => {
-						// Custom starts from the style it was on, to change by hand.
-						const from = state.presets.find((one) => one.preset === state.preset);
-						if (!preset && from && !panel.get_value("custom")) panel.fieldgroup.set_value("custom", from.html);
+						// Custom starts from Simple's lines, the one style the editor
+						// can hold without flattening it.
+						if (!preset && state.preset && !panel.get_value("custom"))
+							panel.fieldgroup.set_value("custom", html_of("simple"));
 						state.preset = preset;
-						styles(panel);
+						cards(panel);
 						shows(panel);
+						show(panel);
 						dirty(panel);
 					});
-			for (const one of state.presets) $grid.append(card(one.preset, one.label, one.html));
-			$grid.append(card("", __("Custom"), ""));
-			panel.fieldgroup.get_field("styles").$wrapper.empty().append($grid);
+			for (const one of state.presets) $row.append(card(one.preset, one.label));
+			$row.append(card("", __("Custom")));
+			panel.fieldgroup.get_field("styles").$wrapper.empty().append($row);
 		};
 		const shows = (panel) => {
 			const $wrapper = panel.fieldgroup.get_field("shows").$wrapper.empty();
-			panel.fieldgroup.set_df_property("custom", "hidden", !!state.preset);
 			if (!state.preset) return;
 			const $chips = $(`<div class="oms-chips"></div>`);
 			for (const one of state.shows.filter((show) => show.has)) {
@@ -231,7 +247,9 @@ onedesk.mail.settings = (tab) => {
 					.on("click", async () => {
 						state.shown = on ? state.shown.filter((key) => key !== one.key) : [...state.shown, one.key];
 						shows(panel);
-						await draw(panel);
+						const drawn = await frappe.xcall(SIGN + "presets_of", { account: box.name, show: JSON.stringify(state.shown) });
+						state.presets = drawn.presets;
+						show(panel);
 						dirty(panel);
 					})
 					.appendTo($chips);
@@ -251,7 +269,7 @@ onedesk.mail.settings = (tab) => {
 							variant: "solid",
 							class: "oms-save",
 							click: async (panel) => {
-								await frappe.xcall(S + "set_preset", {
+								await frappe.xcall(SIGN + "set_preset", {
 									account: box.name,
 									preset: state.preset,
 									show: JSON.stringify(state.shown),
@@ -267,15 +285,17 @@ onedesk.mail.settings = (tab) => {
 			async render(panel) {
 				if (!box.may_sign) return;
 				const view = panel.shown;
-				state = await frappe.xcall(S + "presets_of", { account: box.name });
+				state = await frappe.xcall(SIGN + "presets_of", { account: box.name });
 				if (view !== panel.shown) return;
 				panel.add_fields([
-					{ fieldname: "shows", fieldtype: "HTML" },
-					{ fieldname: "styles", fieldtype: "HTML" },
+					{ fieldname: "look", fieldtype: "HTML" },
 					{ fieldname: "custom", fieldtype: "Text Editor", default: state.preset ? "" : state.signature, hidden: !!state.preset },
+					{ fieldname: "styles", fieldtype: "HTML" },
+					{ fieldname: "shows", fieldtype: "HTML" },
 				]);
-				styles(panel);
+				cards(panel);
 				shows(panel);
+				show(panel);
 				panel.$header.find(".oms-save").addClass("hide");
 				setTimeout(() => {
 					was = now(panel);

@@ -1574,3 +1574,21 @@ html[dir="rtl"] body > div[style*="left: -9999px"] {
 .one-document-page .one-island {
 	height: calc(100dvh - var(--one-bar-offset, 0px));
 }
+
+/* The signature under the compose window's editor (mail_compose.js): shown
+   as it will be sent, kept out of the editor so its layout survives. */
+.one-compose-signature {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--padding-sm);
+	margin-top: var(--margin-sm);
+	padding: var(--padding-xs) var(--padding-sm);
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius);
+}
+
+.one-compose-signature iframe {
+	flex: 1;
+	height: 48px;
+	border: 0;
+}
