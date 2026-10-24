@@ -33,18 +33,22 @@
         <button
           type="button"
           role="checkbox"
-          class="relative size-8 shrink-0"
+          class="size-8 shrink-0 rounded-full [perspective:400px]"
           :aria-checked="picked.has(item.thread)"
           :aria-label="__('Select')"
+          :title="__('Select')"
           @click.stop="emit('toggle', item.thread, $event.shiftKey)"
         >
-          <MailFace :name="item.sender_name" :email="item.sender" :picture="item.face" :class="picked.size ? 'invisible' : 'group-hover:invisible'" />
-          <span class="absolute inset-0 items-center justify-center" :class="picked.size ? 'flex' : 'hidden group-hover:flex'">
-            <span
-              class="flex size-4 items-center justify-center rounded-1 border"
-              :class="picked.has(item.thread) ? 'border-outline-gray-5 bg-surface-gray-7 text-ink-white' : 'border-outline-gray-3 bg-surface-white'"
-            >
-              <span v-if="picked.has(item.thread)" class="lucide-check size-3" aria-hidden="true" />
+          <span
+            class="relative block size-8 transition-transform duration-300 [transform-style:preserve-3d]"
+            :class="picked.has(item.thread) ? '[transform:rotateY(-180deg)]' : ''"
+          >
+            <MailFace :name="item.sender_name" :email="item.sender" :picture="item.face" class="absolute inset-0 [backface-visibility:hidden]" />
+            <span class="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)]">
+              <MailFace :name="item.sender_name" :email="item.sender" :picture="item.face" class="opacity-40 grayscale [transform:scaleX(-1)]" />
+              <span class="absolute inset-0 flex items-center justify-center text-ink-gray-9">
+                <span class="lucide-check size-5" aria-hidden="true" />
+              </span>
             </span>
           </span>
         </button>
@@ -78,9 +82,10 @@
 
 <script setup>
 // One line per conversation: who, when, what it is about and how it starts.
-// Its picture turns into a box to tick when pointed at, and every picture
-// does while any is ticked; a click then ticks rather than opens, as Ctrl and
-// Shift do. What is ticked is what the command row acts on.
+// Its picture is a card: a click turns it over, right to left, to its back,
+// the same face mirrored in grey under a tick. While any is ticked a click on
+// a row ticks rather than opens, as Ctrl and Shift do. What is ticked is what
+// the command row acts on.
 import { computed } from "vue";
 import { Button } from "frappe-ui";
 

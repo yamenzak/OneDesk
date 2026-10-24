@@ -2,16 +2,28 @@
   <WindowPart :win="win" part="commands" inline>
     <span class="inline-flex items-center gap-0.5">
       <Button variant="solid" icon-left="lucide-pencil" :label="__('New Email')" :disabled="!from" @click="write()" />
-      <span class="mx-1 h-5 w-px bg-surface-gray-4" />
+      <Dropdown v-if="box" :options="boxMenu">
+        <template #trigger><Button variant="ghost" icon="lucide-ellipsis" :aria-label="__('This mailbox')" :title="__('This mailbox')" /></template>
+      </Dropdown>
+      <template v-if="picked.size">
+        <span class="mx-1 h-5 w-px bg-surface-gray-4" />
+        <template v-for="one in commands" :key="one.act">
+          <Dropdown v-if="one.act === 'move'" :options="moveTo((target) => run(`move:${target}`, these))">
+            <template #trigger><Button variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" :disabled="one.off" /></template>
+          </Dropdown>
+          <Button v-else variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" :disabled="one.off" @click="command(one.act)" />
+        </template>
+      </template>
+    </span>
+  </WindowPart>
+  <WindowPart :win="win" part="views" inline>
+    <span v-if="!picked.size && thread" class="inline-flex items-center gap-0.5">
       <template v-for="one in commands" :key="one.act">
         <Dropdown v-if="one.act === 'move'" :options="moveTo((target) => run(`move:${target}`, these))">
           <template #trigger><Button variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" :disabled="one.off" /></template>
         </Dropdown>
         <Button v-else variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" :disabled="one.off" @click="command(one.act)" />
       </template>
-      <Dropdown v-if="box" :options="boxMenu">
-        <template #trigger><Button variant="ghost" icon="lucide-ellipsis" :aria-label="__('This mailbox')" :title="__('This mailbox')" /></template>
-      </Dropdown>
     </span>
   </WindowPart>
 
@@ -115,8 +127,9 @@ const heading = computed(() => {
   return boxes.value.length > 1 && box.value ? `${folderLabel(folder.value)} · ${called(box.value)}` : folderLabel(folder.value);
 });
 
-// As OneCloud's: each command an icon beside New, off when there is nothing
-// to act on, and the read and star ones saying what a click would do.
+// Each command an icon, the read and star ones saying what a click would do:
+// beside New for the ticked conversations, as OneCloud's are, and at the
+// row's other end for the one open when nothing is ticked.
 const commands = computed(() => {
   const none = !these.value.length;
   const unread = theseItems.value.some((one) => one.unread);
