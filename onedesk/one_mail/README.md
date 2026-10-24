@@ -212,7 +212,11 @@ clients block until asked: the signature keeps only the logo's path, and
 ## Rules and out of office
 
 **Rules**, in a mailbox's **⋯** menu, decide what happens to new mail as it
-arrives in the Inbox. A rule is a list of steps, read top to bottom:
+arrives in the Inbox. A rule reads as sentences on a line down the side,
+such as "If the sender **is a Customer** and **it arrives after hours**,
+then **star it** and tell **Layla** on the bell". Each bold part is a chip:
+click it to choose something else, type in a blank, or open a reply in a
+small window. A rule is a list of steps, read top to bottom:
 
 - **If** checks the message. Its conditions sit in groups, each **All of
   These Are True** or **Any of These Is True**, and a group can hold

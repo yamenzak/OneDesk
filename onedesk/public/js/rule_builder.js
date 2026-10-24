@@ -1,35 +1,38 @@
 frappe.provide("onedesk.rules");
 
-// A mail rule as steps, top to bottom (one_mail/flow.py): When mail arrives,
-// then each step in turn: an If with conditions in groups that nest, an Ask
-// OneAI with a branch for each answer, or an action. A branch is steps too.
-// The rule is one object kept here and saved whole; typing changes it in
-// place, and only adding, removing or moving a step draws it again.
+// A mail rule as steps, top to bottom (one_mail/flow.py), drawn so it
+// reads as sentences: each step is one line on a timeline, "If the sender is
+// a Customer and it arrives after hours", "Move it to Archive", and every
+// part that can change is a chip. A choice opens frappe's menu, a short
+// blank is typed in place, and long words (a reply) open a small dialog.
+// Branches hang under their step as timelines of their own. The rule is
+// one object kept here and saved whole.
 onedesk.rules.builder = ($into, rule, context) => {
 	const esc = frappe.utils.escape_html;
 	const id = () => Math.random().toString(36).slice(2, 8);
 	const state = { title: rule.title || "", steps: JSON.parse(JSON.stringify(rule.steps || [])) };
 
-	const TEXT_OPS = [
-		["contains", __("Contains")],
-		["not_contains", __("Doesn't Contain")],
-		["is", __("Is")],
-		["is_not", __("Isn't")],
-		["starts_with", __("Starts With")],
-		["ends_with", __("Ends With")],
+	const TEXT = [
+		["from", __("the sender's name or address")],
+		["to", __("To or Cc")],
+		["subject", __("the subject")],
+		["text", __("the subject or text")],
+		["domain", __("the sender's domain")],
 	];
-	const CONDITIONS = [
-		{ field: "from", label: __("From"), kind: "text" },
-		{ field: "to", label: __("To or Cc"), kind: "text" },
-		{ field: "subject", label: __("Subject"), kind: "text" },
-		{ field: "text", label: __("Subject or Text"), kind: "text" },
-		{ field: "domain", label: __("Sender's Domain"), kind: "text" },
-		{ field: "sender_is", label: __("Sender"), kind: "kind" },
-		{ field: "outside", label: __("From Outside the Workspace"), kind: "flag" },
-		{ field: "starts", label: __("Starts a Conversation"), kind: "flag" },
-		{ field: "attachment", label: __("Has an Attachment"), kind: "flag" },
-		{ field: "after_hours", label: __("Arrives After Hours"), kind: "flag" },
-		{ field: "holiday", label: __("Arrives on a Holiday"), kind: "flag" },
+	const OPS = [
+		["contains", __("contains")],
+		["not_contains", __("doesn't contain")],
+		["is", __("is")],
+		["is_not", __("isn't")],
+		["starts_with", __("starts with")],
+		["ends_with", __("ends with")],
+	];
+	const FLAGS = [
+		["outside", __("it's from outside the workspace"), __("it's from inside the workspace")],
+		["starts", __("it starts a conversation"), __("it's a reply")],
+		["attachment", __("it has an attachment"), __("it has no attachment")],
+		["after_hours", __("it arrives after hours"), __("it arrives in working hours")],
+		["holiday", __("it arrives on a holiday"), __("it doesn't arrive on a holiday")],
 	];
 	const KINDS = ["Customer", "Supplier", "Lead", "Contact", "Employee"];
 	const ACTIONS = [
@@ -46,261 +49,325 @@ onedesk.rules.builder = ($into, rule, context) => {
 		{ type: "stop", icon: "octagon", label: __("Stop Here") },
 	];
 	const ONCE = [
-		["conversation", __("Once per Conversation")],
-		["day", __("Once a Day per Sender")],
-		["week", __("Once a Week per Sender")],
-		["month", __("Once a Month per Sender")],
+		["conversation", __("once per conversation")],
+		["day", __("once a day to each sender")],
+		["week", __("once a week to each sender")],
+		["month", __("once a month to each sender")],
 	];
 	const CREATES = [
-		["Lead", __("Lead")],
-		["Issue", __("Issue")],
-		["Task", __("Task")],
+		["Lead", __("lead")],
+		["Issue", __("issue")],
+		["Task", __("task")],
 	];
 
-	// Small controls in frappe's own look, bound to one key of one object.
-	const select = (options, value, change, label) =>
-		$(`<select class="form-control rb-input"></select>`)
-			.attr("aria-label", label || "")
-			.append(options.map(([v, l]) => $(`<option></option>`).attr("value", v).text(l)))
-			.val(value ?? options[0]?.[0])
-			.on("change", function () {
-				change(this.value);
-			});
-	const input = (value, change, placeholder) =>
-		$(`<input type="text" class="form-control rb-input">`)
-			.attr("placeholder", placeholder || "")
-			.val(value || "")
-			.on("input", function () {
-				change(this.value);
-			});
-	const area = (value, change, placeholder) =>
-		$(`<textarea class="form-control rb-input rb-area" rows="4"></textarea>`)
-			.attr("placeholder", placeholder || "")
-			.val(value || "")
-			.on("input", function () {
-				change(this.value);
-			});
-	const icon_button = (icon, title, click) =>
-		$(frappe.ui.button.html({ variant: "ghost", size: "sm", icon, title, attrs: { "aria-label": title } })).on("click", (e) => {
-			e.preventDefault();
-			click();
+	// ── The pieces a sentence is made of ────────────────────────────────
+	const words = (text) => $(`<span class="rb-words"></span>`).text(text);
+	// A choice: the chip says the value, clicking opens frappe's menu.
+	const chip = (options, value, change) => {
+		const said = options.find(([v]) => v === value) || options[0] || ["", ""];
+		const $chip = $(`<button type="button" class="rb-chip"></button>`).html(
+			`<span>${esc(said[1] || "…")}</span>${frappe.utils.icon("chevron-down", "xs")}`
+		);
+		new frappe.ui.Dropdown({
+			trigger: $chip,
+			options: options.map(([v, l]) => ({ label: l, onclick: () => change(v) })),
 		});
+		return $chip;
+	};
+	// A short blank, typed in place, as wide as what is in it.
+	const blank = (value, change, placeholder) => {
+		const $input = $(`<input type="text" class="rb-blank">`).attr("placeholder", placeholder || "").val(value || "");
+		const fit = () => $input.attr("size", Math.max(($input.val() || placeholder || "").length, 4) + 1);
+		fit();
+		return $input.on("input", function () {
+			change(this.value);
+			fit();
+		});
+	};
+	// Long words: the chip quotes the start, clicking opens a dialog.
+	const quote = (text, empty, open) =>
+		$(`<button type="button" class="rb-chip rb-quote"></button>`)
+			.text(text ? `“${text.length > 48 ? text.slice(0, 48) + "…" : text}”` : empty)
+			.toggleClass("rb-chip-empty", !text)
+			.on("click", open);
+	const line = (...parts) => $(`<div class="rb-line"></div>`).append(parts.filter(Boolean));
 
-	// ── Conditions ──────────────────────────────────────────────────────
-	const condition_row = (group, one, redraw) => {
-		const $row = $(`<div class="rb-condition"></div>`);
-		const spec = () => CONDITIONS.find((c) => c.field === one.field) || CONDITIONS[0];
-		$row.append(
-			select(
-				CONDITIONS.map((c) => [c.field, c.label]),
-				one.field,
-				(v) => {
-					one.field = v;
-					const kind = spec().kind;
-					one.op = kind === "text" ? "contains" : kind === "kind" ? "is" : undefined;
-					one.value = kind === "flag" ? true : kind === "kind" ? KINDS[0] : "";
-					redraw();
-				},
-				__("Condition")
-			)
-		);
-		const kind = spec().kind;
-		if (kind === "text") {
-			$row.append(select(TEXT_OPS, one.op || "contains", (v) => (one.op = v), __("How")));
-			$row.append(input(one.value, (v) => (one.value = v), __("Words, separated by commas")));
-		} else if (kind === "kind") {
-			$row.append(select([["is", __("Is a")], ["is_not", __("Isn't a")]], one.op || "is", (v) => (one.op = v)));
-			$row.append(select(KINDS.map((k) => [k, __(k)]), one.value || KINDS[0], (v) => (one.value = v)));
-		} else {
-			$row.append(select([["1", __("Yes")], ["0", __("No")]], one.value === false ? "0" : "1", (v) => (one.value = v === "1")));
-			$row.append(`<span></span>`);
-		}
-		$row.append(
-			icon_button("x", __("Remove"), () => {
-				group.items.splice(group.items.indexOf(one), 1);
-				redraw();
-			})
-		);
-		return $row;
+	// ── A step on the timeline: its dot, its sentence, its tools ─────────
+	const node = (list, step, icon, $line, tone = "") => {
+		const $node = $(`<div class="rb-node"></div>`).addClass(tone);
+		$node.append(`<span class="rb-dot">${frappe.utils.icon(icon, "sm")}</span>`);
+		const $body = $(`<div class="rb-node-body"></div>`).appendTo($node);
+		const at = list.indexOf(step);
+		const $tools = $(`<span class="rb-tools"></span>`);
+		const tool = (icon_, title, click) =>
+			$(frappe.ui.button.html({ variant: "ghost", size: "xs", icon: icon_, title, attrs: { "aria-label": title } })).on("click", click);
+		if (at > 0) $tools.append(tool("arrow-up", __("Move Up"), () => (list.splice(at - 1, 0, list.splice(at, 1)[0]), draw())));
+		if (at < list.length - 1) $tools.append(tool("arrow-down", __("Move Down"), () => (list.splice(at + 1, 0, list.splice(at, 1)[0]), draw())));
+		$tools.append(tool("x", __("Remove Step"), () => (list.splice(at, 1), draw())));
+		$body.append($(`<div class="rb-head"></div>`).append($line, $tools));
+		return { $node, $body };
 	};
 
-	const group_box = (group, redraw, nested = null) => {
-		group.items = group.items || [];
-		const $box = $(`<div class="rb-group"></div>`).toggleClass("rb-group-nested", !!nested);
-		const $head = $(`<div class="rb-group-head"></div>`).appendTo($box);
-		$head.append(`<span class="rb-quiet">${esc(nested ? __("And this group, where") : __("Where"))}</span>`);
-		$head.append(
-			select(
-				[
-					["all", __("All of These Are True")],
-					["any", __("Any of These Is True")],
-				],
-				group.any ? "any" : "all",
-				(v) => (group.any = v === "any"),
-				__("Match")
-			)
-		);
-		if (nested)
-			$head.append(
-				icon_button("x", __("Remove Group"), () => {
-					nested.items.splice(nested.items.indexOf(group), 1);
-					redraw();
-				})
+	const branch = ($body, label, list) =>
+		$body.append($(`<div class="rb-branch"></div>`).append(`<div class="rb-branch-label">${esc(label)}</div>`, timeline(list)));
+
+	// ── If: one sentence per condition, joined by and / or ──────────────
+	const condition = (group, one) => {
+		const remove = $(`<button type="button" class="rb-x"></button>`)
+			.attr({ title: __("Remove"), "aria-label": __("Remove") })
+			.html(frappe.utils.icon("x", "xs"))
+			.on("click", () => (group.items.splice(group.items.indexOf(one), 1), draw()));
+		const what = [
+			...TEXT,
+			["sender_is", __("the sender")],
+			...FLAGS.flatMap(([field, yes, no]) => [
+				[`${field}:1`, yes],
+				[`${field}:0`, no],
+			]),
+		];
+		const field_chip = (shown) =>
+			chip(
+				what.map(([v, l], i) => [v, i === TEXT.length ? __("the sender is a…") : l]),
+				shown,
+				(v) => {
+					const [field, flag] = v.split(":");
+					Object.assign(one, { field, op: undefined, value: undefined });
+					if (flag !== undefined) one.value = flag === "1";
+					else if (field === "sender_is") Object.assign(one, { op: "is", value: KINDS[0] });
+					else Object.assign(one, { op: "contains", value: "" });
+					draw();
+				}
 			);
-		for (const one of group.items) $box.append("items" in one ? group_box(one, redraw, group) : condition_row(group, one, redraw));
-		if (!group.items.length) $box.append(`<div class="rb-quiet rb-empty">${esc(__("No conditions, so every message."))}</div>`);
-		const $add = $(`<div class="rb-adds"></div>`).appendTo($box);
-		$add.append(
-			$(frappe.ui.button.html({ label: __("Add Condition"), variant: "subtle", size: "sm", icon: "plus" })).on("click", () => {
-				group.items.push({ field: "from", op: "contains", value: "" });
-				redraw();
-			})
-		);
-		$add.append(
-			$(frappe.ui.button.html({ label: __("Add Group"), variant: "ghost", size: "sm", icon: "brackets" })).on("click", () => {
-				group.items.push({ any: true, items: [{ field: "subject", op: "contains", value: "" }] });
-				redraw();
-			})
+		if (FLAGS.some(([f]) => f === one.field)) return [field_chip(`${one.field}:${one.value === false ? 0 : 1}`), remove];
+		if (one.field === "sender_is")
+			return [
+				words(__("the sender")),
+				chip(
+					[
+						["is", __("is a")],
+						["is_not", __("isn't a")],
+					],
+					one.op || "is",
+					(v) => ((one.op = v), draw())
+				),
+				chip(KINDS.map((k) => [k, __(k)]), one.value || KINDS[0], (v) => ((one.value = v), draw())),
+				remove,
+			];
+		return [
+			field_chip(one.field),
+			chip(OPS, one.op || "contains", (v) => ((one.op = v), draw())),
+			blank(one.value, (v) => (one.value = v), __("words, with commas")),
+			remove,
+		];
+	};
+
+	const conditions = (group, first_word) => {
+		group.items = group.items || [];
+		const $box = $(`<div class="rb-conditions"></div>`);
+		const join = () =>
+			chip(
+				[
+					["and", __("and")],
+					["or", __("or")],
+				],
+				group.any ? "or" : "and",
+				(v) => ((group.any = v === "or"), draw())
+			).addClass("rb-join");
+		group.items.forEach((one, i) => {
+			const lead = i === 0 ? words(first_word) : join();
+			if ("items" in one) {
+				$box.append(line(lead, words(one.any ? __("any of these:") : __("all of these:"))));
+				$box.append($(`<div class="rb-subgroup"></div>`).append(conditions(one, "")));
+			} else $box.append(line(lead, ...condition(group, one)));
+		});
+		if (!group.items.length) $box.append(line(words(first_word), words(__("any message")).addClass("rb-muted")));
+		const add = (label, make) =>
+			$(`<button type="button" class="rb-add-link"></button>`)
+				.html(`${frappe.utils.icon("plus", "xs")}<span>${esc(label)}</span>`)
+				.on("click", () => (group.items.push(make()), draw()));
+		$box.append(
+			line(
+				add(__("Condition"), () => ({ field: "subject", op: "contains", value: "" })),
+				first_word ? add(__("Group"), () => ({ any: true, items: [{ field: "subject", op: "contains", value: "" }] })) : null
+			).addClass("rb-adds")
 		);
 		return $box;
 	};
 
-	// ── Actions ─────────────────────────────────────────────────────────
-	const action_body = (step) => {
-		const $body = $(`<div class="rb-fields"></div>`);
-		const field = (label, $control, help) =>
-			$(`<label class="rb-field"><span class="rb-label">${esc(label)}</span></label>`)
-				.append($control)
-				.append(help ? `<span class="rb-help">${esc(help)}</span>` : "")
-				.appendTo($body);
-		if (step.type === "move") {
-			if (!step.folder && context.folders[0]) step.folder = context.folders[0].value;
-			field(__("Folder"), select(context.folders.map((f) => [f.value, f.label]), step.folder, (v) => (step.folder = v)));
-		} else if (step.type === "reply") {
-			const withs = [["Text", __("My Own Words")], ...(context.ai ? [["OneAI", __("OneAI Writes It")]] : [])];
-			step.with = step.with || "Text";
-			step.once = step.once || "conversation";
-			field(__("Reply With"), select(withs, step.with, (v) => ((step.with = v), draw())));
-			if (step.with === "OneAI") {
-				field(__("What It Should Say"), area(step.instruction, (v) => (step.instruction = v), __("Such as sending the price list and promising an answer within a day.")));
-				const $review = $(`<input type="checkbox">`).prop("checked", step.review !== 0 && step.review !== false).on("change", function () {
-					step.review = this.checked ? 1 : 0;
-				});
-				field(__("Review Before Sending"), $review, __("It waits as a card for whoever made the rule."));
-			} else {
-				field(__("Message"), area(step.text, (v) => (step.text = v)), __("{sender_name} and {subject} fill in from the message."));
-			}
-			field(__("How Often"), select(ONCE, step.once, (v) => (step.once = v)), __("Never to automatic mail or mailing lists."));
-		} else if (step.type === "forward") {
-			field(__("To"), input(step.to, (v) => (step.to = v), "accounts@example.com"));
-		} else if (step.type === "assign" || step.type === "notify") {
-			if (!step.user && context.people[0]) step.user = context.people[0].value;
-			field(__("Who"), select(context.people.map((p) => [p.value, p.label]), step.user, (v) => (step.user = v)), __("One of the people who use this mailbox."));
-		} else if (step.type === "create") {
-			step.doctype = step.doctype || "Lead";
-			field(__("What"), select(CREATES, step.doctype, (v) => (step.doctype = v)), __("Filed with the message, and yours."));
-		} else if (step.type === "stop") {
-			$body.append(`<div class="rb-quiet">${esc(__("Rules after this one don't run on this message."))}</div>`);
-		} else if (step.type === "link") {
-			$body.append(`<div class="rb-quiet">${esc(__("Filed on the customer, supplier or lead the sender is."))}</div>`);
-		}
-		return $body.children().length ? $body : null;
+	// ── Actions, each one sentence ──────────────────────────────────────
+	const reply_dialog = (step) => {
+		const ai = step.with === "OneAI";
+		const dialog = new frappe.ui.Dialog({
+			title: __("Reply"),
+			fields: [
+				...(context.ai
+					? [
+							{
+								fieldname: "with",
+								fieldtype: "Select",
+								label: __("Written By"),
+								options: [
+									{ value: "Text", label: __("My Own Words") },
+									{ value: "OneAI", label: __("OneAI") },
+								],
+								default: step.with || "Text",
+								change: () => {
+									const on = dialog.get_value("with") === "OneAI";
+									dialog.set_df_property("text", "hidden", on);
+									dialog.set_df_property("instruction", "hidden", !on);
+									dialog.set_df_property("review", "hidden", !on);
+								},
+							},
+					  ]
+					: []),
+				{
+					fieldname: "text",
+					fieldtype: "Small Text",
+					label: __("Message"),
+					default: step.text || "",
+					hidden: ai,
+					description: __("{sender_name} and {subject} fill in from the message."),
+				},
+				{
+					fieldname: "instruction",
+					fieldtype: "Small Text",
+					label: __("Instruction"),
+					default: step.instruction || "",
+					hidden: !ai,
+					description: __("Such as sending the price list and promising an answer within a day."),
+				},
+				{ fieldname: "review", fieldtype: "Check", label: __("Review Before Sending"), default: step.review === 0 ? 0 : 1, hidden: !ai },
+			],
+			primary_action_label: __("Done"),
+			primary_action: (values) => {
+				Object.assign(step, { with: values.with || "Text", text: values.text || "", instruction: values.instruction || "", review: values.review ? 1 : 0 });
+				dialog.hide();
+				draw();
+			},
+		});
+		dialog.show();
 	};
 
-	// ── Steps ───────────────────────────────────────────────────────────
-	const card = (list, step, title, icon) => {
-		const $card = $(`<div class="rb-card"></div>`);
-		const $head = $(`<div class="rb-card-head"></div>`).appendTo($card);
-		$head.append(`<span class="rb-icon">${frappe.utils.icon(icon, "sm")}</span><span class="rb-title">${esc(title)}</span>`);
-		const at = list.indexOf(step);
-		const $tools = $(`<span class="rb-tools"></span>`).appendTo($head);
-		if (at > 0) $tools.append(icon_button("arrow-up", __("Move Up"), () => (list.splice(at - 1, 0, list.splice(at, 1)[0]), draw())));
-		if (at < list.length - 1) $tools.append(icon_button("arrow-down", __("Move Down"), () => (list.splice(at + 1, 0, list.splice(at, 1)[0]), draw())));
-		$tools.append(icon_button("trash-2", __("Remove Step"), () => (list.splice(at, 1), draw())));
-		return $card;
-	};
-
-	const branch = (label, list, tone) =>
-		$(`<div class="rb-branch"></div>`)
-			.addClass(tone ? `rb-branch-${tone}` : "")
-			.append(`<div class="rb-branch-label">${esc(label)}</div>`)
-			.append(steps_box(list));
-
-	const step_card = (list, step) => {
-		if (step.type === "if") {
-			step.test = step.test || { any: false, items: [] };
-			step.then = step.then || [];
-			step.else = step.else || [];
-			const $card = card(list, step, __("If"), "split");
-			$card.append(group_box(step.test, draw));
-			$card.append(branch(__("Then"), step.then, "yes"));
-			if (step.else.length || step.open_else) $card.append(branch(__("Otherwise"), step.else, "no"));
-			else
-				$card.append(
-					$(`<button type="button" class="rb-link"></button>`)
-						.text(__("Add Otherwise"))
-						.on("click", () => ((step.open_else = 1), draw()))
-				);
-			return $card;
-		}
-		if (step.type === "ask") {
-			step.then = step.then || [];
-			step.else = step.else || [];
-			const $card = card(list, step, __("Ask OneAI"), "sparkles");
-			const $fields = $(`<div class="rb-fields"></div>`).appendTo($card);
-			$(`<label class="rb-field"><span class="rb-label">${esc(__("Question"))}</span></label>`)
-				.append(
-					select(
-						[
-							["yes", __("Yes or No")],
-							["pick", __("Pick One Label")],
-						],
-						step.ask || "yes",
-						(v) => {
-							step.ask = v;
-							if (v === "pick" && !(step.labels || []).length) step.labels = [{ label: "", then: [] }, { label: "", then: [] }];
-							draw();
-						}
-					)
-				)
-				.appendTo($fields);
-			if (step.ask === "pick") {
-				for (const one of step.labels) {
-					one.then = one.then || [];
-					const $label = $(`<div class="rb-label-row"></div>`)
-						.append(input(one.label, (v) => (one.label = v), __("Label, such as Quote Request")))
-						.append(input(one.about, (v) => (one.about = v), __("What it means, for OneAI (optional)")))
-						.append(icon_button("x", __("Remove"), () => (step.labels.splice(step.labels.indexOf(one), 1), draw())));
-					$fields.append($label);
-				}
-				$fields.append(
-					$(frappe.ui.button.html({ label: __("Add Label"), variant: "subtle", size: "sm", icon: "plus" })).on("click", () => {
-						step.labels.push({ label: "", then: [] });
-						draw();
-					})
-				);
-				for (const one of step.labels) $card.append(branch(__("If It's {0}", [one.label || "…"]), one.then, "yes"));
-				$card.append(branch(__("None of These"), step.else, "no"));
-			} else {
-				$fields.append(
-					$(`<label class="rb-field"><span class="rb-label">${esc(__("Is the Message…"))}</span></label>`).append(
-						input(step.question, (v) => (step.question = v), __("Such as a complaint, or about an invoice"))
-					)
-				);
-				$card.append(branch(__("Yes"), step.then, "yes"));
-				$card.append(branch(__("No"), step.else, "no"));
-			}
-			return $card;
-		}
+	const action = (list, step) => {
 		const spec = ACTIONS.find((a) => a.type === step.type) || ACTIONS[0];
-		const $card = card(list, step, spec.label, spec.icon).addClass("rb-card-action");
-		const $body = action_body(step);
-		if ($body) $card.append($body);
-		return $card;
+		const parts = {
+			move: () => [
+				words(__("Move it to")),
+				chip(context.folders.map((f) => [f.value, f.label]), (step.folder = step.folder || (context.folders[0] || {}).value), (v) => ((step.folder = v), draw())),
+			],
+			read: () => [words(__("Mark it as read"))],
+			star: () => [words(__("Star it"))],
+			junk: () => [words(__("Move it to Junk"))],
+			reply: () => [
+				words(__("Reply with")),
+				step.with === "OneAI"
+					? quote(step.instruction, __("what OneAI should say"), () => reply_dialog(step)).prepend(`${frappe.utils.icon("sparkles", "xs")} `)
+					: quote(step.text, __("your message"), () => reply_dialog(step)),
+				chip(ONCE, (step.once = step.once || "conversation"), (v) => ((step.once = v), draw())),
+			],
+			forward: () => [words(__("Forward it to")), blank(step.to, (v) => (step.to = v), "name@example.com")],
+			assign: () => [
+				words(__("Assign it to")),
+				chip(context.people.map((p) => [p.value, p.label]), (step.user = step.user || (context.people[0] || {}).value), (v) => ((step.user = v), draw())),
+			],
+			notify: () => [
+				words(__("Tell")),
+				chip(context.people.map((p) => [p.value, p.label]), (step.user = step.user || (context.people[0] || {}).value), (v) => ((step.user = v), draw())),
+				words(__("on the bell")),
+			],
+			link: () => [words(__("Link it to the sender's customer, supplier or lead"))],
+			create: () => [words(__("Create a")), chip(CREATES, (step.doctype = step.doctype || "Lead"), (v) => ((step.doctype = v), draw())), words(__("from it"))],
+			stop: () => [words(__("Stop, and skip the rules after this one"))],
+		}[step.type];
+		return node(list, step, spec.icon, line(...(parts ? parts() : [])), step.type === "stop" ? "rb-node-stop" : "").$node;
 	};
 
-	// Adding a step: frappe's own menu, checks first, then what to do.
-	const add_menu = (list) => {
+	// ── Ask OneAI ───────────────────────────────────────────────────────
+	const label_dialog = (step, one) => {
+		const dialog = new frappe.ui.Dialog({
+			title: one ? __("Label") : __("New Label"),
+			fields: [
+				{ fieldname: "label", fieldtype: "Data", label: __("Label"), reqd: 1, default: one?.label || "", description: __("Such as Quote Request.") },
+				{ fieldname: "about", fieldtype: "Small Text", label: __("Meaning"), default: one?.about || "", description: __("Helps OneAI tell it apart. Optional.") },
+			],
+			primary_action_label: __("Done"),
+			primary_action: ({ label, about }) => {
+				if (one) Object.assign(one, { label, about });
+				else step.labels.push({ label, about, then: [] });
+				dialog.hide();
+				draw();
+			},
+			secondary_action_label: one ? __("Remove") : undefined,
+			secondary_action: one ? () => (step.labels.splice(step.labels.indexOf(one), 1), dialog.hide(), draw()) : undefined,
+		});
+		dialog.show();
+	};
+
+	const ask = (list, step) => {
+		step.then = step.then || [];
+		step.else = step.else || [];
+		const mode = chip(
+			[
+				["yes", __("whether it's")],
+				["pick", __("which of these it is:")],
+			],
+			step.ask || "yes",
+			(v) => {
+				step.ask = v;
+				step.labels = step.labels || [];
+				draw();
+			}
+		);
+		let $line;
+		if (step.ask === "pick") {
+			step.labels = step.labels || [];
+			const chips = step.labels.map((one) =>
+				$(`<button type="button" class="rb-chip rb-label"></button>`)
+					.text(one.label || "…")
+					.on("click", () => label_dialog(step, one))
+			);
+			const add = $(`<button type="button" class="rb-add-link"></button>`)
+				.html(`${frappe.utils.icon("plus", "xs")}<span>${esc(__("Label"))}</span>`)
+				.on("click", () => label_dialog(step, null));
+			$line = line(words(__("Ask OneAI")), mode, ...chips, add);
+		} else {
+			$line = line(words(__("Ask OneAI")), mode, blank(step.question, (v) => (step.question = v), __("a complaint")));
+		}
+		const { $node, $body } = node(list, step, "sparkles", $line, "rb-node-ai");
+		if (step.ask === "pick") {
+			for (const one of step.labels) {
+				one.then = one.then || [];
+				branch($body, __("If it's {0}", [one.label || "…"]), one.then);
+			}
+			branch($body, __("If it's none of these"), step.else);
+		} else {
+			branch($body, __("If yes"), step.then);
+			branch($body, __("If not"), step.else);
+		}
+		return $node;
+	};
+
+	// ── If ──────────────────────────────────────────────────────────────
+	const when = (list, step) => {
+		step.test = step.test || { any: false, items: [] };
+		step.then = step.then || [];
+		step.else = step.else || [];
+		const { $node, $body } = node(list, step, "split", conditions(step.test, __("If")), "rb-node-if");
+		branch($body, __("Then"), step.then);
+		if (step.else.length || step.open_else) branch($body, __("Otherwise"), step.else);
+		else
+			$body.append(
+				$(`<button type="button" class="rb-add-link rb-otherwise"></button>`)
+					.html(`${frappe.utils.icon("plus", "xs")}<span>${esc(__("Otherwise"))}</span>`)
+					.on("click", () => ((step.open_else = 1), draw()))
+			);
+		return $node;
+	};
+
+	// ── A timeline: its steps, then Add Step ────────────────────────────
+	const timeline = (list) => {
+		const $list = $(`<div class="rb-timeline"></div>`);
+		for (const step of list) $list.append(step.type === "if" ? when(list, step) : step.type === "ask" ? ask(list, step) : action(list, step));
 		const add = (make) => () => {
 			list.push(make());
 			draw();
@@ -309,35 +376,33 @@ onedesk.rules.builder = ($into, rule, context) => {
 			{ label: __("If"), icon: "split", onclick: add(() => ({ type: "if", id: id(), test: { any: false, items: [{ field: "from", op: "contains", value: "" }] }, then: [], else: [] })) },
 		];
 		if (context.ai) checks.push({ label: __("Ask OneAI"), icon: "sparkles", onclick: add(() => ({ type: "ask", id: id(), ask: "yes", question: "", then: [], else: [] })) });
-		return $(`<div class="rb-add"></div>`).append(
-			frappe.ui.dropdown({
-				button: { label: __("Add Step"), variant: "ghost", size: "sm", icon: "plus" },
-				options: [
-					{ group: __("Check"), options: checks },
-					{ group: __("Do"), options: ACTIONS.map((one) => ({ label: one.label, icon: one.icon, onclick: add(() => ({ type: one.type })) })) },
-				],
-			})
-		);
-	};
-
-	const steps_box = (list) => {
-		const $box = $(`<div class="rb-steps"></div>`);
-		for (const step of list) $box.append(step_card(list, step));
-		return $box.append(add_menu(list));
+		const $add = $(`<button type="button" class="rb-add-step"></button>`).html(`${frappe.utils.icon("plus", "sm")}<span>${esc(__("Add Step"))}</span>`);
+		new frappe.ui.Dropdown({
+			trigger: $add,
+			options: [
+				{ group: __("Check"), options: checks },
+				{ group: __("Do"), options: ACTIONS.map((one) => ({ label: one.label, icon: one.icon, onclick: add(() => ({ type: one.type })) })) },
+			],
+		});
+		return $list.append($(`<div class="rb-node rb-node-add"></div>`).append(`<span class="rb-dot rb-dot-add"></span>`, $add));
 	};
 
 	const draw = () => {
 		const top = $into.scrollTop();
 		$into.empty().addClass("rb");
-		$(`<label class="rb-field rb-name"><span class="rb-label">${esc(__("Name"))}</span></label>`)
-			.append(input(state.title, (v) => (state.title = v), __("Such as Quotes from customers")))
-			.appendTo($into);
 		$into.append(
-			`<div class="rb-card rb-card-start"><div class="rb-card-head"><span class="rb-icon">${frappe.utils.icon("inbox", "sm")}</span><span class="rb-title">${esc(
-				__("When mail arrives in {0}'s Inbox", [context.email])
-			)}</span></div></div>`
+			$(`<input type="text" class="rb-name">`)
+				.attr({ placeholder: __("Name this rule"), "aria-label": __("Name") })
+				.val(state.title)
+				.on("input", function () {
+					state.title = this.value;
+				})
 		);
-		$into.append(steps_box(state.steps));
+		const $start = $(`<div class="rb-node rb-node-start"></div>`).append(
+			`<span class="rb-dot">${frappe.utils.icon("inbox", "sm")}</span>`,
+			$(`<div class="rb-node-body"></div>`).append(line(words(__("When a message arrives in {0}", [context.email]))))
+		);
+		$into.append($(`<div class="rb-timeline rb-root"></div>`).append($start), timeline(state.steps).addClass("rb-root"));
 		$into.scrollTop(top);
 	};
 

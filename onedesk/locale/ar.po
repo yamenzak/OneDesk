@@ -2226,10 +2226,6 @@ msgstr "إضافة نبذة"
 msgid "Add Collection"
 msgstr "إضافة مجموعة"
 
-#: onedesk/public/js/rule_builder.js:154
-msgid "Add Condition"
-msgstr "إضافة شرط"
-
 #: frontend/src/project/Team.vue:59 onedesk/public/js/project_actions.js:430
 #: onedesk/public/js/project_actions.js:451
 msgid "Add Contact"
@@ -2275,10 +2271,6 @@ msgstr "إضافة مجلد"
 msgid "Add Item"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:277
-msgid "Add Label"
-msgstr "إضافة تصنيف"
-
 #: frontend/src/item/ItemBuying.vue:17
 msgid "Add Manufacturer"
 msgstr "إضافة شركة مصنّعة"
@@ -2292,10 +2284,6 @@ msgstr "إضافة ذكرى"
 #: onedesk/public/js/project_actions.js:586
 msgid "Add Milestone"
 msgstr "إضافة مرحلة"
-
-#: onedesk/public/js/rule_builder.js:241
-msgid "Add Otherwise"
-msgstr "إضافة وإلا"
 
 #: onedesk/public/js/settings.js:128
 msgid "Add Photo"
@@ -3265,10 +3253,6 @@ msgstr "كل البريد"
 msgid "All notifications appear in One."
 msgstr "تظهر جميع الإشعارات في One."
 
-#: onedesk/public/js/rule_builder.js:135
-msgid "All of These Are True"
-msgstr "كل هذه صحيحة"
-
 #: onedesk/one_inventory/heads.py:761
 msgid "All on the floor"
 msgstr "كلها في الورشة"
@@ -3833,10 +3817,6 @@ msgstr "رُفعت شكوى عاجلة"
 msgid "Analytics"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:131
-msgid "And this group, where"
-msgstr "وهذه المجموعة، حيث"
-
 #. Name of a notification
 #: onedesk/notifications/one/announcement.md
 msgid "Announcement"
@@ -3922,10 +3902,6 @@ msgstr "أي نطاق"
 #: onedesk/one/ai.py:272
 msgid "Any odd sign-ins?"
 msgstr "أي تسجيلات دخول غريبة؟"
-
-#: onedesk/public/js/rule_builder.js:136
-msgid "Any of These Is True"
-msgstr "أي منها صحيح"
 
 #: onedesk/one/settings.py:859
 msgid "Any password"
@@ -4493,14 +4469,6 @@ msgstr "وصل عبر رابط، ملف واحد"
 msgid "Arrives"
 msgstr "الوصول"
 
-#: onedesk/public/js/rule_builder.js:31
-msgid "Arrives After Hours"
-msgstr "يصل خارج ساعات العمل"
-
-#: onedesk/public/js/rule_builder.js:32
-msgid "Arrives on a Holiday"
-msgstr "يصل في عطلة"
-
 #: frontend/src/sheet/components/SheetEditor/index.vue:4874
 msgid "Arrows (red/grey/green)"
 msgstr "أسهم (أحمر/رمادي/أخضر)"
@@ -4913,6 +4881,10 @@ msgstr ""
 #: onedesk/public/js/employee.js:6
 msgid "Assign a Salary Structure"
 msgstr "إسناد هيكل راتب"
+
+#: onedesk/public/js/rule_builder.js:270
+msgid "Assign it to"
+msgstr "أسنده إلى"
 
 #: onedesk/one/automations.py:117
 msgid "Assign the document to user(s)."
@@ -9628,6 +9600,10 @@ msgstr "إنشاء نسخة"
 msgid "Create Workbook {0}"
 msgstr "إنشاء المصنف {0}"
 
+#: onedesk/public/js/rule_builder.js:279
+msgid "Create a"
+msgstr "أنشئ"
+
 #: onedesk/public/js/rule_builder.js:45
 msgid "Create a Record"
 msgstr "إنشاء سجل"
@@ -12344,10 +12320,6 @@ msgstr "لا يحتوي على"
 msgid "Does not depreciate"
 msgstr "لا يُهلك"
 
-#: onedesk/public/js/rule_builder.js:15
-msgid "Doesn't Contain"
-msgstr "لا يحتوي"
-
 #. Label of the domain (Data) field in DocType 'Workspace Account'
 #. Label of the domain (Data) field in DocType 'Workspace Domain'
 #. Label of the domain (Data) field in DocType 'Tenant'
@@ -14027,10 +13999,6 @@ msgstr "ينتهي في"
 msgid "Ends Shift"
 msgstr "ينهي الوردية"
 
-#: onedesk/public/js/rule_builder.js:19
-msgid "Ends With"
-msgstr "ينتهي بـ"
-
 #: onedesk/one_project/agreement.py:178
 msgid "Ends in {0} days"
 msgstr "ينتهي خلال {0} أيام"
@@ -15459,18 +15427,10 @@ msgstr "الملف {0} غير موجود"
 msgid "File · From"
 msgstr "الملف · من"
 
-#: onedesk/public/js/rule_builder.js:205
-msgid "Filed on the customer, supplier or lead the sender is."
-msgstr "يُحفظ في سجل العميل أو المورد أو العميل المحتمل الذي يمثله المرسل."
-
 #. Task in the Year-End Audit project template
 #: onedesk/one_project/library/year_end_audit.json
 msgid "Filed with the authorities"
 msgstr "التقديم إلى الجهات الرسمية"
-
-#: onedesk/public/js/rule_builder.js:201
-msgid "Filed with the message, and yours."
-msgstr "يُحفظ مع الرسالة، ويكون باسمك."
 
 #: onedesk/one_intake/panel.py:213
 msgid "Filed with {0}"
@@ -16325,6 +16285,10 @@ msgstr "النماذج والتكاملات"
 #: onedesk/public/js/onecloud.js:90 onedesk/public/js/onemail.js:382
 msgid "Forward"
 msgstr "تقدم"
+
+#: onedesk/public/js/rule_builder.js:268
+msgid "Forward it to"
+msgstr "أعد توجيهه إلى"
 
 #: onedesk/one_mail/flow.py:301
 msgid "Forward to {0}"
@@ -17550,10 +17514,6 @@ msgstr "الرصيد الحالي"
 msgid "Has Serial No"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:30
-msgid "Has an Attachment"
-msgstr "يحتوي على مرفق"
-
 #: onedesk/one_studio/ai.py:75
 msgid "Has this extension run into errors lately, and what went wrong?"
 msgstr "هل وقعت هذه الإضافة في أخطاء مؤخرًا، وما الذي حدث؟"
@@ -17742,6 +17702,10 @@ msgstr "ساعدني في إعداد هذا"
 #: onedesk/one/ai.py:470 onedesk/public/js/settings.js:3168
 msgid "Help me set up a notification rule. Ask me what should happen and who should be told, then suggest the rule."
 msgstr "ساعدني في إعداد قاعدة إشعار. اسألني ما الذي يجب أن يحدث ومن يجب إبلاغه، ثم اقترح القاعدة."
+
+#: onedesk/public/js/rule_builder.js:291
+msgid "Helps OneAI tell it apart. Optional."
+msgstr "يساعد OneAI على تمييزه. اختياري."
 
 #: onedesk/public/js/portal_share.js:90
 msgid "Hidden"
@@ -17995,10 +17959,6 @@ msgstr "ساعات العمل، وعلى ماذا."
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
 msgid "Household"
 msgstr "أسرة"
-
-#: onedesk/public/js/rule_builder.js:109
-msgid "How"
-msgstr "كيف"
 
 #: onedesk/public/js/settings.js:458
 msgid "How Do I Add It?"
@@ -18637,10 +18597,6 @@ msgstr "إذا"
 msgid "If I approve this request, what is deleted, what is kept without their name, and is anything still theirs that somebody should take over first?"
 msgstr "إذا وافقت على هذا الطلب، ما الذي يُحذف، وما الذي يُحتفظ به دون اسمه، وهل لا يزال شيء باسمه ينبغي أن يتولاه أحد أولاً؟"
 
-#: onedesk/public/js/rule_builder.js:282
-msgid "If It's {0}"
-msgstr "إذا كانت {0}"
-
 #: onedesk/www/welcome.html:21
 msgid "If a payment went through, the receipt is in your email and somebody will be in touch."
 msgstr "إن تمت دفعة، فالإيصال في بريدك وسيتواصل معك أحد."
@@ -18681,6 +18637,18 @@ msgstr "إذا فُعّل، يمكن للموظف تسجيل صفين في سج�
 msgid "If enabled, choosing a project on a sales invoice adds its billable timesheets. Invoice Time on a project adds them either way."
 msgstr "إذا فُعّل، يضيف اختيار مشروع في فاتورة المبيعات سجلات الوقت القابلة للفوترة. وزر فوترة الوقت في المشروع يضيفها في الحالتين."
 
+#: onedesk/public/js/rule_builder.js:342
+msgid "If it's none of these"
+msgstr "إذا لم يكن أيًا منها"
+
+#: onedesk/public/js/rule_builder.js:340
+msgid "If it's {0}"
+msgstr "إذا كان {0}"
+
+#: onedesk/public/js/rule_builder.js:345
+msgid "If not"
+msgstr "إذا لم يكن"
+
 #: onedesk/www/s.py:21
 msgid "If this address was invited, a code has been sent to it."
 msgstr "إذا كان هذا العنوان مدعوًّا، فقد أُرسل إليه رمز."
@@ -18694,6 +18662,10 @@ msgstr "إذا تطابقت قاعدتان، تُطبق الأعلى أولوي�
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "If unchecked, a missing passkey is only flagged."
 msgstr "إذا لم يتم تحديده، يُكتفى بالإشارة إلى غياب مفتاح المرور."
+
+#: onedesk/public/js/rule_builder.js:344
+msgid "If yes"
+msgstr "إذا نعم"
 
 #: onedesk/public/js/settings.js:2478
 msgid "If yours doesn't, add www.{0} instead and redirect {0} to it."
@@ -19915,10 +19887,6 @@ msgstr ""
 msgid "Is Template"
 msgstr "قالب"
 
-#: onedesk/public/js/rule_builder.js:112
-msgid "Is a"
-msgstr "هو"
-
 #: onedesk/one/ai.py:100
 msgid "Is any numbering out of step?"
 msgstr "هل هناك ترقيم غير متسق؟"
@@ -19961,10 +19929,6 @@ msgstr "هل تسجيل الدخول هنا آمن بما يكفي؟"
 msgid "Is signing in to this workspace safe enough? Look at our rules and at how people sign in, and say what to change."
 msgstr "هل تسجيل الدخول إلى مساحة العمل هذه آمن بما يكفي؟ راجع قواعدنا وكيف يسجّل الناس الدخول، وقل ما الذي يجب تغييره."
 
-#: onedesk/public/js/rule_builder.js:286
-msgid "Is the Message…"
-msgstr "هل الرسالة…"
-
 #: onedesk/one/ai.py:365
 msgid "Is there a cheaper model that would do?"
 msgstr "هل يوجد نموذج أرخص يؤدي الغرض؟"
@@ -19976,14 +19940,6 @@ msgstr "هل يستحق هذا النموذج أن يُعرض؟"
 #: onedesk/one_admin/ai.py:136
 msgid "Is this model worth offering? Compare what it costs a workspace with the offered models that can do the same, say what it can read, which actions would run on it, and whether anyone used it."
 msgstr "هل يستحق هذا النموذج أن يُعرض؟ قارن كلفته على مساحة العمل بالنماذج المعروضة التي تؤدي العمل نفسه، وقل ما يستطيع قراءته، وأي الإجراءات ستعمل عليه، وهل استخدمه أحد."
-
-#: onedesk/public/js/rule_builder.js:17
-msgid "Isn't"
-msgstr "ليس"
-
-#: onedesk/public/js/rule_builder.js:112
-msgid "Isn't a"
-msgstr "ليس"
 
 #. Label of a Sidebar Item
 #: onedesk/one_crm/home.py:125 onedesk/one_crm/sidebar/onecrm/onecrm.json
@@ -20179,10 +20135,6 @@ msgstr "لم تعد تعمل على {kind}. {explanation}"
 #: onedesk/notifications/one/plan_changed.md
 msgid "It now costs {monthly} a month."
 msgstr "أصبحت تكلفته {monthly} شهريًا."
-
-#: onedesk/public/js/rule_builder.js:189
-msgid "It waits as a card for whoever made the rule."
-msgstr "ينتظر كبطاقة لمن أنشأ القاعدة."
 
 #. Message of a notification
 #: onedesk/notifications/one_hr/interview_moved.md
@@ -21049,10 +21001,6 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:921
 msgid "Label colour"
 msgstr "لون التسمية"
-
-#: onedesk/public/js/rule_builder.js:271
-msgid "Label, such as Quote Request"
-msgstr "التصنيف، مثل طلب عرض سعر"
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:54
 msgid "Labels"
@@ -22136,6 +22084,10 @@ msgstr "عنوان URL للرابط"
 #: onedesk/one_admin/accounts.py:341
 msgid "Link expired"
 msgstr "انتهت صلاحية الرابط"
+
+#: onedesk/public/js/rule_builder.js:278
+msgid "Link it to the sender's customer, supplier or lead"
+msgstr "اربطه بسجل العميل أو المورد أو العميل المحتمل للمرسل"
 
 #: frontend/portal/src/pages/Link.vue:7
 msgid "Link not working"
@@ -23269,6 +23221,10 @@ msgstr "تعليم كمقروء"
 msgid "Mark as unread"
 msgstr "تعليم كغير مقروء"
 
+#: onedesk/public/js/rule_builder.js:258
+msgid "Mark it as read"
+msgstr "علّمه كمقروء"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:1084
 msgid "Mark resolved"
 msgstr "وضع علامة كمحلول"
@@ -23378,10 +23334,6 @@ msgstr "البيانات الأساسية"
 #: onedesk/one/letter_heads.py:19
 msgid "Masthead"
 msgstr "الترويسة"
-
-#: onedesk/public/js/rule_builder.js:140
-msgid "Match"
-msgstr "المطابقة"
 
 #: onedesk/one/automations.py:86
 msgid "Match Fields"
@@ -23600,6 +23552,10 @@ msgstr "يجوز له استخدام الأدوات"
 #: onedesk/one_crm/ai.py:435
 msgid "Maybe the same as {0} {1}, by {2}."
 msgstr "ربما هو نفسه {0} {1}، حسب {2}."
+
+#: onedesk/public/js/rule_builder.js:291
+msgid "Meaning"
+msgstr "المعنى"
 
 #. Option for the 'Value' (Select) field in DocType 'Record Head Band'
 #. Label of the measure (Data) field in DocType 'Record Head Band'
@@ -24120,6 +24076,14 @@ msgstr "نقل العمود إلى اليمين"
 msgid "Move date agreed"
 msgstr "الاتفاق على موعد الانتقال"
 
+#: onedesk/public/js/rule_builder.js:255
+msgid "Move it to"
+msgstr "انقله إلى"
+
+#: onedesk/public/js/rule_builder.js:260
+msgid "Move it to Junk"
+msgstr "انقله إلى البريد غير الهام"
+
 #: onedesk/public/js/rule_builder.js:410
 msgid "Move mail from customers into a folder and file it on their record."
 msgstr "نقل بريد العملاء إلى مجلد وحفظه في سجلهم."
@@ -24394,6 +24358,10 @@ msgstr "اكتب اسم المهمة."
 msgid "Name the template."
 msgstr "سمِّ القالب."
 
+#: onedesk/public/js/rule_builder.js:395
+msgid "Name this rule"
+msgstr "سمِّ هذه القاعدة"
+
 #: frontend/src/sheet/components/SheetEditor/VersionHistory.vue:72
 #: frontend/src/sheet/components/SheetEditor/useVersionHistory.js:241
 msgid "Name this version"
@@ -24614,10 +24582,6 @@ msgstr "لم يُشترَ قط"
 msgid "Never changed"
 msgstr "لم تُغيَّر قط"
 
-#: onedesk/public/js/rule_builder.js:193
-msgid "Never to automatic mail or mailing lists."
-msgstr "لا يُرسل أبدًا للبريد التلقائي أو القوائم البريدية."
-
 #: onedesk/public/js/onecloud.js:1740
 msgid "Never used"
 msgstr "لم تُستخدم"
@@ -24729,6 +24693,10 @@ msgstr "صنف جديد"
 #: frontend/src/home/BooksHome.vue:254
 msgid "New Journal Entry"
 msgstr "قيد يومية جديد"
+
+#: onedesk/public/js/rule_builder.js:288
+msgid "New Label"
+msgstr "تصنيف جديد"
 
 #: frontend/src/home/CrmHome.vue:273
 msgid "New Lead"
@@ -25430,10 +25398,6 @@ msgstr "بلا لون"
 msgid "No columns match “{0}”"
 msgstr "لا توجد أعمدة تطابق «{0}»"
 
-#: onedesk/public/js/rule_builder.js:151
-msgid "No conditions, so every message."
-msgstr "بلا شروط، أي كل رسالة."
-
 #: frontend/src/project/Team.vue:61
 msgid "No contacts"
 msgstr "لا توجد جهات اتصال"
@@ -26115,10 +26079,6 @@ msgstr "لا شيء متاح"
 #: onedesk/one_inventory/heads.py:118 onedesk/one_inventory/heads.py:237
 msgid "None left"
 msgstr "لم يبقَ شيء"
-
-#: onedesk/public/js/rule_builder.js:283
-msgid "None of These"
-msgstr "لا شيء منها"
 
 #: onedesk/public/js/onemail.js:702 onedesk/public/js/onemail.js:769
 msgid "None of your mailboxes can send email"
@@ -27380,26 +27340,10 @@ msgstr "الالتحاق بالعمل"
 msgid "Onboarding: {0}"
 msgstr "تهيئة: {0}"
 
-#: onedesk/public/js/rule_builder.js:50
-msgid "Once a Day per Sender"
-msgstr "مرة يوميًا لكل مرسل"
-
-#: onedesk/public/js/rule_builder.js:52
-msgid "Once a Month per Sender"
-msgstr "مرة شهريًا لكل مرسل"
-
-#: onedesk/public/js/rule_builder.js:51
-msgid "Once a Week per Sender"
-msgstr "مرة أسبوعيًا لكل مرسل"
-
 #. When a notification is sent
 #: onedesk/notifications/one_intake/intake_weekly.md
 msgid "Once a week, with what arrived, what OneAI handled and what's waiting."
 msgstr "مرة في الأسبوع، بما وصل وما عالجه OneAI وما ينتظر."
-
-#: onedesk/public/js/rule_builder.js:49
-msgid "Once per Conversation"
-msgstr "مرة لكل محادثة"
 
 #. Title of a Sidebar
 #. Name of a Workspace
@@ -27558,10 +27502,6 @@ msgstr "سطر واحد. {{ doc.field }} يضع حقلاً من السجل."
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 msgid "One movement of credit. Submitted on insert and never edited in place."
 msgstr "حركة رصيد واحدة. تُعتمد عند الإدراج ولا تُحرَّر في مكانها أبداً."
-
-#: onedesk/public/js/rule_builder.js:198
-msgid "One of the people who use this mailbox."
-msgstr "أحد الأشخاص الذين يستخدمون صندوق البريد هذا."
 
 #: onedesk/public/js/legal.js:59
 msgid "One opens once your workspace administrator agrees to {0}."
@@ -27728,10 +27668,6 @@ msgstr "ملخص OneAI"
 #: onedesk/one_intake/custom/email_account.json
 msgid "OneAI Turned Off"
 msgstr "OneAI متوقف"
-
-#: onedesk/public/js/rule_builder.js:180
-msgid "OneAI Writes It"
-msgstr "OneAI يكتبه"
 
 #. Description of the 'Prepare Interviews' (Check) field in DocType 'HR
 #. Settings'
@@ -31032,10 +30968,6 @@ msgstr "قائمة الالتقاط"
 msgid "Pick List No"
 msgstr "رقم قائمة الالتقاط"
 
-#: onedesk/public/js/rule_builder.js:256
-msgid "Pick One Label"
-msgstr "اختيار تصنيف واحد"
-
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:63
 msgid "Pick a column"
 msgstr "اختر عمودًا"
@@ -32902,10 +32834,6 @@ msgstr "الكمية"
 msgid "Quantity must be greater than zero."
 msgstr "يجب أن تكون الكمية أكبر من صفر."
 
-#: onedesk/public/js/rule_builder.js:251
-msgid "Question"
-msgstr "السؤال"
-
 #: onedesk/one_hr/hiring.py:497
 msgid "Questions"
 msgstr "الأسئلة"
@@ -34329,10 +34257,6 @@ msgstr "الصور الخارجية مخفية."
 msgid "Remove"
 msgstr "إزالة"
 
-#: onedesk/public/js/rule_builder.js:145
-msgid "Remove Group"
-msgstr "إزالة المجموعة"
-
 #: onedesk/public/js/settings.js:1476
 msgid "Remove One"
 msgstr "إزالة واحدة"
@@ -34655,10 +34579,6 @@ msgstr "رد"
 msgid "Reply All"
 msgstr "الرد على الكل"
 
-#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
-msgid "Reply With"
-msgstr "الرد بـ"
-
 #: onedesk/public/js/onemail_settings.js:488
 msgid "Reply With OneAI"
 msgstr "الرد عبر OneAI"
@@ -34670,6 +34590,10 @@ msgstr "رد على الكل"
 #: onedesk/public/js/oneai/Panel.vue:299
 msgid "Reply saying…"
 msgstr "رد يقول…"
+
+#: onedesk/public/js/rule_builder.js:262
+msgid "Reply with"
+msgstr "رد بـ"
 
 #: frontend/src/writer/components/FloatingComments.vue:62
 msgid "Replying to:"
@@ -35631,10 +35555,6 @@ msgstr "تم تحديث القاعدة"
 #: onedesk/public/js/onemail.js:944 onedesk/public/js/settings.js:3160
 msgid "Rules"
 msgstr "القواعد"
-
-#: onedesk/public/js/rule_builder.js:203
-msgid "Rules after this one don't run on this message."
-msgstr "القواعد التالية لا تعمل على هذه الرسالة."
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1141
 msgid "Rules on this sheet"
@@ -38872,6 +38792,10 @@ msgstr "التقييم"
 msgid "Star"
 msgstr "تمييز بنجمة"
 
+#: onedesk/public/js/rule_builder.js:259
+msgid "Star it"
+msgstr "ميّزه بنجمة"
+
 #. Label of the one_flagged (Check) field in DocType 'Communication'
 #: onedesk/one_mail/custom/communication.json
 #: onedesk/one_storage/namespace.py:359 onedesk/public/js/onecloud.js:494
@@ -39006,10 +38930,6 @@ msgstr "يبدأ عند (ثوانٍ)"
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 msgid "Starts On"
 msgstr "يبدأ في"
-
-#: onedesk/public/js/rule_builder.js:18
-msgid "Starts With"
-msgstr "يبدأ بـ"
 
 #: onedesk/one_mail/flow.py:282 onedesk/public/js/rule_builder.js:29
 msgid "Starts a Conversation"
@@ -39577,6 +39497,10 @@ msgstr "منع مساحات العمل من اختيار هذا النموذج"
 msgid "Stop writing this field"
 msgstr "توقف عن كتابة هذا الحقل"
 
+#: onedesk/public/js/rule_builder.js:280
+msgid "Stop, and skip the rules after this one"
+msgstr "توقف، وتجاوز القواعد التالية"
+
 #: frontend/src/plant/PlantFloor.vue:178 frontend/src/project/TaskPanel.vue:50
 #: frontend/src/quotes/QuoteRows.vue:71 frontend/src/task/TaskPage.vue:32
 msgid "Stopped"
@@ -39833,10 +39757,6 @@ msgstr "الموضوع"
 msgid "Subject contains \"{0}\""
 msgstr "الموضوع يحتوي على \"{0}\""
 
-#: onedesk/public/js/rule_builder.js:25
-msgid "Subject or Text"
-msgstr "الموضوع أو النص"
-
 #: onedesk/one_mail/ai.py:253
 msgid "Subject or text contains \"{0}\""
 msgstr "الموضوع أو النص يحتوي على \"{0}\""
@@ -39945,13 +39865,9 @@ msgstr "إعدادات الاشتراكات"
 msgid "Subtotal"
 msgstr "المجموع الفرعي"
 
-#: onedesk/public/js/rule_builder.js:333
-msgid "Such as Quotes from customers"
-msgstr "مثل عروض الأسعار من العملاء"
-
-#: onedesk/public/js/rule_builder.js:287
-msgid "Such as a complaint, or about an invoice"
-msgstr "مثل شكوى، أو بخصوص فاتورة"
+#: onedesk/public/js/rule_builder.js:290
+msgid "Such as Quote Request."
+msgstr "مثل طلب عرض سعر."
 
 #: onedesk/public/js/rule_builder.js:185
 msgid "Such as sending the price list and promising an answer within a day."
@@ -41022,6 +40938,10 @@ msgstr "الهاتف"
 #: onedesk/one_crm/home.py:185
 msgid "Telephony Call Type"
 msgstr "نوع المكالمة"
+
+#: onedesk/public/js/rule_builder.js:274
+msgid "Tell"
+msgstr "أبلغ"
 
 #: onedesk/one/automation_steps.py:24
 msgid "Tell People"
@@ -47081,10 +47001,6 @@ msgstr "ما حدث"
 msgid "What It Does"
 msgstr "ما تفعله"
 
-#: onedesk/public/js/rule_builder.js:185
-msgid "What It Should Say"
-msgstr "ما يجب أن يقوله"
-
 #: onedesk/one_legal/gate.py:17
 msgid "What One may not be used for. It binds your organisation and everybody who signs in."
 msgstr "ما لا يجوز استخدام One له. تُلزم مؤسستك وكل من يسجّل الدخول."
@@ -47510,10 +47426,6 @@ msgstr "كم قيمة هذا المستودع؟"
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "What it gives, in one line, written when it is saved."
 msgstr "ما يمنحه، في سطر واحد، يُكتب عند الحفظ."
-
-#: onedesk/public/js/rule_builder.js:272
-msgid "What it means, for OneAI (optional)"
-msgstr "معناه، لأجل OneAI (اختياري)"
 
 #: onedesk/one/ai.py:281
 msgid "What left as a file?"
@@ -48293,6 +48205,10 @@ msgstr "عندما يستهلك صندوق بريد أرصدة OneAI الخاص�
 msgid "When a mailbox you hold stops connecting. Once, when it breaks."
 msgstr "عندما يتوقف صندوق بريد تملكه عن الاتصال. مرة واحدة، عند تعطّله."
 
+#: onedesk/public/js/rule_builder.js:403
+msgid "When a message arrives in {0}"
+msgstr "عند وصول رسالة إلى {0}"
+
 #. When a notification is sent
 #: onedesk/notifications/one_project/milestone_done.md
 msgid "When a milestone that's billed on completion is done."
@@ -48806,10 +48722,6 @@ msgstr "عندما تنخفض أصناف إلى حد إعادة الطلب وي�
 #: onedesk/notifications/one_hr/leave_expiring.md
 msgid "When leave you have not used lapses in two weeks."
 msgstr "عندما تنتهي إجازة لم تستخدمها بعد أسبوعين."
-
-#: onedesk/public/js/rule_builder.js:337
-msgid "When mail arrives in {0}'s Inbox"
-msgstr "عند وصول بريد إلى صندوق وارد {0}"
 
 #. When a notification is sent
 #: onedesk/notifications/one_mail/attachments_not_saved.md
@@ -50541,10 +50453,6 @@ msgstr "رابحة."
 msgid "Wordmark"
 msgstr "الاسم المميز"
 
-#: onedesk/public/js/rule_builder.js:110
-msgid "Words, separated by commas"
-msgstr "كلمات، مفصولة بفواصل"
-
 #. Label in the One Service Report print format
 #. Label in the One Timesheet print format
 #: frontend/src/project/ProjectActivity.vue:105
@@ -51207,6 +51115,10 @@ msgstr "أفرّغه كتابيًا من جديد. سيتبع النص وتعل�
 msgid "Writing…"
 msgstr "جارٍ الكتابة…"
 
+#: onedesk/public/js/rule_builder.js:208
+msgid "Written By"
+msgstr "كتبه"
+
 #. Label in the One Asset Card print format
 #. Label in the One Asset Shift Allocation print format
 #: onedesk/one_inventory/print_format/one_asset_card/one_asset_card.json
@@ -51315,10 +51227,6 @@ msgstr "سنوات الخدمة"
 #: onedesk/public/js/onecloud.js:671
 msgid "Yes"
 msgstr ""
-
-#: onedesk/public/js/rule_builder.js:255
-msgid "Yes or No"
-msgstr "نعم أو لا"
 
 #: onedesk/one/ai_setup.py:703
 msgid "Yes, in their notifications"
@@ -52105,6 +52013,10 @@ msgstr "لونًا مثل #0f766e أو var(--gray-100)"
 msgid "a column"
 msgstr "عمود"
 
+#: onedesk/public/js/rule_builder.js:334
+msgid "a complaint"
+msgstr "شكوى"
+
 #: onedesk/one/tell.py:341
 msgid "a copy of your data"
 msgstr "نسخة من بياناتك"
@@ -52191,6 +52103,10 @@ msgstr "بعد {0}"
 msgid "alarm"
 msgstr "تنبيه"
 
+#: onedesk/public/js/rule_builder.js:179
+msgid "all of these:"
+msgstr "كل هذه:"
+
 #: onedesk/one_admin/setup.py:146
 msgid "already set"
 msgstr "مضبوط مسبقًا"
@@ -52215,6 +52131,14 @@ msgstr "مشغّل"
 #: onedesk/public/js/oneai/Panel.vue:114 onedesk/public/js/onecloud.js:2035
 msgid "and {0} more"
 msgstr "و{0} غيرها"
+
+#: onedesk/public/js/rule_builder.js:183
+msgid "any message"
+msgstr "أي رسالة"
+
+#: onedesk/public/js/rule_builder.js:179
+msgid "any of these:"
+msgstr "أي من هذه:"
 
 #: onedesk/one_hr/tell.py:801
 msgid "approved"
@@ -52298,6 +52222,10 @@ msgstr "أنجز"
 msgid "contact"
 msgstr "جهة الاتصال"
 
+#: onedesk/public/js/rule_builder.js:23
+msgid "contains"
+msgstr "يحتوي"
+
 #: frontend/src/project/ProjectActivity.vue:109
 msgid "created"
 msgstr "أنشأ"
@@ -52361,6 +52289,10 @@ msgstr "رقم الوثيقة"
 msgid "docx when this edits that File in place, its content written back to it."
 msgstr "docx عندما يحرر هذا ذلك الملف في مكانه، ويُكتب محتواه إليه."
 
+#: onedesk/public/js/rule_builder.js:24
+msgid "doesn't contain"
+msgstr "لا يحتوي"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:1029
 msgid "e.g."
 msgstr "مثلًا"
@@ -52407,6 +52339,10 @@ msgstr "جهة الاتصال في حالات الطوارئ"
 msgid "empty"
 msgstr "فارغ"
 
+#: onedesk/public/js/rule_builder.js:28
+msgid "ends with"
+msgstr "ينتهي بـ"
+
 #: onedesk/one_mail/flow.py:276
 msgid "ends with {0}"
 msgstr "ينتهي بـ {0}"
@@ -52442,6 +52378,10 @@ msgstr "منذ {0}"
 #: onedesk/one_crm/heads.py:65
 msgid "for {0} · usually {1}"
 msgstr "منذ {0} · عادةً {1}"
+
+#: onedesk/public/js/rule_builder.js:279
+msgid "from it"
+msgstr "منه"
 
 #: onedesk/one_admin/setup.py:150
 msgid "from the token"
@@ -52537,22 +52477,82 @@ msgstr "مدخلات"
 msgid "invites you to"
 msgstr "يدعوك إلى"
 
+#: onedesk/public/js/rule_builder.js:25
+msgid "is"
+msgstr "هو"
+
+#: onedesk/public/js/rule_builder.js:147
+msgid "is a"
+msgstr "هو"
+
 #: onedesk/one_mail/flow.py:273
 msgid "is {0}"
 msgstr "هو {0}"
+
+#: onedesk/public/js/rule_builder.js:26
+msgid "isn't"
+msgstr "ليس"
+
+#: onedesk/public/js/rule_builder.js:148
+msgid "isn't a"
+msgstr "ليس"
 
 #: onedesk/one_mail/flow.py:274
 msgid "isn't {0}"
 msgstr "ليس {0}"
 
+#: onedesk/public/js/rule_builder.js:59
+msgid "issue"
+msgstr "مشكلة"
+
+#: onedesk/public/js/rule_builder.js:34
+msgid "it arrives after hours"
+msgstr "يصل خارج ساعات العمل"
+
+#: onedesk/public/js/rule_builder.js:34
+msgid "it arrives in working hours"
+msgstr "يصل في ساعات العمل"
+
+#: onedesk/public/js/rule_builder.js:35
+msgid "it arrives on a holiday"
+msgstr "يصل في عطلة"
+
 #: onedesk/one/ai.py:3125
 msgid "it does not print {0}"
 msgstr "لا يطبع {0}"
+
+#: onedesk/public/js/rule_builder.js:35
+msgid "it doesn't arrive on a holiday"
+msgstr "لا يصل في عطلة"
+
+#: onedesk/public/js/rule_builder.js:33
+msgid "it has an attachment"
+msgstr "يحتوي على مرفق"
 
 #: onedesk/one_intake/act.py:561 onedesk/one_intake/act.py:571
 #: onedesk/one_intake/act.py:586
 msgid "it has been submitted"
 msgstr "تم اعتماده"
+
+#: onedesk/public/js/rule_builder.js:33
+msgid "it has no attachment"
+msgstr "بلا مرفق"
+
+#: onedesk/public/js/rule_builder.js:32
+msgid "it starts a conversation"
+msgstr "يبدأ محادثة"
+
+#: onedesk/public/js/rule_builder.js:32
+msgid "it's a reply"
+msgstr "إنه رد"
+
+#: onedesk/public/js/rule_builder.js:31
+msgid "it's from inside the workspace"
+msgstr "إنه من داخل مساحة العمل"
+
+#: onedesk/public/js/rule_builder.js:31
+msgid "it's from outside the workspace"
+msgstr "إنه من خارج مساحة العمل"
 
 #: onedesk/one_intake/act.py:545
 msgid "it's in use elsewhere"
@@ -52593,6 +52593,10 @@ msgstr "متأخر"
 #: onedesk/one/tell.py:180
 msgid "later"
 msgstr "لاحقًا"
+
+#: onedesk/public/js/rule_builder.js:58
+msgid "lead"
+msgstr "عميل محتمل"
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:109
 #: onedesk/public/js/band.js:206
@@ -52779,10 +52783,30 @@ msgstr "الأقدم أولاً"
 msgid "on hold"
 msgstr "معلّق"
 
+#: onedesk/public/js/rule_builder.js:276
+msgid "on the bell"
+msgstr "في الجرس"
+
 #: onedesk/one/ai_setup.py:137 onedesk/one_crm/heads.py:60
 #: onedesk/public/js/settings.js:733
 msgid "on {0}"
 msgstr "في {0}"
+
+#: onedesk/public/js/rule_builder.js:53
+msgid "once a day to each sender"
+msgstr "مرة يوميًا لكل مرسل"
+
+#: onedesk/public/js/rule_builder.js:55
+msgid "once a month to each sender"
+msgstr "مرة شهريًا لكل مرسل"
+
+#: onedesk/public/js/rule_builder.js:54
+msgid "once a week to each sender"
+msgstr "مرة أسبوعيًا لكل مرسل"
+
+#: onedesk/public/js/rule_builder.js:52
+msgid "once per conversation"
+msgstr "مرة لكل محادثة"
 
 #: onedesk/one_intake/understand.py:377
 msgid "one day"
@@ -53036,6 +53060,10 @@ msgstr "نوع المصدر"
 msgid "started sub-project"
 msgstr "بدأ المشروع الفرعي"
 
+#: onedesk/public/js/rule_builder.js:27
+msgid "starts with"
+msgstr "يبدأ بـ"
+
 #: onedesk/one_mail/flow.py:275
 msgid "starts with {0}"
 msgstr "يبدأ بـ {0}"
@@ -53052,6 +53080,10 @@ msgstr "اعتمد"
 #: frontend/src/sent_out/OutRows.vue:36
 msgid "supplied"
 msgstr "مُورَّد"
+
+#: onedesk/public/js/rule_builder.js:60
+msgid "task"
+msgstr "مهمة"
 
 #: onedesk/public/js/crm_record.js:32
 msgid "tax number"
@@ -53145,9 +53177,33 @@ msgstr "طلبات عروض الأسعار والطلبات المرسلة إل�
 msgid "the self appraisal"
 msgstr "التقييم الذاتي"
 
+#: onedesk/public/js/rule_builder.js:122 onedesk/public/js/rule_builder.js:144
+msgid "the sender"
+msgstr "المرسل"
+
+#: onedesk/public/js/rule_builder.js:130
+msgid "the sender is a…"
+msgstr "المرسل هو…"
+
+#: onedesk/public/js/rule_builder.js:20
+msgid "the sender's domain"
+msgstr "نطاق المرسل"
+
+#: onedesk/public/js/rule_builder.js:16
+msgid "the sender's name or address"
+msgstr "اسم المرسل أو عنوانه"
+
 #: onedesk/one_admin/heads.py:243
 msgid "the start"
 msgstr "البداية"
+
+#: onedesk/public/js/rule_builder.js:18
+msgid "the subject"
+msgstr "الموضوع"
+
+#: onedesk/public/js/rule_builder.js:19
+msgid "the subject or text"
+msgstr "الموضوع أو النص"
 
 #: onedesk/public/js/doctype_settings.js:748
 msgid "the week of the year"
@@ -53278,9 +53334,21 @@ msgstr "منتظر"
 msgid "was {0}"
 msgstr "كان {0}"
 
+#: onedesk/public/js/rule_builder.js:264
+msgid "what OneAI should say"
+msgstr "ما يجب أن يقوله OneAI"
+
 #: onedesk/one/access.py:326
 msgid "what {0} can do in {1}"
 msgstr "ما يستطيعه {0} في {1}"
+
+#: onedesk/public/js/rule_builder.js:311
+msgid "whether it's"
+msgstr "هل هي"
+
+#: onedesk/public/js/rule_builder.js:312
+msgid "which of these it is:"
+msgstr "أيٌّ من هذه هي:"
 
 #: onedesk/one_ai/run.py:552
 msgid "who picks the model, to administrators only"
@@ -53289,6 +53357,10 @@ msgstr "من يختار النموذج، إلى المسؤولين فقط"
 #: onedesk/one_ai/run.py:550
 msgid "who picks the model, to everybody"
 msgstr "من يختار النموذج، إلى الجميع"
+
+#: onedesk/public/js/rule_builder.js:159
+msgid "words, with commas"
+msgstr "كلمات، بفواصل"
 
 #. Option for the 'Provider' (Select) field in DocType 'AI Model'
 #. Option for the 'Preferred Provider' (Select) field in DocType 'One Admin
@@ -53317,6 +53389,10 @@ msgstr "أمس"
 #: onedesk/one/tell.py:341
 msgid "your data to be deleted"
 msgstr "حذف بياناتك"
+
+#: onedesk/public/js/rule_builder.js:265
+msgid "your message"
+msgstr "رسالتك"
 
 #: onedesk/one/portal_invite.py:46
 msgid "your quotations, orders and invoices"

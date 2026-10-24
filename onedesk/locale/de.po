@@ -2226,10 +2226,6 @@ msgstr "Kurzbeschreibung hinzufügen"
 msgid "Add Collection"
 msgstr "Sammlung hinzufügen"
 
-#: onedesk/public/js/rule_builder.js:154
-msgid "Add Condition"
-msgstr "Bedingung hinzufügen"
-
 #: frontend/src/project/Team.vue:59 onedesk/public/js/project_actions.js:430
 #: onedesk/public/js/project_actions.js:451
 msgid "Add Contact"
@@ -2275,10 +2271,6 @@ msgstr "Ordner hinzufügen"
 msgid "Add Item"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:277
-msgid "Add Label"
-msgstr "Label hinzufügen"
-
 #: frontend/src/item/ItemBuying.vue:17
 msgid "Add Manufacturer"
 msgstr "Hersteller hinzufügen"
@@ -2292,10 +2284,6 @@ msgstr "Erinnerung hinzufügen"
 #: onedesk/public/js/project_actions.js:586
 msgid "Add Milestone"
 msgstr "Meilenstein hinzufügen"
-
-#: onedesk/public/js/rule_builder.js:241
-msgid "Add Otherwise"
-msgstr "Andernfalls hinzufügen"
 
 #: onedesk/public/js/settings.js:128
 msgid "Add Photo"
@@ -3265,10 +3253,6 @@ msgstr "Alle E-Mails"
 msgid "All notifications appear in One."
 msgstr "Alle Benachrichtigungen erscheinen in One."
 
-#: onedesk/public/js/rule_builder.js:135
-msgid "All of These Are True"
-msgstr "Alle davon treffen zu"
-
 #: onedesk/one_inventory/heads.py:761
 msgid "All on the floor"
 msgstr "Alles in der Werkstatt"
@@ -3833,10 +3817,6 @@ msgstr "Eine dringende Beschwerde wurde eingereicht"
 msgid "Analytics"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:131
-msgid "And this group, where"
-msgstr "Und diese Gruppe, wobei"
-
 #. Name of a notification
 #: onedesk/notifications/one/announcement.md
 msgid "Announcement"
@@ -3922,10 +3902,6 @@ msgstr "Jede Domain"
 #: onedesk/one/ai.py:272
 msgid "Any odd sign-ins?"
 msgstr "Auffällige Anmeldungen?"
-
-#: onedesk/public/js/rule_builder.js:136
-msgid "Any of These Is True"
-msgstr "Eines davon trifft zu"
 
 #: onedesk/one/settings.py:859
 msgid "Any password"
@@ -4493,14 +4469,6 @@ msgstr "Über einen Link angekommen, eine Datei"
 msgid "Arrives"
 msgstr "Ankunft"
 
-#: onedesk/public/js/rule_builder.js:31
-msgid "Arrives After Hours"
-msgstr "Kommt außerhalb der Arbeitszeit an"
-
-#: onedesk/public/js/rule_builder.js:32
-msgid "Arrives on a Holiday"
-msgstr "Kommt an einem Feiertag an"
-
 #: frontend/src/sheet/components/SheetEditor/index.vue:4874
 msgid "Arrows (red/grey/green)"
 msgstr "Pfeile (rot/grau/grün)"
@@ -4913,6 +4881,10 @@ msgstr ""
 #: onedesk/public/js/employee.js:6
 msgid "Assign a Salary Structure"
 msgstr "Gehaltsstruktur zuweisen"
+
+#: onedesk/public/js/rule_builder.js:270
+msgid "Assign it to"
+msgstr "Weise sie zu an"
 
 #: onedesk/one/automations.py:117
 msgid "Assign the document to user(s)."
@@ -9628,6 +9600,10 @@ msgstr "Version erstellen"
 msgid "Create Workbook {0}"
 msgstr "Arbeitsmappe {0} erstellen"
 
+#: onedesk/public/js/rule_builder.js:279
+msgid "Create a"
+msgstr "Erstelle eine"
+
 #: onedesk/public/js/rule_builder.js:45
 msgid "Create a Record"
 msgstr "Datensatz erstellen"
@@ -12344,10 +12320,6 @@ msgstr "Enthält nicht"
 msgid "Does not depreciate"
 msgstr "Wird nicht abgeschrieben"
 
-#: onedesk/public/js/rule_builder.js:15
-msgid "Doesn't Contain"
-msgstr "Enthält nicht"
-
 #. Label of the domain (Data) field in DocType 'Workspace Account'
 #. Label of the domain (Data) field in DocType 'Workspace Domain'
 #. Label of the domain (Data) field in DocType 'Tenant'
@@ -14027,10 +13999,6 @@ msgstr "Endet am"
 msgid "Ends Shift"
 msgstr "Beendet die Schicht"
 
-#: onedesk/public/js/rule_builder.js:19
-msgid "Ends With"
-msgstr "Endet mit"
-
 #: onedesk/one_project/agreement.py:178
 msgid "Ends in {0} days"
 msgstr "Endet in {0} Tagen"
@@ -15459,18 +15427,10 @@ msgstr "Datei {0} nicht gefunden"
 msgid "File · From"
 msgstr "Datei · Von"
 
-#: onedesk/public/js/rule_builder.js:205
-msgid "Filed on the customer, supplier or lead the sender is."
-msgstr "Wird beim Kunden, Lieferanten oder Lead abgelegt, der der Absender ist."
-
 #. Task in the Year-End Audit project template
 #: onedesk/one_project/library/year_end_audit.json
 msgid "Filed with the authorities"
 msgstr "Bei den Behörden eingereicht"
-
-#: onedesk/public/js/rule_builder.js:201
-msgid "Filed with the message, and yours."
-msgstr "Wird mit der Nachricht abgelegt und gehört dir."
 
 #: onedesk/one_intake/panel.py:213
 msgid "Filed with {0}"
@@ -16325,6 +16285,10 @@ msgstr "Formulare und Anbindungen"
 #: onedesk/public/js/onecloud.js:90 onedesk/public/js/onemail.js:382
 msgid "Forward"
 msgstr "Vorwärts"
+
+#: onedesk/public/js/rule_builder.js:268
+msgid "Forward it to"
+msgstr "Leite sie weiter an"
 
 #: onedesk/one_mail/flow.py:301
 msgid "Forward to {0}"
@@ -17550,10 +17514,6 @@ msgstr "Jetzt"
 msgid "Has Serial No"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:30
-msgid "Has an Attachment"
-msgstr "Hat einen Anhang"
-
 #: onedesk/one_studio/ai.py:75
 msgid "Has this extension run into errors lately, and what went wrong?"
 msgstr "Sind bei dieser Erweiterung zuletzt Fehler aufgetreten, und was ist schiefgegangen?"
@@ -17742,6 +17702,10 @@ msgstr "Hilf mir, das einzurichten"
 #: onedesk/one/ai.py:470 onedesk/public/js/settings.js:3168
 msgid "Help me set up a notification rule. Ask me what should happen and who should be told, then suggest the rule."
 msgstr "Hilf mir, eine Benachrichtigungsregel einzurichten. Frag mich, was passieren soll und wer benachrichtigt werden soll, und schlage dann die Regel vor."
+
+#: onedesk/public/js/rule_builder.js:291
+msgid "Helps OneAI tell it apart. Optional."
+msgstr "Hilft OneAI, sie zu unterscheiden. Optional."
 
 #: onedesk/public/js/portal_share.js:90
 msgid "Hidden"
@@ -17995,10 +17959,6 @@ msgstr "Gearbeitete Stunden, woran."
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
 msgid "Household"
 msgstr "Haushalt"
-
-#: onedesk/public/js/rule_builder.js:109
-msgid "How"
-msgstr "Wie"
 
 #: onedesk/public/js/settings.js:458
 msgid "How Do I Add It?"
@@ -18637,10 +18597,6 @@ msgstr "Wenn"
 msgid "If I approve this request, what is deleted, what is kept without their name, and is anything still theirs that somebody should take over first?"
 msgstr "Wenn ich diese Anfrage genehmige: Was wird gelöscht, was bleibt ohne den Namen, und gehört der Person noch etwas, das zuerst jemand übernehmen sollte?"
 
-#: onedesk/public/js/rule_builder.js:282
-msgid "If It's {0}"
-msgstr "Wenn es {0} ist"
-
 #: onedesk/www/welcome.html:21
 msgid "If a payment went through, the receipt is in your email and somebody will be in touch."
 msgstr "Falls eine Zahlung durchging, liegt die Quittung in Ihrem Postfach und jemand meldet sich."
@@ -18681,6 +18637,18 @@ msgstr "Wenn aktiviert, darf ein Mitarbeiter zwei Zeiterfassungszeilen für dies
 msgid "If enabled, choosing a project on a sales invoice adds its billable timesheets. Invoice Time on a project adds them either way."
 msgstr "Wenn aktiviert, fügt die Wahl eines Projekts in einer Ausgangsrechnung dessen abrechenbare Zeiterfassungen hinzu. Zeit abrechnen im Projekt fügt sie in jedem Fall hinzu."
 
+#: onedesk/public/js/rule_builder.js:342
+msgid "If it's none of these"
+msgstr "Wenn es nichts davon ist"
+
+#: onedesk/public/js/rule_builder.js:340
+msgid "If it's {0}"
+msgstr "Wenn es {0} ist"
+
+#: onedesk/public/js/rule_builder.js:345
+msgid "If not"
+msgstr "Wenn nicht"
+
 #: onedesk/www/s.py:21
 msgid "If this address was invited, a code has been sent to it."
 msgstr "Wenn diese Adresse eingeladen wurde, wurde ein Code an sie gesendet."
@@ -18694,6 +18662,10 @@ msgstr "Wenn zwei Regeln zutreffen, gilt die höhere Priorität."
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "If unchecked, a missing passkey is only flagged."
 msgstr "Ist dies nicht aktiviert, wird ein fehlender Passkey nur markiert."
+
+#: onedesk/public/js/rule_builder.js:344
+msgid "If yes"
+msgstr "Wenn ja"
 
 #: onedesk/public/js/settings.js:2478
 msgid "If yours doesn't, add www.{0} instead and redirect {0} to it."
@@ -19915,10 +19887,6 @@ msgstr ""
 msgid "Is Template"
 msgstr "Ist Vorlage"
 
-#: onedesk/public/js/rule_builder.js:112
-msgid "Is a"
-msgstr "Ist ein"
-
 #: onedesk/one/ai.py:100
 msgid "Is any numbering out of step?"
 msgstr "Ist eine Nummerierung aus dem Takt?"
@@ -19961,10 +19929,6 @@ msgstr "Ist die Anmeldung hier sicher genug?"
 msgid "Is signing in to this workspace safe enough? Look at our rules and at how people sign in, and say what to change."
 msgstr "Ist die Anmeldung in diesem Arbeitsbereich sicher genug? Sieh dir unsere Regeln an und wie sich die Leute anmelden, und sag, was wir ändern sollten."
 
-#: onedesk/public/js/rule_builder.js:286
-msgid "Is the Message…"
-msgstr "Ist die Nachricht…"
-
 #: onedesk/one/ai.py:365
 msgid "Is there a cheaper model that would do?"
 msgstr "Gibt es ein günstigeres Modell, das reicht?"
@@ -19976,14 +19940,6 @@ msgstr "Lohnt es sich, dieses Modell anzubieten?"
 #: onedesk/one_admin/ai.py:136
 msgid "Is this model worth offering? Compare what it costs a workspace with the offered models that can do the same, say what it can read, which actions would run on it, and whether anyone used it."
 msgstr "Lohnt es sich, dieses Modell anzubieten? Vergleichen Sie, was es einen Arbeitsbereich kostet, mit den angebotenen Modellen, die dasselbe können, und nennen Sie, was es lesen kann, welche Aktionen darauf laufen würden und ob es jemand genutzt hat."
-
-#: onedesk/public/js/rule_builder.js:17
-msgid "Isn't"
-msgstr "Ist nicht"
-
-#: onedesk/public/js/rule_builder.js:112
-msgid "Isn't a"
-msgstr "Ist kein"
 
 #. Label of a Sidebar Item
 #: onedesk/one_crm/home.py:125 onedesk/one_crm/sidebar/onecrm/onecrm.json
@@ -20179,10 +20135,6 @@ msgstr "Sie läuft nicht mehr auf {kind}. {explanation}"
 #: onedesk/notifications/one/plan_changed.md
 msgid "It now costs {monthly} a month."
 msgstr "Er kostet jetzt {monthly} im Monat."
-
-#: onedesk/public/js/rule_builder.js:189
-msgid "It waits as a card for whoever made the rule."
-msgstr "Sie wartet als Karte auf die Person, die die Regel erstellt hat."
 
 #. Message of a notification
 #: onedesk/notifications/one_hr/interview_moved.md
@@ -21049,10 +21001,6 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:921
 msgid "Label colour"
 msgstr "Beschriftungsfarbe"
-
-#: onedesk/public/js/rule_builder.js:271
-msgid "Label, such as Quote Request"
-msgstr "Label, z. B. Angebotsanfrage"
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:54
 msgid "Labels"
@@ -22136,6 +22084,10 @@ msgstr "Link-URL"
 #: onedesk/one_admin/accounts.py:341
 msgid "Link expired"
 msgstr "Link abgelaufen"
+
+#: onedesk/public/js/rule_builder.js:278
+msgid "Link it to the sender's customer, supplier or lead"
+msgstr "Verknüpfe sie mit dem Kunden, Lieferanten oder Lead des Absenders"
 
 #: frontend/portal/src/pages/Link.vue:7
 msgid "Link not working"
@@ -23269,6 +23221,10 @@ msgstr "Als gelesen markieren"
 msgid "Mark as unread"
 msgstr "Als ungelesen markieren"
 
+#: onedesk/public/js/rule_builder.js:258
+msgid "Mark it as read"
+msgstr "Markiere sie als gelesen"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:1084
 msgid "Mark resolved"
 msgstr "Als erledigt markieren"
@@ -23378,10 +23334,6 @@ msgstr "Stammdaten"
 #: onedesk/one/letter_heads.py:19
 msgid "Masthead"
 msgstr "Kopfzeile"
-
-#: onedesk/public/js/rule_builder.js:140
-msgid "Match"
-msgstr "Übereinstimmung"
 
 #: onedesk/one/automations.py:86
 msgid "Match Fields"
@@ -23600,6 +23552,10 @@ msgstr "Darf Werkzeuge nutzen"
 #: onedesk/one_crm/ai.py:435
 msgid "Maybe the same as {0} {1}, by {2}."
 msgstr "Vielleicht dasselbe wie {0} {1}, nach {2}."
+
+#: onedesk/public/js/rule_builder.js:291
+msgid "Meaning"
+msgstr "Bedeutung"
 
 #. Option for the 'Value' (Select) field in DocType 'Record Head Band'
 #. Label of the measure (Data) field in DocType 'Record Head Band'
@@ -24120,6 +24076,14 @@ msgstr "Spalte nach rechts verschieben"
 msgid "Move date agreed"
 msgstr "Umzugstermin vereinbart"
 
+#: onedesk/public/js/rule_builder.js:255
+msgid "Move it to"
+msgstr "Verschiebe sie nach"
+
+#: onedesk/public/js/rule_builder.js:260
+msgid "Move it to Junk"
+msgstr "Verschiebe sie in Junk"
+
 #: onedesk/public/js/rule_builder.js:410
 msgid "Move mail from customers into a folder and file it on their record."
 msgstr "E-Mails von Kunden in einen Ordner verschieben und bei ihrem Datensatz ablegen."
@@ -24394,6 +24358,10 @@ msgstr "Benennen Sie die Aufgabe."
 msgid "Name the template."
 msgstr "Geben Sie der Vorlage einen Namen."
 
+#: onedesk/public/js/rule_builder.js:395
+msgid "Name this rule"
+msgstr "Benenne diese Regel"
+
 #: frontend/src/sheet/components/SheetEditor/VersionHistory.vue:72
 #: frontend/src/sheet/components/SheetEditor/useVersionHistory.js:241
 msgid "Name this version"
@@ -24614,10 +24582,6 @@ msgstr "Nie gekauft"
 msgid "Never changed"
 msgstr "Nie geändert"
 
-#: onedesk/public/js/rule_builder.js:193
-msgid "Never to automatic mail or mailing lists."
-msgstr "Nie an automatische E-Mails oder Mailinglisten."
-
 #: onedesk/public/js/onecloud.js:1740
 msgid "Never used"
 msgstr "Nie verwendet"
@@ -24729,6 +24693,10 @@ msgstr "Neuer Artikel"
 #: frontend/src/home/BooksHome.vue:254
 msgid "New Journal Entry"
 msgstr "Neue Buchung"
+
+#: onedesk/public/js/rule_builder.js:288
+msgid "New Label"
+msgstr "Neues Label"
 
 #: frontend/src/home/CrmHome.vue:273
 msgid "New Lead"
@@ -25430,10 +25398,6 @@ msgstr "Keine Farbe"
 msgid "No columns match “{0}”"
 msgstr "Keine Spalten entsprechen „{0}“"
 
-#: onedesk/public/js/rule_builder.js:151
-msgid "No conditions, so every message."
-msgstr "Keine Bedingungen, also jede Nachricht."
-
 #: frontend/src/project/Team.vue:61
 msgid "No contacts"
 msgstr "Keine Kontakte"
@@ -26115,10 +26079,6 @@ msgstr "Nichts frei"
 #: onedesk/one_inventory/heads.py:118 onedesk/one_inventory/heads.py:237
 msgid "None left"
 msgstr "Nichts mehr da"
-
-#: onedesk/public/js/rule_builder.js:283
-msgid "None of These"
-msgstr "Nichts davon"
 
 #: onedesk/public/js/onemail.js:702 onedesk/public/js/onemail.js:769
 msgid "None of your mailboxes can send email"
@@ -27380,26 +27340,10 @@ msgstr "Onboarding"
 msgid "Onboarding: {0}"
 msgstr "Einarbeitung: {0}"
 
-#: onedesk/public/js/rule_builder.js:50
-msgid "Once a Day per Sender"
-msgstr "Einmal täglich pro Absender"
-
-#: onedesk/public/js/rule_builder.js:52
-msgid "Once a Month per Sender"
-msgstr "Einmal im Monat pro Absender"
-
-#: onedesk/public/js/rule_builder.js:51
-msgid "Once a Week per Sender"
-msgstr "Einmal pro Woche pro Absender"
-
 #. When a notification is sent
 #: onedesk/notifications/one_intake/intake_weekly.md
 msgid "Once a week, with what arrived, what OneAI handled and what's waiting."
 msgstr "Einmal pro Woche, mit dem, was eingegangen ist, was OneAI bearbeitet hat und was wartet."
-
-#: onedesk/public/js/rule_builder.js:49
-msgid "Once per Conversation"
-msgstr "Einmal pro Unterhaltung"
 
 #. Title of a Sidebar
 #. Name of a Workspace
@@ -27558,10 +27502,6 @@ msgstr "Eine Zeile. {{ doc.field }} setzt ein Feld des Datensatzes ein."
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 msgid "One movement of credit. Submitted on insert and never edited in place."
 msgstr "Eine Guthabenbewegung. Beim Anlegen gebucht und nie nachträglich geändert."
-
-#: onedesk/public/js/rule_builder.js:198
-msgid "One of the people who use this mailbox."
-msgstr "Eine der Personen, die dieses Postfach nutzen."
 
 #: onedesk/public/js/legal.js:59
 msgid "One opens once your workspace administrator agrees to {0}."
@@ -27728,10 +27668,6 @@ msgstr "OneAI-Zusammenfassung"
 #: onedesk/one_intake/custom/email_account.json
 msgid "OneAI Turned Off"
 msgstr "OneAI ausgeschaltet"
-
-#: onedesk/public/js/rule_builder.js:180
-msgid "OneAI Writes It"
-msgstr "OneAI schreibt sie"
 
 #. Description of the 'Prepare Interviews' (Check) field in DocType 'HR
 #. Settings'
@@ -31032,10 +30968,6 @@ msgstr "Kommissionierliste"
 msgid "Pick List No"
 msgstr "Kommissionierliste Nr."
 
-#: onedesk/public/js/rule_builder.js:256
-msgid "Pick One Label"
-msgstr "Ein Label wählen"
-
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:63
 msgid "Pick a column"
 msgstr "Spalte auswählen"
@@ -32902,10 +32834,6 @@ msgstr "Menge"
 msgid "Quantity must be greater than zero."
 msgstr "Die Menge muss größer als null sein."
 
-#: onedesk/public/js/rule_builder.js:251
-msgid "Question"
-msgstr "Frage"
-
 #: onedesk/one_hr/hiring.py:497
 msgid "Questions"
 msgstr "Fragen"
@@ -34329,10 +34257,6 @@ msgstr "Externe Bilder werden ausgeblendet."
 msgid "Remove"
 msgstr "Entfernen"
 
-#: onedesk/public/js/rule_builder.js:145
-msgid "Remove Group"
-msgstr "Gruppe entfernen"
-
 #: onedesk/public/js/settings.js:1476
 msgid "Remove One"
 msgstr "Eines entfernen"
@@ -34655,10 +34579,6 @@ msgstr "Antworten"
 msgid "Reply All"
 msgstr "Allen antworten"
 
-#: onedesk/one_mail/doctype/mail_rule/mail_rule.json
-msgid "Reply With"
-msgstr "Antworten mit"
-
 #: onedesk/public/js/onemail_settings.js:488
 msgid "Reply With OneAI"
 msgstr "Mit OneAI antworten"
@@ -34670,6 +34590,10 @@ msgstr "Allen antworten"
 #: onedesk/public/js/oneai/Panel.vue:299
 msgid "Reply saying…"
 msgstr "Antworten mit…"
+
+#: onedesk/public/js/rule_builder.js:262
+msgid "Reply with"
+msgstr "Antworte mit"
 
 #: frontend/src/writer/components/FloatingComments.vue:62
 msgid "Replying to:"
@@ -35631,10 +35555,6 @@ msgstr "Regel aktualisiert"
 #: onedesk/public/js/onemail.js:944 onedesk/public/js/settings.js:3160
 msgid "Rules"
 msgstr "Regeln"
-
-#: onedesk/public/js/rule_builder.js:203
-msgid "Rules after this one don't run on this message."
-msgstr "Regeln danach laufen für diese Nachricht nicht."
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1141
 msgid "Rules on this sheet"
@@ -38872,6 +38792,10 @@ msgstr "Bewertung"
 msgid "Star"
 msgstr "Stern"
 
+#: onedesk/public/js/rule_builder.js:259
+msgid "Star it"
+msgstr "Markiere sie mit Stern"
+
 #. Label of the one_flagged (Check) field in DocType 'Communication'
 #: onedesk/one_mail/custom/communication.json
 #: onedesk/one_storage/namespace.py:359 onedesk/public/js/onecloud.js:494
@@ -39006,10 +38930,6 @@ msgstr "Beginnt bei (Sekunden)"
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 msgid "Starts On"
 msgstr "Beginnt am"
-
-#: onedesk/public/js/rule_builder.js:18
-msgid "Starts With"
-msgstr "Beginnt mit"
 
 #: onedesk/one_mail/flow.py:282 onedesk/public/js/rule_builder.js:29
 msgid "Starts a Conversation"
@@ -39577,6 +39497,10 @@ msgstr "Arbeitsbereiche dieses Modell nicht mehr wählen lassen"
 msgid "Stop writing this field"
 msgstr "Dieses Feld nicht mehr schreiben"
 
+#: onedesk/public/js/rule_builder.js:280
+msgid "Stop, and skip the rules after this one"
+msgstr "Stopp, und überspringe die Regeln danach"
+
 #: frontend/src/plant/PlantFloor.vue:178 frontend/src/project/TaskPanel.vue:50
 #: frontend/src/quotes/QuoteRows.vue:71 frontend/src/task/TaskPage.vue:32
 msgid "Stopped"
@@ -39833,10 +39757,6 @@ msgstr "Betreff"
 msgid "Subject contains \"{0}\""
 msgstr "Betreff enthält \"{0}\""
 
-#: onedesk/public/js/rule_builder.js:25
-msgid "Subject or Text"
-msgstr "Betreff oder Text"
-
 #: onedesk/one_mail/ai.py:253
 msgid "Subject or text contains \"{0}\""
 msgstr "Betreff oder Text enthält \"{0}\""
@@ -39945,13 +39865,9 @@ msgstr "Abonnement-Einstellungen"
 msgid "Subtotal"
 msgstr "Zwischensumme"
 
-#: onedesk/public/js/rule_builder.js:333
-msgid "Such as Quotes from customers"
-msgstr "Z. B. Angebote von Kunden"
-
-#: onedesk/public/js/rule_builder.js:287
-msgid "Such as a complaint, or about an invoice"
-msgstr "Z. B. eine Beschwerde oder zu einer Rechnung"
+#: onedesk/public/js/rule_builder.js:290
+msgid "Such as Quote Request."
+msgstr "Z. B. Angebotsanfrage."
 
 #: onedesk/public/js/rule_builder.js:185
 msgid "Such as sending the price list and promising an answer within a day."
@@ -41022,6 +40938,10 @@ msgstr "Telefonie"
 #: onedesk/one_crm/home.py:185
 msgid "Telephony Call Type"
 msgstr "Anrufart"
+
+#: onedesk/public/js/rule_builder.js:274
+msgid "Tell"
+msgstr "Benachrichtige"
 
 #: onedesk/one/automation_steps.py:24
 msgid "Tell People"
@@ -47081,10 +47001,6 @@ msgstr "Was geschah"
 msgid "What It Does"
 msgstr "Was sie tut"
 
-#: onedesk/public/js/rule_builder.js:185
-msgid "What It Should Say"
-msgstr "Was sie sagen soll"
-
 #: onedesk/one_legal/gate.py:17
 msgid "What One may not be used for. It binds your organisation and everybody who signs in."
 msgstr "Wofür One nicht genutzt werden darf. Sie bindet deine Organisation und alle, die sich anmelden."
@@ -47510,10 +47426,6 @@ msgstr "Was ist dieses Lager wert?"
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "What it gives, in one line, written when it is saved."
 msgstr "Was es bietet, in einer Zeile, beim Speichern geschrieben."
-
-#: onedesk/public/js/rule_builder.js:272
-msgid "What it means, for OneAI (optional)"
-msgstr "Bedeutung, für OneAI (optional)"
 
 #: onedesk/one/ai.py:281
 msgid "What left as a file?"
@@ -48293,6 +48205,10 @@ msgstr "Wenn ein Postfach seine OneAI-Credits für den Monat verbraucht. Einmal 
 msgid "When a mailbox you hold stops connecting. Once, when it breaks."
 msgstr "Wenn ein Postfach, das du hältst, keine Verbindung mehr herstellt. Einmal, wenn es ausfällt."
 
+#: onedesk/public/js/rule_builder.js:403
+msgid "When a message arrives in {0}"
+msgstr "Wenn eine Nachricht in {0} ankommt"
+
 #. When a notification is sent
 #: onedesk/notifications/one_project/milestone_done.md
 msgid "When a milestone that's billed on completion is done."
@@ -48806,10 +48722,6 @@ msgstr "Wenn Artikel auf ihren Meldebestand fallen und eine Materialanfrage für
 #: onedesk/notifications/one_hr/leave_expiring.md
 msgid "When leave you have not used lapses in two weeks."
 msgstr "Wenn ungenutzter Urlaub in zwei Wochen verfällt."
-
-#: onedesk/public/js/rule_builder.js:337
-msgid "When mail arrives in {0}'s Inbox"
-msgstr "Wenn E-Mails im Posteingang von {0} ankommen"
 
 #. When a notification is sent
 #: onedesk/notifications/one_mail/attachments_not_saved.md
@@ -50541,10 +50453,6 @@ msgstr "Gewonnen."
 msgid "Wordmark"
 msgstr "Wortmarke"
 
-#: onedesk/public/js/rule_builder.js:110
-msgid "Words, separated by commas"
-msgstr "Wörter, durch Kommas getrennt"
-
 #. Label in the One Service Report print format
 #. Label in the One Timesheet print format
 #: frontend/src/project/ProjectActivity.vue:105
@@ -51207,6 +51115,10 @@ msgstr "Ich schreibe es erneut auf. Transkript und Anmerkungen folgen, sobald ic
 msgid "Writing…"
 msgstr "Wird geschrieben…"
 
+#: onedesk/public/js/rule_builder.js:208
+msgid "Written By"
+msgstr "Geschrieben von"
+
 #. Label in the One Asset Card print format
 #. Label in the One Asset Shift Allocation print format
 #: onedesk/one_inventory/print_format/one_asset_card/one_asset_card.json
@@ -51315,10 +51227,6 @@ msgstr "Dienstjahre"
 #: onedesk/public/js/onecloud.js:671
 msgid "Yes"
 msgstr ""
-
-#: onedesk/public/js/rule_builder.js:255
-msgid "Yes or No"
-msgstr "Ja oder Nein"
 
 #: onedesk/one/ai_setup.py:703
 msgid "Yes, in their notifications"
@@ -52105,6 +52013,10 @@ msgstr "eine Farbe wie #0f766e oder var(--gray-100)"
 msgid "a column"
 msgstr "eine Spalte"
 
+#: onedesk/public/js/rule_builder.js:334
+msgid "a complaint"
+msgstr "eine Beschwerde"
+
 #: onedesk/one/tell.py:341
 msgid "a copy of your data"
 msgstr "eine Kopie Ihrer Daten"
@@ -52191,6 +52103,10 @@ msgstr "nach {0}"
 msgid "alarm"
 msgstr "Alarm"
 
+#: onedesk/public/js/rule_builder.js:179
+msgid "all of these:"
+msgstr "all diese:"
+
 #: onedesk/one_admin/setup.py:146
 msgid "already set"
 msgstr "bereits gesetzt"
@@ -52215,6 +52131,14 @@ msgstr "einem Betreiber"
 #: onedesk/public/js/oneai/Panel.vue:114 onedesk/public/js/onecloud.js:2035
 msgid "and {0} more"
 msgstr "und {0} weitere"
+
+#: onedesk/public/js/rule_builder.js:183
+msgid "any message"
+msgstr "jede Nachricht"
+
+#: onedesk/public/js/rule_builder.js:179
+msgid "any of these:"
+msgstr "eines davon:"
 
 #: onedesk/one_hr/tell.py:801
 msgid "approved"
@@ -52298,6 +52222,10 @@ msgstr "hat erledigt"
 msgid "contact"
 msgstr "Kontakt"
 
+#: onedesk/public/js/rule_builder.js:23
+msgid "contains"
+msgstr "enthält"
+
 #: frontend/src/project/ProjectActivity.vue:109
 msgid "created"
 msgstr "hat erstellt"
@@ -52361,6 +52289,10 @@ msgstr "Dokumentnummer"
 msgid "docx when this edits that File in place, its content written back to it."
 msgstr "docx, wenn dies jene Datei direkt bearbeitet und ihr Inhalt in sie zurückgeschrieben wird."
 
+#: onedesk/public/js/rule_builder.js:24
+msgid "doesn't contain"
+msgstr "enthält nicht"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:1029
 msgid "e.g."
 msgstr "z. B."
@@ -52407,6 +52339,10 @@ msgstr "Notfallkontakt"
 msgid "empty"
 msgstr "leer"
 
+#: onedesk/public/js/rule_builder.js:28
+msgid "ends with"
+msgstr "endet mit"
+
 #: onedesk/one_mail/flow.py:276
 msgid "ends with {0}"
 msgstr "endet mit {0}"
@@ -52442,6 +52378,10 @@ msgstr "seit {0}"
 #: onedesk/one_crm/heads.py:65
 msgid "for {0} · usually {1}"
 msgstr "seit {0} · üblich {1}"
+
+#: onedesk/public/js/rule_builder.js:279
+msgid "from it"
+msgstr "daraus"
 
 #: onedesk/one_admin/setup.py:150
 msgid "from the token"
@@ -52537,22 +52477,82 @@ msgstr "Eingabe"
 msgid "invites you to"
 msgstr "lädt Sie ein zu"
 
+#: onedesk/public/js/rule_builder.js:25
+msgid "is"
+msgstr "ist"
+
+#: onedesk/public/js/rule_builder.js:147
+msgid "is a"
+msgstr "ist ein"
+
 #: onedesk/one_mail/flow.py:273
 msgid "is {0}"
 msgstr "ist {0}"
+
+#: onedesk/public/js/rule_builder.js:26
+msgid "isn't"
+msgstr "ist nicht"
+
+#: onedesk/public/js/rule_builder.js:148
+msgid "isn't a"
+msgstr "ist kein"
 
 #: onedesk/one_mail/flow.py:274
 msgid "isn't {0}"
 msgstr "ist nicht {0}"
 
+#: onedesk/public/js/rule_builder.js:59
+msgid "issue"
+msgstr "Ticket"
+
+#: onedesk/public/js/rule_builder.js:34
+msgid "it arrives after hours"
+msgstr "sie kommt außerhalb der Arbeitszeit an"
+
+#: onedesk/public/js/rule_builder.js:34
+msgid "it arrives in working hours"
+msgstr "sie kommt während der Arbeitszeit an"
+
+#: onedesk/public/js/rule_builder.js:35
+msgid "it arrives on a holiday"
+msgstr "sie kommt an einem Feiertag an"
+
 #: onedesk/one/ai.py:3125
 msgid "it does not print {0}"
 msgstr "es druckt {0} nicht"
+
+#: onedesk/public/js/rule_builder.js:35
+msgid "it doesn't arrive on a holiday"
+msgstr "sie kommt nicht an einem Feiertag an"
+
+#: onedesk/public/js/rule_builder.js:33
+msgid "it has an attachment"
+msgstr "sie hat einen Anhang"
 
 #: onedesk/one_intake/act.py:561 onedesk/one_intake/act.py:571
 #: onedesk/one_intake/act.py:586
 msgid "it has been submitted"
 msgstr "es wurde gebucht"
+
+#: onedesk/public/js/rule_builder.js:33
+msgid "it has no attachment"
+msgstr "sie hat keinen Anhang"
+
+#: onedesk/public/js/rule_builder.js:32
+msgid "it starts a conversation"
+msgstr "sie beginnt eine Unterhaltung"
+
+#: onedesk/public/js/rule_builder.js:32
+msgid "it's a reply"
+msgstr "sie ist eine Antwort"
+
+#: onedesk/public/js/rule_builder.js:31
+msgid "it's from inside the workspace"
+msgstr "sie kommt aus dem Arbeitsbereich"
+
+#: onedesk/public/js/rule_builder.js:31
+msgid "it's from outside the workspace"
+msgstr "sie kommt von außerhalb des Arbeitsbereichs"
 
 #: onedesk/one_intake/act.py:545
 msgid "it's in use elsewhere"
@@ -52593,6 +52593,10 @@ msgstr "zu spät"
 #: onedesk/one/tell.py:180
 msgid "later"
 msgstr "später"
+
+#: onedesk/public/js/rule_builder.js:58
+msgid "lead"
+msgstr "Lead"
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:109
 #: onedesk/public/js/band.js:206
@@ -52779,10 +52783,30 @@ msgstr "älteste zuerst"
 msgid "on hold"
 msgstr "pausiert"
 
+#: onedesk/public/js/rule_builder.js:276
+msgid "on the bell"
+msgstr "über die Glocke"
+
 #: onedesk/one/ai_setup.py:137 onedesk/one_crm/heads.py:60
 #: onedesk/public/js/settings.js:733
 msgid "on {0}"
 msgstr "am {0}"
+
+#: onedesk/public/js/rule_builder.js:53
+msgid "once a day to each sender"
+msgstr "einmal täglich pro Absender"
+
+#: onedesk/public/js/rule_builder.js:55
+msgid "once a month to each sender"
+msgstr "einmal im Monat pro Absender"
+
+#: onedesk/public/js/rule_builder.js:54
+msgid "once a week to each sender"
+msgstr "einmal pro Woche pro Absender"
+
+#: onedesk/public/js/rule_builder.js:52
+msgid "once per conversation"
+msgstr "einmal pro Unterhaltung"
 
 #: onedesk/one_intake/understand.py:377
 msgid "one day"
@@ -53036,6 +53060,10 @@ msgstr "Quelltyp"
 msgid "started sub-project"
 msgstr "hat das Teilprojekt gestartet"
 
+#: onedesk/public/js/rule_builder.js:27
+msgid "starts with"
+msgstr "beginnt mit"
+
 #: onedesk/one_mail/flow.py:275
 msgid "starts with {0}"
 msgstr "beginnt mit {0}"
@@ -53052,6 +53080,10 @@ msgstr "hat gebucht"
 #: frontend/src/sent_out/OutRows.vue:36
 msgid "supplied"
 msgstr "beigestellt"
+
+#: onedesk/public/js/rule_builder.js:60
+msgid "task"
+msgstr "Aufgabe"
 
 #: onedesk/public/js/crm_record.js:32
 msgid "tax number"
@@ -53145,9 +53177,33 @@ msgstr "die an Sie gesendeten Angebotsanfragen und Bestellungen"
 msgid "the self appraisal"
 msgstr "die Selbsteinschätzung"
 
+#: onedesk/public/js/rule_builder.js:122 onedesk/public/js/rule_builder.js:144
+msgid "the sender"
+msgstr "der Absender"
+
+#: onedesk/public/js/rule_builder.js:130
+msgid "the sender is a…"
+msgstr "der Absender ist ein…"
+
+#: onedesk/public/js/rule_builder.js:20
+msgid "the sender's domain"
+msgstr "die Domain des Absenders"
+
+#: onedesk/public/js/rule_builder.js:16
+msgid "the sender's name or address"
+msgstr "Name oder Adresse des Absenders"
+
 #: onedesk/one_admin/heads.py:243
 msgid "the start"
 msgstr "dem Anfang"
+
+#: onedesk/public/js/rule_builder.js:18
+msgid "the subject"
+msgstr "der Betreff"
+
+#: onedesk/public/js/rule_builder.js:19
+msgid "the subject or text"
+msgstr "Betreff oder Text"
 
 #: onedesk/public/js/doctype_settings.js:748
 msgid "the week of the year"
@@ -53278,9 +53334,21 @@ msgstr "wartend"
 msgid "was {0}"
 msgstr "vorher {0}"
 
+#: onedesk/public/js/rule_builder.js:264
+msgid "what OneAI should say"
+msgstr "was OneAI sagen soll"
+
 #: onedesk/one/access.py:326
 msgid "what {0} can do in {1}"
 msgstr "was {0} in {1} darf"
+
+#: onedesk/public/js/rule_builder.js:311
+msgid "whether it's"
+msgstr "ob es"
+
+#: onedesk/public/js/rule_builder.js:312
+msgid "which of these it is:"
+msgstr "welches davon es ist:"
 
 #: onedesk/one_ai/run.py:552
 msgid "who picks the model, to administrators only"
@@ -53289,6 +53357,10 @@ msgstr "wer das Modell wählt, auf nur Administratoren"
 #: onedesk/one_ai/run.py:550
 msgid "who picks the model, to everybody"
 msgstr "wer das Modell wählt, auf alle"
+
+#: onedesk/public/js/rule_builder.js:159
+msgid "words, with commas"
+msgstr "Wörter, mit Kommas"
 
 #. Option for the 'Provider' (Select) field in DocType 'AI Model'
 #. Option for the 'Preferred Provider' (Select) field in DocType 'One Admin
@@ -53317,6 +53389,10 @@ msgstr "gestern"
 #: onedesk/one/tell.py:341
 msgid "your data to be deleted"
 msgstr "die Löschung Ihrer Daten"
+
+#: onedesk/public/js/rule_builder.js:265
+msgid "your message"
+msgstr "deine Nachricht"
 
 #: onedesk/one/portal_invite.py:46
 msgid "your quotations, orders and invoices"
