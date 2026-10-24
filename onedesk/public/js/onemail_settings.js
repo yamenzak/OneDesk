@@ -469,10 +469,10 @@ onedesk.mail.settings = (tab) => {
 			jobs: [
 				["parties", __("Create Customers and Suppliers"), __("Also Leads and Job Applicants, for unknown senders.")],
 				["contacts", __("Create and Update Contacts"), __("For the sender and everyone in To and Cc.")],
-				["enrich", __("Fill In Missing Details"), __("Only empty fields. Bank details are never changed.")],
+				["enrich", __("Update Tax ID, Website and Phone"), __("Fills empty fields. A different value waits for approval in OneIntake.")],
 				["tasks", __("Create Tasks"), __("Includes follow-ups promised in sent mail.")],
 				["events", __("Create Events"), ""],
-				["money", __("Draft Invoices, Orders and Payments"), __("Saved as drafts in Ready to Submit.")],
+				["money", __("Draft Invoices, Orders and Payments"), __("Saved as drafts in Ready to Submit. A bill asking to be paid to a new IBAN is held.")],
 				["hr", __("File Employee Documents"), __("IDs, certificates, leave, resignations and expense claims.")],
 				["projects", __("Post Site Logs"), __("Saved as a Project Update.")],
 				["agent", __("Other Actions"), __("Comments, and records of other types.")],

@@ -49,9 +49,9 @@ employee that reads its mail:
   - Filing: **Link Messages to Records**, **Attach Files to Records**,
     **Rename and Tag Files**.
   - Actions: **Create Customers and Suppliers**, **Create and Update
-    Contacts**, **Fill In Missing Details**, **Create Tasks**, **Create
+    Contacts**, **Update Tax ID, Website and Phone** (empty fields filled, a different value proposed), **Create Tasks**, **Create
     Events**, **Draft Invoices, Orders and Payments** (drafts in Ready to
-    Submit), **File Employee Documents**, **Post Site Logs** and **Other
+    Submit; a bill asking to be paid to an IBAN not on file is held), **File Employee Documents**, **Post Site Logs** and **Other
     Actions** (what the agent decides on for itself).
 
   A job past the level New Mail is set to stays in view, greyed, and its

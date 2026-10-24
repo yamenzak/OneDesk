@@ -15614,10 +15614,6 @@ msgstr "تستخدم الملفات {0} غيغابايت والخطة تسمح �
 msgid "Filing"
 msgstr "الأرشفة"
 
-#: onedesk/public/js/onemail_settings.js:472
-msgid "Fill In Missing Details"
-msgstr "ملء التفاصيل الناقصة"
-
 #: frontend/src/sheet/components/SheetEditor/index.vue:226
 #: frontend/src/sheet/components/SheetEditor/index.vue:228
 #: frontend/src/sheet/components/SheetEditor/index.vue:1170
@@ -15658,6 +15654,10 @@ msgstr "ملأ {0}"
 #: onedesk/one_admin/home.py:331
 msgid "Filling Up"
 msgstr "يمتلئ"
+
+#: onedesk/public/js/onemail_settings.js:472
+msgid "Fills empty fields. A different value waits for approval in OneIntake."
+msgstr "يملأ الحقول الفارغة. والقيمة المختلفة تنتظر الموافقة في OneIntake."
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:5
 msgid "Filter Based On"
@@ -28375,10 +28375,6 @@ msgstr "لا يمكن سحب إلا الأرصدة التي منحها مشغّ�
 msgid "Only data the person created or edited can be withheld. Data about them is always included."
 msgstr "لا يمكن حجب إلا البيانات التي أنشأها الشخص أو عدّلها. البيانات المتعلقة به مضمّنة دائمًا."
 
-#: onedesk/public/js/onemail_settings.js:472
-msgid "Only empty fields. Bank details are never changed."
-msgstr "الحقول الفارغة فقط. لا تُغيَّر البيانات المصرفية أبدًا."
-
 #: onedesk/public/js/onecloud.js:331
 msgid "Only in {0}"
 msgstr "فقط في {0}"
@@ -36253,8 +36249,8 @@ msgid "Saved as a template: {0}"
 msgstr "حُفظ كقالب: {0}"
 
 #: onedesk/public/js/onemail_settings.js:475
-msgid "Saved as drafts in Ready to Submit."
-msgstr "تُحفظ كمسودات في جاهز للإرسال."
+msgid "Saved as drafts in Ready to Submit. A bill asking to be paid to a new IBAN is held."
+msgstr "تُحفظ كمسودات في جاهز للإرسال. وتُوقف الفاتورة التي تطلب الدفع إلى IBAN جديد."
 
 #: frontend/src/writer/components/CoreEditor.vue:419
 msgid "Saved document"
@@ -46214,6 +46210,10 @@ msgstr "تحديث"
 #: onedesk/one_project/print_format/one_project_update/one_project_update.json
 msgid "Update No"
 msgstr "رقم التحديث"
+
+#: onedesk/public/js/onemail_settings.js:472
+msgid "Update Tax ID, Website and Phone"
+msgstr "تحديث الرقم الضريبي والموقع والهاتف"
 
 #: onedesk/one_admin/home.py:382
 msgid "Update available for {0}"
