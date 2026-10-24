@@ -1,6 +1,10 @@
-"""Who holds which mailbox, and which one is the workspace's.
+"""Who holds which mailbox, which of them may send from it, and which one is
+the workspace's.
 
-To hold a mailbox is to have a `User Email` row for it."""
+To hold a mailbox is to have a `User Email` row for it, which lets them read
+it; the row's `one_sends` says whether they may send from it too. A
+workspace administrator chooses both for the workspace's mailbox and every
+shared one, in OneMail's settings (Workspace Mailboxes)."""
 
 import json
 import re
@@ -46,6 +50,24 @@ def may_sign(account: str) -> bool:
 	return bool(sends) and actions.holds(account) and (not shared or roles.administers())
 
 
+def sending_rows(user: str | None = None) -> dict:
+	"""The mailboxes `user` holds, and whether each holding lets them send."""
+	return {
+		row.email_account: row.one_sends is None or bool(row.one_sends)
+		for row in frappe.get_all(
+			"User Email", filters={"parent": user or frappe.session.user}, fields=["email_account", "one_sends"]
+		)
+	}
+
+
+def may_send(account: str, user: str | None = None) -> bool:
+	"""Whether `user` may send from `account`: it sends, they hold it, and
+	their holding lets them."""
+	if not frappe.db.get_value("Email Account", account, "enable_outgoing"):
+		return False
+	return bool(sending_rows(user).get(account))
+
+
 def first_line(html: str | None) -> str:
 	"""A signature's first line of text, to show what a mailbox signs with.
 	Pure."""
@@ -66,7 +88,8 @@ def ordered(folders: list[dict]) -> list[dict]:
 def mailboxes() -> list[dict]:
 	"""The reader's mailboxes, with their folders: the workspace's first, then
 	the other shared ones, then their own."""
-	held = frappe.get_all("User Email", filters={"parent": frappe.session.user}, pluck="email_account")
+	rows = sending_rows()
+	held = list(rows)
 	if not held:
 		return []
 	ours = workspace()
@@ -103,11 +126,11 @@ def mailboxes() -> list[dict]:
 				"connected": account.one_connected,
 				"shared": account.one_shared,
 				"workspace": int(account.name == ours),
-				"sends": account.enable_outgoing,
+				"sends": int(bool(account.enable_outgoing and rows.get(account.name))),
 				"error": account.one_error,
 				"intake": account.one_intake,
 				"receives_only": int(bool(account.one_hosted and not account.enable_outgoing)),
-				"may_sign": int(may_sign(account.name)) if account.enable_outgoing else 0,
+				"may_sign": int(may_sign(account.name)) if account.enable_outgoing and rows.get(account.name) else 0,
 				"signed": first_line(account.signature),
 				"may_reconnect": int(
 					bool(account.one_connected) and (not account.one_shared or _administers())
@@ -120,44 +143,97 @@ def mailboxes() -> list[dict]:
 
 
 @frappe.whitelist()
-def shared() -> list[dict]:
-	"""The workspace's mailboxes and who holds each, for an administrator."""
+def shared() -> dict:
+	"""The workspace's mailboxes, who reads and who sends from each, and
+	whether people may send from their own address: OneMail's settings,
+	for an administrator."""
 	_admin()
 	accounts = frappe.get_all(
 		"Email Account",
 		filters={"one_shared": 1},
-		fields=["name", "email_id", "one_hosted", "enable_outgoing"],
+		fields=["name", "email_id", "one_hosted", "one_connected", "enable_outgoing"],
+		order_by="email_id asc",
 	)
 	ours = workspace()
+	names = dict(frappe.get_all("User", filters={"user_type": "System User"}, fields=["name", "full_name"], as_list=True))
 	for account in accounts:
-		account["holders"] = frappe.get_all(
-			"User Email", filters={"email_account": account.name}, pluck="parent"
-		)
+		account["people"] = [
+			{"user": row.parent, "name": names.get(row.parent) or row.parent, "sends": int(row.one_sends is None or bool(row.one_sends))}
+			for row in frappe.get_all(
+				"User Email",
+				filters={"email_account": account.name},
+				fields=["parent", "one_sends"],
+				order_by="parent asc",
+			)
+		]
 		account["workspace"] = int(account.name == ours)
-	return accounts
+	accounts.sort(key=lambda one: -one["workspace"])
+	return {"mailboxes": accounts, "personal_sends": int(addresses.personal_sends())}
 
 
 @frappe.whitelist(methods=["POST"])
-def set_holders(account: str, users) -> list[str]:
-	"""Exactly these people hold one of the workspace's mailboxes."""
+def set_access(account: str, people) -> list[dict]:
+	"""Exactly these people hold one of the workspace's mailboxes, each
+	reading it and, where `sends`, sending from it: [{user, sends}]."""
 	_admin()
 	if not frappe.db.get_value("Email Account", account, "one_shared"):
-		frappe.throw(
-			_("{0} is a personal mailbox and can't be shared.").format(account)
-		)
-	wanted = set(json.loads(users) if isinstance(users, str) else users or [])
+		frappe.throw(_("{0} is a personal mailbox and can't be shared.").format(account))
+	rows = json.loads(people) if isinstance(people, str) else people or []
+	wanted = {row["user"]: int(bool(row.get("sends"))) for row in rows if row.get("user")}
 	for user in wanted:
 		if not frappe.db.get_value("User", {"name": user, "enabled": 1, "user_type": "System User"}):
 			frappe.throw(_("{0} isn't in this workspace.").format(user))
 	now = set(frappe.get_all("User Email", filters={"email_account": account}, pluck="parent"))
-	for user in wanted - now:
+	for user in set(wanted) - now:
 		addresses.hold(account, user)
-	for user in now - wanted:
+	for user in now - set(wanted):
 		frappe.db.delete("User Email", {"parent": user, "email_account": account})
+	for user, sends in wanted.items():
+		frappe.db.set_value("User Email", {"parent": user, "email_account": account}, "one_sends", sends, update_modified=False)
 	from onedesk.one_mail import tell
 
-	tell.mailbox_shared(account, sorted(wanted - now))
-	return sorted(wanted)
+	tell.mailbox_shared(account, sorted(set(wanted) - now))
+	frappe.publish_realtime("one_mailbox", after_commit=True)
+	return [{"user": user, "sends": sends} for user, sends in sorted(wanted.items())]
+
+
+@frappe.whitelist(methods=["POST"])
+def set_personal_sends(on: int) -> int:
+	"""Whether people may send from their own address. Every personal address
+	follows at once, and so does each one made after."""
+	_admin()
+	on = int(bool(int(on)))
+	frappe.db.set_default(addresses.PERSONAL_SENDS, str(on))
+	for name in frappe.get_all("Email Account", filters={"one_hosted": 1, "one_shared": 0}, pluck="name"):
+		frappe.db.set_value("Email Account", name, "enable_outgoing", on, update_modified=False)
+	frappe.publish_realtime("one_mailbox", after_commit=True)
+	return on
+
+
+def sending(doc, method=None) -> None:
+	"""Communication before_insert: a person sends only from a mailbox they
+	may send from. Mail the workspace sends on its own (no person behind the
+	request) is not theirs to refuse."""
+	if doc.communication_medium != "Email" or doc.sent_or_received != "Sent":
+		return
+	user = frappe.session.user
+	if user in ("Administrator", "Guest") or not getattr(frappe.local, "request", None) or frappe.flags.in_import:
+		return
+	account = doc.email_account
+	if not account and doc.sender:
+		from email.utils import parseaddr
+
+		account = frappe.db.get_value("Email Account", {"email_id": parseaddr(doc.sender)[1]}, "name")
+	if not account:
+		return
+	managed = frappe.db.get_value("Email Account", account, ["one_hosted", "one_connected"]) or (0, 0)
+	if any(managed) and not may_send(account, user):
+		frappe.throw(
+			_("You can't send from {0}. A workspace administrator chooses who may, in OneMail's settings.").format(
+				frappe.db.get_value("Email Account", account, "email_id")
+			),
+			frappe.PermissionError,
+		)
 
 
 @frappe.whitelist(methods=["POST"])

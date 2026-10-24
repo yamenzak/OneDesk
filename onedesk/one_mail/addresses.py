@@ -11,6 +11,8 @@ from onedesk.one_mail import actions
 
 INBOX_USER = "Inbox User"
 
+PERSONAL_SENDS = "one_mail_personal_sends"
+
 NAME = re.compile(r"^[a-z0-9](?:[a-z0-9_-]{0,38}[a-z0-9])?$")
 
 RESERVED = frozenset(
@@ -69,6 +71,12 @@ def account_for(local: str) -> str | None:
 	return frappe.db.get_value("Email Account", {"one_hosted": 1, "email_id": address}, "name")
 
 
+def personal_sends() -> bool:
+	"""Whether people may send from their own address as well as receive at
+	it: on unless a workspace administrator turned it off (holders.py)."""
+	return frappe.db.get_default(PERSONAL_SENDS) != "0"
+
+
 def ensure_workspace() -> str | None:
 	"""The workspace's own address, made the first time it is needed."""
 	address = workspace_address()
@@ -77,7 +85,7 @@ def ensure_workspace() -> str | None:
 	found = frappe.db.get_value("Email Account", {"email_id": address}, "name")
 	if found:
 		return found
-	made = _make(address, sends=True)
+	made = _make(address, sends=True, default=True)
 	frappe.db.set_value("Email Account", made, "one_shared", 1, update_modified=False)
 	from onedesk.one import roles
 
@@ -93,8 +101,8 @@ def ensure_workspace() -> str | None:
 @frappe.whitelist(methods=["POST"])
 def give(user: str, name: str) -> str:
 	"""A person's own address, `<name>.<slug>@`, chosen by a workspace
-	administrator. It only receives; they write from the workspace's address
-	or one they hold."""
+	administrator. It sends as well as receives while the workspace lets
+	people send from their own address (personal_sends)."""
 	from onedesk.one import roles
 
 	frappe.only_for(roles.ADMINISTRATOR)
@@ -114,7 +122,7 @@ def _give(user: str, name: str, holder=None) -> str:
 	address = person_address(name)
 	if frappe.db.exists("Email Account", {"email_id": address}):
 		frappe.throw(_("{0} is already taken.").format(address))
-	made = _make(address, sends=False)
+	made = _make(address, sends=personal_sends())
 	if holder is not None:
 		holder.append("user_emails", {"email_account": made})
 		inbox_user(holder)
@@ -191,7 +199,9 @@ def for_person(doc, method=None) -> None:
 	doc.one_mail_name = name
 
 
-def _make(address: str, sends: bool) -> str:
+def _make(address: str, sends: bool, default: bool = False) -> str:
+	"""A hosted mailbox. Only the workspace's may become what the workspace
+	sends from by default; a person's never does."""
 	doc = frappe.get_doc(
 		{
 			"doctype": "Email Account",
@@ -200,7 +210,7 @@ def _make(address: str, sends: bool) -> str:
 			"one_hosted": 1,
 			"enable_incoming": 0,
 			"enable_outgoing": int(sends),
-			"default_outgoing": int(sends and not frappe.db.exists("Email Account", {"default_outgoing": 1})),
+			"default_outgoing": int(sends and default and not frappe.db.exists("Email Account", {"default_outgoing": 1})),
 			"smtp_server": domain(),
 			"no_smtp_authentication": 1,
 			"always_use_account_email_id_as_sender": 1,

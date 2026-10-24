@@ -1,0 +1,21 @@
+{
+ "custom_fields": [
+  {
+   "default": "1",
+   "description": "Whether they may send from this mailbox as well as read it. A workspace administrator chooses, in OneMail's settings.",
+   "doctype": "Custom Field",
+   "dt": "User Email",
+   "fieldname": "one_sends",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "insert_after": "enable_outgoing",
+   "label": "May Send",
+   "module": "One Mail",
+   "name": "User Email-one_sends"
+  }
+ ],
+ "doctype": "User Email",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

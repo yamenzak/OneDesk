@@ -441,6 +441,16 @@ body.one-window-dragging * {
 	font-size: var(--text-xs);
 }
 
+/* A rail's settings row, moved to the foot of the nav pane
+   (onedesk.window.nav.foot). */
+.body-sidebar-bottom .one-window-foot {
+	padding: calc(var(--spacing) * 1) calc(var(--spacing) * 2);
+}
+
+.body-sidebar-container:not(.expanded) .one-window-foot .sidebar-item-label {
+	display: none;
+}
+
 /* A view's meters (win.meters) at the foot of the nav pane: frappe's
    progress bars, amber when nearly full and red when over; a size with no
    limit is said without a bar. */

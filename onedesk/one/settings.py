@@ -15,7 +15,6 @@ from onedesk.one.access import all_levels, companion
 SECTIONS = [
 	("profile", _lt("Profile"), "user", "you"),
 	("notifications", _lt("Notifications"), "bell", "you"),
-	("mail", _lt("Mail"), "mail", "you"),
 	("calendar", _lt("Calendar"), "calendar", "you"),
 	("signin", _lt("Sign-in"), "key-round", "you"),
 	("memory", _lt("What OneAI Remembers"), "brain", "you"),
@@ -27,14 +26,20 @@ SECTIONS = [
 	("notification_types", _lt("Workspace Notifications"), "bell-ring", "workspace"),
 	("numbering", _lt("Numbering"), "hash", "workspace"),
 	("printing", _lt("Printing"), "printer", "workspace"),
-	("mail_templates", _lt("Mail Templates"), "mails", "workspace"),
 	("approvals", _lt("Approvals"), "route", "workspace"),
 	("plan", _lt("Plan and Credits"), "credit-card", "workspace"),
 	("domains", _lt("Domains"), "globe", "workspace"),
 	("oneai", _lt("OneAI Actions"), "sparkles", "workspace"),
 	("intake", _lt("OneIntake Settings"), "oneintake", "workspace"),
 	("holidays", _lt("Holidays"), "calendar-days", "workspace"),
+	("mail", _lt("Your Mailboxes"), "mail", "onemail"),
+	("mail_access", _lt("Workspace Mailboxes"), "users", "onemail"),
+	("mail_templates", _lt("Mail Templates"), "mails", "onemail"),
 ]
+
+# OneMail's settings (page/onemail_settings) are a group of their own; these
+# of them are a workspace administrator's, as the workspace group is.
+OURS = ("mail_access", "mail_templates")
 
 APPS = [
 	("OneCRM", "onecrm", ("Sales User",), ("Sales Manager",)),
@@ -154,7 +159,7 @@ def sections() -> dict:
 		"sections": [
 			{"key": key, "label": str(label), "icon": icon, "group": group}
 			for key, label, icon, group in SECTIONS
-			if (group == "you" or admin) and key not in gone
+			if (not _needs_admin(key) or admin) and key not in gone
 		],
 		"admin": admin,
 		"user": frappe.session.user,
@@ -187,11 +192,12 @@ def load(
 		"numbering": _numbering,
 		"printing": _printing,
 		"mail_templates": _mail_templates,
+		"mail_access": _mail_access,
 		"approvals": _approvals,
 	}
 	if section not in loaders:
 		frappe.throw(_("There is no such section."))
-	if _group(section) == "workspace":
+	if _needs_admin(section):
 		roles.require()
 	return loaders[section](record) if section in ON_A_RECORD else loaders[section]()
 
@@ -217,7 +223,7 @@ def save(
 	}
 	if section not in savers:
 		frappe.throw(_("There is nothing to save here."))
-	if _group(section) == "workspace":
+	if _needs_admin(section):
 		roles.require()
 	if section in ON_A_RECORD:
 		record = savers[section](record, values) or record
@@ -249,6 +255,10 @@ def _opened(*docs) -> list[dict]:
 
 def _group(section: str) -> str:
 	return next((group for key, _label, _icon, group in SECTIONS if key == section), "")
+
+
+def _needs_admin(section: str) -> bool:
+	return _group(section) == "workspace" or section in OURS
 
 
 def _fields(doctype: str, names: tuple) -> list[dict]:
@@ -1790,6 +1800,14 @@ def _approvals() -> dict:
 	from onedesk.one import approvals
 
 	return {"rows": approvals.approvals()}
+
+
+def _mail_access() -> dict:
+	"""The workspace's mailboxes, who reads and who sends from each, and
+	whether people send from their own address (one_mail/holders.py)."""
+	from onedesk.one_mail import holders
+
+	return holders.shared()
 
 
 def _mail_templates() -> dict:

@@ -2795,18 +2795,23 @@ def onemail_layla_reads_sorts_and_files_her_mail():
 		rules.set_away(account, 0)
 
 		ours = holders.workspace()
-		assert ours in {one["name"] for one in holders.shared()}
+		assert ours in {one["name"] for one in holders.shared()["mailboxes"]}
 		holders.set_signature(ours, "<p>Layla Nasser<br>Sahara Glass</p>")
 		assert holders.signature_of(ours).startswith("<p>Layla Nasser")
 		assert holders.signature_for(frappe.db.get_value("Email Account", ours, "email_id")).startswith("<p>Layla")
+		holders.set_personal_sends(0)
 		try:
 			holders.set_signature(account, "Layla")
 			raise AssertionError("an address that only receives signs nothing")
 		except frappe.ValidationError:
 			pass
-		holders.set_holders(ours, [OWNER, "omar@one.test"])
+		holders.set_personal_sends(1)
+		assert frappe.db.get_value("Email Account", account, "enable_outgoing") == 1
+		holders.set_access(ours, [{"user": OWNER, "sends": 1}, {"user": "omar@one.test", "sends": 0}])
+		assert holders.may_send(ours, OWNER) and not holders.may_send(ours, "omar@one.test")
 	with as_user("omar@one.test"):
 		assert ours in {one["name"] for one in api.mailboxes()}
+		assert not next(one for one in api.mailboxes() if one["name"] == ours)["sends"], "Omar reads the workspace's mailbox but may not send"
 		try:
 			api.conversations(account, inbox)
 			raise AssertionError("Omar read Layla's mailbox")
@@ -2911,7 +2916,7 @@ def onemail_a_shared_mailbox_is_connected_given_and_let_go():
 	with as_user(OWNER), mock.patch("onedesk.one_mail.connect.reach", return_value=where), mock.patch(smtp), mock.patch("frappe.enqueue"):
 		sales = connect.connect("sales@saharaglass.test", "app-password", shared=1)
 		assert frappe.db.get_value("Email Account", sales, ["one_connected", "one_shared"]) == (1, 1)
-		holders.set_holders(sales, [OWNER, "omar@one.test"])
+		holders.set_access(sales, [{"user": OWNER, "sends": 1}, {"user": "omar@one.test", "sends": 1}])
 		assert set(frappe.get_all("User Email", filters={"email_account": sales}, pluck="parent")) == {OWNER, "omar@one.test"}
 		assert holders.replace(sales, 1) == sales and holders.workspace() == sales
 		assert holders.restore() != sales and holders.workspace() != sales

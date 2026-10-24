@@ -431,7 +431,7 @@ Agreement**, Issue Type and Issue Priority; **Telephony** the call types and
 who answers which line when. The lists are kept in One's **Masters**.
 **Campaign** in the rail has Campaign, Email Campaign and Email Group;
 Campaign Efficiency is under Reports.
-The workspace's mailboxes are in Settings › Mail.
+The workspace's mailboxes are in OneMail › Settings.
 
 A Sales Manager runs Email Campaign, Email Group, Lead Source and Assignment
 Rule, and a Sales User reads them.

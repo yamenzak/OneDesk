@@ -28,7 +28,7 @@ def mailbox_not_reachable(doc, said: str, holders: list[str]) -> None:
 	notify.notify(
 		"Mailbox Not Reachable",
 		holders or _admins(),
-		link="/desk/settings?section=mail",
+		link="/desk/onemail-settings?section=mail",
 		sender="Administrator",
 		mailbox=doc.email_id,
 		reason=said,

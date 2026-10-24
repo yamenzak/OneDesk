@@ -26,7 +26,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	constructor(page, group) {
 		super(page);
 		this.group_name = group;
-		this.route = group === "workspace" ? "workspace-settings" : "settings";
+		this.route = { workspace: "workspace-settings", onemail: "onemail-settings" }[group] || "settings";
 		this.$section = page.$shell;
 		this.kept = {};
 		frappe.realtime.on("one_mailbox", () => this.key === "mail" && this.$content && this.$content.is(":visible") && this.refresh());
@@ -61,6 +61,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this.unsaved();
 		const section = this.said.sections.find((one) => one.key === key);
 		onedesk.shell.name(section.label);
+		this.tabs();
 		this.$content = onedesk.shell.body(this.$section, { wide: Settings.WIDE.includes(key) });
 		try {
 			this.data = await frappe.xcall(Settings.API + "load", { section: key, record });
@@ -74,6 +75,28 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this[`draw_${key}`](this.data);
 		if (!this.trailed) onedesk.shell.name(section.label);
 		await this.bring_back(slot(key, record));
+	}
+
+	// A group whose sections are not rows of a rail (OneMail's, whose rail
+	// is its mailboxes) switches between them with toggles in the window's
+	// view row, as a list switches between its views.
+	tabs() {
+		const win = this.page.window;
+		if (this.group_name !== "onemail" || !win) return;
+		const mine = this.said.sections.filter((one) => one.group === this.group_name);
+		const $slot = win.views_slot();
+		$slot.children(".one-settings-tabs").remove();
+		if (mine.length < 2) return;
+		frappe.ui
+			.tab_buttons({
+				type: "ghost",
+				label: __("Section"),
+				value: this.key,
+				options: mine.map((one) => ({ value: one.key, label: one.label, icon_left: one.icon })),
+				on_change: (key) => frappe.set_route(this.route, { section: key }),
+			})
+			.addClass("one-settings-tabs")
+			.prependTo($slot);
 	}
 
 	async bring_back(key) {
@@ -379,6 +402,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 							}),
 							one.intake && onedesk.apps.intake() ? onedesk.oneai.tag(__("Read by OneAI")) : "",
 							one.receives_only ? frappe.ui.badge.html({ label: __("Receives Only"), theme: "gray" }) : "",
+							!one.receives_only && !one.sends ? frappe.ui.badge.html({ label: __("Read Only"), theme: "gray" }) : "",
 						].join(" "),
 				},
 				{
@@ -399,6 +423,114 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				},
 			],
 		});
+	}
+
+	// Who reads and who sends from each of the workspace's mailboxes, and
+	// whether people send from their own address (one_mail/holders.py).
+	draw_mail_access(data) {
+		const esc = frappe.utils.escape_html;
+		const API = "onedesk.one_mail.holders.";
+		const again = () => this.refresh({ fresh: true });
+		this.page.set_primary_action(__("Connect Shared Mailbox"), () => frappe.set_route("onemail", { connect: 1 }), "plug");
+		const own = !!data.personal_sends;
+		this.$content.html(
+			`<div class="one-shell-section" data-list="mailboxes"></div>` +
+				onedesk.shell.section(
+					__("Own Addresses"),
+					onedesk.shell.row({
+						title: esc(__("People send from their own address")),
+						sub: frappe.ui.badge.html({ label: own ? __("On") : __("Off"), theme: own ? "green" : "gray" }),
+						quiet: esc(
+							own
+								? __("Everyone can send from their own address as well as receive at it.")
+								: __("Everyone's own address only receives. They send from a mailbox they may send from.")
+						),
+						actions: frappe.ui.button.html({ label: own ? __("Turn Off") : __("Turn On"), attrs: { "data-own": 1 } }),
+					})
+				)
+		);
+		this.$content.find("[data-own]").on("click", async () => {
+			await frappe.xcall(API + "set_personal_sends", { on: own ? 0 : 1 });
+			again();
+		});
+		onedesk.shell.table(this.$content.find('[data-list="mailboxes"]'), {
+			title: __("Workspace Mailboxes"),
+			note: __("Choose who reads each mailbox and who may also send from it."),
+			rows: data.mailboxes || [],
+			icon: "users",
+			empty: __("No shared mailboxes"),
+			open: (one) => this.mailbox_access(one, again),
+			columns: [
+				{
+					label: __("Mailbox"),
+					render: (one) =>
+						`${esc(one.email_id)} ${frappe.ui.badge.html({
+							label: one.workspace ? __("Workspace") : __("Shared"),
+							theme: one.workspace ? "blue" : "gray",
+						})}`,
+				},
+				{
+					label: __("People"),
+					render: (one) => {
+						const sends = one.people.filter((row) => row.sends).length;
+						return esc(__("{0} read · {1} send", [one.people.length, one.enable_outgoing ? sends : 0]));
+					},
+				},
+			],
+		});
+	}
+
+	mailbox_access(one, done) {
+		const API = "onedesk.one_mail.holders.";
+		const dialog = new frappe.ui.Dialog({
+			title: one.email_id,
+			size: "large",
+			fields: [
+				{
+					fieldname: "people",
+					fieldtype: "Table",
+					label: __("Who Has Access"),
+					cannot_add_rows: false,
+					in_place_edit: true,
+					data: one.people.map((row) => ({ user: row.user, sends: row.sends })),
+					fields: [
+						{ fieldname: "user", fieldtype: "Link", options: "User", label: __("Person"), in_list_view: 1, reqd: 1, columns: 7 },
+						{ fieldname: "sends", fieldtype: "Check", label: __("May Send"), in_list_view: 1, columns: 3, read_only: !one.enable_outgoing },
+					],
+					description: one.enable_outgoing
+						? __("Everyone listed reads this mailbox. Tick May Send for those who may also send from it.")
+						: __("This mailbox was connected without Enable Outgoing, so nobody sends from it."),
+				},
+			],
+			primary_action_label: __("Save"),
+			primary_action: async (values) => {
+				const people = (values.people || []).filter((row) => row.user).map((row) => ({ user: row.user, sends: row.sends ? 1 : 0 }));
+				await frappe.xcall(API + "set_access", { account: one.name, people });
+				dialog.hide();
+				frappe.show_alert({ message: __("Saved."), indicator: "green" });
+				done();
+			},
+		});
+		if (!one.workspace && one.one_connected) {
+			dialog.set_secondary_action_label(__("Make Workspace Mailbox"));
+			dialog.set_secondary_action(() =>
+				frappe.confirm(__("{0} becomes the workspace's mailbox, which it receives and sends as. Continue?", [one.email_id]), async () => {
+					await frappe.xcall(API + "replace", { account: one.name, sends: one.enable_outgoing ? 1 : 0 });
+					dialog.hide();
+					done();
+				})
+			);
+		} else if (one.workspace && one.one_connected) {
+			dialog.set_secondary_action_label(__("Use the Workspace's Own Address"));
+			dialog.set_secondary_action(() =>
+				frappe.confirm(__("The workspace receives and sends as its own address again. Continue?"), async () => {
+					await frappe.xcall(API + "restore");
+					dialog.hide();
+					done();
+				})
+			);
+		}
+		dialog.show();
 	}
 
 	async sign(account) {

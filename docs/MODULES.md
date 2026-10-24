@@ -651,7 +651,8 @@ No doctypes yet.
 * `onedesk.one_mail.holders.mailboxes`
 * `onedesk.one_mail.holders.replace`
 * `onedesk.one_mail.holders.restore`
-* `onedesk.one_mail.holders.set_holders`
+* `onedesk.one_mail.holders.set_access`
+* `onedesk.one_mail.holders.set_personal_sends`
 * `onedesk.one_mail.holders.set_signature`
 * `onedesk.one_mail.holders.shared`
 * `onedesk.one_mail.holders.signature_for`
@@ -759,6 +760,7 @@ No doctypes yet.
 * `onedesk.one_sheet.versions.state_at`
 * `onedesk.one_sheet.versions.timeline`
 * `onedesk.one_storage.api.attach`
+* `onedesk.one_storage.api.capacity`
 * `onedesk.one_storage.api.copy`
 * `onedesk.one_storage.api.delete`
 * `onedesk.one_storage.api.empty_bin`

@@ -25239,11 +25239,6 @@ msgstr "لم تُعرَّف نطاقات مسمّاة بعد."
 msgid "No named versions yet."
 msgstr "لا توجد إصدارات مسمّاة بعد."
 
-#. Message of a notification
-#: onedesk/notifications/one_mail/mailbox_not_reachable.md
-msgid "No new mail is read from <b>{mailbox}</b> until it is connected again. Reconnect it from Settings › Mail."
-msgstr "لن يُقرأ بريد جديد من <b>{mailbox}</b> حتى يُعاد الاتصال به. أعد الاتصال من الإعدادات › البريد."
-
 #: frontend/src/sheet/components/SheetEditor/index.vue:410
 msgid "No notes yet."
 msgstr "لا توجد ملاحظات بعد."

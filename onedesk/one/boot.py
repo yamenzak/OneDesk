@@ -27,6 +27,13 @@ def boot_session(bootinfo) -> None:
 
 	outside.keep(bootinfo)
 
+	from onedesk.one_mail import holders
+
+	sends = holders.sending_rows()
+	for one in bootinfo.get("email_accounts") or []:
+		if one.get("email_account") in sends and not sends[one["email_account"]]:
+			one["enable_outgoing"] = 0
+
 	from onedesk.one import titles
 
 	bootinfo["one_titles"] = titles.for_boot()

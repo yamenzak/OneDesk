@@ -25239,11 +25239,6 @@ msgstr "Noch keine benannten Bereiche definiert."
 msgid "No named versions yet."
 msgstr "Noch keine benannten Versionen."
 
-#. Message of a notification
-#: onedesk/notifications/one_mail/mailbox_not_reachable.md
-msgid "No new mail is read from <b>{mailbox}</b> until it is connected again. Reconnect it from Settings › Mail."
-msgstr "Aus <b>{mailbox}</b> wird keine neue Post gelesen, bis es wieder verbunden ist. Verbinden Sie es unter Einstellungen › Mail neu."
-
 #: frontend/src/sheet/components/SheetEditor/index.vue:410
 msgid "No notes yet."
 msgstr "Noch keine Notizen."

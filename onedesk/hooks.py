@@ -639,7 +639,7 @@ doc_events = {
 		"on_update": "onedesk.one_task.capture.todo_changed",
 	},
 	"Communication": {
-		"before_insert": "onedesk.one_mail.outbound.file_sent",
+		"before_insert": ["onedesk.one_mail.holders.sending", "onedesk.one_mail.outbound.file_sent"],
 		"on_update": ["onedesk.one_mail.outbound.thread_sent", "onedesk.one_intake.steps.replied"],
 		"after_insert": [
 			"onedesk.one_mail.threads.adopt",

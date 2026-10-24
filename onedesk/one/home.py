@@ -122,7 +122,7 @@ def _mailboxes() -> list[dict]:
 		{
 			"what": _("{0} is not connecting").format(email),
 			"detail": _("New mail is not arriving. Reconnect it with its password."),
-			"route": "/desk/settings?section=mail",
+			"route": "/desk/onemail-settings?section=mail",
 		}
 		for email in broken
 	]

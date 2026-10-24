@@ -11,14 +11,29 @@ needs a Cloudflare key with Zone Settings: Edit.
 
 ## Your addresses
 
-- **The workspace's address** is `acme@m.4dl.app`. The workspace sends and
-  receives from it until a Workspace Administrator connects the company's own
-  mailbox instead.
+- **The workspace's address** is `acme@m.4dl.app`, made when the workspace
+  is, before anyone runs the setup wizard. Workspace Administrators start
+  with access to it; they choose who else reads it and who may send from it.
+  It stays the workspace's mailbox until an administrator makes a connected
+  company mailbox the workspace's instead.
 - **Your own address** is `name.acme@m.4dl.app`, made when you're added to
   the workspace. The name is chosen by whoever adds you, or is your first
-  name. It only receives mail, so you can give it to suppliers, sites and
-  newsletters instead of your private address. Once given, it can't be
-  changed.
+  name. You can send from it as well as receive, unless an administrator
+  turns that off for everyone. Once given, it can't be changed.
+
+## Settings
+
+**Settings** at the foot of OneMail's rail holds everything OneMail is set up
+with:
+
+- **Your Mailboxes**: the mailboxes you hold, what each signs with, and any
+  that stopped connecting.
+- **Workspace Mailboxes** (administrators): the workspace's mailbox and every
+  shared one. Open one to choose who reads it and tick **May Send** for those
+  who may also send from it; a connected mailbox can be made the workspace's
+  mailbox, and back. **Own Addresses** turns sending from people's own
+  address on or off.
+- **Mail Templates** (administrators): reusable email text.
 
 ## Connecting a mailbox
 
@@ -40,9 +55,8 @@ happen on the mail server too, so your phone stays in sync.
 - Anyone can connect their own mailbox. No one else can see into it, not
   even administrators.
 - A Workspace Administrator can tick **Shared Mailbox** to connect a
-  workspace address such as `sales@yourcompany.com` and choose who has
-  access to it. They can also make the company's mailbox the workspace's
-  own, for receiving, sending or both.
+  workspace address such as `sales@yourcompany.com`, then choose in
+  **Settings › Workspace Mailboxes** who reads it and who may send from it.
 
 ## Reading and writing
 
