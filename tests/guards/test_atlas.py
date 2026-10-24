@@ -101,7 +101,7 @@ NOBODY = {
 	"onedesk / One": 0,
 	"onedesk / One Sheet": 1,
 	"onedesk / One AI": 0,
-	"onedesk / One Mail": 1,
+	"onedesk / One Mail": 0,
 }
 
 
@@ -229,7 +229,7 @@ EMPTY = {
 	"onedesk / One Admin": 10,
 	"onedesk / One Calendar": 1,
 	"onedesk / One HR": 0,
-	"onedesk / One Mail": 1,
+	"onedesk / One Mail": 0,
 	"onedesk / One Storage": 0,
 	"onedesk / One Studio": 1,
 }

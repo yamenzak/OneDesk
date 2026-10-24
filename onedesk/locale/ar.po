@@ -26,6 +26,10 @@ msgstr " و"
 msgid " in the {0} department"
 msgstr " في قسم {0}"
 
+#: onedesk/public/js/onemail_settings.js:482
+msgid " or "
+msgstr " أو "
+
 #: onedesk/one_task/tell.py:188
 msgid " · was {0}"
 msgstr " · كان {0}"
@@ -1669,7 +1673,9 @@ msgstr "السجل المعني"
 msgid "About Type"
 msgstr "النوع المعني"
 
-#: onedesk/one_mail/ai.py:256 onedesk/public/js/intake.js:188
+#: frontend/src/intake/IntakeFacts.vue:51 onedesk/one_mail/ai.py:256
+#: onedesk/one_mail/ai.py:277 onedesk/public/js/intake.js:188
+#: onedesk/public/js/onemail_settings.js:479
 msgid "About {0}"
 msgstr "بخصوص {0}"
 
@@ -11024,6 +11030,7 @@ msgid "Delete template {0}?"
 msgstr "حذف القالب {0}؟"
 
 #: onedesk/public/js/doctype_settings.js:1023
+#: onedesk/public/js/onemail_settings.js:551
 msgid "Delete this rule?"
 msgstr "حذف هذه القاعدة؟"
 
@@ -16470,6 +16477,7 @@ msgid "From this person's designation and department, what should their first tw
 msgstr "بناءً على مسمى هذا الشخص وقسمه، ماذا يجب أن تتضمن أسبوعاه الأولان يومًا بيوم، ومن يتولى كل جزء؟"
 
 #: frontend/src/quotes/QuotesPage.vue:145
+#: onedesk/public/js/onemail_settings.js:474
 msgid "From {0}"
 msgstr "من {0}"
 
@@ -17291,6 +17299,7 @@ msgstr "صعبة التخمين"
 
 #. Label of the has_attachment (Check) field in DocType 'Mail Rule'
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+#: onedesk/public/js/onemail_settings.js:478
 msgid "Has Attachment"
 msgstr "يحتوي على مرفق"
 
@@ -22490,6 +22499,8 @@ msgstr "لم يُرسل البريد"
 
 #. Name of a DocType
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+#: onedesk/public/js/onemail_settings.js:514
+#: onedesk/public/js/onemail_settings.js:558
 msgid "Mail Rule"
 msgstr "قاعدة بريد"
 
@@ -22978,10 +22989,6 @@ msgstr "تحديد {0} كمفقود؟ سيتم تسجيل خروج الجميع 
 #: onedesk/one_project/ai.py:577
 msgid "Mark {0} {1}"
 msgstr "تعيين {0} {1}"
-
-#: onedesk/public/js/onemail_settings.js:332
-msgid "Mark, star or move new mail as it arrives."
-msgstr "حدّد أو ميّز بنجمة أو انقل البريد الجديد عند وصوله."
 
 #. Name of a notification
 #: onedesk/notifications/one_hr/marked_absent.md
@@ -23830,6 +23837,10 @@ msgstr "نقل إلى"
 msgid "Move to the Top"
 msgstr "النقل إلى الأعلى"
 
+#: onedesk/public/js/onemail_settings.js:485
+msgid "Move to {0}"
+msgstr "نقل إلى {0}"
+
 #. Task in the Office Move project template
 #: onedesk/one_project/library/office_move.json
 msgid "Move weekend"
@@ -24420,6 +24431,10 @@ msgstr "مستوى جديد"
 msgid "New Link"
 msgstr "رابط جديد"
 
+#: onedesk/public/js/onemail_settings.js:558
+msgid "New Mail Rule"
+msgstr "قاعدة بريد جديدة"
+
 #: onedesk/public/js/doctype_settings.js:450 onedesk/public/js/settings.js:1923
 msgid "New Mail Template"
 msgstr "قالب بريد جديد"
@@ -24490,7 +24505,10 @@ msgstr "عرض سعر جديد"
 msgid "New Rate"
 msgstr "السعر الجديد"
 
-#: onedesk/one/ai.py:2446 onedesk/public/js/doctype_settings.js:235
+#: onedesk/one/ai.py:2355 onedesk/one/ai.py:2446
+#: onedesk/public/js/doctype_settings.js:235
+#: onedesk/public/js/onemail_settings.js:500 onedesk/public/js/settings.js:2996
+#: onedesk/public/js/settings.js:3157 onedesk/public/js/settings.js:3161
 #: onedesk/public/js/settings.js:3170 onedesk/public/js/settings.js:3331
 #: onedesk/public/js/settings.js:3335
 msgid "New Rule"
@@ -25505,7 +25523,9 @@ msgstr "لا توجد نتائج"
 msgid "No retention is held here."
 msgstr "لا توجد محتجزات هنا."
 
-#: onedesk/public/js/doctype_settings.js:237 onedesk/public/js/settings.js:3163
+#: onedesk/public/js/doctype_settings.js:237
+#: onedesk/public/js/onemail_settings.js:510 onedesk/public/js/settings.js:2989
+#: onedesk/public/js/settings.js:3163
 msgid "No rules"
 msgstr "لا توجد قواعد"
 
@@ -27924,6 +27944,10 @@ msgstr "لا يمكن تغيير هذا إلا للمستخدم الذي ربط�
 msgid "Only the user who connected {0} or a Workspace Administrator can change this."
 msgstr "لا يمكن تغيير هذا إلا للمستخدم الذي ربط {0} أو لمسؤول مساحة العمل."
 
+#: onedesk/public/js/onemail_settings.js:506
+msgid "Only the users of this mailbox can change its rules."
+msgstr "لا يمكن تغيير قواعد صندوق البريد هذا إلا لمستخدميه."
+
 #: onedesk/public/js/settings.js:157
 msgid "Only you and HR see these."
 msgstr "لا يراها إلا أنت والموارد البشرية."
@@ -28053,10 +28077,6 @@ msgstr "فتح القائمة"
 #: onedesk/notifications/one_mail/mailbox_shared_with_you.md
 msgid "Open Mail"
 msgstr "فتح البريد"
-
-#: onedesk/public/js/onemail_settings.js:149
-msgid "Open Mail Rules"
-msgstr "فتح قواعد البريد"
 
 #. The button on a notification's mail
 #: onedesk/notifications/one_mail/mailbox_not_reachable.md
@@ -34227,6 +34247,10 @@ msgstr "نص الرد"
 msgid "Reply With"
 msgstr "الرد بـ"
 
+#: onedesk/public/js/onemail_settings.js:488
+msgid "Reply With OneAI"
+msgstr "الرد عبر OneAI"
+
 #: onedesk/public/js/onemail.js:381
 msgid "Reply all"
 msgstr "رد على الكل"
@@ -35225,6 +35249,10 @@ msgstr "شغّل الآن"
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 msgid "Run as Recipient"
 msgstr "التشغيل باسم المستلم"
+
+#: onedesk/public/js/onemail_settings.js:499
+msgid "Run in order on each new message."
+msgstr "تعمل بالترتيب على كل رسالة جديدة."
 
 #. Task in the Event project template
 #: onedesk/one_project/library/event.json
@@ -39021,6 +39049,7 @@ msgstr "إيقاف"
 
 #. Label of the stop (Check) field in DocType 'Mail Rule'
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+#: onedesk/public/js/onemail_settings.js:489
 msgid "Stop Here"
 msgstr "توقف هنا"
 
@@ -39334,6 +39363,10 @@ msgstr "الموضوع يحتوي"
 #: onedesk/one_mail/ai.py:255
 msgid "Subject contains \"{0}\""
 msgstr "الموضوع يحتوي على \"{0}\""
+
+#: onedesk/public/js/onemail_settings.js:476
+msgid "Subject has {0}"
+msgstr "الموضوع يحتوي {0}"
 
 #. Label of the body_contains (Data) field in DocType 'Mail Rule'
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
@@ -40811,6 +40844,10 @@ msgstr "لون النص"
 msgid "Text document"
 msgstr "مستند نصي"
 
+#: onedesk/public/js/onemail_settings.js:477
+msgid "Text has {0}"
+msgstr "النص يحتوي {0}"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:904
 msgid "Text length"
 msgstr "طول النص"
@@ -40930,6 +40967,10 @@ msgstr "مفتاح المرور هذا غير مسجَّل في هذا المو�
 #: onedesk/one_admin/signup.py:225
 msgid "That plan is no longer on offer. Start again."
 msgstr "هذه الخطة لم تعد معروضة. ابدأ من جديد."
+
+#: onedesk/one_mail/rules.py:505
+msgid "That rule is not in this mailbox."
+msgstr "هذه القاعدة ليست في صندوق البريد هذا."
 
 #: onedesk/public/js/hiring.js:80
 msgid "That tab shared no sound, so only the microphone is recorded."
@@ -43996,7 +44037,9 @@ msgstr "بانتظار التسعير"
 msgid "To reclaim"
 msgstr "المسترد"
 
-#: onedesk/public/js/onemail.js:279 onedesk/public/js/record_mail.js:20
+#: frontend/src/mail/mail.js:57 onedesk/public/js/onemail.js:279
+#: onedesk/public/js/onemail_settings.js:475
+#: onedesk/public/js/record_mail.js:20 onedesk/public/js/record_mail.js:21
 msgid "To {0}"
 msgstr "إلى {0}"
 

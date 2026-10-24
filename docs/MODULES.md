@@ -675,6 +675,10 @@ No doctypes yet.
 * `onedesk.one_mail.linking.unfile`
 * `onedesk.one_mail.rules.auto_reply_of`
 * `onedesk.one_mail.rules.away_of`
+* `onedesk.one_mail.rules.delete_rule`
+* `onedesk.one_mail.rules.enable_rule`
+* `onedesk.one_mail.rules.rules_of_mailbox`
+* `onedesk.one_mail.rules.save_rule`
 * `onedesk.one_mail.rules.set_auto_reply`
 * `onedesk.one_mail.rules.set_away`
 * `onedesk.one_project.activity.activity`

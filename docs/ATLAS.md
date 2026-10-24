@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 70 | 3 | 35 | 0 |
+| onedesk | 69 | 2 | 37 | 0 |
 | frappe | 23 | 37 | 154 | 0 |
 | erpnext | 303 | 131 | 51 | 0 |
 | hrms | 102 | 20 | 8 | 0 |
@@ -1003,8 +1003,8 @@ Pages: legal (on a rail or a home).
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Face | engine: the faces OneMail draws beside a sender | the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Mail Folder | through a form's link (Mail Rule: move_to) | the administrator | untouched | yes | taught |  | yes |  |  |  |  |
-| Mail Rule | opened by our screens | **nobody** | untouched | yes | taught |  | **none** |  |  |  |  |
+| Mail Folder | engine: a mailbox's folders, which OneMail's sidebar shows and makes | the administrator | untouched | yes | taught |  | yes |  |  |  |  |
+| Mail Rule | inside: OneMail's settings, a mailbox's Mail Rules tab, which writes it | **nobody** | untouched | yes | taught |  | **none** |  |  |  |  |
 
 Pages: onemail (on a rail or a home).
 

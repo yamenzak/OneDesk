@@ -466,23 +466,113 @@ onedesk.mail.settings = (tab) => {
 		],
 	});
 
+	// A mailbox's rules, in the order they run, each opened in the tab to
+	// change it (rules.py: rules_of_mailbox, save_rule, enable_rule,
+	// delete_rule). They are its holders'.
+	const said_when = (rule) =>
+		[
+			rule.from_contains && __("From {0}", [rule.from_contains]),
+			rule.to_contains && __("To {0}", [rule.to_contains]),
+			rule.subject_contains && __("Subject has {0}", [rule.subject_contains]),
+			rule.body_contains && __("Text has {0}", [rule.body_contains]),
+			rule.has_attachment && __("Has Attachment"),
+			rule.about && __("About {0}", [rule.about]),
+		]
+			.filter(Boolean)
+			.join(rule.match === "Any Condition" ? __(" or ") : " · ");
+	const said_then = (rule) =>
+		[
+			rule.move_to && __("Move to {0}", [rule.move_to_label || rule.move_to]),
+			rule.mark_read && __("Mark as Read"),
+			rule.star && __("Star"),
+			rule.reply && (rule.reply_with === "OneAI" ? __("Reply With OneAI") : __("Reply")),
+			rule.stop && __("Stop Here"),
+		]
+			.filter(Boolean)
+			.join(" · ");
+
 	const rules_tab = (box) => ({
 		id: "rules",
 		label: __("Mail Rules"),
 		icon: "list-filter",
 		title: __("Mail Rules"),
-		description: __("Mark, star or move new mail as it arrives."),
-		actions: [
-			{
-				label: __("Open Mail Rules"),
-				icon: "arrow-up-right",
-				click: () => {
-					dialog.hide();
-					frappe.set_route("List", "Mail Rule", { account: box.name });
-				},
-			},
-		],
+		description: __("Run in order on each new message."),
+		actions: [{ label: __("New Rule"), icon: "plus", click: (panel) => rule_view(panel, box, null) }],
+		async render(panel) {
+			const was = panel.shown;
+			const said = await frappe.xcall(R + "rules_of_mailbox", { account: box.name });
+			if (panel.shown !== was) return;
+			if (!said.may) {
+				panel.set_header({ title: __("Mail Rules"), description: __("Only the users of this mailbox can change its rules.") });
+				return;
+			}
+			const $list = $(`<div class="oms-list"></div>`).appendTo(panel.body.empty());
+			if (!said.rules.length) $list.append(empty(__("No rules")));
+			said.rules.forEach((rule) => {
+				const $end = row({
+					lead: glyph(rule.reply ? "reply" : rule.move_to ? "folder-input" : "list-filter"),
+					title: said_when(rule) || __("Mail Rule"),
+					sub: esc(said_then(rule)),
+					end: chevron(),
+					open: () => rule_view(panel, box, rule),
+				})
+					.appendTo($list)
+					.find(".oms-end");
+				const on = frappe.ui.form.make_control({
+					df: { fieldtype: "Switch", fieldname: "enabled", label: "" },
+					parent: $(`<span class="oms-switch oms-head-switch"></span>`).prependTo($end),
+					render_input: true,
+				});
+				on.set_value(rule.enabled ? 1 : 0);
+				on.$input.attr("aria-label", __("Enabled"));
+				on.$input.on("change", async () => {
+					await frappe.xcall(R + "enable_rule", { name: rule.name, enabled: on.get_value() ? 1 : 0 });
+					saved();
+				});
+			});
+		},
 	});
+
+	// One rule, in the tab: Mail Rule's own fields, without its mailbox.
+	const rule_view = (panel, box, rule) => {
+		const save = async () => {
+			const values = panel.get_values();
+			if (!values) return;
+			await frappe.xcall(R + "save_rule", { account: box.name, values, name: rule ? rule.name : null });
+			saved();
+			panel.refresh();
+		};
+		const actions = [{ label: __("Save"), variant: "solid", click: save }];
+		if (rule) {
+			actions.unshift({
+				label: __("Delete"),
+				theme: "red",
+				click: () =>
+					frappe.confirm(__("Delete this rule?"), async () => {
+						await frappe.xcall(R + "delete_rule", { name: rule.name });
+						panel.refresh();
+					}),
+			});
+		}
+		view(panel, {
+			title: rule ? __("Mail Rule") : __("New Mail Rule"),
+			actions,
+			render: (shown) => {
+				frappe.model.with_doctype("Mail Rule", () => {
+					const fields = frappe
+						.get_meta("Mail Rule")
+						.fields.filter((df) => !["account", "enabled"].includes(df.fieldname))
+						.map((df) => ({
+							...df,
+							fieldtype: df.fieldtype === "Check" ? "Switch" : df.fieldtype,
+							default: rule && rule[df.fieldname] != null ? rule[df.fieldname] : df.default,
+							get_query: df.fieldname === "move_to" ? () => ({ filters: { account: box.name } }) : undefined,
+						}));
+					shown.add_fields(fields);
+				});
+			},
+		});
+	};
 
 	// `focus` is the tab to open on: signature, away, auto, users or connection.
 	const open = async (name, from = "mailboxes", focus = null) => {

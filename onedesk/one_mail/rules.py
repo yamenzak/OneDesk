@@ -448,3 +448,74 @@ def rule_query(user=None) -> str:
 	if user == "Administrator":
 		return ""
 	return f"""`tabMail Rule`.account in (select email_account from `tabUser Email` where parent = {frappe.db.escape(user)})"""
+
+
+RULE_FIELDS = (
+	"enabled",
+	"priority",
+	"match",
+	"from_contains",
+	"to_contains",
+	"subject_contains",
+	"body_contains",
+	"has_attachment",
+	"about",
+	"move_to",
+	"mark_read",
+	"star",
+	"reply",
+	"reply_with",
+	"reply_text",
+	"reply_instruction",
+	"reply_review",
+	"stop",
+)
+
+
+@frappe.whitelist()
+def rules_of_mailbox(account: str) -> dict:
+	"""A mailbox's rules in the order they run, for its Mail Rules tab in
+	OneMail's settings. They are its holders' (rule_allowed)."""
+	from onedesk.one_mail import actions
+
+	if not actions.holds(account):
+		return {"may": False, "rules": []}
+	rows = frappe.get_all(
+		"Mail Rule",
+		filters={"account": account},
+		fields=["name", *RULE_FIELDS],
+		order_by="priority asc, creation asc",
+	)
+	labels = dict(
+		frappe.get_all(
+			"Mail Folder", filters={"name": ["in", [one.move_to for one in rows if one.move_to] or [""]]}, fields=["name", "label"], as_list=True
+		)
+	)
+	for one in rows:
+		one["move_to_label"] = labels.get(one.move_to) if one.move_to else None
+	return {"may": True, "rules": rows}
+
+
+@frappe.whitelist(methods=["POST"])
+def save_rule(account: str, values: dict | str, name: str | None = None) -> str:
+	"""Make or change one of a mailbox's rules, with its holder's permission."""
+	values = frappe.parse_json(values) if isinstance(values, str) else values
+	doc = frappe.get_doc("Mail Rule", name) if name else frappe.new_doc("Mail Rule")
+	if name and doc.account != account:
+		frappe.throw(_("That rule is not in this mailbox."))
+	doc.update({key: values.get(key) for key in RULE_FIELDS if key in values})
+	doc.account = account
+	doc.save() if name else doc.insert()
+	return doc.name
+
+
+@frappe.whitelist(methods=["POST"])
+def enable_rule(name: str, enabled: int = 1) -> None:
+	doc = frappe.get_doc("Mail Rule", name)
+	doc.enabled = int(enabled)
+	doc.save()
+
+
+@frappe.whitelist(methods=["POST"])
+def delete_rule(name: str) -> None:
+	frappe.delete_doc("Mail Rule", name)

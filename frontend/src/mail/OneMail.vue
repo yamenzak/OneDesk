@@ -287,7 +287,7 @@ function boxMenu(one) {
     one.may_manage ? { label: __("Out of Office"), icon: "plane", onClick: at("away") } : null,
     one.shared && one.may_manage ? { label: __("Auto Reply"), icon: "reply", onClick: at("auto") } : null,
     one.may_manage ? { label: __("OneAI"), icon: "sparkles", onClick: at("oneai") } : null,
-    { label: __("Rules"), icon: "list-filter", onClick: () => goTo("List", "Mail Rule", { account: one.name }) },
+    { label: __("Rules"), icon: "list-filter", onClick: at("rules") },
     { label: __("Attachments in OneCloud"), icon: "paperclip", onClick: () => goTo("onecloud", { node: `@mail/${one.name}` }) },
     { label: __("Mailbox Settings"), icon: "settings", onClick: at("") },
   ].filter(Boolean);

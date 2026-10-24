@@ -26,6 +26,10 @@ msgstr " und "
 msgid " in the {0} department"
 msgstr " in der Abteilung {0}"
 
+#: onedesk/public/js/onemail_settings.js:482
+msgid " or "
+msgstr " oder "
+
 #: onedesk/one_task/tell.py:188
 msgid " · was {0}"
 msgstr " · war {0}"
@@ -1669,7 +1673,9 @@ msgstr "Betroffener Datensatz"
 msgid "About Type"
 msgstr "Betroffener Typ"
 
-#: onedesk/one_mail/ai.py:256 onedesk/public/js/intake.js:188
+#: frontend/src/intake/IntakeFacts.vue:51 onedesk/one_mail/ai.py:256
+#: onedesk/one_mail/ai.py:277 onedesk/public/js/intake.js:188
+#: onedesk/public/js/onemail_settings.js:479
 msgid "About {0}"
 msgstr "Zu {0}"
 
@@ -11024,6 +11030,7 @@ msgid "Delete template {0}?"
 msgstr "Vorlage {0} löschen?"
 
 #: onedesk/public/js/doctype_settings.js:1023
+#: onedesk/public/js/onemail_settings.js:551
 msgid "Delete this rule?"
 msgstr "Diese Regel löschen?"
 
@@ -16470,6 +16477,7 @@ msgid "From this person's designation and department, what should their first tw
 msgstr "Was sollten die ersten zwei Wochen dieser Person nach Position und Abteilung Tag für Tag enthalten, und wer verantwortet welchen Teil?"
 
 #: frontend/src/quotes/QuotesPage.vue:145
+#: onedesk/public/js/onemail_settings.js:474
 msgid "From {0}"
 msgstr "Aus {0}"
 
@@ -17291,6 +17299,7 @@ msgstr "Schwer zu erraten"
 
 #. Label of the has_attachment (Check) field in DocType 'Mail Rule'
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+#: onedesk/public/js/onemail_settings.js:478
 msgid "Has Attachment"
 msgstr "Hat Anhang"
 
@@ -22490,6 +22499,8 @@ msgstr "E-Mail nicht gesendet"
 
 #. Name of a DocType
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+#: onedesk/public/js/onemail_settings.js:514
+#: onedesk/public/js/onemail_settings.js:558
 msgid "Mail Rule"
 msgstr "Mail-Regel"
 
@@ -22978,10 +22989,6 @@ msgstr "{0} als verloren markieren? Alle darauf werden abgemeldet."
 #: onedesk/one_project/ai.py:577
 msgid "Mark {0} {1}"
 msgstr "{0} auf {1} setzen"
-
-#: onedesk/public/js/onemail_settings.js:332
-msgid "Mark, star or move new mail as it arrives."
-msgstr "Neue E-Mails beim Eintreffen markieren, mit Stern versehen oder verschieben."
 
 #. Name of a notification
 #: onedesk/notifications/one_hr/marked_absent.md
@@ -23830,6 +23837,10 @@ msgstr "Verschieben nach"
 msgid "Move to the Top"
 msgstr "Nach oben verschieben"
 
+#: onedesk/public/js/onemail_settings.js:485
+msgid "Move to {0}"
+msgstr "Verschieben nach {0}"
+
 #. Task in the Office Move project template
 #: onedesk/one_project/library/office_move.json
 msgid "Move weekend"
@@ -24420,6 +24431,10 @@ msgstr "Neue Stufe"
 msgid "New Link"
 msgstr "Neuer Link"
 
+#: onedesk/public/js/onemail_settings.js:558
+msgid "New Mail Rule"
+msgstr "Neue E-Mail-Regel"
+
 #: onedesk/public/js/doctype_settings.js:450 onedesk/public/js/settings.js:1923
 msgid "New Mail Template"
 msgstr "Neue E-Mail-Vorlage"
@@ -24490,7 +24505,10 @@ msgstr "Neues Angebot"
 msgid "New Rate"
 msgstr "Neuer Kurs"
 
-#: onedesk/one/ai.py:2446 onedesk/public/js/doctype_settings.js:235
+#: onedesk/one/ai.py:2355 onedesk/one/ai.py:2446
+#: onedesk/public/js/doctype_settings.js:235
+#: onedesk/public/js/onemail_settings.js:500 onedesk/public/js/settings.js:2996
+#: onedesk/public/js/settings.js:3157 onedesk/public/js/settings.js:3161
 #: onedesk/public/js/settings.js:3170 onedesk/public/js/settings.js:3331
 #: onedesk/public/js/settings.js:3335
 msgid "New Rule"
@@ -25505,7 +25523,9 @@ msgstr "Keine Ergebnisse"
 msgid "No retention is held here."
 msgstr "Hier ist kein Einbehalt offen."
 
-#: onedesk/public/js/doctype_settings.js:237 onedesk/public/js/settings.js:3163
+#: onedesk/public/js/doctype_settings.js:237
+#: onedesk/public/js/onemail_settings.js:510 onedesk/public/js/settings.js:2989
+#: onedesk/public/js/settings.js:3163
 msgid "No rules"
 msgstr "Keine Regeln"
 
@@ -27924,6 +27944,10 @@ msgstr "Nur der Benutzer, der es verbunden hat, oder ein Arbeitsbereich-Administ
 msgid "Only the user who connected {0} or a Workspace Administrator can change this."
 msgstr "Nur der Benutzer, der {0} verbunden hat, oder ein Arbeitsbereich-Administrator kann dies ändern."
 
+#: onedesk/public/js/onemail_settings.js:506
+msgid "Only the users of this mailbox can change its rules."
+msgstr "Nur die Benutzer dieses Postfachs können seine Regeln ändern."
+
 #: onedesk/public/js/settings.js:157
 msgid "Only you and HR see these."
 msgstr "Nur du und die Personalabteilung sehen diese Angaben."
@@ -28053,10 +28077,6 @@ msgstr "Liste öffnen"
 #: onedesk/notifications/one_mail/mailbox_shared_with_you.md
 msgid "Open Mail"
 msgstr "E-Mail öffnen"
-
-#: onedesk/public/js/onemail_settings.js:149
-msgid "Open Mail Rules"
-msgstr "E-Mail-Regeln öffnen"
 
 #. The button on a notification's mail
 #: onedesk/notifications/one_mail/mailbox_not_reachable.md
@@ -34227,6 +34247,10 @@ msgstr "Antworttext"
 msgid "Reply With"
 msgstr "Antworten mit"
 
+#: onedesk/public/js/onemail_settings.js:488
+msgid "Reply With OneAI"
+msgstr "Mit OneAI antworten"
+
 #: onedesk/public/js/onemail.js:381
 msgid "Reply all"
 msgstr "Allen antworten"
@@ -35225,6 +35249,10 @@ msgstr "Jetzt ausführen"
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 msgid "Run as Recipient"
 msgstr "Als Empfänger ausführen"
+
+#: onedesk/public/js/onemail_settings.js:499
+msgid "Run in order on each new message."
+msgstr "Laufen der Reihe nach bei jeder neuen Nachricht."
 
 #. Task in the Event project template
 #: onedesk/one_project/library/event.json
@@ -39021,6 +39049,7 @@ msgstr "Stoppen"
 
 #. Label of the stop (Check) field in DocType 'Mail Rule'
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+#: onedesk/public/js/onemail_settings.js:489
 msgid "Stop Here"
 msgstr "Hier anhalten"
 
@@ -39334,6 +39363,10 @@ msgstr "Betreff enthält"
 #: onedesk/one_mail/ai.py:255
 msgid "Subject contains \"{0}\""
 msgstr "Betreff enthält \"{0}\""
+
+#: onedesk/public/js/onemail_settings.js:476
+msgid "Subject has {0}"
+msgstr "Betreff enthält {0}"
 
 #. Label of the body_contains (Data) field in DocType 'Mail Rule'
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
@@ -40811,6 +40844,10 @@ msgstr "Textfarbe"
 msgid "Text document"
 msgstr "Textdokument"
 
+#: onedesk/public/js/onemail_settings.js:477
+msgid "Text has {0}"
+msgstr "Text enthält {0}"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:904
 msgid "Text length"
 msgstr "Textlänge"
@@ -40930,6 +40967,10 @@ msgstr "Dieser Passkey ist auf dieser Site nicht registriert."
 #: onedesk/one_admin/signup.py:225
 msgid "That plan is no longer on offer. Start again."
 msgstr "Dieser Tarif wird nicht mehr angeboten. Beginnen Sie von vorn."
+
+#: onedesk/one_mail/rules.py:505
+msgid "That rule is not in this mailbox."
+msgstr "Diese Regel gehört nicht zu diesem Postfach."
 
 #: onedesk/public/js/hiring.js:80
 msgid "That tab shared no sound, so only the microphone is recorded."
@@ -43996,7 +44037,9 @@ msgstr "Anzubieten"
 msgid "To reclaim"
 msgstr "Zu erstatten"
 
-#: onedesk/public/js/onemail.js:279 onedesk/public/js/record_mail.js:20
+#: frontend/src/mail/mail.js:57 onedesk/public/js/onemail.js:279
+#: onedesk/public/js/onemail_settings.js:475
+#: onedesk/public/js/record_mail.js:20 onedesk/public/js/record_mail.js:21
 msgid "To {0}"
 msgstr "An {0}"
 

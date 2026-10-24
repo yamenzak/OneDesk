@@ -2926,6 +2926,11 @@ def onemail_a_mailbox_is_set_up_in_its_own_tabs():
 		assert not gate.settings_of(own)["on"]
 		assert "error" in ai.open_conversation(own, "anything"), "the panel can't read a mailbox OneAI is off for"
 		gate.set_settings(own, on=1)
+		made = rules.save_rule(own, {"subject_contains": "invoice", "star": 1, "reply": 1, "reply_with": "Text", "reply_text": "<p>Thanks, we have it.</p>"})
+		assert any(one["name"] == made for one in rules.rules_of_mailbox(own)["rules"])
+		rules.enable_rule(made, 0)
+		assert not frappe.db.get_value("Mail Rule", made, "enabled")
+		rules.delete_rule(made)
 		holders.set_external(0)
 		holders.set_allowed_domains(["gmail.com"])
 		holders.set_allowed_domains([])

@@ -80,6 +80,10 @@ A mailbox's **…** in the sidebar (or right-click) has **New Folder**,
 A shared mailbox's signature, out-of-office reply and connection are
 changed only by the user who connected it or a Workspace Administrator.
 
+**Mail Rules** in a mailbox's settings lists its rules in the order they
+run, each with a switch to turn it off. **New Rule**, or a rule clicked,
+opens it in the same tab.
+
 **Replying by a rule.** A mail rule can **Reply** as one of its actions:
 with a fixed **Reply Text**, where `{{ sender_name }}` and `{{ subject }}`
 fill in, or with **OneAI**, from an **Instruction** such as "send our price
