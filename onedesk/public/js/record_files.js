@@ -55,12 +55,9 @@ onedesk.record_files.dialog = (frm) => {
 	});
 	dialog.$wrapper.addClass("one-files-dialog");
 	dialog.show();
-	frappe.require(["/assets/onedesk/css/onecloud.css", "/assets/onedesk/js/onecloud.js"]).then(() => {
-		new onedesk.OneCloud(null, {
-			room: onedesk.record_files.room(frm),
-			parent: dialog.fields_dict.files.$wrapper,
-			listed: (count) => onedesk.record_files.listed(frm, count),
-		});
+	onedesk.mount_cloud(dialog.fields_dict.files.$wrapper, {
+		room: onedesk.record_files.room(frm),
+		onListed: (count) => onedesk.record_files.listed(frm, count),
 	});
 	return dialog;
 };
@@ -69,15 +66,10 @@ onedesk.record_files.open = (frm) => {
 	const field = frm.fields_dict[onedesk.record_tabs.FIELD("files")];
 	if (!field || frm.is_new()) return;
 	const room = onedesk.record_files.room(frm);
-	if (field.onecloud) return field.onecloud.enter(room);
+	if (field.onecloud) return field.onecloud.update({ room });
 	if (field.loading) return;
-	field.loading = frappe.require(["/assets/onedesk/css/onecloud.css", "/assets/onedesk/js/onecloud.js"]).then(() => {
-		field.onecloud = new onedesk.OneCloud(null, {
-			room,
-			parent: field.$wrapper.empty().closest(".form-section").addClass("one-files-section").end(),
-			listed: (count) => onedesk.record_files.listed(frm, count),
-		});
-	});
+	const $host = field.$wrapper.empty().closest(".form-section").addClass("one-files-section").end();
+	field.loading = onedesk.mount_cloud($host, { room, onListed: (count) => onedesk.record_files.listed(frm, count) }).then((handle) => (field.onecloud = handle));
 };
 
 onedesk.record_tabs.register("files", {

@@ -40,10 +40,10 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 
 | Screen | Lists | Not heard | Bare | Not the company's |
 |---|---|---|---|---|
-| project (`frontend/src/project/ProjectPage.vue`) | Contact, Employee, File, Payment Schedule, Project, Quotation, Record Head, Request for Quotation Supplier, Sales Invoice, Sales Order, Sales Order Item, Supplier, Task, Task Depends On, Timesheet, Timesheet Detail, User, User Group Member | File, Record Head | – | Employee, Project, Task, Timesheet |
+| project (`frontend/src/project/ProjectPage.vue`) | Cloud File Version, Comment, Contact, DocShare, Employee, File, Intake Action, Payment Schedule, Project, Quotation, Reading, Record Head, Request for Quotation Supplier, Sales Invoice, Sales Order, Sales Order Item, Supplier, Task, Task Depends On, Timesheet, Timesheet Detail, User, User Group Member | Cloud File Version, Comment, DocShare, Intake Action, Reading, Record Head | – | Employee, Project, Task, Timesheet |
 | template (`frontend/src/template/TemplatePage.vue`) | – | – | – | – |
-| task (`frontend/src/task/TaskPage.vue`) | File, Task, Task Depends On, Timesheet, Timesheet Detail, User | – | – | Task, Timesheet |
-| item (`frontend/src/item/ItemPage.vue`) | Asset, BOM, BOM Item, BOM Operation, Bin, Blanket Order, Employee, File, Item, Item Attribute Value, Item Manufacturer, Item Price, Item Variant Attribute, Purchase Order, Quotation, Sales Invoice, Serial No, Stock Entry, Stock Ledger Entry, Supplier Quotation, Work Order, Work Order Operation | – | – | – |
+| task (`frontend/src/task/TaskPage.vue`) | Cloud File Version, Comment, DocShare, File, Intake Action, Reading, Task, Task Depends On, Timesheet, Timesheet Detail, User | Cloud File Version, Comment, DocShare, Intake Action, Reading | – | Task, Timesheet |
+| item (`frontend/src/item/ItemPage.vue`) | Asset, BOM, BOM Item, BOM Operation, Bin, Blanket Order, Cloud File Version, Comment, DocShare, Employee, File, Intake Action, Item, Item Attribute Value, Item Manufacturer, Item Price, Item Variant Attribute, Purchase Order, Quotation, Reading, Sales Invoice, Serial No, Stock Entry, Stock Ledger Entry, Supplier Quotation, Work Order, Work Order Operation | Cloud File Version, Comment, DocShare, Intake Action, Reading | – | – |
 | stock (`frontend/src/stock/StockOnHand.vue`) | Bin, Item, Item Reorder, UOM, Warehouse | – | – | – |
 | home (`frontend/src/home/InventoryHome.vue`) | Asset, Asset Maintenance, Asset Maintenance Log, Bin, Item, Job Card, Material Request, Purchase Order, Purchase Receipt, Stock Entry, Stock Ledger Entry, Warehouse, Work Order | – | – | – |
 | books (`frontend/src/home/BooksHome.vue`) | Account, Bank Transaction, GL Entry, Payment Schedule | – | – | – |
@@ -66,6 +66,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | legal (`frontend/src/legal/Agreements.vue`) | Legal Acceptance, Legal Document Version | – | – | – |
 | intake (`frontend/src/intake/IntakeInbox.vue`) | – | – | – | – |
 | onemail (`frontend/src/mail/OneMail.vue`) | Communication, Communication Link, File, Intake Action, Reading, User Email | Communication, Communication Link, File, Intake Action, Reading, User Email | – | – |
+| onecloud (`frontend/src/cloud/OneCloud.vue`) | Cloud File Version, Comment, DocShare, File, Intake Action, Reading | Cloud File Version, Comment, DocShare, Intake Action, Reading | – | – |
 
 ## erpnext / Accounts
 

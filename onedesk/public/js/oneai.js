@@ -45,7 +45,7 @@ onedesk.oneai = {
 		}
 		if (frappe.pages[route[0]]) {
 			const params = frappe.utils.get_query_params();
-			const cloud = onedesk.OneCloud && onedesk.OneCloud.here ? onedesk.OneCloud.here() : null;
+			const cloud = onedesk.cloud && onedesk.cloud.here ? onedesk.cloud.here() : null;
 			return {
 				doctype: "",
 				name: "",

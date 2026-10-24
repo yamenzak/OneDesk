@@ -21,7 +21,8 @@ NAMESPACE = tree.APP / "one_storage" / "namespace.py"
 REQUESTS = tree.APP / "one_storage" / "file_requests.py"
 HOOKS = tree.APP / "hooks.py"
 LAUNCHER = tree.APP / "public" / "js" / "oneai.js"
-EXPLORER = tree.APP / "public" / "js" / "onecloud.js"
+EXPLORER = tree.ROOT / "frontend" / "src" / "cloud" / "OneCloud.vue"
+DIALOGS = tree.APP / "public" / "js" / "onecloud_dialogs.js"
 
 
 def _function(where: Path, name: str) -> str:
@@ -36,7 +37,8 @@ def test_the_panel_is_offered_a_file_only_with_one_chosen():
 	assert '"page:onecloud"' in source and '"page:onecloud/file"' in source
 	launcher = LAUNCHER.read_text(encoding="utf-8")
 	assert 'cloud && cloud.file ? "file" : ""' in launcher
-	assert "static here()" in EXPLORER.read_text(encoding="utf-8")
+	assert "cloud.where = { folder: node.value" in EXPLORER.read_text(encoding="utf-8")
+	assert "onedesk.cloud.here = () =>" in DIALOGS.read_text(encoding="utf-8")
 
 
 def test_every_onecloud_tool_is_registered():
@@ -69,5 +71,5 @@ def test_requested_files_get_a_folder_of_their_own():
 
 def test_the_explorer_uses_frappes_menus():
 	explorer = EXPLORER.read_text(encoding="utf-8")
-	assert "new frappe.ui.ContextMenu(" in explorer and "new frappe.ui.Dropdown(" in explorer
+	assert "<ContextMenu " in explorer and "<Dropdown " in explorer, "frappe-ui's own"
 	assert 'class="es-menu' not in explorer and 'class="es-button"' not in explorer

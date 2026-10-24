@@ -451,10 +451,14 @@ not a second R2 integration.
   believes nothing else the browser says except the path inside a dropped
   folder. Frappe's own files are keyed by their MD5 (`store.key_for`), which
   a browser cannot work out cheaply for a large file.
-- `public/js/onecloud.js` (and `public/css/onecloud.css`) — the explorer,
-  with two hosts: `page/onecloud`, and a record's Files tab. Each loads it
-  with `frappe.require` the first time it is opened, so a desk that never
-  opens OneCloud never downloads it. It draws and never decides: every list and
+- `frontend/src/cloud/` — the explorer, one island (`onedesk.onecloud`)
+  with four hosts: `page/onecloud` on the window, a record's Files tab and
+  files dialog (`onedesk.mount_cloud`, `public/js/onecloud_picker.js`), the
+  attach picker, and the Files views of a project, a task and an item. The
+  dialogs it opens — share, links, libraries, mount, request, Drive — are
+  desk dialogs in `public/js/onecloud_dialogs.js` (and `.css`), loaded with
+  `frappe.require` the first time the explorer is opened, so a desk that never
+  opens OneCloud never downloads them. It draws and never decides: every list and
   every change is a call above, and a refused one shows the server's reason.
   The place is `?node=` in the address, so history, bookmarks and pasted
   links land in the same folder. View, sort and the preview pane are the
@@ -520,7 +524,7 @@ not a second R2 integration.
   the sidebar reloads its docinfo, so the timeline notices a file added
   through the tab. The sidebar's own Attachments section is reduced to one
   row, Files and the count, that opens the tab. Its list, Show All and its
-  uploader are hidden (desk.css, loaded always, unlike onecloud.css).
+  uploader are hidden (desk.css).
 
 - `public/js/record_activity.js` — the Activity tab, last, on every record
   that has Files. Comments, mail, changes, assignments and shares used to

@@ -836,7 +836,7 @@ def points() -> dict:
 
 _IMPORT = re.compile(r"""from\s+["'](\.{1,2}/[^"']+)["']""")
 _METHOD = re.compile(r"""["'](onedesk(?:\.\w+){2,})["']""")
-_FOLLOW = re.compile(r"""\b(?:follow|followList|useRecord)\(\s*["']([^"']+)["']""")
+_FOLLOW = re.compile(r"""\b(?:follow|followList|useRecord|listenIn)\(\s*["']([^"']+)["']""")
 _FOLLOW_ALL = re.compile(r"""\[([^\[\]]*)\]\.map\(\s*\(?\w*\)?\s*=>\s*(?:follow|followList)\(""")
 _BARE = re.compile(
 	r"\{\{\s*([\w.?]+\.(?:qty|quantity|amount|total|worth|rate|price|cost|hours|count|balance|percent))\s*\}\}"

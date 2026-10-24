@@ -368,3 +368,25 @@ export function windowSearch(win, { placeholder = "", title = "", onInput, onKey
 export const windowHandles = (win, handlers) => win && win.view(handlers);
 export const windowStatus = (win, text) => win && win.status(text);
 export const windowCan = (win, can) => win && win.can(can);
+
+// An event published to a doctype's room (frappe's get_doctype_room), heard
+// while the island is up.
+export function listenIn(doctype, event, heard) {
+	frappe().realtime.doctype_subscribe(doctype);
+	frappe().realtime.on(event, heard);
+	return () => frappe().realtime.off(event, heard);
+}
+
+// The page's breadcrumbs and title, for an island that walks a tree of its
+// own (OneCloud's folders).
+export function setCrumbs(items, title) {
+	const page = frappe().get_current_page?.() || frappe().container?.page?.page;
+	page?.set_breadcrumbs?.(items);
+	if (title) frappe().utils.set_title(title);
+}
+
+// OneAI's panel follows where the reader is (oneai.js, where).
+export function aiMoved() {
+	const oneai = window.onedesk && window.onedesk.oneai;
+	if (oneai && oneai.panel) oneai.panel.moved(oneai.where());
+}

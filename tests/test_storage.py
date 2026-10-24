@@ -155,6 +155,8 @@ def test_the_recycle_bin_keeps_thirty_days_and_is_emptied_daily():
 
 UPLOAD = tree.APP / "one_storage" / "upload.py"
 PAGE = tree.APP / "public" / "js"
+CLOUD = tree.ROOT / "frontend" / "src" / "cloud"
+EXPLORER = "\n".join(path.read_text() for path in sorted(CLOUD.glob("*")))
 
 
 def test_a_dropped_folder_keeps_its_folders_and_nothing_climbs_out():
@@ -187,11 +189,11 @@ def test_an_upload_goes_to_r2_and_the_ticket_is_the_whole_of_the_trust():
 def test_the_explorer_calls_only_verbs_that_exist():
 	import re
 
-	js = (PAGE / "onecloud.js").read_text()
+	js = EXPLORER
 	api = "".join(
 		(tree.APP / "one_storage" / name).read_text() for name in ("api.py", "upload.py", "share.py", "library.py", "history.py", "file_requests.py")
 	)
-	called = set(re.findall(r'OneCloud\.(?:API|UPLOAD) \+ "(\w+)"', js)) | set(re.findall(r'\bcall\("(\w+)"', js))
+	called = set(re.findall(r'\b(?:API|UPLOAD) \+ "(\w+)"', js))
 	assert {"listing", "folders", "make_folder", "rename", "move", "copy", "delete", "restore", "purge", "empty_bin", "begin", "done", "resolve"} <= called
 	for name in called:
 		assert re.search(rf"@frappe\.whitelist\([^)]*\)\n(?:@[^\n]+\n)*def {name}\(", api), name
@@ -199,11 +201,11 @@ def test_the_explorer_calls_only_verbs_that_exist():
 
 
 def test_the_explorer_has_the_keys_everybody_knows():
-	js = (PAGE / "onecloud.js").read_text()
+	js = EXPLORER
 	for key in ('"F2"', '"Delete"', '"Enter"', '"Backspace"', '"F5"', 'ctrl && k === "a"', 'ctrl && k === "c"', 'ctrl && k === "x"', 'ctrl && k === "v"'):
 		assert key in js, key
 	assert "webkitGetAsEntry" in js, "a whole folder can be dropped"
-	assert 'frappe.set_route("onecloud", { node })' in js, "the place is in the address"
+	assert "goToUrl(`/desk/onecloud?node=${encodeURIComponent(id)}`)" in js, "the place is in the address"
 
 
 SHARE = tree.APP / "one_storage" / "share.py"
@@ -437,11 +439,11 @@ def test_a_tenant_is_limited_by_storage_not_by_file_size():
 
 
 def test_the_explorer_is_its_own_navigation():
-	js = (PAGE / "onecloud.js").read_text()
+	js = EXPLORER
 	page = (tree.APP / "one_storage" / "page" / "onecloud" / "onecloud.js").read_text()
-	assert "window: true" in page and "hide_sidebar" not in page, "OneCloud sits in the window, its tree in the nav pane"
-	assert "win.nav_slot()" in js
-	assert '"storage-check"' in js and 'has_role("Workspace Administrator")' in js
+	assert '"onedesk.onecloud"' in page and "hide_sidebar" not in page, "OneCloud sits in the window, its tree in the nav pane"
+	assert 'part="nav"' in js and 'part="details"' in js
+	assert '"storage-check"' in js and 'hasRole("Workspace Administrator")' in js
 
 
 REQUESTS = tree.APP / "one_storage" / "file_requests.py"
@@ -524,10 +526,10 @@ def test_a_search_everywhere_asks_may_and_leaves_servers_alone():
 
 
 def test_a_search_can_be_widened_and_a_result_found_where_it_lives():
-	js = (PAGE / "onecloud.js").read_text()
-	assert "everywhere: this.search && this.everywhere ? 1 : 0" in js
-	assert '"open-location"' in js and "this.reveal" in js
-	assert 'ctrl && e.shiftKey && k.toLowerCase() === "f"' in js
+	js = EXPLORER
+	assert "everywhere: search.value && everywhere.value ? 1 : 0" in js
+	assert '"open-location"' in js and "reveal = picked[0].id" in js
+	assert 'ctrl && event.shiftKey && k.toLowerCase() === "f"' in js
 
 
 RECORD_FILES = tree.APP / "public" / "js" / "record_files.js"
@@ -548,14 +550,15 @@ def test_every_record_has_a_files_tab_on_its_own_room():
 	assert "/assets/onedesk/js/record_files.js" in HOOKS
 
 
-def test_the_explorer_is_loaded_when_first_opened_and_shared_by_both_hosts():
+def test_the_explorer_is_one_island_for_every_host():
 	page = (tree.APP / "one_storage" / "page" / "onecloud" / "onecloud.js").read_text()
 	tab = RECORD_FILES.read_text()
-	for host in (page, tab):
-		assert '"/assets/onedesk/js/onecloud.js"' in host and "frappe.require" in host
-	assert "/assets/onedesk/js/onecloud.js" not in HOOKS, "not on every desk load"
-	explorer = (PAGE / "onecloud.js").read_text()
-	assert "if (!this.holds(node)) return frappe.set_route" in explorer, "a room walks out only past what it holds"
+	picker = PICKER.read_text()
+	assert '"onedesk.onecloud"' in page and "onedesk.cloud_assets" in page
+	assert tab.count("onedesk.mount_cloud(") == 2, "a record's files dialog and its tab"
+	assert 'frappe.ui.mount_island("onedesk.onecloud"' in picker and "frappe.require(onedesk.cloud_assets)" in picker
+	assert "onecloud_dialogs.js" not in HOOKS, "its dialogs load with it, not on every desk load"
+	assert "if (!holds(id)) return goToUrl" in EXPLORER, "a room walks out only past what it holds"
 
 
 def test_the_sidebar_attachments_are_one_row_into_the_files_tab():
@@ -599,9 +602,8 @@ def test_every_way_a_file_changes_is_told():
 
 
 def test_the_explorer_listens_on_its_own_event_not_list_update():
-	js = (PAGE / "onecloud.js").read_text()
-	assert 'frappe.realtime.doctype_subscribe("File")' in js
-	assert 'frappe.realtime.on("onecloud_change"' in js
+	js = EXPLORER
+	assert 'listenIn("File", "onecloud_change"' in js
 	assert "list_update" not in js, "the list view unbinds every list_update listener"
 	source = LIVE.read_text()
 	assert "after_commit.add(_send)" in source and 'room=get_doctype_room("File")' in source
@@ -617,9 +619,8 @@ def test_the_upload_dialog_chooses_from_onecloud_instead_of_its_library():
 	assert '"onedesk.one_storage.api.attach"' in js and "on_success" in js
 	assert 'frappe.require("file_uploader.bundle.js")' in js
 	assert "/assets/onedesk/js/onecloud_picker.js" in HOOKS
-	explorer = (PAGE / "onecloud.js").read_text()
-	assert "if (this.picker) return this.picker.on_pick(" in explorer
-	assert "if (this.picker) return;" in explorer
+	assert "if (props.picker) return props.picker.onPick?.(" in EXPLORER
+	assert "if (props.picker) return;" in EXPLORER
 
 
 def test_a_file_chosen_is_allowed_by_onecloud_and_copies_no_bytes():

@@ -153,7 +153,15 @@ def test_nothing_upstream_says_names_them():
 
 
 UNHEARD = {
-	"project": 2,
+	# OneCloud hears its own event in File's room, onecloud_change
+	# (one_storage/live.py), sent for every change to a file, its versions and
+	# its shares; what its preview reads beside a file (versions, comments,
+	# shares, what OneAI read and did) is read again each time a file is
+	# chosen. A project's, a task's and an item's Files are OneCloud.
+	"onecloud": 5,
+	"project": 6,
+	"task": 5,
+	"item": 5,
 	# OneMail hears its own event, onemail_change (one_mail/live.py), which
 	# names the mailbox a sync or an action changed; a list follow on
 	# Communication would wake it for every mail in the workspace.

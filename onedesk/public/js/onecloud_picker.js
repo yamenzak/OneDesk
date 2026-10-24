@@ -1,5 +1,20 @@
 frappe.provide("onedesk");
 
+// OneCloud is an island (frontend/src/cloud); its frappe dialogs are desk's.
+onedesk.cloud_assets = ["/assets/onedesk/js/onecloud_dialogs.js", "/assets/onedesk/css/onecloud_dialogs.css"];
+
+// OneCloud inside something else: a record's files, or the picker. `props`
+// are the island's (room, picker, onListed). Resolves to its handle.
+// A dialog's field is put in the page a moment after the dialog shows, so the
+// island waits for its box.
+onedesk.mount_cloud = async ($host, props) => {
+	await frappe.require(onedesk.cloud_assets);
+	for (let tries = 0; !$host[0].isConnected && tries < 100; tries++) await new Promise((next) => setTimeout(next, 20));
+	$host.addClass("one-cloud-host");
+	const handle = frappe.ui.mount_island("onedesk.onecloud", $host[0], props);
+	return handle.ready ? handle.ready.then(() => handle) : handle;
+};
+
 onedesk.uploader_options = new WeakMap();
 
 onedesk.pick_from_onecloud = ({ dialog, uploader, doctype, docname, fieldname }) => {
@@ -43,20 +58,17 @@ onedesk.pick_from_onecloud = ({ dialog, uploader, doctype, docname, fieldname })
 	picker.show();
 	picker.get_primary_btn().prop("disabled", true);
 	const $host = picker.fields_dict.explorer.$wrapper;
-	frappe.require(["/assets/onedesk/css/onecloud.css", "/assets/onedesk/js/onecloud.js"]).then(() => {
-		new onedesk.OneCloud(null, {
-			parent: $host,
-			picker: {
-				start: "@my",
-				on_select: (items) => {
-					chosen = items;
-					const $go = picker.get_primary_btn();
-					$go.prop("disabled", !items.length);
-					$go.text(items.length > 1 ? __("Attach {0} files", [items.length]) : __("Attach"));
-				},
-				on_pick: (items) => attach(items),
+	onedesk.mount_cloud($host, {
+		picker: {
+			start: "@my",
+			onSelect: (items) => {
+				chosen = items;
+				const $go = picker.get_primary_btn();
+				$go.prop("disabled", !items.length);
+				$go.text(items.length > 1 ? __("Attach {0} files", [items.length]) : __("Attach"));
 			},
-		});
+			onPick: (items) => attach(items),
+		},
 	});
 };
 

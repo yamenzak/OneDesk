@@ -28,7 +28,6 @@ ON_THE_SHELL = {
 		"one_calendar/page/onecalendar/onecalendar.js",
 		"one_calendar/page/onecalendar/onecalendar.css",
 	),
-	"onecloud": ("public/js/onecloud.js", "public/css/onecloud.css"),
 }
 
 # The pages on the shell when the contract was written; the list above only
@@ -41,14 +40,12 @@ USE_THE_SHELL = {
 	"one/page/settings/settings.js",
 	"one/page/workspace_settings/workspace_settings.js",
 	"one_calendar/page/onecalendar/onecalendar.js",
-	"one_storage/page/onecloud/onecloud.js",
 	"public/js/band.js",
 	"public/js/calendar_link.js",
 	"public/js/desk.js",
 	"public/js/doctype_settings.js",
 	"public/js/extension_errors.js",
 	"public/js/island_page.js",
-	"public/js/onecloud.js",
 	"public/js/record_mail.js",
 	"public/js/settings.js",
 	"public/js/window/frame.js",
@@ -58,7 +55,7 @@ USE_THE_SHELL = {
 # home's link), and draw nothing.
 OPENS_A_VIEW = {"masters"}
 
-ISLAND_PAGES = {"project_view", "project_template_view", "task_view", "item_view", "stock_on_hand", "inventory", "books", "onecrm", "onehr", "lots", "to_order", "quotes", "sent_out", "upkeep", "floor", "plant", "my_tasks", "timers", "workbook", "document", "legal", "intake", "onemail"}
+ISLAND_PAGES = {"project_view", "project_template_view", "task_view", "item_view", "stock_on_hand", "inventory", "books", "onecrm", "onehr", "lots", "to_order", "quotes", "sent_out", "upkeep", "floor", "plant", "my_tasks", "timers", "workbook", "document", "legal", "intake", "onemail", "onecloud"}
 
 PARTS = re.compile(r"\.[a-z]+-(row|empty|quiet|card|content|section|chevron)(-[a-z]+)?\b(?![-\w])")
 
@@ -182,9 +179,6 @@ def test_the_old_names_are_gone():
 		assert not found, f"{path.relative_to(tree.APP)}: {found.group(0)}"
 
 
-BACK_ALLOWED = {"onecloud.js"}
-
-
 def _page_scripts():
 	"""Every script a page of ours is drawn by."""
 	return {tree.APP / script for script, _style in ON_THE_SHELL.values()} | set(_pages().values())
@@ -200,8 +194,7 @@ def test_a_record_a_page_opens_on_is_drawn_as_a_docview():
 		assert part in shell, part
 	for path in _page_scripts():
 		js = path.read_text(encoding="utf-8")
-		if path.name not in BACK_ALLOWED:
-			assert '"arrow-left"' not in js and "data-back" not in js, f"{path.name} draws its own back button"
+		assert '"arrow-left"' not in js and "data-back" not in js, f"{path.name} draws its own back button"
 		for call in re.findall(r"shell\.name\(([^;]*)\);", js):
 			assert "route:" not in call, f"{path.name}: shell.name(..., {{ route }}) names a record; use shell.trail"
 		if "get_query_params" in js and "shell.name(" in js:

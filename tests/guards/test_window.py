@@ -20,7 +20,7 @@ ADAPTERS = {path.stem: path.read_text(encoding="utf-8") for path in WINDOW_JS.gl
 JS = FRAME + "".join(ADAPTERS.values())
 CSS = "".join(path.read_text(encoding="utf-8") for path in sorted(WINDOW_CSS.glob("*.css")))
 HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
-CLOUD = (tree.APP / "public" / "js" / "onecloud.js").read_text(encoding="utf-8")
+CLOUD = (tree.ROOT / "frontend" / "src" / "cloud" / "OneCloud.vue").read_text(encoding="utf-8")
 
 
 def _method(source: str, name: str) -> str:
@@ -93,13 +93,14 @@ def test_back_and_forward_are_the_browsers():
 
 
 def test_onecloud_on_its_page_draws_none_of_the_windows_parts():
-	windowed = _method(CLOUD, "build_in_window")
-	for part in ("oc-bar", "oc-address", "oc-status", "oc-crumbs", "oc-search", "shell.panes", "shell.fit"):
-		assert part not in windowed, part
-	for asked in ("win.nav_slot()", "win.details(", "win.view("):
-		assert asked in windowed, asked
+	"""Its own bar, address and status are drawn only off the window (a
+	record's files, the picker); on its page each goes to the window's part."""
+	assert '<template v-if="!win">' in CLOUD and '<div v-if="!win" class="border-t' in CLOUD
+	for part in ("commands", "views", "nav", "details"):
+		assert f'part="{part}"' in CLOUD, part
+	assert "windowSearch(props.win" in CLOUD and "windowStatus(props.win" in CLOUD and "windowHandles(props.win" in CLOUD
 	page = (tree.APP / "one_storage" / "page" / "onecloud" / "onecloud.js").read_text(encoding="utf-8")
-	assert "window: true, fit: true" in page and "hide_sidebar" not in page
+	assert "fit: true" in page and "hide_sidebar" not in page
 
 
 def test_every_view_is_on_the_window_for_everybody():
@@ -119,7 +120,7 @@ def test_the_address_box_is_frappes_search_bar():
 	assert "class AddressBar extends frappe.search.AwesomeBar" in JS and "this.setup_event_listeners($host)" in JS
 	assert "frappe.search.open_awesomebar_from_global_search_shortcut = function" in JS
 	assert ".navbar-modal-search-mobile" in JS
-	assert "this.handlers.path" in JS and "path: (typed) =>" in CLOUD
+	assert "this.handlers.path" in JS and "path: (path) =>" in CLOUD
 	hooks = HOOKS.split("awesomebar_search = ", 1)[1].split("\n", 1)[0]
 	assert '"onedesk.one.outside.awesomebar"' in hooks
 	outside = (tree.APP / "one" / "outside.py").read_text(encoding="utf-8")
@@ -173,8 +174,8 @@ def test_every_row_sits_on_one_gutter():
 	ends on the same edge; OneCloud's files sit on it too."""
 	assert '.one-window[data-one-view="list"] .frappe-list {\n\t\tmargin-inline: 0;' in CSS
 	assert ".one-window[data-one-view=\"list\"] .list-row-container,\n" in CSS
-	cloud_css = (tree.APP / "public" / "css" / "onecloud.css").read_text(encoding="utf-8")
-	assert ".oc-windowed .oc-head {\n\tpadding-inline: calc(var(--spacing) * 2);" in cloud_css
+	items = (tree.ROOT / "frontend" / "src" / "cloud" / "CloudItems.vue").read_text(encoding="utf-8")
+	assert "border-b border-outline-gray-1 px-2 py-1.5" in items and "'grid items-center px-2 py-1.5 text-base'" in items
 
 
 def test_a_view_frappe_loads_late_is_waited_for():

@@ -84,7 +84,7 @@ LOOKED = {
 	# frappe's own form tabs, moved into the window's row and folded into More;
 	# placed, not redrawn (docs/WINDOW.md).
 	("tabs", "onedesk/public/css/window/views.css"),
-	("fetching", "onedesk/public/js/onecloud.js"),
+	("fetching", "frontend/src/cloud/OneCloud.vue"),
 	("icons", "onedesk/one/letter_heads.py"),
 	("icons", "onedesk/public/js/outside.js"),
 }

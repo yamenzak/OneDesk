@@ -7,33 +7,19 @@
       </h2>
     </div>
     <PlaceSpot :said="spot" class="mb-4" />
-    <div ref="box" class="one-project-files" />
+    <div class="h-[36rem] overflow-hidden rounded-4 border border-outline-gray-1"><OneCloud :room="`@records/Item/${item}`" :on-listed="load" /></div>
   </div>
 </template>
 
 <script setup>
-import { onBeforeUnmount, onMounted, ref } from "vue";
+import { ref } from "vue";
 
-import { PlaceSpot, __, call, jq, onedesk, requires } from "../kit";
+import { PlaceSpot, __, call } from "../kit";
+import OneCloud from "../cloud/OneCloud.vue";
 import { usePlace } from "../project/place";
 
 const props = defineProps({ item: { type: String, required: true }, title: String });
 const emit = defineEmits(["count"]);
-const box = ref(null);
-
-let outside = null;
-onMounted(async () => {
-  await requires(["/assets/onedesk/css/onecloud.css", "/assets/onedesk/js/onecloud.js"]);
-  if (!box.value) return;
-  const slot = document.createElement("slot");
-  slot.name = `one-files-${props.item}`;
-  box.value.appendChild(slot);
-  outside = document.createElement("div");
-  outside.slot = slot.name;
-  box.value.getRootNode().host.appendChild(outside);
-  new (onedesk().OneCloud)(null, { room: `@records/Item/${props.item}`, parent: jq(outside), listed: () => load() });
-});
-onBeforeUnmount(() => outside?.remove());
 
 const count = ref(0);
 const spot = usePlace("oneinventory_item.files", () => ({ item: { name: props.item, item_name: props.title }, files: { count: count.value } }));

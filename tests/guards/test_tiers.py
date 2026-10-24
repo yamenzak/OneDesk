@@ -72,6 +72,7 @@ def test_every_page_of_its_own_is_declared():
 		"onedesk.legal": None,
 		"onedesk.intake": None,
 		"onedesk.onemail": None,
+		"onedesk.onecloud": None,
 	}
 	build = (APP.parent / "frontend" / "build-islands.mjs").read_text()
 	assert set(re.findall(r'"(onedesk\.\w+)":', build)) == set(islands)
