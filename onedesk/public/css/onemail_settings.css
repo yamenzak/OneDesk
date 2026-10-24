@@ -205,3 +205,8 @@
 .oms .oms-heading-end:has(.oms-switch) {
 	margin-top: calc(var(--margin-md) + (var(--text-lg) * 1.5 - 20px) / 2);
 }
+
+/* The picker and Add above a mailbox's users. */
+.oms .oms-add-top {
+	margin: 0 0 calc(var(--spacing) * 3);
+}

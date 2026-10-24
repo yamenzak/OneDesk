@@ -650,6 +650,7 @@ No doctypes yet.
 * `onedesk.one_mail.connect.disconnect`
 * `onedesk.one_mail.connect.reconnect`
 * `onedesk.one_mail.holders.grant`
+* `onedesk.one_mail.holders.mailbox`
 * `onedesk.one_mail.holders.mailboxes`
 * `onedesk.one_mail.holders.replace`
 * `onedesk.one_mail.holders.restore`
@@ -670,7 +671,9 @@ No doctypes yet.
 * `onedesk.one_mail.linking.links_of`
 * `onedesk.one_mail.linking.record`
 * `onedesk.one_mail.linking.unfile`
+* `onedesk.one_mail.rules.auto_reply_of`
 * `onedesk.one_mail.rules.away_of`
+* `onedesk.one_mail.rules.set_auto_reply`
 * `onedesk.one_mail.rules.set_away`
 * `onedesk.one_project.activity.activity`
 * `onedesk.one_project.agreement.draw_up`

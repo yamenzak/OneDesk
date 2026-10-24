@@ -10,6 +10,7 @@ from frappe import _
 from frappe.utils import getdate, today
 
 AWAY_ONCE_IN = 4 * 24 * 3600
+ACK_ONCE_IN = 24 * 3600
 
 MACHINES = re.compile(
 	r"^(no-?reply|do-?not-?reply|mailer-daemon|postmaster|bounces?)([+.@-]|$)", re.IGNORECASE
@@ -110,7 +111,8 @@ def after(made, arrival) -> None:
 		bounce(made, arrival.mail)
 		if getattr(arrival, "fresh", True) and _in_inbox(made):
 			run_rules(made)
-			away(made, arrival.mail)
+			if not away(made, arrival.mail):
+				acknowledge(made, arrival.mail)
 	except Exception:
 		frappe.log_error(title=f"OneMail could not sort {made.name}")
 
@@ -201,6 +203,60 @@ def bounce(made, message) -> list[str]:
 	return [one[0] for one in failed]
 
 
+def _reply(account, made, text: str, html: str | None = None) -> None:
+	"""An automatic reply to the sender of `made`, threaded under it."""
+	from onedesk.one_mail import outbound
+
+	sender = (made.sender or "").lower()
+	reply = EmailMessage()
+	reply["From"] = email.utils.formataddr((account.email_account_name or "", account.email_id))
+	reply["To"] = sender
+	reply["Subject"] = f"Re: {made.subject or ''}".strip()
+	reply["Date"] = email.utils.formatdate(localtime=True)
+	reply["Message-ID"] = email.utils.make_msgid(domain=account.email_id.split("@")[-1])
+	reply["Auto-Submitted"] = "auto-replied"
+	if made.message_id:
+		reply["In-Reply-To"] = f"<{made.message_id.strip('<>')}>"
+		reply["References"] = f"<{made.message_id.strip('<>')}>"
+	reply.set_content(text)
+	if html:
+		reply.add_alternative(html, subtype="html")
+	outbound.deliver(account, sender, reply.as_bytes())
+
+
+def starts_conversation(headers) -> bool:
+	"""Whether a message opens a conversation rather than answering one.
+	`headers` is anything with .get(). Pure."""
+	return not (headers.get("In-Reply-To") or headers.get("References"))
+
+
+def acknowledge(made, message) -> bool:
+	"""A shared mailbox's Auto Reply (frappe's own enable_auto_reply and
+	auto_reply_message on Email Account): to the first message of each new
+	conversation, never to a machine, at most once a day per sender."""
+	account = frappe.get_doc("Email Account", made.email_account)
+	if not (account.get("one_shared") and account.get("enable_auto_reply")):
+		return False
+	sender = (made.sender or "").lower()
+	if automatic(message, sender) or sender == (account.email_id or "").lower():
+		return False
+	if not starts_conversation(message):
+		return False
+	key = f"one_ack:{account.name}:{sender}"
+	if frappe.cache.get_value(key):
+		return False
+	frappe.cache.set_value(key, 1, expires_in_sec=ACK_ONCE_IN)
+	said = account.get("auto_reply_message") or ""
+	if frappe.utils.strip_html_tags(said).strip():
+		html = frappe.render_template(
+			said, {"sender_name": made.sender_full_name or "", "subject": made.subject or "", "mailbox": account.email_id}
+		)
+		_reply(account, made, frappe.utils.to_markdown(html), html)
+	else:
+		_reply(account, made, _("We received your message and will reply soon."))
+	return True
+
+
 def away(made, message) -> bool:
 	"""An out-of-office reply, if the mailbox's holder is away."""
 	account = frappe.get_doc("Email Account", made.email_account)
@@ -215,20 +271,7 @@ def away(made, message) -> bool:
 	if frappe.cache.get_value(key):
 		return False
 	frappe.cache.set_value(key, 1, expires_in_sec=AWAY_ONCE_IN)
-	reply = EmailMessage()
-	reply["From"] = email.utils.formataddr((account.email_account_name or "", account.email_id))
-	reply["To"] = sender
-	reply["Subject"] = f"Re: {made.subject or ''}".strip()
-	reply["Date"] = email.utils.formatdate(localtime=True)
-	reply["Message-ID"] = email.utils.make_msgid(domain=account.email_id.split("@")[-1])
-	reply["Auto-Submitted"] = "auto-replied"
-	if made.message_id:
-		reply["In-Reply-To"] = f"<{made.message_id.strip('<>')}>"
-		reply["References"] = f"<{made.message_id.strip('<>')}>"
-	reply.set_content(account.get("one_away_message") or _("I'm away and will reply when I'm back."))
-	from onedesk.one_mail import outbound
-
-	outbound.deliver(account, sender, reply.as_bytes())
+	_reply(account, made, account.get("one_away_message") or _("I'm away and will reply when I'm back."))
 	return True
 
 
@@ -249,12 +292,36 @@ def set_away(account: str, away: int = 0, until: str | None = None, message: str
 
 @frappe.whitelist()
 def away_of(account: str) -> dict:
-	from onedesk.one_mail import actions
+	from onedesk.one_mail import holders
 
-	actions.require(account)
+	holders.sees(account)
 	return frappe.db.get_value(
 		"Email Account", account, ["one_away", "one_away_until", "one_away_message"], as_dict=True
 	)
+
+
+@frappe.whitelist(methods=["POST"])
+def set_auto_reply(account: str, on: int = 0, message: str | None = None) -> None:
+	"""Turn a shared mailbox's Auto Reply on or off (acknowledge)."""
+	from onedesk.one_mail import holders
+
+	holders.manages(account)
+	if not frappe.db.get_value("Email Account", account, "one_shared"):
+		frappe.throw(_("Only a shared mailbox has an Auto Reply."))
+	frappe.db.set_value(
+		"Email Account",
+		account,
+		{"enable_auto_reply": int(on), "auto_reply_message": message or None},
+		update_modified=False,
+	)
+
+
+@frappe.whitelist()
+def auto_reply_of(account: str) -> dict:
+	from onedesk.one_mail import holders
+
+	holders.sees(account)
+	return frappe.db.get_value("Email Account", account, ["enable_auto_reply", "auto_reply_message"], as_dict=True)
 
 
 def rule_allowed(doc, ptype=None, user=None, debug=False) -> bool:

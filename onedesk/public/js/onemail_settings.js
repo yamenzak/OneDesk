@@ -2,8 +2,8 @@ frappe.provide("onedesk.mail");
 
 // OneMail's settings, in frappe's own settings dialog (frappe.ui.SettingsDialog),
 // opened from Settings at the foot of OneMail's rail. Mailboxes is everyone's:
-// each mailbox they hold, its signature, out-of-office reply, rules and
-// connection. Shared Mailboxes, Personal Addresses and Mail Templates are a
+// each mailbox they hold, opened into its own tabs (signature, out-of-office
+// reply, auto reply, users, connection, rules). Shared Mailboxes, Personal Addresses and Mail Templates are a
 // Workspace Administrator's: who reads and sends from each shared mailbox, the
 // address the workspace gives each person, which outside mailboxes people may
 // connect, and the templates. Wording follows docs/WORDING.md. Every change is
@@ -57,10 +57,10 @@ onedesk.mail.settings = (tab) => {
 	const buttons = ($into) => $(`<div class="oms-buttons"></div>`).appendTo($into);
 	const remove = (click) =>
 		button({ variant: "ghost", icon: "x", title: __("Remove"), attrs: { "aria-label": __("Remove") } }).on("click", click);
-	const disconnect = (panel, account, email) =>
+	const disconnect = (account, email, done) =>
 		frappe.confirm(__("Disconnect {0}? Mail already synced is kept.", [esc(email)]), async () => {
 			await frappe.xcall("onedesk.one_mail.connect.disconnect", { account });
-			panel.refresh();
+			done();
 		});
 
 	// A view inside a tab (one mailbox): frappe's panel view, with Back before
@@ -103,89 +103,268 @@ onedesk.mail.settings = (tab) => {
 						title: box.email,
 						sub: esc(said.join(" · ")),
 						end: (box.error ? frappe.ui.badge.html({ label: __("Disconnected"), theme: "red" }) + " " : "") + chevron(),
-						open: () => mailbox(panel, box),
+						open: () => open(box.name, "mailboxes"),
 					})
 				);
 			});
 		},
 	};
 
-	// One Save in the header, as frappe's own settings do: it writes the
-	// signature, the auto reply and, when a password is typed, reconnects.
-	// `focus` scrolls to a section: signature or away.
-	const mailbox = (panel, box, focus = null) => {
-		let sign = null;
-		let reply = null;
-		let again = null;
-		const save = async () => {
-			if (sign) await frappe.xcall(H + "set_signature", { account: box.name, signature: sign.get_value("signature") || "" });
-			if (reply) await frappe.xcall("onedesk.one_mail.rules.set_away", { account: box.name, ...reply.get_values() });
-			const login = again && again.get_values();
-			if (login && login.password) {
-				await frappe.xcall("onedesk.one_mail.connect.reconnect", { account: box.name, ...login });
-				saved();
-				return mailbox(panel, { ...box, error: null });
+	// ── One mailbox ─────────────────────────────────────────────────────────
+	// Opening a mailbox turns the dialog's tabs into its own, with All
+	// Mailboxes above them to go back to the tab it was opened from
+	// (frappe's SettingsDialog.reset). Each tab saves on its own, as
+	// frappe's settings do. A shared mailbox's settings are its connector's
+	// or an administrator's (holders.may_manage).
+	const R = "onedesk.one_mail.rules.";
+	const managed = __("Only the user who connected it or a Workspace Administrator can change this.");
+
+	const signature_tab = (box) => ({
+		id: "signature",
+		label: __("Signature"),
+		icon: "signature",
+		title: __("Signature"),
+		description: !box.sends ? __("Requires Send access.") : box.may_sign ? __("Added to every email sent from this mailbox.") : managed,
+		actions: box.may_sign
+			? [
+					{
+						label: __("Save"),
+						variant: "solid",
+						click: async (panel) => {
+							await frappe.xcall(H + "set_signature", { account: box.name, signature: panel.get_value("signature") || "" });
+							saved();
+						},
+					},
+			  ]
+			: [],
+		async render(panel) {
+			if (!box.may_sign) return;
+			const signature = await frappe.xcall(H + "signature_of", { account: box.name });
+			panel.add_fields([{ fieldname: "signature", fieldtype: "Text Editor", default: signature || "" }]);
+			buttons(panel.body).append(
+				onedesk.oneai.button(
+					__("Write With OneAI"),
+					__("Write a short email signature for {0} with my name, job title and contact details for me to approve.", [box.email])
+				)
+			);
+		},
+	});
+
+	const away_tab = (box) => ({
+		id: "away",
+		label: __("Out of Office"),
+		icon: "plane",
+		title: __("Out of Office"),
+		description: box.may_manage ? __("Sent once every 4 days per sender. Not sent to mailing lists.") : managed,
+		actions: box.may_manage
+			? [
+					{
+						label: __("Save"),
+						variant: "solid",
+						click: async (panel) => {
+							await frappe.xcall(R + "set_away", { account: box.name, ...panel.get_values() });
+							saved();
+						},
+					},
+			  ]
+			: [],
+		async render(panel) {
+			if (!box.may_manage) return;
+			const away = (await frappe.xcall(R + "away_of", { account: box.name })) || {};
+			panel.add_fields([
+				{ fieldname: "away", fieldtype: "Switch", label: __("Enable Out of Office"), default: away.one_away },
+				{ fieldname: "until", fieldtype: "Date", label: __("Until"), default: away.one_away_until, depends_on: "away" },
+				{ fieldname: "message", fieldtype: "Small Text", label: __("Message"), default: away.one_away_message, depends_on: "away" },
+			]);
+		},
+	});
+
+	const auto_tab = (box) => ({
+		id: "auto",
+		label: __("Auto Reply"),
+		icon: "reply",
+		title: __("Auto Reply"),
+		description: box.may_manage ? __("Sent to the first message of each new conversation. Not sent to replies or mailing lists.") : managed,
+		actions: box.may_manage
+			? [
+					{
+						label: __("Save"),
+						variant: "solid",
+						click: async (panel) => {
+							await frappe.xcall(R + "set_auto_reply", {
+								account: box.name,
+								on: panel.get_value("on") ? 1 : 0,
+								message: panel.get_value("message") || "",
+							});
+							saved();
+						},
+					},
+			  ]
+			: [],
+		async render(panel) {
+			if (!box.may_manage) return;
+			const said = (await frappe.xcall(R + "auto_reply_of", { account: box.name })) || {};
+			panel.add_fields([
+				{ fieldname: "on", fieldtype: "Switch", label: __("Enable Auto Reply"), default: said.enable_auto_reply },
+				{
+					fieldname: "message",
+					fieldtype: "Text Editor",
+					label: __("Message"),
+					default: said.auto_reply_message || "",
+					depends_on: "on",
+					description: __("Leave empty for a standard reply. {{ sender_name }} adds the sender's name."),
+				},
+			]);
+		},
+	});
+
+	const users_tab = (box, from) => ({
+		id: "users",
+		label: __("Users"),
+		icon: "users",
+		title: __("Users"),
+		async render(panel) {
+			const said = await frappe.xcall(H + "shared");
+			const one_box = (said.mailboxes || []).find((one) => one.name === box.name);
+			if (!one_box) return;
+			const again = () => panel.refresh();
+			const actions = [];
+			if (one_box.one_connected && !one_box.workspace) {
+				actions.push({
+					label: __("Set as Workspace Mailbox"),
+					click: () =>
+						frappe.confirm(__("Set {0} as the workspace mailbox?", [esc(box.email)]), async () => {
+							await frappe.xcall(H + "replace", { account: box.name, sends: one_box.enable_outgoing ? 1 : 0 });
+							open(box.name, from, "users");
+						}),
+				});
 			}
-			saved();
-		};
-		const actions = box.may_manage ? [{ label: __("Save"), variant: "solid", click: save }] : [];
-		if (box.connected && box.may_reconnect) {
-			actions.unshift({ label: __("Disconnect"), theme: "red", click: () => disconnect(panel, box.name, box.email) });
-		}
-		view(panel, {
-			title: box.email,
-			description: kind_of(box),
-			actions,
-			render: async (shown) => {
-				const $body = shown.body;
-				const managed = __("Only the user who connected it or a Workspace Administrator can change this.");
-				const section = (name, title, description) => $(heading(title, description)).attr("data-section", name).appendTo($body);
-				section("signature", __("Signature"), !box.sends ? __("Requires Send access.") : box.may_sign ? "" : managed);
-				if (box.sends && box.may_sign) {
-					const signature = await frappe.xcall(H + "signature_of", { account: box.name });
-					sign = fields($(`<div></div>`).appendTo($body), [
-						{ fieldname: "signature", fieldtype: "Text Editor", default: signature || "" },
-					]);
-					buttons($body).append(
-						onedesk.oneai.button(
-							__("Write With OneAI"),
-							__("Write a short email signature for {0} with my name, job title and contact details for me to approve.", [box.email])
-						)
-					);
-				}
-
-				section("away", __("Out of Office"), box.may_manage ? __("Sent once every 4 days per sender. Not sent to mailing lists.") : managed);
-				if (box.may_manage) {
-					const away = (await frappe.xcall("onedesk.one_mail.rules.away_of", { account: box.name })) || {};
-					reply = fields($(`<div></div>`).appendTo($body), [
-						{ fieldname: "away", fieldtype: "Switch", label: __("Enable Auto Reply"), default: away.one_away },
-						{ fieldname: "until", fieldtype: "Date", label: __("Until"), default: away.one_away_until, depends_on: "away" },
-						{ fieldname: "message", fieldtype: "Small Text", label: __("Message"), default: away.one_away_message, depends_on: "away" },
-					]);
-				}
-
-				if (box.connected && box.may_reconnect && box.error) {
-					$body.append(heading(__("Connection"), __("Disconnected. {0}", [box.error])));
-					again = fields($(`<div></div>`).appendTo($body), [
-						{ fieldname: "password", fieldtype: "Password", label: __("Password"), description: __("Gmail and Outlook require an app password.") },
-						{ fieldname: "login", fieldtype: "Data", label: __("Login ID"), description: __("Leave empty to use the email address.") },
-					]);
-				}
-
-				$body.append(heading(__("Mail Rules")));
-				button({ label: __("Open Mail Rules"), icon_right: "arrow-up-right" })
-					.on("click", () => {
-						dialog.hide();
-						frappe.set_route("List", "Mail Rule", { account: box.name });
+			if (one_box.one_connected && one_box.workspace) {
+				actions.push({
+					label: __("Restore Default Address"),
+					click: () =>
+						frappe.confirm(__("Use the default workspace address again?"), async () => {
+							await frappe.xcall(H + "restore");
+							home(from);
+						}),
+				});
+			}
+			panel.set_header({ title: __("Users"), description: users_said(one_box), actions });
+			const $add = $(`<div class="oms-add oms-add-top"></div>`).appendTo(panel.body);
+			const pick = frappe.ui.form.make_control({
+				df: {
+					fieldtype: "Link",
+					fieldname: "user",
+					options: "User",
+					placeholder: __("Select User"),
+					get_query: () => ({ filters: { user_type: "System User", enabled: 1 } }),
+				},
+				parent: $(`<span class="oms-add-pick"></span>`).appendTo($add),
+				render_input: true,
+			});
+			button({ label: __("Add"), variant: "solid" })
+				.on("click", async () => {
+					const user = pick.get_value();
+					if (!user) return;
+					await frappe.xcall(H + "grant", { account: box.name, user, sends: one_box.enable_outgoing ? 1 : 0 });
+					again();
+				})
+				.appendTo($add);
+			const $list = $(`<div class="oms-list"></div>`).appendTo(panel.body);
+			if (!one_box.people.length) $list.append(empty(__("No users")));
+			one_box.people.forEach((one) => {
+				const $end = row({ lead: frappe.ui.avatar.html({ label: one.name, size: "md" }), title: one.name, sub: esc(one.user) })
+					.appendTo($list)
+					.find(".oms-end");
+				const send = frappe.ui.form.make_control({
+					df: { fieldtype: "Switch", fieldname: "sends", label: __("Send"), read_only: !one_box.enable_outgoing },
+					parent: $(`<span class="oms-switch"></span>`).appendTo($end),
+					render_input: true,
+				});
+				send.set_value(one.sends);
+				send.$input.on("change", async () => {
+					await frappe.xcall(H + "grant", { account: box.name, user: one.user, sends: send.get_value() ? 1 : 0 });
+					saved();
+				});
+				remove(() =>
+					frappe.confirm(__("Remove {0} from {1}?", [esc(one.name), esc(box.email)]), async () => {
+						await frappe.xcall(H + "revoke", { account: box.name, user: one.user });
+						again();
 					})
-					.appendTo(buttons($body));
+				).appendTo($end);
+			});
+		},
+	});
+	const users_said = (one_box) =>
+		one_box.enable_outgoing ? __("Everyone listed can read. Send allows sending from this mailbox.") : __("Connected without outgoing mail.");
 
-				// After the signature's editor has drawn, which changes the height above.
-				const $at = focus && $body.find(`[data-section="${focus}"]`);
-				if ($at && $at.length) setTimeout(() => $at.get(0).scrollIntoView({ block: "start", behavior: "smooth" }), 300);
+	const connection_tab = (box, from) => ({
+		id: "connection",
+		label: __("Connection"),
+		icon: "plug",
+		title: __("Connection"),
+		description: box.error ? __("Disconnected. {0}", [box.error]) : __("Connected"),
+		actions: [
+			{ label: __("Disconnect"), theme: "red", click: () => disconnect(box.name, box.email, () => home(from)) },
+			{
+				label: __("Reconnect"),
+				variant: "solid",
+				click: async (panel) => {
+					const values = panel.get_values();
+					if (!values) return;
+					await frappe.xcall("onedesk.one_mail.connect.reconnect", { account: box.name, ...values });
+					saved();
+					open(box.name, from, "connection");
+				},
 			},
-		});
+		],
+		fields: [
+			{ fieldname: "password", fieldtype: "Password", label: __("Password"), reqd: 1, description: __("Gmail and Outlook require an app password.") },
+			{ fieldname: "login", fieldtype: "Data", label: __("Login ID"), description: __("Leave empty to use the email address.") },
+		],
+	});
+
+	const rules_tab = (box) => ({
+		id: "rules",
+		label: __("Mail Rules"),
+		icon: "list-filter",
+		title: __("Mail Rules"),
+		description: __("Mark, star or move new mail as it arrives."),
+		actions: [
+			{
+				label: __("Open Mail Rules"),
+				icon: "arrow-up-right",
+				click: () => {
+					dialog.hide();
+					frappe.set_route("List", "Mail Rule", { account: box.name });
+				},
+			},
+		],
+	});
+
+	// `focus` is the tab to open on: signature, away, auto, users or connection.
+	const open = async (name, from = "mailboxes", focus = null) => {
+		const box = await frappe.xcall(H + "mailbox", { account: name });
+		const items = [];
+		if (box.sends || box.may_sign) items.push(signature_tab(box));
+		items.push(away_tab(box));
+		if (box.shared) items.push(auto_tab(box));
+		if (box.shared && admin) items.push(users_tab(box, from));
+		if (box.connected && box.may_reconnect) items.push(connection_tab(box, from));
+		items.push(rules_tab(box));
+		dialog.reset(
+			[
+				{ items: [{ id: "back", label: __("All Mailboxes"), icon: "arrow-left", render() {} }] },
+				{ group: box.email, items },
+			],
+			items.some((one) => one.id === focus) ? focus : items[0].id
+		);
+		dialog.$wrapper
+			.find('.settings-dialog-tab-item[data-tab-id="back"]')
+			.off("click")
+			.on("click", () => home(from));
 	};
+	const home = (tab) => dialog.reset(tabs, tab);
 
 	// Connecting an IMAP mailbox: the user's own from Mailboxes, the
 	// workspace's from Shared Mailboxes, which then opens its users.
@@ -205,7 +384,7 @@ onedesk.mail.settings = (tab) => {
 						try {
 							const account = await frappe.xcall("onedesk.one_mail.connect.connect", { ...values, shared: shared ? 1 : 0 });
 							frappe.show_alert({ message: __("Mailbox connected"), indicator: "green" });
-							if (shared) return access(panel, account);
+							if (shared) return open(account, "shared", "users");
 							dialog.hide();
 							frappe.set_route("onemail", { box: account });
 						} finally {
@@ -267,95 +446,11 @@ onedesk.mail.settings = (tab) => {
 							].join(" · ")
 						),
 						end: chevron(),
-						open: () => access(panel, box.name),
+						open: () => open(box.name, "shared"),
 					})
 				);
 			});
 		},
-	};
-
-	const access = async (panel, name) => {
-		const said = await frappe.xcall(H + "shared");
-		const box = (said.mailboxes || []).find((one) => one.name === name);
-		if (!box) return panel.refresh();
-		const again = () => access(panel, name);
-		const actions = [];
-		if (box.one_connected && !box.workspace) {
-			actions.push({
-				label: __("Set as Workspace Mailbox"),
-				click: () =>
-					frappe.confirm(__("Set {0} as the workspace mailbox?", [esc(box.email_id)]), async () => {
-						await frappe.xcall(H + "replace", { account: box.name, sends: box.enable_outgoing ? 1 : 0 });
-						again();
-					}),
-			});
-		}
-		if (box.one_connected && box.workspace) {
-			actions.push({
-				label: __("Restore Default Address"),
-				click: () =>
-					frappe.confirm(__("Use the default workspace address again?"), async () => {
-						await frappe.xcall(H + "restore");
-						again();
-					}),
-			});
-		}
-		if (box.one_connected) actions.push({ label: __("Disconnect"), theme: "red", click: () => disconnect(panel, box.name, box.email_id) });
-		view(panel, {
-			title: box.email_id,
-			description: box.workspace ? __("Workspace Mailbox") : __("Shared Mailbox"),
-			actions,
-			render: (shown) => {
-				const users = heading_with(
-					__("Users"),
-					box.enable_outgoing ? __("Everyone listed can read. Send allows sending from this mailbox.") : __("Connected without outgoing mail.")
-				);
-				users.$row.appendTo(shown.body);
-				const $add = $(`<div class="oms-add"></div>`).appendTo(users.$end);
-				const pick = frappe.ui.form.make_control({
-					df: {
-						fieldtype: "Link",
-						fieldname: "user",
-						options: "User",
-						placeholder: __("Select User"),
-						get_query: () => ({ filters: { user_type: "System User", enabled: 1 } }),
-					},
-					parent: $(`<span class="oms-add-pick"></span>`).appendTo($add),
-					render_input: true,
-				});
-				button({ label: __("Add"), variant: "solid" })
-					.on("click", async () => {
-						const user = pick.get_value();
-						if (!user) return;
-						await frappe.xcall(H + "grant", { account: box.name, user, sends: box.enable_outgoing ? 1 : 0 });
-						again();
-					})
-					.appendTo($add);
-				const $list = $(`<div class="oms-list"></div>`).appendTo(shown.body);
-				if (!box.people.length) $list.append(empty(__("No users")));
-				box.people.forEach((one) => {
-					const $end = row({ lead: frappe.ui.avatar.html({ label: one.name, size: "md" }), title: one.name, sub: esc(one.user) })
-						.appendTo($list)
-						.find(".oms-end");
-					const send = frappe.ui.form.make_control({
-						df: { fieldtype: "Switch", fieldname: "sends", label: __("Send"), read_only: !box.enable_outgoing },
-						parent: $(`<span class="oms-switch"></span>`).appendTo($end),
-						render_input: true,
-					});
-					send.set_value(one.sends);
-					send.$input.on("change", async () => {
-						await frappe.xcall(H + "grant", { account: box.name, user: one.user, sends: send.get_value() ? 1 : 0 });
-						saved();
-					});
-					remove(() =>
-						frappe.confirm(__("Remove {0} from {1}?", [esc(one.name), esc(box.email_id)]), async () => {
-							await frappe.xcall(H + "revoke", { account: box.name, user: one.user });
-							again();
-						})
-					).appendTo($end);
-				});
-			},
-		});
 	};
 
 	// ── Personal Addresses ──────────────────────────────────────────────────
@@ -500,11 +595,7 @@ onedesk.mail.settings = (tab) => {
 	onedesk.mail._settings = dialog;
 	dialog.$wrapper.addClass("oms");
 	dialog.show();
-	if (opening === "mailbox") {
-		frappe.xcall(H + "mailboxes").then((boxes) => {
-			const box = (boxes || []).find((one) => one.name === named);
-			if (box) mailbox(dialog.get_panel("mailboxes"), box, focus);
-		});
-	} else if (joining) connect(dialog.get_panel(joining), { shared: joining === "shared" });
+	if (opening === "mailbox") open(named, "mailboxes", focus);
+	else if (joining) connect(dialog.get_panel(joining), { shared: joining === "shared" });
 	return dialog;
 };

@@ -2608,6 +2608,10 @@ msgstr "أُضفت إلى مشروع"
 msgid "Added to a Library"
 msgstr "أُضفت إلى مكتبة"
 
+#: onedesk/public/js/onemail_settings.js:127
+msgid "Added to every email sent from this mailbox."
+msgstr "يُضاف إلى كل بريد يُرسل من صندوق البريد هذا."
+
 #. Description of the 'Added Instructions' (Small Text) field in DocType 'AI
 #. Action Setting'
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
@@ -3118,6 +3122,10 @@ msgstr "كل التفاصيل"
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:73
 msgid "All Events"
 msgstr "كل الأحداث"
+
+#: onedesk/public/js/onemail_settings.js:357
+msgid "All Mailboxes"
+msgstr "كل صناديق البريد"
 
 #: onedesk/one_book/story.py:158
 msgid "All Other Accounts"
@@ -5192,6 +5200,11 @@ msgstr "إغلاق تسجيلات الحضور المفتوحة تلقائياً
 #: onedesk/one_task/custom/task.json
 msgid "Auto Repeat"
 msgstr ""
+
+#: frontend/src/mail/OneMail.vue:288 onedesk/public/js/onemail_settings.js:184
+#: onedesk/public/js/onemail_settings.js:186
+msgid "Auto Reply"
+msgstr "رد تلقائي"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:779
 msgid "Auto-fit height"
@@ -8571,6 +8584,10 @@ msgstr "ربط خادم"
 msgid "Connect {0} as a drive"
 msgstr "توصيل {0} كمحرك أقراص"
 
+#: onedesk/public/js/onemail_settings.js:306
+msgid "Connected"
+msgstr "متصل"
+
 #. Label of the one_connected (Check) field in DocType 'Email Account'
 #: onedesk/one_mail/custom/email_account.json
 msgid "Connected to OneMail"
@@ -8580,7 +8597,9 @@ msgstr "متصل بـ OneMail"
 msgid "Connected without outgoing mail."
 msgstr "مربوط دون بريد صادر."
 
-#: onedesk/one/ai.py:1242 onedesk/public/js/settings.js:391
+#: onedesk/one/ai.py:1197 onedesk/one/ai.py:1242
+#: onedesk/public/js/onemail_settings.js:303
+#: onedesk/public/js/onemail_settings.js:305 onedesk/public/js/settings.js:391
 msgid "Connection"
 msgstr "الاتصال"
 
@@ -13725,13 +13744,17 @@ msgstr "تركه فارغاً يستخدم النموذج الذي حدّده ا
 msgid "Enable"
 msgstr ""
 
-#: onedesk/public/js/onemail.js:827
+#: onedesk/public/js/onemail.js:827 onedesk/public/js/onemail_settings.js:208
 msgid "Enable Auto Reply"
 msgstr "تفعيل الرد التلقائي"
 
 #: frontend/src/item/ItemPage.vue:304
 msgid "Enable Item"
 msgstr "تفعيل الصنف"
+
+#: onedesk/public/js/onemail_settings.js:175
+msgid "Enable Out of Office"
+msgstr "تفعيل خارج المكتب"
 
 #: onedesk/public/js/onemail.js:786 onedesk/public/js/onemail_settings.js:212
 msgid "Enable Outgoing"
@@ -21360,6 +21383,10 @@ msgstr "الإجازة السنوية"
 msgid "Leave asked for, and its answer."
 msgstr "إجازة مطلوبة وردّها."
 
+#: onedesk/public/js/onemail_settings.js:215
+msgid "Leave empty for a standard reply. {{ sender_name }} adds the sender's name."
+msgstr "اتركه فارغًا لرد قياسي. {{ sender_name }} يضيف اسم المرسل."
+
 #: onedesk/public/js/tenant.js:50
 msgid "Leave empty for no expiry."
 msgstr "اتركه فارغًا لعدم الانتهاء."
@@ -22922,6 +22949,10 @@ msgstr "تحديد {0} كمفقود؟ سيتم تسجيل خروج الجميع 
 #: onedesk/one_project/ai.py:577
 msgid "Mark {0} {1}"
 msgstr "تعيين {0} {1}"
+
+#: onedesk/public/js/onemail_settings.js:332
+msgid "Mark, star or move new mail as it arrives."
+msgstr "حدّد أو ميّز بنجمة أو انقل البريد الجديد عند وصوله."
 
 #. Name of a notification
 #: onedesk/notifications/one_hr/marked_absent.md
@@ -27624,6 +27655,10 @@ msgstr "يمكن عرض التقرير المحفوظ فقط في مكان آخ�
 #: onedesk/one_mail/holders.py:170
 msgid "Only a shared mailbox can be the workspace mailbox."
 msgstr "لا يمكن أن يكون صندوق بريد مساحة العمل إلا صندوقًا مشتركًا."
+
+#: onedesk/one_mail/rules.py:310
+msgid "Only a shared mailbox has an Auto Reply."
+msgstr "الرد التلقائي متاح لصناديق البريد المشتركة فقط."
 
 #: onedesk/one_project/progress.py:464
 msgid "Only a submitted order still open can be billed."
@@ -33087,6 +33122,10 @@ msgstr "المستلمون الذين لم يرسلوا كل شيء"
 msgid "Reconciled"
 msgstr ""
 
+#: onedesk/public/js/onemail_settings.js:310
+msgid "Reconnect"
+msgstr "إعادة الربط"
+
 #. Label of the reference_name (Dynamic Link) field in DocType 'Portal Link'
 #. Label of the record_doctype (Link) field in DocType 'Record Head'
 #. Label of the record_doctype (Link) field in DocType 'Workspace
@@ -36051,6 +36090,10 @@ msgstr "يُرسل مرة كل 4 أيام لكل مرسل. لا يُرسل إل�
 msgid "Sent to addresses outside the workspace, so there's no channel to choose."
 msgstr "يُرسل إلى عناوين خارج مساحة العمل، لذا لا توجد قناة للاختيار."
 
+#: onedesk/public/js/onemail_settings.js:187
+msgid "Sent to the first message of each new conversation. Not sent to replies or mailing lists."
+msgstr "يُرسل إلى أول رسالة في كل محادثة جديدة. لا يُرسل إلى الردود أو القوائم البريدية."
+
 #: onedesk/public/js/privacy_copy.js:41
 msgid "Sent to {0}."
 msgstr "يُرسل إلى {0}."
@@ -36678,10 +36721,6 @@ msgstr "التوزيع حسب"
 #: onedesk/one_book/print_format/one_cost_center_allocation/one_cost_center_allocation.json
 msgid "Shared From"
 msgstr "موزّع من"
-
-#: onedesk/public/js/onemail.js:790
-msgid "Shared Mailbox"
-msgstr "صندوق بريد مشترك"
 
 #: onedesk/public/js/onemail_settings.js:187
 #: onedesk/public/js/onemail_settings.js:189
@@ -46154,6 +46193,10 @@ msgstr "المستحق علينا"
 #: onedesk/notifications/one_admin/workspace_delayed.md
 msgid "We have your payment for {workspace}, but setup hit a problem on our side. We're working on it.<br><br>We'll email you when it's ready. You don't need to do anything. If you have a question, reply to this email."
 msgstr "استلمنا دفعتك لـ {workspace}، لكن الإعداد واجه مشكلة من جهتنا. نحن نعمل على حلها.<br><br>سنراسلك عندما تصبح جاهزة. لا تحتاج إلى فعل أي شيء. إن كان لديك سؤال، ردّ على هذا البريد."
+
+#: onedesk/one_mail/rules.py:256
+msgid "We received your message and will reply soon."
+msgstr "استلمنا رسالتك وسنرد قريبًا."
 
 #: onedesk/www/account_profile.html:92
 msgid "We sent a link to {0}. The address changes when it is followed, within the hour."

@@ -40,14 +40,24 @@ def workspace() -> str | None:
 
 
 def may_manage(account: str) -> bool:
-	"""Whether the reader may change a mailbox's signature, out-of-office
-	reply and connection: one they hold, and when it is shared, only if they
-	connected it or administer the workspace."""
+	"""Whether the reader may change a mailbox's signature, replies and
+	connection: their own one, and a shared one only if they connected it
+	or administer the workspace, holding it or not."""
 	from onedesk.one import roles
 	from onedesk.one_mail import actions
 
 	shared, owner = frappe.db.get_value("Email Account", account, ["one_shared", "owner"]) or (0, None)
-	return actions.holds(account) and (not shared or owner == frappe.session.user or roles.administers())
+	if shared:
+		return owner == frappe.session.user or roles.administers()
+	return actions.holds(account)
+
+
+def sees(account: str):
+	"""Refuse a reader who neither holds nor manages this mailbox."""
+	from onedesk.one_mail import actions
+
+	if not (actions.holds(account) or may_manage(account)):
+		actions.require(account)
 
 
 def manages(account: str):
@@ -110,21 +120,7 @@ def mailboxes() -> list[dict]:
 	if not held:
 		return []
 	ours = workspace()
-	accounts = frappe.get_all(
-		"Email Account",
-		filters={"name": ["in", held]},
-		fields=[
-			"name",
-			"email_id",
-			"one_hosted",
-			"one_connected",
-			"one_shared",
-			"enable_outgoing",
-			"one_error",
-			"one_intake",
-			"signature",
-		],
-	)
+	accounts = frappe.get_all("Email Account", filters={"name": ["in", held]}, fields=BOX_FIELDS)
 	folders: dict[str, list] = {}
 	for row in frappe.get_all(
 		"Mail Folder",
@@ -135,27 +131,54 @@ def mailboxes() -> list[dict]:
 	out = []
 	for account in accounts:
 		listed = ordered(folders.get(account.name, []))
-		out.append(
-			{
-				"name": account.name,
-				"email": account.email_id,
-				"hosted": account.one_hosted,
-				"connected": account.one_connected,
-				"shared": account.one_shared,
-				"workspace": int(account.name == ours),
-				"sends": int(bool(account.enable_outgoing and rows.get(account.name))),
-				"error": account.one_error,
-				"intake": account.one_intake,
-				"receives_only": int(bool(account.one_hosted and not account.enable_outgoing)),
-				"may_sign": int(may_sign(account.name)) if account.enable_outgoing and rows.get(account.name) else 0,
-				"signed": first_line(account.signature),
-				"may_manage": int(may_manage(account.name)),
-				"may_reconnect": int(bool(account.one_connected) and may_manage(account.name)),
-				"unread": sum(one.unread or 0 for one in listed if one.kind in ("Inbox", "Other")),
-				"folders": listed,
-			}
-		)
+		out.append(_box(account, rows, ours, listed))
 	return sorted(out, key=lambda one: (-one["workspace"], -one["shared"], one["email"]))
+
+
+BOX_FIELDS = [
+	"name",
+	"email_id",
+	"one_hosted",
+	"one_connected",
+	"one_shared",
+	"enable_outgoing",
+	"one_error",
+	"one_intake",
+	"signature",
+	"enable_auto_reply",
+]
+
+
+def _box(account, rows: dict, ours: str | None, listed: list) -> dict:
+	"""What OneMail shows of one mailbox to the reader."""
+	return {
+		"name": account.name,
+		"email": account.email_id,
+		"hosted": account.one_hosted,
+		"connected": account.one_connected,
+		"shared": account.one_shared,
+		"workspace": int(account.name == ours),
+		"sends": int(bool(account.enable_outgoing and rows.get(account.name))),
+		"error": account.one_error,
+		"intake": account.one_intake,
+		"receives_only": int(bool(account.one_hosted and not account.enable_outgoing)),
+		"may_sign": int(may_sign(account.name)),
+		"auto_reply": int(bool(account.get("enable_auto_reply"))),
+		"signed": first_line(account.signature),
+		"may_manage": int(may_manage(account.name)),
+		"may_reconnect": int(bool(account.one_connected) and may_manage(account.name)),
+		"unread": sum(one.unread or 0 for one in listed if one.kind in ("Inbox", "Other")),
+		"folders": listed,
+	}
+
+
+@frappe.whitelist()
+def mailbox(account: str) -> dict:
+	"""One mailbox as mailboxes() describes it, also to an administrator
+	who manages a shared one without holding it."""
+	sees(account)
+	row = frappe.db.get_value("Email Account", account, BOX_FIELDS, as_dict=True)
+	return _box(row, sending_rows(), workspace(), [])
 
 
 @frappe.whitelist()
@@ -355,9 +378,7 @@ def _sends_for_everybody(doc) -> None:
 @frappe.whitelist()
 def signature_of(account: str) -> str | None:
 	"""A mailbox's signature: the address's, whoever writes from it."""
-	from onedesk.one_mail import actions
-
-	actions.require(account)
+	sees(account)
 	return frappe.db.get_value("Email Account", account, "signature")
 
 

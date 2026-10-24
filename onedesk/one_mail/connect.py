@@ -252,9 +252,9 @@ def reconnect(account: str, password: str, login: str | None = None) -> str:
 	again: tried on the servers it already has before it is kept, then read
 	again at once. A shared one is its connector's or an administrator's
 	(holders.manages)."""
-	from onedesk.one_mail import actions, holders
+	from onedesk.one_mail import holders
 
-	actions.require(account)
+	holders.manages(account)
 	doc = frappe.get_doc("Email Account", account)
 	if not doc.one_connected:
 		frappe.throw(_("Only a connected mailbox has a password to update."))

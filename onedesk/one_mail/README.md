@@ -25,12 +25,15 @@ needs a Cloudflare key with Zone Settings: Edit.
 
 **Settings** at the foot of OneMail's rail opens OneMail's settings:
 
-- **Mailboxes**: every mailbox you read. Open one to edit its signature,
-  set an out-of-office reply, open its rules, reconnect or disconnect it.
-  One **Save** at the top saves the signature, the reply and a new password.
+- **Mailboxes**: every mailbox you read. Opening one turns the sidebar into
+  its own tabs, with **All Mailboxes** above them to go back: **Signature**,
+  **Out of Office**, **Auto Reply** (shared mailboxes), **Users** (shared
+  mailboxes, administrators), **Connection** (connected mailboxes) and
+  **Mail Rules**. Each tab has its own **Save**.
 - **Shared Mailboxes** (administrators): the workspace mailbox and every
-  shared one. Open one to add or remove users, turn **Send** on or off per
-  user, set it as the workspace mailbox, or disconnect it.
+  shared one. Opening one shows the same tabs; **Users** adds or removes
+  people, turns **Send** on or off per user, and sets it as the workspace
+  mailbox.
 - **Personal Addresses** (administrators): **Send From Workspace
   Addresses**, and **External Mailboxes** for mailboxes users connect
   themselves. When on, **Allowed Domains** limits them to the domains listed;
@@ -60,6 +63,14 @@ A mailbox's **…** in the sidebar (or right-click) has **New Folder**,
 
 A shared mailbox's signature, out-of-office reply and connection are
 changed only by the user who connected it or a Workspace Administrator.
+
+**Auto Reply** on a shared mailbox answers the first message of each new
+conversation, such as "We received your message and will reply soon." It
+is not sent to replies in a thread, to mailing lists or automated mail, or
+more than once a day to the same sender, and an out-of-office reply takes
+its place when both are on. `{{ sender_name }}` and `{{ subject }}` fill in
+from the message. It uses frappe's own Enable Auto Reply and Auto Reply
+Message fields on the mailbox.
 
 Connecting signs in to both servers before anything is saved: the incoming
 one, and with **Enable Outgoing** on, the outgoing one too. A guessed
