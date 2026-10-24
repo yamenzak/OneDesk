@@ -111,7 +111,7 @@ def apply(action: Action, reading) -> str | None:
 	if not person or cint(reading.history):
 		return None
 	key = key_of(reading.key, action)
-	if not _does(reading, key):
+	if not _does(reading, key) or _ruled(reading, action):
 		return None
 	held = frappe.db.get_value("Intake Action", {"key": key}, "name")
 	if held:
@@ -182,6 +182,16 @@ def _does(reading, key: str) -> bool:
 	if reading.name not in cache:
 		cache[reading.name] = gate.account_of("Reading", reading.name)
 	return gate.does(cache[reading.name], gate.job_of(key))
+
+
+def _ruled(reading, action: Action) -> bool:
+	"""Whether a mailbox's rule already made a record of this kind from the
+	message this reading is of, so OneIntake makes no second one."""
+	if action.kind != "Create":
+		return False
+	from onedesk.one_mail import gate
+
+	return action.doctype in gate.made_by_rule(gate.message_of(reading.name))
 
 
 def _insert(row) -> str:

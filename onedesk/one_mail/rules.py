@@ -401,7 +401,7 @@ def create(rule, step: dict, name: str) -> str | None:
 	doc.flags.ignore_mandatory = True
 	doc.insert()
 	frappe.db.set_value(kind, doc.name, "owner", rule.owner, update_modified=False)
-	linking.add(name, kind, doc.name, "manual")
+	linking.add(name, kind, doc.name, "rule")
 	return doc.name
 
 

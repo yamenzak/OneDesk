@@ -499,7 +499,9 @@ onedesk.mail.settings = (tab) => {
 		label: __("OneAI"),
 		icon: "oneai",
 		title: __("OneAI"),
-		description: box.may.ai ? __("If disabled, OneAI can't read this mailbox, including in the OneAI panel.") : managed,
+		description: box.may.ai
+			? __("What OneAI does with new mail on its own. It never mails anyone outside the workspace. If disabled, OneAI can't read this mailbox.")
+			: managed,
 		actions: box.may.ai
 			? [
 					{
@@ -766,9 +768,9 @@ onedesk.mail.settings = (tab) => {
 		icon: "workflow",
 		title: __("Automation"),
 		description: box.may.rules
-			? __("Run in order on each new message.")
+			? __("Rules you write, run in order on each new message. They come before what OneAI does.")
 			: box.hosted && !box.shared
-			? __("Run in order on each new message. A rule you ask for runs once a Mail Manager approves it.")
+			? __("Rules you write, run in order on each new message. A rule you ask for runs once a Mail Manager approves it.")
 			: managed,
 		actions:
 			box.may.rules || (box.hosted && !box.shared)

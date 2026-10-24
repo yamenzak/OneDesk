@@ -9712,8 +9712,9 @@ def onemail_oneai_tells_a_sender_only_their_own_records():
 
 @check
 def onemail_a_mailbox_says_what_oneai_may_do_with_its_mail():
-	"""Layla switches off Tasks and Follow-Ups for the workspace mailbox:
-	OneIntake then makes no task from its mail, while a link it still makes;
+	"""Layla switches off Create Tasks for the workspace mailbox: OneIntake
+	then makes no task from its mail, while a link it still makes; once a
+	rule has made a task from a message, OneIntake makes no second one;
 	an unknown job, or a reading from no mailbox, is never held back. Setting
 	New Mail to Not Read names the rules that ask OneAI, which then show as
 	not running."""
@@ -9736,6 +9737,17 @@ def onemail_a_mailbox_says_what_oneai_may_do_with_its_mail():
 		gate.set_settings(account, skips=[])
 	frappe.local.flags.one_intake_mailbox = {}
 	assert act.apply(task, reading), "switched back on, it is done or proposed"
+
+	from onedesk.one_mail import linking
+
+	message = gate.message_of(reading.name)
+	assert message, "a reading of mail knows its message"
+	ruled = frappe.get_doc({"doctype": "Task", "subject": "Made by a rule"}).insert(ignore_permissions=True)
+	linking.add(message, "Task", ruled.name, "rule")
+	again = act.Action("Create", "Task", values={"subject": "Call back again"}, key="task|again", sure=True)
+	assert act.apply(again, reading) is None, "a rule made a task from this message: OneAI makes none"
+	event = act.Action("Create", "Event", values={"subject": "Visit", "starts_on": frappe.utils.now()}, key="event", sure=True)
+	assert act.apply(event, reading), "the rule's task holds back no other kind"
 
 	frappe.db.set_value("Email Account", ours, "one_intake", 1)
 	with as_user(OWNER):

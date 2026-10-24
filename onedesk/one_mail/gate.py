@@ -187,6 +187,37 @@ def account_of(doctype: str, name: str) -> str | None:
 	return None
 
 
+def message_of(reading: str) -> str | None:
+	"""The message a reading is of: the message itself, the one a file came
+	on, or the one the reading it is part of was."""
+	held = frappe.db.get_value("Reading", reading, ["source_doctype", "source_name", "part_of"], as_dict=True)
+	if not held:
+		return None
+	if held.source_doctype == "Communication":
+		return held.source_name
+	if held.source_doctype == "File" and held.source_name:
+		file = frappe.db.get_value("File", held.source_name, ["attached_to_doctype", "attached_to_name"], as_dict=True)
+		if file and file.attached_to_doctype == "Communication":
+			return file.attached_to_name
+	if held.part_of and held.part_of != reading:
+		return message_of(held.part_of)
+	return None
+
+
+def made_by_rule(message: str | None) -> set[str]:
+	"""The kinds of record a mailbox's rule already made from a message
+	(rules.create), which OneIntake then makes none of: the rule wins."""
+	if not message:
+		return set()
+	return set(
+		frappe.get_all(
+			"Communication Link",
+			filters={"parent": message, "parenttype": "Communication", "one_linked_by": "rule"},
+			pluck="link_doctype",
+		)
+	)
+
+
 def readable(doctype: str, name: str) -> bool:
 	"""Whether OneAI may read this message, file or reading: anything not from
 	a mailbox, or from one it may read."""

@@ -262,6 +262,17 @@ clients block until asked: the signature keeps only the logo's path, and
 
 ## Rules and out of office
 
+**Automation and OneAI, who decides what.** Automation is what you decide:
+rules you write, which do the same thing every time, and the only thing
+besides Out of Office that answers or forwards mail on its own. OneAI is
+what OneAI decides from reading the mail (the OneAI tab): sorting junk,
+filing, and the records and tasks a message asks for. It never mails
+anyone outside the workspace; an Ask OneAI step is a question a rule asks,
+and the rule decides what follows. Where both would do the same thing, the
+rule wins: a record a rule made from a message (linked to it as `rule`) is
+one OneIntake makes no second of (`act._ruled`, `gate.made_by_rule`), and a
+rule that moved the message out of the Inbox leaves nothing to sort.
+
 Rules, under **Automation** in a mailbox's **⋯** menu, decide what happens to new mail as it
 arrives in the Inbox. A rule reads as sentences on a line down the side,
 such as "If the sender **is a Customer** and **it arrives after hours**,

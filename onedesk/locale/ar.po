@@ -18723,10 +18723,6 @@ msgstr "إذا وافقت على هذا الطلب، ما الذي يُحذف، 
 msgid "If a payment went through, the receipt is in your email and somebody will be in touch."
 msgstr "إن تمت دفعة، فالإيصال في بريدك وسيتواصل معك أحد."
 
-#: onedesk/public/js/onemail_settings.js:287
-msgid "If disabled, OneAI can't read this mailbox, including in the OneAI panel."
-msgstr "عند التعطيل، لا يستطيع OneAI قراءة صندوق البريد هذا، بما في ذلك في لوحة OneAI."
-
 #. Description of the 'allow_geolocation_tracking' field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -22288,6 +22284,14 @@ msgstr "مرتبط بـ"
 #: onedesk/one_intake/doctype/file_link/file_link.json
 msgid "Linked To Type"
 msgstr "نوع المرتبط به"
+
+#: frontend/src/mail/mail.js:25
+msgid "Linked by OneAI"
+msgstr "رُبط بواسطة OneAI"
+
+#: frontend/src/mail/mail.js:24
+msgid "Linked by a rule"
+msgstr "رُبط بواسطة قاعدة"
 
 #: onedesk/public/js/onemail.js:9
 msgid "Linked by contact"
@@ -35810,6 +35814,14 @@ msgstr "القواعد في هذه الورقة"
 msgid "Rules override the naming above."
 msgstr "القواعد تتقدّم على التسمية أعلاه."
 
+#: onedesk/public/js/onemail_settings.js:773
+msgid "Rules you write, run in order on each new message. A rule you ask for runs once a Mail Manager approves it."
+msgstr "قواعد تكتبها، تعمل بالترتيب على كل رسالة جديدة. والقاعدة التي تطلبها تعمل بعد موافقة مدير البريد."
+
+#: onedesk/public/js/onemail_settings.js:771
+msgid "Rules you write, run in order on each new message. They come before what OneAI does."
+msgstr "قواعد تكتبها، تعمل بالترتيب على كل رسالة جديدة. وهي تسبق ما يفعله OneAI."
+
 #. Option for the 'Source' (Select) field in DocType 'Credit Ledger Entry'
 #. Label of the reference (Data) field in DocType 'AI Proposal'
 #. Task in the Marketing Campaign project template
@@ -35835,14 +35847,6 @@ msgstr "شغّل الآن"
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 msgid "Run as Recipient"
 msgstr "التشغيل باسم المستلم"
-
-#: onedesk/public/js/onemail_settings.js:499
-msgid "Run in order on each new message."
-msgstr "تعمل بالترتيب على كل رسالة جديدة."
-
-#: onedesk/public/js/onemail_settings.js:649
-msgid "Run in order on each new message. A rule you ask for runs once a Mail Manager approves it."
-msgstr "تعمل بالترتيب على كل رسالة جديدة. القاعدة التي تطلبها تعمل بعد موافقة مدير البريد."
 
 #. Task in the Event project template
 #: onedesk/one_project/library/event.json
@@ -47378,6 +47382,10 @@ msgstr "ما فعله OneAI"
 msgid "What OneAI does not do with this mailbox's mail, by job (one_mail/gate.py JOBS)."
 msgstr "ما لا يفعله OneAI ببريد هذا الصندوق، حسب المهمة."
 
+#: onedesk/public/js/onemail_settings.js:503
+msgid "What OneAI does with new mail on its own. It never mails anyone outside the workspace. If disabled, OneAI can't read this mailbox."
+msgstr "ما يفعله OneAI بالبريد الجديد من تلقاء نفسه. لا يراسل أبدًا أحدًا خارج مساحة العمل. إذا عُطّل، لا يستطيع OneAI قراءة هذا الصندوق."
+
 #. Description of a DocType
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "What OneAI read in one file or message. One per content, however many places it is in."
@@ -53374,6 +53382,10 @@ msgstr ""
 #: onedesk/one/portal_share.py:269
 msgid "revoked the portal link for {0}"
 msgstr "ألغى رابط البوابة لـ {0}"
+
+#: onedesk/one_mail/custom/communication_link.json
+msgid "rule"
+msgstr "قاعدة"
 
 #: onedesk/one_admin/offerings.py:181
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:21

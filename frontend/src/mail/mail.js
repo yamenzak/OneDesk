@@ -21,6 +21,8 @@ export const FILED_BY = {
 	thread: () => __("Linked by conversation"),
 	text: () => __("Mentioned in the message"),
 	manual: () => __("Linked manually"),
+	rule: () => __("Linked by a rule"),
+	oneai: () => __("Linked by OneAI"),
 };
 
 export const kindOf = (folder) => KINDS[folder.kind] || KINDS.Other;
