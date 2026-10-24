@@ -363,6 +363,7 @@ onedesk.window.create = (doctype, { after_insert = null, init_callback = null, d
 			const $host = $(`<div class="one-create-form"></div>`).appendTo(dialog.$panels);
 			dialog.show();
 
+			const before = window.cur_frm;
 			const frm = new frappe.ui.form.Form(doctype, $host[0], false);
 			frm.in_dialog = true;
 			frm.one_create = dialog;
@@ -378,7 +379,15 @@ onedesk.window.create = (doctype, { after_insert = null, init_callback = null, d
 					if (frm.is_new()) return;
 					saved = true;
 					dialog.hide();
-					if (frappe._from_link) frappe.ui.form.update_calling_link(frm.doc);
+					// Asked for from a field of a record still being made in a
+					// dialog of its own, the field is filled where it is: frappe's
+					// way back routes to the calling record, which has no page.
+					const from = frappe._from_link;
+					if (from && from.field_obj && from.field_obj.frm && from.field_obj.frm.one_create) {
+						delete frappe._from_link;
+						if (after_insert) after_insert(frm.doc);
+						else from.field_obj.set_value(frm.doc.name);
+					} else if (from) frappe.ui.form.update_calling_link(frm.doc);
 					else if (after_insert) after_insert(frm.doc);
 					else frappe.set_route("Form", frm.doctype, frm.doc.name);
 				});
@@ -393,8 +402,11 @@ onedesk.window.create = (doctype, { after_insert = null, init_callback = null, d
 					{ label: __("Save"), variant: "solid", click: save },
 					{ icon: "x", variant: "ghost", click: () => dialog.hide() },
 				],
+				// Beside the panel's body, not in it: the SettingsDialog styles a
+				// body's fields as settings rows (a line between switches, a line
+				// over each headed section), and this is a form, drawn as on the page.
 				on_activate: (panel) => {
-					$host.appendTo(panel.body);
+					$host.appendTo(panel.$el);
 					if (one) one.set_active();
 				},
 			});
@@ -426,7 +438,7 @@ onedesk.window.create = (doctype, { after_insert = null, init_callback = null, d
 			dialog.$wrapper.on("hide.bs.modal", () => {
 				$(document).off(".one-create");
 				removeEventListener("beforeunload", frm.beforeUnloadListener, { capture: true });
-				if (window.cur_frm === frm) window.cur_frm = null;
+				if (window.cur_frm === frm) window.cur_frm = before || null;
 				if (!saved && frm.doc && frm.doc.__islocal) frappe.model.clear_doc(doctype, frm.doc.name);
 				resolve(saved ? frm.doc : null);
 			});

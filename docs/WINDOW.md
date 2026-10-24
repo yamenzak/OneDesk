@@ -203,6 +203,14 @@ whoever asked (`after_insert`), else opens it. Closed unsaved, the new
 record is dropped. A table's row and a Single are frappe's as before, and a
 page inside a dialog never gets a window of its own.
 
+The form sits beside the panel's body, not in it: the SettingsDialog styles
+its body's fields as settings rows (a line over every headed section, a
+line between switches), and this is a form, drawn as on the page. Made
+from a field of another record being made, the new record fills that field
+where it is, in its dialog: frappe's way back (`update_calling_link`)
+routes to the calling record, which has no page yet. A table's row opened
+in the dialog covers the dialog, not the screen.
+
 ## Where it lives
 
 The window is two folders, and nothing of it is anywhere else:

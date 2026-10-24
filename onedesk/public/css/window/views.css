@@ -658,6 +658,17 @@
 	display: none !important;
 }
 
+.one-create .settings-dialog-panel > .settings-dialog-panel-body:empty {
+	display: none;
+}
+
+.one-create .settings-dialog-panel > .one-create-form {
+	flex: 1;
+	min-height: 0;
+	overflow-y: auto;
+	padding: 0 0.5rem;
+}
+
 .one-create .one-create-form .page-body,
 .one-create .one-create-form .page-wrapper,
 .one-create .one-create-form .layout-main-section-wrapper,
@@ -682,5 +693,25 @@
 .one-create .one-create-form .form-page {
 	margin: 0;
 	border: 0;
+}
+
+/* A table row opened in a record being made: frappe places its row form
+   fixed, 5% from the top and 80% of the screen wide, so over a dialog it
+   hung off it. The dialog's box is made what fixed is measured from (a
+   transform does that), and the row covers the dialog, a sheet with
+   frappe's own head to fold it away. */
+.one-create .modal-content {
+	transform: translateZ(0);
+}
+
+.one-create .grid-row-open .form-in-grid {
+	inset: 0;
+	width: auto;
+	max-width: none !important;
+	max-height: none;
+	margin: 0;
+	transform: none;
+	border-radius: inherit;
+	overflow-y: auto;
 }
 
