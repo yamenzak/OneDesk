@@ -23,20 +23,17 @@ needs a Cloudflare key with Zone Settings: Edit.
 
 ## Settings
 
-**Settings** at the foot of OneMail's rail opens OneMail's settings, a tab for
-each part:
+**Settings** at the foot of OneMail's rail opens OneMail's settings:
 
-- **Your Mailboxes**: every mailbox you read. Open one to write its
-  signature (or have OneAI write it), set an out-of-office reply, open its
-  rules, reconnect it when it stops connecting, or disconnect it.
-- **Workspace Mailboxes** (administrators): the workspace's mailbox and every
-  shared one. Open one to see who reads it, turn **Send** on for those who may
-  also send from it, add or remove people, make a connected mailbox the
-  workspace's mailbox (and back), or disconnect it.
-- **Personal Addresses** (administrators): whether people send from the
-  address the workspace gives them, and **Allowed Domains**, the domains
-  they may connect a mailbox of their own at, such as gmail.com. With none
-  listed they may connect any; a shared mailbox is not held to the list.
+- **Mailboxes**: every mailbox you read. Open one to edit its signature,
+  set an out-of-office reply, open its rules, reconnect or disconnect it.
+- **Shared Mailboxes** (administrators): the workspace mailbox and every
+  shared one. Open one to add or remove users, turn **Send** on or off per
+  user, set it as the workspace mailbox, or disconnect it.
+- **Personal Addresses** (administrators): **Allow Sending From Workspace
+  Address**, and **Allow External Mailboxes** for mailboxes users connect
+  themselves. When allowed, **Allowed Domains** limits them to the domains
+  listed; leave it empty to allow any. Shared mailboxes are not affected.
 - **Mail Templates** (administrators): reusable email text.
 
 ## Connecting a mailbox
@@ -56,11 +53,12 @@ happen on the mail server too, so your phone stays in sync.
 
 **Who can connect what:**
 
-- Anyone can connect their own mailbox. No one else can see into it, not
+- Anyone can connect their own mailbox, unless an administrator has
+  turned off **Allow External Mailboxes**. No one else can see into it, not
   even administrators.
 - A Workspace Administrator can tick **Shared Mailbox** to connect a
   workspace address such as `sales@yourcompany.com`, then choose in
-  **Settings › Workspace Mailboxes** who reads it and who may send from it.
+  **Settings › Shared Mailboxes** who reads it and who may send from it.
 
 ## Reading and writing
 
@@ -178,7 +176,7 @@ to Files, with their conversations and a **New Email** button.
 
 **Email Template** in the email window offers the templates for the record a
 conversation is linked to, filled in from it. In a new message it offers
-templates for any record. See Mail Templates in the Workspace settings.
+templates for any record. See **Settings › Mail Templates**.
 
 Linking a message to a record never shows it to anyone new. The Mail tab and
 the record's activity only list messages you could already open.
@@ -249,7 +247,7 @@ you ask. Each question uses OneAI credits.
 
 ## Connections
 
-- **From One**: Each person added to the workspace gets their own address. The mail window offers the Mail Templates set in the workspace's settings.
+- **From One**: Each person added to the workspace gets their own address. The mail window offers the templates set in **Settings › Mail Templates**.
 - **From OneIntake**: Search also finds words inside attachments that have been read. About rules use what a message is found to be about.
 - **To OneAdmin**: Mail from the workspace's addresses is sent through OneAdmin. By default the workspace can send 200 messages an hour and 2,000 a day.
 - **To OneCRM**: Mail from a customer, a lead or one of their contacts is linked to their record. Customers, leads, contacts, deals and quotations have a Mail tab. Contacts, leads and customers without a picture get one from Gravatar or their website.

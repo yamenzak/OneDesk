@@ -15,6 +15,8 @@ PERSONAL_SENDS = "one_mail_personal_sends"
 
 ALLOWED_DOMAINS = "one_mail_allowed_domains"
 
+EXTERNAL = "one_mail_external"
+
 NAME = re.compile(r"^[a-z0-9](?:[a-z0-9_-]{0,38}[a-z0-9])?$")
 
 RESERVED = frozenset(
@@ -83,6 +85,12 @@ def allowed_domains() -> list[str]:
 	"""The domains people may connect a personal mailbox at, such as
 	gmail.com; none listed is any (holders.set_allowed_domains)."""
 	return [one for one in (frappe.db.get_default(ALLOWED_DOMAINS) or "").split(",") if one]
+
+
+def external() -> bool:
+	"""Whether people may connect a mailbox of their own at all; on unless a
+	workspace administrator turned it off."""
+	return frappe.db.get_default(EXTERNAL) != "0"
 
 
 def domain_of(text: str) -> str:

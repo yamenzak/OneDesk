@@ -3136,6 +3136,10 @@ msgstr "كل المشاريع"
 msgid "All Read"
 msgstr "قُرئ الكل"
 
+#: onedesk/public/js/onemail_settings.js:413
+msgid "All Record Types"
+msgstr "كل أنواع السجلات"
+
 #: frontend/src/task/MyTasks.vue:13
 msgid "All Tasks"
 msgstr "كل المهام"
@@ -3274,6 +3278,10 @@ msgstr "رقم التخصيص"
 msgid "Allow Employees to Check In Themselves"
 msgstr "السماح للموظفين بتسجيل حضورهم بأنفسهم"
 
+#: onedesk/public/js/onemail_settings.js:338
+msgid "Allow External Mailboxes"
+msgstr "السماح بصناديق البريد الخارجية"
+
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:35
 msgid "Allow Grace Period"
 msgstr "السماح بفترة السماح"
@@ -3301,6 +3309,10 @@ msgstr ""
 msgid "Allow Sales"
 msgstr ""
 
+#: onedesk/public/js/onemail_settings.js:326
+msgid "Allow Sending From Workspace Address"
+msgstr "السماح بالإرسال من عنوان مساحة العمل"
+
 #: onedesk/public/js/settings.js:305
 msgid "Allow notifications for this site in your browser settings."
 msgstr "اسمح بالإشعارات لهذا الموقع في إعدادات متصفحك."
@@ -3317,6 +3329,10 @@ msgstr "السماح مع إظهار تحذير"
 #: onedesk/one_hr/print_format/one_employee_benefit_claim/one_employee_benefit_claim.json
 msgid "Allowed"
 msgstr ""
+
+#: onedesk/public/js/onemail_settings.js:348
+msgid "Allowed Domains"
+msgstr "النطاقات المسموح بها"
 
 #. Option for the 'Paid How' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -3833,6 +3849,10 @@ msgstr "أي شرط"
 #: frontend/src/plant/PlantFloor.vue:166
 msgid "Any Status"
 msgstr "أي حالة"
+
+#: onedesk/public/js/onemail_settings.js:358
+msgid "Any domain"
+msgstr "أي نطاق"
 
 #: onedesk/one/ai.py:272
 msgid "Any odd sign-ins?"
@@ -8554,6 +8574,10 @@ msgstr "اتصال"
 msgid "Connect Mailbox"
 msgstr "ربط صندوق بريد"
 
+#: onedesk/public/js/onemail_settings.js:192
+msgid "Connect Shared Mailbox"
+msgstr "ربط صندوق بريد مشترك"
+
 #: onedesk/public/js/onecloud.js:1840 onedesk/public/js/onecloud.js:1871
 msgid "Connect as a drive…"
 msgstr "الاتصال كمحرك أقراص…"
@@ -8574,6 +8598,10 @@ msgstr "مرتبط"
 #: onedesk/one_mail/custom/email_account.json
 msgid "Connected to OneMail"
 msgstr "متصل بـ OneMail"
+
+#: onedesk/public/js/onemail_settings.js:260
+msgid "Connected without outgoing mail."
+msgstr "مربوط دون بريد صادر."
 
 #: onedesk/one/ai.py:1242 onedesk/public/js/settings.js:391
 msgid "Connection"
@@ -11881,6 +11909,18 @@ msgstr "اقطع الاتصال بالخادم بدلًا من ذلك."
 msgid "Disconnect {0}? Files on the server stay as they are."
 msgstr "فصل {0}؟ تبقى الملفات على الخادم كما هي."
 
+#: onedesk/public/js/onemail_settings.js:55
+msgid "Disconnect {0}? Mail already synced is kept."
+msgstr "فصل {0}؟ يُحتفظ بالبريد الذي تمت مزامنته."
+
+#: onedesk/public/js/onemail_settings.js:99
+msgid "Disconnected"
+msgstr "غير مربوط"
+
+#: onedesk/public/js/onemail_settings.js:157
+msgid "Disconnected. {0}"
+msgstr "غير مربوط. {0}"
+
 #. Label in the One POS Invoice print format
 #. Label in the One Purchase Invoice print format
 #. Label in the One Purchase Invoice Bordered print format
@@ -12902,6 +12942,10 @@ msgstr "في كل مرة يُحفظ فيها {0}، قبل التحقق منه"
 msgid "Each time a {0} is saved, before it is written"
 msgstr "في كل مرة يُحفظ فيها {0}، قبل كتابته"
 
+#: onedesk/public/js/onemail_settings.js:321
+msgid "Each user gets an address such as {0}."
+msgstr "يحصل كل مستخدم على عنوان مثل {0}."
+
 #: onedesk/public/js/settings.js:2868
 msgid "Each uses OneAI credits."
 msgstr "كل منها يستهلك أرصدة OneAI."
@@ -13712,6 +13756,10 @@ msgstr "تفعيل الصنف"
 msgid "Enable Outgoing"
 msgstr "تفعيل الإرسال"
 
+#: onedesk/one_mail/holders.py:307 onedesk/one_mail/holders.py:356
+msgid "Enable Outgoing is disabled for {0}."
+msgstr "تفعيل البريد الصادر معطّل لـ {0}."
+
 #. Label of the enabled (Check) field in DocType 'Record Head'
 #. Label of the enabled (Check) field in DocType 'Offering'
 #. Label of the enabled (Check) field in DocType 'Private App'
@@ -14366,6 +14414,10 @@ msgstr "لدى الجميع متسع"
 msgid "Everyone in the workspace"
 msgstr "كل من في مساحة العمل"
 
+#: onedesk/public/js/onemail_settings.js:260
+msgid "Everyone listed can read. Send allows sending from this mailbox."
+msgstr "يمكن لكل من في القائمة القراءة. يتيح الإرسال الإرسالَ من صندوق البريد هذا."
+
 #: onedesk/one/ai_setup.py:601
 msgid "Everyone on {0}"
 msgstr "كل من في {0}"
@@ -14864,6 +14916,14 @@ msgstr "الإضافات والمجموعات وتصاميم الطباعة وإ
 #: onedesk/public/js/settings.js:3147
 msgid "External Email"
 msgstr "بريد خارجي"
+
+#: onedesk/public/js/onemail_settings.js:336
+msgid "External Mailboxes"
+msgstr "صناديق البريد الخارجية"
+
+#: onedesk/one_mail/connect.py:144
+msgid "External mailboxes are disabled in this workspace."
+msgstr "صناديق البريد الخارجية معطّلة في مساحة العمل هذه."
 
 #. Task in the Small Building Works project template
 #: onedesk/one_project/library/small_building_works.json
@@ -16708,6 +16768,10 @@ msgstr "الحاوية العالمية"
 msgid "Gmail and Outlook need an app password."
 msgstr "يحتاج Gmail وOutlook إلى كلمة مرور تطبيق."
 
+#: onedesk/public/js/onemail_settings.js:161
+msgid "Gmail and Outlook require an app password."
+msgstr "يتطلب Gmail وOutlook كلمة مرور تطبيق."
+
 #: frontend/src/writer/components/FloatingComments.vue:336
 msgid "Go"
 msgstr "انتقال"
@@ -18326,15 +18390,15 @@ msgstr "إن تمت دفعة، فالإيصال في بريدك وسيتواصل
 msgid "If different from the email address"
 msgstr "إن كان مختلفًا عن عنوان البريد الإلكتروني"
 
-#: onedesk/public/js/settings.js:438
-msgid "If different from the email address."
-msgstr "إن كان مختلفًا عن عنوان البريد الإلكتروني."
-
 #. Description of the 'allow_geolocation_tracking' field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "If disabled, no check-in records where it came from and the location gate cannot run."
 msgstr "إذا عُطِّل، لا يسجّل أي تسجيل حضور مصدره ولا يمكن تشغيل التحقق من الموقع."
+
+#: onedesk/public/js/onemail_settings.js:327
+msgid "If disabled, the address only receives mail."
+msgstr "عند التعطيل، يستقبل العنوان البريد فقط."
 
 #. Description of the 'ignore_user_time_overlap' field in DocType 'Projects
 #. Settings'
@@ -21327,6 +21391,10 @@ msgstr "إجازة مطلوبة وردّها."
 msgid "Leave empty for no expiry."
 msgstr "اتركه فارغًا لعدم الانتهاء."
 
+#: onedesk/public/js/onemail_settings.js:349
+msgid "Leave empty to allow any domain."
+msgstr "اتركه فارغًا للسماح بأي نطاق."
+
 #: onedesk/public/js/settings.js:1283
 msgid "Leave empty to apply everywhere."
 msgstr "اتركه فارغًا للتطبيق في كل مكان."
@@ -21338,6 +21406,10 @@ msgstr "اتركه فارغًا للإبقاء على كلمة المرور ال
 #: onedesk/public/js/doctype_settings.js:461
 msgid "Leave empty to use it for any record type."
 msgstr "اتركه فارغًا لاستخدامه مع أي نوع سجل."
+
+#: onedesk/public/js/onemail_settings.js:162
+msgid "Leave empty to use the email address."
+msgstr "اتركه فارغًا لاستخدام عنوان البريد الإلكتروني."
 
 #: onedesk/public/js/project_actions.js:168
 msgid "Leave empty to use {0} with the customer."
@@ -22400,6 +22472,10 @@ msgstr "لم يُرسل البريد"
 msgid "Mail Rule"
 msgstr "قاعدة بريد"
 
+#: onedesk/public/js/onemail_settings.js:148
+msgid "Mail Rules"
+msgstr "قواعد البريد"
+
 #: onedesk/one/automation_steps.py:37
 msgid "Mail Template"
 msgstr "قالب البريد"
@@ -22465,6 +22541,10 @@ msgstr "تم ربط صندوق البريد"
 #: onedesk/public/js/settings.js:2893 onedesk/public/js/settings.js:2984
 msgid "Mailboxes"
 msgstr "صناديق البريد"
+
+#: onedesk/public/js/onemail_settings.js:336
+msgid "Mailboxes users connect themselves, such as Gmail or Outlook."
+msgstr "صناديق بريد يربطها المستخدمون بأنفسهم، مثل Gmail أو Outlook."
 
 #. Description of the 'To Outside Addresses' (Check) field in DocType
 #. 'Notification Type'
@@ -25394,13 +25474,13 @@ msgstr "لا سعر بيع"
 msgid "No server connections"
 msgstr "لا توجد اتصالات بخوادم"
 
+#: onedesk/public/js/onemail_settings.js:203
+msgid "No shared mailboxes"
+msgstr "لا توجد صناديق بريد مشتركة"
+
 #: frontend/src/project/Team.vue:35
 msgid "No sign-in"
 msgstr "بدون تسجيل دخول"
-
-#: onedesk/public/js/settings.js:387
-msgid "No signature"
-msgstr "لا توقيع"
 
 #: onedesk/public/js/hiring.js:168
 msgid "No sound. Check the microphone."
@@ -25498,6 +25578,10 @@ msgstr "لا توجد معاملات"
 #: onedesk/public/js/settings.js:1298
 msgid "No user permissions"
 msgstr "لا توجد صلاحيات مستخدم"
+
+#: onedesk/public/js/onemail_settings.js:264
+msgid "No users"
+msgstr "لا يوجد مستخدمون"
 
 #: frontend/src/item/ItemVariantsMake.vue:25
 msgid "No values"
@@ -27428,6 +27512,10 @@ msgstr "عند فتح الصفحة الرئيسية لـ OneInventory، وكلم
 msgid "OneMail"
 msgstr "OneMail"
 
+#: onedesk/public/js/onemail_settings.js:432
+msgid "OneMail Settings"
+msgstr "إعدادات OneMail"
+
 #. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
@@ -27652,6 +27740,10 @@ msgstr "فقط في {0}"
 msgid "Only letters, digits, spaces and - / _ . # { } are allowed."
 msgstr "يُسمح فقط بالحروف والأرقام والمسافات و - / _ . # { }."
 
+#: onedesk/one_mail/connect.py:146
+msgid "Only mailboxes at {0} can be connected."
+msgstr "يمكن ربط صناديق البريد على {0} فقط."
+
 #: onedesk/public/js/reports.js:289
 msgid "Only me"
 msgstr "أنا فقط"
@@ -27866,6 +27958,10 @@ msgstr "فتح القائمة"
 #: onedesk/notifications/one_mail/mailbox_shared_with_you.md
 msgid "Open Mail"
 msgstr "فتح البريد"
+
+#: onedesk/public/js/onemail_settings.js:149
+msgid "Open Mail Rules"
+msgstr "فتح قواعد البريد"
 
 #. The button on a notification's mail
 #: onedesk/notifications/one_mail/mailbox_not_reachable.md
@@ -30293,6 +30389,11 @@ msgstr "الشخصية"
 msgid "Personal"
 msgstr "شخصي"
 
+#: onedesk/public/js/onemail_settings.js:313
+#: onedesk/public/js/onemail_settings.js:315
+msgid "Personal Addresses"
+msgstr "العناوين الشخصية"
+
 #: onedesk/public/js/settings.js:157
 msgid "Personal Details"
 msgstr ""
@@ -32614,6 +32715,10 @@ msgstr "قراءة القائمة"
 msgid "Read On"
 msgstr "قُرئ في"
 
+#: onedesk/public/js/onemail_settings.js:92
+msgid "Read and Send"
+msgstr "قراءة وإرسال"
+
 #. Description of the 'Connected to OneMail' (Check) field in DocType 'Email
 #. Account'
 #: onedesk/one_mail/custom/email_account.json
@@ -32862,6 +32967,10 @@ msgstr "استلام"
 msgid "Receive Into Stock"
 msgstr "استلام إلى المخزون"
 
+#: onedesk/public/js/onemail_settings.js:214
+msgid "Receive Only"
+msgstr "استقبال فقط"
+
 #. Task in the Aluminium & Glazing project template
 #: onedesk/one_project/library/aluminium_and_glazing.json
 msgid "Receive and inspect materials"
@@ -32999,10 +33108,6 @@ msgstr ""
 #: onedesk/public/js/settings.js:395 onedesk/public/js/settings.js:440
 msgid "Reconnect"
 msgstr "إعادة الاتصال"
-
-#: onedesk/public/js/settings.js:446
-msgid "Reconnected"
-msgstr "تمت إعادة الاتصال"
 
 #. Label of the reference_name (Dynamic Link) field in DocType 'Portal Link'
 #. Label of the record_doctype (Link) field in DocType 'Record Head'
@@ -33750,6 +33855,10 @@ msgstr "إزالة {0} من سجله؟ لا يمكن التراجع عن ذلك.
 msgid "Remove {0} from the project?"
 msgstr "إزالة {0} من المشروع؟"
 
+#: onedesk/public/js/onemail_settings.js:280
+msgid "Remove {0} from {1}?"
+msgstr "إزالة {0} من {1}؟"
+
 #: onedesk/one/page/masters/masters.js:234
 #: onedesk/public/js/project_actions.js:338
 msgid "Remove {0}?"
@@ -34276,6 +34385,10 @@ msgstr "المتطلب"
 msgid "Requirements and budget"
 msgstr "المتطلبات والميزانية"
 
+#: onedesk/public/js/onemail_settings.js:113
+msgid "Requires Send access."
+msgstr "يتطلب صلاحية الإرسال."
+
 #. Description of the 'Allow Employees to Check In Themselves' (Check) field in
 #. DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -34387,6 +34500,10 @@ msgstr ""
 #: onedesk/public/js/contact.js:35
 msgid "Restore Access"
 msgstr "استعادة الوصول"
+
+#: onedesk/public/js/onemail_settings.js:243
+msgid "Restore Default Address"
+msgstr "استعادة العنوان الافتراضي"
 
 #: frontend/src/sheet/components/SheetEditor/useVersionHistory.js:226
 #: frontend/src/sheet/components/SheetEditor/useVersionHistory.js:285
@@ -35673,6 +35790,10 @@ msgstr "تحديد"
 msgid "Select Checked-In Employees"
 msgstr "تحديد الموظفين المسجلين حضورهم"
 
+#: onedesk/public/js/onemail_settings.js:292
+msgid "Select User"
+msgstr "اختر المستخدم"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:412
 msgid "Select a cell and press"
 msgstr "حدّد خلية واضغط"
@@ -35935,6 +36056,10 @@ msgstr "يرسله {0}"
 #: onedesk/one/portal_share.py:424
 msgid "Sent by {0}."
 msgstr "أرسله {0}."
+
+#: onedesk/public/js/onemail_settings.js:134
+msgid "Sent once every 4 days per sender. Not sent to mailing lists."
+msgstr "يُرسل مرة كل 4 أيام لكل مرسل. لا يُرسل إلى القوائم البريدية."
 
 #: onedesk/public/js/settings.js:3256
 msgid "Sent to addresses outside the workspace, so there's no channel to choose."
@@ -36280,6 +36405,10 @@ msgstr "حدد سعرًا لكل صنف يمكنك توريده."
 msgid "Set as Default"
 msgstr ""
 
+#: onedesk/public/js/onemail_settings.js:233
+msgid "Set as Workspace Mailbox"
+msgstr "تعيين كصندوق بريد مساحة العمل"
+
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.py:30
 msgid "Set at least one action under Then."
 msgstr "حدد إجراءً واحدًا على الأقل تحت «ثم»."
@@ -36378,6 +36507,10 @@ msgstr "يُعيَّن عند حذف الصوت بعد مدة الاحتفاظ �
 #: onedesk/one/doctype/workspace_customization/workspace_customization.json
 msgid "Set when the row was a module's before the workspace changed it."
 msgstr "يُعيَّن عندما كان الصف لوحدة قبل أن تغيّره مساحة العمل."
+
+#: onedesk/public/js/onemail_settings.js:235
+msgid "Set {0} as the workspace mailbox?"
+msgstr "تعيين {0} كصندوق بريد مساحة العمل؟"
 
 #: onedesk/one/settings.py:1055
 msgid "Sets every app below. Changing an app by hand removes the profile."
@@ -36563,6 +36696,11 @@ msgstr "موزّع من"
 #: onedesk/public/js/onemail.js:790
 msgid "Shared Mailbox"
 msgstr "صندوق بريد مشترك"
+
+#: onedesk/public/js/onemail_settings.js:187
+#: onedesk/public/js/onemail_settings.js:189
+msgid "Shared Mailboxes"
+msgstr "صناديق البريد المشتركة"
 
 #. Label in the One Landed Cost Voucher print format
 #: onedesk/one_inventory/print_format/one_landed_cost_voucher/one_landed_cost_voucher.json
@@ -37238,10 +37376,6 @@ msgstr "تم تسجيل الخروج من كل مكان."
 #: onedesk/one/settings.py:793
 msgid "Signing in somewhere new signs a person out everywhere else."
 msgstr "تسجيل الدخول من مكان جديد يُخرج الشخص من كل مكان آخر."
-
-#: onedesk/public/js/settings.js:387
-msgid "Signs with “{0}”"
-msgstr "يوقّع بـ «{0}»"
 
 #: onedesk/public/js/settings.js:531
 msgid "Signs you in with your face, fingerprint or screen lock instead of a password."
@@ -45230,6 +45364,10 @@ msgstr "استخدام موقعي"
 msgid "Use SSL"
 msgstr "استخدام SSL"
 
+#: onedesk/public/js/onemail_settings.js:245
+msgid "Use the default workspace address again?"
+msgstr "استخدام عنوان مساحة العمل الافتراضي مرة أخرى؟"
+
 #. The button on a notification's mail
 #: onedesk/notifications/one_admin/confirm_your_new_email.md
 msgid "Use this address for my One account"
@@ -49871,6 +50009,10 @@ msgstr "حساب مساحة العمل"
 msgid "Workspace Add-on"
 msgstr "إضافة مساحة العمل"
 
+#: onedesk/public/js/onemail_settings.js:321
+msgid "Workspace Addresses"
+msgstr "عناوين مساحة العمل"
+
 #. Name of a role
 #: onedesk/one/doctype/device/device.json
 #: onedesk/one/doctype/workspace_account/workspace_account.json
@@ -50131,6 +50273,10 @@ msgstr "اكتب ردًّا يقول: "
 #: onedesk/one/ai.py:28 onedesk/public/js/settings.js:137
 msgid "Write a short bio for my profile from my job, my department and what I work on, and suggest it as a change to my profile I can approve."
 msgstr "اكتب نبذة قصيرة لملفي الشخصي من وظيفتي وقسمي وما أعمل عليه، واقترحها كتغيير في ملفي أستطيع الموافقة عليه."
+
+#: onedesk/public/js/onemail_settings.js:129
+msgid "Write a short email signature for {0} with my name, job title and contact details for me to approve."
+msgstr "اكتب توقيع بريد قصيرًا لـ {0} يتضمن اسمي ومسماي الوظيفي وبيانات التواصل لأوافق عليه."
 
 #: onedesk/one_project/ai.py:35
 msgid "Write a short update on this project for its customer: what was done, what comes next and when it should be finished. Plain words. Leave out hours, costs and who in the team does what."
@@ -50499,6 +50645,10 @@ msgstr "ليس لديك إذن بفتح هذا المستند."
 msgid "You do not have permission to open this workbook."
 msgstr "ليست لديك صلاحية فتح هذا المصنف."
 
+#: onedesk/one_mail/holders.py:289
+msgid "You don't have Send access to {0}."
+msgstr "ليست لديك صلاحية الإرسال من {0}."
+
 #: onedesk/one_mail/actions.py:37
 msgid "You don't have access to the mailbox {0}."
 msgstr "ليس لديك وصول إلى صندوق البريد {0}."
@@ -50664,6 +50814,10 @@ msgstr "بياناتك جاهزة للتنزيل"
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
 msgid "Your Instructions"
 msgstr "تعليماتك"
+
+#: onedesk/public/js/onemail_settings.js:428
+msgid "Your Mail"
+msgstr "بريدك"
 
 #: onedesk/templates/includes/one_account_tabs.html:1
 #: onedesk/www/account.html:2
@@ -52388,6 +52542,10 @@ msgstr "موافقة {0}"
 msgid "{0} Batches Expiring Soon"
 msgstr "{0} دفعات تنتهي قريبًا"
 
+#: onedesk/public/js/onemail_settings.js:214
+msgid "{0} Can Send"
+msgstr "{0} يمكنهم الإرسال"
+
 #: frontend/src/home/HrHome.vue:162
 msgid "{0} Check-ins Flagged"
 msgstr "{0} تسجيلات حضور عليها علامة"
@@ -52482,6 +52640,10 @@ msgstr "{0} عملاء محتملين لم يتولَّهم أحد"
 #: frontend/src/home/BooksHome.vue:138
 msgid "{0} Unreconciled Bank Transactions"
 msgstr "{0} معاملات بنكية غير مسواة"
+
+#: onedesk/public/js/onemail_settings.js:213
+msgid "{0} Users"
+msgstr "{0} مستخدمين"
 
 #: frontend/src/home/CrmHome.vue:143
 msgid "{0} With No Next Step"
@@ -52770,6 +52932,10 @@ msgstr "طالب {0} بمبلغ {1} عن {2}، وكله مقبول."
 #: onedesk/one_hr/heads.py:426
 msgid "{0} claimed {1} for {2}, of which {3} is allowed — the rest is over a category limit."
 msgstr "طالب {0} بمبلغ {1} عن {2}، المقبول منه {3} — والباقي يتجاوز حد الفئة."
+
+#: frontend/src/mail/MailConversation.vue:5
+msgid "{0} conversations selected"
+msgstr "تم تحديد {0} محادثات"
 
 #: frontend/src/project/Overview.vue:45
 msgid "{0} cost types"
@@ -53725,6 +53891,10 @@ msgstr "{0} في حالة {1}، لذا لا يمكن عرضه."
 msgid "{0} isn't a contact of this record's customer or supplier."
 msgstr "{0} ليس جهة اتصال لعميل هذا السجل أو مورده."
 
+#: onedesk/one_mail/holders.py:263
+msgid "{0} isn't a domain, such as gmail.com."
+msgstr "{0} ليس نطاقًا، مثل gmail.com."
+
 #: onedesk/one_admin/doctype/tenant/tenant.py:19
 msgid "{0} isn't a valid slug. Use letters, digits and hyphens."
 msgstr "{0} ليس معرّفًا مختصرًا صالحًا. استخدم الأحرف والأرقام والشرطات."
@@ -54097,10 +54267,6 @@ msgstr "{0} على {1}"
 #: onedesk/one_admin/doctype/offering/offering_list.js:19
 msgid "{0} once"
 msgstr "{0} مرة واحدة"
-
-#: onedesk/one_mail/holders.py:223
-msgid "{0} only receives mail, so it has no signature."
-msgstr "{0} يستقبل البريد فقط، لذا ليس له توقيع."
 
 #: onedesk/one_crm/heads.py:204
 msgid "{0} open of {1}"
@@ -54541,10 +54707,6 @@ msgstr "تغيّر {0} في السجل بعد فتح هذا المستند. أع
 #: onedesk/one_sheet/table.py:530
 msgid "{0} was changed on the record after this sheet was last updated. Reopen the workbook from the record to load the changes."
 msgstr "تم تغيير {0} في السجل بعد آخر تحديث لهذه الورقة. أعد فتح المصنف من السجل لتحميل التغييرات."
-
-#: onedesk/one_mail/holders.py:174
-msgid "{0} was connected without Enable Outgoing, so it can't send."
-msgstr "تم ربط {0} دون تفعيل الإرسال، لذا لا يمكنه الإرسال."
 
 #: onedesk/one_inventory/heads.py:854
 msgid "{0} was due {1} ago."

@@ -10,4 +10,4 @@ email_default: yes
 # {mailbox} is not connecting: {reason}
 
 No new mail is read from <b>{mailbox}</b> until it is connected again.
-Reconnect it from OneMail › Settings › Your Mailboxes.
+Reconnect it from OneMail › Settings › Mailboxes.

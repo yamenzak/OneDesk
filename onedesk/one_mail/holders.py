@@ -4,7 +4,7 @@ the workspace's.
 To hold a mailbox is to have a `User Email` row for it, which lets them read
 it; the row's `one_sends` says whether they may send from it too. A
 workspace administrator chooses both for the workspace's mailbox and every
-shared one, in OneMail's settings (Workspace Mailboxes)."""
+shared one, in OneMail's settings (Shared Mailboxes)."""
 
 import json
 import re
@@ -172,6 +172,7 @@ def shared() -> dict:
 		"mailboxes": accounts,
 		"personal_sends": int(addresses.personal_sends()),
 		"allowed_domains": addresses.allowed_domains(),
+		"external": int(addresses.external()),
 		"mail_domain": addresses.domain(),
 		"slug": addresses.slug(),
 	}
@@ -239,6 +240,16 @@ def set_personal_sends(on: int) -> int:
 
 
 @frappe.whitelist(methods=["POST"])
+def set_external(on: int) -> int:
+	"""Whether people may connect a mailbox of their own. Mailboxes already
+	connected stay connected."""
+	_admin()
+	on = int(bool(int(on)))
+	frappe.db.set_default(addresses.EXTERNAL, str(on))
+	return on
+
+
+@frappe.whitelist(methods=["POST"])
 def set_allowed_domains(domains) -> list[str]:
 	"""The domains people may connect a personal mailbox at; an empty list
 	lets them connect any. A shared mailbox, an administrator's, is not held
@@ -275,7 +286,7 @@ def sending(doc, method=None) -> None:
 	managed = frappe.db.get_value("Email Account", account, ["one_hosted", "one_connected"]) or (0, 0)
 	if any(managed) and not may_send(account, user):
 		frappe.throw(
-			_("You can't send from {0}. A workspace administrator chooses who may, in OneMail's settings.").format(
+			_("You don't have Send access to {0}.").format(
 				frappe.db.get_value("Email Account", account, "email_id")
 			),
 			frappe.PermissionError,
@@ -293,7 +304,7 @@ def replace(account: str, sends: int = 1) -> str:
 	if int(sends):
 		if not doc.enable_outgoing:
 			frappe.throw(
-				_("{0} was connected without Enable Outgoing, so it can't send.").format(
+				_("Enable Outgoing is disabled for {0}.").format(
 					doc.email_id
 				)
 			)
@@ -342,7 +353,7 @@ def set_signature(account: str, signature: str | None = None) -> None:
 
 	actions.require(account)
 	if not frappe.db.get_value("Email Account", account, "enable_outgoing"):
-		frappe.throw(_("{0} only receives mail, so it has no signature.").format(account))
+		frappe.throw(_("Enable Outgoing is disabled for {0}.").format(account))
 	if not may_sign(account):
 		frappe.throw(
 			_("Only a Workspace Administrator can change the signature of {0}.").format(account),

@@ -656,6 +656,7 @@ No doctypes yet.
 * `onedesk.one_mail.holders.revoke`
 * `onedesk.one_mail.holders.set_access`
 * `onedesk.one_mail.holders.set_allowed_domains`
+* `onedesk.one_mail.holders.set_external`
 * `onedesk.one_mail.holders.set_personal_sends`
 * `onedesk.one_mail.holders.set_signature`
 * `onedesk.one_mail.holders.shared`
