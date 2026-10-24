@@ -472,6 +472,10 @@ msgstr "الفاتورة المأخوذة من إيصال الاستلام تح�
 msgid "A bill on {project} is due today"
 msgstr "فاتورة مورد على {project} مستحقة اليوم"
 
+#: onedesk/public/js/rule_builder.js:655
+msgid "A bill, an invoice or a statement to pay."
+msgstr "فاتورة أو كشف حساب للدفع."
+
 #: onedesk/one_hr/home.py:172
 msgid "A bonus paid for staying until a date."
 msgstr "مكافأة تُدفع للبقاء حتى تاريخ معيّن."
@@ -3844,6 +3848,10 @@ msgstr "سجّل موظف آخر حضوره من هذا المتصفح اليو�
 msgid "Answer"
 msgstr "رد"
 
+#: onedesk/public/js/rule_builder.js:448
+msgid "Answer every message with the same words, once in each conversation."
+msgstr "الرد على كل رسالة بالكلمات نفسها، مرة واحدة في كل محادثة."
+
 #: onedesk/one_hr/custom/leave_application.json
 msgid "Answer mail on its own while you're on leave, until the day you're back."
 msgstr "الرد على البريد تلقائيًا أثناء إجازتك حتى يوم عودتك."
@@ -3855,6 +3863,10 @@ msgstr "الرد على البريد الذي يصل خارج ساعات الع�
 #: onedesk/public/js/rule_builder.js:374
 msgid "Answer new conversations from outside, once a day to each sender."
 msgstr "الرد على المحادثات الجديدة من الخارج، مرة يوميًا لكل مرسل."
+
+#: onedesk/public/js/rule_builder.js:704
+msgid "Answer the question politely from what the workspace knows. Say we will follow up if something is unclear."
+msgstr "أجب عن السؤال بلطف مما تعرفه مساحة العمل. وقل إننا سنتابع إن كان شيء غير واضح."
 
 #: onedesk/one/portal_share.py:20
 msgid "Answer the quote request"
@@ -5262,9 +5274,17 @@ msgstr "إغلاق تسجيلات الحضور المفتوحة تلقائياً
 msgid "Auto Repeat"
 msgstr ""
 
+#: onedesk/public/js/rule_builder.js:447 onedesk/public/js/rule_builder.js:449
+msgid "Auto Reply"
+msgstr "رد تلقائي"
+
 #: frontend/src/mail/OneMail.vue:211 onedesk/public/js/onemail_settings.js:107
 msgid "Auto Reply On"
 msgstr "الرد التلقائي مفعّل"
+
+#: onedesk/public/js/rule_builder.js:720 onedesk/public/js/rule_builder.js:723
+msgid "Auto Reply With OneAI"
+msgstr "رد تلقائي باستخدام OneAI"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:779
 msgid "Auto-fit height"
@@ -6277,6 +6297,10 @@ msgstr "أمر شراء إطاري"
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:18
 msgid "Block"
 msgstr "حظر"
+
+#: onedesk/public/js/rule_builder.js:556 onedesk/public/js/rule_builder.js:558
+msgid "Block a Sender"
+msgstr "حظر مرسل"
 
 #. Option for the 'Status' (Select) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
@@ -8592,6 +8616,10 @@ msgstr ""
 #: onedesk/notifications/one/confirm_deletion.md
 msgid "Confirm Deletion"
 msgstr "تأكيد الحذف"
+
+#: onedesk/public/js/rule_builder.js:482 onedesk/public/js/rule_builder.js:485
+msgid "Confirm Documents Received"
+msgstr "تأكيد استلام المستندات"
 
 #: frontend/portal/src/pages/Password.vue:12
 msgid "Confirm Password"
@@ -12527,6 +12555,10 @@ msgstr "أصول مسودة"
 msgid "Draft No"
 msgstr "رقم المسودة"
 
+#: onedesk/public/js/rule_builder.js:687 onedesk/public/js/rule_builder.js:690
+msgid "Draft Replies With OneAI"
+msgstr "مسودات ردود باستخدام OneAI"
+
 #: frontend/src/quotes/QuotesPage.vue:113
 msgid "Draft Supplier Quotations"
 msgstr "عروض أسعار موردين مسودة"
@@ -16286,6 +16318,10 @@ msgstr "النماذج والتكاملات"
 msgid "Forward"
 msgstr "تقدم"
 
+#: onedesk/public/js/rule_builder.js:613 onedesk/public/js/rule_builder.js:616
+msgid "Forward Supplier Bills"
+msgstr "إعادة توجيه فواتير الموردين"
+
 #: onedesk/public/js/rule_builder.js:268
 msgid "Forward it to"
 msgstr "أعد توجيهه إلى"
@@ -18724,6 +18760,10 @@ msgstr "استيراد فاتورة مورد"
 msgid "Import XLSX"
 msgstr "استيراد XLSX"
 
+#: onedesk/public/js/rule_builder.js:545 onedesk/public/js/rule_builder.js:548
+msgid "Important Sender"
+msgstr "مرسل مهم"
+
 #: onedesk/public/js/oneai/Panel.vue:302 onedesk/public/js/oneai/Panel.vue:304
 msgid "Improve it"
 msgstr "حسّنه"
@@ -19855,6 +19895,10 @@ msgstr "الفواتير تحمل الرقم الضريبي للشركة"
 msgid "Invoices not paid yet"
 msgstr "فواتير لم تُدفع بعد"
 
+#: onedesk/public/js/rule_builder.js:518
+msgid "Invoices to a Folder"
+msgstr "الفواتير إلى مجلد"
+
 #: onedesk/public/js/doctype_settings.js:977
 msgid "Is"
 msgstr ""
@@ -19929,9 +19973,17 @@ msgstr "هل تسجيل الدخول هنا آمن بما يكفي؟"
 msgid "Is signing in to this workspace safe enough? Look at our rules and at how people sign in, and say what to change."
 msgstr "هل تسجيل الدخول إلى مساحة العمل هذه آمن بما يكفي؟ راجع قواعدنا وكيف يسجّل الناس الدخول، وقل ما الذي يجب تغييره."
 
+#: onedesk/public/js/rule_builder.js:676
+msgid "Is the sender upset, or do they need an answer today?"
+msgstr "هل المرسل منزعج، أو يحتاج إلى رد اليوم؟"
+
 #: onedesk/one/ai.py:365
 msgid "Is there a cheaper model that would do?"
 msgstr "هل يوجد نموذج أرخص يؤدي الغرض؟"
+
+#: onedesk/public/js/rule_builder.js:699
+msgid "Is this a question about an order, a delivery or a price?"
+msgstr "هل هذا سؤال عن طلب أو توصيل أو سعر؟"
 
 #: onedesk/one_admin/ai.py:135
 msgid "Is this model worth offering?"
@@ -22985,6 +23037,10 @@ msgstr "إنشاء مجموعة…"
 msgid "Make a copy"
 msgstr "إنشاء نسخة"
 
+#: onedesk/public/js/rule_builder.js:581
+msgid "Make a lead from a first message by someone the workspace doesn't know yet."
+msgstr "إنشاء عميل محتمل من أول رسالة يرسلها شخص لا تعرفه مساحة العمل بعد."
+
 #: onedesk/public/js/portal_share.js:170
 msgid "Make a new link in its place? The old one stops opening."
 msgstr "إنشاء رابط جديد مكانه؟ يتوقف القديم عن الفتح."
@@ -22993,6 +23049,10 @@ msgstr "إنشاء رابط جديد مكانه؟ يتوقف القديم عن �
 msgid "Make a rule"
 msgstr "أنشئ قاعدة"
 
+#: onedesk/public/js/rule_builder.js:603
+msgid "Make a task from mail whose subject starts with Task."
+msgstr "إنشاء مهمة من بريد يبدأ موضوعه بكلمة مهمة."
+
 #: onedesk/one_inventory/ai.py:224
 msgid "Make a work order"
 msgstr "أنشئ أمر عمل"
@@ -23000,6 +23060,10 @@ msgstr "أنشئ أمر عمل"
 #: onedesk/one_hr/ai.py:23 onedesk/one_hr/ai.py:259
 msgid "Make an expense claim from this receipt."
 msgstr "أنشئ مطالبة مصروفات من هذا الإيصال."
+
+#: onedesk/public/js/rule_builder.js:565
+msgid "Make an issue from mail asking for help, and assign it to someone."
+msgstr "إنشاء مشكلة من بريد يطلب المساعدة، وإسنادها إلى شخص."
 
 #: onedesk/public/js/oneai/Panel.vue:322
 msgid "Make it bigger"
@@ -24088,6 +24152,10 @@ msgstr "انقله إلى البريد غير الهام"
 msgid "Move mail from customers into a folder and file it on their record."
 msgstr "نقل بريد العملاء إلى مجلد وحفظه في سجلهم."
 
+#: onedesk/public/js/rule_builder.js:499
+msgid "Move newsletters and notices out of the Inbox, already read."
+msgstr "نقل النشرات والإشعارات خارج البريد الوارد، مقروءة."
+
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:129
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:130
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:131
@@ -24707,6 +24775,10 @@ msgstr "عميل محتمل جديد"
 msgid "New Lead Waiting"
 msgstr "عميل محتمل جديد ينتظر"
 
+#: onedesk/public/js/rule_builder.js:580 onedesk/public/js/rule_builder.js:583
+msgid "New Leads"
+msgstr "عملاء محتملون جدد"
+
 #: onedesk/one/ai.py:2660 onedesk/public/js/settings.js:1947
 #: onedesk/public/js/settings.js:2040
 msgid "New Letter Head"
@@ -24962,6 +25034,10 @@ msgstr "النشرة البريدية"
 #: onedesk/one_intake/filing.py:172
 msgid "Newsletters"
 msgstr "النشرات البريدية"
+
+#: onedesk/public/js/rule_builder.js:498
+msgid "Newsletters to a Folder"
+msgstr "النشرات إلى مجلد"
 
 #: frontend/portal/src/pages/List.vue:25
 #: frontend/portal/src/parts/Gallery.vue:10 frontend/src/project/Media.vue:9
@@ -27675,6 +27751,10 @@ msgstr "OneAI متوقف"
 msgid "OneAI adds questions to each new interview."
 msgstr "يضيف OneAI أسئلة إلى كل مقابلة جديدة."
 
+#: onedesk/public/js/rule_builder.js:721
+msgid "OneAI answers new conversations from outside, in the sender's language."
+msgstr "يرد OneAI على المحادثات الجديدة من الخارج بلغة المرسل."
+
 #: onedesk/one_admin/heads.py:370
 msgid "OneAI cannot answer"
 msgstr "لا يستطيع OneAI الإجابة"
@@ -27794,6 +27874,10 @@ msgstr "يقيّم OneAI كل متقدم جديد مقابل الوظيفة وي
 msgid "OneAI reads each message and picks a label. Each label has its own steps."
 msgstr "يقرأ OneAI كل رسالة ويختار تصنيفًا. لكل تصنيف خطواته."
 
+#: onedesk/public/js/rule_builder.js:668
+msgid "OneAI says whether the sender is upset or in a hurry, and someone is told."
+msgstr "يقول OneAI إن كان المرسل منزعجًا أو مستعجلًا، ويُبلَّغ شخص بذلك."
+
 #. Description of the 'Triage Grievances' (Check) field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -27807,6 +27891,10 @@ msgstr "سيقرأ OneAI البريد الجديد في {0} ومرفقاته، �
 #: onedesk/public/js/settings.js:2966
 msgid "OneAI will read, file and act on new files in this folder and its subfolders. Scans and photos use OneAI credits."
 msgstr "سيقرأ OneAI الملفات الجديدة في هذا المجلد ومجلداته الفرعية ويحفظها ويتصرف بناءً عليها. تستهلك المستندات الممسوحة والصور أرصدة OneAI."
+
+#: onedesk/public/js/rule_builder.js:688
+msgid "OneAI writes a reply to customers' questions, and someone reads it before it goes."
+msgstr "يكتب OneAI ردًا على أسئلة العملاء، ويقرؤه شخص قبل إرساله."
 
 #: onedesk/one_ai/heads.py:83
 msgid "OneAI writes one here when something happens, such as an invoice, a payment or a mail."
@@ -30660,6 +30748,12 @@ msgstr "الأشخاص"
 #: onedesk/one/settings.py:2095
 msgid "People With the Role"
 msgstr "الأشخاص ذوو الدور"
+
+#: onedesk/public/js/rule_builder.js:561 onedesk/public/js/rule_builder.js:577
+#: onedesk/public/js/rule_builder.js:599 onedesk/public/js/rule_builder.js:610
+#: onedesk/public/js/rule_builder.js:621
+msgid "People and Records"
+msgstr "الأشخاص والسجلات"
 
 #. Label of the section_people (Section Break) field in DocType 'Cloud File
 #. Request'
@@ -34559,6 +34653,12 @@ msgstr "استُبدلت {0} خلية (خلايا)، وتُخطّيت {1} محم
 msgid "Replied (%)"
 msgstr "تم الرد (%)"
 
+#: onedesk/public/js/rule_builder.js:436 onedesk/public/js/rule_builder.js:444
+#: onedesk/public/js/rule_builder.js:452 onedesk/public/js/rule_builder.js:463
+#: onedesk/public/js/rule_builder.js:479
+msgid "Replies"
+msgstr "الردود"
+
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Asks To' (Select) field in DocType 'Reading Ask'
 #: frontend/src/mail/MailConversation.vue:75
@@ -36442,6 +36542,10 @@ msgstr "إرسال تجربة"
 msgid "Send This"
 msgstr "أرسل هذا"
 
+#: onedesk/public/js/rule_builder.js:614
+msgid "Send a copy of supplier mail with an attachment to another address."
+msgstr "إرسال نسخة من بريد المورد الذي فيه مرفق إلى عنوان آخر."
+
 #: onedesk/one/automations.py:119
 msgid "Send an HTTP request to an external URL."
 msgstr "يرسل طلب HTTP إلى عنوان خارجي."
@@ -36457,6 +36561,10 @@ msgstr "أرسل الملفات هنا"
 #: onedesk/one/settings.py:55
 msgid "Send invoices, pay bills, match the bank and see where the money stands."
 msgstr "أرسل الفواتير، وادفع فواتير الموردين، وطابق البنك، واعرف أين يقف المال."
+
+#: onedesk/public/js/rule_builder.js:557
+msgid "Send mail from an address or domain to Junk, and run no other rule on it."
+msgstr "إرسال البريد من عنوان أو نطاق إلى البريد غير الهام، وعدم تشغيل أي قاعدة أخرى عليه."
 
 #: onedesk/public/js/onecloud.js:1610
 msgid "Send request"
@@ -38496,6 +38604,10 @@ msgstr "شخص تواصل معك، أو شخص تريد الوصول إليه."
 msgid "Someone"
 msgstr "شخص ما"
 
+#: onedesk/public/js/rule_builder.js:653
+msgid "Someone asks for a price or a quotation."
+msgstr "شخص يطلب سعرًا أو عرض سعر."
+
 #: onedesk/one/printing.py:818
 msgid "Someone changed {0} after you opened it."
 msgstr "غيّر شخص ما {0} بعد أن فتحته."
@@ -38503,6 +38615,10 @@ msgstr "غيّر شخص ما {0} بعد أن فتحته."
 #: onedesk/public/js/portal_share.js:61
 msgid "Someone else…"
 msgstr "شخص آخر…"
+
+#: onedesk/public/js/rule_builder.js:654
+msgid "Someone is unhappy with what they got or how they were treated."
+msgstr "شخص غير راضٍ عما حصل عليه أو عن طريقة معاملته."
 
 #. Description of a DocType
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
@@ -38594,6 +38710,12 @@ msgstr "فرز البريد إلى {0}"
 #: onedesk/one/ai_setup.py:228
 msgid "Sorted by"
 msgstr "مرتب حسب"
+
+#: onedesk/public/js/rule_builder.js:495 onedesk/public/js/rule_builder.js:515
+#: onedesk/public/js/rule_builder.js:531 onedesk/public/js/rule_builder.js:542
+#: onedesk/public/js/rule_builder.js:553
+msgid "Sorting"
+msgstr "الفرز"
 
 #. Label of the source (Select) field in DocType 'Credit Ledger Entry'
 #. Label of the source_name (Dynamic Link) field in DocType 'AI Chunk'
@@ -38795,6 +38917,14 @@ msgstr "تمييز بنجمة"
 #: onedesk/public/js/rule_builder.js:259
 msgid "Star it"
 msgstr "ميّزه بنجمة"
+
+#: onedesk/public/js/rule_builder.js:546
+msgid "Star mail from one address or domain and tell someone on the bell."
+msgstr "تمييز البريد من عنوان أو نطاق بنجمة وإبلاغ شخص عبر الجرس."
+
+#: onedesk/public/js/rule_builder.js:519
+msgid "Star mail with an invoice attached and move it to a folder."
+msgstr "تمييز البريد الذي فيه فاتورة مرفقة بنجمة ونقله إلى مجلد."
 
 #. Label of the one_flagged (Check) field in DocType 'Communication'
 #: onedesk/one_mail/custom/communication.json
@@ -40206,6 +40336,10 @@ msgstr ""
 msgid "Support Hour Distribution"
 msgstr "توزيع ساعات الدعم"
 
+#: onedesk/public/js/rule_builder.js:564 onedesk/public/js/rule_builder.js:567
+msgid "Support Requests"
+msgstr "طلبات الدعم"
+
 #: onedesk/one_crm/home.py:181
 msgid "Support Settings"
 msgstr "إعدادات الدعم"
@@ -40467,8 +40601,8 @@ msgstr "الهامش المستهدف"
 #: onedesk/one_task/ai.py:325 onedesk/one_task/page/task_view/task_view.js:5
 #: onedesk/one_task/sidebar/onetask/onetask.json
 #: onedesk/public/js/project_actions.js:363
-#: onedesk/public/js/task_actions.js:57 onedesk/public/js/task_new.js:10
-#: onedesk/public/js/timesheet.js:41
+#: onedesk/public/js/rule_builder.js:606 onedesk/public/js/task_actions.js:57
+#: onedesk/public/js/task_new.js:10 onedesk/public/js/timesheet.js:41
 msgid "Task"
 msgstr "المهمة"
 
@@ -40540,6 +40674,10 @@ msgstr "المهام"
 #: onedesk/one/workspace/one/one.json
 msgid "Tasks Due or Late"
 msgstr "مهام مستحقة أو متأخرة"
+
+#: onedesk/public/js/rule_builder.js:602 onedesk/public/js/rule_builder.js:605
+msgid "Tasks From Mail"
+msgstr "مهام من البريد"
 
 #. Label in the One Detailed Tax Invoice print format
 #. Label in the One Payment Voucher print format
@@ -40951,6 +41089,14 @@ msgstr "إبلاغ أشخاص"
 msgid "Tell Someone"
 msgstr "إبلاغ شخص"
 
+#: onedesk/public/js/rule_builder.js:625
+msgid "Tell someone when customer mail marked urgent arrives after hours."
+msgstr "إبلاغ شخص عندما يصل بريد عاجل من عميل بعد ساعات العمل."
+
+#: onedesk/public/js/rule_builder.js:483
+msgid "Tell suppliers their attached documents arrived."
+msgstr "إبلاغ الموردين بوصول مستنداتهم المرفقة."
+
 #. Introduction text of the get-in-touch Web Form
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
 msgid "Tell us who you are and what you need, and we will get back to you."
@@ -41264,6 +41410,10 @@ msgstr "التفاف النص"
 msgid "Thank customers who pay"
 msgstr "اشكر العملاء الذين يدفعون"
 
+#: onedesk/public/js/rule_builder.js:731
+msgid "Thank them, say what you understood they need, and say we will reply soon."
+msgstr "اشكرهم، وقل ما فهمته مما يحتاجونه، وقل إننا سنرد قريبًا."
+
 #: onedesk/public/js/legal.js:80
 msgid "Thank you"
 msgstr "شكرًا لك"
@@ -41275,6 +41425,10 @@ msgstr "شكرًا لرسالتك. مكتبنا مغلق الآن، وسنرد �
 #: onedesk/public/js/rule_builder.js:382
 msgid "Thank you for your message. We received it and will reply soon."
 msgstr "شكرًا لرسالتك. استلمناها وسنرد قريبًا."
+
+#: onedesk/public/js/rule_builder.js:489
+msgid "Thank you. We received your documents and will review them."
+msgstr "شكرًا لك. استلمنا مستنداتك وسنراجعها."
 
 #. Success message of the get-in-touch Web Form
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
@@ -45941,6 +46095,10 @@ msgstr "ارفع حتى {0} ملفات في المرة الواحدة."
 msgid "Uploading {0} of {1}"
 msgstr "جارٍ رفع {0} من {1}"
 
+#: onedesk/public/js/rule_builder.js:667 onedesk/public/js/rule_builder.js:670
+msgid "Upset or Urgent"
+msgstr "منزعج أو عاجل"
+
 #. Label of the one_ai_urgency (Select) field in DocType 'Employee Grievance'
 #: onedesk/one_hr/custom/employee_grievance.json
 msgid "Urgency"
@@ -45949,6 +46107,10 @@ msgstr "الأولوية"
 #: onedesk/one_hr/ai_grievance.py:69
 msgid "Urgent"
 msgstr ""
+
+#: onedesk/public/js/rule_builder.js:624 onedesk/public/js/rule_builder.js:627
+msgid "Urgent After Hours"
+msgstr "عاجل بعد ساعات العمل"
 
 #. Name of a notification
 #: onedesk/notifications/one_hr/urgent_grievance.md
@@ -50338,6 +50500,11 @@ msgstr "مع"
 msgid "With Invoice"
 msgstr "مع الفاتورة"
 
+#: onedesk/public/js/rule_builder.js:640 onedesk/public/js/rule_builder.js:664
+#: onedesk/public/js/rule_builder.js:684 onedesk/public/js/rule_builder.js:717
+msgid "With OneAI"
+msgstr "باستخدام OneAI"
+
 #: frontend/src/sent_out/SentOutPage.vue:86
 msgid "With Suppliers"
 msgstr "لدى الموردين"
@@ -51071,6 +51238,10 @@ msgstr "سجّل مكالمة"
 #: onedesk/one_mail/flow.py:179
 msgid "Write what OneAI's reply should say."
 msgstr "اكتب ما يجب أن يقوله رد OneAI."
+
+#: onedesk/one_mail/flow.py:209
+msgid "Write what each condition looks for."
+msgstr "اكتب ما يبحث عنه كل شرط."
 
 #: onedesk/one/portal_share.py:375
 msgid "Write your name, so we know who answered."
@@ -52439,6 +52610,10 @@ msgstr "يحتوي {0}"
 msgid "hasn't {0}"
 msgstr "لا يحتوي {0}"
 
+#: onedesk/public/js/rule_builder.js:570
+msgid "help, problem, not working, broken"
+msgstr "مساعدة, مشكلة, لا يعمل, معطل"
+
 #: onedesk/one/ai.py:1108
 msgid "hidden"
 msgstr "مخفي"
@@ -52476,6 +52651,10 @@ msgstr "مدخلات"
 #: onedesk/one_calendar/tell.py:169
 msgid "invites you to"
 msgstr "يدعوك إلى"
+
+#: onedesk/public/js/rule_builder.js:524
+msgid "invoice, receipt, statement"
+msgstr "فاتورة, إيصال, كشف حساب"
 
 #: onedesk/public/js/rule_builder.js:25
 msgid "is"
@@ -53298,6 +53477,10 @@ msgstr "مقاعد غير محدودة"
 msgid "unlimited storage"
 msgstr "تخزين غير محدود"
 
+#: onedesk/public/js/rule_builder.js:506
+msgid "unsubscribe"
+msgstr "إلغاء الاشتراك"
+
 #: onedesk/public/js/onecloud.js:1335 onedesk/public/js/portal_share.js:18
 msgid "until {0}"
 msgstr "حتى {0}"
@@ -53305,6 +53488,10 @@ msgstr "حتى {0}"
 #: onedesk/one_storage/history.py:51
 msgid "uploaded a new version"
 msgstr "رفع إصدارًا جديدًا"
+
+#: onedesk/public/js/rule_builder.js:630
+msgid "urgent, asap"
+msgstr "عاجل, بأسرع وقت"
 
 #: onedesk/public/js/intake.js:94
 msgid "us"

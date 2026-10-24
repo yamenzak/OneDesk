@@ -294,6 +294,17 @@
 }
 
 /* The rule starters, a grid of cards to pick one from. */
+.rb-starters-group {
+	margin: calc(var(--spacing) * 5) 0 calc(var(--spacing) * 2);
+	color: var(--ink-gray-6);
+	font-size: var(--text-sm);
+	font-weight: var(--weight-medium);
+}
+
+.rb-starters-group:first-child {
+	margin-top: 0;
+}
+
 .rb-starters {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));

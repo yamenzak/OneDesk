@@ -1,7 +1,11 @@
 /* OneMail's settings dialog (public/js/onemail_settings.js): frappe's settings
    dialog, with lists whose rows open a mailbox, a person or a template. */
+/* width 0 with min-width 100% keeps a long row from widening the panel:
+   its words end in an ellipsis instead. */
 .oms .oms-list {
 	display: flex;
+	width: 0;
+	min-width: 100%;
 	flex-direction: column;
 	margin-top: calc(var(--spacing) * 2);
 	border: 1px solid var(--outline-gray-2);

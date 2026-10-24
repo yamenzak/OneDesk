@@ -472,6 +472,10 @@ msgstr "Eine Rechnung aus einem Wareneingang berechnet nur, was angenommen wurde
 msgid "A bill on {project} is due today"
 msgstr "Eine Rechnung zu {project} ist heute fällig"
 
+#: onedesk/public/js/rule_builder.js:655
+msgid "A bill, an invoice or a statement to pay."
+msgstr "Eine Rechnung oder ein Kontoauszug zum Bezahlen."
+
 #: onedesk/one_hr/home.py:172
 msgid "A bonus paid for staying until a date."
 msgstr "Eine Prämie fürs Bleiben bis zu einem Datum."
@@ -3844,6 +3848,10 @@ msgstr "Ein anderer Mitarbeiter hat sich heute bereits von diesem Browser aus ei
 msgid "Answer"
 msgstr "Antwort"
 
+#: onedesk/public/js/rule_builder.js:448
+msgid "Answer every message with the same words, once in each conversation."
+msgstr "Jede Nachricht mit denselben Worten beantworten, einmal pro Unterhaltung."
+
 #: onedesk/one_hr/custom/leave_application.json
 msgid "Answer mail on its own while you're on leave, until the day you're back."
 msgstr "Während deines Urlaubs automatisch auf E-Mails antworten, bis zu dem Tag, an dem du zurück bist."
@@ -3855,6 +3863,10 @@ msgstr "Auf E-Mails antworten, die außerhalb der Arbeitszeit oder an einem Feie
 #: onedesk/public/js/rule_builder.js:374
 msgid "Answer new conversations from outside, once a day to each sender."
 msgstr "Auf neue Unterhaltungen von außen antworten, einmal täglich pro Absender."
+
+#: onedesk/public/js/rule_builder.js:704
+msgid "Answer the question politely from what the workspace knows. Say we will follow up if something is unclear."
+msgstr "Beantworte die Frage höflich mit dem, was der Arbeitsbereich weiß. Sag, dass wir nachfassen, wenn etwas unklar ist."
 
 #: onedesk/one/portal_share.py:20
 msgid "Answer the quote request"
@@ -5262,9 +5274,17 @@ msgstr "Offene Eincheckungen zum Schichtende automatisch schließen"
 msgid "Auto Repeat"
 msgstr ""
 
+#: onedesk/public/js/rule_builder.js:447 onedesk/public/js/rule_builder.js:449
+msgid "Auto Reply"
+msgstr "Automatische Antwort"
+
 #: frontend/src/mail/OneMail.vue:211 onedesk/public/js/onemail_settings.js:107
 msgid "Auto Reply On"
 msgstr "Automatische Antwort an"
+
+#: onedesk/public/js/rule_builder.js:720 onedesk/public/js/rule_builder.js:723
+msgid "Auto Reply With OneAI"
+msgstr "Automatische Antwort mit OneAI"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:779
 msgid "Auto-fit height"
@@ -6277,6 +6297,10 @@ msgstr "Rahmenauftrag"
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:18
 msgid "Block"
 msgstr "Sperren"
+
+#: onedesk/public/js/rule_builder.js:556 onedesk/public/js/rule_builder.js:558
+msgid "Block a Sender"
+msgstr "Absender blockieren"
 
 #. Option for the 'Status' (Select) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
@@ -8592,6 +8616,10 @@ msgstr ""
 #: onedesk/notifications/one/confirm_deletion.md
 msgid "Confirm Deletion"
 msgstr "Löschung bestätigen"
+
+#: onedesk/public/js/rule_builder.js:482 onedesk/public/js/rule_builder.js:485
+msgid "Confirm Documents Received"
+msgstr "Eingang der Dokumente bestätigen"
 
 #: frontend/portal/src/pages/Password.vue:12
 msgid "Confirm Password"
@@ -12527,6 +12555,10 @@ msgstr "Anlagen im Entwurf"
 msgid "Draft No"
 msgstr "Entwurfs-Nr."
 
+#: onedesk/public/js/rule_builder.js:687 onedesk/public/js/rule_builder.js:690
+msgid "Draft Replies With OneAI"
+msgstr "Antwortentwürfe mit OneAI"
+
 #: frontend/src/quotes/QuotesPage.vue:113
 msgid "Draft Supplier Quotations"
 msgstr "Lieferantenangebote im Entwurf"
@@ -16286,6 +16318,10 @@ msgstr "Formulare und Anbindungen"
 msgid "Forward"
 msgstr "Vorwärts"
 
+#: onedesk/public/js/rule_builder.js:613 onedesk/public/js/rule_builder.js:616
+msgid "Forward Supplier Bills"
+msgstr "Lieferantenrechnungen weiterleiten"
+
 #: onedesk/public/js/rule_builder.js:268
 msgid "Forward it to"
 msgstr "Leite sie weiter an"
@@ -18724,6 +18760,10 @@ msgstr "Lieferantenrechnung importieren"
 msgid "Import XLSX"
 msgstr "XLSX importieren"
 
+#: onedesk/public/js/rule_builder.js:545 onedesk/public/js/rule_builder.js:548
+msgid "Important Sender"
+msgstr "Wichtiger Absender"
+
 #: onedesk/public/js/oneai/Panel.vue:302 onedesk/public/js/oneai/Panel.vue:304
 msgid "Improve it"
 msgstr "Verbessern"
@@ -19855,6 +19895,10 @@ msgstr "Rechnungen tragen die Steuernummer des Unternehmens"
 msgid "Invoices not paid yet"
 msgstr "Rechnungen noch nicht bezahlt"
 
+#: onedesk/public/js/rule_builder.js:518
+msgid "Invoices to a Folder"
+msgstr "Rechnungen in einen Ordner"
+
 #: onedesk/public/js/doctype_settings.js:977
 msgid "Is"
 msgstr ""
@@ -19929,9 +19973,17 @@ msgstr "Ist die Anmeldung hier sicher genug?"
 msgid "Is signing in to this workspace safe enough? Look at our rules and at how people sign in, and say what to change."
 msgstr "Ist die Anmeldung in diesem Arbeitsbereich sicher genug? Sieh dir unsere Regeln an und wie sich die Leute anmelden, und sag, was wir ändern sollten."
 
+#: onedesk/public/js/rule_builder.js:676
+msgid "Is the sender upset, or do they need an answer today?"
+msgstr "Ist der Absender verärgert, oder braucht er heute eine Antwort?"
+
 #: onedesk/one/ai.py:365
 msgid "Is there a cheaper model that would do?"
 msgstr "Gibt es ein günstigeres Modell, das reicht?"
+
+#: onedesk/public/js/rule_builder.js:699
+msgid "Is this a question about an order, a delivery or a price?"
+msgstr "Ist das eine Frage zu einer Bestellung, einer Lieferung oder einem Preis?"
 
 #: onedesk/one_admin/ai.py:135
 msgid "Is this model worth offering?"
@@ -22985,6 +23037,10 @@ msgstr "Sammlung erstellen…"
 msgid "Make a copy"
 msgstr "Kopie erstellen"
 
+#: onedesk/public/js/rule_builder.js:581
+msgid "Make a lead from a first message by someone the workspace doesn't know yet."
+msgstr "Einen Lead aus der ersten Nachricht von jemandem anlegen, den der Arbeitsbereich noch nicht kennt."
+
 #: onedesk/public/js/portal_share.js:170
 msgid "Make a new link in its place? The old one stops opening."
 msgstr "Einen neuen Link an seiner Stelle erstellen? Der alte öffnet sich nicht mehr."
@@ -22993,6 +23049,10 @@ msgstr "Einen neuen Link an seiner Stelle erstellen? Der alte öffnet sich nicht
 msgid "Make a rule"
 msgstr "Eine Regel erstellen"
 
+#: onedesk/public/js/rule_builder.js:603
+msgid "Make a task from mail whose subject starts with Task."
+msgstr "Eine Aufgabe aus E-Mails anlegen, deren Betreff mit Aufgabe beginnt."
+
 #: onedesk/one_inventory/ai.py:224
 msgid "Make a work order"
 msgstr "Arbeitsauftrag anlegen"
@@ -23000,6 +23060,10 @@ msgstr "Arbeitsauftrag anlegen"
 #: onedesk/one_hr/ai.py:23 onedesk/one_hr/ai.py:259
 msgid "Make an expense claim from this receipt."
 msgstr "Erstelle aus diesem Beleg eine Spesenabrechnung."
+
+#: onedesk/public/js/rule_builder.js:565
+msgid "Make an issue from mail asking for help, and assign it to someone."
+msgstr "Aus E-Mails, die um Hilfe bitten, ein Ticket anlegen und es jemandem zuweisen."
 
 #: onedesk/public/js/oneai/Panel.vue:322
 msgid "Make it bigger"
@@ -24088,6 +24152,10 @@ msgstr "Verschiebe sie in Junk"
 msgid "Move mail from customers into a folder and file it on their record."
 msgstr "E-Mails von Kunden in einen Ordner verschieben und bei ihrem Datensatz ablegen."
 
+#: onedesk/public/js/rule_builder.js:499
+msgid "Move newsletters and notices out of the Inbox, already read."
+msgstr "Newsletter und Mitteilungen gelesen aus dem Posteingang verschieben."
+
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:129
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:130
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:131
@@ -24707,6 +24775,10 @@ msgstr "Neuer Lead"
 msgid "New Lead Waiting"
 msgstr "Neuer Lead wartet"
 
+#: onedesk/public/js/rule_builder.js:580 onedesk/public/js/rule_builder.js:583
+msgid "New Leads"
+msgstr "Neue Leads"
+
 #: onedesk/one/ai.py:2660 onedesk/public/js/settings.js:1947
 #: onedesk/public/js/settings.js:2040
 msgid "New Letter Head"
@@ -24962,6 +25034,10 @@ msgstr "Newsletter"
 #: onedesk/one_intake/filing.py:172
 msgid "Newsletters"
 msgstr "Newsletter"
+
+#: onedesk/public/js/rule_builder.js:498
+msgid "Newsletters to a Folder"
+msgstr "Newsletter in einen Ordner"
 
 #: frontend/portal/src/pages/List.vue:25
 #: frontend/portal/src/parts/Gallery.vue:10 frontend/src/project/Media.vue:9
@@ -27675,6 +27751,10 @@ msgstr "OneAI ausgeschaltet"
 msgid "OneAI adds questions to each new interview."
 msgstr "OneAI fügt jedem neuen Gespräch Fragen hinzu."
 
+#: onedesk/public/js/rule_builder.js:721
+msgid "OneAI answers new conversations from outside, in the sender's language."
+msgstr "OneAI beantwortet neue Unterhaltungen von außen in der Sprache des Absenders."
+
 #: onedesk/one_admin/heads.py:370
 msgid "OneAI cannot answer"
 msgstr "OneAI kann nicht antworten"
@@ -27794,6 +27874,10 @@ msgstr "OneAI bewertet jeden neuen Bewerber anhand der Stelle und ordnet ihn ein
 msgid "OneAI reads each message and picks a label. Each label has its own steps."
 msgstr "OneAI liest jede Nachricht und wählt ein Label. Jedes Label hat eigene Schritte."
 
+#: onedesk/public/js/rule_builder.js:668
+msgid "OneAI says whether the sender is upset or in a hurry, and someone is told."
+msgstr "OneAI sagt, ob der Absender verärgert oder in Eile ist, und jemand wird benachrichtigt."
+
 #. Description of the 'Triage Grievances' (Check) field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -27807,6 +27891,10 @@ msgstr "OneAI liest neue Mails in {0} und ihre Anhänge, legt sie ab und bearbei
 #: onedesk/public/js/settings.js:2966
 msgid "OneAI will read, file and act on new files in this folder and its subfolders. Scans and photos use OneAI credits."
 msgstr "OneAI liest, ordnet und bearbeitet neue Dateien in diesem Ordner und seinen Unterordnern. Scans und Fotos verbrauchen OneAI-Credits."
+
+#: onedesk/public/js/rule_builder.js:688
+msgid "OneAI writes a reply to customers' questions, and someone reads it before it goes."
+msgstr "OneAI schreibt eine Antwort auf Fragen von Kunden, und jemand liest sie, bevor sie rausgeht."
 
 #: onedesk/one_ai/heads.py:83
 msgid "OneAI writes one here when something happens, such as an invoice, a payment or a mail."
@@ -30660,6 +30748,12 @@ msgstr "Personen"
 #: onedesk/one/settings.py:2095
 msgid "People With the Role"
 msgstr "Personen mit der Rolle"
+
+#: onedesk/public/js/rule_builder.js:561 onedesk/public/js/rule_builder.js:577
+#: onedesk/public/js/rule_builder.js:599 onedesk/public/js/rule_builder.js:610
+#: onedesk/public/js/rule_builder.js:621
+msgid "People and Records"
+msgstr "Personen und Datensätze"
 
 #. Label of the section_people (Section Break) field in DocType 'Cloud File
 #. Request'
@@ -34559,6 +34653,12 @@ msgstr "{0} Zelle(n) ersetzt, {1} geschützte übersprungen"
 msgid "Replied (%)"
 msgstr "Beantwortet (%)"
 
+#: onedesk/public/js/rule_builder.js:436 onedesk/public/js/rule_builder.js:444
+#: onedesk/public/js/rule_builder.js:452 onedesk/public/js/rule_builder.js:463
+#: onedesk/public/js/rule_builder.js:479
+msgid "Replies"
+msgstr "Antworten"
+
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Asks To' (Select) field in DocType 'Reading Ask'
 #: frontend/src/mail/MailConversation.vue:75
@@ -36442,6 +36542,10 @@ msgstr "Test senden"
 msgid "Send This"
 msgstr "Senden"
 
+#: onedesk/public/js/rule_builder.js:614
+msgid "Send a copy of supplier mail with an attachment to another address."
+msgstr "Eine Kopie von Lieferanten-E-Mails mit Anhang an eine andere Adresse senden."
+
 #: onedesk/one/automations.py:119
 msgid "Send an HTTP request to an external URL."
 msgstr "Sendet eine HTTP-Anfrage an eine externe URL."
@@ -36457,6 +36561,10 @@ msgstr "Dateien hierher senden"
 #: onedesk/one/settings.py:55
 msgid "Send invoices, pay bills, match the bank and see where the money stands."
 msgstr "Rechnungen senden, Eingangsrechnungen bezahlen, die Bank abgleichen und sehen, wo das Geld steht."
+
+#: onedesk/public/js/rule_builder.js:557
+msgid "Send mail from an address or domain to Junk, and run no other rule on it."
+msgstr "E-Mails von einer Adresse oder Domain in den Spam verschieben und keine weitere Regel darauf anwenden."
 
 #: onedesk/public/js/onecloud.js:1610
 msgid "Send request"
@@ -38496,6 +38604,10 @@ msgstr "Jemand, der sich gemeldet hat, oder jemand, den Sie erreichen möchten."
 msgid "Someone"
 msgstr "Jemand"
 
+#: onedesk/public/js/rule_builder.js:653
+msgid "Someone asks for a price or a quotation."
+msgstr "Jemand fragt nach einem Preis oder einem Angebot."
+
 #: onedesk/one/printing.py:818
 msgid "Someone changed {0} after you opened it."
 msgstr "Jemand hat {0} geändert, nachdem Sie es geöffnet haben."
@@ -38503,6 +38615,10 @@ msgstr "Jemand hat {0} geändert, nachdem Sie es geöffnet haben."
 #: onedesk/public/js/portal_share.js:61
 msgid "Someone else…"
 msgstr "Jemand anderes…"
+
+#: onedesk/public/js/rule_builder.js:654
+msgid "Someone is unhappy with what they got or how they were treated."
+msgstr "Jemand ist unzufrieden mit dem, was er bekommen hat, oder damit, wie er behandelt wurde."
 
 #. Description of a DocType
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
@@ -38594,6 +38710,12 @@ msgstr "E-Mails nach {0} sortieren"
 #: onedesk/one/ai_setup.py:228
 msgid "Sorted by"
 msgstr "Sortiert nach"
+
+#: onedesk/public/js/rule_builder.js:495 onedesk/public/js/rule_builder.js:515
+#: onedesk/public/js/rule_builder.js:531 onedesk/public/js/rule_builder.js:542
+#: onedesk/public/js/rule_builder.js:553
+msgid "Sorting"
+msgstr "Sortieren"
 
 #. Label of the source (Select) field in DocType 'Credit Ledger Entry'
 #. Label of the source_name (Dynamic Link) field in DocType 'AI Chunk'
@@ -38795,6 +38917,14 @@ msgstr "Stern"
 #: onedesk/public/js/rule_builder.js:259
 msgid "Star it"
 msgstr "Markiere sie mit Stern"
+
+#: onedesk/public/js/rule_builder.js:546
+msgid "Star mail from one address or domain and tell someone on the bell."
+msgstr "E-Mails von einer Adresse oder Domain markieren und jemanden über die Glocke benachrichtigen."
+
+#: onedesk/public/js/rule_builder.js:519
+msgid "Star mail with an invoice attached and move it to a folder."
+msgstr "E-Mails mit angehängter Rechnung markieren und in einen Ordner verschieben."
 
 #. Label of the one_flagged (Check) field in DocType 'Communication'
 #: onedesk/one_mail/custom/communication.json
@@ -40206,6 +40336,10 @@ msgstr ""
 msgid "Support Hour Distribution"
 msgstr "Verteilung der Supportstunden"
 
+#: onedesk/public/js/rule_builder.js:564 onedesk/public/js/rule_builder.js:567
+msgid "Support Requests"
+msgstr "Supportanfragen"
+
 #: onedesk/one_crm/home.py:181
 msgid "Support Settings"
 msgstr "Support-Einstellungen"
@@ -40467,8 +40601,8 @@ msgstr "Zielmarge"
 #: onedesk/one_task/ai.py:325 onedesk/one_task/page/task_view/task_view.js:5
 #: onedesk/one_task/sidebar/onetask/onetask.json
 #: onedesk/public/js/project_actions.js:363
-#: onedesk/public/js/task_actions.js:57 onedesk/public/js/task_new.js:10
-#: onedesk/public/js/timesheet.js:41
+#: onedesk/public/js/rule_builder.js:606 onedesk/public/js/task_actions.js:57
+#: onedesk/public/js/task_new.js:10 onedesk/public/js/timesheet.js:41
 msgid "Task"
 msgstr "Aufgabe"
 
@@ -40540,6 +40674,10 @@ msgstr "Aufgaben"
 #: onedesk/one/workspace/one/one.json
 msgid "Tasks Due or Late"
 msgstr "Fällige oder überfällige Aufgaben"
+
+#: onedesk/public/js/rule_builder.js:602 onedesk/public/js/rule_builder.js:605
+msgid "Tasks From Mail"
+msgstr "Aufgaben aus E-Mails"
 
 #. Label in the One Detailed Tax Invoice print format
 #. Label in the One Payment Voucher print format
@@ -40951,6 +41089,14 @@ msgstr "Personen benachrichtigen"
 msgid "Tell Someone"
 msgstr "Jemanden benachrichtigen"
 
+#: onedesk/public/js/rule_builder.js:625
+msgid "Tell someone when customer mail marked urgent arrives after hours."
+msgstr "Jemanden benachrichtigen, wenn dringende Kunden-E-Mails nach Feierabend ankommen."
+
+#: onedesk/public/js/rule_builder.js:483
+msgid "Tell suppliers their attached documents arrived."
+msgstr "Lieferanten mitteilen, dass ihre angehängten Dokumente angekommen sind."
+
 #. Introduction text of the get-in-touch Web Form
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
 msgid "Tell us who you are and what you need, and we will get back to you."
@@ -41264,6 +41410,10 @@ msgstr "Textumbruch"
 msgid "Thank customers who pay"
 msgstr "Zahlenden Kunden danken"
 
+#: onedesk/public/js/rule_builder.js:731
+msgid "Thank them, say what you understood they need, and say we will reply soon."
+msgstr "Bedanke dich, sag, was du verstanden hast, das sie brauchen, und sag, dass wir bald antworten."
+
 #: onedesk/public/js/legal.js:80
 msgid "Thank you"
 msgstr "Vielen Dank"
@@ -41275,6 +41425,10 @@ msgstr "Danke für deine Nachricht. Unser Büro ist gerade geschlossen, und wir 
 #: onedesk/public/js/rule_builder.js:382
 msgid "Thank you for your message. We received it and will reply soon."
 msgstr "Danke für deine Nachricht. Wir haben sie erhalten und antworten bald."
+
+#: onedesk/public/js/rule_builder.js:489
+msgid "Thank you. We received your documents and will review them."
+msgstr "Vielen Dank. Wir haben Ihre Dokumente erhalten und werden sie prüfen."
 
 #. Success message of the get-in-touch Web Form
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
@@ -45941,6 +46095,10 @@ msgstr "Laden Sie bis zu {0} Dateien auf einmal hoch."
 msgid "Uploading {0} of {1}"
 msgstr "{0} von {1} wird hochgeladen"
 
+#: onedesk/public/js/rule_builder.js:667 onedesk/public/js/rule_builder.js:670
+msgid "Upset or Urgent"
+msgstr "Verärgert oder dringend"
+
 #. Label of the one_ai_urgency (Select) field in DocType 'Employee Grievance'
 #: onedesk/one_hr/custom/employee_grievance.json
 msgid "Urgency"
@@ -45949,6 +46107,10 @@ msgstr "Dringlichkeit"
 #: onedesk/one_hr/ai_grievance.py:69
 msgid "Urgent"
 msgstr ""
+
+#: onedesk/public/js/rule_builder.js:624 onedesk/public/js/rule_builder.js:627
+msgid "Urgent After Hours"
+msgstr "Dringend nach Feierabend"
 
 #. Name of a notification
 #: onedesk/notifications/one_hr/urgent_grievance.md
@@ -50338,6 +50500,11 @@ msgstr "Mit"
 msgid "With Invoice"
 msgstr "Mit der Rechnung"
 
+#: onedesk/public/js/rule_builder.js:640 onedesk/public/js/rule_builder.js:664
+#: onedesk/public/js/rule_builder.js:684 onedesk/public/js/rule_builder.js:717
+msgid "With OneAI"
+msgstr "Mit OneAI"
+
 #: frontend/src/sent_out/SentOutPage.vue:86
 msgid "With Suppliers"
 msgstr "Bei Lieferanten"
@@ -51071,6 +51238,10 @@ msgstr "Anruf festhalten"
 #: onedesk/one_mail/flow.py:179
 msgid "Write what OneAI's reply should say."
 msgstr "Schreibe, was die Antwort von OneAI sagen soll."
+
+#: onedesk/one_mail/flow.py:209
+msgid "Write what each condition looks for."
+msgstr "Schreib, wonach jede Bedingung sucht."
 
 #: onedesk/one/portal_share.py:375
 msgid "Write your name, so we know who answered."
@@ -52439,6 +52610,10 @@ msgstr "enthält {0}"
 msgid "hasn't {0}"
 msgstr "enthält nicht {0}"
 
+#: onedesk/public/js/rule_builder.js:570
+msgid "help, problem, not working, broken"
+msgstr "Hilfe, Problem, funktioniert nicht, kaputt"
+
 #: onedesk/one/ai.py:1108
 msgid "hidden"
 msgstr "ausgeblendet"
@@ -52476,6 +52651,10 @@ msgstr "Eingabe"
 #: onedesk/one_calendar/tell.py:169
 msgid "invites you to"
 msgstr "lädt Sie ein zu"
+
+#: onedesk/public/js/rule_builder.js:524
+msgid "invoice, receipt, statement"
+msgstr "Rechnung, Beleg, Kontoauszug"
 
 #: onedesk/public/js/rule_builder.js:25
 msgid "is"
@@ -53298,6 +53477,10 @@ msgstr "unbegrenzte Plätze"
 msgid "unlimited storage"
 msgstr "unbegrenzter Speicher"
 
+#: onedesk/public/js/rule_builder.js:506
+msgid "unsubscribe"
+msgstr "abbestellen"
+
 #: onedesk/public/js/onecloud.js:1335 onedesk/public/js/portal_share.js:18
 msgid "until {0}"
 msgstr "bis {0}"
@@ -53305,6 +53488,10 @@ msgstr "bis {0}"
 #: onedesk/one_storage/history.py:51
 msgid "uploaded a new version"
 msgstr "hat eine neue Version hochgeladen"
+
+#: onedesk/public/js/rule_builder.js:630
+msgid "urgent, asap"
+msgstr "dringend, asap"
 
 #: onedesk/public/js/intake.js:94
 msgid "us"

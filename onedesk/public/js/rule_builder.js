@@ -424,33 +424,43 @@ onedesk.rules.strip = (steps) =>
 // Rules to start from: what a mailbox most often wants, ready to change.
 onedesk.rules.starters = (context) => {
 	const make = () => Math.random().toString(36).slice(2, 8);
+	const folder = (...names) => {
+		const found = context.folders.find((one) => names.some((name) => (one.label || "").toLowerCase().includes(name)));
+		return (found || context.folders[0] || {}).value;
+	};
+	const person = (context.people.find((one) => one.value === frappe.session.user) || context.people[0] || {}).value;
+	const when = (items, then, { any = false, otherwise = [] } = {}) => ({ type: "if", id: make(), test: { any, items }, then, else: otherwise });
+	const reply = (text, once = "conversation") => ({ type: "reply", with: "Text", text, once });
 	const said = [
 		{
+			group: "",
 			key: "blank",
 			icon: "file",
 			title: __("Blank"),
 			about: __("Start from nothing."),
-			rule: { title: "", steps: [{ type: "if", id: make(), test: { any: false, items: [{ field: "from", op: "contains", value: "" }] }, then: [], else: [] }] },
+			rule: { title: "", steps: [when([{ field: "from", op: "contains", value: "" }], [])] },
 		},
 		{
-			key: "acknowledge",
+			group: __("Replies"),
+			key: "auto_reply",
 			icon: "reply",
+			title: __("Auto Reply"),
+			about: __("Answer every message with the same words, once in each conversation."),
+			rule: { title: __("Auto Reply"), steps: [reply(__("Thank you for your message. We received it and will reply soon."))] },
+		},
+		{
+			group: __("Replies"),
+			key: "acknowledge",
+			icon: "mail-check",
 			title: __("Acknowledge New Mail"),
 			about: __("Answer new conversations from outside, once a day to each sender."),
 			rule: {
 				title: __("Acknowledge New Mail"),
-				steps: [
-					{
-						type: "if",
-						id: make(),
-						test: { any: false, items: [{ field: "starts", value: true }, { field: "outside", value: true }] },
-						then: [{ type: "reply", with: "Text", text: __("Thank you for your message. We received it and will reply soon."), once: "day" }],
-						else: [],
-					},
-				],
+				steps: [when([{ field: "starts", value: true }, { field: "outside", value: true }], [reply(__("Thank you for your message. We received it and will reply soon."), "day")])],
 			},
 		},
 		{
+			group: __("Replies"),
 			key: "closed",
 			icon: "moon",
 			title: __("We're Closed"),
@@ -458,45 +468,275 @@ onedesk.rules.starters = (context) => {
 			rule: {
 				title: __("We're Closed"),
 				steps: [
-					{
-						type: "if",
-						id: make(),
-						test: { any: false, items: [{ field: "outside", value: true }, { any: true, items: [{ field: "after_hours", value: true }, { field: "holiday", value: true }] }] },
-						then: [{ type: "reply", with: "Text", text: __("Thank you for your message. Our office is closed now, and we will reply when we open."), once: "day" }],
-						else: [],
-					},
+					when(
+						[{ field: "outside", value: true }, { any: true, items: [{ field: "after_hours", value: true }, { field: "holiday", value: true }] }],
+						[reply(__("Thank you for your message. Our office is closed now, and we will reply when we open."), "day")]
+					),
 				],
 			},
 		},
 		{
+			group: __("Replies"),
+			key: "attachment_received",
+			icon: "paperclip",
+			title: __("Confirm Documents Received"),
+			about: __("Tell suppliers their attached documents arrived."),
+			rule: {
+				title: __("Confirm Documents Received"),
+				steps: [
+					when(
+						[{ field: "sender_is", op: "is", value: "Supplier" }, { field: "attachment", value: true }],
+						[reply(__("Thank you. We received your documents and will review them."))]
+					),
+				],
+			},
+		},
+		{
+			group: __("Sorting"),
+			key: "newsletters",
+			icon: "newspaper",
+			title: __("Newsletters to a Folder"),
+			about: __("Move newsletters and notices out of the Inbox, already read."),
+			rule: {
+				title: __("Newsletters"),
+				steps: [
+					when(
+						[
+							{ field: "from", op: "contains", value: "newsletter, noreply, no-reply" },
+							{ field: "text", op: "contains", value: __("unsubscribe") },
+						],
+						[{ type: "move", folder: folder("newsletter", "archive") }, { type: "read" }],
+						{ any: true }
+					),
+				],
+			},
+		},
+		{
+			group: __("Sorting"),
+			key: "invoices",
+			icon: "receipt",
+			title: __("Invoices to a Folder"),
+			about: __("Star mail with an invoice attached and move it to a folder."),
+			rule: {
+				title: __("Invoices"),
+				steps: [
+					when(
+						[{ field: "subject", op: "contains", value: __("invoice, receipt, statement") }, { field: "attachment", value: true }],
+						[{ type: "move", folder: folder("invoice", "account") }, { type: "star" }]
+					),
+				],
+			},
+		},
+		{
+			group: __("Sorting"),
 			key: "customers",
 			icon: "users",
 			title: __("Customers to a Folder"),
 			about: __("Move mail from customers into a folder and file it on their record."),
 			rule: {
 				title: __("Customers"),
+				steps: [when([{ field: "sender_is", op: "is", value: "Customer" }], [{ type: "move", folder: folder("customer") }, { type: "link" }])],
+			},
+		},
+		{
+			group: __("Sorting"),
+			key: "important",
+			icon: "star",
+			title: __("Important Sender"),
+			about: __("Star mail from one address or domain and tell someone on the bell."),
+			rule: {
+				title: __("Important Sender"),
+				steps: [when([{ field: "domain", op: "is", value: "" }], [{ type: "star" }, { type: "notify", user: person }])],
+			},
+		},
+		{
+			group: __("Sorting"),
+			key: "block",
+			icon: "shield-alert",
+			title: __("Block a Sender"),
+			about: __("Send mail from an address or domain to Junk, and run no other rule on it."),
+			rule: { title: __("Block a Sender"), steps: [when([{ field: "domain", op: "is", value: "" }], [{ type: "junk" }, { type: "stop" }])] },
+		},
+		{
+			group: __("People and Records"),
+			key: "support",
+			icon: "life-buoy",
+			title: __("Support Requests"),
+			about: __("Make an issue from mail asking for help, and assign it to someone."),
+			rule: {
+				title: __("Support Requests"),
 				steps: [
-					{
-						type: "if",
-						id: make(),
-						test: { any: false, items: [{ field: "sender_is", op: "is", value: "Customer" }] },
-						then: [{ type: "move", folder: (context.folders[0] || {}).value }, { type: "link" }],
-						else: [],
-					},
+					when(
+						[{ field: "text", op: "contains", value: __("help, problem, not working, broken") }, { field: "outside", value: true }],
+						[{ type: "create", doctype: "Issue" }, { type: "assign", user: person }]
+					),
+				],
+			},
+		},
+		{
+			group: __("People and Records"),
+			key: "leads",
+			icon: "user-plus",
+			title: __("New Leads"),
+			about: __("Make a lead from a first message by someone the workspace doesn't know yet."),
+			rule: {
+				title: __("New Leads"),
+				steps: [
+					when(
+						[
+							{ field: "starts", value: true },
+							{ field: "outside", value: true },
+							{ field: "sender_is", op: "is_not", value: "Customer" },
+							{ field: "sender_is", op: "is_not", value: "Supplier" },
+							{ field: "sender_is", op: "is_not", value: "Lead" },
+						],
+						[{ type: "create", doctype: "Lead" }, { type: "notify", user: person }]
+					),
+				],
+			},
+		},
+		{
+			group: __("People and Records"),
+			key: "tasks",
+			icon: "list-checks",
+			title: __("Tasks From Mail"),
+			about: __("Make a task from mail whose subject starts with Task."),
+			rule: {
+				title: __("Tasks From Mail"),
+				steps: [when([{ field: "subject", op: "starts_with", value: __("Task") }], [{ type: "create", doctype: "Task" }, { type: "read" }])],
+			},
+		},
+		{
+			group: __("People and Records"),
+			key: "forward_bills",
+			icon: "forward",
+			title: __("Forward Supplier Bills"),
+			about: __("Send a copy of supplier mail with an attachment to another address."),
+			rule: {
+				title: __("Forward Supplier Bills"),
+				steps: [when([{ field: "sender_is", op: "is", value: "Supplier" }, { field: "attachment", value: true }], [{ type: "forward", to: "" }, { type: "link" }])],
+			},
+		},
+		{
+			group: __("People and Records"),
+			key: "after_hours_team",
+			icon: "bell",
+			title: __("Urgent After Hours"),
+			about: __("Tell someone when customer mail marked urgent arrives after hours."),
+			rule: {
+				title: __("Urgent After Hours"),
+				steps: [
+					when(
+						[{ field: "sender_is", op: "is", value: "Customer" }, { field: "after_hours", value: true }, { field: "subject", op: "contains", value: __("urgent, asap") }],
+						[{ type: "star" }, { type: "notify", user: person }]
+					),
 				],
 			},
 		},
 	];
 	if (context.ai)
-		said.push({
-			key: "sort",
-			icon: "sparkles",
-			title: __("Sort With OneAI"),
-			about: __("OneAI reads each message and picks a label. Each label has its own steps."),
-			rule: {
+		said.push(
+			{
+				group: __("With OneAI"),
+				key: "sort",
+				icon: "sparkles",
 				title: __("Sort With OneAI"),
-				steps: [{ type: "ask", id: make(), ask: "pick", labels: [{ label: __("Quote Request"), then: [] }, { label: __("Complaint"), then: [] }], then: [], else: [] }],
+				about: __("OneAI reads each message and picks a label. Each label has its own steps."),
+				rule: {
+					title: __("Sort With OneAI"),
+					steps: [
+						{
+							type: "ask",
+							id: make(),
+							ask: "pick",
+							labels: [
+								{ label: __("Quote Request"), about: __("Someone asks for a price or a quotation."), then: [{ type: "create", doctype: "Lead" }, { type: "notify", user: person }] },
+								{ label: __("Complaint"), about: __("Someone is unhappy with what they got or how they were treated."), then: [{ type: "star" }, { type: "create", doctype: "Issue" }] },
+								{ label: __("Invoice"), about: __("A bill, an invoice or a statement to pay."), then: [{ type: "move", folder: folder("invoice", "account") }] },
+							],
+							then: [],
+							else: [],
+						},
+					],
+				},
 			},
-		});
+			{
+				group: __("With OneAI"),
+				key: "upset",
+				icon: "siren",
+				title: __("Upset or Urgent"),
+				about: __("OneAI says whether the sender is upset or in a hurry, and someone is told."),
+				rule: {
+					title: __("Upset or Urgent"),
+					steps: [
+						{
+							type: "ask",
+							id: make(),
+							ask: "yes",
+							question: __("Is the sender upset, or do they need an answer today?"),
+							then: [{ type: "star" }, { type: "notify", user: person }],
+							else: [],
+						},
+					],
+				},
+			},
+			{
+				group: __("With OneAI"),
+				key: "draft",
+				icon: "pen-line",
+				title: __("Draft Replies With OneAI"),
+				about: __("OneAI writes a reply to customers' questions, and someone reads it before it goes."),
+				rule: {
+					title: __("Draft Replies With OneAI"),
+					steps: [
+						when(
+							[{ field: "sender_is", op: "is", value: "Customer" }],
+							[
+								{
+									type: "ask",
+									id: make(),
+									ask: "yes",
+									question: __("Is this a question about an order, a delivery or a price?"),
+									then: [
+										{
+											type: "reply",
+											with: "OneAI",
+											instruction: __("Answer the question politely from what the workspace knows. Say we will follow up if something is unclear."),
+											review: 1,
+											once: "conversation",
+										},
+									],
+									else: [],
+								},
+							]
+						),
+					],
+				},
+			},
+			{
+				group: __("With OneAI"),
+				key: "ai_reply",
+				icon: "bot",
+				title: __("Auto Reply With OneAI"),
+				about: __("OneAI answers new conversations from outside, in the sender's language."),
+				rule: {
+					title: __("Auto Reply With OneAI"),
+					steps: [
+						when(
+							[{ field: "starts", value: true }, { field: "outside", value: true }],
+							[
+								{
+									type: "reply",
+									with: "OneAI",
+									instruction: __("Thank them, say what you understood they need, and say we will reply soon."),
+									review: 0,
+									once: "conversation",
+								},
+							]
+						),
+					],
+				},
+			}
+		);
 	return said;
 };

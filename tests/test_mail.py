@@ -526,7 +526,7 @@ def _rules():
 def _flow():
 	names = (
 		"TEXT", "FLAGS", "KINDS", "ACTIONS", "CREATES", "ONCE", "test", "holds", "said", "walk", "_answered",
-		"asks", "needs_ai", "topics", "answers_of", "actions_in", "problems", "from_fields",
+		"asks", "needs_ai", "topics", "answers_of", "actions_in", "conditions_in", "problems", "from_fields",
 	)
 	return _load(MAIL / "flow.py", names, re=re, _=lambda text: text)
 
@@ -567,6 +567,9 @@ def test_a_rule_must_do_something_and_old_rules_become_steps():
 	assert flow["problems"]([{"type": "if", "test": {}, "then": [], "else": []}]) == ["Add at least one action."]
 	assert "Choose the folder to move to." in flow["problems"]([{"type": "move"}])
 	assert "Write the address to forward to." in flow["problems"]([{"type": "forward", "to": "nobody"}])
+	empty = [{"type": "if", "test": {"items": [{"any": True, "items": [{"field": "domain", "op": "is", "value": " "}]}]}, "then": [{"type": "junk"}]}]
+	assert "Write what each condition looks for." in flow["problems"](empty), "an empty blank would match all mail"
+	assert flow["problems"]([{"type": "reply", "text": "Thanks", "once": "conversation"}]) == [], "an auto reply needs no If"
 	assert "Give OneAI at least two labels to pick from." in flow["problems"]([{"type": "ask", "ask": "pick", "labels": [{"label": "A"}], "then": [{"type": "star"}]}])
 	old = {"from_contains": "shop", "subject_contains": "news", "match": "Any Condition", "move_to": "F", "star": 1, "stop": 1}
 	steps = flow["from_fields"](old)

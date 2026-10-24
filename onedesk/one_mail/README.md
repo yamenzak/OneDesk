@@ -244,14 +244,28 @@ mailbox's signature. A rule's reply stands in for an out-of-office reply
 to the same message.
 
 **To make a rule:** **New Rule**, then start from **Blank** or one of the
-common ones (**Acknowledge New Mail**, **We're Closed**, **Customers to a
-Folder**, **Sort With OneAI**), change anything, and save. Rules run in
-order; switch one off in the list to pause it. Moves happen on the mail
-server too, so your phone matches. Rules only apply to new mail.
+examples, change anything, and save. The examples come in four groups, and
+between them they use every condition and every action:
 
-**Auto Reply** is a rule now: **Acknowledge New Mail** answers new
-conversations from outside, once a day to each sender. A shared mailbox
-that answers by a rule says **Auto Reply On** in the rail.
+- **Replies**: **Auto Reply** (every message, once per conversation),
+  **Acknowledge New Mail**, **We're Closed** and **Confirm Documents
+  Received**.
+- **Sorting**: **Newsletters to a Folder**, **Invoices to a Folder**,
+  **Customers to a Folder**, **Important Sender** and **Block a Sender**.
+- **People and Records**: **Support Requests** (an issue, assigned),
+  **New Leads**, **Tasks From Mail**, **Forward Supplier Bills** and
+  **Urgent After Hours**.
+- **With OneAI**, only where OneAI may read the mailbox: **Sort With
+  OneAI**, **Upset or Urgent**, **Draft Replies With OneAI** and **Auto
+  Reply With OneAI**.
+
+An example with a blank to fill (an address, a domain) can't be saved until
+it is filled: a condition with nothing to look for would match all mail.
+Rules run in order; switch one off in the list to pause it. Moves happen on
+the mail server too, so your phone matches. Rules only apply to new mail.
+
+**Auto Reply** is a rule now, the first example. A mailbox that answers by
+a rule says **Auto Reply On** in the rail.
 
 You can also ask OneAI, for example "move any mail with the word cola into a
 CocaCola folder" or "put mail about soft drinks in Beverages". It suggests

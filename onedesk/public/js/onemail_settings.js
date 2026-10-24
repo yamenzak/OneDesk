@@ -720,7 +720,7 @@ onedesk.mail.settings = (tab) => {
 		return { email: box.email, folders: said.folders || [], people: said.people || [], ai: !!said.ai };
 	};
 
-	// A new rule starts from one of a few common ones, or from nothing.
+	// A new rule starts from one of the examples, in groups, or from nothing.
 	const starters_view = async (panel, box) => {
 		await frappe.require(builder_files);
 		const context = await context_of(panel, box);
@@ -728,14 +728,19 @@ onedesk.mail.settings = (tab) => {
 			title: box.may.rules ? __("New Mail Rule") : __("Request Mail Rule"),
 			description: __("Start from one of these, and change anything."),
 			render: (shown) => {
-				const $grid = $(`<div class="rb-starters"></div>`).appendTo(shown.body);
-				for (const one of onedesk.rules.starters(context))
+				const groups = {};
+				for (const one of onedesk.rules.starters(context)) {
+					if (!groups[one.group]) {
+						if (one.group) $(`<div class="rb-starters-group"></div>`).text(one.group).appendTo(shown.body);
+						groups[one.group] = $(`<div class="rb-starters"></div>`).appendTo(shown.body);
+					}
 					$(`<button type="button" class="rb-starter"></button>`)
 						.html(
 							`<span class="rb-starter-title">${frappe.utils.icon(one.icon, "sm")}${esc(one.title)}</span><span class="rb-starter-about">${esc(one.about)}</span>`
 						)
 						.on("click", () => rule_view(panel, box, null, one.rule))
-						.appendTo($grid);
+						.appendTo(groups[one.group]);
+				}
 			},
 		});
 	};

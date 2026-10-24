@@ -162,6 +162,25 @@ def actions_in(steps: list) -> list[dict]:
 	return found
 
 
+def conditions_in(steps: list) -> list[dict]:
+	"""Every condition in a rule's Ifs, in groups and branches too."""
+
+	def of(group):
+		found = []
+		for one in (group or {}).get("items") or []:
+			found += of(one) if "items" in one else [one]
+		return found
+
+	found = []
+	for step in steps or []:
+		if step.get("type") == "if":
+			found += of(step.get("test"))
+		found += conditions_in(step.get("then")) + conditions_in(step.get("else"))
+		for label in step.get("labels") or []:
+			found += conditions_in(label.get("then"))
+	return found
+
+
 def problems(steps: list) -> list[str]:
 	"""What stops a rule being saved, in plain words. Empty when it can run."""
 	said = []
@@ -185,6 +204,9 @@ def problems(steps: list) -> list[str]:
 			said.append(_("Choose who."))
 		if kind == "create" and one.get("doctype") not in CREATES:
 			said.append(_("Choose what to create."))
+	for one in conditions_in(steps):
+		if one.get("field") in TEXT and not str(one.get("value") or "").strip():
+			said.append(_("Write what each condition looks for."))
 	for step in asks(steps):
 		if step.get("ask") == "pick" and len([one for one in step.get("labels") or [] if one.get("label")]) < 2:
 			said.append(_("Give OneAI at least two labels to pick from."))
