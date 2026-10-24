@@ -1809,6 +1809,13 @@ OVERRIDES = [
 		"setup_tabbed_layout() {",
 	),
 	(
+		"A record is made in one dialog with its tabs as a rail",
+		"their make_quick_entry opens quick entry, or the full new form where quick entry does not fit; window/form.js wraps it so every create opens frappe's own form in frappe's SettingsDialog, its tabs as the rail, and on save fills the calling link, calls after_insert or opens the record as quick entry does",
+		"onedesk/public/js/window/form.js",
+		"frappe/frappe/public/js/frappe/form/quick_entry.js",
+		"frappe.ui.form.make_quick_entry = (",
+	),
+	(
 		"A form's checkboxes are frappe's own switch",
 		"their make_control builds ControlCheck for a Check field; window/form.js wraps it so a form on the window builds ControlSwitch, frappe's Check with a switch's markup and the same 0/1, for the form's own fields only; its set_disp_area is emptied, since on a form it puts a disabled checkbox inside the switch's label, ahead of the real one, and the label's click went to that",
 		"onedesk/public/js/window/form.js",

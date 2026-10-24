@@ -49,12 +49,35 @@ onedesk.window.adapt("form", () => {
 	if (make && Switch && !make.one_window) {
 		frappe.ui.form.make_control = function (opts) {
 			const frm = opts && opts.frm;
-			if (opts && opts.df && opts.df.fieldtype === "Check" && frm && opts.layout && opts.layout === frm.layout && frm.page && frm.page.window) {
+			if (opts && opts.df && opts.df.fieldtype === "Check" && frm && opts.layout && opts.layout === frm.layout && ((frm.page && frm.page.window) || frm.one_create)) {
 				return new Switch(opts);
 			}
 			return make.call(this, opts);
 		};
 		frappe.ui.form.make_control.one_window = true;
+	}
+
+	// Making a record on the window (docs/WINDOW.md): one dialog for every
+	// create, in place of frappe's quick entry and its full-page new form alike.
+	// It is frappe's own form, mounted in frappe's SettingsDialog as frappe's
+	// Data Import dialog mounts one, so the doctype's scripts, its depends_on and
+	// its validation all run as on the page; the form's tabs are the dialog's
+	// rail. Saved, it does what quick entry does: fills the link it was asked for
+	// from, or hands the record to whoever asked, or opens it.
+	const quick = frappe.ui.form.make_quick_entry;
+	if (quick && !quick.one_window) {
+		frappe.ui.form.make_quick_entry = function (doctype, after_insert, init_callback, doc, force, skip_insert) {
+			const args = arguments;
+			// The doctype is loaded first: from a link field it often is not yet.
+			return new Promise((resolve) =>
+				frappe.model.with_doctype(doctype, () => {
+					const meta = frappe.get_meta(doctype);
+					if (skip_insert || !meta || meta.istable || meta.issingle || !frappe.ui.SettingsDialog) return resolve(quick.apply(this, args));
+					resolve(onedesk.window.create(doctype, { after_insert, init_callback, doc }));
+				})
+			);
+		};
+		frappe.ui.form.make_quick_entry.one_window = true;
 	}
 
 	const Layout = frappe.ui.form.Layout;
@@ -331,3 +354,81 @@ onedesk.window.tabs = ($list) => {
 	});
 	$(document).on("form-refresh", later);
 };
+
+onedesk.window.create = (doctype, { after_insert = null, init_callback = null, doc = null } = {}) =>
+	new Promise((resolve) =>
+		frappe.model.with_doctype(doctype, () => {
+			const dialog = new frappe.ui.SettingsDialog({ title: __("New {0}", [__(doctype)]), tabs: [] });
+			dialog.$wrapper.addClass("one-create");
+			const $host = $(`<div class="one-create-form"></div>`).appendTo(dialog.$panels);
+			dialog.show();
+
+			const frm = new frappe.ui.form.Form(doctype, $host[0], false);
+			frm.in_dialog = true;
+			frm.one_create = dialog;
+			const name = doc ? doc.name : frappe.model.make_new_doc_and_get_name(doctype, true);
+			if (init_callback) init_callback(frappe.get_doc(doctype, name));
+			frm.refresh(name);
+
+			let saved = false;
+			// Not returned: frm.save's promise never settles when validation
+			// refuses, and frappe's button would stay busy waiting for it.
+			const save = () => {
+				frm.save("Save", () => {
+					if (frm.is_new()) return;
+					saved = true;
+					dialog.hide();
+					if (frappe._from_link) frappe.ui.form.update_calling_link(frm.doc);
+					else if (after_insert) after_insert(frm.doc);
+					else frappe.set_route("Form", frm.doctype, frm.doc.name);
+				});
+			};
+
+			// The rail is the form's tabs that show; a form without tabs is one.
+			const tab = (one) => ({
+				id: one ? one.df.fieldname : "__details",
+				label: one ? __(one.label, null, doctype) : __("Details"),
+				title: one ? __(one.label, null, doctype) : __("Details"),
+				actions: [
+					{ label: __("Save"), variant: "solid", click: save },
+					{ icon: "x", variant: "ghost", click: () => dialog.hide() },
+				],
+				on_activate: (panel) => {
+					$host.appendTo(panel.body);
+					if (one) one.set_active();
+				},
+			});
+			const tabs = () => (frm.layout.tabs || []).filter((one) => !one.hidden);
+			const rail = () => [{ group: __("New {0}", [__(doctype)]), items: (tabs().length ? tabs() : [null]).map(tab) }];
+			const drawn = () => tabs().map((one) => one.df.fieldname).join();
+			let shown = drawn();
+			// reset() empties the panels, the form's among them: it is taken out
+			// first and put back by the tab that opens.
+			$host.detach();
+			dialog.reset(rail());
+			// A tab can come or go as the record is filled in (depends_on).
+			const redraw = () => {
+				if (drawn() === shown) return;
+				shown = drawn();
+				const at = dialog.active_tab;
+				$host.detach();
+				dialog.reset(rail(), tabs().some((one) => one.df.fieldname === at) ? at : null);
+			};
+			$(document).on("form-refresh.one-create", (_, refreshed) => refreshed === frm && redraw());
+			frm.$wrapper.on("change.one-create", () => requestAnimationFrame(redraw));
+
+			dialog.$wrapper.on("keydown.one-create", (e) => {
+				if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+					e.preventDefault();
+					save();
+				}
+			});
+			dialog.$wrapper.on("hide.bs.modal", () => {
+				$(document).off(".one-create");
+				removeEventListener("beforeunload", frm.beforeUnloadListener, { capture: true });
+				if (window.cur_frm === frm) window.cur_frm = null;
+				if (!saved && frm.doc && frm.doc.__islocal) frappe.model.clear_doc(doctype, frm.doc.name);
+				resolve(saved ? frm.doc : null);
+			});
+		})
+	);

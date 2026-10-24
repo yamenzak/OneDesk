@@ -185,6 +185,24 @@ new widget for a record is a figure or a chart in its head (`one/head.py`),
 and it lands in the panel already in this form; nothing is laid out for it
 by hand.
 
+## Making a record
+
+Every create opens one dialog (`onedesk.window.create`, in `window/form.js`), in place of frappe's
+quick entry and its full-page new form alike: `make_quick_entry` is where
+`frappe.new_doc`, a list's New and a link field's Create a new all arrive,
+and it is wrapped there. The dialog is frappe's own form mounted in frappe's
+`SettingsDialog`, as frappe's Data Import dialog mounts one (`frm.in_dialog`),
+so the doctype's scripts, depends_on and validation run as on the page and a
+refused save leaves the dialog open. The form's tabs that show are the
+dialog's rail (one, Details, for a form without tabs), redrawn when a tab
+comes or goes; Save and close are each panel's head; Ctrl+S saves.
+
+Saved, it does what quick entry did: fills the link field it was opened
+from and leaves the person on their record, else hands the record to
+whoever asked (`after_insert`), else opens it. Closed unsaved, the new
+record is dropped. A table's row and a Single are frappe's as before, and a
+page inside a dialog never gets a window of its own.
+
 ## Where it lives
 
 The window is two folders, and nothing of it is anywhere else:

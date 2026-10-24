@@ -552,7 +552,9 @@ onedesk.window.current = () => {
 	const make = frappe.ui.make_app_page;
 	frappe.ui.make_app_page = function (opts) {
 		const page = make.call(this, opts);
-		if (page && (opts.one_window || onedesk.window.trial())) onedesk.window.of(page, { fit: !!opts.one_window_fit });
+		// A page in a dialog (a record being made) is the dialog's, not a window.
+		const in_dialog = opts && opts.parent && $(opts.parent).closest(".modal").length > 0;
+		if (page && !in_dialog && (opts.one_window || onedesk.window.trial())) onedesk.window.of(page, { fit: !!opts.one_window_fit });
 		return page;
 	};
 	frappe.ui.make_app_page.one_window = true;

@@ -204,29 +204,29 @@
 	/* A form's checkboxes are frappe's switch (window/form.js). Its track says
 	   the value, read-only too (dimmed), so frappe's read-only tick under the
 	   label is not drawn a second time. */
-	.one-window[data-one-view="form"] .switch-control .disp-area {
+	:is(.one-window[data-one-view="form"], .one-create) .switch-control .disp-area {
 		display: none !important;
 	}
 
 	/* The switch sits level with the label's first line, not the middle of
 	   a label and description that run to several lines. */
-	.one-window[data-one-view="form"] label.switch-control {
+	:is(.one-window[data-one-view="form"], .one-create) label.switch-control {
 		align-items: flex-start;
 	}
 
-	.one-window[data-one-view="form"] .switch-control .switch-visual {
+	:is(.one-window[data-one-view="form"], .one-create) .switch-control .switch-visual {
 		margin-top: 2px;
 	}
 
-	.one-window[data-one-view="form"] .switch-control:not(:has(.input-area input)) .switch-visual {
+	:is(.one-window[data-one-view="form"], .one-create) .switch-control:not(:has(.input-area input)) .switch-visual {
 		opacity: 0.6;
 	}
 
-	.one-window[data-one-view="form"] .switch-control.one-on:not(:has(.input-area input)) .switch-visual {
+	:is(.one-window[data-one-view="form"], .one-create) .switch-control.one-on:not(:has(.input-area input)) .switch-visual {
 		background-color: var(--ink-gray-8);
 	}
 
-	.one-window[data-one-view="form"] .switch-control.one-on:not(:has(.input-area input)) .switch-thumb {
+	:is(.one-window[data-one-view="form"], .one-create) .switch-control.one-on:not(:has(.input-area input)) .switch-thumb {
 		transform: translateX(10px);
 	}
 
@@ -646,3 +646,41 @@
 		color: var(--ink-gray-8);
 	}
 }
+
+/* A record being made (onedesk.window.create, window/form.js): frappe's form in frappe's
+   SettingsDialog, its tabs the dialog's rail and its Save the panel's, so the
+   form's own head, tab row, sidebar and activity are not drawn. */
+.one-create .one-create-form .page-head,
+.one-create .one-create-form .form-tabs-list,
+.one-create .one-create-form .layout-side-section,
+.one-create .one-create-form .form-footer,
+.one-create .one-create-form .form-message-container:empty {
+	display: none !important;
+}
+
+.one-create .one-create-form .page-body,
+.one-create .one-create-form .page-wrapper,
+.one-create .one-create-form .layout-main-section-wrapper,
+.one-create .one-create-form .layout-main-section {
+	width: auto;
+	max-width: none;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+.one-create .one-create-form .container {
+	max-width: none;
+	padding: 0;
+}
+
+.one-create .one-create-form .form-message-container > .form-message {
+	margin: 0 0 var(--margin-md);
+}
+
+.one-create .one-create-form .form-tab-content,
+.one-create .one-create-form .form-page {
+	margin: 0;
+	border: 0;
+}
+
