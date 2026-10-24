@@ -446,40 +446,45 @@ onedesk.mail.settings = (tab) => {
 	const JOBS = [
 		{
 			level: "Sort Only",
-			title: __("When Sorted"),
-			about: __("Each message gets a quick look. It also answers the Ask OneAI steps in this mailbox's Automation."),
+			title: __("Sorting"),
+			note: __("Automation rules that ask OneAI need this level."),
 			jobs: [
-				["junk", __("Junk and Phishing"), __("Moved to Junk. Phishing also warns whoever reads the mailbox.")],
-				["newsletters", __("Newsletters and Ads"), __("Moved to a Newsletters folder, made the first time it's needed.")],
+				["junk", __("Move Junk and Phishing"), __("Phishing also alerts the mailbox's users.")],
+				["newsletters", __("Move Newsletters and Ads"), __("Creates a Newsletters folder if there is none.")],
 			],
 		},
 		{
 			level: "Read and File",
-			title: __("When Read and Filed"),
-			about: __("Each message is read in full and filed where it belongs."),
+			title: __("Filing"),
 			jobs: [
-				["link", __("Links to Records"), __("Each message is linked to the customers, suppliers, orders and invoices it's about, and shows on their timelines.")],
-				["attach", __("Attachments on Records"), __("An attachment is filed on the record it belongs to. A payslip or an ID only ever goes on the employee.")],
-				["tidy", __("File Names and Tags"), __("Filed attachments are named by kind and date and tagged, and a scan of several letters is split into one file each.")],
+				["link", __("Link Messages to Records"), __("Shows the message on each record's timeline.")],
+				["attach", __("Attach Files to Records"), __("Payslips and IDs are only attached to the Employee.")],
+				["tidy", __("Rename and Tag Files"), __("Also splits a scan of several letters into one file each.")],
 			],
 		},
 		{
 			level: "Read, File and Act",
-			title: __("When Acted On"),
-			about: __("OneAI also does what each message asks for. What it isn't sure of waits for a person in OneIntake."),
+			title: __("Actions"),
+			note: __("Changes OneAI is unsure of wait for approval in OneIntake."),
 			jobs: [
-				["parties", __("New Customers and Suppliers"), __("Customers, suppliers, leads and job applicants are made for senders the workspace doesn't know yet.")],
-				["contacts", __("Contacts"), __("A contact for the sender and for the people in To, Cc and signatures, kept up to date.")],
-				["enrich", __("Missing Details"), __("Empty fields such as a tax ID or a phone are filled in. A changed value is only suggested, and a bank account is never changed.")],
-				["tasks", __("Tasks and Follow-Ups"), __("A task for what a message asks, given to whoever handles it and kept up to date as replies come. Your own promises become tasks too.")],
-				["events", __("Calendar Events"), __("Appointments and meetings in a message go in the calendar.")],
-				["money", __("Bills, Orders and Payments"), __("Purchase invoices, sales orders, quotations, receipts, payments and bank lines, made as drafts that wait in Ready to Submit.")],
-				["hr", __("Employee Documents"), __("IDs with a task before they expire, certificates, leave, resignations and expense claims go on the employee.")],
-				["projects", __("Site Logs"), __("A site report becomes an update on its project.")],
-				["agent", __("Anything Else"), __("OneAI works out what else a message needs, such as a comment on a record or a record of another kind.")],
+				["parties", __("Create Customers and Suppliers"), __("Also Leads and Job Applicants, for unknown senders.")],
+				["contacts", __("Create and Update Contacts"), __("For the sender and everyone in To and Cc.")],
+				["enrich", __("Fill In Missing Details"), __("Only empty fields. Bank details are never changed.")],
+				["tasks", __("Create Tasks"), __("Includes follow-ups promised in sent mail.")],
+				["events", __("Create Events"), ""],
+				["money", __("Draft Invoices, Orders and Payments"), __("Saved as drafts in Ready to Submit.")],
+				["hr", __("File Employee Documents"), __("IDs, certificates, leave, resignations and expense claims.")],
+				["projects", __("Post Site Logs"), __("Saved as a Project Update.")],
+				["agent", __("Other Actions"), __("Comments, and records of other types.")],
 			],
 		},
 	];
+	const LEVEL_SAYS = {
+		[NOT_READ]: __("OneAI does not read new mail."),
+		"Sort Only": __("Moves junk and newsletters out of the Inbox."),
+		"Read and File": __("Also links each message and its files to its records."),
+		"Read, File and Act": __("Also creates the records and tasks a message asks for."),
+	};
 	const at = (level) => LEVELS.findIndex((one) => one[0] === level);
 	const credits = (said) => {
 		const used = format_number(said.used, null, said.used % 1 ? 2 : 0);
@@ -520,7 +525,7 @@ onedesk.mail.settings = (tab) => {
 							const stops = values.mail === NOT_READ && panel.said?.reads ? panel.said.asks || [] : [];
 							if (!stops.length) return save();
 							frappe.confirm(
-								__("If OneAI stops reading new mail, {0} stop running. Save anyway?", [stops.map(esc).join(", ")]),
+								__("Set New Mail to Not Read? {0} will stop running.", [stops.map(esc).join(", ")]),
 								save
 							);
 						},
@@ -543,10 +548,7 @@ onedesk.mail.settings = (tab) => {
 					options: LEVELS.map(([value, label]) => ({ value, label })),
 					default: said.reads ? said.level : NOT_READ,
 					change: () => levelled(panel),
-					description:
-						said.reads && said.for
-							? __("How far OneAI reads each new message on its own. It works with the permissions of {0}, who turned it on.", [said.for])
-							: __("How far OneAI reads each new message on its own. Each level does everything the one before it does. Uses OneAI credits."),
+					description: LEVEL_SAYS[said.reads ? said.level : NOT_READ],
 				},
 				{
 					fieldname: "attachments",
@@ -554,7 +556,7 @@ onedesk.mail.settings = (tab) => {
 					label: __("Read Attachments"),
 					default: said.attachments,
 					depends_on: reading(),
-					description: __("Scans, photos and recordings are read too. They use the most credits."),
+					description: __("Also reads attached PDFs, scans and photos. Uses the most credits."),
 				},
 			];
 			JOBS.forEach((group) => {
@@ -563,8 +565,8 @@ onedesk.mail.settings = (tab) => {
 					{
 						fieldname: `about_${at(group.level)}`,
 						fieldtype: "HTML",
-						options: `<p class="oms-group-about">${esc(group.about)} <span class="oms-later">${esc(
-							__("Set New Mail to {0} for these.", [LEVELS[at(group.level)][1]])
+						options: `<p class="oms-group-about">${group.note ? `${esc(group.note)} ` : ""}<span class="oms-later">${esc(
+							__("Requires New Mail set to {0}.", [LEVELS[at(group.level)][1]])
 						)}</span></p>`,
 					}
 				);
@@ -586,7 +588,7 @@ onedesk.mail.settings = (tab) => {
 					fieldtype: "Int",
 					label: __("Monthly Credit Limit"),
 					default: said.limit || "",
-					description: __("When it is reached, OneAI stops reading new mail until the month turns. Leave empty for no limit."),
+					description: __("When reached, OneAI stops reading new mail until next month. Leave empty for no limit."),
 				}
 			);
 			panel.add_fields(fields);
@@ -602,7 +604,11 @@ onedesk.mail.settings = (tab) => {
 	// A job past the level New Mail is set to stays in view, greyed and
 	// out of reach, with its group saying which level brings it.
 	const levelled = (panel) => {
-		const now = at(panel.fieldgroup.get_value("mail"));
+		const level = panel.fieldgroup.get_value("mail");
+		const now = at(level);
+		const mail = panel.fieldgroup.get_field("mail");
+		const runs_as = panel.said?.reads && panel.said.for && level !== NOT_READ ? " " + __("Runs with {0}'s permissions.", [panel.said.for]) : "";
+		mail.$wrapper.find(".help-box").text((LEVEL_SAYS[level] || "") + runs_as);
 		JOBS.forEach((group) => {
 			const later = at(group.level) > now;
 			panel.fieldgroup.get_field(`about_${at(group.level)}`).$wrapper.find(".oms-later").toggle(later);
@@ -800,7 +806,7 @@ onedesk.mail.settings = (tab) => {
 					$end.prepend(
 						$(frappe.ui.badge.html({ label: __("Not Running"), theme: "gray" })).attr(
 							"title",
-							__("It won't run until OneAI reads this mailbox's new mail.")
+							__("New Mail is set to Not Read in the OneAI tab.")
 						)
 					);
 				if (!said.manages) return;

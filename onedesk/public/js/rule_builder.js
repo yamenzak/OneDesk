@@ -361,10 +361,10 @@ onedesk.rules.builder = ($into, rule, context) => {
 		const { $node, $body } = node(list, step, "oneai", $line, "rb-node-ai");
 		if (!context.reads) {
 			const $note = $(`<div class="rb-unread"></div>`)
-				.append($("<span></span>").text(__("This step won't run yet, because OneAI isn't reading this mailbox's new mail.")))
+				.append($("<span></span>").text(__("This step won't run. New Mail is set to Not Read in the OneAI tab.")))
 				.prependTo($body);
 			if (context.to_oneai)
-				$(`<button type="button" class="rb-unread-go"></button>`).text(__("Turn It On")).on("click", context.to_oneai).appendTo($note);
+				$(`<button type="button" class="rb-unread-go"></button>`).text(__("Open OneAI Tab")).on("click", context.to_oneai).appendTo($note);
 		}
 		if (step.ask === "pick") {
 			for (const one of step.labels) {

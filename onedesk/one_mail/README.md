@@ -43,16 +43,16 @@ employee that reads its mail:
   (read in full and filed where it belongs) or **Read, Filed and Acted On**
   (it also does what the message asks for). Each level does everything the
   one before it does.
-- Under it, everything OneAI does at each level is listed with what it means,
-  each with its own switch, all on until switched off (`gate.JOBS`):
-  - Sorted: **Junk and Phishing**, **Newsletters and Ads**.
-  - Read and Filed: **Links to Records**, **Attachments on Records**,
-    **File Names and Tags**.
-  - Acted On: **New Customers and Suppliers**, **Contacts**, **Missing
-    Details**, **Tasks and Follow-Ups**, **Calendar Events**, **Bills,
-    Orders and Payments** (drafts in Ready to Submit), **Employee
-    Documents**, **Site Logs** and **Anything Else** (what the agent works
-    out for itself).
+- Under it, everything OneAI does at each level is listed, each with its own
+  switch, all on until switched off (`gate.JOBS`):
+  - Sorting: **Move Junk and Phishing**, **Move Newsletters and Ads**.
+  - Filing: **Link Messages to Records**, **Attach Files to Records**,
+    **Rename and Tag Files**.
+  - Actions: **Create Customers and Suppliers**, **Create and Update
+    Contacts**, **Fill In Missing Details**, **Create Tasks**, **Create
+    Events**, **Draft Invoices, Orders and Payments** (drafts in Ready to
+    Submit), **File Employee Documents**, **Post Site Logs** and **Other
+    Actions** (what the agent decides on for itself).
 
   A job past the level New Mail is set to stays in view, greyed, and its
   group says which level brings it. Every OneIntake write goes through
