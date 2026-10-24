@@ -275,11 +275,7 @@ No doctypes yet.
 * `onedesk.one.mail_templates.default`
 * `onedesk.one.mail_templates.get_email_template`
 * `onedesk.one.mail_templates.set_default`
-* `onedesk.one.masters.add`
 * `onedesk.one.masters.kinds`
-* `onedesk.one.masters.rename`
-* `onedesk.one.masters.used`
-* `onedesk.one.masters.values`
 * `onedesk.one.numbering.kinds`
 * `onedesk.one.numbering.naming_by`
 * `onedesk.one.numbering.preview`

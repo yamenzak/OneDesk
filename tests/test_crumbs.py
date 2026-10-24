@@ -41,7 +41,8 @@ def test_a_crumb_says_what_the_rail_says_and_leads_home():
 	titles = (tree.APP / "one" / "titles.py").read_text()
 	assert 'found["Crumb"]' in titles and "len(labels) == 1" in titles
 	masters = (tree.APP / "one" / "masters.py").read_text()
-	assert 'f"/desk/masters?type={doctype}"' in masters.split("def homes(", 1)[1].split("\ndef ", 1)[0]
+	homes = masters.split("def homes(", 1)[1].split("\ndef ", 1)[0]
+	assert '"route": "/desk/masters"' in homes and "f\"/desk/{doctype.lower().replace(' ', '-')}\"" in homes
 
 
 def test_a_folded_group_opens_around_the_page_it_holds():

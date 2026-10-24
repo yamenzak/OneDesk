@@ -5016,12 +5016,11 @@ def the_one_home_lists_and_the_bin_answer_for_their_people():
 		assert reports.where("Report", saved.name)
 		assert reports.sidebars()
 		kinds = masters.kinds()
-		assert kinds
-		territory = masters.add("Territory", {"territory_name": "Oman"})
-		assert territory in {one["name"] for one in masters.values("Territory")}
-		renamed = masters.rename("Territory", territory, "Sultanate of Oman")
-		busy = frappe.db.get_value("Customer", {}, "territory")
-		assert masters.used("Territory", busy) > masters.used("Territory", renamed), (masters.used("Territory", busy), masters.used("Territory", renamed))
+		assert kinds and {one["doctype"] for one in kinds} == set(masters.listed())
+		assert all(set(one) == {"group", "doctype", "label", "mark", "count"} for one in kinds)
+		territory = frappe.get_doc({"doctype": "Territory", "territory_name": "Oman"}).insert()
+		assert territory.parent_territory, "a tree's new value goes under its root (masters.place)"
+		assert masters.homes()["Territory"][1]["route"] == "/desk/territory"
 		assert holidays.subdivisions("AE") is not None
 		public = holidays.country_holidays("AE", f"{getdate(today()).year + 1}-01-01", f"{getdate(today()).year + 1}-12-31")
 		assert public, "no public holidays for the Emirates next year"

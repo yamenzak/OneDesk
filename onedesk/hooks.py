@@ -997,6 +997,7 @@ app_include_js = stamped([
 	"/assets/onedesk/js/oneai.js",
 	"/assets/onedesk/js/intake.js",
 	"/assets/onedesk/js/legal.js",
+	"/assets/onedesk/js/masters.js",
 ])
 
 company_data_to_be_ignored = [

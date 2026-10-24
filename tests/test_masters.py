@@ -1,5 +1,6 @@
-"""Masters, the short lists every app's records pick from (one/masters.py,
-the masters page), and the shared Address Book in One's rail."""
+"""Masters, the short lists every app's records pick from (one/masters.py):
+each kind is frappe's own list and form, and the kinds are a tree in the nav
+pane (public/js/masters.js); and the shared Address Book in One's rail."""
 
 import json
 import sys
@@ -13,6 +14,7 @@ import tree
 SOURCE = (tree.APP / "one" / "masters.py").read_text()
 PAGE = tree.APP / "one" / "page" / "masters"
 HOOKS = (tree.APP / "hooks.py").read_text()
+TREE = (tree.APP / "public" / "js" / "masters.js").read_text()
 
 
 def _regex():
@@ -57,7 +59,7 @@ def test_masters_are_granted_to_the_administrator_and_wired():
 	assert "draw_lists" not in js and "draw_print_lists" not in js
 
 
-def test_the_page_is_for_administrators_and_app_managers():
+def test_the_page_is_for_administrators_and_app_managers_and_only_opens_a_list():
 	page = json.loads((PAGE / "masters.json").read_text())
 	assert page["name"] == "masters" and page["module"] == "One"
 	roles = {one["role"] for one in page["roles"]}
@@ -73,13 +75,21 @@ def test_the_page_is_for_administrators_and_app_managers():
 	}
 	groups = SOURCE.split("def _groups(", 1)[1].split("\ndef ", 1)[0]
 	assert "roles.administers()" in groups and "frappe.PermissionError" in groups
-	for method in ("values", "add", "used"):
-		assert "_kind(doctype)" in SOURCE.split(f"def {method}(", 1)[1].split("\ndef ", 1)[0], method
-	assert '@frappe.whitelist(methods=["POST"])\ndef add(' in SOURCE
-	assert "doc.insert()" in SOURCE and "ignore_permissions" not in SOURCE
 	js = (PAGE / "masters.js").read_text()
-	assert "frappe.client.delete" in js and "frappe.confirm(" in js
-	assert "frappe.meta" in js and ".get_docfields(kind.doctype)" in js and "frappe.client.save" in js
+	assert 'frappe.set_route("List", kind)' in js and 'get_url_arg("type")' in js and ".last;" in js
+	assert not (PAGE / "masters.css").exists()
+	for gone in ("def values(", "def add(", "def rename(", "def used(", "HELD =", "LABEL ="):
+		assert gone not in SOURCE, gone
+	assert "ignore_permissions" not in SOURCE
+
+
+def test_the_kinds_are_a_tree_beside_any_of_them():
+	assert 'bootinfo["one_masters"] = masters.listed()' in (tree.APP / "one" / "boot.py").read_text()
+	assert "onedesk.window.trees.push({ covers: onedesk.masters.covers, draw: onedesk.masters.draw })" in TREE
+	assert '"/assets/onedesk/js/masters.js"' in HOOKS
+	assert 'class="standard-sidebar-item' in TREE and "one-window-count" in TREE and "active-sidebar" in TREE
+	homes = SOURCE.split("def homes(", 1)[1].split("\ndef ", 1)[0]
+	assert '"route": "/desk/masters"' in homes and "f\"/desk/{doctype.lower()" in homes
 
 
 def test_an_address_template_names_only_fields_of_the_address():
@@ -124,33 +134,25 @@ def test_a_master_has_one_home():
 		linked = {row.get("link_to") for row in rows if row.get("type") == "Link"}
 		assert not linked & held, f"{path.name} links {sorted(linked & held)}, which Masters holds"
 	assert '"DocType", "Sales Stage"' in (tree.APP / "one_crm" / "home.py").read_text()
-	js = (PAGE / "masters.js").read_text()
-	assert 'add_custom_action(__("Edit Full Form")' in js and '"tables": _has_tables(meta)' in SOURCE
 
 
 def test_a_value_is_placed_and_renamed_however_it_is_made():
-	"""A tree's value goes under its root on every path (the page, a OneAI card,
-	frappe's form), and a card that changes the field a value is named from
-	renames it."""
+	"""A tree's value goes under its root on every path (the create dialog's
+	form, a OneAI card), and a card that changes the field a value is named
+	from renames it."""
 	for doctype in ("Customer Group", "Territory", "Item Group", "Supplier Group", "Department"):
 		assert f'"{doctype}": {{"before_insert": "onedesk.one.masters.place"}}' in HOOKS, doctype
-	add = SOURCE.split("def add(", 1)[1].split("\ndef ", 1)[0]
-	assert "nsm_parent_field" not in add, "add leaves the root to place"
 	proposals = (tree.APP / "one_ai" / "proposals.py").read_text()
 	assert "held = _renamed(held, changes)" in proposals and "frappe.rename_doc(held.doctype" in proposals
 
 
-def test_oneai_knows_the_open_list():
-	js = (PAGE / "masters.js").read_text()
-	assert 'get_url_arg("type")' in js and "?type=" in js and "panel.moved(" in js
-	assert "frappe.realtime.doctype_subscribe" in js and '"list_update"' in js
+def test_oneai_offers_on_every_kinds_list():
+	assert "SUGGESTIONS = {doctype: OFFERED for _group, doctype, _label, _one in KINDS}" in SOURCE
 	ai = (tree.APP / "one" / "ai.py").read_text()
-	assert '"page:masters": [' in ai and 'said.get("page") == "masters"' in ai
+	assert "SUGGESTIONS.update(_masters.SUGGESTIONS)" in ai
+	assert '"page:masters"' not in ai and 'said.get("page") == "masters"' not in ai
 
 
 def test_each_group_has_its_apps_mark_and_folds():
 	assert '"mark": settings._mark("" if group == "Shared" else group)' in SOURCE
-	js = (PAGE / "masters.js").read_text()
-	assert "one-masters-shut" in js and 'aria-expanded="${!shut}"' in js and 'frappe.model.user_settings.save("Masters", "closed"' in js
-	css = (PAGE / "masters.css").read_text()
-	assert ".one-masters-shut .one-masters-kinds" in css
+	assert 'frappe.model.user_settings.save("Masters", "closed"' in TREE and 'aria-expanded="${open}"' in TREE

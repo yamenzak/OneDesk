@@ -41,7 +41,7 @@ shell, lists that only shrink; when they are empty the shell is deleted.
 
 | Page on the shell | Becomes |
 |---|---|
-| Masters | 1: each kind's frappe list, the kinds as a tree in the nav pane |
+| Masters | 1, moved: each kind's frappe list, the kinds as a tree in the nav pane |
 | Ready to Submit | sorted when reached |
 | Intake | sorted when reached |
 | Agreements (legal) | sorted when reached |

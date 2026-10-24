@@ -404,7 +404,13 @@ onedesk.shell.Editor = class Editor {
 		List.prototype.get_breadcrumbs = function () {
 			const items = listed.call(this);
 			const home = homes(this.doctype);
-			return home ? [...home_crumbs(home), ...items] : items;
+			if (!home) return items;
+			// A home's crumb for this very list names the list itself.
+			const self = `/desk/${frappe.router.slug(this.doctype)}`;
+			const crumbs = home_crumbs(home);
+			const at = crumbs.findIndex((one) => one.href.split("?")[0] === self);
+			if (at >= 0 && items.length) items[items.length - 1] = { ...items[items.length - 1], label: crumbs.splice(at, 1)[0].label };
+			return [...crumbs, ...items];
 		};
 	}
 
@@ -441,8 +447,8 @@ onedesk.shell.Editor = class Editor {
 					.filter((a) => list(a.getAttribute("href")) === list(path))
 					.sort((a, b) => narrows(a) - narrows(b))[0];
 			const route = frappe.get_route();
-			const home = route[0] === "Form" && homes(route[1]);
-			const path = route[0] === "Form" ? (home ? home[0].route : `/desk/${frappe.router.slug(route[1])}`) : window.location.pathname;
+			const home = ["Form", "List"].includes(route[0]) && homes(route[1]);
+			const path = home ? home[0].route : route[0] === "Form" ? `/desk/${frappe.router.slug(route[1])}` : window.location.pathname;
 			const found_row = row(path) || (route[0] === "Form" ? null : row(window.location.pathname));
 			return light(this, found_row && $(found_row).parent());
 		};

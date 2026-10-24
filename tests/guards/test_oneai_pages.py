@@ -33,7 +33,15 @@ def _answering() -> str:
 
 
 def _pages() -> list[str]:
-	return sorted(json.loads(path.read_text())["name"] for path in APP.glob("*/page/*/*.json"))
+	"""Every desk page a reader stays on: one that only opens a frappe view in
+	its place (test_shell.OPENS_A_VIEW) is never on screen to be told about."""
+	from tests.guards.test_shell import OPENS_A_VIEW
+
+	return sorted(
+		json.loads(path.read_text())["name"]
+		for path in APP.glob("*/page/*/*.json")
+		if path.parent.name not in OPENS_A_VIEW
+	)
 
 
 def test_every_page_is_told_to_oneai():

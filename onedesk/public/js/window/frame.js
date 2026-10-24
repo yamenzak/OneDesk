@@ -33,6 +33,9 @@ $.extend(onedesk.window, {
 		return frappe.model.user_settings.save(onedesk.window.SETTINGS, key, value);
 	},
 
+	// The trees modules hang under a list's row in the nav pane (list.js).
+	trees: [],
+
 	// The kinds of view on the window, for everybody: each was walked before
 	// it joined (docs/WINDOW.md).
 	ON: ["page", "list", "board", "report", "tree", "form", "print", "workspace"],
@@ -169,7 +172,7 @@ onedesk.window.nav = {
 		if (!win || !win.$slot) return;
 		const $items = frappe.app && frappe.app.sidebar && frappe.app.sidebar.$sidebar;
 		if (!$items || !$items.length) return;
-		const $at = $items.find(".standard-sidebar-item.active-sidebar").first().closest(".sidebar-item-container");
+		const $at = $items.find(".standard-sidebar-item.active-sidebar").not(".one-window-nav-slot *").first().closest(".sidebar-item-container");
 		if ($at.length) {
 			if ($at.next()[0] !== win.$slot[0]) win.$slot.insertAfter($at);
 		} else if (!$.contains($items[0], win.$slot[0])) {

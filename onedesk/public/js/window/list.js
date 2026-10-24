@@ -31,6 +31,20 @@ onedesk.window.adapt("list", () => {
 
 	const List = frappe.views && frappe.views.ListView;
 	if (!List || Object.hasOwn(List.prototype, "one_window")) return;
+
+	// A module's tree of its own, under the list's row in the nav pane, for
+	// the lists it says are its (`onedesk.window.trees`, { covers(doctype),
+	// draw($slot, doctype) }): Masters' kinds. Drawn again each time the list
+	// is shown, since what it counts changes elsewhere.
+	const tree = (view) => {
+		const win = view.page && view.page.window;
+		const own = win && onedesk.window.trees.find((one) => one.covers(view.doctype));
+		if (own) own.draw(win.nav_slot(), view.doctype);
+	};
+	$(document).on("page-change", () => {
+		const view = window.cur_list;
+		if (view && view.page && frappe.container.page && frappe.container.page.page === view.page) tree(view);
+	});
 	List.prototype.one_window = true;
 
 	const setup_page = List.prototype.setup_page;
@@ -57,6 +71,7 @@ onedesk.window.adapt("list", () => {
 							},
 					  },
 		});
+		tree(this);
 		return said;
 	};
 

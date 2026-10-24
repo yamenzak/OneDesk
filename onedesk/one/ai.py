@@ -80,21 +80,6 @@ SUGGESTIONS = {
 			"expects": "recall",
 		},
 	],
-	"page:masters": [
-		{
-			"label": _lt("Add several at once"),
-			"ask": _lt(
-				"I will paste a list. Suggest each line as a new value of the list I have open, leaving out any "
-				"it already has."
-			),
-			"expects": "create_record",
-		},
-		{
-			"label": _lt("What is this list for?"),
-			"ask": _lt("What is the list I have open used for, on which records, and who may change it?"),
-			"expects": "how_to",
-		},
-	],
 	"page:workspace-settings/numbering": [
 		{
 			"label": _lt("Is any numbering out of step?"),
@@ -483,6 +468,11 @@ SUGGESTIONS = {
 
 
 #: The section a Settings page opens on when the address names none: its first.
+# Each Masters kind's list offers what Masters offered (one/masters.py).
+from onedesk.one import masters as _masters  # noqa: E402
+
+SUGGESTIONS.update(_masters.SUGGESTIONS)
+
 OPENS_ON = {"settings": "profile", "workspace-settings": "general"}
 
 
@@ -563,21 +553,6 @@ def page(said: dict) -> str | None:
 			"person, and the audit; filing, and how many quiet minutes before it acts; and the books, household "
 			"and submitting matching e-invoices; and what it does by itself in OneHR. workspace_intake reads it all. They change a switch or a number "
 			"and save from the page head; how is in One's documentation under OneIntake Settings, for the Workspace (how_to)."
-		)
-	if said.get("page") == "masters":
-		from onedesk.one import masters
-
-		kind = next((one for one in masters.KINDS if one[1] == said.get("record")), None)
-		open_now = f" {kind[2]} is open: records of type {kind[1]}." if kind else ""
-		return (
-			"The reader is on Masters: the short lists records pick from (salutations, customer groups, units, "
-			f"departments and the like), grouped by the app that uses them.{open_now} An administrator sees them "
-			"all, an app's manager their app's. They add a value from the page head, and change, rename or remove "
-			"one by clicking it, which shows its own fields (a unit's symbol and whether it is whole, an item "
-			"group's parent), says how many records use it, and opens the full form for tables such as a "
-			"department's approvers. Asked to add values, suggest each with create_record; a tree's value goes "
-			"under its root by itself. Changing the field a value is named from renames it everywhere. How is in "
-			"One's documentation under Masters (how_to)."
 		)
 	if said.get("workspace") == "One":
 		return (

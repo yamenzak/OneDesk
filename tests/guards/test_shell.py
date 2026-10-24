@@ -33,7 +33,6 @@ ON_THE_SHELL = {
 	),
 	"onemail": ("public/js/onemail.js", "public/css/onemail.css"),
 	"onecloud": ("public/js/onecloud.js", "public/css/onecloud.css"),
-	"masters": ("one/page/masters/masters.js", "one/page/masters/masters.css"),
 }
 
 # The pages on the shell when the contract was written; the list above only
@@ -43,7 +42,6 @@ WERE_ON_THE_SHELL = {"settings", "workspace_settings", "legal", "intake", "ready
 # Every file that still calls a part of the shell. It only shrinks too; when
 # it is empty, shell.js and shell.css are deleted.
 USE_THE_SHELL = {
-	"one/page/masters/masters.js",
 	"one/page/settings/settings.js",
 	"one/page/workspace_settings/workspace_settings.js",
 	"one_calendar/page/onecalendar/onecalendar.js",
@@ -65,6 +63,10 @@ USE_THE_SHELL = {
 	"public/js/window/frame.js",
 }
 
+# Addresses that only open a frappe view in their own place (a rail's or a
+# home's link), and draw nothing.
+OPENS_A_VIEW = {"masters"}
+
 ISLAND_PAGES = {"project_view", "project_template_view", "task_view", "item_view", "stock_on_hand", "inventory", "books", "onecrm", "onehr", "lots", "to_order", "quotes", "sent_out", "upkeep", "floor", "plant", "my_tasks", "timers", "workbook", "document"}
 
 PARTS = re.compile(r"\.[a-z]+-(row|empty|quiet|card|content|section|chevron)(-[a-z]+)?\b(?![-\w])")
@@ -81,11 +83,22 @@ def _pages():
 def test_every_page_is_an_island_or_still_on_the_shell():
 	pages = _pages()
 	assert pages, "no pages found"
-	unknown = set(pages) - set(ON_THE_SHELL) - ISLAND_PAGES
+	unknown = set(pages) - set(ON_THE_SHELL) - ISLAND_PAGES - OPENS_A_VIEW
 	assert not unknown, (
 		"a new page is a Vue island (ISLAND_PAGES, declared in tiers.SCREENS) or not a page at all: "
 		f"frappe's own list or form (docs/WINDOW.md, the screen contract): {sorted(unknown)}"
 	)
+
+
+def test_a_page_that_opens_a_view_only_opens_it():
+	"""It replaces itself with frappe's view (route_flags.replace_route, so
+	Back does not land on it again) and makes no page of its own."""
+	pages = _pages()
+	for name in OPENS_A_VIEW:
+		source = pages[name].read_text(encoding="utf-8")
+		assert "frappe.set_route(" in source and "frappe.route_flags.replace_route = true" in source, name
+		for drawn in ("make_app_page", "onedesk.shell", ".html(", "$(`"):
+			assert drawn not in source, f"{name} draws: {drawn}"
 
 
 def test_the_shell_only_loses_pages():

@@ -1330,22 +1330,24 @@ They are grouped by the app that uses them.
 Lists that carry settings of their own stay in their app's Setup, such as sales
 stages, leave types and salary components.
 
+Each one is a list like any other. Setup › **Masters** opens the last
+one you used; the others are a tree in the pane beside the list, grouped as
+above, each with how many values it has. Click a group's name to fold it
+away; it stays folded for you on every device.
+
 Administrators see every group. An app's managers see their app's group and
-can add, rename and remove its values. Nobody else sees Masters. Click a
-group's name to fold it away; it stays folded for you on every device.
+can add, rename and remove its values. Nobody else sees Masters.
 
 ### Adding, renaming or removing a value in Masters
 
-**Add**, in the page head of Setup › **Masters**, puts a new value in the open
-list. A new customer group, territory, item group, supplier group or
-department goes under the top of its list unless you choose a parent. Click a
-value to change, rename or remove it: it has the same fields as anywhere else,
-such as a unit's symbol and whether it must be a whole number, or an item
-group's parent. It also says how many records use it. Tables, such as a
-department's approvers, are in **Edit Full Form**. Renaming a value changes it
-on every record that uses it. A value records still use can't be removed. You
-can also add a value straight from a field on a record, with **Create a new**
-at the bottom of its list.
+**Add**, above the list, opens the new value in a dialog. A new customer
+group, territory, item group, supplier group or department goes under the top
+of its list unless you choose a parent. Click a value to open it: rename and
+delete are in its menu, and **Connections** in its side panel lists the
+records that use it. Renaming a value changes it on every record that uses
+it. A value records still use can't be deleted. You can also add a value
+straight from a field on a record, with **Create a new** at the bottom of its
+list.
 
 ### Print headings and address templates
 
@@ -2897,6 +2899,14 @@ role of its own (`_give_managers`). Whether a kind can be added to, renamed
 or removed is frappe's own permission check, as anywhere else; the workspace
 administrator is given the kinds frappe keeps for its System Manager
 (`settle`), so frappe's "Create a new" under a field works for them too.
+
+**There is no Masters screen.** It was a page of its own with a list, a
+dialog, rename, remove and a "used on" count, all of which frappe's list and
+form already do. Now the page only opens a kind's frappe list
+(page/masters/masters.js: the `type` asked for, else the last one, else the
+first), and the kinds are a tree in the window's nav pane
+(public/js/masters.js, through `onedesk.window.trees`). `listed()` is the
+kinds this person may see, in boot; `kinds()` adds the counts the tree shows.
 
 An address template is Jinja, run wherever an address is shown or printed, so
 one the workspace writes (layer.held) is held to what a mail template is held

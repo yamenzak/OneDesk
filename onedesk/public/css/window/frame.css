@@ -291,6 +291,41 @@ body.one-window-dragging * {
 	padding-inline-start: calc(var(--spacing) * 3);
 }
 
+/* A view's tree in the nav pane is the sidebar's own rows (frappe's
+   standard-sidebar-item: its height, hover and pill), indented by depth,
+   a twisty before a row that holds others and a count at a row's end. */
+.one-window-nav-slot .standard-sidebar-item .item-anchor {
+	padding-inline-start: calc(var(--depth, 0) * 14px + 2px);
+}
+
+.one-window-nav-slot .standard-sidebar-item .sidebar-item-label {
+	margin-inline-start: 6px;
+}
+
+.one-window-twisty {
+	display: inline-flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	width: 16px;
+	height: 16px;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: var(--ink-gray-5);
+}
+
+[dir="rtl"] .one-window-twisty svg {
+	transform: scaleX(-1);
+}
+
+.one-window-nav-slot .one-window-count {
+	margin-inline-start: auto;
+	padding-inline-end: calc(var(--spacing) * 1);
+	color: var(--ink-gray-5);
+	font-size: var(--text-xs);
+}
+
 /* Where a view's own tree has the row you are on, the sidebar row it hangs
    from says only which section you are in: one pill on screen, not two. */
 .body-sidebar-container .sidebar-item-container:has(+ .one-window-nav-slot .active-sidebar) > .standard-sidebar-item.active-sidebar {
