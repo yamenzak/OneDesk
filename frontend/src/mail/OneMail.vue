@@ -85,6 +85,7 @@ import {
   userSettings,
   windowHandles,
   windowSearch,
+  windowStatus,
   requires,
   windowFootAction,
   windowHeadAction,
@@ -108,6 +109,7 @@ const thread = ref(null);
 const items = ref([]);
 const messages = ref([]);
 const more = ref(0);
+const total = ref(0);
 const search = ref("");
 const picked = reactive(new Set());
 const folds = ref({});
@@ -369,18 +371,28 @@ function choose(boxName, folderName) {
 }
 
 let asked = 0;
+let fetching = false;
 async function list({ keep = false, more: further = false } = {}) {
   if (!box.value) return;
+  if (further && (fetching || !more.value)) return;
   const mine = ++asked;
-  const answer = await call(API + "conversations", {
-    account: box.value.name,
-    folder: folder.value ? folder.value.name : null,
-    search: search.value || null,
-    start: further ? items.value.length : 0,
-  });
+  fetching = further;
+  let answer;
+  try {
+    answer = await call(API + "conversations", {
+      account: box.value.name,
+      folder: folder.value ? folder.value.name : null,
+      search: search.value || null,
+      start: further ? items.value.length : 0,
+    });
+  } finally {
+    if (further) fetching = false;
+  }
   if (mine !== asked) return;
   items.value = further ? items.value.concat(answer.items) : answer.items;
   more.value = answer.more;
+  if (answer.total != null) total.value = answer.total;
+  windowStatus(props.win, __("{0} of {1}", [items.value.length, Math.max(total.value, items.value.length)]));
   if (!keep) picked.clear();
   const here = new Set(items.value.map((one) => one.thread));
   for (const one of [...picked]) if (!here.has(one)) picked.delete(one);

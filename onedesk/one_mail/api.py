@@ -136,8 +136,11 @@ def conversations(account: str, folder: str | None = None, search: str | None = 
 	)
 	more = len(rows) > PAGE
 	rows = rows[:PAGE]
+	# How many there are in all, for the window's status row; asked once,
+	# with the first page.
+	total = None if cint(start) else (query.select(Count(thread).distinct().as_("total")).run(as_dict=True) or [{}])[0].get("total") or 0
 	if not rows:
-		return {"items": [], "more": 0}
+		return {"items": [], "more": 0, "total": total}
 	newest = {}
 	for message in (
 		query.select(
@@ -181,7 +184,7 @@ def conversations(account: str, folder: str | None = None, search: str | None = 
 	pictures = faces.lookup([_address(one["recipients"] if one["sent"] else one["sender"]) for one in items])
 	for one in items:
 		one["face"] = pictures.get(_address(one["recipients"] if one["sent"] else one["sender"]))
-	return {"items": items, "more": int(more)}
+	return {"items": items, "more": int(more), "total": total}
 
 
 @frappe.whitelist()

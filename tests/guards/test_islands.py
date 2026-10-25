@@ -131,14 +131,17 @@ def test_what_an_island_says_is_translated():
 
 
 TICKED = {"task/TaskPage.vue", "task/MyTasks.vue", "project/TaskPanel.vue"}
+# Rows picked to act on together, as frappe's list view picks them.
+PICKS = {"mail/MailList.vue"}
 
 
 def test_a_setting_is_a_switch():
 	"""Something on or off, a field's Check or a filter, is frappe-ui's Switch
-	(set by the user on 2026-10-12). A Checkbox is only a step ticked off."""
+	(set by the user on 2026-10-12). A Checkbox is only a step ticked off,
+	or rows picked in a list."""
 	for path in _vue():
 		name = str(_name(path))
-		if name in TICKED:
+		if name in TICKED | PICKS:
 			continue
 		assert "<Checkbox" not in path.read_text(encoding="utf-8"), f"{name} draws a checkbox; use frappe-ui's Switch"
 
