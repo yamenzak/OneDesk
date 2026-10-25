@@ -10,14 +10,18 @@ frappe.setup.on("before_load", function () {
 	// either way its persona slide goes and ours follow its organization.
 	const added = frappe.setup.slides.some((slide) => slide.name === "organization");
 	const slides = added ? frappe.setup.slides : !done.includes("erpnext") && window.erpnext?.setup?.slides_settings;
-	if (!slides) return onedesk.setup.slides.map(frappe.setup.add_slide);
+	if (!slides) return onedesk.setup.all().map(frappe.setup.add_slide);
 	const persona = slides.findIndex((slide) => slide.name === "persona");
 	if (persona >= 0) slides.splice(persona, 1);
 	const organization = slides.find((slide) => slide.name === "organization");
 	if (organization && !organization.one_standard_first) onedesk.setup.standard_first(organization);
 	if (slides.some((slide) => slide.name === onedesk.setup.slides[0].name)) return;
-	slides.splice(slides.indexOf(organization) + 1, 0, ...onedesk.setup.slides);
+	slides.splice(slides.indexOf(organization) + 1, 0, ...onedesk.setup.all());
 });
+
+// Ours, then each module's steps with fields, decided when the wizard is
+// built (one/setup_steps.py for_wizard).
+onedesk.setup.all = () => [...onedesk.setup.slides, ...(frappe.boot.one_setup_wizard || [])];
 
 // frappe reads System Settings for the first slide, which only the platform's
 // own role may and nobody on a workspace holds; boot carries the same values.

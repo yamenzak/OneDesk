@@ -27,6 +27,11 @@ def get_setup_stages(args=None):
 					"args": args,
 					"fail_msg": frappe._("Failed to set up One"),
 				},
+				{
+					"fn": module_steps,
+					"args": args,
+					"fail_msg": frappe._("Failed to set up One"),
+				},
 			],
 		}
 	]
@@ -69,6 +74,13 @@ def settle(args=None):
 		except Exception:
 			frappe.db.rollback(save_point="one_settle")
 			frappe.log_error(f"setup: {method}")
+
+
+def module_steps(args=None):
+	"""Each module's steps given in the wizard (one/setup_steps.py)."""
+	from onedesk.one import setup_steps
+
+	setup_steps.apply(args)
 
 
 def set_appearance(args):

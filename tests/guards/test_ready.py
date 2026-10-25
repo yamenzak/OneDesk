@@ -277,3 +277,26 @@ def test_a_module_says_how_and_from_whom_it_tells_people():
 		if types:
 			pages = [page["body"] for page in ready.help_pages(module)]
 			assert any("{notifications}" in body for body in pages), f"{module}'s Help doesn't list what it sends ({{notifications}})"
+
+
+def test_a_module_says_what_setting_it_up_takes():
+	"""A ready module declares its setup steps in its own setup.py
+	(docs/READY.md, mechanism 9): each with a key, a title, what it is for,
+	the ability it needs and the settings tab that does it; one with fields
+	saves them, and one that can't be left for later is rare enough to be
+	said."""
+	import ast
+
+	for module, spec in ready.MODULES.items():
+		path = ROOT / "onedesk" / spec["folder"] / "setup.py"
+		assert path.exists(), f"{module} says nothing of setting it up: write {path.relative_to(ROOT)}, STEPS = [] if it needs nothing"
+		tree = ast.parse(path.read_text(encoding="utf-8"))
+		steps = next(node.value for node in tree.body if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") == "STEPS")
+		code = "\n".join(p.read_text(encoding="utf-8") for p in ready.files(module) if p.suffix == ".js")
+		for step in steps.elts:
+			keys = {key.value: value for key, value in zip(step.keys, step.values)}
+			where = f"{module} {getattr(keys.get('key'), 'value', '?')}"
+			assert {"key", "title", "about", "needs", "tab"} <= set(keys), f"{where} lacks {sorted({'key', 'title', 'about', 'needs', 'tab'} - set(keys))}"
+			assert f'id: "{keys["tab"].value}"' in code, f"{where} names a tab, {keys['tab'].value}, its settings don't have"
+			if "fields" in keys:
+				assert "save" in keys, f"{where} has fields and nothing saves them"

@@ -407,7 +407,25 @@ should hear it.
 
 ### 9. Setup steps
 
-**Today.** The setup wizard has two slides of ours (look and working day).
+**Built.** A module declares its steps in its own `setup.py` as STEPS: a
+key, a title, what it is for, the ability it needs, the module's settings
+tab that does it, and, for a step the wizard asks, its fields, whether it
+can be left for later and what saves it; `done` says how to tell it's done
+where something can (OneMail's domains: an Email Domain exists), else it is
+done once saved or marked done (a workspace default). `one/setup_steps.py`
+is the one engine: `for_wizard`, built with the boot while setup is
+unfinished, gives the wizard a slide per step with fields, named for the
+module and step, after ours (`public/js/setup_wizard.js`); `apply`, a
+wizard task, saves each step that was given and leaves an empty one for
+later; `for_boot` gives each reader the steps their role can do; and the
+ControlCenter opens on **Getting Started** while one is left, with Set Up
+(the step's tab) and Mark as Done (`finish`). OneMail's are the company's
+domain, private mailboxes, and mail templates (no fields: a to-do only).
+`test_ready.py` fails on a ready module without `setup.py`, a step without
+its key, title, what it's for, ability or tab, a tab its settings don't
+have, or fields nothing saves.
+
+**Before.** The setup wizard has two slides of ours (look and working day).
 Nothing per module.
 
 **To build.** Each module declares its steps in `setup.py`. A step has a

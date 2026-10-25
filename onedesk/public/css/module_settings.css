@@ -303,3 +303,9 @@
 .one-set .one-set-legal td:first-child {
 	white-space: normal;
 }
+
+/* A setup step says all of what it is for (module_settings.js
+   `getting_started`). */
+.one-set .one-set-steps .one-set-sub {
+	white-space: normal;
+}

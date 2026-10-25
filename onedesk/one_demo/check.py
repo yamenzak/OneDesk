@@ -9183,6 +9183,43 @@ def legal_tab_says_what_onemail_agrees_to():
 	assert reading.of_module("OneNothing")["documents"] == []
 
 
+@check
+def setup_steps_are_slides_then_to_dos():
+	"""OneMail's setup steps (one/setup_steps.py): Layla, who administers the
+	workspace, sees all three in Getting Started and Nadia none; the two with
+	fields would be wizard slides, named for the module and step; one given
+	in the wizard is saved and done, one left empty stays a to-do, and Mark
+	as Done finishes one."""
+	from unittest.mock import patch
+
+	from onedesk.one import setup_steps
+	from onedesk.one_mail import addresses
+
+	with as_user(OWNER):
+		steps = setup_steps.for_boot()["OneMail"]
+	assert [one["key"] for one in steps] == ["domains", "private", "templates"], steps
+	with as_user("nadia@one.test"):
+		assert "OneMail" not in setup_steps.for_boot()
+	with patch("frappe.is_setup_complete", return_value=False):
+		slides = setup_steps.for_wizard()
+	names = [field["fieldname"] for slide in slides for field in slide["fields"]]
+	assert names == ["one_mail_domains_domain", "one_mail_private_allowed"], names
+	was = frappe.db.get_default(addresses.EXTERNAL)
+	flags = {key: frappe.db.get_default(setup_steps.FLAG.format("one_mail", key)) for key in ("private", "templates")}
+	try:
+		setup_steps.apply({"one_mail_private_allowed": 0, "one_mail_domains_domain": ""})
+		assert frappe.db.get_default(addresses.EXTERNAL) == "0"
+		with as_user(OWNER):
+			said = {one["key"]: one["done"] for one in setup_steps.for_boot()["OneMail"]}
+			assert said["private"] == 1 and said["templates"] == 0, said
+			left = setup_steps.finish("OneMail", "templates")
+		assert next(one for one in left if one["key"] == "templates")["done"] == 1
+	finally:
+		frappe.db.set_default(addresses.EXTERNAL, was) if was is not None else frappe.db.set_default(addresses.EXTERNAL, "1")
+		for key, value in flags.items():
+			frappe.db.set_default(setup_steps.FLAG.format("one_mail", key), value or "")
+
+
 def _modules() -> None:
 	"""A module's own checks, in its folder (docs/READY.md, A module's folder),
 	registered by importing them."""

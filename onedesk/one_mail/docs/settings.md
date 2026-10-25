@@ -8,6 +8,21 @@ mailboxes and, for administrators, the workspace's mail. Each tab has its own
 > beyond User sees **Mailboxes** alone; the workspace's areas below appear for
 > those whose role reaches them.
 
+## Getting Started
+
+While something is left to set up, Settings opens on **Getting Started**,
+for the people whose role can set it up.
+
+| Step | What it sets | Where |
+| --- | --- | --- |
+| **Your Company's Mail** | The domain your company's mail is at, so people connect with a password alone | **Setup** |
+| **Private Mailboxes** | Whether people may connect Gmail and the like beside the company's mail | **Private Mailboxes** |
+| **Mail Templates** | The emails people start from, in your company's words | **Mail Templates** |
+
+The first two are also asked when the workspace is set up, and either can be
+left for later. **Set Up** opens the tab that does it, and **Mark as Done**
+takes a step off the list. Once every step is done, Getting Started goes.
+
 ## A Mailbox's Tabs
 
 **Mailboxes** lists every mailbox you read. Opening one turns the sidebar into

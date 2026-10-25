@@ -2560,6 +2560,10 @@ msgstr "Legen Sie zuerst die Lager für laufende Arbeit und Fertigwaren an."
 msgid "Add the contact's email first."
 msgstr "Fügen Sie zuerst die E-Mail-Adresse des Kontakts hinzu."
 
+#: onedesk/one_mail/setup.py:29
+msgid "Add the domain your company's mail is at, so people connect their mailbox there with its password alone."
+msgstr "Fügen Sie die Domain hinzu, unter der die E-Mail Ihres Unternehmens liegt, damit Mitarbeitende ihr Postfach dort allein mit dem Passwort verbinden."
+
 msgid "Add these records at your DNS provider."
 msgstr "Fügen Sie diese Einträge bei Ihrem DNS-Anbieter hinzu."
 
@@ -7829,6 +7833,10 @@ msgstr "Wählen Sie, was die Regel beobachtet."
 msgid "Choose what to create."
 msgstr "Wähle, was erstellt werden soll."
 
+#: onedesk/one_mail/setup.py:47
+msgid "Choose whether people may connect a mailbox of their own, such as Gmail, beside the company's."
+msgstr "Legen Sie fest, ob Mitarbeitende neben dem Firmenpostfach ein eigenes Postfach wie Gmail verbinden dürfen."
+
 #: onedesk/one/portal_share.py:209
 msgid "Choose who at which supplier the link is for."
 msgstr "Wählen Sie, für wen bei welchem Lieferanten der Link ist."
@@ -8504,6 +8512,10 @@ msgstr "Kompakt"
 #: onedesk/public/js/settings.js:791
 msgid "Company"
 msgstr "Unternehmen"
+
+#: onedesk/one_mail/setup.py:37
+msgid "Company Domain"
+msgstr "Unternehmensdomain"
 
 #: onedesk/public/js/onemail_settings.js:1090
 msgid "Company Domains"
@@ -17019,6 +17031,11 @@ msgstr "Kontaktformular"
 msgid "Get the contract signed"
 msgstr "Vertrag unterschreiben lassen"
 
+#: onedesk/public/js/module_settings.js:109
+#: onedesk/public/js/module_settings.js:111
+msgid "Getting Started"
+msgstr "Erste Schritte"
+
 #: onedesk/one_inventory/heads.py:1312
 msgid "Give"
 msgstr "Geben"
@@ -22686,6 +22703,10 @@ msgstr "Sieh dir die Benachrichtigungen an, die One hier sendet. Welche sollten 
 msgid "Look at the price check: what is wrong and what is close, with the numbers. Say what to change first, and by how much, to make the price list hold."
 msgstr "Sehen Sie sich die Preisprüfung an: was falsch und was knapp ist, mit den Zahlen. Sagen Sie, was zuerst geändert werden sollte und um wie viel, damit die Preisliste stimmig ist."
 
+#: onedesk/one_mail/setup.py:64
+msgid "Look over the emails people start from, such as a quotation's, and make them sound like your company."
+msgstr "Sehen Sie die Vorlagen durch, mit denen E-Mails beginnen, etwa die eines Angebots, und passen Sie sie an Ihr Unternehmen an."
+
 #. Label of the checked_on (Datetime) field in DocType 'Face'
 #: onedesk/one_mail/doctype/face/face.json
 msgid "Looked For On"
@@ -23407,6 +23428,10 @@ msgstr "Einen Tag für viele Personen auf einmal erfassen."
 #: onedesk/public/js/intake.js:336
 msgid "Mark as Checked"
 msgstr "Als geprüft markieren"
+
+#: onedesk/public/js/module_settings.js:125
+msgid "Mark as Done"
+msgstr "Als erledigt markieren"
 
 #. Label of the mark_read (Check) field in DocType 'Mail Rule'
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
@@ -30967,6 +30992,10 @@ msgstr "Wartet auf Überprüfung"
 #: onedesk/public/js/settings.js:1206
 msgid "People"
 msgstr "Personen"
+
+#: onedesk/one_mail/setup.py:55
+msgid "People May Connect Their Own Mailboxes"
+msgstr "Eigene Postfächer erlaubt"
 
 #: onedesk/one/settings.py:2095
 msgid "People With the Role"
@@ -39249,6 +39278,10 @@ msgstr "Startdatum"
 msgid "Start From"
 msgstr "Ausgehend von"
 
+#: onedesk/public/js/module_settings.js:165
+msgid "Start Here"
+msgstr "Hier beginnen"
+
 #: frontend/src/project/TaskPanel.vue:7 frontend/src/task/MyTasks.vue:66
 #: frontend/src/task/TaskPage.vue:326 onedesk/public/js/task.js:8
 #: onedesk/public/js/timesheet.js:5 onedesk/public/js/timesheet.js:10
@@ -40292,6 +40325,10 @@ msgstr "Zwischensumme"
 #: onedesk/public/js/rule_builder.js:290
 msgid "Such as Quote Request."
 msgstr "Z. B. Angebotsanfrage."
+
+#: onedesk/one_mail/setup.py:38
+msgid "Such as yourcompany.com, whose mail servers are found for you."
+msgstr "Etwa yourcompany.com; die Mailserver werden für Sie ermittelt."
 
 #: onedesk/one/ai.py:118
 msgid "Suggest a letter head"
@@ -48307,6 +48344,10 @@ msgstr "Was zu fertigen ist, wie viel und für wen."
 msgid "What to send, as the person will see it."
 msgstr "Was zu senden ist, so wie die Person es sieht."
 
+#: onedesk/public/js/module_settings.js:112
+msgid "What to set up so {0} works the way your company does."
+msgstr "Was einzurichten ist, damit {0} so arbeitet wie Ihr Unternehmen."
+
 #: onedesk/one_hr/ai.py:122
 msgid "What training would help?"
 msgstr "Welche Schulung würde helfen?"
@@ -51742,6 +51783,10 @@ msgstr "Sie können dies später in Ihren Einstellungen ändern."
 msgid "You can check in from your new phone"
 msgstr "Sie können sich mit Ihrem neuen Handy anmelden"
 
+#: onedesk/one/setup_steps.py:69
+msgid "You can leave this for later."
+msgstr "Sie können das auch später erledigen."
+
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.py:22
 msgid "You can only ask for a letter about yourself."
 msgstr "Sie können nur einen Brief über sich selbst anfordern."
@@ -51965,6 +52010,10 @@ msgstr "Sie haben bereits angefragt. Ein Administrator entscheidet."
 #: onedesk/www/r.html:28
 msgid "You've sent everything. You can still replace a file."
 msgstr "Sie haben alles gesendet. Sie können eine Datei weiterhin ersetzen."
+
+#: onedesk/one_mail/setup.py:28
+msgid "Your Company's Mail"
+msgstr "Die E-Mail Ihres Unternehmens"
 
 #: frontend/portal/src/pages/YourData.vue:2 onedesk/one/portal.py:45
 #: onedesk/public/js/login.js:73 onedesk/public/js/settings.js:164

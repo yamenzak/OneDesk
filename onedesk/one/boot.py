@@ -48,6 +48,10 @@ def boot_session(bootinfo) -> None:
 	from onedesk.one import versions
 
 	bootinfo["one_versions"] = versions.for_boot()
+	from onedesk.one import setup_steps
+
+	bootinfo["one_setup"] = setup_steps.for_boot()
+	bootinfo["one_setup_wizard"] = setup_steps.for_wizard()
 	bootinfo["one_mail_private"] = {"on": int(addresses.external()), "domains": addresses.allowed_domains()}
 	default = holders.sends_from()
 	bootinfo["one_mail_sends_from"] = (
