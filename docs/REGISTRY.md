@@ -3,7 +3,7 @@
 
 The fourteen points of docs/READY.md, for each module on its way to ready.
 
-## OneMail 1.6.1
+## OneMail 1.6.2
 
 Not marked ready yet.
 

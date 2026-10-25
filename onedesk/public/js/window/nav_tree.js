@@ -205,10 +205,12 @@ onedesk.window.Window.prototype.foot_action = function ({ icon, label, click, ve
 	return this;
 };
 
-// A module's foot, the same in every module (docs/READY.md, mechanisms 5
-// and 13): Settings, then TrustCenter, Help and the version at the row's end.
+// A module's foot, the same in every module (docs/READY.md, mechanisms 5,
+// 10 and 13): Settings, the tour of the screen it is on, Help and
+// TrustCenter, each an icon, then the version at the row's end.
 onedesk.window.Window.prototype.module_foot = function ({ module, settings }) {
 	this.foot_action({ icon: "settings", label: __("Settings"), click: settings, version: { module } });
+	this.$foot_action.addClass("one-window-foot-action--icons").find(".item-anchor").attr({ title: __("Settings"), "aria-label": __("{0} Settings", [module]) });
 	// A module that draws its foot has drawn its screen: its tour may start.
 	onedesk.tour.first(module);
 	return this;
@@ -218,15 +220,20 @@ onedesk.window.Window.prototype.foot_version = function ({ module }) {
 	const said = (frappe.boot.one_versions || {})[module];
 	if (!said) return;
 	const $row = this.$foot_action.find(".standard-sidebar-item");
-	$(`<button type="button" class="one-window-foot-help"></button>`)
-		.attr({ title: "TrustCenter", "aria-label": __("{0} and Your Data", [module]) })
-		.html(frappe.utils.icon("shield-check", "sm"))
-		.on("click", () => onedesk.trust.open({ module }))
+	$(`<button type="button" class="one-window-foot-help" data-tour="window-tour"></button>`)
+		.attr({ title: __("Take the Tour"), "aria-label": __("Take the Tour of This Screen") })
+		.html(frappe.utils.icon("circle-play", "sm"))
+		.on("click", () => onedesk.tour.run(module))
 		.appendTo($row);
 	$(`<button type="button" class="one-window-foot-help"></button>`)
 		.attr({ title: __("Help"), "aria-label": __("{0} Help", [module]) })
 		.html(frappe.utils.icon("circle-question-mark", "sm"))
 		.on("click", () => onedesk.help.open(module))
+		.appendTo($row);
+	$(`<button type="button" class="one-window-foot-help"></button>`)
+		.attr({ title: "TrustCenter", "aria-label": __("{0} and Your Data", [module]) })
+		.html(frappe.utils.icon("shield-check", "sm"))
+		.on("click", () => onedesk.trust.open({ module }))
 		.appendTo($row);
 	const $chip = $(`<button type="button" class="one-window-foot-version"></button>`)
 		.attr({ title: __("What's New"), "aria-label": __("What's New in {0}", [module]) })

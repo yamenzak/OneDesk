@@ -91,15 +91,11 @@ onedesk.module_docs.Dialog = class ModuleDocsDialog extends frappe.ui.SettingsDi
 			this.$sidebar,
 			this.module ? { center: this.center, module: this.module } : { center: this.center, label: __("Your Workspace"), icon: "building" },
 		);
-		if (this.head_action) this.head_action($head);
-		if (this.center === "help") {
-			$(frappe.ui.button.html({ variant: "ghost", icon: "map", title: __("Take the Tour"), attrs: { "aria-label": __("Take the Tour") } }))
-				.addClass("one-module-head-help")
-				.on("click", () => {
-					this.hide();
-					onedesk.tour.run(this.module);
-				})
-				.appendTo($head);
+		if (this.expand) {
+			onedesk.module_head_expand($head, () => {
+				this.hide();
+				this.expand();
+			});
 		}
 
 		const $search = $(`<label class="one-docs-search"></label>`).appendTo(this.$sidebar);
@@ -244,147 +240,205 @@ onedesk.module_docs.Dialog = class ModuleDocsDialog extends frappe.ui.SettingsDi
 	}
 };
 
-onedesk.whats_new.open = async (module, version = null) => {
-	const said = await frappe.xcall("onedesk.one.versions.whats_new", { module });
+// What's New and Help open on a module, or on all of One (`module` null):
+// every module that has versions, each a branch of the tree. A page's id is
+// the module's own then, `OneMail/overview`, `OneMail@1.6.1`.
+onedesk.module_docs.modules = (module) => (module ? [module] : Object.keys(frappe.boot.one_versions || {}));
+
+onedesk.whats_new.open = async (module = null, version = null) => {
+	const modules = onedesk.module_docs.modules(module);
+	const all = await Promise.all(modules.map((one) => frappe.xcall("onedesk.one.versions.whats_new", { module: one })));
 	const kinds = onedesk.module_docs.KINDS();
 	const esc = frappe.utils.escape_html;
+	const id = (of, one) => (module ? one.version : `${of}@${one.version}`);
 	const icon = (one) =>
 		one.new
 			? `<span class="one-docs-new" aria-label="${esc(__("New"))}"></span>`
 			: frappe.utils.icon(onedesk.module_docs.ICONS[one.kind] || "dot", "sm");
-	const items = said.versions.map((one) => ({
-		id: one.version,
-		label: one.version,
-		icon_html: icon(one),
-		title: one.title,
-		description: [kinds[one.kind] || one.kind, frappe.datetime.str_to_user(one.date)].join(" · "),
-		render(panel) {
-			if (one.new) panel.$header.find(".settings-dialog-panel-title").append(" ", frappe.ui.badge.html({ label: __("New"), theme: "blue" }));
-			onedesk.module_docs.page(panel.body.empty(), one.html);
-			if (!one.docs.length) return;
-			const $more = $(`<div class="one-docs-more"></div>`).appendTo(panel.body);
-			$(`<div class="one-docs-more-title"></div>`).text(__("Read More")).appendTo($more);
-			for (const page of one.docs) {
-				$(frappe.ui.button.html({ label: page.title, variant: "outline", icon: "book-open" }))
-					.on("click", () => dialog.follow(page.id))
-					.appendTo($more);
-			}
-		},
-	}));
-
-	// A fix sits under the minor it fixes and a minor under its major, each
-	// newest first, so the left reads as the module's story.
-	const nodes = {};
-	for (const one of said.versions) {
-		nodes[one.version] = { id: one.version, label: one.version, note: one.title, icon_html: icon(one), open: true, children: [] };
-	}
-	const roots = [];
-	for (const one of said.versions) {
-		const [major, minor] = one.version.split(".");
-		const parent = { fix: nodes[`${major}.${minor}.0`] || nodes[`${major}.0.0`], minor: nodes[`${major}.0.0`] }[one.kind];
-		(parent && parent !== nodes[one.version] ? parent.children : roots).push(nodes[one.version]);
-	}
+	const items = [];
+	const branches = [];
+	all.forEach((said, at) => {
+		const of = modules[at];
+		for (const one of said.versions) {
+			items.push({
+				id: id(of, one),
+				label: one.version,
+				icon_html: icon(one),
+				title: module ? one.title : `${of} ${one.version} · ${one.title}`,
+				description: [kinds[one.kind] || one.kind, frappe.datetime.str_to_user(one.date)].join(" · "),
+				render(panel) {
+					if (one.new) panel.$header.find(".settings-dialog-panel-title").append(" ", frappe.ui.badge.html({ label: __("New"), theme: "blue" }));
+					onedesk.module_docs.page(panel.body.empty(), one.html);
+					if (!one.docs.length) return;
+					const $more = $(`<div class="one-docs-more"></div>`).appendTo(panel.body);
+					$(`<div class="one-docs-more-title"></div>`).text(__("Read More")).appendTo($more);
+					for (const page of one.docs) {
+						$(frappe.ui.button.html({ label: page.title, variant: "outline", icon: "book-open" }))
+							.on("click", () => {
+								dialog.hide();
+								onedesk.help.open(of, page.id);
+							})
+							.appendTo($more);
+					}
+				},
+			});
+		}
+		// A fix sits under the minor it fixes and a minor under its major, each
+		// newest first, so the left reads as the module's story.
+		const nodes = {};
+		for (const one of said.versions) {
+			nodes[one.version] = { id: id(of, one), label: one.version, note: one.title, icon_html: icon(one), open: true, children: [] };
+		}
+		const roots = [];
+		for (const one of said.versions) {
+			const [major, minor] = one.version.split(".");
+			const parent = { fix: nodes[`${major}.${minor}.0`] || nodes[`${major}.0.0`], minor: nodes[`${major}.0.0`] }[one.kind];
+			(parent && parent !== nodes[one.version] ? parent.children : roots).push(nodes[one.version]);
+		}
+		branches.push(
+			module ? roots : [{ id: `module:${of}`, label: of, icon_html: frappe.utils.icon(of.toLowerCase(), "sm"), tab: false, open: true, children: roots }],
+		);
+	});
 
 	const dialog = new onedesk.module_docs.Dialog({
-		title: __("What's New in {0}", [module]),
+		title: module ? __("What's New in {0}", [module]) : __("What's New"),
 		module,
 		center: "updates",
 		tabs: [{ items }],
-		tree: roots,
-		default_tab: version || items[0]?.id,
+		tree: branches.flat(),
+		default_tab: (module && version) || items[0]?.id,
+		expand: module ? () => onedesk.whats_new.open() : null,
 	});
-	dialog.index = said.versions.flatMap((one) => onedesk.module_docs.sections(one.version, `${one.version} ${one.title}`, one.html));
-	dialog.follow = (page, anchor = null) => {
-		dialog.hide();
-		onedesk.help.open(module, page, anchor);
-	};
+	dialog.index = [];
+	all.forEach((said, at) =>
+		said.versions.forEach((one) => dialog.index.push(...onedesk.module_docs.sections(id(modules[at], one), `${one.version} ${one.title}`, one.html))),
+	);
 	dialog.show();
-	const ours = frappe.boot.one_versions && frappe.boot.one_versions[module];
-	if (ours) ours.unseen = 0;
-	$(document).trigger("one-version-seen", [module]);
+	for (const of of modules) {
+		const ours = frappe.boot.one_versions && frappe.boot.one_versions[of];
+		if (ours) ours.unseen = 0;
+		$(document).trigger("one-version-seen", [of]);
+	}
 	return dialog;
 };
 
-onedesk.help.open = async (module, page = null, anchor = null) => {
-	const said = await frappe.xcall("onedesk.one.versions.help_pages", { module });
-	const items = said.pages.map((one) => ({
-		id: one.id,
-		label: one.title,
-		icon: one.icon,
-		title: one.title,
-		render(panel) {
-			onedesk.module_docs.page(panel.body.empty(), one.html);
-			panel.body.off("scroll.one-docs").on(
-				"scroll.one-docs",
-				frappe.utils.throttle(() => dialog.spy(one.id), 80),
-			);
-		},
-	}));
-	const sections = said.pages.map((one) => onedesk.module_docs.sections(one.id, one.title, one.html));
-	const tree = said.pages.map((one, i) => ({
-		id: one.id,
-		label: one.title,
-		icon: one.icon,
-		children: sections[i]
-			.filter((section) => section.anchor)
-			.map((section) => ({
-				id: `${one.id}#${section.anchor}`,
-				label: section.title,
-				tab: false,
-				click: () => dialog.go(one.id, section.anchor),
-			})),
-	}));
+onedesk.help.open = async (module = null, page = null, anchor = null) => {
+	const modules = onedesk.module_docs.modules(module);
+	const all = await Promise.all(modules.map((one) => frappe.xcall("onedesk.one.versions.help_pages", { module: one })));
+	const id = (of, one) => (module ? one : `${of}/${one}`);
+	const items = [];
+	const tree = [];
+	const index = [];
+	all.forEach((said, at) => {
+		const of = modules[at];
+		const nodes = [];
+		for (const one of said.pages) {
+			const here = id(of, one.id);
+			items.push({
+				id: here,
+				label: one.title,
+				icon: one.icon,
+				title: one.title,
+				render(panel) {
+					onedesk.module_docs.page(panel.body.empty(), one.html);
+					panel.body.off("scroll.one-docs").on(
+						"scroll.one-docs",
+						frappe.utils.throttle(() => dialog.spy(here), 80),
+					);
+				},
+			});
+			const sections = onedesk.module_docs.sections(here, one.title, one.html);
+			index.push(...sections);
+			nodes.push({
+				id: here,
+				label: one.title,
+				icon: one.icon,
+				children: sections
+					.filter((section) => section.anchor)
+					.map((section) => ({
+						id: `${here}#${section.anchor}`,
+						label: section.title,
+						tab: false,
+						click: () => dialog.go(here, section.anchor),
+					})),
+			});
+		}
+		tree.push(...(module ? nodes : [{ id: `module:${of}`, label: of, icon_html: frappe.utils.icon(of.toLowerCase(), "sm"), tab: false, open: true, children: nodes }]));
+	});
 	const dialog = new onedesk.module_docs.Dialog({
-		title: __("{0} Help", [module]),
+		title: module ? __("{0} Help", [module]) : __("Help"),
 		module,
 		center: "help",
 		tabs: [{ items }],
 		tree,
-		default_tab: page || items[0]?.id,
+		default_tab: (module && page) || items[0]?.id,
+		expand: module ? () => onedesk.help.open() : null,
 	});
-	dialog.index = sections.flat();
+	dialog.index = index;
+	// A link in a page is to another page of the same module.
+	if (!module) dialog.follow = (to, at = null) => dialog.go(`${dialog.here.split("/")[0]}/${to}`, at);
 
 	// The section at the top of the page, marked in the tree.
-	dialog.spy = (id) => {
-		const panel = dialog.get_panel(id);
+	dialog.spy = (here) => {
+		const panel = dialog.get_panel(here);
 		if (!panel || dialog.query) return;
-		let here = null;
+		let at = null;
 		panel.body.find(".one-doc > h2").each((_i, h2) => {
-			if ($(h2).position().top <= 32) here = h2.id;
+			if ($(h2).position().top <= 32) at = h2.id;
 		});
 		dialog.$tree.find(".one-docs-row.here").removeClass("here");
-		if (here) dialog.node(`${id}#${here}`).children(".one-docs-row").addClass("here");
+		if (at) dialog.node(`${here}#${at}`).children(".one-docs-row").addClass("here");
 	};
 	// Only the open page shows its sections, unless a search shows more.
-	dialog.on_page = (id) => {
-		if (!dialog.query) dialog.$tree.children(".one-docs-node").each((_i, el) => $(el).toggleClass("open", el.dataset.node === id));
-		dialog.spy(id);
+	dialog.on_page = (here) => {
+		if (!dialog.query) {
+			dialog.$tree.find(".one-docs-node").each((_i, el) => {
+				if (el.dataset.node.startsWith("module:")) return;
+				if (!el.querySelector(":scope > .one-docs-children .one-docs-row:not([data-tab-id])")) return;
+				$(el).toggleClass("open", el.dataset.node === here);
+			});
+		}
+		dialog.spy(here);
 	};
 	dialog.on_page(dialog.active_tab);
 	dialog.show();
-	if (anchor) setTimeout(() => dialog.go(page, anchor), 300);
+	if (anchor) setTimeout(() => dialog.go(id(module, page), anchor), 300);
 	return dialog;
 };
 
-// A module's tour (one/tours.py): its steps, each at a `data-tour` mark on
-// the screen, on frappe's driver. It starts on its own the first time the
-// module is opened, and again from HelpCenter's Take the Tour.
+// A module's tours (one/tours.py), one for each area of its screen, each
+// step at a `data-tour` mark, on frappe's driver. The area on screen is the
+// first whose `at` mark is shown; its tour starts on its own the first time,
+// and again from the tour button in the module's foot.
 frappe.provide("onedesk.tour");
 
-onedesk.tour.run = async (module) => {
-	const steps = await frappe.xcall("onedesk.one.tours.tour", { module });
-	const shown = steps
-		.map((step) => ({ step, el: onedesk.tour.find(step.target) }))
-		.filter(({ el }) => el && el.getClientRects().length);
+onedesk.tour.shown = (target) => {
+	const el = onedesk.tour.find(target);
+	return el && el.getClientRects().length ? el : null;
+};
+
+onedesk.tour.here = async (module) => {
+	onedesk.tour._of = onedesk.tour._of || {};
+	if (!onedesk.tour._of[module]) onedesk.tour._of[module] = frappe.xcall("onedesk.one.tours.tour", { module });
+	const tours = await onedesk.tour._of[module];
+	return tours.find((one) => onedesk.tour.shown(one.at));
+};
+
+onedesk.tour.run = async (module, tour = null) => {
+	tour = tour || (await onedesk.tour.here(module));
+	const shown = ((tour && tour.steps) || []).map((step) => ({ step, el: onedesk.tour.shown(step.target) })).filter(({ el }) => el);
 	if (!shown.length) {
-		frappe.show_alert({ message: __("Open {0} to take its tour.", [module]), indicator: "blue" });
+		frappe.show_alert({ message: __("There is no tour of this screen yet."), indicator: "blue" });
 		return;
 	}
 	const done = () => {
 		const unseen = frappe.boot.one_tours_unseen || [];
-		if (unseen.includes(module)) unseen.splice(unseen.indexOf(module), 1);
-		frappe.xcall("onedesk.one.tours.seen", { module });
+		const at = unseen.indexOf(`${module}:${tour.key}`);
+		if (at >= 0) unseen.splice(at, 1);
+		onedesk.tour._running = false;
+		frappe.xcall("onedesk.one.tours.seen", { module, key: tour.key });
 	};
+	onedesk.tour._running = true;
 	const driver = new frappe.Driver({
 		className: "frappe-driver one-tour",
 		allowClose: true,
@@ -446,9 +500,21 @@ onedesk.tour.lift = (el) => {
 	}
 };
 
-// The first time somebody opens a module, once its screen has drawn.
+// The first time somebody opens an area of a module, once it has drawn:
+// asked when the module draws its foot and whenever the route changes.
 onedesk.tour.first = (module) => {
-	if (!(frappe.boot.one_tours_unseen || []).includes(module) || onedesk.tour._started) return;
-	onedesk.tour._started = true;
-	setTimeout(() => onedesk.tour.run(module), 1500);
+	onedesk.tour._module = module;
+	const unseen = (frappe.boot.one_tours_unseen || []).filter((one) => one.startsWith(`${module}:`));
+	if (!unseen.length) return;
+	// An island draws after its foot, so the area is looked for a few times.
+	clearTimeout(onedesk.tour._wait);
+	const look = async (left) => {
+		if (onedesk.tour._running || onedesk.tour._module !== module || $(".modal.show").length) return;
+		const tour = await onedesk.tour.here(module);
+		if (tour && unseen.includes(`${module}:${tour.key}`)) onedesk.tour.run(module, tour);
+		else if (!tour && left) onedesk.tour._wait = setTimeout(() => look(left - 1), 500);
+	};
+	onedesk.tour._wait = setTimeout(() => look(10), 1500);
 };
+
+frappe.router.on("change", () => onedesk.tour._module && onedesk.tour.first(onedesk.tour._module));

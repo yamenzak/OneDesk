@@ -1642,10 +1642,6 @@ msgstr "لمسة الذكاء الاصطناعي"
 msgid "AI Usage"
 msgstr "استخدام الذكاء الاصطناعي"
 
-#: onedesk/public/js/trust_center.js
-msgid "All of TrustCenter"
-msgstr "TrustCenter كاملًا"
-
 #: onedesk/one_mail/ai.py
 msgid "Answers"
 msgstr "يردّ على"
@@ -27331,13 +27327,13 @@ msgstr "وحده مسؤول مساحة العمل يمكنه تشغيله."
 msgid "Only a workspace administrator can turn this on or off."
 msgstr "وحده مسؤول مساحة العمل يمكنه تشغيل هذا أو إيقافه."
 
+#: onedesk/public/js/module_settings.js
+msgid "Open All"
+msgstr "افتح الكل"
+
 #: onedesk/one_mail/tour.py
 msgid "Open one to read it, or tick several to file or archive them together."
 msgstr "افتح واحدة لقراءتها، أو حدّد عدة محادثات لتصنيفها أو أرشفتها معًا."
-
-#: onedesk/public/js/module_docs.js
-msgid "Open {0} to take its tour."
-msgstr "افتح {0} لتأخذ جولته."
 
 #: onedesk/public/js/trust_center.js
 msgid "Optional Services"
@@ -36202,12 +36198,12 @@ msgid "Sends"
 msgstr "يرسل"
 
 #: onedesk/one_mail/tour.py
-msgid "Set up your mailboxes in Settings, and find this tour again in Help."
-msgstr "اضبط صناديق بريدك في الإعدادات، وستجد هذه الجولة مجددًا في المساعدة."
+msgid "Set up your mailboxes from the cog, and take the tour of any screen again from the button beside it."
+msgstr "اضبط صناديق بريدك من الترس، وخذ جولة أي شاشة مجددًا من الزر الذي بجانبه."
 
 #: onedesk/one_mail/tour.py
-msgid "Settings and Help"
-msgstr "الإعدادات والمساعدة"
+msgid "Settings and Tours"
+msgstr "الإعدادات والجولات"
 
 #. Option for the 'Kind' (Select) field in DocType 'Cloud Mount'
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
@@ -40980,6 +40976,10 @@ msgstr "إزالة من {0}"
 msgid "Take the Tour"
 msgstr "خذ الجولة"
 
+#: onedesk/public/js/window/nav_tree.js
+msgid "Take the Tour of This Screen"
+msgstr "جولة في هذه الشاشة"
+
 #: onedesk/public/js/trust_center.js
 msgid "Taking It With You"
 msgstr "أخذها معك"
@@ -40999,6 +40999,10 @@ msgstr "الرد المعتاد"
 #: onedesk/public/js/trust_center.js
 msgid "There is no such service."
 msgstr "لا توجد خدمة كهذه."
+
+#: onedesk/public/js/module_docs.js
+msgid "There is no tour of this screen yet."
+msgstr "لا توجد جولة لهذه الشاشة بعد."
 
 #: onedesk/one/letter_heads.py:132
 #: onedesk/one_book/report/books_check/books_check.js:20

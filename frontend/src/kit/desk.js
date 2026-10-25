@@ -391,7 +391,7 @@ export const windowHeadAction = (win, { icon, title, onClick }) =>
 export const windowFootAction = (win, { icon, label, onClick, version = null }) =>
 	win && win.foot_action({ icon: icon.replace(/^lucide-/, ""), label, click: onClick, version });
 
-// A module's foot: Settings, Help and its version, the same in every module
+// A module's foot: Settings, the tour, Help, TrustCenter and its version, the same in every module
 // (window/nav_tree.js `module_foot`).
 export const windowModuleFoot = (win, { module, onSettings }) => win && win.module_foot({ module, settings: onSettings });
 

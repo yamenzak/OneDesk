@@ -463,6 +463,20 @@ body.one-window-dragging * {
 	min-width: 0;
 }
 
+/* A module's foot (win.module_foot) is icons, Settings among them, and its
+   version at the end. */
+.one-window-foot-action--icons .standard-sidebar-item .sidebar-item-label {
+	display: none;
+}
+
+.one-window-foot-action--icons .item-anchor {
+	flex: 0 0 auto;
+}
+
+.one-window-foot-action--icons .one-window-foot-version {
+	margin-inline-start: auto;
+}
+
 .one-window-foot-help {
 	display: flex;
 	flex-shrink: 0;

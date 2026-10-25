@@ -1642,10 +1642,6 @@ msgstr "KI-Spur"
 msgid "AI Usage"
 msgstr "KI-Nutzung"
 
-#: onedesk/public/js/trust_center.js
-msgid "All of TrustCenter"
-msgstr "Ganzes TrustCenter"
-
 #: onedesk/one_mail/ai.py
 msgid "Answers"
 msgstr "Antwortet an"
@@ -27331,13 +27327,13 @@ msgstr "Nur ein Administrator des Arbeitsbereichs kann ihn einschalten."
 msgid "Only a workspace administrator can turn this on or off."
 msgstr "Nur ein Administrator des Arbeitsbereichs kann dies ein- oder ausschalten."
 
+#: onedesk/public/js/module_settings.js
+msgid "Open All"
+msgstr "Alles öffnen"
+
 #: onedesk/one_mail/tour.py
 msgid "Open one to read it, or tick several to file or archive them together."
 msgstr "Öffnen Sie eine, um sie zu lesen, oder markieren Sie mehrere, um sie gemeinsam abzulegen oder zu archivieren."
-
-#: onedesk/public/js/module_docs.js
-msgid "Open {0} to take its tour."
-msgstr "Öffnen Sie {0}, um die Tour zu starten."
 
 #: onedesk/public/js/trust_center.js
 msgid "Optional Services"
@@ -36202,12 +36198,12 @@ msgid "Sends"
 msgstr "Sendet"
 
 #: onedesk/one_mail/tour.py
-msgid "Set up your mailboxes in Settings, and find this tour again in Help."
-msgstr "Richten Sie Ihre Postfächer in den Einstellungen ein, und finden Sie diese Tour in der Hilfe wieder."
+msgid "Set up your mailboxes from the cog, and take the tour of any screen again from the button beside it."
+msgstr "Richten Sie Ihre Postfächer über das Zahnrad ein, und starten Sie den Rundgang durch jeden Bildschirm erneut mit der Schaltfläche daneben."
 
 #: onedesk/one_mail/tour.py
-msgid "Settings and Help"
-msgstr "Einstellungen und Hilfe"
+msgid "Settings and Tours"
+msgstr "Einstellungen und Rundgänge"
 
 #. Option for the 'Kind' (Select) field in DocType 'Cloud Mount'
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
@@ -40980,6 +40976,10 @@ msgstr "Von {0} entfernen"
 msgid "Take the Tour"
 msgstr "Tour starten"
 
+#: onedesk/public/js/window/nav_tree.js
+msgid "Take the Tour of This Screen"
+msgstr "Rundgang durch diesen Bildschirm"
+
 #: onedesk/public/js/trust_center.js
 msgid "Taking It With You"
 msgstr "Alles mitnehmen"
@@ -40999,6 +40999,10 @@ msgstr "Die Standardantwort"
 #: onedesk/public/js/trust_center.js
 msgid "There is no such service."
 msgstr "Diesen Dienst gibt es nicht."
+
+#: onedesk/public/js/module_docs.js
+msgid "There is no tour of this screen yet."
+msgstr "Für diesen Bildschirm gibt es noch keinen Rundgang."
 
 #: onedesk/one/letter_heads.py:132
 #: onedesk/one_book/report/books_check/books_check.js:20

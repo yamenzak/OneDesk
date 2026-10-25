@@ -1,7 +1,9 @@
-"""A module's tour (docs/READY.md, mechanism 10): the steps it declares in
-its own `tour.py`, each pointing at a `data-tour` mark on its screen, run on
-frappe's driver the first time somebody opens the module, and again from
-HelpCenter."""
+"""A module's tours (docs/READY.md, mechanism 10), one for each area of its
+screen, declared in its own `tour.py` as `TOURS`: a key, the `data-tour` mark
+that says the area is on screen (`at`), and steps, each pointing at a mark.
+An area's tour runs on frappe's driver the first time somebody opens it, and
+again from the tour button in the module's foot, which takes the one of the
+area on screen."""
 
 import importlib
 
@@ -10,38 +12,45 @@ from frappe import _
 
 from onedesk.one import ready
 
-SEEN = "one_toured_{}"
+SEEN = "one_toured_{}_{}"
 
 
-def _steps(module: str) -> list[dict]:
+def _tours(module: str) -> list[dict]:
 	try:
-		return importlib.import_module(f"onedesk.{ready.MODULES[module]['folder']}.tour").STEPS
+		return importlib.import_module(f"onedesk.{ready.MODULES[module]['folder']}.tour").TOURS
 	except (KeyError, ModuleNotFoundError):
 		return []
 
 
+def _seen(module: str, key: str) -> bool:
+	return frappe.defaults.get_user_default(SEEN.format(ready.MODULES[module]["folder"], key)) == "1"
+
+
 def unseen() -> list[str]:
-	"""The modules with a tour the reader hasn't taken, for the boot."""
-	return [
-		module
-		for module, spec in ready.MODULES.items()
-		if _steps(module) and frappe.defaults.get_user_default(SEEN.format(spec["folder"])) != "1"
-	]
+	"""The areas whose tour the reader hasn't taken, as `Module:key`, for the boot."""
+	return [f"{module}:{one['key']}" for module in ready.MODULES for one in _tours(module) if not _seen(module, one["key"])]
 
 
 @frappe.whitelist()
 def tour(module: str) -> list[dict]:
-	"""A module's steps, in the reader's language."""
+	"""A module's tours, each with its steps in the reader's language."""
 	if module not in ready.MODULES:
 		frappe.throw(_("{0} has no tour.").format(module))
 	return [
-		{"target": step["target"], "title": str(step["title"]), "text": str(step["text"]), "side": step.get("side", "bottom")}
-		for step in _steps(module)
+		{
+			"key": one["key"],
+			"at": one["at"],
+			"steps": [
+				{"target": step["target"], "title": str(step["title"]), "text": str(step["text"]), "side": step.get("side", "bottom")}
+				for step in one["steps"]
+			],
+		}
+		for one in _tours(module)
 	]
 
 
 @frappe.whitelist(methods=["POST"])
-def seen(module: str) -> None:
-	"""The reader took the tour, or closed it: it doesn't start on its own again."""
-	if module in ready.MODULES:
-		frappe.defaults.set_user_default(SEEN.format(ready.MODULES[module]["folder"]), "1")
+def seen(module: str, key: str) -> None:
+	"""The reader took an area's tour, or closed it: it doesn't start on its own again."""
+	if module in ready.MODULES and key in {one["key"] for one in _tours(module)}:
+		frappe.defaults.set_user_default(SEEN.format(ready.MODULES[module]["folder"], key), "1")

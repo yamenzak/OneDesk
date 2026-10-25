@@ -366,16 +366,7 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 		module,
 		center: "trust",
 		tabs: [{ items }],
-		head_action: module
-			? ($head) =>
-					$(frappe.ui.button.html({ variant: "ghost", icon: "maximize-2", title: __("All of TrustCenter"), attrs: { "aria-label": __("All of TrustCenter") } }))
-						.addClass("one-module-head-help")
-						.on("click", () => {
-							dialog.hide();
-							onedesk.trust.open();
-						})
-						.appendTo($head)
-			: null,
+		expand: module ? () => onedesk.trust.open() : null,
 		tree,
 		default_tab: (at && items.find((one) => one.id === at) ? at : null) || items[0]?.id,
 	});

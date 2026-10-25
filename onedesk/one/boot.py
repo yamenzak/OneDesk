@@ -55,6 +55,7 @@ def boot_session(bootinfo) -> None:
 	from onedesk.one import tours
 
 	bootinfo["one_tours_unseen"] = tours.unseen()
+	bootinfo["one_administers"] = int(roles.administers())
 	bootinfo["one_mail_private"] = {"on": int(addresses.external()), "domains": addresses.allowed_domains()}
 	default = holders.sends_from()
 	bootinfo["one_mail_sends_from"] = (

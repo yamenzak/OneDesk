@@ -35,8 +35,22 @@ onedesk.module_head = ($into, { center, module = null, label = null, icon = null
 		if (icon) $of.append(frappe.utils.icon(icon, "xs"));
 		$(`<span></span>`).text(label || module || "").appendTo($of);
 	}
+	$(`<div class="one-module-head-tools"></div>`).appendTo($head);
 	return $head;
 };
+
+// A button at the top of a centre, beside its name: Help, or the arrows
+// that open the whole of it (`expand`).
+onedesk.module_head_tool = ($head, { icon, title, click }) =>
+	$(frappe.ui.button.html({ variant: "ghost", icon, title, attrs: { "aria-label": title } }))
+		.on("click", click)
+		.appendTo($head.find(".one-module-head-tools"));
+
+// Every centre opened on a part of One opens the whole of it from the same
+// arrows: a module's HelpCenter all of One's help, its ControlCenter the
+// workspace's settings, an AccountCenter the module's ControlCenter.
+onedesk.module_head_expand = ($head, open) =>
+	onedesk.module_head_tool($head, { icon: "maximize-2", title: __("Open All"), click: open });
 
 onedesk.module_settings.Dialog = class ModuleSettingsDialog extends frappe.ui.SettingsDialog {
 	render_sidebar() {
@@ -45,11 +59,13 @@ onedesk.module_settings.Dialog = class ModuleSettingsDialog extends frappe.ui.Se
 		// in it, such as a mailbox, says which (`dialog.center`).
 		const $head = onedesk.module_head(this.$sidebar, this.center || { center: "settings", module: this.module });
 		if (frappe.boot.one_versions && frappe.boot.one_versions[this.module]) {
-			$(frappe.ui.button.html({ variant: "ghost", icon: "circle-question-mark", title: __("Help"), attrs: { "aria-label": __("Help") } }))
-				.addClass("one-module-head-help")
-				.on("click", () => onedesk.help.open(this.module))
-				.appendTo($head);
+			onedesk.module_head_tool($head, { icon: "circle-question-mark", title: __("Help"), click: () => onedesk.help.open(this.module) });
 		}
+		onedesk.module_head_expand($head, () => {
+			if (this.expand) return this.expand();
+			this.hide();
+			frappe.set_route("one", frappe.boot.one_administers ? "workspace-settings" : "settings");
+		});
 	}
 };
 

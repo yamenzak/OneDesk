@@ -1,9 +1,11 @@
-"""OneMail's tour (one/tours.py, docs/READY.md mechanism 10): each step
-points at a `data-tour` mark, the window's own (window-*) or OneMail's."""
+"""OneMail's tours (one/tours.py, docs/READY.md mechanism 10), one for each
+area of its screen, found by the mark at `at`; each step points at a
+`data-tour` mark, the window's own (window-*) or OneMail's. OneMail has one
+area, the mailbox."""
 
 from frappe import _lt
 
-STEPS = [
+MAILBOX = [
 	{
 		"target": "window-nav",
 		"side": "right",
@@ -35,9 +37,11 @@ STEPS = [
 		"text": _lt("Type to search, and narrow it with from:, subject: or is:unread."),
 	},
 	{
-		"target": "window-foot",
+		"target": "window-tour",
 		"side": "top",
-		"title": _lt("Settings and Help"),
-		"text": _lt("Set up your mailboxes in Settings, and find this tour again in Help."),
+		"title": _lt("Settings and Tours"),
+		"text": _lt("Set up your mailboxes from the cog, and take the tour of any screen again from the button beside it."),
 	},
 ]
+
+TOURS = [{"key": "mailbox", "at": "onemail-list", "steps": MAILBOX}]

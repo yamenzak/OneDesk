@@ -16,7 +16,8 @@ message can be linked to the customer, supplier or employee it is about.
 | **The foot** | **Settings**, the shield that opens TrustCenter, the question mark that opens this Help, and OneMail's version, which opens What's New. |
 
 The first time you open OneMail, a short tour shows you each of these. To
-take it again, press **Take the Tour** at the top of this Help.
+take it again, press the play button at the foot of the left pane, beside
+the cog that opens Settings.
 
 ## Where to Start
 

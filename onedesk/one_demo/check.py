@@ -9285,22 +9285,24 @@ def setup_steps_are_slides_then_to_dos():
 
 @check
 def tour_runs_once_then_from_help():
-	"""OneMail's tour (one/tours.py): six steps in the reader's language, each
-	at a mark; a reader who hasn't taken it has it in the boot, and once
-	taken or closed it doesn't start on its own again."""
+	"""OneMail's tours (one/tours.py): one for its mailbox, six steps in the
+	reader's language, each at a mark; a reader who hasn't taken it has it in
+	the boot, and once taken or closed it doesn't start on its own again."""
 	from onedesk.one import tours
 
-	key = tours.SEEN.format("one_mail")
+	key = tours.SEEN.format("one_mail", "mailbox")
 	with as_user("nadia@one.test"):
 		was = frappe.defaults.get_user_default(key)
 		try:
 			frappe.defaults.clear_user_default(key)
-			assert "OneMail" in tours.unseen()
-			steps = tours.tour("OneMail")
+			assert "OneMail:mailbox" in tours.unseen()
+			said = tours.tour("OneMail")
+			assert [one["key"] for one in said] == ["mailbox"] and said[0]["at"] == "onemail-list", said
+			steps = said[0]["steps"]
 			assert [one["target"] for one in steps][:2] == ["window-nav", "onemail-new"], steps
 			assert all(one["title"] and one["text"] for one in steps), steps
-			tours.seen("OneMail")
-			assert "OneMail" not in tours.unseen()
+			tours.seen("OneMail", "mailbox")
+			assert "OneMail:mailbox" not in tours.unseen()
 		finally:
 			if was != "1":
 				frappe.defaults.clear_user_default(key)

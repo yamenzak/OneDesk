@@ -25,7 +25,7 @@ before it:
 2. **One home per module.** Everything else is a file in that home.
 3. **Versions and What's New.**
 4. **Docs and Help.**
-5. **The module's foot: Settings, Help, version.** One settings dialog per
+5. **The module's foot: Settings, the tour, Help, TrustCenter, version.** One settings dialog per
    module, role-aware.
 6. **Legal in the module.** What the module adds to the agreements, shown in
    its settings dialog.
@@ -245,7 +245,8 @@ part. No module has a `docs/` folder.
 - **`docs/`, the module's wiki.** One page per thing people do, written for
   them: Connect a Mailbox, Out of Office, Automation, Mail Templates. It
   follows the copy rules. The Help dialog shows it, opened from the module's
-  foot, from a `?` in its settings dialog, and from a tour's last step.
+  foot, from a `?` in its settings dialog, and from a tour's last step
+  (built: the foot and the settings dialog's head).
   OneAI's `how_to` searches it.
 - **`AGENTS.md`, one file for agents.** That means OneAI and us: what the
   module is, its records, its rules, where each file is, what OneAI may do
@@ -273,8 +274,14 @@ before a view's title, a Save that shows once something changed; its
 classes are `one-set-*` in `public/css/module_settings.css`, and a module's
 own stylesheet keeps only what is its own. The foot is
 `win.module_foot({ module, settings })`, `windowModuleFoot` in an island:
-Settings, then Help and the version. `test_ready.py` fails on a module that
-draws its own settings dialog or its own foot. OneMail is on both.
+a row of icons: Settings (the cog), the tour of the area on screen, Help and
+TrustCenter, then the version at the row's end. Every center's head has an
+expand button at its corner that opens the whole of it: HelpCenter and
+UpdateCenter for all of One, ControlCenter for workspace settings,
+AccountCenter for all your mailboxes, TrustCenter for the workspace
+(`dialog.expand`, `onedesk.module_head_expand`). `test_ready.py` fails on a
+module that draws its own settings dialog or its own foot. OneMail is on
+both.
 
 **Before.** OneMail had a SettingsDialog (`onemail_settings.js`) with its
 helpers inside it, opened from Settings at the foot of its rail and from
@@ -288,7 +295,8 @@ Workspace Settings › Access. Tabs showed by ability
   (rows, views, a header switch, read-only values). Each tab declares the
   ability it needs, and the dialog leaves out what the reader may not use.
 - **The foot of every module's rail** has the same three: **Settings**,
-  **Help** and the **version**.
+  **Help** and the **version** (built as icons, with the tour and TrustCenter
+  beside them).
 
 ### 6. Legal in the module
 
@@ -444,22 +452,28 @@ Which steps the wizard shows is decided when the wizard is built.
 
 ### 10. Tours
 
-**Built.** A module declares its tour in its own `tour.py` as STEPS: the
+**Built.** A module declares its tours in its own `tour.py` as `TOURS`, one
+for each area of its screen, because a module like OneProject has several:
+a key, the mark `at` that says the area is on screen, and steps, each the
 `data-tour` mark it points at, the side its popover opens on, a heading of
 five words or fewer and one sentence. Marks are attributes, never classes;
-the window's own (`window-nav`, `window-search`, `window-foot`) serve every
-module. `one/tours.py` gives the steps in the reader's language (`tour`),
-the modules a reader hasn't toured, in the boot (`unseen`), and remembers a
-tour taken or closed as a user default (`seen`). The runner in
-`module_docs.js` puts them on `frappe.Driver`: the first time the module's
-foot draws (`onedesk.tour.first`) and from HelpCenter's **Take the Tour**.
+the window's own (`window-nav`, `window-search`, `window-foot`,
+`window-tour`) serve every module. `one/tours.py` gives the tours in the
+reader's language (`tour`), the areas a reader hasn't toured, as
+`Module:key`, in the boot (`unseen`), and remembers an area's tour taken or
+closed as a user default (`seen`). The runner in `module_docs.js` puts them
+on `frappe.Driver`, taking the first tour whose `at` is on screen: on its
+own the first time an area is drawn (`onedesk.tour.first`, asked when the
+foot draws and on every route change), and from the play button in the
+module's foot, which says so when the screen has no tour.
 An island's parts sit in shadow roots, so the runner looks for a mark in
 each, lends driver's highlight rules to the root it is in, and lifts the
 layers outside it that driver's own walk stops short of. `test_ready.py`
-fails on a ready module without `tour.py`, a step whose mark is nowhere in
-its screens or the window's, a heading over five words, or text over one
-sentence. OneMail's six: mailboxes, New Email, the list, the reading pane,
-search, and the foot.
+fails on a ready module without `TOURS`, a tour or step whose mark is
+nowhere in its screens or the window's, two tours with one key, a heading
+over five words, or text over one sentence. OneMail has one area, the
+mailbox, and six steps: mailboxes, New Email, the list, the reading pane,
+search, and the foot's tour button.
 
 **Why not Form Tour.** It is kept per form or page route in the database
 and `user.onboarding_status`, and its steps are found with
@@ -728,7 +742,8 @@ names its mechanism.
     checked in the browser, as each role, desktop and phone.
 11. **Setup steps.** What the setup wizard can ask is declared, with what can
     wait (mechanism 9).
-12. **Tour.** A first-visit tour that can be run again (mechanism 10).
+12. **Tour.** A first-visit tour of each area of its screen, run again from
+    the foot (mechanism 10).
 13. **Settings.** One role-aware settings dialog where everything about the
     module is managed (mechanism 5).
 14. **Legal.** Every fact about what it does with data that the agreements

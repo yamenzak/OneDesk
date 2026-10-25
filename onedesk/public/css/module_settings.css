@@ -34,10 +34,12 @@
 }
 
 
-.one-module-head-help {
+.one-module-head-tools {
 	position: absolute;
 	top: calc(var(--spacing) * 2);
 	inset-inline-end: 0;
+	display: flex;
+	gap: calc(var(--spacing) * 0.5);
 }
 
 /* width 0 with min-width 100% keeps a long row from widening the panel:

@@ -306,10 +306,11 @@ WINDOW_MARKS = ("onedesk/public/js/window/frame.js", "onedesk/public/js/window/n
 
 
 def test_a_module_ships_a_tour_of_its_screen():
-	"""A ready module declares its tour in its own tour.py (docs/READY.md,
-	mechanism 10): each step points at a `data-tour` mark its screen or the
-	window draws, never a class, and says it in a heading of five words or
-	fewer and one sentence."""
+	"""A ready module declares its tours in its own tour.py (docs/READY.md,
+	mechanism 10), one for each area of its screen: each has a key, a mark
+	`at` that says the area is on screen, and steps, each pointing at a
+	`data-tour` mark its screen or the window draws, never a class, saying it
+	in a heading of five words or fewer and one sentence."""
 	import ast
 
 	marks = "\n".join((ROOT / path).read_text(encoding="utf-8") for path in WINDOW_MARKS)
@@ -317,17 +318,27 @@ def test_a_module_ships_a_tour_of_its_screen():
 		path = ROOT / "onedesk" / spec["folder"] / "tour.py"
 		assert path.exists(), f"{module} ships no tour: write {path.relative_to(ROOT)}"
 		tree = ast.parse(path.read_text(encoding="utf-8"))
-		steps = next(node.value for node in tree.body if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") == "STEPS")
-		assert steps.elts, f"{module}'s tour has no steps"
+		named = {node.targets[0].id: node.value for node in tree.body if isinstance(node, ast.Assign) and isinstance(node.targets[0], ast.Name)}
+		assert "TOURS" in named, f"{module}'s tour.py declares no TOURS"
 		own = "\n".join(p.read_text(encoding="utf-8") for p in ready.files(module) if p.suffix in (".js", ".vue"))
-		for step in steps.elts:
-			said = {key.value: value for key, value in zip(step.keys, step.values)}
-			target = said["target"].value
-			title, text = said["title"].args[0].value, said["text"].args[0].value
-			where = f"{module}'s tour at {target}"
-			assert f'data-tour="{target}"' in own + marks, f"{where}: nothing draws data-tour=\"{target}\""
-			assert len(title.split()) <= 5, f"{where}: a heading is five words or fewer"
-			assert len(re.findall(r"[.!?](?:\s|$)", text)) == 1 and text.endswith("."), f"{where}: one sentence"
+		keys = []
+		for tour in named["TOURS"].elts:
+			said = {key.value: value for key, value in zip(tour.keys, tour.values)}
+			assert {"key", "at", "steps"} <= set(said), f"{module}'s tour lacks {sorted({'key', 'at', 'steps'} - set(said))}"
+			key, at = said["key"].value, said["at"].value
+			keys.append(key)
+			assert f'data-tour="{at}"' in own + marks, f"{module}'s {key} tour: nothing draws data-tour=\"{at}\""
+			steps = named[said["steps"].id] if isinstance(said["steps"], ast.Name) else said["steps"]
+			assert steps.elts, f"{module}'s {key} tour has no steps"
+			for step in steps.elts:
+				one = {k.value: v for k, v in zip(step.keys, step.values)}
+				target = one["target"].value
+				title, text = one["title"].args[0].value, one["text"].args[0].value
+				where = f"{module}'s {key} tour at {target}"
+				assert f'data-tour="{target}"' in own + marks, f"{where}: nothing draws data-tour=\"{target}\""
+				assert len(title.split()) <= 5, f"{where}: a heading is five words or fewer"
+				assert len(re.findall(r"[.!?](?:\s|$)", text)) == 1 and text.endswith("."), f"{where}: one sentence"
+		assert len(keys) == len(set(keys)), f"{module} has two tours with one key"
 
 
 def _changers(folder: Path) -> set[str]:
