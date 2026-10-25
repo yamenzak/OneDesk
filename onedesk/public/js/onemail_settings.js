@@ -1425,6 +1425,7 @@ onedesk.mail.settings = (tab) => {
 		const actions = [];
 		if (doc && !using.length)
 			actions.push({ label: __("Delete"), theme: "red", click: () => onedesk.mail_templates.remove(name, () => panel.refresh()) });
+		actions.push({ label: __("Preview"), click: () => onedesk.mail_templates.preview(form, name) });
 		actions.push({
 			label: __("Save"),
 			variant: "solid",
@@ -1432,6 +1433,7 @@ onedesk.mail.settings = (tab) => {
 				const values = form.get_values();
 				if (!values) return;
 				await onedesk.mail_templates.save(name, doc, values);
+				form.one_slash_close && form.one_slash_close();
 				panel.refresh();
 			},
 		});
@@ -1441,7 +1443,7 @@ onedesk.mail.settings = (tab) => {
 			actions,
 			render: (shown) => {
 				form = fields($(`<div></div>`).appendTo(shown.body), onedesk.mail_templates.fields(name, doc));
-				Promise.resolve(doc && form.set_values(doc)).then(() => onedesk.mail_templates.picker(form));
+				Promise.resolve(doc && form.set_values(doc)).then(() => onedesk.mail_templates.slash(form));
 			},
 		});
 	};

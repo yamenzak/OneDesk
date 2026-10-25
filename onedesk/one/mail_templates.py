@@ -24,6 +24,15 @@ LOOP = re.compile(r"\{%-?\s*for\s+([a-z_][a-z0-9_]*)\s+in\s+([A-Za-z][A-Za-z0-9_
 END = re.compile(r"\{%-?\s*endfor\s*-?%\}")
 ROW = re.compile(r"\{\{-?\s*([a-z_][a-z0-9_]*)\.([A-Za-z][A-Za-z0-9_]*)\s*-?\}\}")
 
+# A table of the record laid out with the columns named, in one line:
+# `{{ table(items, "item_name", "qty", "amount") }}`. What the `/` picker writes.
+TABLE = re.compile(r"\{\{-?\s*table\(\s*([A-Za-z][A-Za-z0-9_]*)\s*((?:,\s*\"[A-Za-z][A-Za-z0-9_]*\"\s*)+)\)\s*-?\}\}")
+COLUMN = re.compile(r"\"([A-Za-z][A-Za-z0-9_]*)\"")
+
+# The columns a table is laid out with unless the writer picks others, where
+# its rows have them: what an item line is.
+COLUMNS = ("item_name", "qty", "rate", "amount")
+
 NAMED_BY = (
 	("HR Settings", "leave_approval_notification_template", "Leave Application"),
 	("HR Settings", "leave_status_notification_template", "Leave Application"),
@@ -86,7 +95,12 @@ def used_by() -> dict[str, list[str]]:
 def has_code(doc) -> bool:
 	"""Whether a template holds more than fields of the record, such as the
 	`{% set %}` and translated links the apps' own templates are written with."""
-	return any(not (FIELD.fullmatch(tag) or LOOP.fullmatch(tag) or END.fullmatch(tag) or ROW.fullmatch(tag)) for tag in _tags(doc))
+	return not all(_ours(tag) for tag in _tags(doc))
+
+
+def _ours(tag: str) -> bool:
+	"""A tag a workspace's template may hold: a field, a table, or a loop."""
+	return bool(FIELD.fullmatch(tag) or TABLE.fullmatch(tag) or LOOP.fullmatch(tag) or END.fullmatch(tag) or ROW.fullmatch(tag))
 
 
 def on_trash(doc, method=None) -> None:
@@ -141,6 +155,17 @@ def check(doctype: str | None, text: str | None, kept: set[str]) -> str | None:
 			continue
 		if tag in kept:
 			continue
+		if table := TABLE.fullmatch(tag):
+			child = table_of(doctype, table.group(1))
+			if not child:
+				if not doctype:
+					return _("Choose For to show a table's rows.")
+				return _("{0} has no table {1}.").format(_(doctype), table.group(1))
+			readable = rules.readable(child)
+			for column in COLUMN.findall(table.group(2)):
+				if column not in readable:
+					return _("{0} has no field {1}.").format(_(child), column)
+			continue
 		if row:
 			child = next((one for name, one in reversed(rows) if name == row.group(1)), False)
 			if child is False:
@@ -163,9 +188,9 @@ def check(doctype: str | None, text: str | None, kept: set[str]) -> str | None:
 
 @frappe.whitelist()
 def fields_of(doctype: Annotated[str, "The kind of record."]) -> dict:
-	"""What a template for a kind of record may name, for the picker under its
-	message: the record's fields, and each table with its rows' fields, those
-	shown in the table's list first."""
+	"""What a template for a kind of record may name, for the `/` picker: the
+	record's fields, and each table with its rows' fields and the columns it
+	is laid out with unless the writer picks others."""
 	from frappe.model import no_value_fields, table_fields
 
 	_may_keep()
@@ -181,13 +206,103 @@ def fields_of(doctype: Annotated[str, "The kind of record."]) -> dict:
 
 	meta = frappe.get_meta(doctype)
 	return {
-		"fields": listed(doctype),
+		"fields": [{"fieldname": "name", "label": _("ID"), "shown": 1}, *listed(doctype)],
 		"tables": [
-			{"fieldname": f.fieldname, "label": _(f.label), "fields": listed(f.options)}
+			{
+				"fieldname": f.fieldname,
+				"label": _(f.label),
+				"fields": (rows := listed(f.options)),
+				"columns": _columns(rows),
+			}
 			for f in meta.fields
 			if f.label and table_of(doctype, f.fieldname)
 		],
 	}
+
+
+def _columns(rows: list[dict]) -> list[str]:
+	names = [one["fieldname"] for one in rows]
+	picked = [name for name in COLUMNS if name in names]
+	return picked if len(picked) >= 2 else [one["fieldname"] for one in rows if one["shown"]][:4] or names[:3]
+
+
+def _table(rows, *names) -> str:
+	"""A table of the record as it is mailed: the columns named, under their
+	labels, figures to the right, the values as the record shows them."""
+	from markupsafe import Markup, escape
+
+	rows = [row for row in rows or [] if isinstance(row, dict)]
+	if not rows or not names:
+		return Markup("")
+	meta = frappe.get_meta(rows[0]["doctype"]) if rows[0].get("doctype") else None
+
+	def field(name):
+		return meta.get_field(name) if meta else None
+
+	def right(name):
+		return bool(field(name) and field(name).fieldtype in ("Currency", "Float", "Int", "Percent"))
+
+	cell = "padding:6px 8px;border-bottom:1px solid #e5e7eb;text-align:{}"
+	head = "".join(
+		f'<th style="{cell.format("right" if right(name) else "left")};font-weight:600">'
+		f"{escape(_(field(name).label) if field(name) else name)}</th>"
+		for name in names
+	)
+	body = "".join(
+		"<tr>"
+		+ "".join(
+			f'<td style="{cell.format("right" if right(name) else "left")}">'
+			f'{escape("" if row.get(name) is None else row.get(name))}</td>'
+			for name in names
+		)
+		+ "</tr>"
+		for row in rows
+	)
+	return Markup(
+		f'<table style="border-collapse:collapse;width:100%"><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table>'
+	)
+
+
+@frappe.whitelist()
+def preview(
+	subject: Annotated[str | None, "The subject as written."] = None,
+	response: Annotated[str | None, "The message as written."] = None,
+	response_html: Annotated[str | None, "The message, written in HTML."] = None,
+	use_html: Annotated[int, "Whether it is written in HTML."] = 0,
+	doctype: Annotated[str | None, "The kind of record it is for."] = None,
+	name: Annotated[str | None, "The record to fill it in from."] = None,
+	template: Annotated[str | None, "The template it is a draft of, if saved."] = None,
+) -> dict:
+	"""A template as it would be sent, filled in from one record, before it is
+	saved: what the Preview button shows. Checked as saving would check it."""
+	_may_keep()
+	doc = {}
+	if doctype:
+		_doctype(doctype)
+		if name:
+			held = frappe.get_doc(doctype, name)
+			held.check_permission("read")
+			doc = held.as_dict()
+	draft = frappe.get_doc(
+		{
+			"doctype": "Email Template",
+			"subject": subject or "",
+			"response": response or "",
+			"response_html": response_html or "",
+			"use_html": int(use_html or 0),
+			"reference_doctype": doctype,
+		}
+	)
+	if layer.held():
+		kept = _tags(frappe.get_doc("Email Template", template)) if template and frappe.db.exists("Email Template", template) else set()
+		for field in ("subject", "response_html" if draft.use_html else "response"):
+			wrong = check(doctype, draft.get(field), kept)
+			if wrong:
+				return {"error": wrong}
+	try:
+		return draft.get_formatted_email(frappe._dict(_shown(draft, doc)))
+	except Exception as error:
+		return {"error": _("This template can't be filled in: {0}").format(str(error))}
 
 
 def validate(doc, method=None) -> None:
@@ -305,17 +420,19 @@ def _shown(template, doc: dict) -> dict:
 	tags = {tag for field in TEXT for tag in TAG.findall(template.get(field) or "")}
 	if (
 		not tags
-		or not all(FIELD.fullmatch(t) or LOOP.fullmatch(t) or END.fullmatch(t) or ROW.fullmatch(t) for t in tags)
+		or not all(_ours(t) for t in tags)
 		or not doc.get("doctype")
 		or not frappe.db.exists("DocType", doc["doctype"])
 	):
-		return doc
+		return {**doc, "table": _table}
 	held = frappe.get_doc(doc)
 	text = "".join(template.get(field) or "" for field in TEXT)
 	tables = {}
 	stack = []
 	for tag in TAG.findall(text):
-		if loop := LOOP.fullmatch(tag):
+		if laid := TABLE.fullmatch(tag):
+			tables.setdefault(laid.group(1), set()).update(COLUMN.findall(laid.group(2)))
+		elif loop := LOOP.fullmatch(tag):
 			stack.append(loop.groups())
 			tables.setdefault(loop.group(2), set())
 		elif END.fullmatch(tag) and stack:
@@ -335,7 +452,7 @@ def _shown(template, doc: dict) -> dict:
 				{**row.as_dict(), **{name: row.get_formatted(name) for name in names if row.meta.has_field(name)}}
 				for row in held.get(table) or []
 			]
-	return {**doc, **shown}
+	return {**doc, **shown, "table": _table}
 
 
 def filled(template_name: str, doc) -> dict:

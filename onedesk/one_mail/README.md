@@ -91,11 +91,13 @@ employee that reads its mail:
   sends, such as the leave approval HR Settings sends, says **Used by** and
   can't be deleted until the setting names another. A template with code in
   it, as the apps' own are written, opens as code so its tags stay whole.
-  Once **For** is set, the record's fields sit under the message: a click
-  puts the field where the cursor was, in the subject or the message. A
-  table opens to its rows' fields and **Repeat Rows**, which writes the loop
-  with the fields the table's list shows. Values come out as the record
-  shows them, 1,250.00 AED rather than 1250.0, in the rows too.
+  Once **For** is set, typing **/** in the subject or the message opens
+  the record's fields at the cursor; typing narrows them and Enter puts one
+  in. A table asks which columns, the item's name, quantity, rate and
+  amount ticked, and is written as one line that is mailed as a table.
+  **Preview** fills the template in from the latest record of its kind, or
+  another picked, as it would be sent. Values come out as the record shows
+  them, 1,250.00 AED rather than 1250.0, in a table too.
 
 A mailbox opened from System or Organization Mailboxes shows its signature,
 out-of-office reply, OneAI and Automation tabs.

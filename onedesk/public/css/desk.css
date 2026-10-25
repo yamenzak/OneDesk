@@ -1624,57 +1624,74 @@ html[dir="rtl"] body > div[style*="left: -9999px"] {
 	flex: 1;
 }
 
-/* A mail template's field picker, under its message (doctype_settings.js
-   onedesk.mail_templates.picker): the record's fields as chips, a table's
-   rows' fields once it is opened. */
-.one-tpl-picker {
-	display: grid;
-	gap: var(--padding-sm);
-}
-
-.one-tpl-chips,
-.one-tpl-rows {
-	display: flex;
-	flex-wrap: wrap;
-	gap: var(--padding-xs);
-	max-height: 180px;
+/* A mail template's `/` picker (doctype_settings.js onedesk.mail_templates.
+   slash): the record's fields at the cursor, then a table's columns. Above
+   the dialog it is typed in. */
+.one-slash {
+	position: fixed;
+	z-index: 1080;
+	width: 280px;
+	max-height: 320px;
 	overflow-y: auto;
-}
-
-.one-tpl-rows {
-	padding: var(--padding-sm);
+	padding: 4px;
+	border: 1px solid var(--outline-gray-2);
 	border-radius: var(--radius-lg);
-	background: var(--surface-gray-1);
+	background: var(--surface-base);
+	font-size: var(--text-sm);
 }
 
-.one-tpl-rows-head {
-	flex-basis: 100%;
+.one-slash-head {
+	padding: 6px 8px 2px;
 	color: var(--ink-gray-5);
 	font-size: var(--text-xs);
 }
 
-.one-tpl-chip {
-	display: inline-flex;
+.one-slash-item,
+.one-slash-check {
+	display: flex;
 	align-items: center;
-	gap: 4px;
-	padding: 2px 8px;
-	border: 1px solid var(--outline-gray-2);
-	border-radius: var(--radius-full);
-	background: var(--surface-base);
+	gap: 6px;
+	margin: 0;
+	padding: 5px 8px;
+	border-radius: var(--radius);
 	color: var(--ink-gray-8);
-	font-size: var(--text-xs);
+	cursor: pointer;
 }
 
-.one-tpl-chip:hover {
+.one-slash-item.active,
+.one-slash-item:hover,
+.one-slash-check:hover {
 	background: var(--surface-gray-2);
 }
 
-.one-tpl-chip .icon {
+.one-slash-item .icon {
 	margin: 0;
 }
 
-.one-tpl-repeat {
-	border-color: var(--outline-gray-3);
-	font-weight: var(--weight-medium);
+.one-slash-kind {
+	margin-inline-start: auto;
+	color: var(--ink-gray-5);
+	font-size: var(--text-xs);
 }
 
+.one-slash-empty {
+	padding: 8px;
+	color: var(--ink-gray-5);
+}
+
+.one-slash-go {
+	margin: 6px 8px 4px;
+}
+
+/* The template as it would be sent (onedesk.mail_templates.preview). */
+.one-tpl-subject {
+	margin-bottom: var(--padding-sm);
+	color: var(--ink-gray-8);
+	font-weight: var(--weight-semibold);
+}
+
+.one-tpl-frame {
+	width: 100%;
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius-lg);
+}

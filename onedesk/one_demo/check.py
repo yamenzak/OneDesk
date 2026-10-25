@@ -4720,6 +4720,15 @@ def numbering_printing_and_mail_templates_are_the_administrators():
 		first = frappe.get_doc("Sales Order", order).items[0]
 		said = mail_templates.get_email_template(lines.name, {"doctype": "Sales Order", "name": order})
 		assert first.item_name in said["message"] and first.get_formatted("amount") in said["message"], said["message"]
+		said = mail_templates.preview(
+			subject="Order {{ name }}",
+			response='<p>{{ table(items, "item_name", "amount") }}</p>',
+			doctype="Sales Order",
+			name=order,
+		)
+		assert order in said["subject"] and "<table" in said["message"], said
+		assert first.get_formatted("amount") in said["message"], said["message"]
+		assert "error" in mail_templates.preview(subject="x", response='{{ table(items, "no_such") }}', doctype="Sales Order", name=order)
 		for wrong in (
 			"{% for row in nothing %}{% endfor %}",
 			"{% for row in items %}{{ row.no_such }}{% endfor %}",

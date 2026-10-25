@@ -7734,13 +7734,17 @@ msgstr ""
 msgid "Child Tasks"
 msgstr "Unteraufgaben"
 
-#: onedesk/public/js/doctype_settings.js:529
-msgid "Choose For to pick its fields."
-msgstr "Wählen Sie „Für“, um seine Felder auszuwählen."
+#: onedesk/public/js/doctype_settings.js:540
+msgid "Choose For to insert its fields."
+msgstr "Wählen Sie „Für“, um seine Felder einzufügen."
 
 #: onedesk/one/mail_templates.py:133
 msgid "Choose For to repeat a table's rows."
 msgstr "Wählen Sie „Für“, um die Zeilen einer Tabelle zu wiederholen."
+
+#: onedesk/one/mail_templates.py:162
+msgid "Choose For to show a table's rows."
+msgstr "Wählen Sie „Für“, um die Zeilen einer Tabelle anzuzeigen."
 
 #: onedesk/one/portal_share.py:227
 msgid "Choose a day that hasn't passed."
@@ -8390,6 +8394,10 @@ msgstr "Die Spalte {0} wurde aus dem Blatt entfernt. Machen Sie die Änderung r�
 #: onedesk/one_sheet/doctype/workbook/workbook.json
 msgid "Columns"
 msgstr ""
+
+#: onedesk/public/js/doctype_settings.js:521
+msgid "Columns of {0}"
+msgstr "Spalten von {0}"
 
 #: onedesk/public/js/item_new.js:120
 msgid "Comes In"
@@ -15487,7 +15495,7 @@ msgstr ""
 
 #. Label of the fields (Small Text) field in DocType 'Record Head Linked'
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json
-#: onedesk/one_studio/ai.py:441
+#: onedesk/one_studio/ai.py:441 onedesk/public/js/doctype_settings.js:551
 msgid "Fields"
 msgstr ""
 
@@ -19424,6 +19432,10 @@ msgstr "N Spalten einfügen…"
 #: frontend/src/sheet/components/SheetEditor/index.vue:776
 msgid "Insert N rows…"
 msgstr "N Zeilen einfügen…"
+
+#: onedesk/public/js/doctype_settings.js:532
+msgid "Insert Table"
+msgstr "Tabelle einfügen"
 
 #: frontend/src/writer/DocumentPage.vue:282
 #: frontend/src/writer/shim/FieldDialog.vue:3
@@ -25933,6 +25945,7 @@ msgid "No matching approvals"
 msgstr "Keine passenden Genehmigungen"
 
 #: frontend/src/sheet/components/SheetEditor/PivotFieldPicker.vue:56
+#: onedesk/public/js/doctype_settings.js:544
 msgid "No matching fields"
 msgstr "Keine passenden Felder"
 
@@ -26305,6 +26318,10 @@ msgstr "Kein Jahr ist mit offenen Buchungen abgelaufen."
 #: onedesk/one_admin/storage.py:173
 msgid "No {0} bucket is configured."
 msgstr "Es ist kein {0}-Bucket eingerichtet."
+
+#: onedesk/public/js/doctype_settings.js:715
+msgid "No {0} yet. Its fields stay empty."
+msgstr "Noch kein {0}. Seine Felder bleiben leer."
 
 #: onedesk/one/printing.py:521
 msgid "No."
@@ -32052,7 +32069,10 @@ msgstr "Frappe-Cloud-Site"
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:174
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:116
-#: onedesk/public/js/settings.js:3208
+#: onedesk/public/js/doctype_settings.js:701
+#: onedesk/public/js/doctype_settings.js:791
+#: onedesk/public/js/onemail_settings.js:1428
+#: onedesk/public/js/settings.js:3056 onedesk/public/js/settings.js:3208
 msgid "Preview"
 msgstr "Vorschau"
 
@@ -34002,11 +34022,14 @@ msgstr "{0} erneut verbinden"
 #. Label of the reference_name (Dynamic Link) field in DocType 'Cloud File
 #. Request'
 #. Label of the record_doctype (Link) field in DocType 'Extension'
+#: frontend/src/cloud/CloudPreview.vue:97 frontend/src/cloud/cloud.js:68
+#: frontend/src/mail/MailConversation.vue:140
 #: onedesk/one/doctype/portal_link/portal_link.json
 #: onedesk/one/doctype/record_head/record_head.json
 #: onedesk/one/doctype/workspace_customization/workspace_customization.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/one_ai/doctype/ai_touch/ai_touch.json onedesk/one_book/heads.py:615
+#: onedesk/one_ai/doctype/ai_touch/ai_touch.json onedesk/one_book/heads.py:569
+#: onedesk/one_book/heads.py:615
 #: onedesk/one_doc/doctype/writer_document/writer_document.json
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
@@ -34015,11 +34038,14 @@ msgstr "{0} erneut verbinden"
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_studio/ai.py:364
 #: onedesk/one_studio/doctype/extension/extension.json
+#: onedesk/public/js/doctype_settings.js:707
 #: onedesk/public/js/extension_errors.js:16 onedesk/public/js/hiring.js:8
 #: onedesk/public/js/onecloud.js:454 onedesk/public/js/onecloud.js:609
 #: onedesk/public/js/onemail.js:451 onedesk/public/js/overtime.js:46
-#: onedesk/public/js/settings.js:714 onedesk/public/js/settings.js:1277
-#: onedesk/public/js/settings.js:1302 onedesk/public/js/settings.js:2577
+#: onedesk/public/js/settings.js:622 onedesk/public/js/settings.js:714
+#: onedesk/public/js/settings.js:1151 onedesk/public/js/settings.js:1176
+#: onedesk/public/js/settings.js:1277 onedesk/public/js/settings.js:1302
+#: onedesk/public/js/settings.js:2425 onedesk/public/js/settings.js:2577
 msgid "Record"
 msgstr "Erfassen"
 
@@ -34926,10 +34952,6 @@ msgstr "Wiederholen"
 #: onedesk/notifications/one/repeat_failed.md
 msgid "Repeat Failed"
 msgstr "Wiederholung fehlgeschlagen"
-
-#: onedesk/public/js/doctype_settings.js:543
-msgid "Repeat Rows"
-msgstr "Zeilen wiederholen"
 
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:106
 msgid "Repeat last action"
@@ -35955,11 +35977,6 @@ msgstr "Zeile {0}: {1} ist keine Aufgabe in {2}."
 msgid "Rows"
 msgstr "Zeilen"
 
-#: onedesk/public/js/doctype_settings.js:540
-#: onedesk/public/js/doctype_settings.js:542
-msgid "Rows of {0}"
-msgstr "Zeilen von {0}"
-
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:72
 msgid "Rows sharing the same X value are grouped and summarised."
 msgstr "Zeilen mit demselben X-Wert werden gruppiert und zusammengefasst."
@@ -36648,10 +36665,6 @@ msgstr "Suchen"
 msgctxt "OneAI work"
 msgid "Search"
 msgstr "Suche"
-
-#: onedesk/public/js/doctype_settings.js:534
-msgid "Search Fields"
-msgstr "Felder suchen"
 
 #: frontend/src/stock/StockOnHand.vue:14
 #: frontend/src/supplier/SupplierItems.vue:6
@@ -40874,6 +40887,10 @@ msgstr "Tabelle"
 msgid "Table of Contents"
 msgstr "Inhaltsverzeichnis"
 
+#: onedesk/public/js/doctype_settings.js:551
+msgid "Tables"
+msgstr "Tabellen"
+
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
@@ -44447,6 +44464,10 @@ msgstr "Das dauert ein paar Minuten. Diese Seite aktualisiert sich von selbst, u
 msgid "This takes a few minutes. You'll get an email when it's ready."
 msgstr "Das dauert ein paar Minuten. Sie erhalten eine E-Mail, sobald er bereit ist."
 
+#: onedesk/one/mail_templates.py:305
+msgid "This template can't be filled in: {0}"
+msgstr "Diese Vorlage kann nicht ausgefüllt werden: {0}"
+
 #: frontend/src/item/ItemVariantsMake.vue:5
 msgid "This template has no attributes to choose from."
 msgstr "Diese Vorlage hat keine Merkmale zur Auswahl."
@@ -45852,6 +45873,10 @@ msgstr "Zwei-Faktor-Anmeldung"
 #: onedesk/public/js/settings.js:373 onedesk/public/js/settings.js:2471
 msgid "Type"
 msgstr "Typ"
+
+#: onedesk/public/js/doctype_settings.js:480
+msgid "Type / to insert a field of the record."
+msgstr "Tippen Sie /, um ein Feld des Datensatzes einzufügen."
 
 #: onedesk/one/private.py:82
 msgid "Type the code you were given."
@@ -51667,10 +51692,6 @@ msgstr "Writer-Dokumentversion"
 #: onedesk/one_doc/ai.py:206
 msgid "Writes"
 msgstr "Schreibt"
-
-#: onedesk/public/js/doctype_settings.js:543
-msgid "Writes the loop with the fields its list shows."
-msgstr "Schreibt die Schleife mit den Feldern, die ihre Liste zeigt."
 
 #: onedesk/public/js/oneai/Panel.vue:156
 msgid "Writing"

@@ -278,6 +278,7 @@ No doctypes yet.
 * `onedesk.one.mail_templates.default`
 * `onedesk.one.mail_templates.fields_of`
 * `onedesk.one.mail_templates.get_email_template`
+* `onedesk.one.mail_templates.preview`
 * `onedesk.one.mail_templates.set_default`
 * `onedesk.one.mail_templates.templates`
 * `onedesk.one.masters.kinds`
