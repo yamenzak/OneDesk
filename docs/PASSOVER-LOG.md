@@ -27,6 +27,7 @@ commit message; the log of every walk up to 18 October 2026 is
 | The atlas: every frappe, erpnext and hrms record type, report and page has a way in or an answer | waiting at zero; nothing reached in English; nothing printed on ERPNext's format; screens hear and filter what they list | 2026-10-18 |
 | Overrides: every place we lean on upstream read against both sides | done; 62 asks upstream in `docs/OVERRIDES.md` | 2026-10-18 |
 | The code: no comments, docs in the module that owns them, one backlog | done | 2026-10-18 |
+| OneMail: the first module marked ready (`docs/READY.md`) | ready; OneAI's own replies say so | 2026-10-25 |
 
 ## Up next
 

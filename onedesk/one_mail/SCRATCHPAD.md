@@ -15,6 +15,9 @@ Known issues and plans, kept short. Something done leaves it.
 - **OneAI is told only the title** of One › Mail and One › Mail Templates on
   the rail (`one_ai/here.py untold`, the demo check
   `oneai_is_told_what_every_place_shows`).
+- **Organization mailboxes and company domains aren't in the demo.** Both
+  need a real mail server, so the READY pass read them in code and checks
+  only.
 
 ## How it was built
 

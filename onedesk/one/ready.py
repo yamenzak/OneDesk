@@ -19,10 +19,16 @@ MODULES = {
 		"folder": "one_mail",
 		"screens": "mail",
 		"names": ("one_mail", "onemail"),
-		"ready": False,
+		"ready": True,
 		# The points a guard can't settle, each as a person last looked at it
-		# (HAND): {"interface": {"on": "2026-10-25", "commit": "<sha>", "by": "…"}}.
-		"checked": {},
+		# (HAND).
+		"checked": {
+			"copy": {"on": "2026-10-25", "commit": "064ce911f4ed", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-25", "commit": "064ce911f4ed", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-25", "commit": "064ce911f4ed", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-25", "commit": "064ce911f4ed", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-25", "commit": "064ce911f4ed", "by": "Claude, for Yamen"},
+		},
 		# Its help pages in reading order, each with its icon (docs/).
 		"help": (
 			("overview", "info"),
