@@ -178,7 +178,9 @@ ones that read only the top of `public/js` or `public/css` also read `one_*/`.
 - What's New (`public/js/module_docs.js`, `onedesk.whats_new.open`) is a
   OneInterface settings dialog whose sidebar is the module's own: its mark,
   a search, and a tree with each fix under the minor it fixes and each
-  minor under its major, a dot on the unseen ones. The chosen version fills
+  minor under its major. A row is the version number alone, with its
+  title on hover, its kind's icon before it (rocket for a major, sparkles
+  for a minor, wrench for a fix) and a dot after it while unseen. The chosen version fills
   the panel with its pictures and a Read More row of buttons for the Help
   pages its `docs:` front matter names. `test_ready.py` fails on a `docs:`
   page that is not a Help page.

@@ -8,7 +8,9 @@ frappe.provide("onedesk.whats_new");
 frappe.provide("onedesk.help");
 
 onedesk.module_docs = {
-	ICONS: { major: "sparkles", minor: "plus", fix: "wrench" },
+	// What's New marks each version by its kind (docs/READY.md, Which number
+	// moves): a release, something new, or a fix.
+	ICONS: { major: "rocket", minor: "sparkles", fix: "wrench" },
 	KINDS: () => ({ major: __("Major"), minor: __("Update"), fix: __("Fix") }),
 	SEARCH: "__search",
 
@@ -134,7 +136,8 @@ onedesk.module_docs.Dialog = class ModuleDocsDialog extends frappe.ui.SettingsDi
 		const icon = node.icon_html || (node.icon ? frappe.utils.icon(node.icon, "sm") : "");
 		if (icon) $(`<span class="settings-dialog-tab-icon"></span>`).html(icon).appendTo($content);
 		const $label = $(`<span class="settings-dialog-tab-label"></span>`).text(node.label).appendTo($content);
-		if (node.note) $(`<span class="one-docs-note"></span>`).text(node.note).appendTo($label);
+		if (node.hint) $row.attr("title", node.hint);
+		if (node.unseen) $(`<span class="one-docs-new"></span>`).attr("aria-label", __("New")).appendTo($content);
 		$(`<span class="one-docs-count"></span>`).appendTo($content);
 		$row.on("click", () => (node.click ? node.click() : this.activate(node.id)));
 		if (children.length) {
@@ -249,12 +252,10 @@ onedesk.whats_new.open = async (module = null, version = null) => {
 	const modules = onedesk.module_docs.modules(module);
 	const all = await Promise.all(modules.map((one) => frappe.xcall("onedesk.one.versions.whats_new", { module: one })));
 	const kinds = onedesk.module_docs.KINDS();
-	const esc = frappe.utils.escape_html;
 	const id = (of, one) => (module ? one.version : `${of}@${one.version}`);
-	const icon = (one) =>
-		one.new
-			? `<span class="one-docs-new" aria-label="${esc(__("New"))}"></span>`
-			: frappe.utils.icon(onedesk.module_docs.ICONS[one.kind] || "dot", "sm");
+	// Every version wears its kind's icon; one the reader hasn't seen has a
+	// dot after its number.
+	const icon = (one) => frappe.utils.icon(onedesk.module_docs.ICONS[one.kind] || "dot", "sm");
 	const items = [];
 	const branches = [];
 	all.forEach((said, at) => {
@@ -287,7 +288,7 @@ onedesk.whats_new.open = async (module = null, version = null) => {
 		// newest first, so the left reads as the module's story.
 		const nodes = {};
 		for (const one of said.versions) {
-			nodes[one.version] = { id: id(of, one), label: one.version, note: one.title, icon_html: icon(one), open: true, children: [] };
+			nodes[one.version] = { id: id(of, one), label: one.version, hint: one.title, unseen: !!one.new, icon_html: icon(one), open: true, children: [] };
 		}
 		const roots = [];
 		for (const one of said.versions) {

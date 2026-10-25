@@ -110,11 +110,6 @@
 	font-weight: 500;
 }
 
-.one-docs-note {
-	margin-inline-start: calc(var(--spacing) * 1.5);
-	color: var(--ink-gray-4);
-}
-
 .one-docs-count {
 	margin-inline-start: auto;
 	padding-inline-start: calc(var(--spacing) * 1.5);
@@ -131,12 +126,13 @@
 	display: none;
 }
 
-/* A version the reader has not seen yet, in place of its icon. */
+/* A version the reader has not seen yet, after its number. */
 .one-docs-new {
 	display: inline-block;
+	flex: none;
 	width: 8px;
 	height: 8px;
-	margin: 0 4px;
+	margin-inline-start: calc(var(--spacing) * 1.5);
 	border-radius: var(--radius-full);
 	background: var(--surface-blue-6);
 }
