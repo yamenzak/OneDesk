@@ -125,8 +125,9 @@ somebody connected for themselves is always theirs, whatever their role.
 Workspace Administrators can do everything.
 
 The per-mailbox layer is the **Users** tab of a shared mailbox: beside Send,
-each person can be given the mailbox's signature, out of office, rules, OneAI,
-who holds it, and its connection. Each is a share.
+**Edit Access** gives a person the mailbox's signature, out of office,
+Automation, OneAI, Users and connection, beyond what their role allows. Each
+is a share.
 
 ## Stages
 

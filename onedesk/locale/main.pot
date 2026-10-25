@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-25 07:30+0000\n"
-"PO-Revision-Date: 2026-10-25 07:30+0000\n"
+"POT-Creation-Date: 2026-10-25 07:44+0000\n"
+"PO-Revision-Date: 2026-10-25 07:44+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -46830,7 +46830,7 @@ msgstr ""
 msgid "User stories"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:627
+#: onedesk/one_mail/abilities.py:59 onedesk/public/js/onemail_settings.js:627
 #: onedesk/public/js/onemail_settings.js:629
 #: onedesk/public/js/onemail_settings.js:656
 #: onedesk/public/js/project_actions.js:741
@@ -50434,10 +50434,6 @@ msgstr ""
 
 #: frontend/src/to_order/ToOrderPage.vue:163
 msgid "Who Supplies the Rest?"
-msgstr ""
-
-#: onedesk/one_mail/abilities.py:59
-msgid "Who Uses a Mailbox"
 msgstr ""
 
 #: onedesk/one_crm/home.py:186

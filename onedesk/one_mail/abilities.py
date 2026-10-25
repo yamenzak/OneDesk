@@ -56,7 +56,7 @@ ABILITIES = [
 	{
 		"key": "holders",
 		"group": MAILBOXES,
-		"label": _lt("Who Uses a Mailbox"),
+		"label": _lt("Users"),
 		"kind": "switch",
 		"all": "mail_holders",
 		"about": _lt("Give and take away a shared mailbox, and what each person may do in it."),

@@ -50140,10 +50140,6 @@ msgstr "من"
 msgid "Who Supplies the Rest?"
 msgstr "من يورّد الباقي؟"
 
-#: onedesk/one_mail/abilities.py:67
-msgid "Who Uses a Mailbox"
-msgstr "من يستخدم صندوق البريد"
-
 #: onedesk/one_crm/home.py:186
 msgid "Who answers calls to a number, on which days and hours."
 msgstr "من يرد على مكالمات رقم ما، في أي أيام وساعات."

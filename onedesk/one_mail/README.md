@@ -122,10 +122,12 @@ page in Workspace › People:
 Workspace Administrators can do everything. Connecting a shared mailbox
 doesn't make it the connector's.
 
-**One mailbox only.** On a shared mailbox's **Users** tab, **Can Change**
-beside a person lets them change some parts of that one mailbox, such as
-its signature or rules, whatever their role. Taking them off the mailbox
-takes that away too.
+**One mailbox only.** On a shared mailbox's **Users** tab, each person
+shows their OneMail role, and **Edit Access** lets them change some parts of
+that one mailbox, such as its signature or Automation, beyond what their
+role allows. It offers only what the role doesn't already, and is disabled
+for someone whose role allows everything. Taking them off the mailbox takes
+that away too.
 
 Whoever's role reaches other people's mailboxes finds them under
 **Personal Addresses › People's Mailboxes**, and opens one to set its
