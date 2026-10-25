@@ -1,0 +1,117 @@
+"""What OneMail tells people, one entry per kind of notification, read by
+onedesk/notifications/__init__.py beside the other modules' files. Each entry
+has the keys of a notification file (notifications/layout.py KEYS), with
+`subject` and `message` for its heading and body. Pure."""
+
+TYPES = [
+	{
+		"name": "Attachments Not Saved",
+		"app": "OneMail",
+		"about": "When mail arrives with attachments and the workspace's storage is full. Once a day at most.",
+		"to": "Every administrator, and everybody who holds the mailbox",
+		"button": "Open Plan and Credits",
+		"email_default": True,
+		"subject": "Storage is full: attachments to {mailbox} are not being saved",
+		"message": "Mail to <b>{mailbox}</b> still arrives, but its attachments wait until there is room. Free some "
+		"space or add storage in Plan and Credits, and they are saved within the hour.",
+	},
+	{
+		"name": "Covering Mail",
+		"app": "OneMail",
+		"about": "When you cover for somebody on leave, and their leave says you read their mail.",
+		"to": "The covering person",
+		"button": "Open Mail",
+		"email_default": True,
+		"push_default": True,
+		"subject": "You're covering {who}'s mail until {until}",
+		"message": "Mail to {mailbox} is in OneMail with your own while they're on leave. You can read it and reply "
+		"from your own address, but not send from theirs.",
+	},
+	{
+		"name": "Mail Not Sent",
+		"app": "OneMail",
+		"about": "When mail you sent could not be delivered after every retry.",
+		"to": "Whoever sent it",
+		"email": False,
+		"push_default": True,
+		"subject": 'Your mail "{subject}" was not sent',
+		"message": "It could not be delivered to {to}. Open it to see why, and send it again.",
+	},
+	{
+		"name": "Mail Rule Approved",
+		"app": "OneMail",
+		"about": "When a Mail Manager approves a mail rule you asked for.",
+		"to": "The person who asked for it",
+		"button": "Open Mail Rules",
+		"email_default": False,
+		"push_default": True,
+		"subject": "Your mail rule on {mailbox} is on",
+		"message": "{who} approved it. It runs on each new message from now on.",
+	},
+	{
+		"name": "Mail Rule Declined",
+		"app": "OneMail",
+		"about": "When a Mail Manager declines a mail rule you asked for.",
+		"to": "The person who asked for it",
+		"button": "Open Mail Rules",
+		"email_default": True,
+		"push_default": True,
+		"subject": "Your mail rule on {mailbox} was declined",
+		"message": "{who} declined it, so it was removed. Ask them if you'd like to know why.",
+	},
+	{
+		"name": "Mail Rule Notice",
+		"app": "OneMail",
+		"about": "When a mail rule says to tell you that mail it watches for arrived.",
+		"to": "Whoever the rule names",
+		"button": "Open Mail",
+		"email_default": False,
+		"push_default": True,
+		"subject": "{who} wrote to {mailbox}",
+		"message": "{subject}<br>The rule {rule} told you.",
+	},
+	{
+		"name": "Mail Rule Requested",
+		"app": "OneMail",
+		"about": "When somebody asks for a mail rule on the workspace address issued to them.",
+		"to": "Every Mail Manager and administrator",
+		"button": "Open Mail Rules",
+		"email_default": True,
+		"subject": "{who} asked for a mail rule on {mailbox}",
+		"message": "<b>When</b> {when}<br><b>Then</b> {then}<br>It runs once you approve it in OneMail › Settings › "
+		"{mailbox} › Mail Rules.",
+	},
+	{
+		"name": "Mailbox Not Reachable",
+		"app": "OneMail",
+		"about": "When a mailbox you hold stops connecting. Once, when it breaks.",
+		"to": "Everybody who holds it, or every administrator when nobody does",
+		"button": "Open Mail Settings",
+		"email_default": True,
+		"subject": "{mailbox} is not connecting: {reason}",
+		"message": "No new mail is read from <b>{mailbox}</b> until it is connected again. Reconnect it from "
+		"OneMail › Settings › Mailboxes.",
+	},
+	{
+		"name": "Mailbox OneAI Limit Reached",
+		"app": "OneMail",
+		"about": "When a mailbox uses its OneAI credits for the month. Once a month.",
+		"to": "Whoever OneAI reads it for and whoever connected it, or every administrator",
+		"button": "Open Mail Settings",
+		"email_default": True,
+		"subject": "{mailbox} used its {limit} OneAI credits for this month",
+		"message": "New mail in <b>{mailbox}</b> is only read without OneAI until next month. Raise the limit in "
+		"OneMail › Settings › {mailbox} › OneAI.",
+	},
+	{
+		"name": "Mailbox Shared With You",
+		"app": "OneMail",
+		"about": "When an administrator gives you a shared mailbox.",
+		"to": "Each person given it",
+		"button": "Open Mail",
+		"email_default": True,
+		"push_default": True,
+		"subject": "{who} gave you {mailbox}",
+		"message": "Its mail is in OneMail now, beside your own, and you can reply from it.",
+	},
+]

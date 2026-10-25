@@ -67,6 +67,29 @@ def notifications() -> dict[str, dict]:
 		one = layout.read(path.read_text(encoding="utf-8"))
 		assert one["name"] not in found, f"{one['name']} is declared twice"
 		found[one["name"]] = {**one, "module": path.parent.name, "file": path}
+	for folder, path in declared_notifications():
+		spec = importlib.util.spec_from_file_location(f"{folder}_notifications", path)
+		module = importlib.util.module_from_spec(spec)
+		spec.loader.exec_module(module)
+		for one in module.TYPES:
+			assert one["name"] not in found, f"{one['name']} is declared twice"
+			found[one["name"]] = {**one, "module": folder, "file": path}
+	return found
+
+
+def declared_notifications() -> list[tuple[str, Path]]:
+	"""(folder, path) of each module on its way to ready that declares its
+	notifications in its own notifications.py (docs/READY.md)."""
+	import importlib.util
+
+	spec = importlib.util.spec_from_file_location("ready", APP / "one" / "ready.py")
+	ready = importlib.util.module_from_spec(spec)
+	spec.loader.exec_module(ready)
+	found = []
+	for one in ready.MODULES.values():
+		path = APP / one["folder"] / "notifications.py"
+		if path.exists():
+			found.append((one["folder"], path))
 	return found
 
 

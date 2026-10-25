@@ -1,4 +1,4 @@
-"""Telling people about their mailboxes (notifications/one_mail/)."""
+"""Telling people about their mailboxes (notifications.py)."""
 
 import frappe
 

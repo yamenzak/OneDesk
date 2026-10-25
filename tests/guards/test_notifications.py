@@ -66,19 +66,27 @@ def test_every_notification_is_one_file_in_one_layout():
 	modules = {path.name for path in tree.APP.iterdir() if (path / "__init__.py").exists()}
 	for name, one in _declared().items():
 		path = one["file"]
-		assert path.name == layout.slug(name), f"{name} is in {path.name}"
 		assert one["module"] in modules, f"{name} is under {one['module']}, which is no module"
+		if path.name == "notifications.py":
+			typed = {key: value for key, value in one.items() if key not in ("module", "file")}
+			assert layout.read(layout.write(typed)) == typed, f"{name} in {path} is not in the one layout"
+			continue
+		assert path.name == layout.slug(name), f"{name} is in {path.name}"
 		text = path.read_text(encoding="utf-8")
 		assert text == layout.write(layout.read(text)), f"{path.name} is not in the one layout"
 	assert re.search(r'one_notification_types = \["onedesk\.notifications\.TYPES"\]', HOOKS)
 
 
 def test_nothing_declares_a_notification_anywhere_else():
-	"""A list of types in a module's own file is a second place to look."""
+	"""A list of types in a module's own file is a second place to look, but
+	for a module on its way to ready, whose notifications.py replaces its
+	files (docs/READY.md, A module's folder)."""
+	moved = {path for _folder, path in tree.declared_notifications()}
 	stray = [
 		str(path.relative_to(tree.APP))
 		for path in _python()
-		if path.name == "notifications.py" or re.search(r'"subject": _lt\(', path.read_text(encoding="utf-8"))
+		if path not in moved
+		and (path.name == "notifications.py" or re.search(r'"subject": _lt\(', path.read_text(encoding="utf-8")))
 	]
 	assert not stray, stray
 
