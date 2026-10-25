@@ -155,11 +155,6 @@
 	padding-inline-start: calc(var(--spacing) * 6);
 }
 
-/* Allowed Domains, under the External Mailboxes switch. */
-.oms .oms-domains {
-	margin-top: calc(var(--spacing) * 3);
-}
-
 .oms .oms-label {
 	font-size: var(--text-sm);
 	font-weight: 500;

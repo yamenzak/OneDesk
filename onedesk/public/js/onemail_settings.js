@@ -1397,25 +1397,15 @@ onedesk.mail.settings = (tab) => {
 		label: __("Private Mailboxes"),
 		icon: "lock",
 		title: __("Private Mailboxes"),
-		description: __("Only the person who connected one can open or change it."),
+		description: __("Mailboxes people connect at any other domain, such as Gmail. Only the person who connected one can open or change it."),
 		async render(panel) {
+			const was = panel.shown;
 			const said = await frappe.xcall(H + "shared");
+			if (panel.shown !== was) return;
 			const $body = panel.body.empty();
-			switched(
-				$body,
-				__("Allow Private Mailboxes"),
-				__("Mailboxes people connect at any other domain, such as Gmail or Outlook."),
-				said.external,
-				async (on) => {
-					await frappe.xcall(H + "set_external", { on });
-					$domains.toggleClass("hide", !on);
-				}
-			);
-			const $domains = $(`<div class="oms-domains"></div>`).appendTo($body);
-			$domains.toggleClass("hide", !said.external);
-			const $top = heading_with(__("Allowed Domains"), __("Leave empty to allow any domain.")).$row.appendTo($domains);
+			const $top = heading_with(__("Allowed Domains"), __("Leave empty to allow any domain.")).$row.appendTo($body);
 			let domains = said.allowed_domains || [];
-			const $list = $(`<div class="oms-list"></div>`).appendTo($domains);
+			const $list = $(`<div class="oms-list"></div>`).appendTo($body);
 			const save = async (next) => {
 				domains = await frappe.xcall(H + "set_allowed_domains", { domains: next });
 				draw();
@@ -1443,6 +1433,7 @@ onedesk.mail.settings = (tab) => {
 			};
 			typed.$input.on("keydown", (e) => e.key === "Enter" && add());
 			button({ label: __("Add"), variant: "solid" }).on("click", add).appendTo($add);
+			header_switch(panel, said.external, (on) => frappe.xcall(H + "set_external", { on }));
 		},
 	};
 

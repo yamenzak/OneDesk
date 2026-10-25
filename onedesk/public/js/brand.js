@@ -35,6 +35,10 @@ onedesk.brand.parts = (text) => {
 
 onedesk.brand.LEAVE = "input, textarea, select, option, script, style, code, pre, [contenteditable], .ql-editor, .CodeMirror, .ace_editor, [data-v-app], .one-name, title, svg";
 
+// Where a label that is only a product's name has no icon beside it, so it
+// draws the mark itself: a settings panel's title.
+onedesk.brand.MARK_ALONE = ".settings-dialog-panel-title";
+
 onedesk.brand.wrap = (root) => {
 	if (!root || !document.body.contains(root) && root !== document.body) return;
 	if (root.nodeType === Node.TEXT_NODE) return onedesk.brand.text(root);
@@ -62,7 +66,7 @@ onedesk.brand.text = (node, inside = false) => {
 	const solo = onedesk.brand.solo(text);
 	if (!named && !solo.length) return;
 	onedesk.brand.NAME.lastIndex = 0;
-	const alone = text.trim();
+	const alone = parent.closest(onedesk.brand.MARK_ALONE) ? null : text.trim();
 	const found = [
 		...[...text.matchAll(onedesk.brand.NAME)].map((match) => ({ at: match.index, length: match[0].length, rest: match[1], marked: alone !== match[0] })),
 		...solo.map((at) => ({ at, length: 3, rest: null })),

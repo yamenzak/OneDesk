@@ -3364,10 +3364,6 @@ msgstr "السماح باختيار النموذج"
 msgid "Allow Negative Stock"
 msgstr "السماح بالمخزون السالب"
 
-#: onedesk/public/js/onemail_settings.js:1187
-msgid "Allow Private Mailboxes"
-msgstr "السماح بصناديق البريد الخاصة"
-
 #: frontend/src/item/ItemOverview.vue:111
 msgid "Allow Purchase"
 msgstr ""
@@ -23095,9 +23091,9 @@ msgstr "صناديق البريد"
 msgid "Mailboxes a team reads together, such as sales@."
 msgstr "صناديق بريد يقرؤها فريق معًا، مثل sales@."
 
-#: onedesk/public/js/onemail_settings.js:1188
-msgid "Mailboxes people connect at any other domain, such as Gmail or Outlook."
-msgstr "صناديق البريد التي يربطها الأشخاص على أي نطاق آخر، مثل Gmail أو Outlook."
+#: onedesk/public/js/onemail_settings.js:1400
+msgid "Mailboxes people connect at any other domain, such as Gmail. Only the person who connected one can open or change it."
+msgstr "صناديق بريد يربطها الأشخاص على أي نطاق آخر، مثل Gmail. لا يفتحها أو يغيّرها إلا من ربطها."
 
 #: onedesk/public/js/onemail_settings.js:1138
 msgid "Mailboxes people hold at the company's domains."
@@ -28620,10 +28616,6 @@ msgstr "الخمسة المتاحة للجميع فقط"
 #: onedesk/public/js/settings.js:2936
 msgid "Only the owner of {0} can turn this on, because OneAI acts on their behalf."
 msgstr "مالك {0} وحده يمكنه تشغيل هذا، لأن OneAI يتصرف نيابة عنه."
-
-#: onedesk/public/js/onemail_settings.js:1181
-msgid "Only the person who connected one can open or change it."
-msgstr "لا يمكن فتحه أو تغييره إلا من قِبل الشخص الذي ربطه."
 
 #: onedesk/one_storage/mounts.py:417
 msgid "Only the person who connected {0} can change it."

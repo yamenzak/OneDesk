@@ -87,7 +87,7 @@ employee that reads its mail:
 - **Organization Mailboxes** (the same): every mailbox people hold at the
   company's domains, and **Connect Organization Mailbox** to connect one for
   somebody.
-- **Private Mailboxes** (administrators): **Allow Private Mailboxes** for
+- **Private Mailboxes** (administrators): the switch beside the title allows
   mailboxes people connect anywhere else, such as Gmail. When on, **Allowed
   Domains** limits them to the domains listed; leave it empty to allow any.
 - **Mail Templates** (administrators): emails people start from. One opens
