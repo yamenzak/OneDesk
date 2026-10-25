@@ -812,7 +812,8 @@ names its mechanism.
 12. **Tour.** A first-visit tour of each area of its screen, run again from
     the foot (mechanism 10).
 13. **Settings.** One role-aware settings dialog where everything about the
-    module is managed (mechanism 5).
+    module is managed, ending with the centers that find it: Roles and
+    Access, and Notifications (mechanisms 5, 14 and 15).
 14. **Legal.** Every fact about what it does with data that the agreements
     must say is a clause or a subprocessor in its `legal.py`, written to the
     legal copy rules and naming the laws it answers; everything optional it
