@@ -350,14 +350,14 @@ export function toast(message, action = null, duration = 8000) {
 }
 
 // The window's own search box, in its address row.
-export function windowSearch(win, { placeholder = "", title = "", onInput, onKey } = {}) {
+export function windowSearch(win, { placeholder = "", hint = "", onInput, onKey } = {}) {
 	if (!win) return null;
 	const $input = win.search({
 		placeholder,
 		on_input: onInput,
 		on_key: onKey,
 	});
-	if (title) $input.attr("title", title);
+	if (hint) $input.attr("title", hint);
 	return {
 		set: (value) => $input.val(value || ""),
 		focus: () => $input.trigger("focus"),

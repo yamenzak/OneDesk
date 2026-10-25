@@ -178,6 +178,35 @@ joining two clauses, no em dash, nothing over 140 characters, no "Open one
 to…" or "Click a…", and no note over 70 characters. The rest is
 checked on every screen of the passover.
 
+## OneInterface's limits
+
+A module on its way to ready (`onedesk/one/ready.py`, `docs/READY.md`) is
+held to hard limits on top of everything above, by `tests/guards/test_copy.py`:
+
+- **A heading is five words or fewer.** A tab, a panel, a dialog, a section,
+  a group, a field's label, a tour step's heading.
+- **A description is one sentence.** So is a hint, the text a search box or
+  an icon shows on hover. It says what the thing is or does, never how to use
+  the screen.
+- **Words we never show:** simply, just, easily, please, utilise, leverage,
+  seamless, powerful, robust, note that, in order to, functionality, "Are you
+  sure", "Something went wrong", and the names of the software One is built
+  on.
+
+Three before and after pairs, from OneMail's settings:
+
+    Only a Mail Manager or an administrator can change this.
+    Your role doesn't allow changing this.
+
+    The name shown with the address on every email sent from this mailbox. Leave empty to use the default.
+    Shown with the address on every email sent from this mailbox, or the default name if empty.
+
+    For anything urgent, please write to Samir at samir@one.test.
+    For anything urgent, write to Samir at samir@one.test.
+
+The first says what is true for the reader, not who else is allowed. The
+second is one sentence. The third drops a word that only softens.
+
 ## A message
 
 An error, a confirmation, a toast and the line under a dialog say what

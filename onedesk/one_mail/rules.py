@@ -677,7 +677,7 @@ def standard_away(back=None, covering: dict | None = None, lang: str | None = No
 
 def cover_line(covering: dict, lang: str | None = None) -> str:
 	"""The sentence naming who covers. Pure."""
-	return _("For anything urgent, please write to {0} at {1}.", lang=lang).format(covering["name"], covering["email"])
+	return _("For anything urgent, write to {0} at {1}.", lang=lang).format(covering["name"], covering["email"])
 
 
 def default_away(back=None, covering: dict | None = None, lang: str | None = None) -> str:

@@ -3442,9 +3442,9 @@ msgstr "Auch auf {0}"
 msgid "Also propose networks and locations belonging to a single employee, such as a home."
 msgstr "Auch Netzwerke und Orte vorschlagen, die einem einzelnen Mitarbeiter gehören, etwa ein Zuhause."
 
-#: onedesk/public/js/onemail_settings.js:559
-msgid "Also reads attached PDFs, scans and photos. Uses the most credits."
-msgstr "Liest außerdem angehängte PDFs, Scans und Fotos. Verbraucht das meiste Guthaben."
+#: onedesk/public/js/onemail_settings.js:614
+msgid "Also reads attached PDFs, scans and photos, which uses the most credits."
+msgstr "Liest auch angehängte PDFs, Scans und Fotos, was die meisten Credits verbraucht."
 
 #: onedesk/public/js/onemail_settings.js:462
 msgid "Also splits a scan of several letters into one file each."
@@ -16255,9 +16255,9 @@ msgstr "Für Sie"
 msgid "For Your Organisation"
 msgstr "Für Ihre Organisation"
 
-#: onedesk/one_mail/rules.py:490
-msgid "For anything urgent, please write to {0} at {1}."
-msgstr "Bei dringenden Anliegen schreibe bitte an {0} unter {1}."
+#: onedesk/one_mail/rules.py:680
+msgid "For anything urgent, write to {0} at {1}."
+msgstr "Für Dringendes schreiben Sie an {0} unter {1}."
 
 #: onedesk/one_project/ai.py:54
 msgid "For each subcontractor on this project, what is left to bill, the retention held, any advance not yet set off, and what has been paid."
@@ -16530,6 +16530,10 @@ msgstr "Gefunden"
 #: onedesk/one_mail/custom/bank.json
 msgid "Found from the bank's website when it is empty, and kept in Company › Logos."
 msgstr "Wird von der Website der Bank geholt, wenn es leer ist, und in Unternehmen › Logos abgelegt."
+
+#: onedesk/public/js/onemail_settings.js:1162
+msgid "Found from the domain, so change them only if they're wrong."
+msgstr "Aus der Domain ermittelt, also nur ändern, wenn sie falsch sind."
 
 #. Task in the Small Building Works project template
 #: onedesk/one_project/library/small_building_works.json
@@ -17927,10 +17931,6 @@ msgstr "Hilf mir, das einzurichten"
 #: onedesk/one/ai.py:470 onedesk/public/js/settings.js:3168
 msgid "Help me set up a notification rule. Ask me what should happen and who should be told, then suggest the rule."
 msgstr "Hilf mir, eine Benachrichtigungsregel einzurichten. Frag mich, was passieren soll und wer benachrichtigt werden soll, und schlage dann die Regel vor."
-
-#: onedesk/public/js/rule_builder.js:291
-msgid "Helps OneAI tell it apart. Optional."
-msgstr "Hilft OneAI, sie zu unterscheiden. Optional."
 
 #: onedesk/public/js/portal_share.js:90
 msgid "Hidden"
@@ -22514,10 +22514,6 @@ msgstr "Auslastung"
 msgid "Load (%)"
 msgstr "Auslastung (%)"
 
-#: onedesk/public/js/onemail.js:311
-msgid "Load More"
-msgstr "Mehr laden"
-
 #: frontend/src/sheet/components/SheetEditor/LinkPreviewCard.vue:110
 msgid "Loading preview…"
 msgstr "Vorschau wird geladen…"
@@ -23092,8 +23088,8 @@ msgid "Mailboxes a team reads together, such as sales@."
 msgstr "Postfächer, die ein Team gemeinsam liest, etwa sales@."
 
 #: onedesk/public/js/onemail_settings.js:1400
-msgid "Mailboxes people connect at any other domain, such as Gmail. Only the person who connected one can open or change it."
-msgstr "Postfächer, die Personen bei einer anderen Domain verbinden, etwa Gmail. Nur wer eines verbunden hat, kann es öffnen oder ändern."
+msgid "Mailboxes people connect at any other domain, such as Gmail, which only the person who connected one can open."
+msgstr "Postfächer, die Personen bei einer anderen Domain verbinden, etwa Gmail, und die nur öffnen kann, wer sie verbunden hat."
 
 #: onedesk/public/js/onemail_settings.js:1138
 msgid "Mailboxes people hold at the company's domains."
@@ -28147,9 +28143,9 @@ msgstr "OneAI schreibt sie gerade. Sie erscheint hier in einer Minute."
 msgid "OneAI looked at {extension}"
 msgstr "OneAI hat sich {extension} angesehen"
 
-#: onedesk/public/js/rule_builder.js:246
-msgid "OneAI may read the orders, invoices and deliveries the sender sees on the portal. Only when the sender's address is verified."
-msgstr "OneAI darf die Bestellungen, Rechnungen und Lieferungen lesen, die der Absender im Portal sieht. Nur wenn die Adresse des Absenders bestätigt ist."
+#: onedesk/public/js/rule_builder.js:245
+msgid "OneAI may read the orders, invoices and deliveries the sender sees on the portal, once their address is verified."
+msgstr "OneAI darf die Aufträge, Rechnungen und Lieferungen lesen, die der Absender im Portal sieht, sobald seine Adresse bestätigt ist."
 
 #. Description of the 'Screen New Applicants' (Check) field in DocType 'HR
 #. Settings'
@@ -28170,6 +28166,10 @@ msgstr "OneAI sagt, ob der Absender verärgert oder in Eile ist, und jemand wird
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "OneAI sorts each new grievance into a category and marks sensitive ones."
 msgstr "OneAI ordnet jede neue Beschwerde einer Kategorie zu und markiert heikle."
+
+#: onedesk/public/js/onemail_settings.js:646
+msgid "OneAI stops reading new mail for the rest of the month once this is used, with no limit if empty."
+msgstr "OneAI liest für den Rest des Monats keine neue Post mehr, sobald dies verbraucht ist, ohne Grenze, wenn leer."
 
 #: onedesk/public/js/settings.js:2938
 msgid "OneAI will read new mail in {0} and its attachments, file them and act on them on your behalf. Scans and photos are read with OneAI credits."
@@ -29155,6 +29155,10 @@ msgstr "Chancen nach Verkaufsphase"
 #: frontend/src/home/CrmStory.vue:46
 msgid "Opportunity by Territory"
 msgstr "Chancen nach Gebiet"
+
+#: onedesk/public/js/rule_builder.js:316
+msgid "Optional, and helps OneAI tell it apart."
+msgstr "Optional, hilft OneAI bei der Unterscheidung."
 
 #: onedesk/one_hr/heads.py:148
 msgid "Optional. The person who asked will see it."
@@ -38167,6 +38171,10 @@ msgstr "Angezeigt, wenn"
 msgid "Shown in"
 msgstr "Angezeigt in"
 
+#: onedesk/public/js/onemail_settings.js:340
+msgid "Shown with the address on every email sent from this mailbox, or the default name if empty."
+msgstr "Wird mit der Adresse in jeder E-Mail aus diesem Postfach angezeigt, oder der Standardname, wenn leer."
+
 #: onedesk/one_hr/hiring.py:331
 msgid "Shows"
 msgstr "Belegt"
@@ -42791,10 +42799,6 @@ msgstr "Das Maximum, das diese Überstundenart an einem Tag vergütet. Darüber 
 msgid "The name before the workspace in their own address, which only receives. Left empty, their first name is used."
 msgstr "Der Name vor dem Arbeitsbereich in der eigenen Adresse, die nur empfängt. Leer gelassen, wird der Vorname verwendet."
 
-#: onedesk/public/js/onemail_settings.js:305
-msgid "The name shown with the address on every email sent from this mailbox. Leave empty to use the default."
-msgstr "Der Name, der bei jeder E-Mail aus diesem Postfach mit der Adresse erscheint. Leer lassen für den Standard."
-
 #: onedesk/public/js/settings.js:2090
 msgid "The name, logo, address, contacts and colour come from Workspace › General."
 msgstr "Name, Logo, Adresse, Kontaktdaten und Farbe stammen aus Arbeitsbereich › Allgemein."
@@ -43345,10 +43349,6 @@ msgstr "Der Server hat die E-Mail-Adresse oder das Passwort abgelehnt."
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 msgid "The server's name or address."
 msgstr "Name oder Adresse des Servers."
-
-#: onedesk/public/js/onemail_settings.js:1120
-msgid "The servers are found from the domain. Change them only if they're wrong."
-msgstr "Die Server werden anhand der Domain gefunden. Ändern Sie sie nur, wenn sie falsch sind."
 
 #: onedesk/one_sheet/table.py:311
 msgid "The sheet's hidden first column was deleted. Undo the change, or reopen the workbook from the record."
@@ -47623,9 +47623,9 @@ msgstr "Was OneAI über Sie weiß"
 msgid "What OneAI said when asked to explain it, per language."
 msgstr "Was OneAI sagte, als es um eine Erklärung gebeten wurde, je Sprache."
 
-#: onedesk/public/js/rule_builder.js:238
-msgid "What OneAI's reply should do, such as answering from their orders and promising an answer within a day. OneAI writes the reply itself."
-msgstr "Was die Antwort von OneAI tun soll, etwa aus ihren Bestellungen antworten und eine Antwort innerhalb eines Tages zusagen. OneAI schreibt die Antwort selbst."
+#: onedesk/public/js/rule_builder.js:237
+msgid "What OneAI's reply should do, such as answering from their orders and promising an answer within a day."
+msgstr "Was die Antwort von OneAI tun soll, etwa aus ihren Aufträgen antworten und eine Antwort innerhalb eines Tages zusagen."
 
 #: onedesk/public/js/onemail_settings.js:362
 msgid "What They Get"
@@ -47850,9 +47850,9 @@ msgstr "Was jede Charge über die Zeit enthält."
 msgid "What each person costs, part by part."
 msgstr "Was jede Person kostet, Teil für Teil."
 
-#: onedesk/public/js/onemail_settings.js:1048
-msgid "What each role can do in OneMail. Give people a role on their page in People."
-msgstr "Was jede Rolle in OneMail darf. Personen erhalten eine Rolle auf ihrer Seite unter Personen."
+#: onedesk/public/js/onemail_settings.js:1528
+msgid "What each role can do in OneMail, given to people on their page in People."
+msgstr "Was jede Rolle in OneMail darf, vergeben auf der Seite der Person unter Personen."
 
 #: onedesk/one_book/home.py:349
 msgid "What each sale made over what it cost."
@@ -49360,10 +49360,6 @@ msgstr "Wenn eine der eigenen Domains des Arbeitsbereichs nicht mehr funktionier
 #: onedesk/notifications/one/payment_overdue.md
 msgid "When payment for the workspace is overdue, with the day it will be suspended."
 msgstr "Wenn die Zahlung für den Arbeitsbereich überfällig ist, mit dem Tag, an dem er gesperrt wird."
-
-#: onedesk/public/js/onemail_settings.js:591
-msgid "When reached, OneAI stops reading new mail until next month. Leave empty for no limit."
-msgstr "Wenn erreicht, liest OneAI bis zum nächsten Monat keine neuen E-Mails. Leer lassen für kein Limit."
 
 #. When a notification is sent
 #: onedesk/notifications/one_inventory/reordering_failed.md

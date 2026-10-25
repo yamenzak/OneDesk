@@ -183,7 +183,7 @@ function menuFor(name) {
 
 const searchBox = windowSearch(props.win, {
   placeholder: __("Search"),
-  title: __("Supports from:, to:, subject:, has:attachment, is:unread and is:starred"),
+  hint: __("Supports from:, to:, subject:, has:attachment, is:unread and is:starred"),
   onInput: (value) => {
     search.value = value;
     list();

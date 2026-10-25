@@ -337,7 +337,7 @@ onedesk.mail.settings = (tab) => {
 						label: __("Sender Name"),
 						default: state.sender_name,
 						placeholder: state.default_sender_name || __("The writer's name"),
-						description: __("The name shown with the address on every email sent from this mailbox. Leave empty to use the default."),
+						description: __("Shown with the address on every email sent from this mailbox, or the default name if empty."),
 					},
 					{ fieldname: "look", fieldtype: "HTML" },
 					{ fieldname: "custom", fieldtype: "Text Editor", default: state.preset ? "" : state.signature, hidden: !!state.preset },
@@ -611,7 +611,7 @@ onedesk.mail.settings = (tab) => {
 					label: __("Read Attachments"),
 					default: said.attachments,
 					depends_on: reading(),
-					description: __("Also reads attached PDFs, scans and photos. Uses the most credits."),
+					description: __("Also reads attached PDFs, scans and photos, which uses the most credits."),
 				},
 			];
 			JOBS.forEach((group) => {
@@ -643,7 +643,7 @@ onedesk.mail.settings = (tab) => {
 					fieldtype: "Int",
 					label: __("Monthly Credit Limit"),
 					default: said.limit || "",
-					description: __("When reached, OneAI stops reading new mail until next month. Leave empty for no limit."),
+					description: __("OneAI stops reading new mail for the rest of the month once this is used, with no limit if empty."),
 				}
 			);
 			panel.add_fields(fields);
@@ -1159,7 +1159,7 @@ onedesk.mail.settings = (tab) => {
 		let form = null;
 		view(panel, {
 			title: __("Add Domain"),
-			description: __("The servers are found from the domain. Change them only if they're wrong."),
+			description: __("Found from the domain, so change them only if they're wrong."),
 			actions: [
 				{
 					label: __("Save"),
@@ -1397,7 +1397,7 @@ onedesk.mail.settings = (tab) => {
 		label: __("Private Mailboxes"),
 		icon: "lock",
 		title: __("Private Mailboxes"),
-		description: __("Mailboxes people connect at any other domain, such as Gmail. Only the person who connected one can open or change it."),
+		description: __("Mailboxes people connect at any other domain, such as Gmail, which only the person who connected one can open."),
 		async render(panel) {
 			const was = panel.shown;
 			const said = await frappe.xcall(H + "shared");
@@ -1525,7 +1525,7 @@ onedesk.mail.settings = (tab) => {
 		label: __("Roles"),
 		icon: "shield-check",
 		title: __("Roles"),
-		description: __("What each role can do in OneMail. Give people a role on their page in People."),
+		description: __("What each role can do in OneMail, given to people on their page in People."),
 		actions: [
 			{
 				label: __("Show Roles"),

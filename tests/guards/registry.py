@@ -334,6 +334,24 @@ GUARDS = [
 		"tests/guards/test_wording.py::test_what_a_screen_says_is_plain",
 	),
 	Guard(
+		"copy-headings",
+		12,
+		"a heading in a module on its way to ready that runs past five words",
+		"tests/guards/test_copy.py::test_a_heading_is_five_words_or_fewer",
+	),
+	Guard(
+		"copy-descriptions",
+		12,
+		"a description or hint in a module on its way to ready that runs past one sentence",
+		"tests/guards/test_copy.py::test_a_description_is_one_sentence",
+	),
+	Guard(
+		"copy-banned",
+		12,
+		"a word on the banned list shown by a module on its way to ready",
+		"tests/guards/test_copy.py::test_no_banned_word_is_shown",
+	),
+	Guard(
 		"labels-are-names",
 		12,
 		"a label written as a sentence",

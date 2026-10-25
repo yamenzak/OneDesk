@@ -234,7 +234,7 @@ onedesk.rules.builder = ($into, rule, context) => {
 					label: __("Instruction"),
 					default: step.instruction || "",
 					hidden: !ai,
-					description: __("What OneAI's reply should do, such as answering from their orders and promising an answer within a day. OneAI writes the reply itself."),
+					description: __("What OneAI's reply should do, such as answering from their orders and promising an answer within a day."),
 				},
 				{
 					fieldname: "records",
@@ -242,7 +242,7 @@ onedesk.rules.builder = ($into, rule, context) => {
 					label: __("Their Records"),
 					default: step.records ? 1 : 0,
 					hidden: !ai,
-					description: __("OneAI may read the orders, invoices and deliveries the sender sees on the portal. Only when the sender's address is verified."),
+					description: __("OneAI may read the orders, invoices and deliveries the sender sees on the portal, once their address is verified."),
 				},
 			],
 			primary_action_label: __("Done"),
@@ -313,7 +313,7 @@ onedesk.rules.builder = ($into, rule, context) => {
 			title: one ? __("Label") : __("New Label"),
 			fields: [
 				{ fieldname: "label", fieldtype: "Data", label: __("Label"), reqd: 1, default: one?.label || "", description: __("Such as Quote Request.") },
-				{ fieldname: "about", fieldtype: "Small Text", label: __("Meaning"), default: one?.about || "", description: __("Helps OneAI tell it apart. Optional.") },
+				{ fieldname: "about", fieldtype: "Small Text", label: __("Meaning"), default: one?.about || "", description: __("Optional, and helps OneAI tell it apart.") },
 			],
 			primary_action_label: __("Done"),
 			primary_action: ({ label, about }) => {

@@ -695,7 +695,7 @@ def test_a_person_s_mailbox_answers_while_they_are_away():
 	assert said(box(one_away_message="Away."), leave) == "Away."
 	assert said(box(), leave) == "I'm on leave and back on 2026-11-02. I'll reply then."
 	covered = said(box(), {**leave, "covering": samir})
-	assert covered.endswith("please write to Samir at samir@one.test."), covered
+	assert covered.endswith("write to Samir at samir@one.test."), covered
 	assert said(box(), {**leave, "covering": samir, "one_away_message": "Ask samir@one.test."}) == "Ask samir@one.test."
 	assert said(box(one_away_message="Away."), {**leave, "covering": samir}).startswith("Away.\n\n")
 	assert said(box(one_away=1), None, "ar") == "[ar] I'm away and will reply when I'm back.", "in their language"
