@@ -1415,16 +1415,47 @@ onedesk.mail.settings = (tab) => {
 	};
 
 	// ── Mail Templates ──────────────────────────────────────────────────────
+	// One opens in place, as everything else here does (onedesk.mail_templates
+	// in doctype_settings.js draws its fields and saves it). One a setting still
+	// sends, such as HR Settings' leave approval, says so and can't be deleted.
+	const template = async (panel, name) => {
+		const doc = name ? await frappe.db.get_doc("Email Template", name) : null;
+		const using = name ? ((await frappe.xcall("onedesk.one.mail_templates.templates")) || []).find((one) => one.name === name)?.used_by || [] : [];
+		let form = null;
+		const actions = [];
+		if (doc && !using.length)
+			actions.push({ label: __("Delete"), theme: "red", click: () => onedesk.mail_templates.remove(name, () => panel.refresh()) });
+		actions.push({
+			label: __("Save"),
+			variant: "solid",
+			click: async () => {
+				const values = form.get_values();
+				if (!values) return;
+				await onedesk.mail_templates.save(name, doc, values);
+				panel.refresh();
+			},
+		});
+		view(panel, {
+			title: name || __("New Mail Template"),
+			description: using.length ? __("Used by {0}.", [using.join(", ")]) : "",
+			actions,
+			render: (shown) => {
+				form = fields($(`<div></div>`).appendTo(shown.body), onedesk.mail_templates.fields(name, doc));
+				if (doc) form.set_values(doc);
+			},
+		});
+	};
 	const templates = {
 		id: "templates",
 		label: __("Mail Templates"),
 		icon: "mails",
 		title: __("Mail Templates"),
-		actions: [
-			{ label: __("New Mail Template"), icon: "plus", click: (panel) => onedesk.mail_templates.edit(null, { done: () => panel.refresh() }) },
-		],
+		description: __("Emails people start from when they write."),
+		actions: [{ label: __("New Mail Template"), icon: "plus", click: (panel) => template(panel, null) }],
 		async render(panel) {
+			const was = panel.shown;
 			const rows = (await frappe.xcall("onedesk.one.mail_templates.templates")) || [];
+			if (panel.shown !== was) return;
 			const $body = panel.body.empty();
 			const search = frappe.ui.form.make_control({
 				df: { fieldtype: "Data", fieldname: "search", placeholder: __("Search") },
@@ -1445,17 +1476,19 @@ onedesk.mail.settings = (tab) => {
 				$none.toggleClass("hide", !rows.length || shown > 0);
 			});
 			rows.forEach((one) => {
-				const said = [one.subject, one.label || __("All Record Types")];
+				// The subject only where it says more than the name.
+				const said = [one.subject !== one.name ? one.subject : "", one.label || __("All Record Types")];
 				if ((one.default_for || []).length) said.push(__("Default for {0}", [one.default_for.join(", ")]));
-				$list.append(
-					row({
-						lead: glyph("mail"),
-						title: one.name,
-						sub: esc(said.filter(Boolean).join(" · ")),
-						end: chevron(),
-						open: () => onedesk.mail_templates.edit(one.name, { done: () => panel.refresh() }),
-					}).attr("data-find", [one.name, one.subject, one.label, ...(one.default_for || [])].join(" ").toLowerCase())
-				);
+				const $row = row({
+					lead: glyph("mail"),
+					title: one.name,
+					sub: esc(said.filter(Boolean).join(" · ")),
+					end: chevron(),
+					open: () => template(panel, one.name),
+				}).attr("data-find", [one.name, one.subject, one.label, ...(one.default_for || []), ...one.used_by].join(" ").toLowerCase());
+				for (const setting of one.used_by)
+					$row.find(".oms-title").append(" ", frappe.ui.badge.html({ label: __("Used by {0}", [setting]), theme: "gray" }));
+				$list.append($row);
 			});
 		},
 	};

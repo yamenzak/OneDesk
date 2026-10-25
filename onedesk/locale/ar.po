@@ -11311,10 +11311,6 @@ msgstr "حذف القاعدة {0}؟ ستتوقف عن إرسال الإشعار�
 msgid "Delete series {0}?"
 msgstr "حذف السلسلة {0}؟"
 
-#: onedesk/public/js/doctype_settings.js:492
-msgid "Delete template {0}?"
-msgstr "حذف القالب {0}؟"
-
 #: onedesk/public/js/doctype_settings.js:1023
 #: onedesk/public/js/onemail_settings.js:551
 msgid "Delete this rule?"
@@ -11355,6 +11351,10 @@ msgstr "حذف {0}؟ سيُبلَّغ كل المدعوين بإلغائه."
 #: frontend/src/mail/OneMail.vue:297
 msgid "Delete {0}? Its messages move to Trash."
 msgstr "حذف {0}؟ تنتقل رسائله إلى المهملات."
+
+#: onedesk/public/js/doctype_settings.js:499
+msgid "Delete {0}? Nobody can start from it again."
+msgstr "حذف {0}؟ لن يتمكن أحد من البدء منه مجددًا."
 
 #: onedesk/public/js/settings.js:1251
 msgid "Delete {0}? Records assigned to it stay with the people who had them."
@@ -13675,6 +13675,10 @@ msgstr "يُرسل البريد دائمًا ليتمكن الناس من الر
 #: onedesk/public/js/onecloud.js:1636
 msgid "Email isn't set up, so these links weren't sent."
 msgstr "البريد الإلكتروني غير مُعَدّ، لذا لم تُرسَل هذه الروابط."
+
+#: onedesk/public/js/onemail_settings.js:1453
+msgid "Emails people start from when they write."
+msgstr "رسائل يبدأ منها الأشخاص عندما يكتبون."
 
 #: onedesk/one/settings.py:118
 msgid "Emails you the notifications turned on for email below."
@@ -30243,6 +30247,11 @@ msgstr "القطع المستخدمة"
 msgid "Parts and work made into an asset."
 msgstr "قطع وعمل تحوّلت إلى أصل."
 
+#: onedesk/public/js/doctype_settings.js:473
+#, python-format
+msgid "Parts in {{ }} and {% %} are filled in when it is sent."
+msgstr "تُملأ الأجزاء بين {{ }} و{% %} عند الإرسال."
+
 #. Label in the One Bank Transaction print format
 #. Label in the One Exchange Rate Revaluation print format
 #. Label in the One Journal Credit Note print format
@@ -41452,17 +41461,9 @@ msgstr "قالب"
 msgid "Template Name"
 msgstr "اسم القالب"
 
-#: onedesk/public/js/doctype_settings.js:484
-msgid "Template created"
-msgstr "تم إنشاء القالب"
-
 #: onedesk/one/notify.py:318 onedesk/one/rules.py:205
 msgid "Template error: {0}"
 msgstr "خطأ في القالب: {0}"
-
-#: onedesk/public/js/doctype_settings.js:484
-msgid "Template updated"
-msgstr "تم تحديث القالب"
 
 #: frontend/src/writer/shim/SaveTemplateDialog.vue:46
 msgid "Template {0} saved."
@@ -46575,9 +46576,17 @@ msgstr "استخدمه OneAI، طلب واحد"
 msgid "Used by OneAI, {0} calls"
 msgstr "استخدمه OneAI، {0} طلبات"
 
+#: onedesk/public/js/onemail_settings.js:1490
+msgid "Used by {0}"
+msgstr "يستخدمه {0}"
+
 #: frontend/src/template/TemplatePage.vue:83
 msgid "Used by {0} projects"
 msgstr "مستخدم في {0} مشاريع"
+
+#: onedesk/public/js/onemail_settings.js:1440
+msgid "Used by {0}."
+msgstr "يستخدمه {0}."
 
 #: frontend/src/to_order/ToOrderPage.vue:161
 msgid "Used for lines without a default supplier."
@@ -55440,6 +55449,10 @@ msgstr "{0} هو العنوان الرئيسي. اجعل عنوانًا آخر �
 #: onedesk/one_studio/record_types.py:108
 msgid "{0} is there twice, or is a name frappe keeps for itself."
 msgstr "{0} موجود مرتين، أو هو اسم يحتفظ به frappe لنفسه."
+
+#: onedesk/one/mail_templates.py:91
+msgid "{0} is used by {1}. Choose another template there first."
+msgstr "{0} مستخدم في {1}. اختر قالبًا آخر هناك أولًا."
 
 #: onedesk/one_admin/lifecycle.py:73
 msgid "{0} is {1} and can't move to {2}."

@@ -29,6 +29,8 @@ NAMED_BY = (
 )
 
 MADE_AS = (
+	("Leave Approval Notification", "Leave Application"),
+	("Leave Status Notification", "Leave Application"),
 	("Interview Reminder", "Interview"),
 	("Interview Feedback Reminder", "Interview"),
 	("Exit Questionnaire Notification", "Exit Interview"),
@@ -61,6 +63,35 @@ def _for_what() -> None:
 	for name, doctype in found.items():
 		if frappe.db.exists("DocType", doctype):
 			frappe.db.set_value("Email Template", name, "reference_doctype", doctype, update_modified=False)
+
+
+def used_by() -> dict[str, list[str]]:
+	"""The settings that send each template, such as HR Settings for Leave
+	Approval Notification: the mail those send stops if it goes."""
+	found = {}
+	for single, field, _doctype in NAMED_BY:
+		if frappe.db.exists("DocType", single):
+			template = frappe.db.get_single_value(single, field)
+			if template and single not in found.get(template, []):
+				found.setdefault(template, []).append(single)
+	return found
+
+
+def has_code(doc) -> bool:
+	"""Whether a template holds more than fields of the record, such as the
+	`{% set %}` and translated links the apps' own templates are written with."""
+	return any(not FIELD.fullmatch(tag) for tag in _tags(doc))
+
+
+def on_trash(doc, method=None) -> None:
+	"""Email Template on_trash: a template a setting still sends is kept."""
+	using = used_by().get(doc.name)
+	if using:
+		frappe.throw(
+			_("{0} is used by {1}. Choose another template there first.").format(
+				doc.name, ", ".join(_(one) for one in using)
+			)
+		)
 
 
 def _tags(doc) -> set[str]:
@@ -140,7 +171,8 @@ def default(doctype: Annotated[str, "The kind of record."]) -> str | None:
 @frappe.whitelist()
 def templates() -> list[dict]:
 	"""Every mail template, for Workspace > Mail Templates, with the kinds of
-	record each is the default for."""
+	record each is the default for, the settings that send it, and whether it
+	holds code."""
 	_may_keep()
 	defaults = {}
 	for row in frappe.get_all(
@@ -151,14 +183,20 @@ def templates() -> list[dict]:
 		defaults.setdefault(row.value, []).append(_(row.doc_type))
 	rows = frappe.get_all(
 		"Email Template",
-		fields=["name", "subject", "reference_doctype", "modified"],
+		fields=["name", "subject", "reference_doctype", "modified", "response", "response_html"],
 		order_by="name asc",
 	)
+	using = used_by()
 	return [
 		dict(
-			row,
+			name=row.name,
+			subject=row.subject,
+			reference_doctype=row.reference_doctype,
+			modified=row.modified,
 			label=_(row.reference_doctype) if row.reference_doctype else "",
 			default_for=defaults.get(row.name, []),
+			used_by=[_(one) for one in using.get(row.name, [])],
+			code=int(has_code(row)),
 		)
 		for row in rows
 	]

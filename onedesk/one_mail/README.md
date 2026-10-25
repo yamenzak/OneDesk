@@ -86,7 +86,11 @@ employee that reads its mail:
 - **Private Mailboxes** (administrators): **Allow Private Mailboxes** for
   mailboxes people connect anywhere else, such as Gmail. When on, **Allowed
   Domains** limits them to the domains listed; leave it empty to allow any.
-- **Mail Templates** (administrators): reusable email text.
+- **Mail Templates** (administrators): emails people start from. One opens
+  in place, with Save and Delete at the top. A template a setting still
+  sends, such as the leave approval HR Settings sends, says **Used by** and
+  can't be deleted until the setting names another. A template with code in
+  it, as the apps' own are written, opens as code so its tags stay whole.
 
 A mailbox opened from System or Organization Mailboxes shows its signature,
 out-of-office reply, OneAI and Automation tabs.

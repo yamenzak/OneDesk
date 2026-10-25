@@ -444,44 +444,73 @@ frappe.provide("onedesk.mail_templates");
 
 onedesk.mail_templates.API = "onedesk.one.mail_templates.";
 
+// A template's fields, shared by the dialog below (a record type's Customize
+// page) and OneMail's settings, which opens one in place. A template with code
+// in it, as the apps' own are written, is edited as code: the text editor
+// would show its tags as words and break them.
+onedesk.mail_templates.CODE = /\{%|\{\{(?!-?\s*[A-Za-z][A-Za-z0-9_]*\s*-?\}\})/;
+
+onedesk.mail_templates.fields = (name, doc) => {
+	const code = !!doc && !doc.use_html && onedesk.mail_templates.CODE.test(`${doc.subject || ""}${doc.response || ""}`);
+	return [
+		{ fieldtype: "Data", fieldname: "template_name", label: __("Name"), reqd: name ? 0 : 1, hidden: name ? 1 : 0 },
+		{ fieldtype: "Data", fieldname: "subject", label: __("Subject"), reqd: 1 },
+		{
+			fieldtype: "Link",
+			fieldname: "reference_doctype",
+			label: __("For"),
+			options: "DocType",
+			get_query: () => ({ query: "onedesk.one.rules.watchable" }),
+			description: __("Leave empty to use it for any record type."),
+		},
+		{ fieldtype: "Check", fieldname: "use_html", label: __("Write in HTML"), hidden: code ? 1 : 0 },
+		code
+			? {
+					fieldtype: "Code",
+					fieldname: "response",
+					label: __("Message"),
+					options: "HTML",
+					description: __("Parts in {{ }} and {% %} are filled in when it is sent."),
+			  }
+			: { fieldtype: "Text Editor", fieldname: "response", label: __("Message"), depends_on: "eval:!doc.use_html" },
+		{ fieldtype: "Code", fieldname: "response_html", label: __("Message"), options: "HTML", depends_on: "eval:doc.use_html" },
+		{
+			fieldtype: "HTML",
+			fieldname: "help",
+			options: `<p class="text-muted small">${__("Use {0} to insert a field of the record.", ["<code>{{ customer_name }}</code>"])}</p>`,
+		},
+	];
+};
+
+onedesk.mail_templates.save = async (name, doc, values) => {
+	const fields = {
+		subject: values.subject,
+		reference_doctype: values.reference_doctype || null,
+		use_html: values.use_html ? 1 : 0,
+		response: values.response || "",
+		response_html: values.response_html || "",
+	};
+	if (doc) await frappe.xcall("frappe.client.save", { doc: { ...doc, ...fields } });
+	else await frappe.db.insert({ doctype: "Email Template", name: values.template_name.trim(), ...fields });
+	frappe.show_alert({ message: __("Saved"), indicator: "green" });
+};
+
+onedesk.mail_templates.remove = (name, done) =>
+	frappe.confirm(__("Delete {0}? Nobody can start from it again.", [frappe.utils.escape_html(name)]), async () => {
+		await frappe.xcall("frappe.client.delete", { doctype: "Email Template", name });
+		done && done();
+	});
+
 onedesk.mail_templates.edit = async (name, { doctype = null, done = null } = {}) => {
 	const doc = name ? await frappe.db.get_doc("Email Template", name) : null;
 	const dialog = new frappe.ui.Dialog({
 		title: name || __("New Mail Template"),
 		size: "large",
-		fields: [
-			{ fieldtype: "Data", fieldname: "template_name", label: __("Name"), reqd: name ? 0 : 1, hidden: name ? 1 : 0 },
-			{ fieldtype: "Data", fieldname: "subject", label: __("Subject"), reqd: 1 },
-			{
-				fieldtype: "Link",
-				fieldname: "reference_doctype",
-				label: __("For"),
-				options: "DocType",
-				get_query: () => ({ query: "onedesk.one.rules.watchable" }),
-				description: __("Leave empty to use it for any record type."),
-			},
-			{ fieldtype: "Check", fieldname: "use_html", label: __("Write in HTML") },
-			{ fieldtype: "Text Editor", fieldname: "response", label: __("Message"), depends_on: "eval:!doc.use_html" },
-			{ fieldtype: "Code", fieldname: "response_html", label: __("Message"), options: "HTML", depends_on: "eval:doc.use_html" },
-			{
-				fieldtype: "HTML",
-				fieldname: "help",
-				options: `<p class="text-muted small">${__("Use {0} to insert a field of the record.", ["<code>{{ customer_name }}</code>"])}</p>`,
-			},
-		],
-		primary_action_label: name ? __("Update") : __("Create"),
+		fields: onedesk.mail_templates.fields(name, doc),
+		primary_action_label: __("Save"),
 		primary_action: async (values) => {
-			const fields = {
-				subject: values.subject,
-				reference_doctype: values.reference_doctype || null,
-				use_html: values.use_html ? 1 : 0,
-				response: values.response || "",
-				response_html: values.response_html || "",
-			};
-			if (doc) await frappe.xcall("frappe.client.save", { doc: { ...doc, ...fields } });
-			else await frappe.db.insert({ doctype: "Email Template", name: values.template_name.trim(), ...fields });
+			await onedesk.mail_templates.save(name, doc, values);
 			dialog.hide();
-			frappe.show_alert({ message: name ? __("Template updated") : __("Template created"), indicator: "green" });
 			done && done();
 		},
 	});
@@ -489,8 +518,7 @@ onedesk.mail_templates.edit = async (name, { doctype = null, done = null } = {})
 		dialog.set_values(doc);
 		dialog.set_secondary_action_label(__("Delete"));
 		dialog.set_secondary_action(() =>
-			frappe.confirm(__("Delete template {0}?", [name]), async () => {
-				await frappe.xcall("frappe.client.delete", { doctype: "Email Template", name });
+			onedesk.mail_templates.remove(name, () => {
 				dialog.hide();
 				done && done();
 			})

@@ -274,7 +274,10 @@ doc_events = {
 	},
 	"Address": {"on_update": "onedesk.one.letter_heads.redraw"},
 	"Print Format Snippet": {"validate": "onedesk.one.printing.validate_snippet"},
-	"Email Template": {"validate": "onedesk.one.mail_templates.validate"},
+	"Email Template": {
+		"validate": "onedesk.one.mail_templates.validate",
+		"on_trash": "onedesk.one.mail_templates.on_trash",
+	},
 	"Address Template": {"validate": "onedesk.one.masters.validate_address_template"},
 	"Customer Group": {"before_insert": "onedesk.one.masters.place"},
 	"Territory": {"before_insert": "onedesk.one.masters.place"},
