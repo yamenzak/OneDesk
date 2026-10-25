@@ -3,12 +3,13 @@ frappe.provide("onedesk.mail");
 // OneMail's settings, in frappe's own settings dialog (frappe.ui.SettingsDialog),
 // opened from Settings at the foot of OneMail's rail. Mailboxes is everyone's:
 // each mailbox they hold, opened into its own tabs (signature, out-of-office
-// reply, users, connection, rules). Defaults, Shared Mailboxes, Work Mailboxes,
+// reply, users, connection, rules). Setup, Shared Mailboxes, Work Mailboxes,
 // Private Mailboxes and Mail Templates are a Workspace Administrator's: the
-// mailboxes the workspace receives and sends from by default, who reads and
-// sends from each shared mailbox, everybody's mailboxes at the company and
-// whether they send from the address the workspace gives them, and which
-// private mailboxes people may connect, and the templates. Roles is an administrator's: OneMail's role
+// company's domains and the mailboxes the workspace receives and sends from
+// by default, who reads and sends from each shared mailbox, everybody's
+// mailboxes at the company and whether they send from the address the
+// workspace gives them, which private mailboxes people may connect, and the
+// templates. Roles is an administrator's: OneMail's role
 // builder (public/js/role_matrix.js). Wording follows docs/WORDING.md. Every change is
 // a call to one_mail/holders.py, connect.py and rules.py, or one/mail_templates.py.
 onedesk.mail.settings = (tab) => {
@@ -1002,30 +1003,164 @@ onedesk.mail.settings = (tab) => {
 					{ fieldname: "smtp_server", fieldtype: "Data", label: __("SMTP Server") },
 					{ fieldname: "smtp_port", fieldtype: "Int", label: __("SMTP Port") },
 				]);
-				// Only needed when the server isn't found on its own.
+				// Only needed when the server isn't found on its own, and never at a
+				// company domain an administrator set up (frappe.boot.one_mail_domains).
 				form.sections_dict.server?.collapse(true);
+				const known = () =>
+					(frappe.boot.one_mail_domains || []).includes((form.get_value("email") || "").split("@")[1]?.toLowerCase());
+				form.fields_dict.email.df.onchange = () => {
+					const company = known();
+					form.sections_dict.server?.wrapper.toggleClass("hide", company);
+					form.set_df_property("password", "description", company ? "" : __("Gmail and Outlook require an app password."));
+				};
 			},
 		});
 	};
 
-	// ── Defaults ────────────────────────────────────────────────────────────
-	// The workspace's Default Incoming and Default Outgoing (holders.set_defaults),
-	// each one of its shared mailboxes. Notifications keep One's own sender.
-	const defaults = {
-		id: "defaults",
-		label: __("Defaults"),
+	// A work mailbox connected by an administrator for somebody, at a company
+	// domain, so it is theirs without their typing anything (connect.connect_for).
+	const connect_for = (panel) => {
+		let form = null;
+		view(panel, {
+			title: __("Connect Work Mailbox"),
+			description: __("It appears in their mailboxes once connected."),
+			actions: [
+				{
+					label: __("Connect"),
+					variant: "solid",
+					click: async () => {
+						const values = form.get_values();
+						if (!values) return;
+						const $go = panel.$header.find(".settings-dialog-panel-actions button").prop("disabled", true);
+						try {
+							await frappe.xcall("onedesk.one_mail.connect.connect_for", values);
+							frappe.show_alert({ message: __("Mailbox connected"), indicator: "green" });
+							panel.refresh();
+						} finally {
+							$go.prop("disabled", false);
+						}
+					},
+				},
+			],
+			render: (shown) => {
+				form = fields($(`<div></div>`).appendTo(shown.body), [
+					{
+						fieldname: "user",
+						fieldtype: "Link",
+						options: "User",
+						label: __("User"),
+						reqd: 1,
+						get_query: () => ({ filters: { user_type: "System User", enabled: 1 } }),
+						onchange: async () => {
+							const user = form.get_value("user");
+							const email = user ? await frappe.db.get_value("User", user, "email").then((r) => r.message?.email) : "";
+							const domain = (email || "").split("@")[1];
+							if (domain && (frappe.boot.one_mail_domains || []).includes(domain) && !form.get_value("email"))
+								form.set_value("email", email);
+						},
+					},
+					{ fieldname: "email", fieldtype: "Data", options: "Email", label: __("Email Address"), reqd: 1 },
+					{ fieldname: "password", fieldtype: "Password", label: __("Password"), reqd: 1 },
+					{ fieldname: "sends", fieldtype: "Switch", label: __("Enable Outgoing"), default: 1 },
+				]);
+			},
+		});
+	};
+
+	// ── Setup ───────────────────────────────────────────────────────────────
+	// The company's domains and their servers (connect.add_domain), so people
+	// connect a mailbox at one with its password alone, and the workspace's
+	// Default Incoming and Default Outgoing (holders.set_defaults).
+	// Notifications keep One's own sender.
+	const C = "onedesk.one_mail.connect.";
+	const setup = {
+		id: "setup",
+		label: __("Setup"),
 		icon: "sliders-horizontal",
-		title: __("Defaults"),
+		title: __("Setup"),
 		async render(panel) {
 			const was_shown = panel.shown;
-			const said = await frappe.xcall(H + "shared");
+			const [said, domains] = await Promise.all([frappe.xcall(H + "shared"), frappe.xcall(C + "domains")]);
 			if (panel.shown !== was_shown) return;
 			panel.set_header({
-				title: __("Defaults"),
+				title: __("Setup"),
 				description: said.system_sender ? __("Notifications are sent from {0}.", [said.system_sender]) : "",
 			});
-			draw_defaults(panel.body.empty(), said, () => panel.refresh());
+			const $body = panel.body.empty();
+			const top = heading_with(__("Company Domains"), __("People connect a mailbox at these with its password alone."));
+			top.$row.appendTo($body);
+			button({ label: __("Add Domain"), variant: "outline", size: "sm" })
+				.on("click", () => add_domain(panel))
+				.appendTo(top.$end);
+			const $list = $(`<div class="oms-list"></div>`).appendTo($body);
+			if (!domains.length) $list.append(empty(__("No company domains")));
+			domains.forEach((one) => {
+				const $row = row({
+					lead: glyph("globe"),
+					title: one.domain_name,
+					sub: esc([one.email_server, one.smtp_server].filter(Boolean).join(" · ")),
+				}).appendTo($list);
+				remove(() =>
+					frappe.confirm(__("Remove {0}? Mailboxes already connected at it keep working.", [esc(one.domain_name)]), async () => {
+						await frappe.xcall(C + "remove_domain", { domain: one.domain_name });
+						panel.refresh();
+					})
+				).appendTo($row.find(".oms-end"));
+			});
+			if ((said.mailboxes || []).length) {
+				$body.append(heading(__("Defaults")));
+				draw_defaults($body, said, () => panel.refresh());
+			}
 		},
+	};
+	const add_domain = (panel) => {
+		let form = null;
+		view(panel, {
+			title: __("Add Domain"),
+			description: __("The servers are found from the domain. Change them only if they're wrong."),
+			actions: [
+				{
+					label: __("Save"),
+					variant: "solid",
+					click: async () => {
+						const values = form.get_values();
+						if (!values) return;
+						const $go = panel.$header.find(".settings-dialog-panel-actions button").prop("disabled", true);
+						try {
+							await frappe.xcall(C + "add_domain", values);
+							frappe.boot.one_mail_domains = [...new Set([...(frappe.boot.one_mail_domains || []), values.domain.toLowerCase()])];
+							saved();
+							panel.refresh();
+						} finally {
+							$go.prop("disabled", false);
+						}
+					},
+				},
+			],
+			render: (shown) => {
+				form = fields($(`<div></div>`).appendTo(shown.body), [
+					{
+						fieldname: "domain",
+						fieldtype: "Data",
+						label: __("Domain"),
+						reqd: 1,
+						placeholder: "yourcompany.com",
+						onchange: async () => {
+							const domain = form.get_value("domain");
+							if (!domain) return;
+							const found = await frappe.xcall(C + "servers_for", { domain });
+							for (const key of ["email_server", "incoming_port", "smtp_server", "smtp_port"]) form.set_value(key, found[key]);
+						},
+					},
+					{ fieldtype: "Section Break", label: __("Servers") },
+					{ fieldname: "email_server", fieldtype: "Data", label: __("IMAP Server"), reqd: 1 },
+					{ fieldname: "incoming_port", fieldtype: "Int", label: __("IMAP Port"), default: 993 },
+					{ fieldtype: "Column Break" },
+					{ fieldname: "smtp_server", fieldtype: "Data", label: __("SMTP Server"), reqd: 1 },
+					{ fieldname: "smtp_port", fieldtype: "Int", label: __("SMTP Port"), default: 587 },
+				]);
+			},
+		});
 	};
 	const draw_defaults = ($body, said, again) => {
 		const boxes = said.mailboxes || [];
@@ -1135,6 +1270,7 @@ onedesk.mail.settings = (tab) => {
 		label: __("Work Mailboxes"),
 		icon: "at-sign",
 		title: __("Work Mailboxes"),
+		actions: can.policy ? [{ label: __("Connect Work Mailbox"), icon: "plus", click: (panel) => connect_for(panel) }] : [],
 		description: __("Mailboxes people hold at the company's domains."),
 		async render(panel) {
 			const was = panel.shown;
@@ -1322,7 +1458,7 @@ onedesk.mail.settings = (tab) => {
 
 	const tabs = [{ group: __("Your Mail"), items: [mailboxes] }];
 	const workspace_tabs = [
-		can.policy && defaults,
+		can.policy && setup,
 		(can.connect_shared || can.holders || can.others) && shared,
 		(can.policy || can.others) && work,
 		can.policy && private_tab,

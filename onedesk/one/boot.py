@@ -42,6 +42,7 @@ def boot_session(bootinfo) -> None:
 	for one in bootinfo.get("email_accounts") or []:
 		if one.get("email_account") in sends and not sends[one["email_account"]]:
 			one["enable_outgoing"] = 0
+	bootinfo["one_mail_domains"] = frappe.get_all("Email Domain", pluck="domain_name")
 	default = holders.sends_from()
 	bootinfo["one_mail_sends_from"] = (
 		frappe.db.get_value("Email Account", default, "email_id") if default and sends.get(default) else None

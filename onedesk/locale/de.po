@@ -2264,6 +2264,9 @@ msgstr "Titelbild hinzufügen"
 msgid "Add Description"
 msgstr "Beschreibung hinzufügen"
 
+#: onedesk/public/js/onemail_settings.js:1092
+#: onedesk/public/js/onemail_settings.js:1119
+#: onedesk/public/js/settings.js:2224 onedesk/public/js/settings.js:2332
 #: onedesk/public/js/settings.js:2375 onedesk/public/js/settings.js:2484
 msgid "Add Domain"
 msgstr "Domain hinzufügen"
@@ -8487,6 +8490,10 @@ msgstr "Kompakt"
 msgid "Company"
 msgstr "Unternehmen"
 
+#: onedesk/public/js/onemail_settings.js:1090
+msgid "Company Domains"
+msgstr "Unternehmensdomains"
+
 #: onedesk/one_calendar/events.py:31
 msgid "Company Events"
 msgstr "Firmentermine"
@@ -8785,6 +8792,11 @@ msgstr "Gemeinsames Postfach verbinden"
 #: onedesk/one_mail/abilities.py:83
 msgid "Connect Shared Mailboxes"
 msgstr "Gemeinsame Postfächer verbinden"
+
+#: onedesk/public/js/onemail_settings.js:1025
+#: onedesk/public/js/onemail_settings.js:1273
+msgid "Connect Work Mailbox"
+msgstr "Arbeitspostfach verbinden"
 
 #: onedesk/public/js/onecloud.js:1840 onedesk/public/js/onecloud.js:1871
 msgid "Connect as a drive…"
@@ -12465,6 +12477,8 @@ msgstr "Wird nicht abgeschrieben"
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 #: onedesk/one_intake/doctype/identifier/identifier.json
+#: onedesk/public/js/onemail_settings.js:1145
+#: onedesk/public/js/settings.js:2267 onedesk/public/js/settings.js:2337
 #: onedesk/public/js/settings.js:2418 onedesk/public/js/settings.js:2489
 msgid "Domain"
 msgstr "Domain"
@@ -20229,6 +20243,10 @@ msgstr "Eröffnete, beantwortete und gelöste Anfragen, nach Bearbeiter."
 msgid "Issuing Country"
 msgstr "Ausstellungsland"
 
+#: onedesk/public/js/onemail_settings.js:1026
+msgid "It appears in their mailboxes once connected."
+msgstr "Es erscheint nach dem Verbinden in ihren Postfächern."
+
 #: onedesk/public/js/doctype_settings.js:829
 msgid "It becomes required and unique."
 msgstr "Es wird erforderlich und eindeutig."
@@ -25652,6 +25670,10 @@ msgstr "Keine Farbe"
 msgid "No columns match “{0}”"
 msgstr "Keine Spalten entsprechen „{0}“"
 
+#: onedesk/public/js/onemail_settings.js:1096
+msgid "No company domains"
+msgstr "Keine Unternehmensdomains"
+
 #: frontend/src/project/Team.vue:61
 msgid "No contacts"
 msgstr "Keine Kontakte"
@@ -28350,6 +28372,10 @@ msgstr "Nur ein Lead oder eine Chance hat Anrufe."
 msgid "Only a link that still opens can be sent."
 msgstr "Nur ein Link, der sich noch öffnet, kann gesendet werden."
 
+#: onedesk/one_mail/connect.py:231
+msgid "Only a mailbox at a company domain can be connected for someone."
+msgstr "Nur ein Postfach unter einer Unternehmensdomain kann für jemanden verbunden werden."
+
 #: onedesk/one_admin/doctype/offering/offering.py:56
 msgid "Only a recurring offering can have a trial."
 msgstr "Nur ein wiederkehrendes Angebot kann eine Testphase haben."
@@ -30994,6 +31020,10 @@ msgstr "Angefragte Personen"
 #: onedesk/one/settings.py:792
 msgid "People can sign in with a link sent to their email instead of a password."
 msgstr "Man kann sich mit einem per E-Mail gesendeten Link statt eines Passworts anmelden."
+
+#: onedesk/public/js/onemail_settings.js:1090
+msgid "People connect a mailbox at these with its password alone."
+msgstr "Personen verbinden ein Postfach unter diesen Domains nur mit seinem Passwort."
 
 #: onedesk/public/js/settings.js:3086
 msgid "People on Other Lists"
@@ -34674,6 +34704,10 @@ msgstr "{0} aus {1} entfernen?"
 msgid "Remove {0}?"
 msgstr "{0} entfernen?"
 
+#: onedesk/public/js/onemail_settings.js:1104
+msgid "Remove {0}? Mailboxes already connected at it keep working."
+msgstr "{0} entfernen? Bereits verbundene Postfächer funktionieren weiter."
+
 #: onedesk/public/js/settings.js:2451
 msgid "Remove {0}? The workspace will no longer open at this domain."
 msgstr "{0} entfernen? Der Arbeitsbereich ist unter dieser Domain nicht mehr erreichbar."
@@ -37163,6 +37197,7 @@ msgstr "Server {0} nicht gefunden."
 #. Label of the servers (Table) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:84
+#: onedesk/public/js/onemail_settings.js:1155
 msgid "Servers"
 msgstr "Server"
 
@@ -37482,6 +37517,9 @@ msgstr "Begleicht"
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/one_storage/sidebar/onecloud/onecloud.json
 #: onedesk/one_task/sidebar/onetask/onetask.json
+#: onedesk/public/js/onemail_settings.js:1078
+#: onedesk/public/js/onemail_settings.js:1080
+#: onedesk/public/js/onemail_settings.js:1086
 msgid "Setup"
 msgstr "Einrichtung"
 
@@ -43238,6 +43276,10 @@ msgstr "Der Server hat die E-Mail-Adresse oder das Passwort abgelehnt."
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 msgid "The server's name or address."
 msgstr "Name oder Adresse des Servers."
+
+#: onedesk/public/js/onemail_settings.js:1120
+msgid "The servers are found from the domain. Change them only if they're wrong."
+msgstr "Die Server werden anhand der Domain gefunden. Ändern Sie sie nur, wenn sie falsch sind."
 
 #: onedesk/one_sheet/table.py:311
 msgid "The sheet's hidden first column was deleted. Undo the change, or reopen the workbook from the record."
@@ -54871,6 +54913,10 @@ msgstr "{0} ist ein persönliches Postfach und kann nicht geteilt werden."
 msgid "{0} is a private app, and a private app installed stays."
 msgstr "{0} ist eine private App, und eine installierte private App bleibt."
 
+#: onedesk/one_mail/connect.py:270
+msgid "{0} is a public mail provider, not a company domain."
+msgstr "{0} ist ein öffentlicher E-Mail-Anbieter, keine Unternehmensdomain."
+
 #: onedesk/one_project/billing.py:76
 msgid "{0} is a retainer. Invoice it by the month."
 msgstr "{0} ist ein Retainer. Fakturieren Sie ihn monatlich."
@@ -55071,7 +55117,7 @@ msgstr "{0} ist keine Fähigkeit, die ein Modell trägt."
 msgid "{0} is not a chart of {1}."
 msgstr "{0} ist kein Diagramm von {1}."
 
-#: onedesk/one_admin/hosts.py:78
+#: onedesk/one_admin/hosts.py:78 onedesk/one_mail/connect.py:268
 msgid "{0} is not a domain."
 msgstr "{0} ist keine Domain."
 
@@ -55186,6 +55232,10 @@ msgstr "{0} ist kein Werkzeug."
 #: onedesk/one_project/team.py:128
 msgid "{0} is not a user here."
 msgstr "{0} ist hier kein Benutzer."
+
+#: onedesk/one_mail/connect.py:229
+msgid "{0} is not a user of this workspace."
+msgstr "{0} ist kein Benutzer dieses Workspace."
 
 #: onedesk/one_hr/doctype/clock_network/clock_network.py:12
 msgid "{0} is not a valid address or range. Example: 203.0.113.7 or 203.0.113.0/24"

@@ -649,10 +649,15 @@ No doctypes yet.
 * `onedesk.one_mail.api.conversations`
 * `onedesk.one_mail.api.mailboxes`
 * `onedesk.one_mail.api.names`
+* `onedesk.one_mail.connect.add_domain`
 * `onedesk.one_mail.connect.connect`
+* `onedesk.one_mail.connect.connect_for`
 * `onedesk.one_mail.connect.connection_of`
 * `onedesk.one_mail.connect.disconnect`
+* `onedesk.one_mail.connect.domains`
 * `onedesk.one_mail.connect.reconnect`
+* `onedesk.one_mail.connect.remove_domain`
+* `onedesk.one_mail.connect.servers_for`
 * `onedesk.one_mail.gate.set_settings`
 * `onedesk.one_mail.gate.settings_of`
 * `onedesk.one_mail.holders.addresses_of_people`

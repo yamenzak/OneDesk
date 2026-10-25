@@ -68,11 +68,45 @@ def candidates(address: str) -> list[dict]:
 				"use_ssl_for_outgoing": int(configured.use_ssl_for_outgoing),
 			}
 		)
-	return out + guesses(domain)
+	return out + guesses(domain, None if out or domain in KNOWN else hosted_by(domain))
 
 
-def guesses(domain: str) -> list[dict]:
-	"""The providers' servers, or the usual names. Pure."""
+# Who hosts a company's mail, by the end of its MX record: a company on Google
+# Workspace or Microsoft 365 signs in where Gmail or Office 365 does.
+HOSTED_BY = {
+	"google.com": ("imap.gmail.com", "smtp.gmail.com", 587),
+	"googlemail.com": ("imap.gmail.com", "smtp.gmail.com", 587),
+	"outlook.com": ("outlook.office365.com", "smtp.office365.com", 587),
+	"zoho.com": ("imap.zoho.com", "smtp.zoho.com", 465),
+	"zoho.eu": ("imap.zoho.eu", "smtp.zoho.eu", 465),
+}
+
+
+def hosted_by(domain: str) -> tuple | None:
+	"""The servers of whoever receives the domain's mail, read from its MX
+	record over DNS-over-HTTPS. None when it can't be told."""
+	import requests
+
+	try:
+		said = requests.get(
+			"https://cloudflare-dns.com/dns-query",
+			params={"name": domain, "type": "MX"},
+			headers={"Accept": "application/dns-json"},
+			timeout=4,
+		).json()
+	except Exception:
+		return None
+	for answer in said.get("Answer") or []:
+		host = (answer.get("data") or "").split()[-1].rstrip(".").lower()
+		for tail, servers in HOSTED_BY.items():
+			if host == tail or host.endswith("." + tail):
+				return servers
+	return None
+
+
+def guesses(domain: str, hosted: tuple | None = None) -> list[dict]:
+	"""The providers' servers, the servers of whoever hosts it (hosted_by), or
+	the usual names. Pure."""
 
 	def server(incoming, outgoing, port):
 		return {
@@ -88,6 +122,8 @@ def guesses(domain: str) -> list[dict]:
 
 	if domain in KNOWN:
 		return [server(*KNOWN[domain])]
+	if hosted:
+		return [server(*hosted)]
 	return [server(f"imap.{domain}", f"smtp.{domain}", 587), server(f"mail.{domain}", f"mail.{domain}", 587)]
 
 
@@ -172,12 +208,104 @@ def connect(
 	"""Connect a mailbox the reader holds. With no server named, one is found.
 	With `shared`, it is the workspace's, such as sales@, and a workspace
 	administrator chooses who else holds it (holders.py)."""
-	from frappe.utils import validate_email_address
-
 	if int(shared):
 		from onedesk.one_mail import holders
 
 		holders._admin("connect_shared")
+	return _connect(
+		email, password, login, email_server, incoming_port, use_ssl, smtp_server, smtp_port, sends, shared,
+		frappe.session.user,
+	)
+
+
+@frappe.whitelist(methods=["POST"])
+def connect_for(user: str, email: str, password: str, sends: int = 1) -> str:
+	"""A workspace administrator connects somebody's work mailbox for them,
+	at a company domain, so it is theirs without their typing anything."""
+	from onedesk.one_mail import holders
+
+	holders._admin("policy")
+	if frappe.db.get_value("User", user, "user_type") != "System User":
+		frappe.throw(_("{0} is not a user of this workspace.").format(user))
+	if addresses.is_private(email or ""):
+		frappe.throw(_("Only a mailbox at a company domain can be connected for someone."))
+	return _connect(email, password, None, None, None, 1, None, None, sends, 0, user)
+
+
+@frappe.whitelist()
+def domains() -> list[dict]:
+	"""The company's domains a workspace administrator set up, with their
+	servers: anyone connects a mailbox at one with its password alone."""
+	from onedesk.one_mail import holders
+
+	holders._admin("policy")
+	return frappe.get_all(
+		"Email Domain",
+		fields=["domain_name", "email_server", "incoming_port", "smtp_server", "smtp_port"],
+		order_by="domain_name asc",
+	)
+
+
+@frappe.whitelist()
+def servers_for(domain: str) -> dict:
+	"""The servers a domain most likely uses, to start the form from."""
+	from onedesk.one_mail import holders
+
+	holders._admin("policy")
+	domain = addresses.domain_of(domain)
+	return guesses(domain, None if domain in KNOWN else hosted_by(domain))[0]
+
+
+@frappe.whitelist(methods=["POST"])
+def add_domain(domain: str, email_server: str, incoming_port: int, smtp_server: str, smtp_port: int) -> str:
+	"""A company domain and its servers, kept as frappe's Email Domain, which
+	tries both servers before it is saved."""
+	from onedesk.one_mail import holders
+
+	holders._admin("policy")
+	domain = addresses.domain_of(domain)
+	if "." not in domain:
+		frappe.throw(_("{0} is not a domain.").format(domain))
+	if domain in KNOWN:
+		frappe.throw(_("{0} is a public mail provider, not a company domain.").format(domain))
+	incoming_port, smtp_port = int(incoming_port or 993), int(smtp_port or 587)
+	doc = (
+		frappe.get_doc("Email Domain", domain)
+		if frappe.db.exists("Email Domain", domain)
+		else frappe.new_doc("Email Domain")
+	)
+	doc.update(
+		{
+			"domain_name": domain,
+			"email_server": (email_server or "").strip(),
+			"incoming_port": incoming_port,
+			"use_imap": 1,
+			"use_ssl": int(incoming_port == 993),
+			"use_starttls": 0,
+			"smtp_server": (smtp_server or "").strip(),
+			"smtp_port": smtp_port,
+			"use_tls": int(smtp_port == 587),
+			"use_ssl_for_outgoing": int(smtp_port == 465),
+			"append_emails_to_sent_folder": int((smtp_server or "").strip() not in FILES_ITS_OWN),
+		}
+	)
+	doc.flags.ignore_permissions = True
+	doc.save()
+	return doc.name
+
+
+@frappe.whitelist(methods=["POST"])
+def remove_domain(domain: str) -> None:
+	"""Mailboxes already connected at it keep their servers."""
+	from onedesk.one_mail import holders
+
+	holders._admin("policy")
+	frappe.delete_doc("Email Domain", domain, ignore_permissions=True)
+
+
+def _connect(email, password, login, email_server, incoming_port, use_ssl, smtp_server, smtp_port, sends, shared, holder) -> str:
+	from frappe.utils import validate_email_address
+
 	email = (validate_email_address(email or "", throw=True) or "").strip().lower()
 	allowed = addresses.allowed_domains()
 	private = not int(shared) and addresses.is_private(email)
@@ -223,7 +351,7 @@ def connect(
 	)
 	doc.flags.ignore_permissions = True
 	doc.insert()
-	addresses.hold(doc.name, frappe.session.user)
+	addresses.hold(doc.name, holder)
 	frappe.enqueue(
 		"onedesk.one_mail.sync.sync_account",
 		queue="long",

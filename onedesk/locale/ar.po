@@ -2264,6 +2264,9 @@ msgstr "إضافة غلاف"
 msgid "Add Description"
 msgstr "إضافة وصف"
 
+#: onedesk/public/js/onemail_settings.js:1092
+#: onedesk/public/js/onemail_settings.js:1119
+#: onedesk/public/js/settings.js:2224 onedesk/public/js/settings.js:2332
 #: onedesk/public/js/settings.js:2375 onedesk/public/js/settings.js:2484
 msgid "Add Domain"
 msgstr "إضافة نطاق"
@@ -8487,6 +8490,10 @@ msgstr "مضغوط"
 msgid "Company"
 msgstr "الشركة"
 
+#: onedesk/public/js/onemail_settings.js:1090
+msgid "Company Domains"
+msgstr "نطاقات الشركة"
+
 #: onedesk/one_calendar/events.py:31
 msgid "Company Events"
 msgstr "أحداث الشركة"
@@ -8785,6 +8792,11 @@ msgstr "ربط صندوق بريد مشترك"
 #: onedesk/one_mail/abilities.py:83
 msgid "Connect Shared Mailboxes"
 msgstr "ربط صناديق البريد المشتركة"
+
+#: onedesk/public/js/onemail_settings.js:1025
+#: onedesk/public/js/onemail_settings.js:1273
+msgid "Connect Work Mailbox"
+msgstr "ربط صندوق بريد العمل"
 
 #: onedesk/public/js/onecloud.js:1840 onedesk/public/js/onecloud.js:1871
 msgid "Connect as a drive…"
@@ -12465,6 +12477,8 @@ msgstr "لا يُهلك"
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 #: onedesk/one_intake/doctype/identifier/identifier.json
+#: onedesk/public/js/onemail_settings.js:1145
+#: onedesk/public/js/settings.js:2267 onedesk/public/js/settings.js:2337
 #: onedesk/public/js/settings.js:2418 onedesk/public/js/settings.js:2489
 msgid "Domain"
 msgstr "النطاق"
@@ -20229,6 +20243,10 @@ msgstr "البلاغات المفتوحة والمردود عليها والمح
 msgid "Issuing Country"
 msgstr "بلد الإصدار"
 
+#: onedesk/public/js/onemail_settings.js:1026
+msgid "It appears in their mailboxes once connected."
+msgstr "يظهر في صناديق بريدهم بمجرد ربطه."
+
 #: onedesk/public/js/doctype_settings.js:829
 msgid "It becomes required and unique."
 msgstr "يصبح إلزاميًا وفريدًا."
@@ -25652,6 +25670,10 @@ msgstr "بلا لون"
 msgid "No columns match “{0}”"
 msgstr "لا توجد أعمدة تطابق «{0}»"
 
+#: onedesk/public/js/onemail_settings.js:1096
+msgid "No company domains"
+msgstr "لا توجد نطاقات للشركة"
+
 #: frontend/src/project/Team.vue:61
 msgid "No contacts"
 msgstr "لا توجد جهات اتصال"
@@ -28350,6 +28372,10 @@ msgstr "المكالمات تكون فقط لعميل محتمل أو فرصة."
 msgid "Only a link that still opens can be sent."
 msgstr "لا يمكن إرسال إلا رابط ما زال يفتح."
 
+#: onedesk/one_mail/connect.py:231
+msgid "Only a mailbox at a company domain can be connected for someone."
+msgstr "لا يمكن ربط صندوق بريد لشخص آخر إلا إذا كان على نطاق الشركة."
+
 #: onedesk/one_admin/doctype/offering/offering.py:56
 msgid "Only a recurring offering can have a trial."
 msgstr "لا يمكن أن تكون التجربة إلا في عرض متكرر."
@@ -30994,6 +31020,10 @@ msgstr "الأشخاص المطلوب منهم"
 #: onedesk/one/settings.py:792
 msgid "People can sign in with a link sent to their email instead of a password."
 msgstr "يمكن للناس تسجيل الدخول برابط يُرسل إلى بريدهم بدلًا من كلمة المرور."
+
+#: onedesk/public/js/onemail_settings.js:1090
+msgid "People connect a mailbox at these with its password alone."
+msgstr "يربط الأشخاص صندوق بريد على هذه النطاقات بكلمة مروره فقط."
 
 #: onedesk/public/js/settings.js:3086
 msgid "People on Other Lists"
@@ -34674,6 +34704,10 @@ msgstr "إزالة {0} من {1}؟"
 msgid "Remove {0}?"
 msgstr "إزالة {0}؟"
 
+#: onedesk/public/js/onemail_settings.js:1104
+msgid "Remove {0}? Mailboxes already connected at it keep working."
+msgstr "إزالة {0}؟ تبقى صناديق البريد المربوطة عليه تعمل."
+
 #: onedesk/public/js/settings.js:2451
 msgid "Remove {0}? The workspace will no longer open at this domain."
 msgstr "إزالة {0}؟ لن تُفتح مساحة العمل على هذا النطاق بعد الآن."
@@ -37163,6 +37197,7 @@ msgstr "الخادم {0} غير موجود."
 #. Label of the servers (Table) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:84
+#: onedesk/public/js/onemail_settings.js:1155
 msgid "Servers"
 msgstr "الخوادم"
 
@@ -37482,6 +37517,9 @@ msgstr "يسدّد"
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/one_storage/sidebar/onecloud/onecloud.json
 #: onedesk/one_task/sidebar/onetask/onetask.json
+#: onedesk/public/js/onemail_settings.js:1078
+#: onedesk/public/js/onemail_settings.js:1080
+#: onedesk/public/js/onemail_settings.js:1086
 msgid "Setup"
 msgstr "الإعداد"
 
@@ -43238,6 +43276,10 @@ msgstr "رفض الخادم عنوان البريد الإلكتروني أو ك
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 msgid "The server's name or address."
 msgstr "اسم الخادم أو عنوانه."
+
+#: onedesk/public/js/onemail_settings.js:1120
+msgid "The servers are found from the domain. Change them only if they're wrong."
+msgstr "يتم العثور على الخوادم من النطاق. غيّرها فقط إذا كانت خاطئة."
 
 #: onedesk/one_sheet/table.py:311
 msgid "The sheet's hidden first column was deleted. Undo the change, or reopen the workbook from the record."
@@ -54871,6 +54913,10 @@ msgstr "{0} صندوق بريد شخصي ولا يمكن مشاركته."
 msgid "{0} is a private app, and a private app installed stays."
 msgstr "{0} تطبيق خاص، والتطبيق الخاص المثبّت يبقى."
 
+#: onedesk/one_mail/connect.py:270
+msgid "{0} is a public mail provider, not a company domain."
+msgstr "{0} مزوّد بريد عام وليس نطاقًا للشركة."
+
 #: onedesk/one_project/billing.py:76
 msgid "{0} is a retainer. Invoice it by the month."
 msgstr "{0} اشتراك شهري. فوتره حسب الشهر."
@@ -55071,7 +55117,7 @@ msgstr "{0} ليست قدرة يحملها أي نموذج."
 msgid "{0} is not a chart of {1}."
 msgstr "{0} ليس مخططًا لـ {1}."
 
-#: onedesk/one_admin/hosts.py:78
+#: onedesk/one_admin/hosts.py:78 onedesk/one_mail/connect.py:268
 msgid "{0} is not a domain."
 msgstr "{0} ليس نطاقًا."
 
@@ -55186,6 +55232,10 @@ msgstr "{0} ليس أداة."
 #: onedesk/one_project/team.py:128
 msgid "{0} is not a user here."
 msgstr "{0} ليس مستخدمًا هنا."
+
+#: onedesk/one_mail/connect.py:229
+msgid "{0} is not a user of this workspace."
+msgstr "{0} ليس مستخدمًا في مساحة العمل هذه."
 
 #: onedesk/one_hr/doctype/clock_network/clock_network.py:12
 msgid "{0} is not a valid address or range. Example: 203.0.113.7 or 203.0.113.0/24"

@@ -68,7 +68,9 @@ employee that reads its mail:
   quick look. A rule with one can't be switched on otherwise, the step says
   so in the builder, and setting New Mail to Not Read names those rules
   first; they then show **Not Running** in Automation.
-- **Defaults** (administrators): **Default Incoming** and **Default
+- **Setup** (administrators): **Company Domains**, each with its incoming
+  and outgoing servers, found from the domain when its mail is on Google
+  Workspace, Microsoft 365 or Zoho, then **Default Incoming** and **Default
   Outgoing**, and which address notifications are sent from.
 - **Shared Mailboxes** (administrators): the workspace mailbox and every
   shared one. Opening one shows the same tabs; **Users** adds or removes
@@ -207,7 +209,13 @@ outgoing server is also tried on its other usual port.
 
 - Anyone can connect their own mailbox at a company domain. It is a Work
   mailbox: administrators can set its signature, away reply, OneAI and
-  Automation, as for the address the workspace gave them.
+  Automation, as for the address the workspace gave them. At a domain set
+  up in **Setup** they type only the address and password; the server
+  fields are hidden.
+- A workspace administrator can connect somebody's work mailbox for them
+  from **Work Mailboxes › Connect Work Mailbox** (`connect.connect_for`),
+  with its password. It appears in that person's mailboxes. Only a mailbox
+  at a company domain can be connected this way, never a private one.
 - Anyone can connect a private mailbox, such as Gmail, unless an
   administrator has turned off **Private Mailboxes**. No one else can see
   into it or change it, not even administrators (`holders.may`).
@@ -602,8 +610,14 @@ page to use them is missing (stage 5).
   since it is the right server. The account is an `Email Account` with
   `one_connected` and `enable_incoming` off, held by whoever connected it
   through a `User Email` row.
-  The `Email Domain` is one a workspace administrator set up, and the guess
-  uses the standard ports. Somebody whose server is none of these types it
+  The `Email Domain` is one a workspace administrator set up in Setup
+  (`connect.add_domain`, which frappe's own validate dials before saving),
+  and the guess uses the standard ports. For a domain with neither,
+  `connect.hosted_by` reads its MX record over DNS-over-HTTPS (there is no
+  DNS library on the bench), so a Google Workspace or Microsoft 365 company
+  is tried at Gmail's or Office 365's servers first. Such accounts still
+  need an app password; signing in through Google or Microsoft is not
+  built. Somebody whose server is none of these types it
   in, and that is tried the same way. `enable_incoming` stays off because
   Frappe's own pull reads one folder and marks what it reads, while sync.py
   reads every folder and changes nothing. The `User Email` row is how

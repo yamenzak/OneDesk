@@ -3303,6 +3303,22 @@ def onemail_a_shared_mailbox_is_connected_given_and_let_go():
 			assert holders.may(private, "signature") and holders.mailbox(private)["private"]
 			connect.disconnect(private)
 			connect.disconnect(work)
+		with mock.patch("onedesk.one_mail.connect.hosted_by", return_value=connect.HOSTED_BY["google.com"]):
+			assert connect.servers_for("saharaglass.org")["email_server"] == "imap.gmail.com", "Google Workspace, by MX"
+		served = "frappe.email.doctype.email_domain.email_domain.EmailDomain.validate_"
+		with mock.patch(served + "incoming_server_conn"), mock.patch(served + "outgoing_server_conn"):
+			connect.add_domain("saharaglass.org", "mail.saharaglass.org", 993, "mail.saharaglass.org", 587)
+		assert "saharaglass.org" in [one["domain_name"] for one in connect.domains()]
+		assert connect.candidates("karim@saharaglass.org")[0]["email_server"] == "mail.saharaglass.org"
+		karim = connect.connect_for("karim@one.test", "karim@saharaglass.org", "app-password")
+		assert frappe.db.exists("User Email", {"parent": "karim@one.test", "email_account": karim}), "connected for Karim"
+		try:
+			connect.connect_for("karim@one.test", "karim.mansour@gmail.test", "app-password")
+			raise AssertionError("an administrator connected somebody's private mailbox")
+		except frappe.ValidationError:
+			pass
+		connect.disconnect(karim)
+		connect.remove_domain("saharaglass.org")
 		connect.reconnect(sales, "new-app-password")
 		connect.disconnect(sales)
 		assert not frappe.db.exists("Email Account", sales)
