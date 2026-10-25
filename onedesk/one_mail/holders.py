@@ -340,10 +340,11 @@ def shared() -> dict:
 
 @frappe.whitelist()
 def addresses_of_people() -> list[dict]:
-	"""Every person's work mailboxes, the address the workspace issued them
-	and those they connected at the company's domains, with whose it is: what
-	a Mail Manager opens to set a signature, a sender name or an away reply
-	for somebody. A private one (addresses.is_private) is never listed."""
+	"""Every person's System and Organization mailboxes, the address the
+	workspace issued them and those they connected at the company's domains,
+	with whose it is: what a Mail Manager opens to set a signature, a sender
+	name or an away reply for somebody. A private one (addresses.is_private)
+	is never listed."""
 	if not may_open_others():
 		_admin("policy")
 	held = {

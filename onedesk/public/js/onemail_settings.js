@@ -3,13 +3,13 @@ frappe.provide("onedesk.mail");
 // OneMail's settings, in frappe's own settings dialog (frappe.ui.SettingsDialog),
 // opened from Settings at the foot of OneMail's rail. Mailboxes is everyone's:
 // each mailbox they hold, opened into its own tabs (signature, out-of-office
-// reply, users, connection, rules). Setup, Shared Mailboxes, Work Mailboxes,
-// Private Mailboxes and Mail Templates are a Workspace Administrator's: the
-// company's domains and the mailboxes the workspace receives and sends from
-// by default, who reads and sends from each shared mailbox, everybody's
-// mailboxes at the company and whether they send from the address the
-// workspace gives them, which private mailboxes people may connect, and the
-// templates. Roles is an administrator's: OneMail's role
+// reply, users, connection, rules). Setup, Shared Mailboxes, System Mailboxes,
+// Organization Mailboxes, Private Mailboxes and Mail Templates are a Workspace
+// Administrator's: the company's domains and the mailboxes the workspace
+// receives and sends from by default, who reads and sends from each shared
+// mailbox, the address the workspace gives each person and whether it sends,
+// everybody's mailboxes at the company's domains, which private mailboxes
+// people may connect, and the templates. Roles is an administrator's: OneMail's role
 // builder (public/js/role_matrix.js). Wording follows docs/WORDING.md. Every change is
 // a call to one_mail/holders.py, connect.py and rules.py, or one/mail_templates.py.
 onedesk.mail.settings = (tab) => {
@@ -31,11 +31,21 @@ onedesk.mail.settings = (tab) => {
 		return { $row, $end: $row.find(".oms-heading-end") };
 	};
 
-	// Whose a mailbox is: the workspace's, a team's, a person's at the company
-	// (Work), or a person's own elsewhere, such as Gmail (Private).
+	// Whose a mailbox is: the workspace's, a team's, the address the workspace
+	// gives a person (System), a person's at a company domain (Organization),
+	// or a person's own elsewhere, such as Gmail (Private).
 	const kind_of = (box) =>
-		box.workspace ? __("Workspace") : box.shared ? __("Shared") : box.private ? __("Private") : __("Work");
-	const icon_of = (box) => (box.workspace ? "building-2" : box.shared ? "users" : box.private ? "lock" : "at-sign");
+		box.workspace
+			? __("Workspace")
+			: box.shared
+			? __("Shared")
+			: box.hosted
+			? __("System")
+			: box.private
+			? __("Private")
+			: __("Organization");
+	const icon_of = (box) =>
+		box.workspace ? "building-2" : box.shared ? "users" : box.hosted ? "at-sign" : box.private ? "lock" : "building";
 
 	// A list row: a picture or an icon, two lines, and what sits at its end.
 	const row = ({ lead, title, sub = "", end = "", open = null }) => {
@@ -1017,12 +1027,12 @@ onedesk.mail.settings = (tab) => {
 		});
 	};
 
-	// A work mailbox connected by an administrator for somebody, at a company
+	// An organization mailbox connected by an administrator for somebody, at a company
 	// domain, so it is theirs without their typing anything (connect.connect_for).
 	const connect_for = (panel) => {
 		let form = null;
 		view(panel, {
-			title: __("Connect Work Mailbox"),
+			title: __("Connect Organization Mailbox"),
 			description: __("It appears in their mailboxes once connected."),
 			actions: [
 				{
@@ -1152,13 +1162,15 @@ onedesk.mail.settings = (tab) => {
 							for (const key of ["email_server", "incoming_port", "smtp_server", "smtp_port"]) form.set_value(key, found[key]);
 						},
 					},
-					{ fieldtype: "Section Break", label: __("Servers") },
+					{ fieldtype: "Section Break", fieldname: "servers", label: __("Servers"), collapsible: 1 },
 					{ fieldname: "email_server", fieldtype: "Data", label: __("IMAP Server"), reqd: 1 },
 					{ fieldname: "incoming_port", fieldtype: "Int", label: __("IMAP Port"), default: 993 },
 					{ fieldtype: "Column Break" },
 					{ fieldname: "smtp_server", fieldtype: "Data", label: __("SMTP Server"), reqd: 1 },
 					{ fieldname: "smtp_port", fieldtype: "Int", label: __("SMTP Port"), default: 587 },
 				]);
+				// Found from the domain, so out of the way unless they're wrong.
+				form.sections_dict.servers?.collapse(true);
 			},
 		});
 	};
@@ -1260,18 +1272,27 @@ onedesk.mail.settings = (tab) => {
 		});
 	};
 
-	// ── Work Mailboxes ──────────────────────────────────────────────────────
-	// Every person's mailboxes at the company's domains, opened to set a
-	// signature, a sender name or an away reply for them
-	// (holders.addresses_of_people), and whether they may send from the
-	// address the workspace gives them.
-	const work = {
-		id: "work",
-		label: __("Work Mailboxes"),
+	// A person's row in System and Organization Mailboxes, opened to set a
+	// signature, a sender name or an away reply for them.
+	const person_row = (one, from) =>
+		row({
+			lead: frappe.ui.avatar.html({ label: one.full_name, size: "md" }),
+			title: one.full_name,
+			sub: esc(one.email),
+			end: chevron(),
+			open: () => open(one.name, from),
+		});
+
+	// ── System Mailboxes ────────────────────────────────────────────────────
+	// The address the workspace gives each person (holders.addresses_of_people,
+	// issued), and whether it sends: by default for new people
+	// (set_personal_sends) and one by one (set_sends).
+	const system = {
+		id: "system",
+		label: __("System Mailboxes"),
 		icon: "at-sign",
-		title: __("Work Mailboxes"),
-		actions: can.policy ? [{ label: __("Connect Work Mailbox"), icon: "plus", click: (panel) => connect_for(panel) }] : [],
-		description: __("Mailboxes people hold at the company's domains."),
+		title: __("System Mailboxes"),
+		description: __("Addresses the workspace gives each person."),
 		async render(panel) {
 			const was = panel.shown;
 			const [said, listed] = await Promise.all([
@@ -1292,18 +1313,12 @@ onedesk.mail.settings = (tab) => {
 				);
 				$body.append(heading(__("Mailboxes")));
 			}
+			const issued = (listed || []).filter((one) => one.issued);
 			const $list = $(`<div class="oms-list"></div>`).appendTo($body);
-			if (!(listed || []).length) $list.append(empty(__("No mailboxes")));
-			(listed || []).forEach((one) => {
-				const $row = row({
-					lead: frappe.ui.avatar.html({ label: one.full_name, size: "md" }),
-					title: one.full_name,
-					sub: esc(one.issued ? one.email : [one.email, __("Connected")].join(" · ")),
-					end: chevron(),
-					open: () => open(one.name, "work"),
-				}).appendTo($list);
-				// Whether this person's workspace address sends (holders.set_sends).
-				if (!said || !one.issued) return;
+			if (!issued.length) $list.append(empty(__("No mailboxes")));
+			issued.forEach((one) => {
+				const $row = person_row(one, "system").appendTo($list);
+				if (!said) return;
 				const send = frappe.ui.form.make_control({
 					df: { fieldtype: "Switch", fieldname: "sends", label: __("Send") },
 					parent: $(`<span class="oms-switch"></span>`).prependTo($row.find(".oms-end")),
@@ -1315,6 +1330,29 @@ onedesk.mail.settings = (tab) => {
 					saved();
 				});
 			});
+		},
+	};
+
+	// ── Organization Mailboxes ──────────────────────────────────────────────
+	// Mailboxes people hold at the company's own domains, connected by them or
+	// for them by an administrator (connect.connect_for).
+	const organization = {
+		id: "organization",
+		label: __("Organization Mailboxes"),
+		icon: "building",
+		title: __("Organization Mailboxes"),
+		description: __("Mailboxes people hold at the company's domains."),
+		actions: can.policy
+			? [{ label: __("Connect Organization Mailbox"), icon: "plus", click: (panel) => connect_for(panel) }]
+			: [],
+		async render(panel) {
+			const was = panel.shown;
+			const listed = (await frappe.xcall(H + "addresses_of_people")) || [];
+			if (panel.shown !== was) return;
+			const connected = listed.filter((one) => !one.issued);
+			const $list = $(`<div class="oms-list"></div>`).appendTo(panel.body.empty());
+			if (!connected.length) $list.append(empty(__("No organization mailboxes")));
+			connected.forEach((one) => person_row(one, "organization").appendTo($list));
 		},
 	};
 
@@ -1460,7 +1498,8 @@ onedesk.mail.settings = (tab) => {
 	const workspace_tabs = [
 		can.policy && setup,
 		(can.connect_shared || can.holders || can.others) && shared,
-		(can.policy || can.others) && work,
+		(can.policy || can.others) && system,
+		(can.policy || can.others) && organization,
 		can.policy && private_tab,
 		can.templates && templates,
 		can.roles && roles,

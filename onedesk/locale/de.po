@@ -2866,6 +2866,10 @@ msgstr "Adresse bei Lieferanten, Banken und Behörden geändert"
 msgid "Addresses employees may check in from."
 msgstr "Adressen, von denen Mitarbeiter einchecken dürfen."
 
+#: onedesk/public/js/onemail_settings.js:1295
+msgid "Addresses the workspace gives each person."
+msgstr "Adressen, die der Workspace jeder Person gibt."
+
 #. Label in the One Leave Adjustment print format
 #: onedesk/one_hr/print_format/one_leave_adjustment/one_leave_adjustment.json
 msgid "Adjustment"
@@ -8785,6 +8789,11 @@ msgstr "Verbinden"
 msgid "Connect Mailbox"
 msgstr "Postfach verbinden"
 
+#: onedesk/public/js/onemail_settings.js:1035
+#: onedesk/public/js/onemail_settings.js:1346
+msgid "Connect Organization Mailbox"
+msgstr "Organisationspostfach verbinden"
+
 #: onedesk/public/js/onemail_settings.js:192
 msgid "Connect Shared Mailbox"
 msgstr "Gemeinsames Postfach verbinden"
@@ -8792,11 +8801,6 @@ msgstr "Gemeinsames Postfach verbinden"
 #: onedesk/one_mail/abilities.py:83
 msgid "Connect Shared Mailboxes"
 msgstr "Gemeinsame Postfächer verbinden"
-
-#: onedesk/public/js/onemail_settings.js:1025
-#: onedesk/public/js/onemail_settings.js:1273
-msgid "Connect Work Mailbox"
-msgstr "Arbeitspostfach verbinden"
 
 #: onedesk/public/js/onecloud.js:1840 onedesk/public/js/onecloud.js:1871
 msgid "Connect as a drive…"
@@ -26004,6 +26008,10 @@ msgstr "Keine Arbeitsgänge hier"
 msgid "No orders match"
 msgstr "Keine passenden Aufträge"
 
+#: onedesk/public/js/onemail_settings.js:1354
+msgid "No organization mailboxes"
+msgstr "Keine Organisationspostfächer"
+
 #: onedesk/public/js/overtime_slip.js:41
 msgid "No overtime was recorded on any attendance between {0} and {1}."
 msgstr "Zwischen {0} und {1} wurden in keiner Anwesenheit Überstunden erfasst."
@@ -29350,6 +29358,15 @@ msgstr "Organisation"
 #: onedesk/one_hr/print_format/one_travel_request/one_travel_request.json
 msgid "Organiser"
 msgstr "Veranstalter"
+
+#: frontend/src/mail/mail.js:60 onedesk/public/js/onemail_settings.js:46
+msgid "Organization"
+msgstr "Organisation"
+
+#: onedesk/public/js/onemail_settings.js:1341
+#: onedesk/public/js/onemail_settings.js:1343
+msgid "Organization Mailboxes"
+msgstr "Organisationspostfächer"
 
 #. Label of a field in the get-in-touch Web Form
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
@@ -40739,7 +40756,9 @@ msgstr "Über iCloud-Schlüsselbund oder Google Passwortmanager synchronisiert u
 msgid "Syncing {0}…"
 msgstr "{0} wird synchronisiert…"
 
+#: frontend/src/mail/mail.js:59
 #: frontend/src/sheet/components/SheetEditor/index.vue:1817
+#: onedesk/public/js/onemail_settings.js:43
 msgid "System"
 msgstr "System"
 
@@ -40747,6 +40766,11 @@ msgstr "System"
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "System Instruction"
 msgstr "Systemanweisung"
+
+#: onedesk/public/js/onemail_settings.js:1292
+#: onedesk/public/js/onemail_settings.js:1294
+msgid "System Mailboxes"
+msgstr "Systempostfächer"
 
 #. Name of a role
 #: onedesk/one/doctype/device/device.json
@@ -51004,11 +51028,6 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_job_card/one_job_card.json
 msgid "Work In Progress At"
 msgstr "In Arbeit bei"
-
-#: onedesk/public/js/onemail_settings.js:1135
-#: onedesk/public/js/onemail_settings.js:1137
-msgid "Work Mailboxes"
-msgstr "Arbeitspostfächer"
 
 #. Label in the One Job Card print format
 #. Label in the One Material Request print format

@@ -50,12 +50,14 @@ const PROVIDERS = {
 	"yahoo.com": "Yahoo",
 };
 
-// A mailbox in the sidebar: the workspace's, the person's work address, a
-// mailbox they connected by its provider or domain, or a shared one's address.
+// A mailbox in the sidebar: the workspace's, the address the workspace gave
+// the person (System), one at a company domain (Organization), a private one
+// by its provider or domain, or a shared one's address.
 export function called(box) {
 	if (box.workspace) return __("Workspace");
 	if (box.shared) return box.email;
-	if (box.hosted) return __("Work");
+	if (box.hosted) return __("System");
+	if (box.connected && !box.private) return __("Organization");
 	const domain = (box.email || "").split("@").pop().toLowerCase();
 	return PROVIDERS[domain] || domain;
 }

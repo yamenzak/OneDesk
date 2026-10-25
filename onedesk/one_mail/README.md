@@ -75,25 +75,30 @@ employee that reads its mail:
 - **Shared Mailboxes** (administrators): the workspace mailbox and every
   shared one. Opening one shows the same tabs; **Users** adds or removes
   people and turns **Send** on or off per user.
-- **Work Mailboxes** (administrators, and roles that reach other people's
-  mail): **Send From New Addresses**, whether the address a new person is
-  given sends, then every person's mailboxes at the company's domains, each
-  with a **Send** switch for their workspace address (`holders.set_sends`)
-  and opened to its signature, out-of-office reply, OneAI and Automation
-  tabs. The default never changes an address already given.
+- **System Mailboxes** (administrators, and roles that reach other
+  people's mail): **Send From New Addresses**, whether the address a new
+  person is given sends, then each person's address with its own **Send**
+  switch (`holders.set_sends`). The default never changes an address
+  already given.
+- **Organization Mailboxes** (the same): every mailbox people hold at the
+  company's domains, and **Connect Organization Mailbox** to connect one for
+  somebody.
 - **Private Mailboxes** (administrators): **Allow Private Mailboxes** for
   mailboxes people connect anywhere else, such as Gmail. When on, **Allowed
   Domains** limits them to the domains listed; leave it empty to allow any.
-
-Every mailbox is one of four kinds, by whose it is. **Workspace** is the
-Default Incoming. **Shared** is a team's, such as `sales@yourcompany.com`.
-**Work** is a person's at the company: the address the workspace gives
-them, and any mailbox they connect at a company domain, such as
-`ahmad@yourcompany.com`. **Private** is a person's anywhere else, such as
-Gmail. The company's domains are the workspace's mail domain, every shared
-mailbox's, and every Email Domain an administrator set up
-(`addresses.company_domains`), so nobody types them in.
 - **Mail Templates** (administrators): reusable email text.
+
+A mailbox opened from System or Organization Mailboxes shows its signature,
+out-of-office reply, OneAI and Automation tabs.
+
+Every mailbox is one of five kinds, by whose it is. **Workspace** is the
+Default Incoming. **Shared** is a team's, such as `sales@yourcompany.com`.
+**System** is the address the workspace gives each person, such as
+`ahmad.yourcompany@m.4dl.app`. **Organization** is a person's at one of the
+company's domains, such as `ahmad@yourcompany.com`. **Private** is a
+person's anywhere else, such as Gmail. The company's domains are the
+workspace's mail domain, every shared mailbox's, and every domain added in
+Setup (`addresses.company_domains`), so nobody types them twice.
 
 ## Connecting a mailbox
 
@@ -207,13 +212,14 @@ outgoing server is also tried on its other usual port.
 
 **Who can connect what:**
 
-- Anyone can connect their own mailbox at a company domain. It is a Work
-  mailbox: administrators can set its signature, away reply, OneAI and
+- Anyone can connect their own mailbox at a company domain. It is an
+  Organization mailbox: administrators can set its signature, away reply, OneAI and
   Automation, as for the address the workspace gave them. At a domain set
   up in **Setup** they type only the address and password; the server
   fields are hidden.
-- A workspace administrator can connect somebody's work mailbox for them
-  from **Work Mailboxes › Connect Work Mailbox** (`connect.connect_for`),
+- A workspace administrator can connect somebody's organization mailbox
+  for them from **Organization Mailboxes › Connect Organization Mailbox**
+  (`connect.connect_for`),
   with its password. It appears in that person's mailboxes. Only a mailbox
   at a company domain can be connected this way, never a private one.
 - Anyone can connect a private mailbox, such as Gmail, unless an

@@ -220,8 +220,8 @@ def connect(
 
 @frappe.whitelist(methods=["POST"])
 def connect_for(user: str, email: str, password: str, sends: int = 1) -> str:
-	"""A workspace administrator connects somebody's work mailbox for them,
-	at a company domain, so it is theirs without their typing anything."""
+	"""A workspace administrator connects somebody's organization mailbox for
+	them, at a company domain, so it is theirs without their typing anything."""
 	from onedesk.one_mail import holders
 
 	holders._admin("policy")
