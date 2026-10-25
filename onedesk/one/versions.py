@@ -65,7 +65,8 @@ def whats_new(module: str) -> dict:
 
 
 def _pictured(one: dict) -> str:
-	"""An entry's words with each picture beside it sent inside them."""
+	"""A version's or a help page's words with each picture beside it sent
+	inside them."""
 
 	def inline(found: re.Match) -> str:
 		path = (one["path"].parent / found.group(2)).resolve()
@@ -86,7 +87,7 @@ def help_pages(module: str) -> dict:
 		"module": module,
 		"version": ready.current(module),
 		"pages": [
-			{"id": page["id"], "icon": page["icon"], "title": page["title"], "html": md_to_html(page["body"])}
+			{"id": page["id"], "icon": page["icon"], "title": page["title"], "html": md_to_html(_pictured(page))}
 			for page in ready.help_pages(module)
 		],
 	}

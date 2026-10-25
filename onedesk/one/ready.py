@@ -24,13 +24,14 @@ MODULES = {
 		"help": (
 			("overview", "info"),
 			("your-addresses", "at-sign"),
-			("connecting-a-mailbox", "plug"),
 			("reading-and-writing", "mail"),
-			("settings", "settings"),
+			("connecting-a-mailbox", "plug"),
 			("rules-and-out-of-office", "workflow"),
 			("mail-on-records", "link"),
 			("attachments-and-pictures", "paperclip"),
 			("asking-oneai", "sparkles"),
+			("who-can-do-what", "shield"),
+			("settings", "settings"),
 		),
 	},
 }
@@ -131,11 +132,14 @@ def current(module: str) -> str | None:
 
 def help_pages(module: str) -> list[dict]:
 	"""A module's help pages in reading order: id, icon, title (its first
-	heading) and the rest of its words."""
+	heading), the rest of its words, and where it is, which its pictures sit
+	beside."""
 	folder = APP / MODULES[module]["folder"] / "docs"
 	found = []
 	for page, icon in MODULES[module].get("help", ()):
 		text = (folder / f"{page}.md").read_text(encoding="utf-8")
 		title, _, body = text.partition("\n")
-		found.append({"id": page, "icon": icon, "title": title.lstrip("# ").strip(), "body": body.strip()})
+		found.append(
+			{"id": page, "icon": icon, "title": title.lstrip("# ").strip(), "body": body.strip(), "path": folder / f"{page}.md"}
+		)
 	return found

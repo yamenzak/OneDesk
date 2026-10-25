@@ -169,10 +169,12 @@ ones that read only the top of `public/js` or `public/css` also read `one_*/`.
 - The version sits at the end of the module's foot row (`win.foot_action`
   with `version`), with a dot until seen, beside a Help button.
 - What's New (`public/js/module_docs.js`, `onedesk.whats_new.open`) is a
-  OneInterface settings dialog: every version down the left with a dot on
-  the unseen ones, the chosen one on the right with its pictures, and a
-  Read More row of buttons for the Help pages its `docs:` front matter
-  names. `test_ready.py` fails on a `docs:` page that is not a Help page.
+  OneInterface settings dialog whose sidebar is the module's own: its mark,
+  a search, and a tree with each fix under the minor it fixes and each
+  minor under its major, a dot on the unseen ones. The chosen version fills
+  the panel with its pictures and a Read More row of buttons for the Help
+  pages its `docs:` front matter names. `test_ready.py` fails on a `docs:`
+  page that is not a Help page.
 
 **Before.** Nothing per module. Frappe's own What's New dialog
 (`frappe/utils/change_log.py`) is per app and reads
@@ -213,12 +215,23 @@ not built, the known issues and the order it was built in. OneAI's
 that read READMEs read these too, and `test_ready.py` fails on any other
 Markdown in the module.
 
-Help (`onedesk.help.open`, the same file and dialog as What's New) shows
-the pages as tabs in the order `ready.MODULES[...]["help"]` gives, each
-with its icon, opened from the question mark at the module's foot.
-`test_ready.py` fails on a page not listed there and on a page that names
-code: what a claim rests on goes in `AGENTS.md`, under Where Help's claims
-are kept.
+Help (`onedesk.help.open`, the same dialog as What's New) opens from the
+question mark at the module's foot. Its tree is the pages in the order
+`ready.MODULES[...]["help"]` gives, each with its icon, and the open page's
+sections (its `##` headings) under it, the one at the top marked as you
+scroll. The search above it reads every section's heading and words and
+lists the matches with the words marked; picking one opens the page at that
+section with them marked there too. A link to another page
+(`[Settings](settings)`) opens it in place.
+
+A page is written to be scanned: a line or two, then sections, with tables
+for anything parallel, numbered steps for anything done in order, a
+blockquote for the one thing worth knowing, and a cropped picture of the
+screen it talks about beside it in `docs/<page>/`, sent inside the page.
+`test_ready.py` fails on a page not listed, a page that names code (what a
+claim rests on goes in `AGENTS.md`, under Where Help's claims are kept), a
+heading over five words, a picture that isn't there, and a link to a page
+Help doesn't list.
 
 **Before.** Every module has a `README.md`. Above `## Under the hood` it is
 written for users, and OneAI's `how_to` (`one_ai/guide.py`) searches that

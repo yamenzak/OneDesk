@@ -1,0 +1,45 @@
+# Who Can Do What
+
+What each person may change in OneMail is their OneMail role, chosen on their
+page in **Workspace › People**. Workspace Administrators can do everything.
+
+## The Two Roles
+
+| Role | Who has it | What they may do |
+| --- | --- | --- |
+| **User** | Everyone | Manage the mailboxes they connected, such as their Gmail. On the address the workspace gave them, set their own out of office and ask for rules, which a Mail Manager approves. |
+| **Manager** | People you choose, often in HR or PR | Everything on every mailbox, as well as connecting shared mailboxes, the address policy and mail templates. |
+
+## Your Own Roles
+
+A Workspace Administrator makes more roles under **Settings › Roles**. It's one
+table: what OneMail lets a role do down the side, every role across the top.
+
+![The Roles table in OneMail's settings](who-can-do-what/roles.png)
+
+| Kind of row | Choices |
+| --- | --- |
+| Signatures and sender names, out of office, OneAI settings | **No**, **Their Own Address** or **Every Mailbox** |
+| Automation | The same, or **Ask for Approval** |
+| Users, connections, connecting shared mailboxes, the address policy, mail templates | A switch |
+
+Each cell saves as it changes. **New Role** adds a column, a role's name
+renames or deletes it, and **Show Roles** hides the columns you don't need. A
+Brand role, for example, could keep every signature and nothing else.
+
+## One Mailbox Only
+
+On a shared mailbox's **Users** tab, each person shows their OneMail role, and
+**Edit Access** lets them change parts of that one mailbox, such as its
+signature or Automation, beyond what their role allows. It offers only what the
+role doesn't already, and taking them off the mailbox takes it away too.
+
+## Other People's Mailboxes
+
+Whoever's role reaches other people's mailboxes finds them under **System
+Mailboxes** and **Organization Mailboxes**, and opens one to set its signature,
+sender name, out of office, OneAI or Automation.
+
+> **Private mailboxes stay private.** Nobody but their holder can see into a
+> mailbox connected from Gmail or anywhere else outside the company, not even an
+> administrator. Connecting a shared mailbox doesn't make it the connector's.

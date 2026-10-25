@@ -132,3 +132,24 @@ def test_a_help_page_names_no_code():
 					if "@" in found or "{" in found:
 						continue
 					raise AssertionError(f"{path.relative_to(ROOT)}:{number} names code {found}; say it plainly and keep the name in AGENTS.md")
+
+
+LINK = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")
+
+
+def test_a_help_page_is_headed_pictured_and_linked_soundly():
+	"""Help is read in sections, so each heading is five words or fewer like
+	any other (docs/WORDING.md); a picture it shows sits beside it, and a link
+	to another page opens one that Help lists."""
+	for module, spec in ready.MODULES.items():
+		listed = {page for page, _icon in spec.get("help", ())}
+		for page in ready.help_pages(module):
+			where = f"{module} {page['id']}"
+			assert 0 < len(page["title"].split()) <= 5, f"{where}: the title is five words or fewer"
+			for line in page["body"].splitlines():
+				if line.startswith("#"):
+					assert len(line.lstrip("# ").split()) <= 5, f"{where}: {line} is more than five words"
+			for picture in PICTURE.findall(page["body"]):
+				assert (page["path"].parent / picture).exists(), f"{where}: no {picture}"
+			for target in LINK.findall(page["body"]):
+				assert "://" in target or target.split("#")[0] in listed, f"{where} links to {target}, which is no help page"

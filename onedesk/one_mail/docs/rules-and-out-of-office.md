@@ -1,120 +1,185 @@
-# Rules and out of office
+# Rules and Out of Office
 
-**Automation and OneAI, who decides what.** Automation is what you decide:
-rules you write, which do the same thing every time, and the only thing
-besides Out of Office that answers or forwards mail on its own. OneAI is
-what OneAI decides from reading the mail (the OneAI tab): sorting junk,
-filing, and the records and tasks a message asks for. It never mails
-anyone outside the workspace; an Ask OneAI step is a question a rule asks,
-and the rule decides what follows. Where both would do the same thing, the
-rule wins: a record a rule made from a message is
-one OneIntake makes no second of, and a
-rule that moved the message out of the Inbox leaves nothing to sort.
+Rules decide what happens to new mail as it arrives in the Inbox, the same way
+every time. Out of Office answers while you're away.
 
-Rules, under **Automation** in a mailbox's **⋯** menu, decide what happens to new mail as it
-arrives in the Inbox. A rule reads as sentences on a line down the side,
-such as "If the sender **is a Customer** and **it arrives after hours**,
-then **star it** and tell **Layla** on the bell". Each bold part is a chip:
-click it to choose something else, type in a blank, or open a reply in a
-small window. A rule is a list of steps, read top to bottom:
+## Rules or OneAI?
 
-- **If** checks the message. Its conditions sit in groups, each **All of
-  These Are True** or **Any of These Is True**, and a group can hold
-  another. It can check who it's from or to, the subject, any words in it,
-  the sender's domain, whether it has an attachment, whether it starts a
-  conversation, whether it's from outside the workspace, whether the
-  sender is a customer, supplier, lead, contact or employee, and whether it
-  arrives after hours or on a holiday (the workspace's shift and holiday
-  list). An If has **Then** steps, and **Otherwise** steps if you add them.
-  With no conditions, it's every message.
-- **Ask OneAI**, on a mailbox OneAI reads, asks a yes-or-no question ("is
-  it a complaint?") or picks one of your labels ("Quote Request",
-  "Complaint"). Each answer has its own steps. A rule with Ask OneAI runs
-  once OneAI has read the message, a moment after it arrives.
-- **Actions:** move to a folder, mark as read, star, move to Junk, reply
-  (your own words, or written by OneAI and sent as it is), forward,
-  assign to someone who uses the mailbox, tell them on the bell, link the
-  message to the sender's customer, supplier or lead, create a lead, issue
-  or task from it, and **Stop Here**, which keeps the rules after this one
-  off the message.
+Both act on new mail without you, but they decide differently.
 
-A reply goes **once per conversation**, or once a day, week or month to
-each sender, never to automatic mail or mailing lists, and with the
-mailbox's signature. A rule's reply stands in for an out-of-office reply
-to the same message.
+| | Automation | OneAI |
+| --- | --- | --- |
+| **Who decides** | You, in rules you write | OneAI, from reading each message |
+| **What it does** | The same thing every time | Sorts junk, files mail, makes the records and tasks a message asks for |
+| **Mails people outside** | Yes, a rule may reply or forward | Never |
+| **Where it lives** | **Automation** in the mailbox's **⋯** menu | **OneAI** in the mailbox's settings |
 
-**To make a rule:** **New Rule**, then start from **Blank** or one of the
-examples, change anything, and save. The examples come in five groups, and
-between them they use every condition and every action:
+> **Where both would act, the rule wins.** A record a rule made from a message
+> is never made again by OneAI, and a message a rule moved out of the Inbox is
+> left for OneAI to sort.
 
-- **Replies**: **Auto Reply** (every message, once per conversation),
-  **Acknowledge New Mail**, **We're Closed** and **Confirm Documents
-  Received**.
-- **Sorting**: **Newsletters to a Folder**, **Invoices to a Folder**,
-  **Customers to a Folder**, **Important Sender** and **Block a Sender**.
-- **People and Records**: **Support Requests** (an issue, assigned),
-  **New Leads**, **Tasks From Mail**, **Urgent After Hours**, **Assign New
-  Conversations** and **Route by Subject** (quote requests to one person,
-  invoices to another).
-- **Forwarding**: **Auto Forward** (every new message), **Forward Supplier
-  Bills**, **Forward After Hours** (customer mail to an on-call address) and
-  **Forward Job Applications**.
-- **With OneAI**, only where OneAI may read the mailbox: **Sort by
-  Topic**, **Upset or Urgent**, **Answer From Their Records** and **Auto Reply in Their Language**.
+## Making a Rule
 
-Every example that asks OneAI something or has OneAI write a reply carries
-the OneAI badge.
+1. Open **Automation** in the mailbox's **⋯** menu and click **New Rule**.
+2. Start from **Blank** or one of the examples.
+3. Change anything, then **Save**.
 
-An example with a blank to fill (an address, a domain) can't be saved until
-it is filled: a condition with nothing to look for would match all mail.
-Rules run in order; switch one off in the list to pause it. Moves happen on
-the mail server too, so your phone matches. Rules only apply to new mail.
+![Starting a rule from an example](rules-and-out-of-office/examples.png)
 
-**Auto Reply** is a rule now, the first example. A mailbox that answers by
-a rule says **Auto Reply On** in the rail.
+The examples come in five groups and between them use every condition and
+every action.
 
-You can also ask OneAI, for example "move any mail with the word cola into a
-CocaCola folder" or "put mail about soft drinks in Beverages". It suggests
-the rule on a card. When you approve it:
+| Group | Examples |
+| --- | --- |
+| **Replies** | Auto Reply, Acknowledge New Mail, We're Closed, Confirm Documents Received |
+| **Sorting** | Newsletters to a Folder, Invoices to a Folder, Customers to a Folder, Important Sender, Block a Sender |
+| **People and Records** | Support Requests, New Leads, Tasks From Mail, Urgent After Hours, Assign New Conversations, Route by Subject |
+| **Forwarding** | Auto Forward, Forward Supplier Bills, Forward After Hours, Forward Job Applications |
+| **With OneAI** | Sort by Topic, Upset or Urgent, Answer From Their Records, Auto Reply in Their Language |
 
-- the folder is created if it doesn't exist
-- OneAI starts reading the mailbox, for a rule about what mail says
-- the rule is created
-- for a rule by words, matching mail already in the Inbox can be moved too
+The last group only shows where OneAI may read the mailbox, and every example
+that asks OneAI something carries its badge.
 
-**Out of Office** is on every mailbox of your own: the address the
-workspace issued you and any you connected. Shared mailboxes don't have it;
-they answer by a mail rule. Everyone can set their own, unless their
-OneMail role says otherwise.
+## How a Rule Reads
 
-- **From** and **Until** set it up ahead of time; leave From empty to start
-  now and Until empty to keep it on.
-- **Sent To**: everyone, only people in the workspace, or them and the
-  workspace's contacts.
-- **Message** starts as the standard reply; change it, and **What They Get**
-  shows it as the sender will, signed and under the mailbox's sender name.
+A rule reads as sentences down a line, top to bottom. Each chip is a choice:
+click it to pick something else, or type in a blank.
 
-Each sender gets one reply every four days, and one again when a new time
-away begins. Mailing lists, newsletters, other automatic replies and
-no-reply addresses get none. While it's on, the mailbox says **Out of
-Office until …** in OneMail's rail and in Settings › Mailboxes, and anyone
-writing to you sees that you're away above their message, and who covers.
+![A rule that stars urgent customer mail after hours](rules-and-out-of-office/rule.png)
 
-**On leave.** Every mailbox of your own answers on its own on each day of
-your approved leave in OneHR, so nobody turns it on or off. On the leave
-request:
+A rule is made of three kinds of step.
 
-- **Away Message** is what the reply says. Left empty, it's the mailbox's
-  own message, or else that you're on leave and back on the first working
-  day after it, past weekends and holidays.
-- **Out of Office Replies** off means no replies for this leave.
-- **Covering Person** is named in the reply for anything urgent, and with
-  **Covering Person Reads My Mail** they can read your workspace address
-  in OneMail until the leave ends (never send from it). They're told when
-  it starts.
+| Step | What it does |
+| --- | --- |
+| **If** | Checks the message. Its conditions sit in groups, **All of These Are True** or **Any of These Is True**, and a group can hold another. It has **Then** steps, and **Otherwise** steps if you add them. With no conditions it matches every message. |
+| **Ask OneAI** | Asks a yes-or-no question ("is it a complaint?") or picks one of your labels ("Quote Request", "Complaint"). Each answer has its own steps. |
+| **An action** | Does something to the message. |
 
-The half day of a half-day leave gets no replies, since you're working
-too. A leave that's cancelled stops the replies, and the covering, at once.
+### What an If Can Check
 
-**Bounces:** when mail to an address bounces permanently, OneMail stops
-sending to it and marks the message that bounced.
+| Condition | For example |
+| --- | --- |
+| Who it's from, or who it's to | the sender is ana@client.com |
+| The subject, or any words in it | the subject contains "invoice" |
+| The sender's domain | ends in @supplier.com |
+| An attachment | it has one |
+| A new conversation | it starts one |
+| From outside | it comes from outside the workspace |
+| Who the sender is | a customer, supplier, lead, contact or employee |
+| When it arrives | after hours, or on a holiday, by the workspace's shift and holiday list |
+
+### What a Rule Can Do
+
+| Action | Note |
+| --- | --- |
+| Move to a folder, mark as read, star, move to Junk | Done on the mail server too, so your phone matches |
+| Reply | In your own words, or written by OneAI and sent as it is |
+| Forward | To any address |
+| Assign, or tell someone on the bell | Anyone who uses the mailbox |
+| Link to the sender's customer, supplier or lead | Shows on their record |
+| Create a lead, issue or task | From the message |
+| **Stop Here** | Keeps the rules after this one off the message |
+
+> **Rules run in order, on new mail only.** Switch one off in the list to pause
+> it. An example with a blank to fill, such as an address, can't be saved until
+> it's filled, since a condition with nothing to look for would match all mail.
+
+## Replies by a Rule
+
+A rule's reply goes **once per conversation**, or once a day, week or month to
+each sender. It is never sent to automatic mail or mailing lists, it carries the
+mailbox's signature, and it stands in for an out-of-office reply to the same
+message. **Auto Reply** is the first example, and a mailbox that answers by a
+rule says **Auto Reply On** in the rail.
+
+**Your own words** can use {sender_name} and {subject}, which fill in.
+
+**OneAI's words** go out as written, with no one checking first, so what you
+type is an instruction, never the reply: "answer from their orders and say we
+follow up within a day". A reply that still leaves a blank for a person to fill
+is not sent at all. It needs OneAI on for the mailbox and counts against its
+monthly limit.
+
+### Answering From Their Records
+
+Set to **reading their records**, OneAI may answer with what the customer
+portal shows that sender, and nothing more:
+
+- every open record of each customer or supplier the address is a contact of,
+  such as quotations not yet ordered, orders not yet delivered and invoices not
+  yet paid;
+- the latest ten of the rest of each kind, and any the message names;
+- one record in full, or older ones of a kind, if it asks while writing.
+
+A customer writes "where is my order", never the order's number, so OneAI works
+out which records the message is about and mentions only those.
+
+> **Only from a verified sender.** A From line is free to write, so OneAI says
+> nothing about records unless the receiving server confirmed the sender, kept
+> on the message as **Sender Verified**.
+
+## Asking for a Rule
+
+On the address the workspace gave you, a rule is asked for rather than made.
+
+1. **Request Rule**, build it, then **Send Request**.
+2. It shows **Waiting for Approval**, and everybody who may change that
+   mailbox's rules is told.
+3. Approved, it runs and you're told. Declined, it's removed and you're told.
+
+Changing a rule that runs asks again, and it pauses until approved. You can
+delete a request while it waits.
+
+## Asking OneAI for a Rule
+
+You can also ask the OneAI panel, for example "put mail about soft drinks in
+Beverages". It suggests the rule on a card, and when you approve it:
+
+1. the folder is made if it doesn't exist;
+2. OneAI starts reading the mailbox, for a rule about what mail says;
+3. the rule is made;
+4. for a rule by words, matching mail already in the Inbox can be moved too.
+
+---
+
+## Out of Office
+
+Out of Office is on every mailbox of your own: the address the workspace gave
+you and any you connected. Shared mailboxes answer by a rule instead. Everyone
+sets their own, unless their OneMail role says otherwise.
+
+![Out of Office on your own address](rules-and-out-of-office/away.png)
+
+| Field | What it does |
+| --- | --- |
+| **From** and **Until** | Set it up ahead of time. Leave From empty to start now, and Until empty to keep it on. |
+| **Sent To** | Everyone, only people in the workspace, or them and the workspace's contacts |
+| **Message** | Starts as the standard reply. **What They Get** shows it as the sender will, signed and under the mailbox's sender name. |
+
+Each sender gets one reply every four days, and one again when a new time away
+begins. Mailing lists, newsletters, other automatic replies and no-reply
+addresses get none.
+
+> **While it's on**, your mailbox says **Out of Office until …** in the rail and
+> in **Settings › Mailboxes**, and anyone writing to you sees you're away, and
+> who covers, above their message.
+
+## On Leave
+
+Every mailbox of your own answers on its own on each day of your approved leave
+in OneHR, so nobody turns it on or off. The leave request says how:
+
+| On the leave request | Does |
+| --- | --- |
+| **Away Message** | What the reply says. Left empty, it's the mailbox's own message, or that you're on leave and back on your next working day. |
+| **Out of Office Replies** | Off means no replies for this leave. |
+| **Covering Person** | Named in the reply for anything urgent. |
+| **Covering Person Reads My Mail** | Lets them read your workspace address in OneMail until the leave ends, never send from it. They're told when it starts. |
+
+The half day of a half-day leave gets no replies, since you're working too. A
+cancelled leave stops the replies, and the covering, at once.
+
+## Bounces
+
+When mail to an address bounces for good, OneMail stops sending to it and marks
+the message that bounced.

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-25 13:09+0000\n"
-"PO-Revision-Date: 2026-10-25 13:09+0000\n"
+"POT-Creation-Date: 2026-10-25 13:37+0000\n"
+"PO-Revision-Date: 2026-10-25 13:37+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -260,6 +260,10 @@ msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:262
 msgid "1 item selected"
+msgstr ""
+
+#: onedesk/public/js/module_docs.js:195
+msgid "1 matching section"
 msgstr ""
 
 #: onedesk/one/settings.py:710
@@ -16048,7 +16052,7 @@ msgstr ""
 
 #: frontend/src/check/CheckList.vue:23
 #: onedesk/one_book/report/books_check/books_check.py:18
-#: onedesk/public/js/module_docs.js:10
+#: onedesk/public/js/module_docs.js:12
 msgid "Fix"
 msgstr ""
 
@@ -17997,6 +18001,7 @@ msgstr ""
 msgid "Hello, {0}"
 msgstr ""
 
+#: onedesk/public/js/module_docs.js:332
 #: onedesk/public/js/window/nav_tree.js:213
 msgid "Help"
 msgstr ""
@@ -23238,7 +23243,7 @@ msgstr ""
 msgid "Maintenance by Month"
 msgstr ""
 
-#: onedesk/public/js/module_docs.js:10
+#: onedesk/public/js/module_docs.js:12
 msgid "Major"
 msgstr ""
 
@@ -24960,7 +24965,7 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_leave_allocation/one_leave_allocation.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/public/js/doctype_settings.js:57 onedesk/public/js/item_new.js:266
-#: onedesk/public/js/module_docs.js:33 onedesk/public/js/module_docs.js:38
+#: onedesk/public/js/module_docs.js:245 onedesk/public/js/module_docs.js:254
 msgid "New"
 msgstr ""
 
@@ -27057,6 +27062,10 @@ msgstr ""
 #: frontend/src/home/InventoryHome.vue:28
 #: frontend/src/to_order/ToOrderPage.vue:15
 msgid "Nothing matches"
+msgstr ""
+
+#: onedesk/public/js/module_docs.js:198
+msgid "Nothing matches. Try fewer words."
 msgstr ""
 
 #. Message of a notification
@@ -33700,7 +33709,7 @@ msgstr ""
 msgid "Read List"
 msgstr ""
 
-#: onedesk/public/js/module_docs.js:42
+#: onedesk/public/js/module_docs.js:258
 msgid "Read More"
 msgstr ""
 
@@ -35654,6 +35663,10 @@ msgstr ""
 msgid "Results for {0}"
 msgstr ""
 
+#: onedesk/public/js/module_docs.js:194
+msgid "Results for “{0}”"
+msgstr ""
+
 #: frontend/src/cloud/CloudItems.vue:11
 msgid "Results from everywhere"
 msgstr ""
@@ -36802,7 +36815,7 @@ msgstr ""
 #: frontend/src/to_order/ToOrderPage.vue:9
 #: frontend/src/upkeep/UpkeepPage.vue:10
 #: onedesk/one_hr/custom/employee_attendance_tool.json
-#: onedesk/public/js/crumb_switch.js:110
+#: onedesk/public/js/crumb_switch.js:110 onedesk/public/js/module_docs.js:100
 #: onedesk/public/js/one_mail/onemail_settings.js:1486
 #: onedesk/public/js/window/chrome.js:72 onedesk/public/js/window/chrome.js:73
 msgid "Search"
@@ -46640,7 +46653,7 @@ msgstr ""
 #: onedesk/one_project/print_format/one_project_update/one_project_update.json
 #: onedesk/public/js/doctype_settings.js:415
 #: onedesk/public/js/doctype_settings.js:926
-#: onedesk/public/js/module_docs.js:10 onedesk/public/js/settings.js:1899
+#: onedesk/public/js/module_docs.js:12 onedesk/public/js/settings.js:1899
 msgid "Update"
 msgstr ""
 
@@ -48802,11 +48815,13 @@ msgstr ""
 msgid "What's Maintained"
 msgstr ""
 
-#: onedesk/public/js/module_docs.js:69 onedesk/public/js/window/nav_tree.js:218
+#: onedesk/public/js/module_docs.js:283
+#: onedesk/public/js/window/nav_tree.js:218
 msgid "What's New"
 msgstr ""
 
-#: onedesk/public/js/module_docs.js:53 onedesk/public/js/window/nav_tree.js:218
+#: onedesk/public/js/module_docs.js:281
+#: onedesk/public/js/window/nav_tree.js:218
 msgid "What's New in {0}"
 msgstr ""
 
@@ -54362,7 +54377,8 @@ msgstr ""
 msgid "{0} GB storage"
 msgstr ""
 
-#: onedesk/public/js/module_docs.js:81 onedesk/public/js/window/nav_tree.js:213
+#: onedesk/public/js/module_docs.js:330
+#: onedesk/public/js/window/nav_tree.js:213
 msgid "{0} Help"
 msgstr ""
 
@@ -55847,6 +55863,10 @@ msgstr ""
 
 #: onedesk/one/approvals.py:307
 msgid "{0} managers"
+msgstr ""
+
+#: onedesk/public/js/module_docs.js:195
+msgid "{0} matching sections"
 msgstr ""
 
 #: onedesk/one_crm/access.py:130

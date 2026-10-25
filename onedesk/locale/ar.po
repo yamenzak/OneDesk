@@ -263,6 +263,10 @@ msgstr "عنصر واحد في {title} يحتاج مراجعة"
 msgid "1 item selected"
 msgstr "عنصر واحد محدد"
 
+#: onedesk/public/js/module_docs.js:195
+msgid "1 matching section"
+msgstr "قسم واحد مطابق"
+
 #: onedesk/one/settings.py:773
 msgid "1 minute"
 msgstr "دقيقة واحدة"
@@ -26887,6 +26891,10 @@ msgstr "لا يخرج من المستودع ما ليس فيه."
 msgid "Nothing matches"
 msgstr "لا شيء يطابق"
 
+#: onedesk/public/js/module_docs.js:198
+msgid "Nothing matches. Try fewer words."
+msgstr "لا شيء يطابق. جرّب كلمات أقل."
+
 #. Message of a notification
 #: onedesk/notifications/one_inventory/material_request_stopped.md
 msgid "Nothing more on it will be ordered or moved. Ask them if you still need it."
@@ -35431,6 +35439,10 @@ msgstr "النتائج والدروس المستفادة"
 #: onedesk/public/js/onemail.js:286
 msgid "Results for {0}"
 msgstr "نتائج {0}"
+
+#: onedesk/public/js/module_docs.js:194
+msgid "Results for “{0}”"
+msgstr "نتائج «{0}»"
 
 #: onedesk/public/js/onecloud.js:330
 msgid "Results from everywhere"
@@ -55458,6 +55470,10 @@ msgstr "{0} مفقودة"
 #: onedesk/one/approvals.py:307
 msgid "{0} managers"
 msgstr "مديرو {0}"
+
+#: onedesk/public/js/module_docs.js:195
+msgid "{0} matching sections"
+msgstr "{0} أقسام مطابقة"
 
 #: onedesk/one_crm/access.py:130
 msgid "{0} may only compare the record's fields with plain values, such as {1}."
