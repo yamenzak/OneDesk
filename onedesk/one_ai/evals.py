@@ -575,18 +575,25 @@ def jobs(only: str | None = None, langs: str = "ar,en,de") -> list[dict]:
 		if only and only not in key:
 			continue
 		job = told.JOBS[key]
-		tried = list(dict.fromkeys(one for tier in models.TIERS for one in models.pick(job.kind, tier)))
+		tried = list(
+			dict.fromkeys(
+				(one, told.thinking(job, tier), told.most(job, tier)) for tier in models.TIERS for one in models.pick(job.kind, tier)
+			)
+		)
 		for lang in langs.split(","):
 			text = asked(lang)
-			for model in tried:
+			for model, think, most in tried:
 				at = time.monotonic()
 				try:
-					said, _wants, body = gateway.talk(model, [gateway.said(text)], most=job.most, system=told.told(key), tags={"job": f"eval:{key}"})
+					said, _wants, body = gateway.talk(
+						model, [gateway.said(text)], most=most, system=told.told(key), tags={"job": f"eval:{key}"}, think=think
+					)
 					why = check(said or "", lang)
-					used, _ = meter.read(model, body, pricing.asked({"output_tokens": job.most}))
+					used, _ = meter.read(model, body, pricing.asked({"output_tokens": most}))
 					usd, _ = pricing.cost(models.rates(model), used)
 				except faults.Refused as raised:
 					said, why, usd = "", f"failed: {str(raised)[:80]}", 0.0
+				model = f"{model}{' thinking' if think else ''}"
 				row = {"job": key, "lang": lang, "model": model, "passed": not why, "why": why, "seconds": round(time.monotonic() - at, 1), "usd": round(usd, 6), "said": (said or "")[:200]}
 				out.append(row)
 				print(f"{'PASS' if row['passed'] else 'FAIL'}  {key:15} {lang}  {model:40} {row['seconds']:5}s  ${row['usd']:.5f}  {why}")

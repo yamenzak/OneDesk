@@ -136,12 +136,13 @@ def test_a_two_hundred_with_nothing_in_it_is_not_an_empty_answer():
 
 def test_a_small_budget_is_not_spent_thinking():
 	"""Measured: Gemma 4 on the chat's 800 tokens thought until "length" and
-	said nothing, twice in a row, and GLM and Kimi did the same on a title's
-	30. Below `THINKS` a Workers AI model is told not to think, each in the way
-	it obeys (one_ai/models.py QUIET)."""
+	said nothing, GLM and Kimi did the same on a title, and every Workers AI
+	model wrote no JSON in 2,000 tokens explaining a document. A model thinks
+	only when its job says so (one_ai/jobs.py), and is otherwise told not to,
+	each in the way it obeys (one_ai/models.py QUIET)."""
 	from onedesk.one_ai import models
 
-	assert "THINKS = " in source()
-	assert "if most >= THINKS else models.quiet(model)" in code()
+	assert "if think else models.quiet(model)" in code()
+	assert "THINKS" not in code()
 	assert models.quiet("@cf/google/gemma-4-26b-a4b-it") == {"chat_template_kwargs": {"enable_thinking": False}}
 	assert set(models.QUIET) <= models.used(), "a switch for a model nothing uses"

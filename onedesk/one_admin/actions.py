@@ -26,20 +26,22 @@ def run(
 	arrives every time, and admin still never calls a workspace.
 	"""
 	job = _job(action)
+	tier = tier if tier in models.TIERS else None
 	spoken = _conversation(turns, text)
 	offered = tools if (tools and job.tools) else None
 
 	answer = gateway.call(
 		job.kind,
-		tier if tier in models.TIERS else None,
+		tier,
 		None,
 		tenant,
-		caps=_caps(job),
+		caps=_caps(job, tier),
 		reference=reference or action,
 		system=jobs.told(action),
 		turns=spoken,
 		tools=offered,
 		action=action,
+		think=jobs.thinking(job, tier or models.USUAL),
 	)
 	wants = answer.get("wants") or []
 	return {
@@ -87,8 +89,8 @@ def _job(key: str) -> jobs.Job:
 	return job
 
 
-def _caps(job: jobs.Job) -> dict:
-	caps = {"output_tokens": job.most}
+def _caps(job: jobs.Job, tier: str | None) -> dict:
+	caps = {"output_tokens": jobs.most(job, tier or models.USUAL)}
 	if job.takes:
 		caps["input_tokens"] = job.takes
 	return caps

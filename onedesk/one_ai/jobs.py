@@ -22,7 +22,10 @@ def _lt(text: str) -> str:
 class Job:
 	"""`kind` is a kind in `models.py`; `most` the output tokens a round may
 	spend and `takes` the input tokens it may send; `speaks` when it answers
-	a person in prose rather than in a shape a program reads."""
+	a person in prose rather than in a shape a program reads. `thinks` is
+	when the model may reason first ("always", or "full" on that tier only),
+	with `room` as its allowance then: a model thinks inside the same tokens
+	it answers in, and otherwise spends them all before writing a word."""
 
 	label: str
 	module: str
@@ -31,17 +34,19 @@ class Job:
 	speaks: bool = False
 	most: int = 0
 	takes: int = 0
+	thinks: str = ""
+	room: int = 0
 
 
 JOBS = {
-	"chat": Job(_lt("Chat"), "OneAI", "talk", tools=True, speaks=True, most=800),
-	"chat_title": Job(_lt("Title a Conversation"), "OneAI", "talk", most=30),
+	"chat": Job(_lt("Chat"), "OneAI", "talk", tools=True, speaks=True, most=800, thinks="full", room=4000),
+	"chat_title": Job(_lt("Title a Conversation"), "OneAI", "talk", most=100),
 	"brief": Job(_lt("Summarise a Record"), "OneAI", "talk", speaks=True, most=400),
-	"print_design": Job(_lt("Print Design"), "OneAI", "build", tools=True, speaks=True, most=4000),
-	"workspace_setup": Job(_lt("Workspace Setup"), "OneAI", "build", tools=True, speaks=True, most=4000),
-	"studio": Job(_lt("OneStudio"), "OneAI", "build", tools=True, speaks=True, most=8000),
-	"studio_review": Job(_lt("Review an Extension"), "OneAI", "build", most=4000),
-	"studio_mend": Job(_lt("Fix an Extension"), "OneAI", "build", most=8000),
+	"print_design": Job(_lt("Print Design"), "OneAI", "build", tools=True, speaks=True, most=4000, thinks="always"),
+	"workspace_setup": Job(_lt("Workspace Setup"), "OneAI", "build", tools=True, speaks=True, most=4000, thinks="always"),
+	"studio": Job(_lt("OneStudio"), "OneAI", "build", tools=True, speaks=True, most=8000, thinks="always"),
+	"studio_review": Job(_lt("Review an Extension"), "OneAI", "build", most=4000, thinks="always"),
+	"studio_mend": Job(_lt("Fix an Extension"), "OneAI", "build", most=8000, thinks="always"),
 	"embed": Job(_lt("Search by Meaning"), "OneAI", "embed", takes=8192),
 	"reply": Job(_lt("Draft a Reply"), "OneMail", "talk", most=600),
 	"screen": Job(_lt("Screen Applicants"), "OneHR", "talk", most=1500),
@@ -62,6 +67,15 @@ JOBS = {
 
 def get(key: str) -> Job | None:
 	return JOBS.get(key)
+
+
+def thinking(job: Job, tier: str | None) -> bool:
+	return job.thinks == "always" or (job.thinks == "full" and tier == "full")
+
+
+def most(job: Job, tier: str | None) -> int:
+	"""The output tokens a round may spend: its room when it thinks."""
+	return max(job.most, job.room) if thinking(job, tier) else job.most
 
 
 @cache

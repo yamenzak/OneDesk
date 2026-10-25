@@ -206,36 +206,44 @@ its module, its kind, whether it has tools, whether it answers a person in
 prose, and its caps; its words are `one_ai/words/<key>.md`. HR's screening,
 interviews and grievances are talk jobs with their own words.
 
-**Defaults.** In `one_ai/models.py`, chosen from what both companies
-offered on 2026-10-25 (Google's prices from its pricing page that day, per
-million tokens in and out). They are the starting line for the measured
-comparison in stage 2, which decides; where it picks otherwise, the file
-changes and this table with it.
+**Defaults.** In `one_ai/models.py`, settled on 2026-10-26 by the bench
+(stage 2, below). Each cell is the model first asked and its fallback at the
+other company, so an outage at one does not stop OneAI.
 
 | Kind | Fast | Balanced | Full |
 |---|---|---|---|
-| Talk, Write | Gemma 4 26B ($0.10 / $0.30) | GLM 5.3 Flash ($0.15 / $0.50) | Gemini 3.8 Flash ($0.75 / $3.75) |
-| Build | Gemini 3.5 Flash Lite ($0.30 / $2.50) | Gemini 3.8 Flash | Gemini 3.1 Pro ($2 / $12), a preview |
-| Decide | Clef Flash ($0.038) | Clef ($0.24) | Clef |
-| Extract | Clairic ($0.10, nothing for output) | Clairic | Clairic |
-| See (pictures to text) | Gemma 4 26B | Gemma 4 26B | Gemma 4 26B |
-| Hear | Whisper Large v3 Turbo ($0.0005 a minute) | Whisper | Gemini 3.5 Transcribe ($0.005 a minute) |
-| Speak | Gemini 3.8 Flash Lite TTS ($0.50 / $6 for audio) | Gemini 3.8 Flash TTS ($0.50 / $9 for audio) | Gemini 3.8 Flash TTS |
-| Find | AI Search, keyword as you type, meaning on Enter | same | same |
+| Talk (chat, titles, replies, summaries, HR, explaining a document) | Gemma 4 → Gemini 3.1 Flash Lite | DeepSeek V4.1 Flash → Gemini 3.5 Flash Lite | Gemini 3.8 Flash → DeepSeek V4.1 Flash; chat thinks |
+| Build (extensions, review, mend, print design, workspace setup), always thinks | DeepSeek V4.1 Flash → Gemini 3.5 Flash Lite | Gemini 3.8 Flash → DeepSeek V4.1 Flash | Gemini 3.1 Pro → Gemini 3.8 Flash |
+| Decide | Clef Flash → Gemini 3.5 Flash Lite | same | same |
+| Decide, with a picture or a recording | Clef Omni → Gemini 3.5 Flash Lite | same | same |
+| Extract | Clairic → Gemini 3.5 Flash Lite | same | same |
+| See (pictures to text) | Gemma 4 → Gemini 3.5 Flash Lite | same | same |
+| Hear | Whisper Large v3 Turbo → Gemini 3.5 Transcribe | same | Gemini 3.5 Transcribe → Whisper |
+| Speak | Gemini 3.8 Flash Lite TTS → MeloTTS | Gemini 3.8 Flash TTS → Flash Lite TTS | same as Balanced |
+| Embed | bge-m3 → Qwen3 Embedding | same | same |
+| Guard | Llama Guard 3 | same | same |
+
+Prices per million tokens in and out: Gemma 4 $0.10 / $0.30, DeepSeek V4.1
+Flash $0.30 / $1.20, Gemini 3.1 Flash Lite $0.25 / $1.50, Gemini 3.5 Flash
+Lite $0.30 / $2.50, Gemini 3.8 Flash $0.75 / $3.75 (doubling on
+2027-01-01), Gemini 3.1 Pro $2 / $12. Clef Flash $0.038, Clef Omni $0.15 and
+Clairic $0.10 charge for input only.
+
+**Thinking.** A model thinks inside the same tokens it answers in, and on a
+short allowance it thinks until they are gone and writes nothing (Gemini
+3.8 Flash spent 577 of a grievance's 600; every Workers AI model wrote no
+JSON in 2,000 tokens explaining a document, and passed in 5 to 7 seconds
+with thinking off). So a job says when it thinks (`jobs.py`): building
+always, with 4,000 to 8,000 tokens of room; chat on Full, with 4,000; nothing
+else, at any tier. A model not thinking is told so in the way it obeys
+(`models.QUIET`): Gemma and DeepSeek take `enable_thinking: false`, Gemini
+3.8 Flash `thinkingLevel: low`. No person switches it: the tier is the
+switch, and Full is what thinking costs.
 
 Speaking is Gemini's because its voices speak Arabic: Workers AI's are
 Deepgram's Aura, in English and Spanish, and MeloTTS, without Arabic.
 MeloTTS stands behind Fast for the languages it has. Both Gemini voices
 double in price on 2027-01-01.
-
-Each has a fallback at the other company where one does the job: Gemma 4
-falls back to Gemini 3.1 Flash Lite, GLM 5.3 Flash to Gemini 3.5 Flash
-Lite, Gemini 3.8 Flash to Kimi K2.6, Gemini 3.1 Pro to Gemini 2.5 Pro. So
-an outage at one company does not stop OneAI.
-
-Two prices are about to double: Gemini 3.8 Flash on 2027-01-01 and Gemini 4
-Argon on 2026-12-01. `models.py` carries both prices with their day, so a
-call is charged what it cost when it ran.
 
 **Making pictures, music and video.** For the module that will need them,
 `models.py` already names them, though nothing uses them yet:
@@ -260,9 +268,8 @@ and OneStudio's rewrite asks it for whatever it keeps.
 
 **Why mostly Workers AI.** One company, one subprocessor entry, prices in
 the listing, and the open-weight models are the ones the guardrail model
-and the reading models sit beside. Google stays for building, where it is
-measurably better today (`studio_review`, `print_design` and
-`workspace_setup` already run on it), and as the fallback.
+and the reading models sit beside. Fast and Balanced talk run there; Google
+answers Full, most building, and every fallback.
 
 **Discovery in code.** `scripts/models.py` replaces the catalogue and its
 nightly sync. Run by hand, with the gateway's account, name and token in
@@ -548,11 +555,29 @@ the screen), a commit, and the docs it changes.
    stays off: Workers AI is billed to the account rather than by a stored
    key, and the switch would refuse it. Left for later: routes with
    `--push`.
-2. **Jobs and the voice.** `jobs.py` and `voice.py` replace the AI Action
-   fixture and the persona; AI Action, AI Action Setting, instructions,
-   extra and the model pill go. The evaluation bench (`evals.py`) runs
-   every job on every tier's candidates, in Arabic, English and German, and
-   the defaults table is settled from it.
+2. **Jobs and the voice.** **Built on 2026-10-26.** `jobs.py` and
+   `voice.py` replace the AI Action fixture and the persona; AI Action, AI
+   Action Setting, instructions, extra, the model pill and Settings › OneAI
+   Actions go, and the Credits report counts by job. The job bench
+   (`evals.py jobs`) asks six jobs as their callers do (a title, a reply, a
+   record's summary, a grievance, explaining a document, reviewing an
+   extension) in Arabic, English and German, on every model their tiers
+   use, unbilled, and the defaults above were settled from it (85 of 87
+   cases on the final defaults; Gemma's Arabic title, the one it kept
+   missing, passed five of five once the job's words named the language
+   by example), with a side
+   bench for reading (fifteen labelled mails, three invoices, two scans).
+   Measured on the way: thinking breaks short jobs (above); Gemini 2.5 Pro
+   answers 404 to new keys though Google lists it (`scripts/models.py
+   --alive` now asks); GLM 5.3 Flash cannot stop thinking and Kimi K2.6 is
+   five to ten times DeepSeek's price, so both go; Clef did no better than
+   Clef Flash on the fifteen mails at six times the price, and both Clef and
+   Clef Omni called a newsletter shouting "URGENT" urgent; Clairic misses
+   what has to be interpreted rather than copied (a currency from
+   "درهم"), so reading in stage 4 fills those fields from the talk model.
+   Not measured here: chat with its tools, which needs a workspace
+   connected to an account, and whether chat on Full answers better with
+   thinking, which stage 7 measures with the panel's bench.
 3. **AICenter.** The centre, the tier, Knowledge, each module's `JOBS`,
    usage; the OneAI settings screens in Settings, Plan and Credits' credit
    parts and OneIntake's settings go; `brand.CENTER` learns AI; the guard.

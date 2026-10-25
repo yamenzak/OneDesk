@@ -35,7 +35,6 @@ FRESH = "cf-aig-skip-cache"
 # Cloudflare keeps the counts and the cost of a call, never what was in it.
 UNSEEN = {"cf-aig-collect-log-payload": "false"}
 
-THINKS = 2000
 
 MOST_TEXTS = 64
 
@@ -84,6 +83,7 @@ def talk(
 	tools: list[dict] | None = None,
 	fresh: bool = False,
 	tags: dict | None = None,
+	think: bool = False,
 ) -> tuple[str, list[dict], dict]:
 	"""One model, one round: the words, what it asked for, and the whole body,
 	which carries the usage. Not billed; `call` is."""
@@ -91,13 +91,13 @@ def talk(
 	settings = _settings()
 	google = model.startswith("google/")
 	headers = _headers(settings, google, tenant, tags or {}, fresh)
-	timeout = THOUGHT if most >= THINKS else TIMEOUT
+	timeout = THOUGHT if think else TIMEOUT
 	if google:
 		name = model.removeprefix("google/")
 		where = f"{settings['url'].rstrip('/')}/{settings['account']}/{settings['gateway']}/google-ai-studio/v1beta/models/{name}:generateContent"
 		body = {
 			"contents": [_gemini_turn(one) for one in turns],
-			"generationConfig": {"maxOutputTokens": most, **({} if most >= THINKS else models.quiet(model))},
+			"generationConfig": {"maxOutputTokens": most, **({} if think else models.quiet(model))},
 			**({"systemInstruction": {"parts": [{"text": system}]}} if system else {}),
 			**({"tools": [{"functionDeclarations": tools}]} if tools else {}),
 		}
@@ -107,7 +107,7 @@ def talk(
 		"model": model,
 		"messages": ([{"role": "system", "content": system}] if system else []) + [_openai_turn(one) for one in turns],
 		"max_tokens": most,
-		**({} if most >= THINKS else models.quiet(model)),
+		**({} if think else models.quiet(model)),
 		**({"tools": [{"type": "function", "function": one} for one in tools]} if tools else {}),
 	}
 	answer = _post(model, f"{API.format(**settings)}/v1/chat/completions", headers, body, timeout)
@@ -139,9 +139,11 @@ def call(
 	turns: list[dict] | None = None,
 	tools: list[dict] | None = None,
 	action: str | None = None,
+	think: bool = False,
 ) -> dict:
 	"""One round of a kind of work, billed: hold a ceiling, ask the first
-	model and then its fallback, settle what the one that answered cost."""
+	model and then its fallback, settle what the one that answered cost.
+	A model thinks only when `think` says so (one_ai/jobs.py)."""
 	site.require_admin()
 	spoken = turns or [said(prompt or "")]
 	types = tuple(sorted({one.get("type") or "" for turn in spoken for one in (turn.get("files") or []) if one.get("data")}))
@@ -154,7 +156,7 @@ def call(
 	holding = ledger.reserve(tenant, max(most, _LEAST), why=asked[0], reference=reference, action=action)
 	try:
 		answered, (words, wants, body) = _first_that_answers(
-			asked, lambda model: _said(model, spoken, caps or {}, tenant, system, tools, tags)
+			asked, lambda model: _said(model, spoken, caps or {}, tenant, system, tools, tags, think)
 		)
 	except Exception:
 		ledger.release(holding)
@@ -271,7 +273,7 @@ ONE_LINE = (
 
 
 def _said(
-	model: str, turns: list[dict], caps: dict, tenant: str, system: str | None, tools: list[dict] | None, tags: dict
+	model: str, turns: list[dict], caps: dict, tenant: str, system: str | None, tools: list[dict] | None, tags: dict, think: bool = False
 ) -> tuple[str, list[dict], dict]:
 	"""The words, what it asked for, and the whole body, asked once more
 	when the model wrote a call it could not read or said nothing."""
@@ -279,7 +281,7 @@ def _said(
 		return _heard(model, turns, tenant, tags)
 	most = int(caps.get("output_tokens") or MOST)
 	asking = lambda more=(), fresh=False: talk(  # noqa: E731
-		model, [*turns, *more], most=most, tenant=tenant, system=system, tools=tools, fresh=fresh, tags=tags
+		model, [*turns, *more], most=most, tenant=tenant, system=system, tools=tools, fresh=fresh, tags=tags, think=think
 	)
 	try:
 		return asking()

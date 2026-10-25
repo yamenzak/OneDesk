@@ -14,24 +14,23 @@ LISTED = Path(__file__).with_name("models.json")
 TIERS = ("fast", "balanced", "full")
 
 # Each kind of work, per tier: the model first asked, then the one that
-# answers when it can't, on the other company where there is one.
+# answers when it can't, on the other company where there is one. Settled by
+# the bench on 2026-10-26 (docs/AICENTER.md, Models).
 USE = {
 	"talk": {
 		"fast": ("@cf/google/gemma-4-26b-a4b-it", "google/gemini-3.1-flash-lite"),
-		"balanced": ("@cf/zai-org/glm-5.3-flash", "google/gemini-3.5-flash-lite"),
-		"full": ("google/gemini-3.8-flash", "@cf/moonshotai/kimi-k2.6"),
+		"balanced": ("@cf/deepseek-ai/deepseek-v4.1-flash-1017", "google/gemini-3.5-flash-lite"),
+		"full": ("google/gemini-3.8-flash", "@cf/deepseek-ai/deepseek-v4.1-flash-1017"),
 	},
 	"build": {
-		"fast": ("google/gemini-3.5-flash-lite", "@cf/google/gemma-4-26b-a4b-it"),
-		"balanced": ("google/gemini-3.8-flash", "@cf/zai-org/glm-5.3"),
+		"fast": ("@cf/deepseek-ai/deepseek-v4.1-flash-1017", "google/gemini-3.5-flash-lite"),
+		"balanced": ("google/gemini-3.8-flash", "@cf/deepseek-ai/deepseek-v4.1-flash-1017"),
 		"full": ("google/gemini-3.1-pro-preview", "google/gemini-3.8-flash"),
 	},
-	"decide": {
-		"fast": ("@cf/cloudflare/clef-flash", "@cf/cloudflare/clef"),
-		"balanced": ("@cf/cloudflare/clef", "@cf/cloudflare/clef-flash"),
-		"full": ("@cf/cloudflare/clef", "@cf/cloudflare/clef-flash"),
-	},
-	"extract": {tier: ("@cf/cloudflare/clairic", "@cf/zai-org/glm-5.3-flash") for tier in TIERS},
+	"decide": {tier: ("@cf/cloudflare/clef-flash", "google/gemini-3.5-flash-lite") for tier in TIERS},
+	# Deciding from a picture, a recording or a video as well as text.
+	"decide_media": {tier: ("@cf/cloudflare/clef-omni", "google/gemini-3.5-flash-lite") for tier in TIERS},
+	"extract": {tier: ("@cf/cloudflare/clairic", "google/gemini-3.5-flash-lite") for tier in TIERS},
 	"see": {tier: ("@cf/google/gemma-4-26b-a4b-it", "google/gemini-3.5-flash-lite") for tier in TIERS},
 	"hear": {
 		"fast": ("@cf/openai/whisper-large-v3-turbo", "google/gemini-3.5-transcribe"),
@@ -73,9 +72,9 @@ PREVIEWS = {
 	"google/lyria-3-pro-preview": "Behind Lyria 3.5 only, for a full song when 3.5 can't answer.",
 	"google/veo-3.1-generate-preview": "Every Veo model is a preview.",
 	"google/veo-3.1-fast-generate-preview": "Every Veo model is a preview.",
-	"@cf/cloudflare/clairic": "Cloudflare's reading models are previews; the talk model stands behind them.",
-	"@cf/cloudflare/clef": "Cloudflare's reading models are previews; the talk model stands behind them.",
-	"@cf/cloudflare/clef-flash": "Cloudflare's reading models are previews; the talk model stands behind them.",
+	"@cf/cloudflare/clairic": "Cloudflare's reading models are previews; Gemini stands behind them.",
+	"@cf/cloudflare/clef-flash": "Cloudflare's reading models are previews; Gemini stands behind them.",
+	"@cf/cloudflare/clef-omni": "Cloudflare's reading models are previews; Gemini stands behind them.",
 }
 
 # Google's paid prices in dollars, from ai.google.dev/gemini-api/docs/pricing,
@@ -129,11 +128,8 @@ UNPRICED = {
 
 # How a model is told not to think on a short job, which it otherwise does into
 # its whole allowance: a Workers AI model not here takes Gemma's switch, and a
-# Google one's goes into `generationConfig`. GLM can only be kept brief.
+# Google one's goes into `generationConfig`. Measured: GLM 5.3 cannot be stopped.
 QUIET = {
-	"@cf/moonshotai/kimi-k2.6": {"chat_template_kwargs": {"thinking": False}},
-	"@cf/zai-org/glm-5.3-flash": {"reasoning_effort": "low"},
-	"@cf/zai-org/glm-5.3": {"reasoning_effort": "low"},
 	"google/gemini-3.8-flash": {"thinkingConfig": {"thinkingLevel": "low"}},
 }
 QUIETLY = {"chat_template_kwargs": {"enable_thinking": False}}

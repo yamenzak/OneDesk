@@ -560,8 +560,9 @@ deliberately not here.
   for one question. Older files stay in the transcript by name, which is what
   a person reads them as anyway.
 - `jobs.py`: every job OneAI does: its label, its module, its kind of work,
-  whether it has tools, whether it answers a person in prose, and its token
-  caps. Its words are `words/<key>.md`, one file a job, reviewed like code.
+  whether it has tools, whether it answers a person in prose, its token caps,
+  and when the model may think first (building always, chat on Full, nothing
+  else), with the room it gets then. Its words are `words/<key>.md`, one file a job, reviewed like code.
   `told` puts the voice's parts before them.
 - `voice.py`: what OneAI is told on every call, in parts: who it is, how it
   speaks, what is true, what it may do with tools, where the person is, that
@@ -723,7 +724,7 @@ that kind at the workspace's tier, with a fallback on the other company. A
 handover (the chat reaching for a print layout) moves the conversation to
 that job, and so to its kind of model.
 
-`chat_title` names a conversation after its first answer: a 30-token action
+`chat_title` names a conversation after its first answer: a 100-token job
 with no tools. Once its person renames it, `titled` is set and OneAI never
 names it again.
 
