@@ -661,7 +661,9 @@ onedesk.mail.settings = (tab) => {
 					fieldname: "user",
 					options: "User",
 					placeholder: __("Select User"),
-					get_query: () => ({ filters: { user_type: "System User", enabled: 1 } }),
+					get_query: () => ({
+						filters: { user_type: "System User", enabled: 1, name: ["not in", one_box.people.map((one) => one.user)] },
+					}),
 				},
 				parent: $(`<span class="oms-add-pick"></span>`).appendTo($add),
 				render_input: true,
@@ -681,15 +683,25 @@ onedesk.mail.settings = (tab) => {
 			const labelled = Object.fromEntries((said.abilities || []).map((one) => [one.key, one.label]));
 			const may_sub = (one) => (one.may.length ? __("Can change {0}", [one.may.map((key) => labelled[key]).join(", ")]) : one.user);
 			const choose = (one, $row) => {
+				const open = (said.abilities || []).filter((ability) => !one.covered.includes(ability.key));
+				const covered = (said.abilities || []).filter((ability) => one.covered.includes(ability.key));
 				const dialog = new frappe.ui.Dialog({
-					title: __("What {0} Can Change", [one.name]),
+					title: __("Access for {0}", [one.name]),
 					fields: [
+						{
+							fieldname: "where",
+							fieldtype: "HTML",
+							options: `<p class="text-muted small">${esc(
+								covered.length
+									? __("Only in {0}. Their role already allows {1}.", [box.email, covered.map((ability) => ability.label).join(", ")])
+									: __("Only in {0}.", [box.email])
+							)}</p>`,
+						},
 						{
 							fieldname: "keys",
 							fieldtype: "MultiCheck",
 							columns: 2,
-							options: (said.abilities || []).map((ability) => ({ label: ability.label, value: ability.key, checked: one.may.includes(ability.key) })),
-							description: __("In {0} only, beyond what their role allows.", [box.email]),
+							options: open.map((ability) => ({ label: ability.label, value: ability.key, checked: one.may.includes(ability.key) })),
 						},
 					],
 					primary_action_label: __("Save"),
@@ -704,10 +716,12 @@ onedesk.mail.settings = (tab) => {
 			};
 			one_box.people.forEach((one) => {
 				const $row = row({ lead: frappe.ui.avatar.html({ label: one.name, size: "md" }), title: one.name, sub: esc(may_sub(one)) }).appendTo($list);
+				$row.find(".oms-title").append(" ", frappe.ui.badge.html({ label: one.role, theme: "gray" }));
 				const $end = $row.find(".oms-end");
-				button({ label: __("Can Change"), variant: "ghost", size: "sm" })
-					.on("click", () => choose(one, $row))
-					.appendTo($end);
+				const everything = (said.abilities || []).every((ability) => one.covered.includes(ability.key));
+				const $access = button({ label: __("Edit Access"), variant: "outline", size: "sm" }).appendTo($end);
+				if (everything) $access.prop("disabled", true).attr("title", __("Their role already allows everything here."));
+				else $access.on("click", () => choose(one, $row));
 				const send = frappe.ui.form.make_control({
 					df: { fieldtype: "Switch", fieldname: "sends", label: __("Send"), read_only: !one_box.enable_outgoing },
 					parent: $(`<span class="oms-switch"></span>`).appendTo($end),

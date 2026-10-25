@@ -1830,6 +1830,10 @@ msgstr "Zugriff geändert"
 msgid "Access Key"
 msgstr ""
 
+#: onedesk/public/js/onemail_settings.js:689
+msgid "Access for {0}"
+msgstr "Zugriff für {0}"
+
 #: onedesk/public/js/contact.js:35
 msgid "Access restored"
 msgstr "Zugang wiederhergestellt"
@@ -6954,10 +6958,6 @@ msgstr ""
 #: onedesk/one_project/library/marketing_campaign.json
 msgid "Campaign live"
 msgstr "Kampagne live"
-
-#: onedesk/public/js/onemail_settings.js:593
-msgid "Can Change"
-msgstr "Darf ändern"
 
 #: frontend/src/item/ItemSelling.vue:60
 msgid "Can Go Now"
@@ -13287,6 +13287,10 @@ msgstr "Bearbeiten"
 msgid "Edit About"
 msgstr "Angaben bearbeiten"
 
+#: onedesk/public/js/onemail_settings.js:722
+msgid "Edit Access"
+msgstr "Zugriff bearbeiten"
+
 #: frontend/src/project/Overview.vue:20
 msgid "Edit Brief"
 msgstr "Kurzbeschreibung bearbeiten"
@@ -19132,10 +19136,6 @@ msgstr "In {0}"
 #: onedesk/one_project/view.py:636
 msgid "In {0} days"
 msgstr "In {0} Tagen"
-
-#: onedesk/public/js/onemail_settings.js:577
-msgid "In {0} only, beyond what their role allows."
-msgstr "Nur in {0}, über das hinaus, was die Rolle erlaubt."
 
 #: frontend/src/item/ItemPage.vue:237
 msgid "In {0} warehouses"
@@ -28427,6 +28427,14 @@ msgstr "Nur Daten, die die Person erstellt oder bearbeitet hat, können zurückg
 #: onedesk/public/js/onecloud.js:331
 msgid "Only in {0}"
 msgstr "Nur in {0}"
+
+#: onedesk/public/js/onemail_settings.js:697
+msgid "Only in {0}."
+msgstr "Nur in {0}."
+
+#: onedesk/public/js/onemail_settings.js:696
+msgid "Only in {0}. Their role already allows {1}."
+msgstr "Nur in {0}. Die Rolle erlaubt bereits {1}."
 
 #: onedesk/public/js/doctype_settings.js:754
 msgid "Only letters, digits, spaces and - / _ . # { } are allowed."
@@ -43594,6 +43602,10 @@ msgstr "Die Urlaubsgenehmigung, oder die Personalabteilung, wenn keine festgeleg
 msgid "Their passkey and shift assignments have been ended, but the status is still Active: {why}<br>Fix that, then set their status to Left."
 msgstr "Passkey und Schichtzuweisungen wurden beendet, aber der Status ist noch Aktiv: {why}<br>Beheben Sie das und setzen Sie den Status dann auf Ausgeschieden."
 
+#: onedesk/public/js/onemail_settings.js:723
+msgid "Their role already allows everything here."
+msgstr "Die Rolle erlaubt hier bereits alles."
+
 #. Who a notification is sent to
 #: onedesk/notifications/one_hr/shift_asked.md
 msgid "Their shift approver, or HR when none is set"
@@ -48372,10 +48384,6 @@ msgstr "Was Sie jedem Lieferanten schulden, nach Verzug."
 #: onedesk/one_inventory/home.py:163
 msgid "What you will have once orders come and go."
 msgstr "Was Sie haben werden, wenn Bestellungen kommen und gehen."
-
-#: onedesk/public/js/onemail_settings.js:570
-msgid "What {0} Can Change"
-msgstr "Was {0} ändern darf"
 
 #: onedesk/one/ai_setup.py:713
 msgid "What {0} sees"

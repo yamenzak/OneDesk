@@ -236,6 +236,28 @@ def mailbox(account: str) -> dict:
 	return _box(row, sending_rows(), workspace(), [])
 
 
+def _by_role(user: str) -> dict:
+	"""A person's OneMail role (one/access.py), and the parts of any mailbox
+	(one_mail/abilities.py SHARED) it already lets them change, which a
+	share of one mailbox can add nothing to."""
+	from onedesk.one import abilities, access, roles
+	from onedesk.one.settings import level_of
+	from onedesk.one_mail.abilities import DOCTYPE, SHARED
+
+	cache = frappe.local.flags.setdefault("one_mail_by_role", {})
+	if user not in cache:
+		if roles.administers(user):
+			cache[user] = {"role": _("Administrator"), "covered": list(SHARED)}
+		else:
+			used, managed = access._apps()["OneMail"]
+			tier = level_of(set(frappe.get_roles(user)), used, managed, access.levels_of("OneMail"))
+			cache[user] = {
+				"role": _(tier) if tier in ("User", "Manager", "None") else tier,
+				"covered": [key for key in SHARED if abilities.held(DOCTYPE, _ability(key)["all"], user)],
+			}
+	return cache[user]
+
+
 @frappe.whitelist()
 def shared() -> dict:
 	"""The workspace's mailboxes, who reads and who sends from each, and
@@ -261,6 +283,7 @@ def shared() -> dict:
 				"name": names.get(row.parent) or row.parent,
 				"sends": int(row.one_sends is None or bool(row.one_sends)),
 				"may": given.get(row.parent, []),
+				**_by_role(row.parent),
 			}
 			for row in frappe.get_all(
 				"User Email",

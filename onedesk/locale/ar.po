@@ -1830,6 +1830,10 @@ msgstr "تغيّر الوصول"
 msgid "Access Key"
 msgstr ""
 
+#: onedesk/public/js/onemail_settings.js:689
+msgid "Access for {0}"
+msgstr "صلاحيات {0}"
+
 #: onedesk/public/js/contact.js:35
 msgid "Access restored"
 msgstr "تمت استعادة الوصول"
@@ -6954,10 +6958,6 @@ msgstr ""
 #: onedesk/one_project/library/marketing_campaign.json
 msgid "Campaign live"
 msgstr "الحملة قيد التشغيل"
-
-#: onedesk/public/js/onemail_settings.js:593
-msgid "Can Change"
-msgstr "يمكنه التغيير"
 
 #: frontend/src/item/ItemSelling.vue:60
 msgid "Can Go Now"
@@ -13287,6 +13287,10 @@ msgstr "تعديل"
 msgid "Edit About"
 msgstr "تعديل المعلومات"
 
+#: onedesk/public/js/onemail_settings.js:722
+msgid "Edit Access"
+msgstr "تعديل الصلاحيات"
+
 #: frontend/src/project/Overview.vue:20
 msgid "Edit Brief"
 msgstr "تعديل النبذة"
@@ -19132,10 +19136,6 @@ msgstr "في {0}"
 #: onedesk/one_project/view.py:636
 msgid "In {0} days"
 msgstr "خلال {0} يوم"
-
-#: onedesk/public/js/onemail_settings.js:577
-msgid "In {0} only, beyond what their role allows."
-msgstr "في {0} فقط، إضافة إلى ما يسمح به دوره."
 
 #: frontend/src/item/ItemPage.vue:237
 msgid "In {0} warehouses"
@@ -28427,6 +28427,14 @@ msgstr "لا يمكن حجب إلا البيانات التي أنشأها ال�
 #: onedesk/public/js/onecloud.js:331
 msgid "Only in {0}"
 msgstr "فقط في {0}"
+
+#: onedesk/public/js/onemail_settings.js:697
+msgid "Only in {0}."
+msgstr "في {0} فقط."
+
+#: onedesk/public/js/onemail_settings.js:696
+msgid "Only in {0}. Their role already allows {1}."
+msgstr "في {0} فقط. دوره يسمح أصلًا بـ {1}."
 
 #: onedesk/public/js/doctype_settings.js:754
 msgid "Only letters, digits, spaces and - / _ . # { } are allowed."
@@ -43594,6 +43602,10 @@ msgstr "معتمد الإجازات، أو الموارد البشرية إن ل
 msgid "Their passkey and shift assignments have been ended, but the status is still Active: {why}<br>Fix that, then set their status to Left."
 msgstr "أُنهي مفتاح مروره وتكليفات الورديات، لكن الحالة لا تزال نشطة: {why}<br>أصلح ذلك، ثم اجعل حالته غادر."
 
+#: onedesk/public/js/onemail_settings.js:723
+msgid "Their role already allows everything here."
+msgstr "دوره يسمح أصلًا بكل شيء هنا."
+
 #. Who a notification is sent to
 #: onedesk/notifications/one_hr/shift_asked.md
 msgid "Their shift approver, or HR when none is set"
@@ -48372,10 +48384,6 @@ msgstr "ما عليك لكل مورد، حسب مدة التأخير."
 #: onedesk/one_inventory/home.py:163
 msgid "What you will have once orders come and go."
 msgstr "ما سيكون لديك بعد أن تأتي الطلبات وتذهب."
-
-#: onedesk/public/js/onemail_settings.js:570
-msgid "What {0} Can Change"
-msgstr "ما يمكن لـ{0} تغييره"
 
 #: onedesk/one/ai_setup.py:713
 msgid "What {0} sees"
