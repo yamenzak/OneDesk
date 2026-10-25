@@ -254,9 +254,14 @@ part. No module has a `docs/` folder.
 
 **Built.** `onedesk.module_settings.open({ module, may, tabs })`
 (`public/js/module_settings.js`) is every module's settings dialog: frappe's
-settings dialog with the module's mark, "Settings" and a Help button at the
-top of its sidebar (`onedesk.module_head`, which What's New and Help draw
-too). Each tab names the `needs` it asks of the reader's role (an ability's
+settings dialog with ControlCenter and the module under it, and a Help
+button, at the top of its sidebar. `onedesk.module_head` draws that for
+every dialog a module has: One's mark and a name in the products' manner,
+the first word light (HelpCenter, UpdateCenter for What's New,
+ControlCenter, AccountCenter for one mailbox), and, small under it, whose:
+the module's mark and name, or one thing in it, such as a mailbox's
+address (`dialog.center`). The names are names, so they are not
+translated (`onedesk.CENTERS`). Each tab names the `needs` it asks of the reader's role (an ability's
 key, a list of keys any one of which will do, or a function), the dialog
 leaves out what the role doesn't allow and drops a group left empty.
 `onedesk.module_settings.kit` is what tabs are drawn with: list rows, a

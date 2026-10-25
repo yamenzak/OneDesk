@@ -887,11 +887,10 @@ onedesk.mail.settings = (tab) => {
 		if (box.shared && box.may.holders) items.push(users_tab(box, from));
 		if (box.connected && box.may_reconnect) items.push(connection_tab(box, from));
 		items.push(rules_tab(box));
+		// One mailbox is an AccountCenter, its address under the name.
+		dialog.center = { center: "account", label: box.email, icon: icon_of(box) };
 		dialog.reset(
-			[
-				{ items: [{ id: "back", label: __("All Mailboxes"), icon: "arrow-left", render() {} }] },
-				{ group: box.email, items },
-			],
+			[{ items: [{ id: "back", label: __("All Mailboxes"), icon: "arrow-left", render() {} }] }, { items }],
 			items.some((one) => one.id === focus) ? focus : items[0].id
 		);
 		dialog.$wrapper
@@ -899,7 +898,10 @@ onedesk.mail.settings = (tab) => {
 			.off("click")
 			.on("click", () => home(from));
 	};
-	const home = (tab) => dialog.reset(dialog.home, tab);
+	const home = (tab) => {
+		dialog.center = null;
+		dialog.reset(dialog.home, tab);
+	};
 
 	// What a person may connect, from Private Mailboxes (boot.one_mail_private).
 	const can_connect = () => {

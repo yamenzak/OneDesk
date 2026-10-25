@@ -87,7 +87,7 @@ onedesk.module_docs.Dialog = class ModuleDocsDialog extends frappe.ui.SettingsDi
 		for (const group of this.tabs) for (const item of group.items || []) this._items[item.id] = item;
 		this._items[onedesk.module_docs.SEARCH] = this.search_item();
 
-		onedesk.module_head(this.$sidebar, this.module, this.kind);
+		onedesk.module_head(this.$sidebar, { center: this.center, module: this.module });
 
 		const $search = $(`<label class="one-docs-search"></label>`).appendTo(this.$sidebar);
 		$search.append(frappe.utils.icon("search", "sm"));
@@ -275,7 +275,7 @@ onedesk.whats_new.open = async (module, version = null) => {
 	const dialog = new onedesk.module_docs.Dialog({
 		title: __("What's New in {0}", [module]),
 		module,
-		kind: __("What's New"),
+		center: "updates",
 		tabs: [{ items }],
 		tree: roots,
 		default_tab: version || items[0]?.id,
@@ -324,7 +324,7 @@ onedesk.help.open = async (module, page = null, anchor = null) => {
 	const dialog = new onedesk.module_docs.Dialog({
 		title: __("{0} Help", [module]),
 		module,
-		kind: __("Help"),
+		center: "help",
 		tabs: [{ items }],
 		tree,
 		default_tab: page || items[0]?.id,

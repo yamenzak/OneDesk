@@ -2,8 +2,8 @@
    settings dialog with the module's mark at the top of its sidebar, and the
    kit its tabs are drawn with. */
 
-/* A module's mark and name at the top of a sidebar (settings, What's New
-   and Help alike). */
+/* The centre a dialog is (HelpCenter, ControlCenter, AccountCenter,
+   UpdateCenter) and whose, small, under it, atop its sidebar. */
 .one-module-head {
 	position: relative;
 	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 2) calc(var(--spacing) * 2);
@@ -20,10 +20,16 @@
 	margin-inline-end: calc(var(--spacing) * 1.5);
 }
 
-.one-module-head-kind {
-	color: var(--ink-gray-5);
+.one-module-head-of {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 1.5);
+	margin-top: calc(var(--spacing) * 0.5);
+	color: var(--ink-gray-6);
 	font-size: var(--text-sm);
+	--icon-stroke: var(--ink-gray-5);
 }
+
 
 .one-module-head-help {
 	position: absolute;
@@ -265,4 +271,17 @@
 .one-set .one-set-value {
 	color: var(--ink-gray-7);
 	font-size: var(--text-base);
+}
+
+.one-module-head-of > * {
+	flex-shrink: 0;
+	margin: 0;
+}
+
+.one-module-head-of > span:last-child:not(.one-name) {
+	flex-shrink: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }

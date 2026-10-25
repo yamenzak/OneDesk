@@ -7,22 +7,42 @@
 // shows once something changed.
 frappe.provide("onedesk.module_settings");
 
-// A module's mark and name, with what the dialog is under it, at the top of
-// a sidebar (settings, What's New and Help alike).
-onedesk.module_head = ($into, module, kind) => {
+// The centres a module's dialogs are, named as One's products are: One's
+// mark, the first word light and Center after it (HelpCenter, ControlCenter,
+// AccountCenter, UpdateCenter). They are names, so they are not translated.
+onedesk.CENTERS = { help: "Help", settings: "Control", account: "Account", updates: "Update" };
+
+// The top of a dialog's sidebar: the centre it is, and under it, small,
+// whose it is: a module (its mark and name) or one thing in it (an icon and
+// a label, such as a mailbox's address).
+onedesk.module_head = ($into, { center, module = null, label = null, icon = null }) => {
 	const $head = $(`<div class="one-module-head"></div>`).prependTo($into);
-	const rest = module.replace(/^One/, "");
-	$(`<div class="one-module-head-name"></div>`)
-		.append(rest !== module ? onedesk.brand.named(rest, true) : document.createTextNode(module))
-		.appendTo($head);
-	$(`<div class="one-module-head-kind"></div>`).text(kind).appendTo($head);
+	const name = document.createElement("span");
+	name.className = "one-name one-solo";
+	name.innerHTML = frappe.utils.icon("one", { width: "1.05em", height: "1.05em" }, "", "", "one-mark");
+	const word = document.createElement("span");
+	const light = document.createElement("span");
+	light.className = "one-light";
+	light.textContent = onedesk.CENTERS[center] || center;
+	word.append(light, "Center");
+	name.append(word);
+	$(`<div class="one-module-head-name"></div>`).append(name).appendTo($head);
+	const $of = $(`<div class="one-module-head-of"></div>`).appendTo($head);
+	const rest = module && module.replace(/^One/, "");
+	if (module && rest !== module) $of.append(onedesk.brand.named(rest, true));
+	else {
+		if (icon) $of.append(frappe.utils.icon(icon, "xs"));
+		$(`<span></span>`).text(label || module || "").appendTo($of);
+	}
 	return $head;
 };
 
 onedesk.module_settings.Dialog = class ModuleSettingsDialog extends frappe.ui.SettingsDialog {
 	render_sidebar() {
 		super.render_sidebar();
-		const $head = onedesk.module_head(this.$sidebar, this.module, __("Settings"));
+		// A module's settings are its ControlCenter; a dialog showing one thing
+		// in it, such as a mailbox, says which (`dialog.center`).
+		const $head = onedesk.module_head(this.$sidebar, this.center || { center: "settings", module: this.module });
 		if (frappe.boot.one_versions && frappe.boot.one_versions[this.module]) {
 			$(frappe.ui.button.html({ variant: "ghost", icon: "circle-question-mark", title: __("Help"), attrs: { "aria-label": __("Help") } }))
 				.addClass("one-module-head-help")
