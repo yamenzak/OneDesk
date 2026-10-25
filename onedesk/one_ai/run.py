@@ -409,6 +409,25 @@ def once(action: str, text: str, files: list[dict] | None = None, reference: str
 	return (out or {}).get("said") or ""
 
 
+def read(action: str, state: str, asked: dict, reference: str | None = None, on: str | None = None) -> dict:
+	"""A reading job's answers (Clef's to questions, Clairic's fields), each
+	with how sure the model is: one call, billed like `once`."""
+	from onedesk.one import apps
+
+	apps.refuse_ai()
+	out = account.ask(
+		"onedesk.one_admin.proxy.ai_read",
+		action=action,
+		state=state,
+		asked=asked,
+		tier=center.tier(),
+		reference=reference,
+		on=on,
+	)
+	_counted(reference, (out or {}).get("credits"))
+	return (out or {}).get("result") or {}
+
+
 def _counted(reference: str | None, credits) -> None:
 	"""A call made for a reading of mail counts against its mailbox's month
 	(one_mail/gate.py)."""

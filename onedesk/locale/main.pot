@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-25 23:24+0000\n"
-"PO-Revision-Date: 2026-10-25 23:24+0000\n"
+"POT-Creation-Date: 2026-10-25 23:45+0000\n"
+"PO-Revision-Date: 2026-10-25 23:45+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2035,7 +2035,7 @@ msgstr ""
 msgid "Act After"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:64
+#: onedesk/one_ai/jobs.py:67
 msgid "Act on What Arrived"
 msgstr ""
 
@@ -5182,7 +5182,7 @@ msgstr ""
 msgid "Audit OneAI Actions"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:62
+#: onedesk/one_ai/jobs.py:65
 msgid "Audit What OneAI Did"
 msgstr ""
 
@@ -7391,7 +7391,7 @@ msgstr ""
 msgid "Chase {0}"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:42
+#: onedesk/one_ai/jobs.py:43
 msgid "Chat"
 msgstr ""
 
@@ -12658,7 +12658,7 @@ msgstr ""
 msgid "Draft Supplier Quotations"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:51
+#: onedesk/one_ai/jobs.py:52
 msgid "Draft a Reply"
 msgstr ""
 
@@ -15108,7 +15108,7 @@ msgstr ""
 msgid "Explain Again"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:61
+#: onedesk/one_ai/jobs.py:64
 msgid "Explain a Document"
 msgstr ""
 
@@ -15636,7 +15636,7 @@ msgstr ""
 msgid "Filing"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:63
+#: onedesk/one_ai/jobs.py:66
 msgid "Fill What a Record Still Needs"
 msgstr ""
 
@@ -15855,7 +15855,7 @@ msgid "First Found In"
 msgstr ""
 
 #. Label of the verdict (Select) field in DocType 'Reading'
-#: onedesk/one_ai/doctype/reading/reading.json onedesk/one_ai/jobs.py:58
+#: onedesk/one_ai/doctype/reading/reading.json onedesk/one_ai/jobs.py:60
 msgid "First Look"
 msgstr ""
 
@@ -15939,7 +15939,7 @@ msgstr ""
 msgid "Fix With OneAI"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:49
+#: onedesk/one_ai/jobs.py:50
 msgid "Fix an Extension"
 msgstr ""
 
@@ -16769,7 +16769,7 @@ msgstr ""
 msgid "From the buyer"
 msgstr ""
 
-#: onedesk/one_ai/reading/understand.py:396
+#: onedesk/one_ai/reading/understand.py:523
 msgid "From the day received"
 msgstr ""
 
@@ -17412,7 +17412,7 @@ msgstr ""
 msgid "Grievance Types"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:55
+#: onedesk/one_ai/jobs.py:56
 msgid "Grievances"
 msgstr ""
 
@@ -19711,7 +19711,7 @@ msgstr ""
 msgid "Interviewers"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:53
+#: onedesk/one_ai/jobs.py:54
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:186
 msgid "Interviews"
 msgstr ""
@@ -28127,7 +28127,7 @@ msgid "OneProject"
 msgstr ""
 
 #. Title of a Sidebar
-#: onedesk/one_ai/jobs.py:47
+#: onedesk/one_ai/jobs.py:48
 #: onedesk/one_studio/sidebar/onestudio/onestudio.json
 msgid "OneStudio"
 msgstr ""
@@ -31396,7 +31396,7 @@ msgstr ""
 msgid "Place"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:60
+#: onedesk/one_ai/jobs.py:63
 msgid "Place a Document"
 msgstr ""
 
@@ -31995,7 +31995,7 @@ msgstr ""
 msgid "Print"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:45
+#: onedesk/one_ai/jobs.py:46
 msgid "Print Design"
 msgstr ""
 
@@ -33397,11 +33397,15 @@ msgstr ""
 msgid "Read Only"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:56
+#: onedesk/one_ai/jobs.py:57
 msgid "Read Scans"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:59
+#: onedesk/one_ai/jobs.py:61
+msgid "Read a Bill Twice"
+msgstr ""
+
+#: onedesk/one_ai/jobs.py:62
 msgid "Read a Document"
 msgstr ""
 
@@ -33720,7 +33724,7 @@ msgstr ""
 msgid "Received"
 msgstr ""
 
-#: onedesk/one_ai/reading/understand.py:396
+#: onedesk/one_ai/reading/understand.py:523
 msgid "Received 4 days after posting (§ 122 AO)"
 msgstr ""
 
@@ -35622,7 +35626,7 @@ msgstr ""
 msgid "Review Note"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:48
+#: onedesk/one_ai/jobs.py:49
 msgid "Review an Extension"
 msgstr ""
 
@@ -36465,7 +36469,7 @@ msgstr ""
 msgid "Screen"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:52
+#: onedesk/one_ai/jobs.py:53
 msgid "Screen Applicants"
 msgstr ""
 
@@ -36533,7 +36537,7 @@ msgstr ""
 msgid "Search Your Mail"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:50
+#: onedesk/one_ai/jobs.py:51
 msgid "Search by Meaning"
 msgstr ""
 
@@ -38960,6 +38964,10 @@ msgstr ""
 msgid "Sort Only"
 msgstr ""
 
+#: onedesk/one_ai/jobs.py:59
+msgid "Sort What Arrives"
+msgstr ""
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:523
 msgid "Sort ascending"
 msgstr ""
@@ -40372,7 +40380,7 @@ msgstr ""
 msgid "Summarise Now"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:44
+#: onedesk/one_ai/jobs.py:45
 msgid "Summarise a Record"
 msgstr ""
 
@@ -44428,7 +44436,7 @@ msgstr ""
 msgid "This workspace has no mail domain yet."
 msgstr ""
 
-#: onedesk/one_admin/proxy.py:460
+#: onedesk/one_admin/proxy.py:484
 msgid "This workspace has no mail route yet."
 msgstr ""
 
@@ -44456,7 +44464,7 @@ msgstr ""
 msgid "This workspace isn't linked to OneAdmin, so it can't add private apps."
 msgstr ""
 
-#: onedesk/one_admin/proxy.py:457
+#: onedesk/one_admin/proxy.py:481
 msgid "Those addresses aren't on this workspace."
 msgstr ""
 
@@ -44708,7 +44716,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:43
+#: onedesk/one_ai/jobs.py:44
 msgid "Title a Conversation"
 msgstr ""
 
@@ -45410,11 +45418,11 @@ msgstr ""
 msgid "Transcribe Interview Recordings"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:54
+#: onedesk/one_ai/jobs.py:55
 msgid "Transcribe Interviews"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:57
+#: onedesk/one_ai/jobs.py:58
 msgid "Transcribe Recordings"
 msgstr ""
 
@@ -51324,7 +51332,7 @@ msgstr ""
 msgid "Workspace Settings"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:46
+#: onedesk/one_ai/jobs.py:47
 msgid "Workspace Setup"
 msgstr ""
 
@@ -53280,11 +53288,11 @@ msgstr ""
 msgid "once per conversation"
 msgstr ""
 
-#: onedesk/one_ai/reading/understand.py:394
+#: onedesk/one_ai/reading/understand.py:521
 msgid "one day"
 msgstr ""
 
-#: onedesk/one_ai/reading/understand.py:394
+#: onedesk/one_ai/reading/understand.py:521
 msgid "one month"
 msgstr ""
 
@@ -53292,11 +53300,11 @@ msgstr ""
 msgid "one of {0}"
 msgstr ""
 
-#: onedesk/one_ai/reading/understand.py:394
+#: onedesk/one_ai/reading/understand.py:521
 msgid "one week"
 msgstr ""
 
-#: onedesk/one_ai/reading/understand.py:394
+#: onedesk/one_ai/reading/understand.py:521
 msgid "one year"
 msgstr ""
 
@@ -54399,7 +54407,7 @@ msgstr ""
 #: frontend/src/template/Tasks.vue:125
 #: frontend/src/template/TemplatePage.vue:80
 #: frontend/src/upkeep/UpkeepRows.vue:67 onedesk/one/stages.py:33
-#: onedesk/one_ai/reading/understand.py:393 onedesk/one_crm/heads.py:32
+#: onedesk/one_ai/reading/understand.py:520 onedesk/one_crm/heads.py:32
 #: onedesk/one_crm/heads.py:40 onedesk/one_inventory/heads.py:1132
 #: onedesk/one_project/ai.py:893 onedesk/public/js/project_template_list.js:4
 msgid "{0} days"
@@ -55448,7 +55456,7 @@ msgstr ""
 msgid "{0} min"
 msgstr ""
 
-#: onedesk/one_ai/reading/understand.py:393 onedesk/one_project/view.py:561
+#: onedesk/one_ai/reading/understand.py:520 onedesk/one_project/view.py:561
 msgid "{0} months"
 msgstr ""
 
@@ -56176,7 +56184,7 @@ msgstr ""
 msgid "{0} was taken by someone else after this signup was abandoned."
 msgstr ""
 
-#: onedesk/one_ai/reading/understand.py:393
+#: onedesk/one_ai/reading/understand.py:520
 msgid "{0} weeks"
 msgstr ""
 
@@ -56225,7 +56233,7 @@ msgstr ""
 msgid "{0} workstations"
 msgstr ""
 
-#: onedesk/one_ai/reading/understand.py:393
+#: onedesk/one_ai/reading/understand.py:520
 msgid "{0} years"
 msgstr ""
 
@@ -56410,7 +56418,7 @@ msgstr ""
 msgid "{0}, from {1}: {2}."
 msgstr ""
 
-#: onedesk/one_ai/reading/understand.py:398
+#: onedesk/one_ai/reading/understand.py:525
 msgid "{0}, moved to the next working day"
 msgstr ""
 
@@ -56418,7 +56426,7 @@ msgstr ""
 msgid "{0}, on the mail domain"
 msgstr ""
 
-#: onedesk/one_ai/reading/understand.py:397
+#: onedesk/one_ai/reading/understand.py:524
 msgid "{0}, plus {1}"
 msgstr ""
 

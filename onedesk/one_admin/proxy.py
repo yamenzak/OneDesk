@@ -184,6 +184,30 @@ def ai_run(
 
 @frappe.whitelist(allow_guest=True)
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def ai_read(
+	action: str,
+	state: str,
+	asked: dict | str,
+	tier: str | None = None,
+	reference: str | None = None,
+	on: str | None = None,
+) -> dict:
+	"""One reading job (sorting or reading fields) for this workspace, billed
+	to it. A workspace names the job and sends the text and its questions;
+	the model is the door's."""
+	from onedesk.one_admin import actions
+
+	tenant = caller()
+	try:
+		return actions.read(
+			tenant.name, action, state, frappe.parse_json(asked) if isinstance(asked, str) else asked, tier=tier, reference=reference, on=on
+		)
+	except faults.Refused as raised:
+		frappe.throw(str(raised), exc=type(raised))
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
 def ai_embed(texts: list | str) -> dict:
 	"""Texts as vectors, for this workspace's search by meaning, billed to it."""
 	from onedesk.one_admin import actions

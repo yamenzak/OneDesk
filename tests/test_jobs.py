@@ -47,6 +47,9 @@ def test_every_job_is_whole_and_every_word_has_a_job():
 		if job.kind == "embed":
 			assert job.takes > 0 and not jobs.words(key), key
 			continue
+		if job.kind in ("decide", "decide_media", "extract"):
+			assert job.takes > 0, f"{key} holds nothing before it calls"
+			continue
 		assert job.most > 0, f"{key} holds nothing before it calls"
 		assert jobs.words(key), f"{key} has no words/{key}.md"
 	orphans = {path.stem for path in jobs.WORDS.glob("*.md")} - set(jobs.JOBS)

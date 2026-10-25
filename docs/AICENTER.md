@@ -618,7 +618,19 @@ the screen), a commit, and the docs it changes.
    ids: the Apps key `OneIntake`, the fields `one_intake` and
    `one_intake_for`, the doctype names Intake Settings, Intake Action and
    Intake Lesson, and the notification names Intake Waiting and Intake
-   Weekly. Left: reading on the new models and the scenarios.
+   Weekly. **Reading on the new models is built (2026-10-26)** where it was
+   measured to help: the first look is Clef Flash (`intake_decide`, through
+   a new reading door: `run.read`, `proxy.ai_read`, `actions.read`), real or
+   not 15 of 15 and rule topics 15 of 15 in under a second, with the talk
+   model looking again at anything Clef calls junk (it took two real payment
+   reminders for phishing) and at anything it can't answer; and a bill is
+   read twice, Clairic (`intake_extract`) reading its number, date and total
+   after the talk model, filling what is missing and holding the document
+   for a person when the two disagree (no false disagreement on the three
+   bench invoices). Not done: to text through Markdown conversion (the local
+   readers stay; stage 5 writes Markdown beside each file for search), and
+   Clairic in place of the talk read, which still gives parties, dates, asks
+   and lines that Clairic does not. Left: the scenarios.
 5. **Search.** An AI Search instance per workspace, indexing on save,
    permissions after search, the search bar and OneCloud's search; AI
    Chunk and the index go.

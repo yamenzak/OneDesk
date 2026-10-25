@@ -14,6 +14,7 @@ from frappe.utils import cint, flt, now_datetime, today
 from onedesk.one_ai.reading import facts, identity
 from onedesk.one_ai.reading import identifiers as ids
 
+DECIDE = "intake_decide"
 LOOK = "intake_look"
 READ = "intake_read"
 
@@ -21,6 +22,37 @@ MOST_TEXT = 40_000
 MOST_LOOK = 1500
 
 VERDICTS = ("Spam", "Phishing", "Advertising", "Newsletter", "Notification", "Information", "Action")
+
+# What Clef chooses between on a first look: something real, or one kind of
+# what a person needn't read (docs/AICENTER.md, Reading what arrives).
+CRITERIA = {
+	"Real": "A real message or document from a person or a company we deal with: a bill, a reminder, an order, "
+	"a complaint, a request, a letter, an application, a contract.",
+	"Spam": "Unsolicited junk.",
+	"Phishing": "Pretends to be somebody to get money, a password or a click.",
+	"Advertising": "A promotion or an offer nobody asked for.",
+	"Newsletter": "A mailing somebody subscribed to.",
+	"Notification": "An automatic message such as a shipping notice, a password reset or a system alert.",
+}
+WANTS = "Does the sender want us to do something, such as pay, reply, send a price, come, fix something or deliver?"
+# Clef took real payment reminders for phishing when measured, and junk is
+# moved out of sight, so the talk model has the last word on anything junk.
+JUNK = ("Spam", "Phishing", "Advertising")
+# A bill's number, date and total are read twice, the second time by a model
+# that only reads fields (Clairic) and says how sure it is of each.
+EXTRACT = "intake_extract"
+TWICE = ("Invoice", "Credit Note", "Receipt", "Reminder")
+FIELDS = {
+	"number": {"type": "text", "instructions": "The document's own number, such as the invoice number, exactly as written"},
+	"issued": {"type": "date", "instructions": "The date the document was issued"},
+	"gross": {"type": "number", "decimals": 2, "instructions": "The total to pay, tax included"},
+}
+# The second reader fills what the first left empty only this sure; two reads
+# that disagree leave the document this sure, below any floor, for a person.
+TAKEN = 0.9
+DISAGREE = 0.5
+# A message is about a mailbox rule's topic from this likely.
+ABOUT = 0.5
 READ_IN_FULL = ("Information", "Action")
 KINDS = (
 	"Invoice", "Credit Note", "Receipt", "Reminder", "Tax Assessment", "Contract", "Offer", "Order",
@@ -61,7 +93,9 @@ def run(name: str) -> None:
 			if reading.verdict not in READ_IN_FULL or _sorting_only(reading):
 				_done(reading)
 				return
-			said, dropped = facts.check(ask(reading, structured), _checked_text(reading, structured), identity.country())
+			read = twice(ask(reading, structured), reading.text or "", reading.name)
+			said, dropped = facts.check(read, _checked_text(reading, structured), identity.country())
+			dropped += [f"the {key} read twice is not the same" for key in read.get("read_twice") or []]
 		except Exception as raised:
 			from onedesk.one_ai.reading import pipeline
 
@@ -215,10 +249,56 @@ def look(reading, structured: dict, topics: list | None = None) -> tuple[str, se
 		return "Newsletter", set()
 	mail = structured.get("forwarded") or structured.get("mail") or {}
 	head = f"From: {mail.get('from_name') or ''} <{mail.get('from_email') or ''}>\nSubject: {mail.get('subject') or reading.title or ''}\n" if mail else f"File: {reading.title or ''}\n"
-	listed = "\nTopics:\n" + "\n".join(f"{n}. {about}" for n, (_rule, about) in enumerate(topics, 1)) if topics else ""
-	answer = _ask(LOOK, f"{head}\n---\n{(reading.text or '')[:MOST_LOOK]}\n---{listed}", reading.name) or {}
-	verdict = "Newsletter" if bulk else str(answer.get("verdict") or "").strip().title()
-	return (verdict if verdict in VERDICTS else "Information"), about_of(answer.get("about"), topics or [])
+	text = f"{head}\n---\n{(reading.text or '')[:MOST_LOOK]}\n---"
+	verdict, numbers = _decided(text, topics or [], reading.name)
+	if verdict is None:
+		listed = "\nTopics:\n" + "\n".join(f"{n}. {about}" for n, (_rule, about) in enumerate(topics, 1)) if topics else ""
+		answer = _ask(LOOK, text + listed, reading.name) or {}
+		verdict, numbers = str(answer.get("verdict") or "").strip().title(), answer.get("about")
+	verdict = "Newsletter" if bulk else verdict
+	return (verdict if verdict in VERDICTS else "Information"), about_of(numbers, topics or [])
+
+
+def _decided(text: str, topics: list, reference: str) -> tuple[str | None, list]:
+	"""The first look by a model that sorts (Clef): the verdict and the topics
+	it is about. Nothing, when that model can't answer, so the talk model
+	looks instead (docs/AICENTER.md, Reading what arrives)."""
+	from onedesk.one_ai import run
+
+	try:
+		answers = run.read(DECIDE, text, questions(topics), reference=reference)
+	except Exception:
+		return None, []
+	return decided(answers.get("answers") or {}, topics)
+
+
+def questions(topics: list) -> dict:
+	"""What Clef is asked on a first look: what it is, whether it asks for
+	something, and one yes-or-no per topic its mailbox's rules read for. Pure
+	but for the job's words."""
+	from onedesk.one_ai import jobs
+
+	asked = {
+		"what": {"type": "choice", "instructions": jobs.words(DECIDE), "criteria": CRITERIA},
+		"asks": {"type": "noul", "instructions": WANTS},
+	}
+	for n, (_rule, about) in enumerate(topics, 1):
+		asked[f"t{n}"] = {"type": "noul", "instructions": f"Is it mainly about this, or a good part of it: {about}"}
+	return asked
+
+
+def decided(answers: dict, topics: list) -> tuple[str | None, list]:
+	"""Clef's answers as a first look: Action or Information for something
+	real, a newsletter or a notification as such, and the numbers of the
+	topics it is likely about. Nothing for junk, or an answer it didn't
+	give, so the talk model looks. Pure."""
+	what = (answers.get("what") or {}).get("choice")
+	if what not in CRITERIA or what in JUNK:
+		return None, []
+	asks = float((answers.get("asks") or {}).get("noul") or 0)
+	verdict = ("Action" if asks >= ABOUT else "Information") if what == "Real" else what
+	numbers = [n for n in range(1, len(topics) + 1) if float((answers.get(f"t{n}") or {}).get("noul") or 0) >= ABOUT]
+	return verdict, numbers
 
 
 def about_of(said, topics: list) -> set:
@@ -272,6 +352,53 @@ def ask(reading, structured: dict) -> dict:
 	text = (reading.text or "")[:MOST_TEXT]
 	cut = "\n(The document goes on; this is its beginning.)" if len(reading.text or "") > MOST_TEXT else ""
 	return _ask(READ, "\n".join(context) + f"\n\nThe document:\n---\n{text}\n---{cut}", reading.name) or {}
+
+
+def twice(said: dict, text: str, reference: str) -> dict:
+	"""A bill read a second time for its number, date and total (Clairic),
+	compared with the first read. Nothing changes when that model can't
+	answer (docs/AICENTER.md, Reading what arrives)."""
+	from onedesk.one_ai import run
+
+	if said.get("kind") not in TWICE or not text.strip():
+		return said
+	try:
+		answers = run.read(EXTRACT, text[:MOST_TEXT], FIELDS, reference=reference, on=today()).get("answers") or {}
+	except Exception:
+		return said
+	return compared(said, answers)
+
+
+def compared(said: dict, answers: dict) -> dict:
+	"""The first read, with what the second reader is sure of written where the
+	first left it empty, and held for a person where the two disagree. Pure."""
+	said, money = dict(said), dict(said.get("money") or {})
+	mine = {"number": said.get("number"), "issued": said.get("issued"), "gross": money.get("gross")}
+	differ = []
+	for key, first in mine.items():
+		second = answers.get(key) or {}
+		if second.get("value") is None or flt(second.get("confidence")) < TAKEN:
+			continue
+		if first in (None, ""):
+			if key == "gross":
+				money["gross"] = flt(second["value"])
+			else:
+				said[key] = str(second["value"])
+		elif not _same(key, first, second["value"]):
+			differ.append(key)
+	said["money"] = money
+	if differ:
+		said["confidence"] = min(flt(said.get("confidence"), 1), DISAGREE)
+		said["read_twice"] = differ
+	return said
+
+
+def _same(key: str, first, second) -> bool:
+	if key == "gross":
+		return abs(flt(first) - flt(second)) < 0.01
+	if key == "number":
+		return "".join(str(first).split()).lower() == "".join(str(second).split()).lower()
+	return str(first)[:10] == str(second)[:10]
 
 
 def _lessons_for(mail: dict) -> str:

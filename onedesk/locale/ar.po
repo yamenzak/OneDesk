@@ -26993,6 +26993,10 @@ msgstr "الرقمية فقط"
 msgid "Off until an administrator turns them on."
 msgstr "متوقفة حتى يشغّلها مسؤول."
 
+#: onedesk/one_ai/jobs.py
+msgid "Read a Bill Twice"
+msgstr "قراءة الفاتورة مرتين"
+
 #: onedesk/notifications/one_ai/reading_changed.md
 msgid "Reading Changed"
 msgstr "تغيّرت القراءة"
@@ -27004,6 +27008,10 @@ msgstr "القراءة متوقفة"
 #: onedesk/one_ai/reading/switches.py
 msgid "Reading is turned off for this workspace."
 msgstr "القراءة متوقفة في مساحة العمل هذه."
+
+#: onedesk/one_ai/jobs.py
+msgid "Sort What Arrives"
+msgstr "فرز ما يصل"
 
 #: onedesk/one/ai.py
 msgid "What needs me today? Look at my tasks, my meetings, what waits for me in Documents, OneAI's suggestions and what I have to approve, and say what to do first."

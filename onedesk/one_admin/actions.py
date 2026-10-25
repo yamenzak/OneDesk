@@ -53,6 +53,28 @@ def run(
 	}
 
 
+# The kinds a model answers in its own shape rather than in words, and what
+# each is sent besides the text (docs/AICENTER.md, Reading what arrives).
+READERS = {"decide": "questions", "decide_media": "questions", "extract": "fields"}
+
+
+def read(tenant: str, action: str, state: str, asked: dict, tier: str | None = None, reference: str | None = None, on: str | None = None) -> dict:
+	"""One reading job (Clef's questions or Clairic's fields) over one text,
+	run for one workspace and billed to it: the answers with their
+	probabilities, and which model gave them. `on` is the day relative dates
+	are read from."""
+	job = _job(action)
+	wants = READERS.get(job.kind)
+	if not wants:
+		raise Refused(f"{action} is not a reading job")
+	if not isinstance(asked, dict) or not asked:
+		raise Refused(f"{action} asks nothing")
+	body = {"state": str(state or "")[: job.takes * 4], wants: asked, **({"reference_date": on} if on and wants == "fields" else {})}
+	tier = tier if tier in models.TIERS else None
+	answer = gateway.run(job.kind, tier, body, tenant, caps={"input_tokens": job.takes}, reference=reference or action, action=action)
+	return {"action": action, "model": answer.get("model"), "credits": answer.get("credits"), "result": answer.get("result")}
+
+
 def embed(tenant: str, texts: list[str]) -> dict:
 	"""Texts as vectors, for one workspace's search by meaning, billed to it.
 	Every vector a search compares came from one model, so the caller is told

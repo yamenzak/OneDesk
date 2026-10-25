@@ -397,6 +397,7 @@ No doctypes yet.
 * `onedesk.one_admin.operator.walk`
 * `onedesk.one_admin.private.new_code`
 * `onedesk.one_admin.proxy.ai_embed`
+* `onedesk.one_admin.proxy.ai_read`
 * `onedesk.one_admin.proxy.ai_run`
 * `onedesk.one_admin.proxy.ai_tiers`
 * `onedesk.one_admin.proxy.ai_usage`

@@ -21,7 +21,8 @@ def _lt(text: str) -> str:
 @dataclass(frozen=True)
 class Job:
 	"""`kind` is a kind in `models.py`; `most` the output tokens a round may
-	spend and `takes` the input tokens it may send; `speaks` when it answers
+	spend and `takes` the input tokens it may send (all a reading model such
+	as Clef holds, since it answers in probabilities rather than words); `speaks` when it answers
 	a person in prose rather than in a shape a program reads. `thinks` is
 	when the model may reason first ("always", or "full" on that tier only),
 	with `room` as its allowance then: a model thinks inside the same tokens
@@ -55,7 +56,9 @@ JOBS = {
 	"grievance": Job(_lt("Grievances"), "OneHR", "talk", most=600),
 	"read_pages": Job(_lt("Read Scans"), "OneAI", "see", most=16000),
 	"read_sound": Job(_lt("Transcribe Recordings"), "OneAI", "hear", most=4000),
+	"intake_decide": Job(_lt("Sort What Arrives"), "OneAI", "decide", takes=4000),
 	"intake_look": Job(_lt("First Look"), "OneAI", "talk", most=200),
+	"intake_extract": Job(_lt("Read a Bill Twice"), "OneAI", "extract", takes=4000),
 	"intake_read": Job(_lt("Read a Document"), "OneAI", "talk", most=4000),
 	"intake_place": Job(_lt("Place a Document"), "OneAI", "talk", most=200),
 	"intake_explain": Job(_lt("Explain a Document"), "OneAI", "talk", most=2000),

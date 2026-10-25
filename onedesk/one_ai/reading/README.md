@@ -623,9 +623,17 @@ of it, numbered §1 to §16, which the code's docstrings cite.
   itself and its people, and `fold` is the merge OneCRM's lead merge uses too.
 - `understand.py`: `known` understands an e-invoice, a statement, a card or
   an invitation from its own data, with no model. Everything else gets `look`
-  (the `intake_look` action on the first 1,500 characters; mail a machine sent
-  in bulk is a newsletter with no model asked) and then `ask` (the
-  `intake_read` action, one fixed JSON shape). `facts.check` drops every
+  on the first 1,500 characters (mail a machine sent in bulk is a newsletter
+  with no model asked): Clef (`intake_decide`, `run.read`) chooses whether it
+  is real or a kind of junk, says whether it asks us for something and which
+  of the mailbox's rule topics it is about, each with a probability; what Clef
+  calls junk, or anything it can't answer, goes to the talk model
+  (`intake_look`), because Clef took real payment reminders for phishing when
+  measured. Then `ask` (the `intake_read` action, one fixed JSON shape), and
+  for a bill `twice`: Clairic (`intake_extract`) reads its number, date and
+  total again, fills what the first read left empty when it is at least 90%
+  sure, and when the two disagree the reading is held at 50%, below any
+  floor, with the field named for the person who looks. `facts.check` drops every
   amount, date, IBAN and number the text does not bear out, reading them the
   way the document's country writes them ("1.234,56 €" is 1234.56), says what
   it dropped and marks the reading unsure. Parties are matched through the
@@ -1062,11 +1070,17 @@ asked to rediscover them is slower, dearer and sometimes wrong.
 
 ##### 2.3 The first look: is this worth reading?
 
-One cheap call (the smallest model, on the first page or first characters)
-answers one question: spam, phishing, advertising, newsletter, notification,
-information, or something to act on. Only the last two are read in full. It
-runs on every document, whatever channel it came through (§8), so junk costs
-almost nothing.
+One cheap call (Clef, a model that only sorts, on the first page or first
+characters) answers one question: something real, or spam, phishing,
+advertising, a newsletter or a notification, and whether something real asks
+us to act. Only real documents are read in full. It runs on every document,
+whatever channel it came through (§8), so junk costs almost nothing. Anything
+Clef calls junk is looked at again by the talk model before it is moved.
+
+Measured on fifteen mails in Arabic, English and German (2026-10-26): Clef
+Flash told real from not real 15 of 15 and found each rule topic 15 of 15,
+in under a second, with the talk model asked on 4 of the 15; the talk model
+alone was right on 14 of 15 in two and a half seconds.
 
 ##### 2.4 Read: turn anything into text
 

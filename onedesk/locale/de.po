@@ -26993,6 +26993,10 @@ msgstr "Nur numerische"
 msgid "Off until an administrator turns them on."
 msgstr "Aus, bis ein Administrator sie einschaltet."
 
+#: onedesk/one_ai/jobs.py
+msgid "Read a Bill Twice"
+msgstr "Eine Rechnung zweimal lesen"
+
 #: onedesk/notifications/one_ai/reading_changed.md
 msgid "Reading Changed"
 msgstr "Lesen geändert"
@@ -27004,6 +27008,10 @@ msgstr "Lesen ist aus"
 #: onedesk/one_ai/reading/switches.py
 msgid "Reading is turned off for this workspace."
 msgstr "Lesen ist in diesem Arbeitsbereich ausgeschaltet."
+
+#: onedesk/one_ai/jobs.py
+msgid "Sort What Arrives"
+msgstr "Eingänge sortieren"
 
 #: onedesk/one/ai.py
 msgid "What needs me today? Look at my tasks, my meetings, what waits for me in Documents, OneAI's suggestions and what I have to approve, and say what to do first."
