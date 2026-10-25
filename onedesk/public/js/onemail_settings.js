@@ -3,12 +3,12 @@ frappe.provide("onedesk.mail");
 // OneMail's settings, in frappe's own settings dialog (frappe.ui.SettingsDialog),
 // opened from Settings at the foot of OneMail's rail. Mailboxes is everyone's:
 // each mailbox they hold, opened into its own tabs (signature, out-of-office
-// reply, users, connection, rules). Defaults, Shared Mailboxes, People's Mailboxes,
-// Personal Addresses, External Mailboxes and Mail Templates are a Workspace
-// Administrator's: the mailboxes the workspace receives and sends from by
-// default, who reads and sends from each shared mailbox, everybody's own
-// mailboxes, the address the workspace gives each person, which outside
-// mailboxes people may connect, and the templates. Roles is an administrator's: OneMail's role
+// reply, users, connection, rules). Defaults, Shared Mailboxes, Work Mailboxes,
+// Private Mailboxes and Mail Templates are a Workspace Administrator's: the
+// mailboxes the workspace receives and sends from by default, who reads and
+// sends from each shared mailbox, everybody's mailboxes at the company and
+// whether they send from the address the workspace gives them, and which
+// private mailboxes people may connect, and the templates. Roles is an administrator's: OneMail's role
 // builder (public/js/role_matrix.js). Wording follows docs/WORDING.md. Every change is
 // a call to one_mail/holders.py, connect.py and rules.py, or one/mail_templates.py.
 onedesk.mail.settings = (tab) => {
@@ -30,9 +30,11 @@ onedesk.mail.settings = (tab) => {
 		return { $row, $end: $row.find(".oms-heading-end") };
 	};
 
+	// Whose a mailbox is: the workspace's, a team's, a person's at the company
+	// (Work), or a person's own elsewhere, such as Gmail (Private).
 	const kind_of = (box) =>
-		box.workspace ? __("Workspace") : box.shared ? __("Shared") : box.connected ? __("External") : __("Personal");
-	const icon_of = (box) => (box.workspace ? "building-2" : box.shared ? "users" : box.connected ? "plug" : "at-sign");
+		box.workspace ? __("Workspace") : box.shared ? __("Shared") : box.private ? __("Private") : __("Work");
+	const icon_of = (box) => (box.workspace ? "building-2" : box.shared ? "users" : box.private ? "lock" : "at-sign");
 
 	// A list row: a picture or an icon, two lines, and what sits at its end.
 	const row = ({ lead, title, sub = "", end = "", open = null }) => {
@@ -1123,65 +1125,67 @@ onedesk.mail.settings = (tab) => {
 		});
 	};
 
-	// ── People's Mailboxes ──────────────────────────────────────────────────
-	// Everybody's own mailboxes, opened to set a signature, a sender name or
-	// an away reply for them (holders.addresses_of_people).
-	const people = {
-		id: "people",
-		label: __("People's Mailboxes"),
-		icon: "contact",
-		title: __("People's Mailboxes"),
-		description: __("Their workspace addresses and the mailboxes they connected."),
+	// ── Work Mailboxes ──────────────────────────────────────────────────────
+	// Every person's mailboxes at the company's domains, opened to set a
+	// signature, a sender name or an away reply for them
+	// (holders.addresses_of_people), and whether they may send from the
+	// address the workspace gives them.
+	const work = {
+		id: "work",
+		label: __("Work Mailboxes"),
+		icon: "at-sign",
+		title: __("Work Mailboxes"),
+		description: __("Mailboxes people hold at the company's domains."),
 		async render(panel) {
 			const was = panel.shown;
-			const listed = (await frappe.xcall(H + "addresses_of_people")) || [];
+			const [said, listed] = await Promise.all([
+				can.policy ? frappe.xcall(H + "shared") : null,
+				frappe.xcall(H + "addresses_of_people"),
+			]);
 			if (panel.shown !== was) return;
-			const $list = $(`<div class="oms-list"></div>`).appendTo(panel.body.empty());
-			if (!listed.length) $list.append(empty(__("No mailboxes")));
-			listed.forEach((one) =>
+			const $body = panel.body.empty();
+			if (said) {
+				switched(
+					$body,
+					__("Send From Workspace Addresses"),
+					__("Each user gets an address such as {0}. If disabled, it only receives mail.", [
+						`name.${said.slug || "workspace"}@${said.mail_domain}`,
+					]),
+					said.personal_sends,
+					(on) => frappe.xcall(H + "set_personal_sends", { on })
+				);
+				$body.append(heading(__("Mailboxes")));
+			}
+			const $list = $(`<div class="oms-list"></div>`).appendTo($body);
+			if (!(listed || []).length) $list.append(empty(__("No mailboxes")));
+			(listed || []).forEach((one) =>
 				row({
 					lead: frappe.ui.avatar.html({ label: one.full_name, size: "md" }),
 					title: one.full_name,
-					sub: esc([one.email, one.issued ? __("Workspace") : __("External")].join(" · ")),
+					sub: esc(one.issued ? one.email : [one.email, __("Connected")].join(" · ")),
 					end: chevron(),
-					open: () => open(one.name, "people"),
+					open: () => open(one.name, "work"),
 				}).appendTo($list)
 			);
 		},
 	};
 
-	// ── Personal Addresses ──────────────────────────────────────────────────
-	const personal = {
-		id: "personal",
-		label: __("Personal Addresses"),
-		icon: "at-sign",
-		title: __("Personal Addresses"),
-		async render(panel) {
-			const said = await frappe.xcall(H + "shared");
-			const example = `name.${said.slug || "workspace"}@${said.mail_domain}`;
-			switched(
-				panel.body.empty(),
-				__("Send From Workspace Addresses"),
-				__("Each user gets an address such as {0}. If disabled, it only receives mail.", [example]),
-				said.personal_sends,
-				(on) => frappe.xcall(H + "set_personal_sends", { on })
-			);
-		},
-	};
-
-	// ── External Mailboxes ──────────────────────────────────────────────────
-	const external = {
-		id: "external",
-		label: __("External Mailboxes"),
-		icon: "plug",
-		title: __("External Mailboxes"),
+	// ── Private Mailboxes ───────────────────────────────────────────────────
+	// Mailboxes people connect for themselves outside the company's domains,
+	// such as Gmail. Only their owner opens or changes one (holders.may).
+	const private_tab = {
+		id: "private",
+		label: __("Private Mailboxes"),
+		icon: "lock",
+		title: __("Private Mailboxes"),
+		description: __("Only the person who connected one can open or change it."),
 		async render(panel) {
 			const said = await frappe.xcall(H + "shared");
 			const $body = panel.body.empty();
 			switched(
 				$body,
-				__("Allow External Mailboxes"),
-				__("Mailboxes users connect themselves, such as Gmail or Outlook."),
+				__("Allow Private Mailboxes"),
+				__("Mailboxes people connect at any other domain, such as Gmail or Outlook."),
 				said.external,
 				async (on) => {
 					await frappe.xcall(H + "set_external", { on });
@@ -1308,9 +1312,8 @@ onedesk.mail.settings = (tab) => {
 	const workspace_tabs = [
 		can.policy && defaults,
 		(can.connect_shared || can.holders || can.others) && shared,
-		(can.policy || can.others) && people,
-		can.policy && personal,
-		can.policy && external,
+		(can.policy || can.others) && work,
+		can.policy && private_tab,
 		can.templates && templates,
 		can.roles && roles,
 	].filter(Boolean);

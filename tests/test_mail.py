@@ -752,6 +752,7 @@ def test_who_may_change_a_mailbox_is_its_holder_a_role_or_a_share():
 	may = holders.split("def may(", 1)[1].split("\ndef ", 1)[0]
 	assert "owner" not in may, "the workspace's, not the connector's"
 	assert "if holds and not shared and not hosted:\n\t\treturn True" in may, "a mailbox of one's own is its holder's"
+	assert may.index("addresses.is_private(email)") < may.index("roles.administers(user)"), "a private one is its holder's alone"
 	assert "abilities.may(DOCTYPE, one[\"all\"], account, user)" in may, "a role, or a share of this mailbox"
 	assert "holds and hosted and not shared and abilities.held(DOCTYPE, one[\"own\"], user)" in may, "their own address"
 	assert "enable_outgoing" in holders.split("def may_sign(", 1)[1].split("\ndef ", 1)[0]

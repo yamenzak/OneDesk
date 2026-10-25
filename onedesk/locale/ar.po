@@ -3334,10 +3334,6 @@ msgstr "رقم التخصيص"
 msgid "Allow Employees to Check In Themselves"
 msgstr "السماح للموظفين بتسجيل حضورهم بأنفسهم"
 
-#: onedesk/public/js/onemail_settings.js:1183
-msgid "Allow External Mailboxes"
-msgstr "السماح بصناديق البريد الخارجية"
-
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:35
 msgid "Allow Grace Period"
 msgstr "السماح بفترة السماح"
@@ -3356,6 +3352,10 @@ msgstr "السماح باختيار النموذج"
 #: frontend/src/item/ItemStock.vue:109
 msgid "Allow Negative Stock"
 msgstr "السماح بالمخزون السالب"
+
+#: onedesk/public/js/onemail_settings.js:1187
+msgid "Allow Private Mailboxes"
+msgstr "السماح بصناديق البريد الخاصة"
 
 #: frontend/src/item/ItemOverview.vue:111
 msgid "Allow Purchase"
@@ -15222,14 +15222,6 @@ msgstr "الإضافات والمجموعات وتصاميم الطباعة وإ
 msgid "External Email"
 msgstr "بريد خارجي"
 
-#: onedesk/public/js/onemail_settings.js:336
-msgid "External Mailboxes"
-msgstr "صناديق البريد الخارجية"
-
-#: onedesk/one_mail/connect.py:144
-msgid "External mailboxes are disabled in this workspace."
-msgstr "صناديق البريد الخارجية معطّلة في مساحة العمل هذه."
-
 #. Task in the Small Building Works project template
 #: onedesk/one_project/library/small_building_works.json
 msgid "External plaster"
@@ -23039,9 +23031,13 @@ msgstr "تم ربط صندوق البريد"
 msgid "Mailboxes"
 msgstr "صناديق البريد"
 
-#: onedesk/public/js/onemail_settings.js:336
-msgid "Mailboxes users connect themselves, such as Gmail or Outlook."
-msgstr "صناديق بريد يربطها المستخدمون بأنفسهم، مثل Gmail أو Outlook."
+#: onedesk/public/js/onemail_settings.js:1188
+msgid "Mailboxes people connect at any other domain, such as Gmail or Outlook."
+msgstr "صناديق البريد التي يربطها الأشخاص على أي نطاق آخر، مثل Gmail أو Outlook."
+
+#: onedesk/public/js/onemail_settings.js:1138
+msgid "Mailboxes people hold at the company's domains."
+msgstr "صناديق البريد التي يملكها الأشخاص على نطاقات الشركة."
 
 #. Description of the 'To Outside Addresses' (Check) field in DocType
 #. 'Notification Type'
@@ -28544,6 +28540,10 @@ msgstr "الخمسة المتاحة للجميع فقط"
 msgid "Only the owner of {0} can turn this on, because OneAI acts on their behalf."
 msgstr "مالك {0} وحده يمكنه تشغيل هذا، لأن OneAI يتصرف نيابة عنه."
 
+#: onedesk/public/js/onemail_settings.js:1181
+msgid "Only the person who connected one can open or change it."
+msgstr "لا يمكن فتحه أو تغييره إلا من قِبل الشخص الذي ربطه."
+
 #: onedesk/one_storage/mounts.py:417
 msgid "Only the person who connected {0} can change it."
 msgstr "يمكن فقط لمن ربط {0} تغييره."
@@ -31021,10 +31021,6 @@ msgstr "أصحاب دور الخطوة ممن يمكنهم فتح السجل"
 msgid "People write in bursts. OneAI acts once a matter has been quiet this long, except on money or deadlines due within a day."
 msgstr "يكتب الناس على دفعات. يتصرف OneAI بعد هدوء الموضوع هذه المدة، إلا في المال أو المواعيد المستحقة خلال يوم."
 
-#: onedesk/public/js/onemail_settings.js:944
-msgid "People's Mailboxes"
-msgstr "صناديق بريد الأشخاص"
-
 #. Label of the per (Int) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "Per"
@@ -31155,11 +31151,6 @@ msgstr "الشخصية"
 #: onedesk/public/js/settings.js:377 onedesk/public/js/settings.js:764
 msgid "Personal"
 msgstr "شخصي"
-
-#: onedesk/public/js/onemail_settings.js:313
-#: onedesk/public/js/onemail_settings.js:315
-msgid "Personal Addresses"
-msgstr "العناوين الشخصية"
 
 #: onedesk/public/js/settings.js:157
 msgid "Personal Details"
@@ -32201,6 +32192,10 @@ msgstr "طلبات خصوصية بالانتظار"
 msgid "Privacy requests are waiting: {count}"
 msgstr "طلبات خصوصية تنتظر: {count}"
 
+#: onedesk/public/js/onemail_settings.js:36
+msgid "Private"
+msgstr "خاص"
+
 #. Name of a DocType
 #: onedesk/one_admin/doctype/private_app/private_app.json
 msgid "Private App"
@@ -32222,9 +32217,18 @@ msgstr "التطبيقات الخاصة"
 msgid "Private Key"
 msgstr "المفتاح الخاص"
 
+#: onedesk/public/js/onemail_settings.js:1178
+#: onedesk/public/js/onemail_settings.js:1180
+msgid "Private Mailboxes"
+msgstr "صناديق البريد الخاصة"
+
 #: onedesk/public/js/apps.js:30
 msgid "Private app"
 msgstr "تطبيق خاص"
+
+#: onedesk/one_mail/connect.py:185
+msgid "Private mailboxes are disabled in this workspace."
+msgstr "صناديق البريد الخاصة معطلة في مساحة العمل هذه."
 
 #. Label of the one_probability (Percent) field in DocType 'Sales Stage'
 #: onedesk/one_crm/custom/sales_stage.json
@@ -43642,10 +43646,6 @@ msgstr "دوره يسمح أصلًا بكل شيء هنا."
 msgid "Their shift approver, or HR when none is set"
 msgstr "معتمد الورديات، أو الموارد البشرية إن لم يُحدَّد"
 
-#: onedesk/public/js/onemail_settings.js:944
-msgid "Their workspace addresses and the mailboxes they connected."
-msgstr "عناوينهم في مساحة العمل والصناديق التي ربطوها."
-
 #: onedesk/public/js/outside.js:92
 msgid "Theme"
 msgstr ""
@@ -50962,6 +50962,11 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_job_card/one_job_card.json
 msgid "Work In Progress At"
 msgstr "قيد التنفيذ في"
+
+#: onedesk/public/js/onemail_settings.js:1135
+#: onedesk/public/js/onemail_settings.js:1137
+msgid "Work Mailboxes"
+msgstr "صناديق بريد العمل"
 
 #. Label in the One Job Card print format
 #. Label in the One Material Request print format

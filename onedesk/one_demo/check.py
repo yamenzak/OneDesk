@@ -3279,6 +3279,26 @@ def onemail_a_shared_mailbox_is_connected_given_and_let_go():
 		assert notify.replies_to() == "sales@saharaglass.test"
 		assert holders.set_defaults(incoming=ours, outgoing=ours) == {"incoming": ours, "outgoing": ours}
 		assert holders.system_sender() == system
+		from onedesk.one_mail import addresses
+
+		holders.set_external(0)
+		with as_user("omar@one.test"):
+			work = connect.connect("omar@saharaglass.test", "app-password")
+			try:
+				connect.connect("omar.farouk@gmail.test", "app-password")
+				raise AssertionError("a private mailbox was connected while they are off")
+			except frappe.ValidationError:
+				pass
+		holders.set_external(1)
+		with as_user("omar@one.test"):
+			private = connect.connect("omar.farouk@gmail.test", "app-password")
+		listed = [one["name"] for one in holders.addresses_of_people()]
+		assert work in listed and private not in listed, listed
+		assert holders.may(work, "signature") and not holders.may(private, "signature")
+		with as_user("omar@one.test"):
+			assert holders.may(private, "signature") and holders.mailbox(private)["private"]
+			connect.disconnect(private)
+			connect.disconnect(work)
 		connect.reconnect(sales, "new-app-password")
 		connect.disconnect(sales)
 		assert not frappe.db.exists("Email Account", sales)

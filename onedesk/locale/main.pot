@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-25 09:11+0000\n"
-"PO-Revision-Date: 2026-10-25 09:11+0000\n"
+"POT-Creation-Date: 2026-10-25 09:40+0000\n"
+"PO-Revision-Date: 2026-10-25 09:40+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1521,7 +1521,7 @@ msgstr ""
 msgid "A workbook as it stood at one point in its history, whole: taken as it is saved, kept thinner as it ages, and kept for ever once somebody names it."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:968
+#: onedesk/public/js/onemail_settings.js:970
 msgid "A workspace address such as sales@. Add its users after connecting."
 msgstr ""
 
@@ -1829,7 +1829,7 @@ msgstr ""
 msgid "Access Key"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:684
+#: onedesk/public/js/onemail_settings.js:686
 msgid "Access for {0}"
 msgstr ""
 
@@ -2105,7 +2105,7 @@ msgstr ""
 #: frontend/src/quotes/QuoteRows.vue:41 frontend/src/quotes/RequestRows.vue:38
 #: frontend/src/sent_out/OutRows.vue:55 frontend/src/template/Tasks.vue:85
 #: frontend/src/upkeep/UpkeepRows.vue:37 onedesk/one/sidebar/one/one.json
-#: onedesk/public/js/onemail_settings.js:469 onedesk/public/js/project.js:17
+#: onedesk/public/js/onemail_settings.js:471 onedesk/public/js/project.js:17
 #: onedesk/public/js/project.js:21 onedesk/public/js/project.js:23
 #: onedesk/public/js/project.js:36 onedesk/public/js/project.js:40
 #: onedesk/public/js/project.js:60 onedesk/public/js/settings.js:762
@@ -2209,8 +2209,8 @@ msgstr ""
 #: onedesk/public/js/apps.js:65 onedesk/public/js/doctype_settings.js:352
 #: onedesk/public/js/doctype_settings.js:986
 #: onedesk/public/js/onecloud_dialogs.js:228
-#: onedesk/public/js/onemail_settings.js:666
-#: onedesk/public/js/onemail_settings.js:1225 onedesk/public/js/settings.js:624
+#: onedesk/public/js/onemail_settings.js:668
+#: onedesk/public/js/onemail_settings.js:1229 onedesk/public/js/settings.js:624
 #: onedesk/public/js/settings.js:1160 onedesk/public/js/settings.js:1263
 #: onedesk/public/js/settings.js:1264 onedesk/public/js/settings.js:1651
 #: onedesk/public/js/settings.js:2344 onedesk/public/js/settings.js:2818
@@ -2657,7 +2657,7 @@ msgstr ""
 msgid "Added to a Library"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:279
+#: onedesk/public/js/onemail_settings.js:281
 msgid "Added to every email sent from this mailbox."
 msgstr ""
 
@@ -2880,7 +2880,7 @@ msgstr ""
 msgid "Adjustments posted"
 msgstr ""
 
-#: onedesk/one/settings.py:1022 onedesk/one_mail/holders.py:271
+#: onedesk/one/settings.py:1022 onedesk/one_mail/holders.py:277
 #: onedesk/public/js/settings.js:743 onedesk/public/js/settings.js:817
 msgid "Administrator"
 msgstr ""
@@ -3173,7 +3173,7 @@ msgstr ""
 msgid "All Events"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:950
+#: onedesk/public/js/onemail_settings.js:952
 msgid "All Mailboxes"
 msgstr ""
 
@@ -3190,7 +3190,7 @@ msgstr ""
 msgid "All Read"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1260
+#: onedesk/public/js/onemail_settings.js:1264
 msgid "All Record Types"
 msgstr ""
 
@@ -3336,10 +3336,6 @@ msgstr ""
 msgid "Allow Employees to Check In Themselves"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1183
-msgid "Allow External Mailboxes"
-msgstr ""
-
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:35
 msgid "Allow Grace Period"
 msgstr ""
@@ -3357,6 +3353,10 @@ msgstr ""
 
 #: frontend/src/item/ItemStock.vue:109
 msgid "Allow Negative Stock"
+msgstr ""
+
+#: onedesk/public/js/onemail_settings.js:1187
+msgid "Allow Private Mailboxes"
 msgstr ""
 
 #: frontend/src/item/ItemOverview.vue:111
@@ -3384,7 +3384,7 @@ msgstr ""
 msgid "Allowed"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1194
+#: onedesk/public/js/onemail_settings.js:1198
 msgid "Allowed Domains"
 msgstr ""
 
@@ -3407,7 +3407,7 @@ msgstr ""
 msgid "Also Allow Check-in From"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:472
+#: onedesk/public/js/onemail_settings.js:474
 msgid "Also Leads and Job Applicants, for unknown senders."
 msgstr ""
 
@@ -3419,11 +3419,11 @@ msgstr ""
 msgid "Also by Email"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:488
+#: onedesk/public/js/onemail_settings.js:490
 msgid "Also creates the records and tasks a message asks for."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:487
+#: onedesk/public/js/onemail_settings.js:489
 msgid "Also links each message and its files to its records."
 msgstr ""
 
@@ -3437,11 +3437,11 @@ msgstr ""
 msgid "Also propose networks and locations belonging to a single employee, such as a home."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:577
+#: onedesk/public/js/onemail_settings.js:579
 msgid "Also reads attached PDFs, scans and photos. Uses the most credits."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:464
+#: onedesk/public/js/onemail_settings.js:466
 msgid "Also splits a scan of several letters into one file each."
 msgstr ""
 
@@ -3951,7 +3951,7 @@ msgstr ""
 msgid "Any Status"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1205
+#: onedesk/public/js/onemail_settings.js:1209
 msgid "Any domain"
 msgstr ""
 
@@ -4246,7 +4246,7 @@ msgstr ""
 
 #: onedesk/one_ai/heads.py:124 onedesk/one_hr/heads.py:165
 #: onedesk/public/js/oneai/Record.vue:68
-#: onedesk/public/js/onemail_settings.js:912
+#: onedesk/public/js/onemail_settings.js:914
 msgid "Approve"
 msgstr ""
 
@@ -5056,7 +5056,7 @@ msgstr ""
 msgid "Attach"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:463
+#: onedesk/public/js/onemail_settings.js:465
 msgid "Attach Files to Records"
 msgstr ""
 
@@ -5348,7 +5348,7 @@ msgstr ""
 msgid "Auto Reply"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:211 onedesk/public/js/onemail_settings.js:109
+#: frontend/src/mail/OneMail.vue:211 onedesk/public/js/onemail_settings.js:111
 msgid "Auto Reply On"
 msgstr ""
 
@@ -5389,8 +5389,8 @@ msgstr ""
 #. Label of a Sidebar Item
 #: frontend/src/mail/OneMail.vue:301 onedesk/one/sidebar/one/one.json
 #: onedesk/one_mail/abilities.py:42 onedesk/public/js/doctype_settings.js:213
-#: onedesk/public/js/onemail_settings.js:790
 #: onedesk/public/js/onemail_settings.js:792
+#: onedesk/public/js/onemail_settings.js:794
 msgid "Automation"
 msgstr ""
 
@@ -5399,7 +5399,7 @@ msgstr ""
 msgid "Automation Notice"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:452
+#: onedesk/public/js/onemail_settings.js:454
 msgid "Automation rules that ask OneAI need this level."
 msgstr ""
 
@@ -5537,7 +5537,7 @@ msgstr ""
 #: frontend/src/cloud/OneCloud.vue:26
 #: frontend/src/sheet/components/SheetEditor/index.vue:38
 #: frontend/src/writer/DocumentPage.vue:5
-#: onedesk/public/js/onemail_settings.js:76
+#: onedesk/public/js/onemail_settings.js:78
 #: onedesk/public/js/window/frame.js:225
 msgid "Back"
 msgstr ""
@@ -6987,7 +6987,7 @@ msgstr ""
 msgid "Can Go Now"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:679
+#: onedesk/public/js/onemail_settings.js:681
 msgid "Can change {0}"
 msgstr ""
 
@@ -7378,7 +7378,7 @@ msgstr ""
 msgid "Changes"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:470
+#: onedesk/public/js/onemail_settings.js:472
 msgid "Changes OneAI is unsure of wait for approval in OneIntake."
 msgstr ""
 
@@ -8456,7 +8456,7 @@ msgstr ""
 msgid "Comments you wrote"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:480
+#: onedesk/public/js/onemail_settings.js:482
 msgid "Comments, and records of other types."
 msgstr ""
 
@@ -8798,17 +8798,17 @@ msgid "Confirmed"
 msgstr ""
 
 #: onedesk/public/js/onecloud_dialogs.js:319
-#: onedesk/public/js/onemail_settings.js:971
+#: onedesk/public/js/onemail_settings.js:973
 msgid "Connect"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:251 onedesk/public/js/onemail_settings.js:91
-#: onedesk/public/js/onemail_settings.js:967
+#: frontend/src/mail/OneMail.vue:251 onedesk/public/js/onemail_settings.js:93
+#: onedesk/public/js/onemail_settings.js:969
 msgid "Connect Mailbox"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:967
-#: onedesk/public/js/onemail_settings.js:1074
+#: onedesk/public/js/onemail_settings.js:969
+#: onedesk/public/js/onemail_settings.js:1076
 msgid "Connect Shared Mailbox"
 msgstr ""
 
@@ -8829,7 +8829,8 @@ msgstr ""
 msgid "Connect {0} as a drive"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:749
+#: onedesk/public/js/onemail_settings.js:751
+#: onedesk/public/js/onemail_settings.js:1165
 msgid "Connected"
 msgstr ""
 
@@ -8838,13 +8839,13 @@ msgstr ""
 msgid "Connected to OneMail"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:740
+#: onedesk/public/js/onemail_settings.js:742
 msgid "Connected without outgoing mail."
 msgstr ""
 
 #: onedesk/one/ai.py:1150 onedesk/one_mail/abilities.py:67
-#: onedesk/public/js/onemail_settings.js:746
 #: onedesk/public/js/onemail_settings.js:748
+#: onedesk/public/js/onemail_settings.js:750
 msgid "Connection"
 msgstr ""
 
@@ -9670,7 +9671,7 @@ msgstr ""
 msgid "Covering Until"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:210 onedesk/public/js/onemail_settings.js:106
+#: frontend/src/mail/OneMail.vue:210 onedesk/public/js/onemail_settings.js:108
 msgid "Covering until {0}"
 msgstr ""
 
@@ -9704,7 +9705,7 @@ msgstr ""
 msgid "Create Again"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:472
+#: onedesk/public/js/onemail_settings.js:474
 msgid "Create Customers and Suppliers"
 msgstr ""
 
@@ -9720,7 +9721,7 @@ msgstr ""
 msgid "Create Download"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:476
+#: onedesk/public/js/onemail_settings.js:478
 msgid "Create Events"
 msgstr ""
 
@@ -9744,7 +9745,7 @@ msgstr ""
 msgid "Create Project"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:475
+#: onedesk/public/js/onemail_settings.js:477
 msgid "Create Tasks"
 msgstr ""
 
@@ -9776,7 +9777,7 @@ msgstr ""
 msgid "Create a new {0}"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:473
+#: onedesk/public/js/onemail_settings.js:475
 msgid "Create and Update Contacts"
 msgstr ""
 
@@ -9826,7 +9827,7 @@ msgstr ""
 msgid "Created {0}, {1}."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:455
+#: onedesk/public/js/onemail_settings.js:457
 msgid "Creates a Newsletters folder if there is none."
 msgstr ""
 
@@ -9986,7 +9987,7 @@ msgstr ""
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:47
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:114
-#: onedesk/public/js/onemail_settings.js:602 onedesk/public/js/tenant.js:45
+#: onedesk/public/js/onemail_settings.js:604 onedesk/public/js/tenant.js:45
 msgid "Credits"
 msgstr ""
 
@@ -10160,7 +10161,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:2397
 #: frontend/src/sheet/components/SheetEditor/index.vue:2409
 #: onedesk/public/js/doctype_settings.js:274
-#: onedesk/public/js/onemail_settings.js:249 onedesk/public/js/settings.js:950
+#: onedesk/public/js/onemail_settings.js:251 onedesk/public/js/settings.js:950
 msgid "Custom"
 msgstr ""
 
@@ -11044,7 +11045,7 @@ msgid "Declared By"
 msgstr ""
 
 #: frontend/portal/src/pages/Record.vue:62
-#: onedesk/public/js/onemail_settings.js:912
+#: onedesk/public/js/onemail_settings.js:914
 msgid "Decline"
 msgstr ""
 
@@ -11131,8 +11132,8 @@ msgstr ""
 msgid "Default For"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1036
-#: onedesk/public/js/onemail_settings.js:1096
+#: onedesk/public/js/onemail_settings.js:1038
+#: onedesk/public/js/onemail_settings.js:1098
 msgid "Default Incoming"
 msgstr ""
 
@@ -11146,8 +11147,8 @@ msgstr ""
 msgid "Default Message"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1045
-#: onedesk/public/js/onemail_settings.js:1096
+#: onedesk/public/js/onemail_settings.js:1047
+#: onedesk/public/js/onemail_settings.js:1098
 msgid "Default Outgoing"
 msgstr ""
 
@@ -11180,7 +11181,7 @@ msgstr ""
 msgid "Default Unit of Measure"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1261
+#: onedesk/public/js/onemail_settings.js:1265
 msgid "Default for {0}"
 msgstr ""
 
@@ -11213,9 +11214,9 @@ msgstr ""
 msgid "Default: {0}"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1014
 #: onedesk/public/js/onemail_settings.js:1016
-#: onedesk/public/js/onemail_settings.js:1022
+#: onedesk/public/js/onemail_settings.js:1018
+#: onedesk/public/js/onemail_settings.js:1024
 msgid "Defaults"
 msgstr ""
 
@@ -11265,7 +11266,7 @@ msgstr ""
 #: onedesk/public/js/doctype_settings.js:432
 #: onedesk/public/js/doctype_settings.js:490
 #: onedesk/public/js/doctype_settings.js:1021
-#: onedesk/public/js/onemail_settings.js:916 onedesk/public/js/record.js:162
+#: onedesk/public/js/onemail_settings.js:918 onedesk/public/js/record.js:162
 #: onedesk/public/js/role_matrix.js:150 onedesk/public/js/settings.js:1029
 #: onedesk/public/js/settings.js:1091 onedesk/public/js/settings.js:1122
 #: onedesk/public/js/settings.js:2076 onedesk/public/js/settings.js:3187
@@ -11355,7 +11356,7 @@ msgid "Delete template {0}?"
 msgstr ""
 
 #: onedesk/public/js/doctype_settings.js:1023
-#: onedesk/public/js/onemail_settings.js:919
+#: onedesk/public/js/onemail_settings.js:921
 msgid "Delete this rule?"
 msgstr ""
 
@@ -12245,7 +12246,7 @@ msgid "Discard"
 msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:597
-#: onedesk/public/js/onemail_settings.js:751
+#: onedesk/public/js/onemail_settings.js:753
 msgid "Disconnect"
 msgstr ""
 
@@ -12257,15 +12258,15 @@ msgstr ""
 msgid "Disconnect {0}? Files on the server stay as they are."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:66
+#: onedesk/public/js/onemail_settings.js:68
 msgid "Disconnect {0}? Mail already synced is kept."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:115
+#: onedesk/public/js/onemail_settings.js:117
 msgid "Disconnected"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:749
+#: onedesk/public/js/onemail_settings.js:751
 msgid "Disconnected. {0}"
 msgstr ""
 
@@ -12719,7 +12720,7 @@ msgstr ""
 msgid "Draft Assets"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:477
+#: onedesk/public/js/onemail_settings.js:479
 msgid "Draft Invoices, Orders and Payments"
 msgstr ""
 
@@ -13265,7 +13266,7 @@ msgstr ""
 msgid "Each recipient"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:381
+#: onedesk/public/js/onemail_settings.js:383
 msgid "Each sender gets it once every 4 days. Never sent to mailing lists or automatic mail."
 msgstr ""
 
@@ -13303,7 +13304,7 @@ msgstr ""
 msgid "Each time a {0} is saved, before it is written"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1165
+#: onedesk/public/js/onemail_settings.js:1151
 msgid "Each user gets an address such as {0}. If disabled, it only receives mail."
 msgstr ""
 
@@ -13370,7 +13371,7 @@ msgstr ""
 msgid "Edit About"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:717
+#: onedesk/public/js/onemail_settings.js:719
 msgid "Edit Access"
 msgstr ""
 
@@ -13645,7 +13646,7 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:991
+#: onedesk/public/js/onemail_settings.js:993
 msgid "Email Address"
 msgstr ""
 
@@ -14117,11 +14118,11 @@ msgstr ""
 msgid "Enable Item"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:993
+#: onedesk/public/js/onemail_settings.js:995
 msgid "Enable Outgoing"
 msgstr ""
 
-#: onedesk/one_mail/holders.py:509 onedesk/one_mail/holders.py:528
+#: onedesk/one_mail/holders.py:519 onedesk/one_mail/holders.py:538
 msgid "Enable Outgoing is disabled for {0}."
 msgstr ""
 
@@ -14143,7 +14144,7 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 #: onedesk/one_studio/doctype/extension/extension.json
-#: onedesk/public/js/onemail_settings.js:844
+#: onedesk/public/js/onemail_settings.js:846
 msgid "Enabled"
 msgstr ""
 
@@ -14771,7 +14772,7 @@ msgstr ""
 
 #. Option for the 'Away Replies To' (Select) field in DocType 'Email Account'
 #: onedesk/one/settings.py:788 onedesk/one_mail/custom/email_account.json
-#: onedesk/public/js/onemail_settings.js:416
+#: onedesk/public/js/onemail_settings.js:418
 msgid "Everyone"
 msgstr ""
 
@@ -14791,7 +14792,7 @@ msgstr ""
 msgid "Everyone in the workspace"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:740
+#: onedesk/public/js/onemail_settings.js:742
 msgid "Everyone listed can read. Send allows sending from this mailbox."
 msgstr ""
 
@@ -15290,22 +15291,8 @@ msgstr ""
 msgid "Extensions, collections, print designs and workspace setup, where the result has to fit exactly."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:34
-#: onedesk/public/js/onemail_settings.js:1145
-msgid "External"
-msgstr ""
-
 #: onedesk/public/js/settings.js:2995
 msgid "External Email"
-msgstr ""
-
-#: onedesk/public/js/onemail_settings.js:1175
-#: onedesk/public/js/onemail_settings.js:1177
-msgid "External Mailboxes"
-msgstr ""
-
-#: onedesk/one_mail/connect.py:184
-msgid "External mailboxes are disabled in this workspace."
 msgstr ""
 
 #. Task in the Small Building Works project template
@@ -15584,7 +15571,7 @@ msgstr ""
 msgid "File"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:478
+#: onedesk/public/js/onemail_settings.js:480
 msgid "File Employee Documents"
 msgstr ""
 
@@ -15731,7 +15718,7 @@ msgstr ""
 msgid "Files use {0} GB and the plan allows {1} GB."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:460 onedesk/public/js/settings.js:2708
+#: onedesk/public/js/onemail_settings.js:462 onedesk/public/js/settings.js:2708
 msgid "Filing"
 msgstr ""
 
@@ -15776,7 +15763,7 @@ msgstr ""
 msgid "Filling Up"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:474
+#: onedesk/public/js/onemail_settings.js:476
 msgid "Fills empty fields. A different value waits for approval in OneIntake."
 msgstr ""
 
@@ -16369,7 +16356,7 @@ msgstr ""
 msgid "For the newest request for prices, who is cheapest on each line, and which quotes run out soon?"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:473
+#: onedesk/public/js/onemail_settings.js:475
 msgid "For the sender and everyone in To and Cc."
 msgstr ""
 
@@ -16779,7 +16766,7 @@ msgstr ""
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/public/js/item_actions.js:184 onedesk/public/js/item_actions.js:231
 #: onedesk/public/js/mail_compose.js:179
-#: onedesk/public/js/onemail_settings.js:406
+#: onedesk/public/js/onemail_settings.js:408
 msgid "From"
 msgstr ""
 
@@ -17245,8 +17232,8 @@ msgstr ""
 msgid "Global Bucket"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:768
-#: onedesk/public/js/onemail_settings.js:992
+#: onedesk/public/js/onemail_settings.js:770
+#: onedesk/public/js/onemail_settings.js:994
 msgid "Gmail and Outlook require an app password."
 msgstr ""
 
@@ -18812,15 +18799,15 @@ msgstr ""
 msgid "ID Document Types"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:478
+#: onedesk/public/js/onemail_settings.js:480
 msgid "IDs, certificates, leave, resignations and expense claims."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:997
+#: onedesk/public/js/onemail_settings.js:999
 msgid "IMAP Port"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:996
+#: onedesk/public/js/onemail_settings.js:998
 msgid "IMAP Server"
 msgstr ""
 
@@ -19323,7 +19310,7 @@ msgstr ""
 msgid "Includes"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:475
+#: onedesk/public/js/onemail_settings.js:477
 msgid "Includes follow-ups promised in sent mail."
 msgstr ""
 
@@ -19383,7 +19370,7 @@ msgstr ""
 msgid "Incoming Call Settings"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:758
+#: onedesk/public/js/onemail_settings.js:760
 msgid "Incoming Server"
 msgstr ""
 
@@ -21389,7 +21376,7 @@ msgstr ""
 
 #. Label of the last_checked (Datetime) field in DocType 'Cloud Mount'
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
-#: onedesk/public/js/onemail_settings.js:760
+#: onedesk/public/js/onemail_settings.js:762
 msgid "Last Checked"
 msgstr ""
 
@@ -21945,7 +21932,7 @@ msgstr ""
 msgid "Leave empty for no limit."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1194
+#: onedesk/public/js/onemail_settings.js:1198
 msgid "Leave empty to allow any domain."
 msgstr ""
 
@@ -21953,7 +21940,7 @@ msgstr ""
 msgid "Leave empty to apply everywhere."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:408
+#: onedesk/public/js/onemail_settings.js:410
 msgid "Leave empty to keep it on until you turn it off."
 msgstr ""
 
@@ -21961,7 +21948,7 @@ msgstr ""
 msgid "Leave empty to keep the saved password."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:406
+#: onedesk/public/js/onemail_settings.js:408
 msgid "Leave empty to start now."
 msgstr ""
 
@@ -21969,8 +21956,8 @@ msgstr ""
 msgid "Leave empty to use it for any record type."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:769
-#: onedesk/public/js/onemail_settings.js:995
+#: onedesk/public/js/onemail_settings.js:771
+#: onedesk/public/js/onemail_settings.js:997
 msgid "Leave empty to use the email address."
 msgstr ""
 
@@ -22388,7 +22375,7 @@ msgstr ""
 msgid "Link Code"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:462
+#: onedesk/public/js/onemail_settings.js:464
 msgid "Link Messages to Records"
 msgstr ""
 
@@ -22695,8 +22682,8 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:769
-#: onedesk/public/js/onemail_settings.js:995
+#: onedesk/public/js/onemail_settings.js:771
+#: onedesk/public/js/onemail_settings.js:997
 msgid "Login ID"
 msgstr ""
 
@@ -23058,8 +23045,8 @@ msgstr ""
 #. Name of a DocType
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.py:30
-#: onedesk/public/js/onemail_settings.js:819
-#: onedesk/public/js/onemail_settings.js:926
+#: onedesk/public/js/onemail_settings.js:821
+#: onedesk/public/js/onemail_settings.js:928
 msgid "Mail Rule"
 msgstr ""
 
@@ -23091,8 +23078,8 @@ msgstr ""
 #: onedesk/one/sidebar/one/one.json onedesk/one_mail/abilities.py:90
 #: onedesk/public/js/doctype_settings.js:44
 #: onedesk/public/js/doctype_settings.js:118
-#: onedesk/public/js/onemail_settings.js:1232
-#: onedesk/public/js/onemail_settings.js:1234
+#: onedesk/public/js/onemail_settings.js:1236
+#: onedesk/public/js/onemail_settings.js:1238
 msgid "Mail Templates"
 msgstr ""
 
@@ -23150,19 +23137,24 @@ msgstr ""
 msgid "Mailbox Shared With You"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:979
+#: onedesk/public/js/onemail_settings.js:981
 msgid "Mailbox connected"
 msgstr ""
 
 #: frontend/src/mail/OneMail.vue:262 onedesk/one_mail/abilities.py:15
-#: onedesk/public/js/onemail_settings.js:86
-#: onedesk/public/js/onemail_settings.js:88 onedesk/public/js/settings.js:2741
-#: onedesk/public/js/settings.js:2832
+#: onedesk/public/js/onemail_settings.js:88
+#: onedesk/public/js/onemail_settings.js:90
+#: onedesk/public/js/onemail_settings.js:1157
+#: onedesk/public/js/settings.js:2741 onedesk/public/js/settings.js:2832
 msgid "Mailboxes"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1184
-msgid "Mailboxes users connect themselves, such as Gmail or Outlook."
+#: onedesk/public/js/onemail_settings.js:1188
+msgid "Mailboxes people connect at any other domain, such as Gmail or Outlook."
+msgstr ""
+
+#: onedesk/public/js/onemail_settings.js:1138
+msgid "Mailboxes people hold at the company's domains."
 msgstr ""
 
 #. Description of the 'To Outside Addresses' (Check) field in DocType
@@ -24041,7 +24033,7 @@ msgstr ""
 #: onedesk/public/js/doctype_settings.js:464
 #: onedesk/public/js/doctype_settings.js:465 onedesk/public/js/oneai.js:377
 #: onedesk/public/js/onecloud_dialogs.js:343
-#: onedesk/public/js/onemail_settings.js:422
+#: onedesk/public/js/onemail_settings.js:424
 #: onedesk/public/js/quotes_actions.js:33 onedesk/public/js/rule_builder.js:226
 #: onedesk/public/js/settings.js:3087 onedesk/public/js/settings.js:3200
 #: onedesk/www/message.html:2
@@ -24287,7 +24279,7 @@ msgstr ""
 
 #. Label of the one_ai_limit (Int) field in DocType 'Email Account'
 #: onedesk/one_intake/custom/email_account.json
-#: onedesk/public/js/onemail_settings.js:607
+#: onedesk/public/js/onemail_settings.js:609
 msgid "Monthly Credit Limit"
 msgstr ""
 
@@ -24398,11 +24390,11 @@ msgstr ""
 msgid "Move Down"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:454
+#: onedesk/public/js/onemail_settings.js:456
 msgid "Move Junk and Phishing"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:455
+#: onedesk/public/js/onemail_settings.js:457
 msgid "Move Newsletters and Ads"
 msgstr ""
 
@@ -24549,7 +24541,7 @@ msgstr ""
 msgid "Movers booked"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:486
+#: onedesk/public/js/onemail_settings.js:488
 msgid "Moves junk and newsletters out of the Inbox."
 msgstr ""
 
@@ -25089,21 +25081,21 @@ msgstr ""
 msgid "New Link"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:565
+#: onedesk/public/js/onemail_settings.js:567
 msgid "New Mail"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:872
-#: onedesk/public/js/onemail_settings.js:926
+#: onedesk/public/js/onemail_settings.js:874
+#: onedesk/public/js/onemail_settings.js:928
 msgid "New Mail Rule"
 msgstr ""
 
 #: onedesk/public/js/doctype_settings.js:450
-#: onedesk/public/js/onemail_settings.js:1236
+#: onedesk/public/js/onemail_settings.js:1240
 msgid "New Mail Template"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:834
+#: onedesk/public/js/onemail_settings.js:836
 msgid "New Mail is set to Not Read in the OneAI tab."
 msgstr ""
 
@@ -25174,14 +25166,14 @@ msgid "New Rate"
 msgstr ""
 
 #: onedesk/public/js/doctype_settings.js:262
-#: onedesk/public/js/onemail_settings.js:1293
+#: onedesk/public/js/onemail_settings.js:1297
 #: onedesk/public/js/role_matrix.js:118 onedesk/public/js/settings.js:896
 #: onedesk/public/js/settings.js:965
 msgid "New Role"
 msgstr ""
 
 #: onedesk/one/ai.py:2355 onedesk/public/js/doctype_settings.js:235
-#: onedesk/public/js/onemail_settings.js:802 onedesk/public/js/settings.js:3018
+#: onedesk/public/js/onemail_settings.js:804 onedesk/public/js/settings.js:3018
 #: onedesk/public/js/settings.js:3179 onedesk/public/js/settings.js:3183
 msgid "New Rule"
 msgstr ""
@@ -25306,7 +25298,7 @@ msgstr ""
 msgid "New mail is not arriving. Reconnect it with its password."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1048
+#: onedesk/public/js/onemail_settings.js:1050
 msgid "New mail is sent from this mailbox unless the writer picks another."
 msgstr ""
 
@@ -25988,7 +25980,7 @@ msgid "No lots in stock"
 msgstr ""
 
 #: onedesk/public/js/doctype_settings.js:121
-#: onedesk/public/js/onemail_settings.js:1247
+#: onedesk/public/js/onemail_settings.js:1251
 msgid "No mail templates"
 msgstr ""
 
@@ -25996,8 +25988,8 @@ msgstr ""
 msgid "No mailbox can send as {0}."
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:52 onedesk/public/js/onemail_settings.js:101
-#: onedesk/public/js/onemail_settings.js:1140
+#: frontend/src/mail/OneMail.vue:52 onedesk/public/js/onemail_settings.js:103
+#: onedesk/public/js/onemail_settings.js:1160
 #: onedesk/public/js/settings.js:2837
 msgid "No mailboxes"
 msgstr ""
@@ -26012,7 +26004,7 @@ msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/FindReplace.vue:86
 #: onedesk/public/js/crumb_switch.js:56
-#: onedesk/public/js/onemail_settings.js:1248 onedesk/public/js/shell.js:92
+#: onedesk/public/js/onemail_settings.js:1252 onedesk/public/js/shell.js:92
 msgid "No matches"
 msgstr ""
 
@@ -26213,7 +26205,7 @@ msgid "No roles"
 msgstr ""
 
 #: onedesk/public/js/doctype_settings.js:237
-#: onedesk/public/js/onemail_settings.js:815 onedesk/public/js/settings.js:3011
+#: onedesk/public/js/onemail_settings.js:817 onedesk/public/js/settings.js:3011
 msgid "No rules"
 msgstr ""
 
@@ -26245,7 +26237,7 @@ msgstr ""
 msgid "No server connections"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1086
+#: onedesk/public/js/onemail_settings.js:1088
 msgid "No shared mailboxes"
 msgstr ""
 
@@ -26350,7 +26342,7 @@ msgstr ""
 msgid "No user permissions"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:675
+#: onedesk/public/js/onemail_settings.js:677
 msgid "No users"
 msgstr ""
 
@@ -26567,7 +26559,7 @@ msgstr ""
 msgid "Not Permitted"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:443
+#: onedesk/public/js/onemail_settings.js:445
 msgid "Not Read"
 msgstr ""
 
@@ -26580,7 +26572,7 @@ msgstr ""
 msgid "Not Recorded"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:832
+#: onedesk/public/js/onemail_settings.js:834
 msgid "Not Running"
 msgstr ""
 
@@ -26844,7 +26836,7 @@ msgstr ""
 msgid "Not saved, storage is full"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:759
+#: onedesk/public/js/onemail_settings.js:761
 msgid "Not sending"
 msgstr ""
 
@@ -26904,7 +26896,7 @@ msgstr ""
 msgid "Not working. Check the DNS record below, then remove the domain and add it again."
 msgstr ""
 
-#: onedesk/one_ai/chat.py:126 onedesk/public/js/onemail_settings.js:760
+#: onedesk/one_ai/chat.py:126 onedesk/public/js/onemail_settings.js:762
 msgid "Not yet"
 msgstr ""
 
@@ -27188,7 +27180,7 @@ msgstr ""
 msgid "Notifications"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1023
+#: onedesk/public/js/onemail_settings.js:1025
 msgid "Notifications are sent from {0}."
 msgstr ""
 
@@ -27554,7 +27546,7 @@ msgstr ""
 msgid "On Leave Today"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:212 onedesk/public/js/onemail_settings.js:107
+#: frontend/src/mail/OneMail.vue:212 onedesk/public/js/onemail_settings.js:109
 msgid "On Leave until {0}"
 msgstr ""
 
@@ -28019,9 +28011,9 @@ msgstr ""
 #: onedesk/one_hr/custom/hr_settings.json onedesk/one_hr/custom/interview.json
 #: onedesk/one_hr/custom/job_applicant.json
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/public/js/onemail_settings.js:501
 #: onedesk/public/js/onemail_settings.js:503
-#: onedesk/public/js/onemail_settings.js:542
+#: onedesk/public/js/onemail_settings.js:505
+#: onedesk/public/js/onemail_settings.js:544
 #: onedesk/public/js/rule_builder.js:211 onedesk/public/js/settings.js:281
 msgid "OneAI"
 msgstr ""
@@ -28154,7 +28146,7 @@ msgstr ""
 msgid "OneAI does here only what this person may do."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:485
+#: onedesk/public/js/onemail_settings.js:487
 msgid "OneAI does not read new mail."
 msgstr ""
 
@@ -28196,7 +28188,7 @@ msgstr ""
 msgid "OneAI is turned off for this mailbox."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:542
+#: onedesk/public/js/onemail_settings.js:544
 msgid "OneAI is turned off for this workspace in Apps."
 msgstr ""
 
@@ -28384,7 +28376,7 @@ msgstr ""
 msgid "OneMail"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1325
+#: onedesk/public/js/onemail_settings.js:1328
 msgid "OneMail Settings"
 msgstr ""
 
@@ -28451,7 +28443,7 @@ msgstr ""
 msgid "Only Word files can be opened as a document."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:130
+#: onedesk/public/js/onemail_settings.js:132
 msgid "Only a Mail Manager or an administrator can change this."
 msgstr ""
 
@@ -28467,11 +28459,11 @@ msgstr ""
 msgid "Only a claim still waiting can be answered."
 msgstr ""
 
-#: onedesk/one_mail/connect.py:309
+#: onedesk/one_mail/connect.py:310
 msgid "Only a connected mailbox can be disconnected."
 msgstr ""
 
-#: onedesk/one_mail/connect.py:279
+#: onedesk/one_mail/connect.py:280
 msgid "Only a connected mailbox has a password to update."
 msgstr ""
 
@@ -28604,11 +28596,11 @@ msgstr ""
 msgid "Only in {0}"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:692
+#: onedesk/public/js/onemail_settings.js:694
 msgid "Only in {0}."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:691
+#: onedesk/public/js/onemail_settings.js:693
 msgid "Only in {0}. Their role already allows {1}."
 msgstr ""
 
@@ -28616,7 +28608,7 @@ msgstr ""
 msgid "Only letters, digits, spaces and - / _ . # { } are allowed."
 msgstr ""
 
-#: onedesk/one_mail/connect.py:186
+#: onedesk/one_mail/connect.py:187
 msgid "Only mailboxes at {0} can be connected."
 msgstr ""
 
@@ -28687,6 +28679,10 @@ msgstr ""
 
 #: onedesk/public/js/settings.js:2784
 msgid "Only the owner of {0} can turn this on, because OneAI acts on their behalf."
+msgstr ""
+
+#: onedesk/public/js/onemail_settings.js:1181
+msgid "Only the person who connected one can open or change it."
 msgstr ""
 
 #: onedesk/one_storage/mounts.py:417
@@ -29524,7 +29520,7 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:480
+#: onedesk/public/js/onemail_settings.js:482
 msgid "Other Actions"
 msgstr ""
 
@@ -29645,9 +29641,9 @@ msgid "Out of 100. Below the confirmation threshold the log is flagged for revie
 msgstr ""
 
 #: frontend/src/mail/OneMail.vue:213 frontend/src/mail/OneMail.vue:299
-#: onedesk/one_mail/abilities.py:34 onedesk/public/js/onemail_settings.js:108
-#: onedesk/public/js/onemail_settings.js:378
+#: onedesk/one_mail/abilities.py:34 onedesk/public/js/onemail_settings.js:110
 #: onedesk/public/js/onemail_settings.js:380
+#: onedesk/public/js/onemail_settings.js:382
 msgid "Out of Office"
 msgstr ""
 
@@ -29656,7 +29652,7 @@ msgstr ""
 msgid "Out of Office Replies"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:213 onedesk/public/js/onemail_settings.js:108
+#: frontend/src/mail/OneMail.vue:213 onedesk/public/js/onemail_settings.js:110
 msgid "Out of Office until {0}"
 msgstr ""
 
@@ -29722,7 +29718,7 @@ msgstr ""
 msgid "Outgoing"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:759
+#: onedesk/public/js/onemail_settings.js:761
 msgid "Outgoing Server"
 msgstr ""
 
@@ -30465,8 +30461,8 @@ msgstr ""
 #: onedesk/public/js/onecloud_dialogs.js:162
 #: onedesk/public/js/onecloud_dialogs.js:300
 #: onedesk/public/js/onecloud_dialogs.js:492
-#: onedesk/public/js/onemail_settings.js:768
-#: onedesk/public/js/onemail_settings.js:992 onedesk/public/js/settings.js:407
+#: onedesk/public/js/onemail_settings.js:770
+#: onedesk/public/js/onemail_settings.js:994 onedesk/public/js/settings.js:407
 #: onedesk/www/s.html:46
 msgid "Password"
 msgstr ""
@@ -31091,7 +31087,7 @@ msgstr ""
 msgid "Payslip by Email"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:463
+#: onedesk/public/js/onemail_settings.js:465
 msgid "Payslips and IDs are only attached to the Employee."
 msgstr ""
 
@@ -31177,11 +31173,6 @@ msgstr ""
 #. Description of the 'Quiet Minutes' (Int) field in DocType 'Intake Settings'
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
 msgid "People write in bursts. OneAI acts once a matter has been quiet this long, except on money or deadlines due within a day."
-msgstr ""
-
-#: onedesk/public/js/onemail_settings.js:1131
-#: onedesk/public/js/onemail_settings.js:1133
-msgid "People's Mailboxes"
 msgstr ""
 
 #. Label of the per (Int) field in DocType 'AI Model Rate'
@@ -31311,13 +31302,7 @@ msgstr ""
 #. Option for the 'Sensitivity' (Select) field in DocType 'Reading'
 #: onedesk/one_hr/custom/employee.json
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/public/js/onemail_settings.js:34
 msgid "Personal"
-msgstr ""
-
-#: onedesk/public/js/onemail_settings.js:1156
-#: onedesk/public/js/onemail_settings.js:1158
-msgid "Personal Addresses"
 msgstr ""
 
 #: onedesk/public/js/settings.js:162
@@ -31331,7 +31316,7 @@ msgstr ""
 msgid "Phishing"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:454
+#: onedesk/public/js/onemail_settings.js:456
 msgid "Phishing also alerts the mailbox's users."
 msgstr ""
 
@@ -31976,7 +31961,7 @@ msgstr ""
 msgid "Post"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:479
+#: onedesk/public/js/onemail_settings.js:481
 msgid "Post Site Logs"
 msgstr ""
 
@@ -32364,6 +32349,10 @@ msgstr ""
 msgid "Privacy requests are waiting: {count}"
 msgstr ""
 
+#: onedesk/public/js/onemail_settings.js:36
+msgid "Private"
+msgstr ""
+
 #. Name of a DocType
 #: onedesk/one_admin/doctype/private_app/private_app.json
 msgid "Private App"
@@ -32385,8 +32374,17 @@ msgstr ""
 msgid "Private Key"
 msgstr ""
 
+#: onedesk/public/js/onemail_settings.js:1178
+#: onedesk/public/js/onemail_settings.js:1180
+msgid "Private Mailboxes"
+msgstr ""
+
 #: onedesk/public/js/apps.js:30
 msgid "Private app"
+msgstr ""
+
+#: onedesk/one_mail/connect.py:185
+msgid "Private mailboxes are disabled in this workspace."
 msgstr ""
 
 #. Label of the one_probability (Percent) field in DocType 'Sales Stage'
@@ -33622,7 +33620,7 @@ msgstr ""
 
 #. Label of the one_ai_attachments (Check) field in DocType 'Email Account'
 #: onedesk/one_intake/custom/email_account.json
-#: onedesk/public/js/onemail_settings.js:574
+#: onedesk/public/js/onemail_settings.js:576
 msgid "Read Attachments"
 msgstr ""
 
@@ -33663,7 +33661,7 @@ msgstr ""
 msgid "Read On"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:103
+#: onedesk/public/js/onemail_settings.js:105
 msgid "Read Only"
 msgstr ""
 
@@ -33672,11 +33670,11 @@ msgstr ""
 msgid "Read and File"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:445
+#: onedesk/public/js/onemail_settings.js:447
 msgid "Read and Filed"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:103
+#: onedesk/public/js/onemail_settings.js:105
 msgid "Read and Send"
 msgstr ""
 
@@ -33740,7 +33738,7 @@ msgstr ""
 msgid "Read, File and Act"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:446
+#: onedesk/public/js/onemail_settings.js:448
 msgid "Read, Filed and Acted On"
 msgstr ""
 
@@ -33935,7 +33933,7 @@ msgstr ""
 msgid "Receive Into Stock"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1099
+#: onedesk/public/js/onemail_settings.js:1101
 msgid "Receive Only"
 msgstr ""
 
@@ -34073,12 +34071,12 @@ msgstr ""
 msgid "Reconciled"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:752
-#: onedesk/public/js/onemail_settings.js:771
+#: onedesk/public/js/onemail_settings.js:754
+#: onedesk/public/js/onemail_settings.js:773
 msgid "Reconnect"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:766
+#: onedesk/public/js/onemail_settings.js:768
 msgid "Reconnect {0}"
 msgstr ""
 
@@ -34760,7 +34758,7 @@ msgstr ""
 #: onedesk/public/js/onecloud_dialogs.js:108
 #: onedesk/public/js/onecloud_dialogs.js:244
 #: onedesk/public/js/onecloud_dialogs.js:507
-#: onedesk/public/js/onemail_settings.js:64
+#: onedesk/public/js/onemail_settings.js:66
 #: onedesk/public/js/project_actions.js:335
 #: onedesk/public/js/project_actions.js:457
 #: onedesk/public/js/rule_builder.js:117 onedesk/public/js/rule_builder.js:325
@@ -34842,7 +34840,7 @@ msgstr ""
 msgid "Remove {0} from the project?"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:731
+#: onedesk/public/js/onemail_settings.js:733
 msgid "Remove {0} from {1}?"
 msgstr ""
 
@@ -34891,7 +34889,7 @@ msgstr ""
 msgid "Rename Folder"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:464
+#: onedesk/public/js/onemail_settings.js:466
 msgid "Rename and Tag Files"
 msgstr ""
 
@@ -35081,7 +35079,7 @@ msgstr ""
 msgid "Replies"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1039
+#: onedesk/public/js/onemail_settings.js:1041
 msgid "Replies to notifications arrive in this mailbox."
 msgstr ""
 
@@ -35227,8 +35225,8 @@ msgstr ""
 msgid "Request Leave"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:872
-#: onedesk/public/js/onemail_settings.js:926
+#: onedesk/public/js/onemail_settings.js:874
+#: onedesk/public/js/onemail_settings.js:928
 msgid "Request Mail Rule"
 msgstr ""
 
@@ -35268,7 +35266,7 @@ msgstr ""
 msgid "Request No"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:802
+#: onedesk/public/js/onemail_settings.js:804
 msgid "Request Rule"
 msgstr ""
 
@@ -35410,11 +35408,11 @@ msgstr ""
 msgid "Requirements and budget"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:587
+#: onedesk/public/js/onemail_settings.js:589
 msgid "Requires New Mail set to {0}."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:279
+#: onedesk/public/js/onemail_settings.js:281
 msgid "Requires Send access."
 msgstr ""
 
@@ -35984,8 +35982,8 @@ msgstr ""
 
 #. Label in the One Staffing Plan print format
 #: onedesk/one_hr/print_format/one_staffing_plan/one_staffing_plan.json
-#: onedesk/public/js/onemail_settings.js:1279
-#: onedesk/public/js/onemail_settings.js:1281 onedesk/public/js/settings.js:941
+#: onedesk/public/js/onemail_settings.js:1283
+#: onedesk/public/js/onemail_settings.js:1285 onedesk/public/js/settings.js:941
 msgid "Roles"
 msgstr ""
 
@@ -36098,11 +36096,11 @@ msgstr ""
 msgid "Rules override the naming above."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:796
+#: onedesk/public/js/onemail_settings.js:798
 msgid "Rules you write, run in order on each new message. A rule you ask for runs once a Mail Manager approves it."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:794
+#: onedesk/public/js/onemail_settings.js:796
 msgid "Rules you write, run in order on each new message. They come before what OneAI does."
 msgstr ""
 
@@ -36186,7 +36184,7 @@ msgstr ""
 msgid "Runs once with the settings above and uses OneAI credits."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:628
+#: onedesk/public/js/onemail_settings.js:630
 msgid "Runs with {0}'s permissions."
 msgstr ""
 
@@ -36204,11 +36202,11 @@ msgstr ""
 msgid "SHA-256 of the token written into the site's config."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1001
+#: onedesk/public/js/onemail_settings.js:1003
 msgid "SMTP Port"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1000
+#: onedesk/public/js/onemail_settings.js:1002
 msgid "SMTP Server"
 msgstr ""
 
@@ -36464,11 +36462,11 @@ msgstr ""
 #: onedesk/public/js/apps.js:68 onedesk/public/js/crm_record.js:97
 #: onedesk/public/js/item_actions.js:31 onedesk/public/js/lots_actions.js:53
 #: onedesk/public/js/next_step.js:27 onedesk/public/js/onecloud_dialogs.js:319
-#: onedesk/public/js/onemail_settings.js:283
-#: onedesk/public/js/onemail_settings.js:385
-#: onedesk/public/js/onemail_settings.js:510
-#: onedesk/public/js/onemail_settings.js:702
-#: onedesk/public/js/onemail_settings.js:910
+#: onedesk/public/js/onemail_settings.js:285
+#: onedesk/public/js/onemail_settings.js:387
+#: onedesk/public/js/onemail_settings.js:512
+#: onedesk/public/js/onemail_settings.js:704
+#: onedesk/public/js/onemail_settings.js:912
 #: onedesk/public/js/project_actions.js:59
 #: onedesk/public/js/project_actions.js:287
 #: onedesk/public/js/project_actions.js:329
@@ -36532,7 +36530,7 @@ msgstr ""
 msgid "Saved Reports"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:479
+#: onedesk/public/js/onemail_settings.js:481
 msgid "Saved as a Project Update."
 msgstr ""
 
@@ -36540,7 +36538,7 @@ msgstr ""
 msgid "Saved as a template: {0}"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:477
+#: onedesk/public/js/onemail_settings.js:479
 msgid "Saved as drafts in Ready to Submit. A bill asking to be paid to a new IBAN is held."
 msgstr ""
 
@@ -36739,7 +36737,7 @@ msgstr ""
 #: frontend/src/upkeep/UpkeepPage.vue:10
 #: onedesk/one_hr/custom/employee_attendance_tool.json
 #: onedesk/public/js/crumb_switch.js:110
-#: onedesk/public/js/onemail_settings.js:1242
+#: onedesk/public/js/onemail_settings.js:1246
 #: onedesk/public/js/window/chrome.js:72 onedesk/public/js/window/chrome.js:73
 msgid "Search"
 msgstr ""
@@ -36854,7 +36852,7 @@ msgstr ""
 msgid "Select Checked-In Employees"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:658
+#: onedesk/public/js/onemail_settings.js:660
 msgid "Select User"
 msgstr ""
 
@@ -36962,13 +36960,13 @@ msgstr ""
 #: frontend/src/project/Invoices.vue:140
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
 #: onedesk/public/js/oneai/Panel.vue:224
-#: onedesk/public/js/onemail_settings.js:721
+#: onedesk/public/js/onemail_settings.js:723
 #: onedesk/public/js/privacy_copy.js:47 onedesk/www/r.html:47
 #: onedesk/www/s.html:107
 msgid "Send"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1164
+#: onedesk/public/js/onemail_settings.js:1150
 msgid "Send From Workspace Addresses"
 msgstr ""
 
@@ -36988,7 +36986,7 @@ msgstr ""
 msgid "Send Quote"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:910
+#: onedesk/public/js/onemail_settings.js:912
 msgid "Send Request"
 msgstr ""
 
@@ -37064,7 +37062,7 @@ msgstr ""
 
 #. Label of the one_sender_name (Data) field in DocType 'Email Account'
 #: onedesk/one_mail/custom/email_account.json
-#: onedesk/public/js/onemail_settings.js:310
+#: onedesk/public/js/onemail_settings.js:312
 msgid "Sender Name"
 msgstr ""
 
@@ -37150,7 +37148,7 @@ msgstr ""
 msgid "Sent Out is opened, and each time an order, a transfer or a receipt for work sent out changes."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:413
+#: onedesk/public/js/onemail_settings.js:415
 msgid "Sent To"
 msgstr ""
 
@@ -37331,7 +37329,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 #: onedesk/public/js/onecloud_dialogs.js:280
-#: onedesk/public/js/onemail_settings.js:994
+#: onedesk/public/js/onemail_settings.js:996
 msgid "Server"
 msgstr ""
 
@@ -37453,7 +37451,7 @@ msgstr ""
 msgid "Set Hours"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:532
+#: onedesk/public/js/onemail_settings.js:534
 msgid "Set New Mail to Not Read? {0} will stop running."
 msgstr ""
 
@@ -37783,8 +37781,8 @@ msgstr ""
 
 #. Option for the 'Used By' (Select) field in DocType 'Device'
 #: frontend/src/cloud/CloudItems.vue:74 onedesk/one/doctype/device/device.json
-#: onedesk/public/js/masters.js:25 onedesk/public/js/onemail_settings.js:34
-#: onedesk/public/js/onemail_settings.js:1097
+#: onedesk/public/js/masters.js:25 onedesk/public/js/onemail_settings.js:36
+#: onedesk/public/js/onemail_settings.js:1099
 #: onedesk/public/js/settings.js:2097
 msgid "Shared"
 msgstr ""
@@ -37799,8 +37797,8 @@ msgstr ""
 msgid "Shared From"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1068
 #: onedesk/public/js/onemail_settings.js:1070
+#: onedesk/public/js/onemail_settings.js:1072
 msgid "Shared Mailboxes"
 msgstr ""
 
@@ -38069,7 +38067,7 @@ msgid "Should I order more?"
 msgstr ""
 
 #: frontend/src/project/ProjectPage.vue:267
-#: onedesk/public/js/onemail_settings.js:272
+#: onedesk/public/js/onemail_settings.js:274
 #: onedesk/public/js/role_matrix.js:105 onedesk/public/js/settings.js:1930
 #: onedesk/public/js/settings.js:1949
 msgid "Show"
@@ -38161,7 +38159,7 @@ msgstr ""
 msgid "Show Requests for Quotation"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1285
+#: onedesk/public/js/onemail_settings.js:1289
 #: onedesk/public/js/role_matrix.js:91
 msgid "Show Roles"
 msgstr ""
@@ -38275,7 +38273,7 @@ msgstr ""
 msgid "Shows"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:462
+#: onedesk/public/js/onemail_settings.js:464
 msgid "Shows the message on each record's timeline."
 msgstr ""
 
@@ -38424,8 +38422,8 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: frontend/src/mail/OneMail.vue:298 onedesk/one_ai/chat.py:349
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/public/js/onemail_settings.js:276
 #: onedesk/public/js/onemail_settings.js:278
+#: onedesk/public/js/onemail_settings.js:280
 msgid "Signature"
 msgstr ""
 
@@ -39201,7 +39199,7 @@ msgstr ""
 msgid "Sort mail into {0}"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:444
+#: onedesk/public/js/onemail_settings.js:446
 msgid "Sorted"
 msgstr ""
 
@@ -39209,7 +39207,7 @@ msgstr ""
 msgid "Sorted by"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:451
+#: onedesk/public/js/onemail_settings.js:453
 #: onedesk/public/js/rule_builder.js:541 onedesk/public/js/rule_builder.js:561
 #: onedesk/public/js/rule_builder.js:577 onedesk/public/js/rule_builder.js:588
 #: onedesk/public/js/rule_builder.js:599
@@ -39485,7 +39483,7 @@ msgstr ""
 msgid "Start from nothing."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:873
+#: onedesk/public/js/onemail_settings.js:875
 msgid "Start from one of these, and change anything."
 msgstr ""
 
@@ -40307,7 +40305,7 @@ msgid "Structure"
 msgstr ""
 
 #: onedesk/one/printing.py:86 onedesk/one/printing.py:300
-#: onedesk/public/js/onemail_settings.js:229
+#: onedesk/public/js/onemail_settings.js:231
 msgid "Style"
 msgstr ""
 
@@ -42940,7 +42938,7 @@ msgstr ""
 msgid "The name before the workspace in their own address, which only receives. Left empty, their first name is used."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:313
+#: onedesk/public/js/onemail_settings.js:315
 msgid "The name shown with the address on every email sent from this mailbox. Leave empty to use the default."
 msgstr ""
 
@@ -43791,7 +43789,7 @@ msgstr ""
 msgid "The writer promises to do this, rather than asking somebody else."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:312
+#: onedesk/public/js/onemail_settings.js:314
 msgid "The writer's name"
 msgstr ""
 
@@ -43899,17 +43897,13 @@ msgstr ""
 msgid "Their passkey and shift assignments have been ended, but the status is still Active: {why}<br>Fix that, then set their status to Left."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:718
+#: onedesk/public/js/onemail_settings.js:720
 msgid "Their role already allows everything here."
 msgstr ""
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_hr/shift_asked.md
 msgid "Their shift approver, or HR when none is set"
-msgstr ""
-
-#: onedesk/public/js/onemail_settings.js:1134
-msgid "Their workspace addresses and the mailboxes they connected."
 msgstr ""
 
 #: onedesk/public/js/outside.js:102
@@ -44168,7 +44162,7 @@ msgstr ""
 msgid "They keep their price. Quota changes apply the next time they change their plan or add-ons."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:371
+#: onedesk/public/js/onemail_settings.js:373
 msgid "They name {0} for anything urgent."
 msgstr ""
 
@@ -44399,7 +44393,7 @@ msgstr ""
 msgid "This is to certify that {0}{1} has been employed with {2} as {3} since {4}."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:554
+#: onedesk/public/js/onemail_settings.js:556
 msgid "This is your own mailbox. If OneAI reads it, it files and acts on this mail in the workspace, with your permissions."
 msgstr ""
 
@@ -46490,7 +46484,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_inventory/print_format/one_asset_card/one_asset_card.json
 #: onedesk/one_inventory/print_format/one_shipment/one_shipment.json
-#: onedesk/public/js/onemail_settings.js:408
+#: onedesk/public/js/onemail_settings.js:410
 msgid "Until"
 msgstr ""
 
@@ -46584,7 +46578,7 @@ msgstr ""
 msgid "Update No"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:474
+#: onedesk/public/js/onemail_settings.js:476
 msgid "Update Tax ID, Website and Phone"
 msgstr ""
 
@@ -46717,7 +46711,7 @@ msgstr ""
 msgid "Use My Location"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:998
+#: onedesk/public/js/onemail_settings.js:1000
 msgid "Use SSL"
 msgstr ""
 
@@ -46866,9 +46860,9 @@ msgstr ""
 msgid "User stories"
 msgstr ""
 
-#: onedesk/one_mail/abilities.py:59 onedesk/public/js/onemail_settings.js:643
-#: onedesk/public/js/onemail_settings.js:645
-#: onedesk/public/js/onemail_settings.js:651
+#: onedesk/one_mail/abilities.py:59 onedesk/public/js/onemail_settings.js:645
+#: onedesk/public/js/onemail_settings.js:647
+#: onedesk/public/js/onemail_settings.js:653
 #: onedesk/public/js/project_actions.js:741
 msgid "Users"
 msgstr ""
@@ -47334,7 +47328,7 @@ msgstr ""
 msgid "Waiting For a Reply"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:827
+#: onedesk/public/js/onemail_settings.js:829
 msgid "Waiting for Approval"
 msgstr ""
 
@@ -47754,7 +47748,7 @@ msgstr ""
 msgid "What OneAI does not do with this mailbox's mail, by job (one_mail/gate.py JOBS)."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:505
+#: onedesk/public/js/onemail_settings.js:507
 msgid "What OneAI does with new mail on its own. It never mails anyone outside the workspace. If disabled, OneAI can't read this mailbox."
 msgstr ""
 
@@ -47780,7 +47774,7 @@ msgstr ""
 msgid "What OneAI's reply should do, such as answering from their orders and promising an answer within a day. OneAI writes the reply itself."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:364
+#: onedesk/public/js/onemail_settings.js:366
 msgid "What They Get"
 msgstr ""
 
@@ -48003,7 +47997,7 @@ msgstr ""
 msgid "What each person costs, part by part."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1282
+#: onedesk/public/js/onemail_settings.js:1286
 msgid "What each role can do in OneMail. Give people a role on their page in People."
 msgstr ""
 
@@ -49533,7 +49527,7 @@ msgstr ""
 msgid "When payment for the workspace is overdue, with the day it will be suspended."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:609
+#: onedesk/public/js/onemail_settings.js:611
 msgid "When reached, OneAI stops reading new mail until next month. Leave empty for no limit."
 msgstr ""
 
@@ -50452,7 +50446,7 @@ msgstr ""
 msgid "Which workstations are making, which are stopped and why, and what is running on each?"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:374
+#: onedesk/public/js/onemail_settings.js:376
 msgid "While you're on approved leave, replies go out on their own until you're back, with the Away Message from your leave request."
 msgstr ""
 
@@ -51226,8 +51220,8 @@ msgstr ""
 #: frontend/src/mail/mail.js:58 frontend/src/project/ProjectActivity.vue:105
 #: onedesk/one_crm/print_format/one_service_report/one_service_report.json
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
-#: onedesk/one_project/tree.py:196 onedesk/public/js/project_actions.js:640
-#: onedesk/public/js/settings.js:2413
+#: onedesk/one_project/tree.py:196 onedesk/public/js/onemail_settings.js:36
+#: onedesk/public/js/project_actions.js:640 onedesk/public/js/settings.js:2413
 msgid "Work"
 msgstr ""
 
@@ -51269,6 +51263,11 @@ msgstr ""
 #. Label in the One Job Card print format
 #: onedesk/one_inventory/print_format/one_job_card/one_job_card.json
 msgid "Work In Progress At"
+msgstr ""
+
+#: onedesk/public/js/onemail_settings.js:1135
+#: onedesk/public/js/onemail_settings.js:1137
+msgid "Work Mailboxes"
 msgstr ""
 
 #. Label in the One Job Card print format
@@ -51473,9 +51472,8 @@ msgstr ""
 #: onedesk/one_mail/abilities.py:16 onedesk/one_mail/cloud.py:33
 #: onedesk/one_mail/custom/email_account.json onedesk/public/js/ai_model.js:28
 #: onedesk/public/js/oneai/Panel.vue:516
-#: onedesk/public/js/onemail_settings.js:34
-#: onedesk/public/js/onemail_settings.js:1145
-#: onedesk/public/js/onemail_settings.js:1317 onedesk/public/js/settings.js:639
+#: onedesk/public/js/onemail_settings.js:36
+#: onedesk/public/js/onemail_settings.js:1320 onedesk/public/js/settings.js:639
 msgid "Workspace"
 msgstr ""
 
@@ -51593,7 +51591,7 @@ msgstr ""
 msgid "Workspace Notifications"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:417
+#: onedesk/public/js/onemail_settings.js:419
 msgid "Workspace Only"
 msgstr ""
 
@@ -51640,7 +51638,7 @@ msgstr ""
 msgid "Workspace administrators"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:418
+#: onedesk/public/js/onemail_settings.js:420
 msgid "Workspace and Contacts"
 msgstr ""
 
@@ -52146,7 +52144,7 @@ msgstr ""
 msgid "You do not have permission to open this workbook."
 msgstr ""
 
-#: onedesk/one_mail/holders.py:493
+#: onedesk/one_mail/holders.py:503
 msgid "You don't have Send access to {0}."
 msgstr ""
 
@@ -52278,7 +52276,7 @@ msgstr ""
 msgid "You're interviewing {applicant} on {when}"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:370
+#: onedesk/public/js/onemail_settings.js:372
 msgid "You're on approved leave until {0}. Replies go out on their own, saying you're back on {1}."
 msgstr ""
 
@@ -52325,7 +52323,7 @@ msgstr ""
 msgid "Your Instructions"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1307
+#: onedesk/public/js/onemail_settings.js:1311
 msgid "Your Mail"
 msgstr ""
 
@@ -52649,7 +52647,7 @@ msgstr ""
 msgid "Your role"
 msgstr ""
 
-#: onedesk/one_mail/holders.py:108
+#: onedesk/one_mail/holders.py:113
 msgid "Your role doesn't allow changing this on {0}."
 msgstr ""
 
@@ -54311,7 +54309,7 @@ msgstr ""
 msgid "{0} Batches Expiring Soon"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1099
+#: onedesk/public/js/onemail_settings.js:1101
 msgid "{0} Can Send"
 msgstr ""
 
@@ -54414,7 +54412,7 @@ msgstr ""
 msgid "{0} Unreconciled Bank Transactions"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:1098
+#: onedesk/public/js/onemail_settings.js:1100
 msgid "{0} Users"
 msgstr ""
 
@@ -54480,7 +54478,7 @@ msgstr ""
 msgid "{0} already has it."
 msgstr ""
 
-#: onedesk/one_mail/addresses.py:134 onedesk/one_mail/addresses.py:215
+#: onedesk/one_mail/addresses.py:152 onedesk/one_mail/addresses.py:233
 msgid "{0} already has the address {1}. It can't be changed."
 msgstr ""
 
@@ -54537,7 +54535,7 @@ msgstr ""
 msgid "{0} asked for a copy of their data. Send it within one month."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:929
+#: onedesk/public/js/onemail_settings.js:931
 msgid "{0} asked for this rule. It runs once approved."
 msgstr ""
 
@@ -54626,7 +54624,7 @@ msgstr ""
 msgid "{0} can't be turned off. Shared links depend on it."
 msgstr ""
 
-#: onedesk/one_mail/addresses.py:142
+#: onedesk/one_mail/addresses.py:160
 msgid "{0} can't be used in an address. Use letters, digits, - and _."
 msgstr ""
 
@@ -54764,7 +54762,7 @@ msgstr ""
 msgid "{0} credits left"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:493
+#: onedesk/public/js/onemail_settings.js:495
 msgid "{0} credits used this month. There is no limit."
 msgstr ""
 
@@ -54868,7 +54866,7 @@ msgid "{0} doesn't support workspace automations."
 msgstr ""
 
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.py:21
-#: onedesk/one_mail/holders.py:406
+#: onedesk/one_mail/holders.py:416
 msgid "{0} doesn't use this mailbox."
 msgstr ""
 
@@ -55189,7 +55187,7 @@ msgstr ""
 msgid "{0} is a folder. Choose the files in it."
 msgstr ""
 
-#: onedesk/one_mail/holders.py:374
+#: onedesk/one_mail/holders.py:384
 msgid "{0} is a personal mailbox and can't be shared."
 msgstr ""
 
@@ -55249,7 +55247,7 @@ msgstr ""
 msgid "{0} is already checked."
 msgstr ""
 
-#: onedesk/one_mail/connect.py:188
+#: onedesk/one_mail/connect.py:189
 msgid "{0} is already connected."
 msgstr ""
 
@@ -55269,7 +55267,7 @@ msgstr ""
 msgid "{0} is already one of its series."
 msgstr ""
 
-#: onedesk/one_mail/addresses.py:145
+#: onedesk/one_mail/addresses.py:163
 msgid "{0} is already taken."
 msgstr ""
 
@@ -55481,7 +55479,7 @@ msgstr ""
 msgid "{0} is not a series of {1}."
 msgstr ""
 
-#: onedesk/one_mail/holders.py:507
+#: onedesk/one_mail/holders.py:517
 msgid "{0} is not a shared mailbox."
 msgstr ""
 
@@ -55702,7 +55700,7 @@ msgstr ""
 msgid "{0} isn't a contact of this record's customer or supplier."
 msgstr ""
 
-#: onedesk/one_mail/holders.py:467
+#: onedesk/one_mail/holders.py:477
 msgid "{0} isn't a domain, such as gmail.com."
 msgstr ""
 
@@ -55714,7 +55712,7 @@ msgstr ""
 msgid "{0} isn't an allowed file type."
 msgstr ""
 
-#: onedesk/one_mail/holders.py:379
+#: onedesk/one_mail/holders.py:389
 msgid "{0} isn't in this workspace."
 msgstr ""
 
@@ -55964,7 +55962,7 @@ msgstr ""
 msgid "{0} of {1} credits left. No expiry."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:496
+#: onedesk/public/js/onemail_settings.js:498
 msgid "{0} of {1} credits used this month."
 msgstr ""
 

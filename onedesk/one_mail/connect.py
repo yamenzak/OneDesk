@@ -180,9 +180,10 @@ def connect(
 		holders._admin("connect_shared")
 	email = (validate_email_address(email or "", throw=True) or "").strip().lower()
 	allowed = addresses.allowed_domains()
-	if not int(shared) and not addresses.external():
-		frappe.throw(_("External mailboxes are disabled in this workspace."))
-	if not int(shared) and allowed and addresses.domain_of(email) not in allowed:
+	private = not int(shared) and addresses.is_private(email)
+	if private and not addresses.external():
+		frappe.throw(_("Private mailboxes are disabled in this workspace."))
+	if private and allowed and addresses.domain_of(email) not in allowed:
 		frappe.throw(_("Only mailboxes at {0} can be connected.").format(", ".join("@" + one for one in allowed)))
 	if frappe.db.exists("Email Account", {"email_id": email}):
 		frappe.throw(_("{0} is already connected.").format(email))

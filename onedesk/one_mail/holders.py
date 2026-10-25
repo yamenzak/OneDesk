@@ -83,16 +83,21 @@ def may(account: str, key: str, user: str | None = None) -> bool:
 	one_mail/abilities.py SHARED): a mailbox they connected for themselves is
 	theirs; any other through their roles (every mailbox, or for an ability
 	with a scope, the address the workspace issued them), or through a share
-	of that one mailbox. Workspace administrators may do everything."""
+	of that one mailbox. Workspace administrators may do everything, except
+	in a private mailbox (addresses.is_private), which only its holder may."""
 	from onedesk.one import abilities, roles
 	from onedesk.one_mail import actions
 	from onedesk.one_mail.abilities import DOCTYPE
 
 	user = user or frappe.session.user
+	shared, hosted, email = frappe.db.get_value(
+		"Email Account", account, ["one_shared", "one_hosted", "email_id"]
+	) or (0, 0, "")
+	holds = actions.owns(account, user)
+	if not shared and not hosted and addresses.is_private(email):
+		return bool(holds) or user == "Administrator"
 	if user == "Administrator" or roles.administers(user):
 		return True
-	shared, hosted = frappe.db.get_value("Email Account", account, ["one_shared", "one_hosted"]) or (0, 0)
-	holds = actions.owns(account, user)
 	if holds and not shared and not hosted:
 		return True
 	one = _ability(key)
@@ -227,6 +232,7 @@ def _box(account, rows: dict, ours: str | None, listed: list, sends: str | None 
 		"hosted": account.one_hosted,
 		"connected": account.one_connected,
 		"shared": account.one_shared,
+		"private": int(bool(account.one_connected and not account.one_shared and addresses.is_private(account.email_id))),
 		"workspace": int(account.name == ours),
 		"sends": int(bool(account.enable_outgoing and rows.get(account.name))),
 		"sends_default": int(account.name == sends),
@@ -334,9 +340,10 @@ def shared() -> dict:
 
 @frappe.whitelist()
 def addresses_of_people() -> list[dict]:
-	"""Every person's own mailbox, the address the workspace issued them and
-	those they connected, with whose it is: what a Mail Manager opens to set
-	a signature, a sender name or an away reply for somebody."""
+	"""Every person's work mailboxes, the address the workspace issued them
+	and those they connected at the company's domains, with whose it is: what
+	a Mail Manager opens to set a signature, a sender name or an away reply
+	for somebody. A private one (addresses.is_private) is never listed."""
 	if not may_open_others():
 		_admin("policy")
 	held = {
@@ -345,12 +352,15 @@ def addresses_of_people() -> list[dict]:
 	}
 	names = dict(frappe.get_all("User", filters={"user_type": "System User"}, fields=["name", "full_name"], as_list=True))
 	out = []
+	company = addresses.company_domains()
 	for account in frappe.get_all(
 		"Email Account",
 		filters={"one_shared": 0, "name": ["in", list(held) or [""]]},
 		fields=["name", "email_id", "one_hosted", "one_connected"],
 		order_by="email_id asc",
 	):
+		if not account.one_hosted and addresses.domain_of(account.email_id) not in company:
+			continue
 		user = held[account.name]
 		out.append(
 			{

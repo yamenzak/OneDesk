@@ -82,15 +82,33 @@ def personal_sends() -> bool:
 
 
 def allowed_domains() -> list[str]:
-	"""The domains people may connect a personal mailbox at, such as
+	"""The domains people may connect a private mailbox at, such as
 	gmail.com; none listed is any (holders.set_allowed_domains)."""
 	return [one for one in (frappe.db.get_default(ALLOWED_DOMAINS) or "").split(",") if one]
 
 
 def external() -> bool:
-	"""Whether people may connect a mailbox of their own at all; on unless a
-	workspace administrator turned it off."""
+	"""Whether people may connect a private mailbox (is_private); on unless a
+	workspace administrator turned it off. A mailbox at the company's own
+	domain can always be connected."""
 	return frappe.db.get_default(EXTERNAL) != "0"
+
+
+def company_domains() -> set[str]:
+	"""The domains whose mailboxes are the company's: the workspace's mail
+	domain, every shared mailbox's, and every Email Domain an administrator
+	set up. A mailbox anywhere else, such as Gmail, is private."""
+	return (
+		{domain()}
+		| {domain_of(one) for one in frappe.get_all("Email Account", filters={"one_shared": 1}, pluck="email_id")}
+		| set(frappe.get_all("Email Domain", pluck="domain_name"))
+	) - {""}
+
+
+def is_private(email: str) -> bool:
+	"""Whether a mailbox somebody connected is their own rather than the
+	company's: one at a domain outside company_domains()."""
+	return domain_of(email) not in company_domains()
 
 
 def domain_of(text: str) -> str:
