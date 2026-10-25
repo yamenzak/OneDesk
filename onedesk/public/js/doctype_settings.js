@@ -474,12 +474,90 @@ onedesk.mail_templates.fields = (name, doc) => {
 			  }
 			: { fieldtype: "Text Editor", fieldname: "response", label: __("Message"), depends_on: "eval:!doc.use_html" },
 		{ fieldtype: "Code", fieldname: "response_html", label: __("Message"), options: "HTML", depends_on: "eval:doc.use_html" },
-		{
-			fieldtype: "HTML",
-			fieldname: "help",
-			options: `<p class="text-muted small">${__("Use {0} to insert a field of the record.", ["<code>{{ customer_name }}</code>"])}</p>`,
-		},
+		{ fieldtype: "HTML", fieldname: "picker" },
 	];
+};
+
+// The fields of the record the template is for, under its message: a click
+// puts `{{ field }}` where the writer was, in the subject or the message. A
+// table opens to its rows' fields and Repeat Rows, which writes the loop with
+// the fields its list shows (mail_templates.fields_of, check).
+onedesk.mail_templates.picker = (form) => {
+	const $box = form.fields_dict.picker.$wrapper.empty().addClass("one-tpl-picker");
+	let last = "response";
+	form.fields_dict.subject.$input.on("focus", () => (last = "subject"));
+	const message = () => form.fields_dict[form.get_value("use_html") ? "response_html" : "response"];
+	const insert = (text) => {
+		if (last === "subject" && !text.includes("\n")) {
+			const input = form.fields_dict.subject.$input.get(0);
+			const at = input.selectionStart ?? input.value.length;
+			form.set_value("subject", input.value.slice(0, at) + text + input.value.slice(input.selectionEnd ?? at));
+			return;
+		}
+		const control = message();
+		if (control.quill) {
+			const quill = control.quill;
+			const at = (quill.getSelection(true) || { index: quill.getLength() }).index;
+			quill.insertText(at, text);
+			quill.setSelection(at + text.length);
+		} else if (control.editor) {
+			control.editor.insert(text);
+			control.editor.focus();
+		}
+	};
+	const chip = (label, title, click, icon) =>
+		$(`<button type="button" class="one-tpl-chip"></button>`)
+			.attr("title", title)
+			.html(`${icon ? frappe.utils.icon(icon, "xs") : ""}<span></span>`)
+			.on("mousedown", (e) => e.preventDefault())
+			.on("click", click)
+			.find("span")
+			.text(label)
+			.end();
+	const repeat = (table) => {
+		const shown = table.fields.filter((one) => one.shown).slice(0, 4);
+		const cells = (shown.length ? shown : table.fields.slice(0, 3)).map((one) => `{{ row.${one.fieldname} }}`);
+		const html = form.get_value("use_html") || !message().quill;
+		return html
+			? `{% for row in ${table.fieldname} %}\n<p>${cells.join(" · ")}</p>\n{% endfor %}\n`
+			: `{% for row in ${table.fieldname} %}\n${cells.join(" · ")}\n{% endfor %}\n`;
+	};
+	const draw = async () => {
+		$box.empty();
+		const doctype = form.get_value("reference_doctype");
+		if (!doctype) {
+			$box.append(`<p class="text-muted small">${__("Choose For to pick its fields.")}</p>`);
+			return;
+		}
+		const said = await frappe.xcall(onedesk.mail_templates.API + "fields_of", { doctype });
+		if (form.get_value("reference_doctype") !== doctype) return;
+		const search = $(`<input type="search" class="form-control one-tpl-search">`).attr("placeholder", __("Search Fields")).appendTo($box);
+		const $chips = $(`<div class="one-tpl-chips"></div>`).appendTo($box);
+		const $rows = $(`<div class="one-tpl-rows hide"></div>`).appendTo($box);
+		for (const table of said.tables)
+			chip(table.label, __("Rows of {0}", [table.label]), () => {
+				$rows.removeClass("hide").empty();
+				$(`<div class="one-tpl-rows-head"></div>`).text(__("Rows of {0}", [table.label])).appendTo($rows);
+				chip(__("Repeat Rows"), __("Writes the loop with the fields its list shows."), () => insert(repeat(table)), "repeat").addClass("one-tpl-repeat").appendTo($rows);
+				for (const one of table.fields)
+					chip(one.label, `{{ row.${one.fieldname} }}`, () => insert(`{{ row.${one.fieldname} }}`)).appendTo($rows);
+			}, "table-2")
+				.attr("data-find", table.label.toLowerCase())
+				.appendTo($chips);
+		for (const one of said.fields)
+			chip(one.label, `{{ ${one.fieldname} }}`, () => insert(`{{ ${one.fieldname} }}`)).attr("data-find", one.label.toLowerCase()).appendTo($chips);
+		search.on("input", () => {
+			const words = search.val().trim().toLowerCase();
+			$chips.children().each((_, el) => $(el).toggleClass("hide", !!words && !el.dataset.find.includes(words)));
+		});
+	};
+	const field = form.fields_dict.reference_doctype;
+	const changed = field.df.onchange;
+	field.df.onchange = (...args) => {
+		changed && changed.apply(field, args);
+		draw();
+	};
+	draw();
 };
 
 onedesk.mail_templates.save = async (name, doc, values) => {
@@ -514,8 +592,8 @@ onedesk.mail_templates.edit = async (name, { doctype = null, done = null } = {})
 			done && done();
 		},
 	});
+	const filled = doc ? dialog.set_values(doc) : null;
 	if (doc) {
-		dialog.set_values(doc);
 		dialog.set_secondary_action_label(__("Delete"));
 		dialog.set_secondary_action(() =>
 			onedesk.mail_templates.remove(name, () => {
@@ -525,6 +603,7 @@ onedesk.mail_templates.edit = async (name, { doctype = null, done = null } = {})
 		);
 	}
 	dialog.show();
+	Promise.resolve(filled).then(() => onedesk.mail_templates.picker(dialog));
 	if (!doc && doctype) dialog.set_value("reference_doctype", doctype);
 };
 

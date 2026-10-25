@@ -7734,6 +7734,14 @@ msgstr ""
 msgid "Child Tasks"
 msgstr "المهام الفرعية"
 
+#: onedesk/public/js/doctype_settings.js:529
+msgid "Choose For to pick its fields."
+msgstr "اختر \"لـ\" لاختيار حقوله."
+
+#: onedesk/one/mail_templates.py:133
+msgid "Choose For to repeat a table's rows."
+msgstr "اختر \"لـ\" لتكرار صفوف جدول."
+
 #: onedesk/one/portal_share.py:227
 msgid "Choose a day that hasn't passed."
 msgstr "اختر يوماً لم يمضِ بعد."
@@ -13276,6 +13284,16 @@ msgstr "تُفوتر كل مساحة عمل على حدة، ولذلك لكل م
 #: onedesk/one_inventory/home.py:134
 msgid "Each workstation, and what is running on it."
 msgstr "كل محطة عمل، وما يعمل عليها."
+
+#: onedesk/one/mail_templates.py:139
+#, python-format
+msgid "Each {% endfor %} closes a {% for %}."
+msgstr "كل {% endfor %} يغلق {% for %}."
+
+#: onedesk/one/mail_templates.py:160
+#, python-format
+msgid "Each {% for %} needs an {% endfor %}."
+msgstr "كل {% for %} يحتاج إلى {% endfor %}."
 
 #: frontend/src/sheet/utils/recency-groups.js:13
 msgid "Earlier"
@@ -34909,6 +34927,10 @@ msgstr "تكرار"
 msgid "Repeat Failed"
 msgstr "فشل التكرار"
 
+#: onedesk/public/js/doctype_settings.js:543
+msgid "Repeat Rows"
+msgstr "تكرار الصفوف"
+
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:106
 msgid "Repeat last action"
 msgstr "تكرار آخر إجراء"
@@ -35933,6 +35955,11 @@ msgstr "الصف {0}: {1} ليست مهمة في {2}."
 msgid "Rows"
 msgstr "الصفوف"
 
+#: onedesk/public/js/doctype_settings.js:540
+#: onedesk/public/js/doctype_settings.js:542
+msgid "Rows of {0}"
+msgstr "صفوف {0}"
+
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:72
 msgid "Rows sharing the same X value are grouped and summarised."
 msgstr "تُجمَّع الصفوف التي لها قيمة X نفسها وتُلخَّص."
@@ -36621,6 +36648,10 @@ msgstr "بحث"
 msgctxt "OneAI work"
 msgid "Search"
 msgstr "البحث"
+
+#: onedesk/public/js/doctype_settings.js:534
+msgid "Search Fields"
+msgstr "البحث في الحقول"
 
 #: frontend/src/stock/StockOnHand.vue:14
 #: frontend/src/supplier/SupplierItems.vue:6
@@ -46524,10 +46555,6 @@ msgstr "استخدام SSL"
 msgid "Use this address for my One account"
 msgstr "استخدم هذا العنوان لحسابي في One"
 
-#: onedesk/public/js/doctype_settings.js:469
-msgid "Use {0} to insert a field of the record."
-msgstr "استخدم {0} لإدراج حقل من السجل."
-
 #. Label of the storage_bytes (Long Int) field in DocType 'Workspace Account'
 #. Label in the One Subcontracting Inward Order print format
 #. Label in the One Subcontracting Receipt print format
@@ -51641,6 +51668,10 @@ msgstr "نسخة مستند Writer"
 msgid "Writes"
 msgstr "يكتب"
 
+#: onedesk/public/js/doctype_settings.js:543
+msgid "Writes the loop with the fields its list shows."
+msgstr "يكتب التكرار بالحقول التي تظهرها قائمته."
+
 #: onedesk/public/js/oneai/Panel.vue:156
 msgid "Writing"
 msgstr "كتابة"
@@ -54822,6 +54853,10 @@ msgstr "لا يوجد في {0} قسم عبر {1}."
 msgid "{0} has no such ability."
 msgstr "لا توجد هذه القدرة في {0}."
 
+#: onedesk/one/mail_templates.py:134
+msgid "{0} has no table {1}."
+msgstr "لا يحتوي {0} على جدول {1}."
+
 #: onedesk/one_project/templates.py:82
 msgid "{0} has no tasks to make a template from."
 msgstr "لا توجد في {0} مهام يُصنع منها قالب."
@@ -55453,6 +55488,10 @@ msgstr "{0} موجود مرتين، أو هو اسم يحتفظ به frappe لن
 #: onedesk/one/mail_templates.py:91
 msgid "{0} is used by {1}. Choose another template there first."
 msgstr "{0} مستخدم في {1}. اختر قالبًا آخر هناك أولًا."
+
+#: onedesk/one/mail_templates.py:147
+msgid "{0} is used outside the rows it repeats."
+msgstr "يُستخدم {0} خارج الصفوف التي يكررها."
 
 #: onedesk/one_admin/lifecycle.py:73
 msgid "{0} is {1} and can't move to {2}."

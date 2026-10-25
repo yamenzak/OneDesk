@@ -4707,6 +4707,26 @@ def numbering_printing_and_mail_templates_are_the_administrators():
 		order = frappe.db.get_value("Sales Order", {"docstatus": 1})
 		said = mail_templates.get_email_template(template.name, {"doctype": "Sales Order", "name": order})
 		assert order in said["subject"], said
+		assert any(one["fieldname"] == "items" for one in mail_templates.fields_of("Sales Order")["tables"])
+		lines = frappe.get_doc(
+			{
+				"doctype": "Email Template",
+				"name": "Order lines",
+				"subject": "Order {{ name }}",
+				"response": "<p>{% for row in items %}</p><p>{{ row.item_name }} · {{ row.amount }}</p><p>{% endfor %}</p>",
+				"reference_doctype": "Sales Order",
+			}
+		).insert()
+		first = frappe.get_doc("Sales Order", order).items[0]
+		said = mail_templates.get_email_template(lines.name, {"doctype": "Sales Order", "name": order})
+		assert first.item_name in said["message"] and first.get_formatted("amount") in said["message"], said["message"]
+		for wrong in (
+			"{% for row in nothing %}{% endfor %}",
+			"{% for row in items %}{{ row.no_such }}{% endfor %}",
+			"{{ row.item_name }}",
+			"{% for row in items %}",
+		):
+			assert mail_templates.check("Sales Order", wrong, set()), wrong
 
 
 @check

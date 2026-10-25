@@ -1441,7 +1441,7 @@ onedesk.mail.settings = (tab) => {
 			actions,
 			render: (shown) => {
 				form = fields($(`<div></div>`).appendTo(shown.body), onedesk.mail_templates.fields(name, doc));
-				if (doc) form.set_values(doc);
+				Promise.resolve(doc && form.set_values(doc)).then(() => onedesk.mail_templates.picker(form));
 			},
 		});
 	};

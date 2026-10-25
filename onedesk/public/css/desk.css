@@ -1623,3 +1623,58 @@ html[dir="rtl"] body > div[style*="left: -9999px"] {
 .one-compose-away > div > span {
 	flex: 1;
 }
+
+/* A mail template's field picker, under its message (doctype_settings.js
+   onedesk.mail_templates.picker): the record's fields as chips, a table's
+   rows' fields once it is opened. */
+.one-tpl-picker {
+	display: grid;
+	gap: var(--padding-sm);
+}
+
+.one-tpl-chips,
+.one-tpl-rows {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--padding-xs);
+	max-height: 180px;
+	overflow-y: auto;
+}
+
+.one-tpl-rows {
+	padding: var(--padding-sm);
+	border-radius: var(--radius-lg);
+	background: var(--surface-gray-1);
+}
+
+.one-tpl-rows-head {
+	flex-basis: 100%;
+	color: var(--ink-gray-5);
+	font-size: var(--text-xs);
+}
+
+.one-tpl-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 2px 8px;
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius-full);
+	background: var(--surface-base);
+	color: var(--ink-gray-8);
+	font-size: var(--text-xs);
+}
+
+.one-tpl-chip:hover {
+	background: var(--surface-gray-2);
+}
+
+.one-tpl-chip .icon {
+	margin: 0;
+}
+
+.one-tpl-repeat {
+	border-color: var(--outline-gray-3);
+	font-weight: var(--weight-medium);
+}
+

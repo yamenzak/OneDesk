@@ -18,6 +18,12 @@ TAG = re.compile(r"\{\{.*?\}\}|\{%.*?%\}", re.S)
 
 FIELD = re.compile(r"\{\{-?\s*([A-Za-z][A-Za-z0-9_]*)\s*-?\}\}")
 
+# A table's rows, repeated: `{% for row in items %}` … `{{ row.item_name }}` …
+# `{% endfor %}`, which is all a workspace's template may do besides name fields.
+LOOP = re.compile(r"\{%-?\s*for\s+([a-z_][a-z0-9_]*)\s+in\s+([A-Za-z][A-Za-z0-9_]*)\s*-?%\}")
+END = re.compile(r"\{%-?\s*endfor\s*-?%\}")
+ROW = re.compile(r"\{\{-?\s*([a-z_][a-z0-9_]*)\.([A-Za-z][A-Za-z0-9_]*)\s*-?\}\}")
+
 NAMED_BY = (
 	("HR Settings", "leave_approval_notification_template", "Leave Application"),
 	("HR Settings", "leave_status_notification_template", "Leave Application"),
@@ -80,7 +86,7 @@ def used_by() -> dict[str, list[str]]:
 def has_code(doc) -> bool:
 	"""Whether a template holds more than fields of the record, such as the
 	`{% set %}` and translated links the apps' own templates are written with."""
-	return any(not FIELD.fullmatch(tag) for tag in _tags(doc))
+	return any(not (FIELD.fullmatch(tag) or LOOP.fullmatch(tag) or END.fullmatch(tag) or ROW.fullmatch(tag)) for tag in _tags(doc))
 
 
 def on_trash(doc, method=None) -> None:
@@ -98,15 +104,49 @@ def _tags(doc) -> set[str]:
 	return {tag for field in TEXT for tag in TAG.findall(doc.get(field) or "")} if doc else set()
 
 
+def table_of(doctype: str | None, fieldname: str) -> str | None:
+	"""The kind of row a table field of the record holds, where a template may
+	read it: a table at the first permission level."""
+	from frappe.model import table_fields
+
+	field = frappe.get_meta(doctype).get_field(fieldname) if doctype else None
+	if field and field.fieldtype in table_fields and not field.permlevel:
+		return field.options
+	return None
+
+
 def check(doctype: str | None, text: str | None, kept: set[str]) -> str | None:
 	"""What is wrong with a template's subject or message, or None. Every tag in
-	it is one it already had, or names a field of the record."""
+	it is one it already had, names a field of the record, or repeats one of
+	its tables with fields of the rows."""
 	from frappe.utils.jinja import get_jenv
 
 	allowed = set(rules.readable(doctype)) if doctype else None
 	globals_ = get_jenv().globals
+	rows = []
 	for tag in TAG.findall(text or ""):
+		loop, end, row = LOOP.fullmatch(tag), END.fullmatch(tag), ROW.fullmatch(tag)
+		if loop:
+			child = table_of(doctype, loop.group(2))
+			if not child and tag not in kept:
+				if not doctype:
+					return _("Choose For to repeat a table's rows.")
+				return _("{0} has no table {1}.").format(_(doctype), loop.group(2))
+			rows.append((loop.group(1), child))
+			continue
+		if end:
+			if not rows:
+				return _("Each {% endfor %} closes a {% for %}.")
+			rows.pop()
+			continue
 		if tag in kept:
+			continue
+		if row:
+			child = next((one for name, one in reversed(rows) if name == row.group(1)), False)
+			if child is False:
+				return _("{0} is used outside the rows it repeats.").format(row.group(1))
+			if child and row.group(2) not in rules.readable(child):
+				return _("{0} has no field {1}.").format(_(child), row.group(2))
 			continue
 		found = FIELD.fullmatch(tag)
 		if not found:
@@ -116,7 +156,38 @@ def check(doctype: str | None, text: str | None, kept: set[str]) -> str | None:
 			return _("{0} has no field {1}.").format(_(doctype), name)
 		if allowed is None and name in globals_:
 			return _("{0} is not a field.").format(name)
+	if rows:
+		return _("Each {% for %} needs an {% endfor %}.")
 	return None
+
+
+@frappe.whitelist()
+def fields_of(doctype: Annotated[str, "The kind of record."]) -> dict:
+	"""What a template for a kind of record may name, for the picker under its
+	message: the record's fields, and each table with its rows' fields, those
+	shown in the table's list first."""
+	from frappe.model import no_value_fields, table_fields
+
+	_may_keep()
+	_doctype(doctype)
+
+	def listed(of: str) -> list[dict]:
+		meta = frappe.get_meta(of)
+		return [
+			{"fieldname": f.fieldname, "label": _(f.label), "shown": int(bool(f.in_list_view))}
+			for f in meta.fields
+			if f.label and f.fieldtype not in no_value_fields and f.fieldtype not in table_fields and not f.permlevel
+		]
+
+	meta = frappe.get_meta(doctype)
+	return {
+		"fields": listed(doctype),
+		"tables": [
+			{"fieldname": f.fieldname, "label": _(f.label), "fields": listed(f.options)}
+			for f in meta.fields
+			if f.label and table_of(doctype, f.fieldname)
+		],
+	}
 
 
 def validate(doc, method=None) -> None:
@@ -226,28 +297,45 @@ def get_email_template(
 
 
 def _shown(template, doc: dict) -> dict:
-	"""A template that only names fields, as one written here does, gets each
-	as the record shows it: 1,250.00 EUR and 21-09-2026 rather than 1250.0 and
-	2026-09-21, since it can say nothing else. One that does more, as some the
-	apps made do, gets the values as frappe gives them, which it may work on."""
+	"""A template that only names fields and repeats tables, as one written
+	here does, gets each as the record shows it: 1,250.00 EUR and 21-09-2026
+	rather than 1250.0 and 2026-09-21, in its rows too, since it can say
+	nothing else. One that does more, as some the apps made do, gets the
+	values as frappe gives them, which it may work on."""
 	tags = {tag for field in TEXT for tag in TAG.findall(template.get(field) or "")}
-	names = [FIELD.fullmatch(tag) for tag in tags]
 	if (
 		not tags
-		or not all(names)
+		or not all(FIELD.fullmatch(t) or LOOP.fullmatch(t) or END.fullmatch(t) or ROW.fullmatch(t) for t in tags)
 		or not doc.get("doctype")
 		or not frappe.db.exists("DocType", doc["doctype"])
 	):
 		return doc
 	held = frappe.get_doc(doc)
-	return {
-		**doc,
-		**{
-			one.group(1): held.get_formatted(one.group(1))
-			for one in names
-			if held.meta.has_field(one.group(1))
-		},
+	text = "".join(template.get(field) or "" for field in TEXT)
+	tables = {}
+	stack = []
+	for tag in TAG.findall(text):
+		if loop := LOOP.fullmatch(tag):
+			stack.append(loop.groups())
+			tables.setdefault(loop.group(2), set())
+		elif END.fullmatch(tag) and stack:
+			stack.pop()
+		elif (row := ROW.fullmatch(tag)) and stack:
+			table = next((t for name, t in reversed(stack) if name == row.group(1)), None)
+			if table:
+				tables[table].add(row.group(2))
+	shown = {
+		one.group(1): held.get_formatted(one.group(1))
+		for one in map(FIELD.fullmatch, tags)
+		if one and held.meta.has_field(one.group(1))
 	}
+	for table, names in tables.items():
+		if held.meta.has_field(table):
+			shown[table] = [
+				{**row.as_dict(), **{name: row.get_formatted(name) for name in names if row.meta.has_field(name)}}
+				for row in held.get(table) or []
+			]
+	return {**doc, **shown}
 
 
 def filled(template_name: str, doc) -> dict:
