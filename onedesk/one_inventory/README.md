@@ -1174,7 +1174,7 @@ a register and a movement form in it would be a rail with five rows.
   without moving any), the purchase orders per month, and `item.rates` the
   last prices bought at. The fields shown in each view's Details are the
   item form's own, held out of sight by the kit's `useForm` and lent where
-  they are shown (`FieldEdit`, docs/STANDARD.md point 6).
+  they are shown (`FieldEdit`, docs/READY.md point 6).
 - `batches.py` — lots. ERPNext keeps a lot's moves in the Serial and Batch
   Entry rows of each move's bundle, so `left` and `moves` read those, per
   warehouse, and `state` (pure) says Expired or Expiring Soon. A lot's head

@@ -2,7 +2,7 @@
 under it, framed. On the desk it is frappe's own `frappe.ui.stat_card`
 (ERPNext's Customer Overview draws the same); on an island it is frappe-ui's
 NumberCard in the same frame, through the kit's Figures. A record's head, a
-module's Home and a page of ours used to draw three kinds. docs/STANDARD.md,
+module's Home and a page of ours used to draw three kinds. docs/READY.md,
 One figure."""
 
 import re

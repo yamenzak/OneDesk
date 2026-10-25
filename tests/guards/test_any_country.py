@@ -2,7 +2,7 @@
 names the UAE, its dirham or its VAT: a label says "Tax" and "Tax ID", a money
 figure carries its own currency rather than a heading that names one, and the
 parts that really are one country's are in the files below, each shown only
-where the workspace's country is that one. docs/STANDARD.md, Money and tax."""
+where the workspace's country is that one. docs/READY.md, Money and tax."""
 
 import re
 from pathlib import Path

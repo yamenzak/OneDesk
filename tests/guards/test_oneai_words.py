@@ -6,7 +6,7 @@ first paragraph of its docstring and every `Annotated` note), not the help a
 tool hands back, not the persona or an action's instruction, and not the part
 of a guide `how_to` answers from (above `## Under the hood`). Code an action
 writes may still call `frappe.db.get_value`; a sentence about it may not say
-"frappe checks it". docs/STANDARD.md, Speaks.
+"frappe checks it". docs/READY.md, Speaks.
 """
 
 import ast

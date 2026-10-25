@@ -198,14 +198,16 @@ break each other's imports on sites that carry only one of them.
   `## Under the hood` heading is written for the people who use the module,
   because OneAI's `how_to` tool reads it to answer them; the rest is for us.
   A module keeps one README rather than plans and audits in `docs/`: git keeps
-  the history.
+  the history. This is moving to `docs/READY.md`'s **A module's folder**
+  (`AGENTS.md`, `SCRATCHPAD.md`, and `docs/` for help pages and versions),
+  module by module.
 - **`docs/BACKLOG.md` is what waits**: what is due now, the P3 frappe
   doctypes, what was decided against for now, each module's unbuilt parts and
   what the passover noticed. Something built leaves it; something put off goes
   in it.
 - The rest of `docs/` is written by hand and short: `PASSOVER.md` (the
-  points), `STANDARD.md` (what a finished module looks like), `READY.md`
-  (what a module needs before it goes live, and the registry), `SHELL.md` (the
+  points), `READY.md` (what a module needs before it goes live, what a
+  finished module looks like, and the registry), `SHELL.md` (the
   record and list frame), `ISLANDS.md` (frappe-ui screens inside desk),
   `WORDING.md`, `ACCOUNTS.md`, and `docs/upstream/<date>.md` for each
   checkpoint.
