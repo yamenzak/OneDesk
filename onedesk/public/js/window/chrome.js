@@ -134,6 +134,7 @@ $.extend(onedesk.window, {
 				click: () => onedesk.oneai.open(),
 				group: "ai",
 			});
+			add({ label: "AICenter", icon: "oneai", css: "one-aicenter-row", click: () => onedesk.ai_center.open(), group: "ai" });
 		}
 		if ((frappe.boot.one_centers?.access || []).length) {
 			add({ label: "AccessCenter", icon: "key-round", css: "one-access-row", click: () => onedesk.access.open(), group: "trust" });

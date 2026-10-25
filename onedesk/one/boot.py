@@ -58,11 +58,15 @@ def boot_session(bootinfo) -> None:
 	bootinfo["one_administers"] = int(roles.administers())
 	from onedesk.one import access_center, notification_center
 
-	# The modules AccessCenter and NotificationCenter have a part for, for
-	# ControlCenter to offer them (docs/READY.md, mechanisms 14 and 15).
+	from onedesk.one import apps
+	from onedesk.one_ai import center as ai_center
+
+	# The modules AccessCenter, NotificationCenter and AICenter have a part
+	# for, for ControlCenter to offer them (docs/READY.md, mechanisms 14-16).
 	bootinfo["one_centers"] = {
 		"access": access_center.modules() if roles.administers() else [],
 		"notifications": notification_center.for_boot(),
+		"ai": ai_center.modules() if roles.administers() and apps.ai_on() else [],
 	}
 	bootinfo["one_mail_private"] = {"on": int(addresses.external()), "domains": addresses.allowed_domains()}
 	default = holders.sends_from()

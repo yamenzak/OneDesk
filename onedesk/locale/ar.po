@@ -105,6 +105,10 @@ msgstr "1"
 msgid "1 Batch Expiring Soon"
 msgstr "دفعة واحدة تنتهي صلاحيتها قريبًا"
 
+#: onedesk/public/js/ai_center.js
+msgid "1 call"
+msgstr "طلب واحد"
+
 #: frontend/src/home/HrHome.vue:162
 msgid "1 Check-in Flagged"
 msgstr "تسجيل حضور واحد عليه علامة"
@@ -1542,9 +1546,17 @@ msgstr "لا بد أن يسمّي {0} سجلاً."
 msgid "A {kind} request, {request}, wanted by {wanted}."
 msgstr "طلب {kind}، {request}، مطلوب بحلول {wanted}."
 
+#: onedesk/public/js/ai_center.js
+msgid "About {0} an answer"
+msgstr "نحو {0} للإجابة"
+
 #: onedesk/one_ai/jobs.py
 msgid "Act on What Arrived"
 msgstr "التصرف فيما وصل"
+
+#: onedesk/public/js/ai_center.js
+msgid "Add Credits"
+msgstr "إضافة رصيد"
 
 #: onedesk/public/js/one_mail/onemail_settings.js
 msgid "Added to every email sent from this mailbox, which your role doesn't allow changing."
@@ -5402,6 +5414,10 @@ msgstr "غائب حتى"
 msgid "B"
 msgstr "بايت"
 
+#: onedesk/one_ai/center.py
+msgid "Balanced"
+msgstr "متوازن"
+
 #. Label in the One Production Plan print format
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/home.py:137
@@ -6766,13 +6782,25 @@ msgstr "البايتات الموقَّع عليها منذ آخر قياس."
 msgid "Bytes, from the last measurement."
 msgstr "بالبايت، من آخر قياس."
 
+#: onedesk/one_ai/center.py
+msgid "Careful answers at a modest cost. Right for most workspaces."
+msgstr "إجابات متأنية بتكلفة معتدلة. مناسب لمعظم مساحات العمل."
+
 #: onedesk/public/js/trust_center.js
 msgid "Changing on {0}"
 msgstr "يتغيّر في {0}"
 
+#: onedesk/one_ai/center.py
+msgid "Choose Fast, Balanced or Full."
+msgstr "اختر سريع أو متوازن أو كامل."
+
 #: onedesk/one_inventory/home.py:171
 msgid "COGS By Item Group"
 msgstr ""
+
+#: onedesk/public/js/ai_center.js
+msgid "Credits each job used in the last thirty days."
+msgstr "الرصيد الذي استهلكته كل مهمة خلال الثلاثين يومًا الماضية."
 
 #: onedesk/one_crm/home.py:159
 msgid "CRM Settings"
@@ -13132,10 +13160,6 @@ msgstr "في كل مرة يُحفظ فيها {0}، قبل التحقق منه"
 msgid "Each time a {0} is saved, before it is written"
 msgstr "في كل مرة يُحفظ فيها {0}، قبل كتابته"
 
-#: onedesk/public/js/settings.js:2868
-msgid "Each uses OneAI credits."
-msgstr "كل منها يستهلك أرصدة OneAI."
-
 #: onedesk/one_book/home.py:361
 msgid "Each voucher's debits and credits."
 msgstr "المدين والدائن لكل سند."
@@ -15233,6 +15257,10 @@ msgstr ""
 msgid "Failure Reason"
 msgstr "سبب الفشل"
 
+#: onedesk/one_ai/center.py
+msgid "Fast"
+msgstr "سريع"
+
 #. Label of the one_featured (Check) field in DocType 'File'
 #: onedesk/one_project/custom/file.json
 msgid "Featured"
@@ -16213,18 +16241,6 @@ msgstr "الإيرادات المتوقعة"
 #: onedesk/one_book/home.py:405
 msgid "Foreign currency balances valued again at today's rate."
 msgstr "أرصدة العملات الأجنبية مُعاد تقييمها بسعر اليوم."
-
-#: onedesk/public/js/settings.js:684
-msgid "Forget"
-msgstr "انسَ"
-
-#: onedesk/public/js/settings.js:669
-msgid "Forget All"
-msgstr "نسيان الكل"
-
-#: onedesk/public/js/settings.js:694
-msgid "Forget all memories? This can't be undone."
-msgstr "نسيان جميع الذكريات؟ لا يمكن التراجع عن ذلك."
 
 #: onedesk/public/js/oneai/Panel.vue:120
 msgid "Forgotten"
@@ -23641,10 +23657,6 @@ msgstr "الأعضاء"
 msgid "Members of {0}"
 msgstr "أعضاء {0}"
 
-#: onedesk/public/js/settings.js:663
-msgid "Memories"
-msgstr "الذكريات"
-
 #: onedesk/public/js/settings.js:671 onedesk/public/js/settings.js:712
 msgid "Memory"
 msgstr "الذاكرة"
@@ -23849,6 +23861,10 @@ msgstr "النماذج"
 #: onedesk/public/js/onecloud.js:605
 msgid "Modified"
 msgstr "آخر تعديل"
+
+#: onedesk/public/js/ai_center.js
+msgid "Modules"
+msgstr "الوحدات"
 
 #: frontend/src/home/InventoryStory.vue:132
 msgid "Monday"
@@ -24685,6 +24701,10 @@ msgstr "صنف جديد"
 msgid "New Journal Entry"
 msgstr "قيد يومية جديد"
 
+#: onedesk/public/js/ai_center.js
+msgid "New Knowledge"
+msgstr "معرفة جديدة"
+
 #: onedesk/public/js/rule_builder.js:288
 msgid "New Label"
 msgstr "تصنيف جديد"
@@ -25274,6 +25294,10 @@ msgstr "بلا تاريخ استحقاق"
 msgid "No Location"
 msgstr "لا يوجد موقع"
 
+#: onedesk/public/js/ai_center.js
+msgid "No mailboxes receive mail yet."
+msgstr "لا يوجد صندوق بريد يستقبل البريد بعد."
+
 #: onedesk/one_admin/gateway.py
 msgid "No model here reads {0}."
 msgstr "لا يقرأ أي نموذج هنا {0}."
@@ -25633,10 +25657,6 @@ msgstr "لا توجد موافقات مطابقة"
 msgid "No matching fields"
 msgstr "لا توجد حقول مطابقة"
 
-#: onedesk/public/js/settings.js:667
-msgid "No matching memories"
-msgstr "لا توجد ذكريات مطابقة"
-
 #: onedesk/public/js/settings.js:3182
 msgid "No matching notifications"
 msgstr "لا توجد إشعارات مطابقة"
@@ -25656,10 +25676,6 @@ msgstr "لا توجد أدوار مطابقة"
 #: frontend/src/sheet/components/SheetEditor/index.vue:584
 msgid "No matching values"
 msgstr "لا توجد قيم مطابقة"
-
-#: onedesk/public/js/settings.js:666
-msgid "No memories"
-msgstr "لا توجد ذكريات"
 
 #: frontend/src/project/Overview.vue:55 frontend/src/project/Overview.vue:76
 msgid "No milestones"
@@ -26749,6 +26765,10 @@ msgstr "لا شيء لضبطه هنا."
 msgid "Nothing to show"
 msgstr "لا شيء لعرضه"
 
+#: onedesk/public/js/ai_center.js
+msgid "Nothing used yet."
+msgstr "لم يُستهلك شيء بعد."
+
 #: frontend/src/plant/PlantFloor.vue:49
 #: onedesk/one_intake/page/intake/intake.js:94
 msgid "Nothing waiting"
@@ -26765,6 +26785,10 @@ msgstr "لم يُخصم أي مبلغ"
 #: onedesk/one_hr/heads.py:539
 msgid "Nothing will be written to attendance."
 msgstr "لن يُكتب شيء في سجل الحضور."
+
+#: onedesk/public/js/ai_center.js
+msgid "Nothing written down yet."
+msgstr "لم يُكتب شيء بعد."
 
 #: onedesk/one_inventory/heads.py:1138
 msgid "Nothing yet"
@@ -26981,6 +27005,10 @@ msgstr "الرقمية فقط"
 msgid "Off until an administrator turns them on."
 msgstr "متوقفة حتى يشغّلها مسؤول."
 
+#: onedesk/public/js/ai_center.js
+msgid "When off, nobody can ask OneAI, and nothing it does on its own runs."
+msgstr "عند الإيقاف، لا يستطيع أحد سؤال OneAI، ولا يعمل شيء مما يفعله من تلقاء نفسه."
+
 #: onedesk/one_admin/report/price_check/price_check.py:52
 msgid "OK"
 msgstr "جيد"
@@ -27000,6 +27028,10 @@ msgstr "سياسات One تتغيّر"
 #: onedesk/public/js/one_mail/rule_builder.js
 msgid "OneAI reads each message and picks a label, and each label has its own steps."
 msgstr "يقرأ OneAI كل رسالة ويختار لها تصنيفًا، ولكل تصنيف خطواته."
+
+#: onedesk/public/js/ai_center.js
+msgid "OneAI remembers nothing about you yet."
+msgstr "لا يتذكر OneAI شيئًا عنك بعد."
 
 #: onedesk/public/js/trust_center.js
 msgid "Only a workspace administrator can turn it on."
@@ -28319,10 +28351,6 @@ msgstr "لا يراها إلا أنت والموارد البشرية."
 #: onedesk/public/js/legal.js:49 onedesk/public/js/settings.js:764
 msgid "Only you can agree to these."
 msgstr "أنت فقط من يمكنه الموافقة على هذه."
-
-#: onedesk/public/js/settings.js:652
-msgid "Only you can see your memories."
-msgstr "أنت وحدك ترى ذكرياتك."
 
 #: frontend/src/lots/LotsPage.vue:19 onedesk/public/js/onecloud.js:1333
 msgid "Only {0}"
@@ -32915,6 +32943,10 @@ msgstr "الرد على الأسئلة"
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Queued"
 msgstr ""
+
+#: onedesk/one_ai/center.py
+msgid "Quick answers for everyday questions, at the lowest cost."
+msgstr "إجابات سريعة للأسئلة اليومية، بأقل تكلفة."
 
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:113
 msgid "Quick filter on column"
@@ -40148,10 +40180,6 @@ msgstr "لخّص هذا الملف في بضعة أسطر. ممن هو أو لم
 msgid "Summarise this record in a few lines."
 msgstr "لخّص هذا السجل في بضعة أسطر."
 
-#: onedesk/public/js/settings.js:2579
-msgid "Summarised"
-msgstr "الملخَّصة"
-
 #. Label of the one_ai_brief_on (Datetime) field in DocType 'Customer'
 #. Label of the one_ai_brief_on (Datetime) field in DocType 'Opportunity'
 #. Label of the one_ai_brief_on (Datetime) field in DocType 'Project'
@@ -40534,6 +40562,10 @@ msgstr "أخذها معك"
 msgid "TB"
 msgstr "تيرابايت"
 
+#: onedesk/public/js/ai_center.js
+msgid "The account could not be reached just now."
+msgstr "تعذّر الوصول إلى الحساب الآن."
+
 #: onedesk/one_mail/tour.py
 msgid "The conversation opens here, with the records it is linked to above it."
 msgstr "تُفتح المحادثة هنا، والسجلات المرتبطة بها فوقها."
@@ -40550,6 +40582,10 @@ msgstr "النموذج الذي أجاب عن الطلب."
 msgid "The standard reply"
 msgstr "الرد المعتاد"
 
+#: onedesk/one_ai/center.py
+msgid "The strongest models, which think before they answer. Slower, and the dearest."
+msgstr "أقوى النماذج، تفكر قبل أن تجيب. أبطأ، والأعلى تكلفة."
+
 #: onedesk/public/js/trust_center.js
 msgid "There is no such service."
 msgstr "لا توجد خدمة كهذه."
@@ -40558,9 +40594,17 @@ msgstr "لا توجد خدمة كهذه."
 msgid "There is no tour of this screen yet."
 msgstr "لا توجد جولة لهذه الشاشة بعد."
 
+#: onedesk/one_ai/center.py
+msgid "There is nothing called {0} here."
+msgstr "لا يوجد هنا شيء باسم {0}."
+
 #: onedesk/one_mail/rules.py
 msgid "This reply may have been written entirely and automatically by OneAI, an AI agent, and may be wrong or inaccurate."
 msgstr "ربما كتب OneAI، وهو وكيل ذكاء اصطناعي، هذا الرد بالكامل وتلقائيًا، وقد يكون خاطئًا أو غير دقيق."
+
+#: onedesk/public/js/ai_center.js
+msgid "Tier"
+msgstr "المستوى"
 
 #: onedesk/one_ai/jobs.py
 msgid "Title a Conversation"
@@ -47131,10 +47175,6 @@ msgstr "ما تقوله Cloudflare عمّا يمنع النطاق."
 msgid "What Comes Next?"
 msgstr "ما الخطوة التالية؟"
 
-#: onedesk/public/js/settings.js:645
-msgid "What Do You Know About Me?"
-msgstr "ماذا تعرف عني؟"
-
 #: onedesk/public/js/access_center.js
 msgid "What each role can do in {0}."
 msgstr "ما يمكن لكل دور فعله في {0}."
@@ -47185,6 +47225,14 @@ msgstr "ما لا يجوز استخدام One له. تُلزم مؤسستك وك
 msgid "What One stores on your device and why."
 msgstr "ما يحفظه One على جهازك ولماذا."
 
+#: onedesk/public/js/ai_center.js
+msgid "What OneAI does in {0} on its own. Each uses credits."
+msgstr "ما يفعله OneAI في {0} من تلقاء نفسه. كل منها يستهلك رصيدًا."
+
+#: onedesk/public/js/ai_center.js
+msgid "What OneAI does with each mailbox's new mail. Each is set on the mailbox."
+msgstr "ما يفعله OneAI بالبريد الجديد في كل صندوق بريد. يُضبط كل منها في صندوق البريد نفسه."
+
 #: onedesk/public/js/one_mail/onemail_settings.js
 msgid "What OneAI does with new mail here, which your role doesn't allow changing."
 msgstr "ما يفعله OneAI بالبريد الجديد هنا، ولا يسمح دورك بتغييره."
@@ -47220,10 +47268,18 @@ msgstr "ما يتذكره OneAI"
 msgid "What OneAI remembers about you"
 msgstr "ما يتذكّره OneAI عنك"
 
+#: onedesk/public/js/ai_center.js
+msgid "What OneAI remembers about you. Only you can see it."
+msgstr "ما يتذكره OneAI عنك. لا يراه أحد غيرك."
+
 #. Description of the 'Explained' (Long Text) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "What OneAI said when asked to explain it, per language."
 msgstr "ما قاله OneAI عندما طُلب منه شرحه، لكل لغة."
+
+#: onedesk/public/js/ai_center.js
+msgid "What OneAI should know about the company, such as its facts, its terms and how work is done here."
+msgstr "ما ينبغي أن يعرفه OneAI عن الشركة، مثل حقائقها ومصطلحاتها وطريقة سير العمل فيها."
 
 #: onedesk/public/js/rule_builder.js:237
 msgid "What OneAI's reply should do, such as answering from their orders and promising an answer within a day."
@@ -49568,6 +49624,10 @@ msgstr "أين يُنجز العمل، وكم تكلّف الساعة هناك."
 #: onedesk/one_crm/home.py:187
 msgid "Whether a person takes calls, and what callers hear."
 msgstr "هل يستقبل الشخص المكالمات، وما يسمعه المتصلون."
+
+#: onedesk/public/js/ai_center.js
+msgid "Whether OneAI answers in this workspace, and how carefully."
+msgstr "هل يجيب OneAI في مساحة العمل هذه، وبأي قدر من التأني."
 
 #: onedesk/public/js/one_mail/onemail_settings.js
 msgid "Whether OneAI may read this mailbox, and what it does with new mail here on its own."
@@ -53559,6 +53619,10 @@ msgstr "طلب {0} هذه القاعدة، وتعمل بعد الموافقة ع
 #: frontend/src/home/InventoryHome.vue:154
 msgid "{0} Batches Expiring Soon"
 msgstr "{0} دفعات تنتهي قريبًا"
+
+#: onedesk/public/js/ai_center.js
+msgid "{0} calls"
+msgstr "{0} طلبات"
 
 #: onedesk/public/js/onemail_settings.js:214
 msgid "{0} Can Send"

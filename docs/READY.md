@@ -847,6 +847,24 @@ workspace allows and starts people on. People chose on Settings › You ›
 Notifications and administrators on Workspace Settings › Notification
 Types, each one long page for all of One.
 
+### 16. AICenter
+
+**Built.** `public/js/ai_center.js` and `one_ai/center.py`, on the settings
+dialog (`onedesk.CENTERS.ai`). For everybody, **Yours**: what OneAI
+remembers about the reader. For administrators, **OneAI** (on or off, the
+tier with what an answer costs at each, credits left), **Knowledge**, each
+module's part, **Summaries** and **Usage**. A module's part is found from
+`JOBS` in its `ai.py`, each a field on one of its singles, drawn with the
+field's own label and description; a module whose OneAI settings are per
+record (OneMail's mailboxes) is listed and opens that record's tab.
+
+The boot names the modules with a part for administrators while OneAI is
+on (`one_centers.ai`), and ControlCenter ends their sidebars with **OneAI**.
+The bottom bar has AICenter, and Settings' OneAI sections open it.
+`test_ready.py` fails on a screen that draws OneAI's settings and on code
+outside OneAI that reaches the gateway. The plan and what is still to come
+are in `docs/AICENTER.md`.
+
 ## The fourteen points
 
 A module is checked against these once the mechanisms exist. Each point

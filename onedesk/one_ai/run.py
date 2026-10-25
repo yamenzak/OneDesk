@@ -10,6 +10,7 @@ import re
 import frappe
 
 from onedesk.one import account
+from onedesk.one_ai import center
 
 
 ROUNDS = 8
@@ -57,6 +58,7 @@ def ask(
 			"onedesk.one_admin.proxy.ai_run",
 			action=action,
 			text=text,
+			tier=center.tier(),
 			reference=reference,
 			turns=turns,
 			tools=offered,
@@ -398,6 +400,7 @@ def once(action: str, text: str, files: list[dict] | None = None, reference: str
 		"onedesk.one_admin.proxy.ai_run",
 		action=action,
 		text=text,
+		tier=center.tier(),
 		reference=reference,
 		turns=[{"role": "user", "text": text, "calls": [], "files": files or []}],
 		tools=None,

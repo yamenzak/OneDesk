@@ -159,11 +159,11 @@ def ai_run(
 	turns: list | str | None = None,
 	tools: list | str | None = None,
 ) -> dict:
-	"""One action, run for this workspace and billed to it.
+	"""One job, run for this workspace and billed to it.
 
 	Stateless: `turns` and `tools` arrive whole each round. A workspace says
-	its tier and nothing about the model; the action's instruction is read
-	from the administrator's own copy, never sent.
+	its tier and nothing about the model; what the model is told is
+	one_ai/jobs.py's, never sent.
 	"""
 	from onedesk.one_admin import actions
 
@@ -373,6 +373,33 @@ def ai_usage(start: str, end: str) -> dict:
 		"references": ledger.usage(start, end, ["reference"], tenant=tenant),
 		"actions": ledger.usage(start, end, ["action"], tenant=tenant),
 	}
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def ai_tiers() -> list[dict]:
+	"""What a usual answer in the panel costs at each tier, in credits, for
+	AICenter to show beside the choice."""
+	from onedesk.one_admin import gateway, pricing
+	from onedesk.one_ai import models
+
+	caller()
+	money = gateway._money()
+	usual = [pricing.Use("input", "text", "tokens", TYPICAL_IN), pricing.Use("output", "text", "tokens", TYPICAL_OUT)]
+	out = []
+	for tier in models.TIERS:
+		model = models.pick("talk", tier)[0]
+		try:
+			credits = pricing.bill(models.rates(model), usual, money["markup"], money["per_dollar"]).credits
+		except (pricing.Unpriceable, frappe.ValidationError):
+			credits = None
+		out.append({"tier": tier, "credits": credits})
+	return out
+
+
+# A usual answer in the panel: the conversation and what was looked up in,
+# a few sentences out.
+TYPICAL_IN, TYPICAL_OUT = 6000, 400
 
 
 @frappe.whitelist(allow_guest=True)

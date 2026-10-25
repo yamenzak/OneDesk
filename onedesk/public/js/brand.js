@@ -5,7 +5,7 @@ onedesk.brand.NAME = /\bOne(AI|Admin|Book|Calendar|Cloud|Code|CRM|DB|Desk|Displa
 
 // One's centres (module_settings.js CENTERS), drawn as a product's name is:
 // One's mark, the first word light and Center after it.
-onedesk.brand.CENTER = /\b(Help|Control|Account|Update|Trust|Access|Notification)Center\b/g;
+onedesk.brand.CENTER = /\b(Help|Control|Account|Update|Trust|Access|Notification|AI)Center\b/g;
 
 onedesk.brand.VERBS = new Set(
 	"opens added may can cannot keeps sends reads shows asks uses does doesn't is isn't will won't has hasn't holds makes gives tells writes stores checks knows works needs puts takes turns brings finds counts books bills pays says sees saves signs".split(" "),

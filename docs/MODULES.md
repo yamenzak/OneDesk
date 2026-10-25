@@ -405,6 +405,7 @@ No doctypes yet.
 * `onedesk.one_admin.private.new_code`
 * `onedesk.one_admin.proxy.ai_embed`
 * `onedesk.one_admin.proxy.ai_run`
+* `onedesk.one_admin.proxy.ai_tiers`
 * `onedesk.one_admin.proxy.ai_usage`
 * `onedesk.one_admin.proxy.app_claim`
 * `onedesk.one_admin.proxy.billed_to`
@@ -439,6 +440,15 @@ No doctypes yet.
 * `onedesk.one_admin.signup.state`
 * `onedesk.one_admin.stripe.webhook`
 * `onedesk.one_ai.brief.switch`
+* `onedesk.one_ai.center.knowledge`
+* `onedesk.one_ai.center.parts`
+* `onedesk.one_ai.center.set_job`
+* `onedesk.one_ai.center.set_on`
+* `onedesk.one_ai.center.set_tier`
+* `onedesk.one_ai.center.state`
+* `onedesk.one_ai.center.summaries`
+* `onedesk.one_ai.center.usage`
+* `onedesk.one_ai.center.yours`
 * `onedesk.one_ai.chat.cards`
 * `onedesk.one_ai.chat.chats`
 * `onedesk.one_ai.chat.forget`

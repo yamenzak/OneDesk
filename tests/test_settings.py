@@ -23,7 +23,7 @@ def _load(names):
 	return space
 
 
-S = _load({"SECTIONS", "APPS", "LEVELS", "level_of", "roles_for", "PROFILE", "EMPLOYEE_OWN", "SHARED", "AT_WORK", "BANK", "_masked"})
+S = _load({"SECTIONS", "OPENS", "APPS", "LEVELS", "level_of", "roles_for", "PROFILE", "EMPLOYEE_OWN", "SHARED", "AT_WORK", "BANK", "_masked"})
 
 
 def test_a_level_is_read_from_the_roles_a_person_holds():
@@ -44,9 +44,12 @@ def test_every_section_has_a_loader_and_a_drawing():
 	source = SETTINGS.read_text()
 	page = (tree.APP / "public" / "js" / "settings.js").read_text()
 	for key, _label, _icon, group in S["SECTIONS"]:
+		assert group in ("you", "workspace")
+		if key in S["OPENS"]:
+			assert f'params.section === "{key}"' in page, f"{key} opens a centre, and settings.js doesn't"
+			continue
 		assert f'"{key}": _{key}' in source, key
 		assert f"draw_{key}(" in page, key
-		assert group in ("you", "workspace")
 
 
 def test_every_workspace_section_is_for_its_administrators():

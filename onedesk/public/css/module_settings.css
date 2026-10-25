@@ -128,6 +128,36 @@
 	gap: calc(var(--spacing) * 2);
 }
 
+/* A choice of one among rows, such as AICenter's tiers: the whole row is
+the radio, and what it says may run to two lines. */
+.one-set .one-set-pick {
+	cursor: pointer;
+}
+
+.one-set .one-set-pick:hover,
+.one-set .one-set-pick:focus-visible {
+	background: var(--surface-gray-1);
+}
+
+.one-set .one-set-pick[aria-checked="true"] .one-set-title {
+	color: var(--ink-gray-9);
+}
+
+.one-set .one-set-pick .one-set-sub {
+	white-space: normal;
+}
+
+.one-set .one-set-number .frappe-control,
+.one-set .one-set-number .form-group {
+	width: calc(var(--spacing) * 20);
+	margin: 0;
+}
+
+.one-set .one-set-number .control-label,
+.one-set .one-set-number .help-box {
+	display: none;
+}
+
 .one-set .one-set-chevron {
 	display: flex;
 	color: var(--ink-gray-4);

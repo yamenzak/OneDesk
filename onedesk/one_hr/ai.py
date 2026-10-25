@@ -10,6 +10,17 @@ from frappe.utils import add_days, getdate, today
 from onedesk.one_ai import files, proposals
 from onedesk.one_hr import own
 
+# What OneAI does in OneHR on its own, each a field of HR Settings that
+# AICenter draws with its own label and description (one_ai/center.py).
+JOBS = [
+	{"key": "one_ai_screen", "single": "HR Settings"},
+	{"key": "one_ai_prepare", "single": "HR Settings"},
+	{"key": "one_ai_record", "single": "HR Settings"},
+	{"key": "one_ai_transcribe", "single": "HR Settings"},
+	{"key": "one_keep_recordings_days", "single": "HR Settings"},
+	{"key": "one_ai_grievances", "single": "HR Settings"},
+]
+
 SUGGESTIONS = {
 	"Expense Claim": [
 		{

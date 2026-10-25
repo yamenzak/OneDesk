@@ -114,15 +114,32 @@ next.
 - A record nothing has happened to yet says that OneAI writes one when
   something does. **Summarise Now** writes it straight away.
 - Administrators turn summaries on or off for each kind of record under
-  Workspace Settings › OneAI › **Summaries**, which also shows how many
-  records have one. Each summary uses OneAI credits.
+  AICenter › **Summaries**, which also shows how many records have one. Each
+  summary uses OneAI credits.
 
 ## What OneAI remembers
 
 OneAI keeps short facts about you and your work when you ask it to, or when
 you tell it something lasting. The answer then shows **Remembered**, with
-**Undo**. Only you see them. Settings › **What OneAI Remembers** lists them to
-change or delete.
+**Undo**. Only you see them. AICenter › **Yours** lists them to change or
+delete, and adds one.
+
+## AICenter
+
+Everything about OneAI that can be set is in one place: **AICenter**, opened
+from its row in the bottom bar, from **OneAI** in a module's ControlCenter
+(on that module), and from Settings. Everybody sees **Yours**. A workspace
+administrator also sees:
+
+- **OneAI**: on or off for the whole workspace, the tier (**Fast**,
+  **Balanced** or **Full**) with about what an answer costs at each, and the
+  credits left, with **Add Credits**.
+- **Knowledge**: what OneAI should know about the company.
+- **Modules**: what OneAI does on its own in each. OneHR's switches and how
+  long interview audio is kept are set here; OneMail lists each mailbox and
+  how far OneAI reads its new mail, set on the mailbox itself.
+- **Summaries**: which kinds of record get one.
+- **Usage**: the credits each job used in the last thirty days.
 
 ## Which model answers
 
@@ -130,7 +147,7 @@ One picks it. Each job OneAI does (chatting, reading a document, titling a
 conversation, writing an extension) is a kind of work, and One names the model
 for each kind at each tier: **Fast**, **Balanced** or **Full**. There is
 nothing to choose in the panel, and nothing a workspace adds to what OneAI is
-told. Search always has its model, the same one at every tier.
+told. An administrator picks the tier in AICenter; Balanced until then. Search always has its model, the same one at every tier.
 
 ## Credits
 

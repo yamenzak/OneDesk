@@ -2697,8 +2697,8 @@ def oneai_a_conversation_its_cards_and_its_settings():
 	called: what the account and the model would say is said here."""
 	from unittest import mock
 
-	from onedesk.one import ai, settings
-	from onedesk.one_ai import chat, files, proposals, run
+	from onedesk.one import ai
+	from onedesk.one_ai import center, chat, files, proposals, run
 	from onedesk.one_crm import ai as crm
 
 	deal = frappe.db.get_value("Opportunity", {"title": "Webb Hotel lobby curtain wall"})
@@ -2733,7 +2733,9 @@ def oneai_a_conversation_its_cards_and_its_settings():
 		chat.forget(started["name"])
 		assert not frappe.db.exists("AI Chat", started["name"])
 	with as_user(OWNER):
-		assert set(settings._oneai()) == {"briefs"}, "a workspace sets no model and no words"
+		with mock.patch("onedesk.one.account.ask", return_value=[{"tier": "balanced", "credits": 0.4}]):
+			held = center.state()
+		assert set(held) == {"on", "tier", "tiers", "credits"} and held["tier"] in {"fast", "balanced", "full"}, "a workspace sets no model and no words"
 		with mock.patch("onedesk.one.account.ask", return_value={"actions": [{"action": chat.CHAT, "calls": 3, "credits": 1.5}]}):
 			said = ai.workspace_oneai()
 		assert said["last_30_days"][0]["calls"] == 3 and said["summaries"], said
@@ -9371,6 +9373,48 @@ def notification_center_sets_yours_and_the_workspace():
 				raise AssertionError("an administrator set who starts with a channel on; the module says that")
 		finally:
 			notification_center.set_type(kind["name"], "enabled", kind["enabled"])
+
+
+@check
+def ai_center_sets_the_tier_and_a_modules_part():
+	"""AICenter (one_ai/center.py): the tier set and put back, one of
+	OneHR's switches turned and put back, OneMail's mailboxes listed, and
+	OneAI turned off and on; somebody who doesn't administer the workspace
+	is refused all of it and sees only what OneAI keeps about them."""
+	from unittest import mock
+
+	from onedesk.one import apps
+	from onedesk.one_ai import center
+
+	with as_user("nadia@one.test"):
+		assert "facts" in center.yours()
+		for refused in (center.state, center.parts, lambda: center.set_tier("full")):
+			try:
+				refused()
+			except frappe.PermissionError:
+				continue
+			raise AssertionError("somebody who doesn't administer the workspace reached AICenter's workspace parts")
+	with as_user("wsadmin@one.test"), mock.patch("onedesk.one.account.ask", return_value=[]):
+		was = center.tier()
+		try:
+			assert center.set_tier("full" if was != "full" else "fast") == center.state()["tier"] != was
+		finally:
+			center.set_tier(was)
+		parts = {one["module"]: one for one in center.parts()}
+		assert {"OneHR", "OneMail"} <= set(parts) and parts["OneMail"]["mailboxes"], parts
+		job = next(one for one in parts["OneHR"]["jobs"] if one["kind"] == "switch")
+		try:
+			assert center.set_job(job["key"], 0 if job["value"] else 1)["value"] != job["value"]
+		finally:
+			center.set_job(job["key"], job["value"])
+		try:
+			center.set_on(0)
+			assert not apps.ai_on() and center.modules()
+		finally:
+			center.set_on(1)
+		assert apps.ai_on()
+		assert center.summaries() and isinstance(center.knowledge(), list)
+		assert center.usage() == {"reached": False, "jobs": []} or center.usage()["reached"]
 
 
 def _modules() -> None:

@@ -507,9 +507,11 @@ A module declares what AICenter shows in its `ai.py`, beside `REACH` and
 `NOT_FOR_AI`:
 
     JOBS = [
-        {"key": "read_mail", "label": _("Read New Mail"), "about": _("..."),
-         "default": 1, "switch": "one_ai_read_mail"},
+        {"key": "one_ai_screen", "single": "HR Settings"},
     ]
+
+each a field on one of its singles, drawn with that field's own label and
+description, so the words are written once, where the field is.
 
 `test_ready.py` holds a ready module to it: a model is reached only through
 `one_ai.ask(job=...)` with a job in `jobs.py`; nothing else imports the
@@ -578,9 +580,29 @@ the screen), a commit, and the docs it changes.
    Not measured here: chat with its tools, which needs a workspace
    connected to an account, and whether chat on Full answers better with
    thinking, which stage 7 measures with the panel's bench.
-3. **AICenter.** The centre, the tier, Knowledge, each module's `JOBS`,
-   usage; the OneAI settings screens in Settings, Plan and Credits' credit
-   parts and OneIntake's settings go; `brand.CENTER` learns AI; the guard.
+3. **AICenter.** **Built on 2026-10-26.** `public/js/ai_center.js` on
+   `one_ai/center.py`: OneAI on or off (as Apps turns it), the tier (a
+   default, `one_ai_tier`, read by every call through `center.tier()`)
+   with about what an answer costs at each (`proxy.ai_tiers`, priced on a
+   typical 6,000 tokens in and 400 out), credits left, Knowledge, each
+   module's part, Summaries, Usage by job, and Yours. A module's part is
+   found, not drawn: `ai.py` declares `JOBS` as `{"key", "single"}`, and the
+   label and the sentence under it are the field's own, so OneHR's six
+   (screening, interviews, recording, transcribing, how long audio is kept,
+   grievances) are drawn once; OneMail's part lists each mailbox and how
+   far OneAI reads it, and opens the mailbox's OneAI tab, because those are
+   set per mailbox and OneMail is ready (no OneMail file changed). The boot
+   names the modules with a part for administrators while OneAI is on
+   (`one_centers.ai`), ControlCenter ends their sidebars with **OneAI**,
+   the bottom bar has **AICenter**, and Settings' OneAI and memory sections
+   open it over the page. Settings › OneAI, What OneAI Remembers and the HR
+   block in OneIntake's settings went. `brand.CENTER` learns AI.
+   `test_only_aicenter_draws_oneais_settings_and_only_oneai_reaches_the_gateway`
+   fails on a screen that draws the tier or a module's OneAI switches, on a
+   ControlCenter without OneAI, and on Python outside `one_ai` and
+   `one_admin` that reaches the gateway. Left: Plan and Credits keeps the
+   balance, the ledger and buying (they are the bill, and AICenter's Add
+   Credits opens them); OneIntake's settings move with it in stage 4.
 4. **Reading.** To text, Decide, Extract, Match, Act or ask, against every
    scenario above; OneIntake's code moves into `one_ai/reading/` and its
    name leaves every screen, Help page and clause.

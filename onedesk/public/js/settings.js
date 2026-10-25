@@ -51,6 +51,13 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			frappe.route_flags.replace_route = true;
 			return frappe.set_route(this.route);
 		}
+		// OneAI's settings and what it remembers are AICenter
+		// (docs/AICENTER.md), opened over this page the same way.
+		if (params.section === "oneai" || params.section === "memory") {
+			onedesk.ai_center.open({ at: params.section === "memory" ? "yours" : null });
+			frappe.route_flags.replace_route = true;
+			return frappe.set_route(this.route);
+		}
 		const found = mine.find((one) => one.key === params.section) || mine[0];
 		this.for_doctype = params.rule === "new" ? params.for || null : null;
 		if (found)
@@ -549,91 +556,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				render: (one) => frappe.ui.badge.html({ label: one.failed ? __("Failed") : __("Signed in"), theme: one.failed ? "red" : "green" }),
 			},
 		];
-	}
-
-	async draw_memory(data) {
-		const esc = frappe.utils.escape_html;
-		const know = onedesk.oneai.button(
-			__("What Do You Know About Me?"),
-			__("What do you know about me? Say what you remember from our conversations, and what my workspace told you.")
-		);
-		const facts = data.facts || [];
-		const knowledge = data.knowledge || [];
-		this.$content.html(
-			`<div class="one-shell-section"><div class="os-notify-intro"><div class="one-shell-quiet">${esc(
-				__("Only you can see your memories.")
-			)}</div>${know}</div></div>
-			<div class="one-shell-section os-memories" data-list="remembered"></div>
-			${knowledge.length ? '<div class="one-shell-section" data-list="workspace"></div>' : ""}`
-		);
-		this.page.set_primary_action(__("Add Memory"), () => this.memory_dialog(), "plus");
-		const redraw = (said) => {
-			this.$content.empty();
-			this.draw_memory(said);
-		};
-		const remembered = await onedesk.shell.table(this.$content.find('[data-list="remembered"]'), {
-			title: __("Memories"),
-			rows: facts,
-			icon: "brain",
-			empty: __("No memories"),
-			none: __("No matching memories"),
-			open: (one) => this.memory_dialog(one),
-			actions: facts.length > 1 ? frappe.ui.button.html({ label: __("Forget All"), variant: "ghost", theme: "red", attrs: { "data-forget-all": "1" } }) : "",
-			columns: [
-				{ label: __("Memory"), fieldname: "fact" },
-				{
-					label: __("About"),
-					render: (one) =>
-						one.about_doctype
-							? `<a href="${frappe.utils.get_form_link(one.about_doctype, one.about_name)}" onclick="event.stopPropagation();">${esc(one.about_title || one.about_name)}</a>`
-							: "",
-				},
-				{ label: __("Added"), render: (one) => `<span class="one-shell-quiet">${esc(frappe.datetime.prettyDate(one.creation))}</span>` },
-				{
-					type: "actions",
-					actions: [
-						{
-							label: __("Forget"),
-							icon: "trash-2",
-							danger: true,
-							action: async (one) => redraw(await frappe.xcall(Settings.API + "forget", { name: one.name })),
-						},
-					],
-				},
-			],
-		});
-		remembered.$header.find("[data-forget-all]").on("click", () =>
-			frappe.confirm(__("Forget all memories? This can't be undone."), async () => redraw(await frappe.xcall(Settings.API + "forget_all")))
-		);
-		if (knowledge.length) {
-			onedesk.shell.table(this.$content.find('[data-list="workspace"]'), {
-				title: __("Workspace Knowledge"),
-				rows: knowledge,
-				columns: [
-					{ label: __("Title"), fieldname: "title" },
-					{ label: __("Applies To"), render: (one) => esc(one.applies_to || __("Everything")) },
-				],
-			});
-		}
-	}
-
-	memory_dialog(one = null) {
-		const dialog = new frappe.ui.Dialog({
-			title: one ? __("Edit Memory") : __("Add Memory"),
-			fields: [
-				{ fieldname: "fact", fieldtype: "Small Text", label: __("Memory"), reqd: 1, default: one ? one.fact : "" },
-				{ fieldname: "about_doctype", fieldtype: "Link", options: "DocType", label: __("Record Type"), default: one ? one.about_doctype : "" },
-				{ fieldname: "about_name", fieldtype: "Dynamic Link", options: "about_doctype", label: __("Record"), depends_on: "about_doctype", default: one ? one.about_name : "" },
-			],
-			primary_action_label: one ? __("Save") : __("Add"),
-			primary_action: async (values) => {
-				const said = await frappe.xcall(Settings.API + "keep", { ...values, name: one ? one.name : null });
-				dialog.hide();
-				this.$content.empty();
-				this.draw_memory(said);
-			},
-		});
-		dialog.show();
 	}
 
 	// signing in. Every field is System Settings', Company's or Global Defaults' own.
@@ -2367,35 +2289,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		dialog.show();
 	}
 
-	draw_oneai(data) {
-		const esc = frappe.utils.escape_html;
-		this.page.add_inner_button(__("Knowledge"), () => frappe.set_route("List", "AI Knowledge"));
-		this.page.add_inner_button(__("Credit Usage"), () => frappe.set_route("query-report", "AI Credits", { by: "Job" }));
-		this.$content.html(
-			onedesk.shell.section(
-				__("Summaries"),
-				'<div data-list="briefs"></div>',
-				__("A few sentences at the top of each record, written again when something happens to it, at most once a day.")
-			)
-		);
-		onedesk.shell.table(this.$content.find('[data-list="briefs"]'), {
-			rows: data.briefs || [],
-			icon: "sparkles",
-			columns: [
-				{ label: __("Record"), render: (one) => esc(one.label) },
-				{
-					label: __("Summarised"),
-					render: (one) => `<span class="one-shell-quiet">${esc(one.written === 1 ? __("1 record") : one.written ? __("{0} records", [format_number(one.written, null, 0)]) : __("None yet"))}</span>`,
-				},
-				{ label: "", render: (one) => Settings.read_switch(one.on) },
-			],
-			open: async (one) => {
-				await frappe.xcall("onedesk.one_ai.brief.switch", { doctype: one.doctype, on: one.on ? 0 : 1 });
-				this.refresh();
-			},
-		});
-	}
-
 	draw_intake(data) {
 		const esc = frappe.utils.escape_html;
 		const month = data.month || {};
@@ -2435,13 +2328,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				{ heading: __("OneBook"), mark: marks.OneBook },
 				{ stack: ["household", "submit_einvoices"] },
 				{ html: links([["/desk/query-report/Ready to Submit", __("Ready to Submit")], ["/desk/query-report/Spending", __("Spending")]]) },
-				...((data.hr || []).length
-					? [
-							{ heading: __("OneHR"), note: __("Each uses OneAI credits."), mark: marks.OneHR },
-							{ stack: data.hr.filter((name) => name !== "one_keep_recordings_days") },
-							...(data.hr.includes("one_keep_recordings_days") ? [["one_keep_recordings_days", "_"]] : []),
-					  ]
-					: []),
 			],
 		});
 		this.draw_intake_sources(data);

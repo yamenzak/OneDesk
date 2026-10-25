@@ -34,6 +34,10 @@ SECTIONS = [
 	("holidays", _lt("Holidays"), "calendar-days", "workspace"),
 ]
 
+# Sections whose row opens a centre over the page rather than drawing one
+# (settings.js `show`): OneAI and what it remembers are AICenter's.
+OPENS = ("memory", "oneai")
+
 APPS = [
 	("OneCRM", "onecrm", ("Sales User",), ("Sales Manager",)),
 	("OneBook", "onebook", ("Accounts User",), ("Accounts Manager",)),
@@ -180,7 +184,6 @@ def load(
 		"plan": _plan,
 		"domains": _domains,
 		"devices": _devices,
-		"oneai": _oneai,
 		"intake": _intake,
 		"holidays": _holidays,
 		"notification_types": _notification_types,
@@ -1315,14 +1318,6 @@ def _devices() -> dict:
 	return devices.for_settings()
 
 
-def _oneai() -> dict:
-	"""Which records get a summary. The rest of OneAI's settings are AICenter's
-	(docs/AICENTER.md)."""
-	from onedesk.one_ai import brief
-
-	return {"briefs": brief.settings()}
-
-
 def _intake() -> dict:
 	"""OneIntake's settings, with the defaults written in where the record is
 	empty (an empty floor is 70%, not nothing), and the month: what arrived,
@@ -1340,21 +1335,13 @@ def _intake() -> dict:
 	]
 	from onedesk.one_intake import switches
 
-	opened = [doc]
-	hr = _intake_hr()
-	if hr:
-		held = frappe.get_single("HR Settings")
-		fields += [{**one, "fieldtype": "Switch"} if one["fieldtype"] == "Check" else one for one in _fields("HR Settings", hr)]
-		values.update({name: held.get(name) for name in hr})
-		opened.append(held)
 	return {
 		"fields": fields,
 		"values": values,
 		"month": _intake_month(),
-		"hr": list(hr),
-		"marks": {app: _mark(app) for app in ("OneBook", "OneHR", "OneMail", "OneCloud")},
+		"marks": {app: _mark(app) for app in ("OneBook", "OneMail", "OneCloud")},
 		**switches.overview(),
-		"opened": _opened(*opened),
+		"opened": _opened(doc),
 	}
 
 
@@ -1371,14 +1358,6 @@ def _reads() -> dict:
 
 
 INTAKE_HR = ("one_ai_screen", "one_ai_prepare", "one_ai_transcribe", "one_ai_grievances")
-
-
-def _intake_hr() -> tuple:
-	if not frappe.db.exists("DocType", "HR Settings"):
-		return ()
-	meta = frappe.get_meta("HR Settings")
-	shown = ("one_ai_screen", "one_ai_prepare", "one_ai_record", "one_ai_transcribe", "one_keep_recordings_days", "one_ai_grievances")
-	return tuple(name for name in shown if meta.get_field(name))
 
 
 def _intake_month() -> dict:
@@ -1408,12 +1387,6 @@ def _save_intake(values: dict) -> None:
 	was = {name: meant(name) for name in TOLD_OF}
 	doc.update({name: values[name] for name in INTAKE if name in values})
 	doc.save(ignore_permissions=True)
-	hr = [name for name in _intake_hr() if name in values]
-	if hr:
-		held = _as_opened(frappe.get_single("HR Settings"))
-		if any(frappe.utils.cint(held.get(name)) != frappe.utils.cint(values[name]) for name in hr):
-			held.update({name: values[name] for name in hr})
-			held.save(ignore_permissions=True)
 	changed = [name for name in TOLD_OF if was[name] != meant(name)]
 	if changed:
 		tell.intake_changed(doc, changed)

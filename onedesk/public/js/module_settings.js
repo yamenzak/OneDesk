@@ -10,7 +10,7 @@ frappe.provide("onedesk.module_settings");
 // The centres a module's dialogs are, named as One's products are: One's
 // mark, the first word light and Center after it (HelpCenter, ControlCenter,
 // AccountCenter, UpdateCenter, TrustCenter, AccessCenter,
-// NotificationCenter). They are names, so they are not translated, and
+// NotificationCenter, AICenter). They are names, so they are not translated, and
 // brand.js draws them so wherever they are written (brand.CENTER).
 onedesk.CENTERS = {
 	help: "Help",
@@ -20,6 +20,7 @@ onedesk.CENTERS = {
 	trust: "Trust",
 	access: "Access",
 	notifications: "Notification",
+	ai: "AI",
 };
 
 // The top of a dialog's sidebar: the centre it is, and under it, small,
@@ -134,9 +135,10 @@ onedesk.module_settings.getting_started = (module) => ({
 });
 
 // What every module's ControlCenter ends with, found rather than drawn
-// (docs/READY.md, mechanisms 14 and 15): Roles and Access for a module that
-// declares abilities, to its administrators, and Notifications for a module
-// that sends any, each opening its centre on the module.
+// (docs/READY.md, mechanisms 14-16): Roles and Access for a module that
+// declares abilities, to its administrators, Notifications for a module
+// that sends any, and OneAI for one OneAI works in, each opening its centre
+// on the module.
 onedesk.module_settings.centers = (module) => {
 	const has = frappe.boot.one_centers || {};
 	const items = [];
@@ -145,6 +147,9 @@ onedesk.module_settings.centers = (module) => {
 	}
 	if ((has.notifications || []).includes(module)) {
 		items.push({ id: "notification_center", label: __("Notifications"), icon: "bell", opens: () => onedesk.notification_center.open({ module }) });
+	}
+	if ((has.ai || []).includes(module)) {
+		items.push({ id: "ai_center", label: "OneAI", icon: "oneai", opens: () => onedesk.ai_center.open({ module }) });
 	}
 	return items.length ? [{ group: null, items }] : [];
 };

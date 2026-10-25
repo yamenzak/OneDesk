@@ -309,6 +309,31 @@ def test_a_module_leaves_roles_and_notifications_to_their_centers():
 	)
 
 
+# What only AICenter draws (docs/READY.md, mechanism 16): the tier, a
+# module's OneAI switches, and the model or words a job is given.
+AI_DRAWN = re.compile(r"one_ai\.center\.(?:set_tier|set_on|set_job)|one_ai_tier|chosen_model|ai_models")
+
+
+def test_only_aicenter_draws_oneais_settings_and_only_oneai_reaches_the_gateway():
+	"""OneAI's settings are drawn once, in AICenter, from what each module
+	declares; a module's screens open it, and only one_ai and the operator's
+	door call the gateway (docs/AICENTER.md, stage 3)."""
+	center = ROOT / "onedesk" / "public" / "js" / "ai_center.js"
+	for path in (ROOT / "onedesk").rglob("*"):
+		if path.suffix not in (".js", ".vue") or path == center or "node_modules" in path.parts:
+			continue
+		hit = AI_DRAWN.search(path.read_text(encoding="utf-8", errors="ignore"))
+		assert not hit, f"{path.relative_to(ROOT)} draws what AICenter shows ({hit.group(0)}); open onedesk.ai_center instead"
+	kit = (ROOT / "onedesk" / "public" / "js" / "module_settings.js").read_text(encoding="utf-8")
+	assert "onedesk.ai_center.open({ module })" in kit, "ControlCenter no longer offers AICenter on its own"
+	door = re.compile(r"\bgateway\.(?:talk|call|embed|see|hear|speak)\(|from onedesk\.one_admin import gateway|one_admin\.gateway import")
+	for path in (ROOT / "onedesk").rglob("*.py"):
+		if path.parts[-2] in ("one_admin", "one_ai") or "one_admin" in path.parts or "one_ai" in path.parts:
+			continue
+		hit = door.search(path.read_text(encoding="utf-8"))
+		assert not hit, f"{path.relative_to(ROOT)} reaches the gateway ({hit.group(0)}); ask one_ai, which asks the account"
+
+
 def test_a_module_says_what_setting_it_up_takes():
 	"""A ready module declares its setup steps in its own setup.py
 	(docs/READY.md, mechanism 9): each with a key, a title, what it is for,
