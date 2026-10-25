@@ -734,7 +734,7 @@ def onemail_oneai_replies_say_who_wrote_them():
 	):
 		frappe.cache.delete_keys("one_rule_reply:check-oneai-answers")
 		assert rules.answer(rule, {"type": "reply", "with": "OneAI", "instruction": "Offer a visit."}, name) == "sent"
-	assert sent and "written by OneAI" in sent[0], sent
+	assert sent and "automatically by OneAI, an AI agent" in sent[0], sent
 	frappe.cache.delete_keys("one_rule_reply:check-oneai-answers")
 
 

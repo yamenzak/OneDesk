@@ -296,7 +296,7 @@ def answer(rule, step: dict, name: str, headers=None) -> str | None:
 		frappe.cache.set_value(key, 1, expires_in_sec=lasts)
 		# Whoever reads it is told a model wrote it (the AI Addendum's
 		# onemail-answers, the EU AI Act's Art. 50).
-		said = frappe.utils.escape_html(_("This reply was written by OneAI."))
+		said = frappe.utils.escape_html(_("This reply may have been written entirely and automatically by OneAI, an AI agent, and may be wrong or inaccurate."))
 		_send(account, comm, f'{_paragraphs(text)}<p style="color:#7c7c7c;font-size:12px">{said}</p>')
 		return "sent"
 	frappe.cache.set_value(key, 1, expires_in_sec=lasts)

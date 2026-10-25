@@ -144,22 +144,23 @@ DOCUMENTS = {
 # How long a change to a document waits before it takes effect, at least.
 NOTICE_DAYS = 30
 
-# Each document's revision when changes began to be published ahead of the
-# day they take effect (docs/READY.md, mechanism 13). Every revision above
-# it is in CHANGES.
+# Each document's revision on the day One is declared ready for production
+# (ready.PRODUCTION). Until then the agreements change freely and this isn't
+# read; from then, every revision above it is in CHANGES.
 BASELINE = {
-	"terms": 11,
+	"terms": 12,
 	"aup": 1,
-	"privacy": 26,
+	"privacy": 27,
 	"cookies": 2,
-	"dpa": 6,
-	"subprocessors": 4,
-	"ai": 23,
+	"dpa": 7,
+	"subprocessors": 5,
+	"ai": 25,
 	"licences": 1,
 }
 
-# Every company One can't work without that the agreements in effect name. A
-# new one comes in through a switchover, and joins here when it is cleaned up.
+# Every company One can't work without that the agreements in effect name.
+# After production a new one comes in through a switchover, and joins here
+# when it is cleaned up; before it, every company declared is in effect.
 IN_EFFECT = {
 	"Cloudflare, Inc.",
 	"Frappe Technologies Pvt. Ltd.",
@@ -167,53 +168,10 @@ IN_EFFECT = {
 	"Stripe, Inc.",
 }
 
-# Every published change: the document and its new revision, the day it was
-# published and the day it takes effect, and what changed, in a sentence,
-# for the notice and TrustCenter's Changes. Newest last.
-CHANGES = [
-	{
-		"document": "terms",
-		"revision": 12,
-		"published": "2026-10-25",
-		"effective": "2026-11-24",
-		"says": "Changes are published thirty days before they take effect, and you may switch to another provider at no charge.",
-	},
-	{
-		"document": "privacy",
-		"revision": 27,
-		"published": "2026-10-25",
-		"effective": "2026-11-24",
-		"says": "What sends data to another company and can be done without is off until your administrators turn it on.",
-	},
-	{
-		"document": "dpa",
-		"revision": 7,
-		"published": "2026-10-25",
-		"effective": "2026-11-24",
-		"says": "We keep a record of the processing we do for you, and transfers out of Saudi Arabia follow its law.",
-	},
-	{
-		"document": "subprocessors",
-		"revision": 5,
-		"published": "2026-10-25",
-		"effective": "2026-11-24",
-		"says": "Gravatar and Google's logos are optional services, and a new subprocessor is announced thirty days ahead.",
-	},
-	{
-		"document": "ai",
-		"revision": 24,
-		"published": "2026-10-25",
-		"effective": "2026-11-24",
-		"says": "OneAI is always named, so you know when an answer comes from a model.",
-	},
-	{
-		"document": "ai",
-		"revision": 25,
-		"published": "2026-10-25",
-		"effective": "2026-11-24",
-		"says": "A mailbox's Automation can have OneAI answer mail by itself, and every such reply says OneAI wrote it.",
-	},
-]
+# Every published change, newest last: document, revision, published,
+# effective and what changed in a sentence. Empty before production, when a
+# change takes effect the day it is made (docs/READY.md, mechanism 13).
+CHANGES = []
 
 
 def change_of(key: str) -> dict | None:

@@ -14,6 +14,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 
 import tree  # noqa: E402
 
+from onedesk.one import ready  # noqa: E402
 from onedesk.one_legal import assemble, documents, registry  # noqa: E402
 
 VERSIONS = {
@@ -23,7 +24,7 @@ VERSIONS = {
 	"cookies": "2.946a434c",
 	"dpa": "7.0d5532aa",
 	"subprocessors": "5.85264ef9",
-	"ai": "25.4c4d3622",
+	"ai": "25.d4d86e2c",
 	"licences": "1.c71daf62",
 }
 
@@ -48,7 +49,11 @@ def test_every_document_is_at_the_version_recorded():
 	assert not changed, (
 		"These documents changed: "
 		+ ", ".join(f"{key} {was} → {now}" for key, (was, now) in changed.items())
-		+ ". Material: bump its revision in one_legal/documents.py. A typo: record the new version above."
+		+ (
+			". Material: bump its revision in one_legal/documents.py. A typo: record the new version above."
+			if ready.PRODUCTION
+			else ". Before production the agreements change freely: record the new version above."
+		)
 	)
 
 
@@ -117,13 +122,16 @@ def test_only_a_first_agreement_stops_anybody():
 
 
 def test_a_change_is_published_ahead_of_the_day_it_takes_effect():
-	"""Every revision above the baseline is a published change, and one to
-	what the workspace agrees to takes effect NOTICE_DAYS after it is
-	published, at least, with what changed said in a sentence."""
+	"""From production on, every revision above the baseline is a published
+	change, and one to what the workspace agrees to takes effect NOTICE_DAYS
+	after it is published, at least, with what changed said in a sentence.
+	Before it, the agreements change freely and nothing is published."""
 	import datetime
 
+	if not ready.PRODUCTION:
+		assert not documents.CHANGES, "Before production a change takes effect the day it is made: nothing goes in documents.CHANGES"
 	for key, one in documents.DOCUMENTS.items():
-		if one["revision"] > documents.BASELINE[key]:
+		if ready.PRODUCTION and one["revision"] > documents.BASELINE[key]:
 			change = documents.change_of(key)
 			assert change, f"{key} is at revision {one['revision']}: add it to documents.CHANGES"
 	for change in documents.CHANGES:
@@ -237,7 +245,8 @@ def test_a_core_change_waits_for_its_day():
 	switchover names a published change, and its hosts are reached only
 	through switchovers.when, which runs the old way until that day. A
 	switchover in effect for longer than CLEAN_DAYS is due to go, with the
-	old way, and its companies join documents.IN_EFFECT."""
+	old way, and its companies join documents.IN_EFFECT. Before production
+	every company declared is in effect the day it is declared."""
 	import datetime
 
 	from onedesk.one_legal import switchovers
@@ -245,7 +254,7 @@ def test_a_core_change_waits_for_its_day():
 	assemble.documents()
 	for row in registry.subprocessor_rows():
 		core = [use for use in row["uses"] if not use["service"]]
-		if row["name"] in documents.IN_EFFECT or not core:
+		if not ready.PRODUCTION or row["name"] in documents.IN_EFFECT or not core:
 			continue
 		early = [use["purpose"] for use in core if not use.get("starts")]
 		assert not early, f"{row['name']} is new and One can't work without it, so it waits for its notice: give {early} starts= a switchover"
@@ -275,7 +284,8 @@ def test_a_switchover_runs_the_old_way_until_its_day():
 	from onedesk.one_legal import switchovers
 
 	assemble.documents()
-	change = documents.CHANGES[-1]
+	change = {"document": "ai", "revision": 999, "published": "2026-01-01", "effective": "2026-01-31", "says": "A test."}
+	documents.CHANGES.append(change)
 	registry.SWITCHOVERS["test-switch"] = {"key": "test-switch", "module": "one", "document": change["document"], "revision": change["revision"], "does": "", "hosts": ()}
 	try:
 		day = datetime.date.fromisoformat(change["effective"])
@@ -284,3 +294,4 @@ def test_a_switchover_runs_the_old_way_until_its_day():
 		assert switchovers.effective("test-switch") == day
 	finally:
 		del registry.SWITCHOVERS["test-switch"]
+		documents.CHANGES.remove(change)

@@ -186,11 +186,28 @@ ones that read only the top of `public/js` or `public/css` also read `one_*/`.
 **Released at 1.0.0.** A module's first version is the day it is first
 marked ready, and everything before that is in git, not in What's New. Its
 Help already says everything it does, so 1.0.0 says what the module is and
-points at Help. OneMail was released this way on 2026-10-25, under this
-first version of the standard.
+points at HelpCenter. OneMail was released this way on 2026-10-25, under
+this first version of the standard.
 
-**Which number moves.** A version is x.y.z, and the biggest change in it
-picks which:
+**Before production.** One is declared ready for production in the
+registry (`ready.PRODUCTION`) once every module in it is ready, and
+`test_ready.py` refuses the flag before then. Until that day nobody runs
+One for real, so:
+
+- **Every module stays at 1.0.0.** A change to a ready module brings its
+  1.0.0 up to date (`python3 scripts/version.py <folder> release`, which
+  keeps its words) and rewrites those words if they no longer hold.
+  `test_ready.py` fails on any other version.
+- **The agreements change freely.** A change takes effect the day it is
+  made: no new revision, no published change (`documents.CHANGES` stays
+  empty), no thirty days, no switchover, and no old way kept in the code.
+  Record the documents' new versions in `test_legal.py` and move on.
+
+On the day `PRODUCTION` turns on, `documents.BASELINE` is set to every
+document's revision, and from then the rules below apply in full.
+
+**Which number moves.** From production on, a version is x.y.z, and the
+biggest change in it picks which:
 
 - **Major (x)**: something people already use works differently or is
   gone. They have to learn it again, redo a setting, or lose something: a
@@ -605,8 +622,9 @@ The guards each point names, as they stand:
   Saudi Arabia's law named in rights, complaints and transfers.
 - **Changes.** `documents.CHANGES` and `BASELINE`; `gate.effective`; only a
   first agreement stops anybody; **Agreements Changed** to administrators
-  by mail and **Policies Changed** to everybody, each with the day. This
-  round moved five documents, in effect from 24 November 2026.
+  by mail and **Policies Changed** to everybody, each with the day. The
+  first round of published changes was withdrawn the same day: before
+  production the agreements change freely, so it took effect at once.
 - **Optional services.** `service()`, `one_legal/services.py` (`call`,
   `switch`, the wizard's slide), Gravatar and logos off by default, the
   demo's owner turning both on.
@@ -619,6 +637,11 @@ One correction to the rule below: a new subprocessor One can't work without
 is still a core change, by notice with the right to object, as the Data
 Processing Addendum allows. What needs an administrator's yes is a new
 company for something One can work without.
+
+**Before production none of this applies** (mechanism 3, Before
+production): a change to the agreements takes effect the day it is made,
+and the two paragraphs below start on the day One is declared ready for
+production.
 
 **Core changes wait for their day.** A notice is only worth something if
 nothing changes before the day it gives. So a change One can't work
@@ -1214,7 +1237,8 @@ to watch for:
 
 A ready module stays ready. Any change to it:
 
-- bumps its version with a What's New entry;
+- bumps its version with a What's New entry, or before production brings
+  its 1.0.0 up to date;
 - moves the agreements with it when it changes what is done with data;
 - updates the Help pages it changes;
 - keeps the copy, roles, OneAI and notification guards green.

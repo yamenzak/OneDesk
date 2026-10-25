@@ -73,7 +73,7 @@ A rule is made of three kinds of step.
 | Action | Note |
 | --- | --- |
 | Move to a folder, mark as read, star, move to Junk | Done on the mail server too, so your phone matches |
-| Reply | In your own words, or written by OneAI and sent as it is |
+| Reply | In your own words, or written by OneAI and sent as it is, with a line saying an AI agent may have written it and it may be wrong |
 | Forward | To any address |
 | Assign, or tell someone on the bell | Anyone who uses the mailbox |
 | Link to the sender's customer, supplier or lead | Shows on their record |

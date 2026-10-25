@@ -115,8 +115,8 @@ clause(
 	body="""
 		A mailbox's Automation can also answer mail by itself. Someone allowed to set its rules says what a reply
 		should say, and OneAI writes it and sends it from the mailbox. It answers once per conversation or per
-		sender, as the rule says, and never an automatic address. Every such reply says it was written by
-		OneAI. When the rule allows it, OneAI reads the records of the sender's own company to answer. It does
+		sender, as the rule says, and never an automatic address. Every such reply says an AI agent may have
+		written it entirely and automatically, and that it may be wrong or inaccurate. When the rule allows it, OneAI reads the records of the sender's own company to answer. It does
 		so only for a sender whose mail the receiving server verified, and only that company's records.
 	""",
 	order=20,

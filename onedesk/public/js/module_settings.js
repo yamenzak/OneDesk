@@ -10,7 +10,8 @@ frappe.provide("onedesk.module_settings");
 // The centres a module's dialogs are, named as One's products are: One's
 // mark, the first word light and Center after it (HelpCenter, ControlCenter,
 // AccountCenter, UpdateCenter, TrustCenter, AccessCenter,
-// NotificationCenter). They are names, so they are not translated.
+// NotificationCenter). They are names, so they are not translated, and
+// brand.js draws them so wherever they are written (brand.CENTER).
 onedesk.CENTERS = {
 	help: "Help",
 	settings: "Control",
@@ -26,15 +27,7 @@ onedesk.CENTERS = {
 // a label, such as a mailbox's address).
 onedesk.module_head = ($into, { center, module = null, label = null, icon = null }) => {
 	const $head = $(`<div class="one-module-head"></div>`).prependTo($into);
-	const name = document.createElement("span");
-	name.className = "one-name one-solo";
-	name.innerHTML = frappe.utils.icon("one", { width: "1.05em", height: "1.05em" }, "", "", "one-mark");
-	const word = document.createElement("span");
-	const light = document.createElement("span");
-	light.className = "one-light";
-	light.textContent = onedesk.CENTERS[center] || center;
-	word.append(light, "Center");
-	name.append(word);
+	const name = onedesk.brand.center(onedesk.CENTERS[center] || center);
 	$(`<div class="one-module-head-name"></div>`).append(name).appendTo($head);
 	const $of = $(`<div class="one-module-head-of"></div>`).appendTo($head);
 	const rest = module && module.replace(/^One/, "");

@@ -3,6 +3,10 @@ frappe.provide("onedesk.brand");
 onedesk.brand.NAME = /\bOne(AI|Admin|Book|Calendar|Cloud|Code|CRM|DB|Desk|Display|Doc|Fit|Forms|Governance|HR|Intake|Inventory|Legal|Mail|Market|Mobility|Project|Scratchpad|Sheet|Signature|Slide|Studio|Study|Task|Ticket|Workbook|Writer)\b/g;
 
 
+// One's centres (module_settings.js CENTERS), drawn as a product's name is:
+// One's mark, the first word light and Center after it.
+onedesk.brand.CENTER = /\b(Help|Control|Account|Update|Trust|Access|Notification)Center\b/g;
+
 onedesk.brand.VERBS = new Set(
 	"opens added may can cannot keeps sends reads shows asks uses does doesn't is isn't will won't has hasn't holds makes gives tells writes stores checks knows works needs puts takes turns brings finds counts books bills pays says sees saves signs".split(" "),
 );
@@ -43,10 +47,11 @@ onedesk.brand.wrap = (root) => {
 	if (!root || !document.body.contains(root) && root !== document.body) return;
 	if (root.nodeType === Node.TEXT_NODE) return onedesk.brand.text(root);
 	if (root.nodeType !== Node.ELEMENT_NODE || root.closest(onedesk.brand.LEAVE)) return;
-	if (!(root.textContent || "").includes("One")) return;
+	const named = (text) => (text || "").includes("One") || (text || "").includes("Center");
+	if (!named(root.textContent)) return;
 	const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
 		acceptNode: (node) =>
-			node.nodeValue.includes("One") && !node.parentElement.closest(onedesk.brand.LEAVE)
+			named(node.nodeValue) && !node.parentElement.closest(onedesk.brand.LEAVE)
 				? NodeFilter.FILTER_ACCEPT
 				: NodeFilter.FILTER_REJECT,
 	});
@@ -61,21 +66,18 @@ onedesk.brand.text = (node, inside = false) => {
 	const text = node.nodeValue;
 	const parent = node.parentElement;
 	if (!parent || (!inside && parent.closest(onedesk.brand.LEAVE))) return;
-	onedesk.brand.NAME.lastIndex = 0;
-	const named = onedesk.brand.NAME.test(text);
-	const solo = onedesk.brand.solo(text);
-	if (!named && !solo.length) return;
-	onedesk.brand.NAME.lastIndex = 0;
 	const alone = parent.closest(onedesk.brand.MARK_ALONE) ? null : text.trim();
 	const found = [
 		...[...text.matchAll(onedesk.brand.NAME)].map((match) => ({ at: match.index, length: match[0].length, rest: match[1], marked: alone !== match[0] })),
-		...solo.map((at) => ({ at, length: 3, rest: null })),
+		...[...text.matchAll(onedesk.brand.CENTER)].map((match) => ({ at: match.index, length: match[0].length, center: match[1] })),
+		...onedesk.brand.solo(text).map((at) => ({ at, length: 3, rest: null })),
 	].sort((a, b) => a.at - b.at);
+	if (!found.length) return;
 	const into = document.createDocumentFragment();
 	let at = 0;
 	for (const one of found) {
 		if (one.at > at) into.append(text.slice(at, one.at));
-		into.append(one.rest === null ? onedesk.brand.mark() : onedesk.brand.named(one.rest, one.marked));
+		into.append(one.center ? onedesk.brand.center(one.center) : one.rest === null ? onedesk.brand.mark() : onedesk.brand.named(one.rest, one.marked));
 		at = one.at + one.length;
 	}
 	into.append(text.slice(at));
@@ -110,6 +112,21 @@ onedesk.brand.named = (rest, marked = false) => {
 	}
 	const word = document.createElement("span");
 	word.append(light, rest);
+	name.append(word);
+	return name;
+};
+
+/** A centre's name, such as HelpCenter: One's mark, the first word light
+ * and Center after it, in a sentence and at the top of the centre alike. */
+onedesk.brand.center = (first) => {
+	const name = document.createElement("span");
+	name.className = "one-name one-solo";
+	name.innerHTML = frappe.utils.icon("one", { width: "1.05em", height: "1.05em" }, "", "", "one-mark");
+	const word = document.createElement("span");
+	const light = document.createElement("span");
+	light.className = "one-light";
+	light.textContent = first;
+	word.append(light, "Center");
 	name.append(word);
 	return name;
 };

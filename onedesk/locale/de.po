@@ -41041,8 +41041,8 @@ msgid "There is no tour of this screen yet."
 msgstr "Für diesen Bildschirm gibt es noch keinen Rundgang."
 
 #: onedesk/one_mail/rules.py
-msgid "This reply was written by OneAI."
-msgstr "Diese Antwort hat OneAI geschrieben."
+msgid "This reply may have been written entirely and automatically by OneAI, an AI agent, and may be wrong or inaccurate."
+msgstr "Diese Antwort wurde möglicherweise vollständig und automatisch von OneAI, einem KI-Agenten, geschrieben und kann falsch oder ungenau sein."
 
 #: onedesk/one/letter_heads.py:132
 #: onedesk/one_book/report/books_check/books_check.js:20

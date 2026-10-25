@@ -1270,9 +1270,12 @@ def onelegal_trustcenter_services_changes_and_laws():
 	no picture is asked for; given somewhere new, one is off until she agrees
 	again. Rania may not move them. The agreements changed since she agreed
 	are told, not asked: nobody is stopped, and each says the day it takes
-	effect. Everything TrustCenter shows reads back for OneMail."""
+	effect. Before production nothing is published ahead and a person's own
+	policies change without a notice (docs/READY.md, Before production).
+	Everything TrustCenter shows reads back for OneMail."""
 	from unittest.mock import patch
 
+	from onedesk.one import ready
 	from onedesk.one_legal import gate, reading, services
 	from onedesk.one_mail import faces
 
@@ -1297,7 +1300,7 @@ def onelegal_trustcenter_services_changes_and_laws():
 		assert said["module"]["documents"] and len(said["services"]) == 2, said["services"]
 		gravatar = next(use for row in said["companies"] for use in row["uses"] if use["service"] == "Pictures from Gravatar")
 		assert gravatar["used"]
-		assert said["changes"] and said["changes"][0]["says"]
+		assert bool(said["changes"]) == ready.PRODUCTION, said["changes"]
 		terms = next(one for one in said["documents"] if one["key"] == "terms")
 		assert terms["html"] and terms["organisation"]
 	with as_user("rania@one.test"):
@@ -1320,7 +1323,7 @@ def onelegal_trustcenter_services_changes_and_laws():
 			for key, value in was.items():
 				frappe.db.set_default(key, value or "")
 	names = [one[0] for one in told]
-	assert names.count("Agreements Changed") == 1 and names.count("Policies Changed") == 1, names
+	assert names.count("Agreements Changed") == 1 and names.count("Policies Changed") == int(ready.PRODUCTION), names
 	assert all(one[1]["effective"] for one in told)
 
 
