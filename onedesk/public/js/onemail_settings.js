@@ -289,7 +289,11 @@ onedesk.mail.settings = (tab) => {
 			label: __("Signature"),
 			icon: "signature",
 			title: __("Signature"),
-			description: box.may_sign ? __("Added to every email sent from this mailbox.") : !box.sends ? __("Requires Send access.") : managed,
+			description: box.may_sign
+				? __("Added to every email sent from this mailbox.")
+				: !box.sends
+				? __("Requires Send access.")
+				: __("Added to every email sent from this mailbox. Only a Mail Manager or an administrator can change it."),
 			actions: box.may_sign
 				? [
 						{
@@ -312,10 +316,20 @@ onedesk.mail.settings = (tab) => {
 				  ]
 				: [],
 			async render(panel) {
-				if (!box.may_sign) return;
+				if (!box.may_sign && !box.sends) return;
 				const view = panel.shown;
 				state = await frappe.xcall(SIGN + "presets_of", { account: box.name });
 				if (view !== panel.shown) return;
+				// Whoever may not change it still sees what goes out under their mail.
+				if (!box.may_sign) {
+					const $body = panel.body.empty();
+					const $list = $(`<div class="oms-list"></div>`).appendTo($body);
+					const name = state.sender_name || state.default_sender_name || "—";
+					row({ lead: "", title: __("Sender Name"), end: `<span class="oms-value">${esc(name)}</span>` }).appendTo($list);
+					const html = state.preset ? html_of(state.preset) : state.signature;
+					$body.append(html ? $(`<div class="oms-signature"></div>`).append(framed(html)) : empty(__("No signature")));
+					return;
+				}
 				panel.add_fields([
 					{
 						fieldname: "sender_name",
@@ -516,7 +530,7 @@ onedesk.mail.settings = (tab) => {
 		title: __("OneAI"),
 		description: box.may.ai
 			? __("What OneAI does with new mail on its own. It never mails anyone outside the workspace. If disabled, OneAI can't read this mailbox.")
-			: managed,
+			: __("What OneAI does with new mail in this mailbox. Only a Mail Manager or an administrator can change it."),
 		actions: box.may.ai
 			? [
 					{
@@ -555,7 +569,17 @@ onedesk.mail.settings = (tab) => {
 				panel.set_header({ title: __("OneAI"), description: __("OneAI is turned off for this workspace in Apps.") });
 				return;
 			}
-			if (!said.may_manage) return;
+			if (!said.may_manage) {
+				const $list = $(`<div class="oms-list"></div>`).appendTo(panel.body.empty());
+				const value = (title, said_value) =>
+					row({ lead: "", title, end: `<span class="oms-value">${esc(said_value)}</span>` }).appendTo($list);
+				value(__("OneAI"), said.on ? __("On") : __("Off"));
+				if (!said.on) return;
+				const level = said.reads ? said.level : NOT_READ;
+				value(__("New Mail"), (LEVELS.find((one) => one[0] === level) || [])[1] || level);
+				if (said.reads) value(__("Read Attachments"), said.attachments ? __("Yes") : __("No"));
+				return;
+			}
 			const reading = (level) => `eval:doc.mail && doc.mail !== "${NOT_READ}"` + (level ? ` && ${at(level)} <= ${JSON.stringify(LEVELS.map((one) => one[0]))}.indexOf(doc.mail)` : "");
 			const fields = [
 				...(box.connected && !box.shared
@@ -972,13 +996,21 @@ onedesk.mail.settings = (tab) => {
 	};
 	const home = (tab) => dialog.reset(tabs, tab);
 
+	// What a person may connect, from Private Mailboxes (boot.one_mail_private).
+	const can_connect = () => {
+		const { on, domains } = frappe.boot.one_mail_private || { on: 1, domains: [] };
+		if (!on) return __("Your organization address. Private mailboxes are turned off in this workspace.");
+		if (domains.length) return __("Your organization address, or a private one at {0}.", [domains.map((one) => "@" + one).join(", ")]);
+		return __("Your organization address, or a private one such as Gmail.");
+	};
+
 	// Connecting an IMAP mailbox: the user's own from Mailboxes, the
 	// workspace's from Shared Mailboxes, which then opens its users.
 	const connect = (panel, { shared = false } = {}) => {
 		let form = null;
 		view(panel, {
 			title: shared ? __("Connect Shared Mailbox") : __("Connect Mailbox"),
-			description: shared ? __("A workspace address such as sales@. Add its users after connecting.") : "",
+			description: shared ? __("A workspace address such as sales@. Add its users after connecting.") : can_connect(),
 			actions: [
 				{
 					label: __("Connect"),

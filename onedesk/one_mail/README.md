@@ -29,7 +29,9 @@ needs a Cloudflare key with Zone Settings: Edit.
   its own tabs, with **All Mailboxes** above them to go back: **Signature**,
   **Out of Office** (your own mailboxes), **OneAI**, **Users**
   (shared mailboxes, administrators), **Connection** (connected mailboxes)
-  and **Automation**. Each tab has its own **Save**.
+  and **Automation**. Each tab has its own **Save**. Where your role can't
+  change a tab, such as the signature and OneAI on the address the workspace
+  gave you, it still shows what is set, and says who can change it.
 
 **OneAI** in a mailbox's settings is OneIntake for that mailbox, the virtual
 employee that reads its mail:
@@ -118,7 +120,9 @@ password, made in the account's security settings.
 
 1. Click **+** beside OneMail's heading, or **Connect Mailbox** in
    **Settings › Mailboxes**.
-2. Enter the **Email Address** and **Password**.
+2. Enter the **Email Address** and **Password**. The page says what you may
+   connect: your organization address, and a private one such as Gmail
+   only if **Private Mailboxes** allows it.
 3. Leave **Enable Outgoing** on to send from it too.
 4. Open **Server** only if the server isn't found on its own, or the login
    differs from the email address.

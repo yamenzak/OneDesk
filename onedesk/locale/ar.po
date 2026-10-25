@@ -2664,6 +2664,10 @@ msgstr "أُضفت إلى مكتبة"
 msgid "Added to every email sent from this mailbox."
 msgstr "يُضاف إلى كل بريد يُرسل من صندوق البريد هذا."
 
+#: onedesk/public/js/onemail_settings.js:296
+msgid "Added to every email sent from this mailbox. Only a Mail Manager or an administrator can change it."
+msgstr "يُضاف إلى كل رسالة تُرسل من صندوق البريد هذا. لا يغيّره إلا مدير البريد أو المسؤول."
+
 #. Description of the 'Added Instructions' (Small Text) field in DocType 'AI
 #. Action Setting'
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
@@ -26182,6 +26186,10 @@ msgstr "لا توجد صناديق بريد مشتركة"
 msgid "No sign-in"
 msgstr "بدون تسجيل دخول"
 
+#: onedesk/public/js/onemail_settings.js:330
+msgid "No signature"
+msgstr "لا يوجد توقيع"
+
 #: onedesk/public/js/hiring.js:168
 msgid "No sound. Check the microphone."
 msgstr "لا يوجد صوت. تحقّق من الميكروفون."
@@ -40887,10 +40895,6 @@ msgstr "جدول"
 msgid "Table of Contents"
 msgstr "جدول المحتويات"
 
-#: onedesk/public/js/doctype_settings.js:551
-msgid "Tables"
-msgstr "الجداول"
-
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
@@ -47605,6 +47609,10 @@ msgstr "ما فعله OneAI"
 msgid "What OneAI does not do with this mailbox's mail, by job (one_mail/gate.py JOBS)."
 msgstr "ما لا يفعله OneAI ببريد هذا الصندوق، حسب المهمة."
 
+#: onedesk/public/js/onemail_settings.js:533
+msgid "What OneAI does with new mail in this mailbox. Only a Mail Manager or an administrator can change it."
+msgstr "ما يفعله OneAI بالبريد الجديد في صندوق البريد هذا. لا يغيّره إلا مدير البريد أو المسؤول."
+
 #: onedesk/public/js/onemail_settings.js:503
 msgid "What OneAI does with new mail on its own. It never mails anyone outside the workspace. If disabled, OneAI can't read this mailbox."
 msgstr "ما يفعله OneAI بالبريد الجديد من تلقاء نفسه. لا يراسل أبدًا أحدًا خارج مساحة العمل. إذا عُطّل، لا يستطيع OneAI قراءة هذا الصندوق."
@@ -52393,6 +52401,18 @@ msgstr "رسالتك"
 #: frontend/portal/src/pages/Rfq.vue:81
 msgid "Your name"
 msgstr "اسمك"
+
+#: onedesk/public/js/onemail_settings.js:1003
+msgid "Your organization address, or a private one at {0}."
+msgstr "عنوان مؤسستك، أو عنوان خاص على {0}."
+
+#: onedesk/public/js/onemail_settings.js:1004
+msgid "Your organization address, or a private one such as Gmail."
+msgstr "عنوان مؤسستك، أو عنوان خاص مثل Gmail."
+
+#: onedesk/public/js/onemail_settings.js:1002
+msgid "Your organization address. Private mailboxes are turned off in this workspace."
+msgstr "عنوان مؤسستك. صناديق البريد الخاصة متوقفة في مساحة العمل هذه."
 
 #: onedesk/one_hr/rules.py:29
 msgid "Your passkey has been reset twice within a month."
