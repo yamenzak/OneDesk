@@ -204,7 +204,8 @@ break each other's imports on sites that carry only one of them.
   what the passover noticed. Something built leaves it; something put off goes
   in it.
 - The rest of `docs/` is written by hand and short: `PASSOVER.md` (the
-  points), `STANDARD.md` (what a finished module looks like), `SHELL.md` (the
+  points), `STANDARD.md` (what a finished module looks like), `READY.md`
+  (what a module needs before it goes live, and the registry), `SHELL.md` (the
   record and list frame), `ISLANDS.md` (frappe-ui screens inside desk),
   `WORDING.md`, `ACCOUNTS.md`, and `docs/upstream/<date>.md` for each
   checkpoint.
