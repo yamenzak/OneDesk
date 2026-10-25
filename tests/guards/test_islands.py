@@ -51,7 +51,7 @@ def test_every_island_is_declared_built_and_mounted():
 		]
 		tabs = [
 			path
-			for path in (tree.APP / "public" / "js").glob("*.js")
+			for path in [*(tree.APP / "public" / "js").glob("*.js"), *(tree.APP / "public" / "js").glob("one_*/*.js")]
 			if f'mount_island("{name}"' in path.read_text(encoding="utf-8")
 			and (
 				"onedesk.record_tabs.register(" in path.read_text(encoding="utf-8")

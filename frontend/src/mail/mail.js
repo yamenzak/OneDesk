@@ -80,7 +80,7 @@ export function who(item) {
 }
 
 // Who a new mail, a reply and a forward come from, and the reply and forward
-// themselves: public/js/mail_compose.js, which OneAI's reply card uses too.
+// themselves: public/js/one_mail/mail_compose.js, which OneAI's reply card uses too.
 export const sender = (boxes, box) => onedesk().mail.sender(boxes, box);
 
 export function reply(boxes, messages, from, { all = false } = {}, closed) {

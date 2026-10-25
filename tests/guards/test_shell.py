@@ -46,7 +46,7 @@ USE_THE_SHELL = {
 	"public/js/doctype_settings.js",
 	"public/js/extension_errors.js",
 	"public/js/island_page.js",
-	"public/js/record_mail.js",
+	"public/js/one_mail/record_mail.js",
 	"public/js/settings.js",
 	"public/js/window/frame.js",
 }

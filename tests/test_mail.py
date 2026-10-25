@@ -633,9 +633,9 @@ def test_a_message_is_signed_as_the_address_it_is_sent_from():
 	assert "doc.flags.skip_add_signature = True" in (MAIL / "outbound.py").read_text(), (
 		"Frappe's signature after the composer closed"
 	)
-	compose = (tree.APP / "public" / "js" / "mail_compose.js").read_text()
+	compose = (tree.APP / "public" / "js" / "one_mail" / "mail_compose.js").read_text()
 	assert "holders.signature_for" in compose
-	assert "/assets/onedesk/js/mail_compose.js" in HOOKS
+	assert "/assets/onedesk/js/one_mail/mail_compose.js" in HOOKS
 
 
 def test_a_signature_keeps_its_layout_and_carries_its_logo():
@@ -643,7 +643,7 @@ def test_a_signature_keeps_its_layout_and_carries_its_logo():
 	in as the mail is sent; the logo goes inside the mail, not as a link."""
 	import types
 
-	compose = (tree.APP / "public" / "js" / "mail_compose.js").read_text()
+	compose = (tree.APP / "public" / "js" / "one_mail" / "mail_compose.js").read_text()
 	assert "if (!this.one_sending || !this.one_signature) return said;" in compose, "drafts don't carry it"
 	assert 'return "";' in compose.split("Composer.prototype.get_signature", 1)[1].split("};", 1)[0], (
 		"nothing is put in the editor"

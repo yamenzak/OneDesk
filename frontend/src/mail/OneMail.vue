@@ -252,8 +252,8 @@ const treeRows = computed(() => {
 
 windowHeadAction(props.win, { icon: "plus", title: __("Connect Mailbox"), onClick: () => settings("connect") });
 
-// OneMail's settings: frappe's settings dialog, public/js/onemail_settings.js.
-const SETTINGS = ["/assets/onedesk/js/onemail_settings.js", "/assets/onedesk/css/onemail_settings.css"];
+// OneMail's settings: frappe's settings dialog, public/js/one_mail/onemail_settings.js.
+const SETTINGS = ["/assets/onedesk/js/one_mail/onemail_settings.js", "/assets/onedesk/css/one_mail/onemail_settings.css"];
 async function settings(tab) {
   await requires(SETTINGS);
   onedesk().mail.settings(tab);

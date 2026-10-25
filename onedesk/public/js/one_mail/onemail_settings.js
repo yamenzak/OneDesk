@@ -817,11 +817,11 @@ onedesk.mail.settings = (tab) => {
 	};
 
 	// A mailbox's rules, in the order they run, each opened in the tab as
-	// steps (public/js/rule_builder.js; rules.py: rules_of_mailbox,
+	// steps (public/js/one_mail/rule_builder.js; rules.py: rules_of_mailbox,
 	// save_rule, enable_rule, delete_rule, decide_rule). Whoever manages the
 	// mailbox changes them; the person a workspace address is issued to
 	// asks, and a Mail Manager approves.
-	const builder_files = ["/assets/onedesk/js/rule_builder.js", "/assets/onedesk/css/rule_builder.css"];
+	const builder_files = ["/assets/onedesk/js/one_mail/rule_builder.js", "/assets/onedesk/css/one_mail/rule_builder.css"];
 	const rules_tab = (box) => ({
 		id: "rules",
 		label: __("Automation"),

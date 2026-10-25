@@ -141,7 +141,7 @@ def test_each_page_fires_its_events_with_only_its_powers():
 	public = APP / "public" / "js"
 	fired = {
 		"onemail.conversation": (ROOT / "frontend" / "src" / "mail" / "MailConversation.vue").read_text(),
-		"onemail.compose": (public / "mail_compose.js").read_text(),
+		"onemail.compose": (public / "one_mail" / "mail_compose.js").read_text(),
 		"record_head.drawn": (public / "head.js").read_text(),
 		"onecalendar.event": (APP / "one_calendar" / "page" / "onecalendar" / "onecalendar.js").read_text(),
 		"onetask.listed": (ROOT / "frontend" / "src" / "task" / "MyTasks.vue").read_text(),

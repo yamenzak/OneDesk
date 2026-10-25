@@ -59,7 +59,6 @@ onedesk/<module>/
   ai.py                its OneAI tools, and NOT_FOR_AI
   demo.py, checks.py   its part of the demo company, and its checks
   tests/               its tests
-  frontend/            its Vue screens
   doctype/, page/, permission_type/, custom/, patches/
 ```
 
@@ -76,8 +75,17 @@ onedesk/<module>/
   module's `notifications.py`, as a clause is in `legal.py`.
   `tests/guards/test_ready.py` fails on any other.
 
-What frappe makes live elsewhere stays there: static files in
-`public/<module>/`, fixtures and translations per app. The root `docs/`
+What frappe makes live elsewhere goes to a folder of the module's own name
+there:
+
+- **Desk scripts and styles** in `public/js/<module>/` and
+  `public/css/<module>/`, because frappe serves only `public/`.
+- **Vue screens** in `frontend/src/<screens>/` (OneMail's are `mail/`),
+  because the islands build resolves frappe-ui and the kit from `frontend/`.
+- **Fixtures and translations**, which are per app.
+
+`onedesk/one/ready.py` names each module's places, so the guards read all of
+them. The root `docs/`
 keeps what has no single module: this file, the passover, OneInterface, the
 wording and the generated reference.
 
@@ -133,12 +141,12 @@ rest are spread out:
 exceptions frappe forces on us:
 
 - Static files are served only from `onedesk/public/`, so they go to
-  `public/one_mail/` and nowhere else.
+  `public/js/one_mail/` and `public/css/one_mail/`.
 - Fixtures are per app.
 - Translations are per app.
 
-Vue source moves to `one_mail/frontend/` with an alias in the islands
-build. Notification types are read per module (the `one_notification_types`
+Vue source stays in `frontend/src/mail/`, fenced as the module's own.
+Notification types are read per module (the `one_notification_types`
 hook already takes a list). Demo steps and checks go to `one_mail/demo.py`
 and `one_mail/checks.py`, which `one_demo` calls. The layout is **A
 module's folder**, above.

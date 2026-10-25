@@ -10,7 +10,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	// opens them there rather than on a role's page here.
 	static ROLES_IN = {
 		OneMail: () =>
-			frappe.require(["/assets/onedesk/js/onemail_settings.js", "/assets/onedesk/css/onemail_settings.css"]).then(() => onedesk.mail.settings("roles")),
+			frappe.require(["/assets/onedesk/js/one_mail/onemail_settings.js", "/assets/onedesk/css/one_mail/onemail_settings.css"]).then(() => onedesk.mail.settings("roles")),
 	};
 
 	static SHEET = 794;

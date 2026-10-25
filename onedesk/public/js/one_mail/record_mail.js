@@ -9,7 +9,7 @@ onedesk.record_mail.open = async (frm, $into = null) => {
 	const field = frm.fields_dict[onedesk.record_tabs.FIELD("mail")];
 	const $wrapper = $into || (field && field.$wrapper);
 	if (!$wrapper || !$wrapper.length || frm.is_new()) return;
-	await frappe.require("/assets/onedesk/css/record_mail.css");
+	await frappe.require("/assets/onedesk/css/one_mail/record_mail.css");
 	const esc = frappe.utils.escape_html;
 	const rows = await frappe.xcall("onedesk.one_mail.linking.record", { doctype: frm.doctype, name: frm.doc.name });
 	const when = (value) =>

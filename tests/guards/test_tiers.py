@@ -136,7 +136,7 @@ def test_a_record_tab_is_declared_by_its_module_and_drawn_in_one_place():
 	js = APP / "public" / "js"
 	patched = [
 		path.name
-		for path in js.glob("*.js")
+		for path in [*js.glob("*.js"), *js.glob("one_*/*.js")]
 		if "Layout.prototype.get_doctype_fields" in path.read_text(encoding="utf-8")
 	]
 	assert sorted(patched) == ["head.js", "record_tabs.js"], patched
@@ -144,7 +144,7 @@ def test_a_record_tab_is_declared_by_its_module_and_drawn_in_one_place():
 	for declared in ("one_mail.linking.TABS", "one_storage.namespace.TABS", "one.tabs.TABS"):
 		assert declared in hooks, declared
 	for name, script in (
-		("mail", "record_mail.js"),
+		("mail", "one_mail/record_mail.js"),
 		("files", "record_files.js"),
 		("activity", "record_activity.js"),
 	):

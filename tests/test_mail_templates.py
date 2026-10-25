@@ -13,7 +13,7 @@ import tree
 
 SOURCE = (tree.APP / "one" / "mail_templates.py").read_text()
 HOOKS = (tree.APP / "hooks.py").read_text()
-COMPOSE = (tree.APP / "public" / "js" / "mail_compose.js").read_text()
+COMPOSE = (tree.APP / "public" / "js" / "one_mail" / "mail_compose.js").read_text()
 
 
 def _constant(name: str) -> str:

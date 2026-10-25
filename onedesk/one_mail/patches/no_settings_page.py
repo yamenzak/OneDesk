@@ -1,4 +1,4 @@
-"""OneMail's settings are a dialog now (public/js/onemail_settings.js), opened
+"""OneMail's settings are a dialog now (public/js/one_mail/onemail_settings.js), opened
 from the foot of its rail, not a page of their own."""
 
 import frappe
