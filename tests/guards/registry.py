@@ -334,6 +334,24 @@ GUARDS = [
 		"tests/guards/test_wording.py::test_what_a_screen_says_is_plain",
 	),
 	Guard(
+		"module-left-outside",
+		17,
+		"a file of a module on its way to ready still listed as sitting outside its places",
+		"tests/guards/test_ready.py::test_nothing_of_a_module_is_left_outside",
+	),
+	Guard(
+		"module-named-outside",
+		17,
+		"a file named for a module outside its places that ready.SHARED does not explain",
+		"tests/guards/test_ready.py::test_nothing_outside_a_module_is_named_for_it",
+	),
+	Guard(
+		"module-markdown",
+		13,
+		"a module on its way to ready with Markdown other than AGENTS.md, SCRATCHPAD.md and docs/",
+		"tests/guards/test_ready.py::test_a_module_writes_only_agents_scratchpad_and_docs",
+	),
+	Guard(
 		"copy-headings",
 		12,
 		"a heading in a module on its way to ready that runs past five words",

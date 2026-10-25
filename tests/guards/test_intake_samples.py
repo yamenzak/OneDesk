@@ -4,10 +4,15 @@ and every sample is whole. The demo suite runs them
 
 import json
 import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "onedesk"
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import tree  # noqa: E402
+
 SAMPLES = ROOT / "tests" / "samples" / "intake"
 PLANNERS = ("plans.py", "money.py")
 
@@ -48,5 +53,5 @@ def test_every_sample_is_whole():
 
 
 def test_the_suite_runs_every_sample():
-	source = (APP / "one_demo" / "check.py").read_text()
+	source = tree.suite()
 	assert "def every_intake_sample_left_what_it_should" in source and "samples.samples()" in source

@@ -6,11 +6,16 @@ it. These read the code."""
 
 import ast
 import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "onedesk"
-SUITE = (APP / "one_demo" / "check.py").read_text()
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import tree  # noqa: E402
+
+SUITE = tree.suite()
 
 ELSEWHERE = {"one_admin": "the operator's console runs on the admin site"}
 

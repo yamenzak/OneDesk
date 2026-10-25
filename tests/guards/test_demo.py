@@ -19,7 +19,10 @@ def _assigned(path: Path, name: str):
 
 def test_every_step_is_built_and_written_down():
 	steps = ast.literal_eval(_assigned(DEMO / "build.py", "STEPS"))
-	modules = {path.stem for path in DEMO.glob("*.py")} - TOOLS
+	moved = ast.literal_eval(_assigned(DEMO / "build.py", "MOVED"))
+	for step, path in moved.items():
+		assert (ROOT / (path.replace(".", "/") + ".py")).exists(), f"{step} moved to {path}, which is missing"
+	modules = ({path.stem for path in DEMO.glob("*.py")} - TOOLS) | set(moved)
 	assert set(steps) == modules, sorted(set(steps) ^ modules)
 	readme = (DEMO / "README.md").read_text()
 	listed = re.findall(r"^\| (\w+) \|", readme, flags=re.M)
@@ -34,6 +37,6 @@ def test_every_app_people_gives_is_given_to_somebody_in_the_demo():
 
 
 def test_the_suite_checks_and_writes_nothing():
-	source = (DEMO / "check.py").read_text()
+	source = "\n".join(path.read_text() for path in [DEMO / "check.py", *sorted((ROOT / "onedesk").glob("*/checks.py"))])
 	assert source.count("@check") >= 15
 	assert "frappe.db.rollback()" in source and "frappe.db.commit" not in source

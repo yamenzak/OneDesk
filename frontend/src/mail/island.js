@@ -1,4 +1,4 @@
 import { screen } from "../kit";
-import OneMail from "../mail/OneMail.vue";
+import OneMail from "./OneMail.vue";
 
 export const mount = screen(OneMail);

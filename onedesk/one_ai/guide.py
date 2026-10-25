@@ -52,16 +52,38 @@ def how_to(
 
 
 def _readmes() -> tuple:
-	"""Each module README, as (path, time it last changed), for the cache key."""
-	return tuple((str(one), one.stat().st_mtime) for one in sorted(APP.glob("*/README.md")))
+	"""What people read about each module, as (path, time it last changed),
+	for the cache key: its README, or, for a module with an AGENTS.md, the
+	pages of its docs/ (docs/READY.md, A module's folder)."""
+	return tuple((str(one), one.stat().st_mtime) for one in manuals())
+
+
+def manuals() -> list[Path]:
+	found = []
+	for readme in sorted(APP.glob("*/README.md")):
+		found.append(readme)
+	for agents in sorted(APP.glob("*/AGENTS.md")):
+		found += sorted(path for path in (agents.parent / "docs").glob("*.md"))
+	return found
 
 
 @lru_cache(maxsize=4)
 def _sections(readmes: tuple) -> tuple:
 	found = []
 	for path, _changed in readmes:
-		found += split(Path(path).read_text(encoding="utf-8"))
+		found += split(page(Path(path)))
 	return tuple(found)
+
+
+def page(path: Path) -> str:
+	"""A module's README as it is, or one page of its docs/ under the module's
+	name: "# Out of Office" read as OneMail › Out of Office."""
+	text = path.read_text(encoding="utf-8")
+	if path.parent.name != "docs":
+		return text
+	module = (path.parent.parent / "AGENTS.md").read_text(encoding="utf-8").split("\n", 1)[0].lstrip("# ").strip()
+	text = re.sub(r"^(#{1,2}) ", lambda found: "#" * (len(found.group(1)) + 1) + " ", text, flags=re.M)
+	return f"# {module}\n\n{text}"
 
 
 CODE = re.compile(r"\s*\((?:[^()`]{0,20}`[^`]+`[^()]*?)\)")

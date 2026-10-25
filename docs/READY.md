@@ -124,35 +124,29 @@ that reads the strings a screen actually shows, not only doctype JSON.
 
 ### 2. One home per module
 
-**Today.** OneMail is about thirty files in `onedesk/one_mail/`, and the
-rest are spread out:
+**Done for OneMail.** Everything of OneMail is in its places
+(`onedesk/one/ready.py`):
 
-- **Desk JS and CSS:** `public/js/onemail_settings.js`, `mail_compose.js`,
-  `rule_builder.js`, `record_mail.js`, `public/css/onemail_settings.css` and
-  `record_mail.css`.
-- **The island:** `frontend/src/mail/` and `frontend/src/islands/onemail.js`.
-- **Python elsewhere:** `one_mail/mail_templates.py`, part of `one/ai.py`, and
-  `one_demo/mail.py`.
-- **Notifications:** `notifications/one_mail/*.md`.
-- **Tests:** `tests/test_mail.py`, `tests/test_mail_templates.py`, and the
-  `onemail_*` checks in `one_demo/check.py`.
+- **The folder,** `onedesk/one_mail/`. It holds the Python, the doctypes, the
+  notification types (`notifications.py`), the OneAI tools (`ai.py`, now
+  including the mailbox and template tools), mail templates
+  (`mail_templates.py`), its demo step (`demo.py`, still called "mail" by the
+  build), its checks (`checks.py`, which the suite imports through
+  `ready.MODULES`) and its tests (`tests/`, which plain pytest collects).
+- **Its static folders,** `public/js/one_mail/` and `public/css/one_mail/`:
+  the settings dialog, the composer, the rule builder, the record's Mail tab
+  and the mail template editor.
+- **Its screens,** `frontend/src/mail/`, with the island's entry
+  (`island.js`).
 
-**To build.** Everything moves under `onedesk/one_mail/`, with three
-exceptions frappe forces on us:
+**Kept out on purpose** (`ready.SHARED`): `brand/onemail.svg`, because every
+product's mark is drawn into one sprite; and
+`templates/emails/one_mail.html`, which frames every mail One sends.
 
-- Static files are served only from `onedesk/public/`, so they go to
-  `public/js/one_mail/` and `public/css/one_mail/`.
-- Fixtures are per app.
-- Translations are per app.
-
-Vue source stays in `frontend/src/mail/`, fenced as the module's own.
-Notification types are read per module (the `one_notification_types`
-hook already takes a list). Demo steps and checks go to `one_mail/demo.py`
-and `one_mail/checks.py`, which `one_demo` calls. The layout is **A
-module's folder**, above.
-
-A guard fails on any file outside the module that names `one_mail`, other
-than the wiring in `hooks.py`.
+**Guards.** `tests/guards/test_ready.py` fails on anything left in `OUTSIDE`
+and on any tracked file named for the module outside its places. The guards
+that read the suite read every module's `checks.py` (`tree.suite()`), and the
+ones that read only the top of `public/js` or `public/css` also read `one_*/`.
 
 ### 3. Versions and What's New
 
@@ -184,7 +178,18 @@ than the wiring in `hooks.py`.
 
 ### 4. Docs and Help
 
-**Today.** Every module has a `README.md`. Above `## Under the hood` it is
+**Done for OneMail, but for the Help dialog.** Its README is gone:
+`AGENTS.md` holds Connections and what was under the hood, `docs/` holds nine
+pages for its users (What OneMail Is, Your addresses, Settings, Connecting a
+mailbox, Reading and writing, Rules and out of office, Mail on records,
+Attachments and pictures, Asking OneAI), and `SCRATCHPAD.md` holds what is
+not built, the known issues and the order it was built in. OneAI's
+`how_to` reads a module's `docs/` pages when it has an `AGENTS.md`
+(`one_ai/guide.py manuals`), as OneMail › Rules and out of office. The guards
+that read READMEs read these too, and `test_ready.py` fails on any other
+Markdown in the module.
+
+**Before.** Every module has a `README.md`. Above `## Under the hood` it is
 written for users, and OneAI's `how_to` (`one_ai/guide.py`) searches that
 part. No module has a `docs/` folder.
 

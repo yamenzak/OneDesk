@@ -3,10 +3,15 @@ what it takes from them, and the demo suite holds each hand-off to the
 records it leaves (`every_hand_off_left_its_records`). These read the files."""
 
 import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "onedesk"
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import tree  # noqa: E402
+
 BULLET = re.compile(r"^- \*\*(From|To) (\w+)\*\*: \S", re.M)
 
 
@@ -14,7 +19,7 @@ def _products() -> dict[str, str]:
 	"""Each product README (a One title, a manual and its Under the hood), by its title.
 	The demo's and the notifications' READMEs have an Under the hood but are no product."""
 	out = {}
-	for path in sorted(APP.glob("*/README.md")):
+	for path in sorted([*APP.glob("*/README.md"), *APP.glob("*/AGENTS.md")]):
 		text = path.read_text()
 		titled = re.match(r"# (One\w*)\n", text)
 		if titled and "\n## Under the hood" in text:
@@ -38,7 +43,7 @@ def test_every_product_says_its_connections():
 
 
 def test_the_suite_holds_every_hand_off():
-	source = (APP / "one_demo" / "check.py").read_text()
+	source = tree.suite()
 	assert "def every_hand_off_left_its_records" in source and "HANDOFFS = (" in source
 	named = set(re.findall(r'^\t\("(One\w+)", "(One\w+)", ', source, flags=re.M))
 	assert len(named) >= 10, named

@@ -3,12 +3,17 @@ record is changed: the page, the form, a bulk edit, a report view cell or a
 Data Import row. These read the code."""
 
 import ast
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "onedesk"
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import tree  # noqa: E402
+
 HOOKS = (APP / "hooks.py").read_text()
-SUITE = (APP / "one_demo" / "check.py").read_text()
+SUITE = tree.suite()
 
 RULES = (
 	("Project", "onedesk.one_project.status.held", {"status"}, "a_project_with_open_work_is_not_closed_by_hand"),
@@ -89,7 +94,7 @@ def test_no_endpoint_writes_round_a_rule():
 	found = []
 	for path in APP.rglob("*.py"):
 		rel = path.relative_to(APP).as_posix()
-		if rel.startswith("one_demo/") or "/patches/" in f"/{rel}":
+		if rel.startswith("one_demo/") or path.name in ("checks.py", "demo.py") or "/patches/" in f"/{rel}":
 			continue
 		for fn in ast.walk(ast.parse(path.read_text())):
 			if not isinstance(fn, ast.FunctionDef):

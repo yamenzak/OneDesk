@@ -311,7 +311,7 @@ under **Waiting for You** on Home's Today.
 While an approved leave runs, the person's workspace address answers new
 mail on its own with the **Away Message** they wrote on the request, or a
 standard one saying when they're back. Nothing is switched on or off: a
-cancelled leave stops it at once (one_mail/README.md, On leave).
+cancelled leave stops it at once (one_mail/docs/rules-and-out-of-office.md, On leave).
 
 ### Giving people their leave
 

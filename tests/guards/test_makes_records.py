@@ -70,7 +70,7 @@ def _made(upstream: dict) -> dict:
 	made = {}
 	for path in ROOT.rglob("*.py"):
 		parts = path.relative_to(ROOT).parts
-		if len(parts) < 2 or parts[0] in ("tests", "patches", *FILLS, *DEMO) or path.name.startswith("test_"):
+		if len(parts) < 2 or parts[0] in ("tests", "patches", *FILLS, *DEMO) or path.name.startswith("test_") or path.name in ("checks.py", "demo.py"):
 			continue
 		for kind in MADE.findall(path.read_text()):
 			meta = upstream.get(kind)

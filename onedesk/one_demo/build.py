@@ -42,6 +42,11 @@ STEPS = (
 )
 
 
+# A step that lives in its module's folder (docs/READY.md, A module's
+# folder), by the name the site already knows it by.
+MOVED = {"mail": "onedesk.one_mail.demo"}
+
+
 def done() -> list[str]:
 	return json.loads(frappe.db.get_default(DONE) or "[]")
 
@@ -62,7 +67,7 @@ def load(password: str | None = None, only: str | None = None) -> None:
 		if step in done() and not only:
 			continue
 		print(f"demo: {step}")
-		module = frappe.get_module(f"onedesk.one_demo.{step}")
+		module = frappe.get_module(MOVED.get(step, f"onedesk.one_demo.{step}"))
 		module.run(password=password)
 		frappe.db.commit()
 		if step not in done():
