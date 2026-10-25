@@ -155,7 +155,6 @@ Gemini stays on the gateway's Google route.
 | Routes | `dynamic/<job>-<tier>`, versioned JSON in `deploy/gateway/routes/`, pushed by a script | Swap a model without a deploy; fall back to the other provider |
 | A ceiling per workspace | a spend limit split by `metadata.tenant` | A backstop behind credits, never the meter |
 | Prompt checks | Guardrails, prompt injection (P1), set to flag | Mail and files are written by strangers; flag first, block once measured |
-| Stored keys only | `byok_only: true` | No silent fall-through to Cloudflare's billing |
 
 Routes only take the chat shape, so only the jobs that talk use them. Stage
 1 falls back in code (`models.USE` names the second model) so it works with
