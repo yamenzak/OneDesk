@@ -9220,6 +9220,29 @@ def setup_steps_are_slides_then_to_dos():
 			frappe.db.set_default(setup_steps.FLAG.format("one_mail", key), value or "")
 
 
+@check
+def tour_runs_once_then_from_help():
+	"""OneMail's tour (one/tours.py): six steps in the reader's language, each
+	at a mark; a reader who hasn't taken it has it in the boot, and once
+	taken or closed it doesn't start on its own again."""
+	from onedesk.one import tours
+
+	key = tours.SEEN.format("one_mail")
+	with as_user("nadia@one.test"):
+		was = frappe.defaults.get_user_default(key)
+		try:
+			frappe.defaults.clear_user_default(key)
+			assert "OneMail" in tours.unseen()
+			steps = tours.tour("OneMail")
+			assert [one["target"] for one in steps][:2] == ["window-nav", "onemail-new"], steps
+			assert all(one["title"] and one["text"] for one in steps), steps
+			tours.seen("OneMail")
+			assert "OneMail" not in tours.unseen()
+		finally:
+			if was != "1":
+				frappe.defaults.clear_user_default(key)
+
+
 def _modules() -> None:
 	"""A module's own checks, in its folder (docs/READY.md, A module's folder),
 	registered by importing them."""

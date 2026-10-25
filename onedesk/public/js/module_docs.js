@@ -87,7 +87,16 @@ onedesk.module_docs.Dialog = class ModuleDocsDialog extends frappe.ui.SettingsDi
 		for (const group of this.tabs) for (const item of group.items || []) this._items[item.id] = item;
 		this._items[onedesk.module_docs.SEARCH] = this.search_item();
 
-		onedesk.module_head(this.$sidebar, { center: this.center, module: this.module });
+		const $head = onedesk.module_head(this.$sidebar, { center: this.center, module: this.module });
+		if (this.center === "help") {
+			$(frappe.ui.button.html({ variant: "ghost", icon: "map", title: __("Take the Tour"), attrs: { "aria-label": __("Take the Tour") } }))
+				.addClass("one-module-head-help")
+				.on("click", () => {
+					this.hide();
+					onedesk.tour.run(this.module);
+				})
+				.appendTo($head);
+		}
 
 		const $search = $(`<label class="one-docs-search"></label>`).appendTo(this.$sidebar);
 		$search.append(frappe.utils.icon("search", "sm"));
@@ -351,4 +360,91 @@ onedesk.help.open = async (module, page = null, anchor = null) => {
 	dialog.show();
 	if (anchor) setTimeout(() => dialog.go(page, anchor), 300);
 	return dialog;
+};
+
+// A module's tour (one/tours.py): its steps, each at a `data-tour` mark on
+// the screen, on frappe's driver. It starts on its own the first time the
+// module is opened, and again from HelpCenter's Take the Tour.
+frappe.provide("onedesk.tour");
+
+onedesk.tour.run = async (module) => {
+	const steps = await frappe.xcall("onedesk.one.tours.tour", { module });
+	const shown = steps
+		.map((step) => ({ step, el: onedesk.tour.find(step.target) }))
+		.filter(({ el }) => el && el.getClientRects().length);
+	if (!shown.length) {
+		frappe.show_alert({ message: __("Open {0} to take its tour.", [module]), indicator: "blue" });
+		return;
+	}
+	const done = () => {
+		const unseen = frappe.boot.one_tours_unseen || [];
+		if (unseen.includes(module)) unseen.splice(unseen.indexOf(module), 1);
+		frappe.xcall("onedesk.one.tours.seen", { module });
+	};
+	const driver = new frappe.Driver({
+		className: "frappe-driver one-tour",
+		allowClose: true,
+		padding: 6,
+		opacity: 0.25,
+		nextBtnText: __("Next"),
+		prevBtnText: __("Previous"),
+		doneBtnText: __("Done"),
+		closeBtnText: __("Close"),
+		onReset: done,
+	});
+	driver.defineSteps(
+		shown.map(({ step, el }) => ({
+			element: el,
+			popover: { title: step.title, description: step.text, position: step.side },
+			onHighlighted: () => onedesk.tour.lift(el),
+		}))
+	);
+	driver.start();
+};
+
+// An island's parts sit in shadow roots of their own, so a mark is looked
+// for in every one, and driver's highlight rules are lent to the root it is in.
+onedesk.tour.find = (target, root = document) => {
+	const el = root.querySelector(`[data-tour="${CSS.escape(target)}"]`);
+	if (el) return onedesk.tour.lend(el);
+	for (const host of root.querySelectorAll("*")) {
+		const found = host.shadowRoot && onedesk.tour.find(target, host.shadowRoot);
+		if (found) return found;
+	}
+};
+
+onedesk.tour.lend = (el) => {
+	const root = el.getRootNode();
+	if (!(root instanceof ShadowRoot)) return el;
+	if (!onedesk.tour._sheet) {
+		onedesk.tour._sheet = new CSSStyleSheet();
+		const rules = [...document.styleSheets].flatMap((sheet) => {
+			try {
+				return [...sheet.cssRules].map((rule) => rule.cssText).filter((text) => text.includes(".driver-"));
+			} catch (e) {
+				return [];
+			}
+		});
+		onedesk.tour._sheet.replaceSync(rules.join("\n"));
+	}
+	if (!root.adoptedStyleSheets.includes(onedesk.tour._sheet))
+		root.adoptedStyleSheets = [...root.adoptedStyleSheets, onedesk.tour._sheet];
+	return el;
+};
+
+// Driver lifts a mark out of the layers above it, but stops at a shadow
+// root; the layers outside it (the sticky command row) are lifted here.
+onedesk.tour.lift = (el) => {
+	for (let at = el.getRootNode().host; at && at !== document.body; at = at.parentElement || at.getRootNode().host) {
+		const style = getComputedStyle(at);
+		if (/[0-9]/.test(style.zIndex) || +style.opacity < 1 || style.transform !== "none" || style.filter !== "none")
+			at.classList.add("driver-fix-stacking");
+	}
+};
+
+// The first time somebody opens a module, once its screen has drawn.
+onedesk.tour.first = (module) => {
+	if (!(frappe.boot.one_tours_unseen || []).includes(module) || onedesk.tour._started) return;
+	onedesk.tour._started = true;
+	setTimeout(() => onedesk.tour.run(module), 1500);
 };

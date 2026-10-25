@@ -1,7 +1,7 @@
 <template>
   <WindowPart :win="win" part="commands" inline>
     <span class="inline-flex items-center gap-0.5">
-      <Button variant="solid" icon-left="lucide-pencil" :label="__('New Email')" :disabled="!from" @click="write()" />
+      <Button variant="solid" icon-left="lucide-pencil" :label="__('New Email')" :disabled="!from" data-tour="onemail-new" @click="write()" />
       <template v-if="picked.size">
         <span class="mx-1 h-5 w-px bg-surface-gray-4" />
         <template v-for="one in commands" :key="one.act">
@@ -25,7 +25,7 @@
   </WindowPart>
 
   <div ref="root" class="flex h-full min-h-0 text-ink-gray-8 outline-none" tabindex="-1" @keydown="key">
-    <div class="w-96 shrink-0 border-e border-outline-gray-1 max-md:w-full" :class="{ 'max-md:hidden': thread }">
+    <div class="w-96 shrink-0 border-e border-outline-gray-1 max-md:w-full" :class="{ 'max-md:hidden': thread }" data-tour="onemail-list">
       <Loading v-if="loading && !items.length" />
       <ContextMenu v-else :options="menu" class="h-full">
         <template #trigger>
@@ -46,7 +46,7 @@
         </template>
       </ContextMenu>
     </div>
-    <div class="min-w-0 flex-1" :class="{ 'max-md:hidden': !thread }">
+    <div class="min-w-0 flex-1" :class="{ 'max-md:hidden': !thread }" data-tour="onemail-reading">
       <div v-if="!boxes.length && !loading" class="flex h-full flex-col items-center justify-center gap-2 text-ink-gray-5">
         <span class="lucide-mail size-6" aria-hidden="true" />
         <span class="text-base">{{ __("No mailboxes") }}</span>

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-25 14:23+0000\n"
-"PO-Revision-Date: 2026-10-25 14:23+0000\n"
+"POT-Creation-Date: 2026-10-25 14:42+0000\n"
+"PO-Revision-Date: 2026-10-25 14:42+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -262,7 +262,7 @@ msgstr ""
 msgid "1 item selected"
 msgstr ""
 
-#: onedesk/public/js/module_docs.js:190
+#: onedesk/public/js/module_docs.js:199
 msgid "1 matching section"
 msgstr ""
 
@@ -8100,8 +8100,8 @@ msgstr ""
 
 #: frontend/src/cloud/CloudUploads.vue:5 frontend/src/kit/Drawer.vue:9
 #: frontend/src/sheet/components/SheetEditor/index.vue:609
-#: onedesk/public/js/oneai/Panel.vue:38 onedesk/public/js/opportunity.js:12
-#: onedesk/public/js/workbooks.js:122
+#: onedesk/public/js/module_docs.js:392 onedesk/public/js/oneai/Panel.vue:38
+#: onedesk/public/js/opportunity.js:12 onedesk/public/js/workbooks.js:122
 msgid "Close"
 msgstr ""
 
@@ -12643,7 +12643,8 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 #: onedesk/one_project/portal.py:13
 #: onedesk/one_task/doctype/task_step/task_step.json
-#: onedesk/public/js/learned.js:31 onedesk/public/js/module_settings.js:120
+#: onedesk/public/js/learned.js:31 onedesk/public/js/module_docs.js:391
+#: onedesk/public/js/module_settings.js:120
 #: onedesk/public/js/one_mail/rule_builder.js:248
 #: onedesk/public/js/one_mail/rule_builder.js:318
 #: onedesk/public/js/progress.js:46 onedesk/public/js/progress.js:77
@@ -14645,6 +14646,10 @@ msgstr ""
 
 #: onedesk/one_book/home.py:344
 msgid "Every line of every sales invoice."
+msgstr ""
+
+#: onedesk/one_mail/tour.py:11
+msgid "Every mailbox you can read is here, and each opens to its folders."
 msgstr ""
 
 #: onedesk/one_studio/doctype/extension/extension.js:35
@@ -18022,7 +18027,7 @@ msgid "Hello, {0}"
 msgstr ""
 
 #: onedesk/public/js/module_settings.js:47
-#: onedesk/public/js/window/nav_tree.js:219
+#: onedesk/public/js/window/nav_tree.js:222
 msgid "Help"
 msgstr ""
 
@@ -24995,7 +25000,7 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_leave_allocation/one_leave_allocation.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/public/js/doctype_settings.js:57 onedesk/public/js/item_new.js:266
-#: onedesk/public/js/module_docs.js:240 onedesk/public/js/module_docs.js:249
+#: onedesk/public/js/module_docs.js:249 onedesk/public/js/module_docs.js:258
 msgid "New"
 msgstr ""
 
@@ -25394,6 +25399,7 @@ msgstr ""
 #: onedesk/one/print_blocks.py:687
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:199
 #: onedesk/public/js/doctype_settings.js:328 onedesk/public/js/item_new.js:326
+#: onedesk/public/js/module_docs.js:389
 #: onedesk/public/js/project_actions.js:554
 #: onedesk/public/js/project_new.js:263 onedesk/public/js/settings.js:1765
 msgid "Next"
@@ -27094,7 +27100,7 @@ msgstr ""
 msgid "Nothing matches"
 msgstr ""
 
-#: onedesk/public/js/module_docs.js:193
+#: onedesk/public/js/module_docs.js:202
 msgid "Nothing matches. Try fewer words."
 msgstr ""
 
@@ -29066,6 +29072,10 @@ msgstr ""
 msgid "Open on Shop Floor"
 msgstr ""
 
+#: onedesk/one_mail/tour.py:23
+msgid "Open one to read it, or tick several to file or archive them together."
+msgstr ""
+
 #: frontend/src/cloud/OneCloud.vue:548 frontend/src/cloud/OneCloud.vue:606
 msgid "Open record"
 msgstr ""
@@ -29092,6 +29102,10 @@ msgstr ""
 
 #: frontend/src/project/Time.vue:57
 msgid "Open {0} Older Entries"
+msgstr ""
+
+#: onedesk/public/js/module_docs.js:376
+msgid "Open {0} to take its tour."
 msgstr ""
 
 #. Label of the source_kind (Data) field in DocType 'Writer Document'
@@ -32235,7 +32249,8 @@ msgstr ""
 
 #: frontend/portal/src/parts/Gallery.vue:9 frontend/src/project/Media.vue:8
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:197
-#: onedesk/public/js/item_new.js:217 onedesk/public/js/project_new.js:251
+#: onedesk/public/js/item_new.js:217 onedesk/public/js/module_docs.js:390
+#: onedesk/public/js/project_new.js:251
 msgid "Previous"
 msgstr ""
 
@@ -33740,7 +33755,7 @@ msgstr ""
 msgid "Read List"
 msgstr ""
 
-#: onedesk/public/js/module_docs.js:253
+#: onedesk/public/js/module_docs.js:262
 msgid "Read More"
 msgstr ""
 
@@ -33760,6 +33775,10 @@ msgstr ""
 
 #: onedesk/public/js/one_mail/onemail_settings.js:377
 msgid "Read and Filed"
+msgstr ""
+
+#: onedesk/one_mail/tour.py:28
+msgid "Read and Reply"
 msgstr ""
 
 #: onedesk/public/js/one_mail/onemail_settings.js:65
@@ -35698,7 +35717,7 @@ msgstr ""
 msgid "Results for {0}"
 msgstr ""
 
-#: onedesk/public/js/module_docs.js:189
+#: onedesk/public/js/module_docs.js:198
 msgid "Results for “{0}”"
 msgstr ""
 
@@ -36850,7 +36869,7 @@ msgstr ""
 #: frontend/src/to_order/ToOrderPage.vue:9
 #: frontend/src/upkeep/UpkeepPage.vue:10
 #: onedesk/one_hr/custom/employee_attendance_tool.json
-#: onedesk/public/js/crumb_switch.js:110 onedesk/public/js/module_docs.js:95
+#: onedesk/public/js/crumb_switch.js:110 onedesk/public/js/module_docs.js:104
 #: onedesk/public/js/one_mail/onemail_settings.js:1377
 #: onedesk/public/js/window/chrome.js:72 onedesk/public/js/window/chrome.js:73
 msgid "Search"
@@ -36868,6 +36887,10 @@ msgstr ""
 
 #: frontend/src/floor/ShopFloor.vue:35
 msgid "Search Work Orders"
+msgstr ""
+
+#: onedesk/one_mail/tour.py:34
+msgid "Search Your Mail"
 msgstr ""
 
 #. Task in the Website project template
@@ -37708,6 +37731,10 @@ msgstr ""
 msgid "Set up the venue"
 msgstr ""
 
+#: onedesk/one_mail/tour.py:41
+msgid "Set up your mailboxes in Settings, and find this tour again in Help."
+msgstr ""
+
 #: onedesk/one/automations.py:111
 msgid "Set value of document fields."
 msgstr ""
@@ -37766,6 +37793,10 @@ msgstr ""
 #. Name of a notification
 #: onedesk/notifications/one_admin/settings_changed.md
 msgid "Settings Changed"
+msgstr ""
+
+#: onedesk/one_mail/tour.py:40
+msgid "Settings and Help"
 msgstr ""
 
 #. Task in the Office Move project template
@@ -39586,6 +39617,10 @@ msgstr ""
 msgid "Start Timer"
 msgstr ""
 
+#: onedesk/one_mail/tour.py:17
+msgid "Start a new email here, or press C anywhere in OneMail."
+msgstr ""
+
 #: onedesk/one_project/ai.py:189
 msgid "Start a new project. Ask me what it is, who it is for and when it runs, then offer a template we have or one from the library."
 msgstr ""
@@ -41179,6 +41214,10 @@ msgstr ""
 msgid "Take back {0} and record it with Take Back on the asset's page."
 msgstr ""
 
+#: onedesk/public/js/module_docs.js:92
+msgid "Take the Tour"
+msgstr ""
+
 #. Label in the One Salary Statement print format
 #: frontend/src/home/HrStory.vue:26 onedesk/one/print_blocks.py:943
 #: onedesk/one_hr/print_format/one_salary_statement/one_salary_statement.json
@@ -42552,6 +42591,10 @@ msgstr ""
 #. Subject of a notification
 #: onedesk/notifications/one_crm/contract_expiring.md
 msgid "The contract with {party} ends on {date}"
+msgstr ""
+
+#: onedesk/one_mail/tour.py:29
+msgid "The conversation opens here, with the records it is linked to above it."
 msgstr ""
 
 #. Message of a notification
@@ -46148,6 +46191,10 @@ msgstr ""
 msgid "Type the code you were given."
 msgstr ""
 
+#: onedesk/one_mail/tour.py:35
+msgid "Type to search, and narrow it with from:, subject: or is:unread."
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_book/home.py:354 onedesk/one_book/sidebar/onebook/onebook.json
 msgid "UAE VAT 201"
@@ -48874,12 +48921,12 @@ msgstr ""
 msgid "What's Maintained"
 msgstr ""
 
-#: onedesk/public/js/window/nav_tree.js:224
+#: onedesk/public/js/window/nav_tree.js:227
 msgid "What's New"
 msgstr ""
 
-#: onedesk/public/js/module_docs.js:276
-#: onedesk/public/js/window/nav_tree.js:224
+#: onedesk/public/js/module_docs.js:285
+#: onedesk/public/js/window/nav_tree.js:227
 msgid "What's New in {0}"
 msgstr ""
 
@@ -51861,6 +51908,10 @@ msgstr ""
 msgid "Write a short, kind note telling this applicant they were not chosen, that thanks them for something specific in their application. Do not give reasons."
 msgstr ""
 
+#: onedesk/one_mail/tour.py:16
+msgid "Write an Email"
+msgstr ""
+
 #: onedesk/one_studio/ai.py:54
 msgid "Write an extension that "
 msgstr ""
@@ -52393,6 +52444,10 @@ msgstr ""
 msgid "Your Company's Mail"
 msgstr ""
 
+#: onedesk/one_mail/tour.py:22
+msgid "Your Conversations"
+msgstr ""
+
 #: frontend/portal/src/pages/YourData.vue:2 onedesk/one/portal.py:45
 #: onedesk/public/js/login.js:73 onedesk/public/js/settings.js:169
 #: onedesk/www/your_data.html:15 onedesk/www/your_data.py:23
@@ -52422,6 +52477,10 @@ msgstr ""
 
 #: onedesk/public/js/one_mail/onemail_settings.js:1454
 msgid "Your Mail"
+msgstr ""
+
+#: onedesk/one_mail/tour.py:10
+msgid "Your Mailboxes"
 msgstr ""
 
 #: onedesk/templates/includes/one_account_tabs.html:1
@@ -54443,8 +54502,8 @@ msgstr ""
 msgid "{0} GB storage"
 msgstr ""
 
-#: onedesk/public/js/module_docs.js:325
-#: onedesk/public/js/window/nav_tree.js:219
+#: onedesk/public/js/module_docs.js:334
+#: onedesk/public/js/window/nav_tree.js:222
 msgid "{0} Help"
 msgstr ""
 
@@ -55199,6 +55258,10 @@ msgstr ""
 msgid "{0} has no tasks."
 msgstr ""
 
+#: onedesk/one/tours.py:36
+msgid "{0} has no tour."
+msgstr ""
+
 #: onedesk/one/versions.py:24
 msgid "{0} has no versions."
 msgstr ""
@@ -55939,7 +56002,7 @@ msgstr ""
 msgid "{0} managers"
 msgstr ""
 
-#: onedesk/public/js/module_docs.js:190
+#: onedesk/public/js/module_docs.js:199
 msgid "{0} matching sections"
 msgstr ""
 

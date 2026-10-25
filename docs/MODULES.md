@@ -370,6 +370,8 @@ No doctypes yet.
 * `onedesk.one.signin.sign_out`
 * `onedesk.one.signin.update_password`
 * `onedesk.one.start_again.start`
+* `onedesk.one.tours.seen`
+* `onedesk.one.tours.tour`
 * `onedesk.one.versions.help_pages`
 * `onedesk.one.versions.whats_new`
 * `onedesk.one_admin.accounts.ask_email_change`

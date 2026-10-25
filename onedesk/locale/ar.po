@@ -14422,6 +14422,10 @@ msgstr "كل ساعة"
 msgid "Every Mailbox"
 msgstr "كل صناديق البريد"
 
+#: onedesk/one_mail/tour.py
+msgid "Every mailbox you can read is here, and each opens to its folders."
+msgstr "كل صندوق بريد يمكنك قراءته موجود هنا، وكل واحد يفتح على مجلداته."
+
 #. Option for the 'When' (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Every Month"
@@ -27239,6 +27243,14 @@ msgstr "الرقمية فقط"
 msgid "OK"
 msgstr "جيد"
 
+#: onedesk/one_mail/tour.py
+msgid "Open one to read it, or tick several to file or archive them together."
+msgstr "افتح واحدة لقراءتها، أو حدّد عدة محادثات لتصنيفها أو أرشفتها معًا."
+
+#: onedesk/public/js/module_docs.js
+msgid "Open {0} to take its tour."
+msgstr "افتح {0} لتأخذ جولته."
+
 #: onedesk/public/js/settings.js:507
 msgid "OTP App"
 msgstr ""
@@ -33481,6 +33493,10 @@ msgstr "التقييمات"
 msgid "Read"
 msgstr "اقرأ"
 
+#: onedesk/one_mail/tour.py
+msgid "Read and Reply"
+msgstr "اقرأ وردّ"
+
 #. Label of the how (Data) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Read As"
@@ -36057,6 +36073,18 @@ msgstr "يعمل مرة واحدة بالإعدادات أعلاه ويستهل�
 msgid "Runs with {0}'s permissions."
 msgstr "يعمل بصلاحيات {0}."
 
+#: onedesk/one_mail/tour.py
+msgid "Search Your Mail"
+msgstr "ابحث في بريدك"
+
+#: onedesk/one_mail/tour.py
+msgid "Set up your mailboxes in Settings, and find this tour again in Help."
+msgstr "اضبط صناديق بريدك في الإعدادات، وستجد هذه الجولة مجددًا في المساعدة."
+
+#: onedesk/one_mail/tour.py
+msgid "Settings and Help"
+msgstr "الإعدادات والمساعدة"
+
 #. Option for the 'Kind' (Select) field in DocType 'Cloud Mount'
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 msgid "SFTP"
@@ -36078,6 +36106,10 @@ msgstr "منفذ SMTP"
 #: onedesk/public/js/onemail.js:800 onedesk/public/js/onemail_settings.js:219
 msgid "SMTP Server"
 msgstr "خادم SMTP"
+
+#: onedesk/one_mail/tour.py
+msgid "Start a new email here, or press C anywhere in OneMail."
+msgstr "ابدأ بريدًا جديدًا من هنا، أو اضغط C في أي مكان في OneMail."
 
 #. Label in the One Bank Guarantee print format
 #. Label in the One Payment Request print format
@@ -40800,9 +40832,17 @@ msgstr "صناديق بريد النظام"
 msgid "System Manager"
 msgstr "مدير النظام"
 
+#: onedesk/public/js/module_docs.js
+msgid "Take the Tour"
+msgstr "خذ الجولة"
+
 #: onedesk/public/js/size.js:6
 msgid "TB"
 msgstr "تيرابايت"
+
+#: onedesk/one_mail/tour.py
+msgid "The conversation opens here, with the records it is linked to above it."
+msgstr "تُفتح المحادثة هنا، والسجلات المرتبطة بها فوقها."
 
 #: onedesk/one/letter_heads.py:132
 #: onedesk/one_book/report/books_check/books_check.js:20
@@ -45810,6 +45850,10 @@ msgstr "اكتب / لإدراج حقل من السجل."
 #: onedesk/one/private.py:82
 msgid "Type the code you were given."
 msgstr "اكتب الرمز الذي أُعطي لك."
+
+#: onedesk/one_mail/tour.py
+msgid "Type to search, and narrow it with from:, subject: or is:unread."
+msgstr "اكتب للبحث، وضيّقه بـ from: أو subject: أو is:unread."
 
 #. Label of a Sidebar Item
 #: onedesk/one_book/home.py:354 onedesk/one_book/sidebar/onebook/onebook.json
@@ -51433,6 +51477,10 @@ msgstr "التفاف"
 msgid "Wrap text"
 msgstr "التفاف النص"
 
+#: onedesk/one_mail/tour.py
+msgid "Write an Email"
+msgstr "اكتب بريدًا"
+
 #: onedesk/public/js/intake.js:57 onedesk/public/js/intake.js:160
 msgid "Write Cancellation"
 msgstr "كتابة الإلغاء"
@@ -52015,6 +52063,10 @@ msgstr "لقد أرسلت كل شيء. لا يزال بإمكانك استبدا
 msgid "Your Company's Mail"
 msgstr "بريد شركتك"
 
+#: onedesk/one_mail/tour.py
+msgid "Your Conversations"
+msgstr "محادثاتك"
+
 #: frontend/portal/src/pages/YourData.vue:2 onedesk/one/portal.py:45
 #: onedesk/public/js/login.js:73 onedesk/public/js/settings.js:164
 #: onedesk/www/your_data.html:15 onedesk/www/your_data.py:23
@@ -52045,6 +52097,10 @@ msgstr "تعليماتك"
 #: onedesk/public/js/onemail_settings.js:428
 msgid "Your Mail"
 msgstr "بريدك"
+
+#: onedesk/one_mail/tour.py
+msgid "Your Mailboxes"
+msgstr "صناديق بريدك"
 
 #: onedesk/templates/includes/one_account_tabs.html:1
 #: onedesk/www/account.html:2
@@ -54050,6 +54106,10 @@ msgstr "{0} غيغابايت قاعدة بيانات"
 #: onedesk/one_admin/doctype/offering/offering.py:74 onedesk/www/start.py:110
 msgid "{0} GB storage"
 msgstr "{0} غيغابايت تخزين"
+
+#: onedesk/one/tours.py
+msgid "{0} has no tour."
+msgstr "لا توجد جولة في {0}."
 
 #: onedesk/public/js/module_docs.js:81 onedesk/public/js/window/nav_tree.js:213
 msgid "{0} Help"

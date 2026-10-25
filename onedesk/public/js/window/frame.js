@@ -228,7 +228,7 @@ onedesk.window.Window = class Window {
 				__("Up")
 			)}</div>`
 		).prependTo($content);
-		this.$tools = $(`<div class="one-window-tools">${button("refresh", "refresh-cw", __("Refresh"))}<div class="one-window-search"></div></div>`).insertAfter(
+		this.$tools = $(`<div class="one-window-tools">${button("refresh", "refresh-cw", __("Refresh"))}<div class="one-window-search" data-tour="window-search"></div></div>`).insertAfter(
 			$content.children(".page-title")
 		);
 		$(`<div class="one-window-break"></div>`).insertAfter(this.$tools);
@@ -505,7 +505,7 @@ onedesk.window.Window = class Window {
 	// A container in the nav pane, under this view's row, for a tree of its
 	// own (`onedesk.window.nav.place`).
 	nav_slot() {
-		if (!this.$slot) this.$slot = $(`<div class="one-window-nav-slot" role="tree"></div>`);
+		if (!this.$slot) this.$slot = $(`<div class="one-window-nav-slot" role="tree" data-tour="window-nav"></div>`);
 		onedesk.window.nav.place();
 		return this.$slot;
 	}

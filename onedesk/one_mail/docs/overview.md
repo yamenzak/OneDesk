@@ -15,6 +15,9 @@ message can be linked to the customer, supplier or employee it is about.
 | **The reading pane** | The conversation you opened, with the records it is linked to above it. |
 | **The foot** | **Settings**, the question mark that opens this Help, and OneMail's version, which opens What's New. |
 
+The first time you open OneMail, a short tour shows you each of these. To
+take it again, press **Take the Tour** at the top of this Help.
+
 ## Where to Start
 
 | I want to | Read |

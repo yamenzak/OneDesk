@@ -2467,6 +2467,13 @@ OVERRIDES = [
 		"if outgoing_email_account:",
 	),
 	(
+		"A module's tour reaches into an island",
+		"frappe.Driver lifts a step's element by classes its own stylesheet styles and walks up only to a shadow root; module_docs.js lends those rules to the island's root and adds driver-fix-stacking above it",
+		"onedesk/public/js/module_docs.js",
+		"frappe/frappe/public/scss/desk/driver.scss",
+		".driver-fix-stacking {",
+	),
+	(
 		"A driver is shown by name",
 		"ERPNext's Driver is named HR-DRI-…, so a trip's Driver field showed the code; a property setter turns on show_title_field_in_link, and frappe shows its full_name",
 		"onedesk/one_inventory/custom/driver.json",

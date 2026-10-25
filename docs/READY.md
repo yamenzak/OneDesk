@@ -441,7 +441,29 @@ Which steps the wizard shows is decided when the wizard is built.
 
 ### 10. Tours
 
-**Today.** Frappe ships Form Tour (`ui_tour`, `page_route`), started from
+**Built.** A module declares its tour in its own `tour.py` as STEPS: the
+`data-tour` mark it points at, the side its popover opens on, a heading of
+five words or fewer and one sentence. Marks are attributes, never classes;
+the window's own (`window-nav`, `window-search`, `window-foot`) serve every
+module. `one/tours.py` gives the steps in the reader's language (`tour`),
+the modules a reader hasn't toured, in the boot (`unseen`), and remembers a
+tour taken or closed as a user default (`seen`). The runner in
+`module_docs.js` puts them on `frappe.Driver`: the first time the module's
+foot draws (`onedesk.tour.first`) and from HelpCenter's **Take the Tour**.
+An island's parts sit in shadow roots, so the runner looks for a mark in
+each, lends driver's highlight rules to the root it is in, and lifts the
+layers outside it that driver's own walk stops short of. `test_ready.py`
+fails on a ready module without `tour.py`, a step whose mark is nowhere in
+its screens or the window's, a heading over five words, or text over one
+sentence. OneMail's six: mailboxes, New Email, the list, the reading pane,
+search, and the foot.
+
+**Why not Form Tour.** It is kept per form or page route in the database
+and `user.onboarding_status`, and its steps are found with
+`document.querySelector`, which can't see into an island. Steps as code
+beside the module are translated, guarded and versioned like the rest of it.
+
+**Before.** Frappe ships Form Tour (`ui_tour`, `page_route`), started from
 `frappe.boot.onboarding_tours` and remembered in `user.onboarding_status`.
 `frappe.Driver` is loaded on every page. We use none of it.
 

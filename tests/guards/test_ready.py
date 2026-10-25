@@ -300,3 +300,31 @@ def test_a_module_says_what_setting_it_up_takes():
 			assert f'id: "{keys["tab"].value}"' in code, f"{where} names a tab, {keys['tab'].value}, its settings don't have"
 			if "fields" in keys:
 				assert "save" in keys, f"{where} has fields and nothing saves them"
+
+
+WINDOW_MARKS = ("onedesk/public/js/window/frame.js", "onedesk/public/js/window/nav_tree.js")
+
+
+def test_a_module_ships_a_tour_of_its_screen():
+	"""A ready module declares its tour in its own tour.py (docs/READY.md,
+	mechanism 10): each step points at a `data-tour` mark its screen or the
+	window draws, never a class, and says it in a heading of five words or
+	fewer and one sentence."""
+	import ast
+
+	marks = "\n".join((ROOT / path).read_text(encoding="utf-8") for path in WINDOW_MARKS)
+	for module, spec in ready.MODULES.items():
+		path = ROOT / "onedesk" / spec["folder"] / "tour.py"
+		assert path.exists(), f"{module} ships no tour: write {path.relative_to(ROOT)}"
+		tree = ast.parse(path.read_text(encoding="utf-8"))
+		steps = next(node.value for node in tree.body if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") == "STEPS")
+		assert steps.elts, f"{module}'s tour has no steps"
+		own = "\n".join(p.read_text(encoding="utf-8") for p in ready.files(module) if p.suffix in (".js", ".vue"))
+		for step in steps.elts:
+			said = {key.value: value for key, value in zip(step.keys, step.values)}
+			target = said["target"].value
+			title, text = said["title"].args[0].value, said["text"].args[0].value
+			where = f"{module}'s tour at {target}"
+			assert f'data-tour="{target}"' in own + marks, f"{where}: nothing draws data-tour=\"{target}\""
+			assert len(title.split()) <= 5, f"{where}: a heading is five words or fewer"
+			assert len(re.findall(r"[.!?](?:\s|$)", text)) == 1 and text.endswith("."), f"{where}: one sentence"

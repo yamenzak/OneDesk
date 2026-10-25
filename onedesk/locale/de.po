@@ -14422,6 +14422,10 @@ msgstr "Jede Stunde"
 msgid "Every Mailbox"
 msgstr "Jedes Postfach"
 
+#: onedesk/one_mail/tour.py
+msgid "Every mailbox you can read is here, and each opens to its folders."
+msgstr "Hier ist jedes Postfach, das Sie lesen dürfen, und jedes öffnet sich zu seinen Ordnern."
+
 #. Option for the 'When' (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Every Month"
@@ -27239,6 +27243,14 @@ msgstr "Nur numerische"
 msgid "OK"
 msgstr "OK"
 
+#: onedesk/one_mail/tour.py
+msgid "Open one to read it, or tick several to file or archive them together."
+msgstr "Öffnen Sie eine, um sie zu lesen, oder markieren Sie mehrere, um sie gemeinsam abzulegen oder zu archivieren."
+
+#: onedesk/public/js/module_docs.js
+msgid "Open {0} to take its tour."
+msgstr "Öffnen Sie {0}, um die Tour zu starten."
+
 #: onedesk/public/js/settings.js:507
 msgid "OTP App"
 msgstr ""
@@ -33481,6 +33493,10 @@ msgstr "Bewertungen"
 msgid "Read"
 msgstr "Lesen"
 
+#: onedesk/one_mail/tour.py
+msgid "Read and Reply"
+msgstr "Lesen und antworten"
+
 #. Label of the how (Data) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Read As"
@@ -36057,6 +36073,18 @@ msgstr "Läuft einmal mit den Einstellungen oben und verbraucht OneAI-Credits."
 msgid "Runs with {0}'s permissions."
 msgstr "Läuft mit den Berechtigungen von {0}."
 
+#: onedesk/one_mail/tour.py
+msgid "Search Your Mail"
+msgstr "E-Mails durchsuchen"
+
+#: onedesk/one_mail/tour.py
+msgid "Set up your mailboxes in Settings, and find this tour again in Help."
+msgstr "Richten Sie Ihre Postfächer in den Einstellungen ein, und finden Sie diese Tour in der Hilfe wieder."
+
+#: onedesk/one_mail/tour.py
+msgid "Settings and Help"
+msgstr "Einstellungen und Hilfe"
+
 #. Option for the 'Kind' (Select) field in DocType 'Cloud Mount'
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 msgid "SFTP"
@@ -36078,6 +36106,10 @@ msgstr "SMTP-Port"
 #: onedesk/public/js/onemail.js:800 onedesk/public/js/onemail_settings.js:219
 msgid "SMTP Server"
 msgstr "SMTP-Server"
+
+#: onedesk/one_mail/tour.py
+msgid "Start a new email here, or press C anywhere in OneMail."
+msgstr "Beginnen Sie hier eine neue E-Mail, oder drücken Sie C überall in OneMail."
 
 #. Label in the One Bank Guarantee print format
 #. Label in the One Payment Request print format
@@ -40800,9 +40832,17 @@ msgstr "Systempostfächer"
 msgid "System Manager"
 msgstr "Systemverwalter"
 
+#: onedesk/public/js/module_docs.js
+msgid "Take the Tour"
+msgstr "Tour starten"
+
 #: onedesk/public/js/size.js:6
 msgid "TB"
 msgstr "TB"
+
+#: onedesk/one_mail/tour.py
+msgid "The conversation opens here, with the records it is linked to above it."
+msgstr "Die Unterhaltung öffnet sich hier, darüber die Datensätze, mit denen sie verknüpft ist."
 
 #: onedesk/one/letter_heads.py:132
 #: onedesk/one_book/report/books_check/books_check.js:20
@@ -45810,6 +45850,10 @@ msgstr "Tippen Sie /, um ein Feld des Datensatzes einzufügen."
 #: onedesk/one/private.py:82
 msgid "Type the code you were given."
 msgstr "Geben Sie den Code ein, den Sie erhalten haben."
+
+#: onedesk/one_mail/tour.py
+msgid "Type to search, and narrow it with from:, subject: or is:unread."
+msgstr "Tippen Sie, um zu suchen, und grenzen Sie mit from:, subject: oder is:unread ein."
 
 #. Label of a Sidebar Item
 #: onedesk/one_book/home.py:354 onedesk/one_book/sidebar/onebook/onebook.json
@@ -51433,6 +51477,10 @@ msgstr "Umbrechen"
 msgid "Wrap text"
 msgstr "Textumbruch"
 
+#: onedesk/one_mail/tour.py
+msgid "Write an Email"
+msgstr "E-Mail schreiben"
+
 #: onedesk/public/js/intake.js:57 onedesk/public/js/intake.js:160
 msgid "Write Cancellation"
 msgstr "Kündigung schreiben"
@@ -52015,6 +52063,10 @@ msgstr "Sie haben alles gesendet. Sie können eine Datei weiterhin ersetzen."
 msgid "Your Company's Mail"
 msgstr "Die E-Mail Ihres Unternehmens"
 
+#: onedesk/one_mail/tour.py
+msgid "Your Conversations"
+msgstr "Ihre Unterhaltungen"
+
 #: frontend/portal/src/pages/YourData.vue:2 onedesk/one/portal.py:45
 #: onedesk/public/js/login.js:73 onedesk/public/js/settings.js:164
 #: onedesk/www/your_data.html:15 onedesk/www/your_data.py:23
@@ -52045,6 +52097,10 @@ msgstr "Ihre Anweisungen"
 #: onedesk/public/js/onemail_settings.js:428
 msgid "Your Mail"
 msgstr "Ihre E-Mails"
+
+#: onedesk/one_mail/tour.py
+msgid "Your Mailboxes"
+msgstr "Ihre Postfächer"
 
 #: onedesk/templates/includes/one_account_tabs.html:1
 #: onedesk/www/account.html:2
@@ -54050,6 +54106,10 @@ msgstr "{0} GB Datenbank"
 #: onedesk/one_admin/doctype/offering/offering.py:74 onedesk/www/start.py:110
 msgid "{0} GB storage"
 msgstr "{0} GB Speicher"
+
+#: onedesk/one/tours.py
+msgid "{0} has no tour."
+msgstr "{0} hat keine Tour."
 
 #: onedesk/public/js/module_docs.js:81 onedesk/public/js/window/nav_tree.js:213
 msgid "{0} Help"

@@ -191,7 +191,7 @@ onedesk.window.Window.prototype.foot_action = function ({ icon, label, click, ve
 	if (!this.$foot_action) {
 		const esc = frappe.utils.escape_html;
 		this.$foot_action = $(
-			`<div class="one-window-foot-action"><div class="standard-sidebar-item"><a class="item-anchor" href="#" role="button"><span class="sidebar-item-icon">${frappe.utils.icon(
+			`<div class="one-window-foot-action" data-tour="window-foot"><div class="standard-sidebar-item"><a class="item-anchor" href="#" role="button"><span class="sidebar-item-icon">${frappe.utils.icon(
 				icon,
 				"sm"
 			)}</span><span class="sidebar-item-label">${esc(label)}</span></a></div></div>`
@@ -208,7 +208,10 @@ onedesk.window.Window.prototype.foot_action = function ({ icon, label, click, ve
 // A module's foot, the same three in every module (docs/READY.md,
 // mechanism 5): Settings, then Help and the version at the row's end.
 onedesk.window.Window.prototype.module_foot = function ({ module, settings }) {
-	return this.foot_action({ icon: "settings", label: __("Settings"), click: settings, version: { module } });
+	this.foot_action({ icon: "settings", label: __("Settings"), click: settings, version: { module } });
+	// A module that draws its foot has drawn its screen: its tour may start.
+	onedesk.tour.first(module);
+	return this;
 };
 
 onedesk.window.Window.prototype.foot_version = function ({ module }) {
