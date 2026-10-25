@@ -41,7 +41,7 @@ MODULES = {
 
 def _app(doctype: str, module: str, apps: dict) -> str | None:
 	"""The app a form is under: the rail that links to it, else its module's,
-	else its module when that is one of One's own (OneIntake, OneMail)."""
+	else its module when that is one of One's own (OneAI, OneMail)."""
 	if doctype in apps:
 		return apps[doctype]
 	if module in MODULES:

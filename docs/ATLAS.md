@@ -651,7 +651,7 @@ Pages: backups (the platform's: backups, which the platform takes and keeps); de
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Auto Email Report | on a rail or a home | the administrator | events | no | taught |  | **none** |  |  |  |  |
 | Document Follow | left out: waits in docs/BACKLOG.md | everybody | untouched | no | general |  | **none** |  |  |  |  |
-| Email Account | through a form's link (User: email_account) | OneHR | events, 22 fields | no | taught |  | yes |  |  |  |  |
+| Email Account | through a form's link (User: email_account) | OneHR, OneMail | events, 22 fields | no | taught |  | yes |  |  |  |  |
 | Email Domain | through a form's link (Email Account: domain) | the administrator | untouched | no | taught |  | **none** |  |  |  |  |
 | Email Flag Queue | engine: read and unread marks on their way to the mail server | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Email Group | on a rail or a home | OneCRM | untouched | no | general |  | yes |  |  |  |  |
@@ -888,14 +888,22 @@ Pages: masters (on a rail or a home); settings (on a rail or a home); workspace-
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| AI Chat | on a rail or a home | everybody | untouched | no | general |  | **none** |  |  |  |  |
+| AI Chat | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  |  |
 | AI Chunk | engine: pieces of documents, mail and records by meaning, which Ctrl+K, OneCloud, OneMail and OneAI search | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | AI Knowledge | on a rail or a home | everybody | untouched | no | taught |  | **none** |  |  |  |  |
 | AI Memory | inside: Workspace Settings › Privacy lists and forgets what OneAI remembers | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | AI Proposal | on a rail or a home | everybody | a head, list script | no | general |  | yes |  |  |  |  |
 | AI Touch | engine: what OneAI wrote into a record, read back as the AI badge on it | **nobody** | untouched | no | general |  | yes |  |  |  |  |
+| File Link | engine: what OneAI filed a document under | the administrator | untouched | no | general |  | yes |  |  |  |  |
+| Identifier | engine: numbers OneAI recognised a party by | the administrator | untouched | no | general |  | yes |  |  |  |  |
+| Intake Action | engine: what OneAI did with an item, shown in its inbox | everybody | untouched | no | general |  | yes |  |  |  |  |
+| Intake Lesson | engine: what OneAI learnt from a correction | the administrator | untouched | no | general |  | **none** |  |  |  |  |
+| Intake Settings | inside: AICenter › Reading | the administrator | untouched | no | general |  |  |  |  |  |  |
+| Reading | inside: a document OneAI read's Reading | the administrator | untouched | no | taught |  | yes |  |  |  | Couldn't Read, Phishing |
 
-Reports: AI Credits (on a rail or a home).
+Reports: AI Credits (on a rail or a home); Deadlines (on a rail or a home); Ready to Submit (on a rail or a home); Spending (on a rail or a home).
+
+Pages: intake (on a rail or a home).
 
 ## onedesk / One Admin
 
@@ -962,21 +970,6 @@ Pages: document (opened by our screens).
 Reports: Attendance by Shift (on a rail or a home); Hiring Pipeline (on a rail or a home); Hours Utilization (on a rail or a home); Monthly Attendance (on a rail or a home).
 
 Pages: onehr (on a rail or a home).
-
-## onedesk / One Intake
-
-| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| File Link | engine: what OneIntake filed a document under | the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Identifier | engine: numbers OneIntake recognised a party by | the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Intake Action | engine: what OneIntake did with an item, shown in its inbox | everybody | untouched | yes | general |  | yes |  |  |  |  |
-| Intake Lesson | engine: what OneIntake learnt from a correction | the administrator | untouched | yes | general |  | **none** |  |  |  |  |
-| Intake Settings | inside: Workspace Settings › OneIntake | the administrator | untouched | no | general |  |  |  |  |  |  |
-| Reading | inside: a OneIntake document's Reading | the administrator | untouched | yes | taught |  | yes |  |  |  | Couldn't Read, Phishing |
-
-Reports: Deadlines (on a rail or a home); Ready to Submit (on a rail or a home); Spending (on a rail or a home).
-
-Pages: intake (on a rail or a home).
 
 ## onedesk / One Inventory
 

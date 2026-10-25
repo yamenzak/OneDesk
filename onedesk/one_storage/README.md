@@ -324,7 +324,7 @@ anything in OneCloud. Sharing, moving and deleting are done in the explorer.
 
 **Read with OneAI** on a file's menu has OneAI read that file now, file it
 and act on it. A folder whose new files OneAI reads is added in One, under
-**OneIntake › What OneAI Reads**. Scans and photos use OneAI credits.
+**OneAI › What OneAI Reads**. Scans and photos use OneAI credits.
 
 With nothing selected, the preview pane shows the folder: how many folders
 and files it holds and their total size. For your own folders, it also shows
@@ -333,11 +333,11 @@ who can see the folder and whether OneAI reads it.
 ## Connections
 
 - **From OneMail**: Each mailbox has a folder under Mail with the files its messages sent and received. An attachment in OneMail can be saved to My Files.
-- **From OneIntake**: A document is attached to the record it belongs to, or filed in a folder for its type and year. It is renamed and tagged.
+- **From OneAI**: A document is attached to the record it belongs to, or filed in a folder for its type and year. It is renamed and tagged.
 - **From OneAdmin**: OneAdmin keeps the workspace's storage limit. A file is refused when there isn't room.
 - **To One**: Every record has a Files tab that opens its folder in OneCloud. Letter heads print their pictures from OneCloud, and the full download includes every file.
 - **To OneMail**: An attachment too large to send goes as a link to the file instead.
-- **To OneIntake**: Every new file can be found by its text. A folder OneAI reads has each new file handled in Intake.
+- **To OneAI**: Every new file can be found by its text. A folder OneAI reads has each new file handled in Intake.
 - **To OneProject**: Photos and videos in a project's Featured Media folder are shown on its page and its portal. The newest photo is its cover.
 - **To OneWorkbook**: New › Workbook makes a workbook in the folder you are in, and opening one opens it in OneWorkbook.
 - **To OneAI**: OneAI answers questions about a file you can open and finds files by what they say. It also lists your largest files and how full the storage is.
@@ -811,11 +811,11 @@ Everything is read as the reader, through the explorer's own rule
 (`namespace.may`), so a file OneAI may read is a file the reader may open. A
 file's text goes to the model only when the reader asks about it, and
 nothing of it is kept but the answer. Finding a file by what it says is
-OneIntake's `find_documents`, which already checks each hit the same way.
+OneAI's `find_documents`, which already checks each hit the same way.
 Sharing, moving and deleting stay the explorer's, where the reader sees what
 they are doing.
 
-What OneIntake read of a file is read once per content, so a copy of a file
+What OneAI read of a file is read once per content, so a copy of a file
 is found by what it holds. The reader may open the file (`_file`, the
-explorer's own rule), so what OneIntake read of it is theirs to see. Nobody
+explorer's own rule), so what OneAI read of it is theirs to see. Nobody
 may read a Reading row by itself, which is why that read is not `get_list`.

@@ -445,8 +445,8 @@ OVERRIDES = [
 	),
 	(
 		"Intake fills a new record's name before frappe names it",
-		"one_intake/fill.py's before_insert hook sets __newname or the naming field, which works because frappe's insert runs before_insert immediately before set_new_name",
-		"onedesk/one_intake/fill.py",
+		"one_ai/reading/fill.py's before_insert hook sets __newname or the naming field, which works because frappe's insert runs before_insert immediately before set_new_name",
+		"onedesk/one_ai/reading/fill.py",
 		"frappe/frappe/model/document.py",
 		'self.run_method("before_insert")',
 	),
@@ -831,7 +831,7 @@ OVERRIDES = [
 	(
 		"OneAI tags a file with Frappe's own tags",
 		"DocTags.add checks write permission for whoever is signed in and the OneAI user holds none, so act.py makes the same two writes, the _user_tags column and a Tag Link, after checking the person OneAI acts for",
-		"onedesk/one_intake/act.py",
+		"onedesk/one_ai/reading/act.py",
 		"frappe/frappe/desk/doctype/tag/tag.py",
 		"def update_tags(doc, tags):",
 	),
@@ -1510,7 +1510,7 @@ OVERRIDES = [
 	(
 		"A bill read for an order keeps the due date it asks for",
 		"the mapper copies the order's payment row, dated from the order, and ERPNext keeps it over the bill's due date; where the order agreed no terms the row is left for ERPNext to make again",
-		"onedesk/one_intake/planning.py",
+		"onedesk/one_ai/reading/planning.py",
 		"erpnext/erpnext/buying/doctype/purchase_order/mapper.py",
 		"PaymentScheduleService(target).set_payment_schedule()",
 	),

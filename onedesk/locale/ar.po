@@ -415,6 +415,10 @@ msgstr "<span class=\"h4\"><b>الآن</b></span>"
 msgid "<span class=\"h4\"><b>Today</b></span>"
 msgstr "<span class=\"h4\"><b>اليوم</b></span>"
 
+#: onedesk/one_studio/places.py
+msgid "A document is opened in Documents."
+msgstr "يُفتح مستند في المستندات."
+
 #: onedesk/one_admin/doctype/private_app/private_app.py:15
 msgid "A Frappe app's name is lowercase letters, digits and underscores."
 msgstr "يتكوّن اسم تطبيق Frappe من أحرف صغيرة وأرقام وشرطات سفلية."
@@ -651,10 +655,6 @@ msgstr "وصل مستند لـ {0}"
 #: onedesk/one_doc/doctype/writer_document_version/writer_document_version.json
 msgid "A document as it stood, kept by its version history: named by somebody, or taken while it was being written."
 msgstr "مستند كما كان، يحفظه سجل نسخه: سمّاه أحدهم أو أُخذ أثناء كتابته."
-
-#: onedesk/one_studio/places.py:293
-msgid "A document is opened in OneIntake's inbox."
-msgstr "يُفتح مستند في صندوق OneIntake."
 
 #. Description of the 'Expires On' (Date) field in DocType 'Employee Document'
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
@@ -1614,6 +1614,10 @@ msgstr "لمسة الذكاء الاصطناعي"
 #: onedesk/public/js/credit_ledger_entry.js:15 onedesk/public/js/tenant.js:21
 msgid "AI Usage"
 msgstr "استخدام الذكاء الاصطناعي"
+
+#: onedesk/one/sidebar/one/one.json
+msgid "AICenter"
+msgstr "AICenter"
 
 #: onedesk/one_mail/ai.py
 msgid "Answers"
@@ -5967,10 +5971,6 @@ msgstr "أقل من حد الثقة."
 msgid "Below this, OneAI's changes wait in Needs Review."
 msgstr "دون هذه القيمة، تنتظر تغييرات OneAI في «بحاجة إلى مراجعة»."
 
-#: onedesk/public/js/settings.js:2857
-msgid "Below this, a person reviews it."
-msgstr "دون هذا الحد، يراجعه شخص."
-
 #. Label of the bench (Data) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Bench"
@@ -6786,6 +6786,10 @@ msgstr "بالبايت، من آخر قياس."
 msgid "Careful answers at a modest cost. Right for most workspaces."
 msgstr "إجابات متأنية بتكلفة معتدلة. مناسب لمعظم مساحات العمل."
 
+#: onedesk/public/js/one_mail/onemail_settings.js
+msgid "Changes OneAI is unsure of wait for approval in Documents."
+msgstr "التغييرات التي لا يتيقن منها OneAI تنتظر الموافقة في المستندات."
+
 #: onedesk/public/js/trust_center.js
 msgid "Changing on {0}"
 msgstr "يتغيّر في {0}"
@@ -7289,10 +7293,6 @@ msgstr "تغيّر: {what}. إن لم تتوقع هذا، فتحقّق من مس
 #: onedesk/public/js/audit_list.js:20
 msgid "Changes"
 msgstr ""
-
-#: onedesk/public/js/onemail_settings.js:468
-msgid "Changes OneAI is unsure of wait for approval in OneIntake."
-msgstr "التغييرات التي لا يتأكد منها OneAI تنتظر الموافقة في OneIntake."
 
 #: onedesk/one_admin/heads.py:451
 msgid "Changes apply only to packs sold from now on."
@@ -8615,10 +8615,6 @@ msgstr ""
 #: onedesk/one/doctype/record_head_chart/record_head_chart.json
 msgid "Conditions on the record, as frappe filters. Empty is always."
 msgstr "شروط على السجل، كمرشحات فرابي. الفارغ يعني دائمًا."
-
-#: onedesk/public/js/settings.js:2857
-msgid "Confidence"
-msgstr "الثقة"
 
 #. Label of the floor (Percent) field in DocType 'Intake Settings'
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
@@ -15598,8 +15594,8 @@ msgid "Filling Up"
 msgstr "يمتلئ"
 
 #: onedesk/public/js/one_mail/onemail_settings.js
-msgid "Fills empty fields, and a different value waits for approval in OneIntake."
-msgstr "يملأ الحقول الفارغة، وتنتظر القيمة المختلفة الموافقة في OneIntake."
+msgid "Fills empty fields, and a different value waits for approval in Documents."
+msgstr "يملأ الحقول الفارغة، وتنتظر القيمة المختلفة الموافقة في المستندات."
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:5
 msgid "Filter Based On"
@@ -18625,6 +18621,10 @@ msgstr "خادم IMAP"
 msgid "IN"
 msgstr ""
 
+#: onedesk/one_studio/doctype/extension/extension.js
+msgid "In Documents, when a document opens"
+msgstr "في المستندات، عند فتح مستند"
+
 #: onedesk/one_mail/ai.py
 msgid "Inside"
 msgstr "داخل"
@@ -18862,10 +18862,6 @@ msgstr "في OneCalendar، عند فتح حدث"
 #: onedesk/one_studio/doctype/extension/extension.js:44
 msgid "In OneCloud, when a file preview opens"
 msgstr "في OneCloud، عند فتح معاينة ملف"
-
-#: onedesk/one_studio/doctype/extension/extension.js:45
-msgid "In OneIntake, when a document opens"
-msgstr "في OneIntake، عند فتح مستند"
 
 #: onedesk/one_studio/doctype/extension/extension.js:40
 msgid "In OneMail, when a conversation opens"
@@ -19948,10 +19944,6 @@ msgstr "مجلد"
 #: onedesk/public/js/settings.js:490
 msgid "Is My Account Safe?"
 msgstr "هل حسابي آمن؟"
-
-#: onedesk/one/ai.py:375
-msgid "Is OneIntake set up well for us?"
-msgstr "هل OneIntake مضبوط جيدًا لنا؟"
 
 #: frontend/src/item/ItemOverview.vue:114
 msgid "Is Subcontracted Item"
@@ -22469,10 +22461,6 @@ msgstr "أطول مدة بالأيام"
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 msgid "Longitude"
 msgstr "خط الطول"
-
-#: onedesk/one/ai.py:376
-msgid "Look at OneIntake's settings and this month's numbers. Is anything set in a way that sends too much to a person, or lets too much through, and what would you change?"
-msgstr "انظر إلى إعدادات OneIntake وأرقام هذا الشهر. هل هناك ما يرسل الكثير إلى شخص أو يمرّر الكثير، وما الذي ستغيّره؟"
 
 #: onedesk/one/ai.py:101
 msgid "Look at how each kind of record is numbered. Is any counter behind the records already made, or any series that looks mistyped?"
@@ -27005,6 +26993,22 @@ msgstr "الرقمية فقط"
 msgid "Off until an administrator turns them on."
 msgstr "متوقفة حتى يشغّلها مسؤول."
 
+#: onedesk/notifications/one_ai/reading_changed.md
+msgid "Reading Changed"
+msgstr "تغيّرت القراءة"
+
+#: onedesk/one_ai/reading/switches.py
+msgid "Reading is off"
+msgstr "القراءة متوقفة"
+
+#: onedesk/one_ai/reading/switches.py
+msgid "Reading is turned off for this workspace."
+msgstr "القراءة متوقفة في مساحة العمل هذه."
+
+#: onedesk/one/ai.py
+msgid "What needs me today? Look at my tasks, my meetings, what waits for me in Documents, OneAI's suggestions and what I have to approve, and say what to do first."
+msgstr "ما الذي يحتاجني اليوم؟ انظر في مهامي واجتماعاتي وما ينتظرني في المستندات واقتراحات OneAI وما عليّ الموافقة عليه، وقل لي بماذا أبدأ."
+
 #: onedesk/public/js/ai_center.js
 msgid "When off, nobody can ask OneAI, and nothing it does on its own runs."
 msgstr "عند الإيقاف، لا يستطيع أحد سؤال OneAI، ولا يعمل شيء مما يفعله من تلقاء نفسه."
@@ -27980,32 +27984,6 @@ msgstr "إعداد OneHR"
 #: onedesk/one_studio/places.py:191
 msgid "OneHR's Home is opened, and each time a request, a flagged check-in or an interview changes."
 msgstr "تُفتح الصفحة الرئيسية لـ OneHR، وفي كل مرة يتغيّر فيها طلب أو تسجيل حضور عليه علامة أو مقابلة."
-
-#. Label of a Sidebar Item
-#. Option for the 'Product' (Select) field in DocType 'AI Action'
-#: onedesk/one/sidebar/one/one.json
-#: onedesk/one_ai/doctype/ai_action/ai_action.json
-#: onedesk/one_intake/page/intake/intake.js:3 onedesk/public/js/desk.js:84
-#: onedesk/public/js/desk.js:171 onedesk/public/js/desk.js:349
-msgid "OneIntake"
-msgstr "OneIntake"
-
-#. Name of a notification
-#: onedesk/notifications/one_intake/oneintake_changed.md
-msgid "OneIntake Changed"
-msgstr "تغيّر OneIntake"
-
-#: onedesk/one/settings.py:36
-msgid "OneIntake Settings"
-msgstr "إعدادات OneIntake"
-
-#: onedesk/one_intake/switches.py:215
-msgid "OneIntake is off"
-msgstr "OneIntake متوقف"
-
-#: onedesk/one_intake/switches.py:215 onedesk/public/js/settings.js:2882
-msgid "OneIntake is turned off for this workspace."
-msgstr "OneIntake متوقف في مساحة العمل هذه."
 
 #. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
@@ -38834,10 +38812,6 @@ msgstr "نوع المصدر"
 msgid "Source range"
 msgstr "نطاق المصدر"
 
-#: onedesk/public/js/settings.js:2843
-msgid "Sources"
-msgstr "المصادر"
-
 #: onedesk/one_book/home.py:399
 msgid "South Africa VAT Settings"
 msgstr "إعدادات ضريبة القيمة المضافة لجنوب أفريقيا"
@@ -47689,10 +47663,6 @@ msgstr "ما الذي يحتاجني في OneAdmin اليوم؟ ابدأ بال�
 msgid "What needs me today?"
 msgstr "ما الذي يحتاجني اليوم؟"
 
-#: onedesk/one/ai.py:386
-msgid "What needs me today? Look at my tasks, my meetings, what waits for me in OneIntake, OneAI's suggestions and what I have to approve, and say what to do first."
-msgstr "ما الذي يحتاجني اليوم؟ انظر إلى مهامي واجتماعاتي وما ينتظرني في OneIntake واقتراحات OneAI وما عليّ الموافقة عليه، وقل ما أبدأ به."
-
 #: onedesk/one_project/ai.py:90
 msgid "What on this project is still to invoice? Say what time is billable and not invoiced, what of the contract is not billed yet, and what is invoiced and not paid."
 msgstr "ما الذي لم يُفوتر بعد في هذا المشروع؟ اذكر الوقت القابل للفوترة ولم يُفوتر، وما لم يُفوتر بعد من العقد، وما فُوتر ولم يُدفع."
@@ -48274,6 +48244,10 @@ msgstr "عندما تحلّ الموارد البشرية شكوى قدّمته�
 #: onedesk/notifications/one_hr/check_in_rejected.md
 msgid "When HR turns down a check-in of yours that was flagged."
 msgstr "عندما ترفض الموارد البشرية تسجيل حضور لك عليه علامة."
+
+#: onedesk/public/js/ai_center.js
+msgid "When off, nothing that arrives is read, and Documents stays as it is."
+msgstr "عند الإيقاف، لا يُقرأ شيء مما يصل، وتبقى المستندات كما هي."
 
 #. When a notification is sent
 #: onedesk/notifications/one_hr/check_in_place_proposed.md
@@ -53751,6 +53725,10 @@ msgstr "{0} معاملات بنكية غير مسواة"
 msgid "{0} Users"
 msgstr "{0} مستخدمين"
 
+#: onedesk/public/js/desk.js
+msgid "{0} waiting in Documents"
+msgstr "{0} بانتظارك في المستندات"
+
 #: frontend/src/home/CrmHome.vue:143
 msgid "{0} With No Next Step"
 msgstr "{0} بلا خطوة تالية"
@@ -55817,10 +55795,6 @@ msgstr "مستخدمو {0}"
 msgid "{0} variants made"
 msgstr "تم إنشاء {0} متغيّرات"
 
-#: onedesk/public/js/desk.js:349
-msgid "{0} waiting in OneIntake"
-msgstr "{0} بانتظارك في OneIntake"
-
 #: onedesk/one_inventory/heads.py:925
 msgid "{0} warehouses"
 msgstr "{0} مستودعات"
@@ -56329,15 +56303,13 @@ msgstr "{big} يكلف للوحدة أكثر من {small}."
 msgid "{by} asked for the workspace to be closed. It works as usual until {date}. After that no one can sign in, and on {deleted} everything in it is permanently deleted. Download anything you need before then."
 msgstr "طلب {by} إغلاق مساحة العمل. تعمل كالمعتاد حتى {date}. بعد ذلك لن يتمكن أحد من تسجيل الدخول، وفي {deleted} يُحذف كل ما فيها نهائيًا. نزّل ما تحتاجه قبل ذلك."
 
-#. Message of a notification
-#: onedesk/notifications/one_intake/oneintake_changed.md
-msgid "{by} changed OneIntake settings ({what}). This applies to all new documents."
-msgstr "غيّر {by} إعدادات OneIntake ‏({what}). ينطبق هذا على جميع المستندات الجديدة."
+#: onedesk/notifications/one_ai/reading_changed.md
+msgid "{by} changed OneAI settings ({what}). This applies to all new documents."
+msgstr "غيّر {by} إعدادات OneAI ({what}). ينطبق هذا على كل المستندات الجديدة."
 
-#. Subject of a notification
-#: onedesk/notifications/one_intake/oneintake_changed.md
-msgid "{by} changed OneIntake: {what}"
-msgstr "غيّر {by} ‏OneIntake: {what}"
+#: onedesk/notifications/one_ai/reading_changed.md
+msgid "{by} changed OneAI: {what}"
+msgstr "غيّر {by} إعدادات OneAI: {what}"
 
 #. Subject of a notification
 #: onedesk/notifications/one/sign_in_rules_changed.md

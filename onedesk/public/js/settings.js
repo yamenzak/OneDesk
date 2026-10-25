@@ -51,10 +51,11 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			frappe.route_flags.replace_route = true;
 			return frappe.set_route(this.route);
 		}
-		// OneAI's settings and what it remembers are AICenter
+		// OneAI's settings, what it remembers and its reading are AICenter
 		// (docs/AICENTER.md), opened over this page the same way.
-		if (params.section === "oneai" || params.section === "memory") {
-			onedesk.ai_center.open({ at: params.section === "memory" ? "yours" : null });
+		const centre = { oneai: null, memory: "yours", intake: "reading" };
+		if (params.section in centre) {
+			onedesk.ai_center.open({ at: centre[params.section] });
 			frappe.route_flags.replace_route = true;
 			return frappe.set_route(this.route);
 		}
@@ -2289,54 +2290,10 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		dialog.show();
 	}
 
-	draw_intake(data) {
-		const esc = frappe.utils.escape_html;
-		const month = data.month || {};
-		const inbox = (box) => `/desk/intake?box=${box}&everyone=1`;
-		const fact = (value, label, href) =>
-			`<a class="os-intake-fact" href="${esc(href)}"><span class="os-intake-number">${esc(format_number(value || 0, null, 0))}</span><span class="one-shell-quiet">${esc(label)}</span></a>`;
-		const facts = `<div class="os-intake-facts">${[
-			fact(month.arrived, __("Received"), inbox("done")),
-			fact(month.handled, __("Handled by OneAI"), inbox("done")),
-			fact(month.needed, __("Needed Review"), inbox("waiting")),
-			fact(month.waiting, __("Waiting"), inbox("waiting")),
-			fact(month.undone, __("Undone"), inbox("done")),
-		].join("")}</div>`;
-		this.$content.append(onedesk.shell.section(__("This Month"), facts));
-		this.$content.append(
-			onedesk.shell.section(
-				__("Sources"),
-				`<div class="os-intake-list" data-list="mailboxes"></div><div class="os-intake-list" data-list="folders"></div>`
-			)
-		);
-		const links = (pairs) =>
-			`<div class="one-shell-quiet os-intake-links">${pairs
-				.map(([href, label]) => `<a class="one-record-link" href="${esc(href)}">${esc(label)}</a>`)
-				.join(" · ")}</div>`;
-		const marks = data.marks || {};
-		this.form(data, {
-			rows: [
-				{ heading: __("Reading") },
-				{ stack: ["records"] },
-				["most_pages", "_"],
-				{ heading: __("Confidence"), note: __("Below this, a person reviews it.") },
-				["floor", "_"],
-				{ stack: ["audit"] },
-				{ heading: __("Filing") },
-				{ stack: ["keep_in_place"] },
-				["quiet_minutes", "_"],
-				{ heading: __("OneBook"), mark: marks.OneBook },
-				{ stack: ["household", "submit_einvoices"] },
-				{ html: links([["/desk/query-report/Ready to Submit", __("Ready to Submit")], ["/desk/query-report/Spending", __("Spending")]]) },
-			],
-		});
-		this.draw_intake_sources(data);
-	}
-
 	draw_reads(data) {
 		const esc = frappe.utils.escape_html;
 		if (data.off) {
-			this.$content.append(onedesk.shell.section("", `<p class="one-shell-quiet">${esc(__("OneIntake is turned off for this workspace."))}</p>`));
+			this.$content.append(onedesk.shell.section("", `<p class="one-shell-quiet">${esc(__("Reading is turned off for this workspace."))}</p>`));
 			return;
 		}
 		const marks = data.marks || {};
@@ -2386,7 +2343,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	switch_mailbox(one) {
 		const esc = frappe.utils.escape_html;
 		const set = async (on) => {
-			await frappe.xcall("onedesk.one_intake.switches.set_mailbox", { account: one.name, on });
+			await frappe.xcall("onedesk.one_ai.reading.switches.set_mailbox", { account: one.name, on });
 			this.refresh();
 		};
 		if (one.on) return frappe.confirm(__("Stop OneAI reading new mail in {0}?", [esc(one.email)]), () => set(0));
@@ -2399,7 +2356,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 
 	stop_folder(one) {
 		frappe.confirm(__("Stop OneAI reading new files in {0} and the folders inside it?", [frappe.utils.escape_html(one.path)]), async () => {
-			await frappe.xcall("onedesk.one_intake.switches.set_folder", { folder: one.name, on: 0 });
+			await frappe.xcall("onedesk.one_ai.reading.switches.set_folder", { folder: one.name, on: 0 });
 			this.refresh();
 		});
 	}
@@ -2426,46 +2383,12 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			],
 			primary_action_label: __("Add"),
 			primary_action: async (values) => {
-				await frappe.xcall("onedesk.one_intake.switches.set_folder", { folder: values.folder, on: 1 });
+				await frappe.xcall("onedesk.one_ai.reading.switches.set_folder", { folder: values.folder, on: 1 });
 				dialog.hide();
 				this.refresh();
 			},
 		});
 		dialog.show();
-	}
-
-	draw_intake_sources(data) {
-		const esc = frappe.utils.escape_html;
-		const marks = data.marks || {};
-		onedesk.shell.table(this.$content.find('[data-list="mailboxes"]'), {
-			title: __("Mailboxes"),
-			mark: marks.OneMail,
-			rows: data.mailboxes || [],
-			page_size: 10,
-			icon: "mail",
-			empty: __("No mailboxes"),
-			columns: [
-				{ label: __("Mailbox"), fieldname: "email" },
-				{ label: __("Read by OneAI"), render: (one) => Settings.read_switch(one.on) },
-				{ label: __("On Behalf Of"), render: (one) => esc(one.for || "") },
-			],
-			open: (one) => this.switch_mailbox(one),
-		});
-		onedesk.shell.table(this.$content.find('[data-list="folders"]'), {
-			title: __("Folders"),
-			mark: marks.OneCloud,
-			rows: data.folders || [],
-			page_size: 10,
-			icon: "folder",
-			empty: __("No folders"),
-			columns: [
-				{ label: __("Folder"), render: (one) => esc(one.path.replace(/^Home\//, "")) },
-				{ label: __("On Behalf Of"), render: (one) => esc(one.for || "") },
-			],
-			actions: onedesk.shell.button(__("Add Folder"), { "data-add-folder": "1" }, "subtle", "plus"),
-			open: (one) => this.stop_folder(one),
-		});
-		this.$content.on("click", "[data-add-folder]", () => this.add_folder());
 	}
 
 	draw_holidays(data) {

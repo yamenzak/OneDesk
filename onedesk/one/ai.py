@@ -320,21 +320,11 @@ SUGGESTIONS = {
 			"expects": "workspace_oneai",
 		},
 	],
-	"page:workspace-settings/intake": [
-		{
-			"label": _lt("Is OneIntake set up well for us?"),
-			"ask": _lt(
-				"Look at OneIntake's settings and this month's numbers. Is anything set in a way that sends too "
-				"much to a person, or lets too much through, and what would you change?"
-			),
-			"expects": "workspace_intake",
-		},
-	],
 	"workspace:One": [
 		{
 			"label": _lt("What needs me today?"),
 			"ask": _lt(
-				"What needs me today? Look at my tasks, my meetings, what waits for me in OneIntake, OneAI's "
+				"What needs me today? Look at my tasks, my meetings, what waits for me in Documents, OneAI's "
 				"suggestions and what I have to approve, and say what to do first."
 			),
 			"expects": "my_day",
@@ -480,19 +470,10 @@ def page(said: dict) -> str | None:
 			"add seats, storage, database or credits from Add; how is in One's documentation under Plan and "
 			"Credits, for the Workspace (how_to)."
 		)
-	if said.get("page") == "workspace-settings" and said.get("section") == "intake":
-		return (
-			"The reader administers this workspace and is on OneIntake › Settings: this month's numbers (arrived, "
-			"handled by OneAI, needed a person, waiting now, undone), and what OneIntake may do: read files "
-			"attached to records and how many pages of a scan, and which mailboxes and folders it reads; the confidence floor below which things wait for a "
-			"person, and the audit; filing, and how many quiet minutes before it acts; and the books, household "
-			"and submitting matching e-invoices; and what it does by itself in OneHR. workspace_intake reads it all. They change a switch or a number "
-			"and save from the page head; how is in One's documentation under OneIntake Settings, for the Workspace (how_to)."
-		)
 	if said.get("workspace") == "One":
 		return (
 			"The reader is on One's Home: today's numbers for them (tasks due or late, meetings today, documents "
-			"waiting in OneIntake, OneAI suggestions waiting for their approval, leave and expense claims waiting "
+			"waiting in Documents, OneAI suggestions waiting for their approval, leave and expense claims waiting "
 			"on them as approver), each opening its list, and for an administrator what in the workspace needs "
 			"them. my_day reads it all, with the first tasks. How is in One's documentation under Home (how_to)."
 		)
@@ -577,9 +558,9 @@ def page(said: dict) -> str | None:
 	if said.get("section") == "reads":
 		return (
 			"The reader is on What OneAI Reads in their own Settings: the mailboxes they hold and the shared "
-			"folders they may change, each with a switch for whether OneIntake reads what arrives in it. They "
-			"switch them themselves; everything OneIntake reads, for every mailbox and folder, is an "
-			"administrator's, under OneIntake › Settings. How it works is in OneIntake's documentation (how_to)."
+			"folders they may change, each with a switch for whether OneAI reads what arrives in it. They "
+			"switch them themselves; everything OneAI reads, for every mailbox and folder, is an "
+			"administrator's, under AICenter › Reading. How it works is in OneAI's documentation (how_to)."
 		)
 	if said.get("section") != "profile":
 		return None
@@ -1626,13 +1607,13 @@ def privacy_request(
 
 
 def workspace_intake() -> dict:
-	"""OneIntake's settings and this month, for the workspace's administrators:
+	"""OneAI's reading settings and this month, for the workspace's administrators:
 	each setting with what it means now, and what arrived, what OneAI handled,
 	what needed a person, what waits and what was undone."""
 	from onedesk.one import roles, settings
 
 	if not roles.administers():
-		return {"error": "Only a workspace administrator sees OneIntake's settings."}
+		return {"error": "Only a workspace administrator sees OneAI's reading settings."}
 	said = settings._intake()
 	labels = {one["fieldname"]: one["label"] for one in said["fields"]}
 	return {
@@ -1695,7 +1676,7 @@ def workspace_holidays() -> dict:
 
 def my_day() -> dict:
 	"""What waits for the reader today, as One's Home counts it: tasks due or
-	late (with the first few), meetings today, documents waiting in OneIntake,
+	late (with the first few), meetings today, documents waiting in Documents,
 	OneAI suggestions waiting for their approval, approvals waiting on them,
 	and for an administrator what in the workspace needs them."""
 	from onedesk.one import home

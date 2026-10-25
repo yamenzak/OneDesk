@@ -3,7 +3,7 @@
 Frappe reads a file's content by opening a path on disk; for a stored file
 (one_storage/store.py) there is no path, so the three methods that go to the
 disk go to R2 instead. Deleting asks first whether the law still keeps the
-document (one_intake/keep.py). Everything else is Frappe's own.
+document (one_ai/reading/keep.py). Everything else is Frappe's own.
 """
 
 import io
@@ -62,9 +62,9 @@ class CloudFile(File):
 
 	def on_trash(self):
 		"""A document the law says a business must keep is not deleted before
-		its day (one_intake/keep.py). Asked before Frappe's own on_trash,
+		its day (one_ai/reading/keep.py). Asked before Frappe's own on_trash,
 		which removes the stored content."""
-		from onedesk.one_intake import keep
+		from onedesk.one_ai.reading import keep
 		from onedesk.one_project import media
 
 		keep.guard(self)
@@ -76,9 +76,8 @@ class CloudFile(File):
 		document's its Word file (one_doc/word.py); while it is being read it
 		is named as one, so an email attachment or a download says
 		`Name.xlsx` or `Name.docx`; validate puts the name back."""
-		from onedesk.one_sheet import api as sheets
-
 		from onedesk.one_doc import api as writer
+		from onedesk.one_sheet import api as sheets
 
 		if not self.get("content") and (written := writer.document_of(self.file_url)):
 			from onedesk.one_doc import word

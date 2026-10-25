@@ -25,7 +25,7 @@ NEEDS = {"Documents Waiting": "OneIntake", "OneAI Suggestions": "OneAI"}
 
 
 def card_shown(doc, ptype=None, user=None, debug=False) -> bool:
-	"""Number Card has_permission: Home's OneIntake and OneAI numbers leave
+	"""Number Card has_permission: Home's reading and OneAI numbers leave
 	it while the workspace has those turned off (one/apps.py)."""
 	from onedesk.one import apps
 
@@ -56,8 +56,8 @@ def meetings_today(filters=None) -> dict:
 @frappe.whitelist()
 @frappe.read_only()
 def intake_waiting(filters=None) -> dict:
-	"""Documents OneIntake read that wait for the reader."""
-	from onedesk.one_intake import inbox
+	"""Documents OneAI read that wait for the reader."""
+	from onedesk.one_ai.reading import inbox
 
 	return _card(inbox.counts()["waiting"], ["intake"], {"box": "waiting"})
 

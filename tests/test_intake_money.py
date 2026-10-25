@@ -8,7 +8,7 @@ from datetime import date, timedelta
 from pathlib import Path
 from types import SimpleNamespace
 
-ROOT = Path(__file__).resolve().parent.parent / "onedesk" / "one_intake"
+ROOT = Path(__file__).resolve().parent.parent / "onedesk" / "one_ai" / "reading"
 
 
 def _getdate(value):
@@ -161,7 +161,7 @@ def test_every_money_draft_is_written_as_the_person():
 def test_no_hook_table_names_a_doctype_twice():
 	"""A second key for the same doctype in a hooks dict silently replaces the
 	first, and every hook under it stops running."""
-	tree = ast.parse((ROOT.parent / "hooks.py").read_text())
+	tree = ast.parse((ROOT.parents[1] / "hooks.py").read_text())
 	for node in tree.body:
 		if isinstance(node, ast.Assign) and isinstance(node.value, ast.Dict):
 			keys = [key.value for key in node.value.keys if isinstance(key, ast.Constant)]
@@ -200,7 +200,7 @@ def test_a_suppliers_delivery_note_is_a_draft_receipt_against_its_order():
 	made = MONEY["goods"](DELIVERY, {**CTX, "purchase_order": "PO-1"})
 	assert [(one.kind, one.doctype) for one in made] == [("Create", "Purchase Receipt")]
 	assert made[0].values == {"order": "PO-1", "supplier_delivery_note": "DN-778"}
-	assert made[0].flow == "onedesk.one_intake.planning.receipt_from_order" and made[0].propose_on_error
+	assert made[0].flow == "onedesk.one_ai.reading.planning.receipt_from_order" and made[0].propose_on_error
 	assert MONEY["goods"](DELIVERY, CTX) == [], "no order, no receipt"
 	assert MONEY["goods"]({**DELIVERY, "kind": "Invoice"}, {**CTX, "purchase_order": "PO-1"}) == []
 	assert MONEY["goods"](DELIVERY, {**CTX, "purchase_order": "PO-1", "books": False}) == []

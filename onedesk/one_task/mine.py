@@ -44,7 +44,7 @@ VIEWS = ("mine", "inbox")
 def _filters(view: str, user: str) -> tuple[list, list | None]:
 	"""What a view lists, as `filters` and `or_filters`. The Inbox is the work
 	outside any project that is the reader's: made by them, or given to them
-	(a task OneIntake made about a supplier, say)."""
+	(a task OneAI made about a supplier, say)."""
 	if view == "inbox":
 		return (
 			[["project", "is", "not set"], ["is_template", "=", 0], ["status", "not in", DONE]],

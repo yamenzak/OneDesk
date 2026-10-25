@@ -9,7 +9,6 @@ from typing import Annotated
 import frappe
 from frappe.utils import strip_html_tags
 
-
 TOLD = 8
 
 KNOWLEDGE_TOLD = 600
@@ -80,7 +79,7 @@ def about_record(
 
 
 def _documents(doctype: str, name: str) -> list[dict]:
-	from onedesk.one_intake import search
+	from onedesk.one_ai.reading import search
 
 	return search.about(doctype, name)
 

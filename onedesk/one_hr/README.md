@@ -79,7 +79,7 @@ Employees clock in and out themselves from any phone or computer. There is no
 machine to buy.
 
 **Check In, in the bar at the top.** It sits at the bar's right end, with
-OneIntake, Timers and Notifications, and has a dot: green while you are
+OneAI, Timers and Notifications, and has a dot: green while you are
 clocked in, grey while you are not, and amber once your shift has started
 without you or you checked in after it. Until you check in it shows when your
 shift starts, and hovering says "Check in by 08:00" or "Your shift started at
@@ -428,7 +428,7 @@ by department, and of advances by status.
 
 In the OneAI panel, *Claim a receipt* with a photo of the receipt fills in
 the claim for you to approve, and *What can I claim?* says what may be
-claimed and who approves it. A receipt sent in to OneIntake becomes a claim
+claimed and who approves it. A receipt sent in to OneAI becomes a claim
 the same way. Once a claim is approved, accounts pay it with **Create ›
 Payment** on the claim, and you are told when it is paid (**Expense Claim
 Paid**).
@@ -493,7 +493,7 @@ and **Write a kind decline**. On an opening: **Rank the applicants again**.
 the OneAI panel. On an opening, each becomes an applicant to it; on the
 applicant list or Home, each goes to the open job it fits best. Each is a
 card to approve. A CV that arrives by mail becomes an applicant through
-OneIntake.
+OneAI.
 
 **Interviewers.** Everybody named on an interview can open it and give
 feedback on it, whatever else they use One for.
@@ -760,7 +760,7 @@ names where it came from. When nothing covers the question, OneAI says so.
 
 ### What OneAI does on its own
 
-**What runs on its own**, each with a switch on OneIntake › Settings, under
+**What runs on its own**, each with a switch on AICenter › Reading, under
 OneHR, with the rest of what OneAI does by itself when something arrives:
 
 | When | What | Switch |
@@ -782,7 +782,7 @@ on OneAI › Actions: **Screen Applicants**, **Interviews**,
 ## Connections
 
 - **From One**: The setup wizard makes this year's holiday list, a Day shift, the leave year and the payroll year.
-- **From OneIntake**: A CV becomes a job applicant, and a receipt an employee sends in becomes their expense claim. A sick note becomes a leave application, and a passport or permit is added to the employee's Identity Documents.
+- **From OneAI**: A CV becomes a job applicant, and a receipt an employee sends in becomes their expense claim. A sick note becomes a leave application, and a passport or permit is added to the employee's Identity Documents.
 - **From OneInventory**: The employee record shows how much of the company's equipment the person holds. HR submits a separation, and it adds a Return task for each asset they hold, given to the stores.
 - **From OneTask**: Time from a task's timer goes on the person's timesheet for the week.
 - **To OneBook**: Payroll runs, expense claims and advances post to the accounts. OneHR sets up the payroll and advance accounts so the first run works. The Tax Return counts the tax on expense claims.
@@ -983,7 +983,7 @@ a model that exposed somebody. Only an HR Manager unticks it.
 who is right, and names nobody the grievance does not.
 
 One call per grievance, run as OneAI in the background like the hiring work,
-switched off on OneIntake Settings.
+switched off on AICenter › Reading.
 
 ### ai_growth.py
 

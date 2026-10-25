@@ -605,7 +605,20 @@ the screen), a commit, and the docs it changes.
    Credits opens them); OneIntake's settings move with it in stage 4.
 4. **Reading.** To text, Decide, Extract, Match, Act or ask, against every
    scenario above; OneIntake's code moves into `one_ai/reading/` and its
-   name leaves every screen, Help page and clause.
+   name leaves every screen, Help page and clause. **The move and the name
+   are built (2026-10-26).** `one_intake/` is `one_ai/reading/`; its
+   doctypes, reports, page, fields and notifications belong to the One AI
+   module (`patches/intake_is_reading.py` moves them before the sync and
+   drops the One Intake module); its inbox is **Documents**, under OneAI in
+   One's sidebar with Ready to Submit, Deadlines and Spending; its settings
+   are AICenter › **Reading** (on or off, this month, every setting, the
+   mailboxes and folders), and Settings' row for them opens it; its guide
+   is part of OneAI's (`guide.manuals` reads `one_ai/reading/README.md`);
+   its clauses are OneAI's; OneIntake Changed is Reading Changed. Kept as
+   ids: the Apps key `OneIntake`, the fields `one_intake` and
+   `one_intake_for`, the doctype names Intake Settings, Intake Action and
+   Intake Lesson, and the notification names Intake Waiting and Intake
+   Weekly. Left: reading on the new models and the scenarios.
 5. **Search.** An AI Search instance per workspace, indexing on save,
    permissions after search, the search bar and OneCloud's search; AI
    Chunk and the index go.

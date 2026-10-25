@@ -525,7 +525,7 @@ def _grieved(lang: str) -> str:
 
 
 def _letter(lang: str) -> str:
-	from onedesk.one_intake import explain
+	from onedesk.one_ai.reading import explain
 
 	doc = {
 		"kind": "Contract",

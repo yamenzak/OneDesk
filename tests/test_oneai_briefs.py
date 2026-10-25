@@ -32,7 +32,7 @@ def _briefs() -> tuple:
 def test_every_record_that_carries_one_has_its_fields():
 	for doctype in _briefs():
 		held = json.loads((tree.APP / "one_ai" / "custom" / f"{doctype.lower()}.json").read_text(encoding="utf-8"))
-		fields = {one["fieldname"]: one for one in held["custom_fields"]}
+		fields = {one["fieldname"]: one for one in held["custom_fields"] if one["fieldname"].startswith("one_ai_brief")}
 		assert {"one_ai_brief", "one_ai_brief_on", "one_ai_brief_due"} <= set(fields), doctype
 		assert all(one.get("hidden") and one.get("read_only") and one.get("no_copy") for one in fields.values()), doctype
 

@@ -11,8 +11,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from onedesk.one_intake import language, read, split
-from onedesk.one_intake.readers import bank, card, einvoice, mail
+from onedesk.one_ai.reading import language, read, split
+from onedesk.one_ai.reading.readers import bank, card, einvoice, mail
 
 UBL = """<?xml version="1.0" encoding="UTF-8"?>
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
@@ -303,7 +303,7 @@ def test_language_by_its_small_words():
 
 
 def test_a_text_layer_is_told_from_a_scans_leftovers():
-	from onedesk.one_intake.readers import pdf
+	from onedesk.one_ai.reading.readers import pdf
 
 	letter = "Sehr geehrte Damen und Herren, anbei die Rechnung."
 	assert pdf.has_text([letter, "", letter, " ", "Summe 84,20 Seite 2 von 2 insgesamt"]), "blank separators do not count"
@@ -317,7 +317,7 @@ def test_what_the_index_is_asked_for():
 	import re
 
 	space = {"re": re}
-	source = (Path(__file__).resolve().parent.parent / "onedesk" / "one_intake" / "search.py").read_text()
+	source = (Path(__file__).resolve().parent.parent / "onedesk" / "one_ai" / "reading" / "search.py").read_text()
 	for node in ast.parse(source).body:
 		if (isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") == "SKIP") or (
 			isinstance(node, ast.FunctionDef) and node.name == "words"

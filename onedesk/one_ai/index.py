@@ -1,6 +1,6 @@
 """Search by meaning: documents, mail and records as vectors.
 
-Each source (a document OneIntake read, a message, a record people search
+Each source (a document OneAI read, a message, a record people search
 for) is cut into pieces, each piece embedded once through the account and
 kept as an `AI Chunk`; a search embeds the question and scans for the
 nearest. After OneApp's `oneai/index.py`. README, index.py.
@@ -340,7 +340,7 @@ def _may(doctype: str, name: str) -> bool:
 	if doctype in ("Reading", "Communication", "File") and not gate.readable(doctype, name):
 		return False
 	if doctype == "Reading":
-		from onedesk.one_intake import search
+		from onedesk.one_ai.reading import search
 
 		held = frappe.db.get_value(
 			"Reading", name, ["name", "part_of", "message_id", "source_doctype", "source_name", "key"], as_dict=True

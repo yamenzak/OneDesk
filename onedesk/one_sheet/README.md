@@ -328,7 +328,7 @@ which are System Manager's only: one share model for one object.
 A File naming a workbook another File already holds is a copy (OneCloud's
 Copy, `_copy`), so `copied` gives it a copy of the workbook rather than a
 second pointer at the same one, and `file_gone` deletes the workbook and its
-history with the File. OneIntake does not read workbook files.
+history with the File. OneAI does not read workbook files.
 
 ### The editor
 

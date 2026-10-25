@@ -27,7 +27,7 @@ after_sync = [
 	"onedesk.one.head.install",
 	"onedesk.one.reports.settle",
 	"onedesk.one_project.hours.settle",
-	"onedesk.one_intake.search.index",
+	"onedesk.one_ai.reading.search.index",
 	"onedesk.one_storage.store.unlimit",
 	"onedesk.one.portal.settle",
 	"onedesk.one.company.hide",
@@ -84,7 +84,7 @@ after_migrate = [
 	"onedesk.one.head.install",
 	"onedesk.one.reports.settle",
 	"onedesk.one_project.hours.settle",
-	"onedesk.one_intake.search.index",
+	"onedesk.one_ai.reading.search.index",
 	"onedesk.one_storage.store.unlimit",
 	"onedesk.one.companions.apply",
 	"onedesk.one.company.hide",
@@ -132,9 +132,9 @@ scheduler_events = {
 		"* * * * *": [
 			"onedesk.one_mail.inbound.sweep",
 			"onedesk.one_mail.sync.sync_all",
-			"onedesk.one_intake.matters.due",
+			"onedesk.one_ai.reading.matters.due",
 		],
-		"*/15 * * * *": ["onedesk.one_intake.pipeline.again", "onedesk.one_ai.index.catch_up"],
+		"*/15 * * * *": ["onedesk.one_ai.reading.pipeline.again", "onedesk.one_ai.index.catch_up"],
 		"*/5 * * * *": [
 			"onedesk.one_hr.tell.interviews_soon",
 			"onedesk.one_hr.tell.not_checked_in",
@@ -175,7 +175,7 @@ scheduler_events = {
 		"onedesk.one.privacy.remind",
 		"onedesk.one_project.retention.due",
 		"onedesk.one_project.billing.bills_due",
-		"onedesk.one_intake.steps.daily",
+		"onedesk.one_ai.reading.steps.daily",
 		"onedesk.one.holidays.daily",
 		"onedesk.one_hr.periods.daily",
 		"onedesk.one_mail.faces.again",
@@ -212,7 +212,7 @@ scheduler_events = {
 		"onedesk.one_admin.tell.builds_slow",
 		"onedesk.one_ai.brief.due",
 	],
-	"weekly": ["onedesk.one_intake.digest.weekly", "onedesk.one_hr.tell.holidays_weekly"],
+	"weekly": ["onedesk.one_ai.reading.digest.weekly", "onedesk.one_hr.tell.holidays_weekly"],
 	"monthly": [
 		"onedesk.one_hr.tell.holidays_monthly",
 		"onedesk.one_project.tell.retainer_months",
@@ -308,7 +308,7 @@ doc_events = {
 		"after_insert": "onedesk.one_mail.faces.dress_later",
 	},
 	"Customer": {
-		"after_insert": ["onedesk.one_mail.faces.dress_later", "onedesk.one_intake.planning.carried"],
+		"after_insert": ["onedesk.one_mail.faces.dress_later", "onedesk.one_ai.reading.planning.carried"],
 		"on_update": "onedesk.one_mail.faces.dress_later",
 	},
 	"Supplier": {"after_insert": "onedesk.one_mail.faces.dress_later", "on_update": "onedesk.one_mail.faces.dress_later"},
@@ -335,16 +335,16 @@ doc_events = {
 	},
 	"Payment Entry": {
 		"on_submit": [
-			"onedesk.one_intake.steps.paid",
+			"onedesk.one_ai.reading.steps.paid",
 			"onedesk.one_book.tell.paid_online",
 			"onedesk.one_hr.tell.claims_paid",
 		],
-		"on_cancel": "onedesk.one_intake.steps.paid",
+		"on_cancel": "onedesk.one_ai.reading.steps.paid",
 		"validate": ["onedesk.one_project.chain.paid_for", "onedesk.one_book.paid.titled"],
 	},
 	"Journal Entry": {
-		"on_submit": "onedesk.one_intake.steps.paid",
-		"on_cancel": "onedesk.one_intake.steps.paid",
+		"on_submit": "onedesk.one_ai.reading.steps.paid",
+		"on_cancel": "onedesk.one_ai.reading.steps.paid",
 		"validate": "onedesk.one_book.journal.titled",
 	},
 	"Purchase Invoice": {
@@ -391,12 +391,12 @@ doc_events = {
 	},
 	"*": {
 		"before_validate": "onedesk.one_inventory.measure.sized",
-		"before_insert": "onedesk.one_intake.fill.before_insert",
-		"before_save": "onedesk.one_intake.fill.before_save",
+		"before_insert": "onedesk.one_ai.reading.fill.before_insert",
+		"before_save": "onedesk.one_ai.reading.fill.before_save",
 		"on_submit": [
 			"onedesk.one.quiet.milestone",
-			"onedesk.one_intake.mark.looked_at",
-			"onedesk.one_intake.steps.record_changed",
+			"onedesk.one_ai.reading.mark.looked_at",
+			"onedesk.one_ai.reading.steps.record_changed",
 			"onedesk.one.linked.save",
 			"onedesk.one_project.money.moved",
 			"onedesk.one.approvals.answered",
@@ -405,14 +405,14 @@ doc_events = {
 		],
 		"after_insert": [
 			"onedesk.one.quiet.milestone",
-			"onedesk.one_intake.identity.flag",
-			"onedesk.one_intake.planning.backlink",
+			"onedesk.one_ai.reading.identity.flag",
+			"onedesk.one_ai.reading.planning.backlink",
 		],
-		"onload": ["onedesk.one_ai.touch.onload", "onedesk.one_intake.mark.onload", "onedesk.one.head.onload"],
+		"onload": ["onedesk.one_ai.touch.onload", "onedesk.one_ai.reading.mark.onload", "onedesk.one.head.onload"],
 		"on_update": [
-			"onedesk.one_intake.identity.remember",
-			"onedesk.one_intake.mark.looked_at",
-			"onedesk.one_intake.steps.record_changed",
+			"onedesk.one_ai.reading.identity.remember",
+			"onedesk.one_ai.reading.mark.looked_at",
+			"onedesk.one_ai.reading.steps.record_changed",
 			"onedesk.one.linked.save",
 			"onedesk.one.approvals.answered",
 			"onedesk.one_ai.index.changed",
@@ -422,20 +422,20 @@ doc_events = {
 		"on_update_after_submit": ["onedesk.one.linked.save", "onedesk.one.approvals.answered", "onedesk.one_ai.index.changed"],
 		"on_cancel": [
 			"onedesk.one.approvals.answered",
-			"onedesk.one_intake.mark.looked_at",
-			"onedesk.one_intake.steps.record_changed",
+			"onedesk.one_ai.reading.mark.looked_at",
+			"onedesk.one_ai.reading.steps.record_changed",
 			"onedesk.one_project.money.moved",
 			"onedesk.one_ai.brief.touched",
 			"onedesk.one_sheet.table.changed",
 		],
-		"before_rename": "onedesk.one_intake.mark.before_rename",
-		"after_rename": ["onedesk.one_intake.identity.renamed", "onedesk.one_intake.mark.after_rename"],
+		"before_rename": "onedesk.one_ai.reading.mark.before_rename",
+		"after_rename": ["onedesk.one_ai.reading.identity.renamed", "onedesk.one_ai.reading.mark.after_rename"],
 		"on_trash": [
 			"onedesk.one.recycle.titled",
-			"onedesk.one_intake.lessons.deleted",
+			"onedesk.one_ai.reading.lessons.deleted",
 			"onedesk.one_ai.touch.forget",
-			"onedesk.one_intake.identity.forget",
-			"onedesk.one_intake.filing.forget",
+			"onedesk.one_ai.reading.identity.forget",
+			"onedesk.one_ai.reading.filing.forget",
 			"onedesk.one_ai.index.removed",
 		],
 	},
@@ -482,14 +482,14 @@ doc_events = {
 	"Job Requisition": {"after_insert": "onedesk.one_hr.tell.requisition", "on_update": "onedesk.one_hr.tell.requisition"},
 	"Employee Referral": {"after_insert": "onedesk.one_hr.tell.referral"},
 	"Employee Promotion": {"before_validate": "onedesk.one_hr.growth.promotion"},
-	"Job Applicant": {"after_insert": ["onedesk.one_hr.hiring.arrived", "onedesk.one_intake.planning.applicant_arrived"], "on_update": "onedesk.one_hr.tell.referral_answered"},
+	"Job Applicant": {"after_insert": ["onedesk.one_hr.hiring.arrived", "onedesk.one_ai.reading.planning.applicant_arrived"], "on_update": "onedesk.one_hr.tell.referral_answered"},
 	"Interview": {
 		"after_insert": "onedesk.one_hr.hiring.scheduled",
 		"on_update": "onedesk.one_hr.hiring.interviewers",
 		"onload": "onedesk.one_hr.hiring.interview_onload",
 	},
 	"Email Account": {
-		"validate": ["onedesk.one_intake.switches.mailbox_switched", "onedesk.one_mail.holders.signed"]
+		"validate": ["onedesk.one_ai.reading.switches.mailbox_switched", "onedesk.one_mail.holders.signed"]
 	},
 	"Employee Grievance": {
 		"after_insert": "onedesk.one_hr.ai_grievance.raised",
@@ -498,16 +498,16 @@ doc_events = {
 	},
 	"File": {
 		"before_insert": ["onedesk.one_sheet.api.copied", "onedesk.one_doc.api.copied"],
-		"validate": ["onedesk.one_intake.switches.file_switched", "onedesk.one_project.media.kept_shown"],
+		"validate": ["onedesk.one_ai.reading.switches.file_switched", "onedesk.one_project.media.kept_shown"],
 		"after_insert": [
 			"onedesk.one_sheet.api.placed",
 			"onedesk.one_doc.api.placed",
-			"onedesk.one_intake.pipeline.file_added",
+			"onedesk.one_ai.reading.pipeline.file_added",
 			"onedesk.one_project.media.changed",
 		],
 		"on_update": [
 			"onedesk.one_storage.live.changed",
-			"onedesk.one_intake.lessons.moved",
+			"onedesk.one_ai.reading.lessons.moved",
 			"onedesk.one_project.media.changed",
 		],
 		"on_trash": [
@@ -642,7 +642,7 @@ doc_events = {
 	},
 	"Communication": {
 		"before_insert": ["onedesk.one_mail.holders.sending", "onedesk.one_mail.outbound.file_sent"],
-		"on_update": ["onedesk.one_mail.outbound.thread_sent", "onedesk.one_intake.steps.replied"],
+		"on_update": ["onedesk.one_mail.outbound.thread_sent", "onedesk.one_ai.reading.steps.replied"],
 		"after_insert": [
 			"onedesk.one_mail.threads.adopt",
 			"onedesk.one_mail.live.inserted",
@@ -728,7 +728,7 @@ has_permission = {
 	"Webhook Request Log": "onedesk.one.webhooks.has_permission",
 	"Personal Data Deletion Request": "onedesk.one.privacy.has_permission",
 	"Personal Data Download Request": "onedesk.one.privacy_copy.has_permission",
-	"Intake Action": "onedesk.one_intake.act.has_permission",
+	"Intake Action": "onedesk.one_ai.reading.act.has_permission",
 	"Communication": "onedesk.one_mail.access.allowed",
 	"Mail Rule": "onedesk.one_mail.rules.rule_allowed",
 	"Employee Grievance": "onedesk.one_hr.ai_grievance.allowed",
@@ -758,7 +758,7 @@ permission_query_conditions = {
 	"Webhook Request Log": "onedesk.one.webhooks.log_query",
 	"Personal Data Deletion Request": "onedesk.one.privacy.query",
 	"Personal Data Download Request": "onedesk.one.privacy_copy.query",
-	"Intake Action": "onedesk.one_intake.act.query",
+	"Intake Action": "onedesk.one_ai.reading.act.query",
 	"Mail Rule": "onedesk.one_mail.rules.rule_query",
 	"Employee Grievance": "onedesk.one_hr.ai_grievance.query",
 	"Task": "onedesk.one_task.access.query",
@@ -776,7 +776,7 @@ permission_query_conditions = {
 	"Tenant Event": "onedesk.one_admin.site.nothing_on_a_tenant",
 }
 
-awesomebar_search = ["onedesk.one.outside.awesomebar", "onedesk.one_intake.search.awesomebar"]
+awesomebar_search = ["onedesk.one.outside.awesomebar", "onedesk.one_ai.reading.search.awesomebar"]
 
 fixtures = [
 	"Custom Icon",
@@ -1201,7 +1201,7 @@ one_ai_reads = [
 	"onedesk.one_storage.ai.open_file",
 	"onedesk.one_storage.ai.who_can_see",
 	"onedesk.one_storage.ai.largest_files",
-	"onedesk.one_intake.ai.find_documents",
+	"onedesk.one_ai.reading.ai.find_documents",
 	"onedesk.one_hr.ai.my_leave",
 	"onedesk.one_hr.ai.appraisal_facts",
 	"onedesk.one_hr.ai.why_people_leave",
@@ -1336,7 +1336,7 @@ one_ai_page = [
 	"onedesk.one_book.ai.page",
 	"onedesk.one_doc.ai.page",
 	"onedesk.one_sheet.ai.page",
-	"onedesk.one_intake.ai.page",
+	"onedesk.one_ai.reading.ai.page",
 	"onedesk.one_legal.ai.page",
 ]
 
@@ -1399,7 +1399,7 @@ one_calendar_layers = [
 	"onedesk.one_crm.calendar.LAYERS",
 	"onedesk.one_hr.calendar.LAYERS",
 	"onedesk.one_inventory.calendar.LAYERS",
-	"onedesk.one_intake.calendar.LAYERS",
+	"onedesk.one_ai.reading.calendar.LAYERS",
 ]
 
 additional_timeline_content = {

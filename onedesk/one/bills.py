@@ -99,7 +99,7 @@ def to_books(invoice: str) -> str:
 
 def ensure_supplier(seller: dict, currency: str | None = None) -> str | None:
 	"""One, as a supplier in this workspace's books: found by tax ID or name,
-	else made with what OneIntake recognises it by."""
+	else made with what OneAI recognises it by."""
 	name = seller.get("company_name")
 	if not name:
 		return None

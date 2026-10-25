@@ -71,5 +71,5 @@ def test_a_workspace_books_our_invoice_only_when_asked_and_only_once():
 		"a bill from One is a draft for somebody to check"
 	)
 	assert "def keep_supplier" not in bills, "OneIntake makes a first supplier itself"
-	money = (tree.APP / "one_intake" / "money.py").read_text(encoding="utf-8")
+	money = (tree.APP / "one_ai" / "reading" / "money.py").read_text(encoding="utf-8")
 	assert 'ctx.get("existing_invoice")' in money

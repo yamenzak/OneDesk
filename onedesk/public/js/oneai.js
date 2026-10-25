@@ -143,7 +143,7 @@ onedesk.oneai.fields = function (frm) {
 };
 
 // A record OneAI suggested and somebody approved says so under who created
-// it, as a record OneIntake made says so in its banner.
+// it, as a record OneAI made says so in its banner.
 onedesk.oneai.made = function (frm) {
 	const $side = frm.sidebar && frm.sidebar.sidebar ? frm.sidebar.sidebar : $();
 	$side.find(".one-ai-made").remove();

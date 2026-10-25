@@ -1,5 +1,5 @@
-"""Which project a document Intake reads is for (one_intake/money.py), and
-whether a task about it fits in it (one_intake/plans.py)."""
+"""Which project a document Intake reads is for (one_ai/reading/money.py), and
+whether a task about it fits in it (one_ai/reading/plans.py)."""
 
 import re
 

@@ -57,7 +57,7 @@ with its own few things it may do:
 - **OneTask**, each time a view of your tasks is shown: a note or a button
   under its name ("4 of your tasks are overdue").
 - **OneCloud**, when a file is chosen: a note or a button under its preview.
-- **OneIntake**, when a document is opened in the inbox: a note or a button
+- **Reading**, when a document is opened in the inbox: a note or a button
   under its head.
 - **The pipeline board**, each time what a stage is worth changes: a note
   above the board.
@@ -238,7 +238,7 @@ have we changed?** and **How does customizing work?**
 - **To OneCalendar**: An extension can add a note or a button to an event's card.
 - **To OneTask**: An extension can add a note or a button under a view's name in My Tasks.
 - **To OneCloud**: An extension can add a note or a button under a file's preview.
-- **To OneIntake**: An extension can add a note or a button under a document's head in the Intake inbox.
+- **To OneAI**: An extension can add a note or a button under a document's head in the Intake inbox.
 
 ## Under the hood
 
@@ -248,7 +248,7 @@ have we changed?** and **How does customizing work?**
 |---|---|
 | `extensions.py` | The Extension record's rules, and frappe's Client Script or Server Script made from it as Administrator. |
 | `guard.py` | Pure. Reads an extension's code before it is kept and refuses what reaches past the administrator. |
-| `places.py` | One's own pages an extension can run on (OneMail, OneCalendar, OneTask, OneCloud, OneIntake, the pipeline board, a project's page, every space's home, a record's head): each one's events, what it gives, and what it may do. `../public/js/places.js` runs them. |
+| `places.py` | One's own pages an extension can run on (OneMail, OneCalendar, OneTask, OneCloud, OneAI, the pipeline board, a project's page, every space's home, a record's head): each one's events, what it gives, and what it may do. `../public/js/places.js` runs them. |
 | `checks.py` | Pure. Whether an extension's code would work: the field and handler names it uses against the record's own, and its length. |
 | `trial.py` | Tries an extension before it is kept: node parses screen code; server code runs once on a real record, undone after. |
 | `review.py` | The second reading, `studio_review`: a separate call shown the code and its explanation, nothing of the chat. |
@@ -471,7 +471,7 @@ administrator turns it on.
 ### places.py
 
 A frappe Client Script reaches a kind of record's form and its list, and
-nothing else: OneMail, OneCalendar, OneTask, OneCloud, OneIntake, the pipeline
+nothing else: OneMail, OneCalendar, OneTask, OneCloud, OneAI, the pipeline
 board, a project's page, every space's home and the head of a record (on its
 form, and on a project's page) are One's own, drawn by One's code. So each of
 those says here, once, what happens on it that an extension may hear (its

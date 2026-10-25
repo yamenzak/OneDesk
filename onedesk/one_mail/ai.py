@@ -316,7 +316,7 @@ def make_rule(changes: dict) -> str:
 	made if it is missing, OneAI switched on to read the mailbox if the rule
 	is about what mail says, the rule, and what is in the Inbox now sorted
 	if that was asked."""
-	from onedesk.one_intake import switches
+	from onedesk.one_ai.reading import switches
 	from onedesk.one_mail import actions, flow, rules
 
 	account = changes["account"]

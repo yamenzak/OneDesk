@@ -1,0 +1,75 @@
+"""Pay from the document (onedesk/one_ai/reading/README.md §16.5).
+
+A bill to be paid by transfer shows whom to pay, the IBAN, the amount, the
+reference and a GiroCode. A changed IBAN stops it.
+"""
+
+import frappe
+from frappe import _
+
+from onedesk.one_ai.reading import identifiers as ids
+
+MOST = 999_999_999.99
+
+NOT_BY_TRANSFER = ("Direct Debit", "Already Paid")
+
+
+def epc(name: str, iban: str, amount: float | None, reference: str | None = None, bic: str | None = None) -> str | None:
+	"""The GiroCode's text (EPC069-12, version 002), or None when the
+	payment cannot be one. Pure.
+
+	A reference that is an ISO 11649 creditor reference (RF…) goes in the
+	structured field, anything else in the free text; never both."""
+	iban = (iban or "").replace(" ", "").upper()
+	name = " ".join((name or "").split())[:70]
+	if not iban or not name or (amount is not None and not 0.01 <= float(amount) <= MOST):
+		return None
+	reference = " ".join((reference or "").split())
+	structured = reference.replace(" ", "").upper() if reference.upper().startswith("RF") else ""
+	lines = [
+		"BCD",
+		"002",
+		"1",
+		"SCT",
+		(bic or "").replace(" ", "").upper(),
+		name,
+		iban,
+		f"EUR{float(amount):.2f}" if amount is not None else "",
+		"",
+		structured[:35],
+		"" if structured else reference[:140],
+	]
+	return "\n".join(lines).rstrip("\n")
+
+
+def of(doc) -> dict | None:
+	"""What the panel shows to pay a Reading, or None when it asks nobody to
+	pay by transfer."""
+	if not doc.iban or doc.verdict == "Phishing" or doc.paid_how in NOT_BY_TRANSFER or doc.kind not in ("Invoice", "Reminder", "Tax Assessment", "Authority Letter", "Other", "Letter"):
+		return None
+	payee = next((row for row in doc.parties if row.role == "Paid To"), None) or next((row for row in doc.parties if row.role == "Sender"), None)
+	name = (payee.party_name if payee else None) or ""
+	iban = ids.iban(doc.iban) or doc.iban
+	out = {"name": name, "iban": iban, "amount": doc.gross, "currency": doc.currency, "reference": doc.payment_reference or doc.number, "warn": None, "code": None}
+	supplier = payee.matched_name if payee and payee.matched_doctype == "Supplier" else None
+	if supplier:
+		known = [one.replace(" ", "").upper() for one in frappe.get_all("Bank Account", filters={"party_type": "Supplier", "party": supplier}, pluck="iban") if one]
+		if known and iban.replace(" ", "").upper() not in known:
+			out["warn"] = _("This IBAN isn't on file for {0}. Confirm it by phone before paying.").format(supplier)
+			return out
+	if doc.currency == "EUR":
+		text = epc(name, iban, doc.gross, out["reference"])
+		out["code"] = _svg(text) if text else None
+	return out
+
+
+def _svg(text: str) -> str:
+	"""The code as an inline SVG, drawn by the library frappe already uses
+	for its two-factor codes."""
+	import io
+
+	import pyqrcode
+
+	buffer = io.BytesIO()
+	pyqrcode.create(text, error="M", encoding="utf-8").svg(buffer, scale=3, quiet_zone=2, xmldecl=False, svgns=True, omithw=True)
+	return buffer.getvalue().decode()

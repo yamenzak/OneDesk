@@ -140,7 +140,7 @@ watch(
     if (!node || node.startsWith("@")) return;
     const [who, read] = await Promise.all([
       call("onedesk.one_storage.share.people", { node }).catch(() => null),
-      intakeOn() ? call("onedesk.one_intake.switches.folder_state", { folder: node }).catch(() => null) : null,
+      intakeOn() ? call("onedesk.one_ai.reading.switches.folder_state", { folder: node }).catch(() => null) : null,
     ]);
     if (props.node !== node) return;
     people.value = who;

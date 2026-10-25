@@ -7,7 +7,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from onedesk.one_intake import facts
+from onedesk.one_ai.reading import facts
 
 LETTER = """Stadtwerke Köln GmbH · Parkgürtel 24 · 50823 Köln
 Rechnung Nr. RE-2026-0042 vom 01.09.2026
@@ -83,7 +83,7 @@ def _understand(*names):
 	import ast
 
 	space = {}
-	source = (Path(__file__).resolve().parent.parent / "onedesk" / "one_intake" / "understand.py").read_text()
+	source = (Path(__file__).resolve().parent.parent / "onedesk" / "one_ai" / "reading" / "understand.py").read_text()
 	for node in ast.parse(source).body:
 		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") in names or isinstance(node, ast.FunctionDef) and node.name in names:
 			exec(ast.unparse(node), space)
@@ -91,8 +91,9 @@ def _understand(*names):
 
 
 def test_an_e_invoice_is_understood_with_no_model():
-	from onedesk.one_intake.readers import einvoice
 	from test_intake_read import CII, UBL
+
+	from onedesk.one_ai.reading.readers import einvoice
 
 	space = _understand("from_invoice", "_party")
 	said = space["from_invoice"](einvoice.parse(UBL))

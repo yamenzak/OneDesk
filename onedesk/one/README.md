@@ -21,16 +21,17 @@ The sidebar has these groups:
   Reports by Mail and Webhooks.
 - **Privacy**: requests for a copy of someone's data or to delete an account.
 - **Audit Log**: who changed, signed in, exported or printed what.
-- **OneAI** and **OneIntake**: their settings, history and inboxes.
+- **OneAI**: AICenter, Knowledge, credits, conversations, suggestions, and
+  Documents with its reports.
 
 Only administrators see Workspace, Setup, Automation, Privacy and Audit Log,
 except **Masters**, which an app's managers see too. Click a group's name to
 fold it away; the quieter ones start folded.
 
-Which mailboxes and folders OneAI reads is set in One's **OneIntake** group,
-not in OneMail or OneCloud: **What OneAI Reads** lists yours, the mailboxes
-you hold and the folders you can change, and **Settings** lists all of them
-for an administrator, with how OneIntake reads and what OneHR lets it do.
+Which mailboxes and folders OneAI reads is set in One, not in OneMail or
+OneCloud: **What OneAI Reads**, under You, lists yours, the mailboxes you hold
+and the folders you can change, and AICenter › **Reading** lists all of them
+for an administrator, with how OneAI reads.
 
 A link to a page that doesn't exist shows **Page not found**, and a page you
 may not open shows **No access**. **Go Back** and **Go Home** take you on.
@@ -42,14 +43,14 @@ administrators. Click an app's card to turn it off for the whole workspace:
 it leaves everybody's rail, and the record types only it lists leave search,
 the record-type pickers of Dynamic Link fields, and forms, where an empty field
 linking to one is hidden. Nothing is deleted or locked. A link to one of its
-records still opens it, on Home; OneIntake still files into it; turning it
+records still opens it, on Home; OneAI still files into it; turning it
 on again brings everything back. One itself can't be turned off.
 
-**OneAI** and **OneIntake** have cards there too. OneAI off means nobody can
+**OneAI** and its **Reading** have cards there too. OneAI off means nobody can
 ask it anything: the OneAI button, the chat, the field explanations and the
 writing help go, and nothing in the workspace calls a model, OneHR's
-screening and grievance triage included. OneIntake needs OneAI, so it goes
-off with it, and can't be turned on until OneAI is. OneIntake off stops
+screening and grievance triage included. Reading needs OneAI, so it goes
+off with it, and can't be turned on until OneAI is. Reading off stops
 reading mail and files: its rows leave the bar and One's panel, and its
 switches can't be turned on. What they read and filed before stays. A
 OneStudio extension waits for OneAI's review, so none can be turned on while
@@ -73,7 +74,7 @@ shade lighter than the page when the theme is dark.
 
 The top bar is the workspace and what reaches you. On the left is the
 workspace's name. In the middle run the announcements. On the right are
-**Search**, then **OneIntake** and **Notifications**.
+**Search**, then **Reading** and **Notifications**.
 
 The bottom bar is the screen you are on and what is running, like a taskbar.
 On the left is what the screen says about itself: how many rows a list
@@ -181,7 +182,7 @@ Click a number to open its list.
 - **Tasks Due or Late**: tasks assigned to you that are due today or overdue,
   from OneTask's My Tasks.
 - **Meetings Today**: events on your own calendar today.
-- **Documents Waiting**: documents OneIntake read that are waiting for you.
+- **Documents Waiting**: documents OneAI read that are waiting for you.
 - **OneAI Suggestions**: suggestions you haven't approved or refused yet.
 - **Approvals Waiting**: leave applications and expense claims waiting for
   your approval.
@@ -339,7 +340,7 @@ OneAI offers:
 
 Every mailbox you have: the workspace's address, your own address on the
 workspace's mail domain, and any you connected from Gmail, Outlook or another
-provider. Each shows who it belongs to, whether OneIntake reads it (**Read by
+provider. Each shows who it belongs to, whether OneAI reads it (**Read by
 OneAI**) and its signature. **Open** opens it in OneMail.
 
 - **Connect Mailbox**, at the top right, opens OneMail, where you enter the
@@ -1436,7 +1437,7 @@ OneAI offers **Approve bills by amount** and **Who approves what?** It
 suggests a new or changed approval as a card you approve. The approval then
 opens in the builder, laid out, to edit like any other.
 
-A bill OneIntake drafted waits in **Ready to Submit**. **Submit** takes
+A bill OneAI drafted waits in **Ready to Submit**. **Submit** takes
 the approval's step when the step is waiting on your role. Otherwise it says
 who it's waiting for. OneAI never takes a step itself.
 
@@ -1623,7 +1624,7 @@ On Workspace › **Plan and Credits**:
 - **Add to OneBook** on a paid invoice creates a draft bill from the supplier
   One in your own books, with its lines, for you to check and submit. The
   column then links to the bill. Nothing is added to your books unless you ask.
-  If OneIntake reads the mailbox Stripe sends to, it drafts the bill itself and
+  If OneAI reads the mailbox Stripe sends to, it drafts the bill itself and
   adds One as a supplier the first time. Either way, an invoice is only booked
   once.
 - **Payment Method**, at the top, opens Stripe's billing page, with the card,
@@ -1769,16 +1770,12 @@ addresses behind the workspace's own address stay the same.
 
 ### OneAI, for the Workspace
 
-**OneAI**, in the sidebar, is where administrators choose which records get
-a summary. One picks the models OneAI runs on and what it is told, so there is
-no model or instruction to set here.
-
-- **Summaries** lists the kinds of record that can carry a few sentences at
-  the top, written again when something happens to the record, at most once a
-  day. Each row shows how many records carry one. Click a row to switch it on
-  or off.
-- **Knowledge** opens the notes OneAI reads first.
-- **Credit Usage** opens the AI Credits report by job.
+**AICenter**, under OneAI in the sidebar and in the bottom bar, is where
+administrators set OneAI up: whether it is on, its tier, reading what arrives,
+Knowledge, what it does on its own in each module, which records get a
+summary, and what it used. One picks the models OneAI runs on and what it is
+told, so there is no model or instruction to set. OneAI's own guide says the
+rest.
 
 OneAI offers **What used the most credits?**
 
@@ -1790,83 +1787,57 @@ here. Administrators write them. Everyone can read them, because OneAI reads
 them as the person asking. You › What OneAI Remembers lists them too, under
 **Workspace Knowledge**.
 
-### OneIntake Settings, for the Workspace
+### Reading, for the Workspace
 
-**Settings**, under OneIntake in the sidebar, controls what OneIntake can do
-in this workspace. Only administrators see and change it. Save from the page
-head.
+**AICenter › Reading** controls what OneAI does with the mail and files that
+arrive. Only administrators see and change it, and each change is saved as it
+is made. **Reading** under Workspace Settings opens it too.
 
-**This Month** shows five numbers for the whole workspace: documents received,
-handled by OneAI, needing a person, waiting now, and undone. Each opens the
-inbox with everyone's documents.
-
-**Sources**
-
+- **Reading** turns it on or off for the whole workspace. Off, nothing that
+  arrives is read, and **Documents** stays as it is.
+- **This Month** shows five numbers for the whole workspace: documents
+  received, handled by OneAI, needing a person, waiting now, and undone. Each
+  opens Documents with everyone's documents.
+- **Settings**:
+  - **Read Files Attached to Records** also reads scans and photos attached to
+    a form, on behalf of whoever attached them.
+  - **Most Pages Read** (60 by default) limits how much of a long scan is
+    read. The rest can still be found by its name.
+  - **Confidence Floor** (70% by default): anything OneAI is less sure of
+    waits for a person under **Waiting** in Documents. Raise it if OneAI makes
+    mistakes. Lower it if too much waits.
+  - **Audit OneAI Actions** has a second model check each document's actions.
+    Correct ones are approved and the rest go to a person.
+  - **Leave Unmatched Files in Place** keeps a file that matches no record
+    where it arrived, instead of moving it to a folder for its type and year.
+  - **Quiet Minutes** is how long a matter must be quiet before OneAI acts on
+    it, so a burst of emails is handled once. 0 means right away. Payments and
+    deadlines due within a day never wait.
+  - **Household** is for a workspace that doesn't keep books. Nothing is
+    drafted, and Spending shows what was bought.
+  - **Submit Matching E-Invoices** lets OneAI submit an e-invoice from a known
+    supplier that matches an order already placed. It's off by default.
+    Drafts wait in **Ready to Submit**.
 - **Mailboxes** lists every mailbox, whether OneAI reads it, and on whose
-  behalf. Click a mailbox to start or stop reading it. Only someone who has
-  the mailbox can start it, because OneAI then acts as them. An administrator
-  can stop any.
+  behalf, with a switch. Only someone who has the mailbox can start it,
+  because OneAI then acts as them. An administrator can stop any.
 - **Folders** lists every OneCloud folder OneAI reads, including the folders
-  inside it. **Add Folder** starts reading one. Click a folder to stop.
+  inside it, with a switch to stop. **Add Folder** starts reading one.
 - People can also turn this on for their own mailbox in OneMail, and for their
   own folders in OneCloud.
-
-**Reading**
-
-- **Read Files Attached to Records** also reads scans and photos attached to a
-  form, on behalf of whoever attached them.
-- **Most Pages Read** (60 by default) limits how much of a long scan is read.
-  The rest can still be found by its name.
 
 Every other administrator is notified in One when someone changes the audit,
 Household or e-invoice settings, or the confidence floor.
 
-OneAI offers **Is OneIntake set up well for us?**
-
-### How sure OneIntake must be, and how it files
-
-On OneIntake › **Settings**:
-
-**Confidence**
-
-- **Confidence Floor** (70% by default): anything OneAI is less sure of waits
-  for a person under **Waiting** in the inbox. Raise it if OneAI makes
-  mistakes. Lower it if too much waits.
-- **Audit OneAI Actions** has a second model check each document's actions.
-  Correct ones are approved and the rest go to a person.
-
-**Filing**
-
-- **Leave Unmatched Files in Place** keeps a file that matches no record where
-  it arrived, instead of moving it to a folder for its type and year.
-- **Quiet Minutes** is how long a matter must be quiet before OneAI acts on
-  it, so a burst of emails is handled once. 0 means right away. Payments and
-  deadlines due within a day never wait.
-
-### What OneIntake does in OneBook and OneHR
-
-On OneIntake › **Settings**:
-
-**OneBook**
-
-- **Household** is for a workspace that doesn't keep books. Nothing is
-  drafted, and Spending shows what was bought.
-- **Submit Matching E-Invoices** lets OneAI submit an e-invoice from a known
-  supplier that matches an order already placed. It's off by default. Drafts
-  wait in **Ready to Submit**.
-
-**OneHR**
-
-What OneAI does automatically when something arrives in OneHR: **Screen New
-Applicants**, **Prepare Interviews**, **Transcribe Interview Recordings** and
-**Triage Grievances**. Each uses credits. Whether interviews can be recorded,
-and how long audio is kept, are set in HR Settings.
+What OneAI does on its own in OneHR (screening applicants, preparing
+interviews, transcribing recordings, triaging grievances, and how long
+interview audio is kept) is set in AICenter › **OneHR**.
 
 ### Holidays, for the Workspace
 
 **Holidays**, under Workspace, shows the holiday list in effect today, with
 the days no one works. Leave, attendance, check-ins, OneCalendar and
-OneIntake's deadlines all use it. Only administrators see and change it.
+OneAI's deadlines all use it. Only administrators see and change it.
 OneCalendar's **Holidays** also opens it.
 
 - The top shows how many public holidays and weekly days off the list has, the
@@ -2195,9 +2166,9 @@ For the people who build One. OneAI does not read past this heading.
 | `customize.py`, `layer.py`, `doctype/workspace_customization`, `../one_studio/doctype/workspace_field` | What a workspace changes on a form (written by OneAI's card), the holds on it, and the Custom Fields list |
 | `../public/js/crumb_switch.js`, `../public/js/panel_menu.js` | Every crumb with somewhere to go is a switcher: a frappe.ui.Popover with a search box over frappe's menu rows, as frappe-ui's Combobox draws one with `trigger="button"`. The place's crumb lists the panel's rows (`onedesk.panel.options`), a record's crumb (a form's last, or the one `shell.trail` marks `one_record`) searches its doctype with `frappe.desk.search.search_link`, with `onedesk.crumbs.suggest[doctype]` before anything is typed (a project's: the reader's open projects), and a crumb a page gave a `menu` filters that. **All …** stays pinned under the rows |
 | `../public/js/phone_head.js` | Below 768 wide the page head is two bars, each its own height with a line under it (desk.css), and the trail splits over them: the place stays in the first with the panel's button and search, and phone_head.js moves the page's buttons there too, before search; crumb_switch.js draws the record's crumb and any after it (a project's All Work) as buttons in the second, beside the status and the view switch. The head is marked `one-head-actions` when it has any, its height is set as `--page-head-height` for frappe's sticky parts, and the status pill moves to the second row with its word, which frappe shrinks to a dot on a phone |
-| `outside.py`, `boot.py`, `../public/js/desk.js`, `../public/js/outside.js` | One's sidebars and workspaces only, for everyone: frappe's, erpnext's and hrms's are left out of the boot, their addresses and frappe's apps screen go to One's Home. No menu item ends on a screen the reader cannot open (Import, View Audit Trail, Setup Auto Email, System Health), the print page has no Print Settings, and frappe's Edit Sidebar and Manage Dock are not offered. Frappe's own screens for notification settings, people, files, to-dos, mail and printing open One's. Help is Ask OneAI, the theme is in the user menu, and search, pickers of record types and reports, and global search offer only what One shows (`shown.json`); frappe's documentation links are dropped. A page not found or not permitted keeps the rail. Search, Check In, OneIntake, Timers and Notifications are frappe's own buttons in the bar across the top of the shell (`desk.js` `bar`, Discord's and Slack's title bar), since a page with a sidebar of its own hides the panel's band they were in; frappe's full-height boxes are each the window less the bar (`desk.css`), beside the bar the band is hidden, the bar and the pinned rail are one frame with the rest inset in it, its first panel's corner rounded, and on a phone there is no bar and the band keeps them |
+| `outside.py`, `boot.py`, `../public/js/desk.js`, `../public/js/outside.js` | One's sidebars and workspaces only, for everyone: frappe's, erpnext's and hrms's are left out of the boot, their addresses and frappe's apps screen go to One's Home. No menu item ends on a screen the reader cannot open (Import, View Audit Trail, Setup Auto Email, System Health), the print page has no Print Settings, and frappe's Edit Sidebar and Manage Dock are not offered. Frappe's own screens for notification settings, people, files, to-dos, mail and printing open One's. Help is Ask OneAI, the theme is in the user menu, and search, pickers of record types and reports, and global search offer only what One shows (`shown.json`); frappe's documentation links are dropped. A page not found or not permitted keeps the rail. Search, Check In, OneAI, Timers and Notifications are frappe's own buttons in the bar across the top of the shell (`desk.js` `bar`, Discord's and Slack's title bar), since a page with a sidebar of its own hides the panel's band they were in; frappe's full-height boxes are each the window less the bar (`desk.css`), beside the bar the band is hidden, the bar and the pinned rail are one frame with the rest inset in it, its first panel's corner rounded, and on a phone there is no bar and the band keeps them |
 | `private.py` | Private apps on this workspace: the installed apps whose hooks.py says `one_private_app` (`names`, `about`), mounted on the rail by `companions.apply` and kept in the boot by `outside.kept`; always-on cards in Apps; `claim` hands a typed code to the control plane (`proxy.app_claim`), `waiting` asks how far each claimed install has got; `after_app_install` relayers the rail at once, and `before_app_uninstall` refuses one |
-| `apps.py`, `companions.py`, `../public/js/apps.js` | Apps a workspace turns off (`one_hidden_apps`, a global default): the site's Dock layer hides their rows (`companions.layer`), `outside.kept` leaves their sidebars out of the boot so their records open in another app that lists them or on Home (`apps.rehome`), and the record types only they list (`apps.doctypes`) leave the awesomebar (`AwesomeBar.build_options`), DocType pickers (`apps.search_link` wraps frappe's) and empty Link fields on forms. Nothing touches permissions, so OneIntake's `has_permission` check before it files still passes; frappe's own disabled-app switch would refuse. OneAI and OneIntake are cards too, not rail rows: `NEEDS` turns OneIntake off with OneAI, `apps.refuse_ai` in `run.ask` and `run.once` refuses every model call, `apps.intake_on` stops `pipeline.later`, `again`, the scheduled jobs and the switches, and `apps.trim` takes their sections out of One's sidebar and their links out of others |
+| `apps.py`, `companions.py`, `../public/js/apps.js` | Apps a workspace turns off (`one_hidden_apps`, a global default): the site's Dock layer hides their rows (`companions.layer`), `outside.kept` leaves their sidebars out of the boot so their records open in another app that lists them or on Home (`apps.rehome`), and the record types only they list (`apps.doctypes`) leave the awesomebar (`AwesomeBar.build_options`), DocType pickers (`apps.search_link` wraps frappe's) and empty Link fields on forms. Nothing touches permissions, so OneAI's `has_permission` check before it files still passes; frappe's own disabled-app switch would refuse. OneAI and its reading are cards too, not rail rows: `NEEDS` turns Reading off with OneAI, `apps.refuse_ai` in `run.ask` and `run.once` refuses every model call, `apps.intake_on` stops `pipeline.later`, `again`, the scheduled jobs and the switches, and `apps.trim` takes their sections out of One's sidebar and their links out of others |
 | `portal.py`, `../www/portal.py`, `../../frontend/portal/` | The portal a workspace's customers and suppliers sign in to, a frappe-ui app at `/portal`: its tabs (Portal Settings by role), its home, every list, record, quote request and account page, read through frappe's and erpnext's own contexts and answered as JSON. erpnext's and frappe's old portal addresses lead into it. A contact invited as a user becomes a portal user of their customer or supplier |
 | `../www/404.py`, `../www/message.py`, `../www/error.py`, `../www/me.py` | Frappe's web pages for not found, a message, an error and `/me`, in One's portal look. `/me` sends someone with a desk to Profile and an account holder to `/account` |
 
@@ -2572,12 +2543,12 @@ for somebody to check the expense account and submit. Never unasked: a
 workspace that does not use OneBook, or books its software another way,
 would find a bill it did not make.
 
-**And OneIntake.** A Stripe invoice or receipt mailed to a mailbox OneIntake
-reads needs nothing from bills.py: OneIntake makes a first-time supplier from
+**And OneAI.** A Stripe invoice or receipt mailed to a mailbox OneAI
+reads needs nothing from bills.py: OneAI makes a first-time supplier from
 the name and tax ID on the document and drafts the bill against it
-(one_intake/plans.py, parties). Whichever gets there first books it: Add to
-OneBook finds a bill with the same number, and OneIntake links the mail to
-the bill that exists rather than making another (one_intake/money.py).
+(one_ai/reading/plans.py, parties). Whichever gets there first books it: Add to
+OneBook finds a bill with the same number, and OneAI links the mail to
+the bill that exists rather than making another (one_ai/reading/money.py).
 
 ### boot.py
 

@@ -1,14 +1,14 @@
-"""Apps a workspace has turned off, OneAI and OneIntake among them.
+"""Apps a workspace has turned off, OneAI and its reading among them.
 
 An app turned off leaves the rail, search and the pickers for everybody, and
 nothing is deleted or refused. OneAI off refuses every model call and turns
-OneIntake off with it. The rest is in one/README.md, under Apps.
+OneAI off with it. The rest is in one/README.md, under Apps.
 """
 
 import json
 
 import frappe
-from frappe import _
+from frappe import _, _lt
 
 KEY = "one_hidden_apps"
 HOST = "onedesk"
@@ -18,8 +18,17 @@ INTAKE = "OneIntake"
 NEEDS = {INTAKE: AI}
 SECTIONS = (AI, INTAKE)
 ICONS = {AI: "oneai", INTAKE: "oneintake"}
-INTAKE_SIDEBAR = "One Intake"
 MEMORY = {"link_to": "settings", "route_options": {"section": "memory"}}
+# What reading shows in One's sidebar, which goes when reading is off.
+READS = (
+	{"link_to": "intake"},
+	{"link_to": "Ready to Submit"},
+	{"link_to": "Deadlines"},
+	{"link_to": "Spending"},
+	{"link_to": "settings", "route_options": {"section": "reads"}},
+)
+# What the Apps screen calls the switches that are not apps.
+LABELS = {INTAKE: _lt("Reading")}
 
 
 def hidden() -> list[str]:
@@ -38,7 +47,7 @@ def ai_on() -> bool:
 
 
 def intake_on() -> bool:
-	"""Whether OneIntake reads: it needs OneAI too."""
+	"""Whether OneAI reads: it needs OneAI too."""
 	return INTAKE not in hidden()
 
 
@@ -53,7 +62,7 @@ def refuse_ai() -> None:
 
 def offered() -> list[dict]:
 	"""One's own rail rows a workspace may turn off, in rail order, then the
-	private apps it has (always on), then OneAI and OneIntake."""
+	private apps it has (always on), then OneAI and its reading."""
 	from frappe.desk.doctype.dock.dock import get_app_dock
 
 	from onedesk.one import private
@@ -75,7 +84,7 @@ def offered() -> list[dict]:
 	return rail + private.offered() + [
 		{
 			"name": name,
-			"title": name,
+			"title": str(LABELS.get(name, name)),
 			"said": str(APP_SAID.get(name, "")),
 			"icon": ICONS[name],
 			"on": name not in off,
@@ -95,7 +104,7 @@ def unlisted(lists: dict[str, set], off: set) -> set:
 
 def _lists() -> dict[str, set]:
 	"""What each of One's rail rows lists, by record type, and what One's
-	OneAI and OneIntake sections list, as theirs."""
+	OneAI and its reading sections list, as theirs."""
 	from frappe.desk.doctype.dock.dock import get_app_dock
 
 	rail = [row.get("link_to") for row in get_app_dock(HOST) if row.get("link_type") == "Sidebar"]
@@ -127,14 +136,16 @@ def _where(item: dict) -> tuple:
 
 
 def sectioned(items: list[dict], off: set) -> tuple[list[dict], set]:
-	"""One's sidebar without the sections of OneAI and OneIntake that are
-	off, and where each link they held went, so another sidebar can lose it
-	too (OneBook's Ready to Submit, OneCalendar's Deadlines). Pure."""
+	"""One's sidebar without OneAI's section when it is off, and without what
+	reading shows (Documents, its reports, What OneAI Reads) when reading is,
+	and where each link they held went, so another sidebar can lose it too
+	(OneBook's Ready to Submit, OneCalendar's Deadlines). Pure."""
+	reading = {_where(one) for one in READS} if INTAKE in off else set()
 	gone, kept, section = set(), [], None
 	for item in items:
 		if item.get("type") == "Section Break":
 			section = item.get("label") if item.get("label") in off else None
-		if section:
+		if section or _where(item) in reading:
 			if item.get("link_to"):
 				gone.add(_where(item))
 			continue
@@ -145,8 +156,8 @@ def sectioned(items: list[dict], off: set) -> tuple[list[dict], set]:
 
 
 def trim(sidebars: dict) -> None:
-	"""`outside.kept`: the sections of OneAI and OneIntake turned off leave
-	One's sidebar, and their links and OneIntake's own sidebar every other."""
+	"""`outside.kept`: OneAI's section and what reading shows, turned off,
+	leave One's sidebar, and their links every other."""
 	off = {name for name in SECTIONS if name in hidden()}
 	if not off or not isinstance(sidebars, dict):
 		return
@@ -154,8 +165,6 @@ def trim(sidebars: dict) -> None:
 	one_items, gone = sectioned(one.get("items") or [], off)
 	if one:
 		one["items"] = one_items
-	if INTAKE in off:
-		sidebars.pop(INTAKE_SIDEBAR, None)
 	for name, sidebar in sidebars.items():
 		if name == "One" or not isinstance(sidebar, dict):
 			continue
@@ -180,7 +189,7 @@ def rehome(said: dict) -> None:
 def boot(bootinfo) -> None:
 	"""What the desk hides: the apps (the rail does it through the site's
 	Dock layer) and their record types (search and the pickers), and whether
-	OneAI and OneIntake are on."""
+	OneAI and its reading are on."""
 	bootinfo["one_hidden"] = {"apps": hidden(), "doctypes": doctypes(), "ai": ai_on(), "intake": intake_on()}
 
 

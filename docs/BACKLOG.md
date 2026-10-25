@@ -185,7 +185,7 @@ Checked against ERPNext while passing OneProject's Time tab.
 ## OneIntake
 
 Checked against `onedesk/one_intake/` on 2026-10-18. The design is
-`onedesk/one_intake/README.md`, The design, at the § given.
+`onedesk/one_ai/reading/README.md`, The design, at the § given.
 
 - **DATEV export** for a business's tax year (§16.6).
 - **Keeping periods elsewhere**: countries other than Germany and the

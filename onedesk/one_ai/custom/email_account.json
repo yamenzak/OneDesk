@@ -1,0 +1,123 @@
+{
+ "custom_fields": [
+  {
+   "doctype": "Custom Field",
+   "dt": "Email Account",
+   "fieldname": "one_intake",
+   "fieldtype": "Check",
+   "insert_after": "one_away_message",
+   "label": "Read by OneAI",
+   "description": "New mail in this mailbox is read, filed and acted on by OneAI.",
+   "read_only": 1,
+   "module": "One AI",
+   "name": "Email Account-one_intake"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Email Account",
+   "fieldname": "one_intake_for",
+   "fieldtype": "Link",
+   "options": "User",
+   "insert_after": "one_intake",
+   "label": "On Behalf Of",
+   "description": "OneAI does here only what this person may do.",
+   "depends_on": "one_intake",
+   "read_only": 1,
+   "module": "One AI",
+   "name": "Email Account-one_intake_for"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Email Account",
+   "fieldname": "one_ai_off",
+   "fieldtype": "Check",
+   "insert_after": "one_intake_for",
+   "label": "OneAI Turned Off",
+   "module": "One AI",
+   "name": "Email Account-one_ai_off",
+   "description": "If enabled, OneAI can't read this mailbox, including in the OneAI panel.",
+   "default": "0"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Email Account",
+   "fieldname": "one_ai_level",
+   "fieldtype": "Select",
+   "insert_after": "one_ai_off",
+   "label": "OneAI Reads To",
+   "module": "One AI",
+   "name": "Email Account-one_ai_level",
+   "description": "How far OneAI goes with each new message.",
+   "options": "Sort Only\nRead and File\nRead, File and Act",
+   "default": "Read, File and Act",
+   "depends_on": "one_intake"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Email Account",
+   "fieldname": "one_ai_attachments",
+   "fieldtype": "Check",
+   "insert_after": "one_ai_level",
+   "label": "Read Attachments",
+   "module": "One AI",
+   "name": "Email Account-one_ai_attachments",
+   "description": "Scans, photos and recordings use the most credits.",
+   "default": "1",
+   "depends_on": "one_intake"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Email Account",
+   "fieldname": "one_ai_limit",
+   "fieldtype": "Int",
+   "insert_after": "one_ai_attachments",
+   "label": "Monthly Credit Limit",
+   "module": "One AI",
+   "name": "Email Account-one_ai_limit",
+   "description": "Leave empty for no limit.",
+   "non_negative": 1,
+   "depends_on": "one_intake"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Email Account",
+   "fieldname": "one_ai_spent",
+   "fieldtype": "Float",
+   "insert_after": "one_ai_limit",
+   "label": "Credits Used",
+   "module": "One AI",
+   "name": "Email Account-one_ai_spent",
+   "read_only": 1,
+   "depends_on": "one_intake"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Email Account",
+   "fieldname": "one_ai_month",
+   "fieldtype": "Data",
+   "insert_after": "one_ai_spent",
+   "label": "Month Counted",
+   "module": "One AI",
+   "name": "Email Account-one_ai_month",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Email Account",
+   "fieldname": "one_ai_skips",
+   "fieldtype": "Small Text",
+   "insert_after": "one_ai_month",
+   "label": "OneAI Leaves Alone",
+   "hidden": 1,
+   "read_only": 1,
+   "module": "One AI",
+   "name": "Email Account-one_ai_skips",
+   "description": "What OneAI does not do with this mailbox's mail, by job (one_mail/gate.py JOBS)."
+  }
+ ],
+ "doctype": "Email Account",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

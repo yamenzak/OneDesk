@@ -15,7 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
 
-INTAKE = tree.APP / "one_intake"
+INTAKE = tree.APP / "one_ai" / "reading"
 AGENT = INTAKE / "agent.py"
 
 

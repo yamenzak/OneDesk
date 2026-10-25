@@ -1,0 +1,97 @@
+{
+ "actions": [],
+ "creation": "2026-09-26 09:00:00.000000",
+ "description": "How OneAI reads what arrives in this workspace.",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "records",
+  "most_pages",
+  "floor",
+  "audit",
+  "keep_in_place",
+  "quiet_minutes",
+  "household",
+  "submit_einvoices"
+ ],
+ "fields": [
+  {
+   "fieldname": "records",
+   "fieldtype": "Check",
+   "label": "Read Files Attached to Records",
+   "default": "0",
+   "description": "Scans and photos attached on a form are read too, on behalf of whoever attached them."
+  },
+  {
+   "fieldname": "most_pages",
+   "fieldtype": "Int",
+   "label": "Most Pages Read",
+   "default": "60",
+   "non_negative": 1,
+   "description": "A scan longer than this is read up to here. The rest stays searchable by its name."
+  },
+  {
+   "fieldname": "floor",
+   "fieldtype": "Percent",
+   "label": "Confidence Floor",
+   "default": "70",
+   "description": "Below this, OneAI's changes wait in Needs Review."
+  },
+  {
+   "fieldname": "audit",
+   "fieldtype": "Check",
+   "label": "Audit OneAI Actions",
+   "default": "1",
+   "description": "A second agent checks each document's actions, approves what is right and sends what is wrong to a person."
+  },
+  {
+   "fieldname": "keep_in_place",
+   "fieldtype": "Check",
+   "label": "Leave Unmatched Files in Place",
+   "default": "0",
+   "description": "Files that belong to no record stay where they arrived instead of going to a folder for their kind and year."
+  },
+  {
+   "fieldname": "quiet_minutes",
+   "fieldtype": "Int",
+   "label": "Quiet Minutes",
+   "default": "5",
+   "non_negative": 1,
+   "description": "People write in bursts. OneAI acts once a matter has been quiet this long, except on money or deadlines due within a day."
+  },
+  {
+   "fieldname": "household",
+   "fieldtype": "Check",
+   "label": "Household",
+   "default": "0",
+   "description": "A household keeps no books. No drafts are made, and Spending shows what was bought."
+  },
+  {
+   "fieldname": "submit_einvoices",
+   "fieldtype": "Check",
+   "label": "Submit Matching E-Invoices",
+   "default": "0",
+   "description": "An e-invoice from a known supplier, billed from an order and ready, is submitted by OneAI. Off unless switched on."
+  }
+ ],
+ "issingle": 1,
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-01 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One AI",
+ "name": "Intake Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

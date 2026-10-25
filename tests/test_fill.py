@@ -1,5 +1,5 @@
 """A record Intake makes is given what its kind still needs from the document
-(one_intake/fill.py), read the same way OneAI's cards read a kind
+(one_ai/reading/fill.py), read the same way OneAI's cards read a kind
 (one_ai/kind.py)."""
 
 import ast
@@ -10,8 +10,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
 
-FILL = (tree.APP / "one_intake" / "fill.py").read_text()
-ACT = (tree.APP / "one_intake" / "act.py").read_text()
+FILL = (tree.APP / "one_ai" / "reading" / "fill.py").read_text()
+ACT = (tree.APP / "one_ai" / "reading" / "act.py").read_text()
 
 
 def _body(source: str, name: str) -> str:
@@ -30,8 +30,8 @@ def test_every_intake_write_of_a_new_record_is_filled():
 
 def test_the_hooks_act_only_inside_intakes_write():
 	hooks = (tree.APP / "hooks.py").read_text()
-	assert '"before_insert": "onedesk.one_intake.fill.before_insert"' in hooks
-	assert '"before_save": "onedesk.one_intake.fill.before_save"' in hooks
+	assert '"before_insert": "onedesk.one_ai.reading.fill.before_insert"' in hooks
+	assert '"before_save": "onedesk.one_ai.reading.fill.before_save"' in hooks
 
 
 def test_the_fill_action_ships_and_never_invents():

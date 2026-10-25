@@ -1,0 +1,152 @@
+"""Intake as an inbox: what OneAI did, and what waits for you (onedesk/one_ai/reading/README.md §4).
+
+**Intake** in the rail opens two boxes that work like a mailbox, one line per
+document: **Done** and **Waiting**.
+"""
+
+from typing import Annotated
+
+import frappe
+from frappe import _
+
+PRIVATE = ("Medical", "Pay", "Personal")
+
+PAGE = 40
+
+WAITS = "(a.level = 'Proposed' or (a.level = 'Done' and a.audit = 'Wrong'))"
+
+
+def _scope(everyone: bool) -> tuple[str, dict]:
+	from onedesk.one.roles import administers
+
+	me = frappe.session.user
+	if everyone and administers():
+		return "(r.on_behalf_of = %(me)s or ifnull(r.sensitivity, '') not in %(private)s)", {"me": me, "private": PRIVATE}
+	return "r.on_behalf_of = %(me)s", {"me": me}
+
+
+def _box(box: str) -> str:
+	"""Which documents a box holds. A document is in one box only."""
+	waiting = f"exists (select 1 from `tabIntake Action` a where a.reading = r.name and {WAITS})"
+	if box == "waiting":
+		return waiting
+	return f"exists (select 1 from `tabIntake Action` a where a.reading = r.name and a.level = 'Done') and not {waiting}"
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def listing(
+	box: Annotated[str, "done or waiting"] = "waiting",
+	everyone: Annotated[int, "An administrator's view of everybody's documents."] = 0,
+	start: Annotated[int, "Where the page starts."] = 0,
+) -> dict:
+	"""One page of a box, newest first."""
+	scope, values = _scope(bool(int(everyone)))
+	rows = frappe.db.sql(
+		f"""select r.name, r.title, r.kind, r.summary, r.on_behalf_of, r._seen, r.verdict,
+			(select max(a.modified) from `tabIntake Action` a where a.reading = r.name) as happened,
+			(select count(*) from `tabIntake Action` a where a.reading = r.name and a.level = 'Done') as done,
+			(select count(*) from `tabIntake Action` a where a.reading = r.name and {WAITS}) as waiting
+		from `tabReading` r
+		where {scope} and {_box(box)}
+		order by happened desc limit %(most)s offset %(start)s""",
+		{**values, "most": PAGE + 1, "start": int(start)},
+		as_dict=True,
+	)
+	me = frappe.session.user
+	items = [
+		{
+			"name": row.name,
+			"title": row.title or _(row.kind or "Document"),
+			"kind": _(row.kind) if row.kind else None,
+			"summary": row.summary,
+			"when": row.happened,
+			"done": row.done,
+			"waiting": row.waiting,
+			"unread": me not in frappe.parse_json(row._seen or "[]"),
+			"person": frappe.utils.get_fullname(row.on_behalf_of) if row.on_behalf_of != me else None,
+		}
+		for row in rows[:PAGE]
+	]
+	return {"items": items, "more": len(rows) > PAGE}
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def counts() -> dict:
+	"""For the rail: how many documents wait for you, and how many in either
+	box you have not opened."""
+	scope, values = _scope(False)
+	like = f'%"{frappe.session.user}"%'
+	waiting, unread = frappe.db.sql(
+		f"""select
+			sum({_box("waiting")}),
+			sum(ifnull(r._seen, '') not like %(like)s and exists (select 1 from `tabIntake Action` a where a.reading = r.name and a.level in ('Done', 'Proposed')))
+		from `tabReading` r where {scope}""",
+		{**values, "like": like},
+	)[0]
+	return {"waiting": int(waiting or 0), "unread": int(unread or 0)}
+
+
+@frappe.whitelist()
+def item(name: Annotated[str, "The Reading."]) -> dict:
+	"""One document as the reading pane draws it, marked as seen by you."""
+	from onedesk.one_ai.reading import panel
+
+	doc = _readable(name)
+	said = panel.described(name)
+	said["route"] = _route(doc)
+	said["person"] = frappe.utils.get_fullname(doc.on_behalf_of) if doc.on_behalf_of != frappe.session.user else None
+	doc.add_seen()
+	return said
+
+
+@frappe.whitelist(methods=["POST"])
+def keep(action: Annotated[str, "The Intake Action the auditor doubted."]) -> dict:
+	"""A person keeps what the auditor thought wrong."""
+	from onedesk.one_ai.reading import act
+
+	row = frappe.get_doc("Intake Action", action)
+	act._may_decide(row)
+	row.db_set("audit", "Kept")
+	return {"audit": "Kept"}
+
+
+@frappe.whitelist(methods=["POST"])
+def seen_all(box: Annotated[str, "done or waiting"] = "done") -> int:
+	"""Every document in a box marked as seen by you."""
+	scope, values = _scope(False)
+	names = frappe.db.sql_list(f"select r.name from `tabReading` r where {scope} and {_box(box)}", values)
+	for name in names:
+		frappe.get_doc("Reading", name).add_seen()
+	return len(names)
+
+
+def _readable(name: str):
+	from onedesk.one.roles import administers
+
+	doc = frappe.get_doc("Reading", name)
+	mine = doc.on_behalf_of == frappe.session.user
+	if not mine and not (administers() and (doc.sensitivity or "") not in PRIVATE):
+		frappe.throw(_("Document not found"), frappe.DoesNotExistError)
+	return doc
+
+
+def _route(doc) -> str | None:
+	"""Where the document itself opens: its file in OneCloud, or its message."""
+	if doc.source_doctype == "File" and doc.source_name:
+		folder = frappe.db.get_value("File", doc.source_name, "folder")
+		return f"/app/onecloud?node={frappe.utils.quote(folder or '')}&file={frappe.utils.quote(doc.source_name)}"
+	if doc.source_doctype == "Communication" and doc.source_name:
+		thread = frappe.db.get_value("Communication", doc.source_name, "one_thread") or doc.source_name
+		return f"/app/onemail?thread={frappe.utils.quote(thread)}"
+	return None
+
+
+def fresh(name: str) -> None:
+	"""OneAI did something new with a document: it is unread again for
+	everybody, and the person's rail is told."""
+	frappe.db.set_value("Reading", name, "_seen", "[]", update_modified=False)
+	person = frappe.db.get_value("Reading", name, "on_behalf_of")
+	if person:
+		frappe.publish_realtime("intake_inbox", {"reading": name}, user=person, after_commit=True)

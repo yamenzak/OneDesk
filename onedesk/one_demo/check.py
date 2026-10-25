@@ -2554,8 +2554,19 @@ def oneintake_layla_works_through_what_oneai_read():
 	as a zip. OneAI finds a document by its words."""
 	from unittest import mock
 
+	from onedesk.one_ai.reading import (
+		act,
+		ai,
+		bundle,
+		drafts,
+		explain,
+		identity,
+		inbox,
+		mark,
+		panel,
+		switches,
+	)
 	from onedesk.one_demo import intake
-	from onedesk.one_intake import act, ai, bundle, drafts, explain, identity, inbox, mark, panel, switches
 
 	doubted = _sample("taxi-receipt-doubted")
 	with as_user(OWNER):
@@ -2584,8 +2595,12 @@ def oneintake_layla_works_through_what_oneai_read():
 		task = frappe.db.get_value("Intake Action", {"reading": drawings, "target_doctype": "Task", "level": "Done"}, "target_name")
 		assert act.undo(drawings)["undone"] >= 1 and not frappe.db.exists("Task", task)
 
-		marked = frappe.get_all("AI Touch", filters={"for_doctype": "Task", "fieldname": mark.WHOLE}, pluck="record", limit=1)
-		assert marked
+		marked = [
+			one
+			for one in frappe.get_all("AI Touch", filters={"for_doctype": "Task", "fieldname": mark.WHOLE}, pluck="record")
+			if frappe.has_permission("Task", "write", one)
+		]
+		assert marked, "no task OneAI made that Layla may change"
 		mark.looks_right("Task", marked[0])
 		assert not mark.is_marked("Task", marked[0])
 
@@ -2622,7 +2637,7 @@ def oneintake_layla_works_through_what_oneai_read():
 		assert panel.for_file(statement)["kind"] == "Bank Statement"
 	with as_user("samir@one.test"):
 		schedule = frappe.db.get_value("File", {"attached_to_name": VILLA, "file_name": "Window schedule.csv"})
-		with mock.patch("onedesk.one_intake.pipeline.later") as later:
+		with mock.patch("onedesk.one_ai.reading.pipeline.later") as later:
 			switches.read_now(schedule)
 		assert later.call_args.args[0] == "read_file"
 
@@ -3421,7 +3436,7 @@ def one_an_app_turned_off_is_hidden_not_refused():
 	"""The workspace administrator turns OneCRM off: it leaves everybody's
 	rail, and Opportunity leaves search and the pickers, while Customer,
 	which OneBook lists too, stays. Nothing is refused: an opportunity still
-	opens, OneIntake may still file into one, and turning OneCRM back
+	opens, OneAI may still file into one, and turning OneCRM back
 	on brings it all back. Nobody else may turn an app off."""
 	from frappe.desk.doctype.dock.dock import resolve_dock
 
@@ -3447,7 +3462,7 @@ def one_an_app_turned_off_is_hidden_not_refused():
 	assert rail.get("OneCRM") in (None, 1) and not rail.get("OneBook"), rail
 	opportunity = frappe.get_all("Opportunity", pluck="name", limit=1)
 	assert opportunity and frappe.has_permission("Opportunity", "read", opportunity[0], user=OWNER)
-	assert frappe.has_permission("Opportunity", "create", user=OWNER), "OneIntake checks this before it files"
+	assert frappe.has_permission("Opportunity", "create", user=OWNER), "OneAI checks this before it files"
 	with as_user(OWNER):
 		apps.save([])
 		assert not apps.doctypes()
@@ -3456,18 +3471,18 @@ def one_an_app_turned_off_is_hidden_not_refused():
 
 @check
 def one_oneai_turned_off_asks_nothing_and_oneintake_reads_nothing():
-	"""OneAI off, in Apps, turns OneIntake off with it: no model is asked
+	"""OneAI off, in Apps, turns OneAI off with it: no model is asked
 	(`run.once`, a chat), nothing is queued to be read, no switch turns on,
 	OneHR's screening is off, and One's sidebar loses both sections, OneBook
-	its Ready to Submit. OneIntake alone off leaves OneAI answering. What
+	its Ready to Submit. OneAI alone off leaves OneAI answering. What
 	OneAI Reads holds only the reader's own mailboxes."""
 	from frappe.boot import get_module_sidebars
 
 	from onedesk.one import apps, settings
 	from onedesk.one_admin import faults
 	from onedesk.one_ai import chat, run
+	from onedesk.one_ai.reading import pipeline, switches
 	from onedesk.one_hr import hiring
-	from onedesk.one_intake import pipeline, switches
 
 	with as_user("rania@one.test"):
 		mine = settings.load("reads")
@@ -3500,7 +3515,7 @@ def one_oneai_turned_off_asks_nothing_and_oneintake_reads_nothing():
 				except frappe.ValidationError:
 					pass
 				else:
-					raise AssertionError("a mailbox switched on with OneIntake off")
+					raise AssertionError("a mailbox switched on with OneAI off")
 			assert not hiring.on("one_ai_screen")
 			shown = {one["key"] for one in settings.sections()["sections"]}
 			assert not shown & {"memory", "oneai", "reads", "intake"}, shown
@@ -3946,7 +3961,8 @@ def settings_open_and_save_for_each_person():
 		mine = settings.sections()
 		assert not mine["admin"] and {one["group"] for one in mine["sections"]} == {"you"}
 		for one in mine["sections"]:
-			settings.load(one["key"])
+			if one["key"] not in settings.OPENS:
+				settings.load(one["key"])
 		try:
 			settings.load("people")
 			raise AssertionError("Rania opened People")
@@ -3972,7 +3988,8 @@ def settings_open_and_save_for_each_person():
 		every = settings.sections()
 		assert every["admin"]
 		for one in every["sections"]:
-			settings.load(one["key"])
+			if one["key"] not in settings.OPENS:
+				settings.load(one["key"])
 		settings.invite("hana@one.test", "Hana", "Rizk", {"OneCRM": "User"})
 		assert frappe.db.exists("User", "hana@one.test")
 		settings.invite_again("hana@one.test")
@@ -5037,7 +5054,7 @@ def intake_fills_only_the_record_it_is_making():
 	from unittest import mock
 
 	from onedesk.one_ai import kind
-	from onedesk.one_intake import fill
+	from onedesk.one_ai.reading import fill
 
 	reading = frappe.get_all("Reading", pluck="name", limit=1)[0]
 	group = frappe.get_all("Supplier Group", filters={"is_group": 0}, pluck="name", limit=1)[0]
@@ -6343,8 +6360,8 @@ def onetask_takes_work_from_intake_and_onehr():
 	came in, and one about a bill for the villa is the villa's. An
 	onboarding's steps are each their person's, and open the onboarding, not
 	HRMS's project behind it."""
+	from onedesk.one_ai.reading import planning
 	from onedesk.one_demo import intake
-	from onedesk.one_intake import planning
 	from onedesk.one_task import mine, view
 
 	scaffolding = frappe.db.get_value("Task", {"subject": "Rapid Scaffolding invoice RS-5512"}, ["name", "project", "_assign", "expected_time"], as_dict=True)
@@ -9051,7 +9068,7 @@ def the_workspace_tells_what_it_promised_to():
 
 	from onedesk.one import account, signin, tell
 	from onedesk.one_admin import tell as admin
-	from onedesk.one_intake import tell as intake
+	from onedesk.one_ai.reading import tell as intake
 	from onedesk.one_studio import tell as studio
 
 	told, mailed = [], []
@@ -9378,8 +9395,9 @@ def notification_center_sets_yours_and_the_workspace():
 @check
 def ai_center_sets_the_tier_and_a_modules_part():
 	"""AICenter (one_ai/center.py): the tier set and put back, one of
-	OneHR's switches turned and put back, OneMail's mailboxes listed, and
-	OneAI turned off and on; somebody who doesn't administer the workspace
+	OneHR's switches turned and put back, OneMail's mailboxes listed, one of
+	reading's settings changed and put back, and reading and OneAI turned off
+	and on; somebody who doesn't administer the workspace
 	is refused all of it and sees only what OneAI keeps about them."""
 	from unittest import mock
 
@@ -9413,6 +9431,20 @@ def ai_center_sets_the_tier_and_a_modules_part():
 		finally:
 			center.set_on(1)
 		assert apps.ai_on()
+		read = center.reading()
+		assert read["on"] and {one["key"] for one in read["settings"]} >= {"floor", "quiet_minutes", "audit"}, read
+		quiet = next(one["value"] for one in read["settings"] if one["key"] == "quiet_minutes")
+		try:
+			center.set_reading("quiet_minutes", 9)
+			assert frappe.db.get_single_value("Intake Settings", "quiet_minutes") == 9
+		finally:
+			center.set_reading("quiet_minutes", quiet or 0)
+		try:
+			center.set_reading_on(0)
+			assert apps.ai_on() and not apps.intake_on()
+		finally:
+			center.set_reading_on(1)
+		assert apps.intake_on()
 		assert center.summaries() and isinstance(center.knowledge(), list)
 		assert center.usage() == {"reached": False, "jobs": []} or center.usage()["reached"]
 

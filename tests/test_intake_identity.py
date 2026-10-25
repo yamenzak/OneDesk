@@ -7,7 +7,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from onedesk.one_intake import identifiers as ids
+from onedesk.one_ai.reading import identifiers as ids
 
 HOOKS = (Path(__file__).resolve().parent.parent / "onedesk" / "hooks.py").read_text()
 
@@ -80,12 +80,12 @@ def test_found_reads_a_records_values_into_canonical_pairs():
 
 
 def test_the_registry_follows_every_save_rename_and_delete():
-	assert re.search(r'"on_update": \[?[^\]]*"onedesk\.one_intake\.identity\.remember"', HOOKS)
-	assert re.search(r'"after_rename": \[?[^\]]*"onedesk\.one_intake\.identity\.renamed"', HOOKS)
-	assert "onedesk.one_intake.identity.forget" in HOOKS
-	assert "onedesk.one_intake.identity.flag" in HOOKS
-	source = (Path(__file__).resolve().parent.parent / "onedesk" / "one_intake" / "identity.py").read_text()
+	assert re.search(r'"on_update": \[?[^\]]*"onedesk\.one_ai\.reading\.identity\.remember"', HOOKS)
+	assert re.search(r'"after_rename": \[?[^\]]*"onedesk\.one_ai\.reading\.identity\.renamed"', HOOKS)
+	assert "onedesk.one_ai.reading.identity.forget" in HOOKS
+	assert "onedesk.one_ai.reading.identity.flag" in HOOKS
+	source = (Path(__file__).resolve().parent.parent / "onedesk" / "one_ai" / "reading" / "identity.py").read_text()
 	assert "rename_doc(doctype, name, into, merge=True)" in source, "a merge is Frappe's own"
-	assert "unique" not in (Path(__file__).resolve().parent.parent / "onedesk" / "one_intake" / "doctype" / "identifier" / "identifier.json").read_text(), (
+	assert "unique" not in (Path(__file__).resolve().parent.parent / "onedesk" / "one_ai" / "doctype" / "identifier" / "identifier.json").read_text(), (
 		"a unique index would trip half way through a merge"
 	)

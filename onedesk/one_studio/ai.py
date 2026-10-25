@@ -237,7 +237,7 @@ def _unescaped(code: str | None) -> str | None:
 
 def extension_places() -> dict:
 	"""One's own pages an extension can run on, beyond the record forms and
-	lists: OneMail, OneCalendar, OneTask, OneCloud, OneIntake, the pipeline
+	lists: OneMail, OneCalendar, OneTask, OneCloud, OneAI, the pipeline
 	board, every space's home and a record's head. For each: when it runs,
 	what the extension is told, and the few things it may do there. Read it
 	before writing an extension for one of them."""

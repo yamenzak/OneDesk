@@ -498,7 +498,7 @@ def replies(account: str) -> bool:
 
 def topics_of_mailbox(account: str) -> list[tuple[str, str]]:
 	"""Everything a mailbox's rules ask OneAI of a new message (flow.topics),
-	for its reading (one_intake/understand.py)."""
+	for its reading (one_ai/reading/understand.py)."""
 	from onedesk.one_mail import flow
 
 	return [one for rule in rules_of(account, True) for one in flow.topics(rule.name, flow_of(rule))]
@@ -506,7 +506,7 @@ def topics_of_mailbox(account: str) -> list[tuple[str, str]]:
 
 def by_meaning(message: str, about: set) -> list[str]:
 	"""The rules that wait for OneAI, run once it has read a new message
-	(one_intake/understand.py) with what it found, on a message still in the
+	(one_ai/reading/understand.py) with what it found, on a message still in the
 	Inbox: a rule that already moved it on arrival wins."""
 	made = frappe.get_doc("Communication", message)
 	if not _in_inbox(made):

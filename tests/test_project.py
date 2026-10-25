@@ -9,7 +9,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
-from test_task import _Board, _Row, _body, _load
+from test_task import _Board, _body, _load, _Row
 
 PROJECT = tree.APP / "one_project"
 TASK = tree.APP / "one_task"
@@ -556,8 +556,8 @@ def test_a_bill_lands_on_the_one_project_it_names():
 	assert pick("Web hosting for March", projects) is None, "a short name says too little"
 	assert pick("Handrailsteel", projects) is None, "a name counts whole"
 	assert pick("", projects) is None
-	planning = (tree.APP / "one_intake" / "planning.py").read_text()
-	money = (tree.APP / "one_intake" / "money.py").read_text()
+	planning = (tree.APP / "one_ai" / "reading" / "planning.py").read_text()
+	money = (tree.APP / "one_ai" / "reading" / "money.py").read_text()
 	assert 'ctx["project"] = _project_named(reading)' in planning and "intake.named(" in planning
 	assert '"project": ctx.get("project")' in money and '{**row, "project": head["project"]}' in money
 
@@ -1117,7 +1117,8 @@ def test_a_project_opens_on_its_own_page():
 
 
 def test_time_invoices_and_team_are_views_of_erpnexts_own_records():
-	from datetime import date, datetime, time as clock
+	from datetime import date, datetime
+	from datetime import time as clock
 
 	space = _load(PROJECT / "hours.py", ("state", "after", "DAY_STARTS"), time=clock, datetime=datetime)
 	state = space["state"]

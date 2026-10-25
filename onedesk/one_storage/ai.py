@@ -107,9 +107,9 @@ def open_file(
 	file: Annotated[str, "The file's id, as the page names it."],
 ) -> dict:
 	"""A file the reader may open: what it is, where it is, who owns it, and
-	its text (what OneIntake read of it, or read now). Read it before
+	its text (what OneAI read of it, or read now). Read it before
 	summarising a file or answering a question about what it says."""
-	from onedesk.one_intake import read
+	from onedesk.one_ai.reading import read
 
 	item, refused = _file(file)
 	if refused:

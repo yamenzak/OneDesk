@@ -40,7 +40,7 @@ onedesk.crm_record.duplicate = (frm) => {
 	const call = (method, args) =>
 		lead
 			? frappe.xcall(`onedesk.one_crm.capture.${method}`, { lead: frm.doc.name, ...args })
-			: frappe.xcall(`onedesk.one_intake.identity.${method}`, { doctype: frm.doctype, name: frm.doc.name, ...args });
+			: frappe.xcall(`onedesk.one_ai.reading.identity.${method}`, { doctype: frm.doctype, name: frm.doc.name, ...args });
 	if (doctype === frm.doctype) {
 		frm.add_custom_button(__("Merge Into {0}", [name]), () =>
 			frappe.confirm(

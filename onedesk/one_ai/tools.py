@@ -584,7 +584,7 @@ def hooked() -> tuple[tuple, tuple]:
 
 def _every() -> tuple[tuple, tuple]:
 	"""What runs now (reads, and keeping a memory, and the tools a run was
-	handed for itself, such as OneIntake's) and what becomes a card."""
+	handed for itself, such as OneAI's) and what becomes a card."""
 	reads, suggests = hooked()
 	own = tuple((frappe.flags.get("one_ai_tools") or {}).values())
 	return READS + KEEPS + reads + own, SUGGESTS + suggests

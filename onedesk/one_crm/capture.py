@@ -105,7 +105,7 @@ def merge(lead: str, into: Annotated[str, "The lead this one is the same as."]) 
 	for name in (lead, into):
 		frappe.get_doc("Lead", name).check_permission("write")
 	frappe.get_doc("Lead", lead).check_permission("delete")
-	from onedesk.one_intake import identity
+	from onedesk.one_ai.reading import identity
 
 	return identity.fold("Lead", lead, into)
 

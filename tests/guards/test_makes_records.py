@@ -21,7 +21,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[2] / "onedesk"
 APPS = Path("/home/frappe/bench1/apps")
 
-FILLS = ("one_intake",)
+FILLS = ("one_ai/reading",)
 
 DEMO = ("one_demo",)
 
@@ -70,7 +70,7 @@ def _made(upstream: dict) -> dict:
 	made = {}
 	for path in ROOT.rglob("*.py"):
 		parts = path.relative_to(ROOT).parts
-		if len(parts) < 2 or parts[0] in ("tests", "patches", *FILLS, *DEMO) or path.name.startswith("test_") or path.name in ("checks.py", "demo.py"):
+		if len(parts) < 2 or parts[0] in ("tests", "patches", *DEMO) or "/".join(parts[:2]) in FILLS or path.name.startswith("test_") or path.name in ("checks.py", "demo.py"):
 			continue
 		for kind in MADE.findall(path.read_text()):
 			meta = upstream.get(kind)

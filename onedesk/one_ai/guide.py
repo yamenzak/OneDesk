@@ -62,6 +62,8 @@ def manuals() -> list[Path]:
 	found = []
 	for readme in sorted(APP.glob("*/README.md")):
 		found.append(readme)
+	# A part of a module with its own guide: OneAI's reading (one_ai/reading/).
+	found += sorted(APP.glob("*/*/README.md"))
 	for agents in sorted(APP.glob("*/AGENTS.md")):
 		found += sorted(path for path in (agents.parent / "docs").glob("*.md"))
 	return found

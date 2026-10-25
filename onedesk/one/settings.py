@@ -30,13 +30,13 @@ SECTIONS = [
 	("plan", _lt("Plan and Credits"), "credit-card", "workspace"),
 	("domains", _lt("Domains"), "globe", "workspace"),
 	("oneai", _lt("OneAI"), "sparkles", "workspace"),
-	("intake", _lt("OneIntake Settings"), "oneintake", "workspace"),
+	("intake", _lt("Reading"), "oneintake", "workspace"),
 	("holidays", _lt("Holidays"), "calendar-days", "workspace"),
 ]
 
 # Sections whose row opens a centre over the page rather than drawing one
-# (settings.js `show`): OneAI and what it remembers are AICenter's.
-OPENS = ("memory", "oneai")
+# (settings.js `show`): OneAI, what it remembers and its reading are AICenter's.
+OPENS = ("memory", "oneai", "intake")
 
 APPS = [
 	("OneCRM", "onecrm", ("Sales User",), ("Sales Manager",)),
@@ -184,7 +184,6 @@ def load(
 		"plan": _plan,
 		"domains": _domains,
 		"devices": _devices,
-		"intake": _intake,
 		"holidays": _holidays,
 		"notification_types": _notification_types,
 		"numbering": _numbering,
@@ -211,7 +210,6 @@ def save(
 		"profile": _save_profile,
 		"notifications": _save_notifications,
 		"general": _save_general,
-		"intake": _save_intake,
 		"holidays": _save_holidays,
 		"notification_types": _save_notification_type,
 		"people": _save_person,
@@ -1319,11 +1317,11 @@ def _devices() -> dict:
 
 
 def _intake() -> dict:
-	"""OneIntake's settings, with the defaults written in where the record is
+	"""OneAI's reading settings, with the defaults written in where the record is
 	empty (an empty floor is 70%, not nothing), and the month: what arrived,
 	what OneAI handled, what needed a person, what was undone, and what waits
 	now, for everybody."""
-	from onedesk.one_intake import act, pipeline
+	from onedesk.one_ai.reading import act, pipeline
 
 	doc = frappe.get_single("Intake Settings")
 	values = {name: doc.get(name) for name in INTAKE}
@@ -1333,7 +1331,7 @@ def _intake() -> dict:
 		{**one, "fieldtype": "Switch"} if one["fieldtype"] == "Check" else one
 		for one in _fields("Intake Settings", INTAKE)
 	]
-	from onedesk.one_intake import switches
+	from onedesk.one_ai.reading import switches
 
 	return {
 		"fields": fields,
@@ -1348,9 +1346,9 @@ def _intake() -> dict:
 def _reads() -> dict:
 	"""The mailboxes and folders OneAI reads that are the reader's to switch:
 	the mailboxes they hold and the folders they may change. Every one of
-	them, for an administrator, is OneIntake Settings."""
+	them, for an administrator, is AICenter › Reading."""
 	from onedesk.one import apps
-	from onedesk.one_intake import switches
+	from onedesk.one_ai.reading import switches
 
 	if not apps.intake_on():
 		return {"off": True}
@@ -1363,7 +1361,7 @@ INTAKE_HR = ("one_ai_screen", "one_ai_prepare", "one_ai_transcribe", "one_ai_gri
 def _intake_month() -> dict:
 	from frappe.utils import get_first_day, today
 
-	from onedesk.one_intake import digest, inbox
+	from onedesk.one_ai.reading import digest, inbox
 
 	month = digest.this_month()
 	start = get_first_day(today())
@@ -1376,7 +1374,7 @@ TOLD_OF = ("audit", "household", "submit_einvoices", "floor")
 
 
 def _save_intake(values: dict) -> None:
-	from onedesk.one_intake import act
+	from onedesk.one_ai.reading import act
 
 	doc = _as_opened(frappe.get_single("Intake Settings"))
 

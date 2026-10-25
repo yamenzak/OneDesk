@@ -571,7 +571,7 @@ def _made() -> frozenset:
 	for name in ("plans.py", "money.py"):
 		found |= set(
 			re.findall(
-				r'Action\(\s*"Create",\s*"([A-Z][\w ]+)"', (tree.APP / "one_intake" / name).read_text()
+				r'Action\(\s*"Create",\s*"([A-Z][\w ]+)"', (tree.APP / "one_ai" / "reading" / name).read_text()
 			)
 		)
 	return frozenset(found)

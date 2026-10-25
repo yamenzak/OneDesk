@@ -528,7 +528,7 @@ onedesk.cloud.read_file = (item) => {
 			`<b>${frappe.utils.escape_html(item.name)}</b>`,
 		]),
 		async () => {
-			await frappe.xcall("onedesk.one_intake.switches.read_now", { file: item.id });
+			await frappe.xcall("onedesk.one_ai.reading.switches.read_now", { file: item.id });
 			frappe.show_alert({ message: __("OneAI is reading {0}.", [item.name]), indicator: "green" });
 		}
 	);

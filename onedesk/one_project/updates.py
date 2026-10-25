@@ -121,7 +121,7 @@ def post(project: str, note: str) -> str:
 
 
 def logged(values: dict):
-	"""A site's daily log Intake read (one_intake/plans.py `site_log`): the
+	"""A site's daily log Intake read (one_ai/reading/plans.py `site_log`): the
 	sender's part of the project's update for the day, as if they had
 	written it there."""
 	project = values["project"]

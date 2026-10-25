@@ -24,12 +24,12 @@ def _samples() -> list[Path]:
 def _made() -> set[str]:
 	found = set()
 	for name in PLANNERS:
-		found |= set(re.findall(r'Action\(\s*"Create",\s*"([A-Z][\w ]+)"', (APP / "one_intake" / name).read_text()))
+		found |= set(re.findall(r'Action\(\s*"Create",\s*"([A-Z][\w ]+)"', (APP / "one_ai" / "reading" / name).read_text()))
 	return found
 
 
 def _actions() -> set[str]:
-	source = "\n".join(path.read_text() for path in (APP / "one_intake").glob("*.py"))
+	source = "\n".join(path.read_text() for path in (APP / "one_ai" / "reading").glob("*.py"))
 	return set(re.findall(r'"(intake_\w+)"', source))
 
 

@@ -49,7 +49,7 @@ def operators(text: str) -> dict:
 def searched(query, C, asked: dict, inside: list[str] | None = None):
 	"""A query narrowed to what a search asked for. Each part narrows it
 	further; a word may be anywhere in the message. `inside` are messages
-	whose attachments hold every word (one_intake/search.py)."""
+	whose attachments hold every word (one_ai/reading/search.py)."""
 	for value in asked["from"]:
 		query = query.where(C.sender.like(f"%{value}%") | C.sender_full_name.like(f"%{value}%"))
 	for value in asked["to"]:
@@ -109,7 +109,7 @@ def conversations(account: str, folder: str | None = None, search: str | None = 
 	query = frappe.qb.from_(C).where(C.email_account == account).where(C.communication_medium == "Email")
 	search = (search or "").strip()
 	if search:
-		from onedesk.one_intake import search as documents
+		from onedesk.one_ai.reading import search as documents
 
 		asked = operators(search)
 		inside = documents.in_mail(account, " ".join(asked["words"])) if asked["words"] else []

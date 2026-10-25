@@ -46,6 +46,7 @@
    its words end in an ellipsis instead. */
 .one-set .one-set-list {
 	display: flex;
+	flex-shrink: 0;
 	width: 0;
 	min-width: 100%;
 	flex-direction: column;

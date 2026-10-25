@@ -46,7 +46,7 @@ def test_every_section_has_a_loader_and_a_drawing():
 	for key, _label, _icon, group in S["SECTIONS"]:
 		assert group in ("you", "workspace")
 		if key in S["OPENS"]:
-			assert f'params.section === "{key}"' in page, f"{key} opens a centre, and settings.js doesn't"
+			assert re.search(rf"const centre = \{{[^}}]*\b{key}:", page), f"{key} opens a centre, and settings.js doesn't"
 			continue
 		assert f'"{key}": _{key}' in source, key
 		assert f"draw_{key}(" in page, key
@@ -66,6 +66,8 @@ def test_the_sections_are_the_ones_sidebar_and_the_workspaces_only_for_its_admin
 	rail = json.loads((tree.APP / "one" / "sidebar" / "one" / "one.json").read_text())
 	linked = {(json.loads(item["route_options"])["section"], item["link_to"]) for item in rail["items"] if item.get("route_options")}
 	for key, _label, _icon, group in S["SECTIONS"]:
+		if key in S["OPENS"]:
+			continue
 		assert (key, "settings" if group == "you" else "workspace-settings") in linked, key
 	page = json.loads((tree.APP / "one" / "page" / "workspace_settings" / "workspace_settings.json").read_text())
 	assert [one["role"] for one in page["roles"]] == ["Workspace Administrator"]

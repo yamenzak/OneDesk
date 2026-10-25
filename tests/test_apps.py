@@ -53,21 +53,28 @@ def test_a_turned_off_apps_records_open_elsewhere():
 	assert "**Apps**, at the bottom of the rail" in readme.split("## Under the hood")[0], "how_to answers it"
 
 
-def test_oneai_and_oneintake_off_leave_ones_sidebar_and_others_links():
+def test_oneai_and_reading_off_leave_ones_sidebar_and_others_links():
 	space = _load({"_where", "sectioned"})
-	space.update(json=__import__("json"), AI="OneAI", MEMORY={"link_to": "settings", "route_options": {"section": "memory"}})
+	space.update(
+		json=__import__("json"),
+		AI="OneAI",
+		INTAKE="OneIntake",
+		MEMORY={"link_to": "settings", "route_options": {"section": "memory"}},
+		READS=({"link_to": "intake"}, {"link_to": "Ready to Submit"}, {"link_to": "settings", "route_options": {"section": "reads"}}),
+	)
 	items = [
 		{"type": "Link", "label": "What OneAI Remembers", "link_to": "settings", "route_options": '{"section": "memory"}'},
+		{"type": "Link", "label": "What OneAI Reads", "link_to": "settings", "route_options": '{"section": "reads"}'},
 		{"type": "Section Break", "label": "OneAI"},
-		{"type": "Link", "label": "Actions", "link_to": "workspace-settings", "route_options": '{"section": "oneai"}'},
-		{"type": "Section Break", "label": "OneIntake"},
+		{"type": "Link", "label": "AICenter", "link_to": "workspace-settings", "route_options": '{"section": "oneai"}'},
+		{"type": "Link", "label": "Documents", "link_to": "intake"},
 		{"type": "Link", "label": "Ready to Submit", "link_to": "Ready to Submit"},
 		{"type": "Section Break", "label": "Audit Log"},
 		{"type": "Link", "label": "Changes", "link_to": "Version"},
 	]
 	kept, gone = space["sectioned"](items, {"OneIntake"})
-	assert [one["label"] for one in kept] == ["What OneAI Remembers", "OneAI", "Actions", "Audit Log", "Changes"]
-	assert gone == {("Ready to Submit", "null")}
+	assert [one["label"] for one in kept] == ["What OneAI Remembers", "OneAI", "AICenter", "Audit Log", "Changes"]
+	assert ("Ready to Submit", "null") in gone and ("intake", "null") in gone
 	kept, gone = space["sectioned"](items, {"OneAI", "OneIntake"})
 	assert [one["label"] for one in kept] == ["Audit Log", "Changes"], "What OneAI Remembers goes with OneAI"
 	assert ("workspace-settings", '{"section": "oneai"}') in gone
@@ -79,9 +86,9 @@ def test_oneai_off_refuses_every_model_call_and_oneintake_needs_it():
 	run = (tree.APP / "one_ai" / "run.py").read_text()
 	assert run.count("apps.refuse_ai()") == 2, "run.ask and run.once, the only two that ask a model"
 	assert run.count('"onedesk.one_admin.proxy.ai_run"') == 2
-	pipeline = (tree.APP / "one_intake" / "pipeline.py").read_text()
+	pipeline = (tree.APP / "one_ai" / "reading" / "pipeline.py").read_text()
 	assert pipeline.count("apps.intake_on()") == 2, "pipeline.later and again"
-	switches = (tree.APP / "one_intake" / "switches.py").read_text()
+	switches = (tree.APP / "one_ai" / "reading" / "switches.py").read_text()
 	assert switches.count("_reading()") == 4
 	assert "data-needs" in JS and "is-locked" in JS
 

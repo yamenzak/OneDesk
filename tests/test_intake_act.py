@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent / "onedesk" / "one_intake"
+ROOT = Path(__file__).resolve().parent.parent / "onedesk" / "one_ai" / "reading"
 
 
 def _cint(value):
@@ -179,13 +179,13 @@ def test_filing_writes_only_through_the_door():
 
 
 def test_the_mark_is_taken_down_by_a_person_and_nothing_else():
-	hooks = (ROOT.parent / "hooks.py").read_text()
+	hooks = (ROOT.parents[1] / "hooks.py").read_text()
 	for event in ("on_update", "on_submit", "on_cancel"):
-		assert re.search(rf'"{event}": \[?[^\]]*"onedesk\.one_intake\.mark\.looked_at"', hooks), event
-	assert '"before_rename": "onedesk.one_intake.mark.before_rename"' in hooks
+		assert re.search(rf'"{event}": \[?[^\]]*"onedesk\.one_ai\.reading\.mark\.looked_at"', hooks), event
+	assert '"before_rename": "onedesk.one_ai.reading.mark.before_rename"' in hooks
 	source = (ROOT / "mark.py").read_text()
 	assert "one_intake_writing" in source and "in_import" in source, "OneAI's own writes and imports do not count as looking"
-	assert '"Intake Action": "onedesk.one_intake.act.query"' in hooks and '"Intake Action": "onedesk.one_intake.act.has_permission"' in hooks
+	assert '"Intake Action": "onedesk.one_ai.reading.act.query"' in hooks and '"Intake Action": "onedesk.one_ai.reading.act.has_permission"' in hooks
 
 
 def test_a_first_look_names_the_rules_a_message_is_about():

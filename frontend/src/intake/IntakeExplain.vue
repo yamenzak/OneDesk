@@ -26,7 +26,7 @@
 
 <script setup>
 // OneAI explains a document in plain words, or writes the letter that
-// cancels what it signs the reader up to (one_intake/explain.py).
+// cancels what it signs the reader up to (one_ai/reading/explain.py).
 import { computed, ref } from "vue";
 import { Button } from "frappe-ui";
 
@@ -42,7 +42,7 @@ const paragraphs = computed(() => String(shown.value?.explanation || "").split(/
 async function ask(cancel) {
   busy.value = cancel ? "cancel" : "explain";
   try {
-    explained.value = await call("onedesk.one_intake.explain.explain", {
+    explained.value = await call("onedesk.one_ai.reading.explain.explain", {
       reading: props.said.name,
       cancel: cancel ? 1 : 0,
       again: !cancel && shown.value ? 1 : 0,

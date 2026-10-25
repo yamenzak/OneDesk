@@ -245,7 +245,7 @@ GROUPS = {
 		),
 	},
 	"workspace": {
-		"about": "running the workspace: people, levels and access, who sees what, sign-in, plan and credits, OneAI and its models, domains, holidays, OneIntake, the recycle bin, the audit log, webhooks, announcements, privacy requests, agreements",
+		"about": "running the workspace: people, levels and access, who sees what, sign-in, plan and credits, OneAI and its models, domains, holidays, OneAI, the recycle bin, the audit log, webhooks, announcements, privacy requests, agreements",
 		"tools": (
 			"workspace_people",
 			"workspace_access",

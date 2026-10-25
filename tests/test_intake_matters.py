@@ -5,7 +5,7 @@ import re
 from datetime import date, timedelta
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent / "onedesk" / "one_intake"
+ROOT = Path(__file__).resolve().parent.parent / "onedesk" / "one_ai" / "reading"
 
 
 def _flt(value, precision=None):
@@ -88,10 +88,10 @@ def test_references_are_compared_the_way_they_are_stored():
 
 
 def test_acting_waits_for_quiet_and_lessons_turn_into_asking():
-	hooks = (ROOT.parent / "hooks.py").read_text()
-	assert "onedesk.one_intake.matters.due" in hooks
+	hooks = (ROOT.parents[1] / "hooks.py").read_text()
+	assert "onedesk.one_ai.reading.matters.due" in hooks
 	assert hooks.count('"* * * * *"') == 1, "a second key of the same cron line would silently replace the first"
-	assert '"onedesk.one_intake.lessons.deleted",\n\t\t\t"onedesk.one_ai.touch.forget"' in hooks, "the lesson is read before the mark goes"
+	assert '"onedesk.one_ai.reading.lessons.deleted",\n\t\t\t"onedesk.one_ai.touch.forget"' in hooks, "the lesson is read before the mark goes"
 	assert "ignore_links_on_delete" in hooks
 	source = (ROOT / "act.py").read_text()
 	assert "lessons.rule_says(reading, action)" in source and 'lessons.learn(row, "Dismissed")' in source and 'lessons.learn(row, "Undone")' in source
@@ -103,7 +103,7 @@ def test_understood_documents_are_still_found_and_only_by_those_who_may_open_the
 	for one in (source, body):
 		assert "state in ('Read', 'Understood')" in one, "understanding a document must not hide it from search"
 	assert "files_of(" in body and "messages_of(" in body, "every hit is checked against the file or the message"
-	hooks = (ROOT.parent / "hooks.py").read_text()
-	assert '"onedesk.one_intake.ai.find_documents"' in hooks
-	memory = (ROOT.parent / "one_ai" / "memory.py").read_text()
+	hooks = (ROOT.parents[1] / "hooks.py").read_text()
+	assert '"onedesk.one_ai.reading.ai.find_documents"' in hooks
+	memory = (ROOT.parent / "memory.py").read_text()
 	assert "search.about(doctype, name)" in memory

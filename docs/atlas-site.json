@@ -1,14 +1,5 @@
 {
 "doctypes": {
-"AI Action": [
-"One Operator",
-"System Manager",
-"Workspace Administrator"
-],
-"AI Action Setting": [
-"System Manager",
-"Workspace Administrator"
-],
 "AI Chat": [
 "All",
 "System Manager"
@@ -22,9 +13,6 @@
 ],
 "AI Memory": [
 "All"
-],
-"AI Model": [
-"One Operator"
 ],
 "AI Proposal": [
 "All",
@@ -874,6 +862,8 @@
 "Email Account": [
 "HR Manager",
 "Inbox User",
+"Mail Manager",
+"OneMail User",
 "System Manager"
 ],
 "Email Campaign": [
@@ -3034,8 +3024,7 @@
 ]
 },
 "kept": [
-"AI Action",
-"AI Action Setting",
+"AI Chat",
 "AI Proposal",
 "AI Touch",
 "Account",
@@ -3554,12 +3543,6 @@
 "Purchase User",
 "Stock Manager",
 "Stock User"
-],
-"ready-to-submit": [
-"Accounts Manager",
-"Accounts User",
-"Purchase User",
-"Sales User"
 ],
 "sales-funnel": [
 "Sales Manager"
@@ -4465,6 +4448,10 @@
 "Sales Manager",
 "Sales User"
 ],
+"Ready to Submit": [
+"Desk User",
+"Workspace Administrator"
+],
 "Received Items To Be Billed": [
 "Accounts Manager",
 "Accounts User",
@@ -4706,10 +4693,6 @@
 "Stock by Project": [
 "Projects Manager",
 "Projects User"
-],
-"Storage Check": [
-"System Manager",
-"Workspace Administrator"
 ],
 "Subcontract Order Summary": [
 "Purchase Manager",

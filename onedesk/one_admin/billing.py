@@ -228,7 +228,7 @@ def portal(tenant: str, back: str) -> str:
 
 def seller() -> dict:
 	"""Who the invoices are from, as a workspace's books name a supplier: the
-	admin site's company, with what OneIntake recognises it by."""
+	admin site's company, with what OneAI recognises it by."""
 	from onedesk.one_admin import books
 
 	held = frappe.db.get_value(

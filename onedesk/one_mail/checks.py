@@ -740,13 +740,13 @@ def onemail_oneai_replies_say_who_wrote_them():
 
 @check
 def onemail_a_mailbox_says_what_oneai_may_do_with_its_mail():
-	"""Layla switches off Create Tasks for the workspace mailbox: OneIntake
+	"""Layla switches off Create Tasks for the workspace mailbox: OneAI
 	then makes no task from its mail, while a link it still makes; once a
-	rule has made a task from a message, OneIntake makes no second one;
+	rule has made a task from a message, OneAI makes no second one;
 	an unknown job, or a reading from no mailbox, is never held back. Setting
 	New Mail to Not Read names the rules that ask OneAI, which then show as
 	not running."""
-	from onedesk.one_intake import act
+	from onedesk.one_ai.reading import act
 	from onedesk.one_mail import gate, holders, rules
 
 	ours = holders.workspace()

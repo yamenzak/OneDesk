@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 from datetime import date, timedelta
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent / "onedesk" / "one_intake"
+ROOT = Path(__file__).resolve().parent.parent / "onedesk" / "one_ai" / "reading"
 
 
 def _getdate(value):
@@ -72,7 +72,7 @@ def test_an_order_makes_a_customer_through_the_lead_when_there_is_one():
 	made = PLANS["parties"](order, CTX)
 	assert made[0].values["customer_type"] == "Individual"
 	through = PLANS["parties"](order, {**CTX, "sender_lead": "CRM-LEAD-1"})
-	assert through[0].flow == "onedesk.one_intake.planning.customer_from_lead" and through[0].values == {"lead": "CRM-LEAD-1"}
+	assert through[0].flow == "onedesk.one_ai.reading.planning.customer_from_lead" and through[0].values == {"lead": "CRM-LEAD-1"}
 	matched = {**order, "parties": [{"role": "Sender", "party_name": "Osei Builders", "matched_doctype": "Lead", "matched_name": "CRM-LEAD-1", "score": 0.96}]}
 	assert PLANS["parties"](matched, {**CTX, "sender_lead": "CRM-LEAD-1"})[0].as_person
 

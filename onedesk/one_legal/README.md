@@ -70,7 +70,7 @@ time, the account, and the network address it came from.
 - **From OneAI**: The Subprocessors list names the companies that run OneAI's models. The Privacy Policy says what is kept of a conversation with OneAI.
 - **From OneMail**: The Subprocessors list names who sends the workspace's mail. It also names where people's pictures and organisations' logos come from.
 - **From OneCloud**: The Subprocessors list says where files are stored. The Privacy Policy covers links and file requests for people outside the organisation.
-- **From OneIntake**: The AI Addendum says that Intake acts on what arrives without being asked each time.
+- **From OneAI**: The AI Addendum says that Intake acts on what arrives without being asked each time.
 - **From OneHR**: The Privacy Policy says what is kept when somebody clocks in, such as where they are and sometimes a photo.
 - **To One**: Settings shows each agreement, its version, and who agreed to it and when.
 - **To OneAI**: OneAI answers questions about the agreements from their current text.

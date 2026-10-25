@@ -140,7 +140,7 @@ class Arrival(InboundMail):
 
 			linking.arrived(frappe.get_doc("Communication", made.name))
 			rules.after(frappe.get_doc("Communication", made.name), self)
-			from onedesk.one_intake import pipeline
+			from onedesk.one_ai.reading import pipeline
 
 			pipeline.mail_arrived(made, self)
 			if not self.synced:

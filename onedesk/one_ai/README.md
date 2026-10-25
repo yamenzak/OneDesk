@@ -87,7 +87,7 @@ OneAI mark (**Written by OneAI**). Once you change the text, the mark goes.
 Any other field OneAI filled, such as a date, an amount or a customer, shows
 the same mark beside its label while it still holds what OneAI put there. A
 record made from a card says **Made by OneAI** under who created it. A record
-OneIntake made says so in a note at the top until somebody marks it checked.
+OneAI made says so in a note at the top until somebody marks it checked.
 
 Click in any other field, a setting you are not sure of say, then open
 OneAI, and the question is about that field: it explains it and suggests a
@@ -158,7 +158,7 @@ left, OneAI can't answer until credits are added.
 OneAI has no notifications of its own. Its notices live where they are about:
 the credits (Credits Running Low, Credits Ran Out, sent the moment OneAI is
 refused, Credits Added, Credits Expiring) in One; Extension
-Fixed in OneStudio; Couldn't Read in OneIntake.
+Fixed in OneStudio; Couldn't Read in Documents.
 
 **Credits**, under OneAI in the sidebar, shows what was used by job, person or
 day. Only administrators see it.
@@ -167,16 +167,15 @@ day. Only administrators see it.
 
 - Your conversations, memories and cards are yours alone.
 - Everyone can read **Knowledge**. Only administrators change it.
-- **Actions** and **Credits** are for administrators.
+- **AICenter** and **Credits** are for administrators.
 - An administrator can turn OneAI off for the whole workspace in **Apps**, at
   the bottom of the rail. Then nobody can ask it anything, nothing calls a
-  model, and OneIntake goes off with it. Conversations and memories stay.
+  model, and reading goes off with it. Conversations and memories stay.
 
 ## Connections
 
-- **From OneAdmin**: OneAdmin runs every OneAI answer on the model the workspace chose, or the default, and charges it to the workspace's credits. With too few credits, OneAI can't answer.
-- **To One**: Home counts the cards waiting for you. **Actions**, **Knowledge**, **Credits**, **Conversations** and **Suggestions** are under OneAI in One's sidebar, and **What OneAI Remembers** is in Settings.
-- **To OneIntake**: Each document, scan and photo that arrives is read with OneAI. Fields filled on a record show the OneAI mark.
+- **From OneAdmin**: OneAdmin runs every OneAI answer on the model One chose for the job at the workspace's tier, and charges it to the workspace's credits. With too few credits, OneAI can't answer.
+- **To One**: Home counts the cards and documents waiting for you. **AICenter**, **Knowledge**, **Credits**, **Conversations**, **Suggestions** and **Documents** with its reports are under OneAI in One's sidebar, and **What OneAI Remembers** and **What OneAI Reads** are in Settings.
 - **To OneHR**: Applicants are screened, interviews prepared, interview recordings written out and grievances sorted with OneAI.
 - **To OneMail**: Opening OneAI with a mail window open writes in its message, and a reply OneAI drafts opens there to edit and send.
 - **To OneStudio**: Every extension is reviewed by OneAI before it can be turned on, and mended when it runs into errors.
@@ -218,7 +217,7 @@ deliberately not here.
   full answers back before the conversation is kept, so the panel still
   shows every row it showed.
 - `run.py`: asks the account to run a job (`proxy.ai_run` on OneAdmin). `once`
-  is a single call for other modules (OneIntake, OneHR's hiring, OneStudio's
+  is a single call for other modules (OneAI, OneHR's hiring, OneStudio's
   review and mend). `apply` and `refuse` settle a card.
 
   Only the job, the content and the conversation travel with the call. What
@@ -393,7 +392,7 @@ deliberately not here.
   carries the record's `modified` from when it was written; if the record has
   moved since, the proposal is stale and says so. Applying it anyway would be
   a model's diff quietly undoing a person's.
-- `index.py`, `doctype/ai_chunk`: search by meaning. A document OneIntake
+- `index.py`, `doctype/ai_chunk`: search by meaning. A document OneAI
   read, a message, and the records people look for (`RECORDS`) are cut into
   overlapping pieces (`pieces`), each embedded once through the account and
   kept as an `AI Chunk` with a digest of its text, so a save that changed
@@ -408,7 +407,7 @@ deliberately not here.
   per source however often it is saved; `catch_up` indexes the rest a
   quarter of an hour at a time. `find_by_meaning` is the panel's tool:
   passages and where each came from, which the model answers from, naming
-  them. `one_intake/search.py` ranks the words' hits and the meaning's
+  them. `one_ai/reading/search.py` ranks the words' hits and the meaning's
   together (reciprocal rank) for Ctrl+K, OneCloud and OneMail. After
   OneApp's `oneai/index.py`.
 - `brief.py`: the summary at the top of a customer, supplier, opportunity or
@@ -430,7 +429,7 @@ deliberately not here.
   the default, like OneHR's. It is written in the workspace's language.
 - `touch.py`, `doctype/ai_touch`: writing in a field, and the mark. `AI Touch`
   keeps what was written, and the mark shows while the field still says it.
-  OneIntake's `act.py` calls `wrote` for the fields it fills. Every field is
+  OneAI's `act.py` calls `wrote` for the fields it fills. Every field is
   kept, not only prose (`UNMARKED` lists what is not), and compared by its
   type, so 100 and "100.0" are one value. `onload` also says when the record
   was made by an approved Create card (`ai_made`), which the form shows as
@@ -532,7 +531,7 @@ deliberately not here.
   panel shows as theirs, and what it sends. `fill` puts the question in the
   panel's box to be finished by the reader ("Draft a reply that says: …")
   rather than asking it at once.
-- `kind.py`: a doctype as a card, a tool and OneIntake need to know it, and
+- `kind.py`: a doctype as a card, a tool and OneAI need to know it, and
   whether a record of it is ready to be made.
 
   One place for OneAI's cards and tools and for Intake, so each reads a kind

@@ -54,7 +54,7 @@
 </template>
 
 <script setup>
-// One document in OneIntake's inbox: what it is, what OneAI did with it and
+// One document in Documents: what it is, what OneAI did with it and
 // what waits for a decision, and everything read from it.
 import { reactive, ref, watch } from "vue";
 import { Badge, Button } from "frappe-ui";
@@ -77,7 +77,7 @@ async function load() {
   if (!props.reading) return;
   const asked = props.reading;
   try {
-    const got = await call("onedesk.one_intake.inbox.item", { name: asked });
+    const got = await call("onedesk.one_ai.reading.inbox.item", { name: asked });
     if (asked !== props.reading) return;
     said.value = got;
     tell(got);
@@ -107,21 +107,21 @@ async function again() {
 
 async function settle(act, take) {
   busy.value = true;
-  await call("onedesk.one_intake.act.settle", { action: act.name, take });
+  await call("onedesk.one_ai.reading.act.settle", { action: act.name, take });
   busy.value = false;
   again();
 }
 
 async function keep(act) {
   busy.value = true;
-  await call("onedesk.one_intake.inbox.keep", { action: act.name });
+  await call("onedesk.one_ai.reading.inbox.keep", { action: act.name });
   busy.value = false;
   again();
 }
 
 function undo(act) {
   confirm(__("Undo this?"), async () => {
-    const done = await call("onedesk.one_intake.act.undo_one", { action: act.name });
+    const done = await call("onedesk.one_ai.reading.act.undo_one", { action: act.name });
     if (done.why) msgprint(done.why);
     else alert(__("Undone"));
     again();

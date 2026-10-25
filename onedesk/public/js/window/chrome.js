@@ -1,7 +1,7 @@
 // The frame around every screen (docs/ONEINTERFACE.md): frappe's rail down the left,
 // a bar across the top and a bar across the bottom, in the frame's colour,
 // with the screen inset between them. The top bar is the workspace and what
-// reaches you (its name, announcements, search, OneIntake, notifications);
+// reaches you (its name, announcements, search, OneAI, notifications);
 // the bottom bar is this window and what is running, as a taskbar is (the
 // window's count and paging, open files, Check In and timers, OneAI, and the
 // date and time at its end). The look is
@@ -79,7 +79,7 @@ $.extend(onedesk.window, {
 		}
 		if (onedesk.apps.intake()) {
 			add({
-				label: __("OneIntake"),
+				label: __("Documents"),
 				icon: "inbox",
 				css: "one-intake-row",
 				badge: `<span class="one-intake-count one-bar-badge hide"></span>`,

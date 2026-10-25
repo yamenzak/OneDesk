@@ -14,12 +14,26 @@ Each says what was done meanwhile, so nothing waited on it.
   AICenter › OneMail lists every mailbox with how far OneAI reads it, and
   each row opens that mailbox's OneAI tab. No OneMail file changed. Say if
   you want them moved into AICenter itself.
-- **Plan and Credits keeps the credits' money side.** The plan said its
-  credit parts go. The balance, what is reserved, the ledger and buying are
-  the bill, so they stayed; AICenter shows the balance and its Add Credits
-  opens Plan and Credits. Say if the ledger should move too.
+- **OneIntake's inbox is called Documents.** The plan said "its inbox
+  becomes OneAI's" without a name. *Meanwhile:* the page, its row in One's
+  sidebar, the bottom bar and Home's card say **Documents** ("3 waiting in
+  Documents"). Say if you want another name.
+- **Three doctypes still say Intake: Intake Settings, Intake Action and
+  Intake Lesson**, and two notification names (Intake Waiting, Intake
+  Weekly). OneIntake left every screen, Help page and clause; these are
+  record-type names, and renaming a doctype moves its table and every link
+  to it. *Meanwhile:* kept as they are. Say if they should become Reading
+  Settings, Reading Action and Reading Lesson.
 
 ## Known issues
+
+- **Demo checks failing before this work, left alone:** OneCalendar's week,
+  OneInventory's sent-out and equipment checks and OneBook's Home fail on
+  dates that moved since the demo was seeded, and
+  `oneai_is_told_what_every_place_shows` finds Settings › Mail, Masters and
+  Mail Templates with no sentence for OneAI. None touch OneAI's reading.
+- **Fixed on the way:** `brief.py` defined `_off()` twice, so turning a
+  record type's summaries off never took; the second is `_mailboxes_off()`.
 
 - **Chat with its tools is not benched.** It needs a workspace connected to
   an account; `evals.run` asks through the account. Stage 7.

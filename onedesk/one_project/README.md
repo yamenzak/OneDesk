@@ -856,7 +856,7 @@ the hours count in the project's **Cost**, and billable ones in what there is
 to bill. Time on a project with a customer is billable unless someone unticks
 it.
 
-**Bills from suppliers count too.** When OneIntake reads a supplier's bill
+**Bills from suppliers count too.** When OneAI reads a supplier's bill
 that names an open project, the bill it drafts is for that project, and so is
 each line, so the project's **Cost** includes it once it's submitted. A bill
 naming two projects, or none, is left for you to set.
@@ -1229,7 +1229,7 @@ and One asks in its own words.
 - Posting again the same day replaces your earlier update.
 - Replying to the email works too, whenever the reply comes.
 - A site log mailed in by a member, which names the project, is their update
-  for the day too (OneIntake reads it).
+  for the day too (OneAI reads it).
 - An update posted by someone else shows without reloading the page.
 - Every update is in the project's **Activity**, under who wrote it.
 - No one is asked on a day off in the project's **Holiday List**, and a
@@ -1501,7 +1501,7 @@ sub-project.
 - **From OneTask**: A project's tasks are the same tasks people see on My Tasks. The timer on a task logs its time on the project.
 - **From OneHR**: A day of attendance at the project's site becomes a timesheet on the project. Expense claims on the project count in its Cost, and Workload leaves out holidays and approved leave.
 - **From OneInventory**: Purchase orders, goods received and stock issued for the project count in its Cost. A purchase order for a package of work is a subcontract on the Suppliers view.
-- **From OneIntake**: A supplier's bill that names an open project is drafted for that project. So is a supplier's timesheet, at the hours and rate it gives. A site log a colleague mails in is their part of the day's update on the project it names. A customer asking for extra work on their project gets a draft quotation for Extra Work on it, which becomes a sub-project once ordered.
+- **From OneAI**: A supplier's bill that names an open project is drafted for that project. So is a supplier's timesheet, at the hours and rate it gives. A site log a colleague mails in is their part of the day's update on the project it names. A customer asking for extra work on their project gets a draft quotation for Extra Work on it, which becomes a sub-project once ordered.
 - **From OneCloud**: Photos and videos in the project's Featured Media folder show on its page and on the customer's portal.
 - **To OneInventory**: New Material Request, Ask for Prices, New Purchase Order and Issue Stock on a project's page start those records on the project. Ask for Prices and Issue Stock ask as OneInventory's Quotes page and Transfer Stock do, with the project filled in; an issue is made and submitted at once, so its cost shows on Money.
 - **To OneHR**: New Expense Claim on Money starts an expense claim on the project, which counts in its Cost once approved.
@@ -1943,8 +1943,8 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
     suppliers (`sides`). A customer's retention due within a month, or past
     due, is in Needs You (`asks`), and a project's manager is told on the day
     any of it falls due, either side (`due`).
-- `intake.py` — which open project a document names, for the bills OneIntake
-  drafts (one_intake/money.py).
+- `intake.py` — which open project a document names, for the bills OneAI
+  drafts (one_ai/reading/money.py).
 
   A supplier's bill for the villa's glass says "Villa Al Barsha" somewhere: in
   its reference, a line, the delivery address. Booked with no project, it was
@@ -2083,7 +2083,7 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
   collector are stopped (`settle`); `ask` (hourly, `due` pure) makes the
   Project Update, notifies members in One and mails where mail goes; `post` is
   Post Update; `answered` takes an email reply once as it arrives; `logged` is
-  a site log OneIntake read, written as its sender's answer for the day;
+  a site log OneAI read, written as its sender's answer for the day;
   `timeline`
   (additional_timeline_content) shows the answers in the project's activity.
   Their morning summary still runs, where mail goes (`sum_up`). Hourly is off

@@ -369,7 +369,7 @@ onedesk.mail.settings = (tab) => {
 	// How far OneAI may go with this mailbox (one_mail/gate.py). Off reaches
 	// everything that reads mail, the OneAI panel included.
 	const G = "onedesk.one_mail.gate.";
-	// What OneIntake does with a mailbox's mail, each its own switch, by the
+	// What OneAI does with a mailbox's mail, each its own switch, by the
 	// level it starts at (one_mail/gate.py JOBS).
 	const NOT_READ = "Not Read";
 	const LEVELS = [
@@ -400,11 +400,11 @@ onedesk.mail.settings = (tab) => {
 		{
 			level: "Read, File and Act",
 			title: __("Actions"),
-			note: __("Changes OneAI is unsure of wait for approval in OneIntake."),
+			note: __("Changes OneAI is unsure of wait for approval in Documents."),
 			jobs: [
 				["parties", __("Create Customers and Suppliers"), __("Also Leads and Job Applicants, for unknown senders.")],
 				["contacts", __("Create and Update Contacts"), __("For the sender and everyone in To and Cc.")],
-				["enrich", __("Update Tax ID, Website and Phone"), __("Fills empty fields, and a different value waits for approval in OneIntake.")],
+				["enrich", __("Update Tax ID, Website and Phone"), __("Fills empty fields, and a different value waits for approval in Documents.")],
 				["tasks", __("Create Tasks"), __("Includes follow-ups promised in sent mail.")],
 				["events", __("Create Events"), ""],
 				["money", __("Draft Invoices, Orders and Payments"), __("Saved as drafts in Ready to Submit, and a bill asking to be paid to a new IBAN is held.")],

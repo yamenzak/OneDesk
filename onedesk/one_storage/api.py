@@ -58,8 +58,8 @@ def _taken(folder: str, but: str | None = None) -> set:
 
 
 def _searched(node: str, search: str, everywhere: int) -> list[dict]:
-	"""What is called that, then what has it written inside (one_intake/search.py)."""
-	from onedesk.one_intake import search as inside
+	"""What is called that, then what has it written inside (one_ai/reading/search.py)."""
+	from onedesk.one_ai.reading import search as inside
 
 	by_name = ns.everywhere(search) if everywhere else ns.search(node, search)
 	kind = ns.parse(node)
@@ -503,8 +503,8 @@ def empty_bin() -> int:
 def _erase(name: str) -> int:
 	"""A File and everything in it, deepest first. A document the law says
 	must still be kept stays in the Recycle Bin, and so does its folder
-	(one_intake/keep.py)."""
-	from onedesk.one_intake import keep
+	(one_ai/reading/keep.py)."""
+	from onedesk.one_ai.reading import keep
 
 	gone = 0
 	for child in frappe.get_all("File", filters={"folder": name}, pluck="name"):

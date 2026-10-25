@@ -20,11 +20,11 @@ from onedesk.one_legal import assemble, documents, registry  # noqa: E402
 VERSIONS = {
 	"terms": "12.88c95250",
 	"aup": "1.cc05bbc3",
-	"privacy": "27.7d34e1bf",
+	"privacy": "27.144021fb",
 	"cookies": "2.946a434c",
 	"dpa": "7.0d5532aa",
 	"subprocessors": "5.85264ef9",
-	"ai": "25.d4d86e2c",
+	"ai": "25.b4cff227",
 	"licences": "1.c71daf62",
 }
 
@@ -96,12 +96,12 @@ def test_everybody_agrees_to_something_and_the_notices_to_nothing():
 
 def test_nobody_is_promised_what_is_not_built():
 	"""OneApp's text promised a full backup from the settings and said nothing is
-	ever written without somebody asking. Neither is true of OneDesk: Intake
-	acts without being asked each time."""
+	ever written without somebody asking. Neither is true of OneDesk: OneAI's
+	reading acts without being asked each time."""
 	everything = " ".join(assemble.text_of(key) for key in documents.DOCUMENTS)
 	assert "full backup" not in everything
 	assert "without somebody asking for it" not in everything
-	assert "Intake" in assemble.text_of("ai")
+	assert "turns reading on, OneAI reads the mail and files that arrive and acts on them" in assemble.text_of("ai")
 
 
 def test_only_a_first_agreement_stops_anybody():

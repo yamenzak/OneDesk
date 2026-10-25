@@ -1,6 +1,6 @@
 """How far OneAI may read a mailbox: the OneAI tab of a mailbox in OneMail's
 settings. One switch reaches everything that reads mail, so a mailbox turned
-off is off for OneIntake's reading, for search by meaning and for the OneAI
+off is off for OneAI's reading, for search by meaning and for the OneAI
 panel's tools alike. A mailbox that is read can be held to sorting, to
 reading and filing, or allowed to act; its attachments can be left to the
 free reading; and its credits can be capped by the month, after which only
@@ -26,7 +26,7 @@ FIELDS = [
 	"one_ai_skips",
 ]
 
-#: What OneIntake does with a mailbox's mail, each its own switch on the
+#: What OneAI does with a mailbox's mail, each its own switch on the
 #: mailbox's OneAI tab, by the level it starts at. All are on until switched
 #: off (`one_ai_skips`); `job_of` says which one an Intake Action is.
 JOBS = {
@@ -86,7 +86,7 @@ def skips(account: str | None) -> set[str]:
 
 
 def does(account: str | None, job: str | None) -> bool:
-	"""Whether OneIntake may do this job with this mailbox's mail: always for
+	"""Whether OneAI may do this job with this mailbox's mail: always for
 	a job no switch covers, and for anything not from a mailbox."""
 	return not job or not account or job not in skips(account)
 
@@ -110,7 +110,7 @@ def may_read(account: str | None) -> bool:
 def reads(account: str | None) -> bool:
 	"""Whether a mailbox's new mail is read at all, so its Ask OneAI rules
 	can run (flow.needs_ai): OneAI may read it, New Mail is not Not Read,
-	and OneIntake is on for the workspace."""
+	and OneAI is on for the workspace."""
 	from onedesk.one import apps
 
 	held = of(account)
@@ -206,7 +206,7 @@ def message_of(reading: str) -> str | None:
 
 def made_by_rule(message: str | None) -> set[str]:
 	"""The kinds of record a mailbox's rule already made from a message
-	(rules.create), which OneIntake then makes none of: the rule wins."""
+	(rules.create), which OneAI then makes none of: the rule wins."""
 	if not message:
 		return set()
 	return set(
@@ -320,7 +320,7 @@ def set_settings(
 ) -> dict:
 	"""Change a mailbox's OneAI tab. Its manager may (holders.may_manage); new
 	mail is then read on behalf of whoever turned reading on."""
-	from onedesk.one_intake import switches
+	from onedesk.one_ai.reading import switches
 	from onedesk.one_mail import holders
 
 	holders.must(account, "ai")

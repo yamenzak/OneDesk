@@ -34,7 +34,7 @@
 <script setup>
 // What OneAI read from a file or a message, beside it in OneCloud's preview
 // and under it in OneMail: what it is, the few facts that matter, what OneAI
-// did with it (in OneIntake's inbox), how to pay it and its plain-words
+// did with it (in Documents), how to pay it and its plain-words
 // explanation.
 import { computed, ref, watch } from "vue";
 import { Badge, Button } from "frappe-ui";
@@ -56,8 +56,8 @@ async function load() {
   if (!intakeOn() || !(props.file || props.message)) return;
   try {
     const got = props.file
-      ? await call("onedesk.one_intake.panel.for_file", { name: props.file })
-      : await call("onedesk.one_intake.panel.for_message", { name: props.message });
+      ? await call("onedesk.one_ai.reading.panel.for_file", { name: props.file })
+      : await call("onedesk.one_ai.reading.panel.for_message", { name: props.message });
     if (got && (got.read_by_ai || got.verdict)) said.value = got;
   } catch (e) {
     said.value = null;

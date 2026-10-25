@@ -14,7 +14,7 @@ ACCOUNTS = "huda@one.test"
 
 
 def run(password=None):
-	from onedesk.one_intake import switches
+	from onedesk.one_ai.reading import switches
 	from onedesk.one_mail import addresses
 	from onedesk.one_storage import api
 	from onedesk.one_storage import namespace as ns

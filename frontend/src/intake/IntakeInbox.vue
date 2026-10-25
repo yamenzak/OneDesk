@@ -51,7 +51,7 @@
 </template>
 
 <script setup>
-// OneIntake's inbox (one_intake/inbox.py): every document that came in by
+// Documents (one_ai/reading/inbox.py): every document that came in by
 // mail, scan or upload, one line each, in two boxes as a mailbox has them,
 // Waiting for what OneAI left a person to decide and Done for what it filed
 // by itself. The one open is read in the window's details pane.
@@ -87,7 +87,7 @@ let asked = 0;
 async function load(start = 0) {
   const mine = ++asked;
   loading.value = true;
-  const said = await call("onedesk.one_intake.inbox.listing", { box: box.value, everyone: everyone.value ? 1 : 0, start });
+  const said = await call("onedesk.one_ai.reading.inbox.listing", { box: box.value, everyone: everyone.value ? 1 : 0, start });
   if (mine !== asked) return;
   items.value = start ? [...items.value, ...said.items] : said.items;
   more.value = !!said.more;
@@ -96,7 +96,7 @@ async function load(start = 0) {
 }
 
 async function counts() {
-  const said = await call("onedesk.one_intake.inbox.counts");
+  const said = await call("onedesk.one_ai.reading.inbox.counts");
   waiting.value = said.waiting || 0;
 }
 
@@ -111,7 +111,7 @@ function changed() {
 }
 
 async function seenAll() {
-  await call("onedesk.one_intake.inbox.seen_all", { box: box.value });
+  await call("onedesk.one_ai.reading.inbox.seen_all", { box: box.value });
   load();
 }
 
@@ -126,7 +126,7 @@ watch([box, reading, everyone], () => {
   setQuery("everyone", everyone.value ? 1 : null);
 });
 
-props.onTitle?.(__("OneIntake"));
+props.onTitle?.(__("Documents"));
 load();
 onBeforeUnmount(listen("intake_inbox", () => load()));
 </script>

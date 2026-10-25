@@ -72,7 +72,7 @@ def test_every_approval_is_told_through_the_hub_and_laid_out():
 
 
 def test_intake_takes_the_approval_step_and_oneai_never_does():
-	drafts = (tree.APP / "one_intake" / "drafts.py").read_text()
+	drafts = (tree.APP / "one_ai" / "reading" / "drafts.py").read_text()
 	submit_all = drafts.split("def submit_all(", 1)[1].split("\ndef ", 1)[0]
 	assert "approvals.submitting(doc)" in submit_all and "apply_workflow(doc" in submit_all
 	maybe = drafts.split("def maybe_submit(", 1)[1].split("\ndef ", 1)[0]

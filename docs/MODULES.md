@@ -80,6 +80,17 @@ No doctypes yet.
 | AI Memory | 5 | document |
 | AI Proposal | 21 | document |
 | AI Touch | 8 | document |
+| File Link | 4 | document |
+| Identifier | 6 | document |
+| Intake Action | 19 | document |
+| Intake Lesson | 12 | document |
+| Intake Settings | 8 | single |
+| Reading | 71 | document |
+| Reading Ask | 5 | child |
+| Reading Date | 6 | child |
+| Reading Line | 7 | child |
+| Reading Party | 19 | child |
+| Reading Reference | 3 | child |
 
 ## One Calendar
 
@@ -142,24 +153,6 @@ No doctypes yet.
 | Face | 5 | document |
 | Mail Folder | 15 | document |
 | Mail Rule | 8 | document |
-
-## One Intake
-
-`onedesk/one_intake`
-
-| Doctype | Fields | Kind |
-|---|--:|---|
-| File Link | 4 | document |
-| Identifier | 6 | document |
-| Intake Action | 19 | document |
-| Intake Lesson | 12 | document |
-| Intake Settings | 8 | single |
-| Reading | 71 | document |
-| Reading Ask | 5 | child |
-| Reading Date | 6 | child |
-| Reading Line | 7 | child |
-| Reading Party | 19 | child |
-| Reading Reference | 3 | child |
 
 ## One Legal
 
@@ -442,8 +435,11 @@ No doctypes yet.
 * `onedesk.one_ai.brief.switch`
 * `onedesk.one_ai.center.knowledge`
 * `onedesk.one_ai.center.parts`
+* `onedesk.one_ai.center.reading`
 * `onedesk.one_ai.center.set_job`
 * `onedesk.one_ai.center.set_on`
+* `onedesk.one_ai.center.set_reading`
+* `onedesk.one_ai.center.set_reading_on`
 * `onedesk.one_ai.center.set_tier`
 * `onedesk.one_ai.center.state`
 * `onedesk.one_ai.center.summaries`
@@ -459,6 +455,28 @@ No doctypes yet.
 * `onedesk.one_ai.chat.start`
 * `onedesk.one_ai.chat.suggestions`
 * `onedesk.one_ai.files.attached`
+* `onedesk.one_ai.reading.act.settle`
+* `onedesk.one_ai.reading.act.undo`
+* `onedesk.one_ai.reading.act.undo_one`
+* `onedesk.one_ai.reading.bundle.year`
+* `onedesk.one_ai.reading.drafts.listed`
+* `onedesk.one_ai.reading.drafts.submit_all`
+* `onedesk.one_ai.reading.explain.explain`
+* `onedesk.one_ai.reading.identity.merge`
+* `onedesk.one_ai.reading.identity.not_duplicate`
+* `onedesk.one_ai.reading.inbox.counts`
+* `onedesk.one_ai.reading.inbox.item`
+* `onedesk.one_ai.reading.inbox.keep`
+* `onedesk.one_ai.reading.inbox.listing`
+* `onedesk.one_ai.reading.inbox.seen_all`
+* `onedesk.one_ai.reading.mark.looks_right`
+* `onedesk.one_ai.reading.panel.for_file`
+* `onedesk.one_ai.reading.panel.for_message`
+* `onedesk.one_ai.reading.switches.folder_state`
+* `onedesk.one_ai.reading.switches.mailbox_state`
+* `onedesk.one_ai.reading.switches.read_now`
+* `onedesk.one_ai.reading.switches.set_folder`
+* `onedesk.one_ai.reading.switches.set_mailbox`
 * `onedesk.one_ai.run.apply`
 * `onedesk.one_ai.run.apply_all`
 * `onedesk.one_ai.run.landed`
@@ -573,28 +591,6 @@ No doctypes yet.
 * `onedesk.one_hr.signin.offered`
 * `onedesk.one_hr.story.read`
 * `onedesk.one_hr.tell.reschedule_interview`
-* `onedesk.one_intake.act.settle`
-* `onedesk.one_intake.act.undo`
-* `onedesk.one_intake.act.undo_one`
-* `onedesk.one_intake.bundle.year`
-* `onedesk.one_intake.drafts.listed`
-* `onedesk.one_intake.drafts.submit_all`
-* `onedesk.one_intake.explain.explain`
-* `onedesk.one_intake.identity.merge`
-* `onedesk.one_intake.identity.not_duplicate`
-* `onedesk.one_intake.inbox.counts`
-* `onedesk.one_intake.inbox.item`
-* `onedesk.one_intake.inbox.keep`
-* `onedesk.one_intake.inbox.listing`
-* `onedesk.one_intake.inbox.seen_all`
-* `onedesk.one_intake.mark.looks_right`
-* `onedesk.one_intake.panel.for_file`
-* `onedesk.one_intake.panel.for_message`
-* `onedesk.one_intake.switches.folder_state`
-* `onedesk.one_intake.switches.mailbox_state`
-* `onedesk.one_intake.switches.read_now`
-* `onedesk.one_intake.switches.set_folder`
-* `onedesk.one_intake.switches.set_mailbox`
 * `onedesk.one_inventory.assets.said`
 * `onedesk.one_inventory.barcodes.save`
 * `onedesk.one_inventory.custody.give`

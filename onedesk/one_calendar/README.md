@@ -195,7 +195,7 @@ Setup. It needs a Google API key in Google Settings first.
 - **From OneCRM**: The next step on each of your open deals and leads shows at the time it's due. A deal's or lead's own calendar shows its next step.
 - **From OneHR**: My Leave, My Interviews, Holidays and Who's Off come from OneHR. The holiday list also shades the weekly days off. An employee's own calendar shows their leave.
 - **From OneInventory**: Asset maintenance that's due shows under My Maintenance and Maintenance Due.
-- **From OneIntake**: Deadlines read from bills and letters, a contract's last day to cancel and expiring employee documents show as layers. An appointment that arrives by mail or in a file becomes an event.
+- **From OneAI**: Deadlines read from bills and letters, a contract's last day to cancel and expiring employee documents show as layers. An appointment that arrives by mail or in a file becomes an event.
 - **To One**: Home shows how many events you have today.
 - **To OneMail**: Guests outside the workspace get their invitations and cancellations by mail, sent through OneMail.
 

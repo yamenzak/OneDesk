@@ -103,7 +103,7 @@ onedesk.dock.rows = (sidebar) => {
 	});
 	if (onedesk.apps.intake()) {
 		add({
-			label: __("OneIntake"),
+			label: __("Documents"),
 			icon: "inbox",
 			class: "one-intake-row",
 			suffix: `<span class="one-intake-count es-badge hide" data-variant="ghost"></span>`,
@@ -166,13 +166,13 @@ onedesk.dock.name = ($item, label) =>
 
 onedesk.dock.intake = () =>
 	onedesk.apps.intake() &&
-	frappe.xcall("onedesk.one_intake.inbox.counts").then((said) => {
+	frappe.xcall("onedesk.one_ai.reading.inbox.counts").then((said) => {
 		const $rows = $(".one-intake-row");
 		const $badge = $rows.find(".one-intake-count");
 		$badge.toggleClass("hide", !said.waiting && !said.unread);
 		$badge.toggleClass("one-intake-dot", !said.waiting && !!said.unread);
 		$badge.text(said.waiting ? (said.waiting > 99 ? "99+" : String(said.waiting)) : "");
-		onedesk.dock.name($rows, said.waiting ? __("{0} waiting in OneIntake", [said.waiting]) : __("OneIntake"));
+		onedesk.dock.name($rows, said.waiting ? __("{0} waiting in Documents", [said.waiting]) : __("Documents"));
 		return said;
 	});
 

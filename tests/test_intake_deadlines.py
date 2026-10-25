@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from onedesk.one_intake import deadlines
+from onedesk.one_ai.reading import deadlines
 
 
 def test_a_period_is_read_as_written_in_german_or_english():

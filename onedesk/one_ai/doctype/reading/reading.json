@@ -1,0 +1,579 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "field:key",
+ "creation": "2026-09-26 09:00:00.000000",
+ "description": "What OneAI read in one file or message. One per content, however many places it is in.",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "key",
+  "title",
+  "state",
+  "how",
+  "column_break_what",
+  "source_doctype",
+  "source_name",
+  "message_id",
+  "part_of",
+  "part",
+  "section_reading",
+  "language",
+  "page_count",
+  "history",
+  "column_break_reading",
+  "on_behalf_of",
+  "model",
+  "tries",
+  "read_on",
+  "error",
+  "section_understood",
+  "verdict",
+  "kind",
+  "summary",
+  "number",
+  "issued_on",
+  "sensitivity",
+  "column_break_understood",
+  "automatic",
+  "confidence",
+  "unsure",
+  "dropped",
+  "understood_on",
+  "section_matter",
+  "matter",
+  "change",
+  "placed_by",
+  "copy_of",
+  "matter_state",
+  "column_break_matter",
+  "party_doctype",
+  "party_name",
+  "act_after",
+  "acted_on",
+  "section_money",
+  "currency",
+  "net",
+  "tax",
+  "gross",
+  "column_break_money",
+  "paid_how",
+  "iban",
+  "payment_reference",
+  "section_document",
+  "document_type",
+  "issuing_country",
+  "column_break_document",
+  "valid_until",
+  "notice_period",
+  "keep_until",
+  "noted",
+  "section_details",
+  "parties",
+  "dates",
+  "asks",
+  "lines",
+  "refs",
+  "section_text",
+  "text",
+  "structured",
+  "explained"
+ ],
+ "fields": [
+  {
+   "fieldname": "key",
+   "fieldtype": "Data",
+   "label": "Key",
+   "reqd": 1,
+   "unique": 1,
+   "read_only": 1,
+   "description": "The content's hash, so the same file anywhere is read once."
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Select",
+   "label": "State",
+   "options": "Queued\nRead\nUnderstood\nPassword Protected\nUnreadable\nWaiting for Credits\nFailed",
+   "default": "Queued",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "how",
+   "fieldtype": "Data",
+   "label": "Read As",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_what",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "source_doctype",
+   "fieldtype": "Link",
+   "label": "First Found In",
+   "options": "DocType",
+   "read_only": 1
+  },
+  {
+   "fieldname": "source_name",
+   "fieldtype": "Dynamic Link",
+   "label": "First Found As",
+   "options": "source_doctype",
+   "read_only": 1
+  },
+  {
+   "fieldname": "message_id",
+   "fieldtype": "Data",
+   "label": "Message ID",
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "part_of",
+   "fieldtype": "Link",
+   "label": "Part Of",
+   "options": "Reading",
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "part",
+   "fieldtype": "Data",
+   "label": "Part",
+   "read_only": 1,
+   "description": "Which pages of a scan, or which file in an archive or message."
+  },
+  {
+   "fieldname": "section_reading",
+   "fieldtype": "Section Break",
+   "label": "Reading"
+  },
+  {
+   "fieldname": "language",
+   "fieldtype": "Data",
+   "label": "Language",
+   "read_only": 1
+  },
+  {
+   "fieldname": "page_count",
+   "fieldtype": "Int",
+   "label": "Pages",
+   "read_only": 1
+  },
+  {
+   "fieldname": "history",
+   "fieldtype": "Check",
+   "label": "History",
+   "read_only": 1,
+   "description": "There before OneAI was switched on, so it is only filed and searchable."
+  },
+  {
+   "fieldname": "column_break_reading",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "on_behalf_of",
+   "fieldtype": "Link",
+   "label": "On Behalf Of",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "model",
+   "fieldtype": "Data",
+   "label": "Model",
+   "read_only": 1
+  },
+  {
+   "fieldname": "tries",
+   "fieldtype": "Int",
+   "label": "Tries",
+   "read_only": 1
+  },
+  {
+   "fieldname": "read_on",
+   "fieldtype": "Datetime",
+   "label": "Read On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "error",
+   "fieldtype": "Small Text",
+   "label": "Error",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_understood",
+   "fieldtype": "Section Break",
+   "label": "Understood"
+  },
+  {
+   "fieldname": "verdict",
+   "fieldtype": "Select",
+   "label": "First Look",
+   "read_only": 1,
+   "options": "\nSpam\nPhishing\nAdvertising\nNewsletter\nNotification\nInformation\nAction",
+   "in_standard_filter": 1,
+   "description": "What the first look said this is, before it was read in full."
+  },
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "label": "Kind",
+   "read_only": 1,
+   "options": "\nInvoice\nCredit Note\nReceipt\nReminder\nTax Assessment\nContract\nOffer\nOrder\nOrder Confirmation\nDelivery Note\nPayment Advice\nBank Statement\nPayslip\nSick Note\nMedical Report\nIdentity Document\nCertificate\nCV\nAppointment\nAuthority Letter\nNotice of Change\nContact Card\nInquiry\nResignation\nSite Log\nTimesheet\nChange Request\nLetter\nOther",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "summary",
+   "fieldtype": "Small Text",
+   "label": "Summary",
+   "read_only": 1
+  },
+  {
+   "fieldname": "number",
+   "fieldtype": "Data",
+   "label": "Document Number",
+   "read_only": 1,
+   "search_index": 1,
+   "description": "The invoice, order or case number the document itself carries."
+  },
+  {
+   "fieldname": "issued_on",
+   "fieldtype": "Date",
+   "label": "Issued On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sensitivity",
+   "fieldtype": "Select",
+   "label": "Sensitivity",
+   "read_only": 1,
+   "options": "Ordinary\nPersonal\nMedical\nPay\nLegal",
+   "default": "Ordinary"
+  },
+  {
+   "fieldname": "column_break_understood",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "automatic",
+   "fieldtype": "Check",
+   "label": "Automated",
+   "read_only": 1,
+   "description": "A mailing list, a bulk send or an automatic reply."
+  },
+  {
+   "fieldname": "confidence",
+   "fieldtype": "Percent",
+   "label": "Sureness",
+   "read_only": 1
+  },
+  {
+   "fieldname": "unsure",
+   "fieldtype": "Check",
+   "label": "Unsure",
+   "read_only": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "dropped",
+   "fieldtype": "Small Text",
+   "label": "Not in Document",
+   "read_only": 1,
+   "description": "What the model said that the document's own text does not."
+  },
+  {
+   "fieldname": "understood_on",
+   "fieldtype": "Datetime",
+   "label": "Understood On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_matter",
+   "fieldtype": "Section Break",
+   "label": "Matter"
+  },
+  {
+   "fieldname": "matter",
+   "fieldtype": "Link",
+   "label": "Matter",
+   "options": "Reading",
+   "search_index": 1,
+   "read_only": 1,
+   "description": "The first document of what this one is about. A document that starts something is its own."
+  },
+  {
+   "fieldname": "change",
+   "fieldtype": "Select",
+   "label": "Change",
+   "options": "\nNew\nNudge\nUpdate\nCompletion\nAnswer\nClosing\nNothing New",
+   "read_only": 1
+  },
+  {
+   "fieldname": "placed_by",
+   "fieldtype": "Select",
+   "label": "Placed By",
+   "options": "\nAttachment\nThread\nReference\nParty\nOneAI\nCopy",
+   "read_only": 1
+  },
+  {
+   "fieldname": "copy_of",
+   "fieldtype": "Link",
+   "label": "Copy Of",
+   "options": "Reading",
+   "read_only": 1
+  },
+  {
+   "fieldname": "matter_state",
+   "fieldtype": "Select",
+   "label": "Matter State",
+   "options": "\nOpen\nClosed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_matter",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "party_doctype",
+   "fieldtype": "Link",
+   "label": "Party Type",
+   "options": "DocType",
+   "read_only": 1
+  },
+  {
+   "fieldname": "party_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Party",
+   "options": "party_doctype",
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "act_after",
+   "fieldtype": "Datetime",
+   "label": "Act After",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "acted_on",
+   "fieldtype": "Datetime",
+   "label": "Acted On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_money",
+   "fieldtype": "Section Break",
+   "label": "Money",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "read_only": 1,
+   "options": "Currency"
+  },
+  {
+   "fieldname": "net",
+   "fieldtype": "Float",
+   "label": "Net",
+   "read_only": 1,
+   "precision": "2"
+  },
+  {
+   "fieldname": "tax",
+   "fieldtype": "Float",
+   "label": "Tax",
+   "read_only": 1,
+   "precision": "2"
+  },
+  {
+   "fieldname": "gross",
+   "fieldtype": "Float",
+   "label": "Total",
+   "read_only": 1,
+   "precision": "2"
+  },
+  {
+   "fieldname": "column_break_money",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "paid_how",
+   "fieldtype": "Select",
+   "label": "Paid How",
+   "read_only": 1,
+   "options": "\nTransfer\nDirect Debit\nAlready Paid\nUnknown"
+  },
+  {
+   "fieldname": "iban",
+   "fieldtype": "Data",
+   "label": "IBAN to Pay",
+   "read_only": 1
+  },
+  {
+   "fieldname": "payment_reference",
+   "fieldtype": "Data",
+   "label": "Payment Reference",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_document",
+   "fieldtype": "Section Break",
+   "label": "Identity Document",
+   "collapsible": 1,
+   "depends_on": "eval:doc.kind=='Identity Document' || doc.kind=='Certificate'"
+  },
+  {
+   "fieldname": "document_type",
+   "fieldtype": "Link",
+   "label": "Document Type",
+   "read_only": 1,
+   "options": "Identification Document Type"
+  },
+  {
+   "fieldname": "issuing_country",
+   "fieldtype": "Link",
+   "label": "Issuing Country",
+   "read_only": 1,
+   "options": "Country"
+  },
+  {
+   "fieldname": "column_break_document",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "valid_until",
+   "fieldtype": "Date",
+   "label": "Valid Until",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "notice_period",
+   "fieldtype": "Data",
+   "label": "Notice Period",
+   "read_only": 1,
+   "description": "How long before its end a contract must be cancelled, as written."
+  },
+  {
+   "fieldname": "keep_until",
+   "fieldtype": "Date",
+   "label": "Keep Until",
+   "read_only": 1,
+   "description": "The law says a business keeps this until then. It cannot be deleted before."
+  },
+  {
+   "fieldname": "noted",
+   "fieldtype": "JSON",
+   "label": "Other Facts",
+   "read_only": 1,
+   "description": "Anything else worth having at hand, each written in the document as it is here."
+  },
+  {
+   "fieldname": "section_details",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "fieldname": "parties",
+   "fieldtype": "Table",
+   "label": "Parties",
+   "read_only": 1,
+   "options": "Reading Party"
+  },
+  {
+   "fieldname": "dates",
+   "fieldtype": "Table",
+   "label": "Dates",
+   "read_only": 1,
+   "options": "Reading Date"
+  },
+  {
+   "fieldname": "asks",
+   "fieldtype": "Table",
+   "label": "Asks",
+   "read_only": 1,
+   "options": "Reading Ask"
+  },
+  {
+   "fieldname": "lines",
+   "fieldtype": "Table",
+   "label": "Lines",
+   "read_only": 1,
+   "options": "Reading Line"
+  },
+  {
+   "fieldname": "refs",
+   "fieldtype": "Table",
+   "label": "References",
+   "read_only": 1,
+   "options": "Reading Reference"
+  },
+  {
+   "fieldname": "section_text",
+   "fieldtype": "Section Break",
+   "label": "Text"
+  },
+  {
+   "fieldname": "text",
+   "fieldtype": "Long Text",
+   "label": "Text",
+   "read_only": 1
+  },
+  {
+   "fieldname": "structured",
+   "fieldtype": "JSON",
+   "label": "Data",
+   "read_only": 1,
+   "description": "What the file said as data, such as an e-invoice, a bank statement, a card or a message's headers."
+  },
+  {
+   "fieldname": "explained",
+   "fieldtype": "Long Text",
+   "label": "Explained",
+   "hidden": 1,
+   "read_only": 1,
+   "description": "What OneAI said when asked to explain it, per language."
+  }
+ ],
+ "in_create": 1,
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-02 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One AI",
+ "name": "Reading",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "report": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "title",
+ "track_changes": 0,
+ "track_seen": 1
+}

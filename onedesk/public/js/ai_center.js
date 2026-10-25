@@ -1,7 +1,7 @@
 // AICenter (docs/AICENTER.md): OneAI for the workspace (one_ai/center.py).
-// For administrators: OneAI on or off and its tier, Knowledge, what each
-// module has OneAI do on its own, which records get a summary, and what was
-// used. For everybody: Yours, what OneAI keeps about them. From the bottom
+// For administrators: OneAI on or off and its tier, reading what arrives,
+// Knowledge, what each module has OneAI do on its own, which records get a
+// summary, and what was used. For everybody: Yours, what OneAI keeps about them. From the bottom
 // bar, OneAI in a module's ControlCenter (on that module), and Settings.
 frappe.provide("onedesk.ai_center");
 
@@ -83,6 +83,112 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 		},
 	};
 
+	// A number at a row's end, saved as it changes.
+	const number = ($end, { value, label, change }) => {
+		const control = frappe.ui.form.make_control({
+			df: { fieldtype: "Int", fieldname: "value", label: "" },
+			parent: $(`<span class="one-set-number"></span>`).appendTo($end),
+			render_input: true,
+		});
+		control.set_value(value || 0);
+		control.$input.attr("aria-label", label).on("change", async () => {
+			await change(control.get_value() || 0);
+			kit.saved();
+		});
+		return control;
+	};
+
+	// Reading what arrives: on or off, this month, what OneAI may do with it,
+	// and the mailboxes and folders it reads (one_ai/reading/).
+	const reading_tab = {
+		id: "reading",
+		label: __("Reading"),
+		icon: "oneintake",
+		title: __("Reading"),
+		description: __("Mail and files read as they arrive, filed on the right record and acted on."),
+		actions: [{ label: __("Add Folder"), icon: "plus", click: (panel) => add_folder(panel) }],
+		async render(panel) {
+			const said = await frappe.xcall(C + "reading", {}, "GET");
+			const $body = panel.body.empty();
+			const $on = kit.row({ lead: kit.glyph("oneintake"), title: __("Reading"), sub: esc(__("When off, nothing that arrives is read, and Documents stays as it is.")) }).appendTo(
+				$(`<div class="one-set-list"></div>`).appendTo($body)
+			);
+			toggle($on.find(".one-set-end"), { value: said.on, label: __("Reading"), change: (on) => frappe.xcall(C + "set_reading_on", { on }).then(() => panel.refresh()) });
+			if (!said.on) return;
+			const month = said.month || {};
+			const inbox = (box) => () => {
+				dialog.hide();
+				frappe.set_route("intake", { box, everyone: 1 });
+			};
+			$body.append(kit.heading(__("This Month")));
+			const $month = $(`<div class="one-set-list"></div>`).appendTo($body);
+			for (const [value, label, box] of [
+				[month.arrived, __("Received"), "done"],
+				[month.handled, __("Handled by OneAI"), "done"],
+				[month.needed, __("Needed Review"), "waiting"],
+				[month.waiting, __("Waiting"), "waiting"],
+				[month.undone, __("Undone"), "done"],
+			]) {
+				kit.row({ lead: kit.glyph("file-text"), title: label, end: `<span class="one-set-value">${esc(format_number(value || 0, null, 0))}</span>`, open: inbox(box) }).appendTo($month);
+			}
+			$body.append(kit.heading(__("Settings")));
+			const $settings = $(`<div class="one-set-list"></div>`).appendTo($body);
+			for (const one of said.settings) {
+				const $end = kit.row({ lead: kit.glyph("oneai"), title: one.label, sub: esc(one.about || "") }).appendTo($settings).find(".one-set-end");
+				const change = (value) => frappe.xcall(C + "set_reading", { key: one.key, value });
+				if (one.kind === "switch") toggle($end, { value: one.value, label: one.label, change });
+				else number($end, { value: one.value, label: one.label, change });
+			}
+			$body.append(kit.heading(__("Mailboxes")));
+			const $boxes = $(`<div class="one-set-list"></div>`).appendTo($body);
+			if (!said.mailboxes.length) $boxes.append(kit.empty(__("No mailboxes")));
+			for (const one of said.mailboxes) {
+				const sub = one.on ? __("Read on behalf of {0}", [one.for || ""]) : __("Not read");
+				const $end = kit.row({ lead: kit.glyph("mail"), title: one.email, sub: esc(sub) }).appendTo($boxes).find(".one-set-end");
+				toggle($end, {
+					value: one.on,
+					label: one.email,
+					change: (on) => frappe.xcall("onedesk.one_ai.reading.switches.set_mailbox", { account: one.name, on }).then(() => panel.refresh()),
+				});
+			}
+			$body.append(kit.heading(__("Folders")));
+			const $folders = $(`<div class="one-set-list"></div>`).appendTo($body);
+			if (!said.folders.length) $folders.append(kit.empty(__("No folders")));
+			for (const one of said.folders) {
+				const $end = kit
+					.row({ lead: kit.glyph("folder"), title: one.path.replace(/^Home\//, ""), sub: esc(__("Read on behalf of {0}", [one.for || ""])) })
+					.appendTo($folders)
+					.find(".one-set-end");
+				toggle($end, {
+					value: 1,
+					label: one.path,
+					change: (on) => frappe.xcall("onedesk.one_ai.reading.switches.set_folder", { folder: one.name, on }).then(() => panel.refresh()),
+				});
+			}
+		},
+	};
+
+	const add_folder = (panel) => {
+		const asked = new frappe.ui.Dialog({
+			title: __("Add Folder"),
+			fields: [
+				{ fieldname: "folder", fieldtype: "Link", options: "File", label: __("Folder"), reqd: 1, get_query: () => ({ filters: { is_folder: 1, one_intake: 0 } }) },
+				{
+					fieldname: "said",
+					fieldtype: "HTML",
+					options: `<div class="one-shell-quiet">${esc(__("OneAI will read, file and act on new files in this folder and its subfolders. Scans and photos use OneAI credits."))}</div>`,
+				},
+			],
+			primary_action_label: __("Add"),
+			primary_action: async (values) => {
+				await frappe.xcall("onedesk.one_ai.reading.switches.set_folder", { folder: values.folder, on: 1 });
+				asked.hide();
+				panel.refresh();
+			},
+		});
+		asked.show();
+	};
+
 	// What OneAI should know about the company, which it reads as facts.
 	const knowledge_tab = {
 		id: "knowledge",
@@ -139,16 +245,7 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 					toggle($end, { value: job.value, label: job.label, change: (on) => frappe.xcall(C + "set_job", { key: job.key, value: on }) });
 					continue;
 				}
-				const control = frappe.ui.form.make_control({
-					df: { fieldtype: "Int", fieldname: job.key, label: "" },
-					parent: $(`<span class="one-set-number"></span>`).appendTo($end),
-					render_input: true,
-				});
-				control.set_value(job.value || 0);
-				control.$input.attr("aria-label", job.label).on("change", async () => {
-					await frappe.xcall(C + "set_job", { key: job.key, value: control.get_value() || 0 });
-					kit.saved();
-				});
+				number($end, { value: job.value, label: job.label, change: (value) => frappe.xcall(C + "set_job", { key: job.key, value }) });
 			}
 		},
 	});
@@ -250,7 +347,7 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 	const mine = module ? parts.filter((part) => part.module === module) : parts;
 	const tabs = admin
 		? [
-				{ group: null, items: module ? [] : [oneai_tab, knowledge_tab] },
+				{ group: null, items: module ? [] : [oneai_tab, reading_tab, knowledge_tab] },
 				{ group: module ? null : __("Modules"), items: [...mine.map(part_tab), ...(module ? [] : [summaries_tab])] },
 				{ group: null, items: module ? [] : [usage_tab, yours_tab] },
 		  ]

@@ -67,7 +67,7 @@ def test_a_vector_is_kept_normalised_so_nearness_is_a_dot_product():
 
 
 def test_the_words_and_the_meaning_are_one_list():
-	room = _lifted(tree.APP / "one_intake" / "search.py", ("ranked_together",), {})
+	room = _lifted(tree.APP / "one_ai" / "reading" / "search.py", ("ranked_together",), {})
 	words = [{"name": "A"}, {"name": "B"}, {"name": "C"}]
 	meaning = [{"name": "C"}, {"name": "D"}]
 	said = [one["name"] for one in room["ranked_together"]([words, meaning])]

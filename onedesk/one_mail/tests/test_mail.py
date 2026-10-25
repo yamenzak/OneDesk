@@ -390,7 +390,7 @@ def _faces():
 	from urllib.parse import quote, urlparse
 
 	sys.path.insert(0, str(tree.ROOT))
-	from onedesk.one_intake.identifiers import PROVIDERS
+	from onedesk.one_ai.reading.identifiers import PROVIDERS
 
 	names = (
 		"EXTENSIONS",
@@ -834,7 +834,7 @@ def test_a_sender_is_verified_only_by_the_receiving_servers_own_results():
 
 def test_every_intake_action_belongs_to_a_job_a_mailbox_can_switch_off():
 	gate = _load(MAIL / "gate.py", ("HEADS", "TWO", "job_of"))
-	intake = MAIL.parent / "one_intake"
+	intake = MAIL.parent / "one_ai" / "reading"
 	keys = set()
 	for name in ("filing.py", "plans.py", "money.py"):
 		keys |= set(re.findall(r'key=f?"([^"{|]+(?:\|[^"{|]+)?)', (intake / name).read_text()))

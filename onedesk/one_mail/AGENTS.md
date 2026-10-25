@@ -10,13 +10,13 @@ folder).
 ## Connections
 
 - **From One**: Each person added to the workspace gets their own address. The mail window offers the templates set in **Settings › Mail Templates**.
-- **From OneIntake**: Search also finds words inside attachments that have been read. About rules use what a message is found to be about.
+- **From OneAI**: Search also finds words inside attachments that have been read. About rules use what a message is found to be about.
 - **To OneAdmin**: Mail from the workspace's addresses is sent through OneAdmin. By default the workspace can send 200 messages an hour and 2,000 a day.
 - **To OneCRM**: Mail from a customer, a lead or one of their contacts is linked to their record. Customers, leads, contacts, deals and quotations have a Mail tab. Contacts, leads and customers without a picture get one from Gravatar or their website.
 - **To OneHR**: Mail from an employee's address is linked to their record. Employees and job applicants have a Mail tab. An employee without a photo gets the one on their user, or their Gravatar photo.
 - **To OneBook**: A message that names an invoice or payment by its number is linked to it. Sales and purchase invoices have a Mail tab.
 - **To OneCloud**: Every attachment is saved in OneCloud under Mail, in a folder for each mailbox. A file too large to send from the workspace's address goes as a link that works for 30 days.
-- **To OneIntake**: In a mailbox OneAI reads, each new message and its attachments go to OneIntake.
+- **To OneAI**: In a mailbox OneAI reads, each new message and its attachments go to OneAI.
 
 ## Under the hood
 
@@ -374,7 +374,7 @@ Stage 9, rules, out-of-office and bounces, is built.
   read and history read in the background are not, so connecting a mailbox
   does not re-sort or answer years of mail.
 - A rule with an **About** is not run on arrival: `rules_of(by_meaning=True)`
-  hands its topics to Intake's first look (`one_intake/understand.py`), the
+  hands its topics to Intake's first look (`one_ai/reading/understand.py`), the
   one model call every new message already has where OneAI reads, which
   answers which topics the message is about; `by_meaning` runs those rules
   on it if it is still in the Inbox. A rule that moved it on arrival wins.
@@ -444,10 +444,10 @@ cropped from the demo with Layla signed in.
   organization mailbox, `holders.may` for who sees into a mailbox.
 - **Rules before OneAI** (rules-and-out-of-office): a record a rule made is
   linked to it as `rule`; `act._ruled` and `gate.made_by_rule` keep
-  OneIntake from making a second. Out of office covering is
+  OneAI from making a second. Out of office covering is
   `rules.on_leave` per message, `rules.covered` as a leave is decided and
   `rules.cover` daily.
-- **OneAI's jobs** (asking-oneai): the list is `gate.JOBS`; every OneIntake write
+- **OneAI's jobs** (asking-oneai): the list is `gate.JOBS`; every OneAI write
   goes through `act.apply`, which asks `gate.does` for the job
   `gate.job_of` names, and the e-invoice submit asks the same for Bills.
   **Send** per address (settings) is `holders.set_sends`; the company's

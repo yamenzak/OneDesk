@@ -1,0 +1,36 @@
+"""What reading adds to the agreements. It is the one part of One that acts
+without being asked each time, so the AI Addendum has to say so plainly. See
+one_legal/README.md and one_ai/reading/README.md."""
+
+from onedesk.one_legal.registry import clause
+
+M = "OneAI"
+
+clause(
+	document="ai",
+	section="modules",
+	key="intake-acts",
+	module=M,
+	body="""
+		When a workspace turns reading on, OneAI reads the mail and files that arrive and acts on them without
+		being asked each time: it files them, links them to the records they are about, and drafts what they
+		call for. It acts only as far as the workspace's settings for reading allow, and as the person the document
+		was read for. A second model checks what the first did. Every action is recorded and marked as OneAI's,
+		anything uncertain waits for a person, and whatever it did can be undone. It drafts bills and invoices
+		and does not submit them, unless an administrator switches on submitting e-invoices: then an e-invoice
+		from a known supplier that matches an order already placed is submitted to the books by OneAI, and can
+		be cancelled like any other.
+	""",
+)
+
+clause(
+	document="privacy",
+	section="modules",
+	key="intake-reads",
+	module=M,
+	body="""
+		With reading on, the text of arriving mail and files, and anything in them, is sent to the models in the
+		AI Addendum to be read. What was read is kept in the workspace with the document, for the people it
+		was read for.
+	""",
+)

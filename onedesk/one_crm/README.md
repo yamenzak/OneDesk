@@ -84,7 +84,7 @@ A lead can be made three ways:
   name, business, email, mobile and a message, and makes a lead with its
   source set to Website and the message kept on it. Change the form under
   **Setup › Get in Touch Form**; link to it from your own website.
-- **From an inbox.** OneIntake reads the workspace's mail, and an enquiry
+- **From an inbox.** OneAI reads the workspace's mail, and an enquiry
   from somebody new comes with a lead ready to make. Mail from somebody who
   is already a lead is linked to their lead instead.
 
@@ -457,7 +457,7 @@ Change any of it under Role Permissions; One does not change it back.
 
 ## Connections
 
-- **From OneIntake**: An enquiry from somebody new that reaches a mailbox OneAI reads becomes a new lead. A customer's order that arrives by mail becomes a draft Sales Order.
+- **From OneAI**: An enquiry from somebody new that reaches a mailbox OneAI reads becomes a new lead. A customer's order that arrives by mail becomes a draft Sales Order.
 - **From OneMail**: Mail sent to a lead or an opportunity, and the replies to it, are on its timeline. The first mail sent to a lead counts as its first reply.
 - **From OneBook**: A customer's page shows what they owe, what is overdue, what was billed this fiscal year and their last invoice. An opportunity says how much of what was won is billed and paid, and what is still owed.
 - **From OneProject**: New Quotation and Quote Extra Work on a project start the customer's quotation on it, and Make Order orders the one open quotation. Add Contract makes the Sales Order for a contract agreed without one. Draw Up Contract on a project makes a Contract for it with its customer or one of its suppliers, listed under Sales. The contract says its project, when it was signed and when it ends at the top, and prints as One Contract, with both sides to sign. An opportunity says the project its quote went to, or the customer's one open project.

@@ -76,7 +76,7 @@ def set_tier(tier: str) -> str:
 @frappe.whitelist(methods=["POST"])
 def set_on(on: int | str) -> bool:
 	"""OneAI on or off for the whole workspace, as Apps turns it. What was
-	off only because OneAI was (OneIntake) comes back with it."""
+	off only because OneAI was (OneAI) comes back with it."""
 	roles.require()
 	held = json.loads(frappe.db.get_default(apps.KEY) or "[]")
 	off = [one for one in held if one != apps.AI and apps.NEEDS.get(one) != apps.AI]
@@ -84,6 +84,58 @@ def set_on(on: int | str) -> bool:
 		off.append(apps.AI)
 	apps.save(off)
 	return apps.ai_on()
+
+
+@frappe.whitelist()
+def reading() -> dict:
+	"""Reading what arrives: on or off, this month, what it may do, and the
+	mailboxes and folders it reads."""
+	from onedesk.one import settings
+
+	roles.require()
+	said = settings._intake()
+	kinds = {"Switch": "switch", "Int": "number", "Percent": "number"}
+	return {
+		"on": apps.intake_on(),
+		"month": said["month"],
+		"settings": [
+			{
+				"key": one["fieldname"],
+				"label": one["label"],
+				"about": one["description"],
+				"kind": kinds[one["fieldtype"]],
+				"value": said["values"].get(one["fieldname"]),
+			}
+			for one in said["fields"]
+			if one["fieldtype"] in kinds
+		],
+		"mailboxes": said["mailboxes"],
+		"folders": said["folders"],
+	}
+
+
+@frappe.whitelist(methods=["POST"])
+def set_reading(key: str, value) -> None:
+	"""One of reading's settings, saved as Settings saved it, which tells the
+	other administrators of a change that matters (tell.intake_changed)."""
+	from onedesk.one import settings
+
+	roles.require()
+	if key not in settings.INTAKE:
+		frappe.throw(_("There is nothing called {0} here.").format(key))
+	settings._save_intake({key: frappe.utils.flt(value)})
+
+
+@frappe.whitelist(methods=["POST"])
+def set_reading_on(on: int | str) -> bool:
+	"""Reading on or off for the whole workspace, as Apps turns it."""
+	roles.require()
+	held = json.loads(frappe.db.get_default(apps.KEY) or "[]")
+	off = [one for one in held if one != apps.INTAKE]
+	if not frappe.utils.cint(on):
+		off.append(apps.INTAKE)
+	apps.save(off)
+	return apps.intake_on()
 
 
 @frappe.whitelist()
@@ -105,7 +157,7 @@ def _job(declared: dict) -> dict:
 		"key": declared["key"],
 		"label": _(field.label),
 		"about": _(field.description) if field.description else None,
-		"kind": "days" if field.fieldtype == "Int" else "switch",
+		"kind": "switch" if field.fieldtype == "Check" else "number",
 		"value": frappe.db.get_single_value(declared["single"], declared["key"]),
 	}
 

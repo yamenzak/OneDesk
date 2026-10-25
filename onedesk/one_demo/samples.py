@@ -43,7 +43,7 @@ def handle(path: Path, kept: bool = False) -> Handled:
 			order_by="creation asc",
 			pluck="name",
 		)
-		from onedesk.one_intake import matters
+		from onedesk.one_ai.reading import matters
 
 		for name in readings:
 			matters.act_now(name)
@@ -73,7 +73,7 @@ def found(path: Path) -> Handled | None:
 
 def readings_of(path: Path) -> list[str]:
 	"""The readings a sample made in the demo, found by the keys Intake gives
-	them (one_intake/pipeline.py): a mail by its Message-ID, a file and each
+	them (one_ai/reading/pipeline.py): a mail by its Message-ID, a file and each
 	attachment by its content. Their parts too."""
 	from email import message_from_bytes
 	from hashlib import md5
@@ -124,9 +124,9 @@ def _holds(row, values: dict) -> bool:
 
 
 def _arrive(name: str, content: bytes) -> None:
+	from onedesk.one_ai.reading import pipeline
 	from onedesk.one_demo import intake
 	from onedesk.one_demo.base import as_user
-	from onedesk.one_intake import pipeline
 	from onedesk.one_mail import inbound
 
 	if name.endswith(".eml"):
@@ -158,7 +158,7 @@ def _answered(sample: str, answers: dict, unanswered: list):
 			raise AssertionError(f"{sample} has no answer for {action}")
 		return json.dumps(said)
 
-	with patch("onedesk.one_ai.run.once", once), patch("onedesk.one_intake.pipeline.later", lambda *a, **k: None):
+	with patch("onedesk.one_ai.run.once", once), patch("onedesk.one_ai.reading.pipeline.later", lambda *a, **k: None):
 		yield
 
 

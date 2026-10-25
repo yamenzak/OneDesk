@@ -465,7 +465,7 @@ def form_customized(doctype: str) -> None:
 
 
 def intake_changed(doc, changed: list[str]) -> None:
-	"""OneIntake's switches changed, told to every other administrator in the page's words."""
+	"""OneAI's switches changed, told to every other administrator in the page's words."""
 	from onedesk.one.account import _administrators
 
 	people = [one for one in _administrators() if one != frappe.session.user]
@@ -480,7 +480,7 @@ def intake_changed(doc, changed: list[str]) -> None:
 		else:
 			said.append(_("{0} on").format(label) if doc.get(name) else _("{0} off").format(label))
 	notify.notify(
-		"OneIntake Changed",
+		"Reading Changed",
 		people,
 		link="/desk/workspace-settings?section=intake",
 		by=frappe.utils.get_fullname(),

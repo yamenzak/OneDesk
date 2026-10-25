@@ -10,7 +10,7 @@ from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent / "onedesk" / "one_intake"
+ROOT = Path(__file__).resolve().parent.parent / "onedesk" / "one_ai" / "reading"
 
 
 def _load(path, space, names=None):

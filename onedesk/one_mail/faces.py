@@ -11,7 +11,7 @@ import frappe
 import requests
 from frappe.utils import add_days, now_datetime
 
-from onedesk.one_intake.identifiers import PROVIDERS
+from onedesk.one_ai.reading.identifiers import PROVIDERS
 from onedesk.one_legal import services
 
 FOLDER, FOLDER_NAME = "Home/Logos", "Logos"

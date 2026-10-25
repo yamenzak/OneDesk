@@ -3,7 +3,7 @@ frappe.provide("onedesk.intake");
 onedesk.intake.MARK = "/assets/onedesk/images/oneai.svg";
 
 // A record OneAI made says so above its form until a person has checked it
-// (one_intake/mark.py). What OneAI read from a file or a message is drawn by
+// (one_ai/reading/mark.py). What OneAI read from a file or a message is drawn by
 // the islands (frontend/src/intake).
 $(document).on("form-refresh", (event, frm) => {
 	const held = (frm.doc.__onload || {}).one_intake_mark;
@@ -20,14 +20,14 @@ $(document).on("form-refresh", (event, frm) => {
 	);
 	const $banner = frm.$intro_message || $();
 	$banner.find("[data-looks-right]").on("click", async () => {
-		await frappe.xcall("onedesk.one_intake.mark.looks_right", { doctype: frm.doctype, name: frm.docname });
+		await frappe.xcall("onedesk.one_ai.reading.mark.looks_right", { doctype: frm.doctype, name: frm.docname });
 		delete frm.doc.__onload.one_intake_mark;
 		frm.set_intro();
 		frappe.show_alert({ message: __("Marked as checked"), indicator: "green" });
 	});
 	$banner.find("[data-undo-one]").on("click", () => {
 		frappe.confirm(__("Undo what OneAI did here?"), async () => {
-			const said = await frappe.xcall("onedesk.one_intake.act.undo_one", { action: held.action });
+			const said = await frappe.xcall("onedesk.one_ai.reading.act.undo_one", { action: held.action });
 			if (said.why) {
 				frappe.msgprint(said.why);
 				return;

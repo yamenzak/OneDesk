@@ -62,7 +62,7 @@ The steps run in the order of the five tables below.
 | hr | Pay, three payroll runs, and three more for Imran, an installer paid by the hour from his timesheets, so Profit on Billed Hours has rows. Leave, attendance, check-ins, expense claims at every stage, two openings with applicants, an offer with its terms and an appointment letter. A glazier who resigned last month, paid his gratuity |
 | career | The rest of a working life: a leave policy and block days, a holiday worked and given back, days encashed and adjusted, a shift schedule, Working at Height taught and graded, goals and feedback, a promotion and a transfer, travel with an advance, the van's log, a grievance looked into, a staffing plan, a requisition and a referral, a bonus, an incentive, a retention bonus, back pay, pay held, Joseph's exit interview and final statement, the clock's place, network and phone, a salary certificate and an overtime slip. Left empty on purpose: income tax and flexible benefits, which a UAE company does not run, and a payroll correction, since nobody took unpaid leave |
 
-### Demo steps: the calendar, OneStudio, files, OneIntake and mail
+### Demo steps: the calendar, OneStudio, files, OneAI and mail
 
 | Step | What it makes |
 |---|---|
