@@ -52,16 +52,21 @@
 	color: var(--ink-gray-7) !important;
 }
 
-/* A form's alerts (frappe's set_intro and headline, and the head's sentence
-   and notices) are one card each: soft grey, the colour only in a round icon
-   at the start (onedesk.head.marked), and the fix, where there is one, as an
-   outline button at the end. The head's band shares frappe's box and is not
-   an alert. */
+/* Every alert is one card: a form's (frappe's set_intro and headline, and
+   the head's sentence and notices) and every other one, which onedesk.alert
+   and the islands' OneAlert draw as .one-alert. Soft grey, the colour only in
+   a round icon at the start (onedesk.head.marked), and the fix, where there
+   is one, as an outline button at the end. The head's band shares frappe's
+   box and is not an alert. */
 .form-message-container > .form-message:not(:has(.one-band)) {
+	margin: var(--margin-md) var(--margin-md) 0;
+}
+
+.form-message-container > .form-message:not(:has(.one-band)),
+.one-alert {
 	display: flex;
 	align-items: center;
 	gap: var(--padding-sm);
-	margin: var(--margin-md) var(--margin-md) 0;
 	padding: var(--padding-sm) var(--padding-md);
 	border: none;
 	border-radius: var(--radius-xl);
@@ -69,12 +74,14 @@
 	color: var(--ink-gray-8);
 }
 
-.form-message-container > .form-message:not(:has(.one-band)) > :not(.one-alert-icon, .close-message, .one-notice-verbs) {
+.form-message-container > .form-message:not(:has(.one-band)) > :not(.one-alert-icon, .close-message, .one-notice-verbs),
+.one-alert > :not(.one-alert-icon, .one-notice-verbs) {
 	flex: 1;
 	min-width: 0;
 }
 
-.form-message-container > .form-message:not(:has(.one-band)) a {
+.form-message-container > .form-message:not(:has(.one-band)) a,
+.one-alert a {
 	color: inherit;
 	text-decoration: underline;
 	text-underline-offset: 3px;
@@ -101,25 +108,38 @@
 	color: var(--surface-gray-1);
 }
 
-.form-message.red > .one-alert-icon {
+.form-message.red > .one-alert-icon,
+.one-alert.red > .one-alert-icon {
 	background: var(--ink-red-6);
 }
 
 .form-message.orange > .one-alert-icon,
-.form-message.yellow > .one-alert-icon {
+.form-message.yellow > .one-alert-icon,
+.one-alert.orange > .one-alert-icon,
+.one-alert.yellow > .one-alert-icon {
 	background: var(--ink-amber-6);
 }
 
-.form-message.green > .one-alert-icon {
+.form-message.green > .one-alert-icon,
+.one-alert.green > .one-alert-icon {
 	background: var(--ink-green-6);
 }
 
-.form-message.white > .one-alert-icon {
+.form-message.white > .one-alert-icon,
+.one-alert.gray > .one-alert-icon {
 	background: var(--ink-gray-6);
 }
 
 .one-alert-icon .icon {
 	stroke: currentColor;
+}
+
+.one-alert {
+	font-size: var(--text-sm);
+}
+
+.one-notice-verbs:empty {
+	display: none;
 }
 
 .one-notice-verbs {
@@ -798,20 +818,6 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	gap: 6px;
 	margin: 8px 0;
 }
-
-.one-place-note {
-	padding: 6px 10px;
-	border-radius: var(--radius);
-	font-size: var(--text-sm);
-	line-height: 1.4;
-	background: var(--surface-gray-2);
-	color: var(--ink-gray-8);
-}
-
-.one-place-note--blue { background: var(--surface-blue-2); color: var(--ink-blue-8); }
-.one-place-note--green { background: var(--surface-green-2); color: var(--ink-green-8); }
-.one-place-note--orange { background: var(--surface-orange-2); color: var(--ink-orange-8); }
-.one-place-note--red { background: var(--surface-red-2); color: var(--ink-red-8); }
 
 .one-place-actions:empty,
 .one-place-spot:has(> .one-place-notes:empty):has(> .one-place-actions:empty) {

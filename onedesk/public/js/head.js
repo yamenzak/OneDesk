@@ -101,9 +101,23 @@ onedesk.head.notice = (frm, notice) => {
 };
 
 // An alert's round icon, by its colour: what card in desk.css it sits in.
+onedesk.head.ALERT_ICONS = { red: "circle-alert", orange: "triangle-alert", yellow: "triangle-alert", green: "circle-check" };
+
 onedesk.head.marked = (colour) => {
-	const icon = { red: "circle-alert", orange: "triangle-alert", yellow: "triangle-alert", green: "circle-check" }[colour] || "info";
+	const icon = onedesk.head.ALERT_ICONS[colour] || "info";
 	return `<span class="one-alert-icon">${frappe.utils.icon(icon, "sm")}</span>`;
+};
+
+// An alert anywhere else in the desk, drawn as a form's is: a settings tab,
+// a dialog, a rule. Colour is one of the form's (red, orange, yellow, green,
+// blue) or gray; a verb is {label, action} and becomes the outline button.
+onedesk.alert = ({ text, colour = "blue", verbs = [] }) => {
+	const $alert = $(`<div class="one-alert ${colour}">${onedesk.head.marked(colour)}<div class="one-alert-text"></div><div class="one-notice-verbs"></div></div>`);
+	$alert.find(".one-alert-text").text(text);
+	for (const verb of verbs) {
+		$alert.find(".one-notice-verbs").append(frappe.ui.button({ label: verb.label, variant: "outline", onclick: verb.action }));
+	}
+	return $alert;
 };
 
 // frappe's own alerts (set_intro, the dashboard's headline) take the same icon.

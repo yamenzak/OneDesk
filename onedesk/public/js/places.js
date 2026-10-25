@@ -72,7 +72,7 @@ onedesk.places.emit = (key, data, powers, doctype = null) => {
 
 onedesk.places.note = (text, tone) => {
 	const kind = onedesk.places.TONES.includes(tone) ? tone : "gray";
-	return $(`<div class="one-place-note one-place-note--${kind}"></div>`).text(String(text || ""));
+	return onedesk.alert({ text: String(text || ""), colour: kind });
 };
 
 onedesk.places.listening = (key) => !!(onedesk.places.heard[key] || []).length;

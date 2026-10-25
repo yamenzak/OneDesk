@@ -360,11 +360,14 @@ onedesk.rules.builder = ($into, rule, context) => {
 		}
 		const { $node, $body } = node(list, step, "oneai", $line, "rb-node-ai");
 		if (!context.reads) {
-			const $note = $(`<div class="rb-unread"></div>`)
-				.append($("<span></span>").text(__("This step won't run. New Mail is set to Not Read in the OneAI tab.")))
+			onedesk
+				.alert({
+					text: __("This step won't run. New Mail is set to Not Read in the OneAI tab."),
+					colour: "orange",
+					verbs: context.to_oneai ? [{ label: __("Open OneAI Tab"), action: context.to_oneai }] : [],
+				})
+				.addClass("rb-unread")
 				.prependTo($body);
-			if (context.to_oneai)
-				$(`<button type="button" class="rb-unread-go"></button>`).text(__("Open OneAI Tab")).on("click", context.to_oneai).appendTo($note);
 		}
 		if (step.ask === "pick") {
 			for (const one of step.labels) {

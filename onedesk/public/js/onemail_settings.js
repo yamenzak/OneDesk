@@ -398,7 +398,7 @@ onedesk.mail.settings = (tab) => {
 				// The leave note sits between the heading and the fields, so it
 				// shows whether the switch is on or off.
 				panel.$header.siblings(".oms-leave").remove();
-				$(`<div class="oms-note oms-leave">${frappe.utils.icon("calendar-off", "sm")}<span>${esc(note(away))}</span></div>`).insertAfter(panel.$header);
+				onedesk.alert({ text: note(away) }).addClass("oms-alert oms-leave").insertAfter(panel.$header);
 				if (!box.may.away) return;
 				panel.add_fields([
 					{ fieldname: "from_date", fieldtype: "Date", label: __("From"), default: away.one_away_from, description: __("Leave empty to start now.") },
@@ -548,9 +548,12 @@ onedesk.mail.settings = (tab) => {
 							{
 								fieldname: "own",
 								fieldtype: "HTML",
-								options: `<div class="oms-note">${frappe.utils.icon("info", "sm")}<span>${esc(
-									__("This is your own mailbox. If OneAI reads it, it files and acts on this mail in the workspace, with your permissions.")
-								)}</span></div>`,
+								options: onedesk.alert({
+									text: __("This is your own mailbox. If OneAI reads it, it files and acts on this mail in the workspace, with your permissions."),
+									colour: "orange",
+								})
+									.addClass("oms-alert")
+									.prop("outerHTML"),
 							},
 					  ]
 					: []),

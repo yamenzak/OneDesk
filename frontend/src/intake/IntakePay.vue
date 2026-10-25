@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mb-1 text-xs font-medium text-ink-gray-5">{{ __("Payment") }}</div>
-    <div v-if="pay.warn" class="rounded-3 bg-surface-red-1 px-2 py-1.5 text-sm text-ink-red-7">{{ pay.warn }}</div>
+    <OneAlert v-if="pay.warn" :text="pay.warn" colour="red" />
     <div v-else class="flex flex-wrap items-start gap-3">
       <dl class="grid grid-cols-[auto_1fr] items-center gap-x-3 gap-y-1 text-sm">
         <template v-for="row in rows" :key="row.label">
@@ -23,7 +23,7 @@
 // banking app scans.
 import { computed } from "vue";
 
-import { __, copyText, money } from "../kit";
+import { OneAlert, __, copyText, money } from "../kit";
 
 const props = defineProps({ pay: { type: Object, required: true } });
 
