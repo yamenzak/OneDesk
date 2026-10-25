@@ -58,11 +58,6 @@ TECHNICAL = re.compile(
 PICTURE = re.compile(r"!\[[^\]]*\]\(([^)]+)\)")
 
 
-# How the next version is written: before production 1.0.0 is brought up to
-# date, from it a version is added (docs/READY.md, Before production).
-NEXT = '<major|minor|fix> "<title>"' if ready.PRODUCTION else "release"
-
-
 def test_every_change_to_a_module_is_a_version():
 	"""The newest version's fingerprint is the module's, so nothing it ships
 	changes without a new version (docs/READY.md, Versions and What's New)."""
@@ -72,21 +67,15 @@ def test_every_change_to_a_module_is_a_version():
 		newest = found[0]
 		assert newest["fingerprint"] == ready.fingerprint(module), (
 			f"{module} changed since {newest['version']}: "
-			f'python3 scripts/version.py {spec["folder"]} {NEXT}, and say what changed'
+			f'python3 scripts/version.py {spec["folder"]} <major|minor|fix> "<title>", and say what changed'
 		)
 
 
-def test_before_production_every_module_is_at_1_0_0():
-	"""Until One is declared ready for production, a module has one version,
-	1.0.0, brought up to date as it changes; and One is declared ready only
-	when every module is (docs/READY.md, Before production)."""
+def test_one_is_ready_for_production_only_when_every_module_is():
+	"""docs/READY.md, Before production."""
 	if ready.PRODUCTION:
 		left = [module for module, spec in ready.MODULES.items() if not spec.get("ready")]
 		assert not left, f"One is declared ready for production, but these modules aren't: {left}"
-		return
-	for module, spec in ready.MODULES.items():
-		found = [one["version"] for one in ready.versions(module)]
-		assert found == ["1.0.0"], f"{module} is at {found}; before production it stays at 1.0.0: python3 scripts/version.py {spec['folder']} release"
 
 
 def test_versions_follow_one_another():
@@ -200,7 +189,7 @@ def test_a_change_to_what_a_module_agrees_on_is_said():
 		found = ready.versions(module)
 		assert found[0].get("legal") == ready.legal(module), (
 			f"{module} changed what it adds to the agreements since {found[0]['version']}: "
-			f'python3 scripts/version.py {spec["folder"]} {NEXT}, and say what changed'
+			f'python3 scripts/version.py {spec["folder"]} <major|minor|fix> "<title>", and say what changed'
 		)
 		for newer, older in zip(found, found[1:]):
 			if "legal" in older and newer.get("legal") != older["legal"]:

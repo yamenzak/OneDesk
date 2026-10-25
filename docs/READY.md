@@ -192,22 +192,19 @@ this first version of the standard.
 **Before production.** One is declared ready for production in the
 registry (`ready.PRODUCTION`) once every module in it is ready, and
 `test_ready.py` refuses the flag before then. Until that day nobody runs
-One for real, so:
+One for real, so the agreements change freely. A change takes effect the
+day it is made: no new revision, no published change (`documents.CHANGES`
+stays empty), no thirty days, no switchover, and no old way kept in the
+code. Record the documents' new versions in `test_legal.py` and move on.
 
-- **Every module stays at 1.0.0.** A change to a ready module brings its
-  1.0.0 up to date (`python3 scripts/version.py <folder> release`, which
-  keeps its words) and rewrites those words if they no longer hold.
-  `test_ready.py` fails on any other version.
-- **The agreements change freely.** A change takes effect the day it is
-  made: no new revision, no published change (`documents.CHANGES` stays
-  empty), no thirty days, no switchover, and no old way kept in the code.
-  Record the documents' new versions in `test_legal.py` and move on.
+Versions don't wait for production: a module released at 1.0.0 moves by
+the rules below from its next change on.
 
 On the day `PRODUCTION` turns on, `documents.BASELINE` is set to every
 document's revision, and from then the rules below apply in full.
 
-**Which number moves.** From production on, a version is x.y.z, and the
-biggest change in it picks which:
+**Which number moves.** A version is x.y.z, and the biggest change in it
+picks which:
 
 - **Major (x)**: something people already use works differently or is
   gone. They have to learn it again, redo a setting, or lose something: a
@@ -1237,8 +1234,7 @@ to watch for:
 
 A ready module stays ready. Any change to it:
 
-- bumps its version with a What's New entry, or before production brings
-  its 1.0.0 up to date;
+- bumps its version with a What's New entry;
 - moves the agreements with it when it changes what is done with data;
 - updates the Help pages it changes;
 - keeps the copy, roles, OneAI and notification guards green.

@@ -14,9 +14,8 @@ from pathlib import Path
 APP = Path(__file__).resolve().parents[1]
 ROOT = APP.parent
 
-# One is declared ready for production once every module is. Until then each
-# stays at 1.0.0 and the agreements change freely (docs/READY.md, Before
-# production).
+# One is declared ready for production once every module is. Until then the
+# agreements change freely (docs/READY.md, Before production).
 PRODUCTION = False
 
 MODULES = {
