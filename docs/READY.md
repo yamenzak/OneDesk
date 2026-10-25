@@ -477,7 +477,26 @@ beside the module are translated, guarded and versioned like the rest of it.
 
 ### 11. OneAI reach
 
-**Today.** OneMail's tools are open a conversation, what waits for an
+**Built.** A call of a module's that changes something is one whitelisted for
+POST alone; every such call is in the module's `ai.py`, either in `REACH`,
+naming the OneAI tool whose card does it, or in `NOT_FOR_AI` with the reason
+in one sentence. A card is a Setup proposal; approving it runs the module's
+`approved`, which makes the page's own call as whoever pressed Approve, so a
+card is refused exactly where the page would refuse. `test_ready.py` fails on
+a changing call in neither, in both, or named but gone; a tool its `ai.py`
+doesn't have or OneAI isn't given; an approval that never makes the call; or
+a reason longer than a sentence.
+
+OneMail's 36: 26 reached by eleven tools (`sort_conversations`,
+`change_folder`, `file_conversation`, `suggest_away`, `suggest_mail_rule`,
+`change_mail_rule`, `sign_mailbox`, `share_mailbox`, `suggest_mail_policy`,
+`company_domain`, `default_mail_template`) and two reads (`mail_rules`,
+`workspace_mail`); ten not, among them the three that take a password, the
+OneAI tab's own settings, and the Worker's call. The rule card now saves
+through `rules.save_rule`, so a rule asked for on an issued address waits
+for a Mail Manager as the page's does; it had been inserted straight.
+
+**Before.** OneMail's tools are open a conversation, what waits for an
 answer, draft a reply, suggest a rule, sign a mailbox, and templates
 (`hooks.py` `one_ai_reads` and `one_ai_suggests`, the `mail` group).
 

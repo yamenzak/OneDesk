@@ -653,7 +653,7 @@ Pages: backups (the platform's: backups, which the platform takes and keeps); de
 | Auto Email Report | on a rail or a home | the administrator | events | no | taught |  | **none** |  |  |  |  |
 | Document Follow | left out: waits in docs/BACKLOG.md | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | Email Account | through a form's link (User: email_account) | OneHR | events, 22 fields | no | taught |  | yes |  |  |  |  |
-| Email Domain | through a form's link (Email Account: domain) | the administrator | untouched | no | general |  | **none** |  |  |  |  |
+| Email Domain | through a form's link (Email Account: domain) | the administrator | untouched | no | taught |  | **none** |  |  |  |  |
 | Email Flag Queue | engine: read and unread marks on their way to the mail server | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Email Group | on a rail or a home | OneCRM | untouched | no | general |  | yes |  |  |  |  |
 | Email Group Member | inside: an Email Group's members, in OneCRM | OneCRM | untouched | no | general |  | yes |  |  |  |  |

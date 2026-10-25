@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-25 14:42+0000\n"
-"PO-Revision-Date: 2026-10-25 14:42+0000\n"
+"POT-Creation-Date: 2026-10-25 14:52+0000\n"
+"PO-Revision-Date: 2026-10-25 14:52+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2587,7 +2587,7 @@ msgstr ""
 msgid "Add to {0}"
 msgstr ""
 
-#: onedesk/public/js/project_tree.js:28
+#: onedesk/one_mail/ai.py:1101 onedesk/public/js/project_tree.js:28
 msgid "Add {0}"
 msgstr ""
 
@@ -3951,6 +3951,10 @@ msgstr ""
 msgid "Answered by {0}, {1}."
 msgstr ""
 
+#: onedesk/one_mail/ai.py:854
+msgid "Answers"
+msgstr ""
+
 #: onedesk/one_mail/flow.py:301
 msgid "Answers a Conversation"
 msgstr ""
@@ -3963,6 +3967,7 @@ msgstr ""
 msgid "Any Status"
 msgstr ""
 
+#: onedesk/one_mail/ai.py:1058
 #: onedesk/public/js/one_mail/onemail_settings.js:1306
 msgid "Any domain"
 msgstr ""
@@ -4284,6 +4289,10 @@ msgstr ""
 msgid "Approve the site mock-up"
 msgstr ""
 
+#: onedesk/one_mail/ai.py:922
+msgid "Approve {0}"
+msgstr ""
+
 #. Option for the 'Decision' (Select) field in DocType 'Attendance Request'
 #. Label in the One Expense Claim print format
 #: onedesk/one_hr/custom/attendance_request.json
@@ -4451,6 +4460,7 @@ msgstr ""
 #: frontend/src/mail/OneMail.vue:147 frontend/src/mail/OneMail.vue:177
 #: frontend/src/mail/mail.js:12
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
+#: onedesk/one_mail/ai.py:646
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 msgid "Archive"
 msgstr ""
@@ -5015,7 +5025,7 @@ msgstr ""
 msgid "Assignment for {0} {1}"
 msgstr ""
 
-#: frontend/src/floor/OrderRows.vue:7
+#: frontend/src/floor/OrderRows.vue:7 onedesk/one_mail/ai.py:1058
 msgid "At"
 msgstr ""
 
@@ -9240,6 +9250,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: frontend/src/mail/MailList.vue:17 onedesk/one/sidebar/one/one.json
+#: onedesk/one_mail/ai.py:730
 msgid "Conversations"
 msgstr ""
 
@@ -11104,6 +11115,10 @@ msgstr ""
 msgid "Decline Quotation"
 msgstr ""
 
+#: onedesk/one_mail/ai.py:923
+msgid "Decline {0}"
+msgstr ""
+
 #: onedesk/one/portal.py:91 onedesk/one/portal.py:781
 msgid "Declined"
 msgstr ""
@@ -11182,6 +11197,7 @@ msgstr ""
 msgid "Default For"
 msgstr ""
 
+#: onedesk/one_mail/ai.py:1061
 #: onedesk/public/js/one_mail/onemail_settings.js:1124
 #: onedesk/public/js/one_mail/onemail_settings.js:1185
 msgid "Default Incoming"
@@ -11197,6 +11213,7 @@ msgstr ""
 msgid "Default Message"
 msgstr ""
 
+#: onedesk/one_mail/ai.py:1062
 #: onedesk/public/js/one_mail/onemail_settings.js:1133
 #: onedesk/public/js/one_mail/onemail_settings.js:1185
 msgid "Default Outgoing"
@@ -11406,7 +11423,8 @@ msgstr ""
 msgid "Delete this rule?"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:638 onedesk/public/js/oneai/Record.vue:139
+#: onedesk/one_ai/proposals.py:638 onedesk/one_mail/ai.py:768
+#: onedesk/one_mail/ai.py:921 onedesk/public/js/oneai/Record.vue:139
 msgid "Delete {0}"
 msgstr ""
 
@@ -15669,6 +15687,10 @@ msgstr ""
 msgid "File not found"
 msgstr ""
 
+#: onedesk/one_mail/ai.py:806
+msgid "File on {0}"
+msgstr ""
+
 #: onedesk/www/r.py:16
 msgid "File received. Thank you."
 msgstr ""
@@ -16828,7 +16850,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
 #: onedesk/one_inventory/print_format/one_supplier_scorecard_period/one_supplier_scorecard_period.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
-#: onedesk/one_mail/flow.py:283
+#: onedesk/one_mail/ai.py:852 onedesk/one_mail/flow.py:283
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/public/js/item_actions.js:184 onedesk/public/js/item_actions.js:231
 #: onedesk/public/js/one_mail/mail_compose.js:179
@@ -18722,6 +18744,10 @@ msgstr ""
 msgid "How subscriptions are billed and cancelled."
 msgstr ""
 
+#: onedesk/one_mail/ai.py:1055
+msgid "How the Workspace's Mail Is Set Up"
+msgstr ""
+
 #. Description of the 'Rule' (Data) field in DocType 'Reading Date'
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 msgid "How the date was counted from a period the document gives."
@@ -19440,7 +19466,7 @@ msgstr ""
 msgid "Income less expenses, month by month or year by year."
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:72
+#: onedesk/one_mail/ai.py:1103 onedesk/public/js/crm_record.js:72
 msgid "Incoming"
 msgstr ""
 
@@ -19627,6 +19653,10 @@ msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:815
 msgid "Insert slicer"
+msgstr ""
+
+#: onedesk/one_mail/ai.py:775
+msgid "Inside"
 msgstr ""
 
 #. Label in the One Quality Inspection print format
@@ -20888,6 +20918,10 @@ msgstr ""
 #. Task in the ERP Rollout project template
 #: onedesk/one_project/library/erp_rollout.json
 msgid "Items, customers and suppliers imported"
+msgstr ""
+
+#: onedesk/one_mail/ai.py:776
+msgid "Its Mail"
 msgstr ""
 
 #: onedesk/public/js/settings.js:2520
@@ -23155,7 +23189,9 @@ msgstr ""
 
 #. Label of the account (Link) field in DocType 'Mail Folder'
 #. Label of the account (Link) field in DocType 'Mail Rule'
-#: onedesk/one_mail/ai.py:283
+#: onedesk/one_mail/ai.py:283 onedesk/one_mail/ai.py:729
+#: onedesk/one_mail/ai.py:774 onedesk/one_mail/ai.py:810
+#: onedesk/one_mail/ai.py:851 onedesk/one_mail/ai.py:928
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 #: onedesk/public/js/settings.js:2757 onedesk/public/js/settings.js:2839
@@ -23586,8 +23622,13 @@ msgstr ""
 msgid "Mark as Done"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:328 onedesk/public/js/one_mail/rule_builder.js:40
+#: onedesk/one_mail/ai.py:648 onedesk/one_mail/flow.py:328
+#: onedesk/public/js/one_mail/rule_builder.js:40
 msgid "Mark as Read"
+msgstr ""
+
+#: onedesk/one_mail/ai.py:649
+msgid "Mark as Unread"
 msgstr ""
 
 #: frontend/src/mail/OneMail.vue:143 frontend/src/mail/OneMail.vue:175
@@ -23914,6 +23955,10 @@ msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:29
 msgid "May"
+msgstr ""
+
+#: onedesk/one_mail/ai.py:1003
+msgid "May Change"
 msgstr ""
 
 #. Label of the one_sends (Check) field in DocType 'User Email'
@@ -24502,11 +24547,15 @@ msgstr ""
 msgid "Move to Junk"
 msgstr ""
 
+#: onedesk/one_mail/ai.py:647
+msgid "Move to Trash"
+msgstr ""
+
 #: frontend/src/template/Tasks.vue:158
 msgid "Move to the Top"
 msgstr ""
 
-#: onedesk/one_mail/flow.py:316
+#: onedesk/one_mail/ai.py:645 onedesk/one_mail/flow.py:316
 msgid "Move to {0}"
 msgstr ""
 
@@ -24540,7 +24589,7 @@ msgstr ""
 msgid "Moved down from {0}% to {1}%."
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:478
+#: frontend/src/mail/OneMail.vue:478 onedesk/one_mail/ai.py:776
 msgid "Moved to Trash"
 msgstr ""
 
@@ -25008,6 +25057,10 @@ msgstr ""
 msgid "New Address"
 msgstr ""
 
+#: onedesk/one_mail/ai.py:1059
+msgid "New Addresses Send"
+msgstr ""
+
 #: onedesk/public/js/doctype_settings.js:161 onedesk/public/js/settings.js:1773
 msgid "New Approval"
 msgstr ""
@@ -25080,6 +25133,10 @@ msgstr ""
 #: frontend/src/mail/OneMail.vue:282 frontend/src/mail/OneMail.vue:299
 #: frontend/src/mail/OneMail.vue:313
 msgid "New Folder"
+msgstr ""
+
+#: onedesk/one_mail/ai.py:766
+msgid "New Folder {0}"
 msgstr ""
 
 #: onedesk/one/ai.py:3275
@@ -25659,7 +25716,8 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
-#: onedesk/one_mail/abilities.py:20 onedesk/public/js/item_new.js:49
+#: onedesk/one_mail/abilities.py:20 onedesk/one_mail/ai.py:1002
+#: onedesk/one_mail/ai.py:1052 onedesk/public/js/item_new.js:49
 #: onedesk/public/js/one_mail/onemail_settings.js:485
 msgid "No"
 msgstr ""
@@ -29722,6 +29780,14 @@ msgstr ""
 msgid "Out of Office"
 msgstr ""
 
+#: onedesk/one_mail/ai.py:849
+msgid "Out of Office Off"
+msgstr ""
+
+#: onedesk/one_mail/ai.py:849
+msgid "Out of Office On"
+msgstr ""
+
 #. Label of the one_away_replies (Check) field in DocType 'Leave Application'
 #: onedesk/one_hr/custom/leave_application.json
 msgid "Out of Office Replies"
@@ -29790,7 +29856,7 @@ msgstr ""
 msgid "Outflow"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:71
+#: onedesk/one_mail/ai.py:1104 onedesk/public/js/crm_record.js:71
 msgid "Outgoing"
 msgstr ""
 
@@ -29996,6 +30062,10 @@ msgstr ""
 #: onedesk/one_admin/number_card/owing_now/owing_now.json
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "Owing"
+msgstr ""
+
+#: onedesk/one_mail/ai.py:1057
+msgid "Own Mailboxes"
 msgstr ""
 
 #: onedesk/public/js/item_new.js:6
@@ -34155,6 +34225,10 @@ msgstr ""
 msgid "Received, billed and paid."
 msgstr ""
 
+#: onedesk/one_mail/ai.py:1060
+msgid "Receives only"
+msgstr ""
+
 #: frontend/portal/src/pages/Home.vue:48 onedesk/one_storage/namespace.py:358
 msgid "Recent"
 msgstr ""
@@ -34888,6 +34962,10 @@ msgstr ""
 msgid "Remove Photo"
 msgstr ""
 
+#: onedesk/one_mail/ai.py:651
+msgid "Remove Star"
+msgstr ""
+
 #: onedesk/public/js/one_mail/rule_builder.js:106
 msgid "Remove Step"
 msgstr ""
@@ -34937,6 +35015,7 @@ msgid "Remove your passkey?"
 msgstr ""
 
 #: frontend/src/task/TaskWaits.vue:8 onedesk/one/ai.py:2273
+#: onedesk/one_mail/ai.py:1089
 msgid "Remove {0}"
 msgstr ""
 
@@ -35019,6 +35098,10 @@ msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/VersionHistory.vue:72
 msgid "Rename this version"
+msgstr ""
+
+#: onedesk/one_mail/ai.py:767
+msgid "Rename {0} to {1}"
 msgstr ""
 
 #: onedesk/one_intake/panel.py:215
@@ -35211,7 +35294,8 @@ msgstr ""
 #: onedesk/one_ai/chat.py:318
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
-#: onedesk/one_mail/flow.py:318 onedesk/public/js/one_mail/rule_builder.js:43
+#: onedesk/one_mail/ai.py:855 onedesk/one_mail/flow.py:318
+#: onedesk/public/js/one_mail/rule_builder.js:43
 #: onedesk/public/js/one_mail/rule_builder.js:201
 #: onedesk/public/js/record.js:118
 msgid "Reply"
@@ -37225,6 +37309,10 @@ msgstr ""
 msgid "Sending…"
 msgstr ""
 
+#: onedesk/one_mail/ai.py:1002 onedesk/one_mail/ai.py:1060
+msgid "Sends"
+msgstr ""
+
 #. Label of the one_ai_sensitive (Check) field in DocType 'Employee Grievance'
 #: onedesk/one_hr/ai_grievance.py:68
 #: onedesk/one_hr/custom/employee_grievance.json
@@ -37923,6 +38011,10 @@ msgstr ""
 #: onedesk/public/js/onecloud_dialogs.js:23
 #: onedesk/public/js/onecloud_dialogs.js:95
 msgid "Share {0}"
+msgstr ""
+
+#: onedesk/one_mail/ai.py:998
+msgid "Share {0} with {1}"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:144
@@ -39565,7 +39657,8 @@ msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:621 frontend/src/mail/MailList.vue:64
 #: frontend/src/mail/OneMail.vue:145 frontend/src/mail/OneMail.vue:176
-#: onedesk/one_mail/flow.py:329 onedesk/public/js/one_mail/rule_builder.js:41
+#: onedesk/one_mail/ai.py:650 onedesk/one_mail/flow.py:329
+#: onedesk/public/js/one_mail/rule_builder.js:41
 msgid "Star"
 msgstr ""
 
@@ -39667,6 +39760,10 @@ msgstr ""
 
 #: onedesk/public/js/floor_actions.js:16
 msgid "Start {0}"
+msgstr ""
+
+#: onedesk/one_mail/ai.py:1133
+msgid "Start {0} Mail with {1}"
 msgstr ""
 
 #: onedesk/public/js/floor_actions.js:18
@@ -40257,6 +40354,10 @@ msgstr ""
 
 #: frontend/src/project/TaskPanel.vue:175 frontend/src/task/TaskPage.vue:329
 msgid "Stop Repeating"
+msgstr ""
+
+#: onedesk/one_mail/ai.py:998
+msgid "Stop Sharing {0} with {1}"
 msgstr ""
 
 #: frontend/src/project/TaskPanel.vue:7 frontend/src/task/MyTasks.vue:66
@@ -41198,6 +41299,10 @@ msgstr ""
 msgid "Take Back"
 msgstr ""
 
+#: onedesk/one_mail/ai.py:806
+msgid "Take Off {0}"
+msgstr ""
+
 #: onedesk/one_crm/heads.py:281
 msgid "Take This Lead"
 msgstr ""
@@ -42129,7 +42234,8 @@ msgstr ""
 #: onedesk/one/ai_setup.py:823 onedesk/one/reports.py:202
 #: onedesk/one/reports.py:234 onedesk/one/settings.py:990
 #: onedesk/one/settings.py:1080 onedesk/one/setup_steps.py:133
-#: onedesk/one_mail/flow.py:200 onedesk/one_mail/rules.py:815
+#: onedesk/one_mail/ai.py:1230 onedesk/one_mail/flow.py:200
+#: onedesk/one_mail/rules.py:815
 msgid "That cannot be set."
 msgstr ""
 
@@ -43698,6 +43804,10 @@ msgstr ""
 
 #: onedesk/one_crm/home.py:163
 msgid "The stages an opportunity moves through, and their probability."
+msgstr ""
+
+#: onedesk/one_mail/ai.py:855
+msgid "The standard reply"
 msgstr ""
 
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:38
@@ -46063,6 +46173,10 @@ msgstr ""
 msgid "Turn Off"
 msgstr ""
 
+#: onedesk/one_mail/ai.py:920
+msgid "Turn Off {0}"
+msgstr ""
+
 #: frontend/src/lots/LotsPage.vue:8 onedesk/one_studio/heads.py:76
 msgid "Turn On"
 msgstr ""
@@ -46074,6 +46188,10 @@ msgstr ""
 #: onedesk/public/js/doctype_settings.js:185
 #: onedesk/public/js/doctype_settings.js:220
 msgid "Turn On or Off"
+msgstr ""
+
+#: onedesk/one_mail/ai.py:919
+msgid "Turn On {0}"
 msgstr ""
 
 #: onedesk/one/settings.py:116
@@ -46658,6 +46776,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_inventory/print_format/one_asset_card/one_asset_card.json
 #: onedesk/one_inventory/print_format/one_shipment/one_shipment.json
+#: onedesk/one_mail/ai.py:853
 #: onedesk/public/js/one_mail/onemail_settings.js:340
 msgid "Until"
 msgstr ""
@@ -52142,7 +52261,8 @@ msgstr ""
 #: frontend/src/cloud/CloudPreview.vue:115
 #: frontend/src/item/ItemOverview.vue:113 onedesk/one/ai.py:2537
 #: onedesk/one/ai.py:2540 onedesk/one/ai.py:3495 onedesk/one/ai.py:3708
-#: onedesk/one_ai/chat.py:702 onedesk/public/js/bom_list.js:5
+#: onedesk/one_ai/chat.py:702 onedesk/one_mail/ai.py:1002
+#: onedesk/one_mail/ai.py:1052 onedesk/public/js/bom_list.js:5
 #: onedesk/public/js/one_mail/onemail_settings.js:485
 msgid "Yes"
 msgstr ""

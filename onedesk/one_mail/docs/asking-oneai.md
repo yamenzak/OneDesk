@@ -14,6 +14,30 @@ The OneAI panel knows the mailbox, folder and conversation you have open.
 | **Draft a reply**, saying what it should say | A reply in the conversation's language, on a card. **Approve** opens it in the email window to edit and send. |
 | **What needs an answer?** | Conversations in the folder where the last message came to you, oldest first |
 
+## Asking It to Change Something
+
+Anything you can change in OneMail you can also ask OneAI for, in your own
+words. It answers with a card saying exactly what will change, and nothing
+changes until you press **Approve**. It is then done as if you had done it
+yourself, so what your role can't do, the card can't either.
+
+| Ask, for example | What the card does |
+| --- | --- |
+| *Archive everything from the courier* | Moves, archives, trashes, stars or marks conversations as read |
+| *Make a folder for Acme* | Makes, renames or deletes a folder |
+| *File this on the villa project* | Puts the conversation on a record, or takes it off |
+| *I'm away from the 3rd to the 10th* | Turns your out-of-office reply on or off |
+| *Turn off the taxi rule* | Turns a rule on or off, deletes it, or approves one somebody asked for |
+| *Give Huda the sales mailbox, reading only* | Shares a workspace mailbox with one person, or stops sharing it |
+| *Let people connect their Gmail* | Changes how the workspace's mail is set up |
+| *Add our domain rua.ae* | Adds or removes the company's mail domain |
+
+> **What OneAI never does.** It never connects a mailbox or gives one its
+> password again, because it never sees a password. It doesn't change how
+> much it reads a mailbox or spends on it: that's for the mailbox's manager,
+> in the **OneAI** tab. And it doesn't stop a mailbox from being read; its
+> holder does that on the **Connection** tab.
+
 ## While You Write
 
 The OneAI button next to **Message** in the email window works on what you're

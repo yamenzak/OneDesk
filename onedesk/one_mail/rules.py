@@ -856,7 +856,7 @@ def away_of(account: str) -> dict:
 	return said
 
 
-@frappe.whitelist(methods=["POST"])
+@frappe.whitelist()
 def away_preview(account: str, message: str | None = None) -> dict:
 	"""The reply as a sender gets it, signed, and the standard reply, which
 	an untouched message follows."""

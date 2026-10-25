@@ -785,8 +785,9 @@ def test_oneai_suggests_a_mail_rule_as_a_card():
 	make = ai.split("def make_rule(", 1)[1]
 	assert "actions.require(account)" in make and "actions.create_folder(" in make
 	assert "switches.set_mailbox(account, 1)" in make
+	assert "rules.save_rule(account" in make, "saved as the page saves one, so an asked-for rule waits"
 	setup = (MAIL.parent / "one" / "ai_setup.py").read_text()
-	assert 'if what == "mail_rule":' in setup and "ai.make_rule(changes)" in setup
+	assert "if what in mail_ai.APPROVED:" in setup and 'if what == "mail_rule":\n\t\treturn make_rule(changes)' in ai
 
 
 def test_a_new_conversation_from_a_person_is_what_acknowledging_means():

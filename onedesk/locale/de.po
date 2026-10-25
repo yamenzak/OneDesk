@@ -1642,6 +1642,10 @@ msgstr "KI-Spur"
 msgid "AI Usage"
 msgstr "KI-Nutzung"
 
+#: onedesk/one_mail/ai.py
+msgid "Answers"
+msgstr "Antwortet an"
+
 #. Label of the press_token (Password) field in DocType 'One Admin Settings'
 #. Label of the cloudflare_token (Password) field in DocType 'One Admin
 #. Settings'
@@ -4274,6 +4278,10 @@ msgstr "Genehmigen oder lehnen Sie die Anforderung ab."
 #: onedesk/one_project/library/aluminium_and_glazing.json
 msgid "Approve the site mock-up"
 msgstr "Musterelement auf der Baustelle freigeben"
+
+#: onedesk/one_mail/ai.py
+msgid "Approve {0}"
+msgstr "{0} genehmigen"
 
 #. Option for the 'Decision' (Select) field in DocType 'Attendance Request'
 #. Label in the One Expense Claim print format
@@ -10427,6 +10435,10 @@ msgstr "{0} Elemente ausgeschnitten"
 msgid "Cycle"
 msgstr "Zyklus"
 
+#: onedesk/one_mail/ai.py
+msgid "Decline {0}"
+msgstr "{0} ablehnen"
+
 msgid "DNS Records"
 msgstr "DNS-Einträge"
 
@@ -15542,6 +15554,10 @@ msgstr "Mitarbeiterdokumente ablegen"
 msgid "File Link"
 msgstr "Dateiverknüpfung"
 
+#: onedesk/one_mail/ai.py
+msgid "File on {0}"
+msgstr "Bei {0} ablegen"
+
 #. Name of a notification
 #: onedesk/notifications/one_storage/file_request.md
 msgid "File Request"
@@ -17559,6 +17575,10 @@ msgstr "Gäste"
 msgid "HIGHESTMODSEQ"
 msgstr "HIGHESTMODSEQ"
 
+#: onedesk/one_mail/ai.py
+msgid "How the Workspace's Mail Is Set Up"
+msgstr "So ist die E-Mail des Arbeitsbereichs eingerichtet"
+
 #. Who a notification is sent to
 #: onedesk/notifications/one_hr/attendance_request_asked.md
 #: onedesk/notifications/one_hr/could_not_mark_left.md
@@ -18770,6 +18790,10 @@ msgstr "IMAP-Server"
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "IN"
 msgstr ""
+
+#: onedesk/one_mail/ai.py
+msgid "Inside"
+msgstr "Innerhalb von"
 
 #. Task in the Office Move project template
 #: onedesk/one_project/library/office_move.json
@@ -20782,6 +20806,10 @@ msgstr "Ihre Felder sind jetzt {fields}."
 #: onedesk/notifications/one_hr/interview_soon.md
 msgid "Its interviewers"
 msgstr "Die Interviewer"
+
+#: onedesk/one_mail/ai.py
+msgid "Its Mail"
+msgstr "Seine E-Mails"
 
 #. Description of the 'Server' (Data) field in DocType 'Workspace Server'
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json
@@ -22812,6 +22840,10 @@ msgstr "Niedrigere zuerst."
 msgid "Lowest On"
 msgstr "Am günstigsten bei"
 
+#: onedesk/one_mail/ai.py
+msgid "May Change"
+msgstr "Darf ändern"
+
 #: onedesk/public/js/size.js:6
 msgid "MB"
 msgstr "MB"
@@ -24296,6 +24328,10 @@ msgstr "Bestand umlagern"
 msgid "Move To"
 msgstr "Verschieben nach"
 
+#: onedesk/one_mail/ai.py
+msgid "Move to Trash"
+msgstr "In den Papierkorb verschieben"
+
 #: onedesk/public/js/rule_builder.js:217
 msgid "Move Up"
 msgstr "Nach oben"
@@ -24846,6 +24882,10 @@ msgstr "Neu"
 msgid "New Address"
 msgstr "Neue Adresse"
 
+#: onedesk/one_mail/ai.py
+msgid "New Addresses Send"
+msgstr "Neue Adressen senden"
+
 #: onedesk/public/js/doctype_settings.js:161 onedesk/public/js/settings.js:1899
 msgid "New Approval"
 msgstr "Neue Genehmigung"
@@ -24918,6 +24958,10 @@ msgstr "Neues Geschäftsjahr"
 #: frontend/src/mail/OneMail.vue:283
 msgid "New Folder"
 msgstr "Neuer Ordner"
+
+#: onedesk/one_mail/ai.py
+msgid "New Folder {0}"
+msgstr "Neuer Ordner {0}"
 
 #: onedesk/one/ai.py:3438
 msgid "New Format"
@@ -29522,6 +29566,14 @@ msgstr "Von 100. Unter der Bestätigungsschwelle wird der Eintrag zur Prüfung m
 msgid "Out of Office"
 msgstr "Abwesenheit"
 
+#: onedesk/one_mail/ai.py
+msgid "Out of Office Off"
+msgstr "Abwesenheitsnotiz aus"
+
+#: onedesk/one_mail/ai.py
+msgid "Out of Office On"
+msgstr "Abwesenheitsnotiz an"
+
 #: onedesk/one_hr/custom/leave_application.json
 msgid "Out of Office Replies"
 msgstr "Abwesenheitsantworten"
@@ -29795,6 +29847,10 @@ msgstr "Ansprüche des Mitarbeiters"
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "Owing"
 msgstr "Offen"
+
+#: onedesk/one_mail/ai.py
+msgid "Own Mailboxes"
+msgstr "Eigene Postfächer"
 
 #: onedesk/public/js/item_new.js:6
 msgid "Owned and used, like a van or a laptop."
@@ -33929,6 +33985,10 @@ msgstr "{0} vom Subunternehmer erhalten"
 msgid "Received, billed and paid."
 msgstr "Erhalten, berechnet und bezahlt."
 
+#: onedesk/one_mail/ai.py
+msgid "Receives only"
+msgstr "Nur empfangen"
+
 #: frontend/portal/src/pages/Home.vue:48 onedesk/one_storage/namespace.py:358
 msgid "Recent"
 msgstr "Zuletzt verwendet"
@@ -34660,6 +34720,10 @@ msgstr "Eines entfernen"
 msgid "Remove Photo"
 msgstr "Foto entfernen"
 
+#: onedesk/one_mail/ai.py
+msgid "Remove Star"
+msgstr "Stern entfernen"
+
 #: onedesk/public/js/rule_builder.js:219
 msgid "Remove Step"
 msgstr "Schritt entfernen"
@@ -34792,6 +34856,10 @@ msgstr "Benennen Sie stattdessen die Verbindung um."
 #: frontend/src/sheet/components/SheetEditor/VersionHistory.vue:72
 msgid "Rename this version"
 msgstr "Diese Version umbenennen"
+
+#: onedesk/one_mail/ai.py
+msgid "Rename {0} to {1}"
+msgstr "{0} in {1} umbenennen"
 
 #: onedesk/one_intake/panel.py:215
 msgid "Renamed to {0}"
@@ -36077,6 +36145,10 @@ msgstr "Läuft mit den Berechtigungen von {0}."
 msgid "Search Your Mail"
 msgstr "E-Mails durchsuchen"
 
+#: onedesk/one_mail/ai.py
+msgid "Sends"
+msgstr "Sendet"
+
 #: onedesk/one_mail/tour.py
 msgid "Set up your mailboxes in Settings, and find this tour again in Help."
 msgstr "Richten Sie Ihre Postfächer in den Einstellungen ein, und finden Sie diese Tour in der Hilfe wieder."
@@ -36099,6 +36171,10 @@ msgstr "Nur SFTP. Wird anstelle eines Passworts verwendet."
 msgid "SHA-256 of the token written into the site's config."
 msgstr "SHA-256 des Tokens, das in die Site-Konfiguration geschrieben wurde."
 
+#: onedesk/one_mail/ai.py
+msgid "Share {0} with {1}"
+msgstr "{0} mit {1} teilen"
+
 #: onedesk/public/js/onemail.js:801 onedesk/public/js/onemail_settings.js:220
 msgid "SMTP Port"
 msgstr "SMTP-Port"
@@ -36110,6 +36186,14 @@ msgstr "SMTP-Server"
 #: onedesk/one_mail/tour.py
 msgid "Start a new email here, or press C anywhere in OneMail."
 msgstr "Beginnen Sie hier eine neue E-Mail, oder drücken Sie C überall in OneMail."
+
+#: onedesk/one_mail/ai.py
+msgid "Start {0} Mail with {1}"
+msgstr "E-Mails zu {0} mit {1} beginnen"
+
+#: onedesk/one_mail/ai.py
+msgid "Stop Sharing {0} with {1}"
+msgstr "{0} nicht mehr mit {1} teilen"
 
 #. Label in the One Bank Guarantee print format
 #. Label in the One Payment Request print format
@@ -40832,6 +40916,10 @@ msgstr "Systempostfächer"
 msgid "System Manager"
 msgstr "Systemverwalter"
 
+#: onedesk/one_mail/ai.py
+msgid "Take Off {0}"
+msgstr "Von {0} entfernen"
+
 #: onedesk/public/js/module_docs.js
 msgid "Take the Tour"
 msgstr "Tour starten"
@@ -40843,6 +40931,10 @@ msgstr "TB"
 #: onedesk/one_mail/tour.py
 msgid "The conversation opens here, with the records it is linked to above it."
 msgstr "Die Unterhaltung öffnet sich hier, darüber die Datensätze, mit denen sie verknüpft ist."
+
+#: onedesk/one_mail/ai.py
+msgid "The standard reply"
+msgstr "Die Standardantwort"
 
 #: onedesk/one/letter_heads.py:132
 #: onedesk/one_book/report/books_check/books_check.js:20
@@ -45724,6 +45816,10 @@ msgstr "Dienstag"
 msgid "Turn Off"
 msgstr "Abschalten"
 
+#: onedesk/one_mail/ai.py
+msgid "Turn Off {0}"
+msgstr "{0} ausschalten"
+
 #: frontend/src/lots/LotsPage.vue:8 onedesk/one_studio/heads.py:76
 msgid "Turn On"
 msgstr "Einschalten"
@@ -45748,6 +45844,10 @@ msgstr "Ihr Konto deaktivieren und Ihren Namen und Ihre Adresse aus den Unterlag
 #: onedesk/public/js/contact.js:30
 msgid "Turn off {0}'s portal access? They're signed out at once."
 msgstr "Portalzugang von {0} deaktivieren? Die Person wird sofort abgemeldet."
+
+#: onedesk/one_mail/ai.py
+msgid "Turn On {0}"
+msgstr "{0} einschalten"
 
 #: onedesk/one/settings.py:1187
 msgid "Turn them on first."

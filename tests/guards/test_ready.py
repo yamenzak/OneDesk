@@ -328,3 +328,49 @@ def test_a_module_ships_a_tour_of_its_screen():
 			assert f'data-tour="{target}"' in own + marks, f"{where}: nothing draws data-tour=\"{target}\""
 			assert len(title.split()) <= 5, f"{where}: a heading is five words or fewer"
 			assert len(re.findall(r"[.!?](?:\s|$)", text)) == 1 and text.endswith("."), f"{where}: one sentence"
+
+
+def _changers(folder: Path) -> set[str]:
+	"""A module's calls whitelisted for POST alone: the ones that change
+	something, as `file.function`."""
+	import ast
+
+	found = set()
+	for path in folder.glob("*.py"):
+		for node in ast.parse(path.read_text(encoding="utf-8")).body:
+			if isinstance(node, ast.FunctionDef) and any(
+				"whitelist" in ast.unparse(one) and "POST" in ast.unparse(one) for one in node.decorator_list
+			):
+				found.add(f"{path.stem}.{node.name}")
+	return found
+
+
+def test_a_module_reaches_every_change_through_oneai_or_says_why_not():
+	"""Every call of a ready module that changes something (whitelisted for
+	POST alone) is a card OneAI suggests, in its ai.py's REACH: the tool is
+	hooked, and approving its card makes that very call. Or it is in
+	NOT_FOR_AI with the reason in one sentence (docs/READY.md, mechanism 11)."""
+	import ast
+
+	hooks = (ROOT / "onedesk" / "hooks.py").read_text(encoding="utf-8")
+	approving = (ROOT / "onedesk" / "one_ai" / "proposals.py").read_text(encoding="utf-8")
+	for module, spec in ready.MODULES.items():
+		folder = ROOT / "onedesk" / spec["folder"]
+		path = folder / "ai.py"
+		assert path.exists(), f"{module} says nothing of OneAI: write {path.relative_to(ROOT)}"
+		source = path.read_text(encoding="utf-8")
+		declared = _declared(path)
+		reach, refused = declared.get("REACH", {}), declared.get("NOT_FOR_AI", {})
+		changers = _changers(folder)
+		missing = sorted(changers - set(reach) - set(refused))
+		assert not missing, f"{module}: give OneAI a card for these, or say in NOT_FOR_AI why not: {missing}"
+		assert not set(reach) & set(refused), f"{module}: in both REACH and NOT_FOR_AI: {sorted(set(reach) & set(refused))}"
+		gone = sorted((set(reach) | set(refused)) - changers)
+		assert not gone, f"{module}: named but no longer a call that changes something: {gone}"
+		tools = {node.name for node in ast.parse(source).body if isinstance(node, ast.FunctionDef)}
+		for call, tool in reach.items():
+			assert tool in tools, f"{module}: {call} is reached by {tool}, which its ai.py doesn't have"
+			assert f'"onedesk.{spec["folder"]}.ai.{tool}"' in hooks, f"{module}: {tool} isn't one of OneAI's tools"
+			assert f"{call}(" in source + approving, f"{module}: approving {tool} never calls {call}"
+		for call, why in refused.items():
+			assert len(re.findall(r"[.!?](?:\s|$)", why)) == 1 and why.endswith("."), f"{module}: {call}'s reason is one sentence"

@@ -760,3 +760,98 @@ def onemail_a_mailbox_says_what_oneai_may_do_with_its_mail():
 		gate.set_settings(ours, reads=0)
 		listed = rules.rules_of_mailbox(ours)
 	assert not listed["reads"] and any(one["needs_ai"] and one["title"] == "Complaints" for one in listed["rules"])
+
+
+@check
+def onemail_oneai_reaches_what_the_page_changes():
+	"""OneAI's cards for what OneMail's page changes (ai.REACH), each approved
+	as Layla, so done by the page's own call: a folder made, a conversation
+	moved into it, starred, filed on the villa and back, the folder renamed
+	and deleted; her out of office on and off; a rule turned off and
+	deleted; Omar given the workspace's mailbox to read and taken off; her
+	own mailboxes allowed and not; the composer's template for interviews;
+	the company's domain on a card. Omar gets no card for what his role
+	doesn't reach."""
+	from unittest import mock
+
+	from onedesk.one_ai import run as runs
+	from onedesk.one_demo import intake
+	from onedesk.one_mail import actions, addresses, ai, api, holders, mail_templates
+
+	account = intake.mailbox()
+	email = frappe.db.get_value("Email Account", account, "email_id")
+	made = []
+
+	def approve(said: dict) -> None:
+		assert said.get("proposal"), said
+		made.append(said["proposal"])
+		runs.apply(said["proposal"])
+
+	with as_user(OWNER):
+		thread = api.conversations(account, search='subject:"shop drawings"')["items"][0]["thread"]
+		names = api.names(account, [thread])
+		external, template = addresses.external(), mail_templates.default("Interview")
+		try:
+			approve(ai.change_folder("make", label="Reach Check", mailbox=email))
+			folder = frappe.db.get_value("Mail Folder", {"account": account, "label": "Reach Check"}, "name")
+			assert folder
+			approve(ai.sort_conversations("move", [thread], mailbox=email, folder="Reach Check"))
+			assert frappe.db.get_value("Communication", names[0], "one_folder") == frappe.db.get_value("Mail Folder", folder, "path")
+			approve(ai.sort_conversations("star", [thread], mailbox=email))
+			assert frappe.db.get_value("Communication", names[0], "one_flagged") == 1
+			approve(ai.sort_conversations("move", [thread], mailbox=email, folder="Inbox"))
+			assert frappe.db.get_value("Communication", names[0], "one_folder") == "INBOX"
+			approve(ai.file_conversation(thread, "Project", VILLA, mailbox=email))
+			assert frappe.db.exists("Communication Link", {"parent": names[0], "link_doctype": "Project", "link_name": VILLA})
+			approve(ai.file_conversation(thread, "Project", VILLA, take_off=True, mailbox=email))
+			assert not frappe.db.exists("Communication Link", {"parent": names[0], "link_doctype": "Project", "link_name": VILLA})
+			approve(ai.change_folder("rename", label="Reach Checked", folder="Reach Check", mailbox=email))
+			assert frappe.db.get_value("Mail Folder", folder, "label") == "Reach Checked"
+			approve(ai.change_folder("delete", folder="Reach Checked", mailbox=email))
+			assert not frappe.db.exists("Mail Folder", folder)
+
+			approve(ai.suggest_away(True, mailbox=email, until=str(add_days(today(), 5)), message="Back on Monday."))
+			assert frappe.db.get_value("Email Account", account, "one_away") == 1
+			approve(ai.suggest_away(False, mailbox=email))
+			assert frappe.db.get_value("Email Account", account, "one_away") == 0
+
+			approve(ai.suggest_mail_rule("Reach Check", mailbox=email, subject_contains="reach check"))
+			rule = next(one["rule"] for one in ai.mail_rules(email)["rules"] if one["title"] == "Sort mail into Reach Check")
+			approve(ai.change_mail_rule(rule, "off"))
+			assert frappe.db.get_value("Mail Rule", rule, "enabled") == 0
+			approve(ai.change_mail_rule(rule, "delete"))
+			assert not frappe.db.exists("Mail Rule", rule)
+			actions.delete_folder(frappe.db.get_value("Mail Folder", {"account": account, "label": "Reach Check"}))
+
+			ours = holders.workspace()
+			held = {row["user"]: row["sends"] for row in holders._people(ours)}
+			listed = ai.workspace_mail()
+			assert any(one["workspace"] for one in listed["mailboxes"]), listed
+			approve(ai.share_mailbox(ours, "huda@one.test", sends=False))
+			assert frappe.db.exists("User Email", {"parent": "huda@one.test", "email_account": ours})
+			approve(ai.share_mailbox(ours, "huda@one.test", reads=False))
+			assert not frappe.db.exists("User Email", {"parent": "huda@one.test", "email_account": ours})
+			assert {row["user"]: row["sends"] for row in holders._people(ours)} == held
+
+			approve(ai.suggest_mail_policy(own_mailboxes=not external))
+			assert addresses.external() == (not external)
+
+			approve(ai.default_mail_template("Interview", "Interview Reminder"))
+			assert mail_templates.default("Interview") == "Interview Reminder"
+			with mock.patch("onedesk.one_mail.connect.hosted_by", return_value=None):
+				card = ai.company_domain("reachcheck.example")
+			made.append(card["proposal"])
+			assert "imap.reachcheck.example" in frappe.db.get_value("AI Proposal", card["proposal"], "changes")
+		finally:
+			holders.set_external(int(external))
+			if template:
+				mail_templates.set_default("Interview", template)
+			else:
+				frappe.db.delete("Property Setter", {"doc_type": "Interview", "property": "default_email_template"})
+				frappe.clear_cache(doctype="Interview")
+	with as_user("omar@one.test"):
+		assert ai.share_mailbox(holders.workspace(), "huda@one.test").get("error")
+		assert ai.suggest_mail_policy(own_mailboxes=True).get("error")
+		assert ai.company_domain("reachcheck.example").get("error")
+	for one in made:
+		frappe.delete_doc("AI Proposal", one, ignore_permissions=True, force=True)

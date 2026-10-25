@@ -1,6 +1,6 @@
 """What OneAI does in OneMail: reads the conversation that is open, says
-which conversations wait for an answer, and drafts a reply the way the
-reader asks for it."""
+which conversations wait for an answer, drafts a reply the way the reader
+asks for it, and suggests as a card anything the page changes (REACH)."""
 
 import re
 from html import unescape
@@ -337,15 +337,8 @@ def make_rule(changes: dict) -> str:
 			"move_to": folder,
 		}
 	)
-	rule = frappe.get_doc(
-		{
-			"doctype": "Mail Rule",
-			"account": account,
-			"title": changes.get("title") or changes["label"],
-			"steps": frappe.as_json(steps, indent=None),
-		}
-	).insert()
-	if changes.get("now") and not flow.needs_ai(steps):
+	rule = rules.save_rule(account, {"title": changes.get("title") or changes["label"], "steps": steps})
+	if changes.get("now") and not flow.needs_ai(steps) and frappe.db.get_value("Mail Rule", rule, "enabled"):
 		found = []
 		for one in frappe.get_all(
 			"Communication",
@@ -362,7 +355,7 @@ def make_rule(changes: dict) -> str:
 				found.append(one)
 		if found:
 			actions.move(found, folder)
-	return rule.name
+	return rule
 
 
 # The mailboxes the reader has, their signatures, and the workspace's mail
@@ -396,6 +389,8 @@ def my_mailboxes() -> dict:
 				"signature": frappe.db.get_value("Email Account", one["name"], "signature")
 				if one["may_sign"]
 				else None,
+				"folders": [folder["label"] for folder in one["folders"]],
+				"away": bool(frappe.db.get_value("Email Account", one["name"], "one_away")),
 				"not_connecting": one["error"],
 				"fix": "Reconnect it on this page with its password" if one["may_reconnect"] else None,
 			}
@@ -585,3 +580,651 @@ def write_mail_template(
 		+ " and in OneMail once they approve it, and that the record's Settings › Mail Templates makes it the "
 		"one the composer starts with.",
 	}
+
+
+# OneAI's reach (docs/READY.md, mechanism 11): every call of OneMail's that
+# changes something is a card OneAI suggests, approved through that call
+# itself, or is named in NOT_FOR_AI with the reason.
+
+REACH = {
+	"actions.mark": "sort_conversations",
+	"actions.star": "sort_conversations",
+	"actions.move": "sort_conversations",
+	"actions.delete": "sort_conversations",
+	"actions.create_folder": "change_folder",
+	"actions.rename_folder": "change_folder",
+	"actions.delete_folder": "change_folder",
+	"linking.file": "file_conversation",
+	"linking.unfile": "file_conversation",
+	"rules.set_away": "suggest_away",
+	"rules.save_rule": "suggest_mail_rule",
+	"rules.enable_rule": "change_mail_rule",
+	"rules.delete_rule": "change_mail_rule",
+	"rules.decide_rule": "change_mail_rule",
+	"holders.set_signature": "sign_mailbox",
+	"holders.grant": "share_mailbox",
+	"holders.revoke": "share_mailbox",
+	"holders.give": "share_mailbox",
+	"holders.set_personal_sends": "suggest_mail_policy",
+	"holders.set_sends": "suggest_mail_policy",
+	"holders.set_external": "suggest_mail_policy",
+	"holders.set_allowed_domains": "suggest_mail_policy",
+	"holders.set_defaults": "suggest_mail_policy",
+	"connect.add_domain": "company_domain",
+	"connect.remove_domain": "company_domain",
+	"mail_templates.set_default": "default_mail_template",
+}
+
+NOT_FOR_AI = {
+	"actions.put_back": "It undoes a move with what the move answered, which only the toast that offers Undo holds.",
+	"addresses.give": "A person's address is theirs for good once given, so an administrator chooses it with them.",
+	"connect.connect": "It takes the mailbox's password, which is never typed to OneAI.",
+	"connect.connect_for": "It takes the mailbox's password, which is never typed to OneAI.",
+	"connect.reconnect": "It takes the mailbox's password, which is never typed to OneAI.",
+	"connect.disconnect": "Mail stops arriving and only the password brings it back, so its holder does it on its Connection tab.",
+	"gate.set_settings": "How far OneAI reads a mailbox and what it may spend is decided by the mailbox's manager, never by OneAI.",
+	"holders.set_access": "It replaces everyone who holds a mailbox at once, with the whole list in view; share_mailbox changes one person.",
+	"inbound.notice": "It is the mail Worker's signed call that new mail is waiting, not anything a person does.",
+	"signatures.set_preset": "A preset is picked by looking at it drawn; sign_mailbox writes a signature itself.",
+}
+
+APPROVED = (
+	"mail_rule",
+	"conversations",
+	"folder",
+	"filing",
+	"away",
+	"rule_change",
+	"sharing",
+	"mail_policy",
+	"domain",
+	"template_default",
+)
+
+ACTS = {
+	"move": _lt("Move to {0}"),
+	"archive": _lt("Archive"),
+	"trash": _lt("Move to Trash"),
+	"read": _lt("Mark as Read"),
+	"unread": _lt("Mark as Unread"),
+	"star": _lt("Star"),
+	"unstar": _lt("Remove Star"),
+}
+
+
+def _held(mailbox: str | None) -> dict | None:
+	"""One of the reader's mailboxes, by its name or its address; the only one
+	when they hold one and name none."""
+	from onedesk.one_mail import holders
+
+	held = holders.mailboxes()
+	said = (mailbox or "").strip().lower()
+	if not said:
+		return held[0] if len(held) == 1 else None
+	return next((one for one in held if said in (one["name"].lower(), (one["email"] or "").lower())), None)
+
+
+def _account(mailbox: str | None) -> str | None:
+	"""Any of the workspace's mailboxes, by its name or its address, for the
+	cards an administrator approves."""
+	said = (mailbox or "").strip()
+	if not said:
+		return None
+	return frappe.db.get_value("Email Account", said, "name") or frappe.db.get_value(
+		"Email Account", {"email_id": said}, "name"
+	)
+
+
+def _card(what: str, title: str, summary: list, why: str | None, then: str, **values) -> dict:
+	"""A card the reader approves, done by OneMail's own call (approved)."""
+	from onedesk.one_ai import proposals
+
+	changes = {"what": what, "title": title, "summary": [one for one in summary if one["value"]], **values}
+	return {"proposal": proposals.propose("Setup", "Email Account", changes=changes, why=why), "state": "Proposed", "next": then}
+
+
+def _not(tool: str, error: str) -> dict:
+	return {"mend": tool, "error": error}
+
+
+def _folder_named(box: dict, label: str | None) -> dict | None:
+	said = (label or "").strip().lower()
+	return next(
+		(one for one in box["folders"] if said in ((one["label"] or "").lower(), (one["name"] or "").lower())), None
+	)
+
+
+def _labels(box: dict) -> str:
+	return ", ".join(one["label"] for one in box["folders"])
+
+
+def sort_conversations(
+	act: Annotated[str, "move, archive, trash, read, unread, star or unstar."],
+	threads: Annotated[list[str], "The conversations' threads, as waiting_for_answer or the page names them."],
+	mailbox: Annotated[str, "The mailbox they are in (my_mailboxes). Left out when the reader holds one."]
+	| None = None,
+	folder: Annotated[str, "For move: the folder, by its name, such as Suppliers (my_mailboxes)."] | None = None,
+	why: Annotated[str, "In a sentence, why."] | None = None,
+) -> dict:
+	"""Suggest moving, archiving, trashing, marking or starring conversations
+	in a mailbox the reader holds, as a card they approve. Trash undoes from
+	the Trash folder; a conversation already in Trash is left alone."""
+	box = _held(mailbox)
+	if not box:
+		return _not("sort_conversations", "Name one of the reader's mailboxes (my_mailboxes).")
+	if act not in ACTS:
+		return _not("sort_conversations", f"act is one of {', '.join(ACTS)}.")
+	if not threads:
+		return _not("sort_conversations", "Name the conversations by their threads.")
+	target = None
+	if act == "move":
+		target = _folder_named(box, folder)
+		if not target:
+			return _not("sort_conversations", f"Name a folder of {box['email']}: {_labels(box)}. change_folder makes one.")
+	label = str(ACTS[act]).format(target["label"]) if target else str(ACTS[act])
+	return _card(
+		"conversations",
+		label,
+		[
+			{"label": _("Mailbox"), "value": box["email"]},
+			{"label": _("Conversations"), "value": str(len(threads))},
+		],
+		why,
+		"Say in one sentence what happens once approved. Nothing changes until they approve it.",
+		account=box["name"],
+		threads=list(threads),
+		act=act,
+		folder=target["name"] if target else None,
+	)
+
+
+def change_folder(
+	act: Annotated[str, "make, rename or delete."],
+	label: Annotated[str, "make: the new folder's name. rename: its new name."] | None = None,
+	folder: Annotated[str, "rename or delete: the folder, by its name (my_mailboxes)."] | None = None,
+	inside: Annotated[str, "make: the folder it goes inside, if any."] | None = None,
+	mailbox: Annotated[str, "The mailbox (my_mailboxes). Left out when the reader holds one."] | None = None,
+	why: Annotated[str, "In a sentence, why."] | None = None,
+) -> dict:
+	"""Suggest making, renaming or deleting a folder of a mailbox the reader
+	holds, as a card they approve. A deleted folder's mail goes to Trash
+	first."""
+	box = _held(mailbox)
+	if not box:
+		return _not("change_folder", "Name one of the reader's mailboxes (my_mailboxes).")
+	if act not in ("make", "rename", "delete"):
+		return _not("change_folder", "act is make, rename or delete.")
+	held = _folder_named(box, folder) if act != "make" else None
+	parent = _folder_named(box, inside) if act == "make" and inside else None
+	if act != "make" and (not held or held["kind"] != "Other"):
+		return _not("change_folder", f"Name one of the folders made in {box['email']}, not Inbox, Sent or the like: {_labels(box)}.")
+	if act != "delete" and not (label or "").strip():
+		return _not("change_folder", "Say the folder's name.")
+	if inside and not parent:
+		return _not("change_folder", f"There is no folder {inside} in {box['email']}: {_labels(box)}.")
+	title = {
+		"make": _("New Folder {0}").format(label.strip()) if act == "make" else "",
+		"rename": _("Rename {0} to {1}").format(held["label"], (label or "").strip()) if held and act == "rename" else "",
+		"delete": _("Delete {0}").format(held["label"]) if held else "",
+	}[act]
+	return _card(
+		"folder",
+		title,
+		[
+			{"label": _("Mailbox"), "value": box["email"]},
+			{"label": _("Inside"), "value": parent["label"] if parent else None},
+			{"label": _("Its Mail"), "value": _("Moved to Trash") if act == "delete" else None},
+		],
+		why,
+		"Say in one sentence what happens once approved. Nothing changes until they approve it.",
+		account=box["name"],
+		act=act,
+		label=(label or "").strip(),
+		folder=held["name"] if held else None,
+		parent=parent["name"] if parent else None,
+	)
+
+
+def file_conversation(
+	thread: Annotated[str, "The conversation's thread."],
+	doctype: Annotated[str, "The kind of record, such as Customer or Project."],
+	name: Annotated[str, "The record's name (its ID)."],
+	take_off: Annotated[bool, "Take the conversation off the record instead."] = False,
+	mailbox: Annotated[str, "The mailbox it is in (my_mailboxes). Left out when the reader holds one."]
+	| None = None,
+	why: Annotated[str, "In a sentence, why it belongs there."] | None = None,
+) -> dict:
+	"""Suggest filing a conversation on a record, where it shows in the
+	record's mail, or taking it off one, as a card the reader approves."""
+	box = _held(mailbox)
+	if not box:
+		return _not("file_conversation", "Name one of the reader's mailboxes (my_mailboxes).")
+	if not frappe.db.exists(doctype, name):
+		return _not("file_conversation", f"There is no {doctype} {name}.")
+	if not frappe.has_permission(doctype, "read", doc=name):
+		return _not("file_conversation", f"The reader can't open {doctype} {name}.")
+	title = (_("Take Off {0}") if take_off else _("File on {0}")).format(f"{_(doctype)} {name}")
+	return _card(
+		"filing",
+		title,
+		[{"label": _("Mailbox"), "value": box["email"]}],
+		why,
+		"Say in one sentence what happens once approved. Nothing changes until they approve it.",
+		account=box["name"],
+		thread=thread,
+		doctype=doctype,
+		name=name,
+		off=int(bool(take_off)),
+	)
+
+
+def suggest_away(
+	on: Annotated[bool, "Turn the out-of-office reply on, or off."],
+	mailbox: Annotated[str, "The person's mailbox (my_mailboxes). Left out when they hold one."] | None = None,
+	starts: Annotated[str, "The first day away, YYYY-MM-DD. Empty: from now."] | None = None,
+	until: Annotated[str, "The last day away, YYYY-MM-DD."] | None = None,
+	message: Annotated[
+		str, "The reply, in plain sentences. Empty: the standard reply, which says the dates."
+	]
+	| None = None,
+	answers: Annotated[str, "Everyone, Workspace (people at the company) or Contacts."] = "Everyone",
+	why: Annotated[str, "In a sentence, why."] | None = None,
+) -> dict:
+	"""Suggest turning a person's out-of-office reply on or off, with its
+	dates and who it answers, as a card they approve. Not for a shared
+	mailbox, which answers by a mail rule."""
+	from onedesk.one_mail import holders, rules
+
+	box = _held(mailbox)
+	if not box or box["shared"] or box["workspace"]:
+		return _not("suggest_away", "Name one of the person's own mailboxes (my_mailboxes); a shared one answers by a rule.")
+	if not holders.may(box["name"], "away"):
+		return _not("suggest_away", f"The reader can't change the out-of-office of {box['email']}.")
+	if answers not in rules.AWAY_TO:
+		return _not("suggest_away", f"answers is one of {', '.join(rules.AWAY_TO)}.")
+	if on and starts and until and frappe.utils.getdate(until) < frappe.utils.getdate(starts):
+		return _not("suggest_away", "The last day can't be before the first.")
+	return _card(
+		"away",
+		_("Out of Office On") if on else _("Out of Office Off"),
+		[
+			{"label": _("Mailbox"), "value": box["email"]},
+			{"label": _("From"), "value": starts if on else None},
+			{"label": _("Until"), "value": until if on else None},
+			{"label": _("Answers"), "value": _(answers) if on else None},
+			{"label": _("Reply"), "value": (message or "").strip() or (_("The standard reply") if on else None)},
+		],
+		why,
+		"Say in one sentence what the reply does once approved. Nothing changes until they approve it.",
+		account=box["name"],
+		away=int(bool(on)),
+		from_date=starts or None,
+		until=until or None,
+		message=(message or "").strip() or None,
+		to=answers,
+	)
+
+
+def mail_rules(
+	mailbox: Annotated[str, "The mailbox (my_mailboxes). Left out when the reader holds one."] | None = None,
+) -> dict:
+	"""A mailbox's rules in the order they run: each one's name, what it
+	watches for and does, whether it is on, and who asked for one that waits
+	for a Mail Manager. Read it before change_mail_rule."""
+	from onedesk.one_mail import rules
+
+	box = _held(mailbox)
+	if not box:
+		return _not("mail_rules", "Name one of the reader's mailboxes (my_mailboxes).")
+	said = rules.rules_of_mailbox(box["name"])
+	if not said["may"]:
+		return {"error": f"The reader doesn't manage the rules of {box['email']}."}
+	return {
+		"mailbox": box["email"],
+		"manages": bool(said["manages"]),
+		"rules": [
+			{
+				"rule": one["name"],
+				"title": one["title"],
+				"when": one["when"],
+				"then": one["then"],
+				"on": bool(one["enabled"]),
+				"asked_by": one["requested_by_name"],
+			}
+			for one in said["rules"]
+		],
+	}
+
+
+def change_mail_rule(
+	rule: Annotated[str, "The rule, as mail_rules names it."],
+	act: Annotated[str, "on, off, delete, approve (one somebody asked for) or decline."],
+	why: Annotated[str, "In a sentence, why."] | None = None,
+) -> dict:
+	"""Suggest turning a mail rule on or off, deleting it, or approving or
+	declining one somebody asked for, as a card the reader approves. Read
+	mail_rules first."""
+	from onedesk.one_mail import holders
+
+	held = frappe.db.get_value("Mail Rule", rule, ["name", "account", "title", "requested_by"], as_dict=True)
+	if not held or not _held(held.account):
+		return _not("change_mail_rule", "Name a rule as mail_rules lists it.")
+	if act not in ("on", "off", "delete", "approve", "decline"):
+		return _not("change_mail_rule", "act is on, off, delete, approve or decline.")
+	if act in ("approve", "decline") and not held.requested_by:
+		return _not("change_mail_rule", "Nobody asked for this rule: approve and decline are for one that waits.")
+	if act != "delete" and not holders.may(held.account, "rules"):
+		return _not("change_mail_rule", "A Mail Manager does this to the rules of this mailbox.")
+	title = {
+		"on": _("Turn On {0}"),
+		"off": _("Turn Off {0}"),
+		"delete": _("Delete {0}"),
+		"approve": _("Approve {0}"),
+		"decline": _("Decline {0}"),
+	}[act].format(held.title)
+	return _card(
+		"rule_change",
+		title,
+		[{"label": _("Mailbox"), "value": frappe.db.get_value("Email Account", held.account, "email_id")}],
+		why,
+		"Say in one sentence what happens once approved. Nothing changes until they approve it.",
+		rule=held.name,
+		act=act,
+	)
+
+
+def workspace_mail() -> dict:
+	"""For whoever sets OneMail up: the workspace's shared mailboxes and who
+	reads and sends from each, the company's domains, whether people may
+	connect their own mailboxes and at which domains, and whether a new
+	person's address sends. Read it before share_mailbox,
+	suggest_mail_policy or company_domain."""
+	from onedesk.one_mail import connect, holders
+
+	try:
+		said = holders.shared()
+	except frappe.PermissionError:
+		frappe.clear_last_message()
+		return {"error": "The reader's role doesn't reach the workspace's mailboxes."}
+	return {
+		"mailboxes": [
+			{
+				"mailbox": one["email_id"],
+				"workspace": bool(one["workspace"]),
+				"sends_by_default": bool(one["sends_default"]),
+				"people": [
+					{"person": row["user"], "name": row["name"], "sends": bool(row["sends"]), "may": row["may"]}
+					for row in one["people"]
+				],
+			}
+			for one in said["mailboxes"]
+		],
+		"may_give": [one["key"] for one in said["abilities"]],
+		"own_mailboxes_allowed": bool(said["external"]),
+		"own_mailboxes_at": said["allowed_domains"] or "any domain",
+		"new_addresses_send": bool(said["personal_sends"]),
+		"company_domains": [one.domain_name for one in connect.domains()] if holders.may_do("policy") else None,
+	}
+
+
+def share_mailbox(
+	mailbox: Annotated[str, "One of the workspace's shared mailboxes (workspace_mail)."],
+	person: Annotated[str, "The person, by their user (an email address)."],
+	reads: Annotated[bool, "Whether they read it at all: false takes it away from them."] = True,
+	sends: Annotated[bool, "Whether they send from it too."] = False,
+	may: Annotated[list[str], "What they may change in it beyond their role, from workspace_mail's may_give."]
+	| None = None,
+	why: Annotated[str, "In a sentence, why."] | None = None,
+) -> dict:
+	"""Suggest who reads and sends from one of the workspace's shared
+	mailboxes, one person at a time, as a card the reader approves. Read
+	workspace_mail first."""
+	from onedesk.one_mail import holders
+	from onedesk.one_mail.abilities import SHARED
+
+	account = _account(mailbox)
+	if not account or not frappe.db.get_value("Email Account", account, "one_shared"):
+		return _not("share_mailbox", "Name one of the workspace's shared mailboxes (workspace_mail).")
+	if not holders.may(account, "holders"):
+		return _not("share_mailbox", "The reader's role doesn't change who holds this mailbox.")
+	if not frappe.db.get_value("User", {"name": person, "enabled": 1, "user_type": "System User"}):
+		return _not("share_mailbox", f"{person} isn't in this workspace.")
+	wrong = [one for one in may or [] if one not in SHARED]
+	if wrong:
+		return _not("share_mailbox", f"may is from {', '.join(SHARED)}.")
+	name = frappe.utils.get_fullname(person)
+	return _card(
+		"sharing",
+		(_("Share {0} with {1}") if reads else _("Stop Sharing {0} with {1}")).format(
+			frappe.db.get_value("Email Account", account, "email_id"), name
+		),
+		[
+			{"label": _("Sends"), "value": (_("Yes") if sends else _("No")) if reads else None},
+			{"label": _("May Change"), "value": ", ".join(may) if reads and may else None},
+		],
+		why,
+		"Say in one sentence what changes once approved. Nothing changes until they approve it.",
+		account=account,
+		user=person,
+		reads=int(bool(reads)),
+		sends=int(bool(sends)),
+		may=list(may) if may is not None else None,
+	)
+
+
+def suggest_mail_policy(
+	own_mailboxes: Annotated[bool, "Whether people may connect a mailbox of their own, such as Gmail."]
+	| None = None,
+	own_mailboxes_at: Annotated[list[str], "The only domains they may connect one at; empty: any."]
+	| None = None,
+	new_addresses_send: Annotated[bool, "Whether the address a new person is given sends as well as receives."]
+	| None = None,
+	address: Annotated[str, "One person's workspace address, to change whether it sends."] | None = None,
+	address_sends: Annotated[bool, "Whether that address sends."] | None = None,
+	default_incoming: Annotated[str, "The shared mailbox mail to the workspace arrives in."] | None = None,
+	default_outgoing: Annotated[str, "The shared mailbox the workspace sends from."] | None = None,
+	why: Annotated[str, "In a sentence, why."] | None = None,
+) -> dict:
+	"""Suggest a change to how the workspace's mail is set up, as a card a
+	workspace administrator approves: own mailboxes, the domains they may be
+	at, whether addresses send, and the default shared mailboxes. Give only
+	what changes. Read workspace_mail first."""
+	from onedesk.one_mail import holders
+
+	if not holders.may_do("policy"):
+		return _not("suggest_mail_policy", "Only a workspace administrator changes how the workspace's mail is set up.")
+	values = {
+		"external": None if own_mailboxes is None else int(own_mailboxes),
+		"domains": own_mailboxes_at,
+		"personal_sends": None if new_addresses_send is None else int(new_addresses_send),
+		"address": _account(address) if address else None,
+		"address_sends": None if address_sends is None else int(address_sends),
+		"incoming": _account(default_incoming) if default_incoming else None,
+		"outgoing": _account(default_outgoing) if default_outgoing else None,
+	}
+	if address and not values["address"] or (address is None) != (address_sends is None):
+		return _not("suggest_mail_policy", "Give address and address_sends together, the address as workspace_mail names it.")
+	for said, found in ((default_incoming, values["incoming"]), (default_outgoing, values["outgoing"])):
+		if said and not (found and frappe.db.get_value("Email Account", found, "one_shared")):
+			return _not("suggest_mail_policy", f"{said} isn't one of the workspace's shared mailboxes.")
+	if all(value is None for value in values.values()):
+		return _not("suggest_mail_policy", "Say what changes.")
+	yes = lambda on: None if on is None else (_("Yes") if on else _("No"))  # noqa: E731
+	return _card(
+		"mail_policy",
+		_("How the Workspace's Mail Is Set Up"),
+		[
+			{"label": _("Own Mailboxes"), "value": yes(values["external"])},
+			{"label": _("At"), "value": None if own_mailboxes_at is None else ", ".join(own_mailboxes_at) or _("Any domain")},
+			{"label": _("New Addresses Send"), "value": yes(values["personal_sends"])},
+			{"label": address or "", "value": None if values["address_sends"] is None else (_("Sends") if address_sends else _("Receives only"))},
+			{"label": _("Default Incoming"), "value": default_incoming},
+			{"label": _("Default Outgoing"), "value": default_outgoing},
+		],
+		why,
+		"Say in one sentence what changes once approved. Nothing changes until they approve it.",
+		**values,
+	)
+
+
+def company_domain(
+	domain: Annotated[str, "The company's mail domain, such as rua.ae."],
+	remove: Annotated[bool, "Remove it instead. Mailboxes connected at it keep their servers."] = False,
+	why: Annotated[str, "In a sentence, why."] | None = None,
+) -> dict:
+	"""Suggest adding the company's mail domain, so people connect their
+	mailbox there with its password alone, or removing one, as a card a
+	workspace administrator approves. Its servers are found the way Setup
+	finds them, and both are tried before it is kept."""
+	from onedesk.one_mail import addresses, connect, holders
+
+	if not holders.may_do("policy"):
+		return _not("company_domain", "Only a workspace administrator sets the company's domains.")
+	name = addresses.domain_of(domain)
+	if remove:
+		if not frappe.db.exists("Email Domain", name):
+			return _not("company_domain", f"{name} isn't one of the company's domains (workspace_mail).")
+		return _card(
+			"domain",
+			_("Remove {0}").format(name),
+			[],
+			why,
+			"Say in one sentence what changes once approved. Nothing changes until they approve it.",
+			domain=name,
+			remove=1,
+		)
+	if "." not in name or name in connect.KNOWN:
+		return _not("company_domain", f"{name} isn't a company's own domain.")
+	servers = connect.servers_for(name)
+	return _card(
+		"domain",
+		_("Add {0}").format(name),
+		[
+			{"label": _("Incoming"), "value": f"{servers.get('email_server')}:{servers.get('incoming_port')}"},
+			{"label": _("Outgoing"), "value": f"{servers.get('smtp_server')}:{servers.get('smtp_port')}"},
+		],
+		why,
+		"Say in one sentence what changes once approved, and that both servers are tried first. Nothing changes "
+		"until they approve it.",
+		domain=name,
+		remove=0,
+		servers={key: servers.get(key) for key in ("email_server", "incoming_port", "smtp_server", "smtp_port")},
+	)
+
+
+def default_mail_template(
+	doctype: Annotated[str, "The kind of record, such as Sales Invoice."],
+	template: Annotated[str, "The template, as workspace_mail_templates names it."],
+	why: Annotated[str, "In a sentence, why."] | None = None,
+) -> dict:
+	"""Suggest the template the mail composer starts with on a kind of
+	record, as a card a workspace administrator approves. Read
+	workspace_mail_templates first."""
+	from onedesk.one_mail import holders
+
+	if not holders.may_do("templates"):
+		return _not("default_mail_template", "Only whoever keeps the mail templates sets this.")
+	if not frappe.db.exists("Email Template", template):
+		return _not("default_mail_template", f"There is no template {template} (workspace_mail_templates).")
+	if frappe.db.get_value("Email Template", template, "reference_doctype") not in (doctype, None, ""):
+		return _not("default_mail_template", f"{template} is for another kind of record.")
+	return _card(
+		"template_default",
+		_("Start {0} Mail with {1}").format(_(doctype), template),
+		[],
+		why,
+		"Say in one sentence what changes once approved. Nothing changes until they approve it.",
+		doctype=doctype,
+		template=template,
+	)
+
+
+def approved(changes: dict) -> str:
+	"""A card above approved: OneMail's own call, as whoever pressed Approve,
+	so it is refused for them exactly as the page would refuse it."""
+	from onedesk.one_mail import actions, api, connect, holders, linking, mail_templates, rules
+
+	what = changes["what"]
+	if what == "mail_rule":
+		return make_rule(changes)
+	if what == "conversations":
+		account, act = changes["account"], changes["act"]
+		names = api.names(account, changes["threads"])
+		if act == "trash":
+			trash = actions.folder_of(account, "Trash")
+			names = [one for one in names if frappe.db.get_value("Communication", one, "one_folder") != trash]
+			actions.delete(names)
+		elif act in ("move", "archive"):
+			folder = changes["folder"] if act == "move" else frappe.db.get_value(
+				"Mail Folder", {"account": account, "kind": "Archive"}, "name"
+			)
+			actions.move(names, folder)
+		elif act in ("read", "unread"):
+			actions.mark(names, int(act == "read"))
+		else:
+			actions.star(names, int(act == "star"))
+		return account
+	if what == "folder":
+		if changes["act"] == "make":
+			parent = changes.get("parent")
+			return actions.create_folder(changes["account"], changes["label"], parent)
+		if changes["act"] == "rename":
+			return actions.rename_folder(changes["folder"], changes["label"])
+		actions.delete_folder(changes["folder"])
+		return changes["account"]
+	if what == "filing":
+		names = api.names(changes["account"], [changes["thread"]])
+		if changes["off"]:
+			linking.unfile(names, changes["doctype"], changes["name"])
+		else:
+			linking.file(names, changes["doctype"], changes["name"])
+		return changes["name"]
+	if what == "away":
+		rules.set_away(
+			changes["account"],
+			changes["away"],
+			until=changes.get("until"),
+			message=changes.get("message"),
+			from_date=changes.get("from_date"),
+			to=changes.get("to"),
+		)
+		return changes["account"]
+	if what == "rule_change":
+		rule, act = changes["rule"], changes["act"]
+		if act in ("on", "off"):
+			rules.enable_rule(rule, int(act == "on"))
+		elif act == "delete":
+			rules.delete_rule(rule)
+		else:
+			rules.decide_rule(rule, int(act == "approve"))
+		return rule
+	if what == "sharing":
+		account, user = changes["account"], changes["user"]
+		if not changes["reads"]:
+			holders.revoke(account, user)
+			return account
+		holders.grant(account, user, changes["sends"])
+		if changes.get("may") is not None:
+			holders.give(account, user, changes["may"])
+		return account
+	if what == "mail_policy":
+		if changes.get("external") is not None:
+			holders.set_external(changes["external"])
+		if changes.get("domains") is not None:
+			holders.set_allowed_domains(changes["domains"])
+		if changes.get("personal_sends") is not None:
+			holders.set_personal_sends(changes["personal_sends"])
+		if changes.get("address"):
+			holders.set_sends(changes["address"], changes["address_sends"])
+		if changes.get("incoming") or changes.get("outgoing"):
+			holders.set_defaults(changes.get("incoming"), changes.get("outgoing"))
+		return "OneMail"
+	if what == "domain":
+		if changes["remove"]:
+			connect.remove_domain(changes["domain"])
+			return changes["domain"]
+		return connect.add_domain(changes["domain"], **changes["servers"])
+	if what == "template_default":
+		mail_templates.set_default(changes["doctype"], changes["template"])
+		return changes["template"]
+	frappe.throw(_("That cannot be set."))
