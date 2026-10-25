@@ -9,8 +9,9 @@ frappe.provide("onedesk.mail");
 // receives and sends from by default, who reads and sends from each shared
 // mailbox, the address the workspace gives each person and whether it sends,
 // everybody's mailboxes at the company's domains, which private mailboxes
-// people may connect, and the templates. Roles is an administrator's: OneMail's role
-// builder (public/js/role_matrix.js). Wording follows docs/WORDING.md. Every change is
+// people may connect, and the templates. Its roles and its notifications are
+// AccessCenter's and NotificationCenter's, which ControlCenter offers at the
+// end of the sidebar on its own. Wording follows docs/WORDING.md. Every change is
 // a call to one_mail/holders.py, connect.py and rules.py, or one_mail/mail_templates.py.
 onedesk.mail.settings = (tab) => {
 	const H = "onedesk.one_mail.holders.";
@@ -1411,37 +1412,6 @@ onedesk.mail.settings = (tab) => {
 		},
 	};
 
-	// ── Roles ───────────────────────────────────────────────────────────────
-	const role_files = ["/assets/onedesk/js/role_matrix.js", "/assets/onedesk/css/role_matrix.css"];
-	const roles = {
-		id: "roles",
-		label: __("Roles"),
-		icon: "shield-check",
-		title: __("Roles"),
-		description: __("What each role can do in OneMail, given to people on their page in People."),
-		actions: [
-			{
-				label: __("Show Roles"),
-				icon: "eye",
-				click: async (panel) => {
-					await frappe.require(role_files);
-					onedesk.roles.pick(panel, "OneMail");
-				},
-			},
-			{
-				label: __("New Role"),
-				icon: "plus",
-				click: async (panel) => {
-					await frappe.require(role_files);
-					onedesk.roles.create(panel, "OneMail");
-				},
-			},
-		],
-		async render(panel) {
-			await frappe.require(role_files);
-			onedesk.roles.draw(panel, "OneMail");
-		},
-	};
 
 	// Each workspace tab asks what the reader's role allows
 	// (onedesk.module_settings.open leaves out what it doesn't).
@@ -1451,10 +1421,9 @@ onedesk.mail.settings = (tab) => {
 	organization.needs = ["policy", "others"];
 	private_tab.needs = "policy";
 	templates.needs = "templates";
-	roles.needs = "roles";
 	const tabs = [
 		{ group: __("Your Mail"), items: [mailboxes] },
-		{ group: __("Workspace"), items: [setup, shared, system, organization, private_tab, templates, roles] },
+		{ group: __("Workspace"), items: [setup, shared, system, organization, private_tab, templates] },
 	];
 	// `connect` and `connect-shared` open a tab on its Connect view, and
 	// `mailbox:<name>[:signature|away]` on one mailbox.

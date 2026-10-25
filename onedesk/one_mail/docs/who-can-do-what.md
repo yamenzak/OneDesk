@@ -1,7 +1,9 @@
 # Who Can Do What
 
-What each person may change in OneMail is their OneMail role, chosen on their
-page in **Workspace › People**. Workspace Administrators can do everything.
+What each person may change in OneMail is their OneMail role. A Workspace
+Administrator sets it in **AccessCenter**, opened from **Roles and Access** at
+the end of OneMail's settings, or on the person's page in **Workspace ›
+People**. Workspace Administrators can do everything.
 
 ## The Two Roles
 
@@ -13,17 +15,18 @@ page in **Workspace › People**. Workspace Administrators can do everything.
 ## What Each Role Starts With
 
 This is what OneMail's roles hold when OneMail arrives in a workspace.
-**Settings › Roles** changes any of it, and an update never undoes a change
-you made.
+**Roles** in AccessCenter changes any of it, and an update never undoes a
+change you made.
 
 {roles}
 
 ## Your Own Roles
 
-A Workspace Administrator makes more roles under **Settings › Roles**. It's one
-table: what OneMail lets a role do down the side, every role across the top.
+A Workspace Administrator makes more roles under **Roles** in AccessCenter.
+It's one table: what OneMail lets a role do down the side, every role across
+the top. **People** beside it shows everybody's OneMail role and changes it.
 
-![The Roles table in OneMail's settings](who-can-do-what/roles.png)
+![The Roles table in AccessCenter](who-can-do-what/roles.png)
 
 | Kind of row | Choices |
 | --- | --- |
@@ -41,6 +44,8 @@ On a shared mailbox's **Users** tab, each person shows their OneMail role, and
 **Edit Access** lets them change parts of that one mailbox, such as its
 signature or Automation, beyond what their role allows. It offers only what the
 role doesn't already, and taking them off the mailbox takes it away too.
+**On One Record** in AccessCenter lists everybody given more on one mailbox,
+and changes or takes it away there too.
 
 ## Other People's Mailboxes
 

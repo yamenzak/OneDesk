@@ -279,6 +279,32 @@ def test_a_module_says_how_and_from_whom_it_tells_people():
 			assert any("{notifications}" in body for body in pages), f"{module}'s Help doesn't list what it sends ({{notifications}})"
 
 
+# What only AccessCenter and NotificationCenter draw (docs/READY.md,
+# mechanisms 14 and 15): the role matrix and a person's notification choices.
+CENTERS = {
+	"AccessCenter": re.compile(r"onedesk\.roles\.(?:draw|pick|create|edit)\(|role_matrix\.js"),
+	"NotificationCenter": re.compile(r"notification_center\.(?:choose|set_type)|email_notification_types|one_allow_(?:email|push)"),
+}
+
+
+def test_a_module_leaves_roles_and_notifications_to_their_centers():
+	"""Who may do what and how people hear of things are found from what a
+	module declares, and drawn once (docs/READY.md, mechanisms 14 and 15):
+	a ready module's screens draw neither, and ControlCenter offers both."""
+	for module in ready.MODULES:
+		for path in ready.files(module):
+			if path.suffix not in (".js", ".vue"):
+				continue
+			text = path.read_text(encoding="utf-8")
+			for center, drawn in CENTERS.items():
+				hit = drawn.search(text)
+				assert not hit, f"{path.relative_to(ROOT)} draws what {center} shows ({hit.group(0)}); ControlCenter opens {center}"
+	kit = (ROOT / "onedesk" / "public" / "js" / "module_settings.js").read_text(encoding="utf-8")
+	assert "onedesk.access.open({ module })" in kit and "onedesk.notification_center.open({ module })" in kit, (
+		"ControlCenter no longer offers AccessCenter and NotificationCenter on its own"
+	)
+
+
 def test_a_module_says_what_setting_it_up_takes():
 	"""A ready module declares its setup steps in its own setup.py
 	(docs/READY.md, mechanism 9): each with a key, a title, what it is for,

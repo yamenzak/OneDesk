@@ -86,6 +86,7 @@ POINTS = {
 		"guards": (
 			READY + "test_a_module_ships_its_roles",
 			READY + "test_a_module_grants_through_abilities_alone",
+			READY + "test_a_module_leaves_roles_and_notifications_to_their_centers",
 		),
 	},
 	"oneai": {
@@ -104,6 +105,7 @@ POINTS = {
 		"guards": (
 			READY + "test_a_module_says_how_and_from_whom_it_tells_people",
 			"tests/guards/test_notifications.py::test_every_type_sent_is_declared",
+			READY + "test_a_module_leaves_roles_and_notifications_to_their_centers",
 		),
 	},
 	"interface": {"title": "OneInterface pass", "guards": ()},

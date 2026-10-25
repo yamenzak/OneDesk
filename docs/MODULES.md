@@ -223,6 +223,11 @@ No doctypes yet.
 * `onedesk.one.access.remove_level`
 * `onedesk.one.access.remove_profile`
 * `onedesk.one.access.rename_role`
+* `onedesk.one.access_center.give`
+* `onedesk.one.access_center.modules`
+* `onedesk.one.access_center.people`
+* `onedesk.one.access_center.put`
+* `onedesk.one.access_center.records`
 * `onedesk.one.account.buy_credits`
 * `onedesk.one.account.check_again`
 * `onedesk.one.account.credit_packs`
@@ -276,6 +281,11 @@ No doctypes yet.
 * `onedesk.one.invite.accept`
 * `onedesk.one.letter_heads.presets`
 * `onedesk.one.masters.kinds`
+* `onedesk.one.notification_center.choose`
+* `onedesk.one.notification_center.set_type`
+* `onedesk.one.notification_center.switch`
+* `onedesk.one.notification_center.workspace`
+* `onedesk.one.notification_center.yours`
 * `onedesk.one.numbering.kinds`
 * `onedesk.one.numbering.naming_by`
 * `onedesk.one.numbering.preview`

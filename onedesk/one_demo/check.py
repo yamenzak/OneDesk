@@ -9308,6 +9308,86 @@ def tour_runs_once_then_from_help():
 				frappe.defaults.clear_user_default(key)
 
 
+@check
+def access_center_finds_and_sets_roles():
+	"""AccessCenter (one/access_center.py) has OneMail's part, found from its
+	abilities.py: its people with their role, which it changes and puts
+	back, and what somebody was given on one mailbox, which it takes away.
+	Nobody else may read it."""
+	from onedesk.one import abilities, access_center
+
+	with as_user("wsadmin@one.test"):
+		assert "OneMail" in access_center.modules()
+		said = access_center.people("OneMail")
+		assert {"User", "Manager"} <= {one["value"] for one in said["levels"]}, said["levels"]
+		assert "None" not in {one["value"] for one in said["levels"]}, "everybody uses OneMail"
+		nadia = next(one for one in said["people"] if one["user"] == "nadia@one.test")
+		was = nadia["level"]
+		try:
+			access_center.put("OneMail", "nadia@one.test", "Manager")
+			assert next(one for one in access_center.people("OneMail")["people"] if one["user"] == "nadia@one.test")["level"] == "Manager"
+		finally:
+			access_center.put("OneMail", "nadia@one.test", was)
+		box = frappe.get_all("Email Account", filters={"email_id": ["like", "%"]}, pluck="name", limit=1)[0]
+		had = abilities.grants("OneMail", box).get("nadia@one.test")
+		try:
+			access_center.give("OneMail", box, "nadia@one.test", ["signature"])
+			given = [one for one in access_center.records("OneMail")["grants"] if one["user"] == "nadia@one.test" and one["record"] == box]
+			assert given and given[0]["given"] == ["signature"], given
+			access_center.give("OneMail", box, "nadia@one.test", [])
+			assert not [one for one in access_center.records("OneMail")["grants"] if one["user"] == "nadia@one.test" and one["record"] == box]
+		finally:
+			if had:
+				abilities.grant("OneMail", box, "nadia@one.test", had)
+	with as_user("nadia@one.test"):
+		try:
+			access_center.people("OneMail")
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("somebody who doesn't administer the workspace read AccessCenter")
+
+
+@check
+def notification_center_sets_yours_and_the_workspace():
+	"""NotificationCenter (one/notification_notification_center.py): a reader's own
+	choice of email for one of OneMail's types, saved and put back; the
+	workspace's setting of a type, set and put back by an administrator and
+	refused to anybody else."""
+	from onedesk.one import notification_center
+
+	with as_user("nadia@one.test"):
+		was = notification_center.yours("OneMail")["email"]
+		try:
+			notification_center.switch("enable_email_notifications", 0 if was else 1)
+			assert notification_center.yours("OneMail")["email"] != was
+		finally:
+			notification_center.switch("enable_email_notifications", was)
+		mine = notification_center.yours("OneMail")["types"]
+		one = next(kind for kind in mine if kind["may_email"])
+		try:
+			notification_center.choose(one["name"], "email", 0 if one["email"] else 1)
+			now = next(kind for kind in notification_center.yours("OneMail")["types"] if kind["name"] == one["name"])
+			assert now["email"] != one["email"], now
+		finally:
+			notification_center.choose(one["name"], "email", one["email"])
+		try:
+			notification_center.set_type(one["name"], "one_allow_push", 0)
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("somebody who doesn't administer the workspace set a notification type")
+	with as_user("wsadmin@one.test"):
+		types = notification_center.workspace("OneMail")
+		assert types and all(kind["app"] == "OneMail" for kind in types), types
+		kind = next(t for t in types if t["channels"])
+		try:
+			notification_center.set_type(kind["name"], "one_push_default", 0 if kind["one_push_default"] else 1)
+			assert frappe.db.get_value("Notification Type", kind["name"], "one_push_default") != kind["one_push_default"]
+		finally:
+			notification_center.set_type(kind["name"], "one_push_default", kind["one_push_default"])
+
+
 def _modules() -> None:
 	"""A module's own checks, in its folder (docs/READY.md, A module's folder),
 	registered by importing them."""

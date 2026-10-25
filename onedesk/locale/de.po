@@ -13064,6 +13064,14 @@ msgstr "Dauer (Minuten)"
 msgid "Each sends something to another company, and stays off unless you turn it on. Turning one on agrees to it for your whole workspace."
 msgstr "Jeder sendet etwas an ein anderes Unternehmen und bleibt aus, bis Sie ihn einschalten. Wer einen einschaltet, stimmt ihm für den ganzen Arbeitsbereich zu."
 
+#: onedesk/public/js/notification_center.js
+msgid "Edit Words"
+msgstr "Text bearbeiten"
+
+#: onedesk/public/js/notification_center.js
+msgid "Emails you the notifications turned on for email."
+msgstr "Sendet Ihnen die für E-Mail aktivierten Benachrichtigungen per E-Mail."
+
 #. Name of a project template
 #: onedesk/one_project/library/erp_rollout.json
 msgid "ERP Rollout"
@@ -14748,6 +14756,10 @@ msgstr "Alle, die hier arbeiten, mit Vertrag, Gehalt und Papieren."
 #: onedesk/one_hr/home.py:448
 msgid "Everybody's details in one table."
 msgstr "Alle Angaben in einer Tabelle."
+
+#: onedesk/public/js/access_center.js
+msgid "Everybody's role in {0}."
+msgstr "Die Rolle aller in {0}."
 
 #: onedesk/one/settings.py:61
 msgid "Everybody's work in one list, with checklists, due dates and timers."
@@ -26354,6 +26366,10 @@ msgstr "Niemand kann eine Datei hochladen, bis Platz frei ist, auch nicht über 
 msgid "Nobody has a passkey yet"
 msgstr "Noch niemand hat einen Passkey"
 
+#: onedesk/public/js/access_center.js
+msgid "Nobody has been given more than their role."
+msgstr "Niemand hat mehr erhalten, als seine Rolle erlaubt."
+
 #: onedesk/one_inventory/custody.py:43
 msgid "Nobody has it."
 msgstr "Niemand hat es."
@@ -27038,6 +27054,10 @@ msgstr "Nichts mit Ihnen geteilt"
 msgid "Nothing to check in. You're {0} today."
 msgstr "Nichts zum Einstempeln. Sie sind heute {0}."
 
+#: onedesk/public/js/notification_center.js
+msgid "Nothing to choose here."
+msgstr "Hier gibt es nichts zu wählen."
+
 #: frontend/src/item/ItemSelling.vue:6
 msgid "Nothing to deliver"
 msgstr "Nichts zu liefern"
@@ -27070,6 +27090,10 @@ msgstr "Noch nichts auszuzahlen: {0} hat keinen Tagessatz für Urlaubsabgeltung,
 #: onedesk/one_inventory/ready.py:175
 msgid "Nothing to score suppliers by yet. Fix adds Delivered On Time and Accepted on Arrival."
 msgstr "Noch nichts, wonach Lieferanten bewertet werden. „Beheben“ fügt Pünktlich geliefert und Bei Ankunft angenommen hinzu."
+
+#: onedesk/public/js/notification_center.js
+msgid "Nothing to set here."
+msgstr "Hier gibt es nichts einzustellen."
 
 #: onedesk/public/js/shell.js:84
 msgid "Nothing to show"
@@ -27310,6 +27334,10 @@ msgstr "Aus, bis ein Administrator sie einschaltet."
 #: onedesk/one_admin/report/price_check/price_check.py:52
 msgid "OK"
 msgstr "OK"
+
+#: onedesk/public/js/access_center.js
+msgid "On One Record"
+msgstr "Für einen Datensatz"
 
 #: onedesk/public/js/trust_center.js
 msgid "One's agreements are changing"
@@ -31099,6 +31127,10 @@ msgstr "Wartet auf Überprüfung"
 #: onedesk/public/js/settings.js:1206
 msgid "People"
 msgstr "Personen"
+
+#: onedesk/public/js/access_center.js
+msgid "People given more than their role on one record. They are given it on the record itself."
+msgstr "Personen, die für einen Datensatz mehr als ihre Rolle erhalten haben. Das wird im Datensatz selbst vergeben."
 
 #: onedesk/one_mail/setup.py:55
 msgid "People May Connect Their Own Mailboxes"
@@ -35984,6 +36016,10 @@ msgstr "Die Rolle muss Leser, Mitglied oder Eigentümer sein."
 msgid "Roles"
 msgstr "Rollen"
 
+#: onedesk/public/js/module_settings.js
+msgid "Roles and Access"
+msgstr "Rollen und Zugriff"
+
 #. Task in the Small Building Works project template
 #: onedesk/one_project/library/small_building_works.json
 msgid "Roof slab"
@@ -36234,6 +36270,10 @@ msgstr "SMTP-Server"
 #: onedesk/one_mail/tour.py
 msgid "Start a new email here, or press C anywhere in OneMail."
 msgstr "Beginnen Sie hier eine neue E-Mail, oder drücken Sie C überall in OneMail."
+
+#: onedesk/public/js/notification_center.js
+msgid "Start On"
+msgstr "Anfangs an"
 
 #: onedesk/one_mail/ai.py
 msgid "Start {0} Mail with {1}"
@@ -40967,6 +41007,10 @@ msgstr "Systempostfächer"
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 msgid "System Manager"
 msgstr "Systemverwalter"
+
+#: onedesk/public/js/access_center.js
+msgid "Take away what {0} was given on {1}?"
+msgstr "Wegnehmen, was {0} für {1} erhalten hat?"
 
 #: onedesk/one_mail/ai.py
 msgid "Take Off {0}"
@@ -47723,6 +47767,10 @@ msgstr "Was kommt als Nächstes?"
 msgid "What Do You Know About Me?"
 msgstr "Was weißt du über mich?"
 
+#: onedesk/public/js/access_center.js
+msgid "What each role can do in {0}."
+msgstr "Was jede Rolle in {0} tun kann."
+
 #. Label in the One Repair Record print format
 #: onedesk/one_inventory/print_format/one_repair_record/one_repair_record.json
 msgid "What Failed"
@@ -47816,6 +47864,10 @@ msgstr "Was OneAI sagte, als es um eine Erklärung gebeten wurde, je Sprache."
 #: onedesk/public/js/rule_builder.js:237
 msgid "What OneAI's reply should do, such as answering from their orders and promising an answer within a day."
 msgstr "Was die Antwort von OneAI tun soll, etwa aus ihren Aufträgen antworten und eine Antwort innerhalb eines Tages zusagen."
+
+#: onedesk/public/js/notification_center.js
+msgid "What the workspace's own rules and One itself tell you."
+msgstr "Was die eigenen Regeln des Arbeitsbereichs und One selbst Ihnen mitteilen."
 
 #: onedesk/public/js/onemail_settings.js:362
 msgid "What They Get"
@@ -48043,10 +48095,6 @@ msgstr "Was jede Charge über die Zeit enthält."
 #: onedesk/one_hr/home.py:416
 msgid "What each person costs, part by part."
 msgstr "Was jede Person kostet, Teil für Teil."
-
-#: onedesk/public/js/onemail_settings.js:1528
-msgid "What each role can do in OneMail, given to people on their page in People."
-msgstr "Was jede Rolle in OneMail darf, vergeben auf der Seite der Person unter Personen."
 
 #: onedesk/one_book/home.py:349
 msgid "What each sale made over what it cost."
@@ -48752,6 +48800,14 @@ msgstr "Was {0} senden kann, und an wen."
 #: onedesk/one/ai_setup.py:713
 msgid "What {0} sees"
 msgstr "Was {0} sieht"
+
+#: onedesk/public/js/notification_center.js
+msgid "What {0} sends in this workspace, and the channels people may choose."
+msgstr "Was {0} in diesem Arbeitsbereich sendet, und welche Kanäle gewählt werden können."
+
+#: onedesk/public/js/notification_center.js
+msgid "What {0} tells you, and how."
+msgstr "Was {0} Ihnen mitteilt, und wie."
 
 #. Label in the One Maintenance Record print format
 #: onedesk/one_inventory/print_format/one_maintenance_record/one_maintenance_record.json
@@ -52323,6 +52379,10 @@ msgstr "Ihre E-Mails"
 msgid "Your Mailboxes"
 msgstr "Ihre Postfächer"
 
+#: onedesk/public/js/notification_center.js
+msgid "Your notifications are off."
+msgstr "Ihre Benachrichtigungen sind aus."
+
 #: onedesk/templates/includes/one_account_tabs.html:1
 #: onedesk/www/account.html:2
 msgid "Your One account"
@@ -52723,6 +52783,10 @@ msgstr "Ihr {leave_type} vom {from_date} bis {to_date}: {status}"
 #: onedesk/notifications/one_hr/attendance_request_answered.md
 msgid "Your {reason} from {from_date} to {to_date} was {status}"
 msgstr "Ihr {reason} vom {from_date} bis {to_date} wurde {status}"
+
+#: onedesk/public/js/notification_center.js
+msgid "Yours"
+msgstr "Ihre"
 
 #. Description of the 'Offered' (Check) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
@@ -54339,6 +54403,10 @@ msgstr "{0} GB Datenbank"
 #: onedesk/one_admin/doctype/offering/offering.py:74 onedesk/www/start.py:110
 msgid "{0} GB storage"
 msgstr "{0} GB Speicher"
+
+#: onedesk/one/access_center.py
+msgid "{0} has no roles to set."
+msgstr "{0} hat keine Rollen zum Einstellen."
 
 #: onedesk/one/tours.py
 msgid "{0} has no tour."
@@ -56780,6 +56848,10 @@ msgstr "{0}% · {1} einbehalten"
 #: onedesk/one_project/heads.py:61
 msgid "{0}% · {1} of {2} tasks"
 msgstr "{0} % · {1} von {2} Aufgaben"
+
+#: onedesk/public/js/access_center.js
+msgid "{0}'s role in {1}"
+msgstr "Rolle von {0} in {1}"
 
 #: onedesk/one/ai.py:1174 onedesk/one/ai.py:1197
 msgid "{0}, copied when made from {1}"

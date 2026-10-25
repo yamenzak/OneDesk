@@ -9,9 +9,17 @@ frappe.provide("onedesk.module_settings");
 
 // The centres a module's dialogs are, named as One's products are: One's
 // mark, the first word light and Center after it (HelpCenter, ControlCenter,
-// AccountCenter, UpdateCenter, TrustCenter). They are names, so they are not
-// translated.
-onedesk.CENTERS = { help: "Help", settings: "Control", account: "Account", updates: "Update", trust: "Trust" };
+// AccountCenter, UpdateCenter, TrustCenter, AccessCenter,
+// NotificationCenter). They are names, so they are not translated.
+onedesk.CENTERS = {
+	help: "Help",
+	settings: "Control",
+	account: "Account",
+	updates: "Update",
+	trust: "Trust",
+	access: "Access",
+	notifications: "Notification",
+};
 
 // The top of a dialog's sidebar: the centre it is, and under it, small,
 // whose it is: a module (its mark and name) or one thing in it (an icon and
@@ -57,8 +65,16 @@ onedesk.module_settings.Dialog = class ModuleSettingsDialog extends frappe.ui.Se
 		super.render_sidebar();
 		// A module's settings are its ControlCenter; a dialog showing one thing
 		// in it, such as a mailbox, says which (`dialog.center`).
-		const $head = onedesk.module_head(this.$sidebar, this.center || { center: "settings", module: this.module });
-		if (frappe.boot.one_versions && frappe.boot.one_versions[this.module]) {
+		// `center` is a centre's key, on a module or on the whole workspace,
+		// or an object naming one thing in a module.
+		const center =
+			this.center && typeof this.center === "object"
+				? this.center
+				: this.module
+				? { center: this.center || "settings", module: this.module }
+				: { center: this.center, label: __("Your Workspace"), icon: "building" };
+		const $head = onedesk.module_head(this.$sidebar, center);
+		if (["settings", "account"].includes(center.center) && frappe.boot.one_versions && frappe.boot.one_versions[this.module]) {
 			onedesk.module_head_tool($head, { icon: "circle-question-mark", title: __("Help"), click: () => onedesk.help.open(this.module) });
 		}
 		onedesk.module_head_expand($head, () => {
@@ -66,6 +82,23 @@ onedesk.module_settings.Dialog = class ModuleSettingsDialog extends frappe.ui.Se
 			this.hide();
 			frappe.set_route("one", frappe.boot.one_administers ? "workspace-settings" : "settings");
 		});
+	}
+
+	// A row that is another centre (`opens`) opens it rather than a tab.
+	activate(id) {
+		const item = this._items[id];
+		if (item && item.opens) {
+			this.hide();
+			item.opens();
+			return;
+		}
+		super.activate(id);
+	}
+
+	make_tab_item(item) {
+		const $item = super.make_tab_item(item);
+		if (item.opens) $item.addClass("one-set-opens").find(".settings-dialog-tab-item-content").append(frappe.utils.icon("arrow-up-right", "xs"));
+		return $item;
 	}
 };
 
@@ -114,6 +147,22 @@ onedesk.module_settings.getting_started = (module) => ({
 	},
 });
 
+// What every module's ControlCenter ends with, found rather than drawn
+// (docs/READY.md, mechanisms 14 and 15): Roles and Access for a module that
+// declares abilities, to its administrators, and Notifications for a module
+// that sends any, each opening its centre on the module.
+onedesk.module_settings.centers = (module) => {
+	const has = frappe.boot.one_centers || {};
+	const items = [];
+	if ((has.access || []).includes(module)) {
+		items.push({ id: "access_center", label: __("Roles and Access"), icon: "key-round", opens: () => onedesk.access.open({ module }) });
+	}
+	if ((has.notifications || []).includes(module)) {
+		items.push({ id: "notification_center", label: __("Notifications"), icon: "bell", opens: () => onedesk.notification_center.open({ module }) });
+	}
+	return items.length ? [{ group: null, items }] : [];
+};
+
 // The dialog for a module: `tabs` as frappe's settings dialog takes them,
 // each item with the `needs` its tab asks of the reader's role (`may`).
 // A group left with nothing is left out, and opening again replaces it.
@@ -122,7 +171,7 @@ onedesk.module_settings.open = ({ module, may = {}, tabs, default_tab = null, ..
 	// something is. What it adds to the agreements is in TrustCenter.
 	const steps = (frappe.boot.one_setup || {})[module] || [];
 	const starting = steps.some((step) => !step.done) ? [{ group: __("Start Here"), items: [onedesk.module_settings.getting_started(module)] }] : [];
-	tabs = [...starting, ...tabs];
+	tabs = [...starting, ...tabs, ...onedesk.module_settings.centers(module)];
 	const shown = tabs
 		.map((group) => ({ ...group, items: (group.items || []).filter((item) => item && onedesk.module_settings.allows(item.needs, may)) }))
 		.filter((group) => group.items.length);

@@ -77,9 +77,10 @@ an update, the same rule the record matrix keeps.
 
 ### The role builder
 
-A module's roles are built in the module's own settings, because that is
-where somebody thinking "who can change signatures" goes. For OneMail it is
-the **Roles** tab of its settings dialog, a Workspace Administrator's.
+A module's roles are built in AccessCenter (docs/READY.md, mechanism 14),
+which every module's ControlCenter opens from **Roles and Access**, because
+that is where somebody thinking "who can change signatures" goes. It is a
+Workspace Administrator's.
 
 It is one matrix rather than a page per role: the module's abilities down
 the side, in its groups, and its roles across the top (User, the
@@ -93,8 +94,8 @@ and **Show Roles** picks which columns show, kept for each person.
 from `access.matrix_of`.
 
 Workspace › Access keeps what crosses modules: every app's roles in one
-list, profiles, groups and people. Clicking a role of a module with its own
-builder opens the builder (`Settings.ROLES_IN`); the business apps' roles
+list, profiles, groups and people. Clicking a role of a module with
+abilities opens AccessCenter on it (`Settings.access`); the business apps' roles
 still open a page here with the record-type matrix, until their stage.
 
 ### Modules everyone has

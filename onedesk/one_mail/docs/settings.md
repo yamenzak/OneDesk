@@ -58,7 +58,8 @@ System and Organization Mailboxes.
 | **Organization Mailboxes** | Every mailbox people hold at the company's domains, and **Connect Organization Mailbox** to connect one for somebody. |
 | **Private Mailboxes** | Whether people may connect mailboxes anywhere else, such as Gmail. **Allowed Domains** limits them; leave it empty to allow any. |
 | **Mail Templates** | Emails people start from. |
-| **Roles** | What each role may do. See [Who Can Do What](who-can-do-what). |
+| **Roles and Access** | Opens AccessCenter on OneMail: what each role may do, everybody's role, and what people were given on one mailbox. See [Who Can Do What](who-can-do-what). |
+| **Notifications** | Opens NotificationCenter on OneMail: what it tells you and how, and for administrators what it sends in the workspace. |
 
 A mailbox opened from System or Organization Mailboxes shows its Signature, Out
 of Office, OneAI and Automation tabs.

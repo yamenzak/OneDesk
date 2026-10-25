@@ -38,6 +38,10 @@ before it:
 13. **TrustCenter.** The agreements in one place per app, the laws they
     answer, how a change to them reaches people, and the services a
     workspace turns on.
+14. **AccessCenter.** Who may do what, in one place per app, read from what
+    each module declares.
+15. **NotificationCenter.** What each module sends, which channels the
+    workspace allows, and what each person chooses, in one place per app.
 
 Then OneMail is taken through the fourteen points, and marked ready.
 
@@ -712,6 +716,66 @@ what the module does with data, read against what its clauses say.
 assembled agreements before an EU customer signs, and the laws list is
 theirs to complete.
 
+### 14. AccessCenter
+
+**Built.** `public/js/access_center.js` and `one/access_center.py`, on the
+settings dialog (`onedesk.CENTERS.access`), for workspace administrators.
+A module's part has three tabs: **Roles**, the matrix (`role_matrix.js`,
+with Show Roles and New Role); **People**, everybody's role in the module,
+changed in place as People changes it (`put`, which takes somebody off a
+profile that says otherwise); and **On One Record**, everybody given more
+than their role on one record (`records`, read from the module's shares),
+with Edit and Remove through `abilities.grant` (`give`). A record is named
+by the field its `abilities.py` names (`TITLE`, OneMail's `email_id`).
+
+It is found, not drawn: the boot names the modules with abilities
+(`one_centers.access`), and ControlCenter ends every such module's sidebar
+with **Roles and Access**, which opens AccessCenter on it
+(`onedesk.module_settings.centers`). The whole, every module with
+abilities, opens from the key in the bottom bar, beside TrustCenter's
+shield, and from the arrows; a role of such a module in Workspace Settings
+› Access opens it too (`Settings.access`). OneMail's Roles tab and
+`Settings.ROLES_IN` are gone. Profiles, groups, the record-type levels of
+apps not yet ready, and frappe's per-doctype permissions stay where they
+were. `test_ready.py` fails on a ready module whose screens draw the role
+matrix, and the demo checks `access_center_finds_and_sets_roles`.
+
+**Before.** Who may do what was in three places: a module's own Roles tab
+(OneMail's, through `Settings.ROLES_IN`), Workspace Settings › Access, and
+a record's own screen for what one person was given on it (a shared
+mailbox's Users).
+
+### 15. NotificationCenter
+
+**Built.** `public/js/notification_center.js` and
+`one/notification_center.py`, on the settings dialog
+(`onedesk.CENTERS.notifications`), for everybody. A module's part has
+**Yours**, each type the reader can get from it with an Email and a Push
+switch, saved as it changes (`choose`, which carries a type's followers
+with it), and a switch that can't move saying why; and, for
+administrators, **Workspace**: each type it sends with Send, then for
+email and push whether it is allowed and whether people start with it on
+(`set_type`), and a pencil to its words in Workspace Settings.
+
+It is found, not drawn: the boot names the modules whose types the reader
+gets, or every module with types for an administrator
+(`one_centers.notifications`), and ControlCenter ends their sidebars with
+**Notifications**. The whole opens from the bell's gear, Settings › You ›
+Notifications (which now opens it over the page) and the arrows:
+**Everything** (notifications and their email on or off, and push in this
+browser), each module under **Yours**, **Across One** for frappe's own
+and the workspace's rules, and each module under **Workspace**.
+Workspace Settings › Notification Types keeps the words and the rules.
+`test_ready.py` fails on a ready module whose screens draw notification
+choices, and the demo checks
+`notification_center_sets_yours_and_the_workspace`.
+
+**Before.** A module declares its types in `notifications.py`, each with
+its channels (mechanism 8), and `Notification Type` holds what the
+workspace allows and starts people on. People chose on Settings › You ›
+Notifications and administrators on Workspace Settings › Notification
+Types, each one long page for all of One.
+
 ## The fourteen points
 
 A module is checked against these once the mechanisms exist. Each point
@@ -727,15 +791,16 @@ names its mechanism.
    shown in Help (mechanism 4).
 5. **Copy.** Every heading and description it shows passes the copy rules
    (mechanism 1).
-6. **Roles.** Its roles ship, its overrides use grants, and the matrix is
-   written down (mechanism 7).
+6. **Roles.** Its roles ship, its overrides use grants, the matrix is
+   written down, and AccessCenter shows all of it (mechanisms 7 and 14).
 7. **OneAI.** Everything a person can do here, OneAI can do as a card, or
    there is a stated reason not (mechanism 11).
 8. **Demo and tests.** The demo company uses every part of it, and a check
    or test covers every behaviour (point 1 under **What finished looks
    like**).
 9. **Notifications.** It tells people what they need, on the right channels,
-   only to the right roles (mechanism 8).
+   only to the right roles, and NotificationCenter shows each type with its
+   channels (mechanisms 8 and 15).
 10. **OneInterface pass.** On OneInterface, tokens only, frappe-ui and frappe
     controls, realtime where data changes under it, values formatted by
     frappe, and the reader's date, number and time zone preferences. This is

@@ -296,3 +296,66 @@
 .one-set .one-set-steps .one-set-sub {
 	white-space: normal;
 }
+
+/* A row in a ControlCenter that opens another centre (AccessCenter,
+   NotificationCenter): an arrow at its end says it leaves. */
+.one-set .one-set-opens .settings-dialog-tab-item-content > .icon:last-child {
+	margin-inline-start: auto;
+	color: var(--ink-gray-5);
+}
+
+.one-set .one-set-opens .settings-dialog-tab-label {
+	flex: 1;
+	text-align: start;
+}
+
+/* NotificationCenter (public/js/notification_center.js): a switch per
+   channel at each row's end, named once above them. */
+.one-notify .one-notify-columns {
+	display: flex;
+	justify-content: flex-end;
+	gap: calc(var(--spacing) * 3);
+	padding: 0 calc(var(--spacing) * 3) calc(var(--spacing) * 1.5);
+	font-size: var(--text-xs);
+	color: var(--ink-gray-5);
+}
+
+.one-notify .one-notify-columns span,
+.one-notify .one-notify-list .one-set-switch {
+	width: calc(var(--spacing) * 12);
+	text-align: center;
+	display: inline-flex;
+	justify-content: center;
+}
+
+.one-notify .one-notify-list .one-set-end {
+	gap: calc(var(--spacing) * 3);
+}
+
+.one-notify .one-notify-wide .one-set-end {
+	padding-inline-end: 0;
+}
+
+/* AccessCenter (public/js/access_center.js): a person's role at their
+   row's end. */
+.one-access .one-access-level .frappe-control {
+	margin: 0;
+	min-width: calc(var(--spacing) * 40);
+}
+
+.one-notify .one-notify-columns .one-notify-pad,
+.one-notify .one-notify-list .one-notify-pad {
+	width: calc(var(--spacing) * 7);
+	flex-shrink: 0;
+}
+
+/* frappe's switch keeps room for a label at its start; these have none, so
+   the switch sits in the middle of its column. */
+.one-notify .one-notify-list .one-set-switch label.switch-control {
+	justify-content: center;
+	gap: 0;
+}
+
+.one-notify .one-notify-list .one-set-switch .switch-text {
+	display: none;
+}

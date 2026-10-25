@@ -135,6 +135,9 @@ $.extend(onedesk.window, {
 				group: "ai",
 			});
 		}
+		if ((frappe.boot.one_centers?.access || []).length) {
+			add({ label: "AccessCenter", icon: "key-round", css: "one-access-row", click: () => onedesk.access.open(), group: "trust" });
+		}
 		add({ label: "TrustCenter", icon: "shield-check", css: "one-trust-row", click: () => onedesk.trust.open(), group: "trust" });
 		onedesk.workbooks.place(add);
 		const $now = $bottom.find(".one-bar-now");

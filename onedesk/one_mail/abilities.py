@@ -12,6 +12,9 @@ EVERYONE = "OneMail User"
 
 DOCTYPE = "Email Account"
 
+# What a mailbox is called where AccessCenter lists it (one/access_center.py).
+TITLE = "email_id"
+
 MAILBOXES = _lt("Mailboxes")
 WORKSPACE = _lt("Workspace")
 

@@ -33,7 +33,8 @@ the cog that opens Settings.
 
 ## What OneMail Tells You
 
-You choose how you hear of each in **Settings › Notifications**. Each goes
+You choose how you hear of each in **NotificationCenter**: **Notifications**
+at the end of OneMail's settings, or the gear in the bell's list. Each goes
 only to the people it names.
 
 {notifications}

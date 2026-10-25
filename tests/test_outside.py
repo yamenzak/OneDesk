@@ -59,7 +59,6 @@ def test_frappes_screens_open_ones_own():
 	the history entry, and an address belongs to OneCRM beside its contact."""
 	js = (tree.APP / "public" / "js" / "outside.js").read_text()
 	for route in (
-		'["settings", { section: "notifications" }]',
 		'["settings", { section: "profile" }]',
 		'["workspace-settings", { section: "people" }]',
 		'["onecloud"]',
@@ -68,6 +67,7 @@ def test_frappes_screens_open_ones_own():
 	):
 		assert route in js
 	assert "frappe.route_flags.replace_route = true;" in js
+	assert "onedesk.notification_center.open();" in js
 	one = json.loads((tree.APP / "one" / "sidebar" / "one" / "one.json").read_text())
 	links = [item.get("link_to") for item in one["items"]]
 	assert links.index("Address") == links.index("Contact") + 1

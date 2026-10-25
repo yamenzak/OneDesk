@@ -3,7 +3,7 @@
 
 The fourteen points of docs/READY.md, for each module on its way to ready.
 
-## OneMail 1.6.2
+## OneMail 1.7.0
 
 Not marked ready yet.
 
@@ -14,10 +14,10 @@ Not marked ready yet.
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
 | Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | not yet |
-| Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone` | — |
+| Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | — |
 | OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
 | Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | not yet |
-| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared` | not yet |
+| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | not yet |
 | OneInterface pass | — | not yet |
 | Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
 | Tour | `test_a_module_ships_a_tour_of_its_screen` | — |

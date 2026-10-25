@@ -13064,6 +13064,14 @@ msgstr "المدة (بالدقائق)"
 msgid "Each sends something to another company, and stays off unless you turn it on. Turning one on agrees to it for your whole workspace."
 msgstr "كل منها يرسل شيئًا إلى شركة أخرى، ويبقى متوقفًا ما لم تشغّله. تشغيل أحدها موافقة عليه لمساحة العمل كلها."
 
+#: onedesk/public/js/notification_center.js
+msgid "Edit Words"
+msgstr "تعديل النص"
+
+#: onedesk/public/js/notification_center.js
+msgid "Emails you the notifications turned on for email."
+msgstr "يرسل إليك بالبريد الإشعارات المفعّلة للبريد."
+
 #. Name of a project template
 #: onedesk/one_project/library/erp_rollout.json
 msgid "ERP Rollout"
@@ -14748,6 +14756,10 @@ msgstr "كل من يعمل هنا، بعقده وراتبه ومستنداته."
 #: onedesk/one_hr/home.py:448
 msgid "Everybody's details in one table."
 msgstr "بيانات الجميع في جدول واحد."
+
+#: onedesk/public/js/access_center.js
+msgid "Everybody's role in {0}."
+msgstr "دور كل شخص في {0}."
 
 #: onedesk/one/settings.py:61
 msgid "Everybody's work in one list, with checklists, due dates and timers."
@@ -26354,6 +26366,10 @@ msgstr "لا يمكن لأحد رفع ملف حتى تتوفر مساحة، بم
 msgid "Nobody has a passkey yet"
 msgstr "لا أحد لديه مفتاح مرور بعد"
 
+#: onedesk/public/js/access_center.js
+msgid "Nobody has been given more than their role."
+msgstr "لم يُمنح أحد أكثر مما يتيحه دوره."
+
 #: onedesk/one_inventory/custody.py:43
 msgid "Nobody has it."
 msgstr "لا أحد لديه."
@@ -27038,6 +27054,10 @@ msgstr "لا شيء مُشارَك معك"
 msgid "Nothing to check in. You're {0} today."
 msgstr "لا يوجد ما تسجّل حضوره. أنت {0} اليوم."
 
+#: onedesk/public/js/notification_center.js
+msgid "Nothing to choose here."
+msgstr "لا شيء للاختيار هنا."
+
 #: frontend/src/item/ItemSelling.vue:6
 msgid "Nothing to deliver"
 msgstr "لا شيء للتسليم"
@@ -27070,6 +27090,10 @@ msgstr "لا يوجد مبلغ للصرف بعد: {0} لا يحدد قيمة ا�
 #: onedesk/one_inventory/ready.py:175
 msgid "Nothing to score suppliers by yet. Fix adds Delivered On Time and Accepted on Arrival."
 msgstr "لا شيء لتقييم الموردين به بعد. يضيف «إصلاح» التسليم في الموعد والقبول عند الوصول."
+
+#: onedesk/public/js/notification_center.js
+msgid "Nothing to set here."
+msgstr "لا شيء لضبطه هنا."
 
 #: onedesk/public/js/shell.js:84
 msgid "Nothing to show"
@@ -27310,6 +27334,10 @@ msgstr "متوقفة حتى يشغّلها مسؤول."
 #: onedesk/one_admin/report/price_check/price_check.py:52
 msgid "OK"
 msgstr "جيد"
+
+#: onedesk/public/js/access_center.js
+msgid "On One Record"
+msgstr "على سجل واحد"
 
 #: onedesk/public/js/trust_center.js
 msgid "One's agreements are changing"
@@ -31099,6 +31127,10 @@ msgstr "في انتظار المراجعة"
 #: onedesk/public/js/settings.js:1206
 msgid "People"
 msgstr "الأشخاص"
+
+#: onedesk/public/js/access_center.js
+msgid "People given more than their role on one record. They are given it on the record itself."
+msgstr "أشخاص مُنحوا أكثر من دورهم على سجل واحد. يُمنح ذلك من السجل نفسه."
 
 #: onedesk/one_mail/setup.py:55
 msgid "People May Connect Their Own Mailboxes"
@@ -35984,6 +36016,10 @@ msgstr "يجب أن يكون الدور قارئًا أو عضوًا أو مال
 msgid "Roles"
 msgstr "الأدوار"
 
+#: onedesk/public/js/module_settings.js
+msgid "Roles and Access"
+msgstr "الأدوار والصلاحيات"
+
 #. Task in the Small Building Works project template
 #: onedesk/one_project/library/small_building_works.json
 msgid "Roof slab"
@@ -36234,6 +36270,10 @@ msgstr "خادم SMTP"
 #: onedesk/one_mail/tour.py
 msgid "Start a new email here, or press C anywhere in OneMail."
 msgstr "ابدأ بريدًا جديدًا من هنا، أو اضغط C في أي مكان في OneMail."
+
+#: onedesk/public/js/notification_center.js
+msgid "Start On"
+msgstr "مفعّل مبدئيًا"
 
 #: onedesk/one_mail/ai.py
 msgid "Start {0} Mail with {1}"
@@ -40967,6 +41007,10 @@ msgstr "صناديق بريد النظام"
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 msgid "System Manager"
 msgstr "مدير النظام"
+
+#: onedesk/public/js/access_center.js
+msgid "Take away what {0} was given on {1}?"
+msgstr "هل تسحب ما مُنح لـ {0} على {1}؟"
 
 #: onedesk/one_mail/ai.py
 msgid "Take Off {0}"
@@ -47723,6 +47767,10 @@ msgstr "ما الخطوة التالية؟"
 msgid "What Do You Know About Me?"
 msgstr "ماذا تعرف عني؟"
 
+#: onedesk/public/js/access_center.js
+msgid "What each role can do in {0}."
+msgstr "ما يمكن لكل دور فعله في {0}."
+
 #. Label in the One Repair Record print format
 #: onedesk/one_inventory/print_format/one_repair_record/one_repair_record.json
 msgid "What Failed"
@@ -47816,6 +47864,10 @@ msgstr "ما قاله OneAI عندما طُلب منه شرحه، لكل لغة.
 #: onedesk/public/js/rule_builder.js:237
 msgid "What OneAI's reply should do, such as answering from their orders and promising an answer within a day."
 msgstr "ما يجب أن يفعله رد OneAI، مثل الإجابة من طلباتهم والوعد بالرد خلال يوم."
+
+#: onedesk/public/js/notification_center.js
+msgid "What the workspace's own rules and One itself tell you."
+msgstr "ما تخبرك به قواعد مساحة العمل وOne نفسه."
 
 #: onedesk/public/js/onemail_settings.js:362
 msgid "What They Get"
@@ -48043,10 +48095,6 @@ msgstr "ما تحويه كل دفعة عبر الزمن."
 #: onedesk/one_hr/home.py:416
 msgid "What each person costs, part by part."
 msgstr "تكلفة كل شخص، جزءًا جزءًا."
-
-#: onedesk/public/js/onemail_settings.js:1528
-msgid "What each role can do in OneMail, given to people on their page in People."
-msgstr "ما يمكن لكل دور فعله في OneMail، ويُمنح للأشخاص في صفحتهم ضمن الأشخاص."
 
 #: onedesk/one_book/home.py:349
 msgid "What each sale made over what it cost."
@@ -48752,6 +48800,14 @@ msgstr "ما يمكن لـ {0} إرساله، وإلى من."
 #: onedesk/one/ai_setup.py:713
 msgid "What {0} sees"
 msgstr "ما يراه {0}"
+
+#: onedesk/public/js/notification_center.js
+msgid "What {0} sends in this workspace, and the channels people may choose."
+msgstr "ما يرسله {0} في مساحة العمل هذه، والقنوات التي يمكن للأشخاص اختيارها."
+
+#: onedesk/public/js/notification_center.js
+msgid "What {0} tells you, and how."
+msgstr "ما يخبرك به {0}، وكيف."
 
 #. Label in the One Maintenance Record print format
 #: onedesk/one_inventory/print_format/one_maintenance_record/one_maintenance_record.json
@@ -52323,6 +52379,10 @@ msgstr "بريدك"
 msgid "Your Mailboxes"
 msgstr "صناديق بريدك"
 
+#: onedesk/public/js/notification_center.js
+msgid "Your notifications are off."
+msgstr "إشعاراتك متوقفة."
+
 #: onedesk/templates/includes/one_account_tabs.html:1
 #: onedesk/www/account.html:2
 msgid "Your One account"
@@ -52723,6 +52783,10 @@ msgstr "{leave_type} من {from_date} إلى {to_date}: {status}"
 #: onedesk/notifications/one_hr/attendance_request_answered.md
 msgid "Your {reason} from {from_date} to {to_date} was {status}"
 msgstr "طلب {reason} من {from_date} إلى {to_date}: {status}"
+
+#: onedesk/public/js/notification_center.js
+msgid "Yours"
+msgstr "خاصتك"
 
 #. Description of the 'Offered' (Check) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
@@ -54339,6 +54403,10 @@ msgstr "{0} غيغابايت قاعدة بيانات"
 #: onedesk/one_admin/doctype/offering/offering.py:74 onedesk/www/start.py:110
 msgid "{0} GB storage"
 msgstr "{0} غيغابايت تخزين"
+
+#: onedesk/one/access_center.py
+msgid "{0} has no roles to set."
+msgstr "لا توجد أدوار لضبطها في {0}."
 
 #: onedesk/one/tours.py
 msgid "{0} has no tour."
@@ -56780,6 +56848,10 @@ msgstr "{0}% · {1} محتجز"
 #: onedesk/one_project/heads.py:61
 msgid "{0}% · {1} of {2} tasks"
 msgstr "{0}% · {1} من {2} مهام"
+
+#: onedesk/public/js/access_center.js
+msgid "{0}'s role in {1}"
+msgstr "دور {0} في {1}"
 
 #: onedesk/one/ai.py:1174 onedesk/one/ai.py:1197
 msgid "{0}, copied when made from {1}"

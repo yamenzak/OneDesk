@@ -120,7 +120,9 @@ onedesk.outside.instead = (sub_path) => {
 	const me = frappe.session.user;
 	switch (doctype) {
 		case "notification-settings":
-			return ["settings", { section: "notifications" }];
+			// The bell's gear opens NotificationCenter where the reader is.
+			onedesk.notification_center.open();
+			return frappe.get_route();
 		case "user":
 			if (name && decodeURIComponent(name) === me) return ["settings", { section: "profile" }];
 			return name && name !== "new" && !name.startsWith("new-")

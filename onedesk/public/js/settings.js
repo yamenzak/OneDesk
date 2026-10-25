@@ -6,12 +6,10 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 
 	static WIDE = ["people", "oneai", "intake", "numbering", "printing", "approvals"];
 	static theirs = (one) => one.standard === "Yes";
-	// A module whose roles are built in its own settings (docs/ROLES.md)
-	// opens them there rather than on a role's page here.
-	static ROLES_IN = {
-		OneMail: () =>
-			frappe.require(["/assets/onedesk/js/one_mail/onemail_settings.js", "/assets/onedesk/css/one_mail/onemail_settings.css"]).then(() => onedesk.mail.settings("roles")),
-	};
+	// A role of a module that declares its abilities is set in AccessCenter
+	// (docs/READY.md, mechanism 14) rather than on a role's page here.
+	static in_access = (app) => ((frappe.boot.one_centers || {}).access || []).includes(app);
+	static access = (app) => onedesk.access.open({ module: app, at: `${app}:roles` });
 
 	static SHEET = 794;
 	static PAGE = 1123;
@@ -47,6 +45,13 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const mine = this.said.sections.filter((one) => one.group === this.group_name);
 		const params = frappe.utils.get_query_params();
 		if (params.section === "agreements") return frappe.set_route("legal");
+		// A person's notifications are NotificationCenter (docs/READY.md,
+		// mechanism 15), opened over this page.
+		if (params.section === "notifications") {
+			onedesk.notification_center.open();
+			frappe.route_flags.replace_route = true;
+			return frappe.set_route(this.route);
+		}
 		const found = mine.find((one) => one.key === params.section) || mine[0];
 		this.for_doctype = params.rule === "new" ? params.for || null : null;
 		if (found)
@@ -943,7 +948,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			rows: data.levels,
 			icon: "shield-check",
 			none: __("No matching roles"),
-			open: (one) => (Settings.ROLES_IN[one.app] ? Settings.ROLES_IN[one.app]() : frappe.set_route("workspace-settings", { section: "access", level: one.key })),
+			open: (one) => (Settings.in_access(one.app) ? Settings.access(one.app) : frappe.set_route("workspace-settings", { section: "access", level: one.key })),
 			columns: [
 				{
 					label: __("Role"),
@@ -992,7 +997,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			primary_action: async ({ title, app, start }) => {
 				const name = await frappe.xcall("onedesk.one.access.make_level", { app, title, start });
 				dialog.hide();
-				if (Settings.ROLES_IN[app]) return Settings.ROLES_IN[app]();
+				if (Settings.in_access(app)) return Settings.access(app);
 				frappe.set_route("workspace-settings", { section: "access", level: name });
 			},
 		});
