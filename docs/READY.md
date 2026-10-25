@@ -167,8 +167,12 @@ ones that read only the top of `public/js` or `public/css` also read `one_*/`.
   module). `frappe.boot.one_versions` carries each module's version and
   whether it is unseen.
 - The version sits at the end of the module's foot row (`win.foot_action`
-  with `version`), with a dot until seen, and opens What's New
-  (`public/js/whats_new.js`).
+  with `version`), with a dot until seen, beside a Help button.
+- What's New (`public/js/module_docs.js`, `onedesk.whats_new.open`) is a
+  OneInterface settings dialog: every version down the left with a dot on
+  the unseen ones, the chosen one on the right with its pictures, and a
+  Read More row of buttons for the Help pages its `docs:` front matter
+  names. `test_ready.py` fails on a `docs:` page that is not a Help page.
 
 **Before.** Nothing per module. Frappe's own What's New dialog
 (`frappe/utils/change_log.py`) is per app and reads
@@ -198,7 +202,7 @@ ones that read only the top of `public/js` or `public/css` also read `one_*/`.
 
 ### 4. Docs and Help
 
-**Done for OneMail, but for the Help dialog.** Its README is gone:
+**Done for OneMail.** Its README is gone:
 `AGENTS.md` holds Connections and what was under the hood, `docs/` holds nine
 pages for its users (What OneMail Is, Your addresses, Settings, Connecting a
 mailbox, Reading and writing, Rules and out of office, Mail on records,
@@ -208,6 +212,13 @@ not built, the known issues and the order it was built in. OneAI's
 (`one_ai/guide.py manuals`), as OneMail › Rules and out of office. The guards
 that read READMEs read these too, and `test_ready.py` fails on any other
 Markdown in the module.
+
+Help (`onedesk.help.open`, the same file and dialog as What's New) shows
+the pages as tabs in the order `ready.MODULES[...]["help"]` gives, each
+with its icon, opened from the question mark at the module's foot.
+`test_ready.py` fails on a page not listed there and on a page that names
+code: what a claim rests on goes in `AGENTS.md`, under Where Help's claims
+are kept.
 
 **Before.** Every module has a `README.md`. Above `## Under the hood` it is
 written for users, and OneAI's `how_to` (`one_ai/guide.py`) searches that

@@ -15,7 +15,24 @@ APP = Path(__file__).resolve().parents[1]
 ROOT = APP.parent
 
 MODULES = {
-	"OneMail": {"folder": "one_mail", "screens": "mail", "names": ("one_mail", "onemail"), "ready": False},
+	"OneMail": {
+		"folder": "one_mail",
+		"screens": "mail",
+		"names": ("one_mail", "onemail"),
+		"ready": False,
+		# Its help pages in reading order, each with its icon (docs/).
+		"help": (
+			("overview", "info"),
+			("your-addresses", "at-sign"),
+			("connecting-a-mailbox", "plug"),
+			("reading-and-writing", "mail"),
+			("settings", "settings"),
+			("rules-and-out-of-office", "workflow"),
+			("mail-on-records", "link"),
+			("attachments-and-pictures", "paperclip"),
+			("asking-oneai", "sparkles"),
+		),
+	},
 }
 
 # Files named for a module that are not its own, and why.
@@ -101,6 +118,7 @@ def versions(module: str) -> list[dict]:
 		if not head:
 			raise ValueError(f"{path} has no front matter")
 		said = dict(line.split(": ", 1) for line in head.group(1).splitlines())
+		said["docs"] = [one.strip() for one in said.get("docs", "").split(",") if one.strip()]
 		found.append({**said, "version": path.stem, "body": text[head.end() :].strip(), "path": path})
 	return sorted(found, key=lambda one: number(one["version"]), reverse=True)
 
@@ -109,3 +127,15 @@ def current(module: str) -> str | None:
 	"""A module's version: its newest changelog entry's."""
 	found = versions(module)
 	return found[0]["version"] if found else None
+
+
+def help_pages(module: str) -> list[dict]:
+	"""A module's help pages in reading order: id, icon, title (its first
+	heading) and the rest of its words."""
+	folder = APP / MODULES[module]["folder"] / "docs"
+	found = []
+	for page, icon in MODULES[module].get("help", ()):
+		text = (folder / f"{page}.md").read_text(encoding="utf-8")
+		title, _, body = text.partition("\n")
+		found.append({"id": page, "icon": icon, "title": title.lstrip("# ").strip(), "body": body.strip()})
+	return found

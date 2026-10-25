@@ -25,7 +25,7 @@ employee that reads its mail:
   (it also does what the message asks for). Each level does everything the
   one before it does.
 - Under it, everything OneAI does at each level is listed, each with its own
-  switch, all on until switched off (`gate.JOBS`):
+  switch, all on until switched off:
   - Sorting: **Move Junk and Phishing**, **Move Newsletters and Ads**.
   - Filing: **Link Messages to Records**, **Attach Files to Records**,
     **Rename and Tag Files**.
@@ -36,10 +36,8 @@ employee that reads its mail:
     Actions** (what the agent decides on for itself).
 
   A job past the level New Mail is set to stays in view, greyed, and its
-  group says which level brings it. Every OneIntake write goes through
-  `act.apply`, which asks `gate.does` for the job its key names
-  (`gate.job_of`), so a switched-off job is never done or proposed; the
-  e-invoice submit asks the same for Bills.
+  group says which level brings it. A switched-off job is never done or
+  proposed, and sending an e-invoice asks the same of the bill's job.
 - **Read Attachments** off leaves attachments to the reading that costs
   nothing: scans, photos and recordings are not sent to OneAI.
 - **Credits** shows what reading this mailbox spent this month, against the
@@ -59,7 +57,7 @@ employee that reads its mail:
 - **System Mailboxes** (administrators, and roles that reach other
   people's mail): **Send From New Addresses**, whether the address a new
   person is given sends, then each person's address with its own **Send**
-  switch (`holders.set_sends`). The default never changes an address
+  switch. The default never changes an address
   already given.
 - **Organization Mailboxes** (the same): every mailbox people hold at the
   company's domains, and **Connect Organization Mailbox** to connect one for
@@ -90,4 +88,4 @@ Default Incoming. **Shared** is a team's, such as `sales@yourcompany.com`.
 company's domains, such as `ahmad@yourcompany.com`. **Private** is a
 person's anywhere else, such as Gmail. The company's domains are the
 workspace's mail domain, every shared mailbox's, and every domain added in
-Setup (`addresses.company_domains`), so nobody types them twice.
+Setup, so nobody types them twice.

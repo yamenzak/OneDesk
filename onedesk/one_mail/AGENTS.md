@@ -426,6 +426,31 @@ mail domain (their own server does that, connected); complaints and
 soft-bounce backoff (no feedback loop reaches us); formal letters
 (Correspondence), which are OneWriter's rather than mail's; and the AI lane.
 
+### Where Help's claims are kept
+
+The pages in `docs/` name no code, so what each claim rests on is here.
+
+- **Replies that read their records** (connecting-a-mailbox): the portal's
+  view is `theirs.py`; the two tools the run gets are `their_record` and
+  `their_records`; the sender check is `theirs.verified`, which reads only
+  the topmost `Authentication-Results`.
+- **Who can connect what**: `connect.connect_for` for an administrator
+  connecting someone's organization mailbox, `holders.may` for who sees
+  into a mailbox.
+- **Rules before OneAI** (rules-and-out-of-office): a record a rule made is
+  linked to it as `rule`; `act._ruled` and `gate.made_by_rule` keep
+  OneIntake from making a second. Out of office covering is
+  `rules.on_leave` per message, `rules.covered` as a leave is decided and
+  `rules.cover` daily.
+- **OneAI's jobs** (settings): the list is `gate.JOBS`; every OneIntake write
+  goes through `act.apply`, which asks `gate.does` for the job
+  `gate.job_of` names, and the e-invoice submit asks the same for Bills.
+  **Send** per address is `holders.set_sends`; the company's domains are
+  `addresses.company_domains`.
+- **Signatures** (reading-and-writing): drawn by `signatures.py`, added below
+  the editor by `mail_compose.js`, logo embedded by
+  `signatures.inline_logo` in the queued copy.
+
 ### Research and decisions
 
 **What was studied.** The old OneApp mail backend and its inbound Worker

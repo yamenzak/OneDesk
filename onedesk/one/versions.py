@@ -45,6 +45,7 @@ def whats_new(module: str) -> dict:
 	_known(module)
 	was = seen(module)
 	before = ready.number(was) if was else (0, 0, 0)
+	titles = {page["id"]: page["title"] for page in ready.help_pages(module)}
 	entries = []
 	for one in ready.versions(module):
 		entries.append(
@@ -55,6 +56,7 @@ def whats_new(module: str) -> dict:
 				"title": one["title"],
 				"html": md_to_html(_pictured(one)),
 				"new": int(ready.number(one["version"]) > before),
+				"docs": [{"id": page, "title": titles[page]} for page in one["docs"] if page in titles],
 			}
 		)
 	if entries:
@@ -73,3 +75,18 @@ def _pictured(one: dict) -> str:
 		return f"![{found.group(1)}](data:{kind};base64,{base64.b64encode(path.read_bytes()).decode()})"
 
 	return PICTURE.sub(inline, one["body"])
+
+
+@frappe.whitelist()
+def help_pages(module: str) -> dict:
+	"""A module's help, page by page, in reading order, as people read it in
+	its Help (docs/READY.md, Docs and Help)."""
+	_known(module)
+	return {
+		"module": module,
+		"version": ready.current(module),
+		"pages": [
+			{"id": page["id"], "icon": page["icon"], "title": page["title"], "html": md_to_html(page["body"])}
+			for page in ready.help_pages(module)
+		],
+	}

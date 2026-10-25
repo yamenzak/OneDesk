@@ -17888,6 +17888,10 @@ msgstr "Von dieser Rechnung einbehalten und mit der Rechnung versteuert, die ihn
 msgid "Hello, {0}"
 msgstr "Hallo {0}"
 
+#: onedesk/public/js/window/nav_tree.js:213
+msgid "Help"
+msgstr "Hilfe"
+
 #: onedesk/one_hr/ai.py:37 onedesk/one_hr/ai.py:256
 msgid "Help me book time off."
 msgstr "Hilf mir, Urlaub zu buchen."
@@ -33485,6 +33489,10 @@ msgstr "Lesen"
 #: onedesk/public/js/item_new.js:285
 msgid "Read List"
 msgstr "Liste lesen"
+
+#: onedesk/public/js/module_docs.js:42
+msgid "Read More"
+msgstr "Mehr lesen"
 
 #. Label of the read_on (Datetime) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -53969,6 +53977,10 @@ msgstr "{0} GB Datenbank"
 #: onedesk/one_admin/doctype/offering/offering.py:74 onedesk/www/start.py:110
 msgid "{0} GB storage"
 msgstr "{0} GB Speicher"
+
+#: onedesk/public/js/module_docs.js:81 onedesk/public/js/window/nav_tree.js:213
+msgid "{0} Help"
+msgstr "Hilfe zu {0}"
 
 #: frontend/src/home/HrHome.vue:165
 msgid "{0} Interviews Today"

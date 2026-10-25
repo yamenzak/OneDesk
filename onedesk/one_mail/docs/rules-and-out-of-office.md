@@ -7,8 +7,8 @@ what OneAI decides from reading the mail (the OneAI tab): sorting junk,
 filing, and the records and tasks a message asks for. It never mails
 anyone outside the workspace; an Ask OneAI step is a question a rule asks,
 and the rule decides what follows. Where both would do the same thing, the
-rule wins: a record a rule made from a message (linked to it as `rule`) is
-one OneIntake makes no second of (`act._ruled`, `gate.made_by_rule`), and a
+rule wins: a record a rule made from a message is
+one OneIntake makes no second of, and a
 rule that moved the message out of the Inbox leaves nothing to sort.
 
 Rules, under **Automation** in a mailbox's **⋯** menu, decide what happens to new mail as it
@@ -114,9 +114,7 @@ request:
   it starts.
 
 The half day of a half-day leave gets no replies, since you're working
-too. A leave that's cancelled stops the replies, and the covering, at once
-(`rules.on_leave` as each message arrives, `rules.covered` as a leave is
-decided, `rules.cover` each day).
+too. A leave that's cancelled stops the replies, and the covering, at once.
 
 **Bounces:** when mail to an address bounces permanently, OneMail stops
 sending to it and marks the message that bounced.

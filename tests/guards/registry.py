@@ -370,6 +370,12 @@ GUARDS = [
 		"tests/guards/test_ready.py::test_a_version_is_written_for_the_people_using_it",
 	),
 	Guard(
+		"help-listed",
+		13,
+		"a help page missing from its module's order, or a version reading more in a page that is not there",
+		"tests/guards/test_ready.py::test_every_help_page_is_listed_and_every_link_lands",
+	),
+	Guard(
 		"copy-headings",
 		12,
 		"a heading in a module on its way to ready that runs past five words",

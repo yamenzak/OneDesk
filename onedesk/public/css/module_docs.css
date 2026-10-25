@@ -1,0 +1,90 @@
+/* A module's What's New and Help (public/js/module_docs.js): frappe's
+   settings dialog, with words laid out for reading. */
+
+/* A version the reader has not seen yet, in place of its icon. */
+.one-docs-new {
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	margin: 0 4px;
+	border-radius: var(--radius-full);
+	background: var(--surface-blue-6);
+}
+
+.one-doc {
+	max-width: 68ch;
+	color: var(--ink-gray-8);
+	font-size: var(--text-base);
+	line-height: 1.6;
+}
+
+.one-doc > :first-child {
+	margin-top: 0;
+}
+
+.one-doc p,
+.one-doc ul,
+.one-doc ol {
+	margin: 0 0 calc(var(--spacing) * 3);
+}
+
+.one-doc ul,
+.one-doc ol {
+	padding-inline-start: calc(var(--spacing) * 5);
+}
+
+.one-doc li + li {
+	margin-top: calc(var(--spacing) * 1.5);
+}
+
+.one-doc h2,
+.one-doc h3 {
+	margin: calc(var(--spacing) * 6) 0 calc(var(--spacing) * 2);
+	color: var(--ink-gray-9);
+	font-weight: 600;
+}
+
+.one-doc h2 {
+	font-size: var(--text-lg);
+}
+
+.one-doc h3 {
+	font-size: var(--text-base);
+}
+
+.one-doc strong {
+	color: var(--ink-gray-9);
+	font-weight: 600;
+}
+
+.one-doc code {
+	padding: 0 calc(var(--spacing) * 1);
+	border-radius: var(--radius-sm);
+	background: var(--surface-gray-2);
+	font-size: var(--text-sm);
+}
+
+.one-doc img {
+	display: block;
+	max-width: 100%;
+	margin: calc(var(--spacing) * 2) 0 calc(var(--spacing) * 4);
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius-lg);
+}
+
+.one-docs-more {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+	max-width: 68ch;
+	margin-top: calc(var(--spacing) * 6);
+	padding-top: calc(var(--spacing) * 4);
+	border-top: 1px solid var(--outline-gray-2);
+}
+
+.one-docs-more-title {
+	width: 100%;
+	color: var(--ink-gray-5);
+	font-size: var(--text-sm);
+}

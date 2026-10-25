@@ -463,6 +463,26 @@ body.one-window-dragging * {
 	min-width: 0;
 }
 
+.one-window-foot-help {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	padding: calc(var(--spacing) * 1);
+	border: 0;
+	border-radius: var(--radius-sm);
+	background: transparent;
+	color: var(--ink-gray-5);
+}
+
+.one-window-foot-help:hover {
+	background: var(--surface-gray-2);
+	color: var(--ink-gray-8);
+}
+
+.body-sidebar-container:not(.expanded) .one-window-foot-help {
+	display: none;
+}
+
 .one-window-foot-version {
 	position: relative;
 	flex-shrink: 0;

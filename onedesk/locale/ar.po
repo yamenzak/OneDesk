@@ -17888,6 +17888,10 @@ msgstr "محتجز من هذه الفاتورة، وتُحتسب ضريبته ع
 msgid "Hello, {0}"
 msgstr "مرحبًا {0}"
 
+#: onedesk/public/js/window/nav_tree.js:213
+msgid "Help"
+msgstr "مساعدة"
+
 #: onedesk/one_hr/ai.py:37 onedesk/one_hr/ai.py:256
 msgid "Help me book time off."
 msgstr "ساعدني في حجز إجازة."
@@ -33485,6 +33489,10 @@ msgstr "اقرأه"
 #: onedesk/public/js/item_new.js:285
 msgid "Read List"
 msgstr "قراءة القائمة"
+
+#: onedesk/public/js/module_docs.js:42
+msgid "Read More"
+msgstr "اقرأ المزيد"
 
 #. Label of the read_on (Datetime) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -53969,6 +53977,10 @@ msgstr "{0} غيغابايت قاعدة بيانات"
 #: onedesk/one_admin/doctype/offering/offering.py:74 onedesk/www/start.py:110
 msgid "{0} GB storage"
 msgstr "{0} غيغابايت تخزين"
+
+#: onedesk/public/js/module_docs.js:81 onedesk/public/js/window/nav_tree.js:213
+msgid "{0} Help"
+msgstr "مساعدة {0}"
 
 #: frontend/src/home/HrHome.vue:165
 msgid "{0} Interviews Today"

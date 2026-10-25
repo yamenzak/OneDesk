@@ -53,12 +53,11 @@ which details appear, Company Name among them. A shared mailbox signs as the
 company. The two logo styles are offered only once the company has a logo.
 **Custom** is written by hand, starting from Simple's lines, and is never
 redrawn. A style is drawn when it's saved, so a later change to the company
-or the person shows up the next time it's saved (`signatures.py`).
+or the person shows up the next time it's saved.
 
 The signature isn't put in the compose window's editor, which would flatten
 its layout into paragraphs. It shows under the editor as it will be sent,
 with **Remove** to leave it off one email, and goes in above the quoted mail
-as the email is sent (`mail_compose.js`). The company logo goes inside the
+as the email is sent. The company logo goes inside the
 email as an inline image rather than as a link to the workspace, which mail
-clients block until asked: the signature keeps only the logo's path, and
-`signatures.inline_logo` marks it to be embedded in the copy that is queued.
+clients block until asked: the logo is put into each email as it is sent.

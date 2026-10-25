@@ -82,15 +82,15 @@ mailbox and counts against its monthly limit.
 
 **What OneAI may tell the sender.** Nothing about the workspace's records,
 unless the reply is set to **reading their records**. Then OneAI is
-handed, in short, everything the portal shows that person (`theirs.py`):
+handed, in short, everything the portal shows that person:
 for each customer or supplier the address is a contact of, every record
 still open (quotations not yet ordered, orders not yet delivered, invoices
 not yet paid, the supplier's side of the same), the latest ten of the rest
 of each kind, and any the message names, one line each (number, date,
 status, total, what is left to pay, due or delivery date, items). For the
-rest it calls two tools that exist only in that run: `their_record` opens
-one of them in full as the portal page shows it (steps, facts, items with
-prices, totals), and `their_records` lists older ones of a kind. Both
+rest it can ask for two more things, only while it writes that reply: one
+record in full as the portal page shows it (steps, facts, items with
+prices, totals), and older records of a kind. Both
 refuse anything that is not the sender's. A customer never writes
 "SAL-ORD-2026-00003"; they write "where is my order", so OneAI works out
 which records the message is about and is told to mention only those, not
@@ -100,10 +100,10 @@ no second list to keep in step with it.
 
 That needs the sender to be who they say. A From line is free to write, so
 the server that received the message must have confirmed it: DMARC passed,
-or DKIM or SPF passed for the sender's own domain (`theirs.verified`, kept
-on the message as **Sender Verified**). Only the topmost
-`Authentication-Results` counts, since each server adds its own above what
-it received and a forger can write any below it. Where the receiving server
+or DKIM or SPF passed for the sender's own domain, kept
+on the message as **Sender Verified**. Only the check written by the last
+server counts, since each server adds its own above what it received and a
+forger can write any below it. Where the receiving server
 writes none, nothing is verified and OneAI says nothing about records.
 
 Connecting signs in to both servers before anything is saved: the incoming
@@ -118,13 +118,12 @@ outgoing server is also tried on its other usual port.
   up in **Setup** they type only the address and password; the server
   fields are hidden.
 - A workspace administrator can connect somebody's organization mailbox
-  for them from **Organization Mailboxes › Connect Organization Mailbox**
-  (`connect.connect_for`),
+  for them from **Organization Mailboxes › Connect Organization Mailbox**,
   with its password. It appears in that person's mailboxes. Only a mailbox
   at a company domain can be connected this way, never a private one.
 - Anyone can connect a private mailbox, such as Gmail, unless an
   administrator has turned off **Private Mailboxes**. No one else can see
-  into it or change it, not even administrators (`holders.may`).
+  into it or change it, not even administrators.
 - A Workspace Administrator connects a workspace address such as
   `sales@yourcompany.com` from **Settings › Shared Mailboxes › Connect
   Shared Mailbox**, then adds its users and who may send from it.

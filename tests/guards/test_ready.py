@@ -103,3 +103,32 @@ def test_a_version_is_written_for_the_people_using_it():
 			assert not hit, f"{where} reads like a commit: …{body[max(hit.start() - 30, 0) : hit.end() + 30]}…"
 			for picture in PICTURE.findall(body):
 				assert (one["path"].parent / picture).exists(), f"{where}: no {picture}"
+
+
+def test_every_help_page_is_listed_and_every_link_lands():
+	"""Help shows a module's pages in the order ready.MODULES gives, so every
+	page of its docs/ is listed there, and a version's Read More names only
+	pages that are."""
+	for module, spec in ready.MODULES.items():
+		listed = [page for page, _icon in spec.get("help", ())]
+		pages = sorted(path.stem for path in (ROOT / "onedesk" / spec["folder"] / "docs").glob("*.md"))
+		assert sorted(listed) == pages, f"{module}'s help lists {sorted(listed)}, its docs/ has {pages}"
+		for one in ready.versions(module):
+			stray = [page for page in one["docs"] if page not in listed]
+			assert not stray, f"{module} {one['version']} reads more in {stray}, which is no help page"
+
+
+CODE = re.compile(r"`[^`]*(?:\.(?:py|js|vue|css|json)\b|[a-z_]+\.[a-z_]+\b|\b[a-z]+_[a-z_]+\b)[^`]*`")
+
+
+def test_a_help_page_names_no_code():
+	"""Help is read by the people using the module, so a page names what they
+	see and never the file or function behind it; AGENTS.md keeps those.
+	An address, a keyboard key or a search word in backticks is fine."""
+	for module, spec in ready.MODULES.items():
+		for path in sorted((ROOT / "onedesk" / spec["folder"] / "docs").glob("*.md")):
+			for number, line in enumerate(path.read_text().splitlines(), 1):
+				for found in CODE.findall(line):
+					if "@" in found or "{" in found:
+						continue
+					raise AssertionError(f"{path.relative_to(ROOT)}:{number} names code {found}; say it plainly and keep the name in AGENTS.md")

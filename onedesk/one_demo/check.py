@@ -9131,6 +9131,24 @@ def whats_new_says_each_version_once():
 		assert not versions.whats_new("OneMail")["versions"][0]["new"]
 
 
+@check
+def help_shows_every_page_in_order():
+	"""OneMail's Help gives Nadia its pages in the order ready.MODULES lists
+	them, each with its icon and a heading, and every page a version reads
+	more in is one of them (one/versions.py help_pages)."""
+	from onedesk.one import ready, versions
+
+	with as_user("nadia@one.test"):
+		said = versions.help_pages("OneMail")
+		assert said["version"] == ready.current("OneMail"), said["version"]
+		pages = said["pages"]
+		assert [one["id"] for one in pages] == [page for page, _icon in ready.MODULES["OneMail"]["help"]]
+		assert all(one["icon"] and one["title"] and one["html"].strip() for one in pages), pages[0]
+		ids = {one["id"] for one in pages}
+		for one in versions.whats_new("OneMail")["versions"]:
+			assert {page["id"] for page in one["docs"]} <= ids, one["docs"]
+
+
 def _modules() -> None:
 	"""A module's own checks, in its folder (docs/READY.md, A module's folder),
 	registered by importing them."""
