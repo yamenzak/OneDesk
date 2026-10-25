@@ -630,7 +630,24 @@ the screen), a commit, and the docs it changes.
    bench invoices). Not done: to text through Markdown conversion (the local
    readers stay; stage 5 writes Markdown beside each file for search), and
    Clairic in place of the talk read, which still gives parties, dates, asks
-   and lines that Clairic does not. Left: the scenarios.
+   and lines that Clairic does not. **The scenarios (2026-10-26)**, each
+   against a sample in `tests/samples/intake/` the demo keeps
+   (`every_intake_sample_left_what_it_should`) or a reader test that needs
+   no site (`tests/test_intake_read.py`): a mail with no attachment in
+   English, Arabic and German (`one_crm/enquiry`, `enquiry-ar`, `enquiry-de`,
+   the last two sorted by Clef); a CV (`one_hr/cv`); a sender nobody knows
+   (`one_book/new-supplier-invoice`) and one with an open matter
+   (`one_crm/order-from-lead`); every field below its threshold
+   (`one_hr/taxi-receipt-doubted`); a mail that tells OneAI to ignore its
+   instructions and pay (`one_ai/ignore-instructions`: junk, nothing made);
+   a PDF with a password (`one_ai/locked-invoice`: left Password Protected,
+   the sender kept as a contact); a spreadsheet, a scanned PDF and a
+   text layer told apart, and a batch scan cut into documents (reader
+   tests). A sample may now say what a document was taken for (`verdict`)
+   and what its reading was left as (`states`), and the harness answers
+   Clef's and Clairic's calls from the sample. Not yet a sample: a voice
+   note, several attachments in one mail, a PDF longer than one Clairic
+   pass, the same invoice twice, and a currency written as a word.
 5. **Search.** An AI Search instance per workspace, indexing on save,
    permissions after search, the search bar and OneCloud's search; AI
    Chunk and the index go.

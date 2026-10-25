@@ -98,7 +98,14 @@ def unmet(path: Path, handled: Handled) -> list[str]:
 	that the sample does not answer."""
 	made = handled.made
 	out = [f"no answer for {action}" for action in dict.fromkeys(handled.unanswered)]
-	for want in json.loads(path.read_text()).get("makes") or []:
+	spec = json.loads(path.read_text())
+	read = frappe.get_all("Reading", filters={"name": ["in", readings_of(path) or [""]]}, fields=["verdict", "state"])
+	if spec.get("verdict") and spec["verdict"] not in {one.verdict for one in read}:
+		out.append(f"not read as {spec['verdict']}: {sorted({one.verdict or '' for one in read})}")
+	for state in spec.get("states") or []:
+		if state not in {one.state for one in read}:
+			out.append(f"nothing left {state}: {sorted({one.state or '' for one in read})}")
+	for want in spec.get("makes") or []:
 		found = [
 			one
 			for one in made
@@ -158,7 +165,18 @@ def _answered(sample: str, answers: dict, unanswered: list):
 			raise AssertionError(f"{sample} has no answer for {action}")
 		return json.dumps(said)
 
-	with patch("onedesk.one_ai.run.once", once), patch("onedesk.one_ai.reading.pipeline.later", lambda *a, **k: None):
+	def read(action, state, asked, reference=None, on=None):
+		"""A reading model (Clef, Clairic) answers from the sample; one with no
+		answer is a model that can't answer, so the talk model is asked."""
+		if action not in answers:
+			raise RuntimeError(f"{sample} has no reading model's answer for {action}")
+		return {"answers": answers[action]}
+
+	with (
+		patch("onedesk.one_ai.run.once", once),
+		patch("onedesk.one_ai.run.read", read),
+		patch("onedesk.one_ai.reading.pipeline.later", lambda *a, **k: None),
+	):
 		yield
 
 

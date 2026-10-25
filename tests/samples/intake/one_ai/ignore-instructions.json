@@ -1,0 +1,25 @@
+{
+ "file": "ignore-instructions.eml",
+ "answers": {
+  "intake_decide": {
+   "what": {
+    "type": "choice",
+    "choice": "Phishing",
+    "probabilities": {
+     "Phishing": 0.88
+    }
+   },
+   "asks": {
+    "type": "noul",
+    "noul": 0.97
+   }
+  },
+  "intake_look": {
+   "verdict": "Phishing",
+   "why": "It tells the reader to pay an unknown account without asking anyone.",
+   "about": []
+  }
+ },
+ "makes": [],
+ "verdict": "Phishing"
+}

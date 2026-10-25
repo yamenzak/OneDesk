@@ -46,7 +46,7 @@ def test_every_sample_is_whole():
 		spec = json.loads(path.read_text())
 		assert (APP / path.parent.name).is_dir(), f"{path.parent.name} is not a module"
 		assert path.with_name(spec["file"]).exists(), f"{path.name} has no {spec['file']}"
-		assert spec["makes"], f"{path.name} says nothing it makes"
+		assert spec["makes"] or spec.get("verdict") or spec.get("states"), f"{path.name} says nothing it makes or is"
 		assert set(spec.get("answers") or {}) <= actions, f"{path.name} answers what Intake never asks"
 		for want in spec["makes"]:
 			assert want.get("level", "Done") in ("Done", "Proposed"), f"{path.name}: {want}"

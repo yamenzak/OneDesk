@@ -1,0 +1,71 @@
+{
+ "file": "enquiry-ar.eml",
+ "answers": {
+  "intake_decide": {
+   "what": {
+    "type": "choice",
+    "choice": "Real",
+    "probabilities": {
+     "Real": 0.94
+    }
+   },
+   "asks": {
+    "type": "noul",
+    "noul": 0.91
+   }
+  },
+  "intake_read": {
+   "kind": "Inquiry",
+   "title": "طلب عرض سعر لواجهات زجاجية",
+   "summary": "شركة النخبة للتطوير العقاري تطلب عرض سعر لواجهات زجاجية لمبنى من ثمانية طوابق ومدة التوريد.",
+   "language": "ar",
+   "number": null,
+   "issued": "2026-10-06",
+   "dates": [],
+   "money": null,
+   "lines": [],
+   "promises": [],
+   "notice": null,
+   "references": [],
+   "parties": [
+    {
+     "role": "Sender",
+     "name": "شركة النخبة للتطوير العقاري ذ.م.م",
+     "person": false,
+     "email": "sami@alnokhba-dev.ae",
+     "phone": "+971 4 555 0181"
+    },
+    {
+     "role": "Sender",
+     "name": "سامي العتيبي",
+     "person": true,
+     "email": "sami@alnokhba-dev.ae"
+    }
+   ],
+   "document": null,
+   "asks": [
+    {
+     "what": "Send",
+     "detail": "عرض سعر ومدة التوريد",
+     "by": null,
+     "of": "us"
+    }
+   ],
+   "facts": [],
+   "sensitivity": "Ordinary",
+   "confidence": 0.9
+  },
+  "intake_audit": "right"
+ },
+ "makes": [
+  {
+   "doctype": "Lead",
+   "values": {
+    "company_name": "شركة النخبة للتطوير العقاري ذ.م.م"
+   }
+  },
+  {
+   "doctype": "Task"
+  }
+ ]
+}

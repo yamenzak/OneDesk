@@ -40,6 +40,14 @@ A sample is two files with the same name:
 - `makes` lists what must be done: a `doctype`, its `kind` (`Create`
   unless said) and `level` (`Done` unless said, or `Proposed` for what waits
   for a person), and `values` the record must hold.
+- `verdict` says what the document must be taken for (`Phishing` for a mail
+  that tells OneAI to ignore its instructions), and `states` what one of its
+  readings must be left as (`Password Protected`). A sample that makes
+  nothing says one of them.
+- `intake_decide` and `intake_extract` answer the models that only sort
+  (Clef) and only read fields (Clairic), in their own shape; a sample
+  without them has those models unable to answer, so the talk model is
+  asked, as when they are withdrawn.
 
 A document that is already data (an e-invoice, a bank statement, a contact
 card, an invitation) needs no answers to be read.

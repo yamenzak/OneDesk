@@ -1,0 +1,42 @@
+From: Billing <billing@gulf-hardware.example>
+To: Layla Haddad <layla.4dl@m.4dl.app>
+Subject: Invoice INV-5507 (password protected)
+Date: Thu, 08 Oct 2026 11:40:00 +0400
+Message-ID: <locked-invoice@samples.sahara-glass.test>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============0550488420636553947=="
+
+--===============0550488420636553947==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hello,
+
+Please find our invoice INV-5507 attached. The password follows in a separate=
+ message.
+
+Gulf Hardware Billing
+
+--===============0550488420636553947==
+Content-Type: application/pdf
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="INV-5507.pdf"
+MIME-Version: 1.0
+
+JVBERi0xLjMKJeLjz9MKMSAwIG9iago8PAovUHJvZHVjZXIgPGMwMzhlM2ZkY2U+Cj4+CmVuZG9i
+agoyIDAgb2JqCjw8Ci9UeXBlIC9QYWdlcwovQ291bnQgMQovS2lkcyBbIDQgMCBSIF0KPj4KZW5k
+b2JqCjMgMCBvYmoKPDwKL1R5cGUgL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iago0IDAg
+b2JqCjw8Ci9UeXBlIC9QYWdlCi9SZXNvdXJjZXMgPDwKPj4KL01lZGlhQm94IFsgMC4wIDAuMCA1
+OTUgODQyIF0KL1BhcmVudCAyIDAgUgo+PgplbmRvYmoKNSAwIG9iago8PAovViAyCi9SIDMKL0xl
+bmd0aCAxMjgKL1AgNDI5NDk2NzI5MgovRmlsdGVyIC9TdGFuZGFyZAovTyA8ODI5YzExN2IxYzA1
+MTg2OTc3NmRmYTMxYjNjNWEzODIyNGZhOTRhZWZjZDRmZGY4ODRlZDEyYTBmNDJjY2FiYz4KL1Ug
+PDExNmRlZjdmOTE0ODBlZDc5YTlkOTk1MmZiMTA4NDE3MjhiZjRlNWU0ZTc1OGE0MTY0MDA0ZTU2
+ZmZmYTAxMDg+Cj4+CmVuZG9iagp4cmVmCjAgNgowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAw
+MTUgMDAwMDAgbiAKMDAwMDAwMDA1OSAwMDAwMCBuIAowMDAwMDAwMTE4IDAwMDAwIG4gCjAwMDAw
+MDAxNjcgMDAwMDAgbiAKMDAwMDAwMDI2MSAwMDAwMCBuIAp0cmFpbGVyCjw8Ci9TaXplIDYKL1Jv
+b3QgMyAwIFIKL0luZm8gMSAwIFIKL0lEIFsgPDM0MzEzNzMzMzAzMDY1MzM2MTMyMzM2MjY2NjYz
+MzM5NjI2NjY0MzQ2NDM3NjEzOTM0MzEzNDM4MzkzMTYzMzQ+IDwzNDMxMzczMzMwMzA2NTMzNjEz
+MjMzNjI2NjY2MzMzOTYyNjY2NDM0NjQzNzYxMzkzNDMxMzQzODM5MzE2MzM0PiBdCi9FbmNyeXB0
+IDUgMCBSCj4+CnN0YXJ0eHJlZgo0NzYKJSVFT0YK
+
+--===============0550488420636553947==--

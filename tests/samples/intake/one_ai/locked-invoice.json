@@ -1,0 +1,61 @@
+{
+ "file": "locked-invoice.eml",
+ "answers": {
+  "intake_decide": {
+   "what": {
+    "type": "choice",
+    "choice": "Real",
+    "probabilities": {
+     "Real": 0.9
+    }
+   },
+   "asks": {
+    "type": "noul",
+    "noul": 0.2
+   }
+  },
+  "intake_read": {
+   "kind": "Letter",
+   "title": "Invoice INV-5507, password to follow",
+   "summary": "Gulf Hardware sends invoice INV-5507 in a locked PDF and will send the password separately.",
+   "language": "en",
+   "number": "INV-5507",
+   "issued": null,
+   "dates": [],
+   "money": null,
+   "lines": [],
+   "promises": [
+    {
+     "what": "send the password separately",
+     "by": null
+    }
+   ],
+   "notice": null,
+   "references": [
+    {
+     "kind": "Invoice",
+     "value": "INV-5507"
+    }
+   ],
+   "parties": [
+    {
+     "role": "Sender",
+     "name": "Gulf Hardware",
+     "person": false,
+     "email": "billing@gulf-hardware.example"
+    }
+   ],
+   "document": null,
+   "asks": [],
+   "facts": [],
+   "sensitivity": "Ordinary",
+   "confidence": 0.85
+  },
+  "intake_audit": "right",
+  "intake_place": "first"
+ },
+ "makes": [],
+ "states": [
+  "Password Protected"
+ ]
+}

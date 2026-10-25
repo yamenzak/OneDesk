@@ -1,0 +1,71 @@
+{
+ "file": "enquiry-de.eml",
+ "answers": {
+  "intake_decide": {
+   "what": {
+    "type": "choice",
+    "choice": "Real",
+    "probabilities": {
+     "Real": 0.94
+    }
+   },
+   "asks": {
+    "type": "noul",
+    "noul": 0.91
+   }
+  },
+  "intake_read": {
+   "kind": "Inquiry",
+   "title": "Anfrage Pfosten-Riegel-Fassade",
+   "summary": "Becker Projektbau bittet um ein Angebot und die Lieferzeit für eine Pfosten-Riegel-Fassade.",
+   "language": "de",
+   "number": null,
+   "issued": "2026-10-06",
+   "dates": [],
+   "money": null,
+   "lines": [],
+   "promises": [],
+   "notice": null,
+   "references": [],
+   "parties": [
+    {
+     "role": "Sender",
+     "name": "Becker Projektbau GmbH",
+     "person": false,
+     "email": "j.becker@becker-projektbau.de",
+     "phone": "+49 89 2004 1180"
+    },
+    {
+     "role": "Sender",
+     "name": "Jonas Becker",
+     "person": true,
+     "email": "j.becker@becker-projektbau.de"
+    }
+   ],
+   "document": null,
+   "asks": [
+    {
+     "what": "Send",
+     "detail": "ein Angebot und die Lieferzeit",
+     "by": null,
+     "of": "us"
+    }
+   ],
+   "facts": [],
+   "sensitivity": "Ordinary",
+   "confidence": 0.9
+  },
+  "intake_audit": "right"
+ },
+ "makes": [
+  {
+   "doctype": "Lead",
+   "values": {
+    "company_name": "Becker Projektbau GmbH"
+   }
+  },
+  {
+   "doctype": "Task"
+  }
+ ]
+}

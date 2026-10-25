@@ -32,6 +32,10 @@ Each says what was done meanwhile, so nothing waited on it.
   dates that moved since the demo was seeded, and
   `oneai_is_told_what_every_place_shows` finds Settings › Mail, Masters and
   Mail Templates with no sentence for OneAI. None touch OneAI's reading.
+- **Five reading scenarios have no sample yet:** a voice note, several
+  attachments in one mail, a PDF longer than one Clairic pass, the same
+  invoice twice, and a currency written as a word (docs/AICENTER.md, stage
+  4). The readers handle the first four; the fifth relies on the talk read.
 - **Fixed on the way:** `brief.py` defined `_off()` twice, so turning a
   record type's summaries off never took; the second is `_mailboxes_off()`.
 
