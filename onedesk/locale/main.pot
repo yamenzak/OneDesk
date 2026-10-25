@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-25 19:02+0000\n"
-"PO-Revision-Date: 2026-10-25 19:02+0000\n"
+"POT-Creation-Date: 2026-10-25 19:16+0000\n"
+"PO-Revision-Date: 2026-10-25 19:16+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -5563,7 +5563,7 @@ msgstr ""
 #: frontend/src/cloud/OneCloud.vue:26 frontend/src/mail/OneMail.vue:18
 #: frontend/src/sheet/components/SheetEditor/index.vue:38
 #: frontend/src/writer/DocumentPage.vue:5
-#: onedesk/public/js/module_settings.js:245
+#: onedesk/public/js/module_settings.js:238
 #: onedesk/public/js/window/frame.js:225
 msgid "Back"
 msgstr ""
@@ -12668,7 +12668,7 @@ msgstr ""
 #: onedesk/one_project/portal.py:13
 #: onedesk/one_task/doctype/task_step/task_step.json
 #: onedesk/public/js/learned.js:31 onedesk/public/js/module_docs.js:449
-#: onedesk/public/js/module_settings.js:129
+#: onedesk/public/js/module_settings.js:122
 #: onedesk/public/js/one_mail/rule_builder.js:248
 #: onedesk/public/js/one_mail/rule_builder.js:318
 #: onedesk/public/js/progress.js:46 onedesk/public/js/progress.js:77
@@ -17180,8 +17180,8 @@ msgstr ""
 msgid "Get the contract signed"
 msgstr ""
 
-#: onedesk/public/js/module_settings.js:118
-#: onedesk/public/js/module_settings.js:120
+#: onedesk/public/js/module_settings.js:111
+#: onedesk/public/js/module_settings.js:113
 msgid "Getting Started"
 msgstr ""
 
@@ -18065,7 +18065,7 @@ msgstr ""
 msgid "Hello, {0}"
 msgstr ""
 
-#: onedesk/public/js/module_docs.js:369 onedesk/public/js/module_settings.js:78
+#: onedesk/public/js/module_docs.js:369
 #: onedesk/public/js/window/nav_tree.js:229
 msgid "Help"
 msgstr ""
@@ -23637,7 +23637,7 @@ msgstr ""
 msgid "Mark as Checked"
 msgstr ""
 
-#: onedesk/public/js/module_settings.js:134
+#: onedesk/public/js/module_settings.js:127
 msgid "Mark as Done"
 msgstr ""
 
@@ -27351,7 +27351,7 @@ msgstr ""
 #: onedesk/one/settings.py:17 onedesk/one/settings.py:115
 #: onedesk/one/sidebar/one/one.json onedesk/one_project/library/mobile_app.json
 #: onedesk/public/js/doctype_settings.js:234
-#: onedesk/public/js/module_settings.js:161
+#: onedesk/public/js/module_settings.js:154
 #: onedesk/public/js/notification_center.js:129
 #: onedesk/public/js/settings.js:3031 onedesk/public/js/settings.js:3123
 #: onedesk/public/js/settings.js:3180 onedesk/public/js/window/chrome.js:92
@@ -28974,7 +28974,7 @@ msgctxt "Go to it"
 msgid "Open"
 msgstr ""
 
-#: onedesk/public/js/module_settings.js:61
+#: onedesk/public/js/module_settings.js:55
 msgid "Open All"
 msgstr ""
 
@@ -35036,7 +35036,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:54
 #: frontend/src/sheet/components/SheetEditor/index.vue:888
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:35
-#: onedesk/one/ai.py:1790 onedesk/public/js/module_settings.js:239
+#: onedesk/one/ai.py:1790 onedesk/public/js/module_settings.js:232
 #: onedesk/public/js/one_mail/mail_compose.js:26
 #: onedesk/public/js/one_mail/rule_builder.js:117
 #: onedesk/public/js/one_mail/rule_builder.js:325
@@ -36292,7 +36292,7 @@ msgstr ""
 msgid "Roles"
 msgstr ""
 
-#: onedesk/public/js/module_settings.js:158
+#: onedesk/public/js/module_settings.js:151
 msgid "Roles and Access"
 msgstr ""
 
@@ -36841,7 +36841,7 @@ msgstr ""
 #: frontend/src/item/ItemBarcodes.vue:77
 #: frontend/src/sheet/components/SheetEditor/index.vue:63
 #: frontend/src/writer/DocumentPage.vue:189
-#: onedesk/public/js/module_settings.js:199
+#: onedesk/public/js/module_settings.js:192
 #: onedesk/public/js/one_mail/mail_templates.js:336
 #: onedesk/public/js/reports.js:306 onedesk/public/js/role_matrix.js:44
 #: onedesk/public/js/shell.js:387
@@ -37835,7 +37835,7 @@ msgstr ""
 #. Task in the ERP Rollout project template
 #: onedesk/one_project/library/client_onboarding.json
 #: onedesk/one_project/library/erp_rollout.json
-#: onedesk/public/js/module_settings.js:132
+#: onedesk/public/js/module_settings.js:125
 msgid "Set Up"
 msgstr ""
 
@@ -39807,7 +39807,7 @@ msgstr ""
 msgid "Start From"
 msgstr ""
 
-#: onedesk/public/js/module_settings.js:173
+#: onedesk/public/js/module_settings.js:166
 msgid "Start Here"
 msgstr ""
 
@@ -49054,7 +49054,7 @@ msgstr ""
 msgid "What to send, as the person will see it."
 msgstr ""
 
-#: onedesk/public/js/module_settings.js:121
+#: onedesk/public/js/module_settings.js:114
 msgid "What to set up so {0} works the way your company does."
 msgstr ""
 
@@ -52903,7 +52903,7 @@ msgstr ""
 msgid "Your Update"
 msgstr ""
 
-#: onedesk/public/js/module_docs.js:92 onedesk/public/js/module_settings.js:75
+#: onedesk/public/js/module_docs.js:92 onedesk/public/js/module_settings.js:71
 msgid "Your Workspace"
 msgstr ""
 
@@ -54915,7 +54915,7 @@ msgstr ""
 msgid "{0} Requests Waiting for You"
 msgstr ""
 
-#: onedesk/public/js/module_settings.js:182
+#: onedesk/public/js/module_settings.js:175
 #: onedesk/public/js/window/nav_tree.js:213
 msgid "{0} Settings"
 msgstr ""

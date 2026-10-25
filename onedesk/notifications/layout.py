@@ -67,17 +67,6 @@ def settle(one: dict) -> dict:
 	return one
 
 
-def table(types: list[dict]) -> str:
-	"""What a module tells people, as a Markdown table for its Help
-	(`{notifications}` on a page): each type, when it is sent and the
-	channels it goes by. Pure, and in English, as Help is."""
-	said = {"bell": "the bell", "email": "email", "push": "push"}
-	rows = ["| You are told | When | By |", "| --- | --- | --- |"]
-	for one in sorted(types, key=lambda one: one["name"]):
-		by = [said[channel] for channel in CHANNELS if (one.get("channels") or {}).get(channel, True) is True]
-		by = (", ".join(by[:-1]) + " and " + by[-1]) if len(by) > 1 else by[0]
-		rows.append(f"| **{one['name']}** | {one['about']} | {by[0].upper() + by[1:]} |")
-	return "\n".join(rows)
 
 
 def cut(text: str, most: int) -> str:

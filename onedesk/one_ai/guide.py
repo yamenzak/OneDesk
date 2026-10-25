@@ -86,13 +86,6 @@ def page(path: Path) -> str:
 		from onedesk.one import abilities
 
 		text = text.replace("{roles}", abilities.defaults_table(module))
-	if "{notifications}" in text:
-		import importlib
-
-		from onedesk.notifications import layout
-
-		sent = importlib.import_module(f"onedesk.{path.parent.parent.name}.notifications").TYPES
-		text = text.replace("{notifications}", layout.table(sent))
 	text = re.sub(r"^(#{1,2}) ", lambda found: "#" * (len(found.group(1)) + 1) + " ", text, flags=re.M)
 	return f"# {module}\n\n{text}"
 

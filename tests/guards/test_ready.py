@@ -187,6 +187,7 @@ def test_a_change_to_what_a_module_agrees_on_is_said():
 		for newer, older in zip(found, found[1:]):
 			if "legal" in older and newer.get("legal") != older["legal"]:
 				assert AGREEMENTS.search(newer["body"]), f"{module} {newer['version']} changes the agreements without saying which"
+				assert newer["kind"] != "fix", f"{module} {newer['version']} changes the agreements, so it is at least a minor (docs/READY.md, Which number moves)"
 
 
 def _declared(path: Path) -> dict:
@@ -254,8 +255,7 @@ def test_a_module_says_how_and_from_whom_it_tells_people():
 	"""Every kind of notification a ready module sends names each channel,
 	on or why not, and its sender, system or workspace (docs/READY.md,
 	mechanism 8), in place of the email, push and from_one flags. Its
-	subject fits the bell's line, and its Help lists what it sends
-	({notifications})."""
+	subject fits the bell's line."""
 	import runpy
 
 	layout = runpy.run_path(str(ROOT / "onedesk" / "notifications" / "layout.py"))
@@ -274,9 +274,6 @@ def test_a_module_says_how_and_from_whom_it_tells_people():
 			assert not loose, f"{where} says {sorted(loose)}; its channels and sender say that"
 			line = re.sub(r"\{\w+\}", "x" * 20, one["subject"])
 			assert len(line) <= layout["BELL_LINE"], f"{where}'s subject is longer than the bell's line"
-		if types:
-			pages = [page["body"] for page in ready.help_pages(module)]
-			assert any("{notifications}" in body for body in pages), f"{module}'s Help doesn't list what it sends ({{notifications}})"
 
 
 # What only AccessCenter and NotificationCenter draw (docs/READY.md,

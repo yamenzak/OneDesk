@@ -77,9 +77,6 @@ How each channel shows one is written down once, in `layout.py`:
 | Email | The framed layout (`one/notify.py` `compose`), from One or the workspace by its sender |
 | Push | The subject as its title, cut at `PUSH_TITLE` (65), and the message as its body, cut at `PUSH_BODY` (180), on a whole word (`layout.cut`) |
 
-A module's Help lists what it sends with `{notifications}` on a page, the
-table `layout.table` draws from the same entries.
-
 ## Adding one
 
 1. Write its file under the module that sends it.

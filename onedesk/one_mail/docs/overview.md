@@ -30,11 +30,3 @@ the cog that opens Settings.
 | See a customer's mail on their record | [Mail on Records](mail-on-records) |
 | Let OneAI read and file mail | [OneAI in Your Mail](asking-oneai) |
 | Decide who may change what | [Who Can Do What](who-can-do-what) |
-
-## What OneMail Tells You
-
-You choose how you hear of each in **NotificationCenter**: **Notifications**
-at the end of OneMail's settings, or the gear in the bell's list. Each goes
-only to the people it names.
-
-{notifications}

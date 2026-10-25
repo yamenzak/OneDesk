@@ -183,6 +183,30 @@ ones that read only the top of `public/js` or `public/css` also read `one_*/`.
   pages its `docs:` front matter names. `test_ready.py` fails on a `docs:`
   page that is not a Help page.
 
+**Released at 1.0.0.** A module's first version is the day it is first
+marked ready, and everything before that is in git, not in What's New. Its
+Help already says everything it does, so 1.0.0 says what the module is and
+points at Help. OneMail was released this way on 2026-10-25, under this
+first version of the standard.
+
+**Which number moves.** A version is x.y.z, and the biggest change in it
+picks which:
+
+- **Major (x)**: something people already use works differently or is
+  gone. They have to learn it again, redo a setting, or lose something: a
+  screen, a setting or an ability removed, a flow that now goes another
+  way, mail or records moved or reshaped, a role given less than it had.
+- **Minor (y)**: something new people can do, and nothing they already do
+  changes: a new screen, setting, notification, role or Help page, an
+  optional service, or any change to what the module adds to the
+  agreements, even if nothing else moved.
+- **Fix (z)**: it now does what Help already says it does. Bugs, words,
+  layout, speed and translations. Nothing new to learn and no new setting.
+
+When torn between two, take the bigger one. `test_ready.py` holds the one
+rule a machine can check: a fix never changes what the module adds to the
+agreements.
+
 **Before.** Nothing per module. Frappe's own What's New dialog
 (`frappe/utils/change_log.py`) is per app and reads
 `<app>/change_log/v1/v1_2_3.md`.
@@ -385,11 +409,11 @@ flags, which `notifications/layout.py` `settle` derives for the rest of One.
 How each channel shows one is in `layout.py` once: the bell's line
 (`BELL_LINE`), the framed mail, and a push's title and body
 (`PUSH_TITLE`, `PUSH_BODY`, cut on a whole word by `layout.cut`, which
-`one/push.py` now uses). Help lists what a module sends from the same
-entries (`{notifications}`, `layout.table`). `test_ready.py` fails on a
-ready module without `notifications.py`, a type missing a channel or its
-sender, a channel off without a reason, a leftover flag, a subject past
-the bell's line, or Help without the list. The README in
+`one/push.py` now uses). Help doesn't list what a module sends: people
+see that in NotificationCenter, where they choose it. `test_ready.py`
+fails on a ready module without `notifications.py`, a type missing a
+channel or its sender, a channel off without a reason, a leftover flag, or
+a subject past the bell's line. The README in
 `onedesk/notifications/` has the table. OneMail's two about storage and
 credits are from One; the rest from the workspace.
 

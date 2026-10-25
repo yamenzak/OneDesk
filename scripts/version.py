@@ -2,10 +2,18 @@
 
     python3 scripts/version.py one_mail minor "Out of office in Arabic"
 
-The kind is major, minor or fix. The new file in the module's
-docs/changelog/ carries today's date, the kind, the title, the module's
-fingerprint and what it agrees on (its legal stamp); its words are yours to write, for the people who use the
-module, in English. tests/guards/test_ready.py fails until they are.
+The kind is major, minor or fix, picked by the biggest change in it
+(docs/READY.md, Which number moves):
+
+    major  something people already use works differently or is gone
+    minor  something new they can do, and nothing they do changes; or a
+           change to what the module adds to the agreements
+    fix    it now does what Help already says; nothing new to learn
+
+The new file in the module's docs/changelog/ carries today's date, the
+kind, the title, the module's fingerprint and what it agrees on (its legal
+stamp); its words are yours to write, for the people who use the module, in
+English. tests/guards/test_ready.py fails until they are.
 """
 
 import datetime

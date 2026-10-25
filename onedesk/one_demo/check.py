@@ -9213,9 +9213,6 @@ def help_shows_every_page_in_order():
 		# abilities.py (one/abilities.py defaults_table).
 		roles = next(one["html"] for one in pages if one["id"] == "who-can-do-what")
 		assert "{roles}" not in roles and "Every Mailbox" in roles and "Ask for Approval" in roles, roles[:200]
-		# The overview lists what OneMail sends, from one_mail/notifications.py.
-		told = next(one["html"] for one in pages if one["id"] == "overview")
-		assert "{notifications}" not in told and "Mail Not Sent" in told and "The bell and push" in told, told[-400:]
 	from onedesk.one.notify import declared
 
 	assert declared()["Mail Not Sent"]["email"] is False and declared()["Attachments Not Saved"]["from_one"] is True

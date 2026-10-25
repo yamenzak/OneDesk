@@ -1,6 +1,6 @@
 // One settings dialog for every module (docs/READY.md, mechanism 5):
-// frappe's settings dialog with the module's mark and Help at the top of
-// its sidebar, and its tabs left out where the reader's role can't use them.
+// frappe's settings dialog with the module's mark at the top of its
+// sidebar, and its tabs left out where the reader's role can't use them.
 // The kit is what a module's tabs are drawn with, so every module's settings
 // look and behave alike: list rows, headings with a control at their end,
 // a switch after a tab's title, Back before a view's title, a Save that
@@ -47,18 +47,14 @@ onedesk.module_head = ($into, { center, module = null, label = null, icon = null
 	return $head;
 };
 
-// A button at the top of a centre, beside its name: Help, or the arrows
-// that open the whole of it (`expand`).
-onedesk.module_head_tool = ($head, { icon, title, click }) =>
-	$(frappe.ui.button.html({ variant: "ghost", icon, title, attrs: { "aria-label": title } }))
-		.on("click", click)
-		.appendTo($head.find(".one-module-head-tools"));
-
-// Every centre opened on a part of One opens the whole of it from the same
-// arrows: a module's HelpCenter all of One's help, its ControlCenter the
-// workspace's settings, an AccountCenter the module's ControlCenter.
+// The one button at the top of a centre, beside its name: the arrows that
+// open the whole of it. A module's HelpCenter opens all of One's help, its
+// ControlCenter the workspace's settings, an AccountCenter the module's
+// ControlCenter. Help itself is in the module's foot, not here.
 onedesk.module_head_expand = ($head, open) =>
-	onedesk.module_head_tool($head, { icon: "maximize-2", title: __("Open All"), click: open });
+	$(frappe.ui.button.html({ variant: "ghost", icon: "maximize-2", title: __("Open All"), attrs: { "aria-label": __("Open All") } }))
+		.on("click", open)
+		.appendTo($head.find(".one-module-head-tools"));
 
 onedesk.module_settings.Dialog = class ModuleSettingsDialog extends frappe.ui.SettingsDialog {
 	render_sidebar() {
@@ -74,9 +70,6 @@ onedesk.module_settings.Dialog = class ModuleSettingsDialog extends frappe.ui.Se
 				? { center: this.center || "settings", module: this.module }
 				: { center: this.center, label: __("Your Workspace"), icon: "building" };
 		const $head = onedesk.module_head(this.$sidebar, center);
-		if (["settings", "account"].includes(center.center) && frappe.boot.one_versions && frappe.boot.one_versions[this.module]) {
-			onedesk.module_head_tool($head, { icon: "circle-question-mark", title: __("Help"), click: () => onedesk.help.open(this.module) });
-		}
 		onedesk.module_head_expand($head, () => {
 			if (this.expand) return this.expand();
 			this.hide();
