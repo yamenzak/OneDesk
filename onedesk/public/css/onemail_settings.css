@@ -369,7 +369,7 @@
 
 .oms .oms-note .icon {
 	flex-shrink: 0;
-	margin-top: calc(var(--spacing) * 0.5);
+	margin: calc(var(--spacing) * 0.5) 0 0;
 	color: var(--ink-gray-5);
 }
 
