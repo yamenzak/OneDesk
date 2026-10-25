@@ -3334,6 +3334,10 @@ msgstr "Zuteilungs-Nr."
 msgid "Allow Employees to Check In Themselves"
 msgstr "Mitarbeitern erlauben, sich selbst einzuchecken"
 
+#: onedesk/public/js/onemail_settings.js:1183
+msgid "Allow External Mailboxes"
+msgstr "Externe Postfächer erlauben"
+
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:35
 msgid "Allow Grace Period"
 msgstr "Kulanzzeit erlauben"

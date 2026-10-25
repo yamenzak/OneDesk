@@ -3334,6 +3334,10 @@ msgstr "رقم التخصيص"
 msgid "Allow Employees to Check In Themselves"
 msgstr "السماح للموظفين بتسجيل حضورهم بأنفسهم"
 
+#: onedesk/public/js/onemail_settings.js:1183
+msgid "Allow External Mailboxes"
+msgstr "السماح بصناديق البريد الخارجية"
+
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:35
 msgid "Allow Grace Period"
 msgstr "السماح بفترة السماح"

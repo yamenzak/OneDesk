@@ -1,5 +1,6 @@
 """The workspace's own address, which Layla and every later administrator
-hold, and the mail a customer, a supplier and a hotel sent it this week.
+hold, everybody's own address, and the mail a customer, a supplier and a
+hotel sent it this week.
 OneAI does not read this mailbox; the owner's own address is the one it
 reads (intake.py)."""
 
@@ -46,6 +47,7 @@ def run(password=None):
 	account = addresses.ensure_workspace()
 	if not account:
 		return
+	everybody()
 	box = frappe.get_doc("Email Account", account)
 	for sender, subject, days, body in MAILS:
 		if frappe.db.exists("Communication", {"email_account": account, "subject": subject}):
@@ -59,3 +61,20 @@ def run(password=None):
 		mail.set_content(body)
 		tag(Arrival(mail.as_bytes(), box).process())
 	frappe.db.commit()
+
+
+def everybody() -> None:
+	"""An address for each person, as adding them gives one (addresses.for_person,
+	which waits for the mail Worker's secret, so a demo without one gives them
+	here)."""
+	from onedesk.one_mail import addresses
+
+	own = f"%.{addresses.slug()}@{addresses.domain()}"
+	for user, first in frappe.get_all(
+		"User",
+		filters={"user_type": "System User", "enabled": 1, "name": ["like", "%@one.test"]},
+		fields=["name", "first_name"],
+		as_list=True,
+	):
+		if not frappe.db.exists("User Email", {"parent": user, "email_account": ["like", own]}):
+			addresses.give(user, addresses.free(addresses.suggested(first, user)))

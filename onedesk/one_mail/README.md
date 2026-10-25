@@ -73,10 +73,15 @@ employee that reads its mail:
 - **Shared Mailboxes** (administrators): the workspace mailbox and every
   shared one. Opening one shows the same tabs; **Users** adds or removes
   people and turns **Send** on or off per user.
+- **People's Mailboxes** (administrators, and roles that reach other
+  people's mail): everybody's own mailboxes, each opened to its signature,
+  out-of-office reply, OneAI and Automation tabs.
 - **Personal Addresses** (administrators): **Send From Workspace
-  Addresses**, and **External Mailboxes** for mailboxes users connect
-  themselves. When on, **Allowed Domains** limits them to the domains listed;
-  leave it empty to allow any. Shared mailboxes are not affected.
+  Addresses**, whether people may send from their own address.
+- **External Mailboxes** (administrators): **Allow External Mailboxes** for
+  mailboxes users connect themselves. When on, **Allowed Domains** limits
+  them to the domains listed; leave it empty to allow any. Shared mailboxes
+  are not affected.
 - **Mail Templates** (administrators): reusable email text.
 
 ## Connecting a mailbox
