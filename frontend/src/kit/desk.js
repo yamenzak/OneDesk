@@ -303,7 +303,7 @@ export const symbol = (name) => {
   return found ? { viewBox: found.getAttribute("viewBox"), html: found.innerHTML } : null;
 };
 
-// Where on the window a part of an island goes (docs/WINDOW.md, The parts):
+// Where on the window a part of an island goes (docs/ONEINTERFACE.md, The parts):
 // the nav pane under the view's row, the details pane, the command row or the
 // views at its end. Null when the island is not on a window (in a dialog).
 export function windowPart(win, part, { key = "page", width } = {}) {

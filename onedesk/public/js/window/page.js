@@ -1,4 +1,4 @@
-// A desk page on the window (docs/WINDOW.md): any page frappe loads by name
+// A desk page on the window (docs/ONEINTERFACE.md): any page frappe loads by name
 // (a dashboard, print, a query report, a page of ours). What every page has
 // is frappe's primary button and its menu, said once here when the page has
 // loaded; a view that knows more says it in its own adapter.

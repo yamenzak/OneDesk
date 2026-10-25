@@ -1,4 +1,4 @@
-// A list on the window (docs/WINDOW.md): frappe's ListView and every view
+// A list on the window (docs/ONEINTERFACE.md): frappe's ListView and every view
 // made from it (Report, Kanban, Calendar, Gantt, Image, Map, Dashboard,
 // Inbox, File), saying what they have through `window.view`. Every node
 // handed over is frappe's own, which frappe keeps a reference to, so it still

@@ -119,7 +119,7 @@
 // OneCloud (one_storage/api.py) as Explorer has it: the folders as a tree,
 // what is in the one open as Details or Tiles, what is chosen beside it, and
 // the keys, menus, cut, copy and paste, rename in place and dragging that
-// Explorer has. On its own page it is on the window (docs/WINDOW.md): the
+// Explorer has. On its own page it is on the window (docs/ONEINTERFACE.md): the
 // tree in the nav pane, the commands in the command row, the chosen file in
 // the details pane, the path in the breadcrumbs and the count in the status
 // row. In a record's files dialog (`room`) and in the picker (`picker`) it

@@ -1,7 +1,7 @@
 """Masters: the short lists records pick their values from. A salutation, a
 gender, a customer group, a unit, a department.
 
-Each is frappe's own list and form (docs/WINDOW.md, the screen contract); what
+Each is frappe's own list and form (docs/ONEINTERFACE.md, the screen contract); what
 is ours is which they are, grouped by the app that uses them, as a tree in the
 nav pane beside any one of them (public/js/masters.js), and One's rail >
 Masters, which opens the one last open.

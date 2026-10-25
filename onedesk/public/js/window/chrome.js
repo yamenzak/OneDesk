@@ -1,4 +1,4 @@
-// The frame around every screen (docs/WINDOW.md): frappe's rail down the left,
+// The frame around every screen (docs/ONEINTERFACE.md): frappe's rail down the left,
 // a bar across the top and a bar across the bottom, in the frame's colour,
 // with the screen inset between them. The top bar is the workspace and what
 // reaches you (its name, announcements, search, OneIntake, notifications);

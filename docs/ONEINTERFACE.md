@@ -1,9 +1,13 @@
-# The window
+# OneInterface
 
-Every screen of One in one frame, the way every folder in Windows Explorer
+OneInterface is every screen of One in one frame, the way every folder in Windows Explorer
 looks the same whatever is in it. OneCloud is the frame's first tenant
 because it already looks like this; every list, form, report and page of
 ours follows, one by one.
+
+OneInterface is the name. In code it is still `window`: `onedesk.window`,
+`public/js/window/`, the `one-window-*` classes and the kit's `window*`
+helpers, as OneCloud is still `onestorage`. Each screen in it is "a window".
 
 The rule the frame is built on: **frappe's parts, placed; never redrawn.**
 A list stays frappe's ListView, a form stays frappe's Form, the sidebar stays

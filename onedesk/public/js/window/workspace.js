@@ -1,4 +1,4 @@
-// A workspace on the window (docs/WINDOW.md): frappe's Workspace, an app's
+// A workspace on the window (docs/ONEINTERFACE.md): frappe's Workspace, an app's
 // own home. Its Save (while it is edited) and its menu lead the command row.
 onedesk.window.adapt("workspace", () => {
 	const Workspace = frappe.views && frappe.views.Workspace;

@@ -1,4 +1,4 @@
-// The window (docs/WINDOW.md): every screen in one frame, built from frappe's
+// The window (docs/ONEINTERFACE.md): every screen in one frame, built from frappe's
 // own parts. Nothing here redraws what frappe draws; it places it, and adds
 // Back, Forward, Up, Refresh, a search box, a status row and a details pane.
 //
@@ -37,7 +37,7 @@ $.extend(onedesk.window, {
 	trees: [],
 
 	// The kinds of view on the window, for everybody: each was walked before
-	// it joined (docs/WINDOW.md).
+	// it joined (docs/ONEINTERFACE.md).
 	ON: ["page", "list", "board", "report", "tree", "form", "print", "workspace"],
 
 	covers(kind) {

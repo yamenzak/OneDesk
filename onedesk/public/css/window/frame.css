@@ -1,4 +1,4 @@
-/* The window (docs/WINDOW.md). frappe's page head becomes two rows by
+/* The window (docs/ONEINTERFACE.md). frappe's page head becomes two rows by
    wrapping, so nothing frappe holds moves: the address row (Back, Forward, Up,
    frappe's breadcrumbs and pill, Refresh, search) and the command row (the
    view's commands, frappe's actions, the details switch). */

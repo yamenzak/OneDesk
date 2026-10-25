@@ -82,7 +82,7 @@ DEFINES_TOKENS = (
 
 LOOKED = {
 	# frappe's own form tabs, moved into the window's row and folded into More;
-	# placed, not redrawn (docs/WINDOW.md).
+	# placed, not redrawn (docs/ONEINTERFACE.md).
 	("tabs", "onedesk/public/css/window/views.css"),
 	("fetching", "frontend/src/cloud/OneCloud.vue"),
 	("icons", "onedesk/one/letter_heads.py"),

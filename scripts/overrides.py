@@ -46,7 +46,7 @@ OVERRIDES = [
 	),
 	(
 		"A page asks for the window, or the trial puts every page in it",
-		"frappe.ui.make_app_page builds every page; window/frame.js gives the page made a window of frappe's own parts (docs/WINDOW.md) and changes nothing it made",
+		"frappe.ui.make_app_page builds every page; window/frame.js gives the page made a window of frappe's own parts (docs/ONEINTERFACE.md) and changes nothing it made",
 		"onedesk/public/js/window/frame.js",
 		"frappe/frappe/public/js/frappe/ui/page.js",
 		"frappe.ui.make_app_page = function (opts) {",

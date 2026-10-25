@@ -1,4 +1,4 @@
-// A record's print on the window (docs/WINDOW.md): frappe's PrintView, which
+// A record's print on the window (docs/ONEINTERFACE.md): frappe's PrintView, which
 // the print page defines when it first loads, so the adapter waits for the
 // class. Print and the menu come from the page (page.js); Up goes back to
 // the record.

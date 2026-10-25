@@ -1,4 +1,4 @@
-/* The frame around every screen (docs/WINDOW.md, js/window/chrome.js):
+/* The frame around every screen (docs/ONEINTERFACE.md, js/window/chrome.js):
    frappe's rail down the left, a bar across the top and one across the
    bottom, all in the frame's colour, and the screen between them inset with
    rounded corners. The frame is dark in a light theme and a step off the

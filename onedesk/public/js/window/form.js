@@ -1,4 +1,4 @@
-// A form on the window (docs/WINDOW.md): frappe's Form, saying what it has
+// A form on the window (docs/ONEINTERFACE.md): frappe's Form, saying what it has
 // through `window.view`. Its one main action leads the command row as New
 // does on a list (frappe's Save, Submit or Update; when frappe has none, the
 // record's own solid button, such as Record Payment), its other buttons
@@ -57,7 +57,7 @@ onedesk.window.adapt("form", () => {
 		frappe.ui.form.make_control.one_window = true;
 	}
 
-	// Making a record on the window (docs/WINDOW.md): one dialog for every
+	// Making a record on the window (docs/ONEINTERFACE.md): one dialog for every
 	// create, in place of frappe's quick entry and its full-page new form alike.
 	// It is frappe's own form, mounted in frappe's SettingsDialog as frappe's
 	// Data Import dialog mounts one, so the doctype's scripts, its depends_on and

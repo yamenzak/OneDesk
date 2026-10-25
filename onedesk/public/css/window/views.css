@@ -1,4 +1,4 @@
-/* What a view brings into the frame's rows (docs/WINDOW.md): a list's rows
+/* What a view brings into the frame's rows (docs/ONEINTERFACE.md): a list's rows
    and filters, a query report's footer. The frame's own rows are frame.css. */
 
 @media (min-width: 768px) {

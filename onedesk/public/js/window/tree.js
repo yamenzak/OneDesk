@@ -1,4 +1,4 @@
-// A tree on the window (docs/WINDOW.md): frappe's TreeView (accounts, cost
+// A tree on the window (docs/ONEINTERFACE.md): frappe's TreeView (accounts, cost
 // centres, item groups...), laid out as a list is. Its New and menu lead the
 // command row, its Sort and Expand/Collapse sit before the view toggles as a
 // list's Filter and Sort do, its filters are the view row, and the address

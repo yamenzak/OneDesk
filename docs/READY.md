@@ -78,7 +78,7 @@ onedesk/<module>/
 
 What frappe makes live elsewhere stays there: static files in
 `public/<module>/`, fixtures and translations per app. The root `docs/`
-keeps what has no single module: this file, the passover, the window, the
+keeps what has no single module: this file, the passover, OneInterface, the
 wording and the generated reference.
 
 ## The mechanisms
@@ -90,7 +90,7 @@ notifications and screens. `tests/guards/test_wording.py` checks
 descriptions (130 characters, two sentences, no first person, no em dash)
 and screen text (140 characters, no joined clauses).
 
-**Missing.** A Window UI section with hard limits and a tone, and a guard
+**Missing.** A OneInterface section with hard limits and a tone, and a guard
 that reads the strings a screen actually shows, not only doctype JSON.
 
 **To build.**
@@ -365,7 +365,7 @@ names its mechanism.
    like**).
 9. **Notifications.** It tells people what they need, on the right channels,
    only to the right roles (mechanism 8).
-10. **Window UI pass.** On the Window, tokens only, frappe-ui and frappe
+10. **OneInterface pass.** On OneInterface, tokens only, frappe-ui and frappe
     controls, realtime where data changes under it, values formatted by
     frappe, and the reader's date, number and time zone preferences. This is
     checked in the browser, as each role, desktop and phone.

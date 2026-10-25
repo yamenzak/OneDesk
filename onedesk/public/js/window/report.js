@@ -1,4 +1,4 @@
-// A query report on the window (docs/WINDOW.md): frappe's QueryReport, whose
+// A query report on the window (docs/ONEINTERFACE.md): frappe's QueryReport, whose
 // page frappe's report factory makes rather than its page loader, so it
 // hands over its primary button and menu itself. Its filters stay the view
 // row and its Refresh is frappe's (moved by the frame); it says how many rows

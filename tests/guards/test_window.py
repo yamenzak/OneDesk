@@ -1,4 +1,4 @@
-"""The window (docs/WINDOW.md): every screen in one frame made of frappe's own
+"""The window (docs/ONEINTERFACE.md): every screen in one frame made of frappe's own
 parts. It adds to frappe's page head and never replaces it, styles itself in
 one file, and OneCloud on its own page draws none of the parts the window
 has. These read the code that says so."""

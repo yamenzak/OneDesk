@@ -70,7 +70,7 @@ name.
 
 ### 2. Our pages get one shell, on `frappe.ui.Page`
 
-**Replaced by the screen contract (docs/WINDOW.md).** Every screen is now
+**Replaced by the screen contract (docs/ONEINTERFACE.md).** Every screen is now
 frappe's own list or form, or a Vue island; the pages below leave the shell
 one at a time, each deleting its old code, and the shell goes when none is
 left (`tests/guards/test_shell.py`). Until a page moves it keeps the rules
@@ -158,7 +158,7 @@ explorer. They take the shell's head, the panes body, its rows, empty states
 and buttons, and keep their own reading pane, tree, grid and upload tray.
 That is the difference between "bespoke" and "a different app".
 
-OneCloud on its own page now sits in the window (docs/WINDOW.md), which
+OneCloud on its own page now sits in the window (docs/ONEINTERFACE.md), which
 takes over its bar, address bar, tree, status line and preview pane; inside a
 record or a picker it keeps them. Every other page follows.
 

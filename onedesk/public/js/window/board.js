@@ -1,4 +1,4 @@
-// A Kanban board on the window (docs/WINDOW.md): frappe's Kanban v2, whose
+// A Kanban board on the window (docs/ONEINTERFACE.md): frappe's Kanban v2, whose
 // code frappe loads only when a board opens, so the adapter waits for the
 // class. Its Add and menu lead the command row. Its Filter, Group and
 // Settings stay in its own filter row: the board places its quick filters
