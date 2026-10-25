@@ -32,7 +32,7 @@ def declared() -> list[tuple[str, str, dict]]:
 			module = importlib.import_module(f"onedesk.{spec['folder']}.notifications")
 		except ModuleNotFoundError:
 			continue
-		found += [(spec["folder"], scrub(one["name"]), dict(one)) for one in module.TYPES]
+		found += [(spec["folder"], scrub(one["name"]), layout.settle(dict(one))) for one in module.TYPES]
 	return found
 
 

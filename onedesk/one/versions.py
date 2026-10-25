@@ -80,11 +80,20 @@ def _pictured(one: dict) -> str:
 
 def _filled(module: str, body: str) -> str:
 	"""A page's words with what the module ships put in: `{roles}` is what
-	each of its roles starts with (one/abilities.py `defaults_table`)."""
+	each of its roles starts with (one/abilities.py `defaults_table`), and
+	`{notifications}` what it tells people (notifications/layout.py
+	`table`)."""
 	if "{roles}" in body:
 		from onedesk.one import abilities
 
 		body = body.replace("{roles}", abilities.defaults_table(module))
+	if "{notifications}" in body:
+		import importlib
+
+		from onedesk.notifications import layout
+
+		sent = importlib.import_module(f"onedesk.{ready.MODULES[module]['folder']}.notifications").TYPES
+		body = body.replace("{notifications}", layout.table(sent))
 	return body
 
 

@@ -68,7 +68,7 @@ def test_every_notification_is_one_file_in_one_layout():
 		path = one["file"]
 		assert one["module"] in modules, f"{name} is under {one['module']}, which is no module"
 		if path.name == "notifications.py":
-			typed = {key: value for key, value in one.items() if key not in ("module", "file")}
+			typed = {key: value for key, value in one.items() if key not in ("module", "file", *layout.MODULE_KEYS)}
 			assert layout.read(layout.write(typed)) == typed, f"{name} in {path} is not in the one layout"
 			continue
 		assert path.name == layout.slug(name), f"{name} is in {path.name}"
@@ -100,9 +100,8 @@ KEYS = {
 
 def test_every_type_says_what_it_needs():
 	for name, one in _declared().items():
-		assert set(one) - {"module", "file"} <= KEYS, (
-			f"{name}: {sorted(set(one) - KEYS - {'module', 'file'})}"
-		)
+		extra = {"module", "file"} | (set(_layout().MODULE_KEYS) if one["file"].name == "notifications.py" else set())
+		assert set(one) - extra <= KEYS, f"{name}: {sorted(set(one) - KEYS - extra)}"
 		upstream = one.get("mailed_by") or one.get("words")
 		assert {"name", "app", "about"} <= set(one), name
 		assert bool(one.get("subject")) != bool(upstream), name

@@ -29,12 +29,7 @@ message can be linked to the customer, supplier or employee it is about.
 
 ## What OneMail Tells You
 
-You hear of these on the bell, and by push where it matters.
+You choose how you hear of each in **Settings › Notifications**. Each goes
+only to the people it names.
 
-| You are told | When |
-| --- | --- |
-| **Mailbox Not Reachable** | A connected mailbox stops connecting. It goes to whoever holds it, or to every administrator when nobody does. |
-| **Mail Not Sent** | Mail you sent could not be delivered after every retry. |
-| **Mailbox Shared With You** | Someone gives you a shared mailbox. |
-| **Covering Mail** | You cover somebody's mail while they are on leave. |
-| **Attachments Not Saved** | Storage is full, at most once a day. |
+{notifications}

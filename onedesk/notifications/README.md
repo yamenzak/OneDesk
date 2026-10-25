@@ -55,6 +55,31 @@ it to that. The file is named for the type, in lower case with underscores.
 | `replaces` | The app's own settings it stands in for. They are turned off and hidden |
 | `starts_as` | It starts on only if this setting of the app's was on |
 
+## Channels, senders and how each looks
+
+A module on its way to ready (`onedesk/one/ready.py`) declares its types in
+its own `notifications.py` rather than in files here, and each says two more
+things (`layout.py`, docs/READY.md mechanism 8):
+
+- **`channels`**: `bell`, `email` and `push`, each `True` or a sentence
+  saying why it doesn't go that way ("Mail is what failed, so it isn't told
+  by mail."). Telegram joins the list when it is built. `layout.settle`
+  turns a channel that's off into `email: no` or `push: no`.
+- **`sender`**: `system`, One about itself (its plan, credits, storage),
+  wearing One's mark; or `workspace`, wearing the workspace's name and
+  colour. It replaces `from_one`.
+
+How each channel shows one is written down once, in `layout.py`:
+
+| Channel | Shows |
+|---|---|
+| Bell | The subject, as one line of at most `BELL_LINE` (120) characters |
+| Email | The framed layout (`one/notify.py` `compose`), from One or the workspace by its sender |
+| Push | The subject as its title, cut at `PUSH_TITLE` (65), and the message as its body, cut at `PUSH_BODY` (180), on a whole word (`layout.cut`) |
+
+A module's Help lists what it sends with `{notifications}` on a page, the
+table `layout.table` draws from the same entries.
+
 ## Adding one
 
 1. Write its file under the module that sends it.

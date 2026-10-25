@@ -248,3 +248,32 @@ def test_a_module_grants_through_abilities_alone():
 			if path.suffix == ".py" and "tests" not in path.parts:
 				hit = SHARES.search(path.read_text(encoding="utf-8"))
 				assert not hit, f"{path.relative_to(ROOT)} writes a share itself ({hit.group(0)}); use abilities.grant"
+
+
+def test_a_module_says_how_and_from_whom_it_tells_people():
+	"""Every kind of notification a ready module sends names each channel,
+	on or why not, and its sender, system or workspace (docs/READY.md,
+	mechanism 8), in place of the email, push and from_one flags. Its
+	subject fits the bell's line, and its Help lists what it sends
+	({notifications})."""
+	import runpy
+
+	layout = runpy.run_path(str(ROOT / "onedesk" / "notifications" / "layout.py"))
+	for module, spec in ready.MODULES.items():
+		path = ROOT / "onedesk" / spec["folder"] / "notifications.py"
+		assert path.exists(), f"{module} says nothing of what it sends: write {path.relative_to(ROOT)}, TYPES = [] if it sends nothing"
+		types = runpy.run_path(str(path))["TYPES"]
+		for one in types:
+			where = f"{module} {one['name']}"
+			channels = one.get("channels") or {}
+			assert tuple(channels) == layout["CHANNELS"] or set(channels) == set(layout["CHANNELS"]), f"{where} names its channels {sorted(channels)}, not {layout['CHANNELS']}"
+			for channel, said in channels.items():
+				assert said is True or (isinstance(said, str) and said.endswith(".")), f"{where}: {channel} is True or a sentence saying why not"
+			assert one.get("sender") in layout["SENDERS"], f"{where}'s sender is one of {layout['SENDERS']}"
+			loose = {"email", "push", "from_one"} & set(one)
+			assert not loose, f"{where} says {sorted(loose)}; its channels and sender say that"
+			line = re.sub(r"\{\w+\}", "x" * 20, one["subject"])
+			assert len(line) <= layout["BELL_LINE"], f"{where}'s subject is longer than the bell's line"
+		if types:
+			pages = [page["body"] for page in ready.help_pages(module)]
+			assert any("{notifications}" in body for body in pages), f"{module}'s Help doesn't list what it sends ({{notifications}})"

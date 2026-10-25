@@ -32,6 +32,60 @@ KEYS = (
 )
 
 WORDS = ("name", "about", "to", "button", "subject", "message")
+
+# The channels a notification can go by (docs/READY.md, mechanism 8). A
+# ready module's type names every one: True, or why it doesn't go by it.
+CHANNELS = ("bell", "email", "push")
+
+# What only a ready module's own notifications.py says, which its files
+# never did: the two above, in place of their flags.
+MODULE_KEYS = ("channels", "sender")
+
+# Who a notification is from: One about itself (its plan, credits, storage),
+# wearing One's mark, or the workspace, wearing its name and colour.
+SENDERS = ("system", "workspace")
+
+# How each channel shows a notification, written down once. The bell shows
+# the subject as one line; a mail is the framed layout (one/notify.py
+# compose); a push is a title and a body, cut to these lengths.
+BELL_LINE = 120
+PUSH_TITLE = 65
+PUSH_BODY = 180
+
+
+def settle(one: dict) -> dict:
+	"""A module's type in the keys the rest of One reads: a channel it names
+	as off is `email: no` or `push: no`, and the system sender is
+	`from_one`. Pure."""
+	channels = one.get("channels")
+	if channels:
+		for channel in ("email", "push"):
+			if channels.get(channel) is not True:
+				one[channel] = False
+	if "sender" in one:
+		one["from_one"] = one["sender"] == "system"
+	return one
+
+
+def table(types: list[dict]) -> str:
+	"""What a module tells people, as a Markdown table for its Help
+	(`{notifications}` on a page): each type, when it is sent and the
+	channels it goes by. Pure, and in English, as Help is."""
+	said = {"bell": "the bell", "email": "email", "push": "push"}
+	rows = ["| You are told | When | By |", "| --- | --- | --- |"]
+	for one in sorted(types, key=lambda one: one["name"]):
+		by = [said[channel] for channel in CHANNELS if (one.get("channels") or {}).get(channel, True) is True]
+		by = (", ".join(by[:-1]) + " and " + by[-1]) if len(by) > 1 else by[0]
+		rows.append(f"| **{one['name']}** | {one['about']} | {by[0].upper() + by[1:]} |")
+	return "\n".join(rows)
+
+
+def cut(text: str, most: int) -> str:
+	"""A line at most `most` long, ending on a whole word and an ellipsis. Pure."""
+	text = " ".join((text or "").split())
+	if len(text) <= most:
+		return text
+	return text[: most - 1].rsplit(" ", 1)[0].rstrip(",;:.") + "…"
 FLAGS = ("email", "push", "email_default", "push_default", "outside", "required", "always_mailed", "from_one", "oneai", "words", "mailed_by")
 SETTINGS = ("switch", "starts_as")
 WIDTH = 78

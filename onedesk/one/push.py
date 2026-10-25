@@ -12,6 +12,8 @@ import frappe
 from frappe import _
 from frappe.utils import now_datetime, strip_html
 
+from onedesk.notifications import layout
+
 SERVICES = (
 	"fcm.googleapis.com",
 	"updates.push.services.mozilla.com",
@@ -171,8 +173,8 @@ def send(log: str) -> None:
 	_send_to(
 		doc.for_user,
 		{
-			"title": strip_html(doc.subject or "")[:200],
-			"body": strip_html(doc.email_content or "")[:300],
+			"title": layout.cut(strip_html(doc.subject or ""), layout.PUSH_TITLE),
+			"body": layout.cut(strip_html(doc.email_content or ""), layout.PUSH_BODY),
 			"url": link,
 			"tag": doc.name,
 		},

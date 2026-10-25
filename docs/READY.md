@@ -362,7 +362,23 @@ grant on one mailbox (Users › Edit Access).
 
 ### 8. Notifications
 
-**Today.** `one/notify.py` is the one door. Each type is a file in
+**Built.** A ready module's types live in its own `notifications.py`, and
+each names its `channels` (bell, email, push: `True`, or a sentence saying
+why not) and its `sender` (`system`, One's mark; `workspace`, the
+workspace's name and colour), in place of the `email`, `push` and `from_one`
+flags, which `notifications/layout.py` `settle` derives for the rest of One.
+How each channel shows one is in `layout.py` once: the bell's line
+(`BELL_LINE`), the framed mail, and a push's title and body
+(`PUSH_TITLE`, `PUSH_BODY`, cut on a whole word by `layout.cut`, which
+`one/push.py` now uses). Help lists what a module sends from the same
+entries (`{notifications}`, `layout.table`). `test_ready.py` fails on a
+ready module without `notifications.py`, a type missing a channel or its
+sender, a channel off without a reason, a leftover flag, a subject past
+the bell's line, or Help without the list. The README in
+`onedesk/notifications/` has the table. OneMail's two about storage and
+credits are from One; the rest from the workspace.
+
+**Before.** `one/notify.py` is the one door. Each type is a file in
 `notifications/<module>/`, with who gets it, the button, and whether it
 mails and pushes. The channels are:
 
