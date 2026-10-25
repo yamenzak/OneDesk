@@ -61,7 +61,10 @@ def page(said: dict) -> str | None:
 	account, thread = said.get("box") or "", said.get("record") or ""
 	where = "The reader is in OneMail"
 	if account and not gate.may_read(account):
-		return where + f", in the mailbox {account}, which OneAI is turned off for: nothing in it can be read or drafted."
+		return (
+			where
+			+ f", in the mailbox {account}, which OneAI is turned off for: nothing in it can be read or drafted."
+		)
 	if account and actions.holds(account):
 		where += f", in the mailbox {account} (the folder id is {said.get('folder') or 'not open'})"
 		subject = _subject(account, thread) if thread else None
@@ -285,9 +288,7 @@ def suggest_mail_rule(
 		},
 	]
 	if read:
-		summary.append(
-			{"label": _("Read with OneAI"), "value": _("Turned on for this mailbox")}
-		)
+		summary.append({"label": _("Read with OneAI"), "value": _("Turned on for this mailbox")})
 	if sort_inbox_now and any(words.values()):
 		summary.append({"label": _("Inbox"), "value": _("Matching mail is moved too")})
 	changes = {
@@ -362,3 +363,225 @@ def make_rule(changes: dict) -> str:
 		if found:
 			actions.move(found, folder)
 	return rule.name
+
+
+# The mailboxes the reader has, their signatures, and the workspace's mail
+# templates, each change a card the reader approves.
+
+
+def my_mailboxes() -> dict:
+	"""The mailboxes the person asking holds: which they send from, what each
+	signs with now, which have stopped connecting and why; and what a
+	signature of theirs would be made of (name, job, phone, company)."""
+	from onedesk.one_hr import own
+	from onedesk.one_mail import holders
+
+	user = frappe.get_doc("User", frappe.session.user)
+	employee = own.employee_of()
+	work = (
+		frappe.db.get_value(
+			"Employee", employee, ["designation", "department", "company", "cell_number"], as_dict=True
+		)
+		if employee
+		else None
+	) or {}
+	return {
+		"mailboxes": [
+			{
+				"mailbox": one["name"],
+				"address": one["email"],
+				"whose": "the workspace's" if one["workspace"] or one["shared"] else "yours",
+				"sends": bool(one["sends"]),
+				"may_sign": bool(one["may_sign"]),
+				"signature": frappe.db.get_value("Email Account", one["name"], "signature")
+				if one["may_sign"]
+				else None,
+				"not_connecting": one["error"],
+				"fix": "Reconnect it on this page with its password" if one["may_reconnect"] else None,
+			}
+			for one in holders.mailboxes()
+		],
+		"signature_from": {
+			"name": user.full_name,
+			"designation": work.get("designation"),
+			"department": work.get("department"),
+			"company": work.get("company") or frappe.defaults.get_global_default("company"),
+			"phone": user.mobile_no or work.get("cell_number"),
+			"email": user.email,
+		},
+	}
+
+
+def sign_mailbox(
+	mailbox: Annotated[str, "The mailbox, as my_mailboxes named it."],
+	signature: Annotated[
+		str, "The signature: a few short lines of simple HTML (<br> between lines, <b> at most)."
+	],
+	why: Annotated[str, "In a sentence, what it says."] | None = None,
+) -> dict:
+	"""Suggest a signature for a mailbox the person asking sends from, as a
+	card they approve. Read my_mailboxes first. Nothing changes until they
+	approve it."""
+	from onedesk.one_ai import proposals
+	from onedesk.one_mail import holders
+
+	if not frappe.db.exists("Email Account", mailbox) or not holders.may_sign(mailbox):
+		return {"error": f"You cannot change how {mailbox} signs. my_mailboxes lists the ones you can."}
+	return {
+		"proposal": proposals.propose(
+			"Signature",
+			"Email Account",
+			changes={"signature": (signature or "").strip()},
+			record=mailbox,
+			why=why,
+		),
+		"state": "Proposed",
+	}
+
+
+TEMPLATE_HELP = (
+	"A template is a subject and a message. Name a field of the record in double braces, bare, as "
+	"{{ customer_name }} or {{ due_date }}: never {{ doc.customer_name }}, which the mail composer, the leave "
+	"mails and the salary slip all fail on. Nothing else in braces: no conditions, loops or filters. The "
+	"message is plain sentences, a blank line between paragraphs. It ends with a closing line such as Kind "
+	"regards and no name under it: the mailbox it is sent from signs it. Read workspace_mail_templates with "
+	"the kind of record first, for the fields it may name."
+)
+
+
+def workspace_mail_templates(
+	doctype: Annotated[
+		str, "A kind of record, such as Sales Invoice, to also read the fields a template may name."
+	]
+	| None = None,
+) -> dict:
+	"""The workspace's mail templates, for its administrators: each one's
+	subject and message as written, the kind of record it is for (none: any
+	record), which kinds start the composer with it, and which setting sends
+	it (the leave mails, the interview reminders). For a kind of record, the
+	fields a template for it may name. Read it before suggesting one."""
+	from onedesk.one import roles, rules
+	from onedesk.one_mail import mail_templates
+
+	if not roles.administers():
+		return {"error": "Only a workspace administrator sees the mail templates."}
+	named_by = {}
+	for single, field, _kind in mail_templates.NAMED_BY:
+		if frappe.db.exists("DocType", single):
+			template = frappe.db.get_single_value(single, field)
+			if template:
+				named_by.setdefault(template, []).append(
+					f"{_(single)}: {frappe.get_meta(single).get_label(field)}"
+				)
+	said = {
+		"templates": [
+			{
+				"name": one["name"],
+				"for": one["reference_doctype"] or "any record",
+				"subject": one["subject"],
+				"message": frappe.utils.strip_html_tags(
+					frappe.db.get_value("Email Template", one["name"], "response") or ""
+				)[:1500],
+				"default_for": one["default_for"],
+				"sent_by": named_by.get(one["name"], []),
+			}
+			for one in mail_templates.templates()
+		],
+		"how_a_template_is_written": TEMPLATE_HELP,
+	}
+	if doctype:
+		try:
+			mail_templates._doctype(doctype)
+		except frappe.ValidationError as e:
+			frappe.clear_last_message()
+			return {"error": str(e)}
+		said["fields"] = {"doctype": doctype, "may_name": rules.readable(doctype)}
+	return said
+
+
+def write_mail_template(
+	subject: Annotated[str, "One line. Fields of the record as {{ fieldname }}."],
+	message: Annotated[str, "The mail itself, paragraphs separated by a blank line. " + TEMPLATE_HELP],
+	name: Annotated[str, "An existing template to change, as workspace_mail_templates names it."]
+	| None = None,
+	new_name: Annotated[str, "A new template's name, such as Payment Reminder."] | None = None,
+	for_doctype: Annotated[str, "The kind of record it is for, such as Sales Invoice. Empty: any record."]
+	| None = None,
+	why: Annotated[str, "In a sentence, what the template is for."] | None = None,
+) -> dict:
+	"""Suggest a mail template, new or changed, as a card a workspace
+	administrator approves: the words a mail about a kind of record starts
+	with, picked in the composer on the record and in OneMail. Read
+	workspace_mail_templates first. Nothing is saved until they approve it.
+	Workspace administrators only."""
+	from onedesk.one import roles, rules
+	from onedesk.one_ai import proposals
+	from onedesk.one_mail import mail_templates
+
+	if not roles.administers():
+		return {
+			"mend": "write_mail_template",
+			"error": "Only a workspace administrator writes mail templates.",
+		}
+	if bool(name) == bool(new_name):
+		return {
+			"mend": "write_mail_template",
+			"error": "Give name to change a template, or new_name for a new one.",
+		}
+	held = (
+		frappe.get_doc("Email Template", name) if name and frappe.db.exists("Email Template", name) else None
+	)
+	if name and not held:
+		return {
+			"mend": "write_mail_template",
+			"error": f"There is no template {name}; read workspace_mail_templates for them.",
+		}
+	if new_name and frappe.db.exists("Email Template", new_name.strip()):
+		return {
+			"mend": "write_mail_template",
+			"error": f"{new_name} is already a template; change it by its name instead.",
+		}
+	kind = (for_doctype or "").strip() or (held.reference_doctype if held else None) or None
+	try:
+		if kind:
+			mail_templates._doctype(kind)
+	except frappe.ValidationError as e:
+		frappe.clear_last_message()
+		return {"mend": "write_mail_template", "error": str(e)}
+	subject, message = (
+		re.sub(r"\{\{-?\s*doc\.(\w+)\s*-?\}\}", r"{{ \1 }}", text or "") for text in (subject, message)
+	)
+	if not kind and mail_templates.FIELD.search(subject + message):
+		return {
+			"mend": "write_mail_template",
+			"error": "A template that names fields is for one kind of record: give for_doctype, such as Sales Invoice.",
+		}
+	kept = mail_templates._tags(held)
+	for text in (subject, message):
+		wrong = mail_templates.check(kind, text, kept)
+		if wrong:
+			fields = (
+				f" Read workspace_mail_templates with doctype {kind} for the fields it may name."
+				if kind
+				else ""
+			)
+			return {"mend": "write_mail_template", "error": wrong + fields}
+	paragraphs = [one.strip() for one in re.split(r"\n\s*\n", message or "") if one.strip()]
+	html = "".join(f"<p>{frappe.utils.escape_html(one).replace(chr(10), '<br>')}</p>" for one in paragraphs)
+	changes = {"subject": subject.strip(), "reference_doctype": kind}
+	changes["response_html" if held and held.use_html else "response"] = html
+	proposal = (
+		proposals.propose("Edit", "Email Template", changes=changes, record=held.name, why=why)
+		if held
+		else proposals.propose(
+			"Create", "Email Template", changes={"name": new_name.strip(), **changes}, why=why
+		)
+	)
+	return {
+		"proposal": proposal,
+		"state": "Proposed",
+		"next": "Tell them it is offered in the composer on "
+		+ (f"a {kind}" if kind else "any record")
+		+ " and in OneMail once they approve it, and that the record's Settings › Mail Templates makes it the "
+		"one the composer starts with.",
+	}

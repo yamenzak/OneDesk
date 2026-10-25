@@ -6671,10 +6671,11 @@ def oneai_reads_and_sets_up_the_workspace_with_layla():
 	"""
 	from onedesk.one import ai, printing, privacy_copy
 	from onedesk.one_ai import memory, tools
+	from onedesk.one_mail import ai as mail_ai
 	from onedesk.one_mail import holders
 
 	with as_user("rania@one.test"):
-		for said in (ai.my_day(), ai.my_mailboxes(), memory.recall(), ai.my_notifications(), ai.my_sign_in()):
+		for said in (ai.my_day(), mail_ai.my_mailboxes(), memory.recall(), ai.my_notifications(), ai.my_sign_in()):
 			assert "error" not in said, said
 		privacy_copy.ask()
 	asked = frappe.db.get_value(privacy_copy.DOWNLOAD, {"user": "rania@one.test"})
@@ -6702,7 +6703,7 @@ def oneai_reads_and_sets_up_the_workspace_with_layla():
 			"numbering": ai.workspace_numbering("Quotation"),
 			"printing": ai.workspace_printing("Sales Invoice"),
 			"layout": ai.print_layout("Sales Invoice"),
-			"mail templates": ai.workspace_mail_templates("Sales Invoice"),
+			"mail templates": mail_ai.workspace_mail_templates("Sales Invoice"),
 			"approvals": ai.workspace_approvals("Purchase Order"),
 			"automations": ai.workspace_automations("Sales Invoice"),
 			"a notification": ai.notification_type(kind),
@@ -6729,9 +6730,9 @@ def oneai_reads_and_sets_up_the_workspace_with_layla():
 		assert printing.default("Sales Invoice") == other
 		_applied(ai.rewrite_notification(kind, "Something for you to look at"))
 		ours = frappe.db.get_value("Email Account", holders.workspace(), "email_id")
-		_applied(ai.sign_mailbox(ours, "Sahara Glass\nDubai Investments Park"))
+		_applied(mail_ai.sign_mailbox(ours, "Sahara Glass\nDubai Investments Park"))
 		assert "Dubai Investments Park" in (frappe.db.get_value("Email Account", holders.workspace(), "signature") or "")
-		_applied(ai.write_mail_template("Invoice {{ name }} is due", "Dear {{ customer_name }},\n\nA reminder that invoice {{ name }} is due.", new_name="Payment reminder", for_doctype="Sales Invoice"))
+		_applied(mail_ai.write_mail_template("Invoice {{ name }} is due", "Dear {{ customer_name }},\n\nA reminder that invoice {{ name }} is due.", new_name="Payment reminder", for_doctype="Sales Invoice"))
 		assert frappe.db.exists("Email Template", "Payment reminder")
 		approval = (
 			ai.suggest_approval(

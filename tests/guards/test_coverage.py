@@ -67,8 +67,9 @@ def features() -> dict[str, set[str]]:
 
 
 def reached(name: str) -> bool:
-	"""A check calls it, as `file.function(`."""
-	return re.search(rf"\b{re.escape(name)}\(", SUITE) is not None
+	"""A check calls it, as `file.function(`, or through an alias ending in
+	the file's name (`mail_ai.function(` for one_mail/ai.py)."""
+	return re.search(rf"(?<![A-Za-z0-9]){re.escape(name)}\(", SUITE) is not None
 
 
 def test_no_module_has_more_left_to_cover_than_it_had():
