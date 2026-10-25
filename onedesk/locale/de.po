@@ -11076,6 +11076,11 @@ msgstr ""
 msgid "Default For"
 msgstr "Standard für"
 
+#: onedesk/public/js/onemail_settings.js:1023
+#: onedesk/public/js/onemail_settings.js:1081
+msgid "Default Incoming"
+msgstr "Standard-Eingang"
+
 #. Label of the default_markup (Float) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Default Markup"
@@ -11085,6 +11090,11 @@ msgstr "Standardaufschlag"
 #: onedesk/one/custom/notification_type.json
 msgid "Default Message"
 msgstr "Standardnachricht"
+
+#: onedesk/public/js/onemail_settings.js:1032
+#: onedesk/public/js/onemail_settings.js:1081
+msgid "Default Outgoing"
+msgstr "Standard-Ausgang"
 
 #: frontend/src/item/ItemBuying.vue:121
 msgid "Default Purchase Unit of Measure"
@@ -11147,6 +11157,10 @@ msgstr "Standard, {0}×"
 #: onedesk/public/js/settings.js:2652 onedesk/public/js/settings.js:2734
 msgid "Default: {0}"
 msgstr "Standard: {0}"
+
+#: onedesk/public/js/onemail_settings.js:1015
+msgid "Defaults"
+msgstr "Standards"
 
 #. Label in the One Process Deferred Accounting print format
 #: onedesk/one_book/print_format/one_process_deferred_accounting/one_process_deferred_accounting.json
@@ -25154,6 +25168,10 @@ msgstr "Neue Mails in diesem Postfach werden von OneAI gelesen, abgelegt und bea
 msgid "New mail is not arriving. Reconnect it with its password."
 msgstr "Neue E-Mails kommen nicht an. Verbinden Sie es erneut mit seinem Passwort."
 
+#: onedesk/public/js/onemail_settings.js:1035
+msgid "New mail is sent from this mailbox unless the writer picks another."
+msgstr "Neue E-Mails werden von diesem Postfach gesendet, sofern der Verfasser kein anderes wählt."
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:737
 msgid "New name"
 msgstr "Neuer Name"
@@ -27029,6 +27047,10 @@ msgstr "Benachrichtigung"
 msgid "Notifications"
 msgstr "Benachrichtigungen"
 
+#: onedesk/public/js/onemail_settings.js:1016
+msgid "Notifications are sent from {0}."
+msgstr "Benachrichtigungen werden von {0} gesendet."
+
 #: onedesk/one/push.py:127
 msgid "Notifications from One will appear like this on this device."
 msgstr "Benachrichtigungen von One erscheinen so auf diesem Gerät."
@@ -28343,10 +28365,6 @@ msgstr "Nur ein Antrag, der noch offen ist, kann abgelehnt werden."
 #: onedesk/one/reports.py:193
 msgid "Only a saved report can be shown somewhere else."
 msgstr "Nur ein gespeicherter Bericht kann woanders gezeigt werden."
-
-#: onedesk/one_mail/holders.py:170
-msgid "Only a shared mailbox can be the workspace mailbox."
-msgstr "Nur ein gemeinsames Postfach kann das Postfach des Arbeitsbereichs sein."
 
 #: onedesk/one_project/progress.py:464
 msgid "Only a submitted order still open can be billed."
@@ -34879,6 +34897,10 @@ msgstr "Beantwortet (%)"
 msgid "Replies"
 msgstr "Antworten"
 
+#: onedesk/public/js/onemail_settings.js:1026
+msgid "Replies to notifications arrive in this mailbox."
+msgstr "Antworten auf Benachrichtigungen kommen in diesem Postfach an."
+
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Asks To' (Select) field in DocType 'Reading Ask'
 #: frontend/src/mail/MailConversation.vue:75
@@ -35321,10 +35343,6 @@ msgstr ""
 #: onedesk/public/js/contact.js:35
 msgid "Restore Access"
 msgstr "Zugang wiederherstellen"
-
-#: onedesk/public/js/onemail_settings.js:243
-msgid "Restore Default Address"
-msgstr "Standardadresse wiederherstellen"
 
 #: frontend/src/sheet/components/SheetEditor/useVersionHistory.js:226
 #: frontend/src/sheet/components/SheetEditor/useVersionHistory.js:285
@@ -37291,10 +37309,6 @@ msgstr "Geben Sie für jeden Artikel, den Sie liefern können, einen Preis an."
 msgid "Set as Default"
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:233
-msgid "Set as Workspace Mailbox"
-msgstr "Als Arbeitsbereich-Postfach festlegen"
-
 #. Description of the 'approval_status' field in DocType 'Expense Claim'
 #. Description of the 'status' field in DocType 'Leave Application'
 #. Description of the 'status' field in DocType 'Shift Request'
@@ -37385,10 +37399,6 @@ msgstr "Wird gesetzt, wenn das Audio nach der Aufbewahrungsfrist in den HR-Einst
 #: onedesk/one/doctype/workspace_customization/workspace_customization.json
 msgid "Set when the row was a module's before the workspace changed it."
 msgstr "Gesetzt, wenn die Zeile einem Modul gehörte, bevor der Arbeitsbereich sie änderte."
-
-#: onedesk/public/js/onemail_settings.js:235
-msgid "Set {0} as the workspace mailbox?"
-msgstr "{0} als Arbeitsbereich-Postfach festlegen?"
 
 #: onedesk/one/settings.py:1055
 msgid "Sets every app below. Changing an app by hand removes the profile."
@@ -46434,10 +46444,6 @@ msgstr "Meinen Standort verwenden"
 msgid "Use SSL"
 msgstr "SSL verwenden"
 
-#: onedesk/public/js/onemail_settings.js:245
-msgid "Use the default workspace address again?"
-msgstr "Wieder die Standardadresse des Arbeitsbereichs verwenden?"
-
 #. The button on a notification's mail
 #: onedesk/notifications/one_admin/confirm_your_new_email.md
 msgid "Use this address for my One account"
@@ -55139,6 +55145,10 @@ msgstr "{0} ist keine Regel von {1}."
 #: onedesk/one/numbering.py:224
 msgid "{0} is not a series of {1}."
 msgstr "{0} ist keine Serie von {1}."
+
+#: onedesk/one_mail/holders.py:507
+msgid "{0} is not a shared mailbox."
+msgstr "{0} ist kein gemeinsames Postfach."
 
 #: onedesk/one/ai.py:3076
 msgid "{0} is not a table"

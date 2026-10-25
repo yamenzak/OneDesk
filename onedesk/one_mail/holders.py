@@ -15,6 +15,7 @@ from frappe import _
 from onedesk.one_mail import addresses
 
 WORKSPACE = "one_mail_workspace"
+SENDS_FROM = "one_mail_sends_from"
 
 ORDER = ("Inbox", "Drafts", "Sent", "Archive", "Junk", "Trash", "Other")
 
@@ -51,11 +52,30 @@ def may_open_others() -> bool:
 
 
 def workspace() -> str | None:
-	"""The workspace's mailbox."""
+	"""The workspace's mailbox, its Default Incoming: listed first, and where
+	replies to the workspace's notifications come back to (one/notify.py)."""
 	chosen = frappe.db.get_default(WORKSPACE)
 	if chosen and frappe.db.exists("Email Account", chosen):
 		return chosen
 	return addresses.ensure_workspace()
+
+
+def sends_from() -> str | None:
+	"""The workspace's Default Outgoing: what the composer offers first. It is
+	not frappe's `default_outgoing`, which stays One's own sender, so
+	notifications never go out from a customer's address."""
+	chosen = frappe.db.get_default(SENDS_FROM)
+	if chosen and frappe.db.get_value("Email Account", chosen, "enable_outgoing"):
+		return chosen
+	ours = workspace()
+	if ours and frappe.db.get_value("Email Account", ours, "enable_outgoing"):
+		return ours
+	return None
+
+
+def system_sender() -> str | None:
+	"""The address notifications go out from: frappe's default outgoing."""
+	return frappe.db.get_value("Email Account", {"default_outgoing": 1, "enable_outgoing": 1}, "email_id")
 
 
 def may(account: str, key: str, user: str | None = None) -> bool:
@@ -168,7 +188,7 @@ def mailboxes() -> list[dict]:
 	held = list(rows)
 	if not held:
 		return []
-	ours = workspace()
+	ours, sends = workspace(), sends_from()
 	accounts = frappe.get_all("Email Account", filters={"name": ["in", held]}, fields=BOX_FIELDS)
 	folders: dict[str, list] = {}
 	for row in frappe.get_all(
@@ -180,7 +200,7 @@ def mailboxes() -> list[dict]:
 	out = []
 	for account in accounts:
 		listed = ordered(folders.get(account.name, []))
-		out.append(_box(account, rows, ours, listed))
+		out.append(_box(account, rows, ours, listed, sends))
 	return sorted(out, key=lambda one: (-one["workspace"], -one["shared"], one["email"]))
 
 
@@ -197,7 +217,7 @@ BOX_FIELDS = [
 ]
 
 
-def _box(account, rows: dict, ours: str | None, listed: list) -> dict:
+def _box(account, rows: dict, ours: str | None, listed: list, sends: str | None = None) -> dict:
 	"""What OneMail shows of one mailbox to the reader."""
 	from onedesk.one_mail import rules
 
@@ -209,6 +229,7 @@ def _box(account, rows: dict, ours: str | None, listed: list) -> dict:
 		"shared": account.one_shared,
 		"workspace": int(account.name == ours),
 		"sends": int(bool(account.enable_outgoing and rows.get(account.name))),
+		"sends_default": int(account.name == sends),
 		"error": account.one_error,
 		"intake": account.one_intake,
 		"receives_only": int(bool(account.one_hosted and not account.enable_outgoing)),
@@ -233,7 +254,7 @@ def mailbox(account: str) -> dict:
 	who manages a shared one without holding it."""
 	sees(account)
 	row = frappe.db.get_value("Email Account", account, BOX_FIELDS, as_dict=True)
-	return _box(row, sending_rows(), workspace(), [])
+	return _box(row, sending_rows(), workspace(), [], sends_from())
 
 
 def _by_role(user: str) -> dict:
@@ -273,7 +294,7 @@ def shared() -> dict:
 	)
 	from onedesk.one import abilities
 
-	ours = workspace()
+	ours, sends = workspace(), sends_from()
 	names = dict(frappe.get_all("User", filters={"user_type": "System User"}, fields=["name", "full_name"], as_list=True))
 	for account in accounts:
 		given = abilities.grants("OneMail", account.name)
@@ -293,6 +314,7 @@ def shared() -> dict:
 			)
 		]
 		account["workspace"] = int(account.name == ours)
+		account["sends_default"] = int(account.name == sends)
 	accounts.sort(key=lambda one: -one["workspace"])
 	from onedesk.one_mail import abilities as declared
 
@@ -306,6 +328,7 @@ def shared() -> dict:
 		"external": int(addresses.external()),
 		"mail_domain": addresses.domain(),
 		"slug": addresses.slug(),
+		"system_sender": system_sender(),
 	}
 
 
@@ -475,46 +498,20 @@ def sending(doc, method=None) -> None:
 
 
 @frappe.whitelist(methods=["POST"])
-def replace(account: str, sends: int = 1) -> str:
-	"""A connected mailbox of the workspace's becomes the workspace's mailbox,
-	and, with `sends`, what the workspace sends from."""
+def set_defaults(incoming: str | None = None, outgoing: str | None = None) -> dict:
+	"""The workspace's Default Incoming and Default Outgoing, each one of its
+	shared mailboxes. Neither moves frappe's `default_outgoing`."""
 	_admin("policy")
-	doc = frappe.get_doc("Email Account", account)
-	if not (doc.one_shared and doc.one_connected):
-		frappe.throw(_("Only a shared mailbox can be the workspace mailbox."))
-	if int(sends):
-		if not doc.enable_outgoing:
-			frappe.throw(
-				_("Enable Outgoing is disabled for {0}.").format(
-					doc.email_id
-				)
-			)
-		_sends_for_everybody(doc)
-	frappe.db.set_default(WORKSPACE, account)
-	return account
-
-
-@frappe.whitelist(methods=["POST"])
-def restore() -> str | None:
-	"""The workspace's address on the mail domain is its mailbox again, for
-	receiving and sending."""
-	_admin("policy")
-	frappe.db.set_default(WORKSPACE, None)
-	own = addresses.ensure_workspace()
-	if own:
-		_sends_for_everybody(frappe.get_doc("Email Account", own))
-	return own
-
-
-def _sends_for_everybody(doc) -> None:
-	"""The mailbox the workspace sends from. frappe's own save takes the default
-	off the one before by saving it as the reader, who may not write mailboxes,
-	so it is taken off here first."""
-	for other in frappe.get_all("Email Account", filters={"default_outgoing": 1, "name": ["!=", doc.name]}, pluck="name"):
-		frappe.db.set_value("Email Account", other, "default_outgoing", 0, update_modified=False)
-	doc.default_outgoing = 1
-	doc.flags.ignore_permissions = True
-	doc.save()
+	for account in (incoming, outgoing):
+		if account and not frappe.db.get_value("Email Account", account, "one_shared"):
+			frappe.throw(_("{0} is not a shared mailbox.").format(account))
+	if outgoing and not frappe.db.get_value("Email Account", outgoing, "enable_outgoing"):
+		frappe.throw(_("Enable Outgoing is disabled for {0}.").format(outgoing))
+	if incoming:
+		frappe.db.set_default(WORKSPACE, incoming)
+	if outgoing:
+		frappe.db.set_default(SENDS_FROM, outgoing)
+	return {"incoming": workspace(), "outgoing": sends_from()}
 
 
 @frappe.whitelist()

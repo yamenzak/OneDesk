@@ -68,10 +68,10 @@ employee that reads its mail:
   quick look. A rule with one can't be switched on otherwise, the step says
   so in the builder, and setting New Mail to Not Read names those rules
   first; they then show **Not Running** in Automation.
-- **Shared Mailboxes** (administrators): the workspace mailbox and every
-  shared one. Opening one shows the same tabs; **Users** adds or removes
-  people, turns **Send** on or off per user, and sets it as the workspace
-  mailbox.
+- **Shared Mailboxes** (administrators): **Default Incoming** and **Default
+  Outgoing** at the top, then the workspace mailbox and every shared one.
+  Opening one shows the same tabs; **Users** adds or removes people and
+  turns **Send** on or off per user.
 - **Personal Addresses** (administrators): **Send From Workspace
   Addresses**, and **External Mailboxes** for mailboxes users connect
   themselves. When on, **Allowed Domains** limits them to the domains listed;
@@ -565,8 +565,10 @@ undo send, come with the composer (stage 5).
 - A Communication sent from here is filed in Sent, in the thread of what it
   answers. A new conversation's thread is its own Message-ID, set once
   Frappe gives it one.
-- The workspace's address is the default outgoing account unless another
-  already is.
+- frappe's `default_outgoing` is One's own sender (one_admin/setup.py), the
+  address notifications go out from. Nothing in OneMail moves it. Where a
+  workspace has no such sender, as in development, its address is the default
+  until one is made.
 
 - Fixed on the way: KV writes were sent as a form, so Cloudflare stored
   `value=…&metadata=…` as the value. The web router's routes had the same
@@ -663,11 +665,18 @@ Stage 4, holders, is built.
   first name is in another script, with a number when it is taken. The
   address is appended in the User's own `before_save`, so the form the
   administrator is looking at is never stale.
-- `holders.replace` makes a connected mailbox of the workspace's its
-  mailbox, and, if it sends, its default outgoing account. The address on the
-  mail domain keeps receiving, so nothing sent to it is lost. `restore` puts
-  it back.
-  A connected mailbox can take the place for receiving, sending or both.
+- A workspace administrator picks two defaults at the top of Shared
+  Mailboxes, each one of the shared mailboxes (`holders.set_defaults`).
+  **Default Incoming** (`workspace()`, the `one_mail_workspace` default) is
+  listed first and called Workspace, and it is the Reply-To of every mail
+  `notify.mail` sends for the workspace, so an answer to a notification
+  lands there. **Default Outgoing** (`sends_from()`, `one_mail_sends_from`)
+  is the From the composer starts with, in OneMail and on a record, for
+  whoever may send from it. Neither is frappe's `default_outgoing`: until
+  October 2026 choosing a connected mailbox made it frappe's default, so
+  notifications went out from the customer's own address, and
+  `patches/notifications_send_from_one.py` puts One's sender back. The
+  address on the mail domain keeps receiving whichever mailbox is chosen.
 - `holders.mailboxes` is what the page will list: the reader's mailboxes,
   the workspace's first, each with its folders in the usual order and its
   unread count.

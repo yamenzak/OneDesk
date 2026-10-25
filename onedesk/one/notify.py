@@ -540,6 +540,9 @@ def mail(name: str, recipients, lang: str | None = None, words=None, **kwargs) -
 	if not row.enabled and not (declared().get(name) or {}).get("required"):
 		return
 	passed = {key: kwargs.pop(key) for key in list(kwargs) if key in SENDMAIL}
+	ones = bool((declared().get(name) or {}).get("from_one"))
+	if not ones and not passed.get("reply_to"):
+		passed["reply_to"] = replies_to()
 	lang = lang or frappe.db.get_single_value("System Settings", "language")
 	subject, message = render(name, kwargs, lang, words)
 	link = next((kwargs[key] for key in ("link", "url", "account") if kwargs.get(key)), None)
@@ -552,11 +555,20 @@ def mail(name: str, recipients, lang: str | None = None, words=None, **kwargs) -
 			link,
 			button(name, kwargs, lang) if link else None,
 			lang=lang,
-			ones=bool((declared().get(name) or {}).get("from_one")),
+			ones=ones,
 		),
 		with_container=True,
 		**passed,
 	)
+
+
+def replies_to() -> str | None:
+	"""Where an answer to the workspace's own mail goes: its Default Incoming
+	(one_mail/holders.py), since the mail itself comes from One's sender."""
+	from onedesk.one_mail import holders
+
+	account = holders.workspace()
+	return frappe.db.get_value("Email Account", account, "email_id") if account else None
 
 
 SENDMAIL = frozenset(

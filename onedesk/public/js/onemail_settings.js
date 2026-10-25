@@ -646,28 +646,7 @@ onedesk.mail.settings = (tab) => {
 			const one_box = (said.mailboxes || []).find((one) => one.name === box.name);
 			if (!one_box) return;
 			const again = () => panel.refresh();
-			const actions = [];
-			if (one_box.one_connected && !one_box.workspace && can.policy) {
-				actions.push({
-					label: __("Set as Workspace Mailbox"),
-					click: () =>
-						frappe.confirm(__("Set {0} as the workspace mailbox?", [esc(box.email)]), async () => {
-							await frappe.xcall(H + "replace", { account: box.name, sends: one_box.enable_outgoing ? 1 : 0 });
-							open(box.name, from, "users");
-						}),
-				});
-			}
-			if (one_box.one_connected && one_box.workspace && can.policy) {
-				actions.push({
-					label: __("Restore Default Address"),
-					click: () =>
-						frappe.confirm(__("Use the default workspace address again?"), async () => {
-							await frappe.xcall(H + "restore");
-							home(from);
-						}),
-				});
-			}
-			panel.set_header({ title: __("Users"), description: users_said(one_box), actions });
+			panel.set_header({ title: __("Users"), description: users_said(one_box) });
 			const $add = $(`<div class="oms-add oms-add-top"></div>`).appendTo(panel.body);
 			const pick = frappe.ui.form.make_control({
 				df: {
@@ -1025,6 +1004,51 @@ onedesk.mail.settings = (tab) => {
 		});
 	};
 
+	// The workspace's Default Incoming and Default Outgoing (holders.set_defaults),
+	// above the list of shared mailboxes. Notifications keep One's own sender.
+	const defaults = ($body, said, again) => {
+		const boxes = said.mailboxes || [];
+		const incoming = boxes.find((one) => one.workspace);
+		const outgoing = boxes.find((one) => one.sends_default);
+		$body.append(
+			heading(
+				__("Defaults"),
+				said.system_sender ? __("Notifications are sent from {0}.", [said.system_sender]) : ""
+			)
+		);
+		const group = fields($(`<div class="oms-defaults"></div>`).appendTo($body), [
+			{
+				fieldname: "incoming",
+				fieldtype: "Select",
+				label: __("Default Incoming"),
+				options: boxes.map((one) => one.email_id).join("\n"),
+				default: incoming ? incoming.email_id : "",
+				description: __("Replies to notifications arrive in this mailbox."),
+			},
+			{ fieldtype: "Column Break" },
+			{
+				fieldname: "outgoing",
+				fieldtype: "Select",
+				label: __("Default Outgoing"),
+				options: ["", ...boxes.filter((one) => one.enable_outgoing).map((one) => one.email_id)].join("\n"),
+				default: outgoing ? outgoing.email_id : "",
+				description: __("New mail is sent from this mailbox unless the writer picks another."),
+			},
+		]);
+		const named = (email) => (boxes.find((one) => one.email_id === email) || {}).name;
+		const was = { incoming: incoming && incoming.name, outgoing: outgoing && outgoing.name };
+		for (const key of ["incoming", "outgoing"]) {
+			group.fields_dict[key].df.onchange = async () => {
+				const value = named(group.get_value(key));
+				if (!value || value === was[key]) return;
+				was[key] = value;
+				await frappe.xcall(H + "set_defaults", { [key]: value });
+				saved();
+				again();
+			};
+		}
+	};
+
 	// ── Shared Mailboxes ────────────────────────────────────────────────────
 	const shared = {
 		id: "shared",
@@ -1044,7 +1068,9 @@ onedesk.mail.settings = (tab) => {
 			const was = panel.shown;
 			const said = await frappe.xcall(H + "shared");
 			if (panel.shown !== was) return;
-			const $list = $(`<div class="oms-list"></div>`).appendTo(panel.body.empty());
+			const $body = panel.body.empty();
+			if (can.policy && (said.mailboxes || []).length) defaults($body, said, () => panel.refresh());
+			const $list = $(`<div class="oms-list"></div>`).appendTo($body);
 			if (!(said.mailboxes || []).length) $list.append(empty(__("No shared mailboxes")));
 			(said.mailboxes || []).forEach((box) => {
 				const sends = box.people.filter((one) => one.sends).length;
@@ -1054,7 +1080,9 @@ onedesk.mail.settings = (tab) => {
 						title: box.email_id,
 						sub: esc(
 							[
-								box.workspace ? __("Workspace") : __("Shared"),
+								...(box.workspace || box.sends_default
+									? [box.workspace && __("Default Incoming"), box.sends_default && __("Default Outgoing")].filter(Boolean)
+									: [__("Shared")]),
 								__("{0} Users", [box.people.length]),
 								box.enable_outgoing ? __("{0} Can Send", [sends]) : __("Receive Only"),
 							].join(" · ")

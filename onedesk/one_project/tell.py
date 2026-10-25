@@ -450,9 +450,6 @@ def update_asked(doc, people: list[str], update) -> None:
 			words=words,
 			reference_doctype="Project Update",
 			reference_name=update.name,
-			reply_to=frappe.db.get_value(
-				"Email Account", {"enable_incoming": 1, "default_incoming": 1}, "email_id"
-			),
 			project=doc.project_name,
 		)
 

@@ -91,3 +91,4 @@ onedesk.one_mail.patches.no_second_away_language
 onedesk.one_mail.patches.rules_are_steps
 onedesk.one_mail.patches.no_auto_reply_ability
 onedesk.one_mail.patches.rule_replies_are_sent
+onedesk.one_mail.patches.notifications_send_from_one

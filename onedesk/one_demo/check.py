@@ -3250,7 +3250,8 @@ def onemail_out_of_office_answers_for_its_person():
 @check
 def onemail_a_shared_mailbox_is_connected_given_and_let_go():
 	"""Layla connects the company's sales mailbox for the team, chooses who
-	holds it, makes it the workspace's and back, gives its password again and
+	holds it, makes it the Default Incoming and Outgoing and back, which never
+	moves the sender notifications go out from, gives its password again and
 	disconnects it, and gives Huda a second address. The mail server is not
 	dialled: where it is is said here. The Worker's notice is believed only
 	with the workspace's signature."""
@@ -3270,8 +3271,14 @@ def onemail_a_shared_mailbox_is_connected_given_and_let_go():
 		assert said["incoming"] and said["incoming"].startswith(where["email_server"]), said
 		holders.set_access(sales, [{"user": OWNER, "sends": 1}, {"user": "omar@one.test", "sends": 1}])
 		assert set(frappe.get_all("User Email", filters={"email_account": sales}, pluck="parent")) == {OWNER, "omar@one.test"}
-		assert holders.replace(sales, 1) == sales and holders.workspace() == sales
-		assert holders.restore() != sales and holders.workspace() != sales
+		system, ours = holders.system_sender(), holders.workspace()
+		assert holders.set_defaults(incoming=sales, outgoing=sales) == {"incoming": sales, "outgoing": sales}
+		assert holders.mailbox(sales)["sends_default"] and holders.system_sender() == system, "notifications moved"
+		from onedesk.one import notify
+
+		assert notify.replies_to() == "sales@saharaglass.test"
+		assert holders.set_defaults(incoming=ours, outgoing=ours) == {"incoming": ours, "outgoing": ours}
+		assert holders.system_sender() == system
 		connect.reconnect(sales, "new-app-password")
 		connect.disconnect(sales)
 		assert not frappe.db.exists("Email Account", sales)

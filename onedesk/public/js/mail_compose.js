@@ -42,8 +42,16 @@
 	};
 	const make = Composer.prototype.make;
 	Composer.prototype.make = function () {
+		const given = this.sender;
 		const made = make.apply(this, arguments);
 		const sender = this.dialog && this.dialog.fields_dict.sender;
+		// New mail starts from the workspace's Default Outgoing when the writer
+		// may send from it (one/boot.py `one_mail_sends_from`).
+		const sends_from = frappe.boot.one_mail_sends_from;
+		if (sender && !given && sends_from && (this.user_email_accounts || []).includes(sends_from)) {
+			this.sender = sends_from;
+			this.dialog.set_value("sender", sends_from);
+		}
 		if (sender) {
 			const changed = sender.df.onchange;
 			sender.df.onchange = (...args) => {
@@ -126,7 +134,7 @@ frappe.provide("onedesk.mail");
 
 onedesk.mail.sender = (boxes, box) => {
 	const sends = boxes.filter((one) => one.sends);
-	const pick = (box && box.sends && box) || sends.find((one) => one.workspace) || sends[0];
+	const pick = (box && box.sends && box) || sends.find((one) => one.sends_default) || sends[0];
 	return pick ? pick.email : null;
 };
 

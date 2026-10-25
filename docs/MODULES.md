@@ -660,11 +660,10 @@ No doctypes yet.
 * `onedesk.one_mail.holders.grant`
 * `onedesk.one_mail.holders.mailbox`
 * `onedesk.one_mail.holders.mailboxes`
-* `onedesk.one_mail.holders.replace`
-* `onedesk.one_mail.holders.restore`
 * `onedesk.one_mail.holders.revoke`
 * `onedesk.one_mail.holders.set_access`
 * `onedesk.one_mail.holders.set_allowed_domains`
+* `onedesk.one_mail.holders.set_defaults`
 * `onedesk.one_mail.holders.set_external`
 * `onedesk.one_mail.holders.set_personal_sends`
 * `onedesk.one_mail.holders.set_signature`
