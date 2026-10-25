@@ -169,28 +169,45 @@ its words, its caps and its kind:
 The twenty-five actions in the fixture map onto these. HR's screening,
 interviews and grievances are Write jobs with their own words.
 
-**Defaults.** Chosen from what Workers AI and Google offered on
-2026-10-25 (prices per million tokens, in and out). They are the starting
-line for the measured comparison in stage 2, which decides; where it picks
-otherwise, this table changes with it.
+**Defaults.** In `one_ai/models.py`, chosen from what both companies
+offered on 2026-10-25 (Google's prices from its pricing page that day, per
+million tokens in and out). They are the starting line for the measured
+comparison in stage 2, which decides; where it picks otherwise, the file
+changes and this table with it.
 
-| Job kind | Fast | Balanced | Full |
+| Kind | Fast | Balanced | Full |
 |---|---|---|---|
-| Talk, Write | Gemma 4 26B (`@cf/google/gemma-4-26b-a4b-it`, $0.10 / $0.30) | GLM 5.3 Flash (`@cf/zai-org/glm-5.3-flash`, $0.15 / $0.50) | Kimi K2.6 (`@cf/moonshotai/kimi-k2.6`, $0.95 / $4) |
-| Build | Gemma 4 26B | Gemini 2.5 Flash (`google/gemini-2.5-flash`), as today | Gemini 2.5 Pro (`google/gemini-2.5-pro`) |
-| Decide | Clef Flash (`@cf/cloudflare/clef-flash`, $0.038) | Clef (`@cf/cloudflare/clef`, $0.24) | Clef |
-| Extract | Clairic (`@cf/cloudflare/clairic`, $0.10, nothing for output) | Clairic | Clairic |
-| To text | Markdown conversion: free for PDF and HTML; pictures through Gemma 4 | same | same |
-| Hear | Whisper Large v3 Turbo ($0.0005 a minute) | same | same |
+| Talk, Write | Gemma 4 26B ($0.10 / $0.30) | GLM 5.3 Flash ($0.15 / $0.50) | Gemini 3.8 Flash ($0.75 / $3.75) |
+| Build | Gemini 3.5 Flash Lite ($0.30 / $2.50) | Gemini 3.8 Flash | Gemini 3.1 Pro ($2 / $12), a preview |
+| Decide | Clef Flash ($0.038) | Clef ($0.24) | Clef |
+| Extract | Clairic ($0.10, nothing for output) | Clairic | Clairic |
+| See (pictures to text) | Gemma 4 26B | Gemma 4 26B | Gemma 4 26B |
+| Hear | Whisper Large v3 Turbo ($0.0005 a minute) | Whisper | Gemini 3.5 Transcribe ($0.005 a minute) |
 | Find | AI Search, keyword as you type, meaning on Enter | same | same |
 
-Every route falls back to the other provider: a Workers AI first choice
-falls back to Gemini 2.5 Flash, a Gemini one to GLM 5.3 Flash, so an outage
-at one company does not stop OneAI. The newer Gemini models (3.5 to 3.8
-Flash, 3.1 Pro) are listed by Google but carry no price in its listing and
-some are previews; they enter the comparison, not the defaults. Aliases
-such as `gemini-flash-latest` are never used: they change underneath a
-measurement.
+Each has a fallback at the other company where one does the job: Gemma 4
+falls back to Gemini 3.1 Flash Lite, GLM 5.3 Flash to Gemini 3.5 Flash
+Lite, Gemini 3.8 Flash to Kimi K2.6, Gemini 3.1 Pro to Gemini 2.5 Pro. So
+an outage at one company does not stop OneAI.
+
+Two prices are about to double: Gemini 3.8 Flash on 2027-01-01 and Gemini 4
+Argon on 2026-12-01. `models.py` carries both prices with their day, so a
+call is charged what it cost when it ran.
+
+**Making pictures, music and video.** For the module that will need them,
+`models.py` already names them, though nothing uses them yet:
+
+| Kind | Fast | Balanced | Full |
+|---|---|---|---|
+| Picture | Gemini 3.1 Flash Lite Image ($0.034 each) | Gemini 3.1 Flash Image, Nano Banana 2 ($0.067) | Gemini 3 Pro Image, Nano Banana Pro ($0.134) |
+| Music | Lyria 3 Clip, thirty seconds ($0.04 a song) | Lyria 3.5 ($0.08 a song) | Lyria 3.5 |
+| Video | Veo 3.1 Fast | Veo 3.1 Fast | Veo 3.1 |
+
+Every Veo model is a preview, has no price on Google's page yet, and is
+left out of Google's list of models: the discovery script asks for Veo by
+name. Until Google prices it, a Veo call is charged its hold. Veo answers
+through the gateway's Google route, which passes Google's own request
+shape; it is not on Cloudflare's chat endpoint.
 
 **Why mostly Workers AI.** One company, one subprocessor entry, prices in
 the listing, and the open-weight models are the ones the guardrail model
@@ -199,26 +216,29 @@ measurably better today (`studio_review`, `print_design` and
 `workspace_setup` already run on it), and as the fallback.
 
 **Discovery in code.** `scripts/models.py` replaces the catalogue and its
-nightly sync. Run by hand or in CI, it:
+nightly sync. Run by hand, with the gateway's account, name and token in
+the environment, it:
 
-1. lists Workers AI's models (`/ai/models/search`) and Google's
-   (`v1beta/models`, through the gateway);
-2. writes the snapshot `onedesk/one_ai/models.json`: each model's id,
-   context window, tools, vision, price where the listing gives one, and
-   any planned withdrawal date;
-3. reads `one_ai/models.py` (the tiers, routes and fallbacks, and Google's
-   prices typed in with the day they were checked) and says what is wrong:
-   a model in use that is gone or due to go, a price that moved, a model
-   that is new and worth measuring.
+1. lists Workers AI's models (`/ai/models/search`), and Google's
+   (`v1beta/models`, through the gateway with the key it stores), and asks
+   for Veo by the names it has used, since Google's list leaves it out;
+2. with `--resolve`, asks each of Google's `-latest` aliases for one word
+   and keeps the model that answered (on 2026-10-25 Flash pointed to 3.8
+   Flash, Flash Lite to 3.5 Flash Lite, Pro to 3.1 Pro Preview);
+3. writes `onedesk/one_ai/models.json`: each model's id, company, kind,
+   context, tools, vision, whether it is a preview or an alias, a planned
+   withdrawal, and Workers AI's price;
+4. says what `one_ai/models.py` should hear: a model it uses that is gone,
+   going or an unexplained preview, a used Google model with no price, an
+   alias pointing somewhere new, a model new since the last run.
 
-`tests/guards/test_models.py` reads the snapshot without a network: every
-model in `models.py` is in it and not past its withdrawal date, every route
-in `deploy/gateway/routes/` names models from `models.py`, Google's prices
-were checked in the last ninety days, and the snapshot itself is no older
-than thirty, as `test_upstream_was_read_recently` does for the framework.
-The routes are pushed to the gateway by `scripts/models.py --push`, which
-diffs and deploys each route through Cloudflare's API, so the gateway's
-dashboard never holds anything the repository does not.
+`tests/guards/test_models.py` reads the snapshot without a network: it is
+at most thirty days old; every model in use is listed, not an alias and not
+withdrawn; a preview in use says why in `PREVIEWS`; every model in use has
+a price, and Google's were read in the last ninety days; every kind has
+every tier and no model falls back to itself. In stage 1 the script also
+pushes the routes to the gateway (`--push`), so its dashboard never holds
+anything the repository does not.
 
 **Prices and credits.** A call's cost is its usage times the price of the
 model that answered. A route's answer says which model that was

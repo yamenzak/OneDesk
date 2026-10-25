@@ -87,8 +87,8 @@ def test_an_unconfigured_gateway_refuses_rather_than_falling_back():
 
 
 def test_only_one_model_is_named_and_it_is_the_first_one():
-	"""An action names a capability and a workspace names a model. Until the
-	catalogue exists there has to be exactly one exception, and it is here."""
+	"""Models are named in one_ai/models.py (docs/AICENTER.md, Models). Until
+	the gateway moves onto it, FIRST is the one other name."""
 	named = [
 		node.value
 		for node in ast.walk(ast.parse(source()))
@@ -101,9 +101,9 @@ def test_only_one_model_is_named_and_it_is_the_first_one():
 	elsewhere = [
 		path.relative_to(tree.ROOT)
 		for path in tree.sources()
-		if path != GATEWAY and "@cf/" in path.read_text(encoding="utf-8")
+		if path not in (GATEWAY, tree.ROOT / "onedesk" / "one_ai" / "models.py") and "@cf/" in path.read_text(encoding="utf-8")
 	]
-	assert not elsewhere, f"{elsewhere} name a model. Only gateway.FIRST may."
+	assert not elsewhere, f"{elsewhere} name a model. Only one_ai/models.py and gateway.FIRST may."
 
 
 def test_a_two_hundred_with_nothing_in_it_is_not_an_empty_answer():
