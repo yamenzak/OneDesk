@@ -35,6 +35,9 @@ before it:
 10. **Tours.**
 11. **OneAI reach.**
 12. **The registry and its guard.**
+13. **TrustCenter.** The agreements in one place per app, the laws they
+    answer, how a change to them reaches people, and the services a
+    workspace turns on.
 
 Then OneMail is taken through the fourteen points, and marked ready.
 
@@ -539,6 +542,128 @@ The guards each point names, as they stand:
 - **Notifications**, **Setup steps**, **Tour**, **Settings**, **Legal**:
   their declarations, as mechanisms 5 to 10 describe.
 
+### 13. TrustCenter
+
+**Today.** Mechanism 6 gives each module a **Legal** tab in its ControlCenter,
+and the eight agreements are read on the Agreements page (`/app/legal`).
+Every service One calls is in the agreements whether or not a workspace
+wants it: OneMail asks Gravatar for people's pictures and Google's favicon
+service for organisations' logos for every workspace. A clause says nothing
+of which law it is there for. A new revision of a workspace agreement mails
+the administrators (`gate.told_of_changes`) and then stops everybody at
+their next sign-in until it is agreed again.
+
+**To build.** Six parts.
+
+**1. One center.** TrustCenter is a center like HelpCenter and ControlCenter
+(`onedesk.CENTERS`, `trust: "Trust"`), drawn by `onedesk.module_docs`'s
+dialog. It replaces both the Legal tab and the Agreements page, which
+becomes TrustCenter opened on the workspace. Opened from a module's foot
+(a shield beside the question mark), it opens on that module, and its
+sidebar is:
+
+- **This app**: what the module adds to each agreement, the companies it
+  sends data to, and its optional services with their switches;
+- **Agreements**: each one, its version, when it takes effect, who agreed
+  and when, every earlier version, and print;
+- **Subprocessors**: every company, what it gets, where, under which
+  safeguard, and which app sends it. One a workspace doesn't use is struck
+  through, marked **Not used by this workspace**;
+- **Your data**: what is kept and for how long, the full export, and how to
+  leave (the Data Act, below);
+- **Changes**: what is coming, from when, and what changed before.
+
+Everybody reads it. Switches and agreeing are for workspace administrators
+(`one_legal/abilities.py`).
+
+**2. The laws.** `one_legal/laws.py` lists each law One answers and the
+duties it puts on us, and every `clause()` and `subprocessor()` names the
+duties it meets (`meets=("gdpr.28", …)`). `test_legal.py` fails on a duty no
+clause meets. To start with:
+
+- **GDPR and UK GDPR**: the processor terms (Art. 28), what people are told
+  (Art. 13 and 14), privacy by default (Art. 25), security (Art. 32), breach
+  notice within 72 hours (Art. 33), the record of processing (Art. 30),
+  transfers out of Europe under the Standard Contractual Clauses and the UK
+  addendum (Chapter V);
+- **ePrivacy**: nothing kept on a device but what One needs to run, without
+  consent;
+- **The EU AI Act**: people are told when they talk to OneAI, and what it
+  makes is marked as made by it (Art. 50; the OneAI badge already does);
+- **The EU Data Act**: a customer may switch to another provider and take
+  everything with them, in a format another system reads, at no charge (from
+  12 January 2027), on notice no longer than two months;
+- **The CCPA and CPRA**: the service provider terms;
+- **The UAE's PDPL and Saudi Arabia's PDPL**, for workspaces in the Gulf.
+
+**3. How a change reaches people.** What large SaaS products do (Google
+Workspace, Microsoft 365, Slack), and what we do from now on. There are three
+kinds of change, and one rule decides between the last two: **anything that
+sends data somewhere it didn't go, or uses it for something it wasn't used
+for, needs an administrator's yes. Everything else is notice.**
+
+- **A clarification** moves the hash, not the revision, and asks nobody (as
+  today).
+- **A core change** bumps the revision and carries `effective:`, at least 30
+  days out. Administrators are told in the bell and by mail the day it ships;
+  TrustCenter shows it under Changes; the old version holds until the day. A
+  new subprocessor the product can't run without is a core change: the
+  administrator may object, which is the Data Processing Addendum's right,
+  and leaving with a full export is the remedy. Nothing stops working and
+  nobody is stopped at sign-in: the sign-in gate stays for a workspace's
+  first agreement, and for a person's first sign-in.
+- **An optional service** is off until an administrator agrees to it (below).
+  A change that gives an accepted service somewhere new to send data turns it
+  off until they agree again; any other change to it is notice.
+
+People who use a workspace are told, never asked: the workspace decides
+what happens to its people's data, and a yes from an employee to their
+employer isn't free consent under the GDPR. A change to the Privacy Policy
+or the Acceptable Use Policy is notice in the bell, with the day it takes
+effect.
+
+A new workspace agrees to the latest core agreements when it signs up, and
+is asked about each optional service in the setup wizard.
+
+From the day a module is ready, a change to it that sends data somewhere new
+ships as an optional service. The version that adds it says so, and
+`scripts/version.py` writes `terms: notice` or `terms: service <key>` into
+its front matter, so the guard can hold the words to it.
+
+**4. Optional services.** A module declares one in its `legal.py` with
+`service()`: a key, a title, what it is for, what it sends and to whom (its
+`subprocessor()`s), the clauses that hold only while it is on, and
+`default=False`. The code that calls out goes through
+`one_legal.services.call(key, …)`, which refuses while it is off, and
+`test_legal.py`'s host guard accepts that host only there. Turning one on is
+an acceptance of its own terms, recorded like any other (`Legal
+Acceptance`); turning it off stops the calls and strikes its subprocessors
+through. They are off by default everywhere, which is what privacy by
+default asks. OneMail's first two:
+
+- **Pictures from Gravatar**: a hash of an address, to Automattic. Off: a
+  person's initials.
+- **Logos from Google**: an organisation's domain, to Google. Off: no logo.
+
+The setup wizard asks about each one with its own slide (mechanism 9), and
+an administrator agrees there or later in TrustCenter.
+
+**5. Legal copy.** Agreements are written precise and plain, which is what
+the GDPR asks of them (Art. 12): `we` is Four Degree Labs, `you` is the
+organisation, a defined term is capitalised and defined once, one duty to a
+sentence, a number where there is one (72 hours, 30 days), and nothing
+promised that isn't built. The rules go in `docs/WORDING.md` beside the copy
+rules, and `test_copy.py` reads `legal.py` too. Every module's `legal.py`
+is rewritten to them as it goes through the fourteen points.
+
+**6. The registry.** Point 14 is held by the guards above, and, since no
+guard can read whether a clause is true, by a look (`ready.HAND["legal"]`):
+what the module does with data, read against what its clauses say.
+
+**Still ours to confirm.** This is our own drafting. A lawyer reads the
+assembled agreements before an EU customer signs, and the laws list is
+theirs to complete.
+
 ## The fourteen points
 
 A module is checked against these once the mechanisms exist. Each point
@@ -573,8 +698,10 @@ names its mechanism.
 13. **Settings.** One role-aware settings dialog where everything about the
     module is managed (mechanism 5).
 14. **Legal.** Every fact about what it does with data that the agreements
-    must say is a clause or a subprocessor in its `legal.py`, and its
-    settings show them (mechanism 6).
+    must say is a clause or a subprocessor in its `legal.py`, written to the
+    legal copy rules and naming the laws it answers; everything optional it
+    sends out is a service, off until an administrator agrees; and
+    TrustCenter shows all of it (mechanisms 6 and 13).
 
 ## How a module is finished
 
