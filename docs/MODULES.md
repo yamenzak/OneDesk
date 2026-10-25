@@ -650,6 +650,7 @@ No doctypes yet.
 * `onedesk.one_mail.api.mailboxes`
 * `onedesk.one_mail.api.names`
 * `onedesk.one_mail.connect.connect`
+* `onedesk.one_mail.connect.connection_of`
 * `onedesk.one_mail.connect.disconnect`
 * `onedesk.one_mail.connect.reconnect`
 * `onedesk.one_mail.gate.set_settings`

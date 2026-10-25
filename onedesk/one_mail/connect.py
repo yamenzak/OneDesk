@@ -246,6 +246,26 @@ WHERE = (
 )
 
 
+@frappe.whitelist()
+def connection_of(account: str) -> dict:
+	"""A connected mailbox's servers and when its mail was last checked, for
+	its Connection tab: whoever may (holders.may, "connection")."""
+	from onedesk.one_mail import holders
+
+	holders.must(account, "connection")
+	doc = frappe.db.get_value("Email Account", account, [*WHERE, "enable_outgoing", "one_error"], as_dict=True)
+	checked = frappe.get_all(
+		"Mail Folder", filters={"account": account, "last_synced": ["is", "set"]}, pluck="last_synced", order_by="last_synced desc", limit=1
+	)
+	checked = checked[0] if checked else None
+	return {
+		"incoming": f"{doc.email_server} · {doc.incoming_port}" if doc.email_server else None,
+		"outgoing": f"{doc.smtp_server} · {doc.smtp_port}" if doc.enable_outgoing and doc.smtp_server else None,
+		"checked": str(checked) if checked else None,
+		"error": doc.one_error,
+	}
+
+
 @frappe.whitelist(methods=["POST"])
 def reconnect(account: str, password: str, login: str | None = None) -> str:
 	"""A connected mailbox that stopped letting us in, given its password

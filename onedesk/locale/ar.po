@@ -19267,6 +19267,10 @@ msgstr ""
 msgid "Incoming Call Settings"
 msgstr "إعدادات المكالمات الواردة"
 
+#: onedesk/public/js/onemail_settings.js:774
+msgid "Incoming Server"
+msgstr "خادم الوارد"
+
 #: onedesk/www/s.py:19
 msgid "Incorrect password."
 msgstr "كلمة المرور غير صحيحة."
@@ -21263,6 +21267,7 @@ msgstr "آخر استدعاء"
 
 #. Label of the last_checked (Datetime) field in DocType 'Cloud Mount'
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
+#: onedesk/public/js/onemail_settings.js:776
 msgid "Last Checked"
 msgstr "آخر فحص"
 
@@ -26678,6 +26683,10 @@ msgstr "لم يُحفظ"
 msgid "Not saved, storage is full"
 msgstr "لم يُحفظ، التخزين ممتلئ"
 
+#: onedesk/public/js/onemail_settings.js:775
+msgid "Not sending"
+msgstr "لا يُرسل"
+
 #: frontend/src/project/Overview.vue:287 frontend/src/project/Overview.vue:290
 #: onedesk/public/js/settings.js:2270 onedesk/public/js/settings.js:2349
 msgid "Not set"
@@ -26734,7 +26743,7 @@ msgstr "لا يعمل"
 msgid "Not working. Check the DNS record below, then remove the domain and add it again."
 msgstr "لا يعمل. تحقق من سجل DNS أدناه، ثم أزل النطاق وأضفه مرة أخرى."
 
-#: onedesk/one_ai/chat.py:126
+#: onedesk/one_ai/chat.py:126 onedesk/public/js/onemail_settings.js:776
 msgid "Not yet"
 msgstr "ليس بعد"
 
@@ -29535,6 +29544,10 @@ msgstr "التدفق الخارج"
 #: onedesk/public/js/crm_record.js:71
 msgid "Outgoing"
 msgstr ""
+
+#: onedesk/public/js/onemail_settings.js:775
+msgid "Outgoing Server"
+msgstr "خادم الصادر"
 
 #: onedesk/public/js/calendar_link.js:16
 msgid "Outlook"
@@ -33867,6 +33880,10 @@ msgstr ""
 #: onedesk/public/js/onemail_settings.js:310
 msgid "Reconnect"
 msgstr "إعادة الربط"
+
+#: onedesk/public/js/onemail_settings.js:782
+msgid "Reconnect {0}"
+msgstr "إعادة ربط {0}"
 
 #. Label of the reference_name (Dynamic Link) field in DocType 'Portal Link'
 #. Label of the record_doctype (Link) field in DocType 'Record Head'
@@ -44101,6 +44118,10 @@ msgstr "نشهد بأن {0} عمل لدى {1} من {2} إلى {3} بوظيفة {
 msgid "This is to certify that {0}{1} has been employed with {2} as {3} since {4}."
 msgstr "نشهد بأن {0}{1} يعمل لدى {2} بوظيفة {3} منذ {4}."
 
+#: onedesk/public/js/onemail_settings.js:552
+msgid "This is your own mailbox. If OneAI reads it, it files and acts on this mail in the workspace, with your permissions."
+msgstr "هذا صندوق بريدك الخاص. إذا قرأه OneAI، فإنه يحفظ هذا البريد ويتصرف بناءً عليه في مساحة العمل، بصلاحياتك."
+
 #: onedesk/one_storage/api.py:19 onedesk/one_storage/api.py:83
 #: onedesk/one_storage/dav.py:273
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.py:24
@@ -50884,11 +50905,11 @@ msgstr "الاسم المميز"
 
 #. Label in the One Service Report print format
 #. Label in the One Timesheet print format
-#: frontend/src/project/ProjectActivity.vue:105
+#: frontend/src/mail/mail.js:58 frontend/src/project/ProjectActivity.vue:105
 #: onedesk/one_crm/print_format/one_service_report/one_service_report.json
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/one_project/tree.py:196 onedesk/public/js/project_actions.js:640
-#: onedesk/public/js/settings.js:2565
+#: onedesk/public/js/settings.js:2413 onedesk/public/js/settings.js:2565
 msgid "Work"
 msgstr "العمل"
 
@@ -52373,10 +52394,6 @@ msgstr "{leave_type} من {from_date} إلى {to_date}: {status}"
 #: onedesk/notifications/one_hr/attendance_request_answered.md
 msgid "Your {reason} from {from_date} to {to_date} was {status}"
 msgstr "طلب {reason} من {from_date} إلى {to_date}: {status}"
-
-#: onedesk/public/js/onemail.js:197
-msgid "Yours"
-msgstr "لك"
 
 #. Description of the 'Offered' (Check) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json

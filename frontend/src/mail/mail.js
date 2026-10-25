@@ -38,10 +38,26 @@ export function depth(folder) {
 	return folder.path.split(folder.delimiter).length - 1;
 }
 
+const PROVIDERS = {
+	"gmail.com": "Gmail",
+	"googlemail.com": "Gmail",
+	"outlook.com": "Outlook",
+	"hotmail.com": "Outlook",
+	"live.com": "Outlook",
+	"msn.com": "Outlook",
+	"icloud.com": "iCloud",
+	"me.com": "iCloud",
+	"yahoo.com": "Yahoo",
+};
+
+// A mailbox in the sidebar: the workspace's, the person's work address, a
+// mailbox they connected by its provider or domain, or a shared one's address.
 export function called(box) {
 	if (box.workspace) return __("Workspace");
-	if (!box.shared) return __("Yours");
-	return box.email;
+	if (box.shared) return box.email;
+	if (box.hosted) return __("Work");
+	const domain = (box.email || "").split("@").pop().toLowerCase();
+	return PROVIDERS[domain] || domain;
 }
 
 // Today's mail by its time, older by its day.

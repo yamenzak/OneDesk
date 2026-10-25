@@ -408,3 +408,12 @@
 	color: var(--ink-gray-7);
 	font-weight: var(--weight-medium);
 }
+
+.oms .oms-lead:empty {
+	display: none;
+}
+
+.oms .oms-value {
+	color: var(--ink-gray-7);
+	font-size: var(--text-base);
+}

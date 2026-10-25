@@ -3266,6 +3266,8 @@ def onemail_a_shared_mailbox_is_connected_given_and_let_go():
 	), mock.patch(smtp), mock.patch("frappe.enqueue"):
 		sales = connect.connect("sales@saharaglass.test", "app-password", shared=1)
 		assert frappe.db.get_value("Email Account", sales, ["one_connected", "one_shared"]) == (1, 1)
+		said = connect.connection_of(sales)
+		assert said["incoming"] and said["incoming"].startswith(where["email_server"]), said
 		holders.set_access(sales, [{"user": OWNER, "sends": 1}, {"user": "omar@one.test", "sends": 1}])
 		assert set(frappe.get_all("User Email", filters={"email_account": sales}, pluck="parent")) == {OWNER, "omar@one.test"}
 		assert holders.replace(sales, 1) == sales and holders.workspace() == sales

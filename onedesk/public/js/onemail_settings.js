@@ -543,6 +543,17 @@ onedesk.mail.settings = (tab) => {
 			if (!said.may_manage) return;
 			const reading = (level) => `eval:doc.mail && doc.mail !== "${NOT_READ}"` + (level ? ` && ${at(level)} <= ${JSON.stringify(LEVELS.map((one) => one[0]))}.indexOf(doc.mail)` : "");
 			const fields = [
+				...(box.connected && !box.shared
+					? [
+							{
+								fieldname: "own",
+								fieldtype: "HTML",
+								options: `<div class="oms-note">${frappe.utils.icon("info", "sm")}<span>${esc(
+									__("This is your own mailbox. If OneAI reads it, it files and acts on this mail in the workspace, with your permissions.")
+								)}</span></div>`,
+							},
+					  ]
+					: []),
 				{
 					fieldname: "mail",
 					fieldtype: "Select",
@@ -744,6 +755,8 @@ onedesk.mail.settings = (tab) => {
 	const users_said = (one_box) =>
 		one_box.enable_outgoing ? __("Everyone listed can read. Send allows sending from this mailbox.") : __("Connected without outgoing mail.");
 
+	// A connected mailbox: where it reads and sends from and when mail was
+	// last checked; Reconnect asks for the password again.
 	const connection_tab = (box, from) => ({
 		id: "connection",
 		label: __("Connection"),
@@ -752,23 +765,35 @@ onedesk.mail.settings = (tab) => {
 		description: box.error ? __("Disconnected. {0}", [box.error]) : __("Connected"),
 		actions: [
 			{ label: __("Disconnect"), theme: "red", click: () => disconnect(box.name, box.email, () => home(from)) },
-			{
-				label: __("Reconnect"),
-				variant: "solid",
-				click: async (panel) => {
-					const values = panel.get_values();
-					if (!values) return;
-					await frappe.xcall("onedesk.one_mail.connect.reconnect", { account: box.name, ...values });
-					saved();
-					open(box.name, from, "connection");
-				},
-			},
+			{ label: __("Reconnect"), variant: "solid", click: () => reconnect(box, from) },
 		],
-		fields: [
-			{ fieldname: "password", fieldtype: "Password", label: __("Password"), reqd: 1, description: __("Gmail and Outlook require an app password.") },
-			{ fieldname: "login", fieldtype: "Data", label: __("Login ID"), description: __("Leave empty to use the email address.") },
-		],
+		async render(panel) {
+			const said = await frappe.xcall("onedesk.one_mail.connect.connection_of", { account: box.name });
+			const $list = $(`<div class="oms-list"></div>`).appendTo(panel.body.empty());
+			[
+				[__("Incoming Server"), said.incoming || "—"],
+				[__("Outgoing Server"), said.outgoing || __("Not sending")],
+				[__("Last Checked"), said.checked ? frappe.datetime.prettyDate(said.checked) : __("Not yet")],
+			].forEach(([title, value]) => row({ lead: "", title, end: `<span class="oms-value">${esc(value)}</span>` }).appendTo($list));
+		},
 	});
+	const reconnect = (box, from) => {
+		const dialog = new frappe.ui.Dialog({
+			title: __("Reconnect {0}", [box.email]),
+			fields: [
+				{ fieldname: "password", fieldtype: "Password", label: __("Password"), reqd: 1, description: __("Gmail and Outlook require an app password.") },
+				{ fieldname: "login", fieldtype: "Data", label: __("Login ID"), description: __("Leave empty to use the email address.") },
+			],
+			primary_action_label: __("Reconnect"),
+			primary_action: async (values) => {
+				await frappe.xcall("onedesk.one_mail.connect.reconnect", { account: box.name, ...values });
+				dialog.hide();
+				saved();
+				open(box.name, from, "connection");
+			},
+		});
+		dialog.show();
+	};
 
 	// A mailbox's rules, in the order they run, each opened in the tab as
 	// steps (public/js/rule_builder.js; rules.py: rules_of_mailbox,
