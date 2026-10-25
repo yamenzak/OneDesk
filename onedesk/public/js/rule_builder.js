@@ -650,7 +650,7 @@ onedesk.rules.starters = (context) => {
 			},
 		},
 		{
-			group: __("People and Records"),
+			group: __("Forwarding"),
 			key: "forward_bills",
 			icon: "forward",
 			title: __("Forward Supplier Bills"),
@@ -672,6 +672,74 @@ onedesk.rules.starters = (context) => {
 					when(
 						[{ field: "sender_is", op: "is", value: "Customer" }, { field: "after_hours", value: true }, { field: "subject", op: "contains", value: __("urgent, asap") }],
 						[{ type: "star" }, { type: "notify", user: person }]
+					),
+				],
+			},
+		},
+		{
+			group: __("People and Records"),
+			key: "assign_new",
+			icon: "user-check",
+			title: __("Assign New Conversations"),
+			about: __("Assign each new conversation from outside to one person."),
+			rule: {
+				title: __("Assign New Conversations"),
+				steps: [when([{ field: "starts", value: true }, { field: "outside", value: true }], [{ type: "assign", user: person }])],
+			},
+		},
+		{
+			group: __("People and Records"),
+			key: "route",
+			icon: "split",
+			title: __("Route by Subject"),
+			about: __("Assign quote requests to one person and invoices to another."),
+			rule: {
+				title: __("Route by Subject"),
+				steps: [
+					when(
+						[{ field: "subject", op: "contains", value: __("quote, quotation, price") }],
+						[{ type: "assign", user: person }],
+						{ otherwise: [when([{ field: "subject", op: "contains", value: __("invoice, payment, statement") }], [{ type: "assign", user: person }])] }
+					),
+				],
+			},
+		},
+		{
+			group: __("Forwarding"),
+			key: "auto_forward",
+			icon: "forward",
+			title: __("Auto Forward"),
+			about: __("Forward every new message to another address."),
+			rule: { title: __("Auto Forward"), steps: [{ type: "forward", to: "" }] },
+		},
+		{
+			group: __("Forwarding"),
+			key: "forward_after_hours",
+			icon: "moon",
+			title: __("Forward After Hours"),
+			about: __("Forward customer mail that arrives after hours or on a holiday to an on-call address."),
+			rule: {
+				title: __("Forward After Hours"),
+				steps: [
+					when(
+						[{ field: "sender_is", op: "is", value: "Customer" }, { any: true, items: [{ field: "after_hours", value: true }, { field: "holiday", value: true }] }],
+						[{ type: "forward", to: "" }]
+					),
+				],
+			},
+		},
+		{
+			group: __("Forwarding"),
+			key: "forward_cvs",
+			icon: "file-user",
+			title: __("Forward Job Applications"),
+			about: __("Forward mail with a CV attached to whoever handles hiring."),
+			rule: {
+				title: __("Forward Job Applications"),
+				steps: [
+					when(
+						[{ field: "attachment", value: true }, { field: "text", op: "contains", value: __("CV, resume, application, vacancy") }],
+						[{ type: "forward", to: "" }]
 					),
 				],
 			},

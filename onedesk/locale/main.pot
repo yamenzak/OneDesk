@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-24 23:03+0000\n"
-"PO-Revision-Date: 2026-10-24 23:03+0000\n"
+"POT-Creation-Date: 2026-10-25 07:18+0000\n"
+"PO-Revision-Date: 2026-10-25 07:18+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -472,7 +472,7 @@ msgstr ""
 msgid "A bill on {project} is due today"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:698
+#: onedesk/public/js/rule_builder.js:766
 msgid "A bill, an invoice or a statement to pay."
 msgstr ""
 
@@ -3878,7 +3878,7 @@ msgstr ""
 msgid "Answer"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:730 onedesk/public/js/rule_builder.js:733
+#: onedesk/public/js/rule_builder.js:798 onedesk/public/js/rule_builder.js:801
 msgid "Answer From Their Records"
 msgstr ""
 
@@ -3900,7 +3900,7 @@ msgstr ""
 msgid "Answer new conversations from outside, once a day to each sender."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:747
+#: onedesk/public/js/rule_builder.js:815
 msgid "Answer the question from their records where they answer it. If they don't, say we will follow up within a day."
 msgstr ""
 
@@ -4928,6 +4928,10 @@ msgstr ""
 msgid "Assign"
 msgstr ""
 
+#: onedesk/public/js/rule_builder.js:683 onedesk/public/js/rule_builder.js:686
+msgid "Assign New Conversations"
+msgstr ""
+
 #: onedesk/one/automations.py:125 onedesk/one_inventory/heads.py:1630
 msgid "Assign To"
 msgstr ""
@@ -4936,8 +4940,16 @@ msgstr ""
 msgid "Assign a Salary Structure"
 msgstr ""
 
+#: onedesk/public/js/rule_builder.js:684
+msgid "Assign each new conversation from outside to one person."
+msgstr ""
+
 #: onedesk/public/js/rule_builder.js:295
 msgid "Assign it to"
+msgstr ""
+
+#: onedesk/public/js/rule_builder.js:695
+msgid "Assign quote requests to one person and invoices to another."
 msgstr ""
 
 #: onedesk/one/automations.py:117
@@ -5314,6 +5326,10 @@ msgstr ""
 msgid "Auto Close Open Check-ins at Shift End"
 msgstr ""
 
+#: onedesk/public/js/rule_builder.js:711 onedesk/public/js/rule_builder.js:713
+msgid "Auto Forward"
+msgstr ""
+
 #. Label of the auto_repeat (Link) field in DocType 'Task'
 #: onedesk/one_book/heads.py:587 onedesk/one_book/home.py:311
 #: onedesk/one_task/custom/task.json
@@ -5328,7 +5344,7 @@ msgstr ""
 msgid "Auto Reply On"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:763 onedesk/public/js/rule_builder.js:766
+#: onedesk/public/js/rule_builder.js:831 onedesk/public/js/rule_builder.js:834
 msgid "Auto Reply in Their Language"
 msgstr ""
 
@@ -6871,6 +6887,10 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "CV"
+msgstr ""
+
+#: onedesk/public/js/rule_builder.js:741
+msgid "CV, resume, application, vacancy"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -8556,7 +8576,7 @@ msgstr ""
 msgid "Competitor"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:697
+#: onedesk/public/js/rule_builder.js:765
 msgid "Complaint"
 msgstr ""
 
@@ -16475,12 +16495,32 @@ msgstr ""
 msgid "Forward"
 msgstr ""
 
+#: onedesk/public/js/rule_builder.js:719 onedesk/public/js/rule_builder.js:722
+msgid "Forward After Hours"
+msgstr ""
+
+#: onedesk/public/js/rule_builder.js:735 onedesk/public/js/rule_builder.js:738
+msgid "Forward Job Applications"
+msgstr ""
+
 #: onedesk/public/js/rule_builder.js:656 onedesk/public/js/rule_builder.js:659
 msgid "Forward Supplier Bills"
 msgstr ""
 
+#: onedesk/public/js/rule_builder.js:720
+msgid "Forward customer mail that arrives after hours or on a holiday to an on-call address."
+msgstr ""
+
+#: onedesk/public/js/rule_builder.js:712
+msgid "Forward every new message to another address."
+msgstr ""
+
 #: onedesk/public/js/rule_builder.js:293
 msgid "Forward it to"
+msgstr ""
+
+#: onedesk/public/js/rule_builder.js:736
+msgid "Forward mail with a CV attached to whoever handles hiring."
 msgstr ""
 
 #: onedesk/one_mail/flow.py:320
@@ -16489,6 +16529,11 @@ msgstr ""
 
 #: onedesk/one_mail/rules.py:321 onedesk/public/js/mail_compose.js:171
 msgid "Forwarded message"
+msgstr ""
+
+#: onedesk/public/js/rule_builder.js:653 onedesk/public/js/rule_builder.js:708
+#: onedesk/public/js/rule_builder.js:716 onedesk/public/js/rule_builder.js:732
+msgid "Forwarding"
 msgstr ""
 
 #. Label in the One Quality Inspection print format
@@ -19919,7 +19964,7 @@ msgstr ""
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 #: onedesk/one_inventory/print_format/one_repair_record/one_repair_record.json
-#: onedesk/public/js/rule_builder.js:698
+#: onedesk/public/js/rule_builder.js:766
 msgid "Invoice"
 msgstr ""
 
@@ -20156,7 +20201,7 @@ msgstr ""
 msgid "Is signing in to this workspace safe enough? Look at our rules and at how people sign in, and say what to change."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:719
+#: onedesk/public/js/rule_builder.js:787
 msgid "Is the sender upset, or do they need an answer today?"
 msgstr ""
 
@@ -20164,7 +20209,7 @@ msgstr ""
 msgid "Is there a cheaper model that would do?"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:742
+#: onedesk/public/js/rule_builder.js:810
 msgid "Is this a question about an order, a delivery or a price?"
 msgstr ""
 
@@ -28013,11 +28058,11 @@ msgstr ""
 msgid "OneAI adds questions to each new interview."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:731
+#: onedesk/public/js/rule_builder.js:799
 msgid "OneAI answers customers' questions about orders, deliveries and prices from their own records."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:764
+#: onedesk/public/js/rule_builder.js:832
 msgid "OneAI answers new conversations from outside, in the sender's language."
 msgstr ""
 
@@ -28144,11 +28189,11 @@ msgstr ""
 msgid "OneAI rates and ranks each new job applicant against the opening."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:687
+#: onedesk/public/js/rule_builder.js:755
 msgid "OneAI reads each message and picks a label. Each label has its own steps."
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:711
+#: onedesk/public/js/rule_builder.js:779
 msgid "OneAI says whether the sender is upset or in a hurry, and someone is told."
 msgstr ""
 
@@ -31047,8 +31092,8 @@ msgid "People With the Role"
 msgstr ""
 
 #: onedesk/public/js/rule_builder.js:604 onedesk/public/js/rule_builder.js:620
-#: onedesk/public/js/rule_builder.js:642 onedesk/public/js/rule_builder.js:653
-#: onedesk/public/js/rule_builder.js:664
+#: onedesk/public/js/rule_builder.js:642 onedesk/public/js/rule_builder.js:664
+#: onedesk/public/js/rule_builder.js:680 onedesk/public/js/rule_builder.js:691
 msgid "People and Records"
 msgstr ""
 
@@ -33353,7 +33398,7 @@ msgstr ""
 msgid "Quote Received"
 msgstr ""
 
-#: onedesk/one/portal.py:110 onedesk/public/js/rule_builder.js:696
+#: onedesk/one/portal.py:110 onedesk/public/js/rule_builder.js:764
 msgid "Quote Request"
 msgstr ""
 
@@ -35914,6 +35959,10 @@ msgstr ""
 #. Label in the One Travel Request print format
 #: onedesk/one_hr/print_format/one_travel_request/one_travel_request.json
 msgid "Route"
+msgstr ""
+
+#: onedesk/public/js/rule_builder.js:694 onedesk/public/js/rule_builder.js:697
+msgid "Route by Subject"
 msgstr ""
 
 #. Label in the One Bill of Materials print format
@@ -39009,7 +39058,7 @@ msgstr ""
 msgid "Someone"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:696
+#: onedesk/public/js/rule_builder.js:764
 msgid "Someone asks for a price or a quotation."
 msgstr ""
 
@@ -39021,7 +39070,7 @@ msgstr ""
 msgid "Someone else…"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:697
+#: onedesk/public/js/rule_builder.js:765
 msgid "Someone is unhappy with what they got or how they were treated."
 msgstr ""
 
@@ -39080,7 +39129,7 @@ msgstr ""
 msgid "Sort ascending"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:686 onedesk/public/js/rule_builder.js:689
+#: onedesk/public/js/rule_builder.js:754 onedesk/public/js/rule_builder.js:757
 msgid "Sort by Topic"
 msgstr ""
 
@@ -41824,7 +41873,7 @@ msgstr ""
 msgid "Thank customers who pay"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:774
+#: onedesk/public/js/rule_builder.js:842
 msgid "Thank them, say what you understood they need, and say we will reply soon."
 msgstr ""
 
@@ -46556,7 +46605,7 @@ msgstr ""
 msgid "Uploading {0} of {1}"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:710 onedesk/public/js/rule_builder.js:713
+#: onedesk/public/js/rule_builder.js:778 onedesk/public/js/rule_builder.js:781
 msgid "Upset or Urgent"
 msgstr ""
 
@@ -51012,8 +51061,8 @@ msgstr ""
 msgid "With Invoice"
 msgstr ""
 
-#: onedesk/public/js/rule_builder.js:683 onedesk/public/js/rule_builder.js:707
-#: onedesk/public/js/rule_builder.js:727 onedesk/public/js/rule_builder.js:760
+#: onedesk/public/js/rule_builder.js:751 onedesk/public/js/rule_builder.js:775
+#: onedesk/public/js/rule_builder.js:795 onedesk/public/js/rule_builder.js:828
 msgid "With OneAI"
 msgstr ""
 
@@ -53181,6 +53230,10 @@ msgstr ""
 msgid "invites you to"
 msgstr ""
 
+#: onedesk/public/js/rule_builder.js:702
+msgid "invoice, payment, statement"
+msgstr ""
+
 #: onedesk/public/js/rule_builder.js:567
 msgid "invoice, receipt, statement"
 msgstr ""
@@ -53645,6 +53698,10 @@ msgstr ""
 #. Option for the 'Tone' (Select) field in DocType 'Record Head Band'
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 msgid "quiet"
+msgstr ""
+
+#: onedesk/public/js/rule_builder.js:700
+msgid "quote, quotation, price"
 msgstr ""
 
 #: onedesk/public/js/rule_builder.js:280

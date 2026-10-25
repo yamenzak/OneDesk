@@ -306,7 +306,7 @@ mailbox's signature. A rule's reply stands in for an out-of-office reply
 to the same message.
 
 **To make a rule:** **New Rule**, then start from **Blank** or one of the
-examples, change anything, and save. The examples come in four groups, and
+examples, change anything, and save. The examples come in five groups, and
 between them they use every condition and every action:
 
 - **Replies**: **Auto Reply** (every message, once per conversation),
@@ -315,8 +315,12 @@ between them they use every condition and every action:
 - **Sorting**: **Newsletters to a Folder**, **Invoices to a Folder**,
   **Customers to a Folder**, **Important Sender** and **Block a Sender**.
 - **People and Records**: **Support Requests** (an issue, assigned),
-  **New Leads**, **Tasks From Mail**, **Forward Supplier Bills** and
-  **Urgent After Hours**.
+  **New Leads**, **Tasks From Mail**, **Urgent After Hours**, **Assign New
+  Conversations** and **Route by Subject** (quote requests to one person,
+  invoices to another).
+- **Forwarding**: **Auto Forward** (every new message), **Forward Supplier
+  Bills**, **Forward After Hours** (customer mail to an on-call address) and
+  **Forward Job Applications**.
 - **With OneAI**, only where OneAI may read the mailbox: **Sort by
   Topic**, **Upset or Urgent**, **Answer From Their Records** and **Auto Reply in Their Language**.
 

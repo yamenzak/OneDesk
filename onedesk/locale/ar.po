@@ -4916,6 +4916,10 @@ msgstr "للأصول فئات"
 msgid "Assign"
 msgstr "إسناد"
 
+#: onedesk/public/js/rule_builder.js:683 onedesk/public/js/rule_builder.js:686
+msgid "Assign New Conversations"
+msgstr "إسناد المحادثات الجديدة"
+
 #: onedesk/one/automations.py:125 onedesk/one_inventory/heads.py:1630
 msgid "Assign To"
 msgstr ""
@@ -4924,9 +4928,17 @@ msgstr ""
 msgid "Assign a Salary Structure"
 msgstr "إسناد هيكل راتب"
 
+#: onedesk/public/js/rule_builder.js:684
+msgid "Assign each new conversation from outside to one person."
+msgstr "إسناد كل محادثة جديدة من الخارج إلى شخص واحد."
+
 #: onedesk/public/js/rule_builder.js:270
 msgid "Assign it to"
 msgstr "أسنده إلى"
+
+#: onedesk/public/js/rule_builder.js:695
+msgid "Assign quote requests to one person and invoices to another."
+msgstr "إسناد طلبات الأسعار إلى شخص والفواتير إلى آخر."
 
 #: onedesk/one/automations.py:117
 msgid "Assign the document to user(s)."
@@ -5301,6 +5313,10 @@ msgstr "تلقائي (حسب اللغة)"
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Auto Close Open Check-ins at Shift End"
 msgstr "إغلاق تسجيلات الحضور المفتوحة تلقائياً عند نهاية المناوبة"
+
+#: onedesk/public/js/rule_builder.js:711 onedesk/public/js/rule_builder.js:713
+msgid "Auto Forward"
+msgstr "إعادة توجيه تلقائية"
 
 #. Label of the auto_repeat (Link) field in DocType 'Task'
 #: onedesk/one_book/heads.py:633 onedesk/one_book/home.py:311
@@ -6852,6 +6868,10 @@ msgstr "تفصيل التكلفة الإجمالية"
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "CV"
 msgstr "سيرة ذاتية"
+
+#: onedesk/public/js/rule_builder.js:741
+msgid "CV, resume, application, vacancy"
+msgstr "سيرة ذاتية, السيرة الذاتية, طلب توظيف, وظيفة شاغرة"
 
 #. Label of a Sidebar Item
 #: onedesk/one/settings.py:19 onedesk/one/sidebar/one/one.json
@@ -16396,13 +16416,33 @@ msgstr "النماذج والتكاملات"
 msgid "Forward"
 msgstr "تقدم"
 
+#: onedesk/public/js/rule_builder.js:719 onedesk/public/js/rule_builder.js:722
+msgid "Forward After Hours"
+msgstr "إعادة التوجيه بعد ساعات العمل"
+
+#: onedesk/public/js/rule_builder.js:735 onedesk/public/js/rule_builder.js:738
+msgid "Forward Job Applications"
+msgstr "إعادة توجيه طلبات التوظيف"
+
 #: onedesk/public/js/rule_builder.js:613 onedesk/public/js/rule_builder.js:616
 msgid "Forward Supplier Bills"
 msgstr "إعادة توجيه فواتير الموردين"
 
+#: onedesk/public/js/rule_builder.js:720
+msgid "Forward customer mail that arrives after hours or on a holiday to an on-call address."
+msgstr "إعادة توجيه بريد العملاء الذي يصل بعد ساعات العمل أو في عطلة إلى عنوان المناوبة."
+
+#: onedesk/public/js/rule_builder.js:712
+msgid "Forward every new message to another address."
+msgstr "إعادة توجيه كل رسالة جديدة إلى عنوان آخر."
+
 #: onedesk/public/js/rule_builder.js:268
 msgid "Forward it to"
 msgstr "أعد توجيهه إلى"
+
+#: onedesk/public/js/rule_builder.js:736
+msgid "Forward mail with a CV attached to whoever handles hiring."
+msgstr "إعادة توجيه البريد المرفق به سيرة ذاتية إلى المسؤول عن التوظيف."
 
 #: onedesk/one_mail/flow.py:301
 msgid "Forward to {0}"
@@ -16411,6 +16451,11 @@ msgstr "إعادة توجيه إلى {0}"
 #: onedesk/public/js/onemail.js:716
 msgid "Forwarded message"
 msgstr "رسالة معاد توجيهها"
+
+#: onedesk/public/js/rule_builder.js:653 onedesk/public/js/rule_builder.js:708
+#: onedesk/public/js/rule_builder.js:716 onedesk/public/js/rule_builder.js:732
+msgid "Forwarding"
+msgstr "إعادة التوجيه"
 
 #. Label in the One Quality Inspection print format
 #. Label of the found (Check) field in DocType 'Face'
@@ -35733,6 +35778,10 @@ msgstr "الجولة"
 msgid "Route"
 msgstr "المسار"
 
+#: onedesk/public/js/rule_builder.js:694 onedesk/public/js/rule_builder.js:697
+msgid "Route by Subject"
+msgstr "التوجيه حسب الموضوع"
+
 #. Label in the One Bill of Materials print format
 #: onedesk/one_inventory/home.py:211
 #: onedesk/one_inventory/print_format/one_bill_of_materials/one_bill_of_materials.json
@@ -52861,6 +52910,10 @@ msgstr "مدخلات"
 msgid "invites you to"
 msgstr "يدعوك إلى"
 
+#: onedesk/public/js/rule_builder.js:702
+msgid "invoice, payment, statement"
+msgstr "فاتورة, دفعة, كشف حساب"
+
 #: onedesk/public/js/rule_builder.js:524
 msgid "invoice, receipt, statement"
 msgstr "فاتورة, إيصال, كشف حساب"
@@ -53323,6 +53376,10 @@ msgstr ""
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 msgid "quiet"
 msgstr "هادئ"
+
+#: onedesk/public/js/rule_builder.js:700
+msgid "quote, quotation, price"
+msgstr "عرض سعر, تسعيرة, سعر"
 
 #: onedesk/public/js/rule_builder.js:283
 msgid "reading their records"

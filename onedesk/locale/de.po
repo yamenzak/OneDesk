@@ -4916,6 +4916,10 @@ msgstr "Anlagegüter haben Kategorien"
 msgid "Assign"
 msgstr "Zuweisen"
 
+#: onedesk/public/js/rule_builder.js:683 onedesk/public/js/rule_builder.js:686
+msgid "Assign New Conversations"
+msgstr "Neue Unterhaltungen zuweisen"
+
 #: onedesk/one/automations.py:125 onedesk/one_inventory/heads.py:1630
 msgid "Assign To"
 msgstr ""
@@ -4924,9 +4928,17 @@ msgstr ""
 msgid "Assign a Salary Structure"
 msgstr "Gehaltsstruktur zuweisen"
 
+#: onedesk/public/js/rule_builder.js:684
+msgid "Assign each new conversation from outside to one person."
+msgstr "Jede neue Unterhaltung von außen einer Person zuweisen."
+
 #: onedesk/public/js/rule_builder.js:270
 msgid "Assign it to"
 msgstr "Weise sie zu an"
+
+#: onedesk/public/js/rule_builder.js:695
+msgid "Assign quote requests to one person and invoices to another."
+msgstr "Angebotsanfragen einer Person und Rechnungen einer anderen zuweisen."
 
 #: onedesk/one/automations.py:117
 msgid "Assign the document to user(s)."
@@ -5301,6 +5313,10 @@ msgstr "Automatisch (Gebietsschema)"
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Auto Close Open Check-ins at Shift End"
 msgstr "Offene Eincheckungen zum Schichtende automatisch schließen"
+
+#: onedesk/public/js/rule_builder.js:711 onedesk/public/js/rule_builder.js:713
+msgid "Auto Forward"
+msgstr "Automatisch weiterleiten"
 
 #. Label of the auto_repeat (Link) field in DocType 'Task'
 #: onedesk/one_book/heads.py:633 onedesk/one_book/home.py:311
@@ -6852,6 +6868,10 @@ msgstr "Aufschlüsselung der Gesamtkosten"
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "CV"
 msgstr "Lebenslauf"
+
+#: onedesk/public/js/rule_builder.js:741
+msgid "CV, resume, application, vacancy"
+msgstr "Lebenslauf, CV, Bewerbung, Stelle"
 
 #. Label of a Sidebar Item
 #: onedesk/one/settings.py:19 onedesk/one/sidebar/one/one.json
@@ -16396,13 +16416,33 @@ msgstr "Formulare und Anbindungen"
 msgid "Forward"
 msgstr "Vorwärts"
 
+#: onedesk/public/js/rule_builder.js:719 onedesk/public/js/rule_builder.js:722
+msgid "Forward After Hours"
+msgstr "Nach Feierabend weiterleiten"
+
+#: onedesk/public/js/rule_builder.js:735 onedesk/public/js/rule_builder.js:738
+msgid "Forward Job Applications"
+msgstr "Bewerbungen weiterleiten"
+
 #: onedesk/public/js/rule_builder.js:613 onedesk/public/js/rule_builder.js:616
 msgid "Forward Supplier Bills"
 msgstr "Lieferantenrechnungen weiterleiten"
 
+#: onedesk/public/js/rule_builder.js:720
+msgid "Forward customer mail that arrives after hours or on a holiday to an on-call address."
+msgstr "Kunden-E-Mails, die nach Feierabend oder an einem Feiertag ankommen, an eine Bereitschaftsadresse weiterleiten."
+
+#: onedesk/public/js/rule_builder.js:712
+msgid "Forward every new message to another address."
+msgstr "Jede neue Nachricht an eine andere Adresse weiterleiten."
+
 #: onedesk/public/js/rule_builder.js:268
 msgid "Forward it to"
 msgstr "Leite sie weiter an"
+
+#: onedesk/public/js/rule_builder.js:736
+msgid "Forward mail with a CV attached to whoever handles hiring."
+msgstr "E-Mails mit angehängtem Lebenslauf an die zuständige Person für Einstellungen weiterleiten."
 
 #: onedesk/one_mail/flow.py:301
 msgid "Forward to {0}"
@@ -16411,6 +16451,11 @@ msgstr "Weiterleiten an {0}"
 #: onedesk/public/js/onemail.js:716
 msgid "Forwarded message"
 msgstr "Weitergeleitete Nachricht"
+
+#: onedesk/public/js/rule_builder.js:653 onedesk/public/js/rule_builder.js:708
+#: onedesk/public/js/rule_builder.js:716 onedesk/public/js/rule_builder.js:732
+msgid "Forwarding"
+msgstr "Weiterleitung"
 
 #. Label in the One Quality Inspection print format
 #. Label of the found (Check) field in DocType 'Face'
@@ -35733,6 +35778,10 @@ msgstr "Runde"
 msgid "Route"
 msgstr "Route"
 
+#: onedesk/public/js/rule_builder.js:694 onedesk/public/js/rule_builder.js:697
+msgid "Route by Subject"
+msgstr "Nach Betreff zuweisen"
+
 #. Label in the One Bill of Materials print format
 #: onedesk/one_inventory/home.py:211
 #: onedesk/one_inventory/print_format/one_bill_of_materials/one_bill_of_materials.json
@@ -52861,6 +52910,10 @@ msgstr "Eingabe"
 msgid "invites you to"
 msgstr "lädt Sie ein zu"
 
+#: onedesk/public/js/rule_builder.js:702
+msgid "invoice, payment, statement"
+msgstr "Rechnung, Zahlung, Kontoauszug"
+
 #: onedesk/public/js/rule_builder.js:524
 msgid "invoice, receipt, statement"
 msgstr "Rechnung, Beleg, Kontoauszug"
@@ -53323,6 +53376,10 @@ msgstr ""
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 msgid "quiet"
 msgstr "ruhig"
+
+#: onedesk/public/js/rule_builder.js:700
+msgid "quote, quotation, price"
+msgstr "Angebot, Preisanfrage, Preis"
 
 #: onedesk/public/js/rule_builder.js:283
 msgid "reading their records"
