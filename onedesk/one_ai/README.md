@@ -392,6 +392,13 @@ deliberately not here.
   carries the record's `modified` from when it was written; if the record has
   moved since, the proposal is stale and says so. Applying it anyway would be
   a model's diff quietly undoing a person's.
+- `search.py`: search on the workspace's own AI Search instance, once the
+  account says it has one (`proxy.ai_search_state`, believed for an hour).
+  Each record `index.py` indexes is also written as Markdown under `search/`
+  in the workspace's R2 prefix (`key_of`), and taken away when it goes;
+  `index.nearest` asks the instance first (`run.search`, by meaning) and
+  shows only what the reader may open (`index._may`). Until then nothing is
+  written and the vectors below answer.
 - `index.py`, `doctype/ai_chunk`: search by meaning. A document OneAI
   read, a message, and the records people look for (`RECORDS`) are cut into
   overlapping pieces (`pieces`), each embedded once through the account and

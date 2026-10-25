@@ -650,7 +650,17 @@ the screen), a commit, and the docs it changes.
    pass, the same invoice twice, and a currency written as a word.
 5. **Search.** An AI Search instance per workspace, indexing on save,
    permissions after search, the search bar and OneCloud's search; AI
-   Chunk and the index go.
+   Chunk and the index go. **Built switched off (2026-10-26).** The account
+   asks a workspace's instance (`one_admin/search.py`: keyword, or meaning
+   as hybrid and reranked, billed at $0.10 and $0.75 a thousand) once one
+   is recorded for it with `adopt`; the workspace asks whether it has one
+   (`proxy.ai_search_state`, free, believed for an hour), and only then
+   writes each record `index.py` indexes as Markdown under `search/` in its
+   R2 prefix, and lets `index.nearest` ask the instance before the vectors,
+   dropping what the reader may not open. No instance was made: the first
+   waits for a yes (the scratchpad). Until then nothing changes, so AI
+   Chunk, the vectors and the search bar's keyword search stay; they go
+   once instances answer.
 6. **Web search.** The optional service, the tool, the subprocessor.
 7. **The product.** The panel, cards, writing in a field and summaries
    rebuilt on jobs: the panel with no model to pick, cards and chains as

@@ -1731,6 +1731,17 @@ action that caps its output tokens against a model priced per picture has
 simply capped something that does not apply. The hold covers what could be
 priced, and the settle is where an unmeterable call is caught.
 
+### search.py
+
+Search on Cloudflare's AI Search for a workspace (docs/AICENTER.md, Search):
+`find` asks the workspace's instance by keyword or by meaning (hybrid and
+reranked), bills it at Cloudflare's price per search, and returns each hit's
+key, text and score. An instance is one per workspace, named by `name_for`,
+with its R2 data source on the workspace's prefix and its path filter on
+`search/**`; none is made here. Made by hand, it is recorded with `adopt`,
+and a workspace without one is refused with `NoSearch` and searches as it
+did (`proxy.ai_search_state`, `proxy.ai_search`).
+
 ### proxy.py
 
 Everything a workspace is billed for comes through here: a signed URL to put a

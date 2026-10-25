@@ -208,6 +208,30 @@ def ai_read(
 
 @frappe.whitelist(allow_guest=True)
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def ai_search_state() -> dict:
+	"""Whether this workspace has its own search instance yet. Free."""
+	from onedesk.one_admin import search
+
+	return {"live": bool(search.instance_of(caller().name))}
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def ai_search(query: str, mode: str = "keyword", most: int = 10) -> dict:
+	"""This workspace's own search instance, asked by keyword or by meaning
+	and billed to it (one_admin/search.py). A workspace with none is told so
+	and searches as it did."""
+	from onedesk.one_admin import search
+
+	tenant = caller()
+	try:
+		return search.find(tenant.name, query, mode, int(most or 10))
+	except faults.Refused as raised:
+		frappe.throw(str(raised), exc=type(raised))
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
 def ai_embed(texts: list | str) -> dict:
 	"""Texts as vectors, for this workspace's search by meaning, billed to it."""
 	from onedesk.one_admin import actions

@@ -18,6 +18,15 @@ Each says what was done meanwhile, so nothing waited on it.
   becomes OneAI's" without a name. *Meanwhile:* the page, its row in One's
   sidebar, the bottom bar and Home's card say **Documents** ("3 waiting in
   Documents"). Say if you want another name.
+- **The first AI Search instance waits for your yes.** Search on AI Search
+  is built and switched off: no workspace has an instance, so nothing is
+  written to R2 and today's search answers. Making one means a Cloudflare
+  AI Search instance per workspace (billed from 2026-11-01), its R2 data
+  source on the workspace's prefix with the path filter `search/**`, then
+  `onedesk.one_admin.search.adopt(tenant)`. Copies of what is searched then
+  sit at Cloudflare, which the agreements must say first. *Meanwhile:*
+  nothing made, AI Chunk and the vectors kept. Say yes and for which
+  workspace first.
 - **Three doctypes still say Intake: Intake Settings, Intake Action and
   Intake Lesson**, and two notification names (Intake Waiting, Intake
   Weekly). OneIntake left every screen, Help page and clause; these are

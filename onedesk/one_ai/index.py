@@ -211,6 +211,17 @@ def forget(doctype: str, name: str) -> None:
 	frappe.db.delete(CHUNK, {"source_doctype": doctype, "source_name": name})
 
 
+def _searched(doctype: str, name: str, gone: bool = False) -> None:
+	"""The workspace's own search instance kept up as the index is, once it
+	has one (one_ai/search.py)."""
+	from onedesk.one_ai import search
+
+	try:
+		search.drop(doctype, name) if gone else search.write(doctype, name)
+	except Exception:
+		frappe.log_error(title="Search could not keep up", reference_doctype=doctype, reference_name=name)
+
+
 def changed(doc, method=None) -> None:
 	"""on_update and after_insert on every source: index it again, after the
 	save is committed, once however often it is saved in a minute."""
@@ -230,9 +241,11 @@ def changed(doc, method=None) -> None:
 def removed(doc, method=None) -> None:
 	if doc.doctype in SOURCES:
 		forget(doc.doctype, doc.name)
+		_searched(doc.doctype, doc.name, gone=True)
 
 
 def refresh(doctype: str, name: str) -> None:
+	_searched(doctype, name)
 	try:
 		remember(doctype, name)
 	except Exception:
@@ -314,6 +327,11 @@ def nearest(text: str, doctypes: list[str] | tuple | None = None, most: int = 10
 	best piece of each source once, best first."""
 	if not on() or not (text or "").strip():
 		return []
+	from onedesk.one_ai import search
+
+	found = search.find(text, doctypes, most)
+	if found is not None:
+		return found
 	said = embedded([text[:2000]])
 	if not said["vectors"]:
 		return []

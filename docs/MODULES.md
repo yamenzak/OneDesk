@@ -399,6 +399,8 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.ai_embed`
 * `onedesk.one_admin.proxy.ai_read`
 * `onedesk.one_admin.proxy.ai_run`
+* `onedesk.one_admin.proxy.ai_search`
+* `onedesk.one_admin.proxy.ai_search_state`
 * `onedesk.one_admin.proxy.ai_tiers`
 * `onedesk.one_admin.proxy.ai_usage`
 * `onedesk.one_admin.proxy.app_claim`

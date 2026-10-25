@@ -428,6 +428,15 @@ def read(action: str, state: str, asked: dict, reference: str | None = None, on:
 	return (out or {}).get("result") or {}
 
 
+def search(text: str, mode: str, most: int) -> dict:
+	"""The workspace's own search instance, by keyword or meaning: hits with
+	their keys, before permissions (one_ai/search.py)."""
+	from onedesk.one import apps
+
+	apps.refuse_ai()
+	return account.ask("onedesk.one_admin.proxy.ai_search", query=text, mode=mode, most=most) or {}
+
+
 def _counted(reference: str | None, credits) -> None:
 	"""A call made for a reading of mail counts against its mailbox's month
 	(one_mail/gate.py)."""
