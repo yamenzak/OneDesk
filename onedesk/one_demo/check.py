@@ -9147,6 +9147,10 @@ def help_shows_every_page_in_order():
 		ids = {one["id"] for one in pages}
 		for one in versions.whats_new("OneMail")["versions"]:
 			assert {page["id"] for page in one["docs"]} <= ids, one["docs"]
+		# Who Can Do What shows what OneMail's roles ship with, from its
+		# abilities.py (one/abilities.py defaults_table).
+		roles = next(one["html"] for one in pages if one["id"] == "who-can-do-what")
+		assert "{roles}" not in roles and "Every Mailbox" in roles and "Ask for Approval" in roles, roles[:200]
 
 
 @check

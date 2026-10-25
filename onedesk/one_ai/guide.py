@@ -82,6 +82,10 @@ def page(path: Path) -> str:
 	if path.parent.name != "docs":
 		return text
 	module = (path.parent.parent / "AGENTS.md").read_text(encoding="utf-8").split("\n", 1)[0].lstrip("# ").strip()
+	if "{roles}" in text:
+		from onedesk.one import abilities
+
+		text = text.replace("{roles}", abilities.defaults_table(module))
 	text = re.sub(r"^(#{1,2}) ", lambda found: "#" * (len(found.group(1)) + 1) + " ", text, flags=re.M)
 	return f"# {module}\n\n{text}"
 

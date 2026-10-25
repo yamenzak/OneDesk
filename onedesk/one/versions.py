@@ -78,6 +78,16 @@ def _pictured(one: dict) -> str:
 	return PICTURE.sub(inline, one["body"])
 
 
+def _filled(module: str, body: str) -> str:
+	"""A page's words with what the module ships put in: `{roles}` is what
+	each of its roles starts with (one/abilities.py `defaults_table`)."""
+	if "{roles}" in body:
+		from onedesk.one import abilities
+
+		body = body.replace("{roles}", abilities.defaults_table(module))
+	return body
+
+
 @frappe.whitelist()
 def help_pages(module: str) -> dict:
 	"""A module's help, page by page, in reading order, as people read it in
@@ -87,7 +97,7 @@ def help_pages(module: str) -> dict:
 		"module": module,
 		"version": ready.current(module),
 		"pages": [
-			{"id": page["id"], "icon": page["icon"], "title": page["title"], "html": md_to_html(_pictured(page))}
+			{"id": page["id"], "icon": page["icon"], "title": page["title"], "html": md_to_html(_filled(module, _pictured(page)))}
 			for page in ready.help_pages(module)
 		],
 	}

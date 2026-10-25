@@ -798,7 +798,6 @@ fixtures = [
 	{"dt": "Quotation Lost Reason", "filters": [["name", "in", ["Price", "Went With a Competitor", "No Budget", "No Decision", "Timing", "Not a Fit", "Other"]]]},
 	{"dt": "UTM Source", "filters": [["name", "=", "Website"]]},
 	{"dt": "Custom HTML Block", "filters": [["name", "in", ["One Needs You", "OneAdmin Needs You"]]]},
-	{"dt": "Role", "filters": [["name", "in", ["Mail Manager", "OneMail User"]]]},
 ]
 
 

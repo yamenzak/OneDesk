@@ -190,13 +190,54 @@ def grant(app: str, name: str, user: str, keys: list[str]) -> list[str]:
 
 
 def settle(*_args) -> None:
-	"""after_migrate: each module's own roles given their default abilities,
-	once. A role that has a row on the doctype already keeps what the
-	workspace made of it."""
+	"""after_migrate: each module's own roles, made from its `abilities.py`
+	(its DEFAULTS name them, docs/READY.md mechanism 7), and given their
+	default abilities once. A role that has a row on the doctype already
+	keeps what the workspace made of it."""
 	for declared in modules():
 		for role, values in declared.DEFAULTS.items():
-			if frappe.db.exists("Role", role) and not _row(declared.DOCTYPE, role):
+			if not frappe.db.exists("Role", role):
+				frappe.get_doc(
+					{
+						"doctype": "Role",
+						"role_name": role,
+						"desk_access": 1,
+						"is_custom": 0,
+						"one_app": declared.APP if role == getattr(declared, "EVERYONE", None) else None,
+					}
+				).insert(ignore_permissions=True)
+			if not _row(declared.DOCTYPE, role):
 				save(declared.APP, role, values)
+
+
+def defaults_table(app: str) -> str:
+	"""What each of a module's roles starts with, as a Markdown table for its
+	Help (`{roles}` on a page, one/versions.py), so the page can't say other
+	than the module ships. In English, as Help is."""
+	declared = of_app(app)
+	if not declared:
+		return ""
+	was = getattr(frappe.local, "lang", None)
+	frappe.local.lang = "en"
+	try:
+		roles = list(declared.DEFAULTS)
+		# As the Roles matrix names them: the role everyone holds is User, the
+		# module's other is Manager.
+		named = [str(_("User") if role == getattr(declared, "EVERYONE", None) else _("Manager")) for role in roles]
+		rows = [f"| {_('Ability')} | " + " | ".join(named) + " |", "| --- |" + " --- |" * len(roles)]
+		for one in declared.ABILITIES:
+			cells = []
+			for role in roles:
+				value = declared.DEFAULTS[role].get(one["key"], 0 if one["kind"] == "switch" else "none")
+				if one["kind"] == "switch":
+					cells.append(str(_("On") if value else _("Off")))
+				else:
+					label = one.get(value) if value == "none" and one.get("none") else declared.SCOPE_LABELS[value]
+					cells.append(str(label))
+			rows.append(f"| **{one['label']}** | " + " | ".join(cells) + " |")
+		return "\n".join(rows)
+	finally:
+		frappe.local.lang = was
 
 
 def everyone(*_args) -> None:

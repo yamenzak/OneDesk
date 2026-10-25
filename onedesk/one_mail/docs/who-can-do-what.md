@@ -10,6 +10,14 @@ page in **Workspace › People**. Workspace Administrators can do everything.
 | **User** | Everyone | Manage the mailboxes they connected, such as their Gmail. On the address the workspace gave them, set their own out of office and ask for rules, which a Mail Manager approves. |
 | **Manager** | People you choose, often in HR or PR | Everything on every mailbox, as well as connecting shared mailboxes, the address policy and mail templates. |
 
+## What Each Role Starts With
+
+This is what OneMail's roles hold when OneMail arrives in a workspace.
+**Settings › Roles** changes any of it, and an update never undoes a change
+you made.
+
+{roles}
+
 ## Your Own Roles
 
 A Workspace Administrator makes more roles under **Settings › Roles**. It's one

@@ -187,3 +187,64 @@ def test_a_change_to_what_a_module_agrees_on_is_said():
 		for newer, older in zip(found, found[1:]):
 			if "legal" in older and newer.get("legal") != older["legal"]:
 				assert AGREEMENTS.search(newer["body"]), f"{module} {newer['version']} changes the agreements without saying which"
+
+
+def _declared(path: Path) -> dict:
+	"""A module's abilities.py read without importing it: its top-level
+	names that are plain values."""
+	import ast
+
+	found = {}
+	for node in ast.parse(path.read_text(encoding="utf-8")).body:
+		if isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name):
+			try:
+				found[node.targets[0].id] = ast.literal_eval(node.value)
+			except ValueError:
+				found[node.targets[0].id] = node.value
+	return found
+
+
+def test_a_module_ships_its_roles():
+	"""A module's roles come from its own abilities.py (docs/READY.md,
+	mechanism 7): named by the one_abilities hook, its DEFAULTS give every
+	role it ships a value for each ability and are what migrate makes the
+	roles from, and its Help shows them ({roles}), so the page says what
+	ships."""
+	hooks = (ROOT / "onedesk" / "hooks.py").read_text(encoding="utf-8")
+	for module, spec in ready.MODULES.items():
+		path = ROOT / "onedesk" / spec["folder"] / "abilities.py"
+		assert path.exists(), f"{module} ships no roles: write {path.relative_to(ROOT)}"
+		assert f'"onedesk.{spec["folder"]}.abilities"' in hooks, f"one_abilities in hooks.py doesn't name {module}'s"
+		said = _declared(path)
+		assert said.get("APP") == module, f"{module}'s abilities.py says APP = {said.get('APP')}"
+		abilities = said["ABILITIES"]
+		keys = set()
+		for one in getattr(abilities, "elts", []):
+			for key, value in zip(one.keys, one.values):
+				if getattr(key, "value", None) == "key":
+					keys.add(value.value)
+		assert keys, f"{module} declares no abilities"
+		defaults = said.get("DEFAULTS") or {}
+		assert said.get("EVERYONE") in defaults, f"{module}'s DEFAULTS don't name the role everyone holds"
+		for role, values in defaults.items():
+			assert set(values) <= keys, f"{module}'s {role} names abilities it doesn't declare: {set(values) - keys}"
+		pages = [page["body"] for page in ready.help_pages(module)]
+		assert any("{roles}" in body for body in pages), f"{module}'s Help doesn't show what its roles start with ({{roles}})"
+	fixtures = (ROOT / "onedesk" / "fixtures").glob("role.json")
+	assert not list(fixtures), "a module's roles are made from its abilities.py, not a fixture"
+
+
+SHARES = re.compile(
+	r"frappe\.share\.(?:add|add_docshare|remove|set_permission)\b|\badd_docshare\(|new_doc\(\s*[\"']DocShare|[\"']doctype[\"']\s*:\s*[\"']DocShare"
+)
+
+
+def test_a_module_grants_through_abilities_alone():
+	"""One person given more on one record than their role says is one idea:
+	abilities.grant, a share frappe answers (docs/READY.md, mechanism 7). A
+	module writes no share of its own."""
+	for module in ready.MODULES:
+		for path in ready.files(module):
+			if path.suffix == ".py" and "tests" not in path.parts:
+				hit = SHARES.search(path.read_text(encoding="utf-8"))
+				assert not hit, f"{path.relative_to(ROOT)} writes a share itself ({hit.group(0)}); use abilities.grant"

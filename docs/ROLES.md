@@ -100,34 +100,24 @@ still open a page here with the record-type matrix, until their stage.
 ### Modules everyone has
 
 OneMail joins the apps with roles. Everyone holds its User role
-(`OneMail User`, a fixture, given to everybody by a patch and to each new
-person). There is no None: a person's page offers User, the workspace's own
+(`OneMail User`, made from OneMail's abilities.py and given to everybody by
+a patch and to each new person). There is no None: a person's page offers User, the workspace's own
 roles, and Manager. Mail Manager, made in the last change, becomes OneMail's
 Manager, and the separate Mail Manager switch on a person's page goes.
 Profiles take OneMail like any other app.
 
-### OneMail
+### A module's own roles
 
-| Ability | Kind | Default: User | Default: Manager |
-| --- | --- | --- | --- |
-| Signature and sender name | No / Their own address / Every mailbox | No | Every mailbox |
-| Out of office | No / Their own address / Every mailbox | Their own address | Every mailbox |
-| Mail rules | Ask for approval / Their own address / Every mailbox | Ask | Every mailbox |
-| OneAI settings | No / Their own address / Every mailbox | No | Every mailbox |
-| Who holds a mailbox | Switch | Off | On |
-| Connection | Switch | Off | On |
-| Connect shared mailboxes | Switch | Off | On |
-| Workspace addresses and outside mailboxes | Switch | Off | On |
-| Mail templates | Switch | Off | On |
+A module ships its roles from its own folder: `<module>/abilities.py`
+declares its abilities and, in DEFAULTS, the roles it ships and what each
+starts with. Migrate makes those roles if they aren't there and writes their
+defaults once (`abilities.settle`); there is no fixture. The module's Help
+shows the same defaults (`{roles}` on a page, `abilities.defaults_table`), so
+what the page says is what ships. OneMail's are on its Who Can Do What page.
 
-"Their own address" is the address the workspace issued them. A mailbox
-somebody connected for themselves is always theirs, whatever their role.
-Workspace Administrators can do everything.
-
-The per-mailbox layer is the **Users** tab of a shared mailbox: beside Send,
-**Edit Access** gives a person the mailbox's signature, out of office,
-Automation, OneAI, Users and connection, beyond what their role allows. Each
-is a share.
+One person given more on one record than their role says is a share,
+written by `abilities.grant` and nothing else; OneMail's per-mailbox Edit
+Access is the first. `tests/guards/test_ready.py` holds both.
 
 ## Stages
 

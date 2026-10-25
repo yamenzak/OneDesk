@@ -97,8 +97,8 @@ ABILITIES = [
 # mailbox (the Users tab of a shared mailbox).
 SHARED = ("signature", "away", "rules", "ai", "holders", "connection")
 
-# What OneMail's own roles start with, written once on migrate for a role
-# with nothing on Email Account yet (abilities.settle).
+# OneMail's roles and what each starts with: made and written once on
+# migrate (abilities.settle), and shown in Help ({roles}).
 DEFAULTS = {
 	"OneMail User": {"away": "own"},
 	"Mail Manager": {

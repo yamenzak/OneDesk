@@ -333,7 +333,21 @@ the agreement.
 
 ### 7. Roles that ship
 
-**Today.** The abilities engine (`one/abilities.py`, the `one_abilities`
+**Built.** A module's roles come from its folder alone. `<module>/abilities.py`,
+named by the `one_abilities` hook, declares its abilities, the role everyone
+holds (EVERYONE) and DEFAULTS: every role it ships and what each starts with.
+`abilities.settle`, on migrate, makes a role named there if it isn't there
+and writes its defaults once, so a workspace's own changes survive an update;
+the Role fixture is gone. The module's Help shows the same defaults: `{roles}`
+on a page becomes `abilities.defaults_table`, in English as Help is, so the
+page can't say other than what ships. Overrides are one idea: `abilities.grant`
+gives one person more on one record than their role says, as a share frappe
+answers, and nothing else in a module writes a share. `test_ready.py` fails on
+a ready module without abilities.py or its hook, with defaults naming an
+ability it doesn't declare, without `{roles}` in its Help, with a Role fixture,
+or writing a share itself.
+
+**Before.** The abilities engine (`one/abilities.py`, the `one_abilities`
 hook, `docs/ROLES.md`). OneMail ships OneMail User, given to everyone, and
 Mail Manager. Roles are columns in the Roles matrix. The only override is a
 grant on one mailbox (Users › Edit Access).
