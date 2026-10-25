@@ -136,7 +136,7 @@ def trust(module: str = "") -> dict:
 	and the change coming to it, every company that receives data and whether
 	this workspace uses it, what is kept and how to leave, and every change
 	published."""
-	from . import registry, services
+	from . import registry, services, switchovers
 	from .documents import CHANGES, DOCUMENTS
 
 	assemble._load()
@@ -163,6 +163,7 @@ def trust(module: str = "") -> dict:
 					"where": use["where"],
 					"service": used[use["service"]]["title"] if use["service"] else None,
 					"used": not use["service"] or bool(used[use["service"]]["on"]),
+					"starts": frappe.utils.formatdate(switchovers.effective(use.get("starts"))) if use.get("starts") else None,
 				}
 				for use in row["uses"]
 			],

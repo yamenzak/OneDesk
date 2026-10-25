@@ -312,6 +312,8 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 						}),
 					);
 				}
+				// A company One will need from the day a change takes effect.
+				if (use.starts) $for.append(" ", frappe.ui.badge.html({ label: __("From {0}", [use.starts]), theme: "orange" }));
 				for (const value of [use.data, use.where, row.safeguard]) $(`<td></td>`).text(value).appendTo($tr);
 			}
 		}

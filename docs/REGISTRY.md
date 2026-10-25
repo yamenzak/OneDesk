@@ -31,3 +31,9 @@ What a person looks at:
 - **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
+
+## Switchovers
+
+Changes One can't work without, announced ahead in the agreements. The old way runs until the day, the new way from it, and both stay in the code until the clean-up day, when the guard asks for the old way to go.
+
+None now.

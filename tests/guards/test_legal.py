@@ -228,3 +228,59 @@ def test_the_agreements_are_plain():
 		if len(sentence.split()) > 30
 	]
 	assert not long, "one point to a sentence, 30 words at most:\n" + "\n".join(long)
+
+
+def test_a_core_change_waits_for_its_day():
+	"""A company One can't work without is used only from the day the notice
+	of it said (docs/READY.md, mechanism 13). One the agreements in effect
+	don't name comes in through a switchover: its uses say `starts`, the
+	switchover names a published change, and its hosts are reached only
+	through switchovers.when, which runs the old way until that day. A
+	switchover in effect for longer than CLEAN_DAYS is due to go, with the
+	old way, and its companies join documents.IN_EFFECT."""
+	import datetime
+
+	from onedesk.one_legal import switchovers
+
+	assemble.documents()
+	for row in registry.subprocessor_rows():
+		core = [use for use in row["uses"] if not use["service"]]
+		if row["name"] in documents.IN_EFFECT or not core:
+			continue
+		early = [use["purpose"] for use in core if not use.get("starts")]
+		assert not early, f"{row['name']} is new and One can't work without it, so it waits for its notice: give {early} starts= a switchover"
+	for row in registry.subprocessor_rows():
+		for use in row["uses"]:
+			assert not use.get("starts") or use["starts"] in registry.SWITCHOVERS, f"{row['name']} starts with {use['starts']}, which nobody declared"
+	today = datetime.date.today()
+	for one in switchovers.all_of(today):
+		key = one["key"]
+		companies = {row["name"] for row in registry.subprocessor_rows() for use in row["uses"] if use.get("starts") == key}
+		assert all(HOSTS.get(host) in companies for host in one["hosts"]), f"{key}: each host is one of the companies it starts"
+		for path in tree.python():
+			text = path.read_text(encoding="utf-8")
+			if path.name != "legal.py" and any(host in text for host in one["hosts"]):
+				assert "switchovers.when(" in text, f"{path.name} calls {key}'s host before its day; go through switchovers.when"
+		assert today <= one["clean_by"], (
+			f"{key} took effect on {one['effective']}: remove the old way and the switchover, drop starts= from its "
+			f"companies' uses and add them to documents.IN_EFFECT"
+		)
+
+
+def test_a_switchover_runs_the_old_way_until_its_day():
+	"""switchovers.when is old before the published change's day and new on
+	it, read from documents.CHANGES alone."""
+	import datetime
+
+	from onedesk.one_legal import switchovers
+
+	assemble.documents()
+	change = documents.CHANGES[-1]
+	registry.SWITCHOVERS["test-switch"] = {"key": "test-switch", "module": "one", "document": change["document"], "revision": change["revision"], "does": "", "hosts": ()}
+	try:
+		day = datetime.date.fromisoformat(change["effective"])
+		assert not switchovers.live("test-switch", day - datetime.timedelta(days=1))
+		assert switchovers.live("test-switch", day)
+		assert switchovers.effective("test-switch") == day
+	finally:
+		del registry.SWITCHOVERS["test-switch"]

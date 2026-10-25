@@ -158,6 +158,15 @@ BASELINE = {
 	"licences": 1,
 }
 
+# Every company One can't work without that the agreements in effect name. A
+# new one comes in through a switchover, and joins here when it is cleaned up.
+IN_EFFECT = {
+	"Cloudflare, Inc.",
+	"Frappe Technologies Pvt. Ltd.",
+	"Google LLC",
+	"Stripe, Inc.",
+}
+
 # Every published change: the document and its new revision, the day it was
 # published and the day it takes effect, and what changed, in a sentence,
 # for the notice and TrustCenter's Changes. Newest last.

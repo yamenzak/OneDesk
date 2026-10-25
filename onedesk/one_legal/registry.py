@@ -10,6 +10,8 @@ SUBPROCESSORS: dict[str, dict] = {}
 
 SERVICES: dict[str, dict] = {}
 
+SWITCHOVERS: dict[str, dict] = {}
+
 
 def clause(
 	*,
@@ -62,16 +64,20 @@ def subprocessor(
 	safeguard: str,
 	url: str = "",
 	service: str = "",
+	starts: str = "",
 ) -> None:
 	"""Register a third party that receives customer data.
 
 	One company is one row with several uses. `where` belongs to the use, and the
 	safeguard to the company. A use that only happens while an optional
 	`service` is on names it, so a workspace that hasn't turned it on sees it
-	struck through.
+	struck through. A use One can't work without that begins on the day a
+	published change takes effect names its `switchover` (`starts`).
 	"""
 	entry = SUBPROCESSORS.get(name)
 	use = {"module": module, "purpose": purpose, "data": data, "where": where, "service": service}
+	if starts:
+		use["starts"] = starts
 
 	if entry is None:
 		SUBPROCESSORS[name] = {
@@ -104,6 +110,26 @@ def service(*, key: str, module: str, title: str, does: str, sends: str, off: st
 		"does": " ".join(does.split()),
 		"sends": " ".join(sends.split()),
 		"off": " ".join(off.split()),
+		"hosts": tuple(hosts),
+	}
+
+
+def switchover(*, key: str, module: str, document: str, revision: int, does: str, hosts: tuple = ()) -> None:
+	"""Register a change One can't work without, which the agreements announce
+	ahead of the day it takes effect (docs/READY.md, mechanism 13): until that
+	day the old way runs, and from it the new (`switchovers.when`). The day is
+	the published change's that brings `document` to `revision`, so it can't
+	be earlier than the notice. `hosts` are the new way's, which only
+	`switchovers.when` may reach. Each one is removed, with the old way, once
+	it has been in effect a while (`switchovers.CLEAN_DAYS`)."""
+	if key in SWITCHOVERS:
+		raise ValueError(f"switchover {key} is declared twice")
+	SWITCHOVERS[key] = {
+		"key": key,
+		"module": module,
+		"document": document,
+		"revision": revision,
+		"does": " ".join(does.split()),
 		"hosts": tuple(hosts),
 	}
 

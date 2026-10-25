@@ -596,6 +596,25 @@ is still a core change, by notice with the right to object, as the Data
 Processing Addendum allows. What needs an administrator's yes is a new
 company for something One can work without.
 
+**Core changes wait for their day.** A notice is only worth something if
+nothing changes before the day it gives. So a change One can't work
+without is a **switchover** (`registry.switchover` in the module's
+`legal.py`): it names the published change in `documents.CHANGES`, whose
+day is at least thirty days after it was published, and the code runs the
+old way until that day and the new way from it (`switchovers.when(key,
+new, old)`). A new company's uses say `starts=` the switchover, and
+TrustCenter shows them **From** that day. `test_legal.py` fails on a
+company One can't work without that the agreements in effect don't name
+(`documents.IN_EFFECT`) unless it comes in that way, and on a file that
+reaches a switchover's hosts other than through `switchovers.when`.
+
+**Cleaning up.** Every switchover is listed under **Switchovers** on the
+Registry page, with its day and the day it is due to be cleaned up, thirty
+days later (`switchovers.CLEAN_DAYS`). From then the guard fails until the
+old way and the switchover are removed and its companies are added to
+`documents.IN_EFFECT`. Nothing waits on anybody's yes: people are told,
+may object, and keep using One or leave.
+
 **Today, before this.** Mechanism 6 gives each module a **Legal** tab in its ControlCenter,
 and the eight agreements are read on the Agreements page (`/app/legal`).
 Every service One calls is in the agreements whether or not a workspace

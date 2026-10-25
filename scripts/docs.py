@@ -127,6 +127,27 @@ def registry_page() -> str:
 		looks = [one for one in ready.registry(module) if one["look"]]
 		out.append("\nWhat a person looks at:\n\n")
 		out += [f"- **{one['title']}**: {one['look']}.\n" for one in looks]
+	out.append(switchovers_section())
+	return "".join(out)
+
+
+def switchovers_section() -> str:
+	"""Every change One can't work without that runs the old way until its
+	day (one_legal/switchovers.py), so both ways come out once it has taken
+	effect: what it does, the day, and the day it is due to be cleaned up."""
+	from onedesk.one_legal import switchovers
+
+	out = [
+		"\n## Switchovers\n",
+		"\nChanges One can't work without, announced ahead in the agreements. The old way"
+		" runs until the day, the new way from it, and both stay in the code until the"
+		" clean-up day, when the guard asks for the old way to go.\n",
+	]
+	rows = switchovers.all_of()
+	if not rows:
+		return "".join(out) + "\nNone now.\n"
+	out.append("\n| Switchover | Module | Does | Takes effect | Clean up by |\n|---|---|---|---|---|\n")
+	out += [f"| `{one['key']}` | {one['module']} | {one['does']} | {one['effective']} | {one['clean_by']} |\n" for one in rows]
 	return "".join(out)
 
 
