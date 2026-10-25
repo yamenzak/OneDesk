@@ -37,6 +37,29 @@ Decided on 2026-10-25, before this was written:
    Before production), so every change below to who receives what is made
    the day it is built.
 
+## Two rewrites coming after this
+
+OneAdmin and One's own account screens are both to be rewritten. OneAdmin's
+rewrite brings a Cloudflare deployer (setting a workspace up in one click);
+One's brings the marketplace, where a workspace buys credits, database
+space and file storage, and which the new centres already shrink. This plan
+is written so its AI parts move across rather than block either:
+
+- **The door is one small module** (`proxy.py`'s AI endpoints, `gateway.py`,
+  `ledger.py`) with no screens of its own. The rewritten OneAdmin keeps it
+  or puts it in a Worker; nothing else on OneAdmin knows about models.
+- **What the deployer sets up for AI** is listed in one place,
+  `one_admin/steps.py`: the workspace's tag, its AI Search instance, its
+  ceiling at the gateway. A one-click deployer runs the same steps.
+- **Buying credits** stays where it is (Plan and Credits, `topup.py`) until
+  the marketplace takes it; AICenter only links to it.
+- **Storage is already R2.** Every file a workspace keeps is in R2, not on a
+  server's disk, so AI Search reads the workspace's prefix in R2 directly
+  as its data source rather than being sent each file. What is not a file
+  (mail and records) is written to the same prefix as small Markdown
+  objects, so one source holds everything a workspace searches, and the
+  marketplace's storage line counts it.
+
 ## Names
 
 - **OneAI** is the product: the panel, the cards, writing in a field,
@@ -135,7 +158,10 @@ an error rather than a bill.
 | Prompt checks | Guardrails, prompt injection (P1), set to flag | Mail and files are written by strangers; flag first, block once measured |
 | Stored keys only | `byok_only: true` | No silent fall-through to Cloudflare's billing |
 
-Routes only take the chat shape, so only the jobs that talk use them. Clef,
+Routes only take the chat shape, so only the jobs that talk use them. Stage
+1 falls back in code (`models.USE` names the second model) so it works with
+no route at all; routes take over once the push exists, and the fallback
+in code becomes the route's. Clef,
 Clairic, Whisper, Markdown conversion and search are called by model name.
 
 What the gateway does not give us: a region. Nothing in its documentation
@@ -406,7 +432,9 @@ dearer, so a withdrawal is a cost and not an outage.
 ## Search
 
 **AI Search replaces our own.** One instance per workspace, as Cloudflare
-recommends, so one workspace can never find another's. It does keyword and
+recommends, so one workspace can never find another's. Its data source is
+the workspace's own prefix in R2, where its files already are; mail and
+records are written there as Markdown, so nothing is uploaded twice. It does keyword and
 meaning search together, reranks, reads scanned PDFs, and embeds pictures.
 AI Chunk, `index.py`, the embed action and the vectors in MariaDB go.
 
