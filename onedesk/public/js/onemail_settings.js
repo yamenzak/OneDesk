@@ -1147,8 +1147,8 @@ onedesk.mail.settings = (tab) => {
 			if (said) {
 				switched(
 					$body,
-					__("Send From Workspace Addresses"),
-					__("Each user gets an address such as {0}. If disabled, it only receives mail.", [
+					__("Send From New Addresses"),
+					__("Each new user gets an address such as {0}. If disabled, it only receives mail.", [
 						`name.${said.slug || "workspace"}@${said.mail_domain}`,
 					]),
 					said.personal_sends,
@@ -1158,15 +1158,27 @@ onedesk.mail.settings = (tab) => {
 			}
 			const $list = $(`<div class="oms-list"></div>`).appendTo($body);
 			if (!(listed || []).length) $list.append(empty(__("No mailboxes")));
-			(listed || []).forEach((one) =>
-				row({
+			(listed || []).forEach((one) => {
+				const $row = row({
 					lead: frappe.ui.avatar.html({ label: one.full_name, size: "md" }),
 					title: one.full_name,
 					sub: esc(one.issued ? one.email : [one.email, __("Connected")].join(" · ")),
 					end: chevron(),
 					open: () => open(one.name, "work"),
-				}).appendTo($list)
-			);
+				}).appendTo($list);
+				// Whether this person's workspace address sends (holders.set_sends).
+				if (!said || !one.issued) return;
+				const send = frappe.ui.form.make_control({
+					df: { fieldtype: "Switch", fieldname: "sends", label: __("Send") },
+					parent: $(`<span class="oms-switch"></span>`).prependTo($row.find(".oms-end")),
+					render_input: true,
+				});
+				send.set_value(one.sends);
+				send.$input.on("change", async () => {
+					await frappe.xcall(H + "set_sends", { account: one.name, on: send.get_value() ? 1 : 0 });
+					saved();
+				});
+			});
 		},
 	};
 

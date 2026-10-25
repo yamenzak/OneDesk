@@ -74,9 +74,11 @@ employee that reads its mail:
   shared one. Opening one shows the same tabs; **Users** adds or removes
   people and turns **Send** on or off per user.
 - **Work Mailboxes** (administrators, and roles that reach other people's
-  mail): **Send From Workspace Addresses**, then every person's mailboxes at
-  the company's domains, each opened to its signature, out-of-office reply,
-  OneAI and Automation tabs.
+  mail): **Send From New Addresses**, whether the address a new person is
+  given sends, then every person's mailboxes at the company's domains, each
+  with a **Send** switch for their workspace address (`holders.set_sends`)
+  and opened to its signature, out-of-office reply, OneAI and Automation
+  tabs. The default never changes an address already given.
 - **Private Mailboxes** (administrators): **Allow Private Mailboxes** for
   mailboxes people connect anywhere else, such as Gmail. When on, **Allowed
   Domains** limits them to the domains listed; leave it empty to allow any.

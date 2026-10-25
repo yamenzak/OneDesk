@@ -666,6 +666,7 @@ No doctypes yet.
 * `onedesk.one_mail.holders.set_defaults`
 * `onedesk.one_mail.holders.set_external`
 * `onedesk.one_mail.holders.set_personal_sends`
+* `onedesk.one_mail.holders.set_sends`
 * `onedesk.one_mail.holders.set_signature`
 * `onedesk.one_mail.holders.shared`
 * `onedesk.one_mail.holders.signature_for`

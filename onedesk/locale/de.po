@@ -13131,6 +13131,10 @@ msgstr "Jede verlorene Chance und warum."
 msgid "Each month's depreciation."
 msgstr "Die Abschreibung jedes Monats."
 
+#: onedesk/public/js/onemail_settings.js:1151
+msgid "Each new user gets an address such as {0}. If disabled, it only receives mail."
+msgstr "Jeder neue Benutzer erhält eine Adresse wie {0}. Wenn deaktiviert, empfängt sie nur E-Mails."
+
 #: onedesk/one_inventory/ready.py:205
 msgid "Each new work order asks where to work and where to put what it makes. Fix sets the company's Work In Progress and Finished Goods."
 msgstr "Jeder neue Arbeitsauftrag fragt, wo gearbeitet wird und wohin das Gefertigte kommt. Die Korrektur setzt die Lager für laufende Arbeit und Fertigwaren des Unternehmens."
@@ -13238,10 +13242,6 @@ msgstr "Jedes Mal, wenn ein Datensatz vom Typ {0} gespeichert wird, bevor er gep
 #: onedesk/one_studio/doctype/extension/extension.js:19
 msgid "Each time a {0} is saved, before it is written"
 msgstr "Jedes Mal, wenn ein Datensatz vom Typ {0} gespeichert wird, bevor er geschrieben wird"
-
-#: onedesk/public/js/onemail_settings.js:335
-msgid "Each user gets an address such as {0}. If disabled, it only receives mail."
-msgstr "Jeder Benutzer erhält eine Adresse wie {0}. Wenn deaktiviert, empfängt sie nur E-Mails."
 
 #: onedesk/public/js/settings.js:2868
 msgid "Each uses OneAI credits."
@@ -36772,9 +36772,9 @@ msgstr "Semikolon"
 msgid "Send"
 msgstr "Senden"
 
-#: onedesk/public/js/onemail_settings.js:334
-msgid "Send From Workspace Addresses"
-msgstr "Von Arbeitsbereich-Adressen senden"
+#: onedesk/public/js/onemail_settings.js:1150
+msgid "Send From New Addresses"
+msgstr "Von neuen Adressen senden"
 
 #: onedesk/public/js/portal_share.js:62 onedesk/www/your_data.html:37
 msgid "Send Link"
@@ -55190,6 +55190,10 @@ msgstr "{0} ist hier kein Benutzer."
 #: onedesk/one_hr/doctype/clock_network/clock_network.py:12
 msgid "{0} is not a valid address or range. Example: 203.0.113.7 or 203.0.113.0/24"
 msgstr "{0} ist keine gültige Adresse und kein gültiger Bereich. Beispiel: 203.0.113.7 oder 203.0.113.0/24"
+
+#: onedesk/one_mail/holders.py:461
+msgid "{0} is not a workspace address."
+msgstr "{0} ist keine Workspace-Adresse."
 
 #: onedesk/one_admin/ledger.py:433
 msgid "{0} is not a workspace."

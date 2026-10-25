@@ -13131,6 +13131,10 @@ msgstr "كل فرصة خاسرة، وسبب خسارتها."
 msgid "Each month's depreciation."
 msgstr "إهلاك كل شهر."
 
+#: onedesk/public/js/onemail_settings.js:1151
+msgid "Each new user gets an address such as {0}. If disabled, it only receives mail."
+msgstr "يحصل كل مستخدم جديد على عنوان مثل {0}. إذا تم التعطيل، فإنه يستقبل البريد فقط."
+
 #: onedesk/one_inventory/ready.py:205
 msgid "Each new work order asks where to work and where to put what it makes. Fix sets the company's Work In Progress and Finished Goods."
 msgstr "كل أمر عمل جديد يسأل أين يُعمل وأين يوضع ما يُصنع. الإصلاح يعيّن مستودعي الأعمال الجارية والبضائع التامة للشركة."
@@ -13238,10 +13242,6 @@ msgstr "في كل مرة يُحفظ فيها {0}، قبل التحقق منه"
 #: onedesk/one_studio/doctype/extension/extension.js:19
 msgid "Each time a {0} is saved, before it is written"
 msgstr "في كل مرة يُحفظ فيها {0}، قبل كتابته"
-
-#: onedesk/public/js/onemail_settings.js:335
-msgid "Each user gets an address such as {0}. If disabled, it only receives mail."
-msgstr "يحصل كل مستخدم على عنوان مثل {0}. عند التعطيل، يستقبل البريد فقط."
 
 #: onedesk/public/js/settings.js:2868
 msgid "Each uses OneAI credits."
@@ -36772,9 +36772,9 @@ msgstr "فاصلة منقوطة"
 msgid "Send"
 msgstr "إرسال"
 
-#: onedesk/public/js/onemail_settings.js:334
-msgid "Send From Workspace Addresses"
-msgstr "الإرسال من عناوين مساحة العمل"
+#: onedesk/public/js/onemail_settings.js:1150
+msgid "Send From New Addresses"
+msgstr "الإرسال من العناوين الجديدة"
 
 #: onedesk/public/js/portal_share.js:62 onedesk/www/your_data.html:37
 msgid "Send Link"
@@ -55190,6 +55190,10 @@ msgstr "{0} ليس مستخدمًا هنا."
 #: onedesk/one_hr/doctype/clock_network/clock_network.py:12
 msgid "{0} is not a valid address or range. Example: 203.0.113.7 or 203.0.113.0/24"
 msgstr "{0} ليس عنواناً أو نطاقاً صالحاً. مثال: 203.0.113.7 أو 203.0.113.0/24"
+
+#: onedesk/one_mail/holders.py:461
+msgid "{0} is not a workspace address."
+msgstr "{0} ليس عنوانًا من مساحة العمل."
 
 #: onedesk/one_admin/ledger.py:433
 msgid "{0} is not a workspace."

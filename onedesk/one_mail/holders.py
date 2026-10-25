@@ -356,7 +356,7 @@ def addresses_of_people() -> list[dict]:
 	for account in frappe.get_all(
 		"Email Account",
 		filters={"one_shared": 0, "name": ["in", list(held) or [""]]},
-		fields=["name", "email_id", "one_hosted", "one_connected"],
+		fields=["name", "email_id", "one_hosted", "one_connected", "enable_outgoing"],
 		order_by="email_id asc",
 	):
 		if not account.one_hosted and addresses.domain_of(account.email_id) not in company:
@@ -367,6 +367,7 @@ def addresses_of_people() -> list[dict]:
 				"name": account.name,
 				"email": account.email_id,
 				"issued": int(bool(account.one_hosted)),
+				"sends": int(bool(account.enable_outgoing)),
 				"user": user,
 				"full_name": names.get(user) or user,
 			}
@@ -442,13 +443,24 @@ def _people(account: str) -> list[dict]:
 
 @frappe.whitelist(methods=["POST"])
 def set_personal_sends(on: int) -> int:
-	"""Whether people may send from their own address. Every personal address
-	follows at once, and so does each one made after."""
+	"""Whether the address given to each new person sends as well as
+	receives. An address already given keeps its own (set_sends)."""
 	_admin("policy")
 	on = int(bool(int(on)))
 	frappe.db.set_default(addresses.PERSONAL_SENDS, str(on))
-	for name in frappe.get_all("Email Account", filters={"one_hosted": 1, "one_shared": 0}, pluck="name"):
-		frappe.db.set_value("Email Account", name, "enable_outgoing", on, update_modified=False)
+	return on
+
+
+@frappe.whitelist(methods=["POST"])
+def set_sends(account: str, on: int) -> int:
+	"""Whether one person's workspace address sends as well as receives."""
+	_admin("policy")
+	if not frappe.db.get_value("Email Account", account, "one_hosted") or frappe.db.get_value(
+		"Email Account", account, "one_shared"
+	):
+		frappe.throw(_("{0} is not a workspace address.").format(account))
+	on = int(bool(int(on)))
+	frappe.db.set_value("Email Account", account, "enable_outgoing", on, update_modified=False)
 	frappe.publish_realtime("one_mailbox", after_commit=True)
 	return on
 

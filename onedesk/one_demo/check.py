@@ -2800,12 +2800,16 @@ def onemail_layla_reads_sorts_and_files_her_mail():
 		assert holders.signature_of(ours).startswith("<p>Layla Nasser")
 		assert holders.signature_for(frappe.db.get_value("Email Account", ours, "email_id")).startswith("<p>Layla")
 		holders.set_personal_sends(0)
+		assert frappe.db.get_value("Email Account", account, "enable_outgoing") == 1, "the default moved a given address"
+		holders.set_personal_sends(1)
+		holders.set_sends(account, 0)
+		assert not next(one for one in holders.addresses_of_people() if one["name"] == account)["sends"]
 		try:
 			holders.set_signature(account, "Layla")
 			raise AssertionError("an address that only receives signs nothing")
 		except frappe.ValidationError:
 			pass
-		holders.set_personal_sends(1)
+		holders.set_sends(account, 1)
 		assert frappe.db.get_value("Email Account", account, "enable_outgoing") == 1
 		holders.set_access(ours, [{"user": OWNER, "sends": 1}, {"user": "omar@one.test", "sends": 0}])
 		assert holders.may_send(ours, OWNER) and not holders.may_send(ours, "omar@one.test")
