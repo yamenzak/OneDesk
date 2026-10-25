@@ -2,14 +2,13 @@
 through its `automation_actions` hook.
 
 Tell People tells people through the hub (one/notify.py), as Automation Notice,
-and fills a mail template in as the composer does (one/mail_templates.py).
+and fills a mail template in as the composer does (one_mail/mail_templates.py).
 """
 
 from typing import ClassVar
 
 import frappe
 from frappe import _
-from frappe.utils.translations import N_
 from frappe.automation_engine.actions.base import (
 	USER_CONTROL,
 	AutomationAction,
@@ -17,6 +16,7 @@ from frappe.automation_engine.actions.base import (
 	render_value,
 )
 from frappe.automation_engine.actions.core import _as_list, resolve_recipients
+from frappe.utils.translations import N_
 
 
 class TellPeople(AutomationAction):
@@ -54,7 +54,8 @@ class TellPeople(AutomationAction):
 			raise AutomationParamError(_("Give a subject or a mail template"), fieldname="subject")
 
 	def execute(self, doc, params, context):
-		from onedesk.one import mail_templates, tell
+		from onedesk.one import tell
+		from onedesk.one_mail import mail_templates
 
 		people = resolve_recipients(_as_list(params.get("recipients")), doc)
 		if not people:

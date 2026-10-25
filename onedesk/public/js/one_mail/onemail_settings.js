@@ -11,7 +11,7 @@ frappe.provide("onedesk.mail");
 // everybody's mailboxes at the company's domains, which private mailboxes
 // people may connect, and the templates. Roles is an administrator's: OneMail's role
 // builder (public/js/role_matrix.js). Wording follows docs/WORDING.md. Every change is
-// a call to one_mail/holders.py, connect.py and rules.py, or one/mail_templates.py.
+// a call to one_mail/holders.py, connect.py and rules.py, or one_mail/mail_templates.py.
 onedesk.mail.settings = (tab) => {
 	const H = "onedesk.one_mail.holders.";
 	const esc = frappe.utils.escape_html;
@@ -1443,7 +1443,7 @@ onedesk.mail.settings = (tab) => {
 	// sends, such as HR Settings' leave approval, says so and can't be deleted.
 	const template = async (panel, name) => {
 		const doc = name ? await frappe.db.get_doc("Email Template", name) : null;
-		const using = name ? ((await frappe.xcall("onedesk.one.mail_templates.templates")) || []).find((one) => one.name === name)?.used_by || [] : [];
+		const using = name ? ((await frappe.xcall("onedesk.one_mail.mail_templates.templates")) || []).find((one) => one.name === name)?.used_by || [] : [];
 		let form = null;
 		const actions = [];
 		if (doc && !using.length)
@@ -1479,7 +1479,7 @@ onedesk.mail.settings = (tab) => {
 		actions: [{ label: __("New Mail Template"), icon: "plus", click: (panel) => template(panel, null) }],
 		async render(panel) {
 			const was = panel.shown;
-			const rows = (await frappe.xcall("onedesk.one.mail_templates.templates")) || [];
+			const rows = (await frappe.xcall("onedesk.one_mail.mail_templates.templates")) || [];
 			if (panel.shown !== was) return;
 			const $body = panel.body.empty();
 			const search = frappe.ui.form.make_control({

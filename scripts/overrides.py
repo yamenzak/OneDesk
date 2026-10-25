@@ -599,7 +599,7 @@ OVERRIDES = [
 	),
 	(
 		"The Settings dialog's Email Templates tab opens a template in One's editor",
-		"frappe's tab opens frappe's Email Template form, whose rail is frappe's, and writes its default as a Property Setter the workspace layer refuses; doctype_settings.js registers its own builder under the same id, on frappe's list panel, over one/mail_templates.py",
+		"frappe's tab opens frappe's Email Template form, whose rail is frappe's, and writes its default as a Property Setter the workspace layer refuses; doctype_settings.js registers its own builder under the same id, on frappe's list panel, over one_mail/mail_templates.py",
 		"onedesk/public/js/doctype_settings.js",
 		"frappe/frappe/public/js/frappe/form/doctype_settings/tabs/email_template.js",
 		'frappe.doctype_settings.register("email-template", function (panel, doctype) {',
@@ -607,7 +607,7 @@ OVERRIDES = [
 	(
 		"A workspace's mail template may only add field names to what it says",
 		"frappe renders a template's subject and message as Jinja with the record as its context, as whoever sends it; mail_templates.py lets a workspace add only {{ field }} tags, so the check depends on the record being the context",
-		"onedesk/one/mail_templates.py",
+		"onedesk/one_mail/mail_templates.py",
 		"frappe/frappe/email/doctype/email_template/email_template.py",
 		"return frappe.render_template(self.response_, doc)",
 	),
@@ -866,7 +866,7 @@ OVERRIDES = [
 	(
 		"A picked template is filled in from the record itself",
 		"get_email_template is overridden (hooks override_whitelisted_methods): OneMail passes only a doctype and name, or no record, and a template that only names fields gets each as the record shows it",
-		"onedesk/one/mail_templates.py",
+		"onedesk/one_mail/mail_templates.py",
 		"frappe/frappe/email/doctype/email_template/email_template.py",
 		"def get_email_template(template_name: str, doc: str | dict[str, Any], sender: str | None = None):",
 	),
@@ -880,7 +880,7 @@ OVERRIDES = [
 	(
 		"The templates hrms and erpnext make on setup are told what they are for",
 		"mail_templates.settle sets reference_doctype on the templates the apps make with none, by the setting that names each or the name it is made with, so the composer offers them only on their record",
-		"onedesk/one/mail_templates.py",
+		"onedesk/one_mail/mail_templates.py",
 		"hrms/hrms/setup.py",
 		'"name": _("Exit Questionnaire Notification"),',
 	),

@@ -35,7 +35,7 @@ def test_a_workspace_flow_tells_people_only_through_the_hub():
 
 
 def test_a_template_is_filled_in_as_the_email_window_fills_it():
-	templates = (tree.APP / "one" / "mail_templates.py").read_text()
+	templates = (tree.APP / "one_mail" / "mail_templates.py").read_text()
 	filled = templates.split("def filled(", 1)[1]
 	assert "_shown(template" in filled
 

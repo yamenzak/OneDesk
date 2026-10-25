@@ -2554,7 +2554,7 @@ out: every submitted record's own timeline already shows each version.
 
 Tell People tells people through the hub (one/notify.py), on the bell and by
 mail as each chose, as Automation Notice, and fills a mail template in as the
-composer does (one/mail_templates.py). Frappe's Send Notification mails past
+composer does (one_mail/mail_templates.py). Frappe's Send Notification mails past
 the hub, and renders a template with only `doc`, so a template that names the
 record's fields bare, as the composer and the leave mails need, prints its
 tags there.
@@ -2577,7 +2577,7 @@ let customize (layer.held) is held to this:
 - it decides by its field rules, never by code: no condition, no If step;
 - it runs no script;
 - a value names a field of a record, `{{ doc.customer_name }}`, and nothing
-  else (as one/mail_templates.py holds a template);
+  else (as one_mail/mail_templates.py holds a template);
 - a webhook is sent over https (frappe already refuses internal addresses);
 - it is on a kind of record they can open, never frappe's own or One's.
 
@@ -2587,7 +2587,7 @@ Automation Settings stays the operator's.
 added through frappe's `automation_actions` hook: it tells people through the
 hub (one/notify.py), on the bell and by mail as each chose, as Automation
 Notice, and fills a mail template in as the composer does
-(one/mail_templates.py), from the record's own fields. Frappe's Send
+(one_mail/mail_templates.py), from the record's own fields. Frappe's Send
 Notification mails past the hub and renders a template with only `doc`, so a
 template named by its fields prints its tags; it is not offered to a
 workspace's own flows.

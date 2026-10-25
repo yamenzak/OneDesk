@@ -2910,8 +2910,7 @@ def onemail_a_mailbox_is_set_up_in_its_own_tabs():
 	monthly limit; then her own signature from a preset with her name on it,
 	and the workspace's rules for outside mailboxes. Turning
 	OneAI off for her own mailbox stops even the OneAI panel reading it."""
-	from onedesk.one import mail_templates
-	from onedesk.one_mail import ai, gate, holders, rules, signatures
+	from onedesk.one_mail import ai, gate, holders, mail_templates, rules, signatures
 	from onedesk.one_storage import api
 
 	with as_user(OWNER):
@@ -4658,7 +4657,8 @@ def numbering_printing_and_mail_templates_are_the_administrators():
 	format from a sales invoice's own, makes it the default, previews it in
 	the builder and as a PDF, draws a letter head from the company, and
 	sets the template sales orders are mailed with. Omar may do none of it."""
-	from onedesk.one import letter_heads, mail_templates, numbering, printing
+	from onedesk.one import letter_heads, numbering, printing
+	from onedesk.one_mail import mail_templates
 
 	with as_user("omar@one.test"):
 		try:

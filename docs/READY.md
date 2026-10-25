@@ -131,7 +131,7 @@ rest are spread out:
   `rule_builder.js`, `record_mail.js`, `public/css/onemail_settings.css` and
   `record_mail.css`.
 - **The island:** `frontend/src/mail/` and `frontend/src/islands/onemail.js`.
-- **Python elsewhere:** `one/mail_templates.py`, part of `one/ai.py`, and
+- **Python elsewhere:** `one_mail/mail_templates.py`, part of `one/ai.py`, and
   `one_demo/mail.py`.
 - **Notifications:** `notifications/one_mail/*.md`.
 - **Tests:** `tests/test_mail.py`, `tests/test_mail_templates.py`, and the

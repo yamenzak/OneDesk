@@ -1,4 +1,4 @@
-"""Mail templates (one/mail_templates.py): what one written here may say, how
+"""Mail templates (one_mail/mail_templates.py): what one written here may say, how
 the composer offers one in OneMail, which has no form behind it, and how it is
 filled in. These read the code that says so."""
 
@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
 
-SOURCE = (tree.APP / "one" / "mail_templates.py").read_text()
+SOURCE = (tree.APP / "one_mail" / "mail_templates.py").read_text()
 HOOKS = (tree.APP / "hooks.py").read_text()
 COMPOSE = (tree.APP / "public" / "js" / "one_mail" / "mail_compose.js").read_text()
 
@@ -41,7 +41,7 @@ def test_the_composer_is_offered_the_records_templates_form_or_none():
 def test_a_template_is_filled_in_from_the_record():
 	assert (
 		'"frappe.email.doctype.email_template.email_template.get_email_template": '
-		'"onedesk.one.mail_templates.get_email_template"'
+		'"onedesk.one_mail.mail_templates.get_email_template"'
 	) in HOOKS
 	body = SOURCE.split("def get_email_template(", 1)[1]
 	assert 'check_permission("read")' in body.split("def _shown(", 1)[0]

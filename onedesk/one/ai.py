@@ -3396,7 +3396,8 @@ def workspace_mail_templates(
 	record), which kinds start the composer with it, and which setting sends
 	it (the leave mails, the interview reminders). For a kind of record, the
 	fields a template for it may name. Read it before suggesting one."""
-	from onedesk.one import mail_templates, roles, rules
+	from onedesk.one import roles, rules
+	from onedesk.one_mail import mail_templates
 
 	if not roles.administers():
 		return {"error": "Only a workspace administrator sees the mail templates."}
@@ -3449,8 +3450,9 @@ def write_mail_template(
 	with, picked in the composer on the record and in OneMail. Read
 	workspace_mail_templates first. Nothing is saved until they approve it.
 	Workspace administrators only."""
-	from onedesk.one import mail_templates, roles, rules
+	from onedesk.one import roles, rules
 	from onedesk.one_ai import proposals
+	from onedesk.one_mail import mail_templates
 
 	if not roles.administers():
 		return {

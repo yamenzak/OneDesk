@@ -17,9 +17,7 @@ MODULES = {
 }
 
 OUTSIDE = {
-	"OneMail": [
-		"onedesk/one/mail_templates.py",
-	],
+	"OneMail": [],
 }
 
 

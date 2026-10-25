@@ -275,12 +275,6 @@ No doctypes yet.
 * `onedesk.one.home.tasks_due`
 * `onedesk.one.invite.accept`
 * `onedesk.one.letter_heads.presets`
-* `onedesk.one.mail_templates.default`
-* `onedesk.one.mail_templates.fields_of`
-* `onedesk.one.mail_templates.get_email_template`
-* `onedesk.one.mail_templates.preview`
-* `onedesk.one.mail_templates.set_default`
-* `onedesk.one.mail_templates.templates`
 * `onedesk.one.masters.kinds`
 * `onedesk.one.numbering.kinds`
 * `onedesk.one.numbering.naming_by`
@@ -686,6 +680,12 @@ No doctypes yet.
 * `onedesk.one_mail.linking.links_of`
 * `onedesk.one_mail.linking.record`
 * `onedesk.one_mail.linking.unfile`
+* `onedesk.one_mail.mail_templates.default`
+* `onedesk.one_mail.mail_templates.fields_of`
+* `onedesk.one_mail.mail_templates.get_email_template`
+* `onedesk.one_mail.mail_templates.preview`
+* `onedesk.one_mail.mail_templates.set_default`
+* `onedesk.one_mail.mail_templates.templates`
 * `onedesk.one_mail.rules.away_of`
 * `onedesk.one_mail.rules.away_preview`
 * `onedesk.one_mail.rules.decide_rule`
