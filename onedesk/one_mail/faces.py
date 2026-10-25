@@ -12,6 +12,7 @@ import requests
 from frappe.utils import add_days, now_datetime
 
 from onedesk.one_intake.identifiers import PROVIDERS
+from onedesk.one_legal import services
 
 FOLDER, FOLDER_NAME = "Home/Logos", "Logos"
 
@@ -117,7 +118,7 @@ def lookup(addresses: list[str]) -> dict[str, str]:
 			if key in known and known[key].found and known[key].image:
 				out[address] = known[key].image
 				break
-	missing = [key for key in keys if key not in known]
+	missing = [key for key in keys if key not in known and services.on(service_of(key))]
 	if missing:
 		frappe.enqueue(
 			"onedesk.one_mail.faces.fetch_many",
@@ -149,18 +150,26 @@ def fetch_many(keys: list[str]) -> None:
 			frappe.log_error(title=f"OneMail could not look for a picture of {key}")
 
 
+def service_of(key: str) -> str:
+	"""The optional service a face or a logo comes from (legal.py). Pure."""
+	return "gravatar" if is_person(key) else "logos"
+
+
 def fetch(key: str) -> str | None:
-	"""Look for one face or logo, keep what is found, and say where."""
+	"""Look for one face or logo, keep what is found, and say where: only
+	while its service is on (one_legal/services.py)."""
 	key = key.strip().lower()
 	url = gravatar(key) if is_person(key) else favicon(key)
-	image = None
 	try:
-		answer = requests.get(url, timeout=PATIENCE, headers={"User-Agent": "One"})
-		kind = answer.headers.get("Content-Type", "")
-		if answer.status_code == 200 and kind.startswith("image/") and 0 < len(answer.content) <= LARGEST:
-			image = _keep(key, answer.content, kind)
+		answer = services.call(service_of(key), requests.get, url, timeout=PATIENCE, headers={"User-Agent": "One"})
 	except requests.RequestException:
 		return None
+	if answer is None:
+		return None
+	image = None
+	kind = answer.headers.get("Content-Type", "")
+	if answer.status_code == 200 and kind.startswith("image/") and 0 < len(answer.content) <= LARGEST:
+		image = _keep(key, answer.content, kind)
 	values = {
 		"kind": "Person" if is_person(key) else "Organisation",
 		"image": image,

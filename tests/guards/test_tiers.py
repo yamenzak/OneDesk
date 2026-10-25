@@ -69,7 +69,6 @@ def test_every_page_of_its_own_is_declared():
 		"onedesk.timers": None,
 		"onedesk.workbook": None,
 		"onedesk.document": None,
-		"onedesk.legal": None,
 		"onedesk.intake": None,
 		"onedesk.onemail": None,
 		"onedesk.onecloud": None,

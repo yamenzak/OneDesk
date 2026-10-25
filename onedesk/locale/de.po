@@ -4548,9 +4548,9 @@ msgstr "Pfeile (rot/grau/grün)"
 msgid "As"
 msgstr "Als"
 
-#: onedesk/one_legal/page/legal/legal.js:33
-msgid "As Agreed, {0}"
-msgstr "Wie zugestimmt, {0}"
+#: onedesk/public/js/trust_center.js
+msgid "As agreed, version {0}."
+msgstr "Wie zugestimmt, Version {0}."
 
 #. Description of the 'Status' (Select) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
@@ -6872,6 +6872,10 @@ msgstr "Seit der letzten Messung signierte Bytes."
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Bytes, from the last measurement."
 msgstr "In Byte, aus der letzten Messung."
+
+#: onedesk/public/js/trust_center.js
+msgid "Changing on {0}"
+msgstr "Ändert sich am {0}"
 
 #: onedesk/one_inventory/home.py:171
 msgid "COGS By Item Group"
@@ -10131,9 +10135,6 @@ msgstr "Aktuelles Passwort"
 msgid "Current Value"
 msgstr "Aktueller Wert"
 
-msgid "Current Version"
-msgstr "Aktuelle Version"
-
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:55
 msgid "Current plan"
 msgstr "Aktueller Plan"
@@ -13059,6 +13060,10 @@ msgstr "Dauer (Tage)"
 msgid "Duration (Minutes)"
 msgstr "Dauer (Minuten)"
 
+#: onedesk/public/js/trust_center.js
+msgid "Each sends something to another company, and stays off unless you turn it on. Turning one on agrees to it for your whole workspace."
+msgstr "Jeder sendet etwas an ein anderes Unternehmen und bleibt aus, bis Sie ihn einschalten. Wer einen einschaltet, stimmt ihm für den ganzen Arbeitsbereich zu."
+
 #. Name of a project template
 #: onedesk/one_project/library/erp_rollout.json
 msgid "ERP Rollout"
@@ -13316,9 +13321,6 @@ msgstr "Jedes {% for %} braucht ein {% endfor %}."
 #: frontend/src/sheet/utils/recency-groups.js:13
 msgid "Earlier"
 msgstr "Früher"
-
-msgid "Earlier Versions"
-msgstr "Frühere Versionen"
 
 #: frontend/src/project/Money.vue:151
 msgid "Earned"
@@ -14419,6 +14421,10 @@ msgstr "Alle"
 #: onedesk/one_inventory/print_format/one_asset_card/one_asset_card.json
 msgid "Every (Months)"
 msgstr "Alle (Monate)"
+
+#: onedesk/public/js/trust_center.js
+msgid "Every company that receives data from a workspace, and whether yours uses it."
+msgstr "Jedes Unternehmen, das Daten aus einem Arbeitsbereich erhält, und ob Ihrer es nutzt."
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
@@ -16252,12 +16258,6 @@ msgstr "Für Monat"
 #: onedesk/one_inventory/print_format/one_production_plan/one_production_plan.json
 msgid "For Orders"
 msgstr "Für Aufträge"
-
-msgid "For You"
-msgstr "Für Sie"
-
-msgid "For Your Organisation"
-msgstr "Für Ihre Organisation"
 
 #: onedesk/one_mail/rules.py:680
 msgid "For anything urgent, write to {0} at {1}."
@@ -18795,6 +18795,10 @@ msgstr ""
 msgid "Inside"
 msgstr "Innerhalb von"
 
+#: onedesk/public/js/trust_center.js
+msgid "It now sends somewhere new, so it is off until an administrator agrees again."
+msgstr "Er sendet jetzt an eine neue Stelle und bleibt daher aus, bis ein Administrator erneut zustimmt."
+
 #. Task in the Office Move project template
 #: onedesk/one_project/library/office_move.json
 msgid "IT set up and tested"
@@ -20830,6 +20834,10 @@ msgstr "Der neue Verantwortliche"
 #: onedesk/one_project/custom/sales_invoice.json
 msgid "Its number among the project's invoices, given when it is submitted."
 msgstr "Ihre Nummer unter den Rechnungen des Projekts, vergeben beim Buchen."
+
+#: onedesk/public/js/trust_center.js
+msgid "Its own paragraphs, under the agreement each is in."
+msgstr "Seine eigenen Absätze, unter der Vereinbarung, zu der jeder gehört."
 
 #: onedesk/one/numbering.py:317
 msgid "Its own way"
@@ -25143,6 +25151,14 @@ msgstr "Neue Aufgabe"
 msgid "New Template"
 msgstr "Neue Vorlage"
 
+#: onedesk/public/js/trust_center.js
+msgid "New versions of: {documents}. They take effect on {effective}, and until then the versions you agreed to hold. TrustCenter shows what changes. To object to a new subprocessor, reply before then."
+msgstr "Neue Versionen von: {documents}. Sie gelten ab dem {effective}, bis dahin gelten die Versionen, denen Sie zugestimmt haben. TrustCenter zeigt, was sich ändert. Um einem neuen Unterauftragsverarbeiter zu widersprechen, antworten Sie bis dahin."
+
+#: onedesk/public/js/trust_center.js
+msgid "New versions of: {documents}. They take effect on {effective}. TrustCenter shows what changes."
+msgstr "Neue Versionen von: {documents}. Sie gelten ab dem {effective}. TrustCenter zeigt, was sich ändert."
+
 #: frontend/src/floor/ShopFloor.vue:145
 msgid "New Work Order"
 msgstr "Neuer Arbeitsauftrag"
@@ -25231,11 +25247,6 @@ msgstr "Neuer Name"
 #: onedesk/one_project/library/office_move.json
 msgid "New premises chosen"
 msgstr "Neue Räume ausgewählt"
-
-#. Message of a notification
-#: onedesk/notifications/one/agreements_changed.md
-msgid "New versions of: {documents}. Read what changed; you are asked to accept them at your next sign-in. To object to a new subprocessor, reply within 30 days."
-msgstr "Neue Fassungen von: {documents}. Lesen Sie, was sich geändert hat; Sie werden bei der nächsten Anmeldung um Zustimmung gebeten. Um einem neuen Unterauftragsverarbeiter zu widersprechen, antworten Sie innerhalb von 30 Tagen."
 
 #: onedesk/one_inventory/heads.py:834
 msgid "New work orders for {0} use this one."
@@ -26355,8 +26366,9 @@ msgstr "Niemand hat es."
 msgid "Nobody has signed in yet"
 msgstr "Noch hat sich niemand angemeldet"
 
-msgid "Nobody has to agree to this. It is here to read."
-msgstr "Niemand muss dem zustimmen. Es ist zum Lesen da."
+#: onedesk/public/js/trust_center.js
+msgid "Nobody has to agree to this."
+msgstr "Niemand muss dem zustimmen."
 
 #: frontend/src/workload/WorkloadList.vue:14
 msgid "Nobody has work this week"
@@ -26536,6 +26548,10 @@ msgstr "Nicht eingereicht"
 #: onedesk/public/js/project_new.js:168
 msgid "Not Tracked"
 msgstr "Nicht erfasst"
+
+#: onedesk/public/js/trust_center.js
+msgid "Not Used by This Workspace"
+msgstr "In diesem Arbeitsbereich nicht genutzt"
 
 #: onedesk/public/js/settings.js:2427
 msgid "Not Working"
@@ -26889,6 +26905,14 @@ msgstr "Notizen – Shift+F2 zum Hinzufügen"
 #: onedesk/one_intake/page/intake/intake.js:173
 msgid "Nothing"
 msgstr "Nichts"
+
+#: onedesk/public/js/trust_center.js
+msgid "Nothing has changed yet."
+msgstr "Bisher hat sich nichts geändert."
+
+#: onedesk/public/js/trust_center.js
+msgid "Nothing is optional yet."
+msgstr "Noch ist nichts optional."
 
 #. Option for the 'Change' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -27283,9 +27307,29 @@ msgstr "Nummern"
 msgid "Numeric only"
 msgstr "Nur numerische"
 
+#: onedesk/public/js/trust_center.js
+msgid "Off until an administrator turns them on."
+msgstr "Aus, bis ein Administrator sie einschaltet."
+
 #: onedesk/one_admin/report/price_check/price_check.py:52
 msgid "OK"
 msgstr "OK"
+
+#: onedesk/public/js/trust_center.js
+msgid "One's agreements are changing"
+msgstr "Die Vereinbarungen von One ändern sich"
+
+#: onedesk/public/js/trust_center.js
+msgid "One's policies are changing"
+msgstr "Die Richtlinien von One ändern sich"
+
+#: onedesk/public/js/trust_center.js
+msgid "Only a workspace administrator can turn it on."
+msgstr "Nur ein Administrator des Arbeitsbereichs kann ihn einschalten."
+
+#: onedesk/public/js/trust_center.js
+msgid "Only a workspace administrator can turn this on or off."
+msgstr "Nur ein Administrator des Arbeitsbereichs kann dies ein- oder ausschalten."
 
 #: onedesk/one_mail/tour.py
 msgid "Open one to read it, or tick several to file or archive them together."
@@ -27294,6 +27338,10 @@ msgstr "Öffnen Sie eine, um sie zu lesen, oder markieren Sie mehrere, um sie ge
 #: onedesk/public/js/module_docs.js
 msgid "Open {0} to take its tour."
 msgstr "Öffnen Sie {0}, um die Tour zu starten."
+
+#: onedesk/public/js/trust_center.js
+msgid "Optional Services"
+msgstr "Optionale Dienste"
 
 #: onedesk/public/js/settings.js:507
 msgid "OTP App"
@@ -27928,11 +27976,6 @@ msgstr "Ein Arbeitsbereich hat es diesen Monat {0} Mal aufgerufen."
 #: onedesk/one_admin/heads.py:458
 msgid "One workspace has this"
 msgstr "Ein Arbeitsbereich hat dies"
-
-#. Subject of a notification
-#: onedesk/notifications/one/agreements_changed.md
-msgid "One's agreements have changed"
-msgstr "Die Vereinbarungen von One haben sich geändert"
 
 #. Label of a Sidebar Item
 #. Label of the oneai_tab (Tab Break) field in DocType 'One Admin Settings'
@@ -31803,6 +31846,10 @@ msgstr "Sanitär und Elektro"
 msgid "Points Lost"
 msgstr "Verlorene Punkte"
 
+#: onedesk/public/js/trust_center.js
+msgid "Policies Changed"
+msgstr "Richtlinien geändert"
+
 #. Label in the One Leave Policy Assignment print format
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
 #: onedesk/one_hr/print_format/one_leave_policy_assignment/one_leave_policy_assignment.json
@@ -32922,6 +32969,10 @@ msgstr "Öffentlicher Schlüssel"
 msgid "Published Prices"
 msgstr "Veröffentlichte Preise"
 
+#: onedesk/public/js/trust_center.js
+msgid "Published {0} · Takes effect {1}"
+msgstr "Veröffentlicht {0} · Gilt ab {1}"
+
 #. Option for the 'Source' (Select) field in DocType 'Credit Ledger Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 msgid "Purchase"
@@ -33648,10 +33699,6 @@ msgstr "Wird beim Speichern der Einstellungen aus Frappe Cloud gelesen."
 msgid "Read from the two times below."
 msgstr "Aus den beiden Zeiten unten gelesen."
 
-#: onedesk/public/js/module_settings.js:85
-msgid "Read in Full"
-msgstr "Vollständig lesen"
-
 #: onedesk/public/js/settings.js:2887
 msgid "Read on behalf of {0}"
 msgstr "Gelesen im Namen von {0}"
@@ -33663,9 +33710,6 @@ msgstr "Nur lesen"
 #: onedesk/one_project/ai.py:63
 msgid "Read this project, then suggest the tasks it still needs, each with a due date before its end, as cards I can approve."
 msgstr "Lesen Sie dieses Projekt und schlagen Sie die Aufgaben vor, die noch fehlen, jede mit einem Fälligkeitsdatum vor seinem Ende, als Karten, die ich genehmigen kann."
-
-msgid "Read version {0}"
-msgstr "Version {0} lesen"
 
 #: onedesk/one_mail/ai.py:268 onedesk/public/js/onecloud.js:1841
 msgid "Read with OneAI"
@@ -36141,6 +36185,10 @@ msgstr "Läuft einmal mit den Einstellungen oben und verbraucht OneAI-Credits."
 msgid "Runs with {0}'s permissions."
 msgstr "Läuft mit den Berechtigungen von {0}."
 
+#: onedesk/public/js/trust_center.js
+msgid "Safeguard"
+msgstr "Schutzmaßnahme"
+
 #: onedesk/one_mail/tour.py
 msgid "Search Your Mail"
 msgstr "E-Mails durchsuchen"
@@ -36194,6 +36242,10 @@ msgstr "E-Mails zu {0} mit {1} beginnen"
 #: onedesk/one_mail/ai.py
 msgid "Stop Sharing {0} with {1}"
 msgstr "{0} nicht mehr mit {1} teilen"
+
+#: onedesk/public/js/trust_center.js
+msgid "Struck through where your workspace doesn't use it."
+msgstr "Durchgestrichen, wo Ihr Arbeitsbereich es nicht nutzt."
 
 #. Label in the One Bank Guarantee print format
 #. Label in the One Payment Request print format
@@ -40924,6 +40976,10 @@ msgstr "Von {0} entfernen"
 msgid "Take the Tour"
 msgstr "Tour starten"
 
+#: onedesk/public/js/trust_center.js
+msgid "Taking It With You"
+msgstr "Alles mitnehmen"
+
 #: onedesk/public/js/size.js:6
 msgid "TB"
 msgstr "TB"
@@ -40935,6 +40991,10 @@ msgstr "Die Unterhaltung öffnet sich hier, darüber die Datensätze, mit denen 
 #: onedesk/one_mail/ai.py
 msgid "The standard reply"
 msgstr "Die Standardantwort"
+
+#: onedesk/public/js/trust_center.js
+msgid "There is no such service."
+msgstr "Diesen Dienst gibt es nicht."
 
 #: onedesk/one/letter_heads.py:132
 #: onedesk/one_book/report/books_check/books_check.js:20
@@ -44972,9 +45032,6 @@ msgstr "Benannt"
 msgid "To"
 msgstr "An"
 
-msgid "To Agree"
-msgstr "Zuzustimmen"
-
 #. Label in the One Contract print format
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
 msgid "To Be Fulfilled"
@@ -45849,6 +45906,10 @@ msgstr "Portalzugang von {0} deaktivieren? Die Person wird sofort abgemeldet."
 msgid "Turn On {0}"
 msgstr "{0} einschalten"
 
+#: onedesk/public/js/trust_center.js
+msgid "Turn On {0}?"
+msgstr "{0} einschalten?"
+
 #: onedesk/one/settings.py:1187
 msgid "Turn them on first."
 msgstr "Schalten Sie die Person zuerst ein."
@@ -45861,9 +45922,21 @@ msgstr "Abgelehnt von {0}."
 msgid "Turned down."
 msgstr "Abgelehnt."
 
+#: onedesk/public/js/trust_center.js
+msgid "Turned off"
+msgstr "Ausgeschaltet"
+
 #: onedesk/one_studio/heads.py:58
 msgid "Turned off."
 msgstr "Ausgeschaltet."
+
+#: onedesk/public/js/trust_center.js
+msgid "Turned on"
+msgstr "Eingeschaltet"
+
+#: onedesk/public/js/trust_center.js
+msgid "Turned on by {0} on {1}."
+msgstr "Eingeschaltet von {0} am {1}."
 
 #: onedesk/one_mail/ai.py:268
 msgid "Turned on for this mailbox"
@@ -45872,6 +45945,10 @@ msgstr "Für dieses Postfach aktiviert"
 #: onedesk/one_studio/heads.py:58
 msgid "Turned on."
 msgstr "Eingeschaltet."
+
+#: onedesk/public/js/trust_center.js
+msgid "Turning it on agrees to this for your whole workspace, and is recorded with your name."
+msgstr "Wer ihn einschaltet, stimmt dem für den ganzen Arbeitsbereich zu, und das wird mit Ihrem Namen festgehalten."
 
 #. Label of the turns (Long Text) field in DocType 'AI Chat'
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
@@ -47652,9 +47729,33 @@ msgstr "Wofür"
 msgid "What Happened"
 msgstr "Was geschah"
 
+#: onedesk/public/js/trust_center.js
+msgid "What is changing in the agreements, and from when."
+msgstr "Was sich in den Vereinbarungen ändert, und ab wann."
+
+#: onedesk/public/js/trust_center.js
+msgid "What Is Kept"
+msgstr "Was aufbewahrt wird"
+
+#: onedesk/public/js/trust_center.js
+msgid "What is kept and for how long, and how to take everything with you."
+msgstr "Was wie lange aufbewahrt wird, und wie Sie alles mitnehmen."
+
+#: onedesk/public/js/trust_center.js
+msgid "What It Adds to the Agreements"
+msgstr "Was es den Vereinbarungen hinzufügt"
+
 #: onedesk/one_studio/doctype/extension/extension.js:83
 msgid "What It Does"
 msgstr "Was sie tut"
+
+#: onedesk/public/js/trust_center.js
+msgid "What It Sends"
+msgstr "Was er sendet"
+
+#: onedesk/public/js/trust_center.js
+msgid "What One can send to another company only once your administrators turn it on."
+msgstr "Was One erst an ein anderes Unternehmen senden kann, wenn Ihre Administratoren es einschalten."
 
 #: onedesk/one_legal/gate.py:17
 msgid "What One may not be used for. It binds your organisation and everybody who signs in."
@@ -48636,9 +48737,9 @@ msgstr "Was Sie jedem Lieferanten schulden, nach Verzug."
 msgid "What you will have once orders come and go."
 msgstr "Was Sie haben werden, wenn Bestellungen kommen und gehen."
 
-#: onedesk/public/js/module_settings.js:73
-msgid "What {0} adds to the agreements everyone in the workspace works under."
-msgstr "Was {0} zu den Vereinbarungen beiträgt, unter denen alle im Arbeitsbereich arbeiten."
+#: onedesk/public/js/trust_center.js
+msgid "What {0} adds to the agreements, what it can send out, and to whom."
+msgstr "Was {0} den Vereinbarungen hinzufügt, was es senden kann, und an wen."
 
 #: onedesk/one/ai_setup.py:713
 msgid "What {0} sees"
@@ -48722,6 +48823,10 @@ msgstr "Wenn die Personalabteilung einen markierten Check-in von Ihnen ablehnt."
 #: onedesk/notifications/one_hr/check_in_place_proposed.md
 msgid "When One adds a network or place people check in from, because they keep using it."
 msgstr "Wenn One ein Netzwerk oder einen Ort hinzufügt, von dem aus Leute einchecken, weil sie ihn ständig nutzen."
+
+#: onedesk/public/js/trust_center.js
+msgid "When One publishes a new version of a policy each person agreed to."
+msgstr "Wenn One eine neue Version einer Richtlinie veröffentlicht, der jede Person zugestimmt hat."
 
 #. When a notification is sent
 #: onedesk/notifications/one/agreements_changed.md
@@ -50334,6 +50439,10 @@ msgstr "Welche Arbeitsbereiche haben das, wie viele sind live und was zahlen sie
 msgid "Which workstations are making, which are stopped and why, and what is running on each?"
 msgstr "Welche Arbeitsplätze fertigen, welche stehen still und warum, und was läuft an jedem?"
 
+#: onedesk/public/js/trust_center.js
+msgid "While It Is Off"
+msgstr "Solange er aus ist"
+
 #: onedesk/public/js/onemail_settings.js:372
 msgid "While you're on approved leave, replies go out on their own until you're back, with the Away Message from your leave request."
 msgstr "Während deines genehmigten Urlaubs gehen Antworten automatisch raus, bis du zurück bist, mit der Abwesenheitsnachricht aus deinem Urlaubsantrag."
@@ -50350,6 +50459,10 @@ msgstr "Während deines genehmigten Urlaubs gehen Antworten automatisch raus, bi
 #: onedesk/public/js/intake.js:99
 msgid "Who"
 msgstr "Wer"
+
+#: onedesk/public/js/trust_center.js
+msgid "Who It Sends Data To"
+msgstr "An wen es Daten sendet"
 
 #: frontend/src/to_order/ToOrderPage.vue:163
 msgid "Who Supplies the Rest?"
@@ -52224,6 +52337,10 @@ msgstr "Ihr One-Konto, der erste Administrator des Arbeitsbereichs und wohin die
 msgid "Your Organisation"
 msgstr "Ihre Organisation"
 
+#: onedesk/public/js/trust_center.js
+msgid "Your Own Data"
+msgstr "Ihre eigenen Daten"
+
 #: frontend/portal/src/pages/YourData.vue:32 onedesk/public/js/settings.js:233
 #: onedesk/public/js/settings.js:1602
 msgid "Your Password"
@@ -52574,6 +52691,10 @@ msgstr "Ihr Update zu diesem Projekt ist heute gefragt."
 
 #: onedesk/www/welcome.html:2
 msgid "Your workspace"
+msgstr "Ihr Arbeitsbereich"
+
+#: onedesk/public/js/trust_center.js
+msgid "Your Workspace"
 msgstr "Ihr Arbeitsbereich"
 
 #: onedesk/www/account.html:17
@@ -54164,6 +54285,10 @@ msgstr "{0} +{1}"
 msgid "{0} AI credits a month"
 msgstr "{0} KI-Guthaben im Monat"
 
+#: onedesk/public/js/trust_center.js
+msgid "{0} and Your Data"
+msgstr "{0} und Ihre Daten"
+
 #: onedesk/one/ai.py:3694
 msgid "{0} Approval"
 msgstr "Freigabe {0}"
@@ -54328,10 +54453,6 @@ msgstr "{0} hinzugefügt"
 #: onedesk/public/js/task_timer.js:6
 msgid "{0} added to your timesheet."
 msgstr "{0} zu Ihrem Stundenzettel hinzugefügt."
-
-#: onedesk/public/js/module_settings.js:79
-msgid "{0} adds nothing to the agreements."
-msgstr "{0} fügt den Vereinbarungen nichts hinzu."
 
 msgid "{0} agreed on {1}"
 msgstr "{0} hat am {1} zugestimmt"

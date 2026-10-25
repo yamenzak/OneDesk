@@ -205,8 +205,8 @@ onedesk.window.Window.prototype.foot_action = function ({ icon, label, click, ve
 	return this;
 };
 
-// A module's foot, the same three in every module (docs/READY.md,
-// mechanism 5): Settings, then Help and the version at the row's end.
+// A module's foot, the same in every module (docs/READY.md, mechanisms 5
+// and 13): Settings, then TrustCenter, Help and the version at the row's end.
 onedesk.window.Window.prototype.module_foot = function ({ module, settings }) {
 	this.foot_action({ icon: "settings", label: __("Settings"), click: settings, version: { module } });
 	// A module that draws its foot has drawn its screen: its tour may start.
@@ -218,6 +218,11 @@ onedesk.window.Window.prototype.foot_version = function ({ module }) {
 	const said = (frappe.boot.one_versions || {})[module];
 	if (!said) return;
 	const $row = this.$foot_action.find(".standard-sidebar-item");
+	$(`<button type="button" class="one-window-foot-help"></button>`)
+		.attr({ title: "TrustCenter", "aria-label": __("{0} and Your Data", [module]) })
+		.html(frappe.utils.icon("shield-check", "sm"))
+		.on("click", () => onedesk.trust.open({ module }))
+		.appendTo($row);
 	$(`<button type="button" class="one-window-foot-help"></button>`)
 		.attr({ title: __("Help"), "aria-label": __("{0} Help", [module]) })
 		.html(frappe.utils.icon("circle-question-mark", "sm"))

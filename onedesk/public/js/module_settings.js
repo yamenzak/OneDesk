@@ -9,8 +9,9 @@ frappe.provide("onedesk.module_settings");
 
 // The centres a module's dialogs are, named as One's products are: One's
 // mark, the first word light and Center after it (HelpCenter, ControlCenter,
-// AccountCenter, UpdateCenter). They are names, so they are not translated.
-onedesk.CENTERS = { help: "Help", settings: "Control", account: "Account", updates: "Update" };
+// AccountCenter, UpdateCenter, TrustCenter). They are names, so they are not
+// translated.
+onedesk.CENTERS = { help: "Help", settings: "Control", account: "Account", updates: "Update", trust: "Trust" };
 
 // The top of a dialog's sidebar: the centre it is, and under it, small,
 // whose it is: a module (its mark and name) or one thing in it (an icon and
@@ -60,47 +61,6 @@ onedesk.module_settings.allows = (needs, may) => {
 	return [].concat(needs).some((key) => may[key]);
 };
 
-// What the module adds to the agreements (docs/READY.md, mechanism 6), read
-// from the registry the agreements are assembled from
-// (one_legal/reading.py `of_module`): each agreement it writes into, its
-// version and the module's own paragraphs, and the companies it sends data
-// to. Everybody's to read, since the agreements are everybody's.
-onedesk.module_settings.legal = (module) => ({
-	id: "legal",
-	label: __("Legal"),
-	icon: "scale",
-	title: __("Legal"),
-	description: __("What {0} adds to the agreements everyone in the workspace works under.", [module]),
-	async render(panel) {
-		const kit = onedesk.module_settings.kit;
-		const said = await frappe.xcall("onedesk.one_legal.reading.of_module", { module }, "GET");
-		const $body = panel.body.empty();
-		if (!said.documents.length) {
-			$body.append(kit.empty(__("{0} adds nothing to the agreements.", [module])));
-			return;
-		}
-		for (const one of said.documents) {
-			const top = kit.heading_with(one.title, __("Version {0}", [one.version]));
-			top.$row.appendTo($body);
-			kit.button({ label: __("Read in Full"), variant: "outline", icon: "book-open" })
-				.on("click", () => {
-					panel.dialog.hide();
-					frappe.set_route(`/desk/legal?document=${encodeURIComponent(one.key)}`);
-				})
-				.appendTo(top.$end);
-			const $doc = $(`<div class="one-doc one-set-legal"></div>`).appendTo($body);
-			for (const section of one.sections) {
-				$(`<h3></h3>`).text(section.heading).appendTo($doc);
-				for (const clause of section.clauses) {
-					if (clause.heading) $(`<h4></h4>`).text(clause.heading).appendTo($doc);
-					$(`<p></p>`).text(clause.body).appendTo($doc);
-				}
-			}
-			if (one.companies) onedesk.module_settings.companies(said.companies).appendTo($doc);
-		}
-	},
-});
-
 // A module's setup steps the reader may do (docs/READY.md, mechanism 9;
 // one/setup_steps.py): each done, or a to-do with Set Up, which opens the
 // tab that does it, and Mark as Done.
@@ -138,32 +98,15 @@ onedesk.module_settings.getting_started = (module) => ({
 	},
 });
 
-// The companies a module sends data to, as the Subprocessors agreement
-// lists them: who, what for, what they get and where.
-onedesk.module_settings.companies = (rows) => {
-	const $table = $(`<table><thead><tr></tr></thead><tbody></tbody></table>`);
-	for (const word of [__("Company"), __("What For"), __("What They Receive"), __("Where")]) $(`<th></th>`).text(word).appendTo($table.find("thead tr"));
-	for (const row of rows) {
-		for (const use of row.uses) {
-			const $tr = $(`<tr></tr>`).appendTo($table.find("tbody"));
-			const $name = $(`<td></td>`).appendTo($tr);
-			if (row.url) $(`<a target="_blank" rel="noopener"></a>`).attr("href", row.url).text(row.name).appendTo($name);
-			else $name.text(row.name);
-			for (const value of [use.purpose, use.data, use.where]) $(`<td></td>`).text(value).appendTo($tr);
-		}
-	}
-	return $(`<div class="one-doc-table"></div>`).append($table);
-};
-
 // The dialog for a module: `tabs` as frappe's settings dialog takes them,
 // each item with the `needs` its tab asks of the reader's role (`may`).
 // A group left with nothing is left out, and opening again replaces it.
 onedesk.module_settings.open = ({ module, may = {}, tabs, default_tab = null, ...rest }) => {
 	// Every module's ControlCenter starts with what is left to set up, while
-	// something is, and ends with what it adds to the agreements.
+	// something is. What it adds to the agreements is in TrustCenter.
 	const steps = (frappe.boot.one_setup || {})[module] || [];
 	const starting = steps.some((step) => !step.done) ? [{ group: __("Start Here"), items: [onedesk.module_settings.getting_started(module)] }] : [];
-	tabs = [...starting, ...tabs, { group: __("About"), items: [onedesk.module_settings.legal(module)] }];
+	tabs = [...starting, ...tabs];
 	const shown = tabs
 		.map((group) => ({ ...group, items: (group.items || []).filter((item) => item && onedesk.module_settings.allows(item.needs, may)) }))
 		.filter((group) => group.items.length);

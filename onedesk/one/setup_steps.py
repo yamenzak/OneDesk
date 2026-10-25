@@ -70,7 +70,10 @@ def for_wizard() -> list[dict]:
 				"fields": fields,
 			}
 		)
-	return slides
+	from onedesk.one_legal import services
+
+	asked = services.for_wizard()
+	return slides + ([asked] if asked else [])
 
 
 def apply(args=None) -> None:
@@ -92,6 +95,9 @@ def apply(args=None) -> None:
 		except Exception:
 			frappe.db.rollback(save_point="one_setup_step")
 			frappe.log_error(f"setup step: {module} {step['key']}")
+	from onedesk.one_legal import services
+
+	services.from_wizard(args)
 
 
 def _may(module: str, step: dict) -> bool:

@@ -1258,8 +1258,70 @@ def onelegal_every_person_has_agreed_and_reads_what_to():
 		agreed = reading.history("terms")
 		assert agreed and agreed[0]["document"] == "terms"
 		assert reading.document("terms", agreed[0]["version"])["version"] == agreed[0]["version"]
-		assert gate.accept(["terms"])["accepted"] == [], "accepted at this version already"
+		gate.accept(["terms"])
+		assert gate.accept(["terms"])["accepted"] == [], "agreeing again at the same version records nothing"
 		assert ai.agreement("privacy").get("text")
+
+
+@check
+def onelegal_trustcenter_services_changes_and_laws():
+	"""TrustCenter (docs/READY.md, mechanism 13): Layla's workspace has both
+	of OneMail's optional services on, as she agreed in the demo; turned off,
+	no picture is asked for; given somewhere new, one is off until she agrees
+	again. Rania may not move them. The agreements changed since she agreed
+	are told, not asked: nobody is stopped, and each says the day it takes
+	effect. Everything TrustCenter shows reads back for OneMail."""
+	from unittest.mock import patch
+
+	from onedesk.one_legal import gate, reading, services
+	from onedesk.one_mail import faces
+
+	with as_user(OWNER):
+		for one in services.standing():
+			if not one["on"]:
+				services.switch(one["key"], 1)
+		assert all(one["on"] for one in services.standing()), services.standing()
+		services.switch("gravatar", 0)
+		with patch("requests.get") as asked:
+			assert faces.fetch("someone.new@example.com") is None
+			asked.assert_not_called()
+		services.switch("gravatar", 1)
+		assert services.on("gravatar")
+		with patch.object(services, "version_of", return_value="00000000.11111111"):
+			frappe.local.one_services = {}
+			assert not services.on("gravatar")
+			assert next(one for one in services.standing() if one["key"] == "gravatar")["asks_again"]
+		frappe.local.one_services = {}
+		assert not gate.outstanding()["blocking"], "a new revision stops nobody"
+		said = reading.trust("OneMail")
+		assert said["module"]["documents"] and len(said["services"]) == 2, said["services"]
+		gravatar = next(use for row in said["companies"] for use in row["uses"] if use["service"] == "Pictures from Gravatar")
+		assert gravatar["used"]
+		assert said["changes"] and said["changes"][0]["says"]
+		terms = next(one for one in said["documents"] if one["key"] == "terms")
+		assert terms["html"] and terms["organisation"]
+	with as_user("rania@one.test"):
+		try:
+			services.switch("logos", 0)
+			raise AssertionError("Rania turned a service off")
+		except frappe.PermissionError:
+			pass
+	told = []
+	with patch("onedesk.one.notify.notify", side_effect=lambda name, users, **said: told.append((name, said))):
+		keys = [f"one_legal_told_{party}_{key}" for party in ("workspace", "user") for key in gate.keys_for(gate.WORKSPACE if party == "workspace" else gate.USER)]
+		was = {key: frappe.db.get_default(key) for key in keys}
+		try:
+			for key in keys:
+				frappe.db.set_default(key, "")
+			with patch.object(gate, "_accepted", return_value="0.abc"):
+				gate.told_of_changes()
+				gate.told_of_changes()
+		finally:
+			for key, value in was.items():
+				frappe.db.set_default(key, value or "")
+	names = [one[0] for one in told]
+	assert names.count("Agreements Changed") == 1 and names.count("Policies Changed") == 1, names
+	assert all(one[1]["effective"] for one in told)
 
 
 @check
@@ -8739,7 +8801,7 @@ def the_workspace_tells_what_the_second_pass_found():
 		assert users == ["rania@one.test", "samir@one.test"] and str(values["state"]) == "Working", (users, values)
 
 		key = gate.keys_for(gate.WORKSPACE)[0]
-		frappe.db.set_default(f"one_legal_told_{key}", None)
+		frappe.db.set_default(f"one_legal_told_workspace_{key}", None)
 		with patch.object(gate, "_accepted", return_value="0.abc"):
 			gate.told_of_changes()
 			gate.told_of_changes()
@@ -9203,7 +9265,8 @@ def setup_steps_are_slides_then_to_dos():
 	with patch("frappe.is_setup_complete", return_value=False):
 		slides = setup_steps.for_wizard()
 	names = [field["fieldname"] for slide in slides for field in slide["fields"]]
-	assert names == ["one_mail_domains_domain", "one_mail_private_allowed"], names
+	assert names == ["one_mail_domains_domain", "one_mail_private_allowed", "one_service_gravatar", "one_service_logos"], names
+	assert slides[-1]["name"] == "one_services" and not any(field["default"] for field in slides[-1]["fields"]), "the optional services start off"
 	was = frappe.db.get_default(addresses.EXTERNAL)
 	flags = {key: frappe.db.get_default(setup_steps.FLAG.format("one_mail", key)) for key in ("private", "templates")}
 	try:

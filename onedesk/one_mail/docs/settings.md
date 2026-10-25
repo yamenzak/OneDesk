@@ -63,20 +63,24 @@ System and Organization Mailboxes.
 A mailbox opened from System or Organization Mailboxes shows its Signature, Out
 of Office, OneAI and Automation tabs.
 
-## Legal
+## TrustCenter
 
-**Legal**, at the end of Settings, shows what OneMail adds to the agreements
-everyone in the workspace works under. Everyone can open it.
+The shield at the foot of OneMail, beside the question mark, opens
+**TrustCenter**. Everyone can open it; only a workspace administrator can
+turn an optional service on or off.
 
 | You see | What it is |
 | --- | --- |
-| Each agreement OneMail writes into | Its name and version, and OneMail's own paragraphs of it |
-| **Read in Full** | The whole agreement, as you were asked to agree to it |
-| The companies mail passes through | Who they are, what for, what they receive and where |
+| **OneMail and Your Data** | What OneMail can send out, who receives it, and its own paragraphs of the agreements |
+| **Agreements** | Each agreement, who agreed to it and when, and any change coming |
+| **Optional Services** | What sends data to another company only once it's turned on |
+| **Subprocessors** | Every company that receives data, struck through where yours doesn't |
+| **Your Data** | What is kept, and how to take everything with you |
+| **Changes** | What changed in the agreements, and from when |
 
-> **When OneMail's part of an agreement changes**, What's New says which
-> agreement moved, and you're asked to agree again only when the change is
-> one that matters.
+> **When an agreement changes**, it's published 30 days before it takes
+> effect, and administrators are told by mail. Nobody has to agree again to
+> carry on: the version you agreed to holds until the new one starts.
 
 ## Mail Templates
 

@@ -288,7 +288,10 @@ Stage 6, mail in OneCloud, is built.
   HTML text. The links are made once per message however many recipients
   it has. A file that cannot be found stays attached.
 
-Stage 7, faces and logos, is built.
+Stage 7, faces and logos, is built. Both are optional services (`legal.py`
+`service()`, one_legal/services.py), off until an administrator turns them
+on in TrustCenter: `fetch` asks through `services.call`, and `lookup` queues
+only what a service that is on would answer.
 
 - **faces.py** asks Gravatar for a person, by the SHA-256 of their address
   with `d=404`, and Google's faviconV2 for an organisation, by its domain

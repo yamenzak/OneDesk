@@ -126,6 +126,7 @@ HAND = {
 	"demo": "the demo company uses every part of it and nothing in the demo makes it look wrong",
 	"notifications": "it tells people what they need, on the channels that make sense, only to the roles that should hear it",
 	"interface": "each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats",
+	"legal": "what it does with data, read against what its clauses, subprocessors and optional services say",
 }
 
 # Files named for a module that are not its own, and why.

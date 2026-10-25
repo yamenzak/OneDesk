@@ -1,14 +1,17 @@
 """Who has agreed to what, and who may not carry on until they do.
 
 The workspace agrees to the contract once for everybody in it, and each person
-agrees to what is about their own personal data.
+agrees to what is about their own personal data. Only a first agreement stops
+anybody: a later revision is notice, published ahead of the day it takes
+effect (documents.CHANGES), and the version agreed to holds until then
+(docs/READY.md, mechanism 13).
 """
 
 import frappe
 from frappe import _, _lt
 
 from . import assemble
-from .documents import DOCUMENTS
+from .documents import DOCUMENTS, change_of
 
 SHOWN = (
 	_lt("Terms of Service"),
@@ -57,10 +60,18 @@ def revision(version: str | None) -> str | None:
 
 
 def agreed(was: str | None, now: str) -> bool:
-	"""Whether what was accepted still holds: the same revision. A new hash
-	alone is a clarification or a typo, and asks nobody again (README.md).
-	Pure."""
+	"""Whether what was accepted is what is published: the same revision. A
+	new hash alone is a clarification or a typo (README.md). Pure."""
 	return bool(was) and revision(was) == revision(now)
+
+
+def effective(key: str) -> str | None:
+	"""The day a document's current revision takes effect, while it is still
+	to come: until then the revision agreed to holds."""
+	change = change_of(key)
+	if change and change["effective"] > frappe.utils.today():
+		return change["effective"]
+	return None
 
 
 def _accepted(key: str, party: str, user: str | None = None) -> str | None:
@@ -100,7 +111,9 @@ def standing(user: str | None = None) -> list[dict]:
 					"summary": one["summary"],
 					"party": party,
 					"version": version,
-					"accepted": agreed(was, version),
+					"accepted": bool(was),
+					"changed": bool(was) and not agreed(was, version),
+					"effective": effective(key),
 					"previously": was,
 				}
 			)
@@ -127,6 +140,7 @@ def outstanding() -> dict:
 
 	return {
 		"blocking": blocking,
+		"changed": [one for one in rows if one["changed"]],
 		"waiting": waiting,
 		"may_bind": _may_bind(),
 		"ok": not blocking and not waiting,
@@ -241,19 +255,28 @@ def require(where: str = "") -> None:
 
 
 def told_of_changes() -> None:
-	"""after_migrate: a workspace agreement the workspace accepted, now at a
-	new revision, told to every administrator once per revision. The gate
-	still asks again at their next sign-in."""
+	"""after_migrate: a document at a new revision, told once per revision:
+	the workspace's agreements to every administrator, by mail too, once the
+	workspace has agreed to an earlier one; a person's own to everybody in the
+	workspace. Nobody is stopped; the version agreed to holds until the day
+	the new one takes effect."""
 	from onedesk.one import tell
 
-	titles = []
-	for key in keys_for(WORKSPACE):
-		now = revision(assemble.version_of(key))
-		was = _accepted(key, WORKSPACE)
-		told = f"one_legal_told_{key}"
-		if not was or not now or revision(was) == now or frappe.db.get_default(told) == now:
-			continue
-		frappe.db.set_default(told, now)
-		titles.append(str(DOCUMENTS[key]["title"]))
-	if titles:
-		tell.agreements_changed(titles)
+	for party, told_by in ((WORKSPACE, tell.agreements_changed), (USER, tell.policies_changed)):
+		titles, days = [], []
+		for key in keys_for(party):
+			now = revision(assemble.version_of(key))
+			told = f"one_legal_told_{party.lower()}_{key}"
+			if frappe.db.get_default(told) == now:
+				continue
+			if party == WORKSPACE:
+				was = _accepted(key, WORKSPACE)
+				if not was or revision(was) == now:
+					continue
+			elif not change_of(key):
+				continue
+			frappe.db.set_default(told, now)
+			titles.append(str(DOCUMENTS[key]["title"]))
+			days.append((change_of(key) or {}).get("effective") or frappe.utils.today())
+		if titles:
+			told_by(titles, min(days))

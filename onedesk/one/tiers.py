@@ -168,7 +168,7 @@ SCREENS = {
 	"onecloud": "the files (File)",
 	"intake": "what Intake read and did (Reading, Intake Action)",
 	"masters": "the simple lists, one home each",
-	"legal": "the agreements a person has agreed to",
+	"legal": "TrustCenter over the desk: the agreements, the optional services and the companies that receive data",
 	"settings": "the reader's own settings",
 	"workspace-settings": "the workspace's settings",
 }

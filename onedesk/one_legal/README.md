@@ -309,3 +309,23 @@ OneApp's `onelegal/legal.py` and corrected for what OneDesk actually does:
 Anything not yet confirmed against a screen is left out rather than guessed at.
 The passover (docs/PASSOVER.md, point 8) adds each screen's lines as it reaches
 them.
+
+**Optional services** (`services.py`, docs/READY.md mechanism 13). A module
+declares one in its `legal.py` with `service()`, and a subprocessor use that
+only happens while it is on names it (`service=`). Its version is
+`reach.words`: `reach` hashes where it sends data, `words` what it says.
+Turning it on records a `Legal Acceptance` of `service:<key>` at that version;
+it stays on only while the acceptance's reach is the service's, so a service
+given somewhere new to send data is off until an administrator agrees again.
+The code that calls out goes through `services.call`, which refuses while it
+is off, and `test_legal.py` holds every service host to that.
+
+**Changes by notice.** `documents.CHANGES` records each revision published
+since `BASELINE`, with the day it takes effect, at least `NOTICE_DAYS` on for
+what the workspace agrees to. Only a first agreement stops anybody at sign-in;
+a later revision is told (`gate.told_of_changes`: administrators by mail,
+everybody else in the bell) and the version agreed to holds until its day.
+
+**The laws.** `laws.py` lists each law and the duties it puts on us; a
+clause names the duties it meets (`meets=`, in `legal.py`'s `MEETS` for
+One's own), and `test_legal.py` fails on a duty no clause meets.

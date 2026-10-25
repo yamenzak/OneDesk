@@ -382,3 +382,72 @@
 	flex-shrink: 0;
 	margin: 0;
 }
+
+/* TrustCenter (trust_center.js): where the reader and the workspace stand
+   on an agreement, above it; an optional service as a card with its
+   switch; a company's use this workspace doesn't make, struck through. */
+.one-trust .one-trust-standing {
+	margin-bottom: calc(var(--spacing) * 5);
+	padding-bottom: calc(var(--spacing) * 4);
+	border-bottom: 1px solid var(--outline-gray-1);
+}
+
+.one-trust .one-trust-standing .one-set-sub {
+	white-space: normal;
+}
+
+.one-trust .one-trust-services {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--spacing) * 3);
+	margin-bottom: calc(var(--spacing) * 6);
+}
+
+.one-trust .one-trust-service {
+	padding: calc(var(--spacing) * 3) calc(var(--spacing) * 4);
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius-lg);
+}
+
+.one-trust .one-trust-facts {
+	display: grid;
+	grid-template-columns: max-content 1fr;
+	gap: calc(var(--spacing) * 1) calc(var(--spacing) * 4);
+	margin: calc(var(--spacing) * 2) 0 0;
+	font-size: var(--text-sm);
+}
+
+.one-trust .one-trust-facts dt {
+	color: var(--ink-gray-5);
+	font-weight: 400;
+}
+
+.one-trust .one-trust-facts dd {
+	margin: 0;
+	color: var(--ink-gray-8);
+}
+
+.one-trust .one-trust-note {
+	margin-top: calc(var(--spacing) * 2);
+	color: var(--ink-gray-5);
+	font-size: var(--text-sm);
+}
+
+.one-trust .one-trust-companies td {
+	white-space: normal;
+	vertical-align: top;
+}
+
+.one-trust .one-trust-unused td:not(:nth-child(2)) {
+	color: var(--ink-gray-4);
+	text-decoration: line-through;
+}
+
+.one-trust .settings-dialog-panel-body > * {
+	flex-shrink: 0;
+}
+
+.one-trust .one-trust-companies th,
+.one-trust .one-trust-companies td {
+	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 3);
+}

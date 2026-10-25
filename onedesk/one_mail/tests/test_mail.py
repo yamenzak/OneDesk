@@ -428,8 +428,8 @@ def test_pictures_are_asked_for_so_that_none_means_none():
 	assert "fallback_opts=TYPE,SIZE,URL" in space["favicon"]("acme.com"), "Google answers 404 with no logo"
 	assert space["file_name"]("acme.com", "image/png; charset=binary") == "acme.com.png"
 	source = (MAIL / "faces.py").read_text()
-	assert "requests.get(" in source and "enqueue_after_commit=True" in source, (
-		"fetched by the server, in the background"
+	assert "services.call(service_of(key), requests.get," in source and "enqueue_after_commit=True" in source, (
+		"fetched by the server, in the background, and only while its optional service is on"
 	)
 	for doctype in (
 		"Contact",

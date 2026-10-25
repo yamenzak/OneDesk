@@ -544,7 +544,38 @@ The guards each point names, as they stand:
 
 ### 13. TrustCenter
 
-**Today.** Mechanism 6 gives each module a **Legal** tab in its ControlCenter,
+**Built.** All six parts.
+
+- **The center.** `public/js/trust_center.js`, on the docs dialog
+  (`onedesk.CENTERS.trust`), reads `one_legal.reading.trust`. From a
+  module's foot (the shield) it opens on **{Module} and Your Data**: its
+  optional services, who it sends data to, and its own paragraphs. Then
+  **Agreements**, each with where the reader and the workspace stand, the
+  change coming and print, **Optional Services**, **Subprocessors** (struck
+  through where unused), **Your Data** and **Changes**. `/desk/legal`
+  opens it over the desk; the Agreements island and the Legal tab are gone.
+- **The laws.** `one_legal/laws.py`; One's own clauses name their duties in
+  `legal.py`'s `MEETS`; three clauses were added where no clause met one
+  (privacy by default, the record of processing, switching provider), and
+  Saudi Arabia's law named in rights, complaints and transfers.
+- **Changes.** `documents.CHANGES` and `BASELINE`; `gate.effective`; only a
+  first agreement stops anybody; **Agreements Changed** to administrators
+  by mail and **Policies Changed** to everybody, each with the day. This
+  round moved five documents, in effect from 24 November 2026.
+- **Optional services.** `service()`, `one_legal/services.py` (`call`,
+  `switch`, the wizard's slide), Gravatar and logos off by default, the
+  demo's owner turning both on.
+- **Legal copy.** docs/WORDING.md, The agreements; `test_legal.py` holds
+  every clause to no legalese, and a ready module's to 30 words a sentence.
+  OneMail's are rewritten to it.
+- **The registry.** `ready.HAND["legal"]`.
+
+One correction to the rule below: a new subprocessor One can't work without
+is still a core change, by notice with the right to object, as the Data
+Processing Addendum allows. What needs an administrator's yes is a new
+company for something One can work without.
+
+**Today, before this.** Mechanism 6 gives each module a **Legal** tab in its ControlCenter,
 and the eight agreements are read on the Agreements page (`/app/legal`).
 Every service One calls is in the agreements whether or not a workspace
 wants it: OneMail asks Gravatar for people's pictures and Google's favicon

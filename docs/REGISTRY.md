@@ -3,7 +3,7 @@
 
 The fourteen points of docs/READY.md, for each module on its way to ready.
 
-## OneMail 1.5.0
+## OneMail 1.6.0
 
 Not marked ready yet.
 
@@ -22,7 +22,7 @@ Not marked ready yet.
 | Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
 | Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
 | Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
-| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | — |
+| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | not yet |
 
 What a person looks at:
 
@@ -30,3 +30,4 @@ What a person looks at:
 - **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
 - **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
+- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.

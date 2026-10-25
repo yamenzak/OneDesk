@@ -145,8 +145,9 @@ class _as:
 
 def _agree():
 	"""What each person agrees to on their first sign-in, the owner first,
-	for the workspace and for themselves (one_legal/gate.py)."""
-	from onedesk.one_legal import gate
+	for the workspace and for themselves (one_legal/gate.py); and the owner
+	turns on the optional services, so the demo's faces and logos show."""
+	from onedesk.one_legal import gate, services
 
 	for _first, _last, email, *_rest in PEOPLE:
 		if not email:
@@ -155,4 +156,8 @@ def _agree():
 			waiting = [row["document"] for row in gate.standing() if not row["accepted"]]
 			if waiting:
 				gate.accept(waiting)
+			if email == OWNER:
+				for one in services.standing():
+					if not one["on"]:
+						services.switch(one["key"], 1)
 

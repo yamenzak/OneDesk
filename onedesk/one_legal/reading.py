@@ -6,6 +6,8 @@ has to be able to read what they agreed to — so a stored version can be fetche
 by name as well.
 """
 
+import re
+
 import frappe
 from frappe import _
 
@@ -83,7 +85,9 @@ def overview() -> dict:
 		row = rows[0]
 		return {
 			"version": row.version,
-			"owed": not gate.agreed(row.version, assemble.version_of(key)),
+			"owed": False,
+			"changed": not gate.agreed(row.version, assemble.version_of(key)),
+			"effective": gate.effective(key),
 			"on": frappe.utils.formatdate(row.accepted_on),
 			"by": frappe.utils.get_fullname(row.user) if party == gate.WORKSPACE else None,
 		}
@@ -122,3 +126,81 @@ def of_module(module: str) -> dict:
 			heading = section["heading"]
 			section["heading"] = _(heading)
 	return said
+
+
+@frappe.whitelist(methods=["GET"])
+def trust(module: str = "") -> dict:
+	"""Everything TrustCenter shows (docs/READY.md, mechanism 13), in the
+	reader's language: what a module adds, its optional services and every
+	other, each agreement with where the reader and the workspace stand on it
+	and the change coming to it, every company that receives data and whether
+	this workspace uses it, what is kept and how to leave, and every change
+	published."""
+	from . import registry, services
+	from .documents import CHANGES, DOCUMENTS
+
+	assemble._load()
+	said = overview()
+	for one in said["documents"]:
+		rendered = assemble.render(one["key"])
+		one["html"] = re.sub(r'<p class="summary">.*?</p>', "", rendered["html"].split("</h1>", 1)[-1], count=1)
+		one["effective"] = gate.effective(one["key"])
+		one["history"] = history(one["key"])
+		change = next((c for c in reversed(CHANGES) if c["document"] == one["key"]), None)
+		one["change"] = change["says"] if change and gate.effective(one["key"]) else None
+	standing = services.standing()
+	used = {one["key"]: one for one in standing}
+	companies = [
+		{
+			"name": row["name"],
+			"url": row["url"],
+			"safeguard": row["safeguard"],
+			"uses": [
+				{
+					"module": use["module"],
+					"purpose": use["purpose"],
+					"data": use["data"],
+					"where": use["where"],
+					"service": used[use["service"]]["title"] if use["service"] else None,
+					"used": not use["service"] or bool(used[use["service"]]["on"]),
+				}
+				for use in row["uses"]
+			],
+		}
+		for row in registry.subprocessor_rows()
+	]
+
+	def bodies(document: str, section: str, keys: tuple = ()) -> list[str]:
+		return [one["body"] for one in registry.clauses_for(document, section) if not keys or one["key"] in keys]
+
+	today = frappe.utils.today()
+	return {
+		**said,
+		"module": of_module(module) if module else None,
+		"services": standing,
+		"companies": companies,
+		"data": {
+			"kept": bodies("privacy", "keeping"),
+			"yours": bodies("privacy", "rights", ("privacy-requests",)),
+			"leaving": bodies("terms", "content", ("export",)) + bodies("terms", "suspension", ("switching",)),
+		},
+		"changes": [
+			{
+				"document": one["document"],
+				"title": _titled(one["document"]),
+				"revision": one["revision"],
+				"published": frappe.utils.formatdate(one["published"]),
+				"effective": frappe.utils.formatdate(one["effective"]),
+				"coming": one["effective"] > today,
+				"says": one["says"],
+			}
+			for one in reversed(CHANGES)
+		],
+	}
+
+
+def _titled(key: str) -> str:
+	from .documents import DOCUMENTS
+
+	title = DOCUMENTS[key]["title"]
+	return _(title)

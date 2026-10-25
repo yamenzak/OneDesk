@@ -37,5 +37,10 @@ or their organization's logo, in that order.
 
 A picture you upload always comes first.
 
+Gravatar photos and logos from the web are optional services. Each stays off
+until a workspace administrator turns it on in **TrustCenter › Optional
+Services**, which agrees to it for the whole workspace. While they're off,
+people show their initials and organizations show no logo.
+
 > **Opening a message reveals nothing.** Pictures are fetched once by the
 > workspace, never by your browser, and kept in **Company › Logos**.

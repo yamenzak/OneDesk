@@ -1,0 +1,376 @@
+// TrustCenter (docs/READY.md, mechanism 13): the agreements, the laws they
+// answer, the optional services a workspace turns on, every company that
+// receives data, what is kept and how to leave, and what is changing. The
+// docs dialog HelpCenter is, opened from a module's foot on that module, or
+// on the workspace from the Agreements address. Its words are the
+// agreements' own, in English; what is around them is translated.
+frappe.provide("onedesk.trust");
+
+onedesk.trust.open = async ({ module = null, at = null } = {}) => {
+	const said = await frappe.xcall("onedesk.one_legal.reading.trust", { module: module || "" }, "GET");
+	const kit = onedesk.module_settings.kit;
+	const esc = frappe.utils.escape_html;
+	const docs = onedesk.module_docs;
+
+	// A document's sections get ids, so the tree and search can land on them.
+	const anchored = (prefix, html) => {
+		const $doc = $("<div></div>").html(html);
+		$doc.find("h2").each((i, h2) => (h2.id = `${prefix}-${i}`));
+		return $doc.html();
+	};
+
+	const pages = [];
+	const page = (one) => (pages.push(one), one);
+
+	if (said.module) {
+		const html = said.module.documents
+			.filter((doc) => doc.sections.length)
+			.map(
+				(doc) =>
+					`<h2>${esc(doc.title)}</h2>` +
+					doc.sections
+						.map(
+							(section) =>
+								`<h3>${esc(section.heading)}</h3>` +
+								section.clauses.map((c) => (c.heading ? `<h4>${esc(c.heading)}</h4>` : "") + `<p>${esc(c.body)}</p>`).join(""),
+						)
+						.join(""),
+			)
+			.join("");
+		page({
+			id: "app",
+			label: module,
+			icon_html: frappe.utils.icon(module.toLowerCase(), "sm"),
+			title: __("{0} and Your Data", [module]),
+			description: __("What {0} adds to the agreements, what it can send out, and to whom.", [module]),
+			html: anchored("app", html),
+			before(panel) {
+				const mine = said.services.filter((one) => one.module === module);
+				if (mine.length) {
+					panel.body.append(kit.heading(__("Optional Services"), __("Off until an administrator turns them on.")));
+					services(panel.body, mine);
+				}
+				const used = said.companies.filter((row) => row.uses.some((use) => use.module === module));
+				if (used.length) {
+					panel.body.append(kit.heading(__("Who It Sends Data To"), __("Struck through where your workspace doesn't use it.")));
+					table(used, module).appendTo(panel.body);
+				}
+				if (html) panel.body.append(kit.heading(__("What It Adds to the Agreements"), __("Its own paragraphs, under the agreement each is in.")));
+			},
+		});
+	}
+
+	for (const doc of said.documents) {
+		page({
+			id: `doc:${doc.key}`,
+			group: "agreements",
+			label: doc.title,
+			icon: "file-text",
+			title: doc.title,
+			description: doc.summary,
+			html: anchored(doc.key, doc.html),
+			before(panel) {
+				standing(panel, doc);
+			},
+		});
+	}
+
+	page({
+		id: "services",
+		label: __("Optional Services"),
+		icon: "toggle-right",
+		title: __("Optional Services"),
+		description: __("What One can send to another company only once your administrators turn it on."),
+		html: "",
+		after(panel) {
+			if (!said.services.length) panel.body.append(kit.empty(__("Nothing is optional yet.")));
+			else services(panel.body, said.services);
+		},
+	});
+
+	page({
+		id: "companies",
+		label: __("Subprocessors"),
+		icon: "building-2",
+		title: __("Subprocessors"),
+		description: __("Every company that receives data from a workspace, and whether yours uses it."),
+		html: "",
+		after(panel) {
+			table(said.companies).appendTo(panel.body);
+		},
+	});
+
+	const paragraphs = (list) => list.map((one) => `<p>${esc(one)}</p>`).join("");
+	page({
+		id: "data",
+		label: __("Your Data"),
+		icon: "database",
+		title: __("Your Data"),
+		description: __("What is kept and for how long, and how to take everything with you."),
+		html: anchored(
+			"data",
+			`<h2>${esc(__("What Is Kept"))}</h2>${paragraphs(said.data.kept)}` +
+				`<h2>${esc(__("Your Own Data"))}</h2>${paragraphs(said.data.yours)}` +
+				`<h2>${esc(__("Taking It With You"))}</h2>${paragraphs(said.data.leaving)}`,
+		),
+	});
+
+	page({
+		id: "changes",
+		label: __("Changes"),
+		icon: "history",
+		title: __("Changes"),
+		description: __("What is changing in the agreements, and from when."),
+		html: "",
+		after(panel) {
+			if (!said.changes.length) {
+				panel.body.append(kit.empty(__("Nothing has changed yet.")));
+				return;
+			}
+			const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body);
+			for (const one of said.changes) {
+				const when = __("Published {0} · Takes effect {1}", [one.published, one.effective]);
+				kit.row({
+					lead: kit.glyph(one.coming ? "calendar-clock" : "circle-check"),
+					title: `${one.title} ${one.revision}`,
+					sub: `${esc(one.says)}<br>${esc(when)}`,
+					end: one.coming ? frappe.ui.badge.html({ label: __("Coming"), theme: "orange" }) : "",
+					open: () => dialog.activate(`doc:${one.document}`),
+				}).appendTo($list);
+			}
+		},
+	});
+
+	// Where the reader and the workspace stand on an agreement, the change
+	// coming to it, its earlier versions, and Print and Agree.
+	function standing(panel, doc) {
+		const $box = $(`<div class="one-trust-standing"></div>`).appendTo(panel.body);
+		const $list = $(`<div class="one-set-list"></div>`).appendTo($box);
+		const sides = [
+			[doc.you, __("You")],
+			[doc.organisation, __("Your Organisation")],
+		].filter(([side]) => side);
+		if (!sides.length) kit.row({ lead: kit.glyph("book-open"), title: __("To Read"), sub: esc(__("Nobody has to agree to this.")) }).appendTo($list);
+		for (const [side, label] of sides) {
+			const sub = side.version
+				? side.by
+					? __("{0} agreed on {1}", [side.by, side.on])
+					: __("Agreed on {0}", [side.on])
+				: side === doc.organisation && !said.may_bind
+					? __("Waiting for an administrator")
+					: __("Not agreed yet");
+			kit.row({ lead: kit.glyph(side.version ? "circle-check" : "circle"), title: label, sub: esc(sub) }).appendTo($list);
+		}
+		if (doc.effective) {
+			kit.row({
+				lead: kit.glyph("calendar-clock"),
+				title: __("Changing on {0}", [frappe.datetime.str_to_user(doc.effective)]),
+				sub: esc(doc.change || ""),
+			}).appendTo($list);
+		}
+		const $buttons = kit.buttons($box);
+		const owed = (doc.you && !doc.you.version) || (said.may_bind && doc.organisation && !doc.organisation.version);
+		if (owed) {
+			kit.button({ label: __("Agree"), variant: "solid" })
+				.on("click", async () => {
+					await frappe.xcall("onedesk.one_legal.gate.accept", { documents: [doc.key] });
+					frappe.show_alert({ message: __("Agreed to {0}", [doc.title]), indicator: "green" });
+					dialog.hide();
+					onedesk.trust.open({ module, at: `doc:${doc.key}` });
+				})
+				.appendTo($buttons);
+		}
+		kit.button({ label: __("Print"), variant: "outline", icon: "printer" }).on("click", () => print(doc.title, doc.html)).appendTo($buttons);
+		if (said.admin && doc.organisation) {
+			kit.button({ label: __("Everyone's Agreements"), variant: "ghost", icon: "users" })
+				.on("click", () => {
+					dialog.hide();
+					frappe.set_route("List", "Legal Acceptance");
+				})
+				.appendTo($buttons);
+		}
+		for (const old of doc.history.filter((one) => one.version !== doc.version).slice(0, 5)) {
+			kit.button({ label: __("Version {0}", [old.version]), variant: "ghost", icon: "history" })
+				.on("click", async () => {
+					const read = await frappe.xcall("onedesk.one_legal.reading.document", { key: doc.key, version: old.version }, "GET");
+					kit.view(panel, { title: doc.title, description: __("As agreed, version {0}.", [read.version]) });
+					docs.page(panel.body.empty(), read.html.split("</h1>").pop());
+				})
+				.appendTo($buttons);
+		}
+	}
+
+	// The optional services: what each does and sends, to whom, what happens
+	// while it is off, and its switch, which only an administrator moves.
+	function services($into, list) {
+		const $list = $(`<div class="one-trust-services"></div>`).appendTo($into);
+		for (const one of list) {
+			const $card = $(`<div class="one-trust-service"></div>`).appendTo($list);
+			const top = kit.heading_with(one.title, one.does);
+			top.$row.appendTo($card);
+			const control = frappe.ui.form.make_control({
+				df: { fieldtype: "Switch", fieldname: "on", label: "" },
+				parent: $(`<span class="one-set-switch"></span>`).appendTo(top.$end),
+				render_input: true,
+			});
+			control.set_value(one.on ? 1 : 0);
+			control.$input.attr("aria-label", one.title).prop("disabled", !said.may_bind);
+			control.$input.on("change", () => turn(one, control));
+			const facts = [
+				[__("What It Sends"), one.sends],
+				[__("To"), one.companies.map((c) => `${c.name} (${c.where})`).join(", ")],
+				[__("While It Is Off"), one.off],
+			];
+			const $dl = $(`<dl class="one-trust-facts"></dl>`).appendTo($card);
+			for (const [term, said_] of facts) $dl.append($(`<dt></dt>`).text(term), $(`<dd></dd>`).text(said_));
+			const note = one.on
+				? __("Turned on by {0} on {1}.", [one.agreed_by, one.agreed_on])
+				: one.asks_again
+					? __("It now sends somewhere new, so it is off until an administrator agrees again.")
+					: !said.may_bind
+						? __("Only a workspace administrator can turn it on.")
+						: "";
+			if (note) $(`<div class="one-trust-note"></div>`).text(note).appendTo($card);
+		}
+	}
+
+	async function turn(one, control) {
+		const on = control.get_value() ? 1 : 0;
+		if (on) {
+			const yes = await new Promise((resolve) => {
+				let answered = false;
+				const ask = new frappe.ui.Dialog({
+					title: __("Turn On {0}?", [one.title]),
+					fields: [
+						{
+							fieldtype: "HTML",
+							fieldname: "said",
+							options: `<p>${esc(one.sends)}</p><p>${esc(__("Turning it on agrees to this for your whole workspace, and is recorded with your name."))}</p>`,
+						},
+					],
+					primary_action_label: __("Turn On"),
+					primary_action() {
+						answered = true;
+						ask.hide();
+						resolve(true);
+					},
+					secondary_action_label: __("Cancel"),
+					secondary_action: () => ask.hide(),
+				});
+				ask.onhide = () => answered || resolve(false);
+				ask.show();
+			});
+			if (!yes) return control.set_value(0);
+		}
+		said.services = await frappe.xcall("onedesk.one_legal.services.switch", { key: one.key, on });
+		frappe.show_alert({ message: on ? __("Turned on") : __("Turned off"), indicator: "green" });
+		const fresh = await frappe.xcall("onedesk.one_legal.reading.trust", { module: module || "" }, "GET");
+		Object.assign(said, fresh);
+		dialog.get_panel(dialog.active_tab)?.refresh();
+	}
+
+	// The companies, with what each use is for; a use waiting on an optional
+	// service this workspace hasn't turned on is struck through.
+	function table(rows, only = null) {
+		const $table = $(`<table class="one-trust-companies"><thead><tr></tr></thead><tbody></tbody></table>`);
+		for (const word of [__("Company"), __("What For"), __("What They Receive"), __("Where"), __("Safeguard")]) {
+			$(`<th></th>`).text(word).appendTo($table.find("thead tr"));
+		}
+		for (const row of rows) {
+			for (const use of row.uses.filter((one) => !only || one.module === only)) {
+				const $tr = $(`<tr></tr>`).toggleClass("one-trust-unused", !use.used).appendTo($table.find("tbody"));
+				const $name = $(`<td></td>`).appendTo($tr);
+				if (row.url) $(`<a target="_blank" rel="noopener"></a>`).attr("href", row.url).text(row.name).appendTo($name);
+				else $name.text(row.name);
+				const $for = $(`<td></td>`).text(use.purpose).appendTo($tr);
+				if (use.service) {
+					$for.append(
+						" ",
+						frappe.ui.badge.html({
+							label: use.used ? use.service : __("Not Used by This Workspace"),
+							theme: use.used ? "blue" : "gray",
+						}),
+					);
+				}
+				for (const value of [use.data, use.where, row.safeguard]) $(`<td></td>`).text(value).appendTo($tr);
+			}
+		}
+		return $(`<div class="one-doc-table"></div>`).append($table);
+	}
+
+	function print(title, html) {
+		const win = window.open("", "_blank");
+		if (!win) return;
+		win.document.write(`<!doctype html><title>${esc(title)}</title><body style="font:14px/1.6 system-ui;max-width:46em;margin:2em auto"><h1>${esc(title)}</h1>${html}</body>`);
+		win.document.close();
+		win.print();
+	}
+
+	const items = pages.map((one) => ({
+		id: one.id,
+		label: one.label,
+		icon: one.icon,
+		icon_html: one.icon_html,
+		title: one.title,
+		description: one.description,
+		render(panel) {
+			panel.body.empty();
+			if (one.before) one.before(panel);
+			if (one.html) docs.page(panel.body, one.html);
+			if (one.after) one.after(panel);
+			panel.body.off("scroll.one-docs").on(
+				"scroll.one-docs",
+				frappe.utils.throttle(() => dialog.spy(one.id), 80),
+			);
+		},
+	}));
+	const sections = Object.fromEntries(pages.map((one) => [one.id, docs.sections(one.id, one.title, one.html)]));
+	const node = (one) => ({
+		id: one.id,
+		label: one.label,
+		icon: one.icon,
+		icon_html: one.icon_html,
+		children: sections[one.id]
+			.filter((section) => section.anchor)
+			.map((section) => ({ id: `${one.id}#${section.anchor}`, label: section.title, tab: false, click: () => dialog.go(one.id, section.anchor) })),
+	});
+	const agreements = pages.filter((one) => one.group === "agreements");
+	const tree = [
+		...pages.filter((one) => one.id === "app").map(node),
+		{ id: "agreements", label: __("Agreements"), icon: "scale", tab: false, open: true, children: agreements.map(node) },
+		...pages.filter((one) => !one.group && one.id !== "app").map(node),
+	];
+
+	const dialog = new onedesk.module_docs.Dialog({
+		title: "TrustCenter",
+		module,
+		center: "trust",
+		tabs: [{ items }],
+		tree,
+		default_tab: (at && items.find((one) => one.id === at) ? at : null) || items[0]?.id,
+	});
+	dialog.$wrapper.addClass("one-set one-trust");
+	dialog.index = Object.values(sections).flat();
+	dialog.spy = (id) => {
+		const panel = dialog.get_panel(id);
+		if (!panel || dialog.query) return;
+		let here = null;
+		panel.body.find(".one-doc > h2").each((_i, h2) => {
+			if ($(h2).position().top <= 32) here = h2.id;
+		});
+		dialog.$tree.find(".one-docs-row.here").removeClass("here");
+		if (here) dialog.node(`${id}#${here}`).children(".one-docs-row").addClass("here");
+	};
+	dialog.on_page = (id) => {
+		if (!dialog.query) {
+			dialog.$tree.find(".one-docs-node").each((_i, el) => {
+				if (el.querySelector(":scope > .one-docs-children .one-docs-row[data-tab-id]")) return;
+				$(el).toggleClass("open", el.dataset.node === id);
+			});
+		}
+		dialog.spy(id);
+	};
+	dialog.on_page(dialog.active_tab);
+	dialog.show();
+	return dialog;
+};

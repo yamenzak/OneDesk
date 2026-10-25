@@ -13,7 +13,7 @@ message can be linked to the customer, supplier or employee it is about.
 | **Mailboxes**, on the left | Every mailbox you can read, the workspace's first, then shared ones, then your own. Each opens to its folders. |
 | **The list** | The conversations in the folder you picked, newest first. A blue dot means unread. |
 | **The reading pane** | The conversation you opened, with the records it is linked to above it. |
-| **The foot** | **Settings**, the question mark that opens this Help, and OneMail's version, which opens What's New. |
+| **The foot** | **Settings**, the shield that opens TrustCenter, the question mark that opens this Help, and OneMail's version, which opens What's New. |
 
 The first time you open OneMail, a short tour shows you each of these. To
 take it again, press **Take the Tour** at the top of this Help.

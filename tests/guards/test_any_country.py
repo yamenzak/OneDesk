@@ -42,6 +42,7 @@ REGIONAL = {
 	"public/js/crm_record.js": "the EU VAT ID on a customer",
 	"one_legal/documents.py": "the operator's own address and law",
 	"one_legal/legal.py": "the operator's own law",
+	"one_legal/laws.py": "the laws the agreements answer, the UAE's among them",
 }
 
 SKIP = ("locale", "one_demo", "fixtures", "dist")

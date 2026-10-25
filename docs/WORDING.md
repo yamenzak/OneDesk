@@ -231,6 +231,28 @@ the desk's scripts and the islands for the phrasings that keep coming back:
 "No {0} called". It cannot judge the rest, so a person still reads every
 message on the screen it appears on.
 
+## The agreements
+
+What One promises is written precise and plain, which is what the GDPR asks
+of it (Art. 12), and never in legalese.
+
+- **We** is Four Degree Labs and **you** is the organisation, or the person
+  where a policy is theirs. Never "the Company", "the Customer" or "the
+  Provider".
+- **One point to a sentence**, and no sentence over 30 words. A list of
+  what is sent is one point.
+- **A number where there is one**: 72 hours, 30 days, two months.
+- **No legalese**: not shall, herein, hereby, thereof, whereas, pursuant to,
+  notwithstanding, aforementioned, forthwith or in no event.
+- **Nothing promised that isn't built.**
+- **In English only**, like Help: what is agreed to is the words, and a
+  translation would be a second text. What surrounds them in TrustCenter is
+  translated.
+
+`tests/guards/test_legal.py` holds every clause to the legalese rule, and
+the clauses of a module going through docs/READY.md to the sentence rule too.
+Every other module's are rewritten to it as it goes through.
+
 ## The guard
 
 `tests/guards/test_wording.py` holds every doctype and every custom field in the app

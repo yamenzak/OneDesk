@@ -638,6 +638,8 @@ No doctypes yet.
 * `onedesk.one_legal.reading.history`
 * `onedesk.one_legal.reading.of_module`
 * `onedesk.one_legal.reading.overview`
+* `onedesk.one_legal.reading.trust`
+* `onedesk.one_legal.services.switch`
 * `onedesk.one_mail.actions.create_folder`
 * `onedesk.one_mail.actions.delete`
 * `onedesk.one_mail.actions.delete_folder`

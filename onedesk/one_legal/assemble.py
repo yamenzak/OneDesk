@@ -6,7 +6,7 @@ and the hash moves the moment any clause does.
 import hashlib
 
 from .documents import DOCUMENTS, PARTY, SECTIONS
-from .registry import clauses_for, subprocessor_rows
+from .registry import SERVICES, clauses_for, subprocessor_rows
 
 MODULES = (
 	"one",
@@ -84,7 +84,7 @@ def text_of(key: str) -> str:
 		for row in rows:
 			lines.append(
 				f"{row['name']} — {row['safeguard']}"
-				+ "".join(f" — {use['purpose']} ({use['data']}) in {use['where']}" for use in row["uses"])
+				+ "".join(f" — {use['purpose']} ({use['data']}) in {use['where']}{_only(use)}" for use in row["uses"])
 			)
 		if rows:
 			lines.append("")
@@ -198,7 +198,7 @@ def _table(rows: list[dict]) -> str:
 	body = []
 	for row in rows:
 		purposes = "<br>".join(
-			f"{_esc(use['purpose'])} <em>({_esc(use['module'])})</em>" for use in row["uses"]
+			f"{_esc(use['purpose'])} <em>({_esc(use['module'])})</em>{_esc(_only(use))}" for use in row["uses"]
 		)
 		data = "<br>".join(_esc(use["data"]) for use in row["uses"])
 		where = "<br>".join(_esc(use["where"]) for use in row["uses"])
@@ -210,6 +210,13 @@ def _table(rows: list[dict]) -> str:
 			f"<td>{where}</td><td>{_esc(row['safeguard'])}</td></tr>"
 		)
 	return head + "".join(body) + "</tbody></table>"
+
+
+def _only(use: dict) -> str:
+	"""What a use waits for, when it is an optional service's."""
+	if not use.get("service"):
+		return ""
+	return f", only while a workspace has {SERVICES[use['service']]['title']} turned on"
 
 
 def _esc(text: str) -> str:

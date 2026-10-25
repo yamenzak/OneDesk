@@ -12,8 +12,45 @@ from .registry import clause
 M = "One"
 
 
+# The duties in laws.py each of these clauses meets, by document, section
+# and key.
+MEETS = {
+	("privacy", "who", "roles"): ("gdpr.13",),
+	("privacy", "why", "contract"): ("gdpr.13",),
+	("privacy", "why", "by-default"): ("gdpr.25",),
+	("privacy", "rights", "what"): ("gdpr.15", "uae_pdpl.rights", "ksa_pdpl.rights"),
+	("privacy", "why", "nosale"): ("ccpa.service_provider",),
+	("dpa", "assistance", "requests"): ("gdpr.15",),
+	("dpa", "scope", "roles"): ("gdpr.28", "uk_gdpr.28", "uae_pdpl.processor"),
+	("dpa", "instructions", "only"): ("gdpr.28", "uk_gdpr.28", "uae_pdpl.processor", "ccpa.service_provider"),
+	("dpa", "subprocessing", "authorised"): ("gdpr.28",),
+	("dpa", "confidentiality", "staff"): ("gdpr.28", "gdpr.32"),
+	("dpa", "security", "measures"): ("gdpr.32", "uae_pdpl.processor"),
+	("dpa", "breach", "notify"): ("gdpr.33", "uae_pdpl.breach", "ksa_pdpl.breach"),
+	("dpa", "transfers", "how"): ("gdpr.44", "uk_gdpr.transfers", "uae_pdpl.transfers", "ksa_pdpl.transfers"),
+	("dpa", "audit", "records"): ("gdpr.30",),
+	("dpa", "deletion", "end"): ("gdpr.28", "data_act.export"),
+	("cookies", "ours", "session"): ("eprivacy.5.3",),
+	("cookies", "ours", "noads"): ("eprivacy.5.3",),
+	("ai", "what", "oneai"): ("ai_act.50",),
+	("ai", "provenance", "marked"): ("ai_act.50",),
+	("terms", "content", "export"): ("data_act.export",),
+	("terms", "suspension", "switching"): ("data_act.switching", "data_act.export", "data_act.charges"),
+	("subprocessors", "changes", "notice"): ("gdpr.28.2",),
+}
+
+
 def say(document, section, key, body, order=10, heading=""):
-	clause(document=document, section=section, key=key, module=M, body=body, order=order, heading=heading)
+	clause(
+		document=document,
+		section=section,
+		key=key,
+		module=M,
+		body=body,
+		order=order,
+		heading=heading,
+		meets=MEETS.get((document, section, key), ()),
+	)
 
 
 say(
@@ -304,11 +341,13 @@ say(
 	"changes",
 	"how",
 	f"""
-	We may change these documents. When a change is material we publish the new version and ask you to
-	agree to it before you carry on; you see it the next time you sign in. Every version anybody agreed to
-	is kept and can be read in One, so you can always see what was agreed and when. If you do not agree to
-	a new version, you may cancel and export your data, and we will refund the unused part of the current
-	period. Questions go to {PARTY["email"]}.
+	We may change these documents. A change that matters is published at least thirty days before it takes
+	effect. Your workspace's administrators are told in One and by mail, and TrustCenter shows what changes
+	and from when. Until then, the version you agreed to holds. A change that would send your data to a new
+	company for something One can work without is never made this way: it is an optional service, off until
+	your administrators turn it on. Every version anybody agreed to is kept and can be read in One. If you
+	do not accept a change, you may leave before it takes effect, take everything with you, and we will
+	refund the unused part of the current period. Questions go to {PARTY["email"]}.
 """,
 )
 
@@ -523,8 +562,8 @@ say(
 	"rights",
 	"what",
 	f"""
-	Under UAE Federal Decree-Law No. 45 of 2021 on the Protection of Personal Data, and under the GDPR where
-	it applies to you, you may ask for a copy of your personal data, ask us to correct or delete it, object
+	Under UAE Federal Decree-Law No. 45 of 2021 on the Protection of Personal Data, and under the GDPR, the UK
+	GDPR or Saudi Arabia's Personal Data Protection Law where one applies to you, you may ask for a copy of your personal data, ask us to correct or delete it, object
 	to some processing, and ask us to restrict it. Write to {PARTY["email"]} and we will answer within thirty
 	days. If the data is in your organisation's workspace rather than in your account with us, we pass the
 	request to them, because it is their decision.
@@ -537,8 +576,8 @@ say(
 	"complain",
 	f"""
 	If you think we have got this wrong, tell us first at {PARTY["email"]}. You may also complain to the UAE
-	Data Office, or to the supervisory authority in your country if you are in the European Economic Area
-	or the United Kingdom.
+	Data Office, to the Saudi Data and AI Authority if you are in Saudi Arabia, or to the supervisory authority
+	in your country if you are in the European Economic Area or the United Kingdom.
 """,
 	order=20,
 )
@@ -724,8 +763,9 @@ say(
 	"""
 	Where personal data leaves the United Arab Emirates, we rely on the transfer mechanisms the UAE Personal
 	Data Protection Law provides. Where it leaves the European Economic Area or the United Kingdom, we rely
-	on the European Commission's Standard Contractual Clauses and the UK Addendum, and engage our
-	subprocessors on the same basis.
+	on the European Commission's Standard Contractual Clauses and the UK Addendum. Where it leaves Saudi
+	Arabia, we rely on what Saudi Arabia's Personal Data Protection Law allows. We engage our subprocessors
+	on the same basis.
 """,
 )
 
@@ -768,10 +808,11 @@ say(
 	"changes",
 	"notice",
 	f"""
-	When we add a subprocessor, this list changes, its version changes, and you are asked to agree to it
-	before carrying on. If you object to a new subprocessor on reasonable data-protection grounds, tell us
-	at {PARTY["email"]} within thirty days, and we will either find another way or let you end the affected
-	part of the service and refund the unused period.
+	When we add a subprocessor One cannot work without, we publish the new list at least thirty days before
+	it receives any of your data, and your administrators are told in One and by mail. If you object on
+	reasonable data-protection grounds, tell us at {PARTY["email"]} before then, and we will either find
+	another way or let you end the affected part of the service and refund the unused period. A company
+	used only by an optional service receives nothing until your administrators turn that service on.
 """,
 )
 
@@ -783,7 +824,8 @@ say(
 	"""
 	OneAI is One's assistant, and the features built on it: answering a question about your records,
 	suggesting a change, reading a document that arrives. It runs on large language models and is paid for
-	with credits.
+	with credits. Wherever you talk to it, it is named OneAI, so you always know when an answer comes from a
+	model.
 """,
 )
 
@@ -862,4 +904,39 @@ say(
 	The interface uses frappe-ui and Vue under the MIT licence, and Lucide icons under the ISC licence.
 """,
 	order=20,
+)
+
+say(
+	"privacy",
+	"why",
+	"by-default",
+	"""
+	Anything One can work without that sends data to another company is off until your workspace's
+	administrators turn it on, and they agree to it when they do. Each one is listed in the Subprocessors
+	list with what it sends, and shown struck through in your workspace while it is off.
+""",
+	order=15,
+)
+
+say(
+	"dpa",
+	"audit",
+	"records",
+	"""
+	We keep a record of the processing we do for you: what we process, for whom, where it goes, and how it
+	is kept safe. We give it to you, or to a supervisory authority, when asked.
+""",
+	order=20,
+)
+
+say(
+	"terms",
+	"suspension",
+	"switching",
+	"""
+	You may move to another provider at any time, on notice of no more than two months. Everything your
+	organisation put into the workspace can be exported in formats other systems read, as Your Content
+	says, and we charge nothing for leaving or for the export.
+""",
+	order=15,
 )

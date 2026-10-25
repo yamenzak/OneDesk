@@ -2,7 +2,7 @@
 lookups it makes to draw people's faces and organisations' logos
 (one_mail/faces.py). See one_legal/README.md."""
 
-from onedesk.one_legal.registry import clause, subprocessor
+from onedesk.one_legal.registry import clause, service, subprocessor
 
 M = "OneMail"
 
@@ -24,6 +24,7 @@ subprocessor(
 	where="The United States",
 	safeguard="Standard Contractual Clauses and Automattic's data processing addendum",
 	url="https://automattic.com/privacy/",
+	service="gravatar",
 )
 
 subprocessor(
@@ -35,6 +36,27 @@ subprocessor(
 	where="The United States and Google's regional endpoints",
 	safeguard="Standard Contractual Clauses and Google's data processing terms",
 	url="https://cloud.google.com/terms/data-processing-addendum",
+	service="logos",
+)
+
+service(
+	key="gravatar",
+	module=M,
+	title="Pictures from Gravatar",
+	does="Shows the picture a person chose on Gravatar beside their mail and on their contact.",
+	sends="A one-way hash of each email address that appears in the workspace, once, to Automattic.",
+	off="A person shows as their initials. Pictures already found stay until somebody removes them.",
+	hosts=("www.gravatar.com",),
+)
+
+service(
+	key="logos",
+	module=M,
+	title="Logos from Google",
+	does="Shows an organisation's logo beside its mail, its customers and its suppliers.",
+	sends="The web domain of each organisation that appears in the workspace, once, to Google.",
+	off="An organisation shows without a logo. Logos already found stay until somebody removes them.",
+	hosts=("t1.gstatic.com",),
 )
 
 clause(
@@ -43,11 +65,12 @@ clause(
 	key="onemail-faces",
 	module=M,
 	body="""
-		To show who a message is from, and a picture for each contact, lead, user and employee without one,
-		One asks Gravatar for a person's picture, sending only a one-way hash of their address, and asks
-		Google for an organisation's logo, your own company's included, sending only its web domain. Each
-		is asked once, by our server and never by your browser, and the answer is kept in the workspace, so
-		nobody outside learns when a message is opened. A picture uploaded to a record always comes first.
+		To show who a message is from, One can draw a picture of a person or the logo of an organisation.
+		Pictures from Gravatar receive a one-way hash of a person's email address, never the address itself.
+		Logos from Google receive an organisation's web domain, your own company's included. Each is an
+		optional service, off until your workspace's administrators turn it on. Each is asked once, by our
+		server and never by your browser. The answer is kept in the workspace, so nobody outside learns when
+		a message is opened. A picture uploaded to a record always comes first.
 	""",
 )
 
@@ -71,13 +94,13 @@ clause(
 	key="onemail-asks",
 	module=M,
 	body="""
-		In OneMail, when you ask OneAI about a conversation, to summarise it, to say what waits for an answer
-		or to draft a reply, the text of that conversation is sent to the model to answer you. Only when you
-		ask, only a conversation in a mailbox you hold, and nothing of it is kept but the answer. A drafted
-		reply is never sent by OneAI: approving it opens it in the email window, where you read it, change it
-		and send it yourself. When you ask OneAI to help with an email you are writing, to improve it, shorten
-		it, change its tone or translate it, what you have written, its subject and recipients, and the
-		message it replies to are sent to the model. Your signature is not, and the suggestion goes into your
-		email window only when you approve it.
+		In OneMail, you can ask OneAI to summarise a conversation, say what waits for an answer, or draft a
+		reply. To answer, the text of that conversation is sent to the model. This happens only when you ask,
+		and only for a conversation in a mailbox you hold. Nothing of it is kept but the answer. OneAI never
+		sends a reply: approving one opens it in the email window, where you read it, change it and send it
+		yourself. You can also ask OneAI to improve, shorten, translate or change the tone of an email you are
+		writing. Then what you have written, its subject, its recipients and the message it answers are sent
+		to the model. Your signature is not. The suggestion goes into your email window only when you approve
+		it.
 	""",
 )

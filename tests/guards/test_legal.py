@@ -17,13 +17,13 @@ import tree  # noqa: E402
 from onedesk.one_legal import assemble, documents, registry  # noqa: E402
 
 VERSIONS = {
-	"terms": "11.a5c45579",
+	"terms": "12.88c95250",
 	"aup": "1.cc05bbc3",
-	"privacy": "26.81169f70",
+	"privacy": "27.7d34e1bf",
 	"cookies": "2.946a434c",
-	"dpa": "6.2edbc47f",
-	"subprocessors": "4.609e7a2d",
-	"ai": "23.b6834ce7",
+	"dpa": "7.0d5532aa",
+	"subprocessors": "5.85264ef9",
+	"ai": "24.5bec9a94",
 	"licences": "1.c71daf62",
 }
 
@@ -99,9 +99,10 @@ def test_nobody_is_promised_what_is_not_built():
 	assert "Intake" in assemble.text_of("ai")
 
 
-def test_only_a_new_revision_asks_again():
-	"""The README's rule, held: a new hash is a clarification and asks nobody
-	again; a new revision asks everybody."""
+def test_only_a_first_agreement_stops_anybody():
+	"""A later revision is notice, not a stop (docs/READY.md, mechanism 13):
+	whoever agreed to an earlier one stands agreed, and the gate tells them
+	it changed. `agreed` still tells a new revision from a new hash."""
 	import ast as _ast
 
 	source = (Path(__file__).resolve().parents[2] / "onedesk" / "one_legal" / "gate.py").read_text(encoding="utf-8")
@@ -112,7 +113,25 @@ def test_only_a_new_revision_asks_again():
 	assert space["agreed"]("1.dcae3326", "1.94da7c45")
 	assert not space["agreed"]("1.dcae3326", "2.94da7c45")
 	assert not space["agreed"](None, "1.94da7c45")
-	assert '"accepted": agreed(was, version)' in source
+	assert '"accepted": bool(was)' in source and '"changed": bool(was) and not agreed(was, version)' in source
+
+
+def test_a_change_is_published_ahead_of_the_day_it_takes_effect():
+	"""Every revision above the baseline is a published change, and one to
+	what the workspace agrees to takes effect NOTICE_DAYS after it is
+	published, at least, with what changed said in a sentence."""
+	import datetime
+
+	for key, one in documents.DOCUMENTS.items():
+		if one["revision"] > documents.BASELINE[key]:
+			change = documents.change_of(key)
+			assert change, f"{key} is at revision {one['revision']}: add it to documents.CHANGES"
+	for change in documents.CHANGES:
+		key = change["document"]
+		published, effective = (datetime.date.fromisoformat(change[day]) for day in ("published", "effective"))
+		if documents.DOCUMENTS[key]["audience"] in ("customer", "both"):
+			assert (effective - published).days >= documents.NOTICE_DAYS, f"{key} {change['revision']}: {documents.NOTICE_DAYS} days' notice"
+		assert change["says"].endswith(".") and len(re.findall(r"[.!?](?:\s|$)", change["says"])) == 1, f"{key}: one sentence"
 
 
 def test_every_model_provider_offered_is_a_declared_subprocessor():
@@ -132,3 +151,80 @@ def test_every_modules_legal_file_is_assembled():
 
 	found = {path.parent.name for path in tree.APP.glob("one*/legal.py") if path.parent.name != "one_legal"}
 	assert found <= set(MODULES), f"not in one_legal/assemble.py MODULES: {sorted(found - set(MODULES))}"
+
+
+# Files that call a service's host with nothing of a workspace's in the call.
+NOT_A_WORKSPACES = {
+	"makers.py": "asks Google only for the logos of the companies that make AI models, by their public domains",
+}
+
+
+def test_a_service_is_reached_only_through_services_call():
+	"""An optional service's hosts are called only while a workspace has it
+	on (docs/READY.md, mechanism 13): a file that names one goes through
+	one_legal/services.call, each service sends to at least one declared
+	company, and what it says while off is said."""
+	assemble.documents()
+	for key, one in registry.SERVICES.items():
+		assert one["hosts"] and one["off"] and one["sends"], key
+		companies = {row["name"] for row in registry.subprocessor_rows() for use in row["uses"] if use["service"] == key}
+		assert companies, f"{key} sends to nobody the Subprocessors list names"
+		assert all(HOSTS.get(host) in companies for host in one["hosts"]), f"{key}: each host is one of its companies'"
+		for path in tree.python():
+			text = path.read_text(encoding="utf-8")
+			if path.name not in ("legal.py", *NOT_A_WORKSPACES) and any(host in text for host in one["hosts"]):
+				assert "services.call(" in text, f"{path.name} calls {key}'s host without services.call"
+	uses = [use["service"] for row in registry.subprocessor_rows() for use in row["uses"] if use["service"]]
+	assert set(uses) <= set(registry.SERVICES), f"a use names a service nobody declared: {sorted(set(uses) - set(registry.SERVICES))}"
+
+
+def test_every_duty_a_law_puts_on_us_is_met_by_a_clause():
+	"""laws.py lists the laws One answers and what each asks of us; a clause
+	names the duties it meets (`meets=`), and no duty is left without one
+	(docs/READY.md, mechanism 13)."""
+	from onedesk.one_legal import laws
+
+	assemble.documents()
+	met = {duty for rows in registry.CLAUSES.values() for one in rows for duty in one["meets"]}
+	unmet = [duty for duty in laws.duties() if duty not in met]
+	assert not unmet, f"no clause meets these: {unmet}. Write one, or say which clause does with meets="
+	for law, one in laws.LAWS.items():
+		assert one["title"] and one["duties"], law
+		for duty, said in one["duties"].items():
+			assert said.endswith((".", ")")) and len(re.findall(r"[.!?](?:\s|$)", said)) <= 2, f"{law}.{duty}: one sentence"
+
+
+LEGALESE = (
+	"shall", "herein", "hereinafter", "hereby", "thereof", "whereas", "pursuant to", "notwithstanding",
+	"aforementioned", "forthwith", "in no event", "the Company", "the Customer", "the Provider",
+)  # fmt: skip
+
+
+def test_the_agreements_are_plain():
+	"""docs/WORDING.md, The agreements: no clause in legalese, and a module
+	going through docs/READY.md says one point to a sentence of 30 words at
+	most, in its clauses, its subprocessors' uses and its services."""
+	from onedesk.one import ready
+
+	assemble.documents()
+	ours = set(ready.MODULES)
+	found = []
+	for rows in registry.CLAUSES.values():
+		for one in rows:
+			found += [
+				f"{one['module']} {one['key']}: {word}"
+				for word in LEGALESE
+				if re.search(rf"\b{word}\b", one["body"], 0 if word != word.lower() else re.I)
+			]
+	assert not found, f"legalese: {found}"
+	texts = [(one["module"], one["key"], one["body"]) for rows in registry.CLAUSES.values() for one in rows]
+	texts += [(use["module"], row["name"], use["purpose"] + ". " + use["data"]) for row in registry.subprocessor_rows() for use in row["uses"]]
+	texts += [(one["module"], one["key"], " ".join((one["does"], one["sends"], one["off"]))) for one in registry.SERVICES.values()]
+	long = [
+		f"{module} {key}: {len(sentence.split())} words: {sentence[:60]}…"
+		for module, key, text in texts
+		if module in ours
+		for sentence in re.split(r"(?<=[.!?:])\s+", text)
+		if len(sentence.split()) > 30
+	]
+	assert not long, "one point to a sentence, 30 words at most:\n" + "\n".join(long)

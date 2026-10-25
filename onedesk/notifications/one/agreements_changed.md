@@ -10,7 +10,8 @@ always_mailed: yes
 from_one: yes
 ---
 
-# One's agreements have changed
+# One's agreements are changing
 
-New versions of: {documents}. Read what changed; you are asked to accept them
-at your next sign-in. To object to a new subprocessor, reply within 30 days.
+New versions of: {documents}. They take effect on {effective}, and until then
+the versions you agreed to hold. TrustCenter shows what changes. To object to
+a new subprocessor, reply before then.
