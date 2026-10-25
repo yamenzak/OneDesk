@@ -542,12 +542,6 @@ Keys show as dots and are never read back.
 - What each thing costs and the target margin, used by Price Check and Plan
   Calculator.
 
-**OneAI**
-
-- **Preferred Provider** (Google), whose cheapest model runs an action with
-  no default.
-- The persona sent to the model before every action.
-
 **Grace Periods**
 
 - The days a workspace spends overdue, suspended and archived before the next
@@ -1153,18 +1147,15 @@ For the people who build OneAdmin. OneAI does not read past this heading.
 
 ### actions.py
 
-**Nothing a workspace sends reaches the instruction.** An `AI Action` carries
-the system instruction we wrote, read from the administrator's copy; the
-persona goes before it, and a workspace adds nothing (docs/AICENTER.md). The
-whole thing goes where the provider puts a system instruction rather than
-being glued onto the front of the prompt.
+**Nothing a workspace sends reaches the instruction.** A workspace names a
+job and its tier. What the model is told is `one_ai/jobs.py`'s, the voice's
+parts and then the job's own words, and it goes where the provider puts a
+system instruction rather than being glued onto the front of the prompt
+(docs/AICENTER.md).
 
-**Nothing is ever asked "which model" at the call site.** `kind` says which
-of `one_ai/models.py`'s kinds of work an action is (Build for the five that
-lay out or write code, else by its capability), and the workspace sends its
-tier. A workspace carries the same fixture so it knows what it may ask for,
-but the copy that decides is this one, and a tenant has nobody who may write
-it.
+**Nothing is ever asked "which model" at the call site.** A job names its
+kind of work, and `one_ai/models.py` names the model for that kind at the
+tier the workspace sends. A key that is not a job is refused.
 
 ### billing.py
 
@@ -1602,19 +1593,6 @@ later.
 Cloudflare's `send_raw` takes the finished MIME message, so nothing is rebuilt:
 what the workspace's Email Queue made is what goes out, signed by Cloudflare
 with the mail domain's DKIM key.
-
-### makers.py
-
-Two companies here and they are not the same thing. The **provider** runs the
-model and receives what a workspace sends it, so it is a subprocessor and has
-to be named in the agreements (`one_ai/legal.py`). The **maker** trained it
-(Meta made Llama, which Cloudflare runs), and is what a person recognises, so
-its logo is the one shown.
-
-`PROVIDERS` is the companies the subprocessors list names for OneAI
-(`tests/guards/test_legal.py` holds the two together): a model in
-`one_ai/models.py` from any other company would send customer data somewhere
-the agreements do not say. The makers and logos go with the model pickers.
 
 ### meter.py
 

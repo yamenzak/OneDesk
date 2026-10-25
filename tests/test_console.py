@@ -527,10 +527,10 @@ def test_the_operator_has_no_models_to_manage():
 	its kind of work at the workspace's tier, and the console has no catalogue,
 	no preferred provider, no withdrawn-model notice and no model to fix."""
 	actions = (ADMIN / "actions.py").read_text()
-	assert "gateway.call(\n\t\tkind(asked)," in actions and "default_model" not in actions
+	assert "gateway.call(\n\t\tjob.kind," in actions and "default_model" not in actions
 	assert not (ADMIN / "catalogue.py").exists() and not (ADMIN / "doctype" / "ai_model").exists()
 	settings = json.loads((ADMIN / "doctype" / "one_admin_settings" / "one_admin_settings.json").read_text())
-	assert "prefer_models_from" not in {f["fieldname"] for f in settings["fields"]}
+	assert not {"prefer_models_from", "persona"} & {f["fieldname"] for f in settings["fields"]}
 	assert "models_gone" not in (ADMIN / "tell.py").read_text()
 	assert "_unmodelled" not in (ADMIN / "home.py").read_text()
 	assert "model_facts" not in (ADMIN / "ai.py").read_text()
@@ -559,7 +559,7 @@ def test_settings_say_what_is_missing_and_tell_the_other_operators():
 	price rather than at the provider-cost rate."""
 	spec = json.loads((ADMIN / "doctype" / "one_admin_settings" / "one_admin_settings.json").read_text())
 	tabs = [f["label"] for f in spec["fields"] if f["fieldtype"] == "Tab Break"]
-	assert tabs == ["Connections", "Money", "OneAI", "Grace Periods"] and not spec["permissions"][0]["share"]
+	assert tabs == ["Connections", "Money", "Grace Periods"] and not spec["permissions"][0]["share"]
 	settings = (ADMIN / "doctype" / "one_admin_settings" / "one_admin_settings.py").read_text()
 	assert "tell.settings_changed(" in settings and 'df.fieldtype == "Password"' in settings
 	assert '"settings.said": settings_said' in (ADMIN / "heads.py").read_text()

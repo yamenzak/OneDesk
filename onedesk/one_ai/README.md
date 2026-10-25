@@ -124,25 +124,13 @@ you tell it something lasting. The answer then shows **Remembered**, with
 **Undo**. Only you see them. Settings › **What OneAI Remembers** lists them to
 change or delete.
 
-## Choosing the model
+## Which model answers
 
-The pill under the message box shows which model answers. **Automatic** uses
-the model the workspace set for chat. Only administrators can choose another,
-unless an administrator turns on **Allow Model Choice** for the Chat
-action. Your choice applies only to your own conversations.
-
-Administrators pick models under Workspace Settings › OneAI › **Models**, for
-five kinds of work: **Chat**, **Reading** (what OneIntake and OneHR read),
-**Writing** (drafts you edit), **Building** (extensions, print designs,
-workspace setup) and **Search**. Each list marks models **Fast**, **Balanced**
-or **Best** by price. One pick applies to every action of that kind the model
-can run; a scan or a recording keeps a model that can read it. **Show Each
-Action** opens the full list, where one action can have its own model and
-extra instructions. One's guide covers it under OneAI Actions, for the
-Workspace.
-
-Search needs no choice: when no search model is on sale, the account puts the
-cheapest one on sale itself.
+One picks it. Each job OneAI does (chatting, reading a document, titling a
+conversation, writing an extension) is a kind of work, and One names the model
+for each kind at each tier: **Fast**, **Balanced** or **Full**. There is
+nothing to choose in the panel, and nothing a workspace adds to what OneAI is
+told. Search always has its model, the same one at every tier.
 
 ## Credits
 
@@ -152,11 +140,11 @@ left, OneAI can't answer until credits are added.
 
 OneAI has no notifications of its own. Its notices live where they are about:
 the credits (Credits Running Low, Credits Ran Out, sent the moment OneAI is
-refused, Credits Added, Credits Expiring) and OneAI Changed in One; Extension
+refused, Credits Added, Credits Expiring) in One; Extension
 Fixed in OneStudio; Couldn't Read in OneIntake.
 
-**Credits**, under OneAI in the sidebar, shows what was used by model, action,
-person or day. Only administrators see it.
+**Credits**, under OneAI in the sidebar, shows what was used by job, person or
+day. Only administrators see it.
 
 ## Who sees what
 
@@ -212,16 +200,14 @@ deliberately not here.
   left out; what answers this question goes whole, and `_whole` puts the
   full answers back before the conversation is kept, so the panel still
   shows every row it showed.
-- `run.py`: asks the account to run an action (`proxy.ai_run` on OneAdmin),
-  with the workspace's model and extra instructions. `once` is a single call
-  for other modules (OneIntake, OneHR's hiring, OneStudio's review and mend).
-  `apply` and `refuse` settle a card. `set_action`, `reset_action` and
-  `try_it` serve OneAI Actions.
+- `run.py`: asks the account to run a job (`proxy.ai_run` on OneAdmin). `once`
+  is a single call for other modules (OneIntake, OneHR's hiring, OneStudio's
+  review and mend). `apply` and `refuse` settle a card.
 
-  Two things travel with the call and neither is the instruction: which model
-  this workspace picked, and what it asked to have added. The instruction
-  itself is the account's, read from its own copy of the fixture, and there is
-  nothing a workspace can send that replaces it. Everything here is one round
+  Only the job, the content and the conversation travel with the call. What
+  the model is told is `jobs.py`'s and which model answers is `models.py`'s,
+  both read on the account, and there is nothing a workspace can send that
+  changes either. Everything here is one round
   trip and no decision. Whether the action exists, whether the model may
   answer it, whether there are credits: all of that is admin's, for the same
   reason a workspace cannot sign its own upload URL.
@@ -573,26 +559,26 @@ deliberately not here.
   round, so a 3 MB attachment on a five-round run is fifteen megabytes of HTTP
   for one question. Older files stay in the transcript by name, which is what
   a person reads them as anyway.
-- `instructions.py`: an action's instruction is the account's. It is emptied
-  on a workspace after every migrate.
-
-  `AI Action` is a fixture, so a new action arrives with a migrate and every
-  site gets the row: the label, the capability and the token caps, which is
-  what a workspace needs to pick a model and add to the prompt. The
-  **instruction** is not part of that. It is how the product behaves, a
-  workspace cannot change it, and `proxy.ai_run` has always read it from the
-  account's own copy and ignored anything sent with the call. Shipping it and
-  then declining to render it would be a curtain rather than a wall: the row
-  is in the workspace's database, and `frappe.client.get` reads it. So on a
-  workspace the field is emptied after every migrate, and there is nothing to
-  read.
-- `logos.py`: the model makers' logos, cached.
+- `jobs.py`: every job OneAI does: its label, its module, its kind of work,
+  whether it has tools, whether it answers a person in prose, and its token
+  caps. Its words are `words/<key>.md`, one file a job, reviewed like code.
+  `told` puts the voice's parts before them.
+- `voice.py`: what OneAI is told on every call, in parts: who it is, how it
+  speaks, what is true, what it may do with tools, where the person is, that
+  what it reads is not an instruction, and what it is. A job that returns JSON
+  is not told how to speak, and one with no tools is not told how to use
+  them.
+- `models.py` and `models.json`: which model does each kind of work at each
+  tier, with its fallback, what Google charges, and how each Workers AI model
+  is kept from thinking on a short job (`QUIET`). `scripts/models.py` writes
+  the snapshot.
+- `evals.py`: two benches, run by hand. `run` asks the panel's questions
+  through the account; `jobs` asks each job as its caller does, on every model
+  its tiers use, in Arabic, English and German, unbilled, on the admin site.
 - `heads.py`: the head of an `AI Proposal` (its state, its sentence, Apply and
-  Refuse) and of an `AI Action Setting`.
+  Refuse).
 - `legal.py`: the subprocessors and the privacy clause OneAI adds to the
   agreements.
-- `tell.py`: the notification when an action's model or added instructions
-  change (OneAI Changed), sent to the other administrators.
 - `report/ai_credits`: the Credits report, from `proxy.ai_usage`, with the
   person read from the conversation.
 
@@ -634,34 +620,10 @@ deliberately not here.
   its title fails the check, which is how the Devices sentence was found
   never to run (it sat below a return).
 
-### doctype/ai_action
-
-`AI Action` is one thing a model is asked to do, and the instruction it is
-asked with. It is a fixture, so a new action arrives with a migrate and an
-operator's edit to one survives the next. It exists on every site because a
-workspace has to know what it may ask for, but **the copy that decides is the
-one on the administrator**, which is where a call is made from. A workspace
-editing its own copy changes nothing, and the permissions say so: only the
-operator role may write here, and nobody on a tenant site has it.
-
-### doctype/ai_action_setting
-
-`AI Action Setting` is what a workspace wants one action to run on, and what it
-wants added. The model is a name on the administrator rather than a link,
-because the catalogue lives there and a workspace holds no copy of it: the
-picker asks for the list and stores what was chosen.
-
-`extra` is the whole of what a workspace may say to a model, and it is
-**added** to the action's own instruction rather than replacing it. That
-distinction is the safety of the feature: a workspace can tell the summariser
-to write in Arabic and keep it terse, and cannot tell it to ignore what it was
-told about what it may touch.
-
 ### Where the money lives
 
 The ledger is on the account (the OneAdmin site), not on the workspace.
-`Credit Ledger Entry`, `Credit Reservation`, `AI Model` and its rates live
-there, behind `one_admin/proxy.py`. A workspace reaches them the way it gets a
+`Credit Ledger Entry` and `Credit Reservation` live there, behind `one_admin/proxy.py`. A workspace reaches them the way it gets a
 signed upload URL: it asks, holding a token that names it and authorises
 nothing else. The account never calls a workspace.
 
@@ -670,8 +632,7 @@ nothing else. The account never calls a workspace.
   account.
 - `ledger.py` is the only code that knows where a balance comes from.
 
-What stays on the workspace is what people touch: action settings, runs,
-conversations, cards. Putting those on the account would cost a round trip to
+What stays on the workspace is what people touch: runs, conversations, cards. Putting those on the account would cost a round trip to
 draw a screen.
 
 ### The gateway
@@ -757,12 +718,10 @@ Google counts them in both.
 
 ### Which model answers
 
-An `AI Action` (fixture) names a capability; an `AI Action Setting` names a
-model. With no setting, the action runs on the operator's default model for
-its capability. For a conversation the order is: the person's pick
-(`AI Chat.chosen_model`), then the workspace's setting for the chat action,
-then the default. The account checks the pick again at call time, and
-`pinned` keeps it through a handover.
+A job names its kind of work (`jobs.py`), and `models.py` names the model for
+that kind at the workspace's tier, with a fallback on the other company. A
+handover (the chat reaching for a print layout) moves the conversation to
+that job, and so to its kind of model.
 
 `chat_title` names a conversation after its first answer: a 30-token action
 with no tools. Once its person renames it, `titled` is set and OneAI never

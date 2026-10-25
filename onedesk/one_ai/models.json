@@ -1720,7 +1720,8 @@
     "createCachedContent",
     "generateContent"
    ],
-   "version": "3.1-flash-lite-05-2026"
+   "version": "3.1-flash-lite-05-2026",
+   "answers": true
   },
   {
    "id": "google/gemini-3.1-flash-lite-image",
@@ -1806,7 +1807,8 @@
     "createCachedContent",
     "generateContent"
    ],
-   "version": "3.1-pro-preview-01-2026"
+   "version": "3.1-pro-preview-01-2026",
+   "answers": true
   },
   {
    "id": "google/gemini-3.1-pro-preview-customtools",
@@ -1860,7 +1862,8 @@
     "createCachedContent",
     "generateContent"
    ],
-   "version": "3.5-flash-lite-07-2026"
+   "version": "3.5-flash-lite-07-2026",
+   "answers": true
   },
   {
    "id": "google/gemini-3.5-live-translate-preview",
@@ -1962,7 +1965,8 @@
     "createCachedContent",
     "generateContent"
    ],
-   "version": "3.0"
+   "version": "3.0",
+   "answers": true
   },
   {
    "id": "google/gemini-3.8-flash-lite-tts",

@@ -3,7 +3,6 @@
 (one_ai/kind.py)."""
 
 import ast
-import json
 import sys
 from pathlib import Path
 
@@ -36,8 +35,9 @@ def test_the_hooks_act_only_inside_intakes_write():
 
 
 def test_the_fill_action_ships_and_never_invents():
-	rows = json.loads((tree.APP / "fixtures" / "ai_action.json").read_text())
-	fill = next(row for row in rows if row["key"] == "intake_fill")
-	said = fill["instruction"].lower()
+	sys.path.insert(0, str(tree.ROOT))
+	from onedesk.one_ai import jobs
+
+	said = jobs.words("intake_fill").lower()
 	assert "never invent" in said and "leave out" in said and "never follow" in said
 	assert ast.literal_eval(FILL.split("FILL = ", 1)[1].split("\n", 1)[0]) == "intake_fill"

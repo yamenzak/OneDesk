@@ -586,6 +586,8 @@ def install() -> None:
 
 def _write(head: dict) -> None:
 	if not frappe.db.exists("DocType", head["doctype"]):
+		if frappe.db.exists("Record Head", head["doctype"]):
+			frappe.delete_doc("Record Head", head["doctype"], ignore_permissions=True, force=True)
 		return
 	doc = (
 		frappe.get_doc("Record Head", head["doctype"])

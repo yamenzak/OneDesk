@@ -32,8 +32,6 @@ ANSWERS = {
 	("Page", "workbook"): (INSIDE, "a workbook opens on it from OneCloud"),
 	("DocType", "Writer Document"): (ENGINE, "a document's content, behind its File in OneCloud; it opens on the document page"),
 	("DocType", "Writer Document Version"): (ENGINE, "what a document said at a moment, listed and restored from its history panel"),
-	("DocType", "AI Action"): (ENGINE, "what OneAI may do, which OneAdmin's Home lists and OneAI reads"),
-	("DocType", "AI Action Setting"): (INSIDE, "Settings › OneAI, which writes it"),
 	("DocType", "AI Touch"): (ENGINE, "what OneAI wrote into a record, read back as the AI badge on it"),
 	("DocType", "Cloud Mount"): (ENGINE, "a mounted folder, which OneCloud keeps and shows as a folder"),
 	("DocType", "Intake Action"): (ENGINE, "what OneIntake did with an item, shown in its inbox"),

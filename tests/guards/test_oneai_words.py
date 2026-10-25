@@ -107,18 +107,15 @@ def test_no_help_a_tool_hands_back_says_it():
 	assert not found, "\n".join(found)
 
 
-def test_neither_the_persona_nor_an_action_says_it():
-	settings = json.loads(
-		(tree.APP / "one_admin" / "doctype" / "one_admin_settings" / "one_admin_settings.json").read_text(
-			encoding="utf-8"
-		)
-	)
-	persona = next(f for f in settings["fields"] if f["fieldname"] == "persona")["default"]
-	assert not UNDERNEATH.search(persona)
-	assert "never name the software" in persona
-	for row in json.loads((tree.APP / "fixtures" / "ai_action.json").read_text(encoding="utf-8")):
-		hit = UNDERNEATH.search(row.get("instruction") or "")
-		assert not hit, f"{row['name']}: …{row['instruction'][max(hit.start() - 40, 0) : hit.end() + 40]}…"
+def test_neither_the_voice_nor_a_job_says_it():
+	sys.path.insert(0, str(tree.ROOT))
+	from onedesk.one_ai import jobs, voice
+
+	assert "never name the software" in voice.WHAT
+	for key in jobs.JOBS:
+		told = jobs.told(key)
+		hit = UNDERNEATH.search(told)
+		assert not hit, f"{key}: …{told[max(hit.start() - 40, 0) : hit.end() + 40]}…"
 
 
 def test_no_guide_it_answers_from_says_it():

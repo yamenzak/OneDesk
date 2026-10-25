@@ -13,7 +13,6 @@
   "last_said_on",
   "spent",
   "model",
-  "chosen_model",
   "titled",
   "said_section",
   "turns"
@@ -51,13 +50,6 @@
    "label": "Model",
    "read_only": 1,
    "description": "The model the last answer came from."
-  },
-  {
-   "fieldname": "chosen_model",
-   "fieldtype": "Data",
-   "label": "Chosen Model",
-   "read_only": 1,
-   "description": "The model the person picked for this conversation. When it is empty, OneAI picks."
   },
   {
    "fieldname": "titled",

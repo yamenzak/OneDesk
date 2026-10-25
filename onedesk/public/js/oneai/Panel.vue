@@ -196,16 +196,6 @@
 					<button class="one-ai-round" :title="__('Attach a file')" :disabled="busy" @click="attach">
 						<Icon name="plus" />
 					</button>
-					<button
-						v-if="chat.may_choose || chat.model_at"
-						ref="pill"
-						class="one-ai-model"
-						:title="__('Choose the model')"
-					>
-						<span class="one-ai-model__name">{{ chat.chosen_model ? chat.model : __("Automatic") }}</span>
-						<Icon name="chevron-down" size="xs" />
-					</button>
-					<span v-else class="one-ai-model">{{ chat.model || __("Default model") }}</span>
 
 					<button
 						v-if="Hearing"
@@ -487,69 +477,6 @@ function latest() {
 	if (!writing || !writing.composer.dialog.display) return {};
 	const dialog = writing.composer.dialog;
 	return { subject: dialog.get_value("subject") || "", to: dialog.get_value("recipients") || "" };
-}
-
-const pill = ref(null);
-let menu = null;
-watch(pill, (el) => {
-	menu && menu.destroy();
-	menu = el ? new frappe.ui.Dropdown({ trigger: el, side: "top", options: models }) : null;
-});
-
-async function models() {
-	const said = chat.value.may_choose ? await frappe.xcall("onedesk.one_ai.chat.models") : { models: [] };
-	const chosen = chat.value.chosen_model || "";
-	const usual = said.models.find((one) => one.name === said.usual);
-	const rows = [
-		{
-			label: __("Automatic"),
-			icon: "sparkles",
-			description: usual ? __("What the workspace set: {0}", [usual.label]) : __("What the workspace set"),
-			selected: !chosen,
-			onclick: () => choose(""),
-		},
-		...byMaker(said.models, chosen),
-	];
-	const menus = [{ group: __("Model"), hide_label: true, options: rows }];
-	if (chat.value.model_at) {
-		menus.push({
-			group: __("Workspace"),
-			hide_label: true,
-			options: [{ label: __("Model for Everybody…"), icon: "settings", onclick: toModel }],
-		});
-	}
-	return chat.value.may_choose ? menus : menus.slice(1);
-}
-
-function byMaker(models, chosen) {
-	const makers = new Map();
-	for (const one of models) {
-		if (!makers.has(one.maker)) makers.set(one.maker, []);
-		makers.get(one.maker).push(one);
-	}
-	return [...makers].map(([maker, mine]) => {
-		const picked = mine.find((one) => one.name === chosen);
-		return {
-			label: maker || __("Other"),
-			image: mine[0].logo || undefined,
-			description: picked ? picked.label : undefined,
-			selected: !!picked,
-			submenu: mine.map((one) => ({
-				label: one.label,
-				selected: one.name === chosen,
-				onclick: () => choose(one.name),
-			})),
-		};
-	});
-}
-
-async function choose(model) {
-	const now = await frappe.xcall("onedesk.one_ai.chat.choose_model", { model, chat: chat.value.name });
-	chat.value = { ...chat.value, ...now };
-}
-
-function toModel() {
-	frappe.set_route("workspace-settings", { section: "oneai", action: chat.value.model_at });
 }
 
 function rename() {

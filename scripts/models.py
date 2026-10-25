@@ -3,13 +3,14 @@
 every night: run it by hand, read what it says, change one_ai/models.py.
 
     CLOUDFLARE_ACCOUNT_ID=… AI_GATEWAY_ID=… AI_GATEWAY_TOKEN=… \\
-        python3 scripts/models.py [--resolve]
+        python3 scripts/models.py [--resolve] [--alive]
 
 The token needs AI Gateway Run and Workers AI Read. Google's models are
 listed through the gateway, with the key it stores. Google's list leaves out
 Veo, so the names Veo has used are asked for one by one. `--resolve` also
 asks each `-latest` alias for one word, which costs a few tokens, to learn
-the model it points to.
+the model it points to; `--alive` asks every Google model models.py uses that
+writes text, because Google lists a model it has closed to new keys.
 """
 
 import json
@@ -189,6 +190,21 @@ def resolve(settings: dict, rows: list[dict]) -> None:
 				one["points_to"] = f"google/{said['modelVersion']}"
 
 
+def alive(settings: dict, rows: list[dict]) -> None:
+	"""Ask each Google model models.py uses for words, and mark the ones that
+	refuse a new key; Gemini 2.5 Pro was listed and answered 404."""
+	base = GATEWAY.format(**settings)
+	head = {"cf-aig-authorization": f"Bearer {settings['token']}", "cf-aig-collect-log-payload": "false"}
+	for one in rows:
+		if one["company"] == "Google" and one["id"] in models.used() and one["kind"] == "talk":
+			status, _said = _call(
+				f"{base}/models/{one['id'].removeprefix('google/')}:generateContent",
+				head,
+				{"contents": [{"role": "user", "parts": [{"text": "Say yes."}]}], "generationConfig": {"maxOutputTokens": 300}},
+			)
+			one["answers"] = status == 200
+
+
 def report(rows: list[dict]) -> list[str]:
 	"""What one_ai/models.py should hear about."""
 	known = {one["id"]: one for one in rows}
@@ -197,6 +213,8 @@ def report(rows: list[dict]) -> list[str]:
 		one = known.get(model)
 		if not one:
 			said.append(f"GONE      {model} is in one_ai/models.py but neither company lists it")
+		elif one.get("answers") is False:
+			said.append(f"GONE      {model} is listed but refuses to answer")
 		elif one.get("withdrawn_on"):
 			said.append(f"GOING     {model} is withdrawn on {one['withdrawn_on']}")
 		elif one.get("preview") and model not in models.PREVIEWS:
@@ -222,6 +240,8 @@ def main(argv: list[str]) -> None:
 	rows = workers(settings) + google(settings)
 	if "--resolve" in argv:
 		resolve(settings, rows)
+	if "--alive" in argv:
+		alive(settings, rows)
 	said = report(rows)
 	SNAPSHOT.write_text(
 		json.dumps({"read_on": date.today().isoformat(), "models": sorted(rows, key=lambda one: one["id"])}, indent=1, ensure_ascii=False) + "\n",

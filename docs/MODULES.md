@@ -57,7 +57,7 @@ No doctypes yet.
 | Credit Ledger Entry | 15 | submittable |
 | Credit Reservation | 10 | document |
 | Offering | 24 | document |
-| One Admin Settings | 63 | single |
+| One Admin Settings | 59 | single |
 | Private App | 9 | document |
 | Private App Grant | 8 | child |
 | Provisioning Job | 15 | document |
@@ -74,9 +74,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| AI Action | 15 | document |
-| AI Action Setting | 7 | document |
-| AI Chat | 9 | document |
+| AI Chat | 8 | document |
 | AI Chunk | 8 | document |
 | AI Knowledge | 6 | document |
 | AI Memory | 5 | document |
@@ -406,8 +404,6 @@ No doctypes yet.
 * `onedesk.one_admin.operator.walk`
 * `onedesk.one_admin.private.new_code`
 * `onedesk.one_admin.proxy.ai_embed`
-* `onedesk.one_admin.proxy.ai_models`
-* `onedesk.one_admin.proxy.ai_models_for`
 * `onedesk.one_admin.proxy.ai_run`
 * `onedesk.one_admin.proxy.ai_usage`
 * `onedesk.one_admin.proxy.app_claim`
@@ -445,9 +441,7 @@ No doctypes yet.
 * `onedesk.one_ai.brief.switch`
 * `onedesk.one_ai.chat.cards`
 * `onedesk.one_ai.chat.chats`
-* `onedesk.one_ai.chat.choose_model`
 * `onedesk.one_ai.chat.forget`
-* `onedesk.one_ai.chat.models`
 * `onedesk.one_ai.chat.opened`
 * `onedesk.one_ai.chat.progress`
 * `onedesk.one_ai.chat.rename`
@@ -455,19 +449,12 @@ No doctypes yet.
 * `onedesk.one_ai.chat.start`
 * `onedesk.one_ai.chat.suggestions`
 * `onedesk.one_ai.files.attached`
-* `onedesk.one_ai.logos.logo`
 * `onedesk.one_ai.run.apply`
 * `onedesk.one_ai.run.apply_all`
 * `onedesk.one_ai.run.landed`
-* `onedesk.one_ai.run.models`
-* `onedesk.one_ai.run.models_for`
 * `onedesk.one_ai.run.refuse`
-* `onedesk.one_ai.run.reset_action`
-* `onedesk.one_ai.run.set_action`
-* `onedesk.one_ai.run.set_job`
 * `onedesk.one_ai.run.took`
 * `onedesk.one_ai.run.tools`
-* `onedesk.one_ai.run.try_it`
 * `onedesk.one_ai.run.use`
 * `onedesk.one_ai.run.waiting`
 * `onedesk.one_book.closing.lock`

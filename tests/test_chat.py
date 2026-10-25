@@ -156,21 +156,16 @@ def test_the_panel_asks_the_launcher_where_the_reader_is():
 	assert "frappe.get_route" not in PANEL.read_text(encoding="utf-8")
 
 
-def test_the_pill_names_a_model_the_way_a_person_reads_it():
-	"""The catalogue's id carries its provider and path; the pill shows the
-	name the settings screen and the bell use for it."""
-	assert "run._model_name(model)" in spoken(CHAT, "named")
-
-
-def test_the_panel_sends_no_model_with_a_question():
-	"""A question carries no model: the pick is kept on the conversation by
-	`choose_model`, which checks the person may pick and that it is offered."""
+def test_the_panel_has_no_model_to_pick():
+	"""A question carries no model and the panel offers none: One picks it,
+	by the workspace's tier (docs/AICENTER.md)."""
 	panel = PANEL.read_text(encoding="utf-8")
 	said = panel[panel.index('"onedesk.one_ai.chat.say"'):]
 	said = said[: said.index("});")]
 	assert "model" not in said
-	assert '"onedesk.one_ai.chat.choose_model"' in panel
-	assert "new frappe.ui.Dropdown" in panel
+	assert "choose_model" not in panel and "one-ai-model" not in panel
+	chat = CHAT.read_text(encoding="utf-8")
+	assert "def choose_model" not in chat and "def may_choose" not in chat
 
 
 def test_a_chat_started_by_the_paperclip_is_named_by_its_first_question():

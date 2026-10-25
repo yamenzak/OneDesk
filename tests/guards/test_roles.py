@@ -60,7 +60,7 @@ def test_no_screen_waits_for_system_manager():
 
 def test_what_a_workspace_administers_is_granted_to_its_administrator():
 	role = _administrator()
-	for doctype in ("ai_action_setting", "ai_action"):
+	for doctype in ("ai_knowledge",):
 		held = json.loads((tree.APP / "one_ai" / "doctype" / doctype / f"{doctype}.json").read_text())
 		assert any(p["role"] == role for p in held["permissions"]), doctype
 	account = json.loads(

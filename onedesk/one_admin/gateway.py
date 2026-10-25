@@ -97,7 +97,7 @@ def talk(
 		where = f"{settings['url'].rstrip('/')}/{settings['account']}/{settings['gateway']}/google-ai-studio/v1beta/models/{name}:generateContent"
 		body = {
 			"contents": [_gemini_turn(one) for one in turns],
-			"generationConfig": {"maxOutputTokens": most},
+			"generationConfig": {"maxOutputTokens": most, **({} if most >= THINKS else models.quiet(model))},
 			**({"systemInstruction": {"parts": [{"text": system}]}} if system else {}),
 			**({"tools": [{"functionDeclarations": tools}]} if tools else {}),
 		}
@@ -107,7 +107,7 @@ def talk(
 		"model": model,
 		"messages": ([{"role": "system", "content": system}] if system else []) + [_openai_turn(one) for one in turns],
 		"max_tokens": most,
-		**({} if most >= THINKS else {"chat_template_kwargs": {"enable_thinking": False}}),
+		**({} if most >= THINKS else models.quiet(model)),
 		**({"tools": [{"type": "function", "function": one} for one in tools]} if tools else {}),
 	}
 	answer = _post(model, f"{API.format(**settings)}/v1/chat/completions", headers, body, timeout)

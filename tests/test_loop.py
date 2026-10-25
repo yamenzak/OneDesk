@@ -198,9 +198,9 @@ def test_a_workspace_cannot_send_a_conversation_that_never_ends():
 	assert "ROUNDS" in code(ACTIONS)
 
 
-def test_tools_are_offered_only_where_the_action_says_so():
+def test_tools_are_offered_only_where_the_job_says_so():
 	said = spoken(ACTIONS, "run")
-	assert "asked.may_use_tools" in said
+	assert "tools if tools and job.tools else None" in said
 	assert "tools=offered" in said
 
 
@@ -301,10 +301,12 @@ def test_the_last_round_the_account_takes_is_told_to_answer():
 	assert "or last" in said
 
 
-def test_a_model_the_person_picked_holds_through_a_handover():
+def test_a_handover_moves_the_job_and_nothing_else():
+	"""Handed to print design, the conversation runs as that job: its words,
+	its tools, its kind of model. No model travels with it."""
 	said = spoken(RUN, "ask")
-	assert "if pinned:" in said
-	assert "{**mine(action), **({'model': pinned} if pinned else {})}" in said
+	assert "action = sorted(wanted)[0]" in said and "tooled = _tooled(action)" in said
+	assert "pinned" not in said and "chose" not in said
 
 
 def test_gemmas_thinking_marker_never_reaches_the_person():

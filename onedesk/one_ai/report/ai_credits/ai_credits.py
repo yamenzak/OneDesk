@@ -12,7 +12,7 @@ from frappe.utils import add_days, getdate
 
 from onedesk.one import account, roles
 
-BY = ("Model", "Action", "Person", "Day")
+BY = ("Job", "Person", "Day")
 
 
 def execute(filters=None):
@@ -20,7 +20,7 @@ def execute(filters=None):
 	filters = frappe._dict(filters or {})
 	end = getdate(filters.to_date) if filters.to_date else getdate()
 	start = getdate(filters.from_date) if filters.from_date else add_days(end, -29)
-	by = filters.by if filters.by in BY else "Model"
+	by = filters.by if filters.by in BY else "Job"
 
 	from onedesk.one_admin import faults
 
@@ -30,14 +30,13 @@ def execute(filters=None):
 		frappe.throw(frappe._("The account could not be reached just now. Try again in a moment."))
 	except faults.Refused as raised:
 		frappe.throw(frappe.utils.strip_html(str(raised)))
-	rows = {"Model": _by_model, "Action": _by_action, "Person": _by_person, "Day": _by_day}[by](said)
+	rows = {"Job": _by_job, "Person": _by_person, "Day": _by_day}[by](said)
 	return _columns(by), rows, None, _chart(said, start, end), _summary(said)
 
 
 def _columns(by: str) -> list[dict]:
 	first = {
-		"Model": {"fieldname": "what", "label": frappe._("Model"), "fieldtype": "Data", "width": 260},
-		"Action": {"fieldname": "what", "label": frappe._("Action"), "fieldtype": "Data", "width": 260},
+		"Job": {"fieldname": "what", "label": frappe._("Job"), "fieldtype": "Data", "width": 260},
 		"Person": {"fieldname": "what", "label": frappe._("Person"), "fieldtype": "Link", "options": "User", "width": 240},
 		"Day": {"fieldname": "what", "label": frappe._("Day"), "fieldtype": "Date", "width": 140},
 	}[by]
@@ -54,18 +53,12 @@ def _row(what, calls, credits) -> dict:
 	return {"what": what, "calls": calls, "credits": credits, "each": round(credits / calls, 4) if calls else 0}
 
 
-def _by_model(said: dict) -> list[dict]:
-	from onedesk.one_ai.chat import named
+def _by_job(said: dict) -> list[dict]:
+	"""Each job by its name here; a call recorded without one is Other."""
+	from onedesk.one_ai import jobs
 
-	return [_row(named(one.get("why")), one.get("calls"), one.get("credits")) for one in said.get("models") or []]
-
-
-def _by_action(said: dict) -> list[dict]:
-	"""Each action by its name here. A call made before actions were recorded
-	on the ledger has none, and is counted as Other."""
-	labels = dict(frappe.get_all("AI Action", fields=["name", "label"], as_list=True))
 	return [
-		_row(frappe._(labels.get(one.get("action")) or one.get("action") or "Other"), one.get("calls"), one.get("credits"))
+		_row(jobs.label(one.get("action")) if one.get("action") else frappe._("Other"), one.get("calls"), one.get("credits"))
 		for one in said.get("actions") or []
 	]
 
@@ -77,9 +70,8 @@ def _by_day(said: dict) -> list[dict]:
 def _by_person(said: dict) -> list[dict]:
 	"""Each call's reference read back to a person.
 
-	A conversation's owner; a person, where the reference is one (a settings
-	screen's preview is filed under whoever pressed Try it); and everything
-	else — an action somebody's code ran — together.
+	A conversation's owner; a person, where the reference is one; and
+	everything else (a job a background run did) together.
 	"""
 	references = said.get("references") or []
 	named = [one.get("reference") for one in references if one.get("reference")]

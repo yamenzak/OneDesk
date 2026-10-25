@@ -2,11 +2,9 @@
 
 A proposal is read-only and carries two verbs, which is the whole design: one
 somebody could edit before applying no longer says what the model suggested.
-It opens on where it stands and what that means. An action's setting opens on
-what the action runs on, so that anything added reads as added.
+It opens on where it stands and what that means.
 """
 
-import frappe
 from frappe import _, _lt
 from frappe.utils import escape_html, pretty_date
 
@@ -45,21 +43,6 @@ def proposal_said(doc):
 			"colour": "blue",
 		}
 	return None
-
-
-def action_runs_on(doc):
-	"""What the action runs on, and that anything added below is added."""
-	if not doc.get("action"):
-		return None
-	asked = frappe.db.get_value("AI Action", doc.action, ["label", "capability"], as_dict=True)
-	if not asked:
-		return None
-	return {
-		"text": _(
-			"{0} runs on a model that can do {1}. Anything added below is added to the instruction it already carries, and never replaces it."
-		).format(asked.label, (asked.capability or "").lower()),
-		"colour": "blue",
-	}
 
 
 def _asks(text: str):
@@ -109,7 +92,6 @@ NOTICES = {
 MEASURES = {
 	"proposal.state": proposal_state,
 	"proposal.said": proposal_said,
-	"action.runs_on": action_runs_on,
 }
 
 VERBS = {
@@ -141,10 +123,5 @@ HEADS = [
 		"indicators": [{"label": _lt("State"), "measure": "proposal.state"}],
 		"sentences": [{"measure": "proposal.said"}],
 		"verbs": [{"verb": "proposal.apply", "primary": 1}, {"verb": "proposal.refuse"}],
-	},
-	{
-		"doctype": "AI Action Setting",
-		"sentences": [{"measure": "action.runs_on"}],
-		"redraw_on": ["action"],
 	},
 ]

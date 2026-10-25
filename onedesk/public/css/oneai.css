@@ -768,9 +768,9 @@
 	cursor: default;
 }
 
-.one-ai-round,
-.one-ai-model {
+.one-ai-round {
 	flex: 0 0 auto;
+	width: 32px;
 	height: 32px;
 	border: 0;
 	background: var(--surface-gray-2);
@@ -778,40 +778,11 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-}
-
-.one-ai-round {
-	width: 32px;
 	border-radius: var(--radius-full);
 	cursor: pointer;
 }
 
-.one-ai-model {
-	min-width: 0;
-	max-width: 190px;
-	padding: 0 12px;
-	border-radius: var(--radius-full);
-	font-size: var(--text-sm);
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	display: inline-block;
-	line-height: 32px;
-}
-
-button.one-ai-model {
-	cursor: pointer;
-	gap: 4px;
-}
-
-.one-ai-model__name {
-	min-width: 0;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-.one-ai-round:hover:not(:disabled),
-button.one-ai-model:hover {
+.one-ai-round:hover:not(:disabled) {
 	background: var(--surface-gray-3);
 }
 

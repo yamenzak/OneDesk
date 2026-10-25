@@ -29,7 +29,7 @@ SECTIONS = [
 	("approvals", _lt("Approvals"), "route", "workspace"),
 	("plan", _lt("Plan and Credits"), "credit-card", "workspace"),
 	("domains", _lt("Domains"), "globe", "workspace"),
-	("oneai", _lt("OneAI Actions"), "sparkles", "workspace"),
+	("oneai", _lt("OneAI"), "sparkles", "workspace"),
 	("intake", _lt("OneIntake Settings"), "oneintake", "workspace"),
 	("holidays", _lt("Holidays"), "calendar-days", "workspace"),
 ]
@@ -1315,150 +1315,12 @@ def _devices() -> dict:
 	return devices.for_settings()
 
 
-#: What a workspace chooses models for: a few jobs a person recognises, each
-#: the actions it is made of. A job's model applies to the actions of the
-#: kind it `needs`; a scan or a recording follows it where the model can.
-JOBS = (
-	{
-		"key": "chat",
-		"label": _lt("Chat", context="OneAI work"),
-		"about": _lt("The OneAI panel: answers, look-ups, summaries, and what it writes in records, workbooks and documents."),
-		"needs": "Text Generation",
-		"actions": ("chat", "find", "summarise", "chat_title"),
-	},
-	{
-		"key": "reading",
-		"label": _lt("Reading", context="OneAI work"),
-		"about": _lt("What arrives and what happened: mail, documents, scans and recordings, CVs and grievances, and the summaries on customers, suppliers, opportunities and projects."),
-		"needs": "Text Generation",
-		"actions": (
-			"intake_look",
-			"intake_read",
-			"intake_place",
-			"intake_explain",
-			"intake_audit",
-			"intake_fill",
-			"intake_act",
-			"read_pages",
-			"read_sound",
-			"screen",
-			"grievance",
-			"transcribe",
-			"brief",
-		),
-	},
-	{
-		"key": "writing",
-		"label": _lt("Writing", context="OneAI work"),
-		"about": _lt("Drafts you edit before they go anywhere: replies and interview notes."),
-		"needs": "Text Generation",
-		"actions": ("reply", "interview"),
-	},
-	{
-		"key": "building",
-		"label": _lt("Building", context="OneAI work"),
-		"about": _lt("Extensions, collections, print designs and workspace setup, where the result has to fit exactly."),
-		"needs": "Text Generation",
-		"actions": ("studio", "studio_review", "studio_mend", "print_design", "workspace_setup"),
-	},
-	{
-		"key": "search",
-		"label": _lt("Search", context="OneAI work"),
-		"about": _lt("Finding what is meant, in Ctrl+K, OneCloud, OneMail and OneAI."),
-		"needs": "Embedding",
-		"actions": ("embed",),
-	},
-)
-
-
-def job_of(action: str) -> dict | None:
-	return next((job for job in JOBS if action in job["actions"]), None)
-
-
-def _jobs(rows: list[dict]) -> list[dict]:
-	"""Each job with its model (one, several, or the default) and what its
-	actions used in the last thirty days."""
-	out = []
-	for job in JOBS:
-		mine = [one for one in rows if one["name"] in job["actions"]]
-		if not mine:
-			continue
-		picked = {one["model"] for one in mine if one["capability"] == job["needs"]}
-		out.append(
-			{
-				"key": job["key"],
-				"label": str(job["label"]),
-				"about": str(job["about"]),
-				"needs": job["needs"],
-				"model": next(iter(picked)) if len(picked) == 1 else None,
-				"mixed": len(picked) > 1,
-				"actions": [one["name"] for one in mine],
-				"credits": round(sum(one["credits"] for one in mine), 2),
-				"calls": sum(one["calls"] for one in mine),
-			}
-		)
-	return out
-
-
 def _oneai() -> dict:
-	"""Every action, what it runs on, what it used in the last thirty days, and
-	the models it could run on instead, from the account's catalogue. The
-	catalogue and the usage are the account's; either being unreachable leaves
-	the list drawn from what this site knows."""
-	from frappe.utils import add_days, today
-
-	from onedesk.one import account
-
-	chosen = {
-		one.action: one
-		for one in frappe.get_all(
-			"AI Action Setting", fields=["name", "action", "model", "extra", "people_choose", "modified"]
-		)
-	}
-	actions = frappe.get_all(
-		"AI Action",
-		filters={"enabled": 1},
-		fields=["name", "label", "about", "capability", "product"],
-		order_by="product asc, label asc",
-	)
-	catalogue, used = {}, {}
-	if account.configured():
-		try:
-			catalogue = account.ask(
-				"onedesk.one_admin.proxy.ai_models_for", needs=sorted({one.capability for one in actions})
-			) or {}
-			said = account.ask("onedesk.one_admin.proxy.ai_usage", start=add_days(today(), -29), end=today()) or {}
-			used = {one.get("action"): one for one in said.get("actions") or [] if one.get("action")}
-		except Exception:
-			frappe.log_error(title="OneAI Actions could not ask the account")
-	rows = []
-	for one in actions:
-		held = chosen.get(one.name) or {}
-		spent = used.get(one.name) or {}
-		rows.append(
-			{
-				"name": one.name,
-				"label": _(one.label),
-				"about": _(one.about) if one.about else None,
-				"capability": one.capability,
-				"product": one.product or "OneAI",
-				"model": held.get("model"),
-				"extra": held.get("extra"),
-				"people_choose": bool(held.get("people_choose")),
-				"setting": held.get("name"),
-				"modified": str(held.get("modified")) if held.get("modified") else None,
-				"credits": round(float(spent.get("credits") or 0), 2),
-				"calls": int(spent.get("calls") or 0),
-			}
-		)
-	from onedesk.one_ai import logos
-
-	for offered in catalogue.values():
-		for model in offered:
-			model["logo"] = logos.url(model.get("logo_domain"))
+	"""Which records get a summary. The rest of OneAI's settings are AICenter's
+	(docs/AICENTER.md)."""
 	from onedesk.one_ai import brief
 
-	return {"actions": rows, "jobs": _jobs(rows), "catalogue": catalogue, "briefs": brief.settings()}
+	return {"briefs": brief.settings()}
 
 
 def _intake() -> dict:

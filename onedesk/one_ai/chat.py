@@ -67,7 +67,7 @@ def chats(limit: int = 20) -> list[dict]:
 def opened(chat: str | None = None) -> dict:
 	"""One conversation, or an empty one that has not been stored yet."""
 	if not chat:
-		return {"name": None, "title": None, "said": [], "spent": 0.0, **_model()}
+		return {"name": None, "title": None, "said": [], "spent": 0.0}
 	doc = frappe.get_doc("AI Chat", chat)
 	doc.check_permission("read")
 	return {
@@ -76,7 +76,6 @@ def opened(chat: str | None = None) -> dict:
 		"said": shown(_turns(doc)),
 		"spent": doc.spent or 0.0,
 		"running": frappe.cache.get_value(f"one_ai_busy:{doc.name}"),
-		**_model(doc),
 	}
 
 
@@ -89,9 +88,9 @@ def start() -> dict:
 	when the question is sent.
 	"""
 	doc = frappe.get_doc(
-		{"doctype": "AI Chat", "title": frappe._("New conversation"), "chosen_model": _usual()}
+		{"doctype": "AI Chat", "title": frappe._("New conversation")}
 	).insert()
-	return {"name": doc.name, "title": doc.title, "said": [], "spent": 0.0, **_model(doc)}
+	return {"name": doc.name, "title": doc.title, "said": [], "spent": 0.0}
 
 
 @frappe.whitelist()
@@ -153,7 +152,6 @@ def say(
 		"said": shown(turns),
 		"spent": doc.spent or 0.0,
 		"run": run_id,
-		**_model(doc),
 	}
 
 
@@ -425,7 +423,6 @@ def _ran(doc, text: str, turns: list[dict], heard=None, page: dict | str | None 
 			heard=heard,
 			expects=suggest.expected(text) or _expects_edit(turns),
 			groups=groups.chosen(text, page, turns),
-			pinned=_pinned(doc),
 		)
 	except faults.Again:
 		frappe.throw(
@@ -1023,7 +1020,7 @@ def _chat(chat: str | None, text: str):
 		doc = frappe.get_doc("AI Chat", chat)
 		doc.check_permission("write")
 		return doc
-	return frappe.get_doc({"doctype": "AI Chat", "title": text[:TITLE], "chosen_model": _usual()}).insert()
+	return frappe.get_doc({"doctype": "AI Chat", "title": text[:TITLE]}).insert()
 
 
 def _field_card(field: dict, turns: list[dict], chat: str) -> list[str]:
@@ -1048,113 +1045,6 @@ def _field_card(field: dict, turns: list[dict], chat: str) -> list[str]:
 	last["cards"] = [name]
 	last["wrote"] = True
 	return [name]
-
-
-def _model(doc=None) -> dict:
-	"""Which model answers here, whether the reader may pick another, and where
-	an administrator changes what everybody gets.
-
-	The one the last answer came from, if there was one; then the one the
-	person picked; then what the workspace picked for the chat action; then
-	nothing, and the panel says the default is answering.
-	"""
-	from onedesk.one import roles
-
-	chosen = (doc and doc.get("chosen_model")) or (None if doc else _usual())
-	said = (doc and doc.get("model")) or chosen or run.mine(CHAT).get("model") or ""
-	settable = roles.administers() and frappe.db.exists("AI Action Setting", CHAT)
-	return {
-		"model": named(said),
-		"model_id": said,
-		"chosen_model": chosen or "",
-		"may_choose": may_choose(),
-		"model_at": CHAT if settable else None,
-	}
-
-
-def named(model: str) -> str:
-	"""A catalogue id as a person reads it: `google-ai-studio:gemini-2.5-flash`
-	as Gemini 2.5 Flash."""
-	return run._model_name(model) if model else ""
-
-
-MODELS_KEPT = 600
-
-
-def may_choose() -> bool:
-	"""Whether the reader may pick the model for their own conversations:
-	administrators always, everybody else when the workspace lets them."""
-	from onedesk.one import roles
-
-	return bool(roles.administers() or frappe.db.get_value("AI Action Setting", {"action": CHAT}, "people_choose"))
-
-
-@frappe.whitelist()
-def models() -> dict:
-	"""The models the reader may pick for the panel, and which they picked.
-
-	Only the names, their makers and their logos: what a model costs is the
-	administrator's to weigh, in the workspace's OneAI settings. Kept for ten minutes per
-	workspace, because the panel asks whenever its menu opens."""
-	from onedesk.one import account
-	from onedesk.one_ai import logos
-
-	if not may_choose() or not account.configured():
-		return {"models": [], "chosen": "", "usual": ""}
-	key = "one_ai_chat_models"
-	offered = frappe.cache.get_value(key)
-	if offered is None:
-		needs = frappe.db.get_value("AI Action", CHAT, "capability") or "Text Generation"
-		said = account.ask("onedesk.one_admin.proxy.ai_models_for", needs=[needs]) or {}
-		offered = [
-			{
-				"name": one["name"],
-				"label": one.get("label") or named(one["name"]),
-				"maker": one.get("maker") or "",
-				"logo": logos.url(one.get("logo_domain")),
-				"default": bool(one.get("default")),
-			}
-			for one in said.get(needs) or []
-		]
-		frappe.cache.set_value(key, offered, expires_in_sec=MODELS_KEPT)
-	workspace = run.mine(CHAT).get("model") or next((one["name"] for one in offered if one["default"]), "")
-	return {"models": offered, "chosen": _usual(), "usual": workspace}
-
-
-@frappe.whitelist(methods=["POST"])
-def choose_model(model: str | None = None, chat: str | None = None) -> dict:
-	"""Pick the model for a conversation, and for the reader's next ones;
-	nothing goes back to the workspace's own choice. Refused for somebody the
-	workspace does not let choose, and for a model it does not offer."""
-	if not may_choose():
-		frappe.throw(frappe._("Only an administrator picks the model here."), frappe.PermissionError)
-	model = (model or "").strip()
-	if model and model not in {one["name"] for one in models()["models"]}:
-		frappe.throw(frappe._("That model is not offered."), title=frappe._("Not changed"))
-	frappe.defaults.set_default(USUAL, model, frappe.session.user)
-	if not chat:
-		return _model()
-	doc = frappe.get_doc("AI Chat", chat)
-	doc.check_permission("write")
-	doc.chosen_model = model or None
-	doc.model = model or None
-	doc.save()
-	return _model(doc)
-
-
-USUAL = "one_ai_chat_model"
-
-
-def _usual() -> str:
-	"""The model the reader picked last, for a conversation they start; empty
-	for the workspace's own choice, or when they may no longer choose."""
-	return (frappe.defaults.get_user_default(USUAL) or "") if may_choose() else ""
-
-
-def _pinned(doc) -> str | None:
-	"""The model this conversation runs on, when its person picked one and
-	still may."""
-	return (doc.get("chosen_model") or None) if may_choose() else None
 
 
 def _title(doc, turns: list[dict]) -> None:

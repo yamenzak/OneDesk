@@ -1,7 +1,7 @@
-"""Asking the account to run an action, from the workspace that wants it.
+"""Asking the account to run a job, from the workspace that wants it.
 
-Which model the workspace picked and what it asked to have added travel with the
-call. The instruction is the account's, and every decision is admin's.
+Only the job, the content and the conversation travel with the call: what the
+model is told is `jobs.py`'s, and which model answers is the account's.
 """
 
 import json
@@ -9,7 +9,7 @@ import re
 
 import frappe
 
-from onedesk.one import account, roles
+from onedesk.one import account
 
 
 ROUNDS = 8
@@ -22,15 +22,12 @@ def ask(
 	turns: list[dict] | None = None,
 	heard=None,
 	expects: str | None = None,
-	chose: dict | None = None,
 	groups: list[str] | None = None,
-	pinned: str | None = None,
 	only: list[str] | None = None,
 	nudges: bool = True,
 ) -> dict:
 	"""Run one action, looking things up for the model where it asks.
 
-	`pinned` is the model the person picked for this conversation, and it wins.
 	`heard` is told each thing as it happens: a round starting, a tool it ran.
 	`only` offers these tools and no others; `nudges` off leaves out what a
 	conversation presses a model for, for a run nobody is reading.
@@ -39,9 +36,6 @@ def ask(
 	from onedesk.one_ai import tools as surface
 
 	apps.refuse_ai()
-	chose = chose if chose is not None else mine(action)
-	if pinned:
-		chose = {**chose, "model": pinned}
 	given = list(groups) if groups is not None else None
 	offered = surface.declared_only(only) if only is not None else surface.declared(given)
 	turns = list(turns) if turns else None
@@ -74,7 +68,6 @@ def ask(
 		if wanted and not handed and rounds < ROUNDS:
 			handed = True
 			action = sorted(wanted)[0]
-			chose = {**mine(action), **({"model": pinned} if pinned else {})}
 			tooled = _tooled(action)
 			tell({"handed": action})
 			rounds += 1
@@ -313,7 +306,9 @@ _DIGIT = re.compile(r"[0-9\u0660-\u0669\u06f0-\u06f9]")
 
 
 def _tooled(action: str) -> bool:
-	return bool(frappe.db.get_value("AI Action", action, "may_use_tools"))
+	from onedesk.one_ai import jobs
+
+	return bool(getattr(jobs.get(action), "tools", False))
 
 
 def _last_words(out: dict) -> str:
@@ -417,169 +412,6 @@ def _counted(reference: str | None, credits) -> None:
 	from onedesk.one_mail import gate
 
 	gate.spent(reference, credits)
-
-
-def mine(action: str) -> dict:
-	"""What this workspace has chosen for an action, if anything."""
-	held = frappe.db.get_value(
-		"AI Action Setting", {"action": action}, ["model", "extra"], as_dict=True
-	)
-	return dict(held or {})
-
-
-@frappe.whitelist()
-def models(needs: str) -> list[dict]:
-	"""The models this workspace may pick, asked of the account.
-
-	Whitelisted so a settings screen can fill a picker. It says nothing about
-	prices or credits — only which names may be chosen.
-	"""
-	roles.require()
-	return account.ask("onedesk.one_admin.proxy.ai_models", needs=needs) or []
-
-
-@frappe.whitelist()
-def models_for(needs: str | list) -> dict:
-	"""The models for several capabilities at once, for the Actions list."""
-	roles.require()
-	return account.ask("onedesk.one_admin.proxy.ai_models_for", needs=frappe.parse_json(needs) or []) or {}
-
-
-@frappe.whitelist(methods=["POST"])
-def set_action(
-	action: str,
-	model: str | None = None,
-	extra: str | None = None,
-	modified: str | None = None,
-	people_choose: int | str | None = None,
-) -> dict:
-	"""What one action runs on and what is added to it, saved as the desk would
-	save it: refused when somebody else changed it since it was opened."""
-	roles.require()
-	name = frappe.db.get_value("AI Action Setting", {"action": action}, "name")
-	held = frappe.get_doc("AI Action Setting", name) if name else frappe.new_doc("AI Action Setting")
-	if name and modified and str(held.modified) != str(modified):
-		frappe.throw(
-			frappe._("{0} changed this since you opened it. Close it and open it again.").format(
-				frappe.utils.get_fullname(held.modified_by)
-			),
-			frappe.TimestampMismatchError,
-		)
-	was = {"model": held.model or "", "extra": held.extra or "", "people_choose": bool(held.people_choose)}
-	held.action = action
-	held.model = model or None
-	held.extra = extra or ""
-	if people_choose is not None:
-		held.people_choose = frappe.utils.cint(people_choose)
-	held.save() if name else held.insert()
-	_told(action, was, {"model": held.model or "", "extra": held.extra or "", "people_choose": bool(held.people_choose)})
-	return {"name": held.name, "modified": str(held.modified)}
-
-
-@frappe.whitelist(methods=["POST"])
-def set_job(job: str, model: str | None = None) -> list[str]:
-	"""One model for every action in a job that can run on it, keeping what
-	each adds; the other administrators hear about it once. Empty is back to
-	One's pick. The actions it changed."""
-	from onedesk.one.settings import JOBS
-
-	roles.require()
-	held = next((one for one in JOBS if one["key"] == job), None)
-	if not held:
-		frappe.throw(frappe._("There is no job called {0}.").format(job))
-	actions = frappe.get_all(
-		"AI Action", filters={"name": ("in", held["actions"]), "capability": held["needs"]}, pluck="name"
-	)
-	changed = []
-	for action in actions:
-		name = frappe.db.get_value("AI Action Setting", {"action": action}, "name")
-		setting = frappe.get_doc("AI Action Setting", name) if name else frappe.new_doc("AI Action Setting")
-		if (setting.model or None) == (model or None):
-			continue
-		setting.action = action
-		setting.model = model or None
-		setting.save() if name else setting.insert()
-		changed.append(action)
-	if changed:
-		_told_job(str(held["label"]), model)
-	return changed
-
-
-def _told_job(label: str, model: str | None) -> None:
-	"""The other administrators hear once that a job's model changed."""
-	from onedesk.one.account import _administrators
-	from onedesk.one_ai import tell
-
-	people = _administrators()
-	for user in people:
-		frappe.publish_realtime("one_oneai", {"job": label}, user=user, after_commit=True)
-	others = [one for one in people if one != frappe.session.user]
-	if others:
-		said = frappe._("the model to {0}").format(_model_name(model)) if model else frappe._("the model back to the default")
-		tell.action_changed(others, label, [said])
-
-
-@frappe.whitelist(methods=["POST"])
-def reset_action(action: str) -> dict:
-	"""Back to what One picked: the default model and nothing added."""
-	roles.require()
-	name = frappe.db.get_value("AI Action Setting", {"action": action}, "name")
-	if not name:
-		return {}
-	held = frappe.get_doc("AI Action Setting", name)
-	was = {"model": held.model or "", "extra": held.extra or "", "people_choose": bool(held.people_choose)}
-	held.delete()
-	_told(action, was, {"model": "", "extra": ""})
-	return {}
-
-
-def _told(action: str, was: dict, now: dict) -> None:
-	"""Every other administrator hears what changed, and an open Actions page
-	redraws."""
-	from onedesk.one.account import _administrators
-	from onedesk.one_ai import tell
-
-	people = _administrators()
-	for user in people:
-		frappe.publish_realtime("one_oneai", {"action": action}, user=user, after_commit=True)
-	changed = []
-	if was["model"] != now["model"]:
-		named = frappe.db.get_value("AI Action Setting", {"action": action}, "model") and now["model"]
-		changed.append(
-			frappe._("the model to {0}").format(_model_name(named)) if named else frappe._("the model back to the default")
-		)
-	if was["extra"] != now["extra"]:
-		changed.append(frappe._("the added instructions") if now["extra"] else frappe._("the added instructions, to none"))
-	if was.get("people_choose", False) != now.get("people_choose", False):
-		changed.append(
-			frappe._("who picks the model, to everybody")
-			if now.get("people_choose")
-			else frappe._("who picks the model, to administrators only")
-		)
-	others = [one for one in people if one != frappe.session.user]
-	if not changed or not others:
-		return
-	label = frappe.db.get_value("AI Action", action, "label") or action
-	tell.action_changed(others, label, changed)
-
-
-def _model_name(name: str) -> str:
-	"""A model as a person would name it: the catalogue's label made readable."""
-	from onedesk.one_admin import makers
-
-	return makers.pretty(name.split(":", 1)[-1].rsplit("/", 1)[-1])
-
-
-@frappe.whitelist(methods=["POST"])
-def try_it(action: str, text: str, model: str | None = None, extra: str | None = None) -> dict:
-	"""Run an action from the settings screen, with the model and the added
-	instructions as they stand in the dialog, saved or not.
-
-	Charged like any other call, because a preview that is not charged is a
-	preview of something else; the dialog says so before it runs.
-	"""
-	roles.require()
-	return ask(action, text, reference=frappe.session.user, chose={"model": model or None, "extra": extra or None})
 
 
 @frappe.whitelist()

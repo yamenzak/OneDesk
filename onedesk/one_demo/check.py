@@ -2693,15 +2693,14 @@ def oneai_is_told_what_every_place_shows():
 def oneai_a_conversation_its_cards_and_its_settings():
 	"""Omar's conversation with OneAI from start to forgotten, the cards it
 	suggests waiting, refused, applied and taken into a form, and Layla's
-	settings for an action: the models offered, one picked, tried and put
-	back. A model is not called: what the account and the model would say
-	is said here."""
+	OneAI settings, where nothing about a model is set. A model is not
+	called: what the account and the model would say is said here."""
 	from unittest import mock
 
-	from onedesk.one_ai import chat, files, logos, proposals, run
+	from onedesk.one import ai, settings
+	from onedesk.one_ai import chat, files, proposals, run
 	from onedesk.one_crm import ai as crm
 
-	offered = [{"name": "gemini-flash", "label": "Gemini Flash", "maker": "Google", "logo_domain": "google.com"}]
 	deal = frappe.db.get_value("Opportunity", {"title": "Webb Hotel lobby curtain wall"})
 	with as_user("omar@one.test"):
 		started = chat.start()
@@ -2734,31 +2733,10 @@ def oneai_a_conversation_its_cards_and_its_settings():
 		chat.forget(started["name"])
 		assert not frappe.db.exists("AI Chat", started["name"])
 	with as_user(OWNER):
-		with mock.patch("onedesk.one.account.ask", side_effect=lambda method, **kw: {"Text Generation": offered} if method.endswith("ai_models_for") else offered):
-			frappe.cache.delete_value("one_ai_chat_models")
-			assert [one["name"] for one in chat.models()["models"]] == ["gemini-flash"]
-			assert chat.choose_model("gemini-flash")["chosen_model"] == "gemini-flash"
-			assert run.models("Text Generation") == offered
-			assert run.models_for(["Text Generation"]) == {"Text Generation": offered}
-		run.set_action(chat.CHAT, model="gemini-flash", extra="Answer in the person's language.")
-		assert frappe.db.get_value("AI Action Setting", {"action": chat.CHAT}, "model") == "gemini-flash"
-		with mock.patch("onedesk.one_ai.run.ask", return_value={"text": "Hello."}) as asked:
-			assert run.try_it(chat.CHAT, "Say hello")["text"] == "Hello."
-		assert asked.call_args.kwargs["chose"]["model"] is None
-		run.reset_action(chat.CHAT)
-		assert not frappe.db.exists("AI Action Setting", {"action": chat.CHAT})
-		changed = run.set_job("chat", "gemini-flash")
-		assert chat.CHAT in changed and "summarise" in changed, changed
-		assert {frappe.db.get_value("AI Action Setting", {"action": one}, "model") for one in changed} == {"gemini-flash"}
-		assert run.set_job("chat", "gemini-flash") == [], "the same pick changes nothing"
-		assert sorted(run.set_job("chat", "")) == sorted(changed)
-		for one in changed:
-			run.reset_action(one)
-		domain = sorted(logos.known())[0]
-		with mock.patch("onedesk.one_ai.logos.requests.get", return_value=mock.Mock(content=b"\x89PNG", raise_for_status=lambda: None)):
-			frappe.cache.delete_value(f"one_ai_logo:{domain}")
-			logos.logo(domain)
-		assert frappe.local.response["filecontent"] == b"\x89PNG"
+		assert set(settings._oneai()) == {"briefs"}, "a workspace sets no model and no words"
+		with mock.patch("onedesk.one.account.ask", return_value={"actions": [{"action": chat.CHAT, "calls": 3, "credits": 1.5}]}):
+			said = ai.workspace_oneai()
+		assert said["last_30_days"][0]["calls"] == 3 and said["summaries"], said
 
 
 def _asked(path: str = "/", method: str = "POST", data=None, headers: dict | None = None, cookies: dict | None = None):
@@ -3500,7 +3478,7 @@ def one_oneai_turned_off_asks_nothing_and_oneintake_reads_nothing():
 			apps.save(["OneAI"])
 			assert {"OneAI", "OneIntake"} <= set(apps.hidden()), apps.hidden()
 			try:
-				run.once("summarise", "anything")
+				run.once("chat_title", "anything")
 			except faults.Refused:
 				pass
 			else:

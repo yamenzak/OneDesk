@@ -3,7 +3,6 @@ by mail, a level, a profile, a group and what a person sees, each written as a
 card that does nothing until a person approves it, and made then by the page's
 own code as that person. These read the code that says so."""
 
-import json
 import sys
 from pathlib import Path
 
@@ -34,8 +33,10 @@ def test_every_tool_is_offered_on_the_stronger_model():
 		assert f'"onedesk.one.ai_setup.{tool}"' in HOOKS, tool
 		assert f"\t{tool},\n" in SOURCE.split("for _tool in (", 1)[1], tool
 	assert '_tool.action = "workspace_setup"' in SOURCE
-	actions = json.loads((tree.APP / "fixtures" / "ai_action.json").read_text())
-	said = next(one for one in actions if one["name"] == "workspace_setup")["instruction"]
+	sys.path.insert(0, str(tree.ROOT))
+	from onedesk.one_ai import jobs
+
+	said = jobs.words("workspace_setup")
 	assert "workspace_access" in said and "describe_type" in said
 
 

@@ -377,23 +377,6 @@ def ai_usage(start: str, end: str) -> dict:
 
 @frappe.whitelist(allow_guest=True)
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
-def ai_models(needs: str) -> list[dict]:
-	"""Nothing: a workspace picks a tier, not a model (docs/AICENTER.md). Kept
-	until the workspace's pickers go with AICenter."""
-	caller()
-	return []
-
-
-@frappe.whitelist(allow_guest=True)
-@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
-def ai_models_for(needs: str | list) -> dict:
-	"""Nothing, as `ai_models`."""
-	caller()
-	return {one: [] for one in sorted(set(frappe.parse_json(needs) or []))}
-
-
-@frappe.whitelist(allow_guest=True)
-@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
 def storage_put(key: str, size: int = 0) -> dict:
 	"""A signed URL to put one object, if the workspace has room for it.
 

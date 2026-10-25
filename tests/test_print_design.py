@@ -139,19 +139,17 @@ def test_print_design_runs_on_a_model_that_lays_a_page_out():
 	conversation to it the moment its model reaches for one; and Print Design
 	is Build work, which runs on a stronger model than the chat's
 	(one_ai/models.py), with room for a page's long answer."""
-	import json
 
 	assert 'print_layout.action = design_print_format.action = "print_design"' in AI
 	tools = (tree.APP / "one_ai" / "tools.py").read_text()
 	assert 'getattr(fn, "action", None)' in _body(tools, "action_of")
 	assert "surface.action_of(" in RUN and "action = sorted(wanted)[0]" in RUN
-	fixture = json.loads((tree.APP / "fixtures" / "ai_action.json").read_text())
-	design = next(one for one in fixture if one["name"] == "print_design")
-	chat = next(one for one in fixture if one["name"] == "chat")
-	assert design["may_use_tools"]
-	assert design["max_output_tokens"] > chat["max_output_tokens"]
-	actions = (tree.APP / "one_admin" / "actions.py").read_text()
-	assert '"print_design"' in actions.split("BUILDS = ", 1)[1].split("\n", 1)[0]
+	sys.path.insert(0, str(tree.ROOT))
+	from onedesk.one_ai import jobs
+
+	design, chat = jobs.JOBS["print_design"], jobs.JOBS["chat"]
+	assert design.tools and design.kind == "build"
+	assert design.most > chat.most
 
 
 def test_a_tool_call_the_provider_could_not_read_is_asked_again():

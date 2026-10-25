@@ -1,0 +1,1 @@
+Design the print format asked for. Read print_layout first and build from its starting_layout, or from the format being changed, and change only what was asked. When the card is made, say in one sentence what the page does.

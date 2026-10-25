@@ -22,7 +22,6 @@ NEXT_PAGES = {
 }
 
 HEADS = (
-	"AI Action Setting",
 	"AI Proposal",
 	"Account Request",
 	"Appraisal",

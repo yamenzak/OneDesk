@@ -24,7 +24,7 @@ USE = {
 	"build": {
 		"fast": ("google/gemini-3.5-flash-lite", "@cf/google/gemma-4-26b-a4b-it"),
 		"balanced": ("google/gemini-3.8-flash", "@cf/zai-org/glm-5.3"),
-		"full": ("google/gemini-3.1-pro-preview", "google/gemini-2.5-pro"),
+		"full": ("google/gemini-3.1-pro-preview", "google/gemini-3.8-flash"),
 	},
 	"decide": {
 		"fast": ("@cf/cloudflare/clef-flash", "@cf/cloudflare/clef"),
@@ -68,7 +68,7 @@ USE = {
 # A preview may be withdrawn without notice, so one is used only where there
 # is nothing stable that does the job, and says why.
 PREVIEWS = {
-	"google/gemini-3.1-pro-preview": "Google's own Pro alias points to it; 2.5 Pro is the stable fallback.",
+	"google/gemini-3.1-pro-preview": "Google's own Pro alias points to it; 3.8 Flash stands behind it.",
 	"google/lyria-3-clip-preview": "The only thirty-second music model.",
 	"google/lyria-3-pro-preview": "Behind Lyria 3.5 only, for a full song when 3.5 can't answer.",
 	"google/veo-3.1-generate-preview": "Every Veo model is a preview.",
@@ -99,7 +99,6 @@ GOOGLE = {
 		{"from": "2026-12-01", "in": 4.00, "out": 20.00},
 	],
 	"google/gemini-2.5-flash": [{"in": 0.30, "out": 2.50}],
-	"google/gemini-2.5-pro": [{"in": 1.25, "out": 10.00, "above": 200_000, "in_above": 2.50, "out_above": 15.00}],
 	"google/gemini-2.5-flash-lite": [{"in": 0.10, "out": 0.40}],
 	"google/gemini-3.5-transcribe": [{"per": "minute", "in": 0.003, "out": 0.002}],
 	"google/gemini-3.8-flash-tts": [
@@ -126,6 +125,31 @@ UNPRICED = {
 	"google/veo-3.1-generate-preview",
 	"google/veo-3.1-fast-generate-preview",
 }
+
+
+# How a model is told not to think on a short job, which it otherwise does into
+# its whole allowance: a Workers AI model not here takes Gemma's switch, and a
+# Google one's goes into `generationConfig`. GLM can only be kept brief.
+QUIET = {
+	"@cf/moonshotai/kimi-k2.6": {"chat_template_kwargs": {"thinking": False}},
+	"@cf/zai-org/glm-5.3-flash": {"reasoning_effort": "low"},
+	"@cf/zai-org/glm-5.3": {"reasoning_effort": "low"},
+	"google/gemini-3.8-flash": {"thinkingConfig": {"thinkingLevel": "low"}},
+}
+QUIETLY = {"chat_template_kwargs": {"enable_thinking": False}}
+
+
+def quiet(model: str) -> dict:
+	return QUIET.get(model, QUIETLY if model.startswith("@cf/") else {})
+
+
+# Who runs a model, by the start of its id: each is a subprocessor the
+# agreements name (tests/guards/test_legal.py).
+RUN_BY = {"@cf/": "Cloudflare, Inc.", "google/": "Google LLC"}
+
+
+def run_by(model: str) -> str | None:
+	return next((company for start, company in RUN_BY.items() if model.startswith(start)), None)
 
 
 def used() -> set[str]:

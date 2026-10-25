@@ -76,7 +76,6 @@ onedesk.one_book.patches.tax_return
 onedesk.one_project.patches.stock_counted_once
 onedesk.one_inventory.patches.sizes_say_their_unit
 onedesk.one_sheet.patches.templates_are_their_sheets
-onedesk.one_ai.patches.asked_in_the_panel
 onedesk.one_intake.patches.ready_to_submit_is_a_report
 onedesk.one_storage.patches.no_storage_check
 onedesk.one_mail.patches.people_send_from_their_own
@@ -88,3 +87,4 @@ onedesk.one_mail.patches.no_auto_reply_ability
 onedesk.one_mail.patches.rule_replies_are_sent
 onedesk.one_mail.patches.notifications_send_from_one
 onedesk.one_admin.patches.no_model_catalogue
+onedesk.one_ai.patches.jobs_in_code

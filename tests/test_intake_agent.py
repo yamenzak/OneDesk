@@ -8,7 +8,6 @@ waits for a person like any unsure change, and a personal or historic
 document is left to the planners."""
 
 import ast
-import json
 import sys
 from pathlib import Path
 
@@ -46,10 +45,12 @@ def test_it_runs_as_the_person_and_hands_their_session_back():
 
 def test_it_is_shown_what_was_done_and_told_not_to_repeat_it():
 	assert "already_done" in _fn(AGENT, "told")
-	rows = json.loads((tree.APP / "fixtures" / "ai_action.json").read_text(encoding="utf-8"))
-	row = next(one for one in rows if one["name"] == "intake_act")
-	assert row["may_use_tools"] and "already_done" in row["instruction"]
-	assert "never touch invoices, payments or orders" in row["instruction"]
+	sys.path.insert(0, str(tree.ROOT))
+	from onedesk.one_ai import jobs
+
+	said = jobs.words("intake_act")
+	assert jobs.JOBS["intake_act"].tools and "already_done" in said
+	assert "never touch invoices, payments or orders" in said
 
 
 def test_a_personal_or_historic_document_is_left_to_the_planners():

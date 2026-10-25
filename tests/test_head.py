@@ -224,3 +224,11 @@ def test_no_form_script_draws_a_head():
 			assert drawing not in script, f"{path.relative_to(tree.APP)} draws a head ({drawing}); declare a Record Head"
 	for gone in ("item.js", "asset.js", "invoice.js", "decision.js", "leave_application.js", "salary_slip.js"):
 		assert not (tree.APP / "public" / "js" / gone).exists(), gone
+
+
+def test_a_head_goes_with_its_doctype():
+	"""A head left behind for a doctype that was removed (AI Action Setting)
+	broke every desk boot, since the boot reads each head's meta."""
+	write = HEAD.read_text().split("def _write(", 1)[1].split("\ndef ", 1)[0]
+	gone = write.split('if not frappe.db.exists("DocType", head["doctype"]):', 1)[1].split("return", 1)[0]
+	assert 'frappe.delete_doc("Record Head", head["doctype"]' in gone

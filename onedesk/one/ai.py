@@ -315,18 +315,8 @@ SUGGESTIONS = {
 	],
 	"page:workspace-settings/oneai": [
 		{
-			"label": _lt("Which actions cost the most?"),
-			"ask": _lt(
-				"Which of OneAI's actions used the most credits in the last thirty days, and on which models?"
-			),
-			"expects": "workspace_oneai",
-		},
-		{
-			"label": _lt("Is there a cheaper model that would do?"),
-			"ask": _lt(
-				"For the actions we use most, is there a cheaper model on offer that would do the job, and what "
-				"would it save?"
-			),
+			"label": _lt("What used the most credits?"),
+			"ask": _lt("Which of OneAI's jobs used the most credits in the last thirty days?"),
 			"expects": "workspace_oneai",
 		},
 	],
@@ -519,13 +509,10 @@ def page(said: dict) -> str | None:
 		)
 	if said.get("page") == "workspace-settings" and said.get("section") == "oneai":
 		return (
-			"The reader administers this workspace and is on OneAI › Actions: each thing OneAI does, the product "
-			"it works for, the model it runs on (chosen here, or the default One picked) and the credits it used "
-			"in the last thirty days. workspace_oneai reads it all, with the models on offer for each and what "
-			"they cost per thousand words read and written. They change an action by clicking it: a model, "
-			"Extra Instructions (added, never replacing what it does), Try It, which runs it once and "
-			"uses credits, and Reset to Default; how is in One's documentation under OneAI Actions, for the "
-			"Workspace (how_to)."
+			"The reader administers this workspace and is on Workspace › OneAI: which records get a summary at "
+			"the top, each switched on or off by clicking it, with Knowledge and Credit Usage in the page head. "
+			"workspace_oneai reads it, with what each of OneAI's jobs used in the last thirty days. One picks the "
+			"models OneAI runs on and what it is told; nothing about either is set in a workspace."
 		)
 	if said.get("page") == "workspace-settings" and said.get("section") == "domains":
 		return (
@@ -1835,53 +1822,26 @@ def change_holidays(
 
 
 def workspace_oneai() -> dict:
-	"""OneAI's actions, for the workspace's administrators: each action, its
-	product, its model (chosen or the default), what is added to it, what it
-	used in the last thirty days, and the models on offer for it with what they
-	cost per thousand words read and written."""
-	from onedesk.one import roles, settings
+	"""OneAI here, for the workspace's administrators: what each of its jobs
+	used in the last thirty days, and which records get a summary. One picks
+	the models, by tier; nothing about them is set here."""
+	from frappe.utils import add_days, getdate
+
+	from onedesk.one import roles
+	from onedesk.one_ai import brief
+	from onedesk.one_ai.report.ai_credits import ai_credits
 
 	if not roles.administers():
-		return {"error": "Only a workspace administrator sees OneAI's actions."}
-	said = settings._oneai()
-	catalogue = said["catalogue"]
-
-	def named(one):
-		offered = catalogue.get(one["capability"]) or []
-		picked = next((m for m in offered if m["name"] == one["model"]), None) if one["model"] else None
-		fallback = next((m for m in offered if m.get("default")), None)
-		return picked, fallback, offered
-
-	actions = []
-	for one in said["actions"]:
-		picked, fallback, offered = named(one)
-		runs = picked or fallback
-		actions.append(
-			{
-				"action": one["label"],
-				"product": one["product"],
-				"model": runs["label"] if runs else one["model"],
-				"chosen_here": bool(one["model"]),
-				"costs_now": {
-					"per_1000_words_read": runs.get("read"),
-					"per_1000_words_written": runs.get("written"),
-				}
-				if runs
-				else None,
-				"added_instructions": one["extra"] or None,
-				"last_30_days": {"credits": one["credits"], "calls": one["calls"]},
-				"could_run_on": [
-					{
-						"model": m["label"],
-						"maker": m["maker"],
-						"read": m.get("read"),
-						"written": m.get("written"),
-					}
-					for m in offered
-				][:12],
-			}
-		)
-	return {"actions": sorted(actions, key=lambda one: one["last_30_days"]["credits"], reverse=True)}
+		return {"error": "Only a workspace administrator sees OneAI's jobs."}
+	end = getdate()
+	try:
+		_columns, rows, *_rest = ai_credits.execute({"from_date": add_days(end, -29), "to_date": end, "by": "Job"})
+	except frappe.ValidationError:
+		rows = []
+	return {
+		"last_30_days": [{"job": one["what"], "calls": one["calls"], "credits": one["credits"]} for one in rows],
+		"summaries": [{"record": one["label"], "on": one["on"], "written": one["written"]} for one in brief.settings()],
+	}
 
 
 DOMAIN_STATES = {
@@ -1937,7 +1897,7 @@ def workspace_plan() -> dict:
 	held = said["account"]
 	end = getdate()
 	cut = {}
-	for by in ("Model", "Person"):
+	for by in ("Job", "Person"):
 		try:
 			_columns, rows, *_rest = ai_credits.execute(
 				{"from_date": add_days(end, -29), "to_date": end, "by": by}

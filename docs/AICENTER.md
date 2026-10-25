@@ -8,8 +8,8 @@ something OneAI does, through two small Cloudflare models built for it.
 Search moves to Cloudflare's AI Search, and web search arrives as an optional
 service.
 
-This is the plan. Nothing in it is built yet. It is mechanism 16 in
-`docs/READY.md`.
+This is the plan, with each stage marked as it is built (Stages, below). It
+is mechanism 16 in `docs/READY.md`.
 
 ## What was decided
 
@@ -73,9 +73,10 @@ is written so its AI parts move across rather than block either:
   OneIntake once this is built. `onedesk/one_intake/` is renamed into
   `onedesk/one_ai/reading/` in the stage that rebuilds it.
 
-## What is built today
+## What was built before
 
-Two inventories, read on 2026-10-25, against the decisions above.
+Two inventories, read on 2026-10-25, against the decisions above, before
+stage 1. Stages 1 and 2 have since removed what they name.
 
 **On OneAdmin**, about 2,000 lines go:
 
@@ -199,8 +200,11 @@ its words, its caps and its kind:
 | Speak | text read aloud |
 | Find | search, and web search |
 
-The twenty-five actions in the fixture map onto these. HR's screening,
-interviews and grievances are Write jobs with their own words.
+Twenty-three jobs, from the twenty-five actions the fixture held (`find`
+and `summarise` had no caller). Each is a `Job` in `jobs.py` with its label,
+its module, its kind, whether it has tools, whether it answers a person in
+prose, and its caps; its words are `one_ai/words/<key>.md`. HR's screening,
+interviews and grievances are talk jobs with their own words.
 
 **Defaults.** In `one_ai/models.py`, chosen from what both companies
 offered on 2026-10-25 (Google's prices from its pricing page that day, per
@@ -330,11 +334,14 @@ by workspace. The price is credits that are exact only after the fact.
 
 ## The voice
 
-What OneAI is told on every call moves out of OneAdmin Settings into
-`one_ai/voice.py`, and each job's words into `jobs.py`. Both are code,
-reviewed like code and measured in stage 2. The persona today is a single
-paragraph that mixes who OneAI is with how to use tools; it is rewritten
-in parts, so each job takes only the parts it needs:
+What OneAI is told on every call is `one_ai/voice.py`, in parts, and each
+job's own words are `one_ai/words/<key>.md`; `jobs.told(key)` puts the parts
+the job takes before its words. Both are code, reviewed like code and
+measured by the bench. The persona on OneAdmin Settings was one paragraph
+that mixed who OneAI is with how to use tools; it is now these parts, and
+each job takes only what it needs: every job takes Who, What is true, What
+you read and What you are; a job that answers a person in prose takes How
+you speak; a job with tools takes What you may do and Where the person is.
 
 **Who.** You are OneAI, the assistant inside One. You work for the person
 asking, inside their workspace, and you see only what they may open.

@@ -1293,8 +1293,8 @@ letter head's header and footer.
   the Brand Colour.
 - OneAI can also suggest the default letter head, and which format a record
   type prints with.
-- **Model**: designing a format uses a stronger model than the chat, set in
-  the **Print Design** action. Administrators can change it in OneAI Actions.
+- **Model**: designing a format uses a stronger model than the chat, which
+  One picks.
 - **Checks**: a layout that would print badly, such as an empty section, a
   table wider than the page, or an invoice without its customer or total, is
   fixed before you see a card. If it still can't be fixed, OneAI says nothing
@@ -1767,60 +1767,24 @@ doesn't, add www.acme.com instead and have your registrar redirect acme.com to
 it. A records aren't supported, since Cloudflare doesn't guarantee the IP
 addresses behind the workspace's own address stay the same.
 
-### OneAI Actions, for the Workspace
+### OneAI, for the Workspace
 
-**Actions**, under OneAI in the sidebar, is where the workspace picks its
-models. Only administrators see and change it.
+**OneAI**, in the sidebar, is where administrators choose which records get
+a summary. One picks the models OneAI runs on and what it is told, so there is
+no model or instruction to set here.
 
-**Models** lists five kinds of work: Chat, Reading, Writing, Building and
-Search. Each row shows its model and the credits it used in the last 30 days.
-**Mixed** means its actions were given different models one by one.
+- **Summaries** lists the kinds of record that can carry a few sentences at
+  the top, written again when something happens to the record, at most once a
+  day. Each row shows how many records carry one. Click a row to switch it on
+  or off.
+- **Knowledge** opens the notes OneAI reads first.
+- **Credit Usage** opens the AI Credits report by job.
 
-- Click a row to pick a model. The list goes from cheapest to dearest and
-  marks each **Fast**, **Balanced** or **Best**. **Default** is the one One
-  recommends. Saving gives the model to every action of that kind that can
-  run on it, and the other administrators hear about it once.
-- Search usually needs no choice: One picks the cheapest search model.
-- **Show Each Action** opens the full list below, for one action that needs
-  something different.
-
-In the full list:
-
-- Each action shows a badge for its product (OneAI, OneIntake, OneHR,
-  OneMail), a one-line description, its model with the maker's logo, and the
-  credits it used in the last 30 days. **Default** means One chose the model.
-- Click an action to change it:
-  - **Model** lists the available models that can do the job, with who made
-    them, who hosts them and roughly what they cost per thousand words read
-    and written.
-  - **Extra Instructions** are added to the action for everyone who uses it,
-    such as "answer in Arabic" or "keep it to three lines". They never replace
-    the action's own instructions, so they can't make it do anything it isn't
-    allowed to.
-  - **Try It** runs the action once on text you type, with the settings in the
-    dialog, saved or not. It uses credits, and says so first.
-  - **Reset to Default** resets the action to One's model with no added
-    instructions.
-  - **Save** is refused if another administrator changed the action since you
-    opened it. Close it and open it again.
-- The **Chat** action also has **Allow Model Choice**. When it's on,
-  anyone can choose a model for their own conversations in the OneAI panel.
-  When it's off, only administrators can. Each person's choice applies only to
-  them.
-- **Credit Usage** opens the AI Credits report by action.
-- OneIntake's settings page has **Models**, which opens this list showing only
-  OneIntake's actions.
-
-Every other administrator is notified in One when someone changes an action's
-model or added instructions. Models are only offered from companies on the
-Subprocessors list.
-
-OneAI offers **Which actions cost the most?** and **Is there a cheaper model
-that would do?**
+OneAI offers **What used the most credits?**
 
 ### Knowledge: notes OneAI reads first
 
-**Knowledge**, under OneAI in the sidebar next to Actions, holds notes OneAI
+**Knowledge**, under OneAI in the sidebar, holds notes OneAI
 reads before it answers, such as policies, a glossary or how things are done
 here. Administrators write them. Everyone can read them, because OneAI reads
 them as the person asking. You › What OneAI Remembers lists them too, under
@@ -1855,9 +1819,7 @@ inbox with everyone's documents.
   The rest can still be found by its name.
 
 Every other administrator is notified in One when someone changes the audit,
-Household or e-invoice settings, or the confidence floor. **Models**, in the
-page head, opens OneAI Actions for OneIntake, where you choose the model for
-each part.
+Household or e-invoice settings, or the confidence floor.
 
 OneAI offers **Is OneIntake set up well for us?**
 
@@ -2178,13 +2140,8 @@ phone):
 The OneAI button at the bottom of every page opens the OneAI panel. Every
 conversation is saved, and the arrow at the top left lists them.
 
-- **Model**: the pill under the message box shows which model answers. Click
-  it to choose another for this conversation and your next ones. **Automatic**
-  uses the model the workspace set for chat. Only administrators can choose,
-  unless an administrator turns on **Allow Model Choice** for the Chat
-  action. The menu shows each model's maker, and what each costs is in
-  OneAI › Actions. If the work moves to another OneAI action, such
-  as designing a print format, your choice applies there too.
+- **Model**: One picks the model that answers, by the kind of work. There is
+  nothing to choose in the panel.
 - **Records read**: the answer comes first. Below it are the records OneAI
   read, with one record as a card and several as a list. The list shows three.
   **Show more** shows the rest, and **Open List** opens them in their own list.

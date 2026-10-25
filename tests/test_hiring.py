@@ -18,7 +18,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import tree
 
 HIRING = tree.APP / "one_hr" / "hiring.py"
-FIXTURE = tree.APP / "fixtures" / "ai_action.json"
 
 
 def _pure(*names):
@@ -85,14 +84,16 @@ def test_every_job_runs_as_oneai():
 
 
 def test_the_hiring_instructions_say_what_may_not_be_judged():
-	rows = {row["name"]: row for row in json.loads(FIXTURE.read_text(encoding="utf-8"))}
+	sys.path.insert(0, str(tree.ROOT))
+	from onedesk.one_ai import jobs
+
 	for key in ("screen", "interview"):
-		said = rows[key]["instruction"].lower()
+		said = jobs.words(key).lower()
 		for word in ("age", "gender", "religion", "nationality", "disability", "photograph", "name implies"):
 			assert word in said, f"{key} does not rule out {word}"
-		assert rows[key]["may_use_tools"] == 0
-	assert rows["transcribe"]["capability"] == "Transcription"
-	assert "never write a name" in rows["transcribe"]["instruction"].lower()
+		assert not jobs.JOBS[key].tools
+	assert jobs.JOBS["transcribe"].kind == "hear"
+	assert "never write a name" in jobs.words("transcribe").lower()
 
 
 def test_a_new_applicant_is_screened_after_commit():

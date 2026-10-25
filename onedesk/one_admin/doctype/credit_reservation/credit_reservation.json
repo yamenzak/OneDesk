@@ -92,7 +92,7 @@
    "label": "Action",
    "read_only": 1,
    "search_index": 1,
-   "description": "The AI Action the call was made for, so a workspace can see what each costs."
+   "description": "The job the call was made for, so a workspace can see what each costs."
   }
  ],
  "index_web_pages_for_search": 0,

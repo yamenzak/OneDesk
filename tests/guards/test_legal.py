@@ -142,16 +142,15 @@ def test_a_change_is_published_ahead_of_the_day_it_takes_effect():
 		assert change["says"].endswith(".") and len(re.findall(r"[.!?](?:\s|$)", change["says"])) == 1, f"{key}: one sentence"
 
 
-def test_every_model_provider_offered_is_a_declared_subprocessor():
-	"""A workspace choosing a model chooses who receives its data. Only a
-	provider named here is ever offered (one_admin/actions.offered), and each
-	has to be a subprocessor the agreements name."""
-	from onedesk.one_admin import makers
+def test_every_company_that_runs_a_model_is_a_declared_subprocessor():
+	"""Whoever runs a model OneAI uses receives what it is sent, so each is a
+	subprocessor the agreements name (one_ai/models.py RUN_BY)."""
+	from onedesk.one_ai import models
 
 	assemble.documents()
 	declared = set(registry.SUBPROCESSORS)
-	unnamed = {provider: company for provider, company in makers.PROVIDERS.items() if company not in declared}
-	assert not unnamed, f"Model providers offered without a subprocessor entry: {unnamed}"
+	unnamed = {model: models.run_by(model) for model in models.used() if models.run_by(model) not in declared}
+	assert not unnamed, f"Models run by a company that is not a subprocessor: {unnamed}"
 
 
 def test_every_modules_legal_file_is_assembled():
@@ -159,12 +158,6 @@ def test_every_modules_legal_file_is_assembled():
 
 	found = {path.parent.name for path in tree.APP.glob("one*/legal.py") if path.parent.name != "one_legal"}
 	assert found <= set(MODULES), f"not in one_legal/assemble.py MODULES: {sorted(found - set(MODULES))}"
-
-
-# Files that call a service's host with nothing of a workspace's in the call.
-NOT_A_WORKSPACES = {
-	"makers.py": "asks Google only for the logos of the companies that make AI models, by their public domains",
-}
 
 
 def test_a_service_is_reached_only_through_services_call():
@@ -180,7 +173,7 @@ def test_a_service_is_reached_only_through_services_call():
 		assert all(HOSTS.get(host) in companies for host in one["hosts"]), f"{key}: each host is one of its companies'"
 		for path in tree.python():
 			text = path.read_text(encoding="utf-8")
-			if path.name not in ("legal.py", *NOT_A_WORKSPACES) and any(host in text for host in one["hosts"]):
+			if path.name != "legal.py" and any(host in text for host in one["hosts"]):
 				assert "services.call(" in text, f"{path.name} calls {key}'s host without services.call"
 	uses = [use["service"] for row in registry.subprocessor_rows() for use in row["uses"] if use["service"]]
 	assert set(uses) <= set(registry.SERVICES), f"a use names a service nobody declared: {sorted(set(uses) - set(registry.SERVICES))}"
