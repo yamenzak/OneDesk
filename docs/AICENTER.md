@@ -140,9 +140,17 @@ Clairic, Whisper, Markdown conversion and search are called by model name.
 
 What the gateway does not give us: a region. Nothing in its documentation
 says where a call is processed, so "EU only" is not something we can
-promise through it. Gemini in an EU region needs Google's Vertex endpoint
-instead, which the gateway supports; that is a later decision, not this
-plan's.
+promise through it. Gemini kept in a region (the EU, or Google's Middle
+East regions) needs Google's Vertex endpoint instead of the Gemini API.
+The gateway supports it: a stored service-account key and the region in
+the route, then one line in `models.py`. It is not needed until a customer
+asks for it; newer models such as Veo and Lyria sometimes reach Vertex
+later.
+
+The Google key behind the gateway must be on a paid Gemini API account.
+Google's pricing page says what is sent on the free tier is used to
+improve its products, and what is sent on the paid tier is not. Stage 1
+checks it before anything else.
 
 ## Models
 
@@ -510,4 +518,5 @@ the screen), a commit, and the docs it changes.
 - **Where a mailbox's OneAI settings live**: per mailbox (today) or in
   AICenter's OneMail part. This plan draws them in AICenter and keeps the
   values on the mailbox.
-- **Gemini in the EU** through Vertex, if a customer needs data kept there.
+- **Gemini in a region** through Vertex, when a customer needs data kept
+  there.
