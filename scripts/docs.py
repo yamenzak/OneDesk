@@ -14,6 +14,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import atlas
 import tree
 
+sys.path.insert(0, str(tree.ROOT))
+
+from onedesk.one import ready  # noqa: E402
+
 DOCS = tree.ROOT / "docs"
 
 DESK_RECORDS = ("workspace", "dock", "desktop_icon", "custom_sidebar", "sidebar", "role")
@@ -104,6 +108,28 @@ def modules_page() -> str:
 	return "".join(out)
 
 
+def registry_page() -> str:
+	"""Where each module on its way to ready stands on the fourteen points
+	(onedesk/one/ready.py): the guards that hold it, and the looks a person
+	gives what no guard can settle."""
+	out = [HEADER, "# Registry\n", "\nThe fourteen points of docs/READY.md, for each module on its way to ready.\n"]
+	for module, spec in ready.MODULES.items():
+		out.append(f"\n## {module} {ready.current(module) or ''}\n")
+		out.append(f"\n{'Ready.' if spec.get('ready') else 'Not marked ready yet.'}\n")
+		out.append("\n| Point | Held by | Last looked at |\n|---|---|---|\n")
+		for one in ready.registry(module):
+			guards = ", ".join(f"`{guard.split('::')[1]}`" for guard in one["guards"]) or "—"
+			said = one["checked"]
+			looked = (
+				f"{said['on']}, `{said['commit'][:7]}`" if said else "not yet" if one["look"] else "—"
+			)
+			out.append(f"| {one['title']} | {guards} | {looked} |\n")
+		looks = [one for one in ready.registry(module) if one["look"]]
+		out.append("\nWhat a person looks at:\n\n")
+		out += [f"- **{one['title']}**: {one['look']}.\n" for one in looks]
+	return "".join(out)
+
+
 def upstream_page() -> str:
 	record = json.loads((tree.ROOT / "upstream.json").read_text())
 	out = [HEADER, "# Upstream\n"]
@@ -163,6 +189,7 @@ def upstream_page() -> str:
 PAGES = {
 	DOCS / "MODULES.md": modules_page,
 	DOCS / "UPSTREAM.md": upstream_page,
+	DOCS / "REGISTRY.md": registry_page,
 	DOCS / "ATLAS.md": atlas.page,
 	atlas.SHOWN: atlas.shown_json,
 }

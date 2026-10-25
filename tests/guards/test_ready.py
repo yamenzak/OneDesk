@@ -374,3 +374,47 @@ def test_a_module_reaches_every_change_through_oneai_or_says_why_not():
 			assert f"{call}(" in source + approving, f"{module}: approving {tool} never calls {call}"
 		for call, why in refused.items():
 			assert len(re.findall(r"[.!?](?:\s|$)", why)) == 1 and why.endswith("."), f"{module}: {call}'s reason is one sentence"
+
+
+def test_the_registry_holds_the_fourteen_points_by_guards_that_exist():
+	"""ready.POINTS are the fourteen points of docs/READY.md, in its order and
+	by its names; each is held by guards, by a person's look (ready.HAND), or
+	both; and every guard it names is a test that exists."""
+	said = (ROOT / "docs" / "READY.md").read_text(encoding="utf-8").split("## The fourteen points", 1)[1].split("\n## ", 1)[0]
+	titles = re.findall(r"^\d+\. \*\*(.+?)\.\*\*", said, re.M)
+	assert titles == [one["title"] for one in ready.POINTS.values()], "ready.POINTS and docs/READY.md name the points alike"
+	assert set(ready.HAND) <= set(ready.POINTS)
+	for key, point in ready.POINTS.items():
+		assert point["guards"] or key in ready.HAND, f"nothing holds {point['title']}"
+		for guard in point["guards"]:
+			path, name = guard.split("::")
+			assert f"\ndef {name}(" in (ROOT / path).read_text(encoding="utf-8"), f"{point['title']}: no test {guard}"
+
+
+def _git(*args: str) -> subprocess.CompletedProcess:
+	return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True)
+
+
+def test_a_ready_module_was_looked_at_where_no_guard_can():
+	"""A module marked ready has a look on every point a guard holds only in
+	part (ready.HAND): the day, the commit it was taken at, and who looked.
+	A major or minor version after that commit makes the look stale."""
+	import datetime
+
+	for module, spec in ready.MODULES.items():
+		checked = spec.get("checked", {})
+		assert set(checked) <= set(ready.HAND), f"{module}: only ready.HAND points are looked at: {sorted(set(checked) - set(ready.HAND))}"
+		if spec.get("ready"):
+			left = [ready.POINTS[key]["title"] for key in ready.HAND if key not in checked]
+			assert not left, f"{module} is marked ready but nobody has looked at: {left}"
+		grown = next((one for one in ready.versions(module) if one["kind"] != "fix"), None)
+		since = _git("log", "--diff-filter=A", "--format=%H", "--", str(grown["path"].relative_to(ROOT))).stdout.split() if grown else []
+		for key, look in checked.items():
+			where = f"{module}'s look at {ready.POINTS[key]['title']}"
+			assert look.get("by"), f"{where}: say who looked"
+			assert datetime.date.fromisoformat(look["on"]) <= datetime.date.today(), f"{where}: a day not yet come"
+			assert _git("cat-file", "-e", f"{look['commit']}^{{commit}}").returncode == 0, f"{where}: no commit {look['commit']}"
+			if grown:
+				assert since and _git("merge-base", "--is-ancestor", since[-1], look["commit"]).returncode == 0, (
+					f"{where}: {grown['version']} came after it, so look again"
+				)

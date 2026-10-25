@@ -510,18 +510,34 @@ is one). The guard reads both.
 
 ### 12. The registry
 
-`onedesk/one/ready.py` lists each module with its version and, per point,
-either what checks it automatically or the date and commit it was last
-checked by hand. `tests/guards/test_ready.py` holds a module marked ready to
-every automatic check:
+**Built.** `onedesk/one/ready.py` holds the fourteen points as `POINTS`, in
+the order and by the names below, each with the guards that hold every
+module to it on every run. Four are held only in part, so a person looks at
+them too (`HAND`): copy, the demo, notifications and the OneInterface pass.
+A module's `checked` records each look: the day, the commit it was taken at,
+and who looked. `docs/REGISTRY.md` is generated from it (`scripts/docs.py`):
+per module, its version, whether it is ready, and per point, its guards and
+its last look.
 
-- the fingerprint is current;
-- `docs/` and `AGENTS.md` are there;
-- its roles are fixtures;
-- its `legal.py` declares what it adds, and the Legal tab reads it;
-- every notification type says its channels and sender;
-- its setup steps and tour are declared;
-- every action is OneAI's or named as not.
+`tests/guards/test_ready.py` fails when the points and this page disagree, a
+point has neither a guard nor a look, or a guard it names isn't a test; and,
+for a module marked `ready`, a hand point nobody has looked at, a look
+without who or with a commit git doesn't have, or a major or minor version
+added after the commit a look was taken at, which makes it stale. A fix
+leaves a look standing.
+
+The guards each point names, as they stand:
+
+- **One home**: nothing of it outside its places, nothing outside named for
+  it, no Markdown but `AGENTS.md`, `SCRATCHPAD.md` and `docs/`.
+- **Versioned**, **What's New**: the fingerprint is current, versions follow
+  one another and are written for its people; one foot, which shows it.
+- **Documented**: `AGENTS.md` and `docs/`, every help page listed, sound and
+  free of code.
+- **Roles**: shipped from `abilities.py`, grants through abilities alone.
+- **OneAI**: every change in `REACH` or `NOT_FOR_AI`.
+- **Notifications**, **Setup steps**, **Tour**, **Settings**, **Legal**:
+  their declarations, as mechanisms 5 to 10 describe.
 
 ## The fourteen points
 

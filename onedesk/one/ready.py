@@ -20,6 +20,9 @@ MODULES = {
 		"screens": "mail",
 		"names": ("one_mail", "onemail"),
 		"ready": False,
+		# The points a guard can't settle, each as a person last looked at it
+		# (HAND): {"interface": {"on": "2026-10-25", "commit": "<sha>", "by": "…"}}.
+		"checked": {},
 		# Its help pages in reading order, each with its icon (docs/).
 		"help": (
 			("overview", "info"),
@@ -34,6 +37,95 @@ MODULES = {
 			("settings", "settings"),
 		),
 	},
+}
+
+# The fourteen points a module is held to before it is marked ready
+# (docs/READY.md, The fourteen points), in that order: what each is called,
+# and the guards that hold every module to it on every run.
+READY = "tests/guards/test_ready.py::"
+POINTS = {
+	"home": {
+		"title": "One home",
+		"guards": (
+			READY + "test_nothing_of_a_module_is_left_outside",
+			READY + "test_nothing_outside_a_module_is_named_for_it",
+			READY + "test_a_module_writes_only_agents_scratchpad_and_docs",
+		),
+	},
+	"versioned": {
+		"title": "Versioned",
+		"guards": (
+			READY + "test_every_change_to_a_module_is_a_version",
+			READY + "test_versions_follow_one_another",
+			READY + "test_a_version_is_written_for_the_people_using_it",
+		),
+	},
+	"whats_new": {
+		"title": "What's New in the app",
+		"guards": (READY + "test_a_module_has_one_settings_dialog_and_one_foot",),
+	},
+	"documented": {
+		"title": "Documented",
+		"guards": (
+			READY + "test_a_module_writes_only_agents_scratchpad_and_docs",
+			READY + "test_every_help_page_is_listed_and_every_link_lands",
+			READY + "test_a_help_page_names_no_code",
+			READY + "test_a_help_page_is_headed_pictured_and_linked_soundly",
+		),
+	},
+	"copy": {
+		"title": "Copy",
+		"guards": (
+			"tests/guards/test_copy.py::test_a_heading_is_five_words_or_fewer",
+			"tests/guards/test_copy.py::test_a_description_is_one_sentence",
+			"tests/guards/test_copy.py::test_no_banned_word_is_shown",
+		),
+	},
+	"roles": {
+		"title": "Roles",
+		"guards": (
+			READY + "test_a_module_ships_its_roles",
+			READY + "test_a_module_grants_through_abilities_alone",
+		),
+	},
+	"oneai": {
+		"title": "OneAI",
+		"guards": (READY + "test_a_module_reaches_every_change_through_oneai_or_says_why_not",),
+	},
+	"demo": {
+		"title": "Demo and tests",
+		"guards": (
+			"tests/guards/test_coverage.py::test_no_module_has_more_left_to_cover_than_it_had",
+			"tests/guards/test_demo.py::test_every_step_is_built_and_written_down",
+		),
+	},
+	"notifications": {
+		"title": "Notifications",
+		"guards": (
+			READY + "test_a_module_says_how_and_from_whom_it_tells_people",
+			"tests/guards/test_notifications.py::test_every_type_sent_is_declared",
+		),
+	},
+	"interface": {"title": "OneInterface pass", "guards": ()},
+	"setup": {"title": "Setup steps", "guards": (READY + "test_a_module_says_what_setting_it_up_takes",)},
+	"tour": {"title": "Tour", "guards": (READY + "test_a_module_ships_a_tour_of_its_screen",)},
+	"settings": {"title": "Settings", "guards": (READY + "test_a_module_has_one_settings_dialog_and_one_foot",)},
+	"legal": {
+		"title": "Legal",
+		"guards": (
+			READY + "test_a_change_to_what_a_module_agrees_on_is_said",
+			"tests/guards/test_legal.py::test_every_modules_legal_file_is_assembled",
+		),
+	},
+}
+
+# The points a guard holds only in part, and what a person looks at: before
+# a module is marked ready, and again after a version that adds to it.
+HAND = {
+	"copy": "every heading, description and message it shows reads as the copy rules say, in English, Arabic and German",
+	"demo": "the demo company uses every part of it and nothing in the demo makes it look wrong",
+	"notifications": "it tells people what they need, on the channels that make sense, only to the roles that should hear it",
+	"interface": "each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats",
 }
 
 # Files named for a module that are not its own, and why.
@@ -151,3 +243,19 @@ def help_pages(module: str) -> list[dict]:
 			{"id": page, "icon": icon, "title": title.lstrip("# ").strip(), "body": body.strip(), "path": folder / f"{page}.md"}
 		)
 	return found
+
+
+def registry(module: str) -> list[dict]:
+	"""Where a module stands on each point: the guards that hold it, and, for
+	a point a person must look at, when they last did."""
+	checked = MODULES[module].get("checked", {})
+	return [
+		{
+			"point": key,
+			"title": point["title"],
+			"guards": point["guards"],
+			"look": HAND.get(key),
+			"checked": checked.get(key),
+		}
+		for key, point in POINTS.items()
+	]
