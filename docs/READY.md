@@ -252,9 +252,26 @@ part. No module has a `docs/` folder.
 
 ### 5. The module's foot, and one settings dialog
 
-**Today.** OneMail has a SettingsDialog (`onemail_settings.js`), opened from
-Settings at the foot of its rail and from Workspace Settings › Access. Tabs
-show by ability (`frappe.boot.one_mail_may`). No other module has one.
+**Built.** `onedesk.module_settings.open({ module, may, tabs })`
+(`public/js/module_settings.js`) is every module's settings dialog: frappe's
+settings dialog with the module's mark, "Settings" and a Help button at the
+top of its sidebar (`onedesk.module_head`, which What's New and Help draw
+too). Each tab names the `needs` it asks of the reader's role (an ability's
+key, a list of keys any one of which will do, or a function), the dialog
+leaves out what the role doesn't allow and drops a group left empty.
+`onedesk.module_settings.kit` is what tabs are drawn with: list rows, a
+heading with a control at its end, a switch after a tab's title, Back
+before a view's title, a Save that shows once something changed; its
+classes are `one-set-*` in `public/css/module_settings.css`, and a module's
+own stylesheet keeps only what is its own. The foot is
+`win.module_foot({ module, settings })`, `windowModuleFoot` in an island:
+Settings, then Help and the version. `test_ready.py` fails on a module that
+draws its own settings dialog or its own foot. OneMail is on both.
+
+**Before.** OneMail had a SettingsDialog (`onemail_settings.js`) with its
+helpers inside it, opened from Settings at the foot of its rail and from
+Workspace Settings › Access. Tabs showed by ability
+(`frappe.boot.one_mail_may`). No other module had one.
 
 **To build.**
 

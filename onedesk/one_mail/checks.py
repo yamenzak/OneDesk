@@ -23,6 +23,12 @@ def onemail_layla_reads_sorts_and_files_her_mail():
 	from onedesk.one_mail import demo as mail
 
 	account = intake.mailbox()
+	# The demo's mail as the demo brought it, unread, whoever has read it since.
+	sent = frappe.qb.DocType("Communication")
+	brought = (sent.one_folder == "INBOX") & sent.subject.isin([subject for _sender, subject, _days, _body in mail.MAILS])
+	frappe.qb.update(sent).set(sent.seen, 0).where(brought).run()
+	for box in set(frappe.qb.from_(sent).select(sent.email_account).where(brought).run(pluck=True)):
+		actions.recount(box, "INBOX")
 	with as_user(OWNER):
 		boxes = {one["name"]: one for one in api.mailboxes()}
 		assert account in boxes and account in {one["name"] for one in holders.mailboxes()}

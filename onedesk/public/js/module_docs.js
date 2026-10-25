@@ -87,12 +87,7 @@ onedesk.module_docs.Dialog = class ModuleDocsDialog extends frappe.ui.SettingsDi
 		for (const group of this.tabs) for (const item of group.items || []) this._items[item.id] = item;
 		this._items[onedesk.module_docs.SEARCH] = this.search_item();
 
-		const $head = $(`<div class="one-docs-head"></div>`).appendTo(this.$sidebar);
-		const rest = this.module.replace(/^One/, "");
-		$(`<div class="one-docs-name"></div>`)
-			.append(rest !== this.module ? onedesk.brand.named(rest, true) : document.createTextNode(this.module))
-			.appendTo($head);
-		$(`<div class="one-docs-kind"></div>`).text(this.kind).appendTo($head);
+		onedesk.module_head(this.$sidebar, this.module, this.kind);
 
 		const $search = $(`<label class="one-docs-search"></label>`).appendTo(this.$sidebar);
 		$search.append(frappe.utils.icon("search", "sm"));

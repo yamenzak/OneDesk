@@ -1,220 +1,5 @@
 /* OneMail's settings dialog (public/js/onemail_settings.js): frappe's settings
    dialog, with lists whose rows open a mailbox, a person or a template. */
-/* width 0 with min-width 100% keeps a long row from widening the panel:
-   its words end in an ellipsis instead. */
-.oms .oms-list {
-	display: flex;
-	width: 0;
-	min-width: 100%;
-	flex-direction: column;
-	margin-top: calc(var(--spacing) * 2);
-	border: 1px solid var(--outline-gray-2);
-	border-radius: var(--radius-lg);
-	overflow: hidden;
-}
-
-.oms .oms-row {
-	display: flex;
-	align-items: center;
-	gap: calc(var(--spacing) * 3);
-	min-height: 52px;
-	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 3);
-	border-bottom: 1px solid var(--outline-gray-1);
-}
-
-.oms .oms-row:last-child {
-	border-bottom: 0;
-}
-
-.oms .oms-row-open {
-	cursor: pointer;
-}
-
-.oms .oms-row-open:hover,
-.oms .oms-row-open:focus-visible {
-	background: var(--surface-gray-1);
-	outline: none;
-}
-
-.oms .oms-lead {
-	display: flex;
-	flex-shrink: 0;
-	align-items: center;
-	justify-content: center;
-	width: 32px;
-}
-
-.oms .oms-glyph {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 32px;
-	height: 32px;
-	border-radius: var(--radius);
-	background: var(--surface-gray-2);
-	color: var(--ink-gray-6);
-}
-
-.oms .oms-text {
-	display: flex;
-	flex: 1;
-	flex-direction: column;
-	min-width: 0;
-}
-
-.oms .oms-title {
-	overflow: hidden;
-	color: var(--ink-gray-8);
-	font-size: var(--text-base);
-	font-weight: var(--weight-medium);
-	white-space: nowrap;
-	text-overflow: ellipsis;
-}
-
-.oms .oms-sub {
-	overflow: hidden;
-	color: var(--ink-gray-5);
-	font-size: var(--text-sm);
-	white-space: nowrap;
-	text-overflow: ellipsis;
-}
-
-.oms .oms-end {
-	display: flex;
-	flex-shrink: 0;
-	align-items: center;
-	gap: calc(var(--spacing) * 2);
-}
-
-.oms .oms-chevron {
-	display: flex;
-	color: var(--ink-gray-4);
-}
-
-.oms .oms-switch .form-group {
-	margin: 0;
-}
-
-.oms .oms-empty {
-	padding: calc(var(--spacing) * 4);
-	color: var(--ink-gray-5);
-	font-size: var(--text-sm);
-	text-align: center;
-}
-
-.oms .oms-buttons,
-.oms .oms-add {
-	display: flex;
-	align-items: center;
-	gap: calc(var(--spacing) * 2);
-	margin-top: calc(var(--spacing) * 2);
-}
-
-.oms .oms-add-pick {
-	flex: 1;
-	max-width: 320px;
-}
-
-.oms .oms-add-pick .form-group {
-	margin: 0;
-}
-
-.oms .oms-add-pick .control-label,
-.oms .oms-add-pick .help-box {
-	display: none;
-}
-
-.oms .oms-add-pick .control-input-wrapper {
-	margin: 0;
-}
-
-/* Back, before a view's title (onemail_settings.js `view`). */
-.oms .settings-dialog-panel-title {
-	display: flex;
-	align-items: center;
-	gap: calc(var(--spacing) * 1);
-}
-
-.oms .oms-back {
-	margin-inline-start: calc(var(--spacing) * -2);
-}
-
-.oms .oms-search {
-	margin-top: calc(var(--spacing) * 2);
-}
-
-.oms .oms-search .form-group {
-	margin: 0;
-}
-
-.oms .oms-search .control-label {
-	display: none;
-}
-
-.oms .settings-dialog-panel-heading:has(.oms-back) .settings-dialog-panel-description {
-	padding-inline-start: calc(var(--spacing) * 6);
-}
-
-.oms .oms-label {
-	font-size: var(--text-sm);
-	font-weight: 500;
-	color: var(--ink-gray-8);
-}
-
-/* A heading with its picker and Add at the end (Users, Allowed Domains). */
-.oms .oms-heading {
-	display: flex;
-	align-items: flex-end;
-	justify-content: space-between;
-	gap: calc(var(--spacing) * 4);
-	margin-bottom: calc(var(--spacing) * 2);
-}
-
-.oms .oms-heading > :first-child {
-	flex: 1;
-	min-width: 0;
-}
-
-.oms .oms-heading-end .oms-add {
-	margin-top: 0;
-}
-
-.oms .oms-heading-end .oms-add-pick {
-	width: 220px;
-}
-
-/* A later section whose heading carries a control keeps frappe's rule above it. */
-.oms .settings-dialog-panel-body > .oms-heading:not(:first-child) {
-	margin-top: var(--margin-md);
-	padding-top: var(--padding-sm);
-	border-top: 1px solid var(--outline-gray-2);
-}
-
-/* A switch at a heading's end sits on the title's line, not the description's. */
-.oms .oms-heading:has(> .oms-heading-end .oms-switch) {
-	align-items: flex-start;
-}
-
-.oms .oms-heading-end:has(.oms-switch) {
-	margin-top: calc(var(--margin-md) + (var(--text-lg) * 1.5 - 20px) / 2);
-}
-
-/* The picker and Add above a mailbox's users. */
-.oms .oms-add-top {
-	margin: 0 0 calc(var(--spacing) * 3);
-}
-
-/* A tab's on/off switch after its title (onemail_settings.js `header_switch`). */
-.oms .oms-head-switch {
-	display: inline-flex;
-	align-items: center;
-	margin-inline-start: calc(var(--spacing) * 2);
-}
-
-.oms .oms-head-switch .switch-text {
-	display: none;
-}
-
 .oms .oms-signature {
 	margin-bottom: calc(var(--spacing) * 4);
 	overflow: hidden;
@@ -223,7 +8,7 @@
 }
 
 /* A signature shown below a list, where it can't be changed. */
-.oms .oms-list + .oms-signature {
+.oms .one-set-list + .oms-signature {
 	margin-top: calc(var(--spacing) * 4);
 }
 
@@ -310,12 +95,6 @@
 	font-weight: var(--weight-medium);
 }
 
-.oms .oms-label {
-	margin-bottom: calc(var(--spacing) * 2);
-	color: var(--ink-gray-5);
-	font-size: var(--text-base);
-}
-
 .oms .oms-chips {
 	display: flex;
 	flex-wrap: wrap;
@@ -345,12 +124,6 @@
 	border-color: var(--outline-gray-4);
 	background: var(--surface-gray-2);
 	color: var(--ink-gray-8);
-}
-
-/* An alert between a tab's heading and its fields, such as what approved
-   leave does on Out of Office. */
-.oms .oms-alert {
-	margin: 0 0 calc(var(--spacing) * 4);
 }
 
 /* The OneAI tab's credits this month, against the limit. */
@@ -387,13 +160,4 @@
 .oms .oms-later {
 	color: var(--ink-gray-7);
 	font-weight: var(--weight-medium);
-}
-
-.oms .oms-lead:empty {
-	display: none;
-}
-
-.oms .oms-value {
-	color: var(--ink-gray-7);
-	font-size: var(--text-base);
 }

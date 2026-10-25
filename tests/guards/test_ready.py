@@ -153,3 +153,18 @@ def test_a_help_page_is_headed_pictured_and_linked_soundly():
 				assert (page["path"].parent / picture).exists(), f"{where}: no {picture}"
 			for target in LINK.findall(page["body"]):
 				assert "://" in target or target.split("#")[0] in listed, f"{where} links to {target}, which is no help page"
+
+
+def test_a_module_has_one_settings_dialog_and_one_foot():
+	"""Every module's settings are drawn by onedesk.module_settings and its
+	foot by windowModuleFoot (docs/READY.md, mechanism 5), so they look and
+	behave alike: the mark and Help atop the settings, tabs left out by role,
+	and Settings, Help and the version at the foot."""
+	for module, spec in ready.MODULES.items():
+		code = {path: path.read_text(encoding="utf-8") for path in ready.files(module) if path.suffix in (".js", ".vue")}
+		own = [str(path.relative_to(ROOT)) for path, text in code.items() if "new frappe.ui.SettingsDialog" in text]
+		assert not own, f"{module} draws its own settings dialog in {own}; use onedesk.module_settings.open"
+		loose = [str(path.relative_to(ROOT)) for path, text in code.items() if "windowFootAction(" in text]
+		assert not loose, f"{module} draws its own foot in {loose}; use windowModuleFoot"
+		assert any("onedesk.module_settings.open(" in text for text in code.values()), f"{module} has no settings dialog"
+		assert any("windowModuleFoot(" in text for text in code.values()), f"{module} has no foot"

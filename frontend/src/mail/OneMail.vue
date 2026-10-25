@@ -87,7 +87,7 @@ import {
   windowSearch,
   windowStatus,
   requires,
-  windowFootAction,
+  windowModuleFoot,
   windowHeadAction,
   windowTree,
 } from "../kit";
@@ -258,7 +258,7 @@ async function settings(tab) {
   await requires(SETTINGS);
   onedesk().mail.settings(tab);
 }
-windowFootAction(props.win, { icon: "settings", label: __("Settings"), onClick: () => settings(), version: { module: "OneMail" } });
+windowModuleFoot(props.win, { module: "OneMail", onSettings: () => settings() });
 
 const tree = windowTree(props.win, {
   label: __("Mailboxes"),

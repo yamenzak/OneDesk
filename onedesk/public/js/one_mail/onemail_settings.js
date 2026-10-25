@@ -14,22 +14,11 @@ frappe.provide("onedesk.mail");
 // a call to one_mail/holders.py, connect.py and rules.py, or one_mail/mail_templates.py.
 onedesk.mail.settings = (tab) => {
 	const H = "onedesk.one_mail.holders.";
-	const esc = frappe.utils.escape_html;
+	const { esc, saved, heading, heading_with, row, glyph, chevron, empty, fields, button, buttons, remove, view, track, header_switch, switched } =
+		onedesk.module_settings.kit;
 	// What the reader's role lets them do across the workspace's mail
 	// (one/boot.py `one_mail_may`, one_mail/abilities.py).
 	const can = frappe.boot.one_mail_may || {};
-	const saved = () => frappe.show_alert({ message: __("Saved"), indicator: "green" });
-
-	const heading = (title, description) =>
-		`<div class="settings-dialog-section-heading"><div class="settings-dialog-section-title">${esc(title)}</div>${
-			description ? `<div class="settings-dialog-section-description">${esc(description)}</div>` : ""
-		}</div>`;
-
-	// A section heading with a control at its end, such as a picker and Add.
-	const heading_with = (title, description) => {
-		const $row = $(`<div class="oms-heading">${heading(title, description)}<span class="oms-heading-end"></span></div>`);
-		return { $row, $end: $row.find(".oms-heading-end") };
-	};
 
 	// Whose a mailbox is: the workspace's, a team's, the address the workspace
 	// gives a person (System), a person's at a company domain (Organization),
@@ -47,51 +36,11 @@ onedesk.mail.settings = (tab) => {
 	const icon_of = (box) =>
 		box.workspace ? "building-2" : box.shared ? "users" : box.hosted ? "at-sign" : box.private ? "lock" : "building";
 
-	// A list row: a picture or an icon, two lines, and what sits at its end.
-	const row = ({ lead, title, sub = "", end = "", open = null }) => {
-		const $row = $(`<div class="oms-row${open ? " oms-row-open" : ""}">
-			<span class="oms-lead">${lead}</span>
-			<span class="oms-text"><span class="oms-title">${esc(title)}</span>${sub ? `<span class="oms-sub">${sub}</span>` : ""}</span>
-			<span class="oms-end">${end}</span>
-		</div>`);
-		if (open) {
-			$row.attr({ role: "button", tabindex: 0 }).on("click keydown", (e) => {
-				if (e.type === "keydown" && e.key !== "Enter") return;
-				if ($(e.target).closest(".oms-end button, .oms-end input, .oms-end label").length) return;
-				open();
-			});
-		}
-		return $row;
-	};
-	const glyph = (name) => `<span class="oms-glyph">${frappe.utils.icon(name, "sm")}</span>`;
-	const chevron = () => `<span class="oms-chevron">${frappe.utils.icon("chevron-right", "sm")}</span>`;
-	const empty = (words) => `<div class="oms-empty">${esc(words)}</div>`;
-	const fields = ($into, list) => {
-		const group = new frappe.ui.FieldGroup({ fields: list, body: $into.get(0) });
-		group.make();
-		return group;
-	};
-	const button = (opts) => $(frappe.ui.button.html(opts));
-	const buttons = ($into) => $(`<div class="oms-buttons"></div>`).appendTo($into);
-	const remove = (click) =>
-		button({ variant: "ghost", icon: "x", title: __("Remove"), attrs: { "aria-label": __("Remove") } }).on("click", click);
 	const disconnect = (account, email, done) =>
 		frappe.confirm(__("Disconnect {0}? Mail already synced is kept.", [esc(email)]), async () => {
 			await frappe.xcall("onedesk.one_mail.connect.disconnect", { account });
 			done();
 		});
-
-	// A view inside a tab (one mailbox): frappe's panel view, with Back before
-	// its title.
-	const view = (panel, opts) => {
-		panel.shown = (panel.shown || 0) + 1;
-		panel.set_view(opts);
-		button({ variant: "ghost", icon: "arrow-left", title: __("Back"), attrs: { "aria-label": __("Back") } })
-			.addClass("oms-back")
-			.on("click", () => panel.refresh())
-			.prependTo(panel.$header.find(".settings-dialog-panel-title"));
-		return panel;
-	};
 
 	// ── Mailboxes ───────────────────────────────────────────────────────────
 	const mailboxes = {
@@ -110,7 +59,7 @@ onedesk.mail.settings = (tab) => {
 			const was = panel.shown;
 			const boxes = (await frappe.xcall(H + "mailboxes")) || [];
 			if (panel.shown !== was) return;
-			const $list = $(`<div class="oms-list"></div>`).appendTo(panel.body.empty());
+			const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
 			if (!boxes.length) $list.append(empty(__("No mailboxes")));
 			boxes.forEach((box) => {
 				const said = [kind_of(box), box.sends ? __("Read and Send") : __("Read Only")];
@@ -141,50 +90,6 @@ onedesk.mail.settings = (tab) => {
 	// administrator's (holders.may_manage).
 	const R = "onedesk.one_mail.rules.";
 	const managed = __("Your role doesn't allow changing this.");
-
-	// A tab's Save shows only once something in it changed, and goes again
-	// once saved (panel.clean). The editor settles its value after drawing,
-	// so the starting values are read a moment later.
-	const track = (panel) => {
-		const $save = panel.$header.find(".oms-save").addClass("hide");
-		const now = () => JSON.stringify(panel.fieldgroup ? panel.fieldgroup.get_values(true) : {});
-		let was = null;
-		setTimeout(() => (was = now()), 600);
-		const check = () => was !== null && $save.toggleClass("hide", now() === was);
-		(panel.fieldgroup?.fields_list || []).forEach((field) => {
-			const before = field.df.change;
-			field.df.change = function () {
-				if (before) before.apply(this, arguments);
-				check();
-			};
-		});
-		panel.body.on("input", check);
-		panel.clean = () => {
-			was = now();
-			$save.addClass("hide");
-		};
-	};
-
-	// A tab's on/off as a switch after its title, saved as it changes; the
-	// tab's fields show only while it is on.
-	const header_switch = (panel, value, change) => {
-		const control = frappe.ui.form.make_control({
-			df: { fieldtype: "Switch", fieldname: "on", label: "" },
-			parent: $(`<span class="oms-switch oms-head-switch"></span>`).appendTo(panel.$header.find(".settings-dialog-panel-title")),
-			render_input: true,
-		});
-		control.set_value(value ? 1 : 0);
-		control.$input.attr("aria-label", panel.item.title);
-		const shown = (on) => panel.body.toggleClass("hide", !on);
-		control.$input.on("change", async () => {
-			const on = control.get_value() ? 1 : 0;
-			shown(on);
-			await change(on);
-			saved();
-		});
-		shown(value);
-		return control;
-	};
 
 	// A signature is shown as a mail client shows it: on white, whatever the
 	// theme. The frame grows to what it holds.
@@ -231,7 +136,7 @@ onedesk.mail.settings = (tab) => {
 				state.preset ? state.shown : [],
 				state.preset ? "" : panel.get_value("custom") || "",
 			]);
-		const dirty = (panel) => panel.$header.find(".oms-save").toggleClass("hide", now(panel) === was);
+		const dirty = (panel) => panel.$header.find(".one-set-save").toggleClass("hide", now(panel) === was);
 		const html_of = (preset) => (state.presets.find((one) => one.preset === preset) || {}).html;
 		const show = (panel, preset = state.preset) => {
 			const $look = panel.fieldgroup.get_field("look").$wrapper.empty();
@@ -282,7 +187,7 @@ onedesk.mail.settings = (tab) => {
 					})
 					.appendTo($chips);
 			}
-			$wrapper.append(`<div class="oms-label">${esc(__("Show"))}</div>`).append($chips);
+			$wrapper.append(`<div class="one-set-label">${esc(__("Show"))}</div>`).append($chips);
 		};
 		return {
 			id: "signature",
@@ -299,7 +204,7 @@ onedesk.mail.settings = (tab) => {
 						{
 							label: __("Save"),
 							variant: "solid",
-							class: "oms-save",
+							class: "one-set-save",
 							click: async (panel) => {
 								await frappe.xcall(SIGN + "set_preset", {
 									account: box.name,
@@ -323,9 +228,9 @@ onedesk.mail.settings = (tab) => {
 				// Whoever may not change it still sees what goes out under their mail.
 				if (!box.may_sign) {
 					const $body = panel.body.empty();
-					const $list = $(`<div class="oms-list"></div>`).appendTo($body);
+					const $list = $(`<div class="one-set-list"></div>`).appendTo($body);
 					const name = state.sender_name || state.default_sender_name || "—";
-					row({ lead: "", title: __("Sender Name"), end: `<span class="oms-value">${esc(name)}</span>` }).appendTo($list);
+					row({ lead: "", title: __("Sender Name"), end: `<span class="one-set-value">${esc(name)}</span>` }).appendTo($list);
 					const html = state.preset ? html_of(state.preset) : state.signature;
 					$body.append(html ? $(`<div class="oms-signature"></div>`).append(framed(html)) : empty(__("No signature")));
 					return;
@@ -347,7 +252,7 @@ onedesk.mail.settings = (tab) => {
 				cards(panel);
 				shows(panel);
 				show(panel);
-				panel.$header.find(".oms-save").addClass("hide");
+				panel.$header.find(".one-set-save").addClass("hide");
 				setTimeout(() => {
 					was = now(panel);
 					dirty(panel);
@@ -388,7 +293,7 @@ onedesk.mail.settings = (tab) => {
 				panel.fieldgroup
 					.get_field("preview")
 					.$wrapper.empty()
-					.append(`<div class="oms-label">${esc(__("What They Get"))}</div>`)
+					.append(`<div class="one-set-label">${esc(__("What They Get"))}</div>`)
 					.append($(`<div class="oms-signature"></div>`).append(framed(drawn.html)));
 			}, 300);
 		};
@@ -411,7 +316,7 @@ onedesk.mail.settings = (tab) => {
 						{
 							label: __("Save"),
 							variant: "solid",
-							class: "oms-save",
+							class: "one-set-save",
 							click: async (panel) => {
 								await frappe.xcall(R + "set_away", { ...values(panel), away: panel.on.get_value() ? 1 : 0 });
 								saved();
@@ -427,7 +332,7 @@ onedesk.mail.settings = (tab) => {
 				// The leave note sits between the heading and the fields, so it
 				// shows whether the switch is on or off.
 				panel.$header.siblings(".oms-leave").remove();
-				onedesk.alert({ text: note(away) }).addClass("oms-alert oms-leave").insertAfter(panel.$header);
+				onedesk.alert({ text: note(away) }).addClass("one-set-alert oms-leave").insertAfter(panel.$header);
 				if (!box.may.away) return;
 				panel.add_fields([
 					{ fieldname: "from_date", fieldtype: "Date", label: __("From"), default: away.one_away_from, description: __("Leave empty to start now.") },
@@ -536,7 +441,7 @@ onedesk.mail.settings = (tab) => {
 					{
 						label: __("Save"),
 						variant: "solid",
-						class: "oms-save",
+						class: "one-set-save",
 						click: async (panel) => {
 							const values = panel.get_values();
 							if (!values) return;
@@ -570,9 +475,9 @@ onedesk.mail.settings = (tab) => {
 				return;
 			}
 			if (!said.may_manage) {
-				const $list = $(`<div class="oms-list"></div>`).appendTo(panel.body.empty());
+				const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
 				const value = (title, said_value) =>
-					row({ lead: "", title, end: `<span class="oms-value">${esc(said_value)}</span>` }).appendTo($list);
+					row({ lead: "", title, end: `<span class="one-set-value">${esc(said_value)}</span>` }).appendTo($list);
 				value(__("OneAI"), said.on ? __("On") : __("Off"));
 				if (!said.on) return;
 				const level = said.reads ? said.level : NOT_READ;
@@ -591,7 +496,7 @@ onedesk.mail.settings = (tab) => {
 									text: __("This is your own mailbox. If OneAI reads it, it files and acts on this mail in the workspace, with your permissions."),
 									colour: "orange",
 								})
-									.addClass("oms-alert")
+									.addClass("one-set-alert")
 									.prop("outerHTML"),
 							},
 					  ]
@@ -686,7 +591,7 @@ onedesk.mail.settings = (tab) => {
 			if (!one_box) return;
 			const again = () => panel.refresh();
 			panel.set_header({ title: __("Users"), description: users_said(one_box) });
-			const $add = $(`<div class="oms-add oms-add-top"></div>`).appendTo(panel.body);
+			const $add = $(`<div class="one-set-add one-set-add-top"></div>`).appendTo(panel.body);
 			const pick = frappe.ui.form.make_control({
 				df: {
 					fieldtype: "Link",
@@ -697,7 +602,7 @@ onedesk.mail.settings = (tab) => {
 						filters: { user_type: "System User", enabled: 1, name: ["not in", one_box.people.map((one) => one.user)] },
 					}),
 				},
-				parent: $(`<span class="oms-add-pick"></span>`).appendTo($add),
+				parent: $(`<span class="one-set-add-pick"></span>`).appendTo($add),
 				render_input: true,
 			});
 			button({ label: __("Add"), variant: "solid" })
@@ -708,7 +613,7 @@ onedesk.mail.settings = (tab) => {
 					again();
 				})
 				.appendTo($add);
-			const $list = $(`<div class="oms-list"></div>`).appendTo(panel.body);
+			const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body);
 			if (!one_box.people.length) $list.append(empty(__("No users")));
 			// Beyond reading and sending, what each person may change in this
 			// one mailbox (holders.give, a share of it).
@@ -739,7 +644,7 @@ onedesk.mail.settings = (tab) => {
 					primary_action_label: __("Save"),
 					primary_action: async ({ keys }) => {
 						one.may = await frappe.xcall(H + "give", { account: box.name, user: one.user, keys: keys || [] });
-						$row.find(".oms-sub").text(may_sub(one));
+						$row.find(".one-set-sub").text(may_sub(one));
 						dialog.hide();
 						saved();
 					},
@@ -748,15 +653,15 @@ onedesk.mail.settings = (tab) => {
 			};
 			one_box.people.forEach((one) => {
 				const $row = row({ lead: frappe.ui.avatar.html({ label: one.name, size: "md" }), title: one.name, sub: esc(may_sub(one)) }).appendTo($list);
-				$row.find(".oms-title").append(" ", frappe.ui.badge.html({ label: one.role, theme: "gray" }));
-				const $end = $row.find(".oms-end");
+				$row.find(".one-set-title").append(" ", frappe.ui.badge.html({ label: one.role, theme: "gray" }));
+				const $end = $row.find(".one-set-end");
 				const everything = (said.abilities || []).every((ability) => one.covered.includes(ability.key));
 				const $access = button({ label: __("Edit Access"), variant: "outline", size: "sm" }).appendTo($end);
 				if (everything) $access.prop("disabled", true).attr("title", __("Their role already allows everything here."));
 				else $access.on("click", () => choose(one, $row));
 				const send = frappe.ui.form.make_control({
 					df: { fieldtype: "Switch", fieldname: "sends", label: __("Send"), read_only: !one_box.enable_outgoing },
-					parent: $(`<span class="oms-switch"></span>`).appendTo($end),
+					parent: $(`<span class="one-set-switch"></span>`).appendTo($end),
 					render_input: true,
 				});
 				send.set_value(one.sends);
@@ -790,12 +695,12 @@ onedesk.mail.settings = (tab) => {
 		],
 		async render(panel) {
 			const said = await frappe.xcall("onedesk.one_mail.connect.connection_of", { account: box.name });
-			const $list = $(`<div class="oms-list"></div>`).appendTo(panel.body.empty());
+			const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
 			[
 				[__("Incoming Server"), said.incoming || "—"],
 				[__("Outgoing Server"), said.outgoing || __("Not sending")],
 				[__("Last Checked"), said.checked ? frappe.datetime.prettyDate(said.checked) : __("Not yet")],
-			].forEach(([title, value]) => row({ lead: "", title, end: `<span class="oms-value">${esc(value)}</span>` }).appendTo($list));
+			].forEach(([title, value]) => row({ lead: "", title, end: `<span class="one-set-value">${esc(value)}</span>` }).appendTo($list));
 		},
 	});
 	const reconnect = (box, from) => {
@@ -848,7 +753,7 @@ onedesk.mail.settings = (tab) => {
 			if (panel.shown !== was) return;
 			panel.said = said;
 			if (!said.may) return;
-			const $list = $(`<div class="oms-list"></div>`).appendTo(panel.body.empty());
+			const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
 			if (!said.rules.length) $list.append(empty(__("No rules")));
 			said.rules.forEach((rule) => {
 				const $end = row({
@@ -859,7 +764,7 @@ onedesk.mail.settings = (tab) => {
 					open: () => rule_view(panel, box, rule),
 				})
 					.appendTo($list)
-					.find(".oms-end");
+					.find(".one-set-end");
 				if (rule.requested_by) {
 					$end.prepend(frappe.ui.badge.html({ label: __("Waiting for Approval"), theme: "orange" }));
 					return;
@@ -874,7 +779,7 @@ onedesk.mail.settings = (tab) => {
 				if (!said.manages) return;
 				const on = frappe.ui.form.make_control({
 					df: { fieldtype: "Switch", fieldname: "enabled", label: "" },
-					parent: $(`<span class="oms-switch oms-head-switch"></span>`).prependTo($end),
+					parent: $(`<span class="one-set-switch one-set-head-switch"></span>`).prependTo($end),
 					render_input: true,
 				});
 				on.set_value(rule.enabled ? 1 : 0);
@@ -994,7 +899,7 @@ onedesk.mail.settings = (tab) => {
 			.off("click")
 			.on("click", () => home(from));
 	};
-	const home = (tab) => dialog.reset(tabs, tab);
+	const home = (tab) => dialog.reset(dialog.home, tab);
 
 	// What a person may connect, from Private Mailboxes (boot.one_mail_private).
 	const can_connect = () => {
@@ -1134,7 +1039,7 @@ onedesk.mail.settings = (tab) => {
 			button({ label: __("Add Domain"), variant: "outline", size: "sm" })
 				.on("click", () => add_domain(panel))
 				.appendTo(top.$end);
-			const $list = $(`<div class="oms-list"></div>`).appendTo($body);
+			const $list = $(`<div class="one-set-list"></div>`).appendTo($body);
 			if (!domains.length) $list.append(empty(__("No company domains")));
 			domains.forEach((one) => {
 				const $row = row({
@@ -1147,7 +1052,7 @@ onedesk.mail.settings = (tab) => {
 						await frappe.xcall(C + "remove_domain", { domain: one.domain_name });
 						panel.refresh();
 					})
-				).appendTo($row.find(".oms-end"));
+				).appendTo($row.find(".one-set-end"));
 			});
 			if ((said.mailboxes || []).length) {
 				$body.append(heading(__("Defaults")));
@@ -1264,7 +1169,7 @@ onedesk.mail.settings = (tab) => {
 			const said = await frappe.xcall(H + "shared");
 			if (panel.shown !== was) return;
 			const $body = panel.body.empty();
-			const $list = $(`<div class="oms-list"></div>`).appendTo($body);
+			const $list = $(`<div class="one-set-list"></div>`).appendTo($body);
 			if (!(said.mailboxes || []).length) $list.append(empty(__("No shared mailboxes")));
 			(said.mailboxes || []).forEach((box) => {
 				const sends = box.people.filter((one) => one.sends).length;
@@ -1287,22 +1192,6 @@ onedesk.mail.settings = (tab) => {
 				);
 			});
 		},
-	};
-
-	// A heading with its switch at the end, saved as it changes.
-	const switched = ($body, title, description, value, change) => {
-		const top = heading_with(title, description);
-		top.$row.appendTo($body);
-		const control = frappe.ui.form.make_control({
-			df: { fieldtype: "Switch", fieldname: "on", label: "" },
-			parent: $(`<span class="oms-switch"></span>`).appendTo(top.$end),
-			render_input: true,
-		});
-		control.set_value(value ? 1 : 0);
-		control.$input.on("change", async () => {
-			await change(control.get_value() ? 1 : 0);
-			saved();
-		});
 	};
 
 	// A person's row in System and Organization Mailboxes, opened to set a
@@ -1347,14 +1236,14 @@ onedesk.mail.settings = (tab) => {
 				$body.append(heading(__("Mailboxes")));
 			}
 			const issued = (listed || []).filter((one) => one.issued);
-			const $list = $(`<div class="oms-list"></div>`).appendTo($body);
+			const $list = $(`<div class="one-set-list"></div>`).appendTo($body);
 			if (!issued.length) $list.append(empty(__("No mailboxes")));
 			issued.forEach((one) => {
 				const $row = person_row(one, "system").appendTo($list);
 				if (!said) return;
 				const send = frappe.ui.form.make_control({
 					df: { fieldtype: "Switch", fieldname: "sends", label: __("Send") },
-					parent: $(`<span class="oms-switch"></span>`).prependTo($row.find(".oms-end")),
+					parent: $(`<span class="one-set-switch"></span>`).prependTo($row.find(".one-set-end")),
 					render_input: true,
 				});
 				send.set_value(one.sends);
@@ -1383,7 +1272,7 @@ onedesk.mail.settings = (tab) => {
 			const listed = (await frappe.xcall(H + "addresses_of_people")) || [];
 			if (panel.shown !== was) return;
 			const connected = listed.filter((one) => !one.issued);
-			const $list = $(`<div class="oms-list"></div>`).appendTo(panel.body.empty());
+			const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
 			if (!connected.length) $list.append(empty(__("No organization mailboxes")));
 			connected.forEach((one) => person_row(one, "organization").appendTo($list));
 		},
@@ -1405,7 +1294,7 @@ onedesk.mail.settings = (tab) => {
 			const $body = panel.body.empty();
 			const $top = heading_with(__("Allowed Domains"), __("Leave empty to allow any domain.")).$row.appendTo($body);
 			let domains = said.allowed_domains || [];
-			const $list = $(`<div class="oms-list"></div>`).appendTo($body);
+			const $list = $(`<div class="one-set-list"></div>`).appendTo($body);
 			const save = async (next) => {
 				domains = await frappe.xcall(H + "set_allowed_domains", { domains: next });
 				draw();
@@ -1415,14 +1304,14 @@ onedesk.mail.settings = (tab) => {
 				if (!domains.length) $list.append(empty(__("Any domain")));
 				domains.forEach((one) => {
 					const $row = row({ lead: glyph("globe"), title: "@" + one }).appendTo($list);
-					remove(() => save(domains.filter((other) => other !== one))).appendTo($row.find(".oms-end"));
+					remove(() => save(domains.filter((other) => other !== one))).appendTo($row.find(".one-set-end"));
 				});
 			};
 			draw();
-			const $add = $(`<div class="oms-add"></div>`).appendTo($top.find(".oms-heading-end"));
+			const $add = $(`<div class="one-set-add"></div>`).appendTo($top.find(".one-set-heading-end"));
 			const typed = frappe.ui.form.make_control({
 				df: { fieldtype: "Data", fieldname: "domain", placeholder: "gmail.com" },
-				parent: $(`<span class="oms-add-pick"></span>`).appendTo($add),
+				parent: $(`<span class="one-set-add-pick"></span>`).appendTo($add),
 				render_input: true,
 			});
 			const add = () => {
@@ -1484,16 +1373,16 @@ onedesk.mail.settings = (tab) => {
 			const $body = panel.body.empty();
 			const search = frappe.ui.form.make_control({
 				df: { fieldtype: "Data", fieldname: "search", placeholder: __("Search") },
-				parent: $(`<div class="oms-search"></div>`).appendTo($body),
+				parent: $(`<div class="one-set-search"></div>`).appendTo($body),
 				render_input: true,
 			});
-			const $list = $(`<div class="oms-list"></div>`).appendTo($body);
+			const $list = $(`<div class="one-set-list"></div>`).appendTo($body);
 			if (!rows.length) $list.append(empty(__("No mail templates")));
 			const $none = $(empty(__("No matches"))).addClass("hide").appendTo($list);
 			search.$input.on("input", () => {
 				const words = search.$input.val().trim().toLowerCase();
 				let shown = 0;
-				$list.children(".oms-row").each((_, el) => {
+				$list.children(".one-set-row").each((_, el) => {
 					const match = !words || el.dataset.find.includes(words);
 					$(el).toggleClass("hide", !match);
 					shown += match ? 1 : 0;
@@ -1512,7 +1401,7 @@ onedesk.mail.settings = (tab) => {
 					open: () => template(panel, one.name),
 				}).attr("data-find", [one.name, one.subject, one.label, ...(one.default_for || []), ...one.used_by].join(" ").toLowerCase());
 				for (const setting of one.used_by)
-					$row.find(".oms-title").append(" ", frappe.ui.badge.html({ label: __("Used by {0}", [setting]), theme: "gray" }));
+					$row.find(".one-set-title").append(" ", frappe.ui.badge.html({ label: __("Used by {0}", [setting]), theme: "gray" }));
 				$list.append($row);
 			});
 		},
@@ -1550,29 +1439,24 @@ onedesk.mail.settings = (tab) => {
 		},
 	};
 
-	const tabs = [{ group: __("Your Mail"), items: [mailboxes] }];
-	const workspace_tabs = [
-		can.policy && setup,
-		(can.connect_shared || can.holders || can.others) && shared,
-		(can.policy || can.others) && system,
-		(can.policy || can.others) && organization,
-		can.policy && private_tab,
-		can.templates && templates,
-		can.roles && roles,
-	].filter(Boolean);
-	if (workspace_tabs.length) tabs.push({ group: __("Workspace"), items: workspace_tabs });
-	if (onedesk.mail._settings) onedesk.mail._settings.$wrapper.remove();
+	// Each workspace tab asks what the reader's role allows
+	// (onedesk.module_settings.open leaves out what it doesn't).
+	setup.needs = "policy";
+	shared.needs = ["connect_shared", "holders", "others"];
+	system.needs = ["policy", "others"];
+	organization.needs = ["policy", "others"];
+	private_tab.needs = "policy";
+	templates.needs = "templates";
+	roles.needs = "roles";
+	const tabs = [
+		{ group: __("Your Mail"), items: [mailboxes] },
+		{ group: __("Workspace"), items: [setup, shared, system, organization, private_tab, templates, roles] },
+	];
 	// `connect` and `connect-shared` open a tab on its Connect view, and
 	// `mailbox:<name>[:signature|away]` on one mailbox.
 	const [opening, named, focus] = String(tab || "").split(":");
 	const joining = { connect: "mailboxes", "connect-shared": can.connect_shared ? "shared" : "mailboxes", mailbox: "mailboxes" }[opening];
-	const first = joining || tab;
-	const dialog = new frappe.ui.SettingsDialog({
-		title: __("OneMail Settings"),
-		default_tab: tabs.some((group) => group.items.some((one) => one.id === first)) ? first : "mailboxes",
-		tabs,
-	});
-	onedesk.mail._settings = dialog;
+	const dialog = onedesk.module_settings.open({ module: "OneMail", may: can, tabs, default_tab: joining || tab });
 	dialog.$wrapper.addClass("oms");
 	dialog.show();
 	if (opening === "mailbox") open(named, "mailboxes", focus);

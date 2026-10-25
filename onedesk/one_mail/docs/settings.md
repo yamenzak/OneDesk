@@ -2,7 +2,11 @@
 
 **Settings**, at the foot of OneMail's rail, holds everything about your
 mailboxes and, for administrators, the workspace's mail. Each tab has its own
-**Save**.
+**Save**, and the question mark at the top opens this Help.
+
+> **You see only what your role lets you use.** Someone without a OneMail role
+> beyond User sees **Mailboxes** alone; the workspace's areas below appear for
+> those whose role reaches them.
 
 ## A Mailbox's Tabs
 

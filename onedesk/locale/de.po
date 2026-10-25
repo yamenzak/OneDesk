@@ -28234,10 +28234,6 @@ msgstr "Wenn die Startseite von OneInventory geöffnet wird und jedes Mal, wenn 
 msgid "OneMail"
 msgstr "OneMail"
 
-#: onedesk/public/js/onemail_settings.js:432
-msgid "OneMail Settings"
-msgstr "OneMail-Einstellungen"
-
 #. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
@@ -54045,6 +54041,10 @@ msgstr "{0} Angebote laufen ab"
 #: frontend/src/home/HrHome.vue:161
 msgid "{0} Requests Waiting for You"
 msgstr "{0} Anträge warten auf Sie"
+
+#: onedesk/public/js/module_settings.js:54
+msgid "{0} Settings"
+msgstr "Einstellungen von {0}"
 
 #: onedesk/one_studio/mend.py:163
 msgid "{0} The fixed version is off until you turn it on."

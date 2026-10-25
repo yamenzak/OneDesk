@@ -28234,10 +28234,6 @@ msgstr "عند فتح الصفحة الرئيسية لـ OneInventory، وكلم
 msgid "OneMail"
 msgstr "OneMail"
 
-#: onedesk/public/js/onemail_settings.js:432
-msgid "OneMail Settings"
-msgstr "إعدادات OneMail"
-
 #. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
@@ -54045,6 +54041,10 @@ msgstr "{0} عروض أسعار تنتهي صلاحيتها"
 #: frontend/src/home/HrHome.vue:161
 msgid "{0} Requests Waiting for You"
 msgstr "{0} طلبات بانتظارك"
+
+#: onedesk/public/js/module_settings.js:54
+msgid "{0} Settings"
+msgstr "إعدادات {0}"
 
 #: onedesk/one_studio/mend.py:163
 msgid "{0} The fixed version is off until you turn it on."

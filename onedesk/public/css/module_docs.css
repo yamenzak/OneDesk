@@ -2,29 +2,10 @@
    settings dialog with the module's own sidebar, and words laid out for
    reading across the whole panel. */
 
-/* The sidebar: the module's mark, a search, then the tree. */
+/* The sidebar: the module's mark (module_settings.css), a search, then the
+   tree. */
 .one-docs-sidebar {
 	gap: calc(var(--spacing) * 2);
-}
-
-.one-docs-head {
-	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 2) 0;
-}
-
-.one-docs-name {
-	color: var(--ink-gray-9);
-	font-size: var(--text-lg);
-	font-weight: 600;
-	line-height: 1.3;
-}
-
-.one-docs-name .one-mark {
-	margin-inline-end: calc(var(--spacing) * 1.5);
-}
-
-.one-docs-kind {
-	color: var(--ink-gray-5);
-	font-size: var(--text-sm);
 }
 
 .one-docs-search {

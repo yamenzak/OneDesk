@@ -391,6 +391,10 @@ export const windowHeadAction = (win, { icon, title, onClick }) =>
 export const windowFootAction = (win, { icon, label, onClick, version = null }) =>
 	win && win.foot_action({ icon: icon.replace(/^lucide-/, ""), label, click: onClick, version });
 
+// A module's foot: Settings, Help and its version, the same in every module
+// (window/nav_tree.js `module_foot`).
+export const windowModuleFoot = (win, { module, onSettings }) => win && win.module_foot({ module, settings: onSettings });
+
 // Meters at the foot of this view's nav pane (window/nav_tree.js).
 export const windowMeters = (win, rows) => win && win.meters(rows);
 

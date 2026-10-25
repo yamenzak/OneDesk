@@ -205,6 +205,12 @@ onedesk.window.Window.prototype.foot_action = function ({ icon, label, click, ve
 	return this;
 };
 
+// A module's foot, the same three in every module (docs/READY.md,
+// mechanism 5): Settings, then Help and the version at the row's end.
+onedesk.window.Window.prototype.module_foot = function ({ module, settings }) {
+	return this.foot_action({ icon: "settings", label: __("Settings"), click: settings, version: { module } });
+};
+
 onedesk.window.Window.prototype.foot_version = function ({ module }) {
 	const said = (frappe.boot.one_versions || {})[module];
 	if (!said) return;
