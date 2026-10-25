@@ -140,7 +140,7 @@ onedesk.mail.settings = (tab) => {
 	// frappe's settings do. A shared mailbox's settings are an
 	// administrator's (holders.may_manage).
 	const R = "onedesk.one_mail.rules.";
-	const managed = __("Only a Mail Manager or an administrator can change this.");
+	const managed = __("Your role doesn't allow changing this.");
 
 	// A tab's Save shows only once something in it changed, and goes again
 	// once saved (panel.clean). The editor settles its value after drawing,
@@ -293,7 +293,7 @@ onedesk.mail.settings = (tab) => {
 				? __("Added to every email sent from this mailbox.")
 				: !box.sends
 				? __("Requires Send access.")
-				: __("Added to every email sent from this mailbox. Only a Mail Manager or an administrator can change it."),
+				: __("Added to every email sent from this mailbox. Your role doesn't allow changing it."),
 			actions: box.may_sign
 				? [
 						{
@@ -530,7 +530,7 @@ onedesk.mail.settings = (tab) => {
 		title: __("OneAI"),
 		description: box.may.ai
 			? __("What OneAI does with new mail on its own. It never mails anyone outside the workspace. If disabled, OneAI can't read this mailbox.")
-			: __("What OneAI does with new mail in this mailbox. Only a Mail Manager or an administrator can change it."),
+			: __("What OneAI does with new mail in this mailbox. Your role doesn't allow changing it."),
 		actions: box.may.ai
 			? [
 					{

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-25 10:52+0000\n"
-"PO-Revision-Date: 2026-10-25 10:52+0000\n"
+"POT-Creation-Date: 2026-10-25 10:55+0000\n"
+"PO-Revision-Date: 2026-10-25 10:55+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2664,7 +2664,7 @@ msgid "Added to every email sent from this mailbox."
 msgstr ""
 
 #: onedesk/public/js/onemail_settings.js:296
-msgid "Added to every email sent from this mailbox. Only a Mail Manager or an administrator can change it."
+msgid "Added to every email sent from this mailbox. Your role doesn't allow changing it."
 msgstr ""
 
 #. Description of the 'Added Instructions' (Small Text) field in DocType 'AI
@@ -28533,10 +28533,6 @@ msgstr ""
 msgid "Only Word files can be opened as a document."
 msgstr ""
 
-#: onedesk/public/js/onemail_settings.js:143
-msgid "Only a Mail Manager or an administrator can change this."
-msgstr ""
-
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.py:14
 msgid "Only a Workspace Administrator can share a server with everyone."
 msgstr ""
@@ -47902,7 +47898,7 @@ msgid "What OneAI does not do with this mailbox's mail, by job (one_mail/gate.py
 msgstr ""
 
 #: onedesk/public/js/onemail_settings.js:533
-msgid "What OneAI does with new mail in this mailbox. Only a Mail Manager or an administrator can change it."
+msgid "What OneAI does with new mail in this mailbox. Your role doesn't allow changing it."
 msgstr ""
 
 #: onedesk/public/js/onemail_settings.js:532
@@ -52814,6 +52810,10 @@ msgstr ""
 
 #: onedesk/one_mail/holders.py:113
 msgid "Your role doesn't allow changing this on {0}."
+msgstr ""
+
+#: onedesk/public/js/onemail_settings.js:143
+msgid "Your role doesn't allow changing this."
 msgstr ""
 
 #: onedesk/one_mail/holders.py:42

@@ -2665,8 +2665,8 @@ msgid "Added to every email sent from this mailbox."
 msgstr "يُضاف إلى كل بريد يُرسل من صندوق البريد هذا."
 
 #: onedesk/public/js/onemail_settings.js:296
-msgid "Added to every email sent from this mailbox. Only a Mail Manager or an administrator can change it."
-msgstr "يُضاف إلى كل رسالة تُرسل من صندوق البريد هذا. لا يغيّره إلا مدير البريد أو المسؤول."
+msgid "Added to every email sent from this mailbox. Your role doesn't allow changing it."
+msgstr "يُضاف إلى كل رسالة تُرسل من صندوق البريد هذا. دورك لا يسمح بتغييره."
 
 #. Description of the 'Added Instructions' (Small Text) field in DocType 'AI
 #. Action Setting'
@@ -28383,10 +28383,6 @@ msgstr "OneAI وحده يكتب الإضافات. اطلب منه تغيير ه�
 msgid "Only Word files can be opened as a document."
 msgstr "لا يمكن فتح سوى ملفات Word كمستند."
 
-#: onedesk/public/js/onemail_settings.js:122
-msgid "Only a Mail Manager or an administrator can change this."
-msgstr "لا يمكن تغيير هذا إلا لمدير البريد أو المسؤول."
-
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.py:14
 msgid "Only a Workspace Administrator can share a server with everyone."
 msgstr "لا يمكن مشاركة خادم مع الجميع إلا لمسؤول مساحة العمل."
@@ -47610,8 +47606,8 @@ msgid "What OneAI does not do with this mailbox's mail, by job (one_mail/gate.py
 msgstr "ما لا يفعله OneAI ببريد هذا الصندوق، حسب المهمة."
 
 #: onedesk/public/js/onemail_settings.js:533
-msgid "What OneAI does with new mail in this mailbox. Only a Mail Manager or an administrator can change it."
-msgstr "ما يفعله OneAI بالبريد الجديد في صندوق البريد هذا. لا يغيّره إلا مدير البريد أو المسؤول."
+msgid "What OneAI does with new mail in this mailbox. Your role doesn't allow changing it."
+msgstr "ما يفعله OneAI بالبريد الجديد في صندوق البريد هذا. دورك لا يسمح بتغييره."
 
 #: onedesk/public/js/onemail_settings.js:503
 msgid "What OneAI does with new mail on its own. It never mails anyone outside the workspace. If disabled, OneAI can't read this mailbox."
@@ -52486,6 +52482,10 @@ msgstr "دورك"
 #: onedesk/one_mail/holders.py:88
 msgid "Your role doesn't allow changing this on {0}."
 msgstr "لا يسمح لك دورك بتغيير هذا في {0}."
+
+#: onedesk/public/js/onemail_settings.js:143
+msgid "Your role doesn't allow changing this."
+msgstr "دورك لا يسمح بتغيير هذا."
 
 #: onedesk/one_mail/holders.py:41
 msgid "Your role doesn't allow this."

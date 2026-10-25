@@ -31,7 +31,9 @@ needs a Cloudflare key with Zone Settings: Edit.
   (shared mailboxes, administrators), **Connection** (connected mailboxes)
   and **Automation**. Each tab has its own **Save**. Where your role can't
   change a tab, such as the signature and OneAI on the address the workspace
-  gave you, it still shows what is set, and says who can change it.
+  gave you, it still shows what is set. Whether it can be changed is the role's
+  ability in **Roles**, such as **Signature and Sender Name** set to **Their
+  Own Address**.
 
 **OneAI** in a mailbox's settings is OneIntake for that mailbox, the virtual
 employee that reads its mail:
