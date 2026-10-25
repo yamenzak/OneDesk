@@ -150,7 +150,27 @@ ones that read only the top of `public/js` or `public/css` also read `one_*/`.
 
 ### 3. Versions and What's New
 
-**Today.** Nothing per module. Frappe's own What's New dialog
+**Built, and OneMail is at 1.0.0.** As below, with these details:
+
+- `onedesk/one/ready.py` reads a module's versions (`versions`, `current`)
+  and takes its fingerprint over what it ships (`shipped`): its code, its
+  screens and its help pages, but not AGENTS.md, SCRATCHPAD.md, its
+  versions, its tests, its checks or its part of the demo.
+- `scripts/version.py one_mail minor "Title"` writes the next file.
+- `tests/guards/test_ready.py` holds the newest fingerprint to the module's,
+  versions to follow one another from 1.0.0 by their kind, and every entry
+  to a title of five words or fewer and words with no file, function or
+  commit in them. A picture an entry names must sit beside it.
+- `one/versions.py` sends What's New: the entries, newest first, rendered,
+  with a picture sent inside its entry, each marked New past the version
+  the reader last saw, which opening them moves on (a user default per
+  module). `frappe.boot.one_versions` carries each module's version and
+  whether it is unseen.
+- The version sits at the end of the module's foot row (`win.foot_action`
+  with `version`), with a dot until seen, and opens What's New
+  (`public/js/whats_new.js`).
+
+**Before.** Nothing per module. Frappe's own What's New dialog
 (`frappe/utils/change_log.py`) is per app and reads
 `<app>/change_log/v1/v1_2_3.md`.
 

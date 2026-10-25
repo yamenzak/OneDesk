@@ -452,6 +452,48 @@ body.one-window-dragging * {
 	display: none;
 }
 
+/* The module's version at the end of its foot row, a dot until seen. */
+.one-window-foot-action .standard-sidebar-item {
+	display: flex;
+	align-items: center;
+}
+
+.one-window-foot-action .item-anchor {
+	flex: 1;
+	min-width: 0;
+}
+
+.one-window-foot-version {
+	position: relative;
+	flex-shrink: 0;
+	padding: 0 calc(var(--spacing) * 1.5);
+	border: 0;
+	border-radius: var(--radius-sm);
+	background: transparent;
+	font-size: var(--text-xs);
+	color: var(--ink-gray-5);
+}
+
+.one-window-foot-version:hover {
+	background: var(--surface-gray-2);
+	color: var(--ink-gray-8);
+}
+
+.one-window-foot-version--unseen::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 6px;
+	height: 6px;
+	border-radius: var(--radius-full);
+	background: var(--surface-blue-6);
+}
+
+.body-sidebar-container:not(.expanded) .one-window-foot-version {
+	display: none;
+}
+
 /* A view's meters (win.meters) at the foot of the nav pane: frappe's
    progress bars, amber when nearly full and red when over; a size with no
    limit is said without a bar. */

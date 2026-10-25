@@ -405,10 +405,6 @@ msgstr "8 Stunden"
 msgid "91 to 180 Days"
 msgstr "91 bis 180 Tage"
 
-#: onedesk/notifications/one_mail/mail_rule_requested.md
-msgid "<b>When</b> {when}<br><b>Then</b> {then}<br>It runs once you approve it in OneMail › Settings › {mailbox} › Mail Rules."
-msgstr "<b>Wenn</b> {when}<br><b>Dann</b> {then}<br>Sie läuft, sobald Sie sie in OneMail › Einstellungen › {mailbox} › E-Mail-Regeln genehmigen."
-
 #. Header text in the One Admin Workspace
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "<span class=\"h4\"><b>Right now</b></span>"
@@ -5077,11 +5073,6 @@ msgstr "Anhang"
 msgid "Attachments"
 msgstr "Anhänge"
 
-#. Name of a notification
-#: onedesk/notifications/one_mail/attachments_not_saved.md
-msgid "Attachments Not Saved"
-msgstr "Anhänge nicht gespeichert"
-
 #: onedesk/public/js/onemail.js:943
 msgid "Attachments in OneCloud"
 msgstr "Anhänge in OneCloud"
@@ -9646,10 +9637,6 @@ msgstr "Titelbild"
 msgid "Cover Holidays Too"
 msgstr "Feiertage einschließen"
 
-#: onedesk/notifications/one_mail/covering_mail.md
-msgid "Covering Mail"
-msgstr "Vertretung für E-Mails"
-
 #: onedesk/one_hr/custom/leave_application.json
 msgid "Covering Person"
 msgstr "Vertretung"
@@ -13192,11 +13179,6 @@ msgid "Each person chooses"
 msgstr "Jede Person wählt"
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_mail/mailbox_shared_with_you.md
-msgid "Each person given it"
-msgstr "Jede Person, die es erhält"
-
-#. Who a notification is sent to
 #: onedesk/notifications/one_task/task_given.md
 msgid "Each person given it, but whoever gave it"
 msgstr "Jede Person, der sie gegeben wurde, außer wer sie gab"
@@ -14420,10 +14402,6 @@ msgstr "Jeden Tag"
 msgid "Every Hour"
 msgstr "Jede Stunde"
 
-#: onedesk/notifications/one_mail/mail_rule_requested.md
-msgid "Every Mail Manager and administrator"
-msgstr "Jeder E-Mail-Manager und Administrator"
-
 #: onedesk/one_mail/abilities.py:20
 msgid "Every Mailbox"
 msgstr "Jedes Postfach"
@@ -14471,11 +14449,6 @@ msgstr "Der Saldo jedes Kontos, ohne Anfangs- und Endspalten."
 #: onedesk/notifications/one_studio/extensions_failing.md
 msgid "Every administrator"
 msgstr "Jede Administratorin und jeder Administrator"
-
-#. Who a notification is sent to
-#: onedesk/notifications/one_mail/attachments_not_saved.md
-msgid "Every administrator, and everybody who holds the mailbox"
-msgstr "Jeder Administrator und jeder, der das Postfach hat"
 
 #: onedesk/one_inventory/ready.py:241
 msgid "Every asset is kept at a location."
@@ -14729,11 +14702,6 @@ msgstr "Alle Teilnehmer, außer wer abgesagt hat"
 #: onedesk/notifications/one_calendar/event_changed.md
 msgid "Everybody on it, but whoever changed it"
 msgstr "Alle Teilnehmer, außer wer geändert hat"
-
-#. Who a notification is sent to
-#: onedesk/notifications/one_mail/mailbox_not_reachable.md
-msgid "Everybody who holds it, or every administrator when nobody does"
-msgstr "Alle, die es halten, oder alle Administratoren, wenn niemand es hält"
 
 #: onedesk/one_hr/home.py:53
 msgid "Everybody who works here, with their contract, pay and papers."
@@ -20298,11 +20266,6 @@ msgstr "Sie kann hier noch nicht laufen: Dieser Arbeitsbereich führt keine Erwe
 msgid "It changed for everyone. See it in OneStudio › Custom Fields."
 msgstr "Es hat sich für alle geändert. Sie finden es in OneStudio › Benutzerdefinierte Felder."
 
-#. Message of a notification
-#: onedesk/notifications/one_mail/mail_not_sent.md
-msgid "It could not be delivered to {to}. Open it to see why, and send it again."
-msgstr "Sie konnte nicht an {to} zugestellt werden. Öffnen Sie sie, um den Grund zu sehen, und senden Sie sie erneut."
-
 #: onedesk/one_admin/heads.py:306
 msgid "It expired on {0} with {1} of {2} credits unused."
 msgstr "Abgelaufen am {0}, {1} von {2} Credits unverbraucht."
@@ -20790,11 +20753,6 @@ msgstr "Ihre Felder sind jetzt {fields}."
 #: onedesk/notifications/one_hr/interview_soon.md
 msgid "Its interviewers"
 msgstr "Die Interviewer"
-
-#. Message of a notification
-#: onedesk/notifications/one_mail/mailbox_shared_with_you.md
-msgid "Its mail is in OneMail now, beside your own, and you can reply from it."
-msgstr "Seine E-Mails sind jetzt in OneMail neben Ihren eigenen, und Sie können von dort antworten."
 
 #. Description of the 'Server' (Data) field in DocType 'Workspace Server'
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json
@@ -22982,33 +22940,12 @@ msgstr "E-Mail-Ordner"
 msgid "Mail Name"
 msgstr "Mail-Name"
 
-#. Name of a notification
-#: onedesk/notifications/one_mail/mail_not_sent.md
-msgid "Mail Not Sent"
-msgstr "E-Mail nicht gesendet"
-
 #. Name of a DocType
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 #: onedesk/public/js/onemail_settings.js:514
 #: onedesk/public/js/onemail_settings.js:558
 msgid "Mail Rule"
 msgstr "Mail-Regel"
-
-#: onedesk/notifications/one_mail/mail_rule_approved.md
-msgid "Mail Rule Approved"
-msgstr "E-Mail-Regel genehmigt"
-
-#: onedesk/notifications/one_mail/mail_rule_declined.md
-msgid "Mail Rule Declined"
-msgstr "E-Mail-Regel abgelehnt"
-
-#: onedesk/notifications/one_mail/mail_rule_notice.md
-msgid "Mail Rule Notice"
-msgstr "Hinweis einer Mail-Regel"
-
-#: onedesk/notifications/one_mail/mail_rule_requested.md
-msgid "Mail Rule Requested"
-msgstr "E-Mail-Regel angefragt"
 
 #: onedesk/one/automation_steps.py:37
 msgid "Mail Template"
@@ -23029,15 +22966,6 @@ msgstr "Mails und Dateien werden beim Eintreffen gelesen, beim richtigen Datensa
 msgid "Mail sent to a lead or a contact on a schedule."
 msgstr "E-Mails, die nach Zeitplan an einen Lead oder Kontakt gesendet werden."
 
-#. Message of a notification
-#: onedesk/notifications/one_mail/attachments_not_saved.md
-msgid "Mail to <b>{mailbox}</b> still arrives, but its attachments wait until there is room. Free some space or add storage in Plan and Credits, and they are saved within the hour."
-msgstr "E-Mails an <b>{mailbox}</b> kommen weiterhin an, aber ihre Anhänge warten, bis Platz ist. Geben Sie Speicher frei oder fügen Sie unter Tarif und Guthaben Speicher hinzu, dann werden sie innerhalb einer Stunde gespeichert."
-
-#: onedesk/notifications/one_mail/covering_mail.md
-msgid "Mail to {mailbox} is in OneMail with your own while they're on leave. You can read it and reply from your own address, but not send from theirs."
-msgstr "E-Mails an {mailbox} sind während des Urlaubs zusammen mit deinen eigenen in OneMail. Du kannst sie lesen und von deiner eigenen Adresse antworten, aber nicht von ihrer senden."
-
 #: onedesk/one/privacy_copy.py:22
 msgid "Mail you sent or received"
 msgstr "Mail, die Sie gesendet oder erhalten haben"
@@ -23056,23 +22984,9 @@ msgstr "{0} per Mail"
 msgid "Mailbox"
 msgstr "Postfach"
 
-#. Name of a notification
-#: onedesk/notifications/one_mail/mailbox_not_reachable.md
-msgid "Mailbox Not Reachable"
-msgstr "Postfach nicht erreichbar"
-
-#: onedesk/notifications/one_mail/mailbox_oneai_limit_reached.md
-msgid "Mailbox OneAI Limit Reached"
-msgstr "OneAI-Limit des Postfachs erreicht"
-
 #: frontend/src/mail/OneMail.vue:290
 msgid "Mailbox Settings"
 msgstr "Postfach-Einstellungen"
-
-#. Name of a notification
-#: onedesk/notifications/one_mail/mailbox_shared_with_you.md
-msgid "Mailbox Shared With You"
-msgstr "Postfach mit Ihnen geteilt"
 
 #: onedesk/public/js/onemail.js:809 onedesk/public/js/onemail_settings.js:198
 msgid "Mailbox connected"
@@ -23177,6 +23091,10 @@ msgstr "Wartungsbesuch"
 #: frontend/src/home/InventoryStory.vue:90
 msgid "Maintenance by Month"
 msgstr "Wartung nach Monat"
+
+#: onedesk/public/js/whats_new.js:6
+msgid "Major"
+msgstr "Groß"
 
 #. Label in the One Vehicle Log print format
 #. Label in the One Job Card print format
@@ -25211,10 +25129,6 @@ msgstr "Neuer Link erstellt"
 msgid "New mail and its attachments are read, filed and acted on as you."
 msgstr "Neue Mails und ihre Anhänge werden in Ihrem Namen gelesen, abgelegt und bearbeitet."
 
-#: onedesk/notifications/one_mail/mailbox_oneai_limit_reached.md
-msgid "New mail in <b>{mailbox}</b> is only read without OneAI until next month. Raise the limit in OneMail › Settings › {mailbox} › OneAI."
-msgstr "Neue E-Mails in <b>{mailbox}</b> werden bis zum nächsten Monat ohne OneAI gelesen. Erhöhen Sie das Limit unter OneMail › Einstellungen › {mailbox} › OneAI."
-
 #. Description of the 'Read by OneAI' (Check) field in DocType 'Email Account'
 #: onedesk/one_intake/custom/email_account.json
 msgid "New mail in this mailbox is read, filed and acted on by OneAI."
@@ -25988,10 +25902,6 @@ msgstr "Noch keine benannten Bereiche definiert."
 #: frontend/src/sheet/components/SheetEditor/VersionHistory.vue:17
 msgid "No named versions yet."
 msgstr "Noch keine benannten Versionen."
-
-#: onedesk/notifications/one_mail/mailbox_not_reachable.md
-msgid "No new mail is read from <b>{mailbox}</b> until it is connected again. Reconnect it from OneMail › Settings › Mailboxes."
-msgstr "Aus <b>{mailbox}</b> werden keine neuen E-Mails gelesen, bis es wieder verbunden ist. Verbinden Sie es unter OneMail › Einstellungen › Postfächer neu."
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:410
 msgid "No notes yet."
@@ -28757,22 +28667,6 @@ msgstr "Arbeitskarte öffnen"
 #: onedesk/public/js/oneai/Found.vue:13
 msgid "Open List"
 msgstr "Liste öffnen"
-
-#. The button on a notification's mail
-#: onedesk/notifications/one_mail/mailbox_shared_with_you.md
-msgid "Open Mail"
-msgstr "E-Mail öffnen"
-
-#: onedesk/notifications/one_mail/mail_rule_approved.md
-#: onedesk/notifications/one_mail/mail_rule_declined.md
-#: onedesk/notifications/one_mail/mail_rule_requested.md
-msgid "Open Mail Rules"
-msgstr "E-Mail-Regeln öffnen"
-
-#. The button on a notification's mail
-#: onedesk/notifications/one_mail/mailbox_not_reachable.md
-msgid "Open Mail Settings"
-msgstr "E-Mail-Einstellungen öffnen"
 
 #. The button on a notification's mail
 #: onedesk/notifications/one_task/today_s_tasks.md
@@ -40067,11 +39961,6 @@ msgid "Storage is full. This file wasn't saved."
 msgstr "Der Speicher ist voll. Diese Datei wurde nicht gespeichert."
 
 #. Subject of a notification
-#: onedesk/notifications/one_mail/attachments_not_saved.md
-msgid "Storage is full: attachments to {mailbox} are not being saved"
-msgstr "Speicher voll: Anhänge an {mailbox} werden nicht gespeichert"
-
-#. Subject of a notification
 #: onedesk/notifications/one/storage_full.md
 msgid "Storage is full: files are being refused"
 msgstr "Der Speicher ist voll: Dateien werden abgelehnt"
@@ -42294,10 +42183,6 @@ msgstr "Der Vertrag mit {party} endet am {date}"
 msgid "The copy of your data you asked for is ready to download from your profile. Withheld: {withheld}"
 msgstr "Die angeforderte Kopie Ihrer Daten steht in Ihrem Profil zum Herunterladen bereit. Zurückgehalten: {withheld}"
 
-#: onedesk/notifications/one_mail/covering_mail.md
-msgid "The covering person"
-msgstr "Die Vertretung"
-
 #: onedesk/public/js/settings.js:791
 msgid "The currency can't change once there are transactions."
 msgstr "Die Währung kann nach ersten Buchungen nicht mehr geändert werden."
@@ -43030,11 +42915,6 @@ msgstr "Die Person, die sich anmeldet"
 #: onedesk/notifications/one/your_request_is_on_hold.md
 msgid "The person who asked"
 msgstr "Die Person, die gefragt hat"
-
-#: onedesk/notifications/one_mail/mail_rule_approved.md
-#: onedesk/notifications/one_mail/mail_rule_declined.md
-msgid "The person who asked for it"
-msgstr "Die Person, die sie angefragt hat"
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_storage/arrived_through_a_link.md
@@ -48557,6 +48437,14 @@ msgstr "Anfrage"
 msgid "What's Maintained"
 msgstr "Was gewartet wird"
 
+#: onedesk/public/js/window/nav_tree.js:211
+msgid "What's New"
+msgstr "Neuigkeiten"
+
+#: onedesk/public/js/whats_new.js:13 onedesk/public/js/window/nav_tree.js:211
+msgid "What's New in {0}"
+msgstr "Neuigkeiten in {0}"
+
 #: onedesk/one_project/ai.py:53
 msgid "What's left to pay the subcontractors?"
 msgstr "Was ist an die Nachunternehmer noch zu zahlen?"
@@ -48676,14 +48564,6 @@ msgstr "Bei Freigabe"
 msgid "When Released taxes each bill on the work less its retention, and the retention when it's released."
 msgstr "„Bei Freigabe“ besteuert jede Rechnung auf die Leistung abzüglich des Einbehalts und den Einbehalt bei seiner Freigabe."
 
-#: onedesk/notifications/one_mail/mail_rule_approved.md
-msgid "When a Mail Manager approves a mail rule you asked for."
-msgstr "Wenn ein E-Mail-Manager eine von Ihnen angefragte E-Mail-Regel genehmigt."
-
-#: onedesk/notifications/one_mail/mail_rule_declined.md
-msgid "When a Mail Manager declines a mail rule you asked for."
-msgstr "Wenn ein E-Mail-Manager eine von Ihnen angefragte E-Mail-Regel ablehnt."
-
 #. When a notification is sent
 #: onedesk/notifications/one_inventory/expiring_soon.md
 msgid "When a batch with some still in stock expires within a month."
@@ -48773,19 +48653,6 @@ msgstr "Wenn ein Lead ohne Verantwortlichen eintrifft, über die Website oder de
 #: onedesk/notifications/one_storage/link_shared.md
 msgid "When a link is shared with an email address."
 msgstr "Wenn ein Link mit einer E-Mail-Adresse geteilt wird."
-
-#: onedesk/notifications/one_mail/mail_rule_notice.md
-msgid "When a mail rule says to tell you that mail it watches for arrived."
-msgstr "Wenn eine Mail-Regel dich benachrichtigt, dass eine E-Mail eingetroffen ist, auf die sie achtet."
-
-#: onedesk/notifications/one_mail/mailbox_oneai_limit_reached.md
-msgid "When a mailbox uses its OneAI credits for the month. Once a month."
-msgstr "Wenn ein Postfach seine OneAI-Credits für den Monat verbraucht. Einmal im Monat."
-
-#. When a notification is sent
-#: onedesk/notifications/one_mail/mailbox_not_reachable.md
-msgid "When a mailbox you hold stops connecting. Once, when it breaks."
-msgstr "Wenn ein Postfach, das du hältst, keine Verbindung mehr herstellt. Einmal, wenn es ausfällt."
 
 #: onedesk/public/js/rule_builder.js:403
 msgid "When a message arrives in {0}"
@@ -49045,11 +48912,6 @@ msgid "When an administrator changes which apps you may use, your level or profi
 msgstr "Wenn ein Administrator ändert, welche Apps Sie nutzen dürfen, Ihre Stufe oder Ihr Profil, die Datensätze, die Sie sehen, oder Sie zum Administrator macht."
 
 #. When a notification is sent
-#: onedesk/notifications/one_mail/mailbox_shared_with_you.md
-msgid "When an administrator gives you a shared mailbox."
-msgstr "Wenn ein Administrator Ihnen ein geteiltes Postfach gibt."
-
-#. When a notification is sent
 #: onedesk/notifications/one/deletion_on_hold.md
 msgid "When an administrator holds your request to delete your account, and why."
 msgstr "Wenn ein Administrator Ihre Anfrage zur Kontolöschung zurückstellt, und warum."
@@ -49306,19 +49168,9 @@ msgid "When leave you have not used lapses in two weeks."
 msgstr "Wenn ungenutzter Urlaub in zwei Wochen verfällt."
 
 #. When a notification is sent
-#: onedesk/notifications/one_mail/attachments_not_saved.md
-msgid "When mail arrives with attachments and the workspace's storage is full. Once a day at most."
-msgstr "Wenn E-Mails mit Anhängen eintreffen und der Speicher des Arbeitsbereichs voll ist. Höchstens einmal am Tag."
-
-#. When a notification is sent
 #: onedesk/notifications/one_crm/they_replied.md
 msgid "When mail comes in on a lead or an opportunity you own."
 msgstr "Wenn eine E-Mail zu einem Ihrer Leads oder Ihrer Verkaufschancen eingeht."
-
-#. When a notification is sent
-#: onedesk/notifications/one_mail/mail_not_sent.md
-msgid "When mail you sent could not be delivered after every retry."
-msgstr "Wenn eine von Ihnen gesendete E-Mail nach allen Versuchen nicht zugestellt werden konnte."
 
 #. Description of the 'Preferred Provider' (Select) field in DocType 'One Admin
 #. Settings'
@@ -49380,10 +49232,6 @@ msgstr "Wenn jemand Sie zu einem Termin hinzufügt."
 #: onedesk/notifications/one_hr/leave_asked.md
 msgid "When somebody applies for leave."
 msgstr "Wenn jemand Urlaub beantragt."
-
-#: onedesk/notifications/one_mail/mail_rule_requested.md
-msgid "When somebody asks for a mail rule on the workspace address issued to them."
-msgstr "Wenn jemand eine E-Mail-Regel für die ihm ausgegebene Workspace-Adresse anfragt."
 
 #. When a notification is sent
 #: onedesk/notifications/one/password_reset_link.md
@@ -49801,10 +49649,6 @@ msgstr "Wann Sie liefern können und was der Käufer wissen sollte."
 #: onedesk/notifications/one_hr/check_in_closed_for_you.md
 msgid "When you checked in, never checked out, and One checked you out at the end of the shift."
 msgstr "Wenn du eingecheckt, aber nie ausgecheckt hast und One dich am Schichtende ausgecheckt hat."
-
-#: onedesk/notifications/one_mail/covering_mail.md
-msgid "When you cover for somebody on leave, and their leave says you read their mail."
-msgstr "Wenn du jemanden im Urlaub vertrittst und dessen Urlaub vorsieht, dass du seine E-Mails liest."
 
 #. When a notification is sent
 #: onedesk/notifications/one/new_sign_in.md
@@ -50490,10 +50334,6 @@ msgstr "An wen Sie verkaufen, und was jeder schuldet."
 msgid "Who's Off"
 msgstr "Wer ist abwesend"
 
-#: onedesk/notifications/one_mail/mailbox_oneai_limit_reached.md
-msgid "Whoever OneAI reads it for and whoever connected it, or every administrator"
-msgstr "Für wen OneAI liest und wer es verbunden hat, oder jeder Administrator"
-
 #. Who a notification is sent to
 #: onedesk/notifications/one_hr/job_requisition_answered.md
 #: onedesk/notifications/one_inventory/material_request_done.md
@@ -50652,11 +50492,6 @@ msgid "Whoever referred them"
 msgstr "Wer empfohlen hat"
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_mail/mail_not_sent.md
-msgid "Whoever sent it"
-msgstr "Wer sie gesendet hat"
-
-#. Who a notification is sent to
 #: onedesk/notifications/one/reminder.md
 msgid "Whoever set it"
 msgstr "Wer sie gesetzt hat"
@@ -50670,10 +50505,6 @@ msgstr "Wer die Wiederholung eingerichtet hat, und die Buchhaltung bei Rechnung,
 #: onedesk/notifications/one/portal_link.md
 msgid "Whoever the link is for"
 msgstr "Wer den Link erhält"
-
-#: onedesk/notifications/one_mail/mail_rule_notice.md
-msgid "Whoever the rule names"
-msgstr "Wen die Regel nennt"
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_project/hours_over_plan.md
@@ -52078,10 +51909,6 @@ msgstr "Sie erhalten eine E-Mail mit einem Bestätigungslink."
 msgid "You're all caught up."
 msgstr "Alles erledigt."
 
-#: onedesk/notifications/one_mail/covering_mail.md
-msgid "You're covering {who}'s mail until {until}"
-msgstr "Du vertrittst die E-Mails von {who} bis {until}"
-
 #. Subject of a notification
 #: onedesk/notifications/one_hr/interview_scheduled.md
 msgid "You're interviewing {applicant} on {when}"
@@ -52362,19 +52189,6 @@ msgstr "Ihr Vorstellungsgespräch ist am {when}"
 #: onedesk/notifications/one_hr/interview_scheduled_to_the_applicant.md
 msgid "Your interview is on {when}"
 msgstr "Ihr Vorstellungsgespräch ist am {when}"
-
-#. Subject of a notification
-#: onedesk/notifications/one_mail/mail_not_sent.md
-msgid "Your mail \"{subject}\" was not sent"
-msgstr "Ihre E-Mail \"{subject}\" wurde nicht gesendet"
-
-#: onedesk/notifications/one_mail/mail_rule_approved.md
-msgid "Your mail rule on {mailbox} is on"
-msgstr "Ihre E-Mail-Regel für {mailbox} ist aktiv"
-
-#: onedesk/notifications/one_mail/mail_rule_declined.md
-msgid "Your mail rule on {mailbox} was declined"
-msgstr "Ihre E-Mail-Regel für {mailbox} wurde abgelehnt"
 
 #: onedesk/one_mail/rules.py:688
 msgid "Your message"
@@ -54894,6 +54708,10 @@ msgstr "{0} hat keine Aufgaben, aus denen eine Vorlage werden kann."
 msgid "{0} has no tasks."
 msgstr "{0} hat keine Aufgaben."
 
+#: onedesk/one/versions.py:24
+msgid "{0} has no versions."
+msgstr "{0} hat keine Versionen."
+
 #: onedesk/one_project/retention.py:592
 msgid "{0} has no {1} account to create {2} under."
 msgstr "{0} hat kein {1}-Konto, unter dem {2} angelegt werden kann."
@@ -57235,15 +57053,6 @@ msgid "{logged} h logged of the {planned} h planned."
 msgstr "{logged} Std. von {planned} Std. geplant erfasst."
 
 #. Subject of a notification
-#: onedesk/notifications/one_mail/mailbox_not_reachable.md
-msgid "{mailbox} is not connecting: {reason}"
-msgstr "{mailbox} verbindet sich nicht: {reason}"
-
-#: onedesk/notifications/one_mail/mailbox_oneai_limit_reached.md
-msgid "{mailbox} used its {limit} OneAI credits for this month"
-msgstr "{mailbox} hat seine {limit} OneAI-Credits für diesen Monat verbraucht"
-
-#. Subject of a notification
 #: onedesk/notifications/one_project/milestone_late.md
 msgid "{milestone} on {project} is late"
 msgstr "{milestone} bei {project} ist verspätet"
@@ -57357,10 +57166,6 @@ msgstr "{state}: {event}, {when}"
 #: onedesk/notifications/one_crm/next_step_due.md
 msgid "{step} on {title} is due"
 msgstr "{step} bei {title} ist fällig"
-
-#: onedesk/notifications/one_mail/mail_rule_notice.md
-msgid "{subject}<br>The rule {rule} told you."
-msgstr "{subject}<br>Die Regel {rule} hat dich benachrichtigt."
 
 #. Subject of a notification
 #: onedesk/notifications/one_inventory/back_from_supplier_late.md
@@ -57485,14 +57290,6 @@ msgstr "{who} hat Sie zu {project} hinzugefügt"
 msgid "{who} added {collection}"
 msgstr "{who} hat {collection} hinzugefügt"
 
-#: onedesk/notifications/one_mail/mail_rule_approved.md
-msgid "{who} approved it. It runs on each new message from now on."
-msgstr "{who} hat sie genehmigt. Sie läuft ab jetzt bei jeder neuen Nachricht."
-
-#: onedesk/notifications/one_mail/mail_rule_requested.md
-msgid "{who} asked for a mail rule on {mailbox}"
-msgstr "{who} hat eine E-Mail-Regel für {mailbox} angefragt"
-
 #. Subject of a notification
 #: onedesk/notifications/one_inventory/material_request_asked.md
 #: onedesk/notifications/one_inventory/stock_asked.md
@@ -57575,10 +57372,6 @@ msgstr "{who} hat {milestone} in {project} abgeschlossen"
 msgid "{who} completed {task}"
 msgstr "{who} hat {task} erledigt"
 
-#: onedesk/notifications/one_mail/mail_rule_declined.md
-msgid "{who} declined it, so it was removed. Ask them if you'd like to know why."
-msgstr "{who} hat sie abgelehnt, daher wurde sie entfernt. Fragen Sie nach, wenn Sie den Grund wissen möchten."
-
 #. Subject of a notification
 #: onedesk/notifications/one_studio/collection_deleted.md
 msgid "{who} deleted {collection}"
@@ -57593,11 +57386,6 @@ msgstr "{who} hat {title} gelöscht"
 #: onedesk/notifications/one_project/progress_bill_drafted.md
 msgid "{who} drafted a progress bill for {order}"
 msgstr "{who} hat eine Fortschrittsrechnung für {order} entworfen"
-
-#. Subject of a notification
-#: onedesk/notifications/one_mail/mailbox_shared_with_you.md
-msgid "{who} gave you {mailbox}"
-msgstr "{who} hat Ihnen {mailbox} gegeben"
 
 #. Subject of a notification
 #: onedesk/notifications/one_crm/given_to_you.md
@@ -57689,10 +57477,6 @@ msgstr "{who} hat {title} eingeschaltet"
 #: onedesk/notifications/one_crm/they_replied.md
 msgid "{who} wrote about {title}"
 msgstr "{who} hat zu {title} geschrieben"
-
-#: onedesk/notifications/one_mail/mail_rule_notice.md
-msgid "{who} wrote to {mailbox}"
-msgstr "{who} hat an {mailbox} geschrieben"
 
 #. Message of a notification
 #: onedesk/notifications/one_calendar/event_invitation.md

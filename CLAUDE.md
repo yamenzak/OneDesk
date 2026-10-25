@@ -201,6 +201,11 @@ break each other's imports on sites that carry only one of them.
   the history. This is moving to `docs/READY.md`'s **A module's folder**
   (`AGENTS.md`, `SCRATCHPAD.md`, and `docs/` for help pages and versions),
   module by module.
+- **A module in `onedesk/one/ready.py` changes only with a new version.**
+  `python3 scripts/version.py <folder> <major|minor|fix> "<title>"` writes the
+  next `docs/changelog/<version>.md` with the module's fingerprint; say in it,
+  in English and for the people using the module, what they can do now.
+  `tests/guards/test_ready.py` fails until it matches and is written.
 - **`docs/BACKLOG.md` is what waits**: what is due now, the P3 frappe
   doctypes, what was decided against for now, each module's unbuilt parts and
   what the passover noticed. Something built leaves it; something put off goes

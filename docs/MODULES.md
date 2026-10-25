@@ -369,6 +369,7 @@ No doctypes yet.
 * `onedesk.one.signin.sign_out`
 * `onedesk.one.signin.update_password`
 * `onedesk.one.start_again.start`
+* `onedesk.one.versions.whats_new`
 * `onedesk.one_admin.accounts.ask_email_change`
 * `onedesk.one_admin.accounts.confirm_email`
 * `onedesk.one_admin.accounts.pay`

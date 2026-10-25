@@ -9113,6 +9113,24 @@ def oneai_suggests_a_customer_and_its_quotation_together():
 		assert proposals.apply_all([first, second]) == [], "approving twice does nothing"
 
 
+@check
+def whats_new_says_each_version_once():
+	"""Nadia sees OneMail's version marked unseen until she opens What's New,
+	which lists its versions newest first, written for her, and then marks
+	them seen (one/versions.py)."""
+	from onedesk.one import ready, versions
+
+	with as_user("nadia@one.test"):
+		frappe.defaults.set_user_default(versions.SEEN.format("one_mail"), "")
+		said = versions.for_boot()["OneMail"]
+		assert said == {"version": ready.current("OneMail"), "unseen": 1}, said
+		listed = versions.whats_new("OneMail")["versions"]
+		assert listed[0]["version"] == ready.current("OneMail") and listed[0]["new"], listed[0]
+		assert "<img" in listed[-1]["html"] and "data:image/png;base64," in listed[-1]["html"]
+		assert versions.for_boot()["OneMail"]["unseen"] == 0
+		assert not versions.whats_new("OneMail")["versions"][0]["new"]
+
+
 def _modules() -> None:
 	"""A module's own checks, in its folder (docs/READY.md, A module's folder),
 	registered by importing them."""

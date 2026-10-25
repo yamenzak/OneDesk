@@ -352,6 +352,24 @@ GUARDS = [
 		"tests/guards/test_ready.py::test_a_module_writes_only_agents_scratchpad_and_docs",
 	),
 	Guard(
+		"module-versioned",
+		13,
+		"a change to a module on its way to ready with no new version for it",
+		"tests/guards/test_ready.py::test_every_change_to_a_module_is_a_version",
+	),
+	Guard(
+		"versions-follow",
+		13,
+		"a version that is not the next major, minor or fix after the one before",
+		"tests/guards/test_ready.py::test_versions_follow_one_another",
+	),
+	Guard(
+		"versions-for-people",
+		13,
+		"a What's New entry left unwritten, technical, or naming a picture that is not there",
+		"tests/guards/test_ready.py::test_a_version_is_written_for_the_people_using_it",
+	),
+	Guard(
 		"copy-headings",
 		12,
 		"a heading in a module on its way to ready that runs past five words",

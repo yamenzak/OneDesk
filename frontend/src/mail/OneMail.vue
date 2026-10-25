@@ -258,7 +258,7 @@ async function settings(tab) {
   await requires(SETTINGS);
   onedesk().mail.settings(tab);
 }
-windowFootAction(props.win, { icon: "settings", label: __("Settings"), onClick: () => settings() });
+windowFootAction(props.win, { icon: "settings", label: __("Settings"), onClick: () => settings(), version: { module: "OneMail" } });
 
 const tree = windowTree(props.win, {
   label: __("Mailboxes"),

@@ -1,0 +1,43 @@
+/* What's New (public/js/whats_new.js): one entry a version, newest first. */
+.one-whats-new {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--spacing) * 6);
+}
+
+.one-whats-new-entry + .one-whats-new-entry {
+	padding-top: calc(var(--spacing) * 6);
+	border-top: 1px solid var(--outline-gray-2);
+}
+
+.one-whats-new-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: calc(var(--spacing) * 3);
+}
+
+.one-whats-new-title {
+	font-size: var(--text-lg);
+	font-weight: 600;
+	color: var(--ink-gray-9);
+}
+
+.one-whats-new-when {
+	margin-top: calc(var(--spacing) * 1);
+	font-size: var(--text-sm);
+	color: var(--ink-gray-5);
+}
+
+.one-whats-new-body {
+	margin-top: calc(var(--spacing) * 3);
+	color: var(--ink-gray-8);
+}
+
+.one-whats-new-body img {
+	display: block;
+	max-width: 100%;
+	margin-top: calc(var(--spacing) * 3);
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius-lg);
+}

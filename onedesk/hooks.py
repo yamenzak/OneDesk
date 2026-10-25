@@ -934,6 +934,7 @@ setup_wizard_stages = "onedesk.one.setup_wizard.get_setup_stages"
 app_include_css = stamped([
 	"/assets/onedesk/css/theme.css",
 	"/assets/onedesk/css/desk.css",
+	"/assets/onedesk/css/whats_new.css",
 	"/assets/onedesk/css/shell.css",
 	"/assets/onedesk/css/window/chrome.css",
 	"/assets/onedesk/css/window/frame.css",
@@ -952,6 +953,7 @@ page_js = {"print": "public/js/print_documents.js"}
 app_include_js = stamped([
 	"/assets/onedesk/js/theme.js",
 	"/assets/onedesk/js/brand.js",
+	"/assets/onedesk/js/whats_new.js",
 	"/assets/onedesk/js/check.js",
 	"/assets/onedesk/js/size.js",
 	"/assets/onedesk/js/desk.js",

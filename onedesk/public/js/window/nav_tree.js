@@ -184,7 +184,9 @@ onedesk.window.Window.prototype.head_action = function ({ icon, title, click }) 
 // A row at the foot of the rail while this view is on screen, drawn as the
 // rail's own rows are, for where the view is set up (OneMail's Settings):
 // { icon, label, click }.
-onedesk.window.Window.prototype.foot_action = function ({ icon, label, click }) {
+// `version` puts the module's version at the row's end, with a dot until its
+// reader has seen it, opening What's New (public/js/whats_new.js).
+onedesk.window.Window.prototype.foot_action = function ({ icon, label, click, version = null }) {
 	if (!this.$foot_action) {
 		const esc = frappe.utils.escape_html;
 		this.$foot_action = $(
@@ -196,7 +198,21 @@ onedesk.window.Window.prototype.foot_action = function ({ icon, label, click }) 
 			e.preventDefault();
 			click();
 		});
+		if (version) this.foot_version(version);
 	}
 	onedesk.window.nav.place();
 	return this;
+};
+
+onedesk.window.Window.prototype.foot_version = function ({ module }) {
+	const said = (frappe.boot.one_versions || {})[module];
+	if (!said) return;
+	const $chip = $(`<button type="button" class="one-window-foot-version"></button>`)
+		.attr({ title: __("What's New"), "aria-label": __("What's New in {0}", [module]) })
+		.text(said.version)
+		.on("click", () => onedesk.whats_new.open(module))
+		.appendTo(this.$foot_action.find(".standard-sidebar-item"));
+	const dot = () => $chip.toggleClass("one-window-foot-version--unseen", !!said.unseen);
+	dot();
+	$(document).on("one-version-seen", (_e, seen) => seen === module && dot());
 };

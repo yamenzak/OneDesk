@@ -105,10 +105,20 @@ export const names = (account, threads, folder = null) => call(API + "names", { 
 // mail was read). The page's own colours are a printed letter's, whatever the
 // reader's theme, as the sender wrote it.
 
+// A plain-text message as its sender wrote it. Frappe stores one with its
+// characters escaped and every line break doubled (frappe/email/receive.py),
+// for its own timeline; a text where no line break stands alone is halved
+// back.
+export function plainText(stored) {
+	let text = new DOMParser().parseFromString(`<pre>${stored || ""}</pre>`, "text/html").body.textContent;
+	if (!/(^|[^\n])\n(?!\n)/.test(text)) text = text.replace(/\n\n/g, "\n");
+	return text.replace(/\n{3,}/g, "\n\n").trim();
+}
+
 export function framePage(content, pictures = false) {
 	const escape = (text) => String(text).replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 	let raw = content || "";
-	if (!/<[a-z][\s\S]*>/i.test(raw)) raw = `<div style="white-space: pre-wrap">${escape(raw.replace(/\n{3,}/g, "\n\n").trim())}</div>`;
+	if (!/<[a-z][\s\S]*>/i.test(raw)) raw = `<div style="white-space: pre-wrap">${escape(plainText(raw))}</div>`;
 	const doc = new DOMParser().parseFromString(raw, "text/html");
 	doc.querySelectorAll("script, iframe, object, embed, form, meta[http-equiv], link[rel=import]").forEach((el) => el.remove());
 	doc.querySelectorAll("*").forEach((el) => {

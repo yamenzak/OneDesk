@@ -388,8 +388,8 @@ export const windowHeadAction = (win, { icon, title, onClick }) =>
 
 // A row at the foot of the rail while this view is on screen
 // (window/nav_tree.js), for where it is set up; `icon` is a lucide name.
-export const windowFootAction = (win, { icon, label, onClick }) =>
-	win && win.foot_action({ icon: icon.replace(/^lucide-/, ""), label, click: onClick });
+export const windowFootAction = (win, { icon, label, onClick, version = null }) =>
+	win && win.foot_action({ icon: icon.replace(/^lucide-/, ""), label, click: onClick, version });
 
 // Meters at the foot of this view's nav pane (window/nav_tree.js).
 export const windowMeters = (win, rows) => win && win.meters(rows);
