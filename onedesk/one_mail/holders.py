@@ -575,4 +575,6 @@ def signature_for(email: str) -> str | None:
 		"User Email", {"parent": frappe.session.user, "email_account": account.name}
 	):
 		return None
-	return account.signature
+	from onedesk.one_mail import signatures
+
+	return signatures.written(account.signature) or None

@@ -96,11 +96,28 @@ clause(
 	body="""
 		In OneMail, you can ask OneAI to summarise a conversation, say what waits for an answer, or draft a
 		reply. To answer, the text of that conversation is sent to the model. This happens only when you ask,
-		and only for a conversation in a mailbox you hold. Nothing of it is kept but the answer. OneAI never
-		sends a reply: approving one opens it in the email window, where you read it, change it and send it
-		yourself. You can also ask OneAI to improve, shorten, translate or change the tone of an email you are
+		and only for a conversation in a mailbox you hold. Nothing of it is kept but the answer. What you ask
+		for is never sent on its own: approving a reply opens it in the email window, where you read it, change
+		it and send it yourself. You can also ask OneAI to improve, shorten, translate or change the tone of an email you are
 		writing. Then what you have written, its subject, its recipients and the message it answers are sent
 		to the model. Your signature is not. The suggestion goes into your email window only when you approve
 		it.
 	""",
+)
+
+
+clause(
+	document="ai",
+	section="modules",
+	key="onemail-answers",
+	module=M,
+	meets=("ai_act.50",),
+	body="""
+		A mailbox's Automation can also answer mail by itself. Someone allowed to set its rules says what a reply
+		should say, and OneAI writes it and sends it from the mailbox. It answers once per conversation or per
+		sender, as the rule says, and never an automatic address. Every such reply says it was written by
+		OneAI. When the rule allows it, OneAI reads the records of the sender's own company to answer. It does
+		so only for a sender whose mail the receiving server verified, and only that company's records.
+	""",
+	order=20,
 )

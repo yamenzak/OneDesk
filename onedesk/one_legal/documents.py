@@ -129,7 +129,7 @@ DOCUMENTS = {
 	"ai": {
 		"title": "AI Addendum",
 		"audience": "customer",
-		"revision": 24,
+		"revision": 25,
 		"summary": "How OneAI works, which models run, and what happens to what you send it.",
 	},
 	"licences": {
@@ -205,6 +205,13 @@ CHANGES = [
 		"published": "2026-10-25",
 		"effective": "2026-11-24",
 		"says": "OneAI is always named, so you know when an answer comes from a model.",
+	},
+	{
+		"document": "ai",
+		"revision": 25,
+		"published": "2026-10-25",
+		"effective": "2026-11-24",
+		"says": "A mailbox's Automation can have OneAI answer mail by itself, and every such reply says OneAI wrote it.",
 	},
 ]
 

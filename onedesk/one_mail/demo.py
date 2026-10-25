@@ -1,6 +1,7 @@
 """The workspace's own address, which Layla and every later administrator
-hold, everybody's own address, and the mail a customer, a supplier and a
-hotel sent it this week.
+hold and Mariam answers from too, everybody's own address, the mail a
+customer, a supplier and a hotel sent the workspace this week, and what
+came to Mariam's and Nadia's own addresses.
 OneAI does not read this mailbox; the owner's own address is the one it
 reads (intake.py)."""
 
@@ -39,28 +40,85 @@ MAILS = (
 )
 
 
+# Mail to a person's own address: who it is for, who sent it, and when.
+PERSONAL = (
+	(
+		"mariam@one.test",
+		("Omar Haddad", "omar.haddad@mailbox.example"),
+		"Application for the site supervisor role",
+		2,
+		"Dear Mariam,\n\nI saw the site supervisor opening on your careers page. I have nine "
+		"years on curtain wall projects in Dubai and Abu Dhabi, most recently at Al Reem. "
+		"My CV is attached.\n\nOmar Haddad",
+	),
+	(
+		"mariam@one.test",
+		("Lina Farouk", "lina@talentbridge.example"),
+		"Two installers available from November",
+		4,
+		"Hi Mariam,\n\nTwo of our glazing installers finish their current project at the end of "
+		"October. Both hold driving licences. Shall I send their profiles?\n\n"
+		"Lina Farouk\nTalentBridge Recruitment",
+	),
+	(
+		"nadia@one.test",
+		("Priya Nair", "orders@gulfglass.example"),
+		"Tinted glass samples for the Bayview lobby",
+		1,
+		"Dear Nadia,\n\nThe bronze and grey tint samples you asked for went out this morning by "
+		"courier. The grey is the closer match to the renderings you sent.\n\n"
+		"Priya Nair\nGulf Glass Industries",
+	),
+	(
+		"nadia@one.test",
+		("Hessa Al Marri", "hessa@bayview.example"),
+		"Re: Lobby glazing at Bayview Tower",
+		0,
+		"Hello Nadia,\n\nThank you for the first sketches. The client prefers the version with "
+		"the slimmer frame. Could we see it in the grey tint?\n\nHessa",
+	),
+)
+
+# Who answers the workspace's own address besides its administrators.
+ANSWERS = ("mariam@one.test",)
+
+
 def run(password=None):
-	from onedesk.one_demo.base import tag
 	from onedesk.one_mail import addresses
-	from onedesk.one_mail.inbound import Arrival
 
 	account = addresses.ensure_workspace()
 	if not account:
 		return
 	everybody()
+	for user in ANSWERS:
+		if not frappe.db.exists("User Email", {"parent": user, "email_account": account}):
+			addresses.hold(account, user)
 	box = frappe.get_doc("Email Account", account)
 	for sender, subject, days, body in MAILS:
-		if frappe.db.exists("Communication", {"email_account": account, "subject": subject}):
-			continue
-		mail = EmailMessage()
-		mail["From"] = f"{sender[0]} <{sender[1]}>"
-		mail["To"] = box.email_id
-		mail["Subject"] = subject
-		mail["Date"] = format_datetime(get_datetime(add_days(now_datetime(), -days)).astimezone())
-		mail["Message-ID"] = make_msgid(domain=sender[1].split("@")[1])
-		mail.set_content(body)
-		tag(Arrival(mail.as_bytes(), box).process())
+		arrive(box, sender, subject, days, body)
+	own = f"%.{addresses.slug()}@{addresses.domain()}"
+	for user, sender, subject, days, body in PERSONAL:
+		theirs = frappe.db.get_value("User Email", {"parent": user, "email_account": ["like", own]}, "email_account")
+		if theirs:
+			arrive(frappe.get_doc("Email Account", theirs), sender, subject, days, body)
 	frappe.db.commit()
+
+
+def arrive(box, sender: tuple, subject: str, days: int, body: str) -> None:
+	"""One mail into a mailbox, as the Worker hands it over, once."""
+	from onedesk.one_demo.base import tag
+	from onedesk.one_mail.inbound import Arrival
+
+	if frappe.db.exists("Communication", {"email_account": box.name, "subject": subject}):
+		return
+	mail = EmailMessage()
+	mail["From"] = f"{sender[0]} <{sender[1]}>"
+	mail["To"] = box.email_id
+	mail["Subject"] = subject
+	mail["Date"] = format_datetime(get_datetime(add_days(now_datetime(), -days)).astimezone())
+	mail["Message-ID"] = make_msgid(domain=sender[1].split("@")[1])
+	mail.set_content(body)
+	tag(Arrival(mail.as_bytes(), box).process())
 
 
 def everybody() -> None:

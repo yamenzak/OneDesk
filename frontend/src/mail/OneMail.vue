@@ -15,6 +15,7 @@
   </WindowPart>
   <WindowPart :win="win" part="views" inline>
     <span v-if="!picked.size && thread" class="inline-flex items-center gap-0.5">
+      <Button class="md:hidden" variant="ghost" icon="lucide-arrow-left" :aria-label="__('Back')" :title="__('Back')" @click="close()" />
       <template v-for="one in commands" :key="one.act">
         <Dropdown v-if="one.act === 'move'" :options="moveTo((target) => run(`move:${target}`, these))">
           <template #trigger><Button variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" :disabled="one.off" /></template>
@@ -543,6 +544,11 @@ watch(
   () => props.query.thread,
   (want) => {
     if (want && want !== thread.value) open(want, { quiet: true });
+    // Back in the browser to the list, as on a phone, closes it.
+    if (!want && thread.value) {
+      thread.value = null;
+      messages.value = [];
+    }
   }
 );
 

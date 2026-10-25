@@ -289,7 +289,7 @@ onedesk.mail_templates.preview = async (form, template) => {
 					? ""
 					: latest
 					? ""
-					: __("No {0} yet. Its fields stay empty.", [__(doctype)]),
+					: __("No {0} yet, so its fields stay empty.", [__(doctype)]),
 				onchange: () => draw(),
 			},
 			{ fieldtype: "HTML", fieldname: "shown" },

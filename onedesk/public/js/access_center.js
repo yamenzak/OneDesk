@@ -73,7 +73,7 @@ onedesk.access.open = async ({ module = null, at = null } = {}) => {
 		label: __("On One Record"),
 		icon: "key-round",
 		title: __("On One Record"),
-		description: __("People given more than their role on one record. They are given it on the record itself."),
+		description: __("People given more than their role on one record, from that record's own screen."),
 		async render(panel) {
 			const said = await frappe.xcall(A + "records", { app });
 			const labelled = Object.fromEntries(said.abilities.map((one) => [one.key, one.label]));

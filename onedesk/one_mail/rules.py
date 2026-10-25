@@ -294,7 +294,10 @@ def answer(rule, step: dict, name: str, headers=None) -> str | None:
 		if not text or "[" in text:
 			return None
 		frappe.cache.set_value(key, 1, expires_in_sec=lasts)
-		_send(account, comm, _paragraphs(text))
+		# Whoever reads it is told a model wrote it (the AI Addendum's
+		# onemail-answers, the EU AI Act's Art. 50).
+		said = frappe.utils.escape_html(_("This reply was written by OneAI."))
+		_send(account, comm, f'{_paragraphs(text)}<p style="color:#7c7c7c;font-size:12px">{said}</p>')
 		return "sent"
 	frappe.cache.set_value(key, 1, expires_in_sec=lasts)
 	text = (step.get("text") or "").replace("{sender_name}", comm.sender_full_name or "").replace("{subject}", comm.subject or "")
@@ -1019,7 +1022,7 @@ RULE_FIELDS = ("enabled", "priority", "title", "steps")
 
 @frappe.whitelist()
 def rules_of_mailbox(account: str) -> dict:
-	"""A mailbox's rules in the order they run, for its Mail Rules tab in
+	"""A mailbox's rules in the order they run, for its Automation tab in
 	OneMail's settings, and what the rule builder offers: the mailbox's
 	folders and people, and whether OneAI may read it. Whoever manages the
 	mailbox changes them; the person a workspace address is issued to asks

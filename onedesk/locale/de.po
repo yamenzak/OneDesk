@@ -1520,9 +1520,9 @@ msgstr "Ein Webhook wird über https gesendet."
 msgid "A workbook as it stood at one point in its history, whole: taken as it is saved, kept thinner as it ages, and kept for ever once somebody names it."
 msgstr "Eine Arbeitsmappe vollständig so, wie sie zu einem Zeitpunkt ihrer Geschichte war: beim Speichern erfasst, mit zunehmendem Alter ausgedünnt und für immer aufbewahrt, sobald jemand sie benennt."
 
-#: onedesk/public/js/onemail_settings.js:187
-msgid "A workspace address such as sales@. Add its users after connecting."
-msgstr "Eine Arbeitsbereich-Adresse wie sales@. Benutzer nach dem Verbinden hinzufügen."
+#: onedesk/public/js/one_mail/onemail_settings.js
+msgid "A workspace address such as sales@, whose users you add once it's connected."
+msgstr "Eine Arbeitsbereichsadresse wie sales@, deren Benutzer Sie nach dem Verbinden hinzufügen."
 
 #: onedesk/one_admin/domains.py:29
 msgid "A workspace can have at most {0} custom domains."
@@ -1568,6 +1568,10 @@ msgstr "Ein {0}-Modell kann nicht der Standard für {1} sein."
 #: onedesk/notifications/one_inventory/stock_asked.md
 msgid "A {kind} request, {request}, wanted by {wanted}."
 msgstr "Eine Anforderung ({kind}), {request}, benötigt bis {wanted}."
+
+#: onedesk/public/js/one_mail/onemail_settings.js
+msgid "Added to every email sent from this mailbox, which your role doesn't allow changing."
+msgstr "Wird jeder E-Mail aus diesem Postfach hinzugefügt; Ihre Rolle erlaubt keine Änderung."
 
 #. Name of a DocType
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
@@ -2671,10 +2675,6 @@ msgstr "Zu einer Bibliothek hinzugefügt"
 #: onedesk/public/js/onemail_settings.js:127
 msgid "Added to every email sent from this mailbox."
 msgstr "Wird jeder E-Mail aus diesem Postfach hinzugefügt."
-
-#: onedesk/public/js/onemail_settings.js:296
-msgid "Added to every email sent from this mailbox. Your role doesn't allow changing it."
-msgstr "Wird jeder E-Mail aus diesem Postfach angefügt. Ihre Rolle erlaubt nicht, sie zu ändern."
 
 #. Description of the 'Added Instructions' (Small Text) field in DocType 'AI
 #. Action Setting'
@@ -13060,6 +13060,10 @@ msgstr "Dauer (Tage)"
 msgid "Duration (Minutes)"
 msgstr "Dauer (Minuten)"
 
+#: onedesk/public/js/one_mail/onemail_settings.js
+msgid "Each sender gets it once every 4 days, and mailing lists and automatic mail never do."
+msgstr "Jeder Absender erhält sie einmal alle 4 Tage, Mailinglisten und automatische E-Mails nie."
+
 #: onedesk/public/js/trust_center.js
 msgid "Each sends something to another company, and stays off unless you turn it on. Turning one on agrees to it for your whole workspace."
 msgstr "Jeder sendet etwas an ein anderes Unternehmen und bleibt aus, bis Sie ihn einschalten. Wer einen einschaltet, stimmt ihm für den ganzen Arbeitsbereich zu."
@@ -13193,10 +13197,6 @@ msgstr "Jede verlorene Chance und warum."
 msgid "Each month's depreciation."
 msgstr "Die Abschreibung jedes Monats."
 
-#: onedesk/public/js/onemail_settings.js:1151
-msgid "Each new user gets an address such as {0}. If disabled, it only receives mail."
-msgstr "Jeder neue Benutzer erhält eine Adresse wie {0}. Wenn deaktiviert, empfängt sie nur E-Mails."
-
 #: onedesk/one_inventory/ready.py:205
 msgid "Each new work order asks where to work and where to put what it makes. Fix sets the company's Work In Progress and Finished Goods."
 msgstr "Jeder neue Arbeitsauftrag fragt, wo gearbeitet wird und wohin das Gefertigte kommt. Die Korrektur setzt die Lager für laufende Arbeit und Fertigwaren des Unternehmens."
@@ -13261,10 +13261,6 @@ msgstr "Jeder Tarif braucht eine Einheit, eine Menge und einen Preis."
 #: onedesk/notifications/one_storage/file_request.md
 msgid "Each recipient"
 msgstr "Jeder Empfänger"
-
-#: onedesk/public/js/onemail_settings.js:379
-msgid "Each sender gets it once every 4 days. Never sent to mailing lists or automatic mail."
-msgstr "Jeder Absender erhält sie einmal alle 4 Tage. Nie an Mailinglisten oder automatische E-Mails."
 
 #. Description of the 'Away' (Check) field in DocType 'Email Account'
 #: onedesk/one_mail/custom/email_account.json
@@ -14785,9 +14781,9 @@ msgstr "Alle haben noch Luft"
 msgid "Everyone in the workspace"
 msgstr "Alle im Arbeitsbereich"
 
-#: onedesk/public/js/onemail_settings.js:260
-msgid "Everyone listed can read. Send allows sending from this mailbox."
-msgstr "Alle Aufgeführten können lesen. Senden erlaubt das Senden aus diesem Postfach."
+#: onedesk/public/js/one_mail/onemail_settings.js
+msgid "Everyone listed can read, and those with Send can send from this mailbox too."
+msgstr "Alle Aufgeführten können lesen, und wer Senden hat, kann auch aus diesem Postfach senden."
 
 #: onedesk/one/ai_setup.py:601
 msgid "Everyone on {0}"
@@ -15759,9 +15755,9 @@ msgstr "{0} ergänzt"
 msgid "Filling Up"
 msgstr "Wird voll"
 
-#: onedesk/public/js/onemail_settings.js:472
-msgid "Fills empty fields. A different value waits for approval in OneIntake."
-msgstr "Füllt leere Felder. Ein abweichender Wert wartet in OneIntake auf Freigabe."
+#: onedesk/public/js/one_mail/onemail_settings.js
+msgid "Fills empty fields, and a different value waits for approval in OneIntake."
+msgstr "Füllt leere Felder; ein abweichender Wert wartet in OneIntake auf Freigabe."
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:5
 msgid "Filter Based On"
@@ -26329,9 +26325,9 @@ msgstr "Kein Jahr ist mit offenen Buchungen abgelaufen."
 msgid "No {0} bucket is configured."
 msgstr "Es ist kein {0}-Bucket eingerichtet."
 
-#: onedesk/public/js/doctype_settings.js:715
-msgid "No {0} yet. Its fields stay empty."
-msgstr "Noch kein {0}. Seine Felder bleiben leer."
+#: onedesk/public/js/one_mail/mail_templates.js
+msgid "No {0} yet, so its fields stay empty."
+msgstr "Noch kein {0}, daher bleiben seine Felder leer."
 
 #: onedesk/one/printing.py:521
 msgid "No."
@@ -27347,6 +27343,10 @@ msgstr "Die Vereinbarungen von One ändern sich"
 msgid "One's policies are changing"
 msgstr "Die Richtlinien von One ändern sich"
 
+#: onedesk/public/js/one_mail/rule_builder.js
+msgid "OneAI reads each message and picks a label, and each label has its own steps."
+msgstr "OneAI liest jede Nachricht und wählt ein Label, und jedes Label hat eigene Schritte."
+
 #: onedesk/public/js/trust_center.js
 msgid "Only a workspace administrator can turn it on."
 msgstr "Nur ein Administrator des Arbeitsbereichs kann ihn einschalten."
@@ -28222,10 +28222,6 @@ msgstr "OneAI darf die Aufträge, Rechnungen und Lieferungen lesen, die der Abse
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "OneAI rates and ranks each new job applicant against the opening."
 msgstr "OneAI bewertet jeden neuen Bewerber anhand der Stelle und ordnet ihn ein."
-
-#: onedesk/public/js/rule_builder.js:430
-msgid "OneAI reads each message and picks a label. Each label has its own steps."
-msgstr "OneAI liest jede Nachricht und wählt ein Label. Jedes Label hat eigene Schritte."
 
 #: onedesk/public/js/rule_builder.js:668
 msgid "OneAI says whether the sender is upset or in a hurry, and someone is told."
@@ -31129,8 +31125,8 @@ msgid "People"
 msgstr "Personen"
 
 #: onedesk/public/js/access_center.js
-msgid "People given more than their role on one record. They are given it on the record itself."
-msgstr "Personen, die für einen Datensatz mehr als ihre Rolle erhalten haben. Das wird im Datensatz selbst vergeben."
+msgid "People given more than their role on one record, from that record's own screen."
+msgstr "Personen, die für einen Datensatz mehr als ihre Rolle erhalten haben, über dessen eigene Ansicht."
 
 #: onedesk/one_mail/setup.py:55
 msgid "People May Connect Their Own Mailboxes"
@@ -36129,13 +36125,13 @@ msgstr "Regeln auf diesem Tabellenblatt"
 msgid "Rules override the naming above."
 msgstr "Regeln haben Vorrang vor der Benennung oben."
 
-#: onedesk/public/js/onemail_settings.js:773
-msgid "Rules you write, run in order on each new message. A rule you ask for runs once a Mail Manager approves it."
-msgstr "Regeln, die du schreibst, laufen der Reihe nach bei jeder neuen Nachricht. Eine angefragte Regel läuft, sobald ein Mail-Manager sie freigibt."
+#: onedesk/public/js/one_mail/onemail_settings.js
+msgid "Rules you write, run in order on each new message before what OneAI does."
+msgstr "Regeln, die Sie schreiben, laufen der Reihe nach auf jeder neuen Nachricht, vor dem, was OneAI tut."
 
-#: onedesk/public/js/onemail_settings.js:771
-msgid "Rules you write, run in order on each new message. They come before what OneAI does."
-msgstr "Regeln, die du schreibst, laufen der Reihe nach bei jeder neuen Nachricht. Sie gehen vor, was OneAI tut."
+#: onedesk/public/js/one_mail/onemail_settings.js
+msgid "Rules you write, run in order on each new message once a Mail Manager approves them."
+msgstr "Regeln, die Sie schreiben, laufen der Reihe nach auf jeder neuen Nachricht, sobald ein Mail-Manager sie freigibt."
 
 #. Option for the 'Source' (Select) field in DocType 'Credit Ledger Entry'
 #. Label of the reference (Data) field in DocType 'AI Proposal'
@@ -36224,6 +36220,10 @@ msgstr "Läuft mit den Berechtigungen von {0}."
 #: onedesk/public/js/trust_center.js
 msgid "Safeguard"
 msgstr "Schutzmaßnahme"
+
+#: onedesk/public/js/one_mail/onemail_settings.js
+msgid "Saved as drafts in Ready to Submit, and a bill asking to be paid to a new IBAN is held."
+msgstr "Als Entwürfe in Bereit zum Buchen gespeichert; eine Rechnung, die Zahlung an eine neue IBAN verlangt, wird zurückgehalten."
 
 #: onedesk/one_mail/tour.py
 msgid "Search Your Mail"
@@ -36606,10 +36606,6 @@ msgstr "Als Projekt-Update gespeichert."
 #: frontend/src/sheet/components/SheetEditor/index.vue:2079
 msgid "Saved as a template: {0}"
 msgstr "Als Vorlage gespeichert: {0}"
-
-#: onedesk/public/js/onemail_settings.js:475
-msgid "Saved as drafts in Ready to Submit. A bill asking to be paid to a new IBAN is held."
-msgstr "Als Entwürfe in Bereit zum Buchen gespeichert. Eine Rechnung mit einer neuen IBAN wird angehalten."
 
 #: frontend/src/writer/components/CoreEditor.vue:419
 msgid "Saved document"
@@ -41043,6 +41039,10 @@ msgstr "Diesen Dienst gibt es nicht."
 #: onedesk/public/js/module_docs.js
 msgid "There is no tour of this screen yet."
 msgstr "Für diesen Bildschirm gibt es noch keinen Rundgang."
+
+#: onedesk/one_mail/rules.py
+msgid "This reply was written by OneAI."
+msgstr "Diese Antwort hat OneAI geschrieben."
 
 #: onedesk/one/letter_heads.py:132
 #: onedesk/one_book/report/books_check/books_check.js:20
@@ -47813,6 +47813,10 @@ msgstr "Wofür One nicht genutzt werden darf. Sie bindet deine Organisation und 
 msgid "What One stores on your device and why."
 msgstr "Was One auf deinem Gerät speichert und warum."
 
+#: onedesk/public/js/one_mail/onemail_settings.js
+msgid "What OneAI does with new mail here, which your role doesn't allow changing."
+msgstr "Was OneAI hier mit neuen E-Mails tut; Ihre Rolle erlaubt keine Änderung."
+
 #. Label of a Sidebar Item
 #: onedesk/one/settings.py:22 onedesk/one/sidebar/one/one.json
 msgid "What OneAI Reads"
@@ -47830,14 +47834,6 @@ msgstr "Was OneAI getan hat"
 #: onedesk/one_intake/custom/email_account.json
 msgid "What OneAI does not do with this mailbox's mail, by job (one_mail/gate.py JOBS)."
 msgstr "Was OneAI mit den E-Mails dieses Postfachs nicht tut, nach Aufgabe."
-
-#: onedesk/public/js/onemail_settings.js:533
-msgid "What OneAI does with new mail in this mailbox. Your role doesn't allow changing it."
-msgstr "Was OneAI mit neuer Post in diesem Postfach macht. Ihre Rolle erlaubt nicht, das zu ändern."
-
-#: onedesk/public/js/onemail_settings.js:503
-msgid "What OneAI does with new mail on its own. It never mails anyone outside the workspace. If disabled, OneAI can't read this mailbox."
-msgstr "Was OneAI von sich aus mit neuen E-Mails tut. Es schreibt nie jemandem außerhalb des Arbeitsbereichs. Wenn deaktiviert, kann OneAI dieses Postfach nicht lesen."
 
 #. Description of a DocType
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -50255,6 +50251,14 @@ msgstr "Wo gearbeitet wird und was eine Stunde dort kostet."
 msgid "Whether a person takes calls, and what callers hear."
 msgstr "Ob eine Person Anrufe annimmt, und was Anrufer hören."
 
+#: onedesk/public/js/one_mail/onemail_settings.js
+msgid "Whether OneAI may read this mailbox, and what it does with new mail here on its own."
+msgstr "Ob OneAI dieses Postfach lesen darf und was es hier selbstständig mit neuen E-Mails tut."
+
+#: onedesk/public/js/one_mail/onemail_settings.js
+msgid "Whether the address each new person gets, such as {0}, sends as well as receives."
+msgstr "Ob die Adresse, die jede neue Person erhält, etwa {0}, auch senden kann und nicht nur empfangen."
+
 #: onedesk/one_admin/ai.py:146
 msgid "Which OneAI actions have no model to run on, and which offered model would each fall to? Say which models are the defaults and what they cost."
 msgstr "Welche OneAI-Aktionen haben kein Modell, und auf welches angebotene Modell würde jede zurückfallen? Nennen Sie die Standardmodelle und was sie kosten."
@@ -52401,6 +52405,10 @@ msgstr "Ihr One-Konto, der erste Administrator des Arbeitsbereichs und wohin die
 msgid "Your Organisation"
 msgstr "Ihre Organisation"
 
+#: onedesk/public/js/one_mail/onemail_settings.js
+msgid "Your organization address, since private mailboxes are turned off in this workspace."
+msgstr "Ihre Organisationsadresse, da private Postfächer in diesem Arbeitsbereich ausgeschaltet sind."
+
 #: onedesk/public/js/trust_center.js
 msgid "Your Own Data"
 msgstr "Ihre eigenen Daten"
@@ -52625,10 +52633,6 @@ msgstr "Ihre Adresse der Organisation oder eine private bei {0}."
 #: onedesk/public/js/onemail_settings.js:1004
 msgid "Your organization address, or a private one such as Gmail."
 msgstr "Ihre Adresse der Organisation oder eine private wie Gmail."
-
-#: onedesk/public/js/onemail_settings.js:1002
-msgid "Your organization address. Private mailboxes are turned off in this workspace."
-msgstr "Ihre Adresse der Organisation. Private Postfächer sind in diesem Arbeitsbereich ausgeschaltet."
 
 #: onedesk/one_hr/rules.py:29
 msgid "Your passkey has been reset twice within a month."
@@ -54361,6 +54365,10 @@ msgstr "{0} und Ihre Daten"
 msgid "{0} Approval"
 msgstr "Freigabe {0}"
 
+#: onedesk/public/js/one_mail/onemail_settings.js
+msgid "{0} asked for this rule, which runs once approved."
+msgstr "{0} hat diese Regel angefragt; sie läuft nach der Freigabe."
+
 #: frontend/src/home/InventoryHome.vue:154
 msgid "{0} Batches Expiring Soon"
 msgstr "{0} Chargen laufen bald ab"
@@ -54609,10 +54617,6 @@ msgstr "{0} als {1}"
 #: onedesk/public/js/privacy_copy.js:7
 msgid "{0} asked for a copy of their data. Send it within one month."
 msgstr "{0} hat eine Kopie seiner Daten angefordert. Senden Sie sie innerhalb eines Monats."
-
-#: onedesk/public/js/onemail_settings.js:732
-msgid "{0} asked for this rule. It runs once approved."
-msgstr "{0} hat diese Regel angefragt. Sie läuft nach der Genehmigung."
 
 #: onedesk/public/js/privacy_request.js:6
 msgid "{0} asked to delete their account. Approving signs them out and erases their data. Kept records are anonymised."

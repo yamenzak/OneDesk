@@ -273,12 +273,121 @@
 	}
 }
 
-/* Below a tablet frappe's own phone head stays. */
+/* Below a tablet frappe's own phone head stays, laid in three rows: the
+   sidebar toggle, where you are and frappe's search, then Refresh and the
+   view's search, then
+   the view's commands, scrolling sideways when they don't fit. */
 @media (max-width: 767px) {
 	.one-window-nav,
 	.one-window-switch,
 	.one-window-details-edge {
 		display: none !important;
+	}
+
+	.one-window > .page-head {
+		height: auto;
+	}
+
+	.one-window .page-head .page-head-content {
+		display: flex;
+		flex-wrap: wrap !important;
+		align-items: center;
+		gap: calc(var(--spacing) * 1.5) calc(var(--spacing) * 2);
+		height: auto;
+		margin: 0;
+		padding-block: calc(var(--spacing) * 2);
+	}
+
+	.one-window .page-head-content > .page-title {
+		order: 1;
+		flex: 1 1 auto;
+		min-width: 72px;
+		margin: 0;
+	}
+
+	/* frappe's own phone search, and a record's name and status, beside
+	   where you are; the name gives way first. */
+	.one-window .page-head-content > .standard-items-section {
+		order: 1;
+		flex: 0 1 auto;
+		min-width: 0;
+		display: flex;
+		align-items: center;
+		overflow: hidden;
+	}
+
+	/* A view's row across the window (a form's tabs), last, scrolling
+	   sideways. */
+	.one-window .page-head-content > .one-window-row {
+		order: 5;
+		flex: 1 1 100%;
+		min-width: 0;
+		overflow-x: auto;
+		scrollbar-width: none;
+	}
+
+	.one-window .page-head-content > .one-window-row:empty {
+		display: none;
+	}
+
+	.one-window .page-head-content > .page-title .title-area {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.one-window .page-head-content > .one-window-tools {
+		order: 2;
+		flex: 1 1 100%;
+		display: flex;
+		align-items: center;
+		gap: calc(var(--spacing) * 1);
+		min-width: 0;
+	}
+
+	.one-window .one-window-search {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.one-window .one-window-search:empty {
+		display: none;
+	}
+
+	.one-window .page-head-content > .one-window-commands {
+		order: 3;
+		flex: 1 1 100%;
+		display: flex;
+		align-items: center;
+		gap: calc(var(--spacing) * 1);
+		min-width: 0;
+		overflow-x: auto;
+		scrollbar-width: none;
+	}
+
+	.one-window .one-window-commands > .one-window-group {
+		display: flex;
+		flex-shrink: 0;
+		align-items: center;
+		gap: calc(var(--spacing) * 1);
+	}
+
+	.one-window .page-head-content > .one-window-views {
+		order: 4;
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: center;
+		gap: 2px;
+		max-width: 100%;
+		overflow-x: auto;
+	}
+
+	.one-window > .one-window-status {
+		padding-inline: calc(var(--spacing) * 4);
+		min-height: 32px;
+		display: flex;
+		align-items: center;
+		color: var(--ink-gray-5);
+		font-size: var(--text-sm);
 	}
 }
 

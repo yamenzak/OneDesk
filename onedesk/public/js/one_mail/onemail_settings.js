@@ -199,7 +199,7 @@ onedesk.mail.settings = (tab) => {
 				? __("Added to every email sent from this mailbox.")
 				: !box.sends
 				? __("Requires Send access.")
-				: __("Added to every email sent from this mailbox. Your role doesn't allow changing it."),
+				: __("Added to every email sent from this mailbox, which your role doesn't allow changing."),
 			actions: box.may_sign
 				? [
 						{
@@ -311,7 +311,7 @@ onedesk.mail.settings = (tab) => {
 			label: __("Out of Office"),
 			icon: "plane",
 			title: __("Out of Office"),
-			description: box.may.away ? __("Each sender gets it once every 4 days. Never sent to mailing lists or automatic mail.") : "",
+			description: box.may.away ? __("Each sender gets it once every 4 days, and mailing lists and automatic mail never do.") : "",
 			actions: box.may.away
 				? [
 						{
@@ -404,10 +404,10 @@ onedesk.mail.settings = (tab) => {
 			jobs: [
 				["parties", __("Create Customers and Suppliers"), __("Also Leads and Job Applicants, for unknown senders.")],
 				["contacts", __("Create and Update Contacts"), __("For the sender and everyone in To and Cc.")],
-				["enrich", __("Update Tax ID, Website and Phone"), __("Fills empty fields. A different value waits for approval in OneIntake.")],
+				["enrich", __("Update Tax ID, Website and Phone"), __("Fills empty fields, and a different value waits for approval in OneIntake.")],
 				["tasks", __("Create Tasks"), __("Includes follow-ups promised in sent mail.")],
 				["events", __("Create Events"), ""],
-				["money", __("Draft Invoices, Orders and Payments"), __("Saved as drafts in Ready to Submit. A bill asking to be paid to a new IBAN is held.")],
+				["money", __("Draft Invoices, Orders and Payments"), __("Saved as drafts in Ready to Submit, and a bill asking to be paid to a new IBAN is held.")],
 				["hr", __("File Employee Documents"), __("IDs, certificates, leave, resignations and expense claims.")],
 				["projects", __("Post Site Logs"), __("Saved as a Project Update.")],
 				["agent", __("Other Actions"), __("Comments, and records of other types.")],
@@ -435,8 +435,8 @@ onedesk.mail.settings = (tab) => {
 		icon: "oneai",
 		title: __("OneAI"),
 		description: box.may.ai
-			? __("What OneAI does with new mail on its own. It never mails anyone outside the workspace. If disabled, OneAI can't read this mailbox.")
-			: __("What OneAI does with new mail in this mailbox. Your role doesn't allow changing it."),
+			? __("Whether OneAI may read this mailbox, and what it does with new mail here on its own.")
+			: __("What OneAI does with new mail here, which your role doesn't allow changing."),
 		actions: box.may.ai
 			? [
 					{
@@ -680,7 +680,7 @@ onedesk.mail.settings = (tab) => {
 		},
 	});
 	const users_said = (one_box) =>
-		one_box.enable_outgoing ? __("Everyone listed can read. Send allows sending from this mailbox.") : __("Connected without outgoing mail.");
+		one_box.enable_outgoing ? __("Everyone listed can read, and those with Send can send from this mailbox too.") : __("Connected without outgoing mail.");
 
 	// A connected mailbox: where it reads and sends from and when mail was
 	// last checked; Reconnect asks for the password again.
@@ -734,9 +734,9 @@ onedesk.mail.settings = (tab) => {
 		icon: "workflow",
 		title: __("Automation"),
 		description: box.may.rules
-			? __("Rules you write, run in order on each new message. They come before what OneAI does.")
+			? __("Rules you write, run in order on each new message before what OneAI does.")
 			: box.hosted && !box.shared
-			? __("Rules you write, run in order on each new message. A rule you ask for runs once a Mail Manager approves it.")
+			? __("Rules you write, run in order on each new message once a Mail Manager approves them.")
 			: managed,
 		actions:
 			box.may.rules || (box.hosted && !box.shared)
@@ -869,7 +869,7 @@ onedesk.mail.settings = (tab) => {
 			title: rule ? rule.title || __("Mail Rule") : asking ? __("Request Mail Rule") : __("New Mail Rule"),
 			description:
 				rule && rule.requested_by
-					? __("{0} asked for this rule. It runs once approved.", [rule.requested_by_name || rule.requested_by])
+					? __("{0} asked for this rule, which runs once approved.", [rule.requested_by_name || rule.requested_by])
 					: undefined,
 			actions,
 			render: (shown) => {
@@ -909,7 +909,7 @@ onedesk.mail.settings = (tab) => {
 	// What a person may connect, from Private Mailboxes (boot.one_mail_private).
 	const can_connect = () => {
 		const { on, domains } = frappe.boot.one_mail_private || { on: 1, domains: [] };
-		if (!on) return __("Your organization address. Private mailboxes are turned off in this workspace.");
+		if (!on) return __("Your organization address, since private mailboxes are turned off in this workspace.");
 		if (domains.length) return __("Your organization address, or a private one at {0}.", [domains.map((one) => "@" + one).join(", ")]);
 		return __("Your organization address, or a private one such as Gmail.");
 	};
@@ -920,7 +920,7 @@ onedesk.mail.settings = (tab) => {
 		let form = null;
 		view(panel, {
 			title: shared ? __("Connect Shared Mailbox") : __("Connect Mailbox"),
-			description: shared ? __("A workspace address such as sales@. Add its users after connecting.") : can_connect(),
+			description: shared ? __("A workspace address such as sales@, whose users you add once it's connected.") : can_connect(),
 			actions: [
 				{
 					label: __("Connect"),
@@ -1232,7 +1232,7 @@ onedesk.mail.settings = (tab) => {
 				switched(
 					$body,
 					__("Send From New Addresses"),
-					__("Each new user gets an address such as {0}. If disabled, it only receives mail.", [
+					__("Whether the address each new person gets, such as {0}, sends as well as receives.", [
 						`name.${said.slug || "workspace"}@${said.mail_domain}`,
 					]),
 					said.personal_sends,

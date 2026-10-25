@@ -1003,7 +1003,7 @@ Pages: legal (on a rail or a home).
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Face | engine: the faces OneMail draws beside a sender | the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Mail Folder | engine: a mailbox's folders, which OneMail's sidebar shows and makes | the administrator | untouched | yes | taught |  | yes |  |  |  |  |
-| Mail Rule | inside: OneMail's settings, a mailbox's Mail Rules tab, which writes it | **nobody** | untouched | yes | taught |  | **none** |  |  |  |  |
+| Mail Rule | inside: OneMail's settings, a mailbox's Automation tab, which writes it | **nobody** | untouched | yes | taught |  | **none** |  |  |  |  |
 
 Pages: onemail (on a rail or a home).
 

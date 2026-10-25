@@ -201,7 +201,7 @@ ANSWERS = {
 	("DocType", "Credit Reservation"): (ENGINE, "credits held while OneAI works, released when it is done"),
 	("DocType", "AI Chunk"): (ENGINE, "pieces of documents, mail and records by meaning, which Ctrl+K, OneCloud, OneMail and OneAI search"),
 	("DocType", "Face"): (ENGINE, "the faces OneMail draws beside a sender"),
-	("DocType", "Mail Rule"): (INSIDE, "OneMail's settings, a mailbox's Mail Rules tab, which writes it"),
+	("DocType", "Mail Rule"): (INSIDE, "OneMail's settings, a mailbox's Automation tab, which writes it"),
 	("DocType", "Mail Folder"): (ENGINE, "a mailbox's folders, which OneMail's sidebar shows and makes"),
 	("DocType", "File Link"): (ENGINE, "what OneIntake filed a document under"),
 	("DocType", "Identifier"): (ENGINE, "numbers OneIntake recognised a party by"),

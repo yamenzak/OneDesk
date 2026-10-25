@@ -755,7 +755,7 @@ onedesk.rules.starters = (context) => {
 				key: "sort",
 				icon: "oneai",
 				title: __("Sort by Topic"),
-				about: __("OneAI reads each message and picks a label. Each label has its own steps."),
+				about: __("OneAI reads each message and picks a label, and each label has its own steps."),
 				rule: {
 					title: __("Sort by Topic"),
 					steps: [

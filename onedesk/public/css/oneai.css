@@ -1277,3 +1277,11 @@ body.one-ai-composing .one-ai-dial {
 	border-radius: var(--radius-lg);
 	background: var(--surface-base);
 }
+
+/* A dialog on a phone fills the screen with its own buttons at the foot,
+   where the dial sits; it steps aside until the dialog closes. */
+@media (max-width: 767px) {
+	body.modal-open .one-ai-dial {
+		display: none;
+	}
+}

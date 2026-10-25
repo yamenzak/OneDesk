@@ -715,6 +715,30 @@ def onemail_oneai_tells_a_sender_only_their_own_records():
 
 
 @check
+def onemail_oneai_replies_say_who_wrote_them():
+	"""A rule that has OneAI answer sends the reply with a line saying OneAI
+	wrote it, as the AI Addendum's onemail-answers says; a reply a person
+	wrote for the rule carries no such line."""
+	from unittest import mock
+
+	from onedesk.one_mail import holders, rules
+
+	account = frappe.get_doc("Email Account", holders.workspace())
+	name = frappe.db.get_value("Communication", {"email_account": account.name, "sent_or_received": "Received"}, "name")
+	sent = []
+	rule = frappe._dict(name="check-oneai-answers")
+	with mock.patch("onedesk.one_mail.gate.of", return_value=frappe._dict(one_ai_off=0)), mock.patch(
+		"onedesk.one_mail.gate.over", return_value=False
+	), mock.patch.object(rules, "_drafted", return_value="Thank you, we will visit on Tuesday."), mock.patch.object(
+		rules, "_send", side_effect=lambda account, comm, html: sent.append(html)
+	):
+		frappe.cache.delete_keys("one_rule_reply:check-oneai-answers")
+		assert rules.answer(rule, {"type": "reply", "with": "OneAI", "instruction": "Offer a visit."}, name) == "sent"
+	assert sent and "written by OneAI" in sent[0], sent
+	frappe.cache.delete_keys("one_rule_reply:check-oneai-answers")
+
+
+@check
 def onemail_a_mailbox_says_what_oneai_may_do_with_its_mail():
 	"""Layla switches off Create Tasks for the workspace mailbox: OneIntake
 	then makes no task from its mail, while a link it still makes; once a

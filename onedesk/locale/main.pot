@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-25 18:11+0000\n"
-"PO-Revision-Date: 2026-10-25 18:11+0000\n"
+"POT-Creation-Date: 2026-10-25 19:02+0000\n"
+"PO-Revision-Date: 2026-10-25 19:02+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -68,7 +68,7 @@ msgid "(first 6 rows)"
 msgstr ""
 
 #: frontend/src/mail/MailConversation.vue:9 frontend/src/mail/MailList.vue:59
-#: onedesk/one_mail/rules.py:394 onedesk/one_mail/rules.py:396
+#: onedesk/one_mail/rules.py:397 onedesk/one_mail/rules.py:399
 #: onedesk/public/js/one_mail/record_mail.js:28
 msgid "(no subject)"
 msgstr ""
@@ -422,7 +422,7 @@ msgstr ""
 msgid "A Frappe app's name is lowercase letters, digits and underscores."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:1111 onedesk/one_mail/rules.py:1123
+#: onedesk/one_mail/rules.py:1114 onedesk/one_mail/rules.py:1126
 msgid "A Mail Manager approves the rules of this mailbox."
 msgstr ""
 
@@ -1370,7 +1370,7 @@ msgstr ""
 msgid "A shared device can't hold a passkey."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:813
+#: onedesk/one_mail/rules.py:816
 msgid "A shared mailbox answers by a mail rule instead."
 msgstr ""
 
@@ -1521,7 +1521,7 @@ msgid "A workbook as it stood at one point in its history, whole: taken as it is
 msgstr ""
 
 #: onedesk/public/js/one_mail/onemail_settings.js:923
-msgid "A workspace address such as sales@. Add its users after connecting."
+msgid "A workspace address such as sales@, whose users you add once it's connected."
 msgstr ""
 
 #: onedesk/one_admin/domains.py:30
@@ -2665,12 +2665,12 @@ msgstr ""
 msgid "Added to a Library"
 msgstr ""
 
-#: onedesk/public/js/one_mail/onemail_settings.js:199
-msgid "Added to every email sent from this mailbox."
+#: onedesk/public/js/one_mail/onemail_settings.js:202
+msgid "Added to every email sent from this mailbox, which your role doesn't allow changing."
 msgstr ""
 
-#: onedesk/public/js/one_mail/onemail_settings.js:202
-msgid "Added to every email sent from this mailbox. Your role doesn't allow changing it."
+#: onedesk/public/js/one_mail/onemail_settings.js:199
+msgid "Added to every email sent from this mailbox."
 msgstr ""
 
 #. Description of the 'Added Instructions' (Small Text) field in DocType 'AI
@@ -3128,7 +3128,7 @@ msgid "Agreement No"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one/sidebar/one/one.json onedesk/public/js/trust_center.js:360
+#: onedesk/one/sidebar/one/one.json onedesk/public/js/trust_center.js:362
 #: onedesk/www/legal.html:20 onedesk/www/legal.py:27
 msgid "Agreements"
 msgstr ""
@@ -4459,7 +4459,7 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #. Option for the 'Kind' (Select) field in DocType 'Mail Folder'
-#: frontend/src/mail/OneMail.vue:147 frontend/src/mail/OneMail.vue:177
+#: frontend/src/mail/OneMail.vue:148 frontend/src/mail/OneMail.vue:178
 #: frontend/src/mail/mail.js:12
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_mail/ai.py:646
@@ -4469,7 +4469,7 @@ msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #. Option for the 'Event' (Select) field in DocType 'Tenant Event'
-#: frontend/src/mail/OneMail.vue:478 onedesk/one/heads.py:19
+#: frontend/src/mail/OneMail.vue:479 onedesk/one/heads.py:19
 #: onedesk/one_admin/accounts.py:123
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:14
@@ -5109,7 +5109,7 @@ msgstr ""
 msgid "Attachments"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:304
+#: frontend/src/mail/OneMail.vue:305
 msgid "Attachments in OneCloud"
 msgstr ""
 
@@ -5372,7 +5372,7 @@ msgstr ""
 msgid "Auto Reply"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:213
+#: frontend/src/mail/OneMail.vue:214
 #: onedesk/public/js/one_mail/onemail_settings.js:72
 msgid "Auto Reply On"
 msgstr ""
@@ -5413,7 +5413,7 @@ msgid "Automatically Create New Batch"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/mail/OneMail.vue:303 onedesk/one/sidebar/one/one.json
+#: frontend/src/mail/OneMail.vue:304 onedesk/one/sidebar/one/one.json
 #: onedesk/one_mail/abilities.py:45 onedesk/public/js/doctype_settings.js:213
 #: onedesk/public/js/one_mail/onemail_settings.js:733
 #: onedesk/public/js/one_mail/onemail_settings.js:735
@@ -5560,7 +5560,7 @@ msgstr ""
 msgid "BOM Update Tool"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:26
+#: frontend/src/cloud/OneCloud.vue:26 frontend/src/mail/OneMail.vue:18
 #: frontend/src/sheet/components/SheetEditor/index.vue:38
 #: frontend/src/writer/DocumentPage.vue:5
 #: onedesk/public/js/module_settings.js:245
@@ -8017,7 +8017,7 @@ msgid "Clear formatting"
 msgstr ""
 
 #: frontend/src/mail/MailList.vue:9 frontend/src/mail/MailList.vue:10
-#: frontend/src/mail/OneMail.vue:151
+#: frontend/src/mail/OneMail.vue:152
 msgid "Clear selection"
 msgstr ""
 
@@ -8866,7 +8866,7 @@ msgstr ""
 msgid "Connect"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:253
+#: frontend/src/mail/OneMail.vue:254
 #: onedesk/public/js/one_mail/onemail_settings.js:54
 #: onedesk/public/js/one_mail/onemail_settings.js:922
 msgid "Connect Mailbox"
@@ -9738,7 +9738,7 @@ msgstr ""
 msgid "Covering Until"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:212
+#: frontend/src/mail/OneMail.vue:213
 #: onedesk/public/js/one_mail/onemail_settings.js:69
 msgid "Covering until {0}"
 msgstr ""
@@ -9747,7 +9747,7 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
 #. Task in the Marketing Campaign project template
-#: frontend/src/mail/OneMail.vue:313
+#: frontend/src/mail/OneMail.vue:314
 #: frontend/src/writer/components/NewVersionDialog.vue:8
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
@@ -11320,8 +11320,8 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: frontend/src/cloud/OneCloud.vue:541 frontend/src/cloud/OneCloud.vue:626
-#: frontend/src/mail/OneMail.vue:148 frontend/src/mail/OneMail.vue:180
-#: frontend/src/mail/OneMail.vue:287
+#: frontend/src/mail/OneMail.vue:149 frontend/src/mail/OneMail.vue:181
+#: frontend/src/mail/OneMail.vue:288
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:59
 #: frontend/src/sheet/components/SheetEditor/index.vue:728
 #: frontend/src/sheet/components/SheetEditor/index.vue:1096
@@ -11462,7 +11462,7 @@ msgstr ""
 msgid "Delete {0}? Everyone invited is notified that it's cancelled."
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:327
+#: frontend/src/mail/OneMail.vue:328
 msgid "Delete {0}? Its messages move to Trash."
 msgstr ""
 
@@ -13273,10 +13273,6 @@ msgstr ""
 msgid "Each month's depreciation."
 msgstr ""
 
-#: onedesk/public/js/one_mail/onemail_settings.js:1235
-msgid "Each new user gets an address such as {0}. If disabled, it only receives mail."
-msgstr ""
-
 #: onedesk/one_inventory/ready.py:205
 msgid "Each new work order asks where to work and where to put what it makes. Fix sets the company's Work In Progress and Finished Goods."
 msgstr ""
@@ -13343,7 +13339,7 @@ msgid "Each recipient"
 msgstr ""
 
 #: onedesk/public/js/one_mail/onemail_settings.js:314
-msgid "Each sender gets it once every 4 days. Never sent to mailing lists or automatic mail."
+msgid "Each sender gets it once every 4 days, and mailing lists and automatic mail never do."
 msgstr ""
 
 #. Description of the 'Away' (Check) field in DocType 'Email Account'
@@ -14891,7 +14887,7 @@ msgid "Everyone in the workspace"
 msgstr ""
 
 #: onedesk/public/js/one_mail/onemail_settings.js:683
-msgid "Everyone listed can read. Send allows sending from this mailbox."
+msgid "Everyone listed can read, and those with Send can send from this mailbox too."
 msgstr ""
 
 #: onedesk/one/ai_setup.py:601
@@ -15870,7 +15866,7 @@ msgid "Filling Up"
 msgstr ""
 
 #: onedesk/public/js/one_mail/onemail_settings.js:407
-msgid "Fills empty fields. A different value waits for approval in OneIntake."
+msgid "Fills empty fields, and a different value waits for approval in OneIntake."
 msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:5
@@ -16228,7 +16224,7 @@ msgstr ""
 msgid "Folder"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:310
+#: frontend/src/mail/OneMail.vue:311
 msgid "Folder Name"
 msgstr ""
 
@@ -16382,7 +16378,7 @@ msgstr ""
 msgid "For Orders"
 msgstr ""
 
-#: onedesk/one_mail/rules.py:680
+#: onedesk/one_mail/rules.py:683
 msgid "For anything urgent, write to {0} at {1}."
 msgstr ""
 
@@ -16642,7 +16638,7 @@ msgstr ""
 msgid "Forward to {0}"
 msgstr ""
 
-#: onedesk/one_mail/rules.py:321 onedesk/public/js/one_mail/mail_compose.js:179
+#: onedesk/one_mail/rules.py:324 onedesk/public/js/one_mail/mail_compose.js:179
 msgid "Forwarded message"
 msgstr ""
 
@@ -17009,7 +17005,7 @@ msgstr ""
 msgid "From this person's designation and department, what should their first two weeks hold, day by day, and who should own each part?"
 msgstr ""
 
-#: frontend/src/quotes/QuotesPage.vue:145
+#: frontend/src/quotes/QuotesPage.vue:145 onedesk/public/js/trust_center.js:316
 msgid "From {0}"
 msgstr ""
 
@@ -17054,7 +17050,7 @@ msgstr ""
 msgid "From {workspace}.<br><br>The link works until {until}. You don't need an account to open it."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:320
+#: onedesk/one_mail/rules.py:323
 msgid "From: {0}"
 msgstr ""
 
@@ -18857,11 +18853,11 @@ msgstr ""
 msgid "I will paste an email signature. Add the person in it as a lead."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:673
+#: onedesk/one_mail/rules.py:676
 msgid "I'm away and will reply when I'm back."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:671
+#: onedesk/one_mail/rules.py:674
 msgid "I'm on leave and back on {0}. I'll reply then."
 msgstr ""
 
@@ -22548,7 +22544,7 @@ msgstr ""
 msgid "Link the contact to a customer or supplier first."
 msgstr ""
 
-#: frontend/src/mail/MailConversation.vue:137 frontend/src/mail/OneMail.vue:149
+#: frontend/src/mail/MailConversation.vue:137 frontend/src/mail/OneMail.vue:150
 msgid "Link to Record"
 msgstr ""
 
@@ -23221,7 +23217,7 @@ msgstr ""
 msgid "Mailbox"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:305
+#: frontend/src/mail/OneMail.vue:306
 msgid "Mailbox Settings"
 msgstr ""
 
@@ -23230,7 +23226,7 @@ msgstr ""
 msgid "Mailbox connected"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:264 onedesk/one_mail/abilities.py:18
+#: frontend/src/mail/OneMail.vue:265 onedesk/one_mail/abilities.py:18
 #: onedesk/public/js/one_mail/onemail_settings.js:49
 #: onedesk/public/js/one_mail/onemail_settings.js:51
 #: onedesk/public/js/one_mail/onemail_settings.js:1241
@@ -23654,11 +23650,11 @@ msgstr ""
 msgid "Mark as Unread"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:143 frontend/src/mail/OneMail.vue:175
+#: frontend/src/mail/OneMail.vue:144 frontend/src/mail/OneMail.vue:176
 msgid "Mark as read"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:144 frontend/src/mail/OneMail.vue:175
+#: frontend/src/mail/OneMail.vue:145 frontend/src/mail/OneMail.vue:176
 msgid "Mark as unread"
 msgstr ""
 
@@ -24558,7 +24554,7 @@ msgstr ""
 msgid "Move selection"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:146
+#: frontend/src/mail/OneMail.vue:147
 msgid "Move to"
 msgstr ""
 
@@ -24591,7 +24587,7 @@ msgstr ""
 msgid "Move {0}"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:478 onedesk/one_inventory/heads.py:619
+#: frontend/src/mail/OneMail.vue:479 onedesk/one_inventory/heads.py:619
 msgid "Moved"
 msgstr ""
 
@@ -24612,7 +24608,7 @@ msgstr ""
 msgid "Moved down from {0}% to {1}%."
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:478 onedesk/one_mail/ai.py:776
+#: frontend/src/mail/OneMail.vue:479 onedesk/one_mail/ai.py:776
 msgid "Moved to Trash"
 msgstr ""
 
@@ -25128,7 +25124,7 @@ msgid "New Document"
 msgstr ""
 
 #: frontend/src/kit/ActivityComposer.vue:18 frontend/src/mail/OneMail.vue:4
-#: frontend/src/mail/OneMail.vue:487
+#: frontend/src/mail/OneMail.vue:488
 #: onedesk/public/js/one_mail/record_mail.js:35
 #: onedesk/public/js/window/form.js:201 onedesk/www/account_profile.html:36
 msgid "New Email"
@@ -25153,8 +25149,8 @@ msgstr ""
 msgid "New Fiscal Year"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:282 frontend/src/mail/OneMail.vue:299
-#: frontend/src/mail/OneMail.vue:313
+#: frontend/src/mail/OneMail.vue:283 frontend/src/mail/OneMail.vue:300
+#: frontend/src/mail/OneMail.vue:314
 msgid "New Folder"
 msgstr ""
 
@@ -25754,7 +25750,7 @@ msgstr ""
 msgid "No Answer"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:468
+#: frontend/src/mail/OneMail.vue:469
 msgid "No Archive folder in this mailbox"
 msgstr ""
 
@@ -26127,7 +26123,7 @@ msgstr ""
 msgid "No mailbox can send as {0}."
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:52
+#: frontend/src/mail/OneMail.vue:53
 #: onedesk/public/js/one_mail/onemail_settings.js:64
 #: onedesk/public/js/one_mail/onemail_settings.js:1245
 #: onedesk/public/js/settings.js:2842
@@ -26529,7 +26525,7 @@ msgid "No {0} bucket is configured."
 msgstr ""
 
 #: onedesk/public/js/one_mail/mail_templates.js:292
-msgid "No {0} yet. Its fields stay empty."
+msgid "No {0} yet, so its fields stay empty."
 msgstr ""
 
 #: onedesk/one/printing.py:521
@@ -26544,7 +26540,7 @@ msgstr ""
 msgid "Nobody Applied"
 msgstr ""
 
-#: onedesk/one_mail/rules.py:1137
+#: onedesk/one_mail/rules.py:1140
 msgid "Nobody asked for this rule."
 msgstr ""
 
@@ -27737,7 +27733,7 @@ msgstr ""
 msgid "On Leave Today"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:214
+#: frontend/src/mail/OneMail.vue:215
 #: onedesk/public/js/one_mail/onemail_settings.js:70
 msgid "On Leave until {0}"
 msgstr ""
@@ -28205,7 +28201,7 @@ msgstr ""
 #. Group in Interview's connections
 #. Label of the one_ai_section (Section Break) field in DocType 'Job Applicant'
 #. Option for the 'Placed By' (Select) field in DocType 'Reading'
-#: frontend/src/mail/OneMail.vue:302 onedesk/one/sidebar/one/one.json
+#: frontend/src/mail/OneMail.vue:303 onedesk/one/sidebar/one/one.json
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
@@ -28425,7 +28421,7 @@ msgid "OneAI rates and ranks each new job applicant against the opening."
 msgstr ""
 
 #: onedesk/public/js/one_mail/rule_builder.js:758
-msgid "OneAI reads each message and picks a label. Each label has its own steps."
+msgid "OneAI reads each message and picks a label, and each label has its own steps."
 msgstr ""
 
 #: onedesk/public/js/one_mail/rule_builder.js:782
@@ -28577,7 +28573,7 @@ msgstr ""
 #. Label of the one_mail_section (Section Break) field in DocType
 #. 'Communication'
 #. Title of a Sidebar
-#: frontend/src/mail/OneMail.vue:194
+#: frontend/src/mail/OneMail.vue:195
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_mail/custom/communication.json
 #: onedesk/one_mail/page/onemail/onemail.js:2
@@ -28952,7 +28948,7 @@ msgstr ""
 #: frontend/src/cloud/CloudPreview.vue:33 frontend/src/cloud/OneCloud.vue:591
 #: frontend/src/cloud/OneCloud.vue:595 frontend/src/cloud/OneCloud.vue:604
 #: frontend/src/floor/ShopFloor.vue:119
-#: frontend/src/intake/IntakeReading.vue:27 frontend/src/mail/OneMail.vue:170
+#: frontend/src/intake/IntakeReading.vue:27 frontend/src/mail/OneMail.vue:171
 #: frontend/src/sent_out/OutRows.vue:85
 #: frontend/src/sent_out/SentOutPage.vue:76
 #: frontend/src/sent_out/SentOutPage.vue:83
@@ -29857,7 +29853,7 @@ msgstr ""
 msgid "Out of 100. Below the confirmation threshold the log is flagged for review."
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:215 frontend/src/mail/OneMail.vue:301
+#: frontend/src/mail/OneMail.vue:216 frontend/src/mail/OneMail.vue:302
 #: onedesk/one_mail/abilities.py:37
 #: onedesk/public/js/one_mail/onemail_settings.js:71
 #: onedesk/public/js/one_mail/onemail_settings.js:311
@@ -29878,7 +29874,7 @@ msgstr ""
 msgid "Out of Office Replies"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:215
+#: frontend/src/mail/OneMail.vue:216
 #: onedesk/public/js/one_mail/onemail_settings.js:71
 msgid "Out of Office until {0}"
 msgstr ""
@@ -31399,7 +31395,7 @@ msgid "People connect a mailbox at these with its password alone."
 msgstr ""
 
 #: onedesk/public/js/access_center.js:76
-msgid "People given more than their role on one record. They are given it on the record itself."
+msgid "People given more than their role on one record, from that record's own screen."
 msgstr ""
 
 #: onedesk/public/js/settings.js:2939
@@ -31518,7 +31514,7 @@ msgstr ""
 msgid "Periods"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:454
+#: frontend/src/mail/OneMail.vue:455
 msgid "Permanently delete these messages? This can't be undone."
 msgstr ""
 
@@ -33876,7 +33872,7 @@ msgstr ""
 msgid "Ratings"
 msgstr ""
 
-#: onedesk/one_mail/rules.py:869
+#: onedesk/one_mail/rules.py:872
 msgid "Re: {0}"
 msgstr ""
 
@@ -35165,7 +35161,7 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
 #: frontend/src/cloud/OneCloud.vue:538 frontend/src/cloud/OneCloud.vue:625
-#: frontend/src/mail/OneMail.vue:286 frontend/src/mail/OneMail.vue:320
+#: frontend/src/mail/OneMail.vue:287 frontend/src/mail/OneMail.vue:321
 #: frontend/src/sheet/components/SheetEditor/VersionPreviewBanner.vue:37
 #: frontend/src/sheet/components/SheetEditor/index.vue:708
 #: frontend/src/sheet/components/SheetEditor/index.vue:742
@@ -35182,7 +35178,7 @@ msgstr ""
 msgid "Rename Conversation"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:320
+#: frontend/src/mail/OneMail.vue:321
 msgid "Rename Folder"
 msgstr ""
 
@@ -35899,7 +35895,7 @@ msgstr ""
 msgid "Results and lessons"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:129
+#: frontend/src/mail/OneMail.vue:130
 msgid "Results for {0}"
 msgstr ""
 
@@ -36410,12 +36406,12 @@ msgstr ""
 msgid "Rules override the naming above."
 msgstr ""
 
-#: onedesk/public/js/one_mail/onemail_settings.js:739
-msgid "Rules you write, run in order on each new message. A rule you ask for runs once a Mail Manager approves it."
+#: onedesk/public/js/one_mail/onemail_settings.js:737
+msgid "Rules you write, run in order on each new message before what OneAI does."
 msgstr ""
 
-#: onedesk/public/js/one_mail/onemail_settings.js:737
-msgid "Rules you write, run in order on each new message. They come before what OneAI does."
+#: onedesk/public/js/one_mail/onemail_settings.js:739
+msgid "Rules you write, run in order on each new message once a Mail Manager approves them."
 msgstr ""
 
 #. Option for the 'Source' (Select) field in DocType 'Credit Ledger Entry'
@@ -36865,7 +36861,7 @@ msgid "Saved as a template: {0}"
 msgstr ""
 
 #: onedesk/public/js/one_mail/onemail_settings.js:410
-msgid "Saved as drafts in Ready to Submit. A bill asking to be paid to a new IBAN is held."
+msgid "Saved as drafts in Ready to Submit, and a bill asking to be paid to a new IBAN is held."
 msgstr ""
 
 #: frontend/src/writer/components/CoreEditor.vue:419
@@ -37056,7 +37052,7 @@ msgstr ""
 #: frontend/src/cloud/OneCloud.vue:1165 frontend/src/home/BooksHome.vue:25
 #: frontend/src/home/CrmHome.vue:25 frontend/src/home/HrHome.vue:25
 #: frontend/src/home/InventoryHome.vue:25 frontend/src/lots/LotsPage.vue:15
-#: frontend/src/mail/OneMail.vue:185 frontend/src/project/ProjectPage.vue:15
+#: frontend/src/mail/OneMail.vue:186 frontend/src/project/ProjectPage.vue:15
 #: frontend/src/quotes/QuotesPage.vue:10
 #: frontend/src/sent_out/SentOutPage.vue:10
 #: frontend/src/to_order/ToOrderPage.vue:9
@@ -38779,7 +38775,7 @@ msgid "Sign-off to go live"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
-#: frontend/src/mail/OneMail.vue:300 onedesk/one_ai/chat.py:349
+#: frontend/src/mail/OneMail.vue:301 onedesk/one_ai/chat.py:349
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/public/js/one_mail/onemail_settings.js:195
 #: onedesk/public/js/one_mail/onemail_settings.js:197
@@ -39768,7 +39764,7 @@ msgid "Standing"
 msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:621 frontend/src/mail/MailList.vue:64
-#: frontend/src/mail/OneMail.vue:145 frontend/src/mail/OneMail.vue:176
+#: frontend/src/mail/OneMail.vue:146 frontend/src/mail/OneMail.vue:177
 #: onedesk/one_mail/ai.py:650 onedesk/one_mail/flow.py:329
 #: onedesk/public/js/one_mail/rule_builder.js:41
 msgid "Star"
@@ -40771,7 +40767,7 @@ msgstr ""
 msgid "Subject or text contains \"{0}\""
 msgstr ""
 
-#: onedesk/one_mail/rules.py:321
+#: onedesk/one_mail/rules.py:324
 msgid "Subject: {0}"
 msgstr ""
 
@@ -41234,7 +41230,7 @@ msgstr ""
 msgid "Support Settings"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:186
+#: frontend/src/mail/OneMail.vue:187
 msgid "Supports from:, to:, subject:, has:attachment, is:unread and is:starred"
 msgstr ""
 
@@ -42367,7 +42363,7 @@ msgstr ""
 #: onedesk/one/reports.py:234 onedesk/one/settings.py:988
 #: onedesk/one/settings.py:1078 onedesk/one/setup_steps.py:139
 #: onedesk/one_mail/ai.py:1230 onedesk/one_mail/flow.py:200
-#: onedesk/one_mail/rules.py:815
+#: onedesk/one_mail/rules.py:818
 msgid "That cannot be set."
 msgstr ""
 
@@ -42453,7 +42449,7 @@ msgstr ""
 msgid "That plan is no longer on offer. Start again."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:1090
+#: onedesk/one_mail/rules.py:1093
 msgid "That rule is not in this mailbox."
 msgstr ""
 
@@ -42912,7 +42908,7 @@ msgstr ""
 msgid "The day before your exit interview."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:817
+#: onedesk/one_mail/rules.py:820
 msgid "The day it ends can't be before the day it starts."
 msgstr ""
 
@@ -44928,6 +44924,10 @@ msgstr ""
 msgid "This recording has already ended."
 msgstr ""
 
+#: onedesk/one_mail/rules.py:299
+msgid "This reply was written by OneAI."
+msgstr ""
+
 #: onedesk/one_hr/passkey.py:475
 msgid "This request expired. Try again."
 msgstr ""
@@ -46636,7 +46636,7 @@ msgstr ""
 msgid "Understood On"
 msgstr ""
 
-#: frontend/src/intake/IntakeReading.vue:36 frontend/src/mail/OneMail.vue:479
+#: frontend/src/intake/IntakeReading.vue:36 frontend/src/mail/OneMail.vue:480
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:103
 #: onedesk/one_intake/doctype/intake_action/intake_action.js:11
 #: onedesk/public/js/intake.js:18 onedesk/public/js/oneai/Panel.vue:121
@@ -46912,8 +46912,8 @@ msgstr ""
 msgid "Unresolve"
 msgstr ""
 
-#: frontend/src/mail/MailList.vue:64 frontend/src/mail/OneMail.vue:145
-#: frontend/src/mail/OneMail.vue:176
+#: frontend/src/mail/MailList.vue:64 frontend/src/mail/OneMail.vue:146
+#: frontend/src/mail/OneMail.vue:177
 msgid "Unstar"
 msgstr ""
 
@@ -48227,11 +48227,7 @@ msgid "What OneAI does not do with this mailbox's mail, by job (one_mail/gate.py
 msgstr ""
 
 #: onedesk/public/js/one_mail/onemail_settings.js:439
-msgid "What OneAI does with new mail in this mailbox. Your role doesn't allow changing it."
-msgstr ""
-
-#: onedesk/public/js/one_mail/onemail_settings.js:438
-msgid "What OneAI does with new mail on its own. It never mails anyone outside the workspace. If disabled, OneAI can't read this mailbox."
+msgid "What OneAI does with new mail here, which your role doesn't allow changing."
 msgstr ""
 
 #. Description of a DocType
@@ -50677,8 +50673,16 @@ msgstr ""
 msgid "Where work is done, and what an hour there costs."
 msgstr ""
 
+#: onedesk/public/js/one_mail/onemail_settings.js:438
+msgid "Whether OneAI may read this mailbox, and what it does with new mail here on its own."
+msgstr ""
+
 #: onedesk/one_crm/home.py:187
 msgid "Whether a person takes calls, and what callers hear."
+msgstr ""
+
+#: onedesk/public/js/one_mail/onemail_settings.js:1235
+msgid "Whether the address each new person gets, such as {0}, sends as well as receives."
 msgstr ""
 
 #: onedesk/one_admin/ai.py:146
@@ -53051,7 +53055,7 @@ msgstr ""
 msgid "Your interview is on {when}"
 msgstr ""
 
-#: onedesk/one_mail/rules.py:869
+#: onedesk/one_mail/rules.py:872
 msgid "Your message"
 msgstr ""
 
@@ -53074,7 +53078,7 @@ msgid "Your organization address, or a private one such as Gmail."
 msgstr ""
 
 #: onedesk/public/js/one_mail/onemail_settings.js:912
-msgid "Your organization address. Private mailboxes are turned off in this workspace."
+msgid "Your organization address, since private mailboxes are turned off in this workspace."
 msgstr ""
 
 #: onedesk/one_hr/rules.py:29
@@ -55061,7 +55065,7 @@ msgid "{0} asked for a copy of their data. Send it within one month."
 msgstr ""
 
 #: onedesk/public/js/one_mail/onemail_settings.js:872
-msgid "{0} asked for this rule. It runs once approved."
+msgid "{0} asked for this rule, which runs once approved."
 msgstr ""
 
 #: onedesk/public/js/privacy_request.js:6
@@ -56489,7 +56493,7 @@ msgid "{0} of them live."
 msgstr ""
 
 #: frontend/src/floor/OrderRows.vue:34 frontend/src/floor/OrderRows.vue:39
-#: frontend/src/mail/OneMail.vue:395 frontend/src/project/MilestoneLanes.vue:31
+#: frontend/src/mail/OneMail.vue:396 frontend/src/project/MilestoneLanes.vue:31
 #: frontend/src/project/MilestoneLanes.vue:93 frontend/src/project/Months.vue:8
 #: frontend/src/project/TaskPanel.vue:62 frontend/src/project/TaskPanel.vue:73
 #: frontend/src/project/Tasks.vue:31 frontend/src/quotes/RequestRows.vue:29

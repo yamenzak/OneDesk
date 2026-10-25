@@ -20,7 +20,7 @@ def run(password=None):
 				"country": "United Arab Emirates",
 				"timezone": "Asia/Dubai",
 				"currency": CURRENCY,
-				"full_name": "Workspace Builder",
+				"full_name": "Faisal Al Mansoori",
 				"email": BUILDER,
 				"password": password or frappe.generate_hash(),
 				"company_name": COMPANY,
