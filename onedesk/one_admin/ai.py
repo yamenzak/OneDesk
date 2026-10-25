@@ -130,28 +130,6 @@ SUGGESTIONS = {
 			"expects": "run_report",
 		},
 	],
-	"AI Model": [
-		{
-			"label": _lt("Is this model worth offering?"),
-			"ask": _lt(
-				"Is this model worth offering? Compare what it costs a workspace with the offered models that can "
-				"do the same, say what it can read, which actions would run on it, and whether anyone used it."
-			),
-			"can": "read",
-			"view": "Form",
-			"expects": "model_facts",
-		},
-		{
-			"label": _lt("Which actions have no model?"),
-			"ask": _lt(
-				"Which OneAI actions have no model to run on, and which offered model would each fall to? Say "
-				"which models are the defaults and what they cost."
-			),
-			"can": "read",
-			"view": "List",
-			"expects": "model_facts",
-		},
-	],
 	ledger.ENTRY: [
 		{
 			"label": _lt("Where did the credits go?"),
@@ -364,62 +342,11 @@ def settings_check() -> dict:
 			"default_markup": held.default_markup,
 			"a_credit_sells_for": round(offerings.credit_price(), 5),
 			"least_margin": held.least_margin,
-			"prefer_models_from": held.prefer_models_from,
 		},
 		"grace_days": {"overdue": held.grace_days, "suspended": held.held_days, "archived": held.kept_days},
 		"workspace_domain": held.tenant_domain,
 		"mail_domain": held.mail_domain,
 	}
-
-
-def model_facts(
-	model: Annotated[str, "A model's id, such as google-ai-studio:gemini-2.5-flash, to also say about it."]
-	| None = None,
-) -> dict:
-	"""For an operator of One only: which model each OneAI action runs on when
-	a workspace picked nothing, the actions nothing can run, the offered
-	models with what they cost a workspace per million tokens, and with
-	`model`, that model: what it reads, its status and why, its price, and
-	how many workspaces called it this month. Changes nothing."""
-	if not _operator():
-		return {"error": "Only an operator of One, on the admin site, sees the models."}
-	from frappe.utils import add_days, get_first_day, getdate
-
-	from onedesk.one_admin import actions
-
-	fields = [
-		"name",
-		"label",
-		"provider",
-		"capability",
-		"default_for",
-		"input_per_million",
-		"output_per_million",
-	]
-	said = {
-		"actions": [
-			{"action": one.label, "needs": one.capability, "runs_on": actions.action_default(one)}
-			for one in frappe.get_all(
-				"AI Action", filters={"enabled": 1}, fields=["label", "capability", "default_model"]
-			)
-		],
-		"offered": frappe.get_all(
-			"AI Model", filters={"offered": 1}, fields=fields, order_by="provider, label"
-		),
-	}
-	said["no_model"] = [one["action"] for one in said["actions"] if not one["runs_on"]]
-	if model:
-		if not frappe.db.exists("AI Model", model):
-			return {**said, "error": f"There is no model {model}. Ask which one they meant."}
-		held = frappe.get_doc("AI Model", model)
-		month = ledger.usage(get_first_day(getdate()), add_days(getdate(), 1), ["tenant"], model=model)
-		said["model"] = {
-			**{key: held.get(key) for key in (*fields, "status", "offered", "why", "markup")},
-			"reads": [one for one in ("text", "image", "audio", "video") if held.get(f"reads_{one}")],
-			"workspaces_this_month": len(month),
-			"calls_this_month": sum(one.calls for one in month),
-		}
-	return said
 
 
 def credit_facts(

@@ -49,13 +49,6 @@ DOMAIN = {
 	"Gone": ("grey", _lt("Not at Cloudflare")),
 }
 
-MODEL = {
-	"Priced": ("green", _lt("Priced")),
-	"Needs Review": ("orange", _lt("Needs review")),
-	"Withdrawn": ("grey", _lt("Withdrawn")),
-}
-
-
 def _pill(says: dict, state: str | None):
 	if not state:
 		return None
@@ -474,78 +467,6 @@ def offering_sold(doc):
 	}
 
 
-def model_state(doc):
-	if doc.is_new():
-		return None
-	if doc.offered:
-		return {"label": _("Offered"), "colour": "green"}
-	return _pill(MODEL, doc.status)
-
-
-def model_markup(doc):
-	"""The markup in effect rather than the one on the record: an empty field
-	meaning "the default" is a number somebody will read as "none"."""
-	if doc.is_new():
-		return None
-	if doc.status == "Withdrawn":
-		return {
-			"text": _("The provider no longer lists this model."),
-			"colour": "grey",
-		}
-	if doc.status != "Priced":
-		then = _(
-			"To offer it, set Priced by Hand and add its rates."
-		)
-		why = (doc.get("why") or "").strip().rstrip(".")
-		return {"text": f"{why}. {then}" if why else then, "colour": "orange"}
-	markup = flt(doc.get("markup")) or flt(frappe.db.get_single_value("One Admin Settings", "default_markup"))
-	if not markup:
-		return {"text": _("No markup is set, so this model can't be called."), "colour": "red"}
-	times = str(int(markup)) if markup.is_integer() else str(markup)
-	text = _("Charged at {0}× the provider's price.").format(times)
-	if not flt(doc.get("markup")):
-		text += " " + _("Default markup.")
-	used = model_used(doc)
-	if used:
-		text += " " + used["text"]
-	return {"text": text, "colour": "blue"}
-
-
-def model_used(doc):
-	"""Which actions run on it when a workspace picked nothing, and how many
-	workspaces called it this month."""
-	if doc.is_new() or not doc.offered:
-		return None
-	from frappe.utils import add_days, get_first_day, getdate
-
-	from onedesk.one_admin import actions
-
-	runs = [
-		_(one.label)
-		for one in frappe.get_all(
-			"AI Action",
-			filters={"enabled": 1},
-			fields=["label", "capability", "default_model"],
-			order_by="label",
-		)
-		if actions.action_default(one) == doc.name
-	]
-	month = ledger.usage(get_first_day(getdate()), add_days(getdate(), 1), ["tenant"], model=doc.name)
-	said = []
-	if runs:
-		shown = ", ".join(runs[:4]) + (" " + _("and {0} more").format(len(runs) - 4) if len(runs) > 4 else "")
-		said.append(_("Default for {0}.").format(shown))
-	calls = sum(one.calls for one in month)
-	said.append(
-		_("No workspace called it this month.")
-		if not month
-		else _("One workspace called it this month, {0} times.").format(calls)
-		if len(month) == 1
-		else _("{0} workspaces called it this month, {1} times.").format(len(month), calls)
-	)
-	return {"text": " ".join(said)}
-
-
 MEASURES = {
 	"tenant.state": tenant_state,
 	"tenant.address": tenant_address,
@@ -562,8 +483,6 @@ MEASURES = {
 	"offering.sold": offering_sold,
 	"credit.said": credit_said,
 	"settings.said": settings_said,
-	"model.state": model_state,
-	"model.markup": model_markup,
 }
 
 VERBS = {
@@ -671,10 +590,5 @@ HEADS = [
 		"doctype": ledger.ENTRY,
 		"sentences": [{"measure": "credit.said"}],
 		"verbs": [{"verb": "credit.take_back"}],
-	},
-	{
-		"doctype": "AI Model",
-		"indicators": [{"label": _lt("Status"), "measure": "model.state"}],
-		"sentences": [{"measure": "model.markup"}],
-	},
+	}
 ]

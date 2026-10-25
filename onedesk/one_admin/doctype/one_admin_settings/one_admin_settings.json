@@ -60,7 +60,6 @@
   "least_margin",
   "oneai_tab",
   "models_section",
-  "prefer_models_from",
   "persona_section",
   "persona",
   "ladder_tab",
@@ -347,14 +346,6 @@
    "fieldname": "models_section",
    "fieldtype": "Section Break",
    "label": "Models"
-  },
-  {
-   "fieldname": "prefer_models_from",
-   "fieldtype": "Select",
-   "label": "Preferred Provider",
-   "options": "google-ai-studio\nworkers-ai",
-   "default": "google-ai-studio",
-   "description": "When nothing is the default for what an action needs, the cheapest offered model from here runs it."
   },
   {
    "fieldname": "persona_section",

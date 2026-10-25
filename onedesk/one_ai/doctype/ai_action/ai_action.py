@@ -7,15 +7,9 @@ operator role may write here.
 import frappe
 from frappe.model.document import Document
 
-from onedesk.one_admin import capability
-
 
 class AIAction(Document):
 	def validate(self) -> None:
 		self.key = (self.key or "").strip().lower()
-		if self.capability not in capability.WORDS:
-			frappe.throw(
-				frappe._("{0} is not a capability any model carries.").format(self.capability)
-			)
 		if not (self.instruction or "").strip():
 			frappe.throw(frappe._("An action with no instruction is a prompt with no shape."))

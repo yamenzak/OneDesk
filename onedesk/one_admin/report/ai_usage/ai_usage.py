@@ -39,7 +39,6 @@ def usage(filters, by: list[str]) -> tuple[list[dict], dict | None]:
 	from onedesk.one_admin import offerings
 
 	each = offerings.credit_price()
-	models = dict(frappe.get_all("AI Model", fields=["name", "label"], as_list=True))
 	actions = dict(frappe.get_all("AI Action", fields=["name", "label"], as_list=True))
 	whole = ledger.usage(start, end, [], tenant=filters.get("tenant"), model=filters.get("model"))[0]
 	whole[by[0]] = frappe._("Total")
@@ -56,7 +55,7 @@ def usage(filters, by: list[str]) -> tuple[list[dict], dict | None]:
 		sold = row.cost_us - row.own_cost
 		row.margin = f"{row.charged / sold:.1f}×" if sold > 0 else ""
 		if "why" in by and row is not whole:
-			row.model = models.get(row.why) or row.why
+			row.model = row.why
 		if "action" in by and row is not whole:
 			row.action_name = frappe._(actions.get(row.action) or "") or frappe._("Not recorded")
 	if "why" in by:

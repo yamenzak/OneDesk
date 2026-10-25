@@ -132,7 +132,7 @@ def listed(including_off: bool = False) -> tuple[list, list, "plans.Costs"]:
 def costs() -> "plans.Costs":
 	"""What each thing costs us a month (One Admin Settings, Costs).
 	A credit costs what a dollar of provider cost buys, marked up: the
-	gateway prices a call the same way (ai_model.py)."""
+	gateway prices a call the same way (gateway.py, one_ai/models.py)."""
 	held = frappe.get_single("One Admin Settings")
 	per_dollar = flt(held.credits_per_dollar) * (flt(held.default_markup) or 1)
 	return plans.Costs(

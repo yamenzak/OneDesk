@@ -53,7 +53,7 @@ meter = _meter()
 
 @dataclass(frozen=True)
 class Rate:
-	"""Stands in for `prices.Rate`, which pricing takes structurally."""
+	"""Stands in for `one_ai/models.py`'s `Rate`, which pricing takes structurally."""
 
 	kind: str
 	modality: str
@@ -155,7 +155,7 @@ def _sample(name: str) -> dict:
 
 
 def test_workers_ai_reports_text_tokens_and_nothing_else():
-	used, why = meter.read("workers-ai", _sample("workers-ai-answer.json"))
+	used, why = meter.read("@cf/zai-org/glm-5.3-flash", _sample("workers-ai-answer.json"))
 	assert not why
 	assert {(u.kind, u.count) for u in used} == {("input", 18.0), ("output", 7.0)}
 	assert all(not u.asked for u in used)
@@ -165,19 +165,19 @@ def test_a_response_with_no_usage_falls_back_to_what_was_asked_for():
 	"""Workers AI reports nothing for pictures and speech, so those are metered
 	from the parameters we sent — which we know, because we sent them."""
 	asked = [Use("usage", "image", "step", 4, asked=True)]
-	used, why = meter.read("workers-ai", _sample("workers-ai-answer-no-usage.json"), asked)
+	used, why = meter.read("@cf/zai-org/glm-5.3-flash", _sample("workers-ai-answer-no-usage.json"), asked)
 	assert used == asked and "no usage" in why
 
 
 def test_a_response_with_no_usage_and_nothing_asked_for_says_so():
-	used, why = meter.read("workers-ai", _sample("workers-ai-answer-no-usage.json"))
+	used, why = meter.read("@cf/zai-org/glm-5.3-flash", _sample("workers-ai-answer-no-usage.json"))
 	assert used == [] and why
 
 
 def test_gemini_is_metered_per_modality():
 	"""A prompt of text and a picture is two rates on this catalogue, and the
 	total alone could only ever be billed at one of them."""
-	used, why = meter.read("google-ai-studio", _sample("gemini-answer.json"))
+	used, why = meter.read("google/gemini-2.5-flash-lite", _sample("gemini-answer.json"))
 	assert not why
 	assert {(u.kind, u.modality, u.count) for u in used} == {
 		("input", "text", 32.0),
@@ -190,7 +190,7 @@ def test_a_cached_prompt_is_not_charged_twice():
 	"""Google counts cached tokens inside the prompt total as well. Left alone,
 	the same four thousand tokens are billed at the input rate and again at the
 	cache rate."""
-	used, _ = meter.read("google-ai-studio", _sample("gemini-answer-cached.json"))
+	used, _ = meter.read("google/gemini-2.5-flash-lite", _sample("gemini-answer-cached.json"))
 	by_kind = {(u.kind, u.modality): u.count for u in used}
 	assert by_kind[("input", "text")] == 1000.0
 	assert by_kind[("cached", "text")] == 4000.0
@@ -200,45 +200,36 @@ def test_a_cached_prompt_is_not_charged_twice():
 def test_a_reported_line_beats_one_we_asked_for():
 	"""What we sent is only ever used for what a provider does not report."""
 	asked = [Use("input", "text", "tokens", 999, asked=True)]
-	used, _ = meter.read("workers-ai", _sample("workers-ai-answer.json"), asked)
+	used, _ = meter.read("@cf/zai-org/glm-5.3-flash", _sample("workers-ai-answer.json"), asked)
 	assert {(u.kind, u.count) for u in used if u.kind == "input"} == {("input", 18.0)}
 
 
 def test_a_metered_gemini_call_prices_end_to_end():
-	used, _ = meter.read("google-ai-studio", _sample("gemini-answer.json"))
+	used, _ = meter.read("google/gemini-2.5-flash-lite", _sample("gemini-answer.json"))
 	made = pricing.bill(FLASH_LITE, used, 2.0, 1000)
 	assert made.whole
 	expected = (32 * 0.10 + 1258 * 0.10 + 12 * 0.40) / 1_000_000
 	assert made.credits == round(expected * 2.0 * 1000, 6)
 
 
-@dataclass(frozen=True)
-class _ListRate:
-	kind: str
-	modality: str
-	unit: str
-	per: int
-	usd: float
+def test_models_prices_what_the_meter_reads():
+	"""Workers AI's price comes from its listing and Google's from GOOGLE, as
+	rates the bill meets on all three of kind, modality and unit."""
+	sys.path.insert(0, str(tree.ROOT))
+	from onedesk.one_ai import models
+
+	used, _ = meter.read("@cf/zai-org/glm-5.3-flash", _sample("workers-ai-answer.json"))
+	assert pricing.bill(models.rates("@cf/zai-org/glm-5.3-flash"), used, 2.0, 1000).whole
+	used, _ = meter.read("google/gemini-2.5-flash-lite", _sample("gemini-answer.json"))
+	assert pricing.bill(models.rates("google/gemini-2.5-flash-lite"), used, 2.0, 1000).whole
 
 
-def test_the_list_price_is_after_markup_per_million_tokens():
-	"""$0.10 in and $0.40 out a million, doubled, at a thousand credits a dollar."""
-	rates = [
-		_ListRate("input", "text", "tokens", 1_000_000, 0.10),
-		_ListRate("output", "text", "tokens", 1_000_000, 0.40),
-	]
-	assert pricing.per_million(rates, 2.0, 1000) == (200.0, 800.0)
+def test_a_price_google_announced_starts_on_its_day():
+	sys.path.insert(0, str(tree.ROOT))
+	from onedesk.one_ai import models
 
-
-def test_a_model_not_priced_in_tokens_has_no_list_price_rather_than_a_free_one():
-	rates = [_ListRate("input", "image", "image", 1, 0.02)]
-	assert pricing.per_million(rates, 2.0, 1000) == (None, None)
-
-
-def test_no_markup_or_no_credit_rate_is_no_price():
-	rates = [_ListRate("input", "text", "tokens", 1_000_000, 0.10)]
-	assert pricing.per_million(rates, 0, 1000) == (None, None)
-	assert pricing.per_million(rates, 2.0, 0) == (None, None)
+	out = lambda day: next(r.usd for r in models.rates("google/gemini-3.8-flash", on=day) if r.kind == "output")  # noqa: E731
+	assert out("2026-12-31") == 3.75 and out("2027-01-01") == 7.50
 
 
 def test_the_usage_report_is_the_operators_and_groups_only_by_its_own_columns():

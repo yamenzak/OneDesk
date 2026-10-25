@@ -23,8 +23,6 @@ GATEWAY = tree.APP / "one_admin" / "gateway.py"
 SCHEMA = tree.APP / "one_ai" / "schema.py"
 FAULTS = tree.APP / "one_admin" / "faults.py"
 PROXY = tree.APP / "one_admin" / "proxy.py"
-CATALOGUE = tree.APP / "one_admin" / "catalogue.py"
-MODEL = tree.APP / "one_admin" / "doctype" / "ai_model" / "ai_model.py"
 METER = tree.APP / "one_admin" / "meter.py"
 
 LIFTED = (
@@ -149,12 +147,14 @@ def test_the_gateway_answers_without_a_result_wrapper():
 
 
 def test_workers_ai_goes_through_the_gateways_own_path():
-	"""Measured: the direct API's per-model path answers 401 *through the
-	gateway* with a token that works on the direct API — which reads as a
-	credential problem and is a path problem."""
+	"""Measured on 2026-10-25: the gateway's own Workers AI route answers 401
+	for Clairic and Clef, and Cloudflare's REST endpoint answers both with the
+	gateway named beside the token. Every Workers AI call goes that way, the
+	model in the body."""
 	source = GATEWAY.read_text(encoding="utf-8")
-	assert '"path": lambda model: "v1/chat/completions"' in source
-	assert '"model": model,' in source, "the model has to travel in the body now"
+	assert 'API = "https://api.cloudflare.com/client/v4/accounts/{account}/ai"' in source
+	assert '/v1/chat/completions"' in source and '/run/{model}"' in source
+	assert '"model": model,' in source, "the model has to travel in the body"
 
 
 def test_a_tool_call_is_found_in_either_shape():
@@ -183,7 +183,7 @@ def test_function_calling_asks_for_the_version_that_has_it():
 	"""Google answers v1 with "Function calling is not enabled for api version
 	v1", and the catalogue already lists from v1beta — one version for both."""
 	source = GATEWAY.read_text(encoding="utf-8")
-	assert "v1beta/models/{model}:generateContent" in source
+	assert "v1beta/models/{name}:generateContent" in source
 	assert "v1/models/{model}:generateContent" not in source.replace("v1beta/models", "")
 
 
@@ -233,19 +233,3 @@ def test_the_proxy_throws_rather_than_letting_a_fault_propagate():
 	said = spoken(PROXY, "ai_run")
 	assert "faults.Refused" in said
 	assert "frappe.throw" in said
-
-
-def test_a_withdrawn_model_lets_go_of_its_default():
-	"""Cloudflare dropped llama-3.1-8b-fp8-fast while it was the default, and
-	every attempt to name a replacement was refused by a row for a model that
-	no longer exists."""
-	assert "'default_for': None" in spoken(CATALOGUE, "_withdraw")
-	assert "'status': ['!=', 'Withdrawn']" in spoken(MODEL, "validate")
-
-
-def test_a_reclassified_model_loses_a_default_it_can_no_longer_do():
-	"""Cloudflare moved llama-3.2-11b-vision from Vision to Text Generation, and
-	the validation that refused it stopped the whole nightly sync."""
-	said = spoken(CATALOGUE, "_write")
-	assert "capability.able" in said
-	assert "model.default_for = None" in said

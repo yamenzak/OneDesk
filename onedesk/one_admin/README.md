@@ -427,57 +427,13 @@ Entry** (the workspace, the kind, how many, from where and until when).
 
 ## Models
 
-**Models** lists every OneAI model from the two providers, Cloudflare Workers
-AI and Google AI Studio. The list syncs nightly from each provider, with
-prices from each provider's published pricing page.
-
-The sync does two things on its own:
-
-- A model the provider stops listing becomes **Withdrawn**.
-- A model whose price can't be read is taken off sale.
-
-When either affects an offered model, operators get **Model Withdrawn**.
-
-What operators set:
-
-- **Offered**: workspaces may pick it. **Offer** and **Stop Offering** are on
-  each row.
-- **Default For**: what an action runs on when the workspace picked nothing.
-- **Markup**: empty uses the default in Settings.
-- **Priced by Hand**: for a model whose price page can't be read. **Needs
-  review** shows what couldn't be read. Price it by hand or leave it off sale.
-
-### Defaults
-
-- Gemma 4 (`gemma-4-26b-a4b-it`, the one on sale) is the default for text, at
-  a fraction of Gemini's price.
-- Gemini 2.5 Flash stays on the actions that need it: Print Design, Workspace
-  Setup, and the second review of an extension's code (Review an Extension).
-- An action can name its own model (**Runs On** on the AI Action).
-  **Print Design** runs on gemini-2.5-flash because a page layout is one long,
-  exact answer the small model gets wrong. The chat hands a conversation to
-  Print Design when it calls `print_layout` or `design_print_format`, and
-  those rounds are charged to Print Design. **Workspace Setup** uses the same
-  model for `suggest_approval`, because an approval's states, steps, roles
-  and conditions must fit together and the small model repeated its mistakes.
-- With no default for what an action needs (reading a scan, transcribing a
-  recording), it uses the default for something else that can do it, then
-  the cheapest offered model from the **Preferred Provider** in Settings
-  (Google).
-- A workspace whose own pick is withdrawn falls back the same way instead of
-  failing. An action nothing can run shows on Home.
-- Search by meaning needs an embedding model on sale. When none is offered,
-  the nightly sync offers the cheapest priced one and makes it the default
-  for Embedding (`catalogue.searchable`). It is the only model the sync puts
-  on sale by itself.
-
-The list sorts offered first, then priced, then needing review, then
-withdrawn. A model's page shows its markup, which actions use it by default
-and how many workspaces called it this month. **Test Call** makes one real
-call against a workspace's credits and shows the cost. It's charged.
-
-OneAI answers **Is this model worth offering?** on a model and **Which
-actions have no model?** on the list.
+There is no list of models here any more. Which model does each kind of
+OneAI work, at each tier, is code: `one_ai/models.py`, with Google's prices
+beside it, checked against what Cloudflare and Google offer by
+`scripts/models.py` (docs/AICENTER.md, Models). A workspace picks a tier,
+never a model, so there is nothing for an operator to offer, price or
+default. **Test Gateway** in Settings asks the Talk model for one sentence,
+to prove the gateway is set up.
 
 ## AI Usage
 
@@ -635,8 +591,6 @@ Operators are notified of:
 - **Workspace Owing**: a workspace became overdue or was suspended.
 - **Workspace Asked to Close**: a billing contact asked to close a workspace.
 - **Settings Changed**: another operator saved Settings, with what changed.
-- **Model Withdrawn**: the nightly sync took an offered model off sale, with
-  what runs instead.
 - **Domains Waiting**: each morning, domains waiting over a day or not
   working.
 - **Paid While Archived**: a payment arrived for a workspace that's already
@@ -912,7 +866,7 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   on the admin site: `One Admin Settings`, `Tenant` (with `Tenant Add-on`),
   `Tenant Event`, `Tenant Domain`, `Account Request`, `Provisioning Job`,
   `Workspace Server`, `Offering`, `Stripe Webhook Event`, `Credit Ledger
-  Entry`, `Credit Reservation`, `AI Model` (with `AI Model Rate`). A plan, a
+  Entry`, `Credit Reservation`. A plan, a
   pack and an add-on are all one `Offering`. The workspace side keeps
   `Workspace Account` (`one/`), a single holding what it last heard from
   `hello`, so its screens draw without a round trip. Storage is a
@@ -1046,11 +1000,10 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   columns. Charged is the credits at the smallest credit pack's price a
   credit (`offerings.credit_price`), so Margin is what OneAI makes on the
   calls at list price.
-- **Models** (`catalogue.py`, `prices.py`, `capability.py`):
-  `actions.default_model` is what an action runs on when nobody picked, and
-  what a withdrawn pick falls back to; `tell.models_gone` is Model Withdrawn;
-  `home._unmodelled` the Needs You row. `patches/gemini_default.py` made
-  Gemini 2.5 Flash the default, and `patches/gemma_default.py` Gemma 4. `ai.model_facts` is the catalogue for OneAI.
+- **Models** are `one_ai/models.py`'s. `actions.kind` says which kind of
+  work an action is; `gateway.call` asks that kind's first model at the
+  workspace's tier, then its fallback, and the ledger records the one that
+  answered (`patches/no_model_catalogue.py` removed the old catalogue).
 - **Credits** (`ledger.py`, over `credits.py`, which has no frappe in it):
   a balance is a sum; `left_of` is one grant's rest; `take_back` writes a
   spend of it (source Operator); `last_gift` travels in `proxy.hello` so the
@@ -1200,31 +1153,18 @@ For the people who build OneAdmin. OneAI does not read past this heading.
 
 ### actions.py
 
-This is the module where the safety of the feature is actually written down,
-and it is two rules.
+**Nothing a workspace sends reaches the instruction.** An `AI Action` carries
+the system instruction we wrote, read from the administrator's copy; the
+persona goes before it, and a workspace adds nothing (docs/AICENTER.md). The
+whole thing goes where the provider puts a system instruction rather than
+being glued onto the front of the prompt.
 
-**Ours first, theirs after, and never instead.** An `AI Action` carries the
-system instruction we wrote. A workspace may *add* to it — a house style, a
-language, a length — and there is nowhere for a workspace to put anything that
-replaces it. The two are joined here, in this order, with a sentence between
-them saying which wins, and the whole thing goes where the provider puts a
-system instruction rather than being glued onto the front of the prompt.
-
-**Nothing is ever asked "which model" at the call site.** An action declares
-the capability it needs; a workspace picks a model on a settings screen or does
-not; and if it does not, the operator's default for that capability answers.
-Code that calls a model never names one — see `one_ai/README.md`.
-
-The action read here is **the administrator's copy**. A workspace carries the
-same fixture so it knows what it may ask for and so a settings screen has
-labels to draw, but the copy that decides is this one, and a tenant has nobody
-who may write it.
-
-`default_model`: the model set as the default for the capability, if there is
-one. Otherwise an offered model that can do it, from the preferred provider
-first, a model that is the default for something else before one that is not,
-and the cheapest of those: so a Gemini default for text generation, which also
-reads pictures and sound, runs the transcriptions and the scans too.
+**Nothing is ever asked "which model" at the call site.** `kind` says which
+of `one_ai/models.py`'s kinds of work an action is (Build for the five that
+lay out or write code, else by its capability), and the workspace sends its
+tier. A workspace carries the same fixture so it knows what it may ask for,
+but the copy that decides is this one, and a tenant has nobody who may write
+it.
 
 ### billing.py
 
@@ -1276,82 +1216,6 @@ and `catch_up` books any paid invoice the webhook missed.
 
 **Never in the way.** A failure here is logged and left for `catch_up`; the
 webhook still moves the workspace, because the customer has paid either way.
-
-### capability.py
-
-Pure, like `prices.py` beside it, and for a related reason: this decides which
-models an action is allowed to pick from, and getting it wrong is a picker that
-offers a transcriber for a job that needs eyes.
-
-**One word was wrong.** The first version of this filed `gemini-2.5-flash-lite`
-as text generation because that is what its API said it could be called with,
-while its own published price list carries input rates for text, pictures,
-sound and video. So a model now carries what it *makes* and what it can be
-*fed*, the second is a set, and the one word on the list is derived from both.
-
-- `A_TASK`, translation, summarization and text classification: text in, text
-  out, and none of them can hold a conversation. Measured against the real
-  models: a reranker, a sentiment classifier and two translators all answered
-  `Bad input` to a chat body, having been offered because "produces text from
-  text" is exactly what a chat model does too. Told apart by what the provider
-  calls the job, which is the only thing that distinguishes them.
-- `named`: what a model can be fed, beyond the obvious. A model that reads two
-  of pictures, sound and video is not a transcriber that happens to see, and
-  calling it one was the thing wrong with the first version of this:
-  `gemini-2.5-flash-lite` publishes input rates for all four and came out as
-  "Transcription".
-- `COVERS` is written down rather than worked out, because "may this model do
-  this job" is a decision, and a table of them is a thing somebody can read and
-  disagree with.
-- `READS`: the key is the first half of the mime type; `application/pdf` is
-  named in full because a document is read by the same eyes as a picture and
-  by no other model at all.
-
-### catalogue.py
-
-Providers ship models weekly and re-price them without an announcement. A
-table of models and prices maintained by hand is wrong inside a month, and the
-way you find out is a margin rather than an error. So it syncs, from two places
-for two different kinds of fact:
-
-* **what exists, and what it can do** — each provider's own API;
-* **what it costs** — the page each provider publishes, parsed by `prices.py`,
-  which has no frappe in it and is read back against a saved copy of each page.
-
-Cloudflare's models are listed from Cloudflare's own API, because the token for
-that is one we already hold and it is not a provider secret. Google's are
-listed *through the gateway*, which forwards the request and attaches the
-stored key — so the catalogue is built without a Google key ever reaching this
-site.
-
-**The sync never overrules the operator.** It creates rows and refreshes facts.
-Whether a model is *offered* is a decision and stays one. The only two
-decisions it makes on its own are the ones it has to: a model that stopped
-being priceable comes off sale, and a model the provider withdrew is marked
-gone.
-
-- `_matched`: Cloudflare's page names a model by the id its API answers with,
-  so there is nothing to match. Google's page says "Gemini 3.1 Flash Image
-  (Nano Banana 2)" where its API says `gemini-3.1-flash-image`, so both sides
-  go through `fold` — which costs nothing on the Cloudflare side and means one
-  lookup rather than a branch. Gap models are matched as well as priced ones: a
-  model the page prices in a way this cannot read — Veo, per second of video
-  and by resolution — would otherwise be told "no price on the published page",
-  which is the wrong sentence: the price is there and we could not read it, and
-  those are different problems with different answers.
-- `_write`, priced by hand: a price somebody typed off the provider's page, for
-  a model this cannot read — Veo's per-second video prices differ by resolution
-  and Lyria's are per song. The sync leaves those rows alone rather than
-  deleting a decision every night, and still refreshes everything else.
-- `_write`, reclassified: a provider may reclassify a model — Cloudflare moved
-  llama-3.2-11b-vision from Vision to Text Generation — and a default it still
-  carries then names something it can no longer do. The default goes rather
-  than the sync stopping, because a nightly job that a validation halts is a
-  catalogue that silently stops updating.
-- A withdrawn model's default goes with it. A withdrawn model that is still the
-  default for a capability is a default nothing can replace — every attempt is
-  refused because the old one still holds the name — and the first call that
-  needs it fails with "not offered" rather than with anything that says why.
 
 ### closing.py
 
@@ -1426,18 +1290,6 @@ it does it quietly, a month later.
 it cost, even if it came to more than was held for it, so the arithmetic has to
 have somewhere to put that rather than refusing after the money is spent.
 
-### doctype/ai_model/ai_model.py
-
-- `THEIRS` is what a person may change. Everything else is a copy of what a
-  provider said, and a copy somebody edited is a copy that lies — except the
-  rates, and only on a model nobody could read a price for, where a person
-  typing one off the page is taking responsibility rather than inventing a
-  default.
-- A withdrawn model does not hold a capability's default against a live one.
-  Measured: Cloudflare dropped llama-3.1-8b-fp8-fast while it was the default,
-  and every attempt to name a replacement was refused by a row for a model that
-  no longer exists.
-
 ### doctype/credit_ledger_entry/credit_ledger_entry.py
 
 Submittable because that is what an append-only record is in Frappe: a balance
@@ -1486,58 +1338,46 @@ does not care about the difference does not have to name both.
 
 ### gateway.py
 
-Calls go to **Cloudflare AI Gateway**, and the thing that makes it worth a
-dependency is where the keys live: the provider key is stored *in the gateway*,
-so this site holds a gateway token and an account id and nothing that would
-open an account at Google or anywhere else. A leaked token here buys somebody
-our gateway's rate limit and spend cap, not a provider bill.
-
-What the gateway gives us beyond that, none of which we would otherwise write:
-caching, retries, a spend limit that is ours rather than the provider's, and a
-per-request log we can tag with the workspace that caused it.
+Calls go through our **Cloudflare AI Gateway**, and the thing that makes it
+worth a dependency is where the keys live: the provider keys are stored *in
+the gateway*, so this site holds a Cloudflare token and an account id and
+nothing that would open an account at Google or anywhere else.
 
 **Nothing on a tenant site ever reaches this module.** A workspace asks admin
 through `proxy.py` and admin makes the call, for the same reason a workspace
 cannot sign its own storage URL: the credential is the product.
 
-`ask` is the un-metered call and stays: it is how an operator proves a token
-works. `call` is the billed one — hold, call, settle — and is the door every
-model call for a customer goes through.
-
-- **Every provider's key is stored in the gateway.** Proven against the real
-  gateway: with a Google key saved there, a call carries only
-  `cf-aig-authorization` and Gemini answers — no Google key on this site at
-  all, which is the whole point of the dependency. An operator setting an
-  account up stores a key per provider; this module never holds one.
+- **Two routes, each a provider's best-supported one.** Workers AI is reached
+  on Cloudflare's REST endpoints (`API`): `/v1/chat/completions` in OpenAI's
+  shape for talking, `/run/{model}` for a model with its own shape (Whisper,
+  vectors, Clef, Clairic), with `Authorization` carrying our Cloudflare token
+  and `cf-aig-gateway-id` naming the gateway. Measured on 2026-10-25: the
+  gateway's own Workers AI route answers 401 for Clairic and Clef, the REST
+  endpoint answers both. Gemini stays on the gateway's Google route in
+  Google's own shape (`HEADER`, `cf-aig-authorization`), where it reads
+  documents and sound, hands back thought signatures, and uses the key the
+  gateway stores; Cloudflare's chat endpoint billed Gemini to Cloudflare's own
+  credits instead.
+- `UNSEEN`: every call tells the gateway to keep its counts and cost but not
+  what was in it, so customers' mail and records are not stored at
+  Cloudflare. `TAG` carries the workspace, the job and the tier.
+- `call`, `run`, `embed`: the model is `one_ai/models.py`'s, by kind of work
+  and tier, leaving out any that cannot read the files sent. The first is
+  asked; one that cannot answer now, or no longer exists, hands over to the
+  fallback (`_first_that_answers`), and a refusal of what was asked is not
+  tried again elsewhere. The hold is priced on the dearest of the two; the
+  charge on the one that answered, at its own price on that day.
+- `_heard`: Whisper takes the sound and no instruction, so each stretch it
+  heard is written on its own line after the time it starts.
 - `THOUGHT`, for a call allowed to think (`THINKS` tokens or more), which
   writes code: measured on Gemma 4 writing a scheduled extension, past 60
   seconds three times out of three, and each was billed and thrown away. Under
   the 120 seconds a Frappe Cloud web worker is given (its bench
   `http_timeout`), as this runs inside the account's request.
-- `HEADER`: deliberately not `Authorization`. That header is the *provider's*,
-  and the whole point of this module is that we never send it: the key sits in
-  the gateway and the gateway attaches it on the way out. If `Authorization`
-  ever appears in the file, the design has been undone.
-- `PROVIDERS` is data rather than a branch per provider, because the path, the
-  prompt and the answer differ for every provider and an `if` there is how a
-  third one becomes a rewrite. The keys are the gateway's own provider slugs
-  and are not ours to choose.
-  - Workers AI: one path for every model, with the model in the body —
-    Cloudflare's OpenAI-compatible endpoint. Measured: the per-model path the
-    direct API uses, `/workers-ai/@cf/vendor/model`, answers 401 *through the
-    gateway* with a token that works on the direct API, which reads as a
-    credential problem and is a path problem.
-  - Google: v1beta, not v1: measured, Google answers v1 with "Function calling
-    is not enabled for api version v1", and the catalogue already lists models
-    from v1beta — one version for both, so what is listed is what can be
-    called.
 - `THINKS`: measured, Gemma 4 given the chat's 800 tokens spends every one on
   `reasoning_content`, stops at "length" and answers nothing; told not to
   think, it answers in twenty. A model that does not think ignores the switch.
-- `FIRST`: AI 2's catalogue replaces both of these with a row somebody chose —
-  see the rule in `one_ai/README.md`: an action names a capability, a workspace
-  names a model, and nothing else knows one exists.
-- `through`: `turns` is the whole conversation in our shape rather than one
+- `talk`: `turns` is the whole conversation in our shape rather than one
   prompt: a round where a model asked for a tool, was given the result and
   answers again is three turns, and a provider has no memory between calls.
   `system` goes where each provider puts a system instruction rather than being
@@ -1545,7 +1385,7 @@ model call for a customer goes through.
   be told things a workspace cannot take away from it. `tools` is the same:
   declared to the provider as tools, never written into the words, so a
   workspace cannot invent one by typing it.
-- `call`: **Hold first.** Reading a balance and then calling is a race, and
+- `call` **holds first.** Reading a balance and then calling is a race, and
   refusing after the provider has answered is a call we paid for and then told
   the customer they could not have. The hold is priced from the caps the caller
   declared — a ceiling, not a forecast — and the only thing that matters about
@@ -1771,10 +1611,10 @@ to be named in the agreements (`one_ai/legal.py`). The **maker** trained it
 (Meta made Llama, which Cloudflare runs), and is what a person recognises, so
 its logo is the one shown.
 
-A provider missing from `PROVIDERS` is never offered to a workspace
-(`actions.offered`), whatever the operator switched on in the catalogue: a
-model whose company the subprocessors list does not name would send customer
-data somewhere the agreements do not say.
+`PROVIDERS` is the companies the subprocessors list names for OneAI
+(`tests/guards/test_legal.py` holds the two together): a model in
+`one_ai/models.py` from any other company would send customer data somewhere
+the agreements do not say. The makers and logos go with the model pickers.
 
 ### meter.py
 
@@ -1885,61 +1725,10 @@ is worth another attempt in two minutes and a 400 will fail identically
 forever. That decision lives in `faults.py`, which imports nothing of Frappe
 and is therefore read back by a test rather than by a site.
 
-### prices.py
-
-No frappe in here, on purpose and for the usual reason: this is the module that
-decides what a customer is charged, and the way you find out it is wrong is a
-margin rather than an error. Text in, rows and gaps out, so it can be read back
-in milliseconds against a saved copy of each page.
-
-**There is no single unit and nothing here converts between them.** Workers AI
-prices text per million tokens, pictures per 512x512 tile *and* per diffusion
-step, speech per audio minute, classification per million images. Gemini prices
-everything per million tokens but by modality, and publishes prices that
-change on a date. A schema that flattened that to "tokens" would be wrong for
-half the catalogue and wrong silently, so a rate keeps the provider's own words
-for its unit and the metering code matches on them.
-
-**Nothing has a default.** A fragment this cannot read comes back as a `Gap`
-carrying the wording that defeated it, and a model with a gap is not sellable
-until a person has looked. A default price is a number we invented and then
-billed somebody.
-
-- A row whose label is not a kind of price: Veo and Lyria are priced this way —
-  the label names a variant of the model and the whole row is its price — and
-  reading one as an output rate would attach a video's per-second price to
-  whatever model the heading named. So it is a gap.
-- `_dated`: the paid cell is where Google's page is at its least regular, and
-  all four of these shapes are real:
-
-  ```
-  $0.75 through December 31, 2026. $1.50 starting January 1, 2027.
-  $0.10 (text / image / video) $0.30 (audio)
-  $0.45 ($0.00012 per image)
-  $0.075 ... $0.50 / 1,000,000 tokens per hour (storage price)
-  ```
-
-  So an amount is read together with what follows it: a date makes it a price
-  that takes over on a day, a list of modalities makes it a price for those and
-  no others, a unit of its own makes it a rate in that unit rather than the
-  table's, and the word storage makes it a different charge sharing a cell —
-  which is left unread on purpose, because a per-hour charge billed as a
-  per-call one is a customer charged for holding still.
-- A storage charge sharing a cell with a call price is skipped rather than left
-  unread: a model is perfectly sellable without it, and flagging it would put
-  every cached-input model in front of a person for a line that is not a
-  per-call price at all.
-- An amount's own unit is only believed when the page attaches it to the amount
-  — `$0.005/min`, or a parenthetical opened just before it as in
-  `$0.45 ($0.00012 per image)`. Read loosely, the same pattern picks up prose
-  like "Equivalent to $0.045 per 0.5K image", where 1K is a picture's width and
-  not a thousand of anything; reading that as a multiplier is a bill a thousand
-  times too large.
-
 ### pricing.py
 
-Pure, like `prices.py` and `credits.py` on either side of it. This is the
-arithmetic between a provider's published rate and a customer's balance, and
+Pure, like `credits.py` beside it. This is the arithmetic between a model's
+rate (`one_ai/models.py`) and a customer's balance, and
 every one of its failures is a wrong number rather than an exception — so it is
 read back against a table of cases rather than against a site.
 
@@ -1954,8 +1743,8 @@ the provider answered and billed us for is a call somebody has to pay for, and
 the alternative is a model that quietly costs money and earns none.
 
 **Nothing converts between units.** A rate and a use meet on `(kind, modality,
-unit)` exactly or they do not meet at all; see `prices.py` for why there are
-ten units in the catalogue and no arithmetic between them.
+unit)` exactly or they do not meet at all: a picture's price per image and a
+model's per million tokens are not the same thing at a different scale.
 
 `ceiling`: the point of holding it is that two calls cannot both spend the last
 credit, not that the number is right — the settle replaces it with what the
@@ -2010,7 +1799,7 @@ records; R2 and Cloudflare carry. A file never passes through this process.
 - `CALLS_A_MINUTE`: per tenant per minute, and not per IP: every tenant on one
   bench calls from one address, so an IP limit would be a limit on the busiest
   neighbour. High enough that a workspace doing real work never meets it, low
-  enough that a leaked token cannot be used to grind through the catalogue.
+  enough that a leaked token cannot be used to run up a bill.
 - `hello`: `database_bytes` is the workspace's own measure of its database,
   sent along because the workspace can read it and admin cannot. It is shown
   and warned about, never billed: the sites are on our own servers, where

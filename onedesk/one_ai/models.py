@@ -4,6 +4,13 @@ Models). Ids are as Cloudflare's REST endpoint takes them, `@cf/...` and
 `models.json`, and `tests/guards/test_models.py` holds this file to it.
 Pure, so the guard needs no site."""
 
+import json
+from dataclasses import dataclass
+from datetime import date
+from pathlib import Path
+
+LISTED = Path(__file__).with_name("models.json")
+
 TIERS = ("fast", "balanced", "full")
 
 # Each kind of work, per tier: the model first asked, then the one that
@@ -124,3 +131,86 @@ UNPRICED = {
 def used() -> set[str]:
 	"""Every model this file names."""
 	return {one for kind in USE.values() for pair in kind.values() for one in pair if one}
+
+
+USUAL = "balanced"
+
+
+def pick(kind: str, tier: str | None = None, types: tuple = ()) -> list[str]:
+	"""The models to ask for this kind of work at this tier, in order, leaving
+	out any that cannot read every file type sent."""
+	first, then = USE[kind][tier if tier in TIERS else USUAL]
+	return [one for one in (first, then) if one and all(reads(one, kind_of) for kind_of in types)]
+
+
+def reads(model: str, mime: str) -> bool:
+	"""Whether a model takes a file of this type: Gemini takes documents,
+	pictures, sound and video; Whisper sound; a Workers AI model with vision,
+	pictures."""
+	if model.startswith("google/"):
+		return mime == "application/pdf" or mime.split("/")[0] in ("image", "audio", "video", "text")
+	one = listed().get(model) or {}
+	if one.get("kind") == "hear":
+		return mime.startswith("audio/")
+	return bool(one.get("vision")) and mime.startswith("image/")
+
+
+_LISTED: dict = {}
+
+
+def listed() -> dict:
+	"""models.json by id, read once."""
+	if not _LISTED:
+		_LISTED.update({one["id"]: one for one in json.loads(LISTED.read_text(encoding="utf-8"))["models"]})
+	return _LISTED
+
+
+@dataclass(frozen=True)
+class Rate:
+	"""One price, in the shape `one_admin/pricing.py` bills with."""
+
+	kind: str
+	modality: str
+	unit: str
+	per: float
+	usd: float
+
+
+MILLION = 1_000_000
+
+# Workers AI's units, as rates.
+UNITS = {
+	"per M input tokens": ("input", "text", "tokens", MILLION),
+	"per M output tokens": ("output", "text", "tokens", MILLION),
+	"per M cached input tokens": ("cached", "text", "tokens", MILLION),
+	"per audio minute": ("input", "audio", "minutes", 1),
+	"per 1k characters": ("input", "text", "characters", 1000),
+}
+
+# What one Google price is per.
+PER = {"minute": ("audio", "minutes"), "image": ("image", "images"), "song": ("audio", "songs"), "second": ("video", "seconds")}
+
+
+def rates(model: str, on: str | None = None) -> list[Rate]:
+	"""What a model costs on a day, from Workers AI's listing or GOOGLE."""
+	if model.startswith("google/"):
+		day = on or date.today().isoformat()
+		current = [one for one in GOOGLE.get(model, []) if (one.get("from") or "") <= day]
+		if not current:
+			return []
+		price = current[-1]
+		if price.get("per"):
+			modality, unit = PER[price["per"]]
+			found = [Rate("input", modality, unit, 1, price["in"])] if price.get("in") else []
+			return found + ([Rate("output", modality, unit, 1, price["out"])] if price.get("out") else [])
+		found = [Rate("input", modality, "tokens", MILLION, price["in"]) for modality in ("text", "image", "video", "audio", "other")]
+		found.append(Rate("cached", "text", "tokens", MILLION, round(price["in"] / 10, 6)))
+		if price.get("out"):
+			found.append(Rate("output", "text", "tokens", MILLION, price["out"]))
+		return found
+	found = []
+	for one in (listed().get(model) or {}).get("price") or []:
+		unit = UNITS.get(one["unit"])
+		if unit:
+			found.append(Rate(*unit, one["usd"]))
+	return found

@@ -516,41 +516,24 @@ def test_credits_say_what_is_left_and_an_operator_can_take_back_a_gift():
 	assert 'filters: [["source", "!=", "Run"]]' in listed and "hide_name_filter: true" in listed
 	entry = json.loads((ADMIN / "doctype" / "credit_ledger_entry" / "credit_ledger_entry.json").read_text())
 	assert not entry["permissions"][0]["share"] and entry["title_field"] == "tenant"
-	assert {f["fieldname"]: f for f in entry["fields"]}["model"]["options"] == "AI Model"
+	assert {f["fieldname"]: f for f in entry["fields"]}["model"]["fieldtype"] == "Data"
 	ai = (ADMIN / "ai.py").read_text()
 	assert '"expects": "credit_facts"' in ai and "if not _operator():" in ai.split("def credit_facts(")[1]
 	assert "## Credits" in (ADMIN / "README.md").read_text()
 
 
-def test_an_action_nobody_picked_a_model_for_still_runs_on_gemini():
-	"""The default model rule: the capability's default, else a default that
-	can do it, else the preferred provider's cheapest; a withdrawn pick falls
-	back rather than failing; the operators hear what the sync took off sale."""
+def test_the_operator_has_no_models_to_manage():
+	"""Models are code (one_ai/models.py, docs/AICENTER.md): an action runs on
+	its kind of work at the workspace's tier, and the console has no catalogue,
+	no preferred provider, no withdrawn-model notice and no model to fix."""
 	actions = (ADMIN / "actions.py").read_text()
-	assert 'PREFERRED = "google-ai-studio"' in actions and "def default_model(" in actions
-	choose = actions.split("def _model(")[1].split("\ndef ")[0]
-	assert "fallback = action_default(asked)" in choose and "is not a model this account offers" not in choose
-	assert (
-		"return default_model(asked.capability)" in actions.split("def action_default(")[1].split("\ndef ")[0]
-	)
+	assert "gateway.call(\n\t\tkind(asked)," in actions and "default_model" not in actions
+	assert not (ADMIN / "catalogue.py").exists() and not (ADMIN / "doctype" / "ai_model").exists()
 	settings = json.loads((ADMIN / "doctype" / "one_admin_settings" / "one_admin_settings.json").read_text())
-	assert {f["fieldname"]: f for f in settings["fields"]}["prefer_models_from"][
-		"default"
-	] == "google-ai-studio"
-	catalogue = (ADMIN / "catalogue.py").read_text()
-	assert "tell.models_gone(" in catalogue and '"Model Withdrawn"' in (ADMIN / "tell.py").read_text()
-	assert "*_unmodelled()" in (ADMIN / "home.py").read_text()
-	model = json.loads((ADMIN / "doctype" / "ai_model" / "ai_model.json").read_text())
-	assert model["sort_field"] == "rank" and not model["permissions"][0]["share"]
-	assert {f["fieldname"] for f in model["fields"] if f.get("in_standard_filter")} == {
-		"provider",
-		"capability",
-		"status",
-		"offered",
-	}
-	ai = (ADMIN / "ai.py").read_text()
-	assert '"expects": "model_facts"' in ai and "if not _operator():" in ai.split("def model_facts(")[1]
-	assert "## Models" in (ADMIN / "README.md").read_text()
+	assert "prefer_models_from" not in {f["fieldname"] for f in settings["fields"]}
+	assert "models_gone" not in (ADMIN / "tell.py").read_text()
+	assert "_unmodelled" not in (ADMIN / "home.py").read_text()
+	assert "model_facts" not in (ADMIN / "ai.py").read_text()
 
 
 def test_ai_usage_says_what_a_call_cost_us_and_counts_it_once():
@@ -559,7 +542,7 @@ def test_ai_usage_says_what_a_call_cost_us_and_counts_it_once():
 	ledger = (ADMIN / "ledger.py").read_text()
 	assert "SUM(usd) AS usd" in ledger and '"usd": usd or 0' in ledger
 	gateway = (ADMIN / "gateway.py").read_text()
-	assert "ledger.commit(holding, spent.credits, spent.usd)" in gateway
+	assert "ledger.commit(holding, spent.credits, spent.usd, model=model)" in gateway
 	report = json.loads((ADMIN / "report" / "ai_usage" / "ai_usage.json").read_text())
 	assert not report["add_total_row"]
 	usage = (ADMIN / "report" / "ai_usage" / "ai_usage.py").read_text()

@@ -23,7 +23,6 @@ NEXT_PAGES = {
 
 HEADS = (
 	"AI Action Setting",
-	"AI Model",
 	"AI Proposal",
 	"Account Request",
 	"Appraisal",
@@ -131,7 +130,6 @@ COLLECTIONS = {
 	"Contract": {"List": "whether each contract is signed, when it ends and the project it is for"},
 	"Attendance": {"List": "Mark Attendance kept, merged into hrms's own settings"},
 	"Employee Checkin": {"List": "whether each log counted"},
-	"AI Model": {"List": "the model catalogue from the operator's side"},
 	"AI Proposal": {"List": "whether anybody still has to answer each suggestion"},
 	"Credit Ledger Entry": {"List": "the credit ledger from the operator's side"},
 	"Deleted Document": {"List": "the Recycle Bin, restored through One"},

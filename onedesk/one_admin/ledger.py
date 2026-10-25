@@ -135,14 +135,13 @@ def reserve(
 	return holding.name
 
 
-def commit(reservation: str, amount: float, usd: float | None = None) -> list[str]:
+def commit(reservation: str, amount: float, usd: float | None = None, model: str | None = None) -> list[str]:
 	"""Charge what the call actually cost and let the rest of the hold go.
 
-	The actual may come to more than the hold, and when it does it is charged
-	anyway: the provider answered, the cost is real, and a balance that goes
-	negative is a fact about this workspace rather than an error. What must not
-	happen is charging an estimate, which is why this takes a number somebody
-	else metered rather than working one out.
+	The actual may come to more than the hold, and is charged anyway: the cost
+	is real, and a negative balance is a fact rather than an error. It takes a
+	number somebody else metered, never an estimate. `model` is the one that
+	answered, which a fallback makes other than the one held for.
 	"""
 	site.require_admin()
 	holding = frappe.get_doc("Credit Reservation", reservation)
@@ -156,7 +155,9 @@ def commit(reservation: str, amount: float, usd: float | None = None) -> list[st
 		return []
 
 	written = []
-	model = holding.why if holding.why and frappe.db.exists("AI Model", holding.why) else None
+	model = model or holding.why
+	if model != holding.why:
+		holding.db_set("why", model, update_modified=False)
 	for one in credits.draw(_buckets(holding.tenant, locking=True), amount, _today()):
 		entry = frappe.get_doc(
 			{
@@ -167,7 +168,7 @@ def commit(reservation: str, amount: float, usd: float | None = None) -> list[st
 				"against": one.bucket,
 				"source": "Run",
 				"reference": holding.reference,
-				"why": holding.why,
+				"why": model,
 				"model": model,
 			}
 		)
@@ -240,48 +241,6 @@ def taken(tenant: str, limit: int = 5) -> list[dict]:
 def said_of(grant: str) -> dict:
 	"""What a grant was for, for a spend drawn from it to name."""
 	return frappe.db.get_value("Credit Ledger Entry", grant, ["why", "source"], as_dict=True) or {}
-
-
-def mend_costs() -> None:
-	"""What the provider charged us for calls settled before that was kept:
-	the credits charged over the markup and the credits a dollar buys, which
-	is how they were priced (pricing.bill). Close, not exact, for a call that
-	was charged its hold."""
-	settings = frappe.get_single("One Admin Settings")
-	per_dollar = float(settings.credits_per_dollar or 0)
-	if not per_dollar:
-		return
-	default = float(settings.default_markup or 0) or 1
-	frappe.db.sql(
-		"""
-		UPDATE `tabCredit Reservation` r
-		  LEFT JOIN `tabAI Model` m ON m.name = r.why
-		   SET r.usd = r.settled / (%(per_dollar)s * COALESCE(NULLIF(m.markup, 0), %(default)s))
-		 WHERE r.state = 'Settled' AND (r.usd IS NULL OR r.usd = 0) AND r.settled > 0
-		""",
-		{"per_dollar": per_dollar, "default": default},
-	)
-
-
-def mend() -> None:
-	"""A spend's model as a link to it, and the spends a workspace's calls
-	wrote as nobody (Guest), for rows written before commit said either
-	(patches/credit_model.py)."""
-	frappe.db.sql(
-		"""
-		UPDATE `tabCredit Ledger Entry` e
-		  JOIN `tabAI Model` m ON m.name = e.why
-		   SET e.model = e.why
-		 WHERE e.source = 'Run' AND (e.model IS NULL OR e.model = '')
-		"""
-	)
-	frappe.db.sql(
-		"""
-		UPDATE `tabCredit Ledger Entry`
-		   SET owner = 'Administrator', modified_by = 'Administrator'
-		 WHERE owner = 'Guest'
-		"""
-	)
 
 
 def take_back(grant: str, why: str) -> dict:

@@ -271,14 +271,13 @@ GROUPS = {
 		),
 	},
 	"console": {
-		"about": "One's own console, for its operators: workspaces, jobs, signups, credits, models, prices and usage",
+		"about": "One's own console, for its operators: workspaces, jobs, signups, credits, prices and usage",
 		"tools": (
 			"console_today",
 			"workspace_facts",
 			"job_facts",
 			"signup_facts",
 			"credit_facts",
-			"model_facts",
 			"settings_check",
 			"price_list",
 			"plan_quote",

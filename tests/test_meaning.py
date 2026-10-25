@@ -75,17 +75,14 @@ def test_the_words_and_the_meaning_are_one_list():
 	assert set(said) == {"A", "B", "C", "D"}
 
 
-def test_each_provider_s_vectors_are_read_in_the_order_asked():
-	body = ast.parse((tree.APP / "one_admin" / "gateway.py").read_text(encoding="utf-8"))
-	node = next(n for n in body.body if isinstance(n, ast.Assign) and getattr(n.targets[0], "id", "") == "EMBEDS")
-	room = {"json": json}
-	exec(compile(ast.Module(body=[node], type_ignores=[]), "gateway", "exec"), room)
-	workers = room["EMBEDS"]["workers-ai"]
-	assert workers["vectors"]({"data": [{"index": 1, "embedding": [2]}, {"index": 0, "embedding": [1]}]}) == [[1], [2]]
-	assert workers["body"]("m", ["a"]) == {"model": "m", "input": ["a"]}
-	google = room["EMBEDS"]["google-ai-studio"]
-	assert google["vectors"]({"embeddings": [{"values": [1]}, {"values": [2]}]}) == [[1], [2]]
-	assert google["path"]("text-embedding-004").endswith(":batchEmbedContents")
+def test_vectors_come_from_one_model_and_say_which():
+	"""Measured on 2026-10-25: bge-m3 on `/ai/run` answers `result.data`, one
+	vector per text in the order sent, and reports its tokens under `meta`.
+	Every vector a search compares came from that one model."""
+	said = (tree.APP / "one_admin" / "gateway.py").read_text(encoding="utf-8").split("def embed(", 1)[1].split("\ndef ", 1)[0]
+	assert 'models.pick("embed")[:1]' in said
+	assert '{"text": texts}' in said and '.get("data")' in said
+	assert '"model": asked[0]' in said
 
 
 def test_a_search_is_checked_against_the_reader_and_costs_nothing_twice():

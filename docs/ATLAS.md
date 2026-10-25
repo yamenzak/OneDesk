@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 69 | 2 | 37 | 0 |
+| onedesk | 68 | 2 | 37 | 0 |
 | frappe | 23 | 37 | 154 | 0 |
 | erpnext | 303 | 131 | 51 | 0 |
 | hrms | 102 | 20 | 8 | 0 |
@@ -888,7 +888,7 @@ Pages: masters (on a rail or a home); settings (on a rail or a home); workspace-
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| AI Action | engine: what OneAI may do, which OneAdmin's Home lists and OneAI reads | the administrator | untouched | no | taught |  | yes |  |  |  |  |
+| AI Action | engine: what OneAI may do, which OneAdmin's Home lists and OneAI reads | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | AI Action Setting | inside: Settings › OneAI, which writes it | the administrator | a head, form script | no | general |  | yes |  |  |  |  |
 | AI Chat | on a rail or a home | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | AI Chunk | engine: pieces of documents, mail and records by meaning, which Ctrl+K, OneCloud, OneMail and OneAI search | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
@@ -903,7 +903,6 @@ Reports: AI Credits (on a rail or a home).
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| AI Model | on a rail or a home | **nobody** | a head, form script, list script | no | taught |  | **none** |  |  |  |  |
 | Account Request | on a rail or a home | **nobody** | a head, form script | no | taught |  | **none** |  |  |  | New Signup, Signup Not Built |
 | Credit Ledger Entry | on a rail or a home | **nobody** | a head, form script, list script | no | general |  | **none** |  |  |  |  |
 | Credit Reservation | engine: credits held while OneAI works, released when it is done | **nobody** | untouched | no | general |  | **none** |  |  |  |  |

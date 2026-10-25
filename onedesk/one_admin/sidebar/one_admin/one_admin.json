@@ -185,19 +185,6 @@
   {
    "child": 1,
    "collapsible": 0,
-   "icon": "cpu",
-   "indent": 0,
-   "keep_closed": 0,
-   "label": "Models",
-   "link_to": "AI Model",
-   "link_type": "DocType",
-   "show_arrow": 0,
-   "type": "Link",
-   "idx": 15
-  },
-  {
-   "child": 1,
-   "collapsible": 0,
    "icon": "chart-column",
    "indent": 0,
    "keep_closed": 0,
@@ -206,7 +193,7 @@
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link",
-   "idx": 16
+   "idx": 15
   },
   {
    "child": 0,
@@ -219,7 +206,7 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "idx": 17
+   "idx": 16
   }
  ],
  "modified": "2026-10-19 12:10:24.849573",

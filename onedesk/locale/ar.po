@@ -61,10 +61,6 @@ msgstr "(الحالية)"
 msgid "(empty)"
 msgstr "(فارغة)"
 
-#: onedesk/public/js/ai_model.js:70
-msgid "(estimated)"
-msgstr "(تقديري)"
-
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:116
 msgid "(first 6 rows)"
 msgstr "(أول 6 صفوف)"
@@ -497,11 +493,6 @@ msgstr "نقل شركة إلى نظام ERP جديد، من أول ورشة عم
 #: onedesk/one_crm/home.py:112
 msgid "A business you want to sell to, with its people."
 msgstr "شركة تريد البيع لها، مع موظفيها."
-
-#. Description of the 'Kind' (Select) field in DocType 'AI Model Rate'
-#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-msgid "A cache read is a third thing, not a cheaper input."
-msgstr "قراءة المخزن المؤقت شيء ثالث، وليست مدخلاً أرخص."
 
 #: onedesk/one_crm/record.py:163
 msgid "A call is Outgoing or Incoming, and Answered, No Answer or Busy."
@@ -975,11 +966,6 @@ msgstr "تُقرأ مرفقات الرسالة مع صندوق بريدها."
 #, python-format
 msgid "A milestone bills between 0 and 100% of the contract."
 msgstr "تُفوتر المرحلة الرئيسية بين 0 و100% من العقد."
-
-#. Description of a DocType
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "A model a provider offers, with the prices it publishes for it."
-msgstr "نموذج يعرضه مزوّد، ومعه الأسعار التي ينشرها له."
 
 #. Description of the 'Needs' (Select) field in DocType 'AI Action'
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
@@ -1560,10 +1546,6 @@ msgstr "لا يمكن أن يحتوي {0} على {1}."
 msgid "A {0} has to name a record."
 msgstr "لا بد أن يسمّي {0} سجلاً."
 
-#: onedesk/one_admin/doctype/ai_model/ai_model.py:34
-msgid "A {0} model can't be the default for {1}."
-msgstr "لا يمكن أن يكون نموذج {0} الافتراضي لـ {1}."
-
 #. Message of a notification
 #: onedesk/notifications/one_inventory/stock_asked.md
 msgid "A {kind} request, {request}, wanted by {wanted}."
@@ -1617,16 +1599,6 @@ msgstr "معرفة الذكاء الاصطناعي"
 #: onedesk/one_ai/doctype/ai_memory/ai_memory.json
 msgid "AI Memory"
 msgstr "ذاكرة الذكاء الاصطناعي"
-
-#. Name of a DocType
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "AI Model"
-msgstr "نموذج ذكاء اصطناعي"
-
-#. Name of a DocType
-#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-msgid "AI Model Rate"
-msgstr "سعر نموذج ذكاء اصطناعي"
 
 #. Name of a DocType
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
@@ -2507,10 +2479,6 @@ msgstr "أضف عنوان بريد إلكتروني واحدًا على الأق
 #: onedesk/one/access.py:723
 msgid "Add at least one person to the group."
 msgstr "أضف شخصًا واحدًا على الأقل إلى المجموعة."
-
-#: onedesk/one_admin/doctype/ai_model/ai_model.py:25
-msgid "Add at least one rate to a model priced by hand."
-msgstr "أضف سعرًا واحدًا على الأقل لنموذج مسعّر يدويًا."
 
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:55
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:75
@@ -3630,11 +3598,6 @@ msgstr "المبلغ شامل الضريبة"
 #: onedesk/one/settings.py:797
 msgid "Amounts are shown without their currency symbol."
 msgstr "تُعرض المبالغ بدون رمز العملة."
-
-#. Description of the 'Runs On' (Data) field in DocType 'AI Action'
-#: onedesk/one_ai/doctype/ai_action/ai_action.json
-msgid "An AI Model's name this action runs on when a workspace picks none, in place of the default for what it needs."
-msgstr "اسم نموذج الذكاء الاصطناعي الذي يعمل عليه هذا الإجراء حين لا تختار مساحة العمل نموذجًا، بدلًا من النموذج الافتراضي لما يحتاجه."
 
 #. Description of a DocType
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
@@ -7116,11 +7079,6 @@ msgstr "لا يمكن تغييره. يُثبَّت التخزين عليه عن�
 msgid "Cannot get file contents of a Folder"
 msgstr ""
 
-#. Label of the capability (Select) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Capability"
-msgstr "القدرة"
-
 #: onedesk/one_project/report/workload/workload.py:94
 #: onedesk/one_project/report/workload/workload.py:172
 msgid "Capacity (Hours)"
@@ -7399,10 +7357,6 @@ msgstr "الرسم"
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:156
 msgid "Charged"
 msgstr "المفوتر"
-
-#: onedesk/one_admin/heads.py:505
-msgid "Charged at {0}× the provider's price."
-msgstr "يُحتسب بـ {0}× سعر المزوّد."
 
 #. Label in the One Bank Guarantee print format
 #. Label in the One Landed Cost Voucher print format
@@ -10027,11 +9981,6 @@ msgstr "الرصيد المصروف"
 msgid "Credits Used"
 msgstr "الأرصدة المستخدمة"
 
-#. Description of the 'In, per 1M Tokens' (Float) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Credits a workspace pays for a million text tokens sent, after markup. Hidden where the model is not priced in tokens."
-msgstr "الأرصدة التي تدفعها مساحة العمل مقابل مليون رمز نصي مُرسَل، بعد الهامش. يُخفى إذا لم يكن النموذج مسعّرًا بالرموز."
-
 #: onedesk/one_admin/heads.py:353
 msgid "Credits already spent aren't affected."
 msgstr "لا تتأثر الأرصدة المستهلكة بالفعل."
@@ -10039,11 +9988,6 @@ msgstr "لا تتأثر الأرصدة المستهلكة بالفعل."
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.py:21
 msgid "Credits can't be zero."
 msgstr "لا يمكن أن تكون الأرصدة صفرًا."
-
-#. Description of the 'Out, per 1M Tokens' (Float) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Credits for a million text tokens answered, after markup."
-msgstr "الأرصدة مقابل مليون رمز نصي في الإجابة، بعد الهامش."
 
 #. Description of a DocType
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
@@ -11123,11 +11067,6 @@ msgstr "افتراضي"
 msgid "Default BOM"
 msgstr ""
 
-#. Label of the default_for (Select) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Default For"
-msgstr "افتراضي لـ"
-
 #: onedesk/public/js/onemail_settings.js:1023
 #: onedesk/public/js/onemail_settings.js:1081
 msgid "Default Incoming"
@@ -11181,14 +11120,6 @@ msgstr ""
 msgid "Default for {0}"
 msgstr "الافتراضي لـ {0}"
 
-#: onedesk/one_admin/heads.py:537
-msgid "Default for {0}."
-msgstr "الافتراضي لـ {0}."
-
-#: onedesk/one_admin/heads.py:507
-msgid "Default markup."
-msgstr "هامش الربح الافتراضي."
-
 #: onedesk/public/js/oneai/Panel.vue:208
 msgid "Default model"
 msgstr "النموذج الافتراضي"
@@ -11201,10 +11132,6 @@ msgstr "لون النص الافتراضي"
 #: onedesk/public/js/doctype_settings.js:146 onedesk/public/js/settings.js:2009
 msgid "Default updated"
 msgstr "تم تحديث الافتراضي"
-
-#: onedesk/public/js/ai_model.js:16 onedesk/public/js/ai_model.js:17
-msgid "Default, {0}×"
-msgstr "الافتراضي، {0}×"
 
 #: onedesk/public/js/settings.js:2652 onedesk/public/js/settings.js:2734
 msgid "Default: {0}"
@@ -13253,10 +13180,6 @@ msgstr "كل شخص، عن المهام المسندة إليه"
 msgid "Each person, for their own day"
 msgstr "كل شخص، عن يومه"
 
-#: onedesk/one_admin/doctype/ai_model/ai_model.py:56
-msgid "Each rate needs a unit, a quantity and a price."
-msgstr "يحتاج كل سعر إلى وحدة وكمية وسعر."
-
 #. Who a notification is sent to
 #: onedesk/notifications/one_storage/file_request.md
 msgid "Each recipient"
@@ -14094,11 +14017,6 @@ msgstr "إن تُرك فارغًا فهو وحدة الصنف نفسها."
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 msgid "Empty on a spend that overdrew and belongs to no grant."
 msgstr "فارغ عند إنفاق تجاوز الرصيد ولا ينتمي إلى أي منحة."
-
-#. Description of the 'Markup' (Float) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Empty uses the default in OneAdmin Settings."
-msgstr "إذا تُرك فارغًا يُستخدم الافتراضي في إعدادات OneAdmin."
 
 #. Description of the 'Model' (Select) field in DocType 'AI Action Setting'
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
@@ -19237,11 +19155,6 @@ msgstr "في {0} مستودعات"
 msgid "In {holiday_list}: {what}. Leave, attendance and deadlines count around them from now on."
 msgstr "في {holiday_list}: {what}. تُحتسب الإجازات والحضور والمواعيد النهائية حولها من الآن."
 
-#. Label of the input_per_million (Float) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "In, per 1M Tokens"
-msgstr "المدخل لكل مليون رمز"
-
 #: onedesk/public/js/settings.js:3233 onedesk/public/js/settings.js:3251
 #: onedesk/public/js/settings.js:3355
 msgid "In-app notifications are always on."
@@ -19442,11 +19355,6 @@ msgstr "تصاميم الصفحات الداخلية"
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "Input Tokens"
 msgstr "رموز المدخلات"
-
-#. Label of the reads_section (Section Break) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Inputs"
-msgstr "المدخلات"
 
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -20214,14 +20122,6 @@ msgstr "هل يوجد نموذج أرخص يؤدي الغرض؟"
 #: onedesk/public/js/rule_builder.js:699
 msgid "Is this a question about an order, a delivery or a price?"
 msgstr "هل هذا سؤال عن طلب أو توصيل أو سعر؟"
-
-#: onedesk/one_admin/ai.py:135
-msgid "Is this model worth offering?"
-msgstr "هل يستحق هذا النموذج أن يُعرض؟"
-
-#: onedesk/one_admin/ai.py:136
-msgid "Is this model worth offering? Compare what it costs a workspace with the offered models that can do the same, say what it can read, which actions would run on it, and whether anyone used it."
-msgstr "هل يستحق هذا النموذج أن يُعرض؟ قارن كلفته على مساحة العمل بالنماذج المعروضة التي تؤدي العمل نفسه، وقل ما يستطيع قراءته، وأي الإجراءات ستعمل عليه، وهل استخدمه أحد."
 
 #. Label of a Sidebar Item
 #: onedesk/one_crm/home.py:125 onedesk/one_crm/sidebar/onecrm/onecrm.json
@@ -21404,11 +21304,6 @@ msgstr "آخر سماع"
 msgid "Last Interview"
 msgstr "آخر مقابلة"
 
-#. Label of the seen_on (Datetime) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Last Listed"
-msgstr "آخر إدراج"
-
 #: frontend/src/item/ItemPage.vue:251
 msgid "Last Manufactured"
 msgstr "آخر تصنيع"
@@ -21439,11 +21334,6 @@ msgstr "آخر مسير رواتب"
 #: frontend/src/supplier/SupplierItems.vue:16
 msgid "Last Price"
 msgstr "آخر سعر"
-
-#. Label of the priced_on (Datetime) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Last Priced"
-msgstr "آخر تسعير"
 
 #: onedesk/one_book/heads.py:279 onedesk/one_book/heads.py:765
 msgid "Last Purchase Invoice"
@@ -21514,11 +21404,6 @@ msgstr "آخر إعداد"
 #: onedesk/one_inventory/heads.py:1459
 msgid "Last Stock Entry"
 msgstr "آخر قيد مخزون"
-
-#. Label of the seen_section (Section Break) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Last Sync"
-msgstr "آخر مزامنة"
 
 #. Label of the last_used (Datetime) field in DocType 'Clock Device'
 #. Label of the last_used (Datetime) field in DocType 'Cloud Drive Password'
@@ -22191,10 +22076,6 @@ msgstr "سُمح له {0}"
 #: onedesk/public/js/lots_actions.js:127
 msgid "Let items be kept in batches or by Serial No?"
 msgstr "السماح بحفظ الأصناف في دفعات أو بالرقم التسلسلي؟"
-
-#: onedesk/public/js/ai_model_list.js:24
-msgid "Let workspaces pick this model"
-msgstr "اسمح لمساحات العمل باختيار هذا النموذج"
 
 #. Description of the 'May Use Tools' (Check) field in DocType 'AI Action'
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
@@ -23573,15 +23454,6 @@ msgstr "تعليمها قيد التشغيل"
 msgid "Marking it suspended"
 msgstr "تعليمها معلّقة"
 
-#. Label of the markup (Float) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Markup"
-msgstr "الهامش"
-
-#: onedesk/one_admin/doctype/ai_model/ai_model.py:52
-msgid "Markup can't be negative."
-msgstr "لا يمكن أن يكون هامش الربح سالبًا."
-
 #. Label of the one_markup (Percent) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json onedesk/public/js/project_new.js:142
 msgid "Markup on Costs"
@@ -24084,11 +23956,6 @@ msgstr "تطبيق جوال"
 msgid "Mobile No"
 msgstr ""
 
-#. Label of the modality (Select) field in DocType 'AI Model Rate'
-#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-msgid "Modality"
-msgstr "الوسيط"
-
 #: onedesk/one_book/heads.py:715 onedesk/one_book/home.py:387
 msgid "Mode of Payment"
 msgstr ""
@@ -24119,11 +23986,6 @@ msgstr ""
 #: onedesk/public/js/settings.js:2745
 msgid "Model"
 msgstr "الطراز"
-
-#. Name of a notification
-#: onedesk/notifications/one_admin/model_withdrawn.md
-msgid "Model Withdrawn"
-msgstr "سُحب نموذج"
 
 #: onedesk/public/js/oneai/Panel.vue:518
 msgid "Model for Everybody…"
@@ -24795,10 +24657,6 @@ msgstr "بحاجة إليك"
 #: frontend/src/floor/FloorSteps.vue:85
 msgid "Needs a quality check before it closes"
 msgstr "تحتاج إلى فحص جودة قبل إغلاقها"
-
-#: onedesk/one_admin/heads.py:54 onedesk/public/js/ai_model_list.js:8
-msgid "Needs review"
-msgstr "يحتاج مراجعة"
 
 #: onedesk/public/js/apps.js:40
 msgid "Needs {0}"
@@ -25584,9 +25442,9 @@ msgstr "بلا تاريخ استحقاق"
 msgid "No Location"
 msgstr "لا يوجد موقع"
 
-#: onedesk/one_admin/home.py:437
-msgid "No Model"
-msgstr "لا نموذج"
+#: onedesk/one_admin/gateway.py
+msgid "No model here reads {0}."
+msgstr "لا يقرأ أي نموذج هنا {0}."
 
 #: onedesk/public/js/settings.js:3084
 msgid "No More Holidays This Year"
@@ -25936,10 +25794,6 @@ msgstr "لا توجد صناديق بريد"
 msgid "No manufacturer"
 msgstr "لا توجد شركة مصنّعة"
 
-#: onedesk/one_admin/heads.py:503
-msgid "No markup is set, so this model can't be called."
-msgstr "لم يُحدد هامش ربح، لذا لا يمكن استدعاء هذا النموذج."
-
 #: frontend/src/sheet/components/SheetEditor/FindReplace.vue:86
 #: onedesk/one/page/masters/masters.js:125 onedesk/public/js/crumb_switch.js:56
 #: onedesk/public/js/shell.js:85
@@ -26011,10 +25865,6 @@ msgstr "لا قطع مرقمة بعد"
 msgid "No numbered records"
 msgstr "لا توجد سجلات مرقّمة"
 
-#: onedesk/one_admin/home.py:434
-msgid "No offered model can do {0}."
-msgstr "لا يستطيع أي نموذج معروض القيام بـ{0}."
-
 #. Description of the 'Closed Automatically' (Check) field in DocType 'Employee
 #. Checkin'
 #: onedesk/one_hr/custom/employee_checkin.json
@@ -26085,10 +25935,6 @@ msgstr "لا توجد أرضيات إنتاج بعد"
 #: onedesk/one_hr/rules.py:25
 msgid "No position was sent."
 msgstr "لم يُرسَل أي موقع."
-
-#: onedesk/one_admin/catalogue.py:182
-msgid "No price for this model on the published page."
-msgstr "لا سعر لهذا النموذج في الصفحة المنشورة."
 
 #: frontend/src/quotes/QuotesPage.vue:17
 msgid "No prices asked for yet"
@@ -26300,10 +26146,6 @@ msgstr "لا متغيرات"
 #: onedesk/one_inventory/heads.py:653
 msgid "No work order yet. Make one to start."
 msgstr "لا يوجد أمر عمل بعد. أنشئ واحدًا للبدء."
-
-#: onedesk/one_admin/heads.py:540
-msgid "No workspace called it this month."
-msgstr "لم تستدعه أي مساحة عمل هذا الشهر."
 
 #: onedesk/one_admin/heads.py:456
 msgid "No workspace has this yet."
@@ -26727,10 +26569,6 @@ msgstr "غير مُسجَّل"
 #: onedesk/one_book/heads.py:455
 msgid "Not matched to a payment yet."
 msgstr "لم تُطابق مع دفعة بعد."
-
-#: onedesk/public/js/ai_model_list.js:12
-msgid "Not offered"
-msgstr "غير معروض"
 
 #: onedesk/one_mail/flow.py:284
 msgid "Not on a Holiday"
@@ -27462,11 +27300,6 @@ msgstr "تاريخ العرض"
 msgid "Offered To"
 msgstr "مقدَّم إلى"
 
-#. Description of the 'Rank' (Int) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Offered first, then priced, then needing review, then withdrawn. For the list's order."
-msgstr "المعروضة أولًا، ثم المسعّرة، ثم التي تحتاج مراجعة، ثم المسحوبة. لترتيب القائمة."
-
 #. Description of the 'approver' field in DocType 'Shift Request'
 #: onedesk/one_hr/custom/shift_request.json
 msgid "Offered from the employee's own Shift Request Approver and their department's."
@@ -27584,11 +27417,6 @@ msgstr "في مهامي"
 #: frontend/src/supplier/SupplierItems.vue:18
 msgid "On Order"
 msgstr "قيد الطلب"
-
-#. Label of the sold_section (Section Break) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "On Sale"
-msgstr "المعروض للبيع"
 
 #. Option for the 'Runs' (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
@@ -27957,11 +27785,6 @@ msgstr "شخص واحد"
 msgid "One product in several versions."
 msgstr "منتج واحد بعدة نسخ."
 
-#. Description of a DocType
-#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-msgid "One published price, in the provider's own unit."
-msgstr "سعر منشور واحد، بوحدة المزوّد نفسها."
-
 #. Description of the 'Description' (Small Text) field in DocType 'Private App'
 #: onedesk/one_admin/doctype/private_app/private_app.json
 msgid "One sentence that says what the app is for, shown to the workspace when its code is typed."
@@ -27992,10 +27815,6 @@ msgstr "رمز واحد لكل Cloudflare. يملأ إعداد Cloudflare بقي
 #: onedesk/one_intake/doctype/identifier/identifier.json
 msgid "One way of telling who somebody is, and the record it belongs to."
 msgstr "طريقة لمعرفة من هو شخص ما، والسجل الذي تخصه."
-
-#: onedesk/one_admin/heads.py:542
-msgid "One workspace called it this month, {0} times."
-msgstr "استدعته مساحة عمل واحدة هذا الشهر، {0} مرة."
 
 #: onedesk/one_admin/heads.py:458
 msgid "One workspace has this"
@@ -29670,11 +29489,6 @@ msgstr "متقادم"
 msgid "Out of order; it cannot be used until it is mended."
 msgstr "معطل؛ لا يمكن استخدامه حتى يُصلح."
 
-#. Label of the output_per_million (Float) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Out, per 1M Tokens"
-msgstr "المخرج لكل مليون رمز"
-
 #. Label of the outcome_section (Section Break) field in DocType 'Account
 #. Request'
 #. Label of the done_section (Section Break) field in DocType 'AI Proposal'
@@ -31182,11 +30996,6 @@ msgstr "أصحاب دور الخطوة ممن يمكنهم فتح السجل"
 msgid "People write in bursts. OneAI acts once a matter has been quiet this long, except on money or deadlines due within a day."
 msgstr "يكتب الناس على دفعات. يتصرف OneAI بعد هدوء الموضوع هذه المدة، إلا في المال أو المواعيد المستحقة خلال يوم."
 
-#. Label of the per (Int) field in DocType 'AI Model Rate'
-#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-msgid "Per"
-msgstr "لكل"
-
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:48
 msgid "Per Call"
 msgstr "لكل استدعاء"
@@ -31997,12 +31806,6 @@ msgstr ""
 msgid "Practical completion inspection"
 msgstr "فحص الإنجاز العملي"
 
-#. Label of the prefer_models_from (Select) field in DocType 'One Admin
-#. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "Preferred Provider"
-msgstr "المزوّد المفضّل"
-
 #: onedesk/public/js/doctype_settings.js:939
 #: onedesk/public/js/doctype_settings.js:963
 msgid "Prefix"
@@ -32213,21 +32016,6 @@ msgstr ""
 #: onedesk/one_admin/offerings.py:223
 msgid "Price List Problems"
 msgstr "مشكلات قائمة الأسعار"
-
-#. Option for the 'Status' (Select) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-#: onedesk/one_admin/heads.py:53
-msgid "Priced"
-msgstr "مُسعَّر"
-
-#. Label of the priced_by_hand (Check) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Priced by Hand"
-msgstr "مُسعَّر يدوياً"
-
-#: onedesk/one_admin/catalogue.py:212
-msgid "Priced by hand with no rates."
-msgstr "مسعّر يدويًا دون أسعار."
 
 #: onedesk/public/js/settings.js:2696
 msgid "Priced per use."
@@ -32938,11 +32726,6 @@ msgstr "ممنوح"
 msgid "Provided by One"
 msgstr "مقدَّم من One"
 
-#. Label of the provider (Select) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Provider"
-msgstr ""
-
 #. Label of the usd (Float) field in DocType 'Credit Reservation'
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
 msgid "Provider Cost (USD)"
@@ -32987,11 +32770,6 @@ msgstr "العطلات الرسمية"
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Public Key"
 msgstr "المفتاح العام"
-
-#. Label of the rates_section (Section Break) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Published Prices"
-msgstr "الأسعار المنشورة"
 
 #: onedesk/public/js/trust_center.js
 msgid "Published {0} · Takes effect {1}"
@@ -33542,11 +33320,6 @@ msgstr "مقدّم من"
 msgid "Range"
 msgstr "النطاق"
 
-#. Label of the rank (Int) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Rank"
-msgstr "الترتيب"
-
 #. Description of the 'Standing' (Percent) field in DocType 'Job Applicant'
 #: onedesk/one_hr/custom/job_applicant.json
 msgid "Rank among applicants for the same Job Opening, out of 100. Updated as new applicants arrive."
@@ -33597,11 +33370,6 @@ msgstr "مُقيَّم وفق معايير الفحص للوظيفة."
 #: onedesk/one_hr/hiring.py:322
 msgid "Rated {0} of 5"
 msgstr "التقييم {0} من 5"
-
-#. Label of the rates (Table) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Rates"
-msgstr "الأسعار"
 
 #. Label in the One Appraisal print format
 #. Label in the One Employee Performance Feedback print format
@@ -36199,11 +35967,6 @@ msgstr "جارٍ التشغيل…"
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Runs"
 msgstr "تعمل"
-
-#. Label of the default_model (Data) field in DocType 'AI Action'
-#: onedesk/one_ai/doctype/ai_action/ai_action.json
-msgid "Runs On"
-msgstr "يعمل على"
 
 #: frontend/src/item/ItemMaking.vue:62
 msgid "Runs Out First"
@@ -40109,10 +39872,6 @@ msgstr "إيقاف"
 msgid "Stop Here"
 msgstr "توقف هنا"
 
-#: onedesk/public/js/ai_model_list.js:22
-msgid "Stop Offering"
-msgstr "إيقاف العرض"
-
 #: onedesk/public/js/settings.js:2944
 msgid "Stop OneAI reading new files in {0} and the folders inside it?"
 msgstr "هل توقف قراءة OneAI للملفات الجديدة في {0} والمجلدات التي بداخله؟"
@@ -40150,10 +39909,6 @@ msgstr "إيقاف الاستماع"
 #: onedesk/public/js/oneai/Panel.vue:167
 msgid "Stop sending this"
 msgstr "أوقف إرسال هذا"
-
-#: onedesk/public/js/ai_model_list.js:24
-msgid "Stop workspaces from picking this model"
-msgstr "منع مساحات العمل من اختيار هذا النموذج"
 
 #: onedesk/public/js/oneai/Panel.vue:159
 msgid "Stop writing this field"
@@ -40946,10 +40701,6 @@ msgstr "التبديل إلى {0}"
 msgid "Switched off, so no item can have serial numbers or batches."
 msgstr "مُعطّلة، لذا لا يمكن لأي صنف أن يكون له أرقام تسلسلية أو دفعات."
 
-#: onedesk/public/js/ai_model_list.js:39
-msgid "Sync {0}"
-msgstr "مزامنة {0}"
-
 #: onedesk/public/js/settings.js:2299
 msgid "Synced"
 msgstr "متزامن"
@@ -40958,10 +40709,6 @@ msgstr "متزامن"
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Synced through iCloud Keychain or Google Password Manager, so it is also present on the employee's other devices."
 msgstr "متزامن عبر سلسلة مفاتيح iCloud أو مدير كلمات مرور Google، فهو موجود أيضاً على أجهزة الموظف الأخرى."
-
-#: onedesk/public/js/ai_model_list.js:49
-msgid "Syncing {0}…"
-msgstr "جارٍ مزامنة {0}…"
 
 #: frontend/src/mail/mail.js:59
 #: frontend/src/sheet/components/SheetEditor/index.vue:1817
@@ -41027,6 +40774,10 @@ msgstr "تيرابايت"
 #: onedesk/one_mail/tour.py
 msgid "The conversation opens here, with the records it is linked to above it."
 msgstr "تُفتح المحادثة هنا، والسجلات المرتبطة بها فوقها."
+
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+msgid "The model that answered the call."
+msgstr "النموذج الذي أجاب عن الطلب."
 
 #: onedesk/one_mail/ai.py
 msgid "The standard reply"
@@ -41131,11 +40882,6 @@ msgstr "أُزلت من حدث"
 #: onedesk/one_inventory/heads.py:1341
 msgid "Taken back."
 msgstr "تم الاسترجاع."
-
-#. Description of the 'Inputs' (Section Break) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Taken from the provider's own word for the model and from every input price it publishes."
-msgstr "مأخوذ من وصف المزوّد نفسه للنموذج ومن كل سعر مدخلات ينشره."
 
 #: onedesk/public/js/settings.js:2399
 msgid "Takes effect a few minutes after it's added."
@@ -41881,10 +41627,6 @@ msgstr ""
 msgid "Test"
 msgstr "الاختبار"
 
-#: onedesk/public/js/ai_model.js:6 onedesk/public/js/ai_model.js:23
-msgid "Test Call"
-msgstr "استدعاء تجريبي"
-
 #: onedesk/public/js/admin_settings.js:3 onedesk/public/js/admin_settings.js:60
 msgid "Test Gateway"
 msgstr "اختبار البوابة"
@@ -42180,11 +41922,6 @@ msgstr "العرض"
 msgid "The One account that holds this workspace, gets its invoices and hears about paying."
 msgstr "حساب One الذي يضم مساحة العمل هذه ويتلقى فواتيرها وإشعارات الدفع."
 
-#. Description of the 'Model' (Link) field in DocType 'Credit Ledger Entry'
-#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
-msgid "The OneAI model the call ran on."
-msgstr "نموذج OneAI الذي جرى عليه الطلب."
-
 #: onedesk/one/settings.py:1363
 msgid "The OneAI panel: answers, look-ups, summaries, and what it writes in records, workbooks and documents."
 msgstr "لوحة OneAI: إجابات وعمليات بحث وملخصات، وما تكتبه في السجلات والمصنفات والمستندات."
@@ -42356,10 +42093,6 @@ msgstr "رصيد البنك في الدفاتر مقابل رصيد الكشف."
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:30
 msgid "The browser would not say where it is."
 msgstr "لم يفصح المتصفح عن موقعه."
-
-#: onedesk/public/js/ai_model.js:31
-msgid "The call is real and charged to this workspace."
-msgstr "الاستدعاء حقيقي ويُحتسب على مساحة العمل هذه."
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_crm/email_campaign.md
@@ -43050,11 +42783,6 @@ msgstr "مجموعة bench الواحدة التي تعمل عليها كل مس
 msgid "The one dark button while it shows."
 msgstr "الزر الداكن الوحيد ما دام ظاهرًا."
 
-#. Description of the 'Capability' (Select) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "The one word for it. What it can be fed is below, and the picker filters on both."
-msgstr "الكلمة الواحدة الدالة عليه. وما يمكن أن يُغذّى به أدناه، ويُرشّح المنتقي على أساسهما معاً."
-
 #: onedesk/one_crm/home.py:180
 msgid "The only items a customer or supplier is offered."
 msgstr "الأصناف الوحيدة المعروضة على عميل أو مورد."
@@ -43112,10 +42840,6 @@ msgstr "الصفحة"
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "The page it runs on and what it waits for there, such as OneMail when a conversation is opened."
 msgstr "الصفحة التي تعمل عليها وما تنتظره هناك، مثل OneMail عند فتح محادثة."
-
-#: onedesk/one_admin/catalogue.py:187
-msgid "The page lists this model with no current price."
-msgstr "تُدرج الصفحة هذا النموذج دون سعر حالي."
 
 #: onedesk/one/printing.py:548
 msgid "The page number position must be one of {0}."
@@ -43396,20 +43120,6 @@ msgstr "فريق المشروع"
 msgid "The project's requests still to order"
 msgstr "طلبات المشروع التي لم تُطلب بعد"
 
-#: onedesk/one_admin/heads.py:492
-msgid "The provider no longer lists this model."
-msgstr "لم يعد المزوّد يُدرج هذا النموذج."
-
-#. Description of the 'Model' (Data) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "The provider's own id. Never typed here."
-msgstr "معرّف المزوّد نفسه. ولا يُكتب هنا أبداً."
-
-#. Description of the 'Unit' (Data) field in DocType 'AI Model Rate'
-#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-msgid "The provider's own word. Nothing converts between units."
-msgstr "كلمة المزوّد نفسها. ولا شيء يحوّل بين الوحدات."
-
 #: onedesk/one_inventory/home.py:214
 msgid "The questions feedback asks."
 msgstr "الأسئلة التي تطرحها الملاحظات."
@@ -43600,11 +43310,6 @@ msgstr "عنصر الاشتراك الذي يحاسب عليه Stripe."
 msgid "The supplier's contact"
 msgstr "جهة اتصال المورد"
 
-#. Description of the 'Priced by Hand' (Check) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "The sync leaves the rates below alone. For a model whose page this cannot read."
-msgstr "تترك المزامنة الأسعار أدناه كما هي. لنموذج يتعذّر قراءة صفحته."
-
 #: onedesk/one/ai.py:2872
 msgid "The table {0} needs its columns."
 msgstr "الجدول {0} يحتاج إلى أعمدته."
@@ -43686,12 +43391,6 @@ msgstr "نموذج الموقع الذي ينشئ عميلًا محتملًا."
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 msgid "The whole conversation, in the shape the gateway speaks. Read by the panel, not by a person."
 msgstr "المحادثة كاملة، بالشكل الذي تتحدث به البوابة. تقرأها اللوحة لا الشخص."
-
-#. Description of the 'Unparsed Pricing' (Small Text) field in DocType 'AI
-#. Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "The wording on the provider's page that defeated the parser."
-msgstr "الصياغة في صفحة المزوّد التي عجز المحلّل عن قراءتها."
 
 #: onedesk/one_inventory/home.py:133
 msgid "The work on the floor, step by step."
@@ -45196,10 +44895,6 @@ msgstr "إلى سنة"
 msgid "To deliver"
 msgstr "للتسليم"
 
-#: onedesk/one_admin/heads.py:496
-msgid "To offer it, set Priced by Hand and add its rates."
-msgstr "لعرضه، فعّل مسعّر يدويًا وأضف أسعاره."
-
 #: onedesk/public/js/rule_builder.js:23
 msgid "To or Cc"
 msgstr "إلى أو نسخة"
@@ -46189,11 +45884,6 @@ msgstr "معامل تحويل الوحدة"
 msgid "URL"
 msgstr ""
 
-#. Label of the usd (Float) field in DocType 'AI Model Rate'
-#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-msgid "USD"
-msgstr "دولار أمريكي"
-
 #: frontend/src/writer/components/ErrorPage.vue:10
 msgid "Uh oh!"
 msgstr "عذرًا!"
@@ -46486,11 +46176,6 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_salary_statement/one_salary_statement.json
 msgid "Unpaid Leave"
 msgstr "إجازة غير مدفوعة"
-
-#. Label of the why (Small Text) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Unparsed Pricing"
-msgstr "أسعار لم تُقرأ"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:723
 msgid "Unprotect sheet"
@@ -47936,11 +47621,6 @@ msgstr "ما يقرأه مدير مساحة العمل بجانبه."
 msgid "What an AI call costs a workspace. What a credit sells for is the credit packs' price, in the price list."
 msgstr "ما يكلّفه طلب ذكاء اصطناعي لمساحة العمل. سعر بيع الرصيد هو سعر حزم الأرصدة في قائمة الأسعار."
 
-#. Description of the 'Default For' (Select) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "What an action needing this runs on when a workspace has picked nothing."
-msgstr "ما يعمل عليه الإجراء المحتاج إلى هذا حين لا تختار مساحة العمل شيئاً."
-
 #. Description of the 'Withheld' (Small Text) field in DocType 'Personal Data
 #. Download Request'
 #: onedesk/one/custom/personal_data_download_request.json
@@ -49106,11 +48786,6 @@ msgstr "عند تعليق مشروع أو إلغائه."
 msgid "When a project on hold or cancelled is opened again."
 msgstr "عندما يُعاد فتح مشروع معلّق أو ملغى."
 
-#. Description of the 'Starts' (Date) field in DocType 'AI Model Rate'
-#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-msgid "When a published price takes over from the one before it."
-msgstr "متى يحلّ سعر منشور محلّ الذي قبله."
-
 #. When a notification is sent
 #: onedesk/notifications/one_inventory/quote_request_sent.md
 msgid "When a quote request is sent to a supplier, with the link to answer it."
@@ -49550,12 +49225,6 @@ msgstr "عندما تنتهي إجازة لم تستخدمها بعد أسبوع
 msgid "When mail comes in on a lead or an opportunity you own."
 msgstr "عندما يصل بريد على عميل محتمل أو فرصة تملكها."
 
-#. Description of the 'Preferred Provider' (Select) field in DocType 'One Admin
-#. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "When nothing is the default for what an action needs, the cheapest offered model from here runs it."
-msgstr "حين لا يكون هناك افتراضي لما يحتاجه إجراء، يشغّله أرخص نموذج معروض من هنا."
-
 #: onedesk/public/js/doctype_settings.js:552
 msgid "When one is cancelled"
 msgstr "عند إلغاء سجل"
@@ -49949,11 +49618,6 @@ msgstr "عندما تعجز المهمة الليلية عن ترحيل الإه
 msgid "When the nightly posting of deferred income or expense fails."
 msgstr "عندما يفشل الترحيل الليلي للإيرادات أو المصروفات المؤجلة."
 
-#. When a notification is sent
-#: onedesk/notifications/one_admin/model_withdrawn.md
-msgid "When the nightly sync takes an offered model off sale."
-msgstr "عندما تُوقف المزامنة الليلية بيع نموذج معروض."
-
 #. Description of the 'Reminded On' (Datetime) field in DocType 'Account
 #. Request'
 #: onedesk/one_admin/doctype/account_request/account_request.json
@@ -49969,11 +49633,6 @@ msgstr "عندما يطلب من يدفع لمساحة عمل إغلاقها."
 #: onedesk/notifications/one/workspace_closing.md
 msgid "When the person who pays for the workspace asks for it to be closed. It cannot be turned off."
 msgstr "عندما يطلب من يدفع لمساحة العمل إغلاقها. لا يمكن إيقاف هذا الإشعار."
-
-#. Description of the 'Last Listed' (Datetime) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "When the provider last said this model exists."
-msgstr "آخر مرة قال فيها المزوّد إن هذا النموذج موجود."
 
 #. When a notification is sent
 #: onedesk/notifications/one_project/retainer_hours_used.md
@@ -50259,17 +49918,9 @@ msgstr "هل يمكن لـ OneAI قراءة صندوق البريد هذا، و�
 msgid "Whether the address each new person gets, such as {0}, sends as well as receives."
 msgstr "هل يرسل العنوان الذي يحصل عليه كل شخص جديد، مثل {0}، إلى جانب الاستقبال."
 
-#: onedesk/one_admin/ai.py:146
-msgid "Which OneAI actions have no model to run on, and which offered model would each fall to? Say which models are the defaults and what they cost."
-msgstr "أي إجراءات OneAI ليس لها نموذج تعمل عليه، وإلى أي نموذج معروض سيؤول كل منها؟ قل أي النماذج هي الافتراضية وكم تكلّف."
-
 #: onedesk/one/ai.py:358
 msgid "Which actions cost the most?"
 msgstr "أي الإجراءات تكلّف أكثر؟"
-
-#: onedesk/one_admin/ai.py:145
-msgid "Which actions have no model?"
-msgstr "أي الإجراءات بلا نموذج؟"
 
 #: onedesk/one/ai.py:191
 msgid "Which approvals are on, and who takes each step?"
@@ -51175,12 +50826,6 @@ msgstr "لدى {0}."
 msgid "With {0}; wanted back by {1}."
 msgstr "لدى {0}؛ مطلوب إعادته بحلول {1}."
 
-#. Option for the 'Status' (Select) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-#: onedesk/one_admin/heads.py:55 onedesk/public/js/ai_model_list.js:7
-msgid "Withdrawn"
-msgstr "مسحوب"
-
 #. Label of the one_withheld (Small Text) field in DocType 'Personal Data
 #. Download Request'
 #: onedesk/one/custom/personal_data_download_request.json
@@ -51973,11 +51618,6 @@ msgstr "يكتبه OneAI مما حدث لهذا السجل، مرة واحدة �
 #: onedesk/one/custom/notification_settings.json
 msgid "Written by Settings, Notifications. Sent to the devices a person turned push on in."
 msgstr "يُكتب من الإعدادات، الإشعارات. يُرسل إلى الأجهزة التي فعّل فيها الشخص الإشعارات الفورية."
-
-#. Description of the 'Rates' (Table) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Written by the sync. Editable only on a model priced by hand."
-msgstr "تكتبها المزامنة. ولا تُحرَّر إلا في نموذج مُسعَّر يدوياً."
 
 #: frontend/src/kit/FieldEdit.vue:8 onedesk/public/js/oneai.js:249
 msgid "Written by {0}"
@@ -52788,11 +52428,6 @@ msgstr "طلب {reason} من {from_date} إلى {to_date}: {status}"
 msgid "Yours"
 msgstr "خاصتك"
 
-#. Description of the 'Offered' (Check) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Yours to decide. The sync never turns this on, and turns it off when a price stops being readable."
-msgstr "القرار لك. لا تفعّله المزامنة أبداً، وتوقفه حين يتعذّر قراءة السعر."
-
 #: onedesk/one/ai_setup.py:222
 msgid "Z to A"
 msgstr "من ي إلى أ"
@@ -52987,11 +52622,6 @@ msgstr "أي من هذه:"
 msgid "approved"
 msgstr "تمت الموافقة"
 
-#. Option for the 'Modality' (Select) field in DocType 'AI Model Rate'
-#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-msgid "audio"
-msgstr "صوت"
-
 #. Option for the 'Kind' (Select) field in DocType 'Workbook Version'
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json
 msgid "auto"
@@ -53025,11 +52655,6 @@ msgstr "بواسطة العميل"
 #: onedesk/public/js/intake.js:106 onedesk/public/js/intake.js:174
 msgid "by {0}"
 msgstr "بحلول {0}"
-
-#. Option for the 'Kind' (Select) field in DocType 'AI Model Rate'
-#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-msgid "cached"
-msgstr "مخزَّن مؤقتاً"
 
 #: onedesk/one/ai.py:1103
 msgid "called {0}"
@@ -53250,14 +52875,6 @@ msgstr "fx"
 msgid "goals"
 msgstr "الأهداف"
 
-#. Option for the 'Provider' (Select) field in DocType 'AI Model'
-#. Option for the 'Preferred Provider' (Select) field in DocType 'One Admin
-#. Settings'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "google-ai-studio"
-msgstr "google-ai-studio"
-
 #. Option for the 'Colour' (Select) field in DocType 'Record Head Indicator'
 #: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
 msgid "gray"
@@ -53294,11 +52911,6 @@ msgstr "مخفي"
 msgid "hidden on the portal from {0}"
 msgstr "أُخفي في البوابة عن {0}"
 
-#. Option for the 'Modality' (Select) field in DocType 'AI Model Rate'
-#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-msgid "image"
-msgstr "صورة"
-
 #: onedesk/public/js/band.js:205
 msgid "in late"
 msgstr "حضر متأخراً"
@@ -53314,11 +52926,6 @@ msgstr "في القائمة"
 #: frontend/src/kit/desk.js:234
 msgid "in {0} days"
 msgstr "بعد {0} يومًا"
-
-#. Option for the 'Kind' (Select) field in DocType 'AI Model Rate'
-#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-msgid "input"
-msgstr "مدخلات"
 
 #: onedesk/one_calendar/tell.py:169
 msgid "invites you to"
@@ -53416,10 +53023,6 @@ msgstr "مستخدم في مكان آخر"
 #: onedesk/one/closing.py:55
 msgid "its payer"
 msgstr "من يدفع لها"
-
-#: onedesk/one_admin/tell.py:221
-msgid "its price can no longer be read"
-msgstr "لم يعد ممكنًا قراءة سعره"
 
 #: onedesk/www/your_data.html:27
 msgid "jane@example.com"
@@ -53602,10 +53205,6 @@ msgstr "غير معروف بعد"
 msgid "nothing"
 msgstr "لا شيء"
 
-#: onedesk/one_admin/tell.py:230
-msgid "nothing can do {0} now"
-msgstr "لا شيء يستطيع {0} الآن"
-
 #: frontend/src/workload/WorkloadList.vue:52
 msgid "of {0}"
 msgstr "من {0}"
@@ -53734,16 +53333,6 @@ msgstr "أو استخدم كلمة المرور"
 #: onedesk/one/doctype/record_head_sentence/record_head_sentence.json
 msgid "orange"
 msgstr ""
-
-#. Option for the 'Modality' (Select) field in DocType 'AI Model Rate'
-#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-msgid "other"
-msgstr "أخرى"
-
-#. Option for the 'Kind' (Select) field in DocType 'AI Model Rate'
-#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-msgid "output"
-msgstr "مخرجات"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1027
 msgid "padded digit"
@@ -54012,10 +53601,6 @@ msgstr "يوم السنة"
 msgid "the days off each week are now {0}"
 msgstr "أيام العطلة الأسبوعية الآن {0}"
 
-#: onedesk/one_admin/tell.py:228
-msgid "the default for {0} is now {1}"
-msgstr "الافتراضي لـ{0} الآن {1}"
-
 #: onedesk/public/js/doctype_settings.js:749
 msgid "the fiscal year (.TFY. for the short form)"
 msgstr "السنة المالية (.TFY. للصيغة المختصرة)"
@@ -54031,10 +53616,6 @@ msgstr "النموذج إلى {0}"
 #: onedesk/public/js/doctype_settings.js:745
 msgid "the month"
 msgstr "الشهر"
-
-#: onedesk/one_admin/tell.py:221
-msgid "the provider withdrew it"
-msgstr "سحبه المزوّد"
 
 #: onedesk/one/portal_invite.py:45
 msgid "the quote requests and orders sent to you"
@@ -54185,16 +53766,6 @@ msgstr "عاجل, بأسرع وقت"
 msgid "us"
 msgstr "نحن"
 
-#. Option for the 'Kind' (Select) field in DocType 'AI Model Rate'
-#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-msgid "usage"
-msgstr "استخدام"
-
-#. Option for the 'Modality' (Select) field in DocType 'AI Model Rate'
-#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
-msgid "video"
-msgstr "فيديو"
-
 #: frontend/src/home/BooksHome.vue:125 frontend/src/home/CrmHome.vue:127
 #: frontend/src/home/HrHome.vue:151 frontend/src/home/InventoryHome.vue:141
 msgid "vs last month"
@@ -54236,14 +53807,6 @@ msgstr "دون سجلاتهم"
 #: onedesk/public/js/rule_builder.js:159
 msgid "words, with commas"
 msgstr "كلمات، بفواصل"
-
-#. Option for the 'Provider' (Select) field in DocType 'AI Model'
-#. Option for the 'Preferred Provider' (Select) field in DocType 'One Admin
-#. Settings'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "workers-ai"
-msgstr "workers-ai"
 
 #. Description of the 'Opened From' (Data) field in DocType 'Workbook'
 #: onedesk/one_sheet/doctype/workbook/workbook.json
@@ -54744,10 +54307,6 @@ msgstr "لا يمكن أن يحمل {0} حالة الاعتماد."
 msgid "{0} cannot name each {1}: two records already have {2} in it."
 msgstr "لا يمكن أن يُسمّي {0} كل {1}: سجلّان يحملان {2} فيه بالفعل."
 
-#: onedesk/one_admin/actions.py:88
-msgid "{0} cannot read {1}."
-msgstr "{0} لا يستطيع قراءة {1}."
-
 #: onedesk/one_inventory/ready.py:253
 msgid "{0} categories, each with its ledger and how it depreciates."
 msgstr "{0} فئات، لكل منها حسابها وطريقة إهلاكها."
@@ -54828,10 +54387,6 @@ msgstr "{0} رصيد"
 #: onedesk/one_admin/doctype/offering/offering.py:86
 msgid "{0} credits a month"
 msgstr "{0} رصيد شهريًا"
-
-#: onedesk/public/js/ai_model.js:75
-msgid "{0} credits held. Usage couldn't be measured."
-msgstr "{0} رصيد محجوز. تعذّر قياس الاستخدام."
 
 #: onedesk/public/js/oneai/Panel.vue:233
 msgid "{0} credits in this conversation"
@@ -55365,10 +54920,6 @@ msgstr "{0} مستخدم بالفعل."
 msgid "{0} is already taken. Choose another name."
 msgstr "{0} مستخدم بالفعل. اختر اسمًا آخر."
 
-#: onedesk/one_admin/doctype/ai_model/ai_model.py:49
-msgid "{0} is already the default for {1}."
-msgstr "{0} هو الافتراضي بالفعل لـ{1}."
-
 #: onedesk/one_project/hours.py:109
 msgid "{0} is already the site of {1}."
 msgstr "{0} هو موقع {1} بالفعل."
@@ -55476,10 +55027,6 @@ msgstr "{0} مُسجَّل بحالة {1} في {2}. ولا يُدفع العمل
 #: onedesk/one_book/paid.py:40
 msgid "{0} is more than the {1} still owed."
 msgstr "{0} أكثر من المتبقي {1}."
-
-#: onedesk/one_ai/doctype/ai_action/ai_action.py:18
-msgid "{0} is not a capability any model carries."
-msgstr "{0} ليست قدرة يحملها أي نموذج."
 
 #: onedesk/one/head.py:193
 msgid "{0} is not a chart of {1}."
@@ -55798,10 +55345,6 @@ msgstr "يُستخدم {0} خارج الصفوف التي يكررها."
 msgid "{0} is {1} and can't move to {2}."
 msgstr "{0} في حالة {1} ولا يمكن نقله إلى {2}."
 
-#: onedesk/one_admin/doctype/ai_model/ai_model.py:21
-msgid "{0} is {1}, so it can't be offered."
-msgstr "{0} في حالة {1}، لذا لا يمكن عرضه."
-
 #: onedesk/one/portal_share.py:203
 msgid "{0} isn't a contact of this record's customer or supplier."
 msgstr "{0} ليس جهة اتصال لعميل هذا السجل أو مورده."
@@ -55821,10 +55364,6 @@ msgstr "{0} ليس نوع ملف مسموحًا به."
 #: onedesk/one_mail/holders.py:151
 msgid "{0} isn't in this workspace."
 msgstr "{0} ليس في مساحة العمل هذه."
-
-#: onedesk/one_admin/doctype/ai_model/ai_model.py:30
-msgid "{0} isn't offered, so it can't be a default."
-msgstr "{0} غير معروض، لذا لا يمكن أن يكون افتراضيًا."
 
 #: onedesk/one_admin/heads.py:401
 msgid "{0} isn't set, so {1}."
@@ -55912,10 +55451,6 @@ msgstr "لا يجوز أن تقارن {0} إلا حقول السجل بقيم ب
 #: frontend/src/item/ItemMaking.vue:75
 msgid "{0} min"
 msgstr "{0} دقيقة"
-
-#: onedesk/public/js/ai_model_list.js:54
-msgid "{0} models, {1} priced, {2} need review."
-msgstr "{0} نموذجاً، {1} مُسعَّرة، {2} تحتاج مراجعة."
 
 #: onedesk/one_intake/understand.py:376 onedesk/one_project/view.py:561
 msgid "{0} months"
@@ -56684,10 +56219,6 @@ msgstr "{0} أوامر عمل"
 msgid "{0} worked, {1} paid"
 msgstr "عُمل {0}، ودُفع {1}"
 
-#: onedesk/one_admin/heads.py:544
-msgid "{0} workspaces called it this month, {1} times."
-msgstr "استدعته {0} مساحات عمل هذا الشهر، {1} مرة."
-
 #: onedesk/one_admin/heads.py:460
 msgid "{0} workspaces have this"
 msgstr "{0} مساحات عمل لديها هذا"
@@ -56720,10 +56251,6 @@ msgstr "{0} {1} غير موجود"
 #: onedesk/one_sheet/table.py:608
 msgid "{0} {1} not found."
 msgstr "لم يُعثر على {0} {1}."
-
-#: onedesk/public/js/ai_model.js:69
-msgid "{0} {1} of {2} {3}"
-msgstr "{0} {1} من {2} {3}"
 
 #: onedesk/one/linked.py:285
 msgid "{0} {1} was changed by somebody else after you opened this. Refresh to see it; nothing was saved."
@@ -57251,11 +56778,6 @@ msgid "{cost_type} is over budget on {project}"
 msgstr "{cost_type} تجاوز الميزانية في {project}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_admin/model_withdrawn.md
-msgid "{count} OneAI models were taken off sale"
-msgstr "سُحب {count} من نماذج OneAI من البيع"
-
-#. Subject of a notification
 #: onedesk/notifications/one_book/bills_due_this_week.md
 msgid "{count} bills fall due this week"
 msgstr "{count} فواتير تستحق هذا الأسبوع"
@@ -57518,11 +57040,6 @@ msgstr "سُجّلت {logged} ساعة من أصل {planned} ساعة مخططة
 #: onedesk/notifications/one_project/milestone_late.md
 msgid "{milestone} on {project} is late"
 msgstr "تأخّر {milestone} في {project}"
-
-#. Message of a notification
-#: onedesk/notifications/one_admin/model_withdrawn.md
-msgid "{models}<br><br>Workspaces that picked them now run on the default."
-msgstr "{models}<br><br>مساحات العمل التي اختارتها تعمل الآن على الافتراضي."
 
 #. Subject of a notification
 #: onedesk/notifications/one_inventory/delivery_late.md

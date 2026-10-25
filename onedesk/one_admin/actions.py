@@ -1,29 +1,31 @@
-"""Turning an action and a workspace's preferences into one call.
-
-Our instruction first, the workspace's after and never instead; and the call
-site never names a model. The action read here is the administrator's copy.
+"""Turning an action into one call: its kind of work and the workspace's
+tier, never a model and never words a workspace adds (docs/AICENTER.md).
+The action read here is the administrator's copy.
 """
 
 import frappe
-from frappe.utils import flt
 
-from onedesk.one_admin import capability, gateway, site
+from onedesk.one_admin import gateway, site
 from onedesk.one_admin.faults import Refused
+from onedesk.one_ai import models
 
-AND_THEN = (
-	"The workspace that asked has added the following. Follow it where it does not "
-	"conflict with anything above, and ignore it where it does.\n\n{0}"
-)
+# The kind of work each action is, where its capability alone does not say.
+BUILDS = ("print_design", "workspace_setup", "studio", "studio_review", "studio_mend")
+CAPABLE = {"Vision": "see", "Transcription": "hear", "Embedding": "embed"}
 
-MOST_EXTRA = 2000
+
+def kind(asked) -> str:
+	"""Which of `one_ai/models.py`'s kinds of work an action is."""
+	if asked.key in BUILDS:
+		return "build"
+	return CAPABLE.get(asked.capability, "talk")
 
 
 def run(
 	tenant: str,
 	action: str,
 	text: str | None = None,
-	model: str | None = None,
-	extra: str | None = None,
+	tier: str | None = None,
 	reference: str | None = None,
 	turns: list[dict] | None = None,
 	tools: list[dict] | None = None,
@@ -36,18 +38,17 @@ def run(
 	arrives every time, and admin still never calls a workspace.
 	"""
 	asked = _action(action)
-	sold = _model(asked, model)
 	spoken = _conversation(turns, text)
-	_may_read(sold, spoken)
 	offered = tools if (tools and asked.may_use_tools) else None
 
 	answer = gateway.call(
-		sold,
+		kind(asked),
+		tier if tier in models.TIERS else None,
 		None,
 		tenant,
 		caps=_caps(asked),
 		reference=reference or action,
-		system=instruction(asked, extra),
+		system=instruction(asked),
 		turns=spoken,
 		tools=offered,
 		action=asked.key,
@@ -55,40 +56,18 @@ def run(
 	wants = answer.get("wants") or []
 	return {
 		"action": asked.key,
-		"model": sold,
+		"model": answer.get("model"),
 		"done": not wants,
 		"turns": spoken + [{"role": "model", "text": answer.get("said") or "", "calls": wants}],
 		**answer,
 	}
 
 
-def embed(tenant: str, texts: list[str], model: str | None = None) -> dict:
-	"""Texts as vectors for one workspace's search, billed to it. The model is
-	the workspace's pick for the embed action, checked, or the default; every
-	vector a search compares came from one model, so the caller is told which."""
-	asked = _action("embed")
-	return gateway.embed(_model(asked, model), list(texts or []), tenant, reference="embed", action=asked.key)
-
-
-def _may_read(sold: str, turns: list[dict]) -> None:
-	"""Refuse a file this model cannot read, before anything is reserved.
-
-	Checked here rather than left to the provider, because a provider refusing
-	an attachment is a 400 after the hold is taken and a sentence nobody outside
-	this file could have written.
-	"""
-	carried = [one for turn in turns for one in (turn.get("files") or [])]
-	if not carried:
-		return
-
-	held = frappe.get_cached_doc("AI Model", sold).as_dict()
-	for one in carried:
-		if not capability.can_read(held, one.get("type") or ""):
-			raise Refused(
-				frappe._("{0} cannot read {1}.").format(
-					held.get("label") or held.get("model"), one.get("type") or one.get("name")
-				)
-			)
+def embed(tenant: str, texts: list[str]) -> dict:
+	"""Texts as vectors, for one workspace's search by meaning, billed to it.
+	Every vector a search compares came from one model, so the caller is told
+	which."""
+	return gateway.embed(list(texts or []), tenant, reference="embed", action="embed")
 
 
 def _conversation(turns: list[dict] | None, text: str | None) -> list[dict]:
@@ -113,17 +92,14 @@ def _conversation(turns: list[dict] | None, text: str | None) -> list[dict]:
 	return list(turns)
 
 
-def instruction(asked, extra: str | None) -> str:
-	"""The persona, then the action's own job, then theirs, and which wins.
+def instruction(asked) -> str:
+	"""The persona, then the action's own job.
 
 	The persona is what is true of every action — who it is, that it does not
 	invent, what it does with a tool — so it is written once on the account
-	rather than repeated in four fixtures that then disagree the first time one
-	of them is edited. The action says only what *it* is for.
+	rather than repeated in every fixture. The action says only what *it* is for.
 	"""
-	said = "\n\n".join(one for one in (_persona(), (asked.instruction or "").strip()) if one)
-	extra = (extra or "").strip()[:MOST_EXTRA]
-	return f"{said}\n\n{AND_THEN.format(extra)}" if extra else said
+	return "\n\n".join(one for one in (_persona(), (asked.instruction or "").strip()) if one)
 
 
 SHIPPED = (
@@ -160,60 +136,6 @@ def _persona() -> str:
 	return (frappe.get_cached_doc("One Admin Settings").persona or "").strip()
 
 
-def offered(needs: str) -> list[dict]:
-	"""Every model a workspace may pick for an action needing this.
-
-	Asked for by a settings screen on a tenant, which holds no catalogue of its
-	own — so this is the list, and picking something not on it is refused again
-	when the call is made.
-	"""
-	able = capability.covers(needs)
-	if not able:
-		return []
-	from onedesk.one_admin import makers
-
-	rows = frappe.get_all(
-		"AI Model",
-		filters={
-			"offered": 1,
-			"status": "Priced",
-			"capability": ["in", sorted(able)],
-			"provider": ["in", sorted(makers.PROVIDERS)],
-		},
-		fields=["name", "label", "provider", "model", "capability", "default_for", "input_per_million", "output_per_million"],
-		order_by="provider, label",
-	)
-	offered = []
-	usual = default_model(needs)
-	for row in rows:
-		made_by, domain = makers.maker(row.provider, row.model or "")
-		offered.append(
-			{
-				"name": row.name,
-				"label": makers.pretty(row.label or row.model or row.name),
-				"capability": row.capability,
-				"default": row.name == usual,
-				"maker": made_by,
-				"logo_domain": domain,
-				"company": makers.PROVIDERS[row.provider],
-				"read": _per_words(row.input_per_million),
-				"written": _per_words(row.output_per_million),
-			}
-		)
-	return offered
-
-
-TOKENS_A_THOUSAND_WORDS = 1333
-
-
-def _per_words(per_million) -> float | None:
-	"""Credits per thousand words, which a person can weigh, from credits per
-	million tokens, which they cannot."""
-	if not per_million:
-		return None
-	return round(float(per_million) * TOKENS_A_THOUSAND_WORDS / 1_000_000, 3)
-
-
 def _action(key: str):
 	asked = frappe.db.exists("AI Action", key)
 	if not asked:
@@ -222,77 +144,6 @@ def _action(key: str):
 	if not asked.enabled:
 		raise Refused(f"{asked.label} is switched off")
 	return asked
-
-
-def _model(asked, wanted: str | None) -> str:
-	"""The model this call runs on, and why it is allowed to.
-
-	A workspace naming one is checked twice — once when its settings screen drew
-	the list, and again here, because the first check happened on a machine we
-	do not control.
-	"""
-	if wanted:
-		says = frappe.db.get_value(
-			"AI Model", wanted, ["capability", "offered", "status"], as_dict=True
-		)
-		if says and says.offered and says.status == "Priced" and capability.able(says.capability, asked.capability):
-			return wanted
-
-	fallback = action_default(asked)
-	if not fallback:
-		raise Refused(
-			f"no offered model can do {asked.capability.lower()}, "
-			f"and this workspace has not picked one for {asked.label}"
-		)
-	return fallback
-
-
-PREFERRED = "google-ai-studio"
-
-
-def action_default(asked) -> str | None:
-	"""What an action runs on when the workspace picked nothing: the model the
-	action names for itself (Print Design, which a small model gets wrong),
-	while it is offered, else the default for what it needs."""
-	own = asked.get("default_model")
-	if own:
-		says = frappe.db.get_value("AI Model", own, ["capability", "offered", "status"], as_dict=True)
-		if says and says.offered and says.status == "Priced" and capability.able(says.capability, asked.capability):
-			return own
-	return default_model(asked.capability)
-
-
-def default_model(needs: str) -> str | None:
-	"""What an action needing `needs` runs on when the workspace picked
-	nothing, or picked a model that is no longer offered.
-
-	The model set as the default for it, if there is one; otherwise the best
-	offered model that can do it.
-	"""
-	from onedesk.one_admin import makers
-
-	able = capability.covers(needs)
-	if not able:
-		return None
-	sold = {"offered": 1, "status": "Priced", "provider": ["in", sorted(makers.PROVIDERS)]}
-	named = frappe.db.get_value("AI Model", {**sold, "default_for": needs}, "name")
-	if named:
-		return named
-	preferred = frappe.db.get_single_value("One Admin Settings", "prefer_models_from") or PREFERRED
-	rows = frappe.get_all(
-		"AI Model",
-		filters={**sold, "capability": ["in", sorted(able)]},
-		fields=["name", "provider", "default_for", "input_per_million", "output_per_million"],
-	)
-	rows.sort(
-		key=lambda one: (
-			one.provider != preferred,
-			not one.default_for,
-			flt(one.input_per_million) + flt(one.output_per_million),
-			one.name,
-		)
-	)
-	return rows[0].name if rows else None
 
 
 def _caps(asked) -> dict:

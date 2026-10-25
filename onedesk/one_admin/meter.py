@@ -1,4 +1,4 @@
-"""What a call actually consumed, read out of what the provider answered.
+"""What a call actually consumed, read out of what the model answered.
 
 Pure: the numbers the provider reported, turned into `pricing.Use`. Nothing is
 inferred, and a call that answered but could not be metered is not free.
@@ -17,14 +17,13 @@ SAID_AS = {
 TOKENS = "tokens"
 
 
-def read(provider: str, body: dict, asked: list[Use] | None = None) -> tuple[list[Use], str]:
+def read(model: str, body: dict, asked: list[Use] | None = None) -> tuple[list[Use], str]:
 	"""Everything this response says it consumed, and why if it says nothing.
 
-	`asked` is what we sent — a count of pictures, seconds of audio, diffusion
-	steps — and is used only for the parts a provider does not report. It is
-	never used to second-guess a number the provider did report.
+	`asked` is what we sent, and is used only for the parts a provider does
+	not report; never to second-guess a number it did report.
 	"""
-	found = _workers_ai(body) if provider == "workers-ai" else _gemini(body)
+	found = _gemini(body) if model.startswith("google/") else _workers_ai(body)
 	if found:
 		reported = {use.at for use in found}
 		found += [use for use in (asked or []) if use.at not in reported]
@@ -35,19 +34,29 @@ def read(provider: str, body: dict, asked: list[Use] | None = None) -> tuple[lis
 
 
 def _workers_ai(body: dict) -> list[Use]:
-	"""`usage`, which carries text tokens and nothing else.
-
-	Wrapped in `result` on the direct API and at the top level on the gateway's
-	OpenAI-compatible endpoint. Reading only one of them is a call that answers
-	fine and bills its hold because nothing could be metered.
+	"""What Workers AI reported, in whichever shape the model answers in:
+	OpenAI's `usage` (talking), `input_tokens` (Clef, Clairic), the cost
+	metric under `meta` (vectors), or the length of what was heard (Whisper).
+	At the top level or under `result`.
 	"""
 	said = (body or {}).get("result") or body or {}
 	usage = said.get("usage") or {}
 	found = []
-	for key, kind in (("prompt_tokens", "input"), ("completion_tokens", "output")):
-		count = usage.get(key)
-		if count:
-			found.append(Use(kind=kind, modality="text", unit=TOKENS, count=float(count)))
+	cached = float(((usage.get("prompt_tokens_details") or {}).get("cached_tokens")) or 0)
+	for key, kind in (("prompt_tokens", "input"), ("input_tokens", "input"), ("completion_tokens", "output"), ("output_tokens", "output")):
+		count = float(usage.get(key) or 0)
+		if kind == "input" and cached:
+			count -= cached
+		if count > 0 and not any(use.kind == kind for use in found):
+			found.append(Use(kind=kind, modality="text", unit=TOKENS, count=count))
+	if cached:
+		found.append(Use(kind="cached", modality="text", unit=TOKENS, count=cached))
+	meta = said.get("meta") or {}
+	if not found and meta.get("cost_metric_name_1") == "input_tokens" and meta.get("cost_metric_value_1"):
+		found.append(Use(kind="input", modality="text", unit=TOKENS, count=float(meta["cost_metric_value_1"])))
+	heard = (said.get("transcription_info") or {}).get("duration")
+	if not found and heard:
+		found.append(Use(kind="input", modality="audio", unit="minutes", count=round(float(heard) / 60, 4)))
 	return found
 
 

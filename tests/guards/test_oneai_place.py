@@ -44,7 +44,7 @@ def test_what_a_workspace_administers_is_in_one():
 
 
 def test_what_the_operator_does_is_in_one_admin():
-	assert {"AI Model", "AI Usage"} <= _links(ADMIN)
+	assert "AI Usage" in _links(ADMIN) and "AI Model" not in _links(ADMIN)
 
 
 def test_a_workspaces_credits_are_its_administrators_and_its_own():

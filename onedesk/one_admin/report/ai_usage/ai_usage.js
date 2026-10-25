@@ -24,12 +24,11 @@ frappe.query_reports["AI Usage"] = {
 			label: __("Workspace"),
 			fieldtype: "Link",
 			options: "Tenant",
-		},
+		}
 		{
 			fieldname: "model",
 			label: __("Model"),
-			fieldtype: "Link",
-			options: "AI Model",
+			fieldtype: "Data",
 		},
 	],
 	formatter(value, row, column, data, default_formatter) {

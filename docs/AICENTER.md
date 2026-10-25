@@ -524,13 +524,21 @@ Made the day each stage is built, while One is before production:
 Each ends with the gates (`pytest`, the demo checks it touches, a look at
 the screen), a commit, and the docs it changes.
 
-1. **The door.** Cloudflare's REST endpoints, the headers, `byok_only`, the
-   Google key under `default`, routes in the repository and the push,
-   `models.py`, `models.json`, `scripts/models.py`, the models guard.
-   OneAdmin shrinks to the door; the catalogue, prices, capability and
-   their screens, patches and tests go; the ledger stops linking models.
-   Every action runs on the new path with today's words, so nothing else
-   moves yet.
+1. **The door.** **Built on 2026-10-25.** Workers AI on Cloudflare's REST
+   endpoints with the gateway named, Gemini on the gateway's Google route in
+   Google's own shape (it reads documents and sound there, and uses the key
+   the gateway stores); no payload in the gateway's logs; the workspace, job
+   and tier as tags. `models.py` picks by kind and tier, skipping a model
+   that cannot read what was sent, and falls back to the second model in
+   code. Prices come from `models.json` and `GOOGLE`. Tried live: Gemma 4,
+   GLM 5.3 Flash, Gemini 3.8 Flash and 3.5 Flash Lite each answered an
+   Arabic question through a tool; Whisper and bge-m3 answered and were
+   metered. OneAdmin lost the catalogue (AI Model, AI Model Rate, the sync,
+   the price scraper, capability, the model screens, buttons, notice, home
+   row, OneAI tool and five patches); Credit Ledger Entry keeps the model as
+   text. The door takes a tier, never a model or words. Left for later in
+   this stage: `byok_only` and Gemini on the chat endpoint (Google's key
+   stored under `default`), and routes with `--push`.
 2. **Jobs and the voice.** `jobs.py` and `voice.py` replace the AI Action
    fixture and the persona; AI Action, AI Action Setting, instructions,
    extra and the model pill go. The evaluation bench (`evals.py`) runs

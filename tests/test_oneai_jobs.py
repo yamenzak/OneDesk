@@ -51,11 +51,11 @@ def test_a_job_model_reaches_only_the_actions_that_can_run_on_it():
 	assert body.count("_told_job(") == 1, "the other administrators hear once, not once per action"
 
 
-def test_the_account_offers_a_search_model_when_none_is():
-	catalogue = (tree.APP / "one_admin" / "catalogue.py").read_text(encoding="utf-8")
-	nightly = catalogue[catalogue.index("def nightly(") :]
-	assert "searchable()" in nightly[: nightly.index("\ndef ")]
-	body = catalogue[catalogue.index("def searchable(") :]
-	body = body[: body.index("\ndef ")] if "\ndef " in body else body
-	assert '"offered": 1' in body and "min(" in body and "input_per_million" in body
-	assert '"default_for": "Embedding"' in body
+def test_search_always_has_a_model():
+	"""Search by meaning runs on the embed kind in one_ai/models.py, which every
+	tier names, so there is never a workspace with nothing to search with."""
+	sys.path.insert(0, str(tree.ROOT))
+	from onedesk.one_ai import models
+
+	assert all(models.USE["embed"][tier][0] for tier in models.TIERS)
+

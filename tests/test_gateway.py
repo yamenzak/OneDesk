@@ -20,7 +20,7 @@ import tree
 
 GATEWAY = tree.APP / "one_admin" / "gateway.py"
 
-A_PROVIDER_KEY = ("Authorization", "x-goog-api-key", "api_key", "?key=")
+A_PROVIDER_KEY = ("x-goog-api-key", "api_key", "?key=")
 
 
 def source() -> str:
@@ -57,6 +57,21 @@ def test_the_gateway_is_authorised_by_its_own_header():
 	assert "cf-aig-authorization" in code()
 
 
+def test_authorization_carries_only_our_cloudflare_token():
+	"""Cloudflare's REST endpoints take our own token as `Authorization`, with
+	the gateway named beside it; nothing else ever goes in that header, and
+	it never goes to a provider's address."""
+	said = code()
+	assert said.count("'Authorization'") == 1
+	assert "headers['Authorization'] = f\"Bearer {settings['token']}\"" in said
+	assert "headers[GATEWAY] = settings['gateway']" in said
+
+
+def test_cloudflare_keeps_no_content():
+	assert 'UNSEEN = {"cf-aig-collect-log-payload": "false"}' in source()
+	assert "**UNSEEN" in code()
+
+
 def test_the_settings_hold_no_provider_key():
 	"""Not a field for one, either — a place to put a key is a key somebody puts."""
 	import json
@@ -86,25 +101,27 @@ def test_an_unconfigured_gateway_refuses_rather_than_falling_back():
 	assert "missing" in ast.unparse(settings)
 
 
-def test_only_one_model_is_named_and_it_is_the_first_one():
-	"""Models are named in one_ai/models.py (docs/AICENTER.md, Models). Until
-	the gateway moves onto it, FIRST is the one other name."""
+def test_only_models_py_names_a_model():
+	"""Models are named in one_ai/models.py (docs/AICENTER.md, Models), and
+	nowhere else: the gateway knows a Workers AI id from a Google one by its
+	prefix, and nothing more."""
+	import re
+
 	named = [
 		node.value
 		for node in ast.walk(ast.parse(source()))
 		if isinstance(node, ast.Constant)
 		and isinstance(node.value, str)
-		and node.value.startswith("@cf/")
+		and re.match(r"(@cf|google)/\w", node.value)
 	]
-	assert len(named) == 1, f"{named} — one model is named in this app, in FIRST"
+	assert not named, f"gateway.py names {named}; models.py does"
 
 	elsewhere = [
 		path.relative_to(tree.ROOT)
 		for path in tree.sources()
-		if path not in (GATEWAY, tree.ROOT / "onedesk" / "one_ai" / "models.py") and "@cf/" in path.read_text(encoding="utf-8")
+		if path not in (GATEWAY, tree.APP / "one_ai" / "models.py") and re.search(r"@cf/\w", path.read_text(encoding="utf-8"))
 	]
-	assert not elsewhere, f"{elsewhere} name a model. Only one_ai/models.py and gateway.FIRST may."
-
+	assert not elsewhere, f"{elsewhere} name a model. Only one_ai/models.py may."
 
 def test_a_two_hundred_with_nothing_in_it_is_not_an_empty_answer():
 	"""Measured against the shape rather than a provider: treating an

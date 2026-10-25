@@ -21,7 +21,9 @@ FILES = tree.APP / "one_ai" / "files.py"
 CHAT = tree.APP / "one_ai" / "chat.py"
 ACTIONS = tree.APP / "one_admin" / "actions.py"
 GATEWAY = tree.APP / "one_admin" / "gateway.py"
-CAPABILITY = tree.APP / "one_admin" / "capability.py"
+sys.path.insert(0, str(tree.ROOT))
+
+from onedesk.one_ai import models  # noqa: E402
 
 
 def spoken(where: Path, name: str) -> str:
@@ -31,41 +33,36 @@ def spoken(where: Path, name: str) -> str:
 	raise AssertionError(f"{name} is not in {where.name}")
 
 
-def can_read():
-	"""`capability.can_read` without frappe — it touches nothing but its tables."""
-	body = ast.parse(CAPABILITY.read_text(encoding="utf-8"))
-	wanted = [
-		node
-		for node in body.body
-		if (isinstance(node, ast.FunctionDef) and node.name == "can_read")
-		or (isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") in ("READS", "PDF_FROM"))
-	]
-	room: dict = {}
-	exec(compile(ast.Module(body=wanted, type_ignores=[]), str(CAPABILITY), "exec"), room)
-	return room["can_read"]
-
-
 @pytest.mark.parametrize(
 	"model,mime,allowed",
 	[
-		({"provider": "workers-ai", "reads_image": 1}, "image/png", True),
-		({"provider": "workers-ai", "reads_image": 0}, "image/png", False),
-		({"provider": "google-ai-studio", "reads_image": 1}, "application/pdf", True),
-		({"provider": "workers-ai", "reads_image": 1}, "application/pdf", False),
-		({"provider": "google-ai-studio", "reads_audio": 1}, "audio/mpeg", True),
-		({"provider": "google-ai-studio", "reads_image": 1}, "text/csv", False),
+		("@cf/google/gemma-4-26b-a4b-it", "image/png", True),
+		("@cf/zai-org/glm-5.3", "image/png", False),
+		("google/gemini-3.5-flash-lite", "application/pdf", True),
+		("@cf/google/gemma-4-26b-a4b-it", "application/pdf", False),
+		("google/gemini-3.5-flash-lite", "audio/mpeg", True),
+		("@cf/openai/whisper-large-v3-turbo", "audio/mpeg", True),
+		("@cf/openai/whisper-large-v3-turbo", "image/png", False),
 	],
 )
 def test_a_model_is_only_handed_what_it_reads(model, mime, allowed):
-	assert can_read()(model, mime) is allowed
+	assert models.reads(model, mime) is allowed
+
+
+def test_a_file_goes_to_a_model_that_reads_it():
+	"""A PDF to look at skips the first choice that only sees pictures and
+	goes to the one that reads documents; nothing reads a type nobody can."""
+	assert models.pick("see", "balanced", ("application/pdf",)) == ["google/gemini-3.5-flash-lite"]
+	assert models.pick("see", "balanced", ("image/png",))[0] == "@cf/google/gemma-4-26b-a4b-it"
+	assert not models.pick("embed", "balanced", ("application/pdf",))
 
 
 def test_the_refusal_happens_before_anything_is_reserved():
 	"""A provider refusing an attachment is a 400 after the hold is taken and a
 	sentence nobody outside this file could have written."""
-	said = spoken(ACTIONS, "run")
-	assert said.index("_may_read") < said.index("gateway.call")
-	assert "capability.can_read" in spoken(ACTIONS, "_may_read")
+	said = spoken(GATEWAY, "call")
+	assert said.index("models.pick(kind, tier, types)") < said.index("ledger.reserve")
+	assert "No model here reads" in said
 
 
 def test_the_bytes_are_read_as_the_person_asking():

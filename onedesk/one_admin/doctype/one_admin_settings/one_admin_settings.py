@@ -54,10 +54,6 @@ class OneAdminSettings(Document):
 
 	def on_update(self) -> None:
 		self._tell()
-		if self.has_value_changed("default_markup") or self.has_value_changed("credits_per_dollar"):
-			from onedesk.one_admin.doctype.ai_model.ai_model import reprice
-
-			reprice(self)
 
 	def _tell(self) -> None:
 		"""The other operators hear what changed and who changed it: a price,

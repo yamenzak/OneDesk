@@ -1,21 +1,24 @@
-"""Every model call, through one door that holds no provider key.
-
-Calls go to Cloudflare AI Gateway, which stores the provider keys. Nothing on a
-tenant site reaches this module. `ask` is the un-metered call; `call` the
-billed one, hold, call, settle.
+"""Every model call, through our Cloudflare gateway, holding no provider key
+(docs/AICENTER.md, Cloudflare). Workers AI is reached on Cloudflare's REST
+endpoints with the gateway named; Gemini on the gateway's Google route, in
+Google's own shape, where it reads documents and sound. Which model answers
+is `one_ai/models.py`'s, by kind of work and tier; `call`, `run` and `embed`
+hold, call, and settle what it cost.
 """
 
 import json
 import re
+from datetime import date
 
 import frappe
 import requests
 
 from onedesk.one_admin import faults, ledger, meter, pricing, site
 from onedesk.one_admin.faults import Again, Refused
+from onedesk.one_ai import models
 
+API = "https://api.cloudflare.com/client/v4/accounts/{account}/ai"
 URL = "https://gateway.ai.cloudflare.com/v1"
-
 
 TIMEOUT = 60
 
@@ -23,123 +26,111 @@ THOUGHT = 110
 
 HEADER = "cf-aig-authorization"
 
+GATEWAY = "cf-aig-gateway-id"
+
 TAG = "cf-aig-metadata"
 
 FRESH = "cf-aig-skip-cache"
 
-PROVIDERS = {
-	"workers-ai": {
-		"path": lambda model: "v1/chat/completions",
-		"talk": lambda model, system, turns, tools, most: {
-			"model": model,
-			"messages": (
-				([{"role": "system", "content": system}] if system else [])
-				+ [_openai_turn(one) for one in turns]
-			),
-			"max_tokens": most,
-			**({} if most >= THINKS else {"chat_template_kwargs": {"enable_thinking": False}}),
-			**({"tools": [{"type": "function", "function": one} for one in tools]} if tools else {}),
-		},
-		"said": lambda body: _workers_ai_said(body),
-		"calls": lambda body: _openai_calls(body),
-	},
-	"google-ai-studio": {
-		"path": lambda model: f"v1beta/models/{model}:generateContent",
-		"talk": lambda model, system, turns, tools, most: {
-			"contents": [_gemini_turn(one) for one in turns],
-			"generationConfig": {"maxOutputTokens": most},
-			**({"systemInstruction": {"parts": [{"text": system}]}} if system else {}),
-			**({"tools": [{"functionDeclarations": tools}]} if tools else {}),
-		},
-		"said": lambda body: _first_part(body),
-		"calls": lambda body: _gemini_calls(body),
-	},
-}
+# Cloudflare keeps the counts and the cost of a call, never what was in it.
+UNSEEN = {"cf-aig-collect-log-payload": "false"}
 
 THINKS = 2000
-
-# Text to vectors, per provider: where, what is sent, where the vectors are.
-# Several texts go in one call; Workers AI speaks the OpenAI shape and says
-# what it used, Google's batch call says nothing and is billed its hold.
-EMBEDS = {
-	"workers-ai": {
-		"path": lambda model: "v1/embeddings",
-		"body": lambda model, texts: {"model": model, "input": texts},
-		"vectors": lambda body: [
-			one.get("embedding") or []
-			for one in sorted((body or {}).get("data") or [], key=lambda one: one.get("index", 0))
-		],
-	},
-	"google-ai-studio": {
-		"path": lambda model: f"v1beta/models/{model}:batchEmbedContents",
-		"body": lambda model, texts: {
-			"requests": [{"model": f"models/{model}", "content": {"parts": [{"text": one}]}} for one in texts]
-		},
-		"vectors": lambda body: [one.get("values") or [] for one in (body or {}).get("embeddings") or []],
-	},
-}
 
 MOST_TEXTS = 64
 
 ROUNDS = 8
 
-FIRST = ("workers-ai", "@cf/meta/llama-3.1-8b-instruct")
-
 MOST = 512
 
 
-def ask(prompt: str, most: int = MOST, tenant: str | None = None) -> str:
-	"""One text generation, un-metered, and the words it answered."""
-	provider, model = FIRST
-	return through(provider, model, [said(prompt)], most=most, tenant=tenant)
+def said(text: str, role: str = "user", files: list[dict] | None = None) -> dict:
+	"""One turn, in our shape. The only place a turn is built by hand."""
+	return {"role": role, "text": text or "", "calls": [], "files": files or []}
 
 
-def through(
-	provider: str,
-	model: str,
-	turns: list[dict],
-	most: int = MOST,
-	tenant: str | None = None,
-	whole: bool = False,
-	system: str | None = None,
-	tools: list[dict] | None = None,
-	fresh: bool = False,
-):
-	"""One call. `whole` also hands back the body, which is what carries usage.
-	`fresh` asks past the gateway's cache, for a call made again because the
-	first answer was no answer. `turns` is the whole conversation in our shape;
-	`system` and `tools` go where each provider puts them, never into the words.
-	"""
-	site.require_admin()
-	spoken = PROVIDERS.get(provider)
-	if not spoken:
-		raise Refused(f"{provider} is not a provider this gateway speaks to")
-
-	settings = _settings()
-	where = f"{settings['url'].rstrip('/')}/{settings['account']}/{settings['gateway']}/{provider}/{spoken['path'](model)}"
-	headers = {HEADER: f"Bearer {settings['token']}", "Content-Type": "application/json"}
-	if tenant:
-		headers[TAG] = json.dumps({"tenant": tenant})
+def _headers(settings: dict, google: bool, tenant: str | None, tags: dict, fresh: bool = False) -> dict:
+	"""Who we are to the gateway, what to keep, and the workspace's tags."""
+	headers = {"Content-Type": "application/json", **UNSEEN}
+	if google:
+		headers[HEADER] = f"Bearer {settings['token']}"
+	else:
+		headers["Authorization"] = f"Bearer {settings['token']}"
+		headers[GATEWAY] = settings["gateway"]
+	said_tags = {key: value for key, value in {"tenant": tenant, **tags}.items() if value}
+	if said_tags:
+		headers[TAG] = json.dumps(said_tags)
 	if fresh:
 		headers[FRESH] = "true"
+	return headers
 
+
+def _post(model: str, where: str, headers: dict, body: dict, timeout: int = TIMEOUT):
 	try:
-		answer = requests.post(
-			where,
-			headers=headers,
-			data=json.dumps(spoken["talk"](model, system, turns, tools, most)),
-			timeout=THOUGHT if most >= THINKS else TIMEOUT,
-		)
+		answer = requests.post(where, headers=headers, data=json.dumps(body), timeout=timeout)
 	except requests.Timeout as raised:
 		raise Again(f"{model} timed out") from raised
 	except requests.RequestException as raised:
 		raise Again(f"{model} could not be reached: {raised}") from raised
+	return answer
 
-	return _answered(model, spoken, answer, whole)
+
+def talk(
+	model: str,
+	turns: list[dict],
+	most: int = MOST,
+	tenant: str | None = None,
+	system: str | None = None,
+	tools: list[dict] | None = None,
+	fresh: bool = False,
+	tags: dict | None = None,
+) -> tuple[str, list[dict], dict]:
+	"""One model, one round: the words, what it asked for, and the whole body,
+	which carries the usage. Not billed; `call` is."""
+	site.require_admin()
+	settings = _settings()
+	google = model.startswith("google/")
+	headers = _headers(settings, google, tenant, tags or {}, fresh)
+	timeout = THOUGHT if most >= THINKS else TIMEOUT
+	if google:
+		name = model.removeprefix("google/")
+		where = f"{settings['url'].rstrip('/')}/{settings['account']}/{settings['gateway']}/google-ai-studio/v1beta/models/{name}:generateContent"
+		body = {
+			"contents": [_gemini_turn(one) for one in turns],
+			"generationConfig": {"maxOutputTokens": most},
+			**({"systemInstruction": {"parts": [{"text": system}]}} if system else {}),
+			**({"tools": [{"functionDeclarations": tools}]} if tools else {}),
+		}
+		answer = _post(model, where, headers, body, timeout)
+		return _answered(model, answer, _first_part, _gemini_calls)
+	body = {
+		"model": model,
+		"messages": ([{"role": "system", "content": system}] if system else []) + [_openai_turn(one) for one in turns],
+		"max_tokens": most,
+		**({} if most >= THINKS else {"chat_template_kwargs": {"enable_thinking": False}}),
+		**({"tools": [{"type": "function", "function": one} for one in tools]} if tools else {}),
+	}
+	answer = _post(model, f"{API.format(**settings)}/v1/chat/completions", headers, body, timeout)
+	return _answered(model, answer, _workers_ai_said, _openai_calls)
+
+
+def _run(model: str, body: dict, tenant: str | None, tags: dict | None = None) -> dict:
+	"""One Workers AI model in its own shape (`/ai/run`): reading, hearing,
+	vectors. The whole body."""
+	site.require_admin()
+	settings = _settings()
+	answer = _post(model, f"{API.format(**settings)}/run/{model}", _headers(settings, False, tenant, tags or {}), body)
+	if answer.status_code != 200:
+		raise faults.raised(model, answer.status_code, _detail(answer))
+	try:
+		return answer.json()
+	except ValueError as raised:
+		raise Refused(f"{model} answered 200 with something that is not JSON", answer.status_code, answer.text[: faults.KEPT]) from raised
 
 
 def call(
-	model: str,
+	kind: str,
+	tier: str | None,
 	prompt: str | None,
 	tenant: str,
 	caps: dict | None = None,
@@ -149,151 +140,125 @@ def call(
 	tools: list[dict] | None = None,
 	action: str | None = None,
 ) -> dict:
-	"""One model call, billed: hold a ceiling, make it, settle the actual.
-
-	Hold first, priced from the caps the caller declared; settle on what the
-	provider reported, never on an estimate.
-	"""
+	"""One round of a kind of work, billed: hold a ceiling, ask the first
+	model and then its fallback, settle what the one that answered cost."""
 	site.require_admin()
-	sold = _offered(model)
-	rates = _rates(sold)
-	money = _money()
-	markup = sold.markup or money["markup"]
-	per_dollar = money["per_dollar"]
-
-	try:
-		most = pricing.ceiling(rates, caps or {}, markup, per_dollar)
-	except pricing.Unpriceable as raised:
-		raise Refused(f"{model} cannot be priced: {raised}") from raised
-
 	spoken = turns or [said(prompt or "")]
-	holding = ledger.reserve(tenant, max(most.credits, _LEAST), why=model, reference=reference, action=action)
+	types = tuple(sorted({one.get("type") or "" for turn in spoken for one in (turn.get("files") or []) if one.get("data")}))
+	asked = models.pick(kind, tier, types)
+	if not asked:
+		raise Refused(frappe._("No model here reads {0}.").format(", ".join(types)))
+	money = _money()
+	tags = {"job": action or kind, "tier": tier or models.USUAL}
+	most = _ceiling(asked, caps or {}, money)
+	holding = ledger.reserve(tenant, max(most, _LEAST), why=asked[0], reference=reference, action=action)
 	try:
-		answer, wants, body = _said(sold, spoken, caps or {}, tenant, system, tools)
+		answered, (words, wants, body) = _first_that_answers(
+			asked, lambda model: _said(model, spoken, caps or {}, tenant, system, tools, tags)
+		)
 	except Exception:
 		ledger.release(holding)
 		raise
+	return _settled(holding, answered, body, caps or {}, money, most, {"said": words, "wants": wants, "model": answered})
 
-	used, unmetered = meter.read(sold.provider, body, pricing.asked(caps or {}))
-	spent = pricing.bill(rates, used, markup, per_dollar)
+
+def run(kind: str, tier: str | None, body: dict, tenant: str, caps: dict | None = None, reference: str | None = None, action: str | None = None) -> dict:
+	"""One round of a Workers AI model in its own shape (Clef, Clairic,
+	Whisper), billed like `call`."""
+	site.require_admin()
+	asked = [one for one in models.pick(kind, tier) if one.startswith("@cf/")]
+	if not asked:
+		raise Refused(f"no Workers AI model does {kind}")
+	money = _money()
+	most = _ceiling(asked, caps or {}, money)
+	holding = ledger.reserve(tenant, max(most, _LEAST), why=asked[0], reference=reference, action=action)
+	tags = {"job": action or kind, "tier": tier or models.USUAL}
+	try:
+		answered, said_body = _first_that_answers(asked, lambda model: _run(model, body, tenant, tags))
+	except Exception:
+		ledger.release(holding)
+		raise
+	return _settled(holding, answered, said_body, caps or {}, money, most, {"result": said_body.get("result"), "model": answered})
+
+
+def embed(texts: list[str], tenant: str, reference: str | None = None, action: str | None = None) -> dict:
+	"""Texts as vectors, billed: hold as if every character were a token,
+	settle what the model reported. Every vector one search compares came
+	from one model, so the caller is told which."""
+	site.require_admin()
+	texts = [str(one or " ") for one in texts][:MOST_TEXTS]
+	asked = models.pick("embed")[:1]
+	money = _money()
+	caps = {"input_tokens": sum(len(one) for one in texts)}
+	most = _ceiling(asked, caps, money)
+	holding = ledger.reserve(tenant, max(most, _LEAST), why=asked[0], reference=reference, action=action)
+	try:
+		body = _run(asked[0], {"text": texts}, tenant, {"job": action or "embed"})
+		vectors = ((body or {}).get("result") or {}).get("data") or []
+		if len(vectors) != len(texts) or not all(vectors):
+			raise Refused(f"{asked[0]} answered {len(vectors)} vectors for {len(texts)} texts", 200, json.dumps(body)[: faults.KEPT])
+	except Exception:
+		ledger.release(holding)
+		raise
+	settled = _settled(holding, asked[0], body, caps, money, most, {})
+	return {"vectors": vectors, "model": asked[0], "credits": settled["credits"], "metered": settled["metered"]}
+
+
+def _first_that_answers(asked: list[str], ask):
+	"""The first model's answer, or its fallback's when the first cannot
+	answer now or no longer exists. A refusal of what was asked is not tried
+	again on another model: it would be refused there too."""
+	for at, model in enumerate(asked):
+		try:
+			return model, ask(model)
+		except Refused as raised:
+			gone = raised.status in (402, 404, 410)
+			if at == len(asked) - 1 or not (isinstance(raised, Again) or gone):
+				raise
+	raise Refused("no model answered")
+
+
+def _ceiling(asked: list[str], caps: dict, money: dict) -> float:
+	"""The most a round could cost on the dearest model it may land on."""
+	most = 0.0
+	for model in asked:
+		try:
+			most = max(most, pricing.ceiling(models.rates(model), caps, money["markup"], money["per_dollar"]).credits)
+		except pricing.Unpriceable as raised:
+			raise Refused(f"{model} cannot be priced: {raised}") from raised
+	return most
+
+
+def _settled(holding: str, model: str, body: dict, caps: dict, money: dict, most: float, out: dict) -> dict:
+	"""Charge what the model that answered reported, at its own price; the
+	hold where it reported nothing that could be priced."""
+	used, unmetered = meter.read(model, body, pricing.asked(caps))
+	spent = pricing.bill(models.rates(model, on=date.today().isoformat()), used, money["markup"], money["per_dollar"])
 	if unmetered or not spent.whole or not used:
-		charged = max(most.credits, _LEAST)
-		note = unmetered or _unpriced(spent)
-		ledger.commit(holding, charged, spent.usd)
-		return {
-			"said": answer,
-			"wants": wants,
-			"credits": charged,
-			"usd": spent.usd,
-			"metered": False,
-			"why": note,
-		}
-
-	ledger.commit(holding, spent.credits, spent.usd)
+		charged = max(most, _LEAST)
+		ledger.commit(holding, charged, spent.usd, model=model)
+		return {**out, "credits": charged, "usd": spent.usd, "metered": False, "why": unmetered or _unpriced(spent)}
+	ledger.commit(holding, spent.credits, spent.usd, model=model)
 	return {
-		"said": answer,
-		"wants": wants,
+		**out,
 		"credits": spent.credits,
 		"usd": spent.usd,
 		"metered": True,
-		"used": [
-			{"kind": u.kind, "modality": u.modality, "unit": u.unit, "count": u.count, "asked": u.asked}
-			for u in used
-		],
+		"used": [{"kind": u.kind, "modality": u.modality, "unit": u.unit, "count": u.count, "asked": u.asked} for u in used],
 	}
-
-
-def embed(model: str, texts: list[str], tenant: str, reference: str | None = None, action: str | None = None) -> dict:
-	"""Texts as vectors, billed like any call: hold a ceiling priced as if
-	every character were a token, make it, settle what the provider reported."""
-	site.require_admin()
-	sold = _offered(model)
-	spoken = EMBEDS.get(sold.provider)
-	if not spoken:
-		raise Refused(f"{model} is not a model this gateway embeds with")
-	texts = [str(one or " ") for one in texts][:MOST_TEXTS]
-	rates, money = _rates(sold), _money()
-	markup, per_dollar = sold.markup or money["markup"], money["per_dollar"]
-	caps = {"input_tokens": sum(len(one) for one in texts)}
-	try:
-		most = pricing.ceiling(rates, caps, markup, per_dollar)
-	except pricing.Unpriceable as raised:
-		raise Refused(f"{model} cannot be priced: {raised}") from raised
-
-	holding = ledger.reserve(tenant, max(most.credits, _LEAST), why=model, reference=reference, action=action)
-	try:
-		body = _post(sold.provider, spoken["path"](sold.model), spoken["body"](sold.model, texts), tenant, model)
-		vectors = spoken["vectors"](body)
-		if len(vectors) != len(texts) or not all(vectors):
-			raise Refused(f"{model} answered {len(vectors)} vectors for {len(texts)} texts", 200, json.dumps(body)[: faults.KEPT])
-	except Exception:
-		ledger.release(holding)
-		raise
-
-	used, unmetered = meter.read(sold.provider, body)
-	spent = pricing.bill(rates, used, markup, per_dollar)
-	if unmetered or not spent.whole or not used:
-		charged = max(most.credits, _LEAST)
-		ledger.commit(holding, charged, spent.usd)
-		return {"vectors": vectors, "model": model, "credits": charged, "metered": False}
-	ledger.commit(holding, spent.credits, spent.usd)
-	return {"vectors": vectors, "model": model, "credits": spent.credits, "metered": True}
-
-
-def _post(provider: str, path: str, body: dict, tenant: str, model: str) -> dict:
-	settings = _settings()
-	where = f"{settings['url'].rstrip('/')}/{settings['account']}/{settings['gateway']}/{provider}/{path}"
-	headers = {HEADER: f"Bearer {settings['token']}", "Content-Type": "application/json", TAG: json.dumps({"tenant": tenant})}
-	try:
-		answer = requests.post(where, headers=headers, data=json.dumps(body), timeout=TIMEOUT)
-	except requests.Timeout as raised:
-		raise Again(f"{model} timed out") from raised
-	except requests.RequestException as raised:
-		raise Again(f"{model} could not be reached: {raised}") from raised
-	if answer.status_code != 200:
-		raise faults.raised(model, answer.status_code, _detail(answer))
-	try:
-		return answer.json()
-	except ValueError as raised:
-		raise Refused(f"{model} answered 200 with something that is not JSON", answer.status_code, answer.text[: faults.KEPT]) from raised
 
 
 _LEAST = 0.000001
 
 
-def _offered(model: str):
-	sold = frappe.get_cached_doc("AI Model", model)
-	if not sold.offered or sold.status != "Priced":
-		raise Refused(f"{model} is not offered")
-	return sold
-
-
-def _rates(sold) -> list:
-	from onedesk.one_admin.prices import Rate
-
-	return [
-		Rate(
-			kind=row.kind,
-			modality=row.modality,
-			unit=row.unit,
-			per=row.per or 1,
-			usd=row.usd or 0,
-		)
-		for row in sold.rates or []
-	]
-
-
 def _money() -> dict:
 	stored = frappe.get_cached_doc("One Admin Settings")
-	return {
-		"markup": stored.default_markup or 0,
-		"per_dollar": stored.credits_per_dollar or 0,
-	}
+	return {"markup": stored.default_markup or 0, "per_dollar": stored.credits_per_dollar or 0}
 
 
 def _unpriced(spent: pricing.Bill) -> str:
 	said = ", ".join(f"{u.count} {u.unit} of {u.kind} {u.modality}" for u in spent.unpriced)
-	return f"nothing in the catalogue prices {said}" if said else ""
+	return f"one_ai/models.py prices none of {said}" if said else ""
 
 
 SAY_IT = "Answer the question above now, in its language. Call a tool if you need one."
@@ -306,20 +271,15 @@ ONE_LINE = (
 
 
 def _said(
-	sold, turns: list[dict], caps: dict, tenant: str, system: str | None, tools: list[dict] | None
+	model: str, turns: list[dict], caps: dict, tenant: str, system: str | None, tools: list[dict] | None, tags: dict
 ) -> tuple[str, list[dict], dict]:
-	"""The words, what it asked for, and the whole body — which carries the usage."""
+	"""The words, what it asked for, and the whole body, asked once more
+	when the model wrote a call it could not read or said nothing."""
+	if (models.listed().get(model) or {}).get("kind") == "hear":
+		return _heard(model, turns, tenant, tags)
 	most = int(caps.get("output_tokens") or MOST)
-	asking = lambda said=(), fresh=False: through(  # noqa: E731
-		sold.provider,
-		sold.model,
-		[*turns, *said],
-		most=most,
-		tenant=tenant,
-		whole=True,
-		system=system,
-		tools=tools,
-		fresh=fresh,
+	asking = lambda more=(), fresh=False: talk(  # noqa: E731
+		model, [*turns, *more], most=most, tenant=tenant, system=system, tools=tools, fresh=fresh, tags=tags
 	)
 	try:
 		return asking()
@@ -331,37 +291,23 @@ def _said(
 		return asking(({"role": "user", "text": SAY_IT, "calls": []},), fresh=True)
 
 
-def get(provider: str, path: str, timeout: int = TIMEOUT) -> dict:
-	"""A plain GET at a provider, through the gateway.
-
-	Which is how the catalogue lists Google's models without a Google key on
-	this site: the gateway forwards anything under a provider's prefix and
-	attaches the stored key on the way. Cloudflare's own models are listed from
-	Cloudflare's API instead, because the token for that is one we already hold
-	and it is not a provider secret.
-	"""
-	site.require_admin()
-	if provider not in PROVIDERS:
-		raise Refused(f"{provider} is not a provider this gateway speaks to")
-
-	settings = _settings()
-	where = f"{settings['url'].rstrip('/')}/{settings['account']}/{settings['gateway']}/{provider}/{path.lstrip('/')}"
-	try:
-		answer = requests.get(where, headers={HEADER: f"Bearer {settings['token']}"}, timeout=timeout)
-	except requests.Timeout as raised:
-		raise Again(f"{provider} timed out listing {path}") from raised
-	except requests.RequestException as raised:
-		raise Again(f"{provider} could not be reached: {raised}") from raised
-
-	if answer.status_code != 200:
-		raise faults.raised(f"{provider}/{path}", answer.status_code, _detail(answer))
-	try:
-		return answer.json()
-	except ValueError as raised:
-		raise Refused(f"{provider}/{path} answered 200 with something that is not JSON") from raised
+def _heard(model: str, turns: list[dict], tenant: str, tags: dict) -> tuple[str, list[dict], dict]:
+	"""A recording to text on Whisper, which takes the sound and no
+	instruction: each stretch on its own line, after the time it starts."""
+	sound = next((one for turn in turns for one in (turn.get("files") or []) if (one.get("type") or "").startswith("audio/")), None)
+	if not sound:
+		raise Refused(f"{model} was sent nothing to hear")
+	body = _run(model, {"audio": sound["data"]}, tenant, tags)
+	result = (body or {}).get("result") or {}
+	lines = [
+		f"[{int(one.get('start') or 0) // 60:02d}:{int(one.get('start') or 0) % 60:02d}] {(one.get('text') or '').strip()}"
+		for one in result.get("segments") or []
+		if (one.get("text") or "").strip()
+	]
+	return "\n".join(lines) or (result.get("text") or "").strip(), [], body
 
 
-def _answered(model: str, spoken: dict, answer, whole: bool = False):
+def _answered(model: str, answer, words_of, calls_of):
 	if answer.status_code != 200:
 		raise faults.raised(model, answer.status_code, _detail(answer))
 	try:
@@ -373,8 +319,8 @@ def _answered(model: str, spoken: dict, answer, whole: bool = False):
 			answer.text[: faults.KEPT],
 		) from raised
 
-	words = spoken["said"](body)
-	wants = spoken["calls"](body)
+	words = words_of(body)
+	wants = calls_of(body)
 	if not wants and words and LEAKED in words:
 		wants, words = _leaked(words)
 	if words is None and not wants and _blank(body):
@@ -382,12 +328,10 @@ def _answered(model: str, spoken: dict, answer, whole: bool = False):
 		empty.body = body
 		raise empty
 	if words is None and not wants and _malformed(body):
-		raise faults.Malformed(
-			f"{model} wrote a tool call it could not read", 200, json.dumps(body)[: faults.KEPT]
-		)
+		raise faults.Malformed(f"{model} wrote a tool call it could not read", 200, json.dumps(body)[: faults.KEPT])
 	if words is None and not wants:
 		raise Refused(f"{model} answered 200 with nothing in it", 200, json.dumps(body)[: faults.KEPT])
-	return (words or "", wants, body) if whole else (words or "")
+	return words or "", wants, body
 
 
 LEAKED = "<|tool_call>"
@@ -441,11 +385,6 @@ def _blank(body) -> bool:
 		return False
 	first = candidates[0]
 	return first.get("finishReason") == "STOP" and not (first.get("content") or {}).get("parts")
-
-
-def said(text: str, role: str = "user", files: list[dict] | None = None) -> dict:
-	"""One turn, in our shape. The only place a turn is built by hand."""
-	return {"role": role, "text": text or "", "calls": [], "files": files or []}
 
 
 OPENAI_ROLES = {"model": "assistant"}

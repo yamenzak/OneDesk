@@ -81,8 +81,7 @@
   "max_output_tokens": 4000,
   "max_input_tokens": 0,
   "about": "Designs print formats when the chat is asked for one. It runs on a stronger model than the chat, because a page is laid out in one long, exact answer that a small model gets wrong.",
-  "product": "OneAI",
-  "default_model": "google-ai-studio:gemini-2.5-flash"
+  "product": "OneAI"
  },
  {
   "doctype": "AI Action",
@@ -96,8 +95,7 @@
   "max_output_tokens": 4000,
   "max_input_tokens": 0,
   "about": "Suggests approvals, automations, notification rules, saved reports, dashboards, reports by mail, levels, profiles, groups and what a person sees when the chat is asked for one. It runs on a stronger model than the chat, because their states, steps, roles, rights, conditions and fields have to fit together exactly, and a small model does not mend them when told what is wrong.",
-  "product": "OneAI",
-  "default_model": "google-ai-studio:gemini-2.5-flash"
+  "product": "OneAI"
  },
  {
   "doctype": "AI Action",
@@ -279,8 +277,7 @@
   "max_output_tokens": 8000,
   "max_input_tokens": 0,
   "about": "Writes an extension or designs a custom collection when the chat is asked for one. It runs on a stronger model than the chat, because the code and the fields have to keep to what OneStudio allows.",
-  "product": "OneAI",
-  "default_model": "workers-ai:@cf/google/gemma-4-26b-a4b-it"
+  "product": "OneAI"
  },
  {
   "doctype": "AI Action",
@@ -294,8 +291,7 @@
   "max_output_tokens": 4000,
   "max_input_tokens": 0,
   "about": "Reads an extension's code against what it says it does before it can be turned on, without seeing the conversation that asked for it.",
-  "product": "OneAI",
-  "default_model": "google-ai-studio:gemini-2.5-flash"
+  "product": "OneAI"
  },
  {
   "doctype": "AI Action",
@@ -309,8 +305,7 @@
   "max_output_tokens": 8000,
   "max_input_tokens": 0,
   "about": "Reads an extension's code and the errors it ran into, says what went wrong in plain words and writes it fixed, which is then reviewed and kept off.",
-  "product": "OneAI",
-  "default_model": "workers-ai:@cf/google/gemma-4-26b-a4b-it"
+  "product": "OneAI"
  },
  {
   "doctype": "AI Action",

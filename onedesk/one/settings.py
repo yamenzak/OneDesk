@@ -1418,7 +1418,7 @@ def _oneai() -> dict:
 	actions = frappe.get_all(
 		"AI Action",
 		filters={"enabled": 1},
-		fields=["name", "label", "about", "capability", "product", "default_model"],
+		fields=["name", "label", "about", "capability", "product"],
 		order_by="product asc, label asc",
 	)
 	catalogue, used = {}, {}
@@ -1442,7 +1442,6 @@ def _oneai() -> dict:
 				"about": _(one.about) if one.about else None,
 				"capability": one.capability,
 				"product": one.product or "OneAI",
-				"default_model": one.default_model,
 				"model": held.get("model"),
 				"extra": held.get("extra"),
 				"people_choose": bool(held.get("people_choose")),

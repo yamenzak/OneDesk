@@ -63,8 +63,6 @@ def ask(
 			"onedesk.one_admin.proxy.ai_run",
 			action=action,
 			text=text,
-			model=chose.get("model") or None,
-			extra=chose.get("extra") or None,
 			reference=reference,
 			turns=turns,
 			tools=offered,
@@ -401,13 +399,10 @@ def once(action: str, text: str, files: list[dict] | None = None, reference: str
 	from onedesk.one import apps
 
 	apps.refuse_ai()
-	chose = mine(action)
 	out = account.ask(
 		"onedesk.one_admin.proxy.ai_run",
 		action=action,
 		text=text,
-		model=chose.get("model") or None,
-		extra=chose.get("extra") or None,
 		reference=reference,
 		turns=[{"role": "user", "text": text, "calls": [], "files": files or []}],
 		tools=None,

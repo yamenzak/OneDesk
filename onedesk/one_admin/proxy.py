@@ -154,16 +154,15 @@ def hello(database_bytes: int | None = None) -> dict:
 def ai_run(
 	action: str,
 	text: str | None = None,
-	model: str | None = None,
-	extra: str | None = None,
+	tier: str | None = None,
 	reference: str | None = None,
 	turns: list | str | None = None,
 	tools: list | str | None = None,
 ) -> dict:
 	"""One action, run for this workspace and billed to it.
 
-	Stateless: `turns` and `tools` arrive whole each round. `model` and `extra`
-	are checked here rather than trusted, and the action's instruction is read
+	Stateless: `turns` and `tools` arrive whole each round. A workspace says
+	its tier and nothing about the model; the action's instruction is read
 	from the administrator's own copy, never sent.
 	"""
 	from onedesk.one_admin import actions
@@ -174,8 +173,7 @@ def ai_run(
 			tenant.name,
 			action,
 			text,
-			model=model,
-			extra=extra,
+			tier=tier,
 			reference=reference,
 			turns=frappe.parse_json(turns) if isinstance(turns, str) else turns,
 			tools=frappe.parse_json(tools) if isinstance(tools, str) else tools,
@@ -186,13 +184,13 @@ def ai_run(
 
 @frappe.whitelist(allow_guest=True)
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
-def ai_embed(texts: list | str, model: str | None = None) -> dict:
+def ai_embed(texts: list | str) -> dict:
 	"""Texts as vectors, for this workspace's search by meaning, billed to it."""
 	from onedesk.one_admin import actions
 
 	tenant = caller()
 	try:
-		return actions.embed(tenant.name, frappe.parse_json(texts) if isinstance(texts, str) else texts, model=model)
+		return actions.embed(tenant.name, frappe.parse_json(texts) if isinstance(texts, str) else texts)
 	except faults.Refused as raised:
 		frappe.throw(str(raised), exc=type(raised))
 
@@ -380,27 +378,18 @@ def ai_usage(start: str, end: str) -> dict:
 @frappe.whitelist(allow_guest=True)
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
 def ai_models(needs: str) -> list[dict]:
-	"""The models this workspace may pick for an action needing this capability.
-
-	A workspace holds no catalogue — the models, their prices and whether they
-	are offered all live here — so a settings screen asks for the list rather
-	than keeping a copy that would go stale the day a provider withdrew one.
-	"""
-	from onedesk.one_admin import actions
-
+	"""Nothing: a workspace picks a tier, not a model (docs/AICENTER.md). Kept
+	until the workspace's pickers go with AICenter."""
 	caller()
-	return actions.offered(needs)
+	return []
 
 
 @frappe.whitelist(allow_guest=True)
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
 def ai_models_for(needs: str | list) -> dict:
-	"""The models for several capabilities at once, so a screen listing every
-	action asks once rather than once per capability."""
-	from onedesk.one_admin import actions
-
+	"""Nothing, as `ai_models`."""
 	caller()
-	return {one: actions.offered(one) for one in sorted(set(frappe.parse_json(needs) or []))}
+	return {one: [] for one in sorted(set(frappe.parse_json(needs) or []))}
 
 
 @frappe.whitelist(allow_guest=True)

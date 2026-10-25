@@ -1,8 +1,8 @@
-"""What an action may be told, and what a workspace may add to it.
+"""What an action is told, and what a workspace may not add to it.
 
-The rule this file exists for is one sentence: a workspace's instructions are
-**added** to ours and can never replace them. It is the whole safety of the
-feature and it is invisible when it works, so it is held here off the source.
+A workspace names an action and its tier. The words a model is given, and
+the model, are the account's (docs/AICENTER.md): nothing a workspace sends
+reaches the instruction. Held here off the source.
 """
 
 import ast
@@ -10,30 +10,17 @@ import json
 import sys
 from pathlib import Path
 
-import pytest
-
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import tree
+
+from onedesk.one_ai import models
 
 ACTIONS = tree.APP / "one_admin" / "actions.py"
 PROXY = tree.APP / "one_admin" / "proxy.py"
 FIXTURE = tree.APP / "fixtures" / "ai_action.json"
 ACTION = tree.APP / "one_ai" / "doctype" / "ai_action" / "ai_action.json"
-SETTING = tree.APP / "one_ai" / "doctype" / "ai_action_setting" / "ai_action_setting.json"
-
-
-def _capability():
-	import importlib.util
-
-	at = tree.APP / "one_admin" / "capability.py"
-	spec = importlib.util.spec_from_file_location("onedesk_cap_actions", at)
-	module = importlib.util.module_from_spec(spec)
-	spec.loader.exec_module(module)
-	return module
-
-
-capability = _capability()
 
 
 def spoken(where, name: str) -> str:
@@ -52,53 +39,22 @@ def _function(name: str) -> ast.FunctionDef:
 	return next(n for n in body.body if isinstance(n, ast.FunctionDef) and n.name == name)
 
 
-def test_a_workspace_adds_and_never_replaces():
-	"""Read off the one line that joins the two, because there is nowhere else
-	the order could be got wrong."""
-	joined = next(
-		ast.unparse(node)
-		for node in ast.walk(_function("instruction"))
-		if isinstance(node, ast.Return) and "AND_THEN" in ast.unparse(node)
-	)
-	assert joined.index("said") < joined.index("AND_THEN"), (
-		f"a workspace's wording is being put first: {joined}"
-	)
-	assert "if extra else said" in joined, "an empty addition should leave ours alone"
+def test_a_workspace_adds_nothing_to_the_instruction():
+	"""The instruction is the persona and the action's own words, and takes
+	nothing else."""
+	said = _function("instruction")
+	assert [a.arg for a in said.args.args] == ["asked"]
+	assert "AND_THEN" not in ACTIONS.read_text(encoding="utf-8")
 
 
-def test_the_line_between_them_says_which_wins():
-	said = ast.literal_eval(
-		next(
-			n.value
-			for n in ast.parse(ACTIONS.read_text(encoding="utf-8")).body
-			if isinstance(n, ast.Assign)
-			and any(t.id == "AND_THEN" for t in n.targets if isinstance(t, ast.Name))
-		)
-	)
-	assert "ignore" in said.lower() and "conflict" in said.lower()
-
-
-def test_the_instruction_is_never_taken_from_the_caller():
-	"""A tenant sends the model it picked and the wording it added. The
+def test_the_door_takes_a_tier_and_never_a_model_or_words():
+	"""A tenant sends its action, its tier and the conversation. The
 	instruction is read here, from the copy a tenant cannot write."""
 	run = ast.unparse(_function("run"))
-	assert "instruction(asked" in run
+	assert "instruction(asked)" in run
 	body = ast.parse(PROXY.read_text(encoding="utf-8"))
-	endpoint = next(
-		n for n in body.body if isinstance(n, ast.FunctionDef) and n.name == "ai_run"
-	)
-	taken = {a.arg for a in endpoint.args.args}
-	assert "instruction" not in taken and "system" not in taken, taken
-	assert taken == {"action", "text", "model", "extra", "reference", "turns", "tools"}
-
-
-def test_what_a_workspace_adds_is_bounded_at_both_ends():
-	"""Its own doctype checks it, and so does admin — because what a tenant
-	sends is what a tenant's administrator typed."""
-	assert "MOST_EXTRA" in ACTIONS.read_text(encoding="utf-8")
-	assert "MOST" in (
-		tree.APP / "one_ai" / "doctype" / "ai_action_setting" / "ai_action_setting.py"
-	).read_text(encoding="utf-8")
+	endpoint = next(n for n in body.body if isinstance(n, ast.FunctionDef) and n.name == "ai_run")
+	assert {a.arg for a in endpoint.args.args} == {"action", "text", "tier", "reference", "turns", "tools"}
 
 
 def test_only_the_operator_may_write_an_action():
@@ -110,49 +66,17 @@ def test_only_the_operator_may_write_an_action():
 	assert "System Manager" in roles and not roles["System Manager"]["write"]
 
 
-def test_a_workspace_owns_its_own_setting():
-	roles = {row["role"]: row for row in _spec(SETTING)["permissions"]}
-	assert roles["System Manager"]["write"] and roles["System Manager"]["create"]
-	assert "One Operator" not in roles, "an operator editing this would be editing a customer's"
-
-
-@pytest.mark.parametrize(
-	"model_says,action_needs,yes",
-	[
-		("Text Generation", "Text Generation", True),
-		("Multimodal", "Text Generation", True),
-		("Vision", "Text Generation", True),
-		("Transcription", "Text Generation", False),
-		("Text Generation", "Vision", False),
-		("Multimodal", "Vision", True),
-		("Embedding", "Text Generation", False),
-		("Image Generation", "Text Generation", False),
-	],
-)
-def test_a_model_answers_only_a_job_it_can_do(model_says, action_needs, yes):
-	assert capability.able(model_says, action_needs) is yes
-
-
-def test_every_capability_covers_itself():
-	for word in capability.WORDS:
-		assert word in capability.covers(word), word
-
-
-def _options(spec: dict, fieldname: str) -> set[str]:
-	said = next(f["options"] for f in spec["fields"] if f["fieldname"] == fieldname)
-	return set(said.split("\n")) - {""}
-
-
-def test_the_selects_offer_the_words_the_table_knows():
-	"""An option on one of them and not the other is a picker that shows
-	nothing. `Other` is the exception and only on a model: it is what a model
-	whose provider said something we do not recognise gets called, and nothing
-	should ever need it or default to it."""
-	model = _spec(tree.APP / "one_admin" / "doctype" / "ai_model" / "ai_model.json")
-	assert _options(model, "capability") == set(capability.WORDS) | {"Other"}
-	assert _options(model, "default_for") == set(capability.WORDS)
-	assert _options(_spec(ACTION), "capability") == set(capability.WORDS)
-	assert "Other" not in capability.COVERS
+def test_every_action_is_a_kind_of_work_models_knows():
+	"""An action runs on what `one_ai/models.py` names for its kind, so a
+	capability or an action that maps to no kind would run on nothing."""
+	said = ACTIONS.read_text(encoding="utf-8")
+	capable = ast.literal_eval(said.split("CAPABLE = ", 1)[1].split("\n", 1)[0])
+	builds = ast.literal_eval(said.split("BUILDS = ", 1)[1].split("\n", 1)[0])
+	options = set(next(f["options"] for f in _spec(ACTION)["fields"] if f["fieldname"] == "capability").split("\n")) - {""}
+	for row in _spec(FIXTURE):
+		assert row["capability"] in options, row["key"]
+		kind = "build" if row["key"] in builds else capable.get(row["capability"], "talk")
+		assert kind in models.USE, f"{row['key']} is {kind}, which models.USE does not name"
 
 
 def test_the_actions_ship_as_fixtures():
@@ -164,7 +88,6 @@ def test_every_shipped_action_is_whole():
 	rows = _spec(FIXTURE)
 	assert len(rows) >= 2, "one action proves nothing about the shape"
 	for row in rows:
-		assert row["capability"] in capability.WORDS, row["key"]
 		if row["capability"] == "Embedding":
 			assert row["max_input_tokens"] > 0, f"{row['key']} holds nothing before it calls"
 			continue
@@ -186,7 +109,7 @@ def test_the_persona_says_what_not_to_do():
 
 def test_a_workspace_holds_no_copy_of_the_instruction():
 	"""`AI Action` is a fixture, so every site gets the row — the label, the
-	capability and the caps, which is what a workspace needs to pick a model.
+	capability and the caps.
 	The instruction is not part of that, and shipping it while declining to
 	render it would be a curtain rather than a wall: the row would be in the
 	workspace's database and `frappe.client.get` reads it."""
@@ -200,11 +123,6 @@ def test_a_workspace_holds_no_copy_of_the_instruction():
 		block = hooks[at : hooks.index("]", at)]
 		assert "onedesk.one_ai.instructions.trim" in block, f"{when} does not trim"
 		assert block.index("site.apply") < block.index("instructions.trim")
-
-
-def test_the_setting_screen_does_not_print_the_instruction():
-	said = (tree.APP / "public" / "js" / "ai_action_setting.js").read_text(encoding="utf-8")
-	assert "asked.instruction" not in said, "the instruction is rendered to a workspace"
 
 
 def test_the_persona_is_said_once_rather_than_four_times():

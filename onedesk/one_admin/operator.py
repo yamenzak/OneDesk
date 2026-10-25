@@ -242,23 +242,11 @@ def try_the_gateway(prompt: str) -> dict:
 	"""
 	_may()
 	from onedesk.one_admin import gateway
+	from onedesk.one_ai import models
 
-	provider, model = gateway.FIRST
-	return {"provider": provider, "model": model, "said": gateway.ask(prompt)}
-
-
-@frappe.whitelist()
-def sync_catalogue(provider: str) -> dict:
-	"""List and price one provider's models now, rather than waiting for night.
-
-	Counts back rather than rows: the screen this is called from is the list
-	that just changed, and a sentence saying how many need a person is the one
-	thing somebody wants from it.
-	"""
-	_may()
-	from onedesk.one_admin import catalogue
-
-	return catalogue.sync(provider)
+	model = models.pick("talk")[0]
+	words, _wants, _body = gateway.talk(model, [gateway.said(prompt)], tags={"job": "test"})
+	return {"model": model, "said": words}
 
 
 @frappe.whitelist()
@@ -305,18 +293,3 @@ def credit_standing(tenant: str) -> dict:
 	said["month_calls"] = (month[0].calls if month else 0) or 0
 	said["month_credits"] = round((month[0].credits if month else 0) or 0, 4)
 	return said
-
-
-@frappe.whitelist()
-def price_a_call(model: str, tenant: str, prompt: str, output_tokens: int = 256) -> dict:
-	"""One billed call an operator can make, to see what a model costs.
-
-	The same path a workspace takes, against a workspace's own credits, so the
-	number it answers with is the number that would be charged.
-	"""
-	_may()
-	from onedesk.one_admin import gateway
-
-	return gateway.call(
-		model, prompt, tenant, caps={"output_tokens": int(output_tokens)}, reference=frappe.session.user
-	)

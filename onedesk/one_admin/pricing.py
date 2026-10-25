@@ -1,7 +1,8 @@
 """What a call costs, in dollars and then in credits.
 
-Pure, like `prices.py` and `credits.py` on either side of it. Nothing is
-estimated, a use with no rate is not free, and nothing converts between units.
+Pure, like `credits.py` beside it. Rates come from `one_ai/models.py`.
+Nothing is estimated, a use with no rate is not free, and nothing converts
+between units.
 """
 
 from dataclasses import dataclass
@@ -53,8 +54,8 @@ class Bill:
 def cost(rates: list, uses: list[Use]) -> tuple[float, list[Use]]:
 	"""What these uses come to in dollars, and which of them nothing could price.
 
-	`rates` are `prices.Rate`s, taken as anything with the same five fields, so
-	this module does not have to import the one that reads web pages.
+	`rates` are `one_ai/models.py`'s `Rate`s, or anything with the same five
+	fields.
 	"""
 	by_at = {(r.kind, r.modality, r.unit): r for r in rates}
 	total, unpriced = 0.0, []
@@ -92,25 +93,6 @@ def ceiling(rates: list, caps: dict, markup: float, per_dollar: float) -> Bill:
 	return bill(rates, asked(caps), markup, per_dollar)
 
 
-MILLION = 1_000_000
-
-
-def per_million(rates: list, markup: float, per_dollar: float) -> tuple[float | None, float | None]:
-	"""What a million text tokens in, and a million out, cost a workspace in credits.
-
-	For the catalogue's list, so an operator choosing what to sell can see what
-	it sells for. None where the model is not priced in text tokens at all — an
-	image model has no such number, and a zero would say it was free.
-	"""
-	if not markup or not per_dollar:
-		return None, None
-	found = []
-	for kind in ("input", "output"):
-		usd, missing = cost(rates, [Use(kind=kind, modality="text", unit="tokens", count=MILLION)])
-		found.append(None if missing else round(usd * markup * per_dollar, 2))
-	return found[0], found[1]
-
-
 def asked(caps: dict) -> list[Use]:
 	"""The caps a caller declared, as uses we know the size of."""
 	found = []
@@ -124,7 +106,7 @@ def asked(caps: dict) -> list[Use]:
 
 
 def _configured(markup: float, per_dollar: float) -> None:
-	"""Neither number is guessable from a catalogue.
+	"""Neither number is guessable from a price list.
 
 	Providers publish what a call costs *them*; what it should cost anybody else
 	is a decision, and a default here would be us inventing somebody's margin.
