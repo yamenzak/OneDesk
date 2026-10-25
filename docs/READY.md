@@ -1,6 +1,6 @@
 # Ready for live
 
-A module is ready for live when it passes the thirteen points below, and the
+A module is ready for live when it passes the fourteen points below, and the
 registry (`onedesk/one/ready.py`, checked by `tests/guards/test_ready.py`)
 says so. OneMail is the first. From then on every change to a ready module
 goes through the same points, so it stays ready.
@@ -26,14 +26,16 @@ before it:
 4. **Docs and Help.**
 5. **The module's foot: Settings, Help, version.** One settings dialog per
    module, role-aware.
-6. **Roles that ship.**
-7. **Notifications.**
-8. **Setup steps.**
-9. **Tours.**
-10. **OneAI reach.**
-11. **The registry and its guard.**
+6. **Legal in the module.** What the module adds to the agreements, shown in
+   its settings dialog.
+7. **Roles that ship.**
+8. **Notifications.**
+9. **Setup steps.**
+10. **Tours.**
+11. **OneAI reach.**
+12. **The registry and its guard.**
 
-Then OneMail is taken through the thirteen points, and marked ready.
+Then OneMail is taken through the fourteen points, and marked ready.
 
 ## The mechanisms
 
@@ -144,10 +146,7 @@ part. No module has a `docs/` folder.
   module is, its records, its rules, where each file is, what OneAI may do
   in it and why, and the decisions that cost something. It replaces
   README's "Under the hood". The users' half of the README moves to
-  `docs/`, and the README itself goes.
-
-The one decision this needs from you is whether README.md goes. GitHub shows
-a README and not an AGENTS.md, but this is a private repo read by agents.
+  `docs/`, and the README itself goes (decided 2026-10-25).
 
 ### 5. The module's foot, and one settings dialog
 
@@ -164,7 +163,37 @@ show by ability (`frappe.boot.one_mail_may`). No other module has one.
 - **The foot of every module's rail** has the same three: **Settings**,
   **Help** and the **version**.
 
-### 6. Roles that ship
+### 6. Legal in the module
+
+**Today.** Each module declares what it adds to the agreements in its own
+`legal.py`: `clause()` for a paragraph of a document, `subprocessor()` for a
+company it sends data to (OneMail names Cloudflare, Gravatar and Google).
+`one_legal/assemble.py` puts them into the eight documents, and those are
+what the Agreements page shows, what is printed, and what people are asked
+to agree to. An agreement's version is `revision.hash`. Any change to a
+clause moves the hash, and `tests/guards/test_legal.py` fails until we
+either bump the revision (people agree again) or record the new hash (a
+typo). A host the code calls that no `subprocessor()` declares also fails
+it.
+
+**Missing.** Nothing in a module shows what it adds to the agreements.
+
+**To build.**
+
+- **A Legal tab in every module's settings dialog.** It lists the module's
+  clauses under the agreement each sits in, and the companies it sends data
+  to, with what they get and where. Each agreement shows its current
+  version and opens in full. Everybody can read it, because the agreements
+  are everybody's.
+- **One call that answers it:** `one_legal.reading.of_module(module)`, read
+  from the same registry the documents are assembled from, so the tab and
+  the agreements can't disagree.
+- **A legal change is a module change.** `legal.py` is inside the module, so
+  changing it changes the fingerprint and needs a new module version. When
+  the change bumps a revision, the What's New entry says what people are
+  asked to agree to again.
+
+### 7. Roles that ship
 
 **Today.** The abilities engine (`one/abilities.py`, the `one_abilities`
 hook, `docs/ROLES.md`). OneMail ships OneMail User, given to everyone, and
@@ -179,7 +208,7 @@ grant on one mailbox (Users › Edit Access).
   what their role says. OneMail's per-mailbox grant is the first, and every
   module's overrides use the same `abilities.grant`.
 
-### 7. Notifications
+### 8. Notifications
 
 **Today.** `one/notify.py` is the one door. Each type is a file in
 `notifications/<module>/`, with who gets it, the button, and whether it
@@ -208,7 +237,7 @@ Once that exists, the point to check is short: the module tells people what
 they need to know, on the channels that make sense, only to the roles that
 should hear it.
 
-### 8. Setup steps
+### 9. Setup steps
 
 **Today.** The setup wizard has two slides of ours (look and working day).
 Nothing per module.
@@ -224,7 +253,7 @@ dialog. OneMail's steps would be:
 
 Which steps the wizard shows is decided when the wizard is built.
 
-### 9. Tours
+### 10. Tours
 
 **Today.** Frappe ships Form Tour (`ui_tour`, `page_route`), started from
 `frappe.boot.onboarding_tours` and remembered in `user.onboarding_status`.
@@ -238,7 +267,7 @@ Which steps the wizard shows is decided when the wizard is built.
 - **What a step says** follows the copy rules: a heading of five words or
   fewer, and one sentence.
 
-### 10. OneAI reach
+### 11. OneAI reach
 
 **Today.** OneMail's tools are open a conversation, what waits for an
 answer, draft a reply, suggest a rule, sign a mailbox, and templates
@@ -252,7 +281,7 @@ module either has an OneAI tool that does the same through the page's own
 code, or is named in the module's `NOT_FOR_AI` with the reason (a password
 is one). The guard reads both.
 
-### 11. The registry
+### 12. The registry
 
 `onedesk/one/ready.py` lists each module with its version and, per point,
 either what checks it automatically or the date and commit it was last
@@ -262,11 +291,12 @@ every automatic check:
 - the fingerprint is current;
 - `docs/` and `AGENTS.md` are there;
 - its roles are fixtures;
+- its `legal.py` declares what it adds, and the Legal tab reads it;
 - every notification type says its channels and sender;
 - its setup steps and tour are declared;
 - every action is OneAI's or named as not.
 
-## The thirteen points
+## The fourteen points
 
 A module is checked against these once the mechanisms exist. Each point
 names its mechanism.
@@ -282,28 +312,32 @@ names its mechanism.
 5. **Copy.** Every heading and description it shows passes the copy rules
    (mechanism 1).
 6. **Roles.** Its roles ship, its overrides use grants, and the matrix is
-   written down (mechanism 6).
+   written down (mechanism 7).
 7. **OneAI.** Everything a person can do here, OneAI can do as a card, or
-   there is a stated reason not (mechanism 10).
+   there is a stated reason not (mechanism 11).
 8. **Demo and tests.** The demo company uses every part of it, and a check
    or test covers every behaviour (`docs/STANDARD.md` point 1).
 9. **Notifications.** It tells people what they need, on the right channels,
-   only to the right roles (mechanism 7).
+   only to the right roles (mechanism 8).
 10. **Window UI pass.** On the Window, tokens only, frappe-ui and frappe
     controls, realtime where data changes under it, values formatted by
     frappe, and the reader's date, number and time zone preferences. This is
     checked in the browser, as each role, desktop and phone.
 11. **Setup steps.** What the setup wizard can ask is declared, with what can
-    wait (mechanism 8).
-12. **Tour.** A first-visit tour that can be run again (mechanism 9).
+    wait (mechanism 9).
+12. **Tour.** A first-visit tour that can be run again (mechanism 10).
 13. **Settings.** One role-aware settings dialog where everything about the
     module is managed (mechanism 5).
+14. **Legal.** Every fact about what it does with data that the agreements
+    must say is a clause or a subprocessor in its `legal.py`, and its
+    settings show them (mechanism 6).
 
 ## After ready
 
 A ready module stays ready. Any change to it:
 
 - bumps its version with a What's New entry;
+- moves the agreements with it when it changes what is done with data;
 - updates the Help pages it changes;
 - keeps the copy, roles, OneAI and notification guards green.
 
