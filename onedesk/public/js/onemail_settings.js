@@ -3,8 +3,9 @@ frappe.provide("onedesk.mail");
 // OneMail's settings, in frappe's own settings dialog (frappe.ui.SettingsDialog),
 // opened from Settings at the foot of OneMail's rail. Mailboxes is everyone's:
 // each mailbox they hold, opened into its own tabs (signature, out-of-office
-// reply, users, connection, rules). Shared Mailboxes, Personal Addresses and Mail Templates are a
-// Workspace Administrator's: who reads and sends from each shared mailbox, the
+// reply, users, connection, rules). Defaults, Shared Mailboxes, Personal Addresses and Mail
+// Templates are a Workspace Administrator's: the mailboxes the workspace receives
+// and sends from by default, who reads and sends from each shared mailbox, the
 // address the workspace gives each person, which outside mailboxes people may
 // connect, and the templates. Roles is an administrator's: OneMail's role
 // builder (public/js/role_matrix.js). Wording follows docs/WORDING.md. Every change is
@@ -1004,18 +1005,29 @@ onedesk.mail.settings = (tab) => {
 		});
 	};
 
+	// ── Defaults ────────────────────────────────────────────────────────────
 	// The workspace's Default Incoming and Default Outgoing (holders.set_defaults),
-	// above the list of shared mailboxes. Notifications keep One's own sender.
-	const defaults = ($body, said, again) => {
+	// each one of its shared mailboxes. Notifications keep One's own sender.
+	const defaults = {
+		id: "defaults",
+		label: __("Defaults"),
+		icon: "sliders-horizontal",
+		title: __("Defaults"),
+		async render(panel) {
+			const was_shown = panel.shown;
+			const said = await frappe.xcall(H + "shared");
+			if (panel.shown !== was_shown) return;
+			panel.set_header({
+				title: __("Defaults"),
+				description: said.system_sender ? __("Notifications are sent from {0}.", [said.system_sender]) : "",
+			});
+			draw_defaults(panel.body.empty(), said, () => panel.refresh());
+		},
+	};
+	const draw_defaults = ($body, said, again) => {
 		const boxes = said.mailboxes || [];
 		const incoming = boxes.find((one) => one.workspace);
 		const outgoing = boxes.find((one) => one.sends_default);
-		$body.append(
-			heading(
-				__("Defaults"),
-				said.system_sender ? __("Notifications are sent from {0}.", [said.system_sender]) : ""
-			)
-		);
 		const group = fields($(`<div class="oms-defaults"></div>`).appendTo($body), [
 			{
 				fieldname: "incoming",
@@ -1069,7 +1081,6 @@ onedesk.mail.settings = (tab) => {
 			const said = await frappe.xcall(H + "shared");
 			if (panel.shown !== was) return;
 			const $body = panel.body.empty();
-			if (can.policy && (said.mailboxes || []).length) defaults($body, said, () => panel.refresh());
 			const $list = $(`<div class="oms-list"></div>`).appendTo($body);
 			if (!(said.mailboxes || []).length) $list.append(empty(__("No shared mailboxes")));
 			(said.mailboxes || []).forEach((box) => {
@@ -1275,6 +1286,7 @@ onedesk.mail.settings = (tab) => {
 
 	const tabs = [{ group: __("Your Mail"), items: [mailboxes] }];
 	const workspace_tabs = [
+		can.policy && defaults,
 		(can.connect_shared || can.holders || can.others) && shared,
 		(can.policy || can.others) && personal,
 		can.templates && templates,

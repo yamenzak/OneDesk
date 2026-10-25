@@ -68,10 +68,11 @@ employee that reads its mail:
   quick look. A rule with one can't be switched on otherwise, the step says
   so in the builder, and setting New Mail to Not Read names those rules
   first; they then show **Not Running** in Automation.
-- **Shared Mailboxes** (administrators): **Default Incoming** and **Default
-  Outgoing** at the top, then the workspace mailbox and every shared one.
-  Opening one shows the same tabs; **Users** adds or removes people and
-  turns **Send** on or off per user.
+- **Defaults** (administrators): **Default Incoming** and **Default
+  Outgoing**, and which address notifications are sent from.
+- **Shared Mailboxes** (administrators): the workspace mailbox and every
+  shared one. Opening one shows the same tabs; **Users** adds or removes
+  people and turns **Send** on or off per user.
 - **Personal Addresses** (administrators): **Send From Workspace
   Addresses**, and **External Mailboxes** for mailboxes users connect
   themselves. When on, **Allowed Domains** limits them to the domains listed;
@@ -665,8 +666,8 @@ Stage 4, holders, is built.
   first name is in another script, with a number when it is taken. The
   address is appended in the User's own `before_save`, so the form the
   administrator is looking at is never stale.
-- A workspace administrator picks two defaults at the top of Shared
-  Mailboxes, each one of the shared mailboxes (`holders.set_defaults`).
+- A workspace administrator picks two defaults on the Defaults page, each
+  one of the shared mailboxes (`holders.set_defaults`).
   **Default Incoming** (`workspace()`, the `one_mail_workspace` default) is
   listed first and called Workspace, and it is the Reply-To of every mail
   `notify.mail` sends for the workspace, so an answer to a notification
