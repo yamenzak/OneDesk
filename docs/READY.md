@@ -42,6 +42,10 @@ before it:
     each module declares.
 15. **NotificationCenter.** What each module sends, which channels the
     workspace allows, and what each person chooses, in one place per app.
+16. **AICenter.** OneAI rebuilt on models we choose, in code, through
+    Cloudflare's gateway, and set up in one place per app: the tier,
+    Knowledge, credits, and what OneAI does in each module. Planned in
+    `docs/AICENTER.md`.
 
 Then OneMail is taken through the fourteen points, and marked ready.
 
