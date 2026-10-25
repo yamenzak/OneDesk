@@ -20,11 +20,14 @@
 	margin-inline-end: calc(var(--spacing) * 1.5);
 }
 
+/* Under the centre's name, not under One's mark: indented by the mark and
+   the space after it. */
 .one-module-head-of {
 	display: flex;
 	align-items: center;
 	gap: calc(var(--spacing) * 1.5);
 	margin-top: calc(var(--spacing) * 0.5);
+	padding-inline-start: calc(var(--text-lg) * 1.25 + var(--spacing) * 1.5);
 	color: var(--ink-gray-6);
 	font-size: var(--text-sm);
 	--icon-stroke: var(--ink-gray-5);
