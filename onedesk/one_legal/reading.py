@@ -108,3 +108,17 @@ def overview() -> dict:
 			}
 		)
 	return {"party": PARTY, "documents": documents, "admin": roles.administers(), "may_bind": gate._may_bind()}
+
+
+@frappe.whitelist(methods=["GET"])
+def of_module(module: str) -> dict:
+	"""What one module adds to the agreements, for its Legal tab: everybody's
+	to read, since the agreements are everybody's."""
+	said = assemble.of_module(module)
+	for one in said["documents"]:
+		title = one["title"]
+		one["title"] = _(title)
+		for section in one["sections"]:
+			heading = section["heading"]
+			section["heading"] = _(heading)
+	return said

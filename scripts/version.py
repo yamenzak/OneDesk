@@ -3,8 +3,8 @@
     python3 scripts/version.py one_mail minor "Out of office in Arabic"
 
 The kind is major, minor or fix. The new file in the module's
-docs/changelog/ carries today's date, the kind, the title and the module's
-fingerprint; its words are yours to write, for the people who use the
+docs/changelog/ carries today's date, the kind, the title, the module's
+fingerprint and what it agrees on (its legal stamp); its words are yours to write, for the people who use the
 module, in English. tests/guards/test_ready.py fails until they are.
 """
 
@@ -39,6 +39,7 @@ def main(folder: str, kind: str, title: str) -> Path:
 		f"kind: {kind}\n"
 		f"title: {title}\n"
 		f"fingerprint: {ready.fingerprint(module)}\n"
+		f"legal: {ready.legal(module)}\n"
 		"---\n\n"
 		f"{UNWRITTEN}\n",
 		encoding="utf-8",

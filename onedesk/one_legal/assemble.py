@@ -131,6 +131,59 @@ def render(key: str) -> dict:
 	}
 
 
+def of_module(module: str) -> dict:
+	"""What one module adds to the agreements (docs/READY.md, mechanism 6):
+	its clauses under the document and section each sits in, and the
+	companies it sends data to with what each gets and where. Read from the
+	registry the documents are assembled from, so the module's Legal tab and
+	the agreements can't disagree."""
+	_load()
+	companies = [
+		{**row, "uses": [use for use in row["uses"] if use["module"] == module]}
+		for row in subprocessor_rows()
+		if any(use["module"] == module for use in row["uses"])
+	]
+	found = []
+	for key, one in DOCUMENTS.items():
+		sections = []
+		for section, heading in SECTIONS[key]:
+			mine = [clause for clause in clauses_for(key, section) if clause["module"] == module]
+			if mine:
+				sections.append(
+					{
+						"section": section,
+						"heading": heading,
+						"clauses": [{"key": c["key"], "heading": c["heading"], "body": c["body"]} for c in mine],
+					}
+				)
+		lists = key == "subprocessors" and bool(companies)
+		if sections or lists:
+			found.append(
+				{
+					"key": key,
+					"title": one["title"],
+					"revision": one["revision"],
+					"version": version_of(key),
+					"sections": sections,
+					"companies": lists,
+				}
+			)
+	return {"module": module, "documents": found, "companies": companies}
+
+
+def stamp(module: str) -> str:
+	"""Each agreement a module writes into, with a hash of the module's own
+	part of it: `privacy 1a2b3c4d, ai …`. Another module's clauses don't move
+	it. A version of the module records it, so a change to what the module
+	adds to the agreements shows as a new version that has to say so."""
+	part = of_module(module)
+	out = []
+	for one in part["documents"]:
+		mine = repr((one["sections"], part["companies"] if one["companies"] else []))
+		out.append(f"{one['key']} {hashlib.sha256(mine.encode('utf-8')).hexdigest()[:8]}")
+	return ", ".join(out)
+
+
 def _table(rows: list[dict]) -> str:
 	"""The subprocessor list, as a table rather than as prose.
 

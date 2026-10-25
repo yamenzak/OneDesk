@@ -216,7 +216,7 @@
 }
 
 .one-doc a {
-	color: var(--ink-blue-3);
+	color: var(--ink-blue-link);
 	text-decoration: underline;
 	text-decoration-color: var(--outline-gray-3);
 	text-underline-offset: 3px;

@@ -300,9 +300,23 @@ either bump the revision (people agree again) or record the new hash (a
 typo). A host the code calls that no `subprocessor()` declares also fails
 it.
 
-**Missing.** Nothing in a module shows what it adds to the agreements.
+**Built.** Every module's ControlCenter ends with **Legal**
+(`onedesk.module_settings.legal`, added by `module_settings.open`, so a
+module can't leave it out). It reads `one_legal.reading.of_module(module)`,
+which is `assemble.of_module`: from the same registry the documents are
+assembled from, each agreement the module writes into, with its current
+version and the module's own paragraphs under their sections, and the
+companies it sends data to, with what for, what they get and where. **Read
+in Full** opens the agreement in Agreements. A version of the module
+records `legal:`, a hash of the module's own part of each agreement
+(`assemble.stamp`, which another module's clauses don't move), written by
+`scripts/version.py`; `test_ready.py` fails when the newest version's stamp
+isn't the module's, and when a version moves it without its words naming
+the agreement.
 
-**To build.**
+**Before.** Nothing in a module showed what it adds to the agreements.
+
+**As planned.**
 
 - **A Legal tab in every module's settings dialog.** It lists the module's
   clauses under the agreement each sits in, and the companies it sends data

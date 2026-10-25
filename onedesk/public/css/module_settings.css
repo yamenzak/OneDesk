@@ -285,3 +285,21 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+
+/* A module's own paragraphs of an agreement, under its heading
+   (module_settings.js `legal`). */
+.one-set .one-set-legal {
+	margin: calc(var(--spacing) * 2) 0 calc(var(--spacing) * 6);
+	padding-bottom: 0;
+}
+
+.one-set .one-set-legal h3 {
+	margin-top: calc(var(--spacing) * 4);
+	color: var(--ink-gray-6);
+	font-size: var(--text-sm);
+	font-weight: 500;
+}
+
+.one-set .one-set-legal td:first-child {
+	white-space: normal;
+}

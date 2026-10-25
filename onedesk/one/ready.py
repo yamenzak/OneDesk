@@ -124,6 +124,14 @@ def versions(module: str) -> list[dict]:
 	return sorted(found, key=lambda one: number(one["version"]), reverse=True)
 
 
+def legal(module: str) -> str:
+	"""What a module agrees on, as a version of it records it
+	(one_legal/assemble.py `stamp`)."""
+	from onedesk.one_legal import assemble
+
+	return assemble.stamp(module)
+
+
 def current(module: str) -> str | None:
 	"""A module's version: its newest changelog entry's."""
 	found = versions(module)

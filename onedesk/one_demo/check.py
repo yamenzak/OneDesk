@@ -9149,6 +9149,29 @@ def help_shows_every_page_in_order():
 			assert {page["id"] for page in one["docs"]} <= ids, one["docs"]
 
 
+@check
+def legal_tab_says_what_onemail_agrees_to():
+	"""Nadia, with no role beyond User, reads what OneMail adds to the
+	agreements: its paragraphs of the Privacy Policy and the AI Addendum and
+	the companies mail passes through, each agreement at the version the
+	Agreements page shows, and the version of OneMail that recorded it
+	(one_legal/reading.py of_module, assemble.stamp)."""
+	from onedesk.one import ready
+	from onedesk.one_legal import assemble, reading
+
+	with as_user("nadia@one.test"):
+		said = reading.of_module("OneMail")
+	keys = [one["key"] for one in said["documents"]]
+	assert {"privacy", "ai", "subprocessors"} <= set(keys), keys
+	for one in said["documents"]:
+		assert one["version"] == assemble.version_of(one["key"]), one
+		assert one["sections"] or one["companies"], one
+	assert {"Cloudflare, Inc.", "Google LLC"} <= {row["name"] for row in said["companies"]}, said["companies"]
+	assert all(use["module"] == "OneMail" for row in said["companies"] for use in row["uses"])
+	assert ready.versions("OneMail")[0]["legal"] == assemble.stamp("OneMail")
+	assert reading.of_module("OneNothing")["documents"] == []
+
+
 def _modules() -> None:
 	"""A module's own checks, in its folder (docs/READY.md, A module's folder),
 	registered by importing them."""

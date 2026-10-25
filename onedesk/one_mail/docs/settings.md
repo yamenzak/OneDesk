@@ -48,6 +48,21 @@ System and Organization Mailboxes.
 A mailbox opened from System or Organization Mailboxes shows its Signature, Out
 of Office, OneAI and Automation tabs.
 
+## Legal
+
+**Legal**, at the end of Settings, shows what OneMail adds to the agreements
+everyone in the workspace works under. Everyone can open it.
+
+| You see | What it is |
+| --- | --- |
+| Each agreement OneMail writes into | Its name and version, and OneMail's own paragraphs of it |
+| **Read in Full** | The whole agreement, as you were asked to agree to it |
+| The companies mail passes through | Who they are, what for, what they receive and where |
+
+> **When OneMail's part of an agreement changes**, What's New says which
+> agreement moved, and you're asked to agree again only when the change is
+> one that matters.
+
 ## Mail Templates
 
 ![Mail Templates in OneMail's settings](settings/templates.png)

@@ -168,3 +168,22 @@ def test_a_module_has_one_settings_dialog_and_one_foot():
 		assert not loose, f"{module} draws its own foot in {loose}; use windowModuleFoot"
 		assert any("onedesk.module_settings.open(" in text for text in code.values()), f"{module} has no settings dialog"
 		assert any("windowModuleFoot(" in text for text in code.values()), f"{module} has no foot"
+
+
+AGREEMENTS = re.compile(r"\bagree|\bpolicy\b|\bterms\b|\baddendum\b|\bsubprocessors?\b", re.I)
+
+
+def test_a_change_to_what_a_module_agrees_on_is_said():
+	"""A version records what its module adds to the agreements (one_legal
+	`stamp`), so changing a clause or a company it sends data to is a new
+	version, and that version tells the people using it which agreement moved
+	(docs/READY.md, mechanism 6)."""
+	for module, spec in ready.MODULES.items():
+		found = ready.versions(module)
+		assert found[0].get("legal") == ready.legal(module), (
+			f"{module} changed what it adds to the agreements since {found[0]['version']}: "
+			f'python3 scripts/version.py {spec["folder"]} <major|minor|fix> "<title>", and say what changed'
+		)
+		for newer, older in zip(found, found[1:]):
+			if "legal" in older and newer.get("legal") != older["legal"]:
+				assert AGREEMENTS.search(newer["body"]), f"{module} {newer['version']} changes the agreements without saying which"

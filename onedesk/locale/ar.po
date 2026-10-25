@@ -33547,6 +33547,10 @@ msgstr "يُقرأ من Frappe Cloud عند حفظ الإعدادات."
 msgid "Read from the two times below."
 msgstr "مقروء من الوقتين أدناه."
 
+#: onedesk/public/js/module_settings.js:85
+msgid "Read in Full"
+msgstr "اقرأ كاملًا"
+
 #: onedesk/public/js/settings.js:2887
 msgid "Read on behalf of {0}"
 msgstr "يُقرأ نيابةً عن {0}"
@@ -47458,6 +47462,10 @@ msgstr "ماذا تعرف عني؟"
 msgid "What Failed"
 msgstr "العطل"
 
+#: onedesk/public/js/module_settings.js:108
+msgid "What For"
+msgstr "لأي غرض"
+
 #. Label in the One Employee Grievance print format
 #: onedesk/one_hr/print_format/one_employee_grievance/one_employee_grievance.json
 msgid "What Happened"
@@ -47526,6 +47534,10 @@ msgstr "ما يجب أن يفعله رد OneAI، مثل الإجابة من طل
 #: onedesk/public/js/onemail_settings.js:362
 msgid "What They Get"
 msgstr "ما يصلهم"
+
+#: onedesk/public/js/module_settings.js:108
+msgid "What They Receive"
+msgstr "ما يتلقونه"
 
 #. Label in the One Maintenance Record print format
 #. Label in the One Repair Record print format
@@ -48438,6 +48450,10 @@ msgstr "ما عليك لكل مورد، حسب مدة التأخير."
 #: onedesk/one_inventory/home.py:163
 msgid "What you will have once orders come and go."
 msgstr "ما سيكون لديك بعد أن تأتي الطلبات وتذهب."
+
+#: onedesk/public/js/module_settings.js:73
+msgid "What {0} adds to the agreements everyone in the workspace works under."
+msgstr "ما يضيفه {0} إلى الاتفاقيات التي يعمل بموجبها الجميع في مساحة العمل."
 
 #: onedesk/one/ai_setup.py:713
 msgid "What {0} sees"
@@ -54103,6 +54119,10 @@ msgstr "تمت إضافة {0}"
 #: onedesk/public/js/task_timer.js:6
 msgid "{0} added to your timesheet."
 msgstr "أُضيف {0} إلى جدول ساعاتك."
+
+#: onedesk/public/js/module_settings.js:79
+msgid "{0} adds nothing to the agreements."
+msgstr "لا يضيف {0} شيئًا إلى الاتفاقيات."
 
 msgid "{0} agreed on {1}"
 msgstr "وافق {0} في {1}"
