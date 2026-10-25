@@ -31,6 +31,13 @@ USE = {
 		"balanced": ("@cf/openai/whisper-large-v3-turbo", "google/gemini-3.5-transcribe"),
 		"full": ("google/gemini-3.5-transcribe", "@cf/openai/whisper-large-v3-turbo"),
 	},
+	# Text to speech. Only Gemini's voices speak Arabic; Workers AI's MeloTTS
+	# stands behind them for the languages it has.
+	"speak": {
+		"fast": ("google/gemini-3.8-flash-lite-tts", "@cf/myshell-ai/melotts"),
+		"balanced": ("google/gemini-3.8-flash-tts", "google/gemini-3.8-flash-lite-tts"),
+		"full": ("google/gemini-3.8-flash-tts", "google/gemini-3.8-flash-lite-tts"),
+	},
 	"embed": {tier: ("@cf/baai/bge-m3", "@cf/qwen/qwen3-embedding-0.6b") for tier in TIERS},
 	"guard": {tier: ("@cf/meta/llama-guard-3-8b", None) for tier in TIERS},
 	# For the module that makes pictures, music and video; nothing uses them yet.
@@ -88,6 +95,14 @@ GOOGLE = {
 	"google/gemini-2.5-pro": [{"in": 1.25, "out": 10.00, "above": 200_000, "in_above": 2.50, "out_above": 15.00}],
 	"google/gemini-2.5-flash-lite": [{"in": 0.10, "out": 0.40}],
 	"google/gemini-3.5-transcribe": [{"per": "minute", "in": 0.003, "out": 0.002}],
+	"google/gemini-3.8-flash-tts": [
+		{"in": 0.50, "out": 9.00},
+		{"from": "2027-01-01", "in": 1.00, "out": 18.00},
+	],
+	"google/gemini-3.8-flash-lite-tts": [
+		{"in": 0.50, "out": 6.00},
+		{"from": "2027-01-01", "in": 1.00, "out": 12.00},
+	],
 	"google/gemini-3.1-flash-lite-image": [{"per": "image", "out": 0.0336}],
 	"google/gemini-3.1-flash-image": [{"per": "image", "out": 0.067}],
 	"google/gemini-3-pro-image": [{"per": "image", "out": 0.134}],

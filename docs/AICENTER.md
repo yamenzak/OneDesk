@@ -172,6 +172,7 @@ its words, its caps and its kind:
 | Extract | the fields of a record from what arrived |
 | To text | a file or a picture to text |
 | Hear | a recording to text |
+| Speak | text read aloud |
 | Find | search, and web search |
 
 The twenty-five actions in the fixture map onto these. HR's screening,
@@ -191,7 +192,13 @@ changes and this table with it.
 | Extract | Clairic ($0.10, nothing for output) | Clairic | Clairic |
 | See (pictures to text) | Gemma 4 26B | Gemma 4 26B | Gemma 4 26B |
 | Hear | Whisper Large v3 Turbo ($0.0005 a minute) | Whisper | Gemini 3.5 Transcribe ($0.005 a minute) |
+| Speak | Gemini 3.8 Flash Lite TTS ($0.50 / $6 for audio) | Gemini 3.8 Flash TTS ($0.50 / $9 for audio) | Gemini 3.8 Flash TTS |
 | Find | AI Search, keyword as you type, meaning on Enter | same | same |
+
+Speaking is Gemini's because its voices speak Arabic: Workers AI's are
+Deepgram's Aura, in English and Spanish, and MeloTTS, without Arabic.
+MeloTTS stands behind Fast for the languages it has. Both Gemini voices
+double in price on 2027-01-01.
 
 Each has a fallback at the other company where one does the job: Gemma 4
 falls back to Gemini 3.1 Flash Lite, GLM 5.3 Flash to Gemini 3.5 Flash
@@ -216,6 +223,12 @@ left out of Google's list of models: the discovery script asks for Veo by
 name. Until Google prices it, a Veo call is charged its hold. Veo answers
 through the gateway's Google route, which passes Google's own request
 shape; it is not on Cloudflare's chat endpoint.
+
+**Building and OneStudio.** Build is mostly OneStudio's extensions, and
+OneStudio is to be rewritten around a drag-and-drop builder that may use AI
+to lay things out rather than write code. That changes how much Build is
+used, not this plan: the kind stays for print designs and workspace setup,
+and OneStudio's rewrite asks it for whatever it keeps.
 
 **Why mostly Workers AI.** One company, one subprocessor entry, prices in
 the listing, and the open-weight models are the ones the guardrail model
