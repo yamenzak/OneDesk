@@ -1,6 +1,6 @@
 """NotificationCenter (docs/READY.md, mechanism 15): each module's notification
 types (its `notifications.py`, mechanism 8), the channels the workspace allows
-for each and starts people on, and what each person chooses. Everybody reads
+for each, and what each person chooses. Everybody reads
 and sets their own; only a workspace administrator sets the workspace's."""
 
 import frappe
@@ -11,9 +11,10 @@ from onedesk.one import notify, roles
 # A person's own switches, over every type.
 OWN = ("enabled", "enable_email_notifications")
 
-# What an administrator sets on a type: whether it is sent, and for each
-# channel whether people may have it and whether they start with it on.
-WORKSPACE = ("enabled", "one_allow_email", "one_email_default", "one_allow_push", "one_push_default")
+# What an administrator sets on a type: whether it is sent, and whether people
+# may have it by email and by push. Whether a new person starts with a channel
+# on is the module's to say (`email_default`, `push_default`), not theirs.
+WORKSPACE = ("enabled", "one_allow_email", "one_allow_push")
 
 
 def _settings():

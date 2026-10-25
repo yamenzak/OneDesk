@@ -36271,10 +36271,6 @@ msgstr "خادم SMTP"
 msgid "Start a new email here, or press C anywhere in OneMail."
 msgstr "ابدأ بريدًا جديدًا من هنا، أو اضغط C في أي مكان في OneMail."
 
-#: onedesk/public/js/notification_center.js
-msgid "Start On"
-msgstr "مفعّل مبدئيًا"
-
 #: onedesk/one_mail/ai.py
 msgid "Start {0} Mail with {1}"
 msgstr "بدء بريد {0} بـ {1}"

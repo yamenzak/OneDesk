@@ -1,8 +1,8 @@
 // NotificationCenter (docs/READY.md, mechanism 15): what each module sends
 // (one/notification_center.py). A module's part, from Notifications in its
 // ControlCenter, is Yours (Email and Push for each type the reader gets)
-// and, for administrators, Workspace (Send This, and for each channel
-// whether it is allowed and on to start with). The whole, from the bell's
+// and, for administrators, Workspace (Send, and whether email and push are
+// allowed). Which channels a new person starts with is the module's to say. The whole, from the bell's
 // gear, Settings › You › Notifications and the arrows, starts with
 // Everything (notifications and their email on or off, push in this
 // browser), then each module, then Across One for what no module sends.
@@ -73,8 +73,8 @@ onedesk.notification_center.open = async ({ module = null, at = null } = {}) => 
 		},
 	});
 
-	// The workspace's: for each type a module sends, Send This, then email
-	// and push each allowed or not and on to start with or not.
+	// The workspace's: for each type a module sends, Send, then whether
+	// people may have it by email and by push.
 	const workspace_tab = (app) => ({
 		id: `workspace:${app}`,
 		label: module ? __("Workspace") : app,
@@ -86,7 +86,7 @@ onedesk.notification_center.open = async ({ module = null, at = null } = {}) => 
 			const types = await frappe.xcall(N + "workspace", { module: app }, "GET");
 			const $body = panel.body.empty();
 			if (!types.length) return $body.append(kit.empty(__("Nothing to set here.")));
-			$body.append(columns([__("Send"), __("Email"), __("Start On"), __("Push"), __("Start On")], true));
+			$body.append(columns([__("Send"), __("Email"), __("Push")], true));
 			const $list = $(`<div class="one-set-list one-notify-list one-notify-wide"></div>`).appendTo($body);
 			const set = (one, field, on) => frappe.xcall(N + "set_type", { name: one.name, field, value: on }).then(() => (one[field] = on));
 			for (const one of types) {
@@ -94,7 +94,7 @@ onedesk.notification_center.open = async ({ module = null, at = null } = {}) => 
 				const $row = kit.row({ lead: kit.glyph("bell"), title: one.label, sub: esc(sub) }).appendTo($list);
 				const $end = $row.find(".one-set-end");
 				toggle($end, { value: one.enabled, label: `${__("Send")}: ${one.label}`, disabled: !!one.fixed, change: (on) => set(one, "enabled", on) });
-				for (const field of ["one_allow_email", "one_email_default", "one_allow_push", "one_push_default"]) {
+				for (const field of ["one_allow_email", "one_allow_push"]) {
 					const email = field.includes("email");
 					toggle($end, {
 						value: one[field],

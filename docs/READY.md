@@ -753,9 +753,11 @@ mailbox's Users).
 **Yours**, each type the reader can get from it with an Email and a Push
 switch, saved as it changes (`choose`, which carries a type's followers
 with it), and a switch that can't move saying why; and, for
-administrators, **Workspace**: each type it sends with Send, then for
-email and push whether it is allowed and whether people start with it on
-(`set_type`), and a pencil to its words in Workspace Settings.
+administrators, **Workspace**: each type it sends with Send, then whether
+email and push are allowed (`set_type`), and a pencil to its words in
+Workspace Settings. Whether a new person starts with a channel on is the
+module's to say (`email_default`, `push_default` in its declaration), so
+nobody sets it here; a workspace rule starts everybody on what it allows.
 
 It is found, not drawn: the boot names the modules whose types the reader
 gets, or every module with types for an administrator

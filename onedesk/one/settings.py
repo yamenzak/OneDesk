@@ -139,9 +139,7 @@ NOTIFICATION_TYPE = (
 	"one_subject",
 	"one_message",
 	"one_allow_email",
-	"one_email_default",
 	"one_allow_push",
-	"one_push_default",
 )
 
 
@@ -2034,7 +2032,7 @@ RULE = (
 	"send_to_all_assignees",
 )
 
-RULE_CHANNELS = ("one_allow_email", "one_email_default", "one_allow_push", "one_push_default")
+RULE_CHANNELS = ("one_allow_email", "one_allow_push")
 
 
 def _rule(name: str) -> dict:
@@ -2113,9 +2111,7 @@ def _rule(name: str) -> dict:
 			{"fieldname": one, "fieldtype": "Check", "label": label}
 			for one, label in (
 				("one_allow_email", str(_("Email Allowed"))),
-				("one_email_default", str(_("Email for New People"))),
 				("one_allow_push", str(_("Push Allowed"))),
-				("one_push_default", str(_("Push for New People"))),
 			)
 		],
 	]
@@ -2133,9 +2129,7 @@ def _rule(name: str) -> dict:
 				"",
 			),
 			"one_allow_email": kind.one_allow_email if kind else 1,
-			"one_email_default": kind.one_email_default if kind else 0,
 			"one_allow_push": kind.one_allow_push if kind else 1,
-			"one_push_default": kind.one_push_default if kind else 0,
 		}
 	)
 	return {
@@ -2184,6 +2178,9 @@ def _save_rule(name: str, values: dict) -> str:
 		doc.save(ignore_permissions=True)
 	kind = frappe.get_doc("Notification Type", doc.name)
 	kind.update({one: frappe.utils.cint(values.get(one)) for one in RULE_CHANNELS if one in values})
+	# A rule has no module to say who starts with a channel on: everybody
+	# does, where it is allowed, until they turn it off.
+	kind.one_email_default, kind.one_push_default = kind.one_allow_email, kind.one_allow_push
 	kind.save(ignore_permissions=True)
 	return doc.name
 

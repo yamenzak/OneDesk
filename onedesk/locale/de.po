@@ -36271,10 +36271,6 @@ msgstr "SMTP-Server"
 msgid "Start a new email here, or press C anywhere in OneMail."
 msgstr "Beginnen Sie hier eine neue E-Mail, oder drücken Sie C überall in OneMail."
 
-#: onedesk/public/js/notification_center.js
-msgid "Start On"
-msgstr "Anfangs an"
-
 #: onedesk/one_mail/ai.py
 msgid "Start {0} Mail with {1}"
 msgstr "E-Mails zu {0} mit {1} beginnen"

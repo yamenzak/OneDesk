@@ -931,7 +931,7 @@ Each row shows when it's sent and who gets it, with these badges:
 - **Off**: it isn't sent.
 - **Edited**: its text was changed.
 - **Email** and **Push**: it can also be sent that way. Blue means new people
-  start with it on.
+  start with it on, which the app sending it decides.
 - **External Email**: it goes to an address outside the workspace, such as a
   file request email.
 
@@ -984,11 +984,12 @@ Click a notification to open it, and save from the top right.
   text is sent to everyone as written. **Reset to Default** restores
   the default, which is translated again.
 - **Channels**: notifications in One are always on. **Email Allowed** and
-  **Push Allowed** let people also get it by email or push, and **for New
-  People** sets whether new people start with it on. Turning a channel off
-  stops it for everyone, including people who chose it. Turning it back on
-  gives it to everyone again if it's on for new people. Each person changes
-  their own under You › Notifications.
+  **Push Allowed** let people also get it by email or push. Whether new
+  people start with it on is the app's to say, and for a workspace rule,
+  everybody starts with what is allowed. Turning a channel off stops it for
+  everyone, including people who chose it. Turning it back on gives it to
+  everyone again if new people start with it on. Each person changes their
+  own in NotificationCenter.
 
 ### Making your own notification rule
 

@@ -3084,8 +3084,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					)}</div>`,
 				},
 				{ heading: __("Channels"), note: __("In-app notifications are always on.") },
-				["one_allow_email", "one_allow_push"],
-				["one_email_default", "one_push_default"]
+				["one_allow_email", "one_allow_push"]
 			);
 		} else if (type.ours) {
 			rows.push(
@@ -3097,13 +3096,12 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			if (type.always) {
 				rows.push(
 					{ heading: __("Channels"), note: __("Email is always sent so people can reply.") },
-					["one_allow_push", "one_push_default"]
+					["one_allow_push"]
 				);
 			} else if (!type.outside) {
 				rows.push(
 					{ heading: __("Channels"), note: __("In-app notifications are always on.") },
-					["one_allow_email", "one_allow_push"],
-					["one_email_default", "one_push_default"]
+					["one_allow_email", "one_allow_push"]
 				);
 			} else {
 				rows.push({ html: `<div class="one-shell-quiet">${esc(__("Sent to addresses outside the workspace, so there's no channel to choose."))}</div>` });
@@ -3207,7 +3205,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			["message"],
 			{ heading: __("Channels"), note: __("In-app notifications are always on.") },
 			["one_allow_email", "one_allow_push"],
-			["one_email_default", "one_push_default"],
 		];
 		const $card = this.form(data, { rows });
 		const options = (list) => [{ value: "", label: "" }, ...(list || [])];

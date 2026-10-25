@@ -9380,12 +9380,19 @@ def notification_center_sets_yours_and_the_workspace():
 	with as_user("wsadmin@one.test"):
 		types = notification_center.workspace("OneMail")
 		assert types and all(kind["app"] == "OneMail" for kind in types), types
-		kind = next(t for t in types if t["channels"])
+		assert all(set(kind) >= {"enabled", "one_allow_email", "one_allow_push"} for kind in types), types
+		kind = next(t for t in types if not t["fixed"])
 		try:
-			notification_center.set_type(kind["name"], "one_push_default", 0 if kind["one_push_default"] else 1)
-			assert frappe.db.get_value("Notification Type", kind["name"], "one_push_default") != kind["one_push_default"]
+			notification_center.set_type(kind["name"], "enabled", 0 if kind["enabled"] else 1)
+			assert frappe.db.get_value("Notification Type", kind["name"], "enabled") != kind["enabled"]
+			try:
+				notification_center.set_type(kind["name"], "one_push_default", 1)
+			except frappe.ValidationError:
+				pass
+			else:
+				raise AssertionError("an administrator set who starts with a channel on; the module says that")
 		finally:
-			notification_center.set_type(kind["name"], "one_push_default", kind["one_push_default"])
+			notification_center.set_type(kind["name"], "enabled", kind["enabled"])
 
 
 def _modules() -> None:
