@@ -1642,6 +1642,10 @@ msgstr "لمسة الذكاء الاصطناعي"
 msgid "AI Usage"
 msgstr "استخدام الذكاء الاصطناعي"
 
+#: onedesk/public/js/trust_center.js
+msgid "All of TrustCenter"
+msgstr "TrustCenter كاملًا"
+
 #: onedesk/one_mail/ai.py
 msgid "Answers"
 msgstr "يردّ على"
@@ -20835,10 +20839,6 @@ msgstr "مالكه الجديد"
 msgid "Its number among the project's invoices, given when it is submitted."
 msgstr "رقمها بين فواتير المشروع، يُعطى عند اعتمادها."
 
-#: onedesk/public/js/trust_center.js
-msgid "Its own paragraphs, under the agreement each is in."
-msgstr "فقراته الخاصة، تحت الاتفاقية التي تنتمي إليها كل منها."
-
 #: onedesk/one/numbering.py:317
 msgid "Its own way"
 msgstr "بطريقته الخاصة"
@@ -33631,6 +33631,10 @@ msgstr "قراءة تسجيلات الحضور"
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
 msgid "Read Files Attached to Records"
 msgstr "قراءة الملفات المرفقة بالسجلات"
+
+#: onedesk/public/js/trust_center.js
+msgid "Read in Full"
+msgstr "اقرأ كاملًا"
 
 #: frontend/src/floor/FloorSteps.vue:108
 msgid "Read Instructions"
@@ -47741,10 +47745,6 @@ msgstr "ما يُحفظ"
 msgid "What is kept and for how long, and how to take everything with you."
 msgstr "ما يُحفظ ولأي مدة، وكيف تأخذ كل شيء معك."
 
-#: onedesk/public/js/trust_center.js
-msgid "What It Adds to the Agreements"
-msgstr "ما يضيفه إلى الاتفاقيات"
-
 #: onedesk/one_studio/doctype/extension/extension.js:83
 msgid "What It Does"
 msgstr "ما تفعله"
@@ -48738,8 +48738,12 @@ msgid "What you will have once orders come and go."
 msgstr "ما سيكون لديك بعد أن تأتي الطلبات وتذهب."
 
 #: onedesk/public/js/trust_center.js
-msgid "What {0} adds to the agreements, what it can send out, and to whom."
-msgstr "ما يضيفه {0} إلى الاتفاقيات، وما يمكنه إرساله، وإلى من."
+msgid "What {0} adds to it."
+msgstr "ما يضيفه {0} إليها."
+
+#: onedesk/public/js/trust_center.js
+msgid "What {0} can send out, and to whom."
+msgstr "ما يمكن لـ {0} إرساله، وإلى من."
 
 #: onedesk/one/ai_setup.py:713
 msgid "What {0} sees"
@@ -54391,6 +54395,10 @@ msgstr "{0} عروض أسعار تنتهي صلاحيتها"
 #: frontend/src/home/HrHome.vue:161
 msgid "{0} Requests Waiting for You"
 msgstr "{0} طلبات بانتظارك"
+
+#: onedesk/public/js/trust_center.js
+msgid "{0} sends nothing to another company."
+msgstr "لا يرسل {0} شيئًا إلى شركة أخرى."
 
 #: onedesk/public/js/module_settings.js:54
 msgid "{0} Settings"

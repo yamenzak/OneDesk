@@ -1,8 +1,8 @@
 // TrustCenter (docs/READY.md, mechanism 13): the agreements, the laws they
 // answer, the optional services a workspace turns on, every company that
 // receives data, what is kept and how to leave, and what is changing. The
-// docs dialog HelpCenter is, opened from a module's foot on that module, or
-// on the workspace from the Agreements address. Its words are the
+// docs dialog HelpCenter is: the whole of it from the bottom bar and the
+// Agreements address, and a module's part from its foot. Its words are the
 // agreements' own, in English; what is around them is translated.
 frappe.provide("onedesk.trust");
 
@@ -22,86 +22,97 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 	const pages = [];
 	const page = (one) => (pages.push(one), one);
 
+	// Opened in a module, only what is that module's: what it sends out and
+	// to whom, then its own paragraphs of each agreement it writes into, and
+	// the changes to those. The whole of TrustCenter is the bottom bar's.
+	const mine = said.module ? said.module.documents.filter((doc) => doc.sections.length) : [];
+	const keys = new Set(mine.map((doc) => doc.key));
 	if (said.module) {
-		const html = said.module.documents
-			.filter((doc) => doc.sections.length)
-			.map(
-				(doc) =>
-					`<h2>${esc(doc.title)}</h2>` +
-					doc.sections
-						.map(
-							(section) =>
-								`<h3>${esc(section.heading)}</h3>` +
-								section.clauses.map((c) => (c.heading ? `<h4>${esc(c.heading)}</h4>` : "") + `<p>${esc(c.body)}</p>`).join(""),
-						)
-						.join(""),
-			)
-			.join("");
 		page({
 			id: "app",
 			label: module,
 			icon_html: frappe.utils.icon(module.toLowerCase(), "sm"),
 			title: __("{0} and Your Data", [module]),
-			description: __("What {0} adds to the agreements, what it can send out, and to whom.", [module]),
-			html: anchored("app", html),
-			before(panel) {
-				const mine = said.services.filter((one) => one.module === module);
-				if (mine.length) {
+			description: __("What {0} can send out, and to whom.", [module]),
+			html: "",
+			after(panel) {
+				const own = said.services.filter((one) => one.module === module);
+				if (own.length) {
 					panel.body.append(kit.heading(__("Optional Services"), __("Off until an administrator turns them on.")));
-					services(panel.body, mine);
+					services(panel.body, own);
 				}
 				const used = said.companies.filter((row) => row.uses.some((use) => use.module === module));
 				if (used.length) {
 					panel.body.append(kit.heading(__("Who It Sends Data To"), __("Struck through where your workspace doesn't use it.")));
 					table(used, module).appendTo(panel.body);
 				}
-				if (html) panel.body.append(kit.heading(__("What It Adds to the Agreements"), __("Its own paragraphs, under the agreement each is in.")));
+				if (!own.length && !used.length) panel.body.append(kit.empty(__("{0} sends nothing to another company.", [module])));
 			},
 		});
-	}
-
-	for (const doc of said.documents) {
+		for (const part of mine) {
+			const doc = said.documents.find((one) => one.key === part.key);
+			const html = part.sections
+				.map(
+					(section) =>
+						`<h2>${esc(section.heading)}</h2>` +
+						section.clauses.map((c) => (c.heading ? `<h3>${esc(c.heading)}</h3>` : "") + `<p>${esc(c.body)}</p>`).join(""),
+				)
+				.join("");
+			page({
+				id: `doc:${doc.key}`,
+				group: "agreements",
+				label: doc.title,
+				icon: "file-text",
+				title: doc.title,
+				description: __("What {0} adds to it.", [module]),
+				html: anchored(doc.key, html),
+				before(panel) {
+					standing(panel, doc, true);
+				},
+			});
+		}
+	} else {
+		for (const doc of said.documents) {
+			page({
+				id: `doc:${doc.key}`,
+				group: "agreements",
+				label: doc.title,
+				icon: "file-text",
+				title: doc.title,
+				description: doc.summary,
+				html: anchored(doc.key, doc.html),
+				before(panel) {
+					standing(panel, doc);
+				},
+			});
+		}
 		page({
-			id: `doc:${doc.key}`,
-			group: "agreements",
-			label: doc.title,
-			icon: "file-text",
-			title: doc.title,
-			description: doc.summary,
-			html: anchored(doc.key, doc.html),
-			before(panel) {
-				standing(panel, doc);
+			id: "services",
+			label: __("Optional Services"),
+			icon: "toggle-right",
+			title: __("Optional Services"),
+			description: __("What One can send to another company only once your administrators turn it on."),
+			html: "",
+			after(panel) {
+				if (!said.services.length) panel.body.append(kit.empty(__("Nothing is optional yet.")));
+				else services(panel.body, said.services);
+			},
+		});
+		page({
+			id: "companies",
+			label: __("Subprocessors"),
+			icon: "building-2",
+			title: __("Subprocessors"),
+			description: __("Every company that receives data from a workspace, and whether yours uses it."),
+			html: "",
+			after(panel) {
+				table(said.companies).appendTo(panel.body);
 			},
 		});
 	}
-
-	page({
-		id: "services",
-		label: __("Optional Services"),
-		icon: "toggle-right",
-		title: __("Optional Services"),
-		description: __("What One can send to another company only once your administrators turn it on."),
-		html: "",
-		after(panel) {
-			if (!said.services.length) panel.body.append(kit.empty(__("Nothing is optional yet.")));
-			else services(panel.body, said.services);
-		},
-	});
-
-	page({
-		id: "companies",
-		label: __("Subprocessors"),
-		icon: "building-2",
-		title: __("Subprocessors"),
-		description: __("Every company that receives data from a workspace, and whether yours uses it."),
-		html: "",
-		after(panel) {
-			table(said.companies).appendTo(panel.body);
-		},
-	});
 
 	const paragraphs = (list) => list.map((one) => `<p>${esc(one)}</p>`).join("");
-	page({
+	if (!said.module) page({
 		id: "data",
 		label: __("Your Data"),
 		icon: "database",
@@ -123,12 +134,13 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 		description: __("What is changing in the agreements, and from when."),
 		html: "",
 		after(panel) {
-			if (!said.changes.length) {
+			const changes = said.module ? said.changes.filter((one) => keys.has(one.document)) : said.changes;
+			if (!changes.length) {
 				panel.body.append(kit.empty(__("Nothing has changed yet.")));
 				return;
 			}
 			const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body);
-			for (const one of said.changes) {
+			for (const one of changes) {
 				const when = __("Published {0} · Takes effect {1}", [one.published, one.effective]);
 				kit.row({
 					lead: kit.glyph(one.coming ? "calendar-clock" : "circle-check"),
@@ -143,7 +155,7 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 
 	// Where the reader and the workspace stand on an agreement, the change
 	// coming to it, its earlier versions, and Print and Agree.
-	function standing(panel, doc) {
+	function standing(panel, doc, part = false) {
 		const $box = $(`<div class="one-trust-standing"></div>`).appendTo(panel.body);
 		const $list = $(`<div class="one-set-list"></div>`).appendTo($box);
 		const sides = [
@@ -180,6 +192,14 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 				})
 				.appendTo($buttons);
 		}
+		if (part) {
+			kit.button({ label: __("Read in Full"), variant: "outline", icon: "book-open" })
+				.on("click", () => {
+					dialog.hide();
+					onedesk.trust.open({ at: `doc:${doc.key}` });
+				})
+				.appendTo($buttons);
+		}
 		kit.button({ label: __("Print"), variant: "outline", icon: "printer" }).on("click", () => print(doc.title, doc.html)).appendTo($buttons);
 		if (said.admin && doc.organisation) {
 			kit.button({ label: __("Everyone's Agreements"), variant: "ghost", icon: "users" })
@@ -189,7 +209,7 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 				})
 				.appendTo($buttons);
 		}
-		for (const old of doc.history.filter((one) => one.version !== doc.version).slice(0, 5)) {
+		for (const old of doc.history.filter((one) => one.version !== doc.version).slice(0, 2)) {
 			kit.button({ label: __("Version {0}", [old.version]), variant: "ghost", icon: "history" })
 				.on("click", async () => {
 					const read = await frappe.xcall("onedesk.one_legal.reading.document", { key: doc.key, version: old.version }, "GET");
@@ -346,6 +366,16 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 		module,
 		center: "trust",
 		tabs: [{ items }],
+		head_action: module
+			? ($head) =>
+					$(frappe.ui.button.html({ variant: "ghost", icon: "maximize-2", title: __("All of TrustCenter"), attrs: { "aria-label": __("All of TrustCenter") } }))
+						.addClass("one-module-head-help")
+						.on("click", () => {
+							dialog.hide();
+							onedesk.trust.open();
+						})
+						.appendTo($head)
+			: null,
 		tree,
 		default_tab: (at && items.find((one) => one.id === at) ? at : null) || items[0]?.id,
 	});

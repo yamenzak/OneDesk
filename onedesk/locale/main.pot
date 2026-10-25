@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-25 17:00+0000\n"
-"PO-Revision-Date: 2026-10-25 17:00+0000\n"
+"POT-Creation-Date: 2026-10-25 17:11+0000\n"
+"PO-Revision-Date: 2026-10-25 17:11+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -262,7 +262,7 @@ msgstr ""
 msgid "1 item selected"
 msgstr ""
 
-#: onedesk/public/js/module_docs.js:202
+#: onedesk/public/js/module_docs.js:203
 msgid "1 matching section"
 msgstr ""
 
@@ -3086,7 +3086,7 @@ msgstr ""
 msgid "Aggregate slices"
 msgstr ""
 
-#: onedesk/public/js/legal.js:71 onedesk/public/js/trust_center.js:174
+#: onedesk/public/js/legal.js:71 onedesk/public/js/trust_center.js:186
 msgid "Agree"
 msgstr ""
 
@@ -3107,11 +3107,11 @@ msgstr ""
 msgid "Agreed at {0}, {1} left until {2}"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:158
+#: onedesk/public/js/trust_center.js:170
 msgid "Agreed on {0}"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:177
+#: onedesk/public/js/trust_center.js:189
 msgid "Agreed to {0}"
 msgstr ""
 
@@ -3126,7 +3126,7 @@ msgid "Agreement No"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one/sidebar/one/one.json onedesk/public/js/trust_center.js:340
+#: onedesk/one/sidebar/one/one.json onedesk/public/js/trust_center.js:360
 #: onedesk/www/legal.html:20 onedesk/www/legal.py:27
 msgid "Agreements"
 msgstr ""
@@ -3165,7 +3165,7 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: onedesk/public/js/window/chrome.js:224
+#: onedesk/public/js/window/chrome.js:226
 msgid "All Announcements"
 msgstr ""
 
@@ -3280,6 +3280,10 @@ msgstr ""
 
 #: onedesk/public/js/settings.js:264
 msgid "All notifications appear in One."
+msgstr ""
+
+#: onedesk/public/js/trust_center.js:371
+msgid "All of TrustCenter"
 msgstr ""
 
 #: onedesk/one_inventory/heads.py:761
@@ -3874,7 +3878,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json onedesk/public/js/window/chrome.js:31
-#: onedesk/public/js/window/chrome.js:179
+#: onedesk/public/js/window/chrome.js:181
 msgid "Announcements"
 msgstr ""
 
@@ -4572,7 +4576,7 @@ msgstr ""
 msgid "As a workspace administrator, you agree to some of these for your organisation."
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:196
+#: onedesk/public/js/trust_center.js:216
 msgid "As agreed, version {0}."
 msgstr ""
 
@@ -4712,7 +4716,7 @@ msgid "Ask the sender for a new one."
 msgstr ""
 
 #: onedesk/public/js/oneai.js:104 onedesk/public/js/oneai.js:105
-#: onedesk/public/js/oneai/Panel.vue:190 onedesk/public/js/window/chrome.js:129
+#: onedesk/public/js/oneai/Panel.vue:190 onedesk/public/js/window/chrome.js:130
 msgid "Ask {0}"
 msgstr ""
 
@@ -5608,7 +5612,7 @@ msgstr ""
 msgid "Background"
 msgstr ""
 
-#: onedesk/public/js/window/chrome.js:102
+#: onedesk/public/js/window/chrome.js:103
 msgid "Background Tasks"
 msgstr ""
 
@@ -7082,7 +7086,7 @@ msgstr ""
 #: frontend/src/task/TaskWaits.vue:14
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
 #: onedesk/public/js/doctype_settings.js:254
-#: onedesk/public/js/trust_center.js:257
+#: onedesk/public/js/trust_center.js:277
 msgid "Cancel"
 msgstr ""
 
@@ -7398,8 +7402,8 @@ msgstr ""
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_hr/print_format/one_promotion_letter/one_promotion_letter.json
 #: onedesk/one_hr/print_format/one_transfer_letter/one_transfer_letter.json
-#: onedesk/public/js/audit_list.js:20 onedesk/public/js/trust_center.js:120
-#: onedesk/public/js/trust_center.js:122
+#: onedesk/public/js/audit_list.js:20 onedesk/public/js/trust_center.js:131
+#: onedesk/public/js/trust_center.js:133
 msgid "Changes"
 msgstr ""
 
@@ -7411,7 +7415,7 @@ msgstr ""
 msgid "Changes apply only to packs sold from now on."
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:167
+#: onedesk/public/js/trust_center.js:179
 msgid "Changing on {0}"
 msgstr ""
 
@@ -7529,7 +7533,7 @@ msgstr ""
 #: frontend/src/home/HrHome.vue:238
 #: onedesk/notifications/one_hr/not_checked_in.md onedesk/public/js/desk.js:98
 #: onedesk/public/js/desk.js:190 onedesk/public/js/desk.js:201
-#: onedesk/public/js/desk.js:206 onedesk/public/js/window/chrome.js:109
+#: onedesk/public/js/desk.js:206 onedesk/public/js/window/chrome.js:110
 msgid "Check In"
 msgstr ""
 
@@ -8114,7 +8118,7 @@ msgstr ""
 
 #: frontend/src/cloud/CloudUploads.vue:5 frontend/src/kit/Drawer.vue:9
 #: frontend/src/sheet/components/SheetEditor/index.vue:609
-#: onedesk/public/js/module_docs.js:395 onedesk/public/js/oneai/Panel.vue:38
+#: onedesk/public/js/module_docs.js:396 onedesk/public/js/oneai/Panel.vue:38
 #: onedesk/public/js/opportunity.js:12 onedesk/public/js/workbooks.js:122
 msgid "Close"
 msgstr ""
@@ -8453,7 +8457,7 @@ msgstr ""
 msgid "Comes In"
 msgstr ""
 
-#: frontend/src/plant/PlantFloor.vue:65 onedesk/public/js/trust_center.js:137
+#: frontend/src/plant/PlantFloor.vue:65 onedesk/public/js/trust_center.js:149
 msgid "Coming"
 msgstr ""
 
@@ -8556,7 +8560,7 @@ msgstr ""
 #: onedesk/one_storage/namespace.py:503 onedesk/one_storage/namespace.py:604
 #: onedesk/one_storage/namespace.py:858
 #: onedesk/public/js/project_actions.js:444 onedesk/public/js/settings.js:640
-#: onedesk/public/js/settings.js:648 onedesk/public/js/trust_center.js:276
+#: onedesk/public/js/settings.js:648 onedesk/public/js/trust_center.js:296
 msgid "Company"
 msgstr ""
 
@@ -12660,7 +12664,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 #: onedesk/one_project/portal.py:13
 #: onedesk/one_task/doctype/task_step/task_step.json
-#: onedesk/public/js/learned.js:31 onedesk/public/js/module_docs.js:394
+#: onedesk/public/js/learned.js:31 onedesk/public/js/module_docs.js:395
 #: onedesk/public/js/module_settings.js:80
 #: onedesk/public/js/one_mail/rule_builder.js:248
 #: onedesk/public/js/one_mail/rule_builder.js:318
@@ -13344,7 +13348,7 @@ msgstr ""
 msgid "Each sender gets one out-of-office reply in four days, from this mailbox."
 msgstr ""
 
-#: onedesk/one_legal/services.py:145
+#: onedesk/one_legal/services.py:146
 msgid "Each sends something to another company, and stays off unless you turn it on. Turning one on agrees to it for your whole workspace."
 msgstr ""
 
@@ -14602,7 +14606,7 @@ msgstr ""
 msgid "Every check-in is scored out of 100 and the score is kept on Clock Attempt. Each check below that fails subtracts from it."
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:96
+#: onedesk/public/js/trust_center.js:106
 msgid "Every company that receives data from a workspace, and whether yours uses it."
 msgstr ""
 
@@ -14897,7 +14901,7 @@ msgstr ""
 msgid "Everyone's"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:185
+#: onedesk/public/js/trust_center.js:205
 msgid "Everyone's Agreements"
 msgstr ""
 
@@ -18088,7 +18092,7 @@ msgstr ""
 
 #: frontend/src/writer/components/ToC.vue:12
 #: frontend/src/writer/components/ToC.vue:99
-#: onedesk/public/js/window/chrome.js:200
+#: onedesk/public/js/window/chrome.js:202
 msgid "Hide"
 msgstr ""
 
@@ -20535,7 +20539,7 @@ msgstr ""
 msgid "It now costs {monthly} a month."
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:229
+#: onedesk/public/js/trust_center.js:249
 msgid "It now sends somewhere new, so it is off until an administrator agrees again."
 msgstr ""
 
@@ -20963,10 +20967,6 @@ msgstr ""
 #. Description of the 'Claim No' (Int) field in DocType 'Sales Invoice'
 #: onedesk/one_project/custom/sales_invoice.json
 msgid "Its number among the project's invoices, given when it is submitted."
-msgstr ""
-
-#: onedesk/public/js/trust_center.js:58
-msgid "Its own paragraphs, under the agreement each is in."
 msgstr ""
 
 #: onedesk/one/numbering.py:317
@@ -25051,7 +25051,7 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_leave_allocation/one_leave_allocation.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/public/js/doctype_settings.js:57 onedesk/public/js/item_new.js:266
-#: onedesk/public/js/module_docs.js:252 onedesk/public/js/module_docs.js:261
+#: onedesk/public/js/module_docs.js:253 onedesk/public/js/module_docs.js:262
 msgid "New"
 msgstr ""
 
@@ -25463,7 +25463,7 @@ msgstr ""
 #: onedesk/one/print_blocks.py:687
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:199
 #: onedesk/public/js/doctype_settings.js:328 onedesk/public/js/item_new.js:326
-#: onedesk/public/js/module_docs.js:392
+#: onedesk/public/js/module_docs.js:393
 #: onedesk/public/js/project_actions.js:554
 #: onedesk/public/js/project_new.js:263 onedesk/public/js/settings.js:1765
 msgid "Next"
@@ -26552,7 +26552,7 @@ msgstr ""
 msgid "Nobody has signed in yet"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:153
+#: onedesk/public/js/trust_center.js:165
 msgid "Nobody has to agree to this."
 msgstr ""
 
@@ -26736,7 +26736,7 @@ msgstr ""
 msgid "Not Tracked"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:290
+#: onedesk/public/js/trust_center.js:310
 msgid "Not Used by This Workspace"
 msgstr ""
 
@@ -26764,7 +26764,7 @@ msgstr ""
 msgid "Not active recently"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:161
+#: onedesk/public/js/trust_center.js:173
 msgid "Not agreed yet"
 msgstr ""
 
@@ -27137,7 +27137,7 @@ msgstr ""
 msgid "Nothing due"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:127
+#: onedesk/public/js/trust_center.js:139
 msgid "Nothing has changed yet."
 msgstr ""
 
@@ -27154,7 +27154,7 @@ msgstr ""
 msgid "Nothing here yet"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:86
+#: onedesk/public/js/trust_center.js:97
 msgid "Nothing is optional yet."
 msgstr ""
 
@@ -27177,7 +27177,7 @@ msgstr ""
 msgid "Nothing matches"
 msgstr ""
 
-#: onedesk/public/js/module_docs.js:205
+#: onedesk/public/js/module_docs.js:206
 msgid "Nothing matches. Try fewer words."
 msgstr ""
 
@@ -27322,7 +27322,7 @@ msgstr ""
 #: onedesk/one/sidebar/one/one.json onedesk/one_project/library/mobile_app.json
 #: onedesk/public/js/doctype_settings.js:234 onedesk/public/js/settings.js:3026
 #: onedesk/public/js/settings.js:3120 onedesk/public/js/settings.js:3177
-#: onedesk/public/js/window/chrome.js:91
+#: onedesk/public/js/window/chrome.js:92
 msgid "Notifications"
 msgstr ""
 
@@ -27557,7 +27557,7 @@ msgstr ""
 msgid "Off in this browser"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:50
+#: onedesk/public/js/trust_center.js:41
 msgid "Off until an administrator turns them on."
 msgstr ""
 
@@ -28496,7 +28496,7 @@ msgstr ""
 #: frontend/src/intake/IntakeInbox.vue:129 onedesk/one/sidebar/one/one.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_intake/page/intake/intake.js:2 onedesk/public/js/desk.js:106
-#: onedesk/public/js/desk.js:175 onedesk/public/js/window/chrome.js:81
+#: onedesk/public/js/desk.js:175 onedesk/public/js/window/chrome.js:82
 msgid "OneIntake"
 msgstr ""
 
@@ -28681,11 +28681,11 @@ msgstr ""
 msgid "Only a workspace administrator can agree to this for the organisation."
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:231
+#: onedesk/public/js/trust_center.js:251
 msgid "Only a workspace administrator can turn it on."
 msgstr ""
 
-#: onedesk/one_legal/services.py:108
+#: onedesk/one_legal/services.py:109
 msgid "Only a workspace administrator can turn this on or off."
 msgstr ""
 
@@ -29198,7 +29198,7 @@ msgstr ""
 msgid "Open {0} Older Entries"
 msgstr ""
 
-#: onedesk/public/js/module_docs.js:379
+#: onedesk/public/js/module_docs.js:380
 msgid "Open {0} to take its tour."
 msgstr ""
 
@@ -29383,8 +29383,8 @@ msgstr ""
 msgid "Opportunity by Territory"
 msgstr ""
 
-#: onedesk/one_legal/services.py:144 onedesk/public/js/trust_center.js:50
-#: onedesk/public/js/trust_center.js:80 onedesk/public/js/trust_center.js:82
+#: onedesk/one_legal/services.py:145 onedesk/public/js/trust_center.js:41
+#: onedesk/public/js/trust_center.js:91 onedesk/public/js/trust_center.js:93
 msgid "Optional Services"
 msgstr ""
 
@@ -32365,7 +32365,7 @@ msgstr ""
 
 #: frontend/portal/src/parts/Gallery.vue:9 frontend/src/project/Media.vue:8
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:197
-#: onedesk/public/js/item_new.js:217 onedesk/public/js/module_docs.js:393
+#: onedesk/public/js/item_new.js:217 onedesk/public/js/module_docs.js:394
 #: onedesk/public/js/project_new.js:251
 msgid "Previous"
 msgstr ""
@@ -32472,7 +32472,7 @@ msgstr ""
 #: frontend/src/writer/DocumentPage.vue:281
 #: frontend/src/writer/shim/PrintDialog.vue:3
 #: frontend/src/writer/shim/PrintDialog.vue:15 onedesk/public/js/record.js:150
-#: onedesk/public/js/trust_center.js:183
+#: onedesk/public/js/trust_center.js:203
 msgid "Print"
 msgstr ""
 
@@ -33197,7 +33197,7 @@ msgstr ""
 msgid "Published Prices"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:132
+#: onedesk/public/js/trust_center.js:144
 msgid "Published {0} · Takes effect {1}"
 msgstr ""
 
@@ -33877,7 +33877,7 @@ msgstr ""
 msgid "Read List"
 msgstr ""
 
-#: onedesk/public/js/module_docs.js:265
+#: onedesk/public/js/module_docs.js:266
 msgid "Read More"
 msgstr ""
 
@@ -33936,6 +33936,10 @@ msgstr ""
 #. Description of the 'When' (Data) field in DocType 'Timesheet Detail'
 #: onedesk/one_hr/custom/timesheet_detail.json
 msgid "Read from the two times below."
+msgstr ""
+
+#: onedesk/public/js/trust_center.js:196
+msgid "Read in Full"
 msgstr ""
 
 #: onedesk/public/js/settings.js:2735
@@ -35845,7 +35849,7 @@ msgstr ""
 msgid "Results for {0}"
 msgstr ""
 
-#: onedesk/public/js/module_docs.js:201
+#: onedesk/public/js/module_docs.js:202
 msgid "Results for “{0}”"
 msgstr ""
 
@@ -36472,7 +36476,7 @@ msgstr ""
 msgid "SWIFT"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:276
+#: onedesk/public/js/trust_center.js:296
 msgid "Safeguard"
 msgstr ""
 
@@ -37001,9 +37005,9 @@ msgstr ""
 #: frontend/src/to_order/ToOrderPage.vue:9
 #: frontend/src/upkeep/UpkeepPage.vue:10
 #: onedesk/one_hr/custom/employee_attendance_tool.json
-#: onedesk/public/js/crumb_switch.js:110 onedesk/public/js/module_docs.js:107
+#: onedesk/public/js/crumb_switch.js:110 onedesk/public/js/module_docs.js:108
 #: onedesk/public/js/one_mail/onemail_settings.js:1377
-#: onedesk/public/js/window/chrome.js:72 onedesk/public/js/window/chrome.js:73
+#: onedesk/public/js/window/chrome.js:73 onedesk/public/js/window/chrome.js:74
 msgid "Search"
 msgstr ""
 
@@ -40607,7 +40611,7 @@ msgstr ""
 msgid "Strongest"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:55
+#: onedesk/public/js/trust_center.js:46
 msgid "Struck through where your workspace doesn't use it."
 msgstr ""
 
@@ -40747,8 +40751,8 @@ msgstr ""
 msgid "Submitting this pays {0} {1} for {2} days of {3}."
 msgstr ""
 
-#: onedesk/one_legal/gate.py:27 onedesk/public/js/trust_center.js:93
-#: onedesk/public/js/trust_center.js:95
+#: onedesk/one_legal/gate.py:27 onedesk/public/js/trust_center.js:103
+#: onedesk/public/js/trust_center.js:105
 msgid "Subprocessors"
 msgstr ""
 
@@ -41372,7 +41376,7 @@ msgstr ""
 msgid "Take back {0} and record it with Take Back on the asset's page."
 msgstr ""
 
-#: onedesk/public/js/module_docs.js:95
+#: onedesk/public/js/module_docs.js:96
 msgid "Take the Tour"
 msgstr ""
 
@@ -41419,7 +41423,7 @@ msgstr ""
 msgid "Takes the workspaces that asked for their data to stay in the EU. Tick it only for a server in the EU."
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:114
+#: onedesk/public/js/trust_center.js:125
 msgid "Taking It With You"
 msgstr ""
 
@@ -45213,7 +45217,7 @@ msgstr ""
 
 #: frontend/src/task/Timers.vue:13 onedesk/one_task/page/timers/timers.js:2
 #: onedesk/public/js/desk.js:115 onedesk/public/js/desk.js:143
-#: onedesk/public/js/window/chrome.js:119
+#: onedesk/public/js/window/chrome.js:120
 msgid "Timers"
 msgstr ""
 
@@ -45387,7 +45391,7 @@ msgstr ""
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/public/js/item_actions.js:186 onedesk/public/js/item_actions.js:285
 #: onedesk/public/js/one_mail/mail_compose.js:181
-#: onedesk/public/js/trust_center.js:221
+#: onedesk/public/js/trust_center.js:241
 msgid "To"
 msgstr ""
 
@@ -45471,7 +45475,7 @@ msgstr ""
 msgid "To Pay"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:153
+#: onedesk/public/js/trust_center.js:165
 msgid "To Read"
 msgstr ""
 
@@ -46236,7 +46240,7 @@ msgid "Turn Off {0}"
 msgstr ""
 
 #: frontend/src/lots/LotsPage.vue:8 onedesk/one_studio/heads.py:76
-#: onedesk/public/js/trust_center.js:251
+#: onedesk/public/js/trust_center.js:271
 msgid "Turn On"
 msgstr ""
 
@@ -46253,7 +46257,7 @@ msgstr ""
 msgid "Turn On {0}"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:243
+#: onedesk/public/js/trust_center.js:263
 msgid "Turn On {0}?"
 msgstr ""
 
@@ -46281,7 +46285,7 @@ msgstr ""
 msgid "Turned down."
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:266
+#: onedesk/public/js/trust_center.js:286
 msgid "Turned off"
 msgstr ""
 
@@ -46289,11 +46293,11 @@ msgstr ""
 msgid "Turned off."
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:266
+#: onedesk/public/js/trust_center.js:286
 msgid "Turned on"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:227
+#: onedesk/public/js/trust_center.js:247
 msgid "Turned on by {0} on {1}."
 msgstr ""
 
@@ -46305,7 +46309,7 @@ msgstr ""
 msgid "Turned on."
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:248
+#: onedesk/public/js/trust_center.js:268
 msgid "Turning it on agrees to this for your whole workspace, and is recorded with your name."
 msgstr ""
 
@@ -47512,7 +47516,7 @@ msgstr ""
 msgid "Version history"
 msgstr ""
 
-#: frontend/src/cloud/CloudPreview.vue:31 onedesk/public/js/trust_center.js:193
+#: frontend/src/cloud/CloudPreview.vue:31 onedesk/public/js/trust_center.js:213
 msgid "Version {0}"
 msgstr ""
 
@@ -47733,7 +47737,7 @@ msgstr ""
 msgid "Waiting for You"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:160
+#: onedesk/public/js/trust_center.js:172
 msgid "Waiting for an administrator"
 msgstr ""
 
@@ -48091,7 +48095,7 @@ msgstr ""
 msgid "What Failed"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:276
+#: onedesk/public/js/trust_center.js:296
 msgid "What For"
 msgstr ""
 
@@ -48100,23 +48104,19 @@ msgstr ""
 msgid "What Happened"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:112
+#: onedesk/public/js/trust_center.js:123
 msgid "What Is Kept"
-msgstr ""
-
-#: onedesk/public/js/trust_center.js:58
-msgid "What It Adds to the Agreements"
 msgstr ""
 
 #: onedesk/one_studio/doctype/extension/extension.js:83
 msgid "What It Does"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:220
+#: onedesk/public/js/trust_center.js:240
 msgid "What It Sends"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:83
+#: onedesk/public/js/trust_center.js:94
 msgid "What One can send to another company only once your administrators turn it on."
 msgstr ""
 
@@ -48182,7 +48182,7 @@ msgstr ""
 msgid "What They Get"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:276
+#: onedesk/public/js/trust_center.js:296
 msgid "What They Receive"
 msgstr ""
 
@@ -48451,7 +48451,7 @@ msgstr ""
 msgid "What have I agreed to?"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:123
+#: onedesk/public/js/trust_center.js:134
 msgid "What is changing in the agreements, and from when."
 msgstr ""
 
@@ -48472,7 +48472,7 @@ msgstr ""
 msgid "What is happening"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:109
+#: onedesk/public/js/trust_center.js:120
 msgid "What is kept and for how long, and how to take everything with you."
 msgstr ""
 
@@ -49124,8 +49124,12 @@ msgstr ""
 msgid "What you will have once orders come and go."
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:45
-msgid "What {0} adds to the agreements, what it can send out, and to whom."
+#: onedesk/public/js/trust_center.js:67
+msgid "What {0} adds to it."
+msgstr ""
+
+#: onedesk/public/js/trust_center.js:36
+msgid "What {0} can send out, and to whom."
 msgstr ""
 
 #: onedesk/one/ai_setup.py:713
@@ -49146,7 +49150,7 @@ msgstr ""
 msgid "What's New"
 msgstr ""
 
-#: onedesk/public/js/module_docs.js:288
+#: onedesk/public/js/module_docs.js:289
 #: onedesk/public/js/window/nav_tree.js:232
 msgid "What's New in {0}"
 msgstr ""
@@ -50435,7 +50439,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_bill_of_materials/one_bill_of_materials.json
 #: onedesk/one_inventory/print_format/one_job_card/one_job_card.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
-#: onedesk/one_studio/ai.py:439 onedesk/public/js/trust_center.js:276
+#: onedesk/one_studio/ai.py:439 onedesk/public/js/trust_center.js:296
 msgid "Where"
 msgstr ""
 
@@ -50830,7 +50834,7 @@ msgstr ""
 msgid "Which workstations are making, which are stopped and why, and what is running on each?"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:222
+#: onedesk/public/js/trust_center.js:242
 msgid "While It Is Off"
 msgstr ""
 
@@ -50850,7 +50854,7 @@ msgstr ""
 msgid "Who"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:55
+#: onedesk/public/js/trust_center.js:46
 msgid "Who It Sends Data To"
 msgstr ""
 
@@ -52396,7 +52400,7 @@ msgstr ""
 #: onedesk/one_project/retention.py:338 onedesk/one_project/view.py:843
 #: onedesk/one_project/view.py:892 onedesk/one_project/view.py:976
 #: onedesk/one_project/view.py:1007 onedesk/public/js/oneai/Panel.vue:98
-#: onedesk/public/js/trust_center.js:150
+#: onedesk/public/js/trust_center.js:162
 msgid "You"
 msgstr ""
 
@@ -52685,7 +52689,7 @@ msgstr ""
 
 #: frontend/portal/src/pages/YourData.vue:2 onedesk/one/portal.py:45
 #: onedesk/public/js/login.js:73 onedesk/public/js/settings.js:169
-#: onedesk/public/js/trust_center.js:106 onedesk/public/js/trust_center.js:108
+#: onedesk/public/js/trust_center.js:117 onedesk/public/js/trust_center.js:119
 #: onedesk/www/your_data.html:15 onedesk/www/your_data.py:23
 msgid "Your Data"
 msgstr ""
@@ -52738,11 +52742,11 @@ msgstr ""
 msgid "Your One account, the workspace's first administrator, and where the receipt goes."
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:151
+#: onedesk/public/js/trust_center.js:163
 msgid "Your Organisation"
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:113
+#: onedesk/public/js/trust_center.js:124
 msgid "Your Own Data"
 msgstr ""
 
@@ -54746,7 +54750,7 @@ msgstr ""
 msgid "{0} GB storage"
 msgstr ""
 
-#: onedesk/public/js/module_docs.js:337
+#: onedesk/public/js/module_docs.js:338
 #: onedesk/public/js/window/nav_tree.js:227
 msgid "{0} Help"
 msgstr ""
@@ -54865,7 +54869,7 @@ msgstr ""
 msgid "{0} added to your timesheet."
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:157
+#: onedesk/public/js/trust_center.js:169
 msgid "{0} agreed on {1}"
 msgstr ""
 
@@ -54909,7 +54913,7 @@ msgstr ""
 msgid "{0} always works."
 msgstr ""
 
-#: onedesk/public/js/trust_center.js:44
+#: onedesk/public/js/trust_center.js:35
 #: onedesk/public/js/window/nav_tree.js:222
 msgid "{0} and Your Data"
 msgstr ""
@@ -56247,7 +56251,7 @@ msgstr ""
 msgid "{0} managers"
 msgstr ""
 
-#: onedesk/public/js/module_docs.js:202
+#: onedesk/public/js/module_docs.js:203
 msgid "{0} matching sections"
 msgstr ""
 
@@ -56764,6 +56768,10 @@ msgstr ""
 
 #: frontend/src/mail/MailList.vue:15
 msgid "{0} selected"
+msgstr ""
+
+#: onedesk/public/js/trust_center.js:49
+msgid "{0} sends nothing to another company."
 msgstr ""
 
 #: onedesk/public/js/settings.js:3069

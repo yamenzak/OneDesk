@@ -451,3 +451,7 @@
 .one-trust .one-trust-companies td {
 	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 3);
 }
+
+.one-trust .one-trust-standing .one-set-buttons {
+	flex-wrap: wrap;
+}

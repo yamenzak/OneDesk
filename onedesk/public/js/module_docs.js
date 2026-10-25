@@ -91,6 +91,7 @@ onedesk.module_docs.Dialog = class ModuleDocsDialog extends frappe.ui.SettingsDi
 			this.$sidebar,
 			this.module ? { center: this.center, module: this.module } : { center: this.center, label: __("Your Workspace"), icon: "building" },
 		);
+		if (this.head_action) this.head_action($head);
 		if (this.center === "help") {
 			$(frappe.ui.button.html({ variant: "ghost", icon: "map", title: __("Take the Tour"), attrs: { "aria-label": __("Take the Tour") } }))
 				.addClass("one-module-head-help")

@@ -42,6 +42,7 @@ $.extend(onedesk.window, {
 			<div class="one-bar-tools">
 				<div class="one-bar-group" data-group="day"></div>
 				<div class="one-bar-group" data-group="ai"></div>
+				<div class="one-bar-group" data-group="trust"></div>
 				<div class="one-bar-group" data-group="when"><button class="one-bar-tool one-bar-now"></button></div>
 			</div>
 		</footer>`).appendTo(document.body);
@@ -134,6 +135,7 @@ $.extend(onedesk.window, {
 				group: "ai",
 			});
 		}
+		add({ label: "TrustCenter", icon: "shield-check", css: "one-trust-row", click: () => onedesk.trust.open(), group: "trust" });
 		onedesk.workbooks.place(add);
 		const $now = $bottom.find(".one-bar-now");
 		if (!(frappe.boot.one_hidden?.apps || []).includes("OneCalendar")) $now.on("click", () => frappe.set_route("onecalendar"));

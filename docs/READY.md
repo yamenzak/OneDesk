@@ -547,13 +547,16 @@ The guards each point names, as they stand:
 **Built.** All six parts.
 
 - **The center.** `public/js/trust_center.js`, on the docs dialog
-  (`onedesk.CENTERS.trust`), reads `one_legal.reading.trust`. From a
-  module's foot (the shield) it opens on **{Module} and Your Data**: its
-  optional services, who it sends data to, and its own paragraphs. Then
-  **Agreements**, each with where the reader and the workspace stand, the
-  change coming and print, **Optional Services**, **Subprocessors** (struck
-  through where unused), **Your Data** and **Changes**. `/desk/legal`
-  opens it over the desk; the Agreements island and the Legal tab are gone.
+  (`onedesk.CENTERS.trust`), reads `one_legal.reading.trust`, in two
+  sizes. **A module's part**, from the shield in its foot: **{Module} and
+  Your Data** (its optional services and who it sends data to), its own
+  paragraphs of each agreement it writes into with where the reader and the
+  workspace stand on it, and the changes to those. **The whole**, from the
+  shield in the bottom bar, from Read in Full, from the arrows at the top of
+  a module's part, and from `/desk/legal`: every **Agreement** in full,
+  **Optional Services**, **Subprocessors** (struck through where unused),
+  **Your Data** and **Changes**. The Agreements island and the Legal tab
+  are gone.
 - **The laws.** `one_legal/laws.py`; One's own clauses name their duties in
   `legal.py`'s `MEETS`; three clauses were added where no clause met one
   (privacy by default, the record of processing, switching provider), and
