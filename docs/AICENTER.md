@@ -141,10 +141,9 @@ translation goes with it.
 Tried: Gemma 4, GLM 5.3 Flash and Kimi K2.6 each read an Arabic question
 and called the right tool with the Arabic name. Clairic and Clef only work
 on this endpoint; our current gateway URL for Workers AI refuses them.
-Gemini on this endpoint tried Cloudflare's own billing rather than our
-stored Google key, so the key is stored again in Secrets Store under the
-`default` alias, and the gateway is set to `byok_only`, so a missing key is
-an error rather than a bill.
+Gemini on this endpoint finds no key for its `google/` models even with
+ours stored under `default`, and falls to Cloudflare's own billing, so
+Gemini stays on the gateway's Google route.
 
 **What we turn on, and why:**
 
@@ -536,9 +535,13 @@ the screen), a commit, and the docs it changes.
    metered. OneAdmin lost the catalogue (AI Model, AI Model Rate, the sync,
    the price scraper, capability, the model screens, buttons, notice, home
    row, OneAI tool and five patches); Credit Ledger Entry keeps the model as
-   text. The door takes a tier, never a model or words. Left for later in
-   this stage: `byok_only` and Gemini on the chat endpoint (Google's key
-   stored under `default`), and routes with `--push`.
+   text. The door takes a tier, never a model or words. Measured after: the
+   Google key is stored under `default`, and Cloudflare's chat endpoint
+   still finds no key for its `google/` models (it answers 403 when told to
+   use ours only), so Gemini stays on the Google route for good. `byok_only`
+   stays off: Workers AI is billed to the account rather than by a stored
+   key, and the switch would refuse it. Left for later: routes with
+   `--push`.
 2. **Jobs and the voice.** `jobs.py` and `voice.py` replace the AI Action
    fixture and the persona; AI Action, AI Action Setting, instructions,
    extra and the model pill go. The evaluation bench (`evals.py`) runs
