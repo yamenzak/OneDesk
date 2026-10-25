@@ -1217,6 +1217,7 @@ onedesk.mail.settings = (tab) => {
 		label: __("Shared Mailboxes"),
 		icon: "users",
 		title: __("Shared Mailboxes"),
+		description: __("Mailboxes a team reads together, such as sales@."),
 		actions: can.connect_shared
 			? [
 					{
@@ -1380,10 +1381,7 @@ onedesk.mail.settings = (tab) => {
 			);
 			const $domains = $(`<div class="oms-domains"></div>`).appendTo($body);
 			$domains.toggleClass("hide", !said.external);
-			const $top = $(`<div class="oms-heading">
-				<div><div class="oms-label">${esc(__("Allowed Domains"))}</div><div class="oms-help">${esc(__("Leave empty to allow any domain."))}</div></div>
-				<span class="oms-heading-end"></span>
-			</div>`).appendTo($domains);
+			const $top = heading_with(__("Allowed Domains"), __("Leave empty to allow any domain.")).$row.appendTo($domains);
 			let domains = said.allowed_domains || [];
 			const $list = $(`<div class="oms-list"></div>`).appendTo($domains);
 			const save = async (next) => {

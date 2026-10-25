@@ -23053,6 +23053,10 @@ msgstr "تم ربط صندوق البريد"
 msgid "Mailboxes"
 msgstr "صناديق البريد"
 
+#: onedesk/public/js/onemail_settings.js:1220
+msgid "Mailboxes a team reads together, such as sales@."
+msgstr "صناديق بريد يقرؤها فريق معًا، مثل sales@."
+
 #: onedesk/public/js/onemail_settings.js:1188
 msgid "Mailboxes people connect at any other domain, such as Gmail or Outlook."
 msgstr "صناديق البريد التي يربطها الأشخاص على أي نطاق آخر، مثل Gmail أو Outlook."

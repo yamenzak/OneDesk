@@ -166,12 +166,6 @@
 	color: var(--ink-gray-8);
 }
 
-.oms .oms-help {
-	font-size: var(--text-xs);
-	color: var(--ink-gray-5);
-	margin-top: calc(var(--spacing) * 0.5);
-}
-
 /* A heading with its picker and Add at the end (Users, Allowed Domains). */
 .oms .oms-heading {
 	display: flex;
