@@ -220,7 +220,7 @@ EMPTY = {
 	"frappe / Desk": 0,
 	"frappe / Email": 2,
 	"frappe / Integrations": 4,
-	"frappe / Website": 2,
+	"frappe / Website": 1,
 	"frappe / Workflow": 0,
 	"hrms / HR": 0,
 	"hrms / Payroll": 9,

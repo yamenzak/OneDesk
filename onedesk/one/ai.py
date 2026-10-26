@@ -454,6 +454,13 @@ def page(said: dict) -> str | None:
 			"by clicking them, and turn off, sign out or send a password reset from there; how is in OneAccount's "
 			"Help under People and Devices (how_to)."
 		)
+	if said.get("page") == "access" and said.get("section") == "audit":
+		return (
+			"The reader administers this workspace and is on the Audit Log in AccessCenter: who changed which "
+			"record, who signed in and from where, and what was exported or printed, newest first, filtered by "
+			"kind, each row opening the entry itself. Nothing here can be changed; the entries are what "
+			"happened. How to read it is in One's documentation under AccessCenter (how_to)."
+		)
 	if said.get("page") == "access" and said.get("section") == "access":
 		return (
 			"The reader administers this workspace and is on Roles and Profiles in AccessCenter: every level of each app, its user, "

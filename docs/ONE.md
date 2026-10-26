@@ -200,8 +200,14 @@ moves its version.
    (`one/notification_words.py`), Mail Templates OneMail's ControlCenter.
    The Workspace Settings page and `settings.js` are deleted; the
    stylesheet the moved sections share is `center_section.css`.
-4. **Privacy and the Audit Log.** Privacy requests into TrustCenter's Your
-   Data; the three logs into one Audit Log view in AccessCenter.
+4. **Privacy and the Audit Log.** Built. TrustCenter's Your Data ends,
+   for administrators, with Requests: who asked to have their account
+   deleted and who asked for a copy of their data, each opening its
+   request (`privacy.requests`). AccessCenter's Across One has the Audit
+   Log: changes, sign-ins and exports and prints as one list, newest
+   first, filtered by kind, each row opening frappe's record
+   (`audit.log`). One's rail loses Privacy and Audit Log, and its
+   Workspace group gains Audit Log.
 5. **Masters go home.** `LISTS` in each module, Lists in each ControlCenter,
    the shared four placed, the Masters page and `masters.py` deleted.
 6. **OneAI's rail leaves One's.** OneAI gets its own rail with what is in

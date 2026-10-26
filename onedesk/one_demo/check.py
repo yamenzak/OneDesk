@@ -3865,7 +3865,7 @@ def settings_open_and_save_for_each_person():
 	Rania's stale save is refused; Layla saves General and Holidays, invites
 	Hana, turns Nadia off and on, and drops a rule OneAI wrote. What OneAI
 	remembers is kept and forgotten."""
-	from onedesk.one import access_center, ai, control, notification_words, rules
+	from onedesk.one import access_center, ai, audit, control, notification_words, privacy, rules
 	from onedesk.one_account import center
 	from onedesk.one_ai import run as runs
 	from onedesk.one_ai import yours
@@ -3909,6 +3909,9 @@ def settings_open_and_save_for_each_person():
 	with as_user(OWNER):
 		for key, *_rest in studio_control.SECTIONS:
 			studio_control.load(key)
+		assert {one["kind"] for one in audit.log()} >= {"changes", "signins"}, "the Audit Log misses a kind"
+		assert all(one["kind"] == "changes" for one in audit.log("changes", 10))
+		assert set(privacy.requests()) == {"deletions", "copies"}
 		notification_words.load("words")
 		assert [one["key"] for one in control.sections_of()["sections"]] == ["general"]
 		general = control.load("general")

@@ -2,10 +2,12 @@
 as a file.
 
 Frappe already writes all three (Version, Activity Log, Access Log); a
-workspace administrator reads them here, as frappe's own lists, with limits.
+workspace administrator reads them as one list in AccessCenter (`log`), each
+row opening frappe's own record, with the limits below.
 """
 
 import frappe
+from frappe import _
 from frappe.permissions import get_doctypes_with_read
 
 from onedesk.one import roles
@@ -130,3 +132,53 @@ def onload(doc, method=None) -> None:
 	"""doc_events: a Version opened shows only what its reader may read."""
 	if not _trusted(frappe.session.user):
 		doc.data = frappe.as_json(seen(doc.data, doc.ref_doctype))
+
+
+KINDS = {
+	"changes": ("Version", ["name", "ref_doctype", "docname", "owner", "creation"]),
+	"signins": ("Activity Log", ["name", "subject", "operation", "status", "user", "full_name", "ip_address", "creation"]),
+	"exports": ("Access Log", ["name", "export_from", "reference_document", "file_type", "report_name", "method", "user", "creation"]),
+}
+
+
+def _said(kind: str, row) -> dict:
+	"""One row as AccessCenter's Audit Log draws it: what happened, to what,
+	by whom and when, and the record it opens."""
+	if kind == "changes":
+		what, of, who = _("Changed"), f"{_(row.ref_doctype)} {row.docname}", row.owner
+	elif kind == "signins":
+		# Activity Log's subject already says who did what ("Layla Haddad
+		# logged in"); a failure says so after it.
+		what, of, who = row.subject or _(row.operation or "Login"), "", row.full_name or row.user
+		if row.status and row.status != "Success":
+			what = f"{what} ({_(row.status)})"
+	else:
+		what = _("Printed") if row.method and "print" in row.method.lower() else _("Exported")
+		of, who = " ".join(one for one in (_(row.export_from) if row.export_from else "", row.reference_document or row.report_name or "") if one), row.user
+	return {
+		"kind": kind,
+		"doctype": KINDS[kind][0],
+		"name": row.name,
+		"what": what,
+		"of": of,
+		"who": who,
+		"when": str(row.creation),
+		"ip": row.get("ip_address"),
+	}
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def log(kind: str | None = None, limit: int = 60) -> list[dict]:
+	"""The newest of the three logs as one list, or of one kind; each read
+	through frappe's own list, so its permission query (above) holds.
+	Workspace administrators only."""
+	roles.require()
+	limit = max(1, min(int(limit or 60), 200))
+	rows = []
+	for key, (doctype, fields) in KINDS.items():
+		if kind and kind != key:
+			continue
+		for row in frappe.get_list(doctype, fields=fields, order_by="creation desc", limit_page_length=limit):
+			rows.append(_said(key, row))
+	return sorted(rows, key=lambda one: one["when"], reverse=True)[:limit]

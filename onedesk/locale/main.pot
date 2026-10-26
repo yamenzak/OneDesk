@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-26 10:43+0000\n"
-"PO-Revision-Date: 2026-10-26 10:43+0000\n"
+"POT-Creation-Date: 2026-10-26 10:55+0000\n"
+"PO-Revision-Date: 2026-10-26 10:55+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1248,7 +1248,7 @@ msgstr ""
 msgid "A retried webhook meets this index rather than a check somebody remembered to write."
 msgstr ""
 
-#: onedesk/one/access.py:619 onedesk/public/js/access_center.js:351
+#: onedesk/one/access.py:619 onedesk/public/js/access_center.js:391
 #: onedesk/public/js/role_matrix.js:70
 msgid "A role above User has everything User has."
 msgstr ""
@@ -1865,8 +1865,6 @@ msgstr ""
 msgid "Account Deleted"
 msgstr ""
 
-#. Label of a Sidebar Item
-#: onedesk/one/sidebar/one/one.json
 #: onedesk/public/js/privacy_request_list.js:13
 msgid "Account Deletions"
 msgstr ""
@@ -2063,9 +2061,9 @@ msgstr ""
 #: frontend/src/project/Suppliers.vue:108 frontend/src/project/Team.vue:46
 #: frontend/src/quotes/QuoteRows.vue:41 frontend/src/quotes/RequestRows.vue:38
 #: frontend/src/sent_out/OutRows.vue:55 frontend/src/template/Tasks.vue:85
-#: frontend/src/upkeep/UpkeepRows.vue:37 onedesk/public/js/access_center.js:330
-#: onedesk/public/js/access_center.js:390
-#: onedesk/public/js/access_center.js:419
+#: frontend/src/upkeep/UpkeepRows.vue:37 onedesk/public/js/access_center.js:370
+#: onedesk/public/js/access_center.js:430
+#: onedesk/public/js/access_center.js:459
 #: onedesk/public/js/notification_center.js:400
 #: onedesk/public/js/notification_center.js:448
 #: onedesk/public/js/one_account/account_center.js:376
@@ -3051,7 +3049,7 @@ msgid "Aggregate slices"
 msgstr ""
 
 #: onedesk/public/js/one_legal/legal.js:71
-#: onedesk/public/js/one_legal/trust_center.js:186
+#: onedesk/public/js/one_legal/trust_center.js:204
 msgid "Agree"
 msgstr ""
 
@@ -3074,11 +3072,11 @@ msgstr ""
 msgid "Agreed at {0}, {1} left until {2}"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:170
+#: onedesk/public/js/one_legal/trust_center.js:188
 msgid "Agreed on {0}"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:189
+#: onedesk/public/js/one_legal/trust_center.js:207
 msgid "Agreed to {0}"
 msgstr ""
 
@@ -3094,7 +3092,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json
-#: onedesk/public/js/one_legal/trust_center.js:372 onedesk/www/legal.html:20
+#: onedesk/public/js/one_legal/trust_center.js:390 onedesk/www/legal.html:20
 #: onedesk/www/legal.py:27
 msgid "Agreements"
 msgstr ""
@@ -3970,8 +3968,8 @@ msgstr ""
 #: onedesk/one_studio/doctype/record_type/record_type.json
 #: onedesk/one_studio/doctype/record_type/record_type_list.js:64
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
-#: onedesk/public/js/access_center.js:254
-#: onedesk/public/js/access_center.js:273
+#: onedesk/public/js/access_center.js:294
+#: onedesk/public/js/access_center.js:313
 #: onedesk/public/js/doctype_settings.js:269
 #: onedesk/public/js/notification_center.js:308
 #: onedesk/public/js/reports.js:279
@@ -4370,8 +4368,8 @@ msgstr ""
 msgid "Approving “{0}” did not go through: {1} Correct it and suggest it again."
 msgstr ""
 
-#: onedesk/one_studio/ai_setup.py:596 onedesk/public/js/access_center.js:214
-#: onedesk/public/js/access_center.js:402 onedesk/public/js/apps.js:12
+#: onedesk/one_studio/ai_setup.py:596 onedesk/public/js/access_center.js:254
+#: onedesk/public/js/access_center.js:442 onedesk/public/js/apps.js:12
 #: onedesk/public/js/apps.js:23 onedesk/public/js/apps.js:48
 #: onedesk/public/js/one_account/account_center.js:340
 #: onedesk/public/js/one_account/account_center.js:453
@@ -4520,7 +4518,7 @@ msgstr ""
 msgid "As a workspace administrator, you agree to some of these for your organisation."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:226
+#: onedesk/public/js/one_legal/trust_center.js:244
 msgid "As agreed, version {0}."
 msgstr ""
 
@@ -5216,7 +5214,8 @@ msgid "Audit"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one/sidebar/one/one.json
+#: onedesk/one/sidebar/one/one.json onedesk/public/js/access_center.js:153
+#: onedesk/public/js/access_center.js:155
 msgid "Audit Log"
 msgstr ""
 
@@ -5798,7 +5797,7 @@ msgstr ""
 
 #. Label in the One Leave Policy Assignment print format
 #: onedesk/one_hr/print_format/one_leave_policy_assignment/one_leave_policy_assignment.json
-#: onedesk/public/js/access_center.js:286 onedesk/public/js/role_matrix.js:121
+#: onedesk/public/js/access_center.js:326 onedesk/public/js/role_matrix.js:121
 msgid "Based On"
 msgstr ""
 
@@ -7033,7 +7032,7 @@ msgstr ""
 #: frontend/src/task/TaskWaits.vue:14
 #: onedesk/one_ai/doctype/reading_ask/reading_ask.json
 #: onedesk/public/js/doctype_settings.js:253
-#: onedesk/public/js/one_legal/trust_center.js:287
+#: onedesk/public/js/one_legal/trust_center.js:305
 msgid "Cancel"
 msgstr ""
 
@@ -7325,7 +7324,7 @@ msgid "Change {0} on {1}"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Workspace Field'
-#: onedesk/one_calendar/tell.py:168
+#: onedesk/one/audit.py:148 onedesk/one_calendar/tell.py:168
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:7
 msgid "Changed"
@@ -7350,17 +7349,15 @@ msgstr ""
 msgid "Changed: {what}. If you did not expect this, check Sign-in in AccountCenter now."
 msgstr ""
 
-#. Label of a Sidebar Item
 #. Label of the changes_section (Section Break) field in DocType 'AI Proposal'
 #. Label in the One Promotion Letter print format
 #. Label in the One Transfer Letter print format
-#: onedesk/one/sidebar/one/one.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_hr/print_format/one_promotion_letter/one_promotion_letter.json
 #: onedesk/one_hr/print_format/one_transfer_letter/one_transfer_letter.json
-#: onedesk/public/js/audit_list.js:20
-#: onedesk/public/js/one_legal/trust_center.js:131
-#: onedesk/public/js/one_legal/trust_center.js:133
+#: onedesk/public/js/access_center.js:160 onedesk/public/js/audit_list.js:20
+#: onedesk/public/js/one_legal/trust_center.js:149
+#: onedesk/public/js/one_legal/trust_center.js:151
 msgid "Changes"
 msgstr ""
 
@@ -7372,7 +7369,7 @@ msgstr ""
 msgid "Changes apply only to packs sold from now on."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:179
+#: onedesk/public/js/one_legal/trust_center.js:197
 msgid "Changing on {0}"
 msgstr ""
 
@@ -8419,7 +8416,7 @@ msgid "Comes In"
 msgstr ""
 
 #: frontend/src/plant/PlantFloor.vue:65
-#: onedesk/public/js/one_legal/trust_center.js:149
+#: onedesk/public/js/one_legal/trust_center.js:167
 msgid "Coming"
 msgstr ""
 
@@ -8529,7 +8526,7 @@ msgstr ""
 #: onedesk/one_storage/namespace.py:503 onedesk/one_storage/namespace.py:604
 #: onedesk/one_storage/namespace.py:858 onedesk/one_studio/letter_heads.py:586
 #: onedesk/public/js/one_control.js:17 onedesk/public/js/one_control.js:25
-#: onedesk/public/js/one_legal/trust_center.js:306
+#: onedesk/public/js/one_legal/trust_center.js:324
 #: onedesk/public/js/project_actions.js:444
 msgid "Company"
 msgstr ""
@@ -9726,8 +9723,8 @@ msgstr ""
 #: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 #: onedesk/one_project/library/marketing_campaign.json
-#: onedesk/public/js/access_center.js:189
-#: onedesk/public/js/access_center.js:293
+#: onedesk/public/js/access_center.js:229
+#: onedesk/public/js/access_center.js:333
 #: onedesk/public/js/doctype_settings.js:253
 #: onedesk/public/js/doctype_settings.js:715
 #: onedesk/public/js/lots_actions.js:106
@@ -10196,7 +10193,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/SplitTextPopover.vue:28
 #: frontend/src/sheet/components/SheetEditor/index.vue:2397
 #: frontend/src/sheet/components/SheetEditor/index.vue:2409
-#: onedesk/public/js/access_center.js:252
+#: onedesk/public/js/access_center.js:292
 #: onedesk/public/js/doctype_settings.js:272
 #: onedesk/public/js/one_mail/onemail_settings.js:168
 msgid "Custom"
@@ -10248,11 +10245,11 @@ msgstr ""
 msgid "Custom number format"
 msgstr ""
 
-#: onedesk/public/js/access_center.js:314
+#: onedesk/public/js/access_center.js:354
 msgid "Custom role of {0}"
 msgstr ""
 
-#: onedesk/public/js/access_center.js:244
+#: onedesk/public/js/access_center.js:284
 msgid "Custom roles sit between User and Manager."
 msgstr ""
 
@@ -10519,9 +10516,12 @@ msgstr ""
 msgid "Data"
 msgstr ""
 
-#. Label of a Sidebar Item
-#: onedesk/one/sidebar/one/one.json onedesk/public/js/privacy_copy_list.js:11
+#: onedesk/public/js/privacy_copy_list.js:11
 msgid "Data Copies"
+msgstr ""
+
+#: onedesk/public/js/one_legal/trust_center.js:129
+msgid "Data Copy for {0}"
 msgstr ""
 
 #: onedesk/one_legal/gate.py:25
@@ -11286,9 +11286,9 @@ msgstr ""
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:326
 #: onedesk/one_studio/doctype/record_type/record_type_list.js:27
-#: onedesk/public/js/access_center.js:329
-#: onedesk/public/js/access_center.js:389
-#: onedesk/public/js/access_center.js:418
+#: onedesk/public/js/access_center.js:369
+#: onedesk/public/js/access_center.js:429
+#: onedesk/public/js/access_center.js:458
 #: onedesk/public/js/doctype_settings.js:253
 #: onedesk/public/js/doctype_settings.js:430
 #: onedesk/public/js/doctype_settings.js:959
@@ -11392,6 +11392,7 @@ msgstr ""
 
 #: onedesk/one_ai/proposals.py:641 onedesk/one_mail/ai.py:768
 #: onedesk/one_mail/ai.py:921 onedesk/public/js/one_ai/panel/Record.vue:139
+#: onedesk/public/js/one_legal/trust_center.js:126
 msgid "Delete {0}"
 msgstr ""
 
@@ -11435,15 +11436,15 @@ msgstr ""
 msgid "Delete {0}? Nobody can start from it again."
 msgstr ""
 
-#: onedesk/public/js/access_center.js:421
+#: onedesk/public/js/access_center.js:461
 msgid "Delete {0}? Records assigned to it stay with the people who had them."
 msgstr ""
 
-#: onedesk/public/js/access_center.js:392
+#: onedesk/public/js/access_center.js:432
 msgid "Delete {0}? The people on it keep their apps."
 msgstr ""
 
-#: onedesk/public/js/access_center.js:332 onedesk/public/js/role_matrix.js:152
+#: onedesk/public/js/access_center.js:372 onedesk/public/js/role_matrix.js:152
 msgid "Delete {0}? This removes its permissions."
 msgstr ""
 
@@ -14727,7 +14728,7 @@ msgstr ""
 msgid "Every payment and what it settled."
 msgstr ""
 
-#: onedesk/public/js/access_center.js:358
+#: onedesk/public/js/access_center.js:398
 msgid "Every permission includes Read."
 msgstr ""
 
@@ -14879,11 +14880,11 @@ msgstr ""
 msgid "Everyone told and labels given out"
 msgstr ""
 
-#: onedesk/public/js/access_center.js:314
+#: onedesk/public/js/access_center.js:354
 msgid "Everyone who manages {0}"
 msgstr ""
 
-#: onedesk/public/js/access_center.js:314
+#: onedesk/public/js/access_center.js:354
 msgid "Everyone who uses {0}"
 msgstr ""
 
@@ -14898,6 +14899,7 @@ msgstr ""
 
 #: frontend/src/home/BooksHome.vue:89 frontend/src/home/CrmHome.vue:89
 #: frontend/src/home/HrHome.vue:108 frontend/src/home/InventoryHome.vue:105
+#: onedesk/public/js/access_center.js:159
 #: onedesk/public/js/notification_center.js:122
 #: onedesk/public/js/notification_center.js:124
 #: onedesk/public/js/one_ai/ai_center.js:205
@@ -15309,8 +15311,11 @@ msgstr ""
 msgid "Export as XLSX"
 msgstr ""
 
-#. Label of a Sidebar Item
-#: onedesk/one/sidebar/one/one.json onedesk/public/js/audit_list.js:41
+#: onedesk/one/audit.py:154
+msgid "Exported"
+msgstr ""
+
+#: onedesk/public/js/access_center.js:162 onedesk/public/js/audit_list.js:41
 msgid "Exports and Prints"
 msgstr ""
 
@@ -16394,7 +16399,7 @@ msgstr ""
 msgid "For example, HR Team."
 msgstr ""
 
-#: onedesk/public/js/access_center.js:269
+#: onedesk/public/js/access_center.js:309
 msgid "For example, Senior Sales."
 msgstr ""
 
@@ -16434,7 +16439,7 @@ msgstr ""
 msgid "For the newest request for prices, who is cheapest on each line, and which quotes run out soon?"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:215
+#: onedesk/public/js/one_legal/trust_center.js:233
 msgid "For the organisation, version {0}"
 msgstr ""
 
@@ -16442,7 +16447,7 @@ msgstr ""
 msgid "For the sender and everyone in To and Cc."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:215
+#: onedesk/public/js/one_legal/trust_center.js:233
 msgid "For themselves, version {0}"
 msgstr ""
 
@@ -16985,7 +16990,7 @@ msgid "From this person's designation and department, what should their first tw
 msgstr ""
 
 #: frontend/src/quotes/QuotesPage.vue:145
-#: onedesk/public/js/one_legal/trust_center.js:326
+#: onedesk/public/js/one_legal/trust_center.js:344
 msgid "From {0}"
 msgstr ""
 
@@ -17642,8 +17647,8 @@ msgstr ""
 #. Label of the rail_group (Data) field in DocType 'Record Type'
 #: onedesk/one_studio/doctype/record_type/record_type.json
 #: onedesk/one_studio/doctype/record_type/record_type_list.js:70
-#: onedesk/public/js/access_center.js:237
-#: onedesk/public/js/access_center.js:415 onedesk/public/js/item_new.js:42
+#: onedesk/public/js/access_center.js:277
+#: onedesk/public/js/access_center.js:455 onedesk/public/js/item_new.js:42
 #: onedesk/public/js/one_mail/rule_builder.js:191
 msgid "Group"
 msgstr ""
@@ -17667,7 +17672,7 @@ msgstr ""
 msgid "Group {0}"
 msgstr ""
 
-#: frontend/src/kit/People.vue:72 onedesk/public/js/access_center.js:225
+#: frontend/src/kit/People.vue:72 onedesk/public/js/access_center.js:265
 msgid "Groups"
 msgstr ""
 
@@ -20520,7 +20525,7 @@ msgstr ""
 msgid "It now costs {monthly} a month."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:259
+#: onedesk/public/js/one_legal/trust_center.js:277
 msgid "It sends somewhere new, so it waits for an administrator to agree."
 msgstr ""
 
@@ -22755,7 +22760,7 @@ msgstr ""
 msgid "Logged by hand"
 msgstr ""
 
-#: frontend/src/writer/components/ErrorPage.vue:42
+#: frontend/src/writer/components/ErrorPage.vue:42 onedesk/one/audit.py:150
 msgid "Login"
 msgstr ""
 
@@ -23523,8 +23528,8 @@ msgstr ""
 #: frontend/src/project/Team.vue:32 onedesk/one/abilities.py:253
 #: onedesk/one/people.py:99 onedesk/one_hr/custom/employee.json
 #: onedesk/one_hr/custom/employee_grievance.json
-#: onedesk/public/js/access_center.js:203
-#: onedesk/public/js/access_center.js:264 onedesk/public/js/project_new.js:151
+#: onedesk/public/js/access_center.js:243
+#: onedesk/public/js/access_center.js:304 onedesk/public/js/project_new.js:151
 msgid "Manager"
 msgstr ""
 
@@ -24053,8 +24058,8 @@ msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:550
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:40
-#: onedesk/one/access_center.py:228 onedesk/public/js/access_center.js:232
-#: onedesk/public/js/access_center.js:432
+#: onedesk/one/access_center.py:228 onedesk/public/js/access_center.js:272
+#: onedesk/public/js/access_center.js:472
 #: onedesk/public/js/onecloud_dialogs.js:246
 msgid "Members"
 msgstr ""
@@ -24711,8 +24716,8 @@ msgstr ""
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
-#: onedesk/one_studio/letter_heads.py:53 onedesk/public/js/access_center.js:188
-#: onedesk/public/js/access_center.js:269
+#: onedesk/one_studio/letter_heads.py:53 onedesk/public/js/access_center.js:228
+#: onedesk/public/js/access_center.js:309
 #: onedesk/public/js/doctype_settings.js:705 onedesk/public/js/item_new.js:34
 #: onedesk/public/js/item_new.js:273
 #: onedesk/public/js/leave_control_panel.js:11
@@ -25098,8 +25103,8 @@ msgstr ""
 msgid "New Format"
 msgstr ""
 
-#: onedesk/public/js/access_center.js:229
-#: onedesk/public/js/access_center.js:231
+#: onedesk/public/js/access_center.js:269
+#: onedesk/public/js/access_center.js:271
 msgid "New Group"
 msgstr ""
 
@@ -25202,7 +25207,7 @@ msgstr ""
 msgid "New Print Format"
 msgstr ""
 
-#: onedesk/public/js/access_center.js:209
+#: onedesk/public/js/access_center.js:249
 msgid "New Profile"
 msgstr ""
 
@@ -25234,8 +25239,8 @@ msgstr ""
 msgid "New Rate"
 msgstr ""
 
-#: onedesk/public/js/access_center.js:30 onedesk/public/js/access_center.js:198
-#: onedesk/public/js/access_center.js:267
+#: onedesk/public/js/access_center.js:30 onedesk/public/js/access_center.js:238
+#: onedesk/public/js/access_center.js:307
 #: onedesk/public/js/doctype_settings.js:260
 #: onedesk/public/js/role_matrix.js:118
 msgid "New Role"
@@ -25848,7 +25853,7 @@ msgstr ""
 msgid "No calendar link"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:139
+#: onedesk/public/js/one_legal/trust_center.js:157
 msgid "No changes"
 msgstr ""
 
@@ -26009,7 +26014,7 @@ msgstr ""
 msgid "No folders"
 msgstr ""
 
-#: onedesk/public/js/access_center.js:228
+#: onedesk/public/js/access_center.js:268
 msgid "No groups"
 msgstr ""
 
@@ -26119,7 +26124,7 @@ msgstr ""
 msgid "No matching records"
 msgstr ""
 
-#: onedesk/public/js/access_center.js:247
+#: onedesk/public/js/access_center.js:287
 msgid "No matching roles"
 msgstr ""
 
@@ -26183,7 +26188,7 @@ msgid "No one to notify"
 msgstr ""
 
 #: frontend/src/project/Team.vue:15
-#: onedesk/public/js/one_legal/trust_center.js:210
+#: onedesk/public/js/one_legal/trust_center.js:228
 msgid "No one yet"
 msgstr ""
 
@@ -26223,8 +26228,8 @@ msgstr ""
 msgid "No passkey was presented."
 msgstr ""
 
-#: onedesk/public/js/access_center.js:322
-#: onedesk/public/js/access_center.js:383
+#: onedesk/public/js/access_center.js:362
+#: onedesk/public/js/access_center.js:423
 #: onedesk/public/js/one_account/account_center.js:329
 msgid "No people"
 msgstr ""
@@ -26253,7 +26258,7 @@ msgstr ""
 msgid "No print formats"
 msgstr ""
 
-#: onedesk/public/js/access_center.js:208
+#: onedesk/public/js/access_center.js:248
 msgid "No profiles"
 msgstr ""
 
@@ -26517,6 +26522,10 @@ msgstr ""
 msgid "Nobody has a passkey yet"
 msgstr ""
 
+#: onedesk/public/js/one_legal/trust_center.js:124
+msgid "Nobody has asked yet."
+msgstr ""
+
 #: onedesk/public/js/access_center.js:85
 msgid "Nobody has been given more than their role."
 msgstr ""
@@ -26529,7 +26538,7 @@ msgstr ""
 msgid "Nobody has signed in yet"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:165
+#: onedesk/public/js/one_legal/trust_center.js:183
 msgid "Nobody has to agree to this."
 msgstr ""
 
@@ -26716,7 +26725,7 @@ msgstr ""
 msgid "Not Tracked"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:320
+#: onedesk/public/js/one_legal/trust_center.js:338
 msgid "Not Used by This Workspace"
 msgstr ""
 
@@ -26744,7 +26753,7 @@ msgstr ""
 msgid "Not active recently"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:173
+#: onedesk/public/js/one_legal/trust_center.js:191
 msgid "Not agreed yet"
 msgstr ""
 
@@ -27257,6 +27266,10 @@ msgstr ""
 
 #: onedesk/one_inventory/heads.py:1138
 msgid "Nothing yet"
+msgstr ""
+
+#: onedesk/public/js/access_center.js:172
+msgid "Nothing yet."
 msgstr ""
 
 #. Label in the One Contract print format
@@ -31178,6 +31191,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 #: onedesk/public/js/one_ai/ai_proposal_list.js:7
+#: onedesk/public/js/one_legal/trust_center.js:121
 msgid "Pending"
 msgstr ""
 
@@ -31199,11 +31213,11 @@ msgstr ""
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/public/js/access_center.js:41 onedesk/public/js/access_center.js:43
-#: onedesk/public/js/access_center.js:221
-#: onedesk/public/js/access_center.js:238
-#: onedesk/public/js/access_center.js:255
-#: onedesk/public/js/access_center.js:317
-#: onedesk/public/js/access_center.js:378
+#: onedesk/public/js/access_center.js:261
+#: onedesk/public/js/access_center.js:278
+#: onedesk/public/js/access_center.js:295
+#: onedesk/public/js/access_center.js:357
+#: onedesk/public/js/access_center.js:418
 #: onedesk/public/js/one_account/account_center.js:326
 msgid "People"
 msgstr ""
@@ -32323,7 +32337,7 @@ msgstr ""
 #: frontend/src/writer/DocumentPage.vue:281
 #: frontend/src/writer/shim/PrintDialog.vue:3
 #: frontend/src/writer/shim/PrintDialog.vue:15
-#: onedesk/public/js/one_legal/trust_center.js:203
+#: onedesk/public/js/one_legal/trust_center.js:221
 #: onedesk/public/js/record.js:150
 msgid "Print"
 msgstr ""
@@ -32364,6 +32378,10 @@ msgstr ""
 msgid "Print, export and import"
 msgstr ""
 
+#: onedesk/one/audit.py:154
+msgid "Printed"
+msgstr ""
+
 #. Task in the Event project template
 #: onedesk/one_project/library/event.json
 msgid "Printed material and signs"
@@ -32398,11 +32416,6 @@ msgstr ""
 #: onedesk/one_project/report/project_progress/project_progress.js:12
 #: onedesk/public/js/doctype_settings.js:919 onedesk/public/js/task_new.js:33
 msgid "Priority"
-msgstr ""
-
-#. Label of a Sidebar Item
-#: onedesk/one/sidebar/one/one.json
-msgid "Privacy"
 msgstr ""
 
 #: frontend/portal/src/pages/Menu.vue:24
@@ -32559,8 +32572,8 @@ msgstr ""
 #. Label of a Sidebar Item
 #: frontend/portal/src/pages/Profile.vue:2 onedesk/one/portal.py:43
 #: onedesk/one/sidebar/one/one.json onedesk/one_account/center.py:31
-#: onedesk/one_account/center.py:318 onedesk/public/js/access_center.js:212
-#: onedesk/public/js/access_center.js:372
+#: onedesk/one_account/center.py:318 onedesk/public/js/access_center.js:252
+#: onedesk/public/js/access_center.js:412
 #: onedesk/templates/includes/admin_account_tabs.html:4
 #: onedesk/www/account_profile.html:2 onedesk/www/account_profile.html:17
 msgid "Profile"
@@ -32570,7 +32583,7 @@ msgstr ""
 msgid "Profile {0}"
 msgstr ""
 
-#: onedesk/public/js/access_center.js:205
+#: onedesk/public/js/access_center.js:245
 msgid "Profiles"
 msgstr ""
 
@@ -33045,7 +33058,7 @@ msgstr ""
 msgid "Public Key"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:144
+#: onedesk/public/js/one_legal/trust_center.js:162
 msgid "Published {0} · Takes effect {1}"
 msgstr ""
 
@@ -33797,7 +33810,7 @@ msgstr ""
 msgid "Read from the two times below."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:196
+#: onedesk/public/js/one_legal/trust_center.js:214
 msgid "Read in Full"
 msgstr ""
 
@@ -34347,7 +34360,7 @@ msgstr ""
 msgid "Record Type"
 msgstr ""
 
-#: onedesk/public/js/access_center.js:357
+#: onedesk/public/js/access_center.js:397
 msgid "Record Types"
 msgstr ""
 
@@ -35503,7 +35516,12 @@ msgstr ""
 
 #: onedesk/one_storage/file_requests.py:185
 #: onedesk/one_storage/namespace.py:366
+#: onedesk/public/js/one_legal/trust_center.js:122
 msgid "Requests"
+msgstr ""
+
+#: onedesk/public/js/one_legal/trust_center.js:122
+msgid "Requests to delete an account or copy its data, newest first."
 msgstr ""
 
 #. Label of the one_gate_passkey (Check) field in DocType 'HR Settings'
@@ -36131,7 +36149,7 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_staffing_plan/one_staffing_plan.json
 #: onedesk/one_project/ai.py:786
 #: onedesk/one_project/doctype/project_contact/project_contact.json
-#: onedesk/public/js/access_center.js:251
+#: onedesk/public/js/access_center.js:291
 #: onedesk/public/js/doctype_settings.js:271
 #: onedesk/public/js/onecloud_dialogs.js:221
 #: onedesk/public/js/project_actions.js:435
@@ -36145,7 +36163,7 @@ msgstr ""
 #. Label in the One Staffing Plan print format
 #: onedesk/one_hr/print_format/one_staffing_plan/one_staffing_plan.json
 #: onedesk/public/js/access_center.js:24 onedesk/public/js/access_center.js:26
-#: onedesk/public/js/access_center.js:243
+#: onedesk/public/js/access_center.js:283
 msgid "Roles"
 msgstr ""
 
@@ -36377,7 +36395,7 @@ msgstr ""
 msgid "SWIFT"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:306
+#: onedesk/public/js/one_legal/trust_center.js:324
 msgid "Safeguard"
 msgstr ""
 
@@ -36736,7 +36754,7 @@ msgstr ""
 msgid "Saves"
 msgstr ""
 
-#: onedesk/public/js/access_center.js:402
+#: onedesk/public/js/access_center.js:442
 msgid "Saving updates everyone with this profile."
 msgstr ""
 
@@ -38627,8 +38645,7 @@ msgstr ""
 msgid "Sign-in, invitations and every link in mail now use it."
 msgstr ""
 
-#. Label of a Sidebar Item
-#: onedesk/one/sidebar/one/one.json onedesk/public/js/audit_list.js:26
+#: onedesk/public/js/access_center.js:161 onedesk/public/js/audit_list.js:26
 msgid "Sign-ins"
 msgstr ""
 
@@ -39597,7 +39614,7 @@ msgstr ""
 msgid "Standard"
 msgstr ""
 
-#: onedesk/public/js/access_center.js:219
+#: onedesk/public/js/access_center.js:259
 #: onedesk/public/js/one_account/account_center.js:353
 msgid "Standard Apps"
 msgstr ""
@@ -39810,7 +39827,7 @@ msgstr ""
 msgid "Starts with https://"
 msgstr ""
 
-#: onedesk/public/js/access_center.js:290 onedesk/public/js/role_matrix.js:133
+#: onedesk/public/js/access_center.js:330 onedesk/public/js/role_matrix.js:133
 msgid "Starts with this role's abilities and permissions."
 msgstr ""
 
@@ -41333,7 +41350,7 @@ msgstr ""
 msgid "Takes the workspaces that asked for their data to stay in the EU. Tick it only for a server in the EU."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:125
+#: onedesk/public/js/one_legal/trust_center.js:142
 msgid "Taking It With You"
 msgstr ""
 
@@ -45272,7 +45289,7 @@ msgstr ""
 #: onedesk/one_studio/ai_setup.py:412 onedesk/one_studio/print_blocks.py:63
 #: onedesk/one_studio/print_blocks.py:77 onedesk/public/js/item_actions.js:186
 #: onedesk/public/js/item_actions.js:285
-#: onedesk/public/js/one_legal/trust_center.js:251
+#: onedesk/public/js/one_legal/trust_center.js:269
 #: onedesk/public/js/one_mail/mail_compose.js:181
 msgid "To"
 msgstr ""
@@ -45357,7 +45374,7 @@ msgstr ""
 msgid "To Pay"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:165
+#: onedesk/public/js/one_legal/trust_center.js:183
 msgid "To Read"
 msgstr ""
 
@@ -46101,7 +46118,7 @@ msgid "Turn Off {0}"
 msgstr ""
 
 #: frontend/src/lots/LotsPage.vue:8 onedesk/one_studio/heads.py:76
-#: onedesk/public/js/one_legal/trust_center.js:281
+#: onedesk/public/js/one_legal/trust_center.js:299
 msgid "Turn On"
 msgstr ""
 
@@ -46118,7 +46135,7 @@ msgstr ""
 msgid "Turn On {0}"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:273
+#: onedesk/public/js/one_legal/trust_center.js:291
 msgid "Turn On {0}?"
 msgstr ""
 
@@ -46146,7 +46163,7 @@ msgstr ""
 msgid "Turned down."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:296
+#: onedesk/public/js/one_legal/trust_center.js:314
 msgid "Turned off"
 msgstr ""
 
@@ -46154,11 +46171,11 @@ msgstr ""
 msgid "Turned off."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:296
+#: onedesk/public/js/one_legal/trust_center.js:314
 msgid "Turned on"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:257
+#: onedesk/public/js/one_legal/trust_center.js:275
 msgid "Turned on by {0} on {1}."
 msgstr ""
 
@@ -46170,7 +46187,7 @@ msgstr ""
 msgid "Turned on."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:278
+#: onedesk/public/js/one_legal/trust_center.js:296
 msgid "Turning it on agrees to this for your whole workspace, and is recorded with your name."
 msgstr ""
 
@@ -47056,8 +47073,8 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_storage/doctype/cloud_drive_password/cloud_drive_password.json
-#: onedesk/public/js/access_center.js:203
-#: onedesk/public/js/access_center.js:262
+#: onedesk/public/js/access_center.js:243
+#: onedesk/public/js/access_center.js:302
 #: onedesk/public/js/one_mail/onemail_settings.js:1003
 #: onedesk/public/js/project_actions.js:410
 msgid "User"
@@ -47374,7 +47391,7 @@ msgid "Version history"
 msgstr ""
 
 #: frontend/src/cloud/CloudPreview.vue:31
-#: onedesk/public/js/one_legal/trust_center.js:223
+#: onedesk/public/js/one_legal/trust_center.js:241
 msgid "Version {0}"
 msgstr ""
 
@@ -47578,7 +47595,7 @@ msgstr ""
 msgid "Waiting for You"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:172
+#: onedesk/public/js/one_legal/trust_center.js:190
 msgid "Waiting for an administrator"
 msgstr ""
 
@@ -47938,7 +47955,7 @@ msgstr ""
 msgid "What Failed"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:306
+#: onedesk/public/js/one_legal/trust_center.js:324
 msgid "What For"
 msgstr ""
 
@@ -47947,7 +47964,7 @@ msgstr ""
 msgid "What Happened"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:123
+#: onedesk/public/js/one_legal/trust_center.js:140
 msgid "What Is Kept"
 msgstr ""
 
@@ -47955,7 +47972,7 @@ msgstr ""
 msgid "What It Does"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:250
+#: onedesk/public/js/one_legal/trust_center.js:268
 msgid "What It Sends"
 msgstr ""
 
@@ -48021,7 +48038,7 @@ msgstr ""
 msgid "What They Get"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:306
+#: onedesk/public/js/one_legal/trust_center.js:324
 msgid "What They Receive"
 msgstr ""
 
@@ -48280,7 +48297,7 @@ msgstr ""
 msgid "What have I agreed to?"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:134
+#: onedesk/public/js/one_legal/trust_center.js:152
 msgid "What is changing in the agreements, and from when."
 msgstr ""
 
@@ -48301,7 +48318,7 @@ msgstr ""
 msgid "What is happening"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:120
+#: onedesk/public/js/one_legal/trust_center.js:137
 msgid "What is kept and for how long, and how to take everything with you."
 msgstr ""
 
@@ -50292,7 +50309,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_bill_of_materials/one_bill_of_materials.json
 #: onedesk/one_inventory/print_format/one_job_card/one_job_card.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
-#: onedesk/one_studio/ai.py:439 onedesk/public/js/one_legal/trust_center.js:306
+#: onedesk/one_studio/ai.py:439 onedesk/public/js/one_legal/trust_center.js:324
 msgid "Where"
 msgstr ""
 
@@ -50691,7 +50708,7 @@ msgstr ""
 msgid "Which workstations are making, which are stopped and why, and what is running on each?"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:252
+#: onedesk/public/js/one_legal/trust_center.js:270
 msgid "While It Is Off"
 msgstr ""
 
@@ -50712,8 +50729,8 @@ msgid "Who"
 msgstr ""
 
 #: onedesk/one_legal/abilities.py:27
-#: onedesk/public/js/one_legal/trust_center.js:205
-#: onedesk/public/js/one_legal/trust_center.js:208
+#: onedesk/public/js/one_legal/trust_center.js:223
+#: onedesk/public/js/one_legal/trust_center.js:226
 msgid "Who Agreed"
 msgstr ""
 
@@ -50756,6 +50773,10 @@ msgstr ""
 
 #: onedesk/one_storage/ai.py:38
 msgid "Who can see this?"
+msgstr ""
+
+#: onedesk/public/js/access_center.js:156
+msgid "Who changed what, who signed in, and what left the workspace as a file or a print."
 msgstr ""
 
 #: onedesk/one_crm/home.py:170
@@ -52281,7 +52302,7 @@ msgstr ""
 #: onedesk/one_project/retention.py:338 onedesk/one_project/view.py:843
 #: onedesk/one_project/view.py:892 onedesk/one_project/view.py:976
 #: onedesk/one_project/view.py:1007 onedesk/public/js/one_ai/panel/Panel.vue:98
-#: onedesk/public/js/one_legal/trust_center.js:162
+#: onedesk/public/js/one_legal/trust_center.js:180
 msgid "You"
 msgstr ""
 
@@ -52583,8 +52604,8 @@ msgstr ""
 #: frontend/portal/src/pages/YourData.vue:2 onedesk/one/portal.py:45
 #: onedesk/public/js/login.js:73
 #: onedesk/public/js/one_account/account_center.js:76
-#: onedesk/public/js/one_legal/trust_center.js:117
-#: onedesk/public/js/one_legal/trust_center.js:119
+#: onedesk/public/js/one_legal/trust_center.js:134
+#: onedesk/public/js/one_legal/trust_center.js:136
 #: onedesk/www/your_data.html:15 onedesk/www/your_data.py:23
 msgid "Your Data"
 msgstr ""
@@ -52635,11 +52656,11 @@ msgstr ""
 msgid "Your OneCalendar in Google Calendar, Apple Calendar or Outlook, through a private link."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:163
+#: onedesk/public/js/one_legal/trust_center.js:181
 msgid "Your Organisation"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:124
+#: onedesk/public/js/one_legal/trust_center.js:141
 msgid "Your Own Data"
 msgstr ""
 
@@ -53004,7 +53025,7 @@ msgstr ""
 msgid "Your role doesn't allow this."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:261
+#: onedesk/public/js/one_legal/trust_center.js:279
 msgid "Your role doesn't allow turning it on."
 msgstr ""
 
@@ -54737,7 +54758,7 @@ msgstr ""
 msgid "{0} added to your timesheet."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:169
+#: onedesk/public/js/one_legal/trust_center.js:187
 msgid "{0} agreed on {1}"
 msgstr ""
 
@@ -56486,7 +56507,7 @@ msgid "{0} pending"
 msgstr ""
 
 #: frontend/src/project/Overview.vue:291 onedesk/one_inventory/heads.py:1026
-#: onedesk/one_inventory/heads.py:1051 onedesk/public/js/access_center.js:414
+#: onedesk/one_inventory/heads.py:1051 onedesk/public/js/access_center.js:454
 #: onedesk/www/start.py:114
 msgid "{0} people"
 msgstr ""

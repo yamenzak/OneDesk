@@ -46,12 +46,17 @@ def test_a_change_shows_only_the_fields_its_reader_may_read():
 	assert "audit.seen(one.data, one.ref_doctype)" in (tree.APP / "one" / "ai.py").read_text()
 
 
-def test_the_sidebar_names_the_three_lists():
+def test_accesscenter_reads_the_three_as_one_log():
+	"""docs/ONE.md, stage 4: the three lists are one Audit Log in AccessCenter,
+	each row opening frappe's own record; frappe's lists stay for that."""
+	audit = (tree.APP / "one" / "audit.py").read_text()
+	for doctype in ("Version", "Activity Log", "Access Log"):
+		assert f'("{doctype}", [' in audit, doctype
+	assert "roles.require()" in audit.split("def log(", 1)[1].split("\ndef ", 1)[0]
+	centre = (tree.APP / "public" / "js" / "access_center.js").read_text()
+	assert 'id: "audit"' in centre and 'audit." + "log"' in centre.replace('A.replace("access_center.", "audit.")', 'audit."')
 	sidebar = json.loads((tree.APP / "one" / "sidebar" / "one" / "one.json").read_text())
-	links = {one["link_to"]: one["label"] for one in sidebar["items"] if one.get("link_type") == "DocType"}
-	assert links["Version"] == "Changes"
-	assert links["Activity Log"] == "Sign-ins"
-	assert links["Access Log"] == "Exports and Prints"
+	assert not {"Version", "Activity Log", "Access Log"} & {one.get("link_to") for one in sidebar["items"]}
 	lists = (tree.APP / "public" / "js" / "audit_list.js").read_text()
 	for title in ("Changes", "Sign-ins", "Exports and Prints"):
 		assert f'headed(__("{title}"))' in lists, title

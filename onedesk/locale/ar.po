@@ -32049,11 +32049,6 @@ msgstr "يُطبع بـ"
 msgid "Priority"
 msgstr "الأولوية"
 
-#. Label of a Sidebar Item
-#: onedesk/one/sidebar/one/one.json
-msgid "Privacy"
-msgstr "الخصوصية"
-
 #: frontend/portal/src/pages/Menu.vue:24
 #: frontend/portal/src/parts/PortalSidebar.vue:39 onedesk/one_legal/gate.py:18
 #: onedesk/public/js/login.js:74 onedesk/www/start.html:74
@@ -57512,3 +57507,24 @@ msgstr "من يعتمد أي سجلات، خطوة بخطوة."
 
 msgid "Words and Rules"
 msgstr "النصوص والقواعد"
+
+msgid "Data Copy for {0}"
+msgstr "نسخة بيانات {0}"
+
+msgid "Exported"
+msgstr "صُدّر"
+
+msgid "Nobody has asked yet."
+msgstr "لم يطلب أحد بعد."
+
+msgid "Nothing yet."
+msgstr "لا شيء بعد."
+
+msgid "Printed"
+msgstr "طُبع"
+
+msgid "Requests to delete an account or copy its data, newest first."
+msgstr "طلبات حذف حساب أو نسخ بياناته، الأحدث أولًا."
+
+msgid "Who changed what, who signed in, and what left the workspace as a file or a print."
+msgstr "من غيّر ماذا، ومن سجّل الدخول، وما خرج من مساحة العمل ملفًا أو مطبوعًا."

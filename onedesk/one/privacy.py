@@ -346,3 +346,20 @@ def _blocked(user: str) -> str | None:
 	except frappe.ValidationError as e:
 		return str(e)
 	return None
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def requests() -> dict:
+	"""The workspace's privacy requests, newest first, for TrustCenter's
+	Requests: who asked to have their account deleted and who asked for a
+	copy of their data. Workspace administrators only."""
+	roles.require()
+	return {
+		"deletions": frappe.get_list(
+			"Personal Data Deletion Request", fields=["name", "email", "status", "creation"], order_by="creation desc", limit_page_length=100
+		),
+		"copies": frappe.get_list(
+			"Personal Data Download Request", fields=["name", "user", "user_name", "one_status", "creation"], order_by="creation desc", limit_page_length=100
+		),
+	}

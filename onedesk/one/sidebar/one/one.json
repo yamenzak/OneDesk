@@ -254,13 +254,26 @@
   {
    "keep_closed": 0,
    "type": "Link",
+   "label": "Audit Log",
+   "link_to": null,
+   "link_type": "URL",
+   "icon": "scroll-text",
+   "child": 1,
+   "route_options": null,
+   "idx": 20,
+   "filters": null,
+   "url": "/desk/one?center=access&at=audit"
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
    "label": "Devices",
    "link_to": null,
    "link_type": "URL",
    "icon": "monitor-smartphone",
    "child": 1,
    "route_options": null,
-   "idx": 20,
+   "idx": 21,
    "filters": null,
    "url": "/desk/one?center=account&at=devices"
   },
@@ -273,7 +286,7 @@
    "icon": "credit-card",
    "child": 1,
    "route_options": null,
-   "idx": 21,
+   "idx": 22,
    "filters": null,
    "url": "/desk/one?center=account&at=plan"
   },
@@ -286,7 +299,7 @@
    "icon": "globe",
    "child": 1,
    "route_options": null,
-   "idx": 22,
+   "idx": 23,
    "filters": null,
    "url": "/desk/one?center=account&at=domains"
   },
@@ -297,7 +310,7 @@
    "icon": "settings",
    "indent": 1,
    "collapsible": 1,
-   "idx": 23
+   "idx": 24
   },
   {
    "keep_closed": 0,
@@ -307,91 +320,7 @@
    "link_type": "Page",
    "icon": "database",
    "child": 1,
-   "idx": 24
-  },
-  {
-   "keep_closed": 1,
-   "type": "Section Break",
-   "label": "Privacy",
-   "icon": "lock",
-   "indent": 1,
-   "collapsible": 1,
    "idx": 25
-  },
-  {
-   "keep_closed": 0,
-   "type": "Link",
-   "label": "Data Copies",
-   "link_to": "Personal Data Download Request",
-   "link_type": "DocType",
-   "icon": "file-down",
-   "child": 1,
-   "is_default_module": 1,
-   "route_options": null,
-   "filters": null,
-   "idx": 26
-  },
-  {
-   "keep_closed": 0,
-   "type": "Link",
-   "label": "Account Deletions",
-   "link_to": "Personal Data Deletion Request",
-   "link_type": "DocType",
-   "icon": "user-x",
-   "child": 1,
-   "is_default_module": 1,
-   "route_options": null,
-   "filters": null,
-   "idx": 27
-  },
-  {
-   "keep_closed": 1,
-   "show_arrow": 0,
-   "type": "Section Break",
-   "label": "Audit Log",
-   "icon": "scroll-text",
-   "indent": 1,
-   "collapsible": 1,
-   "idx": 28
-  },
-  {
-   "keep_closed": 0,
-   "type": "Link",
-   "label": "Changes",
-   "link_to": "Version",
-   "link_type": "DocType",
-   "icon": "history",
-   "child": 1,
-   "is_default_module": 1,
-   "route_options": null,
-   "filters": null,
-   "idx": 29
-  },
-  {
-   "keep_closed": 0,
-   "type": "Link",
-   "label": "Sign-ins",
-   "link_to": "Activity Log",
-   "link_type": "DocType",
-   "icon": "log-in",
-   "child": 1,
-   "is_default_module": 1,
-   "route_options": null,
-   "filters": null,
-   "idx": 30
-  },
-  {
-   "keep_closed": 0,
-   "type": "Link",
-   "label": "Exports and Prints",
-   "link_to": "Access Log",
-   "link_type": "DocType",
-   "icon": "file-down",
-   "child": 1,
-   "is_default_module": 1,
-   "route_options": null,
-   "filters": null,
-   "idx": 31
   },
   {
    "keep_closed": 1,
@@ -401,7 +330,7 @@
    "icon": "oneai",
    "indent": 1,
    "collapsible": 1,
-   "idx": 32
+   "idx": 26
   },
   {
    "keep_closed": 0,
@@ -412,7 +341,7 @@
    "icon": "oneai",
    "child": 1,
    "route_options": null,
-   "idx": 33,
+   "idx": 27,
    "filters": null,
    "url": "/desk/one?center=ai"
   },
@@ -425,7 +354,7 @@
    "link_type": "DocType",
    "icon": "book-open",
    "child": 1,
-   "idx": 34
+   "idx": 28
   },
   {
    "keep_closed": 0,
@@ -436,7 +365,7 @@
    "link_type": "Report",
    "icon": "chart-column",
    "child": 1,
-   "idx": 35
+   "idx": 29
   },
   {
    "keep_closed": 0,
@@ -447,7 +376,7 @@
    "link_type": "DocType",
    "icon": "messages-square",
    "child": 1,
-   "idx": 36
+   "idx": 30
   },
   {
    "keep_closed": 0,
@@ -458,7 +387,7 @@
    "link_type": "DocType",
    "icon": "lightbulb",
    "child": 1,
-   "idx": 37
+   "idx": 31
   },
   {
    "keep_closed": 0,
@@ -469,7 +398,7 @@
    "link_type": "Page",
    "link_to": "intake",
    "icon": "inbox",
-   "idx": 38
+   "idx": 32
   },
   {
    "keep_closed": 0,
@@ -480,7 +409,7 @@
    "link_type": "Report",
    "link_to": "Ready to Submit",
    "icon": "file-check",
-   "idx": 39
+   "idx": 33
   },
   {
    "keep_closed": 0,
@@ -491,7 +420,7 @@
    "link_type": "Report",
    "link_to": "Deadlines",
    "icon": "calendar-clock",
-   "idx": 40
+   "idx": 34
   },
   {
    "keep_closed": 0,
@@ -502,10 +431,10 @@
    "link_type": "Report",
    "link_to": "Spending",
    "icon": "wallet",
-   "idx": 41
+   "idx": 35
   }
  ],
- "modified": "2026-10-27 09:00:00.000000",
+ "modified": "2026-10-27 10:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

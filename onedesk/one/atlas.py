@@ -196,6 +196,7 @@ ANSWERS = {
 	("DocType", "Cloud File Version"): (INSIDE, "a OneCloud file's Versions"),
 	("DocType", "Cloud Link"): (INSIDE, "a OneCloud file's Share"),
 	("DocType", "Device"): (INSIDE, "AccountCenter › Devices"),
+	("DocType", "Personal Data Deletion Request"): (INSIDE, "TrustCenter › Your Data, under Requests, each opening its request"),
 	("DocType", "Credit Reservation"): (ENGINE, "credits held while OneAI works, released when it is done"),
 	("DocType", "AI Chunk"): (ENGINE, "pieces of documents, mail and records by meaning, which Ctrl+K, OneCloud, OneMail and OneAI search"),
 	("DocType", "Face"): (ENGINE, "the faces OneMail draws beside a sender"),

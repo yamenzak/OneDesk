@@ -68,6 +68,7 @@ The steps run in the order of the five tables below.
 |---|---|
 | calendar | The weekly site meeting, a handover walk with the customer, a supplier visit, the workshop's safety briefing and a pricing review |
 | announcements | Two announcements from the office, on everybody's top bar for sixty days: a holiday closure and expenses moving into One |
+| privacy | Rania asks for a copy of her data, so TrustCenter's Requests has one waiting for an administrator |
 | studio | Company Van, a record type of the company's own in OneInventory, with two vans. An extension on the customer's form that is on and has run into an error, and one on the lead kept off |
 | storage | A Projects library Samir runs with the site team in it, the villa's elevations there with a link for the customer and a second version, Samir's site visit notes shared with Rania, a request to Al Noor for its papers, and a drive password |
 | workbook | A costing workbook in the company's files: the rates behind the Bayview tower quotation, and a second sheet for labour that the first one reads |

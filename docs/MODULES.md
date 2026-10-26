@@ -245,6 +245,7 @@ No doctypes yet.
 * `onedesk.one.apps.read`
 * `onedesk.one.apps.save`
 * `onedesk.one.apps.search_link`
+* `onedesk.one.audit.log`
 * `onedesk.one.control.load`
 * `onedesk.one.control.save`
 * `onedesk.one.control.sections_of`
@@ -304,6 +305,7 @@ No doctypes yet.
 * `onedesk.one.privacy.ask_to_delete`
 * `onedesk.one.privacy.confirm`
 * `onedesk.one.privacy.hold`
+* `onedesk.one.privacy.requests`
 * `onedesk.one.privacy.withdraw`
 * `onedesk.one.privacy_copy.ask`
 * `onedesk.one.privacy_copy.review`

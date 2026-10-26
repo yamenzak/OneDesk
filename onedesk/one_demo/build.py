@@ -33,6 +33,7 @@ STEPS = (
 	"career",
 	"calendar",
 	"announcements",
+	"privacy",
 	"studio",
 	"storage",
 	"workbook",

@@ -404,3 +404,11 @@ the radio, and what it says may run to two lines. */
 		border-top-right-radius: var(--radius-lg);
 	}
 }
+
+/* A row of filters over a list (AccessCenter's Audit Log); the chosen one is solid. */
+.one-set-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: calc(var(--spacing) * 2);
+	margin-bottom: calc(var(--spacing) * 4);
+}

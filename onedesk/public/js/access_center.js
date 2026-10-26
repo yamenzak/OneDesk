@@ -146,6 +146,46 @@ onedesk.access.open = async ({ module = null, at = null, record = null } = {}) =
 					],
 				},
 		  ];
+	// Who changed what, who signed in, and what left as a file or a print,
+	// newest first (one/audit.py `log`), each row opening frappe's record.
+	const audit_tab = {
+		id: "audit",
+		label: __("Audit Log"),
+		icon: "scroll-text",
+		title: __("Audit Log"),
+		description: __("Who changed what, who signed in, and what left the workspace as a file or a print."),
+		async render(panel) {
+			const kinds = [
+				["", __("Everything")],
+				["changes", __("Changes")],
+				["signins", __("Sign-ins")],
+				["exports", __("Exports and Prints")],
+			];
+			const glyphs = { changes: "pencil", signins: "log-in", exports: "file-down" };
+			const $body = panel.body.empty();
+			const $chips = $(`<div class="one-set-chips"></div>`).appendTo($body);
+			const $list = $(`<div class="one-set-list"></div>`).appendTo($body);
+			const draw = async (kind) => {
+				$chips.empty();
+				for (const [one, label] of kinds) {
+					kit.button({ label, variant: one === kind ? "solid" : "subtle", size: "sm" }).attr("data-kind", one).on("click", () => draw(one)).appendTo($chips);
+				}
+				const rows = await frappe.xcall(A.replace("access_center.", "audit.") + "log", { kind }, "GET");
+				$list.empty();
+				if (!rows.length) $list.append(kit.empty(__("Nothing yet.")));
+				for (const one of rows) {
+					kit.row({
+						lead: kit.glyph(glyphs[one.kind]),
+						title: [one.what, one.of].filter(Boolean).join(" "),
+						sub: esc([one.who, frappe.datetime.prettyDate(one.when), one.ip].filter(Boolean).join(" · ")),
+						open: () => (dialog.hide(), frappe.set_route("Form", one.doctype, one.name)),
+					}).appendTo($list);
+				}
+			};
+			draw("");
+		},
+	};
+	if (across.length) across[0].items.push(audit_tab);
 	const tabs = [...across, ...apps.map((app) => ({ group: module ? null : app, items: [roles_tab(app), people_tab(app), records_tab(app)] }))];
 	const ids = tabs.flatMap((group) => group.items.map((item) => item.id));
 	const dialog = new onedesk.module_settings.Dialog({

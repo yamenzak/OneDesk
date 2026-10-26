@@ -26,7 +26,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
 | onedesk | 65 | 2 | 36 | 0 |
-| frappe | 23 | 37 | 154 | 0 |
+| frappe | 22 | 37 | 155 | 0 |
 | erpnext | 303 | 131 | 51 | 0 |
 | hrms | 102 | 20 | 8 | 0 |
 
@@ -515,8 +515,8 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | API Request Log | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Access Log | on a rail or a home | the administrator | list script, 3 settings | no | taught |  | **none** |  |  |  |  |
-| Activity Log | on a rail or a home | the administrator | list script, 4 settings | no | taught |  | yes |  |  |  |  |
+| Access Log | opened by our screens | the administrator | list script, 3 settings | no | taught |  | **none** |  |  |  |  |
+| Activity Log | opened by our screens | the administrator | list script, 4 settings | no | taught |  | yes |  |  |  |  |
 | Audit Trail | replaced: Audit Log › Changes | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Background Task | engine: work run after a click, whose result the page shows | everybody | untouched | no | general |  | **none** |  |  | ar 5, de 1 |  |
 | Comment | engine: a record's comments, written and read on the record | **nobody** | events | no | taught |  | yes |  |  |  |  |
@@ -581,7 +581,7 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | User Invitation | replaced: AccountCenter › People, Invite | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | User Permission | inside: AccessCenter › Roles and Profiles, holding a person to some records | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
 | User Type | through a form's link (User: user_type) | **nobody** | untouched | no | general |  | yes |  |  |  |  |
-| Version | on a rail or a home | the administrator | events, list script, 1 settings | no | taught |  | yes |  |  |  |  |
+| Version | opened by our screens | the administrator | events, list script, 1 settings | no | taught |  | yes |  |  |  |  |
 | View Log | engine: who opened a record, for Audit Log | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 
 Reports: Database Storage Usage By Tables (the platform's: the site's own workings, which the platform keeps for every workspace); Document Share Report (inside: a record's Share, which says who it is shared with); Permitted Documents For User (under a list's related reports (User's list)); Prepared Report Analytics (the platform's: the site's own workings, which the platform keeps for every workspace); User Doctype Permissions (under a list's related reports (User's list)).
@@ -719,8 +719,8 @@ Pages: print (inside: every record's Print); print-format-builder (inside: OneSt
 | Discussion Topic | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Help Article | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Help Category | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Personal Data Deletion Request | on a rail or a home | the administrator | form script, list script, 3 settings | no | taught |  | **none** |  |  |  |  |
-| Personal Data Download Request | on a rail or a home | the administrator | form script, list script, 4 fields, 3 settings | no | taught |  | **none** |  |  |  |  |
+| Personal Data Deletion Request | inside: TrustCenter › Your Data, under Requests, each opening its request | the administrator | form script, list script, 3 settings | no | taught |  | **none** |  |  |  |  |
+| Personal Data Download Request | opened by our screens | the administrator | form script, list script, 4 fields, 3 settings | no | taught |  | **none** |  |  |  |  |
 | Portal Settings | replaced: One's portal, which reads it for its tabs | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | UTM Campaign | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 | UTM Medium | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  |  |  |

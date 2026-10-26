@@ -112,6 +112,23 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 	}
 
 	const paragraphs = (list) => list.map((one) => `<p>${esc(one)}</p>`).join("");
+	// For administrators, under Your Data: who asked to have their account
+	// deleted and who asked for a copy of their data, each opening its
+	// request, where it is approved or held (one/privacy.py).
+	const requests = async (panel) => {
+		const asked = await frappe.xcall("onedesk.one.privacy.requests", {}, "GET");
+		const go = (doctype, name) => (dialog.hide(), frappe.set_route("Form", doctype, name));
+		const status = (one) => frappe.ui.badge.html({ label: __(one.status || "Pending"), theme: one.status === "Deleted" ? "gray" : ["Pending Approval", "Waiting"].includes(one.status) ? "orange" : "blue" });
+		panel.body.append(kit.heading(__("Requests"), __("Requests to delete an account or copy its data, newest first.")));
+		const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body);
+		if (!asked.deletions.length && !asked.copies.length) $list.append(kit.empty(__("Nobody has asked yet.")));
+		for (const one of asked.deletions) {
+			kit.row({ lead: kit.glyph("user-x"), title: __("Delete {0}", [one.email]), sub: esc(frappe.datetime.prettyDate(one.creation)), end: status(one), open: () => go("Personal Data Deletion Request", one.name) }).appendTo($list);
+		}
+		for (const one of asked.copies) {
+			kit.row({ lead: kit.glyph("download"), title: __("Data Copy for {0}", [one.user_name || one.user]), sub: esc(frappe.datetime.prettyDate(one.creation)), end: status({ status: one.one_status }), open: () => go("Personal Data Download Request", one.name) }).appendTo($list);
+		}
+	};
 	if (!said.module) page({
 		id: "data",
 		label: __("Your Data"),
@@ -124,6 +141,7 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 				`<h2>${esc(__("Your Own Data"))}</h2>${paragraphs(said.data.yours)}` +
 				`<h2>${esc(__("Taking It With You"))}</h2>${paragraphs(said.data.leaving)}`,
 		),
+		after: frappe.boot.one_administers ? requests : null,
 	});
 
 	page({
