@@ -17,7 +17,7 @@ that arrive, and files them where they belong.
 | **The round button** in the corner | Opens the panel on any page, already knowing what is on it. |
 | **A text field** | Writes or improves what goes in it. |
 | **The top of a record** | Keeps a short summary of what matters now. |
-| **Documents**, under OneAI in the sidebar | Lists what arrived and what OneAI did with it, and what waits for you. |
+| **Documents**, first in OneAI's rail | Lists what arrived and what OneAI did with it, and what waits for you. |
 | **The search bar** | Finds documents and mail by what they say. |
 
 ## Where to Start

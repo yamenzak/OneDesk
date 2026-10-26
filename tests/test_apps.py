@@ -53,31 +53,35 @@ def test_a_turned_off_apps_records_open_elsewhere():
 	assert "**Apps**, at the bottom of the rail" in readme.split("## Under the hood")[0], "how_to answers it"
 
 
-def test_oneai_and_reading_off_leave_ones_sidebar_and_others_links():
-	space = _load({"_where", "sectioned"})
+def test_oneai_is_a_rail_and_reading_off_leaves_every_rail():
+	"""OneAI is its own rail, turned off as any app is; what reading shows
+	leaves every rail when reading is off, and What OneAI Remembers when
+	OneAI is."""
+	space = _load({"_where", "gone"})
 	space.update(
 		json=__import__("json"),
 		AI="OneAI",
 		INTAKE="Reading",
-		MEMORY={"link_to": "settings", "route_options": {"section": "memory"}},
-		READS=({"link_to": "intake"}, {"link_to": "Ready to Submit"}, {"link_to": "settings", "route_options": {"section": "reads"}}),
+		MEMORY={"url": "/desk/one?center=ai&at=yours"},
+		READS=({"link_to": "intake"}, {"link_to": "Ready to Submit"}, {"url": "/desk/one?center=ai&at=reads"}),
 	)
-	items = [
-		{"type": "Link", "label": "What OneAI Remembers", "link_to": "settings", "route_options": '{"section": "memory"}'},
-		{"type": "Link", "label": "What OneAI Reads", "link_to": "settings", "route_options": '{"section": "reads"}'},
-		{"type": "Section Break", "label": "OneAI"},
-		{"type": "Link", "label": "AICenter", "link_to": "workspace-settings", "route_options": '{"section": "oneai"}'},
-		{"type": "Link", "label": "Documents", "link_to": "intake"},
-		{"type": "Link", "label": "Ready to Submit", "link_to": "Ready to Submit"},
-		{"type": "Section Break", "label": "Audit Log"},
-		{"type": "Link", "label": "Changes", "link_to": "Version"},
+	rows = [
+		{"label": "What OneAI Remembers", "url": "/desk/one?center=ai&at=yours"},
+		{"label": "What OneAI Reads", "url": "/desk/one?center=ai&at=reads"},
+		{"label": "Documents", "link_to": "intake"},
+		{"label": "Ready to Submit", "link_to": "Ready to Submit"},
+		{"label": "Changes", "link_to": "Version"},
 	]
-	kept, gone = space["sectioned"](items, {"Reading"})
-	assert [one["label"] for one in kept] == ["What OneAI Remembers", "OneAI", "AICenter", "Audit Log", "Changes"]
-	assert ("Ready to Submit", "null") in gone and ("intake", "null") in gone
-	kept, gone = space["sectioned"](items, {"OneAI", "Reading"})
-	assert [one["label"] for one in kept] == ["Audit Log", "Changes"], "What OneAI Remembers goes with OneAI"
-	assert ("workspace-settings", '{"section": "oneai"}') in gone
+	kept = lambda off: [one["label"] for one in rows if space["_where"](one) not in space["gone"](off)]
+	assert kept({"Reading"}) == ["What OneAI Remembers", "Changes"]
+	assert kept({"OneAI", "Reading"}) == ["Changes"]
+	assert kept(set()) == [one["label"] for one in rows]
+	source = APPS.read_text()
+	assert "SECTIONS = (INTAKE,)" in source
+	rail = __import__("json").loads((tree.APP / "one_ai" / "sidebar" / "oneai" / "oneai.json").read_text())
+	assert rail["name"] == "OneAI" and rail["module"] == "One AI"
+	dock = __import__("json").loads((tree.APP / "dock" / "onedesk" / "onedesk.json").read_text())
+	assert "OneAI" in [one["link_to"] for one in dock["items"]]
 
 
 def test_oneai_off_refuses_every_model_call_and_oneintake_needs_it():

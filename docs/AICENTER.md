@@ -611,7 +611,8 @@ the screen), a commit, and the docs it changes.
    doctypes, reports, page, fields and notifications belong to the One AI
    module (`patches/intake_is_reading.py` moves them before the sync and
    drops the One Intake module); its inbox is **Documents**, under OneAI in
-   One's sidebar with Ready to Submit, Deadlines and Spending; its settings
+   One's sidebar with Ready to Submit, Deadlines and Spending (OneAI's own
+   rail since docs/ONE.md stage 6); its settings
    are AICenter › **Reading** (on or off, this month, every setting, the
    mailboxes and folders), and Settings' row for them opens it; its guide
    is part of OneAI's (`guide.manuals` reads `one_ai/reading/README.md`);

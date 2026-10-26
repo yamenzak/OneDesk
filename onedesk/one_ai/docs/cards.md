@@ -29,6 +29,6 @@ field shows what it was until you save.
 
 ## Suggestions
 
-**Suggestions**, under OneAI in the sidebar, lists your cards as **Waiting
+**Suggestions**, in OneAI's rail, lists your cards as **Waiting
 for you**, **Done**, **Refused** or **Out of date**. Home counts the cards
 waiting for you.

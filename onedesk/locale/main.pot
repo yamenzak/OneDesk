@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-26 11:29+0000\n"
-"PO-Revision-Date: 2026-10-26 11:29+0000\n"
+"POT-Creation-Date: 2026-10-26 12:00+0000\n"
+"PO-Revision-Date: 2026-10-26 12:00+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1600,7 +1600,7 @@ msgid "AI Usage"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one/sidebar/one/one.json
+#: onedesk/one_ai/sidebar/oneai/oneai.json
 msgid "AICenter"
 msgstr ""
 
@@ -2521,7 +2521,7 @@ msgstr ""
 msgid "Add people…"
 msgstr ""
 
-#: onedesk/one/lists.py:106
+#: onedesk/one/lists.py:101
 msgid "Add several at once"
 msgstr ""
 
@@ -2798,11 +2798,11 @@ msgstr ""
 msgid "Address Book"
 msgstr ""
 
-#: onedesk/one/lists.py:22
+#: onedesk/one/lists.py:17
 msgid "Address Template"
 msgstr ""
 
-#: onedesk/one/lists.py:22
+#: onedesk/one/lists.py:17
 msgid "Address Templates"
 msgstr ""
 
@@ -3606,11 +3606,11 @@ msgstr ""
 msgid "An add-on must be recurring."
 msgstr ""
 
-#: onedesk/one/lists.py:168
+#: onedesk/one/lists.py:163
 msgid "An address has no field {0}."
 msgstr ""
 
-#: onedesk/one/lists.py:166
+#: onedesk/one/lists.py:161
 msgid "An address template can name a field of the address, as {{ city }}, and nothing else."
 msgstr ""
 
@@ -9223,7 +9223,7 @@ msgid "Conversation"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/mail/MailList.vue:17 onedesk/one/sidebar/one/one.json
+#: frontend/src/mail/MailList.vue:17 onedesk/one_ai/sidebar/oneai/oneai.json
 #: onedesk/one_mail/ai.py:730
 msgid "Conversations"
 msgstr ""
@@ -10009,7 +10009,6 @@ msgstr ""
 msgid "Credited To"
 msgstr ""
 
-#. Label of a Sidebar Item
 #. Label of the credits_section (Section Break) field in DocType 'Workspace
 #. Account'
 #. Label of the credits_said (HTML) field in DocType 'Workspace Account'
@@ -10018,7 +10017,7 @@ msgstr ""
 #. Label of the credits_section (Section Break) field in DocType 'One Admin
 #. Settings'
 #. Label in the One Credit Ledger Entry print format
-#: onedesk/one/sidebar/one/one.json
+#. Label of a Sidebar Item
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/doctype/offering/offering.json
@@ -10030,6 +10029,7 @@ msgstr ""
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:48
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:108
+#: onedesk/one_ai/sidebar/oneai/oneai.json
 #: onedesk/public/js/one_ai/ai_center.js:78
 #: onedesk/public/js/one_mail/onemail_settings.js:545
 #: onedesk/public/js/tenant.js:45
@@ -10947,10 +10947,11 @@ msgstr ""
 msgid "Deadline"
 msgstr ""
 
-#. Label of a Sidebar Item
 #. Name of a report
-#: onedesk/one/sidebar/one/one.json onedesk/one_ai/reading/calendar.py:21
+#. Label of a Sidebar Item
+#: onedesk/one_ai/reading/calendar.py:21
 #: onedesk/one_ai/report/deadlines/deadlines.json
+#: onedesk/one_ai/sidebar/oneai/oneai.json
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:75
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 msgid "Deadlines"
@@ -12532,9 +12533,10 @@ msgstr ""
 #. Label in the One Repost Payment Ledger print format
 #: frontend/src/intake/IntakeFacts.vue:83
 #: frontend/src/intake/IntakeInbox.vue:11
-#: frontend/src/intake/IntakeInbox.vue:129 onedesk/one/sidebar/one/one.json
+#: frontend/src/intake/IntakeInbox.vue:129
 #: onedesk/one_ai/page/intake/intake.js:2 onedesk/one_ai/reading/bundle.py:33
 #: onedesk/one_ai/report/spending/spending.py:34
+#: onedesk/one_ai/sidebar/oneai/oneai.json
 #: onedesk/one_book/print_format/one_repost_accounting_ledger/one_repost_accounting_ledger.json
 #: onedesk/one_book/print_format/one_repost_payment_ledger/one_repost_payment_ledger.json
 #: onedesk/public/js/desk.js:104 onedesk/public/js/desk.js:173
@@ -17127,11 +17129,11 @@ msgstr ""
 msgid "Gathering"
 msgstr ""
 
-#: onedesk/one/lists.py:21
+#: onedesk/one/lists.py:16
 msgid "Gender"
 msgstr ""
 
-#: onedesk/one/lists.py:21
+#: onedesk/one/lists.py:16
 msgid "Genders"
 msgstr ""
 
@@ -18849,7 +18851,7 @@ msgstr ""
 msgid "I want to change {0}."
 msgstr ""
 
-#: onedesk/one/lists.py:107
+#: onedesk/one/lists.py:102
 msgid "I will paste a list. Suggest each line as a new value of the list I have open, leaving out any it already has."
 msgstr ""
 
@@ -21373,10 +21375,11 @@ msgstr ""
 msgid "Know what's in stock, buy what runs low, and make and track what you sell."
 msgstr ""
 
-#. Label of a Sidebar Item
 #. Label of the body (Text Editor) field in DocType 'AI Knowledge'
-#: onedesk/one/sidebar/one/one.json onedesk/one_ai/abilities.py:34
+#. Label of a Sidebar Item
+#: onedesk/one_ai/abilities.py:34
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
+#: onedesk/one_ai/sidebar/oneai/oneai.json
 #: onedesk/public/js/one_ai/ai_center.js:195
 #: onedesk/public/js/one_ai/ai_center.js:197
 #: onedesk/public/js/one_ai/ai_center.js:224
@@ -28125,6 +28128,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #. Option for the 'Placed By' (Select) field in DocType 'Reading'
+#. Title of a Sidebar
 #. Label of the one_ai_section (Section Break) field in DocType 'Employee
 #. Grievance'
 #. Label of the one_hiring_ai_section (Section Break) field in DocType 'HR
@@ -28133,9 +28137,10 @@ msgstr ""
 #. 'Interview'
 #. Group in Interview's connections
 #. Label of the one_ai_section (Section Break) field in DocType 'Job Applicant'
-#: frontend/src/mail/OneMail.vue:303 onedesk/one/sidebar/one/one.json
+#: frontend/src/mail/OneMail.vue:303
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 #: onedesk/one_ai/doctype/reading/reading.json
+#: onedesk/one_ai/sidebar/oneai/oneai.json
 #: onedesk/one_hr/custom/employee_grievance.json
 #: onedesk/one_hr/custom/hr_settings.json onedesk/one_hr/custom/interview.json
 #: onedesk/one_hr/custom/job_applicant.json
@@ -28322,7 +28327,7 @@ msgstr ""
 msgid "OneAI is turned off for this workspace in Apps."
 msgstr ""
 
-#: onedesk/one/apps.py:60 onedesk/one_ai/chat.py:116
+#: onedesk/one/apps.py:63 onedesk/one_ai/chat.py:116
 msgid "OneAI is turned off for this workspace."
 msgstr ""
 
@@ -28609,7 +28614,7 @@ msgstr ""
 msgid "Only a suggested change can be applied in the form."
 msgstr ""
 
-#: onedesk/one/lists.py:88
+#: onedesk/one/lists.py:83
 msgid "Only administrators and the app's managers keep its lists."
 msgstr ""
 
@@ -33867,7 +33872,7 @@ msgstr ""
 #. Label of the section_reading (Section Break) field in DocType 'Reading'
 #. Label of the reading (Link) field in DocType 'Reading Action'
 #. Label of the reading (Link) field in DocType 'Reading Lesson'
-#: onedesk/one/apps.py:31 onedesk/one_ai/custom/file.json
+#: onedesk/one/apps.py:34 onedesk/one_ai/custom/file.json
 #: onedesk/one_ai/doctype/file_link/file_link.json
 #: onedesk/one_ai/doctype/reading/reading.json
 #: onedesk/one_ai/doctype/reading_action/reading_action.json
@@ -33962,11 +33967,11 @@ msgstr ""
 msgid "Ready"
 msgstr ""
 
-#. Label of a Sidebar Item
 #. Name of a report
-#: onedesk/one/sidebar/one/one.json
+#. Label of a Sidebar Item
 #: onedesk/one_ai/report/ready_to_submit/ready_to_submit.json
-#: onedesk/one_book/home.py:315 onedesk/one_book/sidebar/onebook/onebook.json
+#: onedesk/one_ai/sidebar/oneai/oneai.json onedesk/one_book/home.py:315
+#: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Ready to Submit"
 msgstr ""
 
@@ -35323,10 +35328,10 @@ msgid "Report by Mail"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/task/MyTasks.vue:14 onedesk/one_book/home.py:193
-#: onedesk/one_book/sidebar/onebook/onebook.json onedesk/one_crm/home.py:26
-#: onedesk/one_crm/sidebar/onecrm/onecrm.json onedesk/one_hr/home.py:30
-#: onedesk/one_inventory/home.py:19
+#: frontend/src/task/MyTasks.vue:14 onedesk/one_ai/sidebar/oneai/oneai.json
+#: onedesk/one_book/home.py:193 onedesk/one_book/sidebar/onebook/onebook.json
+#: onedesk/one_crm/home.py:26 onedesk/one_crm/sidebar/onecrm/onecrm.json
+#: onedesk/one_hr/home.py:30 onedesk/one_inventory/home.py:19
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
 #: onedesk/one_task/sidebar/onetask/onetask.json
@@ -36603,11 +36608,11 @@ msgstr ""
 msgid "Sales, support, maintenance: what an opportunity is for."
 msgstr ""
 
-#: onedesk/one/lists.py:20
+#: onedesk/one/lists.py:15
 msgid "Salutation"
 msgstr ""
 
-#: onedesk/one/lists.py:20
+#: onedesk/one/lists.py:15
 msgid "Salutations"
 msgstr ""
 
@@ -39532,10 +39537,10 @@ msgstr ""
 msgid "Spend"
 msgstr ""
 
-#. Label of a Sidebar Item
 #. Name of a report
-#: onedesk/one/sidebar/one/one.json
-#: onedesk/one_ai/report/spending/spending.json onedesk/one_book/home.py:348
+#. Label of a Sidebar Item
+#: onedesk/one_ai/report/spending/spending.json
+#: onedesk/one_ai/sidebar/oneai/oneai.json onedesk/one_book/home.py:348
 msgid "Spending"
 msgstr ""
 
@@ -40814,7 +40819,7 @@ msgid "Suggested. They happen when somebody approves them."
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one/sidebar/one/one.json
+#: onedesk/one_ai/sidebar/oneai/oneai.json
 msgid "Suggestions"
 msgstr ""
 
@@ -48413,7 +48418,7 @@ msgstr ""
 msgid "What is taking the space?"
 msgstr ""
 
-#: onedesk/one/lists.py:115
+#: onedesk/one/lists.py:110
 msgid "What is the list I have open used for, on which records, and who may change it?"
 msgstr ""
 
@@ -48421,7 +48426,7 @@ msgstr ""
 msgid "What is the workshop making?"
 msgstr ""
 
-#: onedesk/one/lists.py:114
+#: onedesk/one/lists.py:109
 msgid "What is this list for?"
 msgstr ""
 
@@ -54665,7 +54670,7 @@ msgstr ""
 msgid "{0} Left"
 msgstr ""
 
-#: onedesk/one/lists.py:131 onedesk/public/js/lists.js:14
+#: onedesk/one/lists.py:126 onedesk/public/js/lists.js:14
 msgid "{0} Lists"
 msgstr ""
 
@@ -54940,7 +54945,7 @@ msgstr ""
 msgid "{0} can't be sent by a webhook."
 msgstr ""
 
-#: onedesk/one/apps.py:217
+#: onedesk/one/apps.py:196
 msgid "{0} can't be turned off."
 msgstr ""
 

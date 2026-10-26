@@ -869,7 +869,7 @@ record (OneMail's mailboxes) is listed and opens that record's tab.
 
 The boot names the modules with a part for administrators while OneAI is
 on (`one_centers.ai`), and ControlCenter ends their sidebars with **OneAI**.
-The bottom bar has AICenter, and Settings' OneAI sections open it.
+The bottom bar has AICenter, and so does the end of OneAI's own rail.
 `test_ready.py` fails on a screen that draws OneAI's settings and on code
 outside OneAI that reaches the gateway. The plan and what is still to come
 are in `docs/AICENTER.md`.

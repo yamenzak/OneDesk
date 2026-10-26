@@ -1,9 +1,6 @@
-"""OneAI is not a place on the rail.
-
-What a workspace administers of it lives in One; what the operator does lives in
-OneAdmin. A module sidebar of its own was five doctype lists nobody navigated
-to, and it would come back the day somebody added a doctype to the module —
-which is what `code_only_modules` stops.
+"""OneAI is a rail of its own (docs/ONE.md, stage 6): Documents, the
+conversations, suggestions and knowledge, its reports and AICenter, which
+were One's OneAI group. What the operator does lives in OneAdmin.
 """
 
 import ast
@@ -17,6 +14,8 @@ import tree
 
 HOOKS = tree.APP / "hooks.py"
 ONE = tree.APP / "one" / "sidebar" / "one" / "one.json"
+RAIL = tree.APP / "one_ai" / "sidebar" / "oneai" / "oneai.json"
+DOCK = tree.APP / "dock" / "onedesk" / "onedesk.json"
 ADMIN = tree.APP / "one_admin" / "sidebar" / "one_admin" / "one_admin.json"
 CREDITS = tree.APP / "one_ai" / "report" / "ai_credits"
 PROXY = tree.APP / "one_admin" / "proxy.py"
@@ -33,15 +32,20 @@ def _links(path: Path) -> set[str]:
 	return {i.get("link_to") for i in json.loads(path.read_text())["items"] if i.get("type") == "Link"}
 
 
-def test_one_ai_has_no_dock_entry_and_one_inherits_it():
-	"""A mapping, as frappe's and erpnext's are: a list here breaks every request."""
-	assert _hook("code_only_modules")["One AI"] == ["One"]
+def test_one_ai_is_on_the_dock_with_a_rail_of_its_own():
+	"""Its records open in its own rail, so it is no code-only module."""
+	assert "One AI" not in _hook("code_only_modules")
+	assert "OneAI" in {one["link_to"] for one in json.loads(DOCK.read_text())["items"]}
+	assert json.loads(RAIL.read_text())["module"] == "One AI"
 
 
-def test_what_a_workspace_administers_is_in_one():
-	assert {"AI Credits", "AI Chat", "AI Proposal"} <= _links(ONE)
-	urls = {i.get("url") for i in json.loads(ONE.read_text())["items"] if i.get("type") == "Link"}
-	assert "/desk/one?center=ai" in urls, "AICenter is not on One's rail"
+def test_what_a_workspace_administers_of_it_is_in_its_rail_not_ones():
+	held = {"AI Credits", "AI Chat", "AI Proposal", "AI Knowledge", "intake"}
+	assert held <= _links(RAIL) and not held & _links(ONE)
+	urls = {i.get("url") for i in json.loads(RAIL.read_text())["items"] if i.get("type") == "Link"}
+	assert "/desk/one?center=ai" in urls, "AICenter is not on OneAI's rail"
+	labels = [i.get("label") for i in json.loads(ONE.read_text())["items"]]
+	assert "OneAI" not in labels and "AICenter" not in labels
 
 
 def test_what_the_operator_does_is_in_one_admin():

@@ -23,7 +23,7 @@ logged and can be undone.
 ## Connections
 
 - **From OneAdmin**: OneAdmin runs every OneAI answer on the model One chose for the job at the workspace's tier, and charges it to the workspace's credits. With too few credits, OneAI can't answer.
-- **To One**: Home counts the cards and documents waiting for you. **AICenter**, **Knowledge**, **Credits**, **Conversations**, **Suggestions** and **Documents** with its reports are under OneAI in One's sidebar, and **What OneAI Remembers** and **What OneAI Reads** are in Settings.
+- **To One**: Home counts the cards and documents waiting for you. **What OneAI Remembers** and **What OneAI Reads** are under You in One's rail. **Documents**, **Conversations**, **Suggestions**, **Knowledge**, its reports and **AICenter** are OneAI's own rail, on the dock.
 - **To OneHR**: Applicants are screened, interviews prepared, interview recordings written out and grievances sorted with OneAI.
 - **To OneMail**: Opening OneAI with a mail window open writes in its message, and a reply OneAI drafts opens there to edit and send.
 - **To OneStudio**: Every extension is reviewed by OneAI before it can be turned on, and mended when it runs into errors.
@@ -851,8 +851,8 @@ it out of the mailbox entirely, the OneAI panel included.
 
 For a folder:
 
-1. In One, open **What OneAI Reads** in the OneAI group. An administrator
-   can open **Settings** there instead, which lists every mailbox and folder.
+1. In One, open **What OneAI Reads** under You. An administrator can open
+   AICenter's **Reading** instead, which lists every mailbox and folder.
 2. Click **Add Folder** to pick a folder.
 
 New files and mail there are then read by OneAI as well. Scans and photos
@@ -1087,7 +1087,7 @@ Paying and dates:
 
 ##### Ready to Submit
 
-**Ready to Submit**, under OneAI in One's rail and in OneBook's
+**Ready to Submit**, under Reports in OneAI's rail and in OneBook's
 Everything, lists the drafts OneAI made that you have
 permission to submit, where:
 
@@ -1108,7 +1108,7 @@ Settings, off by default).
 
 ##### Spending
 
-**Spending**, under OneAI in One's rail and in OneBook's reports, totals
+**Spending**, under Reports in OneAI's rail and in OneBook's reports, totals
 what was bought, from the receipts and invoices themselves, by category, shop,
 person or month, one currency at a time. Categories are learned per shop, so
 lines from a known shop soon need no model.
@@ -1138,7 +1138,7 @@ Contract, and a task a month before to decide whether to cancel.
 
 ##### The Deadlines report
 
-**Deadlines**, in OneCalendar's rail and under OneAI in One's rail, lists
+**Deadlines**, in OneCalendar's rail and under Reports in OneAI's rail, lists
 every due date: from documents read for you, contract cancellation dates and
 expiring employee documents. Each shows to whoever can read its record, with
 the days left in red within a week. Workspace administrators see deadlines for
@@ -1227,7 +1227,7 @@ Ready to Submit, and the supplier's IBAN is never changed from a document.
 
 #### Documents
 
-**Documents** under OneAI in One's rail opens it. **OneAI** is also in
+**Documents**, the first row of OneAI's rail, opens it. **OneAI** is also in
 the bar across the top of the page, with a count when something is waiting
 for you. On a phone it is at the top of the panel. It has two boxes that
 work like a mailbox, one line per document, bold until you open it.

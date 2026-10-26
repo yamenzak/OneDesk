@@ -3387,8 +3387,9 @@ def one_an_app_turned_off_is_hidden_not_refused():
 def one_oneai_turned_off_asks_nothing_and_oneintake_reads_nothing():
 	"""OneAI off, in Apps, turns OneAI off with it: no model is asked
 	(`run.once`, a chat), nothing is queued to be read, no switch turns on,
-	OneHR's screening is off, and One's sidebar loses both sections, OneBook
-	its Ready to Submit. OneAI alone off leaves OneAI answering. What
+	OneHR's screening is off, OneAI's rail leaves the dock, One's rail loses
+	What OneAI Remembers and Reads, OneBook its Ready to Submit. Reading
+	alone off leaves OneAI answering. What
 	OneAI Reads holds only the reader's own mailboxes."""
 	from frappe.boot import get_module_sidebars
 
@@ -3431,10 +3432,13 @@ def one_oneai_turned_off_asks_nothing_and_oneintake_reads_nothing():
 				else:
 					raise AssertionError("a mailbox switched on with OneAI off")
 			assert not hiring.on("one_ai_screen")
+			from frappe.desk.doctype.dock.dock import resolve_app_dock
+
+			assert "OneAI" not in [one.get("link_to") for one in resolve_app_dock(apps.HOST) if not one.get("hidden")]
 			sidebars = get_module_sidebars()
 			apps.trim(sidebars)
-			labels = {item.get("label") for item in sidebars["One"]["items"] if item.get("type") == "Section Break"}
-			assert not labels & {"OneAI", "Reading"}, labels
+			urls = {item.get("url") for item in sidebars["One"]["items"]}
+			assert not urls & {"/desk/one?center=ai&at=yours", "/desk/one?center=ai&at=reads"}, urls
 			assert "One Intake" not in sidebars
 			assert all(item.get("link_to") != "Ready to Submit" for item in (sidebars.get("OneBook") or {}).get("items", []))
 			apps.save(["Reading"])

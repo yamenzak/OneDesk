@@ -1031,7 +1031,7 @@ company_data_to_be_ignored = [
 	"Vehicle",
 ]
 
-code_only_modules = {"One AI": ["One"], "One Legal": ["One"]}
+code_only_modules = {"One Legal": ["One"]}
 
 one_module_heirs = {
 	"Projects": ["OneProject"],

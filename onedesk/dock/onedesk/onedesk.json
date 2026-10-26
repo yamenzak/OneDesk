@@ -88,6 +88,14 @@
   {
    "added": 0,
    "hidden": 0,
+   "icon": "oneai",
+   "link_to": "OneAI",
+   "link_type": "Sidebar",
+   "title": "OneAI"
+  },
+  {
+   "added": 0,
+   "hidden": 0,
    "icon": "onestudio",
    "link_to": "OneStudio",
    "link_type": "Sidebar",
@@ -102,7 +110,7 @@
    "title": "OneAdmin"
   }
  ],
- "modified": "2026-10-07 12:00:00.000000",
+ "modified": "2026-11-07 09:00:00.000000",
  "modified_by": "Administrator",
  "name": "onedesk",
  "owner": "Administrator",

@@ -16,16 +16,19 @@ KEPT = ("One", "OneAdmin", "One Admin")
 AI = "OneAI"
 INTAKE = "Reading"
 NEEDS = {INTAKE: AI}
-SECTIONS = (AI, INTAKE)
-ICONS = {AI: "oneai", INTAKE: "oneintake"}
-MEMORY = {"link_to": "settings", "route_options": {"section": "memory"}}
-# What reading shows in One's sidebar, which goes when reading is off.
+# OneAI is a rail of its own, turned off as any app is; reading is a switch
+# with no rail, whose rows leave every rail when it is off.
+SECTIONS = (INTAKE,)
+ICONS = {INTAKE: "oneintake"}
+# One's You row for what OneAI remembers, which goes when OneAI is off.
+MEMORY = {"url": "/desk/one?center=ai&at=yours"}
+# What reading shows in the rails, which goes when reading is off.
 READS = (
 	{"link_to": "intake"},
 	{"link_to": "Ready to Submit"},
 	{"link_to": "Deadlines"},
 	{"link_to": "Spending"},
-	{"link_to": "settings", "route_options": {"section": "reads"}},
+	{"url": "/desk/one?center=ai&at=reads"},
 )
 # What the Apps screen calls the switches that are not apps.
 LABELS = {INTAKE: _lt("Reading")}
@@ -61,12 +64,12 @@ def refuse_ai() -> None:
 
 
 def offered() -> list[dict]:
-	"""One's own rail rows a workspace may turn off, in rail order, then the
-	private apps it has (always on), then OneAI and its reading."""
+	"""One's own rail rows a workspace may turn off, OneAI among them, in rail
+	order, then the private apps it has (always on), then OneAI's reading."""
 	from frappe.desk.doctype.dock.dock import get_app_dock
 
-	from onedesk.one_account import private
 	from onedesk.one.people import APP_SAID
+	from onedesk.one_account import private
 
 	off = set(hidden())
 	theirs = private.rail()
@@ -103,25 +106,18 @@ def unlisted(lists: dict[str, set], off: set) -> set:
 
 
 def _lists() -> dict[str, set]:
-	"""What each of One's rail rows lists, by record type, and what One's
-	OneAI and its reading sections list, as theirs."""
+	"""What each of One's rail rows lists, by record type."""
 	from frappe.desk.doctype.dock.dock import get_app_dock
 
 	rail = [row.get("link_to") for row in get_app_dock(HOST) if row.get("link_type") == "Sidebar"]
-	found: dict[str, set] = {name: set() for name in (*rail, *SECTIONS)}
-	section = None
+	found: dict[str, set] = {name: set() for name in rail}
 	for row in frappe.get_all(
 		"Sidebar Item",
-		filters={"parenttype": "Sidebar", "parent": ["in", rail]},
-		fields=["parent", "type", "label", "link_type", "link_to"],
-		order_by="parent asc, idx asc",
+		filters={"parenttype": "Sidebar", "parent": ["in", rail], "link_type": "DocType"},
+		fields=["parent", "link_to"],
 		limit=0,
 	):
-		if row.type == "Section Break":
-			section = row.label if row.parent == "One" and row.label in SECTIONS else None
-			continue
-		if row.link_type == "DocType":
-			found[section or row.parent].add(row.link_to)
+		found[row.parent].add(row.link_to)
 	return found
 
 
@@ -132,43 +128,26 @@ def _where(item: dict) -> tuple:
 			said = json.loads(said)
 		except ValueError:
 			pass
-	return item.get("link_to"), json.dumps(said, sort_keys=True)
+	return item.get("link_to") or item.get("url"), json.dumps(said, sort_keys=True)
 
 
-def sectioned(items: list[dict], off: set) -> tuple[list[dict], set]:
-	"""One's sidebar without OneAI's section when it is off, and without what
-	reading shows (Documents, its reports, What OneAI Reads) when reading is,
-	and where each link they held went, so another sidebar can lose it too
-	(OneBook's Ready to Submit, OneCalendar's Deadlines). Pure."""
-	reading = {_where(one) for one in READS} if INTAKE in off else set()
-	gone, kept, section = set(), [], None
-	for item in items:
-		if item.get("type") == "Section Break":
-			section = item.get("label") if item.get("label") in off else None
-		if section or _where(item) in reading:
-			if item.get("link_to"):
-				gone.add(_where(item))
-			continue
-		kept.append(item)
-	if AI in off:
-		kept = [item for item in kept if _where(item) != _where(MEMORY)]
-	return kept, gone
+def gone(off: set) -> set:
+	"""The rows that leave every rail: what reading shows (Documents, its
+	reports, What OneAI Reads) when reading is off, and What OneAI
+	Remembers when OneAI is. OneAI's own rail goes as any app's does. Pure."""
+	rows = [*(READS if INTAKE in off else ()), *((MEMORY,) if AI in off else ())]
+	return {_where(one) for one in rows}
 
 
 def trim(sidebars: dict) -> None:
-	"""`outside.kept`: OneAI's section and what reading shows, turned off,
-	leave One's sidebar, and their links every other."""
-	off = {name for name in SECTIONS if name in hidden()}
-	if not off or not isinstance(sidebars, dict):
+	"""`outside.kept`: what reading shows, and What OneAI Remembers, leave
+	every rail when they are off."""
+	leaving = gone(set(hidden()))
+	if not leaving or not isinstance(sidebars, dict):
 		return
-	one = sidebars.get("One") or {}
-	one_items, gone = sectioned(one.get("items") or [], off)
-	if one:
-		one["items"] = one_items
-	for name, sidebar in sidebars.items():
-		if name == "One" or not isinstance(sidebar, dict):
-			continue
-		sidebar["items"] = [item for item in sidebar.get("items") or [] if _where(item) not in gone]
+	for sidebar in sidebars.values():
+		if isinstance(sidebar, dict):
+			sidebar["items"] = [item for item in sidebar.get("items") or [] if _where(item) not in leaving]
 
 
 def doctypes() -> list[str]:

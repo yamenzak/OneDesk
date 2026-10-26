@@ -220,8 +220,16 @@ moves its version.
    ControlCenter finds, and each module's rail has a Lists row that opens
    it. A list's trail reads "OneHR Lists / Departments". The Masters page,
    `masters.py` and `masters.js` are deleted, and One's rail has no Setup.
-6. **OneAI's rail leaves One's.** OneAI gets its own rail with what is in
-   One's OneAI group today.
+6. **OneAI's rail leaves One's.** Built. OneAI is on the dock with a rail
+   of its own (`one_ai/sidebar/oneai/oneai.json`): Documents first, then
+   Conversations, Suggestions and Knowledge, Reports (Ready to Submit,
+   Deadlines, Spending, Credits) and AICenter. One AI leaves
+   `code_only_modules`, so its records open in its rail. Turned off in Apps,
+   OneAI's rail leaves the dock as any app's does; `apps.py` keeps Reading
+   as the one switch that is not an app, and when it or OneAI is off the
+   rows it named (Documents, its reports, What OneAI Remembers and Reads)
+   leave every rail (`apps.gone`). What OneAI Remembers and Reads stay under
+   You in One's rail, since they are the reader's own.
 7. **One's own places.** AccessCenter and NotificationCenter into One's
    folder; One registered in `ready.MODULES`; every file left in
    `onedesk/one/` either One's, in `SHARED` with a reason, or in `OUTSIDE`

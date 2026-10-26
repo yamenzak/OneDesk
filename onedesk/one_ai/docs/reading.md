@@ -37,7 +37,7 @@ and never read in full. Phishing is reported to the person OneAI reads for.
 
 ## Documents
 
-**Documents**, under OneAI in the sidebar, has two boxes:
+**Documents**, first in OneAI's rail, has two boxes:
 
 | Box | What is in it |
 | --- | --- |

@@ -3657,12 +3657,11 @@ The administrators hear each morning of any that gave up the day before.
   site wears One from its first boot and carries nobody else's navbar rows or
   checklists; after that all of it is the tenant's, in Website and Navbar
   Settings.
-- `code_only_modules`: OneAI is not a place. Its screens live in One, what a
-  workspace administers, and in OneAdmin, what the operator does; a module
-  sidebar of its own was five doctype lists nobody navigates to. Its doctypes
-  and reports stay where they are; only the dock entry goes, and One inherits
-  the rest. The mapping is frappe's and erpnext's own: a module to where its
-  navigation went. OneLegal is the same.
+- `code_only_modules`: OneLegal is not a place. TrustCenter is a dialog
+  every module's foot opens, so its doctypes have no rail and One inherits
+  them. The mapping is frappe's and erpnext's own: a module to where its
+  navigation went. OneAI was the same until it had a rail of its own
+  (docs/ONE.md, stage 6).
 - The operator console has a second gate. The role decides what is listed;
   `one_admin.site.refuse_on_a_tenant` decides what is answered, and it reads
   site_config.json rather than a table, so a tenant administrator granting

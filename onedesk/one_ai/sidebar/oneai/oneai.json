@@ -1,0 +1,129 @@
+{
+ "app": "onedesk",
+ "creation": "2026-10-26 12:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Sidebar",
+ "header_icon": "oneai",
+ "idx": 0,
+ "items": [
+  {
+   "keep_closed": 0,
+   "show_arrow": 0,
+   "child": 0,
+   "type": "Link",
+   "label": "Documents",
+   "link_type": "Page",
+   "link_to": "intake",
+   "icon": "inbox",
+   "is_default_module": 1,
+   "idx": 1
+  },
+  {
+   "keep_closed": 0,
+   "show_arrow": 0,
+   "type": "Link",
+   "label": "Conversations",
+   "link_to": "AI Chat",
+   "link_type": "DocType",
+   "icon": "messages-square",
+   "child": 0,
+   "idx": 2
+  },
+  {
+   "keep_closed": 0,
+   "show_arrow": 0,
+   "type": "Link",
+   "label": "Suggestions",
+   "link_to": "AI Proposal",
+   "link_type": "DocType",
+   "icon": "lightbulb",
+   "child": 0,
+   "idx": 3
+  },
+  {
+   "keep_closed": 0,
+   "show_arrow": 0,
+   "type": "Link",
+   "label": "Knowledge",
+   "link_to": "AI Knowledge",
+   "link_type": "DocType",
+   "icon": "book-open",
+   "child": 0,
+   "idx": 4
+  },
+  {
+   "keep_closed": 0,
+   "show_arrow": 0,
+   "type": "Section Break",
+   "label": "Reports",
+   "icon": "chart-line",
+   "indent": 1,
+   "collapsible": 1,
+   "idx": 5
+  },
+  {
+   "keep_closed": 0,
+   "show_arrow": 0,
+   "child": 1,
+   "type": "Link",
+   "label": "Ready to Submit",
+   "link_type": "Report",
+   "link_to": "Ready to Submit",
+   "icon": "file-check",
+   "idx": 6
+  },
+  {
+   "keep_closed": 0,
+   "show_arrow": 0,
+   "child": 1,
+   "type": "Link",
+   "label": "Deadlines",
+   "link_type": "Report",
+   "link_to": "Deadlines",
+   "icon": "calendar-clock",
+   "idx": 7
+  },
+  {
+   "keep_closed": 0,
+   "show_arrow": 0,
+   "child": 1,
+   "type": "Link",
+   "label": "Spending",
+   "link_type": "Report",
+   "link_to": "Spending",
+   "icon": "wallet",
+   "idx": 8
+  },
+  {
+   "keep_closed": 0,
+   "show_arrow": 0,
+   "type": "Link",
+   "label": "Credits",
+   "link_to": "AI Credits",
+   "link_type": "Report",
+   "icon": "chart-column",
+   "child": 1,
+   "idx": 9
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
+   "label": "AICenter",
+   "link_to": null,
+   "link_type": "URL",
+   "icon": "oneai",
+   "child": 0,
+   "route_options": null,
+   "filters": null,
+   "url": "/desk/one?center=ai",
+   "idx": 10
+  }
+ ],
+ "modified": "2026-11-07 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One AI",
+ "name": "OneAI",
+ "owner": "Administrator",
+ "standard": 1,
+ "title": "OneAI"
+}
