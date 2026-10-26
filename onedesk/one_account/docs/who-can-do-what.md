@@ -8,7 +8,7 @@ workspace is a Workspace Administrator's, who can do everything.
 | Role | Who has it | What they may do |
 | --- | --- | --- |
 | **User** | Everyone | Keep their own profile and sign-in. |
-| **Manager** | People you choose | Also read Plan and Credits and the invoices. |
+| **Manager** | People you choose, under People in AccessCenter | Also read Plan and Credits and the invoices. |
 
 ## What Each Role Starts With
 

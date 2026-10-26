@@ -11,28 +11,35 @@ from frappe import _
 
 from onedesk.one import access, rights, roles
 from onedesk.one.access import all_levels
-from onedesk.one.people import APP_SAID, APPS, levels_of
+from onedesk.one.people import APP_SAID, APPS, levels_of, with_roles
 from onedesk.one.sections import opened as opened_of
 
 
 def _app(app: str):
 	"""The `abilities` module of an app AccessCenter shows, or a refusal."""
-	from onedesk.one.people import APPS
+	from onedesk.one.people import with_roles
 
 	declared = rights.of_app(app)
-	if not declared or app not in {name for name, *_rest in APPS}:
+	if not declared or app not in {name for name, *_rest in with_roles()}:
 		frappe.throw(_("{0} has no roles to set.").format(app))
 	return declared
 
 
 @frappe.whitelist()
 def modules() -> list[str]:
-	"""The modules AccessCenter has a part for, in People's order."""
-	from onedesk.one.people import APPS
+	"""The modules AccessCenter has a part for: People's apps in People's
+	order, then the modules everybody uses."""
+	from onedesk.one.people import with_roles
 
 	roles.require()
 	declared = {one.APP for one in rights.modules()}
-	return [name for name, *_rest in APPS if name in declared]
+	return [name for name, *_rest in with_roles() if name in declared]
+
+
+def shared() -> list[str]:
+	"""The modules that give something on one record (`SHARED`), the only
+	ones AccessCenter has an On One Record for."""
+	return [one.APP for one in rights.modules() if getattr(one, "SHARED", ())]
 
 
 @frappe.whitelist()
@@ -44,7 +51,7 @@ def people(app: str) -> dict:
 
 	roles.require()
 	_app(app)
-	used, managed = next((u, m) for name, _icon, u, m in people.APPS if name == app)
+	used, managed = next((u, m) for name, _icon, u, m in people.with_roles() if name == app)
 	own = access.levels_of(app)
 	users = frappe.get_all(
 		"User",
@@ -54,8 +61,9 @@ def people(app: str) -> dict:
 		limit=500,
 	)
 	held = people.roles_held([one.name for one in users])
+	apps = {name for name, *_rest in people.APPS}
 	return {
-		"levels": people.levels_of(app, {app: own}),
+		"levels": [one for one in people.levels_of(app, {app: own}) if one["value"] != "None" or app in apps],
 		"people": [
 			{
 				"user": one.name,
@@ -79,7 +87,7 @@ def put(app: str, user: str, level: str) -> str:
 	admin = int(roles.ADMINISTRATOR in {one.role for one in doc.roles})
 	people.set_access(doc, {app: level}, admin)
 	on = doc.get("one_profile")
-	if on and access.profile(on)["levels"].get(app) != level:
+	if on and app in access.profile(on)["levels"] and access.profile(on)["levels"][app] != level:
 		frappe.db.set_value("User", doc.name, "one_profile", None, update_modified=False)
 	return level
 
@@ -261,7 +269,7 @@ def _level_page(key: str) -> dict:
 		fields.insert(0, {"fieldname": "title", "fieldtype": "Data", "label": _("Name"), "reqd": 1})
 	carrier = said["name"] if said["own"] else None
 	return {
-		"level": {**said, "people": people, "icon": next(icon for app, icon, _u, _m in APPS if app == said["app"])},
+		"level": {**said, "people": people, "icon": next(icon for app, icon, _u, _m in with_roles() if app == said["app"])},
 		"fields": fields,
 		"values": {
 			"title": said["name"],

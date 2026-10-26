@@ -805,6 +805,10 @@ profile that says otherwise); and **On One Record**, everybody given more
 than their role on one record (`records`, read from the module's shares),
 with Edit and Remove through `rights.grant` (`give`). A record is named
 by the field its `abilities.py` names (`TITLE`, OneMail's `email_id`).
+A module everybody uses (`EVERYONE`: One, OneAI, OneAccount, OneLegal) is
+not one of People's apps, so its People tab offers User and Manager only,
+its User role being everybody's (`people.with_roles`), and it has no On One
+Record unless it gives something there (`SHARED`, `access_center.shared`).
 
 It is found, not drawn: the boot names the modules with abilities
 (`one_centers.access`), and ControlCenter ends every such module's sidebar

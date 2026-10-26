@@ -10,8 +10,10 @@ from onedesk.one_demo.check import check
 @check
 def account_center_opens_each_section_for_whoever_may_see_it():
 	"""AccountCenter (one_account/center.py): Layla opens all six sections and
-	one person's page from People; Nadia sees Yours only, and People, Devices,
-	Plan and Credits and Domains each refuse her."""
+	one person's page from People; Huda, OneAccount's Manager in the demo,
+	opens Plan and Credits and nothing else of the workspace's; Nadia sees
+	Yours only, and People, Devices, Plan and Credits and Domains each refuse
+	her."""
 	from unittest import mock
 
 	from onedesk.one_account import center
@@ -26,6 +28,11 @@ def account_center_opens_each_section_for_whoever_may_see_it():
 		assert people["used"] and any(one["name"] == "nadia@one.test" for one in people["people"]), people["used"]
 		page = center.load("people", "nadia@one.test")
 		assert page, "Nadia's page in People is empty"
+	with as_user("huda@one.test"), mock.patch("onedesk.one.account.ask", return_value=[]):
+		keys = {one["key"] for one in center.sections_of()["sections"]}
+		assert keys == {"profile", "signin", "plan"}, keys
+		said = center.load("plan")
+		assert not said["admin"] and set(said["closing"]) == {"closing_on", "deleted_on"}, said["closing"]
 	with as_user("nadia@one.test"):
 		assert {one["group"] for one in center.sections_of()["sections"]} == {"yours"}
 		for key in ("people", "devices", "plan", "domains"):

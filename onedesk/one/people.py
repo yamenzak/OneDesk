@@ -24,6 +24,23 @@ APPS = [
 ]
 
 
+def with_roles() -> list[tuple]:
+	"""People's apps, then each module everybody uses that has a role above
+	its User role (`EVERYONE`, one/rights.py), such as One and OneAI. Its User
+	role is everybody's, so its only level to give is Manager, given in
+	AccessCenter rather than on People."""
+	from onedesk.one import rights
+
+	said = list(APPS)
+	ours = {name for name, *_rest in APPS}
+	for declared in rights.modules():
+		everyone = getattr(declared, "EVERYONE", None)
+		managed = tuple(one for one in getattr(declared, "DEFAULTS", {}) if one != everyone)
+		if everyone and managed and declared.APP not in ours:
+			said.append((declared.APP, declared.APP.lower(), (everyone,), managed))
+	return said
+
+
 # Apps everybody uses: no None, and User is not worth saying on the list
 # of people (one/rights.py `always`).
 ALWAYS = ("OneMail",)
@@ -123,7 +140,7 @@ def set_access(doc, access: dict, admin: int, told: bool = True) -> None:
 	before = {one.role for one in doc.roles}
 	ours = {roles.ADMINISTRATOR}
 	wanted = set()
-	for name, _icon, used, managed in APPS:
+	for name, _icon, used, managed in with_roles():
 		levels = own.get(name, ())
 		alone = (companion(name),)
 		ours |= set(used) | set(managed) | set(levels) | set(alone)
@@ -154,7 +171,7 @@ def told_of_access(doc, before: set, after: set) -> None:
 	hears of a new administrator, always by mail (one/notifications.py)."""
 	said = []
 	own = all_levels()
-	for name, _icon, used, managed in APPS:
+	for name, _icon, used, managed in with_roles():
 		levels = own.get(name, ())
 		was, now = app_level(name, before, used, managed, levels), app_level(name, after, used, managed, levels)
 		if was != now:

@@ -11,7 +11,7 @@ notifications are a Workspace Administrator's, who can do everything.
 | Role | Who has it | What they may do |
 | --- | --- | --- |
 | **User** | Everyone | Read the announcements, use Home and the Address Book, and keep their own notifications. |
-| **Manager** | People you choose | Also see and put back what anybody deleted. |
+| **Manager** | People you choose, under People in AccessCenter | Also see and put back what anybody deleted. |
 
 ## What Each Role Starts With
 

@@ -403,6 +403,10 @@ the radio, and what it says may run to two lines. */
 		border-bottom-left-radius: 0;
 		border-top-right-radius: var(--radius-lg);
 	}
+	/* A person's name keeps most of the row: Manager is the longest role. */
+	.one-access .one-access-level .frappe-control {
+		min-width: calc(var(--spacing) * 28);
+	}
 }
 
 /* A row of filters over a list (AccessCenter's Audit Log); the chosen one is solid. */

@@ -88,10 +88,44 @@ def unopened(sidebars: dict | None) -> None:
 			kind = kind_of(item.get("url")) if item.get("link_type") == "URL" else None
 			if kind and not frappe.has_permission(kind, "read"):
 				continue
+			if item.get("link_type") == "URL" and not centre_shown(item.get("url")):
+				continue
 			if not countries.shown(item.get("link_to") or "", here):
 				continue
 			kept.append(item)
-		sidebar["items"] = kept
+		sidebar["items"] = _without_empty_sections(kept)
+
+
+def centre_shown(url: str | None) -> bool:
+	"""Whether a rail link to a centre (`/desk/one?center=...`) opens for the
+	reader, rather than saying only an administrator may: AccountCenter's
+	Yours, and Plan and Credits for whoever holds it, are anybody's;
+	AccessCenter and One's own settings are an administrator's."""
+	from urllib.parse import parse_qs, urlparse
+
+	from onedesk.one import roles
+
+	asked = {key: values[0] for key, values in parse_qs(urlparse(url or "").query).items()}
+	centre = asked.get("center")
+	if not centre or roles.administers():
+		return True
+	if centre == "account":
+		from onedesk.one_account.center import _may_open
+
+		return _may_open(asked.get("at") or "profile")
+	if centre == "access":
+		return False
+	return not (centre == "settings" and asked.get("module") == "One")
+
+
+def _without_empty_sections(items: list[dict]) -> list[dict]:
+	"""A section heading whose rows were all left out goes too."""
+	kept = []
+	for at, item in enumerate(items):
+		if item.get("type") == "Section Break" and not (at + 1 < len(items) and items[at + 1].get("child")):
+			continue
+		kept.append(item)
+	return kept
 
 
 def _allowed(field: str, name: str) -> list[str]:

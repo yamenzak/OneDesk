@@ -581,10 +581,11 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 					{
 						label: __("Links"),
 						html: `<ul class="list-unstyled sidebar-menu">${[
-							["#people", __("People")],
+							data.admin && ["#people", __("People")],
 							["/desk/onecloud", __("OneCloud")],
-							["/desk/query-report/AI Credits", __("Credit Usage")],
+							data.admin && ["/desk/query-report/AI Credits", __("Credit Usage")],
 						]
+							.filter(Boolean)
 							.map(([href, label]) => `<li><a class="one-record-link" href="${esc(href)}">${esc(label)}</a></li>`)
 							.join("")}</ul>`,
 					},

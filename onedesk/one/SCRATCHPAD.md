@@ -11,21 +11,15 @@ answered leaves it.
 - **Webhooks is OneStudio's** and sits here until it moves.
 - **The portal** (`portal*.py`) becomes its own module in a later plan;
   its Help page is One's until then.
-- **Tours are drawn shifted in Arabic.** In a right-to-left desk every
-  module's tour (OneMail's too, not only One's) highlights about the rail's
-  width to the right of its mark, and a step's card can fall off the screen.
-  The engine is `onedesk.tour` in `public/js/module_docs.js`; stage 9's
-  Arabic looks need it fixed.
 - **Deleted Document's own list and form are still reachable** by their
   address, and a row of the bin opens the form to show what the record held
   (and an administrator's Delete). The page does not draw that yet.
-
-- **AccessCenter can't build One's roles yet**, as it can't OneAI's,
-  OneLegal's or OneAccount's: its role builder (access.matrix_of) knows only
-  the apps in People's list (people.APPS). Until it reads every module's
-  abilities.py, nobody can be made One Manager from a screen; the demo check
-  gives it directly.
+- **A Recycle Bin row's title is cut off without an ellipsis** on a phone:
+  `Branded` draws it in a span the row's `truncate` doesn't reach.
+- **The Address Book is empty for most people.** frappe lets somebody
+  without a sales, purchase or HR role read only the contacts they made, so
+  Nadia's says No contacts yet. That is frappe's rule, not the screen's.
 
 ## Planned
 
-- docs/ONE.md stage 9: READY for One and OneAccount.
+- Nothing for One itself; the portal and Your Data move out (above).

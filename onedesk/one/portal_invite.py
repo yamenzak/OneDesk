@@ -10,8 +10,8 @@ from frappe import _
 from frappe.utils import pretty_date
 
 from onedesk.one import roles
-from onedesk.one_account import invite
 from onedesk.one.portal import PARTIES
+from onedesk.one_account import invite
 
 MANAGERS = {"Customer": "Sales Manager", "Supplier": "Purchase Manager"}
 

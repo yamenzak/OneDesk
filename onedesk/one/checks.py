@@ -11,10 +11,11 @@ from onedesk.one_demo.people import OWNER
 @check
 def one_manager_sees_what_anybody_deleted():
 	"""One's roles are made from its abilities.py (rights.settle) and its User
-	role is everybody's. Nadia sees only what she deleted herself; given One
-	Manager, which holds Everyone's Deletions, she sees what others deleted
-	too, and still can't empty the bin for good."""
-	from onedesk.one import recycle
+	role is everybody's. Nadia sees only what she deleted herself; made One's
+	Manager in AccessCenter, which holds Everyone's Deletions, she sees what
+	others deleted too, and still can't empty the bin for good. The demo keeps
+	Mariam as One's Manager."""
+	from onedesk.one import access_center, recycle
 
 	assert frappe.db.exists("Role", "One User") and frappe.db.exists("Role", "One Manager")
 	assert "One User" in frappe.get_roles("nadia@one.test")
@@ -24,8 +25,10 @@ def one_manager_sees_what_anybody_deleted():
 	assert others, "the demo has nothing deleted by anybody but Nadia"
 	with as_user("nadia@one.test"):
 		assert "nadia@one.test" in (recycle.query() or "") and not recycle._everyone("nadia@one.test")
-	user = frappe.get_doc("User", "nadia@one.test")
-	user.add_roles("One Manager")
+	assert "One" in access_center.modules() and "OneAccount" in access_center.modules()
+	levels = {one["user"]: one["level"] for one in access_center.people("One")["people"]}
+	assert levels.get("mariam@one.test") == "Manager" and levels.get("nadia@one.test") == "User", levels
+	access_center.put("One", "nadia@one.test", "Manager")
 	try:
 		with as_user("nadia@one.test"):
 			assert recycle._everyone("nadia@one.test"), "One Manager does not hold Everyone's Deletions"
@@ -37,7 +40,8 @@ def one_manager_sees_what_anybody_deleted():
 				"only an administrator empties the bin"
 			)
 	finally:
-		user.remove_roles("One Manager")
+		access_center.put("One", "nadia@one.test", "User")
+		assert "One User" in frappe.get_roles("nadia@one.test") and "One Manager" not in frappe.get_roles("nadia@one.test")
 
 
 @check
@@ -145,3 +149,25 @@ def the_address_book_shows_a_person_with_their_places_and_a_place_with_its_peopl
 		assert all(
 			"Acme" in (one["title"] + one["sub"]) for one in address_book.read("addresses", "Acme")["rows"]
 		)
+
+
+@check
+def ones_rail_leaves_out_what_the_reader_cannot_open():
+	"""One's rail links the workspace's centres by address, which frappe
+	shows to everyone (reach.unopened): Mariam, who administers nothing, has
+	no Workspace heading, nor the Address Book's Lists; Huda, OneAccount's
+	Manager, has Workspace with Plan and Credits alone; Layla has it all."""
+	from frappe.boot import get_module_sidebars
+
+	from onedesk.one import reach
+
+	def rail(user):
+		with as_user(user):
+			sidebars = get_module_sidebars()
+			reach.unopened(sidebars)
+			return [one.get("label") for one in sidebars["One"]["items"]]
+
+	mariam, huda, layla = rail("mariam@one.test"), rail("huda@one.test"), rail(OWNER)
+	assert "Workspace" not in mariam and "Lists" not in mariam and "Profile" in mariam, mariam
+	assert huda[huda.index("Workspace") + 1 :] == ["Plan and Credits"], huda
+	assert {"Lists", "General", "People", "Access", "Audit Log", "Devices", "Domains"} <= set(layla), layla

@@ -12,6 +12,10 @@ answered leaves it.
   sign-in link, the password reset and setting up an authenticator are
   frappe's mails in One's frame (`one/notifications.py`).
 
+- **A OneAccount Manager's Plan and Credits has no Credit Usage link**:
+  the AI Credits report is OneAI's and opens for administrators only.
+- **OneAccount has no mark of its own**; its centre wears One's.
+
 ## Planned
 
 - The marketplace arrives in Plan and Credits: buying storage, database

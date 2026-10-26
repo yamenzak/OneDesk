@@ -859,6 +859,14 @@ rail against the roles People hands out for its app (`settings.APPS`): a link
 opens if the app's User or Manager roles, or a role everybody holds, may
 read it. Each space's `access.py` gives what is missing.
 
+At boot, `unopened` takes out of every rail what the reader would only be
+refused: an address link to a kind they cannot read, a country's screen
+where no company is, and a link to a centre that is an administrator's
+(`centre_shown`: AccessCenter, One's own settings, AccountCenter's
+workspace sections but Plan and Credits for whoever holds it). A section
+heading left with no rows goes too. The demo checks
+`ones_rail_leaves_out_what_the_reader_cannot_open`.
+
 ### recycle.py
 
 Every record frappe deletes is kept whole as a `Deleted Document`, and frappe

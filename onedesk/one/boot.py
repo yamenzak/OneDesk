@@ -62,6 +62,7 @@ def boot_session(bootinfo) -> None:
 	# for, for ControlCenter to offer them (docs/READY.md, mechanisms 14-16).
 	bootinfo["one_centers"] = {
 		"access": access_center.modules() if roles.administers() else [],
+		"shared": access_center.shared() if roles.administers() else [],
 		"notifications": notification_center.for_boot(),
 		"ai": ai_center.modules() if roles.administers() and apps.ai_on() else [],
 	}

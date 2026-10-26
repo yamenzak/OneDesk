@@ -31,7 +31,7 @@ def test_a_chart_or_card_runs_no_code():
 
 
 def test_a_saved_report_goes_through_frappes_layers():
-	assert "build_entity_module_map" in _body("_module")
+	assert "build_entity_module_map" in _body("_sidebars") and "_sidebars(" in _body("_module")
 
 
 def test_a_layers_report_link_is_drawn():

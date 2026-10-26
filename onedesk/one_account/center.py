@@ -504,7 +504,11 @@ def _plan() -> dict:
 		"admin": roles.administers(),
 		"ledger": account.ledger() if account.configured() else None,
 		"ledger_days": account.LEDGER_DAYS,
-		"closing": closing.state(),
+		# A OneAccount Manager reads the plan; only an administrator is told
+		# about the download and who may close it, and anybody that it closes.
+		"closing": closing.state()
+		if roles.administers()
+		else {"closing_on": str(held.closing_on) if held.closing_on else None, "deleted_on": str(held.deleted_on) if held.deleted_on else None},
 	}
 
 

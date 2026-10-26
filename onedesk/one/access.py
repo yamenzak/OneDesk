@@ -58,6 +58,14 @@ def _apps() -> dict:
 	return {name: (tuple(used), tuple(managed)) for name, _icon, used, managed in APPS}
 
 
+def _builders() -> dict:
+	"""{app: (used, managed)} for every app whose roles AccessCenter builds:
+	People's, and the modules everybody uses (people.with_roles)."""
+	from onedesk.one.people import with_roles
+
+	return {name: (tuple(used), tuple(managed)) for name, _icon, used, managed in with_roles()}
+
+
 def companion(app: str) -> str:
 	"""The role only an app's plain users hold. It carries what they may do
 	and some other level of the app may not, since every level holds the
@@ -111,7 +119,7 @@ def tiers(app: str) -> list[str]:
 
 def _holds(app: str, tier: str) -> set:
 	"""The roles somebody at a level of an app holds."""
-	used, managed = _apps()[app]
+	used, managed = _builders()[app]
 	if tier == "User":
 		return set(used) | {companion(app)}
 	if tier == "Manager":
@@ -122,7 +130,7 @@ def _holds(app: str, tier: str) -> set:
 def _carriers(app: str, tier: str) -> tuple:
 	"""The roles a level's own rights are written on, past what every level
 	of the app shares, which the app's User roles carry."""
-	return {"User": (companion(app),), "Manager": _apps()[app][1]}.get(tier, (tier,))
+	return {"User": (companion(app),), "Manager": _builders()[app][1]}.get(tier, (tier,))
 
 
 def _rights(doctype: str, held: set) -> set:
@@ -169,7 +177,7 @@ def _wanted(doctype: str, chosen: set, had: set) -> set:
 def kinds(app: str) -> list[str]:
 	"""Every kind of record the app's own roles have a rule on, as it shipped
 	or as the workspace changed it: what a level of the app may be given."""
-	used, managed = _apps()[app]
+	used, managed = _builders()[app]
 	held = list(set(used) | set(managed))
 	parents = set(frappe.get_all("DocPerm", filters={"role": ["in", held]}, pluck="parent"))
 	parents |= set(frappe.get_all("Custom DocPerm", filters={"role": ["in", held]}, pluck="parent"))
@@ -196,7 +204,7 @@ def ability_role(app: str, tier: str) -> str:
 	"""The role a level's abilities are written on: the app's first User
 	role, its first Manager role, or a level of the workspace's own itself.
 	Every level holds the User roles, so User's abilities reach them all."""
-	used, managed = _apps()[app]
+	used, managed = _builders()[app]
 	return {"User": used[0] if used else companion(app), "Manager": managed[0]}.get(tier, tier)
 
 
@@ -280,7 +288,7 @@ def _rename(tier: str, title: str | None) -> str:
 
 def app_of(level: str) -> str:
 	app = frappe.db.get_value("Role", level, "one_app")
-	if not app or app not in _apps() or level == companion(app):
+	if not app or app not in _builders() or level == companion(app):
 		frappe.throw(_("{0} is not one of the workspace's roles.").format(level))
 	return app
 
@@ -290,7 +298,7 @@ def tier_of(key: str) -> tuple[str, str]:
 	of the workspace's own by its name."""
 	app, sep, tier = key.partition(":")
 	if sep:
-		if app not in _apps() or tier not in BASE:
+		if app not in _builders() or tier not in BASE:
 			frappe.throw(_("{0} is not one of the workspace's roles.").format(key))
 		return app, tier
 	return app_of(key), key
@@ -304,7 +312,7 @@ def people_at(app: str, tier: str) -> list[str]:
 	"""Everybody whose level of an app is this one."""
 	from onedesk.one.people import NOT_PEOPLE, level_of
 
-	used, managed = _apps()[app]
+	used, managed = _builders()[app]
 	own = levels_of(app)
 	held = {}
 	for row in frappe.get_all(
@@ -415,7 +423,7 @@ def _set(app: str, tier: str, wanted: dict) -> None:
 	if not wanted:
 		return
 	_companion(app)
-	used, _managed = _apps()[app]
+	used, _managed = _builders()[app]
 	every = tiers(app)
 	for doctype, rights in wanted.items():
 		have = {one: _rights(doctype, _holds(app, one)) for one in every}
@@ -473,7 +481,7 @@ def new_level(app: str, title: str, start: str = "User") -> str:
 	"""A level of one app that starts as one of its levels already is, to
 	change on its page."""
 	roles.require()
-	if app not in _apps() or start not in tiers(app):
+	if app not in _builders() or start not in tiers(app):
 		frappe.throw(_("That cannot be set."))
 	title = (title or "").strip()
 	if not title:
@@ -571,7 +579,7 @@ def matrix_of(app: str) -> dict:
 
 	roles.require()
 	declared = rights.of_app(app)
-	if not declared or app not in _apps():
+	if not declared or app not in _builders():
 		frappe.throw(_("That cannot be set."))
 	names = getattr(declared, "SCOPE_LABELS", {})
 	columns, values, least = [], {}, {}

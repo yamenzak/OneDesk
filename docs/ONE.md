@@ -267,8 +267,22 @@ moves its version.
    both belong to (`one/address_book.py`); the rail's Contacts and Addresses
    open its two views. Changed from the plan: Dashboards keeps New
    Dashboard, since OneStudio has no place to make one yet.
-9. **READY for One and AccountCenter.** The fourteen points, the hand
-   looks, and both marked ready at 1.0.0.
+9. **READY for One and AccountCenter.** Built. Both are ready at 1.0.0,
+   with their hand looks recorded in `ready.MODULES`. The walk found five
+   things and fixed them. Tours were drawn shifted in Arabic, in every
+   module: frappe's right-to-left sheet turns driver's `left: 0` into
+   `right: 0`, and a step written for the left now mirrors.
+   AccessCenter only knew People's six apps, so nobody could be made One's,
+   OneAI's, OneAccount's or OneLegal's Manager from a screen. Now a module
+   everybody uses gets a People tab with User and Manager
+   (`people.with_roles`), and On One Record shows only where something is
+   given on a record. A OneAccount Manager was shown Plan and Credits and
+   then refused it, because the closing details are an administrator's.
+   Somebody who administers nothing saw One's Workspace links and was
+   refused by each (`reach.centre_shown`). Dashboards took 24 seconds,
+   because frappe's sidebars were built once for every kind of chart; now
+   they are read once a request. The demo keeps Mariam as One's Manager
+   and Huda as OneAccount's.
 
 ## Open
 

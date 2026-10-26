@@ -6,6 +6,7 @@ frappe trusts only to whoever may customize it.
 
 import frappe
 from frappe import _
+from frappe.utils.caching import request_cache
 
 from onedesk.one import layer, roles
 
@@ -52,14 +53,23 @@ def mail_kept(doc, method=None) -> None:
 		frappe.throw(_("You cannot open {0}.").format(_(doc.report)), frappe.PermissionError)
 
 
-def _module(doctype: str) -> str | None:
-	"""The module of the sidebar frappe opens a kind in for whoever is saving
-	(`build_entity_module_map`), so the report sits where its list was; else
-	the first of One's app sidebars that lists the kind."""
+@request_cache
+def _sidebars(user: str) -> tuple[dict, dict]:
+	"""frappe's sidebars as one person sees them, and the one each kind opens
+	in (`build_entity_module_map`), read once a request: Dashboards asks for
+	a hundred kinds at once."""
 	from frappe.boot import build_entity_module_map, get_module_sidebars
 
 	sidebars = get_module_sidebars()
-	shell = build_entity_module_map(sidebars).get(doctype)
+	return sidebars, build_entity_module_map(sidebars)
+
+
+def _module(doctype: str) -> str | None:
+	"""The module of the sidebar frappe opens a kind in for whoever is saving,
+	so the report sits where its list was; else the first of One's app
+	sidebars that lists the kind."""
+	sidebars, shells = _sidebars(frappe.session.user)
+	shell = shells.get(doctype)
 	if shell and sidebars.get(shell, {}).get("module"):
 		return sidebars[shell]["module"]
 	for name in frappe.get_all(
@@ -166,12 +176,10 @@ def removed(doc, method=None) -> None:
 def places() -> list[dict]:
 	"""Where a report or a dashboard may be shown, as {module, label}: One, and
 	each app the reader works in (every app, for an administrator)."""
-	from frappe.boot import get_module_sidebars
-
 	from onedesk.one.access import all_levels
 	from onedesk.one.people import APPS
 
-	seen = get_module_sidebars()
+	seen = _sidebars(frappe.session.user)[0]
 	held = set(frappe.get_roles())
 	own = all_levels()
 	everything = roles.administers()

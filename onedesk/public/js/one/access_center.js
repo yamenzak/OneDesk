@@ -186,7 +186,11 @@ onedesk.access.open = async ({ module = null, at = null, record = null } = {}) =
 		},
 	};
 	if (across.length) across[0].items.push(audit_tab);
-	const tabs = [...across, ...apps.map((app) => ({ group: module ? null : app, items: [roles_tab(app), people_tab(app), records_tab(app)] }))];
+	const shared = (frappe.boot.one_centers || {}).shared || [];
+	const tabs = [
+		...across,
+		...apps.map((app) => ({ group: module ? null : app, items: [roles_tab(app), people_tab(app), ...(shared.includes(app) ? [records_tab(app)] : [])] })),
+	];
 	const ids = tabs.flatMap((group) => group.items.map((item) => item.id));
 	const dialog = new onedesk.module_settings.Dialog({
 		title: "AccessCenter",
